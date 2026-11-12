@@ -3,7 +3,7 @@
 #include "types.h"
 #include "os_thread.h"
 
-#include "00/code_02185954.h"
+#include "00/Lib/DWC/code_02185954.h"
 
 extern char gCaInfoTable[];
 extern char gContentLengthHeaderText[];

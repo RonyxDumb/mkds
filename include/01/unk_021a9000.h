@@ -1,14 +1,14 @@
 #pragma once
 
 #include "types.h"
-#include "01/code_02188e88.h"
+#include "01/Race/race_hud_king_cells.h"
 #include "01/code_0219b250.h"
-#include "01/code_0219853c.h"
-#include "01/code_02198854.h"
-#include "01/code_0219a050.h"
-#include "01/code_0219b540.h"
-#include "01/code_02193c5c.h"
-#include "00/code_02181f98.h"
+#include "01/Menu/nickname_scene.h"
+#include "01/Menu/option_select_menu.h"
+#include "01/Menu/record_top_menu.h"
+#include "01/Menu/select_ghost.h"
+#include "01/Menu/record_gpx.h"
+#include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Unknown/types_02180728.h" // TextCanvas
 
 // Four callbacks; the first receives OptionStates.mStateHeap.
@@ -247,4 +247,4 @@ extern u16 gCoinShadowRotationIndex;
 extern const char *gMissionRunLVselGradeStrings[5];
 extern const char *gMissionRunMSselGradeStrings[5];
 
-#include "00/code_021832d8.h"
+#include "00/Menu/wi_fi_vs_matching.h"

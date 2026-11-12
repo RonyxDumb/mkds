@@ -1,15 +1,15 @@
 #pragma once
 
 #include "00/code_02180608.h"
-#include "00/network.h"
-#include "00/code_021ad734.h"
+#include "00/Lib/CPS/network.h"
+#include "00/Lib/CPS/code_021ad734.h"
 #include "00/code_02186d04.h"
 #include "00/code_02187484.h"
-#include "00/code_02188008.h"
-#include "00/code_02188ec0.h"
-#include "00/code_021884d8.h"
-#include "00/code_0218e2dc.h"
-#include "00/code_021a3a18.h"
+#include "00/Lib/DWC/code_02188008.h"
+#include "00/Lib/DWC/code_02188ec0.h"
+#include "00/Lib/DWC/code_021884d8.h"
+#include "00/Lib/GameSpy/code_0218e2dc.h"
+#include "00/Lib/GameSpy/code_021a3a18.h"
 
 #include "types.h"
 #include "00/code_021a6fa8.h"
@@ -191,4 +191,4 @@ extern char gMatchingFilterFormat[];
 extern char gAndParenFormat[];
 extern char gKeyEqualsUnsignedFormat[];
 
-#include "00/dwc_connectinet.h"
+#include "00/Lib/DWC/dwc_connectinet.h"

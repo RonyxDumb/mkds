@@ -16,7 +16,7 @@
 #include "Main/Unknown/unk_0216b000.h"
 #include "Main/Unknown/unk_0217b000.h"
 #include "Main/Unknown/unk_021759c0.h"
-#include "01/code_0218155c.h"
+#include "01/Race/mission_run_state.h"
 #include "fx_mtx33.h"
 #include "code_02147cd8.h"
 #include "Main/Unknown/code_020d6dc0.h"

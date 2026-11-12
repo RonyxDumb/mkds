@@ -2,7 +2,7 @@
 #include "Main/Unknown/code_02029890.h"
 #include "Main/Menu/menu_screen_switch.h"
 #include "Main/Menu/battle_stage_entry.h"
-#include "01/code_0219c784.h"
+#include "01/Menu/select_battle_stage_screen.h"
 #include "Main/Unknown/unk_021759c0.h"
 
 #pragma optimize_for_size on

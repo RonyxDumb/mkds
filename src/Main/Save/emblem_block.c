@@ -17,14 +17,14 @@
 #include "Main/Save/buddy_record_from_player.h"
 #include "Main/Net/wifi_session.h"
 #include "Main/Unknown/code_0214d000.h"
-#include "00/code_0219b580.h"
+#include "00/Lib/DWC/code_0219b580.h"
 #include "code_021458c4.h"
 #include "code_02147cd8.h"
 #include "code_0214d018.h"
 #include "Main/Unknown/unk_02165000.h"
 #include "Main/Unknown/unk_0217a000.h"
-#include "00/code_021832d8.h"
-#include "01/code_021956dc.h"
+#include "00/Menu/wi_fi_vs_matching.h"
+#include "01/Menu/record_time_attack.h"
 
 #pragma opt_rebuildconditionals off
 

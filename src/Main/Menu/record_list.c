@@ -24,7 +24,7 @@
 #include "Main/Unknown/unk_0216d000.h"
 #include "Main/Unknown/unk_0217d000.h"
 #include "Main/Unknown/unk_0217d068.h"
-#include "00/code_02181f98.h"
+#include "00/Menu/wi_fi_vs_setting.h"
 #include "code_0212df7c.h"
 #include "code_0214d018.h"
 #include "registers.h"
@@ -41,7 +41,7 @@
 #include "code_0214cfe4.h"
 #include "Main/Unknown/code_021144b4.h"
 #include "Main/Unknown/code_021144c0.h"
-#include "01/code_021956dc.h"
+#include "01/Menu/record_time_attack.h"
 
 #pragma thumb on
 

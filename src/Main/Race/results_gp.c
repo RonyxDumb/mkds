@@ -1,6 +1,6 @@
 #include "Main/Race/results_gp.h"
 #include "Main/Scene/run_scene_connection.h" // SceneNumbers
-#include "01/code_021804e0.h"
+#include "01/Scene/test_scene.h"
 #include "Main/Graphics/player_character_cell_file_set.h"
 #include "Main/Graphics/message_index.h"
 #include "Main/Graphics/cell_file_set.h"
@@ -36,8 +36,8 @@
 #include "Main/Race/race_hud_sub_screen_min_max.h"
 #include "Main/Unknown/code_0207a880.h"
 #include "Main/Race/race_hud_sub_screen_projection.h"
-#include "00/code_02181f98.h"
-#include "01/code_021956dc.h"
+#include "00/Menu/wi_fi_vs_setting.h"
+#include "01/Menu/record_time_attack.h"
 #include "gfd_VramTransferManager.h"
 #include "code_0212df7c.h"
 #include "g2.h"

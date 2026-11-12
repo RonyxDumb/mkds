@@ -22,7 +22,7 @@ typedef struct Unk021a7b64 {
 #include "01/code_02188218.h"
 #include "01/code_02188da4.h"
 #include "01/code_02188e24.h"
-#include "01/code_02185ef4.h"
+#include "01/MapObjects/map_object_animation.h"
 #include "01/code_0218bfc8.h"
 #include "01/code_0218c000.h"
 #include "01/code_0218c55c.h"
@@ -37,14 +37,14 @@ typedef struct Unk021a7b64 {
 #include "01/code_0218b000.h"
 #include "Main/Unknown/unk_0217a000.h"
 #include "Main/Race/race.h"
-#include "01/code_0218155c.h"
+#include "01/Race/mission_run_state.h"
 #include "01/code_02187d14.h"
 #include "01/code_02187e78.h"
 #include "01/code_02187eb0.h"
 #include "01/code_02188158.h"
 #include "01/code_0218c0a4.h"
 #include "01/code_0218d520.h"
-#include "01/code_0219b1c4.h"
+#include "01/MapObjects/map_object_model_load.h"
 #include "01/code_0219b250.h"
 #include "Main/Unknown/code_020a1000.h"
 #include "Main/Unknown/code_020a2300.h"
@@ -61,4 +61,4 @@ void StartKurikingJumpLandState(MissionRunMapObject *mapObject);
 void StartKurikingFaceKartState(MissionRunMapObject *mapObject);
 void StartKurikingThrowBombsState(MissionRunMapObject *mapObject);
 
-#include "01/code_0219b540.h"
+#include "01/Menu/select_ghost.h"

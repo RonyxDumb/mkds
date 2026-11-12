@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "00/code_021a4b98.h"
+#include "00/Lib/NitroWiFi/code_021a4b98.h"
 
 typedef struct WCMNotice WCMNotice;
 typedef struct WCMWork WCMWork;

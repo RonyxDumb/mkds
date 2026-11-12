@@ -12,7 +12,7 @@
 #include "Main/Unknown/code_021287c0.h"
 #include "Main/Unknown/code_021287cc.h"
 #include "Main/Unknown/unk_0217d000.h"
-#include "01/code_02198854.h"
+#include "01/Menu/option_select_menu.h"
 
 #pragma thumb on
 

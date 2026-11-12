@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "03/code_021c2c94.h"
+#include "03/Menu/jb2_menu.h"
 
 typedef struct Bytes4 Bytes4;
 

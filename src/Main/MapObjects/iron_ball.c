@@ -12,7 +12,7 @@
 #include "Main/Unknown/unk_0217a000.h"
 #include "Main/Race/race.h"
 #include "Main/Unknown/unk_0215d000.h"
-#include "01/code_021a2034.h"
+#include "01/MapObjects/periodic_effect.h"
 #include "code_02148538.h"
 #include "Main/MapObjects/send_obj_shadow.h"
 #include "Main/MapObjects/map_object_matrix.h"

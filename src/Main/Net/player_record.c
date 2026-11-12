@@ -11,15 +11,15 @@
 #include "Main/Unknown/code_021200a4.h"
 #include "Main/Unknown/code_021200a8.h"
 #include "Main/Unknown/code_02120610.h"
-#include "00/code_021832d8.h"
-#include "00/code_02181f98.h"
+#include "00/Menu/wi_fi_vs_matching.h"
+#include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Unknown/code_0205c000.h"
 #include "Main/Unknown/code_021201e4.h"
 #include "Main/Unknown/code_02120240.h"
 #include "Main/Unknown/code_02120294.h"
 #include "Main/Unknown/code_021202f0.h"
 #include "00/unk_021b5000.h"
-#include "00/code_021a2ccc.h"
+#include "00/Lib/DWC/code_021a2ccc.h"
 
 DWCAccFriendData *GetPlayerRecordFriendData(u32 index) {
     return &gWiFiSession->mPlayerRecords[index].mPlayer.mFriendData;

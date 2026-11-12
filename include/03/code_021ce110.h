@@ -3,7 +3,7 @@
 #include "types.h"
 #include "03/code_021cdd28.h"
 #include "03/unk_021da000.h"
-#include "03/code_021d3488.h"
+#include "03/System/tasks.h"
 
 extern u8 gMenuPairObjectImageIds[][5];
 extern u8 gMenuPairObjectPaletteIds[][5];

@@ -11,7 +11,7 @@
 #include "code_0212f788.h"
 #include "code_0212f864.h"
 #include "Main/Unknown/unk_0217d000.h"
-#include "00/code_02188720.h"
+#include "00/Lib/DWC/code_02188720.h"
 
 // Stops any running effect capture, clears the buffer and starts a mixer capture of type 1 with callback called on
 // every interval part of the buffer.

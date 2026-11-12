@@ -8,7 +8,7 @@ static inline u16 SwapBytes16_inline(u16 value) {
 
 typedef struct SOCConfig SOCConfig;
 
-#include "03/code_021b94b8.h"
+#include "03/Net/essid_wcm.h"
 
 typedef struct SocketAddress SocketAddress;
 typedef struct PacketTag PacketTag;

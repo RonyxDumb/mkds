@@ -39,7 +39,7 @@
 #include "Main/Unknown/unk_02153bec.h"
 #include "Main/Unknown/unk_02162c74.h"
 #include "code_0214d018.h"
-#include "00/code_02181f98.h"
+#include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Graphics/minute_second_millisecond_text.h"
 #include "registers.h"
 

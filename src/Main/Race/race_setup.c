@@ -18,7 +18,7 @@
 #include "Main/Unknown/code_0205b0f4.h"
 #include "Main/Net/packed_index.h"
 #include "Main/Net/wifi_session_karts.h"
-#include "00/code_02181f98.h"
+#include "00/Menu/wi_fi_vs_setting.h"
 
 #pragma thumb on
 

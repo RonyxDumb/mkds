@@ -1,5 +1,5 @@
 #include "Main/Race/course_list.h"
-#include "00/code_02181f98.h"
+#include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Race/results_gp.h"
 #include "Main/Unknown/code_02046000.h"
 #include "Main/Menu/second_menu_scene.h"

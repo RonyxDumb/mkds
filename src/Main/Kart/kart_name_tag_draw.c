@@ -1,5 +1,5 @@
 #include "Main/Kart/kart_name_tag_draw.h"
-#include "03/code_021b94b8.h"
+#include "03/Net/essid_wcm.h"
 #include "Main/Graphics/kart_entry_name_texture.h"
 #include "Main/Kart/kart_name_tags.h"
 

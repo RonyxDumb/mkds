@@ -37,7 +37,7 @@
 #include "code_020222ec.h"
 #include "code_0214d018.h"
 #include "Main/Unknown/code_020c70d8.h"
-#include "01/code_021956dc.h"
+#include "01/Menu/record_time_attack.h"
 #include "Main/Race/kart.h"
 
 u32 GetRaceNewRecordTaBestLapNumber(void) {

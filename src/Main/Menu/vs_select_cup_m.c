@@ -22,7 +22,7 @@
 #include "Main/Unknown/code_020ce778.h"
 #include "Main/Menu/select_cup_grid.h"
 #include "Main/Unknown/code_020ce894.h"
-#include "00/code_02181f98.h"
+#include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Unknown/code_020ce83c.h"
 #include "Main/Unknown/code_02117418.h"
 #include "Main/Unknown/code_020ce7e4.h"

@@ -1,0 +1,21 @@
+#pragma once
+
+#include "types.h"
+#include "03/System/tasks.h"
+
+void InitHlScr(void);
+void UpdateLinkLevel(void);
+void ReleaseLinkLevel(void);
+void CreateLinkLevel(int row);
+void ReleaseEditKeyboard(u32 task);
+void AdvanceEditKeyboardSlideOutRow0(TaskEntry *task);
+void AdvanceEditKeyboardSlideOutRow1(TaskEntry *task);
+void AdvanceEditKeyboardSlideOutRow2(TaskEntry *task);
+void AdvanceEditKeyboardSlideOutRow3(TaskEntry *task);
+void AdvanceEditKeyboardSlideOutRow4(TaskEntry *task);
+void MoveEditKeyboardCursor(int direction);
+void PlaceEditKeyboardCursor(void);
+void SetEditKeyboardKeyHighlight(int keyIndex, int highlight);
+void ChangeEditKeyboardPage(int page);
+void SetEditKeyboardRowY(u32 page, s32 row, u32 yPos);
+void UpdateEditKeyboardPad(void);

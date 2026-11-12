@@ -1,7 +1,7 @@
 #include "Main/Graphics/chars_block.h"
 #include "Main/Graphics/font_and_player_character.h"
 #include "Main/Unknown/unk_021759c0.h"
-#include "00/code_02181f98.h"
+#include "00/Menu/wi_fi_vs_setting.h"
 #include "code_0214cfe4.h"
 #include "code_02022aa8.h"
 

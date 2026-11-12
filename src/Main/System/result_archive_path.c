@@ -36,7 +36,7 @@
 #include "Main/Unknown/code_0211d4a8.h"
 #include "mi_uncomp_stream.h"
 #include "code_0214d564.h"
-#include "00/code_02181f98.h"
+#include "00/Menu/wi_fi_vs_setting.h"
 
 #pragma thumb on
 

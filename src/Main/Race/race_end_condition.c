@@ -14,7 +14,7 @@
 #include "Main/Race/race_hud_sub_screen_item_box_cells.h"
 #include "Main/Unknown/unk_02175628.h"
 #include "Main/Unknown/unk_0217a000.h"
-#include "00/code_0219b580.h"
+#include "00/Lib/DWC/code_0219b580.h"
 #include "code_02147cd8.h"
 #include "Main/Race/kart.h"
 #include "Main/Kart/karts.h"

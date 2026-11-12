@@ -5,7 +5,7 @@
 #include "03/unk_021d6000.h"
 #include "00/code_021a574c.h"
 #include "00/code_021a5b3c.h"
-#include "00/code_02188de4.h"
+#include "00/Lib/DWC/code_02188de4.h"
 
 // Six bytes moved as one value.
 typedef struct MacAddress {
@@ -116,4 +116,4 @@ extern s32 gEventWriteIndex;
 extern s32 gEventReadIndex;
 extern u32 gEvents[4];
 
-#include "03/code_021b94b8.h"
+#include "03/Net/essid_wcm.h"

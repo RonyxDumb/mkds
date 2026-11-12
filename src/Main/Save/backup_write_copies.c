@@ -4,7 +4,7 @@
 #include "Main/Unknown/code_0204b714.h"
 #include "code_0200eddc.h"
 #include "card_common.h"
-#include "01/code_021956dc.h"
+#include "01/Menu/record_time_attack.h"
 
 #pragma thumb on
 

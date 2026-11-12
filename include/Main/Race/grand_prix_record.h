@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "00/code_02181f98.h"
+#include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Save/course_time_record.h"
 #include "Main/Graphics/time_format.h"
 
@@ -16,4 +16,4 @@ BOOL ShouldSetGrandPrixRecord(TimeRecord *storedRecord, TimeRecord *newRecord);
 void FillGrandPrixRecord(TimeRecord *record);
 void SumTimes(TimeRecord *firstTime, MinuteSecondMillisecondTime *secondTime, TimeRecord *sum);
 
-#include "00/code_021832d8.h"
+#include "00/Menu/wi_fi_vs_matching.h"

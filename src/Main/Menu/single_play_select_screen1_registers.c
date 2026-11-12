@@ -18,7 +18,7 @@
 #include "Main/Unknown/code_020ae4c0.h"
 #include "Main/Menu/menu_screen_switch.h"
 #include "Main/Menu/select_return.h"
-#include "00/code_02181f98.h"
+#include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Unknown/code_020cc000.h"
 #include "Main/Unknown/code_020cb22c.h"
 

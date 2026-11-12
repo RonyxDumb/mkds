@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "00/code_02181f98.h"
+#include "00/Menu/wi_fi_vs_setting.h"
 #include "g2d_Animation.h" // NNSG2dCellDataWithBR
 
 // 16-byte element of the table at 0x7dc of an RaceNcerNclrNcgrTables.
@@ -29,4 +29,4 @@ typedef struct RaceNcerNclrNcgrTables {
 
 void InitRaceNcerNclrNcgrTables(void);
 
-#include "00/code_021832d8.h"
+#include "00/Menu/wi_fi_vs_matching.h"

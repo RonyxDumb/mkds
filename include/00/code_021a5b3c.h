@@ -4,8 +4,8 @@
 #include "00/unk_021b5000.h"
 #include "00/code_021a574c.h"
 #include "code_02142eac.h"
-#include "00/code_02188de4.h"
-#include "00/code_021a4b98.h"
+#include "00/Lib/DWC/code_02188de4.h"
+#include "00/Lib/NitroWiFi/code_021a4b98.h"
 
 
 u32 WCM_UpdateOption(u32 option);

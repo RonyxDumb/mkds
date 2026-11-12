@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "00/code_02188720.h"
+#include "00/Lib/DWC/code_02188720.h"
 
 typedef struct NNSG3dResShpData NNSG3dResShpData;
 typedef struct NNSG3dRenderObj NNSG3dRenderObj;

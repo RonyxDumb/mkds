@@ -6,7 +6,7 @@
 #include "os_spinLock.h"
 #include "os_tick.h"
 #include "card_common.h"
-#include "01/code_021956dc.h"
+#include "01/Menu/record_time_attack.h"
 #include "Main/Scene/scene_connection.h"
 
 #pragma thumb on

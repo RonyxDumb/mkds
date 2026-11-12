@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "01/code_0219e824.h"
+#include "01/Menu/option_nickname_scenes.h"
 #include "Main/Unknown/unk_02175000.h"
 
 extern SceneCallbacks gKeyboardSceneCallbacks;

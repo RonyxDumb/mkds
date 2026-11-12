@@ -24,7 +24,7 @@
 #include "Main/Unknown/code_020caf00.h"
 #include "Main/Unknown/code_02029000.h"
 #include "Main/Unknown/code_02029890.h"
-#include "01/code_021956dc.h"
+#include "01/Menu/record_time_attack.h"
 #include "Main/Unknown/code_0202993c.h"
 
 #pragma thumb on

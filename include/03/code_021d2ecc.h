@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "03/code_021d1770.h" // OamEntry
+#include "03/Graphics/nce_oam.h" // OamEntry
 
 void *CreateNodeList(void);
 OamEntry *GetOamBufferEntry(int screen, int index);

@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "Main/Race/mission_table_value.h"
-#include "00/code_02181f98.h"
+#include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Unknown/unk_02029930.h" // MissionFileRow
 
 typedef struct EndingScene {
@@ -167,4 +167,4 @@ extern u8 *gNicknameBuffers;
 extern u8 *gOptionBuffers;
 extern MissionRunBossIcon *gMissionRunBossIcon;
 
-#include "00/code_021832d8.h"
+#include "00/Menu/wi_fi_vs_matching.h"

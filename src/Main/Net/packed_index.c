@@ -1,5 +1,5 @@
 #include "Main/Net/packed_index.h"
-#include "00/code_021832d8.h"
+#include "00/Menu/wi_fi_vs_matching.h"
 
 s32 GetPackedIndex(s32 index) {
     return gWiFiSession->mPackedIndices[index];

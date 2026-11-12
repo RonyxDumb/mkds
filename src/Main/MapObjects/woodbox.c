@@ -52,7 +52,7 @@
 #include "Main/Unknown/code_020d49d8.h"
 #include "Main/MapObjects/update_list_slot.h"
 #include "Main/MapObjects/pushed_motion.h"
-#include "01/code_0218155c.h"
+#include "01/Race/mission_run_state.h"
 
 const MapObjectList data_021594e4 = {
     0, 0, {0, 0}, &ClearWoodbox1Pointer, 0, &AdvanceWoodbox1, 0, 0, 0, 0, 0,

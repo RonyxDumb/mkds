@@ -2,7 +2,7 @@
 #include "Main/Race/cup_records.h"
 #include "Main/System/low_byte.h"
 #include "Main/Net/packed_index.h"
-#include "00/code_02181f98.h"
+#include "00/Menu/wi_fi_vs_setting.h"
 
 #pragma opt_rebuildconditionals off
 

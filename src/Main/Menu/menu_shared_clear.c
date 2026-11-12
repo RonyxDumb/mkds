@@ -1,6 +1,6 @@
 #include "Main/Menu/menu_shared_clear.h"
 #include "Main/Menu/menu_mi_fill.h"
-#include "00/code_02181f98.h"
+#include "00/Menu/wi_fi_vs_setting.h"
 
 #pragma thumb on
 

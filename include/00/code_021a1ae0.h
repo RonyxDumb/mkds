@@ -11,11 +11,11 @@
 #include "00/code_0218b000.h"
 #include "00/code_0218c000.h"
 #include "00/code_021a3000.h"
-#include "00/code_0218aea4.h"
-#include "00/code_0219887c.h"
+#include "00/Lib/GameSpy/code_0218aea4.h"
+#include "00/Lib/GameSpy/code_0219887c.h"
 #include "00/code_0219a000.h"
-#include "00/code_0219b580.h"
-#include "00/code_0219c384.h"
+#include "00/Lib/DWC/code_0219b580.h"
+#include "00/Lib/DWC/code_0219c384.h"
 #include "00/unk_021b5000.h"
 #include "00/code_0219d000.h"
 #include "00/code_0219de5c.h"
@@ -28,8 +28,8 @@
 #include "00/code_021a1ac0.h"
 #include "00/code_021a4000.h"
 #include "00/unk_021b4000.h"
-#include "00/code_021a3a18.h"
-#include "00/code_0218e2dc.h"
+#include "00/Lib/GameSpy/code_021a3a18.h"
+#include "00/Lib/GameSpy/code_0218e2dc.h"
 
 // Address and byte-swapped port built by DWCi_GT2UnrecognizedMessageCallback and handed on with the data.
 typedef struct UnmatchedDataAddress {
@@ -53,4 +53,4 @@ u32 DWCi_QR2Startup(u32 profileId);
 void DWCi_MatchInit(WiFiMatching *wiFiMatching, GpConnection *gpConnection, void **connectionSocket,
                     void *connectionCallbacks, void *gameName, void *secretKey, void *buddies, u32 buddyEntryCount);
 
-#include "00/dwc_connectinet.h"
+#include "00/Lib/DWC/dwc_connectinet.h"

@@ -3,7 +3,7 @@
 #include "code_0214c778.h"
 #include "Main/Unknown/code_0214d000.h"
 #include "Main/Unknown/unk_0216f000.h"
-#include "00/code_02188720.h"
+#include "00/Lib/DWC/code_02188720.h"
 #include "registers.h"
 
 void G3X_SetToonTable(const u16 *toonTable) {

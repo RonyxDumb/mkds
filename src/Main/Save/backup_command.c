@@ -1,7 +1,7 @@
 #include "Main/Save/backup_command.h"
 #include "Main/Save/backup_enabled.h"
 #include "Main/Unknown/unk_0217a000.h"
-#include "01/code_021956dc.h"
+#include "01/Menu/record_time_attack.h"
 
 #pragma optimize_for_size on
 

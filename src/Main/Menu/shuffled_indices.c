@@ -4,7 +4,7 @@
 #include "Main/Unknown/unk_0217a000.h"
 #include "Main/MapObjects/teresa_spawner.h"
 #include "Main/Unknown/code_020c0ba8.h"
-#include "00/code_02181f98.h"
+#include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Unknown/code_020c0000.h"
 #include "Main/Unknown/code_02095000.h"
 #include "Main/Unknown/code_02133000.h"

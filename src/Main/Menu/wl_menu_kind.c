@@ -1,5 +1,5 @@
 #include "Main/Menu/wl_menu_kind.h"
-#include "00/code_02181f98.h"
+#include "00/Menu/wi_fi_vs_setting.h"
 
 u32 GetWLMenuKind(void) {
     return (gMenuShared->mWLMenuKind);

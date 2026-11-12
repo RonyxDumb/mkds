@@ -1,14 +1,14 @@
 #pragma once
 
-#include "00/code_0219b580.h"
-#include "00/code_0219c384.h"
+#include "00/Lib/DWC/code_0219b580.h"
+#include "00/Lib/DWC/code_0219c384.h"
 #include "00/code_0219c93c.h"
 #include "00/code_0219d934.h"
 #include "00/code_0219de4c.h"
 #include "types.h"
-#include "00/code_021a4b98.h"
-#include "00/code_021a2ccc.h"
-#include "00/dwc_connectinet.h"
+#include "00/Lib/NitroWiFi/code_021a4b98.h"
+#include "00/Lib/DWC/code_021a2ccc.h"
+#include "00/Lib/DWC/dwc_connectinet.h"
 #include "code_02142eac.h" // ScanExParam
 #include "code_0200f790.h"
 #include "00/code_021a6fa8.h"

@@ -27,7 +27,7 @@
 #include "Main/Graphics/layout_entry_angle.h"
 #include "Main/Unknown/code_02124bf0.h"
 #include "Main/Unknown/unk_0217d068.h"
-#include "00/code_02181f98.h"
+#include "00/Menu/wi_fi_vs_setting.h"
 #include "os_tick.h"
 #include "Main/Graphics/cell_layout.h"
 #include "Main/Graphics/layout_rect_table.h"

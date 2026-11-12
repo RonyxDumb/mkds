@@ -21,7 +21,7 @@
 #include "Main/Menu/record_vs_erase.h"
 #include "Main/Graphics/scene_text.h"
 #include "Main/Unknown/code_0212a000.h"
-#include "01/code_0219a050.h"
+#include "01/Menu/record_top_menu.h"
 #include "Main/Unknown/code_02111584.h"
 #include "Main/Unknown/code_021115b0.h"
 #include "Main/Unknown/code_02036bec.h"
@@ -30,7 +30,7 @@
 #include "Main/Unknown/code_02111684.h"
 #include "Main/Unknown/code_021144c0.h"
 #include "Main/Unknown/code_02125000.h"
-#include "01/code_02198854.h"
+#include "01/Menu/option_select_menu.h"
 #include "Main/Unknown/code_02111b40.h"
 #include "Main/Unknown/code_02111b94.h"
 #include "Main/Menu/record_list.h"
@@ -52,9 +52,9 @@
 #include "Main/Unknown/unk_0215c000.h"
 #include "Main/Unknown/unk_02175628.h"
 #include "Main/Unknown/unk_0217d068.h"
-#include "00/code_02181f98.h"
-#include "01/code_02193c5c.h"
-#include "01/code_021956dc.h"
+#include "00/Menu/wi_fi_vs_setting.h"
+#include "01/Menu/record_gpx.h"
+#include "01/Menu/record_time_attack.h"
 
 #pragma thumb on
 

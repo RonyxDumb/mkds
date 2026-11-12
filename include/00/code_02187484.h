@@ -5,13 +5,13 @@
 #include "00/unk_021b1000.h"
 #include "dwc_backup.h"
 #include "code_021519d4.h"
-#include "00/code_02186a9c.h"
-#include "00/network.h"
-#include "00/util.h"
-#include "00/code_0218a67c.h"
-#include "00/cpsif.h"
-#include "00/code_02185954.h"
-#include "00/code_02188008.h"
+#include "00/Lib/DWC/code_02186a9c.h"
+#include "00/Lib/CPS/network.h"
+#include "00/Lib/NitroWiFi/util.h"
+#include "00/Lib/DWC/code_0218a67c.h"
+#include "00/Lib/NitroWiFi/cpsif.h"
+#include "00/Lib/DWC/code_02185954.h"
+#include "00/Lib/DWC/code_02188008.h"
 
 typedef struct OSThread OSThread;
 

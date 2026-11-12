@@ -10,7 +10,7 @@
 #include "Main/Unknown/unk_0216d000.h"
 #include "Main/Unknown/code_02119a90.h"
 
-#include "00/code_02181f98.h"
+#include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/System/result_archive_path.h"
 #include "gfd_VramTransferManager.h"
 #include "Main/Race/race_setup.h"

@@ -7,7 +7,7 @@
 #include "Main/Unknown/code_0214d000.h"
 #include "Main/Unknown/unk_021759c0.h"
 #include "Main/Unknown/unk_0217a000.h"
-#include "00/code_0219b580.h"
+#include "00/Lib/DWC/code_0219b580.h"
 #include "code_0214d018.h"
 
 // Lowers the rank by one for each better-ranked kart whose participant dropped out of the race.

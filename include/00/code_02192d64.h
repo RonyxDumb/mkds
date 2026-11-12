@@ -58,8 +58,8 @@ typedef struct GetInfoReply {
     /* 200 */ s32 mConntypeid;
 } GetInfoReply;
 
-#include "00/code_021906e4.h"
-#include "00/code_0218f960.h"
+#include "00/Lib/GameSpy/code_021906e4.h"
+#include "00/Lib/GameSpy/code_0218f960.h"
 
 u32 GpiWriteUpdateBuffers(GpConnection *connection, GpiBuffer *buffer);
 s32 GpiProcessInfoOperation(GpConnection *connection, GpiOperation *operation, const char *input);

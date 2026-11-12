@@ -1,8 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "00/code_021ab6d4.h"
-#include "00/code_021abca0.h"
+#include "00/Lib/CPS/code_021ab6d4.h"
+#include "00/Lib/CPS/code_021abca0.h"
 
 typedef struct HttpsEntry HttpsEntry;
 typedef struct CPSPrivateKey CPSPrivateKey;

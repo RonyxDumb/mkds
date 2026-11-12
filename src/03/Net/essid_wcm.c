@@ -1,0 +1,1287 @@
+#include "03/Net/essid_wcm.h"
+#include "03/code_021ba818.h"
+#include "00/code_021a5db0.h"
+#include "00/code_021a5e84.h"
+#include "00/code_021a61c4.h"
+#include "00/code_021a61e4.h"
+#include "00/code_021a629c.h"
+#include "00/code_021a6428.h"
+#include "00/code_021a6470.h"
+#include "00/Lib/NitroWiFi/code_021a669c.h"
+#include "00/code_021a6788.h"
+#include "00/code_021a67dc.h"
+#include "00/code_021a6844.h"
+#include "code_0200fc8c.h"
+#include "code_0214d018.h"
+#include "00/unk_021b0000.h"
+#include "03/code_021b7000.h"
+#include "03/unk_021d8000.h"
+#include "Main/Unknown/code_02133000.h"
+#include "03/code_021b7bb4.h"
+#include "03/Net/exchange_essid.h"
+
+void EssidWcmNotifyCallback(s16 *event) {
+    if (event == NULL) {
+        return;
+    }
+    switch (event[0]) {
+        case 1:
+            if (event[1] == 0) {
+                if (gEssidWcmState == 4) {
+                    gEssidWcmState = 3;
+                    if (gEssidEventCallback != NULL) {
+                        gEssidEventCallback(6, 0);
+                    }
+                } else if (gEssidWcmState == 6) {
+                    if (WCM_SearchAsync(gEssidSearchAddress, gEssidSearchEssid, gEssidSearchOption) != 3) {
+                        gEssidWcmState = 3;
+                        if (gEssidEventCallback != NULL) {
+                            gEssidEventCallback(2, 0);
+                        }
+                    }
+                } else if (gEssidWcmState == 8) {
+                    if (WCM_ConnectAsync(gEssidConnectRecord, gEssidConnectBlock, gEssidConnectOption) != 3) {
+                        gEssidWcmState = 3;
+                        if (gEssidEventCallback != NULL) {
+                            gEssidEventCallback(2, 0);
+                        }
+                    }
+                }
+            } else {
+                gEssidWcmState = 1;
+                if (gEssidEventCallback != NULL) {
+                    gEssidEventCallback(2, 0);
+                }
+            }
+            break;
+        case 3:
+            if (event[1] == 0) {
+                if (gEssidWcmState == 6) {
+                    gEssidWcmState = 5;
+                    if (gEssidEventCallback != NULL) {
+                        gEssidEventCallback(8, 0);
+                    }
+                }
+            } else {
+                gEssidWcmState = 3;
+                if (gEssidEventCallback != NULL) {
+                    gEssidEventCallback(9, 0);
+                }
+            }
+            break;
+        case 5:
+            if (event[1] == 0) {
+                if (gEssidWcmState == 8) {
+                    gEssidWcmState = 7;
+                    if (gEssidEventCallback != NULL) {
+                        gEssidEventCallback(0xc, 0);
+                    }
+                }
+            } else {
+                gEssidWcmState = 3;
+                if (gEssidEventCallback != NULL) {
+                    gEssidEventCallback(0xd, 0);
+                }
+            }
+            break;
+        case 4:
+            if (event[1] == 0) {
+                if (gEssidWcmState == 4) {
+                    gEssidWcmState = 3;
+                    if (gEssidEventCallback != NULL) {
+                        gEssidEventCallback(0xa, 0);
+                    }
+                } else if (gEssidWcmState == 6) {
+                    if (WCM_SearchAsync(gEssidSearchAddress, gEssidSearchEssid, gEssidSearchOption) != 3) {
+                        gEssidWcmState = 3;
+                        if (gEssidEventCallback != NULL) {
+                            gEssidEventCallback(2, 0);
+                        }
+                    }
+                } else if (gEssidWcmState == 2) {
+                    if (WCM_CleanupAsync() != 3) {
+                        gEssidWcmState = 3;
+                        if (gEssidEventCallback != NULL) {
+                            gEssidEventCallback(2, 0);
+                        }
+                    }
+                } else if (gEssidWcmState == 8) {
+                    if (WCM_ConnectAsync(gEssidConnectRecord, gEssidConnectBlock, gEssidConnectOption) != 3) {
+                        gEssidWcmState = 3;
+                        if (gEssidEventCallback != NULL) {
+                            gEssidEventCallback(2, 0);
+                        }
+                    }
+                }
+            } else {
+                gEssidWcmState = 3;
+                if (gEssidEventCallback != NULL) {
+                    gEssidEventCallback(0xb, 0);
+                }
+            }
+            break;
+        case 6:
+            if (event[1] == 0) {
+                if (gEssidWcmState == 4) {
+                    gEssidWcmState = 3;
+                    if (gEssidEventCallback != NULL) {
+                        gEssidEventCallback(0xe, 0);
+                    }
+                } else if (gEssidWcmState == 6) {
+                    if (WCM_SearchAsync(gEssidSearchAddress, gEssidSearchEssid, gEssidSearchOption) != 3) {
+                        gEssidWcmState = 3;
+                        if (gEssidEventCallback != NULL) {
+                            gEssidEventCallback(2, 0);
+                        }
+                    }
+                } else if (gEssidWcmState == 2) {
+                    if (WCM_CleanupAsync() != 3) {
+                        gEssidWcmState = 3;
+                        if (gEssidEventCallback != NULL) {
+                            gEssidEventCallback(2, 0);
+                        }
+                    }
+                } else if (gEssidWcmState == 8) {
+                    if (WCM_ConnectAsync(gEssidConnectRecord, gEssidConnectBlock, gEssidConnectOption) != 3) {
+                        gEssidWcmState = 3;
+                        if (gEssidEventCallback != NULL) {
+                            gEssidEventCallback(2, 0);
+                        }
+                    }
+                } else {
+                    gEssidWcmState = 3;
+                }
+            } else {
+                gEssidWcmState = 3;
+                if (gEssidEventCallback != NULL) {
+                    gEssidEventCallback(0xf, 0);
+                }
+            }
+            break;
+        case 2:
+            if (event[1] == 0) {
+                if (gEssidWcmState == 2) {
+                    WCM_Finish();
+                    gEssidWcmState = 0;
+                    if (gEssidEventCallback != NULL) {
+                        gEssidEventCallback(0x14, 0);
+                    }
+                }
+            } else {
+                gEssidWcmState = 3;
+                if (gEssidEventCallback != NULL) {
+                    gEssidEventCallback(2, 0);
+                }
+            }
+            break;
+        case 7:
+            if (gEssidWcmState == 5) {
+                if (gEssidEventCallback != NULL) {
+                    gEssidEventCallback(5, 0);
+                }
+            }
+            break;
+        default:
+            if (gEssidEventCallback != NULL) {
+                gEssidEventCallback(1, 0);
+            }
+            break;
+    }
+}
+
+BOOL StartEssidReturnToIdle(void) {
+    switch (gEssidWcmState) {
+        case 5:
+            if (WCM_SearchAsync(NULL, NULL, 0) != 3) {
+                return FALSE;
+            }
+            break;
+        case 7:
+            if (WCM_DisconnectAsync() != 3) {
+                return FALSE;
+            }
+            break;
+        case 1:
+            if (WCM_StartupAsync(gEssidWcmConfig, (void (*)(WCMNotice *)) EssidWcmNotifyCallback) != 3) {
+                return FALSE;
+            }
+            break;
+        case 0:
+        case 2:
+        case 3:
+        case 4:
+        case 6:
+        case 8:
+        default:
+            return FALSE;
+    }
+    return TRUE;
+}
+
+s32 CopyEssidScanRecords(RawEntry *records, s32 maxCount) {
+    s32 count;
+    s32 i;
+    WCM_LockApList(1);
+    count = WCM_CountApList();
+    if (count > 0) {
+        for (i = 0; i < count; i++, records++) {
+            if (i >= maxCount) {
+                break;
+            }
+            MIi_CpuCopy32(WCM_PointApList(i), records, 0xc0);
+        }
+    }
+    WCM_LockApList(0);
+    return count;
+}
+
+BOOL StartEssidSearch(const u8 *addressBytes, const u8 *essidBytes, s32 essidLength, u32 option) {
+    u32 enabled = OS_DisableInterrupts();
+    s32 i;
+    gEssidSearchOption = option;
+    if (addressBytes != NULL) {
+        for (i = 0; i < 6; i++) {
+            gEssidSearchAddressBytes[i] = *addressBytes++;
+        }
+        gEssidSearchAddress = gEssidSearchAddressBytes;
+    } else {
+        MI_CpuFill8(gEssidSearchAddressBytes, 0xff, 6);
+        gEssidSearchAddress = WCM_Bssid_Any;
+    }
+    if (essidBytes != NULL && essidLength > 0 && essidLength <= 0x20) {
+        for (i = 0; i < essidLength; i++) {
+            gEssidSearchEssidBytes[i] = *essidBytes++;
+        }
+        for (; i < 0x20; i++) {
+            gEssidSearchEssidBytes[i] = 0;
+        }
+        gEssidSearchEssid = gEssidSearchEssidBytes;
+    } else {
+        MI_CpuFill8(gEssidSearchEssidBytes, 0xff, 0x20);
+        gEssidSearchEssid = WCM_Essid_Any;
+    }
+    if (gEssidWcmState == 3) {
+        if (WCM_SearchAsync(gEssidSearchAddress, gEssidSearchEssid, gEssidSearchOption) == 3) {
+            gEssidWcmState = 6;
+            OS_RestoreInterrupts(enabled);
+            return TRUE;
+        }
+    } else if (StartEssidReturnToIdle() == TRUE) {
+        gEssidWcmState = 6;
+        OS_RestoreInterrupts(enabled);
+        return TRUE;
+    }
+    OS_RestoreInterrupts(enabled);
+    return FALSE;
+}
+
+BOOL EndEssidSearch(void) {
+    u32 enabled = OS_DisableInterrupts();
+    if (gEssidWcmState == 5) {
+        if (WCM_SearchAsync(NULL, NULL, 0) == 3) {
+            gEssidWcmState = 4;
+            OS_RestoreInterrupts(enabled);
+            return TRUE;
+        }
+    }
+    OS_RestoreInterrupts(enabled);
+    return FALSE;
+}
+
+BOOL DisconnectEssid(void) {
+    u32 enabled = OS_DisableInterrupts();
+    if (gEssidWcmState == 7) {
+        if (WCM_DisconnectAsync() == 3) {
+            gEssidWcmState = 4;
+            OS_RestoreInterrupts(enabled);
+            return TRUE;
+        }
+    }
+    OS_RestoreInterrupts(enabled);
+    return FALSE;
+}
+
+BOOL CleanupEssidWcm(void) {
+    u32 enabled = OS_DisableInterrupts();
+    if (gEssidWcmState == 3) {
+        if (WCM_CleanupAsync() != 3) {
+            OS_RestoreInterrupts(enabled);
+            return FALSE;
+        }
+        gEssidWcmState = 2;
+        OS_RestoreInterrupts(enabled);
+        return TRUE;
+    }
+    if (StartEssidReturnToIdle() == TRUE) {
+        gEssidWcmState = 2;
+        OS_RestoreInterrupts(enabled);
+        return TRUE;
+    }
+    OS_RestoreInterrupts(enabled);
+    return FALSE;
+}
+
+BOOL ConnectEssidToEntry(RawEntry *record, MelcoBlock *melcoBlock, u32 flags) {
+    u32 enabled = OS_DisableInterrupts();
+    gEssidConnectOption = flags;
+    if (melcoBlock != NULL) {
+        MI_CpuCopy8(melcoBlock, gEssidConnectBlock, 0x50);
+    } else {
+        MI_CpuFill8(gEssidConnectBlock, 0, 0x50);
+    }
+    MIi_CpuCopy32(record, gEssidConnectRecord, 0xc0);
+    if (StartEssidReturnToIdle() == TRUE) {
+        gEssidWcmState = 8;
+        OS_RestoreInterrupts(enabled);
+        return TRUE;
+    }
+    if (gEssidWcmState == 3) {
+        if (WCM_ConnectAsync(gEssidConnectRecord, gEssidConnectBlock, gEssidConnectOption) == 3) {
+            gEssidWcmState = 8;
+            OS_RestoreInterrupts(enabled);
+            return TRUE;
+        }
+    }
+    OS_RestoreInterrupts(enabled);
+    return FALSE;
+}
+
+BOOL InitEssidWcm(Unk021ba818Func *callback, u8 *buffer, s32 size) {
+    u32 enabled = OS_DisableInterrupts();
+    gEssidConnectBlock = (WCMWepDesc *) buffer;
+    gEssidWcmConfig = (WCMConfig *) (((u32) buffer + 0x53) & ~3);
+    gEssidWcmWork = (u8 *) (((u32) gEssidWcmConfig + 0x2f) & ~0x1f);
+    gEssidConnectRecord = (WMBssDesc *) (((u32) gEssidWcmWork + 0x231f) & ~0x1f);
+    gEssidWcmConfig->mPbdBuffer = (u8 *) (((u32) gEssidConnectRecord + 0xdf) & ~0x1f);
+    gEssidWcmConfig->mNbdBuffer = (buffer + size) - gEssidWcmConfig->mPbdBuffer;
+    gEssidWcmConfig->mNbdMode = 0;
+    gEssidWcmConfig->mDmaNo = 3;
+    gEssidEventCallback = callback;
+    if (gEssidWcmState == 0) {
+        if (WCM_Init((WCMWork *) gEssidWcmWork, 0x2300) != 0) {
+            OS_RestoreInterrupts(enabled);
+            return FALSE;
+        }
+        gEssidWcmState = 1;
+    }
+    if (gEssidWcmState == 1) {
+        if (WCM_StartupAsync(gEssidWcmConfig, (void (*)(WCMNotice *)) EssidWcmNotifyCallback) != 3) {
+            OS_RestoreInterrupts(enabled);
+            return FALSE;
+        }
+        gEssidWcmState = 4;
+        OS_RestoreInterrupts(enabled);
+        return TRUE;
+    }
+    OS_RestoreInterrupts(enabled);
+    return FALSE;
+}
+
+MaskCodeEntry gMaskCodeTable[12] = {
+    {0x0001, 0x02, 0}, {0x0002, 0x04, 0}, {0x0004, 0x0b, 0}, {0x0008, 0x0c, 0}, {0x0010, 0x12, 0}, {0x0020, 0x16, 0},
+    {0x0040, 0x18, 0}, {0x0080, 0x24, 0}, {0x0100, 0x30, 0}, {0x0200, 0x48, 0}, {0x0400, 0x60, 0}, {0x0800, 0x6c, 0},
+};
+
+void ConvertRecordToEssidEntry(RawEntry *src, EssidEntry *dst) {
+    int i;
+    int count;
+    int mode;
+    dst->mEssidLength = src->mSsidLength;
+    MIi_CpuCopy16(src->mSsid, dst->mEssid, 0x20);
+    dst->mUnk_24 = src->mChannel;
+    MIi_CpuCopy16(&src->mAddress, dst->mUnk_30, 6);
+    count = 0;
+    for (i = 0; i < 12; i++) {
+        if (src->mSupportRateSet & gMaskCodeTable[i].mMask) {
+            dst->mCodes[count] = gMaskCodeTable[i].mCode;
+            if (src->mBasicRateSet & gMaskCodeTable[i].mMask) {
+                dst->mCodes[count] |= 0x80;
+            }
+            count++;
+        }
+    }
+    dst->mCodeCount = count;
+    dst->mUnk_4c = src->mBeaconPeriod;
+    mode = src->mFlags & 3;
+    if (mode == 1) {
+        dst->mUnk_50 = 1;
+    } else if (mode == 2) {
+        dst->mUnk_50 = 2;
+    } else {
+        dst->mUnk_50 = 0;
+    }
+}
+
+void SetRecordEssidFromRequest(EssidMelcoRequest *request, RawEntry *rec) {
+    vu16 zero = 0;
+    MIi_CpuClear16(zero, rec->mSsid, 0x20);
+    rec->mSsidLength = request->mEssidLength;
+    MI_CpuCopy8(request->mEssid, rec->mSsid, rec->mSsidLength);
+}
+
+void FillEssidEntryListFromRecord(EssidEntryList *list, RawEntry *src, s32 count) {
+    list->mCount = count;
+    ConvertRecordToEssidEntry(src, list->mEntries);
+}
+
+s32 SendQueueMessage(void *msg) {
+    return OS_SendMessage(&gMessageQueue, msg, 0);
+}
+
+s32 AlarmSendQueueMessage(void *msg) {
+    return OS_SendMessage(&gMessageQueue, msg, 0);
+}
+
+s32 InitEssidWiFi(void *(*alloc)(u32), void (*release)(void *)) {
+    BOOL running = TRUE;
+    void *msg;
+    void *buffer;
+    u32 enabled;
+    OS_InitMessageQueue(&gMessageQueue, gMessageQueueSlots, 4);
+    if (alloc == NULL || release == NULL) {
+        return -1;
+    }
+    enabled = OS_DisableInterrupts();
+    gEssidAllocFunction = alloc;
+    gEssidFreeFunction = release;
+    OS_RestoreInterrupts(enabled);
+    buffer = gEssidAllocFunction(0x5890);
+    gEssidWorkBuffer = buffer;
+    if (buffer == NULL) {
+        return -1;
+    }
+    if (InitEssidWcm(SendQueueMessage, buffer, 0x5890) == FALSE) {
+        running = FALSE;
+    }
+    if (running != FALSE) {
+        do {
+            OS_ReceiveMessage(&gMessageQueue, &msg, 1);
+            switch ((u32) msg) {
+                case 4:
+                case 5:
+                    break;
+                case 6:
+                    return 0;
+                case 8:
+                case 0xa:
+                case 0xc:
+                case 0xd:
+                case 0xf:
+                default:
+                    running = FALSE;
+                    break;
+            }
+        } while (running != FALSE);
+    }
+    gEssidFreeFunction(gEssidWorkBuffer);
+    return -1;
+}
+
+s32 ReleaseEssidWiFi(void) {
+    s32 result;
+    BOOL running;
+    void *msg;
+    u32 enabled;
+    running = TRUE;
+    result = -1;
+    if (gEssidFreeFunction == NULL) {
+        return -1;
+    }
+    if (CleanupEssidWcm() == FALSE) {
+        return -1;
+    }
+    do {
+        OS_ReceiveMessage(&gMessageQueue, &msg, 1);
+        switch ((u32) msg) {
+            case 4:
+            case 5:
+                break;
+            case 0x14:
+                running = FALSE;
+                result = 0;
+                gEssidFreeFunction(gEssidWorkBuffer);
+                break;
+            case 8:
+            case 0xa:
+            case 0xc:
+            case 0xd:
+            case 0x12:
+            case 0x13:
+            default:
+                running = FALSE;
+                break;
+        }
+    } while (running != FALSE);
+    enabled = OS_DisableInterrupts();
+    gEssidAllocFunction = NULL;
+    gEssidFreeFunction = NULL;
+    OS_RestoreInterrupts(enabled);
+    return result;
+}
+
+s32 DisconnectEssidAndWait(void) {
+    BOOL done;
+    s32 result = -1;
+    void *msg;
+    if (DisconnectEssid() != FALSE) {
+        done = FALSE;
+        do {
+            OS_ReceiveMessage(&gMessageQueue, &msg, 1);
+            /* waits for one entry */
+            if ((u32) msg == 0xe) {
+                result = 0;
+                done = FALSE;
+            }
+        } while (done != FALSE);
+    }
+    return result;
+}
+
+s32 ScanEssidEntries(EssidEntryList **out) {
+    BOOL found = FALSE;
+    s32 result = -1;
+    BOOL running = TRUE;
+    s32 count = 0;
+    s32 waits = 0;
+    RawEntry *scan;
+    RawEntry *buffer;
+    EssidEntryList *list;
+    void *msg;
+    OSAlarm timer;
+    s32 i;
+    if (gEssidAllocFunction == NULL || gEssidFreeFunction == NULL) {
+        return -1;
+    }
+    scan = gEssidAllocFunction(0x3000);
+    if (scan == NULL) {
+        return -1;
+    }
+    buffer = scan;
+    if (StartEssidSearch(NULL, NULL, 0, 0x30bffe) != 0) {
+        OS_CreateAlarm(&timer);
+        OS_SetAlarm(&timer, 0x3fec42, (void (*)(void *)) AlarmSendQueueMessage, (void *) 0x13);
+        do {
+            OS_ReceiveMessage(&gMessageQueue, &msg, 1);
+            switch ((u32) msg) {
+                case 0x13:
+                    if (found == FALSE) {
+                        if (waits != 0) {
+                            count = CopyEssidScanRecords(scan, 0x40);
+                        }
+                        if (EndEssidSearch() == FALSE) {
+                            goto cleanup;
+                        }
+                        found = TRUE;
+                    }
+                    break;
+                case 5:
+                    if (found == FALSE) {
+                        if (waits < 8) {
+                            waits++;
+                        } else {
+                            count = CopyEssidScanRecords(scan, 0x40);
+                            if (EndEssidSearch() == FALSE) {
+                                goto cleanup;
+                            }
+                            found = TRUE;
+                        }
+                    }
+                    break;
+                case 0xa:
+                    running = FALSE;
+                    result = 0;
+                    break;
+                case 4:
+                case 8:
+                case 0x12:
+                    break;
+                case 0xc:
+                case 0xd:
+                default:
+                    goto cleanup;
+            }
+        } while (running != FALSE);
+        if (count != 0) {
+            list = gEssidAllocFunction((count - 1) * 0x54 + 0x58);
+            if (list == NULL) {
+                goto cleanup;
+            }
+        } else {
+            list = gEssidAllocFunction(0x58);
+            if (list == NULL) {
+                goto cleanup;
+            }
+        }
+        *out = list;
+        list->mCount = count;
+        for (i = 0; i < count; i++) {
+            ConvertRecordToEssidEntry(scan, &list->mEntries[i]);
+            scan++;
+        }
+    cleanup:
+        OS_CancelAlarm(&timer);
+        while (OS_ReceiveMessage(&gMessageQueue, &msg, 0) == 1) {
+        }
+    }
+    gEssidFreeFunction(buffer);
+    return result;
+}
+
+s32 RunEssidMelcoRequest(EssidMelcoRequest *request, EssidEntryList *out) {
+    BOOL running = TRUE;
+    s32 result;
+    s32 retries;
+    BOOL done;
+    u32 flags;
+    void *msg;
+    OSAlarm timer;
+    done = FALSE;
+    result = -1;
+    if (request->mUseSharedKey == FALSE) {
+        flags = 0x80000;
+    } else if (request->mUseSharedKey == TRUE) {
+        flags = 0xc0000;
+    }
+    MI_CpuFill8(&gMelcoBlock, 0, 0x60);
+    if (request->mMelcoLength == 5) {
+        gMelcoBlock.mLengthKind = 1;
+    } else if (request->mMelcoLength == 0xd) {
+        gMelcoBlock.mLengthKind = 2;
+    } else if (request->mMelcoLength == 0x10) {
+        gMelcoBlock.mLengthKind = 3;
+    } else {
+        return -1;
+    }
+    gMelcoBlock.mUnk_01 = 0;
+    MI_CpuCopy8(request->mMelcoBytes, gMelcoBlock.mMelcoBytes, request->mMelcoLength);
+    WCM_ClearApList();
+    if (StartEssidSearch(NULL, request->mEssid, request->mEssidLength, 0x30bffe) != 0) {
+        retries = 0;
+        OS_CreateAlarm(&timer);
+        OS_SetAlarm(&timer, 0x3fec42, (void (*)(void *)) AlarmSendQueueMessage, (void *) 0x12);
+        flags |= 0x30000;
+        do {
+            OS_ReceiveMessage(&gMessageQueue, &msg, 1);
+            switch ((u32) msg) {
+                case 0x12:
+                    if (done == FALSE) {
+                        running = FALSE;
+                    }
+                    break;
+                case 5:
+                    if (done == FALSE) {
+                        OS_CancelAlarm(&timer);
+                        if (CopyEssidScanRecords(&gMelcoRecord, 1) != 1) {
+                            running = FALSE;
+                        } else {
+                            SetRecordEssidFromRequest(request, &gMelcoRecord);
+                            if (ConnectEssidToEntry(&gMelcoRecord, &gMelcoBlock, flags) == FALSE) {
+                                running = FALSE;
+                            } else {
+                                done = TRUE;
+                            }
+                        }
+                    }
+                    break;
+                case 0xa:
+                    SetRecordEssidFromRequest(request, &gMelcoRecord);
+                    if (ConnectEssidToEntry(&gMelcoRecord, &gMelcoBlock, flags) == FALSE) {
+                        running = FALSE;
+                    }
+                    break;
+                case 0xc:
+                    result = 0;
+                    running = FALSE;
+                    break;
+                case 0xd:
+                    retries++;
+                    if (retries < 3) {
+                        if (ConnectEssidToEntry(&gMelcoRecord, &gMelcoBlock, flags) == FALSE) {
+                            running = FALSE;
+                        }
+                    } else {
+                        running = FALSE;
+                    }
+                    break;
+                case 4:
+                case 8:
+                case 0x13:
+                    break;
+                default:
+                    running = FALSE;
+                    break;
+            }
+        } while (running != FALSE);
+        OS_CancelAlarm(&timer);
+        while (OS_ReceiveMessage(&gMessageQueue, &msg, 0) == 1) {
+        }
+    }
+    FillEssidEntryListFromRecord(out, &gMelcoRecord, result == 0 ? 1 : 0);
+    return result;
+}
+
+void EssidSleepWrapper(u32 msec) {
+    OS_Sleep(msec);
+}
+
+int CallStateChangeCallback(int state) {
+    // nothing in the game sets this pointer
+    if (gStateChangeCallback != NULL) {
+        gStateChangeCallback(state);
+    }
+    return 0;
+}
+
+void *CallEssidAllocFunction(u32 size) {
+    return gEssidAllocFunction(size);
+}
+
+void CallEssidFreeFunction(void *ptr) {
+    gEssidFreeFunction(ptr);
+}
+
+s32 RunValueRecordsRequest(ValueRecordsRequest *req) {
+    s32 status;
+    s32 ret;
+    if (req->mScanRetryLimit == 0 || req->mScanRetryLimit < -1 || req->mScanRetryDelayMs < -1 ||
+        req->mSendAttemptLimit == 0 || req->mSendAttemptLimit < -1 || req->mSendAttemptDelayMs < -1 ||
+        req->mReceiveTimeoutMs < -1 || req->mItemLength == 0 || req->mItemLength > 0x100 ||
+        req->mItemBytes[req->mItemLength - 1] != 0) {
+        status = -1;
+    } else {
+        status = 0;
+    }
+    if (gEssidAllocFunction == NULL || gEssidFreeFunction == NULL) {
+        status = -1;
+    }
+    if (status == -1) {
+        req->mResultCode = 0xf;
+        ReleaseEssidEntryLists();
+        return -1;
+    }
+    gRequestPacketBuffer = CallEssidAllocFunction(0x5f8);
+    if (gRequestPacketBuffer == NULL) {
+        req->mResultCode = 0xf;
+        ReleaseEssidEntryLists();
+        return -1;
+    }
+    ReportStateChange(-1);
+    ret = RunValueRecordsRequestSteps(req);
+    CallEssidFreeFunction(gRequestPacketBuffer);
+    ReleaseEssidEntryLists();
+    if (gSocketDescriptor != -1) {
+        CloseSocket(gSocketDescriptor);
+    }
+    return ret;
+}
+
+s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
+    s16 timeout;
+    s32 mode;
+    s32 state;
+    s32 addr;
+    PacketBuffer *buffer;
+    s32 scanResult;
+    s32 result;
+    RetryLimit scan = gRetryLimitTemplate;
+    RetryLimit limits = {0, 0};
+    s32 value = 1;
+    s32 attempts;
+    s32 ret;
+    u8 resultCode;
+    s16 retryCount;
+    s16 scanDelayMs;
+    SocketAddress senderAddress;
+    s32 srcLen;
+    s32 received;
+    PollEntry set;
+    WaitTimeout wait;
+    SocketAddress bindAddress;
+    PacketTag list[3];
+    EssidMelcoRequest request;
+    Unk021b86e4 buf;
+
+    mode = 0;
+    attempts = mode;
+    addr = mode;
+    FillBytes(list, 0, sizeof(list));
+    scan.mCount = req->mScanRetryLimit;
+    if (scan.mCount == -1) {
+        scan.mCount = 10;
+    }
+    limits.mCount = req->mSendAttemptLimit;
+    if (limits.mCount == -1) {
+        limits.mCount = 10;
+    }
+    scan.mDelayMs = req->mScanRetryDelayMs;
+    if (scan.mDelayMs == -1) {
+        scan.mDelayMs = 100;
+    }
+    limits.mDelayMs = req->mSendAttemptDelayMs;
+    if (limits.mDelayMs == -1) {
+        limits.mDelayMs = 100;
+    }
+    timeout = req->mReceiveTimeoutMs;
+    if (timeout == -1) {
+        timeout = 2000;
+    }
+    InitRequestState(req);
+    if ((gRequestState.mWantedRecordMask & 1) != 1) {
+        SetErrorCode(0x13);
+        req->mResultCode = 0xf;
+        ReleaseEssidEntryLists();
+        return -1;
+    }
+
+    retryCount = 0;
+    ReportStateChange(0);
+    scanDelayMs = scan.mDelayMs;
+    while (1) {
+        if (gScannedEssidList != NULL) {
+            CallEssidFreeFunction(gScannedEssidList);
+            gScannedEssidList = NULL;
+        }
+        if (ScanEssidEntries(&gScannedEssidList) == -1) {
+            req->mResultCode = 0xf;
+            ReleaseEssidEntryLists();
+            return -1;
+        }
+        result = CheckSingleEssidAossEntry(gScannedEssidList);
+        if (result == 4) {
+            req->mResultCode = 2;
+            ReleaseEssidEntryLists();
+            return -1;
+        }
+        if (result == 0) {
+            break;
+        }
+        if (retryCount >= scan.mCount) {
+            req->mResultCode = 1;
+            ReleaseEssidEntryLists();
+            return -1;
+        }
+        EssidSleepWrapper(scanDelayMs);
+        retryCount++;
+    }
+
+    ReportStateChange(1);
+    FillBytes(&request, 0, 0x3c);
+    if (FillEssidAossAndMelcoRequest(&request) != 0) {
+        req->mResultCode = 0xf;
+        ReleaseEssidEntryLists();
+        return -1;
+    }
+    gRequestedEssidList = CallEssidAllocFunction(0x58);
+    if (gRequestedEssidList == NULL) {
+        req->mResultCode = 0xf;
+        ReleaseEssidEntryLists();
+        return -1;
+    }
+    FillBytes(gRequestedEssidList, 0, 0x58);
+    retryCount = 0;
+    if (scan.mCount > 0) {
+        do {
+            result = RunEssidMelcoRequest(&request, gRequestedEssidList);
+            if (result == -1) {
+                req->mResultCode = 0xf;
+                ReleaseEssidEntryLists();
+                return -1;
+            }
+            if (result == 0) {
+                if (result != 0 || gRequestedEssidList->mCount == 1) {
+                    break;
+                }
+            }
+            EssidSleepWrapper(scanDelayMs);
+            retryCount++;
+        } while (retryCount < scan.mCount);
+    }
+    if (retryCount == scan.mCount) {
+        req->mResultCode = 0xf;
+        ReleaseEssidEntryLists();
+        return -1;
+    }
+    if (StartSocketsWithAddress(0xc0a80b65, 0xffffff00, 0xc0a80b65) != 0) {
+        SetErrorCode(0xc);
+        req->mResultCode = 0xf;
+        ReleaseEssidEntryLists();
+        return -1;
+    }
+    ReleaseEssidEntryLists();
+    FillPacketTags(3, list, req->mMacAddress);
+    gSocketDescriptor = OpenSocket(2, 2, 0);
+    if (gSocketDescriptor < 0) {
+        req->mResultCode = 0xf;
+        ReleaseEssidEntryLists();
+        return -1;
+    }
+    if (SocketReturnArgument(gSocketDescriptor, 0xffff, 1, &value, 4) < 0) {
+        SetErrorCode(0xb);
+        req->mResultCode = 0xf;
+        ReleaseEssidEntryLists();
+        return -1;
+    }
+    FillBytes(&bindAddress, 0, 8);
+    bindAddress.mFamily = 2;
+    bindAddress.mAddress = SwapBytes32(0xc0a80b65);
+    bindAddress.mPort = PacketSwapBytes16(0x5790);
+    if (BindSocket(gSocketDescriptor, &bindAddress, 8) < 0) {
+        req->mResultCode = 0xf;
+        ReleaseEssidEntryLists();
+        return -1;
+    }
+
+    while (1) {
+        buffer = gRequestPacketBuffer;
+        FillBytes(&buf, 0, 0x14);
+        buf.mUnk_10 = 0xc0a80b65;
+        buf.mUnk_00 = 0xc0a80b01;
+        while (1) {
+            if (mode == 1 && gRequestState.mAddressApplied != 1) {
+                if (gSocketDescriptor != -1) {
+                    CloseSocket(gSocketDescriptor);
+                }
+                gSocketDescriptor = -1;
+                if (StopSocketsAndDisconnectEssid() != 0) {
+                    req->mResultCode = 0xf;
+                    ReleaseEssidEntryLists();
+                    return -1;
+                }
+                if (gScannedEssidList != NULL) {
+                    CallEssidFreeFunction(gScannedEssidList);
+                    gScannedEssidList = NULL;
+                }
+                gScannedEssidList = CallEssidAllocFunction(0x58);
+                if (gScannedEssidList == NULL) {
+                    req->mResultCode = 0xf;
+                    ReleaseEssidEntryLists();
+                    return -1;
+                }
+                while (1) {
+                    scanResult = ScanEssidEntries(&gScannedEssidList);
+                    if (scanResult == -1) {
+                        req->mResultCode = 0xf;
+                        ReleaseEssidEntryLists();
+                        return -1;
+                    }
+                    result = CheckSingleEssidAossEntry(gScannedEssidList);
+                    if (result == 4) {
+                        req->mResultCode = 2;
+                        ReleaseEssidEntryLists();
+                        return -1;
+                    }
+                    if (result == 0) {
+                        break;
+                    }
+                    if (retryCount >= scan.mCount) {
+                        req->mResultCode = 1;
+                        ReleaseEssidEntryLists();
+                        return -1;
+                    }
+                    EssidSleepWrapper(scanDelayMs);
+                    retryCount++;
+                }
+                if (scanResult == -1) {
+                    req->mResultCode = 0xf;
+                    ReleaseEssidEntryLists();
+                    return -1;
+                }
+                gRequestedEssidList = CallEssidAllocFunction(0x58);
+                if (gRequestedEssidList == NULL) {
+                    req->mResultCode = 0xf;
+                    ReleaseEssidEntryLists();
+                    return -1;
+                }
+                FillBytes(gRequestedEssidList, 0, 0x58);
+                retryCount = 0;
+                if (scan.mCount > 0) {
+                    do {
+                        result = RunEssidMelcoRequest(&request, gRequestedEssidList);
+                        if (result == -1) {
+                            req->mResultCode = 0xf;
+                            ReleaseEssidEntryLists();
+                            return -1;
+                        }
+                        if (result == 0) {
+                            if (result != 0 || gRequestedEssidList->mCount == 1) {
+                                break;
+                            }
+                        }
+                        EssidSleepWrapper(scanDelayMs);
+                        retryCount++;
+                    } while (retryCount < scan.mCount);
+                }
+                if (retryCount == scan.mCount) {
+                    req->mResultCode = 0xf;
+                    ReleaseEssidEntryLists();
+                    return -1;
+                }
+                addr = GetNextAddressInMask(gRequestState.mDestinationAddress, gRequestState.mAddressMask);
+                if (StartSocketsWithAddress(addr, gRequestState.mAddressMask, addr) != 0) {
+                    SetErrorCode(0xc);
+                    req->mResultCode = 0xf;
+                    ReleaseEssidEntryLists();
+                    return -1;
+                }
+                gRequestState.mAddressApplied = 1;
+                ReleaseEssidEntryLists();
+                gSocketDescriptor = OpenSocket(2, 2, 0);
+                if (gSocketDescriptor < 0) {
+                    req->mResultCode = 0xf;
+                    ReleaseEssidEntryLists();
+                    return -1;
+                }
+                if (SocketReturnArgument(gSocketDescriptor, 0xffff, 1, &value, 4) < 0) {
+                    SetErrorCode(0xb);
+                    req->mResultCode = 0xf;
+                    ReleaseEssidEntryLists();
+                    return -1;
+                }
+                FillBytes(&bindAddress, 0, 8);
+                bindAddress.mFamily = 2;
+                bindAddress.mAddress = SwapBytes32(addr);
+                bindAddress.mPort = PacketSwapBytes16(0x5790);
+                if (BindSocket(gSocketDescriptor, &bindAddress, 8) < 0) {
+                    req->mResultCode = 0xf;
+                    ReleaseEssidEntryLists();
+                    return -1;
+                }
+            }
+            if (ReportStateAndSendPacketForMode(mode, &buf, list, gSocketDescriptor) == -1) {
+                SetErrorCode(mode + 0x1000);
+                req->mResultCode = 0xf;
+                ReleaseEssidEntryLists();
+                return -1;
+            }
+            FillBytes(buffer, 0, 0x5f8);
+            ClearPollEntry(&set);
+            SetPollEntryForRead(gSocketDescriptor, &set);
+            wait.mSeconds = timeout / 1000;
+            wait.mUnk_04 = timeout % 1000 * 1000;
+            if (PollSocketWithTimeout(gSocketDescriptor + 1, &set, NULL, NULL, &wait) > 0) {
+                break;
+            }
+            attempts++;
+            if (attempts > limits.mCount) {
+                if (mode == 0) {
+                    SetErrorCode(0xf);
+                } else if (mode == 1) {
+                    SetErrorCode(0x10);
+                } else {
+                    SetErrorCode(0x11);
+                }
+                ret = -1;
+                goto cleanup;
+            }
+            EssidSleepWrapper(limits.mDelayMs);
+        }
+        srcLen = 8;
+        received = RecvFromSocket(gSocketDescriptor, buffer->mBytes, 0x5dc, 0, &senderAddress, &srcLen);
+        buffer->mDescriptor = gSocketDescriptor;
+        buffer->mReceivedLength = SwapBytes16(received);
+        state = AdvanceStepByKind(mode, buffer, &attempts, list, gSocketDescriptor);
+        if (state == 0x64) {
+            ret = 0;
+            goto cleanup;
+        }
+        if (state == -1) {
+            ret = -1;
+            goto cleanup;
+        }
+        if (mode != state) {
+            if (state == 2) {
+                if (gSocketDescriptor != -1) {
+                    CloseSocket(gSocketDescriptor);
+                }
+                gSocketDescriptor = -1;
+                if (StopSocketsAndDisconnectEssid() != 0) {
+                    req->mResultCode = 0xf;
+                    ReleaseEssidEntryLists();
+                    return -1;
+                }
+                retryCount = 0;
+                ReportStateChange(4);
+                while (1) {
+                    if (gScannedEssidList != NULL) {
+                        CallEssidFreeFunction(gScannedEssidList);
+                        gScannedEssidList = NULL;
+                    }
+                    if (ScanEssidEntries(&gScannedEssidList) == -1) {
+                        req->mResultCode = 0xf;
+                        ReleaseEssidEntryLists();
+                        return -1;
+                    }
+                    result = CheckSingleEssidAossEntry(gScannedEssidList);
+                    if (result == 4) {
+                        req->mResultCode = 2;
+                        ReleaseEssidEntryLists();
+                        return -1;
+                    }
+                    if (result == 0) {
+                        break;
+                    }
+                    if (retryCount >= scan.mCount) {
+                        req->mResultCode = 1;
+                        ReleaseEssidEntryLists();
+                        return -1;
+                    }
+                    EssidSleepWrapper(scanDelayMs);
+                    retryCount++;
+                }
+                gRequestedEssidList = CallEssidAllocFunction(0x58);
+                if (gRequestedEssidList == NULL) {
+                    req->mResultCode = 0xf;
+                    ReleaseEssidEntryLists();
+                    return -1;
+                }
+                FillBytes(gRequestedEssidList, 0, 0x58);
+                retryCount = 0;
+                if (scan.mCount > 0) {
+                    do {
+                        result = RunEssidMelcoRequest(&request, gRequestedEssidList);
+                        if (result == -1) {
+                            req->mResultCode = 0xf;
+                            ReleaseEssidEntryLists();
+                            return -1;
+                        }
+                        if (result == 0) {
+                            if (result != 0 || gRequestedEssidList->mCount == 1) {
+                                break;
+                            }
+                        }
+                        EssidSleepWrapper(scanDelayMs);
+                        retryCount++;
+                    } while (retryCount < scan.mCount);
+                }
+                if (retryCount == scan.mCount) {
+                    req->mResultCode = 0xf;
+                    ReleaseEssidEntryLists();
+                    return -1;
+                }
+                if (StartSocketsWithAddress(addr, gRequestState.mAddressMask, addr) != 0) {
+                    SetErrorCode(0xc);
+                    req->mResultCode = 0xf;
+                    ReleaseEssidEntryLists();
+                    return -1;
+                }
+                ReleaseEssidEntryLists();
+                gSocketDescriptor = OpenSocket(2, 2, 0);
+                if (gSocketDescriptor < 0) {
+                    req->mResultCode = 0xf;
+                    ReleaseEssidEntryLists();
+                    return -1;
+                }
+                if (SocketReturnArgument(gSocketDescriptor, 0xffff, 1, &value, 4) < 0) {
+                    SetErrorCode(0xb);
+                    req->mResultCode = 0xf;
+                    ReleaseEssidEntryLists();
+                    return -1;
+                }
+                FillBytes(&bindAddress, 0, 8);
+                bindAddress.mFamily = 2;
+                bindAddress.mAddress = SwapBytes32(addr);
+                bindAddress.mPort = PacketSwapBytes16(0x5790);
+                if (BindSocket(gSocketDescriptor, &bindAddress, 8) < 0) {
+                    req->mResultCode = 0xf;
+                    ReleaseEssidEntryLists();
+                    return -1;
+                }
+            }
+            mode = state;
+            continue;
+        }
+        mode = state;
+        if (attempts > limits.mCount) {
+            if (state == 0) {
+                SetErrorCode(0xf);
+            } else if (state == 1) {
+                SetErrorCode(0x10);
+            } else {
+                SetErrorCode(0x11);
+            }
+            ret = -1;
+            goto cleanup;
+        }
+        EssidSleepWrapper(limits.mDelayMs);
+        continue;
+    }
+
+cleanup:
+    if (gSocketDescriptor != -1) {
+        CloseSocket(gSocketDescriptor);
+    }
+    gSocketDescriptor = -1;
+    if (StopSocketsAndDisconnectEssid() != 0) {
+        req->mResultCode = 0xf;
+        ReleaseEssidEntryLists();
+        return -1;
+    }
+    if (ret != 0) {
+        switch (GetErrorCode()) {
+            case 0xf:
+                resultCode = 3;
+                break;
+            case 0x10:
+                resultCode = 4;
+                break;
+            case 0x11:
+                resultCode = 5;
+                break;
+            case 0x14:
+                resultCode = 7;
+                break;
+            case 0x15:
+                resultCode = 8;
+                break;
+            default:
+                resultCode = 0xf;
+                break;
+        }
+        req->mResultCode = resultCode;
+        ReleaseEssidEntryLists();
+        return -1;
+    }
+    if (CheckAndCopyValueRecordsToRequest(req) != 0) {
+        req->mResultCode = 6;
+        ReleaseEssidEntryLists();
+        return -1;
+    }
+    return 0;
+}
+
+u32 GetNextAddressInMask(u32 addr, u32 mask) {
+    u32 base = addr & mask;
+    u32 next = (addr & ~mask) + 1;
+    if ((base | next) < (base | ~mask)) {
+        return base | next;
+    }
+    return base | 1;
+}
+
+void ReleaseEssidEntryLists(void) {
+    if (gRequestedEssidList != NULL) {
+        CallEssidFreeFunction(gRequestedEssidList);
+        gRequestedEssidList = NULL;
+    }
+    if (gScannedEssidList != NULL) {
+        CallEssidFreeFunction(gScannedEssidList);
+        gScannedEssidList = NULL;
+    }
+}
+
+void InitRequestState(ValueRecordsRequest *req) {
+    FillBytes(gSavedTagBytes, 0, 8);
+    gErrorCode = 1;
+    FillBytes(&gRequestState, 0, 0x1c);
+    gRequestState.mItemBytes = req->mItemBytes;
+    gRequestState.mItemLength = req->mItemLength;
+    gRequestState.mWantedRecordMask = req->mWantedRecordMask & 0xf;
+    gRequestState.mItemType = req->mItemType;
+    gRequestState.mFoundRecordMask = 0;
+    gRequestState.mDestinationAddress = 0xc0a80b01;
+    gRequestState.mAddressApplied = 0;
+}
+
+void SetErrorCode(s32 code) {
+    gErrorCode = code;
+}

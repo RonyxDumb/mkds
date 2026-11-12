@@ -76,7 +76,7 @@
 #include "Main/Unknown/code_0210fb54.h"
 #include "Main/Unknown/code_02110484.h"
 #include "Main/Sound/seq_row.h"
-#include "00/code_02181f98.h"
+#include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Unknown/code_02108950.h"
 #include "Main/Unknown/code_0210895c.h"
 #include "Main/Unknown/code_021089f4.h"

@@ -1,0 +1,325 @@
+#include "01/Menu/option_hensyu_menu.h"
+#include "registers.h"
+#include "01/unk_021a6000.h"
+#include "01/Menu/option_select_menu.h"
+#include "01/Menu/nickname_scene.h"
+#include "00/Menu/wi_fi_vs_setting.h"
+#include "Main/System/heap.h"
+#include "Main/Unknown/code_021059e0.h"
+#include "Main/Unknown/code_02128244.h"
+#include "Main/Unknown/code_0212b000.h"
+#include "01/Menu/option_nickname_scenes.h"
+#include "01/code_02192000.h"
+#include "01/code_02199000.h"
+#include "01/unk_021a8000.h"
+#include "Main/Unknown/code_02108000.h"
+#include "Main/Graphics/layout_rect_table.h"
+#include "g2.h"
+
+OptionHensyuMenu *gOptionHensyuMenu;
+
+void InitOptionHensyuMenu(void *heap) {
+    s32 i;
+    s32 j;
+    void *optionFirstBuffer;
+    gOptionHensyuMenu = HeapAlloc(heap, 0x34);
+    gOptionHensyuMenu->mHeap = heap;
+    gOptionHensyuMenu->mState = 0;
+    gOptionHensyuMenu->mNextState = 0;
+    switch (GetOptionPrevState()) {
+        case 0:
+        case 5:
+            gOptionHensyuMenu->mIndex = 0;
+            break;
+        case 3:
+        case 6:
+            gOptionHensyuMenu->mIndex = 1;
+            break;
+    }
+    gOptionHensyuMenu->mStateFrames = 0;
+    gOptionHensyuMenu->mHighlightVisible = TRUE;
+    LocateAndQueueOptionHensyuMenu();
+    for (i = 0; i < 2; i++) {
+        SetCellOamModeXlu(gOptionHensyuMenuXluCellIndices[i], 1, gOptionHensyuMenu->mOptionHensyuMenuSNcer,
+                          gOptionHensyuMenu->mOptionHensyuMenuSBncl);
+    }
+    optionFirstBuffer = GetOptionFirstBuffer();
+    ResetOamLists(optionFirstBuffer, GetOptionSecondBuffer());
+    InitLayoutTable(heap, gOptionHensyuMenu->mOptionHensyuMenuSBncl, NULL, &gOptionHensyuMenu->mOptionHensyuMenuSTable);
+    for (i = 0; i < 2; i++) {
+        for (j = 0; j < gOptionHensyuMenuOffsetCellCounts[i]; j++) {
+            if (i == 1) {
+                gOptionHensyuMenu->mOptionHensyuMenuSTable[gOptionHensyuMenuOffsetTableIndices[i][j]].mOffsetX = 0xfa;
+            } else {
+                gOptionHensyuMenu->mOptionHensyuMenuSTable[gOptionHensyuMenuOffsetTableIndices[i][j]].mOffsetX = -0xfa;
+            }
+        }
+    }
+    SetSelectReturnSoundId(0xe);
+}
+
+void ReleaseOptionHensyuMenu(void) {
+    gOptionHensyuMenu = NULL;
+}
+
+void LocateAndQueueOptionHensyuMenu(void) {
+    Ncgr *ncgr;
+    Nscr *nscr;
+    Nclr *nclr;
+
+    LocateNcgr(&ncgr, FindSceneFile(gHensyuOptionTopMenuMBNcgrName));
+    LocateNscr(&nscr, FindSceneFile(gHensyuOptionTopMenuMNscrName));
+    LocateNclr(&nclr, FindSceneFile(gHensyuOptionTopMenuMBNclrName));
+    gOptionHensyuMenu->mOptionHensyuMenuSBncl = FindSceneFile(gOptionHensyuMenuSBnclName);
+    gOptionHensyuMenu->mOptionHensyuMenuSBnbl = FindSceneFile(gOptionHensyuMenuSBnblName);
+    LocateNcgr2(&gOptionHensyuMenu->mOptionHensyuMenuSNcgr, FindSceneFile(gOptionHensyuMenuSNcgrName));
+    LocateNcer(&gOptionHensyuMenu->mOptionHensyuMenuSNcer, FindSceneFile(gOptionHensyuMenuSNcerName));
+    LocateNclr(&gOptionHensyuMenu->mOptionHensyuMenuSONclr, FindSceneFile(gOptionHensyuMenuSONclrName));
+    NNS_GfdRegisterNewVramTransferTask(4, 0, ncgr->mData, ncgr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(8, 0, nscr->mData, nscr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(15, 0, nclr->mData, 0x100);
+    NNS_GfdRegisterNewVramTransferTask(0x23, 0, gOptionHensyuMenu->mOptionHensyuMenuSNcgr->mData,
+                                       gOptionHensyuMenu->mOptionHensyuMenuSNcgr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, gOptionHensyuMenu->mOptionHensyuMenuSONclr->mData,
+                                       gOptionHensyuMenu->mOptionHensyuMenuSONclr->mDataSize);
+}
+
+void AdvanceOptionHensyuMenuState0(void) {
+    int fadesClear;
+    fadesClear = AreBrightnessFadesClear();
+    if (fadesClear != 0) {
+        gOptionHensyuMenu->mNextState = 1;
+    }
+}
+
+void AdvanceOptionHensyuMenuState1(void) {
+    s32 i;
+    s32 j;
+    s32 offsetX;
+    gOptionHensyuMenu->mStateFrames++;
+    offsetX = InterpolateS16(1, 0xfa, 0, gOptionHensyuMenu->mStateFrames, 10);
+    for (i = 0; i < 2; i++) {
+        for (j = 0; j < gOptionHensyuMenuOffsetCellCounts[i]; j++) {
+            if (i == 1) {
+                gOptionHensyuMenu->mOptionHensyuMenuSTable[gOptionHensyuMenuOffsetTableIndices[i][j]].mOffsetX =
+                    offsetX;
+            } else {
+                gOptionHensyuMenu->mOptionHensyuMenuSTable[gOptionHensyuMenuOffsetTableIndices[i][j]].mOffsetX =
+                    -offsetX;
+            }
+        }
+    }
+    if (gOptionHensyuMenu->mStateFrames >= 10) {
+        gOptionHensyuMenu->mNextState = 2;
+        gOptionHensyuMenu->mStateFrames = 0;
+        RequestSelectReturnState1();
+    }
+}
+
+void AdvanceOptionHensyuMenuState2(void) {
+    int returnState2NoRequest;
+    returnState2NoRequest = IsSelectReturnState2NoState3Or4Request();
+    if (returnState2NoRequest != 0) {
+        gOptionHensyuMenu->mNextState = 3;
+    }
+}
+
+void AdvanceOptionHensyuMenuState3(void) {
+    u32 touchedRect;
+    BOOL touchBegan;
+    BOOL recentlyLost;
+    u16 hasPair;
+    s32 previousIndex;
+    OptionHensyuMenu *optionHensyuMenu;
+    InputSlotIndex slotIndex;
+
+    slotIndex = UNK_02175628_INDEX_8;
+    touchedRect = -1;
+    touchBegan = FALSE;
+    recentlyLost = FALSE;
+    hasPair = gInputSlots[slotIndex].mPair.mHasPair;
+    if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
+        recentlyLost = TRUE;
+    }
+    if (recentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
+        touchBegan = TRUE;
+    }
+    if (touchBegan != FALSE) {
+        touchedRect = RectTableFindContaining(gOptionHensyuMenu->mOptionHensyuMenuSBnbl,
+                                              gInputSlots[slotIndex].mPair.mPairX, gInputSlots[slotIndex].mPair.mPairY);
+    }
+    if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
+        touchBegan = FALSE;
+        recentlyLost = FALSE;
+        hasPair = gInputSlots[slotIndex].mPair.mHasPair;
+        if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
+            recentlyLost = TRUE;
+        }
+        if (recentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
+            touchBegan = TRUE;
+        }
+        if (touchBegan != FALSE &&
+            IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
+                                                            gInputSlots[slotIndex].mPair.mPairY) != FALSE) {
+            goto leave;
+        }
+    } else {
+    leave:
+        gOptionHensyuMenu->mNextState = 5;
+        gOptionHensyuMenu->mNextOptionState = 0;
+        RequestSelectReturnState3WithSound(0);
+        return;
+    }
+    if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_A) != 0 || touchedRect <= 1) {
+        optionHensyuMenu = gOptionHensyuMenu;
+        previousIndex = optionHensyuMenu->mIndex;
+        if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_A) == 0) {
+            switch (touchedRect) {
+                case 0:
+                    optionHensyuMenu->mIndex = 0;
+                    break;
+                case 1:
+                    optionHensyuMenu->mIndex = 1;
+                    break;
+            }
+        }
+        gOptionHensyuMenu->mNextState = 4;
+        optionHensyuMenu = gOptionHensyuMenu;
+        switch (optionHensyuMenu->mIndex) {
+            case 0:
+                optionHensyuMenu->mNextOptionState = 5;
+                break;
+            case 1:
+                if (gBackupBuffers->mEmblemRecord->mFilled != 0) {
+                    optionHensyuMenu->mNextOptionState = 3;
+                } else {
+                    optionHensyuMenu->mNextOptionState = 6;
+                    gMenuShared->mOptionReturnsToEmbremSelect = FALSE;
+                }
+                break;
+        }
+        if (gOptionHensyuMenu->mIndex == previousIndex) {
+            gOptionHensyuMenu->mHighlightVisible = FALSE;
+        }
+        StartSoundOncePerFrame(5);
+        return;
+    }
+    if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
+        if (gOptionHensyuMenu->mIndex > 0) {
+            gOptionHensyuMenu->mIndex--;
+            StartSoundOncePerFrame(0);
+            return;
+        }
+    }
+    if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
+        if (gOptionHensyuMenu->mIndex < 1) {
+            gOptionHensyuMenu->mIndex++;
+            StartSoundOncePerFrame(0);
+        }
+    }
+}
+
+void AdvanceOptionHensyuMenuState4(void) {
+    gOptionHensyuMenu->mStateFrames++;
+    if (gOptionHensyuMenu->mStateFrames >= 10) {
+        gOptionHensyuMenu->mNextState = 5;
+        gOptionHensyuMenu->mStateFrames = 0;
+        if (gOptionHensyuMenu->mNextOptionState == 5) {
+            RequestSelectReturnState4();
+        }
+    } else if (gOptionHensyuMenu->mStateFrames >= 5) {
+        gOptionHensyuMenu->mHighlightVisible = TRUE;
+    }
+}
+
+void AdvanceOptionHensyuMenuState5(void) {
+    s32 i;
+    s32 j;
+    s32 offsetX;
+    if (GetOptionNextScene() == -1) {
+        if (gOptionHensyuMenu->mNextOptionState == 5) {
+            RequestOptionNextScene(0xe);
+        } else if (gOptionHensyuMenu->mNextOptionState == 6) {
+            RequestOptionNextScene(3);
+        }
+    }
+    gOptionHensyuMenu->mStateFrames++;
+    if (gOptionHensyuMenu->mStateFrames <= 10) {
+        offsetX = InterpolateS16(1, 0, 0xfa, gOptionHensyuMenu->mStateFrames, 10);
+    } else {
+        offsetX = 0xfa;
+    }
+    for (i = 0; i < 2; i++) {
+        for (j = 0; j < gOptionHensyuMenuOffsetCellCounts[i]; j++) {
+            if (i == 1) {
+                gOptionHensyuMenu->mOptionHensyuMenuSTable[gOptionHensyuMenuOffsetTableIndices[i][j]].mOffsetX =
+                    offsetX;
+            } else {
+                gOptionHensyuMenu->mOptionHensyuMenuSTable[gOptionHensyuMenuOffsetTableIndices[i][j]].mOffsetX =
+                    -offsetX;
+            }
+        }
+    }
+    if (gOptionHensyuMenu->mStateFrames >= 10) {
+        if (gOptionHensyuMenu->mNextOptionState == 0 || gOptionHensyuMenu->mNextOptionState == 3 ||
+            IsSelectReturnState0NoState1Request() != 0) {
+            if (GetOptionNextScene() == -1) {
+                RequestOptionState(gOptionHensyuMenu->mNextOptionState);
+            }
+        }
+    }
+}
+
+void UpdateOptionHensyuMenuHighlight(void) {
+    s32 i;
+    for (i = 0; i < 2; i++) {
+        if (i == gOptionHensyuMenu->mIndex && gOptionHensyuMenu->mHighlightVisible != FALSE) {
+            gOptionHensyuMenu->mOptionHensyuMenuSTable[gOptionHensyuMenuSTableIndices[i]].mVisible = 1;
+            SetCellPaletteIndex(gOptionHensyuMenuCellIndices[i], 0xe, gOptionHensyuMenu->mOptionHensyuMenuSNcer,
+                                gOptionHensyuMenu->mOptionHensyuMenuSBncl);
+        } else {
+            gOptionHensyuMenu->mOptionHensyuMenuSTable[gOptionHensyuMenuSTableIndices[i]].mVisible = 0;
+            SetCellPaletteIndex(gOptionHensyuMenuCellIndices[i], 0xf, gOptionHensyuMenu->mOptionHensyuMenuSNcer,
+                                gOptionHensyuMenu->mOptionHensyuMenuSBncl);
+        }
+    }
+}
+
+void AdvanceOptionHensyuMenu(void) {
+    OptionHensyuMenu *optionHensyuMenu;
+    gOptionHensyuMenu->mState = gOptionHensyuMenu->mNextState;
+    switch (gOptionHensyuMenu->mState) {
+        case 0:
+            AdvanceOptionHensyuMenuState0();
+            break;
+        case 1:
+            AdvanceOptionHensyuMenuState1();
+            break;
+        case 2:
+            AdvanceOptionHensyuMenuState2();
+            break;
+        case 3:
+            AdvanceOptionHensyuMenuState3();
+            break;
+        case 4:
+            AdvanceOptionHensyuMenuState4();
+            break;
+        case 5:
+            AdvanceOptionHensyuMenuState5();
+            break;
+    }
+    UpdateOptionHensyuMenuHighlight();
+    optionHensyuMenu = gOptionHensyuMenu;
+    DrawLayoutTable(optionHensyuMenu->mOptionHensyuMenuSBncl, optionHensyuMenu->mOptionHensyuMenuSNcer, NULL,
+                    GetOptionSecondBuffer(), optionHensyuMenu->mOptionHensyuMenuSTable);
+}
+
+void WriteOptionHensyuMenuRegisters(void) {
+    G2x_SetBlendAlpha_(&reg_G2S_DB_BLDCNT, 0, 2, 6, 10);
+}
+
+void RegisterOptionHensyuMenuCallbacks(void) {
+    UnkFunc *tbl[4] = {InitOptionHensyuMenu, ReleaseOptionHensyuMenu, AdvanceOptionHensyuMenu,
+                       WriteOptionHensyuMenuRegisters};
+    SetOptionStateCallbacks(tbl);
+}

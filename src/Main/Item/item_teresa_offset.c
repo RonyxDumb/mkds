@@ -49,7 +49,7 @@
 #include "code_02147cd8.h"
 #include "Main/Unknown/code_021025d8.h"
 #include "Main/Item/item_in_use.h"
-#include "01/code_021a2034.h"
+#include "01/MapObjects/periodic_effect.h"
 #include "Main/Race/race_clock.h"
 #include "Main/Kart/karts.h"
 

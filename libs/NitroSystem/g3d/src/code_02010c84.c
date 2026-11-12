@@ -4,7 +4,7 @@
 #include "Main/Unknown/code_0214d000.h"
 #include "Main/Unknown/unk_02161000.h"
 #include "Main/Unknown/unk_02170000.h"
-#include "00/code_02188720.h"
+#include "00/Lib/DWC/code_02188720.h"
 #include "code_02012b30.h"
 #include "fx_mtx33.h"
 #include "code_02147cd8.h"

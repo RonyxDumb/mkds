@@ -34,7 +34,7 @@
 #include "code_0214d018.h"
 #include "code_0202056c.h"
 #include "registers.h"
-#include "00/code_02181f98.h"
+#include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Kart/kart_table_index.h"
 #include "Main/System/interpolation.h"
 #include "Main/Menu/select_character.h"

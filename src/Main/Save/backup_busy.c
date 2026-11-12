@@ -1,6 +1,6 @@
 #include "Main/Save/backup_busy.h"
 #include "Main/Save/backup_first_block.h"
-#include "01/code_021956dc.h"
+#include "01/Menu/record_time_attack.h"
 
 #pragma thumb on
 

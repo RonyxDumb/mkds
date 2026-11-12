@@ -36,7 +36,7 @@
 #include "code_0214d018.h"
 #include "Main/Unknown/unk_0216e000.h"
 #include "Main/Unknown/code_0212b0b8.h"
-#include "00/code_02181f98.h"
+#include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Unknown/code_02023000.h"
 #include "gx.h"
 #include "Main/Unknown/code_0211d4a8.h"

@@ -1,7 +1,7 @@
 #include "Main/Kart/kart_participant_record.h"
 #include "Main/Unknown/code_0206a354.h"
 #include "Main/MapObjects/attractor.h"
-#include "01/code_0218155c.h"
+#include "01/Race/mission_run_state.h"
 #include "ITCM/kart_motion.h"
 #include "ITCM/code_01ffc000.h"
 #include "ITCM/collision_slots.h"

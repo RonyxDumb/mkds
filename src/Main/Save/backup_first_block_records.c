@@ -7,7 +7,7 @@
 #include "Main/Save/backup_buddy_record_block.h"
 #include "Main/Save/backup.h"
 #include "Main/Save/backup_first_block.h"
-#include "01/code_021956dc.h"
+#include "01/Menu/record_time_attack.h"
 
 #pragma thumb on
 

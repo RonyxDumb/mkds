@@ -7,7 +7,7 @@
 #include "00/code_021a6000.h"
 #include "code_02142eac.h"
 #include "00/code_021a574c.h"
-#include "00/code_021a4b98.h"
+#include "00/Lib/NitroWiFi/code_021a4b98.h"
 
 
 void WcmWmcbIndication(Unk021425e8 *event);

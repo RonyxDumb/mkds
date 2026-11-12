@@ -2,10 +2,10 @@
 #include "Main/Unknown/code_020ceb20.h"
 #include "Main/Unknown/code_020ccc9c.h"
 #include "Main/Menu/battle_gx_set_visible_plane.h"
-#include "01/code_0219c784.h"
+#include "01/Menu/select_battle_stage_screen.h"
 #include "code_02148950.h"
 #include "gx.h"
-#include "00/code_02181f98.h"
+#include "00/Menu/wi_fi_vs_setting.h"
 
 #pragma optimize_for_size on
 #pragma thumb on

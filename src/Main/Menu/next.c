@@ -12,7 +12,7 @@
 #include "Main/Unknown/unk_02174000.h"
 #include "Main/Unknown/code_020ccab0.h"
 #include "Main/Unknown/code_020cc994.h"
-#include "00/code_02181f98.h"
+#include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Race/race_setup_input.h"
 #include "Main/Unknown/code_020cc0e4.h"
 #include "Main/Menu/multi_simple.h"

@@ -4,7 +4,7 @@
 #include "Main/System/heap.h"
 #include "Main/Scene/display_settings.h"
 #include "Main/Unknown/unk_02175000.h"
-#include "00/code_02181f98.h"
+#include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Menu/title_scene.h"
 #include "Main/Race/gp_records_killer.h"
 

@@ -1,8 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "00/code_0218e2dc.h"
-#include "00/code_021a3a18.h"
+#include "00/Lib/GameSpy/code_0218e2dc.h"
+#include "00/Lib/GameSpy/code_021a3a18.h"
 
 u32 DWCi_QR2AddErrorCallback(u32 error);
 s32 DWCi_QR2CountCallback(void);

@@ -4,7 +4,7 @@
 #include "Main/Save/backup_bit_array.h"
 #include "Main/Save/backup_busy.h"
 #include "Main/Save/backup_ghost_head.h"
-#include "01/code_021956dc.h"
+#include "01/Menu/record_time_attack.h"
 
 GhostRecordHead *CreateCourseGhostRecords(void *heap) {
     return HeapAlloc(heap, 0x600u);

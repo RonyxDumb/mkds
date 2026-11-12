@@ -8,7 +8,7 @@
 #include "Main/Graphics/oam.h"
 #include "Main/Unknown/unk_0217b000.h"
 #include "Main/Unknown/code_020acb00.h"
-#include "00/code_02181f98.h"
+#include "00/Menu/wi_fi_vs_setting.h"
 
 #pragma thumb on
 u32 TitleState4ReturnArgumentWrapper(u32 value) {

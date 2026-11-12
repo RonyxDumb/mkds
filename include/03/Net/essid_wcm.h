@@ -1,0 +1,160 @@
+#pragma once
+
+#include "03/Net/essid_packet_steps.h"
+#include "03/code_021b7ba8.h"
+
+#include "types.h"
+#include "code_0214cfe4.h"
+#include "Main/Unknown/code_0200f000.h"
+#include "code_0200f790.h"
+#include "Main/Unknown/code_0214d000.h"
+#include "os_thread.h"
+#include "code_0200e77c.h"
+
+typedef struct ValueRecordsRequest {
+    /* 000 */ u16 mWantedRecordMask; // input mask; on return, the wanted records that were found
+    /* 002 */ u8 mItemType;
+    /* 003 */ u8 pad_003;
+    /* 004 */ u16 mItemLength;
+    /* 006 */ u8 mItemBytes[0x100];
+    /* 106 */ s16 mScanRetryLimit;
+    /* 108 */ s16 mScanRetryDelayMs;
+    /* 10a */ s16 mSendAttemptLimit;
+    /* 10c */ s16 mSendAttemptDelayMs;
+    /* 10e */ s16 mReceiveTimeoutMs;
+    /* 110 */ u8 mMacAddress[6];
+    /* 116 */ u8 mResultCode;
+    /* 117 */ u8 mUnk_117;
+} ValueRecordsRequest;
+
+typedef struct RequestState {
+    /* 00 */ u8 *mItemBytes;
+    /* 04 */ u32 mItemLength;
+    /* 08 */ u32 mWantedRecordMask;
+    /* 0c */ s32 mFoundRecordMask;
+    /* 10 */ u32 mDestinationAddress;
+    /* 14 */ u32 mAddressMask;
+    /* 18 */ s8 mAddressApplied;
+    /* 19 */ s8 mItemType;
+    /* 1a */ u8 pad_1a[2];
+} RequestState;
+
+typedef struct RawEntry RawEntry;
+
+typedef struct EssidEntry {
+    /* 00 */ u32 mEssidLength;
+    /* 04 */ u8 mEssid[0x20];
+    /* 24 */ u32 mUnk_24;
+    /* 28 */ u8 pad_28[8];
+    /* 30 */ u8 mUnk_30[6];
+    /* 36 */ u8 pad_36[2];
+    /* 38 */ u32 mCodeCount;
+    /* 3c */ u8 mCodes[0x10]; // bit 0x80 set when the record's second bit list has the same bit
+    /* 4c */ u32 mUnk_4c;
+    /* 50 */ u32 mUnk_50;
+} EssidEntry;
+
+typedef struct EssidEntryList {
+    /* 00 */ s32 mCount;
+    /* 04 */ EssidEntry mEntries[1];
+} EssidEntryList;
+
+/* Search request handed to RunEssidMelcoRequest. */
+typedef struct EssidMelcoRequest {
+    /* 00 */ u32 mEssidLength;
+    /* 04 */ u8 mEssid[0x20];
+    /* 24 */ BOOL mUseSharedKey;
+    /* 28 */ s32 mMelcoLength;
+    /* 2c */ u8 mMelcoBytes[0x10];
+} EssidMelcoRequest;
+
+typedef struct MaskCodeEntry {
+    u16 mMask;
+    u8 mCode;
+    u8 pad_3;
+} MaskCodeEntry;
+
+typedef struct MelcoBlock {
+    /* 00 */ u8 mLengthKind;
+    /* 01 */ u8 mUnk_01;
+    /* 02 */ u8 mMelcoBytes[0x5e];
+} MelcoBlock;
+
+typedef struct RetryLimit {
+    /* 0 */ s16 mCount;
+    /* 2 */ s16 mDelayMs;
+} RetryLimit;
+
+typedef struct WaitTimeout {
+    /* 0 */ s32 mSeconds;
+    /* 4 */ s32 mUnk_04;
+} WaitTimeout;
+
+typedef struct ItemContainerView {
+    /* 0 */ u8 mType;
+    /* 1 */ u8 mUnk_01;
+    /* 2 */ u16 mLength;
+    /* 4 */ u32 mFirstWord;
+} ItemContainerView;
+
+typedef struct PacketTag {
+    /* 0 */ u8 mBytes[6];
+    /* 6 */ u16 mSequence;
+} PacketTag;
+
+typedef struct Unk021b86e4 {
+    /* 00 */ u32 mUnk_00;
+    /* 04 */ u8 pad_04[0xc];
+    /* 10 */ u32 mUnk_10;
+} Unk021b86e4;
+
+typedef struct PacketBuffer {
+    /* 00 */ s32 mDescriptor;
+    /* 04 */ u32 mReceivedLength; // stored byte-swapped; never read
+    /* 08 */ u8 pad_08[4];
+    /* 0c */ u8 mBytes[0x5ec];
+} PacketBuffer;
+
+extern s32 gSocketDescriptor;
+extern RetryLimit gRetryLimitTemplate;
+extern EssidEntryList *gScannedEssidList;
+extern EssidEntryList *gRequestedEssidList;
+extern s32 gErrorCode;
+extern PacketBuffer *gRequestPacketBuffer;
+extern u8 gSavedTagBytes[8];
+extern RequestState gRequestState;
+extern void *(*gEssidAllocFunction)(u32);
+extern void (*gStateChangeCallback)(s32);
+extern void *gEssidWorkBuffer;
+extern void (*gEssidFreeFunction)(void *);
+extern void *gMessageQueueSlots[4];
+extern OSMessageQueue gMessageQueue;
+extern MelcoBlock gMelcoBlock;
+extern RawEntry gMelcoRecord;
+
+void SetErrorCode(s32 code);
+void InitRequestState(ValueRecordsRequest *req);
+void ReleaseEssidEntryLists(void);
+u32 GetNextAddressInMask(u32 addr, u32 mask);
+s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req);
+s32 RunValueRecordsRequest(ValueRecordsRequest *req);
+void CallEssidFreeFunction(void *ptr);
+void *CallEssidAllocFunction(u32 size);
+s32 CallStateChangeCallback(s32 state);
+void EssidSleepWrapper(u32 ms);
+s32 RunEssidMelcoRequest(EssidMelcoRequest *request, EssidEntryList *out);
+s32 ScanEssidEntries(EssidEntryList **out);
+s32 DisconnectEssidAndWait(void);
+s32 ReleaseEssidWiFi(void);
+s32 InitEssidWiFi(void *(*alloc)(u32), void (*release)(void *));
+s32 AlarmSendQueueMessage(void *msg);
+s32 SendQueueMessage(void *msg);
+void FillEssidEntryListFromRecord(EssidEntryList *list, RawEntry *src, s32 count);
+void SetRecordEssidFromRequest(EssidMelcoRequest *request, RawEntry *rec);
+void ConvertRecordToEssidEntry(RawEntry *src, EssidEntry *dst);
+
+#include "03/code_021b7000.h"
+#include "03/unk_021d8000.h"
+#include "Main/Unknown/code_02133000.h"
+#include "03/code_021b7bb4.h"
+#include "03/code_021ba818.h"

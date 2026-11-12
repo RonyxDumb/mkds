@@ -17,7 +17,7 @@
 #include "Main/Race/race_progress_kart.h"
 #include "Main/Unknown/code_020ad32c.h"
 #include "Main/Unknown/code_020ada94.h"
-#include "00/code_02181f98.h"
+#include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Course/course_map_shapes.h"
 #include "Main/Unknown/code_02039000.h"
 #include "Main/Race/race_setup_input.h"
@@ -31,7 +31,7 @@
 #include "Main/Unknown/unk_02175000.h"
 #include "Main/Unknown/unk_02175628.h"
 #include "Main/Unknown/unk_021759c0.h"
-#include "01/code_0218155c.h"
+#include "01/Race/mission_run_state.h"
 #include "Main/Race/race_end_condition.h"
 
 void FinishKartInCourseMapKind2Shape(Vec3 *position, u32 kartIndex) {

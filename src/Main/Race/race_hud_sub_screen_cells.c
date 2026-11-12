@@ -41,8 +41,8 @@
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/System/heap_call.h"
 #include "Main/Unknown/unk_02169000.h"
-#include "01/code_021892ac.h"
-#include "01/code_02188e88.h"
+#include "01/Race/race_hud_boss_cells.h"
+#include "01/Race/race_hud_king_cells.h"
 #include "Main/Unknown/code_020c06c4.h"
 #include "code_020222ec.h"
 #include "Main/Unknown/code_020c0b84.h"
@@ -52,7 +52,7 @@
 #include "Main/MapObjects/map_object_list_count_get.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 #include "Main/Unknown/code_020c0d9c.h"
-#include "01/code_021813f4.h"
+#include "01/Race/race_hud_coin_cells.h"
 #include "Main/Kart/karts.h"
 
 u32 GetRaceHudSubScreenMinDrawValue(void) {

@@ -76,7 +76,7 @@
 #include "Main/Unknown/code_020b65f0.h"
 #include "Main/Unknown/code_020bb530.h"
 #include "Main/Race/race_goal_player_character.h"
-#include "00/code_02181f98.h"
+#include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Unknown/code_020beb9c.h"
 #include "g2d_Animation.h"
 #include "Main/Unknown/code_020cffa0.h"

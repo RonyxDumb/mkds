@@ -37,7 +37,7 @@
 #include "Main/Sound/seq_queue.h"
 #include "Main/Unknown/unk_02164000.h"
 #include "Main/Unknown/unk_0217c000.h"
-#include "01/code_0219e0a8.h"
+#include "01/Menu/ending_scene.h"
 #include "code_020176c0.h"
 #include "Main/Race/race_entries.h"
 

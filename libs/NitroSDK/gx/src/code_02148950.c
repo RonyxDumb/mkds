@@ -7,7 +7,7 @@
 #include "code_0214c778.h"
 #include "Main/Unknown/code_0200c000.h"
 #include "Main/Unknown/code_0214d000.h"
-#include "00/code_02188720.h"
+#include "00/Lib/DWC/code_02188720.h"
 #include "Main/Unknown/code_02148cd0.h"
 #include "Main/Unknown/code_02148d24.h"
 #include "code_0200fe74.h"

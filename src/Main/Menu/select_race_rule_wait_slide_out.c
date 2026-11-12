@@ -6,7 +6,7 @@
 #include "Main/Unknown/code_0211f4b0.h"
 #include "Main/Unknown/code_020ae4c0.h"
 #include "Main/Menu/wait.h"
-#include "00/code_02181f98.h"
+#include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Unknown/unk_0216e000.h"
 #include "Main/Unknown/unk_0217d000.h"
 #include "Main/Unknown/code_0211f498.h"

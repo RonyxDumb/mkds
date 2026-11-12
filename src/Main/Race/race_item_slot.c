@@ -27,7 +27,7 @@
 #include "Main/Unknown/code_020a2204.h"
 #include "Main/Unknown/code_020a10d4.h"
 #include "Main/Unknown/code_020a1000.h"
-#include "01/code_0218155c.h"
+#include "01/Race/mission_run_state.h"
 #include "Main/Unknown/code_020f36d8.h"
 #include "Main/Unknown/unk_02175628.h"
 #include "Main/Unknown/unk_02175000.h"

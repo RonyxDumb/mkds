@@ -35,7 +35,7 @@
 #include "Main/Unknown/code_02124000.h"
 #include "Main/Unknown/code_0212426c.h"
 #include "Main/Graphics/layout_table_entry.h"
-#include "00/code_02181f98.h"
+#include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Menu/select_return.h"
 #include "Main/Unknown/code_02127000.h"
 #include "Main/Unknown/code_02128244.h"

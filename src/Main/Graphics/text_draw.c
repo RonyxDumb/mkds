@@ -11,7 +11,7 @@
 #include "Main/Unknown/code_02023000.h"
 #include "Main/Unknown/unk_0217a000.h"
 #include "Main/Unknown/unk_02175000.h"
-#include "01/code_021804e0.h"
+#include "01/Scene/test_scene.h"
 #include "01/code_021a5140.h"
 #include "code_0214d018.h"
 #include "registers.h"

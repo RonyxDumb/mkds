@@ -12,7 +12,7 @@
 #include "Main/Unknown/unk_02170000.h"
 #include "Main/Unknown/unk_00000000.h"
 #include "Main/Unknown/unk_00002000.h"
-#include "00/code_02188720.h"
+#include "00/Lib/DWC/code_02188720.h"
 #include "code_0200e6ec.h"
 
 // Adds 1 to the thread id counter and returns the new value.

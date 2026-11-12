@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "00/code_02190000.h"
-#include "00/code_0218f960.h"
+#include "00/Lib/GameSpy/code_0218f960.h"
 
 typedef struct GPIConnectData GPIConnectData;
 

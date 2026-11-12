@@ -42,7 +42,7 @@
 #include "Main/Unknown/code_021108ac.h"
 #include "Main/Unknown/unk_0217a000.h"
 #include "Main/Kart/kart_name_tags.h"
-#include "01/code_021813f4.h"
+#include "01/Race/race_hud_coin_cells.h"
 
 void SetEmblemSoundValue(u32 value) {
     gEmblemSoundValue = value;

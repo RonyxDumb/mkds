@@ -1,7 +1,7 @@
 #include "frameheap.h"
 #include "code_02134398.h"
 #include "Main/Unknown/code_0214d000.h"
-#include "00/code_02188720.h"
+#include "00/Lib/DWC/code_02188720.h"
 
 // Sets up a frame heap over startAddress to endAddress with nothing allocated.
 NNSiFndHeapHead *InitFrameHeap(void *startAddress, void *endAddress, u16 optFlag) {

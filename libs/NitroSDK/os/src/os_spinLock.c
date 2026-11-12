@@ -6,7 +6,7 @@
 #include "Main/Unknown/code_0214d000.h"
 #include "code_0200fc8c.h"
 #include "registers.h"
-#include "00/code_02188720.h"
+#include "00/Lib/DWC/code_02188720.h"
 
 s32 gLockInitialized;
 

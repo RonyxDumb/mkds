@@ -60,7 +60,7 @@
 #include "Main/Unknown/code_0206a354.h"
 #include "Main/Kart/karts.h"
 #include "Main/Unknown/code_020e01f0.h"
-#include "01/code_0218155c.h"
+#include "01/Race/mission_run_state.h"
 #include "code_0201c528.h"
 #include "Main/Unknown/code_02109000.h"
 #include "Main/Unknown/code_0208c188.h"

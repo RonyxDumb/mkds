@@ -17,4 +17,4 @@ void PlaceHanachanFollowerBehind(MissionRunMapObject *mapObject);
 void TurnHanachanFollowerToPrevious(MissionRunMapObject *mapObject);
 void PlaceHanachanFollowerBehindXz(MissionRunMapObject *mapObject);
 
-#include "01/code_0219b540.h"
+#include "01/Menu/select_ghost.h"

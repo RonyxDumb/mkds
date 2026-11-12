@@ -4,7 +4,7 @@
 #include "code_020176c0.h"
 #include "code_02134398.h"
 #include "Main/Unknown/code_0214d000.h"
-#include "00/code_02188720.h"
+#include "00/Lib/DWC/code_02188720.h"
 
 void GetRegionOfMBlock(NNSiMemRegion *region, NNSiFndExpHeapMBlockHead *block) {
     region->mStart = (u8 *) block - (u16) ((block->mAttribute >> 8) & 0x7f);

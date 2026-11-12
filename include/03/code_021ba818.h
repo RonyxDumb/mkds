@@ -1,11 +1,11 @@
 #pragma once
 
 #include "types.h"
-#include "03/code_021b94b8.h"
+#include "03/Net/essid_wcm.h"
 #include "00/unk_021b5000.h"
 #include "00/code_021a574c.h"
 #include "00/code_021a5b3c.h"
-#include "00/code_02188de4.h"
+#include "00/Lib/DWC/code_02188de4.h"
 
 typedef s32 Unk021ba818Func();
 

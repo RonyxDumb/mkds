@@ -4,7 +4,7 @@
 
 #include "Main/Scene/run_scene_connection.h"
 #include "Main/Unknown/unk_02165000.h"
-#include "01/code_021a2398.h"
+#include "01/Menu/emblem_cursor.h"
 #include "Main/Unknown/code_0200e000.h"
 #include "Main/System/heap_call.h"
 #include "Main/Unknown/code_0214d000.h"

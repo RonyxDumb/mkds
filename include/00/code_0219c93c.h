@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "dwc_account.h"
-#include "00/code_0218f960.h"
+#include "00/Lib/GameSpy/code_0218f960.h"
 
 // Login machine, embedded in WiFiConnection at 0x84 (0x264 bytes = the MI_CpuFill8 of InitWiFiLogin), reached through
 // gWiFiLogin and stepped by DWCi_LoginProcess in connection state 2. mState 1 waits for the HTTP reply that holds the

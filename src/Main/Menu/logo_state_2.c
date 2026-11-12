@@ -7,7 +7,7 @@
 #include "Main/Unknown/code_02125f6c.h"
 #include "Main/Unknown/code_02126230.h"
 #include "Main/Unknown/code_02126248.h"
-#include "01/code_021956dc.h"
+#include "01/Menu/record_time_attack.h"
 
 void UpdateLogoState1(void) {
     s32 v1;

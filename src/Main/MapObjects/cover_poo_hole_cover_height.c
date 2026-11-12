@@ -28,7 +28,7 @@
 #include "Main/Unknown/unk_02156000.h"
 #include "Main/Unknown/unk_0215d000.h"
 #include "code_02147cd8.h"
-#include "01/code_0218155c.h"
+#include "01/Race/mission_run_state.h"
 
 u32 SetFlipperState4TimerByIndex(u32 flipperIndex) {
     Flipper *flipper;
