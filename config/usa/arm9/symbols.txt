@@ -7842,7 +7842,7 @@ gMultiSelectMemberCountCellIndices kind:data(any) addr:0x02153d54
 data_usa_02153d64 kind:data(any) addr:0x02153d64
 data_usa_02153d7c kind:data(any) addr:0x02153d7c
 data_usa_02153d88 kind:data(any) addr:0x02153d88
-data_usa_02153dbc kind:data(any) addr:0x02153dbc
+gMultiSelectKeyStartLabelData kind:data(any) addr:0x02153dbc
 gSelectGameBattleRows kind:data(any) addr:0x02153de8
 gSelectGameMultiRows kind:data(any) addr:0x02153df4
 gSelectGameFileNames kind:data(any) addr:0x02153e08
@@ -8661,10 +8661,10 @@ gPooledItemBoxKindDescriptor kind:data(any) addr:0x0215a64c
 gPooledItemBoxKindData kind:data(any) addr:0x0215a680
 gVec3Ones kind:data(any) addr:0x0215a6c0
 gPooledMapObjectVec3Zero kind:data(any) addr:0x0215a6cc
-data_0215a6d8 kind:data(any) addr:0x0215a6d8
-data_0215a6e4 kind:data(any) addr:0x0215a6e4
-data_0215a6ec kind:data(any) addr:0x0215a6ec
-data_0215a6f4 kind:data(any) addr:0x0215a6f4
+gChoisesSValueSeqNos kind:data(any) addr:0x0215a6d8
+gLoadedSoundBanksAfterOnMemoryInit kind:data(any) addr:0x0215a6e4
+gLoadedSoundBanksAfterHeapCreate kind:data(any) addr:0x0215a6ec
+gLoadedSoundBanksAfterRelease kind:data(any) addr:0x0215a6f4
 gSurfaceSoundColumnIndices kind:data(any) addr:0x0215a6fc
 gOnMemorySdat kind:data(any) addr:0x0215a880
 gEmptySoundSet kind:data(any) addr:0x0215c380

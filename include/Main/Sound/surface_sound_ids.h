@@ -26,7 +26,12 @@ typedef struct CourseSurfaceSoundEntry CourseSurfaceSoundEntry;
 void CourseEntrySetSurfaceSoundIds(u32 rowIndex, u32 columnIndex, CourseSurfaceSoundEntry *entries);
 void SetSurfaceSoundIds(u32 rowIndex, u32 columnIndex, void *entries);
 
-extern u16 gSurfaceSoundColumnIndices[][8];
 extern u8 gSurfaceSoundIdShortRowTable[28];
 extern u8 gSurfaceSoundIdRowTable[152];
 extern SurfaceSoundIdRow gSurfaceSoundIds[23];
+
+extern const u16 gSurfaceSoundColumnIndices[24][8];
+extern const u32 gLoadedSoundBanksAfterRelease[2];
+extern const u8 gOnMemorySdat[6909];
+extern const u32 gLoadedSoundBanksAfterHeapCreate[2];
+extern const u32 gLoadedSoundBanksAfterOnMemoryInit[2];

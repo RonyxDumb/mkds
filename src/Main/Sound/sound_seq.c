@@ -71,27 +71,30 @@
 
 const Vec3 gVec3Ones = {0x1000, 0x1000, 0x1000};
 const Vec3 gPooledMapObjectVec3Zero = {0, 0, 0};
+const u16 gChoisesSValueSeqNos[6] = {0xc, 0xc, 0xc, 0x13, 7, 7};
 s32 gSndHeapSizeKind = 4;
 LoadedSoundBanks gLoadedSoundBanks = {0, {0, 0}, 0xff00};
 SurfaceSoundSetup gOldLuigiAgbSurfaceSoundSetup = {{0x7a, 0x66, 0x67, 0x9d}, 0, 0};
 s32 gSndBankIdsByBit[13] = {3, 4, 5, 6, 7, 8, 9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf};
 s32 gSndWaveArcIdsByBit[13] = {5, 6, 7, 8, 9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf, 0x10, 0x11};
 u16 gMissionRunMSselSeqIndex;
-NNSSndHeap *gSeqRowSndHeap;
+u16 gMissionRunLimitSeqNo[1];
+u16 gMissionRunCountSeqNo[1];
 u32 gMissionRunSelMode;
-u32 gKartStarSeqStartPending;
-u32 gRaceSoundKind;
-u32 gSndHeapSavedState[1];
-NNSSndSeqPlayer *gSeqZeroLoopHandle;
-NNSSndSeqPlayer *gChoisesSSeqHandle;
 u32 gRaceSeqStarted;
 NNSSndSeqPlayer *gMatchingEntrySeqHandle;
-u32 gSceneSeqRestartAfterStar;
-u32 gSoundStartedThisFrame;
-s32 gMissionRunMSselStep32Count;
-s32 gMissionRunMSselStep0Count;
-s32 gSeqZeroLoopOn;
 NNSSndHeap *gSndHeap;
+u32 gSoundStartedThisFrame;
+NNSSndSeqPlayer *gChoisesSSeqHandle;
+NNSSndSeqPlayer *gSeqZeroLoopHandle;
+u32 gSceneSeqRestartAfterStar;
+u32 gRaceSoundKind;
+s32 gMissionRunMSselStep0Count;
+u32 gSndHeapSavedState[1];
+s32 gMissionRunMSselStep32Count;
+NNSSndHeap *gSeqRowSndHeap;
+s32 gSeqZeroLoopOn;
+u32 gKartStarSeqStartPending;
 LoadedSoundSet gLoadedSoundSet;
 
 // Keeps seq 0 looping on the in-memory archive until StopSeqZeroLoop; UpdateSounds restarts it.
@@ -274,8 +277,8 @@ void ReleaseSndHeaps(void) {
     gSeqRowSndHeap = NULL;
     ClearSndFileAddresses(GetSndDataFileIdList());
     ClearSndFileIdList(GetSndDataFileIdList());
-    ((u32 *) &gLoadedSoundBanks)[0] = data_0215a6f4[0];
-    ((u32 *) &gLoadedSoundBanks)[1] = data_0215a6f4[1];
+    ((u32 *) &gLoadedSoundBanks)[0] = gLoadedSoundBanksAfterRelease[0];
+    ((u32 *) &gLoadedSoundBanks)[1] = gLoadedSoundBanksAfterRelease[1];
     ResetLoadedSoundSet(&gLoadedSoundSet);
 }
 
@@ -299,8 +302,8 @@ void CreateSndHeaps(u32 heapSizeKind, u32 buffer) {
             soundHeapSize = 0x25a5c;
             break;
     }
-    ((u32 *) &gLoadedSoundBanks)[0] = data_0215a6ec[0];
-    ((u32 *) &gLoadedSoundBanks)[1] = data_0215a6ec[1];
+    ((u32 *) &gLoadedSoundBanks)[0] = gLoadedSoundBanksAfterHeapCreate[0];
+    ((u32 *) &gLoadedSoundBanks)[1] = gLoadedSoundBanksAfterHeapCreate[1];
     ResetLoadedSoundSet(&gLoadedSoundSet);
     gSndHeap = NNS_SndHeapCreate((void *) buffer, soundHeapSize);
     seqRowHeapSize = 0;
@@ -396,8 +399,8 @@ void InitSound(void *buffer, u32 bufferSize, u32 useFileArchive) {
     if (useFileArchive != 0) {
         LoadInitialSndArcs();
     } else {
-        ((u32 *) &gLoadedSoundBanks)[0] = data_0215a6e4[0];
-        ((u32 *) &gLoadedSoundBanks)[1] = data_0215a6e4[1];
+        ((u32 *) &gLoadedSoundBanks)[0] = gLoadedSoundBanksAfterOnMemoryInit[0];
+        ((u32 *) &gLoadedSoundBanks)[1] = gLoadedSoundBanksAfterOnMemoryInit[1];
         gSndHeap = NNS_SndHeapCreate((buffer + bufferSize), 0x25a5c);
         CreateSeqRowHeap((buffer + bufferSize + 0x25a5c), 0x35a0);
     }
@@ -1616,7 +1619,7 @@ void StartChoisesSValueSeq(s32 valueIndex) {
     SoundHandlePool *playerTable;
     u32 seqNo;
 
-    seqNo = data_0215a6d8[valueIndex];
+    seqNo = gChoisesSValueSeqNos[valueIndex];
     if (gChoisesSSeqHandle != NULL) {
         NNS_SndPlayerStopSeq(&gChoisesSSeqHandle, 0);
     }

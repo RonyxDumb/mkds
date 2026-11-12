@@ -53,25 +53,17 @@ extern NNSSndSeqPlayer *data_0217c840;
 
 extern struct NNSSndArc gOnMemorySndArc;
 
-
 extern u32 gRaceSoundKind;
 
 extern u32 gPlayerVolumeTargets[];
 
 extern s32 gMapObjectSoundCounter;
 
-
 extern s32 gOrthoQuadHoldFrameCount;
 
 extern s32 gOrthoQuadFrames;
 
-
-
-
-
-
 extern u16 *gItemTeresaFrameScales;
-
 
 extern OrthoQuad *gOrthoQuads;
 
@@ -81,7 +73,6 @@ extern u16 gOrthoQuadKartIndex;
 extern BOOL gOrthoQuadUseCreamEffect;
 
 extern u16 gOrthoQuadFirstPolygonId;
-
 
 // Polygon alpha: 0x1f when the quads start, falls by 1 every second frame after the hold and ends them at 0.
 extern u16 gOrthoQuadAlpha;
@@ -97,10 +88,6 @@ static inline void SetBouncingItemBoxTimer(u16 kartIndex, u32 timer) {
 extern u32 gBouncingItemBoxTimerRunning[];
 
 extern s32 gOrthoQuadMoveStartFrameCount;
-
-extern u16 gMissionRunLimitSeqNo[];
-
-extern u16 gMissionRunCountSeqNo[];
 
 extern NNSSndHeap *gSndHeap;
 
@@ -125,9 +112,6 @@ extern u8 data_0217c7d8[];
 extern s32 gPlayerVolumeMasks[];
 
 extern u32 gPlayerVolumeSteps[];
-
-
-
 
 extern u16 gMissionRunMSselSeqIndex;
 

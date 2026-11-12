@@ -185,3 +185,8 @@ extern LoadedSoundBanks gLoadedSoundBanks;
 extern SurfaceSoundSetup gOldLuigiAgbSurfaceSoundSetup;
 extern s32 gSndBankIdsByBit[13];
 extern s32 gSndWaveArcIdsByBit[13];
+
+extern const u16 gChoisesSValueSeqNos[6];
+
+extern u16 gMissionRunLimitSeqNo[1];
+extern u16 gMissionRunCountSeqNo[1];
