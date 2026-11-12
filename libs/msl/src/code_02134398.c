@@ -15,6 +15,16 @@
 #include "Main/Net/data_0217e000.h"
 #include "stream.h"
 #include "code_0212d214.h"
+#include "code_021423e4.h"
+
+FILE gStdioFiles[3] = {
+    {0, 0, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, {0}, 0, data_usa_0217ed70, 0x100, data_usa_0217ed70, 0, 0, 0, 0, 0,
+     (Unk0213c94cFunc) SwiReadBytes, (Unk0213c94cFunc) SwiWriteBytes, (Unk0213c94cFunc) SwiCloseFile, 0},
+    {1, 0, 2, 1, 2, 0, 0, 0, 0, 0, 0, 0, {0}, 0, data_usa_0217ec70, 0x100, data_usa_0217ec70, 0, 0, 0, 0, 0,
+     (Unk0213c94cFunc) SwiReadBytes, (Unk0213c94cFunc) SwiWriteBytes, (Unk0213c94cFunc) SwiCloseFile, 0},
+    {2, 0, 2, 0, 2, 0, 0, 0, 0, 0, 0, 0, {0}, 0, data_usa_0217eb70, 0x100, data_usa_0217eb70, 0, 0, 0, 0, 0,
+     (Unk0213c94cFunc) SwiReadBytes, (Unk0213c94cFunc) SwiWriteBytes, (Unk0213c94cFunc) SwiCloseFile, 0},
+};
 
 void *FormatPutFwrite(void *file, const char *text, u32 count) {
     if (count != fwrite(text, 1, count, file)) {
@@ -37,7 +47,7 @@ void *FormatPutBuffer(void *arg, const char *text, u32 count) {
 int printf(const char *fmt, ...) {
     int result;
 
-    if (fwide(&data_0216eb7c[1], -1) >= 0) {
+    if (fwide(&gStdioFiles[1], -1) >= 0) {
         return -1;
     }
     if (OS_TryLockMutex((OSMutex *) gLockMutexes[3]) == 0) {
@@ -50,7 +60,7 @@ int printf(const char *fmt, ...) {
         gLockOwnerThreadIds[3] = OSi_ThreadInfo.mListHead->mId;
         gLockHoldCounts[3] = 1;
     }
-    result = FormatWithPutFunc(FormatPutFwrite, &data_0216eb7c[1], fmt, (char *) (((int) &fmt & ~3) + 4));
+    result = FormatWithPutFunc(FormatPutFwrite, &gStdioFiles[1], fmt, (char *) (((int) &fmt & ~3) + 4));
     gLockHoldCounts[3]--;
     if (gLockHoldCounts[3] == 0) {
         OS_UnlockMutex((OSMutex *) gLockMutexes[3]);
@@ -340,9 +350,9 @@ u32 fwrite(const char *data, u32 itemSize, u32 itemCount, FILE *stream) {
     OSMutex *mutex;
     u32 result;
 
-    if (stream == &data_0216eb7c[1]) {
+    if (stream == &gStdioFiles[1]) {
         lockIndex = 3;
-    } else if (stream == &data_0216eb7c[2]) {
+    } else if (stream == &gStdioFiles[2]) {
         lockIndex = 4;
     } else {
         lockIndex = 5;
@@ -525,14 +535,14 @@ int FflushAll(void) {
 
     result = 0;
     index = 1;
-    stream = data_0216eb7c;
+    stream = gStdioFiles;
     do {
         if (stream->mUnk_04_7 != 0) {
             if (fflush(stream) != 0) {
                 result = -1;
             }
         }
-        stream = (index < 3) ? &data_0216eb7c[index++] : 0;
+        stream = (index < 3) ? &gStdioFiles[index++] : 0;
     } while (stream != 0);
     return result;
 }

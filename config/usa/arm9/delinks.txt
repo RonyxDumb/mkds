@@ -102,6 +102,7 @@ libs/NitroSDK/fs/src/code_02004dc0.c:
 src/Main/Net/wbt_block_transfer.c:
     complete
     .text       start:0x0200589c end:0x0200635c
+    .bss        start:0x0216f3a8 end:0x0216f3ac
 
 // provisional: file name and boundaries
 src/Main/Net/mark_chunk_received.c:
@@ -447,6 +448,10 @@ libs/spl/src/code_020184e4.c:
     .data       start:0x02161ac0 end:0x02161ad0
     .bss        start:0x02173254 end:0x02173258
 
+libs/spl/src/code_02161ad0.c:
+    complete
+    .data       start:0x02161ad0 end:0x02161ad8
+
 // provisional: file name and boundaries
 libs/NitroSDK/wvr/src/wvr.c:
     complete
@@ -501,6 +506,10 @@ libs/NitroSDK/snd/src/snd_command.c:
     complete
     .text       start:0x02020eb0 end:0x02021764
     .bss        start:0x021732a8 end:0x02174d80
+
+libs/NitroSDK/snd/src/code_02174d80.c:
+    complete
+    .bss        start:0x02174d80 end:0x02174de0
 
 // provisional: file name and boundaries
 libs/NitroSDK/snd/src/snd_work.c:
@@ -4492,7 +4501,7 @@ libs/msl/src/code_02134008.c:
 libs/msl/src/code_02134398.c:
     complete
     .text       start:0x02134398 end:0x021352e0
-    .data       start:0x0216ec40 end:0x0216ec78
+    .data       start:0x0216eb5c end:0x0216ec78
 
 // provisional: file name and boundaries
 libs/msl/src/code_021352e0.c:

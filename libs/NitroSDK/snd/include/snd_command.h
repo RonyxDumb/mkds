@@ -33,7 +33,7 @@ extern u32 sCurrentTag;
 extern SNDCommand *sWaitingCommandListQueue[13];
 extern SNDSharedWork sSharedWork;
 extern SNDCommand sCommandArray[256];
-extern AlarmCallbackInfo data_02174da0[8];
+extern AlarmCallbackInfo gSndAlarmCallbackInfos[8];
 
 u32 IsCommandAvailable(void);
 SNDCommand *AllocCommand(void);

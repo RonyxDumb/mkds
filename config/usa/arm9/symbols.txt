@@ -8878,9 +8878,9 @@ tex4x4SearchArray_ kind:data(any) addr:0x021619fc
 texNrmSearchArray_ kind:data(any) addr:0x02161a04
 vramRegions_ kind:data(any) addr:0x02161a18
 @521 kind:data(any) addr:0x02161a90 local
-data_02161ac0 kind:data(any) addr:0x02161ac0
-data_02161ac8 kind:data(any) addr:0x02161ac8
-data_02161ad0 kind:data(any) addr:0x02161ad0
+gSplPlaneDrawFunctions kind:data(any) addr:0x02161ac0
+gSplRotateFunctions kind:data(any) addr:0x02161ac8
+gSplEmitterUpAxis kind:data(any) addr:0x02161ad0
 gMicSampleAnalysisMode kind:data(any) addr:0x02161ad8
 gPitchRiseAboveLimitDivisor kind:data(any) addr:0x02161adc
 gPitchFallDivisor kind:data(any) addr:0x02161ae0
@@ -10929,7 +10929,7 @@ gKeyboardCommonBmgName kind:data(any) addr:0x0216ea40
 @3688 kind:data(any) addr:0x0216ea58 local
 @3689 kind:data(any) addr:0x0216ea74 local
 sCallbackInfo kind:data(any) addr:0x0216ea84
-data_0216eb7c kind:data(any) addr:0x0216eb5c
+gStdioFiles kind:data(any) addr:0x0216eb5c
 @159 kind:data(any) addr:0x0216ec40 local
 data_0216ec98 kind:data(any) addr:0x0216ec78
 data_0216ec9c kind:data(any) addr:0x0216ec7c
@@ -11126,7 +11126,7 @@ sCurrentTag kind:bss addr:0x021732c8
 sWaitingCommandListQueue kind:bss addr:0x021732cc
 sSharedWork kind:bss addr:0x02173300
 sCommandArray kind:bss addr:0x02173580
-data_02174da0 kind:bss addr:0x02174d80
+gSndAlarmCallbackInfos kind:bss addr:0x02174d80
 SNDi_SharedWork kind:bss addr:0x02174de0
 s_pCellStateArray kind:bss addr:0x02174de4
 gPitchRiseFactorAboveLimit kind:bss addr:0x02174de8

@@ -24,7 +24,7 @@ SNDCommand sCommandArray[256];
 u8 SNDi_SetAlarmHandler(int alarmNo, SNDAlarmHandler handler, void *arg) {
     AlarmCallbackInfo *info;
 
-    info = &data_02174da0[alarmNo];
+    info = &gSndAlarmCallbackInfos[alarmNo];
     info->mFunc = handler;
     info->mArg = arg;
     info->mId++;
@@ -35,7 +35,7 @@ u8 SNDi_SetAlarmHandler(int alarmNo, SNDAlarmHandler handler, void *arg) {
 void SNDi_CallAlarmHandler(int alarmNo) {
     AlarmCallbackInfo *info;
 
-    info = &data_02174da0[alarmNo & 0xff];
+    info = &gSndAlarmCallbackInfos[alarmNo & 0xff];
     if (((alarmNo >> 8) & 0xff) != info->mId) {
         return;
     }

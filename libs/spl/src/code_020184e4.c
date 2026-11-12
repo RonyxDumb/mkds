@@ -18,9 +18,9 @@
 #include "code_0201c528.h"
 
 u32 gSplRandomState;
-void (*data_02161ac0[2])(u32 texCoordU, u32 texCoordV, s32 centerA, s32 centerB) = {SPLUtil_DrawXYPlane,
+void (*gSplPlaneDrawFunctions[2])(u32 texCoordU, u32 texCoordV, s32 centerA, s32 centerB) = {SPLUtil_DrawXYPlane,
                                                                                     SPLUtil_DrawXZPlane};
-void (*data_02161ac8[2])(s32 sinValue, s32 cosValue, MtxFx43 *mtx) = {SPLUtil_RotateY, SPLUtil_RotateXYZ};
+void (*gSplRotateFunctions[2])(s32 sinValue, s32 cosValue, MtxFx43 *mtx) = {SPLUtil_RotateY, SPLUtil_RotateXYZ};
 
 void SPLRandom_VecFx32(Vec3 *vec) {
     vec->x = (s32) (gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 8;
@@ -339,7 +339,7 @@ void SPLEmitter_ComputeOrthogonalAxes(ParticleEmitter *emtr) {
     Vec3s16 axis;
     s32 dot;
 
-    up = data_02161ad0;
+    up = gSplEmitterUpAxis;
     switch (emtr->mResource->mHeader->mFlags.mAxis) {
         case 2:
             axis.x = 0x1000;
@@ -1344,7 +1344,7 @@ void SPLDraw_Polygon(SPLManager *mgr, ParticleInstance *ptcl) {
     if (alpha == 0) {
         return;
     }
-    data_02161ac8[mgr->mRenderStateEmitter->mResource->mHeader->mFlags.mRotateKind](
+    gSplRotateFunctions[mgr->mRenderStateEmitter->mResource->mHeader->mFlags.mRotateKind](
         FX_SinIdx(ptcl->mAngle), FX_CosIdx(ptcl->mAngle), &rotationMtx);
     height = ptcl->mSize;
     width = MUL_FIXED12_ROUNDED(height, mgr->mRenderStateEmitter->mResource->mHeader->mBaseScale);
@@ -1390,7 +1390,7 @@ void SPLDraw_Polygon(SPLManager *mgr, ParticleInstance *ptcl) {
     reg_G3_COLOR = (u16) ((((particleColor & 0x1f) * (emitterColor & 0x1f)) >> 5) |
                           ((((particleColor & 0x3e0) * (emitterColor & 0x3e0)) >> 15) << 5) |
                           ((((particleColor & 0x7c00) * (emitterColor & 0x7c00)) >> 25) << 10));
-    data_02161ac0[mgr->mRenderStateEmitter->mResource->mHeader->mFlags.mPlaneKind](
+    gSplPlaneDrawFunctions[mgr->mRenderStateEmitter->mResource->mHeader->mFlags.mPlaneKind](
         mgr->mRenderStateEmitter->mTexCoordU, mgr->mRenderStateEmitter->mTexCoordV,
         mgr->mRenderStateEmitter->mResource->mHeader->mPlaneCenterX, mgr->mRenderStateEmitter->mResource->mHeader->mPlaneCenterY);
 }
@@ -1414,7 +1414,7 @@ void SPLDraw_Child_Polygon(SPLManager *mgr, ParticleInstance *ptcl) {
     if (alpha == 0) {
         return;
     }
-    data_02161ac8[mgr->mRenderStateEmitter->mResource->mChildAnim->mRotateKind](FX_SinIdx(ptcl->mAngle),
+    gSplRotateFunctions[mgr->mRenderStateEmitter->mResource->mChildAnim->mRotateKind](FX_SinIdx(ptcl->mAngle),
                                                                          FX_CosIdx(ptcl->mAngle), &rotationMtx);
     height = ptcl->mSize;
     width = MUL_FIXED12_ROUNDED(height, mgr->mRenderStateEmitter->mResource->mHeader->mBaseScale);
@@ -1460,7 +1460,7 @@ void SPLDraw_Child_Polygon(SPLManager *mgr, ParticleInstance *ptcl) {
     reg_G3_COLOR = (u16) ((((particleColor & 0x1f) * (emitterColor & 0x1f)) >> 5) |
                           ((((particleColor & 0x3e0) * (emitterColor & 0x3e0)) >> 15) << 5) |
                           ((((particleColor & 0x7c00) * (emitterColor & 0x7c00)) >> 25) << 10));
-    data_02161ac0[mgr->mRenderStateEmitter->mResource->mChildAnim->mPlaneKind](
+    gSplPlaneDrawFunctions[mgr->mRenderStateEmitter->mResource->mChildAnim->mPlaneKind](
         mgr->mRenderStateEmitter->mChildTexCoordU, mgr->mRenderStateEmitter->mChildTexCoordV, 0, 0);
 }
 
@@ -1489,7 +1489,7 @@ void SPLDraw_DirectionalPolygon(SPLManager *mgr, ParticleInstance *ptcl) {
     if (alpha == 0) {
         return;
     }
-    data_02161ac8[mgr->mRenderStateEmitter->mResource->mHeader->mFlags.mRotateKind](
+    gSplRotateFunctions[mgr->mRenderStateEmitter->mResource->mHeader->mFlags.mRotateKind](
         FX_SinIdx(ptcl->mAngle), FX_CosIdx(ptcl->mAngle), &rotationMtx);
     MTX_Identity43_(&axisMtx);
     if (mgr->mRenderStateEmitter->mResource->mHeader->mDrawParams.mForwardFromOffset == 0) {
@@ -1565,7 +1565,7 @@ void SPLDraw_DirectionalPolygon(SPLManager *mgr, ParticleInstance *ptcl) {
     reg_G3_COLOR = (u16) ((((particleColor & 0x1f) * (emitterColor & 0x1f)) >> 5) |
                           ((((particleColor & 0x3e0) * (emitterColor & 0x3e0)) >> 15) << 5) |
                           ((((particleColor & 0x7c00) * (emitterColor & 0x7c00)) >> 25) << 10));
-    data_02161ac0[mgr->mRenderStateEmitter->mResource->mHeader->mFlags.mPlaneKind](
+    gSplPlaneDrawFunctions[mgr->mRenderStateEmitter->mResource->mHeader->mFlags.mPlaneKind](
         mgr->mRenderStateEmitter->mTexCoordU, mgr->mRenderStateEmitter->mTexCoordV,
         mgr->mRenderStateEmitter->mResource->mHeader->mPlaneCenterX, mgr->mRenderStateEmitter->mResource->mHeader->mPlaneCenterY);
 }
@@ -1595,7 +1595,7 @@ void SPLDraw_Child_DirectionalPolygon(SPLManager *mgr, ParticleInstance *ptcl) {
     if (alpha == 0) {
         return;
     }
-    data_02161ac8[mgr->mRenderStateEmitter->mResource->mChildAnim->mRotateKind](FX_SinIdx(ptcl->mAngle),
+    gSplRotateFunctions[mgr->mRenderStateEmitter->mResource->mChildAnim->mRotateKind](FX_SinIdx(ptcl->mAngle),
                                                                          FX_CosIdx(ptcl->mAngle), &rotationMtx);
     MTX_Identity43_(&axisMtx);
     if (mgr->mRenderStateEmitter->mResource->mChildAnim->mTexParams.mForwardFromOffset == 0) {
@@ -1671,7 +1671,7 @@ void SPLDraw_Child_DirectionalPolygon(SPLManager *mgr, ParticleInstance *ptcl) {
     reg_G3_COLOR = (u16) ((((particleColor & 0x1f) * (emitterColor & 0x1f)) >> 5) |
                           ((((particleColor & 0x3e0) * (emitterColor & 0x3e0)) >> 15) << 5) |
                           ((((particleColor & 0x7c00) * (emitterColor & 0x7c00)) >> 25) << 10));
-    data_02161ac0[mgr->mRenderStateEmitter->mResource->mChildAnim->mPlaneKind](
+    gSplPlaneDrawFunctions[mgr->mRenderStateEmitter->mResource->mChildAnim->mPlaneKind](
         mgr->mRenderStateEmitter->mChildTexCoordU, mgr->mRenderStateEmitter->mChildTexCoordV, 0, 0);
 }
 
