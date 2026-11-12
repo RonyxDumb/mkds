@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """Searches static definition order (and, in C++ code, singleton include order) for the original data layout, offline.
 
-mwcc collects every object of a file into one list (.bss, .data and .rodata together), by prepending as they are
-declared, heapsorts it by size and emits it in that order (see docs/decompiling.md, "1.12 Data layout, sections,
-link order"). The participants:
+mwcc collects every object of a file into one list (.bss, .data and .rodata together), sorts it by size and emits it
+in that order (the model in data_order.py; docs/decompiling.md, "1.11 Data Layout, Sections and Link Order"). The
+participants:
   * each file-level static, where it is defined, preceded by the string literals of its initializer;
   * in C++ code, each used singleton accessor, where its header is first parsed: guard (4), destructor-chain node @N
     (12, only for classes with a destructor) and instance, as node, guard, instance or guard, node, instance;
-  * in C++ code, the file's vtables, at the end.
+  * in C++ code, the file's vtables, at the end;
+  * definitions without an initialiser and function-level initialisers, as data_order.py says.
 Literals used inside functions are emitted afterwards in creation order and don't take part.
 
 The tool reads the compiled object, rebuilds that list for the current source and calibrates the per-singleton object
@@ -28,7 +29,7 @@ from elftools.elf.elffile import ELFFile
 from elftools.elf.relocation import RelocationSection
 
 sys.path.insert(0, str(Path(__file__).parent))
-from data_order import analyse, heapsort, parse_order_owners  # noqa: E402
+from data_order import analyse, layout, parse_order_owners  # noqa: E402  (the shared sort model)
 from data_ranges import find_unit, module_bytes  # noqa: E402
 from project import VERSION  # noqa: E402  (tools/project.py)
 
@@ -128,11 +129,33 @@ def main():
     text = (ROOT / src).read_text()
 
     def pos(name):
-        m = re.search(r"\b" + re.escape(name) + r"\s*(\[[^\]]*\])*\s*=", text)
+        # a file-level definition: starts its line (assignments inside functions are indented)
+        m = re.search(r"^(?!extern)\S[^\n(){};=]*\b" + re.escape(name) + r"\s*(\[[^\]]*\])*\s*=", text, re.M)
         return m.start() if m else None
 
     statics = [o.name for o in objs if not o.name.startswith(("@", "_ZGVZ", "_ZZ", "_ZTV")) and pos(o.name) is not None]
     statics.sort(key=pos)
+    # Definitions without an initialiser (`T *gX;`): queued last, in reverse definition order (data_order.py);
+    # `= 0` definitions enter where defined like any other.
+    def tpos(name):
+        m = re.search(r"^(?!extern)\S[^\n(){}=;]*\b" + re.escape(name) + r"\s*(\[[^\]]*\])*\s*;", text, re.M)
+        return m.start() if m else None
+
+    tentatives = sorted((o.name for o in objs if o.name not in statics and not o.name.startswith("@")
+                         and tpos(o.name) is not None), key=tpos)
+    # Function-level initialiser objects (a local array's initialiser, a function-local static): `@N` objects that
+    # are no string literal. They enter at their function; taken here as after every file-level definition.
+    elf = ELFFile((ROOT / f"build/{VERSION}" / Path(src).with_suffix(".o")).open("rb"))
+    esecs = list(elf.iter_sections())
+
+    def is_string(o):
+        sec = esecs[o["st_shndx"]]
+        if sec["sh_type"] == "SHT_NOBITS":
+            return False
+        b = sec.data()[o["st_value"]:o["st_value"] + o["st_size"]]
+        return b.endswith(b"\0") and all(32 <= c < 127 or c in (9, 10, 13) for c in b[:-1])
+
+    local_inits = [o.name for o in objs if o.name.startswith("@") and o.name not in table_strs and not is_string(o)]
     vtables = [o.name for o in objs if o.name.startswith("_ZTV")]
     vtables.sort(key=lambda n: text.find(n[4:].lstrip("0123456789")), reverse=True)
 
@@ -152,14 +175,14 @@ def main():
             d += refs.get(s, []) + [s]
         for c in sing_order[split:]:
             d += triple(c, triv[c])
-        return d + vtables
+        return d + local_inits + vtables
 
-    participants = set(build(singles, {c: 0 for c in singles}, statics))
+    participants = set(build(singles, {c: 0 for c in singles}, statics)) | set(tentatives)
     actual = [o.name for o in order if o.name in participants]
     section = {o.name: o["st_shndx"] for o in objs}
 
     def predict(decl):
-        return heapsort(decl[::-1], size.get)
+        return layout(decl, size, tentatives)
 
     def emitted(pred):
         """The emission order a predicted list gives: each section at the place of its first member, members in order."""

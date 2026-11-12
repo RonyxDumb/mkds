@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Reorders a unit's file-level static definitions so its data sections get the original layout.
 
-mwcc collects a section's objects in reverse declaration order and heapsorts them by size (see
-docs/decompiling.md), so the layout of equal-sized objects depends on their definition order. For each data
+mwcc sorts a file's data objects by size in one list (the model in data_order.py; docs/decompiling.md 1.11), so
+the layout of equal-sized objects depends on their definition order. For each data
 section whose objects are out of the original order, this tool searches definition orders with that model,
 rewrites the definitions (each moves as a whole, with the comment block above it) into the closest order that
 works, recompiles and asks data_ranges.py. The file is restored if that doesn't settle it.
@@ -18,7 +18,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from data_order import analyse, layout  # noqa: E402
+from data_order import analyse, layout  # noqa: E402  (the shared sort model)
 from reorder_functions import chunks  # noqa: E402
 from project import VERSION  # noqa: E402  (tools/project.py)
 
