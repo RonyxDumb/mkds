@@ -70,7 +70,7 @@ void UpdateRaceHudSubScreenCoinCells(void) {
     gRaceHudSubScreenCoinCells->mCellCount = cellCount;
 }
 
-void DrawRaceHudSubScreenCoinCells(void *oamBuffer) {
+void DrawRaceHudSubScreenCoinCells(RaceHudOamBuffer *oamBuffer) {
     DrawRaceHudSubScreenCells(oamBuffer, gRaceHudSubScreenCoinCells, 0);
 }
 

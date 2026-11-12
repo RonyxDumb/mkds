@@ -68,7 +68,7 @@ void UpdateRaceHudSubScreenFireball2Cells(void) {
     gRaceHudSubScreenFireball2Cells->mCellCount = cellCount;
 }
 
-void DrawRaceHudSubScreenFireball2Cells(void *oamBuffer) {
+void DrawRaceHudSubScreenFireball2Cells(RaceHudOamBuffer *oamBuffer) {
     DrawRaceHudSubScreenCells(oamBuffer, gRaceHudSubScreenFireball2Cells, 1);
 }
 
@@ -297,7 +297,7 @@ void UpdateRaceHudSubScreenBerryCells(void) {
     gRaceHudSubScreenBerryCells->mCellCount = cellCount;
 }
 
-void DrawRaceHudSubScreenBerryCells(void *oamBuffer) {
+void DrawRaceHudSubScreenBerryCells(RaceHudOamBuffer *oamBuffer) {
     DrawRaceHudSubScreenCellsScaled(oamBuffer, gRaceHudSubScreenBerryCells, 1);
 }
 

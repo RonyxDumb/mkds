@@ -74,7 +74,7 @@ void UpdateRaceHudSubScreenIwanteCells(void) {
     gRaceHudSubScreenIwanteCells->mCellCount = cellCount;
 }
 
-void DrawRaceHudSubScreenIwanteCells(void *oamBuffer) {
+void DrawRaceHudSubScreenIwanteCells(RaceHudOamBuffer *oamBuffer) {
     DrawRaceHudSubScreenCells(oamBuffer, gRaceHudSubScreenIwanteCells, 0);
 }
 
@@ -136,7 +136,7 @@ RaceHudSubScreenCells *gRaceHudSubScreenKurikingCells;
 
 #pragma thumb off
 
-void DrawRaceHudSubScreenKurikingCells(void *oamBuffer) {
+void DrawRaceHudSubScreenKurikingCells(RaceHudOamBuffer *oamBuffer) {
     DrawRaceHudSubScreenCells(oamBuffer, gRaceHudSubScreenKurikingCells, 0);
 }
 
@@ -176,7 +176,7 @@ void UpdateRaceHudSubScreenBombKingCells(void) {
     gRaceHudSubScreenBombKingCells->mCellCount = cellCount;
 }
 
-void DrawRaceHudSubScreenBombKingCells(void *oamBuffer) {
+void DrawRaceHudSubScreenBombKingCells(RaceHudOamBuffer *oamBuffer) {
     DrawRaceHudSubScreenCells(oamBuffer, gRaceHudSubScreenBombKingCells, 0);
 }
 
@@ -216,7 +216,7 @@ void UpdateRaceHudSubScreenBossDonketuCells(void) {
     gRaceHudSubScreenBossDonketuCells->mCellCount = cellCount;
 }
 
-void DrawRaceHudSubScreenBossDonketuCells(void *oamBuffer) {
+void DrawRaceHudSubScreenBossDonketuCells(RaceHudOamBuffer *oamBuffer) {
     DrawRaceHudSubScreenCells(oamBuffer, gRaceHudSubScreenBossDonketuCells, 0);
 }
 
@@ -253,7 +253,7 @@ void UpdateRaceHudSubScreenStopSignCells(void) {
     gRaceHudSubScreenStopSignCells->mCellCount = cellCount;
 }
 
-void DrawRaceHudSubScreenStopSignCells(void *oamBuffer) {
+void DrawRaceHudSubScreenStopSignCells(RaceHudOamBuffer *oamBuffer) {
     DrawRaceHudSubScreenCells(oamBuffer, gRaceHudSubScreenStopSignCells, 1);
 }
 
@@ -291,7 +291,7 @@ void UpdateRaceHudSubScreenMissionGateCells(void) {
     gRaceHudSubScreenMissionGateCells->mCellCount = cellCount;
 }
 
-void DrawRaceHudSubScreenMissionGateCells(void *oamBuffer) {
+void DrawRaceHudSubScreenMissionGateCells(RaceHudOamBuffer *oamBuffer) {
     DrawRaceHudSubScreenCells(oamBuffer, gRaceHudSubScreenMissionGateCells, 1);
 }
 
@@ -332,7 +332,7 @@ void UpdateRaceHudSubScreenHanachanCells(void) {
     gRaceHudSubScreenHanachanCells->mCellCount = cellCount;
 }
 
-void DrawRaceHudSubScreenHanachanCells(void *oamBuffer) {
+void DrawRaceHudSubScreenHanachanCells(RaceHudOamBuffer *oamBuffer) {
     DrawRaceHudSubScreenCells(oamBuffer, gRaceHudSubScreenHanachanCells, 0);
 }
 

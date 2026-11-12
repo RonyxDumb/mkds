@@ -636,7 +636,7 @@ typedef struct RaceHudSubScreenCellGroups {
     /* 00c */ s32 mGroupCount;
     /* 010 */ void (*mClearFunctions[49])(void);
     /* 0d4 */ void (*mUpdateFunctions[49])(void);
-    /* 198 */ void (*mDrawFunctions[49])(void *);
+    /* 198 */ void (*mDrawFunctions[49])(RaceHudOamBuffer *);
 } RaceHudSubScreenCellGroups;
 
 // Object behind gRaceGoalS, 0x20e4 bytes, allocated by InitRaceGoalS.

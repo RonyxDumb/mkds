@@ -1268,7 +1268,7 @@ void UpdateRaceHudSubScreenCellGroups(void) {
     }
 }
 
-void DrawRaceHudSubScreenCellGroups(void *oamBuffer) {
+void DrawRaceHudSubScreenCellGroups(RaceHudOamBuffer *oamBuffer) {
     s32 groupIndex;
 
     switch (GetRaceHudSubScreenState()) {

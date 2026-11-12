@@ -1,6 +1,9 @@
 #pragma once
 
 #include "types.h"
+
+typedef struct RaceHudOamBuffer RaceHudOamBuffer;
+
 #include "01/code_02188950.h"
 #include "Main/Race/code_020b1dbc.h"
 #include "Main/Kart/point_link_cursor.h"
@@ -16,11 +19,11 @@ void StopMapObjectState(MissionRunMapObject *mapObject);
 void ClearAndRunCallback(MissionRunMapObject *mapObject, void (**callbackSlot)());
 BOOL IsDirectionToPointWithinAngle(MissionRunMapObject *mapObject, s32 angle, Vec3 *point, s32 halfAngle);
 BOOL IsWithinXzDistanceOfPoint(MissionRunMapObject *mapObject, Vec3 *point, s32 radius);
-void DrawRaceHudSubScreenKingTeresaCells(void *oamBuffer);
+void DrawRaceHudSubScreenKingTeresaCells(RaceHudOamBuffer *oamBuffer);
 void UpdateRaceHudSubScreenKingTeresaCells(void);
 void ClearRaceHudSubScreenKingTeresaCells(void);
 BOOL CreateRaceHudSubScreenKingTeresaCells(void);
-void DrawRaceHudSubScreenKingIceDonketuCells(void *oamBuffer);
+void DrawRaceHudSubScreenKingIceDonketuCells(RaceHudOamBuffer *oamBuffer);
 void UpdateRaceHudSubScreenKingIceDonketuCells(void);
 void ClearRaceHudSubScreenKingIceDonketuCells(void);
 s32 CreateRaceHudSubScreenKingIceDonketuCells(void);

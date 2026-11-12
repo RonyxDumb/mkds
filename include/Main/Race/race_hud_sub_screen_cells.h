@@ -3,7 +3,9 @@
 #include "types.h"
 #include "g2d_Animation.h"
 
-void DrawRaceHudSubScreenCellGroups(void *oamBuffer);
+typedef struct RaceHudOamBuffer RaceHudOamBuffer;
+
+void DrawRaceHudSubScreenCellGroups(RaceHudOamBuffer *oamBuffer);
 void UpdateRaceHudSubScreenCellGroups(void);
 void ClearRaceHudSubScreenCellGroups(void);
 
@@ -12,7 +14,7 @@ typedef struct RaceHudSubScreenCellGroupFunctions {
     /* 00 */ s32 (*mCreate)(void);
     /* 04 */ void (*mClear)(void);
     /* 08 */ void (*mUpdate)(void);
-    /* 0c */ void (*mDraw)();
+    /* 0c */ void (*mDraw)(RaceHudOamBuffer *oamBuffer);
 } RaceHudSubScreenCellGroupFunctions;
 
 void InitRaceHudSubScreenCellGroups(void);

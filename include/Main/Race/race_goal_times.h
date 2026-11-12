@@ -20,7 +20,7 @@ typedef struct RaceGoalTimes {
 void DrawRaceHudSubScreenCreamCells(RaceHudOamBuffer *oamBuffer);
 void UpdateRaceHudSubScreenCreamCells(void);
 s32 CreateRaceHudSubScreenCreamCells(void);
-void DrawRaceHudSubScreenBerryCells(void *oamBuffer);
+void DrawRaceHudSubScreenBerryCells(RaceHudOamBuffer *oamBuffer);
 void UpdateRaceHudSubScreenBerryCells(void);
 void ClearRaceHudSubScreenBerryCells(void);
 s32 CreateRaceHudSubScreenBerryCells(void);
@@ -29,7 +29,7 @@ void DrawRaceGoalTimes(RaceHudOamBuffer *oamBuffer);
 void UpdateRaceGoalTimes(void);
 void ClearRaceGoalTimesPointer(void);
 void InitRaceGoalTimes(void);
-void DrawRaceHudSubScreenFireball2Cells(void *oamBuffer);
+void DrawRaceHudSubScreenFireball2Cells(RaceHudOamBuffer *oamBuffer);
 void UpdateRaceHudSubScreenFireball2Cells(void);
 void ClearRaceHudSubScreenFireball2Cells(void);
 

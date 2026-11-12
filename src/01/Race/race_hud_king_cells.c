@@ -55,7 +55,7 @@ void UpdateRaceHudSubScreenKingIceDonketuCells(void) {
     gRaceHudSubScreenKingIceDonketuCells->mCellCount = cellCount;
 }
 
-void DrawRaceHudSubScreenKingIceDonketuCells(void *oamBuffer) {
+void DrawRaceHudSubScreenKingIceDonketuCells(RaceHudOamBuffer *oamBuffer) {
     DrawRaceHudSubScreenCells(oamBuffer, gRaceHudSubScreenKingIceDonketuCells, 0);
 }
 
@@ -92,7 +92,7 @@ void UpdateRaceHudSubScreenKingTeresaCells(void) {
     gRaceHudSubScreenKingTeresaCells->mCellCount = cellCount;
 }
 
-void DrawRaceHudSubScreenKingTeresaCells(void *oamBuffer) {
+void DrawRaceHudSubScreenKingTeresaCells(RaceHudOamBuffer *oamBuffer) {
     DrawRaceHudSubScreenCells(oamBuffer, gRaceHudSubScreenKingTeresaCells, 0);
 }
 

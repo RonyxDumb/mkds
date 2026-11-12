@@ -2,7 +2,9 @@
 
 #include "types.h"
 
-void DrawRaceHudSubScreenCoinCells(void *oamBuffer);
+typedef struct RaceHudOamBuffer RaceHudOamBuffer;
+
+void DrawRaceHudSubScreenCoinCells(RaceHudOamBuffer *oamBuffer);
 void UpdateRaceHudSubScreenCoinCells(void);
 void ClearRaceHudSubScreenCoinCells(void);
 s32 CreateRaceHudSubScreenCoinCells(void);
