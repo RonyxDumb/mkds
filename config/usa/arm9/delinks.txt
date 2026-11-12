@@ -4498,6 +4498,15 @@ libs/msl/src/code_021352e0.c:
 libs/msl/src/code_021382a8.c:
     complete
     .text       start:0x021382a8 end:0x021384cc
+    .data       start:0x0216ee60 end:0x0216ee70
+
+libs/msl/src/code_0216ee70.c:
+    complete
+    .data       start:0x0216ee70 end:0x0216ee88
+
+libs/msl/src/code_0216ee88.c:
+    complete
+    .data       start:0x0216ee88 end:0x0216ee98
 
 // provisional: file name and boundaries
 libs/msl/src/code_021384cc.c:

@@ -1,6 +1,10 @@
 #pragma avoid_byte all
 
 #include "code_021382a8.h"
+#include "code_021352e0.h"
+
+char gFormatMinusInfUpper[5] = "-INF";
+char gFormatMinusInfLower[5] = "-inf";
 
 // Swaps size bytes between first and second.
 static inline void SwapElements(u8 *first, u8 *second, u32 size) {
