@@ -1929,32 +1929,7 @@ src/Main/Unknown/code_0207ae58.c:
 // provisional: file name and boundaries
 src/Main/Unknown/code_0207b960.c:
     complete
-    .text       start:0x0207b960 end:0x0207d7e4
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_0207d7e4.c:
-    complete
-    .text       start:0x0207d7e4 end:0x0207d814
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_0207d814.c:
-    complete
-    .text       start:0x0207d814 end:0x0207e64c
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_0207e64c.c:
-    complete
-    .text       start:0x0207e64c end:0x0207e654
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_0207e654.c:
-    complete
-    .text       start:0x0207e654 end:0x0207ff5c
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_0207ff5c.c:
-    complete
-    .text       start:0x0207ff5c end:0x0207ffa4
+    .text       start:0x0207b960 end:0x0207ffa4
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_0207ffa4.c:
