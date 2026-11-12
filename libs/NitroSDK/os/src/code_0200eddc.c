@@ -7,7 +7,7 @@
 #include "os_thread.h"
 #include "mi_init.h"
 #include "Main/Unknown/code_0200f000.h"
-#include "code_0200f3f4.h"
+#include "os_exception.h"
 #include "code_0200f790.h"
 #include "code_0200fc8c.h"
 #include "code_0200fe74.h"

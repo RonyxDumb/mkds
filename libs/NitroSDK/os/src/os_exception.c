@@ -1,31 +1,15 @@
-#include "code_0200f3f4.h"
-
+#include "os_exception.h"
 #include "code_0200f328.h"
 #include "Main/Unknown/unk_02170000.h"
 #include "code_0200e77c.h"
 #include "Main/Unknown/code_0200f000.h"
 
-UnkFunc *OSi_UserExceptionHandler;
-UnkFunc *OSi_DebuggerHandler;
-u32 OSi_UserExceptionHandlerArg;
-u8 OSi_ExContext[0x80];
-
-void OS_InitException(void) {
-    u32 handler;
-    DtcmTail *block;
-
-    handler = *HW_EXCP_VECTOR_MAIN;
-    if (handler >= 0x2600000 && handler < 0x2800000) {
-        OSi_DebuggerHandler = (UnkFunc *) handler;
-    } else {
-        OSi_DebuggerHandler = 0;
-    }
-    block = (DtcmTail *) 0x027e3000;
-    if (OSi_DebuggerHandler == 0 || (OS_GetConsoleType() & 0x40000000) == 0) {
-        *HW_EXCP_VECTOR_MAIN = (u32) OSi_ExceptionHandler;
-        block->mExceptionHandler = OSi_ExceptionHandler;
-    }
-    OSi_UserExceptionHandler = 0;
+asm void OSi_GetAndDisplayContext(u32 exinfo) {
+    stmfd sp!, {lr}
+    bl OSi_SetExContext
+    bl OSi_DisplayExContext
+    ldmfd sp!, {lr}
+    bx lr
 }
 
 // clang-format off
@@ -100,4 +84,31 @@ asm void OSi_DisplayExContext(void) {
     ldmia sp!, {lr}
     bx lr
 }
+
+UnkFunc *OSi_UserExceptionHandler;
+UnkFunc *OSi_DebuggerHandler;
+u32 OSi_UserExceptionHandlerArg;
+u8 OSi_ExContext[0x80];
+
+void OS_InitException(void) {
+    u32 handler;
+    DtcmTail *block;
+
+    handler = *HW_EXCP_VECTOR_MAIN;
+    if (handler >= 0x2600000 && handler < 0x2800000) {
+        OSi_DebuggerHandler = (UnkFunc *) handler;
+    } else {
+        OSi_DebuggerHandler = 0;
+    }
+    block = (DtcmTail *) 0x027e3000;
+    if (OSi_DebuggerHandler == 0 || (OS_GetConsoleType() & 0x40000000) == 0) {
+        *HW_EXCP_VECTOR_MAIN = (u32) OSi_ExceptionHandler;
+        block->mExceptionHandler = OSi_ExceptionHandler;
+    }
+    OSi_UserExceptionHandler = 0;
+}
+
+
+// clang-format on
+
 // clang-format on

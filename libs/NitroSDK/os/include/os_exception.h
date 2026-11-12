@@ -2,7 +2,8 @@
 
 #include "types.h"
 
-// Word that keeps the debugger handler address (or the exception handler).
+void OSi_GetAndDisplayContext(u32 exinfo);
+
 #define HW_EXCP_VECTOR_MAIN ((u32 *) 0x027ffd9c)
 
 // Object at a fixed address in OS_InitException, which sets its word at 0xfdc.

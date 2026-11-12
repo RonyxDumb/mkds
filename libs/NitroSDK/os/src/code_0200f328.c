@@ -1,5 +1,5 @@
 #include "code_0200f328.h"
-#include "code_0200f3e0.h"
+#include "os_exception.h"
 #include "Main/Unknown/unk_02170000.h"
 
 // clang-format off

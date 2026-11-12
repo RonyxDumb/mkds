@@ -264,14 +264,9 @@ libs/NitroSDK/os/src/code_0200f328.c:
     .text       start:0x0200f328 end:0x0200f3e0
 
 // provisional: file name and boundaries
-libs/NitroSDK/os/src/code_0200f3e0.c:
+libs/NitroSDK/os/src/os_exception.c:
     complete
-    .text       start:0x0200f3e0 end:0x0200f3f4
-
-// provisional: file name and boundaries
-libs/NitroSDK/os/src/code_0200f3f4.c:
-    complete
-    .text       start:0x0200f3f4 end:0x0200f580
+    .text       start:0x0200f3e0 end:0x0200f580
     .bss        start:0x0217019c end:0x02170228
 
 // provisional: file name and boundaries
