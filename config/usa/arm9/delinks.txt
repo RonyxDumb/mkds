@@ -3713,14 +3713,14 @@ src/Main/MapObjects/map_object_kind_update_list.c:
 src/Main/Item/item_teresa_offset.c:
     complete
     .text       start:0x021001a0 end:0x02102674
-    .rodata     start:0x0215a154 end:0x0215a244
+    .rodata     start:0x0215a154 end:0x0215a2ec
     .data       start:0x0216c75c end:0x0216c794
 
 // provisional: file name and boundaries
 src/Main/Item/item_gesso.c:
     complete
     .text       start:0x02102674 end:0x021031f4
-    .rodata     start:0x0215a3b0 end:0x0215a47c
+    .rodata     start:0x0215a2ec end:0x0215a47c
     .bss        start:0x0217c614 end:0x0217c618
 
 // provisional: file name and boundaries

@@ -107,3 +107,5 @@ extern StateCallbacks gItemTeresaStateTable[7];
 extern const u16 gItemTeresaPickWeights[8];
 extern const u8 gItemTeresaBattleKartOrder[16];
 extern const ItemInfo gItemInfoTeresa;
+
+extern const ItemKind gItemKindTeresa;

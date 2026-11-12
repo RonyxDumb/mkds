@@ -369,10 +369,6 @@ typedef struct ItemKind {
     /* a4 */ s32 mFarDistanceSquared;
 } ItemKind;
 
-extern ItemKind gItemKindTeresa;
-
-extern ItemKind gItemKindGesso;
-
 extern ItemKind data_0215a4dc;
 
 extern ItemKind gItemKindFBox;
@@ -415,8 +411,6 @@ typedef struct ItemInfo {
 } ItemInfo;
 
 extern ItemInfo data_0215a4c0;
-
-extern ItemInfo data_0215a2ec;
 
 extern ItemInfo data_02159f4c;
 
