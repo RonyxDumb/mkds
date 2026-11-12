@@ -39,6 +39,13 @@
 #include "registers.h"
 #include "Main/Menu/data_02162000.h"
 
+const u16 gCourseRowCellIndices[4] = {0, 1, 2, 3};
+const u16 gCourseTimerDigitCellIndices[10] = {5, 6, 7, 8, 9, 0xa, 0xb, 0xc, 0xd, 0xe};
+const LabelTextRow gWiFiVSCourseSelectMLabelTextRows[4] = {{0, 0xb0, 0x10, 0}, {1, 0xb0, 0x10, 1}, {2, 0xb0, 0x10, 2}, {3, 0xb0, 0x10, 3}};
+const LabelTextRow gWiFiVSCourseSelectSLabelTextRows[7] = {{0, 0xa4, 0x10, 0}, {1, 0xa4, 0x10, 1}, {2, 0xa4, 0x10, 2}, {3, 0xa4, 0x10, 3}, {4, 0xa4, 0x10, 4}, {5, 0xa4, 0x10, 5}, {6, 0xa4, 0x10, 6}};
+const s32 gCourseIdTable[20] = {0x14, 0x16, 0x1f, 0x12, 0x1b, 0x1c, 0x1e, 0x19, 0x22, 0x1d, 0xa, 0xb, 0xd, 0xe, 0x10, 9, 0x24, 0x27, 0x28, 1};
+struct WiFiVSCourseSelect *gWiFiVSCourseSelect;
+
 #pragma thumb on
 
 // Sets the digit cells for the place of the kart among the karts that appear for the character and for how many appear.
@@ -298,8 +305,8 @@ void InitWiFiVSCourseSelect(void *parentHeap, void *mainOam, void *subOam) {
     gWiFiVSCourseSelect->mHeap = heap;
     gWiFiVSCourseSelect->mOamLists[0] = mainOam;
     gWiFiVSCourseSelect->mOamLists[1] = subOam;
-    gWiFiVSCourseSelect->mCommonMessages = FindFileInLoadedArchives(gCommonBmgName3);
-    gWiFiVSCourseSelect->mWiFiMessages = FindSceneFile(gWiFiBmgName);
+    gWiFiVSCourseSelect->mCommonMessages = FindFileInLoadedArchives("common.bmg");
+    gWiFiVSCourseSelect->mWiFiMessages = FindSceneFile("wifi.bmg");
     tick = OS_GetTick();
     seed = (tick << 16) + (u32) OS_GetTick();
     random = &gWiFiVSCourseSelect->mRandom;
@@ -318,12 +325,12 @@ void InitWiFiVSCourseSelect(void *parentHeap, void *mainOam, void *subOam) {
     SetupInterpolation(&gWiFiVSCourseSelect->mInterpolations[0], 0, 10, -0xc0, 0);
     SetupInterpolation(&gWiFiVSCourseSelect->mInterpolations[2], 0, 10, 0x40, 0);
     reg_G2_BG0CNT = (reg_G2_BG0CNT & 0x43) | 0xc00;
-    LocateAndQueueScreenMapFileSet(0, gWiFiVSCourseSelect, gWiFiVSCourseSelectMBNcgrName, gWiFiVSCourseSelectMBNclrName,
-                                   gWiFiVSCourseSelectMNscrName, 0, FindSceneFile);
+    LocateAndQueueScreenMapFileSet(0, gWiFiVSCourseSelect, "WiFi_VS_course_select_m_b.NCGR", "WiFi_VS_course_select_m_b.NCLR",
+                                   "WiFi_VS_course_select_m.NSCR", 0, FindSceneFile);
     mainFileSet = &gWiFiVSCourseSelect->mWiFiVSCourseSelectMParts;
     objSizeLeft = GX_GetSizeOfOBJ();
-    LocateCellFileSet(mainFileSet, gWiFiVSCourseSelectMNcgrName, gWiFiVSCourseSelectMNcerName,
-                      gWiFiVSCourseSelectMONclrName, gWiFiVSCourseSelectMBnclName, gWiFiVSCourseSelectMBnllName, NULL,
+    LocateCellFileSet(mainFileSet, "WiFi_VS_course_select_m.nce.ncgr", "WiFi_VS_course_select_m.nce.ncer",
+                      "WiFi_VS_course_select_m_o.NCLR", "WiFi_VS_course_select_m.bncl", "WiFi_VS_course_select_m.bnll", NULL,
                       FindSceneFile);
     SetupCellFileSet(0, gWiFiVSCourseSelect->mHeap, mainFileSet);
     value = mainFileSet->mCellLayout->mCount;
@@ -345,13 +352,13 @@ void InitWiFiVSCourseSelect(void *parentHeap, void *mainOam, void *subOam) {
         0x60 - (((s16 *) GetCellLayoutEntry(mainFileSet->mCellLayout, 4))[1] << 20 >> 20);
     mainFileSet->mCellTable[4].mVisible = 0;
     LocateAndQueueScreenMapFileSet(1, &gWiFiVSCourseSelect->mWiFiVSCourseSelectMBAndSBParts[1],
-                                   gWiFiVSCourseSelectSBNcgrName, gWiFiVSCourseSelectSBNclrName,
-                                   gWiFiVSCourseSelectSNscrName, 3, FindSceneFile);
+                                   "WIFI_VS_COURSE_SELECT_S_B.NCGR", "WIFI_VS_COURSE_SELECT_S_B.NCLR",
+                                   "WIFI_VS_COURSE_SELECT_S.NSCR", 3, FindSceneFile);
     subFileSet = &gWiFiVSCourseSelect->mWiFiVSCourseSelectSParts;
     objSizeLeft = GX_GetSizeOfSubOBJ();
-    LocateCellFileSet(subFileSet, gWiFiVSCourseSelectSNcgrName, gWiFiVSCourseSelectSNcerName,
-                      gWiFiVSCourseSelectSONclrName, gWiFiVSCourseSelectSBnclName, gWiFiVSCourseSelectSBnllName,
-                      gWiFiVSCourseSelectSBnblName, FindSceneFile);
+    LocateCellFileSet(subFileSet, "WiFi_VS_course_select_s.nce.ncgr", "WiFi_VS_course_select_s.nce.ncer",
+                      "WiFi_VS_course_select_s_o.NCLR", "WiFi_VS_course_select_s.bncl", "WiFi_VS_course_select_s.bnll",
+                      "WiFi_VS_course_select_s.bnbl", FindSceneFile);
     SetupCellFileSet(1, gWiFiVSCourseSelect->mHeap, subFileSet);
     subCellCount = subFileSet->mCellLayout->mCount;
     for (subIndex = 0; subIndex < subCellCount; subIndex++) {
@@ -521,29 +528,29 @@ void LoadWiFiVSCourseSelectFiles(void) {
     palette = NULL;
     cells = NULL;
     screenMaps[0] = NULL;
-    file = FindSceneFile(data_021622f8);
+    file = FindSceneFile("WiFi_VS_course_select_m_b.NCGR");
     LoadNcgrData(&chars, file);
-    file = FindSceneFile(data_02162318);
+    file = FindSceneFile("WiFi_VS_course_select_s_b.NCGR");
     LoadNcgrData(&chars, file);
-    file = FindSceneFile(data_02162338);
+    file = FindSceneFile("WiFi_VS_course_select_m.nce.ncgr");
     LoadNcgrData2(&chars, file);
-    file = FindSceneFile(data_0216235c);
+    file = FindSceneFile("WiFi_VS_course_select_s.nce.ncgr");
     LoadNcgrData2(&chars, file);
-    file = FindSceneFile(data_02162380);
+    file = FindSceneFile("WiFi_VS_course_select_m.nce.ncer");
     LoadNcerData(&cells, file);
-    file = FindSceneFile(data_021623a4);
+    file = FindSceneFile("WiFi_VS_course_select_s.nce.ncer");
     LoadNcerData(&cells, file);
-    file = FindSceneFile(data_021623c8);
+    file = FindSceneFile("WiFi_VS_course_select_m_b.NCLR");
     LoadNclrData(&palette, file);
-    file = FindSceneFile(data_021623e8);
+    file = FindSceneFile("WiFi_VS_course_select_m_o.NCLR");
     LoadNclrData(&palette, file);
-    file = FindSceneFile(data_02162408);
+    file = FindSceneFile("WiFi_VS_course_select_s_b.NCLR");
     LoadNclrData(&palette, file);
-    file = FindSceneFile(data_02162428);
+    file = FindSceneFile("WiFi_VS_course_select_s_o.NCLR");
     LoadNclrData(&palette, file);
-    file = FindSceneFile(data_02162448);
+    file = FindSceneFile("WiFi_VS_course_select_m.NSCR");
     LoadNscrData(screenMaps, file);
-    file = FindSceneFile(data_02162468);
+    file = FindSceneFile("WiFi_VS_course_select_s.NSCR");
     LoadNscrData(screenMaps, file);
 }
 

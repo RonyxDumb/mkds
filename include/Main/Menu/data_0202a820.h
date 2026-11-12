@@ -48,50 +48,26 @@ typedef struct LabelTextRow {
     /* 06 */ s16 mCellIndex;
 } LabelTextRow;
 
-extern char gCommonBmgName3[];
 
-extern char gWiFiBmgName[];
 
-extern char gWiFiVSCourseSelectMBNcgrName[];
 
-extern char gWiFiVSCourseSelectMBNclrName[];
 
-extern char gWiFiVSCourseSelectMNscrName[];
 
-extern char gWiFiVSCourseSelectMNcgrName[];
 
-extern char gWiFiVSCourseSelectMNcerName[];
 
-extern char gWiFiVSCourseSelectMONclrName[];
 
-extern char gWiFiVSCourseSelectMBnclName[];
 
-extern char gWiFiVSCourseSelectMBnllName[];
 
-extern char gWiFiVSCourseSelectSBNcgrName[];
 
-extern char gWiFiVSCourseSelectSBNclrName[];
 
-extern char gWiFiVSCourseSelectSNscrName[];
 
-extern char gWiFiVSCourseSelectSNcgrName[];
 
-extern char gWiFiVSCourseSelectSNcerName[];
 
-extern char gWiFiVSCourseSelectSONclrName[];
 
-extern char gWiFiVSCourseSelectSBnclName[];
 
-extern char gWiFiVSCourseSelectSBnllName[];
 
-extern char gWiFiVSCourseSelectSBnblName[];
 
-extern u16 gCourseRowCellIndices[];
 
-extern u16 gCourseTimerDigitCellIndices[];
 
-extern LabelTextRow gWiFiVSCourseSelectMLabelTextRows[];
 
-extern LabelTextRow gWiFiVSCourseSelectSLabelTextRows[];
 
-extern s32 gCourseIdTable[];

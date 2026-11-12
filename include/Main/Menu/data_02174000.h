@@ -158,7 +158,6 @@ typedef struct SelectCharacter {
     /* 128 */ BOOL mUsePlayerEntryList;
 } SelectCharacter;
 
-extern SelectCharacter *gSelectCharacter;
 
 // Object behind gPlayerEntryList, 0x258 bytes (InitPlayerEntryList allocates it).
 typedef struct PlayerEntryList {
@@ -268,7 +267,6 @@ typedef struct TimeAttackGhostGetScan {
 extern TimeAttackGhostGetScan *gTimeAttackGhostGetScan;
 
 
-extern struct WiFiVSCourseSelect *gWiFiVSCourseSelect;
 
 // 0xe0 bytes.
 typedef struct TimeAttackGhostSend {

@@ -644,11 +644,15 @@ src/Main/System/interpolation_state.c:
 src/Main/Menu/select_character.c:
     complete
     .text       start:0x02025f80 end:0x02027df8
+    .data       start:0x02161b3c end:0x02161e64
+    .bss        start:0x02174df4 end:0x02174df8
 
 // provisional: file name and boundaries
 src/Main/Menu/select_kart_data.c:
     complete
     .text       start:0x02027df8 end:0x020291c4
+    .rodata     start:0x02153614 end:0x02153860
+    .data       start:0x02161e64 end:0x0216212c
 
 // provisional: file name and boundaries
 src/Main/Graphics/rect_containing_point.c:
@@ -700,6 +704,9 @@ src/Main/Race/results_by_mode.c:
 src/Main/Menu/wifi_vs_course_select_files.c:
     complete
     .text       start:0x0202a734 end:0x0202b604
+    .rodata     start:0x021539d8 end:0x02153a9c
+    .data       start:0x021622f8 end:0x021626d0
+    .bss        start:0x02174e08 end:0x02174e0c
 
 // provisional: file name and boundaries
 src/Main/Menu/player_entry_list.c:

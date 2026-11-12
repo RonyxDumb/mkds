@@ -7747,72 +7747,71 @@ gCharacterSeqPairNoTable kind:data(any) addr:0x021532a8
 gKartMessageIndexTable kind:data(any) addr:0x021532dc
 gKartIndexTable kind:data(any) addr:0x0215336c
 gCourseMessageIndexTable kind:data(any) addr:0x021533fc
-data_021534bc kind:data(any) addr:0x021534bc
-data_021534dc kind:data(any) addr:0x021534dc
-data_02153500 kind:data(any) addr:0x02153500
-data_02153528 kind:data(any) addr:0x02153528
+gSelectCharacterPositions8Rows kind:data(any) addr:0x021534bc
+gSelectCharacterPositions9Rows kind:data(any) addr:0x021534dc
+gSelectCharacterPositions10Rows kind:data(any) addr:0x02153500
+gSelectCharacterPositions11Rows kind:data(any) addr:0x02153528
 gSelectCharacterRowCellIndices kind:data(any) addr:0x02153554
-data_021535b4 kind:data(any) addr:0x021535b4
-data_usa_02153614 kind:data(any) addr:0x02153614
-data_usa_0215361c kind:data(any) addr:0x0215361c
-data_usa_02153624 kind:data(any) addr:0x02153624
-data_usa_0215362c kind:data(any) addr:0x0215362c
-data_usa_02153634 kind:data(any) addr:0x02153634
-data_usa_0215363c kind:data(any) addr:0x0215363c
-data_usa_02153644 kind:data(any) addr:0x02153644
-data_usa_0215364c kind:data(any) addr:0x0215364c
-data_usa_02153654 kind:data(any) addr:0x02153654
-data_usa_0215365c kind:data(any) addr:0x0215365c
-data_usa_02153664 kind:data(any) addr:0x02153664
-data_usa_0215366c kind:data(any) addr:0x0215366c
-data_usa_02153674 kind:data(any) addr:0x02153674
-data_usa_0215367c kind:data(any) addr:0x0215367c
-data_usa_02153684 kind:data(any) addr:0x02153684
-data_usa_0215368c kind:data(any) addr:0x0215368c
-data_usa_02153694 kind:data(any) addr:0x02153694
-data_usa_0215369c kind:data(any) addr:0x0215369c
-data_usa_021536a4 kind:data(any) addr:0x021536a4
-data_usa_021536ac kind:data(any) addr:0x021536ac
-data_usa_021536b4 kind:data(any) addr:0x021536b4
-data_usa_021536bc kind:data(any) addr:0x021536bc
-data_usa_021536c4 kind:data(any) addr:0x021536c4
-data_usa_021536cc kind:data(any) addr:0x021536cc
-data_usa_021536d4 kind:data(any) addr:0x021536d4
-data_usa_021536dc kind:data(any) addr:0x021536dc
-data_usa_021536e4 kind:data(any) addr:0x021536e4
-data_usa_021536ec kind:data(any) addr:0x021536ec
-data_usa_021536f4 kind:data(any) addr:0x021536f4
-data_usa_021536fc kind:data(any) addr:0x021536fc
-data_usa_02153704 kind:data(any) addr:0x02153704
-data_usa_0215370c kind:data(any) addr:0x0215370c
-data_usa_02153714 kind:data(any) addr:0x02153714
-data_usa_0215371c kind:data(any) addr:0x0215371c
-data_usa_02153724 kind:data(any) addr:0x02153724
-data_usa_0215372c kind:data(any) addr:0x0215372c
-data_usa_02153734 kind:data(any) addr:0x02153734
-data_usa_0215373c kind:data(any) addr:0x0215373c
-data_usa_02153744 kind:data(any) addr:0x02153744
-data_usa_0215374c kind:data(any) addr:0x0215374c
-data_usa_02153754 kind:data(any) addr:0x02153754
-data_usa_0215375c kind:data(any) addr:0x0215375c
-data_usa_02153764 kind:data(any) addr:0x02153764
-data_usa_0215376c kind:data(any) addr:0x0215376c
-data_usa_02153774 kind:data(any) addr:0x02153774
-data_usa_0215377c kind:data(any) addr:0x0215377c
-data_usa_02153784 kind:data(any) addr:0x02153784
-data_usa_0215378c kind:data(any) addr:0x0215378c
-data_usa_02153794 kind:data(any) addr:0x02153794
-data_usa_0215379c kind:data(any) addr:0x0215379c
-data_usa_021537a4 kind:data(any) addr:0x021537a4
-data_usa_021537ac kind:data(any) addr:0x021537ac
-data_usa_021537b4 kind:data(any) addr:0x021537b4
-data_usa_021537bc kind:data(any) addr:0x021537bc
-data_usa_021537c4 kind:data(any) addr:0x021537c4
-data_usa_021537cc kind:data(any) addr:0x021537cc
-data_usa_021537d4 kind:data(any) addr:0x021537d4
-data_usa_021537dc kind:data(any) addr:0x021537dc
-data_usa_021537f4 kind:data(any) addr:0x021537f4
-data_usa_02153834 kind:data(any) addr:0x02153834
+gSelectCharacterRows kind:data(any) addr:0x021535b4
+gKeyTargets12RowsRow0 kind:data(any) addr:0x02153614
+gKeyTargets12RowsRow1 kind:data(any) addr:0x0215361c
+gKeyTargets12RowsRow2 kind:data(any) addr:0x02153624
+gKeyTargets12RowsRow3 kind:data(any) addr:0x0215362c
+gKeyTargets12RowsRow4 kind:data(any) addr:0x02153634
+gKeyTargets12RowsRow5 kind:data(any) addr:0x0215363c
+gKeyTargets12RowsRow6 kind:data(any) addr:0x02153644
+gKeyTargets12RowsRow7 kind:data(any) addr:0x0215364c
+gKeyTargets12RowsRow8 kind:data(any) addr:0x02153654
+gKeyTargets12RowsRow9 kind:data(any) addr:0x0215365c
+gKeyTargets12RowsRow10 kind:data(any) addr:0x02153664
+gKeyTargets12RowsRow11 kind:data(any) addr:0x0215366c
+gKeyTargets11RowsRow0 kind:data(any) addr:0x02153674
+gKeyTargets11RowsRow1 kind:data(any) addr:0x0215367c
+gKeyTargets11RowsRow2 kind:data(any) addr:0x02153684
+gKeyTargets11RowsRow3 kind:data(any) addr:0x0215368c
+gKeyTargets11RowsRow4 kind:data(any) addr:0x02153694
+gKeyTargets11RowsRow5Previous2Or9 kind:data(any) addr:0x0215369c
+gKeyTargets11RowsRow5Else kind:data(any) addr:0x021536a4
+gKeyTargets11RowsRow6 kind:data(any) addr:0x021536ac
+gKeyTargets11RowsRow7 kind:data(any) addr:0x021536b4
+gKeyTargets11RowsRow8 kind:data(any) addr:0x021536bc
+gKeyTargets11RowsRow9 kind:data(any) addr:0x021536c4
+gKeyTargets11RowsRow10 kind:data(any) addr:0x021536cc
+gKeyTargets10RowsRow0 kind:data(any) addr:0x021536d4
+gKeyTargets10RowsRow1Previous5 kind:data(any) addr:0x021536dc
+gKeyTargets10RowsRow1Else kind:data(any) addr:0x021536e4
+gKeyTargets10RowsRow2 kind:data(any) addr:0x021536ec
+gKeyTargets10RowsRow3 kind:data(any) addr:0x021536f4
+gKeyTargets10RowsRow4 kind:data(any) addr:0x021536fc
+gKeyTargets10RowsRow5 kind:data(any) addr:0x02153704
+gKeyTargets10RowsRow6 kind:data(any) addr:0x0215370c
+gKeyTargets10RowsRow7 kind:data(any) addr:0x02153714
+gKeyTargets10RowsRow8Previous5 kind:data(any) addr:0x0215371c
+gKeyTargets10RowsRow8Else kind:data(any) addr:0x02153724
+gKeyTargets10RowsRow9 kind:data(any) addr:0x0215372c
+gKeyTargets9RowsRow0 kind:data(any) addr:0x02153734
+gKeyTargets9RowsRow1 kind:data(any) addr:0x0215373c
+gKeyTargets9RowsRow2 kind:data(any) addr:0x02153744
+gKeyTargets9RowsRow3 kind:data(any) addr:0x0215374c
+gKeyTargets9RowsRow4 kind:data(any) addr:0x02153754
+gKeyTargets9RowsRow5 kind:data(any) addr:0x0215375c
+gKeyTargets9RowsRow6 kind:data(any) addr:0x02153764
+gKeyTargets9RowsRow7 kind:data(any) addr:0x0215376c
+gKeyTargets9RowsRow8 kind:data(any) addr:0x02153774
+gKeyTargets8RowsRow0 kind:data(any) addr:0x0215377c
+gKeyTargets8RowsRow1Previous4 kind:data(any) addr:0x02153784
+gKeyTargets8RowsRow1Else kind:data(any) addr:0x0215378c
+gKeyTargets8RowsRow2 kind:data(any) addr:0x02153794
+gKeyTargets8RowsRow3Previous1Or6 kind:data(any) addr:0x0215379c
+gKeyTargets8RowsRow3Else kind:data(any) addr:0x021537a4
+gKeyTargets8RowsRow4Previous2Or7 kind:data(any) addr:0x021537ac
+gKeyTargets8RowsRow4Else kind:data(any) addr:0x021537b4
+gKeyTargets8RowsRow5 kind:data(any) addr:0x021537bc
+gKeyTargets8RowsRow6Previous4 kind:data(any) addr:0x021537c4
+gKeyTargets8RowsRow6Else kind:data(any) addr:0x021537cc
+gKeyTargets8RowsRow7 kind:data(any) addr:0x021537d4
+gNameLayoutEntryIndexByCharacter kind:data(any) addr:0x021537dc
+gSelectKartSLabelCanvasEntries kind:data(any) addr:0x021537f4
 gEngineMessageIndexTable kind:data(any) addr:0x02153860
 gCupNameLeftCharIndices kind:data(any) addr:0x02153868
 gCupRankCellIndexTable kind:data(any) addr:0x02153878
@@ -8932,58 +8931,58 @@ data_02161af4 kind:data(any) addr:0x02161af4
 data_02161af8 kind:data(any) addr:0x02161af8
 data_02161afc kind:data(any) addr:0x02161afc
 data_02161b00 kind:data(any) addr:0x02161b00
-data_usa_02161b3c kind:data(any) addr:0x02161b3c
-data_usa_02161b5c kind:data(any) addr:0x02161b5c
-data_usa_02161b7c kind:data(any) addr:0x02161b7c
-data_usa_02161b9c kind:data(any) addr:0x02161b9c
-data_usa_02161bb8 kind:data(any) addr:0x02161bb8
-data_usa_02161bd4 kind:data(any) addr:0x02161bd4
-data_usa_02161bf0 kind:data(any) addr:0x02161bf0
-data_usa_02161c14 kind:data(any) addr:0x02161c14
-data_usa_02161c38 kind:data(any) addr:0x02161c38
-data_usa_02161c60 kind:data(any) addr:0x02161c60
-gSelectCharacterGpMNcgrName kind:data(any) addr:0x02161c88
-gSelectCharacterGpMNcerName kind:data(any) addr:0x02161ca8
-gSelectCharacterGpMONclrName kind:data(any) addr:0x02161cc8
-gSelectCharacterGpMBnclName kind:data(any) addr:0x02161ce8
-gSelectCharacterGpTitleMNcgrName kind:data(any) addr:0x02161d04
-gSelectCharacterGpTitleMNcerName kind:data(any) addr:0x02161d2c
-gSelectCharacterGpTitleMBnclName kind:data(any) addr:0x02161d54
-gSelectCharacterGpNameMNcgrName kind:data(any) addr:0x02161d78
-gSelectCharacterGpNameMNcerName kind:data(any) addr:0x02161d9c
-gSelectCharacterGpNameMBnclName kind:data(any) addr:0x02161dc0
-gSelectCharacterSNcgrName kind:data(any) addr:0x02161de0
-gSelectCharacterSNcerName kind:data(any) addr:0x02161dfc
-gSelectCharacterSONclrName kind:data(any) addr:0x02161e18
-gSelectCharacterSBnclName kind:data(any) addr:0x02161e34
-gSelectCharacterSBnblName kind:data(any) addr:0x02161e4c
-data_02161e64 kind:data(any) addr:0x02161e64
-data_02161e7c kind:data(any) addr:0x02161e7c
-data_02161e94 kind:data(any) addr:0x02161e94
-data_02161eac kind:data(any) addr:0x02161eac
-data_02161ec4 kind:data(any) addr:0x02161ec4
-data_02161edc kind:data(any) addr:0x02161edc
-gKartSelectBmgName kind:data(any) addr:0x02161ef0
-gSelectCharacterGpMNcgrName2 kind:data(any) addr:0x02161f00
-gSelectCharacterGpMNcerName2 kind:data(any) addr:0x02161f20
-gSelectCharacterGpMONclrName2 kind:data(any) addr:0x02161f40
-gSelectCharacterGpMBnclName2 kind:data(any) addr:0x02161f60
-gSelectCharacterGpTitleMNcgrName2 kind:data(any) addr:0x02161f7c
-gSelectCharacterGpTitleMNcerName2 kind:data(any) addr:0x02161fa4
-gSelectCharacterGpTitleMBnclName2 kind:data(any) addr:0x02161fcc
-gSelectCharacterGpNameMNcgrName2 kind:data(any) addr:0x02161ff0
-gSelectCharacterGpNameMNcerName2 kind:data(any) addr:0x02162014
-gSelectCharacterGpNameMBnclName2 kind:data(any) addr:0x02162038
-gSelectKartSBNcgrName kind:data(any) addr:0x02162058
-gSelectKartSBNclrName kind:data(any) addr:0x02162070
-gSelectKartSNscrName kind:data(any) addr:0x02162088
-gSelectKartSNcgrName kind:data(any) addr:0x0216209c
-gSelectKartSNcerName kind:data(any) addr:0x021620b4
-gSelectKartSONclrName kind:data(any) addr:0x021620cc
-gSelectKartSBnclName kind:data(any) addr:0x021620e4
-gSelectKartSBnllName kind:data(any) addr:0x021620f8
-gSelectKartSBnblName kind:data(any) addr:0x0216210c
-gCommonBmgName2 kind:data(any) addr:0x02162120
+@4506 kind:data(any) addr:0x02161b3c local
+@4507 kind:data(any) addr:0x02161b5c local
+@4508 kind:data(any) addr:0x02161b7c local
+@4509 kind:data(any) addr:0x02161b9c local
+@4510 kind:data(any) addr:0x02161bb8 local
+@4511 kind:data(any) addr:0x02161bd4 local
+@4512 kind:data(any) addr:0x02161bf0 local
+@4513 kind:data(any) addr:0x02161c14 local
+@4514 kind:data(any) addr:0x02161c38 local
+@4515 kind:data(any) addr:0x02161c60 local
+@5124 kind:data(any) addr:0x02161c88 local
+@5125 kind:data(any) addr:0x02161ca8 local
+@5126 kind:data(any) addr:0x02161cc8 local
+@5127 kind:data(any) addr:0x02161ce8 local
+@5128 kind:data(any) addr:0x02161d04 local
+@5129 kind:data(any) addr:0x02161d2c local
+@5130 kind:data(any) addr:0x02161d54 local
+@5131 kind:data(any) addr:0x02161d78 local
+@5132 kind:data(any) addr:0x02161d9c local
+@5133 kind:data(any) addr:0x02161dc0 local
+@5134 kind:data(any) addr:0x02161de0 local
+@5135 kind:data(any) addr:0x02161dfc local
+@5136 kind:data(any) addr:0x02161e18 local
+@5137 kind:data(any) addr:0x02161e34 local
+@5138 kind:data(any) addr:0x02161e4c local
+@4452 kind:data(any) addr:0x02161e64 local
+@4453 kind:data(any) addr:0x02161e7c local
+@4454 kind:data(any) addr:0x02161e94 local
+@4455 kind:data(any) addr:0x02161eac local
+@4456 kind:data(any) addr:0x02161ec4 local
+@4457 kind:data(any) addr:0x02161edc local
+@4831 kind:data(any) addr:0x02161ef0 local
+@4832 kind:data(any) addr:0x02161f00 local
+@4833 kind:data(any) addr:0x02161f20 local
+@4834 kind:data(any) addr:0x02161f40 local
+@4835 kind:data(any) addr:0x02161f60 local
+@4836 kind:data(any) addr:0x02161f7c local
+@4837 kind:data(any) addr:0x02161fa4 local
+@4838 kind:data(any) addr:0x02161fcc local
+@4839 kind:data(any) addr:0x02161ff0 local
+@4840 kind:data(any) addr:0x02162014 local
+@4841 kind:data(any) addr:0x02162038 local
+@4842 kind:data(any) addr:0x02162058 local
+@4843 kind:data(any) addr:0x02162070 local
+@4844 kind:data(any) addr:0x02162088 local
+@4845 kind:data(any) addr:0x0216209c local
+@4846 kind:data(any) addr:0x021620b4 local
+@4847 kind:data(any) addr:0x021620cc local
+@4848 kind:data(any) addr:0x021620e4 local
+@4849 kind:data(any) addr:0x021620f8 local
+@4850 kind:data(any) addr:0x0216210c local
+@4851 kind:data(any) addr:0x02162120 local
 @5369 kind:data(any) addr:0x0216212c local
 @6237 kind:data(any) addr:0x02162138 local
 @6238 kind:data(any) addr:0x02162144 local
@@ -9007,37 +9006,37 @@ gCommonBmgName2 kind:data(any) addr:0x02162120
 @6256 kind:data(any) addr:0x021622b4 local
 @6257 kind:data(any) addr:0x021622cc local
 @6258 kind:data(any) addr:0x021622e4 local
-data_021622f8 kind:data(any) addr:0x021622f8
-data_02162318 kind:data(any) addr:0x02162318
-data_02162338 kind:data(any) addr:0x02162338
-data_0216235c kind:data(any) addr:0x0216235c
-data_02162380 kind:data(any) addr:0x02162380
-data_021623a4 kind:data(any) addr:0x021623a4
-data_021623c8 kind:data(any) addr:0x021623c8
-data_021623e8 kind:data(any) addr:0x021623e8
-data_02162408 kind:data(any) addr:0x02162408
-data_02162428 kind:data(any) addr:0x02162428
-data_02162448 kind:data(any) addr:0x02162448
-data_02162468 kind:data(any) addr:0x02162468
-gCommonBmgName3 kind:data(any) addr:0x02162488
-gWiFiBmgName kind:data(any) addr:0x02162494
-gWiFiVSCourseSelectMBNcgrName kind:data(any) addr:0x021624a0
-gWiFiVSCourseSelectMBNclrName kind:data(any) addr:0x021624c0
-gWiFiVSCourseSelectMNscrName kind:data(any) addr:0x021624e0
-gWiFiVSCourseSelectMNcgrName kind:data(any) addr:0x02162500
-gWiFiVSCourseSelectMNcerName kind:data(any) addr:0x02162524
-gWiFiVSCourseSelectMONclrName kind:data(any) addr:0x02162548
-gWiFiVSCourseSelectMBnclName kind:data(any) addr:0x02162568
-gWiFiVSCourseSelectMBnllName kind:data(any) addr:0x02162588
-gWiFiVSCourseSelectSBNcgrName kind:data(any) addr:0x021625a8
-gWiFiVSCourseSelectSBNclrName kind:data(any) addr:0x021625c8
-gWiFiVSCourseSelectSNscrName kind:data(any) addr:0x021625e8
-gWiFiVSCourseSelectSNcgrName kind:data(any) addr:0x02162608
-gWiFiVSCourseSelectSNcerName kind:data(any) addr:0x0216262c
-gWiFiVSCourseSelectSONclrName kind:data(any) addr:0x02162650
-gWiFiVSCourseSelectSBnclName kind:data(any) addr:0x02162670
-gWiFiVSCourseSelectSBnllName kind:data(any) addr:0x02162690
-gWiFiVSCourseSelectSBnblName kind:data(any) addr:0x021626b0
+@5413 kind:data(any) addr:0x021622f8 local
+@5414 kind:data(any) addr:0x02162318 local
+@5415 kind:data(any) addr:0x02162338 local
+@5416 kind:data(any) addr:0x0216235c local
+@5417 kind:data(any) addr:0x02162380 local
+@5418 kind:data(any) addr:0x021623a4 local
+@5419 kind:data(any) addr:0x021623c8 local
+@5420 kind:data(any) addr:0x021623e8 local
+@5421 kind:data(any) addr:0x02162408 local
+@5422 kind:data(any) addr:0x02162428 local
+@5423 kind:data(any) addr:0x02162448 local
+@5424 kind:data(any) addr:0x02162468 local
+@5627 kind:data(any) addr:0x02162488 local
+@5628 kind:data(any) addr:0x02162494 local
+@5629 kind:data(any) addr:0x021624a0 local
+@5630 kind:data(any) addr:0x021624c0 local
+@5631 kind:data(any) addr:0x021624e0 local
+@5632 kind:data(any) addr:0x02162500 local
+@5633 kind:data(any) addr:0x02162524 local
+@5634 kind:data(any) addr:0x02162548 local
+@5635 kind:data(any) addr:0x02162568 local
+@5636 kind:data(any) addr:0x02162588 local
+@5637 kind:data(any) addr:0x021625a8 local
+@5638 kind:data(any) addr:0x021625c8 local
+@5639 kind:data(any) addr:0x021625e8 local
+@5640 kind:data(any) addr:0x02162608 local
+@5641 kind:data(any) addr:0x0216262c local
+@5642 kind:data(any) addr:0x02162650 local
+@5643 kind:data(any) addr:0x02162670 local
+@5644 kind:data(any) addr:0x02162690 local
+@5645 kind:data(any) addr:0x021626b0 local
 gSelectMenuEtcDownloadMBNcgrName kind:data(any) addr:0x021626d0
 gSelectMenuEtcDownloadMNcgrName kind:data(any) addr:0x021626f8
 gSelectMenuEtcDownloadMNcerName kind:data(any) addr:0x02162720

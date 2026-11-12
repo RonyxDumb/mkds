@@ -21,17 +21,11 @@ typedef struct Vec3s16 Vec3s16;
 
 
 
-extern const char data_02161e64[];
 
-extern const char data_02161e7c[];
 
-extern const char data_02161e94[];
 
-extern const char data_02161eac[];
 
-extern const char data_02161ec4[];
 
-extern const char data_02161edc[];
 
 extern u32 (*NNS_GfdDefaultFuncAllocTexVram)(s32 a, s32 b, s32 c);
 
@@ -113,35 +107,20 @@ extern u32 (*NNS_GfdDefaultFuncAllocTexVram)();
 
 extern u32 (*data_021619f4)();
 
-extern const char gSelectCharacterGpMNcgrName[];
 
-extern const char gSelectCharacterGpMNcerName[];
 
-extern const char gSelectCharacterGpMONclrName[];
 
-extern const char gSelectCharacterGpMBnclName[];
 
-extern const char gSelectCharacterGpTitleMNcgrName[];
 
-extern const char gSelectCharacterGpTitleMNcerName[];
 
-extern const char gSelectCharacterGpTitleMBnclName[];
 
-extern const char gSelectCharacterGpNameMNcgrName[];
 
-extern const char gSelectCharacterGpNameMNcerName[];
 
-extern const char gSelectCharacterGpNameMBnclName[];
 
-extern const char gSelectCharacterSNcgrName[];
 
-extern const char gSelectCharacterSNcerName[];
 
-extern const char gSelectCharacterSONclrName[];
 
-extern const char gSelectCharacterSBnclName[];
 
-extern const char gSelectCharacterSBnblName[];
 
 extern void (*NNS_G3dSendJointSRT_FuncArray[])(NNSG3dJntAnmResult *);
 
@@ -153,46 +132,24 @@ extern void (*NNS_G3dFuncSbcShpTable[])(NNSG3dRS *, u32, void *, u32);
 
 extern void (*NNS_G3dFuncSbcTable[])(NNSG3dRS *, u32);
 
-// Strings from gKartSelectBmgName on.
-extern const char gKartSelectBmgName[];
 
-extern const char gSelectCharacterGpMNcgrName2[];
 
-extern const char gSelectCharacterGpMNcerName2[];
 
-extern const char gSelectCharacterGpMONclrName2[];
 
-extern const char gSelectCharacterGpMBnclName2[];
 
-extern const char gSelectCharacterGpTitleMNcgrName2[];
 
-extern const char gSelectCharacterGpTitleMNcerName2[];
 
-extern const char gSelectCharacterGpTitleMBnclName2[];
 
-extern const char gSelectCharacterGpNameMNcgrName2[];
 
-extern const char gSelectCharacterGpNameMNcerName2[];
 
-extern const char gSelectCharacterGpNameMBnclName2[];
 
-extern const char gSelectKartSBNcgrName[];
 
-extern const char gSelectKartSBNclrName[];
 
-extern const char gSelectKartSNscrName[];
 
-extern const char gSelectKartSNcgrName[];
 
-extern const char gSelectKartSNcerName[];
 
-extern const char gSelectKartSONclrName[];
 
-extern const char gSelectKartSBnclName[];
 
-extern const char gSelectKartSBnllName[];
 
-extern const char gSelectKartSBnblName[];
 
-extern const char gCommonBmgName2[];
 

@@ -4,7 +4,7 @@
 
 typedef struct CellFileSet CellFileSet;
 
-// 12-byte entries of the tables at gResultsGpSubLabelCanvasEntries and data_usa_021537f4.
+// 12-byte entries of the tables at gResultsGpSubLabelCanvasEntries and gSelectKartSLabelCanvasEntries.
 typedef struct LabelCanvasEntry {
     /* 00 */ s16 mLabelIndex;
     /* 02 */ u16 mWidth;

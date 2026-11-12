@@ -54,6 +54,69 @@
 #include "g2.h"
 #include "Main/Menu/select_race_rule_state.h"
 
+const u16 gKeyTargets12RowsRow0[4] = {0xffff, 4, 1, 0xffff};
+const u16 gKeyTargets8RowsRow7[4] = {4, 0xffff, 0xffff, 6};
+const u16 gKeyTargets8RowsRow6Else[4] = {3, 0xffff, 7, 5};
+const u16 gKeyTargets8RowsRow6Previous4[4] = {4, 0xffff, 7, 5};
+const u16 gKeyTargets8RowsRow5[4] = {3, 0xffff, 6, 0xffff};
+const u16 gKeyTargets8RowsRow4Else[4] = {1, 6, 0xffff, 3};
+const u16 gKeyTargets8RowsRow4Previous2Or7[4] = {2, 7, 0xffff, 3};
+const u16 gKeyTargets8RowsRow3Else[4] = {0, 5, 4, 0xffff};
+const u16 gKeyTargets8RowsRow3Previous1Or6[4] = {1, 6, 4, 0xffff};
+const u16 gKeyTargets8RowsRow2[4] = {0xffff, 4, 0xffff, 1};
+const u16 gKeyTargets8RowsRow1Else[4] = {0xffff, 3, 2, 0};
+const u16 gKeyTargets8RowsRow1Previous4[4] = {0xffff, 4, 2, 0};
+const u16 gKeyTargets8RowsRow0[4] = {0xffff, 3, 1, 0xffff};
+const u16 gKeyTargets9RowsRow8[4] = {5, 0xffff, 0xffff, 7};
+const u16 gKeyTargets9RowsRow7[4] = {4, 0xffff, 8, 6};
+const u16 gKeyTargets9RowsRow6[4] = {3, 0xffff, 7, 0xffff};
+const u16 gKeyTargets9RowsRow5[4] = {2, 8, 0xffff, 4};
+const u16 gKeyTargets9RowsRow4[4] = {1, 7, 5, 3};
+const u16 gKeyTargets9RowsRow3[4] = {0, 6, 4, 0xffff};
+const u16 gKeyTargets9RowsRow2[4] = {0xffff, 5, 0xffff, 1};
+const u16 gKeyTargets9RowsRow1[4] = {0xffff, 4, 2, 0};
+const u16 gKeyTargets9RowsRow0[4] = {0xffff, 3, 1, 0xffff};
+const u16 gKeyTargets10RowsRow9[4] = {6, 0xffff, 0xffff, 8};
+const u16 gKeyTargets10RowsRow8Else[4] = {4, 0xffff, 9, 7};
+const u16 gKeyTargets10RowsRow8Previous5[4] = {5, 0xffff, 9, 7};
+const u16 gKeyTargets10RowsRow7[4] = {3, 0xffff, 8, 0xffff};
+const u16 gKeyTargets10RowsRow6[4] = {2, 9, 0xffff, 5};
+const u16 gKeyTargets10RowsRow5[4] = {1, 8, 6, 4};
+const u16 gKeyTargets10RowsRow4[4] = {1, 8, 5, 3};
+const u16 gKeyTargets10RowsRow3[4] = {0, 7, 4, 0xffff};
+const u16 gKeyTargets10RowsRow2[4] = {0xffff, 6, 0xffff, 1};
+const u16 gKeyTargets10RowsRow1Else[4] = {0xffff, 4, 2, 0};
+const u16 gKeyTargets10RowsRow1Previous5[4] = {0xffff, 5, 2, 0};
+const u16 gKeyTargets10RowsRow0[4] = {0xffff, 3, 1, 0xffff};
+const u16 gKeyTargets11RowsRow10[4] = {6, 0xffff, 0xffff, 9};
+const u16 gKeyTargets11RowsRow9[4] = {5, 0xffff, 0xa, 8};
+const u16 gKeyTargets11RowsRow8[4] = {5, 0xffff, 9, 7};
+const u16 gKeyTargets11RowsRow7[4] = {4, 0xffff, 8, 0xffff};
+const u16 gKeyTargets11RowsRow6[4] = {3, 0xa, 0xffff, 5};
+const u16 gKeyTargets11RowsRow5Else[4] = {1, 8, 6, 4};
+const u16 gKeyTargets11RowsRow5Previous2Or9[4] = {2, 9, 6, 4};
+const u16 gKeyTargets11RowsRow4[4] = {0, 7, 5, 0xffff};
+const u16 gKeyTargets11RowsRow3[4] = {0xffff, 6, 0xffff, 2};
+const u16 gKeyTargets11RowsRow2[4] = {0xffff, 5, 3, 1};
+const u16 gKeyTargets11RowsRow1[4] = {0xffff, 5, 2, 0};
+const u16 gKeyTargets11RowsRow0[4] = {0xffff, 4, 1, 0xffff};
+const u16 gKeyTargets12RowsRow11[4] = {7, 0xffff, 0xffff, 0xa};
+const u16 gKeyTargets12RowsRow10[4] = {6, 0xffff, 0xb, 9};
+const u16 gKeyTargets12RowsRow9[4] = {5, 0xffff, 0xa, 8};
+const u16 gKeyTargets12RowsRow8[4] = {4, 0xffff, 9, 0xffff};
+const u16 gKeyTargets12RowsRow7[4] = {3, 0xb, 0xffff, 6};
+const u16 gKeyTargets12RowsRow6[4] = {2, 0xa, 7, 5};
+const u16 gKeyTargets12RowsRow5[4] = {1, 9, 6, 4};
+const u16 gKeyTargets12RowsRow4[4] = {0, 8, 5, 0xffff};
+const u16 gKeyTargets12RowsRow3[4] = {0xffff, 7, 0xffff, 2};
+const u16 gKeyTargets12RowsRow2[4] = {0xffff, 6, 3, 1};
+const u16 gKeyTargets12RowsRow1[4] = {0xffff, 5, 2, 0};
+const u16 gNameLayoutEntryIndexByCharacter[12] = {0, 5, 4, 7, 2, 6, 3, 1, 9, 8, 0xa, 0xb};
+const LabelCanvasEntry gSelectKartSLabelCanvasEntries[9] = {
+    {0, 95, 13, 11, 5}, {1, 95, 13, 12, 4}, {2, 95, 13, 13, 3}, {3, 95, 13, 14, 2}, {4, 95, 13, 15, 1},
+    {5, 95, 13, 16, 0}, {6, 50, 13, 18, 4}, {7, 170, 13, 0, 0}, {8, 170, 13, 1, 0},
+};
+
 #pragma optimize_for_size on
 #pragma thumb on
 s32 UpdateSelectKartTouchHold(void) {
@@ -165,7 +228,7 @@ void PrintSelectKartMessage(void) {
         message = GetBmgEntry(gSelectKart->mKartSelectMessages, GetKartMessageIndex(gSelectKart->mKartIndex));
         parts = &gSelectKart->mSelectKartSParts;
         for (labelIndex = 8; labelIndex >= 7; labelIndex--) {
-            PrintLabelLayoutTextNoFixedAdvance(1, data_usa_021537f4[labelIndex].mLabelIndex, parts->mLabelLayout,
+            PrintLabelLayoutTextNoFixedAdvance(1, gSelectKartSLabelCanvasEntries[labelIndex].mLabelIndex, parts->mLabelLayout,
                                                message, parts->mCellLayout, parts->mCellTable);
         }
     }
@@ -308,7 +371,7 @@ void InitSelectKart(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
             break;
     }
     if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
-        gSelectKart->mKartSelectMessages = FindFileInLoadedArchives(gKartSelectBmgName);
+        gSelectKart->mKartSelectMessages = FindFileInLoadedArchives("kart_select.bmg");
         gSelectKart->mKartAppear = CreateKartAppear(gSelectKart->mHeap);
     }
     selectKart = gSelectKart;
@@ -328,44 +391,44 @@ void InitSelectKart(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
         selectKart = gSelectKart;
         if (selectKart->mEntryListUsed == FALSE) {
             cellFileSet = &selectKart->mSelectCharacterGpMParts;
-            LocateCellFileSet(cellFileSet, gSelectCharacterGpMNcgrName2, gSelectCharacterGpMNcerName2,
-                              gSelectCharacterGpMONclrName2, gSelectCharacterGpMBnclName2, NULL, NULL,
+            LocateCellFileSet(cellFileSet, "select_character_gp_m.nce.ncgr", "select_character_gp_m.nce.ncer",
+                              "select_character_gp_m_o.NCLR", "select_character_gp_m.bncl", NULL, NULL,
                               FindFileInLoadedArchives);
             SetupCellFileSet(0, gSelectKart->mHeap, cellFileSet);
-            LocateCellFileSet(&titleFileSet, gSelectCharacterGpTitleMNcgrName2, gSelectCharacterGpTitleMNcerName2, NULL,
-                              gSelectCharacterGpTitleMBnclName2, NULL, NULL, FindFileInLoadedArchives);
+            LocateCellFileSet(&titleFileSet, "select_character_gp_title_m.nce.ncgr", "select_character_gp_title_m.nce.ncer", NULL,
+                              "select_character_gp_title_m.bncl", NULL, NULL, FindFileInLoadedArchives);
             QueueCellChars(1, titleFileSet.mCells, titleFileSet.mChars, titleFileSet.mCellLayout, 0, 0,
                            cellFileSet->mCells, cellFileSet->mCellLayout);
-            LocateCellFileSet(&nameFileSet, gSelectCharacterGpNameMNcgrName2, gSelectCharacterGpNameMNcerName2, NULL,
-                              gSelectCharacterGpNameMBnclName2, NULL, NULL, FindFileInLoadedArchives);
-            QueueCellChars(data_usa_021537dc[gSelectKart->mCharacterIndex], nameFileSet.mCells, nameFileSet.mChars,
+            LocateCellFileSet(&nameFileSet, "select_character_gp_name_m.nce.ncgr", "select_character_gp_name_m.nce.ncer", NULL,
+                              "select_character_gp_name_m.bncl", NULL, NULL, FindFileInLoadedArchives);
+            QueueCellChars(gNameLayoutEntryIndexByCharacter[gSelectKart->mCharacterIndex], nameFileSet.mCells, nameFileSet.mChars,
                            nameFileSet.mCellLayout, 0, 2, cellFileSet->mCells, cellFileSet->mCellLayout);
-            QueueCellChars(data_usa_021537dc[gSelectKart->mCharacterIndex], nameFileSet.mCells, nameFileSet.mChars,
+            QueueCellChars(gNameLayoutEntryIndexByCharacter[gSelectKart->mCharacterIndex], nameFileSet.mCells, nameFileSet.mChars,
                            nameFileSet.mCellLayout, 0, 1, cellFileSet->mCells, cellFileSet->mCellLayout);
         }
     }
     if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
-        LocateAndQueueScreenMapFileSet(1, &gSelectKart->mSelectKartSBParts, gSelectKartSBNcgrName,
-                                       gSelectKartSBNclrName, gSelectKartSNscrName, 3, FindFileInLoadedArchives);
+        LocateAndQueueScreenMapFileSet(1, &gSelectKart->mSelectKartSBParts, "select_kart_s_b.NCGR",
+                                       "select_kart_s_b.NCLR", "select_kart_s.NSCR", 3, FindFileInLoadedArchives);
     }
     if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
         value = GX_GetSizeOfSubOBJ();
         cellFileSet = &gSelectKart->mSelectKartSParts;
-        LocateCellFileSet(cellFileSet, gSelectKartSNcgrName, gSelectKartSNcerName, gSelectKartSONclrName,
-                          gSelectKartSBnclName, gSelectKartSBnllName, gSelectKartSBnblName, FindFileInLoadedArchives);
+        LocateCellFileSet(cellFileSet, "select_kart_s.nce.ncgr", "select_kart_s.nce.ncer", "select_kart_s_o.NCLR",
+                          "select_kart_s.bncl", "select_kart_s.bnll", "select_kart_s.bnbl", FindFileInLoadedArchives);
         SetupCellFileSet(1, gSelectKart->mHeap, cellFileSet);
         for (index = 0; index < 9; index++) {
-            value -= SetupLabelCanvas(1, gSelectKart->mHeap, cellFileSet, &data_usa_021537f4[index], value);
+            value -= SetupLabelCanvas(1, gSelectKart->mHeap, cellFileSet, &gSelectKartSLabelCanvasEntries[index], value);
         }
         for (index = 0; index < 6; index++) {
-            text = GetBmgEntry(gSelectKart->mKartSelectMessages, data_usa_021537f4[index].mMessageIndex);
-            value = data_usa_021537f4[index].mLabelIndex;
+            text = GetBmgEntry(gSelectKart->mKartSelectMessages, gSelectKartSLabelCanvasEntries[index].mMessageIndex);
+            value = gSelectKartSLabelCanvasEntries[index].mLabelIndex;
             PrintLabelLayoutTextNoFixedAdvance(1, value, cellFileSet->mLabelLayout, text, cellFileSet->mCellLayout,
                                                cellFileSet->mCellTable);
             SetLabelPriority(value, 1, cellFileSet->mLabelLayout, cellFileSet->mCellTable, cellFileSet->mCellLayout);
         }
-        text = GetBmgEntry(FindFileInLoadedArchives(gCommonBmgName2), data_usa_021537f4[6].mMessageIndex);
-        index = data_usa_02153834[4];
+        text = GetBmgEntry(FindFileInLoadedArchives("common.bmg"), gSelectKartSLabelCanvasEntries[6].mMessageIndex);
+        index = gSelectKartSLabelCanvasEntries[6].mLabelIndex;
         PrintLabelLayoutTextNoFixedAdvance(1, index, cellFileSet->mLabelLayout, text, cellFileSet->mCellLayout,
                                            cellFileSet->mCellTable);
         SetLabelPaletteIndex(index, 1, cellFileSet->mLabelLayout, cellFileSet->mCellTable, cellFileSet->mCellLayout);
@@ -525,7 +588,7 @@ int AdvanceSelectKart(void) {
                 gSelectKart->mResult = 1;
                 gSelectKart->mState = 4;
                 selectKartParts->mCellTable[18].mVisible = 0;
-                SetLabelPaletteIndex(data_usa_02153834[4], 0, selectKartParts->mLabelLayout,
+                SetLabelPaletteIndex(gSelectKartSLabelCanvasEntries[6].mLabelIndex, 0, selectKartParts->mLabelLayout,
                                      selectKartParts->mCellTable, selectKartParts->mCellLayout);
                 StartSeqPair(GetCharacterSeqPairNo(gSelectKart->mCharacterIndex), 1);
                 SetKartModelMenuSpinStopped(1);
@@ -605,7 +668,7 @@ int AdvanceSelectKart(void) {
                 }
                 gSelectKart->mStateFrames = 0;
                 selectKartParts->mCellTable[18].mVisible = 1;
-                SetLabelPaletteIndex(data_usa_02153834[4], 1, selectKartParts->mLabelLayout,
+                SetLabelPaletteIndex(gSelectKartSLabelCanvasEntries[6].mLabelIndex, 1, selectKartParts->mLabelLayout,
                                      selectKartParts->mCellTable, selectKartParts->mCellLayout);
             }
             break;
@@ -812,17 +875,17 @@ void LoadSelectKartData(void) {
     palette = NULL;
     cells = NULL;
     screenMap[0] = NULL;
-    fileData = FindFileInLoadedArchives(data_02161e64);
+    fileData = FindFileInLoadedArchives("select_kart_s_b.NCGR");
     LoadNcgrData(&chars, fileData);
-    fileData = FindFileInLoadedArchives(data_02161e7c);
+    fileData = FindFileInLoadedArchives("select_kart_s.nce.ncgr");
     LoadNcgrData2(&chars, fileData);
-    fileData = FindFileInLoadedArchives(data_02161e94);
+    fileData = FindFileInLoadedArchives("select_kart_s.nce.ncer");
     LoadNcerData(&cells, fileData);
-    fileData = FindFileInLoadedArchives(data_02161eac);
+    fileData = FindFileInLoadedArchives("select_kart_s_o.NCLR");
     LoadNclrData(&palette, fileData);
-    fileData = FindFileInLoadedArchives(data_02161ec4);
+    fileData = FindFileInLoadedArchives("select_kart_s_b.NCLR");
     LoadNclrData(&palette, fileData);
-    fileData = FindFileInLoadedArchives(data_02161edc);
+    fileData = FindFileInLoadedArchives("select_kart_s.NSCR");
     LoadNscrData(screenMap, fileData);
 }
 

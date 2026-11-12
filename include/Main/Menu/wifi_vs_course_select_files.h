@@ -13,6 +13,7 @@
 #include "Main/Save/buddy_record_time.h"
 #include "g2d_CellTransferManager.h"
 #include "Main/MapObjects/map_object_park.h"
+#include "Main/Menu/data_0202a820.h"
 
 void LoadWiFiVSCourseSelectFiles(void);
 
@@ -39,3 +40,10 @@ void SetWiFiVSCourseSelectRowsOffsetY(void);
 void RefreshCourseListRows(s32 action, s32 slot, s32 row, s32 selectedSlot);
 
 void WriteKartPositionAndCount(s32 position, s32 kartCount);
+
+extern const u16 gCourseRowCellIndices[4];
+extern const u16 gCourseTimerDigitCellIndices[10];
+extern const LabelTextRow gWiFiVSCourseSelectMLabelTextRows[4];
+extern const LabelTextRow gWiFiVSCourseSelectSLabelTextRows[7];
+extern const s32 gCourseIdTable[20];
+extern struct WiFiVSCourseSelect *gWiFiVSCourseSelect;
