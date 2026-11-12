@@ -94,12 +94,17 @@ void InitKeyboardLabelCanvases(void) {
         }
     }
 }
-#pragma thumb off
 
-// Object not known yet; it only sets the order of the tables above
-u8 data_0212a724_pad[12];
-
-#pragma thumb on
+const u8 gKeyboardKindEntryCounts[2] = {1, 1};
+const u8 gKeyboardKindEntryIndices[2][1] = {{0}, {0x10}};
+const u8 gKeyboardButtonLabelIndices[2][2] = {{1, 0}, {0, 1}};
+const u8 gKeyboardLayoutEntryIndices[6] = {0xff, 5, 6, 7, 8, 9};
+const u8 gKeyboardRemainingEntryIndices[6] = {0x11, 0x12, 0x13, 0x14, 0x15, 0x16};
+const u8 gKeyboardCursorCornerEntryIndices[2][4] = {{0x13, 0x14, 0x15, 0x16}, {0x21, 0x22, 0x23, 0x24}};
+const s16 gKeyboardTextOffsetYTarget[2][2] = {{0x82, 0}, {0x96, 0}};
+const s16 gKeyboardTextOffsetYInitial[2][2] = {{0xc0, -54}, {0xc0, -54}};
+const u8 gKeyboardTextLimits[2] = {0xc, 0xa};
+const u8 gKeyboardTextSlotEntryIndices[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
 void SetKeyboardButtonCorners(void) {
     SetKeyboardButton0Corners(0x24, 0x7a, 0x7e, 0x8e);
