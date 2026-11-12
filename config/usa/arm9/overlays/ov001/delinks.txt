@@ -37,13 +37,8 @@ src/01/code_0218155c.c:
 // provisional: file name and boundaries
 src/01/code_02181bd0.c:
     complete
-    .text       start:0x02181bb0 end:0x02182f78
+    .text       start:0x02181bb0 end:0x02183094
     .bss        start:0x021a9b78 end:0x021a9b7c
-
-// provisional: file name and boundaries
-src/01/code_02182f98.c:
-    complete
-    .text       start:0x02182f78 end:0x02183094
 
 // provisional: file name and boundaries
 src/01/code_021830b4.c:
