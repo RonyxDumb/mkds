@@ -78,7 +78,7 @@ void ExpireWhileRequestedSounds(SoundSource *source) {
                 }
             } else if (sound->mFlags & 1) {
                 if (source->mUpdateListIndex == 3) {
-                    TryAppendListObject(&data_0217d054, source);
+                    TryAppendListObject(&gSoundSourceSecondUpdateList, source);
                     source->mUpdateListIndex = 1;
                 }
             }
@@ -266,7 +266,7 @@ PlayingSound *StartSoundWhileRequestedEx(SoundSource *source, u32 seqArcNo, u32 
                     candidate->mVolume = volume;
                     candidate->mPitch = pitch;
                     if (source->mUpdateListIndex == 3) {
-                        TryAppendListObject(&data_0217d054, source);
+                        TryAppendListObject(&gSoundSourceSecondUpdateList, source);
                         source->mUpdateListIndex = 1;
                     }
                     return candidate;

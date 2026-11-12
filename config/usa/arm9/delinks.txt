@@ -3907,6 +3907,7 @@ src/Main/Sound/playing_sounds.c:
 src/Main/Sound/sound_sources.c:
     complete
     .text       start:0x0210cf20 end:0x0210d570
+    .bss        start:0x0217d028 end:0x0217d040
 
 // provisional: file name and boundaries
 src/Main/Sound/scene_players_release.c:

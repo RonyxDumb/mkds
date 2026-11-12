@@ -764,10 +764,6 @@ extern u32 data_0217d024[];
 
 extern SoundHandlePool gPlayingSoundPool;
 
-extern NNSFndList gSoundSourceUpdateLists[];
-
-extern NNSFndList data_0217d054;
-
 // Pointer to the cup chooser object: set by InitSelectCupGrid, cleared by ReleaseSelectCupGrid.
 extern SelectCupGrid *gSelectCupGrid;
 

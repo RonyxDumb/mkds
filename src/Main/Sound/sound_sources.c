@@ -23,6 +23,9 @@
 #include "code_0201750c.h"
 #include "Main/Sound/sound_system.h"
 
+NNSFndList gSoundSourceSecondUpdateList;
+NNSFndList gSoundSourceUpdateLists[1];
+
 // Builds the pool of sounds, resets each one, empties the three source lists and zeroes the two pass counters.
 void InitPlayingSoundPool(PlayingSound *sounds, s32 count) {
     s32 index;
@@ -76,7 +79,7 @@ void UpdateSoundSources(void) {
             source->mUpdateListIndex = 3;
         }
     }
-    secondUpdateList = &data_0217d054;
+    secondUpdateList = &gSoundSourceSecondUpdateList;
     source = secondUpdateList->mHead;
     countThisPass = data_0217d024[0];
     if (source != NULL) {

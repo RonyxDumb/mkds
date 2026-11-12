@@ -11879,7 +11879,7 @@ data_0217d024 kind:bss addr:0x0217d004
 gSoundSources kind:bss addr:0x0217d008
 gPlayingSoundPool kind:bss addr:0x0217d014
 gSoundSourceUpdateLists kind:bss addr:0x0217d028
-data_0217d054 kind:bss addr:0x0217d034
+gSoundSourceSecondUpdateList kind:bss addr:0x0217d034
 gCurrentSoundSetPlayer kind:bss addr:0x0217d040
 gFileSndArcOpen kind:bss addr:0x0217d044
 gSharedSeqHandle kind:bss addr:0x0217d048

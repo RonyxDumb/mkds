@@ -46,3 +46,6 @@ void StopAllPlayingSounds(u32 fadeSteps);
 unsigned int SoundReturnArgument(unsigned int value);
 
 void InitPlayingSoundPool(PlayingSound *sounds, s32 count);
+
+extern NNSFndList gSoundSourceSecondUpdateList;
+extern NNSFndList gSoundSourceUpdateLists[1];
