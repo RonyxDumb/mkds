@@ -1,7 +1,73 @@
 #include "01/code_02185ef4.h"
-
-#include "Main/Graphics/emitters.h"
+#include "01/code_02188e24.h"
+#include "01/code_02188e88.h"
+#include "01/code_02188de0.h"
+#include "01/code_0218c000.h"
+#include "01/unk_021a9000.h"
+#include "Main/Unknown/code_020a3000.h"
+#include "01/code_02188da4.h"
+#include "01/code_02188cd8.h"
+#include "01/code_0219b1c4.h"
+#include "01/code_02188950.h"
+#include "01/code_02188484.h"
+#include "01/code_021882b8.h"
+#include "01/code_0218d520.h"
+#include "01/code_0218155c.h"
+#include "Main/Unknown/code_020a100c.h"
+#include "Main/MapObjects/balloon_draw.h"
+#include "Main/Unknown/code_02100000.h"
+#include "Main/Unknown/code_020a1000.h"
+#include "Main/MapObjects/map_object_kind_update_list.h"
+#include "Main/Unknown/unk_021759c0.h"
+#include "Main/Item/item_koura_w.h"
+#include "01/code_02188260.h"
+#include "Main/Unknown/code_020a12b8.h"
+#include "01/code_02188230.h"
+#include "01/code_02188218.h"
+#include "01/code_0218820c.h"
+#include "01/unk_021a7000.h"
+#include "code_02012b30.h"
+#include "Main/Unknown/code_02042000.h"
+#include "Main/Unknown/code_020ac000.h"
+#include "Main/Unknown/code_020da000.h"
+#include "Main/Unknown/code_020f4000.h"
+#include "Main/Unknown/code_020fd000.h"
+#include "Main/Unknown/code_02147000.h"
+#include "01/code_02188158.h"
+#include "Main/Item/item_bomb.h"
+#include "Main/Unknown/code_020fd83c.h"
+#include "Main/Unknown/code_020fd7f0.h"
+#include "01/code_02187eb0.h"
+#include "Main/Unknown/code_020b1dbc.h"
+#include "Main/Kart/point_link_cursor.h"
+#include "Main/Race/race_hud_sub_screen_course_id.h"
+#include "Main/Unknown/code_02039860.h"
+#include "Main/Unknown/unk_0215d000.h"
+#include "Main/Race/followed_kart_or.h"
+#include "Main/Race/race_hud_sub_screen_min_max.h"
+#include "Main/Unknown/code_0207a880.h"
+#include "Main/Race/race_hud_sub_screen_projection.h"
+#include "Main/Unknown/code_020f36d8.h"
+#include "Main/Unknown/code_02042044.h"
+#include "01/code_02187e78.h"
+#include "01/code_02187d14.h"
+#include "Main/MapObjects/shine_balloon.h"
+#include "Main/Unknown/code_020da628.h"
+#include "Main/Unknown/unk_0217a000.h"
+#include "Main/Race/race.h"
+#include "01/code_021a2034.h"
+#include "fx_mtx43.h"
+#include "code_02147cd8.h"
+#include "Main/MapObjects/item_box.h"
+#include "Main/MapObjects/earthen_pipe_create.h"
+#include "01/code_02187cd4.h"
+#include "01/code_0219b250.h"
+#include "code_020109c4.h"
+#include "01/code_02187c60.h"
+#include "01/code_02187c4c.h"
+#include "01/code_02187bfc.h"
 #include "Main/Graphics/effects.h"
+#include "Main/Graphics/emitters.h"
 #include "Main/MapObjects/map_object_model_frame.h"
 #include "Main/Unknown/code_0209b634.h"
 #include "Main/Unknown/code_0209bef0.h"
@@ -13,59 +79,791 @@
 #include "Main/Unknown/code_020eb000.h"
 #include "Main/Kart/kart_drift.h"
 #include "Main/Item/item_kinoko.h"
-#include "Main/Item/item_koura_w.h"
-#include "Main/Item/item_bomb.h"
 #include "Main/Unknown/code_02117000.h"
 #include "Main/Unknown/code_02118000.h"
 #include "Main/Unknown/code_0211e000.h"
 #include "fx_mtx33.h"
-#include "code_02147cd8.h"
 #include "code_0201c528.h"
-#include "01/code_0218d520.h"
-#include "01/unk_021a9000.h"
 #include "ITCM/code_01ff8000.h"
 #include "ITCM/code_01ff9000.h"
 #include "Main/Unknown/code_02146000.h"
 #include "Main/Unknown/code_0209b000.h"
-#include "Main/Unknown/code_020b1dbc.h"
-#include "Main/Kart/point_link_cursor.h"
-#include "Main/Race/race_hud_sub_screen_course_id.h"
-#include "Main/Unknown/code_02039860.h"
-#include "Main/Unknown/code_02147000.h"
-#include "Main/Unknown/unk_0215d000.h"
-#include "Main/Unknown/unk_021759c0.h"
-#include "Main/Race/followed_kart_or.h"
-#include "Main/Race/race_hud_sub_screen_min_max.h"
-#include "Main/Unknown/code_0207a880.h"
-#include "Main/Race/race_hud_sub_screen_projection.h"
 #include "Main/Unknown/code_020d3000.h"
-#include "code_02012b30.h"
 #include "Main/Unknown/code_02021000.h"
 #include "Main/Unknown/code_020ae000.h"
 #include "Main/Unknown/code_020e6000.h"
-#include "01/code_02188950.h"
-#include "01/code_02188158.h"
-#include "01/code_02188e88.h"
 #include "01/code_0219b240.h"
 #include "ITCM/code_01ffd000.h"
 #include "01/code_02186000.h"
 #include "01/code_02187000.h"
-#include "01/code_0219b250.h"
 #include "01/unk_021a6000.h"
 #include "Main/Unknown/code_0208b000.h"
 #include "Main/Unknown/code_02148000.h"
 #include "01/callees_0219b000.h"
 #include "Main/Graphics/model_effects.h"
 #include "Main/Unknown/code_020d2000.h"
-#include "01/code_021a2034.h"
-#include "01/unk_021a7000.h"
-#include "Main/Unknown/code_02042000.h"
-#include "Main/Unknown/code_020ac000.h"
-#include "Main/Unknown/code_020da000.h"
-#include "Main/Unknown/code_020f4000.h"
-#include "Main/Unknown/code_020fd000.h"
-#include "Main/Unknown/unk_0217a000.h"
-#include "Main/Race/race.h"
+
+void SetAnimationFrameCallback(MissionRunMapObject *mapObject, s32 frameIndex, UnkFunc *callback) {
+    mapObject->mAnimationFrameCallbackFrameIndex = frameIndex;
+    mapObject->mAnimationFrameCallback = callback;
+}
+
+void SetTwoAnimationFrameCallbacks(MissionRunMapObject *mapObject, s32 firstFrameIndex,
+                                   void (*firstCallback)(MissionRunMapObject *), s32 secondFrameIndex,
+                                   void (*secondCallback)(MissionRunMapObject *)) {
+    mapObject->mUnk_1e0 = firstFrameIndex;
+    mapObject->mUnk_1e4 = firstCallback;
+    mapObject->mUnk_1e8 = secondFrameIndex;
+    mapObject->mUnk_1ec = secondCallback;
+}
+
+void StartStateFrameCountCallback(MissionRunMapObject *mapObject, s32 frameCount,
+                                  void (*callback)(MissionRunMapObject *)) {
+    mapObject->mStateFrameCount = frameCount;
+    mapObject->mStateFrames = 0;
+    if (callback == NULL) {
+        callback = StopMapObjectState;
+    }
+    mapObject->mStateFrameCountCallback = callback;
+}
+
+void SetPointInRangeCallback(MissionRunMapObject *mapObject, s32 pointRadius, s32 pointHalfAngle, Vec3 *point,
+                             UnkFunc *callback) {
+    UnkFunc *storedCallback;
+
+    mapObject->mPointRadius = pointRadius;
+    mapObject->mPointHalfAngle = pointHalfAngle;
+    if (point != NULL) {
+        mapObject->mPoint = *point;
+    }
+    storedCallback = callback;
+    if (storedCallback == NULL) {
+        storedCallback = StopMapObjectState;
+    }
+    mapObject->mPointInRangeCallback = storedCallback;
+}
+
+void SetStoppedCallback(MissionRunMapObject *mapObject, UnkFunc *callback) {
+    if (callback == NULL) {
+        callback = (UnkFunc *) StopMapObjectState;
+    }
+    mapObject->mStoppedCallback = callback;
+}
+
+void SetCourseCollisionCallback(MissionRunMapObject *mapObject, void (*callback)(MissionRunMapObject *)) {
+    if (callback == NULL) {
+        callback = (UnkFunc *) StopMapObjectState;
+    }
+    mapObject->mCourseCollisionCallback = callback;
+}
+
+void SetUnusedCallback(MissionRunMapObject *mapObject, UnkFunc *callback) {
+    if (callback == NULL) {
+        callback = (UnkFunc *) StopMapObjectState;
+    }
+    mapObject->mUnk_230 = callback;
+}
+
+void SetPointInRangePoint(MissionRunMapObject *mapObject, Vec3 *point) {
+    if (point != NULL) {
+        mapObject->mPoint = *point;
+    }
+}
+
+void StartAnimationNoEndCallback(MissionRunMapObject *mapObject, s32 animationEntry, s32 frameStep) {
+    StartMapObjectModelNsbcaAnimation(mapObject->mNsbmd, (u16) animationEntry, frameStep, 0);
+    mapObject->mAnimationEndCallback = NULL;
+}
+
+void StartAnimationWithEndCallback(MissionRunMapObject *mapObject, s32 animationEntry, s32 frameStep,
+                                   void (*endCallback)(MissionRunMapObject *)) {
+    StartMapObjectModelNsbcaAnimation(mapObject->mNsbmd, (u16) animationEntry, frameStep, 1);
+    if (endCallback == NULL) {
+        endCallback = StopMapObjectState;
+    }
+    mapObject->mAnimationEndCallback = endCallback;
+}
+
+void SetAlphaLimitTargetAndPerCall(MissionRunMapObject *mapObject, s32 alphaLimitTarget, s32 alphaLimitPerCall) {
+    mapObject->mAlphaLimitTarget = alphaLimitTarget;
+    mapObject->mAlphaLimitPerCall = alphaLimitPerCall;
+}
+
+void SetScaleTargetAndPerCall(MissionRunMapObject *mapObject, s32 scaleTarget, s32 scalePerCall) {
+    mapObject->mScaleTarget = scaleTarget;
+    mapObject->mScalePerCall = scalePerCall;
+}
+
+void SetSpeedAndClearTarget(MissionRunMapObject *mapObject, s32 speed) {
+    mapObject->mSpeed = speed;
+    mapObject->mSpeedTarget = 0;
+    mapObject->mSpeedPerCall = 0;
+}
+
+void SetSpeedTargetAndPerCall(MissionRunMapObject *mapObject, s32 speedTarget, s32 speedPerCall) {
+    mapObject->mSpeedTarget = speedTarget;
+    mapObject->mSpeedPerCall = speedPerCall;
+}
+
+void StopTurningMoveFollowsAngle(MissionRunMapObject *mapObject) {
+    mapObject->mAngleState = 0;
+    mapObject->mAnglePerCall = 0;
+    mapObject->mAnglePerCallTarget = 0;
+    mapObject->mAnglePerCallIncrement = 0;
+    mapObject->mMoveAngleMode = 1;
+    mapObject->mMoveAnglePerCall = 0;
+    mapObject->mMoveAnglePerCallTarget = 0;
+    mapObject->mMoveAnglePerCallIncrement = 0;
+}
+
+void TurnToPointMoveFollowsAngle(MissionRunMapObject *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement) {
+    mapObject->mAngleState = 2;
+    mapObject->mAnglePerCallTarget = anglePerCallTarget;
+    mapObject->mAnglePerCallIncrement = anglePerCallIncrement;
+    mapObject->mMoveAngleMode = 1;
+    mapObject->mMoveAnglePerCall = 0;
+    mapObject->mMoveAnglePerCallTarget = 0;
+    mapObject->mMoveAnglePerCallIncrement = 0;
+}
+
+void TurnAndMoveToPointSameRate(MissionRunMapObject *mapObject, s32 perCallTarget, s32 perCallIncrement) {
+    mapObject->mAngleState = 2;
+    mapObject->mAnglePerCallTarget = perCallTarget;
+    mapObject->mAnglePerCallIncrement = perCallIncrement;
+    mapObject->mMoveAngleMode = 2;
+    mapObject->mMoveAnglePerCallTarget = perCallTarget;
+    mapObject->mMoveAnglePerCallIncrement = perCallIncrement;
+}
+
+void TurnFromPointMoveFollowsAngle(MissionRunMapObject *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement) {
+    mapObject->mAngleState = 3;
+    mapObject->mAnglePerCallTarget = anglePerCallTarget;
+    mapObject->mAnglePerCallIncrement = anglePerCallIncrement;
+    mapObject->mMoveAngleMode = 1;
+    mapObject->mMoveAnglePerCall = 0;
+    mapObject->mMoveAnglePerCallTarget = 0;
+    mapObject->mMoveAnglePerCallIncrement = 0;
+}
+
+void StopTurningMoveFromPoint(MissionRunMapObject *mapObject, s32 moveAnglePerCallTarget,
+                              s32 moveAnglePerCallIncrement) {
+    mapObject->mAngleState = 0;
+    mapObject->mAnglePerCall = 0;
+    mapObject->mAnglePerCallTarget = 0;
+    mapObject->mAnglePerCallIncrement = 0;
+    mapObject->mMoveAngleMode = 3;
+    mapObject->mMoveAnglePerCall = 0;
+    mapObject->mMoveAnglePerCallTarget = moveAnglePerCallTarget;
+    mapObject->mMoveAnglePerCallIncrement = moveAnglePerCallIncrement;
+}
+
+void TurnSidewaysMoveFollowsAngle(MissionRunMapObject *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement,
+                                  s32 angleOffset) {
+    mapObject->mAngleState = 4;
+    mapObject->mAnglePerCallTarget = anglePerCallTarget;
+    mapObject->mAnglePerCallIncrement = anglePerCallIncrement;
+    mapObject->mUnk_1a0 = angleOffset;
+    mapObject->mMoveAngleMode = 1;
+    mapObject->mMoveAnglePerCall = 0;
+    mapObject->mMoveAnglePerCallTarget = 0;
+    mapObject->mMoveAnglePerCallIncrement = 0;
+}
+
+void TurnToPointMoveSideways(MissionRunMapObject *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement,
+                             s32 moveAnglePerCallTarget, s32 moveAnglePerCallIncrement, s32 moveAngleOffset) {
+    mapObject->mAngleState = 2;
+    mapObject->mAnglePerCallTarget = anglePerCallTarget;
+    mapObject->mAnglePerCallIncrement = anglePerCallIncrement;
+    mapObject->mMoveAngleMode = 4;
+    mapObject->mMoveAnglePerCall = 0;
+    mapObject->mMoveAnglePerCallTarget = moveAnglePerCallTarget;
+    mapObject->mMoveAnglePerCallIncrement = moveAnglePerCallIncrement;
+    mapObject->mUnk_1c4 = moveAngleOffset;
+}
+
+void SpinAngleStopMoveAngle(MissionRunMapObject *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement) {
+    mapObject->mAngleState = 5;
+    mapObject->mAnglePerCallTarget = anglePerCallTarget;
+    mapObject->mAnglePerCallIncrement = anglePerCallIncrement;
+    mapObject->mUnk_1a0 = 0;
+    mapObject->mMoveAngleMode = 0;
+    mapObject->mMoveAnglePerCall = 0;
+    mapObject->mMoveAnglePerCallTarget = 0;
+    mapObject->mMoveAnglePerCallIncrement = 0;
+}
+
+void SpinTowardPointMoveToPoint(MissionRunMapObject *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement,
+                                s32 moveAnglePerCallTarget, s32 moveAnglePerCallIncrement) {
+    s32 angleState;
+
+    if (mapObject->mAngleState == 7) {
+        angleState = 7;
+    } else if (mapObject->mAngleState == 8) {
+        angleState = 8;
+    } else {
+        angleState = 6;
+    }
+    mapObject->mAngleState = angleState;
+    mapObject->mAnglePerCallTarget = anglePerCallTarget;
+    mapObject->mAnglePerCallIncrement = anglePerCallIncrement;
+    mapObject->mUnk_1a0 = 0;
+    mapObject->mMoveAngleMode = 2;
+    mapObject->mMoveAnglePerCallTarget = moveAnglePerCallTarget;
+    mapObject->mMoveAnglePerCallIncrement = moveAnglePerCallIncrement;
+}
+
+void TurnAndMoveToPointOwnRates(MissionRunMapObject *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement,
+                                s32 moveAnglePerCallTarget, s32 moveAnglePerCallIncrement) {
+    mapObject->mAngleState = 2;
+    mapObject->mAnglePerCallTarget = anglePerCallTarget;
+    mapObject->mAnglePerCallIncrement = anglePerCallIncrement;
+    mapObject->mUnk_1a0 = 0;
+    mapObject->mMoveAngleMode = 2;
+    mapObject->mMoveAnglePerCallTarget = moveAnglePerCallTarget;
+    mapObject->mMoveAnglePerCallIncrement = moveAnglePerCallIncrement;
+}
+
+void StopMoveAngleTurning(MissionRunMapObject *mapObject) {
+    mapObject->mMoveAngleMode = 0;
+    mapObject->mMoveAnglePerCall = 0;
+    mapObject->mMoveAnglePerCallTarget = 0;
+    mapObject->mMoveAnglePerCallIncrement = 0;
+}
+
+void SetAnglePointAndMoveAnglePoint(MissionRunMapObject *mapObject, Vec3 *point) {
+    if (point != NULL) {
+        mapObject->mMoveAnglePoint = *point;
+        mapObject->mAnglePoint = *point;
+    }
+}
+
+void SetMoveAnglePoint(MissionRunMapObject *mapObject, Vec3 *point) {
+    if (point != NULL) {
+        mapObject->mMoveAnglePoint = *point;
+    }
+}
+
+void SetAnglePoint(MissionRunMapObject *mapObject, Vec3 *point) {
+    if (point != NULL) {
+        mapObject->mAnglePoint = *point;
+    }
+}
+
+void SetVelocity(MissionRunMapObject *mapObject, Vec3 *velocity) {
+    if (velocity != NULL) {
+        mapObject->mVelocity = *velocity;
+    }
+}
+
+void SetShadowOffsetYAndScale(MissionRunMapObject *mapObject, s32 offsetY, s32 scaleXZ) {
+    if (offsetY == 0) {
+        mapObject->mUnk_27c = 1;
+    } else {
+        mapObject->mUnk_27c = 2;
+    }
+    mapObject->mShadowOffsetX = mapObject->mShadowOffsetTargetX = 0;
+    mapObject->mShadowOffsetY = mapObject->mShadowOffsetTargetY = offsetY;
+    mapObject->mShadowOffsetZ = mapObject->mShadowOffsetTargetZ = 0;
+    mapObject->mShadowOffsetPerCall = 0;
+    mapObject->mShadowScaleX = mapObject->mShadowScaleTargetX = scaleXZ;
+    mapObject->mShadowScaleY = mapObject->mShadowScaleTargetY = 0xa000;
+    mapObject->mShadowScaleZ = mapObject->mShadowScaleTargetZ = scaleXZ;
+    mapObject->mShadowScalePerCall = 0;
+}
+
+void SetShadowOffsetYAndScaleTarget(MissionRunMapObject *mapObject, int offsetY, u32 offsetPerCall, u32 scaleXZ,
+                                    u32 scalePerCall) {
+    if (offsetY == 0) {
+        mapObject->mUnk_27c = 1;
+    } else {
+        mapObject->mUnk_27c = 2;
+    }
+    mapObject->mShadowOffsetTargetX = 0;
+    mapObject->mShadowOffsetTargetY = offsetY;
+    mapObject->mShadowOffsetTargetZ = 0;
+    mapObject->mShadowOffsetPerCall = offsetPerCall;
+    mapObject->mShadowScaleTargetX = scaleXZ;
+    mapObject->mShadowScaleTargetY = (0x0000a000u);
+    mapObject->mShadowScaleTargetZ = scaleXZ;
+    mapObject->mShadowScalePerCall = scalePerCall;
+}
+
+void SetCollisionOffsetAndExtent(MissionRunMapObject *mapObject, s32 offsetY, s32 extentXZ, s32 extentY) {
+    if (extentY == 0) {
+        mapObject->mCollisionShape = 0;
+    } else {
+        mapObject->mCollisionShape = 2;
+    }
+    mapObject->mOffset.x = mapObject->mOffsetTargetX = 0;
+    mapObject->mOffset.y = mapObject->mOffsetTargetY = offsetY;
+    mapObject->mOffset.z = mapObject->mOffsetTargetZ = 0;
+    mapObject->mOffsetPerCall = 0;
+    mapObject->mCollisionExtent.x = mapObject->mCollisionExtentTargetX = extentXZ;
+    mapObject->mCollisionExtent.y = mapObject->mCollisionExtentTargetY = extentY;
+    mapObject->mCollisionExtent.z = mapObject->mCollisionExtentTargetZ = extentXZ;
+    mapObject->mCollisionExtentPerCall = 0;
+    mapObject->mPosWithOffset.x = mapObject->mUnk_000.mPos.x + mapObject->mOffset.x;
+    mapObject->mPosWithOffset.y = mapObject->mUnk_000.mPos.y + mapObject->mOffset.y;
+    mapObject->mPosWithOffset.z = mapObject->mUnk_000.mPos.z + mapObject->mOffset.z;
+}
+
+void SetCollisionOffsetAndExtentTarget(MissionRunMapObject *mapObject, u32 offsetY, u32 offsetPerCall, u32 extentXZ,
+                                       int extentY, u32 extentPerCall) {
+    if (extentY == 0) {
+        mapObject->mCollisionShape = 0;
+    } else {
+        mapObject->mCollisionShape = 2;
+    }
+    mapObject->mOffsetTargetX = 0;
+    mapObject->mOffsetTargetY = offsetY;
+    mapObject->mOffsetTargetZ = 0;
+    mapObject->mOffsetPerCall = offsetPerCall;
+    mapObject->mCollisionExtentTargetX = extentXZ;
+    mapObject->mCollisionExtentTargetY = extentY;
+    mapObject->mCollisionExtentTargetZ = extentXZ;
+    mapObject->mCollisionExtentPerCall = extentPerCall;
+}
+
+void SetShadowOffsetAndScale(MissionRunMapObject *mapObject, int offsetX, u32 offsetY, u32 offsetZ, u32 scaleX, u32 f,
+                             u32 scaleZ) {
+    int *v1;
+    int *v2;
+    mapObject->mUnk_27c = 0;
+    if ((mapObject->mUnk_000.mFlags & (0x00000400u)) != 0) {
+        offsetX = -offsetX;
+    }
+    v2 = &mapObject->mShadowOffsetTargetX;
+    *v2 = offsetX;
+    mapObject->mShadowOffsetX = *v2;
+    v1 = &mapObject->mShadowOffsetTargetY;
+    *v1 = offsetY;
+    mapObject->mShadowOffsetY = *v1;
+    v1 = &mapObject->mShadowOffsetTargetZ;
+    *v1 = offsetZ;
+    mapObject->mShadowOffsetZ = *v1;
+    mapObject->mShadowOffsetPerCall = 0;
+    v1 = &mapObject->mShadowScaleTargetX;
+    *v1 = scaleX;
+    mapObject->mShadowScaleX = *v1;
+    v1 = &mapObject->mShadowScaleTargetY;
+    *v1 = (0x0000a000u);
+    mapObject->mShadowScaleY = *v1;
+    v1 = &mapObject->mShadowScaleTargetZ;
+    *v1 = scaleZ;
+    mapObject->mShadowScaleZ = *v1;
+    mapObject->mShadowScalePerCall = 0;
+}
+
+void SetShadowOffsetAndScaleTarget(MissionRunMapObject *mapObject, int offsetX, u32 offsetY, u32 offsetZ,
+                                   u32 offsetPerCall, u32 scaleX, u32 g, u32 scaleZ, u32 scalePerCall) {
+    mapObject->mUnk_27c = 0;
+    if ((mapObject->mUnk_000.mFlags & (0x00000400u)) != 0) {
+        offsetX = -offsetX;
+    }
+    mapObject->mShadowOffsetTargetX = offsetX;
+    mapObject->mShadowOffsetTargetY = offsetY;
+    mapObject->mShadowOffsetTargetZ = offsetZ;
+    mapObject->mShadowOffsetPerCall = offsetPerCall;
+    mapObject->mShadowScaleTargetX = scaleX;
+    mapObject->mShadowScaleTargetY = (0x0000a000u);
+    mapObject->mShadowScaleTargetZ = scaleZ;
+    mapObject->mShadowScalePerCall = scalePerCall;
+}
+
+void SetCollisionBoxOffsetAndExtent(MissionRunMapObject *mapObject, int offsetX, int offsetY, int offsetZ, u32 extentX,
+                                    u32 extentY, u32 extentZ) {
+    int *v1;
+    int *v2;
+    int *v3;
+    int *v4;
+    int *v5;
+    mapObject->mCollisionShape = 1;
+    if ((mapObject->mUnk_000.mFlags & (0x00000400u)) != 0) {
+        offsetX = -offsetX;
+    }
+    v2 = &mapObject->mOffsetTargetX;
+    *v2 = offsetX;
+    v1 = &mapObject->mOffset.x;
+    *v1 = *v2;
+    v3 = &mapObject->mOffsetTargetY;
+    *v3 = offsetY;
+    v2 = &mapObject->mOffset.y;
+    *v2 = *v3;
+    v4 = &mapObject->mOffsetTargetZ;
+    *v4 = offsetZ;
+    v3 = &mapObject->mOffset.z;
+    *v3 = *v4;
+    mapObject->mOffsetPerCall = 0;
+    v5 = &mapObject->mCollisionExtentTargetX;
+    *v5 = extentX;
+    mapObject->mCollisionExtent.x = *v5;
+    v5 = &mapObject->mCollisionExtentTargetY;
+    *v5 = extentY;
+    mapObject->mCollisionExtent.y = *v5;
+    v5 = &mapObject->mCollisionExtentTargetZ;
+    *v5 = extentZ;
+    mapObject->mCollisionExtent.z = *v5;
+    mapObject->mCollisionExtentPerCall = 0;
+    mapObject->mPosWithOffset.x = mapObject->mUnk_000.mPos.x + *v1;
+    mapObject->mPosWithOffset.y = mapObject->mUnk_000.mPos.y + *v2;
+    mapObject->mPosWithOffset.z = mapObject->mUnk_000.mPos.z + *v3;
+}
+
+void SetCollisionBoxOffsetAndExtentTarget(MissionRunMapObject *mapObject, int offsetX, u32 offsetY, u32 offsetZ,
+                                          u32 offsetPerCall, u32 extentX, u32 extentY, u32 extentZ, u32 extentPerCall) {
+    mapObject->mCollisionShape = 1;
+    if ((mapObject->mUnk_000.mFlags & (0x00000400u)) != 0) {
+        offsetX = -offsetX;
+    }
+    mapObject->mOffsetTargetX = offsetX;
+    mapObject->mOffsetTargetY = offsetY;
+    mapObject->mOffsetTargetZ = offsetZ;
+    mapObject->mOffsetPerCall = offsetPerCall;
+    mapObject->mCollisionExtentTargetX = extentX;
+    mapObject->mCollisionExtentTargetY = extentY;
+    mapObject->mCollisionExtentTargetZ = extentZ;
+    mapObject->mCollisionExtentPerCall = extentPerCall;
+}
+
+void ResetMissionRunMapObjects(void) {
+    u16 i;
+    MissionRunMapObject *obj;
+    MissionRunMapObject *tableObj;
+    MapObjectList *table;
+
+    if (!(gRaceSetup->mMode == MODE_MISSION_RUN ? IsKartEliminated((u16) gRaceSetup->mEntryIndex) : 0)) {
+        for (i = gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : (u8) 0;
+             i <= (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunMapObjectLastIndex() : (u16) 0); i++) {
+            obj = gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunMapObject(i) : 0;
+            table = FindMapObjectKindUpdateList(0x1ff);
+            StopMapObjectState(obj);
+            obj->mGravityEnabled = FALSE;
+            obj->mUnk_2b8 = 3;
+            obj->mSpeed = obj->mSpeedTarget = obj->mSpeedPerCall = 0;
+            obj->mAngleState = 0;
+            obj->mAnglePerCall = obj->mAnglePerCallTarget = obj->mAnglePerCallIncrement = 0;
+            obj->mMoveAngleMode = 0;
+            obj->mMoveAnglePerCall = obj->mMoveAnglePerCallTarget = obj->mMoveAnglePerCallIncrement = 0;
+            obj->mVelocity.x = obj->mVelocity.y = obj->mVelocity.z = 0;
+            obj->mAlphaLimit = obj->mAlphaLimitTarget = 0x1f000;
+            obj->mAlphaLimitPerCall = 0;
+            if (i - (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) <
+                table->mMapObjectCount) {
+                tableObj =
+                    table->mMapObjects[i -
+                                       (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)];
+                obj->mUnk_000.mPos = tableObj->mUnk_000.mCourseMapRow->mPosition;
+                tableObj =
+                    table->mMapObjects[i -
+                                       (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)];
+                obj->mAngle = DEG_TO_ANGLE(tableObj->mUnk_000.mCourseMapRow->mRotationDegrees.y);
+            }
+        }
+    }
+    ResetBalloons();
+}
+
+u32 IncrementHitCountAndCheckLimit(MissionRunMapObject *mapObject) {
+    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+        AddMissionRunCountForKind7();
+    }
+    mapObject->mUnk_0ac++;
+    if (mapObject->mUnk_0ac >= mapObject->mPrm->mUnk_000) {
+        mapObject->mUnk_0ac = mapObject->mPrm->mUnk_000;
+        if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+            EliminateKartsUntilWinnerDecided();
+        }
+        return 1;
+    }
+    return 0;
+}
+
+BOOL DecrementCounterToNegativeLimit(MissionRunMapObject *mapObject) {
+    s32 limit;
+
+    mapObject->mUnk_0ac--;
+    limit = -mapObject->mPrm->mUnk_000;
+    if (mapObject->mUnk_0ac <= limit) {
+        mapObject->mUnk_0ac = limit;
+        return TRUE;
+    }
+    return FALSE;
+}
+
+u16 GetAbsoluteCounter(MissionRunMapObject *mapObject) {
+    s32 counter;
+    counter = mapObject->mUnk_0ac;
+    if (counter < 0) {
+        counter = -counter;
+    }
+    return counter & 0xffff;
+}
+
+void SetRepeatsRemaining(MissionRunMapObject *mapObject, s32 repeatsRemaining) {
+    mapObject->mUnk_0b4 = repeatsRemaining;
+}
+
+u16 GetRepeatsRemaining(MissionRunMapObject *mapObject) {
+    return mapObject->mUnk_0b4;
+}
+
+void SetKartCollisionCallback(MissionRunMapObject *mapObject, UnkFunc *kartCollisionCallback) {
+    mapObject->mKartCollisionCallback = kartCollisionCallback;
+}
+
+void SetItemCollisionCallback(MissionRunMapObject *mapObject, UnkFunc *itemCollisionCallback) {
+    mapObject->mItemCollisionCallback = itemCollisionCallback;
+}
+
+BOOL IsPointInRange(MissionRunMapObject *mapObject, Vec3 *point, s32 radius, s32 halfAngle) {
+    if ((radius != 0 || halfAngle != 0) && (radius == 0 || IsWithinXzDistanceOfPoint(mapObject, point, radius) != 0) &&
+        (halfAngle == 0 || IsDirectionToPointWithinAngle(mapObject, mapObject->mMoveAngle, point, halfAngle) != 0)) {
+        return TRUE;
+    }
+    return FALSE;
+}
+
+ItemBomb *FindItemBombInRange(MissionRunMapObject *mapObject, u32 radius, u32 halfAngle) {
+    int bombCount;
+    ItemBomb *bomb;
+    int inRange;
+    int index;
+    bombCount = GetItemBombActiveCount();
+    index = 0;
+    if (0 < bombCount) {
+        do {
+            bomb = GetRestingItemBomb(index);
+            if ((bomb != NULL) &&
+                (inRange = IsPointInRange(mapObject, &bomb->mBouncingItemObject.mItemObject.mPos, radius, halfAngle),
+                 inRange != 0)) {
+                return bomb;
+            }
+            index = index + 1;
+        } while (index < bombCount);
+    }
+    return NULL;
+}
+
+Kart *GetEntryKartInRange(MissionRunMapObject *mapObject, s32 radius, s32 halfAngle) {
+    Kart *kart;
+
+    kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    if (kart != NULL && IsPointInRange(mapObject, &kart->mPos, radius, halfAngle) != FALSE &&
+        (kart->mDriveFlags & KART_DRIVE_SINKING) == 0) {
+        return kart;
+    }
+    return NULL;
+}
+
+Kart *GetEntryKartInAngleRange(MissionRunMapObject *mapObject, s32 angleOffset, s32 radius, s32 halfAngle) {
+    Kart *kart;
+
+    kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    if (kart != NULL && (kart->mDriveFlags & KART_DRIVE_SINKING) == 0 && (radius != 0 || halfAngle != 0)) {
+        if (radius == 0 || IsWithinXzDistanceOfPoint(mapObject, &kart->mPos, radius) != 0) {
+            if (halfAngle == 0 || IsDirectionToPointWithinAngle(mapObject, mapObject->mAngle + angleOffset, &kart->mPos,
+                                                                halfAngle) != 0) {
+                return kart;
+            }
+        }
+    }
+    return NULL;
+}
+
+Kart *GetEntryKartFacingObject(MissionRunMapObject *mapObject, s32 radius, s32 halfAngle) {
+    Kart *kart;
+
+    kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    if (kart != NULL && (kart->mDriveFlags & KART_DRIVE_SINKING) == 0 && (radius != 0 || halfAngle != 0)) {
+        if (radius == 0 || IsWithinXzDistanceOfPoint(mapObject, &kart->mPos, radius) != 0) {
+            if (halfAngle == 0 ||
+                IsDirectionToPointWithinAngle(mapObject, kart->mHeadingAngle + 0x8000, &kart->mPos, halfAngle) != 0) {
+                return kart;
+            }
+        }
+    }
+    return NULL;
+}
+
+CourseMapGroupEntry *GetCurrentGroupEntry(MissionRunMapObject *mapObject) {
+    if (mapObject->mEntryGroupIndex < gCourseMap->mEntryGroupCount) {
+        return GetCourseMapGroupEntry(mapObject->mEntryGroupIndex, mapObject->mEntryIndex);
+    }
+    return NULL;
+}
+
+s32 GetCurrentGroupEntryValue(MissionRunMapObject *mapObject) {
+    if (mapObject->mEntryGroupIndex < gCourseMap->mEntryGroupCount) {
+        return GetCourseMapGroupEntry(mapObject->mEntryGroupIndex, mapObject->mEntryIndex)->mUnk_0e;
+    }
+    return 0;
+}
+
+s32 GetCurrentGroupEntryPercent(MissionRunMapObject *mapObject) {
+    if (mapObject->mEntryGroupIndex < gCourseMap->mEntryGroupCount) {
+        return GetCourseMapGroupEntry(mapObject->mEntryGroupIndex, mapObject->mEntryIndex)->mUnk_10;
+    }
+    return 0;
+}
+
+CourseMapGroupEntry *GetNextGroupEntry(MissionRunMapObject *mapObject) {
+    CourseMap *courseMap = gCourseMap;
+    s32 nextEntryIndex;
+
+    if (mapObject->mEntryGroupIndex < courseMap->mEntryGroupCount) {
+        nextEntryIndex = mapObject->mEntryIndex + 1;
+        if (nextEntryIndex >= GetCourseMapEntryGroup(mapObject->mEntryGroupIndex)->mEntryCount) {
+            nextEntryIndex = 0;
+        }
+        return GetCourseMapGroupEntry(mapObject->mEntryGroupIndex, nextEntryIndex);
+    }
+    return NULL;
+}
+
+void DecrementEntryIndexSkipZero(MissionRunMapObject *mapObject) {
+    CourseMap *courseMap;
+    CourseMapEntryGroup *entryGroup;
+    s32 groupIndex;
+    s32 entryIndex;
+
+    courseMap = gCourseMap;
+    groupIndex = mapObject->mEntryGroupIndex;
+    if (groupIndex < courseMap->mEntryGroupCount) {
+        entryGroup = &courseMap->mEntryGroups[(u16) groupIndex];
+        entryIndex = mapObject->mEntryIndex - 1;
+        if (entryIndex <= 0) {
+            entryIndex = entryGroup->mEntryCount - 1;
+        }
+        mapObject->mEntryIndex = entryIndex;
+    }
+}
+
+void IncrementEntryIndex(MissionRunMapObject *mapObject) {
+    int nextEntryIndex;
+
+    if (mapObject->mEntryGroupIndex < gCourseMap->mEntryGroupCount) {
+        nextEntryIndex = mapObject->mEntryIndex + 1;
+        if (nextEntryIndex >= GetCourseMapEntryGroup(mapObject->mEntryGroupIndex)->mEntryCount) {
+            nextEntryIndex = 0;
+        }
+        mapObject->mEntryIndex = nextEntryIndex;
+    }
+}
+
+void IncrementEntryGroupIndex(MissionRunMapObject *mapObject, s32 groupSpan) {
+    s32 firstGroupIndex;
+    s32 nextGroupIndex;
+
+    firstGroupIndex = mapObject->mUnk_000.mCourseMapRow->mGroupIndex;
+    nextGroupIndex = mapObject->mEntryGroupIndex + 1;
+    if (nextGroupIndex >= firstGroupIndex + groupSpan) {
+        nextGroupIndex = firstGroupIndex;
+    }
+    mapObject->mEntryGroupIndex = (u16) nextGroupIndex;
+    mapObject->mEntryIndex = 0;
+}
+
+void *StartItemBombWithParkedItemBox(u16 forcedRow) {
+    ItemBox *parkedMapObject;
+
+    parkedMapObject = FindParkedMapObject(0xc9);
+    if (parkedMapObject != NULL) {
+        SetItemBoxFramesSinceHitMax(parkedMapObject);
+        parkedMapObject->mForcedRowHumanGhostPeer = forcedRow;
+        parkedMapObject->mForcedRowCpu = forcedRow;
+        parkedMapObject->mShortSpin = 1;
+        return StartItemBombWithMapObject(parkedMapObject, 0xa000);
+    }
+    return NULL;
+}
+
+void *StartItemBombWithParkedKuribo(void) {
+    void *parkedMapObject;
+
+    parkedMapObject = FindParkedMapObject(MAP_OBJECT_KIND_KURIBO);
+    if (parkedMapObject != NULL) {
+        ResetKuriboForItemBomb(parkedMapObject);
+        return StartItemBombWithMapObject(parkedMapObject, 0);
+    }
+    return NULL;
+}
+
+void StoreNodePositionAndPlaceItemBomb(NNSG3dRS *renderState) {
+    MtxFx43 currentMatrix;
+    MtxFx43 inverseViewMatrix;
+    Vec3 bombPosition;
+    MissionRunMapObject *mapObject;
+    Camera *currentCamera;
+
+    mapObject = renderState->mRenderObj->mPtrUser;
+    if (renderState->mC[1] == mapObject->mUnk_2e4) {
+        currentCamera = GetCurrentCamera();
+        NNS_G3dGetCurrentMtx(&currentMatrix, NULL);
+        MTX_Inverse43(&currentCamera->mViewMatrix, &inverseViewMatrix);
+        MTX_Concat43(&currentMatrix, &inverseViewMatrix, &currentMatrix);
+        mapObject->mUnk_2e8.x = currentMatrix.mRows[3].x << 4;
+        mapObject->mUnk_2e8.y = currentMatrix.mRows[3].y << 4;
+        mapObject->mUnk_2e8.z = currentMatrix.mRows[3].z << 4;
+        if (mapObject->mItemBomb != NULL) {
+            bombPosition = mapObject->mUnk_2e8;
+            VEC_MultAdd(mapObject->mUnk_2f4.x, &currentMatrix.mRows[0], &bombPosition, &bombPosition);
+            VEC_MultAdd(mapObject->mUnk_2f4.y, &currentMatrix.mRows[1], &bombPosition, &bombPosition);
+            VEC_MultAdd(mapObject->mUnk_2f4.z, &currentMatrix.mRows[2], &bombPosition, &bombPosition);
+            PlaceItemBomb(mapObject->mItemBomb, &currentMatrix.mRows[0], &bombPosition);
+        }
+    }
+}
+
+void SetNodePositionSource(MissionRunMapObject *mapObject, u32 matchValue) {
+    MapObjectModel **nsbmdPointer;
+    mapObject->mUnk_2e4 = matchValue;
+    mapObject->mUnk_27c = 3;
+    nsbmdPointer = &mapObject->mNsbmd;
+    (*nsbmdPointer)->mAnimatedModel->mRenderObj.mPtrUser = mapObject;
+    NNS_G3dRenderObjSetCallBack(&(*nsbmdPointer)->mAnimatedModel->mRenderObj, StoreNodePositionAndPlaceItemBomb, 0, 6,
+                                (u8) 3);
+}
+
+void SetNodePositionSourceAndBombOffset(MissionRunMapObject *mapObject, s32 matchValue, const Vec3 *offset) {
+    mapObject->mUnk_2e4 = matchValue;
+    mapObject->mUnk_2f4 = *offset;
+    mapObject->mNsbmd->mAnimatedModel->mRenderObj.mPtrUser = mapObject;
+    NNS_G3dRenderObjSetCallBack(&mapObject->mNsbmd->mAnimatedModel->mRenderObj, StoreNodePositionAndPlaceItemBomb, 0, 6,
+                                3);
+}
+
+void ReleaseAndSetItemBomb(MissionRunMapObject *mapObject, void *itemBomb) {
+    if (mapObject->mItemBomb != NULL) {
+        ReleaseItemBomb(&mapObject->mItemBomb);
+    }
+    mapObject->mItemBomb = itemBomb;
+}
+
+u32 IsItemBombStored(MissionRunMapObject *mapObject) {
+    if (mapObject->mItemBomb != NULL) {
+        return 1;
+    }
+    return 0;
+}
+
+void ThrowOrReleaseStoredItemBomb(MissionRunMapObject *mapObject, Vec3 *velocity, s32 timer) {
+    Vec3 zeroVelocity;
+    s32 *zeroWords;
+
+    if (mapObject->mItemBomb != NULL) {
+        if (((ItemBomb *) mapObject->mItemBomb)->mBouncingItemObject.mItemObject.mPos.y < 0x64000) {
+            ReleaseItemBomb(&mapObject->mItemBomb);
+        } else if (velocity != NULL) {
+            ThrowItemBombFromSlot(&mapObject->mItemBomb, velocity, timer);
+        } else {
+            zeroWords = (s32 *) &zeroVelocity;
+            zeroWords[0] = 0;
+            zeroWords[1] = 0;
+            zeroWords[2] = 0;
+            ThrowItemBombFromSlot(&mapObject->mItemBomb, &zeroVelocity, timer);
+        }
+    }
+}
 
 void ThrowItemBombFromPosition(void *bomb, Vec3 *position, Vec3 *velocity, s32 timer) {
     Vec3 upNormal;
