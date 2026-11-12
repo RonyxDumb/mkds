@@ -34,14 +34,14 @@ void OS_InitLock(void) {
 }
 
 s32 OSi_DoLockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), s32 disableFiq) {
-    s32 lastLockFlag;
+    s32 previousFlag;
 
-    lastLockFlag = OSi_DoTryLockByWord(lockID, lockp, ctrlFuncp, disableFiq);
-    while (lastLockFlag > 0) {
+    previousFlag = OSi_DoTryLockByWord(lockID, lockp, ctrlFuncp, disableFiq);
+    while (previousFlag > 0) {
         OSi_WaitByLoop();
-        lastLockFlag = OSi_DoTryLockByWord(lockID, lockp, ctrlFuncp, disableFiq);
+        previousFlag = OSi_DoTryLockByWord(lockID, lockp, ctrlFuncp, disableFiq);
     }
-    return lastLockFlag;
+    return previousFlag;
 }
 
 s32 OS_LockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void)) {
@@ -49,15 +49,15 @@ s32 OS_LockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void)) {
 }
 
 s32 OSi_DoUnlockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), s32 disableFiq) {
-    u32 lastInterrupts;
+    u32 savedIrqState;
 
     if (lockID != lockp->mOwnerID) {
         return -2;
     }
     if (disableFiq != 0) {
-        lastInterrupts = OS_DisableInterrupts_IrqAndFiq();
+        savedIrqState = OS_DisableInterrupts_IrqAndFiq();
     } else {
-        lastInterrupts = OS_DisableInterrupts();
+        savedIrqState = OS_DisableInterrupts();
     }
     lockp->mOwnerID = 0;
     if (ctrlFuncp != 0) {
@@ -65,9 +65,9 @@ s32 OSi_DoUnlockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), s
     }
     lockp->mLockFlag = 0;
     if (disableFiq != 0) {
-        OS_RestoreInterrupts_IrqAndFiq(lastInterrupts);
+        OS_RestoreInterrupts_IrqAndFiq(savedIrqState);
     } else {
-        OS_RestoreInterrupts(lastInterrupts);
+        OS_RestoreInterrupts(savedIrqState);
     }
     return 0;
 }
@@ -77,27 +77,27 @@ s32 OS_UnlockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void)) {
 }
 
 s32 OSi_DoTryLockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), s32 disableFiq) {
-    u32 lastInterrupts;
-    s32 lastLockFlag;
+    u32 savedIrqState;
+    s32 previousFlag;
 
     if (disableFiq != 0) {
-        lastInterrupts = OS_DisableInterrupts_IrqAndFiq();
+        savedIrqState = OS_DisableInterrupts_IrqAndFiq();
     } else {
-        lastInterrupts = OS_DisableInterrupts();
+        savedIrqState = OS_DisableInterrupts();
     }
-    lastLockFlag = MI_SwapWord(lockID, &lockp->mLockFlag);
-    if (lastLockFlag == 0) {
+    previousFlag = MI_SwapWord(lockID, &lockp->mLockFlag);
+    if (previousFlag == 0) {
         if (ctrlFuncp != 0) {
             ctrlFuncp();
         }
         lockp->mOwnerID = lockID;
     }
     if (disableFiq != 0) {
-        OS_RestoreInterrupts_IrqAndFiq(lastInterrupts);
+        OS_RestoreInterrupts_IrqAndFiq(savedIrqState);
     } else {
-        OS_RestoreInterrupts(lastInterrupts);
+        OS_RestoreInterrupts(savedIrqState);
     }
-    return lastLockFlag;
+    return previousFlag;
 }
 
 s32 OS_UnlockCartridge(u16 lockID) {

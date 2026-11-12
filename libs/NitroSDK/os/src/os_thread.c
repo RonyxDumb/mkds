@@ -332,16 +332,16 @@ void OS_SleepThread(OSThreadQueue *queue) {
 // Makes every thread on queue ready and empties the queue.
 void OS_WakeupThread(OSThreadQueue *queue) {
     u32 enabled;
-    OSThread *thread;
+    OSThread *wokenThread;
 
     enabled = OS_DisableInterrupts();
     if (queue->mHead != 0) {
         while (queue->mHead != 0) {
-            thread = OSi_RemoveLinkFromQueue(queue);
-            thread->mState = 1;
-            thread->mQueue = 0;
-            thread->mLinkNext = 0;
-            thread->mLinkPrev = thread->mLinkNext;
+            wokenThread = OSi_RemoveLinkFromQueue(queue);
+            wokenThread->mState = 1;
+            wokenThread->mQueue = 0;
+            wokenThread->mLinkNext = 0;
+            wokenThread->mLinkPrev = wokenThread->mLinkNext;
         }
         queue->mTail = 0;
         queue->mHead = queue->mTail;
@@ -411,7 +411,7 @@ void OSi_RescheduleThread(void) {
 
 // Moves the current thread behind the last thread of equal OSThread.mPriority in the thread list and reschedules.
 void OS_YieldThread(void) {
-    OSThread *current;
+    OSThread *runningThread;
     OSThread *currentPrev;
     OSThread *lastEqual;
     OSThread *thread;
@@ -422,30 +422,30 @@ void OS_YieldThread(void) {
     currentPrev = 0;
     lastEqual = 0;
     count = 0;
-    current = OSi_ThreadInfo.mCurrentThread;
+    runningThread = OSi_ThreadInfo.mCurrentThread;
     enabled = OS_DisableInterrupts();
     prev = 0;
     for (thread = OSi_ThreadInfo.mListHead; thread != 0; thread = thread->mNext) {
-        if (thread == current) {
+        if (thread == runningThread) {
             currentPrev = prev;
         }
-        if (current->mPriority == thread->mPriority) {
+        if (runningThread->mPriority == thread->mPriority) {
             lastEqual = thread;
             count++;
         }
         prev = thread;
     }
-    if (count <= 1 || lastEqual == current) {
+    if (count <= 1 || lastEqual == runningThread) {
         OS_RestoreInterrupts(enabled);
         return;
     }
     if (currentPrev == 0) {
-        OSi_ThreadInfo.mListHead = current->mNext;
+        OSi_ThreadInfo.mListHead = runningThread->mNext;
     } else {
-        currentPrev->mNext = current->mNext;
+        currentPrev->mNext = runningThread->mNext;
     }
-    current->mNext = lastEqual->mNext;
-    lastEqual->mNext = current;
+    runningThread->mNext = lastEqual->mNext;
+    lastEqual->mNext = runningThread;
     OSi_RescheduleThread();
     OS_RestoreInterrupts(enabled);
 }
@@ -489,14 +489,14 @@ u32 OS_GetThreadPriority(OSThread *thread) {
 // Sleeps the current thread for msec milliseconds: an alarm wakes it up again.
 void OS_Sleep(u32 msec) {
     OSThread *thread;
-    OSAlarm alarm;
+    OSAlarm sleepAlarm;
     u32 enabled;
 
-    OS_CreateAlarm(&alarm);
+    OS_CreateAlarm(&sleepAlarm);
     thread = *OSi_CurrentThreadPtr;
     enabled = OS_DisableInterrupts();
-    thread->mAlarmForSleep = &alarm;
-    OS_SetAlarm(&alarm, msec * 0x82ea >> 6, (void (*)(void *)) OSi_SleepAlarmCallback, &thread);
+    thread->mAlarmForSleep = &sleepAlarm;
+    OS_SetAlarm(&sleepAlarm, msec * 0x82ea >> 6, (void (*)(void *)) OSi_SleepAlarmCallback, &thread);
     while (thread != 0) {
         OS_SleepThread(0);
     }

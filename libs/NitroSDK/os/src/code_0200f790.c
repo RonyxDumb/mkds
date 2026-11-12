@@ -12,17 +12,17 @@ OSiAlarmQueue gAlarmList;
 // Starts timer 1 so that it fires when alarm is due; the count is the time left, or the next tick when it has passed.
 void OSi_SetTimer(OSAlarm *alarm) {
     u64 tick;
-    s64 delta;
+    s64 ticksLeft;
     u16 reload;
 
     tick = OS_GetTick();
     *(vu16 *) 0x4000106 = 0;
-    delta = alarm->mFire - tick;
+    ticksLeft = alarm->mFire - tick;
     OSi_EnterTimerCallback(1, OSi_AlarmHandler, 0);
-    if (delta < 0) {
+    if (ticksLeft < 0) {
         reload = 0xfffe;
-    } else if (delta < 0x10000) {
-        reload = ~delta;
+    } else if (ticksLeft < 0x10000) {
+        reload = ~ticksLeft;
     } else {
         reload = 0;
     }
@@ -141,40 +141,40 @@ void OS_CancelAlarm(OSAlarm *alarm) {
 
 // Timer 1 interrupt body: runs the first alarm when it is due and starts the timer for the next one.
 void OSi_ArrangeTimer(void) {
-    OSAlarm *alarm;
+    OSAlarm *firstAlarm;
     OSAlarm *next;
-    OSAlarmHandler handler;
+    OSAlarmHandler alarmHandler;
     u64 now;
 
     *(vu16 *) 0x4000106 = 0;
     OS_DisableIrqMask(0x10);
     IRQ_CHECK_FLAGS |= 0x10;
     now = OS_GetTick();
-    alarm = gAlarmList.mHead;
-    if (alarm == 0) {
+    firstAlarm = gAlarmList.mHead;
+    if (firstAlarm == 0) {
         return;
     }
-    if (now < alarm->mFire) {
-        OSi_SetTimer(alarm);
+    if (now < firstAlarm->mFire) {
+        OSi_SetTimer(firstAlarm);
         return;
     }
-    next = alarm->mNext;
+    next = firstAlarm->mNext;
     gAlarmList.mHead = next;
     if (next == 0) {
         gAlarmList.mTail = 0;
     } else {
         next->mPrev = 0;
     }
-    handler = alarm->mHandler;
-    if (alarm->mPeriod == 0) {
-        alarm->mHandler = 0;
+    alarmHandler = firstAlarm->mHandler;
+    if (firstAlarm->mPeriod == 0) {
+        firstAlarm->mHandler = 0;
     }
-    if (handler != 0) {
-        handler(alarm->mArg);
+    if (alarmHandler != 0) {
+        alarmHandler(firstAlarm->mArg);
     }
-    if (alarm->mPeriod != 0) {
-        alarm->mHandler = handler;
-        OSi_InsertAlarm(alarm, 0);
+    if (firstAlarm->mPeriod != 0) {
+        firstAlarm->mHandler = alarmHandler;
+        OSi_InsertAlarm(firstAlarm, 0);
     }
     if (gAlarmList.mHead != 0) {
         OSi_SetTimer(gAlarmList.mHead);

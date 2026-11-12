@@ -610,18 +610,18 @@ void GX_InitGXState(void) {
 }
 
 void GX_Init(void) {
-    s32 lockResult;
+    s32 newLockId;
 
     reg_GX_POWCNT |= 0x8000;
     reg_GX_POWCNT = (reg_GX_POWCNT & ~0x20e) | 0x20e;
     reg_GX_POWCNT |= 0x1;
     GX_InitGXState();
     while (gVramLockId == 0) {
-        lockResult = OS_GetLockID();
-        if (lockResult == -3) {
+        newLockId = OS_GetLockID();
+        if (newLockId == -3) {
             OS_Terminate();
         }
-        gVramLockId = lockResult;
+        gVramLockId = newLockId;
     }
     reg_GX_DISPSTAT = 0;
     reg_GX_DISPCNT = 0;

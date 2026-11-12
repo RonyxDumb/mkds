@@ -63,16 +63,16 @@ void OS_UnlockMutex(OSMutex *mutex) {
 
 // Releases every mutex in the mutex list of thread and wakes the threads waiting on them.
 void OSi_UnlockAllMutex(struct OSThread *thread) {
-    OSMutex *mutex;
+    OSMutex *heldMutex;
 
     if (thread->mMutexQueue.mHead == 0) {
         return;
     }
     do {
-        mutex = OSi_RemoveMutexLinkFromQueue(&thread->mMutexQueue);
-        mutex->mLockCount = 0;
-        mutex->mHolder = 0;
-        OS_WakeupThread(&mutex->mQueue);
+        heldMutex = OSi_RemoveMutexLinkFromQueue(&thread->mMutexQueue);
+        heldMutex->mLockCount = 0;
+        heldMutex->mHolder = 0;
+        OS_WakeupThread(&heldMutex->mQueue);
     } while (thread->mMutexQueue.mHead != 0);
 }
 
@@ -80,7 +80,7 @@ void OSi_UnlockAllMutex(struct OSThread *thread) {
 // thread holds it.
 BOOL OS_TryLockMutex(OSMutex *mutex) {
     u32 enabled;
-    BOOL locked;
+    BOOL acquired;
     OSThread *current;
 
     enabled = OS_DisableInterrupts();
@@ -89,15 +89,15 @@ BOOL OS_TryLockMutex(OSMutex *mutex) {
         mutex->mHolder = current;
         mutex->mLockCount = mutex->mLockCount + 1;
         OSi_EnqueueTail(current, mutex);
-        locked = 1;
+        acquired = 1;
     } else if (mutex->mHolder == current) {
         mutex->mLockCount = mutex->mLockCount + 1;
-        locked = 1;
+        acquired = 1;
     } else {
-        locked = 0;
+        acquired = 0;
     }
     OS_RestoreInterrupts(enabled);
-    return locked;
+    return acquired;
 }
 
 // Links mutex at the tail of the mutex list of thread.

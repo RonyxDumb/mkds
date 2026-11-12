@@ -42,7 +42,7 @@ void CTRDG_Init(void) {
 void CTRDGi_InitModuleInfo(void) {
     u32 savedIrqMask;
     u16 savedMasterEnable;
-    Unk0200c4a4 lockInfo;
+    Unk0200c4a4 procLock;
     Unk0200c4a4 romCycle;
     s32 priority;
     s32 infoIndex;
@@ -59,7 +59,7 @@ void CTRDGi_InitModuleInfo(void) {
     savedIrqMask = OS_SetIrqMask(0x40000);
     savedMasterEnable = reg_OS_IME;
     reg_OS_IME = 1;
-    CTRDGi_LockByProcessor(gCartridgeState.mLockId, &lockInfo);
+    CTRDGi_LockByProcessor(gCartridgeState.mLockId, &procLock);
     priority = (reg_MI_EXMEMCNT & 0x8000) >> 15;
     CTRDGi_ChangeLatestAccessCycle(&romCycle);
     reg_MI_EXMEMCNT = reg_MI_EXMEMCNT & ~0x8000;
@@ -67,7 +67,7 @@ void CTRDGi_InitModuleInfo(void) {
     MI_DmaCopy16(1, (const void *) 0x08000080, ((u8 *) &gCartridgeHeaderCopy + 0x80), 0x40);
     reg_MI_EXMEMCNT = (reg_MI_EXMEMCNT & ~0x8000) | (priority << 15);
     CTRDGi_RestoreAccessCycle(&romCycle);
-    CTRDGi_UnlockByProcessor(gCartridgeState.mLockId, &lockInfo);
+    CTRDGi_UnlockByProcessor(gCartridgeState.mLockId, &procLock);
     chb = &gCartridgeHeaderCopy;
     idInfo = &SYSTEM_WORK->mCartridgeModuleInfo;
     idInfo->mIdHalfword = gCartridgeHeaderCopy.mHeaderTailCopy.mModuleId;
@@ -127,7 +127,7 @@ void CTRDGi_InitCommon(void) {
 
 s32 CTRDG_IsExisting(void) {
     s32 exists;
-    Unk0200c4a4 lockInfo;
+    Unk0200c4a4 procLock;
     Unk0200c4a4 romCycle;
     CTRDGModuleInfo *idInfo;
     CTRDGHeader *romHeader;
@@ -141,7 +141,7 @@ s32 CTRDG_IsExisting(void) {
     if (idInfo->mDetectPullOut == 1) {
         return 0;
     }
-    CTRDGi_LockByProcessor(gCartridgeState.mLockId, &lockInfo);
+    CTRDGi_LockByProcessor(gCartridgeState.mLockId, &procLock);
     CTRDGi_ChangeLatestAccessCycle(&romCycle);
     if ((romHeader->mIdSelector == 0x96 && idInfo->mIdHalfword != romHeader->mIdHalfword) ||
         (romHeader->mIdSelector != 0x96 && idInfo->mIdHalfword != *(u16 *) 0x0801fffe) ||
@@ -150,7 +150,7 @@ s32 CTRDG_IsExisting(void) {
         exists = 0;
     }
     CTRDGi_RestoreAccessCycle(&romCycle);
-    CTRDGi_UnlockByProcessor(gCartridgeState.mLockId, &lockInfo);
+    CTRDGi_UnlockByProcessor(gCartridgeState.mLockId, &procLock);
     return exists;
 }
 
