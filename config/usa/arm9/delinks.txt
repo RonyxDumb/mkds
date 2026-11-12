@@ -3787,7 +3787,7 @@ src/Main/Sound/sound_seq.c:
     .text       start:0x02105550 end:0x02108e38
     .rodata     start:0x0215a6c0 end:0x0215a6e4
     .data       start:0x0216c7b4 end:0x0216c840
-    .bss        start:0x0217c74c end:0x0217c7d0
+    .bss        start:0x0217c74c end:0x0217c7f4
 
 // provisional: file name and boundaries
 src/Main/Sound/snd_handle_slots.c:

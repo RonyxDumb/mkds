@@ -65,12 +65,27 @@ typedef struct PlayerVolumeFade {
     /* 00 */ u32 mVolumePerFrame;
     /* 04 */ s32 mVolume;
     /* 08 */ u32 mRaceStarted;
-    /* 0c */ u32 mTargetVolumeBeforeRaceStart;
-    /* 10 */ u32 mTargetVolumeAfterRaceStart;
-    /* 14 */ u32 mPlayerMaskBeforeRaceStart;
-    /* 18 */ u32 mPlayerMaskAfterRaceStart;
-    /* 1c */ u32 mVolumePerFrameBeforeRaceStart;
-    /* 20 */ u32 mVolumePerFrameAfterRaceStart;
+    union {
+        struct {
+            /* 0c */ u32 mTargetVolumeBeforeRaceStart;
+            /* 10 */ u32 mTargetVolumeAfterRaceStart;
+        };
+        /* 0c */ u32 mTargetVolumes[2]; // indexed by mRaceStarted
+    };
+    union {
+        struct {
+            /* 14 */ u32 mPlayerMaskBeforeRaceStart;
+            /* 18 */ u32 mPlayerMaskAfterRaceStart;
+        };
+        /* 14 */ u32 mPlayerMasks[2];
+    };
+    union {
+        struct {
+            /* 1c */ u32 mVolumePerFrameBeforeRaceStart;
+            /* 20 */ u32 mVolumePerFrameAfterRaceStart;
+        };
+        /* 1c */ u32 mVolumePerFrames[2];
+    };
 } PlayerVolumeFade;
 
 extern PlayerVolumeFade gPlayerVolumeFade;

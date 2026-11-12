@@ -11817,9 +11817,6 @@ gLoadedSoundSet kind:bss addr:0x0217c794
 gSoundHandlePool kind:bss addr:0x0217c7a4
 gSoundHandlePoolEntries kind:bss addr:0x0217c7b8
 gPlayerVolumeFade kind:bss addr:0x0217c7d0
-gPlayerVolumeTargets kind:bss addr:0x0217c7dc
-gPlayerVolumeMasks kind:bss addr:0x0217c7e4
-gPlayerVolumeSteps kind:bss addr:0x0217c7ec
 gSceneSoundState kind:bss addr:0x0217c7f4
 data_0217c81c kind:bss addr:0x0217c7fc
 gSndHandleSlots kind:bss addr:0x0217c818

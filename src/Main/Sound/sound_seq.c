@@ -80,24 +80,25 @@ s32 gSndWaveArcIdsByBit[13] = {5, 6, 7, 8, 9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf, 0x10
 u16 gMissionRunLimitSeqNo[1];
 u16 gMissionRunMSselSeqIndex;
 u16 gMissionRunCountSeqNo[1];
-NNSSndSeqPlayer *gSeqZeroLoopHandle;
-u32 gRaceSoundKind;
-u32 gRaceSeqStarted;
+u32 gMissionRunSelMode;
 u32 gSceneSeqRestartAfterStar;
-s32 gSeqZeroLoopOn;
+u32 gRaceSeqStarted;
+NNSSndSeqPlayer *gSeqZeroLoopHandle;
+s32 gMissionRunMSselStep32Count;
 NNSSndSeqPlayer *gChoisesSSeqHandle;
 NNSSndSeqPlayer *gMatchingEntrySeqHandle;
-NNSSndHeap *gSeqRowSndHeap;
-u32 gSndHeapSavedState[1];
-u32 gMissionRunSelMode;
+u32 gRaceSoundKind;
 NNSSndHeap *gSndHeap;
-s32 gMissionRunMSselStep32Count;
 s32 gMissionRunMSselStep0Count;
+u32 gSndHeapSavedState[1];
 u32 gSoundStartedThisFrame;
+NNSSndHeap *gSeqRowSndHeap;
+s32 gSeqZeroLoopOn;
 u32 gKartStarSeqStartPending;
 LoadedSoundSet gLoadedSoundSet;
 SoundHandlePool gSoundHandlePool;
 u8 gSoundHandlePoolEntries[21];
+PlayerVolumeFade gPlayerVolumeFade;
 
 // Keeps seq 0 looping on the in-memory archive until StopSeqZeroLoop; UpdateSounds restarts it.
 void StartSeqZeroLoop(void) {
@@ -1242,10 +1243,10 @@ void UpdateRaceSounds(void) {
             volumeFade = &gPlayerVolumeFade;
             tableRow = volumeFade->mRaceStarted;
             if (tableRow == 1) {
-                volumeFade->mVolumePerFrame = gPlayerVolumeSteps[tableRow];
-                steppedVolume = StepValueTowardTarget(volumeFade, gPlayerVolumeTargets[tableRow]);
+                volumeFade->mVolumePerFrame = gPlayerVolumeFade.mVolumePerFrames[tableRow];
+                steppedVolume = StepValueTowardTarget(volumeFade, gPlayerVolumeFade.mTargetVolumes[tableRow]);
                 if (steppedVolume != -1) {
-                    playerMask = gPlayerVolumeMasks[tableRow];
+                    playerMask = gPlayerVolumeFade.mPlayerMasks[tableRow];
                     if (IsFileSndArcOpen() != 0) {
                         savedArc = NNS_SndArcGetCurrent();
                         NNS_SndArcSetCurrent(&gFileSndArc);
@@ -1432,10 +1433,10 @@ void UpdateSceneSoundState(void) {
     volumeFade = &gPlayerVolumeFade;
     tableRow = volumeFade->mRaceStarted;
     if (tableRow == 0) {
-        volumeFade->mVolumePerFrame = gPlayerVolumeSteps[tableRow];
-        steppedVolume = StepValueTowardTarget(volumeFade, gPlayerVolumeTargets[tableRow]);
+        volumeFade->mVolumePerFrame = gPlayerVolumeFade.mVolumePerFrames[tableRow];
+        steppedVolume = StepValueTowardTarget(volumeFade, gPlayerVolumeFade.mTargetVolumes[tableRow]);
         if (steppedVolume != -1) {
-            playerMask = gPlayerVolumeMasks[tableRow];
+            playerMask = gPlayerVolumeFade.mPlayerMasks[tableRow];
             if (IsFileSndArcOpen() != 0) {
                 savedArc = NNS_SndArcGetCurrent();
                 NNS_SndArcSetCurrent(&gFileSndArc);

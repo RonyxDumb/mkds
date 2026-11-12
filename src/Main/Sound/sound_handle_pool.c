@@ -68,7 +68,7 @@ NNSSndArc *SetCurrentSndArc(void) {
 }
 
 void SetPlayerVolumeTarget(u32 index, u32 value) {
-    gPlayerVolumeTargets[index] = value;
+    gPlayerVolumeFade.mTargetVolumes[index] = value;
 }
 
 SoundHandlePool *GetSoundHandlePool(u32 index) {

@@ -52,8 +52,6 @@ extern struct NNSSndArc gOnMemorySndArc;
 
 extern u32 gRaceSoundKind;
 
-extern u32 gPlayerVolumeTargets[];
-
 extern s32 gMapObjectSoundCounter;
 
 extern s32 gOrthoQuadHoldFrameCount;
@@ -101,10 +99,6 @@ struct NNSSndSeqPlayer;
 extern struct NNSSndSeqPlayer *gChoisesSSeqHandle;
 
 extern u32 gRaceSeqStarted;
-
-extern s32 gPlayerVolumeMasks[];
-
-extern u32 gPlayerVolumeSteps[];
 
 extern u16 gMissionRunMSselSeqIndex;
 
