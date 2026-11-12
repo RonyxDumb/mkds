@@ -12,8 +12,6 @@ typedef struct SoundData {
     /* 98 */ u32 mTask;
 } SoundData;
 
-extern u8 gSoundDataSdatName[];
-
 void StopSoundSeq(void);
 void SetSoundSeqTrackPitch(u32 tracks, u32 pitch);
 u32 SetSoundSeqVolume(u32 volume);

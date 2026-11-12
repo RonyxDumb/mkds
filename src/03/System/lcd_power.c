@@ -2,6 +2,8 @@
 #include "03/unk_021da000.h"
 #include "pm.h"
 
+u8 gLcdOff;
+
 void UpdateLcdPower(void) {
     if (gLcdOff != 0) {
         if (((*(u16 *) 0x27fffa8 & 0x8000) >> 15) == 0) {

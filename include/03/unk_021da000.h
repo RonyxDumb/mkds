@@ -41,8 +41,6 @@ typedef struct Jb3List {
 typedef struct UsbScan UsbScan;
 typedef struct MultiBootParent MultiBootParent;
 extern SlideButtons *gSlideButtons;
-extern u8 gSubScreenMessageShown;
-extern OamRange **gSelectionObjects;
 // Object behind gLinkLevel.
 typedef struct LinkLevel {
     /* 00 */ OamEntry *mOamEntry;
@@ -76,23 +74,12 @@ typedef struct EditKeyboard {
 extern EditKeyboard *gEditKeyboard;
 struct EditAddrKeyboard;
 extern struct EditAddrKeyboard *gEditAddrKeyboard;
-extern u8 gValueRecordsRequestSucceeded[];
 struct ValueRecordsRequest;
-extern struct ValueRecordsRequest *gValueRecordsRequest;
 extern u8 gLanguageIndex[];
 extern u8 gQuitFlag[];
 extern void *gHeapMemoryBlock;
-extern u8 gYb5MultiShowNext;
 extern u8 gOptMenuEntryChosen[];
-extern u8 gLinkMessageResult[];
-extern u8 gOptMenuMessageShowNext;
-extern u8 gTimedMessageFrames;
-extern u8 gChildWaitMessageSubScreenShown[];
-extern u8 gChildWaitMessageShowNext;
-extern u8 gJb5MoveShowNext;
-extern u8 gChildWaitResult;
 extern u8 gValueRecordsShowNext;
-extern u8 gValueRecordsNextFrames[];
 extern u8 gApListScrollY[];
 struct ApList;
 extern struct ApList *gApList;
@@ -106,9 +93,6 @@ extern u8 gJb3ListMode;
 extern u8 gJb3ListSelectedRow;
 extern u16 gJb3ListScrollY;
 extern Jb3List *gJb3List;
-extern u8 gExchangeEntryShowNext;
-extern u8 gExchangeKeyShowNext;
-extern u8 gExchangeResultFrames[];
 extern u8 gExchangeSearchShowNext;
 extern u8 gApScanKind[];
 extern u16 gApScanFrames;
@@ -120,21 +104,15 @@ extern s8 gWaySelectedIndex;
 extern u8 gWayChosen[];
 extern u8 *gYbBgStep21Ncl;
 extern u8 gConnectSucceeded;
-extern u8 gConnectDoneFrames[];
-extern u8 gUsbNextFrames;
 extern u8 gXb3MultiChosen;
 extern u8 gUsbExitKind;
 struct Bg2ScrBuffer;
-extern struct Bg2ScrBuffer *gBg2ScrBuffer;
-extern u8 gBgPaletteCopyRequest[];
 struct ScrollBar;
 extern struct ScrollBar *gScrollBar;
 struct ApScan;
 extern struct ApScan *gApScan;
 struct ApStore;
-extern struct ApStore *gApStore;
 struct SoundData;
-extern struct SoundData *gSoundData;
 extern void *gMenuPairScreenMap;
 struct MenuPairObjects;
 extern struct MenuPairObjects *gMenuPairObjects;
@@ -157,7 +135,6 @@ typedef struct MessageBox {
 
 extern MessageBox *gMessageBox;
 extern MultiBootParent *gMultiBootParent;
-extern u16 *gMultiBootMaskPointers[];
 extern UnkFunc *gWhPrintFunction;
 typedef struct ChildWaitSharedEntry {
     /* 00 */ u16 mCode;
@@ -206,7 +183,6 @@ static inline ChildWaitSharedEntry *GetChildWaitSharedEntry(ChildWaitSessionView
     return &session->mSharedEntries[entryIndex];
 }
 
-extern ChildWaitSessionView *gChildWaitSessionView;
 // Object of 0xe8 bytes: a pointer at 0x00, 32 pointers from 0x04, the list of them at 0x84, an FSArchive at 0x88
 // and a halfword at 0xe4.
 typedef struct DwcArchive {
@@ -229,7 +205,6 @@ typedef struct OamRanges {
     /* 224 */ PointerStack *mFreeRanges;
 } OamRanges;
 
-extern OamRanges *gOamRanges;
 // Eight-byte records at the start of a resource: a number at 0x00 and the offset of a table at 0x04.
 typedef struct NceImage {
     /* 00 */ u16 mEntryCount;
@@ -237,10 +212,8 @@ typedef struct NceImage {
     /* 04 */ u32 mEntriesOffset;
 } NceImage;
 
-extern NceImage *gNceFiles[];
 extern BlendBrightnessFadeSlot *gBlendBrightnessFadeSlots;
 extern TextCanvases *gTextCanvases;
-extern u8 gLcdOff;
 extern u8 gTouchRepeatFrames;
 extern KeyTouchInput *gKeyTouchInput;
 extern u8 gKeyRepeatFrames[];
@@ -249,7 +222,5 @@ extern u32 gSavedIrqMask;
 struct OamBuffers;
 extern struct OamBuffers *gOamBuffers;
 struct ObjCharRanges;
-extern struct ObjCharRanges *gObjCharRanges;
-extern u32 gSavedBankSettings[];
 struct TaskList;
 extern struct TaskList *gTaskLists;

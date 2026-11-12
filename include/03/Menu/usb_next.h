@@ -11,3 +11,6 @@ void UpdateUsbNextFadeIn(void);
 void StartUsbNextFadeIn(void);
 void LoadUsbNextFileAndSetBgCnt(void);
 void SetupUsbNext(void);
+
+extern u8 gXb4MultiNscName10[19];
+extern u8 gUsbNextFrames;

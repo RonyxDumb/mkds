@@ -10,8 +10,6 @@ typedef struct MessagesPool {
     /* 60 */ PointerStack *mFreeList;
 } MessagesPool;
 
-extern MessagesPool *gMessagesPool;
-
 void *GetMessageEntry(MessageFile *messages, u32 index);
 void ReleaseMessages(MessageFile *messages);
 MessageFile *LoadMessages(void *path);

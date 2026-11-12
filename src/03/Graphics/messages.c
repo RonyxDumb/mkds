@@ -9,6 +9,8 @@
 #include "03/System/exp_heap.h"
 #include "03/code_021d1d60.h"
 
+MessagesPool *gMessagesPool;
+
 void InitMessagesPool(void) {
     gMessagesPool = AllocExpHeapBlock(sizeof(MessagesPool), 4);
     gMessagesPool->mFreeList = CreateFilledPointerStack(8, gMessagesPool, 12);

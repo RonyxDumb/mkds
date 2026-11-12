@@ -16,6 +16,8 @@
 #include "03/Graphics/text_canvas.h"
 #include "03/Graphics/dispcnt_window.h"
 
+u8 gLinkMessageResult[1];
+
 void UpdateLinkMessageFadeIn(void) {
     if (IsBlendBrightnessFadeSlotBusy(0) == 0) {
         SetChildWaitCallback(LinkMessageResultCallback);

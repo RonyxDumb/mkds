@@ -15,3 +15,6 @@ void UpdateExchangeEntryFadeIn(void);
 void StartExchangeEntryFadeIn(void);
 void LoadExchangeEntryFileAndSetBgCnt(void);
 void SetupExchangeEntry(void);
+
+extern u8 gXb4MultiNscName3[19];
+extern u8 gExchangeEntryShowNext;

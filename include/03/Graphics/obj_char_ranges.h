@@ -30,3 +30,5 @@ void InitOamBuffers(void);
 void DeleteObjCharRange(u32 range);
 ObjCharRange *CreateObjCharRange(u32 screen, s32 charCount, s32 fromFront, u32 *outStart);
 void InitObjCharRanges(void);
+
+extern struct ObjCharRanges *gObjCharRanges;

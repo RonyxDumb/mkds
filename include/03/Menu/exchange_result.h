@@ -13,3 +13,6 @@ void LoadExchangeResultFileAndSetBgCnt(void);
 void SetupExchangeResult(void);
 void UpdateExchangeSearchMessageClose(void);
 void UpdateExchangeSearchMessageResult(void);
+
+extern u8 gXb4MultiNscName5[19];
+extern u8 gExchangeResultFrames[1];

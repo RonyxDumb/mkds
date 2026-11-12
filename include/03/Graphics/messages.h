@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "03/code_021c2530.h"
 
 typedef struct MessageFile {
     /* 00 */ u32 *mOffsets;
@@ -9,3 +10,5 @@ typedef struct MessageFile {
 } MessageFile;
 
 void *GetMessageEntryAndWriteDigit(MessageFile *table, u32 index, s32 column, s32 value);
+
+extern struct MessagesPool *gMessagesPool;

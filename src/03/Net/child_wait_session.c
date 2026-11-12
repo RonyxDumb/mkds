@@ -19,6 +19,8 @@
 #include "code_02142eac.h"
 #include "dwc_backup.h"
 
+ChildWaitSessionView *gChildWaitSessionView;
+
 void InitChildWaitSession(ChildWaitSessionView *session, ChildWaitParamsView *params) {
     gChildWaitSessionView = session;
     InitMultiBootParent(session->mUnk_b00);

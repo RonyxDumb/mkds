@@ -32,3 +32,5 @@ void EnableScrollBarInput(void);
 void PlaceScrollBarWrapper(s32 offset);
 u8 GetScrollBarEvent(void);
 u8 GetScrollBarOffset(void);
+
+extern const u8 gScrollBarLengths[3];

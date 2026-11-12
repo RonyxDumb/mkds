@@ -22,6 +22,8 @@
 #include "03/Net/wh.h"
 #include "mb_fileinfo.h"
 
+u16 *gMultiBootMaskPointers[6];
+
 void InitMultiBootParent(u8 *object) {
     gMultiBootParent = (MultiBootParent *) object;
     InitWhWork((WhWork *) (object + 0x1b160));

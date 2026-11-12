@@ -10,6 +10,9 @@
 #include "03/System/exp_heap.h"
 #include "code_0214d018.h"
 
+struct Bg2ScrBuffer *gBg2ScrBuffer;
+u8 gBgPaletteCopyRequest[5];
+
 void CreateBg2ScrBuffer(const void *scr) {
     Bg2ScrBuffer *bg2ScrBuffer = AllocZeroedExpHeapBlock(0x608, 4);
     gBg2ScrBuffer = bg2ScrBuffer;

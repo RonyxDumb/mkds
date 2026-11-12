@@ -17,6 +17,10 @@
 #include "code_02134398.h"
 #include "03/System/string_length.h"
 
+const u8 gSettingNone[1] = {0};
+char gAddressTextFormat[13] = "%3d%3d%3d%3d";
+struct ApStore *gApStore;
+
 void CreateApStore(void) {
     ApStore *store;
     store = AllocExpHeapBlock(0x6f8, 0x20);

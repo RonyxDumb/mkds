@@ -7,6 +7,9 @@
 #include "03/System/exp_heap.h"
 #include "03/unk_021da000.h"
 
+const u8 gSelectionPairImages[8] = {0xa, 0xb, 4, 5, 2, 3, 0xc, 0xd};
+OamRange **gSelectionObjects;
+
 void InitSelectionObjects(void) {
     gSelectionObjects = AllocZeroedExpHeapBlock(0x10, 4);
 }
@@ -18,7 +21,7 @@ void ReleaseSelectionObjects(void) {
 
 void PlaceSelectionPair(u32 pairIndex, u32 leftX, u32 rightX, u32 yPos) {
     s32 i;
-    u8 *objectIds;
+    const u8 *objectIds;
 
     ReleaseSelectionObjectSlots();
     i = 0;

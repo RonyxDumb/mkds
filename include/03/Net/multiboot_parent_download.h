@@ -54,3 +54,5 @@ BOOL RegisterMultiBootFile(Unk021cf8ac *gameRegistry);
 void StartMultiBootParentFromIdle(Unk021cf8ac *gameRegistry, u16 channel);
 void InitMultiBootParentComm(u32 ggid, u32 tgid);
 void InitMultiBootParent(u8 *object);
+
+extern u16 *gMultiBootMaskPointers[6];

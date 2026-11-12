@@ -1,11 +1,9 @@
 #pragma once
 
 #include "types.h"
+#include "03/types_021d299c.h"
 
 typedef struct Rect Rect;
-
-extern Rect gJb5MoveTextRect;
-extern u8 gJb5MoveChildWaitEvent;
 
 void Jb5MoveChildWaitCallback(void);
 void UpdateJb5MoveRelease(void);
@@ -19,3 +17,8 @@ void UpdateJb5MoveFadeIn(void);
 void StartJb5MoveFadeIn(void);
 void LoadJb5MoveFileAndSetBgCnt(void);
 void SetupJb5Move(void);
+
+extern const Rect gJb5MoveTextRect;
+extern u8 gJb5MoveNscName[18];
+extern u8 gJb5MoveShowNext;
+extern u8 gJb5MoveChildWaitEvent;

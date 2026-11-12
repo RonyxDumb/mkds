@@ -29,6 +29,9 @@
 #include "03/Menu/slide_buttons.h"
 #include "03/System/application.h"
 
+u8 gYb5MultiNscName7[19] = {0x63, 0x68, 0x61, 0x72, 0x2f, 0x79, 0x62, 0x35, 0x4d, 0x75, 0x6c, 0x74, 0x69, 0x2e, 0x6e, 0x73, 0x63, 0x2e, 0x6c};
+u8 gChildWaitResult;
+
 BOOL ChildWaitPAD_DetectFold(void) {
     if ((*HW_BUTTON_XY_BUF & PAD_DETECT_FOLD_MASK) >> 15) {
         return 1;
@@ -47,7 +50,7 @@ void SetupChildWait(void) {
 }
 
 void LoadChildWaitFileAndSetBgCnt(void) {
-    void *nscName = &data_ov003_021d71bc;
+    void *nscName = &gYb5MultiNscName7;
     void *loadBg2ScrFunc = &GX_LoadBG2Scr;
     u32 loadFileResult = LoadFileToVram(nscName, loadBg2ScrFunc);
     u32 g2sDbBg0CntAddr = 0x4001008u;

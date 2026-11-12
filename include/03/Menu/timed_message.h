@@ -11,3 +11,6 @@ void UpdateTimedMessageFadeIn(void);
 void StartTimedMessageFadeIn(void);
 void LoadTimedMessageFileAndSetBgCnt(void);
 void SetupTimedMessage(void);
+
+extern u8 gYb5MultiNscName5[19];
+extern u8 gTimedMessageFrames;

@@ -1371,16 +1371,16 @@ gYbBgOptionNclName kind:data(any) addr:0x021d70b8
 gYbBgOption1NclName kind:data(any) addr:0x021d70d0
 gJbBgOptionNcgName kind:data(any) addr:0x021d70e8
 gJb5OptMenuNscName kind:data(any) addr:0x021d7100
-data_ov003_021d7158 kind:data(any) addr:0x021d7118
-data_ov003_021d716c kind:data(any) addr:0x021d712c
-data_ov003_021d7180 kind:data(any) addr:0x021d7140
-data_ov003_021d7194 kind:data(any) addr:0x021d7154
+gYb5MultiNscName3 kind:data(any) addr:0x021d7118
+gYb5MultiNscName4 kind:data(any) addr:0x021d712c
+gYb5MultiNscName5 kind:data(any) addr:0x021d7140
+gYb5MultiNscName6 kind:data(any) addr:0x021d7154
 gJb5MoveNscName kind:data(any) addr:0x021d7168
-data_ov003_021d71bc kind:data(any) addr:0x021d717c
+gYb5MultiNscName7 kind:data(any) addr:0x021d717c
 gJbBgStep3NcgName kind:data(any) addr:0x021d7190
 gYbBgStep3NclName kind:data(any) addr:0x021d71a8
 gXb4MultiNscName kind:data(any) addr:0x021d71c0
-data_ov003_021d7214 kind:data(any) addr:0x021d71d4
+gXb4MultiNscName2 kind:data(any) addr:0x021d71d4
 gApListPaletteRow kind:data(any) addr:0x021d71e8
 @1367 kind:data(any) addr:0x021d71ec local
 @1365 kind:data(any) addr:0x021d7204 local

@@ -35,3 +35,5 @@ BOOL StartChildWaitSession(void);
 void ResetChildWaitSessionState(void);
 BOOL StopChildWaitSession(void);
 void InitChildWaitSession(ChildWaitSessionView *session, ChildWaitParamsView *params);
+
+extern ChildWaitSessionView *gChildWaitSessionView;

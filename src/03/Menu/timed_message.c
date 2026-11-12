@@ -25,6 +25,9 @@
 #include "03/System/tasks.h"
 #include "03/Net/child_wait_session_object.h"
 
+u8 gYb5MultiNscName5[19] = {0x63, 0x68, 0x61, 0x72, 0x2f, 0x79, 0x62, 0x35, 0x4d, 0x75, 0x6c, 0x74, 0x69, 0x2e, 0x6e, 0x73, 0x63, 0x2e, 0x6c};
+u8 gTimedMessageFrames;
+
 void SetupTimedMessage(void) {
     gTimedMessageFrames = 0;
     LoadTimedMessageFileAndSetBgCnt();
@@ -33,7 +36,7 @@ void SetupTimedMessage(void) {
 }
 
 void LoadTimedMessageFileAndSetBgCnt(void) {
-    void *nscName = &data_ov003_021d7180;
+    void *nscName = &gYb5MultiNscName5;
     void *loadBg2ScrFunc = &GX_LoadBG2Scr;
     u32 loadFileResult = LoadFileToVram(nscName, loadBg2ScrFunc);
     u32 g2sDbBg0CntAddr = 0x4001008u;

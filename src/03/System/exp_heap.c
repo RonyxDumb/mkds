@@ -5,6 +5,8 @@
 #include "code_020176c0.h"
 #include "code_0214d018.h"
 
+NNSiFndHeapHead *gExpHeap;
+
 void CreateExpHeapOverBuffer(void *buffer) {
     MI_CpuFill8(buffer, 0, 0x40000);
     gExpHeap = NNS_FndCreateExpHeapEx(buffer, 0x40000, 0);

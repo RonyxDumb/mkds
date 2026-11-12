@@ -19,6 +19,9 @@
 #include "code_0200fc8c.h"
 #include "03/code_021d1790.h"
 
+OamRanges *gOamRanges;
+NceImage *gNceFiles[2];
+
 void LoadNceFile(u32 slot, const u8 *path) {
     u32 size;
 

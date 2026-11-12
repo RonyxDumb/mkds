@@ -11,3 +11,5 @@ void StartLinkMessageNextClose(void);
 void UpdateLinkMessageNextResult(void);
 void UpdateLinkMessageNextNop(void);
 void UpdateLinkMessageNextInput(void);
+
+extern u8 gYb5MultiNscName3[19];

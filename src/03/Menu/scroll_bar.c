@@ -11,6 +11,8 @@
 #include "code_02147cd8.h"
 #include "player.h"
 
+const u8 gScrollBarLengths[3] = {0x55, 0x36, 0x1e};
+
 u8 GetScrollBarOffset(void) {
     return gScrollBar->mOffset;
 }

@@ -18,3 +18,6 @@ void CopyBg2ScrBufferRect(int source, int destOffset, int width, int rowCount);
 void RequestBg2ScrUpload(void);
 void ReleaseBg2ScrBuffer(void);
 void CreateBg2ScrBuffer(const void *scr);
+
+extern struct Bg2ScrBuffer *gBg2ScrBuffer;
+extern u8 gBgPaletteCopyRequest[5];

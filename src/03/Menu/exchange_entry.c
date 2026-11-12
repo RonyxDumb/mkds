@@ -32,6 +32,9 @@
 #include "03/Graphics/dispcnt_window.h"
 #include "os_thread.h"
 
+u8 gXb4MultiNscName3[19] = {0x63, 0x68, 0x61, 0x72, 0x2f, 0x78, 0x62, 0x34, 0x4d, 0x75, 0x6c, 0x74, 0x69, 0x2e, 0x6e, 0x73, 0x63, 0x2e, 0x6c};
+u8 gExchangeEntryShowNext;
+
 u32 ExchangeEntryPAD_DetectFold(void) {
     if ((*HW_BUTTON_XY_BUF & PAD_DETECT_FOLD_MASK) >> 15) {
         return 1;

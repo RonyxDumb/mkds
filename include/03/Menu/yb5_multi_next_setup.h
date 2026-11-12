@@ -12,3 +12,5 @@ void StartJb5InfoClose(void);
 void UpdateJb5InfoResult(void);
 void UpdateJb5InfoNop(void);
 void UpdateJb5InfoInput(void);
+
+extern u8 gYb5MultiNscName2[19];

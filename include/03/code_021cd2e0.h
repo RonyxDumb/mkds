@@ -42,8 +42,6 @@ typedef struct ApStore {
 
 typedef struct ExchangeResult ExchangeResult;
 
-extern u8 gSettingNone[];
-
 void ParseAddressText(const char *input, u8 *output);
 void WriteApEntryToNvram(s32 entryIndex);
 void ResetApEntries(void);

@@ -11,6 +11,10 @@
 #include "code_0214cfe4.h"
 #include "code_0214d018.h"
 
+const u8 gNintendoDsItemBytes[11] = {0x4e, 0x49, 0x4e, 0x54, 0x45, 0x4e, 0x44, 0x4f, 0x2d, 0x44, 0x53};
+u8 gValueRecordsRequestSucceeded[1];
+struct ValueRecordsRequest *gValueRecordsRequest;
+
 void InitValueRecordsRequest(void) {
     Unk021c1fc8 requestItem;
     ValueRecordsRequest *request;

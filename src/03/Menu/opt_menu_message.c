@@ -26,6 +26,9 @@
 #include "03/unk_021d5000.h"
 #include "03/Menu/sub_screen_message.h"
 
+u8 gYb5MultiNscName4[19] = {0x63, 0x68, 0x61, 0x72, 0x2f, 0x79, 0x62, 0x35, 0x4d, 0x75, 0x6c, 0x74, 0x69, 0x2e, 0x6e, 0x73, 0x63, 0x2e, 0x6c};
+u8 gOptMenuMessageShowNext;
+
 void SetupOptMenuMessage(void) {
     gOptMenuMessageShowNext = 0;
     LoadOptMenuMessageFileAndSetBgCnt();
@@ -36,7 +39,7 @@ void SetupOptMenuMessage(void) {
 }
 
 void LoadOptMenuMessageFileAndSetBgCnt(void) {
-    void *nscName = &data_ov003_021d716c;
+    void *nscName = &gYb5MultiNscName4;
     void *loadBg2ScrFunc = &GX_LoadBG2Scr;
     u32 loadFileResult = LoadFileToVram(nscName, loadBg2ScrFunc);
     u32 g2sDbBg0CntAddr = 0x4001008u;

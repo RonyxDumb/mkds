@@ -16,3 +16,6 @@ void UpdateConnectMessageClose(void);
 void UpdateConnectMessageNop(void);
 void UpdateConnectMessageInputNop(void);
 void UpdateConnectMessage(void);
+
+extern u8 gXb4MultiNscName9[19];
+extern u8 gConnectDoneFrames[1];

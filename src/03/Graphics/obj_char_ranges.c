@@ -15,6 +15,8 @@
 #include "gx_load2d.h"
 #include "code_0214d018.h"
 
+struct ObjCharRanges *gObjCharRanges;
+
 void InitObjCharRanges(void) {
     s32 i;
 

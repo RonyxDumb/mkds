@@ -28,6 +28,7 @@ struct UsbScan {
 typedef struct WMStartScanExCallback WMStartScanExCallback;
 
 #include "03/unk_021da000.h"
+#include "03/unk_021d6000.h"
 
 void CheckUsbScanEntries(WMStartScanExCallback *scanResult);
 void StoreUsbScanEntries(WMStartScanExCallback *scanResult);
@@ -36,3 +37,6 @@ void SetUsbScanCallback(u32 callback);
 BOOL ReleaseUsbScan(void);
 BOOL StartUsbScan(void);
 BOOL InitUsbScan(void (*callback)(u32));
+
+extern const u8 gUsbSsidPrefix[9];
+extern const Bytes68 gUsbScanParamTemplate;

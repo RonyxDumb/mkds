@@ -29,6 +29,9 @@ src/03/Menu/slide_buttons.c:
 src/03/Menu/sub_screen_message.c:
     complete
     .text       start:0x021bf3d0 end:0x021bf49c
+    .rodata     start:0x021d5ebc end:0x021d5ec4
+    .data       start:0x021d693c end:0x021d6950
+    .bss        start:0x021da0cc end:0x021da0d0
 
 // provisional: file name and boundaries
 src/03/Menu/menu_pair_loading.c:
@@ -39,6 +42,8 @@ src/03/Menu/menu_pair_loading.c:
 src/03/Menu/selection_objects.c:
     complete
     .text       start:0x021bf658 end:0x021bf7d0
+    .rodata     start:0x021d5f0c end:0x021d5f14
+    .bss        start:0x021da110 end:0x021da114
 
 // provisional: file name and boundaries
 src/03/Graphics/hl_scr.c:
@@ -59,6 +64,8 @@ src/03/Menu/edit_addr_keyboard.c:
 src/03/Net/value_records_request.c:
     complete
     .text       start:0x021c1ee0 end:0x021c205c
+    .rodata     start:0x021d62cc end:0x021d62d8
+    .bss        start:0x021da124 end:0x021da12c
 
 // provisional: file name and boundaries
 src/03/System/application.c:
@@ -69,6 +76,7 @@ src/03/System/application.c:
 src/03/Graphics/messages.c:
     complete
     .text       start:0x021c24cc end:0x021c25a0
+    .bss        start:0x021da150 end:0x021da154
 
 // provisional: file name and boundaries
 src/03/Net/child_wait_session_object.c:
@@ -99,6 +107,8 @@ src/03/Menu/jb2_menu.c:
 src/03/Menu/yb5_multi.c:
     complete
     .text       start:0x021c3094 end:0x021c33a4
+    .data       start:0x021d6ff0 end:0x021d7004
+    .bss        start:0x021da168 end:0x021da16c
 
 // provisional: file name and boundaries
 src/03/Menu/yb5_multi_next_update.c:
@@ -109,6 +119,7 @@ src/03/Menu/yb5_multi_next_update.c:
 src/03/Menu/yb5_multi_next_setup.c:
     complete
     .text       start:0x021c34a8 end:0x021c3670
+    .data       start:0x021d7004 end:0x021d7018
 
 // provisional: file name and boundaries
 src/03/Menu/jb5_info.c:
@@ -124,11 +135,13 @@ src/03/Menu/opt_menu.c:
 src/03/Menu/link_message_update.c:
     complete
     .text       start:0x021c3e4c end:0x021c3f88
+    .bss        start:0x021da17c end:0x021da180
 
 // provisional: file name and boundaries
 src/03/Menu/link_message_next.c:
     complete
     .text       start:0x021c3f88 end:0x021c410c
+    .data       start:0x021d7118 end:0x021d712c
 
 // provisional: file name and boundaries
 src/03/Menu/link_message_next_update.c:
@@ -149,26 +162,37 @@ src/03/Menu/opt_menu_message_next_update.c:
 src/03/Menu/opt_menu_message.c:
     complete
     .text       start:0x021c43b0 end:0x021c4668
+    .data       start:0x021d712c end:0x021d7140
+    .bss        start:0x021da180 end:0x021da184
 
 // provisional: file name and boundaries
 src/03/Menu/timed_message.c:
     complete
     .text       start:0x021c4668 end:0x021c47ec
+    .data       start:0x021d7140 end:0x021d7154
+    .bss        start:0x021da184 end:0x021da188
 
 // provisional: file name and boundaries
 src/03/Menu/child_wait_message.c:
     complete
     .text       start:0x021c47ec end:0x021c4a94
+    .data       start:0x021d7154 end:0x021d7168
+    .bss        start:0x021da188 end:0x021da190
 
 // provisional: file name and boundaries
 src/03/Menu/jb5_move.c:
     complete
     .text       start:0x021c4a94 end:0x021c4d94
+    .rodata     start:0x021d6340 end:0x021d6348
+    .data       start:0x021d7168 end:0x021d717c
+    .bss        start:0x021da190 end:0x021da198
 
 // provisional: file name and boundaries
 src/03/Menu/child_wait.c:
     complete
     .text       start:0x021c4d94 end:0x021c50b8
+    .data       start:0x021d717c end:0x021d7190
+    .bss        start:0x021da198 end:0x021da19c
 
 // provisional: file name and boundaries
 src/03/Menu/value_records.c:
@@ -179,6 +203,8 @@ src/03/Menu/value_records.c:
 src/03/Menu/value_records_next.c:
     complete
     .text       start:0x021c5508 end:0x021c56e4
+    .data       start:0x021d71d4 end:0x021d71e8
+    .bss        start:0x021da1a8 end:0x021da1ac
 
 // provisional: file name and boundaries
 src/03/Menu/ap_list.c:
@@ -216,16 +242,22 @@ src/03/Menu/record_saved.c:
 src/03/Menu/exchange_entry.c:
     complete
     .text       start:0x021c9968 end:0x021c9c70
+    .data       start:0x021d74bc end:0x021d74d0
+    .bss        start:0x021da1d8 end:0x021da1dc
 
 // provisional: file name and boundaries
 src/03/Menu/exchange_key.c:
     complete
     .text       start:0x021c9c70 end:0x021c9fe8
+    .data       start:0x021d74d0 end:0x021d74e4
+    .bss        start:0x021da1dc end:0x021da1e0
 
 // provisional: file name and boundaries
 src/03/Menu/exchange_result.c:
     complete
     .text       start:0x021c9fe8 end:0x021ca1cc
+    .data       start:0x021d74e4 end:0x021d74f8
+    .bss        start:0x021da1e0 end:0x021da1e4
 
 // provisional: file name and boundaries
 src/03/Menu/exchange_search.c:
@@ -256,16 +288,21 @@ src/03/Menu/connect.c:
 src/03/Menu/connect_done.c:
     complete
     .text       start:0x021cbbc0 end:0x021cbe38
+    .data       start:0x021d76b4 end:0x021d76c8
+    .bss        start:0x021da20c end:0x021da210
 
 // provisional: file name and boundaries
 src/03/Menu/connect_message.c:
     complete
     .text       start:0x021cbe38 end:0x021cbf64
+    .data       start:0x021d76c8 end:0x021d76e8
 
 // provisional: file name and boundaries
 src/03/Menu/usb_next.c:
     complete
     .text       start:0x021cbf64 end:0x021cc104
+    .data       start:0x021d76e8 end:0x021d76fc
+    .bss        start:0x021da210 end:0x021da214
 
 // provisional: file name and boundaries
 src/03/Menu/xb3_multi.c:
@@ -281,11 +318,13 @@ src/03/Menu/usb.c:
 src/03/Graphics/bg2_scr_buffer.c:
     complete
     .text       start:0x021cc894 end:0x021cca34
+    .bss        start:0x021da21c end:0x021da228
 
 // provisional: file name and boundaries
 src/03/Menu/scroll_bar.c:
     complete
     .text       start:0x021cca34 end:0x021cce38
+    .rodata     start:0x021d65f0 end:0x021d65f4
 
 // provisional: file name and boundaries
 src/03/Net/ap_scan_callback.c:
@@ -296,16 +335,22 @@ src/03/Net/ap_scan_callback.c:
 src/03/Net/ap_scan.c:
     complete
     .text       start:0x021cd090 end:0x021cd28c
+    .rodata     start:0x021d6600 end:0x021d6644
 
 // provisional: file name and boundaries
 src/03/Net/ap_store.c:
     complete
     .text       start:0x021cd28c end:0x021cdb88
+    .rodata     start:0x021d6644 end:0x021d6648
+    .data       start:0x021d7784 end:0x021d7794
+    .bss        start:0x021da230 end:0x021da234
 
 // provisional: file name and boundaries
 src/03/Sound/sound_data.c:
     complete
     .text       start:0x021cdb88 end:0x021cdc78
+    .data       start:0x021d7794 end:0x021d77ac
+    .bss        start:0x021da234 end:0x021da238
 
 // provisional: file name and boundaries
 src/03/Menu/menu_pair_objects.c:
@@ -316,6 +361,7 @@ src/03/Menu/menu_pair_objects.c:
 src/03/Net/usb_scan.c:
     complete
     .text       start:0x021ce578 end:0x021ce9fc
+    .rodata     start:0x021d6684 end:0x021d66d4
 
 // provisional: file name and boundaries
 src/03/Menu/message_box.c:
@@ -331,6 +377,7 @@ src/03/Menu/message_box_create.c:
 src/03/Net/multiboot_parent_download.c:
     complete
     .text       start:0x021cf220 end:0x021cfa28
+    .bss        start:0x021da24c end:0x021da264
 
 // provisional: file name and boundaries
 src/03/Net/wh.c:
@@ -341,6 +388,7 @@ src/03/Net/wh.c:
 src/03/Net/child_wait_session.c:
     complete
     .text       start:0x021d07fc end:0x021d1400
+    .bss        start:0x021da26c end:0x021da270
 
 // provisional: file name and boundaries
 src/03/System/dwc_archive.c:
@@ -351,6 +399,7 @@ src/03/System/dwc_archive.c:
 src/03/Graphics/nce_oam.c:
     complete
     .text       start:0x021d1730 end:0x021d1c94
+    .bss        start:0x021da274 end:0x021da280
 
 // provisional: file name and boundaries
 src/03/System/pointer_stack.c:
@@ -382,11 +431,13 @@ src/03/Graphics/dispcnt_window.c:
 src/03/System/exp_heap.c:
     complete
     .text       start:0x021d2798 end:0x021d28a0
+    .bss        start:0x021da288 end:0x021da28c
 
 // provisional: file name and boundaries
 src/03/System/lcd_power.c:
     complete
     .text       start:0x021d28a0 end:0x021d2900
+    .bss        start:0x021da28c end:0x021da290
 
 // provisional: file name and boundaries
 src/03/System/task_input.c:
@@ -402,6 +453,7 @@ src/03/Graphics/oam_buffers.c:
 src/03/Graphics/obj_char_ranges.c:
     complete
     .text       start:0x021d2f60 end:0x021d3214
+    .bss        start:0x021da2b4 end:0x021da2b8
 
 // provisional: file name and boundaries
 src/03/System/string_length.c:
@@ -417,6 +469,7 @@ src/03/Net/led_pattern_send.c:
 src/03/Graphics/vram_bank_settings.c:
     complete
     .text       start:0x021d3258 end:0x021d3448
+    .bss        start:0x021da2b8 end:0x021da2ec
 
 // provisional: file name and boundaries
 src/03/System/tasks.c:
