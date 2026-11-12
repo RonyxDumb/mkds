@@ -20,9 +20,9 @@ typedef struct DigitOptions {
 } DigitOptions;
 
 // Read as a float by DigitCharsToDouble.
-extern float data_0216ec98;
+extern float gFloatInfinity;
 // Read as a float by PowBody and nan.
-extern float data_0216ec9c;
+extern float gFloatQuietNan;
 
 // Two doubles each, indexed 0/1 by PowBody.
 extern const double gPowLogAdjustHigh[2];

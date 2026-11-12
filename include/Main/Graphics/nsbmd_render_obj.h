@@ -53,3 +53,6 @@ void SetNsbmdCullModeMirrored(Nsbmd *nsbmd);
 void InitNsbmdRenderObj(Nsbmd *nsbmd, NNSG3dResMdl *resMdl, u32 allowCullSwap);
 u32 UploadResTexture(NNSG3dResTex *texture);
 void AddResFileEntry(ResFileEntry *entry, NNSG3dResFileHeader *modelFile, NNSG3dResFileHeader *textureFile);
+
+extern const Vec3 gKartEffectVec3UnitY;
+extern const Vec3 gKartEffectVec3Zero;

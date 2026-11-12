@@ -44,18 +44,6 @@ typedef struct SelectCharacterRowPosition {
     /* 02 */ s16 mEntryY;
 } SelectCharacterRowPosition;
 
-extern SelectCharacterRowCellIndices gSelectCharacterRowCellIndices[];
-
-extern SelectCharacterRowPosition gSelectCharacterPositions8Rows[];
-
-extern SelectCharacterRowPosition gSelectCharacterPositions9Rows[];
-
-extern SelectCharacterRowPosition gSelectCharacterPositions10Rows[];
-
-extern SelectCharacterRowPosition gSelectCharacterPositions11Rows[];
-
-extern SelectCharacterRow gSelectCharacterRows[];
-
 typedef struct MultiSelectNSLabelMessageRow {
     /* 00 */ s16 mLabelIndex;
     /* 02 */ u16 mWidth;

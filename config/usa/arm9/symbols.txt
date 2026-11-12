@@ -8010,12 +8010,12 @@ gKartSurfaceEffectRow4 kind:data(any) addr:0x02155988
 gKartSurfaceEffectRow5 kind:data(any) addr:0x021559a8
 gKartSurfaceEffectRow6 kind:data(any) addr:0x021559c8
 gKartSurfaceEffectRow7 kind:data(any) addr:0x021559e8
-data_02155a08 kind:data(any) addr:0x02155a08
+gKartEffectVec3UnitY kind:data(any) addr:0x02155a08
 gKartEffectVec3Zero kind:data(any) addr:0x02155a14
 gNsbmdDrawFunctions kind:data(any) addr:0x02155a20
 gTeamPaletteColors kind:data(any) addr:0x02155a28
-data_02155a2c kind:data(any) addr:0x02155a2c
-data_usa_02155a34 kind:data(any) addr:0x02155a34
+gRegionPaletteColors kind:data(any) addr:0x02155a2c
+gUnusedPaletteColors kind:data(any) addr:0x02155a34
 gChaseDistanceLimitsSquared kind:data(any) addr:0x02155a3c
 gOtherCameraDistanceLimitsSquared kind:data(any) addr:0x02155a48
 data_02155a54 kind:data(any) addr:0x02155a54
@@ -10931,9 +10931,9 @@ gKeyboardCommonBmgName kind:data(any) addr:0x0216ea40
 sCallbackInfo kind:data(any) addr:0x0216ea84
 gStdioFiles kind:data(any) addr:0x0216eb5c
 @159 kind:data(any) addr:0x0216ec40 local
-data_0216ec98 kind:data(any) addr:0x0216ec78
-data_0216ec9c kind:data(any) addr:0x0216ec7c
-data_0216eca0 kind:data(any) addr:0x0216ec80
+gFloatInfinity kind:data(any) addr:0x0216ec78
+gFloatQuietNan kind:data(any) addr:0x0216ec7c
+gDoubleInfinity kind:data(any) addr:0x0216ec80
 data_usa_0216ec88 kind:data(any) addr:0x0216ec88
 data_usa_0216ec8c kind:data(any) addr:0x0216ec8c
 data_usa_0216ec90 kind:data(any) addr:0x0216ec90

@@ -35,6 +35,8 @@
 #include "Main/Kart/karts.h"
 #include "registers.h"
 
+s32 gKartNameTagEntry3ScaleX = 0x20000;
+s32 gKartNameTagEntry1XOffset = 0x571;
 s32 gKartNameTagEntry3ScaleY = 0x8971;
 s32 gKartNameTagEntry2XOffset = 0x59a;
 s32 gKartNameTagEntry2ScaleX = 0x30000;
@@ -46,16 +48,17 @@ s32 gKartNameTagEntry0YOffset = 0x1c00;
 s32 gKartNameTagColorQuadScaleY = 0x119a;
 s32 gKartNameTagEntry3YOffset = 0x3b33;
 s32 gKartNameTagEntry0XOffset = 0x52ac;
-s32 gKartNameTagEntry3ScaleX = 0x20000;
-s32 gKartNameTagEntry1XOffset = 0x571;
+const u16 gTeamPaletteColors[2] = {0x7cc1, 0x43f};
+const u16 gRegionPaletteColors[4] = {0x43f, 0x7cc1, 0x1a80, 0};
+const u16 gUnusedPaletteColors[4] = {0, 0, 0x7fff, 0x7fff};
 const Vec3 gChaseDistanceLimitsSquared = {0x57e40, 0x9c400, 0x19c990};
 u16 *gKartEntryNamePlltBuffer;
-s32 data_0217aedc;
-u8 *gKartEntryNameTexBuffer;
 const Vec3 *gKartDistanceLimitsSquared;
+u8 *gKartEntryNameTexBuffer;
+u16 *gKartEmblemPlltBuffer;
+s32 data_0217aedc;
 u8 *gKartNameTagMaskedTexBuffer;
 KartNameTags *gKartNameTags;
-u16 *gKartEmblemPlltBuffer;
 MtxFx44 gKartNameTagProjection;
 
 void UpdateKartViewDistancesAndOutOfView(void) {

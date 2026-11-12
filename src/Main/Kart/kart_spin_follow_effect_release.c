@@ -6,6 +6,7 @@
 #include "Main/Kart/karts.h"
 #include "Main/Graphics/effects.h"
 #include "Main/MapObjects/data_0217a000.h"
+#include "Main/Graphics/nsbmd_render_obj.h"
 
 void StartKartSpinSideEffects(s32 kartIndex) {
     Kart *kart = GetKart(kartIndex);

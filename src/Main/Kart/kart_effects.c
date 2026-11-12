@@ -34,6 +34,7 @@
 #include "Main/System/heap_call.h"
 #include "fx_mtx43.h"
 #include "Main/Kart/karts.h"
+#include "Main/Graphics/nsbmd_render_obj.h"
 
 Vec3 gOldLuigiAgbFirstChaseEffectDirection = {0, -4096, 0};
 s32 gKartStarEffectDirectionSpeedMax = 0x21;
@@ -934,7 +935,7 @@ void AdvanceOldLuigiAgbFirstChaseEffect(ParticleEmitter *effect, s32 phase) {
         16) {
         Vec3NormalizeAndGetLengthUnchecked(&forwardFlat, &forwardFlat);
     }
-    VEC_CrossProduct(&data_02155a08, &forwardFlat, &axis);
+    VEC_CrossProduct(&gKartEffectVec3UnitY, &forwardFlat, &axis);
     speedRatio = MUL_FIXED12_ROUNDED(kart->mVelocityLength, gCourseCameraEffectSpeedReciprocal);
     rotatedVector = gOldLuigiAgbFirstChaseEffectDirection;
     extraDistance = 0;
@@ -1001,14 +1002,14 @@ void AdvanceOldLuigiAgbFirstCurrentCameraEffect(ParticleEmitter *effect, s32 pha
     currentCamera = GetCurrentCamera();
     GetKart(gRaceSetup->mEntryIndex);
     forwardFlat = currentCamera->mForward;
-    negatedUnitY = data_02155a08;
+    negatedUnitY = gKartEffectVec3UnitY;
     forwardFlat.y = 0;
     if ((s64) forwardFlat.z * forwardFlat.z +
             ((s64) forwardFlat.x * forwardFlat.x + (s64) forwardFlat.y * forwardFlat.y) >=
         16) {
         Vec3NormalizeAndGetLengthUnchecked(&forwardFlat, &forwardFlat);
     }
-    VEC_CrossProduct(&data_02155a08, &forwardFlat, &axis);
+    VEC_CrossProduct(&gKartEffectVec3UnitY, &forwardFlat, &axis);
     negatedUnitY.y = negatedUnitY.y * 0xffffffff;
     directionHalfwords.x = negatedUnitY.x;
     directionHalfwords.y = negatedUnitY.y;

@@ -35,3 +35,10 @@ void SetSelectCharacterKeyTargets9Rows(void);
 void SetSelectCharacterKeyTargets8Rows(void);
 
 extern struct SelectCharacter *gSelectCharacter;
+
+extern const SelectCharacterRowCellIndices gSelectCharacterRowCellIndices[];
+extern const SelectCharacterRow gSelectCharacterRows[12];
+extern const SelectCharacterRowPosition gSelectCharacterPositions11Rows[11];
+extern const SelectCharacterRowPosition gSelectCharacterPositions10Rows[10];
+extern const SelectCharacterRowPosition gSelectCharacterPositions9Rows[9];
+extern const SelectCharacterRowPosition gSelectCharacterPositions8Rows[8];

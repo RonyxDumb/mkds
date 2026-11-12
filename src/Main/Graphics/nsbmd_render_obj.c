@@ -28,6 +28,10 @@
 #include "code_02010c84.h"
 #include "code_020172d0.h"
 #include "Main/Kart/kart_effects.h"
+#include "Main/Graphics/nsbmd_draw.h"
+
+const Vec3 gKartEffectVec3UnitY = {0, 0x1000, 0};
+const Vec3 gKartEffectVec3Zero = {0, 0, 0};
 
 // Appends the entry for file b, uploads the texture of file c, and binds the model set of b to it when there is one.
 void AddResFileEntry(ResFileEntry *entry, NNSG3dResFileHeader *modelFile, NNSG3dResFileHeader *textureFile) {

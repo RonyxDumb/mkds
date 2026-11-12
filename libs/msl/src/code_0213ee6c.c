@@ -366,7 +366,7 @@ double DigitCharsToDouble(const DigitRecord *record) {
         case '0':
             return copysign(0.0, record->mNegative == 0 ? 1.0 : -1.0);
         case 'I':
-            return copysign(data_0216ec98, record->mNegative == 0 ? 1.0 : -1.0);
+            return copysign(gFloatInfinity, record->mNegative == 0 ? 1.0 : -1.0);
         case 'N':
             nanBits = (u64 *) &nanValue;
             *nanBits = 0x7ff0000000000000ULL;
@@ -384,7 +384,7 @@ double DigitCharsToDouble(const DigitRecord *record) {
     exponent5 = parsed.mExponent;
     DigitsFromString(&maxRecord, "179769313486231580793728714053034151", 0x134);
     if (DigitsLess(&maxRecord, &parsed)) {
-        return copysign(data_0216ec98, record->mNegative == 0 ? 1.0 : -1.0);
+        return copysign(gFloatInfinity, record->mNegative == 0 ? 1.0 : -1.0);
     }
     cursor = parsed.mDigits;
     result = *cursor++;
@@ -704,7 +704,7 @@ double PowBody(double base, double power) {
     nonNegative = (ha >> 31) + 1;
     if ((nonNegative | intKind) == 0) {
         gLibErrorCode = 33;
-        return data_0216ec9c;
+        return gFloatQuietNan;
     }
 
     if (ib > 0x41e00000) {

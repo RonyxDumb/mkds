@@ -373,9 +373,9 @@ double ScanDouble(int maxChars, ScanReadCharFunc readChar, void *source, int *us
                 }
                 if (matchCount == 3 || matchCount == 8) {
                     if (negative) {
-                        result = -data_0216ec98;
+                        result = -gFloatInfinity;
                     } else {
-                        result = data_0216ec98;
+                        result = gFloatInfinity;
                     }
                     *usedCount = leadingSpaces + matchCount + sg;
                     return result;
@@ -721,9 +721,9 @@ double ScanDouble(int maxChars, ScanReadCharFunc readChar, void *source, int *us
                 return 0.0;
             }
             if (!negative) {
-                return data_0216eca0;
+                return gDoubleInfinity;
             }
-            return -data_0216eca0;
+            return -gDoubleInfinity;
         }
         rec.mExponent = exponent;
         result = DigitCharsToDouble(&rec);
@@ -731,7 +731,7 @@ double ScanDouble(int maxChars, ScanReadCharFunc readChar, void *source, int *us
             *overflow = 1;
         } else if (result > 1.7976931348623157e+308) {
             *overflow = 1;
-            result = data_0216eca0;
+            result = gDoubleInfinity;
         }
         if (negative && (state & 0xe2c)) {
             result = -result;

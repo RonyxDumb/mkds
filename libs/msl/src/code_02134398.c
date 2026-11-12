@@ -548,5 +548,5 @@ int FflushAll(void) {
 }
 
 double nan(const char *tag) {
-    return data_0216ec9c;
+    return gFloatQuietNan;
 }

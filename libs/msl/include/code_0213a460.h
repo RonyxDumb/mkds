@@ -12,7 +12,7 @@ typedef struct ScanStringSource {
 typedef int (*ScanReadCharFunc)(void *a, int b, int c);
 
 // Read by ScanDouble.
-extern const double data_0216eca0;
+extern double gDoubleInfinity;
 
 double strtod(const char *string, const char **end);
 long StrtolBase10(const char *string);

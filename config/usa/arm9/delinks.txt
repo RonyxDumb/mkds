@@ -645,6 +645,7 @@ src/Main/System/interpolation_state.c:
 src/Main/Menu/select_character.c:
     complete
     .text       start:0x02025f80 end:0x02027df8
+    .rodata     start:0x021534bc end:0x02153614
     .data       start:0x02161b3c end:0x02161e64
     .bss        start:0x02174df4 end:0x02174df8
 
@@ -1876,6 +1877,7 @@ src/Main/Kart/kart_effects.c:
 src/Main/Graphics/nsbmd_render_obj.c:
     complete
     .text       start:0x020846c0 end:0x0208533c
+    .rodata     start:0x02155a08 end:0x02155a20
 
 // provisional: file name and boundaries
 src/Main/Graphics/res_file_entries_reset.c:
@@ -1886,6 +1888,7 @@ src/Main/Graphics/res_file_entries_reset.c:
 src/Main/Graphics/nsbmd_draw.c:
     complete
     .text       start:0x02085354 end:0x0208537c
+    .rodata     start:0x02155a20 end:0x02155a28
 
 // provisional: file name and boundaries
 src/Main/Kart/kart_ai.c:
@@ -1898,7 +1901,7 @@ src/Main/Kart/kart_ai.c:
 src/Main/Kart/kart_name_tags.c:
     complete
     .text       start:0x02086058 end:0x02086e8c
-    .rodata     start:0x02155a3c end:0x02155a48
+    .rodata     start:0x02155a28 end:0x02155a48
     .data       start:0x021659a0 end:0x021659d4
     .bss        start:0x0217aea4 end:0x0217af00
 
@@ -4503,6 +4506,10 @@ libs/msl/src/code_02134398.c:
     complete
     .text       start:0x02134398 end:0x021352e0
     .data       start:0x0216eb5c end:0x0216ec78
+
+libs/msl/src/code_0216ec78.c:
+    complete
+    .data       start:0x0216ec78 end:0x0216ec88
 
 // provisional: file name and boundaries
 libs/msl/src/code_021352e0.c:

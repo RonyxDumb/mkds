@@ -238,7 +238,7 @@ void SetTextureSizeFromBits(TexPlttEntry *texPlttEntry) {
 
 u16 GetKartPaletteColor(int kartIndex) {
     if (gRaceSetup->mMode == MODE_WIFI) {
-        return data_02155a2c[gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mRegion];
+        return gRegionPaletteColors[gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mRegion];
     }
     if (gRaceSetup->mUseTeams != 0) {
         return gTeamPaletteColors[gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mTeamIndex];

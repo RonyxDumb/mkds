@@ -98,6 +98,7 @@
 #include "Main/Race/race_clock.h"
 #include "Main/Sound/sound_system.h"
 #include "Main/Menu/menu_shared_clear.h"
+#include "Main/Graphics/nsbmd_draw.h"
 
 void DrawShadowModelIfDrawFlag(ShadowModel *shadowModel, u32 unusedArg1, u32 unusedArg2) {
     if ((shadowModel->mFlags & 1) != 0) {

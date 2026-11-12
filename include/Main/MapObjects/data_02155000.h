@@ -18,13 +18,11 @@ struct Vec4;
 
 extern const struct Vec4 data_usa_02155194;
 
-extern void (*gNsbmdDrawFunctions[])(void *param_1);
-
 extern const u16 gKartPaletteColors[];
 
 extern const u16 gTeamPaletteColors[];
 
-extern const u16 data_02155a2c[];
+extern const u16 gRegionPaletteColors[];
 
 struct ParticleEmitter;
 
@@ -35,10 +33,6 @@ typedef struct OtherKartEffectKind {
     /* 00 */ s32 mEffectId;
     /* 04 */ void (*mAdvance)(struct ParticleEmitter *p, s32 a);
 } OtherKartEffectKind;
-
-extern Vec3 data_02155a08;
-
-extern Vec3 gKartEffectVec3Zero;
 
 extern Vec3 gOtherCameraDistanceLimitsSquared;
 

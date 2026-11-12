@@ -8,7 +8,7 @@
 SPLManager *GetRaceEffectSPLManager(s32 *outIndex, s32 effectId);
 void *StartEffectWithKartVelocity(u32 effectId, Vec3 *position, u32 kartIndex, s32 velocityScale);
 void PlaceEffect(void *emitter, const Vec3 *position);
-ParticleEmitter *StartRaceFogOffEffect(s32 resourceId, Vec3 *position);
+ParticleEmitter *StartRaceFogOffEffect(s32 resourceId, const Vec3 *position);
 void StopEffectAndClearPointer(void **emitterSlot);
 void DeleteEffectAndClearPointer(ParticleEmitter **emitterSlot);
 void DeleteEffect(ParticleEmitter *emitter);

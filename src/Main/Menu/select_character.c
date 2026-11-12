@@ -52,9 +52,9 @@
 #include "code_0214d018.h"
 #include "Main/Menu/select_kart_data.h"
 
-SelectCharacter *gSelectCharacter;
-
 #pragma thumb on
+
+SelectCharacter *gSelectCharacter;
 
 void SetSelectCharacterKeyTargets8Rows(void) {
     SelectCharacter *selectCharacter;
@@ -485,7 +485,7 @@ void SetSelectCharacterRowCellsVisible(s32 visible) {
 void SetSelectCharacterBracketsResting(void) {
     s32 rowIndex;
     CellFileSet *sParts;
-    SelectCharacterRowCellIndices *tableRow;
+    const SelectCharacterRowCellIndices *tableRow;
 
     if (gBootInfo->mBootType != 2) {
         sParts = &gSelectCharacter->mSParts;
@@ -544,18 +544,20 @@ void MoveSelectCharacterBracketsToRow(void) {
     SelectCharacter *selectCharacter;
     CellFileSet *sParts;
     s32 tableIndex;
+    SelectCharacterRowCellIndices *tableRow;
 
     selectCharacter = gSelectCharacter;
     sParts = &selectCharacter->mSParts;
     tableIndex = selectCharacter->mTableIndex;
-    CopyCellLayoutEntryPosition(0x18, gSelectCharacterRowCellIndices[tableIndex].mUnk_00, sParts->mCellLayout);
-    CopyCellLayoutEntryPosition(0x19, gSelectCharacterRowCellIndices[tableIndex].mUnk_00, sParts->mCellLayout);
+    tableRow = (SelectCharacterRowCellIndices *) gSelectCharacterRowCellIndices;
+    CopyCellLayoutEntryPosition(0x18, tableRow[tableIndex].mUnk_00, sParts->mCellLayout);
+    CopyCellLayoutEntryPosition(0x19, tableRow[tableIndex].mUnk_00, sParts->mCellLayout);
 }
 
 void SetSelectCharacterBracketsMoving(void) {
     SelectCharacter *selectCharacter;
     CellFileSet *sParts;
-    SelectCharacterRowCellIndices *tableRow;
+    const SelectCharacterRowCellIndices *tableRow;
 
     selectCharacter = gSelectCharacter;
     sParts = &selectCharacter->mSParts;
@@ -642,7 +644,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
     void *heap;
     SelectCharacter *selectCharacter;
     CellFileSet *sParts;
-    SelectCharacterRowPosition *positions;
+    const SelectCharacterRowPosition *positions;
     s32 rowIndex;
     s32 tableIndex;
     s32 modeValue;
@@ -1271,3 +1273,10 @@ void SetupInterpolation(Interpolation *interpolation, s32 state, s32 counterLimi
 
 #pragma thumb off
 
+
+const SelectCharacterRowCellIndices gSelectCharacterRowCellIndices[12] = {{0xc, 0x1a, 0, 0}, {0xd, 0x1b, 1, 1}, {0xe, 0x1c, 2, 2}, {0xf, 0x1d, 3, 3}, {0x10, 0x1e, 4, 4}, {0x11, 0x1f, 5, 5}, {0x12, 0x20, 6, 6}, {0x13, 0x21, 7, 7}, {0x14, 0x22, 8, 8}, {0x15, 0x23, 9, 9}, {0x16, 0x24, 0xa, 0xa}, {0x17, 0x25, 0xb, 0xb}};
+const SelectCharacterRow gSelectCharacterRows[12] = {{0, 0}, {7, 1}, {4, 2}, {6, 3}, {2, 4}, {1, 5}, {5, 6}, {3, 7}, {9, 8}, {8, 9}, {0xa, 0xa}, {0xb, 0xb}};
+const SelectCharacterRowPosition gSelectCharacterPositions11Rows[11] = {{0x27, 0x1d}, {0x63, 0x1d}, {0x9f, 0x1d}, {0xdb, 0x1d}, {0x3b, 0x51}, {0x80, 0x51}, {0xc7, 0x51}, {0x27, 0x85}, {0x63, 0x85}, {0x9f, 0x85}, {0xdb, 0x85}};
+const SelectCharacterRowPosition gSelectCharacterPositions10Rows[10] = {{0x3a, 0x1d}, {0x80, 0x1d}, {0xc6, 0x1d}, {0x27, 0x51}, {0x63, 0x51}, {0x9f, 0x51}, {0xdb, 0x51}, {0x3a, 0x85}, {0x80, 0x85}, {0xc6, 0x85}};
+const SelectCharacterRowPosition gSelectCharacterPositions9Rows[9] = {{0x44, 0x1d}, {0x80, 0x1d}, {0xbc, 0x1d}, {0x44, 0x51}, {0x80, 0x51}, {0xbc, 0x51}, {0x44, 0x85}, {0x80, 0x85}, {0xbc, 0x85}};
+const SelectCharacterRowPosition gSelectCharacterPositions8Rows[8] = {{0x30, 0x1d}, {0x80, 0x1d}, {0xd0, 0x1d}, {0x57, 0x51}, {0xa8, 0x51}, {0x30, 0x85}, {0x80, 0x85}, {0xd0, 0x85}};

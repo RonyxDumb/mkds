@@ -199,7 +199,7 @@ void StopEffectAndClearPointer(void **emitterSlot) {
     *emitterSlot = NULL;
 }
 
-ParticleEmitter *StartRaceFogOffEffect(s32 resourceId, Vec3 *position) {
+ParticleEmitter *StartRaceFogOffEffect(s32 resourceId, const Vec3 *position) {
     Vec3 emitterPosition;
     ParticleEmitter *emitter;
     emitterPosition.x = position->x >> 4;
