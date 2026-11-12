@@ -35,6 +35,7 @@
 #include "Main/Kart/karts.h"
 #include "registers.h"
 
+s32 gKartNameTagEntry3ScaleY = 0x8971;
 s32 gKartNameTagEntry2XOffset = 0x59a;
 s32 gKartNameTagEntry2ScaleX = 0x30000;
 s32 gKartNameTagEntry0ScaleX = 0xa385;
@@ -47,8 +48,15 @@ s32 gKartNameTagEntry3YOffset = 0x3b33;
 s32 gKartNameTagEntry0XOffset = 0x52ac;
 s32 gKartNameTagEntry3ScaleX = 0x20000;
 s32 gKartNameTagEntry1XOffset = 0x571;
-s32 gKartNameTagEntry3ScaleY = 0x8971;
 const Vec3 gChaseDistanceLimitsSquared = {0x57e40, 0x9c400, 0x19c990};
+u16 *gKartEntryNamePlltBuffer;
+s32 data_0217aedc;
+u8 *gKartEntryNameTexBuffer;
+const Vec3 *gKartDistanceLimitsSquared;
+u8 *gKartNameTagMaskedTexBuffer;
+KartNameTags *gKartNameTags;
+u16 *gKartEmblemPlltBuffer;
+MtxFx44 gKartNameTagProjection;
 
 void UpdateKartViewDistancesAndOutOfView(void) {
     Vec3 cameraToKartWhole;

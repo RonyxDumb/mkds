@@ -2,6 +2,8 @@
 
 #include "types.h"
 #include "code_02012b30.h" // MtxFx43
+#include "Main/MapObjects/data_0217a000.h"
+#include "code_021479b4.h"
 
 // 0x24-byte entry: the word at 0x00 and the halfword at 0x08 are tested by DrawKartNameTagTexture and
 // UploadTextureAndPalette, the words at 0x1c and 0x20 are passed to the function given to DrawKartNameTagTexture.
@@ -66,3 +68,12 @@ extern s32 gKartNameTagEntry3ScaleY;
 extern s32 gKartNameTagEntry2XOffset;
 
 extern const Vec3 gChaseDistanceLimitsSquared;
+
+extern u8 *gKartEntryNameTexBuffer;
+extern u16 *gKartEntryNamePlltBuffer;
+extern u8 *gKartNameTagMaskedTexBuffer;
+extern struct KartNameTags *gKartNameTags;
+extern u16 *gKartEmblemPlltBuffer;
+extern const Vec3 *gKartDistanceLimitsSquared;
+extern s32 data_0217aedc;
+extern MtxFx44 gKartNameTagProjection;

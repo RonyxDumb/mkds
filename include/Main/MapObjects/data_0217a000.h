@@ -1513,14 +1513,6 @@ typedef struct KartAiShared {
     /* 13e */ s16 mTeamNonCpuKartCounts[3];
 } KartAiShared;
 
-extern u8 *gKartEntryNameTexBuffer;
-extern u16 *gKartEntryNamePlltBuffer;
-extern u8 *gKartNameTagMaskedTexBuffer;
-extern const Vec3 *gKartDistanceLimitsSquared;
-extern u16 *gKartEmblemPlltBuffer;
-extern s32 data_0217aedc;
-extern MtxFx44 gKartNameTagProjection;
-
 struct KartNameTag;
 
 // Object behind gKartNameTags, 0x194 bytes: tables of eight entries.
@@ -1546,7 +1538,7 @@ typedef struct KartNameTags {
     /* 18c */ u8 mUnk_18c[8];
 } KartNameTags;
 
-extern KartNameTags *gKartNameTags;
+extern struct KartNameTags *gKartNameTags;
 
 static inline void SetKartNameTagSortedDistanceSquared(u16 sortedIndex, u32 distanceSquared) {
     gKartNameTags->mSortedDistanceSquared[sortedIndex] = distanceSquared;
