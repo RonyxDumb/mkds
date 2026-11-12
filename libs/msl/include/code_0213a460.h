@@ -13,8 +13,6 @@ typedef int (*ScanReadCharFunc)(void *a, int b, int c);
 
 // Read by ScanDouble.
 extern const double data_0216eca0;
-// Used by three functions of this file, by PowBody (which stores 33 there) and by overlay 0.
-extern int gLibErrorCode;
 
 double strtod(const char *string, const char **end);
 long StrtolBase10(const char *string);

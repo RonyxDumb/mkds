@@ -135,3 +135,5 @@ extern u16 gSavedDispMode;
 // sprites, sub background and sub sprite extended palettes.
 extern u16 gVramBankGroups[];
 
+extern u32 GXi_DmaId;
+extern s32 sDayOfYear[12];

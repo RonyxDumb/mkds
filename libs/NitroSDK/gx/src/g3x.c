@@ -6,6 +6,7 @@
 #include "mb_data.h"
 #include "00/Lib/DWC/code_02188720.h"
 #include "registers.h"
+#include "code_02148950.h"
 
 void G3X_SetToonTable(const u16 *toonTable) {
     MIi_CpuCopy16(toonTable, (void *) 0x4000380, 0x40);

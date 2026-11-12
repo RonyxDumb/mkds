@@ -2,6 +2,7 @@
 #include "dwc_account.h"
 #include "code_02152ac8.h"
 #include "Main/Net/friend_data_player_id.h"
+#include "hash2.h"
 
 #pragma thumb on
 

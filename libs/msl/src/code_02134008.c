@@ -5,6 +5,8 @@
 #include "code_02134008.h"
 #include "code_02139e20.h"
 
+int gLibErrorCode;
+
 WordPair FloatTrapDispatch(WordPair firstPair, WordPair secondPair, u32 statusFlags) {
     FloatTrapTable *floatTrapTable;
     FloatTrapHandlerFunc fn;

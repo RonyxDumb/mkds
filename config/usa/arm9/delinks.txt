@@ -4425,6 +4425,7 @@ libs/msl/src/code_02133e50.c:
 libs/msl/src/code_02134008.c:
     complete
     .text       start:0x02134008 end:0x02134398
+    .bss        start:0x0217ee70 end:0x0217ee74
 
 // provisional: file name and boundaries
 libs/msl/src/code_02134398.c:
@@ -4540,7 +4541,7 @@ libs/NitroSDK/wm/src/wm_etc.c:
 libs/NitroSDK/card/src/card_common.c:
     complete
     .text       start:0x0214578c end:0x021458c4
-    .bss        start:0x0217f9c0 end:0x0217f9e0
+    .bss        start:0x0217f9c0 end:0x02180040
 
 // provisional: file name and boundaries
 libs/NitroSDK/card/src/code_021458c4.c:
@@ -4603,7 +4604,7 @@ libs/NitroSDK/gx/src/gx.c:
 libs/NitroSDK/gx/src/code_02148950.c:
     complete
     .text       start:0x02148950 end:0x02149e90
-    .data       start:0x0216f050 end:0x0216f054
+    .data       start:0x0216f050 end:0x0216f088
     .bss        start:0x02180288 end:0x021802ac
 
 // provisional: file name and boundaries
@@ -4730,6 +4731,7 @@ libs/NitroSDK/dgt/src/hash1.c:
 libs/NitroSDK/dgt/src/hash2.c:
     complete
     .text       start:0x02150808 end:0x02150e08
+    .data       start:0x0216f24c end:0x0216f280
     .bss        start:0x02180470 end:0x02180474
 
 // provisional: file name and boundaries

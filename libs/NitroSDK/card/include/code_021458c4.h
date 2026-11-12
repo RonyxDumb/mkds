@@ -118,8 +118,6 @@ typedef struct CARDRomStat {
     /* 20 */ u32 mCacheBuf[0x80];
 } CARDRomStat;
 
-// The command block that CARDiCommon.mCmd points to.
-extern CARDiCommandArg gRequestBlock;
 // Added to the offset of every ROM read in CARDi_ReadRom; CARD_Init writes 0 and nothing else writes it.
 extern u32 gRomBaseOffset;
 extern CARDRomStat gRomReadState;

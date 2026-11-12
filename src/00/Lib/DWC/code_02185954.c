@@ -28,6 +28,7 @@
 #include "code_0214d93c.h"
 #include "code_0200edc0.h"
 #include "Main/Save/nvram_new_wifi_info.h"
+#include "code_02134008.h"
 
 u32 DWCi_Http_CPSCallback(u32 flags) {
     if (flags & 0x8000) {

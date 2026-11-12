@@ -24,21 +24,13 @@ extern struct BlockTransfer gBlockTransfer;
 
 struct WBTCommand;
 
-
-
 struct ScanConnectWork;
 
-
 struct MPLink;
-
 
 extern u8 SDK_OVERLAYTABLE_DIGEST[];
 
 extern u8 OverlaySignatures[][0x14];
-
-extern u32 GXi_DmaId;
-
-extern s32 sDayOfYear[12];
 
 extern u32 OSi_StackForDestructor;
 

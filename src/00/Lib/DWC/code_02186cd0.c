@@ -23,6 +23,7 @@
 #include "00/unk_021b4000.h"
 #include "code_0200fc8c.h"
 #include "dwc_backup.h"
+#include "code_02134008.h"
 
 void DWC_Netcheck_Abort(void) {
     if (gNetcheck != NULL) {

@@ -4,6 +4,8 @@
 #include "code_021458c4.h"
 #include "os_spinLock.h"
 
+CARDiCommon gAccessState;
+CARDiCommandArg gRequestBlock;
 u8 gAccessEnabled[0x20];
 
 // Returns the enable flag.

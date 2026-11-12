@@ -22,3 +22,5 @@ gIwanteKindDescriptor
 gStopSignKindDescriptor
 gCameraEffectKindDescriptor
 gPeriodicEffectKindDescriptor
+sDayOfYear
+sMonthStartDay

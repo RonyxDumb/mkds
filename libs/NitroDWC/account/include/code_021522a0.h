@@ -7,9 +7,6 @@ typedef struct DWCAccFriendData DWCAccFriendData;
 
 typedef struct DWCAccUserData DWCAccUserData;
 
-// Days before each month in a non-leap year (DWC copy of the RTC table).
-extern s32 sMonthStartDay[12];
-
 s32 DateToDayCount(const RTCDate *date);
 u32 IsLeapYearTwoDigit(u32 year);
 void DWC_ReportUserData(const DWCAccUserData *userdata);

@@ -24,3 +24,6 @@ u64 FloatTrapWordToPair(u32 word, u32 statusFlags);
 u32 FloatTrapPairToWord(u32 low, u32 high, u32 statusFlags);
 u32 FloatTrapWordToWord(u32 word, u32 statusFlags);
 WordPair FloatTrapDispatch(WordPair firstPair, WordPair secondPair, u32 statusFlags);
+
+// Used by three functions of this file, by PowBody (which stores 33 there) and by overlay 0.
+extern int gLibErrorCode;

@@ -11,11 +11,12 @@
 #include "code_0200fe74.h"
 #include "registers.h"
 
+u8 gDispOn[4] = {1, 0, 0, 0};
+u32 GXi_DmaId = 3;
+s32 sDayOfYear[12] = {0, 0x1f, 0x3b, 0x5a, 0x78, 0x97, 0xb5, 0xd4, 0xf3, 0x111, 0x130, 0x14e};
 u16 gVramLockId = 0;
 u16 gSavedDispMode = 0;
 u16 gVramBankGroups[13] = {0};
-
-u8 gDispOn[4] = {1, 0, 0, 0};
 
 void GX_VRAMCNT_SetLCDC_(u32 lcdc) {
     if (lcdc & 0x1) {
