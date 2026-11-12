@@ -43,23 +43,6 @@ MapObjectModel *gCow;
 
 MapObjectKindDescriptor gCowKindDescriptor = {0, {0, 0}, 0xa0, 0, CreateEmptyMapObjectKindData, CreateCowDrawList};
 
-static inline u32 MapObjectRandomBelow(u32 limit) {
-    RandomState64 *mapObjectRandom;
-
-    mapObjectRandom = GetMapObjectRandom();
-    mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-    return ((mapObjectRandom->mValue >> 32) * limit) >> 32;
-}
-
-static inline s64 XzDistanceSquared(const Vec3 *firstPos, const Vec3 *secondPos) {
-    s32 deltaX;
-    s32 deltaZ;
-
-    deltaX = firstPos->x - secondPos->x;
-    deltaZ = firstPos->z - secondPos->z;
-    return (s64) deltaX * deltaX + (s64) deltaZ * deltaZ;
-}
-
 void CreateCow(void *mapObjectList) {
     gCow = CreateMapObjectModelNsbmdNsbtp(mapObjectList, "cow.nsbmd", "cow.nsbtp");
     SetMapObjectModelPolygonId(gCow, 0x3f);
