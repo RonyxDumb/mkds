@@ -1,9 +1,14 @@
 #include "Main/Unknown/code_0203c8dc.h"
+#include "Main/Unknown/code_0203ca20.h"
+#include "Main/Unknown/code_020f36d8.h"
 #include "Main/Unknown/code_020431e4.h"
 #include "Main/Unknown/code_0204a904.h"
 #include "Main/Unknown/code_0204a978.h"
-#include "Main/Unknown/code_020f36d8.h"
 #include "Main/Unknown/unk_02175628.h"
+
+void StartRaceClock(void) {
+    gRaceProgress->mHeader.mClockEnabled = 1;
+}
 
 void StartRaceInput(void) {
     u32 entryIndex;
