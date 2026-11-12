@@ -32,23 +32,23 @@ SNDWaveArc sWaveArcHeader;
 
 // Sets each player's sequence count and channels and creates its heaps.
 BOOL NNS_SndArcPlayerSetup(NNSSndHeap *heap) {
-    s32 playerNo;
-    NNSSndArcPlayerInfo *playerInfo;
+    s32 playerIndex;
+    NNSSndArcPlayerInfo *playerEntry;
     s32 seqIndex;
 
     NNS_SndArcGetCurrent();
-    for (playerNo = 0; playerNo < 32; playerNo++) {
-        playerInfo = NNS_SndArcGetPlayerInfo(playerNo);
-        if (playerInfo == 0) {
+    for (playerIndex = 0; playerIndex < 32; playerIndex++) {
+        playerEntry = NNS_SndArcGetPlayerInfo(playerIndex);
+        if (playerEntry == 0) {
             continue;
         }
-        NNS_SndPlayerSetPlayableSeqCount(playerNo, playerInfo->mSeqMax);
-        NNS_SndPlayerSetAllocatableChannel(playerNo, playerInfo->mAllocChBitFlag);
-        if (playerInfo->mHeapSize == 0 || heap == 0) {
+        NNS_SndPlayerSetPlayableSeqCount(playerIndex, playerEntry->mSeqMax);
+        NNS_SndPlayerSetAllocatableChannel(playerIndex, playerEntry->mAllocChBitFlag);
+        if (playerEntry->mHeapSize == 0 || heap == 0) {
             continue;
         }
-        for (seqIndex = 0; seqIndex < playerInfo->mSeqMax; seqIndex++) {
-            if (NNS_SndPlayerCreateHeap(playerNo, heap, playerInfo->mHeapSize) == 0) {
+        for (seqIndex = 0; seqIndex < playerEntry->mSeqMax; seqIndex++) {
+            if (NNS_SndPlayerCreateHeap(playerIndex, heap, playerEntry->mHeapSize) == 0) {
                 return 0;
             }
         }
@@ -67,77 +67,77 @@ BOOL NNS_SndArcPlayerStartSeq(NNSSndSeqPlayer **handle, s32 seqNo) {
 }
 
 BOOL NNS_SndArcPlayerStartSeqArc(NNSSndSeqPlayer **handle, u32 seqArcNo, u32 index) {
-    NNSSndSeqArc *seqArc;
-    NNSSndSeqArcSeqInfo *sound;
+    NNSSndSeqArc *seqArcData;
+    NNSSndSeqArcSeqInfo *seqEntry;
     NNSSndArcSeqArcInfo *info;
 
     info = NNS_SndArcGetSeqArcInfo(seqArcNo);
     if (info == 0) {
         return 0;
     }
-    seqArc = NNS_SndArcGetFileAddress(info->mFileId);
-    if (seqArc == 0) {
+    seqArcData = NNS_SndArcGetFileAddress(info->mFileId);
+    if (seqArcData == 0) {
         return 0;
     }
-    sound = NNSi_SndSeqArcGetSeqInfo(seqArc, index);
-    if (sound == 0) {
+    seqEntry = NNSi_SndSeqArcGetSeqInfo(seqArcData, index);
+    if (seqEntry == 0) {
         return 0;
     }
-    return StartSeqArc(handle, sound->mParam.mPlayerNo, sound->mParam.mBankNo, sound->mParam.mPlayerPrio, sound, seqArc,
+    return StartSeqArc(handle, seqEntry->mParam.mPlayerNo, seqEntry->mParam.mBankNo, seqEntry->mParam.mPlayerPrio, seqEntry, seqArcData,
                        seqArcNo, index);
 }
 
 // A negative player, bank or priority takes the value from the entry.
 BOOL NNS_SndArcPlayerStartSeqArcEx(NNSSndSeqPlayer **handle, s32 playerNo, s32 bankNo, s32 playerPrio, s32 seqArcNo,
                                    s32 index) {
-    NNSSndSeqArc *seqArc;
-    NNSSndSeqArcSeqInfo *sound;
+    NNSSndSeqArc *seqArcData;
+    NNSSndSeqArcSeqInfo *seqEntry;
     NNSSndArcSeqArcInfo *info;
 
     info = NNS_SndArcGetSeqArcInfo(seqArcNo);
     if (info == 0) {
         return 0;
     }
-    seqArc = NNS_SndArcGetFileAddress(info->mFileId);
-    if (seqArc == 0) {
+    seqArcData = NNS_SndArcGetFileAddress(info->mFileId);
+    if (seqArcData == 0) {
         return 0;
     }
-    sound = NNSi_SndSeqArcGetSeqInfo(seqArc, index);
-    if (sound == 0) {
+    seqEntry = NNSi_SndSeqArcGetSeqInfo(seqArcData, index);
+    if (seqEntry == 0) {
         return 0;
     }
     if (playerPrio < 0) {
-        playerPrio = sound->mParam.mPlayerPrio;
+        playerPrio = seqEntry->mParam.mPlayerPrio;
     }
     if (bankNo < 0) {
-        bankNo = sound->mParam.mBankNo;
+        bankNo = seqEntry->mParam.mBankNo;
     }
     if (playerNo < 0) {
-        playerNo = sound->mParam.mPlayerNo;
+        playerNo = seqEntry->mParam.mPlayerNo;
     }
-    return StartSeqArc(handle, playerNo, bankNo, playerPrio, sound, seqArc, seqArcNo, index);
+    return StartSeqArc(handle, playerNo, bankNo, playerPrio, seqEntry, seqArcData, seqArcNo, index);
 }
 
 BOOL StartSeq(NNSSndSeqPlayer **handle, s32 playerNo, s32 bankNo, s32 playerPrio, NNSSndArcSeqInfo *info, s32 seqNo) {
-    NNSSndSeqPlayer *player;
+    NNSSndSeqPlayer *seqPlayer;
     NNSSndSeqData *seq;
     SNDBankData *bank;
     NNSSndHeap *heap;
 
-    player = NNSi_SndPlayerAllocSeqPlayer(handle, playerNo, playerPrio);
-    if (player == 0) {
+    seqPlayer = NNSi_SndPlayerAllocSeqPlayer(handle, playerNo, playerPrio);
+    if (seqPlayer == 0) {
         return 0;
     }
-    heap = NNSi_SndPlayerAllocHeap(playerNo, player);
+    heap = NNSi_SndPlayerAllocHeap(playerNo, seqPlayer);
     if (NNSi_SndArcLoadBank(bankNo, 6, heap, 0, &bank) != 0) {
-        NNSi_SndPlayerFreeSeqPlayer(player);
+        NNSi_SndPlayerFreeSeqPlayer(seqPlayer);
         return 0;
     }
     if (NNSi_SndArcLoadSeq(seqNo, 1, heap, 0, &seq) != 0) {
-        NNSi_SndPlayerFreeSeqPlayer(player);
+        NNSi_SndPlayerFreeSeqPlayer(seqPlayer);
         return 0;
     }
-    NNSi_SndPlayerStartSeq(player, (u8 *) seq + seq->mBaseOffset, 0, bank);
+    NNSi_SndPlayerStartSeq(seqPlayer, (u8 *) seq + seq->mBaseOffset, 0, bank);
     NNS_SndPlayerSetInitialVolume(handle, info->mParam.mVolume);
     NNS_SndPlayerSetChannelPriority(handle, info->mParam.mChannelPrio);
     NNS_SndPlayerSetSeqNo(handle, seqNo);
@@ -146,20 +146,20 @@ BOOL StartSeq(NNSSndSeqPlayer **handle, s32 playerNo, s32 bankNo, s32 playerPrio
 
 BOOL StartSeqArc(NNSSndSeqPlayer **handle, s32 playerNo, s32 bankNo, s32 playerPrio, NNSSndSeqArcSeqInfo *sound,
                  NNSSndSeqArc *seqArc, u32 seqArcNo, u32 index) {
-    void *player;
+    void *seqPlayer;
     SNDBankData *bank;
     NNSSndHeap *heap;
 
-    player = NNSi_SndPlayerAllocSeqPlayer(handle, playerNo, playerPrio);
-    if (player == 0) {
+    seqPlayer = NNSi_SndPlayerAllocSeqPlayer(handle, playerNo, playerPrio);
+    if (seqPlayer == 0) {
         return 0;
     }
-    heap = NNSi_SndPlayerAllocHeap(playerNo, player);
+    heap = NNSi_SndPlayerAllocHeap(playerNo, seqPlayer);
     if (NNSi_SndArcLoadBank(bankNo, 6, heap, 0, &bank) != 0) {
-        NNSi_SndPlayerFreeSeqPlayer(player);
+        NNSi_SndPlayerFreeSeqPlayer(seqPlayer);
         return 0;
     }
-    NNSi_SndPlayerStartSeq(player, (u8 *) seqArc + seqArc->mBaseOffset, sound->mOffset, bank);
+    NNSi_SndPlayerStartSeq(seqPlayer, (u8 *) seqArc + seqArc->mBaseOffset, sound->mOffset, bank);
     NNS_SndPlayerSetInitialVolume(handle, sound->mParam.mVolume);
     NNS_SndPlayerSetChannelPriority(handle, sound->mParam.mChannelPrio);
     NNS_SndPlayerSetSeqArcNo(handle, seqArcNo, index);
@@ -234,51 +234,51 @@ NNSSndArcLoadResult NNSi_SndArcLoadGroup(s32 groupNo, NNSSndHeap *heap) {
 
 NNSSndArcLoadResult NNSi_SndArcLoadSeq(s32 seqNo, u32 loadFlag, NNSSndHeap *heap, BOOL bSetAddr,
                                        NNSSndSeqData **pData) {
-    NNSSndArcSeqInfo *seqInfo;
-    NNSSndSeqData *seqData;
+    NNSSndArcSeqInfo *seqEntry;
+    NNSSndSeqData *loadedSeq;
     NNSSndArcLoadResult result;
 
-    seqInfo = NNS_SndArcGetSeqInfo(seqNo);
-    if (seqInfo == 0) {
+    seqEntry = NNS_SndArcGetSeqInfo(seqNo);
+    if (seqEntry == 0) {
         return NNS_SND_ARC_LOAD_ERROR_INVALID_SEQ_NO;
     }
-    result = NNSi_SndArcLoadBank(seqInfo->mParam.mBankNo, loadFlag, heap, bSetAddr, 0);
+    result = NNSi_SndArcLoadBank(seqEntry->mParam.mBankNo, loadFlag, heap, bSetAddr, 0);
     if (result != NNS_SND_ARC_LOAD_SUCESS) {
         return result;
     }
     if (loadFlag & 1) {
-        seqData = LoadSeq(seqInfo->mFileId, heap, bSetAddr);
-        if (seqData == 0) {
+        loadedSeq = LoadSeq(seqEntry->mFileId, heap, bSetAddr);
+        if (loadedSeq == 0) {
             return NNS_SND_ARC_LOAD_ERROR_FAILED_LOAD_SEQ;
         }
     } else {
-        seqData = NNS_SndArcGetFileAddress(seqInfo->mFileId);
+        loadedSeq = NNS_SndArcGetFileAddress(seqEntry->mFileId);
     }
     if (pData != 0) {
-        *pData = seqData;
+        *pData = loadedSeq;
     }
     return NNS_SND_ARC_LOAD_SUCESS;
 }
 
 NNSSndArcLoadResult NNSi_SndArcLoadSeqArc(s32 seqArcNo, u32 loadFlag, NNSSndHeap *heap, BOOL bSetAddr,
                                           NNSSndSeqArc **pData) {
-    NNSSndArcSeqArcInfo *seqArcInfo;
-    NNSSndSeqArc *seqArc;
+    NNSSndArcSeqArcInfo *arcEntry;
+    NNSSndSeqArc *loadedArc;
 
-    seqArcInfo = NNS_SndArcGetSeqArcInfo(seqArcNo);
-    if (seqArcInfo == 0) {
+    arcEntry = NNS_SndArcGetSeqArcInfo(seqArcNo);
+    if (arcEntry == 0) {
         return NNS_SND_ARC_LOAD_ERROR_INVALID_SEQARC_NO;
     }
     if (loadFlag & 8) {
-        seqArc = LoadSeqArc(seqArcInfo->mFileId, heap, bSetAddr);
-        if (seqArc == 0) {
+        loadedArc = LoadSeqArc(arcEntry->mFileId, heap, bSetAddr);
+        if (loadedArc == 0) {
             return NNS_SND_ARC_LOAD_ERROR_FAILED_LOAD_SEQARC;
         }
     } else {
-        seqArc = NNS_SndArcGetFileAddress(seqArcInfo->mFileId);
+        loadedArc = NNS_SndArcGetFileAddress(arcEntry->mFileId);
     }
     if (pData != 0) {
-        *pData = seqArc;
+        *pData = loadedArc;
     }
     return NNS_SND_ARC_LOAD_SUCESS;
 }
@@ -286,44 +286,44 @@ NNSSndArcLoadResult NNSi_SndArcLoadSeqArc(s32 seqArcNo, u32 loadFlag, NNSSndHeap
 // Loads the bank and its wave archives, and assigns them to the bank.
 NNSSndArcLoadResult NNSi_SndArcLoadBank(s32 bankNo, u32 loadFlag, NNSSndHeap *heap, BOOL bSetAddr,
                                         SNDBankData **pData) {
-    NNSSndArcBankInfo *bankInfo;
-    NNSSndArcWaveArcInfo *waveArcInfo;
-    SNDWaveArc *waveArc;
+    NNSSndArcBankInfo *bankEntry;
+    NNSSndArcWaveArcInfo *waveEntry;
+    SNDWaveArc *loadedWaveArc;
     SNDBankData *bank;
     s32 waveArcIndex;
     u32 loadWave;
     NNSSndArcLoadResult result;
 
-    bankInfo = NNS_SndArcGetBankInfo(bankNo);
-    if (bankInfo == 0) {
+    bankEntry = NNS_SndArcGetBankInfo(bankNo);
+    if (bankEntry == 0) {
         return NNS_SND_ARC_LOAD_ERROR_INVALID_BANK_NO;
     }
     if (loadFlag & 2) {
-        bank = LoadBank(bankInfo->mFileId, heap, bSetAddr);
+        bank = LoadBank(bankEntry->mFileId, heap, bSetAddr);
         if (bank == 0) {
             return NNS_SND_ARC_LOAD_ERROR_FAILED_LOAD_BANK;
         }
     } else {
-        bank = NNS_SndArcGetFileAddress(bankInfo->mFileId);
+        bank = NNS_SndArcGetFileAddress(bankEntry->mFileId);
     }
     loadWave = loadFlag & 4;
     for (waveArcIndex = 0; waveArcIndex < 4; waveArcIndex++) {
-        if (bankInfo->mWaveArcNo[waveArcIndex] != 0xffff) {
-            waveArcInfo = NNS_SndArcGetWaveArcInfo(bankInfo->mWaveArcNo[waveArcIndex]);
-            if (waveArcInfo == 0) {
+        if (bankEntry->mWaveArcNo[waveArcIndex] != 0xffff) {
+            waveEntry = NNS_SndArcGetWaveArcInfo(bankEntry->mWaveArcNo[waveArcIndex]);
+            if (waveEntry == 0) {
                 return NNS_SND_ARC_LOAD_ERROR_INVALID_WAVEARC_NO;
             }
-            result = NNSi_SndArcLoadWaveArc(bankInfo->mWaveArcNo[waveArcIndex], loadFlag, heap, bSetAddr, &waveArc);
+            result = NNSi_SndArcLoadWaveArc(bankEntry->mWaveArcNo[waveArcIndex], loadFlag, heap, bSetAddr, &loadedWaveArc);
             if (result != NNS_SND_ARC_LOAD_SUCESS) {
                 return result;
             }
-            if ((waveArcInfo->mFlags & 1) && loadWave) {
-                if (LoadSingleWaves(waveArc, bank, waveArcIndex, waveArcInfo->mFileId, heap) == 0) {
+            if ((waveEntry->mFlags & 1) && loadWave) {
+                if (LoadSingleWaves(loadedWaveArc, bank, waveArcIndex, waveEntry->mFileId, heap) == 0) {
                     return NNS_SND_ARC_LOAD_ERROR_FAILED_LOAD_WAVE;
                 }
             }
-            if (bank != 0 && waveArc != 0) {
-                SND_AssignWaveArc(bank, waveArcIndex, waveArc);
+            if (bank != 0 && loadedWaveArc != 0) {
+                SND_AssignWaveArc(bank, waveArcIndex, loadedWaveArc);
             }
         }
     }
@@ -335,27 +335,27 @@ NNSSndArcLoadResult NNSi_SndArcLoadBank(s32 bankNo, u32 loadFlag, NNSSndHeap *he
 
 NNSSndArcLoadResult NNSi_SndArcLoadWaveArc(s32 waveArcNo, u32 loadFlag, NNSSndHeap *heap, BOOL bSetAddr,
                                            SNDWaveArc **pData) {
-    NNSSndArcWaveArcInfo *waveArcInfo;
-    SNDWaveArc *waveArc;
+    NNSSndArcWaveArcInfo *waveEntry;
+    SNDWaveArc *loadedWaveArc;
 
-    waveArcInfo = NNS_SndArcGetWaveArcInfo(waveArcNo);
-    if (waveArcInfo == 0) {
+    waveEntry = NNS_SndArcGetWaveArcInfo(waveArcNo);
+    if (waveEntry == 0) {
         return NNS_SND_ARC_LOAD_ERROR_INVALID_WAVEARC_NO;
     }
     if (loadFlag & 4) {
-        if (waveArcInfo->mFlags & 1) {
-            waveArc = LoadWaveArcTable(waveArcInfo->mFileId, heap, bSetAddr);
+        if (waveEntry->mFlags & 1) {
+            loadedWaveArc = LoadWaveArcTable(waveEntry->mFileId, heap, bSetAddr);
         } else {
-            waveArc = LoadWaveArc(waveArcInfo->mFileId, heap, bSetAddr);
+            loadedWaveArc = LoadWaveArc(waveEntry->mFileId, heap, bSetAddr);
         }
-        if (waveArc == 0) {
+        if (loadedWaveArc == 0) {
             return NNS_SND_ARC_LOAD_ERROR_FAILED_LOAD_WAVE;
         }
     } else {
-        waveArc = NNS_SndArcGetFileAddress(waveArcInfo->mFileId);
+        loadedWaveArc = NNS_SndArcGetFileAddress(waveEntry->mFileId);
     }
     if (pData != 0) {
-        *pData = waveArc;
+        *pData = loadedWaveArc;
     }
     return NNS_SND_ARC_LOAD_SUCESS;
 }
@@ -437,54 +437,54 @@ SNDWaveArc *LoadWaveArc(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr) {
 
 // Loads the wave archive header and tables; the waves load one by one.
 SNDWaveArc *LoadWaveArcTable(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr) {
-    SNDWaveArc *waveArc;
+    SNDWaveArc *tableArc;
     u32 len;
-    u32 tableSize;
-    s32 readSize;
+    u32 offsetBytes;
+    s32 bytesRead;
 
-    waveArc = NNS_SndArcGetFileAddress(fileId);
-    if (waveArc == 0) {
+    tableArc = NNS_SndArcGetFileAddress(fileId);
+    if (tableArc == 0) {
         if (NNS_SndArcReadFile(fileId, &sWaveArcHeader, 0x3c, 0) != 0x3c) {
             return 0;
         }
-        tableSize = sWaveArcHeader.mWaveCount * 4;
-        len = tableSize * 2 + 0x3c;
+        offsetBytes = sWaveArcHeader.mWaveCount * 4;
+        len = offsetBytes * 2 + 0x3c;
         if (heap == 0) {
             return 0;
         }
-        waveArc = NNS_SndHeapAlloc(heap, len + 0x20, WaveArcTableDisposeCallback, bSetAddr ? NNS_SndArcGetCurrent() : 0,
+        tableArc = NNS_SndHeapAlloc(heap, len + 0x20, WaveArcTableDisposeCallback, bSetAddr ? NNS_SndArcGetCurrent() : 0,
                                    fileId);
-        if (waveArc == 0) {
+        if (tableArc == 0) {
             return 0;
         }
-        readSize = NNS_SndArcReadFile(fileId, waveArc, tableSize + 0x3c, 0);
-        if (readSize != tableSize + 0x3c) {
+        bytesRead = NNS_SndArcReadFile(fileId, tableArc, offsetBytes + 0x3c, 0);
+        if (bytesRead != offsetBytes + 0x3c) {
             return 0;
         }
-        MI_CpuCopy8(waveArc->mWaveOffset, waveArc->mWaveOffset + waveArc->mWaveCount, tableSize);
-        MI_CpuFill8(waveArc->mWaveOffset, 0, tableSize);
-        DC_StoreRange(waveArc, len);
+        MI_CpuCopy8(tableArc->mWaveOffset, tableArc->mWaveOffset + tableArc->mWaveCount, offsetBytes);
+        MI_CpuFill8(tableArc->mWaveOffset, 0, offsetBytes);
+        DC_StoreRange(tableArc, len);
         if (bSetAddr != 0) {
-            NNS_SndArcSetFileAddress(fileId, waveArc);
+            NNS_SndArcSetFileAddress(fileId, tableArc);
         }
     }
-    return waveArc;
+    return tableArc;
 }
 
 // Clears the file address when mem is still the loaded copy.
 void DisposeCallback(void *mem, NNSSndArc *arc, u32 fileId) {
-    NNSSndArc *oldArc;
+    NNSSndArc *previousArc;
     u32 enabled;
 
     if (arc == 0) {
         return;
     }
     enabled = OS_DisableInterrupts();
-    oldArc = NNS_SndArcSetCurrent(arc);
+    previousArc = NNS_SndArcSetCurrent(arc);
     if (mem == NNS_SndArcGetFileAddress(fileId)) {
         NNS_SndArcSetFileAddress(fileId, 0);
     }
-    NNS_SndArcSetCurrent(oldArc);
+    NNS_SndArcSetCurrent(previousArc);
     OS_RestoreInterrupts(enabled);
 }
 
@@ -521,20 +521,20 @@ void SingleWaveDisposeCallback(void *mem, u32 size, void *data1, u32 data2) {
 
 BOOL LoadSingleWave(SNDWaveArc *waveArc, s32 waveNo, u32 fileId, NNSSndHeap *heap) {
     u32 *entry;
-    u32 waveCount;
+    u32 waveTotal;
     u32 end;
     u32 len;
-    u32 begin;
+    u32 startOffset;
     void *buffer;
 
     if (SND_GetWaveDataAddress(waveArc, waveNo) != 0) {
         return 1;
     }
-    waveCount = SND_GetWaveDataCount(waveArc);
+    waveTotal = SND_GetWaveDataCount(waveArc);
     entry = (u32 *) waveArc + (waveArc->mWaveCount + waveNo);
-    begin = entry[15];
-    end = waveNo < waveCount - 1 ? entry[16] : waveArc->mUnk_08;
-    len = end - begin;
+    startOffset = entry[15];
+    end = waveNo < waveTotal - 1 ? entry[16] : waveArc->mUnk_08;
+    len = end - startOffset;
     if (heap == 0) {
         return 0;
     }
@@ -542,7 +542,7 @@ BOOL LoadSingleWave(SNDWaveArc *waveArc, s32 waveNo, u32 fileId, NNSSndHeap *hea
     if (buffer == 0) {
         return 0;
     }
-    if (NNS_SndArcReadFile(fileId, buffer, len, begin) != len) {
+    if (NNS_SndArcReadFile(fileId, buffer, len, startOffset) != len) {
         return 0;
     }
     DC_StoreRange(buffer, len);
@@ -604,22 +604,22 @@ void NNS_SndHeapDestroy(NNSSndHeap *heap) {
 }
 
 void NNS_SndHeapClear(NNSSndHeap *heap) {
-    NNSSndHeapSection *section;
-    void *object;
+    NNSSndHeapSection *heapSection;
+    void *listItem;
     u32 calledBack = 0;
 
-    for (section = NNS_FndGetPrevListObject(&heap->mSectionList, 0); section != 0;
-         section = NNS_FndGetPrevListObject(&heap->mSectionList, 0)) {
-        for (object = NNS_FndGetPrevListObject(&section->mBlockList, 0); object != 0;
-             object = NNS_FndGetPrevListObject(&section->mBlockList, object)) {
-            NNSSndHeapBlock *block = object;
+    for (heapSection = NNS_FndGetPrevListObject(&heap->mSectionList, 0); heapSection != 0;
+         heapSection = NNS_FndGetPrevListObject(&heap->mSectionList, 0)) {
+        for (listItem = NNS_FndGetPrevListObject(&heapSection->mBlockList, 0); listItem != 0;
+             listItem = NNS_FndGetPrevListObject(&heapSection->mBlockList, listItem)) {
+            NNSSndHeapBlock *heapBlock = listItem;
 
-            if (block->mCallback != 0) {
-                block->mCallback(block + 1, block->mSize, block->mData1, block->mData2);
+            if (heapBlock->mCallback != 0) {
+                heapBlock->mCallback(heapBlock + 1, heapBlock->mSize, heapBlock->mData1, heapBlock->mData2);
                 calledBack = 1;
             }
         }
-        NNS_FndRemoveListObject(&heap->mSectionList, section);
+        NNS_FndRemoveListObject(&heap->mSectionList, heapSection);
     }
     NNS_FndFreeToFrmHeap(heap->mHandle, 3);
     if (calledBack != 0) {
@@ -630,20 +630,20 @@ void NNS_SndHeapClear(NNSSndHeap *heap) {
 
 // Allocates behind a 32-byte block header holding the dispose callback.
 void *NNS_SndHeapAlloc(NNSSndHeap *heap, u32 size, NNSSndHeapDisposeCallback callback, void *data1, u32 data2) {
-    NNSSndHeapBlock *block;
-    NNSSndHeapSection *section;
+    NNSSndHeapBlock *heapBlock;
+    NNSSndHeapSection *heapSection;
 
-    block = NNS_FndAllocFromFrmHeapEx(heap->mHandle, ((size + 31) & ~31) + 32, 32);
-    if (block == 0) {
+    heapBlock = NNS_FndAllocFromFrmHeapEx(heap->mHandle, ((size + 31) & ~31) + 32, 32);
+    if (heapBlock == 0) {
         return 0;
     }
-    section = NNS_FndGetPrevListObject(&heap->mSectionList, 0);
-    block->mSize = size;
-    block->mCallback = callback;
-    block->mData1 = data1;
-    block->mData2 = data2;
-    NNS_FndAppendListObject(&section->mBlockList, block);
-    return block + 1;
+    heapSection = NNS_FndGetPrevListObject(&heap->mSectionList, 0);
+    heapBlock->mSize = size;
+    heapBlock->mCallback = callback;
+    heapBlock->mData1 = data1;
+    heapBlock->mData2 = data2;
+    NNS_FndAppendListObject(&heapSection->mBlockList, heapBlock);
+    return heapBlock + 1;
 }
 
 // Returns the level for NNS_SndHeapLoadState, or -1.
@@ -660,8 +660,8 @@ s32 NNS_SndHeapSaveState(NNSSndHeap *heap) {
 
 // Frees the sections above level; level 0 clears the heap.
 void NNS_SndHeapLoadState(NNSSndHeap *heap, s32 level) {
-    NNSSndHeapSection *section;
-    void *object = 0;
+    NNSSndHeapSection *heapSection;
+    void *listItem = 0;
     u32 calledBack = 0;
 
     if (level == 0) {
@@ -670,17 +670,17 @@ void NNS_SndHeapLoadState(NNSSndHeap *heap, s32 level) {
     }
     if (level < heap->mSectionList.mCount) {
         do {
-            section = NNS_FndGetPrevListObject(&heap->mSectionList, 0);
-            for (object = NNS_FndGetPrevListObject(&section->mBlockList, object); object != 0;
-                 object = NNS_FndGetPrevListObject(&section->mBlockList, object)) {
-                NNSSndHeapBlock *block = object;
+            heapSection = NNS_FndGetPrevListObject(&heap->mSectionList, 0);
+            for (listItem = NNS_FndGetPrevListObject(&heapSection->mBlockList, listItem); listItem != 0;
+                 listItem = NNS_FndGetPrevListObject(&heapSection->mBlockList, listItem)) {
+                NNSSndHeapBlock *heapBlock = listItem;
 
-                if (block->mCallback != 0) {
-                    block->mCallback(block + 1, block->mSize, block->mData1, block->mData2);
+                if (heapBlock->mCallback != 0) {
+                    heapBlock->mCallback(heapBlock + 1, heapBlock->mSize, heapBlock->mData1, heapBlock->mData2);
                     calledBack = 1;
                 }
             }
-            NNS_FndRemoveListObject(&heap->mSectionList, section);
+            NNS_FndRemoveListObject(&heap->mSectionList, heapSection);
         } while (level < heap->mSectionList.mCount);
     }
     NNS_FndFreeByStateToFrmHeap(heap->mHandle, level);
@@ -706,23 +706,23 @@ BOOL InitHeap(NNSSndHeap *heap, void *handle) {
 }
 
 BOOL NewSection(NNSSndHeap *heap) {
-    NNSSndHeapSection *section;
+    NNSSndHeapSection *newSection;
 
-    section = NNS_FndAllocFromFrmHeapEx(heap->mHandle, 0x14, 4);
-    if (section == 0) {
+    newSection = NNS_FndAllocFromFrmHeapEx(heap->mHandle, 0x14, 4);
+    if (newSection == 0) {
         return 0;
     }
-    InitHeapSection(section);
-    NNS_FndAppendListObject(&heap->mSectionList, section);
+    InitHeapSection(newSection);
+    NNS_FndAppendListObject(&heap->mSectionList, newSection);
     return 1;
 }
 
 void EraseSync(void) {
-    u32 commandTag;
+    u32 pendingTag;
 
-    commandTag = SND_GetCurrentCommandTag();
+    pendingTag = SND_GetCurrentCommandTag();
     SND_FlushCommand(1);
-    SND_WaitForCommandProc(commandTag);
+    SND_WaitForCommandProc(pendingTag);
 }
 
 void NNS_SndArcInit(NNSSndArc *arc, const u8 *filePath, NNSSndHeap *heap, BOOL symbolLoadFlag) {
@@ -743,7 +743,7 @@ void NNS_SndArcInit(NNSSndArc *arc, const u8 *filePath, NNSSndHeap *heap, BOOL s
 }
 
 BOOL NNS_SndArcSetup(NNSSndArc *arc, NNSSndHeap *heap, BOOL symbolLoadFlag) {
-    s32 readSize;
+    s32 bytesRead;
 
     if (FS_SeekFile(&arc->mFile, 0, 0) == 0) {
         return 0;
@@ -759,8 +759,8 @@ BOOL NNS_SndArcSetup(NNSSndArc *arc, NNSSndHeap *heap, BOOL symbolLoadFlag) {
         if (FS_SeekFile(&arc->mFile, arc->mHeader.mInfoOffset, 0) == 0) {
             return 0;
         }
-        readSize = FS_ReadFile(&arc->mFile, arc->mInfo, arc->mHeader.mInfoSize);
-        if (readSize != arc->mHeader.mInfoSize) {
+        bytesRead = FS_ReadFile(&arc->mFile, arc->mInfo, arc->mHeader.mInfoSize);
+        if (bytesRead != arc->mHeader.mInfoSize) {
             return 0;
         }
         arc->mFat = NNS_SndHeapAlloc(heap, arc->mHeader.mFatSize, FatDisposeCallback, arc, 0);
@@ -770,8 +770,8 @@ BOOL NNS_SndArcSetup(NNSSndArc *arc, NNSSndHeap *heap, BOOL symbolLoadFlag) {
         if (FS_SeekFile(&arc->mFile, arc->mHeader.mFatOffset, 0) == 0) {
             return 0;
         }
-        readSize = FS_ReadFile(&arc->mFile, arc->mFat, arc->mHeader.mFatSize);
-        if (readSize != arc->mHeader.mFatSize) {
+        bytesRead = FS_ReadFile(&arc->mFile, arc->mFat, arc->mHeader.mFatSize);
+        if (bytesRead != arc->mHeader.mFatSize) {
             return 0;
         }
         if (symbolLoadFlag != 0 && arc->mHeader.mSymbolDataSize != 0) {
@@ -782,8 +782,8 @@ BOOL NNS_SndArcSetup(NNSSndArc *arc, NNSSndHeap *heap, BOOL symbolLoadFlag) {
             if (FS_SeekFile(&arc->mFile, arc->mHeader.mSymbolDataOffset, 0) == 0) {
                 return 0;
             }
-            readSize = FS_ReadFile(&arc->mFile, arc->mSymbol, arc->mHeader.mSymbolDataSize);
-            if (readSize != arc->mHeader.mSymbolDataSize) {
+            bytesRead = FS_ReadFile(&arc->mFile, arc->mSymbol, arc->mHeader.mSymbolDataSize);
+            if (bytesRead != arc->mHeader.mSymbolDataSize) {
                 return 0;
             }
         }
@@ -810,10 +810,10 @@ void NNS_SndArcInitOnMemory(NNSSndArc *arc, void *data) {
 }
 
 NNSSndArc *NNS_SndArcSetCurrent(NNSSndArc *arc) {
-    NNSSndArc *oldArc = sCurrent;
+    NNSSndArc *previousArc = sCurrent;
 
     sCurrent = arc;
-    return oldArc;
+    return previousArc;
 }
 
 NNSSndArc *NNS_SndArcGetCurrent(void) {
@@ -822,152 +822,152 @@ NNSSndArc *NNS_SndArcGetCurrent(void) {
 
 NNSSndSeqParam *NNS_SndArcGetSeqArcParam(s32 seqArcNo, s32 index) {
     NNSSndArcSeqArcInfo *info;
-    NNSSndSeqArc *seqArc;
-    NNSSndSeqArcSeqInfo *sound;
+    NNSSndSeqArc *seqArcData;
+    NNSSndSeqArcSeqInfo *seqEntry;
 
     info = NNS_SndArcGetSeqArcInfo(seqArcNo);
     if (info == 0) {
         return 0;
     }
-    seqArc = NNS_SndArcGetFileAddress(info->mFileId);
-    if (seqArc == 0) {
+    seqArcData = NNS_SndArcGetFileAddress(info->mFileId);
+    if (seqArcData == 0) {
         return 0;
     }
-    sound = NNSi_SndSeqArcGetSeqInfo(seqArc, index);
-    if (sound == 0) {
+    seqEntry = NNSi_SndSeqArcGetSeqInfo(seqArcData, index);
+    if (seqEntry == 0) {
         return 0;
     }
-    return &sound->mParam;
+    return &seqEntry->mParam;
 }
 
 NNSSndArcSeqInfo *NNS_SndArcGetSeqInfo(s32 seqNo) {
     NNSSndArc *arc = sCurrent;
-    NNSSndArcOffsetTable *table;
+    NNSSndArcOffsetTable *offsetTable;
     u32 offset;
     u8 *base;
 
     offset = arc->mInfo->mSeqOffset;
-    table = offset == 0 ? 0 : OFFSET_PTR(NNSSndArcOffsetTable, arc->mInfo, offset);
-    if (table == 0) {
+    offsetTable = offset == 0 ? 0 : OFFSET_PTR(NNSSndArcOffsetTable, arc->mInfo, offset);
+    if (offsetTable == 0) {
         return 0;
     }
     if (seqNo < 0) {
         return 0;
     }
-    if (seqNo >= table->mCount) {
+    if (seqNo >= offsetTable->mCount) {
         return 0;
     }
-    offset = table->mOffset[seqNo];
+    offset = offsetTable->mOffset[seqNo];
     base = (u8 *) arc->mInfo;
     return offset == 0 ? 0 : (NNSSndArcSeqInfo *) (base + offset);
 }
 
 NNSSndArcSeqArcInfo *NNS_SndArcGetSeqArcInfo(s32 seqArcNo) {
     NNSSndArc *arc = sCurrent;
-    NNSSndArcOffsetTable *table;
+    NNSSndArcOffsetTable *offsetTable;
     u32 offset;
     u8 *base;
 
     offset = arc->mInfo->mSeqArcOffset;
-    table = offset == 0 ? 0 : OFFSET_PTR(NNSSndArcOffsetTable, arc->mInfo, offset);
-    if (table == 0) {
+    offsetTable = offset == 0 ? 0 : OFFSET_PTR(NNSSndArcOffsetTable, arc->mInfo, offset);
+    if (offsetTable == 0) {
         return 0;
     }
     if (seqArcNo < 0) {
         return 0;
     }
-    if (seqArcNo >= table->mCount) {
+    if (seqArcNo >= offsetTable->mCount) {
         return 0;
     }
-    offset = table->mOffset[seqArcNo];
+    offset = offsetTable->mOffset[seqArcNo];
     base = (u8 *) arc->mInfo;
     return offset == 0 ? 0 : (NNSSndArcSeqArcInfo *) (base + offset);
 }
 
 NNSSndArcBankInfo *NNS_SndArcGetBankInfo(s32 bankNo) {
     NNSSndArc *arc = sCurrent;
-    NNSSndArcOffsetTable *table;
+    NNSSndArcOffsetTable *offsetTable;
     u32 offset;
     u8 *base;
 
     offset = arc->mInfo->mBankOffset;
-    table = offset == 0 ? 0 : OFFSET_PTR(NNSSndArcOffsetTable, arc->mInfo, offset);
-    if (table == 0) {
+    offsetTable = offset == 0 ? 0 : OFFSET_PTR(NNSSndArcOffsetTable, arc->mInfo, offset);
+    if (offsetTable == 0) {
         return 0;
     }
     if (bankNo < 0) {
         return 0;
     }
-    if (bankNo >= table->mCount) {
+    if (bankNo >= offsetTable->mCount) {
         return 0;
     }
-    offset = table->mOffset[bankNo];
+    offset = offsetTable->mOffset[bankNo];
     base = (u8 *) arc->mInfo;
     return offset == 0 ? 0 : (NNSSndArcBankInfo *) (base + offset);
 }
 
 NNSSndArcWaveArcInfo *NNS_SndArcGetWaveArcInfo(s32 waveArcNo) {
     NNSSndArc *arc = sCurrent;
-    NNSSndArcOffsetTable *table;
+    NNSSndArcOffsetTable *offsetTable;
     u32 offset;
     u8 *base;
 
     offset = arc->mInfo->mWaveArcOffset;
-    table = offset == 0 ? 0 : OFFSET_PTR(NNSSndArcOffsetTable, arc->mInfo, offset);
-    if (table == 0) {
+    offsetTable = offset == 0 ? 0 : OFFSET_PTR(NNSSndArcOffsetTable, arc->mInfo, offset);
+    if (offsetTable == 0) {
         return 0;
     }
     if (waveArcNo < 0) {
         return 0;
     }
-    if (waveArcNo >= table->mCount) {
+    if (waveArcNo >= offsetTable->mCount) {
         return 0;
     }
-    offset = table->mOffset[waveArcNo];
+    offset = offsetTable->mOffset[waveArcNo];
     base = (u8 *) arc->mInfo;
     return offset == 0 ? 0 : (NNSSndArcWaveArcInfo *) (base + offset);
 }
 
 NNSSndArcPlayerInfo *NNS_SndArcGetPlayerInfo(s32 playerNo) {
     NNSSndArc *arc = sCurrent;
-    NNSSndArcOffsetTable *table;
+    NNSSndArcOffsetTable *offsetTable;
     u32 offset;
     u8 *base;
 
     offset = arc->mInfo->mPlayerInfoOffset;
-    table = offset == 0 ? 0 : OFFSET_PTR(NNSSndArcOffsetTable, arc->mInfo, offset);
-    if (table == 0) {
+    offsetTable = offset == 0 ? 0 : OFFSET_PTR(NNSSndArcOffsetTable, arc->mInfo, offset);
+    if (offsetTable == 0) {
         return 0;
     }
     if (playerNo < 0) {
         return 0;
     }
-    if (playerNo >= table->mCount) {
+    if (playerNo >= offsetTable->mCount) {
         return 0;
     }
-    offset = table->mOffset[playerNo];
+    offset = offsetTable->mOffset[playerNo];
     base = (u8 *) arc->mInfo;
     return offset == 0 ? 0 : (NNSSndArcPlayerInfo *) (base + offset);
 }
 
 NNSSndArcGroupInfo *NNS_SndArcGetGroupInfo(s32 groupNo) {
     NNSSndArc *arc = sCurrent;
-    NNSSndArcOffsetTable *table;
+    NNSSndArcOffsetTable *offsetTable;
     u32 offset;
     u8 *base;
 
     offset = arc->mInfo->mGroupInfoOffset;
-    table = offset == 0 ? 0 : OFFSET_PTR(NNSSndArcOffsetTable, arc->mInfo, offset);
-    if (table == 0) {
+    offsetTable = offset == 0 ? 0 : OFFSET_PTR(NNSSndArcOffsetTable, arc->mInfo, offset);
+    if (offsetTable == 0) {
         return 0;
     }
     if (groupNo < 0) {
         return 0;
     }
-    if (groupNo >= table->mCount) {
+    if (groupNo >= offsetTable->mCount) {
         return 0;
     }
-    offset = table->mOffset[groupNo];
+    offset = offsetTable->mOffset[groupNo];
     base = (u8 *) arc->mInfo;
     return offset == 0 ? 0 : (NNSSndArcGroupInfo *) (base + offset);
 }

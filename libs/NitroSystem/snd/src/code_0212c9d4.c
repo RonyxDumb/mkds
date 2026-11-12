@@ -65,8 +65,8 @@ void NNSi_SndCaptureInit(void) {
 // volume of the playback channels from the fader.
 void NNSi_SndCaptureMain(void) {
     CaptureParam *capture = &sCapParam;
-    NNSSndFader *fader;
-    s32 volume;
+    NNSSndFader *levelFader;
+    s32 scaledLevel;
 
     if (capture->mActiveFlag == 0) {
         return;
@@ -74,18 +74,18 @@ void NNSi_SndCaptureMain(void) {
     if (capture->mType != 0) {
         return;
     }
-    fader = &capture->mFader;
-    NNSi_SndFaderUpdate(fader);
-    if (capture->mFadeOutFlag != 0 && NNSi_SndFaderIsFinished(fader) != 0) {
+    levelFader = &capture->mFader;
+    NNSi_SndFaderUpdate(levelFader);
+    if (capture->mFadeOutFlag != 0 && NNSi_SndFaderIsFinished(levelFader) != 0) {
         NNSi_SndCaptureStop();
         return;
     }
-    volume = NNSi_SndFaderGet(fader) >> 8;
-    if (volume == capture->mVolume) {
+    scaledLevel = NNSi_SndFaderGet(levelFader) >> 8;
+    if (scaledLevel == capture->mVolume) {
         return;
     }
-    SND_SetChannelVolume(capture->mPlayChBitMask, volume, 0);
-    capture->mVolume = volume;
+    SND_SetChannelVolume(capture->mPlayChBitMask, scaledLevel, 0);
+    capture->mVolume = scaledLevel;
 }
 
 // Locks two capture units, two channels and, with a callback, an alarm, sets them up on the two buffers and starts
@@ -93,7 +93,7 @@ void NNSi_SndCaptureMain(void) {
 s32 NNSi_SndCaptureStart(u32 type, u8 *left, u8 *right, u32 length, u32 format, u32 input, u32 output, u32 loop,
                          s32 rate, u32 volume, u32 panLeft, u32 panRight, u32 parts, NNSSndCaptureCallback callback,
                          void *callbackArg) {
-    s32 timer;
+    s32 timerPeriod;
     u32 captureFormat;
     u32 waveFormat;
     u32 playChannels;
@@ -102,7 +102,7 @@ s32 NNSi_SndCaptureStart(u32 type, u8 *left, u8 *right, u32 length, u32 format, 
     s32 isByteFormat;
     s32 alarm;
     u32 alarmDelay;
-    u32 samples;
+    u32 sampleTotal;
     CaptureParam *capture;
 
     timerUnits = 0;
@@ -112,15 +112,15 @@ s32 NNSi_SndCaptureStart(u32 type, u8 *left, u8 *right, u32 length, u32 format, 
     DC_FlushRange(left, length);
     DC_FlushRange(right, length);
     isByteFormat = format == 1;
-    timer = 0xffb0ff / rate;
+    timerPeriod = 0xffb0ff / rate;
     if (callback != 0) {
-        samples = length;
+        sampleTotal = length;
         if (isByteFormat == 0) {
-            samples = length >> 1;
+            sampleTotal = length >> 1;
         }
-        timer = (timer + 0x10) & ~0x1f;
-        timerUnits = timer >> 5;
-        alarmPeriod = timerUnits * (samples / parts);
+        timerPeriod = (timerPeriod + 0x10) & ~0x1f;
+        timerUnits = timerPeriod >> 5;
+        alarmPeriod = timerUnits * (sampleTotal / parts);
         alarmDelay = 0x20;
         if (isByteFormat == 0) {
             alarmDelay = alarmDelay >> 1;
@@ -162,9 +162,9 @@ s32 NNSi_SndCaptureStart(u32 type, u8 *left, u8 *right, u32 length, u32 format, 
         NNS_SndUnlockCapture(3);
         return 0;
     }
-    SND_SetupChannelPcm(1, waveFormat, left, loop != 0 ? 1 : 2, 0, length >> 2, volume, 0, timer, panLeft);
+    SND_SetupChannelPcm(1, waveFormat, left, loop != 0 ? 1 : 2, 0, length >> 2, volume, 0, timerPeriod, panLeft);
     SND_SetupCapture(0, captureFormat, left, length >> 2, loop, input, output);
-    SND_SetupChannelPcm(3, waveFormat, right, loop != 0 ? 1 : 2, 0, length >> 2, volume, 0, timer, panRight);
+    SND_SetupChannelPcm(3, waveFormat, right, loop != 0 ? 1 : 2, 0, length >> 2, volume, 0, timerPeriod, panRight);
     SND_SetupCapture(1, captureFormat, right, length >> 2, loop, input, output);
     if (alarm >= 0) {
         SND_SetupAlarm(alarm, alarmPeriod + alarmDelay, alarmPeriod, AlarmCallback, capture);
@@ -270,18 +270,18 @@ void AlarmCallback(void *arg) {
     CaptureParam *capture = arg;
     u8 *left;
     u8 *right;
-    u32 blockSize;
+    u32 chunkSize;
     u32 offset;
     EffectInfo *info;
 
-    blockSize = capture->mBlockSize;
-    offset = blockSize * capture->mCurBuffer;
+    chunkSize = capture->mBlockSize;
+    offset = chunkSize * capture->mCurBuffer;
     left = capture->mBufferL + offset;
     right = capture->mBufferR + offset;
     if (sIsThreadCreated != 0) {
         info = &sEffectInfoBuffer[sCurEffectInfo];
         info->mCap = capture;
-        info->mBlockSize = blockSize;
+        info->mBlockSize = chunkSize;
         info->mOffset = offset;
         info->mBufferL = left;
         info->mBufferR = right;
@@ -291,9 +291,9 @@ void AlarmCallback(void *arg) {
             sCurEffectInfo = 0;
         }
     } else {
-        DC_InvalidateRange(left, blockSize);
-        DC_InvalidateRange(right, blockSize);
-        capture->mCallback(left, right, blockSize, capture->mFormat, capture->mCallbackArg);
+        DC_InvalidateRange(left, chunkSize);
+        DC_InvalidateRange(right, chunkSize);
+        capture->mCallback(left, right, chunkSize, capture->mFormat, capture->mCallbackArg);
     }
     capture->mCurBuffer++;
     if (capture->mCurBuffer >= capture->mInterval) {

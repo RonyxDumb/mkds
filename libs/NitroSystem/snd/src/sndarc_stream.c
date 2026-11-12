@@ -28,35 +28,35 @@ Unk0212c7f0 sStrmPlayer[4];
 void NNSi_SndArcStrmMain(void) {
     s32 playerIndex;
     s32 initVolume;
-    s32 volume;
-    Unk0212c7f0 *player;
+    s32 mixedLevel;
+    Unk0212c7f0 *strmSlot;
 
-    player = sStrmPlayer;
-    for (playerIndex = 0; playerIndex < 4; playerIndex++, player++) {
-        if (!player->mActiveFlag) {
+    strmSlot = sStrmPlayer;
+    for (playerIndex = 0; playerIndex < 4; playerIndex++, strmSlot++) {
+        if (!strmSlot->mActiveFlag) {
             continue;
         }
-        if (player->mFinishCounter == 0) {
-            ForceStopStrm_(player);
+        if (strmSlot->mFinishCounter == 0) {
+            ForceStopStrm_(strmSlot);
             continue;
         }
-        if (player->mStartFlag && player->mPrepareFlag != 0) {
-            NNS_SndStrmStart(&player->mStream);
-            player->mPlayFlag = 1;
-            player->mStartFlag = 0;
+        if (strmSlot->mStartFlag && strmSlot->mPrepareFlag != 0) {
+            NNS_SndStrmStart(&strmSlot->mStream);
+            strmSlot->mPlayFlag = 1;
+            strmSlot->mStartFlag = 0;
         }
-        if (player->mPlayFlag) {
-            NNSi_SndFaderUpdate(&player->mFader);
-            initVolume = data_02152ce4[player->mInitVolume];
-            volume = data_02152ce4[NNSi_SndFaderGet(&player->mFader) >> 8];
-            volume += initVolume;
-            if (volume != player->mVolume) {
-                NNS_SndStrmSetVolume(&player->mStream, volume);
-                player->mVolume = volume;
+        if (strmSlot->mPlayFlag) {
+            NNSi_SndFaderUpdate(&strmSlot->mFader);
+            initVolume = data_02152ce4[strmSlot->mInitVolume];
+            mixedLevel = data_02152ce4[NNSi_SndFaderGet(&strmSlot->mFader) >> 8];
+            mixedLevel += initVolume;
+            if (mixedLevel != strmSlot->mVolume) {
+                NNS_SndStrmSetVolume(&strmSlot->mStream, mixedLevel);
+                strmSlot->mVolume = mixedLevel;
             }
-            if (player->mFadeOutFlag) {
-                if (NNSi_SndFaderIsFinished(&player->mFader) != 0) {
-                    ForceStopStrm_(player);
+            if (strmSlot->mFadeOutFlag) {
+                if (NNSi_SndFaderIsFinished(&strmSlot->mFader) != 0) {
+                    ForceStopStrm_(strmSlot);
                 }
             }
         }
@@ -120,20 +120,20 @@ void FreeChannel(Unk0212c7f0 *player) {
 
 void RemoveCommandByPlayer(NNSFndList *commandList, Unk0212c7f0 *player) {
     u32 enabled;
-    LoadCommand *command;
+    LoadCommand *request;
     LoadCommand *next;
 
     enabled = OS_DisableInterrupts();
-    command = NNS_FndGetNextListObject(commandList, 0);
-    if (command != 0) {
+    request = NNS_FndGetNextListObject(commandList, 0);
+    if (request != 0) {
         do {
-            next = NNS_FndGetNextListObject(commandList, command);
-            if (command->mPlayer == player) {
-                NNS_FndRemoveListObject(commandList, command);
-                FreeCommandBuffer(command);
+            next = NNS_FndGetNextListObject(commandList, request);
+            if (request->mPlayer == player) {
+                NNS_FndRemoveListObject(commandList, request);
+                FreeCommandBuffer(request);
             }
-            command = next;
-        } while (command != 0);
+            request = next;
+        } while (request != 0);
     }
     OS_RestoreInterrupts(enabled);
 }
