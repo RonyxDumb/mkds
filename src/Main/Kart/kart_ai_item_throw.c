@@ -164,7 +164,7 @@ void UseItemAndResetHeldTimerAfterHeldIfTurnUnder10(KartAiItemUse *itemUse, stru
 
 void SetupBattleItemInUseEntry(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     enum { K0 } objectKind = (gKartItems)[kartAi->mIndex].mItemInUse.mObjectKind;
-    KartAiItemUseEntry *itemInUseEntry = &gBattleItemInUseEntries[objectKind];
+    const KartAiItemUseEntry *itemInUseEntry = &gBattleItemInUseEntries[objectKind];
 
     itemUse->mItemInUseEntry = itemInUseEntry;
     ResetItemInUseTimer(itemUse, itemInUseEntry);

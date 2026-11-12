@@ -7982,8 +7982,7 @@ data_usa_02155148 kind:data(any) addr:0x02155148
 data_usa_02155188 kind:data(any) addr:0x02155188
 data_usa_02155194 kind:data(any) addr:0x02155194
 gCharacterFaceFrames kind:data(any) addr:0x021551a4
-gCharacterNsbcaStems kind:data(any) addr:0x021551b0
-gCharacterAnimationLoopFlags kind:data(any) addr:0x021551b4
+gCharacterNsbcaStems kind:data(any) addr:0x021551ac
 gFinishResultByRank kind:data(any) addr:0x021551dc
 gRaceItemInUseEntries kind:data(any) addr:0x0215524c
 gRaceNormalHeldItemEntries kind:data(any) addr:0x021552f4
@@ -9598,10 +9597,6 @@ data_usa_0216577c kind:data(any) addr:0x0216577c
 @3082 kind:data(any) addr:0x0216589c local
 data_usa_021658bc kind:data(any) addr:0x021658bc
 gMinKartDistanceSquared kind:data(any) addr:0x021658c0
-data_usa_021658c4 kind:data(any) addr:0x021658c4
-data_usa_021658c8 kind:data(any) addr:0x021658c8
-data_usa_021658d0 kind:data(any) addr:0x021658d0
-data_usa_021658d8 kind:data(any) addr:0x021658d8
 @4876 kind:data(any) addr:0x021658e0 local
 data_usa_021658f0 kind:data(any) addr:0x021658f0
 data_usa_021658f4 kind:data(any) addr:0x021658f4

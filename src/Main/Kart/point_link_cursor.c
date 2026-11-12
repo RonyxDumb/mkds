@@ -73,9 +73,9 @@ void (*gUseItemWhenCircleKindCallback)(KartAiItemUse *a, struct KartAi *b);
 void (*gUseItemNotTrailKindCallback)(KartAiItemUse *a, struct KartAi *b);
 void (*gUseItemTrailKindCallback)(KartAiItemUse *a, struct KartAi *b);
 const s32 *gKartAiDriftChargeRandomLimits;
-struct KartAiItemUseEntry *gCurrentHeldItemEntries;
+const struct KartAiItemUseEntry *gCurrentHeldItemEntries;
 void (*gUseItemWhenNotCircleKindCallback)(KartAiItemUse *a, struct KartAi *b);
-struct KartAiItemUseEntry *gCurrentItemInUseEntries;
+const struct KartAiItemUseEntry *gCurrentItemInUseEntries;
 const s32 *gKartAiDriftStartRandomLimits;
 const s32 *data_usa_0217ae34;
 const s32 *gKartAiRaceStartBoostRandomLimits;
@@ -2037,7 +2037,7 @@ s32 DecrementHeldItemTimer(struct KartAiItemUse *itemUse) {
     return timerRanOut;
 }
 
-void ResetItemInUseTimer(struct KartAiItemUse *itemUse, struct KartAiItemUseEntry *unusedEntry) {
+void ResetItemInUseTimer(struct KartAiItemUse *itemUse, const struct KartAiItemUseEntry *unusedEntry) {
     RandomState64 *random;
     u16 randomLimit;
     u32 randomPart;

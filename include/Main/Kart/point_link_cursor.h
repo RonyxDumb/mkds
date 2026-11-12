@@ -39,9 +39,9 @@ extern void (*gUseItemWhenCircleKindCallback)(KartAiItemUse *a, struct KartAi *b
 extern void (*gUseItemNotTrailKindCallback)(KartAiItemUse *a, struct KartAi *b);
 extern void (*gUseItemTrailKindCallback)(KartAiItemUse *a, struct KartAi *b);
 extern const s32 *gKartAiDriftChargeRandomLimits;
-extern struct KartAiItemUseEntry *gCurrentHeldItemEntries;
+extern const struct KartAiItemUseEntry *gCurrentHeldItemEntries;
 extern void (*gUseItemWhenNotCircleKindCallback)(KartAiItemUse *a, struct KartAi *b);
-extern struct KartAiItemUseEntry *gCurrentItemInUseEntries;
+extern const struct KartAiItemUseEntry *gCurrentItemInUseEntries;
 extern const s32 *gKartAiDriftStartRandomLimits;
 extern const s32 *data_usa_0217ae34;
 extern const s32 *gKartAiRaceStartBoostRandomLimits;
@@ -53,10 +53,10 @@ static inline Vec3 *GetPosCurvePoint(PosCurve *posCurve, u16 pointIndex) {
 
 struct KartAiRaceSpeedLimit;
 
-extern KartAiItemUseEntry gRaceItemInUseEntries[];
-extern KartAiItemUseEntry gRaceNormalHeldItemEntries[];
-extern KartAiItemUseEntry gRaceHardHeldItemEntries[];
-extern KartAiItemUseEntry gRaceEasyHeldItemEntries[];
+extern const KartAiItemUseEntry gRaceItemInUseEntries[14];
+extern const KartAiItemUseEntry gRaceNormalHeldItemEntries[18];
+extern const KartAiItemUseEntry gRaceHardHeldItemEntries[18];
+extern const KartAiItemUseEntry gRaceEasyHeldItemEntries[18];
 
 // Writes to a the point of the curve b at parameter mParam (0 to 0x1000): the four control points of mPoints weighted
 // by the uniform cubic B-spline basis.
@@ -71,7 +71,7 @@ void SetupReversePosCurve(PosCurve *posCurve, struct CourseMapCamera *mapCamera)
 void SetupPosCurve(PosCurve *posCurve, struct CourseMapCamera *mapCamera);
 void SetupItemInUseEntry(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
 s32 DecrementItemInUseTimer(struct KartAiItemUse *itemUse);
-void ResetItemInUseTimer(struct KartAiItemUse *itemUse, struct KartAiItemUseEntry *unusedEntry);
+void ResetItemInUseTimer(struct KartAiItemUse *itemUse, const struct KartAiItemUseEntry *unusedEntry);
 s32 DecrementHeldItemTimer(struct KartAiItemUse *itemUse);
 void ResetHeldItemTimer(struct KartAiItemUse *itemUse);
 void SetupHeldItemEntry(struct KartAiItemUse *itemUse, struct KartAi *kartAi);

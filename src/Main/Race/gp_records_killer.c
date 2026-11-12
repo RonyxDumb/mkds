@@ -61,20 +61,18 @@
 #include "code_02147cd8.h"
 #include "Main/Menu/menu_shared_clear.h"
 
-typedef void (*KartAiItemHandler)(KartAiItemUse *itemUse, struct KartAi *kartAi);
-
 const KartAiItemUseEntry gBattleEasyHeldItemEntries[18] = {{ThrowItemRandomAfterHeld, 1, 0x20, 0x1b}, {ThrowItemRandomAfterHeld, 1, 0x20, 0x1b}, {ThrowItemRandomMoreForwardAfterHeld, 2, 0x20, 0x1b}, {ThrowItemRandomAfterHeld, 2, 0x20, 0x1b}, {UseItemAfterHeldIfTurnUnder10, 0, 0xa, 5}, {UseItemAndResetHeldTimerAfterHeldIfTurnUnder10, 0, 0xa, 5}, {ThrowItemRandomMoreForwardAfterHeld, 1, 0x20, 0x1b}, {EasyUseItemAfterHeld, 0, 0xa, 0xa}, {EasyUseItemAfterHeld, 0, 0xa, 0xa}, {BattleUseItemAfterHeld, 0, 0xa, 0xa}, {BattleUseItemAfterHeld, 0, 0xa, 0xa}, {BattleUseItemAfterHeld, 0, 0xa, 0xa}, {EasyUseItemAfterHeld, 0, 0xa, 0xa}, {UseItemAndResetHeldTimerAfterHeldIfTurnUnder10, 0, 5, 5}, {EasyUseItemAfterHeld, 0, 0xa, 0xa}, {EasyUseItemAfterHeld, 0, 0xa, 0xa}, {EasyUseItemAfterHeld, 0, 0xa, 0xa}, {EasyUseItemAfterHeld, 2, 0xa, 0xa}};
 const KartAiItemUseEntry gBattleEasyItemInUseEntries[14] = {{ThrowItemByCircleKind, 1, 0x20, 0x1b}, {UseItemByCircleKind, 1, 0x20, 0x1b}, {ThrowItemByTrailKind, 2, 0x20, 0x1b}, {(KartAiItemHandler) BattleItemInUseReturnArgument, 0, 5, 0xa}, {(KartAiItemHandler) BattleItemInUseReturnArgument, 0, 5, 0xa}, {(KartAiItemHandler) BattleItemInUseReturnArgument, 0, 5, 0xa}, {(KartAiItemHandler) BattleItemInUseReturnArgument, 0, 5, 0xa}, {(KartAiItemHandler) BattleItemInUseReturnArgument, 2, 0x20, 0x1b}, {(KartAiItemHandler) BattleItemInUseReturnArgument, 2, 5, 0xa}, {ThrowItemByTrailKind, 1, 0x20, 0x1b}, {(KartAiItemHandler) BattleItemInUseReturnArgument, 0, 5, 0xa}, {(KartAiItemHandler) BattleItemInUseReturnArgument, 0, 5, 0xa}, {(KartAiItemHandler) BattleItemInUseReturnArgument, 0, 5, 0xa}, {(KartAiItemHandler) BattleItemInUseReturnArgument, 0, 5, 0xa}};
 const KartAiItemUseEntry gBattleHardItemInUseEntries[14] = {{ThrowItemByCircleKind, 1, 5, 3}, {UseItemByCircleKind, 1, 5, 3}, {ThrowItemByTrailKind, 2, 1, 0}, {(KartAiItemHandler) BattleItemInUseReturnArgument, 0, 1, 3}, {(KartAiItemHandler) BattleItemInUseReturnArgument, 0, 1, 3}, {(KartAiItemHandler) BattleItemInUseReturnArgument, 0, 3, 3}, {(KartAiItemHandler) BattleItemInUseReturnArgument, 0, 3, 3}, {(KartAiItemHandler) BattleItemInUseReturnArgument, 2, 1, 3}, {(KartAiItemHandler) BattleItemInUseReturnArgument, 2, 3, 0xa}, {ThrowItemByTrailKind, 1, 1, 3}, {(KartAiItemHandler) BattleItemInUseReturnArgument, 0, 1, 3}, {(KartAiItemHandler) BattleItemInUseReturnArgument, 0, 1, 3}, {(KartAiItemHandler) BattleItemInUseReturnArgument, 0, 1, 3}, {(KartAiItemHandler) BattleItemInUseReturnArgument, 0, 3, 0xa}};
 const KartAiItemUseEntry gBattleNormalHeldItemEntries[18] = {{ThrowItemRandomAfterHeldOrAtNearTarget, 1, 0x20, 0x1b}, {ThrowItemRandomAfterHeldOrAtNearTarget, 1, 0x20, 0x1b}, {ThrowItemRandomAfterHeldOrBehindNearTarget, 2, 0x20, 0x1b}, {ThrowItemRandomAfterHeldOrAtNearTarget, 2, 0x20, 0x1b}, {UseItemAfterHeldOrOnTargetIfTurnUnder10, 0, 0xa, 5}, {UseItemAndResetHeldTimerAfterHeldIfTurnUnder10, 0, 0xa, 5}, {ThrowItemRandomAfterHeldOrBehindNearTarget, 1, 0x20, 0x1b}, {UseItemAfterHeldOrOnTarget, 0, 0xa, 0xa}, {UseItemAfterHeldOrOnTarget, 0, 0xa, 0xa}, {BattleUseItemAfterHeld, 0, 0xa, 0xa}, {BattleUseItemAfterHeld, 0, 0xa, 0xa}, {BattleUseItemAfterHeld, 0, 0xa, 0xa}, {UseItemAfterHeldOrOnTarget, 0, 0xa, 0xa}, {UseItemAndResetHeldTimerAfterHeldIfTurnUnder10, 0, 5, 5}, {UseItemAfterHeldOrOnTarget, 0, 0xa, 0xa}, {UseItemAfterHeldOrOnTarget, 0, 0xa, 0xa}, {UseItemAfterHeldOrOnTarget, 0, 0xa, 0xa}, {UseItemAfterHeldOrOnTarget, 2, 0xa, 0xa}};
 const KartAiItemUseEntry gBattleNormalItemInUseEntries[14] = {{ThrowItemByCircleKind, 1, 0x20, 0x1b}, {UseItemByCircleKind, 1, 0x20, 0x1b}, {ThrowItemByTrailKind, 2, 0x20, 0x1b}, {(KartAiItemHandler) BattleItemInUseReturnArgument, 0, 5, 0xa}, {(KartAiItemHandler) BattleItemInUseReturnArgument, 0, 5, 0xa}, {(KartAiItemHandler) BattleItemInUseReturnArgument, 0, 5, 0xa}, {(KartAiItemHandler) BattleItemInUseReturnArgument, 0, 5, 0xa}, {(KartAiItemHandler) BattleItemInUseReturnArgument, 2, 0x20, 0x1b}, {(KartAiItemHandler) BattleItemInUseReturnArgument, 2, 5, 0xa}, {ThrowItemByTrailKind, 1, 0x20, 0x1b}, {(KartAiItemHandler) BattleItemInUseReturnArgument, 0, 5, 0xa}, {(KartAiItemHandler) BattleItemInUseReturnArgument, 0, 5, 0xa}, {(KartAiItemHandler) BattleItemInUseReturnArgument, 0, 5, 0xa}, {(KartAiItemHandler) BattleItemInUseReturnArgument, 0, 5, 0xa}};
 const KartAiItemUseEntry gBattleHardHeldItemEntries[18] = {{(KartAiItemHandler) HardSetItemBitsEveryCall, 1, 1, 0}, {(KartAiItemHandler) HardSetItemBitsEveryCall, 1, 1, 0}, {(KartAiItemHandler) SetItemBitsEveryCall, 2, 1, 0}, {ThrowItemRandomAfterHeldOrAtNearTarget, 2, 1, 0}, {UseItemAfterHeldOrOnTargetIfTurnUnder10, 0, 3, 5}, {UseItemAndResetHeldTimerAfterHeldIfTurnUnder10, 0, 3, 5}, {(KartAiItemHandler) SetItemBitsEveryCall, 1, 1, 0}, {UseItemWhenHasTarget, 0, 3, 0xa}, {UseItemWhenHasTarget, 0, 3, 0xa}, {BattleUseItemAfterHeld, 0, 3, 0xa}, {BattleUseItemAfterHeld, 0, 3, 0xa}, {BattleUseItemAfterHeld, 0, 1, 0}, {UseItemWhenHasTarget, 0, 1, 0}, {UseItemAndResetHeldTimerAfterHeldIfTurnUnder10, 0, 3, 5}, {UseItemAfterHeldOrOnTarget, 0, 3, 0xa}, {UseItemWhenHasTarget, 0, 1, 3}, {UseItemAfterHeldOrOnTarget, 0, 1, 3}, {UseItemWhenHasTarget, 2, 3, 0xa}};
-KartAiItemUseEntry *gBattleHeldItemEntries;
+const KartAiItemUseEntry *gBattleHeldItemEntries;
 void (*gUseItemNotCircleKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
 void (*gUseItemCircleKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
 void (*gThrowItemNotCircleKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
 s32 *gStaffGhostTime;
-KartAiItemUseEntry *gBattleItemInUseEntries;
+const KartAiItemUseEntry *gBattleItemInUseEntries;
 void (*gThrowItemCircleKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
 void (*gThrowItemNotTrailKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
 void (*gThrowItemTrailKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
@@ -491,8 +489,8 @@ BOOL AdvanceKartKillerEndCount(KartKillerCursor *kartKillerCursor) {
 void SetupBattleItemEntries(void) {
     switch (gRaceSetup->mCpuDifficulty) {
         case CPU_DIFFICULTY_EASY:
-            gBattleHeldItemEntries = (KartAiItemUseEntry *) gBattleEasyHeldItemEntries;
-            gBattleItemInUseEntries = (KartAiItemUseEntry *) gBattleEasyItemInUseEntries;
+            gBattleHeldItemEntries = gBattleEasyHeldItemEntries;
+            gBattleItemInUseEntries = gBattleEasyItemInUseEntries;
             gThrowItemCircleKindCallback = EasyThrowItemRandomAfterInUse;
             gUseItemCircleKindCallback = UseItemAfterInUse;
             gThrowItemNotCircleKindCallback = ThrowItemRandomAfterInUse;
@@ -501,8 +499,8 @@ void SetupBattleItemEntries(void) {
             gThrowItemNotTrailKindCallback = UseItemBehindAfterInUseOrNearTarget;
             return;
         case CPU_DIFFICULTY_NORMAL:
-            gBattleHeldItemEntries = (KartAiItemUseEntry *) gBattleNormalHeldItemEntries;
-            gBattleItemInUseEntries = (KartAiItemUseEntry *) gBattleNormalItemInUseEntries;
+            gBattleHeldItemEntries = gBattleNormalHeldItemEntries;
+            gBattleItemInUseEntries = gBattleNormalItemInUseEntries;
             gThrowItemCircleKindCallback = ThrowItemRandomAfterInUseOrAtNearTarget;
             gUseItemCircleKindCallback = NormalUseItemAfterInUseAtNearTargetAheadDot;
             gThrowItemNotCircleKindCallback = ThrowItemRandomAfterInUse;
@@ -511,8 +509,8 @@ void SetupBattleItemEntries(void) {
             gThrowItemNotTrailKindCallback = UseItemBehindAfterInUseOrNearTarget;
             return;
         case CPU_DIFFICULTY_HARD:
-            gBattleHeldItemEntries = (KartAiItemUseEntry *) gBattleHardHeldItemEntries;
-            gBattleItemInUseEntries = (KartAiItemUseEntry *) gBattleHardItemInUseEntries;
+            gBattleHeldItemEntries = gBattleHardHeldItemEntries;
+            gBattleItemInUseEntries = gBattleHardItemInUseEntries;
             gThrowItemCircleKindCallback = ThrowItemAtNearTarget;
             gUseItemCircleKindCallback = UseItemAfterInUseAtNearTargetAheadDot;
             gThrowItemNotCircleKindCallback = ThrowItemAtNearTargetAfterInUseEveryCall;
@@ -521,8 +519,8 @@ void SetupBattleItemEntries(void) {
             gThrowItemNotTrailKindCallback = ThrowItemBehindNearTargetAfterInUseEveryCall;
             return;
         default:
-            gBattleHeldItemEntries = (KartAiItemUseEntry *) gBattleHardHeldItemEntries;
-            gBattleItemInUseEntries = (KartAiItemUseEntry *) gBattleHardItemInUseEntries;
+            gBattleHeldItemEntries = gBattleHardHeldItemEntries;
+            gBattleItemInUseEntries = gBattleHardItemInUseEntries;
             gThrowItemCircleKindCallback = ThrowItemAtNearTarget;
             gUseItemCircleKindCallback = UseItemAfterInUseAtNearTargetAheadDot;
             gThrowItemNotCircleKindCallback = ThrowItemAtNearTargetAfterInUseEveryCall;

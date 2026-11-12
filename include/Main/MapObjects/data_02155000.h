@@ -102,11 +102,11 @@ extern const s32 data_usa_021557c0;
 
 extern const s32 data_usa_021557dc[];
 
-// 12-byte entries of gCharacterNsbcaStems: the animation file stem and whether the animation loops.
+// 12-byte entries of gCharacterNsbcaStems (mUnk_00 counts the rows): the animation file stem and whether the animation loops.
 typedef struct CharacterAnimationRow {
-    /* 00 */ const char *mStem;
-    /* 04 */ s32 mLoopFlag;
-    /* 08 */ s32 mUnk_08;
+    /* 00 */ s32 mUnk_00;
+    /* 04 */ const char *mStem;
+    /* 08 */ s32 mLoopFlag;
 } CharacterAnimationRow;
 
 extern const CharacterAnimationRow gCharacterNsbcaStems[];

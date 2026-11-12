@@ -7,6 +7,8 @@ struct KartAi;
 
 // Entry of the tables at gBattleItemInUseEntries, gCurrentItemInUseEntries and gCurrentHeldItemEntries, 0xc bytes: a
 // function called with the KartAiItemUse and the KartAi at 0x00 and halfwords at 0x08 and 0x0a.
+typedef void (*KartAiItemHandler)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
+
 typedef struct KartAiItemUseEntry {
     /* 00 */ void (*mHandler)(struct KartAiItemUse *a, struct KartAi *b);
 // 0: item bits only; 1: then the bit 0x40 (ITEM_THROW_FORWARD_BIT); 2: then the bit 0x80.
@@ -20,8 +22,8 @@ typedef struct KartAiItemUseEntry {
 typedef struct KartAiItemUse {
     /* 00 */ s16 mHeldItemTimer;
     /* 02 */ s16 mItemInUseTimer;
-    /* 04 */ KartAiItemUseEntry *mHeldItemEntry;
-    /* 08 */ KartAiItemUseEntry *mItemInUseEntry;
+    /* 04 */ const KartAiItemUseEntry *mHeldItemEntry;
+    /* 08 */ const KartAiItemUseEntry *mItemInUseEntry;
     /* 0c */ s32 mHeldItemSeen;
 // While non-zero, the item bits are requested on every call.
     /* 10 */ s32 mItemBitsEveryCall;
