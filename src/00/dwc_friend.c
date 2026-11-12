@@ -1,4 +1,4 @@
-#include "00/code_0219d948.h"
+#include "00/dwc_friend.h"
 #include "00/code_0219cfc0.h"
 #include "00/unk_021b4000.h"
 #include "00/code_0218f960.h"
@@ -13,6 +13,10 @@
 #include "code_02139f70.h"
 #include "code_0214d018.h"
 #include "dwc_account.h"
+
+u8 DWC_GetFriendStatus(void *friendData, char *statusString) {
+    return DWC_GetFriendStatusSC(friendData, NULL, NULL, statusString);
+}
 
 u8 DWC_GetFriendStatusSC(void *friendData, u8 *maxEntry, u8 *numEntry, char *statusString) {
     char valueText[4];

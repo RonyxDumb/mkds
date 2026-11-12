@@ -22,7 +22,7 @@
 #include "os_tick.h"
 #include "code_021329f8.h"
 #include "code_021522a0.h"
-#include "00/code_0219daa8.h"
+#include "00/dwc_friend.h"
 #include "00/code_0219c000.h"
 #include "00/code_0219c384.h"
 #include "00/code_0219caac.h"

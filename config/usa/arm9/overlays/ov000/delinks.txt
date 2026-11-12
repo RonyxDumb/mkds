@@ -531,14 +531,9 @@ src/00/code_0219d128.c:
     .text       start:0x0219d0f4 end:0x0219d914
 
 // provisional: file name and boundaries
-src/00/code_0219d948.c:
+src/00/dwc_friend.c:
     complete
-    .text       start:0x0219d914 end:0x0219da74
-
-// provisional: file name and boundaries
-src/00/code_0219daa8.c:
-    complete
-    .text       start:0x0219da74 end:0x0219da88
+    .text       start:0x0219d914 end:0x0219da88
 
 // provisional: file name and boundaries
 src/00/code_0219dabc.c:

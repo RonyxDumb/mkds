@@ -38,7 +38,7 @@
 #include "Main/Unknown/code_02120054.h"
 #include "Main/Unknown/code_021200a4.h"
 #include "Main/Unknown/code_021200a8.h"
-#include "00/code_0219daa8.h"
+#include "00/dwc_friend.h"
 #include "00/code_0219c384.h"
 #include "Main/Unknown/code_02036000.h"
 #include "Main/System/heap_call.h"

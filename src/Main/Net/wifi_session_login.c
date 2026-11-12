@@ -17,7 +17,7 @@
 #include "00/code_021832d8.h"
 #include "00/code_02181f98.h"
 #include "00/code_0218d000.h"
-#include "00/code_0219d948.h"
+#include "00/dwc_friend.h"
 #include "00/unk_021b5000.h"
 #include "00/code_0219c384.h"
 #include "00/code_021a3000.h"
