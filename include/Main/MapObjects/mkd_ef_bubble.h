@@ -13,5 +13,3 @@ void UpdateMkdEfBubbleState1(MkdEfBubbleObject *bubble);
 
 void EnterMkdEfBubbleState1(MkdEfBubbleObject *bubble);
 
-extern const u16 gMkdEfBubbleState1Flag;
-extern const u16 gMkdEfBubbleState1SecondFlag;

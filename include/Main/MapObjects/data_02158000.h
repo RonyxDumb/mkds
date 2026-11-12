@@ -11,16 +11,13 @@ typedef struct MapObjectDrawList {
 
 // Object of 0x2c bytes made by CreateMkdEfBubbleUpdateList; a word at 0x28.
 typedef struct MkdEfBubbleUpdateList {
-    /* 00 */ u32 mUnk_00[10];
+    /* 00 */ MapObjectList mList;
     /* 28 */ s32 mAngleScale;
 } MkdEfBubbleUpdateList;
 
 extern u16 gItemBoxTriangleFlag2Flag;
 extern u32 gItemBoxInitDistanceFlag;
 extern const u32 gMkdEfBubbleHitFlag;
-extern MkdEfBubbleUpdateList gMkdEfBubbleUpdateListData;
-extern MapObjectDrawList gMkdEfBubbleDrawListData;
-extern MapObjectKindData gMkdEfBubbleKindData;
 extern u16 gKoopaBlockFlag;
 
 // Objects whose layout isn't known yet.

@@ -16,6 +16,7 @@
 #include "Main/MapObjects/map_object_scale_sound_source.h"
 #include "Main/MapObjects/map_object_list.h"
 #include "Main/MapObjects/map_object.h"
+#include "Main/MapObjects/koopa_block.h"
 
 void EnterMkdEfBubbleState1(MkdEfBubbleObject *bubble) {
     bubble->mMapObject.mFlags |= gMkdEfBubbleState1Flag;

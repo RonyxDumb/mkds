@@ -8,6 +8,7 @@
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/Graphics/nsbmd_render_obj.h"
 #include "Main/Graphics/model_animation.h"
+#include "Main/MapObjects/attractor.h"
 
 void UpdateKoopaBlockState2(KoopaBlock *koopaBlock);
 void DrawAllKoopaBlocks(void *viewMatrix);
@@ -33,3 +34,9 @@ extern MkdEfBubbleUpdateList *gMkdEfBubbleUpdateList;
 extern struct Nsbmd *gKoopaBlock;
 extern MapObjectDrawList *gMkdEfBubbleDrawList;
 extern struct ModelAnimation *gMkdEfBubbleNsbta;
+
+extern const u16 gMkdEfBubbleState1Flag;
+extern const u16 gMkdEfBubbleState1SecondFlag;
+extern const MkdEfBubbleUpdateList gMkdEfBubbleUpdateListData;
+extern const MapObjectDrawList gMkdEfBubbleDrawListData;
+extern const MapObjectKindData gMkdEfBubbleKindData;

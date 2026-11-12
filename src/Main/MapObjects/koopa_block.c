@@ -45,13 +45,61 @@
 #include "Main/Sound/sound_source_list.h"
 #include "code_02147cd8.h"
 #include "Main/MapObjects/collision_hit_link.h"
+#include "Main/MapObjects/group_item_box.h"
+#include "Main/MapObjects/mkd_ef_bubble.h"
 
-StateCallbacks gKoopaBlockStateTable[3] = {{(UnkFunc *) KoopaBlockState0ReturnArgument, UpdateKoopaBlockState0}, {EnterKoopaBlockState1, UpdateKoopaBlockState1}, {(UnkFunc *) KoopaBlockState2ReturnArgument, UpdateKoopaBlockState2}};
-struct Nsbmd *gMkdEfBubble;
+const u16 gMkdEfBubbleState1SecondFlag = 8;
+const u16 gMkdEfBubbleState1Flag = 2;
+const MkdEfBubbleUpdateList gMkdEfBubbleUpdateListData = {{NULL,
+                                                           0,
+                                                           {0, 0},
+                                                           NULL,
+                                                           (void (*)(MapObjectList *)) AdvanceMkdEfBubbleAnimation,
+                                                           (UnkFunc *) UpdateMkdEfBubble,
+                                                           NULL,
+                                                           0,
+                                                           NULL,
+                                                           0,
+                                                           NULL},
+                                                          0};
+const MapObjectDrawList gMkdEfBubbleDrawListData = {{NULL,
+                                                     0,
+                                                     {0, 0},
+                                                     (void (*)(MapObjectList *)) CreateMkdEfBubble,
+                                                     NULL,
+                                                     (UnkFunc *) DrawMkdEfBubble,
+                                                     NULL,
+                                                     1,
+                                                     NULL,
+                                                     0,
+                                                     NULL},
+                                                    0};
+const MapObjectKindData gMkdEfBubbleKindData = {
+    (s32(*)(MapObject *, void *, s32 *, s32 *)) CollideKartWithMkdEfBubble,
+    (s32(*)(MapObject *, void *, void *, void *)) CollideItemObjectWithMkdEfBubble,
+    1,
+    0x19000,
+    0,
+    0,
+    NULL,
+    0,
+    1,
+    0x18d,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0};
+
+StateCallbacks gKoopaBlockStateTable[3] = {{(UnkFunc *) KoopaBlockState0ReturnArgument, UpdateKoopaBlockState0},
+                                           {EnterKoopaBlockState1, UpdateKoopaBlockState1},
+                                           {(UnkFunc *) KoopaBlockState2ReturnArgument, UpdateKoopaBlockState2}};
 MkdEfBubbleUpdateList *gMkdEfBubbleUpdateList;
-struct Nsbmd *gKoopaBlock;
 MapObjectDrawList *gMkdEfBubbleDrawList;
 ModelAnimation *gMkdEfBubbleNsbta;
+struct Nsbmd *gKoopaBlock;
+struct Nsbmd *gMkdEfBubble;
 
 #pragma thumb off
 
