@@ -11,7 +11,9 @@ typedef struct CourseMapHeader {
     /* 08 */ s32 mSectionOffsets[1];
 } CourseMapHeader;
 
-extern s32 (*gCourseMapSectionLoaders[17])(void *a, ...);
+typedef s32 (*CourseMapSectionLoader)(void *a, ...);
+
+extern const CourseMapSectionLoader gCourseMapSectionLoaders[17];
 
 #include "Main/Race/code_020b1dbc.h"
 #include "Main/Kart/point_link_cursor.h"

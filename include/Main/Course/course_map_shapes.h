@@ -12,8 +12,7 @@
 #include "Main/Race/race_hud_sub_screen_projection.h"
 #include "Main/Race/data_020f36d8.h"
 
-extern u8 data_0215406c[];
-extern u8 data_0215406d[];
+extern const u8 gKartStartGroupCounts[16];
 
 // TRUE when the position of kart a lies inside any shape of list b of mKind3ShapeLists.
 s32 IsKartInCourseMapKind3ShapeList(s32 kartIndex, u32 listIndex);

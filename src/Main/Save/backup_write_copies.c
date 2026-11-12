@@ -5,6 +5,8 @@
 #include "card_common.h"
 #include "01/Menu/record_time_attack.h"
 
+const u16 gCrcXorValue = 0x1021;
+
 #pragma thumb on
 
 void FinishBackupWrite(void (*callback)(u32 *, u32)) {

@@ -21,6 +21,7 @@
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
 
+CourseSoundSlot gCourseSoundSlots[2];
 u32 gCourseSoundTableIndex = 0xffff;
 CourseSoundTableRow gCourseSoundTable[5] = {
     {{0x01b1, 0x01b2, 0x01b3, 0x01b4, 0x01b5, 0xffff, 0xffff, 0xffff}},
@@ -145,7 +146,7 @@ BOOL StartCourseSoundAtVolume(s32 slotIndex, u32 soundId) {
         trackVolume = 0;
         ok = 0;
     } else {
-        trackVolume = data_0217d1cc[slotIndex].mVolumes[volumeHandle - 1];
+        trackVolume = ((CourseSoundVolumesView *) &gCourseSoundSlots[0].mLowVolume)[slotIndex].mVolumes[volumeHandle - 1];
         ok = 1;
     }
     if (ok != 0) {
@@ -183,7 +184,7 @@ BOOL UpdateCourseSound(u32 slotIndex, u32 soundId) {
         trackVolume = 0;
         ok = 0;
     } else {
-        trackVolume = data_0217d1cc[slotIndex].mVolumes[volumeHandle - 1];
+        trackVolume = ((CourseSoundVolumesView *) &gCourseSoundSlots[0].mLowVolume)[slotIndex].mVolumes[volumeHandle - 1];
         ok = 1;
     }
     if (ok != 0) {

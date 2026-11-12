@@ -3,7 +3,6 @@
 #include "types.h"
 #include "dwc_account.h" // DWCAccFriendData
 
-extern u32 data_021653e4;
 
 s32 AddBuddyFromFriendKey(const void *keyString, void *name);
 s32 AddOrUpdateBuddyRecord(DWCAccFriendData *friendDataList, void *name, DWCAccFriendData *friendData, s32 notYetBuddy,
@@ -16,3 +15,5 @@ s32 CheckUserDataValidConsole(void);
 void AddOtherKartCountToSecondTotal(void);
 void StartReadGhostFileRecords(void *records);
 void ReadGhostFileRecords(void);
+
+extern u32 gSecondTotalLimitBase;

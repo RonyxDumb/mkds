@@ -13,6 +13,8 @@
 #include "Main/MapObjects/data_0217a000.h" // GhostListEntry
 #include "code_021522a0.h"
 
+u32 gSecondTotalLimitBase = 0xf4240;
+
 #pragma opt_loop_invariants off
 
 void ReadGhostFileRecords(void) {
@@ -46,7 +48,7 @@ void AddOtherKartCountToSecondTotal(void) {
     gWiFiSession->mKartCountCopy = gWiFiSession->mKartCount;
     firstBlock = gBackupBuffers->mFirstBlock;
     total = firstBlock->mTotals[5] + (u8) (gWiFiSession->mKartCountCopy - 1);
-    limit = data_021653e4 + 3;
+    limit = gSecondTotalLimitBase + 3;
     if (total > limit) {
         total = limit;
     }

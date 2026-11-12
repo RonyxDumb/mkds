@@ -17,3 +17,5 @@ void ClearBackupAccessStatus(void);
 void StopFileReadThread(void);
 void StartFileReadThread(void);
 void RunFileReadThread(void *unused);
+
+extern u8 gRomArchiveName[];

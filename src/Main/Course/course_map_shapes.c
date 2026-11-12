@@ -30,6 +30,28 @@
 #include "code_02147cd8.h"
 #include "Main/Kart/karts.h"
 
+const u8 gKartStartGroupCounts[16] = {1, 0, 2, 0, 3, 0, 4, 0, 3, 2, 3, 3, 4, 3, 4, 4};
+
+const CourseMapSectionLoader gCourseMapSectionLoaders[17] = {
+    LoadCourseMapRowsData,
+    LoadCourseMapEntryGroupsData,
+    LoadCourseMapGroupEntriesData,
+    (CourseMapSectionLoader) LoadCourseMapSettingsData,
+    LoadCourseMapStartPlacementsData,
+    LoadCourseMapRespawnsData,
+    LoadCourseMapSubScreenViewData,
+    LoadCourseMapKeyedPlacementsData,
+    LoadCourseMapRaceEndPlacementsData,
+    LoadCourseMapCheckpointsData,
+    LoadCourseMapCheckpointRoutesData,
+    LoadCourseMapItemPointsData,
+    LoadCourseMapItemRoutesData,
+    LoadCourseMapBattleOrRacePointsData,
+    LoadCourseMapBattleOrRaceRoutesData,
+    LoadCourseMapShapesData,
+    LoadCourseMapCamerasData,
+};
+
 #pragma thumb on
 CourseMap *AllocCourseMap(void *heap) {
     return HeapAlloc(heap, 0x110);
@@ -937,11 +959,11 @@ void GetCourseMapKartStartPlacement(Vec3 *outPos, Vec3 *outRotation, s32 kartInd
             }
             break;
         default:
-            firstGroupCount = data_0215406c[lastKartIndex * 2];
+            firstGroupCount = gKartStartGroupCounts[lastKartIndex * 2];
             groupCount = firstGroupCount;
             groupPosition = rankIndex;
             if (rankIndex >= firstGroupCount) {
-                groupCount = data_0215406d[lastKartIndex * 2];
+                groupCount = (gKartStartGroupCounts + 1)[lastKartIndex * 2];
                 groupPosition = rankIndex - firstGroupCount;
             }
             if ((groupCount & 1) == 1) {
@@ -950,7 +972,7 @@ void GetCourseMapKartStartPlacement(Vec3 *outPos, Vec3 *outRotation, s32 kartInd
                 groupPosition = groupPosition * 2 + 1 - groupCount;
             }
             if (rankIndex >= firstGroupCount) {
-                if (firstGroupCount == data_0215406d[(u32) lastKartIndex * 2]) {
+                if (firstGroupCount == (gKartStartGroupCounts + 1)[(u32) lastKartIndex * 2]) {
                     groupPosition = groupPosition + 1;
                 }
             }

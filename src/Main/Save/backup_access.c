@@ -8,6 +8,12 @@
 #include "card_common.h"
 #include "01/Menu/record_time_attack.h"
 #include "Main/Scene/scene_connection.h"
+#include "Main/Save/backup_write_copies.h"
+
+const u32 gBackupXorKeys11[11] = {0xc0a2cfb9, 0xfca4f59a, 0xd87e2588, 0xb615dd30, 0xeacc91ee, 0xb6a8f95d, 0x7bd8b080, 0xcec11555, 0x59cef8ce, 0xfff88db3, 0xa867f2a3};
+const u32 gBackupXorKeys17[17] = {0x54e85ea2, 0xde7ce656, 0xd25261b4, 0x401d1ec4, 0x220dece2, 0x1f0cf6f4, 0x7176b2a6, 0x58d602ec, 0x859d5b49, 0xe5258b0c, 0xb31a2910, 0x2dde04b1, 0xeeefa031, 0x5b852490, 0x44ad6965, 0x8e3206a5, 0x5e22b868};
+const u32 gBackupXorKeys19[19] = {0x83f3e485, 0x1f854511, 0x33fae87b, 0xa6949a1e, 0xdb1da3c5, 0xd5986a2f, 0xaf6cc662, 0xfb04bd0f, 0x573f3084, 0xdfb9a74f, 0xf60a05b6, 0xdf57e7c7, 0x11723659, 0x8eae9859, 0xe08eb664, 0xd310802a, 0x498b2fa5, 0x555452f1, 0xe5575c26};
+const u32 gBackupXorKeys29[29] = {0xb6f2ba0c, 0x1a88bef7, 0xddc276b, 0xb000f810, 0x6d254a35, 0x4c69572c, 0xe49cfc2, 0xa4391d94, 0x98e199e1, 0x10f88349, 0xa7cce380, 0xf4287c11, 0x93857987, 0xf1f1171f, 0x3487b1fa, 0x65b88727, 0xa1711a9c, 0x2338b1fe, 0xf742b4df, 0xa33235ec, 0x5350d303, 0xc9c1be55, 0xc4fd2e1d, 0x8039e1db, 0xb6386f71, 0x34cbb389, 0x1224001a, 0x59cdea11, 0x5371f238};
 
 #pragma thumb on
 
@@ -127,8 +133,8 @@ s32 FindBackupXorIndex(u32 value, u32 expected) {
     index = 0;
     foundIndex = -1;
     for (; index < 0x1d; index++) {
-        if (expected == (value ^ (data_usa_02154694[index] +
-                                  (data_usa_02154648[0] + (data_usa_021545d8[0] + data_usa_02154604[0]))))) {
+        if (expected == (value ^ (gBackupXorKeys29[index] +
+                                  (gBackupXorKeys19[0] + (gBackupXorKeys11[0] + gBackupXorKeys17[0]))))) {
             foundIndex = index;
             break;
         }
@@ -147,12 +153,12 @@ void XorBackupWordsAtTickIndex(u32 *cursor, u32 byteCount) {
     fourthIndex = 0;
     thirdIndex = 0;
     firstIndex = (OS_GetTick() >> 16) % 0x1d;
-    tableSum = data_usa_02154694[firstIndex] + (data_usa_02154648[0] + (data_usa_021545d8[0] + data_usa_02154604[0]));
+    tableSum = gBackupXorKeys29[firstIndex] + (gBackupXorKeys19[0] + (gBackupXorKeys11[0] + gBackupXorKeys17[0]));
     firstIndex = FindBackupXorIndex(tableSum ^ *cursor, *cursor);
     end = OFFSET_PTR(u32, cursor, byteCount);
     do {
-        *cursor ^= data_usa_02154694[firstIndex] +
-                   (data_usa_02154648[secondIndex] + (data_usa_021545d8[thirdIndex] + data_usa_02154604[fourthIndex]));
+        *cursor ^= gBackupXorKeys29[firstIndex] +
+                   (gBackupXorKeys19[secondIndex] + (gBackupXorKeys11[thirdIndex] + gBackupXorKeys17[fourthIndex]));
         cursor++;
         thirdIndex++;
         if (thirdIndex >= 0xb) {
@@ -190,8 +196,8 @@ BOOL TryXorBackupWordsAtFoundIndex(u32 *cursor, u32 byteCount, u32 expectedFirst
     firstIndex = foundIndex;
     end = OFFSET_PTR(u32, cursor, byteCount);
     do {
-        *cursor ^= data_usa_02154694[firstIndex] +
-                   (data_usa_02154648[secondIndex] + (data_usa_021545d8[thirdIndex] + data_usa_02154604[fourthIndex]));
+        *cursor ^= gBackupXorKeys29[firstIndex] +
+                   (gBackupXorKeys19[secondIndex] + (gBackupXorKeys11[thirdIndex] + gBackupXorKeys17[fourthIndex]));
         cursor++;
         thirdIndex++;
         if (thirdIndex >= 0xb) {

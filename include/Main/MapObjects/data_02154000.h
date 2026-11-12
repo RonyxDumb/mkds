@@ -72,15 +72,10 @@ extern const Vec3 gKartVec3UnitX;
 
 extern u32 gCupCourseIdTable[][4];
 
-extern u32 data_usa_021545d8[];
 
-extern u32 data_usa_02154604[];
 
-extern u32 data_usa_02154648[];
 
-extern u32 data_usa_02154694[];
 
-extern u16 gCrcXorValue;
 
 extern const s32 gKartScaleFactorXTable[25];
 

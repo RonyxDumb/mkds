@@ -16,8 +16,8 @@ typedef struct KartAppear {
     /* 00 */ KartAppearFile *mFileData;
 } KartAppear;
 
+extern const u8 gTimeRecordCharTable[33];
 extern u32 gResultTotalMax;
-extern u8 gTimeRecordCharTable[];
 
 static inline u8 GetTimeRecordChar(u8 charIndex) {
     return gTimeRecordCharTable[charIndex];

@@ -28,3 +28,5 @@ void CopyOtherPlayerEmblemsToBlocks(void);
 void SetupEmblemBlock(EmblemBlock *emblemBlock, u8 buddyIndex);
 BOOL CopyEmblemFromBlock(EmblemBlock *emblemBlock, u8 buddyIndex, EmblemData *emblemData);
 EmblemBlock *CreateEmblemBlock(void *heap);
+
+extern SceneCallbacks gRunGhostSceneCallbacks;

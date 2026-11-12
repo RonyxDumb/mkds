@@ -45,7 +45,6 @@ extern u8 data_usa_0216577c[];
 
 extern const char gArchiveColonSlashFormat[];
 
-extern const u8 gRomArchiveName[];
 
 // Objects whose layout isn't known yet.
 typedef struct QueueMPDataToPortParams {
@@ -141,7 +140,6 @@ extern const char gKartModelSlashPrefix[];
 
 extern s16 gSceneNumbers[];
 
-extern const SceneCallbacks gRunGhostSceneCallbacks;
 
 extern u16 gDefaultHalfFovAngle;
 

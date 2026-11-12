@@ -96,7 +96,6 @@ extern const char gTimeAttackGhostGetSBnllName[];
 extern const char gTimeAttackGhostGetSBnblName[];
 
 // Objects whose layout isn't known yet.
-extern const char data_02164770[];
 
 extern const char *gModeArchiveNames[];
 

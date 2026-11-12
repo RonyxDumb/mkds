@@ -20,6 +20,9 @@
 #include "card_common.h"
 #include "01/Menu/record_time_attack.h"
 
+u8 gRomArchiveName[] = "rom";
+FileReadThread gFileReadThread;
+
 void RunFileReadThread(void *unused) {
     FSArchive *archive;
     RomArchiveTransfer *romArchiveTransfer;

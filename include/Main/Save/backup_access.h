@@ -12,3 +12,8 @@ u16 ComputeBytesCrc(u8 *cursor, u32 byteCount);
 void EndBackupAccessWithError(s32 errorCode);
 BOOL TryLockBackup(void);
 void UnlockBackup(void);
+
+extern const u32 gBackupXorKeys11[11];
+extern const u32 gBackupXorKeys17[17];
+extern const u32 gBackupXorKeys19[19];
+extern const u32 gBackupXorKeys29[29];

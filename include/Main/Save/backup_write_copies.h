@@ -11,3 +11,5 @@ u32 StartBackupWrite(u32 address, u32 *source, u32 byteCount, void (*callback)(u
 u32 StartBackupOneByteRead(void);
 void FinishBackupOneByteRead(void);
 void FinishBackupWrite(void (*callback)(u32 *, u32));
+
+extern const u16 gCrcXorValue;

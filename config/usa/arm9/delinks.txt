@@ -869,6 +869,7 @@ src/Main/Race/race_scene.c:
 src/Main/Save/ghost_file_path.c:
     complete
     .text       start:0x0203b070 end:0x0203b0a0
+    .data       start:0x02164770 end:0x0216478c
 
 // provisional: file name and boundaries
 src/Main/Race/grand_prix_record.c:
@@ -972,6 +973,7 @@ src/Main/Race/race_score.c:
 src/Main/Course/course_map_shapes.c:
     complete
     .text       start:0x02040de0 end:0x020431cc
+    .rodata     start:0x0215406c end:0x021540c0
     .data       start:0x021647d8 end:0x02164838
 
 // provisional: file name and boundaries
@@ -1122,16 +1124,20 @@ src/Main/Scene/wl_menu_scene_callback.c:
 src/Main/Save/backup_access.c:
     complete
     .text       start:0x0204b03c end:0x0204b418
+    .rodata     start:0x021545d8 end:0x02154708
 
 // provisional: file name and boundaries
 src/Main/Save/backup_write_copies.c:
     complete
     .text       start:0x0204b418 end:0x0204b6cc
+    .rodata     start:0x02154708 end:0x0215470c
 
 // provisional: file name and boundaries
 src/Main/Save/backup_read_copies.c:
     complete
     .text       start:0x0204b6cc end:0x0204bca0
+    .data       start:0x021651d0 end:0x021651d4
+    .bss        start:0x021759b8 end:0x02175e80
 
 // provisional: file name and boundaries
 src/Main/Net/rom_archive.c:
@@ -1516,6 +1522,7 @@ src/Main/Scene/run_scenes.c:
 src/Main/Save/emblem_block.c:
     complete
     .text       start:0x0205e2cc end:0x0205edcc
+    .data       start:0x021653c0 end:0x021653e0
 
 // provisional: file name and boundaries
 src/Main/Save/buddy_records_write.c:
@@ -1526,6 +1533,8 @@ src/Main/Save/buddy_records_write.c:
 src/Main/Save/buddy_record_time.c:
     complete
     .text       start:0x0205ee14 end:0x02060004
+    .rodata     start:0x0215494c end:0x02154970
+    .data       start:0x021653e0 end:0x021653e4
 
 // provisional: file name and boundaries
 src/Main/Save/buddy_record.c:
@@ -1546,6 +1555,7 @@ src/Main/Save/buddy_record_from_player.c:
 src/Main/Save/ghost_file_records.c:
     complete
     .text       start:0x02060cb4 end:0x02061418
+    .data       start:0x021653e4 end:0x021653e8
 
 // provisional: file name and boundaries
 src/Main/Save/ghost_file_records_create.c:
@@ -3554,6 +3564,7 @@ src/Main/Course/course_sound_slot.c:
     complete
     .text       start:0x0210f208 end:0x0210f714
     .data       start:0x0216cb2c end:0x0216cb80
+    .bss        start:0x0217d1a0 end:0x0217d1c0
 
 // provisional: file name and boundaries
 src/Main/Race/results_battle_frame_limit.c:
