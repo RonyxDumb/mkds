@@ -476,14 +476,9 @@ libs/NitroSDK/snd/src/code_020218f4.c:
     .text       start:0x020218f4 end:0x020219b0
 
 // provisional: file name and boundaries
-libs/NitroSDK/snd/src/code_020219b0.c:
+libs/NitroSDK/snd/src/snd_bank.c:
     complete
-    .text       start:0x020219b0 end:0x020219e8
-
-// provisional: file name and boundaries
-libs/NitroSDK/snd/src/code_020219e8.c:
-    complete
-    .text       start:0x020219e8 end:0x02021db0
+    .text       start:0x020219b0 end:0x02021db0
 
 // provisional: file name and boundaries
 libs/NitroSystem/g2d/src/g2d_NAN_load.c:

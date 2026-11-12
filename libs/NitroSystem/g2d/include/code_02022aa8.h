@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_020219e8.h" // Unk02021a5c
+#include "snd_bank.h"
 
 // 3 bytes: NNSi_G2dFontGetStringWidth adds the first two, or reads the third.
 typedef struct NNSG2dCharWidths {

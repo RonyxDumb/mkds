@@ -3,7 +3,8 @@
 #include "types.h"
 #include "code_0212d214.h"
 
-// Two halfwords.
+void SND_SetWaveDataAddress(SNDWaveArc *waveArc, u32 index, void *address);
+
 typedef struct Unk02021a5c {
     /* 00 */ u16 mUnk_00;
     /* 02 */ u16 mUnk_02;

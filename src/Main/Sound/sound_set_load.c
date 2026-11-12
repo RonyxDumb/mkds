@@ -7,7 +7,7 @@
 #include "Main/Unknown/unk_0216c000.h"
 #include "Main/Unknown/code_02105000.h"
 #include "Main/Unknown/code_02111000.h"
-#include "code_020219e8.h"
+#include "snd_bank.h"
 #include "code_0212d214.h"
 #include "code_0212df7c.h"
 #include "Main/Unknown/code_02025000.h"

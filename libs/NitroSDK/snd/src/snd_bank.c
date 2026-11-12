@@ -1,9 +1,8 @@
-#include "code_020219e8.h"
+#include "snd_bank.h"
 #include "code_0200eddc.h"
 #include "Main/Unknown/code_0200e000.h"
 #include "snd_main.h"
 
-// Links entry index of bank into the list of waveArc, first taking it out of the list of the wave archive it was in.
 void SND_AssignWaveArc(SNDBankData *bank, s32 index, SNDWaveArc *waveArc) {
     SNDWaveArc *oldArc;
     SNDWaveArcLink *cur;
@@ -157,4 +156,11 @@ u32 SND_GetNextInstData(SNDBankData *bank, SNDInstData *inst, SNDInstPos *pos) {
 // Returns the number of wave data entries of waveArc.
 u32 SND_GetWaveDataCount(SNDWaveArc *waveArc) {
     return waveArc->mWaveCount;
+}
+
+void SND_SetWaveDataAddress(SNDWaveArc *waveArc, u32 index, void *address) {
+    SNDi_LockMutex();
+    waveArc->mWaveOffset[index] = (u32) address;
+    DC_StoreRange(&waveArc->mWaveOffset[index], 4);
+    SNDi_UnlockMutex();
 }
