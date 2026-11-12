@@ -63,3 +63,6 @@ extern MapObjectList *gPakkunMouthDrawList;
 extern void *gPakkunBodyDrawList;
 extern void *gPakkunBody;
 extern MapObjectList *gPakkunZHeadDrawList;
+
+extern const u16 gFlipperMirrorFlag;
+extern const u32 gFlipperSkipSoundFlag;

@@ -2162,6 +2162,7 @@ src/Main/MapObjects/flipper.c:
 src/Main/MapObjects/pakkun.c:
     complete
     .text       start:0x0209828c end:0x02099020
+    .rodata     start:0x02156584 end:0x0215658c
     .data       start:0x021669bc end:0x02166a40
     .bss        start:0x0217b0dc end:0x0217b0f8
 

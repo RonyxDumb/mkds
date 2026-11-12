@@ -8072,8 +8072,8 @@ gFlipperThirdBoxHalfSizesNegative kind:data(any) addr:0x02156524
 gFlipperFirstBoxHalfSizesNegative kind:data(any) addr:0x0215653c
 gFlipperSecondBoxHalfSizesPositive kind:data(any) addr:0x02156554
 gFlipperFourthBoxHalfSizesPositive kind:data(any) addr:0x0215656c
-data_usa_02156584 kind:data(any) addr:0x02156584
-data_usa_02156588 kind:data(any) addr:0x02156588
+gFlipperMirrorFlag kind:data(any) addr:0x02156584
+gFlipperSkipSoundFlag kind:data(any) addr:0x02156588
 data_usa_0215658c kind:data(any) addr:0x0215658c
 data_usa_02156590 kind:data(any) addr:0x02156590
 data_usa_02156594 kind:data(any) addr:0x02156594

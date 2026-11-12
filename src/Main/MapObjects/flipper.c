@@ -36,6 +36,7 @@
 #include "code_02147cd8.h"
 #include "code_02148538.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
+#include "Main/MapObjects/pakkun.h"
 
 const Vec3 gFlipperFourthBoxHalfSizesPositive[2] = {{0, 0x3c000, 0x32000}, {0xc8000, 0x3c000, 0x32000}};
 const Vec3 gFlipperSecondBoxHalfSizesPositive[2] = {{0, 0x3c000, 0}, {0xc8000, 0x3c000, 0}};
@@ -93,7 +94,7 @@ u32 CollideKartWithFlipper(Flipper *flipper, Kart *kart, void *firstResponse, u8
             flipper->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(pushDirection->y, pushSpeed);
             flipper->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(pushDirection->z, pushSpeed);
             flipper->mMapObject.mDistanceSquaredAndFlags =
-                flipper->mMapObject.mDistanceSquaredAndFlags | data_usa_02156588;
+                flipper->mMapObject.mDistanceSquaredAndFlags | gFlipperSkipSoundFlag;
             StartSoundFullVolumeWrapper(kart, 0x1d1);
         }
         if (flipper->mUnk_ec8 != 0) {
@@ -206,7 +207,7 @@ void InitFlipperObjects(MapObjectList *mapObjectList) {
                 break;
             case 1:
                 flipper->mMirror = 1;
-                flipper->mMapObject.mFlags |= data_usa_02156584;
+                flipper->mMapObject.mFlags |= gFlipperMirrorFlag;
                 flipper->mMapObject.mAngle = 0x2000;
                 flipper->mState1Timer = 0x1e;
                 MTX_RotY33_(&tiltMatrix, SIN_OF_ANGLE(0x1050), COS_OF_ANGLE(0x1050));

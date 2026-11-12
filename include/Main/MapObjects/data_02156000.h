@@ -38,8 +38,4 @@ extern const KeyboardCursorTargets gKeyboardCursorTargets[6];
 
 extern const u16 gKeyboardLayoutRectCounts[6];
 
-extern const u16 data_usa_02156584;
-
-extern u32 data_usa_02156588;
-
 extern u16 data_usa_0215658c;

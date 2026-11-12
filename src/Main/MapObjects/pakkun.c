@@ -37,6 +37,9 @@
 #include "code_02147cd8.h"
 #include "Main/MapObjects/bound.h"
 
+const u16 gFlipperMirrorFlag = 0x400;
+const u32 gFlipperSkipSoundFlag = 0x40000000;
+
 MapObjectKindDescriptor gPakkunKindDescriptor = {0,
                                                  {0, 0},
                                                  0x200,
@@ -46,13 +49,13 @@ MapObjectKindDescriptor gPakkunKindDescriptor = {0,
                                                  CreatePakkunBodyDrawList,
                                                  CreatePakkunZHeadDrawList,
                                                  CreatePakkunUpdateList};
-MapObjectList *gPakkunUpdateList;
-void *gPakkunZHead;
-MapObjectModel *gPakkunMouth;
 MapObjectList *gPakkunMouthDrawList;
+MapObjectList *gPakkunZHeadDrawList;
+MapObjectList *gPakkunUpdateList;
+MapObjectModel *gPakkunMouth;
+void *gPakkunZHead;
 void *gPakkunBodyDrawList;
 void *gPakkunBody;
-MapObjectList *gPakkunZHeadDrawList;
 
 MapObjectList *CreatePakkunSpitUpdateList(void) {
     return CreateMapObjectUpdateList(NULL, UpdatePakkunSpit, NULL);
