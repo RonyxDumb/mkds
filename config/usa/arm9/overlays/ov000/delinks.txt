@@ -438,24 +438,9 @@ src/00/code_02197e58.c:
     .text       start:0x02197e58 end:0x02198550
 
 // provisional: file name and boundaries
-src/00/code_02198584.c:
+src/00/gt2Connection.c:
     complete
-    .text       start:0x02198550 end:0x021985b8
-
-// provisional: file name and boundaries
-src/00/code_021985ec.c:
-    complete
-    .text       start:0x021985b8 end:0x021986e0
-
-// provisional: file name and boundaries
-src/00/code_02198714.c:
-    complete
-    .text       start:0x021986e0 end:0x02198714
-
-// provisional: file name and boundaries
-src/00/code_02198748.c:
-    complete
-    .text       start:0x02198714 end:0x02198848
+    .text       start:0x02198550 end:0x02198848
 
 // provisional: file name and boundaries
 src/00/code_0219887c.c:

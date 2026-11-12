@@ -1,6 +1,6 @@
 #include "00/code_02198a8c.h"
 
-#include "00/code_02198714.h"
+#include "00/gt2Connection.h"
 #include "00/code_02198d04.h"
 #include "00/code_0219903c.h"
 #include "00/code_0219a000.h"

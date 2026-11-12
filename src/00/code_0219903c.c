@@ -38,13 +38,12 @@
 #include "00/code_02199000.h"
 #include "00/code_0219a000.h"
 #include "00/code_0219a044.h"
-#include "00/code_021985ec.h"
+#include "00/gt2Connection.h"
 #include "00/code_021988e8.h"
 #include "00/code_02198a8c.h"
 #include "00/code_0219960c.h"
 #include "00/code_02199614.h"
 #include "00/code_02199ad8.h"
-#include "00/code_02198748.h"
 #include "00/code_02199fa4.h"
 
 enum { K0, K1 };

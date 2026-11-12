@@ -10,7 +10,7 @@
 #include "00/code_02197b34.h"
 #include "00/code_02197ddc.h"
 #include "00/code_02197e58.h"
-#include "00/code_021985ec.h"
+#include "00/gt2Connection.h"
 #include "00/code_021988e8.h"
 #include "00/code_02198a8c.h"
 #include "00/code_02199a00.h"
