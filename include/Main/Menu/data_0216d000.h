@@ -1,14 +1,6 @@
 #pragma once
 #include "types.h"
 
-extern const char *gWaitNcgrName;
-
-extern const char *gWaitNclrName;
-
-extern const char *gWaitNcerName;
-
-extern const char *gWaitBnclName;
-
 extern const char *gSelectRaceRuleSBnblName;
 
 extern const char *gSelectRaceRuleSBNclrName;

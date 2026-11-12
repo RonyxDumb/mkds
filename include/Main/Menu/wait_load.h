@@ -14,3 +14,8 @@ void CreateWait(void *heap, Unk02021dc8 *destinationNcer, LayoutEntryTable *dest
 void LoadWaitData(void);
 
 extern struct Wait *gWait;
+
+extern char *gWaitNcgrName;
+extern char *gWaitNclrName;
+extern char *gWaitNcerName;
+extern char *gWaitBnclName;

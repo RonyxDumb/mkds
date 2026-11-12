@@ -5,9 +5,13 @@
 
 #include "Main/Menu/data_0216d000.h"
 
-Wait *gWait;
-
 #pragma thumb on
+
+char *gWaitNclrName = "common/wait.nclr";
+Wait *gWait = NULL;
+char *gWaitNcerName = "common/wait.nce.ncer";
+char *gWaitBnclName = "common/wait.bncl";
+char *gWaitNcgrName = "common/wait.nce.ncgr";
 
 void LoadWaitData(void) {
     void *sceneFile;

@@ -10664,10 +10664,10 @@ gWaitNcgrName kind:data(any) addr:0x0216d49c
 gWaitNclrName kind:data(any) addr:0x0216d4a0
 gWaitNcerName kind:data(any) addr:0x0216d4a4
 gWaitBnclName kind:data(any) addr:0x0216d4a8
-data_usa_0216d4ac kind:data(any) addr:0x0216d4ac
-data_usa_0216d4c0 kind:data(any) addr:0x0216d4c0
-data_usa_0216d4d4 kind:data(any) addr:0x0216d4d4
-data_usa_0216d4ec kind:data(any) addr:0x0216d4ec
+@3145 kind:data(any) addr:0x0216d4ac local
+@3147 kind:data(any) addr:0x0216d4c0 local
+@3146 kind:data(any) addr:0x0216d4d4 local
+@3148 kind:data(any) addr:0x0216d4ec local
 gCommonKartIconNcgrName kind:data(any) addr:0x0216d504
 gCommonKartIconNcerName kind:data(any) addr:0x0216d508
 gKartIconBnclName kind:data(any) addr:0x0216d50c

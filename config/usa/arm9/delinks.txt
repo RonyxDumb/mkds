@@ -4073,6 +4073,7 @@ src/Main/Menu/wait.c:
 src/Main/Menu/wait_load.c:
     complete
     .text       start:0x02116dc8 end:0x02116ec0
+    .data       start:0x0216d49c end:0x0216d504
     .bss        start:0x0217d334 end:0x0217d338
 
 // provisional: file name and boundaries
