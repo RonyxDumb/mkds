@@ -103,7 +103,6 @@ extern const MapObjectKindDescriptor data_usa_02158204;
 extern const MapObjectKindDescriptor data_usa_021582cc;
 extern const MapObjectKindDescriptor data_usa_02158300;
 extern const MapObjectKindDescriptor data_usa_021583d8;
-extern const MapObjectKindDescriptor gEarthenPipeKindDescriptor;
 extern const MapObjectKindDescriptor gItemBoxKindDescriptor;
 extern const MapObjectKindDescriptor gGroupItemBoxKindDescriptor;
 extern const MapObjectKindDescriptor gMkdEfBubbleKindDescriptor;

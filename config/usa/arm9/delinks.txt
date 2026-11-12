@@ -3268,6 +3268,7 @@ src/Main/MapObjects/wanwan_chain.c:
 src/Main/MapObjects/earthen_pipe.c:
     complete
     .text       start:0x020de438 end:0x020de588
+    .rodata     start:0x021584a0 end:0x021584d4
     .data       start:0x0216bf5c end:0x0216bf84
     .bss        start:0x0217b6cc end:0x0217b6dc
 

@@ -39,6 +39,7 @@
 #include "Main/Sound/sound_source_list.h"
 #include "Main/Sound/sound_sources.h"
 #include "Main/MapObjects/map_object_create.h"
+#include "Main/MapObjects/earthen_pipe.h"
 #include "Main/MapObjects/shine_battle.h"
 
 MapObjectKindRow gMapObjectKindRows[133] = {

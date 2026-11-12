@@ -22,9 +22,20 @@
 #include "Main/MapObjects/choropu.h"
 #include "Main/Sound/data_0210b000.h"
 #include "Main/MapObjects/earthen_pipe_create.h"
+#include "Main/MapObjects/wanwan_chain.h"
 
-MapObjectDrawList *gEarthenPipeDrawList;
+const MapObjectKindDescriptor gEarthenPipeKindDescriptor = {0,
+                                                            {0, 0},
+                                                            0xb8,
+                                                            (void (*)(void *, CourseMapRow *, void *)) InitEarthenPipe,
+                                                            CreateEarthenPipeKindData,
+                                                            (MapObjectList *(*)(void)) CreateEarthenPipeDrawList,
+                                                            0,
+                                                            0,
+                                                            CreateEarthenPipeUpdateList};
+
 MapObjectList *gEarthenPipeUpdateList;
+MapObjectDrawList *gEarthenPipeDrawList;
 struct NsbmdModel *gEarthenPipe1;
 NsbmdModel *gEarthenPipe2;
 
