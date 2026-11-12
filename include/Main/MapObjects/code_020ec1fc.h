@@ -8,8 +8,6 @@ typedef struct Woodbox1 Woodbox1;
 typedef struct Kart Kart;
 typedef struct ItemObject ItemObject;
 
-extern MapObjectList *data_0217bbf4;
-
 // Initialiser stored into the 0x2c-byte object CreateWoodbox1DrawList allocates: a MapObjectList followed by the slot.
 typedef struct Woodbox1DrawList {
     /* 00 */ void **mMapObjects;
@@ -25,8 +23,6 @@ typedef struct Woodbox1DrawList {
     /* 24 */ void **mDrawObjects;
     /* 28 */ u32 mListSlot;
 } Woodbox1DrawList;
-
-extern Woodbox1DrawList *data_0217bbec;
 
 // Initialiser stored into the 0x40-byte object CreateWoodbox1KindData allocates.
 typedef struct Unk02159538 {

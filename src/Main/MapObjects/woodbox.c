@@ -50,6 +50,12 @@
 #include "Main/MapObjects/pushed_motion.h"
 #include "01/Race/mission_run_state.h"
 
+s32 gSavedModelAlpha = -1;
+Vec3 gWoodbox1GroundUp = {0, 0x1000, 0};
+StateCallbacks gWoodbox1StateTable[4] = {{EnterWoodbox1State0, NULL}, {EnterWoodbox1State1, UpdateWoodbox1State1}, {EnterWoodbox1State2, UpdateWoodbox1State2}, {NULL, UpdateWoodbox1State3}};
+const u16 gWoodbox1Flag = 1;
+const u16 gWoodbox1SecondFlag = 2;
+const u16 gWoodbox1ThirdFlag = 8;
 const MapObjectList gWoodbox1UpdateListData = {
     0, 0, {0, 0}, &ClearWoodbox1Pointer, 0, &AdvanceWoodbox1, 0, 0, 0, 0, 0,
 };
@@ -74,9 +80,11 @@ const Unk02159538 gWoodbox1KindData = {
     0,
     0,
 };
-s32 gSavedModelAlpha = -1;
-Vec3 gWoodbox1GroundUp = {0, 0x1000, 0};
-StateCallbacks gWoodbox1StateTable[4] = {{EnterWoodbox1State0, NULL}, {EnterWoodbox1State1, UpdateWoodbox1State1}, {EnterWoodbox1State2, UpdateWoodbox1State2}, {NULL, UpdateWoodbox1State3}};
+Woodbox1 *gBouncingWoodbox1;
+Nsbmd *gWoodbox1;
+u32 gWoodbox1PolyAttr;
+MapObjectList *gWoodbox1UpdateList;
+Woodbox1DrawList *gWoodbox1DrawList;
 
 BOOL HitPushedObjectByKart(PushedObject *mapObject, void *other, u8 *firstResponse) {
     if (*firstResponse != 1) {
@@ -110,20 +118,20 @@ Woodbox1DrawList *CreateWoodbox1DrawList(void) {
     Woodbox1DrawList *drawList;
 
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
-    data_0217bbec = drawList;
+    gWoodbox1DrawList = drawList;
     *drawList = gWoodbox1DrawListData;
-    SetDrawListSlot(&data_0217bbec);
-    return data_0217bbec;
+    SetDrawListSlot(&gWoodbox1DrawList);
+    return gWoodbox1DrawList;
 }
 
 MapObjectList *CreateWoodbox1UpdateList(void) {
     MapObjectList *updateList;
 
     updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
-    data_0217bbf4 = updateList;
+    gWoodbox1UpdateList = updateList;
     *updateList = gWoodbox1UpdateListData;
-    SetUpdateListSlot(&data_0217bbf4);
-    return data_0217bbf4;
+    SetUpdateListSlot(&gWoodbox1UpdateList);
+    return gWoodbox1UpdateList;
 }
 
 void DrawWoodbox1(void *mapObjectList, Woodbox1 *woodbox, void *unused, u32 maxAlpha) {
@@ -370,7 +378,7 @@ u32 CollideKartWithWoodbox1(Woodbox1 *woodbox, Kart *kart, u8 *firstResponse, u8
                 woodbox->mMapObject.mStateMachine.mNextState = 1;
                 woodbox->mMapObject.mStateMachine.mNextStateRequested = 1;
                 StartSoundFullVolumeWrapper(kart, 0x167);
-                woodbox->mMapObject.mDistanceSquaredAndFlags |= *(u32 *) data_021594d4;
+                woodbox->mMapObject.mDistanceSquaredAndFlags |= gWoodbox1HitFlag;
                 StartSoundIfKartStarOrKiller(&woodbox->mMapObject, kart);
                 if ((woodbox->mMapObject.mDistanceSquaredAndFlags & 3) == 0) {
                     if (*response == 0) {
@@ -800,7 +808,7 @@ void DrawShadowWithMaxAlpha(ShadowModel *shadow, void *matrix, Vec3 *scale, u32 
 }
 
 void SendMaterialPolygonAttributes(void) {
-    NNS_G3dGeBufferOP_N(0x29, &data_0217bbe8, 1);
+    NNS_G3dGeBufferOP_N(0x29, &gWoodbox1PolyAttr, 1);
 }
 
 void DrawNsbmdWithMaxAlpha(Nsbmd *model, s32 maxAlpha) {
@@ -859,7 +867,7 @@ void DrawNsbmdWithMaxAlphaAndMaterial(Nsbmd *model, s32 maxAlpha) {
     }
     resMat = OFFSET_PTR(NNSG3dResMat, resMdl, resMdl->mOfsMat);
     matData = OFFSET_PTR(NNSG3dResMatData, resMat, ((u32 *) OFFSET_PTR(u8, resMat, resMat->mDict.mOfsEntry))[2]);
-    data_0217bbe8 = matData->mPolyAttr;
+    gWoodbox1PolyAttr = matData->mPolyAttr;
     NNS_G3dRenderObjSetCallBack(&model->mRenderObj, (NNSG3dSbcCallBackFunc) SendMaterialPolygonAttributes, 0, 4, 3);
     DrawNsbmd(model);
     savedAlpha = gSavedModelAlpha;
@@ -869,6 +877,3 @@ void DrawNsbmdWithMaxAlphaAndMaterial(Nsbmd *model, s32 maxAlpha) {
     gSavedModelAlpha = -1;
 }
 
-const u16 gWoodbox1SecondFlag = 2;
-const u16 gWoodbox1ThirdFlag = 8;
-const u16 gWoodbox1Flag = 1;

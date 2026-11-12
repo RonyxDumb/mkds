@@ -22,6 +22,11 @@
 #include "code_02012b30.h"
 
 #pragma thumb on
+const Vec3 gMapObjectModelFrameShadowScale = {0x1000, 0x1000, 0x1000};
+const Vec3 gMapObjectModelFrameNsbmdScale = {0x1000, 0x1000, 0x1000};
+const Vec3 gMapObjectModelFrameNsbmdNsbtpScale = {0x1000, 0x1000, 0x1000};
+const Vec3 gMapObjectModelFrameAnimatedScale = {0x1000, 0x1000, 0x1000};
+
 void *CreateMapObjectUpdateList(void *init, void *forEachObject, void *beforeObjects) {
     MapObjectList *list = HeapAlloc(GetHeap(GetCurrentHeapCall()), 40);
     list->mInit = init;
@@ -70,7 +75,7 @@ MapObjectModel *CreateMapObjectModelAnimated(MapObjectList *mapObjectList, const
     InitNsbmd(mapObjectModel->mAnimatedModel, mapObjectModel->mNsbmdFile);
     SetNsbmdEmiAll(mapObjectModel->mAnimatedModel, 0x294a);
     SetNsbmdLightEnableFlagAll(mapObjectModel->mAnimatedModel, 2);
-    mapObjectModel->mScale = data_021565c4;
+    mapObjectModel->mScale = gMapObjectModelFrameAnimatedScale;
     return mapObjectModel;
 }
 #pragma thumb off
@@ -120,7 +125,7 @@ MapObjectModel *CreateMapObjectModelShadow(MapObjectList *mapObjectList, const c
     }
     mapObjectModel->mShadowModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x74);
     InitShadowModel(mapObjectModel->mShadowModel, courseMapObjFile, 0x3f);
-    mapObjectModel->mScale = data_021565b8;
+    mapObjectModel->mScale = gMapObjectModelFrameShadowScale;
     return mapObjectModel;
 }
 #pragma thumb off
@@ -144,7 +149,7 @@ MapObjectModel *CreateMapObjectModelNsbmd(MapObjectList *mapObjectList, const ch
     nsbmdModel = mapObjectModel->mNsbmdModel;
     nsbmdModel->mPolygonAttributes &= ~0xf;
     nsbmdModel->mPolygonAttributes |= 2;
-    mapObjectModel->mScale = data_021565ac;
+    mapObjectModel->mScale = gMapObjectModelFrameNsbmdScale;
     return mapObjectModel;
 }
 #pragma thumb off
@@ -172,7 +177,7 @@ MapObjectModel *CreateMapObjectModelNsbmdNsbtp(MapObjectList *mapObjectList, con
     nsbmdModel = mapObjectModel->mNsbmdModel;
     nsbmdModel->mPolygonAttributes &= ~0xf;
     nsbmdModel->mPolygonAttributes |= 2;
-    mapObjectModel->mScale = data_021565a0;
+    mapObjectModel->mScale = gMapObjectModelFrameNsbmdNsbtpScale;
     return mapObjectModel;
 }
 #pragma thumb off

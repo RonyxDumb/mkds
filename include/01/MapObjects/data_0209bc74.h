@@ -30,7 +30,3 @@ typedef struct MapObjectModel {
     /* 1c */ ModelAnimation *mAnimations[4];
 } MapObjectModel;
 
-extern Vec3 data_021565a0;
-extern Vec3 data_021565ac;
-extern Vec3 data_021565b8;
-extern Vec3 data_021565c4;

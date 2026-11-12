@@ -7,9 +7,11 @@
 #include "Main/MapObjects/ob_pakkun_sf.h"
 #include "Main/MapObjects/attractor.h"
 
+const u8 gPushedObjectState1Flag[1] = {1};
+
 void EnterPushedObjectState1(MapObject *object) {
     u16 newSlot;
-    object->mFlags = object->mFlags | (*(u16 *) &data_02159578);
+    object->mFlags = object->mFlags | (*(u16 *) &gPushedObjectState1Flag);
     newSlot = FreeCollisionSlot(object->mCollisionSlotIndex);
     object->mCollisionSlotIndex = newSlot;
 }

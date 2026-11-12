@@ -4,6 +4,7 @@
 #include "Main/Kart/kart_drift.h" // Kart
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject
+#include "01/MapObjects/data_0209bc74.h"
 
 // Object of the list FindMapObjectKindUpdateList(0x70): the shared MapObject part, then the words and the pointer
 // StartShineBalloon sets.
@@ -33,3 +34,7 @@ void CreateShineBalloon(void *mapObjectList);
 /* creates the pooled object hidden (parks it with ParkMapObject); the spawner later takes it with
  * UnparkFirstParkedMapObject */
 void InitShineBalloon(u32 mapObjectArg);
+
+extern const u16 gShineBalloonEndSecondFlag;
+extern const u16 gShineBalloonEndFlag;
+extern struct MapObjectModel *gShineBalloon;

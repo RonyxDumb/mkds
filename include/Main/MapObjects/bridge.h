@@ -5,6 +5,9 @@
 #include "Main/MapObjects/attractor.h" // MapObject
 #include "Main/MapObjects/choropu.h"
 #include "Main/MapObjects/data_02158000.h" // MapObjectDrawList
+#include "Main/Graphics/nsbmd_render_obj.h"
+#include "Main/Graphics/model_animation.h"
+#include "Main/MapObjects/pendulum.h"
 
 // Object of kind 0xcc (Bridge) that InitBridge fills.
 typedef struct Bridge {
@@ -31,3 +34,13 @@ void SetupDrawChoropu(void);
 void DrawChoropu(s32 unused, Choropu *choropu, s32 unusedArg, u16 alpha);
 
 extern const Vec3 gChoropuZeroVector;
+
+extern const u16 gBridgeInitFlag;
+extern struct MapObjectList *gChoropuUpdateList;
+extern struct MapObjectDrawList *gChoropuDrawList;
+extern struct MapObjectDrawList *gChoropuShadowDrawList;
+extern struct BridgeDrawList *gBridgeDrawList;
+extern struct NsbmdModel *gChoropu;
+extern struct Nsbmd *gBridge;
+extern struct MapObjectList *gBridgeUpdateList;
+extern struct ModelAnimation *gBridgeNsbca;

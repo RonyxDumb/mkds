@@ -50,3 +50,5 @@ MapObjectList *CreatePuddleDrawList(void);
 extern const u16 gSunFireballInitMapObjectFlag;
 extern const u32 gFireball2SkipSoundFlag;
 extern struct MapObjectModel *gFireball2;
+
+extern const u16 gFireball2InitMapObjectFlag;

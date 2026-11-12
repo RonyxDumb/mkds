@@ -106,9 +106,6 @@ extern const char *gRecordTrophySOBnclName;
 
 extern const char *gRecordGpxSBnblName;
 
-extern const StateCallbacks gPushedObjectStateTable[];
-
 extern u8 gSoundDataSdatPath[];
-
 
 extern s32 gKartSurfaceSoundSortOffsets[];

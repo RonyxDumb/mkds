@@ -123,3 +123,5 @@ extern const u16 gBalloonHideSecondFlag;
 extern const u16 gBalloonHideFirstFlag;
 extern u16 gShine16ShadowAngleIndex;
 extern struct MapObjectModel *gShine16;
+
+extern const u16 gShine16CollisionFlag;

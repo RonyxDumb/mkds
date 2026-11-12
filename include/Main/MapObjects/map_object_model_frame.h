@@ -47,3 +47,8 @@ void *GetMapObjectFromList(MapObjectList *list, s32 index);
 void *CreateMapObjectDrawList2(void *init, void *forEachObject, void *beforeObjects);
 void *CreateMapObjectDrawList1(void *init, void *forEachObject, void *beforeObjects);
 void *CreateMapObjectUpdateList(void *init, void *forEachObject, void *beforeObjects);
+
+extern const Vec3 gMapObjectModelFrameShadowScale;
+extern const Vec3 gMapObjectModelFrameNsbmdScale;
+extern const Vec3 gMapObjectModelFrameNsbmdNsbtpScale;
+extern const Vec3 gMapObjectModelFrameAnimatedScale;

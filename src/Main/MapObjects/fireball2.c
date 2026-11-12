@@ -45,10 +45,6 @@
 #include "Main/Kart/karts.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 
-const u16 gSunFireballInitMapObjectFlag = 0x200;
-const u32 gFireball2SkipSoundFlag = 0x40000000;
-MapObjectModel *gFireball2;
-
 MapObjectKindDescriptor gFireball2KindDescriptor = {0,
                                              {0, 0},
                                              0x19e8,
@@ -58,7 +54,10 @@ MapObjectKindDescriptor gFireball2KindDescriptor = {0,
                                              0,
                                              0,
                                              CreateFireball2UpdateList};
+MapObjectModel *gFireball2;
 
+const u16 gSunFireballInitMapObjectFlag = 0x200;
+const u32 gFireball2SkipSoundFlag = 0x40000000;
 MapObjectList *CreatePuddleDrawList(void) {
     return CreateMapObjectDrawList2(CreatePuddle, DrawPuddle, SetupDrawPuddle);
 }

@@ -34,7 +34,5 @@ typedef struct Woodbox1 {
     /* 114 */ ShadowMatrix mUnk_114;
 } Woodbox1;
 
-extern Woodbox1 *gBouncingWoodbox1;
-
 void StartWoodbox1ItemObject(Woodbox1 *woodbox, Vec3 *velocity);
 void EnterWoodbox1State0(Woodbox1 *woodbox);

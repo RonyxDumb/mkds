@@ -48,6 +48,7 @@ const MapObjectList gSecondHandUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, Up
 const MapObjectDrawList gSecondHandDrawListData = {{NULL, 0, {0, 0}, (void (*)(MapObjectList *)) CreateSecondHand, NULL, (UnkFunc *) DrawSecondHand, NULL, 1, NULL, 0, NULL}, 0};
 const MapObjectKindData gSecondHandKindData = {(s32 (*)(MapObject *, void *, s32 *, s32 *)) CollideKartWithSecondHand, (s32 (*)(MapObject *, void *, void *, void *)) CollideItemObjectWithSecondHand, 5, 0xf000, 0x4b000, 0x320000, (s32 (*)(MapObject *, Vec3 *, s32, Vec3 *)) ComputeSphereHitOnSecondHand, 0, 0, 0x178, 0, 0, 0, 0, 0, 0};
 StateCallbacks gSecondHandStateTable[4] = {{EnterSecondHandState0, UpdateSecondHandState0}, {(UnkFunc *) SecondHandState1ReturnArgument, UpdateSecondHandState1}, {EnterSecondHandState2, UpdateSecondHandState2}, {(UnkFunc *) SecondHandState3ReturnArgument, UpdateSecondHandState3}};
+const u32 gSecondHandHitFlag = 0x40000000;
 MapObjectDrawList *gSecondHandDrawList;
 struct Nsbmd *gSecondHand;
 MapObjectList *gSecondHandUpdateList;
@@ -278,7 +279,5 @@ void InitSecondHand(SecondHand *secondHand, CourseMapRow *courseRow) {
     secondHand->mMapObject.mStateMachine.mNextStateRequested = 1;
     secondHand->mMapObject.mFlags |= gSecondHandFlag;
 }
-
-const u32 gSecondHandHitFlag = 0x40000000;
 
 #pragma thumb off

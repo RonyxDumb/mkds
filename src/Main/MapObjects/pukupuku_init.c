@@ -18,6 +18,8 @@
 #include "Main/MapObjects/rotary.h"
 #include "Main/MapObjects/pukupuku.h"
 
+#pragma thumb on
+
 const MapObjectDrawList gRotaryDrawListData = {
     {NULL, 0, {0, 0}, (void (*)(MapObjectList *)) CreateRotary, NULL, NULL, NULL, 1, NULL, 0, NULL}, 0};
 const MapObjectKindData gRotaryBridgeKindData = {NULL, NULL, 5, 0x50000, 0x866000, 0, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -26,8 +28,6 @@ const MapObjectList gRotaryUpdateListData = {
     NULL, 0, {0, 0}, (void (*)(MapObjectList *)) InitRotaryObjects, NULL, (UnkFunc *) UpdateRotary, NULL, 0, NULL, 0, NULL};
 const MapObjectKindData gRotaryGearTestCylinderKindData = {NULL, NULL, 5, 0x12c000, 0x32000, 0, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0};
 StateCallbacks gPukupukuStateTable[4] = {{EnterPukupukuState0, UpdatePukupukuState0}, {EnterPukupukuState1, UpdatePukupukuState1}, {EnterPukupukuState2, UpdatePukupukuState2}, {EnterPukupukuState3, UpdatePukupukuState3}};
-
-#pragma thumb on
 
 void InitPukupuku(Pukupuku *pukupuku, Vec3 *position) {
     InitStateMachine(&pukupuku->mPushedObject.mMapObject.mStateMachine, gPukupukuStateTable, 4, pukupuku);

@@ -55,10 +55,6 @@
 #include "Main/Sound/sound_source_list.h"
 #include "Main/Kart/karts.h"
 
-const u16 gShine16ShadowAngles[4] = {0, 0xe38, 0x1c71, 0};
-u16 gShine16ShadowAngleIndex;
-MapObjectModel *gShine16;
-
 MapObjectKindDescriptor gShine16KindDescriptor = {0,
                                              {0, 0},
                                              0xec,
@@ -68,7 +64,10 @@ MapObjectKindDescriptor gShine16KindDescriptor = {0,
                                              CreateShine16ShadowDrawList,
                                              0,
                                              CreateShine16UpdateList};
+u16 gShine16ShadowAngleIndex;
+MapObjectModel *gShine16;
 
+const u16 gShine16ShadowAngles[4] = {0, 0xe38, 0x1c71, 0};
 void InitShine16(MapObject *mapObject) {
     ParkMapObject(mapObject);
     mapObject->mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);

@@ -5,8 +5,6 @@
 // Objects whose layout isn't known yet.
 extern u8 gMenuDisplaySettingsDesc[];
 
-extern u16 data_usa_0215659c;
-
 extern u16 data_02156598;
 
 extern u32 data_usa_021568f8;
@@ -31,13 +29,7 @@ extern const Vec3 gRockMatrixRow2;
 
 extern struct MapObjectKindData gRockKindData;
 
-extern u16 gShine16CollisionFlag;
-
 extern s32 gCharacterBalloonOrShineHeights[];
-
-extern u16 data_02156838;
-
-extern u16 data_0215683c;
 
 // 8-byte entries of the table at gKeyboardCursorTargets.
 typedef struct KeyboardCursorTargets {
@@ -50,8 +42,6 @@ typedef struct KeyboardCursorTargets {
 extern const KeyboardCursorTargets gKeyboardCursorTargets[6];
 
 extern const u16 gKeyboardLayoutRectCounts[6];
-
-extern u16 gFireball2InitMapObjectFlag;
 
 extern const u16 data_usa_02156584;
 

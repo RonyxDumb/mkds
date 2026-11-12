@@ -26,6 +26,10 @@
 #include "Main/MapObjects/data_0217a000.h"
 #include "Main/Race/race.h"
 
+const u16 gShineBalloonEndSecondFlag = 8;
+const u16 gShineBalloonEndFlag = 2;
+MapObjectModel *gShineBalloon;
+
 void InitShineBalloon(u32 mapObjectArg) {
     u32 mapObjectCopy = mapObjectArg;
     u32 unusedValue;
@@ -125,8 +129,8 @@ void UpdateShineBalloon(void *mapObjectList, ShineBalloonObject *shineBalloonObj
                     if (shineBalloonObject->mUnk_a0 <= 0) {
                         shineBalloonObject->mUnk_a0 = 0;
                         shineBalloonObject->mState = 0;
-                        shineBalloonObject->mMapObject.mFlags |= data_02156838;
-                        shineBalloonObject->mMapObject.mFlags |= data_0215683c;
+                        shineBalloonObject->mMapObject.mFlags |= gShineBalloonEndFlag;
+                        shineBalloonObject->mMapObject.mFlags |= gShineBalloonEndSecondFlag;
                     }
                 }
             }

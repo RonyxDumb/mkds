@@ -39,3 +39,5 @@ void EnterKuriboState0(Kuribo *kuribo);
 extern StateCallbacks gKuriboStateTable[6];
 extern const struct Quaternion gKuriboBombResetOrientation;
 extern const struct Quaternion gKuriboBombResetTargetOrientation;
+
+extern const Vec3 gKuriboItemNormal;

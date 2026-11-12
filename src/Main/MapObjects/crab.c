@@ -24,9 +24,7 @@
 #include "Main/Kart/karts.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 
-MapObjectModel *gCrab;
-MapObjectModel *gCrabHand;
-
+const u16 gCrabLaunchFlag = 1;
 MapObjectKindDescriptor gCrabKindDescriptor = {0,
                                                {0, 0},
                                                0x118,
@@ -36,6 +34,8 @@ MapObjectKindDescriptor gCrabKindDescriptor = {0,
                                                0,
                                                0,
                                                CreateCrabUpdateList};
+MapObjectModel *gCrabHand;
+MapObjectModel *gCrab;
 
 void InitCrab(Crab *crab) {
     InitGroupFollower(&crab->mFollower, crab->mMapObject.mCourseMapRow, 0);
@@ -95,7 +95,7 @@ void StartCrabLaunch(Crab *crab, Vec3 *sourcePosition, Vec3 *sourceDirection, Ve
     crab->mMapObject.mPosStep.y = 0x4000;
     crab->mTimer = 0x12c;
     crab->mState = 2;
-    crab->mMapObject.mFlags |= data_usa_0215659c;
+    crab->mMapObject.mFlags |= gCrabLaunchFlag;
 }
 
 u8 CollideKartWithCrab(Crab *crab, Kart *kart, u8 *hitFlag, u8 *passedValue) {

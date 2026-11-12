@@ -31,7 +31,6 @@
 #include "Main/MapObjects/choropu_state.h"
 
 const Vec3 gChoropuZeroVector = {0, 0, 0};
-
 #pragma thumb off
 
 BOOL IsBridgeKind(u32 kind) {
@@ -89,7 +88,7 @@ void InitBridge(Bridge *bridge, struct CourseMapRow *courseRow) {
     bridge->mCollisionMapObject.mCollisionData.mUnk_120 = 0x800;
     bridge->mCollisionMapObject.mCollisionData.mUnk_134 = COLLISION_SHAPE_BOX;
     bridge->mCollisionMapObject.mCollisionData.mUnk_138 = 0;
-    bridge->mCollisionMapObject.mMapObject.mFlags |= data_02158c88;
+    bridge->mCollisionMapObject.mMapObject.mFlags |= gBridgeInitFlag;
     bridge->mCollisionMapObject.mMapObject.mFlags &= ~2;
     bridge->mCollisionMapObject.mMapObject.mFlags &= ~8;
     bridge->mCollisionMapObject.mMapObject.mAlpha = 0x1f;
@@ -112,30 +111,30 @@ void *CreateChoropuDrawList(void) {
     MapObjectDrawList *drawList;
 
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
-    data_0217b7bc = drawList;
+    gChoropuDrawList = drawList;
     *drawList = gChoropuDrawListData;
-    SetDrawListSlot(&data_0217b7bc);
-    return data_0217b7bc;
+    SetDrawListSlot(&gChoropuDrawList);
+    return gChoropuDrawList;
 }
 
 void *CreateChoropuShadowDrawList(void) {
     MapObjectDrawList *drawList;
 
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
-    data_0217b7c0 = drawList;
+    gChoropuShadowDrawList = drawList;
     *drawList = gChoropuShadowDrawListData;
-    SetDrawListSlot(&data_0217b7c0);
-    return data_0217b7c0;
+    SetDrawListSlot(&gChoropuShadowDrawList);
+    return gChoropuShadowDrawList;
 }
 
 void *CreateChoropuUpdateList(void) {
     MapObjectList *updateList;
 
     updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
-    data_0217b7b4 = updateList;
+    gChoropuUpdateList = updateList;
     *updateList = gChoropuUpdateListData;
-    SetUpdateListSlot(&data_0217b7b4);
-    return data_0217b7b4;
+    SetUpdateListSlot(&gChoropuUpdateList);
+    return gChoropuUpdateList;
 }
 
 void SetupDrawChoropu(void) {

@@ -15,7 +15,7 @@
 #include "Main/Graphics/nsbmd_render_obj.h"
 #include "Main/Kart/shadow_model.h"
 
-extern const MapObjectList data_02158cc0;
+extern const MapObjectList gBridgeUpdateListData;
 
 // Vehicle.mHitReactionTimer: set to the first value on a hit, counted down; above the second the vehicle is thrown.
 #define VEHICLE_HIT_TIMER_START 0x14
@@ -42,7 +42,7 @@ extern const MapObjectList data_02158cc0;
 #define ROTARY_STATE_SLOW_DOWN 2
 #define ROTARY_STATE_PAUSE 3
 
-extern const MapObjectKindData data_02158d18;
+extern const MapObjectKindData gBridgeKindData;
 
 // Object ComputeSphereHitOnCollisionBox and ComputeSphereHitOnCollisionCylinder compare against: two vectors, a word
 // and a vector.

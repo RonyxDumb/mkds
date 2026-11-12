@@ -476,7 +476,6 @@ typedef struct KeyboardTextEntry {
 
 extern KeyboardTextEntry *gKeyboardTextEntry;
 extern u16 *gKbdmapHiragana;
-extern MapObjectModel *gShineBalloon;
 typedef struct TitleStateHandlers {
     /* 00 */ UnkFunc *mWriteRegisters;
     /* 04 */ void (*mUpdate)(s32);
@@ -687,7 +686,6 @@ extern MapObjectDrawList *gItemBoxShadowDrawList;
 extern MapObjectList *gItemBoxUpdateList;
 extern NsbmdModel *gBox;
 extern MtxFx43 gItemBoxShadowMatrix;
-extern NsbmdModel *gChoropu;
 extern s32 gKouraWBlockTimer;
 extern s32 gThunderBlockTimer;
 
@@ -811,7 +809,6 @@ extern u16 gMapObjectFirstPolygonId;
 extern u16 gNextPolygonId;
 extern GrpconfTblRow *gGrpconfTbl;
 extern MapObject **gFoundMapObjects;
-extern struct BridgeDrawList *gBridgeDrawList;
 // Indexed by object kind; 14 slots, 13 files (kind 8 aliases kind 7)
 extern NsbmdModel *gItemModels[];
 struct ItemObject;
@@ -862,18 +859,6 @@ extern s32 gJgVisible;
 extern s32 gJgSnapActive;
 
 extern StateMachine gJgStateMachine;
-extern struct Nsbmd *gBridge;
-extern ModelAnimation *gBridgeNsbca;
-extern struct MapObjectDrawList *data_0217b7c0;
-extern struct MapObjectDrawList *data_0217b7bc;
-extern struct MapObjectList *data_0217b7b4;
-extern struct MapObjectList *gBridgeUpdateList;
-extern struct Nsbmd *gGearWhite;
-extern struct Nsbmd *gGearBlack;
-extern struct Nsbmd *gRotaryBridge;
-extern void *gRotaryDrawList;
-extern struct Nsbmd *gTestCylinder;
-extern struct Nsbmd *gRotaryRoom;
 extern void **gFoundCollisionSlotObjects;
 extern s16 gFoundCollisionSlotCount;
 extern u16 *gFoundCollisionSlotFlags;
@@ -935,7 +920,6 @@ extern Vec3 gJgKind2Offset;
 extern void *gSphereHitObjects[16];
 extern s32 data_0217b610;
 extern CourseCollision gCourseCollision;
-extern u32 data_0217bbe8;
 extern s32 gJgOffsetY;
 extern s32 gJgOffsetX;
 extern s32 gJgFarFromKart;

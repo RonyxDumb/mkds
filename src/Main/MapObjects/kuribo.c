@@ -47,6 +47,7 @@ StateCallbacks gKuriboStateTable[6] = {{EnterKuriboState0, UpdateKuriboState0},
                                        {(UnkFunc *) EnterKuriboState3, UpdateKuriboState3},
                                        {(UnkFunc *) EnterKuriboState4, UpdateKuriboState4},
                                        {EnterKuriboState5, UpdateKuriboState5}};
+
 const struct Quaternion gKuriboBombResetOrientation = {{0, 0, 0, 0x1000}};
 const struct Quaternion gKuriboBombResetTargetOrientation = {{0, 0, 0, 0x1000}};
 
@@ -212,7 +213,7 @@ void StartItemKinokoFromKuribo(Kuribo *kuribo, Vec3 *hitVector) {
         0x10) {
         Vec3NormalizeAndGetLengthUnchecked(&launchDirection, &launchDirection);
     }
-    itemObject = StartItemObjectOrZero(3, 8, &kuribo->mMapObject.mPos, &data_021581f8);
+    itemObject = StartItemObjectOrZero(3, 8, &kuribo->mMapObject.mPos, &gKuriboItemNormal);
     if (itemObject == NULL) {
         return;
     }
@@ -225,7 +226,7 @@ void StartItemKinokoFromKuribo(Kuribo *kuribo, Vec3 *hitVector) {
     itemObject->mVelocity.z = MUL_FIXED12_NO_ROUND(launchDirection.z, value);
     itemObject->mVelocity.y += 0xf000;
     VEC_Add(&itemObject->mPos, &itemObject->mVelocity, &itemObject->mPos);
-    LaunchItemObjectFromPos(itemObject, 0, &kuribo->mMapObject.mPos, hitVector, &data_021581f8);
+    LaunchItemObjectFromPos(itemObject, 0, &kuribo->mMapObject.mPos, hitVector, (Vec3 *) &gKuriboItemNormal);
 }
 
 u32 CollideKartWithKuribo(Kuribo *kuribo, Kart *kart, u8 *firstResponsePtr, u8 *secondResponsePtr) {

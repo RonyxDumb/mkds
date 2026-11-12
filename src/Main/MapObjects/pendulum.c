@@ -42,6 +42,8 @@
 #include "registers.h"
 #include "Main/Item/item_koura_w.h"
 
+#pragma thumb on
+
 const MapObjectDrawList gPendulumDrawListData = {{NULL, 0, {0, 0}, (void (*)(MapObjectList *)) CreatePendulumAndPendulumShadow, NULL, DrawPendulum, NULL, 1, NULL, 0, NULL}, 0};
 const MapObjectList gPendulumUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, UpdatePendulum, NULL, 0, NULL, 0, NULL};
 const MapObjectKindData gPendulumKindData = {NULL, NULL, 5, 0x70000, 0, 0, (s32 (*)(MapObject *, Vec3 *, s32, Vec3 *)) ComputeSphereHitOnPendulum, 1, 1, 0x174, 0, 0, 0, 0, 0, 0};
@@ -52,8 +54,6 @@ MapObjectDrawList *gPendulumDrawList;
 NsbmdModel *gObPakkunSf;
 struct Nsbmd *gPendulum;
 struct ShadowModel *gPendulumShadow;
-
-#pragma thumb on
 
 void FillNsbmdModel(Nsbmd *model, ModelAnimation *animation, NsbmdModel *record) {
     NNSG3dResMdl *resMdl;

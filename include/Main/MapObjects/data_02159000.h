@@ -3,8 +3,6 @@
 #include "Main/MapObjects/ob_pakkun_sf.h"
 #include "Main/MapObjects/attractor.h" // MapObjectList, MapObjectKindData
 
-extern u8 data_02159578[];
-
 extern u16 gSecondHandFlag;
 
 extern MapObjectList gObPakkunSfUpdateListData;
@@ -19,7 +17,7 @@ extern MapObjectList gAttractorUpdateListData;
 
 extern MapObjectKindData gAttractorKindData;
 
-extern u8 data_021594d4[];
+extern const u32 gWoodbox1HitFlag;
 
 extern Vec3 gJgMatrixRow1Source;
 

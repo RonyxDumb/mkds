@@ -43,3 +43,5 @@ extern MapObjectList *gGroupItemBoxUpdateList;
 extern s32 gGroupItemBoxShadowScaleWord;
 extern s32 gGroupItemBoxHeightOffset;
 extern Vec3 gGroupItemBoxShadowScale;
+
+extern const u16 gMkdEfBubbleInitFlag;

@@ -5,6 +5,7 @@
 #include "Main/Graphics/nsbmd_render_obj.h" // Nsbmd
 #include "Main/MapObjects/code_020ebef8.h" // Woodbox1
 #include "Main/Menu/second_menu_scene.h"
+#include "Main/MapObjects/code_020ec1fc.h"
 
 typedef struct NNSG3dResMdl NNSG3dResMdl;
 typedef struct Woodbox1 Woodbox1;
@@ -12,8 +13,6 @@ typedef struct Kart Kart;
 typedef struct MapObjectList MapObjectList;
 typedef struct CourseMapRow CourseMapRow;
 typedef struct ItemObject ItemObject;
-
-extern Nsbmd *gWoodbox1;
 
 // Sphere (centre param_1, radius param_7) against the cylinder at param_2 whose axes are the rows of param_3; returns 0
 // for no hit, else 2, and writes the move out to param_8 unless it is NULL.
@@ -71,3 +70,9 @@ extern const u16 gWoodbox1ThirdFlag;
 extern s32 gSavedModelAlpha;
 extern Vec3 gWoodbox1GroundUp;
 extern StateCallbacks gWoodbox1StateTable[4];
+
+extern Woodbox1 *gBouncingWoodbox1;
+extern Nsbmd *gWoodbox1;
+extern u32 gWoodbox1PolyAttr;
+extern MapObjectList *gWoodbox1UpdateList;
+extern struct Woodbox1DrawList *gWoodbox1DrawList;

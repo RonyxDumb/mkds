@@ -22,8 +22,6 @@ typedef struct Pukupuku {
     /* 108 */ s32 mGroundSlopeZ;
 } Pukupuku;
 
-extern MapObjectList *gRotaryUpdateList;
-
 void UpdateRotary(u32 unused, Rotary *object);
 MapObjectList *CreateRotaryUpdateList(void);
 MapObjectDrawList *CreateRotaryDrawList(void);
@@ -38,3 +36,4 @@ extern const MapObjectKindData gRotaryRoomKindData;
 extern const MapObjectList gRotaryUpdateListData;
 extern const MapObjectKindData gRotaryGearTestCylinderKindData;
 extern StateCallbacks gPukupukuStateTable[4];
+

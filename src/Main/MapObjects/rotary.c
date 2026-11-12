@@ -30,6 +30,8 @@
 #include "Main/MapObjects/rotary_state.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 
+#pragma thumb off
+
 StateCallbacks gRotaryStateTable[4] = {{EnterRotaryState0, UpdateRotaryState0},
                                        {(UnkFunc *) RotaryState1ReturnArgument, UpdateRotaryState1},
                                        {EnterRotaryState2, UpdateRotaryState2},
@@ -74,8 +76,6 @@ const MapObjectKindDescriptor gRotaryBridgeKindDescriptor = {0,
                                                    0,
                                                    0,
                                                    CreateRotaryUpdateList};
-
-#pragma thumb off
 
 void UpdateRotaryState3(Rotary *object) {
     if (object->mCollisionMapObject.mMapObject.mStateMachine.mStateFrames > object->mPauseFrameCount) {
@@ -269,7 +269,7 @@ void *CreateBridgeKindData(void) {
     MapObjectKindData *kindData;
 
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
-    *kindData = data_02158d18;
+    *kindData = gBridgeKindData;
     return kindData;
 }
 
@@ -278,7 +278,7 @@ void *CreateBridgeDrawList(void) {
 
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x30);
     gBridgeDrawList = drawList;
-    *drawList = data_02158ce8;
+    *drawList = gBridgeDrawListData;
     SetDrawListSlot(&gBridgeDrawList);
     return gBridgeDrawList;
 }
@@ -288,7 +288,7 @@ void *CreateBridgeUpdateList(void) {
 
     updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
     gBridgeUpdateList = updateList;
-    *updateList = data_02158cc0;
+    *updateList = gBridgeUpdateListData;
     SetUpdateListSlot(&gBridgeUpdateList);
     return gBridgeUpdateList;
 }

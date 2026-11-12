@@ -2142,6 +2142,7 @@ src/Main/MapObjects/empty_kind_data.c:
 src/Main/MapObjects/crab.c:
     complete
     .text       start:0x0209a748 end:0x0209b60c
+    .rodata     start:0x0215659c end:0x021565a0
     .data       start:0x021671f4 end:0x02167260
     .bss        start:0x0217b154 end:0x0217b15c
 
@@ -2149,6 +2150,7 @@ src/Main/MapObjects/crab.c:
 src/Main/MapObjects/map_object_model_frame.c:
     complete
     .text       start:0x0209b60c end:0x0209bf70
+    .rodata     start:0x021565a0 end:0x021565d0
 
 // provisional: file name and boundaries
 src/Main/MapObjects/bound.c:
@@ -2349,7 +2351,9 @@ src/Main/Graphics/nibble_tiles.c:
 src/Main/MapObjects/shine_balloon.c:
     complete
     .text       start:0x020ac524 end:0x020aca08
+    .rodata     start:0x02156838 end:0x02156840
     .data       start:0x02167e14 end:0x02167e28
+    .bss        start:0x0217b31c end:0x0217b320
 
 // provisional: file name and boundaries
 src/Main/Menu/title_state6.c:
@@ -3451,11 +3455,13 @@ src/Main/MapObjects/woodbox.c:
     .text       start:0x020ea670 end:0x020ec484
     .rodata     start:0x021594d8 end:0x02159578
     .data       start:0x0216c3b4 end:0x0216c3f4
+    .bss        start:0x0217bbc8 end:0x0217bbdc
 
 // provisional: file name and boundaries
 src/Main/MapObjects/pushed_object_state_1.c:
     complete
     .text       start:0x020ec484 end:0x020ec538
+    .rodata     start:0x02159578 end:0x0215957c
 
 // provisional: file name and boundaries
 src/Main/MapObjects/pushed_motion.c:
@@ -3467,6 +3473,7 @@ src/Main/MapObjects/pushed_motion.c:
 src/Main/MapObjects/pushed_object_states_init.c:
     complete
     .text       start:0x020ec884 end:0x020ec8bc
+    .data       start:0x0216c3f4 end:0x0216c40c
 
 // provisional: file name and boundaries
 src/Main/Item/item_link_following.c:

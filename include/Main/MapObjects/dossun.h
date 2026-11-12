@@ -91,3 +91,7 @@ extern struct NsbmdModel *gKuribo;
 extern struct Nsbmd *gDossun;
 extern MapObjectList *gDossunUpdateList;
 extern MtxFx43 gDossunDrawMatrix;
+
+extern const MapObjectList gDossunUpdateListData;
+extern const struct DossunDrawList gDossunDrawListData;
+extern const MapObjectKindData gDossunKindData;

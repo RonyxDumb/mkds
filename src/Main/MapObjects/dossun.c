@@ -72,7 +72,7 @@ MtxFx43 gDossunDrawMatrix;
 MapObjectKindData *CreateDossunKindData(void) {
     MapObjectKindData *kindData;
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
-    *kindData = data_0215828c;
+    *kindData = gDossunKindData;
     return kindData;
 }
 
@@ -80,7 +80,7 @@ DossunDrawList *CreateDossunDrawList(void) {
     DossunDrawList *drawList;
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     gDossunDrawList = drawList;
-    *drawList = data_02158260;
+    *drawList = gDossunDrawListData;
     SetDrawListSlot(&gDossunDrawList);
     return gDossunDrawList;
 }
@@ -89,7 +89,7 @@ MapObjectList *CreateDossunUpdateList(void) {
     MapObjectList *updateList;
     updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
     gDossunUpdateList = updateList;
-    *updateList = data_02158238;
+    *updateList = gDossunUpdateListData;
     SetUpdateListSlot(&gDossunUpdateList);
     return gDossunUpdateList;
 }
