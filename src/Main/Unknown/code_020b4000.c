@@ -1,4 +1,48 @@
 #include "Main/Unknown/code_020b4000.h"
+#include "Main/Unknown/code_020b4048.h"
+#include "Main/Unknown/code_02047104.h"
+#include "Main/Unknown/code_020b41d4.h"
+#include "Main/Unknown/unk_0217b000.h"
+
+#pragma thumb on
+#pragma optimize_for_size on
+void LoadFontAndPlayerCharacterData(void) {
+    if (IsArchiveSlotLoaded(1) != 0) {
+        InitFontIfLoaded(&gLCFontS, FindFileInLoadedArchives("LC_Font_s.NFTR"));
+        InitFontIfLoaded(&gLCFontM, FindFileInLoadedArchives("LC_Font_m.NFTR"));
+        InitFontIfLoaded(&gMarioFont, FindFileInLoadedArchives("marioFont.NFTR"));
+        gFontTable[0] = &gLCFontS;
+        gFontTable[1] = &gLCFontM;
+        gFontTable[2] = &gMarioFont;
+        LoadNclrData(gPlayerCharacterNclr, FindFileInLoadedArchives("player_character_M_o.NCLR"));
+        LoadNclrData(gPlayerCharacterShyguyNclr, FindFileInLoadedArchives("player_character_M_shyguy_o.NCLR"));
+        LoadNcgrData2(gPlayerCharacterNcgr, FindFileInLoadedArchives("player_character_M.nce.ncgr"));
+        LoadNcerData(gPlayerCharacterNcer, FindFileInLoadedArchives("player_character_M.nce.ncer"));
+        gPlayerCharacterBncl[0] = FindFileInLoadedArchives("player_character_M.bncl");
+        LoadNclrData(&gPlayerCharacterLNclr, FindFileInLoadedArchives("player_character_L_o.NCLR"));
+        LoadNclrData(&gPlayerCharacterLShyguyNclr, FindFileInLoadedArchives("player_character_L_shyguy_o.NCLR"));
+        LoadNcgrData2(&gPlayerCharacterLNcgr, FindFileInLoadedArchives("player_character_L.nce.ncgr"));
+        LoadNcerData(&gPlayerCharacterLNcer, FindFileInLoadedArchives("player_character_L.nce.ncer"));
+        gPlayerCharacterBncl[1] = FindFileInLoadedArchives("player_character_L.bncl");
+    }
+}
+
+void ClearFontAndPlayerCharacterTables(void) {
+    s32 fontIndex;
+    s32 characterSetIndex;
+
+    for (fontIndex = 0; fontIndex < 3; fontIndex++) {
+        gFontTable[fontIndex] = NULL;
+    }
+    for (characterSetIndex = 0; characterSetIndex < 2; characterSetIndex++) {
+        gPlayerCharacterNclr[characterSetIndex] = NULL;
+        gPlayerCharacterShyguyNclr[characterSetIndex] = NULL;
+        gPlayerCharacterNcgr[characterSetIndex] = NULL;
+        gPlayerCharacterNcer[characterSetIndex] = NULL;
+        gPlayerCharacterBncl[characterSetIndex] = NULL;
+    }
+}
+#pragma thumb off
 
 #pragma thumb on
 Unk02022aa8 *GetFontByIndex(s32 index) {
