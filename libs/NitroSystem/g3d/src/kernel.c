@@ -1,6 +1,12 @@
+#include "kernel.h"
 #include "code_020109c4.h"
+#include "code_020109ac.h"
+#include "code_02010998.h"
+#include "code_020108bc.h"
+#include "gx_load3d.h"
+#include "code_02010878.h"
+#include "code_02010804.h"
 
-// Keeps the chain ordered by priority.
 void addLink_(NNSG3dAnmObj **l, NNSG3dAnmObj *item) {
     NNSG3dAnmObj *prev;
     NNSG3dAnmObj *next;
@@ -117,4 +123,89 @@ void NNS_G3dRenderObjSetCallBack(NNSG3dRenderObj *pRenderObj, NNSG3dSbcCallBackF
     pRenderObj->mCbFunc = func;
     pRenderObj->mCbCmd = cmd;
     pRenderObj->mCbTiming = timing;
+}
+
+u32 NNS_G3dTexGetRequiredSize(const NNSG3dResTex *pTex) {
+    return pTex->mTexInfo.mSizeTex << 3;
+}
+
+u32 NNS_G3dTex4x4GetRequiredSize(const NNSG3dResTex *pTex) {
+    return pTex->mTex4x4Info.mSizeTex << 3;
+}
+
+void NNS_G3dTexSetTexKey(NNSG3dResTex *pTex, NNSG3dTexKey texKey, NNSG3dTexKey tex4x4Key) {
+    if (texKey != 0) {
+        pTex->mTexInfo.mVramKey = texKey;
+    }
+    if (tex4x4Key != 0) {
+        pTex->mTex4x4Info.mVramKey = tex4x4Key;
+    }
+}
+
+void NNS_G3dTexLoad(NNSG3dResTex *pTex, BOOL execBeginEnd) {
+    u32 texSize;
+    u32 tex4x4Size;
+    u32 keyAddr;
+    u32 vramAddr;
+    u8 *plttIdxData;
+
+    if (execBeginEnd != 0) {
+        GX_BeginLoadTex();
+    }
+    texSize = pTex->mTexInfo.mSizeTex << 3;
+    if (texSize != 0) {
+        GX_LoadTex((u8 *) pTex + pTex->mTexInfo.mOfsTex, (pTex->mTexInfo.mVramKey & 0xffff) << 3, texSize);
+        pTex->mTexInfo.mFlag |= 1;
+    }
+    tex4x4Size = pTex->mTex4x4Info.mSizeTex << 3;
+    if (tex4x4Size != 0) {
+        keyAddr = pTex->mTex4x4Info.mVramKey & 0xffff;
+        vramAddr = keyAddr << 3;
+        plttIdxData = (u8 *) pTex + pTex->mTex4x4Info.mOfsTexPlttIdx;
+        GX_LoadTex((u8 *) pTex + pTex->mTex4x4Info.mOfsTex, vramAddr, tex4x4Size);
+        GX_LoadTex(plttIdxData, 0x20000 + (((keyAddr << 3) & 0x1ffff) >> 1) + ((vramAddr & 0x40000) >> 2),
+                   tex4x4Size >> 1);
+        pTex->mTex4x4Info.mFlag |= 1;
+    }
+    if (execBeginEnd != 0) {
+        GX_EndLoadTex();
+    }
+}
+
+void NNS_G3dTexReleaseTexKey(NNSG3dResTex *pTex, NNSG3dTexKey *texKey, NNSG3dTexKey *tex4x4Key) {
+    pTex->mTexInfo.mFlag &= ~1;
+    pTex->mTex4x4Info.mFlag &= ~1;
+    *texKey = pTex->mTexInfo.mVramKey;
+    pTex->mTexInfo.mVramKey = 0;
+    *tex4x4Key = pTex->mTex4x4Info.mVramKey;
+    pTex->mTex4x4Info.mVramKey = 0;
+}
+
+u32 NNS_G3dPlttGetRequiredSize(const NNSG3dResTex *pTex) {
+    return pTex->mPlttInfo.mSizePltt << 3;
+}
+
+void NNS_G3dPlttSetPlttKey(NNSG3dResTex *pTex, NNSG3dPlttKey plttKey) {
+    pTex->mPlttInfo.mVramKey = plttKey;
+}
+
+void NNS_G3dPlttLoad(NNSG3dResTex *pTex, BOOL execBeginEnd) {
+    if (execBeginEnd != 0) {
+        GX_BeginLoadTexPltt();
+    }
+    GX_LoadTexPltt((u8 *) pTex + pTex->mPlttInfo.mOfsPlttData, (pTex->mPlttInfo.mVramKey & 0xffff) << 3,
+                   pTex->mPlttInfo.mSizePltt << 3);
+    pTex->mPlttInfo.mFlag |= 1;
+    if (execBeginEnd != 0) {
+        GX_EndLoadTexPltt();
+    }
+}
+
+NNSG3dPlttKey NNS_G3dPlttReleasePlttKey(NNSG3dResTex *pTex) {
+    NNSG3dPlttKey plttKey;
+
+    pTex->mPlttInfo.mFlag &= ~1;
+    plttKey = pTex->mPlttInfo.mVramKey;
+    pTex->mPlttInfo.mVramKey = 0;
+    return plttKey;
 }

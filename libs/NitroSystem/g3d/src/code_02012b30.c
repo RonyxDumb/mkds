@@ -6,7 +6,7 @@
 #include "code_0214a748.h"
 #include "ITCM/code_01ff8000.h"
 #include "ITCM/code_01ff9000.h"
-#include "code_020107e4.h"
+#include "kernel.h"
 #include "code_02010878.h"
 #include "code_02010998.h"
 #include "code_020109ac.h"

@@ -299,39 +299,9 @@ libs/NitroSystem/g3d/src/code_0200fe74.c:
     .bss        start:0x02170264 end:0x0217027c
 
 // provisional: file name and boundaries
-libs/NitroSystem/g3d/src/code_020107e4.c:
+libs/NitroSystem/g3d/src/kernel.c:
     complete
-    .text       start:0x020107e4 end:0x02010804
-
-// provisional: file name and boundaries
-libs/NitroSystem/g3d/src/code_02010804.c:
-    complete
-    .text       start:0x02010804 end:0x02010878
-
-// provisional: file name and boundaries
-libs/NitroSystem/g3d/src/code_02010878.c:
-    complete
-    .text       start:0x02010878 end:0x020108bc
-
-// provisional: file name and boundaries
-libs/NitroSystem/g3d/src/code_020108bc.c:
-    complete
-    .text       start:0x020108bc end:0x02010998
-
-// provisional: file name and boundaries
-libs/NitroSystem/g3d/src/code_02010998.c:
-    complete
-    .text       start:0x02010998 end:0x020109ac
-
-// provisional: file name and boundaries
-libs/NitroSystem/g3d/src/code_020109ac.c:
-    complete
-    .text       start:0x020109ac end:0x020109c4
-
-// provisional: file name and boundaries
-libs/NitroSystem/g3d/src/code_020109c4.c:
-    complete
-    .text       start:0x020109c4 end:0x02010c84
+    .text       start:0x020107e4 end:0x02010c84
 
 // provisional: file name and boundaries
 libs/NitroSystem/g3d/src/code_02010c84.c:
