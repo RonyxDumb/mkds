@@ -33,16 +33,24 @@
 #include "Main/Sound/surface_sound_ids.h"
 #include "code_02147cd8.h"
 
+u32 gPitchRiseDivisor = 0x8000;
+u32 gPitchFallDivisor = 0x28000;
+u32 gPitchRiseAboveLimitDivisor = 0x19000;
+const u8 gSurfaceSoundVolumeByRatio[20] = {0, 0, 0x1e, 0x28, 0x32, 0x3c, 0x46, 0x50, 0x5a, 0x64, 0x6e, 0x78, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0, 0, 0};
+s32 gPitchRiseFactorAboveLimit;
+s32 gPitchRiseFactor;
+s32 gPitchFallFactor;
+
 u32 InitKartSoundPitchFactors(void) {
     u32 quotient;
     u32 divisor;
 
-    divisor = *(const u32 *) &gPitchRiseDivisor;
+    divisor = gPitchRiseDivisor;
     quotient = FX_Div(0x1000, divisor);
-    divisor = *(const u32 *) &gPitchFallDivisor;
+    divisor = gPitchFallDivisor;
     gPitchRiseFactor = quotient;
     quotient = FX_Div(0x1000, divisor);
-    divisor = *(const u32 *) &gPitchRiseAboveLimitDivisor;
+    divisor = gPitchRiseAboveLimitDivisor;
     gPitchFallFactor = quotient;
     quotient = FX_Div(0x1000, divisor);
     gPitchRiseFactorAboveLimit = quotient;

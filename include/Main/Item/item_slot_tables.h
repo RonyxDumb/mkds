@@ -11,11 +11,8 @@ typedef struct ItemSlotTable {
     /* 04 */ u16 (*mRows)[0x12];
 } ItemSlotTable;
 
-extern ItemSlotTable gItemSlotForcedTable;
 
-extern ItemSlotTable gItemSlotCpuTable;
 
-extern ItemSlotTable gItemSlotHumanGhostPeerTable;
 
 // Element of the table behind gItemSlotRowRemaps, 0xe bytes.
 typedef struct ItemSlotRowRemap {
@@ -61,3 +58,12 @@ void FinishItemSlotAndStopSound(KartItems *slot);
 
 void StartKouraWBlockTimer(s32 isRaceStart);
 void StartThunderBlockTimer(s32 isRaceStart);
+
+extern const u8 gItemHitTypes[196];
+
+extern s32 gItemSlotPossibleItems[18];
+extern s32 gItemSlotSpinItems[18];
+extern u16 gItemWeightSums[18];
+extern ItemSlotTable gItemSlotForcedTable;
+extern ItemSlotTable gItemSlotHumanGhostPeerTable;
+extern ItemSlotTable gItemSlotCpuTable;

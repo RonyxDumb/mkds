@@ -1622,11 +1622,11 @@ void StopAllSeqPlayers(void) {
 }
 
 void SetSndHandleTrackVolume(NNSSndSeqPlayer **handle, u32 volume) {
-    NNS_SndPlayerSetTrackVolume(handle, data_0216cb20, (u8) volume);
+    NNS_SndPlayerSetTrackVolume(handle, gSeqTrackMask, (u8) volume);
 }
 
 void SetSndHandleTrackPitch(NNSSndSeqPlayer **handle, u32 pitch) {
-    NNS_SndPlayerSetTrackPitch(handle, data_0216cb20, pitch);
+    NNS_SndPlayerSetTrackPitch(handle, gSeqTrackMask, pitch);
 }
 
 // Starts sound a on the shared handle unless one was already started this frame.
@@ -1795,7 +1795,7 @@ void UpdateMissionRunMSselSounds(s32 stepId) {
         }
         NNS_SndArcPlayerStartSeqArc(seqHandle, 4, 0);
         if (*seqHandle != NULL) {
-            NNS_SndPlayerSetTrackVolume(seqHandle, data_0216cb20, trackVolume & 0xff);
+            NNS_SndPlayerSetTrackVolume(seqHandle, gSeqTrackMask, trackVolume & 0xff);
         }
         data_0217c79c++;
         return;

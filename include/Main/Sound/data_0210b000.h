@@ -14,7 +14,6 @@ typedef struct SoundDistanceSquaredChange {
     /* 0c */ u32 mShift;
 } SoundDistanceSquaredChange;
 
-extern SoundStartParams gSoundStartParamsDefault;
 #include "Main/Sound/code_0210b760.h"
 #include "Main/Sound/kart_surface_sound.h"
 #include "Main/Sound/map_object_sound_counter.h"

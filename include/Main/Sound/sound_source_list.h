@@ -81,3 +81,5 @@ void RefreshSoundSourceUpdateList(SoundSource *source);
 void StopPlayingSoundSeq(PlayingSound *sound, u32 fadeSteps);
 void UnlinkSoundSourceSounds(SoundSource *source);
 void ItemObjectInitAndRegisterSoundSource(SoundSource *source, Vec3 *positionSource);
+
+extern void (*gStartSoundSeqArcTable[1])(NNSSndSeqPlayer **handle, u32 seqArcNo, u32 soundId, u32 priority);

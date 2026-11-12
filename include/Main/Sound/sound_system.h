@@ -28,3 +28,8 @@ unsigned int GetSoundFadeSteps(void);
 void SetSoundFadeSteps(unsigned int fadeSteps);
 BOOL IsFileSndArcOpen(void);
 void SetFileSndArcOpen(unsigned int flag);
+
+extern u16 gSeqTrackMask;
+extern s32 gSoundOutputEffectType;
+extern s32 gSceneSeqVolume;
+extern u32 gSoundFadeSteps;

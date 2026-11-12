@@ -14,7 +14,6 @@ typedef struct KartSoundQueue {
     /* 6c */ s32 mDelayFrames;
 } KartSoundQueue;
 
-extern KartSoundQueue gKartSoundQueue;
 
 void StartKartLowSpeedTurnSound(Kart *kart, s32 withSurfaceSound, s32 surfaceKind, s32 surfaceVariant);
 void StartKartSurfaceSoundWhileRequested(Kart *kart, s32 entryIndex, s32 surfaceKind, s32 surfaceVariant,

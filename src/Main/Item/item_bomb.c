@@ -65,6 +65,20 @@
 #include "fx_mtx43.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 
+const Vec3 gItemBombState2StartScale = {0x1000, 0x1000, 0x1000};
+const u16 data_02159f18 = 1;
+StateCallbacks gItemBombStateTable[4] = {{(UnkFunc *) ItemBombState0ReturnArgument, UpdateItemBombState0}, {(UnkFunc *) ItemBombState1ReturnArgument, UpdateItemBombState1}, {EnterItemBombState2, UpdateItemBombState2}, {NULL, NULL}};
+const u16 data_02159f20 = 8;
+const u16 data_02159f24 = 4;
+const u32 gItemObjectDistanceSquaredMask = 0x3fffffe0;
+const u16 data_02159f1c = 2;
+const u16 gItemBombNoOwnerBit = 0x8000;
+s32 gItemBombState2MaxRadiusSquared;
+s32 gItemBombTimerLimit;
+s32 gItemBombState2InverseLimit;
+s32 gItemBombState2ScaleLimit;
+s32 gItemBombState2ScaleStep;
+
 // Reset hook of the bomb kind.
 void ResetItemBomb(ItemBomb *bomb) {
     u32 initialDistanceSquared;

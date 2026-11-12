@@ -12,6 +12,8 @@
 #include "Main/Item/code_021035ac.h"
 #include "Main/Sound/surface_sound_ids.h"
 
+SoundStartParams gBalloonSoundStartParams = {0x154, NULL, 2, 0};
+
 void ResetMapObjectSoundCounter(void) {
     gMapObjectSoundCounter = 0;
 }

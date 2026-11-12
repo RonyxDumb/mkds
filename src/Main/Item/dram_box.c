@@ -40,10 +40,13 @@
 #include "01/code_02187d14.h" // gItemFBoxRotation
 #include "Main/Sound/data_0216c000.h"
 
+const MapObjectKindData gMissionRunBoxKindData = {NULL, NULL, 5, 0x190000, 0x64000, 0xaf000, NULL, 1, 1, 0, 0, 0, 0, 0, 0, 0};
+StateCallbacks gDramStateTable[6] = {{(UnkFunc *) DramState0ReturnArgument, UpdateDramState0}, {NULL, NULL}, {EnterDramState2, UpdateDramState2}, {(UnkFunc *) DramState3ReturnArgument, UpdateDramState3}, {EnterDramState4, UpdateDramState4}, {EnterDramState5, UpdateDramState5}};
+
 #pragma thumb on
 
 void CreateDram(void) {
-    CreateNsbmd(&gDram, FindCourseMapObjFile(gDramNsbmdName), NULL);
+    CreateNsbmd(&gDram, FindCourseMapObjFile("dram.nsbmd"), NULL);
     SetNsbmdPolygonIdLightEmiAll(gDram, 0x3f, 2, 0x294a);
 }
 

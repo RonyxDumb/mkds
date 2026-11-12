@@ -40,6 +40,13 @@
 #include "Main/Item/item_pool.h"
 #include "code_02147cd8.h"
 
+void (*gItemInUseAdvanceTable[5])(ItemInUse *) = {NULL, AdvanceItemInUseOne, AdvanceItemInUseOneWithOrientation,
+                                                  AdvanceItemInUseTrail, AdvanceItemInUseCircle};
+void (*gItemInUseRemoveTable[5])(ItemInUse *, s32, ItemObject *) = {
+    NULL, RemoveItemInUseOne, RemoveItemInUseOne, RemoveItemInUseTrail, RemoveItemInUseCircle};
+void (*gItemInUseStartTable[5])(ItemInUse *) = {NULL, StartItemInUseOne, StartItemInUseOneWithOrientation,
+                                                StartItemInUseTrail, StartItemInUseCircle};
+
 BOOL CopyKartToItemInUse(ItemInUse *itemInUse) {
     Kart *kart;
     Vec3 scale;
@@ -70,7 +77,7 @@ BOOL CopyKartToItemInUse(ItemInUse *itemInUse) {
 }
 
 void StartItemInUse(ItemInUse *itemInUse, HeldItem *heldItem) {
-    void (*startFunc)(void *);
+    void (*startFunc)(ItemInUse *);
     s32 useKind;
     s32 itemInfoIndex;
     void (*useHook)(struct ItemInUse *, struct HeldItem *);
@@ -399,8 +406,7 @@ void RemoveItemInUseObject(ItemInUse *itemInUse, ItemObject *object) {
     objectCount = itemInUse->mObjectCount;
     for (objectIndex = 0; objectIndex < objectCount; objectIndex++) {
         if (itemInUse->mObjects[objectIndex] == target) {
-            ((void (*)(void *, s32, ItemObject *))((void **) gItemInUseRemoveTable)[itemInUse->mUseKind])(
-                itemInUse, objectIndex, target);
+            gItemInUseRemoveTable[itemInUse->mUseKind](itemInUse, objectIndex, target);
             if (itemInUse->mObjectCount != 0) {
                 return;
             }

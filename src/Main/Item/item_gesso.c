@@ -31,6 +31,9 @@
 #include "Main/Item/bouncing_item_box.h"
 #include "Main/System/heap_call.h"
 
+const ItemGessoStep gItemGessoSteps[17] = {{0, 0x3800, 0xccd, 0xeb8, 2, 0x10}, {0, -8192, 0x19a, 0xf85, 8, 0xa}, {0, 0x3800, 0x800, 0x1000, 0xa, 6}, {0, 0, 0x1000, 0, 0, 0xa}, {0, -20480, 0x1000, 0x1000, 3, 0}, {0, -20480, 0x1000, 0xee1, 0, 0xa}, {-6963, 0x19a, 0xe66, 0xe66, 2, 7}, {0x333, -9011, 0x2e1, 0xf33, 4, 5}, {0x3000, 0x1800, 0xccd, 0xe66, 3, 8}, {-819, -9421, 0x2e1, 0xf85, 4, 6}, {-6144, 0x1000, 0xccd, 0xdec, 3, 3}, {0, -8192, 0x148, 0xf33, 4, 5}, {0, -5734, 0, 0xe66, 2, 2}, {0, -5734, 0, 0xe66, 2, 2}, {0, 0x2666, 0x666, 0xe66, 3, 0xa}, {0, -410, 0x666, 0x99a, 6, 0xa}, {0, 0x3000, 0x800, 0x1000, 6, 6}};
+s32 gItemGessoFrameCount;
+
 void GessoMarkItemInUseAsActiveItem(ItemInUse *itemInUse) {
     itemInUse->mIsActiveItem = TRUE;
 }
@@ -49,7 +52,7 @@ void ResetItemGesso(ItemGesso *gesso) {
 }
 
 BOOL SetupNextItemGessoStep(ItemGesso *gesso) {
-    ItemGessoStep *step;
+    const ItemGessoStep *step;
     s32 stepIndex;
     BOOL fadesOut;
 
@@ -340,7 +343,7 @@ void InitItemGessoFromData(ItemGesso *gesso) {
 #pragma thumb on
 void ComputeItemGessoFrameCount(void) {
     s32 stepIndex;
-    ItemGessoStep *step;
+    const ItemGessoStep *step;
 
     gItemGessoFrameCount = 0xf;
     for (stepIndex = 0, step = gItemGessoSteps; stepIndex < 0x11; stepIndex++) {

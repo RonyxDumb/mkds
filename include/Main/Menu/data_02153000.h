@@ -82,14 +82,11 @@ extern const char *gResultsBattleVictoryMBnllName[][9];
 
 extern u16 data_02153f00[][4];
 
-extern SoundRow gSoundRowTable[];
 
 // Objects whose layout isn't known yet.
 extern s32 gCourseMessageIndexTable[];
 
-extern u8 gSurfaceSoundVolumeByRatio[];
 
-extern u32 gCharacterSeqPairNoTable[];
 
 extern u32 gKartMessageIndexTable[];
 

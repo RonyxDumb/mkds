@@ -38,6 +38,10 @@
 #include "Main/Race/race_clock.h"
 #include "Main/Kart/karts.h"
 
+const Vec3 gItemTeresaItemOffsets[4] = {{0x29, 0x47b, 0x29}, {-1556, 0x19a, 0x29}, {0x148, 0x75c, 0x29}, {-737, -819, 0x29}};
+const Vec3 gItemTeresaPathPoints[11] = {{0x8000, 0x1800, 0x4b000}, {0x6000, 0x1800, 0x3e000}, {0x2000, 0xccd, 0x26000}, {-12288, 0xa66, 0x22000}, {-32768, 0x800, 0x24000}, {-12288, 0x8cd, 0x27000}, {0x2000, 0x99a, 0x26000}, {0xc000, 0xccd, 0x26000}, {0x14000, 0x1000, 0x2d000}, {0x20000, 0x1000, 0x41000}, {0x20000, 0x1000, 0x4b000}};
+StateCallbacks gItemTeresaStateTable[7] = {{EnterItemTeresaState0, UpdateItemTeresaState0}, {EnterItemTeresaState1, UpdateItemTeresaState1}, {EnterItemTeresaState2, UpdateItemTeresaState2}, {EnterItemTeresaState3, UpdateItemTeresaState3}, {EnterItemTeresaState4, UpdateItemTeresaState4}, {EnterItemTeresaState5, UpdateItemTeresaState5}, {(UnkFunc *) EnterItemTeresaState6, UpdateItemTeresaState6}};
+
 void TeresaMarkItemInUseAsActiveItem(ItemInUse *itemInUse) {
     itemInUse->mIsActiveItem = TRUE;
 }

@@ -31,6 +31,17 @@
 #include "Main/MapObjects/data_0217a000.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "01/Race/race_hud_coin_cells.h"
+#include "Main/Sound/sound_system.h"
+
+u16 gLapProgressSoundIds[2] = {0x7e, 0x7c};
+const s32 gLapProgressSoundGapDividends[2] = {0x14000, 0x10000};
+s32 gUseKingTeresaSeqVolume;
+s32 gKartNearSeqVolumeFactor;
+s32 gKingTeresaStateFrames;
+s32 gInitialVolumePerFrame;
+u32 gThunderShrinkSoundCounter;
+s32 gEmblemSoundValue;
+s32 gKingTeresaStateLastFrame;
 
 void SetEmblemSoundValue(u32 value) {
     gEmblemSoundValue = value;

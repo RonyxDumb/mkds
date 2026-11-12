@@ -42,6 +42,11 @@
 #include "code_0212df7c.h"
 #include "ITCM/collision_slots.h"
 
+u32 gPooledMapObjectNextIndex;
+struct MapObject **gPooledMapObjects;
+s32 gPooledMapObjectCount;
+struct CourseMapRow gPooledMapObjectRow;
+
 const u16 gBouncingItemBoxUntilCourseHitBit = 0x2000;
 
 const ItemInfo gItemInfoKiller = {1, 1, 0xd, 1, 0, 0, StartItemKiller};

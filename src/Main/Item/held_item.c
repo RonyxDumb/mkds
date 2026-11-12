@@ -23,6 +23,10 @@
 #include "Main/Item/item_f_box.h"
 #include "Main/Kart/karts.h"
 
+const u16 gItemObjectPendingUpdateBit = 0x8000;
+const ItemSpreadRow gItemSpreadRows[3] = {{{{0x1000, 0}, {0, 0}, {0, 0}}}, {{{-2048, 0xddb}, {-2048, -3547}, {0, 0}}}, {{{0x1000, 0}, {-2048, 0xddb}, {-2048, -3547}}}};
+s32 gItemPointLinksByIndex[4];
+
 // Runs the countdown that starts the held objects, then counts the use timer down and, when it ends, takes one object
 // off the held item.
 void UpdateHeldItem(HeldItem *rec) {
@@ -176,7 +180,7 @@ void TakeHeldItemObjects(HeldItem *rec) {
     s32 slotIndex;
     s32 count;
     RandomState64 *generator;
-    ItemSpreadRow *row;
+    const ItemSpreadRow *row;
     ItemObject *object;
     s32 kind = rec->mItemInfoIndex;
     s32 poolIndex;
@@ -288,7 +292,7 @@ s32 GetItemPointLinkByIndex(s32 idx) {
     return gItemPointLinksByIndex[idx];
 }
 
-void InitSegmentPoints(SegmentPoints *segmentPoints, Vec3 *points, s32 scale) {
+void InitSegmentPoints(SegmentPoints *segmentPoints, const Vec3 *points, s32 scale) {
     s32 pointIndex;
 
     for (pointIndex = 0; pointIndex < 4; pointIndex++) {
@@ -299,7 +303,7 @@ void InitSegmentPoints(SegmentPoints *segmentPoints, Vec3 *points, s32 scale) {
     InitSegmentProgress(&segmentPoints->mSegmentProgress, 1, segmentPoints->mPointPointers, scale);
 }
 
-s32 PushSegmentPoint(SegmentPoints *segmentPoints, Vec3 *point) {
+s32 PushSegmentPoint(SegmentPoints *segmentPoints, const Vec3 *point) {
     Vec3 *first;
 
     segmentPoints->mPoints[segmentPoints->mWriteIndex] = *point;

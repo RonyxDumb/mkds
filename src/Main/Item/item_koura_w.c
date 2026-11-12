@@ -85,6 +85,15 @@
 #include "Main/Race/race_clock.h"
 #include "fx_mtx43.h"
 
+Vec3 gKouraWVec3UnitY = {0, 0x1000, 0};
+StateCallbacks gItemKouraWStateTable[8] = {{NULL, UpdateItemKouraWState0}, {NULL, UpdateItemKouraWState1}, {NULL, UpdateItemKouraWState2}, {EnterItemKouraWState3, UpdateItemKouraWState3}, {EnterItemKouraWState4, UpdateItemKouraWState4}, {EnterItemKouraWState5, UpdateItemKouraWState5}, {EnterItemKouraWState6, UpdateItemKouraWState6}, {EnterItemKouraWState7, UpdateItemKouraWState7}};
+volatile s32 gKouraWState7MaxRadiusSquared;
+Nsbmd *gKouraW;
+s32 gKouraWState7ScaleStep;
+struct ItemObject **gCollidedItemObjects;
+s32 gKouraWState7ScaleLimit;
+s32 gKouraWState7InverseLimit;
+
 void MarkItemInUseAsActiveItem(ItemInUse *itemInUse) {
     itemInUse->mIsActiveItem = TRUE;
 }

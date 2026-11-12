@@ -7,8 +7,8 @@ struct MapObjectSound;
 typedef struct SoundStartParams SoundStartParams;
 
 #include "Main/Kart/kart_drift.h" // Kart
+#include "Main/Sound/sound_source_list.h"
 
-extern SoundStartParams gBalloonSoundStartParams;
 
 void InitSceneSoundsNop(void);
 void StartIronBallSpeedSound(struct MapObjectSound *mapSound, s32 fixedValue);
@@ -19,3 +19,5 @@ void QueueShine16Sound(struct MapObjectSound *mapSound, s32 soundId);
 void QueueShine16SoundWhileRequested(struct MapObjectSound *mapSound, s32 soundId);
 void StartMapObjectCounterSound(void *mapSound, s32 baseSoundId);
 void ResetMapObjectSoundCounter(void);
+
+extern SoundStartParams gBalloonSoundStartParams;

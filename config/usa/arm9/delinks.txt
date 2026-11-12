@@ -567,11 +567,15 @@ libs/NitroSystem/g2d/src/code_020245a4.c:
 src/Main/Sound/kart_sound.c:
     complete
     .text       start:0x02024974 end:0x0202511c
+    .rodata     start:0x02153158 end:0x0215316c
+    .data       start:0x02161adc end:0x02161ae8
+    .bss        start:0x02174de8 end:0x02174df4
 
 // provisional: file name and boundaries
 src/Main/Sound/sound_row.c:
     complete
     .text       start:0x0202511c end:0x0202578c
+    .rodata     start:0x0215316c end:0x02153240
 
 // provisional: file name and boundaries
 src/Main/Graphics/cell_file_set.c:
@@ -617,6 +621,7 @@ src/Main/Kart/kart_table_index.c:
 src/Main/Sound/character_seq_pair.c:
     complete
     .text       start:0x02025eb0 end:0x02025ebc
+    .rodata     start:0x021532a8 end:0x021532dc
 
 // provisional: file name and boundaries
 src/Main/System/interpolation_value.c:
@@ -3240,6 +3245,7 @@ src/Main/MapObjects/pushed_object_states_init.c:
 src/Main/Item/item_link_following.c:
     complete
     .text       start:0x020ec8bc end:0x020ed578
+    .data       start:0x0216c40c end:0x0216c5ec
 
 // provisional: file name and boundaries
 src/Main/Item/item_model.c:
@@ -3250,11 +3256,13 @@ src/Main/Item/item_model.c:
 src/Main/Item/item_in_use.c:
     complete
     .text       start:0x020ed5c0 end:0x020ee684
+    .data       start:0x0216c5ec end:0x0216c628
 
 // provisional: file name and boundaries
 src/Main/Item/item_pool.c:
     complete
     .text       start:0x020ee684 end:0x020f1104
+    .rodata     start:0x021595a0 end:0x02159618
 
 // provisional: file name and boundaries
 src/Main/Item/item_koura_r_kart_items.c:
@@ -3290,6 +3298,8 @@ src/Main/Item/item_object_bouncing.c:
 src/Main/Item/held_item.c:
     complete
     .text       start:0x020f2dac end:0x020f49bc
+    .rodata     start:0x02159618 end:0x02159664
+    .bss        start:0x0217bc18 end:0x0217bc28
 
 // provisional: file name and boundaries
 src/Main/Item/item_kinoko.c:
@@ -3300,6 +3310,9 @@ src/Main/Item/item_kinoko.c:
 src/Main/Item/item_slot_tables.c:
     complete
     .text       start:0x020f7c90 end:0x020f8d9c
+    .rodata     start:0x02159b78 end:0x02159c3c
+    .data       start:0x0216c660 end:0x0216c678
+    .bss        start:0x0217bc44 end:0x0217bd10
 
 // provisional: file name and boundaries
 src/Main/Item/item_object_init.c:
@@ -3320,11 +3333,15 @@ src/Main/Item/entry_kart_sound.c:
 src/Main/Item/item_object.c:
     complete
     .text       start:0x020f8e78 end:0x020f9c6c
+    .rodata     start:0x02159ca0 end:0x02159cac
+    .data       start:0x0216c678 end:0x0216c688
 
 // provisional: file name and boundaries
 src/Main/Item/item_koura_w.c:
     complete
     .text       start:0x020f9c6c end:0x020fcb3c
+    .data       start:0x0216c688 end:0x0216c6d4
+    .bss        start:0x0217bd10 end:0x0217bd28
 
 // provisional: file name and boundaries
 src/Main/Item/item_koura_w_far.c:
@@ -3345,6 +3362,9 @@ src/Main/Item/item_koura_w_kart_items.c:
 src/Main/Item/item_bomb.c:
     complete
     .text       start:0x020fd264 end:0x020fe450
+    .rodata     start:0x02159f18 end:0x02159f3c
+    .data       start:0x0216c6f4 end:0x0216c714
+    .bss        start:0x0217bd28 end:0x0217bd3c
 
 // provisional: file name and boundaries
 src/Main/Item/item_links.c:
@@ -3355,6 +3375,7 @@ src/Main/Item/item_links.c:
 src/Main/Item/item_f_box.c:
     complete
     .text       start:0x020fe4b4 end:0x020ff334
+    .data       start:0x0216c714 end:0x0216c720
 
 // provisional: file name and boundaries
 src/Main/Item/item_f_box_park.c:
@@ -3365,6 +3386,8 @@ src/Main/Item/item_f_box_park.c:
 src/Main/Item/dram_box.c:
     complete
     .text       start:0x020ff344 end:0x020ffc08
+    .rodata     start:0x0215a068 end:0x0215a0a8
+    .data       start:0x0216c720 end:0x0216c75c
 
 // provisional: file name and boundaries
 src/Main/MapObjects/dram.c:
@@ -3395,22 +3418,30 @@ src/Main/MapObjects/map_object_kind_update_list.c:
 src/Main/Item/item_teresa_offset.c:
     complete
     .text       start:0x021001a0 end:0x02102674
+    .rodata     start:0x0215a190 end:0x0215a244
+    .data       start:0x0216c75c end:0x0216c794
 
 // provisional: file name and boundaries
 src/Main/Item/item_gesso.c:
     complete
     .text       start:0x02102674 end:0x021031f4
+    .rodata     start:0x0215a3b0 end:0x0215a47c
+    .bss        start:0x0217c614 end:0x0217c618
 
 // provisional: file name and boundaries
 src/Main/Item/bouncing_item_box.c:
     complete
     .text       start:0x021031f4 end:0x02104a0c
+    .rodata     start:0x0215a47c end:0x0215a4c0
+    .data       start:0x0216c794 end:0x0216c7b4
+    .bss        start:0x0217c638 end:0x0217c6c4
 
 // provisional: file name and boundaries
 src/Main/Item/pooled_item_box.c:
     complete
     .text       start:0x02104a0c end:0x021052f0
     .rodata     start:0x0215a584 end:0x0215a64c
+    .bss        start:0x0217c704 end:0x0217c74c
 
 // provisional: file name and boundaries
 src/Main/Item/pooled_map_object.c:
@@ -3458,6 +3489,7 @@ src/Main/Sound/sound_source_init.c:
 src/Main/Sound/sound_falloffs_init.c:
     complete
     .text       start:0x0210912c end:0x02109178
+    .bss        start:0x0217c8fc end:0x0217ca4c
 
 // provisional: file name and boundaries
 src/Main/Sound/sound_return_argument.c:
@@ -3474,11 +3506,13 @@ src/Main/Sound/sound_falloffs.c:
 src/Main/Sound/kart_full_volume_sort.c:
     complete
     .text       start:0x0210a578 end:0x0210a588
+    .data       start:0x0216ca20 end:0x0216ca24
 
 // provisional: file name and boundaries
 src/Main/Sound/kart_request_sort.c:
     complete
     .text       start:0x0210a588 end:0x0210a598
+    .data       start:0x0216ca24 end:0x0216ca28
 
 // provisional: file name and boundaries
 src/Main/Sound/kart_sound_callbacks.c:
@@ -3504,6 +3538,7 @@ src/Main/Sound/kart_track_params_reset.c:
 src/Main/Sound/kart_surface_sound.c:
     complete
     .text       start:0x0210a67c end:0x0210b708
+    .bss        start:0x0217cc90 end:0x0217cd10
 
 // provisional: file name and boundaries
 src/Main/Sound/snd_handle_start.c:
@@ -3519,6 +3554,7 @@ src/Main/Sound/sound_distance_change_reset.c:
 src/Main/Sound/map_object_sound_counter.c:
     complete
     .text       start:0x0210b870 end:0x0210bad4
+    .data       start:0x0216ca28 end:0x0216ca38
 
 // provisional: file name and boundaries
 src/Main/Sound/map_start_sound_full_volume.c:
@@ -3534,6 +3570,8 @@ src/Main/Sound/shine16_track_params.c:
 src/Main/Sound/surface_sound_ids.c:
     complete
     .text       start:0x0210bafc end:0x0210bce0
+    .data       start:0x0216ca48 end:0x0216cafc
+    .bss        start:0x0217cd10 end:0x0217cff0
 
 // provisional: file name and boundaries
 src/Main/Sound/three_words_clear.c:
@@ -3544,6 +3582,7 @@ src/Main/Sound/three_words_clear.c:
 src/Main/Sound/sound_source_list.c:
     complete
     .text       start:0x0210bcf4 end:0x0210c1b0
+    .data       start:0x0216cafc end:0x0216cb00
 
 // provisional: file name and boundaries
 src/Main/Sound/playing_sounds.c:
@@ -3564,6 +3603,7 @@ src/Main/Sound/scene_players_release.c:
 src/Main/Sound/sound_system.c:
     complete
     .text       start:0x0210d740 end:0x0210d9a0
+    .data       start:0x0216cb00 end:0x0216cb10
 
 // provisional: file name and boundaries
 src/Main/Sound/sound_mode.c:
@@ -3595,6 +3635,7 @@ src/Main/Sound/sound_set_load.c:
     complete
     .text       start:0x0210e33c end:0x0210ef50
     .rodata     start:0x0215c380 end:0x0215c3a4
+    .data       start:0x0216cb10 end:0x0216cb2c
 
 // provisional: file name and boundaries
 src/Main/Sound/sound_file_id_list.c:
@@ -3648,7 +3689,9 @@ src/Main/Scene/title_no_input_frame_limit.c:
 src/Main/Sound/seq_queue.c:
     complete
     .text       start:0x0210f744 end:0x021108bc
-    .data       start:0x0216cb84 end:0x0216cba0
+    .rodata     start:0x0215c3a4 end:0x0215c3ac
+    .data       start:0x0216cb80 end:0x0216cba0
+    .bss        start:0x0217d1c8 end:0x0217d1e4
 
 // provisional: file name and boundaries
 src/Main/Sound/race_end_seq.c:
@@ -3659,6 +3702,7 @@ src/Main/Sound/race_end_seq.c:
 src/Main/Sound/seq_row.c:
     complete
     .text       start:0x02111118 end:0x0211130c
+    .data       start:0x0216cba0 end:0x0216cc48
 
 // provisional: file name and boundaries
 src/Main/Menu/record_scene.c:

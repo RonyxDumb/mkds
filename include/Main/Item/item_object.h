@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "Main/Item/code_020f6be8.h"
+#include "Main/Sound/sound_source_list.h"
 
 BOOL TryFadeOutDeflectedItemObject(ItemObject *item, Vec3 *normal);
 void StartItemObjectSoundIfNear(ItemObject *item, s32 soundId);
@@ -20,3 +21,6 @@ typedef struct ItemObject ItemObject;
 void ClearItemObjectCollisionBits(ItemObject *item, unsigned int clearBits);
 
 void FreeItemObjectCollisionSlot(ItemObject *itemObject);
+
+extern const Vec3 gItemVec3UnitY;
+extern SoundStartParams gSoundStartParamsDefault;

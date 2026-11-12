@@ -19,6 +19,8 @@
 #include "Main/Menu/second_menu_scene.h"
 #include "01/code_02187d14.h" // gItemFBoxRotation
 
+Vec3 gItemFBoxRotationAxis = {0x93d, 0x93d, 0x93d};
+
 #pragma thumb off
 
 u8 *CopyItemFBoxData(u8 *cursor, ItemFBox *fbox, void *toData) {

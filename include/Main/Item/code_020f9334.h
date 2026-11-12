@@ -15,7 +15,7 @@ void ResetItemObjectAtPos(ItemObject *item, s32 kind, u16 ownerAndFlags, Vec3 *p
 // Releases what the object holds: the collision body, the model entry when flag 0x400000 is set, then calls the
 // kind's release hook. Only ReleaseItemPoolObject calls it.
 void ReleaseItemObject(ItemObject *item);
-void SetItemObjectPlacement(ItemObject *itemParam, Vec3 *prevPos, Vec3 *normal, CourseColorBlend *colorBlend,
+void SetItemObjectPlacement(ItemObject *itemParam, Vec3 *prevPos, const Vec3 *normal, CourseColorBlend *colorBlend,
                             s32 flag);
 s32 DoesItemObjectHurtKart(ItemObject *item);
 BOOL IsItemObjectOverlappingKart(ItemObject *item, Kart *kart);

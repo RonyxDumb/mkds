@@ -21,6 +21,7 @@
 #include "Main/Sound/playing_sound_handle_reset.h"
 #include "Main/Sound/three_words_clear.h"
 #include "code_0201750c.h"
+#include "Main/Sound/sound_system.h"
 
 // Builds the pool of sounds, resets each one, empties the three source lists and zeroes the two pass counters.
 void InitPlayingSoundPool(PlayingSound *sounds, s32 count) {
@@ -173,8 +174,8 @@ void StartPlayingSoundSeqArc(u32 unused, PlayingSound *sound, u32 priority) {
 
 // Per-entry slot of a source (offset 0x30): sets track volume and pitch of a started sound.
 void SetPlayingSoundTrackParams(u32 unused, PlayingSound *sound) {
-    NNS_SndPlayerSetTrackVolume(&sound->mSeqPlayer, data_0216cb20, sound->mVolume);
-    NNS_SndPlayerSetTrackPitch(&sound->mSeqPlayer, data_0216cb20, sound->mPitch);
+    NNS_SndPlayerSetTrackVolume(&sound->mSeqPlayer, gSeqTrackMask, sound->mVolume);
+    NNS_SndPlayerSetTrackPitch(&sound->mSeqPlayer, gSeqTrackMask, sound->mPitch);
 }
 
 void StartSoundSeqArc(NNSSndSeqPlayer **handle, u32 seqArcNo, u32 soundId, u32 priority) {

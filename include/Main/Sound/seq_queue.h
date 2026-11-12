@@ -96,3 +96,13 @@ void UpdateSeqQueue(void);
 void AddSeqQueueEntry(u32 pairNo, u32 pairSide);
 
 void SetEmblemSoundValue(unsigned int value);
+
+extern u16 gLapProgressSoundIds[2];
+extern const s32 gLapProgressSoundGapDividends[2];
+extern s32 gUseKingTeresaSeqVolume;
+extern s32 gKartNearSeqVolumeFactor;
+extern s32 gKingTeresaStateFrames;
+extern s32 gInitialVolumePerFrame;
+extern u32 gThunderShrinkSoundCounter;
+extern s32 gEmblemSoundValue;
+extern s32 gKingTeresaStateLastFrame;

@@ -413,8 +413,5 @@ extern u8 data_usa_02174e80[];
 
 
  // first word of the cell transfer state manager
-extern s32 gPitchRiseFactorAboveLimit;
 
-extern s32 gPitchFallFactor;
 
-extern s32 gPitchRiseFactor;

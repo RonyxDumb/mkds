@@ -71,7 +71,6 @@ typedef struct ItemKouraW ItemKouraW;
 #include "Main/MapObjects/woodbox.h"
 #include "Main/Kart/kart_drift.h"
 
-extern Nsbmd *gKouraW;
 
 void CreateItemObjectCollisionSlotExact(ItemObject *item);
 void CreateItemObjectCollisionSlot(ItemObject *item);
@@ -127,3 +126,17 @@ void SetItemKouraWKartItemsAndStateIfNone(ItemKouraW *item, s32 kartIndex);
 void InitItemKouraWCommon(ItemKouraW *item);
 void ResetItemKouraW(ItemKouraW *item);
 void MarkItemInUseAsActiveItem(ItemInUse *itemInUse);
+
+extern Vec3 gKouraWVec3UnitY;
+extern Vec3 gCourseMapItemVec3UnitY;
+
+extern char gKouraWNsbmdName[];
+
+extern char gKouraWNsbtxName[];
+extern StateCallbacks gItemKouraWStateTable[8];
+extern volatile s32 gKouraWState7MaxRadiusSquared;
+extern Nsbmd *gKouraW;
+extern s32 gKouraWState7ScaleStep;
+extern struct ItemObject **gCollidedItemObjects;
+extern s32 gKouraWState7ScaleLimit;
+extern s32 gKouraWState7InverseLimit;

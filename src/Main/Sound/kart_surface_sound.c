@@ -31,6 +31,12 @@
 #include "code_020172d0.h"
 #include "code_02147cd8.h"
 
+s32 gKartPitchPerWaterDepth;
+vu32 gSoundPitchSwingAngle;
+s32 gSoundPitchSwing;
+KartSoundQueue gKartSoundQueue;
+s32 gKouraPitchPerWaterDepth;
+
 u32 InitSoundPitchSwing(void) {
     u32 value;
     u32 divisor;

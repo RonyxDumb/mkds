@@ -31,6 +31,15 @@
 #include "Main/Item/code_020f6be8.h"
 #include "code_02147cd8.h"
 
+s32 gItemSlotSpinItems[18];
+s32 gItemSlotPossibleItems[18];
+u16 gItemWeightSums[18];
+ItemSlotTable gItemSlotForcedTable;
+ItemSlotTable gItemSlotCpuTable;
+ItemSlotTable gItemSlotHumanGhostPeerTable;
+
+const u8 gItemHitTypes[196] = {2, 2, 2, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 2, 2, 2, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 2, 2, 1, 1, 1, 2, 0, 1, 0, 2, 0, 0, 0, 2, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 2, 2, 2, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 1, 1, 2, 0, 1, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2};
+
 static inline u32 ItemSlotNextRandomBelow(RandomState64 *random, u32 limit) {
     random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
     if (limit == 0) {
@@ -494,7 +503,7 @@ void CreateItemSlotTables(void) {
     s32 *entry;
     enum { K1 } compactIndex;
 
-    data = FindMainRaceOrMainEffectFile(gItemSlotListDatName);
+    data = FindMainRaceOrMainEffectFile("Item/ItemSlotList.dat");
     switch (gRaceSetup->mMode) {
         case MODE_GRAND_PRIX:
         case MODE_TIME_ATTACK:

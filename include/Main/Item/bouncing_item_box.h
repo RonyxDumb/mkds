@@ -17,11 +17,10 @@ typedef struct {
 } OrthoQuadModel;
 
 #include "Main/Item/code_021035ac.h"
+#include "code_021479b4.h"
 
 // The cream record; gOrthoQuadUseCreamEffect picks which of the two records is drawn.
-extern OrthoQuadModel gOrthoQuadCreamEffect;
 // GesoSumi: the screen overlay the Gesso item starts for a hit kart.
-extern OrthoQuadModel gOrthoQuadGesoSumi;
 
 void SetupItemGessoKarts(ItemGesso *gesso);
 void SetupOrthoQuadModel(OrthoQuadModel *quadModel, NsbmdModel *model);
@@ -45,3 +44,14 @@ void InitBouncingItemBoxMapObjects(void);
 OrthoQuadModel *ClearOrthoQuadCreamEffectPointer(void);
 
 u32 SkipOrthoQuadsHold(u32 kartIndex);
+
+extern const s32 gOrthoQuadTimersByIndex[4];
+extern const s32 gOrthoQuadTableScales[13];
+extern char gGesoSumiModelNsbmdName[16];
+extern char gGesoSumiTextureNsbmdName[16];
+
+extern s32 gOrthoQuadCount;
+extern u8 gOrthoQuadCells[8];
+extern OrthoQuadModel gOrthoQuadCreamEffect;
+extern OrthoQuadModel gOrthoQuadGesoSumi;
+extern MtxFx44 gOrthoQuadMatrix;

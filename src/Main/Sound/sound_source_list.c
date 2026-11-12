@@ -20,6 +20,9 @@
 #include "code_020172d0.h"
 #include "Main/Sound/three_words_clear.h"
 #include "code_0201750c.h"
+#include "Main/Sound/sound_system.h"
+
+void (*gStartSoundSeqArcTable[1])(NNSSndSeqPlayer **handle, u32 seqArcNo, u32 soundId, u32 priority) = {StartSoundSeqArc};
 
 void ItemObjectInitAndRegisterSoundSource(SoundSource *source, Vec3 *positionSource) {
     void *startFunction;
@@ -175,9 +178,9 @@ u32 StartOrUpdateSndHandleSound(u32 seqArcNo, u32 soundId, Vec3 *positionSource,
         priority = 0;
     }
     if (startsNewSound != 0) {
-        data_0216cb1c[0](handle, seqArcNo, soundId, priority);
+        gStartSoundSeqArcTable[0](handle, seqArcNo, soundId, priority);
     }
     NNS_SndPlayerSetVolume(handle, params.mVolume);
     NNS_SndPlayerSetPlayerPriority(handle, priority);
-    return NNS_SndPlayerSetTrackPan(handle, data_0216cb20, params.mPan);
+    return NNS_SndPlayerSetTrackPan(handle, gSeqTrackMask, params.mPan);
 }

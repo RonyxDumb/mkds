@@ -74,7 +74,6 @@ extern u16 data_0215cf4c[][4];
 
 extern u32 data_0215cf8c[][4];
 
-extern s32 gLapProgressSoundGapDividends[];
 
 extern u16 gRecordVSPageButtonPressedIndices[];
 

@@ -33,6 +33,9 @@
 #include "Main/Sound/data_0210b000.h"
 #include "Main/MapObjects/choropu_state.h"
 
+const Vec3 gItemVec3UnitY = {0, 0x1000, 0};
+SoundStartParams gSoundStartParamsDefault = {0, NULL, 1, 0};
+
 void FreeItemObjectCollisionSlot(ItemObject *itemObject) {
     if (itemObject->mCollisionSlotIndex == ~0u) {
     }
@@ -134,7 +137,7 @@ void ReleaseItemObject(ItemObject *item) {
     }
 }
 
-void SetItemObjectPlacement(ItemObject *itemParam, Vec3 *prevPos, Vec3 *normal, CourseColorBlend *colorBlend,
+void SetItemObjectPlacement(ItemObject *itemParam, Vec3 *prevPos, const Vec3 *normal, CourseColorBlend *colorBlend,
                             s32 flag) {
     ItemObject *item = itemParam;
     item->mPrevPos = *prevPos;

@@ -12,39 +12,22 @@ extern u16 data_021594e0;
 
 extern u8 data_02159578[];
 
-extern u16 gItemInUseThrowForwardBit;
 
-extern u16 gItemInUseDownBit;
 
-extern u16 gItemInUseAdvancedBit;
 
-extern u16 data_021595ac;
 
-extern u16 gKartItemsStartUseBit;
 
-extern u16 gKartItemsEndUseBit;
 
-extern u16 gKartItemsInUseBit;
 
-extern u16 gKartItemsHeldBit;
 
-extern u16 gKartItemsSlotBit;
 
-extern u16 gKartItemsThrowForwardBit;
 
-extern u16 gKartItemsDownBit;
 
-extern u16 gKartItemsKeyDownBit;
 
-extern u16 gKartItemsKeyReleasedBit;
 
-extern u16 data_usa_021595d4;
 
-extern Vec3 gKartItemsVec3UnitY;
 
-extern u32 gItemCollisionBitOrder[];
 
-extern u16 data_02159618;
 
 extern u16 data_0215969c;
 
@@ -126,32 +109,22 @@ extern u16 gItemObjectReleasePendingBit;
 
 extern u16 gItemObjectReleaseTimerPendingBit;
 
-extern u8 gItemHitTypes[];
 
-extern Vec3 gItemVec3UnitY;
 
 extern u16 gItemObjectOwnerExcludedBit;
 
 extern const u16 gItemObjectNoOwnerBit;
 
-extern Vec3 gCourseMapItemVec3UnitY;
 
 extern Vec3 gKouraWState7StartScale;
 
-extern u16 data_02159f18;
 
-extern u16 data_02159f1c;
 
-extern u16 data_02159f20;
 
-extern u16 data_02159f24;
 
-extern u16 gItemBombNoOwnerBit;
 
 extern u8 gItemBombVec3UnitY[];
 
 extern u16 gItemBombExcludedUntilCourseHitBit;
 
-extern u32 gItemObjectDistanceSquaredMask;
 
-extern Vec3 gItemBombState2StartScale;

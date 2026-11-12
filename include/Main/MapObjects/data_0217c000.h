@@ -53,7 +53,6 @@ extern NNSSndSeqPlayer *data_0217c840;
 
 extern struct NNSSndArc gOnMemorySndArc;
 
-extern PlayingSound data_0217c91c[12];
 
 extern u32 gRaceSoundKind;
 
@@ -61,42 +60,33 @@ extern u32 gPlayerVolumeTargets[];
 
 extern s32 gMapObjectSoundCounter;
 
-extern SurfaceSoundIdRow gSurfaceSoundIds[];
 
 extern s32 gOrthoQuadHoldFrameCount;
 
 extern s32 gOrthoQuadFrames;
 
-extern s32 gOrthoQuadCount;
 
-extern s32 gKartPitchPerWaterDepth;
 
-extern s32 gSoundPitchSwing;
 
-extern vu32 gSoundPitchSwingAngle;
 
-extern s32 gKouraPitchPerWaterDepth;
 
 extern u16 *gItemTeresaFrameScales;
 
-extern s32 gItemGessoFrameCount;
 
 extern OrthoQuad *gOrthoQuads;
 
-extern u16 data_0217c638;
+extern u16 gOrthoQuadKartIndex;
 
 // TRUE for the cream effect, FALSE for geso_sumi; chosen by the call that started the quads.
 extern BOOL gOrthoQuadUseCreamEffect;
 
 extern u16 gOrthoQuadFirstPolygonId;
 
-extern MtxFx44 gOrthoQuadMatrix;
 
 // Polygon alpha: 0x1f when the quads start, falls by 1 every second frame after the hold and ends them at 0.
 extern u16 gOrthoQuadAlpha;
 
 // One byte per row, one bit per column; marked when a quad is placed so later quads avoid the same cells.
-extern u8 gOrthoQuadCells[];
 
 extern u32 gBouncingItemBoxTimers[];
 
@@ -136,11 +126,8 @@ extern s32 gPlayerVolumeMasks[];
 
 extern u32 gPlayerVolumeSteps[];
 
-extern u32 gPooledMapObjectNextIndex;
 
-extern struct MapObject **gPooledMapObjects;
 
-extern s32 gPooledMapObjectCount;
 
 extern u16 gMissionRunMSselSeqIndex;
 

@@ -9,6 +9,7 @@
 #include "Main/Race/data_020f36d8.h"
 #include "Main/Item/pooled_map_object.h"
 #include "Main/MapObjects/choropu.h" // CollisionMapObject
+#include "Main/Menu/second_menu_scene.h"
 
 // Object of InitMissionRunBoxMapObject: 0x144 bytes.
 typedef struct MissionRunBox {
@@ -37,3 +38,6 @@ BOOL IsMissionRunBoxKind(u32 kind);
 MapObjectKindData *CreateMissionRunBoxKindData(void);
 void InitDram(Dram *dram, struct CourseMapRow *courseRow);
 void CreateDram(void);
+
+extern const MapObjectKindData gMissionRunBoxKindData;
+extern StateCallbacks gDramStateTable[6];

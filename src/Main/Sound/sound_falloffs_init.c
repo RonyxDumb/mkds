@@ -9,9 +9,11 @@
 #include "Main/Sound/surface_sound_ids.h"
 #include "Main/Sound/sound_source_list.h"
 
+PlayingSound gPlayingSoundEntries[12];
+
 void InitSoundFalloffsAndPlayingSounds(void) {
     InitSoundFalloffs();
-    InitPlayingSoundPool(data_0217c91c, 0xc);
+    InitPlayingSoundPool(gPlayingSoundEntries, 0xc);
     SetSoundPanFunction(ComputeSoundPan);
     SetSoundDistanceFunction(ComputeSoundDistanceAndOffsets);
     SetSoundVolumeFunction(ComputeSoundVolume);

@@ -11,7 +11,6 @@ s32 GetTeresaOffsetYDivisor(void);
 typedef struct NsbmdModel NsbmdModel;
 typedef struct ItemTeresa ItemTeresa;
 
-extern Vec3 gItemTeresaItemOffsets[];
 
 void DrawItemTeresa(ItemTeresa *teresa, s32 unusedValue, NsbmdModel *model);
 void SetItemTeresaFromPacket(ItemTeresa *teresa, u32 sel, s32 value);
@@ -100,3 +99,7 @@ void ResetItemTeresa(ItemTeresa *teresa);
 typedef struct ItemInUse ItemInUse;
 
 void TeresaMarkItemInUseAsActiveItem(ItemInUse *itemInUse);
+
+extern const Vec3 gItemTeresaItemOffsets[4];
+extern const Vec3 gItemTeresaPathPoints[11];
+extern StateCallbacks gItemTeresaStateTable[7];

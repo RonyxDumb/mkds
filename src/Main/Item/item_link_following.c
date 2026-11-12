@@ -28,17 +28,17 @@
 #pragma thumb on
 #pragma optimize_for_size on
 
-void *FindItemFile(u8 *fileName) {
+void *FindItemFile(char *fileName) {
     char buf[0x100];
 
     if (fileName == NULL) {
         return NULL;
     }
-    snprintf(buf, 0x100, gItemFileFormat, fileName);
+    snprintf(buf, 0x100, "Item/%s", fileName);
     return FindMainRaceOrMainEffectFile(buf);
 }
 
-NsbmdModel *CreateItemModel(u8 *modelName, u8 *animationName, u8 *textureName) {
+NsbmdModel *CreateItemModel(char *modelName, char *animationName, char *textureName) {
     NsbmdModel *model;
     void *modelFile;
     void *animationFile;
@@ -56,7 +56,7 @@ NsbmdModel *CreateItemModel(u8 *modelName, u8 *animationName, u8 *textureName) {
     return model;
 }
 
-void *CreateItemNsbmd(u8 *modelName, u8 *textureName) {
+void *CreateItemNsbmd(char *modelName, char *textureName) {
     void *model;
     void *modelFile;
 
@@ -77,19 +77,19 @@ void CreateItemModels(void) {
         gItemModels[i] = NULL;
         i++;
     }
-    gItemModels[0] = CreateItemModel(gItemKouraGNsbmdName, NULL, gItemKouraGNsbtxName);
-    gItemModels[1] = CreateItemModel(gItemKouraRNsbmdName, NULL, gItemKouraRNsbtxName);
-    gItemModels[2] = CreateItemModel(gItemBananaNsbmdName, NULL, gItemBananaNsbtxName);
-    gItemModels[3] = CreateItemModel(gItemKinokoNsbmdName, NULL, gItemKinokoNsbtxName);
-    gItemModels[4] = CreateItemModel(gItemStarNsbmdName, NULL, gItemStarNsbtxName);
-    gItemModels[5] = CreateItemModel(gItemKouraWNsbmdName, NULL, gItemKouraWNsbtxName);
-    gItemModels[6] = CreateItemModel(gItemThunderNsbmdName, NULL, gItemThunderNsbtxName);
-    gItemModels[7] = CreateItemModel(gItemFBoxNsbmdName, NULL, gItemFBoxNsbtxName);
-    gItemModels[9] = CreateItemModel(gItemBombNsbmdName, gItemBombNsbtpName, gItemBombNsbtxName);
-    gItemModels[10] = CreateItemModel(gItemGessoNsbmdName, NULL, gItemGessoNsbtxName);
-    gItemModels[11] = CreateItemModel(gItemTeresaNsbmdName, NULL, gItemTeresaNsbtxName);
-    gItemModels[12] = CreateItemModel(gItemKinokoPNsbmdName, NULL, gItemKinokoPNsbtxName);
-    gItemModels[13] = CreateItemModel(gItemKillerNsbmdName, NULL, gItemKillerNsbtxName);
+    gItemModels[0] = CreateItemModel("it_koura_g.nsbmd", NULL, "it_koura_g.nsbtx");
+    gItemModels[1] = CreateItemModel("it_koura_r.nsbmd", NULL, "it_koura_r.nsbtx");
+    gItemModels[2] = CreateItemModel("it_banana.nsbmd", NULL, "it_banana.nsbtx");
+    gItemModels[3] = CreateItemModel("it_kinoko.nsbmd", NULL, "it_kinoko.nsbtx");
+    gItemModels[4] = CreateItemModel("it_star.nsbmd", NULL, "it_star.nsbtx");
+    gItemModels[5] = CreateItemModel("it_koura_w.nsbmd", NULL, "it_koura_w.nsbtx");
+    gItemModels[6] = CreateItemModel("it_thunder.nsbmd", NULL, "it_thunder.nsbtx");
+    gItemModels[7] = CreateItemModel("it_f_box.nsbmd", NULL, "it_f_box.nsbtx");
+    gItemModels[9] = CreateItemModel("it_bomb.nsbmd", "it_bomb.nsbtp", "it_bomb.nsbtx");
+    gItemModels[10] = CreateItemModel("it_gesso.nsbmd", NULL, "it_gesso.nsbtx");
+    gItemModels[11] = CreateItemModel("it_teresa.nsbmd", NULL, "it_teresa.nsbtx");
+    gItemModels[12] = CreateItemModel("it_kinoko_p.nsbmd", NULL, "it_kinoko_p.nsbtx");
+    gItemModels[13] = CreateItemModel("it_killer.nsbmd", NULL, "it_killer.nsbtx");
     gItemModels[8] = gItemModels[7];
     isRainbowCourse = (gRaceSetup->mCourseId == COURSE_ID_RAINBOW);
     i = 0;

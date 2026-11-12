@@ -518,7 +518,6 @@ typedef struct HeldItem {
 
 #include "Main/MapObjects/code_020d6dc0.h"
 
-extern s32 gItemPointLinksByIndex[];
 extern ItemKind *gItemKinds;
 extern RaceProgress *gRaceProgress;
 
@@ -529,7 +528,6 @@ static inline RaceProgressKart *GetRaceProgressKart(u16 kartIndex) {
 static inline s8 GetKartAtRank(u8 rank) {
     return gRaceProgress->mKartAtRank[rank - 1];
 }
-extern ItemSpreadRow gItemSpreadRows[];
 extern ItemInfo *gItemInfos;
 
 static inline ItemInfo *GetItemInfo(u32 itemInfoIndex) {
@@ -547,8 +545,8 @@ BOOL FollowItemPointLinksToPos(ItemPointLinkRef *in, ItemPointLinkRef *out, Vec3
 BOOL CopyCloserItemPointLinkRef(ItemPointLinkRef *current, ItemPointLinkRef *candidate, ItemPointLinkRef *out,
                                 Vec3 *pos);
 BOOL PickNearestNearbyItemPointLink(ItemPointLinkRef *in, ItemPointLinkRef *out, Vec3 *pos);
-s32 PushSegmentPoint(SegmentPoints *segmentPoints, Vec3 *point);
-void InitSegmentPoints(SegmentPoints *segmentPoints, Vec3 *points, s32 scale);
+s32 PushSegmentPoint(SegmentPoints *segmentPoints, const Vec3 *point);
+void InitSegmentPoints(SegmentPoints *segmentPoints, const Vec3 *points, s32 scale);
 s32 GetItemPointLinkByIndex(s32 idx);
 void RemoveReservedItemObjects(s32 itemInfoIndex, s32 amount);
 void SetHeldItemWithCount(HeldItem *rec, s32 kind, s32 count);

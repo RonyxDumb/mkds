@@ -936,7 +936,6 @@ extern Vec3 **gAttractorPositions;
 extern NsbmdModel *gItemModels[];
 struct ItemObject;
 
-extern struct ItemObject **gCollidedItemObjects;
 
 extern s32 gKeyboardOffsetX;
 extern s32 gKeyboardOffsetY;
@@ -1126,24 +1125,12 @@ extern s32 gJgOffsetY;
 extern s32 gJgOffsetX;
 extern s32 data_0217b8f4;
 extern u32 data_0217b8fc;
-extern s32 gItemSlotPossibleItems[];
 extern s32 gGessoBlockTimer;
 // Items the spin may show after a roll with a forced row: the items with a non-zero weight in that row plus the one
 // picked. Written by PickItem, cleared by CreateItemSlotTables.
-extern s32 gItemSlotSpinItems[];
 extern u16 gItemSlotPossibleItemCount;
 // Length of gItemSlotSpinItems; 0 means the spin uses gItemSlotPossibleItems.
 extern u16 gItemSlotSpinItemCount;
-extern u16 gItemWeightSums[];
-extern s32 gKouraWState7ScaleLimit;
-extern s32 gKouraWState7InverseLimit;
-extern s32 gKouraWState7ScaleStep;
-extern volatile s32 gKouraWState7MaxRadiusSquared;
-extern s32 gItemBombState2InverseLimit;
-extern s32 gItemBombTimerLimit;
-extern s32 gItemBombState2ScaleLimit;
-extern s32 gItemBombState2ScaleStep;
-extern s32 gItemBombState2MaxRadiusSquared;
 extern u8 gItemDataDelayedFreeHead[];
 extern u8 gItemDataQueueUsedHead[];
 extern u8 gItemDataQueueFreeHead[];

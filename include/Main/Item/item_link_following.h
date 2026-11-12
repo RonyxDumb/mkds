@@ -30,6 +30,6 @@ void InitLinkFollowingItemFromInUse(LinkFollowingItemObject *follower, ItemInUse
                                     s32 rampWeightPerCount, s32 throwForward, s32 d, s32 endsOnFirstHit, s32 baseSpeed,
                                     u16 targetKartIndex, s32 flag);
 void CreateItemModels(void);
-void *CreateItemNsbmd(u8 *modelName, u8 *textureName);
-NsbmdModel *CreateItemModel(u8 *modelName, u8 *animationName, u8 *textureName);
-void *FindItemFile(u8 *fileName);
+void *CreateItemNsbmd(char *modelName, char *textureName);
+NsbmdModel *CreateItemModel(char *modelName, char *animationName, char *textureName);
+void *FindItemFile(char *fileName);

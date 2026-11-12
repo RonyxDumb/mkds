@@ -27,6 +27,7 @@
 #include "Main/MapObjects/map_object.h"
 #include "Main/Race/data_021759c0.h"
 #include "tp.h"
+#include "Main/Item/pooled_item_box.h"
 
 const MapObjectKindDescriptor gPooledItemBoxKindDescriptor = {0,
                                                               {0, 0},

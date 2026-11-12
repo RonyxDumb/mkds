@@ -20,6 +20,7 @@
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "Main/Sound/sound_seq.h"
 #include "code_020172d0.h"
+#include "Main/Sound/sound_system.h"
 
 #pragma opt_loop_invariants off
 
@@ -172,7 +173,7 @@ u32 SetPlayingSoundsParams(SoundSource *source) {
             }
             NNS_SndPlayerSetVolume(&sound->mSeqPlayer, params.mVolume);
             NNS_SndPlayerSetPlayerPriority(&sound->mSeqPlayer, priority);
-            NNS_SndPlayerSetTrackPan(&sound->mSeqPlayer, data_0216cb20, params.mPan);
+            NNS_SndPlayerSetTrackPan(&sound->mSeqPlayer, gSeqTrackMask, params.mPan);
             source->mTrackParamsFunction(source, sound, &params);
         }
     }

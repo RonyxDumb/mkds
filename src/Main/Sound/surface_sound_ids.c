@@ -11,6 +11,10 @@
 #include "Main/Sound/sound_source_list.h"
 #include "code_020172d0.h"
 
+u8 gSurfaceSoundIdShortRowTable[28] = {0x81, 0, 0x82, 0, 0x83, 0, 0x84, 0, 0x85, 0, 0x86, 0, 0x87, 0, 0x88, 0, 0x89, 0, 0x8a, 0, 0x8b, 0, 0x8c, 0, 0x8d, 0, 0, 0};
+u8 gSurfaceSoundIdRowTable[152] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x72, 0, 0x75, 0, 0x76, 0, 0xff, 0xff, 0x73, 0, 0x74, 0, 0x79, 0, 0xd0, 0xff, 0x78, 0, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x77, 0, 0xd1, 0xff, 0xff, 0xff, 0x54, 0, 0x55, 0, 0x56, 0, 0x57, 0, 0x59, 0, 0x5a, 0, 0x5b, 0, 0x5c, 0, 0x5d, 0, 0x65, 0, 0x5e, 0, 0x5f, 0, 0x60, 0, 0x61, 0, 0x62, 0, 0x63, 0, 0x64, 0, 0xff, 0xff, 0xff, 0xff, 0x67, 0, 0x67, 0, 0x67, 0, 0x69, 0, 0x67, 0, 0x68, 0, 0x6a, 0, 0x6b, 0, 0x6f, 0, 0x6c, 0, 0x67, 0, 0x71, 0, 0x6d, 0, 0x67, 0, 0x67, 0, 0x67, 0, 0x6e, 0, 0x67, 0, 0x67, 0, 0x8f, 0, 0x90, 0, 0x91, 0, 0x91, 0, 0x92, 0, 0x91, 0, 0x93, 0, 0x94, 0, 0x95, 0, 0x94, 0, 0x96, 0, 0x97, 0, 0x98, 0, 0x99, 0, 0x9a, 0, 0x9b, 0, 0x9c, 0, 0x8f, 0, 0x8f, 0};
+SurfaceSoundIdRow gSurfaceSoundIds[23];
+
 u32 TryAppendListObject(void *list, void *object) {
     BOOL willAppend;
     ListObjectLink *link;
@@ -61,14 +65,14 @@ u32 GetSurfaceSoundId(s32 entryIndex, s32 surfaceKind, s32 surfaceVariant) {
     if (value != 0xffff) {
         return (u16) value;
     }
-    value = data_0215a6fc[surfaceKind][surfaceVariant];
+    value = gSurfaceSoundColumnIndices[surfaceKind][surfaceVariant];
     if (value == 0x14) {
         value = 0xffff;
     }
     if (value == 0xffff) {
         return 0xffff;
     }
-    return *(u16 *) (data_0216ca84 + entryIndex * 0x26 + value * 2);
+    return *(u16 *) (gSurfaceSoundIdRowTable + entryIndex * 0x26 + value * 2);
 }
 
 u32 GetSurfaceSoundIdShortRows(s32 entryIndex, s32 rowIndex, s32 columnIndex) {
@@ -80,12 +84,12 @@ u32 GetSurfaceSoundIdShortRows(s32 entryIndex, s32 rowIndex, s32 columnIndex) {
     if (value != 0xffff) {
         return (u16) value;
     }
-    value = data_0215a6fc[rowIndex][columnIndex];
+    value = gSurfaceSoundColumnIndices[rowIndex][columnIndex];
     if (value == 0xe) {
         value = 0xffff;
     }
     if (value == 0xffff) {
         return 0xffff;
     }
-    return *(u16 *) (data_0216ca68 + entryIndex * 0x1a + value * 2);
+    return *(u16 *) (gSurfaceSoundIdShortRowTable + entryIndex * 0x1a + value * 2);
 }

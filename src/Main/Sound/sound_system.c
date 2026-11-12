@@ -20,6 +20,11 @@
 #include "code_0212ba34.h"
 #include "Main/Menu/data_0217d068.h"
 
+u16 gSeqTrackMask = 0xf;
+s32 gSoundOutputEffectType = -1;
+s32 gSceneSeqVolume = 0x50;
+u32 gSoundFadeSteps = 0xa;
+
 void SetFileSndArcOpen(u32 flag) {
     gFileSndArcOpen = flag;
 }

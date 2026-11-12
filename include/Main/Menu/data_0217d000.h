@@ -730,7 +730,6 @@ extern NNSFndList gSoundSources;
 
 extern u32 gFileSndArcOpen;
 
-extern s32 gEmblemSoundValue;
 
 extern s32 gKingTeresaState;
 
@@ -779,7 +778,6 @@ extern Keyboard *gKeyboard;
 
 extern MessageScreen *gMessageScreen;
 
-extern u32 gThunderShrinkSoundCounter;
 
 extern s32 gLapProgressSoundGaps[];
 
@@ -808,13 +806,9 @@ extern EffectInfo sEffectInfoBuffer[8];
 
 extern struct NNSSndArc *sCurrent;
 
-extern s32 gKingTeresaStateFrames;
 
-extern s32 gUseKingTeresaSeqVolume;
 
-extern s32 gKingTeresaStateLastFrame;
 
-extern s32 gKartNearSeqVolumeFactor;
 
 extern s32 gKartNearPlayerVolumeFactor;
 
@@ -822,7 +816,6 @@ extern u8 gEmblemSoundPlayCount;
 
 extern u8 gEmblemSoundPitchCounter;
 
-extern s32 gInitialVolumePerFrame;
 
 extern u32 gEmblemSoundCallsSincePlay;
 

@@ -28363,9 +28363,9 @@ from:0x021052d0 kind:load to:0x0217c704 module:main
 from:0x021052d4 kind:load to:0x0217c70c module:main
 from:0x021052d8 kind:load to:0x0215a6cc module:main
 from:0x021052dc kind:load to:0x0217c710 module:main
-from:0x021052e0 kind:load to:0x0217c71c module:main
+from:0x021052e0 kind:load to:0x0217c710 add:0xc module:main
 from:0x021052e4 kind:load to:0x0215a6c0 module:main
-from:0x021052e8 kind:load to:0x0217c728 module:main
+from:0x021052e8 kind:load to:0x0217c710 add:0x18 module:main
 from:0x021052ec kind:load to:0x0217c708 module:main
 from:0x021053e0 kind:load to:0x020d2398 module:main
 from:0x021053ec kind:arm_call to:0x020d233c module:main

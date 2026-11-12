@@ -53,6 +53,17 @@
 #include "registers.h"
 #include "code_02147cd8.h"
 
+s32 gOrthoQuadCount;
+u8 gOrthoQuadCells[8];
+OrthoQuadModel gOrthoQuadCreamEffect;
+OrthoQuadModel gOrthoQuadGesoSumi;
+MtxFx44 gOrthoQuadMatrix;
+
+const s32 gOrthoQuadTimersByIndex[4] = {5, 0xb, 0x11, 0x19};
+const s32 gOrthoQuadTableScales[13] = {0, 0x986, 0x1000, 0x1143, 0x117c, 0x1107, 0x1041, 0xf87, 0xf34, 0xf52, 0xf95, 0xfd8, 0xff7};
+char gGesoSumiModelNsbmdName[16] = "geso_sumi.nsbmd";
+char gGesoSumiTextureNsbmdName[16] = "geso_sumi.nsbmd";
+
 #pragma thumb on
 
 void InitBouncingItemBoxMapObjects(void) {
@@ -196,7 +207,7 @@ void AdvanceOrthoQuadCornersByTable(OrthoQuad *quad) {
     s16 startY;
     s32 velocity;
 
-    tableScale = data_0215a48c[-quad->mTimer];
+    tableScale = gOrthoQuadTableScales[-quad->mTimer];
     startX = quad->mStartPair[0];
     startY = quad->mStartPair[1];
     for (cornerIndex = 0; cornerIndex < 4; cornerIndex++) {
@@ -391,7 +402,7 @@ void SetupOrthoQuad(s32 index, HalfwordPair startPair, s32 overlap) {
     if (gOrthoQuadUseCreamEffect != 0) {
         value = (s16) MUL_FIXED12_NO_ROUND(value, 0x800);
     }
-    quad->mTimer = data_0215a47c[index];
+    quad->mTimer = gOrthoQuadTimersByIndex[index];
     velocities[0][0] = -value;
     velocities[0][1] = -value;
     velocities[1][0] = -value;
@@ -428,7 +439,7 @@ void StartOrthoQuads(s32 kartIndex, s32 count, s32 useCreamEffect) {
     if (kartIndex != gRaceSetup->mEntryIndex) {
         return;
     }
-    data_0217c638 = kartIndex;
+    gOrthoQuadKartIndex = kartIndex;
     if (gOrthoQuadCount != 0) {
         if (useCreamEffect != 0) {
             return;
@@ -641,11 +652,11 @@ void InitOrthoQuads(void) {
     s32 index;
 
     gOrthoQuads = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0xd0);
-    data_0217c638 = 0xffff;
+    gOrthoQuadKartIndex = 0xffff;
     gOrthoQuadCount = 0;
     gOrthoQuadUseCreamEffect = FALSE;
     NNS_SndPlayerStopSeq(GetSndHandleSlot(6), 1);
-    model = CreateItemModel(data_0216c7b4, NULL, data_0216c7c4);
+    model = CreateItemModel(gGesoSumiModelNsbmdName, NULL, gGesoSumiTextureNsbmdName);
     SetupOrthoQuadModel(&gOrthoQuadGesoSumi, model);
     gOrthoQuadFirstPolygonId = AllocPolygonId();
     for (index = 0; index < 3; index++) {

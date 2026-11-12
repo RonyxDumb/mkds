@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Sound/code_0210ab48.h"
 
 typedef struct Kart Kart;
 typedef struct PlayingSound PlayingSound;
@@ -29,3 +30,9 @@ void StartSurfaceSound(SoundSource *source, int entryIndex, u32 surfaceKind, u32
 void UpdateSoundPitchSwing(void);
 
 u32 InitSoundPitchSwing(void);
+
+extern s32 gKartPitchPerWaterDepth;
+extern vu32 gSoundPitchSwingAngle;
+extern s32 gSoundPitchSwing;
+extern KartSoundQueue gKartSoundQueue;
+extern s32 gKouraPitchPerWaterDepth;

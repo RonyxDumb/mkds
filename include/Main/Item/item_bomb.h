@@ -71,3 +71,17 @@ unsigned int ItemBombState0ReturnArgument(unsigned int value);
 s32 InitItemBomb(ItemInUse *inUse, ItemBomb *bomb);
 
 void ResetItemBomb(ItemBomb *bomb);
+
+extern const Vec3 gItemBombState2StartScale;
+extern const u16 data_02159f18;
+extern StateCallbacks gItemBombStateTable[4];
+extern const u16 data_02159f20;
+extern const u16 data_02159f24;
+extern const u32 gItemObjectDistanceSquaredMask;
+extern const u16 data_02159f1c;
+extern const u16 gItemBombNoOwnerBit;
+extern s32 gItemBombState2MaxRadiusSquared;
+extern s32 gItemBombTimerLimit;
+extern s32 gItemBombState2InverseLimit;
+extern s32 gItemBombState2ScaleLimit;
+extern s32 gItemBombState2ScaleStep;

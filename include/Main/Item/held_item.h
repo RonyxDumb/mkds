@@ -3,6 +3,7 @@
 #include "types.h"
 #include "Main/Kart/kart_drift.h"
 #include "Main/Item/item_object_throw.h"
+#include "Main/Race/data_020f36d8.h"
 
 // Element of gItemPools[2], [3], [7], [8] and [9] up to 0x130: the word at 0x12c that AdvanceBouncingItem,
 // InitBouncingItem and ThrowBouncingItem use after the shared part.
@@ -24,3 +25,7 @@ typedef struct ItemPointLink ItemPointLink;
 u32 GetItemPointLinkDirection(ItemPointLink *link, Vec3 *directionOut);
 
 s32 SetItemPointLinkRefFromIndex(u32 index, u32 *ref);
+
+extern const u16 gItemObjectPendingUpdateBit;
+extern const ItemSpreadRow gItemSpreadRows[3];
+extern s32 gItemPointLinksByIndex[4];

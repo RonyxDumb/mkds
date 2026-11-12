@@ -8577,7 +8577,7 @@ data_02159594 kind:data(any) addr:0x02159594
 gItemInUseThrowForwardBit kind:data(any) addr:0x021595a0
 gItemInUseDownBit kind:data(any) addr:0x021595a4
 gItemInUseAdvancedBit kind:data(any) addr:0x021595a8
-data_021595ac kind:data(any) addr:0x021595ac
+gItemObjectKouraRTargetedBit kind:data(any) addr:0x021595ac
 gKartItemsStartUseBit kind:data(any) addr:0x021595b0
 gKartItemsEndUseBit kind:data(any) addr:0x021595b4
 gKartItemsInUseBit kind:data(any) addr:0x021595b8
@@ -8590,7 +8590,7 @@ gKartItemsKeyReleasedBit kind:data(any) addr:0x021595d0
 data_usa_021595d4 kind:data(any) addr:0x021595d4
 gKartItemsVec3UnitY kind:data(any) addr:0x021595d8
 gItemCollisionBitOrder kind:data(any) addr:0x021595e4
-data_02159618 kind:data(any) addr:0x02159618
+gItemObjectPendingUpdateBit kind:data(any) addr:0x02159618
 gItemSpreadRows kind:data(any) addr:0x0215961c
 data_02159664 kind:data(any) addr:0x02159664
 data_02159680 kind:data(any) addr:0x02159680
@@ -8657,8 +8657,8 @@ gItemKindTeresa kind:data(any) addr:0x0215a244
 data_0215a2ec kind:data(any) addr:0x0215a2ec
 gItemKindGesso kind:data(any) addr:0x0215a308
 gItemGessoSteps kind:data(any) addr:0x0215a3b0
-data_0215a47c kind:data(any) addr:0x0215a47c
-data_0215a48c kind:data(any) addr:0x0215a48c
+gOrthoQuadTimersByIndex kind:data(any) addr:0x0215a47c
+gOrthoQuadTableScales kind:data(any) addr:0x0215a48c
 data_0215a4c0 kind:data(any) addr:0x0215a4c0
 data_0215a4dc kind:data(any) addr:0x0215a4dc
 gBouncingItemBoxUntilCourseHitBit kind:data(any) addr:0x0215a584
@@ -8672,7 +8672,7 @@ data_0215a6d8 kind:data(any) addr:0x0215a6d8
 data_0215a6e4 kind:data(any) addr:0x0215a6e4
 data_0215a6ec kind:data(any) addr:0x0215a6ec
 data_0215a6f4 kind:data(any) addr:0x0215a6f4
-data_0215a6fc kind:data(any) addr:0x0215a6fc
+gSurfaceSoundColumnIndices kind:data(any) addr:0x0215a6fc
 gOnMemorySdat kind:data(any) addr:0x0215a880
 gEmptySoundSet kind:data(any) addr:0x0215c380
 gReleaseEmptySoundSet kind:data(any) addr:0x0215c38c
@@ -10437,39 +10437,39 @@ data_0216c3d8 kind:data(any) addr:0x0216c3b8
 gWoodbox1StateTable kind:data(any) addr:0x0216c3c4
 gWoodbox1NsbmdName kind:data(any) addr:0x0216c3e4
 gPushedObjectStateTable kind:data(any) addr:0x0216c3f4
-gItemKouraGNsbmdName kind:data(any) addr:0x0216c40c
-gItemKouraGNsbtxName kind:data(any) addr:0x0216c420
-gItemKouraRNsbmdName kind:data(any) addr:0x0216c434
-gItemKouraRNsbtxName kind:data(any) addr:0x0216c448
-gItemBananaNsbmdName kind:data(any) addr:0x0216c45c
-gItemBananaNsbtxName kind:data(any) addr:0x0216c46c
-gItemKinokoNsbmdName kind:data(any) addr:0x0216c47c
-gItemKinokoNsbtxName kind:data(any) addr:0x0216c48c
-gItemStarNsbmdName kind:data(any) addr:0x0216c49c
-gItemStarNsbtxName kind:data(any) addr:0x0216c4ac
-gItemKouraWNsbmdName kind:data(any) addr:0x0216c4bc
-gItemKouraWNsbtxName kind:data(any) addr:0x0216c4d0
-gItemThunderNsbmdName kind:data(any) addr:0x0216c4e4
-gItemThunderNsbtxName kind:data(any) addr:0x0216c4f8
-gItemFBoxNsbmdName kind:data(any) addr:0x0216c50c
-gItemFBoxNsbtxName kind:data(any) addr:0x0216c51c
-gItemBombNsbmdName kind:data(any) addr:0x0216c52c
-gItemBombNsbtpName kind:data(any) addr:0x0216c53c
-gItemBombNsbtxName kind:data(any) addr:0x0216c54c
-gItemGessoNsbmdName kind:data(any) addr:0x0216c55c
-gItemGessoNsbtxName kind:data(any) addr:0x0216c56c
-gItemTeresaNsbmdName kind:data(any) addr:0x0216c57c
-gItemTeresaNsbtxName kind:data(any) addr:0x0216c58c
-gItemKinokoPNsbmdName kind:data(any) addr:0x0216c59c
-gItemKinokoPNsbtxName kind:data(any) addr:0x0216c5b0
-gItemKillerNsbmdName kind:data(any) addr:0x0216c5c4
-gItemKillerNsbtxName kind:data(any) addr:0x0216c5d4
-gItemFileFormat kind:data(any) addr:0x0216c5e4
+@4146 kind:data(any) addr:0x0216c40c local
+@4147 kind:data(any) addr:0x0216c420 local
+@4148 kind:data(any) addr:0x0216c434 local
+@4149 kind:data(any) addr:0x0216c448 local
+@4150 kind:data(any) addr:0x0216c45c local
+@4151 kind:data(any) addr:0x0216c46c local
+@4152 kind:data(any) addr:0x0216c47c local
+@4153 kind:data(any) addr:0x0216c48c local
+@4154 kind:data(any) addr:0x0216c49c local
+@4155 kind:data(any) addr:0x0216c4ac local
+@4156 kind:data(any) addr:0x0216c4bc local
+@4157 kind:data(any) addr:0x0216c4d0 local
+@4158 kind:data(any) addr:0x0216c4e4 local
+@4159 kind:data(any) addr:0x0216c4f8 local
+@4160 kind:data(any) addr:0x0216c50c local
+@4161 kind:data(any) addr:0x0216c51c local
+@4162 kind:data(any) addr:0x0216c52c local
+@4163 kind:data(any) addr:0x0216c53c local
+@4164 kind:data(any) addr:0x0216c54c local
+@4165 kind:data(any) addr:0x0216c55c local
+@4166 kind:data(any) addr:0x0216c56c local
+@4167 kind:data(any) addr:0x0216c57c local
+@4168 kind:data(any) addr:0x0216c58c local
+@4169 kind:data(any) addr:0x0216c59c local
+@4170 kind:data(any) addr:0x0216c5b0 local
+@4171 kind:data(any) addr:0x0216c5c4 local
+@4172 kind:data(any) addr:0x0216c5d4 local
+@4195 kind:data(any) addr:0x0216c5e4 local
 gItemInUseRemoveTable kind:data(any) addr:0x0216c5ec
 gItemInUseAdvanceTable kind:data(any) addr:0x0216c600
 gItemInUseStartTable kind:data(any) addr:0x0216c614
 gItemKouraRStateTable kind:data(any) addr:0x0216c628
-gItemSlotListDatName kind:data(any) addr:0x0216c660
+@4420 kind:data(any) addr:0x0216c660 local
 gSoundStartParamsDefault kind:data(any) addr:0x0216c678
 gKouraWVec3UnitY kind:data(any) addr:0x0216c688
 gItemKouraWStateTable kind:data(any) addr:0x0216c694
@@ -10478,10 +10478,10 @@ gKouraWNsbtxName kind:data(any) addr:0x0216c6e4
 gItemBombStateTable kind:data(any) addr:0x0216c6f4
 gItemFBoxRotationAxis kind:data(any) addr:0x0216c714
 gDramStateTable kind:data(any) addr:0x0216c720
-gDramNsbmdName kind:data(any) addr:0x0216c750
+@6311 kind:data(any) addr:0x0216c750 local
 gItemTeresaStateTable kind:data(any) addr:0x0216c75c
-data_0216c7b4 kind:data(any) addr:0x0216c794
-data_0216c7c4 kind:data(any) addr:0x0216c7a4
+gGesoSumiModelNsbmdName kind:data(any) addr:0x0216c794
+gGesoSumiTextureNsbmdName kind:data(any) addr:0x0216c7a4
 data_0216c7d4 kind:data(any) addr:0x0216c7b4
 gLoadedSoundBanks kind:data(any) addr:0x0216c7b8
 data_0216c7e0 kind:data(any) addr:0x0216c7c0
@@ -10523,14 +10523,14 @@ gKartFullVolumeSoundSortOffset kind:data(any) addr:0x0216ca20
 gKartSoundRequestSortOffset kind:data(any) addr:0x0216ca24
 gBalloonSoundStartParams kind:data(any) addr:0x0216ca28
 gKartSurfaceSoundSortOffsets kind:data(any) addr:0x0216ca38
-data_0216ca68 kind:data(any) addr:0x0216ca48
-data_0216ca84 kind:data(any) addr:0x0216ca64
-data_0216cb1c kind:data(any) addr:0x0216cafc
-data_0216cb20 kind:data(any) addr:0x0216cb00
+gSurfaceSoundIdShortRowTable kind:data(any) addr:0x0216ca48
+gSurfaceSoundIdRowTable kind:data(any) addr:0x0216ca64
+gStartSoundSeqArcTable kind:data(any) addr:0x0216cafc
+gSeqTrackMask kind:data(any) addr:0x0216cb00
 gSoundOutputEffectType kind:data(any) addr:0x0216cb04
 gSceneSeqVolume kind:data(any) addr:0x0216cb08
 gSoundFadeSteps kind:data(any) addr:0x0216cb0c
-data_0216cb30 kind:data(any) addr:0x0216cb10
+gSoundSetSdatPath kind:data(any) addr:0x0216cb10
 gCourseSoundTableIndex kind:data(any) addr:0x0216cb2c
 gCourseSoundTable kind:data(any) addr:0x0216cb30
 gLapProgressSoundIds kind:data(any) addr:0x0216cb80
@@ -11884,7 +11884,7 @@ gDram kind:bss addr:0x0217c608
 gDramDrawList kind:bss addr:0x0217c60c
 gItemTeresaFrameScales kind:bss addr:0x0217c610
 gItemGessoFrameCount kind:bss addr:0x0217c614
-data_0217c638 kind:bss addr:0x0217c618
+gOrthoQuadKartIndex kind:bss addr:0x0217c618
 gOrthoQuadFirstPolygonId kind:bss addr:0x0217c61c
 gOrthoQuadAlpha kind:bss addr:0x0217c620
 gOrthoQuadHoldFrameCount kind:bss addr:0x0217c624
@@ -11903,8 +11903,6 @@ gPooledMapObjectCount kind:bss addr:0x0217c704
 gPooledMapObjectNextIndex kind:bss addr:0x0217c708
 gPooledMapObjects kind:bss addr:0x0217c70c
 gPooledMapObjectRow kind:bss addr:0x0217c710
-gPooledMapObjectRowDegrees kind:bss addr:0x0217c71c
-gPooledMapObjectRowScale kind:bss addr:0x0217c728
 gMissionRunLimitSeqNo kind:bss addr:0x0217c74c
 gMissionRunCountSeqNo kind:bss addr:0x0217c750
 gMissionRunMSselSeqIndex kind:bss addr:0x0217c754
@@ -11938,7 +11936,7 @@ data_0217c840 kind:bss addr:0x0217c820
 gRaceSeqHandle kind:bss addr:0x0217c834
 gOnMemorySndArc kind:bss addr:0x0217c848
 gOtherKartSoundFalloff kind:bss addr:0x0217c8d8
-data_0217c91c kind:bss addr:0x0217c8fc
+gPlayingSoundEntries kind:bss addr:0x0217c8fc
 gSoundFalloffs kind:bss addr:0x0217ca4c
 data_0217caec kind:bss addr:0x0217cacc
 gSoundFalloffWordsFirst kind:bss addr:0x0217cbcc

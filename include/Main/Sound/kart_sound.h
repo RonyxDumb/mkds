@@ -56,3 +56,11 @@ void StartKartSurfaceSoundWithPitch(Kart *kart, KartSound *soundRecord);
 void StartKartLowRatioSound(Kart *kart, KartSound *soundRecord);
 void StartKartSound(Kart *kart, KartSound *soundRecord);
 u32 InitKartSoundPitchFactors(void);
+
+extern u32 gPitchRiseDivisor;
+extern u32 gPitchFallDivisor;
+extern u32 gPitchRiseAboveLimitDivisor;
+extern const u8 gSurfaceSoundVolumeByRatio[20];
+extern s32 gPitchRiseFactorAboveLimit;
+extern s32 gPitchRiseFactor;
+extern s32 gPitchFallFactor;

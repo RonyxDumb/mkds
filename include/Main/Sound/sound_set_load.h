@@ -50,3 +50,5 @@ void SaveSndHeapState(LoadedSoundSet *loadedSet);
 void ReleaseSoundSet(LoadedSoundSet *loadedSet);
 u32 IsSoundSetLoaded(LoadedSoundSet *loadedSet, SoundSet soundSet);
 u32 LoadSoundSet(LoadedSoundSet *loadedSet, SoundSet soundSet);
+
+extern u8 gSoundSetSdatPath[28];

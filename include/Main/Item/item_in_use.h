@@ -182,3 +182,8 @@ BOOL CopyKartToItemInUse(ItemInUse *itemInUse);
 void UpdateItemInUseObjects(ItemInUse *itemInUse);
 void CollideItemObjects(ItemObject *object, ItemObject *other);
 BOOL IsItemObjectNearPoint(ItemObject *object, Vec3 *point, s32 radius);
+
+// Indexed by ItemInUse.mUseKind (entry 0 is empty).
+extern void (*gItemInUseAdvanceTable[5])(ItemInUse *);
+extern void (*gItemInUseRemoveTable[5])(ItemInUse *, s32, ItemObject *);
+extern void (*gItemInUseStartTable[5])(ItemInUse *);

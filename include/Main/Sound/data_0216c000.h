@@ -13,17 +13,11 @@ extern const char gObPakkunSfNsbmdName[];
 
 extern const char gObPakkunSfNsbtpName[];
 
-extern const StateCallbacks gItemKouraWStateTable[];
 
-extern const StateCallbacks gItemBombStateTable[];
 
-extern const StateCallbacks gItemTeresaStateTable[];
 
-extern s32 gKartSoundRequestSortOffset;
 
-extern u32 gSoundFadeSteps;
 
-extern u16 gLapProgressSoundIds[];
 
 extern const char *gRecordGpxSONclrName;
 
@@ -129,11 +123,9 @@ extern const char *gRecordTrophySOBnclName;
 
 extern const char *gRecordGpxSBnblName;
 
-extern s32 gKartFullVolumeSoundSortOffset;
 
 extern const StateCallbacks gPushedObjectStateTable[];
 
-extern s32 gSceneSeqVolume;
 
 extern const char gBridgeNsbcaName[];
 
@@ -171,73 +163,7 @@ extern const char gRotaryRoomNsbmdName[];
 
 extern const char gRotaryBridgeNsbmdName[];
 
-extern u8 gItemKouraGNsbmdName[];
 
-extern u8 gItemKouraGNsbtxName[];
-
-extern u8 gItemKouraRNsbmdName[];
-
-extern u8 gItemKouraRNsbtxName[];
-
-extern u8 gItemBananaNsbmdName[];
-
-extern u8 gItemBananaNsbtxName[];
-
-extern u8 gItemKinokoNsbmdName[];
-
-extern u8 gItemKinokoNsbtxName[];
-
-extern u8 gItemStarNsbmdName[];
-
-extern u8 gItemStarNsbtxName[];
-
-extern u8 gItemKouraWNsbmdName[];
-
-extern u8 gItemKouraWNsbtxName[];
-
-extern u8 gItemThunderNsbmdName[];
-
-extern u8 gItemThunderNsbtxName[];
-
-extern u8 gItemFBoxNsbmdName[];
-
-extern u8 gItemFBoxNsbtxName[];
-
-extern u8 gItemBombNsbmdName[];
-
-extern u8 gItemBombNsbtpName[];
-
-extern u8 gItemBombNsbtxName[];
-
-extern u8 gItemGessoNsbmdName[];
-
-extern u8 gItemGessoNsbtxName[];
-
-extern u8 gItemTeresaNsbmdName[];
-
-extern u8 gItemTeresaNsbtxName[];
-
-extern u8 gItemKinokoPNsbmdName[];
-
-extern u8 gItemKinokoPNsbtxName[];
-
-extern u8 gItemKillerNsbmdName[];
-
-extern u8 gItemKillerNsbtxName[];
-
-extern const char gItemFileFormat[];
-
-// Indexed by ItemInUse.mUseKind. (once above the three tables gItemInUseAdvanceTable, gItemInUseRemoveTable,
-// gItemInUseStartTable)
-extern void (*gItemInUseAdvanceTable[])(void *);
-
-extern u8 gItemInUseRemoveTable[];
-
-extern void (*gItemInUseStartTable[])(void *);
-
-extern u8 data_0216c7b4[];
-
-extern u8 data_0216c7c4[];
 
 extern s32 data_0216c7d4;
 
@@ -277,15 +203,9 @@ extern const char gLapCountNsbtpName[];
 
 extern const char gLapFinalNsbmdName[];
 
-extern u8 data_0216cb30[];
 
-extern u8 data_0216ca68[];
 
-extern u8 data_0216ca84[];
 
-extern void (*data_0216cb1c[1])(void *a, u32 b, u32 c, u32 d);
-
-extern u16 data_0216cb20;
 
 extern s32 gSavedModelAlpha;
 
@@ -295,24 +215,12 @@ extern Vec3 data_0216c3d8;
 
 extern const StateCallbacks gWoodbox1StateTable[];
 
-extern const char gItemSlotListDatName[];
 
-extern u8 gKouraWNsbmdName[];
 
-extern u8 gKouraWNsbtxName[];
 
-extern u32 gMissionRunBossSeqRow[6];
 
-extern u32 gSeqRowTable[][6];
 
-extern Vec3 gKouraWVec3UnitY;
 
-extern Vec3 gItemFBoxRotationAxis;
 
-extern const StateCallbacks gDramStateTable[];
-
-extern const char gDramNsbmdName[];
-
-extern s32 gSoundOutputEffectType;
 
 extern s32 gKartSurfaceSoundSortOffsets[];

@@ -2,6 +2,8 @@
 #include "Main/Sound/data_0216c000.h"
 #include "Main/Menu/second_menu_scene.h"
 
+s32 gKartFullVolumeSoundSortOffset = 0x186a0;
+
 int GetKartFullVolumeSoundSortOffset(void) {
     return gKartFullVolumeSoundSortOffset;
 }

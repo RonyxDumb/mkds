@@ -20,6 +20,7 @@
 #include "Main/Sound/sound_handle_pool.h"
 #include "code_0212df7c.h"
 #include "Main/Race/race_clock.h"
+#include "Main/Sound/seq_queue.h"
 
 void UpdateRaceEndSeq(void) {
     s32 resultKind;

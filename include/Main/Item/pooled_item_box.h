@@ -7,6 +7,8 @@
 #include "Main/Item/pooled_map_object.h"
 #include "Main/Item/held_item.h"
 #include "Main/Race/data_020f36d8.h" // ItemKind, ItemInfo
+#include "Main/MapObjects/attractor.h"
+#include "Main/Item/item_koura_w.h"
 
 // Element of gItemPools[8]: 0x14c bytes (the size in gItemKinds[8]), handled by AdvanceBouncingItemBox to
 // StartBouncingItemBox: the BouncingItemObject part, words at 0x130 and 0x138, the ItemBox at 0x134, a vector
@@ -20,7 +22,6 @@ typedef struct BouncingItemBox {
     /* 148 */ s32 mScaleRatio;
 } BouncingItemBox;
 
-extern struct CourseMapRow gPooledMapObjectRow;
 
 extern const u16 gBouncingItemBoxUntilCourseHitBit;
 extern const ItemInfo gItemInfoKiller;
@@ -39,3 +40,8 @@ void ResetBouncingItemBox(BouncingItemBox *box);
 void AdvanceBouncingItemBoxInUse(ItemInUse *itemInUse, BouncingItemBox *box);
 s32 InitBouncingItemBox(ItemInUse *itemInUse, BouncingItemBox *box);
 void AdvanceBouncingItemBox(BouncingItemBox *box);
+
+extern s32 gPooledMapObjectCount;
+extern struct MapObject **gPooledMapObjects;
+extern u32 gPooledMapObjectNextIndex;
+extern struct CourseMapRow gPooledMapObjectRow;

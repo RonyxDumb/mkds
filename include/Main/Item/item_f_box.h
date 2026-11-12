@@ -42,3 +42,5 @@ void ProcessItemDataMessage(u32 kind, u32 messageKind, u8 *packet, u32 kartIndex
 void DelayItemDataWithFrameStamp(u32 kind, u32 messageKind, u32 frameDifference, void *packet, u32 frameStamp);
 void *CopyItemObjectDataAndAdd(void *cursor, void *object, s32 toData);
 void SetupItemObjectFromDataWrapper(void *object);
+
+extern Vec3 gItemFBoxRotationAxis;
