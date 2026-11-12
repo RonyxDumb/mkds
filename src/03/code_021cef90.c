@@ -13,7 +13,7 @@
 #include "03/code_021d3488.h"
 #include "03/unk_021d6000.h"
 #include "03/unk_021d7000.h"
-#include "code_0214a390.h"
+#include "g2.h"
 #include "registers.h"
 #include "03/code_021b94b8.h"
 #include "Main/Unknown/code_02009000.h"

@@ -17,7 +17,7 @@
 #include "code_0214a5f0.h"
 #include "code_0214d018.h"
 #include "registers.h"
-#include "code_0214a390.h"
+#include "g2.h"
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/System/heap.h"
 

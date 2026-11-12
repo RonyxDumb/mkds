@@ -3,8 +3,7 @@
 #include "03/code_021d1da8.h"
 #include "03/code_021d3488.h"
 #include "code_02147cd8.h"
-#include "code_0214a348.h"
-#include "code_0214a390.h"
+#include "g2.h"
 
 // placeholder: two objects of the original file that are not known yet; they only set the order of the tables below
 u8 data_ov003_021d1e14_pad1[1];

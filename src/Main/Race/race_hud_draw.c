@@ -58,7 +58,7 @@
 #include "code_0200eddc.h"
 #include "gx.h"
 #include "code_02148950.h"
-#include "code_0214a390.h"
+#include "g2.h"
 #include "code_0214b338.h"
 #include "code_0214b824.h"
 #include "registers.h"

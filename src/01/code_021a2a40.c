@@ -43,7 +43,7 @@
 #include "Main/Unknown/code_02148000.h"
 #include "code_0200eddc.h"
 #include "gx.h"
-#include "code_0214a390.h"
+#include "g2.h"
 #include "registers.h"
 
 void UploadEmblemMainScreen(void) {

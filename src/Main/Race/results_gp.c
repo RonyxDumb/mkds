@@ -40,7 +40,7 @@
 #include "01/code_021956dc.h"
 #include "gfd_VramTransferManager.h"
 #include "code_0212df7c.h"
-#include "code_0214a390.h"
+#include "g2.h"
 #include "code_0214cfe4.h"
 #include "code_0214d018.h"
 #include "code_021458c4.h"

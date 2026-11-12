@@ -1,7 +1,5 @@
-#include "code_0214a390.h"
+#include "g2.h"
 
-// Writes a 2x2 BG affine matrix (fixed point 12, stored as 8.8) and the transformed start position of the BG to the
-// four words at reg.
 void G2x_SetBGyAffine_(vu16 *reg, const s32 *mtx, s32 centerX, s32 centerY, s32 x1, s32 y1) {
     vu32 *words = (vu32 *) reg; // the block is written as 32-bit words: PA|PB, PC|PD, X, Y
     s32 affineX;
@@ -40,6 +38,23 @@ void G2x_SetBlendBrightnessExt_(vu16 *reg, u32 plane1, u32 plane2, u32 ev1, u32 
         reg[2] = -brightness;
     } else {
         reg[0] = plane1 | 0x80 | (plane2 << 8);
+        reg[2] = brightness;
+    }
+}
+
+void G2x_ChangeBlendBrightness_(vu16 *reg, s32 brightness) {
+    u32 control;
+
+    control = reg[0];
+    if (brightness < 0) {
+        if ((control & 0xc0) == 0x80) {
+            reg[0] = (control & ~0xc0) | 0xc0;
+        }
+        reg[2] = -brightness;
+    } else {
+        if ((control & 0xc0) == 0xc0) {
+            reg[0] = (control & ~0xc0) | 0x80;
+        }
         reg[2] = brightness;
     }
 }

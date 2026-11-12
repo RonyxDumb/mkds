@@ -26,7 +26,7 @@
 #include "Main/Unknown/code_02125de0.h"
 #include "Main/Unknown/unk_02154000.h"
 #include "code_0200eddc.h"
-#include "code_0214a390.h"
+#include "g2.h"
 #include "code_0214b824.h"
 
 void LoadBg1FromSceneFiles(Bg1Files *files, s32 mainScreen, const char *paletteFileName, const char *charsFileName,

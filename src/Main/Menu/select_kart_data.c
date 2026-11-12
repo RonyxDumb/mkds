@@ -78,7 +78,7 @@
 #include "Main/Unknown/code_0211f498.h"
 #include "Main/Unknown/code_02128000.h"
 #include "Main/Unknown/code_0212b000.h"
-#include "code_0214a390.h"
+#include "g2.h"
 #include "Main/Unknown/code_0211d4a8.h"
 #include "Main/Graphics/font_and_player_character.h"
 

@@ -11,7 +11,7 @@
 #include "code_0200eddc.h"
 #include "gfd_VramTransferManager.h"
 #include "g2d_CharCanvas.h"
-#include "code_0214a390.h"
+#include "g2.h"
 #include "Main/Unknown/unk_02175628.h"
 #include "Main/Unknown/code_021059e0.h"
 #include "Main/Graphics/font_and_player_character.h"

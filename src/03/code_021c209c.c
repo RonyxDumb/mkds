@@ -26,7 +26,7 @@
 #include "code_02004dc0.h"
 #include "gx.h"
 #include "code_02148950.h"
-#include "code_0214a390.h"
+#include "g2.h"
 #include "code_0214d93c.h"
 #include "tp.h"
 #include "code_021519d4.h"

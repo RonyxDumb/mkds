@@ -26,7 +26,7 @@
 #include "Main/Unknown/unk_02175628.h"
 #include "Main/Unknown/unk_0217d068.h"
 #include "code_0212df7c.h"
-#include "code_0214a390.h"
+#include "g2.h"
 #include "00/unk_021b4000.h"
 #include "Main/Graphics/oam.h"
 #include "Main/Graphics/locate_bmg_sections.h"

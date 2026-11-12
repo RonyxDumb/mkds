@@ -31,7 +31,7 @@
 #include "Main/Unknown/code_02024000.h"
 #include "code_0200eddc.h"
 #include "g2d_CharCanvas.h"
-#include "code_0214a390.h"
+#include "g2.h"
 #include "code_0214b824.h"
 #include "code_0214d018.h"
 #include "Main/Unknown/unk_0216e000.h"

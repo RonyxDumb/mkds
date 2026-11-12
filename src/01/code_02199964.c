@@ -14,7 +14,7 @@
 #include "01/unk_021a8000.h"
 #include "Main/Unknown/code_02108000.h"
 #include "Main/Graphics/layout_rect_table.h"
-#include "code_0214a390.h"
+#include "g2.h"
 
 OptionHensyuMenu *gOptionHensyuMenu;
 

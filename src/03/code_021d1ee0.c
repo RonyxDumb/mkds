@@ -3,8 +3,7 @@
 #include "03/code_021d1da8.h"
 #include "03/code_021d3488.h"
 #include "code_02147cd8.h"
-#include "code_0214a348.h"
-#include "code_0214a390.h"
+#include "g2.h"
 
 // Fade kinds: 0 from black, 1 to black, 2 from white, 3 to white.
 u32 StartBlendBrightnessFade(s32 kind, s32 screen, u32 plane, u16 frameCount) {

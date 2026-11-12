@@ -16,7 +16,7 @@
 #include "Main/Unknown/code_02128210.h"
 #include "01/code_0219c000.h"
 #include "Main/Graphics/layout_rect_table.h"
-#include "code_0214a390.h"
+#include "g2.h"
 #include "registers.h"
 
 const u8 gSelectBattleStageNegatedYCells[] = {0};

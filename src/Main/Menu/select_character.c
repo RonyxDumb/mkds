@@ -19,7 +19,7 @@
 #include "Main/System/result_archive_path.h"
 #include "Main/Race/followed_kart_or.h"
 #include "Main/Unknown/code_0211f498.h"
-#include "code_0214a390.h"
+#include "g2.h"
 #include "Main/Graphics/cell_file_set.h"
 #include "Main/Sound/character_seq_pair.h"
 #include "Main/System/interpolation_value.h"

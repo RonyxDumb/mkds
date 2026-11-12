@@ -1,7 +1,7 @@
 #include "Main/Menu/menu_entry_kind.h"
 #include "registers.h"
 #include "00/code_02181f98.h"
-#include "code_0214a390.h"
+#include "g2.h"
 
 void SetMenuEntryKind(u32 entryKind) {
     gMenuShared->mMenuEntryKind = entryKind;

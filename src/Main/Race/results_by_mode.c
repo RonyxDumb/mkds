@@ -18,7 +18,7 @@
 #include "Main/Unknown/code_0212abd0.h"
 #include "Main/Menu/message_screen.h"
 #include "Main/Unknown/unk_021759c0.h"
-#include "code_0214a390.h"
+#include "g2.h"
 #include "code_0214d018.h"
 #include "registers.h"
 

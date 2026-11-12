@@ -9,7 +9,7 @@
 #include "Main/Unknown/code_020caaac.h"
 #include "registers.h"
 #include "Main/Unknown/code_020caae8.h"
-#include "code_0214a390.h"
+#include "g2.h"
 #include "Main/Unknown/code_020cab58.h"
 #include "Main/Unknown/code_020cab74.h"
 #include "Main/Unknown/code_020cab8c.h"

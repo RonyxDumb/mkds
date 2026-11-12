@@ -29,7 +29,7 @@
 #include "Main/Unknown/code_02125f54.h"
 #include "code_02148950.h"
 #include "Main/Graphics/layout_rect_table.h"
-#include "code_0214a390.h"
+#include "g2.h"
 #include "registers.h"
 
 OptionSelectMenu *gOptionSelectMenu;

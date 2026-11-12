@@ -5,7 +5,7 @@
 #include "Main/Graphics/layout_entry_angle.h"
 #include "Main/Unknown/code_02124bf0.h"
 #include "Main/Graphics/palette_blend.h"
-#include "code_0214a390.h"
+#include "g2.h"
 #include "01/code_021956dc.h"
 #include "Main/Unknown/code_02125f88.h"
 #include "00/unk_021b4000.h"
