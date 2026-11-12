@@ -10,7 +10,6 @@
 #include "00/code_021a8aa8.h"
 #include "00/unk_021b0000.h"
 #include "os_tick.h"
-
 u32 ConvNetMask(s32 a) {
     s32 i;
     u32 mask;

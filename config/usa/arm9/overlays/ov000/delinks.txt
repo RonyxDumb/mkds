@@ -97,7 +97,7 @@ src/00/Menu/wi_fi_connection_lost.c:
 src/00/Lib/DWC/code_02185954.c:
     complete
     .text       start:0x02185920 end:0x02186a68
-    .data       start:0x021b0fa8 end:0x021b1020
+    .data       start:0x021b0fa8 end:0x021b11c4
 
 // provisional: file name and boundaries
 src/00/Lib/DWC/code_02186a9c.c:
@@ -114,6 +114,61 @@ src/00/Lib/DWC/code_02186cd0.c:
 src/00/Lib/DWC/code_02188008.c:
     complete
     .text       start:0x02187fd4 end:0x021884a4
+
+// provisional: file name and boundaries
+src/00/Lib/DWC/ca_info_021b1490.c:
+    complete
+    .data       start:0x021b1490 end:0x021b15dc
+
+// provisional: file name and boundaries
+src/00/Lib/DWC/ca_info_021b15dc.c:
+    complete
+    .data       start:0x021b15dc end:0x021b172c
+
+// provisional: file name and boundaries
+src/00/Lib/DWC/ca_info_021b172c.c:
+    complete
+    .data       start:0x021b172c end:0x021b1814
+
+// provisional: file name and boundaries
+src/00/Lib/DWC/ca_info_021b1814.c:
+    complete
+    .data       start:0x021b1814 end:0x021b18d8
+
+// provisional: file name and boundaries
+src/00/Lib/DWC/ca_info_021b18d8.c:
+    complete
+    .data       start:0x021b18d8 end:0x021b19c0
+
+// provisional: file name and boundaries
+src/00/Lib/DWC/ca_info_021b19c0.c:
+    complete
+    .data       start:0x021b19c0 end:0x021b1ae0
+
+// provisional: file name and boundaries
+src/00/Lib/DWC/ca_info_021b1ae0.c:
+    complete
+    .data       start:0x021b1ae0 end:0x021b1bf8
+
+// provisional: file name and boundaries
+src/00/Lib/DWC/ca_info_021b1bf8.c:
+    complete
+    .data       start:0x021b1bf8 end:0x021b1d24
+
+// provisional: file name and boundaries
+src/00/Lib/DWC/ca_info_021b1d24.c:
+    complete
+    .data       start:0x021b1d24 end:0x021b1ed8
+
+// provisional: file name and boundaries
+src/00/Lib/DWC/ca_info_021b1ed8.c:
+    complete
+    .data       start:0x021b1ed8 end:0x021b1fb4
+
+// provisional: file name and boundaries
+src/00/Lib/DWC/ca_info_021b1fb4.c:
+    complete
+    .data       start:0x021b1fb4 end:0x021b2090
 
 // provisional: file name and boundaries
 src/00/Lib/DWC/code_021884d8.c:
@@ -629,6 +684,7 @@ src/00/Lib/GameSpy/code_021a4b84.c:
 src/00/Lib/NitroWiFi/code_021a4b98.c:
     complete
     .text       start:0x021a4b64 end:0x021a6638
+    .rodata     start:0x021b0788 end:0x021b07b0
     .bss        start:0x021b5f10 end:0x021b5f14
 
 // provisional: file name and boundaries
