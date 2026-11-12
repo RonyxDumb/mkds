@@ -4804,6 +4804,7 @@ libs/NitroDWC/account/src/dwc_account.c:
 src/Main/Net/friend_data_player_id.c:
     complete
     .text       start:0x02152ac4 end:0x02152ac8
+    .data       start:0x0216f2bc end:0x0216f320
 
 // provisional: file name and boundaries
 libs/NitroDWC/account/src/code_02152ac8.c:

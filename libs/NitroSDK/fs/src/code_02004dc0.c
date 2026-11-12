@@ -16,6 +16,7 @@
 #include "Main/Net/data_0217e000.h"
 #include "stream.h"
 #include "code_0212d214.h"
+#include "Main/Net/friend_data_player_id.h"
 
 u32 data_0216f350;
 u32 data_0216f354;
