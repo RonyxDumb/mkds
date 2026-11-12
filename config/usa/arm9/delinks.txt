@@ -1770,6 +1770,7 @@ src/Main/Kart/kart_resources.c:
 src/Main/Kart/kart_state0_return.c:
     complete
     .text       start:0x020738f4 end:0x02073904
+    .bss        start:0x0217ac70 end:0x0217ac74
 
 src/Main/Kart/camera_shake.c:
     complete

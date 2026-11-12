@@ -1675,4 +1675,3 @@ struct EntryKartCounters;
 extern struct EntryKartCounters *gEntryKartCounters;
 
 extern void *data_usa_0217aa68;
-extern u16 gKind7EntryCount;
