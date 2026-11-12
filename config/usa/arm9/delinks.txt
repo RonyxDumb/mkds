@@ -3463,6 +3463,11 @@ src/Main/MapObjects/ob_pakkun_sf.c:
     .bss        start:0x0217b7fc end:0x0217b808
 
 // provisional: file name and boundaries
+src/Main/MapObjects/ob_pakkun_sf_kind_descriptor.c:
+    complete
+    .rodata     start:0x02159180 end:0x021591b4
+
+// provisional: file name and boundaries
 src/Main/MapObjects/pendulum.c:
     complete
     .text       start:0x020e5d0c end:0x020e662c
