@@ -17,12 +17,16 @@ extern struct MWiDestructorChain *data_0217eeb0;
 
 // Word arrays; ExitTail uses entry 0 of each, fwrite entries 3-5, printf entry 3 and
 // raise entry 7.
-extern u32 gLockOwnerThreadIds[];
+extern u32 gLockOwnerThreadIds[9];
 
-extern u32 gLockHoldCounts[];
+extern u32 gLockHoldCounts[9];
 
 // 0x14-byte entries passed to OS_TryLockMutex, OS_UnlockMutex and OS_LockMutex; ExitTail uses entry 0,
 // fwrite entries 3-5, printf entry 3 and raise entry 7. An OSMutex is 0x18 bytes, so OSMutex.mPrev of one entry is
 // the start of the next entry.
-extern u8 gLockMutexes[][0x14];
+extern u8 gLockMutexes[9][0x14];
+
+extern u8 data_usa_0217eb70[0x100];
+extern u8 data_usa_0217ec70[0x100];
+extern u8 data_usa_0217ed70[0x100];
 

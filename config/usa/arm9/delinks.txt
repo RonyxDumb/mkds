@@ -4435,6 +4435,11 @@ libs/msl/src/code_02133e50.c:
     .bss        start:0x0217e964 end:0x0217ea74
 
 // provisional: file name and boundaries
+libs/msl/src/code_0217ea74.c:
+    complete
+    .bss        start:0x0217ea74 end:0x0217ee70
+
+// provisional: file name and boundaries
 libs/msl/src/code_02134008.c:
     complete
     .text       start:0x02134008 end:0x02134398
