@@ -21,13 +21,14 @@
 #include "code_0200f328.h"
 
 u32 gArena2Enabled;
+u32 OSi_Initialized;
 
 // Fills in the arena bounds on the first call only; the extra main memory arena starts out empty.
 void OS_InitArena(void) {
-    if (data_021701b4 != 0) {
+    if (OSi_Initialized != 0) {
         return;
     }
-    data_021701b4 = 1;
+    OSi_Initialized = 1;
     OS_SetArenaHi(OS_ARENA_MAIN, OS_GetInitArenaHi(OS_ARENA_MAIN));
     OS_SetArenaLo(OS_ARENA_MAIN, OS_GetInitArenaLo(OS_ARENA_MAIN));
     OS_SetArenaLo(OS_ARENA_MAINEX, NULL);

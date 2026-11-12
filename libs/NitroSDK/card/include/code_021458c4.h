@@ -100,7 +100,6 @@ typedef struct CARDiCommon {
     /* 03c */ u32 mCallbackArg;
     /* 040 */ void (*mTaskFunc)(struct CARDiCommon *);
     /* 044 */ OSThread mThread;
-    /* 0fc */ u8 mUnk_fc[8];
     /* 104 */ OSThread *mCurTh;
     /* 108 */ u32 mPriority;
     /* 10c */ OSThreadQueue mBusyQ;

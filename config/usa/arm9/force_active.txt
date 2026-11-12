@@ -8,3 +8,4 @@ data_0216fe18
 data_0216fe1c
 FloatFlagsClearXor
 data_02001e54
+OSi_IdleThreadStack

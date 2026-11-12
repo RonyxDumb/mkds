@@ -8,15 +8,15 @@
 
 // Runs once: empties the vertical count alarm state and clears the V-count interrupt enable.
 void OS_InitVAlarm(void) {
-    if (data_02170268 != 0) {
+    if (OSi_UseVAlarm != 0) {
         return;
     }
-    data_02170268 = 1;
-    data_02170274[0] = 0;
-    data_02170274[1] = 0;
+    OSi_UseVAlarm = 1;
+    OSi_VAlarmQueue[0] = 0;
+    OSi_VAlarmQueue[1] = 0;
     OS_DisableIrqMask(4);
-    data_02170270 = 0;
-    data_0217026c = 0;
+    OSi_VFrameCount = 0;
+    OSi_PreviousVCount = 0;
 }
 
 u16 gAlarmInitialized;

@@ -68,7 +68,6 @@ typedef struct Http {
     /* 960 */ s32 mContentLength;
     /* 964 */ const char *mBodyStart;
     /* 968 */ OSThread mThread;
-    /* a20 */ u8 pad_a20[8];
     /* a28 */ OSMutex mAbortMutex;
     /* a40 */ BOOL mAbort;
     /* a44 */ u8 pad_a44[0x101c];
@@ -107,7 +106,6 @@ typedef struct DWCAuth {
     /* 1f8 */ DWCHttpLabelValue mHttpLabelvalue[0x20];
     /* 2f8 */ Http *mHttp;
     /* 2fc */ OSThread mThread;
-    /* 3b4 */ u8 pad_3b4[8];
     /* 3bc */ OSMutex mMutex;
     /* 3d4 */ BOOL mAbort;
     /* 3d8 */ u8 pad_3d8[8];

@@ -4,8 +4,8 @@
 #include "code_0214d018.h"
 #include "code_0214d5b8.h"
 
-u16 data_02170280;
-u16 data_0217027c;
+u16 OSi_IsResetOccurred;
+u16 OSi_IsInitReset;
 
 // Copies the 6-byte MAC address from the fixed system block into macAddress.
 void OS_GetMacAddress(void *macAddress) {
@@ -29,10 +29,10 @@ void OS_GetOwnerInfo(OwnerInfo *info) {
 
 // Opens the reset channel once and installs OSi_CommonCallback on it.
 void OS_InitReset(void) {
-    if (data_0217027c != 0) {
+    if (OSi_IsInitReset != 0) {
         return;
     }
-    data_0217027c = 1;
+    OSi_IsInitReset = 1;
     PXI_Init();
     while (PXI_IsCallbackReady(0xc, 1) == 0) {
     }
@@ -42,7 +42,7 @@ void OS_InitReset(void) {
 // Handles reset-channel commands: command 0x10 sets the flag, any other command terminates.
 void OSi_CommonCallback(u32 tag, u32 data) {
     if (((data & 0x7f00) << 8) >> 16 == 0x10) {
-        data_02170280 = 1;
+        OSi_IsResetOccurred = 1;
         return;
     }
     OS_Terminate();

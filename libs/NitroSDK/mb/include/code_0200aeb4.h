@@ -21,7 +21,6 @@ typedef struct WorkerTask {
 // What gWorkerQueue points to: the OSThread, then the first and the last object of the list.
 typedef struct WorkerQueue {
     /* 00 */ OSThread mThread;
-    /* b8 */ u8 mUnk_b8[8];
     /* c0 */ WorkerTask *volatile mFirstTask;
     /* c4 */ WorkerTask mStopTask;
 } WorkerQueue;

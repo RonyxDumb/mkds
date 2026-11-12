@@ -49,12 +49,13 @@ typedef struct OSThread {
     /* b0 */ OSAlarm *mAlarmForSleep;
     // What OS_SetThreadDestructor stores; OSi_ExitThread clears it and calls it with the exit argument.
     /* b4 */ void (*mDestructor)(void *);
+    /* b8 */ u8 mPad[8];
 } OSThread;
 
 // The thread switch callback type.
 typedef void (*OSSwitchThreadCallback)(OSThread *from, OSThread *to);
 
-// Object at OSi_ThreadInfo; OS_InitThread stores the address of mCurrentThread in data_0216ff54.
+// Object at OSi_ThreadInfo; OS_InitThread stores the address of mCurrentThread in OSi_CurrentThreadPtr.
 typedef struct ThreadSystem {
     /* 00 */ u16 mIsNeedRescheduling;
     /* 02 */ u16 mIrqDepth;
@@ -94,7 +95,7 @@ void OS_DestroyThread(OSThread *thread);
 void OSi_ExitThread_Destroy(void);
 // Calls the thread's destructor with arg when it has one, then ends the current thread.
 void OSi_ExitThread(void *arg);
-// Ends thread, running OSi_ExitThread on a separate stack when data_0216ff44 is set.
+// Ends thread, running OSi_ExitThread on a separate stack when OSi_StackForDestructor is set.
 void OSi_ExitThread_ArgSpecified(OSThread *thread, void *arg);
 // Ends the current thread; OS_CreateThread stores it as the return address of every new thread.
 void OS_ExitThread(void);

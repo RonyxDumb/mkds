@@ -89,7 +89,6 @@ typedef struct SceneCallbacks {
 typedef struct SceneRunState {
     /* 000 */ void *mThreadStack;
     /* 004 */ OSThread mThread;
-    /* 0bc */ u8 mUnk_0bc[8];
     /* 0c4 */ OSThreadQueue mThreadQueue;
     /* 0cc */ PMSleepCallbackInfo mPreSleepCallback;
     /* 0d8 */ PMSleepCallbackInfo mPostSleepCallback;
@@ -236,7 +235,6 @@ extern StartupWork *gStartupWork;
 typedef struct FileReadThread {
     /* 000 */ u8 mStack[0x400];
     /* 400 */ OSThread mThread;
-    /* 4b8 */ u8 mUnk_4b8[8];
     /* 4c0 */ s32 mUnk_4c0;
     /* 4c4 */ s32 mUnk_4c4;
 } FileReadThread;

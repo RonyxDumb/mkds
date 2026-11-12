@@ -48,6 +48,6 @@ void OS_InitAlarm(void);
 // OSAlarm.mFire (the next tick when it has passed, 0 when it is 0x10000 ticks or more away), starts it and enables its
 // interrupt.
 void OSi_SetTimer(OSAlarm *alarm);
-// Runs once: clears the vertical count alarm list (data_02170274), data_02170270 and data_0217026c and the V-count
+// Runs once: clears the vertical count alarm list (OSi_VAlarmQueue), OSi_VFrameCount and OSi_PreviousVCount and the V-count
 // interrupt enable.
 void OS_InitVAlarm(void);

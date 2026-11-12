@@ -24,7 +24,6 @@ typedef struct DWCNetcheck {
     /* 114 */ void *mBody302;
     /* 118 */ void *mBodyWayport;
     /* 11c */ OSThread mThread;
-    /* 1d4 */ u8 pad_1d4[8];
     /* 1dc */ OSMutex mMutex;
     /* 1f4 */ u8 pad_1f4[0x100c];
     /* 1200 */ u8 mThreadStack[0x1000];

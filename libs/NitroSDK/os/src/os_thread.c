@@ -14,6 +14,17 @@
 #include "00/Lib/DWC/code_02188720.h"
 #include "code_0200e6ec.h"
 
+u32 OSi_StackForDestructor;
+void (*OSi_SystemCallbackInSwitchThread)(OSThread *, OSThread *);
+u32 OSi_IsThreadInitialized;
+u32 OSi_RescheduleCount;
+u32 gThreadIdCount;
+OSThread **OSi_CurrentThreadPtr;
+ThreadSystem OSi_ThreadInfo;
+OSThread OSi_LauncherThread;
+OSThread OSi_IdleThread;
+u32 OSi_IdleThreadStack[0x32];
+
 // Adds 1 to the thread id counter and returns the new value.
 u32 OSi_GetUnusedThreadId(void) {
     gThreadIdCount = gThreadIdCount + 1;
@@ -139,18 +150,18 @@ void OS_InitThread(void) {
     u8 *stackTop;
     u8 *stackBottom;
 
-    if (data_0216ff58 != 0) {
+    if (OSi_IsThreadInitialized != 0) {
         return;
     }
-    data_0216ff58 = 1;
-    data_0216ff54 = &OSi_ThreadInfo.mCurrentThread;
-    OSi_IdleThread.mPriority = 0x10;
-    OSi_IdleThread.mId = 0;
-    OSi_IdleThread.mState = 1;
-    OSi_IdleThread.mNext = 0;
-    OSi_IdleThread.mProfiler = 0;
-    OSi_ThreadInfo.mListHead = &OSi_IdleThread;
-    OSi_ThreadInfo.mCurrentThread = &OSi_IdleThread;
+    OSi_IsThreadInitialized = 1;
+    OSi_CurrentThreadPtr = &OSi_ThreadInfo.mCurrentThread;
+    OSi_LauncherThread.mPriority = 0x10;
+    OSi_LauncherThread.mId = 0;
+    OSi_LauncherThread.mState = 1;
+    OSi_LauncherThread.mNext = 0;
+    OSi_LauncherThread.mProfiler = 0;
+    OSi_ThreadInfo.mListHead = &OSi_LauncherThread;
+    OSi_ThreadInfo.mCurrentThread = &OSi_LauncherThread;
     stackSize = (s32) data_00002800;
     if (stackSize <= 0) {
         stackTop = (u8 *) 0x27e00e0 - stackSize;
@@ -158,20 +169,20 @@ void OS_InitThread(void) {
         stackTop = (u8 *) &gDtcmData + 0x3f80 - (u32) data_00000c00 - stackSize;
     }
     stackBottom = (u8 *) &gDtcmData + 0x3f80 - (u32) data_00000c00;
-    OSi_IdleThread.mStackBottom = stackBottom;
-    OSi_IdleThread.mStackTop = stackTop;
-    OSi_IdleThread.mStackWarningOffset = 0;
+    OSi_LauncherThread.mStackBottom = stackBottom;
+    OSi_LauncherThread.mStackTop = stackTop;
+    OSi_LauncherThread.mStackWarningOffset = 0;
     *(u32 *) (stackBottom - 4) = 0xfddb597d;
-    *(u32 *) OSi_IdleThread.mStackTop = 0x7bf9dd5b;
-    OSi_IdleThread.mJoinQueue.mTail = 0;
-    OSi_IdleThread.mJoinQueue.mHead = 0;
+    *(u32 *) OSi_LauncherThread.mStackTop = 0x7bf9dd5b;
+    OSi_LauncherThread.mJoinQueue.mTail = 0;
+    OSi_LauncherThread.mJoinQueue.mHead = 0;
     OSi_ThreadInfo.mIsNeedRescheduling = 0;
     OSi_ThreadInfo.mIrqDepth = 0;
     *(ThreadSystem **) HW_THREADINFO_MAIN = &OSi_ThreadInfo;
     OS_SetSwitchThreadCallback(0);
-    OS_CreateThread(&data_0216ff6c, OSi_IdleThreadProc, 0, (u8 *) &data_021701b4, 0xc8, 0x1f);
-    data_0216ff6c.mPriority = 0x20;
-    data_0216ff6c.mState = 1;
+    OS_CreateThread(&OSi_IdleThread, OSi_IdleThreadProc, 0, (u8 *) &OSi_Initialized, 0xc8, 0x1f);
+    OSi_IdleThread.mPriority = 0x20;
+    OSi_IdleThread.mState = 1;
 }
 
 // Sets up thread to run func with arg on the given stack at priority prio, and links it into the thread list.
@@ -215,10 +226,10 @@ void OS_ExitThread(void) {
     OSi_ExitThread_ArgSpecified(OSi_ThreadInfo.mCurrentThread, 0);
 }
 
-// When data_0216ff44 is set, restarts thread on that stack in OSi_ExitThread with arg; otherwise calls OSi_ExitThread.
+// When OSi_StackForDestructor is set, restarts thread on that stack in OSi_ExitThread with arg; otherwise calls OSi_ExitThread.
 void OSi_ExitThread_ArgSpecified(OSThread *thread, void *arg) {
-    if (data_0216ff44 != 0) {
-        ThreadInitContext(thread, OSi_ExitThread, data_0216ff44);
+    if (OSi_StackForDestructor != 0) {
+        ThreadInitContext(thread, OSi_ExitThread, OSi_StackForDestructor);
         thread->mR0 = arg;
         thread->mCpsr = thread->mCpsr | 0x80;
         thread->mState = 1;
@@ -233,7 +244,7 @@ void OSi_ExitThread(void *arg) {
     OSThread *current;
     OSThreadDestructor destructor;
 
-    current = *data_0216ff54;
+    current = *OSi_CurrentThreadPtr;
     destructor = current->mDestructor;
     if (destructor != 0) {
         current->mDestructor = 0;
@@ -248,7 +259,7 @@ void OSi_ExitThread(void *arg) {
 void OSi_ExitThread_Destroy(void) {
     OSThread *current;
 
-    current = *data_0216ff54;
+    current = *OSi_CurrentThreadPtr;
     OS_DisableScheduler();
     OSi_UnlockAllMutex(current);
     OSi_RemoveThreadFromList(current);
@@ -308,7 +319,7 @@ void OS_SleepThread(OSThreadQueue *queue) {
     OSThread *current;
 
     enabled = OS_DisableInterrupts();
-    current = *data_0216ff54;
+    current = *OSi_CurrentThreadPtr;
     if (queue != 0) {
         current->mQueue = queue;
         OSi_InsertLinkToQueue(queue, current);
@@ -368,14 +379,14 @@ void OSi_RescheduleThread(void) {
     OSThread *next;
 
     system = &OSi_ThreadInfo;
-    if (data_0216ff48 != 0) {
+    if (OSi_RescheduleCount != 0) {
         return;
     }
     if (system->mIrqDepth != 0 || OS_GetProcMode() == 0x12) {
         system->mIsNeedRescheduling = 1;
         return;
     }
-    current = *data_0216ff54;
+    current = *OSi_CurrentThreadPtr;
     next = OS_SelectThread();
     if (current == next) {
         return;
@@ -388,8 +399,8 @@ void OSi_RescheduleThread(void) {
             return;
         }
     }
-    if (data_0216ff50 != 0) {
-        data_0216ff50(current, next);
+    if (OSi_SystemCallbackInSwitchThread != 0) {
+        OSi_SystemCallbackInSwitchThread(current, next);
     }
     if (system->mSwitchCallback != 0) {
         system->mSwitchCallback(current, next);
@@ -452,7 +463,7 @@ s32 OS_SetThreadPriority(OSThread *thread, u32 prio) {
         prev = current;
         current = current->mNext;
     }
-    if (current == 0 || current == &data_0216ff6c) {
+    if (current == 0 || current == &OSi_IdleThread) {
         OS_RestoreInterrupts(enabled);
         return 0;
     }
@@ -482,7 +493,7 @@ void OS_Sleep(u32 msec) {
     u32 enabled;
 
     OS_CreateAlarm(&alarm);
-    thread = *data_0216ff54;
+    thread = *OSi_CurrentThreadPtr;
     enabled = OS_DisableInterrupts();
     thread->mAlarmForSleep = &alarm;
     OS_SetAlarm(&alarm, msec * 0x82ea >> 6, (void (*)(void *)) OSi_SleepAlarmCallback, &thread);
@@ -528,9 +539,9 @@ u32 OS_DisableScheduler(void) {
     u32 count;
 
     enabled = OS_DisableInterrupts();
-    if (data_0216ff48 < 0xffffffff) {
-        count = data_0216ff48;
-        data_0216ff48 = count + 1;
+    if (OSi_RescheduleCount < 0xffffffff) {
+        count = OSi_RescheduleCount;
+        OSi_RescheduleCount = count + 1;
     }
     OS_RestoreInterrupts(enabled);
     return count;
@@ -543,9 +554,9 @@ u32 OS_EnableScheduler(void) {
 
     enabled = OS_DisableInterrupts();
     count = 0;
-    if (data_0216ff48 != 0) {
-        count = data_0216ff48;
-        data_0216ff48 = count - 1;
+    if (OSi_RescheduleCount != 0) {
+        count = OSi_RescheduleCount;
+        OSi_RescheduleCount = count - 1;
     }
     OS_RestoreInterrupts(enabled);
     return count;
@@ -558,5 +569,5 @@ void OS_SetThreadDestructor(OSThread *thread, OSThreadDestructor dtor) {
 
 // Returns whether OS_InitThread has run.
 u32 OS_IsThreadAvailable(void) {
-    return data_0216ff58;
+    return OSi_IsThreadInitialized;
 }

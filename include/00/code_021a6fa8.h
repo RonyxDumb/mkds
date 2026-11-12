@@ -27,7 +27,6 @@ typedef struct SizedBuffer {
 typedef struct SOCLiSocketCommandPipe {
     /* 00 */ OSMessageQueue mQueue;
     /* 20 */ OSThread mThread;
-    /* d8 */ u8 mUnk_d8[8];
     /* e0 */ OSMutex mInUse;
 } SOCLiSocketCommandPipe;
 

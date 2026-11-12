@@ -50,19 +50,19 @@ extern u32 GXi_DmaId;
 
 extern s32 sDayOfYear[12];
 
-extern u32 data_0216ff44;
+extern u32 OSi_StackForDestructor;
 
-extern u32 data_0216ff48;
+extern u32 OSi_RescheduleCount;
 
 // The number OSi_GetUnusedThreadId last returned.
 extern u32 gThreadIdCount;
 
-extern void (*data_0216ff50)(OSThread *, OSThread *);
+extern void (*OSi_SystemCallbackInSwitchThread)(OSThread *, OSThread *);
 
-extern OSThread **data_0216ff54;
+extern OSThread **OSi_CurrentThreadPtr;
 
-extern u32 data_0216ff58;
+extern u32 OSi_IsThreadInitialized;
 
 extern ThreadSystem OSi_ThreadInfo;
 
-extern OSThread data_0216ff6c;
+extern OSThread OSi_IdleThread;
