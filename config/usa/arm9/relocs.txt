@@ -14431,7 +14431,7 @@ from:0x02088384 kind:load to:0x0217af04 module:main
 from:0x02088388 kind:load to:0x0217af08 module:main
 from:0x0208838c kind:load to:0x02165eb4 module:main
 from:0x020883c0 kind:arm_call to:0x02135048 module:main
-from:0x020883d4 kind:load to:0x02155cf4 module:main
+from:0x020883d4 kind:load to:0x02155cec add:0x8 module:main
 from:0x020883d8 kind:load to:0x0217af04 module:main
 from:0x020883dc kind:load to:0x0217af08 module:main
 from:0x020883e0 kind:load to:0x02165ed4 module:main
@@ -14447,10 +14447,10 @@ from:0x02088480 kind:load to:0x0217af04 module:main
 from:0x02088484 kind:load to:0x0217af08 module:main
 from:0x02088488 kind:load to:0x02165f0c module:main
 from:0x020884b4 kind:load to:0x02155cec module:main
-from:0x020884b8 kind:load to:0x02155cf0 module:main
+from:0x020884b8 kind:load to:0x02155cec add:0x4 module:main
 from:0x020884f0 kind:arm_call to:0x02135048 module:main
 from:0x02088504 kind:load to:0x02165ac8 module:main
-from:0x02088508 kind:load to:0x02155d8c module:main
+from:0x02088508 kind:load to:0x02155d88 add:0x4 module:main
 from:0x0208850c kind:load to:0x0217af04 module:main
 from:0x02088510 kind:load to:0x0217af08 module:main
 from:0x02088514 kind:load to:0x02165f14 module:main
@@ -14488,7 +14488,7 @@ from:0x02088784 kind:arm_call to:0x02135048 module:main
 from:0x020887a0 kind:arm_call to:0x02135048 module:main
 from:0x020887b4 kind:load to:0x02155cec module:main
 from:0x020887b8 kind:load to:0x02165fa4 module:main
-from:0x020887bc kind:load to:0x02155cf0 module:main
+from:0x020887bc kind:load to:0x02155cec add:0x4 module:main
 from:0x020887c0 kind:load to:0x02165ac4 module:main
 from:0x020887c4 kind:load to:0x02165e80 module:main
 from:0x020887c8 kind:load to:0x0217af04 module:main
@@ -14499,7 +14499,7 @@ from:0x02088834 kind:arm_call to:0x02135048 module:main
 from:0x02088850 kind:arm_call to:0x02135048 module:main
 from:0x02088864 kind:load to:0x02155cec module:main
 from:0x02088868 kind:load to:0x02165fbc module:main
-from:0x0208886c kind:load to:0x02155cf0 module:main
+from:0x0208886c kind:load to:0x02155cec add:0x4 module:main
 from:0x02088870 kind:load to:0x02165ac4 module:main
 from:0x02088874 kind:load to:0x02165e80 module:main
 from:0x02088878 kind:load to:0x0217af04 module:main

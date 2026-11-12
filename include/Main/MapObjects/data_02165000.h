@@ -23,12 +23,6 @@ typedef struct QueueMPDataToPortParams {
 
 struct Kart;
 
-extern const char *gCharacterDirName;
-
-extern const char *gKartDirName;
-
-extern const char *gCharacterSubDirNames[13];
-
 extern u16 gKartNameTagLineVertices[12];
 
 extern TexPlttEntry data_021659ec;
@@ -50,8 +44,6 @@ typedef struct BattleKartAiParams {
 extern const s32 data_02166048;
 
 extern const Vec3 data_0216608c;
-
-extern const char *const gTeamEmblemNames[];
 
 // Three words.
 typedef struct KartFollowEffectIds {

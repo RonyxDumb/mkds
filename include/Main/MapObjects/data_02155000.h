@@ -42,28 +42,6 @@ extern Vec3 gKartEffectVec3Zero;
 
 extern Vec3 gOtherCameraDistanceLimitsSquared;
 
-// 12-byte entries; BuildEmblemNsbtxPath reads the string pointer at 0x00.
-typedef struct CharacterName {
-    /* 00 */ const char *mName;
-    /* 04 */ u8 mUnk_04[8];
-} CharacterName;
-
-extern const CharacterName gCharacterEmblemNames[];
-
-extern const CharacterName gCharacterPNames[];
-
-extern const CharacterName gCharacterENames[];
-
-// 8-byte entries; BuildKartShadowNsbmdPath and BuildKartNsbtxPath read the string pointer at 0x00.
-typedef struct KartName {
-    /* 00 */ const char *mName;
-    /* 04 */ u8 mUnk_04[4];
-} KartName;
-
-extern const KartName gKartNames[];
-
-extern const KartName gKartShadowNames[];
-
 // 12-byte entry: four bytes and two string pointers.
 typedef struct StemSetParams {
     /* 00 */ u8 mNsbmdCount;

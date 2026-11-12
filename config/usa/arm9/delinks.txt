@@ -1926,7 +1926,8 @@ src/Main/Graphics/model_animation.c:
 src/Main/Kart/kart_model_path.c:
     complete
     .text       start:0x02088338 end:0x020888b4
-    .data       start:0x02165eb4 end:0x02165fec
+    .rodata     start:0x02155cec end:0x02155eb0
+    .data       start:0x02165a8c end:0x02165fec
 
 // provisional: file name and boundaries
 src/Main/Kart/kart_ai_battle.c:
