@@ -437,8 +437,6 @@ typedef struct ItemInfo {
 
 extern ItemInfo data_0215a4c0;
 
-extern ItemInfo data_0215a174;
-
 extern ItemInfo data_0215a2ec;
 
 extern ItemInfo data_02159d90;

@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "Main/Race/race_hud_sub_screen_cells.h" // RaceHudSubScreenCellGroupFunctions
+#include "Main/MapObjects/data_0217b000.h"
 
 typedef struct RaceHudOamBuffer RaceHudOamBuffer;
 
@@ -59,13 +60,14 @@ void UpdateRaceHudSubScreenCrabCells(void);
 
 extern s32 gRaceHudSubScreenItemPoolIndices[10];
 
-extern struct RaceHudSubScreenCells *gRaceHudSubScreenItemCells;
-extern struct RaceHudSubScreenCells *gRaceHudSubScreenEarthenPipeCells;
 extern struct RaceHudSubScreenCells *gRaceHudSubScreenWanwanCells;
+extern struct RaceHudSubScreenCells *gRaceHudSubScreenPukupukuCells;
+extern struct RaceHudSubScreenCells *gRaceHudSubScreenEarthenPipeCells;
+extern struct RaceHudSubScreenCells *gRaceHudSubScreenItemCells;
 extern struct RaceHudSubScreenCells *gRaceHudSubScreenDossunCells;
 extern struct RaceHudSubScreenCells *gRaceHudSubScreenSmanCells;
 extern struct RaceHudSubScreenCells *gRaceHudSubScreenMoveTreeCells;
-extern struct RaceHudSubScreenCells *gRaceHudSubScreenPukupukuCells;
+extern RaceHudSubScreenCells *gRaceHudSubScreenItemBoxCells;
 extern struct RaceHudSubScreenCells *gRaceHudSubScreenChoropuCells;
 extern struct RaceHudSubScreenCells *gRaceHudSubScreenKoopaBlockCells;
 extern struct RaceHudSubScreenCells *gRaceHudSubScreenCarCells;

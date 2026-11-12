@@ -8056,18 +8056,18 @@ gKartNames kind:data(any) addr:0x02155d88
 gKartShadowNames kind:data(any) addr:0x02155d8c
 gVec3UnitY kind:data(any) addr:0x02155eb0
 gBattleKartAiZeroVector kind:data(any) addr:0x02155ebc
-data_02155ec8 kind:data(any) addr:0x02155ec8
-data_02155ecc kind:data(any) addr:0x02155ecc
-data_02155ed0 kind:data(any) addr:0x02155ed0
+gTimedQuadStartFunctions kind:data(any) addr:0x02155ec8
+gTimedQuadUpdateFunctions kind:data(any) addr:0x02155ecc
+gTimedQuadVertices kind:data(any) addr:0x02155ed0
 gCountStartStems kind:data(any) addr:0x02155ee8
 gGoalStems kind:data(any) addr:0x02155f0c
 gWinStems kind:data(any) addr:0x02155f18
 gLoseStems kind:data(any) addr:0x02155f24
 gCompleteStems kind:data(any) addr:0x02155f30
 gFailedStems kind:data(any) addr:0x02155f3c
-data_usa_02155f48 kind:data(any) addr:0x02155f48
-data_usa_02155f78 kind:data(any) addr:0x02155f78
-data_usa_02155fc0 kind:data(any) addr:0x02155fc0
+gStadiumEmitterEffectIds kind:data(any) addr:0x02155f48
+gStadiumEmitterPositions kind:data(any) addr:0x02155f78
+gAwardEmitterPosition kind:data(any) addr:0x02155fc0
 gKartTurnEffectsStartPosition kind:data(any) addr:0x02155fcc
 gBattleEasyItemInUseEntries kind:data(any) addr:0x02155fd8
 gBattleHardItemInUseEntries kind:data(any) addr:0x02156080
@@ -8644,7 +8644,7 @@ data_0215a100 kind:data(any) addr:0x0215a100
 data_0215a12c kind:data(any) addr:0x0215a12c
 gItemTeresaPickWeights kind:data(any) addr:0x0215a154
 gItemTeresaBattleKartOrder kind:data(any) addr:0x0215a164
-data_0215a174 kind:data(any) addr:0x0215a174
+gItemInfoTeresa kind:data(any) addr:0x0215a174
 gItemTeresaItemOffsets kind:data(any) addr:0x0215a190
 gItemTeresaPathPoints kind:data(any) addr:0x0215a1c0
 gItemKindTeresa kind:data(any) addr:0x0215a244
@@ -8661,7 +8661,7 @@ gItemKindKiller kind:data(any) addr:0x0215a5a4
 gPooledItemBoxKindDescriptor kind:data(any) addr:0x0215a64c
 gPooledItemBoxKindData kind:data(any) addr:0x0215a680
 gVec3Ones kind:data(any) addr:0x0215a6c0
-data_0215a6cc kind:data(any) addr:0x0215a6cc
+gPooledMapObjectVec3Zero kind:data(any) addr:0x0215a6cc
 data_0215a6d8 kind:data(any) addr:0x0215a6d8
 data_0215a6e4 kind:data(any) addr:0x0215a6e4
 data_0215a6ec kind:data(any) addr:0x0215a6ec
@@ -9304,7 +9304,7 @@ gRaceDisplaySettingsDescs kind:data(any) addr:0x02164718
 gRaceSceneCallbacks kind:data(any) addr:0x02164734
 gGhostPathFormat kind:data(any) addr:0x02164754
 @643 kind:data(any) addr:0x02164770 local
-data_usa_0216478c kind:data(any) addr:0x0216478c
+@5123 kind:data(any) addr:0x0216478c local
 gTitleSceneCallbacks kind:data(any) addr:0x02164798
 @5588 kind:data(any) addr:0x021647b8 local
 @5589 kind:data(any) addr:0x021647c8 local
@@ -9833,29 +9833,25 @@ data_0216608c kind:data(any) addr:0x0216608c
 @2494 kind:data(any) addr:0x021660bc local
 @3719 kind:data(any) addr:0x021660c8 local
 @3720 kind:data(any) addr:0x021660e0 local
-data_usa_021660f8 kind:data(any) addr:0x021660f8
-data_usa_021660fc kind:data(any) addr:0x021660fc
-data_usa_02166108 kind:data(any) addr:0x02166108
+gAwardFirstEffectIds kind:data(any) addr:0x021660f8
+gStadiumEmitterDirectionOrigin kind:data(any) addr:0x021660fc
+gAwardEmitterEffectIds kind:data(any) addr:0x02166108
 gRaceEffectSpaName kind:data(any) addr:0x02166138
 gRaceEffectFogOffSpaName kind:data(any) addr:0x02166148
 gMissionEffectSpaName kind:data(any) addr:0x02166168
 gModelEffectKinds kind:data(any) addr:0x0216618c
-data_021661b8 kind:data(any) addr:0x021661b8
-data_021661e4 kind:data(any) addr:0x021661e4
-data_02166210 kind:data(any) addr:0x02166210
-data_0216623c kind:data(any) addr:0x0216623c
-gBkWaveNsbcaName kind:data(any) addr:0x02166268
-gBkWaveNsbmaName kind:data(any) addr:0x02166280
-gBombcoreNsbmdName kind:data(any) addr:0x02166298
-gBombcoreNsbcaName kind:data(any) addr:0x021662b8
-gBombcoreNsbmaName kind:data(any) addr:0x021662d8
-gBombcoreNsbtaName kind:data(any) addr:0x021662f8
-gBombcore2NsbmdName kind:data(any) addr:0x02166318
-gBombcore2NsbcaName kind:data(any) addr:0x0216633c
-gBombcore2NsbmaName kind:data(any) addr:0x02166360
-gBombcore2NsbtaName kind:data(any) addr:0x02166384
-data_021663a8 kind:data(any) addr:0x021663a8
-data_021663c0 kind:data(any) addr:0x021663c0
+@3880 kind:data(any) addr:0x02166268 local
+@3881 kind:data(any) addr:0x02166280 local
+@3978 kind:data(any) addr:0x02166298 local
+@3979 kind:data(any) addr:0x021662b8 local
+@3980 kind:data(any) addr:0x021662d8 local
+@3981 kind:data(any) addr:0x021662f8 local
+@3982 kind:data(any) addr:0x02166318 local
+@3983 kind:data(any) addr:0x0216633c local
+@3984 kind:data(any) addr:0x02166360 local
+@3985 kind:data(any) addr:0x02166384 local
+@3986 kind:data(any) addr:0x021663a8 local
+@3987 kind:data(any) addr:0x021663c0 local
 gPosStripFirstPolygonId kind:data(any) addr:0x021663d8
 gPosStripAlphaDecreasePerFrame kind:data(any) addr:0x021663dc
 gPosStripMaxAgeFrames kind:data(any) addr:0x021663e0
@@ -10462,8 +10458,8 @@ gItemKouraRStateTable kind:data(any) addr:0x0216c628
 gSoundStartParamsDefault kind:data(any) addr:0x0216c678
 gKouraWVec3UnitY kind:data(any) addr:0x0216c688
 gItemKouraWStateTable kind:data(any) addr:0x0216c694
-gKouraWNsbmdName kind:data(any) addr:0x0216c6d4
-gKouraWNsbtxName kind:data(any) addr:0x0216c6e4
+@5931 kind:data(any) addr:0x0216c6d4 local
+@5932 kind:data(any) addr:0x0216c6e4 local
 gItemBombStateTable kind:data(any) addr:0x0216c6f4
 gItemFBoxRotationAxis kind:data(any) addr:0x0216c714
 gDramStateTable kind:data(any) addr:0x0216c720
@@ -10471,11 +10467,11 @@ gDramStateTable kind:data(any) addr:0x0216c720
 gItemTeresaStateTable kind:data(any) addr:0x0216c75c
 gGesoSumiModelNsbmdName kind:data(any) addr:0x0216c794
 gGesoSumiTextureNsbmdName kind:data(any) addr:0x0216c7a4
-data_0216c7d4 kind:data(any) addr:0x0216c7b4
+gSndHeapSizeKind kind:data(any) addr:0x0216c7b4
 gLoadedSoundBanks kind:data(any) addr:0x0216c7b8
-data_0216c7e0 kind:data(any) addr:0x0216c7c0
-data_0216c7f8 kind:data(any) addr:0x0216c7d8
-data_0216c82c kind:data(any) addr:0x0216c80c
+gOldLuigiAgbSurfaceSoundSetup kind:data(any) addr:0x0216c7c0
+gSndBankIdsByBit kind:data(any) addr:0x0216c7d8
+gSndWaveArcIdsByBit kind:data(any) addr:0x0216c80c
 gCourseSurfaceSoundEntries kind:data(any) addr:0x0216c840
 data_usa_0216c848 kind:data(any) addr:0x0216c848
 data_usa_0216c850 kind:data(any) addr:0x0216c850
@@ -10973,8 +10969,8 @@ gKeyboardSBFlame01NscrName kind:data(any) addr:0x0216ea10
 gKeyboardSBNclrName kind:data(any) addr:0x0216ea2c
 gKeyboardCommonBmgName kind:data(any) addr:0x0216ea40
 gMessageScreenCommonBmgName kind:data(any) addr:0x0216ea4c
-gEndingStaffRollB00NclrName kind:data(any) addr:0x0216ea58
-gStaffRollBmgName kind:data(any) addr:0x0216ea74
+@3688 kind:data(any) addr:0x0216ea58 local
+@3689 kind:data(any) addr:0x0216ea74 local
 sCallbackInfo kind:data(any) addr:0x0216ea84
 data_0216eb7c kind:data(any) addr:0x0216eb5c
 @159 kind:data(any) addr:0x0216ec40 local
@@ -11521,14 +11517,10 @@ gRaceEnd kind:bss addr:0x0217b33c
 gBmgEntryOffsetSection kind:bss addr:0x0217b340
 gBmgBodySection kind:bss addr:0x0217b344
 gPlayerCharacterNclr kind:bss addr:0x0217b348
-gPlayerCharacterLNclr kind:bss addr:0x0217b34c
 gPlayerCharacterNcgr kind:bss addr:0x0217b350
-gPlayerCharacterLNcgr kind:bss addr:0x0217b354
 gPlayerCharacterNcer kind:bss addr:0x0217b358
-gPlayerCharacterLNcer kind:bss addr:0x0217b35c
 gPlayerCharacterBncl kind:bss addr:0x0217b360
 gPlayerCharacterShyguyNclr kind:bss addr:0x0217b368
-gPlayerCharacterLShyguyNclr kind:bss addr:0x0217b36c
 gFontTable kind:bss addr:0x0217b370
 gLCFontS kind:bss addr:0x0217b37c
 gLCFontM kind:bss addr:0x0217b388
@@ -11849,9 +11841,7 @@ gItemDataQueueFreeHead kind:bss addr:0x0217bd44
 gItemDataDelayedUsedHead kind:bss addr:0x0217bd48
 gItemDataBuffer kind:bss addr:0x0217bd4c
 gItemDataQueueLinks kind:bss addr:0x0217bd60
-data_0217bd81 kind:bss addr:0x0217bd61
 gItemDataDelayedLinks kind:bss addr:0x0217bda0
-data_0217bdc1 kind:bss addr:0x0217bda1
 gItemDataQueue kind:bss addr:0x0217bde0
 gItemDataDelayed kind:bss addr:0x0217c1e0
 gItemFBoxRotation kind:bss addr:0x0217c5e0
@@ -11885,19 +11875,19 @@ gMissionRunMSselSeqIndex kind:bss addr:0x0217c754
 gMatchingEntrySeqHandle kind:bss addr:0x0217c758
 gSndHeap kind:bss addr:0x0217c75c
 gRaceSoundKind kind:bss addr:0x0217c760
-data_0217c784 kind:bss addr:0x0217c764
+gMissionRunSelMode kind:bss addr:0x0217c764
 gSeqZeroLoopHandle kind:bss addr:0x0217c768
-data_0217c78c kind:bss addr:0x0217c76c
-data_0217c790 kind:bss addr:0x0217c770
+gSceneSeqRestartAfterStar kind:bss addr:0x0217c76c
+gSeqRowSndHeap kind:bss addr:0x0217c770
 gSoundStartedThisFrame kind:bss addr:0x0217c774
-data_0217c798 kind:bss addr:0x0217c778
-data_0217c79c kind:bss addr:0x0217c77c
-data_0217c7a0 kind:bss addr:0x0217c780
+gSndHeapSavedState kind:bss addr:0x0217c778
+gMissionRunMSselStep32Count kind:bss addr:0x0217c77c
+gMissionRunMSselStep0Count kind:bss addr:0x0217c780
 gSeqZeroLoopOn kind:bss addr:0x0217c784
-data_0217c7a8 kind:bss addr:0x0217c788
+gKartStarSeqStartPending kind:bss addr:0x0217c788
 gChoisesSSeqHandle kind:bss addr:0x0217c78c
-data_0217c7b0 kind:bss addr:0x0217c790
-data_0217c7b4 kind:bss addr:0x0217c794
+gRaceSeqStarted kind:bss addr:0x0217c790
+gLoadedSoundSet kind:bss addr:0x0217c794
 gSoundHandlePool kind:bss addr:0x0217c7a4
 data_0217c7d8 kind:bss addr:0x0217c7b8
 gPlayerVolumeFade kind:bss addr:0x0217c7d0

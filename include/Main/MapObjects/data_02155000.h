@@ -28,8 +28,6 @@ extern const u16 data_02155a2c[];
 
 extern const Vec3 data_02155ccc;
 
-extern const u16 data_02155ed0[];
-
 extern const Vec3 gPointLinkVec3Zero;
 
 struct ParticleEmitter;

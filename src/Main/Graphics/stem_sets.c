@@ -34,7 +34,11 @@
 #include "code_0214a748.h"
 #include "fx_mtx43.h"
 #include "Main/Graphics/data_02087000.h"
+#include "Main/Graphics/emitters.h"
 
+const u16 gTimedQuadVertices[12] = {0xf000, 0x1000, 0, 0xf000, 0xf000, 0, 0x1000, 0xf000, 0, 0x1000, 0x1000, 0};
+void (*const gTimedQuadStartFunctions[1])(TimedQuad *a) = {StartTimedQuad};
+void (*const gTimedQuadUpdateFunctions[1])(TimedQuad *a) = {UpdateTimedQuad};
 StemSets *gStemSets;
 
 void InitStemSets(void *heap) {
@@ -323,8 +327,8 @@ void UpdateTimedQuad(TimedQuad *timedQuad) {
 }
 
 void WriteQuadVertex(int vertexIndex) {
-    reg_G3_VTX_16 = data_02155ed0[vertexIndex * 3] | data_02155ed0[vertexIndex * 3 + 1] << 16;
-    reg_G3_VTX_16 = data_02155ed0[vertexIndex * 3 + 2];
+    reg_G3_VTX_16 = gTimedQuadVertices[vertexIndex * 3] | gTimedQuadVertices[vertexIndex * 3 + 1] << 16;
+    reg_G3_VTX_16 = gTimedQuadVertices[vertexIndex * 3 + 2];
 }
 
 void DrawTimedQuad(TimedQuad *timedQuad) {
@@ -346,7 +350,7 @@ void DrawTimedQuad(TimedQuad *timedQuad) {
 }
 
 void StartTimedQuadFromTable(u32 tableIndex) {
-    gStemSets->mStartFunction = data_02155ec8[tableIndex];
-    gStemSets->mUpdateFunction = data_02155ecc[tableIndex];
+    gStemSets->mStartFunction = gTimedQuadStartFunctions[tableIndex];
+    gStemSets->mUpdateFunction = gTimedQuadUpdateFunctions[tableIndex];
     gStemSets->mStartFunction(&gStemSets->mTimedQuad);
 }

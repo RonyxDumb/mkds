@@ -39,8 +39,21 @@
 #include "Main/Kart/karts.h"
 #include "code_02147cd8.h"
 
-// Indices into gItemKinds and gItemPools.
 s32 gRaceHudSubScreenItemPoolIndices[10] = {0, 1, 2, 3, 4, 5, 9, 7, 8, 11};
+struct RaceHudSubScreenCells *gRaceHudSubScreenDossunCells;
+struct RaceHudSubScreenCells *gRaceHudSubScreenChoropuCells;
+struct RaceHudSubScreenCells *gRaceHudSubScreenPukupukuCells;
+struct RaceHudSubScreenCells *gRaceHudSubScreenEarthenPipeCells;
+struct RaceHudSubScreenCells *gRaceHudSubScreenSmanCells;
+struct RaceHudSubScreenCells *gRaceHudSubScreenMoveTreeCells;
+struct RaceHudSubScreenCells *gRaceHudSubScreenItemCells;
+struct RaceHudSubScreenCells *gRaceHudSubScreenWanwanCells;
+struct RaceHudSubScreenCells *gRaceHudSubScreenKoopaBlockCells;
+struct RaceHudSubScreenCells *gRaceHudSubScreenCarCells;
+struct RaceHudSubScreenSecondHand *gRaceHudSubScreenSecondHand;
+struct RaceHudSubScreenKarts *gRaceHudSubScreenKarts;
+
+// Indices into gItemKinds and gItemPools.
 
 void UpdateRaceHudSubScreenCrabCells(void) {
     s32 objectIndex;

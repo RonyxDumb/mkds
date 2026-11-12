@@ -31,12 +31,17 @@
 #include "Main/Item/code_020f6be8.h"
 #include "code_02147cd8.h"
 
-s32 gItemSlotSpinItems[18];
-s32 gItemSlotPossibleItems[18];
-u16 gItemWeightSums[18];
-ItemSlotTable gItemSlotForcedTable;
-ItemSlotTable gItemSlotCpuTable;
+u16 gItemSlotPossibleItemCount;
+u16 gItemSlotSpinItemCount;
+s32 gGessoBlockTimer;
+s32 gThunderBlockTimer;
+s32 gKouraWBlockTimer;
 ItemSlotTable gItemSlotHumanGhostPeerTable;
+ItemSlotTable gItemSlotCpuTable;
+ItemSlotTable gItemSlotForcedTable;
+u16 gItemWeightSums[18];
+s32 gItemSlotPossibleItems[18];
+s32 gItemSlotSpinItems[18];
 
 const u8 gItemHitTypes[196] = {2, 2, 2, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 2, 2, 2, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 2, 2, 1, 1, 1, 2, 0, 1, 0, 2, 0, 0, 0, 2, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 2, 2, 2, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 1, 1, 2, 0, 1, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2};
 

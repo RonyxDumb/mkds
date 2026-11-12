@@ -14,10 +14,6 @@ typedef struct ItemDataRecord {
     /* 1c */ u32 mRaceUpdateFramesStamp;
 } ItemDataRecord;
 
-extern ItemDataRecord gItemDataDelayed[];
-
-extern ItemDataRecord gItemDataQueue[];
-
 u8 *CopyItemFBoxData(u8 *cursor, ItemFBox *fbox, void *toData);
 void InitItemFBoxFromData(ItemFBox *fbox);
 void SetupItemFBoxPooledMapObjects(void);
@@ -44,3 +40,9 @@ void *CopyItemObjectDataAndAdd(void *cursor, void *object, s32 toData);
 void SetupItemObjectFromDataWrapper(void *object);
 
 extern Vec3 gItemFBoxRotationAxis;
+
+extern u8 gItemDataBuffer[20];
+extern u8 gItemDataQueueLinks[32][2];
+extern ItemDataRecord gItemDataQueue[32];
+extern ItemDataRecord gItemDataDelayed[32];
+extern u8 gItemDataDelayedLinks[32][2];

@@ -103,3 +103,7 @@ void TeresaMarkItemInUseAsActiveItem(ItemInUse *itemInUse);
 extern const Vec3 gItemTeresaItemOffsets[4];
 extern const Vec3 gItemTeresaPathPoints[11];
 extern StateCallbacks gItemTeresaStateTable[7];
+
+extern const u16 gItemTeresaPickWeights[8];
+extern const u8 gItemTeresaBattleKartOrder[16];
+extern const ItemInfo gItemInfoTeresa;

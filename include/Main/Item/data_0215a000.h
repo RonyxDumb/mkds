@@ -3,10 +3,6 @@
 
 // Objects whose layout isn't known yet.
 
-extern u8 gItemTeresaBattleKartOrder[];
-
-extern u16 gItemTeresaPickWeights[];
-
 extern u32 data_0215a6e4[];
 
 extern u32 data_0215a6ec[];

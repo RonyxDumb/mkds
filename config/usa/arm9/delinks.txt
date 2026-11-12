@@ -960,6 +960,7 @@ src/Main/Race/grand_prix_record.c:
     complete
     .text       start:0x0203b0a0 end:0x0203b680
     .rodata     start:0x02154064 end:0x0215406c
+    .data       start:0x0216478c end:0x02164798
 
 // provisional: file name and boundaries
 src/Main/Race/mission_table_value.c:
@@ -1687,6 +1688,7 @@ src/Main/Race/race.c:
     .text       start:0x02061654 end:0x02062ed8
     .rodata     start:0x02154970 end:0x02154990
     .data       start:0x021653e8 end:0x021653fc
+    .bss        start:0x0217aa08 end:0x0217aafc
 
 // provisional: file name and boundaries
 src/Main/Kart/course_models.c:
@@ -1940,6 +1942,7 @@ src/Main/Kart/kart_ai_battle.c:
 src/Main/Graphics/stem_sets.c:
     complete
     .text       start:0x02089d14 end:0x0208ab00
+    .rodata     start:0x02155ec8 end:0x02155ee8
     .data       start:0x02166098 end:0x021660c8
     .bss        start:0x0217b014 end:0x0217b018
 
@@ -1962,12 +1965,14 @@ src/Main/Kart/first_base_speed_limit.c:
 src/Main/Graphics/emitters.c:
     complete
     .text       start:0x0208aea8 end:0x0208b484
+    .rodata     start:0x02155f48 end:0x02155fc0
     .data       start:0x021660c8 end:0x021660f8
 
 // provisional: file name and boundaries
 src/Main/Graphics/effects.c:
     complete
     .text       start:0x0208b484 end:0x0208bd20
+    .data       start:0x021660f8 end:0x02166138
     .bss        start:0x0217b020 end:0x0217b038
 
 // provisional: file name and boundaries
@@ -1986,6 +1991,7 @@ src/Main/Kart/kart_level.c:
 src/Main/Graphics/model_effects.c:
     complete
     .text       start:0x0208d978 end:0x0208eb10
+    .data       start:0x02166138 end:0x021663d8
     .bss        start:0x0217b05c end:0x0217b06c
 
 // provisional: file name and boundaries
@@ -2605,6 +2611,7 @@ src/Main/Graphics/font_and_player_character.c:
     complete
     .text       start:0x020b4000 end:0x020b41d4
     .data       start:0x0216844c end:0x0216859c
+    .bss        start:0x0217b348 end:0x0217b3a0
 
 // provisional: file name and boundaries
 src/Main/System/archive_slot_loaded.c:
@@ -2781,6 +2788,7 @@ src/Main/Race/race_hud_sub_screen_item_cells.c:
     complete
     .text       start:0x020c7464 end:0x020ca520
     .data       start:0x021696a8 end:0x02169708
+    .bss        start:0x0217b3e0 end:0x0217b410
 
 // provisional: file name and boundaries
 src/Main/Race/race_hud_sub_screen_crab_cells_clear.c:
@@ -2808,6 +2816,7 @@ src/Main/Menu/emblem_choises_shown.c:
 src/Main/System/compressed_archive.c:
     complete
     .text       start:0x020cade8 end:0x020cadf4
+    .data       start:0x02169760 end:0x0216aaec
 
 // provisional: file name and boundaries
 src/Main/Scene/request_race_or_wl_menu.c:
@@ -3523,7 +3532,7 @@ src/Main/Item/item_slot_tables.c:
     .text       start:0x020f7c90 end:0x020f8d9c
     .rodata     start:0x02159b78 end:0x02159c3c
     .data       start:0x0216c660 end:0x0216c678
-    .bss        start:0x0217bc44 end:0x0217bd10
+    .bss        start:0x0217bc30 end:0x0217bd10
 
 // provisional: file name and boundaries
 src/Main/Item/item_object_init.c:
@@ -3551,7 +3560,7 @@ src/Main/Item/item_object.c:
 src/Main/Item/item_koura_w.c:
     complete
     .text       start:0x020f9c6c end:0x020fcb3c
-    .data       start:0x0216c688 end:0x0216c6d4
+    .data       start:0x0216c688 end:0x0216c6f4
     .bss        start:0x0217bd10 end:0x0217bd28
 
 // provisional: file name and boundaries
@@ -3587,6 +3596,7 @@ src/Main/Item/item_f_box.c:
     complete
     .text       start:0x020fe4b4 end:0x020ff334
     .data       start:0x0216c714 end:0x0216c720
+    .bss        start:0x0217bd3c end:0x0217c5e0
 
 // provisional: file name and boundaries
 src/Main/Item/item_f_box_park.c:
@@ -3630,7 +3640,7 @@ src/Main/MapObjects/map_object_kind_update_list.c:
 src/Main/Item/item_teresa_offset.c:
     complete
     .text       start:0x021001a0 end:0x02102674
-    .rodata     start:0x0215a190 end:0x0215a244
+    .rodata     start:0x0215a154 end:0x0215a244
     .data       start:0x0216c75c end:0x0216c794
 
 // provisional: file name and boundaries
@@ -3646,7 +3656,7 @@ src/Main/Item/bouncing_item_box.c:
     .text       start:0x021031f4 end:0x02104a0c
     .rodata     start:0x0215a47c end:0x0215a4c0
     .data       start:0x0216c794 end:0x0216c7b4
-    .bss        start:0x0217c638 end:0x0217c6c4
+    .bss        start:0x0217c618 end:0x0217c6c4
 
 // provisional: file name and boundaries
 src/Main/Item/pooled_item_box.c:
@@ -3671,6 +3681,8 @@ src/Main/Sound/sound_seq.c:
     complete
     .text       start:0x02105550 end:0x02108e38
     .rodata     start:0x0215a6c0 end:0x0215a6d8
+    .data       start:0x0216c7b4 end:0x0216c840
+    .bss        start:0x0217c754 end:0x0217c7a4
 
 // provisional: file name and boundaries
 src/Main/Sound/snd_handle_slots.c:
@@ -4171,6 +4183,7 @@ src/Main/Menu/message_screen.c:
 src/Main/Graphics/palette_blend.c:
     complete
     .text       start:0x0212b1a8 end:0x0212b9ec
+    .data       start:0x0216ea58 end:0x0216ea84
     .bss        start:0x0217d3ec end:0x0217d3f4
 
 // provisional: file name and boundaries

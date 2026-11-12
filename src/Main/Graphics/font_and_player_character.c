@@ -3,6 +3,16 @@
 #include "Main/System/archive_slot_loaded.h"
 #include "Main/MapObjects/data_0217b000.h"
 
+struct Unk02021dc8 *gPlayerCharacterNcer[2];
+struct Nclr *gPlayerCharacterNclr[2];
+struct Nclr *gPlayerCharacterShyguyNclr[2];
+struct Ncgr *gPlayerCharacterNcgr[2];
+void *gPlayerCharacterBncl[2];
+struct Unk02022aa8 gLCFontS;
+struct Unk02022aa8 *gFontTable[3];
+struct Unk02022aa8 gMarioFont;
+struct Unk02022aa8 gLCFontM;
+
 #pragma thumb on
 #pragma optimize_for_size on
 void LoadFontAndPlayerCharacterData(void) {
@@ -18,10 +28,10 @@ void LoadFontAndPlayerCharacterData(void) {
         LoadNcgrData2(gPlayerCharacterNcgr, FindFileInLoadedArchives("player_character_M.nce.ncgr"));
         LoadNcerData(gPlayerCharacterNcer, FindFileInLoadedArchives("player_character_M.nce.ncer"));
         gPlayerCharacterBncl[0] = FindFileInLoadedArchives("player_character_M.bncl");
-        LoadNclrData(&gPlayerCharacterLNclr, FindFileInLoadedArchives("player_character_L_o.NCLR"));
-        LoadNclrData(&gPlayerCharacterLShyguyNclr, FindFileInLoadedArchives("player_character_L_shyguy_o.NCLR"));
-        LoadNcgrData2(&gPlayerCharacterLNcgr, FindFileInLoadedArchives("player_character_L.nce.ncgr"));
-        LoadNcerData(&gPlayerCharacterLNcer, FindFileInLoadedArchives("player_character_L.nce.ncer"));
+        LoadNclrData(&gPlayerCharacterNclr[1], FindFileInLoadedArchives("player_character_L_o.NCLR"));
+        LoadNclrData(&gPlayerCharacterShyguyNclr[1], FindFileInLoadedArchives("player_character_L_shyguy_o.NCLR"));
+        LoadNcgrData2(&gPlayerCharacterNcgr[1], FindFileInLoadedArchives("player_character_L.nce.ncgr"));
+        LoadNcerData(&gPlayerCharacterNcer[1], FindFileInLoadedArchives("player_character_L.nce.ncer"));
         gPlayerCharacterBncl[1] = FindFileInLoadedArchives("player_character_L.bncl");
     }
 }

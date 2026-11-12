@@ -39,7 +39,3 @@ extern char gKeyboardCommonBmgName[];
 
 extern char gMessageScreenCommonBmgName[];
 
-extern char gEndingStaffRollB00NclrName[];
-
-extern char gStaffRollBmgName[];
-

@@ -939,7 +939,7 @@ void SetupItemKouraWKind(void) {
     maxRadius >>= 12;
     gKouraWState7MaxRadiusSquared = maxRadius;
     gKouraWState7MaxRadiusSquared = maxRadius * maxRadius;
-    gKouraW = CreateItemNsbmd(gKouraWNsbmdName, gKouraWNsbtxName);
+    gKouraW = CreateItemNsbmd("koura_w.nsbmd", "koura_w.nsbtx");
     if (gRaceSetup->mCourseId == COURSE_ID_RAINBOW) {
         NNS_G3dMdlSetMdlFogEnableFlagAll(gKouraW->mResMdl, 0);
     }

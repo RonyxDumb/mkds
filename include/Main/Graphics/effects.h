@@ -5,11 +5,6 @@
 #include "code_020184e4.h"
 #include "Main/Graphics/emitters.h"
 
-extern Vec3 data_usa_021660fc;
-extern char gRaceEffectSpaName[];
-extern char gRaceEffectFogOffSpaName[];
-extern char gMissionEffectSpaName[];
-
 SPLManager *GetRaceEffectSPLManager(s32 *outIndex, s32 effectId);
 void *StartEffectWithKartVelocity(u32 effectId, Vec3 *position, u32 kartIndex, s32 velocityScale);
 void PlaceEffect(void *emitter, const Vec3 *position);
@@ -24,9 +19,15 @@ void UpdateEffects(void);
 void InitEffects(void *defaultHeap);
 void *HeapAllocForSPLManager(u32 size);
 
-extern void (*gAdvanceEmittersFunction)(void);
 extern void *gSPLManagerHeap;
 extern struct SPLManager *gRaceEffectSPLManager;
 extern struct StadiumEmitters *gStadiumEmitters;
 extern struct SPLManager *gRaceEffectFogOffSPLManager;
 extern GetSPLManagerFunc *gGetSPLManagerFunction;
+
+extern Vec3 gStadiumEmitterDirectionOrigin;
+extern AwardFirstEffectIds gAwardFirstEffectIds;
+extern AwardEmitterEffectIds gAwardEmitterEffectIds;
+
+extern Vec3 gAwardEmitterPosition;
+extern void (*gAdvanceEmittersFunction)(void);

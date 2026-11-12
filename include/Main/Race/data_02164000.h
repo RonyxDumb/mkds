@@ -55,7 +55,5 @@ extern void *gRaceDisplaySettingsDescs[];
 
 extern const char gGhostPathFormat[];
 
-extern const char data_usa_0216478c[];
-
 extern const SceneCallbacks gRaceSceneCallbacks;
 

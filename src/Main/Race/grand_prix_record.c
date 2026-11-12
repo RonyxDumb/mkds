@@ -191,7 +191,7 @@ void InitWLMenuResetRaceSetup(void *heap) {
     if (gBootInfo->mBootType == 2) {
         InitBlockEntries(heap, 1);
     } else {
-        bannerFile = FindSceneFile(data_usa_0216478c);
+        bannerFile = FindSceneFile("/banner.bmg");
     }
     connectionKind = gStartupWork->mConnectionKind;
     kindIsOneOrTwo = 1;

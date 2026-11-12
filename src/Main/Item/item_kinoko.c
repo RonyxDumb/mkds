@@ -62,6 +62,7 @@
 #include "code_0212df7c.h"
 #include "Main/Race/race_clock.h"
 #include "Main/Kart/karts.h"
+#include "Main/Item/item_teresa_offset.h"
 
 void StartItemObjectSoundOnSource(ItemObject *item, s32 soundId) {
     SoundSource *sourceCopy = &item->mSoundSource;
@@ -1548,7 +1549,7 @@ void CreateItemInfos(void) {
     infos[13] = data_02159d90;
     infos[14] = gItemInfoKiller;
     infos[15] = data_0215a2ec;
-    infos[16] = data_0215a174;
+    infos[16] = gItemInfoTeresa;
     infos[17] = data_0215a4c0;
     switch (gRaceSetup->mMode) {
         case MODE_BATTLE:

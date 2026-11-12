@@ -71,7 +71,29 @@
 #include "Main/Menu/select_race_rule_state.h"
 
 const Vec3 gVec3Ones = {0x1000, 0x1000, 0x1000};
-const Vec3 data_0215a6cc = {0, 0, 0};
+const Vec3 gPooledMapObjectVec3Zero = {0, 0, 0};
+s32 gSndHeapSizeKind = 4;
+LoadedSoundBanks gLoadedSoundBanks = {0, {0, 0}, 0xff00};
+SurfaceSoundSetup gOldLuigiAgbSurfaceSoundSetup = {{0x7a, 0x66, 0x67, 0x9d}, 0, 0};
+s32 gSndBankIdsByBit[13] = {3, 4, 5, 6, 7, 8, 9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf};
+s32 gSndWaveArcIdsByBit[13] = {5, 6, 7, 8, 9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf, 0x10, 0x11};
+u16 gMissionRunMSselSeqIndex;
+NNSSndHeap *gSeqRowSndHeap;
+u32 gMissionRunSelMode;
+u32 gKartStarSeqStartPending;
+u32 gRaceSoundKind;
+u32 gSndHeapSavedState[1];
+NNSSndSeqPlayer *gSeqZeroLoopHandle;
+NNSSndSeqPlayer *gChoisesSSeqHandle;
+u32 gRaceSeqStarted;
+NNSSndSeqPlayer *gMatchingEntrySeqHandle;
+u32 gSceneSeqRestartAfterStar;
+u32 gSoundStartedThisFrame;
+s32 gMissionRunMSselStep32Count;
+s32 gMissionRunMSselStep0Count;
+s32 gSeqZeroLoopOn;
+NNSSndHeap *gSndHeap;
+LoadedSoundSet gLoadedSoundSet;
 
 // Keeps seq 0 looping on the in-memory archive until StopSeqZeroLoop; UpdateSounds restarts it.
 void StartSeqZeroLoop(void) {
@@ -189,7 +211,7 @@ void StopBothSeqHandles(void) {
 }
 
 LoadedSoundSet *GetLoadedSoundSet(void) {
-    return &data_0217c7b4;
+    return &gLoadedSoundSet;
 }
 
 BOOL LoadSndBanksAndWaveArcs(s32 bankMask) {
@@ -198,16 +220,16 @@ BOOL LoadSndBanksAndWaveArcs(s32 bankMask) {
 
     savedHeap = gCurrentSndHeap;
     gCurrentSndHeap = gSndHeap;
-    if (data_0216c7d4 != 2) {
+    if (gSndHeapSizeKind != 2) {
         NNS_SndArcLoadBank(1, gSndHeap);
     }
     for (bankIndex = 0; bankIndex < 0xd; bankIndex++) {
         if (((bankMask >> bankIndex) & 1) != 0) {
-            if (NNS_SndArcLoadBankEx(data_0216c7f8[bankIndex], 2, gSndHeap) == 0) {
+            if (NNS_SndArcLoadBankEx(gSndBankIdsByBit[bankIndex], 2, gSndHeap) == 0) {
                 gCurrentSndHeap = savedHeap;
                 return FALSE;
             }
-            if (NNS_SndArcLoadWaveArc(data_0216c82c[bankIndex], gSndHeap) == 0) {
+            if (NNS_SndArcLoadWaveArc(gSndWaveArcIdsByBit[bankIndex], gSndHeap) == 0) {
                 gCurrentSndHeap = savedHeap;
                 return FALSE;
             }
@@ -249,13 +271,13 @@ void ReleaseSndHeaps(void) {
     gCurrentSndHeap = NULL;
     NNS_SndHeapDestroy(gSndHeap);
     gSndHeap = NULL;
-    NNS_SndHeapDestroy(data_0217c790);
-    data_0217c790 = NULL;
+    NNS_SndHeapDestroy(gSeqRowSndHeap);
+    gSeqRowSndHeap = NULL;
     ClearSndFileAddresses(GetSndDataFileIdList());
     ClearSndFileIdList(GetSndDataFileIdList());
     ((u32 *) &gLoadedSoundBanks)[0] = data_0215a6f4[0];
     ((u32 *) &gLoadedSoundBanks)[1] = data_0215a6f4[1];
-    ResetLoadedSoundSet(&data_0217c7b4);
+    ResetLoadedSoundSet(&gLoadedSoundSet);
 }
 
 void CreateSndHeaps(u32 heapSizeKind, u32 buffer) {
@@ -266,7 +288,7 @@ void CreateSndHeaps(u32 heapSizeKind, u32 buffer) {
     u32 currentHeapSize;
     u32 heapCursor;
 
-    data_0216c7d4 = heapSizeKind;
+    gSndHeapSizeKind = heapSizeKind;
     switch (heapSizeKind) {
         case 0:
             soundHeapSize = 0x36f3c;
@@ -280,7 +302,7 @@ void CreateSndHeaps(u32 heapSizeKind, u32 buffer) {
     }
     ((u32 *) &gLoadedSoundBanks)[0] = data_0215a6ec[0];
     ((u32 *) &gLoadedSoundBanks)[1] = data_0215a6ec[1];
-    ResetLoadedSoundSet(&data_0217c7b4);
+    ResetLoadedSoundSet(&gLoadedSoundSet);
     gSndHeap = NNS_SndHeapCreate((void *) buffer, soundHeapSize);
     seqRowHeapSize = 0;
     gCurrentSndHeap = NULL;
@@ -297,7 +319,7 @@ void CreateSndHeaps(u32 heapSizeKind, u32 buffer) {
             break;
     }
     CreateSeqRowHeap((void *) buffer, seqRowHeapSize);
-    data_0217c790 = (NNSSndHeap *) buffer;
+    gSeqRowSndHeap = (NNSSndHeap *) buffer;
     heapCursor = buffer + seqRowHeapSize;
     currentHeapSize = (heapSizeKind == 0 ? 0xc8000 : 0xaf000) - (heapSizeKind == 2 ? 0xaf000 : 0xc400);
     switch (heapSizeKind) {
@@ -365,7 +387,7 @@ void InitSound(void *buffer, u32 bufferSize, u32 useFileArchive) {
                 break;
         }
         bufferSize = bufferSize - soundHeapSize;
-        data_0216c7d4 = 2;
+        gSndHeapSizeKind = 2;
         bufferSize = bufferSize - seqRowHeapSize;
     }
     InitSoundSystem(buffer, bufferSize, useFileArchive != 0 ? gSoundDataSdatPath : 0);
@@ -689,7 +711,7 @@ void InitSceneSounds(s32 unused) {
                                                   &gCourseSurfaceSoundEntries[12]);
                     break;
                 case COURSE_ID_OLD_LUIGI_AGB:
-                    SetSurfaceSoundIds(data_0216c7e0.mRowIndex, data_0216c7e0.mColumnIndex, &data_0216c7e0);
+                    SetSurfaceSoundIds(gOldLuigiAgbSurfaceSoundSetup.mRowIndex, gOldLuigiAgbSurfaceSoundSetup.mColumnIndex, &gOldLuigiAgbSurfaceSoundSetup);
                     break;
                 case COURSE_ID_MR_STAGE3:
                     CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[13].mSurfaceVariant,
@@ -810,7 +832,7 @@ void InitSceneSounds(s32 unused) {
     if (gBootInfo->mBootType == 2) {
         return;
     }
-    data_0217c798[0] = NNS_SndHeapSaveState(gCurrentSndHeap);
+    gSndHeapSavedState[0] = NNS_SndHeapSaveState(gCurrentSndHeap);
     if (GetCurrentSceneNumber() != 1) {
         return;
     }
@@ -869,7 +891,7 @@ void StartSceneSounds(void) {
         SetSoundMode(&gSoundModeHolder, SCENE_SOUND_MODE_PLAYING);
         gRaceSoundKind = 1;
         StartScenePlayersSeqNo(&gScenePlayers, GetSeqRowSceneSeq(), NULL);
-        data_0217c7b0 = 0;
+        gRaceSeqStarted = 0;
         value = 0xffff;
         if (gRaceSetup->mMode == MODE_MISSION_RUN) {
             switch (gRaceSetup->mMissionTableValue) {
@@ -914,7 +936,7 @@ void StartSceneSounds(void) {
                     NNS_SndArcPlayerStartSeqArc(seqHandle, 0, value);
                 }
             }
-            data_0217c7b0 = 1;
+            gRaceSeqStarted = 1;
         }
         if (gRaceSetup->mMode != MODE_BATTLE) {
             SetLapProgressSoundGaps(gCourseMap->mCheckpointSum);
@@ -974,7 +996,7 @@ void StartRaceSounds(void) {
     gSceneSoundState.mRaceState = 1;
     StartScenePlayersForRace(&gScenePlayers);
     gPlayerVolumeFade.mRaceStarted = 1;
-    if (data_0217c7b0 != 0) {
+    if (gRaceSeqStarted != 0) {
         NNS_SndPlayerStopSeq(&gRaceSeqHandle, 0x14);
     }
     if (gRaceSetup->mCourseId != COURSE_ID_STADIUM) {
@@ -1005,7 +1027,7 @@ void StartKartStarSeq(void) {
     }
     gSceneSoundState.mKartStarSeqOn = 1;
     if ((gSceneSoundState.mLastLapSeqState & 1) != 0) {
-        data_0217c7a8 = 1;
+        gKartStarSeqStartPending = 1;
         return;
     }
     NNS_SndPlayerSetTrackMuteEx(&gScenePlayersSeqPlayer, 0xffff, 1);
@@ -1015,14 +1037,14 @@ void StartKartStarSeq(void) {
 void StopKartStarSeq(void) {
     NNS_SndPlayerSetTrackMuteEx(&gScenePlayersSeqPlayer, 0xffff, 0);
     NNS_SndPlayerStopSeq(&gSceneSoundState.mKartStarSeq, 0);
-    if (data_0217c78c != 0) {
+    if (gSceneSeqRestartAfterStar != 0) {
         if (gSceneSoundState.mRaceState == 1) {
             StartScenePlayersSeq(&gScenePlayers);
             NNS_SndPlayerSetVolume(&gScenePlayersSeqPlayer, FROM_FIXED12(gVolumeFade.mVolume));
             NNS_SndPlayerSetTempoRatio(&gScenePlayersSeqPlayer, 0x12c);
             SetRestartedSeqPitchFlag();
         }
-        data_0217c78c = 0;
+        gSceneSeqRestartAfterStar = 0;
     }
     gSceneSoundState.mKartStarSeqOn = 0;
 }
@@ -1037,14 +1059,14 @@ void EndRaceSounds(void) {
     StopScenePlayersSeq(&gScenePlayers, GetEndRaceFadeSteps());
     NNS_SndPlayerSetTrackMuteEx(&gScenePlayersSeqPlayer, 0xffff, 0);
     NNS_SndPlayerStopSeq(&gSceneSoundState.mKartStarSeq, 0);
-    if (data_0217c78c != 0) {
+    if (gSceneSeqRestartAfterStar != 0) {
         if (gSceneSoundState.mRaceState == 1) {
             StartScenePlayersSeq(&gScenePlayers);
             NNS_SndPlayerSetVolume(&gScenePlayersSeqPlayer, FROM_FIXED12(gVolumeFade.mVolume));
             NNS_SndPlayerSetTempoRatio(&gScenePlayersSeqPlayer, 0x12c);
             SetRestartedSeqPitchFlag();
         }
-        data_0217c78c = 0;
+        gSceneSeqRestartAfterStar = 0;
     }
     gSceneSoundState.mKartStarSeqOn = 0;
     if (gSoundModeHolder.mMode == 2) {
@@ -1259,7 +1281,7 @@ void UpdateRaceSounds(void) {
         }
         if (gSceneSoundState.mLastLapSeqState == 1 && sceneSeqHandle[0] == NULL) {
             gSceneSoundState.mLastLapSeqState = 0;
-            if (data_0217c7a8 != 0 && gSceneSoundState.mKartStarSeqOn == 1) {
+            if (gKartStarSeqStartPending != 0 && gSceneSoundState.mKartStarSeqOn == 1) {
                 if (gSceneSoundState.mRaceState == 1) {
                     gSceneSoundState.mKartStarSeqOn = 1;
                     if ((gSceneSoundState.mLastLapSeqState & 1) == 0) {
@@ -1267,11 +1289,11 @@ void UpdateRaceSounds(void) {
                         StartScenePlayersSeqNo(&gScenePlayers, 0x49, &gSceneSoundState.mKartStarSeq);
                     }
                 }
-                data_0217c7a8 = 0;
-                data_0217c78c = 1;
+                gKartStarSeqStartPending = 0;
+                gSceneSeqRestartAfterStar = 1;
             } else if (gSceneSoundState.mKartStarSeq != NULL) {
                 NNS_SndPlayerSetTrackMuteEx(&gSceneSoundState.mKartStarSeq, 0xffff, 0);
-                data_0217c78c = 1;
+                gSceneSeqRestartAfterStar = 1;
             } else if (gSceneSoundState.mRaceState == 1) {
                 StartScenePlayersSeq(&gScenePlayers);
                 NNS_SndPlayerSetVolume(&gScenePlayersSeqPlayer, FROM_FIXED12(gVolumeFade.mVolume));
@@ -1641,12 +1663,12 @@ void StartSoundOncePerFrame(s32 seqNo) {
 void StartMissionRunLVselSeq(u32 mode) {
     s32 seqNo;
 
-    data_0217c784 = mode;
+    gMissionRunSelMode = mode;
     if (mode - 1 > 1) {
         return;
     }
     seqNo = (mode == 1) ? 0x47 : 0x48;
-    NNS_SndHeapLoadState(gCurrentSndHeap, data_0217c798[0]);
+    NNS_SndHeapLoadState(gCurrentSndHeap, gSndHeapSavedState[0]);
     NNS_SndHeapGetCurrentLevel(gCurrentSndHeap);
     NNS_SndArcLoadSeq(seqNo, gCurrentSndHeap);
     NNS_SndPlayerStopSeq(&gScenePlayersSeqPlayer, 2);
@@ -1664,7 +1686,7 @@ void StartSceneSeqIfIdle(void) {
 }
 
 void StopMissionRunLVselSeqsWithSteps(int mode, u32 fadeSteps) {
-    if (data_0217c784 - 1 <= 1) {
+    if (gMissionRunSelMode - 1 <= 1) {
         NNS_SndPlayerStopSeq(&data_0217c83c, fadeSteps);
     }
     if (mode == 3) {
@@ -1685,9 +1707,9 @@ void StartSceneSeqAfterMissionRunLVsel(u32 mode) {
 
 void LoadMissionRunMSselSoundData(u32 mode, u32 missionRow) {
     u32 bankNo = 0xff;
-    data_0217c784 = mode;
-    data_0217c79c = 0;
-    data_0217c7a0 = 0;
+    gMissionRunSelMode = mode;
+    gMissionRunMSselStep32Count = 0;
+    gMissionRunMSselStep0Count = 0;
     gMissionRunMSselSeqIndex = 0xff;
     if (mode != 3) {
         return;
@@ -1722,7 +1744,7 @@ void LoadMissionRunMSselSoundData(u32 mode, u32 missionRow) {
             bankNo = 0x17;
             break;
     }
-    NNS_SndHeapLoadState(gCurrentSndHeap, data_0217c798[0]);
+    NNS_SndHeapLoadState(gCurrentSndHeap, gSndHeapSavedState[0]);
     NNS_SndHeapGetCurrentLevel(gCurrentSndHeap);
     NNS_SndArcLoadBank(bankNo, gCurrentSndHeap);
     NNS_SndArcLoadBank(0x2a, gCurrentSndHeap);
@@ -1733,7 +1755,7 @@ void UpdateMissionRunMSselSounds(s32 stepId) {
     s32 trackVolume;
     u32 startsBankSeq;
     s32 stepCount;
-    if (data_0217c784 == 0) {
+    if (gMissionRunSelMode == 0) {
         if (gScenePlayers.mSeqPlayer != NULL) {
             return;
         }
@@ -1745,7 +1767,7 @@ void UpdateMissionRunMSselSounds(s32 stepId) {
     }
     startsBankSeq = 0;
     trackVolume = 0x78;
-    stepCount = (stepId == 0x32) ? data_0217c79c : data_0217c7a0;
+    stepCount = (stepId == 0x32) ? gMissionRunMSselStep32Count : gMissionRunMSselStep0Count;
     if (stepCount < 5) {
         switch (stepCount) {
             case 0:
@@ -1797,7 +1819,7 @@ void UpdateMissionRunMSselSounds(s32 stepId) {
         if (*seqHandle != NULL) {
             NNS_SndPlayerSetTrackVolume(seqHandle, gSeqTrackMask, trackVolume & 0xff);
         }
-        data_0217c79c++;
+        gMissionRunMSselStep32Count++;
         return;
     }
     if (stepId != 0) {
@@ -1813,7 +1835,7 @@ void UpdateMissionRunMSselSounds(s32 stepId) {
             NNS_SndArcPlayerStartSeqArc(bankSeqHandle, 4, seqIndex);
         }
     }
-    data_0217c7a0++;
+    gMissionRunMSselStep0Count++;
 }
 
 void StopMissionRunMSselSeqsWithSteps(u32 unused, u32 fadeSteps) {

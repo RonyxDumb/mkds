@@ -22,9 +22,18 @@
 #include "registers.h"
 #include "Main/Kart/kart_ai_item_throw.h"
 
+char gRaceEffectSpaName[15] = "RaceEffect.spa";
+char gRaceEffectFogOffSpaName[29] = "/effect/RaceEffectFogOff.spa";
+char gMissionEffectSpaName[35] = "/data/MissionRun/MissionEffect.spa";
+ModelEffectKind gModelEffectKinds[5] = {
+    {3, 1, 1, 1, StartModelEffectBombcore, UpdateModelEffectBombcore, 0xb8, {NULL, NULL, NULL, NULL}},
+    {1, 1, 1, 1, StartModelEffectBombcore2, UpdateModelEffectBombcore2, 0xb8, {NULL, NULL, NULL, NULL}},
+    {0, 1, 0, 0, (void (*)(ModelEffect *, s32)) StartWaterEfctKind2, UpdateWaterEfctKinds, 0xb8, {NULL, NULL, NULL, NULL}},
+    {0, 1, 0, 0, StartModelEffectBkWave, UpdateModelEffectBkWave, 0xb8, {NULL, NULL, NULL, NULL}},
+    {0, 1, 0, 0, (void (*)(ModelEffect *, s32)) StartWaterEfctKind4, UpdateWaterEfctKinds, 0xb8, {NULL, NULL, NULL, NULL}}};
 s32 gKind2EffectsCreated;
-s32 gKind2EffectIds[2];
 ModelEffects *gModelEffects;
+s32 gKind2EffectIds[2];
 
 void UpdatePosStrip(PosStrip *posStrip) {
     PosStripPoint *point;
@@ -122,7 +131,7 @@ void InitModelEffects(void *heap) {
         NNS_FndInitList(&gModelEffects->mFreeLists[kindIndex], 0);
     }
     firstKind = gModelEffectKinds;
-    secondKind = &data_021661b8;
+    secondKind = &gModelEffectKinds[1];
     if (gRaceSetup->mMode == MODE_WIFI) {
         firstKind->mObjectCount = 6;
         secondKind->mObjectCount = 4;
@@ -133,25 +142,25 @@ void InitModelEffects(void *heap) {
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         firstKind->mObjectCount = 0x14;
     }
-    SetupWaterEfctKindRow(&data_021661e4, 1);
-    SetupWaterEfctKindRow(&data_0216623c, 2);
+    SetupWaterEfctKindRow(&gModelEffectKinds[2], 1);
+    SetupWaterEfctKindRow(&gModelEffectKinds[4], 2);
     SetupBkWaveKind();
     InitModelEffectObjects(heap);
-    modelFile = FindMainRaceOrMainEffectFile(gBombcoreNsbmdName);
-    nsbcaFile = FindMainRaceOrMainEffectFile(gBombcoreNsbcaName);
-    nsbmaFile = FindMainRaceOrMainEffectFile(gBombcoreNsbmaName);
-    nsbtaFile = FindMainRaceOrMainEffectFile(gBombcoreNsbtaName);
+    modelFile = FindMainRaceOrMainEffectFile("/effect/bombcore/bombcore.nsbmd");
+    nsbcaFile = FindMainRaceOrMainEffectFile("/effect/bombcore/bombcore.nsbca");
+    nsbmaFile = FindMainRaceOrMainEffectFile("/effect/bombcore/bombcore.nsbma");
+    nsbtaFile = FindMainRaceOrMainEffectFile("/effect/bombcore/bombcore.nsbta");
     SetupModelEffectKind(heap, 0, modelFile, nsbcaFile, nsbmaFile, nsbtaFile);
-    modelFile = FindMainRaceOrMainEffectFile(gBombcore2NsbmdName);
-    nsbcaFile = FindMainRaceOrMainEffectFile(gBombcore2NsbcaName);
-    nsbmaFile = FindMainRaceOrMainEffectFile(gBombcore2NsbmaName);
-    nsbtaFile = FindMainRaceOrMainEffectFile(gBombcore2NsbtaName);
+    modelFile = FindMainRaceOrMainEffectFile("/effect/bombcore2/bombcore2.nsbmd");
+    nsbcaFile = FindMainRaceOrMainEffectFile("/effect/bombcore2/bombcore2.nsbca");
+    nsbmaFile = FindMainRaceOrMainEffectFile("/effect/bombcore2/bombcore2.nsbma");
+    nsbtaFile = FindMainRaceOrMainEffectFile("/effect/bombcore2/bombcore2.nsbta");
     SetupModelEffectKind(heap, 1, modelFile, nsbcaFile, nsbmaFile, nsbtaFile);
     SetupModelEffectKind(heap, 2, GetWaterEfctNsbmdFile(), GetWaterEfctNsbcaFile(), GetWaterEfctNsbmaFile(), NULL);
     SetupModelEffectKind(heap, 4, GetWaterEfctNsbmdFile(), GetWaterEfctNsbcaFile(), GetWaterEfctNsbmaFile(), NULL);
     if (gRaceSetup->mCourseId == COURSE_ID_OLD_HYUDORO_64) {
-        SetupModelEffectKind(heap, 3, GetWaterEfctNsbmdFile(), FindCourseFile(data_021663a8),
-                             FindCourseFile(data_021663c0), NULL);
+        SetupModelEffectKind(heap, 3, GetWaterEfctNsbmdFile(), FindCourseFile("/MapObj/bk_wave.nsbca"),
+                             FindCourseFile("/MapObj/bk_wave.nsbma"), NULL);
     }
     gModelEffects->mNextPolygonId = 10;
 }
@@ -255,10 +264,10 @@ void SetupBkWaveKind(void) {
     void *bkWaveNsbcaFile;
     void *bkWaveNsbmaFile;
 
-    kindRow = &data_02166210;
+    kindRow = &gModelEffectKinds[3];
     if (GetWaterEfctNsbmdFile() != 0) {
-        bkWaveNsbcaFile = FindCourseFile(gBkWaveNsbcaName);
-        bkWaveNsbmaFile = FindCourseFile(gBkWaveNsbmaName);
+        bkWaveNsbcaFile = FindCourseFile("/MapObj/bk_wave.nsbca");
+        bkWaveNsbmaFile = FindCourseFile("/MapObj/bk_wave.nsbma");
         kindRow->mObjectCount = 1;
         if (bkWaveNsbcaFile != NULL) {
             kindRow->mUseNsbca = TRUE;

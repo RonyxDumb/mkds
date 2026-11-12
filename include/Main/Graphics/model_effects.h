@@ -67,3 +67,9 @@ void UpdatePosStrip(PosStrip *posStrip);
 extern s32 gKind2EffectsCreated;
 extern s32 gKind2EffectIds[2];
 extern struct ModelEffects *gModelEffects;
+
+extern ModelEffectKind gModelEffectKinds[5];
+
+extern char gRaceEffectSpaName[15];
+extern char gRaceEffectFogOffSpaName[29];
+extern char gMissionEffectSpaName[35];

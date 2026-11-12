@@ -5,7 +5,7 @@
 #include "Main/Sound/sound_set_load.h"
 
 extern const Vec3 gVec3Ones;
-extern const Vec3 data_0215a6cc;
+extern const Vec3 gPooledMapObjectVec3Zero;
 
 void StopMissionRunMSselSeqsAtOnce();
 void StopMissionRunMSselSeqsWithSteps();
@@ -39,14 +39,12 @@ typedef struct CourseSurfaceSoundEntry {
 
 extern CourseSurfaceSoundEntry gCourseSurfaceSoundEntries[];
 
-// Object behind data_0216c7e0.
+// Object behind gOldLuigiAgbSurfaceSoundSetup.
 typedef struct SurfaceSoundSetup {
     /* 00 */ u32 mSoundIds[4];
     /* 10 */ u32 mRowIndex;
     /* 14 */ u32 mColumnIndex;
 } SurfaceSoundSetup;
-
-extern SurfaceSoundSetup data_0216c7e0;
 
 // Object behind gLoadedSoundBanks.
 typedef struct LoadedSoundBanks {
@@ -54,8 +52,6 @@ typedef struct LoadedSoundBanks {
     /* 02 */ u8 mUnk_02[2];
     /* 04 */ u32 mLoadMarker;
 } LoadedSoundBanks;
-
-extern LoadedSoundBanks gLoadedSoundBanks;
 
 // 0x03-byte argument of InitSceneSoundState and InitSceneSounds.
 typedef struct ScenePlayersSeqInfo {
@@ -183,3 +179,9 @@ void StartMessageScreenSeq(void);
 void BootInfoStartMessageScreenSeq(void);
 void StopSeqZeroLoop(void);
 void StartSeqZeroLoop(void);
+
+extern s32 gSndHeapSizeKind;
+extern LoadedSoundBanks gLoadedSoundBanks;
+extern SurfaceSoundSetup gOldLuigiAgbSurfaceSoundSetup;
+extern s32 gSndBankIdsByBit[13];
+extern s32 gSndWaveArcIdsByBit[13];

@@ -112,12 +112,6 @@ extern const char *gRecordGpxSBnblName;
 
 extern const StateCallbacks gPushedObjectStateTable[];
 
-extern s32 data_0216c7d4;
-
-extern s32 data_0216c7f8[];
-
-extern s32 data_0216c82c[];
-
 extern u8 gSoundDataSdatPath[];
 
 extern const StateCallbacks gItemKouraRStateTable[];

@@ -93,11 +93,40 @@
 #include "01/Race/mission_run_state.h"
 #include "Main/Race/kart_standing_rank.h"
 
-u16 gFadeFogRemaining = 0x48;
 s16 gToonTableFramesLimit = 2;
+u16 gFadeFogRemaining = 0x48;
 Vec3 gRaceLightVector = {0, -4095, 0};
 const u16 gToonTableFirstColors[8] = {0x35bf, 0x36df, 0x37ff, 0x37ed, 0x7fed, 0x7ecd, 0x7dad, 0x7dbf};
 const u16 gToonTableSecondColors[8] = {0x4e73, 0x56b5, 0x5ef7, 0x6739, 0x6f7b, 0x7fff, 0x7fff, 0x7fff};
+u16 gFadeFogFullColor;
+s16 gCourseFogGreen;
+u16 gFadeFogColor;
+s16 gCourseFogBlue;
+s16 gCourseFogRed;
+u16 gFadeFogHoldFrames;
+u16 gCourseFogColor;
+Camera *gRaceChaseCamera;
+MtxFx43 *gCurrentViewMatrix;
+s32 gFadeFogActive;
+Camera *gRaceEntryCamera;
+s32 gCourseFogLastEntry;
+s32 gCourseFogOffset;
+s32 gFadeFogByteBoost;
+Race *gRace;
+s32 gCourseFogWeight;
+s32 gCourseFogSlope;
+s32 gFadeFogWeight;
+s32 gFadeFogAlpha;
+s32 gFadeFogFullAlpha;
+Camera *gCurrentCamera;
+s32 gFadeFogOffset;
+void *gGeBuffer;
+s32 gCourseFogAlpha;
+s32 gFadeFogStepping;
+u32 gFadeFogEntryBytes[4];
+u32 gCourseFogTable[8];
+u32 gFadeFogTable[8];
+u16 gToonTable[32];
 
 u32 GetRaceUseChainCameras(void) {
     return (gRace->mUseChainCameras);

@@ -4,5 +4,3 @@
 
 extern RaceHudSubScreenCellGroupFunctions gRaceHudSubScreenCellGroupFunctions[];
 
-// Objects whose layout isn't known yet.
-extern u32 gCompressedArchive[];

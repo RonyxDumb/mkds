@@ -27,40 +27,6 @@ typedef struct ModelEffectKind {
     /* 1c */ ResFileEntry mResFileEntry;
 } ModelEffectKind;
 
-extern ModelEffectKind gModelEffectKinds[5];
-
-extern ModelEffectKind data_021661b8;
-
-extern ModelEffectKind data_021661e4;
-
-extern ModelEffectKind data_02166210;
-
-extern ModelEffectKind data_0216623c;
-
-extern const char gBkWaveNsbcaName[];
-
-extern const char gBkWaveNsbmaName[];
-
-extern const char gBombcoreNsbmdName[];
-
-extern const char gBombcoreNsbcaName[];
-
-extern const char gBombcoreNsbmaName[];
-
-extern const char gBombcoreNsbtaName[];
-
-extern const char gBombcore2NsbmdName[];
-
-extern const char gBombcore2NsbcaName[];
-
-extern const char gBombcore2NsbmaName[];
-
-extern const char gBombcore2NsbtaName[];
-
-extern const char data_021663a8[];
-
-extern const char data_021663c0[];
-
 // Object at gPosStripTexture.
 typedef struct PosStripTexture {
     /* 00 */ u32 mTexImageParam;

@@ -53,16 +53,24 @@
 #include "registers.h"
 #include "code_02147cd8.h"
 
+u16 gOrthoQuadFirstPolygonId;
+u16 gOrthoQuadAlpha;
+u16 gOrthoQuadKartIndex;
 s32 gOrthoQuadCount;
+s32 gOrthoQuadFrames;
+s32 gOrthoQuadHoldFrameCount;
+s32 gOrthoQuadMoveStartFrameCount;
+BOOL gOrthoQuadUseCreamEffect;
+OrthoQuad *gOrthoQuads;
 u8 gOrthoQuadCells[8];
-OrthoQuadModel gOrthoQuadCreamEffect;
 OrthoQuadModel gOrthoQuadGesoSumi;
+OrthoQuadModel gOrthoQuadCreamEffect;
 MtxFx44 gOrthoQuadMatrix;
 
 const s32 gOrthoQuadTimersByIndex[4] = {5, 0xb, 0x11, 0x19};
 const s32 gOrthoQuadTableScales[13] = {0, 0x986, 0x1000, 0x1143, 0x117c, 0x1107, 0x1041, 0xf87, 0xf34, 0xf52, 0xf95, 0xfd8, 0xff7};
-char gGesoSumiModelNsbmdName[16] = "geso_sumi.nsbmd";
 char gGesoSumiTextureNsbmdName[16] = "geso_sumi.nsbmd";
+char gGesoSumiModelNsbmdName[16] = "geso_sumi.nsbmd";
 
 #pragma thumb on
 

@@ -39,7 +39,7 @@ extern SoundFalloff gOtherKartSoundFalloff;
 // Objects whose layout isn't known yet.
 extern NNSSndSeqPlayer *gMatchingEntrySeqHandle;
 
-extern u32 data_0217c784;
+extern u32 gMissionRunSelMode;
 
 extern NNSSndSeqPlayer *gSeqZeroLoopHandle;
 
@@ -104,21 +104,21 @@ extern u16 gMissionRunCountSeqNo[];
 
 extern NNSSndHeap *gSndHeap;
 
-extern u32 data_0217c78c;
+extern u32 gSceneSeqRestartAfterStar;
 
-extern NNSSndHeap *data_0217c790;
+extern NNSSndHeap *gSeqRowSndHeap;
 
 extern u32 gSoundStartedThisFrame;
 
-extern u32 data_0217c798[];
+extern u32 gSndHeapSavedState[];
 
-extern u32 data_0217c7a8;
+extern u32 gKartStarSeqStartPending;
 
 struct NNSSndSeqPlayer;
 
 extern struct NNSSndSeqPlayer *gChoisesSSeqHandle;
 
-extern u32 data_0217c7b0;
+extern u32 gRaceSeqStarted;
 
 extern u8 data_0217c7d8[];
 
@@ -131,8 +131,8 @@ extern u32 gPlayerVolumeSteps[];
 
 extern u16 gMissionRunMSselSeqIndex;
 
-extern s32 data_0217c79c;
+extern s32 gMissionRunMSselStep32Count;
 
-extern s32 data_0217c7a0;
+extern s32 gMissionRunMSselStep0Count;
 
 extern struct Nsbmd *gDram;

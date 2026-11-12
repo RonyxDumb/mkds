@@ -23,11 +23,15 @@
 #include "tp.h"
 #include "code_02147cd8.h"
 #include "Main/Kart/karts.h"
+#include "Main/Graphics/model_effects.h"
 
-void (*gAdvanceEmittersFunction)(void);
+Vec3 gStadiumEmitterDirectionOrigin = {-348160, 0x67000, 0x2e000};
+AwardEmitterEffectIds gAwardEmitterEffectIds = {{0x83, 0x84, 0x85, 0x86, 0x81, 0x88, 0x89, 0x8a, 0x8b, 0x8c, 0x8d, 0x8e, 0x8f, 0x90, 0x91, 0x92, 0x93, 0x94, 0x95, 0x96, 0x97, 0x98, 0x99, 0x9a}};
+AwardFirstEffectIds gAwardFirstEffectIds = {{0x87, 0x82}};
+struct StadiumEmitters *gStadiumEmitters;
 void *gSPLManagerHeap;
 struct SPLManager *gRaceEffectSPLManager;
-struct StadiumEmitters *gStadiumEmitters;
+void (*gAdvanceEmittersFunction)(void);
 struct SPLManager *gRaceEffectFogOffSPLManager;
 GetSPLManagerFunc *gGetSPLManagerFunction;
 
@@ -103,11 +107,11 @@ void InitEffects(void *defaultHeap) {
     InitCourseCameraEffects();
     switch (gRaceSetup->mCourseId) {
         case COURSE_ID_STADIUM:
-            directionOrigin = data_usa_021660fc;
+            directionOrigin = gStadiumEmitterDirectionOrigin;
             gStadiumEmitters = HeapAlloc(effectHeap, 0x64);
             for (emitterIndex = 0; emitterIndex < 6; emitterIndex++) {
                 gStadiumEmitters->mEmitters[emitterIndex] = NULL;
-                VEC_Subtract(&data_usa_02155f78[emitterIndex], &directionOrigin, &offset);
+                VEC_Subtract(&gStadiumEmitterPositions[emitterIndex], &directionOrigin, &offset);
                 emitterDirection = &gStadiumEmitters->mDirections[emitterIndex];
                 if (LENGTH_SQUARED(offset) >= 0x10) {
                     Vec3NormalizeAndGetLengthUnchecked(&offset, emitterDirection);

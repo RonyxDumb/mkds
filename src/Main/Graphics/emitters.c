@@ -16,6 +16,8 @@
 #include "code_0214d018.h"
 #include "Main/Graphics/effects.h"
 
+const s32 gStadiumEmitterEffectIds[12] = {0x6f, 0x6e, 0x6d, 0x64, 0x6b, 0x6a, 0x69, 0x68, 0x67, 0x66, 0x65, 0x6c};
+const Vec3 gStadiumEmitterPositions[6] = {{0xba000, 0x67000, 0x2e000}, {0x34000, 0x67000, 0x119000}, {-909312, 0x67000, 0x119000}, {-1466368, 0x67000, 0x2e000}, {-909312, 0x67000, -774144}, {0x34000, 0x67000, -774144}};
 
 static inline u32 StadiumEmittersNextRandomBelow(RandomState64 *randomState, u32 limit) {
     randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
@@ -82,12 +84,12 @@ void AdvanceStadiumEmitters(void) {
     if (nextIndex >= 6) {
         nextIndex = 0;
     }
-    effectIds[0] = data_usa_02155f48[previousIndex * 2];
-    effectIds[1] = data_usa_02155f48[previousIndex * 2 + 1];
-    effectIds[2] = data_usa_02155f48[bestIndex * 2];
-    effectIds[3] = data_usa_02155f48[bestIndex * 2 + 1];
-    effectIds[4] = data_usa_02155f48[nextIndex * 2];
-    effectIds[5] = data_usa_02155f48[nextIndex * 2 + 1];
+    effectIds[0] = gStadiumEmitterEffectIds[previousIndex * 2];
+    effectIds[1] = gStadiumEmitterEffectIds[previousIndex * 2 + 1];
+    effectIds[2] = gStadiumEmitterEffectIds[bestIndex * 2];
+    effectIds[3] = gStadiumEmitterEffectIds[bestIndex * 2 + 1];
+    effectIds[4] = gStadiumEmitterEffectIds[nextIndex * 2];
+    effectIds[5] = gStadiumEmitterEffectIds[nextIndex * 2 + 1];
     emitterDirectionIndices[0] = emitterDirectionIndices[1] = previousIndex;
     emitterDirectionIndices[2] = emitterDirectionIndices[3] = bestIndex;
     emitterDirectionIndices[4] = emitterDirectionIndices[5] = nextIndex;
@@ -96,7 +98,7 @@ void AdvanceStadiumEmitters(void) {
         Vec3 position;
         ParticleEmitter *emitter;
         SPLManager *manager;
-        Vec3 *tablePosition = &data_usa_02155f78[emitterDirectionIndices[emitterIndex]];
+        const Vec3 *tablePosition = &gStadiumEmitterPositions[emitterDirectionIndices[emitterIndex]];
         getManager = gGetSPLManagerFunction;
         manager = getManager(&effectIndex, effectIds[emitterIndex]);
         position.x = tablePosition->x >> 4;
@@ -117,11 +119,11 @@ void AdvanceStadiumEmitters(void) {
 }
 
 void CreateAwardEmitters(void) {
-    AwardEmitterEffectIds secondEffectIds = data_usa_02166108;
-    AwardFirstEffectIds firstEffectIds = data_usa_021660f8;
-    s32 baseX = data_usa_02155fc0.x;
-    s32 baseY = data_usa_02155fc0.y;
-    s32 baseZ = data_usa_02155fc0.z;
+    AwardEmitterEffectIds secondEffectIds = gAwardEmitterEffectIds;
+    AwardFirstEffectIds firstEffectIds = gAwardFirstEffectIds;
+    s32 baseX = gAwardEmitterPosition.x;
+    s32 baseY = gAwardEmitterPosition.y;
+    s32 baseZ = gAwardEmitterPosition.z;
     u16 emitterIndex;
     s32 emitX = baseX >> 4;
     s32 emitY = baseY >> 4;

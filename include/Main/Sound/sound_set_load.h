@@ -12,7 +12,7 @@ typedef struct SoundSet {
     /* 08 */ u32 mSecondBankId;
 } SoundSet;
 
-// Object data_0217c7b4, which GetLoadedSoundSet returns: a SoundSet at 0 and a word at 0xc that
+// Object gLoadedSoundSet, which GetLoadedSoundSet returns: a SoundSet at 0 and a word at 0xc that
 // SaveSndHeapState and ReleaseSoundSet write.
 typedef struct LoadedSoundSet {
     /* 00 */ SoundSet mSoundSet;
@@ -33,7 +33,7 @@ extern SndFileIdList gSndDataFileIdList;
 extern const SoundSet gEmptySoundSet;
 extern const SoundSet gReleaseEmptySoundSet;
 extern const SoundSet gResetEmptySoundSet;
-extern LoadedSoundSet data_0217c7b4;
+extern LoadedSoundSet gLoadedSoundSet;
 
 void ReleaseLoadedSoundSet(void);
 u32 LoadSndGroupWithWaveArcs(u32 groupId, u32 moveWaveArcs);

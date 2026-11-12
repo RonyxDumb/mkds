@@ -143,7 +143,7 @@ void InitStaffRollText(void *heap) {
     for (screenEntryIndex = 0; screenEntryIndex < 0x400; screenEntryIndex++) {
         ((u16 *) G2S_GetBG0ScrPtr())[screenEntryIndex] = screenEntryIndex | 0xf000;
     }
-    LoadNclrData(&nclr, FindSceneFile(gEndingStaffRollB00NclrName));
+    LoadNclrData(&nclr, FindSceneFile("ending_staffRoll_b_00.nclr"));
     NNS_GfdRegisterNewVramTransferTask(0x1f, 0x1e0, nclr->mData + 0xf0, 0x20);
     NNS_G2dCharCanvasInitForBG(gStaffRollText->mCharCanvas, gStaffRollText->mCharBuffer, 0x20, 2, 4);
     charSpacing = gStaffRollText->mCharSpacing;
@@ -155,7 +155,7 @@ void InitStaffRollText(void *heap) {
     textCanvas->mCharSpacing = charSpacing;
     textCanvas->mLineSpacing = 0;
     MI_CpuFill8(gStaffRollText->mCharBuffer, 0, 0x800);
-    gStaffRollText->mTextPosition = GetBmgEntry(FindSceneFile(gStaffRollBmgName), 0);
+    gStaffRollText->mTextPosition = GetBmgEntry(FindSceneFile("staffRoll.bmg"), 0);
 }
 
 void ClearStaffRollTextPointer(void) {

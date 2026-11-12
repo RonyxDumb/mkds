@@ -20,6 +20,15 @@
 #include "01/code_02187d14.h" // gItemFBoxRotation
 
 Vec3 gItemFBoxRotationAxis = {0x93d, 0x93d, 0x93d};
+u8 gItemDataQueueFreeHead[4];
+u8 gItemDataDelayedUsedHead[4];
+u8 gItemDataDelayedFreeHead[4];
+u8 gItemDataQueueUsedHead[4];
+u8 gItemDataBuffer[20];
+u8 gItemDataQueueLinks[32][2];
+ItemDataRecord gItemDataQueue[32];
+ItemDataRecord gItemDataDelayed[32];
+u8 gItemDataDelayedLinks[32][2];
 
 #pragma thumb off
 
