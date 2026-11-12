@@ -7,7 +7,7 @@
 #include "wm_etc.h"
 #include "code_02003be0.h"
 #include "fs_file.h"
-#include "code_02008e10.h"
+#include "mb_gameinfo.h"
 
 // Entry of the list that mbss walks (the lists are chained through mUnk_4bc). MB_GetGameInfoRecvList returns one;
 // the 0xc0 bytes at 0x4c0 are moved out by MB_FakeGetParentBssDesc.

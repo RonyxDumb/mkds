@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_02008934.h"
+#include "mb_gameinfo.h"
 #include "Main/Unknown/unk_0217a000.h"
 
 // Block the callback behind mScanCallback receives from CallScanCallbackWithEntry.

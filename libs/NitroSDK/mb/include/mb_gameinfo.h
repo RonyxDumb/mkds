@@ -2,7 +2,6 @@
 
 #include "types.h"
 
-// One 0x590-byte entry of the table in MbBeaconRecvStatus.
 typedef struct MBGameInfoRecvList {
     /* 000 */ u8 mUnk_000[0x220];
     /* 220 */ u8 mFixedNoIcon[0x138];
@@ -94,3 +93,14 @@ void MBi_RecvFixedBeacon(u32 entryIndex);
 void MBi_InvalidateGameInfoBssID(const u8 *bssid);
 void MBi_CheckSeqNoVolat(u32 entryIndex);
 void MBi_CheckSeqNoFixed(u32 entryIndex);
+
+void MBi_CheckTGID(u8 *newBlock, int entryIndex);
+
+void MBi_AnalyzeBeacon(u8 *scanBlock, u32 entryIndex, u32 value);
+void MB_CountGameInfoLifetime(EntryCallbackFunc callback, u32 value);
+void MBi_CheckCompleteGameInfoFlagments(u32 entryIndex, EntryCallbackFunc callback);
+s32 MBi_GetStoreElement(const u8 *scanBlock, EntryCallbackFunc callback);
+
+void MBi_SetSSIDToBssDesc(u16 *scanBlock, u32 value);
+
+void MB_InitRecvGameInfoStatus(void);

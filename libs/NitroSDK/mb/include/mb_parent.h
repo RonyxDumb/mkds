@@ -4,7 +4,7 @@
 #include "code_0200ad00.h"
 #include "code_0200fc8c.h"
 #include "code_0200aeb4.h"
-#include "code_02008934.h"
+#include "mb_gameinfo.h"
 #include "mb_data.h"
 #include "code_02003024.h"
 #include "fs_file.h"

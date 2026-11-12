@@ -153,24 +153,9 @@ libs/NitroSDK/mb/src/code_02008908.c:
     .text       start:0x02008908 end:0x02008934
 
 // provisional: file name and boundaries
-libs/NitroSDK/mb/src/code_02008934.c:
+libs/NitroSDK/mb/src/mb_gameinfo.c:
     complete
-    .text       start:0x02008934 end:0x02008dbc
-
-// provisional: file name and boundaries
-libs/NitroSDK/mb/src/code_02008dbc.c:
-    complete
-    .text       start:0x02008dbc end:0x02008e10
-
-// provisional: file name and boundaries
-libs/NitroSDK/mb/src/code_02008e10.c:
-    complete
-    .text       start:0x02008e10 end:0x020091e0
-
-// provisional: file name and boundaries
-libs/NitroSDK/mb/src/code_020091e0.c:
-    complete
-    .text       start:0x020091e0 end:0x02009928
+    .text       start:0x02008934 end:0x02009928
 
 // provisional: file name and boundaries
 libs/NitroSDK/mb/src/code_02009928.c:

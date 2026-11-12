@@ -1,5 +1,5 @@
 #include "code_0200b1b0.h"
-#include "code_02008934.h"
+#include "mb_gameinfo.h"
 #include "code_0200fc8c.h"
 #include "code_0214d018.h"
 
