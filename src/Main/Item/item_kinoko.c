@@ -69,6 +69,7 @@
 #include "Main/Item/code_020f5ffc.h"
 #include "Main/Item/code_020f6264.h"
 #include "Main/Item/code_020f62b0.h"
+#include "Main/Item/item_kinoko_p_boost.h"
 
 Vec3 *gItemPushVector;
 

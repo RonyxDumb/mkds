@@ -369,9 +369,6 @@ typedef struct ItemKind {
     /* a4 */ s32 mFarDistanceSquared;
 } ItemKind;
 
-// Default record: its only function pointer is the shared ComputeViewTest hook.
-extern ItemKind gItemKindKinokoP;
-
 extern ItemKind gItemKindTeresa;
 
 extern ItemKind gItemKindGesso;
@@ -422,8 +419,6 @@ typedef struct ItemInfo {
 extern ItemInfo data_0215a4c0;
 
 extern ItemInfo data_0215a2ec;
-
-extern ItemInfo data_02159d90;
 
 extern ItemInfo data_02159f4c;
 

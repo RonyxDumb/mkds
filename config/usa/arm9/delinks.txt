@@ -3642,6 +3642,7 @@ src/Main/Item/item_koura_w_far.c:
 src/Main/Item/item_kinoko_p_boost.c:
     complete
     .text       start:0x020fcb4c end:0x020fcb9c
+    .rodata     start:0x02159d84 end:0x02159e54
 
 // provisional: file name and boundaries
 src/Main/Item/item_koura_w_kart_items.c:

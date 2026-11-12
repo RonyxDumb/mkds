@@ -22,6 +22,7 @@
 #include "Main/Sound/sound_source_list.h"
 #include "Main/Item/item_pool.h"
 #include "Main/Item/item_koura_w.h"
+#include "Main/Item/item_kinoko_p_boost.h"
 
 #pragma thumb on
 
