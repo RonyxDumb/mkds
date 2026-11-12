@@ -48,6 +48,7 @@
 #include "Main/MapObjects/vehicle_kind_descriptor.h"
 #include "Main/MapObjects/kart_balloons_kind_descriptor.h"
 #include "Main/MapObjects/ob_pakkun_sf_kind_descriptor.h"
+#include "Main/MapObjects/pendulum_kind_descriptor.h"
 #include "Main/MapObjects/shine_battle.h"
 #include "Main/Item/dram_box.h"
 
