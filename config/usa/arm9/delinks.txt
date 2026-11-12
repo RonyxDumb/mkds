@@ -4314,17 +4314,7 @@ src/Main/Unknown/code_02124094.c:
 // provisional: file name and boundaries
 src/Main/Unknown/code_02124bc8.c:
     complete
-    .text       start:0x02124bc8 end:0x02124bf0
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_02124bf0.c:
-    complete
-    .text       start:0x02124bf0 end:0x02124efc
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_02124efc.c:
-    complete
-    .text       start:0x02124efc end:0x02124f4c
+    .text       start:0x02124bc8 end:0x02124f4c
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_02124f4c.c:
