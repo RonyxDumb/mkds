@@ -31,6 +31,13 @@
 #include "Main/Item/code_020f6be8.h"
 #include "code_02147cd8.h"
 
+const ItemSlotRowRemap gItemSlotRowRemaps[7] = {{{1, 0, 0, 0, 0, 0, 0}},
+                                                {{1, 5, 0, 0, 0, 0, 0}},
+                                                {{1, 3, 6, 0, 0, 0, 0}},
+                                                {{1, 3, 5, 7, 0, 0, 0}},
+                                                {{1, 2, 3, 5, 7, 0, 0}},
+                                                {{1, 2, 4, 5, 7, 8, 0}},
+                                                {{1, 2, 3, 4, 6, 7, 8}}};
 u16 gItemSlotPossibleItemCount;
 u16 gItemSlotSpinItemCount;
 s32 gGessoBlockTimer;
@@ -42,8 +49,6 @@ ItemSlotTable gItemSlotForcedTable;
 u16 gItemWeightSums[18];
 s32 gItemSlotPossibleItems[18];
 s32 gItemSlotSpinItems[18];
-
-const u8 gItemHitTypes[196] = {2, 2, 2, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 2, 2, 2, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 2, 2, 1, 1, 1, 2, 0, 1, 0, 2, 0, 0, 0, 2, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 2, 2, 2, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 1, 1, 2, 0, 1, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2};
 
 static inline u32 ItemSlotNextRandomBelow(RandomState64 *random, u32 limit) {
     random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
@@ -591,47 +596,3 @@ void CreateItemSlotTables(void) {
 }
 
 #pragma thumb off
-
-u8 GetItemObjectHitType(ItemObject *itemParam, ItemObject *otherParam) {
-    ItemObject *item = itemParam;
-    ItemObject *other = otherParam;
-
-    return (gItemHitTypes + item->mKind * 0xe)[other->mKind];
-}
-
-void DeflectItemObjectRandomly(ItemObject *item, Vec3 *otherPos, Vec3 *normal) {
-    RandomState64 *random;
-    s64 distanceSquared;
-    s32 angle;
-
-    if (item->mFlags & 0x2000000) {
-        if (LENGTH_SQUARED(*normal) >= 0x10) {
-            Vec3NormalizeAndGetLengthUnchecked(normal, normal);
-        }
-        if (Vec3DotUnrounded(normal, &item->mCoursePointOrParams) > 0x800) {
-            item->mVelocity.z = MUL_FIXED12_NO_ROUND(normal->z, 0x14cd);
-            item->mVelocity.x = MUL_FIXED12_NO_ROUND(normal->x, 0x14cd);
-        }
-    }
-    distanceSquared = (s64) (item->mPos.x - otherPos->x) * (item->mPos.x - otherPos->x) +
-                      (s64) (item->mPos.y - otherPos->y) * (item->mPos.y - otherPos->y) +
-                      (s64) (item->mPos.z - otherPos->z) * (item->mPos.z - otherPos->z);
-    if (distanceSquared >= (s64) item->mRadius * item->mRadius) {
-        return;
-    }
-    item->mFlags |= 0x4000000;
-    if (item->mFlags & 0x2000000) {
-        return;
-    }
-    if (Vec3DotUnrounded(&item->mVelocity, normal) >= 0) {
-        return;
-    }
-    random = &gRaceProgress->mRandom;
-    random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-    angle = (u16) ((((u64) (u32) (random->mValue >> 32) * 0x10000) >> 32));
-    item->mCoursePointOrParams.z = COS_OF_ANGLE(angle);
-    item->mCoursePointOrParams.x = SIN_OF_ANGLE(angle);
-    item->mVelocity.z = MUL_FIXED12_NO_ROUND(item->mCoursePointOrParams.z, 0x14cd);
-    item->mVelocity.x = MUL_FIXED12_NO_ROUND(item->mCoursePointOrParams.x, 0x14cd);
-    item->mFlags |= 0x2000000;
-}

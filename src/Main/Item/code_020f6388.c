@@ -1,3 +1,4 @@
+#include "Main/Item/code_020f6388.h"
 #include "Main/Item/item_kinoko.h"
 #include "Main/Sound/sound_start.h"
 #include "Main/Race/data_020f36d8.h"
@@ -64,11 +65,56 @@
 #include "Main/Kart/karts.h"
 #include "Main/Item/item_teresa_offset.h"
 
+const u8 gItemHitTypes[196] = {2, 2, 2, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 2, 2, 2, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 2, 2, 1, 1, 1, 2, 0, 1, 0, 2, 0, 0, 0, 2, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 2, 2, 2, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 1, 1, 2, 0, 1, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2};
 const u16 gItemObjectReleasePendingBit = 0x100;
 const u16 gItemObjectFadeOutPendingBit = 0x800;
-const u16 gItemObjectNoCallbackFadeOutPendingBit = 0x400;
-const u16 data_02159b64 = 0x8000;
 const u16 gItemObjectReleaseTimerPendingBit = 0x200;
+const u16 data_02159b64 = 0x8000;
+const u16 gItemObjectNoCallbackFadeOutPendingBit = 0x400;
+
+u8 GetItemObjectHitType(ItemObject *itemParam, ItemObject *otherParam) {
+    ItemObject *item = itemParam;
+    ItemObject *other = otherParam;
+
+    return (gItemHitTypes + item->mKind * 0xe)[other->mKind];
+}
+
+void DeflectItemObjectRandomly(ItemObject *item, Vec3 *otherPos, Vec3 *normal) {
+    RandomState64 *random;
+    s64 distanceSquared;
+    s32 angle;
+
+    if (item->mFlags & 0x2000000) {
+        if (LENGTH_SQUARED(*normal) >= 0x10) {
+            Vec3NormalizeAndGetLengthUnchecked(normal, normal);
+        }
+        if (Vec3DotUnrounded(normal, &item->mCoursePointOrParams) > 0x800) {
+            item->mVelocity.z = MUL_FIXED12_NO_ROUND(normal->z, 0x14cd);
+            item->mVelocity.x = MUL_FIXED12_NO_ROUND(normal->x, 0x14cd);
+        }
+    }
+    distanceSquared = (s64) (item->mPos.x - otherPos->x) * (item->mPos.x - otherPos->x) +
+                      (s64) (item->mPos.y - otherPos->y) * (item->mPos.y - otherPos->y) +
+                      (s64) (item->mPos.z - otherPos->z) * (item->mPos.z - otherPos->z);
+    if (distanceSquared >= (s64) item->mRadius * item->mRadius) {
+        return;
+    }
+    item->mFlags |= 0x4000000;
+    if (item->mFlags & 0x2000000) {
+        return;
+    }
+    if (Vec3DotUnrounded(&item->mVelocity, normal) >= 0) {
+        return;
+    }
+    random = &gRaceProgress->mRandom;
+    random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+    angle = (u16) ((((u64) (u32) (random->mValue >> 32) * 0x10000) >> 32));
+    item->mCoursePointOrParams.z = COS_OF_ANGLE(angle);
+    item->mCoursePointOrParams.x = SIN_OF_ANGLE(angle);
+    item->mVelocity.z = MUL_FIXED12_NO_ROUND(item->mCoursePointOrParams.z, 0x14cd);
+    item->mVelocity.x = MUL_FIXED12_NO_ROUND(item->mCoursePointOrParams.x, 0x14cd);
+    item->mFlags |= 0x2000000;
+}
 
 void StartItemObjectSoundOnSource(ItemObject *item, s32 soundId) {
     SoundSource *sourceCopy = &item->mSoundSource;

@@ -1,3 +1,4 @@
+#include "Main/Item/code_020f6388.h"
 #include "Main/Item/item_object.h"
 #include "Main/MapObjects/rock.h"
 #include "Main/Race/data_020f36d8.h"

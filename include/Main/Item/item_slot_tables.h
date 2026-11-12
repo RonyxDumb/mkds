@@ -19,12 +19,10 @@ typedef struct ItemSlotRowRemap {
     /* 00 */ u16 mSourceRowNumbers[7];
 } ItemSlotRowRemap;
 
-extern ItemSlotRowRemap gItemSlotRowRemaps[];
+extern const ItemSlotRowRemap gItemSlotRowRemaps[7];
 
 void RemapItemSlotRows(ItemSlotTable *table, s32 kartCount);
 void CreateItemSlotTables(void);
-u8 GetItemObjectHitType(ItemObject *itemParam, ItemObject *otherParam);
-void DeflectItemObjectRandomly(ItemObject *item, Vec3 *otherPos, Vec3 *normal);
 
 typedef struct ItemSlotTable ItemSlotTable;
 
@@ -58,8 +56,6 @@ void FinishItemSlotAndStopSound(KartItems *slot);
 
 void StartKouraWBlockTimer(s32 isRaceStart);
 void StartThunderBlockTimer(s32 isRaceStart);
-
-extern const u8 gItemHitTypes[196];
 
 extern s32 gItemSlotPossibleItems[18];
 extern s32 gItemSlotSpinItems[18];

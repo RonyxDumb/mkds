@@ -1,3 +1,4 @@
+#include "Main/Item/code_020f6388.h"
 #include "Main/Item/item_in_use.h"
 #include "Main/Race/code_020b1dbc.h"
 #include "Main/Kart/point_link_cursor.h"
