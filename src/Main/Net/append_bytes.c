@@ -3,6 +3,10 @@
 #include "Main/Kart/data_02161000.h"
 #include "code_0214d018.h"
 
+u32 gLastSentBlockId = 0xffffffff;
+s32 gLastSentChunkIndex = -1;
+s32 gPrevSentChunkIndex = -1;
+
 #pragma thumb on
 
 static inline u8 *AppendBytes(const void *source, u8 *cursor, u32 byteCount) {

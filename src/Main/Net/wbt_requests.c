@@ -9,6 +9,14 @@
 #include "code_0200fc8c.h"
 #include "code_0214d018.h"
 
+u32 gOwnIndex = 0xffffffff;
+s32 gLastReplyIndex = 1;
+u8 gRequestId[1];
+s16 gReceiveChunkSize;
+s16 gSendChunkSize;
+struct WBTBlockInfoList *gBlockListHead;
+BlockTransfer gBlockTransfer;
+
 #pragma thumb on
 
 u32 WBT_GetPeerPacketLength(void) {
@@ -32,7 +40,7 @@ BlockTransfer *GetBlockTransfer(void) {
 }
 
 WBTCommand *GetNextRequestAddress(void) {
-    return &gNextRequest;
+    return &gBlockTransfer.mNextRequest;
 }
 
 #pragma thumb off
@@ -52,7 +60,7 @@ u32 TrySetNextRequest(const WBTCommand *request) {
         OS_RestoreInterrupts(savedInterrupts);
         return 0;
     }
-    MIi_CpuCopy32(request, &gNextRequest, 0x9c);
+    MIi_CpuCopy32(request, &gBlockTransfer.mNextRequest, 0x9c);
     OS_RestoreInterrupts(savedInterrupts);
     return 1;
 }

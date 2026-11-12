@@ -46,6 +46,7 @@ typedef struct MPPlayerNameMessage {
 #include "Main/Sound/sound_seq.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "code_02142eac.h" // Unk021425e8
+#include "Main/MapObjects/data_02165000.h"
 
 typedef struct PlayerRecord PlayerRecord;
 
@@ -75,3 +76,5 @@ void EndMP(void);
 void EndDataSharing(void);
 void DisconnectChildrenCallback(Unk021425e8 *event);
 void DisconnectChildren(u32 aidBitmap);
+
+extern QueueMPDataToPortParams gMPDataToPortParams;

@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "code_02142eac.h" // Unk021425e8
+#include "Main/Menu/second_menu_scene.h" // StateCallbacks
 
 typedef struct SceneNumbers SceneNumbers;
 
@@ -13,3 +14,5 @@ u32 IsAllMPChunksReceived(u32 slot);
 s32 RunResultScene(SceneNumbers *sceneNumbers);
 
 void MPChunkPortCallback(Unk021425e8 *event);
+
+extern StateCallbacks gMPStateTable[23];

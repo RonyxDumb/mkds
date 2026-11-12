@@ -7893,10 +7893,10 @@ gBackupXorKeys17 kind:data(any) addr:0x02154604
 gBackupXorKeys19 kind:data(any) addr:0x02154648
 gBackupXorKeys29 kind:data(any) addr:0x02154694
 gCrcXorValue kind:data(any) addr:0x02154708
-data_usa_0215470c kind:data(any) addr:0x0215470c
-data_0215472c kind:data(any) addr:0x0215472c
+gEmptyBlockInfo kind:data(any) addr:0x0215470c
+gGameRegistry kind:data(any) addr:0x0215472c
 gGhostBlockInfo kind:data(any) addr:0x02154768
-data_02154788 kind:data(any) addr:0x02154788
+gDefaultParentParameter kind:data(any) addr:0x02154788
 data_usa_021547c8 kind:data(any) addr:0x021547c8
 data_021547f0 kind:data(any) addr:0x021547f0
 data_02154818 kind:data(any) addr:0x02154818
@@ -9513,15 +9513,15 @@ data_usa_02165174 kind:data(any) addr:0x02165174
 gEmblemSceneCallbacks kind:data(any) addr:0x02165190
 gWLMenuSceneCallbacks kind:data(any) addr:0x021651b0
 gRomArchiveName kind:data(any) addr:0x021651d0
-data_021651d4 kind:data(any) addr:0x021651d4
-data_021651d8 kind:data(any) addr:0x021651d8
+@3218 kind:data(any) addr:0x021651d4 local
+@3303 kind:data(any) addr:0x021651d8 local
 data_usa_021651dc kind:data(any) addr:0x021651dc
 data_usa_021651e0 kind:data(any) addr:0x021651e0
 data_usa_021651e4 kind:data(any) addr:0x021651e4
 data_usa_021651e8 kind:data(any) addr:0x021651e8
 data_usa_02165208 kind:data(any) addr:0x02165208
-data_usa_02165228 kind:data(any) addr:0x02165228
-data_usa_0216522c kind:data(any) addr:0x0216522c
+gPacketSendTimerFrames kind:data(any) addr:0x02165228
+gPacketPortParams kind:data(any) addr:0x0216522c
 gMPDataToPortParams kind:data(any) addr:0x0216523c
 gRecordSceneCallbacks kind:data(any) addr:0x0216524c
 gKartAppearFileName kind:data(any) addr:0x0216526c
@@ -11084,7 +11084,6 @@ gReceiveChunkSize kind:bss addr:0x0216f3b0
 gSendChunkSize kind:bss addr:0x0216f3b4
 gBlockListHead kind:bss addr:0x0216f3b8
 gBlockTransfer kind:bss addr:0x0216f3bc
-gNextRequest kind:bss addr:0x0216f458
 data_0216fc30 kind:bss addr:0x0216fc10
 gClearBssidCallback kind:bss addr:0x0216fc14
 gSetBssidCallback kind:bss addr:0x0216fc18

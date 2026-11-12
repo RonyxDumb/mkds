@@ -39,6 +39,38 @@
 #include "Main/MapObjects/data_02154000.h"
 #include "Main/MapObjects/data_0217b000.h"
 #include "registers.h"
+#include "Main/Menu/title_scene.h"
+#include "Main/Scene/menu_scene.h"
+#include "Main/System/key_recording.h"
+#include "Main/Scene/wl_menu_scene_callback.h"
+#include "Main/Net/mp_chunk_state_machine.h"
+#include "Main/Menu/keyboard_scene.h"
+#include "01/Scene/test_scene.h"
+#include "01/Menu/option_nickname_scenes.h"
+#include "00/Scene/wi_fi_menu_scene.h"
+
+const u8 gDWCUtilityLanguageTable[6] = {0, 1, 2, 3, 4, 5};
+// Scene functions in scene-number order.
+const u32 gSceneFuncs[16] = {
+    (u32) RunTitleScene,
+    (u32) RunMenuScene,
+    (u32) RunRaceScene,
+    (u32) RunEmblemScene,
+    (u32) RunSecondMenuScene,
+    (u32) RunTestScene,
+    (u32) RunWLMenuScene,
+    (u32) RunOptionScene,
+    (u32) RunRecordScene,
+    (u32) RunLogoScene,
+    (u32) RunResultScene,
+    (u32) RunNicknameScene,
+    (u32) RunWiFiMenuScene,
+    (u32) RunGhostScene,
+    (u32) RunKeyboardScene,
+    (u32) RunEndingScene,
+};
+s16 gSceneNumbers[3] = {-1, -1, -1};
+RunScenesState *gRunScenesState;
 
 void ClearShapeMapObjectCountListPointer(void) {
     gShapeMapObjectCountList = NULL;

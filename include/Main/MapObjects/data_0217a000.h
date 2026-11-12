@@ -1631,7 +1631,6 @@ typedef struct ShapeMapObjectCountList {
     /* 06 */ u8 mUnk_06[2];
 } ShapeMapObjectCountList;
 
-extern RunScenesState *gRunScenesState;
 extern ShapeMapObjectCountList *gShapeMapObjectCountList;
 extern u16 gFadeFogHoldFrames;
 // Set to 1 when TryUpdateEntryCamera is entered; cleared once per UpdateRace call by ClearCameraEntryFlags.

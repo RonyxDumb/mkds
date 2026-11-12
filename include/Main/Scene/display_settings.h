@@ -61,8 +61,6 @@ typedef struct BrightnessFade {
     /* 0a */ u16 mUnk_0a;
 } BrightnessFade;
 
-extern BrightnessFade gSubBrightnessFade;
-extern BrightnessFade gMainBrightnessFade;
 
 u32 AreBrightnessFadesClear(void);
 void SetBrightnessFadesClear(void);
@@ -105,3 +103,6 @@ void InitBrightnessFades(void);
 void UpdateBrightnessFade(BrightnessFade *fade);
 
 void InitDisplaySettingsDesc(DisplaySettingsDesc *p0);
+
+extern BrightnessFade gMainBrightnessFade;
+extern BrightnessFade gSubBrightnessFade;

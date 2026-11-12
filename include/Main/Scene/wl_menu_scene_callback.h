@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Menu/data_02175000.h"
 
 typedef struct SceneNumbers SceneNumbers;
 
@@ -12,3 +13,5 @@ s32 RunWLMenuScene(SceneNumbers *sceneNumbers);
 void UpdateWLMenuSceneCallback(void *sceneNumbers);
 void WriteWLMenuSceneRegistersCallback(void);
 void ReleaseWLMenuSceneCallback(void);
+
+extern SceneCallbacks gWLMenuSceneCallbacks;

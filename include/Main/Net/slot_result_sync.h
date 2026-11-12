@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Menu/data_02175000.h" // SceneCallbacks
 
 typedef struct SlotResultSyncState SlotResultSyncState;
 typedef struct SceneNumbers SceneNumbers;
@@ -25,3 +26,5 @@ s32 GetParticipantSlotResult(s32 participantIndex);
 BOOL IsParticipantSlotResultSyncing(s32 participantIndex);
 void UpdateSlotResultSyncs(void);
 void StartSlotResultSync(SlotResultSyncState *syncState, s32 itemInfoIndex);
+
+extern SceneCallbacks gResultSceneCallbacks;

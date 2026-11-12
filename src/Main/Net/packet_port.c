@@ -18,6 +18,9 @@
 #include "code_02142eac.h"
 #include "code_0214d018.h"
 
+u16 gPacketSendTimerFrames = 0x3c;
+QueueMPDataToPortParams gPacketPortParams = {PacketPortSendCallback, 0, {0, 0}, 1, 2, {0, 0}};
+
 #pragma thumb on
 void SetBlockEntryBuffer(u32 entryIndex, void *buffer) {
     gConnectionWork->mBlockEntries[entryIndex].mBuffer = buffer;
@@ -44,19 +47,19 @@ void QueuePacketToPort(void) {
         }
         switch (connectionMode) {
             case 1:
-                data_usa_0216522c.mMaxDataSize = 0x192;
+                gPacketPortParams.mMaxDataSize = 0x192;
                 packetSize = WBT_MpParentSendHook(gConnectionWork->mPacketBuffer, 0x192);
                 destMask = gConnectionWork->mChildren.mChildMask;
                 break;
             case 2:
-                data_usa_0216522c.mMaxDataSize = 0xe;
+                gPacketPortParams.mMaxDataSize = 0xe;
                 packetSize = WBT_MpChildSendHook(gConnectionWork->mPacketBuffer, 0xe);
                 destMask = 1;
                 break;
         }
-        if (QueueMPDataToPort(gConnectionWork->mPacketBuffer, packetSize, destMask, NULL, &data_usa_0216522c) ==
+        if (QueueMPDataToPort(gConnectionWork->mPacketBuffer, packetSize, destMask, NULL, &gPacketPortParams) ==
             FALSE) {
-            gConnectionWork->mSendTimer = data_usa_02165228;
+            gConnectionWork->mSendTimer = gPacketSendTimerFrames;
             gConnectionWork->mTransferFlags &= ~1;
         }
     }

@@ -13,6 +13,11 @@
 #include "code_0200c0d8.h"
 #include "03/Net/essid_wcm.h"
 
+const u8 gDefaultScanBssid[6] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+u16 gScanConnectInitialized;
+struct MPLink *gMPLink;
+struct ScanConnectWork *gScanConnectWork;
+
 #pragma thumb on
 void SetupMPLink(MPLink *link) {
     gMPLink = link;
@@ -413,7 +418,7 @@ void ScanConnectStartScan(void) {
     s32 wmResult;
     ScanConnectWork *work;
     u8 *bssid;
-    u8 *defaultBssid;
+    const u8 *defaultBssid;
     work = gScanConnectWork;
     if (work->mUseScanBssid != 0) {
         work->mScanParams.mMaxChannelTime = 0xdc;

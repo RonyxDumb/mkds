@@ -56,7 +56,6 @@ typedef struct QueueMPDataToPortParams {
     /* 0e */ u8 mUnk_0e[2];
 } QueueMPDataToPortParams;
 
-extern QueueMPDataToPortParams gMPDataToPortParams;
 
 extern const s32 data_02165510[2];
 
@@ -74,23 +73,16 @@ extern const SceneCallbacks gEmblemSceneCallbacks;
 
 extern const SceneCallbacks gLogoSceneCallbacks;
 
-extern QueueMPDataToPortParams gQueueMPChunkParams;
 
-extern u16 data_usa_02165228;
 
-extern QueueMPDataToPortParams data_usa_0216522c;
 
-extern const StateCallbacks gMPStateTable[];
 
-extern const StateCallbacks gWiFiRaceSyncStateTable[];
 
 struct Kart;
 
 extern void (*const gKartStateFunctions[])(struct Kart *);
 
-extern const SceneCallbacks gResultSceneCallbacks;
 
-extern const SceneCallbacks gWLMenuSceneCallbacks;
 
 extern const char gLanguageArchivePathFormat[];
 
@@ -138,7 +130,6 @@ extern const char gKartModelMenuPrefix[];
 
 extern const char gKartModelSlashPrefix[];
 
-extern s16 gSceneNumbers[];
 
 
 extern u16 gDefaultHalfFovAngle;
@@ -173,13 +164,11 @@ typedef struct BattleKartAiParams {
 
 extern BattleKartAiParams data_02165ff0;
 
-extern u8 data_021651d4[];
 
 extern const s32 data_02166048;
 
 extern const Vec3 data_0216608c;
 
-extern u8 data_021651d8[];
 
 extern const char gKartAIparamBinName[];
 

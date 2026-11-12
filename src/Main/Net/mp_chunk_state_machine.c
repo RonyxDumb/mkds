@@ -1,6 +1,10 @@
 #include "Main/Net/mp_chunk_state_machine.h"
 #include "Main/Scene/run_scene_connection.h"
 #include "Main/Net/mp_states.h"
+#include "Main/Net/mp_states_connection.h"
+#include "Main/Net/mp_state.h"
+#include "Main/Net/mp.h"
+#include "Main/Net/slot_result_sync.h"
 #include "os_thread.h"
 #include "Main/System/state_machine_init.h"
 #include "Main/MapObjects/data_02165000.h"
@@ -16,6 +20,8 @@
 #include "Main/MapObjects/data_0217a000.h"
 #include "code_0200eddc.h"
 #include "code_0214d018.h"
+
+StateCallbacks gMPStateTable[23] = {{EnterMPState0, UpdateMPState0}, {NULL, UpdateMPState1}, {EnterMPState2, UpdateMPState2}, {EnterMPState3, UpdateMPState3}, {EnterMPState4, UpdateMPState4}, {EnterMPState5, UpdateMPState5}, {NULL, UpdateMPState6}, {EnterMPState7, UpdateMPState7}, {EnterMPState8, UpdateMPState8}, {EnterMPState9, UpdateMPState9}, {EnterMPState10, UpdateMPState10}, {EnterMPState11, UpdateMPState11}, {EnterMPState12, UpdateMPState12}, {EnterMPState13, UpdateMPState13}, {EnterMPState14, UpdateMPState14}, {(UnkFunc *) EnterMPState15ReturnArgument, NULL}, {EnterMPState16, UpdateMPState16}, {EnterMPState17, UpdateMPState17}, {EnterMPState18, UpdateMPState18}, {EnterMPState19, UpdateMPState19}, {EnterMPState20, UpdateMPState20}, {EnterMPState21, UpdateMPState21}, {EnterMPState22, UpdateMPState22}};
 
 #pragma opt_rebuildconditionals off
 

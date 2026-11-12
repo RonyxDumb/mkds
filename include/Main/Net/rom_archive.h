@@ -104,3 +104,7 @@ s32 RomArchiveChildProc(FSFile *file, u32 command);
 typedef struct FSArchive FSArchive;
 
 s32 RomArchiveWriteCallback(FSArchive *archive, const void *src, u32 dst, u32 length);
+
+extern const u8 gEmptyBlockInfo[32];
+extern s32 gRomArchiveStarted;
+extern s32 data_usa_02175e80;

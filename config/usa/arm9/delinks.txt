@@ -111,6 +111,7 @@ src/Main/Net/mark_chunk_received.c:
 src/Main/Net/append_bytes.c:
     complete
     .text       start:0x02006380 end:0x0200692c
+    .data       start:0x02161770 end:0x0216177c
 
 // provisional: file name and boundaries
 src/Main/Net/wbt_mp_parent_recv.c:
@@ -121,6 +122,8 @@ src/Main/Net/wbt_mp_parent_recv.c:
 src/Main/Net/wbt_requests.c:
     complete
     .text       start:0x02006954 end:0x020070f0
+    .data       start:0x0216177c end:0x02161784
+    .bss        start:0x0216f3ac end:0x0216fc10
 
 // provisional: file name and boundaries
 src/Main/Net/request_id.c:
@@ -186,6 +189,8 @@ src/Main/Net/scan_connect_callbacks.c:
 src/Main/Net/mp_link.c:
     complete
     .text       start:0x0200b6e8 end:0x0200c0d8
+    .rodata     start:0x02152be4 end:0x02152bec
+    .bss        start:0x0216fdc4 end:0x0216fdd0
 
 // provisional: file name and boundaries
 libs/NitroSDK/mb/src/code_0200c0d8.c:
@@ -827,6 +832,7 @@ src/Main/System/heap_exp_over_block.c:
 src/Main/Scene/display_settings.c:
     complete
     .text       start:0x02036c5c end:0x02039230
+    .bss        start:0x02175584 end:0x021755a0
 
 // provisional: file name and boundaries
 src/Main/System/input_keys.c:
@@ -862,6 +868,7 @@ src/Main/Scene/return_terminate_for_pulled_out.c:
 src/Main/Scene/menu_scene.c:
     complete
     .text       start:0x02039e08 end:0x0203a3a4
+    .data       start:0x021646f8 end:0x02164718
 
 // provisional: file name and boundaries
 src/Main/Race/race_scene.c:
@@ -1122,6 +1129,7 @@ src/Main/System/frm_heap_reset.c:
 src/Main/Scene/wl_menu_scene_callback.c:
     complete
     .text       start:0x0204ad44 end:0x0204b03c
+    .data       start:0x021651b0 end:0x021651d0
 
 // provisional: file name and boundaries
 src/Main/Save/backup_access.c:
@@ -1146,6 +1154,8 @@ src/Main/Save/backup_read_copies.c:
 src/Main/Net/rom_archive.c:
     complete
     .text       start:0x0204bca0 end:0x0204db48
+    .rodata     start:0x0215470c end:0x0215472c
+    .data       start:0x021651d4 end:0x021651dc
 
 // provisional: file name and boundaries
 src/Main/Net/multiboot_parent.c:
@@ -1181,11 +1191,13 @@ src/Main/Net/scan_selected_entry.c:
 src/Main/Net/packet_port.c:
     complete
     .text       start:0x0204ed04 end:0x0204ee64
+    .data       start:0x02165228 end:0x0216523c
 
 // provisional: file name and boundaries
 src/Main/Net/block.c:
     complete
     .text       start:0x0204ee64 end:0x0204f198
+    .rodata     start:0x02154768 end:0x02154788
 
 // provisional: file name and boundaries
 src/Main/Net/child_block_transfer.c:
@@ -1216,6 +1228,7 @@ src/Main/Net/led_pattern.c:
 src/Main/Net/participant_get_connection.c:
     complete
     .text       start:0x0204f814 end:0x02050034
+    .rodata     start:0x02154788 end:0x021547c8
 
 // provisional: file name and boundaries
 src/Main/Net/participant_index.c:
@@ -1231,6 +1244,7 @@ src/Main/Net/scan_slot.c:
 src/Main/Net/disconnect.c:
     complete
     .text       start:0x02050300 end:0x02051640
+    .data       start:0x0216523c end:0x0216524c
 
 // provisional: file name and boundaries
 src/Main/Net/request_pending.c:
@@ -1435,6 +1449,7 @@ src/Main/System/thread_function_queue_init.c:
 src/Main/Net/mp_states.c:
     complete
     .text       start:0x02057fe4 end:0x02058b38
+    .data       start:0x021652a0 end:0x021652b0
 
 // provisional: file name and boundaries
 src/Main/Net/mp_states_connection.c:
@@ -1460,11 +1475,13 @@ src/Main/Net/mp.c:
 src/Main/Net/mp_chunk_state_machine.c:
     complete
     .text       start:0x02059878 end:0x02059bc0
+    .data       start:0x021652b0 end:0x02165368
 
 // provisional: file name and boundaries
 src/Main/Net/slot_result_sync.c:
     complete
     .text       start:0x02059bc0 end:0x0205a4e8
+    .data       start:0x02165368 end:0x02165388
 
 // provisional: file name and boundaries
 src/Main/Net/slot_result_sync_halfword.c:
@@ -1500,6 +1517,8 @@ src/Main/Net/kart_progress_pack.c:
 src/Main/Net/wifi_race_sync_advance.c:
     complete
     .text       start:0x0205b0b4 end:0x0205d0bc
+    .rodata     start:0x021548e0 end:0x02154904
+    .data       start:0x02165388 end:0x021653b8
 
 // provisional: file name and boundaries
 src/Main/Net/participant_kart_map.c:
@@ -1520,6 +1539,9 @@ src/Main/System/low_byte.c:
 src/Main/Scene/run_scenes.c:
     complete
     .text       start:0x0205dc84 end:0x0205e2cc
+    .rodata     start:0x02154904 end:0x0215494c
+    .data       start:0x021653b8 end:0x021653c0
+    .bss        start:0x0217aa00 end:0x0217aa04
 
 // provisional: file name and boundaries
 src/Main/Save/emblem_block.c:
@@ -3740,6 +3762,7 @@ src/Main/Net/wifi_session.c:
     complete
     .text       start:0x0212030c end:0x02122734
     .data       start:0x0216e1fc end:0x0216e30c
+    .bss        start:0x0217d368 end:0x0217d3cc
 
 // provisional: file name and boundaries
 src/Main/Net/packed_index.c:

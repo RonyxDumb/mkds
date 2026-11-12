@@ -66,7 +66,6 @@ typedef struct CommandResult {
     /* 02 */ u16 mResultCode;
 } CommandResult;
 
-extern u8 gDefaultScanBssid[6];
 
 void ScanConnectEndScan(void);
 void RequestEndScan(void);
@@ -100,3 +99,8 @@ void ScanConnectStartConnectCallback(Unk021425e8 *result);
 void ScanConnectStartConnect(WMBssDesc *scanBuffer);
 void SetMPLinkCallback(UnkFunc *callback);
 void SetupMPLink(MPLink *link);
+
+extern const u8 gDefaultScanBssid[6];
+extern u16 gScanConnectInitialized;
+extern struct MPLink *gMPLink;
+extern struct ScanConnectWork *gScanConnectWork;

@@ -15,3 +15,5 @@ void BlockNodeRequestCallback(WBTCommand *record);
 void StartBlockNodeRequest(void);
 void BlockCountRequestCallback(WBTCommand *record);
 void StartBlockCountRequest(void);
+
+extern const u8 gGhostBlockInfo[32];

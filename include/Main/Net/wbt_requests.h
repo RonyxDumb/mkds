@@ -54,3 +54,6 @@ void SetSendChunkSize(unsigned int chunkSize);
 void SetReceiveChunkSize(unsigned int chunkSize);
 unsigned int WBT_GetOwnPacketLength(void);
 unsigned int WBT_GetPeerPacketLength(void);
+
+extern s32 gLastReplyIndex;
+extern u32 gOwnIndex;

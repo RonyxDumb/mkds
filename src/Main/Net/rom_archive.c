@@ -29,6 +29,8 @@
 #include "Main/Kart/kart_name_tags.h"
 #include "code_021458c4.h"
 
+const u8 gEmptyBlockInfo[32] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
 s32 RomArchiveWriteCallback(FSArchive *archive, const void *src, u32 dst, u32 length) {
     return 1;
 }
@@ -80,7 +82,7 @@ void CreateRomArchiveBlock(FSFile *file, s32 appendOverlays) {
         }
     }
     FS_InitFile(&romFile);
-    FS_OpenFileDirect(&romFile, FS_FindArchive(data_021651d8, 3), 0, 0x7fffffff, -1);
+    FS_OpenFileDirect(&romFile, FS_FindArchive((const u8 *) "rom", 3), 0, 0x7fffffff, -1);
     if (noFile != FALSE) {
         imageOffset = 0;
         positionOffset = 0;
@@ -179,7 +181,7 @@ u32 ReloadRomArchiveFromBlock(u32 *block) {
     FSArchive *archive;
     s32 tableIndex;
 
-    archive = FS_FindArchive(data_021651d4, 3);
+    archive = FS_FindArchive((const u8 *) "rom", 3);
     FS_UnloadArchive(archive);
     FS_SetArchiveProc(archive, RomArchiveChildProc, -1);
     positionOffset = *block++;
@@ -332,7 +334,7 @@ void ActivateRomArchiveNode(RomArchiveParentView *view, RomArchiveFileNode *node
         if (node->mChildCount <= 0) {
             length = node->mFile.mProp.w.mUnk_08 - node->mFile.mProp.w.mUnk_04;
             blockId = node->mBlockId;
-            WBT_RegisterBlock(&node->mBlockNode, blockId, data_usa_0215470c, length <= 0x400u ? node->mBuffers[0] : 0,
+            WBT_RegisterBlock(&node->mBlockNode, blockId, gEmptyBlockInfo, length <= 0x400u ? node->mBuffers[0] : 0,
                               length, 0);
             MoveRomArchiveNodeToList(&view->mPendingHead, &view->mActiveHead, node);
             node->mState = 2;
@@ -925,7 +927,7 @@ void StartRomArchiveParent(u32 port, void (*stateCallback)(s32 port),
     view->mActiveHead = archiveNode;
     archiveNode->mChildCount = 1;
     MI_CpuFill8(archiveNode, 0, 0x8c0);
-    WBT_RegisterBlock(&archiveNode->mBlockNode, 0x20000, data_usa_0215470c, transfer->mArchiveBlock,
+    WBT_RegisterBlock(&archiveNode->mBlockNode, 0x20000, gEmptyBlockInfo, transfer->mArchiveBlock,
                       gRomArchiveTransfer.mArchiveBlockSize, 0);
     transfer->mState = 1;
     StartFileReadThread();

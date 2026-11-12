@@ -1,6 +1,8 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Net/data_0205b000.h"
+#include "Main/Menu/second_menu_scene.h"
 
 void AdvanceWiFiRaceSync(void);
 
@@ -79,3 +81,6 @@ void AdvanceWiFiRaceSyncFrames(void);
 void InitWiFiRaceSync(void *heap);
 void SetParticipantKartMapFromMask(u32 participantMask);
 void ResetParticipantKartMap(void);
+
+extern const EloChangeRow gEloChangeTable[9];
+extern StateCallbacks gWiFiRaceSyncStateTable[6];

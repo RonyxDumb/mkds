@@ -22,3 +22,7 @@ s32 WriteBlockCountRequestPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 se
 s32 WriteEmptyPacket(u8 *buffer, u16 indexMask, u8 requestId);
 void WBT_MpChildRecvHook(const u8 *packet, u32 size);
 u32 WBT_MpChildSendHook(u8 *buffer, s32 bufferSize);
+
+extern u32 gLastSentBlockId;
+extern s32 gLastSentChunkIndex;
+extern s32 gPrevSentChunkIndex;

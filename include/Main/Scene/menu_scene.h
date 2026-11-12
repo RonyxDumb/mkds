@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Menu/data_02175000.h"
 
 typedef struct SceneNumbers SceneNumbers;
 typedef struct NNSiFndHeapHead NNSiFndHeapHead;
@@ -33,3 +34,5 @@ void PreSleepRaceScene(void);
 // NULL (fade-out loop) only the draw and the upload part run. Slot 0x0c (AdvanceDispCapAndUploadRaceHud) is the second
 // per-frame step.
 void UpdateRaceScene(SceneNumbers *sceneNumbers, u32 sceneFrames);
+
+extern SceneCallbacks gMenuSceneCallbacks;

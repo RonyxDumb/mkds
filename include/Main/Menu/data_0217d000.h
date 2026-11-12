@@ -764,7 +764,6 @@ extern TrophyIcon *gTrophyIcon;
 
 extern SelectRaceRuleWait *gSelectRaceRuleWait;
 
-extern char gKartFilterString[0x64];
 
 extern SceneText *gSceneText;
 

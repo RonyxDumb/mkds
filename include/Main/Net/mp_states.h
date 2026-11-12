@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/MapObjects/data_02165000.h"
 
 unsigned int EnterMPState15ReturnArgument(unsigned int value);
 void UpdateMPState14(void);
@@ -32,3 +33,5 @@ void EnterMPState3(void);
 void UpdateMPState6(void);
 void UpdateMPState5(void);
 void RequestMPState15AfterCombine(void);
+
+extern QueueMPDataToPortParams gQueueMPChunkParams;

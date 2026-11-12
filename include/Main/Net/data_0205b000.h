@@ -8,4 +8,3 @@ typedef struct EloChangeRow {
     /* 03 */ s8 mLossChange;
 } EloChangeRow;
 
-extern EloChangeRow gEloChangeTable[9];

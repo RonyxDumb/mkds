@@ -44,6 +44,8 @@
 #include "code_020176c0.h"
 #include "Main/Race/race_entries.h"
 
+SceneCallbacks gMenuSceneCallbacks = {InitMenuScene, UpdateMenuScene, ReleaseMenuScene, WriteMenuSceneRegistersCallback, NULL, NULL, 0xa, 0xa, 0};
+
 void UpdateRaceScene(SceneNumbers *sceneNumbers, u32 sceneFrames) {
     RaceSetup *raceSetup;
     u32 value;

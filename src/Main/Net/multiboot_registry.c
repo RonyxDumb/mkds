@@ -17,7 +17,7 @@ u32 RegisterMultiBootSegment(void) {
     if ((0x00010000u) <= size) {
         succeeded = MB_ReadSegment(NULL, gConnectionWork->mMultiBootSegment, gConnectionWork->mMultiBootSegmentSize);
         if ((succeeded != 0) &&
-            (succeeded = MB_RegisterFile(data_0215472c, gConnectionWork->mMultiBootSegment), succeeded != 0)) {
+            (succeeded = MB_RegisterFile(gGameRegistry, gConnectionWork->mMultiBootSegment), succeeded != 0)) {
             result = 1;
         }
     }
@@ -30,8 +30,8 @@ void SetGameRegistryTexts(Bmg *bmg) {
     void *secondEntry;
     firstEntry = GetBmgEntry(bmg, 0);
     secondEntry = GetBmgEntry(bmg, 1);
-    table = data_0215472c;
-    data_0215472c[1] = firstEntry;
+    table = gGameRegistry;
+    gGameRegistry[1] = firstEntry;
     table[2] = secondEntry;
 }
 

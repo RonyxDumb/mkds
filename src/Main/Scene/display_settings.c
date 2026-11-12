@@ -20,6 +20,10 @@
 #include "g2.h"
 #include "Main/System/heap.h"
 
+void (*gFrameCallback)(s32);
+BrightnessFade gMainBrightnessFade;
+BrightnessFade gSubBrightnessFade;
+
 void InitDisplaySettingsDesc(DisplaySettingsDesc *p0) {
     p0->mUnk_00[0] = 0x1u;
     p0->mUnk_00[1] = 0x0u;

@@ -151,7 +151,6 @@ extern const char data_021646e0[];
 
 extern const char data_usa_021646ec[];
 
-extern const SceneCallbacks gMenuSceneCallbacks;
 
 extern const SceneCallbacks gRaceSceneCallbacks;
 

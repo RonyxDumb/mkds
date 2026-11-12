@@ -29,6 +29,8 @@
 #include "code_0214d018.h"
 #include "Main/Menu/select_race_rule_state.h"
 
+QueueMPDataToPortParams gMPDataToPortParams = {QueueMPDataToPortCallback, 0, {0, 0}, 0xf, 2, {0, 0}};
+
 static inline u32 DisconnectGetConnectionMode(void) {
     if (gConnectionWork == NULL) {
         return 0;

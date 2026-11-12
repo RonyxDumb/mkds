@@ -4,15 +4,12 @@
 typedef struct Kart Kart;
 
 // Objects whose layout isn't known yet.
-extern const u8 data_usa_0215470c[];
 
-extern void *data_0215472c[];
+extern void *gGameRegistry[];
 
-extern u8 gGhostBlockInfo[];
 
 extern const u8 gCupRankTable[];
 
-extern const u8 data_02154788[];
 
 extern const u32 data_usa_02154ff8[];
 
@@ -38,11 +35,10 @@ extern u8 data_02154818[];
 
 extern const Vec3 data_02154f70;
 
-extern u8 gDWCUtilityLanguageTable[];
 
 // The 16 scene functions, indexed by scene number; the names are in gSceneNames
 // (data_usa_021541a8).
-extern u32 gSceneFuncs[];
+extern const u32 gSceneFuncs[16];
 
 extern const Vec3 gKartVec3Zero;
 

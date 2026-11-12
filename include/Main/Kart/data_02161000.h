@@ -16,15 +16,10 @@ typedef struct NNSG3dVisAnmResult NNSG3dVisAnmResult;
 typedef struct Vec3s16 Vec3s16;
 
 // Objects whose layout isn't known yet.
-extern s32 gLastSentChunkIndex;
 
-extern u32 gLastSentBlockId;
 
-extern s32 gPrevSentChunkIndex;
 
-extern s32 gLastReplyIndex;
 
-extern u32 gOwnIndex;
 
 extern const char data_02161e64[];
 

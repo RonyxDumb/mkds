@@ -39,6 +39,8 @@
 #include "Main/System/heap_call.h"
 #include "code_020176c0.h"
 
+char gKartFilterString[0x64];
+
 #pragma opt_arithtransformation off
 
 void PackWiFiSessionIndicesWrapper(void) {

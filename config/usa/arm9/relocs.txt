@@ -678,8 +678,8 @@ from:0x0200707e kind:thumb_call_arm to:0x0200fcb4 module:main
 from:0x02007092 kind:thumb_call_arm to:0x0214d02c module:main
 from:0x02007098 kind:thumb_call_arm to:0x0200fcb4 module:main
 from:0x020070a8 kind:load to:0x0216f3a8 module:main
-from:0x020070ac kind:load to:0x0216f458 module:main
-from:0x020070b4 kind:load to:0x0216f458 module:main
+from:0x020070ac kind:load to:0x0216f3bc add:0x9c module:main
+from:0x020070b4 kind:load to:0x0216f3bc add:0x9c module:main
 from:0x020070bc kind:load to:0x0216f3bc module:main
 from:0x020070c8 kind:load to:0x0216f3b4 module:main
 from:0x020070d4 kind:load to:0x0216f3b0 module:main
@@ -37328,7 +37328,7 @@ from:0x02154910 kind:load to:0x02039eec module:main
 from:0x02154914 kind:load to:0x02039f9c module:main
 from:0x02154918 kind:load to:0x0204a550 module:main
 from:0x0215491c kind:load to:0x02046a88 module:main
-from:0x02154920 kind:load to:0x021804c1 module:overlays(0,1)
+from:0x02154920 kind:load to:0x021804c1 module:overlay(1)
 from:0x02154924 kind:load to:0x0204afd0 module:main
 from:0x02154928 kind:load to:0x0219e90d module:overlays(1,2)
 from:0x0215492c kind:load to:0x02055a4c module:main

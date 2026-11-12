@@ -31,6 +31,8 @@
 #include "Main/Net/participant_index.h"
 #include "Main/Net/mp.h"
 
+QueueMPDataToPortParams gQueueMPChunkParams = {QueueMPChunkCallback, 0x16c, {0, 0}, 0xe, 2, {0, 0}};
+
 #pragma thumb on
 
 void RequestMPState15AfterCombine(void) {

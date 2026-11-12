@@ -18,3 +18,7 @@ void InitRunScenesKind(void);
 void CreateRunScenesState(void *heap);
 s32 UpdateShapeMapObjectCounts(void);
 void ClearShapeMapObjectCountListPointer(void);
+
+extern const u8 gDWCUtilityLanguageTable[6];
+extern s16 gSceneNumbers[3];
+extern struct RunScenesState *gRunScenesState;

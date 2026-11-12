@@ -66,3 +66,5 @@ void ReceiveWiFiSessionMessage(u32 fromIndex, void *buffer, u32 size);
 BOOL UpdateWiFiSessionStepTimeout(u32 limit);
 void PackWiFiSessionIndices(void);
 void PackWiFiSessionIndicesWrapper(void);
+
+extern char gKartFilterString[0x64];

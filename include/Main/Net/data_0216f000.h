@@ -2,6 +2,7 @@
 #include "types.h"
 #include "os_thread.h"
 #include "mb_data.h"
+#include "Main/Net/wbt_block_transfer.h"
 
 // Objects whose layout isn't known yet.
 extern u32 data_0216f06c;
@@ -14,7 +15,7 @@ extern const char data_0216f2d4[];
 
 extern u32 wbt_initialize_flag;
 
-extern u8 gRequestId[];
+extern u8 gRequestId[1];
 
 extern s16 gReceiveChunkSize;
 
@@ -30,17 +31,13 @@ extern struct BlockTransfer gBlockTransfer;
 
 struct WBTCommand;
 
-extern struct WBTCommand gNextRequest;
 
-extern u16 gScanConnectInitialized;
 
 struct ScanConnectWork;
 
-extern struct ScanConnectWork *gScanConnectWork;
 
 struct MPLink;
 
-extern struct MPLink *gMPLink;
 
 extern u8 SDK_OVERLAYTABLE_DIGEST[];
 

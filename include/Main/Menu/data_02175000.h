@@ -344,6 +344,4 @@ extern RomArchiveTransfer gRomArchiveTransfer;
 
 extern void (*gFrameCallback)(s32);
 
-extern s32 gRomArchiveStarted;
 
-extern s32 data_usa_02175e80;

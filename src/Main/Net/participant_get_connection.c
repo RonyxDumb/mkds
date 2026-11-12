@@ -9,6 +9,8 @@
 #include "Main/MapObjects/data_0217a000.h"
 #include "Main/Menu/select_race_rule_state.h"
 
+const u8 gDefaultParentParameter[64] = {0, 0, 0, 0, 0, 0, 0, 0, 0x25, 0, 0, 0, 0, 0, 1, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0xc8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xbc, 1, 0x36, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
 #pragma opt_rebuildconditionals off
 
 static inline u32 ParticipantGetConnectionMode(void) {
@@ -164,7 +166,7 @@ void FillParentParameter(s32 flag) {
     u64 highWord;
 
     parentParameter = gConnectionWork->mParentParameter;
-    MIi_CpuCopy32(data_02154788, parentParameter, 0x40);
+    MIi_CpuCopy32(gDefaultParentParameter, parentParameter, 0x40);
     gameInfo = gConnectionWork->mChildren.mGameInfo;
     gameInfo->mGameInfoPart.mHasGhost = 0;
     gameInfo->mGameInfoPart.mKartIndex = 0;
@@ -206,7 +208,7 @@ void FillGhostParentParameter(GhostRecordHead *ghostRecord) {
     u64 highWord;
 
     parentParameter = gConnectionWork->mParentParameter;
-    MIi_CpuCopy32(data_02154788, parentParameter, 0x40);
+    MIi_CpuCopy32(gDefaultParentParameter, parentParameter, 0x40);
     gameInfo = gConnectionWork->mChildren.mGameInfo;
     gameInfo->mGameInfoPart.mHasGhost = 1;
     MI_CpuCopy8(ghostRecord->mName, gameInfo, 0x14);

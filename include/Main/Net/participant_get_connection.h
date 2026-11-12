@@ -14,3 +14,5 @@ BOOL IsScanSlotMultiBoot(u16 entryIndex);
 BOOL TryGetScanSlotName(u16 entryIndex, void *destination);
 BOOL IsDataSharingSyncDone(void);
 u16 GetParticipantPadKeys(u32 participantIndex);
+
+extern const u8 gDefaultParentParameter[64];
