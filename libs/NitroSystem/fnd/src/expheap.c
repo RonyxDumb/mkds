@@ -53,15 +53,15 @@ NNSiFndExpHeapMBlockHead *InsertMBlock(NNSiFndExpMBlockList *list, NNSiFndExpHea
 }
 
 NNSiFndExpHeapMBlockHead *InitMBlock(const NNSiMemRegion *region, u16 signature) {
-    NNSiFndExpHeapMBlockHead *block;
+    NNSiFndExpHeapMBlockHead *newBlock;
 
-    block = region->mStart;
-    block->mSignature = signature;
-    block->mAttribute = 0;
-    block->mBlockSize = (u32) region->mEnd - (u32) (block + 1);
-    block->mMBHeadPrev = 0;
-    block->mMBHeadNext = 0;
-    return block;
+    newBlock = region->mStart;
+    newBlock->mSignature = signature;
+    newBlock->mAttribute = 0;
+    newBlock->mBlockSize = (u32) region->mEnd - (u32) (newBlock + 1);
+    newBlock->mMBHeadPrev = 0;
+    newBlock->mMBHeadNext = 0;
+    return newBlock;
 }
 
 NNSiFndHeapHead *InitExpHeap(void *startAddress, void *endAddress, u16 optFlag) {
@@ -313,13 +313,13 @@ u32 NNS_FndResizeForMBlockExpHeap(NNSFndHeapHandle heap, void *memBlock, u32 siz
     NNSiMemRegion cutRegion;
     u32 oldSize;
     NNSiFndExpHeapHead *expHeap;
-    NNSiFndExpHeapMBlockHead *block;
+    NNSiFndExpHeapMBlockHead *blockHead;
     u32 newEnd;
     u32 blockEnd;
     u32 clearSize;
 
-    block = (NNSiFndExpHeapMBlockHead *) ((u8 *) memBlock - 0x10);
-    oldSize = block->mBlockSize;
+    blockHead = (NNSiFndExpHeapMBlockHead *) ((u8 *) memBlock - 0x10);
+    oldSize = blockHead->mBlockSize;
     size = (size + 3) & ~3;
     expHeap = EXP_HEAP_HEAD(heap);
     if (size == oldSize) {
@@ -327,7 +327,7 @@ u32 NNS_FndResizeForMBlockExpHeap(NNSFndHeapHandle heap, void *memBlock, u32 siz
     }
     if (size > oldSize) {
         freeBlock = expHeap->mMbFreeList.mHead;
-        blockEnd = oldSize + ((u32) (block + 1));
+        blockEnd = oldSize + ((u32) (blockHead + 1));
         if (freeBlock != 0) {
             do {
                 if ((u32) freeBlock == blockEnd) {
@@ -347,7 +347,7 @@ u32 NNS_FndResizeForMBlockExpHeap(NNSFndHeapHandle heap, void *memBlock, u32 siz
         if ((u32) freeRegion.mEnd - newEnd < 0x10) {
             freeRegion.mStart = freeRegion.mEnd;
         }
-        block->mBlockSize = (u32) freeRegion.mStart - (u32) memBlock;
+        blockHead->mBlockSize = (u32) freeRegion.mStart - (u32) memBlock;
         if ((u32) freeRegion.mEnd - (u32) freeRegion.mStart >= 0x10) {
             InsertMBlock(&expHeap->mMbFreeList, InitMBlock(&freeRegion, 0x4652), prev);
         }
@@ -362,13 +362,13 @@ u32 NNS_FndResizeForMBlockExpHeap(NNSFndHeapHandle heap, void *memBlock, u32 siz
         }
     } else {
         cutRegion.mStart = (void *) (size + (u32) memBlock);
-        cutRegion.mEnd = (void *) (block->mBlockSize + ((u32) (block + 1)));
-        block->mBlockSize = size;
+        cutRegion.mEnd = (void *) (blockHead->mBlockSize + ((u32) (blockHead + 1)));
+        blockHead->mBlockSize = size;
         if (RecycleRegion(expHeap, &cutRegion) == 0) {
-            block->mBlockSize = oldSize;
+            blockHead->mBlockSize = oldSize;
         }
     }
-    return block->mBlockSize;
+    return blockHead->mBlockSize;
 }
 
 // Returns the used block at memBlock to the free list.

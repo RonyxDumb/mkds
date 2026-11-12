@@ -106,7 +106,7 @@ s32 NNS_G2dArrangeOBJ1D(void *oam, s32 areaWidth, s32 areaHeight, s32 originX, s
     s32 objY;
     s32 objCount;
     s32 numY;
-    s32 shape;
+    s32 objShape;
     s32 oy;
     u32 objX;
     s32 rest;
@@ -135,7 +135,7 @@ s32 NNS_G2dArrangeOBJ1D(void *oam, s32 areaWidth, s32 areaHeight, s32 originX, s
         nameUnit = 2;
     }
     objCount = 0;
-    shape = OBJSizeToShape(sizeEntry);
+    objShape = OBJSizeToShape(sizeEntry);
     numX = areaWidth >> widthShift;
     numY = areaHeight >> heightShift;
     charNameStep = (nameUnit << widthShift << heightShift) >> vramMode;
@@ -144,7 +144,7 @@ s32 NNS_G2dArrangeOBJ1D(void *oam, s32 areaWidth, s32 areaHeight, s32 originX, s
         for (colIdx = 0; colIdx < numX; colIdx++) {
             objX = (originX + (colIdx << widthShift) * 8) & 0x1ff;
             pObj->mUnk_00 = (pObj->mUnk_00 & 0xfe00ff00) | (objY & 0xff) | (objX << 16);
-            pObj->mUnk_00 = (pObj->mUnk_00 & 0x3fff3fff) | shape;
+            pObj->mUnk_00 = (pObj->mUnk_00 & 0x3fff3fff) | objShape;
             pObj->mUnk_04 = (pObj->mUnk_04 & -0x400) | charName;
             charName += charNameStep;
             pObj->mUnk_00 = (pObj->mUnk_00 & ~0x2000) | (color << 13);
@@ -213,13 +213,13 @@ u32 GetGlyphIndex(FontCodeMap *pMap, u32 code) {
 
 void NNS_G2dFontInitAuto(Unk02022aa8 *pFont, NNSG2dBinaryFileHeader *pNftrFile) {
     u32 result;
-    u32 encoding;
+    u32 encodingId;
 
     result = NNSi_G2dGetUnpackedFont(pNftrFile, &pFont->mPRes);
-    encoding = pFont->mPRes->mEncoding;
+    encodingId = pFont->mPRes->mEncoding;
     pFont->mUnk_08 = result - 1;
     pFont->mUnk_0a = pFont->mUnk_08 != 0 ? 2 : 3;
-    pFont->mCbCharSpliter = spliterTable[encoding];
+    pFont->mCbCharSpliter = spliterTable[encodingId];
 }
 
 void NNS_G2dFontInitUTF16(Unk02022aa8 *pFont, NNSG2dBinaryFileHeader *pNftrFile) {
@@ -297,35 +297,35 @@ s32 NNSi_G2dFontGetStringWidth(Unk02022aa8 *pFont, s32 hSpace, u8 *str, u8 **pPo
 s32 NNSi_G2dFontGetTextHeight(Unk02022aa8 *pFont, s32 vSpace, u8 *txt) {
     u8 *pos = txt;
     NNSG2dTextRect unusedState = {0, 0};
-    s32 lines;
+    s32 lineCount;
     SplitCharFunc *readChar;
     u16 code;
 
     readChar = pFont->mCbCharSpliter;
-    lines = 1;
+    lineCount = 1;
     code = readChar(&pos);
     while (code != 0) {
         if (code == 10) {
-            lines++;
+            lineCount++;
         }
         code = readChar(&pos);
     }
-    return lines * (vSpace + pFont->mPRes->mLinefeed) - vSpace;
+    return lineCount * (vSpace + pFont->mPRes->mLinefeed) - vSpace;
 }
 
 void NNSi_G2dFontGetTextRect(NNSG2dTextRect *pRect, Unk02022aa8 *pFont, s32 hSpace, s32 vSpace, u8 *txt) {
     NNSG2dTextRect rect = {0, 0};
-    s32 lines;
+    s32 lineCount;
     s32 width;
 
-    lines = 1;
+    lineCount = 1;
     while (txt != 0) {
         width = NNSi_G2dFontGetStringWidth(pFont, hSpace, txt, &txt);
         if (width > rect.mWidth) {
             rect.mWidth = width;
         }
-        lines++;
+        lineCount++;
     }
-    rect.mHeight = (lines - 1) * (vSpace + pFont->mPRes->mLinefeed) - vSpace;
+    rect.mHeight = (lineCount - 1) * (vSpace + pFont->mPRes->mLinefeed) - vSpace;
     *pRect = rect;
 }
