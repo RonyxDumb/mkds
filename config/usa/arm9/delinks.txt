@@ -1944,12 +1944,7 @@ src/Main/Unknown/code_020810e4.c:
 // provisional: file name and boundaries
 src/Main/Unknown/code_02081338.c:
     complete
-    .text       start:0x02081338 end:0x02081374
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_02081374.c:
-    complete
-    .text       start:0x02081374 end:0x020815a0
+    .text       start:0x02081338 end:0x020815a0
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_020815a0.c:
