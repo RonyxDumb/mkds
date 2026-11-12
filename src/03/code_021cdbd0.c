@@ -9,7 +9,7 @@
 #include "03/code_021bf4dc.h"
 #include "03/code_021cdbc8.h"
 #include "03/code_021d3488.h"
-#include "code_0212ba68.h"
+#include "code_0212ba34.h"
 #include "code_0212d214.h"
 #include "code_0212df7c.h"
 

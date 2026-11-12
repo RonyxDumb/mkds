@@ -3819,12 +3819,7 @@ libs/NitroSystem/snd/src/code_0212b9ec.c:
 // provisional: file name and boundaries
 libs/NitroSystem/snd/src/code_0212ba34.c:
     complete
-    .text       start:0x0212ba34 end:0x0212ba68
-
-// provisional: file name and boundaries
-libs/NitroSystem/snd/src/code_0212ba68.c:
-    complete
-    .text       start:0x0212ba68 end:0x0212bb50
+    .text       start:0x0212ba34 end:0x0212bb50
     .bss        start:0x0217d3f4 end:0x0217d418
 
 // provisional: file name and boundaries
