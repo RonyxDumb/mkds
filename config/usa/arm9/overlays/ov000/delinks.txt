@@ -448,14 +448,9 @@ src/00/code_0219887c.c:
     .text       start:0x02198848 end:0x021988b4
 
 // provisional: file name and boundaries
-src/00/code_021988e8.c:
+src/00/gt2Main.c:
     complete
-    .text       start:0x021988b4 end:0x02198a50
-
-// provisional: file name and boundaries
-src/00/code_02198a84.c:
-    complete
-    .text       start:0x02198a50 end:0x02198a58
+    .text       start:0x021988b4 end:0x02198a58
 
 // provisional: file name and boundaries
 src/00/code_02198a8c.c:

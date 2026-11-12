@@ -1,6 +1,6 @@
 #include "00/code_021a2ccc.h"
 
-#include "00/code_021988e8.h"
+#include "00/gt2Main.h"
 #include "00/code_021a1ae0.h"
 #include "03/code_021b94b8.h"
 #include "Main/Unknown/code_0200f000.h"

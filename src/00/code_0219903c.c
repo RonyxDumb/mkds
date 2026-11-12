@@ -39,7 +39,7 @@
 #include "00/code_0219a000.h"
 #include "00/code_0219a044.h"
 #include "00/gt2Connection.h"
-#include "00/code_021988e8.h"
+#include "00/gt2Main.h"
 #include "00/code_02198a8c.h"
 #include "00/code_0219960c.h"
 #include "00/code_02199614.h"

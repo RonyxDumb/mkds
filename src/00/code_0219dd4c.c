@@ -40,7 +40,7 @@
 #include "00/code_0219e000.h"
 #include "00/code_0219a654.h"
 #include "00/code_0219d128.h"
-#include "00/code_021988e8.h"
+#include "00/gt2Main.h"
 #include "00/code_0219a000.h"
 #include "00/code_0219b000.h"
 #include "00/code_0219f9bc.h"

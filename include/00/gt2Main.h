@@ -11,3 +11,5 @@ int gt2Connect(void *socket, Gt2Connection **connection, u32 remoteAddress, void
                Gt2ConnectionCallbacks *callbacks, int blocking);
 void gt2Reject(Gt2Connection *connection, void *message, u32 len);
 int gt2Accept(Gt2Connection *connection, Gt2ConnectionCallbacks *callbacks);
+
+void gt2Listen(void *socket, void *callback);

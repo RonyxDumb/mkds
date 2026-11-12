@@ -1,4 +1,5 @@
-#include "00/code_021988e8.h"
+#include "00/gt2Main.h"
+#include "00/code_0219a3f4.h"
 #include "00/code_0219a0d0.h"
 #include "00/code_0219a61c.h"
 #include "00/unk_021b2000.h"
@@ -14,6 +15,11 @@
 #include "00/gt2Connection.h"
 #include "00/code_02198a8c.h"
 #include "00/code_0219a654.h"
+
+void gt2Listen(void *socket, void *callback) {
+    u32 value3;
+    SetIncomingConnectionCallback(socket, callback);
+}
 
 int gt2Accept(Gt2Connection *connection, Gt2ConnectionCallbacks *callbacks) {
     return gti2AcceptConnection(connection, callbacks);
