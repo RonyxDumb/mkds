@@ -17,7 +17,6 @@ typedef struct MkdEfBubbleUpdateList {
 
 extern u16 gItemBoxTriangleFlag2Flag;
 extern u32 gItemBoxInitDistanceFlag;
-extern Vec3 gItemBoxDefaultScale;
 extern const u32 gMkdEfBubbleHitFlag;
 extern MkdEfBubbleUpdateList gMkdEfBubbleUpdateListData;
 extern MapObjectDrawList gMkdEfBubbleDrawListData;

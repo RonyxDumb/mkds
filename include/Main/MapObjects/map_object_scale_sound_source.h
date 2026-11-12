@@ -4,7 +4,7 @@
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h"
 
-void SetMapObjectScale(MapObject *mapObject, Vec3 *scale);
+void SetMapObjectScale(MapObject *mapObject, const Vec3 *scale);
 void SetMapObjectExtentX(MapObject *mapObject, s32 baseSize);
 // Allocates the sound source object of the map object (mUnk_94, 0x44 bytes) with volume curve 2
 // (SoundSource.mFalloffIndex) and copies the curve's mUnk_20 into mUnk_70. Then it calls SetSoundSourceEnabled and,

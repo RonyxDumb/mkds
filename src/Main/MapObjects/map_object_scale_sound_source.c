@@ -13,7 +13,7 @@
 #include "Main/Sound/sound_source_list.h"
 #include "code_02147cd8.h"
 
-void SetMapObjectScale(MapObject *mapObject, Vec3 *scale) {
+void SetMapObjectScale(MapObject *mapObject, const Vec3 *scale) {
     s32 value;
     MapObjectKindData *kindData;
     s32 kindViewRadius;

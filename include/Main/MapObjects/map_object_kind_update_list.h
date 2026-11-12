@@ -100,7 +100,6 @@ void *FindMapObjectKindDrawList0(u32 kind);
 extern const MapObjectKindDescriptor data_usa_02156474;
 extern const MapObjectKindDescriptor data_usa_021583d8;
 extern const MapObjectKindDescriptor gItemBoxKindDescriptor;
-extern const MapObjectKindDescriptor gGroupItemBoxKindDescriptor;
 extern const MapObjectKindDescriptor gMkdEfBubbleKindDescriptor;
 extern const MapObjectKindDescriptor gKoopaBlockKindDescriptor;
 extern const MapObjectKindDescriptor data_usa_0215890c;

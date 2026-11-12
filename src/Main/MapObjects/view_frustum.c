@@ -43,6 +43,7 @@
 #include "Main/MapObjects/dossun_kind_descriptor.h"
 #include "Main/MapObjects/wanwan_reset.h"
 #include "Main/MapObjects/model_animation_entries.h"
+#include "Main/MapObjects/group_item_box_kind_descriptor.h"
 #include "Main/MapObjects/kart_balloons_kind_descriptor.h"
 #include "Main/MapObjects/shine_battle.h"
 #include "Main/Item/dram_box.h"
