@@ -176,7 +176,7 @@ u32 gti2HandleAppReliable(Gt2Connection *connection, const u8 *message, u32 leng
 }
 
 u32 gti2HandleClientChallenge(Gt2Connection *connection, const u8 *message, int length) {
-    s8 response[0x20];
+    s8 peerAnswer[0x20];
     s8 ownChallenge[0x20];
     if (connection->mState != 2) {
         if (gti2ConnectionCommunicationError(connection) != 0) {
@@ -190,10 +190,10 @@ u32 gti2HandleClientChallenge(Gt2Connection *connection, const u8 *message, int 
         }
         return 0;
     }
-    gti2GetResponse(response, (const s8 *) message);
+    gti2GetResponse(peerAnswer, (const s8 *) message);
     gti2GetChallenge(ownChallenge);
     gti2GetResponse((s8 *) connection->mResponse, ownChallenge);
-    if (gti2SendServerChallenge(connection, (const u8 *) response, (const u8 *) ownChallenge) == 0) {
+    if (gti2SendServerChallenge(connection, (const u8 *) peerAnswer, (const u8 *) ownChallenge) == 0) {
         return 0;
     }
     connection->mState = 3;
@@ -201,7 +201,7 @@ u32 gti2HandleClientChallenge(Gt2Connection *connection, const u8 *message, int 
 }
 
 u32 gti2HandleServerChallenge(Gt2Connection *connection, const u8 *message, int length) {
-    s8 response[0x20];
+    s8 clientAnswer[0x20];
     if (connection->mState != 0) {
         if (gti2ConnectionCommunicationError(connection) != 0) {
             return 1;
@@ -220,8 +220,8 @@ u32 gti2HandleServerChallenge(Gt2Connection *connection, const u8 *message, int 
         }
         return 0;
     }
-    gti2GetResponse(response, (const s8 *) (message + 0x20));
-    if (gti2SendClientResponse(connection, (const u8 *) response, connection->mInitialMessage.mData,
+    gti2GetResponse(clientAnswer, (const s8 *) (message + 0x20));
+    if (gti2SendClientResponse(connection, (const u8 *) clientAnswer, connection->mInitialMessage.mData,
                                connection->mInitialMessage.mSize) == 0) {
         return 0;
     }

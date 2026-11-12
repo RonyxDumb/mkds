@@ -13,12 +13,12 @@ const s8 gAlternateEncoding[3] = {0x5b, 0x5d, 0x5f};
 const s8 gDefaultEncoding[3] = {0x2b, 0x2f, 0x3d};
 
 s32 Util_RandInt(s32 low, s32 high) {
-    s32 range = high - low;
+    s32 span = high - low;
     s32 num;
-    if (range == 0) {
+    if (span == 0) {
         return low;
     }
-    num = longrand() % range;
+    num = longrand() % span;
     return num + low;
 }
 
