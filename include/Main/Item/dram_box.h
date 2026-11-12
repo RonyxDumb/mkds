@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "code_02012b30.h" // MtxFx33
 #include "Main/Item/held_item.h" // BouncingItemObject
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h"
@@ -10,6 +11,8 @@
 #include "Main/Item/pooled_map_object.h"
 #include "Main/MapObjects/choropu.h" // CollisionMapObject
 #include "Main/Menu/second_menu_scene.h"
+
+extern MtxFx33 gItemFBoxRotation;
 
 // Object of InitMissionRunBoxMapObject: 0x144 bytes.
 typedef struct MissionRunBox {

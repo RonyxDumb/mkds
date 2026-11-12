@@ -37,10 +37,10 @@
 #include "Main/Item/code_020f73fc.h"
 #include "Main/Item/pooled_item_box_init.h"
 #include "Main/Item/item_pool.h"
-#include "01/code_02187d14.h" // gItemFBoxRotation
 #include "Main/Sound/data_0216c000.h"
 
 const MapObjectKindData gMissionRunBoxKindData = {NULL, NULL, 5, 0x190000, 0x64000, 0xaf000, NULL, 1, 1, 0, 0, 0, 0, 0, 0, 0};
+MtxFx33 gItemFBoxRotation;
 StateCallbacks gDramStateTable[6] = {{(UnkFunc *) DramState0ReturnArgument, UpdateDramState0}, {NULL, NULL}, {EnterDramState2, UpdateDramState2}, {(UnkFunc *) DramState3ReturnArgument, UpdateDramState3}, {EnterDramState4, UpdateDramState4}, {EnterDramState5, UpdateDramState5}};
 
 #pragma thumb on
@@ -128,7 +128,7 @@ void SetItemFBoxDrawMatrix(ItemFBox *fbox, MtxFx43 *out) {
     fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[3].y = position->y >> 4;
     fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[3].z = position->z >> 4;
     *out = fbox->mBouncingItemObject.mItemObject.mTransformMtx;
-    MTX_Concat33(&gItemFBoxRotation.mAxes, &out->mAxes, &out->mAxes);
+    MTX_Concat33(&gItemFBoxRotation, &out->mAxes, &out->mAxes);
 }
 
 void SetItemFBoxPushedDrawMatrix(ItemFBox *fbox, MtxFx43 *out) {
@@ -206,7 +206,7 @@ void SetItemFBoxPushedDrawMatrix(ItemFBox *fbox, MtxFx43 *out) {
 }
 
 void ResetItemFBox(ItemFBox *fbox) {
-    fbox->mBouncingItemObject.mItemObject.mTransformMtx.mAxes = gItemFBoxRotation.mAxes;
+    fbox->mBouncingItemObject.mItemObject.mTransformMtx.mAxes = gItemFBoxRotation;
     ResetPooledMapObject(fbox->mPooledMapObject);
     fbox->mPooledMapObject->mShadowMode = 2;
     SetPooledMapObjectCallback(fbox->mPooledMapObject, SetItemFBoxDrawMatrix, fbox);
@@ -225,7 +225,7 @@ void AdvanceItemFBoxInUse(ItemInUse *inUse, ItemFBox *fbox) {
 u32 InitItemFBox(ItemInUse *inUse, ItemFBox *fbox) {
     StartItemObjectSoundSource(&fbox->mBouncingItemObject.mItemObject);
     fbox->mBouncingItemObject.mItemObject.mOwnerKartIndexAndFlags |= gItemObjectExcludedUntilCourseHitBit;
-    MTX_Concat33(&gItemFBoxRotation.mAxes, &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mAxes,
+    MTX_Concat33(&gItemFBoxRotation, &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mAxes,
                  &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mAxes);
     fbox->mPushDirection.x = 0;
     fbox->mPushDirection.y = 0;
@@ -301,7 +301,7 @@ void SetupItemFBoxAfterLaunch(ItemFBox *fbox) {
     Vec3CrossUnrounded(&fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0],
                        &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[1],
                        &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[2]);
-    MTX_Concat33(&gItemFBoxRotation.mAxes, &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mAxes,
+    MTX_Concat33(&gItemFBoxRotation, &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mAxes,
                  &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mAxes);
     if ((fbox->mBouncingItemObject.mItemObject.mFlags & 0x180000) == 0) {
         fbox->mBouncingItemObject.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceItemFBox;

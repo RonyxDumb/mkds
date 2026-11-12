@@ -6,8 +6,6 @@
 #include "01/code_02188950.h"
 #include "01/code_0218d520.h"
 
-extern MtxFx43 gItemFBoxRotation;
-
 extern MtxFx43 gJgPreviousInverseMatrix;
 
 extern MtxFx43 gJgInverseMatrix;

@@ -17,7 +17,6 @@
 #include "Main/Item/item_object_bouncing.h"
 #include "Main/Sound/data_0216c000.h"
 #include "Main/Menu/second_menu_scene.h"
-#include "01/code_02187d14.h" // gItemFBoxRotation
 
 Vec3 gItemFBoxRotationAxis = {0x93d, 0x93d, 0x93d};
 u8 gItemDataQueueFreeHead[4];
@@ -74,7 +73,7 @@ void SetupItemFBoxPooledMapObjects(void) {
         return;
     }
     axis = gItemFBoxRotationAxis;
-    MTX_RotAxis33(&gItemFBoxRotation.mAxes, &axis, 0xb50, 0xb50);
+    MTX_RotAxis33(&gItemFBoxRotation, &axis, 0xb50, 0xb50);
     pool = &gItemPools[7];
     objectCursor = pool->mObjects;
     objectCount = pool->mObjectCount;
