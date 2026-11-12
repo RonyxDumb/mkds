@@ -1,12 +1,13 @@
 #include "01/code_0219c784.h"
-
+#include "01/code_0219d50c.h"
+#include "01/unk_021a8000.h"
+#include "Main/System/result_archive_path.h"
+#include "Main/Race/followed_kart_or.h"
 #include "01/unk_021a6000.h"
 #include "Main/Unknown/code_02036000.h"
 #include "Main/System/heap.h"
 #include "Main/Unknown/code_02037000.h"
 #include "01/unk_021a9000.h"
-#include "01/unk_021a8000.h"
-#include "Main/System/result_archive_path.h"
 #include "Main/Graphics/font_and_player_character.h"
 #include "Main/Unknown/code_021059e0.h"
 #include "Main/Unknown/code_0211732c.h"
@@ -18,6 +19,33 @@
 #include "Main/Graphics/layout_rect_table.h"
 #include "g2.h"
 #include "registers.h"
+
+void LoadSelectBattleStageData(void) {
+    void *v1;
+    LoadedPartPointer v;
+    v1 = FindSceneFile(gSelectBattleStageMBNcgrName);
+    LoadNcgrData(&v.mNcgr, v1);
+    v1 = FindSceneFile(gSelectBattleStageM00NscrName);
+    LoadNscrData(&v.mNscr, v1);
+    v1 = FindSceneFile(gSelectBattleStageM01NscrName);
+    LoadNscrData(&v.mNscr, v1);
+    v1 = FindSceneFile(gSelectBattleStageM02NscrName);
+    LoadNscrData(&v.mNscr, v1);
+    v1 = FindSceneFile(gSelectBattleStageMBNclrName);
+    LoadNclrData(&v.mNclr, v1);
+    v1 = FindSceneFile(gSelectBattleStageMNcgrName);
+    LoadNcgrData2(&v.mNcgr, v1);
+    v1 = FindSceneFile(gSelectBattleStageMNcerName);
+    LoadNcerData(&v.mNcer, v1);
+    v1 = FindSceneFile(gSelectBattleStageMONclrName);
+    LoadNclrData(&v.mNclr, v1);
+    v1 = FindSceneFile(gSelectBattleStageSNcgrName);
+    LoadNcgrData2(&v.mNcgr, v1);
+    v1 = FindSceneFile(gSelectBattleStageSNcerName);
+    LoadNcerData(&v.mNcer, v1);
+    v1 = FindSceneFile(gSelectBattleStageSONclrName);
+    LoadNclrData(&v.mNclr, v1);
+}
 
 const u8 gSelectBattleStageNegatedYCells[] = {0};
 const u8 gSelectBattleStageSecondXCells[] = {0, 1};
