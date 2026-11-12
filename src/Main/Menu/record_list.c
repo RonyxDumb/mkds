@@ -32,6 +32,8 @@
 #include "code_0214cfe4.h"
 #include "01/Menu/record_time_attack.h"
 
+RecordList *gRecordList;
+
 #pragma thumb on
 
 // Combines the entry's three bytes into one number to order entries by.
@@ -88,7 +90,7 @@ void CreateRecordList(void *heap) {
     gRecordList->mEntries = value;
     value = CreateEmblemBlock(heap);
     gRecordList->mEmblemBlock = value;
-    value = FindSceneFile(gEmblem2BinName);
+    value = FindSceneFile("emblem2.bin");
     gRecordList->mEmblem2Bin = value;
 }
 

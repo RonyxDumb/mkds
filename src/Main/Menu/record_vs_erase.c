@@ -32,6 +32,33 @@
 #include "Main/System/result_archive_path.h"
 #include "registers.h"
 
+const u16 gRecordVSEraseRow0MessageIndices[4] = {6, 7, 8, 0};
+const u16 gRecordVSEraseGridLabelWidths[3][3] = {{0x70, 0x70, 0x70}, {0x20, 0x20, 0x20}, {0x20, 0x20, 0x20}};
+char *gRecordVSSEraseBnblName = "Record_VS_s_erase.bnbl";
+char *gRecordVSSEraseBnllName = "Record_VS_s_erase.bnll";
+const u16 gRecordVSEraseOffsetCellIndices[2] = {0x20, 0x21};
+const u16 gRecordVSEraseRowLabelWidths[6] = {0x78, 0x78, 0x78, 0x78, 0x78, 0};
+const s16 gRecordVSEraseRectInputSlots[6] = {0, 1, 2, 3, 4, 0};
+char *gRecordVSSEraseNscrName = "Record_VS_s_erase.nscr";
+const u16 gRecordVSEraseFriendKeyLabelIndices[12] = {2, 3, 4, 5, 6, 7, 8, 9, 0xa, 0xb, 0xc, 0xd};
+const u16 gRecordVSEraseHighlightIndices[6] = {5, 6, 7, 8, 9, 0};
+char *gRecordVSSBNclrName = "Record_VS_s_b.nclr";
+const u16 gRecordVSEraseFriendKeyWidths[12] = {8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8};
+const u16 gRecordVSEraseUnflaggedObjectIndices[6] = {0x14, 0x15, 0x16, 0x17, 0x18, 0};
+const u16 gRecordVSEraseFlaggedObjectIndices[6] = {0x19, 0x1a, 0x1b, 0x1c, 0x1d, 0};
+const u16 gRecordVSEraseGridLabelHeights[3][3] = {{0xe, 0xe, 0xe}, {0xe, 0xe, 0xe}, {0xe, 0xe, 0xe}};
+char *gRecordVSSBNcgrName = "Record_VS_s_b.ncgr";
+const u16 gRecordVSEraseGridLabelIndices[3][3] = {{2, 3, 4}, {5, 7, 9}, {6, 8, 0xa}};
+const u16 gRecordVSEraseRowLabelHeights[6] = {0x10, 0x10, 0x10, 0x10, 0x10, 0};
+const u16 gRecordVSEraseFlaggedRowIndices[6] = {0xa, 0xb, 0xc, 0xd, 0xe, 0};
+char *gRecordVSSEraseBnclName = "Record_VS_s_erase.bncl";
+const u16 gRecordVSEraseRowLabelIndices[6] = {0, 1, 2, 3, 4, 0};
+const u16 gRecordVSEraseNoOffsetCellIndices[2] = {0x1e, 0x1f};
+const u16 gRecordVSEraseUnhighlightedIndices[6] = {0, 1, 2, 3, 4, 0};
+const u16 gRecordVSEraseFlaggedHighlightIndices[6] = {0xf, 0x10, 0x11, 0x12, 0x13, 0};
+const u16 gRecordVSEraseFriendKeyHeights[12] = {0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10};
+RecordVSErase *gRecordVSErase;
+
 #pragma thumb on
 
 void LocateAndQueueRecordVSErase(void) {
@@ -332,8 +359,6 @@ void DecrementRecordVSEraseIndex(void) {
 
 #pragma thumb on
 
-const u16 data_0215c4ac[2] = {0x1e, 0x1f};
-
 void AdvanceRecordVSEraseOffsetTimers(void) {
     s32 firstRecordIndex;
     BOOL hiddenA;
@@ -341,27 +366,27 @@ void AdvanceRecordVSEraseOffsetTimers(void) {
     s32 timerIndex;
 
     firstRecordIndex = GetRecordVSEraseFirstRecordIndex();
-    gRecordVSErase->mRecordVSSEraseTable[data_0215c4a8[0]].mOffsetX =
+    gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseOffsetCellIndices[0]].mOffsetX =
         -LookupFrameOffset(6 - gRecordVSErase->mOffsetTimers[0]);
-    gRecordVSErase->mRecordVSSEraseTable[data_0215c4a8[1]].mOffsetX =
+    gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseOffsetCellIndices[1]].mOffsetX =
         LookupFrameOffset(6 - gRecordVSErase->mOffsetTimers[1]);
     hiddenA = FALSE;
     hiddenB = FALSE;
     for (timerIndex = 0; timerIndex < 2; timerIndex++) {
         if (gRecordVSErase->mOffsetTimers[timerIndex] > 0) {
             gRecordVSErase->mOffsetTimers[timerIndex]--;
-            gRecordVSErase->mRecordVSSEraseTable[data_0215c4ac[timerIndex]].mVisible = hiddenA;
-            gRecordVSErase->mRecordVSSEraseTable[data_0215c4a8[timerIndex]].mVisible = 1;
+            gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseNoOffsetCellIndices[timerIndex]].mVisible = hiddenA;
+            gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseOffsetCellIndices[timerIndex]].mVisible = 1;
         } else {
-            gRecordVSErase->mRecordVSSEraseTable[data_0215c4ac[timerIndex]].mVisible = 1;
-            gRecordVSErase->mRecordVSSEraseTable[data_0215c4a8[timerIndex]].mVisible = hiddenB;
+            gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseNoOffsetCellIndices[timerIndex]].mVisible = 1;
+            gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseOffsetCellIndices[timerIndex]].mVisible = hiddenB;
         }
     }
     if (firstRecordIndex == 0) {
-        gRecordVSErase->mRecordVSSEraseTable[data_0215c4ac[0]].mVisible = 0;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseNoOffsetCellIndices[0]].mVisible = 0;
     }
     if (firstRecordIndex + 5 >= GetRecordCount()) {
-        gRecordVSErase->mRecordVSSEraseTable[data_0215c4ac[1]].mVisible = 0;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseNoOffsetCellIndices[1]].mVisible = 0;
     }
 }
 
@@ -432,7 +457,7 @@ void RequestRecordVSEraseState0(void) {
     SetupTxtSystemSubTextButtonEx(GetBmgEntry(gRecordVSErase->mRecordMessages, 4),
                                   GetBmgEntry(gRecordVSErase->mCommonMessages, 6), 0, 1, 1, 1);
     for (rowIndex = 0; rowIndex < 2; rowIndex++) {
-        gRecordVSErase->mRecordVSSEraseTable[data_0215c4a8[rowIndex]].mVisible = 0;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseOffsetCellIndices[rowIndex]].mVisible = 0;
     }
 }
 
@@ -526,7 +551,7 @@ void RequestRecordVSEraseState12(void) {
 
 void InitRecordVSErase(void *heap) {
     s32 remainingSize;
-    u16 *cellIndexCursor;
+    const u16 *cellIndexCursor;
     s32 remainingSubSize;
     u16 mainCellCount;
     u16 cellIndex;
@@ -564,8 +589,8 @@ void InitRecordVSErase(void *heap) {
                     &gRecordVSErase->mRecordVSMTransientTable);
     InitLayoutTable(heap, gRecordVSErase->mRecordVSSEraseBncl, gRecordVSErase->mRecordVSSEraseBnll,
                     &gRecordVSErase->mRecordVSSEraseTable);
-    gRecordVSErase->mCommonMessages = FindFileInLoadedArchives(data_0216d4a4);
-    gRecordVSErase->mRecordMessages = FindSceneFile(gRecordBmgName);
+    gRecordVSErase->mCommonMessages = FindFileInLoadedArchives("common.bmg");
+    gRecordVSErase->mRecordMessages = FindSceneFile("record.bmg");
     remainingSize = 0x8000;
     remainingSize -=
         InitLabelCanvas(heap, 0, gRecordVSErase->mRecordVSMBnll, 0x8c, 0x10, 0, gRecordVSErase->mRecordVSMNcer,
@@ -589,18 +614,19 @@ void InitRecordVSErase(void *heap) {
     mainCellCount = gRecordVSErase->mRecordVSMBncl->mCount;
     for (index = 0; index < 3; index++) {
         for (columnIndex = 0; columnIndex < 3; columnIndex++) {
-            remainingSize -=
-                InitLabelCanvas(heap, gRecordVSEraseGridLabelIndices[index][columnIndex],
-                                gRecordVSErase->mRecordVSMBnll, data_0215c544[index][columnIndex],
-                                data_0215c558[index][columnIndex], cellIndex, gRecordVSErase->mRecordVSMNcer,
-                                gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMTable, remainingSize);
+            remainingSize -= InitLabelCanvas(
+                heap, gRecordVSEraseGridLabelIndices[index][columnIndex], gRecordVSErase->mRecordVSMBnll,
+                gRecordVSEraseGridLabelWidths[index][columnIndex], gRecordVSEraseGridLabelHeights[index][columnIndex],
+                cellIndex, gRecordVSErase->mRecordVSMNcer, gRecordVSErase->mRecordVSMBncl,
+                gRecordVSErase->mRecordVSMTable, remainingSize);
             cellIndex = mainCellCount + gRecordVSEraseGridLabelIndices[index][columnIndex];
         }
     }
     for (index = 0; index < 3; index++) {
-        PrintLabelLayoutTextNoFixedAdvance(0, gRecordVSEraseGridLabelIndices[0][index], gRecordVSErase->mRecordVSMBnll,
-                                           GetBmgEntry(gRecordVSErase->mRecordMessages, data_0215c4b0[index]),
-                                           gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMTable);
+        PrintLabelLayoutTextNoFixedAdvance(
+            0, gRecordVSEraseGridLabelIndices[0][index], gRecordVSErase->mRecordVSMBnll,
+            GetBmgEntry(gRecordVSErase->mRecordMessages, gRecordVSEraseRow0MessageIndices[index]),
+            gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMTable);
     }
     remainingSize -= InitLabelCanvas(heap, 0, gRecordVSErase->mRecordVSMTransientBnll, 0x8c, 0x10, 0,
                                      gRecordVSErase->mRecordVSMNcer, gRecordVSErase->mRecordVSMTransientBncl,
@@ -618,17 +644,19 @@ void InitRecordVSErase(void *heap) {
         0, 0xe, gRecordVSErase->mRecordVSMTransientBnll, GetBmgEntry(gRecordVSErase->mRecordMessages, 0xc),
         gRecordVSErase->mRecordVSMTransientBncl, gRecordVSErase->mRecordVSMTransientTable);
     for (index = 0; index < 12; index++) {
-        remainingSize -= InitLabelCanvas(
-            heap, gRecordVSEraseFriendKeyLabelIndices[index], gRecordVSErase->mRecordVSMTransientBnll,
-            data_0215c59c[index], data_0215c56c[index], index + 3, gRecordVSErase->mRecordVSMNcer,
-            gRecordVSErase->mRecordVSMTransientBncl, gRecordVSErase->mRecordVSMTransientTable, remainingSize);
+        remainingSize -=
+            InitLabelCanvas(heap, gRecordVSEraseFriendKeyLabelIndices[index], gRecordVSErase->mRecordVSMTransientBnll,
+                            gRecordVSEraseFriendKeyWidths[index], gRecordVSEraseFriendKeyHeights[index], index + 3,
+                            gRecordVSErase->mRecordVSMNcer, gRecordVSErase->mRecordVSMTransientBncl,
+                            gRecordVSErase->mRecordVSMTransientTable, remainingSize);
     }
     remainingSubSize = GX_GetSizeOfSubOBJ();
     for (index = 0, cellIndexCursor = gRecordVSEraseFlaggedHighlightIndices; index < 5; index++) {
-        remainingSubSize -= InitLabelCanvas(
-            heap, gRecordVSEraseRowLabelIndices[index], gRecordVSErase->mRecordVSSEraseBnll, data_0215c4c4[index],
-            data_0215c4dc[index], *cellIndexCursor, gRecordVSErase->mRecordVSSNcer, gRecordVSErase->mRecordVSSEraseBncl,
-            gRecordVSErase->mRecordVSSEraseTable, remainingSubSize);
+        remainingSubSize -=
+            InitLabelCanvas(heap, gRecordVSEraseRowLabelIndices[index], gRecordVSErase->mRecordVSSEraseBnll,
+                            gRecordVSEraseRowLabelWidths[index], gRecordVSEraseRowLabelHeights[index], *cellIndexCursor,
+                            gRecordVSErase->mRecordVSSNcer, gRecordVSErase->mRecordVSSEraseBncl,
+                            gRecordVSErase->mRecordVSSEraseTable, remainingSubSize);
         cellIndexCursor++;
     }
     InitLabelCanvas(heap, 5, gRecordVSErase->mRecordVSSEraseBnll, 0xfa, 0x10, 5, gRecordVSErase->mRecordVSSNcer,
@@ -818,7 +846,7 @@ void AdvanceRecordVSEraseState4(void) {
         return;
     }
     if (pressedRectIndex <= 4) {
-        inputSlotIndex = data_0215c4d0[pressedRectIndex];
+        inputSlotIndex = gRecordVSEraseRectInputSlots[pressedRectIndex];
         if (inputSlotIndex == gRecordVSErase->mIndex) {
             if (IsRecordFlagged(firstRecordIndex + inputSlotIndex) == 0) {
                 if (IsRecordVSEraseIndexChangeRunning() == 0) {

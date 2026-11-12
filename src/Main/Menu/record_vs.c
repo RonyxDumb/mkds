@@ -36,6 +36,43 @@
 #include "01/Menu/record_time_attack.h"
 #include "Main/Sound/data_0216c000.h"
 
+char *gRecordVSMTransientBnclName = "Record_VS_m_transient.bncl";
+const u16 gRecordVSGridLabelIndices[3][3] = {{2, 3, 4}, {5, 7, 9}, {6, 8, 0xa}};
+const u16 gRecordVSPageButtonIndices[2] = {0x14, 0x15};
+const s16 gRecordVSRectRowIndices[10] = {0, 1, 2, 3, 4, 0, 1, 2, 3, 4};
+const u16 gRecordVSFriendKeyLabelHeights[12] = {0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10};
+const u16 gRecordVSRowLabelIndices[6] = {0, 1, 2, 3, 4, 0};
+const u16 gRecordVSRowLabelWidths[6] = {0x78, 0x78, 0x78, 0x78, 0x78, 0};
+char *gRecordVSMBnclName = "Record_VS_m.bncl";
+char *gRecordVSMNscrName = "Record_VS_m.nscr";
+char *gRecordVSMBNclrName = "Record_VS_m_b.nclr";
+char *gRecordVSSONclrName = "Record_VS_s_o.nclr";
+char *gRecordVSM03NscrName = "Record_VS_m03.nscr";
+const u16 gRecordVSFriendKeyLabelWidths[12] = {8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8};
+const u16 gRecordVSUnhighlightedObjectIndices[6] = {0, 1, 2, 3, 4, 0};
+const u16 gRecordVSHighlightObjectIndices[6] = {5, 6, 7, 8, 9, 0};
+char *gRecordVSMNcgrName = "Record_VS_m.nce.ncgr";
+const u16 gRecordVSUnflaggedObjectIndices[6] = {0xa, 0xb, 0xc, 0xd, 0xe, 0};
+char *gRecordVSSBnclName = "Record_VS_s.bncl";
+char *gRecordVSMONclrName = "Record_VS_m_o.nclr";
+char *gRecordVSSNcerName = "Record_VS_s.nce.ncer";
+const u16 gRecordVSGridLabelWidths[3][3] = {{0x70, 0x70, 0x70}, {0x20, 0x20, 0x20}, {0x20, 0x20, 0x20}};
+const u16 gRecordVSFriendKeyLabelIndices[12] = {2, 3, 4, 5, 6, 7, 8, 9, 0xa, 0xb, 0xc, 0xd};
+char *gRecordVSSBnblName = "Record_VS_s.bnbl";
+const u16 gRecordVSPageButtonPressedIndices[2] = {0x16, 0x17};
+const u16 gRecordVSRowLabelHeights[6] = {0x10, 0x10, 0x10, 0x10, 0x10, 0};
+char *gRecordVSSBnllName = "Record_VS_s.bnll";
+const u16 gRecordVSGridLabelHeights[3][3] = {{0xe, 0xe, 0xe}, {0xe, 0xe, 0xe}, {0xe, 0xe, 0xe}};
+const u16 gRecordVSFlaggedObjectIndices[6] = {0xf, 0x10, 0x11, 0x12, 0x13, 0};
+char *gRecordVSSNcgrName = "Record_VS_s.nce.ncgr";
+char *gRecordVSMTransientBnllName = "Record_VS_m_transient.bnll";
+const u16 gRecordVSGridRow0MessageIndices[4] = {6, 7, 8, 0};
+char *gRecordVSM02NscrName = "Record_VS_m02.nscr";
+char *gRecordVSMNcerName = "Record_VS_m.nce.ncer";
+char *gRecordVSMBNcgrName = "Record_VS_m_b.ncgr";
+char *gRecordVSMBnllName = "Record_VS_m.bnll";
+struct RecordScene *gRecordScene;
+
 #pragma thumb on
 
 void AdvanceRecordVSState0(void) {

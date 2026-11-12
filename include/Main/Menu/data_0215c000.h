@@ -12,42 +12,6 @@ typedef struct KartIconRow {
 // Objects whose layout isn't known yet.
 extern u8 gCupMarkBnclIndices[];
 
-extern s16 data_0215c4d0[];
-
-extern u16 data_0215c4a8[2];
-
-extern u16 gRecordVSEraseRowLabelIndices[];
-
-extern u16 gRecordVSEraseUnhighlightedIndices[];
-
-extern u16 gRecordVSEraseHighlightIndices[];
-
-extern u16 gRecordVSEraseFlaggedRowIndices[];
-
-extern u16 gRecordVSEraseFlaggedHighlightIndices[];
-
-extern u16 gRecordVSEraseUnflaggedObjectIndices[];
-
-extern u16 gRecordVSEraseFlaggedObjectIndices[];
-
-extern u16 gRecordVSEraseGridLabelIndices[3][3];
-
-extern u16 gRecordVSEraseFriendKeyLabelIndices[];
-
-extern u16 data_0215c4b0[];
-
-extern u16 data_0215c4c4[];
-
-extern u16 data_0215c4dc[];
-
-extern u16 data_0215c544[3][3];
-
-extern u16 data_0215c558[3][3];
-
-extern u16 data_0215c56c[];
-
-extern u16 data_0215c59c[];
-
 extern u16 gSelectCupNameMBnclIndices[];
 
 extern u32 gSelectRaceRuleTeamsToSetupCopy[];
@@ -73,25 +37,6 @@ extern u32 data_0215cf2c[];
 extern u16 data_0215cf4c[][4];
 
 extern u32 data_0215cf8c[][4];
-
-
-extern u16 gRecordVSPageButtonPressedIndices[];
-
-extern u16 gRecordVSPageButtonIndices[];
-
-extern u16 gRecordVSRowLabelIndices[];
-
-extern u16 gRecordVSUnhighlightedObjectIndices[];
-
-extern u16 gRecordVSHighlightObjectIndices[];
-
-extern u16 gRecordVSUnflaggedObjectIndices[];
-
-extern u16 gRecordVSFlaggedObjectIndices[];
-
-extern u16 gRecordVSGridLabelIndices[3][3];
-
-extern u16 gRecordVSFriendKeyLabelIndices[];
 
 extern u16 gSelectCupGridTrophyCells[];
 
@@ -168,22 +113,6 @@ extern u16 gSelectRaceRuleStepCellsPlain[][2];
 extern u32 gSelectRaceRulePreviousRectRows[];
 
 extern u32 gSelectRaceRuleEntryInputSlots[];
-
-extern s16 gRecordVSRectRowIndices[];
-
-extern u16 gRecordVSGridRow0MessageIndices[];
-
-extern u16 gRecordVSRowLabelWidths[];
-
-extern u16 gRecordVSRowLabelHeights[];
-
-extern u16 gRecordVSGridLabelWidths[3][3];
-
-extern u16 gRecordVSGridLabelHeights[3][3];
-
-extern u16 gRecordVSFriendKeyLabelHeights[];
-
-extern u16 gRecordVSFriendKeyLabelWidths[];
 
 extern u32 gSelectCupGridEngineSlots[3];
 

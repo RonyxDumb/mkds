@@ -37,6 +37,9 @@
 #include "gx_load2d.h"
 #include "Main/Race/race_entries.h"
 
+const u16 gTitleDisplaySettingsDesc[20] = {1, 0x1e, 0x1c, 1, 0, 0,     0,    2, 0x60, 0x10,
+                                           0, 1,    0,    0, 4, 0x100, 0x80, 0, 8,    0};
+
 void *TitleGetCurrentHeap(void) {
     return GetHeap(GetCurrentHeapCall());
 }
@@ -131,23 +134,23 @@ void CreateTitleScene(void) {
     InitTitleStateHandlers();
     ResetOamLists(&gTitleScene->mMainOam, &gTitleScene->mSubOam);
     LoadNclrData(&gTitleScene->mTitleTrueMBOrMBNclr,
-                 FindSceneFileWrapper(useTrueFiles != 0 ? gTitleTrueMBNclrName : gTitleMBNclrName));
-    LoadNclrData(&gTitleScene->mTitleSBNclr, FindSceneFileWrapper(gTitleSBNclrName));
+                 FindSceneFileWrapper(useTrueFiles != 0 ? "title_true_m_b.NCLR" : "title_m_b.NCLR"));
+    LoadNclrData(&gTitleScene->mTitleSBNclr, FindSceneFileWrapper("title_s_b.NCLR"));
     LoadNcgrData(&gTitleScene->mTitleTrueMBOrMBNcgr,
-                 FindSceneFileWrapper(useTrueFiles != 0 ? gTitleTrueMBNcgrName : gTitleMBNcgrName));
-    LoadNcgrData(&gTitleScene->mTitleSBNcgr, FindSceneFileWrapper(gTitleSBNcgrName));
+                 FindSceneFileWrapper(useTrueFiles != 0 ? "title_true_m_b.NCGR" : "title_m_b.NCGR"));
+    LoadNcgrData(&gTitleScene->mTitleSBNcgr, FindSceneFileWrapper("title_s_b.NCGR"));
     LoadNscrData(&gTitleScene->mTitleTrueM1OrM1Nscr,
-                 FindSceneFileWrapper(useTrueFiles != 0 ? gTitleTrueM1NscrName : gTitleM1NscrName));
+                 FindSceneFileWrapper(useTrueFiles != 0 ? "title_true_m1.NSCR" : "title_m1.NSCR"));
     LoadNscrData(&gTitleScene->mTitleTrueM2OrM2Nscr,
-                 FindSceneFileWrapper(useTrueFiles != 0 ? gTitleTrueM2NscrName : gTitleM2NscrName));
-    LoadNscrData(&gTitleScene->mTitleSBgNscr, FindSceneFileWrapper(gTitleSBgNscrName));
-    LoadNclrData(&gTitleScene->mTitleSONclr, FindSceneFileWrapper(gTitleSONclrName));
-    LoadNcgrData2(&gTitleScene->mTitleSNceNcgr, FindSceneFileWrapper(gTitleSNceNcgrName));
-    LoadNcerData(&gTitleScene->mTitleSNceNcer, FindSceneFileWrapper(gTitleSNceNcerName));
-    gTitleScene->mTitleSBncl = FindSceneFileWrapper(gTitleSBnclName);
-    gTitleScene->mTitleSBnbl = FindSceneFileWrapper(gTitleSBnblName);
-    gTitleScene->mTitleSBnll = FindSceneFileWrapper(gTitleSBnllName);
-    displaySettings = CreateDisplaySettings(TitleGetCurrentHeap(), data_02156840);
+                 FindSceneFileWrapper(useTrueFiles != 0 ? "title_true_m2.NSCR" : "title_m2.NSCR"));
+    LoadNscrData(&gTitleScene->mTitleSBgNscr, FindSceneFileWrapper("title_s_bg.NSCR"));
+    LoadNclrData(&gTitleScene->mTitleSONclr, FindSceneFileWrapper("title_s_o.NCLR"));
+    LoadNcgrData2(&gTitleScene->mTitleSNceNcgr, FindSceneFileWrapper("title_s.nce.ncgr"));
+    LoadNcerData(&gTitleScene->mTitleSNceNcer, FindSceneFileWrapper("title_s.nce.ncer"));
+    gTitleScene->mTitleSBncl = FindSceneFileWrapper("title_s.bncl");
+    gTitleScene->mTitleSBnbl = FindSceneFileWrapper("title_s.bnbl");
+    gTitleScene->mTitleSBnll = FindSceneFileWrapper("title_s.bnll");
+    displaySettings = CreateDisplaySettings(TitleGetCurrentHeap(), gTitleDisplaySettingsDesc);
     TitleSetMainBg1Record(displaySettings, 0, 0, 0, 0, 2, 0, 0);
     TitleSetMainBg2RecordParams(displaySettings, 2, 0, 0, 1, 14, 4);
     TitleSetMainBg3RecordParams(displaySettings, 3, 0, 0, 1, 15, 4);
@@ -167,10 +170,10 @@ void CreateTitleScene(void) {
     InitLabelCanvas(TitleGetCurrentHeap(), 1, gTitleScene->mTitleSBnll, 0x55, 0xd, 0xe, gTitleScene->mTitleSNceNcer,
                     gTitleScene->mTitleSBncl, gTitleScene->mTitleTable, objSizeLeft);
     PrintLabelLayoutTextNoFixedAdvance(1, 0, gTitleScene->mTitleSBnll,
-                                       GetBmgEntry(FindSceneFileWrapper(gTitleBmgName), 1), gTitleScene->mTitleSBncl,
+                                       GetBmgEntry(FindSceneFileWrapper("title.bmg"), 1), gTitleScene->mTitleSBncl,
                                        gTitleScene->mTitleTable);
     PrintLabelLayoutTextNoFixedAdvance(1, 1, gTitleScene->mTitleSBnll,
-                                       GetBmgEntry(FindSceneFileWrapper(gTitleBmgName2), 0), gTitleScene->mTitleSBncl,
+                                       GetBmgEntry(FindSceneFileWrapper("title.bmg"), 0), gTitleScene->mTitleSBncl,
                                        gTitleScene->mTitleTable);
     GX_BeginLoadBGExtPltt();
     GX_LoadBGExtPltt(gTitleScene->mTitleTrueMBOrMBNclr->mData, 0x4000, gTitleScene->mTitleTrueMBOrMBNclr->mDataSize);

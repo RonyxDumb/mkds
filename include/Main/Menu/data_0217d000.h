@@ -730,7 +730,6 @@ extern NNSFndList gSoundSources;
 
 extern u32 gFileSndArcOpen;
 
-
 extern s32 gKingTeresaState;
 
 extern s32 gPreviousKingTeresaState;
@@ -738,10 +737,6 @@ extern s32 gPreviousKingTeresaState;
 extern u32 gAnySeqVariableEnabled;
 
 extern SeqPlayerControl gSeqPlayerControl;
-
-extern struct RecordScene *gRecordScene;
-
-extern RecordVSErase *gRecordVSErase;
 
 extern Wait *gWait;
 
@@ -755,13 +750,11 @@ extern SelectCupNameM *gSelectCupNameM;
 
 extern CupMark *gCupMark;
 
-
 extern SelectCupM *gSelectCupM;
 
 extern TrophyIcon *gTrophyIcon;
 
 extern SelectRaceRuleWait *gSelectRaceRuleWait;
-
 
 extern SceneText *gSceneText;
 
@@ -777,7 +770,6 @@ extern Keyboard *gKeyboard;
 
 extern MessageScreen *gMessageScreen;
 
-
 extern s32 gLapProgressSoundGaps[];
 
 extern s32 gRaceEndSeqCallCount;
@@ -785,7 +777,6 @@ extern s32 gRaceEndSeqCallCount;
 extern s32 gRaceEndSeqStarted;
 
 extern s32 gRaceEndNextSeqPending;
-
 
 extern u32 sIsThreadCreated;
 
@@ -795,8 +786,6 @@ extern NNSSndSeqPlayer sSeqPlayer[16];
 
 extern NNSSndPlayer sPlayer[32];
 
-
-
 extern s32 sCurEffectInfo;
 
 extern OSMessageQueue sMesgQ;
@@ -805,16 +794,11 @@ extern EffectInfo sEffectInfoBuffer[8];
 
 extern struct NNSSndArc *sCurrent;
 
-
-
-
-
 extern s32 gKartNearPlayerVolumeFactor;
 
 extern u8 gEmblemSoundPlayCount;
 
 extern u8 gEmblemSoundPitchCounter;
-
 
 extern u32 gEmblemSoundCallsSincePlay;
 
@@ -830,12 +814,7 @@ extern SeqQueue gSeqQueue;
 
 extern s32 gSeqQueuePairSides[];
 
-extern void *gRecordMainOam;
-
-extern void *gRecordSubOam;
-
 extern LinkLevelIcons *gLinkLevelIcons;
-
 
 extern struct NNSSndStrmThread *data_0217df04;
 
@@ -855,8 +834,6 @@ extern struct NNSSndArc gFileSndArc;
 extern SeqRowState gSeqRowState;
 
 extern RecordVS *gRecordVS;
-
-extern RecordList *gRecordList;
 
 // Pointer to the cup chooser object: set by InitSelectCupGrid, cleared by ReleaseSelectCupGrid.
 extern SelectCupGrid *gSelectCupGrid;

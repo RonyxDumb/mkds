@@ -1,57 +1,6 @@
 #pragma once
 #include "types.h"
 
-// Objects whose layout isn't known yet.
-extern const char *gRecordVSMBnclName;
-
-extern const char *gRecordVSMONclrName;
-
-extern const char *gRecordVSMTransientBnllName;
-
-extern const char *gRecordVSMNcerName;
-
-extern const char *gRecordVSSBnclName;
-
-extern const char *gRecordVSSNcgrName;
-
-extern const char *gRecordVSMNcgrName;
-
-extern const char *gRecordVSSNcerName;
-
-extern const char *gRecordVSM03NscrName;
-
-extern const char *gRecordVSSONclrName;
-
-extern const char *gRecordVSSBnllName;
-
-extern const char *gRecordVSMBNcgrName;
-
-extern const char *gRecordVSMBNclrName;
-
-extern const char *gRecordVSM02NscrName;
-
-extern const char *gRecordVSMBnllName;
-
-extern const char *gRecordVSMNscrName;
-
-extern const char *gRecordVSSBnblName;
-
-extern const char *gRecordVSMTransientBnclName;
-
-extern char gEmblem2BinName[];
-
-extern const char *gRecordVSSEraseBnclName;
-
-extern const char *gRecordVSSBNcgrName;
-
-extern const char *gRecordVSSEraseBnllName;
-
-extern const char *gRecordVSSEraseBnblName;
-
-extern const char *gRecordVSSEraseNscrName;
-
-extern const char *gRecordVSSBNclrName;
-
 extern const char *gWaitNcgrName;
 
 extern const char *gWaitNclrName;
@@ -177,10 +126,6 @@ extern const char *gCupMarkNcerName;
 extern const char *gCommonCupMarkNcgrName;
 
 extern const char *gCommonCupMarkNclrName;
-
-extern char data_0216d4a4[];
-
-extern char gRecordBmgName[];
 
 extern char *gSelectCupMBNcgrName3;
 

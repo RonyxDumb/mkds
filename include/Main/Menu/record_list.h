@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Menu/data_0217d000.h"
 
 void AdvanceRecordVSIndexChange(void);
 void RequestRecordVSState0(void);
@@ -68,3 +69,5 @@ void CreateRecordList(void *heap);
 
 u16 GetRecordSortKey(u16 listIndex);
 void SortRecordRange(s32 first, u16 count);
+
+extern struct RecordList *gRecordList;

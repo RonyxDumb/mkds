@@ -14,3 +14,6 @@ void WriteRecordSceneRegistersCallback(void);
 void ReleaseRecordScene(void);
 
 void InitRecordScene(s16 *sceneNumbers);
+
+extern void *gRecordSubOam;
+extern void *gRecordMainOam;

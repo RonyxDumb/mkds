@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Menu/data_0217d000.h"
 
 void AdvanceRecordVSEraseState9(void);
 void AdvanceRecordVSEraseState10(void);
@@ -42,8 +43,6 @@ void ReleaseRecordVSErase(void);
 
 u32 IsRecordVSEraseIndexChangeRunning(void);
 
-extern const u16 data_0215c4ac[2];
-
 void AdvanceRecordVSEraseOffsetTimers(void);
 
 void DecrementRecordVSEraseIndex(void);
@@ -61,3 +60,30 @@ BOOL IsRecordVSEraseRowFilled(int row);
 u16 GetRecordVSEraseFirstRecordIndex(void);
 
 void LocateAndQueueRecordVSErase(void);
+
+extern const u16 gRecordVSEraseRow0MessageIndices[4];
+extern const u16 gRecordVSEraseGridLabelWidths[3][3];
+extern char *gRecordVSSEraseBnblName;
+extern char *gRecordVSSEraseBnllName;
+extern const u16 gRecordVSEraseOffsetCellIndices[2];
+extern const u16 gRecordVSEraseRowLabelWidths[6];
+extern const s16 gRecordVSEraseRectInputSlots[6];
+extern char *gRecordVSSEraseNscrName;
+extern const u16 gRecordVSEraseFriendKeyLabelIndices[12];
+extern const u16 gRecordVSEraseHighlightIndices[6];
+extern char *gRecordVSSBNclrName;
+extern const u16 gRecordVSEraseFriendKeyWidths[12];
+extern const u16 gRecordVSEraseUnflaggedObjectIndices[6];
+extern const u16 gRecordVSEraseFlaggedObjectIndices[6];
+extern const u16 gRecordVSEraseGridLabelHeights[3][3];
+extern char *gRecordVSSBNcgrName;
+extern const u16 gRecordVSEraseGridLabelIndices[3][3];
+extern const u16 gRecordVSEraseRowLabelHeights[6];
+extern const u16 gRecordVSEraseFlaggedRowIndices[6];
+extern char *gRecordVSSEraseBnclName;
+extern const u16 gRecordVSEraseRowLabelIndices[6];
+extern const u16 gRecordVSEraseNoOffsetCellIndices[2];
+extern const u16 gRecordVSEraseUnhighlightedIndices[6];
+extern const u16 gRecordVSEraseFlaggedHighlightIndices[6];
+extern const u16 gRecordVSEraseFriendKeyHeights[12];
+extern struct RecordVSErase *gRecordVSErase;

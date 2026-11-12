@@ -18,6 +18,9 @@
 #include "Main/Sound/sound_seq.h"
 #include "Main/System/heap_call.h"
 
+void *gRecordSubOam;
+void *gRecordMainOam;
+
 #pragma thumb on
 
 void InitRecordScene(s16 *sceneNumbers) {

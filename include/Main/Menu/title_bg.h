@@ -34,3 +34,5 @@ void TitleSetMainBg1Record(DisplaySettings *displaySettings, u32 cntLow2, u32 cn
 unsigned int GetTitleBlendDone(void);
 
 void *TitleGetCurrentHeap(void);
+
+extern const u16 gTitleDisplaySettingsDesc[20];

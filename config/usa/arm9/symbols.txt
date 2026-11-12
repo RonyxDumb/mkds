@@ -8144,13 +8144,10 @@ gIronBallInitSecondFlag kind:data(any) addr:0x021567f0
 gIronBallInitThirdFlag kind:data(any) addr:0x021567f4
 gIronBallPathEntryFlag kind:data(any) addr:0x021567f8
 gKeyboardLayoutRectCounts kind:data(any) addr:0x021567fc
-data_02156808 kind:data(any) addr:0x02156808
-data_usa_0215680a kind:data(any) addr:0x0215680a
-data_usa_0215680c kind:data(any) addr:0x0215680c
-data_usa_0215680e kind:data(any) addr:0x0215680e
+gKeyboardCursorTargets kind:data(any) addr:0x02156808
 data_02156838 kind:data(any) addr:0x02156838
 data_0215683c kind:data(any) addr:0x0215683c
-data_02156840 kind:data(any) addr:0x02156840
+gTitleDisplaySettingsDesc kind:data(any) addr:0x02156840
 gFrameOffsets kind:data(any) addr:0x02156868
 data_02156874 kind:data(any) addr:0x02156874
 gVec3Zero kind:data(any) addr:0x02156880
@@ -8692,13 +8689,13 @@ gRecordVSRectRowIndices kind:data(any) addr:0x0215c44c
 gRecordVSFriendKeyLabelHeights kind:data(any) addr:0x0215c460
 gRecordVSFriendKeyLabelIndices kind:data(any) addr:0x0215c478
 gRecordVSFriendKeyLabelWidths kind:data(any) addr:0x0215c490
-data_0215c4a8 kind:data(any) addr:0x0215c4a8
-data_0215c4ac kind:data(any) addr:0x0215c4ac
-data_0215c4b0 kind:data(any) addr:0x0215c4b0
+gRecordVSEraseOffsetCellIndices kind:data(any) addr:0x0215c4a8
+gRecordVSEraseNoOffsetCellIndices kind:data(any) addr:0x0215c4ac
+gRecordVSEraseRow0MessageIndices kind:data(any) addr:0x0215c4b0
 gRecordVSEraseRowLabelIndices kind:data(any) addr:0x0215c4b8
-data_0215c4c4 kind:data(any) addr:0x0215c4c4
-data_0215c4d0 kind:data(any) addr:0x0215c4d0
-data_0215c4dc kind:data(any) addr:0x0215c4dc
+gRecordVSEraseRowLabelWidths kind:data(any) addr:0x0215c4c4
+gRecordVSEraseRectInputSlots kind:data(any) addr:0x0215c4d0
+gRecordVSEraseRowLabelHeights kind:data(any) addr:0x0215c4dc
 gRecordVSEraseUnhighlightedIndices kind:data(any) addr:0x0215c4e8
 gRecordVSEraseHighlightIndices kind:data(any) addr:0x0215c4f4
 gRecordVSEraseFlaggedRowIndices kind:data(any) addr:0x0215c500
@@ -8706,11 +8703,11 @@ gRecordVSEraseFlaggedHighlightIndices kind:data(any) addr:0x0215c50c
 gRecordVSEraseUnflaggedObjectIndices kind:data(any) addr:0x0215c518
 gRecordVSEraseFlaggedObjectIndices kind:data(any) addr:0x0215c524
 gRecordVSEraseGridLabelIndices kind:data(any) addr:0x0215c530
-data_0215c544 kind:data(any) addr:0x0215c544
-data_0215c558 kind:data(any) addr:0x0215c558
-data_0215c56c kind:data(any) addr:0x0215c56c
+gRecordVSEraseGridLabelWidths kind:data(any) addr:0x0215c544
+gRecordVSEraseGridLabelHeights kind:data(any) addr:0x0215c558
+gRecordVSEraseFriendKeyHeights kind:data(any) addr:0x0215c56c
 gRecordVSEraseFriendKeyLabelIndices kind:data(any) addr:0x0215c584
-data_0215c59c kind:data(any) addr:0x0215c59c
+gRecordVSEraseFriendKeyWidths kind:data(any) addr:0x0215c59c
 gIndexChangeOffsets kind:data(any) addr:0x0215c5b4
 gWaitBnclIndices kind:data(any) addr:0x0215c5d0
 gCharacterKartIndices kind:data(any) addr:0x0215c5d8
@@ -10051,62 +10048,62 @@ gIronBallInitialScale kind:data(any) addr:0x02167974
 gIronBallKindDescriptor kind:data(any) addr:0x02167980
 gIronBallDrawOnlyKindDescriptor kind:data(any) addr:0x021679b4
 @4737 kind:data(any) addr:0x021679e8 local
-data_usa_021679f8 kind:data(any) addr:0x021679f8
+gKeyboardWrapMargin kind:data(any) addr:0x021679f8
 gKeyboardInputMasks kind:data(any) addr:0x021679fc
 gCharTables kind:data(any) addr:0x02167a04
-data_usa_02167a14 kind:data(any) addr:0x02167a14
-data_usa_02167a8c kind:data(any) addr:0x02167a8c
-data_usa_02167b04 kind:data(any) addr:0x02167b04
-data_usa_02167b7c kind:data(any) addr:0x02167b7c
-gKeyboardSB10keyNcgrName kind:data(any) addr:0x02167bf4
-gKeyboardSBAsciiNcgrName kind:data(any) addr:0x02167c0c
-gKeyboardSBJpNcgrName kind:data(any) addr:0x02167c24
-gKeyboardSBEuroNcgrName kind:data(any) addr:0x02167c3c
-gKeyboardSBPictNcgrName kind:data(any) addr:0x02167c54
-data_02167c6c kind:data(any) addr:0x02167c6c
-g10KeyKbdName kind:data(any) addr:0x02167c84
-gAsciiKbdName kind:data(any) addr:0x02167c90
-gJpKbdName kind:data(any) addr:0x02167c9c
-gEuroKbdName kind:data(any) addr:0x02167ca4
-gPictoKbdName kind:data(any) addr:0x02167cb0
-data_02167cbc kind:data(any) addr:0x02167cbc
-gAsciiKbdmapName kind:data(any) addr:0x02167cc8
-gAsciiCapsKbdmapName kind:data(any) addr:0x02167cd8
-gAsciiShiftKbdmapName kind:data(any) addr:0x02167cec
-gHiraganaKbdmapName kind:data(any) addr:0x02167d00
-gHiraganaDakutenKbdmapName kind:data(any) addr:0x02167d10
-gHiraganaHandakuKbdmapName kind:data(any) addr:0x02167d28
-gHiraganaSmallKbdmapName kind:data(any) addr:0x02167d40
-gKatakanaKbdmapName kind:data(any) addr:0x02167d58
-gKatakanaDakutenKbdmapName kind:data(any) addr:0x02167d68
-gKatakanaHandakuKbdmapName kind:data(any) addr:0x02167d80
-gKatakanaSmallKbdmapName kind:data(any) addr:0x02167d98
-gOther1KbdmapName kind:data(any) addr:0x02167db0
-gOther2KbdmapName kind:data(any) addr:0x02167dc0
-gOther3KbdmapName kind:data(any) addr:0x02167dd0
+gCharTablePairFirst kind:data(any) addr:0x02167a14
+gCharTablePair1Second kind:data(any) addr:0x02167a8c
+gCharTablePair2Second kind:data(any) addr:0x02167b04
+gCharTablePair3Second kind:data(any) addr:0x02167b7c
+@6557 kind:data(any) addr:0x02167bf4 local
+@6558 kind:data(any) addr:0x02167c0c local
+@6559 kind:data(any) addr:0x02167c24 local
+@6560 kind:data(any) addr:0x02167c3c local
+@6561 kind:data(any) addr:0x02167c54 local
+@6562 kind:data(any) addr:0x02167c6c local
+@6563 kind:data(any) addr:0x02167c84 local
+@6564 kind:data(any) addr:0x02167c90 local
+@6565 kind:data(any) addr:0x02167c9c local
+@6566 kind:data(any) addr:0x02167ca4 local
+@6567 kind:data(any) addr:0x02167cb0 local
+@6568 kind:data(any) addr:0x02167cbc local
+@6569 kind:data(any) addr:0x02167cc8 local
+@6570 kind:data(any) addr:0x02167cd8 local
+@6571 kind:data(any) addr:0x02167cec local
+@6572 kind:data(any) addr:0x02167d00 local
+@6573 kind:data(any) addr:0x02167d10 local
+@6574 kind:data(any) addr:0x02167d28 local
+@6575 kind:data(any) addr:0x02167d40 local
+@6576 kind:data(any) addr:0x02167d58 local
+@6577 kind:data(any) addr:0x02167d68 local
+@6578 kind:data(any) addr:0x02167d80 local
+@6579 kind:data(any) addr:0x02167d98 local
+@6580 kind:data(any) addr:0x02167db0 local
+@6581 kind:data(any) addr:0x02167dc0 local
+@6582 kind:data(any) addr:0x02167dd0 local
 data_usa_02167de0 kind:data(any) addr:0x02167de0
 @4973 kind:data(any) addr:0x02167e14 local
 @2785 kind:data(any) addr:0x02167e28 local
 gTitleStateHandlers kind:data(any) addr:0x02167e34
-gTitleTrueMBNclrName kind:data(any) addr:0x02167e6c
-gTitleMBNclrName kind:data(any) addr:0x02167e80
-gTitleSBNclrName kind:data(any) addr:0x02167e90
-gTitleTrueMBNcgrName kind:data(any) addr:0x02167ea0
-gTitleMBNcgrName kind:data(any) addr:0x02167eb4
-gTitleSBNcgrName kind:data(any) addr:0x02167ec4
-gTitleTrueM1NscrName kind:data(any) addr:0x02167ed4
-gTitleM1NscrName kind:data(any) addr:0x02167ee8
-gTitleTrueM2NscrName kind:data(any) addr:0x02167ef8
-gTitleM2NscrName kind:data(any) addr:0x02167f0c
-gTitleSBgNscrName kind:data(any) addr:0x02167f1c
-gTitleSONclrName kind:data(any) addr:0x02167f2c
-gTitleSNceNcgrName kind:data(any) addr:0x02167f3c
-gTitleSNceNcerName kind:data(any) addr:0x02167f50
-gTitleSBnclName kind:data(any) addr:0x02167f64
-gTitleSBnblName kind:data(any) addr:0x02167f74
-gTitleSBnllName kind:data(any) addr:0x02167f84
-gTitleBmgName kind:data(any) addr:0x02167f94
-gTitleBmgName2 kind:data(any) addr:0x02167fa0
+@5332 kind:data(any) addr:0x02167e6c local
+@5333 kind:data(any) addr:0x02167e80 local
+@5334 kind:data(any) addr:0x02167e90 local
+@5335 kind:data(any) addr:0x02167ea0 local
+@5336 kind:data(any) addr:0x02167eb4 local
+@5337 kind:data(any) addr:0x02167ec4 local
+@5338 kind:data(any) addr:0x02167ed4 local
+@5339 kind:data(any) addr:0x02167ee8 local
+@5340 kind:data(any) addr:0x02167ef8 local
+@5341 kind:data(any) addr:0x02167f0c local
+@5342 kind:data(any) addr:0x02167f1c local
+@5343 kind:data(any) addr:0x02167f2c local
+@5344 kind:data(any) addr:0x02167f3c local
+@5345 kind:data(any) addr:0x02167f50 local
+@5346 kind:data(any) addr:0x02167f64 local
+@5347 kind:data(any) addr:0x02167f74 local
+@5348 kind:data(any) addr:0x02167f84 local
+@5349 kind:data(any) addr:0x02167f94 local
+@5350 kind:data(any) addr:0x02167fa0 local
 @1939 kind:data(any) addr:0x02167fac local
 @4425 kind:data(any) addr:0x02167fe0 local
 gCupCourseIds kind:data(any) addr:0x0216801c
@@ -10655,42 +10652,42 @@ gRecordVSMBnllName kind:data(any) addr:0x0216d20c
 gRecordVSMNscrName kind:data(any) addr:0x0216d210
 gRecordVSSBnblName kind:data(any) addr:0x0216d214
 gRecordVSMTransientBnclName kind:data(any) addr:0x0216d218
-data_usa_0216d21c kind:data(any) addr:0x0216d21c
-data_usa_0216d230 kind:data(any) addr:0x0216d230
-data_usa_0216d244 kind:data(any) addr:0x0216d244
-data_usa_0216d258 kind:data(any) addr:0x0216d258
-data_usa_0216d26c kind:data(any) addr:0x0216d26c
-data_usa_0216d280 kind:data(any) addr:0x0216d280
-data_usa_0216d294 kind:data(any) addr:0x0216d294
-data_usa_0216d2a8 kind:data(any) addr:0x0216d2a8
-data_usa_0216d2bc kind:data(any) addr:0x0216d2bc
-data_usa_0216d2d0 kind:data(any) addr:0x0216d2d0
-data_usa_0216d2e4 kind:data(any) addr:0x0216d2e4
-data_usa_0216d2f8 kind:data(any) addr:0x0216d2f8
+@5487 kind:data(any) addr:0x0216d21c local
+@5490 kind:data(any) addr:0x0216d230 local
+@5482 kind:data(any) addr:0x0216d244 local
+@5491 kind:data(any) addr:0x0216d258 local
+@5497 kind:data(any) addr:0x0216d26c local
+@5481 kind:data(any) addr:0x0216d280 local
+@5488 kind:data(any) addr:0x0216d294 local
+@5496 kind:data(any) addr:0x0216d2a8 local
+@5483 kind:data(any) addr:0x0216d2bc local
+@5484 kind:data(any) addr:0x0216d2d0 local
+@5494 kind:data(any) addr:0x0216d2e4 local
+@5485 kind:data(any) addr:0x0216d2f8 local
 @401 kind:data(any) addr:0x0216d30c local
-data_usa_0216d320 kind:data(any) addr:0x0216d320
-data_usa_0216d338 kind:data(any) addr:0x0216d338
-data_usa_0216d350 kind:data(any) addr:0x0216d350
-data_usa_0216d368 kind:data(any) addr:0x0216d368
-data_usa_0216d380 kind:data(any) addr:0x0216d380
-data_usa_0216d39c kind:data(any) addr:0x0216d39c
+@5492 kind:data(any) addr:0x0216d320 local
+@5489 kind:data(any) addr:0x0216d338 local
+@5486 kind:data(any) addr:0x0216d350 local
+@5495 kind:data(any) addr:0x0216d368 local
+@5480 kind:data(any) addr:0x0216d380 local
+@5493 kind:data(any) addr:0x0216d39c local
 @4298 kind:data(any) addr:0x0216d3b8 local
-gEmblem2BinName kind:data(any) addr:0x0216d3c4
+@6475 kind:data(any) addr:0x0216d3c4 local
 gRecordVSSEraseBnclName kind:data(any) addr:0x0216d3d0
 gRecordVSSBNcgrName kind:data(any) addr:0x0216d3d4
 gRecordVSSEraseBnllName kind:data(any) addr:0x0216d3d8
 gRecordVSSEraseBnblName kind:data(any) addr:0x0216d3dc
 gRecordVSSEraseNscrName kind:data(any) addr:0x0216d3e0
 gRecordVSSBNclrName kind:data(any) addr:0x0216d3e4
-data_usa_0216d3e8 kind:data(any) addr:0x0216d3e8
-data_usa_0216d3fc kind:data(any) addr:0x0216d3fc
+@5061 kind:data(any) addr:0x0216d3e8 local
+@5060 kind:data(any) addr:0x0216d3fc local
 @3685 kind:data(any) addr:0x0216d410 local
-data_usa_0216d424 kind:data(any) addr:0x0216d424
-data_usa_0216d43c kind:data(any) addr:0x0216d43c
-data_usa_0216d454 kind:data(any) addr:0x0216d454
-data_usa_0216d46c kind:data(any) addr:0x0216d46c
-data_0216d4a4 kind:data(any) addr:0x0216d484
-gRecordBmgName kind:data(any) addr:0x0216d490
+@5057 kind:data(any) addr:0x0216d424 local
+@5058 kind:data(any) addr:0x0216d43c local
+@5059 kind:data(any) addr:0x0216d454 local
+@5062 kind:data(any) addr:0x0216d46c local
+@6538 kind:data(any) addr:0x0216d484 local
+@6539 kind:data(any) addr:0x0216d490 local
 gWaitNcgrName kind:data(any) addr:0x0216d49c
 gWaitNclrName kind:data(any) addr:0x0216d4a0
 gWaitNcerName kind:data(any) addr:0x0216d4a4

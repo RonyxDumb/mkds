@@ -2330,6 +2330,8 @@ src/Main/MapObjects/iron_ball_kart.c:
 src/Main/Menu/keyboard_keys.c:
     complete
     .text       start:0x020a9ed8 end:0x020ac2c4
+    .rodata     start:0x021567fc end:0x02156838
+    .data       start:0x021679f8 end:0x02167de0
 
 // provisional: file name and boundaries
 src/Main/Graphics/nibbles_join.c:
@@ -2407,6 +2409,8 @@ src/Main/Menu/title_blend.c:
 src/Main/Menu/title_bg.c:
     complete
     .text       start:0x020ad2dc end:0x020ada2c
+    .rodata     start:0x02156840 end:0x02156868
+    .data       start:0x02167e6c end:0x02167fac
 
 // provisional: file name and boundaries
 src/Main/Menu/title_states.c:
@@ -3898,25 +3902,30 @@ src/Main/Sound/seq_row.c:
 src/Main/Menu/record_scene.c:
     complete
     .text       start:0x0211130c end:0x021113f0
+    .bss        start:0x0217d31c end:0x0217d324
 
 // provisional: file name and boundaries
 src/Main/Menu/record_vs.c:
     complete
     .text       start:0x021113f0 end:0x02112b48
-    .data       start:0x0216d30c end:0x0216d320
+    .rodata     start:0x0215c3ac end:0x0215c4a8
+    .data       start:0x0216d1d4 end:0x0216d3b8
+    .bss        start:0x0217d324 end:0x0217d328
 
 // provisional: file name and boundaries
 src/Main/Menu/record_list.c:
     complete
     .text       start:0x02112b48 end:0x021145b4
-    .data       start:0x0216d3b8 end:0x0216d3c4
+    .data       start:0x0216d3b8 end:0x0216d3d0
+    .bss        start:0x0217d32c end:0x0217d330
 
 // provisional: file name and boundaries
 src/Main/Menu/record_vs_erase.c:
     complete
     .text       start:0x021145b4 end:0x02116a4c
-    .rodata     start:0x0215c4ac end:0x0215c4b0
-    .data       start:0x0216d410 end:0x0216d424
+    .rodata     start:0x0215c4a8 end:0x0215c5b4
+    .data       start:0x0216d3d0 end:0x0216d49c
+    .bss        start:0x0217d330 end:0x0217d334
 
 // provisional: file name and boundaries
 src/Main/Graphics/time_format.c:
