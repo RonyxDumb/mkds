@@ -24,6 +24,7 @@
 #include "Main/Kart/karts.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 
+const u16 gPakkunSpitInitMapObjectFlag = 0x200;
 const u16 gCrabLaunchFlag = 1;
 MapObjectKindDescriptor gCrabKindDescriptor = {0,
                                                {0, 0},

@@ -25,6 +25,7 @@
 #include "Main/MapObjects/map_object_kind_update_list.h"
 #include "Main/MapObjects/pakkun.h"
 #include "Main/MapObjects/empty_kind_data.h"
+#include "Main/MapObjects/crab.h"
 
 const u16 gFlipperInitMapObjectFlag = 0x200;
 
@@ -40,7 +41,7 @@ MapObjectKindDescriptor gPakkunSpitKindDescriptor = {0,
 
 void InitPakkunSpit(MapObject *mapObject) {
     u32 flags = mapObject->mFlags;
-    u32 addedFlags = data_02156598;
+    u32 addedFlags = gPakkunSpitInitMapObjectFlag;
     u32 newFlags = ((flags) | (addedFlags));
     mapObject->mFlags = newFlags;
     ParkMapObject(mapObject);

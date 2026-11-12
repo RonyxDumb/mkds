@@ -52,4 +52,5 @@ void InitCrab(Crab *crab); /* starts the path follower (InitGroupFollower) */
 extern struct MapObjectModel *gCrab;
 extern struct MapObjectModel *gCrabHand;
 
+extern const u16 gPakkunSpitInitMapObjectFlag;
 extern const u16 gCrabLaunchFlag;

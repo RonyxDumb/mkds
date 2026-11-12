@@ -8077,7 +8077,7 @@ gFlipperSkipSoundFlag kind:data(any) addr:0x02156588
 gFlipperInitMapObjectFlag kind:data(any) addr:0x0215658c
 gPakkunSpitDisabledFlag kind:data(any) addr:0x02156590
 gPakkunSpitSkipSoundFlag kind:data(any) addr:0x02156594
-data_02156598 kind:data(any) addr:0x02156598
+gPakkunSpitInitMapObjectFlag kind:data(any) addr:0x02156598
 gCrabLaunchFlag kind:data(any) addr:0x0215659c
 gMapObjectModelFrameNsbmdNsbtpScale kind:data(any) addr:0x021565a0
 gMapObjectModelFrameNsbmdScale kind:data(any) addr:0x021565ac

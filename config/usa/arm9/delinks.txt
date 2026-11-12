@@ -2185,7 +2185,7 @@ src/Main/MapObjects/empty_kind_data.c:
 src/Main/MapObjects/crab.c:
     complete
     .text       start:0x0209a748 end:0x0209b60c
-    .rodata     start:0x0215659c end:0x021565a0
+    .rodata     start:0x02156598 end:0x021565a0
     .data       start:0x021671f4 end:0x02167260
     .bss        start:0x0217b154 end:0x0217b15c
 
