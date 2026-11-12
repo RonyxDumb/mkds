@@ -1,4 +1,5 @@
 #include "03/code_021cc410.h"
+#include "03/code_021cc8b4.h"
 #include "03/code_021cd000.h"
 #include "03/code_021cef90.h"
 #include "03/code_021d1dd0.h"
@@ -7,7 +8,6 @@
 #include "03/code_021c2000.h"
 #include "03/unk_021d7000.h"
 #include "gx_load2d.h"
-
 #include "03/code_021cea3c.h"
 #include "03/code_021c209c.h"
 #include "code_0212df7c.h"
@@ -26,7 +26,6 @@
 #include "03/code_021be610.h"
 #include "03/code_021bf000.h"
 #include "03/code_021d1000.h"
-#include "03/code_021cc8b4.h"
 #include "03/unk_021d5000.h"
 #include "03/code_021bf4dc.h"
 #include "03/code_021d1440.h"
@@ -34,6 +33,14 @@
 #include "03/code_021cc000.h"
 #include "code_0200fc8c.h"
 #include "code_0214cfe4.h"
+
+BOOL UsbPAD_DetectFold(void) {
+    s32 flags = (*(volatile u16 *) 0x027fffa8 & 0x8000) >> 15;
+    if (flags != 0) {
+        return 1;
+    }
+    return 0;
+}
 
 void SetupUsb(void) {
     u16 ownerText[12];
