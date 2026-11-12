@@ -18,14 +18,14 @@
 #include "registers.h"
 #include "Main/Graphics/scene_text_init.h"
 
+#pragma thumb on
+
 const char *gBackScreenSNclrNames[1] = {"back_screen_s_b_00.nclr"};
 const char *gBackScreenSNcgrNames[1] = {"back_screen_s_b_00.ncgr"};
 const char *gBackScreenSNscrNames[1] = {"back_screen_s_bg_00.nscr"};
 const char *gBackScreenMNscrNames[2] = {"back_screen_m_bg_00.nscr", "back_screen_m_bg_01.nscr"};
 const char *gBackScreenMNcgrNames[2] = {"back_screen_m_b_00.ncgr", "back_screen_m_b_01.ncgr"};
 const char *gBackScreenMNclrNames[2] = {"back_screen_m_b_00.nclr", "back_screen_m_b_01.nclr"};
-
-#pragma thumb on
 
 void LoadTxtSystemAndSelectChoisesAndSelectReturnData(void) {
     LoadedPartPointer loadedPartPointer;
