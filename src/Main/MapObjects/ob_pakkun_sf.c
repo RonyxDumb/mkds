@@ -42,6 +42,15 @@
 #include "Main/Sound/surface_sound_ids.h"
 #include "Main/Sound/sound_source_list.h"
 #include "Main/MapObjects/choropu_state.h"
+#include "Main/MapObjects/pendulum.h"
+
+const MapObjectList gSecondHandUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, UpdateSecondHand, NULL, 0, NULL, 0, NULL};
+const MapObjectDrawList gSecondHandDrawListData = {{NULL, 0, {0, 0}, (void (*)(MapObjectList *)) CreateSecondHand, NULL, (UnkFunc *) DrawSecondHand, NULL, 1, NULL, 0, NULL}, 0};
+const MapObjectKindData gSecondHandKindData = {(s32 (*)(MapObject *, void *, s32 *, s32 *)) CollideKartWithSecondHand, (s32 (*)(MapObject *, void *, void *, void *)) CollideItemObjectWithSecondHand, 5, 0xf000, 0x4b000, 0x320000, (s32 (*)(MapObject *, Vec3 *, s32, Vec3 *)) ComputeSphereHitOnSecondHand, 0, 0, 0x178, 0, 0, 0, 0, 0, 0};
+StateCallbacks gSecondHandStateTable[4] = {{EnterSecondHandState0, UpdateSecondHandState0}, {(UnkFunc *) SecondHandState1ReturnArgument, UpdateSecondHandState1}, {EnterSecondHandState2, UpdateSecondHandState2}, {(UnkFunc *) SecondHandState3ReturnArgument, UpdateSecondHandState3}};
+MapObjectDrawList *gSecondHandDrawList;
+struct Nsbmd *gSecondHand;
+MapObjectList *gSecondHandUpdateList;
 
 void DrawObPakkunSf(u32 unused, ObPakkunSf *obPakkunSf, u32 unusedArg, u16 alpha) {
     MtxFx43 *matrix;
@@ -97,8 +106,8 @@ u8 CollideItemObjectWithObPakkunSf(ObPakkunSf *obPakkunSf, void *itemObject, u8 
 void CreateObPakkunSf(void) {
     void *nsbmdFile;
     void *nsbtpFile;
-    nsbmdFile = FindCourseMapObjFile(gObPakkunSfNsbmdName);
-    nsbtpFile = FindCourseMapObjFile(gObPakkunSfNsbtpName);
+    nsbmdFile = FindCourseMapObjFile("ob_pakkun_sf.nsbmd");
+    nsbtpFile = FindCourseMapObjFile("ob_pakkun_sf.nsbtp");
     CreateNsbmdModel(&gObPakkunSf, nsbmdFile, nsbtpFile, 0);
     SetNsbmdModelFixedAttributes(gObPakkunSf);
 }
@@ -122,7 +131,7 @@ void InitObPakkunSf(ObPakkunSf *obPakkunSf) {
 MapObjectKindData *CreateSecondHandKindData(void) {
     MapObjectKindData *kindData;
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
-    *kindData = data_02159140;
+    *kindData = gSecondHandKindData;
     return kindData;
 }
 
@@ -130,7 +139,7 @@ MapObjectDrawList *CreateSecondHandDrawList(void) {
     MapObjectDrawList *drawList;
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     gSecondHandDrawList = drawList;
-    *drawList = data_02159114;
+    *drawList = gSecondHandDrawListData;
     SetDrawListSlot(&gSecondHandDrawList);
     return gSecondHandDrawList;
 }
@@ -139,7 +148,7 @@ MapObjectList *CreateSecondHandUpdateList(void) {
     MapObjectList *updateList;
     updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
     gSecondHandUpdateList = updateList;
-    *updateList = data_021590ec;
+    *updateList = gSecondHandUpdateListData;
     SetUpdateListSlot(&gSecondHandUpdateList);
     return gSecondHandUpdateList;
 }
@@ -218,7 +227,7 @@ s32 CollideKartWithSecondHand(SecondHand *secondHand, Kart *kart, s32 unused, u8
 
     itemEffect = kart->mItemEffect;
     if (itemEffect == 1 || itemEffect == 3) {
-        secondHand->mMapObject.mDistanceSquaredAndFlags |= data_021590e8;
+        secondHand->mMapObject.mDistanceSquaredAndFlags |= gSecondHandHitFlag;
     }
     return *response;
 }
@@ -242,13 +251,13 @@ void ComputeSphereHitOnSecondHand(SecondHand *secondHand, Vec3 *sphereCenter, s3
 #pragma thumb on
 
 void CreateSecondHand(void) {
-    CreateNsbmd(&gSecondHand, FindCourseMapObjFile(gSecondHandNsbmdName), NULL);
+    CreateNsbmd(&gSecondHand, FindCourseMapObjFile("second_hand.nsbmd"), NULL);
     SetNsbmdPolygonIdLightEmiAll(gSecondHand, 0x3f, 2, 0x294a);
 }
 
 void InitSecondHand(SecondHand *secondHand, CourseMapRow *courseRow) {
     secondHand->mMapObject.mExtent.y = MUL_FIXED12_NO_ROUND(secondHand->mMapObject.mScale.x, 0x4b000);
-    InitStateMachine(&secondHand->mMapObject.mStateMachine, data_0216c240, 4, secondHand);
+    InitStateMachine(&secondHand->mMapObject.mStateMachine, gSecondHandStateTable, 4, secondHand);
     QuaternionFromVec3Degrees(&courseRow->mRotationDegrees, &secondHand->mRotationQuaternion);
     secondHand->mInitialRotationQuaternion = secondHand->mRotationQuaternion;
     secondHand->mRampFrameCount = courseRow->mSettings[2];
@@ -267,7 +276,9 @@ void InitSecondHand(SecondHand *secondHand, CourseMapRow *courseRow) {
     secondHand->mSpeedFraction = 0;
     secondHand->mMapObject.mStateMachine.mNextState = 0;
     secondHand->mMapObject.mStateMachine.mNextStateRequested = 1;
-    secondHand->mMapObject.mFlags |= data_021590b0;
+    secondHand->mMapObject.mFlags |= gSecondHandFlag;
 }
+
+const u32 gSecondHandHitFlag = 0x40000000;
 
 #pragma thumb off

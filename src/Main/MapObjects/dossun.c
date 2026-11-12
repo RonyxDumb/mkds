@@ -517,3 +517,5 @@ void UpdateKuribo(void *unused, Kuribo *kuribo) {
     }
     AdvanceStateMachine(&kuribo->mMapObject.mStateMachine);
 }
+
+const u16 gKuriboFlag = 1;

@@ -13,27 +13,13 @@ extern u16 data_02159834;
 
 extern u16 data_02159b64;
 
-extern MapObjectDrawList data_02159114;
+extern u16 gSecondHandFlag;
 
-extern MapObjectKindData data_02159140;
+extern MapObjectList gObPakkunSfUpdateListData;
 
-extern u16 data_021590b0;
+extern MapObjectDrawList gObPakkunSfDrawListData;
 
-extern u32 data_021590e8;
-
-extern MapObjectList data_021590ec;
-
-extern MapObjectList data_021591b4;
-
-extern MapObjectDrawList data_021591dc;
-
-extern MapObjectKindData data_02159208;
-
-extern MapObjectList data_0215927c;
-
-extern MapObjectDrawList data_021592a4;
-
-extern MapObjectKindData data_021592d0;
+extern MapObjectKindData gObPakkunSfKindData;
 
 extern const u32 gAttractorDistanceFlag;
 
@@ -41,35 +27,9 @@ extern MapObjectList gAttractorUpdateListData;
 
 extern MapObjectKindData gAttractorKindData;
 
-extern Vec3 data_02159440[];
-
-extern Vec3 data_021593bc;
-
-extern Vec3 data_021593e0;
-
-extern Vec3 data_021593ec;
-
-extern Vec3 data_02159404;
-
-extern Vec3 data_02159410;
-
 extern u8 data_021594d4[];
 
-extern Vec3 data_02159434;
-
-extern Vec3 data_021593d4;
-
-extern Vec3 data_02159428;
-
-extern Vec3 data_021593f8;
-
-extern Vec3 data_0215941c;
-
-extern Vec3 data_02159494;
-
-extern Vec3 data_021593b0;
-
-extern Vec3 data_021593c8;
+extern Vec3 gJgMatrixRow1Source;
 
 extern u16 gItemObjectFadeOutPendingBit;
 

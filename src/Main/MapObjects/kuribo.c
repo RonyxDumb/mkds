@@ -112,7 +112,7 @@ void UpdateKuriboState1(Kuribo *kuribo) {
 }
 
 void EnterKuriboState2(Kuribo *kuribo) {
-    kuribo->mMapObject.mFlags = (((kuribo->mMapObject.mFlags)) | ((data_02158160)));
+    kuribo->mMapObject.mFlags = (((kuribo->mMapObject.mFlags)) | ((gKuriboFlag)));
 }
 
 void UpdateKuriboState2(Kuribo *kuribo) {
@@ -244,7 +244,7 @@ u32 CollideKartWithKuribo(Kuribo *kuribo, Kart *kart, u8 *firstResponsePtr, u8 *
                 StartSoundFullVolumeWrapper(&kart->mSoundSource, 0x185);
                 StartSoundIfKartStarOrKiller(&kuribo->mMapObject, kart);
                 StartItemKinokoFromKuribo(kuribo, &kart->mVelocity);
-                kuribo->mMapObject.mFlags = kuribo->mMapObject.mFlags | data_02158160;
+                kuribo->mMapObject.mFlags = kuribo->mMapObject.mFlags | gKuriboFlag;
             }
             break;
     }
@@ -269,7 +269,7 @@ u32 CollideItemObjectWithKuribo(Kuribo *kuribo, ItemObject *itemObject, u8 *firs
                 if (itemObject != NULL) {
                     StartItemKinokoFromKuribo(kuribo, &itemObject->mVelocity);
                 }
-                kuribo->mMapObject.mFlags = kuribo->mMapObject.mFlags | data_02158160;
+                kuribo->mMapObject.mFlags = kuribo->mMapObject.mFlags | gKuriboFlag;
             }
             break;
     }

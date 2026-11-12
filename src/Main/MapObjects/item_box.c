@@ -34,6 +34,22 @@
 #include "fx_mtx43.h"
 #include "code_02147cd8.h"
 
+const MapObjectList gItemBoxUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, UpdateItemBox, NULL, 0, 0, 0, NULL};
+const MapObjectDrawList gBoxDrawListData = {{NULL, 0, {0, 0}, (void (*)(MapObjectList *)) CreateBoxAndQuestion, (void (*)(MapObjectList *)) SetupDrawBox, (UnkFunc *) DrawBox, NULL, 2, (s32 (*)(MapObject *, void *, void *, void *)) 1, 0, NULL}, 0};
+const MapObjectDrawList gItemBoxShadowDrawListData = {{NULL, 0, {0, 0}, NULL, (void (*)(MapObjectList *)) SetupDrawItemBoxShadow, DrawItemBoxShadow, NULL, 1, 0, 1, NULL}, 0};
+const MapObjectDrawList gQuestionDrawListData = {{NULL, 0, {0, 0}, NULL, (void (*)(MapObjectList *)) SetupDrawQuestion, (UnkFunc *) DrawQuestion, NULL, 2, 0, 0, NULL}, 0};
+const MapObjectKindData gItemBoxKindData = {(s32 (*)(MapObject *, void *, s32 *, s32 *)) CollideKartWithItemBox, NULL, 1, 0xa000, 0, 0, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+u16 gItemBoxShadowAngle;
+BoxRotation *gBoxRotations;
+MapObjectDrawList *gQuestionDrawList;
+MapObjectDrawList *gItemBoxShadowDrawList;
+MapObjectList *gItemBoxUpdateList;
+QuestionRotation *gQuestionRotations;
+MapObjectDrawList *gBoxDrawList;
+NsbmdModel *gBox;
+NsbmdModel *gQuestion;
+MtxFx43 gItemBoxShadowMatrix;
+
 #pragma thumb on
 
 void InitGroupItemBox(ItemBox *itemBox, CourseMapRow *row) {
@@ -42,7 +58,7 @@ void InitGroupItemBox(ItemBox *itemBox, CourseMapRow *row) {
         itemBox->mFollower.mGroupFollower.mGroupIndex = (0x0000ffffu);
         return;
     }
-    InitGroupFollowerWithSpeeds(&itemBox->mFollower, row, *&data_02158908, row->mSettings[0]);
+    InitGroupFollowerWithSpeeds(&itemBox->mFollower, row, *&gGroupFollowerSpeed, row->mSettings[0]);
     SetupGroupFollowerWithSpeeds(&itemBox->mFollower, row->mSettings[4], 1);
     GetGroupFollowerCurvePosition(&itemBox->mFollower.mGroupFollower, &itemBox->mMapObject.mPos);
 }
@@ -64,34 +80,34 @@ MapObjectKindData *CreateItemBoxKindData(void) {
     MapObjectKindData *kindData;
 
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
-    *kindData = data_02158654;
+    *kindData = gItemBoxKindData;
     return kindData;
 }
 
 MapObjectList *CreateBoxDrawList(void) {
     gBoxDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
-    *gBoxDrawList = data_02158628;
+    *gBoxDrawList = gBoxDrawListData;
     SetDrawListSlot(&gBoxDrawList);
     return &gBoxDrawList->mList;
 }
 
 MapObjectList *CreateQuestionDrawList(void) {
     gQuestionDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
-    *gQuestionDrawList = data_021585fc;
+    *gQuestionDrawList = gQuestionDrawListData;
     SetDrawListSlot(&gQuestionDrawList);
     return &gQuestionDrawList->mList;
 }
 
 MapObjectList *CreateItemBoxShadowDrawList(void) {
     gItemBoxShadowDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
-    *gItemBoxShadowDrawList = data_021585d0;
+    *gItemBoxShadowDrawList = gItemBoxShadowDrawListData;
     SetDrawListSlot(&gItemBoxShadowDrawList);
     return &gItemBoxShadowDrawList->mList;
 }
 
 MapObjectList *CreateItemBoxUpdateList(void) {
     gItemBoxUpdateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
-    *gItemBoxUpdateList = data_021585a8;
+    *gItemBoxUpdateList = gItemBoxUpdateListData;
     SetUpdateListSlot(&gItemBoxUpdateList);
     return gItemBoxUpdateList;
 }
@@ -348,7 +364,7 @@ u8 CollideKartWithItemBox(ItemBox *itemBox, Kart *kart, void *firstResponsePtr, 
     }
     kindInMask = FALSE;
     itemBox->mFramesSinceHit = 0;
-    itemBox->mMapObject.mFlags |= data_021585a4;
+    itemBox->mMapObject.mFlags |= gItemBoxHitFlag;
     distanceBits = itemBox->mMapObject.mDistanceSquaredAndFlags & 3;
     playerKind = gRaceSetup->mCurrentEntries[kart->mIndex].mPlayer.mKind;
     if ((u32) playerKind <= 3) {
@@ -379,3 +395,5 @@ u32 GetItemBoxMaxGroupDistance(ItemBox *itemBox) {
 void SetItemBoxFramesSinceHitMax(ItemBox *itemBox) {
     itemBox->mFramesSinceHit = 0x80;
 }
+
+const u16 gItemBoxHitFlag = 1;

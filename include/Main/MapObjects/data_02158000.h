@@ -19,30 +19,21 @@ typedef struct MkdEfBubbleUpdateList {
     /* 28 */ s32 mAngleScale;
 } MkdEfBubbleUpdateList;
 
-extern MapObjectList data_021584d4;
-extern MapObjectDrawList data_021584fc;
-extern MapObjectKindData data_02158528;
-extern u16 data_02158568;
-extern u32 data_0215856c;
-extern u16 data_021585a4;
-extern MapObjectList data_021585a8;
-extern MapObjectDrawList data_021585d0;
-extern MapObjectDrawList data_021585fc;
-extern MapObjectDrawList data_02158628;
-extern MapObjectKindData data_02158654;
-extern Vec3 data_02158694;
-extern u16 data_02158740;
-extern u32 data_02158778;
-extern MkdEfBubbleUpdateList data_02158784;
-extern MapObjectDrawList data_021587b0;
-extern MapObjectKindData data_021587dc;
-extern u16 data_0215881c;
+extern u16 gItemBoxTriangleFlag2Flag;
+extern u32 gItemBoxInitDistanceFlag;
+extern Vec3 gItemBoxDefaultScale;
+extern u16 gMkdEfBubbleInitFlag;
+extern const u32 gMkdEfBubbleHitFlag;
+extern MkdEfBubbleUpdateList gMkdEfBubbleUpdateListData;
+extern MapObjectDrawList gMkdEfBubbleDrawListData;
+extern MapObjectKindData gMkdEfBubbleKindData;
+extern u16 gKoopaBlockFlag;
 
 // Objects whose layout isn't known yet.
-extern u16 data_02158160;
-extern u16 data_0215877c;
-extern u16 data_02158780;
-extern s32 data_02158908;
+extern const u16 gKuriboFlag;
+extern u16 gMkdEfBubbleState1Flag;
+extern u16 gMkdEfBubbleState1SecondFlag;
+extern s32 gGroupFollowerSpeed;
 extern u16 data_02158c88;
 extern u16 data_021588e8;
 extern u16 data_021588ec;

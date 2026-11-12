@@ -5,6 +5,8 @@
 #include "Main/MapObjects/attractor.h" // MapObject, MapObjectList, MapObjectKindData
 #include "Main/MapObjects/data_02158000.h" // MapObjectDrawList
 #include "Main/MapObjects/pushed_motion.h" // PushedObject
+#include "Main/Menu/second_menu_scene.h"
+#include "Main/Graphics/nsbmd_render_obj.h"
 
 // Object InitSecondHand sets up, 0xd0 bytes.
 typedef struct SecondHand {
@@ -30,13 +32,6 @@ typedef struct CourseMapRow CourseMapRow;
 void CreateSecondHand(void);
 
 void CreateObPakkunSf(void);
-
-extern MapObjectList *gSecondHandUpdateList;
-extern MapObjectDrawList *gSecondHandDrawList;
-extern MapObjectList *gObPakkunSfUpdateList;
-extern MapObjectDrawList *gObPakkunSfDrawList;
-extern MapObjectList *gPendulumUpdateList;
-extern MapObjectDrawList *gPendulumDrawList;
 
 void InitSecondHand(SecondHand *secondHand, CourseMapRow *courseRow);
 void ComputeSphereHitOnSecondHand(SecondHand *secondHand, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *overlapOffset);
@@ -77,3 +72,12 @@ u8 CollideKartWithObPakkunSf(ObPakkunSf *obPakkunSf, void *kart, u8 *firstRespon
 void UpdateObPakkunSf(u32 unused, ObPakkunSf *obPakkunSf);
 
 void DrawObPakkunSf(u32 unused, ObPakkunSf *obPakkunSf, u32 unusedArg, u16 alpha);
+
+extern const u32 gSecondHandHitFlag;
+extern const MapObjectList gSecondHandUpdateListData;
+extern const MapObjectDrawList gSecondHandDrawListData;
+extern const MapObjectKindData gSecondHandKindData;
+extern StateCallbacks gSecondHandStateTable[4];
+extern struct Nsbmd *gSecondHand;
+extern MapObjectDrawList *gSecondHandDrawList;
+extern MapObjectList *gSecondHandUpdateList;

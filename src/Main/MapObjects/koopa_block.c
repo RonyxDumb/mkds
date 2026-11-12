@@ -135,7 +135,7 @@ void InitKoopaBlock(KoopaBlock *koopaBlock, CourseMapRow *courseRow) {
     koopaBlock->mCollisionMapObject.mCollisionData.mUnk_e8 = koopaBlock->mCollisionMapObject.mMapObject.mPos;
     koopaBlock->mCollisionMapObject.mCollisionData.mUnk_134 = COLLISION_SHAPE_BOX;
     koopaBlock->mCollisionMapObject.mCollisionData.mUnk_138 = 0;
-    koopaBlock->mCollisionMapObject.mMapObject.mFlags |= data_0215881c;
+    koopaBlock->mCollisionMapObject.mMapObject.mFlags |= gKoopaBlockFlag;
     koopaBlock->mCollisionMapObject.mMapObject.mFlags &= ~2;
     koopaBlock->mCollisionMapObject.mMapObject.mFlags &= ~8;
     koopaBlock->mCollisionMapObject.mMapObject.mAlpha = 0x1f;
@@ -149,20 +149,20 @@ MapObjectKindData *CreateMkdEfBubbleKindData(void) {
     MapObjectKindData *kindData;
 
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
-    *kindData = data_021587dc;
+    *kindData = gMkdEfBubbleKindData;
     return kindData;
 }
 
 MapObjectDrawList *CreateMkdEfBubbleDrawList(void) {
     gMkdEfBubbleDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
-    *gMkdEfBubbleDrawList = data_021587b0;
+    *gMkdEfBubbleDrawList = gMkdEfBubbleDrawListData;
     SetDrawListSlot(&gMkdEfBubbleDrawList);
     return gMkdEfBubbleDrawList;
 }
 
 MkdEfBubbleUpdateList *CreateMkdEfBubbleUpdateList(void) {
     gMkdEfBubbleUpdateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
-    *gMkdEfBubbleUpdateList = data_02158784;
+    *gMkdEfBubbleUpdateList = gMkdEfBubbleUpdateListData;
     SetUpdateListSlot(&gMkdEfBubbleUpdateList);
     gMkdEfBubbleUpdateList->mAngleScale = FX_Div(0x4000000, 0x1333);
     return gMkdEfBubbleUpdateList;

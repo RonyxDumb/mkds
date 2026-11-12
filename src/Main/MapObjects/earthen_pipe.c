@@ -21,7 +21,11 @@
 #include "Main/MapObjects/data_0216b000.h"
 #include "Main/MapObjects/choropu.h"
 #include "Main/Sound/data_0210b000.h"
+#include "Main/MapObjects/earthen_pipe_create.h"
 
+MapObjectDrawList *gEarthenPipeDrawList;
+MapObjectList *gEarthenPipeUpdateList;
+struct NsbmdModel *gEarthenPipe1;
 NsbmdModel *gEarthenPipe2;
 
 void DrawEarthenPipe(u32 unused0, PushedObject *pipe, u32 unused1, u16 maxAlpha) {

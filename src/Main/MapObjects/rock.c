@@ -35,6 +35,44 @@
 #include "Main/MapObjects/data_02156000.h"
 #include "Main/Kart/code_0208fd8c.h"
 
+const s16 gRockFirstEffectRows08[4] = {0, 0x1000, -1024, 0x1400};
+const s16 gRockSecondEffectRows04[4] = {0x52, 0x29, -123, 0xf6};
+const s16 gRockSecondEffectRows06[4] = {0x1c3, 0xa4, 0x266, 0};
+const s32 gRockSecondEffectRows00[4] = {0, 0x99a, 0, 0x99a};
+const s16 gRockSecondEffectRows08[4] = {0, 0x1000, -1024, 0x1400};
+const s32 gRockFirstEffectRows00[4] = {0x3d7, 0xf5c, 0, 0x1333};
+const s16 gRockFirstEffectRows04[4] = {0x66, 0x11f, 0x4a, 0x13f};
+const s16 gRockFirstEffectRows06[4] = {0x1ec, 0xa4, 0x23d, 0x52};
+const MapObjectKindDescriptor gRock2KindDescriptor = {0,
+                                                   {0, 0},
+                                                   0x124,
+                                                   (void (*)(void *, CourseMapRow *, void *)) InitRock,
+                                                   CreateRockKindData,
+                                                   (MapObjectList *(*)(void)) CreateRock2DrawList,
+                                                   0,
+                                                   0,
+                                                   CreateRockUpdateList};
+const MapObjectKindDescriptor gRockKindDescriptor = {0,
+                                                   {0, 0},
+                                                   0x124,
+                                                   (void (*)(void *, CourseMapRow *, void *)) InitRock,
+                                                   CreateRockKindData,
+                                                   (MapObjectList *(*)(void)) CreateRockDrawList,
+                                                   0,
+                                                   0,
+                                                   CreateRockUpdateList};
+s16 gFoundCollisionSlotCount;
+s16 gFirstFreeCollisionSlot;
+s16 gCollisionSlotCount;
+s16 *gCollisionSlotNextFree;
+struct CollisionSlotEnd *gCollisionSlotLowEnds;
+struct CollisionSlot *gCollisionSlots;
+struct CollisionSlotEnd *gCollisionSlotHighEnds;
+s16 *gFoundCollisionSlotIndices;
+u16 *gFoundCollisionSlotFlags;
+void **gFoundCollisionSlotObjects;
+void *gSphereHitObjects[16];
+
 // Calls StartEffectWithCallback twice at the rock; skipped when bit 0 of mDistanceSquaredAndFlags is set, or when b is
 // 0 and bit 1 is set. Then resets the rock.
 void ResetRockWithEffects(RockObject *rock, s32 wasHit) {
@@ -64,22 +102,22 @@ void ResetRockWithEffects(RockObject *rock, s32 wasHit) {
                 scaledRow = 3;
                 baseRow = 2;
             }
-            firstTerm0 = data_02156960[scaledRow];
-            secondTerm8 = data_02156938[scaledRow];
-            secondTerm6 = data_02156930[scaledRow];
-            secondTerm4 = data_02156928[scaledRow];
-            firstTerm6 = data_02156948[scaledRow];
-            firstEmitterParams.mUnk_00 = data_02156960[baseRow] + MUL_FIXED12_NO_ROUND(firstTerm0, scaleY);
-            firstTerm4 = data_02156940[scaledRow];
-            firstEmitterParams.mUnk_04 = data_02156940[baseRow] + MUL_FIXED12_NO_ROUND(firstTerm4, scaleY);
-            secondTerm0 = data_02156950[scaledRow];
-            firstEmitterParams.mUnk_06 = data_02156948[baseRow] + MUL_FIXED12_NO_ROUND(firstTerm6, scaleY);
-            secondEmitterParams.mUnk_00 = data_02156950[baseRow] + MUL_FIXED12_NO_ROUND(secondTerm0, scaleY);
-            firstTerm8 = data_02156920[scaledRow];
-            firstEmitterParams.mUnk_08 = data_02156920[baseRow] + MUL_FIXED12_NO_ROUND(firstTerm8, scaleY);
-            secondEmitterParams.mUnk_04 = data_02156928[baseRow] + MUL_FIXED12_NO_ROUND(secondTerm4, scaleY);
-            secondEmitterParams.mUnk_06 = data_02156930[baseRow] + MUL_FIXED12_NO_ROUND(secondTerm6, scaleY);
-            secondEmitterParams.mUnk_08 = data_02156938[baseRow] + MUL_FIXED12_NO_ROUND(secondTerm8, scaleY);
+            firstTerm0 = gRockFirstEffectRows00[scaledRow];
+            secondTerm8 = gRockSecondEffectRows08[scaledRow];
+            secondTerm6 = gRockSecondEffectRows06[scaledRow];
+            secondTerm4 = gRockSecondEffectRows04[scaledRow];
+            firstTerm6 = gRockFirstEffectRows06[scaledRow];
+            firstEmitterParams.mUnk_00 = gRockFirstEffectRows00[baseRow] + MUL_FIXED12_NO_ROUND(firstTerm0, scaleY);
+            firstTerm4 = gRockFirstEffectRows04[scaledRow];
+            firstEmitterParams.mUnk_04 = gRockFirstEffectRows04[baseRow] + MUL_FIXED12_NO_ROUND(firstTerm4, scaleY);
+            secondTerm0 = gRockSecondEffectRows00[scaledRow];
+            firstEmitterParams.mUnk_06 = gRockFirstEffectRows06[baseRow] + MUL_FIXED12_NO_ROUND(firstTerm6, scaleY);
+            secondEmitterParams.mUnk_00 = gRockSecondEffectRows00[baseRow] + MUL_FIXED12_NO_ROUND(secondTerm0, scaleY);
+            firstTerm8 = gRockFirstEffectRows08[scaledRow];
+            firstEmitterParams.mUnk_08 = gRockFirstEffectRows08[baseRow] + MUL_FIXED12_NO_ROUND(firstTerm8, scaleY);
+            secondEmitterParams.mUnk_04 = gRockSecondEffectRows04[baseRow] + MUL_FIXED12_NO_ROUND(secondTerm4, scaleY);
+            secondEmitterParams.mUnk_06 = gRockSecondEffectRows06[baseRow] + MUL_FIXED12_NO_ROUND(secondTerm6, scaleY);
+            secondEmitterParams.mUnk_08 = gRockSecondEffectRows08[baseRow] + MUL_FIXED12_NO_ROUND(secondTerm8, scaleY);
             if (rock->mMapObject.mKind == 0x192) {
                 StartEffectWithCallback(0x54, &rock->mMapObject.mPos, &firstEmitterParams, CopyEmitterParams);
                 StartEffectWithCallback(0x57, &rock->mMapObject.mPos, &secondEmitterParams, CopyEmitterParams);
@@ -211,8 +249,8 @@ void ResetRock(RockObject *rock) {
     GetGroupFollowerCurvePosStepXz(&rock->mUnk_0a4.mGroupFollower, &rock->mMapObject.mPos, &rock->mMapObject.mPosStep);
     rock->mUnk_0e0 = rock->mUnk_0dc;
     if (rock->mUnk_0e0 != 0) {
-        rock->mMapObject.mFlags |= data_0215691c;
-        rock->mMapObject.mFlags |= data_02156914;
+        rock->mMapObject.mFlags |= gRockFirstFlag;
+        rock->mMapObject.mFlags |= gRockSecondFlag;
     }
     rock->mBasePos = rock->mMapObject.mPos;
     rock->mBounceSide = TRUE;
@@ -223,9 +261,9 @@ void ResetRock(RockObject *rock) {
     rock->mOffsetZ = zero;
     rock->mMapObject.mPos.y = rock->mStartY;
     rock->mMapObject.mPosStep.y = 0x8000;
-    rock->mMapObject.mMatrix.mRows[0] = data_021569d8;
-    rock->mMapObject.mMatrix.mRows[1] = data_021569e4;
-    rock->mMapObject.mMatrix.mRows[2] = data_021569f0;
+    rock->mMapObject.mMatrix.mRows[0] = gRockMatrixRow0;
+    rock->mMapObject.mMatrix.mRows[1] = gRockMatrixRow1;
+    rock->mMapObject.mMatrix.mRows[2] = gRockMatrixRow2;
     startScale = rock->mStartScale;
     bottomOffset = (startScale * 0x1e000) >> 12;
     FX_DivAsync(0x1000, bottomOffset);
@@ -294,8 +332,8 @@ void InitRock(RockObject *rock, struct CourseMapRow *courseRow) {
     rock->mSinceGroundFrames = 0;
     rock->mUnk_0e0 = courseRow->mSettings[5];
     if (rock->mUnk_0e0 != 0) {
-        rock->mMapObject.mFlags |= data_0215691c;
-        rock->mMapObject.mFlags |= data_02156914;
+        rock->mMapObject.mFlags |= gRockFirstFlag;
+        rock->mMapObject.mFlags |= gRockSecondFlag;
     } else {
         rock->mMapObject.mFlags &= ~2;
         rock->mMapObject.mFlags &= ~8;
@@ -307,7 +345,7 @@ void InitRock(RockObject *rock, struct CourseMapRow *courseRow) {
     } else {
         CreateMapObjectSoundSourceFalloff3(&rock->mMapObject);
     }
-    rock->mMapObject.mFlags |= data_02156918;
+    rock->mMapObject.mFlags |= gRockThirdFlag;
 }
 #pragma thumb off
 
@@ -668,21 +706,25 @@ void FindCollisionSlotsAroundPos(Vec3 *position, s32 radius, s32 flagMask) {
     } while (--value >= searchStep);
 }
 
-// A slot with flag 0x400 also gets the flags of data_02156900 set.
+// A slot with flag 0x400 also gets the flags of gCollisionSlotRadiusFlag set.
 void SetCollisionSlotRadius(s16 slotIndex, s32 radius) {
     CollisionSlot *slot;
 
     slot = &gCollisionSlots[slotIndex];
     slot->mRadius = radius;
     if (slot->mFlags & 0x400) {
-        slot->mFlags |= data_02156900;
+        slot->mFlags |= gCollisionSlotRadiusFlag;
     }
 }
 
 void DisableCollisionSlot(s16 slotIndex) {
-    gCollisionSlots[slotIndex].mFlags |= data_021568fc;
+    gCollisionSlots[slotIndex].mFlags |= gCollisionSlotDisabledFlag;
 }
 
 void EnableCollisionSlot(s16 slotIndex) {
     gCollisionSlots[slotIndex].mFlags &= ~0x200;
 }
+
+const u16 gRockFirstFlag = 2;
+const u16 gRockSecondFlag = 8;
+const u16 gRockThirdFlag = 0x200;

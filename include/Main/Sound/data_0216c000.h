@@ -2,10 +2,6 @@
 #include "types.h"
 #include "Main/Menu/second_menu_scene.h" // StateCallbacks
 
-extern const char gObPakkunSfNsbmdName[];
-
-extern const char gObPakkunSfNsbtpName[];
-
 extern const char *gRecordGpxSONclrName;
 
 extern const char *gRecordGpxMBNcgrName;
@@ -115,13 +111,5 @@ extern const StateCallbacks gPushedObjectStateTable[];
 extern u8 gSoundDataSdatPath[];
 
 extern const StateCallbacks gItemKouraRStateTable[];
-
-extern const StateCallbacks data_0216c240[];
-
-extern const char gSecondHandNsbmdName[];
-
-extern const char gPendulumNsbmdName[];
-
-extern const char gPendulumShadowNsbmdName[];
 
 extern s32 gKartSurfaceSoundSortOffsets[];

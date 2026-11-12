@@ -24,6 +24,11 @@
 #include "tp.h"
 #include "Main/MapObjects/data_0217b000.h"
 #include "code_02147cd8.h"
+#include "Main/MapObjects/earthen_pipe.h"
+
+const MapObjectList gEarthenPipeUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, UpdateEarthenPipe, NULL, 0, NULL, 0, NULL};
+const MapObjectDrawList gEarthenPipeDrawListData = {{NULL, 0, {0, 0}, (void (*)(MapObjectList *)) CreateEarthenPipe1AndEarthenPipe2, (void (*)(MapObjectList *)) SetupDrawEarthenPipe, (UnkFunc *) DrawEarthenPipe, NULL, 2, NULL, 0, NULL}, 0};
+const MapObjectKindData gEarthenPipeKindData = {(s32 (*)(MapObject *, void *, s32 *, s32 *)) CollideKartWithEarthenPipe, (s32 (*)(MapObject *, void *, void *, void *)) CollideItemObjectWithEarthenPipe, 2, 0xb000, 0xc000, 0, NULL, 1, 0, 0x127, 0, 0, 0, 0, 0, 0};
 
 #pragma thumb on
 void CreateBoxAndQuestion(void) {
@@ -94,7 +99,7 @@ void InitItemBox(ItemBox *itemBox, CourseMapRow *row) {
         itemBox->mUsesGroupShadow = 1;
         itemBox->mShortSpin = 0;
         itemBox->mNoCourseRow = 1;
-        SetMapObjectScale(&itemBox->mMapObject, &data_02158694);
+        SetMapObjectScale(&itemBox->mMapObject, &gItemBoxDefaultScale);
     }
     if (itemBox->mNoCourseRow != 0) {
         itemBox->mForcedRowHumanGhostPeer = 0;
@@ -119,10 +124,10 @@ void InitItemBox(ItemBox *itemBox, CourseMapRow *row) {
     }
     if (row != NULL) {
         if (HasCourseTriangleFlag2At(&row->mPosition) != 0) {
-            itemBox->mMapObject.mFlags |= data_02158568;
+            itemBox->mMapObject.mFlags |= gItemBoxTriangleFlag2Flag;
         }
     }
-    itemBox->mMapObject.mDistanceSquaredAndFlags |= data_0215856c;
+    itemBox->mMapObject.mDistanceSquaredAndFlags |= gItemBoxInitDistanceFlag;
 }
 #pragma thumb off
 
@@ -130,20 +135,20 @@ MapObjectKindData *CreateEarthenPipeKindData(void) {
     MapObjectKindData *kindData;
 
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
-    *kindData = data_02158528;
+    *kindData = gEarthenPipeKindData;
     return kindData;
 }
 
 MapObjectDrawList *CreateEarthenPipeDrawList(void) {
     gEarthenPipeDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
-    *gEarthenPipeDrawList = data_021584fc;
+    *gEarthenPipeDrawList = gEarthenPipeDrawListData;
     SetDrawListSlot(&gEarthenPipeDrawList);
     return gEarthenPipeDrawList;
 }
 
 MapObjectList *CreateEarthenPipeUpdateList(void) {
     gEarthenPipeUpdateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
-    *gEarthenPipeUpdateList = data_021584d4;
+    *gEarthenPipeUpdateList = gEarthenPipeUpdateListData;
     SetUpdateListSlot(&gEarthenPipeUpdateList);
     return gEarthenPipeUpdateList;
 }

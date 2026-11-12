@@ -54,6 +54,20 @@
 #include "Main/MapObjects/map_object_kind_update_list.h"
 #include "Main/MapObjects/data_0217a000.h"
 
+u16 gMapObjectLastPolygonId;
+u16 gWrappingPolygonIdBase;
+u16 gNextPolygonId;
+u16 gWrappingPolygonId;
+u16 gMapObjectFirstPolygonId;
+s32 gMapObjectsTimeAttackOrWiFi;
+GrpconfTblRow *gGrpconfTbl;
+struct MapObjects *gMapObjects;
+s32 gMapObjectKindCount;
+MapObject **gFoundMapObjects;
+struct Water *gCourseWater;
+Vec3 *gFoundMapObjectVectors;
+WaterEfct *gCourseWaterEfct;
+
 #pragma thumb on
 
 static inline GrpconfTblRow *FindGrpconfTblRowByKind(u16 kind) {
@@ -202,8 +216,8 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
             }
             object->mKind = kind;
             object->mFlags = 0;
-            if (data_0217b4e0 != 0) {
-                object->mFlags |= data_021568c8;
+            if (gMapObjectsTimeAttackOrWiFi != 0) {
+                object->mFlags |= gMapObjectTimeAttackOrWiFiFlag;
             }
             object->mCollisionSlotIndex = -1;
             if (courseRow != NULL) {
@@ -242,12 +256,12 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
             if (kindData->mShapeKind != 0) {
                 object->mFlags &= ~1;
             } else {
-                object->mFlags |= data_021568cc;
+                object->mFlags |= gMapObjectNoShapeFlag;
             }
             if (kindData->mCollidable != 0) {
                 object->mFlags &= ~0x40;
             } else {
-                object->mFlags |= data_021568d0;
+                object->mFlags |= gMapObjectNotCollidableFlag;
             }
             if ((descriptor->mLists[0] != NULL && descriptor->mLists[0]->mForEachObject != NULL) ||
                 (descriptor->mLists[1] != NULL && descriptor->mLists[1]->mForEachObject != NULL) ||
@@ -256,8 +270,8 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
                 object->mFlags &= ~8;
                 object->mAlpha = 0x1f;
             } else {
-                object->mFlags |= data_021568d4;
-                object->mFlags |= data_021568d8;
+                object->mFlags |= gMapObjectNoDrawListFlag;
+                object->mFlags |= gMapObjectNoDrawListSecondFlag;
             }
             if (source != NULL) {
                 object->mDigitMask = source->mDigitMask;
@@ -270,7 +284,7 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
             if (descriptor->mLists[3] != NULL && descriptor->mLists[3]->mForEachObject != NULL) {
                 object->mFlags &= ~4;
             } else {
-                object->mFlags |= data_021568dc;
+                object->mFlags |= gMapObjectNoUpdateListFlag;
             }
             object->mFarDistanceSquared = gSoundFalloffs[2].mFarDistanceSquared;
             if (courseRow != NULL) {
@@ -285,11 +299,11 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
             if (kindData->mShapeKind != 0) {
                 slotFlags = 0x2000;
                 if (kindData->mPosStepMode == 0) {
-                    slotFlags |= data_021568e0;
+                    slotFlags |= gCollisionSlotPosStepFlag;
                 }
                 if (IsKoopaBlockKind(object->mKind) != 0 || IsRotaryKind(object->mKind) != FALSE ||
                     IsBridgeKind(object->mKind) != FALSE || IsMissionRunBoxKind(object->mKind) != FALSE) {
-                    slotFlags |= data_021568e4;
+                    slotFlags |= gCollisionSlotKindFlag;
                 }
                 object->mCollisionSlotIndex =
                     CreateCollisionSlot(&object->mPos, GetMapObjectCollisionRadius(object), slotFlags, object);
@@ -338,9 +352,9 @@ void InitMapObjects(void) {
     MapObjects *mapObjects;
     heap = GetHeap(GetCurrentHeapCall());
     SetRaceRandomPointers();
-    data_0217b4cc = GetMapObjectFirstPolygonId();
-    data_0217b4c0 = data_0217b4cc + 9;
-    gWrappingPolygonIdBase = data_0217b4c0 + 1;
+    gMapObjectFirstPolygonId = GetMapObjectFirstPolygonId();
+    gMapObjectLastPolygonId = gMapObjectFirstPolygonId + 9;
+    gWrappingPolygonIdBase = gMapObjectLastPolygonId + 1;
     count = gCourseMap->mRowCount;
     gMapObjects = HeapAlloc(heap, 0x2bc);
     gMapObjects->mMapObjects = HeapAlloc(heap, 0x400);
@@ -378,7 +392,7 @@ void InitMapObjects(void) {
     if (gRaceSetup->mMode != MODE_TIME_ATTACK && gRaceSetup->mMode != MODE_WIFI) {
         value = 0;
     }
-    data_0217b4e0 = value;
+    gMapObjectsTimeAttackOrWiFi = value;
     gMapObjects->mHasKoopaBlock = 0;
     gMapObjects->mUnk_180 = 0;
     gMapObjects->mUnk_184 = 0;
@@ -390,7 +404,7 @@ void InitMapObjects(void) {
     InitMatrices();
     InitMapObjectViewState();
     gWrappingPolygonId = gWrappingPolygonIdBase;
-    gNextPolygonId = data_0217b4cc;
+    gNextPolygonId = gMapObjectFirstPolygonId;
     for (index = 0; index < gMapObjectKindCount; index++) {
         if (gMapObjectKindRows[index].mDescriptor != NULL) {
             gMapObjectKindRows[index].mDescriptor->mObjectCount = 0;
@@ -584,3 +598,12 @@ void RunMapObjectUpdateListInits(void) {
 }
 
 #pragma thumb off
+
+const u16 gMapObjectNoUpdateListFlag = 4;
+const u16 gMapObjectNotCollidableFlag = 0x40;
+const u16 gMapObjectTimeAttackOrWiFiFlag = 0x800;
+const u16 gCollisionSlotPosStepFlag = 0x400;
+const u16 gMapObjectNoDrawListFlag = 2;
+const u16 gMapObjectNoDrawListSecondFlag = 8;
+const u16 gMapObjectNoShapeFlag = 1;
+const u16 gCollisionSlotKindFlag = 0x1000;

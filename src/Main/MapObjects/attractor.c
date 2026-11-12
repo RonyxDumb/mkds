@@ -39,6 +39,11 @@
 #include "Main/Item/item_in_use.h"
 #include "Main/Kart/karts.h"
 
+char gJgFlagNsbcaName[] = "jg_flag.nsbca";
+char gJgFlagNsbmdName[] = "jg_flag.nsbmd";
+char gJgReverseNsbmdName[] = "jg_reverse.nsbmd";
+char gJgReverseNsbmaName[] = "jg_reverse.nsbma";
+JgKindFileNames gJgKindFileNames[4] = {{NULL, NULL, NULL}, {NULL, NULL, NULL}, {gJgReverseNsbmdName, NULL, gJgReverseNsbmaName}, {gJgFlagNsbmdName, gJgFlagNsbcaName, NULL}};
 StateCallbacks gJgStateTable[7] = {{(UnkFunc *) EnterJgState0, (UnkFunc *) JgState0ReturnArgument},
                                    {EnterJgState1, UpdateJgState1},
                                    {EnterJgState2, UpdateJgState2},
@@ -46,8 +51,8 @@ StateCallbacks gJgStateTable[7] = {{(UnkFunc *) EnterJgState0, (UnkFunc *) JgSta
                                    {EnterJgState4, UpdateJgState4},
                                    {EnterJgState5, UpdateJgState5},
                                    {EnterJgState6, UpdateJgState6}};
-u16 *gAttractorStrengths;
 Vec3 **gAttractorPositions;
+u16 *gAttractorStrengths;
 struct MapObjectList *gAttractorUpdateList;
 
 void SetJgState4(void) {
@@ -87,7 +92,7 @@ void InitJg(void) {
     Kart *kart;
     Vec3 *point;
     s32 pointIndex;
-    Vec3 *sourcePoint;
+    const Vec3 *sourcePoint;
     BOOL flag;
 
     if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {
@@ -104,7 +109,7 @@ void InitJg(void) {
     gJgKartIndex = gRaceSetup->mEntryIndex;
     kart = GetKart(gJgKartIndex);
     gJgKart = kart;
-    data_0217b8c0 = &kart->mKartModelsEntry->mCourseColorBlend.mColor;
+    gJgKartCourseColor = &kart->mKartModelsEntry->mCourseColorBlend.mColor;
     gJgTargetPos.x = 0;
     gJgTargetPos.y = 0;
     gJgTargetPos.z = 0;
@@ -140,7 +145,7 @@ void InitJg(void) {
     gJgPoints[0].x = 0;
     gJgPoints[0].y = 0;
     gJgPoints[0].z = 0;
-    sourcePoint = data_02159440;
+    sourcePoint = gJgSourcePoints;
     for (pointIndex = 0; pointIndex < 7; pointIndex++) {
         point = &gJgPoints[pointIndex + 1];
         *point = *sourcePoint;
@@ -182,9 +187,9 @@ void InitJg(void) {
             gJgState2FrameCount = 0x2d;
             break;
     }
-    data_0217b9dc.mSoundId = 0x101;
-    data_0217b9dc.mPositionSource = &gJgPos;
-    data_0217b9dc.mFalloffIndex = 1;
+    gJgSoundStartParams.mSoundId = 0x101;
+    gJgSoundStartParams.mPositionSource = &gJgPos;
+    gJgSoundStartParams.mFalloffIndex = 1;
     InitStateMachine(&gJgStateMachine, gJgStateTable, 7, NULL);
     SetStateMachineState(&gJgStateMachine, 0);
 }
@@ -210,23 +215,23 @@ void CreateJg(void) {
     InitNsbmdModel(&gJgCloud, FindSceneFile("jg_cloud.nsbmd"), NULL, 0);
     SetNsbmdModelFixedAttributes(&gJgCloud);
     gJgCloud.mPolygonAttributes |= 0xc0;
-    data_0217b8a4 = HeapAlloc(heap, 0x78);
-    data_0217b8a8 = HeapAlloc(heap, 0x78);
-    data_0217b8a0 = HeapAlloc(heap, 0x78);
-    data_0217b8e0 = HeapAlloc(heap, 0x78);
-    data_0217b904 = HeapAlloc(heap, 0x78);
+    gJgCloudOffsetYTable = HeapAlloc(heap, 0x78);
+    gJgMainRotationSineTable = HeapAlloc(heap, 0x78);
+    gJgMainRotationCosineTable = HeapAlloc(heap, 0x78);
+    gJgCloudScaleYTable = HeapAlloc(heap, 0x78);
+    gJgCloudScaleXTable = HeapAlloc(heap, 0x78);
     for (index = 0, angle = 0; index < 0x3c; index++) {
-        data_0217b8a4[index] = (u16) MUL_FIXED12_NO_ROUND(FX_SinIdx(angle), 0x4c);
+        gJgCloudOffsetYTable[index] = (u16) MUL_FIXED12_NO_ROUND(FX_SinIdx(angle), 0x4c);
         tableAngle = (u16) (((u64) (s64) SIN_OF_ANGLE((u16) (angle + 0xa218)) * 0xb60b60b60b + 0x80000000000) >> 44);
-        data_0217b8a8[index] = SIN_OF_ANGLE(tableAngle);
-        data_0217b8a0[index] = COS_OF_ANGLE(tableAngle);
-        data_0217b8e0[index] = (u32) MUL_FIXED12_NO_ROUND(SIN_OF_ANGLE((u16) (angle + 0x1554)), 0x19a) + 0xe66;
-        data_0217b904[index] = (u32) MUL_FIXED12_NO_ROUND(SIN_OF_ANGLE((u16) (angle + 0xbbb0)), 0x19a) + 0x119a;
+        gJgMainRotationSineTable[index] = SIN_OF_ANGLE(tableAngle);
+        gJgMainRotationCosineTable[index] = COS_OF_ANGLE(tableAngle);
+        gJgCloudScaleYTable[index] = (u32) MUL_FIXED12_NO_ROUND(SIN_OF_ANGLE((u16) (angle + 0x1554)), 0x19a) + 0xe66;
+        gJgCloudScaleXTable[index] = (u32) MUL_FIXED12_NO_ROUND(SIN_OF_ANGLE((u16) (angle + 0xbbb0)), 0x19a) + 0x119a;
         angle += 0x444;
     }
     gJgTableIndex = 0;
     light = 2;
-    for (rowIndex = light, sourceRow = data_0216c324, kindRow = data_0217bb08; rowIndex < 4; rowIndex++) {
+    for (rowIndex = light, sourceRow = &gJgKindFileNames[light], kindRow = &gJgKindRows[2]; rowIndex < 4; rowIndex++) {
         if (sourceRow->mNsbmdName != NULL) {
             kindRow->mModel = HeapAlloc(heap, 0x6c);
             file = FindSceneFile(sourceRow->mNsbmdName);

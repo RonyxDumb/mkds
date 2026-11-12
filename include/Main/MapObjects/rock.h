@@ -7,6 +7,7 @@
 #include "Main/Race/data_020f36d8.h"
 #include "Main/MapObjects/data_0217b000.h"
 #include "Main/MapObjects/group_follower_advance.h"
+#include "Main/MapObjects/map_object_kind_update_list.h" // MapObjectKindDescriptor
 
 // 0x1c-byte element of the table behind gCollisionSlots.
 typedef struct CollisionSlot {
@@ -94,3 +95,17 @@ void FindCollisionSlotsAroundPos(Vec3 *position, s32 radius, s32 flagMask);
 void SetCollisionSlotRadius(s16 slotIndex, s32 radius);
 void DisableCollisionSlot(s16 slotIndex);
 void EnableCollisionSlot(s16 slotIndex);
+
+extern const u16 gRockSecondFlag;
+extern const u16 gRockThirdFlag;
+extern const u16 gRockFirstFlag;
+extern const s16 gRockFirstEffectRows08[4];
+extern const s16 gRockSecondEffectRows04[4];
+extern const s16 gRockSecondEffectRows06[4];
+extern const s16 gRockSecondEffectRows08[4];
+extern const s16 gRockFirstEffectRows04[4];
+extern const s16 gRockFirstEffectRows06[4];
+extern const s32 gRockSecondEffectRows00[4];
+extern const s32 gRockFirstEffectRows00[4];
+extern const MapObjectKindDescriptor gRockKindDescriptor;
+extern const MapObjectKindDescriptor gRock2KindDescriptor;

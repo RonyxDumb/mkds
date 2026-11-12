@@ -28,14 +28,17 @@
 #include "registers.h"
 #include "code_0201c528.h"
 
+const Vec3 gRockMatrixRow0 = {0x1000, 0, 0};
+const Vec3 gRockMatrixRow1 = {0, 0x1000, 0};
+const Vec3 gRockMatrixRow2 = {0, 0, 0x1000};
 const struct MapObjectList gRockUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, UpdateRock, NULL, 0, NULL, 0, NULL};
 const struct RockDrawList gRock2DrawListData = {{NULL, 0, {0, 0}, (void (*)(MapObjectList *)) CreateRock2, (void (*)(MapObjectList *)) SetupDrawRock, DrawRock, NULL, 1, NULL, 0, NULL}, NULL, {{{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}}}};
 const struct RockDrawList gRockDrawListData = {{NULL, 0, {0, 0}, (void (*)(MapObjectList *)) CreateRock, (void (*)(MapObjectList *)) SetupDrawRock, DrawRock, NULL, 1, NULL, 0, NULL}, NULL, {{{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}}}};
-struct ShadowModel *gRockShadow;
-struct MapObjectList *gRockUpdateList;
 struct RockDrawList *gRockDrawList;
-struct Quaternion gViewYawQuaternion;
 struct Nsbmd *gRock;
+struct MapObjectList *gRockUpdateList;
+struct Quaternion gViewYawQuaternion;
+struct ShadowModel *gRockShadow;
 
 #pragma thumb on
 
@@ -501,7 +504,7 @@ s32 GetItemObjectFirstResponse(s32 itemKind, MapObject *mapObject) {
 
 MapObjectKindData *CreateRockKindData(void) {
     MapObjectKindData *kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
-    *kindData = data_02156adc;
+    *kindData = gRockKindData;
     kindData->mHeightRangeMax = 0x3e8000;
     kindData->mHeightRangeMin = -0x3e8000;
     return kindData;

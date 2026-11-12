@@ -37,6 +37,7 @@
 #include "code_0212d214.h"
 #include "Main/Sound/sound_source_list.h"
 #include "Main/Sound/sound_sources.h"
+#include "Main/MapObjects/map_object_create.h"
 
 ViewFrustum gViewFrustumBeforeRotation;
 ViewFrustum gViewFrustum;
@@ -854,7 +855,7 @@ void ParkFlaggedMapObjects(void) {
             } else {
                 mapObject->mFlags &= ~0xf000;
                 mapObject->mFlags |= (mapObject->mFlags & 0xf) << 12;
-                mapObject->mFlags |= data_021568dc;
+                mapObject->mFlags |= gMapObjectNoUpdateListFlag;
                 if (mapObject->mCollisionSlotIndex != -1) {
                     DisableCollisionSlot(mapObject->mCollisionSlotIndex);
                 }

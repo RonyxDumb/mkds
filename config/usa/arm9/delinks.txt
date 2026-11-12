@@ -3124,7 +3124,9 @@ src/Main/MapObjects/map_object_list.c:
 src/Main/MapObjects/map_object_create.c:
     complete
     .text       start:0x020d2dec end:0x020d3ae0
+    .rodata     start:0x021568c8 end:0x021568e8
     .data       start:0x0216b254 end:0x0216b268
+    .bss        start:0x0217b4a0 end:0x0217b4d4
 
 // provisional: file name and boundaries
 src/Main/MapObjects/view_frustum.c:
@@ -3137,13 +3139,15 @@ src/Main/MapObjects/view_frustum.c:
 src/Main/MapObjects/rock.c:
     complete
     .text       start:0x020d50ec end:0x020d6538
+    .rodata     start:0x02156914 end:0x021569d8
     .data       start:0x0216b8f4 end:0x0216b94c
+    .bss        start:0x0217b588 end:0x0217b5f0
 
 // provisional: file name and boundaries
 src/Main/MapObjects/group_follower.c:
     complete
     .text       start:0x020d6538 end:0x020d7d80
-    .rodata     start:0x021569fc end:0x02156adc
+    .rodata     start:0x021569d8 end:0x02156adc
     .bss        start:0x0217b630 end:0x0217b650
 
 // provisional: file name and boundaries
@@ -3219,7 +3223,7 @@ src/Main/MapObjects/kuribo.c:
 src/Main/MapObjects/dossun.c:
     complete
     .text       start:0x020daf20 end:0x020dbf7c
-    .rodata     start:0x02158164 end:0x021581f8
+    .rodata     start:0x02158160 end:0x021581f8
     .data       start:0x0216be98 end:0x0216bebc
 
 // provisional: file name and boundaries
@@ -3265,18 +3269,21 @@ src/Main/MapObjects/earthen_pipe.c:
     complete
     .text       start:0x020de438 end:0x020de588
     .data       start:0x0216bf5c end:0x0216bf84
-    .bss        start:0x0217b6d4 end:0x0217b6d8
+    .bss        start:0x0217b6cc end:0x0217b6dc
 
 // provisional: file name and boundaries
 src/Main/MapObjects/earthen_pipe_create.c:
     complete
     .text       start:0x020de588 end:0x020de9ec
+    .rodata     start:0x021584d4 end:0x02158568
     .data       start:0x0216bf84 end:0x0216bfa0
 
 // provisional: file name and boundaries
 src/Main/MapObjects/item_box.c:
     complete
     .text       start:0x020de9ec end:0x020df48c
+    .rodata     start:0x021585a4 end:0x02158694
+    .bss        start:0x0217b6dc end:0x0217b730
 
 // provisional: file name and boundaries
 src/Main/MapObjects/group_item_box.c:
@@ -3289,6 +3296,7 @@ src/Main/MapObjects/group_item_box.c:
 src/Main/MapObjects/mkd_ef_bubble.c:
     complete
     .text       start:0x020df7d0 end:0x020df890
+    .rodata     start:0x02158778 end:0x0215877c
 
 // provisional: file name and boundaries
 src/Main/MapObjects/koopa_block.c:
@@ -3383,11 +3391,17 @@ src/Main/MapObjects/shadow_position_raised.c:
 src/Main/MapObjects/ob_pakkun_sf.c:
     complete
     .text       start:0x020e5684 end:0x020e5d0c
+    .rodata     start:0x021590e8 end:0x02159180
+    .data       start:0x0216c220 end:0x0216c27c
+    .bss        start:0x0217b7fc end:0x0217b808
 
 // provisional: file name and boundaries
 src/Main/MapObjects/pendulum.c:
     complete
     .text       start:0x020e5d0c end:0x020e662c
+    .rodata     start:0x0215927c end:0x02159310
+    .data       start:0x0216c27c end:0x0216c2a4
+    .bss        start:0x0217b808 end:0x0217b824
 
 // provisional: file name and boundaries
 src/Main/MapObjects/view_matrices.c:
@@ -3410,13 +3424,15 @@ src/Main/MapObjects/attractor.c:
     complete
     .text       start:0x020e6fd4 end:0x020e7a84
     .rodata     start:0x02159310 end:0x02159348
-    .data       start:0x0216c31c end:0x0216c3b4
+    .data       start:0x0216c2a4 end:0x0216c3b4
     .bss        start:0x0217b844 end:0x0217b850
 
 // provisional: file name and boundaries
 src/Main/MapObjects/jg.c:
     complete
     .text       start:0x020e7a84 end:0x020ea514
+    .rodata     start:0x021593b0 end:0x02159494
+    .bss        start:0x0217b850 end:0x0217bbc8
 
 // provisional: file name and boundaries
 src/Main/MapObjects/model_animation_entries.c:

@@ -54,7 +54,7 @@ typedef struct {
     /* 74 */ Vec3 mPoints[4];
 } SegmentPoints;
 
-extern SegmentPoints data_0217bb88;
+extern SegmentProgress gJgSegmentProgress;
 
 // Element returned through gItemPools: the first 0x12c bytes that every pool object shares; the per-kind objects
 // embed it as their first member and run from 0x12c (kinds 4, 6 and 13) to 0x31c bytes. One is also embedded in

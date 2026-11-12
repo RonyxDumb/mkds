@@ -5,6 +5,8 @@
 #include "Main/MapObjects/earthen_pipe_create.h"
 #include "Main/MapObjects/wanwan_chain.h"
 #include "Main/Item/item_koura_w.h" // CourseMapRow
+#include "Main/MapObjects/attractor.h"
+#include "Main/MapObjects/data_02158000.h"
 
 typedef struct ItemBox ItemBox;
 
@@ -32,3 +34,10 @@ void DrawItemBoxShadow(void *unused, ItemBox *itemBox, u32 unusedArg, u32 maxAlp
 void UpdateItemBox(void *unused, ItemBox *itemBox);
 
 void InitGroupItemBox(ItemBox *itemBox, CourseMapRow *row);
+
+extern const u16 gItemBoxHitFlag;
+extern const MapObjectList gItemBoxUpdateListData;
+extern const MapObjectDrawList gQuestionDrawListData;
+extern const MapObjectDrawList gItemBoxShadowDrawListData;
+extern const MapObjectDrawList gBoxDrawListData;
+extern const MapObjectKindData gItemBoxKindData;

@@ -123,7 +123,7 @@ void InitWanwanOnPath(Wanwan *wanwan, CourseMapRow *row) {
     wanwan->mCenterPos.y = wanwan->mCenterPos.y + wanwan->mUnk_f0;
     InitStateMachine(&wanwan->mMapObject.mStateMachine, gWanwanStateTable, 6, wanwan);
     SetStateMachineState(&wanwan->mMapObject.mStateMachine, 5);
-    InitGroupFollowerWithSpeeds(&wanwan->mFollower, row, data_02158908, row->mSettings[0]);
+    InitGroupFollowerWithSpeeds(&wanwan->mFollower, row, gGroupFollowerSpeed, row->mSettings[0]);
     ResetWanwan(wanwan);
 }
 #pragma thumb off

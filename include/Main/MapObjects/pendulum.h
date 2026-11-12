@@ -6,6 +6,9 @@
 #include "Main/MapObjects/attractor.h" // MapObject
 #include "Main/MapObjects/send_obj_shadow.h"
 #include "Main/MapObjects/ob_pakkun_sf.h"
+#include "Main/MapObjects/data_02158000.h"
+#include "Main/Graphics/nsbmd_render_obj.h"
+#include "Main/Kart/shadow_model.h"
 
 // Object handled by InitPendulum, ComputeSphereHitOnPendulum, UpdatePendulum and
 // DrawPendulum; at least 0x110 bytes.
@@ -69,3 +72,14 @@ MapObjectKindData *CreatePendulumKindData(void);
 void CreateNsbmdModel(NsbmdModel **recordSlot, void *nsbmdFile, void *nsbtpFile, u32 unused);
 void InitNsbmdModel(NsbmdModel *record, void *nsbmdFile, void *nsbtpFile, s32 unused);
 void FillNsbmdModel(Nsbmd *model, ModelAnimation *animation, NsbmdModel *record);
+
+extern const MapObjectDrawList gPendulumDrawListData;
+extern const MapObjectList gPendulumUpdateListData;
+extern const MapObjectKindData gPendulumKindData;
+extern MapObjectList *gPendulumUpdateList;
+extern MapObjectList *gObPakkunSfUpdateList;
+extern MapObjectDrawList *gObPakkunSfDrawList;
+extern MapObjectDrawList *gPendulumDrawList;
+extern NsbmdModel *gObPakkunSf;
+extern struct Nsbmd *gPendulum;
+extern struct ShadowModel *gPendulumShadow;

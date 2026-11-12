@@ -153,9 +153,8 @@ typedef struct JgKindRow {
 
 // Filled in by InitJg; UpdateJgState1 stores GetHorizontalCameraDistanceSquared's return value
 // at 0x0c and hands it to StartSndHandleSound.
-extern SoundStartParams data_0217b9dc;
+extern SoundStartParams gJgSoundStartParams;
 extern JgKindRow gJgKindRows[];
-extern JgKindRow data_0217bb08[];
 
 void CallMapObjectListCallback(MapObjectList *list);
 void UpdateMapObjectList(MapObjectList *list);
@@ -173,8 +172,9 @@ void SetJgState4(void);
 
 Vec3 *GetAttractorPosition(u32 index);
 
-extern JgKindFileNames data_0216c324[2];
 extern StateCallbacks gJgStateTable[7];
 extern struct MapObjectList *gAttractorUpdateList;
 extern Vec3 **gAttractorPositions;
 extern u16 *gAttractorStrengths;
+
+extern JgKindFileNames gJgKindFileNames[4];

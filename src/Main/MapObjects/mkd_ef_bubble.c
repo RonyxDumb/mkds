@@ -18,8 +18,8 @@
 #include "Main/MapObjects/map_object.h"
 
 void EnterMkdEfBubbleState1(MkdEfBubbleObject *bubble) {
-    bubble->mMapObject.mFlags |= data_0215877c;
-    bubble->mMapObject.mFlags |= data_02158780;
+    bubble->mMapObject.mFlags |= gMkdEfBubbleState1Flag;
+    bubble->mMapObject.mFlags |= gMkdEfBubbleState1SecondFlag;
 }
 
 void UpdateMkdEfBubbleState1(MkdEfBubbleObject *bubble) {
@@ -35,7 +35,7 @@ u8 CollideKartWithMkdEfBubble(MkdEfBubbleObject *bubble, Kart *kart, void *unuse
     kartBit = (1 << kart->mIndex) & 0xff;
     if ((bubble->mKartMask & kartBit) == 0) {
         if (StartSoundIfKartStarOrKiller(&bubble->mMapObject, kart) != 0) {
-            bubble->mMapObject.mDistanceSquaredAndFlags |= data_02158778;
+            bubble->mMapObject.mDistanceSquaredAndFlags |= gMkdEfBubbleHitFlag;
             bubble->mKartMask |= kartBit;
         }
     }
@@ -45,3 +45,5 @@ u8 CollideKartWithMkdEfBubble(MkdEfBubbleObject *bubble, Kart *kart, void *unuse
 u32 CollideItemObjectWithMkdEfBubble(u32 unused0, u32 unused1, u32 unused2, u32 secondResponsePtr) {
     return (*OFFSET_PTR(const u8, secondResponsePtr, 0));
 }
+
+const u32 gMkdEfBubbleHitFlag = 0x40000000;

@@ -9,27 +9,11 @@ extern u16 data_usa_0215659c;
 
 extern u16 data_02156598;
 
-extern const u16 data_021568c8;
-
-extern const u16 data_021568cc;
-
-extern const u16 data_021568d0;
-
-extern const u16 data_021568d4;
-
-extern const u16 data_021568d8;
-
-extern const u16 data_021568dc;
-
-extern const u16 data_021568e0;
-
-extern const u16 data_021568e4;
-
 extern u32 data_usa_021568f8;
 
-extern u16 data_021568fc;
+extern u16 gCollisionSlotDisabledFlag;
 
-extern u16 data_02156900;
+extern u16 gCollisionSlotRadiusFlag;
 
 extern const u32 data_02156904;
 
@@ -39,35 +23,13 @@ extern const u32 data_0215690c;
 
 extern const u32 data_02156910;
 
-extern u16 data_02156914;
+extern const Vec3 gRockMatrixRow0;
 
-extern u16 data_02156918;
+extern const Vec3 gRockMatrixRow1;
 
-extern u16 data_0215691c;
+extern const Vec3 gRockMatrixRow2;
 
-extern s16 data_02156920[4];
-
-extern s16 data_02156928[4];
-
-extern s16 data_02156930[4];
-
-extern s16 data_02156938[4];
-
-extern s16 data_02156940[4];
-
-extern s16 data_02156948[4];
-
-extern s32 data_02156950[4];
-
-extern s32 data_02156960[4];
-
-extern Vec3 data_021569d8;
-
-extern Vec3 data_021569e4;
-
-extern Vec3 data_021569f0;
-
-extern struct MapObjectKindData data_02156adc;
+extern struct MapObjectKindData gRockKindData;
 
 extern u16 gShine16CollisionFlag;
 

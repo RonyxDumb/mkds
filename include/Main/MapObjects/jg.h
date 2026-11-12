@@ -27,3 +27,17 @@ void CreateModelAnimation(u32 animationKind, void *model, ModelAnimation **anima
                           void *animationFile);
 
 s32 *EnterJgState0(void);
+
+extern const Vec3 gJgVelocityDamping;
+extern const Vec3 gJgVelocityFactors;
+extern const Vec3 gJgModelOffset;
+extern const Vec3 gJgKind3BaseOffset;
+extern const Vec3 gJgKind3EndScale;
+extern const Vec3 gJgKind3StartScale;
+extern const Vec3 gJgLapBaseOffsetRaceEnded;
+extern const Vec3 gJgKind2EndScale;
+extern const Vec3 gJgKind2StartScale;
+extern const Vec3 gJgLapBaseOffsetNotEnded;
+extern const Vec3 gJgKind4BaseOffset;
+extern const Vec3 gJgKind2BaseOffset;
+extern const Vec3 gJgSourcePoints[7];

@@ -8,6 +8,7 @@
 #include "Main/MapObjects/group_follower_advance.h"
 #include "Main/MapObjects/send_obj_shadow.h"
 #include "Main/Item/item_koura_w.h" // CourseMapRow
+#include "Main/MapObjects/data_02158000.h"
 
 struct ItemFBox;
 
@@ -42,3 +43,8 @@ MapObjectKindData *CreateEarthenPipeKindData(void);
 MapObjectDrawList *CreateEarthenPipeDrawList(void);
 MapObjectList *CreateEarthenPipeUpdateList(void);
 void SetupDrawEarthenPipe(void);
+
+extern const MapObjectList gEarthenPipeUpdateListData;
+extern const MapObjectDrawList gEarthenPipeDrawListData;
+extern const MapObjectKindData gEarthenPipeKindData;
+extern struct NsbmdModel *gEarthenPipe2;

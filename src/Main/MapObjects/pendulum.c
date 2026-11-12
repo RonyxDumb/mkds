@@ -42,6 +42,17 @@
 #include "registers.h"
 #include "Main/Item/item_koura_w.h"
 
+const MapObjectDrawList gPendulumDrawListData = {{NULL, 0, {0, 0}, (void (*)(MapObjectList *)) CreatePendulumAndPendulumShadow, NULL, DrawPendulum, NULL, 1, NULL, 0, NULL}, 0};
+const MapObjectList gPendulumUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, UpdatePendulum, NULL, 0, NULL, 0, NULL};
+const MapObjectKindData gPendulumKindData = {NULL, NULL, 5, 0x70000, 0, 0, (s32 (*)(MapObject *, Vec3 *, s32, Vec3 *)) ComputeSphereHitOnPendulum, 1, 1, 0x174, 0, 0, 0, 0, 0, 0};
+MapObjectList *gPendulumUpdateList;
+MapObjectList *gObPakkunSfUpdateList;
+MapObjectDrawList *gObPakkunSfDrawList;
+MapObjectDrawList *gPendulumDrawList;
+NsbmdModel *gObPakkunSf;
+struct Nsbmd *gPendulum;
+struct ShadowModel *gPendulumShadow;
+
 #pragma thumb on
 
 void FillNsbmdModel(Nsbmd *model, ModelAnimation *animation, NsbmdModel *record) {
@@ -122,7 +133,7 @@ void CreateNsbmdModel(NsbmdModel **recordSlot, void *nsbmdFile, void *nsbtpFile,
 MapObjectKindData *CreatePendulumKindData(void) {
     MapObjectKindData *kindData;
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
-    *kindData = data_021592d0;
+    *kindData = gPendulumKindData;
     return kindData;
 }
 
@@ -130,7 +141,7 @@ MapObjectDrawList *CreatePendulumDrawList(void) {
     MapObjectDrawList *drawList;
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     gPendulumDrawList = drawList;
-    *drawList = data_021592a4;
+    *drawList = gPendulumDrawListData;
     SetDrawListSlot(&gPendulumDrawList);
     return gPendulumDrawList;
 }
@@ -139,7 +150,7 @@ MapObjectList *CreatePendulumUpdateList(void) {
     MapObjectList *updateList;
     updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
     gPendulumUpdateList = updateList;
-    *updateList = data_0215927c;
+    *updateList = gPendulumUpdateListData;
     SetUpdateListSlot(&gPendulumUpdateList);
     return gPendulumUpdateList;
 }
@@ -247,8 +258,8 @@ BOOL ComputeSphereHitOnPendulum(PendulumObject *pendulum, Vec3 *sphereCenter, s3
 #pragma thumb on
 
 void CreatePendulumAndPendulumShadow(void) {
-    CreateNsbmd(&gPendulum, FindCourseMapObjFile(gPendulumNsbmdName), NULL);
-    CreateShadowModel(&gPendulumShadow, FindCourseMapObjFile(gPendulumShadowNsbmdName), 0x3f);
+    CreateNsbmd(&gPendulum, FindCourseMapObjFile("pendulum.nsbmd"), NULL);
+    CreateShadowModel(&gPendulumShadow, FindCourseMapObjFile("pendulum_shadow.nsbmd"), 0x3f);
     SetNsbmdPolygonIdLightEmiAll(gPendulum, 0x3f, 2, 0x294a);
 }
 
@@ -282,7 +293,7 @@ void InitPendulum(PendulumObject *pendulum, CourseMapRow *courseRow) {
 MapObjectKindData *CreateObPakkunSfKindData(void) {
     MapObjectKindData *kindData;
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
-    *kindData = data_02159208;
+    *kindData = gObPakkunSfKindData;
     return kindData;
 }
 
@@ -290,7 +301,7 @@ MapObjectDrawList *CreateObPakkunSfDrawList(void) {
     MapObjectDrawList *drawList;
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     gObPakkunSfDrawList = drawList;
-    *drawList = data_021591dc;
+    *drawList = gObPakkunSfDrawListData;
     SetDrawListSlot(&gObPakkunSfDrawList);
     return gObPakkunSfDrawList;
 }
@@ -299,7 +310,7 @@ MapObjectList *CreateObPakkunSfUpdateList(void) {
     MapObjectList *updateList;
     updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
     gObPakkunSfUpdateList = updateList;
-    *updateList = data_021591b4;
+    *updateList = gObPakkunSfUpdateListData;
     return updateList;
 }
 
