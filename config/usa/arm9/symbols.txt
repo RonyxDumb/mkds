@@ -8454,12 +8454,12 @@ gCylinderInnerRegionFlag kind:data(any) addr:0x021588ec
 gCylinderInnerZeroDistanceNormal kind:data(any) addr:0x021588f0
 gCylinderOuterZeroDistanceNormal kind:data(any) addr:0x021588fc
 gGroupFollowerSpeed kind:data(any) addr:0x02158908
-data_usa_0215890c kind:data(any) addr:0x0215890c
-data_usa_02158940 kind:data(any) addr:0x02158940
-data_usa_02158974 kind:data(any) addr:0x02158974
-data_usa_021589a8 kind:data(any) addr:0x021589a8
-data_usa_021589e0 kind:data(any) addr:0x021589e0
-data_usa_02158a18 kind:data(any) addr:0x02158a18
+gCarAKindDescriptor kind:data(any) addr:0x0215890c
+gTruckAKindDescriptor kind:data(any) addr:0x02158940
+gBusAKindDescriptor kind:data(any) addr:0x02158974
+gCarAKindInfo kind:data(any) addr:0x021589a8
+gTruckAKindInfo kind:data(any) addr:0x021589e0
+gBusAKindInfo kind:data(any) addr:0x02158a18
 gVehicleHitFlag kind:data(any) addr:0x02158a50
 gVehicleUpdateListData kind:data(any) addr:0x02158a54
 gVehicleDrawListData kind:data(any) addr:0x02158a7c
@@ -10331,9 +10331,9 @@ gMkdEfBubbleStateTable kind:data(any) addr:0x0216bfa0
 @2758 kind:data(any) addr:0x0216bfc4 local
 gKoopaBlockStateTable kind:data(any) addr:0x0216bfd8
 @5331 kind:data(any) addr:0x0216bff0 local
-data_usa_0216c004 kind:data(any) addr:0x0216c004
-data_usa_0216c00c kind:data(any) addr:0x0216c00c
-data_usa_0216c018 kind:data(any) addr:0x0216c018
+gBusAName kind:data(any) addr:0x0216c004
+gCarAName kind:data(any) addr:0x0216c00c
+gTruckAName kind:data(any) addr:0x0216c018
 gIdentityQuaternion kind:data(any) addr:0x0216c024
 @6292 kind:data(any) addr:0x0216c034 local
 @6293 kind:data(any) addr:0x0216c040 local

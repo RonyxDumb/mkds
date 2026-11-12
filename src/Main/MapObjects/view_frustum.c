@@ -44,6 +44,7 @@
 #include "Main/MapObjects/wanwan_reset.h"
 #include "Main/MapObjects/model_animation_entries.h"
 #include "Main/MapObjects/group_item_box_kind_descriptor.h"
+#include "Main/MapObjects/vehicle_kind_descriptor.h"
 #include "Main/MapObjects/kart_balloons_kind_descriptor.h"
 #include "Main/MapObjects/shine_battle.h"
 #include "Main/Item/dram_box.h"
@@ -52,9 +53,9 @@ MapObjectKindRow gMapObjectKindRows[133] = {
     {101, (MapObjectKindDescriptor *) &gItemBoxKindDescriptor, NULL},
     {201, (MapObjectKindDescriptor *) &gGroupItemBoxKindDescriptor, NULL},
     {111, (MapObjectKindDescriptor *) &gPooledItemBoxKindDescriptor, NULL},
-    {405, (MapObjectKindDescriptor *) &data_usa_02158974, &data_usa_02158a18},
-    {410, (MapObjectKindDescriptor *) &data_usa_0215890c, &data_usa_021589a8},
-    {412, (MapObjectKindDescriptor *) &data_usa_02158940, &data_usa_021589e0},
+    {405, (MapObjectKindDescriptor *) &gBusAKindDescriptor, &gBusAKindInfo},
+    {410, (MapObjectKindDescriptor *) &gCarAKindDescriptor, &gCarAKindInfo},
+    {412, (MapObjectKindDescriptor *) &gTruckAKindDescriptor, &gTruckAKindInfo},
     {403, (MapObjectKindDescriptor *) &gDossunKindDescriptor, NULL},
     {404, NULL, NULL},
     {401, (MapObjectKindDescriptor *) &gKuriboKindDescriptor, NULL},

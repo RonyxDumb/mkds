@@ -70,11 +70,12 @@ typedef struct VehicleKindInfo {
     /* 14 */ s32 mTireOffsetY;
     /* 18 */ s32 mTireOffsetZ;
     /* 1c */ s32 mTireRadius;
-    /* 20 */ u32 *mModelSlot;
-    /* 24 */ u32 *mShadowModelSlot;
+    /* 20 */ struct Nsbmd **mModelSlot;
+    /* 24 */ struct ShadowModel **mShadowModelSlot;
     /* 28 */ ModelAnimation **mAnimationSlot;
     /* 2c */ s32 mRunSoundId;
     /* 30 */ s32 mBounceSoundId;
+    /* 34 */ const char *mName;
 } VehicleKindInfo;
 
 // Choropu record: the shared part of the map objects, then its own words and the shadow.
@@ -108,8 +109,8 @@ typedef struct Vehicle {
     /* 110 */ s32 mTireRadius;
     /* 114 */ Vec3 mExtentPositive;
     /* 120 */ s32 mExtentNegativeZ;
-    /* 124 */ u32 mModel;
-    /* 128 */ u32 mShadowModel;
+    /* 124 */ struct Nsbmd *mModel;
+    /* 128 */ struct ShadowModel *mShadowModel;
     /* 12c */ ModelAnimation *mModelAnimation;
     /* 130 */ u16 mAnimationFrame;
     /* 132 */ CourseColorBlend mCourseColorBlend;
@@ -172,11 +173,11 @@ typedef struct BridgeDrawList {
 } BridgeDrawList;
 
 void InitChoropu(Choropu *choropu, struct CourseMapRow *courseRow);
-void *CreateCarAKindData(void);
-void *CreateTruckAKindData(void);
-void *CreateBusAKindData(void);
-void *CreateVehicleDrawList(void);
-void *CreateVehicleUpdateList(void);
+MapObjectKindData *CreateCarAKindData(void);
+MapObjectKindData *CreateTruckAKindData(void);
+MapObjectKindData *CreateBusAKindData(void);
+MapObjectList *CreateVehicleDrawList(void);
+MapObjectList *CreateVehicleUpdateList(void);
 void SetVehicleLinkDirection(VehicleDrawList *drawList);
 void DrawVehicle(VehicleDrawList *drawList, Vehicle *vehicle, u32 unusedArg, u32 alpha);
 void UpdateVehicle(u32 unused, Vehicle *vehicle);

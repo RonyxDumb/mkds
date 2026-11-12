@@ -159,37 +159,37 @@ void InitChoropu(Choropu *choropu, struct CourseMapRow *courseRow) {
 
 #pragma thumb off
 
-void *CreateCarAKindData(void) {
+MapObjectKindData *CreateCarAKindData(void) {
     MapObjectKindData *kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
 
     *kindData = gCarAKindData;
     return kindData;
 }
 
-void *CreateTruckAKindData(void) {
+MapObjectKindData *CreateTruckAKindData(void) {
     MapObjectKindData *kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
 
     *kindData = gTruckAKindData;
     return kindData;
 }
 
-void *CreateBusAKindData(void) {
+MapObjectKindData *CreateBusAKindData(void) {
     MapObjectKindData *kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
 
     *kindData = gBusAKindData;
     return kindData;
 }
 
-void *CreateVehicleDrawList(void) {
+MapObjectList *CreateVehicleDrawList(void) {
     VehicleDrawList *drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
 
     gVehicleDrawList = drawList;
     *drawList = gVehicleDrawListData;
     SetDrawListSlot(&gVehicleDrawList);
-    return gVehicleDrawList;
+    return &gVehicleDrawList->mMapObjectList;
 }
 
-void *CreateVehicleUpdateList(void) {
+MapObjectList *CreateVehicleUpdateList(void) {
     MapObjectList *updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
 
     gVehicleUpdateList = updateList;
@@ -248,7 +248,7 @@ void DrawVehicle(VehicleDrawList *drawList, Vehicle *vehicle, u32 unusedArg, u32
             vehicle->mMapObject.mMatrix.mRows[3].x = shadowPosition->x >> 4;
             vehicle->mMapObject.mMatrix.mRows[3].y = shadowPosition->y >> 4;
             vehicle->mMapObject.mMatrix.mRows[3].z = shadowPosition->z >> 4;
-            DrawShadowWithMaxAlpha((void *) vehicle->mShadowModel, &vehicle->mMapObject.mMatrix,
+            DrawShadowWithMaxAlpha(vehicle->mShadowModel, &vehicle->mMapObject.mMatrix,
                                    &vehicle->mMapObject.mScale, alpha);
         }
     }
@@ -261,7 +261,7 @@ void DrawVehicle(VehicleDrawList *drawList, Vehicle *vehicle, u32 unusedArg, u32
         animation->mAnmObjs[animation->mCurrentIndex]->mFrame = animation->mHead.mFrameIndex;
     }
     SendLight01Color(&vehicle->mCourseColorBlend.mColor);
-    DrawNsbmdWithMatrixAndMaxAlpha((void *) vehicle->mModel, &vehicle->mMapObject.mMatrix, &vehicle->mMapObject.mScale,
+    DrawNsbmdWithMatrixAndMaxAlpha(vehicle->mModel, &vehicle->mMapObject.mMatrix, &vehicle->mMapObject.mScale,
                                    alpha);
     if (skipShadowAndTires) {
         return;
@@ -534,7 +534,8 @@ void InitVehicleDrawList(VehicleDrawList *drawList) {
     NNSG3dResMdl *tireModel;
     s32 index;
     Vehicle *vehicle;
-    u32 *modelSlot;
+    struct Nsbmd **modelSlot;
+    struct ShadowModel **shadowModelSlot;
     ModelAnimation **animationSlot;
     s32 count;
 
@@ -578,8 +579,8 @@ void InitVehicleDrawList(VehicleDrawList *drawList) {
         vehicle = gVehicleDrawList->mMapObjectList.mMapObjects[index];
         modelSlot = vehicle->mKindInfo->mModelSlot;
         vehicle->mModel = modelSlot != NULL ? *modelSlot : 0;
-        modelSlot = vehicle->mKindInfo->mShadowModelSlot;
-        vehicle->mShadowModel = modelSlot != NULL ? *modelSlot : 0;
+        shadowModelSlot = vehicle->mKindInfo->mShadowModelSlot;
+        vehicle->mShadowModel = shadowModelSlot != NULL ? *shadowModelSlot : 0;
         animationSlot = vehicle->mKindInfo->mAnimationSlot;
         vehicle->mModelAnimation = animationSlot != NULL ? *animationSlot : 0;
     }

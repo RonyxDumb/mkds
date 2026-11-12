@@ -9,6 +9,7 @@ typedef struct CourseMapRow CourseMapRow;
 
 struct MapObjectKindDescriptor;
 typedef struct RotaryKindInfo RotaryKindInfo;
+typedef struct VehicleKindInfo VehicleKindInfo;
 
 // Row of the table searched by FindMapObjectKindDrawList0 and FindMapObjectKindUpdateList.
 typedef struct MapObjectKindRow {
@@ -102,9 +103,6 @@ extern const MapObjectKindDescriptor data_usa_021583d8;
 extern const MapObjectKindDescriptor gItemBoxKindDescriptor;
 extern const MapObjectKindDescriptor gMkdEfBubbleKindDescriptor;
 extern const MapObjectKindDescriptor gKoopaBlockKindDescriptor;
-extern const MapObjectKindDescriptor data_usa_0215890c;
-extern const MapObjectKindDescriptor data_usa_02158940;
-extern const MapObjectKindDescriptor data_usa_02158974;
 extern const MapObjectKindDescriptor data_usa_02158b80;
 extern const MapObjectKindDescriptor data_usa_02158c8c;
 extern const MapObjectKindDescriptor data_usa_02158fb0;
@@ -114,9 +112,6 @@ extern const MapObjectKindDescriptor gPendulumKindDescriptor;
 extern MapObjectKindDescriptor data_usa_02167690;
 extern MapObjectKindDescriptor data_usa_02167940;
 extern MapObjectKindDescriptor data_usa_02167de0;
-extern u8 data_usa_02158a18[];
-extern u8 data_usa_021589a8[];
-extern u8 data_usa_021589e0[];
 extern const MapObjectKindDescriptor gKuriboKindDescriptor;
 extern const MapObjectKindDescriptor gAttractorKindDescriptor;
 extern const MapObjectKindDescriptor gWaterKindDescriptor;

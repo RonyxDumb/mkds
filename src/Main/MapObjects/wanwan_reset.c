@@ -55,6 +55,7 @@
 #include "Main/MapObjects/code_020e6b58.h"
 #include "Main/Item/item_koura_w.h"
 #include "Main/MapObjects/wanwan.h"
+#include "Main/MapObjects/vehicle_kind_descriptor.h"
 
 #pragma thumb off
 
