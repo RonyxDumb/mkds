@@ -12,7 +12,7 @@ typedef struct RaceHudSubScreenCellGroupFunctions {
     /* 00 */ s32 (*mCreate)(void);
     /* 04 */ void (*mClear)(void);
     /* 08 */ void (*mUpdate)(void);
-    /* 0c */ void (*mDraw)(void *);
+    /* 0c */ void (*mDraw)();
 } RaceHudSubScreenCellGroupFunctions;
 
 void InitRaceHudSubScreenCellGroups(void);

@@ -10226,9 +10226,6 @@ data_usa_02168440 kind:data(any) addr:0x02168440
 @2532 kind:data(any) addr:0x0216915c local
 @2410 kind:data(any) addr:0x0216919c local
 gRaceHudSubScreenCellGroupFunctions kind:data(any) addr:0x021691e4
-data_usa_021691e8 kind:data(any) addr:0x021691e8
-data_usa_021691ec kind:data(any) addr:0x021691ec
-data_usa_021691f0 kind:data(any) addr:0x021691f0
 @2630 kind:data(any) addr:0x021694f4 local
 @2357 kind:data(any) addr:0x021694fc local
 @2632 kind:data(any) addr:0x02169504 local
@@ -10963,7 +10960,7 @@ gKeyboardSBFlame02NscrName kind:data(any) addr:0x0216e9f4
 gKeyboardSBFlame01NscrName kind:data(any) addr:0x0216ea10
 gKeyboardSBNclrName kind:data(any) addr:0x0216ea2c
 gKeyboardCommonBmgName kind:data(any) addr:0x0216ea40
-gMessageScreenCommonBmgName kind:data(any) addr:0x0216ea4c
+@1927 kind:data(any) addr:0x0216ea4c local
 @3688 kind:data(any) addr:0x0216ea58 local
 @3689 kind:data(any) addr:0x0216ea74 local
 sCallbackInfo kind:data(any) addr:0x0216ea84

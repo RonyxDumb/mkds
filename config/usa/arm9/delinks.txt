@@ -2700,6 +2700,7 @@ src/Main/Race/race_rank_list.c:
 src/Main/Race/race_hud_sub_screen_cells.c:
     complete
     .text       start:0x020be950 end:0x020c0dd8
+    .data       start:0x021691e4 end:0x021694f4
     .bss        start:0x0217b3bc end:0x0217b3c0
 
 // provisional: file name and boundaries
