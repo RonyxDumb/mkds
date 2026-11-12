@@ -36,9 +36,11 @@
 
 #pragma thumb on
 
+SelectGame *gSelectGame = NULL;
+const LabelMessageRow gSelectGameLabelMessageRows[10] = {{0, 0xc8, 0xe, 0, 0x12}, {1, 0xc8, 0xe, 1, 0x13}, {2, 0xf0, 0x26, 2, 0xf}, {3, 0xf0, 0x26, 3, 0x10}, {4, 0xc8, 0xe, 4, 0x11}, {5, 0xc8, 0xe, 5, 0x12}, {6, 0xc8, 0xe, 6, 0x13}, {7, 0xf0, 0x1e, 7, 0xe}, {8, 0xf0, 0x26, 8, 0xf}, {9, 0xf0, 0x26, 9, 0x10}};
 const SelectGameRow gSelectGameMultiRows[3] = {{6, 0, 0}, {7, 1, 1}, {8, 2, 2}};
 const SelectGameRow gSelectGameBattleRows[2] = {{4, 0, 0}, {5, 1, 1}};
-SelectGame *gSelectGame;
+const SelectGameFileNames gSelectGameFileNames[2] = {{"common/select_game_battle_s.bncl", "common/select_game_battle_s.bnbl", "common/select_game_m_single.NSCR"}, {"common/select_game_multi_s.bncl", "common/select_game_multi_s.bnbl", "common/select_game_m_multi.NSCR"}};
 
 void WriteSelectGameRowToRaceSetupCopy(void) {
     BOOL battleKind;

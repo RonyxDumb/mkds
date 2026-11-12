@@ -7846,8 +7846,6 @@ gMultiSelectKeyStartLabelData kind:data(any) addr:0x02153dbc
 gSelectGameBattleRows kind:data(any) addr:0x02153de8
 gSelectGameMultiRows kind:data(any) addr:0x02153df4
 gSelectGameFileNames kind:data(any) addr:0x02153e08
-data_02153e0c kind:data(any) addr:0x02153e0c
-data_02153e10 kind:data(any) addr:0x02153e10
 gSelectGameLabelMessageRows kind:data(any) addr:0x02153e20
 gResultsBattleOwnEntryLabelTextRows kind:data(any) addr:0x02153e98
 gResultsBattleKartFirstCellIndices kind:data(any) addr:0x02153ea0
@@ -9166,12 +9164,12 @@ gMemberNoKeyStartCallbacks kind:data(any) addr:0x021636e4
 @6025 kind:data(any) addr:0x02163880 local
 @6026 kind:data(any) addr:0x021638a4 local
 @6027 kind:data(any) addr:0x021638c8 local
-data_usa_021638ec kind:data(any) addr:0x021638ec
-data_usa_0216390c kind:data(any) addr:0x0216390c
-data_usa_0216392c kind:data(any) addr:0x0216392c
-data_usa_0216394c kind:data(any) addr:0x0216394c
-data_usa_02163970 kind:data(any) addr:0x02163970
-data_usa_02163994 kind:data(any) addr:0x02163994
+@5070 kind:data(any) addr:0x021638ec local
+@5071 kind:data(any) addr:0x0216390c local
+@5069 kind:data(any) addr:0x0216392c local
+@5066 kind:data(any) addr:0x0216394c local
+@5067 kind:data(any) addr:0x02163970 local
+@5068 kind:data(any) addr:0x02163994 local
 @5303 kind:data(any) addr:0x021639b8 local
 @5304 kind:data(any) addr:0x021639d4 local
 @5305 kind:data(any) addr:0x021639f4 local
