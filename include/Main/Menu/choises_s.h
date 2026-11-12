@@ -53,3 +53,5 @@ void ChoisesSInitTextCanvas(TextCanvas *textCanvas, void *charCanvas, void *font
 u32 ChoisesSDrawTextOnCanvas(TextCanvas *textCanvas, s32 textX, s32 textY, u32 color, u32 flags, void *text);
 void InitChoisesS(void);
 void ClearChoisesSPointer(void);
+
+extern struct ChoisesS *gChoisesS;

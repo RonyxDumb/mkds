@@ -10,6 +10,8 @@
 #include "Main/System/file_in_loaded.h"
 #include "g2d_CharCanvas.h"
 
+struct ChoisesS *gChoisesS;
+
 void ChoisesSInitTextCanvas(TextCanvas *textCanvas, void *charCanvas, void *font, s32 charSpacing, s32 lineSpacing) {
     textCanvas->mCharCanvas = charCanvas;
     textCanvas->mFont = font;

@@ -26,6 +26,7 @@
 #include "Main/System/key_recording_buffer.h"
 #include "Main/Save/emblem_block.h"
 #include "00/Menu/wi_fi_vs_setting.h"
+#include "Main/Menu/time_attack_ghost_get_scan.h"
 
 struct WLMenuCallbacks gWLMenuMessageToResultCallbacks = {SetupWLMenuCommonMessage, AdvanceWLMenuMessageToResult,
                                                           ReleaseWLMenuMessage, WriteWLMenuMessageRegisters};

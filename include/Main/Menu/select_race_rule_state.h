@@ -14,9 +14,6 @@ typedef struct SelectRaceRuleNscrRect {
     /* 12 */ u16 mHighlightedTopBits;
 } SelectRaceRuleNscrRect;
 
-extern SelectRaceRuleNscrRect gSelectRaceRuleSMenuNscrRects[];
-extern SelectRaceRuleNscrRect gSelectRaceRuleMultiSimpleNscrRects[];
-
 void AdvanceSelectRaceRuleState5(void);
 u16 GetSelectRaceRuleHumanCount(void);
 void AdvanceSelectRaceRuleValueObjects(void);

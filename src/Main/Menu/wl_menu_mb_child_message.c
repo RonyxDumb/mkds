@@ -25,6 +25,7 @@
 #include "g2d_CharCanvas.h"
 #include "gx_bgcnt.h"
 #include "code_0214d018.h"
+#include "Main/Menu/time_attack_ghost_get_scan.h"
 
 #pragma thumb on
 

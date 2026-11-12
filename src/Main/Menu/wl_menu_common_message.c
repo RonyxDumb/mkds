@@ -29,6 +29,7 @@
 #include "Main/Sound/sound_seq.h"
 #include "Main/MapObjects/data_0217a000.h"
 #include "gx_load2d.h"
+#include "Main/Menu/time_attack_ghost_get_scan.h"
 
 #pragma optimize_for_size on
 

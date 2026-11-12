@@ -831,7 +831,7 @@ src/Main/Menu/time_attack_ghost_get_scan.c:
     .text       start:0x0203434c end:0x02035d18
     .rodata     start:0x02154034 end:0x02154064
     .data       start:0x02164244 end:0x02164460
-    .bss        start:0x02174e44 end:0x02174e48
+    .bss        start:0x02174e44 end:0x02174e50
 
 // provisional: file name and boundaries
 src/Main/Menu/wl_menu_message.c:
@@ -2545,6 +2545,7 @@ src/Main/Race/race_hud_kart_removed.c:
 src/Main/Menu/choises_s.c:
     .text       start:0x020b1de4 end:0x020b24e4
     .data       start:0x02168418 end:0x02168440
+    .bss        start:0x0217b334 end:0x0217b338
 
 // provisional: file name and boundaries
 src/Main/Menu/choises_s_course.c:
@@ -4102,12 +4103,14 @@ src/Main/Menu/select_race_rule_state.c:
     complete
     .text       start:0x0211ac70 end:0x0211db90
     .rodata     start:0x0215cd18 end:0x0215cd24
+    .data       start:0x0216de18 end:0x0216de30
     .bss        start:0x0217d348 end:0x0217d34c
 
 // provisional: file name and boundaries
 src/Main/Menu/select_race_rule_load.c:
     complete
     .text       start:0x0211db90 end:0x0211de00
+    .rodata     start:0x0215cdb0 end:0x0215ced4
 
 // provisional: file name and boundaries
 src/Main/Menu/cup_mark.c:

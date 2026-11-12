@@ -10807,8 +10807,8 @@ data_usa_0216dd64 kind:data(any) addr:0x0216dd64
 data_usa_0216dd90 kind:data(any) addr:0x0216dd90
 data_usa_0216ddbc kind:data(any) addr:0x0216ddbc
 data_usa_0216dde8 kind:data(any) addr:0x0216dde8
-data_0216de38 kind:data(any) addr:0x0216de18
-gRuleBmgName kind:data(any) addr:0x0216de24
+@6817 kind:data(any) addr:0x0216de18 local
+@6818 kind:data(any) addr:0x0216de24 local
 gSelectCupNameMBnclName kind:data(any) addr:0x0216de30
 gSelectCupNameMNcgrName kind:data(any) addr:0x0216de34
 gSelectCupNameMNcerName kind:data(any) addr:0x0216de38

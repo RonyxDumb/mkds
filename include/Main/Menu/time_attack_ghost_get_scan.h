@@ -13,6 +13,7 @@
 #include "tp.h"
 #include "Main/Save/buddy_record_time.h"
 #include "g2d_CellTransferManager.h"
+#include "Main/Menu/wl_menu_message.h"
 
 typedef struct SceneNumbers SceneNumbers;
 
@@ -49,3 +50,6 @@ extern s16 gTimeAttackGhostGetScanSSelLabelTextRows[8][4];
 extern struct TimeAttackGhostGetScan *gTimeAttackGhostGetScan;
 
 extern const s16 gTimeAttackGhostGetSlotMLabelTextRows[3][4];
+
+extern struct TimeAttackGhostGetSlot *gTimeAttackGhostGetSlot;
+extern struct WLMenuMessage *gWLMenuMessage;

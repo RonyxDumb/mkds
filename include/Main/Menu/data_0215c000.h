@@ -55,12 +55,4 @@ extern Unk0215cd74 data_0215cd74[];
 
 extern u16 gSelectRaceRuleStepCellsHighlighted[][2];
 
-extern u16 gSelectRaceRuleStepCellsChanging[][2];
-
-extern u16 gSelectRaceRuleStepCellsPlain[][2];
-
-extern u32 gSelectRaceRulePreviousRectRows[];
-
-extern u32 gSelectRaceRuleEntryInputSlots[];
-
 extern u32 gSelectCupGridCourseIds[8][4];

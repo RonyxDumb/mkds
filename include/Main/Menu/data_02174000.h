@@ -363,11 +363,7 @@ typedef struct TimeAttackGhostGetSlot {
     /* a4 */ void *mHeap;
 } TimeAttackGhostGetSlot;
 
-extern TimeAttackGhostGetSlot *gTimeAttackGhostGetSlot;
-
 struct WLMenuMessage;
-
-extern struct WLMenuMessage *gWLMenuMessage;
 
 // Object at data_02174e78: mUnk_0c is the pointer GetArenaHeap returns; mUnk_10 overlaps the first member of
 // gRootHeapCall.

@@ -597,7 +597,6 @@ typedef struct RaceHud {
 } RaceHud;
 
 struct ChoisesS;
-extern struct ChoisesS *gChoisesS;
 struct RaceNcerNclrNcgrTables;
 // 8-byte elements at the start of RaceRankList.
 typedef struct RaceRankListPos {

@@ -1419,8 +1419,8 @@ void InitSelectRaceRule(void *parentHeap, s32 unusedArg1, void *oamList, s32 mod
     }
     LocateAndQueueSelectRaceRule();
     InitLayoutTable(gSelectRaceRule->mHeap, gSelectRaceRule->mBncl, gSelectRaceRule->mBnll, &gSelectRaceRule->mTable);
-    gSelectRaceRule->mCommonMessages = FindFileInLoadedArchives(data_0216de38);
-    gSelectRaceRule->mRuleMessages = FindSceneFile(gRuleBmgName);
+    gSelectRaceRule->mCommonMessages = FindFileInLoadedArchives("common.bmg");
+    gSelectRaceRule->mRuleMessages = FindSceneFile("rule.bmg");
     cellEntryCount = gSelectRaceRule->mBncl->mCount;
     remainingSubObjSize = GX_GetSizeOfSubOBJ();
     for (rowIndex = 0; rowIndex < 5; rowIndex++) {

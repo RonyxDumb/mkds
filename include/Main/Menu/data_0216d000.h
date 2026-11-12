@@ -39,10 +39,6 @@ extern const char *gSelectRaceRuleMultiSimpleSBNcgrName;
 
 extern u16 *gSelectRaceRuleValueMessageIndices[];
 
-extern char data_0216de38[];
-
-extern char gRuleBmgName[];
-
 extern const char *gSelectCupNameMBnclName;
 
 extern const char *gSelectCupNameMNcgrName;
