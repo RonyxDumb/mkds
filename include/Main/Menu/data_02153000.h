@@ -43,8 +43,6 @@ typedef struct SelectCharacterRowPosition {
     /* 02 */ s16 mEntryY;
 } SelectCharacterRowPosition;
 
-extern LabelMessageRow gMemberGroupLabelMessageRows[];
-
 extern SelectCharacterRowCellIndices gSelectCharacterRowCellIndices[];
 
 extern SelectCharacterRowPosition gSelectCharacterPositions8Rows[];
@@ -60,11 +58,6 @@ extern SelectCharacterRow gSelectCharacterRows[];
 
 
 
-
-
-extern MemberRowCellIndices gMemberRowCellIndices[];
-
-extern u16 gMemberRowRectIndices[][3];
 
 // Rows of nine words; each name starts at one word of the first row.
 extern const char *gResultsBattleVictoryMBNcgrName[][9];
@@ -106,8 +99,6 @@ extern s32 gCharacterKartIndexTable[];
 
 
 
-extern u16 gMultiSelectNSRowCellIndices[][3];
-
 typedef struct MultiSelectNSLabelMessageRow {
     /* 00 */ s16 mLabelIndex;
     /* 02 */ u16 mWidth;
@@ -115,8 +106,6 @@ typedef struct MultiSelectNSLabelMessageRow {
     /* 06 */ s16 mEntryIndex;
     /* 08 */ s32 mMessageIndex;
 } MultiSelectNSLabelMessageRow;
-
-extern MultiSelectNSLabelMessageRow gMultiSelectNSLabelMessageRows[];
 
 extern s16 gTimeAttackGhostGetScanMLabelTextRows[][4];
 

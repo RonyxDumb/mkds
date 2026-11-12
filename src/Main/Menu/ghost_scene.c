@@ -3,7 +3,6 @@
 #include "Main/System/result_archive_path.h"
 #include "Main/Graphics/font_and_player_character.h"
 #include "Main/Menu/kart_icon.h"
-#include "Main/Menu/data_02162000.h"
 #include "Main/Menu/data_02163000.h"
 #include "Main/Menu/data_02174000.h"
 #include "Main/System/interpolation_value.h"
@@ -38,10 +37,14 @@
 #include "Main/Menu/message_screen.h"
 #include "Main/Menu/data_02153bec.h"
 #include "Main/Menu/data_02162c74.h"
+#include "Main/Menu/ghost_send.h"
 #include "code_0214d018.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Graphics/minute_second_millisecond_text.h"
 #include "registers.h"
+
+GhostSceneCallbacks *gGhostSceneCallbacks[3] = {&gTimeAttackGhostSendCallbacks, &data_usa_02164244, &data_usa_02164460};
+GhostScene *gGhostScene;
 
 #pragma thumb on
 
@@ -64,53 +67,53 @@ void LoadGhostSceneFiles(void) {
     palette = NULL;
     cells = NULL;
     screenMaps[0] = NULL;
-    file = FindSceneFile(gTimeAttackGhostGetMBNcgrName);
+    file = FindSceneFile("TimeAttack_ghost_get_m_b.NCGR");
     LoadNcgrData(&chars, file);
-    file = FindSceneFile(gTimeAttackGhostGetSBNcgrName);
+    file = FindSceneFile("TimeAttack_ghost_get_s_b.NCGR");
     LoadNcgrData(&chars, file);
-    file = FindSceneFile(data_02162f98);
+    file = FindSceneFile("TimeAttack_ghost_send_m_b.NCGR");
     LoadNcgrData(&chars, file);
-    file = FindSceneFile(data_02162fb8);
+    file = FindSceneFile("TimeAttack_ghost_send_s_b.NCGR");
     LoadNcgrData(&chars, file);
-    file = FindSceneFile(gTimeAttackGhostGetMNcgrName);
+    file = FindSceneFile("TimeAttack_ghost_get_m.nce.ncgr");
     LoadNcgrData2(&chars, file);
-    file = FindSceneFile(gTimeAttackGhostGetSNcgrName);
+    file = FindSceneFile("TimeAttack_ghost_get_s.nce.ncgr");
     LoadNcgrData2(&chars, file);
-    file = FindSceneFile(data_02163018);
+    file = FindSceneFile("TimeAttack_ghost_send_m.nce.ncgr");
     LoadNcgrData2(&chars, file);
-    file = FindSceneFile(data_0216303c);
+    file = FindSceneFile("TimeAttack_ghost_send_s.nce.ncgr");
     LoadNcgrData2(&chars, file);
-    file = FindSceneFile(gTimeAttackGhostGetMNcerName);
+    file = FindSceneFile("TimeAttack_ghost_get_m.nce.ncer");
     LoadNcerData(&cells, file);
-    file = FindSceneFile(gTimeAttackGhostGetSNcerName);
+    file = FindSceneFile("TimeAttack_ghost_get_s.nce.ncer");
     LoadNcerData(&cells, file);
-    file = FindSceneFile(data_021630a0);
+    file = FindSceneFile("TimeAttack_ghost_send_m.nce.ncer");
     LoadNcerData(&cells, file);
-    file = FindSceneFile(data_021630c4);
+    file = FindSceneFile("TimeAttack_ghost_send_s.nce.ncer");
     LoadNcerData(&cells, file);
-    file = FindSceneFile(gTimeAttackGhostGetMBNclrName);
+    file = FindSceneFile("TimeAttack_ghost_get_m_b.NCLR");
     LoadNclrData(&palette, file);
-    file = FindSceneFile(gTimeAttackGhostGetMONclrName);
+    file = FindSceneFile("TimeAttack_ghost_get_m_o.NCLR");
     LoadNclrData(&palette, file);
-    file = FindSceneFile(gTimeAttackGhostGetSBNclrName);
+    file = FindSceneFile("TimeAttack_ghost_get_s_b.NCLR");
     LoadNclrData(&palette, file);
-    file = FindSceneFile(gTimeAttackGhostGetSONclrName);
+    file = FindSceneFile("TimeAttack_ghost_get_s_o.NCLR");
     LoadNclrData(&palette, file);
-    file = FindSceneFile(data_02163168);
+    file = FindSceneFile("TimeAttack_ghost_send_m_b.NCLR");
     LoadNclrData(&palette, file);
-    file = FindSceneFile(data_02163188);
+    file = FindSceneFile("TimeAttack_ghost_send_s_b.NCLR");
     LoadNclrData(&palette, file);
-    file = FindSceneFile(data_021631a8);
+    file = FindSceneFile("TimeAttack_ghost_send_m_o.NCLR");
     LoadNclrData(&palette, file);
-    file = FindSceneFile(data_021631c8);
+    file = FindSceneFile("TimeAttack_ghost_send_s_o.NCLR");
     LoadNclrData(&palette, file);
-    file = FindSceneFile(gTimeAttackGhostGetMNscrName);
+    file = FindSceneFile("TimeAttack_ghost_get_m.NSCR");
     LoadNscrData(screenMaps, file);
-    file = FindSceneFile(gTimeAttackGhostGetSNscrName);
+    file = FindSceneFile("TimeAttack_ghost_get_s.NSCR");
     LoadNscrData(screenMaps, file);
-    file = FindSceneFile(data_02163220);
+    file = FindSceneFile("TimeAttack_ghost_send_m.NSCR");
     LoadNscrData(screenMaps, file);
-    file = FindSceneFile(data_02163240);
+    file = FindSceneFile("TimeAttack_ghost_send_s.NSCR");
     LoadNscrData(screenMaps, file);
     LoadKartIconData();
 }
@@ -240,7 +243,7 @@ void WriteGhostSceneRegisters(void) {
 
 #pragma thumb on
 
-void PrintGhostRecordInfo(GhostInfoFileSets *fileSets, s16 (*labelRows)[4], void *name, s32 characterIndex,
+void PrintGhostRecordInfo(GhostInfoFileSets *fileSets, const s16 (*labelRows)[4], void *name, s32 characterIndex,
                           s32 kartIndex, s32 courseId, MinuteSecondMillisecondTime *time) {
     u16 timeText[10];
     u16 terminatedName[11];

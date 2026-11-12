@@ -281,15 +281,13 @@ typedef struct TimeAttackGhostSend {
     /* 0dc */ void *mHeap;
 } TimeAttackGhostSend;
 
-extern TimeAttackGhostSend *gTimeAttackGhostSend;
-
 struct GhostScene;
 
 // Init, advance and release of one part of the ghost scene, and a fourth function the scene's second per-frame slot
 // calls.
 typedef struct GhostSceneCallbacks {
-    /* 00 */ void (*mInit)(void *a, struct GhostScene *b, void *c);
-    /* 04 */ s32 (*mAdvance)(u32 a);
+    /* 00 */ void (*mInit)(void *a, void *b, void *c);
+    /* 04 */ s32 (*mAdvance)();
     /* 08 */ void (*mRelease)(void);
     /* 0c */ void (*mWriteRegisters)(void);
 } GhostSceneCallbacks;
@@ -362,15 +360,7 @@ typedef struct ScrollList {
 
 extern ScrollList *gScrollList;
 
-extern struct WLMenuScene *gWLMenuScene;
-
-extern struct MultiSelectMemberGroup *gMultiSelectMemberGroup;
-
-extern struct MultiSelectNS *gMultiSelectNS;
-
 struct MultiSelectMember;
-
-extern struct MultiSelectMember *gMultiSelectMember;
 
 // Ghost scene part that lists the slot ghosts and saves the received ghost over the picked one.
 typedef struct TimeAttackGhostGetSlot {

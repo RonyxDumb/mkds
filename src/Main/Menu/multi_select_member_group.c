@@ -64,6 +64,13 @@
 #include "code_0214d018.h"
 #include "Main/Menu/multi_select_ns_input.h"
 
+const u16 gMemberRowRectIndices[4][3] = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {9, 0xa, 0xb}};
+const LabelMessageRow gMemberGroupLabelMessageRows[5] = {{0, 0x82, 0xd, 4, -1}, {1, 0x82, 0xd, 5, -1}, {2, 0x82, 0xd, 6, -1}, {3, 0x82, 0xd, 7, -1}, {4, 0xaf, 0xd, 0x59, 2}};
+const MemberRowCellIndices gMemberRowCellIndices[4] = {{{4, 0x5a, 0x5e, 0x14, 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0, 8, 0xc, 0x10, 0x18, 0x19, 0x1a, 0x1b, 0x1c, 0x1d, 0x1e, 0x1f}, 0}, {{5, 0x5b, 0x5f, 0x15, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 1, 9, 0xd, 0x11, 0x28, 0x29, 0x2a, 0x2b, 0x2c, 0x2d, 0x2e, 0x2f}, 1}, {{6, 0x5c, 0x60, 0x16, 0x40, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x47, 2, 0xa, 0xe, 0x12, 0x38, 0x39, 0x3a, 0x3b, 0x3c, 0x3d, 0x3e, 0x3f}, 2}, {{7, 0x5d, 0x61, 0x17, 0x50, 0x51, 0x52, 0x53, 0x54, 0x55, 0x56, 0x57, 3, 0xb, 0xf, 0x13, 0x48, 0x49, 0x4a, 0x4d, 0x4b, 0x4c, 0x4e, 0x4f}, 3}};
+LabelPaletteIndices gMemberLabelPaletteIndices = {{0, 1}};
+struct WLMenuCallbacks gMultiSelectMemberGroupCallbacks = {InitMultiSelectMemberGroup, AdvanceMultiSelectMemberGroup, ReleaseMultiSelectMemberGroup, WriteMultiSelectMemberGroupRegisters};
+struct MultiSelectMemberGroup *gMultiSelectMemberGroup;
+
 #pragma thumb on
 
 s32 IsRectInMemberRow(s32 rectIndex, s32 memberRow) {
@@ -123,10 +130,10 @@ void RefreshMultiSelectMemberGroup(s32 showSelected) {
     s32 rowFlag;
     BOOL visibleFlag;
     BOOL isMatch;
-    MemberRowCellIndices *rowCellIndices;
+    const MemberRowCellIndices *rowCellIndices;
 
     cellFileSet = &gMultiSelectMemberGroup->mGroupSParts;
-    valueTable = data_021634a8;
+    valueTable = gMemberLabelPaletteIndices;
     rowIndex = 0;
     entryOffset = 0;
     rowCellIndices = gMemberRowCellIndices;
@@ -310,7 +317,7 @@ void InitMultiSelectMemberGroup(void *parentHeap, void *scene, void *oamList) {
     u32 subObjSizeLeft;
     CellFileSet *cellFileSet;
     s32 rowIndex;
-    LabelMessageRow *labelMessageRow;
+    const LabelMessageRow *labelMessageRow;
     void *text;
 
     heap = CreateFrmHeapFromMaxFree(parentHeap);
@@ -319,22 +326,22 @@ void InitMultiSelectMemberGroup(void *parentHeap, void *scene, void *oamList) {
     gMultiSelectMemberGroup->mHeap = heap;
     gMultiSelectMemberGroup->mUnk_40 = scene;
     gMultiSelectMemberGroup->mOamList = oamList;
-    gMultiSelectMemberGroup->mBannerMessages = FindSceneFile(gBannerBmgName);
+    gMultiSelectMemberGroup->mBannerMessages = FindSceneFile("banner.bmg");
     gMultiSelectMemberGroup->mState = 0;
     gMultiSelectMemberGroup->mBg3Offset = -0xc0;
-    LocateAndQueueScreenMapFileSet(1, gMultiSelectMemberGroup, gMultiSelectMemberSBNcgrName2,
-                                   gMultiSelectMemberSBNclrName2, gMultiSelectMemberSGroupNscrName2, 3, FindSceneFile);
+    LocateAndQueueScreenMapFileSet(1, gMultiSelectMemberGroup, "multi_select_member_s_b.NCGR",
+                                   "multi_select_member_s_b.NCLR", "multi_select_member_s_group.NSCR", 3, FindSceneFile);
     subObjSizeLeft = GX_GetSizeOfSubOBJ();
     cellFileSet = &gMultiSelectMemberGroup->mGroupSParts;
-    LocateCellFileSet(cellFileSet, gMultiSelectMemberGroupSNcgrName2, gMultiSelectMemberGroupSNcerName2,
-                      gMultiSelectMemberGroupSONclrName2, gMultiSelectMemberSGroupBnclName,
-                      gMultiSelectMemberSGroupBnllName, gMultiSelectMemberSGroupBnblName, FindSceneFile);
+    LocateCellFileSet(cellFileSet, "multi_select_member_group_s.nce.ncgr", "multi_select_member_group_s.nce.ncer",
+                      "multi_select_member_group_s_o.NCLR", "multi_select_member_s_group.bncl",
+                      "multi_select_member_s_group.bnll", "multi_select_member_s_group.bnbl", FindSceneFile);
     SetupCellFileSet(1, gMultiSelectMemberGroup->mHeap, cellFileSet);
     for (rowIndex = 0, labelMessageRow = gMemberGroupLabelMessageRows; rowIndex < 5; labelMessageRow++, rowIndex++) {
         subObjSizeLeft -=
             SetupLabelCanvas(1, gMultiSelectMemberGroup->mHeap, cellFileSet, labelMessageRow, subObjSizeLeft);
         if (gMemberGroupLabelMessageRows[rowIndex].mMessageIndex < 0) {
-            text = data_02163610;
+            text = "";
         } else {
             text = GetBmgEntry(gMultiSelectMemberGroup->mBannerMessages,
                                gMemberGroupLabelMessageRows[rowIndex].mMessageIndex);

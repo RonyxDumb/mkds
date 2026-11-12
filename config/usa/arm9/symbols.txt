@@ -9037,151 +9037,151 @@ data_02161b00 kind:data(any) addr:0x02161b00
 @5643 kind:data(any) addr:0x02162670 local
 @5644 kind:data(any) addr:0x02162690 local
 @5645 kind:data(any) addr:0x021626b0 local
-gSelectMenuEtcDownloadMBNcgrName kind:data(any) addr:0x021626d0
-gSelectMenuEtcDownloadMNcgrName kind:data(any) addr:0x021626f8
-gSelectMenuEtcDownloadMNcerName kind:data(any) addr:0x02162720
-gSelectMenuEtcDownloadMONclrName kind:data(any) addr:0x02162748
-gSelectMenuEtcDownloadMBNclrName kind:data(any) addr:0x02162770
-gSelectMenuEtcDownloadMBg00NscrName kind:data(any) addr:0x02162798
-gSelectMenuEtcDownloadMBg01NscrName kind:data(any) addr:0x021627c4
-gSelectMenuEtcMBNcgrName kind:data(any) addr:0x021627f0
-gSelectMenuEtcMNcgrName kind:data(any) addr:0x0216280c
-gSelectMenuEtcTitleMNcgrName kind:data(any) addr:0x02162828
-gSelectMenuEtcMNcerName kind:data(any) addr:0x0216284c
-gSelectMenuEtcTitleMNcerName kind:data(any) addr:0x02162868
-gSelectMenuEtcMONclrName kind:data(any) addr:0x0216288c
-gSelectMenuEtcMBNclrName kind:data(any) addr:0x021628a8
-gSelectMenuEtcMBg00NscrName kind:data(any) addr:0x021628c4
-gSelectMenuEtcMBg01NscrName kind:data(any) addr:0x021628e4
-data_usa_02162904 kind:data(any) addr:0x02162904
-data_usa_0216292c kind:data(any) addr:0x0216292c
-data_usa_02162954 kind:data(any) addr:0x02162954
-data_usa_02162980 kind:data(any) addr:0x02162980
-data_usa_021629a8 kind:data(any) addr:0x021629a8
-data_usa_021629d0 kind:data(any) addr:0x021629d0
-data_usa_021629fc kind:data(any) addr:0x021629fc
-data_usa_02162a18 kind:data(any) addr:0x02162a18
-data_usa_02162a34 kind:data(any) addr:0x02162a34
-data_usa_02162a54 kind:data(any) addr:0x02162a54
-data_usa_02162a70 kind:data(any) addr:0x02162a70
-data_usa_02162a8c kind:data(any) addr:0x02162a8c
-data_usa_02162aac kind:data(any) addr:0x02162aac
-data_usa_02162ad4 kind:data(any) addr:0x02162ad4
-data_usa_02162afc kind:data(any) addr:0x02162afc
-gSelectMenuEtcDownloadMBnclName kind:data(any) addr:0x02162b24
-gSelectMenuEtcDownloadMBnllName kind:data(any) addr:0x02162b48
-data_usa_02162b6c kind:data(any) addr:0x02162b6c
-data_usa_02162b88 kind:data(any) addr:0x02162b88
-data_usa_02162ba4 kind:data(any) addr:0x02162ba4
-gSelectMenuEtcMBnclName kind:data(any) addr:0x02162bc0
-gSelectMenuEtcMBnllName kind:data(any) addr:0x02162bd8
-data_usa_02162bf0 kind:data(any) addr:0x02162bf0
-data_usa_02162c14 kind:data(any) addr:0x02162c14
-gSelectMenuEtcTitleMBnclName kind:data(any) addr:0x02162c38
-data_usa_02162c58 kind:data(any) addr:0x02162c58
-data_usa_02162c64 kind:data(any) addr:0x02162c64
+@5739 kind:data(any) addr:0x021626d0 local
+@5740 kind:data(any) addr:0x021626f8 local
+@5741 kind:data(any) addr:0x02162720 local
+@5742 kind:data(any) addr:0x02162748 local
+@5743 kind:data(any) addr:0x02162770 local
+@5744 kind:data(any) addr:0x02162798 local
+@5745 kind:data(any) addr:0x021627c4 local
+@5746 kind:data(any) addr:0x021627f0 local
+@5747 kind:data(any) addr:0x0216280c local
+@5748 kind:data(any) addr:0x02162828 local
+@5749 kind:data(any) addr:0x0216284c local
+@5750 kind:data(any) addr:0x02162868 local
+@5751 kind:data(any) addr:0x0216288c local
+@5752 kind:data(any) addr:0x021628a8 local
+@5753 kind:data(any) addr:0x021628c4 local
+@5754 kind:data(any) addr:0x021628e4 local
+@6286 kind:data(any) addr:0x02162904 local
+@6287 kind:data(any) addr:0x0216292c local
+@6288 kind:data(any) addr:0x02162954 local
+@6289 kind:data(any) addr:0x02162980 local
+@6290 kind:data(any) addr:0x021629a8 local
+@6291 kind:data(any) addr:0x021629d0 local
+@6292 kind:data(any) addr:0x021629fc local
+@6293 kind:data(any) addr:0x02162a18 local
+@6294 kind:data(any) addr:0x02162a34 local
+@6295 kind:data(any) addr:0x02162a54 local
+@6296 kind:data(any) addr:0x02162a70 local
+@6297 kind:data(any) addr:0x02162a8c local
+@6344 kind:data(any) addr:0x02162aac local
+@6345 kind:data(any) addr:0x02162ad4 local
+@6346 kind:data(any) addr:0x02162afc local
+@6347 kind:data(any) addr:0x02162b24 local
+@6348 kind:data(any) addr:0x02162b48 local
+@6349 kind:data(any) addr:0x02162b6c local
+@6350 kind:data(any) addr:0x02162b88 local
+@6351 kind:data(any) addr:0x02162ba4 local
+@6352 kind:data(any) addr:0x02162bc0 local
+@6353 kind:data(any) addr:0x02162bd8 local
+@6354 kind:data(any) addr:0x02162bf0 local
+@6355 kind:data(any) addr:0x02162c14 local
+@6356 kind:data(any) addr:0x02162c38 local
+@6375 kind:data(any) addr:0x02162c58 local
+gTimeAttackGhostSendCallbacks kind:data(any) addr:0x02162c64
 gTimeAttackGhostSendSLabelTextRows kind:data(any) addr:0x02162c74
-data_usa_02162d04 kind:data(any) addr:0x02162d04
-gGhostBmgName kind:data(any) addr:0x02162d10
-gTimeAttackGhostSendMBNcgrName kind:data(any) addr:0x02162d1c
-gTimeAttackGhostSendMBNclrName kind:data(any) addr:0x02162d3c
-gTimeAttackGhostSendMNscrName kind:data(any) addr:0x02162d5c
-gTimeAttackGhostSendMNcgrName kind:data(any) addr:0x02162d7c
-gTimeAttackGhostSendMNcerName kind:data(any) addr:0x02162da0
-gTimeAttackGhostSendMONclrName kind:data(any) addr:0x02162dc4
-gTimeAttackGhostSendMBnclName kind:data(any) addr:0x02162de4
-gTimeAttackGhostSendMBnllName kind:data(any) addr:0x02162e04
-gTimeAttackGhostSendSBNcgrName kind:data(any) addr:0x02162e24
-gTimeAttackGhostSendSBNclrName kind:data(any) addr:0x02162e44
-gTimeAttackGhostSendSNscrName kind:data(any) addr:0x02162e64
-gTimeAttackGhostSendSNcgrName kind:data(any) addr:0x02162e84
-gTimeAttackGhostSendSNcerName kind:data(any) addr:0x02162ea8
-gTimeAttackGhostSendSONclrName kind:data(any) addr:0x02162ecc
-gTimeAttackGhostSendSBnclName kind:data(any) addr:0x02162eec
-gTimeAttackGhostSendSBnllName kind:data(any) addr:0x02162f0c
-gTimeAttackGhostSendSBnblName kind:data(any) addr:0x02162f2c
+@5766 kind:data(any) addr:0x02162d04 local
+@5767 kind:data(any) addr:0x02162d10 local
+@5768 kind:data(any) addr:0x02162d1c local
+@5769 kind:data(any) addr:0x02162d3c local
+@5770 kind:data(any) addr:0x02162d5c local
+@5771 kind:data(any) addr:0x02162d7c local
+@5772 kind:data(any) addr:0x02162da0 local
+@5773 kind:data(any) addr:0x02162dc4 local
+@5774 kind:data(any) addr:0x02162de4 local
+@5775 kind:data(any) addr:0x02162e04 local
+@5776 kind:data(any) addr:0x02162e24 local
+@5777 kind:data(any) addr:0x02162e44 local
+@5778 kind:data(any) addr:0x02162e64 local
+@5779 kind:data(any) addr:0x02162e84 local
+@5780 kind:data(any) addr:0x02162ea8 local
+@5781 kind:data(any) addr:0x02162ecc local
+@5782 kind:data(any) addr:0x02162eec local
+@5783 kind:data(any) addr:0x02162f0c local
+@5784 kind:data(any) addr:0x02162f2c local
 gGhostSceneCallbacks kind:data(any) addr:0x02162f4c
-gTimeAttackGhostGetMBNcgrName kind:data(any) addr:0x02162f58
-gTimeAttackGhostGetSBNcgrName kind:data(any) addr:0x02162f78
-data_02162f98 kind:data(any) addr:0x02162f98
-data_02162fb8 kind:data(any) addr:0x02162fb8
-gTimeAttackGhostGetMNcgrName kind:data(any) addr:0x02162fd8
-gTimeAttackGhostGetSNcgrName kind:data(any) addr:0x02162ff8
-data_02163018 kind:data(any) addr:0x02163018
-data_0216303c kind:data(any) addr:0x0216303c
-gTimeAttackGhostGetMNcerName kind:data(any) addr:0x02163060
-gTimeAttackGhostGetSNcerName kind:data(any) addr:0x02163080
-data_021630a0 kind:data(any) addr:0x021630a0
-data_021630c4 kind:data(any) addr:0x021630c4
-gTimeAttackGhostGetMBNclrName kind:data(any) addr:0x021630e8
-gTimeAttackGhostGetMONclrName kind:data(any) addr:0x02163108
-gTimeAttackGhostGetSBNclrName kind:data(any) addr:0x02163128
-gTimeAttackGhostGetSONclrName kind:data(any) addr:0x02163148
-data_02163168 kind:data(any) addr:0x02163168
-data_02163188 kind:data(any) addr:0x02163188
-data_021631a8 kind:data(any) addr:0x021631a8
-data_021631c8 kind:data(any) addr:0x021631c8
-gTimeAttackGhostGetMNscrName kind:data(any) addr:0x021631e8
-gTimeAttackGhostGetSNscrName kind:data(any) addr:0x02163204
-data_02163220 kind:data(any) addr:0x02163220
-data_02163240 kind:data(any) addr:0x02163240
+@5324 kind:data(any) addr:0x02162f58 local
+@5325 kind:data(any) addr:0x02162f78 local
+@5326 kind:data(any) addr:0x02162f98 local
+@5327 kind:data(any) addr:0x02162fb8 local
+@5328 kind:data(any) addr:0x02162fd8 local
+@5329 kind:data(any) addr:0x02162ff8 local
+@5330 kind:data(any) addr:0x02163018 local
+@5331 kind:data(any) addr:0x0216303c local
+@5332 kind:data(any) addr:0x02163060 local
+@5333 kind:data(any) addr:0x02163080 local
+@5334 kind:data(any) addr:0x021630a0 local
+@5335 kind:data(any) addr:0x021630c4 local
+@5336 kind:data(any) addr:0x021630e8 local
+@5337 kind:data(any) addr:0x02163108 local
+@5338 kind:data(any) addr:0x02163128 local
+@5339 kind:data(any) addr:0x02163148 local
+@5340 kind:data(any) addr:0x02163168 local
+@5341 kind:data(any) addr:0x02163188 local
+@5342 kind:data(any) addr:0x021631a8 local
+@5343 kind:data(any) addr:0x021631c8 local
+@5344 kind:data(any) addr:0x021631e8 local
+@5345 kind:data(any) addr:0x02163204 local
+@5346 kind:data(any) addr:0x02163220 local
+@5347 kind:data(any) addr:0x02163240 local
 gWLMenuCallbacks kind:data(any) addr:0x02163260
-gMultiSelectMemberSBNcgrName kind:data(any) addr:0x02163280
-gMultiSelectMemberMNcgrName kind:data(any) addr:0x021632a0
-gMultiSelectMemberGroupSNcgrName kind:data(any) addr:0x021632c0
-gMultiSelectMemberRegisterSNcgrName kind:data(any) addr:0x021632e8
-gMultiSelectNSSNcgrName kind:data(any) addr:0x02163310
-gMultiSelectMemberMNcerName kind:data(any) addr:0x0216332c
-gMultiSelectMemberGroupSNcerName kind:data(any) addr:0x0216334c
-gMultiSelectMemberRegisterSNcerName kind:data(any) addr:0x02163374
-gMultiSelectNSSNcerName kind:data(any) addr:0x0216339c
-gMultiSelectMemberMONclrName kind:data(any) addr:0x021633b8
-gMultiSelectMemberSBNclrName kind:data(any) addr:0x021633d8
-gMultiSelectMemberGroupSONclrName kind:data(any) addr:0x021633f8
-gMultiSelectMemberRegisterSONclrName kind:data(any) addr:0x0216341c
-gMultiSelectNSSONclrName kind:data(any) addr:0x02163444
-gMultiSelectMemberSRegisterNscrName kind:data(any) addr:0x02163460
-gMultiSelectMemberSGroupNscrName kind:data(any) addr:0x02163484
-data_021634a8 kind:data(any) addr:0x021634a8
-data_usa_021634b0 kind:data(any) addr:0x021634b0
-gBannerBmgName kind:data(any) addr:0x021634c0
-gMultiSelectMemberSBNcgrName2 kind:data(any) addr:0x021634cc
-gMultiSelectMemberSBNclrName2 kind:data(any) addr:0x021634ec
-gMultiSelectMemberSGroupNscrName2 kind:data(any) addr:0x0216350c
-gMultiSelectMemberGroupSNcgrName2 kind:data(any) addr:0x02163530
-gMultiSelectMemberGroupSNcerName2 kind:data(any) addr:0x02163558
-gMultiSelectMemberGroupSONclrName2 kind:data(any) addr:0x02163580
-gMultiSelectMemberSGroupBnclName kind:data(any) addr:0x021635a4
-gMultiSelectMemberSGroupBnllName kind:data(any) addr:0x021635c8
-gMultiSelectMemberSGroupBnblName kind:data(any) addr:0x021635ec
-data_02163610 kind:data(any) addr:0x02163610
+@3188 kind:data(any) addr:0x02163280 local
+@3189 kind:data(any) addr:0x021632a0 local
+@3190 kind:data(any) addr:0x021632c0 local
+@3191 kind:data(any) addr:0x021632e8 local
+@3192 kind:data(any) addr:0x02163310 local
+@3193 kind:data(any) addr:0x0216332c local
+@3194 kind:data(any) addr:0x0216334c local
+@3195 kind:data(any) addr:0x02163374 local
+@3196 kind:data(any) addr:0x0216339c local
+@3197 kind:data(any) addr:0x021633b8 local
+@3198 kind:data(any) addr:0x021633d8 local
+@3199 kind:data(any) addr:0x021633f8 local
+@3200 kind:data(any) addr:0x0216341c local
+@3201 kind:data(any) addr:0x02163444 local
+@3202 kind:data(any) addr:0x02163460 local
+@3203 kind:data(any) addr:0x02163484 local
+gMemberLabelPaletteIndices kind:data(any) addr:0x021634a8
+gMultiSelectMemberGroupCallbacks kind:data(any) addr:0x021634b0
+@4221 kind:data(any) addr:0x021634c0 local
+@4222 kind:data(any) addr:0x021634cc local
+@4223 kind:data(any) addr:0x021634ec local
+@4224 kind:data(any) addr:0x0216350c local
+@4225 kind:data(any) addr:0x02163530 local
+@4226 kind:data(any) addr:0x02163558 local
+@4227 kind:data(any) addr:0x02163580 local
+@4228 kind:data(any) addr:0x021635a4 local
+@4229 kind:data(any) addr:0x021635c8 local
+@4230 kind:data(any) addr:0x021635ec local
+@4231 kind:data(any) addr:0x02163610 local
 gMultiSelectNSLabelValues kind:data(any) addr:0x02163614
-data_usa_0216361c kind:data(any) addr:0x0216361c
-data_0216362c kind:data(any) addr:0x0216362c
-data_02163638 kind:data(any) addr:0x02163638
-data_02163654 kind:data(any) addr:0x02163654
-data_02163670 kind:data(any) addr:0x02163670
-gMultiSelectNSSBnclName kind:data(any) addr:0x0216368c
-gMultiSelectNSSBnblName kind:data(any) addr:0x021636a4
-gMultiSelectNSSBnllName kind:data(any) addr:0x021636bc
-data_usa_021636d4 kind:data(any) addr:0x021636d4
-data_usa_021636e4 kind:data(any) addr:0x021636e4
-data_usa_021636f4 kind:data(any) addr:0x021636f4
-data_usa_02163700 kind:data(any) addr:0x02163700
-gMultiSelectMemberMNcgrName2 kind:data(any) addr:0x0216370c
-gMultiSelectMemberMNcerName2 kind:data(any) addr:0x0216372c
-gMultiSelectMemberMONclrName2 kind:data(any) addr:0x0216374c
-gMultiSelectMemberMBnclName kind:data(any) addr:0x0216376c
-gMultiSelectMemberMBnllName kind:data(any) addr:0x02163788
-gMultiSelectMemberSBNcgrName3 kind:data(any) addr:0x021637a4
-gMultiSelectMemberSBNclrName3 kind:data(any) addr:0x021637c4
-gMultiSelectMemberSRegisterNscrName2 kind:data(any) addr:0x021637e4
-gMultiSelectMemberRegisterSNcgrName2 kind:data(any) addr:0x02163808
-gMultiSelectMemberRegisterSNcerName2 kind:data(any) addr:0x02163830
-gMultiSelectMemberRegisterSONclrName2 kind:data(any) addr:0x02163858
-gMultiSelectMemberSRegisterBnclName kind:data(any) addr:0x02163880
-gMultiSelectMemberSRegisterBnllName kind:data(any) addr:0x021638a4
-gMultiSelectMemberSRegisterBnblName kind:data(any) addr:0x021638c8
+gMultiSelectNSCallbacks kind:data(any) addr:0x0216361c
+@3542 kind:data(any) addr:0x0216362c local
+@3543 kind:data(any) addr:0x02163638 local
+@3544 kind:data(any) addr:0x02163654 local
+@3545 kind:data(any) addr:0x02163670 local
+@3546 kind:data(any) addr:0x0216368c local
+@3547 kind:data(any) addr:0x021636a4 local
+@3548 kind:data(any) addr:0x021636bc local
+gMemberKeyStartCallbacks kind:data(any) addr:0x021636d4
+gMemberNoKeyStartCallbacks kind:data(any) addr:0x021636e4
+@6012 kind:data(any) addr:0x021636f4 local
+@6013 kind:data(any) addr:0x02163700 local
+@6014 kind:data(any) addr:0x0216370c local
+@6015 kind:data(any) addr:0x0216372c local
+@6016 kind:data(any) addr:0x0216374c local
+@6017 kind:data(any) addr:0x0216376c local
+@6018 kind:data(any) addr:0x02163788 local
+@6019 kind:data(any) addr:0x021637a4 local
+@6020 kind:data(any) addr:0x021637c4 local
+@6021 kind:data(any) addr:0x021637e4 local
+@6022 kind:data(any) addr:0x02163808 local
+@6023 kind:data(any) addr:0x02163830 local
+@6024 kind:data(any) addr:0x02163858 local
+@6025 kind:data(any) addr:0x02163880 local
+@6026 kind:data(any) addr:0x021638a4 local
+@6027 kind:data(any) addr:0x021638c8 local
 data_usa_021638ec kind:data(any) addr:0x021638ec
 data_usa_0216390c kind:data(any) addr:0x0216390c
 data_usa_0216392c kind:data(any) addr:0x0216392c

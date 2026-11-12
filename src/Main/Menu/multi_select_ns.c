@@ -2,6 +2,7 @@
 #include "Main/Menu/multi_select_ns_registers.h"
 #include "Main/Menu/multi_select_member_group.h"
 #include "Main/Menu/multi_select_ns_layout_count.h"
+#include "Main/Menu/multi_select_ns_input.h"
 #include "Main/System/heap.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/Graphics/locate_bmg_sections.h"
@@ -24,6 +25,12 @@
 #include "g2d_CellTransferManager.h"
 #include "gfd_VramTransferManager.h"
 #include "code_0214d018.h"
+
+const u16 gMultiSelectNSRowCellIndices[2][3] = {{4, 2, 0}, {5, 3, 1}};
+const MultiSelectNSLabelMessageRow gMultiSelectNSLabelMessageRows[2] = {{0, 0xdc, 0x25, 4, 3}, {1, 0xdc, 0x25, 5, 4}};
+u32 gMultiSelectNSLabelValues[2] = {1, 0};
+struct WLMenuCallbacks gMultiSelectNSCallbacks = {InitMultiSelectNS, AdvanceMultiSelectNS, ReleaseMultiSelectNS, WriteMultiSelectNSRegisters};
+struct MultiSelectNS *gMultiSelectNS;
 
 #pragma optimize_for_size on
 
@@ -50,7 +57,7 @@ void RefreshMultiSelectNS(s32 showSelected) {
     s32 rowNotSelected;
     BOOL rowSelectedDefault;
     BOOL rowNotSelectedDefault;
-    u16 *rowCellIndices;
+    const u16 *rowCellIndices;
     u32 firstValue;
     u32 secondValue;
 
@@ -96,7 +103,7 @@ void MultiSelectNSMI_CpuClearFast(void *destination, u32 size) {
 void InitMultiSelectNS(void *parentHeap, void *scene, void *oamList) {
     void *heap;
     MultiSelectNS *multiSelectNS;
-    MultiSelectNSLabelMessageRow *labelMessageRow;
+    const MultiSelectNSLabelMessageRow *labelMessageRow;
     s32 labelRowIndex;
     u32 subObjSizeLeft;
     s32 labelIndex;
@@ -107,16 +114,16 @@ void InitMultiSelectNS(void *parentHeap, void *scene, void *oamList) {
     gMultiSelectNS->mHeap = heap;
     gMultiSelectNS->mUnk_1c = scene;
     gMultiSelectNS->mOamList = oamList;
-    gMultiSelectNS->mBannerMessages = FindSceneFile(data_0216362c);
+    gMultiSelectNS->mBannerMessages = FindSceneFile("banner.bmg");
     gMultiSelectNS->mOffset = -0xc0;
     subObjSizeLeft = GX_GetSizeOfSubOBJ();
     multiSelectNS = gMultiSelectNS;
-    LocateNcgr2(&multiSelectNS->mNcgr, FindSceneFile(data_02163638));
-    LocateNcer(&multiSelectNS->mNcer, FindSceneFile(data_02163654));
-    LocateNclr(&multiSelectNS->mNclr, FindSceneFile(data_02163670));
-    multiSelectNS->mBncl = FindSceneFile(gMultiSelectNSSBnclName);
-    multiSelectNS->mBnbl = FindSceneFile(gMultiSelectNSSBnblName);
-    multiSelectNS->mBnll = FindSceneFile(gMultiSelectNSSBnllName);
+    LocateNcgr2(&multiSelectNS->mNcgr, FindSceneFile("multi_select_NS_s.nce.ncgr"));
+    LocateNcer(&multiSelectNS->mNcer, FindSceneFile("multi_select_NS_s.nce.ncer"));
+    LocateNclr(&multiSelectNS->mNclr, FindSceneFile("multi_select_NS_s_o.NCLR"));
+    multiSelectNS->mBncl = FindSceneFile("multi_select_NS_s.bncl");
+    multiSelectNS->mBnbl = FindSceneFile("multi_select_NS_s.bnbl");
+    multiSelectNS->mBnll = FindSceneFile("multi_select_NS_s.bnll");
     InitLayoutTable(gMultiSelectNS->mHeap, multiSelectNS->mBncl, multiSelectNS->mBnll, &multiSelectNS->mCellTable);
     for (labelRowIndex = 0; labelRowIndex < 2; labelRowIndex++) {
         labelMessageRow = &gMultiSelectNSLabelMessageRows[labelRowIndex];

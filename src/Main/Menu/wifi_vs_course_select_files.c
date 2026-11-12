@@ -37,7 +37,6 @@
 #include "code_0214d018.h"
 #include "Main/Menu/select_character.h"
 #include "registers.h"
-#include "Main/Menu/data_02162000.h"
 
 const u16 gCourseRowCellIndices[4] = {0, 1, 2, 3};
 const u16 gCourseTimerDigitCellIndices[10] = {5, 6, 7, 8, 9, 0xa, 0xb, 0xc, 0xd, 0xe};

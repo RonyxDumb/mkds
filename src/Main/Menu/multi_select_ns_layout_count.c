@@ -70,6 +70,10 @@
 #include "Main/Menu/select_character.h"
 #include "registers.h"
 
+struct WLMenuCallbacks gMemberKeyStartCallbacks = {InitMultiSelectMemberKeyStart, AdvanceMultiSelectMemberKeyStart, ReleaseMultiSelectMember, WriteMultiSelectMemberRegisters};
+struct WLMenuCallbacks gMemberNoKeyStartCallbacks = {InitMultiSelectMemberNoKeyStart, AdvanceMultiSelectMemberNoKeyStart, ReleaseMultiSelectMember, WriteMultiSelectMemberRegisters};
+struct MultiSelectMember *gMultiSelectMember;
+
 #pragma thumb on
 
 void SetupMultiSelectMemberSubTextButton(void) {
@@ -476,13 +480,13 @@ void InitMultiSelectMember(void *parentHeap, void *mainOam, void *subOam) {
     gMultiSelectMember->mHeap = heap;
     gMultiSelectMember->mMainOam = mainOam;
     gMultiSelectMember->mSubOam = subOam;
-    gMultiSelectMember->mBannerMessages = FindSceneFile(data_usa_021636f4);
-    gMultiSelectMember->mCommonMessages = FindFileInLoadedArchives(data_usa_02163700);
+    gMultiSelectMember->mBannerMessages = FindSceneFile("banner.bmg");
+    gMultiSelectMember->mCommonMessages = FindFileInLoadedArchives("common.bmg");
     gMultiSelectMember->mResult = -1;
     mainObjSizeLeft = GX_GetSizeOfOBJ();
     mainFileSet = &gMultiSelectMember->mCellFileSets[0];
-    LocateCellFileSet(mainFileSet, gMultiSelectMemberMNcgrName2, gMultiSelectMemberMNcerName2,
-                      gMultiSelectMemberMONclrName2, gMultiSelectMemberMBnclName, gMultiSelectMemberMBnllName, NULL,
+    LocateCellFileSet(mainFileSet, "multi_select_member_m.nce.ncgr", "multi_select_member_m.nce.ncer",
+                      "multi_select_member_m_o.NCLR", "multi_select_member_m.bncl", "multi_select_member_m.bnll", NULL,
                       FindSceneFile);
     SetupCellFileSet(0, gMultiSelectMember->mHeap, mainFileSet);
     index = 0;
@@ -497,13 +501,13 @@ void InitMultiSelectMember(void *parentHeap, void *mainOam, void *subOam) {
         printRow++;
     }
     SetMultiSelectChildCountCellsVisible();
-    LocateAndQueueScreenMapFileSet(1, gMultiSelectMember, gMultiSelectMemberSBNcgrName3, gMultiSelectMemberSBNclrName3,
-                                   gMultiSelectMemberSRegisterNscrName2, 3, FindSceneFile);
+    LocateAndQueueScreenMapFileSet(1, gMultiSelectMember, "multi_select_member_s_b.NCGR", "multi_select_member_s_b.NCLR",
+                                   "multi_select_member_s_register.NSCR", 3, FindSceneFile);
     subObjSizeLeft = GX_GetSizeOfSubOBJ();
     subFileSet = &gMultiSelectMember->mCellFileSets[1];
-    LocateCellFileSet(subFileSet, gMultiSelectMemberRegisterSNcgrName2, gMultiSelectMemberRegisterSNcerName2,
-                      gMultiSelectMemberRegisterSONclrName2, gMultiSelectMemberSRegisterBnclName,
-                      gMultiSelectMemberSRegisterBnllName, gMultiSelectMemberSRegisterBnblName, FindSceneFile);
+    LocateCellFileSet(subFileSet, "multi_select_member_register_s.nce.ncgr", "multi_select_member_register_s.nce.ncer",
+                      "multi_select_member_register_s_o.NCLR", "multi_select_member_s_register.bncl",
+                      "multi_select_member_s_register.bnll", "multi_select_member_s_register.bnbl", FindSceneFile);
     SetupCellFileSet(1, gMultiSelectMember->mHeap, subFileSet);
     for (index = 0; index < 9; index++) {
         subObjSizeLeft -=

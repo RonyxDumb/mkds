@@ -48,6 +48,9 @@ typedef struct MultiSelectMemberGroup {
 typedef struct SceneNumbers SceneNumbers;
 
 #include "Main/Graphics/font_and_player_character.h" // Ncgr, Nclr
+#include "Main/Menu/data_02153000.h"
+#include "Main/Menu/data_02163000.h"
+#include "Main/Menu/wl_menu_scene.h"
 
 // 0x40 bytes.
 typedef struct MultiSelectNS {
@@ -78,3 +81,10 @@ void RefreshMultiSelectMemberGroup(s32 showSelected);
 void SetMemberGroupCellTableOffsetY(void);
 s32 IsSelectedMemberRowSelectable(void);
 s32 IsRectInMemberRow(s32 rectIndex, s32 memberRow);
+
+extern const u16 gMemberRowRectIndices[4][3];
+extern const LabelMessageRow gMemberGroupLabelMessageRows[5];
+extern const MemberRowCellIndices gMemberRowCellIndices[4];
+extern LabelPaletteIndices gMemberLabelPaletteIndices;
+extern struct WLMenuCallbacks gMultiSelectMemberGroupCallbacks;
+extern struct MultiSelectMemberGroup *gMultiSelectMemberGroup;

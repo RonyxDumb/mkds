@@ -3,44 +3,7 @@
 
 typedef struct GhostSceneCallbacks GhostSceneCallbacks;
 
-extern s16 gTimeAttackGhostSendSLabelTextRows[][4];
+extern GhostSceneCallbacks data_usa_02164244;
 
-extern char data_usa_02162d04[];
+extern GhostSceneCallbacks data_usa_02164460;
 
-extern char gGhostBmgName[];
-
-extern char gTimeAttackGhostSendMBNcgrName[];
-
-extern char gTimeAttackGhostSendMBNclrName[];
-
-extern char gTimeAttackGhostSendMNscrName[];
-
-extern char gTimeAttackGhostSendMNcgrName[];
-
-extern char gTimeAttackGhostSendMNcerName[];
-
-extern char gTimeAttackGhostSendMONclrName[];
-
-extern char gTimeAttackGhostSendMBnclName[];
-
-extern char gTimeAttackGhostSendMBnllName[];
-
-extern char gTimeAttackGhostSendSBNcgrName[];
-
-extern char gTimeAttackGhostSendSBNclrName[];
-
-extern char gTimeAttackGhostSendSNscrName[];
-
-extern char gTimeAttackGhostSendSNcgrName[];
-
-extern char gTimeAttackGhostSendSNcerName[];
-
-extern char gTimeAttackGhostSendSONclrName[];
-
-extern char gTimeAttackGhostSendSBnclName[];
-
-extern char gTimeAttackGhostSendSBnllName[];
-
-extern char gTimeAttackGhostSendSBnblName[];
-
-extern GhostSceneCallbacks *gGhostSceneCallbacks[];

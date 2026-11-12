@@ -712,6 +712,9 @@ src/Main/Menu/wifi_vs_course_select_files.c:
 src/Main/Menu/player_entry_list.c:
     complete
     .text       start:0x0202b604 end:0x0202cc78
+    .rodata     start:0x02153a9c end:0x02153bec
+    .data       start:0x021626d0 end:0x02162c64
+    .bss        start:0x02174e0c end:0x02174e1c
 
 // provisional: file name and boundaries
 src/Main/Graphics/timer_cell_index.c:
@@ -727,6 +730,9 @@ src/Main/Menu/own_entry_position_copy_cell.c:
 src/Main/Menu/ghost_send.c:
     complete
     .text       start:0x0202ccc0 end:0x0202d990
+    .rodata     start:0x02153bec end:0x02153c04
+    .data       start:0x02162c64 end:0x02162f4c
+    .bss        start:0x02174e20 end:0x02174e24
 
 // provisional: file name and boundaries
 src/Main/Race/ghost_list.c:
@@ -737,6 +743,8 @@ src/Main/Race/ghost_list.c:
 src/Main/Menu/ghost_scene.c:
     complete
     .text       start:0x0202dd9c end:0x0202e468
+    .data       start:0x02162f4c end:0x02163260
+    .bss        start:0x02174e24 end:0x02174e28
 
 // provisional: file name and boundaries
 src/Main/Menu/scroll_list_state.c:
@@ -747,6 +755,8 @@ src/Main/Menu/scroll_list_state.c:
 src/Main/Menu/wl_menu_scene.c:
     complete
     .text       start:0x0202f14c end:0x0202f498
+    .data       start:0x02163260 end:0x02163280
+    .bss        start:0x02174e2c end:0x02174e30
 
 // provisional: file name and boundaries
 src/Main/Menu/wl_menu_kind.c:
@@ -762,11 +772,15 @@ src/Main/Menu/wl_menu_bg.c:
 src/Main/Menu/multi_select_files.c:
     complete
     .text       start:0x0202f554 end:0x0202f688
+    .data       start:0x02163280 end:0x021634a8
 
 // provisional: file name and boundaries
 src/Main/Menu/multi_select_member_group.c:
     complete
     .text       start:0x0202f688 end:0x020302a0
+    .rodata     start:0x02153c04 end:0x02153d20
+    .data       start:0x021634a8 end:0x02163614
+    .bss        start:0x02174e30 end:0x02174e34
 
 // provisional: file name and boundaries
 src/Main/Menu/multi_select_ns_registers.c:
@@ -792,11 +806,16 @@ src/Main/Menu/multi_select_ns_has_pair.c:
 src/Main/Menu/multi_select_ns.c:
     complete
     .text       start:0x020307b8 end:0x02030a10
+    .rodata     start:0x02153d20 end:0x02153d44
+    .data       start:0x02163614 end:0x021636d4
+    .bss        start:0x02174e34 end:0x02174e38
 
 // provisional: file name and boundaries
 src/Main/Menu/multi_select_ns_layout_count.c:
     complete
     .text       start:0x02030a10 end:0x0203206c
+    .data       start:0x021636d4 end:0x021638ec
+    .bss        start:0x02174e38 end:0x02174e3c
 
 // provisional: file name and boundaries
 src/Main/Menu/select_game.c:

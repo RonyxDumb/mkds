@@ -6,8 +6,8 @@ struct WLMenuScene;
 
 // Table of four functions that member 0x80c of WLMenuScene points to.
 typedef struct WLMenuCallbacks {
-    /* 00 */ void (*mInit)(void *a, struct WLMenuScene *b, void *c);
-    /* 04 */ s32 (*mAdvance)(void *a);
+    /* 00 */ void (*mInit)(void *a, void *b, void *c);
+    /* 04 */ s32 (*mAdvance)();
     /* 08 */ void (*mRelease)(void);
     /* 0c */ void (*mWriteRegisters)(void);
 } WLMenuCallbacks;
@@ -45,3 +45,6 @@ void AdvanceWLMenuScene(void *sceneNumbers);
 void InitWLMenuScene(void *heap);
 void WLMenuGXS_SetOBJVRamModeChar(u32 bits);
 void WLMenuGX_SetOBJVRamModeChar(u32 bits);
+
+extern struct WLMenuCallbacks *gWLMenuCallbacks[8];
+extern struct WLMenuScene *gWLMenuScene;

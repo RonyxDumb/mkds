@@ -3,6 +3,7 @@
 #include "Main/Graphics/font_and_player_character.h"
 #include "Main/Menu/data_02163000.h"
 
+
 #pragma thumb on
 
 void LoadMultiSelectFiles(void) {
@@ -15,37 +16,37 @@ void LoadMultiSelectFiles(void) {
     palette = NULL;
     cells = NULL;
     screenMaps[0] = NULL;
-    file = FindSceneFile(gMultiSelectMemberSBNcgrName);
+    file = FindSceneFile("multi_select_member_s_b.NCGR");
     LoadNcgrData(&chars, file);
-    file = FindSceneFile(gMultiSelectMemberMNcgrName);
+    file = FindSceneFile("multi_select_member_m.nce.ncgr");
     LoadNcgrData2(&chars, file);
-    file = FindSceneFile(gMultiSelectMemberGroupSNcgrName);
+    file = FindSceneFile("multi_select_member_group_s.nce.ncgr");
     LoadNcgrData2(&chars, file);
-    file = FindSceneFile(gMultiSelectMemberRegisterSNcgrName);
+    file = FindSceneFile("multi_select_member_register_s.nce.ncgr");
     LoadNcgrData2(&chars, file);
-    file = FindSceneFile(gMultiSelectNSSNcgrName);
+    file = FindSceneFile("multi_select_NS_s.nce.ncgr");
     LoadNcgrData2(&chars, file);
-    file = FindSceneFile(gMultiSelectMemberMNcerName);
+    file = FindSceneFile("multi_select_member_m.nce.ncer");
     LoadNcerData(&cells, file);
-    file = FindSceneFile(gMultiSelectMemberGroupSNcerName);
+    file = FindSceneFile("multi_select_member_group_s.nce.ncer");
     LoadNcerData(&cells, file);
-    file = FindSceneFile(gMultiSelectMemberRegisterSNcerName);
+    file = FindSceneFile("multi_select_member_register_s.nce.ncer");
     LoadNcerData(&cells, file);
-    file = FindSceneFile(gMultiSelectNSSNcerName);
+    file = FindSceneFile("multi_select_NS_s.nce.ncer");
     LoadNcerData(&cells, file);
-    file = FindSceneFile(gMultiSelectMemberMONclrName);
+    file = FindSceneFile("multi_select_member_m_o.NCLR");
     LoadNclrData(&palette, file);
-    file = FindSceneFile(gMultiSelectMemberSBNclrName);
+    file = FindSceneFile("multi_select_member_s_b.NCLR");
     LoadNclrData(&palette, file);
-    file = FindSceneFile(gMultiSelectMemberGroupSONclrName);
+    file = FindSceneFile("multi_select_member_group_s_o.NCLR");
     LoadNclrData(&palette, file);
-    file = FindSceneFile(gMultiSelectMemberRegisterSONclrName);
+    file = FindSceneFile("multi_select_member_register_s_o.NCLR");
     LoadNclrData(&palette, file);
-    file = FindSceneFile(gMultiSelectNSSONclrName);
+    file = FindSceneFile("multi_select_NS_s_o.NCLR");
     LoadNclrData(&palette, file);
-    file = FindSceneFile(gMultiSelectMemberSRegisterNscrName);
+    file = FindSceneFile("multi_select_member_s_register.NSCR");
     LoadNscrData(screenMaps, file);
-    file = FindSceneFile(gMultiSelectMemberSGroupNscrName);
+    file = FindSceneFile("multi_select_member_s_group.NSCR");
     LoadNscrData(screenMaps, file);
 }
 

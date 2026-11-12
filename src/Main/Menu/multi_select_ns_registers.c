@@ -13,6 +13,7 @@
 #include "Main/Save/buddy_record_time.h"
 #include "g2d_CellTransferManager.h"
 #include "registers.h"
+#include "Main/Menu/multi_select_ns.h"
 
 #pragma optimize_for_size on
 

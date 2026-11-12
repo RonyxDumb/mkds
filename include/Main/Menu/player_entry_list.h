@@ -1,23 +1,7 @@
 #pragma once
 
 #include "types.h"
-
-extern char gSelectMenuEtcDownloadMBNcgrName[];
-extern char gSelectMenuEtcDownloadMNcgrName[];
-extern char gSelectMenuEtcDownloadMNcerName[];
-extern char gSelectMenuEtcDownloadMONclrName[];
-extern char gSelectMenuEtcDownloadMBNclrName[];
-extern char gSelectMenuEtcDownloadMBg00NscrName[];
-extern char gSelectMenuEtcDownloadMBg01NscrName[];
-extern char gSelectMenuEtcMBNcgrName[];
-extern char gSelectMenuEtcMNcgrName[];
-extern char gSelectMenuEtcTitleMNcgrName[];
-extern char gSelectMenuEtcMNcerName[];
-extern char gSelectMenuEtcTitleMNcerName[];
-extern char gSelectMenuEtcMONclrName[];
-extern char gSelectMenuEtcMBNclrName[];
-extern char gSelectMenuEtcMBg00NscrName[];
-extern char gSelectMenuEtcMBg01NscrName[];
+#include "Main/Menu/data_0202bb80.h"
 
 void RequestPlayerEntryListSetup(void);
 void SetPlayerEntryListShowAllEntries(s32 showAll);
@@ -53,3 +37,18 @@ void ResetEntrySlots(void);
 void SetEntryTargetSlot(s32 entryIndex, s32 slot);
 
 void SetEntrySlot(s32 entryIndex, s32 slot);
+
+extern const u16 gTitleCellIndices[4];
+extern const u16 gNormalTimerDigitCellIndices[10];
+extern const u16 gDownloadTimerDigitCellIndices[10];
+extern const u16 gDownloadCharacterCellIndices[14];
+extern const u16 gNormalCharacterCellIndices[14];
+extern const EntryCellIndices gNormalEntryCellIndices[8];
+extern const EntryCellIndices gDownloadEntryCellIndices[8];
+extern const EntryLabelTextRow gNormalEntryLabelTextRows[8];
+extern const EntryLabelTextRow gDownloadEntryLabelTextRows[8];
+extern const s16 gEntrySlotOffsetsX[4];
+extern const struct EntryLabelTextRow *gEntryLabelTextRows;
+extern const u16 *gCharacterCellIndices;
+extern const u16 *gTimerDigitCellIndices;
+extern const struct EntryCellIndices *gEntryCellIndices;

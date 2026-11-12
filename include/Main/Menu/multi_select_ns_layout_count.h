@@ -57,6 +57,7 @@ typedef struct SceneNumbers SceneNumbers;
 #include "tp.h"
 #include "Main/Save/buddy_record_time.h"
 #include "g2d_CellTransferManager.h"
+#include "Main/Menu/wl_menu_scene.h"
 
 void WriteMultiSelectMemberRegisters(void);
 void ReleaseMultiSelectMember(void);
@@ -77,3 +78,7 @@ void PrintMultiSelectConnectionNames(void);
 void PrintMultiSelectMemberNames(void);
 s32 CountMultiSelectChildren(void);
 void SetupMultiSelectMemberSubTextButton(void);
+
+extern struct WLMenuCallbacks gMemberKeyStartCallbacks;
+extern struct WLMenuCallbacks gMemberNoKeyStartCallbacks;
+extern struct MultiSelectMember *gMultiSelectMember;

@@ -77,8 +77,8 @@ void SetupCellFileSet(u32 screen, void *heap, CellFileSet *fileSet) {
     NNS_GfdRegisterNewVramTransferTask(charsCode, 0, fileSet->mChars->mData, fileSet->mChars->mDataSize);
 }
 
-s32 SetupLabelCanvas(u32 screen, void *heap, CellFileSet *fileSet, void *entryPointer, s32 objSizeLeft) {
-    LabelCanvasEntry *entry = entryPointer;
+s32 SetupLabelCanvas(u32 screen, void *heap, CellFileSet *fileSet, const void *entryPointer, s32 objSizeLeft) {
+    const LabelCanvasEntry *entry = entryPointer;
     s32 result;
     result =
         InitLabelCanvas(heap, entry->mLabelIndex, fileSet->mLabelLayout, entry->mWidth, entry->mHeight,

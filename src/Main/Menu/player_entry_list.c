@@ -47,6 +47,21 @@
 #include "Main/MapObjects/map_object_park.h"
 #include "Main/Race/followed_kart_or.h"
 
+const u16 gTitleCellIndices[4] = {0, 1, 2, 0};
+const u16 gNormalTimerDigitCellIndices[10] = {0x2f, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38};
+const u16 gDownloadTimerDigitCellIndices[10] = {0x2e, 0x2f, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37};
+const u16 gDownloadCharacterCellIndices[14] = {0x19, 0x1a, 0x1b, 0x1c, 0x1d, 0x1e, 0x1f, 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0};
+const u16 gNormalCharacterCellIndices[14] = {0x1a, 0x1b, 0x1c, 0x1d, 0x1e, 0x1f, 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0};
+const EntryCellIndices gNormalEntryCellIndices[8] = {{0, 9, 0x11}, {1, 0xa, 0x12}, {2, 0xb, 0x13}, {3, 0xc, 0x14}, {4, 0xd, 0x15}, {5, 0xe, 0x16}, {6, 0xf, 0x17}, {7, 0x10, 0x18}};
+const EntryCellIndices gDownloadEntryCellIndices[8] = {{0, 9, 0x11}, {1, 0xa, 0x12}, {2, 0xb, 0x13}, {3, 0xc, 0x14}, {4, 0xd, 0x15}, {5, 0xe, 0x16}, {6, 0xf, 0x17}, {7, 0x10, 0x18}};
+const EntryLabelTextRow gNormalEntryLabelTextRows[8] = {{0, {0x30, 0, 0xb, 0, 9, 0}}, {1, {0x30, 0, 0xb, 0, 0xa, 0}}, {2, {0x30, 0, 0xb, 0, 0xb, 0}}, {3, {0x30, 0, 0xb, 0, 0xc, 0}}, {4, {0x30, 0, 0xb, 0, 0xd, 0}}, {5, {0x30, 0, 0xb, 0, 0xe, 0}}, {6, {0x30, 0, 0xb, 0, 0xf, 0}}, {7, {0x30, 0, 0xb, 0, 0x10, 0}}};
+const EntryLabelTextRow gDownloadEntryLabelTextRows[8] = {{0, {0x30, 0, 0xb, 0, 9, 0}}, {1, {0x30, 0, 0xb, 0, 0xa, 0}}, {2, {0x30, 0, 0xb, 0, 0xb, 0}}, {3, {0x30, 0, 0xb, 0, 0xc, 0}}, {4, {0x30, 0, 0xb, 0, 0xd, 0}}, {5, {0x30, 0, 0xb, 0, 0xe, 0}}, {6, {0x30, 0, 0xb, 0, 0xf, 0}}, {7, {0x30, 0, 0xb, 0, 0x10, 0}}};
+const s16 gEntrySlotOffsetsX[4] = {-96, 0, 0xa0, 0x100};
+const EntryLabelTextRow *gEntryLabelTextRows;
+const u16 *gCharacterCellIndices;
+const u16 *gTimerDigitCellIndices;
+const EntryCellIndices *gEntryCellIndices;
+
 #pragma thumb on
 
 void SetEntrySlot(s32 entryIndex, s32 slot) {
@@ -182,7 +197,7 @@ static inline void PlayerEntryListMI_CpuCopy16(const void *source, void *destina
 }
 
 void SetExtraEntryNames(void) {
-    void *text = GetBmgEntry(FindFileInLoadedArchivesWrapper(data_usa_02162c58), 0x72);
+    void *text = GetBmgEntry(FindFileInLoadedArchivesWrapper("common.bmg"), 0x72);
     u16 digitBuffer[3];
     u16 *digitText = &digitBuffer[1];
     s32 entryIndex;
@@ -231,11 +246,11 @@ void InitPlayerEntryList(void *parentHeap, void *mainOam) {
     objSizeLeft = GX_GetSizeOfOBJ();
     fileSet = &gPlayerEntryList->mParts;
     if (gBootInfo->mBootType == 2) {
-        LocateCellFileSet(fileSet, data_usa_02162aac, data_usa_02162ad4, data_usa_02162afc,
-                          gSelectMenuEtcDownloadMBnclName, gSelectMenuEtcDownloadMBnllName, NULL, FindSceneFile);
+        LocateCellFileSet(fileSet, "mb/select_menu_etc_download_m.nce.ncgr", "mb/select_menu_etc_download_m.nce.ncer", "mb/select_menu_etc_download_m_o.NCLR",
+                          "mb/select_menu_etc_download_m.bncl", "mb/select_menu_etc_download_m.bnll", NULL, FindSceneFile);
     } else {
-        LocateCellFileSet(fileSet, data_usa_02162b6c, data_usa_02162b88, data_usa_02162ba4, gSelectMenuEtcMBnclName,
-                          gSelectMenuEtcMBnllName, NULL, FindFileInLoadedArchives);
+        LocateCellFileSet(fileSet, "select_menu_etc_m.nce.ncgr", "select_menu_etc_m.nce.ncer", "select_menu_etc_m_o.NCLR", "select_menu_etc_m.bncl",
+                          "select_menu_etc_m.bnll", NULL, FindFileInLoadedArchives);
     }
     InitLayoutTable(gPlayerEntryList->mHeap, fileSet->mCellLayout, fileSet->mLabelLayout, &fileSet->mCellTable);
     for (entryIndex = 0; entryIndex < 8; entryIndex++) {
@@ -252,8 +267,8 @@ void InitPlayerEntryList(void *parentHeap, void *mainOam) {
     SetupInterpolation(&gPlayerEntryList->mInterpolations[2], 3, 10, 0x60, 0);
     SetupInterpolation(&gPlayerEntryList->mInterpolations[3], 3, 10, 0x40, 0);
     if (gBootInfo->mBootType != 2) {
-        LocateCellFileSet(&gPlayerEntryList->mTitleParts, data_usa_02162bf0, data_usa_02162c14, NULL,
-                          gSelectMenuEtcTitleMBnclName, NULL, NULL, FindFileInLoadedArchives);
+        LocateCellFileSet(&gPlayerEntryList->mTitleParts, "select_menu_etc_title_m.nce.ncgr", "select_menu_etc_title_m.nce.ncer", NULL,
+                          "select_menu_etc_title_m.bncl", NULL, NULL, FindFileInLoadedArchives);
     }
     gPlayerEntryList->mSetupRequested = TRUE;
     FrmHeapShrinkInParent(gPlayerEntryList->mHeap);
@@ -360,14 +375,14 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
         reg_G2_BG0CNT = (reg_G2_BG0CNT & 0x43) | 0xd08;
         reg_G2_BG1CNT = (reg_G2_BG1CNT & 0x43) | 0xc00;
         if (gBootInfo->mBootType == 2) {
-            LocateAndQueueScreenMapFileSet(0, screenMapFileSet, data_usa_02162904, data_usa_0216292c, data_usa_02162954,
+            LocateAndQueueScreenMapFileSet(0, screenMapFileSet, "mb/select_menu_etc_download_m_b.NCGR", "mb/select_menu_etc_download_m_b.NCLR", "mb/select_menu_etc_download_m_bg_00.NSCR",
                                            0, FindSceneFile);
-            LocateAndQueueScreenMapFileSet(0, screenMapFileSet, data_usa_02162980, data_usa_021629a8, data_usa_021629d0,
+            LocateAndQueueScreenMapFileSet(0, screenMapFileSet, "mb/select_menu_etc_download_m_b.NCGR", "mb/select_menu_etc_download_m_b.NCLR", "mb/select_menu_etc_download_m_bg_01.NSCR",
                                            1, FindSceneFile);
         } else {
-            LocateAndQueueScreenMapFileSet(0, screenMapFileSet, data_usa_021629fc, data_usa_02162a18, data_usa_02162a34,
+            LocateAndQueueScreenMapFileSet(0, screenMapFileSet, "select_menu_etc_m_b.NCGR", "select_menu_etc_m_b.NCLR", "select_menu_etc_m_bg_00.NSCR",
                                            0, FindFileInLoadedArchives);
-            LocateAndQueueScreenMapFileSet(0, screenMapFileSet, data_usa_02162a54, data_usa_02162a70, data_usa_02162a8c,
+            LocateAndQueueScreenMapFileSet(0, screenMapFileSet, "select_menu_etc_m_b.NCGR", "select_menu_etc_m_b.NCLR", "select_menu_etc_m_bg_01.NSCR",
                                            1, FindFileInLoadedArchives);
         }
     } else if (gPlayerEntryList->mScreenKind == PLAYER_ENTRY_LIST_KART) {
@@ -631,23 +646,23 @@ void LoadPlayerEntryListFiles(void) {
     Nscr *screenMap;
 
     if (gBootInfo->mBootType == 2) {
-        LoadNcgrData(&chars, FindSceneFile(gSelectMenuEtcDownloadMBNcgrName));
-        LoadNcgrData2(&chars, FindSceneFile(gSelectMenuEtcDownloadMNcgrName));
-        LoadNcerData(&cells, FindSceneFile(gSelectMenuEtcDownloadMNcerName));
-        LoadNclrData(&palette, FindSceneFile(gSelectMenuEtcDownloadMONclrName));
-        LoadNclrData(&palette, FindSceneFile(gSelectMenuEtcDownloadMBNclrName));
-        LoadNscrData(&screenMap, FindSceneFile(gSelectMenuEtcDownloadMBg00NscrName));
-        LoadNscrData(&screenMap, FindSceneFile(gSelectMenuEtcDownloadMBg01NscrName));
+        LoadNcgrData(&chars, FindSceneFile("mb/select_menu_etc_download_m_b.NCGR"));
+        LoadNcgrData2(&chars, FindSceneFile("mb/select_menu_etc_download_m.nce.ncgr"));
+        LoadNcerData(&cells, FindSceneFile("mb/select_menu_etc_download_m.nce.ncer"));
+        LoadNclrData(&palette, FindSceneFile("mb/select_menu_etc_download_m_o.NCLR"));
+        LoadNclrData(&palette, FindSceneFile("mb/select_menu_etc_download_m_b.NCLR"));
+        LoadNscrData(&screenMap, FindSceneFile("mb/select_menu_etc_download_m_bg_00.NSCR"));
+        LoadNscrData(&screenMap, FindSceneFile("mb/select_menu_etc_download_m_bg_01.NSCR"));
     } else {
-        LoadNcgrData(&chars, FindFileInLoadedArchives(gSelectMenuEtcMBNcgrName));
-        LoadNcgrData2(&chars, FindFileInLoadedArchives(gSelectMenuEtcMNcgrName));
-        LoadNcgrData2(&chars, FindFileInLoadedArchives(gSelectMenuEtcTitleMNcgrName));
-        LoadNcerData(&cells, FindFileInLoadedArchives(gSelectMenuEtcMNcerName));
-        LoadNcerData(&cells, FindFileInLoadedArchives(gSelectMenuEtcTitleMNcerName));
-        LoadNclrData(&palette, FindFileInLoadedArchives(gSelectMenuEtcMONclrName));
-        LoadNclrData(&palette, FindFileInLoadedArchives(gSelectMenuEtcMBNclrName));
-        LoadNscrData(&screenMap, FindFileInLoadedArchives(gSelectMenuEtcMBg00NscrName));
-        LoadNscrData(&screenMap, FindFileInLoadedArchives(gSelectMenuEtcMBg01NscrName));
+        LoadNcgrData(&chars, FindFileInLoadedArchives("select_menu_etc_m_b.NCGR"));
+        LoadNcgrData2(&chars, FindFileInLoadedArchives("select_menu_etc_m.nce.ncgr"));
+        LoadNcgrData2(&chars, FindFileInLoadedArchives("select_menu_etc_title_m.nce.ncgr"));
+        LoadNcerData(&cells, FindFileInLoadedArchives("select_menu_etc_m.nce.ncer"));
+        LoadNcerData(&cells, FindFileInLoadedArchives("select_menu_etc_title_m.nce.ncer"));
+        LoadNclrData(&palette, FindFileInLoadedArchives("select_menu_etc_m_o.NCLR"));
+        LoadNclrData(&palette, FindFileInLoadedArchives("select_menu_etc_m_b.NCLR"));
+        LoadNscrData(&screenMap, FindFileInLoadedArchives("select_menu_etc_m_bg_00.NSCR"));
+        LoadNscrData(&screenMap, FindFileInLoadedArchives("select_menu_etc_m_bg_01.NSCR"));
     }
 }
 
