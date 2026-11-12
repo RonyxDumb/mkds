@@ -7,6 +7,7 @@
 #include "03/code_021d1f70.h"
 #include "03/unk_021da000.h"
 #include "03/Menu/slide_buttons.h"
+#include "03/Menu/message_box.h"
 #include "03/System/application.h"
 #include "03/code_021cb11c.h"
 #include "code_0212df7c.h"

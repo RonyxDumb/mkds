@@ -15,6 +15,8 @@
 #include "03/unk_021d5000.h"
 #include "03/unk_021da000.h"
 #include "03/System/exp_heap.h"
+#include "code_02147cd8.h"
+#include "03/code_021d2ecc.h"
 
 const u8 gAnimatedIconPalettes[3] = {0xe, 4, 5};
 const u16 gAnimatedIconPosition[2] = {0xe6, 0x8b};
