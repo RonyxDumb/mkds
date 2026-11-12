@@ -9,7 +9,7 @@
 #include "Main/Unknown/code_0210f230.h"
 #include "Main/Item/item_in_use.h"
 #include "Main/Item/item_pool.h"
-#include "Main/MapObjects/sman.h"
+#include "Main/Race/gp_records_killer.h"
 #include "Main/Unknown/code_0208c188.h"
 #include "Main/Unknown/code_020b1dbc.h"
 #include "Main/Kart/point_link_cursor.h"

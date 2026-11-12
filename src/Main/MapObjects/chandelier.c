@@ -18,7 +18,7 @@
 #include "Main/Unknown/unk_021759c0.h"
 #include "Main/Unknown/unk_0217b000.h"
 #include "Main/Unknown/unk_0217c000.h"
-#include "Main/MapObjects/sun.h"
+#include "Main/MapObjects/bound.h"
 
 u16 FX_Atan2Idx(s32 a, s32 b);
 

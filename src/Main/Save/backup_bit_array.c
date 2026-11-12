@@ -1,7 +1,7 @@
 #include "Main/Save/backup_bit_array.h"
 #include "Main/Save/bit_array_byte.h"
 #include "Main/Unknown/code_02090000.h"
-#include "Main/MapObjects/sman.h"
+#include "Main/Race/gp_records_killer.h"
 #include "Main/Unknown/code_0214d000.h"
 #include "Main/Unknown/code_02152000.h"
 #include "Main/Unknown/unk_02175000.h"

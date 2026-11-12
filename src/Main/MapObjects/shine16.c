@@ -24,7 +24,7 @@
 #include "Main/Unknown/code_0209b634.h"
 #include "code_02146d78.h"
 #include "Main/Unknown/code_02042044.h"
-#include "Main/MapObjects/sun.h"
+#include "Main/MapObjects/bound.h"
 #include "Main/Unknown/code_0208b000.h"
 #include "Main/Unknown/code_02081000.h"
 #include "Main/Kart/kart_effects.h"

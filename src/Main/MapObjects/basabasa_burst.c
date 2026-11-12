@@ -1,5 +1,5 @@
 #include "Main/MapObjects/basabasa_burst.h"
-#include "Main/MapObjects/kanoke64.h"
+#include "Main/MapObjects/cow.h"
 #include "Main/Unknown/code_020ac000.h"
 
 #include "Main/MapObjects/basabasa.h"

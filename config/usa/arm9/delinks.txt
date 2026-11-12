@@ -5,7 +5,7 @@
     .bss        start:0x0216f320 end:0x021804c0 kind:bss align:32
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0200007e.c:
+libs/NitroSDK/mi/src/code_0200007e.c:
     .text       start:0x02000000 end:0x02000800
 
 // provisional: file name and boundaries
@@ -2064,12 +2064,12 @@ src/Main/Kart/kart_ai_item_clear.c:
     .text       start:0x02090348 end:0x02090354
 
 // provisional: file name and boundaries
-src/Main/MapObjects/sman.c:
+src/Main/Race/gp_records_killer.c:
     complete
     .text       start:0x02090354 end:0x020911f4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020911f4.c:
+src/Main/MapObjects/sman.c:
     complete
     .text       start:0x020911f4 end:0x020917d0
 
@@ -2079,12 +2079,12 @@ src/Main/MapObjects/sman_with.c:
     .text       start:0x020917d0 end:0x020918a8
 
 // provisional: file name and boundaries
-src/Main/MapObjects/kanoke64.c:
+src/Main/MapObjects/cow.c:
     complete
     .text       start:0x020918a8 end:0x020919a8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020919a8.c:
+src/Main/MapObjects/kanoke64.c:
     complete
     .text       start:0x020919a8 end:0x02092178
 
@@ -2114,12 +2114,12 @@ src/Main/MapObjects/mkd_ef_burner.c:
     .text       start:0x020931ac end:0x020937c4
 
 // provisional: file name and boundaries
-src/Main/MapObjects/ns_killer.c:
+src/Main/MapObjects/ns_killer2.c:
     complete
     .text       start:0x020937c4 end:0x02093cb4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02093cb4.c:
+src/Main/MapObjects/ns_killer1.c:
     complete
     .text       start:0x02093cb4 end:0x02093fa4
 
@@ -2139,12 +2139,12 @@ src/Main/MapObjects/teresa_spawner.c:
     .text       start:0x02094e1c end:0x02095504
 
 // provisional: file name and boundaries
-src/Main/MapObjects/move_tree.c:
+src/Main/MapObjects/bakubaku.c:
     complete
     .text       start:0x02095504 end:0x020959bc
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020959bc.c:
+src/Main/MapObjects/move_tree.c:
     complete
     .text       start:0x020959bc end:0x02095f30
 
@@ -2188,12 +2188,12 @@ src/Main/MapObjects/map_object_model_frame.c:
     .text       start:0x0209b60c end:0x0209bf70
 
 // provisional: file name and boundaries
-src/Main/MapObjects/sun.c:
+src/Main/MapObjects/bound.c:
     complete
     .text       start:0x0209bf70 end:0x0209cef0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0209cef0.c:
+src/Main/MapObjects/sun.c:
     complete
     .text       start:0x0209cef0 end:0x0209d694
 
@@ -2218,7 +2218,7 @@ src/Main/MapObjects/picture_puddle.c:
     .text       start:0x0209eb54 end:0x0209ec44
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0209ec44.c:
+src/Main/MapObjects/picture.c:
     complete
     .text       start:0x0209ec44 end:0x0209f124
 
@@ -2243,7 +2243,7 @@ src/Main/MapObjects/chandelier.c:
     .text       start:0x0209f650 end:0x0209f698
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0209f698.c:
+src/Main/MapObjects/town_monte.c:
     complete
     .text       start:0x0209f698 end:0x020a0028
 

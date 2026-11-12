@@ -1,4 +1,4 @@
-#include "Main/MapObjects/sman.h"
+#include "Main/Race/gp_records_killer.h"
 #include "Main/Unknown/unk_02175628.h"
 #include "Main/System/archive_slots.h"
 #include "Main/Kart/kart_effects_ahead.h"
@@ -20,7 +20,7 @@
 #include "code_02146d78.h"
 #include "Main/Unknown/code_02042044.h"
 #include "Main/Unknown/unk_021759c0.h"
-#include "Main/MapObjects/sun.h"
+#include "Main/MapObjects/bound.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "Main/Unknown/code_020d4c28.h"
 #include "Main/Unknown/code_020e6b58.h"
@@ -45,456 +45,179 @@
 #include "Main/Unknown/code_0207e654.h"
 #include "code_02147cd8.h"
 
-static inline BOOL AreAllGrandPrixRecordsTopRank(void) {
-    BOOL isFilledTopRank;
-    enum { K0 } cup;
-    enum { L0 } engineClass;
-    for (cup = 0; cup < 8; cup++) {
-        for (engineClass = 0; engineClass < 4; engineClass++) {
-            if (IsGrandPrixRecordFilled(cup, engineClass) != 0 && GetGrandPrixRecordCupRank(cup, engineClass) == 0) {
-                isFilledTopRank = TRUE;
-            } else {
-                isFilledTopRank = FALSE;
-            }
-            if (isFilledTopRank == FALSE) {
-                return FALSE;
-            }
-        }
-    }
-    return TRUE;
+void CreateSmanTop(void *mapObjectList) {
+    MapObjectModel *mapObjectModelNsbmd;
+    mapObjectModelNsbmd = CreateMapObjectModelNsbmd(mapObjectList, gSmanTopNsbmdName);
+    gSmanTop = mapObjectModelNsbmd;
+    SetMapObjectModelPolygonId(mapObjectModelNsbmd, 0x3f);
 }
 
-static inline BOOL IsGrandPrixRecordFilledTopRank(s32 cup, s32 engineClass) {
-    if (IsGrandPrixRecordFilled(cup, engineClass) != 0 && GetGrandPrixRecordCupRank(cup, engineClass) == 0) {
-        return TRUE;
-    }
-    return FALSE;
+void SetupDrawSmanTop(void *mapObjectList) {
+    QueueMapObjectModelMaterial(mapObjectList, gSmanTop);
 }
 
-u32 SetAndWriteSecretMessageFlags(void) {
-    u32 setFlagBits;
-    setFlagBits = 0;
-    if (GetCurrentSceneNumber() == 10) {
-        setFlagBits = SetSecretMessageFlags();
-        WriteBackupFirstBlockWrapper();
-        WaitThreadFunctionsDone();
-        if (gBackupAccess->mBackupEnabled != 0) {
-            CARD_WaitBackupAsync();
-        }
-    }
-    return setFlagBits;
+void DrawSmanTop(void *mapObjectList, Sman *sman) {
+    s32 commandArg;
+    MtxFx33 matrix;
+    s32 topOffset[3];
+    commandArg = 0x1e;
+    NNS_G3dGeBufferOP_N(0x14, &commandArg, 1);
+    NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&sman->mMapObject.mPos), 0xc);
+    topOffset[1] = sman->mTopHeight >> 4;
+    topOffset[0] = 0;
+    topOffset[2] = 0;
+    NNS_G3dGeBufferOP_N(0x1c, topOffset, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &sman->mMapObject.mScale, 3);
+    MTX_RotZ33_(&matrix, FX_SinIdx((u16) sman->mAngleZ), FX_CosIdx((u16) sman->mAngleZ));
+    NNS_G3dGeBufferOP_N(0x1a, &matrix, 9);
+    DrawMapObjectModel(mapObjectList, gSmanTop, sman);
 }
 
-u32 SetSecretMessageFlagsWrapper(void) {
-    return SetSecretMessageFlags();
+void CreateSmanBottom(void *mapObjectList) {
+    MapObjectModel *mapObjectModelNsbmd;
+    mapObjectModelNsbmd = CreateMapObjectModelNsbmd(mapObjectList, gSmanBottomNsbmdName);
+    gSmanBottom = mapObjectModelNsbmd;
+    SetMapObjectModelPolygonId(mapObjectModelNsbmd, 0x3f);
 }
 
-// Sets the backup flags and kart appear limit earned by top-rank records; returns one bit per new secret message.
-u32 SetSecretMessageFlags(void) {
-    u32 setFlagBits;
-    u32 limitRaiseBit;
-    BOOL isLimitRaised;
-    setFlagBits = 0;
-    setFlagBits = setFlagBits | SetSecretMessageFlagsPerEngineClass();
-    setFlagBits = setFlagBits | SetSecretMessageFlagsFromCups3And7();
-    limitRaiseBit = 0;
-    isLimitRaised = FALSE;
-    if (GetKartAppearLimit() < 2) {
-        if ((IsGrandPrixRecordFilled(3, 1) != 0 && GetGrandPrixRecordCupRank(3, 1) == 0) ? 1 : 0) {
-            RaiseKartAppearLimit(2);
-            isLimitRaised = TRUE;
-        }
-    }
-    if (isLimitRaised != FALSE) {
-        limitRaiseBit = 0x200;
-    }
-    isLimitRaised = FALSE;
-    if (GetKartAppearLimit() < 3) {
-        BOOL isFilledTopRank;
-        if (IsGrandPrixRecordFilled(3, 2) != 0 && GetGrandPrixRecordCupRank(3, 2) == 0) {
-            isFilledTopRank = TRUE;
-        } else {
-            isFilledTopRank = FALSE;
-        }
-        if (isFilledTopRank != FALSE) {
-            goto l1;
-        }
-        if (IsGrandPrixRecordFilled(7, 2) != 0 && GetGrandPrixRecordCupRank(7, 2) == 0) {
-            isFilledTopRank = TRUE;
-        } else {
-            isFilledTopRank = FALSE;
-        }
-        if (isFilledTopRank != FALSE) {
-        l1:
-            RaiseKartAppearLimit(3);
-            isLimitRaised = TRUE;
-        }
-    }
-    if (isLimitRaised != FALSE) {
-        limitRaiseBit = 0x400;
-    }
-    isLimitRaised = FALSE;
-    if (GetKartAppearLimit() < 4) {
-        if ((IsGrandPrixRecordFilled(3, 3) != 0 && GetGrandPrixRecordCupRank(3, 3) == 0) ? 1 : 0) {
-            if ((IsGrandPrixRecordFilled(7, 3) != 0 && GetGrandPrixRecordCupRank(7, 3) == 0) ? 1 : 0) {
-                RaiseKartAppearLimit(4);
-                isLimitRaised = TRUE;
-            }
-        }
-    }
-    if (isLimitRaised != FALSE) {
-        limitRaiseBit = 0x800;
-    }
-    return setFlagBits | limitRaiseBit;
+void SetupDrawSmanBottom(void *mapObjectList) {
+    QueueMapObjectModelMaterial(mapObjectList, gSmanBottom);
 }
 
-u32 SetSecretMessageFlagsPerEngineClass(void) {
-    enum { K0 } engineClass;
-    u32 setFlagBits;
-    u32 lastGroupBit;
-    u32 newBit;
-    s32 firstFlag;
-    s32 secondFlag;
-    s32 thirdFlag;
-    setFlagBits = 0;
-    for (engineClass = 0; engineClass < 4; engineClass++) {
-        newBit = 0;
-        if (IsBackupFlagSet(engineClass) == 0) {
-            if (IsGrandPrixRecordFilledTopRank(0, engineClass) != FALSE &&
-                IsGrandPrixRecordFilledTopRank(1, engineClass) != FALSE) {
-                SetBackupFlag(engineClass);
-                newBit = 1;
-            }
-        }
-        setFlagBits = setFlagBits | newBit;
-        newBit = 0;
-        firstFlag = engineClass + 4;
-        if (IsBackupFlagSet(firstFlag) == 0) {
-            if (IsGrandPrixRecordFilledTopRank(2, engineClass) != FALSE) {
-                SetBackupFlag(firstFlag);
-                newBit = 2;
-            }
-        }
-        setFlagBits = setFlagBits | newBit;
-        newBit = 0;
-        secondFlag = engineClass + 8;
-        if (IsBackupFlagSet(secondFlag) == 0) {
-            if (IsGrandPrixRecordFilledTopRank(4, engineClass) != FALSE &&
-                IsGrandPrixRecordFilledTopRank(5, engineClass) != FALSE) {
-                SetBackupFlag(secondFlag);
-                newBit = 4;
-            }
-        }
-        setFlagBits = setFlagBits | newBit;
-        newBit = 0;
-        thirdFlag = engineClass + 12;
-        if (IsBackupFlagSet(thirdFlag) == 0) {
-            if (IsGrandPrixRecordFilledTopRank(6, engineClass) != FALSE) {
-                SetBackupFlag(thirdFlag);
-                newBit = 8;
-            }
-        }
-        setFlagBits = setFlagBits | newBit;
-    }
-    lastGroupBit = 0;
-    if (IsBackupFlagSet(0x10) == 0) {
-        if (IsGrandPrixRecordFilledTopRank(3, 2) != FALSE && IsGrandPrixRecordFilledTopRank(7, 2) != FALSE) {
-            SetBackupFlag(0x10);
-            lastGroupBit = 0x10;
-        }
-    }
-    return setFlagBits | lastGroupBit;
+void DrawSmanBottom(void *mapObjectList, Sman *sman) {
+    s32 commandArg;
+    s32 scale[3];
+    s32 bottomScale;
+    commandArg = 0x1e;
+    NNS_G3dGeBufferOP_N(0x14, &commandArg, 1);
+    NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&sman->mMapObject.mPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &sman->mMapObject.mScale, 3);
+    bottomScale = sman->mBottomScale;
+    scale[0] = bottomScale;
+    scale[1] = bottomScale;
+    scale[2] = bottomScale;
+    NNS_G3dGeBufferOP_N(0x1b, scale, 3);
+    DrawMapObjectModel(mapObjectList, gSmanBottom, sman);
 }
 
-u32 SetSecretMessageFlagsFromCups3And7(void) {
-    u32 setFlagBits;
-    BOOL flag;
-    setFlagBits = 0;
-    flag = FALSE;
-    if (IsBackupFlagSet(0x14) == 0) {
-        if ((IsGrandPrixRecordFilled(3, 0) != 0 && GetGrandPrixRecordCupRank(3, 0) == 0) ? 1 : 0) {
-            SetBackupFlag(0x14);
-            flag = TRUE;
-        }
-    }
-    if (flag != FALSE) {
-        setFlagBits = setFlagBits | 0x20;
-    }
-    flag = FALSE;
-    if (IsBackupFlagSet(0x15) == 0) {
-        if ((IsGrandPrixRecordFilled(7, flag) != 0 && GetGrandPrixRecordCupRank(7, flag) == 0) ? 1 : 0) {
-            SetBackupFlag(0x15);
-            flag = TRUE;
-        }
-    }
-    if (flag != FALSE) {
-        setFlagBits = setFlagBits | 0x40;
-    }
-    flag = FALSE;
-    if (IsBackupFlagSet(0x16) == 0) {
-        if ((IsGrandPrixRecordFilled(7, 1) != 0 && GetGrandPrixRecordCupRank(7, 1) == 0) ? 1 : 0) {
-            SetBackupFlag(0x16);
-            flag = TRUE;
-        }
-    }
-    if (flag != FALSE) {
-        setFlagBits = setFlagBits | 0x80;
-    }
-    flag = FALSE;
-    if (IsBackupFlagSet(0x17) == 0) {
-        BOOL isFilledTopRank;
-        if (IsGrandPrixRecordFilled(3, 3) != 0 && GetGrandPrixRecordCupRank(3, 3) == 0) {
-            isFilledTopRank = TRUE;
-        } else {
-            isFilledTopRank = FALSE;
-        }
-        if (isFilledTopRank != FALSE) {
-            goto l1;
-        }
-        if (IsGrandPrixRecordFilled(7, 3) != 0 && GetGrandPrixRecordCupRank(7, 3) == 0) {
-            isFilledTopRank = TRUE;
-        } else {
-            isFilledTopRank = FALSE;
-        }
-        if (isFilledTopRank != FALSE) {
-        l1:
-            SetBackupFlag(0x17);
-            flag = TRUE;
-        }
-    }
-    if (flag != FALSE) {
-        setFlagBits = setFlagBits | 0x100;
-    }
-    return setFlagBits;
-}
-
-// Returns 0 none, 1 the staff roll, 2 the true staff roll (all records top rank); both need cup 3 or 7 finished.
-s32 GetStaffRollKindAfterGp(void) {
-    MenuShared *menuShared;
-    s32 result;
-    s32 cupIndex;
-    s32 engineClass;
-    BOOL conditionMet;
-    BOOL flag;
-    result = 0;
-    menuShared = gMenuShared;
-    engineClass = menuShared->mEngineIndex;
-    cupIndex = menuShared->mCupIndex;
-    if (menuShared->mMirrorMode != 0) {
-        engineClass = 3;
-    }
-    conditionMet = FALSE;
-    flag = AreAllGrandPrixRecordsTopRank();
-    if (flag != FALSE) {
-        if (cupIndex == 3 || cupIndex == 7) {
-            if (gMenuShared->mCupRankIndex == 0) {
-                conditionMet = TRUE;
-            }
-        }
-    }
-    if (conditionMet != FALSE) {
-        result = 2;
-    } else {
-        conditionMet = FALSE;
-        if (cupIndex == 3 || cupIndex == 7) {
-            if (cupIndex == 7) {
-                cupIndex = 3;
-            } else {
-                cupIndex = 7;
-            }
-            if (IsGrandPrixRecordFilled(cupIndex, engineClass) != 0 &&
-                GetGrandPrixRecordCupRank(cupIndex, engineClass) <= 2) {
-                flag = TRUE;
-            } else {
-                flag = FALSE;
-            }
-            if (flag != FALSE) {
-                if (gMenuShared->mCupRankIndex <= 2) {
-                    conditionMet = TRUE;
-                }
-            }
-        }
-        if (conditionMet != FALSE) {
-            result = 1;
-        }
-    }
-    return result;
-}
-
-BOOL IsAllGrandPrixRecordsTopRank(void) {
-    return AreAllGrandPrixRecordsTopRank();
-}
-
-void LoadStaffGhostTime(void *heap) {
-    LoadFileIntoHeap(gStaffGhostTimeBinName, heap, (void **) &gStaffGhostTime);
-}
-
-// TRUE when the time is smaller than entry a - 1 of the staff ghost times.
-BOOL IsTimeLessThanStaffGhostTime(u32 entryNumber, MinuteSecondMillisecondTime *time) {
-    return time->mSecond * 1000 + time->mMinute * 60000 + time->mMillisecond < gStaffGhostTime[entryNumber - 1];
-}
-
-void SetupKartKillerCursor(KartKillerCursor *kartKillerCursor, u32 kartIndex) {
-    Kart *kart;
-    kart = GetKart(kartIndex);
-    kartKillerCursor->mKillerKartIndex = kartIndex;
-    SetupPointLinkCursor(&kartKillerCursor->mPointLinkCursor, kartIndex,
-                         (RacePointLink *) gKartItems[kartIndex].mItemLink.mLink);
-    kartKillerCursor->mEndCount = 0;
-    kartKillerCursor->mEndCountHoldTimer = 0;
-    kart->mTurnAngle = 0;
-    EndKartDrift(kart);
-}
-
-void ResetKartKillerCursorTo(KartKillerCursor *kartKillerCursor, RacePointLink *link) {
-    if (link == kartKillerCursor->mPointLinkCursor.mPreviousLink) {
+void InitSmanObjects(SmanList *smanList) {
+    s32 index;
+    Sman *sman;
+    if (smanList == NULL) {
         return;
     }
-    SetupPointLinkCursor(&kartKillerCursor->mPointLinkCursor, kartKillerCursor->mKillerKartIndex, link);
-}
-
-BOOL AdvanceKartKillerCursor(KartKillerCursor *kartKillerCursor) {
-    AdvanceKartKillerAlongPointLinks(kartKillerCursor);
-    return AdvanceKartKillerEndCount(kartKillerCursor);
-}
-
-// Holds the kart at a fixed speed, steers it toward the point link ahead, and moves the cursor on once the kart is past
-// that link or close to it.
-void AdvanceKartKillerAlongPointLinks(KartKillerCursor *kartKillerCursor) {
-    Kart *kart;
-    Vec3 position;
-    s32 isPastOrNearLink;
-    kart = GetKart(kartKillerCursor->mKillerKartIndex);
-    position = kart->mPos;
-    kartKillerCursor->mAngleToLinkDegrees = ComputeAngleToPositionDegrees(
-        kartKillerCursor->mPointLinkCursor.mLink->mPoint, &position, &kart->mUnk_12c, &kart->mUnk_138);
-    if ((kart->mDriveFlags & KART_DRIVE_BOOST_SURFACE_HELD) != 0 && kart->mSurfaceVariant == 1) {
-        isPastOrNearLink = IsPastPointLink(&kartKillerCursor->mPointLinkCursor, &position);
-    } else {
-        isPastOrNearLink = IsPastPointLink(&kartKillerCursor->mPointLinkCursor, &position);
-        if (isPastOrNearLink == 0) {
-            isPastOrNearLink = IsWithinPointLinkDistance(&kartKillerCursor->mPointLinkCursor, &position);
-        }
-    }
-    kart->mForwardSpeed = 0xa800;
-    kart->mSpeedLimitGoal = kart->mForwardSpeed;
-    kart->mSpeedLimit = kart->mSpeedLimitGoal;
-    if (isPastOrNearLink != 0) {
-        AdvancePointLinkCursorToFirstNext(&kartKillerCursor->mPointLinkCursor);
-    } else {
-        TurnKartKillerTowardPointLink(kartKillerCursor);
+    index = 0;
+    while (index < smanList->mSmanCount && (sman = smanList->mSmans[index]) != NULL) {
+        sman->mTopRiseProgress = 0x1000;
+        sman->mBottomScale = 0x1000;
+        index++;
+        sman->mTopStartHeight = MUL_FIXED12_NO_ROUND(sman->mMapObject.mScale.y, 0xf333);
+        sman->mTopLowHeight = MUL_FIXED12_NO_ROUND(sman->mMapObject.mScale.y, 0x2000);
+        sman->mTopHeight = sman->mTopStartHeight;
     }
 }
 
-// Turns the kart toward the point link ahead; the left and right keys first nudge the heading.
-void TurnKartKillerTowardPointLink(KartKillerCursor *kartKillerCursor) {
-    Kart *kart;
-    s32 angleToLinkDegrees;
-    s32 turnFactor;
-    u16 padBits;
-    u16 targetHeadingAngle;
-    s32 angleDifference;
-    s32 angleDifferenceAbs;
-    s32 entryIndex;
-    kart = GetKart(kartKillerCursor->mKillerKartIndex);
-    angleToLinkDegrees = kartKillerCursor->mAngleToLinkDegrees;
-    if ((kart->mMotionFlags & KART_MOTION_ON_GROUND) != 0) {
-        turnFactor = 0x19a;
-    } else {
-        turnFactor = 0x52;
+void UpdateSman(void *mapObjectList, Sman *sman) {
+    SoundStartParams soundRequest;
+    s32 falloffIndex;
+    switch (sman->mState) {
+        case 0:
+            sman->mAngleZEnabled = 1;
+            break;
+        case 1:
+            sman->mTopHeight = sman->mTopHeight + sman->mTopHeightPerFrame;
+            sman->mTopHeightPerFrame = sman->mTopHeightPerFrame - 0x400;
+            if (sman->mTopHeightPerFrame < -0x6000) {
+                sman->mTopHeightPerFrame = -0x6000;
+            }
+            if (sman->mMapObject.mCourseMapRow->mSettings[0] > 0) {
+                if (sman->mTopHeight < 0) {
+                    ParkMapObject(&sman->mMapObject);
+                }
+            } else if (sman->mTopHeight < sman->mTopLowHeight) {
+                sman->mTopHeight = sman->mTopLowHeight;
+                sman->mTopHeightPerFrame = 0;
+                sman->mState = 2;
+                falloffIndex = 2;
+                if ((sman->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
+                    if (sman->mMapObject.mFarDistanceSquared != gSoundFalloffs[2].mFarDistanceSquared) {
+                        if (sman->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
+                            falloffIndex = 3;
+                        } else {
+                            falloffIndex = 4;
+                        }
+                    }
+                    soundRequest.mSoundId = 0x162;
+                    soundRequest.mPositionSource = &sman->mMapObject.mPos;
+                    soundRequest.mFalloffIndex = falloffIndex;
+                    soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&sman->mMapObject.mPos);
+                    StartSoundFromParams(&soundRequest);
+                }
+            }
+            sman->mAngleZEnabled = 0;
+            break;
+        case 2:
+            sman->mStateFrames = sman->mStateFrames + 1;
+            if (sman->mStateFrames >= 0x12b) {
+                sman->mStateFrames = 0;
+                sman->mTopHeightPerFrame = ((sman->mTopStartHeight - sman->mTopLowHeight) * 0x40) / 0x1000;
+                sman->mState = 3;
+            }
+            sman->mAngleZEnabled = 0;
+            break;
+        case 3:
+            if (sman->mTopRiseProgress >= 0x1000) {
+                sman->mTopRiseProgress = 0x1000;
+                sman->mTopHeight = sman->mTopStartHeight;
+            } else {
+                sman->mTopRiseProgress = sman->mTopRiseProgress + 0x40;
+                sman->mTopHeight = sman->mTopHeight + sman->mTopHeightPerFrame;
+            }
+            sman->mStateFrames = sman->mStateFrames + 1;
+            if (sman->mStateFrames > 10) {
+                sman->mBottomScale = sman->mBottomScale + 0x40;
+                if (sman->mBottomScale >= 0x1000) {
+                    sman->mStateFrames = 0;
+                    sman->mBottomScale = 0x1000;
+                    sman->mMapObject.mFlags = sman->mMapObject.mFlags & ~1;
+                    sman->mState = 0;
+                }
+            }
+            sman->mAngleZEnabled = 1;
+            break;
     }
-    targetHeadingAngle = kart->mHeadingAngle + (s16) MUL_FIXED12_ROUNDED(angleToLinkDegrees, 0xb6);
-    entryIndex = *(volatile s32 *) &kart->mEntryIndex;
-    padBits = gInputSlots[entryIndex].mBits;
-    if ((u16) (padBits & PAD_KEY_LEFT) != 0) {
-        kart->mHeadingAngle = kart->mHeadingAngle + 0xa0;
-    } else if ((u16) (padBits & PAD_KEY_RIGHT) != 0) {
-        kart->mHeadingAngle = kart->mHeadingAngle - 0xa0;
+    if (sman->mAngleZEnabled == 0) {
+        return;
     }
-    angleDifference = targetHeadingAngle - kart->mHeadingAngle;
-    angleDifferenceAbs = angleDifference;
-    angleDifferenceAbs = (angleDifferenceAbs < 0) ? -angleDifferenceAbs : angleDifferenceAbs;
-    if (angleDifferenceAbs > 0x7fff) {
-        if (angleDifference > 0) {
-            angleDifference = -(0xffff - angleDifference);
+    sman->mAngleZ = sman->mAngleZ + sman->mAngleZPerFrame;
+    if (sman->mAngleZ >= 0) {
+        if (sman->mAngleZPerFrame < 0) {
+            sman->mAngleZPerFrame = -0xf0;
         } else {
-            angleDifference = angleDifference + 0xffff;
+            sman->mAngleZPerFrame = sman->mAngleZPerFrame - 8;
         }
-    }
-    kart->mHeadingAngle = kart->mHeadingAngle + MUL_FIXED12_NO_ROUND(angleDifference, turnFactor);
-}
-
-BOOL AdvanceKartKillerEndCount(KartKillerCursor *kartKillerCursor) {
-    BOOL limitReached;
-    BOOL isCounting;
-    Kart *kart;
-    limitReached = FALSE;
-    isCounting = FALSE;
-    kartKillerCursor->mEndCountHoldTimer = kartKillerCursor->mEndCountHoldTimer - 1;
-    if (kartKillerCursor->mEndCountHoldTimer <= 0) {
-        kartKillerCursor->mEndCountHoldTimer = 0;
     } else {
-        isCounting = TRUE;
-    }
-    kart = GetKart(kartKillerCursor->mKillerKartIndex);
-    if ((kart->mMotionFlags & (KART_MOTION_OBJECT_CONTACT | KART_MOTION_COURSE_CONTACT)) != 0) {
-        isCounting = TRUE;
-        kartKillerCursor->mEndCountHoldTimer = 5;
-    }
-    if (isCounting != FALSE) {
-        kartKillerCursor->mEndCount = kartKillerCursor->mEndCount + 1;
-        if (kartKillerCursor->mEndCount >= 0x78) {
-            kartKillerCursor->mEndCount = 0;
-            limitReached = TRUE;
+        if (sman->mAngleZPerFrame >= 0) {
+            sman->mAngleZPerFrame = 0xf0;
+        } else {
+            sman->mAngleZPerFrame = sman->mAngleZPerFrame + 8;
         }
-    } else if (kartKillerCursor->mEndCountHoldTimer <= 0) {
-        kartKillerCursor->mEndCount = 0;
     }
-    return limitReached;
 }
 
-// Stores one of three sets of battle item entry tables and callbacks; any value other than 1 or 2 takes the third set.
-void SetupBattleItemEntries(void) {
-    switch (gRaceSetup->mCpuDifficulty) {
-        case CPU_DIFFICULTY_EASY:
-            gBattleHeldItemEntries = gBattleEasyHeldItemEntries;
-            gBattleItemInUseEntries = gBattleEasyItemInUseEntries;
-            gThrowItemCircleKindCallback = EasyThrowItemRandomAfterInUse;
-            gUseItemCircleKindCallback = UseItemAfterInUse;
-            gThrowItemNotCircleKindCallback = ThrowItemRandomAfterInUse;
-            gUseItemNotCircleKindCallback = UseItemAfterInUseAtNearTargetAhead;
-            gThrowItemTrailKindCallback = ThrowItemRandomAfterInUseOrBehindNearTarget;
-            gThrowItemNotTrailKindCallback = UseItemBehindAfterInUseOrNearTarget;
-            return;
-        case CPU_DIFFICULTY_NORMAL:
-            gBattleHeldItemEntries = gBattleNormalHeldItemEntries;
-            gBattleItemInUseEntries = gBattleNormalItemInUseEntries;
-            gThrowItemCircleKindCallback = ThrowItemRandomAfterInUseOrAtNearTarget;
-            gUseItemCircleKindCallback = NormalUseItemAfterInUseAtNearTargetAheadDot;
-            gThrowItemNotCircleKindCallback = ThrowItemRandomAfterInUse;
-            gUseItemNotCircleKindCallback = UseItemAfterInUseAtNearTargetAhead;
-            gThrowItemTrailKindCallback = ThrowItemRandomAfterInUseOrBehindNearTarget;
-            gThrowItemNotTrailKindCallback = UseItemBehindAfterInUseOrNearTarget;
-            return;
-        case CPU_DIFFICULTY_HARD:
-            gBattleHeldItemEntries = gBattleHardHeldItemEntries;
-            gBattleItemInUseEntries = gBattleHardItemInUseEntries;
-            gThrowItemCircleKindCallback = ThrowItemAtNearTarget;
-            gUseItemCircleKindCallback = UseItemAfterInUseAtNearTargetAheadDot;
-            gThrowItemNotCircleKindCallback = ThrowItemAtNearTargetAfterInUseEveryCall;
-            gUseItemNotCircleKindCallback = HardUseItemAfterInUseAtNearTargetAhead;
-            gThrowItemTrailKindCallback = ThrowItemAtNearTargetAheadDotAfterInUse;
-            gThrowItemNotTrailKindCallback = ThrowItemBehindNearTargetAfterInUseEveryCall;
-            return;
-        default:
-            gBattleHeldItemEntries = gBattleHardHeldItemEntries;
-            gBattleItemInUseEntries = gBattleHardItemInUseEntries;
-            gThrowItemCircleKindCallback = ThrowItemAtNearTarget;
-            gUseItemCircleKindCallback = UseItemAfterInUseAtNearTargetAheadDot;
-            gThrowItemNotCircleKindCallback = ThrowItemAtNearTargetAfterInUseEveryCall;
-            gUseItemNotCircleKindCallback = HardUseItemAfterInUseAtNearTargetAhead;
-            gThrowItemTrailKindCallback = ThrowItemAtNearTargetAheadDotAfterInUse;
-            gThrowItemNotTrailKindCallback = ThrowItemBehindNearTargetAfterInUseEveryCall;
-            return;
-    }
+// Creates the kind record of Sman with two functions that put it into state 1 when their third argument points to 1.
+void CreateSmanKindData(void) {
+    CreateMapObjectKindDataWithSound(CollideKartWithSman, CollideItemObjectWithSman, NULL, 0, 1, 0x161);
+}
+
+void *CreateSmanTopDrawList(void) {
+    return CreateMapObjectDrawList2(CreateSmanTop, DrawSmanTop, SetupDrawSmanTop);
+}
+
+void *CreateSmanBottomDrawList(void) {
+    return CreateMapObjectDrawList2(CreateSmanBottom, DrawSmanBottom, SetupDrawSmanBottom);
+}
+
+void *CreateSmanUpdateList(void) {
+    return CreateMapObjectUpdateList(InitSmanObjects, UpdateSman, NULL);
 }

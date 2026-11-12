@@ -6,7 +6,7 @@
 #include "Main/Save/slot_ghost_records.h"
 #include "Main/Save/course_ghost_records.h"
 #include "Main/Race/race.h"
-#include "Main/MapObjects/sman.h"
+#include "Main/Race/gp_records_killer.h"
 
 #include "Main/Unknown/code_02043000.h"
 #include "Main/Unknown/code_02044000.h"

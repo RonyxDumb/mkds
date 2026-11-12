@@ -8,7 +8,7 @@
 #include "Main/Unknown/code_0209b000.h"
 #include "Main/Unknown/code_02042044.h"
 #include "Main/Unknown/unk_021759c0.h"
-#include "Main/MapObjects/sun.h"
+#include "Main/MapObjects/bound.h"
 #include "Main/Unknown/code_020f36d8.h" // ItemObject
 #include "Main/MapObjects/map_object_park.h"
 #include "Main/Unknown/code_020d8654.h"

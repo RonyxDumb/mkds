@@ -20,7 +20,7 @@
 #include "Main/Race/cup_records.h"
 #include "Main/Unknown/code_0207d814.h"
 #include "Main/Unknown/code_0207e654.h"
-#include "Main/MapObjects/sman.h"
+#include "Main/Race/gp_records_killer.h"
 #include "Main/Unknown/code_020f36d8.h"
 #include "code_020172d0.h"
 #include "code_0201750c.h"

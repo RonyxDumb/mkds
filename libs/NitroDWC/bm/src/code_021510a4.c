@@ -9,7 +9,7 @@
 #include "Main/Unknown/code_02000000.h"
 #include "Main/Unknown/unk_02180000.h"
 #include "code_0200fc8c.h"
-#include "Main/Unknown/code_0200007e.h"
+#include "code_0200007e.h"
 
 #pragma thumb on
 

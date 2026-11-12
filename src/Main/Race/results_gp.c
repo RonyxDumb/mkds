@@ -45,7 +45,7 @@
 #include "code_0214d018.h"
 #include "code_021458c4.h"
 #include "Main/Race/course_list.h"
-#include "Main/MapObjects/sman.h"
+#include "Main/Race/gp_records_killer.h"
 
 #pragma thumb on
 

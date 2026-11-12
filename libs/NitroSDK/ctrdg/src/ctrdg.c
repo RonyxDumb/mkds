@@ -1,7 +1,7 @@
 #include "ctrdg.h"
 #include "code_0214d5b8.h"
 #include "Main/Unknown/code_02000000.h"
-#include "Main/Unknown/code_0200007e.h"
+#include "code_0200007e.h"
 
 #pragma thumb on
 

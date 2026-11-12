@@ -6,7 +6,7 @@
 #include "Main/Unknown/code_0209bef0.h"
 #include "Main/Unknown/code_02042044.h"
 #include "Main/Unknown/unk_021759c0.h"
-#include "Main/MapObjects/sun.h"
+#include "Main/MapObjects/bound.h"
 #include "ITCM/code_01ff8000.h"
 #include "ITCM/code_01ff9000.h"
 #include "Main/Unknown/code_0209b634.h"

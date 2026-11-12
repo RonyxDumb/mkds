@@ -10,7 +10,7 @@
 #include "code_02146d78.h"
 #include "Main/Unknown/code_02042044.h"
 #include "Main/Unknown/unk_021759c0.h"
-#include "Main/MapObjects/sun.h"
+#include "Main/MapObjects/bound.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "Main/MapObjects/map_object_matrix.h"
 #include "Main/MapObjects/while_requested_full_volume_wrapper.h"

@@ -12,7 +12,7 @@
 #include "Main/Unknown/unk_02175000.h"
 #include "Main/Unknown/unk_021759c0.h"
 #include "Main/Unknown/unk_0217a000.h"
-#include "Main/MapObjects/sman.h"
+#include "Main/Race/gp_records_killer.h"
 
 static inline u32 BuildCourseListNextRandomBelowU16(RandomState64 *randomState64, u32 limit) {
     u64 result;

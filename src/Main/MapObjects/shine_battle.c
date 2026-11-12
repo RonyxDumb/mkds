@@ -15,7 +15,7 @@
 #include "Main/Item/item_koura_w.h"
 #include "Main/Unknown/unk_021759c0.h"
 #include "Main/Unknown/code_020a7148.h"
-#include "Main/MapObjects/sun.h"
+#include "Main/MapObjects/bound.h"
 #include "Main/Kart/karts.h"
 
 void InitShineBattleObjects(MapObject *mapObject) {

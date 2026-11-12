@@ -1,5 +1,5 @@
 #include "Main/MapObjects/sman_with.h"
-#include "Main/MapObjects/sman.h"
+#include "Main/Race/gp_records_killer.h"
 
 #include "Main/MapObjects/sound_if_kart_star_or.h"
 #include "Main/Unknown/unk_02156000.h"

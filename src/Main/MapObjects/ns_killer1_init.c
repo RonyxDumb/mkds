@@ -1,5 +1,5 @@
 #include "Main/MapObjects/ns_killer1_init.h"
-#include "Main/MapObjects/ns_killer.h"
+#include "Main/MapObjects/ns_killer2.h"
 #include "Main/MapObjects/shine_balloon.h"
 #include "Main/MapObjects/straight_segment_lengths.h"
 #include "Main/MapObjects/group_follower_init.h"

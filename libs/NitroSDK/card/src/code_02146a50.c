@@ -3,7 +3,7 @@
 #include "code_0214d5b8.h"
 #include "pm.h"
 #include "Main/Unknown/code_02000000.h"
-#include "Main/Unknown/code_0200007e.h"
+#include "code_0200007e.h"
 
 // Powers the console off when the lid-closed bit is set, otherwise sends the terminate word on tag 14, then ends in
 // OS_Terminate.

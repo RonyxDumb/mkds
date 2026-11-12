@@ -6,7 +6,7 @@
 #include "Main/Unknown/unk_02175000.h"
 #include "00/code_02181f98.h"
 #include "Main/Menu/title_scene.h"
-#include "Main/MapObjects/sman.h"
+#include "Main/Race/gp_records_killer.h"
 
 #include "Main/Unknown/code_020ad32c.h"
 #include "Main/Unknown/code_020ad344.h"

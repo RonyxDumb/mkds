@@ -42,7 +42,7 @@
 #include "Main/Graphics/model_animation_loop.h"
 #include "Main/Kart/kart_level.h"
 #include "Main/Unknown/code_0208c534.h"
-#include "Main/MapObjects/sman.h"
+#include "Main/Race/gp_records_killer.h"
 #include "Main/Race/standings_balloons.h"
 #include "Main/Unknown/code_020b1dbc.h"
 #include "Main/Kart/point_link_cursor.h"
