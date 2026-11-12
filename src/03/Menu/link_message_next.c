@@ -1,6 +1,6 @@
 #include "03/Menu/link_message_next.h"
 #include "03/Menu/menu_pair_loading.h"
-#include "03/Menu/edit_keyboard.h"
+#include "03/Menu/link_level.h"
 #include "03/code_021c3fa0.h"
 #include "03/code_021cdbd0.h"
 #include "03/code_021d1dd0.h"

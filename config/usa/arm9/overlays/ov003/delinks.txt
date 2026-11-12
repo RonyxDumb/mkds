@@ -75,11 +75,37 @@ src/03/Graphics/hl_scr.c:
     .bss        start:0x021da114 end:0x021da118
 
 // provisional: file name and boundaries
+src/03/Menu/link_level.c:
+    complete
+    .text       start:0x021bf8e0 end:0x021bfa40
+    .rodata     start:0x021d5f14 end:0x021d5f20
+    .bss        start:0x021da118 end:0x021da11c
+
+// provisional: file name and boundaries
+src/03/Menu/edit_keyboard_slide_out.c:
+    complete
+    .text       start:0x021bfa40 end:0x021bfca0
+    .rodata     start:0x021d5f20 end:0x021d5f50
+
+// provisional: file name and boundaries
 src/03/Menu/edit_keyboard.c:
     complete
-    .text       start:0x021bf8e0 end:0x021c0f98
+    .text       start:0x021bfca0 end:0x021c04e8
     .data       start:0x021d6b84 end:0x021d6d80
-    .bss        start:0x021da118 end:0x021da120
+    .bss        start:0x021da11c end:0x021da120
+    .rodata     start:0x021d5f50 end:0x021d5f60
+
+// provisional: file name and boundaries
+src/03/Menu/edit_keyboard_touch.c:
+    complete
+    .text       start:0x021c04e8 end:0x021c0a00
+    .rodata     start:0x021d5f60 end:0x021d5ff0
+
+// provisional: file name and boundaries
+src/03/Menu/edit_keyboard_create.c:
+    complete
+    .text       start:0x021c0a00 end:0x021c0f98
+    .rodata     start:0x021d5ff0 end:0x021d61d4
 
 // provisional: file name and boundaries
 src/03/Menu/edit_addr_keyboard.c:
@@ -126,11 +152,17 @@ src/03/System/alloc_exp_heap_block.c:
     .text       start:0x021c28b8 end:0x021c28c4
 
 // provisional: file name and boundaries
+src/03/Menu/exchange_status_record.c:
+    complete
+    .text       start:0x021c28c4 end:0x021c29e8
+    .bss        start:0x021da158 end:0x021da15c
+
+// provisional: file name and boundaries
 src/03/Menu/main_menu.c:
     complete
-    .text       start:0x021c28c4 end:0x021c2c54
+    .text       start:0x021c29e8 end:0x021c2c54
     .data       start:0x021d6e00 end:0x021d6f90
-    .bss        start:0x021da158 end:0x021da15c
+    .bss        start:0x021da15c end:0x021da160
 
 // provisional: file name and boundaries
 src/03/Menu/jb2_menu.c:

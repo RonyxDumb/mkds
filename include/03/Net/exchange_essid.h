@@ -137,7 +137,7 @@ extern Bytes7 gKind2Item3Bytes;
 extern u8 gHashPadding[64];
 extern u8 gPacketBuffer[0x800];
 extern u8 gBodyBuffer[0x800];
-extern Kind5Items gKind5Items;
+extern Kind5Items gExchangeResultItems;
 extern ExchangeResult gExchangeResult;
 extern OSThread gExchangeThread;
 extern char gSelectedEntryName[36];

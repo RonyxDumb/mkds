@@ -3,7 +3,7 @@
 #include "03/code_021ca008.h"
 #include "03/code_021c9cf4.h"
 #include "03/Graphics/hl_scr.h"
-#include "03/Menu/main_menu.h"
+#include "03/Menu/exchange_status_record.h"
 #include "03/code_021be000.h"
 #include "03/code_021bf000.h"
 #include "03/Menu/sub_screen_message.h"

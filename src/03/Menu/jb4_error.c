@@ -26,6 +26,7 @@
 #include "code_0213c9f8.h"
 #include "03/Graphics/dispcnt_window.h"
 #include "03/Menu/slide_buttons.h"
+#include "03/Menu/main_menu.h"
 
 const u8 gJb4ErrorFontIndices[6] = {0, 1, 1, 1, 1, 1};
 const u16 gJb4ErrorMessageRect[4] = {0xd, 0x3c, 0xe6, 0x5e};

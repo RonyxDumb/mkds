@@ -66,7 +66,7 @@ char gSixAsterisksString[7] = "******";
 u8 gHashPadding[64] = {0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 u8 gPacketBuffer[0x800];
 u8 gBodyBuffer[0x800];
-Kind5Items gKind5Items;
+Kind5Items gExchangeResultItems;
 ExchangeResult gExchangeResult;
 OSThread gExchangeThread;
 char gSelectedEntryName[36];
@@ -1219,7 +1219,7 @@ s32 StoreMacAddressAndBuildKey(u8 *key, void *unused) {
     return 1;
 }
 
-// Stores the items of types 0x201 to 0x20a in the record, the 0x203 and 0x204 words, the values and the item 0x20a of gKind5Items.
+// Stores the items of types 0x201 to 0x20a in the record, the 0x203 and 0x204 words, the values and the item 0x20a of gExchangeResultItems.
 s32 ParseExchangePacketKind5Items(u8 *body) {
     u8 *end;
     BOOL found;
@@ -1235,12 +1235,12 @@ s32 ParseExchangePacketKind5Items(u8 *body) {
     while (value != NULL) {
         switch (type) {
             case 0x201:
-                __clear(&gKind5Items.mRecord, 0x20);
-                memcpy(&gKind5Items.mRecord, value, length);
+                __clear(&gExchangeResultItems.mRecord, 0x20);
+                memcpy(&gExchangeResultItems.mRecord, value, length);
                 found = TRUE;
                 break;
             case 0x202:
-                gKind5Items.mRecord.mItem202Value = SwapBytes16_inline(*(u16 *) value);
+                gExchangeResultItems.mRecord.mItem202Value = SwapBytes16_inline(*(u16 *) value);
                 break;
             case 0x203: {
                 s32 value0x203;
@@ -1248,7 +1248,7 @@ s32 ParseExchangePacketKind5Items(u8 *body) {
                 u8 *slot0x203;
                 value0x203 = SwapBytes16_inline(*(u16 *) value);
                 index0x203 = 0;
-                slot0x203 = (u8 *) &gKind5Items;
+                slot0x203 = (u8 *) &gExchangeResultItems;
                 for (; index0x203 < 4; index0x203++) {
                     *OFFSET_PTR(u32, slot0x203, 0x15c) = value0x203;
                     slot0x203 += 0x28;
@@ -1260,7 +1260,7 @@ s32 ParseExchangePacketKind5Items(u8 *body) {
                 s32 index0x203;
                 value0x204 = SwapBytes16_inline(*(u16 *) value);
                 index0x203 = 0;
-                slot0x204 = (u8 *) &gKind5Items;
+                slot0x204 = (u8 *) &gExchangeResultItems;
                 for (; index0x203 < 4; index0x203++) {
                     *OFFSET_PTR(u32, slot0x204, 0x160) = value0x204;
                     slot0x204 += 0x28;
@@ -1272,7 +1272,7 @@ s32 ParseExchangePacketKind5Items(u8 *body) {
                     s32 index0x204;
                     value0x203 = SwapBytes16_inline(*(u16 *) value);
                     index0x204 = 0;
-                    slot0x204 = (u8 *) &gKind5Items;
+                    slot0x204 = (u8 *) &gExchangeResultItems;
                     for (; index0x204 < 4; index0x204++) {
                         *OFFSET_PTR(u32, slot0x204, 0x160) = value0x203;
                         slot0x204 += 0x28;
@@ -1280,27 +1280,27 @@ s32 ParseExchangePacketKind5Items(u8 *body) {
                     break;
                 }
             case 0x205:
-                gKind5Items.mRecord.mItem205Value = SwapBytes16_inline(*(u16 *) value);
+                gExchangeResultItems.mRecord.mItem205Value = SwapBytes16_inline(*(u16 *) value);
                 break;
             case 0x206:
             case 0x207:
             case 0x208:
             case 0x209:
-                memset(gKind5Items.mValues + (type - 0x206) * 0x28, 0, 0x20);
-                if (gKind5Items.mRecord.mStoreValuesAsHex == 1) {
+                memset(gExchangeResultItems.mValues + (type - 0x206) * 0x28, 0, 0x20);
+                if (gExchangeResultItems.mRecord.mStoreValuesAsHex == 1) {
                     u8 *hexCursor;
                     s32 byteIndex;
-                    hexCursor = gKind5Items.mValues + (type - 0x206) * 0x28;
+                    hexCursor = gExchangeResultItems.mValues + (type - 0x206) * 0x28;
                     for (byteIndex = 0; byteIndex < length; byteIndex++) {
                         hexCursor += FormatByteAsHex(hexCursor, *value++);
                     }
                 } else {
-                    memcpy(gKind5Items.mValues + (type - 0x206) * 0x28, value, length);
+                    memcpy(gExchangeResultItems.mValues + (type - 0x206) * 0x28, value, length);
                 }
                 break;
             case 0x20a:
-                __clear(&gKind5Items.mItem20a, 0x48);
-                memcpy(&gKind5Items.mItem20a, value, length);
+                __clear(&gExchangeResultItems.mItem20a, 0x48);
+                memcpy(&gExchangeResultItems.mItem20a, value, length);
                 break;
         }
         value = ReadNextItem(&cursor, end, &type, &length);
@@ -1366,20 +1366,20 @@ s32 FillExchangeResultFromKind5Data(void) {
     u8 *valueSource;
     u8 *resultBytes;
     result = 1;
-    strcpy(gExchangeResult.mText, gKind5Items.mRecord.mText);
-    switch (gKind5Items.mRecord.mItem202Value) {
+    strcpy(gExchangeResult.mText, gExchangeResultItems.mRecord.mText);
+    switch (gExchangeResultItems.mRecord.mItem202Value) {
         case 0:
             gExchangeResult.mKind = 0;
             break;
         case 1:
-            if (gKind5Items.mRecord.mItem205Value == 0) {
+            if (gExchangeResultItems.mRecord.mItem205Value == 0) {
                 result = -7;
                 break;
             }
-            gExchangeResult.mUnk_24 = gKind5Items.mRecord.mItem205Value;
+            gExchangeResult.mUnk_24 = gExchangeResultItems.mRecord.mItem205Value;
             valueIndex = 0;
             valueText = valueBuffer;
-            valueSource = gKind5Items.mValues;
+            valueSource = gExchangeResultItems.mValues;
             resultBytes = gExchangeResult.mValueBytes[0];
             for (; valueIndex < 4; valueIndex++) {
                 memcpy(valueText, valueSource, 0x20);
@@ -1421,11 +1421,11 @@ s32 FillExchangeResultFromKind5Data(void) {
             break;
         case 2:
             gExchangeResult.mKind = 4;
-            __memcpy(&gExchangeResult.mItem20aWords, &gKind5Items.mItem20a.mBytes, sizeof(gExchangeResult.mItem20aWords));
+            __memcpy(&gExchangeResult.mItem20aWords, &gExchangeResultItems.mItem20a.mBytes, sizeof(gExchangeResult.mItem20aWords));
             break;
         case 3:
             gExchangeResult.mKind = 5;
-            __memcpy(&gExchangeResult.mItem20aWords, &gKind5Items.mItem20a.mBytes, sizeof(gExchangeResult.mItem20aWords));
+            __memcpy(&gExchangeResult.mItem20aWords, &gExchangeResultItems.mItem20a.mBytes, sizeof(gExchangeResult.mItem20aWords));
             break;
         default:
             result = -7;
@@ -1548,7 +1548,7 @@ s32 RunExchange(void) {
                 gPacketLength = BuildExchangePacket(gPacketBuffer, 4, gBodyBuffer, gBodyLength, gFirstKey);
                 SendBytesToAllOnesAddressWrapper(descriptor, &peerAddress, gPacketBuffer, gPacketLength);
                 stamp = GetTickMilliseconds();
-                __clear(&gKind5Items, sizeof(Kind5Items));
+                __clear(&gExchangeResultItems, sizeof(Kind5Items));
                 gExchangeState = 8;
                 break;
             case 8:
@@ -1556,7 +1556,7 @@ s32 RunExchange(void) {
                     gBodyLength =
                         ReadExchangePacketPayloadOfKind(gPacketBuffer, 5, gBodyBuffer, &gSecondKeyReceivedPart);
                     if (gBodyLength != 0 && ParseExchangePacketKind5Items(gBodyBuffer) != 0) {
-                        if (*(s8 *) gKind5Items.mRecord.mText != 0) {
+                        if (*(s8 *) gExchangeResultItems.mRecord.mText != 0) {
                             gReceivedTextNonEmpty = 1;
                         } else {
                             gReceivedTextNonEmpty = 0;

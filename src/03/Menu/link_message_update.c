@@ -6,7 +6,7 @@
 #include "03/System/tasks.h"
 #include "03/Net/child_wait_session_object.h"
 #include "03/code_021d1f70.h"
-#include "03/Menu/edit_keyboard.h"
+#include "03/Menu/link_level.h"
 #include "03/Menu/opt_menu_message_next.h"
 #include "03/Menu/timed_message.h"
 #include "03/Menu/child_wait_message.h"

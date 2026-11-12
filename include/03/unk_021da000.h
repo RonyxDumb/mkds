@@ -47,8 +47,6 @@ typedef struct LinkLevel {
     /* 08 */ s8 mImageRow;
 } LinkLevel;
 
-extern LinkLevel *gLinkLevel;
-
 // The on-screen keys of the Edit screen.
 typedef struct EditKeyboard {
     /* 000 */ void *mRowTexts[3][4];

@@ -1,7 +1,7 @@
 #include "03/Menu/exchange_search.h"
 #include "registers.h"
 #include "03/code_021ca54c.h"
-#include "03/Menu/main_menu.h"
+#include "03/Menu/exchange_status_record.h"
 #include "03/code_021be000.h"
 #include "03/code_021c9000.h"
 #include "03/Menu/exchange_entry.h"

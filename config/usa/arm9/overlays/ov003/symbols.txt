@@ -1547,7 +1547,7 @@ gExchangeSearchEssidBytes kind:bss addr:0x021d8c84
 gSelectedEntryName kind:bss addr:0x021d8ca4
 gExchangeThread kind:bss addr:0x021d8cc8
 gExchangeResult kind:bss addr:0x021d8d88
-gKind5Items kind:bss addr:0x021d8e70
+gExchangeResultItems kind:bss addr:0x021d8e70
 gBodyBuffer kind:bss addr:0x021d90c4
 gPacketBuffer kind:bss addr:0x021d98c4
 gAnimatedIcon kind:bss addr:0x021da0c4

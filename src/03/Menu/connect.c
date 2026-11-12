@@ -31,7 +31,7 @@
 #include "03/Menu/menu_pair_loading.h"
 #include "03/Menu/sub_screen_message.h"
 #include "03/Graphics/hl_scr.h"
-#include "03/Menu/edit_keyboard.h"
+#include "03/Menu/link_level.h"
 
 const DWCACConfig gConnectParamsTemplate = {(void *(*)()) ConnectAllocExpHeapBlockWrapper, ConnectFreeExpHeapBlockWrapper, 3, 1, 0, 0};
 u8 gConnectSucceeded;

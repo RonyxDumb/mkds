@@ -34,7 +34,7 @@
 #include "03/Graphics/dispcnt_window.h"
 #include "03/System/exp_heap.h"
 #include "03/code_021d2ecc.h"
-#include "03/code_021c04ec.h"
+#include "03/Menu/edit_keyboard_create.h"
 #include "03/Menu/ap_list.h"
 #include "03/Menu/jb3_list.h"
 

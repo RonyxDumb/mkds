@@ -16,6 +16,7 @@
 #include "os_thread.h"
 #include "code_0200eddc.h"
 #include "code_02139f70.h"
+#include "03/Menu/main_menu.h"
 
 const u8 gLanguagePathLetters[6] = {0x6a, 0x65, 0x66, 0x67, 0x69, 0x73};
 const u16 gPrintMessageRect[4] = {0xd, 0x28, 0xe6, 0x70};

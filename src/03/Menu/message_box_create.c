@@ -21,6 +21,7 @@
 #include "mb_data.h"
 #include "code_02009928.h"
 #include "03/Net/multiboot_parent_download.h"
+#include "03/Menu/main_menu.h"
 
 #pragma opt_dead_assignments off
 
