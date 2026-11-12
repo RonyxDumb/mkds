@@ -1,9 +1,8 @@
 #include "Main/Menu/menu_sound.h"
 
-#include "Main/Unknown/unk_02175628.h"
-#include "Main/Unknown/code_020cb1cc.h"
-#include "Main/Unknown/code_020cb1dc.h"
-#include "Main/Unknown/unk_0217d068.h"
+#include "Main/Menu/data_02175628.h"
+#include "Main/Menu/data_0217d068.h"
+#include "player.h"
 #include "code_0212df7c.h"
 
 u32 MenuStartSeqArc(u32 seqIndex, u32 seqArcNo) {

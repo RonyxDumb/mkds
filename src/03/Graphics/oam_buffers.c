@@ -1,7 +1,6 @@
 #include "03/Graphics/oam_buffers.h"
 #include "03/code_021d2ecc.h"
 #include "03/System/pointer_stack.h"
-#include "Main/Unknown/code_0214d000.h"
 #include "03/Graphics/obj_char_ranges.h"
 #include "03/System/exp_heap.h"
 #include "03/code_021d1000.h"

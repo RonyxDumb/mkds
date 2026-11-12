@@ -1,12 +1,9 @@
 #include "Main/Save/backup_ghost_head.h"
-#include "Main/Unknown/code_020578fc.h"
 #include "Main/Save/backup_read_copy.h"
 #include "Main/Save/backup_write_copies.h"
 #include "Main/Save/backup_read_copies.h"
-#include "Main/Unknown/code_0214d000.h"
 #include "01/Menu/record_time_attack.h"
 #include "code_0214d018.h"
-#include "Main/Unknown/code_020578d0.h"
 
 #pragma thumb on
 

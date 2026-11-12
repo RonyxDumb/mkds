@@ -1,5 +1,5 @@
 #include "Main/Graphics/oam_lists.h"
-#include "Main/Unknown/code_0200e000.h"
+#include "os_thread.h"
 #include "code_0200eddc.h"
 #include "code_0214c778.h"
 

@@ -1,9 +1,10 @@
 #include "Main/Menu/battle_select_race_rule.h"
-#include "Main/Unknown/code_02029890.h"
+#include "Main/Race/race_setup.h"
 #include "Main/Menu/menu_screen_switch.h"
 #include "Main/Menu/select_race_rule.h"
 #include "Main/Menu/select_race_rule_multi_simple.h"
-#include "Main/Unknown/unk_021759c0.h"
+#include "Main/Race/data_021759c0.h"
+#include "tp.h"
 
 #pragma optimize_for_size on
 #pragma thumb on

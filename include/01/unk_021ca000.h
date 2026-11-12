@@ -3,7 +3,7 @@
 #include "types.h"
 #include "Main/Race/mission_table_value.h"
 #include "00/Menu/wi_fi_vs_setting.h"
-#include "Main/Unknown/unk_02029930.h" // MissionFileRow
+#include "Main/Race/data_02029930.h" // MissionFileRow
 
 typedef struct EndingScene {
     /* 000 */ s32 mState;

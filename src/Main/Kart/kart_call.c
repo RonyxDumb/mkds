@@ -1,16 +1,15 @@
 #include "Main/Kart/kart_call.h"
-#include "Main/Unknown/unk_0217a000.h"
+#include "Main/MapObjects/data_0217a000.h"
 #include "Main/Race/race.h"
-#include "Main/Unknown/code_0207a30c.h"
+#include "Main/Kart/karts.h"
 #include "Main/Kart/kart_effects.h"
-#include "Main/Unknown/code_020f36d8.h"
+#include "Main/Race/data_020f36d8.h"
 #include "code_02012b30.h"
 #include "code_02010c84.h"
 #include "code_02013740.h"
 #include "fx_mtx33.h"
 #include "fx_mtx43.h"
 #include "code_02147cd8.h"
-#include "Main/Kart/karts.h"
 
 // Copies row 1 of the matrix at 0x120 (mUnk_120_m), the kart's up direction, to the out vector. The camera takes it as
 // its up while KART_DRIVE_BOOST_SURFACE_HELD is set in mDriveFlags and the world up (0, 0x1000, 0) otherwise; the

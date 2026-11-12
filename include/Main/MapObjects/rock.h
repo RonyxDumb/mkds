@@ -3,9 +3,9 @@
 #include "types.h"
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h"
-#include "Main/Unknown/code_020e01f0.h"
-#include "Main/Unknown/code_020f36d8.h"
-#include "Main/Unknown/unk_0217b000.h"
+#include "Main/MapObjects/code_020e01f0.h"
+#include "Main/Race/data_020f36d8.h"
+#include "Main/MapObjects/data_0217b000.h"
 #include "Main/MapObjects/group_follower_advance.h"
 
 // 0x1c-byte element of the table behind gCollisionSlots.

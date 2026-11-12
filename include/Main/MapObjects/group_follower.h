@@ -12,7 +12,7 @@ typedef struct Unk020d6538_a {
     /* 6c */ u32 mUnk_6c;
 } Unk020d6538_a;
 
-#include "Main/Unknown/code_020f36d8.h"
+#include "Main/Race/data_020f36d8.h"
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h"
 

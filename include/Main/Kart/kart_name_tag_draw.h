@@ -7,7 +7,7 @@ typedef struct TexPlttEntry TexPlttEntry;
 typedef struct TexPlttEntry TexPlttEntry;
 typedef struct KartNameTag KartNameTag;
 
-#include "Main/Unknown/unk_0217a000.h"
+#include "Main/MapObjects/data_0217a000.h"
 
 void UploadTextureAndPalette(TexPlttEntry *texPlttEntry);
 void UploadKartEmblem(u32 kartIndex, void *texData, void *plttData);

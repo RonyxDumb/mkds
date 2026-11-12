@@ -5,7 +5,6 @@
 #include "Main/Save/backup_records_write.h"
 #include "Main/Save/grand_prix_record_get.h"
 #include "Main/Save/course_time_record.h"
-#include "Main/Unknown/code_02056c6c.h"
 #include "Main/Save/backup_bit_array.h"
 #include "Main/Save/buddy_record_reset.h"
 #include "Main/Save/buddy_records_write.h"

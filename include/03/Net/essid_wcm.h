@@ -5,9 +5,7 @@
 
 #include "types.h"
 #include "code_0214cfe4.h"
-#include "Main/Unknown/code_0200f000.h"
 #include "code_0200f790.h"
-#include "Main/Unknown/code_0214d000.h"
 #include "os_thread.h"
 #include "code_0200e77c.h"
 
@@ -155,6 +153,5 @@ void ConvertRecordToEssidEntry(RawEntry *src, EssidEntry *dst);
 
 #include "03/code_021b7000.h"
 #include "03/unk_021d8000.h"
-#include "Main/Unknown/code_02133000.h"
 #include "03/code_021b7bb4.h"
 #include "03/code_021ba818.h"

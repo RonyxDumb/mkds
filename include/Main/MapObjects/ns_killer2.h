@@ -4,8 +4,8 @@
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject, MapObjectList
 #include "Main/Kart/kart_drift.h" // Kart
-#include "Main/Unknown/code_020e005c.h" // GroupFollower
-#include "Main/Unknown/code_0210b000.h" // SoundDistanceSquaredChange
+#include "Main/MapObjects/code_020e005c.h" // GroupFollower
+#include "Main/Sound/data_0210b000.h" // SoundDistanceSquaredChange
 
 // Object of kind 0x1a2 (NsKiller2), pool objects: after the shared part, a counter at 0xa0, mMode at 0xa4 and an
 // object at 0xa8.

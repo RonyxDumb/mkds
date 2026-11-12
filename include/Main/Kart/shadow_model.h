@@ -1,9 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_02084000.h"
 #include "Main/Graphics/nsbmd_render_obj.h"
-#include "Main/Unknown/unk_02155000.h"
 
 // Object DrawShadowModel works on.
 typedef struct ShadowModel {

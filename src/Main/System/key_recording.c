@@ -3,11 +3,20 @@
 #include "Main/Race/race_setup_input.h"
 
 #include "Main/Scene/run_scene_connection.h"
-#include "Main/Unknown/unk_02165000.h"
+#include "Main/MapObjects/data_02165000.h"
+#include "Main/Menu/second_menu_scene.h"
+#include "Main/Menu/data_02175000.h"
+#include "Main/Scene/display_settings.h"
+#include "code_020182c0.h"
+#include "Main/Menu/data_02175628.h"
+#include "frameheap.h"
+#include "os_thread.h"
+#include "Main/MapObjects/map_object_park.h"
+#include "pm.h"
+#include "Main/Sound/sound_seq.h"
+#include "Main/Kart/kart_name_tags.h"
 #include "01/Menu/emblem_cursor.h"
-#include "Main/Unknown/code_0200e000.h"
 #include "Main/System/heap_call.h"
-#include "Main/Unknown/code_0214d000.h"
 #include "code_0200eddc.h"
 
 void AppendKeysToKeyRecording(KeyRecording *keyRecording, u16 keys) {

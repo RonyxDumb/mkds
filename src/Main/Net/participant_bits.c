@@ -1,7 +1,6 @@
 #include "Main/Net/participant_bits.h"
-#include "Main/Unknown/code_02056000.h"
 #include "Main/Save/backup_reset.h"
-#include "Main/Unknown/unk_0217a000.h"
+#include "Main/MapObjects/data_0217a000.h"
 
 #pragma thumb on
 

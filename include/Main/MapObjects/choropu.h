@@ -5,12 +5,12 @@
 #include "Main/Course/course_color_blend.h" // CourseColorBlend
 #include "Main/MapObjects/attractor.h" // MapObject
 #include "Main/Graphics/model_animation.h" // ModelAnimation
-#include "Main/Unknown/code_020e005c.h"
+#include "Main/MapObjects/code_020e005c.h"
 #include "Main/Kart/kart_drift.h" // Kart
-#include "Main/Unknown/code_0210b000.h" // SoundDistanceSquaredChange
+#include "Main/Sound/data_0210b000.h" // SoundDistanceSquaredChange
 #include "Main/MapObjects/map_object_kind_update_list.h" // MAP_OBJECT_KIND_ROTARY_GEAR
 #include "code_02012b30.h"
-#include "Main/Unknown/code_020d6dc0.h" // Quaternion
+#include "Main/MapObjects/code_020d6dc0.h" // Quaternion
 #include "Main/MapObjects/send_obj_shadow.h" // ShadowMatrix
 
 extern const MapObjectList data_02158a54;

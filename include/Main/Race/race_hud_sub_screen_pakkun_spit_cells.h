@@ -6,3 +6,5 @@ typedef struct RaceHudOamBuffer RaceHudOamBuffer;
 
 void DrawRaceHudSubScreenPakkunSpitCells(RaceHudOamBuffer *oamBuffer);
 void UpdateRaceHudSubScreenPakkunSpitCells(void);
+
+void ClearRaceHudSubScreenPakkunSpitCells(void);

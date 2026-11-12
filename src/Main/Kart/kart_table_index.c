@@ -1,7 +1,9 @@
 #include "Main/Kart/kart_table_index.h"
 
-#include "Main/Unknown/unk_02153000.h"
-#include "Main/Unknown/code_02029890.h"
+#include "Main/Menu/data_02153000.h"
+#include "code_02022aa8.h"
+#include "Main/Graphics/cell_file_set.h"
+#include "Main/Race/race_setup.h"
 
 #pragma thumb on
 s32 GetCharacterKartIndexByMode(s32 characterIndex) {

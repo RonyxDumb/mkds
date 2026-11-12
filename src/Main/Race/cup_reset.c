@@ -1,7 +1,7 @@
 #include "Main/Race/cup_reset.h"
-#include "Main/Unknown/code_0205d000.h"
 #include "Main/Race/cup_records.h"
-#include "Main/Unknown/unk_021759c0.h"
+#include "Main/Race/data_021759c0.h"
+#include "tp.h"
 
 void ResetCupToFirstCourse(void) {
     ResetCupRecords();

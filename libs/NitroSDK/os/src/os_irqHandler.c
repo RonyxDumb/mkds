@@ -2,10 +2,7 @@
 #include "code_0200c914.h"
 #include "os_thread.h"
 #include "code_0200fc8c.h"
-#include "Main/Unknown/code_02000000.h"
-#include "Main/Unknown/code_0200c000.h"
-#include "Main/Unknown/code_0200f000.h"
-#include "Main/Unknown/code_0214d000.h"
+#include "code_0200007e.h"
 
 // Optionally clears the bits irqFlags of the IRQ check flag, then sleeps the thread until one of them is set.
 void OS_WaitIrq(u32 clear, u32 irqFlags) {

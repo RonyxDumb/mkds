@@ -3,9 +3,8 @@
 #include "ITCM/code_01ffc000.h"
 #include "ITCM/collision_slots.h"
 #include "ITCM/code_01ffd000.h"
-#include "Main/Unknown/code_02039860.h"
 #include "Main/Kart/kart_drift.h"
-#include "Main/Unknown/unk_02154000.h"
+#include "Main/MapObjects/data_02154000.h"
 
 void AdvanceKartOffsetCycleIndex(Kart *kart) {
     kart->mOffsetCycleIndex = kart->mOffsetCycleIndex + 1;

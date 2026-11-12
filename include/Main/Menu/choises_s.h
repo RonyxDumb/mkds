@@ -1,9 +1,9 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/unk_0217b000.h"
+#include "Main/MapObjects/data_0217b000.h"
 #include "Main/Graphics/font_and_player_character.h"
-#include "Main/Unknown/code_02024000.h"
+#include "Main/Menu/data_02180728.h"
 
 // Seven words: six values and the number of values set.
 typedef struct ChoisesSList {

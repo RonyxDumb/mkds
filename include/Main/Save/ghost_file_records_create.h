@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-#include "Main/Unknown/code_0206152c.h" // GhostListEntry
+#include "Main/Save/slot_ghost_records.h" // GhostListEntry
 
 GhostListEntry *CreateGhostFileRecords(void *heap);

@@ -2,8 +2,6 @@
 #include "Main/Graphics/model_animation.h"
 
 #include "Main/System/heap_call.h"
-#include "Main/Unknown/code_02087000.h"
-#include "Main/Unknown/code_02088000.h"
 
 #pragma thumb on
 

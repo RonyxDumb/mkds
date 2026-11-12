@@ -2,14 +2,13 @@
 #include "Main/System/heap.h"
 #include "Main/MapObjects/wanwan_chain_object.h"
 #include "Main/System/heap_call.h"
-#include "Main/Unknown/code_020d49d8.h"
+#include "Main/MapObjects/view_frustum.h"
 #include "Main/MapObjects/update_list_slot.h"
-#include "Main/Unknown/code_020ec1fc.h"
+#include "Main/MapObjects/code_020ec1fc.h"
 #include "Main/MapObjects/pushed_motion.h"
 #include "Main/MapObjects/pushed_object_states_init.h"
-#include "Main/Unknown/code_02036bec.h"
 #include "code_02147cd8.h"
-#include "Main/Unknown/unk_0217b000.h"
+#include "Main/MapObjects/data_0217b000.h"
 
 #pragma thumb on
 void InitEarthenPipe(PushedObject *pipe) {

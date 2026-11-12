@@ -39,7 +39,7 @@ typedef struct KartSurfaceEffectRow {
     /* 1c */ s32 mVelocityFactorIndex;
 } KartSurfaceEffectRow;
 
-#include "Main/Unknown/unk_0217a000.h"
+#include "Main/MapObjects/data_0217a000.h"
 #include "code_0201c528.h"
 
 extern const OtherKartPairs gOtherKartPairs[];

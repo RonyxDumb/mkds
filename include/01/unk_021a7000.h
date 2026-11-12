@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "01/MapObjects/iwante.h"
-#include "Main/Unknown/code_0210b000.h"
+#include "Main/Sound/data_0210b000.h"
 
 // Objects whose layout isn't known yet.
 extern const s32 gEmblemColorLldEntries[16];

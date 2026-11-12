@@ -2,9 +2,9 @@
 
 #include "types.h"
 #include "01/Menu/record_time_attack.h"
-#include "Main/Unknown/unk_0217a000.h"
+#include "Main/MapObjects/data_0217a000.h"
 #include "00/Menu/wi_fi_vs_setting.h"
-#include "Main/Unknown/code_02125de0.h"
+#include "Main/Graphics/scene_text_init.h"
 
 // An s16 pair of OptionSelectMenu.
 typedef struct OptionSelectMenuGroupOffset {

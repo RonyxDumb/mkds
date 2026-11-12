@@ -18,7 +18,7 @@
 #include "03/code_021cdd28.h"
 #include "03/code_021d1c18.h"
 #include "03/code_021d3000.h"
-#include "Main/Unknown/code_0200e000.h"
+#include "os_thread.h"
 #include "code_0200eddc.h"
 #include "gx_load2d.h"
 #include "03/System/dwc_archive.h"

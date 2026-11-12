@@ -1,13 +1,9 @@
 #include "Main/Menu/battle_select_race_rule_registers.h"
-#include "Main/Unknown/code_020cec50.h"
-#include "Main/Unknown/code_02026000.h"
-#include "Main/Unknown/code_020ccc9c.h"
+#include "Main/Menu/menu_screen_switch.h"
 #include "Main/Menu/battle_gx_set_visible_plane.h"
 #include "gx.h"
 #include "code_02148950.h"
 #include "Main/Menu/select_character.h"
-#include "Main/Unknown/code_020cec24.h"
-#include "Main/Menu/menu_screen_switch.h"
 #include "Main/Menu/select_race_rule.h"
 
 #pragma thumb on

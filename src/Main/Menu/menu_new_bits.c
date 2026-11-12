@@ -1,5 +1,5 @@
 #include "Main/Menu/menu_new_bits.h"
-#include "Main/Unknown/unk_02175628.h"
+#include "Main/Menu/data_02175628.h"
 
 #pragma optimize_for_size on
 u16 MenuGetInputSlotNewBits(InputSlot *slot, u32 mask) {

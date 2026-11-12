@@ -2,12 +2,11 @@
 #include "code_02013740.h"
 #include "res_struct_accessor_anm.h"
 #include "code_02147cd8.h"
-#include "Main/Unknown/code_0214d000.h"
 #include "code_0214cfe4.h"
 #include "code_0214d018.h"
-#include "Main/Unknown/unk_02152000.h"
-#include "Main/Unknown/unk_02161000.h"
-#include "Main/Unknown/unk_02170000.h"
+#include "unk_02152000_data.h"
+#include "Main/Kart/data_02161000.h"
+#include "data_02170000.h"
 
 void NNSi_G3dAnmObjInitNsBva(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dResMdl *pResMdl) {
     u32 mapIndex;

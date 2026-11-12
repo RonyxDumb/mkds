@@ -1,8 +1,6 @@
 #include "hash2.h"
 
 #include "code_0214d018.h"
-#include "Main/Unknown/code_02150000.h"
-#include "Main/Unknown/code_0214d000.h"
 #include "code_02150e1c.h"
 
 u32 data_02180490;

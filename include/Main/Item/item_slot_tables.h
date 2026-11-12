@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020f6be8.h"
+#include "Main/Item/code_020f6be8.h"
 
 // A weight table parsed from "Item/ItemSlotList.dat": mRowCount rows of 18 halfwords (one weight per item) plus one end
 // row of 0xffff. Three globals: gItemSlotHumanGhostPeerTable, gItemSlotCpuTable (row = the kart's rank) and
@@ -28,3 +28,36 @@ void RemapItemSlotRows(ItemSlotTable *table, s32 kartCount);
 void CreateItemSlotTables(void);
 u8 GetItemObjectHitType(ItemObject *itemParam, ItemObject *otherParam);
 void DeflectItemObjectRandomly(ItemObject *item, Vec3 *otherPos, Vec3 *normal);
+
+typedef struct ItemSlotTable ItemSlotTable;
+
+typedef struct KartItems KartItems;
+
+// Address after one table: start + 2 + rows * columns from the two header bytes
+u8 *ComputeItemSlotTableDataEnd(u8 *data);
+u8 *LoadItemSlotTableData(ItemSlotTable *table, u8 *data);
+void SetActiveItem(KartItems *kartItems, unsigned int itemIndex);
+// HUD tick: picks the item shown now (random entry of the spin or possible-items list other than the last, or the
+// result while stopping); called only on spin tick frames
+void PickItemSlotShownItem(KartItems *slot);
+void StopItemSlot(KartItems *slot);
+// After the roulette ran to its end: gives the pool objects back, resets the state, mActiveItem and results; the caller
+// gives the item
+void FinishItemSlot(KartItems *slot);
+BOOL UpdateItemSlot(KartItems *slot, KartItems *kartItems);
+void StartItemSlotResultPending(KartItems *slot);
+// Returns without starting when the roulette runs or mActiveItem is set
+void StartItemSlot(KartItems *slot, s32 forcedRowHandle, s32 rank, s32 isHumanGhostOrPeer, s32 shortSpin);
+void InitItemSlot(KartItems *slot, KartItems *kartItems);
+// Weighted roll of one item from a row (the kart's rank, or a forced row); sums the weights of the allowed items, draws
+// with the race random, then replaces an item whose pool is full by item 2 (4 in mode 5) and frees pool objects until
+// the item fits; writes the spin list when asked; also called by a course object
+s32 PickItem(s32 kartVariant, s32 forcedRowHandle, s32 rankOrRow, s32 isHumanGhostOrPeer, s32 isEntryKart,
+             s32 itemCount);
+
+void StartGessoBlockTimer(s32 isRaceStart);
+void AdvanceItemBlockTimers(void);
+void FinishItemSlotAndStopSound(KartItems *slot);
+
+void StartKouraWBlockTimer(s32 isRaceStart);
+void StartThunderBlockTimer(s32 isRaceStart);

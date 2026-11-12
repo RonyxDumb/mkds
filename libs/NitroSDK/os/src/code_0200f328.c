@@ -1,6 +1,6 @@
 #include "code_0200f328.h"
 #include "os_exception.h"
-#include "Main/Unknown/unk_02170000.h"
+#include "data_02170000.h"
 
 // clang-format off
 // Reads a coprocessor 15 register and clears its low 12 bits.

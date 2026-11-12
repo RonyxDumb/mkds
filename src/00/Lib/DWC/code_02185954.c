@@ -13,7 +13,6 @@
 #include "code_0200e77c.h"
 #include "00/Menu/wi_fi_connection_lost.h"
 #include "Main/System/heap.h"
-#include "Main/Unknown/code_02036bec.h"
 #include "00/Lib/CPS/code_021ad734.h"
 #include "03/Net/essid_wcm.h"
 #include "00/code_02186d04.h"

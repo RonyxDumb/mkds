@@ -26,3 +26,9 @@ typedef struct TimeRecord {
 void PackGrandPrixRecord(PackedGrandPrixRecord *packedGrandPrixRecord, TimeRecord *timeRecord);
 BOOL GetCourseTimeRecord(s32 courseId, s32 recordIndex, TimeRecord *timeRecord);
 void UnpackCourseTimeRecord(PackedCourseTimeRecord *packedCourseTimeRecord, TimeRecord *timeRecord);
+
+typedef struct TimeRecord TimeRecord;
+
+void SetCourseTimeRecord(u32 courseId, int recordIndex, TimeRecord *timeRecord);
+
+void PackCourseTimeRecord(PackedCourseTimeRecord *packedCourseTimeRecord, TimeRecord *timeRecord);

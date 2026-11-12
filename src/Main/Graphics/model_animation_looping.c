@@ -1,6 +1,6 @@
 #include "Main/Graphics/model_animation_looping.h"
 #include "Main/Graphics/model_animation.h"
-#include "Main/Unknown/code_02087000.h"
+#include "Main/Graphics/data_02087000.h"
 
 void ResetModelAnimationLooping(ModelAnimationFrameLoop *animation, u32 frameCountFixed) {
     animation->mLoopMode = MODEL_ANIMATION_LOOP_MODE_WRAP;

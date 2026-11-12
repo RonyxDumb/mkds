@@ -2,15 +2,13 @@
 #include "code_020205b0.h"
 #include "code_0214d018.h"
 #include "code_0200fc8c.h"
-#include "Main/Unknown/unk_02180000.h"
-#include "Main/Unknown/code_02151718.h"
+#include "data_02180000.h"
 #include "code_0200eddc.h"
 #include "code_0214d5b8.h"
 #include "os_tick.h"
 #include "string.h"
 #include "code_02134398.h"
-#include "Main/Unknown/code_0200e000.h"
-#include "Main/Unknown/code_02000000.h"
+#include "os_thread.h"
 #include "code_0200007e.h"
 
 #pragma thumb on

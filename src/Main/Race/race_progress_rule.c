@@ -1,8 +1,7 @@
 #include "Main/Race/race_progress_rule.h"
-#include "Main/Unknown/code_0203f320.h"
-#include "Main/Unknown/unk_021759c0.h"
-#include "Main/Unknown/code_0203f2b4.h"
-#include "Main/Unknown/code_020f36d8.h"
+#include "Main/Race/data_021759c0.h"
+#include "tp.h"
+#include "Main/Race/data_020f36d8.h"
 
 u32 RaceProgressGetCurrentKartCount(void) {
     return (gRaceSetup->mKartCount);

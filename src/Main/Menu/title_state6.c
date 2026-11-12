@@ -1,5 +1,5 @@
 #include "Main/Menu/title_state6.h"
-#include "Main/Unknown/code_02105e98.h"
+#include "Main/Sound/sound_seq.h"
 #include "Main/Scene/run_scene_connection.h"
 
 #pragma thumb on

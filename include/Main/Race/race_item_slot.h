@@ -4,8 +4,6 @@
 
 typedef struct RaceHudOamBuffer RaceHudOamBuffer;
 
-typedef struct RaceHudOamBuffer RaceHudOamBuffer;
-
 void DrawRaceMissionRunCount(RaceHudOamBuffer *oamBuffer);
 void DrawRaceModeCount(RaceHudOamBuffer *oamBuffer);
 void UpdateRaceModeCount(void);
@@ -14,3 +12,7 @@ BOOL IsRaceKeyRecordingNotFull(void);
 void DrawRaceItemSlot(RaceHudOamBuffer *oamBuffer);
 void UpdateRaceItemSlot(void);
 void ClearRaceItemSlotPointer(void);
+
+void ClearRaceModeCountPointer(void);
+
+void InitRaceItemSlot(void);

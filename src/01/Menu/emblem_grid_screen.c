@@ -1,8 +1,9 @@
 #include "01/Menu/emblem_grid_screen.h"
 #include "01/MapObjects/lld.h"
-#include "Main/Unknown/code_021059e0.h"
-#include "Main/Unknown/unk_0217d068.h"
-#include "Main/Unknown/code_020ae408.h"
+#include "Main/Sound/sound_seq.h"
+#include "Main/Menu/data_0217d068.h"
+#include "player.h"
+#include "Main/Graphics/oam.h"
 #include "01/Menu/emblem_grid.h"
 #include "01/Menu/emblem_entry_activate.h"
 #include "01/code_021a5140.h"
@@ -15,7 +16,6 @@
 #include "01/code_021a6000.h"
 #include "01/unk_021a6000.h"
 #include "01/unk_021a7000.h"
-#include "Main/Unknown/code_02105000.h"
 #include "code_0212df7c.h"
 
 void AdvanceEmblemGridScreen(void) {

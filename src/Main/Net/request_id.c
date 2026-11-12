@@ -1,7 +1,8 @@
 #include "Main/Net/request_id.h"
 #include "mb_parent.h"
-#include "Main/Unknown/unk_0216f000.h"
-#include "Main/Unknown/code_02007000.h"
+#include "Main/Net/data_0216f000.h"
+#include "os_thread.h"
+#include "mb_data.h"
 
 #pragma thumb on
 

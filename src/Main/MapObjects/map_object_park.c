@@ -1,11 +1,12 @@
 #include "Main/MapObjects/map_object_park.h"
 
-#include "Main/Unknown/unk_0217b000.h"
+#include "Main/MapObjects/data_0217b000.h"
 #include "Main/MapObjects/rock.h"
-#include "Main/Unknown/unk_021759c0.h"
-#include "Main/Unknown/code_020f36d8.h"
-#include "Main/Unknown/unk_02156000.h"
-#include "Main/Unknown/code_020d5000.h"
+#include "Main/Race/data_021759c0.h"
+#include "tp.h"
+#include "Main/Race/data_020f36d8.h"
+#include "Main/MapObjects/data_02156000.h"
+#include "Main/Kart/code_0208fd8c.h"
 
 // Puts a pooled map object aside: saves the low flag nibble in the high nibble, sets flags 1, 2, 8 and 4 (the update
 // walk skips flag 4) and the parked bit 0x100, and disables its collision slot if it has one.

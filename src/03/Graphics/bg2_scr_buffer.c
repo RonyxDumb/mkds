@@ -1,6 +1,6 @@
 #include "03/Graphics/bg2_scr_buffer.h"
 #include "03/code_021d3000.h"
-#include "Main/Unknown/code_0200e000.h"
+#include "os_thread.h"
 #include "code_0200eddc.h"
 #include "gx_load2d.h"
 

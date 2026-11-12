@@ -1,12 +1,8 @@
 #include "Main/Menu/logo_state_2.h"
 #include "Main/Net/multiboot_parent_finish.h"
 #include "Main/Save/backup_reset.h"
-#include "Main/Unknown/code_021059e0.h"
+#include "Main/Sound/sound_seq.h"
 #include "Main/Menu/txt_system.h"
-#include "Main/Unknown/code_02125f54.h"
-#include "Main/Unknown/code_02125f6c.h"
-#include "Main/Unknown/code_02126230.h"
-#include "Main/Unknown/code_02126248.h"
 #include "01/Menu/record_time_attack.h"
 
 void UpdateLogoState1(void) {

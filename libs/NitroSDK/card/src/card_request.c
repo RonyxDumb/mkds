@@ -1,6 +1,6 @@
 #include "card_request.h"
 #include "os_thread.h"
-#include "Main/Unknown/unk_0217f000.h"
+#include "card_common.h"
 #include "code_021458c4.h"
 
 // Tag 11 callback: when a reply arrives, clears the request bit of CARDiCommon.mFlag and wakes CARDiCommon.mCurTh.

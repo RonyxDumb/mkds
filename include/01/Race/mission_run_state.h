@@ -5,16 +5,13 @@
 
 #include "01/code_02181000.h"
 #include "01/unk_021a9000.h"
-#include "Main/Unknown/code_02100000.h"
-#include "Main/Unknown/unk_021759c0.h"
-#include "Main/Unknown/code_02036bec.h"
+#include "tp.h"
 #include "Main/System/heap_call.h"
 #include "Main/Race/race.h"
 #include "Main/Kart/kart_drift.h"
-#include "Main/Unknown/code_020a1000.h"
-#include "Main/Unknown/code_020f36d8.h"
+#include "Main/Race/data_020f36d8.h"
 #include "01/code_02188950.h"
-#include "Main/Unknown/code_020a1728.h"
+#include "Main/Race/standings_balloons.h"
 
 void AddMissionRunPendingCountUpFromBoss(s32 stepCount);
 void AddMissionRunPendingCountUp(s32 stepCount);

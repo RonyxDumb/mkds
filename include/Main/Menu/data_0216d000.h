@@ -1,0 +1,227 @@
+#pragma once
+#include "types.h"
+
+// Objects whose layout isn't known yet.
+extern const char *gRecordVSMBnclName;
+
+extern const char *gRecordVSMONclrName;
+
+extern const char *gRecordVSMTransientBnllName;
+
+extern const char *gRecordVSMNcerName;
+
+extern const char *gRecordVSSBnclName;
+
+extern const char *gRecordVSSNcgrName;
+
+extern const char *gRecordVSMNcgrName;
+
+extern const char *gRecordVSSNcerName;
+
+extern const char *gRecordVSM03NscrName;
+
+extern const char *gRecordVSSONclrName;
+
+extern const char *gRecordVSSBnllName;
+
+extern const char *gRecordVSMBNcgrName;
+
+extern const char *gRecordVSMBNclrName;
+
+extern const char *gRecordVSM02NscrName;
+
+extern const char *gRecordVSMBnllName;
+
+extern const char *gRecordVSMNscrName;
+
+extern const char *gRecordVSSBnblName;
+
+extern const char *gRecordVSMTransientBnclName;
+
+extern char gEmblem2BinName[];
+
+extern const char *gRecordVSSEraseBnclName;
+
+extern const char *gRecordVSSBNcgrName;
+
+extern const char *gRecordVSSEraseBnllName;
+
+extern const char *gRecordVSSEraseBnblName;
+
+extern const char *gRecordVSSEraseNscrName;
+
+extern const char *gRecordVSSBNclrName;
+
+extern const char *gWaitNcgrName;
+
+extern const char *gWaitNclrName;
+
+extern const char *gWaitNcerName;
+
+extern const char *gWaitBnclName;
+
+extern const char *gCommonKartIconNcgrName;
+
+extern const char *gCommonKartIconNcerName;
+
+extern const char *gCommonKartIconBnclName;
+
+extern const char *gKartIconNcgrName;
+
+extern const char *gKartIconNcerName;
+
+extern const char *gKartIconNclrNames[];
+
+extern const char *gCommonKartIconNclrNames[];
+
+extern const char *gSelectCupMBNclrName;
+
+extern const char *gSelectCupMNscrName;
+
+extern const char *gSelectCupMONclrName;
+
+extern const char *gSelectCupMBnllName;
+
+extern const char *gSelectCupCourseCupMBnblName;
+
+extern const char *gSelectCupCourseVsMBnclName;
+
+extern const char *gSelectCupCourseVsMBNclrName;
+
+extern const char *gSelectCupCourseVsMBnllName;
+
+extern const char *gSelectCupMBNcgrName;
+
+extern const char *gSelectCupCourseMONclrName;
+
+extern const char *gSelectCupCourseVsMBNcgrName;
+
+extern const char *data_0216d880;
+
+extern const char *gSelectCupCourseVsMNscrName;
+
+extern const char *gSelectCupMBnclName;
+
+extern const char *gSelectCupCourseTaMBNclrName;
+
+extern const char *data_0216d890;
+
+extern const char *gSelectCupCourseTaMBNcgrName;
+
+extern const char *gSelectCupMNcgrName;
+
+extern const char *data_0216d89c;
+
+extern const char *gSelectCupCourseMNcgrName;
+
+extern const char *gSelectCupCourseTaMNscrName;
+
+extern const char *gSelectCupMNcerName;
+
+extern u8 gNoRecordTimeFullWidth[];
+
+extern u8 gNoRecordTimeAscii[];
+
+extern const char *gSelectRaceRuleSBnblName;
+
+extern const char *gSelectRaceRuleSBNclrName;
+
+extern const char *gSelectRaceRuleMultiSimpleSNscrName;
+
+extern const char *gSelectRaceRuleMultiSimpleSBnclName;
+
+extern const char *gSelectRaceRuleSBNcgrName;
+
+extern const char *gSelectRaceRuleSBnllName;
+
+extern const char *gSelectRaceRuleSONclrName;
+
+extern const char *gSelectRaceRuleSMenuNscrName;
+
+extern const char *gSelectRaceRuleSBnclName;
+
+extern const char *gSelectRaceRuleSNcgrName;
+
+extern const char *gSelectRaceRuleMultiSimpleSBnllName;
+
+extern const char *gSelectRaceRuleMultiSimpleSBnblName;
+
+extern const char *gSelectRaceRuleSNcerName;
+
+extern const char *gSelectRaceRuleMultiSimpleSBNcgrName;
+
+extern u16 *gSelectRaceRuleValueMessageIndices[];
+
+extern char data_0216de38[];
+
+extern char gRuleBmgName[];
+
+extern const char *gSelectCupNameMBnclName;
+
+extern const char *gSelectCupNameMNcgrName;
+
+extern const char *gSelectCupNameMNcerName;
+
+extern const char *gCupMarkNclrName;
+
+extern const char *gCupMarkBnclName;
+
+extern const char *gCommonCupMarkNcerName;
+
+extern const char *gCommonCupMarkBnclName;
+
+extern const char *gCupMarkNcgrName;
+
+extern const char *gCupMarkNcerName;
+
+extern const char *gCommonCupMarkNcgrName;
+
+extern const char *gCommonCupMarkNclrName;
+
+extern char data_0216d4a4[];
+
+extern char gRecordBmgName[];
+
+extern char *gSelectCupMBNcgrName3;
+
+extern char *gSelectCupMBNclrName3;
+
+extern char *gSelectCupMNscrName3;
+
+extern char *gSelectCupMBnclName3;
+
+extern char *gSelectCupMBnllName3;
+
+extern char *gSelectCupMNcgrName3;
+
+extern char *gSelectCupMNcerName3;
+
+extern char *gSelectCupMONclrName3;
+
+extern const char *gSelectCupGridSONclrName;
+
+extern const char *gSelectCupGridMBNcgrName;
+
+extern const char *gSelectCupGridMNcerName;
+
+extern const char *gSelectCupGridMBnclName;
+
+extern const char *gSelectCupGridSNcgrName;
+
+extern const char *gSelectCupGridMONclrName;
+
+extern const char *gSelectCupGridSBnblName;
+
+extern const char *gSelectCupGridMBnllName;
+
+extern const char *gSelectCupGridMNcgrName;
+
+extern const char *gSelectCupGridSBnclName;
+
+extern const char *gSelectCupGridSNcerName;
+
+extern const char *gSelectCupGridMBNclrName;
+
+extern const char *gSelectCupGridMNscrName;
+
+extern const char *gKartIconBnclName;

@@ -42,11 +42,11 @@ typedef struct ItemKouraG {
     /* 17c */ u8 mUnk_17c[0xc];
 } ItemKouraG;
 
-#include "Main/Unknown/code_020f36d8.h"
+#include "Main/Race/data_020f36d8.h"
 #include "Main/Item/item_pool.h"
 #include "Main/Item/item_object_throw.h"
-#include "Main/Unknown/code_020e005c.h"
-#include "Main/Unknown/code_0210b000.h" // SoundDistanceSquaredChange
+#include "Main/MapObjects/code_020e005c.h"
+#include "Main/Sound/data_0210b000.h" // SoundDistanceSquaredChange
 
 void StartNextHeldItemObject(HeldItem *heldItem);
 void InitHeldItem(HeldItem *heldItem, KartItems *kartItems);
@@ -88,3 +88,26 @@ void LaunchItemObjectFromPos(ItemObject *itemParam, s32 pushStrength, Vec3 *from
 void BounceRestingItemObject(ItemObject *item, Vec3 *otherVelocity, Vec3 *normal);
 void AdvanceRestingItemObject(ItemObject *item);
 void StartRestingItemObject(ItemObject *item, void *collisionHitLink);
+
+typedef struct ItemKouraR ItemKouraR;
+
+void UpdateItemKouraRState3(ItemKouraR *kouraR);
+
+void EnterItemKouraRState3(ItemKouraR *kouraR);
+
+void UpdateItemKouraRState2(ItemKouraR *kouraR);
+
+void RequestItemKouraRState4ForKart(ItemKouraR *kouraR, u32 kartIndex);
+
+void UpdateItemKouraRState0And1(ItemKouraR *kouraR);
+
+void AdvanceItemKouraR(ItemKouraR *kouraR);
+
+unsigned int ItemObjectBounceReturnArgument(unsigned int value);
+
+typedef struct ItemObject ItemObject;
+
+Vec3 *CreateItemPushVector(void);
+void ReleaseItemObjectToItsPool(ItemObject *item);
+
+void StartItemObjectSoundOnSource(ItemObject *item, s32 soundId);

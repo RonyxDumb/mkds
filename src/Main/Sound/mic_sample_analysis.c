@@ -1,10 +1,9 @@
 #include "Main/Sound/mic_sample_analysis.h"
-#include "Main/Unknown/code_020204b4.h"
 #include "code_0200eddc.h"
-#include "Main/Unknown/unk_02173000.h"
-#include "Main/Unknown/unk_02161000.h"
-#include "Main/Unknown/code_0200e000.h"
+#include "gfd_LinkedListPlttVramMan.h"
 #include "mic.h"
+#include "gfd_LinkedListTexVramMan.h"
+#include "os_thread.h"
 
 u32 ClampMicSample(u32 arg0) {
     u32 value0 = arg0;

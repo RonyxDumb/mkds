@@ -1,9 +1,7 @@
 #include "Main/System/thread_function_queue_init.h"
 #include "Main/System/heap.h"
 #include "Main/System/thread_function_queue.h"
-#include "Main/Unknown/code_02036000.h"
-#include "Main/Unknown/code_02036bec.h"
-#include "Main/Unknown/unk_0217a000.h"
+#include "Main/MapObjects/data_0217a000.h"
 #include "os_thread.h"
 
 void (*DequeueThreadFunction(ThreadFunctionQueue *queue))(void) {

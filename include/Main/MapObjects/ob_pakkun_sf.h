@@ -1,9 +1,9 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020d6dc0.h" // Quaternion
+#include "Main/MapObjects/code_020d6dc0.h" // Quaternion
 #include "Main/MapObjects/attractor.h" // MapObject, MapObjectList, MapObjectKindData
-#include "Main/Unknown/unk_02158000.h" // MapObjectDrawList
+#include "Main/MapObjects/data_02158000.h" // MapObjectDrawList
 #include "Main/MapObjects/pushed_motion.h" // PushedObject
 
 // Object InitSecondHand sets up, 0xd0 bytes.
@@ -46,3 +46,34 @@ MapObjectList *CreateSecondHandUpdateList(void);
 MapObjectDrawList *CreateSecondHandDrawList(void);
 MapObjectKindData *CreateSecondHandKindData(void);
 void InitObPakkunSf(ObPakkunSf *obPakkunSf);
+
+unsigned int CollideItemObjectWithSecondHand(unsigned int secondHand, unsigned int itemObject,
+                                             unsigned int firstResponse, unsigned int response);
+
+typedef struct SecondHand SecondHand;
+typedef struct Kart Kart;
+
+void UpdateSecondHandState3(SecondHand *secondHand);
+s32 CollideKartWithSecondHand(SecondHand *secondHand, Kart *kart, s32 unused, u8 *response);
+
+unsigned int SecondHandState3ReturnArgument(unsigned int value);
+
+void UpdateSecondHandState2(SecondHand *secondHand);
+
+void EnterSecondHandState2(SecondHand *secondHand);
+
+void UpdateSecondHandState1(SecondHand *secondHand);
+
+unsigned int SecondHandState1ReturnArgument(unsigned int value);
+
+void UpdateSecondHandState0(SecondHand *secondHand);
+
+void EnterSecondHandState0(SecondHand *secondHand);
+
+typedef struct ObPakkunSf ObPakkunSf;
+
+u8 CollideItemObjectWithObPakkunSf(ObPakkunSf *obPakkunSf, void *itemObject, u8 *firstResponse, u8 *response);
+u8 CollideKartWithObPakkunSf(ObPakkunSf *obPakkunSf, void *kart, u8 *firstResponse, u8 *response);
+void UpdateObPakkunSf(u32 unused, ObPakkunSf *obPakkunSf);
+
+void DrawObPakkunSf(u32 unused, ObPakkunSf *obPakkunSf, u32 unusedArg, u16 alpha);

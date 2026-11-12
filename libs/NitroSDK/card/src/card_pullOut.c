@@ -1,10 +1,8 @@
 #include "card_pullOut.h"
 #include "registers.h"
-#include "Main/Unknown/unk_02180000.h"
 #include "code_0200fc8c.h"
 #include "code_0214d5b8.h"
 #include "pm.h"
-#include "Main/Unknown/code_02000000.h"
 #include "code_0200007e.h"
 
 UnkWordFunc *gRemovalCallback;

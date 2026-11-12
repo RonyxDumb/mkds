@@ -5,7 +5,7 @@
 void DrawCanvasText(unsigned int canvas, unsigned int xPos, unsigned int yPos, unsigned int color, unsigned int flags,
                     unsigned int text);
 
-#include "Main/Unknown/types_02180728.h"
+#include "Main/Menu/data_02180728.h"
 #include "g2d_CharCanvas.h"
 
 // 0x38-byte object; InitBgTextCanvas sets it up.
@@ -48,7 +48,6 @@ typedef struct TextCanvases {
 
 #include "03/Graphics/nce_oam.h"
 #include "03/unk_021da000.h"
-#include "Main/Unknown/code_02024000.h"
 #include "g2d_NSC_load.h"
 #include "code_02022aa8.h"
 

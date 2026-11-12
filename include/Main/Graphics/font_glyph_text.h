@@ -2,7 +2,8 @@
 
 #include "types.h"
 #include "g2d_CharCanvas.h" // NNSG2dGlyph
-#include "Main/Unknown/unk_021759c0.h" // MinuteSecondMillisecondTime
+#include "Main/Race/data_021759c0.h" // MinuteSecondMillisecondTime
+#include "tp.h"
 
 typedef struct Unk02022aa8 Unk02022aa8;
 

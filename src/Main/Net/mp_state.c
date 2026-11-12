@@ -1,11 +1,8 @@
 #include "Main/Net/mp_state.h"
 #include "Main/Net/scan.h"
 #include "Main/Net/mp_states_connection.h"
-#include "Main/Unknown/code_0210e000.h"
-#include "Main/Unknown/unk_0217a000.h"
-#include "Main/Unknown/code_02058000.h"
-#include "Main/Unknown/code_02051000.h"
-#include "Main/Unknown/code_02059000.h"
+#include "code_0212d214.h"
+#include "Main/MapObjects/data_0217a000.h"
 
 #include "Main/Net/mp_state_machine.h"
 #include "Main/Sound/sound_set_load.h"

@@ -1,11 +1,10 @@
 #include "Main/Save/slot_ghost_records.h"
-#include "Main/Unknown/code_0206152c.h"
 #include "Main/System/heap.h"
 #include "Main/Save/backup_bit_array.h"
 #include "Main/Save/backup_busy.h"
 #include "Main/Save/backup_ghost_head.h"
 #include "01/Menu/record_time_attack.h"
-#include "Main/Unknown/unk_0217a000.h"
+#include "Main/MapObjects/data_0217a000.h"
 
 GhostListEntry *CreateSlotGhostRecords(void *heap) {
     return HeapAlloc(heap, 0x15e0u);

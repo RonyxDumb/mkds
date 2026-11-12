@@ -1,9 +1,7 @@
 #include "Main/MapObjects/sanbo_launch.h"
-#include "Main/Unknown/code_0209bef0.h"
+#include "Main/MapObjects/map_object_model_frame.h"
 #include "Main/Course/course_sound_object.h"
-#include "Main/Unknown/code_020a8a6c.h"
 #include "Main/MapObjects/map_object_park.h"
-#include "Main/Unknown/unk_0215d000.h"
 #include "code_02147cd8.h"
 
 void *CreateCourseSoundObjectUpdateList(void) {

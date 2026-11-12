@@ -4,9 +4,9 @@
 #include "Main/Kart/kart_drift.h"
 #include "Main/Item/item_pool.h"
 #include "Main/Item/item_object_throw.h"
-#include "Main/Unknown/code_021052fc.h"
+#include "Main/Item/pooled_map_object.h"
 #include "Main/Item/held_item.h"
-#include "Main/Unknown/code_020f36d8.h" // ItemKind, ItemInfo
+#include "Main/Race/data_020f36d8.h" // ItemKind, ItemInfo
 
 // Element of gItemPools[8]: 0x14c bytes (the size in gItemKinds[8]), handled by AdvanceBouncingItemBox to
 // StartBouncingItemBox: the BouncingItemObject part, words at 0x130 and 0x138, the ItemBox at 0x134, a vector

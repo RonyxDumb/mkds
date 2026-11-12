@@ -2,12 +2,11 @@
 #include "code_0200eddc.h"
 #include "code_0200fc8c.h"
 #include "wm_system.h"
-#include "Main/Unknown/code_0200e000.h"
-#include "Main/Unknown/code_0200f000.h"
-#include "Main/Unknown/code_0214d000.h"
+#include "os_thread.h"
 #include "code_0214d018.h"
 #include "code_0214d93c.h"
-#include "Main/Unknown/unk_0216f000.h"
+#include "Main/Net/data_0216f000.h"
+#include "mb_data.h"
 
 // Starts DCF reception into recvBuf (command 17). Needs state 8 and DCF not running; recvBufSize must be at least 0x10.
 s32 WM_StartDCF(Unk021425e8Func callback, void *recvBuf, u16 recvBufSize) {

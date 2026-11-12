@@ -1,7 +1,5 @@
 #include "Main/Net/wifi_session_heap.h"
 #include "Main/System/heap.h"
-#include "Main/Unknown/code_0200f000.h"
-#include "Main/Unknown/code_02036000.h"
 #include "00/Menu/wi_fi_vs_matching.h"
 #include "code_0200fc8c.h"
 

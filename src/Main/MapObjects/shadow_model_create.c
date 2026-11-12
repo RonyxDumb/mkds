@@ -2,8 +2,7 @@
 #include "Main/System/heap.h"
 
 #include "Main/System/heap_call.h"
-#include "Main/Unknown/code_02036bec.h"
-#include "Main/Unknown/code_0207a000.h"
+#include "Main/Kart/code_0207a000.h"
 
 #pragma thumb on
 

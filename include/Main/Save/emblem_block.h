@@ -2,8 +2,8 @@
 
 #include "types.h"
 #include "Main/Scene/run_scene_connection.h"
-#include "Main/Unknown/unk_0217a000.h"
-#include "Main/Unknown/code_02114158.h"
+#include "Main/MapObjects/data_0217a000.h"
+#include "Main/Menu/record_list.h"
 
 // Five emblems of the saved data: the index of the block (emblem number / 5, -1 for none) and the saved block.
 // 0xb04 bytes: a signed byte at 0x00 and, from 0x04, an EmblemBlockData.

@@ -5,7 +5,6 @@
 #include "code_02134890.h"
 #include "code_0213a460.h"
 #include "code_0214177c.h"
-#include "Main/Unknown/code_02130000.h"
 
 // 1 when left and right are equal.
 int DigitsEqual(const DigitRecord *left, const DigitRecord *right) {

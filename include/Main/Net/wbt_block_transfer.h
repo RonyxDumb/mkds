@@ -1,7 +1,14 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/unk_02175000.h" // RomArchiveParentViewEntry, RomArchiveMessage
+#include "Main/Menu/data_02175000.h" // RomArchiveParentViewEntry, RomArchiveMessage
+#include "Main/Scene/display_settings.h"
+#include "code_020182c0.h"
+#include "frameheap.h"
+#include "os_thread.h"
+#include "Main/MapObjects/map_object_park.h"
+#include "pm.h"
+#include "Main/Sound/sound_seq.h"
 
 // Starts at offset 0x24 of an entry of BlockTransfer; 0x44 bytes (see WBTi_FindBitmapIndex).
 typedef struct WBTPacketBitmap {

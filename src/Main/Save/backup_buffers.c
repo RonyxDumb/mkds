@@ -1,9 +1,7 @@
 #include "Main/Save/backup_buffers.h"
 #include "Main/System/heap.h"
-#include "Main/Unknown/code_02036000.h"
-#include "Main/Unknown/code_02036bec.h"
 #include "Main/Save/backup_first_block_records.h"
-#include "Main/Unknown/unk_0217a000.h"
+#include "Main/MapObjects/data_0217a000.h"
 
 #pragma thumb on
 

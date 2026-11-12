@@ -1,12 +1,10 @@
 #include "Main/Kart/kart_level.h"
-#include "Main/Unknown/code_0208c534.h"
 #include "Main/System/heap.h"
 #include "Main/Kart/kart_effects.h"
-#include "Main/Unknown/code_02036bec.h"
-#include "Main/Unknown/code_0208b000.h"
 #include "Main/Graphics/effects.h"
-#include "Main/Unknown/unk_0217b000.h"
-#include "Main/Unknown/unk_021759c0.h"
+#include "Main/MapObjects/data_0217b000.h"
+#include "Main/Race/data_021759c0.h"
+#include "tp.h"
 #include "code_02147cd8.h"
 
 void InitKartTurnEffects(void *heap) {

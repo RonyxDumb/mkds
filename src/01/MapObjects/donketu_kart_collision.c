@@ -8,7 +8,6 @@
 #include "01/unk_021a6000.h"
 #include "Main/Graphics/effects.h"
 #include "Main/MapObjects/map_object_sound.h"
-#include "Main/Unknown/code_02109000.h"
 #include "Main/Sound/sound_start.h"
 #include "code_02147cd8.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"

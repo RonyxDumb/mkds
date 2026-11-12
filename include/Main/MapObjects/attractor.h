@@ -4,8 +4,8 @@
 #include "code_0212d214.h"
 #include "Main/Sound/sound_source_list.h"
 #include "Main/Menu/second_menu_scene.h" // StateMachine
-#include "Main/Unknown/code_020e005c.h"
-#include "Main/Unknown/code_0210b000.h" // SoundDistanceSquaredChange
+#include "Main/MapObjects/code_020e005c.h"
+#include "Main/Sound/data_0210b000.h" // SoundDistanceSquaredChange
 
 struct MapObject;
 struct CourseMapRow;
@@ -171,3 +171,5 @@ void InitJg(void);
 void ReleaseJg(void);
 void SetJgState4Countdown(void);
 void SetJgState4(void);
+
+Vec3 *GetAttractorPosition(u32 index);

@@ -2,12 +2,10 @@
 #include "Main/System/heap.h"
 #include "Main/Sound/mic_auto_sampling.h"
 #include "Main/Sound/mic_buffer_sleep.h"
-#include "Main/Unknown/code_0210f090.h"
 #include "Main/Sound/mic_init.h"
 #include "tp.h"
-#include "Main/Unknown/code_02036000.h"
-#include "Main/Unknown/unk_02175628.h"
-#include "Main/Unknown/unk_021759c0.h"
+#include "Main/Menu/data_02175628.h"
+#include "Main/Race/data_021759c0.h"
 
 void StartTouchAutoSampling(void) {
     if (gTouchMicInput->mTouchAutoSampling != 0) {

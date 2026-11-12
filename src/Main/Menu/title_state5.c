@@ -1,7 +1,7 @@
 #include "Main/Menu/title_state5.h"
 #include "Main/Menu/title_state4.h"
-#include "Main/Unknown/code_02105e98.h"
-#include "Main/Unknown/unk_0217b000.h"
+#include "Main/Sound/sound_seq.h"
+#include "Main/MapObjects/data_0217b000.h"
 
 #pragma optimize_for_size on
 #pragma thumb on

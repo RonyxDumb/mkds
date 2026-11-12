@@ -1,9 +1,8 @@
 #include "Main/Menu/title_registers.h"
 
-#include "Main/Unknown/code_020ada94.h"
 #include "Main/Graphics/oam_upload.h"
 #include "Main/Graphics/scene_text.h"
-#include "Main/Unknown/unk_0217b000.h"
+#include "Main/MapObjects/data_0217b000.h"
 
 #pragma thumb on
 

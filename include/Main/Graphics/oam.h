@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Menu/data_02175628.h"
 
 typedef struct TextCanvas TextCanvas;
 
@@ -15,8 +16,6 @@ typedef struct PairRect {
     /* 04 */ u16 mMaxX;
     /* 06 */ u16 mMaxY;
 } PairRect;
-
-typedef struct InputSlotPair InputSlotPair;
 
 void FindMissionTableCell(u32 value, u8 *outRow, u8 *outColumn);
 
@@ -53,3 +52,27 @@ s32 InterpolateMulFixed12NoRound(s32 value, s32 factor);
 s16 InterpolateFX_CosIdx(s32 angle);
 s32 LookupRowOffset(s32 index);
 u16 AllocOamMatrixIndex(void *oamList);
+
+u32 KartEntryGetCurrentCharacterIndex(u32 entryIndex);
+
+unsigned int KartEntryGetCurrentMode(void);
+
+void *GetKartEntryName(u32 entryIndex);
+
+void *GetCharacterBmgEntry(u32 characterIndex, u32 fullName);
+u32 ReverseBytes32(u32 value);
+
+u32 GetSlotPairY(u32 slotIndex);
+
+unsigned int GetPairY(InputSlotPair *pair);
+
+u32 GetSlotPairX(u32 slotIndex);
+
+unsigned int GetPairX(InputSlotPair *pair);
+
+typedef struct RandomState64 RandomState64;
+
+RandomState64 *GetConnectionWorkRandomState(void);
+unsigned int GetConnectionKind(void);
+
+u16 GetNewOrRepeatBits(u32 slotIndex, u32 mask);

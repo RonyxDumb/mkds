@@ -1,10 +1,11 @@
 #include "Main/Sound/scene_sound_set.h"
 #include "Main/System/frm_heap_reset.h"
 #include "Main/Sound/sound_request_queue.h"
-#include "Main/Unknown/code_0210d960.h"
-#include "Main/Unknown/code_0210f868.h"
-#include "Main/Unknown/unk_0216c000.h"
-#include "Main/Unknown/unk_0217a000.h"
+#include "Main/Sound/sound_system.h"
+#include "Main/Sound/seq_queue.h"
+#include "Main/Sound/data_0216c000.h"
+#include "Main/Menu/second_menu_scene.h"
+#include "Main/MapObjects/data_0217a000.h"
 #include "pm.h"
 
 void InitSceneSoundSetPlayer(s32 seqId) {

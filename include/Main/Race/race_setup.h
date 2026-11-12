@@ -1,6 +1,18 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Menu/data_02174000.h"
+#include "Main/System/interpolation_value.h"
+#include "Main/System/heap_call.h"
+#include "code_02022aa8.h"
+#include "Main/Graphics/cell_file_set.h"
+#include "Main/Graphics/font_and_player_character.h"
+#include "Main/Graphics/layout_entry_angle.h"
+#include "Main/Graphics/locate_bmg_sections.h"
+#include "Main/Menu/multi_select_member_group.h"
+#include "tp.h"
+#include "Main/Save/buddy_record_time.h"
+#include "g2d_CellTransferManager.h"
 
 void SetSessionKartCount(unsigned int sessionKartCount);
 void SetRaceSetupCopyEntryIndex(unsigned int entryIndex);
@@ -42,3 +54,29 @@ unsigned int GetPlayerKind(u16 entryIndex);
 unsigned int GetKartIndex(u16 entryIndex);
 unsigned int GetCharacterIndex(u16 entryIndex);
 unsigned int GetCourseId(void);
+
+void CopyEntriesToRaceSetupCopy(void);
+void CopyRaceSetupCopyToEntries(void);
+void SetNextRaceSetupFromKartMask(void);
+
+typedef struct RaceSetupCopy RaceSetupCopy;
+
+void WiFiSetNextCourseListMode(unsigned int courseListMode);
+void WiFiSetNextRuleKind(unsigned int ruleKind);
+void WiFiSetNextUseTeams(unsigned int useTeams);
+void WiFiSetNextMirrorMode(unsigned int mirrorMode);
+void WiFiSetNextEngineIndex(unsigned int engineIndex);
+void WiFiSetNextCourseId(unsigned int courseId);
+void WiFiSetNextMode(unsigned int mode);
+void WiFiSetNextCpuDifficulty(unsigned int cpuDifficulty);
+RaceSetupCopy *GetRaceSetupCopy(void);
+
+void ResetRaceSetupCopy(void);
+u32 RaceSetupCopyMB_IsMultiBootChildWrapper(void);
+u32 RaceSetupCopyMB_IsMultiBootChild(void);
+u16 *RaceSetupCopyMB_GetMultiBootParam(void);
+
+unsigned int RaceSetupCopyGetConnectionKind(void);
+void RaceSetupCopyMI_CpuClearFast(void *destination, u32 size);
+void RaceSetupCopyMI_CpuFillFast(void *destination, u32 value, u32 size);
+void CreateRaceSetupCopy(void *heap);

@@ -2,11 +2,6 @@
 #include "Main/Menu/select_character.h"
 #include "Main/Menu/menu_screen_switch.h"
 #include "Main/Menu/select_cup_m.h"
-#include "Main/Unknown/code_02148000.h"
-#include "Main/Unknown/code_020ccc9c.h"
-#include "Main/Unknown/code_02026000.h"
-#include "Main/Unknown/code_02027000.h"
-#include "Main/Unknown/code_0211e000.h"
 #include "01/Menu/select_visible_plane.h"
 #include "01/callees_0219b000.h"
 #include "01/code_02185000.h"
@@ -14,13 +9,10 @@
 #include "01/Menu/select_ghost.h"
 #include "01/code_021a1000.h"
 #include "01/Menu/select_engine.h"
-#include "Main/Unknown/code_02028000.h"
-#include "Main/Unknown/code_020cc000.h"
 #include "gx.h"
 #include "code_02148950.h"
 #include "registers.h"
-#include "Main/Unknown/code_02028130.h"
-#include "Main/Unknown/code_02027e78.h"
+#include "Main/Menu/select_kart_data.h"
 
 #pragma optimize_for_size on
 

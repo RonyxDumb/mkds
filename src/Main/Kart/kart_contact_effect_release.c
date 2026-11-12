@@ -1,14 +1,12 @@
 #include "Main/Kart/kart_contact_effect_release.h"
-#include "Main/Unknown/code_02081374.h"
 #include "Main/Kart/kart_drift.h"
 #include "Main/Graphics/emitters.h"
 #include "Main/Graphics/effects.h"
-#include "Main/Unknown/code_020f36d8.h"
-#include "Main/Unknown/code_0208b000.h"
+#include "Main/Race/data_020f36d8.h"
 #include "code_02147cd8.h"
 #include "code_0201c528.h"
 #include "Main/Kart/karts.h"
-#include "Main/Unknown/unk_0217a000.h"
+#include "Main/MapObjects/data_0217a000.h"
 
 void SetKartKillerEffectShown(s32 kartIndex, s32 shown) {
     ParticleEmitter *effect = gKartEffects[kartIndex].mKillerEffect;

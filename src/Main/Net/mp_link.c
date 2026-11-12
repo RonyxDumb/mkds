@@ -2,9 +2,10 @@
 
 #include "code_0200fc8c.h"
 #include "Main/Net/scan_connect_callbacks.h"
-#include "Main/Unknown/unk_0216f000.h"
+#include "Main/Net/data_0216f000.h"
+#include "os_thread.h"
+#include "mb_data.h"
 #include "code_020091fc.h"
-#include "Main/Unknown/code_0200e000.h"
 #include "mb_gameinfo.h"
 #include "code_0200eddc.h"
 #include "code_0214d018.h"

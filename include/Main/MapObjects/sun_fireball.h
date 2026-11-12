@@ -25,3 +25,14 @@ void StartSunFireball(Vec3 *startPos, Vec3 *direction);
 void CreateSunFireballUpdateList(void);
 void CreateSunFireballKindData(void);
 void UpdateSunFireball(void *mapObjectList, SunFireball *sunFireball);
+
+unsigned int SunFireballInitReturnArgument(unsigned int value);
+
+typedef struct ItemObject ItemObject;
+
+u8 CollideItemObjectWithSunFireball(SunFireball *sunFireball, ItemObject *itemObject, u8 *hitFlag, u8 *passedValue);
+u8 CollideKartWithSunFireball(SunFireball *sunFireball, Kart *kart, u8 *hitFlag, u8 *passedValue);
+
+typedef struct MapObject MapObject;
+
+void InitSunFireball(MapObject *mapObject);

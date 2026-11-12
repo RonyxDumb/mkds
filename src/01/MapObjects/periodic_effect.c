@@ -1,18 +1,15 @@
 #include "01/MapObjects/periodic_effect.h"
 
-#include "Main/Unknown/code_02056000.h"
 #include "Main/Graphics/emitters.h"
 #include "Main/Graphics/effects.h"
-#include "Main/Unknown/code_0209b000.h"
+#include "Main/MapObjects/map_object_model_frame.h"
 #include "Main/MapObjects/attractor.h"
 #include "Main/Item/item_koura_w.h"
-#include "Main/Unknown/code_0208b000.h"
 #include "Main/Graphics/font_and_player_character.h"
 #include "00/Menu/wi_fi_vs_setting.h"
-#include "Main/Unknown/code_020f36d8.h"
-#include "Main/Unknown/code_0209bef0.h"
+#include "Main/Race/data_020f36d8.h"
 #include "Main/Race/race_setup.h"
-#include "Main/Unknown/unk_0217a000.h"
+#include "Main/MapObjects/data_0217a000.h"
 #include "Main/Race/race.h"
 
 void InitPeriodicEffectObjects(MapObjectList *objectList) {

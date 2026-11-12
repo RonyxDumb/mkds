@@ -1,7 +1,6 @@
 #include "Main/MapObjects/wanwan_chain_init.h"
 #include "Main/System/heap.h"
 #include "Main/System/heap_call.h"
-#include "Main/Unknown/code_02036bec.h"
 #include "code_02147cd8.h"
 
 #pragma thumb on

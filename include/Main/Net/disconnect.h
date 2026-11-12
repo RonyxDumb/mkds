@@ -35,7 +35,16 @@ typedef struct MPPlayerNameMessage {
     /* 17 */ u8 mConnectedMask;
 } MPPlayerNameMessage;
 
-#include "Main/Unknown/unk_02165000.h" // QueueMPDataToPortParams
+#include "Main/MapObjects/data_02165000.h" // QueueMPDataToPortParams
+#include "Main/Menu/second_menu_scene.h"
+#include "Main/Scene/display_settings.h"
+#include "code_020182c0.h"
+#include "frameheap.h"
+#include "os_thread.h"
+#include "Main/MapObjects/map_object_park.h"
+#include "pm.h"
+#include "Main/Sound/sound_seq.h"
+#include "Main/Kart/kart_name_tags.h"
 #include "code_02142eac.h" // Unk021425e8
 
 typedef struct PlayerRecord PlayerRecord;

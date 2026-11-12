@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_0209bc74.h" // MapObjectModel
+#include "01/MapObjects/data_0209bc74.h" // MapObjectModel
 
 typedef struct MapObjectList MapObjectList;
 

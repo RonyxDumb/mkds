@@ -1,9 +1,9 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_02042044.h"
+#include "Main/Course/code_02042044.h"
 #include "Main/Kart/camera.h"
-#include "Main/Unknown/unk_0217b000.h"
+#include "Main/MapObjects/data_0217b000.h"
 
 // Values of CourseMap.mVersion that change the file layout.
 #define COURSE_MAP_VERSION_KEYED_PLACEMENTS 0x1f
@@ -443,7 +443,7 @@ static inline CourseMapCamera *GetCourseMapCamera(u16 cameraIndex) {
     return &gCourseMap->mCameras[cameraIndex];
 }
 
-#include "Main/Unknown/unk_02175628.h"
+#include "Main/Menu/data_02175628.h"
 
 extern RaceHudSubScreenProjection *gRaceHudSubScreenProjection;
 
@@ -473,3 +473,6 @@ u16 GetSubScreenAngleAndClearScrollTimer(void);
 BOOL IsCourseWithSubBg3CntBit13(void);
 BOOL IsCourseWithMap2DLocal3(void);
 void ClearRaceHudSubScreenProjection(void);
+
+void InitRaceHudSubScreenProjection(void);
+extern const Vec3 data_02156874;

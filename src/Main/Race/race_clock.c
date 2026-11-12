@@ -1,10 +1,9 @@
 #include "Main/Race/race_clock.h"
-#include "Main/Unknown/code_0203ca20.h"
-#include "Main/Unknown/code_020f36d8.h"
+#include "Main/Race/data_020f36d8.h"
 #include "Main/Race/race_keys.h"
 #include "Main/System/key_recording_read.h"
 #include "Main/System/key_recording_start.h"
-#include "Main/Unknown/unk_02175628.h"
+#include "Main/Menu/data_02175628.h"
 
 void StartRaceClock(void) {
     gRaceProgress->mHeader.mClockEnabled = 1;

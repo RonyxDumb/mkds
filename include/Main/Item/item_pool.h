@@ -1,9 +1,9 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/unk_027e0000.h"
+#include "Main/Item/data_027e0000.h"
 #include "Main/Item/item_in_use.h"
-#include "Main/Unknown/code_020f36d8.h"
+#include "Main/Race/data_020f36d8.h"
 #include "Main/Kart/kart_drift.h"
 
 // Copy of ITEM_THROW_FORWARD_BIT in KartItems.mFlags (TryAddKartItemFlags and AdvanceItemInUseOne set it from the input

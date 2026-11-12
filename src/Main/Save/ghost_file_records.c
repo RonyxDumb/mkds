@@ -10,7 +10,7 @@
 #include "dwc_account.h"
 #include "01/Menu/record_time_attack.h"
 #include "code_0214d018.h"
-#include "Main/Unknown/unk_0217a000.h" // GhostListEntry
+#include "Main/MapObjects/data_0217a000.h" // GhostListEntry
 #include "code_021522a0.h"
 
 #pragma opt_loop_invariants off

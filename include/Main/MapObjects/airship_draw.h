@@ -3,7 +3,7 @@
 #include "types.h"
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject
-#include "Main/Unknown/code_020e005c.h" // GroupFollower
+#include "Main/MapObjects/code_020e005c.h" // GroupFollower
 #include "Main/Item/item_koura_w.h" // CourseMapRow
 
 // Object of kind 0x158 (Airship) with the GroupFollower base at 0xc8 (DrawAirship, InitAirshipObjects).

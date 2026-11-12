@@ -23,17 +23,12 @@ static inline Vec3 *GetPosCurvePoint(PosCurve *posCurve, u16 pointIndex) {
     return &posCurve->mPoints[pointIndex];
 }
 
-struct KartAi;
-
 extern void (*data_0217ae3c)(KartAiItemUse *a, struct KartAi *b);
 extern void (*data_0217ae40)(KartAiItemUse *a, struct KartAi *b);
 extern void (*data_0217ae44)(KartAiItemUse *a, struct KartAi *b);
 extern void (*data_0217ae48)(KartAiItemUse *a, struct KartAi *b);
 
-typedef struct KartAiItemUse KartAiItemUse;
-
 struct KartAiRaceSpeedLimit;
-struct KartAi;
 
 extern KartAiItemUseEntry gRaceItemInUseEntries[];
 extern KartAiItemUseEntry gRaceNormalHeldItemEntries[];
@@ -83,3 +78,25 @@ void UseItemByTargetOrRankOrEveryCall(KartAiItemUse *itemUse, struct KartAi *kar
 void UseItemAfterHeld(KartAiItemUse *itemUse, struct KartAi *kartAi);
 void TrailOrCircleUseItemAfterHeld(KartAiItemUse *itemUse, struct KartAi *kartAi);
 void AdvanceKartAiTurnSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi);
+
+void ResetAwardMissionRunKartAiSpeedLimit(struct KartAiRaceSpeedLimit *p0, struct KartAi *kartAi);
+
+struct Kart;
+struct RacePointLink;
+
+void InitKartAiRaceSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi);
+u16 PickKartAiRaceStartBoost(s32 pickLast);
+void AdvanceKartAiSpeedLimitByRank(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi,
+                                   s32 speedLimitCap);
+void AdvanceRaceKartAiSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi);
+void PickKartAiRaceStart(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi);
+void ResetRaceKartAiSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi);
+u32 SetupRaceKartAiSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi);
+void InitKartAiTables(void);
+void AdvanceStaffRollKartAi(struct KartAi *kartAi);
+void SetupStaffRollKartAi(struct KartAi *kartAi, struct Kart *kart, s32 unusedValue);
+void AdvanceAwardMissionRunKartAi(struct KartAi *kartAi);
+void ResetAwardMissionRunKartAi(struct KartAi *kartAi, struct RacePointLink *pointLink);
+void SetupAwardMissionRunKartAi(struct KartAi *kartAi, struct Kart *kart, s32 unusedValue);
+
+unsigned int GetTargetAhead(struct KartAi *p0);

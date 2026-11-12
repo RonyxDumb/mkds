@@ -2,12 +2,18 @@
 #include "Main/System/heap.h"
 
 #include "Main/System/heap_call.h"
-#include "Main/Unknown/code_02036bec.h"
 #include "Main/Item/item_kind_copy_size.h"
-#include "Main/Unknown/code_020f36d8.h"
+#include "Main/Race/data_020f36d8.h"
 #include "Main/Item/pooled_item_box.h"
-#include "Main/Unknown/unk_021759c0.h"
-#include "Main/Unknown/unk_0217c000.h"
+#include "Main/Race/data_021759c0.h"
+#include "tp.h"
+#include "Main/MapObjects/data_0217c000.h"
+#include "player.h"
+#include "code_0212d214.h"
+#include "code_021479b4.h"
+#include "Main/Item/code_021035ac.h"
+#include "Main/Sound/surface_sound_ids.h"
+#include "Main/Sound/sound_source_list.h"
 
 #pragma thumb on
 

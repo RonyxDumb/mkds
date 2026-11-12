@@ -2,13 +2,12 @@
 #include "code_0200eddc.h"
 #include "code_0200fc8c.h"
 #include "snd_interface.h"
-#include "Main/Unknown/code_0200e000.h"
-#include "Main/Unknown/code_0200f000.h"
+#include "os_thread.h"
 #include "code_0214cfe4.h"
 #include "code_0212c9d4.h"
 #include "code_0214d018.h"
-#include "Main/Unknown/code_0214d000.h"
-#include "Main/Unknown/unk_0216e000.h"
+#include "Main/Menu/data_0216e000.h"
+#include "code_02134398.h"
 
 // Sets the output effect to type, then starts an effect capture of 32000 Hz with two parts, handled by EffectCallback.
 void NNS_SndCaptureStartOutputEffect(void *buffer, u32 bufSize, s32 type) {

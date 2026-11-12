@@ -1,15 +1,11 @@
 #include "00/Menu/wi_fi_select_kart.h"
-#include "Main/Unknown/code_02027000.h"
-#include "Main/Unknown/code_02027e78.h"
+#include "Main/Menu/select_kart_data.h"
 
 #include "00/code_02180608.h"
 #include "00/unk_021b4000.h"
-#include "Main/Unknown/code_02028000.h"
 #include "Main/System/heap.h"
 #include "Main/Net/wifi_connection_lost.h"
 #include "00/Menu/wi_fi_vs_setting.h"
-#include "Main/Unknown/code_02028130.h"
-#include "Main/Unknown/code_02028864.h"
 
 void InitWiFiSelectKartState(void *heap) {
     void *firstOamList;

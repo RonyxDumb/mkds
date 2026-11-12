@@ -1,16 +1,13 @@
 #include "Main/Menu/cup_picture_load.h"
-#include "Main/Unknown/code_020d113c.h"
 #include "Main/System/heap_call.h"
-#include "Main/Unknown/code_020d1108.h"
 #include "Main/System/heap.h"
-#include "Main/Unknown/code_020d0efc.h"
+#include "Main/System/thread_function_queue_run.h"
 #include "Main/Race/race_start_battle.h"
-#include "Main/Unknown/unk_0217b000.h"
+#include "Main/MapObjects/data_0217b000.h"
 #include "Main/System/archive_slots.h"
 #include "Main/Race/followed_kart_or.h"
-#include "Main/Unknown/code_02048000.h"
 #include "code_02134398.h"
-#include "Main/Unknown/unk_0216a000.h"
+#include "Main/Menu/data_0216a000.h"
 
 u32 CupPictureGetCurrentHeap(void) {
     u32 value0;

@@ -1,5 +1,4 @@
 #include "Main/Save/course_ghost_records.h"
-#include "Main/Unknown/code_02061644.h"
 #include "Main/System/heap.h"
 #include "Main/Save/backup_bit_array.h"
 #include "Main/Save/backup_busy.h"

@@ -2,7 +2,9 @@
 
 #include "code_021423e4.h"
 #include "code_02004dc0.h"
-#include "Main/Unknown/unk_0217e000.h"
+#include "Main/Net/data_0217e000.h"
+#include "stream.h"
+#include "code_0212d214.h"
 
 void ExitViaSwi(void) {
     SwiCall24();

@@ -4,8 +4,6 @@
 
 #include "code_02134008.h"
 #include "code_02139e20.h"
-#include "Main/Unknown/code_02133000.h"
-#include "Main/Unknown/code_02142000.h"
 
 WordPair FloatTrapDispatch(WordPair firstPair, WordPair secondPair, u32 statusFlags) {
     FloatTrapTable *floatTrapTable;

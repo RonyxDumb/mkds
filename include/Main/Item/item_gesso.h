@@ -3,7 +3,7 @@
 #include "types.h"
 #include "Main/Kart/kart_drift.h"
 #include "Main/MapObjects/pendulum.h"
-#include "Main/Unknown/code_020f36d8.h"
+#include "Main/Race/data_020f36d8.h"
 
 // Object of item kind 10, element of gItemPools[10].
 typedef struct ItemGesso {
@@ -53,3 +53,14 @@ void InitItemGessoFromData(ItemGesso *gesso);
 void CopyItemGessoData(void *data, ItemGesso *gesso, void *toData);
 void DrawItemGesso(ItemGesso *gesso, s32 unusedArg2, NsbmdModel *model);
 void AdvanceItemGesso(ItemGesso *gesso);
+
+typedef struct ItemInUse ItemInUse;
+typedef struct ItemGesso ItemGesso;
+
+unsigned int InitItemGesso(ItemInUse *itemInUse, ItemGesso *gesso);
+
+unsigned int SetupItemGesso(ItemGesso *gesso, s32 fromData);
+BOOL SetupNextItemGessoStep(ItemGesso *gesso);
+void ResetItemGesso(ItemGesso *gesso);
+
+void GessoMarkItemInUseAsActiveItem(ItemInUse *itemInUse);

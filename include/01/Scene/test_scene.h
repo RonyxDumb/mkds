@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "01/unk_021a9000.h"
-#include "Main/Unknown/unk_02175628.h"
+#include "Main/Menu/data_02175628.h"
 #include "Main/Scene/display_settings.h" // DisplaySettings
 #include "Main/Scene/run_scene_connection.h" // SceneNumbers
 

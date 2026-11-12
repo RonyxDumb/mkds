@@ -3,7 +3,7 @@
 #include "types.h"
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject
-#include "Main/Unknown/code_020e005c.h"
+#include "Main/MapObjects/code_020e005c.h"
 
 // Object updated by UpdateCoin, one state per value of mUnk_0f8.
 typedef struct Coin {
@@ -24,41 +24,39 @@ typedef struct Coin {
     /* 100 */ s32 mEffectTimer;
 } Coin;
 
-#include "Main/Unknown/code_0209b000.h"
+#include "Main/MapObjects/map_object_model_frame.h"
 #include "01/code_02182000.h"
 #include "01/Race/mission_run_state.h"
 #include "01/unk_021a6000.h"
 #include "ITCM/code_01ffd000.h"
-#include "Main/Unknown/code_02039860.h"
 #include "Main/Kart/kart_drift.h"
-#include "Main/Unknown/code_0208b000.h"
 #include "Main/Graphics/effects.h"
-#include "Main/Unknown/code_020d2000.h"
-#include "Main/Unknown/code_020ea000.h"
-#include "Main/Unknown/code_020f36d8.h"
-#include "Main/Unknown/code_02148000.h"
-#include "Main/Unknown/unk_021759c0.h"
+#include "Main/Item/pooled_map_object.h"
+#include "Main/Item/item_in_use.h"
+#include "Main/Race/data_020f36d8.h"
+#include "Main/MapObjects/does_map_object.h"
+#include "Main/MapObjects/map_object_sound.h"
+#include "Main/MapObjects/while_requested_full_volume_wrapper.h"
+#include "Main/MapObjects/map_object_park.h"
+#include "Main/MapObjects/sound_if_kart_star_or.h"
+#include "Main/MapObjects/map_object_scale_sound_source.h"
+#include "Main/MapObjects/map_object_list.h"
+#include "Main/MapObjects/map_object.h"
+#include "tp.h"
 #include "01/code_0219b250.h"
 #include "ITCM/code_01ff9000.h"
-#include "Main/Unknown/code_020d3000.h"
-#include "Main/Unknown/code_020e6000.h"
-#include "Main/Unknown/code_02084000.h"
-#include "Main/Unknown/code_02100000.h"
 #include "Main/Sound/sound_handle_pool.h"
-#include "Main/MapObjects/map_object_park.h"
 #include "player.h"
 #include "code_0212df7c.h"
 #include "01/unk_021a9000.h"
-#include "Main/Unknown/code_020b1dbc.h"
+#include "Main/Race/code_020b1dbc.h"
 #include "Main/Kart/point_link_cursor.h"
 #include "Main/Race/race_hud_sub_screen_course_id.h"
-#include "Main/Unknown/code_02147000.h"
-#include "Main/Unknown/unk_0215d000.h"
+#include "code_02012b30.h"
 #include "Main/Race/followed_kart_or.h"
 #include "Main/Race/race_hud_sub_screen_min_max.h"
-#include "Main/Unknown/code_0207a880.h"
+#include "Main/Kart/code_0207a880.h"
 #include "Main/Race/race_hud_sub_screen_projection.h"
-#include "Main/Unknown/code_020d4000.h"
 
 void *CreateCoinUpdateList(void);
 void *CreateCoinShadowDrawList(void);
@@ -83,5 +81,4 @@ void AdvanceCoinNsbtpFrame(Coin *coin, s32 counterAdd);
 void StartCoinRiseOverKart(Coin *coin, Kart *kart);
 
 #include "01/Menu/select_ghost.h"
-#include "Main/Unknown/code_02081000.h"
 #include "Main/Kart/kart_effects.h"

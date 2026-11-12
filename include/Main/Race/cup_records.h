@@ -22,3 +22,5 @@ void ClearKartCourseTotalPoints(u32 kart);
 void SetKartCourseResult(u32 kart, s32 rank, u32 points);
 u8 GetCourseIndexInCup(void);
 void ResetCupRecords(void);
+
+void CreateCupRecords(void *heap);

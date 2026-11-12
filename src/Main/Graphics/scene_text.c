@@ -1,8 +1,17 @@
 #include "Main/Graphics/scene_text.h"
-#include "Main/Unknown/code_02126700.h"
-#include "Main/Unknown/code_021277ac.h"
-#include "Main/Unknown/code_02128274.h"
-#include "Main/Unknown/unk_0217d000.h"
+#include "Main/Menu/txt_system.h"
+#include "Main/Menu/select_return.h"
+#include "Main/Menu/data_0217d000.h"
+#include "player.h"
+#include "code_0212c7a0.h"
+#include "stream.h"
+#include "code_0212c9d4.h"
+#include "Main/Graphics/layout_rect_table.h"
+#include "Main/Graphics/layout_entry_angle.h"
+#include "Main/Graphics/layout_table_entry.h"
+#include "Main/Race/race_hud_sub_screen_cells.h"
+#include "code_0212d214.h"
+#include "Main/Sound/sound_seq.h"
 
 #pragma thumb on
 

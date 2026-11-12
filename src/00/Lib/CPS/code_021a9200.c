@@ -2,7 +2,9 @@
 #include "00/Lib/CPS/code_021a9228.h"
 #include "code_02000b44.h"
 #include "unk_02000000.h"
-#include "Main/Unknown/unk_0216f000.h"
+#include "Main/Net/data_0216f000.h"
+#include "os_thread.h"
+#include "mb_data.h"
 
 #pragma opt_unpromotetypes on
 

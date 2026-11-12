@@ -1,5 +1,4 @@
 #include "Main/System/key_recording_start.h"
-#include "Main/Unknown/code_0214d000.h"
 #include "code_0214d018.h"
 
 void StartKeyRecording(KeyRecording *record) {

@@ -2,7 +2,14 @@
 
 #include "types.h"
 #include "Main/Net/wbt_requests.h"
-#include "Main/Unknown/unk_02175000.h"
+#include "Main/Menu/data_02175000.h"
+#include "Main/Scene/display_settings.h"
+#include "code_020182c0.h"
+#include "frameheap.h"
+#include "os_thread.h"
+#include "Main/MapObjects/map_object_park.h"
+#include "pm.h"
+#include "Main/Sound/sound_seq.h"
 
 typedef struct FSFile FSFile;
 
@@ -59,8 +66,6 @@ typedef struct RomArchivePortMessage {
     /* 12 */ u16 mFromIndex;
 } RomArchivePortMessage;
 
-typedef struct FSFile FSFile;
-
 // Entries of 0x20 bytes after a count word; SendRomArchiveMessage reads and rewrites the word at 0x18.
 typedef struct OverlayTableEntry {
     /* 00 */ u8 mUnk_00[0x18];
@@ -95,3 +100,7 @@ void RomArchiveSendCallback(WBTCommand *record);
 u32 ReloadRomArchiveFromBlock(u32 *block);
 void CreateRomArchiveBlock(FSFile *file, s32 appendOverlays);
 s32 RomArchiveChildProc(FSFile *file, u32 command);
+
+typedef struct FSArchive FSArchive;
+
+s32 RomArchiveWriteCallback(FSArchive *archive, const void *src, u32 dst, u32 length);

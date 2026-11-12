@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "Main/Kart/kart_drift.h" // Kart
-#include "Main/Unknown/code_020e005c.h" // GroupFollower
+#include "Main/MapObjects/code_020e005c.h" // GroupFollower
 #include "Main/MapObjects/attractor.h" // MapObject, MapObjectList
 
 // Object of kind 0x1a4 (MkdEfBurner); the draw group record (word +0x1c) is not part of this

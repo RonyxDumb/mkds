@@ -21,3 +21,15 @@ void CreateParkedMapObjects(u32 kind, s32 count, void *object);
 void StartShineBalloon(Kart *kart);
 void *CreateShineBalloonUpdateList(void);
 void *CreateShineBalloonDrawList(void);
+
+void CreateShineBalloonKindData(void);
+
+/* skipped for objects with mFlags & 4 (parked pool objects) */
+void UpdateShineBalloon(void *mapObjectList, ShineBalloonObject *shineBalloonObject);
+void DrawShineBalloon(void *mapObjectList, ShineBalloonObject *shineBalloonObject);
+void SetupDrawShineBalloon(void *mapObjectList);
+void CreateShineBalloon(void *mapObjectList);
+
+/* creates the pooled object hidden (parks it with ParkMapObject); the spawner later takes it with
+ * UnparkFirstParkedMapObject */
+void InitShineBalloon(u32 mapObjectArg);

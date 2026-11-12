@@ -6,12 +6,12 @@
 #include "Main/Kart/kart_drift.h"
 #include "Main/MapObjects/water.h"
 #include "Main/MapObjects/kuribo_init.h"
-#include "Main/Unknown/code_020e005c.h"
-#include "Main/Unknown/code_020e6b58.h"
+#include "Main/MapObjects/code_020e005c.h"
+#include "Main/MapObjects/code_020e6b58.h"
 #include "Main/Item/item_koura_w.h"
-#include "Main/Unknown/code_020d6dc0.h"
+#include "Main/MapObjects/code_020d6dc0.h"
 #include "Main/MapObjects/group_follower_advance.h"
-#include "Main/Unknown/code_020dc474.h"
+#include "Main/MapObjects/wanwan.h"
 
 // Object with the GroupFollower base at 0xc8 and its own fields from 0xec.
 typedef struct Dossun {

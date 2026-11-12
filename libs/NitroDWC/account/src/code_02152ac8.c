@@ -3,7 +3,6 @@
 #include "dwc_account.h"
 #include "code_02000b44.h"
 #include "Main/Save/nvram_new_wifi_info.h"
-#include "Main/Unknown/code_02152000.h"
 
 #pragma thumb on
 

@@ -3,6 +3,7 @@
 #include "types.h"
 #include "Main/Kart/shadow_model.h" // ShadowModel
 #include "Main/Graphics/nsbmd_render_obj.h" // Nsbmd
+#include "Main/MapObjects/code_020ebef8.h" // Woodbox1
 
 typedef struct NNSG3dResMdl NNSG3dResMdl;
 typedef struct Woodbox1 Woodbox1;
@@ -59,3 +60,5 @@ void EnterWoodbox1State2(Woodbox1 *woodbox);
 BOOL BounceWoodbox1OffGround(Woodbox1 *woodbox);
 void UpdateWoodbox1State1(Woodbox1 *woodbox);
 void EnterWoodbox1State1(Woodbox1 *woodbox);
+
+void AdvanceWoodbox1(u32 unused, Woodbox1 *woodbox);

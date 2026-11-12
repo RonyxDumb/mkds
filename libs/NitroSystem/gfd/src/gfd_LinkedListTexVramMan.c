@@ -3,8 +3,9 @@
 
 #include "gfdi_LinkedListVramMan_Common.h"
 #include "gfd_FrameTexVramMan.h"
-#include "Main/Unknown/unk_02161000.h"
-#include "Main/Unknown/unk_02173000.h"
+#include "Main/Kart/data_02161000.h"
+#include "data_02173000.h"
+#include "mic.h"
 
 int NNS_GfdGetLnkTexVramManagerWorkSize(int numMemBlk) {
     return numMemBlk << 4;

@@ -1,10 +1,9 @@
 #include "Main/Race/race_progress_rank.h"
-#include "Main/Unknown/code_02044000.h"
 #include "Main/Race/race_entries.h"
-#include "Main/Unknown/code_020a12b8.h"
+#include "Main/Race/standings_balloons.h"
 #include "Main/Race/race_hud_kart_removed.h"
 #include "Main/Race/race_end_condition.h"
-#include "Main/Unknown/code_02068eac.h"
+#include "Main/Kart/kart_participant_record.h"
 #include "Main/Kart/karts.h"
 
 u16 LookupRankPoints(u8 rank) {

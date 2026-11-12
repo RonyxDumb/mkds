@@ -6,7 +6,8 @@
 typedef struct HttpsState HttpsState;
 
 #include "00/unk_021b4000.h"
-#include "Main/Unknown/unk_0216f000.h"
+#include "os_thread.h"
+#include "mb_data.h"
 
 typedef struct CPSSoc CPSSoc;
 

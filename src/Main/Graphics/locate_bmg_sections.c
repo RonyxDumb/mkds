@@ -1,8 +1,6 @@
 #include "Main/Graphics/locate_bmg_sections.h"
-#include "Main/Unknown/code_020ae178.h"
-#include "Main/Unknown/code_020ae000.h"
-#include "Main/Unknown/unk_0217b000.h"
-#include "Main/Unknown/code_02133000.h"
+#include "Main/Graphics/oam.h"
+#include "Main/MapObjects/data_0217b000.h"
 
 #pragma thumb on
 #pragma optimize_for_size on

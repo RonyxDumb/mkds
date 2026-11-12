@@ -3,7 +3,7 @@
 #include "types.h"
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject, MapObjectKindData
-#include "Main/Unknown/code_0209bc74.h"
+#include "01/MapObjects/data_0209bc74.h"
 #include "Main/MapObjects/airship_draw.h" // Airship
 
 // Object of kind 0x157 (TownMonte) with the MapObject base: two halfwords at 0xa0 and 0xa2, then three words

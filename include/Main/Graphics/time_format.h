@@ -1,7 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/unk_021759c0.h" // MinuteSecondMillisecondTime
+#include "Main/Race/data_021759c0.h" // MinuteSecondMillisecondTime
+#include "tp.h"
 
 // First argument of FormatDate.
 typedef struct DateBytes {

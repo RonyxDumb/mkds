@@ -1,0 +1,102 @@
+#pragma once
+
+#include "types.h"
+
+// Header of the file returned by FindCourseFile in CreateCourseMap: a word array at 0x08 holds offsets from 0x06's
+// value. The halfword at 4 is the format version (copied to CourseMap.mVersion).
+typedef struct CourseMapHeader {
+    /* 00 */ u8 mUnk_00[4];
+    /* 04 */ u16 mVersion;
+    /* 06 */ u16 mBaseOffset;
+    /* 08 */ s32 mSectionOffsets[1];
+} CourseMapHeader;
+
+extern s32 (*gCourseMapSectionLoaders[17])(void *a, ...);
+
+#include "Main/Race/code_020b1dbc.h"
+#include "Main/Kart/point_link_cursor.h"
+#include "Main/Race/race_hud_sub_screen_course_id.h"
+#include "code_02012b30.h"
+#include "tp.h"
+#include "Main/Race/followed_kart_or.h"
+#include "Main/Race/race_hud_sub_screen_min_max.h"
+#include "Main/Kart/code_0207a880.h"
+#include "Main/Race/race_hud_sub_screen_projection.h"
+
+void CreateCourseMap(void *heap);
+
+typedef struct RandomState64 RandomState64;
+
+typedef struct CourseMapRoute CourseMapRoute;
+typedef struct RacePointLink RacePointLink;
+typedef struct ItemPointLink ItemPointLink;
+
+// Takes the camera section: stores mCameraCount and mCameras (NULL when empty) and remembers the first entry of chain
+// 1, chain 2, kind 6, kind 7 (battle) and kind 8 (mission run) in the CourseMap members of those names. Returns 1.
+s32 LoadCourseMapCamerasData(void *section, ...);
+// Takes the shape section: stores mShapeCount and mShapes (NULL when empty), then builds the kind 3 lists and counts
+// the kind 4 shapes and, in mission run, the kind 2 shapes. Returns 1.
+s32 LoadCourseMapShapesData(void *section, ...);
+void CountCourseMapKind2ShapesInMode4(void);
+void CountCourseMapKind4Shapes(void);
+void BuildCourseMapKind3ShapeLists(void);
+CourseMapShape *GetCourseMapShape(u32 shapeIndex);
+// Takes the route section of table entry 14: with several start placements it stores mBattleRouteCount and
+// mBattleRoutes, otherwise mRaceRouteCount and mRaceRoutes; when the section is not empty the other pair is cleared.
+// Returns 1.
+s32 LoadCourseMapBattleOrRaceRoutesData(void *section, ...);
+// Takes the point section of table entry 13: with several start placements it stores mBattlePointCount and
+// mBattlePoints, otherwise mRacePointCount and mRacePoints; when the section is not empty the other pair is cleared.
+// Returns 1.
+s32 LoadCourseMapBattleOrRacePointsData(void *section, ...);
+// Takes the item route section: stores mItemRouteCount and mItemRoutes (NULL when empty). Returns 1.
+s32 LoadCourseMapItemRoutesData(void *section, ...);
+// Takes the item point section: stores mItemPointCount and mItemPoints (NULL when empty). Returns 1.
+s32 LoadCourseMapItemPointsData(void *section, ...);
+s32 LoadCourseMapCheckpointRoutesData(void *section, ...);
+s32 LoadCourseMapCheckpointsData(void *section, ...);
+s32 LoadCourseMapRaceEndPlacementsData(void *section, ...);
+// Takes the keyed placement section when the format version is 0x1f or more (else clears mKeyedPlacementCount and
+// mKeyedPlacements), then builds the index by key. Returns 1 when the version has the section, else 0 and the same
+// section offset goes to the next loader.
+s32 LoadCourseMapKeyedPlacementsData(void *section, ...);
+// Allocates mKeyedPlacementIndexByKey (one halfword per record) and stores in it the index of each record at its key;
+// NULL when there are no records.
+void BuildCourseMapKeyedPlacementIndexByKey(void);
+s32 LoadCourseMapSubScreenViewData(void *section, ...);
+void ShuffleCourseMapRespawnSlots(RandomState64 *randomState64);
+s32 LoadCourseMapRespawnsData(void *section, ...);
+s32 LoadCourseMapStartPlacementsData(void *section, ...);
+u32 LoadCourseMapSettingsData(void *section);
+// Called once by CreateCourseMap after the sections are loaded: builds mItemPointLinks when mItemRouteCount is not 0,
+// and mRacePointLinks when mRaceRouteCount is not 0, else mBattlePointLinks when mBattleRouteCount is not 0.
+void BuildCourseMapPointLinks(void *heap);
+// Allocates mBattlePointLinks (one per battle point) and clears it, stores the first link and the end pointer in the
+// next two CourseMap members, then fills each link from its point and its route: the first point of a route joins the
+// routes named by the bytes at 0x0c of the route, the last point those named by the bytes at 0x04, inner points the
+// next and previous point.
+void BuildCourseMapBattlePointLinks(void *heap);
+// Allocates mRacePointLinks (one per race point) and clears it, stores the link of the first point of route 0 and the
+// link of the last point of the route before route 0 in the next two CourseMap members, links the points route by route
+// from route 0 (BuildCourseMapRaceRouteLinks), then starts every route whose first point has no previous link.
+void BuildCourseMapRacePointLinks(void *heap);
+// Fills the link of point c of route b (pointer to its point and two values), joins it to link a when a is not NULL,
+// then goes on with the next point of the route and, at the route end, with the first point of each following route
+// (255 = none).
+void BuildCourseMapRaceRouteLinks(RacePointLink *previousLink, CourseMapRoute *route, u16 pointIndex);
+// Allocates mItemPointLinks (one per item point) and clears it, stores the link of the first point of route 0 and the
+// link of the last point of the route before route 0 in the next two CourseMap members, then links the points route by
+// route from route 0 (BuildCourseMapItemRouteLinks).
+void BuildCourseMapItemPointLinks(void *heap);
+// Fills the link of point c of route b (pointer to its point and two values), joins it to link a as next and previous
+// (skipped when already joined), then goes on with the next point of the route and, at the route end, with the first
+// point of each following route other than route 0 and 255.
+void BuildCourseMapItemRouteLinks(ItemPointLink *previousLink, CourseMapRoute *route, u16 pointIndex);
+CourseMapEntryGroupTableRow *GetCourseMapEntryGroupTableRow(unsigned int groupIndex);
+void BuildCourseMapEntryGroupTable(void *heap);
+void SetCourseMapCheckpointTotals(void);
+s32 ComputeCourseMapRouteCheckpointSum(u16 routeIndex);
+s32 LoadCourseMapGroupEntriesData(void *section, ...);
+s32 LoadCourseMapEntryGroupsData(void *section, ...);
+s32 LoadCourseMapRowsData(void *section, ...);
+u16 ReadCourseMapSectionCount(void **cursor);

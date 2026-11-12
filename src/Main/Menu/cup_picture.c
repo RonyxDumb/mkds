@@ -1,7 +1,6 @@
 #include "Main/Menu/cup_picture.h"
 #include "Main/Graphics/font_and_player_character.h"
-#include "Main/Unknown/code_020c0ba8.h"
-#include "Main/Unknown/code_020c0000.h"
+#include "Main/Race/race_hud_sub_screen_cells.h"
 #include "Main/System/thread_function_queue_run.h"
 #include "Main/Menu/cup_picture_load.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"

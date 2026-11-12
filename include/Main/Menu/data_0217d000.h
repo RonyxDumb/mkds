@@ -1,0 +1,893 @@
+#pragma once
+#include "types.h"
+#include "player.h"
+#include "code_0212c7a0.h" // NNSSndPlayer
+#include "stream.h" // NNSSndStrmChannel
+#include "code_0212c9d4.h" // CaptureParam, EffectInfo
+#include "Main/Graphics/layout_rect_table.h" // LayoutEntryTable
+#include "Main/Graphics/layout_entry_angle.h" // LayoutTableEntry
+#include "Main/Graphics/layout_table_entry.h"
+#include "Main/Race/race_hud_sub_screen_cells.h" // RaceHudOamBuffer
+#include "code_0212d214.h"
+#include "Main/Menu/data_02180728.h" // TextCanvas
+#include "Main/Sound/sound_seq.h" // SoundHandlePool
+
+typedef struct OSMessageQueue OSMessageQueue;
+
+// Three words derived from a halfword.
+typedef struct PaletteColorFields {
+    /* 00 */ s32 mBits0To4;
+    /* 04 */ s32 mBits5To9;
+    /* 08 */ s32 mBits10To14;
+} PaletteColorFields;
+
+// 0x90 bytes.
+typedef struct PaletteBlend {
+    /* 00 */ s32 mCycleFrames;
+    /* 04 */ BOOL mStopped;
+    /* 08 */ u8 mPaletteIndex;
+    /* 09 */ u8 mUnk_09;
+    /* 0a */ u16 mPalette[5];
+    /* 14 */ u16 mFromColors[4];
+    /* 1c */ u16 mToColors[4];
+    /* 24 */ u16 mUnk_24[3];
+    /* 2a */ u8 mUnk_2a[2];
+    /* 2c */ PaletteColorFields mBlendFrom[4];
+    /* 5c */ PaletteColorFields mBlendTo[4];
+    /* 8c */ BOOL mFirstBlend;
+} PaletteBlend;
+
+typedef struct CharacterKartPicks CharacterKartPicks;
+
+// Object behind gPicksHolder.
+typedef struct PicksHolder {
+    /* 00 */ CharacterKartPicks *mPicks;
+} PicksHolder;
+
+struct Nclr;
+
+// 0x18 bytes.
+typedef struct KartIcon {
+    /* 00 */ struct Ncgr *mNcgr;
+    /* 04 */ struct Unk02021dc8 *mNcer;
+    /* 08 */ struct Nclr *mNclrs[3];
+    /* 14 */ void *mBncl;
+} KartIcon;
+
+struct NNSSndArc;
+
+struct NNSSndStrmThread;
+
+struct Ncgr;
+
+struct Nscr;
+
+typedef struct Wait {
+    /* 00 */ struct Unk02021dc8 *mNcer;
+    /* 04 */ struct Ncgr *mNcgr;
+    /* 08 */ struct Nclr *mNclr;
+    /* 0c */ void *mBncl;
+    /* 10 */ struct Unk02021dc8 *mDestinationNcer;
+    /* 14 */ struct LayoutEntryTable *mDestinationBncl;
+    /* 18 */ u32 mDestinationBnclIndex;
+    /* 1c */ u16 mPaletteIndex;
+    /* 20 */ s32 mQueueSelector;
+    /* 24 */ u16 mFrameIndex;
+    /* 28 */ s32 mFrameIndexFrames;
+} Wait;
+
+typedef struct RecordVSErase {
+    /* 00 */ struct Ncgr *mRecordVSMNcgr;
+    /* 04 */ struct Unk02021dc8 *mRecordVSMNcer;
+    /* 08 */ LayoutEntryTable *mRecordVSMBncl;
+    /* 0c */ struct LayoutEntryTable *mRecordVSMBnll;
+    /* 10 */ struct Nscr *mRecordVSM02Nscr;
+    /* 14 */ LayoutTableEntry *mRecordVSMTable;
+    /* 18 */ LayoutEntryTable *mRecordVSMTransientBncl;
+    /* 1c */ struct LayoutEntryTable *mRecordVSMTransientBnll;
+    /* 20 */ struct Nscr *mRecordVSM03Nscr;
+    /* 24 */ LayoutTableEntry *mRecordVSMTransientTable;
+    /* 28 */ struct Ncgr *mRecordVSSNcgr;
+    /* 2c */ struct Unk02021dc8 *mRecordVSSNcer;
+    /* 30 */ LayoutEntryTable *mRecordVSSEraseBncl;
+    /* 34 */ struct LayoutEntryTable *mRecordVSSEraseBnbl;
+    /* 38 */ struct LayoutEntryTable *mRecordVSSEraseBnll;
+    /* 3c */ LayoutTableEntry *mRecordVSSEraseTable;
+    /* 40 */ s32 mTransientDrawn;
+    /* 44 */ struct Bmg *mCommonMessages;
+    /* 48 */ struct Bmg *mRecordMessages;
+    /* 4c */ void *mSecondScreenMapBuffer;
+    /* 50 */ void *mHeap;
+    /* 54 */ s32 mState;
+    /* 58 */ s32 mNextState;
+    /* 5c */ s32 mStateFrames;
+    /* 60 */ s32 mBg0OffsetX;
+    /* 64 */ s32 mBg0OffsetY;
+    /* 68 */ s32 mBg1OffsetX;
+    /* 6c */ s32 mBg1OffsetY;
+    /* 70 */ s32 mBg3Offset;
+    /* 74 */ s16 mIndex;
+    /* 76 */ s16 mPageIndex;
+    /* 78 */ s32 mPageDecrement;
+    /* 7c */ s32 mIndexChangeTimer;
+    /* 80 */ s16 mShownIndex;
+    /* 82 */ u8 mUnk_82[2];
+    /* 84 */ u32 mErased;
+    /* 88 */ struct EmblemData *mEmblem;
+    /* 8c */ void *mEmblemConverted;
+    /* 90 */ s32 mOffsetTimers[2];
+    /* 98 */ BOOL mPageDecrementRepeat;
+    /* 9c */ BOOL mPageIncrementRepeat;
+    /* a0 */ s32 mNextScreen;
+} RecordVSErase;
+
+typedef struct SelectCupNameM {
+    /* 00 */ struct Ncgr *mNcgr;
+    /* 04 */ struct Unk02021dc8 *mNcer;
+    /* 08 */ void *mBncl;
+} SelectCupNameM;
+
+// 0x10 bytes.
+typedef struct CupMark {
+    /* 00 */ struct Ncgr *mNcgr;
+    /* 04 */ struct Unk02021dc8 *mNcer;
+    /* 08 */ struct Nclr *mNclr;
+    /* 0c */ struct LayoutEntryTable *mBncl;
+} CupMark;
+
+// Object at gScenePlayers (0x14 bytes); InitScenePlayers fills it. gScenePlayersSeqPlayer names its member 0x0c.
+typedef struct ScenePlayers {
+    /* 00 */ s32 mProgress;
+    /* 04 */ SceneSoundState *mSceneSoundState;
+    /* 08 */ u8 mSoundRowIndex;
+    /* 09 */ u8 mUnk_09;
+    /* 0a */ u8 mSeqStartProgress;
+    /* 0b */ u8 mSeqId;
+    /* 0c */ NNSSndSeqPlayer *mSeqPlayer;
+    /* 10 */ NNSSndSeqPlayer *mSecondSeqPlayer;
+} ScenePlayers;
+
+// Object at gSoundModeHolder (0x1c bytes); SetupSoundMode stores its second argument at 0x00.
+typedef struct SoundModeHolder {
+    /* 00 */ ScenePlayers *mScenePlayers;
+    /* 04 */ u32 mMode;
+    /* 08 */ u32 mSavedMode;
+    /* 0c */ u32 mSeqStartEnabled;
+    /* 10 */ u32 mSoundsEnabled;
+    /* 14 */ u32 mUnk_14;
+    /* 18 */ NNSSndSeqPlayer **mKartStarSeqPlayer;
+} SoundModeHolder;
+
+// Object at gSeqRowState (0x10 bytes); mUnk_08 points to a row of six words.
+typedef struct SeqRowState {
+    /* 00 */ s32 mLoadedIndex;
+    /* 04 */ NNSSndHeap *mSeqHeap;
+    /* 08 */ u32 *mSeqRow;
+    /* 0c */ u32 mFinishResult;
+} SeqRowState;
+
+// Object behind gRecordVS.
+typedef struct RecordVS {
+    /* 00 */ struct Ncgr *mRecordVSMNcgr;
+    /* 04 */ struct Unk02021dc8 *mRecordVSMNcer;
+    /* 08 */ LayoutEntryTable *mRecordVSMBncl;
+    /* 0c */ struct LayoutEntryTable *mRecordVSMBnll;
+    /* 10 */ struct Nscr *mRecordVSM02Nscr;
+    // Object table of the main part of the screen (files mRecordVSMBncl / mRecordVSMBnll).
+    /* 14 */ LayoutTableEntry *mRecordVSMTable;
+    /* 18 */ LayoutEntryTable *mRecordVSMTransientBncl;
+    /* 1c */ struct LayoutEntryTable *mRecordVSMTransientBnll;
+    /* 20 */ struct Nscr *mRecordVSM03Nscr;
+    // Object table of the transient part of the main screen (files mRecordVSMTransientBncl / mRecordVSMTransientBnll).
+    /* 24 */ LayoutTableEntry *mRecordVSMTransientTable;
+    /* 28 */ struct Ncgr *mRecordVSSNcgr;
+    /* 2c */ struct Unk02021dc8 *mRecordVSSNcer;
+    /* 30 */ LayoutEntryTable *mRecordVSSBncl;
+    /* 34 */ LayoutEntryTable *mRecordVSSBnbl;
+    /* 38 */ struct LayoutEntryTable *mRecordVSSBnll;
+    // Object table of the sub screen (files mRecordVSSBncl / mRecordVSSBnll).
+    /* 3c */ LayoutTableEntry *mRecordVSSTable;
+    /* 40 */ s32 mShowsFriendKey;
+    /* 44 */ struct Bmg *mRecordMessages;
+    /* 48 */ void *mHeap;
+    /* 4c */ s32 mState;
+    /* 50 */ s32 mNextState;
+    /* 54 */ s32 mStateFrames; /* counts only in states 1, 2, 5 to 11 */
+    // X half of reg_G2_BG0OFS (0x04000010, main engine BG0), stored negated
+    /* 58 */ s32 mBg0OffsetX;
+    // Y half of reg_G2_BG0OFS (0x04000010, main engine BG0), stored negated
+    /* 5c */ s32 mBg0OffsetY;
+    // X half of reg_G2_BG1OFS (0x04000014, main engine BG1), stored negated
+    /* 60 */ s32 mBg1OffsetX;
+    // Y half of reg_G2_BG1OFS (0x04000014, main engine BG1), stored negated
+    /* 64 */ s32 mBg1OffsetY;
+    // Position of the highlight among the six items: 0 to 4 are the records of the page, 5 the extra item; -1 can be
+    // stored (count % 5 - 1 in RefreshRecordVSPage).
+    /* 68 */ s16 mIndex;
+    /* 6a */ s16 mPageIndex;
+    /* 6c */ s32 mPageDecrement;
+    // Counts 7 down to 0 after mIndex changed: AdvanceRecordVSIndexChange sets 7 when mIndex differs from mShownIndex,
+    // rebuilds the page text through PrintRecordVSShownRecord at 7 and moves the objects while it runs;
+    // IsRecordVSIndexChangeRunning tells whether it is non-zero.
+    /* 70 */ s32 mIndexChangeTimer;
+    // mIndex the page text was last built for: PrintRecordVSShownRecord builds the text of the record mShownIndex, and
+    // AdvanceRecordVSIndexChange starts mIndexChangeTimer when mIndex differs from it.
+    /* 74 */ s16 mShownIndex;
+    /* 76 */ u8 mUnk_76[2];
+    /* 78 */ struct EmblemData *mEmblem;
+    /* 7c */ void *mEmblemConverted;
+    /* 80 */ s32 mOffsetTimers[2];
+    /* 88 */ BOOL mPageDecrementRepeat;
+    /* 8c */ BOOL mPageIncrementRepeat;
+    // Screen to request when the exit ends; 6 sets the next scene instead.
+    /* 90 */ s32 mNextScreen;
+} RecordVS;
+
+// Object behind gSelectCupGrid: the screen that picks one of eight cups, laid out as two rows of four (a direction key
+// or a touch moves mIndex to a neighbour cup that is enabled). Choosing stores the cup and the first course of that cup
+// in the record behind gRaceSetupCopy (SetCupFromSelectCupGrid); SelectCupCourse then picks one of the four courses of
+// the stored cup. Allocated by InitSelectCupGrid, freed by ReleaseSelectCupGrid; mMode is 0, 1 or 2 to 4 by the screen
+// that opened it.
+typedef struct SelectCupGrid {
+    /* 00 */ struct Unk02021dc8 *mSelectCupMNcer;
+    /* 04 */ LayoutEntryTable *mSelectCupMBncl;
+    /* 08 */ struct LayoutEntryTable *mSelectCupMBnll;
+    /* 0c */ struct Unk02021dc8 *mSelectCupSNcer;
+    /* 10 */ struct LayoutEntryTable *mSelectCupSBncl;
+    /* 14 */ LayoutEntryTable *mSelectCupSBnbl;
+    /* 18 */ LayoutTableEntry *mSelectCupMTable;
+    /* 1c */ LayoutTableEntry *mSelectCupSTable;
+    /* 20 */ void *mSecondScreenMapBuffer;
+    /* 24 */ struct Bmg *mCommonMessages;
+    /* 28 */ struct Bmg *mMenuMessages;
+    /* 2c */ void *mHeap;
+    /* 30 */ s32 mState;
+    /* 34 */ s32 mNextState;
+    /* 38 */ s32 mStateFrames;
+    /* 3c */ s32 mMode;
+    // Negated and shifted into the upper half-word of the BG0 offset register.
+    /* 40 */ s32 mBg0Offset;
+    /* 44 */ s32 mIndex;
+    // One entry per cup: non-zero when the cup can be chosen, filled once at InitSelectCupGrid from
+    // GetSelectCupGridCupEnabled; a disabled cup shows its other cells, plays the error sound when touched and is
+    // skipped by the direction keys.
+    /* 48 */ s32 mCupsEnabled[8];
+    /* 68 */ BOOL mHighlightShown;
+    // Counts 7 down to 0 after mIndex changed: AdvanceSelectCupGridIndexChange sets 7 when mIndex differs from
+    // mShownIndex, rebuilds the cells at 7 and moves them while it runs; IsSelectCupGridIndexChangeRunning tells
+    // whether it is non-zero.
+    /* 6c */ s32 mIndexChangeTimer;
+    // mIndex that the cells were last built for: AdvanceSelectCupGridIndexChange copies mIndex here when it rebuilds
+    // them and starts mIndexChangeTimer when mIndex differs from it.
+    /* 70 */ s32 mShownIndex;
+    // Calls of AdvanceSelectCupGridShownCourse since the shown course changed; at 0x4b the next course is shown and it
+    // restarts at 0.
+    /* 74 */ s32 mShownCourseFrames;
+    // Position 0 to 3 of the course of the cup at mIndex whose picture is shown: indexes
+    // gSelectCupGridCourseIds[mIndex]; AdvanceSelectCupGrid also shows the cell of that position differently from the
+    // other three.
+    /* 78 */ s16 mShownCourseIndex;
+    /* 7a */ u8 mUnk_7a[2];
+    // Set when the cup picture was asked for; AdvanceSelectCupGrid queues its data once it is ready.
+    /* 7c */ BOOL mCupPicturePending;
+    /* 80 */ void *mMainOam;
+    /* 84 */ void *mSubOam;
+    /* 88 */ s32 mResult;
+} SelectCupGrid;
+
+// Object behind gSelectCupCourse.
+typedef struct SelectCupCourse {
+    /* 00 */ struct Unk02021dc8 *mSelectCupCourseMNcer;
+    /* 04 */ LayoutEntryTable *mSelectCupCourseTaOrVsMBncl; /* ta_m file when mMode == 0, vs_m otherwise */
+    /* 08 */ struct LayoutEntryTable *mSelectCupCourseTaOrVsMBnll; /* ta_m file when mMode == 0, vs_m otherwise */
+    /* 0c */ struct Unk02021dc8 *mSelectCupMNcer;
+    /* 10 */ LayoutEntryTable *mSelectCupMBncl;
+    /* 14 */ LayoutEntryTable *mSelectCupMBnbl;
+    /* 18 */ struct LayoutEntryTable *mSelectCupMBnll;
+    // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable; assigned only when
+    // *(vu16
+    // *) 0x027ffc40 != 2
+    /* 1c */ LayoutTableEntry *mSelectCupCourseTaOrVsMTable;
+    // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable; assigned only when
+    // *(vu16
+    // *) 0x027ffc40 != 2
+    /* 20 */ LayoutTableEntry *mSelectCupMTable;
+    /* 24 */ void *mSecondScreenMapBuffer;
+    /* 28 */ struct Bmg *mCommonMessages;
+    /* 2c */ void *mGhostMessages;
+    /* 30 */ void *mHeap;
+    /* 34 */ s32 mState;
+    /* 38 */ s32 mNextState;
+    /* 3c */ s32 mStateFrames; /* counts only in states 1, 4, 5, 7, 8 */
+    /* 40 */ s32 mMode;
+    /* 44 */ s32 mBg0Offset;
+    /* 48 */ s32 mBg3Offset; /* the sub engine's BG3 offset (0x0400101c); mBg0Offset is the main engine's */
+    /* 4c */ u8 mUnk_4c[4];
+    /* 50 */ s16 mIndex; /* 0..3 position among the four courses of the cup: the course is data_0215cbec[row][mIndex] */
+    /* 52 */ u8 mUnk_52[2];
+    /* 54 */ BOOL mHighlightShown;
+    // Counts 7 down to 0 after mIndex changed: AdvanceSelectCupCourseIndexChange sets 7 when mIndex differs from
+    // mShownIndex, rebuilds the page through RefreshSelectCupCourseForIndex at 7 and moves the objects while it runs;
+    // IsSelectCupCourseIndexChangeRunning tells whether it is non-zero.
+    /* 58 */ s32 mIndexChangeTimer;
+    // mIndex the page was last built for: AdvanceSelectCupCourseIndexChange copies mIndex here when
+    // RefreshSelectCupCourseForIndex rebuilds the page, and starts mIndexChangeTimer when mIndex differs from it.
+    /* 5c */ s16 mShownIndex;
+    /* 5e */ u8 mUnk_5e[2];
+    // Set when the cup picture was asked for; the step queues its data once it is ready.
+    /* 60 */ BOOL mCupPicturePending;
+    /* 64 */ void *mMainOam;
+    /* 68 */ void *mSubOam;
+    /* 6c */ s32 mResult;
+} SelectCupCourse;
+
+// Option of the rules row with a race counter (mRaceCount).
+#define SELECT_RACE_RULE_RACE 1
+
+// Option of the rules row with a win counter (mWinCount).
+#define SELECT_RACE_RULE_WIN 0
+
+// Option of the rules row with no counter.
+#define SELECT_RACE_RULE_FREE 2
+
+// Object behind gSelectRaceRule.
+typedef struct SelectRaceRule {
+    /* 00 */ struct Unk02021dc8 *mNcer;
+    /* 04 */ LayoutEntryTable *mBncl;
+    /* 08 */ LayoutEntryTable *mBnbl;
+    /* 0c */ struct LayoutEntryTable *mBnll;
+    /* 10 */ struct Nclr *mNclr; /* the _o palette */
+    // Object table allocated for the bncl / bnll of this screen.
+    /* 14 */ LayoutTableEntry *mTable;
+    // Messages of common.bmg.
+    /* 18 */ struct Bmg *mCommonMessages;
+    // Messages of rule.bmg.
+    /* 1c */ struct Bmg *mRuleMessages;
+    /* 20 */ struct Nscr *mNscr; /* multi_simple_s (mMode == 3) or s_menu, two files */
+    /* 24 */ void *mSecondScreenMapBuffer;
+    /* 28 */ void *mHeap;
+    /* 2c */ s32 mMode;
+    /* 30 */ s32 mState;
+    /* 34 */ s32 mNextState;
+    /* 38 */ s32 mStateFrames;
+    // Set to 6 when the row's value is stepped ([row][0] down, [row][1] up), counted down each step; moves the row's
+    // pair of objects.
+    /* 3c */ s16 mRowChangeTimers[5][2];
+    // Same shape for the row 3 count ([0][0] down, [0][1] up) and the row 4 teams ([1][0] and [1][1] by the team a
+    // player lands in).
+    /* 50 */ s16 mCountTeamChangeTimers[2][2];
+    // Vertical shift in lines of the whole layout, 0 or -0x1c by mode; added to the positions of the objects and taken
+    // off the touch y.
+    /* 58 */ s16 mOffsetY;
+    /* 5a */ u8 mUnk_5a[0x02];
+    // Offset stored negated into the sub engine's BG3 offset register.
+    /* 5c */ s32 mBg3Offset;
+    // Row (0 to 4) the highlight is on; the value of row n is mRowValues[n].
+    /* 60 */ s32 mRow;
+    // Row at the start of the step, to see whether it changed.
+    /* 64 */ s32 mPrevRow;
+    // Value of each row, 0 up to the row's count minus 1; stepped up and down with wrap.
+    /* 68 */ s32 mRowValues[5];
+    // Non-zero while the highlight is on the button below the rows instead of on a row.
+    /* 7c */ s32 mOnButton;
+    // mOnButton at the start of the step.
+    /* 80 */ s32 mPrevOnButton;
+    // 0 while the pressed button is drawn plain, back to 1 five calls into state 4.
+    // Decides which of the button's two objects shows.
+    /* 84 */ u32 mButtonHighlightShown;
+    // Count of the win option of row 3, kept from 1 to 10.
+    /* 88 */ s16 mWinCount;
+    // Count of the race option of row 3, kept from 1 to 0x20.
+    /* 8a */ s16 mRaceCount;
+    // Team index of each of the 8 entries.
+    /* 8c */ u32 mPlayerTeamIndices[8];
+    // Per team: how many of the first entries are in it.
+    /* ac */ u16 mTeamHumanCounts[2];
+    // Per team: how many of the entries after the first ones are in it; counted into a team's size only while row 1 is
+    // not 0.
+    /* b0 */ u16 mTeamNonHumanCounts[2];
+    /* b4 */ void *mOamList;
+    // Result AdvanceSelectRaceRule returns in state 8 once the state has run 10 calls: 1 or 2; 0 until set.
+    /* b8 */ vu32 mResult;
+} SelectRaceRule;
+
+// 0x10 bytes.
+typedef struct TrophyIcon {
+    /* 00 */ struct Ncgr *mNcgr;
+    /* 04 */ struct Unk02021dc8 *mNcer;
+    /* 08 */ struct Nclr *mNclr;
+    /* 0c */ void *mBncl;
+} TrophyIcon;
+
+// Object behind gSelectRaceRuleWait (0x28 bytes), allocated by InitSelectRaceRuleWait.
+typedef struct SelectRaceRuleWait {
+    /* 00 */ struct Unk02021dc8 *mNcer;
+    /* 04 */ LayoutEntryTable *mBncl;
+    /* 08 */ u8 mUnk_08[0x4];
+    /* 0c */ struct LayoutEntryTable *mBnll;
+    /* 10 */ LayoutTableEntry *mTable;
+    /* 14 */ void *mCommonMessages;
+    /* 18 */ void *mOamList;
+    /* 1c */ s32 mState;
+    /* 20 */ s32 mNextState;
+    /* 24 */ s32 mStateFrames;
+} SelectRaceRuleWait;
+
+// Object at gSeqPlayerControl (0x10 bytes).
+typedef struct SeqPlayerControl {
+    // 0: normal; 1: volume target 0; 2: volume target full.
+    /* 00 */ s32 mVolumeOverride;
+    /* 04 */ s32 mPitchAngle;
+    // Mask 2 is set while the selected Kart is small from the Thunder item (SetThunderShrinkSoundFlag); mask 4 while a
+    // Teresa effect runs on it (SetTeresaSoundFlag).
+    /* 08 */ s32 mFlags;
+    /* 0c */ u32 mKartNear;
+} SeqPlayerControl;
+
+// Object at gSeqQueue.
+typedef struct SeqQueue {
+    // 14 queued pairs; 13 in mPairNo and 2 in mPairSide mark an empty entry.
+    /* 00 */ s32 mPairNo[14];
+    /* 38 */ s32 mPairSide[14];
+    /* 70 */ s32 mWriteIndex;
+    /* 74 */ s32 mReadIndex;
+    /* 78 */ s32 mNextStartTimer;
+} SeqQueue;
+
+// Object behind gGhostRecordSet, allocated by InitGhostRecordSet.
+typedef struct GhostRecordSet {
+    /* 00 */ struct GhostRecordHead *mCourseGhostRecords;
+    /* 04 */ struct GhostListEntry *mSlotGhostRecords;
+    /* 08 */ struct GhostListEntry *mGhostFileRecords;
+    /* 0c */ u32 mCourseId;
+    /* 10 */ s16 mSlotIndex;
+} GhostRecordSet;
+
+typedef struct SelectCupM {
+    /* 00 */ struct Unk02021dc8 *mMainNcer;
+    /* 04 */ LayoutEntryTable *mMainBncl;
+    /* 08 */ struct LayoutEntryTable *mMainBnll;
+    /* 0c */ struct Unk02021dc8 *mSubNcer;
+    /* 10 */ LayoutEntryTable *mSubBncl;
+    /* 14 */ struct LayoutEntryTable *mSubBnll;
+    /* 18 */ LayoutTableEntry *mMainTable;
+    /* 1c */ LayoutTableEntry *mSubTable;
+    /* 20 */ void *mSecondScreenMapBuffer;
+    /* 24 */ struct Bmg *mCommonMessages;
+    /* 28 */ void *mHeap;
+    /* 2c */ s32 mState;
+    /* 30 */ s32 mNextState;
+    /* 34 */ s32 mStateFrames;
+    /* 38 */ BOOL mCupPicturePending;
+    /* 3c */ s32 mBg0Offset;
+    /* 40 */ s32 mBg3Offset;
+    /* 44 */ u8 mUnk_44[0x04];
+    /* 48 */ void *mMainOam;
+    /* 4c */ void *mSubOam;
+    /* 50 */ s32 mUnk_50;
+} SelectCupM;
+
+// One slot number of the table.
+typedef struct RecordListEntry {
+    /* 00 */ u16 mRecordIndex;
+} RecordListEntry;
+
+// The used slots in display order, with the emblem block and the emblem2.bin picture.
+typedef struct RecordList {
+    /* 00 */ u16 mRecordCount;
+    /* 02 */ u8 mUnk_02[2];
+    /* 04 */ RecordListEntry *mEntries;
+    /* 08 */ struct EmblemBlock *mEmblemBlock;
+    /* 0c */ void *mEmblem2Bin;
+} RecordList;
+
+// Object behind gSceneText: 0x814 bytes allocated by InitSceneText.
+typedef struct SceneText {
+    /* 000 */ BOOL mUseTxtSystem;
+    /* 004 */ BOOL mUseSelectChoises;
+    /* 008 */ BOOL mUseSelectReturn;
+    /* 00c */ s32 mBackScreenKind;
+    /* 010 */ u16 mBackScreenSNscrCopy[0x400];
+    /* 810 */ s32 mSubCharOffset;
+} SceneText;
+
+// Object behind gTxtSystem: 0x2278 bytes allocated by InitTxtSystem.
+typedef struct TxtSystem {
+    /* 0000 */ u32 mState;
+    /* 0004 */ u32 mNextState;
+    /* 0008 */ u32 mPrevState;
+    /* 000c */ s32 mStateFrames;
+    /* 0010 */ s32 mAnimFrameIndexFrames;
+    /* 0014 */ s32 mAnimFrameIndex;
+    /* 0018 */ u32 mAnimVisible[2];
+    /* 0020 */ u32 mAnimRequested[2];
+    /* 0028 */ s32 mExtraCanvasCount;
+    /* 002c */ u32 mSelectedIndex;
+    /* 0030 */ u32 mDone;
+    /* 0034 */ u32 mOpenRequested;
+    /* 0038 */ u32 mCloseRequested;
+    /* 003c */ u32 mOpenFromIndex;
+    /* 0040 */ u32 mCloseToIndex;
+    /* 0044 */ u32 mUseCanvas1;
+    /* 0048 */ u32 mUseCanvas2;
+    /* 004c */ u32 mUseCanvas3;
+    /* 0050 */ u32 mEnabled;
+    /* 0054 */ u16 mMainScreenBuffer[0x800];
+    /* 1054 */ u16 mSubScreenBuffer[0x800];
+    /* 2054 */ s32 mBgOffset[2];
+    /* 205c */ s32 mBgOffsetAtOpen[2];
+    /* 2064 */ s32 mBgOffsetRequested[2];
+    /* 206c */ s32 mBlendPlanesEnabled[2];
+    /* 2074 */ u32 mBlendPlanesRequested[2];
+    /* 207c */ s32 mBrightness;
+    /* 2080 */ u32 mBlendPlanes[2];
+    /* 2088 */ u32 mBlendEv1[2];
+    /* 2090 */ u32 mBlendEv2[2];
+    /* 2098 */ Unk02023374 mCharCanvases[7];
+    /* 2178 */ TextCanvas mTextCanvases[7];
+    /* 21e8 */ void *mCharBuffers[7];
+    /* 2204 */ u32 mCanvasInUse[7];
+    /* 2220 */ u32 mCanvasFileCharIndex[7];
+    /* 223c */ u32 mB01CharIndex[2];
+    /* 2244 */ u16 mUnselectedButtonColor;
+    /* 2246 */ u16 mSelectedButtonColor;
+    /* 2248 */ u32 mMode;
+    /* 224c */ u32 mInputAccepted;
+    /* 2250 */ s32 mInputSoundId;
+    /* 2254 */ s32 mSecondInputSoundId;
+    /* 2258 */ s32 mOpenSoundId;
+    /* 225c */ struct Nscr *mBgNscrs[7];
+} TxtSystem;
+
+typedef struct SelectChoises {
+    /* 000 */ u32 mEnabled;
+    /* 004 */ s32 mState;
+    /* 008 */ u32 mNextState;
+    /* 00c */ u32 mState2Frames;
+    /* 010 */ s32 mToggleFrames;
+    /* 014 */ u32 mToggleOn;
+    /* 018 */ u32 mIndex;
+    /* 01c */ u32 mDone;
+    /* 020 */ u32 mIndexNone;
+    /* 024 */ u32 mState1Requested;
+    /* 028 */ u32 mState0Requested;
+    /* 02c */ u16 mNscrCopy[0x400];
+    /* 82c */ u32 mToggleOnFirstTile;
+    /* 830 */ u32 mToggleOffFirstTile;
+    /* 834 */ Unk02023374 mCharCanvases[2];
+    /* 874 */ TextCanvas mTextCanvases[2];
+    /* 894 */ u8 *mCharBuffers[2];
+    /* 89c */ s32 mFirstTileIndex;
+    /* 8a0 */ u32 mUseCharBuffers;
+    // Non-zero when the display bit was set at init; also gates the choice sounds.
+    /* 8a4 */ u32 mDisplayBitOn;
+    /* 8a8 */ s32 mSoundIds[2];
+    /* 8b0 */ s32 mIndexNoneSoundId;
+} SelectChoises;
+
+// Object behind gSelectReturn: 0x828 bytes allocated by InitSelectReturn.
+typedef struct SelectReturn {
+    /* 000 */ BOOL mEnabled; /* only ever set to 1 by InitSelectReturn; the off path does not run in this build */
+    /* 004 */ s32 mState;
+    /* 008 */ s32 mNextState;
+    /* 00c */ s32 mStateFrames; /* counts only in states 1, 3, 4 */
+    /* 010 */ u16 mScreenMapCopy[0x400];
+    /* 810 */ BOOL mState1Requested;
+    /* 814 */ BOOL mState3Requested;
+    /* 818 */ BOOL mState4Requested;
+    /* 81c */ s32 mBg2Offset;
+    /* 820 */ BOOL mDisplayBitOn;
+    /* 824 */ s32 mSoundId;
+} SelectReturn;
+
+// Records of 8 bytes: 0x80 of them start a RaceHudOamBuffer, and two are at member 0x10c of LinkLevelIcons
+// (AdvanceLinkLevelIcons copies 6 bytes of a record into one of those).
+typedef struct LinkLevelIconOam {
+    /* 00 */ u32 mPositionAndSizeBits;
+    /* 04 */ u16 mCharAndPaletteBits;
+    /* 06 */ u8 mUnk_06[2];
+} LinkLevelIconOam;
+
+// Object behind gKeyboardScene: 0x808 bytes allocated by InitKeyboardScene, the main and sub OAM lists.
+typedef struct KeyboardScene {
+    /* 000 */ RaceHudOamBuffer mMainOam;
+    /* 404 */ RaceHudOamBuffer mSubOam;
+} KeyboardScene;
+
+// Objects of 0x18 bytes, three of them at 0x2c of Keyboard: 0 and 1 are read as halfword strings, 2 also as the
+// fields at 0x10, 0x14 and 0x16.
+typedef struct KeyboardRecord {
+    /* 00 */ union {
+        u16 mChars[12];
+        struct {
+            /* 00 */ u16 mUnk_00_0[8];
+            /* 10 */ s32 mFirstButtonChosen;
+            // Mode of the screen as passed in by the scene (0xc, 7 or 0xb); element 2 of Keyboard.mRecords only: in
+            // element 0 these bytes are character 10 of the text.
+            /* 14 */ s16 mMode;
+            // Scene to run when the keyboard ends, -1 until set; element 2 of Keyboard.mRecords only: in element 0
+            // these bytes are character 11 of the text.
+            /* 16 */ s16 mNextScene;
+        };
+    };
+} KeyboardRecord;
+
+// Object behind gKeyboard: 0xc4 bytes allocated by InitKeyboard.
+typedef struct Keyboard {
+    // Heap the screen's objects are allocated from.
+    /* 00 */ void *mHeap;
+    // Which of the two sets (background files, text records, cell counts, object tables) the screen works on, 0 or 1;
+    // set from the mode argument at start, to 1 in state 3 and back to 0 in state 8.
+    /* 04 */ s32 mKind;
+    /* 08 */ s32 mLayout;
+    /* 0c */ s32 mState;
+    /* 10 */ s32 mNextState;
+    /* 14 */ s32 mCursorOnButton[2];
+    // Per button: non-zero while the button accepts its input; button 0 needs text entered.
+    /* 1c */ s32 mButtonEnabled[2];
+    /* 24 */ BOOL mTextEntryEnabled;
+    // Calls spent in the current state: counted up by the handlers of states 1, 3, 4, 6, 8, 9 and 11, and by state 10
+    // only while GetTxtSystemDone or IsTxtSystemState0NoOpenRequest returns non-zero; zeroed by the handler that
+    // leaves; the slide states hold it at 0xf.
+    /* 28 */ s32 mStateFrames;
+    /* 2c */ KeyboardRecord mRecords[3];
+    // Object tables of the keyboard, indexed by kind and by the buffer they are drawn to.
+    /* 74 */ LayoutTableEntry *mTables[2][2];
+    // Vertical shift in lines of the whole screen (0xc0 = slid out of view, 0 = in place); also stored negated into the
+    // vertical half of the sub engine's BG3 offset.
+    /* 84 */ s16 mOffsetY;
+    /* 86 */ s16 mTextOffsetY[2][2];
+    /* 8e */ u8 mUnk_8e[2];
+    /* 90 */ struct Unk02021dc8 *mNcer;
+    /* 94 */ struct Ncgr *mNcgr;
+    /* 98 */ struct Nclr *mNclr;
+    /* 9c */ LayoutEntryTable *mBncls[2];
+    /* a4 */ LayoutEntryTable *mBnbls[2];
+    /* ac */ void *mBnlls[2];
+    /* b4 */ struct Nscr *mNscrs[2]; /* [0] flame02, [1] flame01 */
+    /* bc */ void *mDisplaySettings;
+    // Messages of common.bmg.
+    /* c0 */ struct Bmg *mCommonMessages;
+} Keyboard;
+
+// Elements of 0x20 bytes at member 0x14 of Ncgr.
+typedef struct CharTile {
+    /* 00 */ u8 mUnk_00[0x20];
+} CharTile;
+
+typedef struct LinkLevelIconPos {
+    /* 00 */ s32 mX;
+    /* 04 */ s32 mY;
+} LinkLevelIconPos;
+
+// Object behind gLinkLevelIcons: 0x11c bytes allocated by InitLinkLevelIcons.
+typedef struct LinkLevelIcons {
+    /* 000 */ s32 mIconEnabled[5];
+    /* 014 */ s32 mIconKind[2];
+    /* 01c */ s32 mIconLevel[2];
+    /* 024 */ s32 mCycleFrames;
+    /* 028 */ LinkLevelIconPos mIconPositions[2];
+    /* 038 */ RaceHudOamBuffer *mOamList;
+    /* 03c */ u8 mZeroChars[0x20];
+    /* 05c */ u8 mUnk_05c[0x60];
+    /* 0bc */ CharTile *mIconChars[5][4];
+    /* 10c */ LinkLevelIconOam mOamRecords[2];
+} LinkLevelIcons;
+
+// Object behind gMessageScreen: 0x1a44 bytes allocated by InitMessageScreen; the 0x20 bytes at 0x14 are set up by
+// NNS_G2dCharCanvasInitForBG.
+typedef struct MessageScreen {
+    /* 0000 */ s32 mKind;
+    /* 0004 */ s32 mInputEnabled;
+    /* 0008 */ void *mText;
+    /* 000c */ BOOL mOpen;
+    /* 0010 */ s32 mResult;
+    /* 0014 */ u8 mCharCanvas[0x20];
+    /* 0034 */ TextCanvas mTextCanvas;
+    /* 0044 */ u16 mCharBuffer[0xa00];
+    /* 1444 */ u16 mScreenMap[0x300];
+} MessageScreen;
+
+// Records of 8 bytes in the stream at member 0x18 of StaffRollText.
+typedef struct StaffRollTag {
+    /* 00 */ u16 mCharacter;
+    /* 02 */ u8 mSize;
+    /* 03 */ u8 mKind;
+    /* 04 */ u16 mVariant;
+    /* 06 */ u16 mArgument;
+} StaffRollTag;
+
+// 0x85c bytes; the 0x20 bytes at 0x20 are set up by NNS_G2dCharCanvasInitForBG.
+typedef struct StaffRollText {
+    /* 000 */ s32 mState;
+    /* 004 */ s32 mNextState;
+    /* 008 */ s32 mScrollYFixed;
+    /* 00c */ s32 mScrollYPerFrame;
+    /* 010 */ s32 mNextReadScrollY;
+    /* 014 */ s32 mScrollYRemaining;
+    /* 018 */ u8 *mTextPosition;
+    /* 01c */ s8 mCharSpacing;
+    /* 01d */ u8 mUnk_01d[3];
+    /* 020 */ u8 mCharCanvas[0x20];
+    /* 040 */ TextCanvas mTextCanvas;
+    /* 050 */ u8 mCharBuffer[0x800];
+    /* 850 */ s8 mTextColor;
+    /* 851 */ u8 mUnk_851[3];
+    /* 854 */ s32 mAlignFlags;
+    /* 858 */ void *mHeap;
+} StaffRollText;
+
+typedef struct SoundParams SoundParams;
+
+// Objects whose layout isn't known yet.
+extern s32 (*data_0217d014)(SoundParams *);
+
+extern u32 (*data_0217d018)(SoundParams *);
+
+extern s32 (*data_0217d01c)(SoundParams *);
+
+extern NNSFndList gSoundSources;
+
+extern u32 gFileSndArcOpen;
+
+extern s32 gEmblemSoundValue;
+
+extern s32 gKingTeresaState;
+
+extern s32 gPreviousKingTeresaState;
+
+extern u32 gAnySeqVariableEnabled;
+
+extern SeqPlayerControl gSeqPlayerControl;
+
+extern struct RecordScene *gRecordScene;
+
+extern RecordVSErase *gRecordVSErase;
+
+extern Wait *gWait;
+
+extern PicksHolder *gPicksHolder;
+
+extern KartIcon *gKartIcon;
+
+extern SelectRaceRule *gSelectRaceRule;
+
+extern SelectCupNameM *gSelectCupNameM;
+
+extern CupMark *gCupMark;
+
+extern GhostRecordSet *gGhostRecordSet;
+
+extern SelectCupM *gSelectCupM;
+
+extern TrophyIcon *gTrophyIcon;
+
+extern SelectRaceRuleWait *gSelectRaceRuleWait;
+
+extern char gKartFilterString[0x64];
+
+extern SceneText *gSceneText;
+
+extern TxtSystem *gTxtSystem;
+
+extern SelectChoises *gSelectChoises;
+
+extern SelectReturn *gSelectReturn;
+
+extern KeyboardScene *gKeyboardScene;
+
+extern Keyboard *gKeyboard;
+
+extern MessageScreen *gMessageScreen;
+
+extern u32 gThunderShrinkSoundCounter;
+
+extern s32 gLapProgressSoundGaps[];
+
+extern s32 gRaceEndSeqCallCount;
+
+extern s32 gRaceEndSeqStarted;
+
+extern s32 gRaceEndNextSeqPending;
+
+extern StaffRollText *gStaffRollText;
+
+extern u32 data_0217dda8;
+
+extern CaptureParam sCapParam;
+
+extern NNSSndSeqPlayer data_0217d45c[16];
+
+extern NNSSndPlayer sPlayer[];
+
+extern NNSFndList data_0217dd1c;
+
+extern NNSSndStrmChannel data_0217dd28[];
+
+extern s32 data_0217ddac;
+
+extern OSMessageQueue data_0217ddb0;
+
+extern EffectInfo data_0217de24[8];
+
+extern struct NNSSndArc *sCurrent;
+
+extern s32 gKingTeresaStateFrames;
+
+extern s32 gUseKingTeresaSeqVolume;
+
+extern s32 gKingTeresaStateLastFrame;
+
+extern s32 gKartNearSeqVolumeFactor;
+
+extern s32 gKartNearPlayerVolumeFactor;
+
+extern u8 gEmblemSoundPlayCount;
+
+extern u8 gEmblemSoundPitchCounter;
+
+extern s32 gInitialVolumePerFrame;
+
+extern u32 gEmblemSoundCallsSincePlay;
+
+extern s32 gKingTeresaSeqVolumeFactor;
+
+extern s32 gKingTeresaSoundVolumeFactor;
+
+extern volatile s32 gReachedSeqVolume;
+
+extern s32 gKingTeresaVolumePerFrame[2];
+
+extern SeqQueue gSeqQueue;
+
+extern s32 gSeqQueuePairSides[];
+
+extern void *gRecordMainOam;
+
+extern void *gRecordSubOam;
+
+extern LinkLevelIcons *gLinkLevelIcons;
+
+extern PaletteBlend *gPaletteBlend;
+
+extern struct NNSSndStrmThread *data_0217df04;
+
+extern NNSFndList data_0217df08;
+
+extern NNSSndHeap *gCurrentSndHeap;
+
+extern ScenePlayers gScenePlayers;
+
+// The member at 0x0c of gScenePlayers.
+extern NNSSndSeqPlayer *gScenePlayersSeqPlayer;
+
+extern SoundModeHolder gSoundModeHolder;
+
+extern struct NNSSndArc gFileSndArc;
+
+extern SeqRowState gSeqRowState;
+
+extern RecordVS *gRecordVS;
+
+extern RecordList *gRecordList;
+
+// Pointer to the cup chooser object: set by InitSelectCupGrid, cleared by ReleaseSelectCupGrid.
+extern SelectCupGrid *gSelectCupGrid;
+
+extern SelectCupCourse *gSelectCupCourse;
+
+extern u32 gSeqVariableEnabled[];
+
+extern u32 gSoundSourceUpdatePass[];
+
+extern u32 data_0217d024[];
+
+extern SoundHandlePool gPlayingSoundPool;
+
+extern NNSFndList gSoundSourceUpdateLists[];
+
+extern NNSFndList data_0217d054;
+
+extern u32 data_0217d020;
+
+extern void *data_0217d06c;

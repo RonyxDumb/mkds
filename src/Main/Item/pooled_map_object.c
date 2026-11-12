@@ -2,8 +2,6 @@
 #include "Main/MapObjects/map_object_park.h"
 #include "Main/MapObjects/earthen_pipe_create.h"
 
-#include "Main/Unknown/code_021052fc.h"
-#include "Main/Unknown/code_021053d8.h"
 
 void ParkPooledMapObject(ItemBox *pooledMapObject) {
     ParkMapObject(&pooledMapObject->mMapObject);

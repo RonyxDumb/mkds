@@ -2,7 +2,6 @@
 #include "fx_mtx33.h"
 #include "code_02147cd8.h"
 #include "code_0214d018.h"
-#include "Main/Unknown/code_0214d000.h"
 
 void MTX_ScaleApply43(const MtxFx43 *src, MtxFx43 *dst, s32 scaleX, s32 scaleY, s32 scaleZ) {
     MTX_ScaleApply33(&src->mAxes, &dst->mAxes, scaleX, scaleY, scaleZ);

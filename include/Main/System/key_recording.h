@@ -4,7 +4,14 @@
 
 typedef struct SceneNumbers SceneNumbers;
 
-#include "Main/Unknown/unk_02175000.h"
+#include "Main/Scene/display_settings.h"
+#include "code_020182c0.h"
+#include "Main/Menu/data_02175628.h"
+#include "frameheap.h"
+#include "os_thread.h"
+#include "Main/MapObjects/map_object_park.h"
+#include "pm.h"
+#include "Main/Sound/sound_seq.h"
 
 // Scene function of gSceneFuncs[3] (scene 'Emblem' in gSceneNames): copies the callbacks and calls
 // RunScene. Returns 0.

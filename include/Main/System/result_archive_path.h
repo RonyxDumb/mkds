@@ -26,7 +26,13 @@ typedef struct SceneName {
     /* 04 */ s32 mUnk_04;
 } SceneName;
 
-#include "Main/Unknown/unk_02175000.h"
+#include "Main/Scene/display_settings.h"
+#include "code_020182c0.h"
+#include "frameheap.h"
+#include "os_thread.h"
+#include "Main/MapObjects/map_object_park.h"
+#include "pm.h"
+#include "Main/Sound/sound_seq.h"
 
 // The scene-name table, 16 rows indexed by scene number like gSceneFuncs: 0 'Title', 1 'Menu', 2 'Race', 3 'Emblem',
 // 4 'Menu', 5 'Test', 6 'WLMenu', 7 'Option', 8 'Record', 9 'Logo', 10 'Result', 11 'Nickname', 12 'WiFiMenu',

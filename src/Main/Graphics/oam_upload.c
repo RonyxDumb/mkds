@@ -1,4 +1,4 @@
-#include "Main/Unknown/code_020c06c4.h"
+#include "Main/Race/race_hud_sub_screen_cells.h"
 #include "Main/Graphics/oam_upload.h"
 #include "code_0200eddc.h"
 #include "gx_load2d.h"

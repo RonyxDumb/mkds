@@ -1,6 +1,9 @@
 #include "gfd_FramePlttVramMan.h"
-#include "Main/Unknown/unk_02161000.h"
-#include "Main/Unknown/unk_02173000.h"
+#include "Main/Kart/data_02161000.h"
+#include "data_02173000.h"
+#include "gfd_LinkedListPlttVramMan.h"
+#include "mic.h"
+#include "gfd_LinkedListTexVramMan.h"
 
 void NNS_GfdInitFrmPlttVramManager(u32 szByte, s32 useAsDefault) {
     s_managerState_.mSzTotal = szByte;

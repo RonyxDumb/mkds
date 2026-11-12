@@ -12,3 +12,5 @@ void UpdateRaceMNumberPairNop(void);
 void InitRaceMNumberPair(void);
 u32 DecimalNonZeroDigitsToBitMask(s32 number);
 BOOL DoesMapObjectRespondToItemObject(MapObject *mapObject, ItemObject *itemObject);
+
+void ClearRaceMNumberPairPointer(void);

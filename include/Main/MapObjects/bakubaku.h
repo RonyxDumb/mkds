@@ -4,7 +4,7 @@
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject, MapObjectList
 #include "Main/Kart/kart_drift.h" // Kart
-#include "Main/Unknown/code_020e005c.h" // GroupFollower
+#include "Main/MapObjects/code_020e005c.h" // GroupFollower
 #include "Main/MapObjects/send_obj_shadow.h" // ShadowMatrix
 
 // Object of kind 0x13c (Bakubaku): after the shared part, a counter at 0xa0, a vector at 0xa4 and a state at 0xb0.

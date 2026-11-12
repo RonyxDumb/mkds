@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/unk_0217a000.h" // ScanSlot
+#include "Main/MapObjects/data_0217a000.h" // ScanSlot
 #include "code_02142eac.h" // Unk021425e8
 
 void SetGameInfo(void);

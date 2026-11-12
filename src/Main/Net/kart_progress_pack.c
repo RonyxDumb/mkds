@@ -1,11 +1,9 @@
 #include "Main/Net/kart_progress_pack.h"
-#include "Main/Unknown/code_0203c000.h"
 #include "Main/Race/kart_finish_time.h"
 #include "Main/Race/kart_highest_lap.h"
-#include "Main/Unknown/code_0205d000.h"
 #include "Main/Race/cup_records.h"
-#include "Main/Unknown/code_020f36d8.h"
-#include "Main/Unknown/unk_0217a000.h"
+#include "Main/Race/data_020f36d8.h"
+#include "Main/MapObjects/data_0217a000.h"
 #include "00/Lib/DWC/code_0219b580.h"
 #include "Main/Race/kart.h"
 

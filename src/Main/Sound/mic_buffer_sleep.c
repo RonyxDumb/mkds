@@ -1,5 +1,4 @@
 #include "Main/Sound/mic_buffer_sleep.h"
-#include "Main/Unknown/code_0210f090.h"
 #include "Main/Sound/mic_sample_analysis.h"
 
 u32 UpdateMicBufferInput(MicBuffer *micBuffer) {

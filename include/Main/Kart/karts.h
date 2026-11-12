@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "code_02012b30.h" // NNSG3dResMdl
 
 void LoadKartAndCharacterFiles(void);
 
@@ -12,12 +13,9 @@ typedef struct KartModelMenuFiles KartModelMenuFiles;
 
 typedef struct KartModelMenuSlot KartModelMenuSlot;
 
-typedef struct KartModelMenuSlot KartModelMenuSlot;
 typedef struct KartModelMenuView KartModelMenuView;
 
 typedef struct NNSG3dResFileHeader NNSG3dResFileHeader;
-
-typedef struct KartModelMenuView KartModelMenuView;
 
 void InitKartModels(void *heap, u32 kartCount);
 
@@ -31,8 +29,6 @@ u16 *LoadKartAPaletteFromKartModelMenu(void *heap);
 u16 *LoadKartAPaletteFromKartModelFile(void);
 void CreateKart(KartModelsEntry *kartModelsEntry, void *heap, s32 pNameUsed);
 void CreateCharacter(KartModelsEntry *kartModelsEntry, void *heap, s32 pNameUsed);
-void InitKartModels(void *heap, u32 kartCount);
-
 
 #include "Main/Graphics/nsbmd_render_obj.h" // Nsbmd
 
@@ -122,3 +118,60 @@ void CallKartSlot8AndClearKarts(void);
 // Runs slot 2 of Kart.mSlotFunctions for every Kart each time UpdateRace runs; the slot stores the Kart's squared
 // distance in its sound source.
 void UpdateKartSoundDistancesSquared(void);
+
+BOOL IsCharacterPNameUsed(s32 kartIndex);
+
+void InitCharacterAnimationState(u32 animationStateAddress);
+
+void InitKartModelsEntry(void *entry);
+
+u32 GetKartVariant(u32 kartIndex);
+
+void *GetKillerItemNsbca(void);
+void *GetKillerItemS(void);
+void *GetKillerItem(void);
+
+struct KartModelsEntry;
+
+void SetKartModelTireAlpha(struct KartModelsEntry *kartModelsEntry, s32 visible);
+
+extern s32 gMinKartDistanceSquaredPresent;
+extern s32 gMinKartDistanceSquared;
+
+void SetKartModelMaterialColors(NNSG3dResMdl *mdl, u32 colorSet);
+BOOL IsEntryKartNormalOrNotMissionRun(void);
+BOOL TryGetMinKartDistanceSquared(s32 *distanceSquared);
+
+void SetKillerItemKartIndex(unsigned int kartIndex);
+unsigned int GetKillerItemKartIndex(void);
+
+extern s32 data_usa_021658bc;
+extern u16 gKartCount;
+
+void SetKartNearPlayerRankBits(void);
+BOOL IsKartInRespawnWait(s32 kartIndex);
+
+u32 GetKartCourseHitAttributeBitWrapper(int kartIndex);
+
+void SetKartSpeedLimitReciprocal(unsigned int speedLimitReciprocal);
+
+void SetKartForwardSpeedRatio(s32 forwardSpeed);
+
+unsigned int GetKartKind3ShapeListMask(void);
+
+void SetKartKind3ShapeListMask(s32 kartIndex);
+
+unsigned int GetKartForwardSpeedRatio(void);
+
+void StartKartRaceEndWrapper(s32 kartIndex);
+
+// Whether this is a mission run on a course with a shape of kind 2.
+unsigned int IsMissionRunWithKind2Shapes(void);
+
+typedef struct Kart Kart;
+
+// The functions every Kart starts with, copied into Kart.mSlotFunctions by InitKart. Slots 0, 1, 6, 7 and 8 keep these;
+// slots 2 to 5 are zero here and always replaced by InitKart.
+extern void (*gKartDefaultSlotFunctions[])(Kart *a);
+
+void DrawShadowModelIfDrawFlag(ShadowModel *shadowModel, u32 unusedArg1, u32 unusedArg2);

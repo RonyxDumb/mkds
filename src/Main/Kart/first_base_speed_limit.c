@@ -1,5 +1,5 @@
 #include "Main/Kart/first_base_speed_limit.h"
-#include "Main/Unknown/unk_0217b000.h"
+#include "Main/MapObjects/data_0217b000.h"
 #include "Main/Kart/kart_drift.h"
 
 struct KartPhysicalParam *GetKartPhysicalParam(u32 arg0) {

@@ -1,6 +1,8 @@
 #pragma once
 
 #include "types.h"
+#include "os_thread.h"
+#include "mb_data.h"
 
 // Sets the display mode of the main screen (DISPCNT bits 16-17) and its background mode (bits 0-3), and saves the
 // display mode. While the display is off the mode written is 0.
@@ -110,3 +112,13 @@ void GX_SetBankForOBJ(s32 obj);
 void GX_SetBankForBG(s32 bg);
 // Enables the banks listed in the mask for direct access (mode 0).
 void GX_VRAMCNT_SetLCDC_(u32 lcdc);
+
+// Returns the total byte size of the banks whose bits (0 to 8) are set in bits.
+u32 GX_GetSizeOfX_(u32 bits);
+
+// Returns the texture group's bank mask.
+u32 GX_GetBankForTex(void);
+
+// 1 while the main display is on; GX_DispOff clears it, GX_DispOn sets it, GX_SetGraphicsMode writes mode 0 while it is
+// 0 and clears it when its first argument is 0. Initial value 1.
+extern u8 gDispOn[];

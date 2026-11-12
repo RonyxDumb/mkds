@@ -1,6 +1,6 @@
 #include "01/Menu/select_cup_grid_registers.h"
 #include "01/Menu/select_visible_plane.h"
-#include "Main/Unknown/code_020ccc9c.h"
+#include "Main/Menu/menu_screen_switch.h"
 #include "Main/Menu/select_cup_grid.h"
 #include "gx.h"
 #include "code_02148950.h"

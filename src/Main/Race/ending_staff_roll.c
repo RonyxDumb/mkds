@@ -2,21 +2,16 @@
 #include "Main/System/heap.h"
 #include "Main/Scene/display_settings.h"
 
-#include "Main/Unknown/code_0200e000.h"
+#include "os_thread.h"
 #include "Main/Graphics/palette_blend.h"
 #include "code_0200eddc.h"
 #include "code_020222ec.h"
 #include "code_0214c778.h"
-#include "Main/Unknown/code_020d1450.h"
-#include "Main/Unknown/code_020d1464.h"
 #include "Main/System/heap_call.h"
-#include "Main/Unknown/code_02036bec.h"
 #include "Main/System/file_in_loaded.h"
 #include "g2d_NOB_load.h"
 #include "gx_load2d.h"
 #include "Main/Graphics/font_and_player_character.h"
-#include "Main/Unknown/code_02036000.h"
-#include "Main/Unknown/code_02037000.h"
 #include "registers.h"
 
 void UploadEndingStaffRollOam(void) {

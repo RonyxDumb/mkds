@@ -6,16 +6,16 @@
 #include "g3imm.h"
 #include "gx_load3d.h"
 #include "code_0214cfe4.h"
-#include "Main/Unknown/code_02147000.h"
-#include "Main/Unknown/code_0214d000.h"
-#include "Main/Unknown/unk_02161000.h"
-#include "Main/Unknown/unk_0215d000.h"
-#include "Main/Unknown/unk_02173000.h"
+#include "code_02012b30.h"
+#include "Main/Kart/data_02161000.h"
+#include "data_02173000.h"
+#include "gfd_LinkedListPlttVramMan.h"
+#include "mic.h"
+#include "gfd_LinkedListTexVramMan.h"
 #include "code_0214d018.h"
 #include "registers.h"
 #include "code_0201c4e8.h"
 #include "code_0201c528.h"
-#include "Main/Unknown/code_02146000.h"
 
 void SPLRandom_VecFx32(Vec3 *vec) {
     vec->x = (s32) (gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 8;

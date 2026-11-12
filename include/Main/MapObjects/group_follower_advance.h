@@ -1,8 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020e005c.h"
-#include "Main/Unknown/code_02042044.h"
+#include "Main/MapObjects/code_020e005c.h"
+#include "Main/Course/code_02042044.h"
 
 // Object of 0x38 bytes whose first 0x24 bytes are an GroupFollower (AdvanceGroupFollowerWithSpeeds,
 // SetupGroupFollowerWithSpeeds, ReverseGroupFollower).
@@ -28,3 +28,26 @@ void SetupGroupFollowerWithSpeeds(GroupFollowerWithSpeeds *follower, u16 entryVa
 s32 AdvanceGroupFollowerWithSpeeds(GroupFollowerWithSpeeds *follower);
 void SetSegmentProgressRate(SegmentProgress *segmentProgress, s32 value);
 BOOL AdvanceSegmentProgress(SegmentProgress *segmentProgress);
+
+typedef struct GroupFollower GroupFollower;
+
+void SetGroupFollowerSegmentEnd(GroupFollower *follower);
+
+typedef struct CourseMapRow CourseMapRow;
+
+u32 GetMaxXzDistanceToGroup(GroupFollower *follower, Vec3 *point);
+void GetGroupFollowerLinearXz(GroupFollower *follower, Vec3 *position);
+Vec3 *CreateCourseMapGroupSideVectors(CourseMapRow *row);
+
+Vec3 *GetGroupFollowerSegmentUp(GroupFollower *follower);
+
+void GetGroupFollowerCurvePosStepXz(GroupFollower *follower, Vec3 *position, Vec3 *step);
+void GetGroupFollowerLinearPosition(GroupFollower *follower, Vec3 *position);
+void GetGroupFollowerLinearPosStep(GroupFollower *follower, Vec3 *position, Vec3 *step);
+
+void GetGroupFollowerCurveXz(GroupFollower *follower, Vec3 *output);
+
+void GetGroupFollowerCurvePosStep(GroupFollower *follower, Vec3 *position, Vec3 *step);
+void GetGroupFollowerCurveXzLinearY(GroupFollower *follower, Vec3 *position);
+
+void GetGroupFollowerCurvePosition(GroupFollower *follower, Vec3 *output);

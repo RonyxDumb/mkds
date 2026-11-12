@@ -4,7 +4,6 @@
 #include "code_0200fc8c.h"
 #include "code_020176c0.h"
 #include "code_0214d018.h"
-#include "Main/Unknown/code_0214d000.h"
 
 void CreateExpHeapOverBuffer(void *buffer) {
     MI_CpuFill8(buffer, 0, 0x40000);

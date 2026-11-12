@@ -4,10 +4,6 @@
 #include "01/code_02185000.h"
 #include "01/unk_021a6000.h"
 #include "Main/Kart/kart_model_menu.h"
-#include "Main/Unknown/code_02077000.h"
-#include "Main/Unknown/code_02078000.h"
-#include "Main/Unknown/code_02110000.h"
-#include "Main/Unknown/code_0214a000.h"
 #include "gx_load2d.h"
 
 void AdvanceEmblemKartList(void) {

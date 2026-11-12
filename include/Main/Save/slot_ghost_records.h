@@ -4,3 +4,7 @@
 
 void StartReadSlotGhostRecords(void *records);
 void ReadSlotGhostRecords(void);
+
+typedef struct GhostListEntry GhostListEntry;
+
+GhostListEntry *CreateSlotGhostRecords(void *heap);

@@ -3,26 +3,23 @@
 #include "types.h"
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject
-#include "Main/Unknown/code_02042044.h"
+#include "Main/Course/code_02042044.h"
 #include "Main/Graphics/nsbmd_render_obj.h" // Nsbmd
 #include "code_02012b30.h" // MtxFx43
 #include "Main/MapObjects/segment_curve.h"
-#include "Main/Unknown/code_020b1dbc.h"
+#include "Main/Race/code_020b1dbc.h"
 #include "Main/Kart/point_link_cursor.h"
 #include "Main/Race/race_hud_sub_screen_course_id.h"
-#include "Main/Unknown/code_02039860.h"
-#include "Main/Unknown/code_02147000.h"
-#include "Main/Unknown/unk_0215d000.h"
-#include "Main/Unknown/unk_021759c0.h"
+#include "tp.h"
 #include "Main/Race/followed_kart_or.h"
 #include "Main/Race/race_hud_sub_screen_min_max.h"
-#include "Main/Unknown/code_0207a880.h"
+#include "Main/Kart/code_0207a880.h"
 #include "Main/Race/race_hud_sub_screen_projection.h"
 #include "Main/Item/item_koura_w.h"
 
 struct MtxFx43;
-#include "Main/Unknown/code_020d6dc0.h"
-#include "Main/Unknown/code_020e6b58.h"
+#include "Main/MapObjects/code_020d6dc0.h"
+#include "Main/MapObjects/code_020e6b58.h"
 
 // The flat water level of a course (the map object's y) and the three water_efct effect files; 0x10 bytes, built by
 // CreateWaterEfct (kinds 5, 0xe, 0xf) into gWaterEfct and published as gCourseWaterEfct.

@@ -1,6 +1,6 @@
 #include "Main/Race/entry_character_kart.h"
 #include "Main/Menu/title_scene.h"
-#include "Main/Unknown/code_0203ba84.h"
+#include "Main/Race/random_pick.h"
 
 #pragma thumb on
 

@@ -1,5 +1,4 @@
 #include "Main/MapObjects/shadow_position_raised.h"
-#include "Main/Unknown/code_020e5668.h"
 #include "Main/MapObjects/send_obj_shadow.h"
 
 void SetShadowPositionXZ(ShadowMatrix *shadow, Vec3 *position) {

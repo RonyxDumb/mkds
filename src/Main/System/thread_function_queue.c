@@ -6,8 +6,17 @@
 #include "Main/System/heap_call.h"
 #include "os_irqHandler.h"
 #include "os_thread.h"
-#include "Main/Unknown/unk_02165000.h"
-#include "Main/Unknown/unk_0217a000.h"
+#include "Main/MapObjects/data_02165000.h"
+#include "Main/Menu/second_menu_scene.h"
+#include "Main/Menu/data_02175000.h"
+#include "Main/Scene/display_settings.h"
+#include "code_020182c0.h"
+#include "frameheap.h"
+#include "Main/MapObjects/map_object_park.h"
+#include "pm.h"
+#include "Main/Sound/sound_seq.h"
+#include "Main/Kart/kart_name_tags.h"
+#include "Main/MapObjects/data_0217a000.h"
 
 void RunQueuedThreadFunctions(void *threadArgument) {
     for (;;) {

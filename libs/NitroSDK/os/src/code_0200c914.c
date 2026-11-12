@@ -1,10 +1,7 @@
 #include "code_0200c914.h"
-#include "Main/Unknown/code_02000000.h"
-#include "Main/Unknown/code_0200c000.h"
-#include "Main/Unknown/code_0200e000.h"
-#include "Main/Unknown/code_0200f000.h"
-#include "Main/Unknown/code_0214d000.h"
-#include "Main/Unknown/unk_00000000.h"
+#include "code_0200007e.h"
+#include "os_thread.h"
+#include "data_00000000.h"
 #include "registers.h"
 
 u16 OSi_IrqCallbackInfoIndex[8] = {8, 9, 10, 11, 3, 4, 5, 6};

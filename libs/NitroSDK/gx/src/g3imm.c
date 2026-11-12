@@ -2,8 +2,6 @@
 #include "registers.h"
 #include "gxasm.h"
 #include "code_0214d018.h"
-#include "Main/Unknown/code_0214c000.h"
-#include "Main/Unknown/code_0214d000.h"
 
 // Sends the load 4x4 matrix command and the 16 words of mtx to the geometry FIFO.
 void G3_LoadMtx44(const void *mtx) {

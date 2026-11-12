@@ -1,11 +1,7 @@
 #include "Main/Save/course_time_record.h"
-#include "Main/Unknown/code_02056cac.h"
-#include "Main/Unknown/code_0214d000.h"
-#include "Main/Unknown/unk_0217a000.h"
+#include "Main/MapObjects/data_0217a000.h"
 #include "code_0214d018.h"
-#include "Main/Unknown/code_02056c6c.h"
 #include "Main/Menu/second_menu_scene.h"
-#include "Main/Unknown/code_02046000.h"
 
 #pragma thumb on
 

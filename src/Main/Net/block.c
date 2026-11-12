@@ -2,8 +2,8 @@
 #include "Main/Net/wbt_requests.h"
 #include "Main/Net/disconnect.h"
 #include "Main/Net/scan.h"
-#include "Main/Unknown/unk_02154000.h"
-#include "Main/Unknown/unk_0217a000.h"
+#include "Main/MapObjects/data_02154000.h"
+#include "Main/MapObjects/data_0217a000.h"
 
 #pragma thumb on
 

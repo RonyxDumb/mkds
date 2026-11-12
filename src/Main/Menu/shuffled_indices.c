@@ -1,13 +1,16 @@
 #include "Main/Menu/shuffled_indices.h"
-#include "Main/Unknown/code_020ceeec.h"
-#include "Main/Unknown/unk_02175000.h"
-#include "Main/Unknown/unk_0217a000.h"
+#include "Main/Menu/data_02175000.h"
+#include "Main/Scene/display_settings.h"
+#include "code_020182c0.h"
+#include "frameheap.h"
+#include "os_thread.h"
+#include "Main/MapObjects/map_object_park.h"
+#include "pm.h"
+#include "Main/Sound/sound_seq.h"
+#include "Main/MapObjects/data_0217a000.h"
 #include "Main/MapObjects/teresa_spawner.h"
-#include "Main/Unknown/code_020c0ba8.h"
+#include "Main/Race/race_hud_sub_screen_cells.h"
 #include "00/Menu/wi_fi_vs_setting.h"
-#include "Main/Unknown/code_020c0000.h"
-#include "Main/Unknown/code_02095000.h"
-#include "Main/Unknown/code_02133000.h"
 
 u32 ShuffledIndicesGetConnectionKind(void) {
     return (gStartupWork->mConnectionKind);

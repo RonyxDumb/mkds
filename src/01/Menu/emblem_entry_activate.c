@@ -1,7 +1,8 @@
 #include "01/Menu/emblem_entry_activate.h"
 #include "01/MapObjects/lld.h"
-#include "Main/Unknown/code_020aa81c.h"
-#include "Main/Unknown/unk_0217d068.h"
+#include "Main/Menu/keyboard_keys.h"
+#include "Main/Menu/data_0217d068.h"
+#include "player.h"
 #include "01/Menu/emblem_grid.h"
 #include "01/Menu/emblem_screen_upload.h"
 #include "01/code_021a5140.h"
@@ -11,7 +12,6 @@
 #include "01/code_021a4000.h"
 #include "01/code_021a5000.h"
 #include "01/code_021a6000.h"
-#include "Main/Unknown/code_020ac000.h"
 #include "code_0212df7c.h"
 
 void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {

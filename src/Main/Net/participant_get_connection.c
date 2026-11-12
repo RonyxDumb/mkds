@@ -3,13 +3,11 @@
 #include "os_tick.h"
 #include "code_0214d018.h"
 #include "mb_parent.h"
-#include "Main/Unknown/code_0203b000.h"
 #include "Main/Net/rom_archive.h"
 #include "Main/Menu/second_menu_scene.h"
-#include "Main/Unknown/code_0214d000.h"
-#include "Main/Unknown/unk_02154000.h"
-#include "Main/Unknown/unk_0217a000.h"
-#include "Main/Unknown/code_0211d4a8.h"
+#include "Main/MapObjects/data_02154000.h"
+#include "Main/MapObjects/data_0217a000.h"
+#include "Main/Menu/select_race_rule_state.h"
 
 #pragma opt_rebuildconditionals off
 

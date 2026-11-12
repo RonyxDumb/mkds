@@ -3,6 +3,9 @@
 #include "types.h"
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject
+#include "Main/Race/data_020f36d8.h" // ItemObject
+#include "Main/MapObjects/data_0217b000.h"
+#include "Main/MapObjects/shine16.h" // KartBalloons
 
 // Object with the MapObject base at 0x00 (UpdateDistanceSound, InitDistanceSoundObjects, InitDistanceSound).
 typedef struct DistanceSound {
@@ -22,16 +25,14 @@ typedef struct DistanceSound {
     /* c8 */ s32 mSoundTimer;
 } DistanceSound;
 
-#include "Main/Unknown/code_020b1dbc.h"
+#include "Main/Race/code_020b1dbc.h"
 #include "Main/Kart/point_link_cursor.h"
 #include "Main/Race/race_hud_sub_screen_course_id.h"
-#include "Main/Unknown/code_02039860.h"
-#include "Main/Unknown/code_02147000.h"
-#include "Main/Unknown/unk_0215d000.h"
-#include "Main/Unknown/unk_021759c0.h"
+#include "code_02012b30.h"
+#include "tp.h"
 #include "Main/Race/followed_kart_or.h"
 #include "Main/Race/race_hud_sub_screen_min_max.h"
-#include "Main/Unknown/code_0207a880.h"
+#include "Main/Kart/code_0207a880.h"
 #include "Main/Race/race_hud_sub_screen_projection.h" // CourseMapPoint
 
 void *CreateDistanceSoundUpdateList(void);
@@ -55,3 +56,56 @@ void MoveKartTowardFirstRank(u16 kartIndex);
 u16 GetBattleItemRank(s32 kartIndex);
 void ClearStandingsHitSeenFromKart(s32 kartIndex);
 unsigned int StandingsReturnArgument(unsigned int value);
+
+BOOL IsKartLastByBalloonOrShineCount(u16 kartIndex);
+BOOL IsKartEliminated(int kartIndex);
+void AddBalloonsLeftToMake(u16 kartIndex, s32 amount);
+// TRUE when the kart's mTeamId equals Standings.mWinnerTeamId and mEndTimer is below 0, the end being reached.
+BOOL IsKartOnWinningTeamAtEnd(s32 kartIndex);
+
+u16 GetBalloonsLeftToMake(u16 kartIndex);
+
+void AddBalloonOrShineCountAndMoveRank(u16 kartIndex, s32 amount);
+u16 GetBalloonOrShineCount(u16 kartIndex);
+u16 GetHighestBalloonOrShineCount(void);
+u16 GetTotalBalloonOrShineCount(void);
+
+void AddShineCount(short amount);
+unsigned int GetShineCount(void);
+u16 GetKartStandingRankIndex(int kartIndex);
+
+BOOL IsWinnerDecided(void);
+
+u32 IsWinnerDecidedAndEndReached(void);
+
+u16 AdvanceShineBattleTimeLimit(void);
+void EliminateKartAndCheckWinner(u16 kartIndex);
+void EliminateKartsUntilWinnerDecided(void);
+
+void ClearStandingEliminationStatus(int kartIndex);
+
+void CallStandingsKartOffsetCallback(u16 kartIndex, Vec3 *offset);
+s32 CallKartCollisionCallbacks(s32 firstKartIndex, s32 secondKartIndex);
+void SetKartHitByKartIndexFromItem(s32 kartIndex, ItemObject *itemObject);
+
+u32 IsKartInflatingBalloon(u16 kartIndex);
+
+void SetKartInflatingBalloon(u16 kartIndex, u32 inflating);
+
+s32 GetKartSelectKeyInflate(u16 kartIndex);
+s32 GetKartMicInflateTimer(u16 kartIndex);
+
+void StopKartMicInflate(int kartIndex);
+
+void StartKartMicInflate(u16 kartIndex);
+
+void SetStandingsKartOffsetCallback(void (*callback)(u16, Vec3 *));
+void SetStandingsEndCallback(void (*callback)(void));
+void SetStandingsKartEliminatedCallback(void (*callback)(u16 kartIndex));
+void SetStandingsKartHitCallback(s32 (*callback)(u16 kartIndex, u16 hitByKartIndex));
+void SetStandingsKartsHitEachOtherCallback(void (*callback)(s32, s32));
+void SetStandingsKartHitByKartCallback(s32 (*callback)(s32, s32));
+// Returns Standings.mKartBalloons, the pointer stored by SetStandingsKartBalloons.
+KartBalloons *GetStandingsKartBalloons(void);
+// Stores the pointer to the KartBalloons array of the balloon object in Standings.mKartBalloons.
+void SetStandingsKartBalloons(KartBalloons *kartBalloons);

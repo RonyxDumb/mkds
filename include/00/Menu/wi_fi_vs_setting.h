@@ -14,7 +14,7 @@ void AdvanceWiFiVSSetting(void);
 
 #include "Main/Save/emblem_block.h"
 #include "Main/MapObjects/map_object_park.h" // RandomState64
-#include "Main/Unknown/unk_0217a000.h"
+#include "Main/MapObjects/data_0217a000.h"
 #include "Main/Graphics/font_and_player_character.h"
 #include "Main/Kart/karts.h"
 #include "Main/Graphics/layout_entry_angle.h" // LayoutTableEntry
@@ -281,19 +281,16 @@ void RegisterWiFiVSMatchingCallbacks(void);
 void AdvanceWiFiVSMatching(void);
 
 #include "Main/Graphics/nibble_tiles.h"
-#include "Main/Unknown/code_0210895c.h"
-#include "Main/Unknown/code_02108a40.h"
-#include "Main/Unknown/code_02120294.h"
-#include "Main/Unknown/code_02120610.h"
-#include "Main/Unknown/code_02124bf0.h"
+#include "Main/Sound/sound_seq.h"
+#include "Main/Net/player_record.h"
+#include "Main/Net/wifi_session.h"
+#include "Main/Graphics/layout_table_entry.h"
 #include "Main/Graphics/text_draw.h"
-#include "Main/Unknown/code_0212658c.h"
-#include "Main/Unknown/code_02128274.h"
-#include "Main/Unknown/code_0212b928.h"
+#include "Main/Menu/txt_system.h"
+#include "Main/Menu/select_return.h"
+#include "Main/Graphics/palette_blend.h"
 
 #include "Main/Menu/player_entry_list.h"
-#include "Main/Unknown/code_02120240.h"
-#include "Main/Menu/select_return.h"
 #include "Main/Menu/message_screen.h"
 #include "code_0212df7c.h"
 #include "Main/Scene/display_settings.h"
@@ -302,16 +299,10 @@ void AdvanceWiFiVSMatching(void);
 #include "00/unk_021b4000.h"
 #include "00/code_02180608.h"
 #include "00/Lib/DWC/code_0219b580.h"
-#include "Main/Unknown/code_02036bec.h"
 #include "Main/System/result_archive_path.h"
-#include "Main/Unknown/code_020ae4c0.h"
 #include "Main/Graphics/locate_bmg_sections.h"
-#include "Main/Unknown/code_02125f88.h"
-#include "Main/Unknown/code_02128210.h"
 #include "code_0214cfe4.h"
-#include "Main/Unknown/unk_0217d068.h"
-#include "Main/Unknown/unk_02175628.h"
-#include "Main/Unknown/code_0212426c.h"
+#include "player.h"
 #include "gfd_VramTransferManager.h"
 
 extern MenuShared *gMenuShared;

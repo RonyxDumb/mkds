@@ -1,10 +1,7 @@
 #include "Main/Menu/choises_s_list_chars.h"
-#include "Main/Unknown/code_020b32ec.h"
-#include "Main/Unknown/code_020b2c80.h"
-#include "Main/Menu/choises_s.h"
-#include "Main/Unknown/code_020b3278.h"
 #include "Main/Menu/choises_s_screen_map.h"
-#include "Main/Unknown/code_021059e0.h"
+#include "Main/Menu/choises_s.h"
+#include "Main/Sound/sound_seq.h"
 
 #pragma thumb on
 

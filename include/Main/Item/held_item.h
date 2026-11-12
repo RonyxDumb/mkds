@@ -18,3 +18,9 @@ void InitBouncingItem(BouncingItemObject *item, s32 bounceCount, Vec3 *velocity)
 void ThrowBouncingItem(BouncingItemObject *item, ItemInUse *itemInUse, s32 bounceCount, s32 throwForward,
                        s32 forwardSpeed, s32 forwardUpSpeed, s32 backwardUpSpeed);
 void InitItemPointLinkDirections(void);
+
+typedef struct ItemPointLink ItemPointLink;
+
+u32 GetItemPointLinkDirection(ItemPointLink *link, Vec3 *directionOut);
+
+s32 SetItemPointLinkRefFromIndex(u32 index, u32 *ref);

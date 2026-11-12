@@ -1,6 +1,8 @@
 #pragma once
 
 #include "types.h"
+#include "code_02134398.h"
+#include "output_effect.h" // CallbackInfo
 
 void srand(u32 seed);
 
@@ -26,3 +28,5 @@ typedef struct ScanStringSource ScanStringSource;
 int ScanStringSourceOp(void *context, int character, int operation);
 int ScanWithSourceFunc(ScanReadCharFunc f, ScanStringSource *source, const char *format, char *b);
 const char *ScanParseSpec(const char *format, ScanSpec *outSpec);
+
+extern u32 gRandValue;

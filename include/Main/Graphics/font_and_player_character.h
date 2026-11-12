@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-#include "Main/Unknown/unk_0217b000.h"
+#include "Main/MapObjects/data_0217b000.h"
 #include "g2d_NAN_load.h" // Unk02021dc8
 
 // Objects stored through the first parameter: Nscr by LocateNscr and LoadNscrData, Ncgr by
@@ -47,6 +47,9 @@ void *GetPlayerCharacterNclr(int param_1);
 #include "Main/Race/point_along_line.h"
 Unk02022aa8 *GetFontByIndex(s32 index);
 Nclr *GetPlayerCharacterShyguyNclr(u32 index);
-#include "Main/Unknown/code_020b4048.h"
+
+void LoadFontAndPlayerCharacterData(void);
+void ClearFontAndPlayerCharacterTables(void);
+
 #include "Main/Race/followed_kart_outside_box.h"
 #include "code_02022aa8.h" // Unk02022aa8

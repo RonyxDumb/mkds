@@ -4,10 +4,20 @@
 #include "code_02012b30.h" // MtxFx43, NNSG3dResFileHeader
 #include "Main/Graphics/nsbmd_render_obj.h"
 #include "Main/Graphics/model_animation.h"
-#include "Main/Unknown/code_02017000.h"
+#include "code_0212d214.h"
 #include "Main/Kart/kart_ai_item_throw.h"
-#include "Main/Unknown/unk_02166000.h"
-#include "Main/Unknown/unk_0217b000.h"
+#include "Main/MapObjects/data_02166000.h"
+#include "Main/Menu/second_menu_scene.h"
+#include "Main/Scene/display_settings.h"
+#include "code_020182c0.h"
+#include "frameheap.h"
+#include "os_thread.h"
+#include "Main/MapObjects/map_object_park.h"
+#include "pm.h"
+#include "Main/Sound/sound_seq.h"
+#include "Main/Kart/kart_name_tags.h"
+#include "Main/Sound/data_0210b000.h"
+#include "Main/MapObjects/data_0217b000.h"
 
 // A pooled effect object: a model, up to three animation objects, a position and a Start and an Update function.
 typedef struct ModelEffect {

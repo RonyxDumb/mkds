@@ -5,10 +5,12 @@
 #include "Main/Sound/sound_source_list.h"
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h"
-#include "Main/Unknown/code_02109000.h"
 #include "Main/Sound/map_start_sound_full_volume.h"
-#include "Main/Unknown/unk_0217c000.h"
+#include "Main/MapObjects/data_0217c000.h"
 #include "player.h"
+#include "code_021479b4.h"
+#include "Main/Item/code_021035ac.h"
+#include "Main/Sound/surface_sound_ids.h"
 
 void ResetMapObjectSoundCounter(void) {
     gMapObjectSoundCounter = 0;

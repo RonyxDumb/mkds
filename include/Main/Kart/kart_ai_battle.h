@@ -3,8 +3,8 @@
 #include "types.h"
 #include "Main/Kart/kart_drift.h"
 #include "Main/Kart/kart_effects_ahead.h"
-#include "Main/Unknown/code_0208fd8c.h"
-#include "Main/Unknown/code_02080cd0.h"
+#include "Main/Kart/code_0208fd8c.h"
+#include "Main/Kart/code_02080cd0.h"
 
 typedef struct MapObject MapObject;
 
@@ -109,3 +109,8 @@ void AdvanceBattleKartAiMicInflate(KartAi *kartAi);
 void PickKartAiBalloonCountGoal(KartAi *kartAi);
 void AdvanceBattleKartAiTargetShine(KartAi *kartAi);
 BOOL FindKartAiTargetShine(KartAi *kartAi, s32 distanceSquaredLimit, s32 yDifferenceLimit);
+
+typedef struct KartAiSpeedLimit KartAiSpeedLimit;
+typedef struct KartAi KartAi;
+
+void SetupBattleKartAiSpeedLimit(KartAiSpeedLimit *speedLimit, KartAi *kartAi);

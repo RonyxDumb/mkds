@@ -1,7 +1,14 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/unk_02175000.h" // SceneCallbacks
+#include "Main/Menu/data_02175000.h" // SceneCallbacks
+#include "Main/Scene/display_settings.h"
+#include "code_020182c0.h"
+#include "frameheap.h"
+#include "os_thread.h"
+#include "Main/MapObjects/map_object_park.h"
+#include "pm.h"
+#include "Main/Sound/sound_seq.h"
 
 // The three scene numbers of gSceneNumbers: +0 the previous scene (declared u8[2];
 // read by the scenes' init functions as `*a` / `a[0]` and by UpdateEmblemScene as an s16), mScene the scene

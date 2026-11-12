@@ -1,9 +1,8 @@
 #include "Main/Sound/sound_request_queue.h"
 #include "Main/Kart/kart_drift.h"
 #include "Main/Sound/sound_system.h"
-#include "Main/Unknown/code_0210d000.h"
-#include "player.h"
 #include "Main/Sound/sound_set_load.h"
+#include "player.h"
 #include "code_0212d214.h"
 
 void InitSoundHandlePool(SoundHandlePool *pool, void *entries, s32 count, s32 entrySize) {

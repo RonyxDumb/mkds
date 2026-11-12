@@ -27,17 +27,13 @@ typedef struct RecordTopMenu {
 } RecordTopMenu;
 
 #include "01/unk_021a6000.h"
-#include "Main/Unknown/code_020ae4c0.h"
-#include "Main/Unknown/code_02111000.h"
 #include "01/Menu/record_time_attack.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "01/code_0219a000.h"
-#include "Main/Unknown/code_02125f88.h"
-#include "Main/Unknown/code_02128210.h"
+#include "Main/Menu/select_return.h"
 #include "Main/Scene/display_settings.h"
 #include "01/unk_021a9000.h"
-#include "Main/Unknown/code_02036bec.h"
-#include "Main/Unknown/unk_0216c000.h"
+#include "Main/Menu/second_menu_scene.h"
 #include "Main/System/result_archive_path.h"
 
 void RegisterRecordTopMenuCallbacks(void);

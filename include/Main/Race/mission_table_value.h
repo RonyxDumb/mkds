@@ -11,3 +11,6 @@ typedef struct MissionTable {
 } MissionTable;
 
 u32 GetMissionTableValue(MissionTable *table, u32 row, u32 column);
+
+unsigned int GetMissionTableColumnCount(MissionTable *table);
+unsigned int GetMissionTableRowCount(MissionTable *table);

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_02152000.h"
 
 typedef struct DWCAccFriendData {
     /* 00 */ u32 mUnk_00;

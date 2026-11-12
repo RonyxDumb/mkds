@@ -10,3 +10,15 @@ void PrintMessageScreenText(void);
 void *GetMessageScreenText(void);
 void ClearMessageScreenMap(void);
 void *GetMessageScreenCharBuffer(void);
+
+void SetupLinkLevelIcons(void);
+void UpdateLinkLevelIconTiles(void);
+void AdvanceLinkLevelIcons(void);
+
+void ClearLinkLevelIconsPointer(void);
+
+void ClearMessageScreenChars(void);
+
+s32 UpdateMessageScreen(void);
+void ResetMessageScreen(void);
+void InitMessageScreen(void *heap);

@@ -1,15 +1,22 @@
 #include "Main/Menu/cup_mark.h"
 
-#include "Main/Unknown/unk_0215c000.h"
-#include "Main/Unknown/unk_0217d000.h"
-#include "Main/Unknown/code_02124000.h"
-#include "Main/Unknown/code_0211de34.h"
+#include "Main/Menu/data_0215c000.h"
+#include "Main/Menu/data_0217d000.h"
+#include "player.h"
+#include "code_0212c7a0.h"
+#include "stream.h"
+#include "code_0212c9d4.h"
+#include "Main/Graphics/layout_rect_table.h"
+#include "Main/Graphics/layout_entry_angle.h"
+#include "Main/Graphics/layout_table_entry.h"
+#include "Main/Race/race_hud_sub_screen_cells.h"
+#include "code_0212d214.h"
+#include "Main/Sound/sound_seq.h"
 #include "Main/System/heap.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/Graphics/font_and_player_character.h"
-#include "Main/Unknown/unk_0216d000.h"
+#include "Main/Menu/data_0216d000.h"
 #include "gfd_VramTransferManager.h"
-#include "Main/Unknown/code_0211df44.h"
 
 #pragma thumb on
 

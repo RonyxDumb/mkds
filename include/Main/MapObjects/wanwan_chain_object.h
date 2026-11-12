@@ -1,9 +1,9 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020dc474.h"
+#include "Main/MapObjects/wanwan.h"
 #include "Main/MapObjects/wanwan_chain_init.h"
-#include "Main/Unknown/code_020e66e4.h"
+#include "Main/MapObjects/code_020e66e4.h"
 
 // Object of InitWanwanChainObject: a vector at 0x04, a vector at 0x1c, a word at 0x68, the Wanwan it was set up from at
 // 0xa0, an WanwanChain at 0xa4 and a word at 0xf4.
@@ -30,3 +30,8 @@ void InitWanwanChainObject(WanwanChainObject *chainObject, void *unused, Wanwan 
 void UpdateWanwanChainPoints(WanwanChain *chain, Vec3 *endPoint, Vec3 *unused);
 void DrawWanwanChainLinks(WanwanChain *chain, NsbmdModel *model, s32 unused, u16 maxAlpha);
 void DrawWanwanChainKui(WanwanChain *chain, NsbmdModel *model, Vec3 *position, s32 unused, u16 maxAlpha);
+
+unsigned int CollideItemObjectWithWanwanChain(unsigned int unused0, unsigned int unused1, unsigned int unused2,
+                                              unsigned int bytePointer);
+unsigned int CollideKartWithWanwanChain(unsigned int unused0, unsigned int unused1, unsigned int unused2,
+                                        unsigned int bytePointer);

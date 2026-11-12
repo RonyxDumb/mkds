@@ -1,6 +1,6 @@
 #include "Main/Menu/own_entry_position_copy_cell.h"
 #include "Main/Sound/character_seq_pair.h"
-#include "Main/Unknown/code_02110720.h"
+#include "Main/Sound/seq_queue.h"
 
 #pragma thumb on
 

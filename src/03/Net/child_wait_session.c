@@ -2,24 +2,22 @@
 
 #include "03/unk_021da000.h"
 #include "03/Net/essid_wcm.h"
-#include "Main/Unknown/code_02009000.h"
-#include "Main/Unknown/code_0200f000.h"
 #include "code_0200fc8c.h"
-#include "Main/Unknown/unk_0216f000.h"
+#include "os_thread.h"
+#include "mb_data.h"
 #include "code_02009928.h"
 #include "03/Net/multiboot_parent_download.h"
 #include "03/Menu/message_box_create.h"
 #include "03/Net/wh.h"
 #include "code_0214d018.h"
 #include "mb_parent.h"
-#include "Main/Unknown/code_02007e38.h"
 #include "03/code_021d0dd8.h"
 #include "03/code_021d0df8.h"
 #include "03/code_021cd2e0.h"
 #include "03/code_021d0000.h"
 #include "os_tick.h"
 #include "code_02142eac.h"
-#include "Main/Unknown/code_02151718.h"
+#include "dwc_backup.h"
 
 void InitChildWaitSession(ChildWaitSessionView *session, ChildWaitParamsView *params) {
     gChildWaitSessionView = session;

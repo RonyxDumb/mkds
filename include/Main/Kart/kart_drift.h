@@ -1,9 +1,9 @@
 #pragma once
 
 #include "Main/Kart/camera.h"
-#include "Main/Unknown/code_0207a104.h"
+#include "Main/Kart/code_0207a104.h"
 #include "Main/Graphics/disp_cap.h"
-#include "Main/Unknown/unk_0217a000.h"
+#include "Main/MapObjects/data_0217a000.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "Main/Sound/kart_full_volume_sort.h"
 #include "Main/Sound/kart_sound.h" // KartSound
@@ -13,13 +13,11 @@
 #include "code_02012b30.h" // MtxFx43
 #include "code_02147cd8.h" // Vec3s16
 #include "code_02148538.h"
-#include "Main/Unknown/code_02039860.h"
-#include "Main/Unknown/unk_02175628.h"
-#include "Main/Unknown/unk_021759c0.h"
+#include "tp.h"
 #include "code_0212d214.h"
 #include "Main/Sound/sound_source_list.h"
-#include "Main/Unknown/code_0210b000.h" // SoundDistanceSquaredChange
-#include "Main/Unknown/code_02080b1c.h" // KartKillerCursor
+#include "Main/Sound/data_0210b000.h" // SoundDistanceSquaredChange
+#include "Main/Kart/code_02080b1c.h" // KartKillerCursor
 
 struct KartAi;
 
@@ -786,7 +784,7 @@ void SetEffectScaleFromKart(ParticleEmitter *emitter, Kart *kart);
 void StartEffectWithCallback(u32 idx, const Vec3 *pos, void *splManager, void (*cb)());
 int TryTurnKartAtLowSpeed(Kart *kart);
 void AdvanceKartDriftTurnAngle(Kart *kart, int fromLowSpeedTurn);
-#include "Main/Unknown/code_0210ab48.h"
+#include "Main/Sound/code_0210ab48.h"
 void EndKartDrift(Kart *kart);
 void AdvanceKartBoost(s32 *acceleration, Kart *kart);
 extern SoundRequestQueue gSoundRequestQueues[7];
@@ -796,7 +794,7 @@ extern SoundRequestQueue gThunderShrinkSoundRequestQueue;
 #include "Main/Sound/sound_request_queue.h"
 void RequestKartSound(void *kart, int arg);
 void KartStartSoundFullVolume(void *soundSource, int arg);
-#include "Main/Unknown/code_021035ac.h"
+#include "Main/Item/code_021035ac.h"
 BOOL TrySpinKart(Kart *kart, int rotationCount, int skipSound);
 BOOL TryStartKartState(Kart *kart, KartState newState);
 void AdvanceKartDrift(Kart *kart);
@@ -804,4 +802,31 @@ void GetKartForward(const Kart *p, Vec3 *out);
 void GetKartUp(const Kart *p, Vec3 *out);
 
 #include "Main/Kart/character_animation.h"
-#include "Main/Unknown/code_02079c0c.h"
+#include "Main/Kart/code_02079c0c.h"
+
+typedef struct Kart Kart;
+
+// The kind passed to StartKartBoost.
+typedef enum {
+    // The mushroom and the boost surfaces.
+    KART_BOOST_ITEM_OR_SURFACE,
+    // The release of a fully charged drift.
+    KART_BOOST_MINI_TURBO,
+    // At the end of the race start sequence.
+    KART_BOOST_RACE_START,
+    // On landing after a respawn.
+    KART_BOOST_RESPAWN
+} KartBoostKind;
+
+void StartKartBoost(Kart *kart, KartBoostKind boostKind, int boostFrames);
+void StartKartSoundAndCharacterAnimation(Kart *kart);
+void ApplyItemObjectHitToKart(Kart *kart);
+void UpdateKartAheadEffect(Kart *kart);
+void ApplyKartPush(Kart *pushingKart, Kart *pushedKart, const Vec3 *contactDirection, s32 storeDirection, Vec3 *out);
+BOOL TryStartKartPushDoubleFlip(Kart *killerKart, Kart *hitKart);
+BOOL TryStartKartPushFlip(Kart *starKart, Kart *hitKart, const Vec3 *pushDirection);
+
+void CollideKartWithKarts(Kart *kart);
+
+void CollideKartWithMapObjects(Kart *kart);
+void ApplyKartLanding(Kart *kart, Vec3 *groundNormal);

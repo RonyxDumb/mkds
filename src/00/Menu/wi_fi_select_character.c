@@ -1,5 +1,4 @@
 #include "00/Menu/wi_fi_select_character.h"
-#include "Main/Unknown/code_02026000.h"
 
 #include "00/code_02180608.h"
 #include "00/unk_021b4000.h"
@@ -8,7 +7,7 @@
 #include "Main/Net/wifi_connection_lost.h"
 #include "00/Menu/wi_fi_vs_matching.h"
 #include "Main/Race/race_setup.h"
-#include "Main/Unknown/code_02121e84.h"
+#include "Main/Net/wifi_session.h"
 #include "Main/Net/packed_index.h"
 #include "Main/Menu/message_screen.h"
 

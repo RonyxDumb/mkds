@@ -1,11 +1,8 @@
 #include "Main/MapObjects/nsbmd_model_draw.h"
 #include "Main/System/heap.h"
-#include "Main/Unknown/code_020e66e4.h"
+#include "Main/MapObjects/code_020e66e4.h"
 
 #include "Main/System/heap_call.h"
-#include "Main/Unknown/code_02036bec.h"
-#include "Main/Unknown/code_02084000.h"
-#include "Main/Unknown/code_020e6000.h"
 
 void DrawNsbmdModelWithMaxAlphaMapObjectPos(NsbmdModel *model, u32 maxAlpha, Vec3 *position) {
     Vec3 shiftedPosition;

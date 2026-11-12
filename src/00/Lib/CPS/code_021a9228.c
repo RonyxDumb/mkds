@@ -20,7 +20,8 @@
 #include "00/Lib/CPS/code_021acbf8.h"
 #include "00/Lib/CPS/code_021acc8c.h"
 #include "code_0214d93c.h"
-#include "Main/Unknown/unk_0216f000.h"
+#include "Main/Net/data_0216f000.h"
+#include "mb_data.h"
 #include "os_tick.h"
 #include "convert.h"
 

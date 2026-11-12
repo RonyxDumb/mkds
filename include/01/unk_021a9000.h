@@ -9,7 +9,7 @@
 #include "01/Menu/select_ghost.h"
 #include "01/Menu/record_gpx.h"
 #include "00/Menu/wi_fi_vs_setting.h"
-#include "Main/Unknown/types_02180728.h" // TextCanvas
+#include "Main/Menu/data_02180728.h" // TextCanvas
 
 // Four callbacks; the first receives OptionStates.mStateHeap.
 typedef struct OptionStateCallbacks {

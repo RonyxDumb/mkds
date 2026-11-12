@@ -6,10 +6,9 @@
 #include "Main/Menu/cup_picture_load.h"
 #include "Main/Race/ghost_record_set.h"
 #include "Main/Graphics/scene_text_init.h"
-#include "Main/Unknown/code_0212abd0.h"
+#include "Main/Menu/message_screen.h"
 #include "Main/Menu/picks_holder.h"
-#include "Main/Unknown/code_02084000.h"
-#include "Main/Unknown/unk_0217b000.h"
+#include "Main/MapObjects/data_0217b000.h"
 
 #pragma thumb on
 #pragma optimize_for_size on

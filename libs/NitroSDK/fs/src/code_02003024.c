@@ -3,8 +3,6 @@
 #include "fs_file.h"
 #include "os_thread.h"
 #include "code_0200fc8c.h"
-#include "Main/Unknown/code_0200f000.h"
-#include "Main/Unknown/code_0214d000.h"
 #include "code_0214d018.h"
 
 // Compares two names for len characters, ignoring case; returns the difference of the first pair that differs.

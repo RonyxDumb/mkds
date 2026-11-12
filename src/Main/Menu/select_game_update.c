@@ -1,13 +1,10 @@
 #include "Main/Menu/select_game_update.h"
-#include "Main/Unknown/code_020cecdc.h"
 #include "Main/Menu/select_game.h"
-#include "Main/Unknown/code_020ccc9c.h"
+#include "Main/Menu/menu_screen_switch.h"
 #include "Main/Menu/battle_gx_set_visible_plane.h"
 #include "gx.h"
 #include "code_02148950.h"
-#include "Main/Unknown/code_02029890.h"
-#include "Main/Menu/menu_screen_switch.h"
-#include "Main/Unknown/code_02032000.h"
+#include "Main/Race/race_setup.h"
 
 #pragma thumb on
 

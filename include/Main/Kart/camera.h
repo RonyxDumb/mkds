@@ -5,7 +5,7 @@
 typedef struct Kart Kart;
 typedef struct Camera Camera;
 
-#include "Main/Unknown/unk_0217a000.h"
+#include "Main/MapObjects/data_0217a000.h"
 
 typedef struct Camera Camera;
 

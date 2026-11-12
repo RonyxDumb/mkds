@@ -1,9 +1,7 @@
 #include "Main/Menu/current.h"
 
-#include "Main/Unknown/code_020cc6a4.h"
-#include "Main/Unknown/code_020cc6dc.h"
-#include "Main/Unknown/code_020cc6f0.h"
-#include "Main/Unknown/unk_021759c0.h"
+#include "Main/Race/data_021759c0.h"
+#include "tp.h"
 
 u32 GetCurrentCharacterIndex(u32 entryIndex) {
     return gRaceSetup->mCurrentEntries[entryIndex].mCharacterIndex;

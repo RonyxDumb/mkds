@@ -16,10 +16,9 @@
 #include "g2.h"
 #include "registers.h"
 #include "03/Net/essid_wcm.h"
-#include "Main/Unknown/code_02009000.h"
-#include "Main/Unknown/code_0200f000.h"
 #include "code_0200fc8c.h"
-#include "Main/Unknown/unk_0216f000.h"
+#include "os_thread.h"
+#include "mb_data.h"
 #include "code_02009928.h"
 #include "03/Net/multiboot_parent_download.h"
 

@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "00/Menu/wi_fi_vs_setting.h"
-#include "Main/Unknown/code_021114cc.h" // RecordScreenCallbacks
+#include "Main/Menu/record_vs.h" // RecordScreenCallbacks
 
 // Object behind gOptionTopMenu.
 typedef struct OptionTopMenu {
@@ -84,18 +84,12 @@ extern const u16 gRecordGpxCharacterKartCellIndices[4][2];
 #include "01/Menu/option_states.h"
 #include "01/Menu/option_top_menu.h"
 #include "01/Menu/record_time_attack.h"
-#include "Main/Unknown/code_02128210.h"
-#include "Main/Unknown/unk_02175628.h"
-#include "Main/Unknown/unk_0217d068.h"
+#include "Main/Menu/select_return.h"
+#include "player.h"
 #include "01/code_02194000.h"
 #include "01/code_0219e000.h"
-#include "Main/Unknown/code_02111000.h"
 
-#include "Main/Unknown/code_02036bec.h"
-#include "Main/Unknown/code_020ae4c0.h"
-#include "Main/Unknown/code_0212426c.h"
 #include "code_0214cfe4.h"
-#include "Main/Unknown/code_0211d000.h"
 #include "Main/System/result_archive_path.h"
 
 extern const u16 gRecordGpxTimeLabelIndices[4];

@@ -1,7 +1,6 @@
 #include "Main/Kart/camera_shake.h"
-#include "Main/Unknown/code_02039860.h"
 #include "Main/Race/race.h"
-#include "Main/Unknown/code_020f36d8.h"
+#include "Main/Race/data_020f36d8.h"
 #include "code_02147cd8.h"
 
 static inline s32 CameraShakeNormalizeLengthOrZero(Vec3 *vector, Vec3 *normalized) {

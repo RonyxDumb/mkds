@@ -1,6 +1,7 @@
 #include "code_021384cc.h"
 
-#include "Main/Unknown/unk_0216e000.h"
+#include "code_02134398.h"
+#include "output_effect.h"
 
 #pragma avoid_byte all
 

@@ -4,13 +4,11 @@
 #include "01/code_0219d000.h"
 #include "01/unk_021a6000.h"
 #include "Main/System/heap.h"
-#include "Main/Unknown/code_021059e0.h"
-#include "Main/Unknown/code_02125f54.h"
+#include "Main/Sound/sound_seq.h"
+#include "Main/Menu/txt_system.h"
 #include "Main/Save/backup_first_block_write_wrapper.h"
 #include "Main/Graphics/layout_rect_table.h"
 #include "g2.h"
-#include "Main/Unknown/code_02037000.h"
-#include "Main/Unknown/code_02125f6c.h"
 
 OptionEmbremSelect *gOptionEmbremSelect;
 

@@ -1,6 +1,7 @@
 #include "Main/Race/grand_prix_next_course.h"
-#include "Main/Unknown/unk_02154000.h"
-#include "Main/Unknown/unk_021759c0.h"
+#include "Main/MapObjects/data_02154000.h"
+#include "Main/Race/data_021759c0.h"
+#include "tp.h"
 
 void SetNextGrandPrixCourse(void) {
     gRaceSetup->mNextHeader.mCourseNumber = gRaceSetup->mCourseNumber + 1;

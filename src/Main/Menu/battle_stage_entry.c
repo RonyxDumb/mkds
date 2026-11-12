@@ -1,6 +1,5 @@
 #include "Main/Menu/battle_stage_entry.h"
-#include "Main/Unknown/code_020ceb20.h"
-#include "Main/Unknown/code_020ccc9c.h"
+#include "Main/Menu/menu_screen_switch.h"
 #include "Main/Menu/battle_gx_set_visible_plane.h"
 #include "01/Menu/select_battle_stage_screen.h"
 #include "code_02148950.h"

@@ -3,7 +3,7 @@
 #include "types.h"
 #include "Main/Kart/kart_drift.h" // Kart
 #include "Main/MapObjects/attractor.h" // MapObject
-#include "Main/Unknown/code_020e005c.h" // GroupFollower
+#include "Main/MapObjects/code_020e005c.h" // GroupFollower
 
 // Object of kinds 0x1a8, 0x1b4 and 0x1b5 (Bound, Cream, Berry); mWobbling is set while its scale wobbles.
 typedef struct Bound {

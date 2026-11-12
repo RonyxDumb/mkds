@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/unk_0217a000.h" // DataSharing
+#include "Main/MapObjects/data_0217a000.h" // DataSharing
 
 void InitRaceConnection(void);
 void ResetConnectionData(void);

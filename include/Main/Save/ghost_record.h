@@ -1,7 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/unk_021759c0.h" // MinuteSecondMillisecondTime
+#include "Main/Race/data_021759c0.h" // MinuteSecondMillisecondTime
+#include "tp.h"
 
 typedef struct GhostRecordHead GhostRecordHead;
 typedef struct PlayerRecord PlayerRecord;
@@ -12,3 +13,7 @@ s32 GetGhostLapTimeByIndex(s32 ghostRecordIndex, s32 lapNumber, MinuteSecondMill
 BOOL GetGhostFinishTime(GhostRecordHead *ghostRecord, MinuteSecondMillisecondTime *finishTime);
 s32 GetGhostLapTime(GhostRecordHead *ghostRecord, s32 lapNumber, MinuteSecondMillisecondTime *lapTime);
 void ReadSlotGhostRecord(u32 slotIndex);
+
+typedef struct SlotGhostRecord SlotGhostRecord;
+
+void WriteSlotGhostRecord(u32 index, SlotGhostRecord *source);

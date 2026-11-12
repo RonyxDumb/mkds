@@ -1,13 +1,13 @@
 #include "gx_load3d.h"
 #include "code_0214c778.h"
-#include "Main/Unknown/code_02148000.h"
 #include "code_02148950.h"
 #include "gx_bgcnt.h"
 #include "code_0214d018.h"
-#include "Main/Unknown/code_0214d000.h"
-#include "Main/Unknown/unk_02161000.h"
-#include "Main/Unknown/unk_0216f000.h"
-#include "Main/Unknown/unk_02180000.h"
+#include "Main/Kart/data_02161000.h"
+#include "Main/Net/data_0216f000.h"
+#include "os_thread.h"
+#include "mb_data.h"
+#include "data_02180000.h"
 
 void GX_BeginLoadTex(void) {
     u32 mask;

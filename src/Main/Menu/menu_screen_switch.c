@@ -1,7 +1,6 @@
 #include "Main/Menu/menu_screen_switch.h"
-#include "Main/Unknown/code_020ccc9c.h"
 #include "Main/Menu/single_play_select_screen3.h"
-#include "Main/Unknown/unk_0217b000.h"
+#include "Main/MapObjects/data_0217b000.h"
 
 #pragma thumb on
 

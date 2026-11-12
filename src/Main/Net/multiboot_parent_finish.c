@@ -1,6 +1,6 @@
 #include "Main/Net/multiboot_parent_finish.h"
 #include "Main/Net/disconnect.h"
-#include "Main/Unknown/unk_0217a000.h"
+#include "Main/MapObjects/data_0217a000.h"
 
 void FinishMultiBootParentSetup(void) {
     gConnectionWork->mState = 2;

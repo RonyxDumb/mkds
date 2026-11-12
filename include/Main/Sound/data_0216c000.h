@@ -1,0 +1,318 @@
+#pragma once
+#include "types.h"
+#include "Main/Menu/second_menu_scene.h" // StateCallbacks
+
+// Objects whose layout isn't known yet.
+extern const char gChoropuNsbmdName[];
+
+extern const char gChoropuNsbtpName[];
+
+extern const char gPukupukuNsbmdName[];
+
+extern const char gObPakkunSfNsbmdName[];
+
+extern const char gObPakkunSfNsbtpName[];
+
+extern const StateCallbacks gItemKouraWStateTable[];
+
+extern const StateCallbacks gItemBombStateTable[];
+
+extern const StateCallbacks gItemTeresaStateTable[];
+
+extern s32 gKartSoundRequestSortOffset;
+
+extern u32 gSoundFadeSteps;
+
+extern u16 gLapProgressSoundIds[];
+
+extern const char *gRecordGpxSONclrName;
+
+extern const char *gRecordGpxMBNcgrName;
+
+extern const char *gRecordGpxSNcerName;
+
+extern const char *gRecordTAttSONclrName;
+
+extern const char *gRecordTopMenuSBnclName;
+
+extern const char *gRecordTAttMNcerName;
+
+extern const char *gRecordGpxSNcgrName;
+
+extern const char *gRecordGpxMNcgrName;
+
+extern const char *gRecordGpxMNscrName;
+
+extern const char *gRecordTopMenuSBnblName;
+
+extern const char *gRecordTAttMNcgrName;
+
+extern const char *gRecordTopMenuSNcerName;
+
+extern const char *gRecordTopMenuSNcgrName;
+
+extern const char *gRecordTrophySONclrName;
+
+extern const char *gRecordGpxSBNclrName;
+
+extern const char *gRecordTAttSNcgrName;
+
+extern const char *gRecordTAttSNcerName;
+
+extern const char *gRecordGpxMBNclrName;
+
+extern const char *gRecordTAttMONclrName;
+
+extern const char *gRecordGpxMNcerName;
+
+extern const char *gRecordTAttSNscrName;
+
+extern const char *gRecordTopMenuMBnclName;
+
+extern const char *gRecordTopMenuMNcgrName;
+
+extern const char *gRecordTAttSBNclrName;
+
+extern const char *gRecordTopMenuMBNclrName;
+
+extern const char *gRecordGpxMONclrName;
+
+extern const char *gRecordTopMenuSONclrName;
+
+extern const char *gRecordTopMenuMONclrName;
+
+extern const char *gRecordGpxSNscrName;
+
+extern const char *gRecordTAttMBNclrName;
+
+extern const char *gRecordTopMenuMBnllName;
+
+extern const char *gRecordTAttMScoreNscrName;
+
+extern const char *gRecordTopMenuMNscrName;
+
+extern const char *gRecordGpxSBNcgrName;
+
+extern const char *gRecordTrophyONcgrName;
+
+extern const char *gRecordTAttMNscrName;
+
+extern const char *gRecordTAttSBNcgrName;
+
+extern const char *gRecordTopMenuMBNcgrName;
+
+extern const char *gRecordTrophyONcerName;
+
+extern const char *gRecordTAttMBNcgrName;
+
+extern const char *gRecordTopMenuMNcerName;
+
+extern const char *gRecordTAttMBnclName;
+
+extern const char *gRecordTAttMBnllName;
+
+extern const char *gRecordTAttSBnclName;
+
+extern const char *gRecordTAttSBnblName;
+
+extern const char *gRecordTAttSBnllName;
+
+extern const char *gRecordGpxSBnclName;
+
+extern const char *gRecordGpxMBnllName;
+
+extern const char *gRecordGpxMBnclName;
+
+extern const char *gRecordGpxSBnllName;
+
+extern const char *gRecordTrophySOBnclName;
+
+extern const char *gRecordGpxSBnblName;
+
+extern s32 gKartFullVolumeSoundSortOffset;
+
+extern const StateCallbacks gPushedObjectStateTable[];
+
+extern s32 gSceneSeqVolume;
+
+extern const char gBridgeNsbcaName[];
+
+extern const char gBridgeNsbmdName[];
+
+extern const char gCarANsbmdName[];
+
+extern const char gTruckANsbmdName[];
+
+extern const char gBusANsbmdName[];
+
+extern const char gCarTireNsbmdName[];
+
+extern const char gCarAShadowNsbmdName[];
+
+extern const char gTruckAShadowNsbmdName[];
+
+extern const char gBusAShadowNsbmdName[];
+
+extern const char gCarANsbtpName[];
+
+extern const char gTruckANsbtpName[];
+
+extern const StateCallbacks gChoropuStateTable[];
+
+extern const StateCallbacks gRotaryStateTable[];
+
+extern const char gTestCylinderNsbmdName[];
+
+extern const char gGearBlackNsbmdName[];
+
+extern const char gGearWhiteNsbmdName[];
+
+extern const char gRotaryRoomNsbmdName[];
+
+extern const char gRotaryBridgeNsbmdName[];
+
+extern u8 gItemKouraGNsbmdName[];
+
+extern u8 gItemKouraGNsbtxName[];
+
+extern u8 gItemKouraRNsbmdName[];
+
+extern u8 gItemKouraRNsbtxName[];
+
+extern u8 gItemBananaNsbmdName[];
+
+extern u8 gItemBananaNsbtxName[];
+
+extern u8 gItemKinokoNsbmdName[];
+
+extern u8 gItemKinokoNsbtxName[];
+
+extern u8 gItemStarNsbmdName[];
+
+extern u8 gItemStarNsbtxName[];
+
+extern u8 gItemKouraWNsbmdName[];
+
+extern u8 gItemKouraWNsbtxName[];
+
+extern u8 gItemThunderNsbmdName[];
+
+extern u8 gItemThunderNsbtxName[];
+
+extern u8 gItemFBoxNsbmdName[];
+
+extern u8 gItemFBoxNsbtxName[];
+
+extern u8 gItemBombNsbmdName[];
+
+extern u8 gItemBombNsbtpName[];
+
+extern u8 gItemBombNsbtxName[];
+
+extern u8 gItemGessoNsbmdName[];
+
+extern u8 gItemGessoNsbtxName[];
+
+extern u8 gItemTeresaNsbmdName[];
+
+extern u8 gItemTeresaNsbtxName[];
+
+extern u8 gItemKinokoPNsbmdName[];
+
+extern u8 gItemKinokoPNsbtxName[];
+
+extern u8 gItemKillerNsbmdName[];
+
+extern u8 gItemKillerNsbtxName[];
+
+extern const char gItemFileFormat[];
+
+// Indexed by ItemInUse.mUseKind. (once above the three tables gItemInUseAdvanceTable, gItemInUseRemoveTable,
+// gItemInUseStartTable)
+extern void (*gItemInUseAdvanceTable[])(void *);
+
+extern u8 gItemInUseRemoveTable[];
+
+extern void (*gItemInUseStartTable[])(void *);
+
+extern u8 data_0216c7b4[];
+
+extern u8 data_0216c7c4[];
+
+extern s32 data_0216c7d4;
+
+extern s32 data_0216c7f8[];
+
+extern s32 data_0216c82c[];
+
+extern u8 gSoundDataSdatPath[];
+
+extern const StateCallbacks gItemKouraRStateTable[];
+
+extern const StateCallbacks data_0216c1ec[];
+
+extern const char gObjShadowNsbmdName[];
+
+extern const char gJgShadowNsbmdName[];
+
+extern const StateCallbacks data_0216c240[];
+
+extern const char gSecondHandNsbmdName[];
+
+extern const char gPendulumNsbmdName[];
+
+extern const char gPendulumShadowNsbmdName[];
+
+extern const StateCallbacks gJgStateTable[];
+
+extern const char gJgMainNsbmdName[];
+
+extern const char gJgMainNsbtpName[];
+
+extern const char gJgCloudNsbmdName[];
+
+extern const char gLapCountNsbmdName[];
+
+extern const char gLapCountNsbtpName[];
+
+extern const char gLapFinalNsbmdName[];
+
+extern u8 data_0216cb30[];
+
+extern u8 data_0216ca68[];
+
+extern u8 data_0216ca84[];
+
+extern void (*data_0216cb1c[1])(void *a, u32 b, u32 c, u32 d);
+
+extern u16 data_0216cb20;
+
+extern s32 gSavedModelAlpha;
+
+extern const char gWoodbox1NsbmdName[];
+
+extern Vec3 data_0216c3d8;
+
+extern const StateCallbacks gWoodbox1StateTable[];
+
+extern const char gItemSlotListDatName[];
+
+extern u8 gKouraWNsbmdName[];
+
+extern u8 gKouraWNsbtxName[];
+
+extern u32 gMissionRunBossSeqRow[6];
+
+extern u32 gSeqRowTable[][6];
+
+extern Vec3 gKouraWVec3UnitY;
+
+extern Vec3 gItemFBoxRotationAxis;
+
+extern const StateCallbacks gDramStateTable[];
+
+extern const char gDramNsbmdName[];
+
+extern s32 gSoundOutputEffectType;
+
+extern s32 gKartSurfaceSoundSortOffsets[];

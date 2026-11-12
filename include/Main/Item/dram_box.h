@@ -4,11 +4,10 @@
 #include "Main/Item/held_item.h" // BouncingItemObject
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h"
-#include "Main/Unknown/code_020ffc4c.h"
+#include "Main/MapObjects/dram.h"
 #include "Main/Item/item_object_throw.h"
-#include "Main/Unknown/code_020f36d8.h"
-#include "Main/Unknown/code_021052fc.h"
-#include "Main/Unknown/code_020ffdd4.h"
+#include "Main/Race/data_020f36d8.h"
+#include "Main/Item/pooled_map_object.h"
 #include "Main/MapObjects/choropu.h" // CollisionMapObject
 
 // Object of InitMissionRunBoxMapObject: 0x144 bytes.

@@ -1,10 +1,14 @@
 #include "Main/Sound/surface_sound_ids.h"
 
-#include "Main/Unknown/unk_0215a000.h"
-#include "Main/Unknown/unk_0216c000.h"
-#include "Main/Unknown/unk_0217c000.h"
-#include "Main/Unknown/code_0210bbec.h"
+#include "Main/Item/data_0215a000.h"
+#include "Main/Sound/data_0216c000.h"
+#include "Main/Menu/second_menu_scene.h"
+#include "Main/MapObjects/data_0217c000.h"
+#include "player.h"
 #include "code_0212d214.h"
+#include "code_021479b4.h"
+#include "Main/Item/code_021035ac.h"
+#include "Main/Sound/sound_source_list.h"
 #include "code_020172d0.h"
 
 u32 TryAppendListObject(void *list, void *object) {

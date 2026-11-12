@@ -4,7 +4,7 @@
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject
 #include "Main/MapObjects/choropu.h"
-#include "Main/Unknown/unk_02158000.h" // MapObjectDrawList
+#include "Main/MapObjects/data_02158000.h" // MapObjectDrawList
 
 extern const MapObjectDrawList data_0215887c;
 extern const MapObjectDrawList data_02158be4;

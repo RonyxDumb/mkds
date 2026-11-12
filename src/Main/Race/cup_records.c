@@ -1,10 +1,8 @@
 #include "Main/Race/cup_records.h"
-#include "Main/Unknown/code_0205dc54.h"
 #include "Main/System/heap.h"
-#include "Main/Unknown/unk_0217a000.h"
-#include "Main/Unknown/code_0205d000.h"
-#include "Main/Unknown/code_0214d000.h"
-#include "Main/Unknown/unk_021759c0.h"
+#include "Main/MapObjects/data_0217a000.h"
+#include "Main/Race/data_021759c0.h"
+#include "tp.h"
 #include "code_0214d018.h"
 
 void CreateCupRecords(void *heap) {

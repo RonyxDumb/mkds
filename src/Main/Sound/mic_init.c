@@ -1,10 +1,19 @@
 #include "Main/Sound/mic_init.h"
 
-#include "Main/Unknown/unk_0217d000.h"
+#include "player.h"
+#include "code_0212c7a0.h"
+#include "stream.h"
+#include "code_0212c9d4.h"
+#include "Main/Graphics/layout_rect_table.h"
+#include "Main/Graphics/layout_entry_angle.h"
+#include "Main/Graphics/layout_table_entry.h"
+#include "Main/Race/race_hud_sub_screen_cells.h"
+#include "code_0212d214.h"
+#include "Main/Sound/sound_seq.h"
 #include "Main/Sound/mic_sample_analysis.h"
 #include "mic.h"
 #include "pm.h"
-#include "Main/Unknown/code_0210f090.h"
+#include "Main/Sound/mic_buffer_sleep.h"
 
 u32 gMicInitialized;
 

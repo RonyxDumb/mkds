@@ -22,3 +22,7 @@ void ClearCupPicturePointer(void);
 void LoadCupPictureNclr(void);
 void LoadCupPictureNcgr(void);
 void LoadCupPictureNscr(void);
+
+void InitCupPicture(void);
+
+u32 CupPictureGetCurrentHeap(void);

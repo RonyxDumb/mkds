@@ -1,9 +1,18 @@
 #include "Main/Kart/kart_model_path.h"
 
 #include "code_02134398.h"
-#include "Main/Unknown/unk_02155000.h"
-#include "Main/Unknown/unk_02165000.h"
-#include "Main/Unknown/unk_0217a000.h"
+#include "Main/MapObjects/data_02155000.h"
+#include "Main/MapObjects/data_02165000.h"
+#include "Main/Menu/second_menu_scene.h"
+#include "Main/Scene/display_settings.h"
+#include "code_020182c0.h"
+#include "frameheap.h"
+#include "os_thread.h"
+#include "Main/MapObjects/map_object_park.h"
+#include "pm.h"
+#include "Main/Sound/sound_seq.h"
+#include "Main/Kart/kart_name_tags.h"
+#include "Main/MapObjects/data_0217a000.h"
 
 void SetKartModelPathPrefix(int value) {
     if (value) {

@@ -9,17 +9,11 @@
 #include "01/unk_021a9000.h"
 #include "Main/System/heap.h"
 #include "Main/Save/backup_reset.h"
-#include "Main/Unknown/code_02057000.h"
-#include "Main/Unknown/code_021059e0.h"
-#include "Main/Unknown/code_02125000.h"
+#include "Main/Sound/sound_seq.h"
 #include "Main/Menu/txt_system.h"
-#include "Main/Unknown/code_02125f6c.h"
-#include "Main/Unknown/code_02126000.h"
-#include "Main/Unknown/code_02125f54.h"
 #include "Main/Graphics/layout_rect_table.h"
-#include "Main/Unknown/code_02111488.h"
-#include "Main/Unknown/code_02126230.h"
-#include "Main/Unknown/code_02126248.h"
+#include "Main/Menu/record_vs.h"
+#include "Main/Menu/data_0217d068.h"
 
 OptionTopMenu *gOptionTopMenu;
 

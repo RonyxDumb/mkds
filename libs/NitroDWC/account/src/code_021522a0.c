@@ -1,7 +1,6 @@
 #include "code_021522a0.h"
 #include "dwc_account.h"
 #include "code_02152ac8.h"
-#include "Main/Unknown/code_02152000.h"
 #include "Main/Net/friend_data_player_id.h"
 
 #pragma thumb on

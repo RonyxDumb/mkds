@@ -13,3 +13,5 @@ void DrawRaceGoalSTeamKart(RaceHudOamBuffer *oamBuffer, u32 kartIndex, s32 posit
 void DrawRaceGoalSKarts(RaceHudOamBuffer *oamBuffer);
 void UpdateRaceGoalS(void);
 void WriteRaceGoalSRowTiles(s32 row, s32 style);
+
+void ClearRaceGoalSPointer(void);

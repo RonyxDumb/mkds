@@ -7,3 +7,7 @@ void UpdateRaceStartSequence(void);
 void UpdateRaceStartSequenceSounds(void);
 s32 GetRaceStartSequenceFrames(void);
 s32 IsRaceStartSequenceDone(void);
+
+void ClearRaceStartSequencePointer(void);
+
+void InitRaceStartSequence(void);

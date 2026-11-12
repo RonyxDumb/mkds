@@ -1,5 +1,6 @@
 #include "Main/Menu/choises_s_course.h"
-#include "Main/Unknown/unk_021759c0.h"
+#include "Main/Race/data_021759c0.h"
+#include "tp.h"
 
 u32 GetCourseNumber(void) {
     return (gRaceSetup->mCourseNumber);

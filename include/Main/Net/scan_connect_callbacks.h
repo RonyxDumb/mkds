@@ -1,15 +1,12 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_02008000.h"
-#include "Main/Unknown/code_0200b000.h"
 #include "code_020091fc.h"
-#include "Main/Unknown/unk_0216f000.h"
+#include "os_thread.h"
+#include "mb_data.h"
 #include "code_0200fc8c.h"
 #include "Main/Net/mp_link.h"
-#include "Main/Unknown/code_0200c000.h"
 #include "code_0200c0d8.h"
-#include "Main/Unknown/code_0214d000.h"
 #include "code_02142eac.h"
 
 void QueueStateMessage(void);

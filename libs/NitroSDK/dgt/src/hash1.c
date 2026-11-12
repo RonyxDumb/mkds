@@ -1,6 +1,5 @@
 #include "hash1.h"
 #include "code_0214d018.h"
-#include "Main/Unknown/code_0214d000.h"
 
 void DGT_Hash1Reset(DGTHash1Context *ctx) {
     ctx->mState[0] = 0x67452301;

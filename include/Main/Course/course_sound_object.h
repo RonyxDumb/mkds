@@ -3,7 +3,7 @@
 #include "types.h"
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject
-#include "Main/Unknown/code_0210b000.h" // SoundStartParams
+#include "Main/Sound/data_0210b000.h" // SoundStartParams
 #include "player.h"
 
 // 0x28-byte part at 0xa0 and 0xc8 of CourseSoundObject: the four words at 0x00 go to StartSndHandleSoundUnchecked or
@@ -28,3 +28,5 @@ typedef struct CourseSoundObject {
 } CourseSoundObject;
 
 void UpdateCourseSoundObject(void *mapObjectList, CourseSoundObject *courseSoundObject);
+
+void InitCourseSoundObjects(MapObjectList *mapObjectList);

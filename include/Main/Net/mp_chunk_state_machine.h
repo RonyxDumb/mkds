@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "code_02142eac.h" // Unk021425e8
 
 typedef struct SceneNumbers SceneNumbers;
 
@@ -10,3 +11,5 @@ u32 IsAllMPChunksReceived(u32 slot);
 // Scene function of gSceneFuncs[10] (scene 'Result' in gSceneNames): copies the callbacks and calls
 // RunScene. Returns 0.
 s32 RunResultScene(SceneNumbers *sceneNumbers);
+
+void MPChunkPortCallback(Unk021425e8 *event);

@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "mb_gameinfo.h"
-#include "Main/Unknown/unk_0217a000.h"
+#include "Main/MapObjects/data_0217a000.h"
 
 // Block the callback behind mScanCallback receives from CallScanCallbackWithEntry.
 typedef struct ScanEntryArgs {

@@ -1,6 +1,6 @@
 #include "code_020218f4.h"
 #include "snd_main.h"
-#include "Main/Unknown/unk_02152000.h"
+#include "unk_02152000_data.h"
 
 // Returns the entry of waveArc table at index as an address: values below 0x2000000 are offsets from waveArc, others
 // are addresses already; an empty entry gives 0.

@@ -16,7 +16,6 @@
 #include "00/Lib/GameSpy/code_02198d04.h"
 #include "code_021382a8.h"
 #include "00/Lib/GameSpy/code_0218e2dc.h"
-#include "Main/Unknown/code_02133000.h"
 #include "00/code_02199000.h"
 #include "00/code_02197000.h"
 #include "00/Lib/GameSpy/gt2Socket.h"

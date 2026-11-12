@@ -1,9 +1,7 @@
 #include "Main/Net/participant_index.h"
-#include "Main/Unknown/code_02050000.h"
 #include "Main/Net/scan_slot.h"
-#include "Main/Unknown/code_02056000.h"
 #include "Main/Net/mp_states.h"
-#include "Main/Unknown/unk_0217a000.h"
+#include "Main/MapObjects/data_0217a000.h"
 
 u32 GetParticipantIndex(u32 position) {
     return (gConnectionWork->mParticipantIndices[position]);

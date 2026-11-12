@@ -1,7 +1,8 @@
 #include "g2d_CharCanvas.h"
 #include "code_0214d018.h"
-#include "Main/Unknown/code_0214d000.h"
-#include "Main/Unknown/unk_02153000.h"
+#include "Main/Menu/data_02153000.h"
+#include "code_02022aa8.h"
+#include "Main/Graphics/cell_file_set.h"
 
 u32 OBJSizeToShape(const u8 *pSize) {
     return data_02153118[pSize[1]][pSize[0]];

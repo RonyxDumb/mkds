@@ -16,8 +16,8 @@ typedef struct CourseMapRow {
 } CourseMapRow;
 
 #include "Main/Item/item_link_following.h"
-#include "Main/Unknown/code_020f36d8.h"
-#include "Main/Unknown/code_0210b000.h" // SoundDistanceSquaredChange
+#include "Main/Race/data_020f36d8.h"
+#include "Main/Sound/data_0210b000.h" // SoundDistanceSquaredChange
 
 // Stack object of InitItemKouraWFromData: the two vectors Vec3NormalizeAndGetLengthUnchecked and
 // QuaternionFromYAxisToVec3 write.
@@ -67,7 +67,7 @@ typedef struct ItemKouraW ItemKouraW;
 
 #include "Main/Item/item_object_throw.h"
 
-#include "Main/Unknown/code_020f6be8.h"
+#include "Main/Item/code_020f6be8.h"
 #include "Main/MapObjects/woodbox.h"
 #include "Main/Kart/kart_drift.h"
 

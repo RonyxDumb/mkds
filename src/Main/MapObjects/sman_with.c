@@ -2,7 +2,8 @@
 #include "Main/Race/gp_records_killer.h"
 
 #include "Main/MapObjects/sound_if_kart_star_or.h"
-#include "Main/Unknown/unk_02156000.h"
+#include "Main/MapObjects/data_02156000.h"
+#include "Main/Kart/code_0208fd8c.h"
 
 void InitSman(MapObject *mapObject) {
     mapObject->mFlags = (((mapObject->mFlags)) | ((data_0215645c)));

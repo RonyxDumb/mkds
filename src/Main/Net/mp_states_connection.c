@@ -4,11 +4,8 @@
 #include "Main/System/thread_function_queue.h"
 #include "Main/Net/disconnect.h"
 #include "Main/Net/scan.h"
-#include "Main/Unknown/code_02046000.h"
-#include "Main/Unknown/code_02056000.h"
-#include "Main/Unknown/code_02057000.h"
-#include "Main/Unknown/code_0211d4a8.h"
-#include "Main/Unknown/unk_0217a000.h"
+#include "Main/Menu/select_race_rule_state.h"
+#include "Main/MapObjects/data_0217a000.h"
 #include "os_tick.h"
 
 #pragma opt_rebuildconditionals off

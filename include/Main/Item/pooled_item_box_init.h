@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_02067cb0.h" // MapObject
+#include "Main/Kart/kart_participant_record.h" // MapObject
 #include "Main/MapObjects/map_object_kind_update_list.h" // MapObjectKindDescriptor
 
 typedef struct ItemBox ItemBox;

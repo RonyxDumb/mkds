@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "Main/MapObjects/teresa.h"
-#include "Main/Unknown/code_020e005c.h"
+#include "Main/MapObjects/code_020e005c.h"
 #include "Main/MapObjects/attractor.h"
 
 typedef struct ItemObject ItemObject;

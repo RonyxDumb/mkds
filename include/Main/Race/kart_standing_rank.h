@@ -1,9 +1,9 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020f36d8.h"
+#include "Main/Race/data_020f36d8.h"
 #include "Main/Race/race_end_condition.h"
-#include "Main/Unknown/code_0207a7fc.h"
+#include "Main/Kart/karts.h"
 
 
 // Steps the clock, sends the net finish requests, handles the mode 2 / 4 end and sets mRaceDone.

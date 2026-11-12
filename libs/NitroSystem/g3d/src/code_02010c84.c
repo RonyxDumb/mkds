@@ -1,9 +1,8 @@
 #include "code_02010c84.h"
 
 #include "fx_mtx43.h"
-#include "Main/Unknown/code_0214d000.h"
-#include "Main/Unknown/unk_02161000.h"
-#include "Main/Unknown/unk_02170000.h"
+#include "Main/Kart/data_02161000.h"
+#include "data_02170000.h"
 #include "00/Lib/DWC/code_02188720.h"
 #include "code_02012b30.h"
 #include "fx_mtx33.h"
@@ -13,9 +12,7 @@
 #include "code_0214a748.h"
 #include "ITCM/code_01ff8000.h"
 #include "ITCM/code_01ff9000.h"
-#include "Main/Unknown/code_02146000.h"
-#include "Main/Unknown/code_02147000.h"
-#include "Main/Unknown/unk_02171000.h"
+#include "ITCM/data_02171000.h"
 #include "registers.h"
 #include "fx_mtx44.h"
 

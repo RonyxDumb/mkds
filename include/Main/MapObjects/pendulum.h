@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "code_02013bdc.h"
-#include "Main/Unknown/code_020d6dc0.h" // Quaternion
+#include "Main/MapObjects/code_020d6dc0.h" // Quaternion
 #include "Main/MapObjects/attractor.h" // MapObject
 #include "Main/MapObjects/send_obj_shadow.h"
 #include "Main/MapObjects/ob_pakkun_sf.h"

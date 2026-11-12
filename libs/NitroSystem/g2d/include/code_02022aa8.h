@@ -86,3 +86,6 @@ u32 NNSi_G2dCalcRequiredOBJ(u32 areaWidth, u32 areaHeight);
 void NNS_G2dMapScrToChar256x16Pltt(u16 *areaBase, s32 areaWidth, s32 areaHeight, s32 scnWidth, s32 charNo, u32 cplt);
 void NNS_G2dMapScrToCharText(u16 *scnBase, s32 areaWidth, s32 areaHeight, s32 areaLeft, s32 areaTop, s32 scnWidth,
                              s32 charNo, u32 cplt);
+
+s32 NNS_G2dArrangeOBJ1D(void *oam, s32 areaWidth, s32 areaHeight, s32 originX, s32 originY, s32 color, s32 charName,
+                        s32 vramMode);

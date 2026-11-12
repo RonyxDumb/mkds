@@ -1,14 +1,11 @@
 #include "Main/Kart/kart_spin_follow_effect_release.h"
-#include "Main/Unknown/code_02081120.h"
 #include "Main/Kart/kart_drift.h"
 #include "Main/Kart/kart_effects.h"
-#include "Main/Unknown/code_02083000.h"
-#include "Main/Unknown/code_0208b000.h"
-#include "Main/Unknown/unk_02155000.h"
-#include "Main/Unknown/code_020f36d8.h"
+#include "Main/MapObjects/data_02155000.h"
+#include "Main/Race/data_020f36d8.h"
 #include "Main/Kart/karts.h"
 #include "Main/Graphics/effects.h"
-#include "Main/Unknown/unk_0217a000.h"
+#include "Main/MapObjects/data_0217a000.h"
 
 void StartKartSpinSideEffects(s32 kartIndex) {
     Kart *kart = GetKart(kartIndex);

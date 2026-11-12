@@ -1,7 +1,11 @@
 #include "Main/Net/connect_non_multiboot.h"
-#include "Main/Unknown/code_02000000.h"
+#include "code_0200007e.h"
 #include "Main/Net/multiboot_parent_finish.h"
-#include "Main/Unknown/code_0204e000.h"
+#include "Main/Net/multiboot_connect.h"
+#include "Main/Net/packet_port.h"
+#include "Main/MapObjects/data_0217a000.h"
+#include "Main/Net/block.h"
+#include "Main/Net/scan_ghost_info.h"
 #include "Main/Net/scan_slot.h"
 #include "Main/Net/disconnect.h"
 #include "Main/Net/scan.h"
@@ -9,8 +13,7 @@
 #include "Main/Net/non_multiboot_own_index.h"
 #include "Main/Net/participant_bits.h"
 #include "Main/Net/mp_chunk_state_machine.h"
-#include "Main/Unknown/code_0211d4a8.h"
-#include "Main/Unknown/unk_0217a000.h"
+#include "Main/Menu/select_race_rule_state.h"
 
 static inline u32 ConnectGetConnectionMode(void) {
     if (gConnectionWork == NULL) {

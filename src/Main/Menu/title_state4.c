@@ -1,13 +1,11 @@
 #include "Main/Menu/title_state4.h"
 
-#include "Main/Unknown/code_020acacc.h"
-#include "Main/Unknown/code_020acff4.h"
+#include "Main/Menu/title_table_draw.h"
 #include "Main/Menu/title_state0.h"
 #include "Main/Menu/title_state_set.h"
 #include "Main/Menu/title_state_frames.h"
 #include "Main/Graphics/oam.h"
-#include "Main/Unknown/unk_0217b000.h"
-#include "Main/Unknown/code_020acb00.h"
+#include "Main/MapObjects/data_0217b000.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 
 #pragma thumb on

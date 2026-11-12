@@ -2,17 +2,12 @@
 
 #include "types.h"
 #include "Main/System/thread_function_queue.h"
-#include "Main/Unknown/code_02036bec.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/Graphics/font_glyph_text.h"
 #include "Main/Graphics/oam.h"
-#include "Main/Unknown/code_020ae4c0.h"
 #include "Main/Graphics/locate_bmg_sections.h"
-#include "Main/Unknown/code_02125f88.h"
-#include "Main/Unknown/code_02128210.h"
-#include "Main/Unknown/unk_0217d068.h"
-#include "Main/Unknown/unk_02175628.h"
-#include "Main/Unknown/code_0212426c.h"
+#include "Main/Menu/select_return.h"
+#include "player.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "code_0212df7c.h"
 #include "Main/Save/buddy_record.h"
@@ -97,7 +92,7 @@ typedef struct BackupAccess {
 
 extern u16 gRecordTAttCharacterKartCellIndices[][2];
 
-#include "Main/Unknown/code_021172a8.h"
+#include "Main/Menu/kart_icon.h"
 #include "Main/Menu/record_scene.h"
 
 #include "code_021458c4.h"

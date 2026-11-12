@@ -1,10 +1,9 @@
 #include "Main/Net/mp_state_machine.h"
 #include "Main/Menu/second_menu_scene.h"
-#include "Main/Unknown/code_02046000.h"
 #include "Main/Net/disconnect.h"
 #include "Main/Net/mp.h"
-#include "Main/Unknown/code_0211d4a8.h"
-#include "Main/Unknown/unk_0217a000.h"
+#include "Main/Menu/select_race_rule_state.h"
+#include "Main/MapObjects/data_0217a000.h"
 
 #pragma opt_rebuildconditionals off
 

@@ -1,8 +1,7 @@
 #include "Main/Net/scan_game_info.h"
 #include "code_0200eddc.h"
 #include "code_0214d018.h"
-#include "Main/Unknown/code_0200e000.h"
-#include "Main/Unknown/code_0214d000.h"
+#include "os_thread.h"
 
 s32 IsScanBlockGameInfoMatch(WMBssDesc *bssDesc) {
     // volatile only so that userGameInfo[0] is read again for the second compare

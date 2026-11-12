@@ -1,5 +1,5 @@
 #include "Main/Net/participant_mask.h"
-#include "Main/Unknown/unk_0217a000.h"
+#include "Main/MapObjects/data_0217a000.h"
 
 BOOL IsInParticipantMask(s32 bitIndex) {
     BOOL isSet;

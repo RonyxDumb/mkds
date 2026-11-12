@@ -1,8 +1,7 @@
 #include "Main/Graphics/font_and_player_character.h"
-#include "Main/Unknown/code_020b4048.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/System/archive_slot_loaded.h"
-#include "Main/Unknown/unk_0217b000.h"
+#include "Main/MapObjects/data_0217b000.h"
 
 #pragma thumb on
 #pragma optimize_for_size on

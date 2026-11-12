@@ -18,3 +18,6 @@ u16 GetCRC16(void);
 void Halt(void);
 void CpuFastSet(void);
 void IntrWait(void);
+
+void CpuSet(const void *src, void *dst, u32 ctrl);
+void VBlankIntrWait(void);

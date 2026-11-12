@@ -1,7 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/unk_021759c0.h" // MinuteSecondMillisecondTime
+#include "Main/Race/data_021759c0.h" // MinuteSecondMillisecondTime
+#include "tp.h"
 
 typedef struct GhostInfoFileSets GhostInfoFileSets;
 typedef struct GhostRecord GhostRecord;
@@ -18,3 +19,7 @@ void WriteGhostSceneRegisters(void);
 void ReleaseGhostScene(void);
 void AdvanceGhostScene(s32 sceneNumbers);
 void InitGhostScene(void *heap);
+
+void LoadGhostSceneFiles(void);
+
+u32 GhostSceneGetCupCourseIdAtIndex(s32 cupCourseIndex);

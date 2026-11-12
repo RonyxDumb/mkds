@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/types_02180728.h"
+#include "Main/Menu/data_02180728.h"
 
 // Object behind gWLMenuMessage, 0x654 bytes: the halfwords from 0x34 are 32 per row.
 typedef struct WLMenuMessage {

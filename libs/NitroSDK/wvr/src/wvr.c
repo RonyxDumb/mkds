@@ -1,11 +1,12 @@
 #include "wvr.h"
 #include "os_spinLock.h"
 #include "code_0200fc8c.h"
-#include "Main/Unknown/unk_02173000.h"
+#include "data_02173000.h"
+#include "gfd_LinkedListPlttVramMan.h"
+#include "mic.h"
+#include "gfd_LinkedListTexVramMan.h"
 #include "code_0214d5b8.h"
 #include "code_0200fe74.h"
-#include "Main/Unknown/code_0200f000.h"
-#include "Main/Unknown/code_0200c000.h"
 
 s32 WVR_StartUpAsync(u32 vram, void (*callback)(u32, s32), u32 arg) {
     u32 enabled;

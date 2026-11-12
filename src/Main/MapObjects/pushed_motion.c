@@ -1,9 +1,8 @@
 #include "Main/MapObjects/pushed_motion.h"
-#include "Main/Unknown/code_020d6dc0.h"
-#include "Main/Unknown/code_020f36d8.h"
+#include "Main/MapObjects/code_020d6dc0.h"
+#include "Main/Race/data_020f36d8.h"
 #include "Main/Kart/kart_drift.h"
 
-#include "Main/Unknown/code_020d6000.h"
 #include "code_02147cd8.h"
 
 const Vec3 data_02159588 = {0x1000, 0, 0};

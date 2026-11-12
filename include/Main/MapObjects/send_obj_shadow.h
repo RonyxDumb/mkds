@@ -23,3 +23,5 @@ void DrawObjShadow(ShadowMatrix *shadow, void *wordPointer, u32 unused, u32 alph
 void DrawObjShadowAfterMaterial(ShadowMatrix *shadow, void *wordPointer, u32 unused, u32 alpha);
 s32 RefreshShadowMatrix(ShadowMatrix *shadowCopy, Vec3 *position, s32 scale, u32 alphaCap);
 void CreateObjShadowAndJgShadow(void);
+
+void SendObjShadowMaterial(void);

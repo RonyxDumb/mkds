@@ -1,14 +1,22 @@
 #include "Main/Sound/seq_row.h"
 #include "Main/Race/results_team.h"
 
-#include "Main/Unknown/code_02111158.h"
-#include "Main/Unknown/unk_0216c000.h"
-#include "Main/Unknown/unk_021759c0.h"
-#include "Main/Unknown/unk_0217d000.h"
+#include "Main/Sound/data_0216c000.h"
+#include "Main/Menu/second_menu_scene.h"
+#include "Main/Race/data_021759c0.h"
+#include "tp.h"
+#include "Main/Menu/data_0217d000.h"
+#include "player.h"
+#include "code_0212c7a0.h"
+#include "stream.h"
+#include "code_0212c9d4.h"
+#include "Main/Graphics/layout_rect_table.h"
+#include "Main/Graphics/layout_entry_angle.h"
+#include "Main/Graphics/layout_table_entry.h"
+#include "Main/Race/race_hud_sub_screen_cells.h"
 #include "code_0212d214.h"
+#include "Main/Sound/sound_seq.h"
 #include "code_0212df7c.h"
-#include "Main/Unknown/code_0211127c.h"
-#include "Main/Unknown/code_021112fc.h"
 
 void SetEntryKartFinishResult(u32 finishResult) {
     u32 copy = finishResult;

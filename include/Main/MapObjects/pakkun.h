@@ -2,8 +2,8 @@
 
 #include "types.h"
 #include "Main/MapObjects/pakkun_spit.h"
-#include "Main/Unknown/code_0209bc74.h" // MapObjectModel
-#include "Main/Unknown/code_020e005c.h" // GroupFollower
+#include "01/MapObjects/data_0209bc74.h" // MapObjectModel
+#include "Main/MapObjects/code_020e005c.h" // GroupFollower
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject, MapObjectList
 

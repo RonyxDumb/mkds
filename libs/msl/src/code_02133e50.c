@@ -5,9 +5,12 @@
 #include "code_02134890.h"
 #include "code_02139e20.h"
 #include "code_0200e77c.h"
-#include "Main/Unknown/code_02142000.h"
-#include "Main/Unknown/unk_0216f000.h"
-#include "Main/Unknown/unk_0217e000.h"
+#include "Main/Net/data_0216f000.h"
+#include "os_thread.h"
+#include "mb_data.h"
+#include "Main/Net/data_0217e000.h"
+#include "stream.h"
+#include "code_0212d214.h"
 
 void abort(void) {
     raise(1);

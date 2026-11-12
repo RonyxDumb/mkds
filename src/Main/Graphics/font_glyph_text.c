@@ -2,11 +2,12 @@
 #include "Main/Save/buddy_record_time.h"
 #include "Main/Graphics/font_glyph.h"
 #include "Main/Graphics/font_glyph_index.h"
-#include "Main/Unknown/code_0205f000.h"
 #include "Main/Graphics/font_and_player_character.h"
-#include "Main/Unknown/unk_02156000.h"
-#include "Main/Unknown/unk_021759c0.h"
-#include "Main/Unknown/unk_0217b000.h"
+#include "Main/MapObjects/data_02156000.h"
+#include "Main/Kart/code_0208fd8c.h"
+#include "Main/Race/data_021759c0.h"
+#include "tp.h"
+#include "Main/MapObjects/data_0217b000.h"
 #include "code_02022aa8.h"
 
 #pragma optimize_for_size on

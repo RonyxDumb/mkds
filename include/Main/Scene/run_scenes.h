@@ -11,3 +11,10 @@ void RunScenesForever(void);
 // group down. Reloads overlay 3 for gStartupWork.mUnk_20 == 4.
 s32 RunScenes(s16 *sceneNumber);
 void RunDWCUtility(void);
+
+u32 GetNextSceneNumber(void);
+int GetCurrentSceneNumber(void);
+void InitRunScenesKind(void);
+void CreateRunScenesState(void *heap);
+s32 UpdateShapeMapObjectCounts(void);
+void ClearShapeMapObjectCountListPointer(void);

@@ -1,0 +1,236 @@
+#pragma once
+#include "types.h"
+#include "Main/Kart/code_0208fd8c.h" // KartAiItemUseEntry
+
+// Objects whose layout isn't known yet.
+extern u8 gMenuDisplaySettingsDesc[];
+
+extern u8 gSmanHitFlag[];
+
+extern u16 data_0215645c;
+
+extern u16 data_021564c0;
+
+extern u16 data_usa_02156460;
+
+extern u16 data_usa_02156464;
+
+extern u16 data_usa_02156468;
+
+extern u16 data_usa_0215659c;
+
+extern u32 data_021564b8;
+
+extern u32 data_021564bc;
+
+extern u16 data_02156598;
+
+extern u16 data_021565e4;
+
+extern u32 gShineBattleTimeLimits[];
+
+extern u16 data_021568e8;
+
+extern const u16 data_021568b4;
+
+extern const u16 data_021568b8;
+
+extern const u16 data_021568bc;
+
+extern const u16 data_021568c0;
+
+extern const u16 data_021568c4;
+
+extern const u16 data_021568c8;
+
+extern const u16 data_021568cc;
+
+extern const u16 data_021568d0;
+
+extern const u16 data_021568d4;
+
+extern const u16 data_021568d8;
+
+extern const u16 data_021568dc;
+
+extern const u16 data_021568e0;
+
+extern const u16 data_021568e4;
+
+extern u16 data_021568ec;
+
+extern u32 data_021568f0;
+
+extern u32 data_021568f4;
+
+extern u32 data_usa_021568f8;
+
+extern u16 data_021568fc;
+
+extern u16 data_02156900;
+
+extern const u32 data_02156904;
+
+extern const u32 data_02156908;
+
+extern const u32 data_0215690c;
+
+extern const u32 data_02156910;
+
+extern u16 data_02156914;
+
+extern u16 data_02156918;
+
+extern u16 data_0215691c;
+
+extern s16 data_02156920[4];
+
+extern s16 data_02156928[4];
+
+extern s16 data_02156930[4];
+
+extern s16 data_02156938[4];
+
+extern s16 data_02156940[4];
+
+extern s16 data_02156948[4];
+
+extern s32 data_02156950[4];
+
+extern s32 data_02156960[4];
+
+extern Vec3 data_021569d8;
+
+extern Vec3 data_021569e4;
+
+extern Vec3 data_021569f0;
+
+extern struct MapObjectList data_021569fc;
+
+extern struct RockDrawList data_02156a24;
+
+extern struct RockDrawList data_02156a80;
+
+extern struct MapObjectKindData data_02156adc;
+
+extern u16 data_021567a0;
+
+extern u16 gShine16ShadowAngles[];
+
+extern u16 data_021567ac;
+
+extern const u16 data_02156794;
+
+extern const u16 data_02156798;
+
+extern const u16 data_0215679c;
+
+extern u16 data_021567ec;
+
+extern u16 data_021567f0;
+
+extern u16 data_021567f4;
+
+extern u16 data_021567f8;
+
+extern s32 gCharacterBalloonOrShineHeights[];
+
+extern s16 data_02156640[];
+
+extern s16 data_02156654[];
+
+extern s16 data_02156668[];
+
+extern s16 data_0215667c[];
+
+extern s16 data_02156690[];
+
+extern s16 data_021566a4[];
+
+extern s32 data_021566b8[];
+
+extern s32 data_021566dc[];
+
+extern const u16 data_02156700[4][4];
+
+extern const s32 data_02156720[4][4];
+
+extern u16 data_02156838;
+
+extern u16 data_0215683c;
+
+extern u16 data_021567e4;
+
+extern u16 data_021567e8;
+
+// 8-byte entries of the table at data_02156808.
+typedef struct KeyboardCursorTargets {
+    /* 00 */ u16 mUpFromRect1;
+    /* 02 */ u16 mDownFromRect1;
+    /* 04 */ u16 mUpFromRect2;
+    /* 06 */ u16 mDownFromRect2;
+} KeyboardCursorTargets;
+
+extern KeyboardCursorTargets data_02156808[];
+
+extern u16 gKeyboardLayoutRectCounts[6];
+
+extern const s16 gFrameOffsets[6];
+
+extern const u16 data_02156840[20];
+
+extern u16 data_usa_0215646c;
+
+extern u32 data_usa_02156470;
+
+extern u16 data_usa_021565d8;
+
+extern u16 data_usa_021565dc;
+
+extern u32 data_usa_021565e0;
+
+extern u32 data_usa_021565e8;
+
+extern u16 data_usa_021565ec;
+
+extern u16 data_021564a8;
+
+extern u16 data_021564ac;
+
+extern u32 data_021564b0;
+
+extern u16 data_021564b4;
+
+extern KartAiItemUseEntry gBattleEasyItemInUseEntries[];
+
+extern KartAiItemUseEntry gBattleHardItemInUseEntries[];
+
+extern KartAiItemUseEntry gBattleNormalItemInUseEntries[];
+
+extern KartAiItemUseEntry gBattleEasyHeldItemEntries[];
+
+extern KartAiItemUseEntry gBattleNormalHeldItemEntries[];
+
+extern KartAiItemUseEntry gBattleHardHeldItemEntries[];
+
+extern Vec3 data_usa_021564c4[];
+
+extern Vec3 data_usa_021564dc[];
+
+extern Vec3 data_usa_021564f4[];
+
+extern Vec3 data_usa_0215650c[];
+
+extern Vec3 data_usa_02156524[];
+
+extern Vec3 data_usa_0215653c[];
+
+extern Vec3 data_usa_02156554[];
+
+extern Vec3 data_usa_0215656c[];
+
+extern const u16 data_usa_02156584;
+
+extern u32 data_usa_02156588;
+
+extern u16 data_usa_0215658c;

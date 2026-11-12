@@ -32,3 +32,8 @@ typedef struct DWCWiFiInfo DWCWiFiInfo;
 
 void DWCi_BM_GetWiFiInfo(DWCWiFiInfo *info);
 BOOL DWCi_BM_SetWiFiInfo(const DWCWiFiInfo *info, u8 *work);
+
+u32 WriteNvramEntriesWithCrc16(u8 *data);
+u32 WriteFlaggedNvramEntries(int data, int *flags, void *verifyBuffer);
+u32 ReadNvramEntries(void *buffer);
+u32 ReadNvramEntriesOffset(u16 *buffer);

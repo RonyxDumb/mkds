@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/unk_0217b000.h"
+#include "Main/MapObjects/data_0217b000.h"
 
 // One point of a strip: its height, the frames since it was added and its position (the position shifted right by 4).
 typedef struct PosStripPoint {
@@ -27,7 +27,6 @@ typedef struct PosStrip {
 
 typedef struct PosStripPoint PosStripPoint;
 typedef struct PosStrip PosStrip;
-
 
 #include "code_02012b30.h" // MtxFx43
 
@@ -61,3 +60,7 @@ void ThrowItemRandomAfterInUseOrAtNearTarget(KartAiItemUse *itemUse, struct Kart
 void ThrowItemAtNearTarget(KartAiItemUse *itemUse, struct KartAi *kartAi);
 void ThrowItemByCircleKind(KartAiItemUse *itemUse, struct KartAi *kartAi);
 unsigned int BattleItemInUseReturnArgument(unsigned int value);
+
+void SetItemBitsEveryCall(KartAiItemUse *itemUse);
+
+void HardSetItemBitsEveryCall(KartAiItemUse *itemUse);

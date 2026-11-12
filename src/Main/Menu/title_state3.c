@@ -1,11 +1,11 @@
 #include "Main/Menu/title_state3.h"
 #include "Main/Menu/title_state2.h"
-#include "Main/Unknown/code_020acff4.h"
+#include "Main/Menu/title_table_draw.h"
 #include "Main/Menu/title_state_set.h"
 #include "Main/Menu/title_state_frames.h"
 #include "Main/Graphics/oam.h"
 #include "Main/Graphics/layout_entry_angle.h"
-#include "Main/Unknown/unk_0217b000.h"
+#include "Main/MapObjects/data_0217b000.h"
 
 u32 HasPlayerName(void) {
     return gBackupBuffers->mFirstBlock->mHasPlayerName != 0;

@@ -10,3 +10,13 @@ void ResetPaletteBlendCycle(void);
 void AdvancePaletteBlend(void);
 void BlendPaletteColors(s32 weight);
 void ClearPaletteBlendPointer(void);
+
+void AdvanceStaffRollTextState1(void);
+void AdvanceStaffRollText(void);
+void SetStaffRollScrollAndDrainQueue(void);
+
+void ClearStaffRollTextPointer(void);
+
+typedef struct Nclr Nclr;
+
+void InitPaletteBlend(void *heap, Nclr *nclr, u32 paletteIndex);

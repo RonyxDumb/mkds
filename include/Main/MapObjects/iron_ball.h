@@ -3,7 +3,7 @@
 #include "types.h"
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h"
-#include "Main/Unknown/code_020e005c.h"
+#include "Main/MapObjects/code_020e005c.h"
 #include "Main/MapObjects/send_obj_shadow.h"
 
 // Object of kinds 0x1b0 and 0x1b3 (IronBall; kind 0x1b3 has only Init and Draw, no update or collision group), 0x134

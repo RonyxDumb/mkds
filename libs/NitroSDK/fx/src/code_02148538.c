@@ -1,6 +1,6 @@
 #include "code_02148538.h"
 #include "code_02147cd8.h"
-#include "Main/Unknown/unk_02161000.h"
+#include "Main/Kart/data_02161000.h"
 
 // Angle of the point (x, y) as a 16-bit angle index, using the arctangent table. Returns 0 when both are 0.
 u16 FX_Atan2Idx(s32 y, s32 x) {

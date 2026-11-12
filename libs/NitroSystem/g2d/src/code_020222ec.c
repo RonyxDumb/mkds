@@ -3,7 +3,9 @@
 #include "code_0214cfe4.h"
 #include "g2d_CellTransferManager.h"
 #include "g2d_Animation.h"
-#include "Main/Unknown/unk_02153000.h"
+#include "Main/Menu/data_02153000.h"
+#include "code_02022aa8.h"
+#include "Main/Graphics/cell_file_set.h"
 
 static inline u32 NNSi_G2dIsCellAnimVramTransferHandleValid(const Unk02022030 *pCellAnim) {
     return pCellAnim->mCellTransferStateHandle != -1;

@@ -5,14 +5,12 @@
 #include "00/Menu/wi_fi_vs_matching.h"
 #include "code_02148950.h"
 #include "code_021458c4.h"
-#include "Main/Unknown/code_02037000.h"
 #include "Main/Save/backup_first_block_write_wrapper.h"
 #include "Main/System/thread_function_queue.h"
-#include "Main/Unknown/unk_0217a000.h"
+#include "Main/MapObjects/data_0217a000.h"
 #include "registers.h"
 #include "code_0200e77c.h"
 #include "01/Menu/record_time_attack.h"
-#include "Main/Unknown/code_02036bec.h"
 #include "Main/System/heap.h"
 
 void InitWiFiConnectionLost(void *heap) {

@@ -49,3 +49,11 @@ typedef struct MenuScene {
 } MenuScene;
 
 void UpdateSinglePlaySelectMenuScreen3(void);
+
+void WriteSinglePlaySelect3Registers(void);
+
+void UpdateSinglePlaySelectMenuScreen2(void);
+
+void WriteSinglePlaySelect2Registers(void);
+
+void UpdateSinglePlaySelectInput(s32 inputEnabled);

@@ -2,9 +2,8 @@
 #include "registers.h"
 #include "code_0200c914.h"
 #include "code_0200f328.h"
-#include "Main/Unknown/unk_02170000.h"
+#include "data_02170000.h"
 #include "code_0200e77c.h"
-#include "Main/Unknown/code_0200f000.h"
 
 asm void OSi_GetAndDisplayContext(u32 exinfo) {
     stmfd sp!, {lr}

@@ -1,5 +1,6 @@
 #include "Main/Race/race_hud_sub_screen_bg3.h"
-#include "Main/Unknown/unk_021759c0.h"
+#include "Main/Race/data_021759c0.h"
+#include "tp.h"
 
 void GetRaceHudSubScreenBg3MinMax(UnkPair020b502c *outMin, UnkPair020b502c *outMax) {
     int courseId;

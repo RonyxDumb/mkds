@@ -1,10 +1,9 @@
 #include "Main/Net/multiboot_registry.h"
 #include "code_02007ec4.h"
-#include "Main/Unknown/code_02008000.h"
 #include "code_02008880.h"
 #include "Main/Graphics/locate_bmg_sections.h"
-#include "Main/Unknown/unk_02154000.h"
-#include "Main/Unknown/unk_0217a000.h"
+#include "Main/MapObjects/data_02154000.h"
+#include "Main/MapObjects/data_0217a000.h"
 #include "mb_fileinfo.h"
 
 #pragma thumb on

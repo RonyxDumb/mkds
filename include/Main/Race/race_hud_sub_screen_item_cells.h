@@ -1,26 +1,7 @@
 #pragma once
 
 #include "types.h"
-
-typedef struct RaceHudOamBuffer RaceHudOamBuffer;
-
-typedef struct RaceHudOamBuffer RaceHudOamBuffer;
-
-typedef struct RaceHudOamBuffer RaceHudOamBuffer;
-
-typedef struct RaceHudOamBuffer RaceHudOamBuffer;
-
-typedef struct RaceHudOamBuffer RaceHudOamBuffer;
-
-typedef struct RaceHudOamBuffer RaceHudOamBuffer;
-
-typedef struct RaceHudOamBuffer RaceHudOamBuffer;
-
-typedef struct RaceHudOamBuffer RaceHudOamBuffer;
-
-typedef struct RaceHudOamBuffer RaceHudOamBuffer;
-
-typedef struct RaceHudOamBuffer RaceHudOamBuffer;
+#include "Main/Race/race_hud_sub_screen_cells.h" // RaceHudSubScreenCellGroupFunctions
 
 typedef struct RaceHudOamBuffer RaceHudOamBuffer;
 
@@ -75,3 +56,5 @@ void ClearRaceHudSubScreenItemCells(void);
 s32 CreateRaceHudSubScreenItemCells(void);
 void DrawRaceHudSubScreenCrabCells(RaceHudOamBuffer *oamBuffer);
 void UpdateRaceHudSubScreenCrabCells(void);
+
+extern s32 gRaceHudSubScreenItemPoolIndices[10];

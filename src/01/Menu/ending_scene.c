@@ -7,9 +7,8 @@
 #include "Main/System/heap.h"
 #include "Main/Scene/display_settings.h"
 #include "Main/Graphics/oam_upload.h"
-#include "Main/Unknown/code_02105000.h"
-#include "Main/Unknown/code_02037000.h"
-#include "Main/Unknown/unk_021759c0.h"
+#include "Main/Race/data_021759c0.h"
+#include "tp.h"
 
 EndingScene *gEndingScene;
 

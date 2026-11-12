@@ -2,15 +2,22 @@
 
 #include "code_0200fc8c.h"
 #include "code_020172d0.h"
-#include "Main/Unknown/unk_0217d000.h"
+#include "Main/Menu/data_0217d000.h"
+#include "player.h"
+#include "code_0212c7a0.h"
+#include "stream.h"
+#include "code_0212c9d4.h"
+#include "Main/Graphics/layout_rect_table.h"
+#include "Main/Graphics/layout_entry_angle.h"
+#include "Main/Graphics/layout_table_entry.h"
+#include "Main/Race/race_hud_sub_screen_cells.h"
+#include "code_0212d214.h"
+#include "Main/Sound/sound_seq.h"
 #include "code_02003be0.h"
 #include "code_0200e77c.h"
 #include "code_0212f788.h"
-#include "stream.h"
-#include "Main/Unknown/code_0200f000.h"
-#include "Main/Unknown/code_02017000.h"
-#include "Main/Unknown/unk_0217e000.h"
-#include "Main/Unknown/unk_02152000.h"
+#include "Main/Net/data_0217e000.h"
+#include "unk_02152000_data.h"
 
 // Steps the four stream players: start, volume and fade-out.
 void NNSi_SndArcStrmMain(void) {

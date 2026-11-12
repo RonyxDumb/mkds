@@ -20,7 +20,7 @@
 #include "code_0214d018.h"
 #include "00/Lib/NitroWiFi/code_021a666c.h"
 #include "00/Lib/NitroWiFi/code_021a6d1c.h"
-#include "Main/Unknown/code_0200e000.h"
+#include "os_thread.h"
 #include "os_tick.h"
 #include "code_0200f790.h"
 #include "00/unk_021b0000.h"

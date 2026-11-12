@@ -1,6 +1,6 @@
 #include "Main/Menu/title_pair_new.h"
 #include "Main/Menu/title_input.h"
-#include "Main/Unknown/unk_02175628.h"
+#include "Main/Menu/data_02175628.h"
 
 #pragma optimize_for_size on
 

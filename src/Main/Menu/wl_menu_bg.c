@@ -1,8 +1,12 @@
 #include "Main/Menu/wl_menu_bg.h"
-#include "Main/Unknown/code_02038000.h"
 #include "Main/Scene/display_settings.h"
-#include "Main/Unknown/unk_02175000.h"
-#include "Main/Unknown/code_0214d000.h"
+#include "Main/Menu/data_02175000.h"
+#include "code_020182c0.h"
+#include "frameheap.h"
+#include "os_thread.h"
+#include "Main/MapObjects/map_object_park.h"
+#include "pm.h"
+#include "Main/Sound/sound_seq.h"
 #include "code_0214d018.h"
 
 void WLMenuMI_CpuFillFast(void *dest, u32 fillValue, u32 size) {

@@ -21,7 +21,6 @@
 #include "00/unk_021b4000.h"
 #include "os_printf.h"
 #include "code_02139f70.h"
-#include "Main/Unknown/code_02152000.h"
 #include "dwc_account.h"
 #include "code_021522a0.h"
 #include "Main/Net/friend_data_from_profile.h"

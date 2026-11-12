@@ -1,7 +1,8 @@
 #include "g2d_CharCanvas.h"
 #include "code_0214d018.h"
-#include "Main/Unknown/code_0214d000.h"
-#include "Main/Unknown/unk_02153000.h"
+#include "Main/Menu/data_02153000.h"
+#include "code_02022aa8.h"
+#include "Main/Graphics/cell_file_set.h"
 
 void NNSi_G2dTextCanvasDrawString(TextCanvas *pTxn, s32 drawX, s32 drawY, u32 cl, u16 *str, u16 **pPos) {
     s32 hSpace;

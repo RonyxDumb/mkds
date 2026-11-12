@@ -29,3 +29,27 @@ u32 IsPlayerEntryListTimerZero(void);
 void LoadPlayerEntryListFiles(void);
 void WritePlayerEntryListRegisters(void);
 void ReleasePlayerEntryList(void);
+
+void AdvancePlayerEntryList(void);
+
+void SetupPlayerEntryList(s32 mode, s32 screenKind);
+
+void InitPlayerEntryList(void *parentHeap, void *mainOam);
+
+void PrintEntryName(s32 entryIndex, u16 *name);
+
+void SetExtraEntryNames(void);
+
+void AdvancePlayerEntryListOffsets(void);
+
+void SetEntryTargetOuterSlot(s32 entryIndex);
+
+void SetEntryTargetInnerSlot(s32 entryIndex);
+
+void AdvanceEntrySlots(void);
+
+void ResetEntrySlots(void);
+
+void SetEntryTargetSlot(s32 entryIndex, s32 slot);
+
+void SetEntrySlot(s32 entryIndex, s32 slot);

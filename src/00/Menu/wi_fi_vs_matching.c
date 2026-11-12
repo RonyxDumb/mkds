@@ -4,11 +4,12 @@
 #include "registers.h"
 #include "Main/System/heap.h"
 #include "Main/Graphics/oam.h"
-#include "Main/Unknown/code_02125f6c.h"
-#include "Main/Unknown/code_0210895c.h"
-#include "Main/Unknown/code_02029890.h"
+#include "Main/Menu/txt_system.h"
+#include "Main/Sound/sound_seq.h"
+#include "Main/Race/race_setup.h"
 #include "00/unk_021b4000.h"
 #include "00/code_02180608.h"
+#include "Main/Menu/data_0217d068.h"
 
 void InitWiFiVSMatchingLabels(void) {
     s32 subObjSizeLeft;

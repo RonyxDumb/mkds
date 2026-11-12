@@ -16,7 +16,7 @@ typedef struct {
     /* 1c */ u32 mUnk_1c;
 } OrthoQuadModel;
 
-#include "Main/Unknown/code_021035ac.h"
+#include "Main/Item/code_021035ac.h"
 
 // The cream record; gOrthoQuadUseCreamEffect picks which of the two records is drawn.
 extern OrthoQuadModel gOrthoQuadCreamEffect;
@@ -41,3 +41,7 @@ void AdvanceOrthoQuadCornersByTable(OrthoQuad *quad);
 void AdvanceOrthoQuadCornersByVelocity(OrthoQuad *quad);
 void InitBouncingItemBoxTimers(void);
 void InitBouncingItemBoxMapObjects(void);
+
+OrthoQuadModel *ClearOrthoQuadCreamEffectPointer(void);
+
+u32 SkipOrthoQuadsHold(u32 kartIndex);

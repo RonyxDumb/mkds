@@ -8,3 +8,12 @@ typedef struct LayoutEntryTable LayoutEntryTable;
 
 void QueueKartIcon(s32 iconIndex, Unk02021dc8 *destinationNcer, LayoutEntryTable *destinationBncl,
                    u32 destinationBnclIndex, u16 paletteIndex, s32 queueSelector);
+
+void ClearKartIconPointer(void);
+
+void CreateCommonKartIcon(void *heap);
+
+void CreateKartIcon(void *heap);
+
+void LoadCommonKartIconData(void);
+void LoadKartIconData(void);

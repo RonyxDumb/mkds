@@ -1,11 +1,8 @@
 #include "Main/MapObjects/update_list_slot.h"
-#include "Main/Unknown/code_020e6f9c.h"
 #include "Main/System/heap_call.h"
 #include "Main/System/heap.h"
-#include "Main/Unknown/code_020e6f58.h"
 #include "Main/MapObjects/woodbox.h"
 #include "Main/MapObjects/group_follower.h"
-#include "Main/Unknown/code_020d6000.h"
 #include "Main/MapObjects/attractor.h"
 
 #pragma thumb on

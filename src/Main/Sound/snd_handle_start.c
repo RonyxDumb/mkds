@@ -1,9 +1,13 @@
 #include "Main/Sound/snd_handle_start.h"
-#include "Main/Unknown/code_0210b760.h"
+#include "Main/Sound/code_0210b760.h"
 #include "code_0212d214.h"
 #include "Main/Sound/sound_source_list.h"
-#include "Main/Unknown/unk_0217c000.h"
-#include "Main/Unknown/code_0210b000.h"
+#include "Main/MapObjects/data_0217c000.h"
+#include "player.h"
+#include "code_021479b4.h"
+#include "Main/Item/code_021035ac.h"
+#include "Main/Sound/surface_sound_ids.h"
+#include "Main/Sound/data_0210b000.h"
 
 void AdvanceSoundDistanceSquaredChange(SoundDistanceSquaredChange *tracker, u32 distanceSquared) {
     s32 value;

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020c5e30.h"
+#include "Main/Race/race_new_record_ta.h"
 
 void UpdateRaceHudSubScreenItemBoxCells(void);
 void DrawRaceHudSubScreenItemBoxCells(RaceHudOamBuffer *oamBuffer);

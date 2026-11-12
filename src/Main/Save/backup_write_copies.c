@@ -1,7 +1,6 @@
 #include "Main/Save/backup_write_copies.h"
-#include "Main/Unknown/code_0204b458.h"
 #include "Main/Save/backup_access.h"
-#include "Main/Unknown/code_0204b714.h"
+#include "Main/Save/backup_read_copies.h"
 #include "code_0200eddc.h"
 #include "card_common.h"
 #include "01/Menu/record_time_attack.h"

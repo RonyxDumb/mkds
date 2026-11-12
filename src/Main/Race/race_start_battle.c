@@ -1,17 +1,15 @@
 #include "Main/Race/race_start_battle.h"
-#include "Main/Unknown/code_020d129c.h"
 #include "Main/System/heap_call.h"
 #include "Main/System/heap.h"
-#include "Main/Unknown/code_020d12b0.h"
-#include "Main/Unknown/unk_0217b000.h"
-#include "Main/Unknown/code_020d1298.h"
-#include "Main/Unknown/unk_021759c0.h"
-#include "Main/Unknown/code_020ae000.h"
+#include "Main/MapObjects/data_0217b000.h"
+#include "Main/Race/data_021759c0.h"
+#include "tp.h"
 #include "Main/Race/race_goal_times.h"
-#include "Main/Unknown/code_020b837c.h"
+#include "Main/Race/data_020b837c.h"
+#include "g2d_Animation.h"
 #include "code_020222ec.h"
 #include "registers.h"
-#include "Main/Unknown/code_0211d4a8.h"
+#include "Main/Menu/select_race_rule_state.h"
 
 void InitRaceStartBattle(void) {
     gRaceStartBattle = HeapAlloc(GetHeap(GetCurrentHeapCall()), 4);

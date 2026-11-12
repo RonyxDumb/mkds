@@ -13,7 +13,7 @@
 #include "03/unk_021d5000.h"
 #include "03/code_021d1000.h"
 #include "03/System/application.h"
-#include "Main/Unknown/code_0200e000.h"
+#include "os_thread.h"
 #include "code_0200eddc.h"
 #include "code_02139f70.h"
 

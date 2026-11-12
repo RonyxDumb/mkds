@@ -1,12 +1,10 @@
 #include "03/Graphics/text_canvas.h"
 #include "03/System/pointer_stack.h"
-#include "Main/Unknown/code_02023000.h"
 #include "03/code_021d3000.h"
 
 #include "03/unk_021da000.h"
 #include "03/code_021d1790.h"
 #include "03/code_021d1970.h"
-#include "Main/Unknown/code_02022000.h"
 #include "code_02022aa8.h"
 #include "g2d_CharCanvas.h"
 #include "03/System/exp_heap.h"

@@ -1,15 +1,10 @@
 #include "Main/Menu/choises_s_tiles.h"
-#include "Main/Unknown/code_020b2ec0.h"
 #include "Main/Menu/choises_s.h"
-#include "Main/Unknown/code_020b2e98.h"
-#include "Main/Unknown/code_020b2e34.h"
-#include "Main/Unknown/code_020b2000.h"
-#include "Main/Unknown/code_020b29c4.h"
+#include "Main/Menu/choises_s_screen_map.h"
 #include "Main/Race/race_goal_s_rule.h"
-#include "Main/Unknown/code_021059e0.h"
+#include "Main/Sound/sound_seq.h"
 #include "Main/Menu/choises_s_select.h"
-#include "Main/Unknown/code_020b2c80.h"
-#include "Main/Unknown/code_020b32ec.h"
+#include "Main/Menu/choises_s_list_chars.h"
 #include "Main/Graphics/chars_block.h"
 
 #pragma thumb on

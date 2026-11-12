@@ -13,3 +13,10 @@ void LoadSelectCupNameMData(void);
 void QueueCupMark(u32 cupMarkIndex, Unk02021dc8 *cells, LayoutEntryTable *cellLayout, u32 destIndex, u16 paletteSlot,
                   s32 queueSelector);
 void ClearCupMarkPointer(void);
+
+void ClearSelectCupNameMPointer(void);
+
+void CreateCommonCupMark(void *heap);
+void CreateCupMark(void *heap);
+void LoadCommonCupMarkData(void);
+void LoadCupMarkData(void);

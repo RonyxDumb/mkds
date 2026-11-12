@@ -2,9 +2,8 @@
 
 #include "snd_bank.h"
 #include "code_020245a4.h"
-#include "Main/Unknown/code_02024000.h"
-#include "Main/Unknown/unk_02153000.h"
-#include "Main/Unknown/code_02022000.h"
+#include "Main/Menu/data_02153000.h"
+#include "Main/Graphics/cell_file_set.h"
 #include "g2d_CharCanvas.h"
 #include "Main/Graphics/layout_entry_angle.h" // Unk02022eb0
 

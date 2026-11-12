@@ -1,12 +1,12 @@
 #include "Main/Menu/title_state1.h"
 #include "Main/Menu/title_state2.h"
-#include "Main/Unknown/code_020acff4.h"
+#include "Main/Menu/title_table_draw.h"
 #include "Main/Menu/title_state_set.h"
 #include "Main/Menu/title_state_frames.h"
 #include "Main/Graphics/oam.h"
-#include "Main/Unknown/code_021059e0.h"
+#include "Main/Sound/sound_seq.h"
 #include "Main/Graphics/layout_entry_angle.h"
-#include "Main/Unknown/unk_0217b000.h"
+#include "Main/MapObjects/data_0217b000.h"
 #include "Main/Menu/title_state3.h"
 
 #pragma optimize_for_size on

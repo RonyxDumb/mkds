@@ -4,12 +4,6 @@
 
 typedef struct RaceHudOamBuffer RaceHudOamBuffer;
 
-typedef struct RaceHudOamBuffer RaceHudOamBuffer;
-
-typedef struct RaceHudOamBuffer RaceHudOamBuffer;
-
-typedef struct RaceHudOamBuffer RaceHudOamBuffer;
-
 void InitRaceTimeDigits(void);
 void DrawRaceLapAndTimeDifference(RaceHudOamBuffer *oamBuffer);
 void UpdateRaceLapNumber(void);
@@ -25,3 +19,8 @@ u32 GetRaceRankListSNcerIndex(u16 kartIndex);
 void DrawRaceRankList(RaceHudOamBuffer *oamBuffer);
 void UpdateRaceRankList(void);
 void ClearRaceRankListPointer(void);
+
+void InitRaceRankList(void);
+void StartRaceRankListItemInUse(s32 kartIndex, s32 itemId, s32 objectCount);
+
+void StopRaceRankListItemInUse(int kartIndex);

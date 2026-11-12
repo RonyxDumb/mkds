@@ -2,8 +2,8 @@
 #include "Main/System/heap.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/Graphics/font_and_player_character.h"
-#include "Main/Unknown/code_02116dd4.h"
-#include "Main/Unknown/unk_0216d000.h"
+#include "Main/Menu/wait_load.h"
+#include "Main/Menu/data_0216d000.h"
 #include "gfd_VramTransferManager.h"
 
 #pragma thumb on

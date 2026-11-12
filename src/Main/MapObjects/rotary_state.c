@@ -1,12 +1,6 @@
 #include "Main/MapObjects/rotary_state.h"
 
 #include "Main/MapObjects/choropu.h"
-#include "Main/Unknown/code_020e43a8.h"
-#include "Main/Unknown/code_020e4428.h"
-#include "Main/Unknown/code_020e4434.h"
-#include "Main/Unknown/code_020e4470.h"
-#include "Main/Unknown/code_020e4474.h"
-#include "Main/Unknown/code_020e44d8.h"
 
 void EnterRotaryState0(Rotary *object) {
     object->mSpeedFraction = 0x0u;

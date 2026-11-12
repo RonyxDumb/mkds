@@ -2,9 +2,9 @@
 
 #include "types.h"
 
-#include "Main/Unknown/code_020c06c4.h"
+#include "Main/Race/race_hud_sub_screen_cells.h"
 
-#include "Main/Unknown/unk_0217b000.h"
+#include "Main/MapObjects/data_0217b000.h"
 #include "g2d_Animation.h"
 
 // Object behind gRaceGoalTimes.
@@ -32,3 +32,5 @@ void InitRaceGoalTimes(void);
 void DrawRaceHudSubScreenFireball2Cells(void *oamBuffer);
 void UpdateRaceHudSubScreenFireball2Cells(void);
 void ClearRaceHudSubScreenFireball2Cells(void);
+
+void ClearRaceHudSubScreenCreamCells(void);

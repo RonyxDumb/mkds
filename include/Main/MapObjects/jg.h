@@ -25,3 +25,5 @@ void AdvanceJgPointsAndSetTarget(Vec3 *offset, const Vec3 *endScale, const Vec3 
 void InitJgOffsets(void);
 void CreateModelAnimation(u32 animationKind, void *model, ModelAnimation **animationSlot, void *nsbmdFile,
                           void *animationFile);
+
+s32 *EnterJgState0(void);

@@ -1,5 +1,4 @@
 #include "code_0200007e.h"
-#include "Main/Unknown/code_02000000.h"
 
 #pragma thumb on
 

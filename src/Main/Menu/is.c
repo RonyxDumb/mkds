@@ -1,10 +1,6 @@
 #include "Main/Menu/is.h"
-#include "Main/Unknown/code_020cb11c.h"
 #include "Main/Menu/menu_sound.h"
-#include "Main/Unknown/unk_02175628.h"
-#include "Main/Unknown/code_020cb0ec.h"
-#include "Main/Unknown/code_020cb0f4.h"
-#include "Main/Unknown/code_020cb114.h"
+#include "Main/Menu/data_02175628.h"
 
 #pragma optimize_for_size on
 

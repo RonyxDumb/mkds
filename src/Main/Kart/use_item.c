@@ -1,8 +1,7 @@
 #include "Main/Kart/use_item.h"
-#include "Main/Unknown/code_0207c000.h"
 #include "Main/Item/item_pool.h"
-#include "Main/Unknown/unk_027e0000.h"
-#include "Main/Unknown/unk_0217b000.h"
+#include "Main/Item/data_027e0000.h"
+#include "Main/MapObjects/data_0217b000.h"
 
 void AdvanceBattleItemBitRequests(KartAiItemUse *itemUse, KartAi *kartAi) {
     AdvanceItemBitRequests(itemUse, kartAi);

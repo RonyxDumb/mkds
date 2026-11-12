@@ -1,13 +1,9 @@
 #include "Main/Item/item_object_throw.h"
 
-#include "Main/Unknown/code_02039860.h"
-#include "Main/Unknown/code_020f6000.h"
-#include "Main/Unknown/code_020f6be8.h"
-#include "Main/Unknown/code_020f7000.h"
+#include "Main/Item/code_020f6be8.h"
 #include "ITCM/code_01ffd000.h"
 #include "Main/Kart/kart_drift.h"
 #include "Main/Item/item_in_use.h"
-#include "Main/Unknown/code_02109000.h"
 #include "Main/Sound/sound_start.h"
 #include "code_02147cd8.h"
 

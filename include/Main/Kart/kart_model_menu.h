@@ -1,13 +1,12 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/unk_0217a000.h" // Camera, KartModelMenuData
+#include "Main/MapObjects/data_0217a000.h" // Camera, KartModelMenuData
 #include "Main/Kart/point_link_cursor.h"
 #include "Main/Kart/camera.h"
 #include "code_02012b30.h"
-#include "Main/Unknown/code_020799a0.h"
-#include "Main/Kart/character_animation.h"
 #include "Main/Kart/karts.h"
+#include "Main/Kart/character_animation.h"
 
 // 0x88-byte object built from an entry of the table at CourseMap.mCameras: the entry, two PosCurve and two
 // halfwords.

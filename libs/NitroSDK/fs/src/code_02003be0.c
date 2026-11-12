@@ -5,8 +5,6 @@
 #include "os_thread.h"
 #include "code_0200fc8c.h"
 #include "code_0214d018.h"
-#include "Main/Unknown/code_0200f000.h"
-#include "Main/Unknown/code_0214d000.h"
 
 FSArchive *data_0216f340;
 Unk02003024U current_dir_pos;

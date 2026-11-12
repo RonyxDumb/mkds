@@ -19,3 +19,9 @@
 #define SCREEN_SELECT_GHOST 0x1a
 
 void SwitchMenuScreen(s32 screenNumber, s32 nextScreenNumber);
+
+unsigned int GetNextMenuScreenNumber(void);
+unsigned int GetMenuScreenNumber(void);
+unsigned int GetPreviousMenuScreenNumber(void);
+unsigned int GetMenuScreenSwitched(void);
+s32 GetFramesSinceMenuScreenSwitch(void);

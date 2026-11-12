@@ -6,8 +6,6 @@
 #include "code_02010c84.h"
 
 #include "Main/Graphics/model_animation_looping.h"
-#include "Main/Unknown/code_02087000.h"
-#include "Main/Unknown/code_02036bec.h"
 #include "code_02013740.h"
 #include "code_02013bdc.h"
 

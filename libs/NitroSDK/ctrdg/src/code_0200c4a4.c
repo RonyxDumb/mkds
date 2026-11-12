@@ -1,19 +1,15 @@
 #include "code_0200c4a4.h"
 #include "code_0200c914.h"
 #include "os_spinLock.h"
-#include "Main/Unknown/code_0200e000.h"
-#include "Main/Unknown/code_0200f000.h"
+#include "os_thread.h"
 #include "code_0200eddc.h"
 #include "code_0200fc8c.h"
-#include "Main/Unknown/code_0214d000.h"
 #include "code_0214d018.h"
 #include "code_0214d5b8.h"
-#include "Main/Unknown/code_02000000.h"
-#include "Main/Unknown/code_0200c000.h"
+#include "code_0200007e.h"
 #include "ctrdg.h"
 #include "code_0214c778.h"
 #include "registers.h"
-#include "code_0200007e.h"
 
 #pragma thumb on
 

@@ -103,3 +103,5 @@ void InitDisplayBgRecords(DisplayBgRecords *records, u32 bgMode);
 void WaitIrqAndTurnOnDisplays(void);
 void InitBrightnessFades(void);
 void UpdateBrightnessFade(BrightnessFade *fade);
+
+void InitDisplaySettingsDesc(DisplaySettingsDesc *p0);

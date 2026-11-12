@@ -1,5 +1,5 @@
 #include "gfd_FrameTexVramMan.h"
-#include "Main/Unknown/unk_02161000.h"
+#include "Main/Kart/data_02161000.h"
 
 void NNSi_GfdSetTexNrmSearchArray(int idx1st, int idx2nd, int idx3rd, int idx4th, int idx5th) {
     data_02161a04[0] = &vramRegions_[idx1st];

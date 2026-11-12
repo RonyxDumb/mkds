@@ -3,11 +3,10 @@
 #include "cp_context.h"
 #include "os_spinLock.h"
 #include "code_0200e77c.h"
-#include "Main/Unknown/code_0200c000.h"
-#include "Main/Unknown/code_0200f000.h"
 #include "os_thread.h"
 #include "code_0200fc8c.h"
-#include "Main/Unknown/unk_0216f000.h"
+#include "Main/Net/data_0216f000.h"
+#include "mb_data.h"
 #include "code_0200edc0.h"
 
 // Clears OSMutex.mQueue, OSMutex.mHolder and OSMutex.mLockCount.

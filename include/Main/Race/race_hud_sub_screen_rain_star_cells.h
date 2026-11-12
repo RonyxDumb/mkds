@@ -4,38 +4,6 @@
 
 typedef struct RaceHudOamBuffer RaceHudOamBuffer;
 
-typedef struct RaceHudOamBuffer RaceHudOamBuffer;
-
-typedef struct RaceHudOamBuffer RaceHudOamBuffer;
-
-typedef struct RaceHudOamBuffer RaceHudOamBuffer;
-
-typedef struct RaceHudOamBuffer RaceHudOamBuffer;
-
-typedef struct RaceHudOamBuffer RaceHudOamBuffer;
-
-typedef struct RaceHudOamBuffer RaceHudOamBuffer;
-
-typedef struct RaceHudOamBuffer RaceHudOamBuffer;
-
-typedef struct RaceHudOamBuffer RaceHudOamBuffer;
-
-typedef struct RaceHudOamBuffer RaceHudOamBuffer;
-
-typedef struct RaceHudOamBuffer RaceHudOamBuffer;
-
-typedef struct RaceHudOamBuffer RaceHudOamBuffer;
-
-typedef struct RaceHudOamBuffer RaceHudOamBuffer;
-
-typedef struct RaceHudOamBuffer RaceHudOamBuffer;
-
-typedef struct RaceHudOamBuffer RaceHudOamBuffer;
-
-typedef struct RaceHudOamBuffer RaceHudOamBuffer;
-
-typedef struct RaceHudOamBuffer RaceHudOamBuffer;
-
 void DrawRaceHudSubScreenPendulumCells(RaceHudOamBuffer *oamBuffer);
 void UpdateRaceHudSubScreenPendulumCells(void);
 s32 CreateRaceHudSubScreenPendulumCells(void);
@@ -102,3 +70,5 @@ s32 CreateRaceHudSubScreenBasabasaCells(void);
 void DrawRaceHudSubScreenRainStarCells(RaceHudOamBuffer *oamBuffer);
 void UpdateRaceHudSubScreenRainStarCells(void);
 void ClearRaceHudSubScreenRainStarCells(void);
+
+void ClearRaceHudSubScreenPendulumCells(void);

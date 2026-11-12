@@ -2,9 +2,9 @@
 
 #include "types.h"
 #include "Main/Menu/second_menu_scene.h" // StateCallbacks
-#include "Main/Unknown/code_020d6dc0.h" // Quaternion
-#include "Main/Unknown/code_0210b000.h" // SoundStartParams
-#include "Main/Unknown/code_020dc474.h" // Wanwan
+#include "Main/MapObjects/code_020d6dc0.h" // Quaternion
+#include "Main/Sound/data_0210b000.h" // SoundStartParams
+#include "Main/MapObjects/wanwan.h" // Wanwan
 
 typedef struct CourseMapRow CourseMapRow;
 

@@ -1,4 +1,5 @@
 #include "Main/Kart/shadow_model.h"
+#include "Main/MapObjects/data_02155000.h"
 
 void DrawShadowModel(ShadowModel *shadowModel, u32 unusedParam1, u32 unusedParam2) {
     SetNsbmdFirstDrawMaterial(&shadowModel->mNsbmd, shadowModel->mAlpha);

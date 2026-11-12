@@ -1,11 +1,14 @@
 #include "Main/Sound/sound_row.h"
 
 #include "Main/Item/pooled_item_box_init.h"
-#include "Main/Unknown/code_02105ec0.h"
-#include "Main/Unknown/code_0211127c.h"
-#include "Main/Unknown/unk_02153000.h"
-#include "Main/Unknown/unk_021759c0.h"
-#include "Main/Unknown/code_0211d4a8.h"
+#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/seq_row.h"
+#include "Main/Menu/data_02153000.h"
+#include "code_02022aa8.h"
+#include "Main/Graphics/cell_file_set.h"
+#include "Main/Race/data_021759c0.h"
+#include "tp.h"
+#include "Main/Menu/select_race_rule_state.h"
 
 SoundRow GetSoundRow(u32 rowIndex) {
     return gSoundRowTable[rowIndex];

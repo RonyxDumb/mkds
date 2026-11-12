@@ -2,7 +2,7 @@
 #include "Main/Menu/wl_menu_scene.h"
 #include "Main/System/heap_call.h"
 #include "Main/Net/slot_result_sync.h"
-#include "Main/Unknown/unk_02154000.h"
+#include "Main/MapObjects/data_02154000.h"
 #include "os_spinLock.h"
 #include "os_tick.h"
 #include "card_common.h"

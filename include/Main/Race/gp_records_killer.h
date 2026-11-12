@@ -1,8 +1,9 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/unk_021759c0.h" // MinuteSecondMillisecondTime
-#include "Main/Unknown/code_02080b1c.h"
+#include "Main/Race/data_021759c0.h" // MinuteSecondMillisecondTime
+#include "tp.h"
+#include "Main/Kart/code_02080b1c.h"
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject
 

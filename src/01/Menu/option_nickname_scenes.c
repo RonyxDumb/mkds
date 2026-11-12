@@ -4,18 +4,14 @@
 #include "01/Menu/nickname_scene.h"
 #include "01/Menu/ending_scene_callbacks.h"
 #include "Main/System/heap.h"
-#include "Main/Unknown/code_020ae000.h"
 #include "Main/Graphics/oam_upload.h"
 #include "Main/System/heap_call.h"
-#include "Main/Unknown/code_02036bec.h"
 #include "01/code_02192000.h"
 #include "01/code_02198000.h"
 #include "01/code_0219e000.h"
-#include "Main/Unknown/code_02048000.h"
 #include "01/Menu/ending_scene.h"
 #include "01/code_0219f000.h"
 #include "01/unk_021a6000.h"
-#include "Main/Unknown/code_02105000.h"
 
 u8 *gNicknameBuffers;
 u8 *gOptionBuffers;

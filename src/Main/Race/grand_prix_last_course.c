@@ -1,7 +1,8 @@
 #include "Main/Race/grand_prix_last_course.h"
 #include "Main/Menu/choises_s_screen_map.h"
 #include "Main/Menu/choises_s_course.h"
-#include "Main/Unknown/unk_021759c0.h"
+#include "Main/Race/data_021759c0.h"
+#include "tp.h"
 
 #pragma thumb on
 #pragma optimize_for_size on

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020ec1fc.h"
+#include "Main/MapObjects/code_020ec1fc.h"
 #include "Main/MapObjects/attractor.h" // MapObject
 
 typedef struct ItemObject ItemObject;

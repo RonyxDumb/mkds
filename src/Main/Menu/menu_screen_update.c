@@ -5,14 +5,10 @@
 #include "Main/Menu/menu_connection_kind.h"
 #include "Main/Menu/menu_counter.h"
 #include "Main/Menu/menu_screen_init.h"
-#include "Main/Unknown/code_020ae000.h"
-#include "Main/Unknown/code_0212a000.h"
 #include "Main/Scene/display_settings.h"
-#include "Main/Unknown/code_02049000.h"
 #include "Main/Graphics/scene_text.h"
-#include "Main/Unknown/code_02054000.h"
-#include "Main/Unknown/code_0212a920.h"
-#include "Main/Unknown/unk_0217b000.h"
+#include "Main/Menu/message_screen.h"
+#include "Main/MapObjects/data_0217b000.h"
 
 #pragma thumb on
 #pragma optimize_for_size on

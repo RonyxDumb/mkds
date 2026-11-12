@@ -14,3 +14,9 @@ void DrawRaceStartBattle(RaceHudOamBuffer *oamBuffer);
 u16 *CupPictureMB_GetMultiBootParam(void);
 u32 CupPictureMB_IsMultiBootChild(void);
 u32 CupPictureMB_IsMultiBootChildWrapper(void);
+
+void UpdateRaceStartBattleNop(void);
+
+void ClearRaceStartBattlePointer(void);
+
+void InitRaceStartBattle(void);

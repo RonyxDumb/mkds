@@ -1,10 +1,7 @@
 #include "Main/Menu/title_input.h"
 
-#include "Main/Unknown/code_020acec4.h"
 #include "Main/Menu/title_state0.h"
-#include "Main/Unknown/unk_02175628.h"
-#include "Main/Unknown/code_020acef4.h"
-#include "Main/Unknown/code_020acefc.h"
+#include "Main/Menu/data_02175628.h"
 
 #pragma thumb on
 u32 TitleState2ReturnArgumentWrapper(u32 value) {

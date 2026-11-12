@@ -2,10 +2,10 @@
 #include "Main/MapObjects/map_object_park.h"
 #include "Main/MapObjects/rock.h"
 
-#include "Main/Unknown/code_020ec490.h"
 #include "code_02147cd8.h"
-#include "Main/Unknown/code_020ec504.h"
-#include "Main/Unknown/unk_02159000.h"
+#include "Main/MapObjects/data_02159000.h"
+#include "Main/MapObjects/ob_pakkun_sf.h"
+#include "Main/MapObjects/attractor.h"
 
 void EnterPushedObjectState1(MapObject *object) {
     u16 newSlot;

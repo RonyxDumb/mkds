@@ -1,8 +1,9 @@
 #include "g3x.h"
 #include "code_0214cfe4.h"
 #include "code_0214c778.h"
-#include "Main/Unknown/code_0214d000.h"
-#include "Main/Unknown/unk_0216f000.h"
+#include "Main/Net/data_0216f000.h"
+#include "os_thread.h"
+#include "mb_data.h"
 #include "00/Lib/DWC/code_02188720.h"
 #include "registers.h"
 

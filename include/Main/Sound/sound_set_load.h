@@ -1,7 +1,9 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/unk_02153000.h" // SoundRow
+#include "Main/Menu/data_02153000.h" // SoundRow
+#include "code_02022aa8.h"
+#include "Main/Graphics/cell_file_set.h"
 
 // Three words, at 0, 4 and 8: LoadSoundSet, IsSoundSetLoaded and ReleaseSoundSet take one by value.
 typedef struct SoundSet {

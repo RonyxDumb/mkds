@@ -10,9 +10,7 @@
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/System/heap_call.h"
 #include "Main/System/heap.h"
-#include "Main/Unknown/code_02036bec.h"
-#include "Main/Unknown/code_02124000.h"
-#include "Main/Unknown/unk_0217d068.h"
+#include "player.h"
 #include "01/unk_021a7000.h"
 #include "code_0212df7c.h"
 

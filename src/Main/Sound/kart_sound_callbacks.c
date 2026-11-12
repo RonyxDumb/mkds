@@ -1,12 +1,10 @@
 #include "Main/Sound/kart_sound_callbacks.h"
-#include "Main/Unknown/code_0205e090.h"
+#include "Main/Scene/run_scenes.h"
 #include "Main/Sound/sound_distance_change.h"
-#include "Main/Unknown/code_0210aa0c.h"
-#include "Main/Unknown/code_0210ab30.h"
-#include "Main/Unknown/code_0210ab48.h"
 #include "Main/Sound/kart_surface_sound.h"
-#include "Main/Unknown/code_0210aa14.h"
-#include "Main/Unknown/unk_021759c0.h"
+#include "Main/Sound/code_0210ab48.h"
+#include "Main/Race/data_021759c0.h"
+#include "tp.h"
 
 void InitKartSoundCallbacks(Kart *kart, KartSound *kartSound) {
     if (kart->mEntryFlags & KART_ENTRY_GHOST) {

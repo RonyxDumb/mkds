@@ -1,6 +1,6 @@
 #include "Main/MapObjects/chandelier_draw.h"
-#include "Main/Unknown/code_0209b634.h"
-#include "Main/Unknown/unk_0217b000.h"
+#include "Main/MapObjects/map_object_model_frame.h"
+#include "Main/MapObjects/data_0217b000.h"
 #include "ITCM/code_01ff8000.h"
 
 void DrawChandelier(void *mapObjectList, Chandelier *chandelier) {

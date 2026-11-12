@@ -5,9 +5,7 @@
 #include "Main/Menu/logo_state_1_nop.h"
 #include "Main/Menu/logo_scene.h"
 #include "Main/Graphics/locate_bmg_sections.h"
-#include "Main/Unknown/code_02125f54.h"
-#include "Main/Unknown/code_02125f6c.h"
-#include "Main/Unknown/code_02126230.h"
+#include "Main/Menu/txt_system.h"
 
 // Initialized data kept in .text between two functions.
 #pragma define_section MAIN_TEXT ".text"                                                                               \

@@ -1,5 +1,5 @@
 #include "Main/Graphics/res_file_entries_reset.h"
-#include "Main/Unknown/unk_0217a000.h"
+#include "Main/MapObjects/data_0217a000.h"
 #include "code_0201750c.h"
 
 void ResetResFileEntries(void) {

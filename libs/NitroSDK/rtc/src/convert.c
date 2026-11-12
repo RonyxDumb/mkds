@@ -1,5 +1,7 @@
 #include "convert.h"
-#include "Main/Unknown/unk_0216f000.h"
+#include "Main/Net/data_0216f000.h"
+#include "os_thread.h"
+#include "mb_data.h"
 
 s32 RTC_ConvertDateToDay(const RTCDate *date) {
     s32 dayNum;

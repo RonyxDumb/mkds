@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/unk_02158000.h" // MapObjectDrawList
+#include "Main/MapObjects/data_02158000.h" // MapObjectDrawList
 #include "Main/MapObjects/send_obj_shadow.h" // ShadowMatrix
 #include "Main/MapObjects/pushed_motion.h" // PushedObject
 

@@ -241,3 +241,7 @@ void InitHeapSection(NNSSndHeapSection *section);
 BOOL LoadSingleWaves(SNDWaveArc *waveArc, SNDBankData *bank, s32 waveArcNo, u32 fileId, NNSSndHeap *heap);
 BOOL LoadSingleWave(SNDWaveArc *waveArc, s32 waveNo, u32 fileId, NNSSndHeap *heap);
 void SingleWaveDisposeCallback(void *mem, u32 size, void *data1, u32 data2);
+
+typedef struct NNSSndHeap NNSSndHeap;
+
+s32 NNS_SndHeapGetCurrentLevel(NNSSndHeap *heap);

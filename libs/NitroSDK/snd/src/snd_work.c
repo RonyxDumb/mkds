@@ -2,7 +2,7 @@
 
 #include "snd_command.h"
 #include "code_0200eddc.h"
-#include "Main/Unknown/code_0200e000.h"
+#include "os_thread.h"
 
 SNDSharedWork *SNDi_SharedWork;
 

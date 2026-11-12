@@ -4,10 +4,10 @@
 #include "code_02148950.h"
 #include "gx_bgcnt.h"
 #include "code_0214d018.h"
-#include "Main/Unknown/code_0214d000.h"
-#include "Main/Unknown/unk_0216f000.h"
-#include "Main/Unknown/code_02148000.h"
-#include "Main/Unknown/unk_02180000.h"
+#include "Main/Net/data_0216f000.h"
+#include "os_thread.h"
+#include "mb_data.h"
+#include "data_02180000.h"
 
 void GX_LoadBGPltt(const void *src, u32 offset, u32 size) {
     if (GXi_DmaId != -1 && size > 0x1c) {

@@ -7,7 +7,6 @@
 #include "00/Lib/DWC/dwc_memfunc.h"
 #include "00/code_0218d000.h"
 #include "00/code_021a3000.h"
-#include "Main/Unknown/code_02133000.h"
 #include "code_021382a8.h"
 
 void DarrayCallElemCallback(void *b, s32 c) {

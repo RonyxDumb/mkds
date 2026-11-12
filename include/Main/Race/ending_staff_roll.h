@@ -1,9 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/unk_0217b000.h"
-#include "Main/Unknown/unk_021759c0.h"
-#include "Main/Unknown/code_020ae000.h"
+#include "Main/MapObjects/data_0217b000.h"
+#include "tp.h"
 #include "Main/Race/race_goal_times.h"
 #include "Main/Graphics/font_and_player_character.h"
 
@@ -18,3 +17,8 @@ typedef struct EndingStaffRollObject {
 
 u16 UpdateEndingStaffRoll(void);
 void DrawEndingStaffRoll(void);
+
+void ClearEndingStaffRollPointer(void);
+
+void UploadEndingStaffRollOam(void);
+void InitEndingStaffRoll(void);

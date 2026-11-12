@@ -1,7 +1,7 @@
 #include "Main/Kart/camera_entry.h"
 #include "Main/System/wvr_state.h"
 #include "Main/Race/race.h"
-#include "Main/Unknown/unk_0217a000.h"
+#include "Main/MapObjects/data_0217a000.h"
 #include "code_02147cd8.h"
 
 u32 GetCameraEntryChanged(void) {

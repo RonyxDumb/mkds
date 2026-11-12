@@ -1,9 +1,8 @@
 #include "Main/Race/race_hud_sub_screen_min_max.h"
 #include "Main/Graphics/font_glyph_text.h"
 #include "Main/Race/race_hud_sub_screen_course_id.h"
-#include "Main/Unknown/code_02056000.h"
-#include "Main/Unknown/code_020ad000.h"
-#include "Main/Unknown/unk_021759c0.h"
+#include "Main/Race/data_021759c0.h"
+#include "tp.h"
 #include "code_0213ecf8.h"
 
 // Object not known yet; it only sets the order of the tables below

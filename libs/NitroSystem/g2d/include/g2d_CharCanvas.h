@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/types_02180728.h" // TextCanvas
+#include "Main/Menu/data_02180728.h" // TextCanvas
 #include "code_02022aa8.h" // Unk02022aa8
 #include "code_020245a4.h" // NNSiG2dBitReader
 

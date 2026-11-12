@@ -1,13 +1,11 @@
 #include "Main/MapObjects/empty_kind_data.h"
 
-#include "Main/Unknown/code_0209b634.h"
-#include "Main/Unknown/code_0209bef0.h"
-#include "Main/Unknown/code_0209b000.h"
+#include "Main/MapObjects/map_object_model_frame.h"
 #include "fx_mtx33.h"
-#include "Main/Unknown/code_02042044.h"
-#include "Main/Unknown/unk_021759c0.h"
+#include "Main/Course/code_02042044.h"
+#include "tp.h"
 #include "Main/MapObjects/bound.h"
-#include "Main/Unknown/unk_0217b000.h"
+#include "Main/MapObjects/data_0217b000.h"
 #include "ITCM/code_01ff8000.h"
 
 void *gDeTree1;

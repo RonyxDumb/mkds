@@ -3,12 +3,12 @@
 #include "Main/Item/item_pool.h"
 #include "Main/Item/item_koura_w.h"
 #include "ITCM/code_01ffd000.h"
-#include "Main/Unknown/code_020f9334.h"
-#include "Main/Unknown/code_020f73fc.h"
+#include "Main/Item/code_020f9334.h"
+#include "Main/Item/code_020f73fc.h"
 #include "Main/Item/item_object.h"
 #include "Main/MapObjects/woodbox.h"
 #include "Main/Course/course_color_blend.h"
-#include "Main/Unknown/unk_0217b000.h"
+#include "Main/MapObjects/data_0217b000.h"
 #include "code_0200fc8c.h"
 
 void StartDmaTransfer(u32 channelIndex, const void *source, void *destination, u32 control) {

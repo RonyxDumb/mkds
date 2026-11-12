@@ -1,5 +1,5 @@
 #include "Main/Menu/title_state_set.h"
-#include "Main/Unknown/unk_0217b000.h"
+#include "Main/MapObjects/data_0217b000.h"
 
 #pragma optimize_for_size on
 #pragma thumb on

@@ -3,8 +3,8 @@
 #include "types.h"
 #include "Main/MapObjects/wanwan_chain.h"
 #include "Main/MapObjects/group_item_box.h"
-#include "Main/Unknown/code_020e005c.h"
-#include "Main/Unknown/unk_02158000.h"
+#include "Main/MapObjects/code_020e005c.h"
+#include "Main/MapObjects/data_02158000.h"
 
 void UpdateKoopaBlockState2(KoopaBlock *koopaBlock);
 void DrawAllKoopaBlocks(void *viewMatrix);

@@ -1,6 +1,6 @@
 #include "snd_bank.h"
 #include "code_0200eddc.h"
-#include "Main/Unknown/code_0200e000.h"
+#include "os_thread.h"
 #include "snd_main.h"
 
 void SND_AssignWaveArc(SNDBankData *bank, s32 index, SNDWaveArc *waveArc) {

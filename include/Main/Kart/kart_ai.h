@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/unk_0217a000.h"
+#include "Main/MapObjects/data_0217a000.h"
 
 RandomState64 *GetKartAiRandom(void);
 BOOL IsOneKartNotHumanOrPeer(void);

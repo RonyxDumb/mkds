@@ -3,7 +3,9 @@
 #include "types.h"
 #include "code_02142eac.h"
 #include "code_021445e0.h"
-#include "Main/Unknown/unk_0217e000.h"
+#include "Main/Net/data_0217e000.h"
+#include "stream.h"
+#include "code_0212d214.h"
 
 Unk02142988 *WMi_GetStatusAddress(void);
 void WmClearFifoRecvFlag(void);
@@ -17,3 +19,14 @@ void WMi_SetCallbackTable(u32 id, Unk021425e8Func callback);
 s32 WM_Finish(void);
 s32 WmInitCore(void *wmSysBuf, u16 dmaNo, u32 bufSize);
 s32 WM_Init(void *wmSysBuf, u16 dmaNo);
+
+// System work area set up by WmInitCore.
+extern struct WMArm9Buf *wm9buf;
+
+// Nonzero while the library is set up.
+extern u16 wmInitialized;
+
+// Ring of free command messages.
+extern OSMessageQueue data_0217eed8;
+
+extern void *data_0217eef8[10];

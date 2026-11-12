@@ -1,14 +1,15 @@
 #include "Main/Net/scan_slot.h"
 #include "Main/Race/race_keys.h"
-#include "Main/Unknown/code_0200e000.h"
-#include "Main/Unknown/code_02043000.h"
-#include "Main/Unknown/code_0204e000.h"
-#include "Main/Unknown/code_0205e090.h"
-#include "Main/Unknown/code_0214d000.h"
-#include "Main/Unknown/unk_0217a000.h"
+#include "os_thread.h"
+#include "Main/Net/multiboot_connect.h"
+#include "Main/Net/packet_port.h"
+#include "Main/MapObjects/data_0217a000.h"
+#include "Main/Net/block.h"
+#include "Main/Net/scan_ghost_info.h"
+#include "Main/Scene/run_scenes.h"
 #include "code_0200eddc.h"
 #include "code_0214d018.h"
-#include "Main/Unknown/code_0211d4a8.h"
+#include "Main/Menu/select_race_rule_state.h"
 
 #pragma opt_rebuildconditionals off
 
