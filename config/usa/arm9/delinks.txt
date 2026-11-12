@@ -3805,22 +3805,7 @@ src/Main/Unknown/code_020f8e3c.c:
 // provisional: file name and boundaries
 src/Main/Unknown/code_020f8e78.c:
     complete
-    .text       start:0x020f8e78 end:0x020f92e8
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_020f92e8.c:
-    complete
-    .text       start:0x020f92e8 end:0x020f9334
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_020f9334.c:
-    complete
-    .text       start:0x020f9334 end:0x020f9c40
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_020f9c40.c:
-    complete
-    .text       start:0x020f9c40 end:0x020f9c6c
+    .text       start:0x020f8e78 end:0x020f9c6c
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_020f9c6c.c:
