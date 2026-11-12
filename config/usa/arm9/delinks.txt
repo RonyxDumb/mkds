@@ -1800,6 +1800,7 @@ src/Main/Kart/kart_model_menu.c:
     complete
     .text       start:0x02076cd0 end:0x02077bc0
     .rodata     start:0x02154fa0 end:0x02154fb8
+    .data       start:0x021656d8 end:0x02165798
 
 // provisional: file name and boundaries
 src/Main/Kart/karts.c:

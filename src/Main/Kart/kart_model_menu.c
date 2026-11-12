@@ -37,9 +37,24 @@
 #include "registers.h"
 #include "Main/Kart/camera.h"
 
-const s32 gCameraDefaultRows[2][3] = {{0x3a000, 0x22000, 0x14000}, {0x62000, 0x37000, 0x22000}};
-
 #pragma thumb on
+
+const s32 gCameraDefaultRows[2][3] = {{0x3a000, 0x22000, 0x14000}, {0x62000, 0x37000, 0x22000}};
+u16 gKartModelMenuLightLevel = 0x1f;
+u16 gKartModelMenuTiltAngleOffset = 0xd12;
+u32 gKartModelMenuSpinStep = 0x19a;
+s32 gKartModelMenuMaxScale = 0x14cd;
+s32 gKartModelMenuLookAtYOffset = 0x10f4;
+s32 gKartModelMenuScaleFactor = 0x18fb;
+Vec3 gKartModelMenuCameraPosition = {0, -2665, 0x5000};
+Vec3 gKartModelMenuLightDirection = {-1051, -1565, -1873};
+Vec3 gKartModelMenuLookAtTarget = {0, -685, 0x4c};
+char gEmblemSBNclrName[16] = "emblem_s_b.NCLR";
+char gCharMenuParamBinName[20] = "charmenuparam.bin";
+char gKartMenuParamBinName[20] = "kartmenuparam.bin";
+char gKartOffsetDataBinName[20] = "kartoffsetdata.bin";
+char gKartSelectNsbmdName[28] = "kart/select/select.nsbmd";
+char gKartSelectNsbtxName[28] = "kart/select/select.nsbtx";
 
 void QueueKartModelMenuLoad(void) {
     if (gKartModelMenu->mCharacterRequested != 0 || gKartModelMenu->mKartRequested != 0) {
@@ -106,7 +121,7 @@ u16 GetKartListCount(void) {
 void LoadEmblemSBNclr(void *section) {
     void *nclrFile;
 
-    LoadKartModelMenuFile(section, data_usa_02165714, &nclrFile);
+    LoadKartModelMenuFile(section, gEmblemSBNclrName, &nclrFile);
     LoadNclrData(&gEmblemSBNclr, nclrFile);
 }
 

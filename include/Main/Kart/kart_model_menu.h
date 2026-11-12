@@ -20,7 +20,6 @@ typedef struct Kind7CameraEntry {
     /* 84 */ s32 mUnk_84;
 } Kind7CameraEntry;
 
-extern const char data_usa_02165714[];
 extern const s32 gCameraDefaultRows[2][3];
 
 void UpdateCameraView(Camera *camera);
@@ -48,3 +47,19 @@ u16 GetKartListNumber(void);
 BOOL FindKartModelMenuCharacter(s32 *characterIndex, u32 kartIndex);
 void ClearKartModelMenuRequests(void);
 void QueueKartModelMenuLoad(void);
+
+extern u16 gKartModelMenuLightLevel;
+extern u16 gKartModelMenuTiltAngleOffset;
+extern s32 gKartModelMenuMaxScale;
+extern s32 gKartModelMenuScaleFactor;
+extern u32 gKartModelMenuSpinStep;
+extern s32 gKartModelMenuLookAtYOffset;
+extern Vec3 gKartModelMenuLookAtTarget;
+extern Vec3 gKartModelMenuCameraPosition;
+extern Vec3 gKartModelMenuLightDirection;
+extern char gEmblemSBNclrName[16];
+extern char gKartOffsetDataBinName[20];
+extern char gCharMenuParamBinName[20];
+extern char gKartMenuParamBinName[20];
+extern char gKartSelectNsbmdName[28];
+extern char gKartSelectNsbtxName[28];

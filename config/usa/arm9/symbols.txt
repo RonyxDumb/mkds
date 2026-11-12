@@ -9560,21 +9560,21 @@ gCameraCollisionRadius kind:data(any) addr:0x021656c0
 gChaseCameraDriftOffsetScale kind:data(any) addr:0x021656c4
 gCameraShakeLookAtScaleFactor kind:data(any) addr:0x021656c8
 gCameraShakeCounterScales kind:data(any) addr:0x021656cc
-data_usa_021656d8 kind:data(any) addr:0x021656d8
-data_usa_021656dc kind:data(any) addr:0x021656dc
-data_usa_021656e0 kind:data(any) addr:0x021656e0
-data_usa_021656e4 kind:data(any) addr:0x021656e4
-data_usa_021656e8 kind:data(any) addr:0x021656e8
-data_usa_021656ec kind:data(any) addr:0x021656ec
-data_usa_021656f0 kind:data(any) addr:0x021656f0
-data_usa_021656fc kind:data(any) addr:0x021656fc
-data_usa_02165708 kind:data(any) addr:0x02165708
-data_usa_02165714 kind:data(any) addr:0x02165714
-data_usa_02165724 kind:data(any) addr:0x02165724
-data_usa_02165738 kind:data(any) addr:0x02165738
-data_usa_0216574c kind:data(any) addr:0x0216574c
-data_usa_02165760 kind:data(any) addr:0x02165760
-data_usa_0216577c kind:data(any) addr:0x0216577c
+gKartModelMenuLightLevel kind:data(any) addr:0x021656d8
+gKartModelMenuTiltAngleOffset kind:data(any) addr:0x021656dc
+gKartModelMenuMaxScale kind:data(any) addr:0x021656e0
+gKartModelMenuScaleFactor kind:data(any) addr:0x021656e4
+gKartModelMenuSpinStep kind:data(any) addr:0x021656e8
+gKartModelMenuLookAtYOffset kind:data(any) addr:0x021656ec
+gKartModelMenuLookAtTarget kind:data(any) addr:0x021656f0
+gKartModelMenuCameraPosition kind:data(any) addr:0x021656fc
+gKartModelMenuLightDirection kind:data(any) addr:0x02165708
+gEmblemSBNclrName kind:data(any) addr:0x02165714
+gKartOffsetDataBinName kind:data(any) addr:0x02165724
+gCharMenuParamBinName kind:data(any) addr:0x02165738
+gKartMenuParamBinName kind:data(any) addr:0x0216574c
+gKartSelectNsbmdName kind:data(any) addr:0x02165760
+gKartSelectNsbtxName kind:data(any) addr:0x0216577c
 @2835 kind:data(any) addr:0x02165798 local
 @2846 kind:data(any) addr:0x021657b0 local
 @2847 kind:data(any) addr:0x021657d4 local

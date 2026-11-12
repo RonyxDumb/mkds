@@ -11,34 +11,6 @@
 #include "Main/Sound/sound_seq.h"
 #include "Main/Kart/kart_name_tags.h"
 
-extern u16 data_usa_021656d8;
-
-extern u16 data_usa_021656dc;
-
-extern s32 data_usa_021656e0;
-
-extern s32 data_usa_021656e4;
-
-extern u32 data_usa_021656e8;
-
-extern s32 data_usa_021656ec;
-
-extern Vec3 data_usa_021656f0;
-
-extern Vec3 data_usa_021656fc;
-
-extern Vec3 data_usa_02165708;
-
-extern u8 data_usa_02165724[];
-
-extern u8 data_usa_02165738[];
-
-extern u8 data_usa_0216574c[];
-
-extern u8 data_usa_02165760[];
-
-extern u8 data_usa_0216577c[];
-
 // Objects whose layout isn't known yet.
 typedef struct QueueMPDataToPortParams {
     /* 00 */ void (*mCallback)();
