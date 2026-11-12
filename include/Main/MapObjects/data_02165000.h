@@ -67,12 +67,6 @@ extern TexPlttEntry data_02165a34;
 
 extern TexPlttEntry data_02165a58;
 
-extern const char gCommonPFaceanimNsbtpFormat[];
-
-extern const char gKartModelMenuPrefix[];
-
-extern const char gKartModelSlashPrefix[];
-
 // Three words, three more words and two halfwords; gBattleKartAiParamsHard, gBattleKartAiParamsDefault and gBattleKartAiParamsNormal are one each.
 typedef struct BattleKartAiParams {
     /* 00 */ s32 mUnk_00[3];
@@ -88,10 +82,6 @@ extern const Vec3 data_0216608c;
 extern const char *const gTeamEmblemNames[];
 
 extern const char gTeamEmblemNsbtxFormat[];
-
-extern const char gEmblemNsbtxFormat[];
-
-extern const char gEmblemSBNclrName[];
 
 // Three words.
 typedef struct KartFollowEffectIds {

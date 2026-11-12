@@ -25,3 +25,5 @@ u32 GetCharacterAnimationLoopFlag(int animationIndex);
 char *BuildCharacterNsbcaPath(u16 characterIndex, s32 animationIndex);
 
 extern char gCharacterNsbcaPathBuffer[256];
+
+extern const s32 gCharacterFaceFrames[3];

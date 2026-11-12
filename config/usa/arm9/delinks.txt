@@ -1808,6 +1808,7 @@ src/Main/Kart/shadow_model.c:
 src/Main/Kart/character_animation.c:
     complete
     .text       start:0x0207ae58 end:0x0207b960
+    .rodata     start:0x021551a4 end:0x021551b0
     .data       start:0x021658e0 end:0x021658f0
     .bss        start:0x0217ad14 end:0x0217ae14
 
@@ -1879,6 +1880,7 @@ src/Main/Kart/kart_name_tags.c:
 src/Main/Kart/kart_name_tag_draw.c:
     complete
     .text       start:0x02086e8c end:0x02087918
+    .data       start:0x02165a7c end:0x02165a8c
 
 // provisional: file name and boundaries
 src/Main/Kart/kart_name_tag_colored.c:
@@ -1912,14 +1914,14 @@ src/Main/Graphics/model_animation.c:
 src/Main/Kart/kart_model_path.c:
     complete
     .text       start:0x02088338 end:0x020888b4
-    .data       start:0x02165f0c end:0x02165fd4
+    .data       start:0x02165ed4 end:0x02165fec
 
 // provisional: file name and boundaries
 src/Main/Kart/kart_ai_battle.c:
     complete
     .text       start:0x020888b4 end:0x02089d14
     .rodata     start:0x02155eb0 end:0x02155ec8
-    .data       start:0x02165ff0 end:0x02166044
+    .data       start:0x02165fec end:0x02166044
     .bss        start:0x0217b008 end:0x0217b014
 
 // provisional: file name and boundaries

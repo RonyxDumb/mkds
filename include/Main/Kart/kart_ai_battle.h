@@ -124,3 +124,5 @@ extern BattleKartAiParams gBattleKartAiParamsNormal;
 extern u16 gSearchStartIndex;
 extern struct BattleKartAiParams *gBattleKartAiParams;
 extern s32 gEntryYDifferenceLimit;
+
+extern char gKartModelSlashPrefix[2];

@@ -58,12 +58,13 @@
 
 const Vec3 gBattleKartAiZeroVector = {0, 0, 0};
 const Vec3 gVec3UnitY = {0, 0x1000, 0};
+char gKartModelSlashPrefix[2] = "/";
 BattleKartAiParams gBattleKartAiParamsHard = {{0, 0xccd, 0x1000}, {0, 0xccd, 0x1000}, 8, 0};
 BattleKartAiParams gBattleKartAiParamsDefault = {{0, 0x800, 0x1000}, {0x554, 0xaa8, 0x1000}, 0xc, 2};
 BattleKartAiParams gBattleKartAiParamsNormal = {{0, 0x800, 0x1000}, {0, 0x800, 0x1000}, 0xa, 1};
 u16 gSearchStartIndex;
-BattleKartAiParams *gBattleKartAiParams;
 s32 gEntryYDifferenceLimit;
+BattleKartAiParams *gBattleKartAiParams;
 
 void SetupBattleKartAiSpeedLimit(KartAiSpeedLimit *speedLimit, KartAi *kartAi) {
     speedLimit->mBaseSpeedLimit = kartAi->mKart->mPhysicalParam->mBaseSpeedLimit;

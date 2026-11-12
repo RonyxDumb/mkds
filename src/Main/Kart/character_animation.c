@@ -29,6 +29,7 @@
 #include "code_02134398.h"
 #include "Main/Kart/kart_participant_record.h"
 
+const s32 gCharacterFaceFrames[3] = {0, 0x1000, 0};
 char gCharacterNsbcaPathBuffer[256];
 
 char *BuildCharacterNsbcaPath(u16 characterIndex, s32 animationIndex) {

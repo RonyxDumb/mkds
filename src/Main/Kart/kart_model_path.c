@@ -13,10 +13,11 @@
 #include "Main/Sound/sound_seq.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "Main/MapObjects/data_0217a000.h"
+#include "Main/Kart/kart_ai_battle.h"
 
 void SetKartModelPathPrefix(int value) {
     if (value) {
-        gKartModelPathPrefix = gKartModelMenuPrefix;
+        gKartModelPathPrefix = "/data/KartModelMenu/";
     } else {
         gKartModelPathPrefix = gKartModelSlashPrefix;
     }
@@ -97,13 +98,13 @@ char *BuildCharacterDirPath(s32 characterIndex) {
 }
 
 s8 *BuildPFaceanimNsbtpPath(void) {
-    snprintf((char *) &gKartModelPathBuffer, 0x100, gCommonPFaceanimNsbtpFormat, *(u32 *) &gKartModelPathPrefix,
+    snprintf((char *) &gKartModelPathBuffer, 0x100, "%s%scommon/P_faceanim.nsbtp", *(u32 *) &gKartModelPathPrefix,
              *(u32 *) &gCharacterDirName);
     return (s8 *) &gKartModelPathBuffer;
 }
 
 char *BuildEmblemNsbtxPath(u16 characterIndex) {
-    snprintf(gKartModelPathBuffer, 0x100, gEmblemNsbtxFormat, gKartModelPathPrefix,
+    snprintf(gKartModelPathBuffer, 0x100, "%semblem/%s_emblem.nsbtx", gKartModelPathPrefix,
              gCharacterEmblemNames[characterIndex].mName);
     return gKartModelPathBuffer;
 }

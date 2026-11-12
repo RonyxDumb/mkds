@@ -9652,7 +9652,7 @@ data_021659ec kind:data(any) addr:0x021659ec
 data_02165a10 kind:data(any) addr:0x02165a10
 data_02165a34 kind:data(any) addr:0x02165a34
 data_02165a58 kind:data(any) addr:0x02165a58
-gEmblemSBNclrName kind:data(any) addr:0x02165a7c
+@4961 kind:data(any) addr:0x02165a7c local
 data_usa_02165a8c kind:data(any) addr:0x02165a8c
 data_usa_02165a90 kind:data(any) addr:0x02165a90
 data_usa_02165a94 kind:data(any) addr:0x02165a94
@@ -9788,8 +9788,8 @@ data_usa_02165e68 kind:data(any) addr:0x02165e68
 data_usa_02165e74 kind:data(any) addr:0x02165e74
 gCharacterSubDirNames kind:data(any) addr:0x02165e80
 gTeamEmblemNsbtxFormat kind:data(any) addr:0x02165eb4
-gEmblemNsbtxFormat kind:data(any) addr:0x02165ed4
-gCommonPFaceanimNsbtpFormat kind:data(any) addr:0x02165ef0
+@3343 kind:data(any) addr:0x02165ed4 local
+@3345 kind:data(any) addr:0x02165ef0 local
 @926 kind:data(any) addr:0x02165f0c local
 @935 kind:data(any) addr:0x02165f14 local
 @937 kind:data(any) addr:0x02165f2c local
@@ -9808,7 +9808,7 @@ gCommonPFaceanimNsbtpFormat kind:data(any) addr:0x02165ef0
 @983 kind:data(any) addr:0x02165fbc local
 @984 kind:data(any) addr:0x02165fc4 local
 @985 kind:data(any) addr:0x02165fcc local
-gKartModelMenuPrefix kind:data(any) addr:0x02165fd4
+@3411 kind:data(any) addr:0x02165fd4 local
 gKartModelSlashPrefix kind:data(any) addr:0x02165fec
 gBattleKartAiParamsHard kind:data(any) addr:0x02165ff0
 gBattleKartAiParamsDefault kind:data(any) addr:0x0216600c

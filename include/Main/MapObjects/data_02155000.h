@@ -104,8 +104,6 @@ extern const s32 data_usa_021557c0;
 
 extern const s32 data_usa_021557dc[];
 
-extern const s32 gCharacterFaceFrames[];
-
 // 12-byte entries of gCharacterNsbcaStems: the animation file stem and whether the animation loops.
 typedef struct CharacterAnimationRow {
     /* 00 */ const char *mStem;
