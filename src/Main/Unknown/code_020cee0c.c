@@ -1,11 +1,21 @@
 #include "Main/Unknown/code_020cee0c.h"
+#include "Main/Unknown/code_020ceeec.h"
+#include "Main/Unknown/unk_02175000.h"
+#include "Main/Unknown/unk_0217a000.h"
 #include "Main/Unknown/code_02094e1c.h"
 #include "Main/Unknown/code_020c0ba8.h"
 #include "00/code_02181f98.h"
 #include "Main/Unknown/code_020c0000.h"
-#include "Main/Unknown/code_020ceeec.h"
 #include "Main/Unknown/code_02095000.h"
 #include "Main/Unknown/code_02133000.h"
+
+u32 ShuffledIndicesGetConnectionKind(void) {
+    return (gStartupWork->mConnectionKind);
+}
+
+RandomState64 *ShuffledIndicesGetConnectionWorkRandomState(void) {
+    return &gConnectionWork->mRandomState;
+}
 
 #pragma optimize_for_size on
 
