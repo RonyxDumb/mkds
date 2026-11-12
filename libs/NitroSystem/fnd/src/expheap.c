@@ -1,9 +1,70 @@
+#include "expheap.h"
+#include "code_02017ea0.h"
+#include "code_02017e70.h"
 #include "code_020176c0.h"
 #include "code_02134398.h"
 #include "Main/Unknown/code_0214d000.h"
 #include "00/code_02188720.h"
 
-// Sets up an Exp heap over startAddress to endAddress with one free block covering all its memory.
+void GetRegionOfMBlock(NNSiMemRegion *region, NNSiFndExpHeapMBlockHead *block) {
+    region->mStart = (u8 *) block - (u16) ((block->mAttribute >> 8) & 0x7f);
+    region->mEnd = (void *) (block->mBlockSize + (u32) (block + 1));
+}
+
+// Unlinks block from list and returns the block before it.
+NNSiFndExpHeapMBlockHead *RemoveMBlock(NNSiFndExpMBlockList *list, NNSiFndExpHeapMBlockHead *block) {
+    NNSiFndExpHeapMBlockHead *prev;
+    NNSiFndExpHeapMBlockHead *next;
+
+    prev = block->mMBHeadPrev;
+    next = block->mMBHeadNext;
+    if (prev != 0) {
+        prev->mMBHeadNext = next;
+    } else {
+        list->mHead = next;
+    }
+    if (next != 0) {
+        next->mMBHeadPrev = prev;
+    } else {
+        list->mTail = prev;
+    }
+    return prev;
+}
+
+// Links target into list after prev, or at the start when prev is NULL, and returns it.
+NNSiFndExpHeapMBlockHead *InsertMBlock(NNSiFndExpMBlockList *list, NNSiFndExpHeapMBlockHead *target,
+                                       NNSiFndExpHeapMBlockHead *prev) {
+    NNSiFndExpHeapMBlockHead *next;
+
+    target->mMBHeadPrev = prev;
+    if (prev != 0) {
+        next = prev->mMBHeadNext;
+        prev->mMBHeadNext = target;
+    } else {
+        next = list->mHead;
+        list->mHead = target;
+    }
+    target->mMBHeadNext = next;
+    if (next != 0) {
+        next->mMBHeadPrev = target;
+    } else {
+        list->mTail = target;
+    }
+    return target;
+}
+
+NNSiFndExpHeapMBlockHead *InitMBlock(const NNSiMemRegion *region, u16 signature) {
+    NNSiFndExpHeapMBlockHead *block;
+
+    block = region->mStart;
+    block->mSignature = signature;
+    block->mAttribute = 0;
+    block->mBlockSize = (u32) region->mEnd - (u32) (block + 1);
+    block->mMBHeadPrev = 0;
+    block->mMBHeadNext = 0;
+    return block;
+}
+
 NNSiFndHeapHead *InitExpHeap(void *startAddress, void *endAddress, u16 optFlag) {
     NNSiFndHeapHead *heap;
     NNSiFndExpHeapHead *expHeap;
@@ -370,4 +431,14 @@ u32 NNS_FndGetAllocatableSizeForExpHeapEx(NNSFndHeapHandle heap, int alignment) 
         }
     }
     return bestSize;
+}
+
+u16 NNS_FndSetGroupIDForExpHeap(NNSFndHeapHandle heap, u16 groupID) {
+    NNSiFndExpHeapHead *expHeap;
+    u16 oldId;
+
+    expHeap = EXP_HEAP_HEAD(heap);
+    oldId = expHeap->mGroupID;
+    expHeap->mGroupID = groupID;
+    return oldId;
 }

@@ -391,24 +391,9 @@ libs/NitroSystem/fnd/src/heapcommon.c:
     .text       start:0x02017550 end:0x020176b0
 
 // provisional: file name and boundaries
-libs/NitroSystem/fnd/src/code_020176b0.c:
+libs/NitroSystem/fnd/src/expheap.c:
     complete
-    .text       start:0x020176b0 end:0x020176c0
-
-// provisional: file name and boundaries
-libs/NitroSystem/fnd/src/code_020176c0.c:
-    complete
-    .text       start:0x020176c0 end:0x02017e70
-
-// provisional: file name and boundaries
-libs/NitroSystem/fnd/src/code_02017e70.c:
-    complete
-    .text       start:0x02017e70 end:0x02017ea0
-
-// provisional: file name and boundaries
-libs/NitroSystem/fnd/src/code_02017ea0.c:
-    complete
-    .text       start:0x02017ea0 end:0x02017f24
+    .text       start:0x020176b0 end:0x02017f24
 
 // provisional: file name and boundaries
 libs/NitroSystem/fnd/src/frameheap.c:

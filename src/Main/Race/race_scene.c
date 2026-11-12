@@ -23,7 +23,7 @@
 #include "Main/Unknown/code_02046000.h"
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/System/touch_mic_input.h"
-#include "code_020176b0.h"
+#include "expheap.h"
 #include "Main/System/heap_call.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/System/wvr_state.h"

@@ -10,7 +10,7 @@
 #include "Main/System/heap_call.h"
 #include "Main/Unknown/code_02036bec.h"
 #include "00/code_021832d8.h"
-#include "code_020176b0.h"
+#include "expheap.h"
 #include "Main/Scene/scene_run_step.h"
 #include "Main/Unknown/code_02049000.h"
 #include "Main/Scene/scene_connection.h"

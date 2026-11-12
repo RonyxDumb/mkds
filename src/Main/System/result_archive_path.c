@@ -19,7 +19,7 @@
 #include "Main/Unknown/unk_0217a000.h"
 #include "Main/Unknown/code_02048000.h"
 #include "Main/Unknown/code_0205e000.h"
-#include "code_020176b0.h"
+#include "expheap.h"
 #include "frameheap.h"
 #include "Main/Unknown/code_02047000.h"
 #include "Main/Unknown/code_0204f5e4.h"

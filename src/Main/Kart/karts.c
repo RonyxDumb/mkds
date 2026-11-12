@@ -53,7 +53,7 @@
 #include "code_02146d78.h"
 #include "code_02147cd8.h"
 #include "Main/Unknown/code_02039860.h"
-#include "code_020176b0.h"
+#include "expheap.h"
 #include "Main/System/heap_call.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/Race/race.h"

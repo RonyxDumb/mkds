@@ -40,7 +40,7 @@
 #include "Main/Unknown/code_02029a24.h"
 #include "Main/Unknown/code_02037000.h"
 #include "Main/Unknown/code_0203b000.h"
-#include "code_020176b0.h"
+#include "expheap.h"
 #include "Main/System/heap_call.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/Race/ghost_record_set.h"
