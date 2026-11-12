@@ -9,6 +9,8 @@
 
 #pragma optimize_for_size on
 
+SoundFalloff gOtherKartSoundFalloff;
+
 void StopSndHandleSlots7To11(void) {
     s32 slotIndex;
 

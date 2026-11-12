@@ -62,6 +62,7 @@
 #include "Main/Kart/kart_resources.h"
 #include "Main/Kart/kart_slot8_return.h"
 #include "Main/Kart/kart_state0_return.h"
+#include "Main/Sound/map_object_sound_counter.h"
 
 s32 gFirstBaseSpeedLimitReciprocal = 0x6000;
 Vec3 gKartPlacementHeadingAxis = {0, 0x1000, 0};

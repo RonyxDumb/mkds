@@ -32,15 +32,29 @@
 #include "01/Race/race_hud_coin_cells.h"
 #include "Main/Sound/sound_system.h"
 
-u16 gLapProgressSoundIds[2] = {0x7e, 0x7c};
 const s32 gLapProgressSoundGapDividends[2] = {0x14000, 0x10000};
+u16 gLapProgressSoundIds[2] = {0x7e, 0x7c};
+u32 gEmblemSoundCallsSincePlay;
+u32 gThunderShrinkSoundCounter;
+s32 gKingTeresaStateLastFrame;
+u32 gAnySeqVariableEnabled;
+s32 gKartNearPlayerVolumeFactor;
+s32 gKingTeresaState;
+s32 gInitialVolumePerFrame;
+s32 gPreviousKingTeresaState;
 s32 gUseKingTeresaSeqVolume;
 s32 gKartNearSeqVolumeFactor;
 s32 gKingTeresaStateFrames;
-s32 gInitialVolumePerFrame;
-u32 gThunderShrinkSoundCounter;
 s32 gEmblemSoundValue;
-s32 gKingTeresaStateLastFrame;
+s32 gKingTeresaSeqVolumeFactor;
+s32 gKingTeresaSoundVolumeFactor;
+volatile s32 gReachedSeqVolume;
+u32 gSeqVariableEnabled[2];
+VolumeFade gVolumeFade;
+s32 gLapProgressSoundGaps[2];
+s32 gKingTeresaVolumePerFrame[2];
+SeqPlayerControl gSeqPlayerControl;
+SeqVariableReading gSeqVariableReadings[2];
 
 void SetEmblemSoundValue(u32 value) {
     gEmblemSoundValue = value;

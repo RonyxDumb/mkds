@@ -3761,12 +3761,13 @@ src/Main/Sound/sound_seq.c:
     .text       start:0x02105550 end:0x02108e38
     .rodata     start:0x0215a6c0 end:0x0215a6e4
     .data       start:0x0216c7b4 end:0x0216c840
-    .bss        start:0x0217c74c end:0x0217c7a4
+    .bss        start:0x0217c74c end:0x0217c7d0
 
 // provisional: file name and boundaries
 src/Main/Sound/snd_handle_slots.c:
     complete
     .text       start:0x02108e38 end:0x02108e6c
+    .bss        start:0x0217c8d8 end:0x0217c8fc
 
 // provisional: file name and boundaries
 src/Main/Sound/sound_handle_pool.c:
@@ -3857,7 +3858,7 @@ src/Main/Sound/sound_distance_change_reset.c:
 src/Main/Sound/map_object_sound_counter.c:
     complete
     .text       start:0x0210b870 end:0x0210bad4
-    .data       start:0x0216ca28 end:0x0216ca38
+    .data       start:0x0216ca28 end:0x0216ca48
 
 // provisional: file name and boundaries
 src/Main/Sound/map_start_sound_full_volume.c:
@@ -3997,7 +3998,7 @@ src/Main/Sound/seq_queue.c:
     .text       start:0x0210f744 end:0x021108bc
     .rodata     start:0x0215c3a4 end:0x0215c3ac
     .data       start:0x0216cb80 end:0x0216cba0
-    .bss        start:0x0217d1c8 end:0x0217d1e4
+    .bss        start:0x0217d1c8 end:0x0217d24c
 
 // provisional: file name and boundaries
 src/Main/Sound/race_end_seq.c:

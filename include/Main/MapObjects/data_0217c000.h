@@ -33,9 +33,6 @@ typedef struct SoundFalloff {
 // Volume curves by sound source number (SoundSource.mFalloffIndex); filled by InitSoundFalloffs.
 extern SoundFalloff gSoundFalloffs[];
 
-// Volume curve of the Karts other than the selected entry whose sound source number is 0.
-extern SoundFalloff gOtherKartSoundFalloff;
-
 // Objects whose layout isn't known yet.
 extern NNSSndSeqPlayer *gMatchingEntrySeqHandle;
 
@@ -106,8 +103,6 @@ struct NNSSndSeqPlayer;
 extern struct NNSSndSeqPlayer *gChoisesSSeqHandle;
 
 extern u32 gRaceSeqStarted;
-
-extern u8 data_0217c7d8[];
 
 extern s32 gPlayerVolumeMasks[];
 

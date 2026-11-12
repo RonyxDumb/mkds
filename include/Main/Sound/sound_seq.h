@@ -84,8 +84,6 @@ typedef struct SoundHandlePool {
     /* 10 */ s32 mEntrySize;
 } SoundHandlePool;
 
-extern SoundHandlePool gSoundHandlePool;
-
 // The first eight bytes of each element of the table a SoundHandlePool describes: a handle at 0 and a word at 4.
 typedef struct SoundHandleEntry {
     /* 00 */ NNSSndSeqPlayer *mSeqPlayer;
@@ -128,8 +126,6 @@ typedef struct VolumeFade {
     /* 00 */ u32 mVolumePerFrame;
     /* 04 */ s32 mVolume;
 } VolumeFade;
-
-extern VolumeFade gVolumeFade;
 
 // Values of the two switches in InitSound.
 typedef enum { E0 = 0, E1 = 1, E2 = 2 } SndHeapSizeKind;
@@ -190,3 +186,6 @@ extern const u16 gChoisesSValueSeqNos[6];
 
 extern u16 gMissionRunLimitSeqNo[1];
 extern u16 gMissionRunCountSeqNo[1];
+
+extern SoundHandlePool gSoundHandlePool;
+extern u8 gSoundHandlePoolEntries[21];

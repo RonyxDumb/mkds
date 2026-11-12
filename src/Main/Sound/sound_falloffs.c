@@ -16,6 +16,7 @@
 #include "code_02147cd8.h"
 #include "code_02148538.h"
 #include "registers.h"
+#include "Main/Sound/snd_handle_slots.h"
 
 void StopKartSoundWhileRequested(Kart *kart) {
     if (kart->mSound.mWhileRequestedSoundId == 0xffff) {

@@ -108,4 +108,3 @@ extern const char *gRecordGpxSBnblName;
 
 extern u8 gSoundDataSdatPath[];
 
-extern s32 gKartSurfaceSoundSortOffsets[];

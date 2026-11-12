@@ -77,25 +77,27 @@ LoadedSoundBanks gLoadedSoundBanks = {0, {0, 0}, 0xff00};
 SurfaceSoundSetup gOldLuigiAgbSurfaceSoundSetup = {{0x7a, 0x66, 0x67, 0x9d}, 0, 0};
 s32 gSndBankIdsByBit[13] = {3, 4, 5, 6, 7, 8, 9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf};
 s32 gSndWaveArcIdsByBit[13] = {5, 6, 7, 8, 9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf, 0x10, 0x11};
-u16 gMissionRunMSselSeqIndex;
 u16 gMissionRunLimitSeqNo[1];
+u16 gMissionRunMSselSeqIndex;
 u16 gMissionRunCountSeqNo[1];
-u32 gMissionRunSelMode;
-u32 gRaceSeqStarted;
-NNSSndSeqPlayer *gMatchingEntrySeqHandle;
-NNSSndHeap *gSndHeap;
-u32 gSoundStartedThisFrame;
-NNSSndSeqPlayer *gChoisesSSeqHandle;
 NNSSndSeqPlayer *gSeqZeroLoopHandle;
-u32 gSceneSeqRestartAfterStar;
 u32 gRaceSoundKind;
-s32 gMissionRunMSselStep0Count;
-u32 gSndHeapSavedState[1];
-s32 gMissionRunMSselStep32Count;
-NNSSndHeap *gSeqRowSndHeap;
+u32 gRaceSeqStarted;
+u32 gSceneSeqRestartAfterStar;
 s32 gSeqZeroLoopOn;
+NNSSndSeqPlayer *gChoisesSSeqHandle;
+NNSSndSeqPlayer *gMatchingEntrySeqHandle;
+NNSSndHeap *gSeqRowSndHeap;
+u32 gSndHeapSavedState[1];
+u32 gMissionRunSelMode;
+NNSSndHeap *gSndHeap;
+s32 gMissionRunMSselStep32Count;
+s32 gMissionRunMSselStep0Count;
+u32 gSoundStartedThisFrame;
 u32 gKartStarSeqStartPending;
 LoadedSoundSet gLoadedSoundSet;
+SoundHandlePool gSoundHandlePool;
+u8 gSoundHandlePoolEntries[21];
 
 // Keeps seq 0 looping on the in-memory archive until StopSeqZeroLoop; UpdateSounds restarts it.
 void StartSeqZeroLoop(void) {
@@ -412,7 +414,7 @@ void InitSound(void *buffer, u32 bufferSize, u32 useFileArchive) {
     for (slotIndex = 0; slotIndex < 12; slotIndex++) {
         NNS_SndHandleInit(&gSndHandleSlots[slotIndex]);
     }
-    InitSoundHandlePool(&gSoundHandlePool, data_0217c7d8, 3, 8);
+    InitSoundHandlePool(&gSoundHandlePool, gSoundHandlePoolEntries, 3, 8);
     NNS_SndHandleInit(&gChoisesSSeqHandle);
     NNS_SndHandleInit(&gSeqZeroLoopHandle);
     NNS_SndHandleInit(&gMatchingEntrySeqHandle);

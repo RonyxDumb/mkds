@@ -11851,7 +11851,7 @@ gChoisesSSeqHandle kind:bss addr:0x0217c78c
 gRaceSeqStarted kind:bss addr:0x0217c790
 gLoadedSoundSet kind:bss addr:0x0217c794
 gSoundHandlePool kind:bss addr:0x0217c7a4
-data_0217c7d8 kind:bss addr:0x0217c7b8
+gSoundHandlePoolEntries kind:bss addr:0x0217c7b8
 gPlayerVolumeFade kind:bss addr:0x0217c7d0
 gPlayerVolumeTargets kind:bss addr:0x0217c7dc
 gPlayerVolumeMasks kind:bss addr:0x0217c7e4

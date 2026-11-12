@@ -26,8 +26,6 @@ typedef struct SeqVariableReading {
     /* 08 */ u8 mVariableNo[4];
 } SeqVariableReading;
 
-extern SeqVariableReading gSeqVariableReadings[];
-
 void ResetSeqVariableReadings(void);
 void UpdateSeqVariableReadings(NNSSndSeqPlayer **handle);
 u32 IsSeqVariableChanged(u32 slot);
@@ -106,3 +104,18 @@ extern s32 gInitialVolumePerFrame;
 extern u32 gThunderShrinkSoundCounter;
 extern s32 gEmblemSoundValue;
 extern s32 gKingTeresaStateLastFrame;
+
+extern u32 gEmblemSoundCallsSincePlay;
+extern u32 gAnySeqVariableEnabled;
+extern s32 gKartNearPlayerVolumeFactor;
+extern s32 gKingTeresaState;
+extern s32 gPreviousKingTeresaState;
+extern s32 gKingTeresaSeqVolumeFactor;
+extern s32 gKingTeresaSoundVolumeFactor;
+extern volatile s32 gReachedSeqVolume;
+extern u32 gSeqVariableEnabled[2];
+extern VolumeFade gVolumeFade;
+extern s32 gLapProgressSoundGaps[2];
+extern s32 gKingTeresaVolumePerFrame[2];
+extern SeqPlayerControl gSeqPlayerControl;
+extern SeqVariableReading gSeqVariableReadings[2];

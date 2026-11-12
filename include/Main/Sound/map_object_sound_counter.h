@@ -21,3 +21,5 @@ void StartMapObjectCounterSound(void *mapSound, s32 baseSoundId);
 void ResetMapObjectSoundCounter(void);
 
 extern SoundStartParams gBalloonSoundStartParams;
+
+extern s32 gKartSurfaceSoundSortOffsets[4];

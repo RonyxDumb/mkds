@@ -729,16 +729,6 @@ extern s32 (*data_0217d01c)(SoundParams *);
 
 extern NNSFndList gSoundSources;
 
-extern s32 gKingTeresaState;
-
-extern s32 gPreviousKingTeresaState;
-
-extern u32 gAnySeqVariableEnabled;
-
-extern SeqPlayerControl gSeqPlayerControl;
-
-extern s32 gLapProgressSoundGaps[];
-
 extern u32 sIsThreadCreated;
 
 extern CaptureParam sCapParam;
@@ -755,21 +745,9 @@ extern EffectInfo sEffectInfoBuffer[8];
 
 extern struct NNSSndArc *sCurrent;
 
-extern s32 gKartNearPlayerVolumeFactor;
-
 extern u8 gEmblemSoundPlayCount;
 
 extern u8 gEmblemSoundPitchCounter;
-
-extern u32 gEmblemSoundCallsSincePlay;
-
-extern s32 gKingTeresaSeqVolumeFactor;
-
-extern s32 gKingTeresaSoundVolumeFactor;
-
-extern volatile s32 gReachedSeqVolume;
-
-extern s32 gKingTeresaVolumePerFrame[2];
 
 extern SeqQueue gSeqQueue;
 
@@ -783,8 +761,6 @@ extern NNSSndSeqPlayer *gScenePlayersSeqPlayer;
 extern SoundModeHolder gSoundModeHolder;
 
 extern struct NNSSndArc gFileSndArc;
-
-extern u32 gSeqVariableEnabled[];
 
 extern u32 gSoundSourceUpdatePass[];
 

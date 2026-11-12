@@ -13,6 +13,7 @@
 #include "Main/Sound/surface_sound_ids.h"
 
 SoundStartParams gBalloonSoundStartParams = {0x154, NULL, 2, 0};
+s32 gKartSurfaceSoundSortOffsets[4] = {0xf4240, 0x64, 0x186a0, 0x64};
 
 void ResetMapObjectSoundCounter(void) {
     gMapObjectSoundCounter = 0;
