@@ -1,15 +1,145 @@
-#include "code_021510a4.h"
-#include "code_0200eddc.h"
+#include "dwc_backup.h"
+#include "code_020205b0.h"
 #include "code_0214d018.h"
+#include "code_0200fc8c.h"
+#include "Main/Unknown/unk_02180000.h"
+#include "Main/Unknown/code_02151718.h"
+#include "code_0200eddc.h"
 #include "code_0214d5b8.h"
 #include "os_tick.h"
 #include "string.h"
 #include "code_02134398.h"
 #include "Main/Unknown/code_0200e000.h"
 #include "Main/Unknown/code_02000000.h"
-#include "Main/Unknown/unk_02180000.h"
-#include "code_0200fc8c.h"
 #include "code_0200007e.h"
+
+#pragma thumb on
+
+void DWCi_BM_GetWiFiInfo(DWCWiFiInfo *info) {
+    MI_CpuCopy8(gPackedWiFiInfo, info, 6);
+    info->mAttestedUserId &= ~0xfffff80000000000ULL;
+    MI_CpuCopy8(gPackedWiFiInfo + 5, &info->mNotAttestedId, 6);
+    info->mNotAttestedId >>= 3;
+    info->mNotAttestedId &= ~0xfffff80000000000ULL;
+    MI_CpuCopy8(gPackedWiFiInfo + 10, &info->mPass, 2);
+    info->mPass = info->mPass >> 6;
+    info->mPass &= 0x3ff;
+    MI_CpuCopy8(gPackedWiFiInfo + 12, &info->mRandomHistory, 2);
+}
+
+BOOL DWCi_BM_SetWiFiInfo(const DWCWiFiInfo *info, u8 *work) {
+    u32 address;
+    s32 page;
+    address = gNvramEntriesOffset;
+    DWCi_BACKUPlConvWifiInfo(info);
+    Crc16InitTable(OFFSET_PTR(u16, work, 0x200), 0xa001);
+    for (page = 0; page < 2;) {
+        if (readNvram(address, 0x100, work) == 0) {
+            OS_Terminate();
+            return 0;
+        }
+        MI_CpuCopy8(gPackedWiFiInfo, work + 0xf0, 0xe);
+        *OFFSET_PTR(u16, work, 0xfe) = Crc16(OFFSET_PTR(u16, work, 0x200), work, 0xfe);
+        do {
+            writeNvram(address, 0x100, work);
+        } while (verify(work, address, 0x100, work + 0x100) == 0);
+        page++;
+        address += 0x100;
+    }
+    if (writeDisable() != 0) {
+        return 1;
+    }
+    return 0;
+}
+
+#pragma thumb off
+
+#pragma thumb on
+
+u32 ReadNvramEntriesOffset(u16 *buffer) {
+    int readResult;
+    readResult = readNvram(0x20, 0x20, buffer);
+    if (readResult == 0) {
+        return 0;
+    }
+    gNvramEntriesOffset = *buffer * 8 - 0x400;
+    return 1;
+}
+
+u32 ReadNvramEntries(void *buffer) {
+    int readResult;
+    readResult = readNvram(gNvramEntriesOffset, 0x400, buffer);
+    if (readResult != 0) {
+        return 1;
+    }
+    return 0;
+}
+
+u32 WriteFlaggedNvramEntries(int data, int *flags, void *verifyBuffer) {
+    int verifyResult;
+    int v2;
+    int address;
+    int *flagPointer;
+    int entryIndex;
+    v2 = 0x100;
+    address = gNvramEntriesOffset;
+    entryIndex = 0;
+    flagPointer = flags;
+    do {
+        if (*flagPointer != 0) {
+            do {
+                writeNvram(address, v2, (void *) data);
+                verifyResult = verify((const u8 *) data, address, v2, verifyBuffer);
+            } while (verifyResult == 0);
+        }
+        flagPointer = flagPointer + 1;
+        data = data + v2;
+        entryIndex = entryIndex + 1;
+        address = address + v2;
+    } while (entryIndex < 4);
+    v2 = writeDisable();
+    if (v2 != 0) {
+        return 1;
+    }
+    return 0;
+}
+
+u32 WriteNvramEntriesWithCrc16(u8 *data) {
+    int entryIndex;
+    int address;
+    u8 *entry;
+    int v4;
+    int verifyResult;
+    u16 crc;
+    v4 = 0x100;
+    address = gNvramEntriesOffset;
+    entryIndex = 0;
+    entry = data;
+    do {
+        crc = Crc16(OFFSET_PTR(const u16, data, 0x500), entry, 0xfe);
+        *OFFSET_PTR(u16, entry, 0xfe) = crc;
+        do {
+            writeNvram(address, v4, entry);
+            verifyResult = verify(entry, address, v4, OFFSET_PTR(const u8, data, 0x400));
+        } while (verifyResult == 0);
+        entry = entry + v4;
+        entryIndex = entryIndex + 1;
+        address = address + v4;
+    } while (entryIndex < 4);
+    v4 = writeDisable();
+    if (v4 != 0) {
+        return 1;
+    }
+    return 0;
+}
+
+#pragma thumb off
+
+#pragma thumb on
+void WritePackedWiFiInfo(const u8 *packedWiFiInfo) {
+    MI_CpuCopy8(packedWiFiInfo, gPackedWiFiInfo, 14);
+}
+#pragma thumb off
 
 #pragma thumb on
 

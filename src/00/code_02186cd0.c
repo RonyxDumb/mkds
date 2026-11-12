@@ -21,7 +21,7 @@
 #include "00/code_02187484.h"
 #include "00/unk_021b4000.h"
 #include "code_0200fc8c.h"
-#include "code_021510a4.h"
+#include "dwc_backup.h"
 
 void DWC_Netcheck_Abort(void) {
     if (gNetcheck != NULL) {

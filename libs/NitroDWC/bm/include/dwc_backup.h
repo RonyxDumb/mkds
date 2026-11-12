@@ -2,7 +2,6 @@
 
 #include "types.h"
 
-// The Wi-Fi ID record.
 typedef struct DWCWiFiInfo {
     /* 00 */ u64 mAttestedUserId;
     /* 08 */ u64 mNotAttestedId;
@@ -26,3 +25,10 @@ BOOL DWC_BACKUPlCheckIp(const u8 *ip, const u8 *mask);
 BOOL DWC_BACKUPlCheckSsid(const u8 *ssid);
 void DWCi_BACKUPlConvMaskAddr(u32 mask, u8 *buf);
 u8 DWCi_BACKUPlConvMaskCidr(const u8 *mask);
+
+void WritePackedWiFiInfo(const u8 *packedWiFiInfo);
+
+typedef struct DWCWiFiInfo DWCWiFiInfo;
+
+void DWCi_BM_GetWiFiInfo(DWCWiFiInfo *info);
+BOOL DWCi_BM_SetWiFiInfo(const DWCWiFiInfo *info, u8 *work);

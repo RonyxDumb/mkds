@@ -1,6 +1,5 @@
 #include "code_021519d4.h"
-#include "code_021510a4.h"
-#include "code_02151868.h"
+#include "dwc_backup.h"
 #include "code_02151fc4.h"
 #include "code_020205b0.h"
 #include "os_tick.h"
@@ -10,7 +9,6 @@
 #include "string.h"
 #include "code_02134398.h"
 #include "code_0200fc8c.h"
-#include "Main/Save/nvram_entries.h"
 #include "Main/Unknown/code_02151718.h"
 
 #pragma thumb on

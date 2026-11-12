@@ -4253,19 +4253,9 @@ src/Main/Save/packed_wifi_info.c:
     .text       start:0x0215109c end:0x021510a4
 
 // provisional: file name and boundaries
-libs/NitroDWC/bm/src/code_021510a4.c:
+libs/NitroDWC/bm/src/dwc_backup.c:
     complete
-    .text       start:0x021510a4 end:0x02151708
-
-// provisional: file name and boundaries
-src/Main/Save/nvram_entries.c:
-    complete
-    .text       start:0x02151708 end:0x02151868
-
-// provisional: file name and boundaries
-libs/NitroDWC/bm/src/code_02151868.c:
-    complete
-    .text       start:0x02151868 end:0x021519a8
+    .text       start:0x021510a4 end:0x021519a8
 
 // provisional: file name and boundaries
 src/Main/Save/nvram_first_three.c:
