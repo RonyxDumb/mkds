@@ -33,3 +33,6 @@ void CreateItemModels(void);
 void *CreateItemNsbmd(char *modelName, char *textureName);
 NsbmdModel *CreateItemModel(char *modelName, char *animationName, char *textureName);
 void *FindItemFile(char *fileName);
+
+// Indexed by object kind; 14 slots, 13 files (kind 8 aliases kind 7)
+extern NsbmdModel *gItemModels[14];

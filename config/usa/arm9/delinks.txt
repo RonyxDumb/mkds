@@ -3497,6 +3497,7 @@ src/Main/Item/item_link_following.c:
     complete
     .text       start:0x020ec8bc end:0x020ed578
     .data       start:0x0216c40c end:0x0216c5ec
+    .bss        start:0x0217bbdc end:0x0217bc14
 
 // provisional: file name and boundaries
 src/Main/Item/item_model.c:

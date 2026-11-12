@@ -809,8 +809,6 @@ extern u16 gMapObjectFirstPolygonId;
 extern u16 gNextPolygonId;
 extern GrpconfTblRow *gGrpconfTbl;
 extern MapObject **gFoundMapObjects;
-// Indexed by object kind; 14 slots, 13 files (kind 8 aliases kind 7)
-extern NsbmdModel *gItemModels[];
 struct ItemObject;
 
 extern s32 gKeyboardOffsetX;

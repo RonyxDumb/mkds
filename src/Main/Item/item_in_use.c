@@ -39,6 +39,7 @@
 #include "Main/MapObjects/data_0217b000.h"
 #include "Main/Item/item_pool.h"
 #include "code_02147cd8.h"
+#include "Main/Item/item_link_following.h"
 
 void (*gItemInUseAdvanceTable[5])(ItemInUse *) = {NULL, AdvanceItemInUseOne, AdvanceItemInUseOneWithOrientation,
                                                   AdvanceItemInUseTrail, AdvanceItemInUseCircle};

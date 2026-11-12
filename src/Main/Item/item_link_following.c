@@ -28,6 +28,8 @@
 #pragma thumb on
 #pragma optimize_for_size on
 
+NsbmdModel *gItemModels[14];
+
 void *FindItemFile(char *fileName) {
     char buf[0x100];
 
