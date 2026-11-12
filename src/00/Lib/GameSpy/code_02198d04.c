@@ -1,6 +1,7 @@
 #include "00/Lib/GameSpy/code_02198d04.h"
 #include "00/Lib/GameSpy/code_0218d818.h"
 #include "00/Lib/GameSpy/code_02197b34.h"
+#include "00/Lib/GameSpy/code_02197ddc.h"
 #include "00/Lib/GameSpy/gt2Connection.h"
 #include "00/Lib/GameSpy/gt2Message.h"
 #include "00/unk_021b3000.h"

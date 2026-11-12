@@ -25,7 +25,7 @@
 #include "00/code_0219c000.h"
 #include "00/Lib/DWC/code_0219c384.h"
 #include "00/Lib/DWC/code_0219caac.h"
-#include "00/Lib/GameSpy/code_0219742c.h"
+#include "00/Lib/GameSpy/code_02196960.h"
 
 // Stores the callback and its argument in mBuddyChangedCallback / mBuddyChangedCallbackArg of gWiFiBuddySync when the
 // object exists.

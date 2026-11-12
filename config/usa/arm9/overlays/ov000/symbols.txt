@@ -2172,12 +2172,12 @@ gHostnameDot kind:data(any) addr:0x021b3e00
 gCdKeyTooLongText kind:data(any) addr:0x021b3e04
 gGenerateAuthFormat kind:data(any) addr:0x021b3e24
 gGt2ChallengeKey kind:data(any) addr:0x021b3e2c
-gGt2AuthChallengeAssert kind:data(any) addr:0x021b3e50
-gGt2AuthFileName kind:data(any) addr:0x021b3e58
-gGt2BufferShortenStartAssert kind:data(any) addr:0x021b3e64
-gGt2BufferFileName kind:data(any) addr:0x021b3e7c
-gGt2BufferShortenLengthAssert kind:data(any) addr:0x021b3e88
-gGt2BufferWriteDataAssert kind:data(any) addr:0x021b3eac
+@3301 kind:data(any) addr:0x021b3e50 local
+@3302 kind:data(any) addr:0x021b3e58 local
+@3303 kind:data(any) addr:0x021b3e64 local
+@3304 kind:data(any) addr:0x021b3e7c local
+@3305 kind:data(any) addr:0x021b3e88 local
+@3306 kind:data(any) addr:0x021b3eac local
 @183 kind:data(any) addr:0x021b3ed0 local
 @187 kind:data(any) addr:0x021b3ef4 local
 @628 kind:data(any) addr:0x021b3f10 local
@@ -2191,18 +2191,18 @@ gPingTimeId kind:data(any) addr:0x021b3f68
 @557 kind:data(any) addr:0x021b3f70 local
 @558 kind:data(any) addr:0x021b3f78 local
 @40 kind:data(any) addr:0x021b3f88 local
-gGt2HostLengthAssert kind:data(any) addr:0x021b3f8c
-gGt2UtilityFileName kind:data(any) addr:0x021b3fac
-gAddressPortFormat kind:data(any) addr:0x021b3fbc
-gAddressOnlyFormat kind:data(any) addr:0x021b3fc4
-gPortOnlyFormat kind:data(any) addr:0x021b3fc8
+@3201 kind:data(any) addr:0x021b3f8c local
+@3202 kind:data(any) addr:0x021b3fac local
+@3203 kind:data(any) addr:0x021b3fbc local
+@3204 kind:data(any) addr:0x021b3fc4 local
+@3205 kind:data(any) addr:0x021b3fc8 local
 NNMagicData kind:data(any) addr:0x021b3fcc
-gMatchup1HostnameDefault kind:data(any) addr:0x021b3fd4
-gMatchup2HostnameDefault kind:data(any) addr:0x021b3ff0
-gGamenameHostnameFormat kind:data(any) addr:0x021b400c
-data_ov000_021b4054 kind:data(any) addr:0x021b4014
-gDwcGpCommandString kind:data(any) addr:0x021b4018
-gDwcGpCommandMatchString kind:data(any) addr:0x021b4020
+@3206 kind:data(any) addr:0x021b3fd4 local
+@3207 kind:data(any) addr:0x021b3ff0 local
+@3208 kind:data(any) addr:0x021b400c local
+@2693 kind:data(any) addr:0x021b4014 local
+@2694 kind:data(any) addr:0x021b4018 local
+@2696 kind:data(any) addr:0x021b4020 local
 @2695 kind:data(any) addr:0x021b4024 local
 @1556 kind:data(any) addr:0x021b4028 local
 @2354 kind:data(any) addr:0x021b4038 local
@@ -2244,24 +2244,24 @@ gDwcMagicStrings kind:data(any) addr:0x021b41b0
 gCurrentQr2Rec kind:data(any) addr:0x021b422c
 gNatnegMagicBytes kind:data(any) addr:0x021b4230
 gStaticQr2Rec kind:data(any) addr:0x021b4238
-gLocalIpKeyFormat kind:data(any) addr:0x021b4348
-gLocalportKey kind:data(any) addr:0x021b4354
-gNatnegKey kind:data(any) addr:0x021b4360
-gNatnegOnValue kind:data(any) addr:0x021b4368
-gNatnegOffValue kind:data(any) addr:0x021b436c
-gStatechangedKey kind:data(any) addr:0x021b4370
-gGamenamePlainKey kind:data(any) addr:0x021b4380
-gPublicipKey kind:data(any) addr:0x021b438c
-gPublicportKey kind:data(any) addr:0x021b4398
-gFinalQueryidText kind:data(any) addr:0x021b43a4
-gUnregisteredKeyName kind:data(any) addr:0x021b43b8
-data_ov000_021b4400 kind:data(any) addr:0x021b43c0
-data_ov000_021b4404 kind:data(any) addr:0x021b43c4
-gPublicAddressFormat kind:data(any) addr:0x021b43cc
-gBroadcastAddress kind:data(any) addr:0x021b43d8
-gIntFormat kind:data(any) addr:0x021b43e8
-gNoChallengeErrorMessage kind:data(any) addr:0x021b43ec
-gQr2MasterHostnameFormat kind:data(any) addr:0x021b4424
+@3001 kind:data(any) addr:0x021b4348 local
+@3002 kind:data(any) addr:0x021b4354 local
+@3003 kind:data(any) addr:0x021b4360 local
+@3004 kind:data(any) addr:0x021b4368 local
+@3005 kind:data(any) addr:0x021b436c local
+@3006 kind:data(any) addr:0x021b4370 local
+@3007 kind:data(any) addr:0x021b4380 local
+@3008 kind:data(any) addr:0x021b438c local
+@3009 kind:data(any) addr:0x021b4398 local
+@3010 kind:data(any) addr:0x021b43a4 local
+@3011 kind:data(any) addr:0x021b43b8 local
+@3012 kind:data(any) addr:0x021b43c0 local
+@3013 kind:data(any) addr:0x021b43c4 local
+@3014 kind:data(any) addr:0x021b43cc local
+@3015 kind:data(any) addr:0x021b43d8 local
+@3016 kind:data(any) addr:0x021b43e8 local
+@3017 kind:data(any) addr:0x021b43ec local
+@3018 kind:data(any) addr:0x021b4424 local
 data_usa_ov000_021b4444 kind:data(any) addr:0x021b4444
 data_usa_ov000_021b4448 kind:data(any) addr:0x021b4448
 data_usa_ov000_021b4450 kind:data(any) addr:0x021b4450

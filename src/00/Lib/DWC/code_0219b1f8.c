@@ -7,6 +7,7 @@
 #include "00/code_0219c000.h"
 #include "00/code_021a01dc.h"
 #include "00/Lib/GameSpy/code_0219a654.h"
+#include "00/Lib/GameSpy/gt2Utility.h"
 #include "00/Lib/DWC/code_02188720.h"
 #include "00/Lib/GameSpy/code_02198a8c.h"
 #include "00/Lib/GameSpy/code_0219887c.h"
@@ -49,7 +50,6 @@
 #include "00/code_021a3000.h"
 #include "00/Lib/GameSpy/code_0218aea4.h"
 #include "00/Lib/DWC/code_0219caac.h"
-#include "00/Lib/GameSpy/code_0219742c.h"
 #include "00/Lib/GameSpy/code_02196960.h"
 #include "00/Lib/DWC/dwc_match.h"
 #include "00/Lib/GameSpy/code_0218d818.h"
@@ -59,8 +59,6 @@
 #include "00/Lib/GameSpy/code_0218e2dc.h"
 #include "os_printf.h"
 #include "code_0213a460.h"
-
-char gDwcGpCommandString[] = "GPCM";
 
 DWCConnectionInfo stConnectionInfoList[32];
 void *stGt2ConnectionList[32];
@@ -374,7 +372,7 @@ s32 DWC_CloseAllConnectionsHard(void) {
         return -1;
     }
     if (wiFiConnection->mMatching.mLastParticipantPos == 0) {
-        DWCi_SetGPStatus(1, data_ov000_021b4054, NULL);
+        DWCi_SetGPStatus(1, "", NULL);
         NNFreeNegotiateList();
         DWCi_SetState(3);
         return 1;
@@ -742,18 +740,18 @@ void DWCi_GPRecvBuddyMessageCallback(GpConnection *connection, BuddyMessageData 
 
     message = arg->mUnk_08;
     if (DWCi_GPRecvBuddyAuthCallback(connection, (u32 *) arg, param) == 0) {
-        if (memcmp(message, gDwcGpCommandString, strlen(gDwcGpCommandString)) == 0) {
-            message += strlen(gDwcGpCommandString);
+        if (memcmp(message, "GPCM", strlen("GPCM")) == 0) {
+            message += strlen("GPCM");
             versionLength = strchr(message, 0x76) - message;
             strncpy(versionText, message, versionLength);
             if (versionLength <= 10) {
                 if (strtoul(versionText, NULL, 10) == 3) {
                     message += versionLength + 1;
-                    if (memcmp(message, gDwcGpCommandMatchString, strlen(gDwcGpCommandMatchString)) == 0) {
+                    if (memcmp(message, "MAT", strlen("MAT")) == 0) {
                         wiFiConnection = gWiFiConnection;
                         if (wiFiConnection->mState == 5 || wiFiConnection->mMatching.mMode == 2 ||
                             wiFiConnection->mMatching.mMode == 3) {
-                            message += strlen(gDwcGpCommandMatchString);
+                            message += strlen("MAT");
                             DWCi_MatchGPRecvBuddyMsgCallback(connection, arg->mProfile, message);
                         }
                     }
@@ -837,10 +835,10 @@ void DWCi_GT2ClosedCallback(Unk0219887c *connection, u32 reason) {
         if (gWiFiConnection->mOwnCloseFlag == 0) {
             DWCi_GPSetServerStatus();
         } else if (gWiFiConnection->mMatching.mLastParticipantPos == 0) {
-            DWCi_SetGPStatus(1, data_ov000_021b4054, NULL);
+            DWCi_SetGPStatus(1, "", NULL);
         }
     } else if (gWiFiConnection->mMatching.mLastParticipantPos == 0) {
-        DWCi_SetGPStatus(1, data_ov000_021b4054, NULL);
+        DWCi_SetGPStatus(1, "", NULL);
     }
     if (gWiFiConnection->mMatching.mMode == 0 || gWiFiConnection->mMatching.mMode == 1) {
         gWiFiConnection->mMatching.mNumEntry = gWiFiConnection->mMatching.mNNCompletedCount;

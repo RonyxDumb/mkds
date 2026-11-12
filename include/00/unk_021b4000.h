@@ -33,26 +33,8 @@ extern u32 SOCLiResultCodeInConnecting;
 extern SOCLSocketParam SOCLSocketParamTCP;
 extern SOCLSocketParam SOCLSocketParamUDPSend;
 extern u32 gSslLowThreadPriority;
-extern char gLocalIpKeyFormat[];
-extern char gLocalportKey[];
-extern char gNatnegKey[];
-extern char gNatnegOnValue[];
-extern char gNatnegOffValue[];
-extern char gStatechangedKey[];
-extern char gGamenamePlainKey[];
-extern char gPublicipKey[];
-extern char gPublicportKey[];
 extern NatnegMagic gNatnegMagicBytes;
 extern QueryRecord *gCurrentQr2Rec;
-extern char gUnregisteredKeyName[];
-extern char data_ov000_021b4400[];
-extern char data_ov000_021b4404[];
-extern char gPublicAddressFormat[];
-extern char gBroadcastAddress[];
-extern char gIntFormat[];
-extern u8 gNoChallengeErrorMessage[];
-extern char gQr2MasterHostnameFormat[];
-extern char gFinalQueryidText[];
 extern u8 gSrvrText[];
 extern u8 gClntText[];
 extern u16 gOfferedValues[2];
@@ -124,16 +106,6 @@ typedef struct GsiAvailableCheck {
 
 extern u8 gInternalInit[];
 extern u8 NNMagicData[];
-extern char gGt2HostLengthAssert[];
-extern char gGt2UtilityFileName[];
-extern char gAddressPortFormat[];
-extern char gAddressOnlyFormat[];
-extern char gPortOnlyFormat[];
-extern char gMatchup1HostnameDefault[];
-extern char gMatchup2HostnameDefault[];
-extern char gGamenameHostnameFormat[];
-extern char data_ov000_021b4054[];
-extern char gDwcGpCommandMatchString[];
 
 
 #include "00/Lib/DWC/dwc_connectinet.h"

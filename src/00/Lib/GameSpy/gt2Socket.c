@@ -16,6 +16,7 @@
 #include "00/code_021919ac.h"
 #include "00/code_0219a000.h"
 #include "00/Lib/GameSpy/code_0219a654.h"
+#include "00/Lib/GameSpy/gt2Utility.h"
 #include "00/Lib/GameSpy/code_0219a61c.h"
 #include "00/code_02197000.h"
 #include "00/code_02199000.h"

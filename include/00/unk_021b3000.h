@@ -49,7 +49,6 @@ extern char gPauthrStatement[];
 extern char gGetpidrStatement[];
 extern char gGetpdrStatement[];
 extern char gSetpdrStatement[];
-extern char gGt2BufferFileName[];
 extern u8 gGti2MagicString[];
 extern char gPiKey[];
 extern char data_ov000_021b31b8[];

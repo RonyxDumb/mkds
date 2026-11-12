@@ -13,6 +13,7 @@
 #include "00/Lib/GameSpy/gt2Connection.h"
 #include "00/Lib/GameSpy/code_02198a8c.h"
 #include "00/Lib/GameSpy/code_0219a654.h"
+#include "00/Lib/GameSpy/gt2Utility.h"
 
 void gt2Listen(void *socket, void *callback) {
     u32 value3;

@@ -57,8 +57,6 @@ typedef struct InitPacketWithGamename {
     /* 15 */ char mGameName[0x40];
 } InitPacketWithGamename;
 
-BOOL gt2StringToAddress(const char *string, u32 *ipOut, u16 *portOut);
-u32 gt2AddressToString(u32 ipAddress, u32 port, char *buffer);
 void NNProcessData(u8 *data, s32 length, void *fromAddress);
 void ProcessInitPacket(NatTraversalEntry *negotiator, InitPacket *packet, SOCSockAddrIn *fromAddress);
 void ProcessPingPacket(NatTraversalEntry *negotiator, ConnectPacket *packet, SOCSockAddrIn *fromAddress);

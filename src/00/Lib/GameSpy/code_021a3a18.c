@@ -17,6 +17,10 @@
 #include "00/Lib/DWC/dwc_memfunc.h"
 #include "00/Lib/NitroWiFi/code_021a6d5c.h"
 
+NatnegMagic gNatnegMagicBytes = {{0xfd, 0xfc, 0x1e, 0x66, 0x6a, 0xb2}};
+QueryRecord gStaticQr2Rec = {-1};
+QueryRecord *gCurrentQr2Rec = &gStaticQr2Rec;
+
 s32 qr2_init_socketA(QueryRecord **qrec, s32 socket, s32 boundport, const char *gamename, const char *secretKey,
                      s32 isPublic, s32 natFlag, Unk021a4a08Func88 serverKeyFn,
                      Unk021a4a08Func8c playerKeyFn, Unk021a4a08Func8c teamKeyFn,
@@ -76,7 +80,7 @@ s32 qr2_init_socketA(QueryRecord **qrec, s32 socket, s32 boundport, const char *
     if (isPublic != 0) {
         hostOverride = gQr2Hostname[0];
         if (hostOverride == 0) {
-            sprintf(hostText, gQr2MasterHostnameFormat, gamename);
+            sprintf(hostText, "%s.master.gs.nintendowifi.net", gamename);
         }
         resolved = ResolveQueryHostAddress(hostOverride != 0 ? gQr2Hostname : hostText, 0x6cfc, &record->mHbAddr, NULL);
     } else {
@@ -148,7 +152,8 @@ void qr2_check_send_heartbeat(QueryRecord *qrec) {
         if (listState > 0 && currentTime - qrec->mLastHeartbeat > 10000) {
             if (listState >= 4) {
                 qrec->mListedState = 0;
-                qrec->mAddErrorCallback(5, gNoChallengeErrorMessage, qrec->mUserData);
+                qrec->mAddErrorCallback(5, (const u8 *) "No challenge value was received from the master server.",
+                                        qrec->mUserData);
                 return;
             }
             send_heartbeat(qrec, 3);
@@ -217,7 +222,7 @@ static inline u16 Qr2SwapBytes16(u16 port) {
 void qr2_buffer_add_int(QueryBuffer *outbuf, s32 value) {
     char text[0x18];
 
-    sprintf(text, gIntFormat, value);
+    sprintf(text, "%d", value);
     qr2_buffer_addA(outbuf, text);
 }
 
@@ -268,7 +273,7 @@ BOOL ResolveQueryHostAddress(const char *host, u32 port, SOCSockAddrIn *saddr, S
         saddr->mAddr = inet_addr((u32) host);
     }
     if (saddr->mAddr == -1) {
-        if (strcmp(host, gBroadcastAddress) != 0) {
+        if (strcmp(host, "255.255.255.255") != 0) {
             hent = SOC_GetHostByName(host);
             if (hent == NULL) {
                 return FALSE;
@@ -425,7 +430,7 @@ void handle_public_address(QueryRecord *qrec, const char *buffer) {
     u32 scannedPort;
     u16 natPort;
 
-    sscanf(buffer, gPublicAddressFormat, &outerAddress, &scannedPort);
+    sscanf(buffer, "%08X%04X", &outerAddress, &scannedPort);
     natPort = scannedPort;
     outerAddress = (outerAddress << 24 & 0xff000000) |
                ((outerAddress << 8 & 0xff0000) | ((outerAddress >> 24 & 0xff) | (outerAddress >> 8 & 0xff00)));
@@ -480,14 +485,14 @@ void qr_build_partial_query_reply(QueryRecord *qrec, QueryBuffer *buf, s32 keyty
             do {
                 keyName = gQr2RegisteredKeyList[*keyCursor];
                 if (keyName == NULL) {
-                    keyName = gUnregisteredKeyName;
+                    keyName = "unknown";
                 }
                 qr2_buffer_addA(buf, keyName);
                 if (keytype == 0) {
                     bufferLength = buf->mLen;
                     qrec->mServerKeyCallback(*keyCursor, buf, qrec->mUserData);
                     if (bufferLength == buf->mLen) {
-                        qr2_buffer_addA(buf, data_ov000_021b4400);
+                        qr2_buffer_addA(buf, "");
                     }
                 }
                 keyCursor++;
@@ -520,7 +525,7 @@ void qr_build_partial_query_reply(QueryRecord *qrec, QueryBuffer *buf, s32 keyty
                         qrec->mTeamKeyCallback(keys[keyPosition], playerIdx, buf, qrec->mUserData);
                     }
                     if (bufferLength == buf->mLen) {
-                        qr2_buffer_addA(buf, data_ov000_021b4400);
+                        qr2_buffer_addA(buf, "");
                     }
                     keyPosition++;
                 } while (keyPosition < keycount);
@@ -605,7 +610,7 @@ void qr_build_partial_old_query_reply(QueryRecord *qrec, QueryBuffer *buf, s32 k
         do {
             keyName = gQr2RegisteredKeyList[*keyCursor];
             if (keyName == NULL) {
-                keyName = gUnregisteredKeyName;
+                keyName = "unknown";
             }
             if (keytype == 0) {
                 qr2_buffer_addA(buf, keyName);
@@ -613,14 +618,14 @@ void qr_build_partial_old_query_reply(QueryRecord *qrec, QueryBuffer *buf, s32 k
                 bufferLength = buf->mLen;
                 qrec->mServerKeyCallback(*keyCursor, buf, qrec->mUserData);
                 if (bufferLength == buf->mLen) {
-                    qr2_buffer_addA(buf, data_ov000_021b4400);
+                    qr2_buffer_addA(buf, "");
                 }
                 buf->mBuffer[buf->mLen - 1] = 0x5c;
             } else {
                 playerIdx = firstPindex;
                 if (teamTotal > 0) {
                     do {
-                        sprintf(keyNameBuf, data_ov000_021b4404, keyName, playerIdx);
+                        sprintf(keyNameBuf, "%s%d", keyName, playerIdx);
                         qr2_buffer_addA(buf, keyNameBuf);
                         buf->mBuffer[buf->mLen - 1] = 0x5c;
                         bufferLength = buf->mLen;
@@ -630,7 +635,7 @@ void qr_build_partial_old_query_reply(QueryRecord *qrec, QueryBuffer *buf, s32 k
                             qrec->mTeamKeyCallback(*keyCursor, playerIdx, buf, qrec->mUserData);
                         }
                         if (bufferLength == buf->mLen) {
-                            qr2_buffer_addA(buf, data_ov000_021b4400);
+                            qr2_buffer_addA(buf, "");
                         }
                         buf->mBuffer[buf->mLen - 1] = 0x5c;
                         playerIdx++;
@@ -649,7 +654,7 @@ void qr_process_old_query(QueryRecord *qrec, QueryBuffer *buf) {
     qr_build_partial_old_query_reply(qrec, buf, 0);
     qr_build_partial_old_query_reply(qrec, buf, 1);
     qr_build_partial_old_query_reply(qrec, buf, 2);
-    qr2_buffer_addA(buf, gFinalQueryidText);
+    qr2_buffer_addA(buf, "final\\\\queryid\\1.1");
     buf->mLen = buf->mLen + -1;
 }
 
@@ -814,24 +819,24 @@ void send_heartbeat(QueryRecord *qrec, s32 statechanged) {
     buf.mLen = 0;
     qr_add_packet_header((u32) &buf, 3, (u32) qrec->mInstanceKey);
     for (index = 0; index < gNumLocalIps; index++) {
-        sprintf(keyText, gLocalIpKeyFormat, index);
+        sprintf(keyText, "localip%d", index);
         qr2_buffer_addA(&buf, keyText);
         qr2_buffer_addA(&buf, SOC_InetNtoA(((SOCInAddr *) gLocalIpList)[index]));
     }
-    qr2_buffer_addA(&buf, gLocalportKey);
+    qr2_buffer_addA(&buf, "localport");
     qr2_buffer_add_int(&buf, qrec->mQport);
-    qr2_buffer_addA(&buf, gNatnegKey);
-    qr2_buffer_addA(&buf, qrec->mNatNegotiate != 0 ? gNatnegOnValue : gNatnegOffValue);
+    qr2_buffer_addA(&buf, "natneg");
+    qr2_buffer_addA(&buf, qrec->mNatNegotiate != 0 ? "1" : "0");
     if (statechanged != 0) {
-        qr2_buffer_addA(&buf, gStatechangedKey);
+        qr2_buffer_addA(&buf, "statechanged");
         qr2_buffer_add_int(&buf, statechanged);
     }
-    qr2_buffer_addA(&buf, gGamenamePlainKey);
+    qr2_buffer_addA(&buf, "gamename");
     qr2_buffer_addA(&buf, qrec->mGameName);
     if (qrec->mPublicAddressCallback != 0) {
-        qr2_buffer_addA(&buf, gPublicipKey);
+        qr2_buffer_addA(&buf, "publicip");
         qr2_buffer_add_int(&buf, qrec->mPublicIp);
-        qr2_buffer_addA(&buf, gPublicportKey);
+        qr2_buffer_addA(&buf, "publicport");
         qr2_buffer_add_int(&buf, qrec->mPublicPort);
     }
     if (statechanged != 2) {

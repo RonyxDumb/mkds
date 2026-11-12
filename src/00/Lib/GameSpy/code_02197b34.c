@@ -7,32 +7,7 @@
 #include "code_021384cc.h"
 #include "code_02139f70.h"
 
-void AppendBufferBytes(Gt2Buffer *buffer, const u8 *data, int len) {
-    if (data != NULL && len != 0) {
-        if (len == -1) {
-            len = strlen((const char *) data);
-        }
-        if (buffer->mLength + len > buffer->mSize) {
-            AssertionFailed(gGt2BufferWriteDataAssert, gGt2BufferFileName, NULL, 0x40);
-        }
-        memcpy(buffer->mData + buffer->mLength, data, len);
-        buffer->mLength = buffer->mLength + len;
-    }
-}
-
-void RemoveBufferBytes(Gt2Buffer *buffer, int start, int shortenBy) {
-    if (start == -1) {
-        start = buffer->mLength - shortenBy;
-    }
-    if (start > buffer->mLength) {
-        AssertionFailed(gGt2BufferShortenStartAssert, gGt2BufferFileName, NULL, 0x4f);
-    }
-    if (shortenBy > buffer->mLength - start) {
-        AssertionFailed(gGt2BufferShortenLengthAssert, gGt2BufferFileName, NULL, 0x50);
-    }
-    memmove(buffer->mData + start, buffer->mData + start + shortenBy, buffer->mLength - start - shortenBy);
-    buffer->mLength = buffer->mLength - shortenBy;
-}
+s8 gGt2ChallengeKey[33] = "3b8dd8995f7c40a9a5c5b7dd5b481341";
 
 BOOL gti2VerifyChallenge(const s8 *buffer) {
     s32 b[8];
@@ -90,7 +65,7 @@ s8 *gti2GetChallenge(s8 *buffer) {
     u32 g;
     u8 *current;
     if (buffer == NULL) {
-        AssertionFailed(gGt2AuthChallengeAssert, gGt2AuthFileName, NULL, 0x2b);
+        AssertionFailed("buffer", "gt2Auth.c", NULL, 0x2b);
     }
     srand(GetElapsedMilliseconds());
     buffer[0] = (s32) rand() % 0x5d + 0x21;
