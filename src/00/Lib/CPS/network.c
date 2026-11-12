@@ -127,7 +127,7 @@ void CPS_Startup(CPSConfig *config) {
     gEport = (_ll_mul(CPSiRand32ctx[0] >> 32, 0xf88) >> 32) + 0x400;
     OS_GetMacAddress(CPSMyMac);
     gIpConflict = 0;
-    OS_CreateThread(&gTcpipThread, (void (*)(void *)) tcpip, NULL, gTcpipStackTop, 0x800, gHelperThreadsPriority);
+    OS_CreateThread(&gTcpipThread, (void (*)(void *)) tcpip, NULL, TCPIP_STACK_TOP, 0x800, gHelperThreadsPriority);
     OS_CreateThread(&gScavengerThread, (void (*)(void *)) scavenger, NULL, gScavengerStackTop, 0x800,
                     gHelperThreadsPriority);
     OS_WakeupThreadDirect(&gTcpipThread);
