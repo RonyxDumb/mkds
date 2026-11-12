@@ -2514,22 +2514,7 @@ src/Main/Unknown/code_020b1a34.c:
 // provisional: file name and boundaries
 src/Main/Unknown/code_020b1cdc.c:
     complete
-    .text       start:0x020b1cdc end:0x020b1cf4
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_020b1cf4.c:
-    complete
-    .text       start:0x020b1cf4 end:0x020b1d64
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_020b1d64.c:
-    complete
-    .text       start:0x020b1d64 end:0x020b1dbc
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_020b1dbc.c:
-    complete
-    .text       start:0x020b1dbc end:0x020b1de4
+    .text       start:0x020b1cdc end:0x020b1de4
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_020b1de4.c:
