@@ -38,6 +38,7 @@
 #include "Main/Sound/sound_handle_pool.h"
 #include "Main/Item/item_in_use.h"
 #include "Main/Kart/karts.h"
+#include "Main/MapObjects/attractor_list_data.h"
 
 char gJgFlagNsbcaName[] = "jg_flag.nsbca";
 char gJgFlagNsbmdName[] = "jg_flag.nsbmd";

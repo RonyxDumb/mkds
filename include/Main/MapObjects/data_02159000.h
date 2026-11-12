@@ -13,10 +13,6 @@ extern MapObjectKindData gObPakkunSfKindData;
 
 extern const u32 gAttractorDistanceFlag;
 
-extern MapObjectList gAttractorUpdateListData;
-
-extern MapObjectKindData gAttractorKindData;
-
 extern const u32 gWoodbox1HitFlag;
 
 extern Vec3 gJgMatrixRow1Source;
