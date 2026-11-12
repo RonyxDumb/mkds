@@ -8,6 +8,11 @@
 #include "Main/Kart/data_02161000.h"
 #include "data_02170000.h"
 
+const u8 data_02152c30[9][4] = {
+    {4, 5, 7, 8}, {3, 5, 6, 8}, {3, 4, 6, 7}, {1, 2, 7, 8}, {0, 2, 6, 8},
+    {0, 1, 6, 7}, {1, 2, 4, 5}, {0, 2, 3, 5}, {0, 1, 3, 4},
+};
+
 void NNSi_G3dAnmObjInitNsBva(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dResMdl *pResMdl) {
     u32 mapIndex;
 
@@ -572,15 +577,15 @@ void getMdlRot_(NNSG3dJntAnmResult *out) {
             MI_Zero36B(&out->mRot);
             out->mRot.a[pivot] = (node->mFlag & 0x100) ? -0x1000 : 0x1000;
             out->mRot.a[data_02152c30[pivot][0]] = first;
-            out->mRot.a[data_02152c31[pivot][0]] = second;
+            out->mRot.a[data_02152c30[pivot][1]] = second;
             if (node->mFlag & 0x200) {
                 second = -second;
             }
-            out->mRot.a[data_02152c32[pivot][0]] = second;
+            out->mRot.a[data_02152c30[pivot][2]] = second;
             if (node->mFlag & 0x400) {
                 first = -first;
             }
-            out->mRot.a[data_02152c33[pivot][0]] = first;
+            out->mRot.a[data_02152c30[pivot][3]] = first;
         } else {
             out->mRot.a[0] = node->mUnk_02;
             out->mRot.a[1] = vals[0];
@@ -1328,15 +1333,15 @@ BOOL getRotDataByIdx_(MtxFx33 *out, const s16 *rot3, const s16 *rot5, u32 info) 
         valueY = rotEntry[2];
         out->a[axisIndex] = (header & 0x10) ? -0x1000 : 0x1000;
         out->a[data_02152c30[axisIndex][0]] = valueX;
-        out->a[data_02152c31[axisIndex][0]] = valueY;
+        out->a[data_02152c30[axisIndex][1]] = valueY;
         if (rotEntry[0] & 0x20) {
             valueY = -valueY;
         }
-        out->a[data_02152c32[axisIndex][0]] = valueY;
+        out->a[data_02152c30[axisIndex][2]] = valueY;
         if (rotEntry[0] & 0x40) {
             valueX = -valueX;
         }
-        out->a[data_02152c33[axisIndex][0]] = valueX;
+        out->a[data_02152c30[axisIndex][3]] = valueX;
         return 0;
     }
     info = (info & 0x7fff) * 5;

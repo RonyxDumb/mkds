@@ -11,13 +11,7 @@ struct MWiDestructorChain;
 
 struct WMArm9Buf;
 
-struct Unk021425e8;
-
-// Message WmReceiveFifo builds for the port callbacks on connect and disconnect.
-extern struct Unk021425e8 gPortCallbackEvent;
-
-// The ten 0x100-byte command messages.
-extern u8 data_0217ef60[10][0x100];
+struct WMPortRecvCallback;
 
 extern struct MWiDestructorChain *data_0217eeb0;
 
@@ -32,8 +26,3 @@ extern u32 gLockHoldCounts[];
 // the start of the next entry.
 extern u8 gLockMutexes[][0x14];
 
-extern OSMutex data_0217e3e0;
-
-extern NNSFndList data_0217e3f8;
-
-extern Unk0212c7f0 data_0217e404[4];

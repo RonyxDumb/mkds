@@ -25,10 +25,6 @@ extern volatile u64 gTickOverflowCount;
 extern u16 gAlarmInitialized;
 // Head and tail of the armed alarms, ordered by fire time; cleared by OS_InitAlarm.
 extern OSiAlarmQueue gAlarmList;
-extern u16 OSi_UseVAlarm;
-extern u32 OSi_PreviousVCount;
-extern u32 OSi_VFrameCount;
-extern u32 OSi_VAlarmQueue[2];
 
 extern NNSG3dGlb NNS_G3dGlb;
 extern NNSG3dRS *NNS_G3dRS;

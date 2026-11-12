@@ -27,6 +27,11 @@ extern struct WMArm9Buf *wm9buf;
 extern u16 wmInitialized;
 
 // Ring of free command messages.
-extern OSMessageQueue data_0217eed8;
+extern OSMessageQueue bufMsgQ;
 
-extern void *data_0217eef8[10];
+extern void *bufMsg[10];
+
+// Message WmReceiveFifo builds for the port callbacks on connect and disconnect.
+extern struct WMPortRecvCallback gPortCallbackEvent;
+// The ten 0x100-byte command messages.
+extern u8 fifoBuf[10][0x100];

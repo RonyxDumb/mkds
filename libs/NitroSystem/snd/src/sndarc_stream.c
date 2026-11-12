@@ -19,6 +19,11 @@
 #include "Main/Net/data_0217e000.h"
 #include "unk_02152000_data.h"
 
+NNSSndStrmThread *sPrepareThread;
+NNSFndList sFreeCommandList;
+NNSSndStrmThread sStrmThread;
+Unk0212c7f0 sStrmPlayer[4];
+
 // Steps the four stream players: start, volume and fade-out.
 void NNSi_SndArcStrmMain(void) {
     s32 playerIndex;
@@ -26,7 +31,7 @@ void NNSi_SndArcStrmMain(void) {
     s32 volume;
     Unk0212c7f0 *player;
 
-    player = data_0217e404;
+    player = sStrmPlayer;
     for (playerIndex = 0; playerIndex < 4; playerIndex++, player++) {
         if (!player->mActiveFlag) {
             continue;
@@ -70,9 +75,9 @@ void FreePlayer(Unk0212c7f0 *player) {
 
 // Stops the player with the thread mutexes held.
 void ForceStopStrm_(Unk0212c7f0 *player) {
-    OS_LockMutex(&data_0217e3e0);
-    if (data_0217df04 != 0) {
-        OS_LockMutex(&data_0217df04->mMutex);
+    OS_LockMutex(&sStrmThread.mMutex);
+    if (sPrepareThread != 0) {
+        OS_LockMutex(&sPrepareThread->mMutex);
     }
     if (player->mPlayFlag) {
         NNS_SndStrmStop(&player->mStream);
@@ -81,9 +86,9 @@ void ForceStopStrm_(Unk0212c7f0 *player) {
         FS_CancelFile(&player->mFile);
     }
     ShutdownPlayer_(player);
-    OS_UnlockMutex(&data_0217e3e0);
-    if (data_0217df04 != 0) {
-        OS_UnlockMutex(&data_0217df04->mMutex);
+    OS_UnlockMutex(&sStrmThread.mMutex);
+    if (sPrepareThread != 0) {
+        OS_UnlockMutex(&sPrepareThread->mMutex);
     }
 }
 
@@ -94,9 +99,9 @@ void ShutdownPlayer_(Unk0212c7f0 *player) {
     }
     FreeChannel(player);
     FS_CloseFile(&player->mFile);
-    RemoveCommandByPlayer(&data_0217e3f8, player);
-    if (data_0217df04 != 0) {
-        RemoveCommandByPlayer(&data_0217df04->mCommandList, player);
+    RemoveCommandByPlayer(&sStrmThread.mCommandList, player);
+    if (sPrepareThread != 0) {
+        RemoveCommandByPlayer(&sPrepareThread->mCommandList, player);
     }
     FreePlayer(player);
 }
@@ -137,6 +142,6 @@ void FreeCommandBuffer(LoadCommand *command) {
     u32 enabled;
 
     enabled = OS_DisableInterrupts();
-    NNS_FndAppendListObject(&data_0217df08, command);
+    NNS_FndAppendListObject(&sFreeCommandList, command);
     OS_RestoreInterrupts(enabled);
 }

@@ -8,6 +8,7 @@
 #include "mi_init.h"
 #include "os_exception.h"
 #include "code_0200f790.h"
+#include "code_0200fc1c.h"
 #include "code_0200fc8c.h"
 #include "code_0200fe74.h"
 #include "code_021458c4.h"

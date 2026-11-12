@@ -191,6 +191,26 @@ struct Unk021425e8 {
     } mUnk_38;
 };
 
+// 0x40 bytes. The port callback message WmReceiveFifo builds for gPortCallbackEvent: the first 0x3c bytes have the
+// members of the same offsets in Unk021425e8.
+typedef struct WMPortRecvCallback {
+    /* 00 */ u16 mCommand;
+    /* 02 */ u16 mResultCode;
+    /* 04 */ u16 mState;
+    /* 06 */ u16 mPort;
+    /* 08 */ void *mRecvBuf;
+    /* 0c */ void *mData;
+    /* 10 */ u16 mLength;
+    /* 12 */ u16 mAid;
+    /* 14 */ u8 mPeerBytes[6];
+    /* 1a */ u16 mSeqNo;
+    /* 1c */ void *mArg;
+    /* 20 */ u16 mOwnIndex;
+    /* 22 */ u8 mUnk_22[2];
+    /* 24 */ u8 mSsid[0x18];
+    /* 3c */ u8 mUnk_3c[4];
+} WMPortRecvCallback;
+
 // Result of WM_GetOtherElements: mCount counts the filled entries of mElement.
 typedef struct WMOtherElements {
     /* 00 */ u8 mCount;
@@ -259,12 +279,13 @@ typedef struct StartScanExRequest {
     /* 36 */ u16 mSsidMatchLength;
 } StartScanExRequest;
 
-// Scan parameters of WM_StartScan.
+// 0x20 bytes. Scan parameters of WM_StartScan.
 typedef struct ScanParam {
     /* 00 */ void *mScanBuf;
     /* 04 */ u16 mChannel;
     /* 06 */ u16 mMaxChannelTime;
     /* 08 */ u8 mBssid[6];
+    /* 0e */ u16 mUnk_0e[9];
 } ScanParam;
 
 // Request WM_StartScan writes into the request area.

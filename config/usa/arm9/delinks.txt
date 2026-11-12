@@ -171,6 +171,7 @@ libs/NitroSDK/mb/src/code_02009928.c:
     complete
     .text       start:0x02009928 end:0x0200aea8
     .data       start:0x02161790 end:0x021617bc
+    .bss        start:0x0216fd80 end:0x0216fdc0
 
 // provisional: file name and boundaries
 libs/NitroSDK/mb/src/code_0200aea8.c:
@@ -299,8 +300,14 @@ libs/NitroSDK/os/src/os_tick.c:
 // provisional: file name and boundaries
 libs/NitroSDK/os/src/code_0200f790.c:
     complete
-    .text       start:0x0200f790 end:0x0200fc8c
+    .text       start:0x0200f790 end:0x0200fc1c
     .bss        start:0x0217023c end:0x02170248
+
+// provisional: file name and boundaries
+libs/NitroSDK/os/src/code_0200fc1c.c:
+    complete
+    .text       start:0x0200fc1c end:0x0200fc8c
+    .bss        start:0x02170248 end:0x0217025c
 
 // provisional: file name and boundaries
 libs/NitroSDK/os/src/code_0200fc8c.c:
@@ -355,6 +362,7 @@ libs/NitroSystem/g3d/src/res_struct_accessor_anm.c:
 libs/NitroSystem/g3d/src/code_02013bdc.c:
     complete
     .text       start:0x02013bdc end:0x02015eb8
+    .rodata     start:0x02152c30 end:0x02152c54
 
 // provisional: file name and boundaries
 libs/NitroSystem/gfd/src/code_02015eb8.c:
@@ -391,11 +399,13 @@ libs/NitroSystem/gfd/src/gfd_LinkedListTexVramMan.c:
     complete
     .text       start:0x02016d34 end:0x020170e4
     .data       start:0x02161a90 end:0x02161ac0
+    .bss        start:0x02173214 end:0x02173230
 
 // provisional: file name and boundaries
 libs/NitroSystem/gfd/src/gfd_LinkedListPlttVramMan.c:
     complete
     .text       start:0x020170e4 end:0x020172d0
+    .bss        start:0x02173230 end:0x02173244
 
 // provisional: file name and boundaries
 libs/NitroSystem/fnd/src/code_020172d0.c:
@@ -4247,6 +4257,7 @@ libs/NitroSystem/snd/src/code_0212d214.c:
 libs/NitroSystem/snd/src/sndarc_stream.c:
     complete
     .text       start:0x0212ee54 end:0x0212f1ac
+    .bss        start:0x0217dee4 end:0x0217e964
 
 // provisional: file name and boundaries
 libs/NitroSystem/snd/src/output_effect.c:
@@ -4435,7 +4446,7 @@ libs/msl/src/code_021423e4.c:
 libs/NitroSDK/wm/src/wm_system.c:
     complete
     .text       start:0x0214259c end:0x02142eac
-    .bss        start:0x0217eeb0 end:0x0217ef00
+    .bss        start:0x0217eeb0 end:0x0217f940
 
 // provisional: file name and boundaries
 libs/NitroSDK/wm/src/code_02142eac.c:

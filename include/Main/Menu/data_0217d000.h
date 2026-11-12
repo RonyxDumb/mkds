@@ -790,10 +790,6 @@ extern SeqQueue gSeqQueue;
 
 extern s32 gSeqQueuePairSides[];
 
-extern struct NNSSndStrmThread *data_0217df04;
-
-extern NNSFndList data_0217df08;
-
 extern NNSSndHeap *gCurrentSndHeap;
 
 extern ScenePlayers gScenePlayers;

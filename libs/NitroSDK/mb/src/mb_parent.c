@@ -7,6 +7,7 @@
 #include "mb_data.h"
 #include "code_02007ec4.h"
 #include "code_0214cfe4.h"
+#include "code_02009928.h"
 
 u8 prev_fid = 0xff;
 

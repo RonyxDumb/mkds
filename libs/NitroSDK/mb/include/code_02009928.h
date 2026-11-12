@@ -3,9 +3,7 @@
 #include "types.h"
 #include "mb_parent.h"
 #include "code_02142eac.h"
-
-extern u16 gWirelessDmaNo;
-extern void *gWMSysBuf;
+#include "code_0200ad00.h"
 
 s32 MB_StartParentFromIdle(u16 channel);
 s32 MBi_StartParentCore(u16 channel);
@@ -36,3 +34,9 @@ extern u16 mbi_life_mp;
 extern u16 *gMultibootGameNameCursor;
 extern u32 mbi_power_save_mode;
 extern u16 gMultibootGameName[10];
+
+extern u16 gWirelessDmaNo;
+extern void *gWMSysBuf;
+extern ScanParam gScanParams;
+extern struct MBiParam *gWirelessWork;
+extern struct MB_CommPWork *mbc;

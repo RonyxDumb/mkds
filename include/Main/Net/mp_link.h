@@ -42,7 +42,6 @@ typedef struct ScanConnectWork {
     /* 04a0 */ u8 mMessageBuffer[0x20];
     /* 04c0 */ WMBssDesc mScanBuffer;
     /* 0580 */ ScanParam mScanParams;
-    /* 0590 */ u8 mUnk_0590[0x10];
     /* 05a0 */ MPLink mMPLink;
     /* 05c4 */ u8 mUnk_05c4[0x18];
     /* 05dc */ void (*mScanCallback)(u32, void *);

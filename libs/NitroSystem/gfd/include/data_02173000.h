@@ -12,14 +12,5 @@ extern u32 gSplRandomState;
 
 
 
-extern NNS_GfdLnkTexVramManager gTexVramManager;
-
-extern NNSiGfdLnkVramBlock *data_02173238;
-
-extern NNSiGfdLnkVramBlock *gTexVramBlockPoolList;
-
-extern NNS_GfdLnkPlttVramManager gPlttVramManager;
-
-extern NNSiGfdLnkVramBlock *data_02173254;
 
 

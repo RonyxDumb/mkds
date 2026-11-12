@@ -13,12 +13,18 @@
 #include "code_0214d5b8.h"
 #include "code_0214d018.h"
 
-u16 mbi_life_frame = 0xffff;
+u16 gWirelessDmaNo;
+struct MB_CommPWork *mbc;
+ScanParam gScanParams __attribute__((aligned(32)));
+struct MBiParam *gWirelessWork;
+void *gWMSysBuf;
+
 u16 mbi_life_cam = 0x28;
-u16 mbi_life_table_no = 0xffff;
+u16 mbi_life_frame = 0xffff;
 u16 mbi_life_mp = 0x28;
-u16 *gMultibootGameNameCursor = gMultibootGameName;
+u16 mbi_life_table_no = 0xffff;
 u32 mbi_power_save_mode = 1;
+u16 *gMultibootGameNameCursor = gMultibootGameName;
 u16 gMultibootGameName[10] = {0x6d, 0x75, 0x6c, 0x74, 0x69, 0x62, 0x6f, 0x6f, 0x74, 0};
 
 #pragma thumb on

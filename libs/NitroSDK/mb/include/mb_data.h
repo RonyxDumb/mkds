@@ -18,8 +18,5 @@ typedef struct MbRequestPieceBuf {
 } MbRequestPieceBuf;
 
 struct MBiParam;
-extern struct MBiParam *gWirelessWork;
 struct MB_CommPWork;
-extern struct MB_CommPWork *mbc;
 struct WorkerQueue;
-extern ScanParam gScanParams;

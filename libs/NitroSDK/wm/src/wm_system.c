@@ -13,10 +13,13 @@
 #include "code_0214c778.h"
 #include "code_0214d5b8.h"
 
+struct WMPortRecvCallback gPortCallbackEvent;
+u8 fifoBuf[10][0x100];
+
 u16 wmInitialized;
 struct WMArm9Buf *wm9buf;
-OSMessageQueue data_0217eed8;
-void *data_0217eef8[10];
+OSMessageQueue bufMsgQ;
+void *bufMsg[10];
 
 // Sets up the system buffer for the DMA channel dmaNo and clears WMArm9Buf.mScanOnlyFlag.
 s32 WM_Init(void *wmSysBuf, u16 dmaNo) {
@@ -69,11 +72,11 @@ s32 WmInitCore(void *wmSysBuf, u16 dmaNo, u32 bufSize) {
     for (port = 0; port < 16; port++) {
         WM_SetPortCallback(port, 0, 0);
     }
-    OS_InitMessageQueue(&data_0217eed8, data_0217eef8, 10);
+    OS_InitMessageQueue(&bufMsgQ, bufMsg, 10);
     for (index = 0; index < 10; index++) {
-        *(u16 *) data_0217ef60[index] = 0x8000;
-        DC_StoreRange(data_0217ef60[index], 2);
-        OS_SendMessage(&data_0217eed8, data_0217ef60[index], 1);
+        *(u16 *) fifoBuf[index] = 0x8000;
+        DC_StoreRange(fifoBuf[index], 2);
+        OS_SendMessage(&bufMsgQ, fifoBuf[index], 1);
     }
     PXI_SetFifoRecvCallback(0xa, WmReceiveFifo);
     return 0;
@@ -110,12 +113,12 @@ s32 WMi_SendCommand(u32 id, u16 paramNum, ...) {
     s32 argIndex;
     s32 result;
 
-    if (OS_ReceiveMessage(&data_0217eed8, &buffer, 0) == 0) {
+    if (OS_ReceiveMessage(&bufMsgQ, &buffer, 0) == 0) {
         return 8;
     }
     DC_InvalidateRange(buffer, 2);
     if ((*(u16 *) buffer & 0x8000) == 0) {
-        OS_JamMessage(&data_0217eed8, buffer, 1);
+        OS_JamMessage(&bufMsgQ, buffer, 1);
         return 8;
     }
     if (paramNum == 0) {
@@ -131,7 +134,7 @@ s32 WMi_SendCommand(u32 id, u16 paramNum, ...) {
     }
     DC_StoreRange(buffer, 0x100);
     result = PXI_SendWordByFifo(0xa, (u32) buffer, 0);
-    OS_SendMessage(&data_0217eed8, buffer, 1);
+    OS_SendMessage(&bufMsgQ, buffer, 1);
     if (result < 0) {
         return 8;
     }
@@ -296,7 +299,7 @@ void WmReceiveFifo(u32 tag, Unk021425e8 *callback, s32 err) {
                     gPortCallbackEvent.mPort = port;
                     if (wm9buf->mPortCallbacks[port] != 0) {
                         gPortCallbackEvent.mArg = wm9buf->mPortCallbackArgs[port];
-                        wm9buf->mPortCallbacks[port](&gPortCallbackEvent);
+                        wm9buf->mPortCallbacks[port]((Unk021425e8 *) &gPortCallbackEvent);
                     }
                 }
             }

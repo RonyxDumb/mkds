@@ -27,7 +27,7 @@ typedef struct NNSSndStrm {
     /* 4c */ u8 mChannelNo[0x10];
 } NNSSndStrm;
 
-// 0x160 bytes; data_0217e404 holds four. Bits of mUnk_110: 0 is tested by ShutdownPlayer_, ForceStopStrm_ and
+// 0x160 bytes; sStrmPlayer holds four. Bits of mUnk_110: 0 is tested by ShutdownPlayer_, ForceStopStrm_ and
 // NNSi_SndArcStrmMain, 1 by ForceStopStrm_ and NNSi_SndArcStrmMain, 2 and 3 by NNSi_SndArcStrmMain.
 typedef struct Unk0212c7f0 {
     /* 00 */ NNSSndStrm mStream;
