@@ -17,7 +17,3 @@ extern const u32 gWoodbox1HitFlag;
 
 extern u16 gItemObjectOwnerExcludedBit;
 
-extern u8 gItemBombVec3UnitY[];
-
-extern u16 gItemBombExcludedUntilCourseHitBit;
-

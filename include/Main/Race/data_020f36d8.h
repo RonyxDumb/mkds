@@ -371,8 +371,6 @@ typedef struct ItemKind {
 
 extern ItemKind data_0215a4dc;
 
-extern ItemKind gItemKindFBox;
-
 // Two words of a row of gItemSpreadRows.
 typedef struct {
     /* 00 */ s32 mX;
@@ -411,10 +409,6 @@ typedef struct ItemInfo {
 } ItemInfo;
 
 extern ItemInfo data_0215a4c0;
-
-extern ItemInfo data_02159f4c;
-
-extern ItemInfo data_02159f68;
 
 // Entry of the table behind gItemPools: one pool per object kind (14), indexed by the kind number. The pool's objects
 // sit in one array: the first mActiveCount are started, up to mTakenCount are handed out, the rest are free. Item,

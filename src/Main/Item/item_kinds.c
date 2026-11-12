@@ -26,6 +26,7 @@
 #include "Main/Item/item_koura_w_kart_items.h"
 #include "Main/Item/item_teresa_offset.h"
 #include "Main/Item/item_gesso.h"
+#include "Main/Item/item_f_box.h"
 
 #pragma thumb on
 

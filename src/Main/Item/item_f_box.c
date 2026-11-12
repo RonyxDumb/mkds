@@ -17,12 +17,61 @@
 #include "Main/Item/item_object_bouncing.h"
 #include "Main/Sound/data_0216c000.h"
 #include "Main/Menu/second_menu_scene.h"
+#include "Main/MapObjects/view_frustum.h"
+#include "Main/Item/item_f_box_park.h"
+
+const u16 gItemBombExcludedUntilCourseHitBit = 0x2000;
+const u8 gItemBombVec3UnitY[12] = {0, 0, 0, 0, 0, 0x10, 0, 0, 0, 0, 0, 0};
+const ItemInfo data_02159f68 = {1, 1, 7, 1, 0, 2, NULL};
+const ItemInfo data_02159f4c = {1, 0, 0, 3, 0, 4, NULL};
+const ItemKind gItemKindFBox = {0x144,
+                                3,
+                                0x20,
+                                -1,
+                                -1,
+                                SetupItemFBoxPooledMapObjects,
+                                (void (*)(void *)) ResetItemFBox,
+                                (void (*)(void *)) StartItemFBox,
+                                (void (*)(void *, void *)) AdvanceItemFBoxInUse,
+                                (s32(*)(void *, void *)) InitItemFBox,
+                                (void (*)(ItemObject *)) AdvanceItemFBox,
+                                NULL,
+                                (s32(*)(Vec3 *, s32, s32, s32, u16)) ComputeDistanceViewTest,
+                                (UnkWordFunc *) ItemFBoxFadeOutCallback,
+                                (void (*)(void *)) SetupItemFBoxAfterLaunch,
+                                (void (*)(void *)) ParkItemFBoxMapObject,
+                                1,
+                                1,
+                                (void *(*) (void *, void *, s32)) CopyItemFBoxData,
+                                0,
+                                (void (*)(void *)) InitItemFBoxFromData,
+                                0,
+                                NULL,
+                                0x4b0000,
+                                2,
+                                0x4800,
+                                0x4800,
+                                0x4000,
+                                0x1000,
+                                0x2800,
+                                0x7b,
+                                0x52,
+                                1,
+                                1,
+                                1,
+                                {0, 0, 0, 0},
+                                1,
+                                1,
+                                0xfa,
+                                0xfb,
+                                1,
+                                0};
 
 Vec3 gItemFBoxRotationAxis = {0x93d, 0x93d, 0x93d};
-u8 gItemDataQueueFreeHead[4];
-u8 gItemDataDelayedUsedHead[4];
 u8 gItemDataDelayedFreeHead[4];
+u8 gItemDataQueueFreeHead[4];
 u8 gItemDataQueueUsedHead[4];
+u8 gItemDataDelayedUsedHead[4];
 u8 gItemDataBuffer[20];
 u8 gItemDataQueueLinks[32][2];
 ItemDataRecord gItemDataQueue[32];

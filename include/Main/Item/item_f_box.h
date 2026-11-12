@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Race/data_020f36d8.h"
 
 typedef struct ItemObject ItemObject;
 typedef struct ItemFBox ItemFBox;
@@ -46,3 +47,9 @@ extern u8 gItemDataQueueLinks[32][2];
 extern ItemDataRecord gItemDataQueue[32];
 extern ItemDataRecord gItemDataDelayed[32];
 extern u8 gItemDataDelayedLinks[32][2];
+
+extern const u16 gItemBombExcludedUntilCourseHitBit;
+extern const u8 gItemBombVec3UnitY[12];
+extern const ItemInfo data_02159f4c;
+extern const ItemInfo data_02159f68;
+extern const ItemKind gItemKindFBox;
