@@ -1,7 +1,7 @@
 #include "code_020222ec.h"
 #include "g2d_NOB_load.h"
 #include "code_0214cfe4.h"
-#include "code_02022a60.h"
+#include "g2d_CellTransferManager.h"
 #include "g2d_Animation.h"
 #include "Main/Unknown/unk_02153000.h"
 

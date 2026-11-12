@@ -11,7 +11,7 @@
 #include "Main/Menu/multi_select_member_group.h"
 #include "Main/Unknown/unk_021759c0.h" // MinuteSecondMillisecondTime
 #include "Main/Save/buddy_record_time.h" // KartAppear
-#include "code_02022a90.h" // NNSG2dCellTransferState
+#include "g2d_CellTransferManager.h"
 
 typedef struct GhostRecord GhostRecord;
 typedef struct SlotGhostRecord SlotGhostRecord;

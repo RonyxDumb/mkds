@@ -511,14 +511,9 @@ libs/NitroSystem/g2d/src/code_020222ec.c:
     .text       start:0x020222ec end:0x02022a60
 
 // provisional: file name and boundaries
-libs/NitroSystem/g2d/src/code_02022a60.c:
+libs/NitroSystem/g2d/src/g2d_CellTransferManager.c:
     complete
-    .text       start:0x02022a60 end:0x02022a90
-
-// provisional: file name and boundaries
-libs/NitroSystem/g2d/src/code_02022a90.c:
-    complete
-    .text       start:0x02022a90 end:0x02022aa8
+    .text       start:0x02022a60 end:0x02022aa8
 
 // provisional: file name and boundaries
 libs/NitroSystem/g2d/src/code_02022aa8.c:

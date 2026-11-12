@@ -2,7 +2,8 @@
 
 #include "types.h"
 
-// 0x30-byte entry of the cell transfer state array.
+void NNS_G2dSetCellTransferStateRequested(u32 handle, u32 srcOffset, u32 szByte);
+
 typedef struct NNSG2dCellTransferState {
     /* 00 */ u32 mUnk_00[9];
     /* 24 */ u32 mTransferRequested;
