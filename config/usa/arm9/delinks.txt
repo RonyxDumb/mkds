@@ -4064,12 +4064,7 @@ src/Main/Unknown/code_0210dc48.c:
 // provisional: file name and boundaries
 src/Main/Unknown/code_0210dc50.c:
     complete
-    .text       start:0x0210dc50 end:0x0210dc60
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_0210dc60.c:
-    complete
-    .text       start:0x0210dc60 end:0x0210dc7c
+    .text       start:0x0210dc50 end:0x0210dc7c
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_0210dc7c.c:
