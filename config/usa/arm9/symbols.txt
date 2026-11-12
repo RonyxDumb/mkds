@@ -7893,11 +7893,11 @@ gEmptyBlockInfo kind:data(any) addr:0x0215470c
 gGameRegistry kind:data(any) addr:0x0215472c
 gGhostBlockInfo kind:data(any) addr:0x02154768
 gDefaultParentParameter kind:data(any) addr:0x02154788
-data_usa_021547c8 kind:data(any) addr:0x021547c8
+gLogoSceneDisplaySettingsDesc kind:data(any) addr:0x021547c8
 data_021547f0 kind:data(any) addr:0x021547f0
-data_02154818 kind:data(any) addr:0x02154818
+gWLMenuSceneDisplaySettingsDesc kind:data(any) addr:0x02154818
 gGhostSceneDisplaySettingsDesc kind:data(any) addr:0x02154840
-data_usa_02154868 kind:data(any) addr:0x02154868
+gSecondMenuSceneDisplaySettingsDesc kind:data(any) addr:0x02154868
 data_usa_02154890 kind:data(any) addr:0x02154890
 data_usa_021548b8 kind:data(any) addr:0x021548b8
 gEloChangeTable kind:data(any) addr:0x021548e0

@@ -55,7 +55,7 @@ void InitLogoScene(void *heap) {
     SceneTextInitParams arg;
     DisplaySettings *displaySettings;
     gLogoScene = HeapAlloc(heap, 60);
-    displaySettings = CreateDisplaySettings(heap, data_usa_021547c8);
+    displaySettings = CreateDisplaySettings(heap, gLogoSceneDisplaySettingsDesc);
     SetBg1Record(&displaySettings->mMainBgRecords, 1, 0, 0, 0, 0, 1, 0);
     SetBg1Record(&displaySettings->mSubBgRecords, 1, 0, 0, 0, 0, 2, 0);
     InitDisplayFromSettings(displaySettings);

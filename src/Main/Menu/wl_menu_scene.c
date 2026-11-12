@@ -52,7 +52,7 @@ void InitWLMenuScene(void *heap) {
 
     gWLMenuScene = HeapAllocAligned(heap, 0x874, 0x20);
     WLMenuMI_CpuClearFast(gWLMenuScene, 0x874);
-    displaySettings = CreateDisplaySettings(heap, data_02154818);
+    displaySettings = CreateDisplaySettings(heap, gWLMenuSceneDisplaySettingsDesc);
     WLMenuSetMainBg1Record(displaySettings, 0, 0, 0, 0, 0xc, 0, 0);
     WLMenuSetSubBg3RecordParams(displaySettings, 2, 0, 0, 0, 0xf, 6);
     InitDisplayFromSettings(displaySettings);

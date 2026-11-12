@@ -49,13 +49,13 @@
 #include "gx.h"
 #include "Main/Menu/select_race_rule_state.h"
 
+#pragma thumb on
 const u8 gLinkLevelIconSlotCellEntryIndices[4] = {0, 1, 0, 0};
 const u8 gLinkLevelIconCharCounts[8] = {4, 4, 1, 1, 1, 0, 0, 0};
 const u8 gLinkLevelIconCharCellEntryIndices[5][4] = {{4, 5, 6, 7}, {0, 1, 2, 3}, {8, 0, 0, 0}, {9, 0, 0, 0}, {0xa, 0, 0, 0}};
 LinkLevelIcons *gLinkLevelIcons;
 MessageScreen *gMessageScreen;
 
-#pragma thumb on
 void InitMessageScreen(void *heap) {
     MessageScreen *messageScreen;
     TextCanvas *textCanvas;
@@ -128,7 +128,7 @@ void *GetMessageScreenText(void) {
     s32 kind;
     messages = NULL;
     if (gBootInfo->mBootType != 2) {
-        messages = FindFileInLoadedArchives(gMessageScreenCommonBmgName);
+        messages = FindFileInLoadedArchives("common.bmg");
     }
     kind = gMessageScreen->mKind;
     if (kind == 4) {

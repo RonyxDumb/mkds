@@ -9,13 +9,7 @@ extern void *gGameRegistry[];
 
 extern const u32 data_usa_02154ff8[];
 
-extern u8 data_usa_021547c8[];
-
-extern u8 data_usa_02154868[];
-
 extern u8 data_021547f0[];
-
-extern u8 data_02154818[];
 
 // The 16 scene functions, indexed by scene number; the names are in gSceneNames
 // (data_usa_021541a8).

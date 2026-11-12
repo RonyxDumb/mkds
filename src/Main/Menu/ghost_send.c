@@ -44,7 +44,6 @@
 #include "Main/Race/race_hud_sub_screen_min_max.h"
 #include "Main/Kart/code_0207a880.h"
 #include "Main/Race/race_hud_sub_screen_projection.h"
-#include "Main/Menu/data_02153bec.h"
 #include "Main/Menu/data_02162c74.h"
 #include "Main/Menu/data_02175628.h"
 #include "Main/Net/block.h"

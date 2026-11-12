@@ -35,7 +35,6 @@
 #include "Main/Graphics/scene_text_init.h"
 #include "Main/Menu/txt_system.h"
 #include "Main/Menu/message_screen.h"
-#include "Main/Menu/data_02153bec.h"
 #include "Main/Menu/data_02162c74.h"
 #include "Main/Menu/time_attack_ghost_get_scan.h"
 #include "Main/Menu/ghost_send.h"

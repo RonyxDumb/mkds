@@ -37,5 +37,3 @@ extern FILE data_0216eb7c[3];
 
 extern char gKeyboardCommonBmgName[];
 
-extern char gMessageScreenCommonBmgName[];
-

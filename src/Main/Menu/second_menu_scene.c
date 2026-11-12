@@ -61,7 +61,7 @@ void AdvanceStateMachine(StateMachine *stateMachine) {
 void InitSecondMenuScene(void) {
     DisplaySettings *displaySettings;
 
-    displaySettings = CreateDisplaySettings(GetHeap(GetCurrentHeapCall()), data_usa_02154868);
+    displaySettings = CreateDisplaySettings(GetHeap(GetCurrentHeapCall()), gSecondMenuSceneDisplaySettingsDesc);
     SetBg1Record(&displaySettings->mMainBgRecords, 0, 0, 0, 0, 4, 0, 0);
     InitDisplayFromSettings(displaySettings);
 }
