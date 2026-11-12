@@ -8,50 +8,51 @@
 #include "Main/MapObjects/data_0217b000.h"
 #include "ITCM/code_01ff8000.h"
 
-void *gDeTree1;
-void *gCrossTree1;
-void *gNsCannon1;
-void *gBeachTree1;
-void *gMiniDokan;
-void *gOm6Tree1;
-void *gKinoHouse2;
-void *gOsaTree1c;
-void *gTownTree1;
-void *gOf6Tree1;
-void *gMarioTree3;
-void *gOlgMush1;
-void *gOlaTree1c;
-void *gKinoHouse1;
-void *gBankTree1;
-void *gOlgPipe1;
-void *gOpaTree1;
-void *gGardenTree1;
-void *gKinoMount2;
-void *gSnowTree1;
-void *gBankEgg1;
-void *gKinoMount1;
-void *gOf6yoshi1;
+const u16 gPakkunSpitDisabledFlag = 1;
+const u32 gPakkunSpitSkipSoundFlag = 0x40000000;
 
-MapObjectKindDescriptor gOf6Tree1KindDescriptor = {
-    0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateOf6Tree1DrawList};
-MapObjectKindDescriptor gOlaTree1cKindDescriptor = {
-    0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateOlaTree1cDrawList};
-MapObjectKindDescriptor gDeTree1SecondKindDescriptor = {
+void *gBeachTree1;
+void *gNsCannon1;
+void *gKinoMount2;
+void *gOsaTree1c;
+void *gOm6Tree1;
+void *gDeTree1;
+void *gKinoHouse1;
+void *gOpaTree1;
+void *gOlgMush1;
+void *gBankEgg1;
+void *gMarioTree3;
+void *gOlaTree1c;
+void *gKinoMount1;
+void *gKinoHouse2;
+void *gBankTree1;
+void *gCrossTree1;
+void *gGardenTree1;
+void *gTownTree1;
+void *gSnowTree1;
+void *gOf6Tree1;
+void *gMiniDokan;
+void *gOf6yoshi1;
+void *gOlgPipe1;
+
+MapObjectKindDescriptor gBeachTree1KindDescriptor = {
+    0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateBeachTree1DrawList};
+MapObjectKindDescriptor gDeTree1KindDescriptor = {
     0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateDeTree1DrawList};
+MapObjectKindDescriptor gSnowTree1SecondKindDescriptor = {
+    0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateSnowTree1DrawList};
 MapObjectKindDescriptor gOlgMush1KindDescriptor = {
     0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateOlgMush1DrawList};
 MapObjectKindDescriptor gOlgPipe1KindDescriptor = {
     0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateOlgPipe1DrawList};
-MapObjectKindDescriptor gBeachTree1SecondKindDescriptor = {
-    0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateBeachTree1DrawList};
+MapObjectKindDescriptor gSnowTree1KindDescriptor = {
+    0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateSnowTree1DrawList};
 MapObjectKindDescriptor gNsCannon1KindDescriptor = {
     0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateNsCannon1DrawList};
 MapObjectKindDescriptor gCrossTree1KindDescriptor = {
     0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateCrossTree1DrawList};
 MapObjectKindDescriptor gBankTree1KindDescriptor = {
     0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateBankTree1DrawList};
-MapObjectKindDescriptor gOf6yoshi1KindDescriptor = {
-    0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateOf6yoshi1DrawList};
 MapObjectKindDescriptor gGardenTree1KindDescriptor = {
     0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateGardenTree1DrawList};
 MapObjectKindDescriptor gGardenTree1SecondKindDescriptor = {
@@ -60,21 +61,23 @@ MapObjectKindDescriptor gTownTree1KindDescriptor = {
     0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateTownTree1DrawList};
 MapObjectKindDescriptor gTownTree1SecondKindDescriptor = {
     0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateTownTree1DrawList};
+MapObjectKindDescriptor gOf6yoshi1KindDescriptor = {
+    0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateOf6yoshi1DrawList};
 MapObjectKindDescriptor gMarioTree3KindDescriptor = {
     0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateMarioTree3DrawList};
-MapObjectKindDescriptor gSnowTree1KindDescriptor = {
-    0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateSnowTree1DrawList};
 MapObjectKindDescriptor gOpaTree1KindDescriptor = {
     0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateOpaTree1DrawList};
-MapObjectKindDescriptor gSnowTree1SecondKindDescriptor = {
-    0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateSnowTree1DrawList};
-MapObjectKindDescriptor gDeTree1KindDescriptor = {
+MapObjectKindDescriptor gBeachTree1SecondKindDescriptor = {
+    0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateBeachTree1DrawList};
+MapObjectKindDescriptor gDeTree1SecondKindDescriptor = {
     0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateDeTree1DrawList};
+MapObjectKindDescriptor gOlaTree1cKindDescriptor = {
+    0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateOlaTree1cDrawList};
 MapObjectKindDescriptor gOsaTree1cKindDescriptor = {
     0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateOsaTree1cDrawList};
 MapObjectKindDescriptor gKinoHouse1KindDescriptor = {
     0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateKinoHouse1DrawList};
-MapObjectKindDescriptor gOf6Tree1SecondKindDescriptor = {
+MapObjectKindDescriptor gOf6Tree1KindDescriptor = {
     0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateOf6Tree1DrawList};
 MapObjectKindDescriptor gKinoHouse2KindDescriptor = {
     0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateKinoHouse2DrawList};
@@ -84,8 +87,8 @@ MapObjectKindDescriptor gKinoMount2KindDescriptor = {
     0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateKinoMount2DrawList};
 MapObjectKindDescriptor gOm6Tree1KindDescriptor = {
     0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateOm6Tree1DrawList};
-MapObjectKindDescriptor gBeachTree1KindDescriptor = {
-    0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateBeachTree1DrawList};
+MapObjectKindDescriptor gOf6Tree1SecondKindDescriptor = {
+    0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateOf6Tree1DrawList};
 MapObjectKindDescriptor gBankEgg1KindDescriptor = {
     0, {0, 0}, 0xa0, 0, CreateEmptyKindDataWithSound, CreateBankEgg1DrawList};
 MapObjectKindDescriptor gMiniDokanKindDescriptor = {

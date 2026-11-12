@@ -24,6 +24,7 @@
 #include "Main/Kart/code_0208fd8c.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 #include "Main/MapObjects/pakkun.h"
+#include "Main/MapObjects/empty_kind_data.h"
 
 const u16 gFlipperInitMapObjectFlag = 0x200;
 
@@ -50,11 +51,11 @@ u32 CollideKartWithPakkunSpit(PakkunSpit *pakkunSpit, Kart *kart, u8 *firstRespo
     u32 firstResponseValue = *firstResponse;
     u8 result = *response;
     if (firstResponseValue == 1) {
-        pakkunSpit->mMapObject.mFlags = pakkunSpit->mMapObject.mFlags | data_usa_02156590;
+        pakkunSpit->mMapObject.mFlags = pakkunSpit->mMapObject.mFlags | gPakkunSpitDisabledFlag;
         pakkunSpit->mState = 1;
         if (kart->mItemEffect == 1 || kart->mItemEffect == 3) {
             pakkunSpit->mMapObject.mDistanceSquaredAndFlags =
-                pakkunSpit->mMapObject.mDistanceSquaredAndFlags | data_usa_02156594;
+                pakkunSpit->mMapObject.mDistanceSquaredAndFlags | gPakkunSpitSkipSoundFlag;
         }
         StartSoundIfKartStarOrKiller(&pakkunSpit->mMapObject, kart);
     }

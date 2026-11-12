@@ -8075,8 +8075,8 @@ gFlipperFourthBoxHalfSizesPositive kind:data(any) addr:0x0215656c
 gFlipperMirrorFlag kind:data(any) addr:0x02156584
 gFlipperSkipSoundFlag kind:data(any) addr:0x02156588
 gFlipperInitMapObjectFlag kind:data(any) addr:0x0215658c
-data_usa_02156590 kind:data(any) addr:0x02156590
-data_usa_02156594 kind:data(any) addr:0x02156594
+gPakkunSpitDisabledFlag kind:data(any) addr:0x02156590
+gPakkunSpitSkipSoundFlag kind:data(any) addr:0x02156594
 data_02156598 kind:data(any) addr:0x02156598
 gCrabLaunchFlag kind:data(any) addr:0x0215659c
 gMapObjectModelFrameNsbmdNsbtpScale kind:data(any) addr:0x021565a0

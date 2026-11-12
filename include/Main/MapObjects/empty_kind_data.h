@@ -151,3 +151,6 @@ void DrawBeachTree1(u32 mapObjectList, MapObject *mapObject);
 void SetupDrawBeachTree1(void *mapObjectList);
 void CreateBeachTree1(void *mapObjectList);
 MapObjectKindData *CreateEmptyKindDataWithSound(void);
+
+extern const u16 gPakkunSpitDisabledFlag;
+extern const u32 gPakkunSpitSkipSoundFlag;

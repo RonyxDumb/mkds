@@ -18,9 +18,6 @@ typedef struct PakkunSpit {
 
 #include "Main/Kart/kart_drift.h" // Kart
 
-extern u16 data_usa_02156590;
-extern u32 data_usa_02156594;
-
 MapObjectKindData *CreatePakkunSpitKindData(void);
 void UpdatePakkunSpit(void *mapObjectList, PakkunSpit *pakkunSpit);
 u32 CollideKartWithPakkunSpit(PakkunSpit *pakkunSpit, Kart *kart, u8 *firstResponse, u8 *response);
