@@ -868,12 +868,7 @@ src/Main/Unknown/code_0202a5a0.c:
 // provisional: file name and boundaries
 src/Main/Unknown/code_0202a734.c:
     complete
-    .text       start:0x0202a734 end:0x0202a820
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_0202a820.c:
-    complete
-    .text       start:0x0202a820 end:0x0202b604
+    .text       start:0x0202a734 end:0x0202b604
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_0202b604.c:
