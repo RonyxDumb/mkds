@@ -27,6 +27,7 @@
 #include "code_020222ec.h"
 #include "code_0214d018.h"
 #include "01/Menu/record_time_attack.h"
+#include "01/Menu/code_02196d58.h"
 #include "Main/Race/kart.h"
 
 struct RaceNewRecordTa *gRaceNewRecordTa;

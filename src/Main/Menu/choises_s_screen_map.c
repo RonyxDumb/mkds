@@ -10,6 +10,7 @@
 #include "Main/Menu/choises_s_tiles.h"
 #include "Main/Menu/choises_s_select.h"
 #include "01/Menu/record_time_attack.h"
+#include "01/Menu/code_02196d58.h"
 #include "Main/Race/race_hud_draw.h"
 #include "Main/Race/race_start_sequence.h"
 #include "Main/Race/race_goal_s_running.h"

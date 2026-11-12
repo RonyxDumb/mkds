@@ -21,6 +21,7 @@
 #include "code_0214d018.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "01/Menu/record_time_attack.h"
+#include "01/Menu/code_02196d58.h"
 #include "Main/Graphics/player_character_cell_file_set.h"
 #include "Main/Graphics/cell_layout_entry.h"
 #include "Main/Race/ghost_list.h"

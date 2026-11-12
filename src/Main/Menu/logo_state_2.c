@@ -4,6 +4,7 @@
 #include "Main/Sound/sound_seq.h"
 #include "Main/Menu/txt_system.h"
 #include "01/Menu/record_time_attack.h"
+#include "01/Menu/code_02196d58.h"
 
 void UpdateLogoState1(void) {
     s32 v1;

@@ -4,6 +4,7 @@
 #include "Main/Save/backup_busy.h"
 #include "Main/Save/backup_ghost_head.h"
 #include "01/Menu/record_time_attack.h"
+#include "01/Menu/code_02196d58.h"
 #include "Main/MapObjects/data_0217a000.h"
 
 GhostListEntry *CreateSlotGhostRecords(void *heap) {

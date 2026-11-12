@@ -13,6 +13,7 @@ extern const u8 gSelectBattleStageSTableIndices[6][3];
 
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "01/Menu/record_time_attack.h"
+#include "01/Menu/code_02196d58.h"
 #include "01/unk_021a6000.h"
 #include "01/unk_021a9000.h"
 #include "Main/System/result_archive_path.h"

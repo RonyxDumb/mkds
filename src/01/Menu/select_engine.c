@@ -6,6 +6,7 @@
 #include "01/unk_021a9000.h"
 #include "01/Menu/mission_run_boss_icon.h"
 #include "01/Menu/record_time_attack.h"
+#include "01/Menu/code_02196d58.h"
 #include "Main/System/heap.h"
 #include "Main/Save/backup_reset.h"
 #include "Main/Graphics/oam.h"

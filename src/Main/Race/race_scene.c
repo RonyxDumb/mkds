@@ -22,6 +22,7 @@
 #include "Main/MapObjects/data_0217a000.h"
 #include "00/Menu/wi_fi_vs_matching.h"
 #include "01/Menu/record_time_attack.h"
+#include "01/Menu/code_02196d58.h"
 #include "os_printf.h"
 #include "Main/Race/race_keys.h"
 #include "Main/Menu/second_menu_scene.h"

@@ -27,6 +27,7 @@
 #include "tp.h"
 #include "Main/MapObjects/data_0217a000.h"
 #include "01/Menu/record_time_attack.h"
+#include "01/Menu/code_02196d58.h"
 #include "Main/Graphics/font_and_player_character.h"
 
 #pragma opt_rebuildconditionals off

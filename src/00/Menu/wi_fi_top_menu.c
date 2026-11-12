@@ -2,6 +2,7 @@
 #include "registers.h"
 #include "Main/Save/ghost_file_records.h"
 #include "01/Menu/record_time_attack.h"
+#include "01/Menu/code_02196d58.h"
 #include "Main/Graphics/oam.h"
 #include "Main/Sound/sound_seq.h"
 #include "Main/Scene/display_settings.h"

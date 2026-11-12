@@ -1,6 +1,7 @@
 #include "Main/Save/backup_busy.h"
 #include "Main/Save/backup_first_block.h"
 #include "01/Menu/record_time_attack.h"
+#include "01/Menu/code_02196d58.h"
 
 #pragma thumb on
 

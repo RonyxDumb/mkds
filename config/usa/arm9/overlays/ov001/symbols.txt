@@ -1225,11 +1225,8 @@ gRecordTAttNameLabelWidths kind:data(any) addr:0x021a67e4
 gRecordTAttNameLabelIndices kind:data(any) addr:0x021a67f0
 gRecordTAttButtonSequence kind:data(any) addr:0x021a67fc
 gRecordTAttRecordIndices kind:data(any) addr:0x021a6808
-gRecordTAttCharacterPaletteSlots kind:data(any) addr:0x021a681c
-gRecordTAttKartPaletteSlots kind:data(any) addr:0x021a6826
+gRecordTAttPaletteSlots kind:data(any) addr:0x021a681c
 gRecordTAttCharacterKartCellIndices kind:data(any) addr:0x021a6830
-gRecordTAttKartIconCellIndices kind:data(any) addr:0x021a6832
-data_usa_ov001_021a6834 kind:data(any) addr:0x021a6834
 gRecordTAttCharacterCells kind:data(any) addr:0x021a6844
 gRecordTAttCommonMessageIndices kind:data(any) addr:0x021a6860
 gRecordTAttCourseIds kind:data(any) addr:0x021a68e0

@@ -196,9 +196,16 @@ src/01/Menu/code_02194a30.c:
 
 src/01/Menu/record_time_attack.c:
     complete
-    .text       start:0x021956bc end:0x02197b14
-    .data       start:0x021a82b8 end:0x021a8318
+    .text       start:0x021956bc end:0x02196d58
+    .rodata     start:0x021a67a0 end:0x021a681c
+    .data       start:0x021a82b8 end:0x021a82dc
     .bss        start:0x021a9bbc end:0x021a9bc0
+
+src/01/Menu/code_02196d58.c:
+    complete
+    .text       start:0x02196d58 end:0x02197b14
+    .rodata     start:0x021a681c end:0x021a69e0
+    .data       start:0x021a82dc end:0x021a8318
 
 // provisional: file name and boundaries
 src/01/Menu/time_attack_top_menu.c:

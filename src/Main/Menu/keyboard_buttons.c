@@ -35,6 +35,7 @@
 #include "code_0214d018.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "01/Menu/record_time_attack.h"
+#include "01/Menu/code_02196d58.h"
 #include "Main/Graphics/scene_text.h"
 #include "Main/System/heap.h"
 #include "Main/Graphics/oam.h"

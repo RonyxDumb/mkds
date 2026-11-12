@@ -29,6 +29,7 @@
 #include "Main/MapObjects/data_0217a000.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "01/Menu/record_time_attack.h"
+#include "01/Menu/code_02196d58.h"
 #include "code_02147cd8.h"
 #include "code_021458c4.h"
 #include "Main/Race/kart_standing_rank.h"

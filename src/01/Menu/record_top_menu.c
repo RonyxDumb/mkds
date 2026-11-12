@@ -7,6 +7,7 @@
 #include "Main/Menu/txt_system.h"
 #include "Main/Menu/data_02175628.h"
 #include "01/Menu/record_time_attack.h"
+#include "01/Menu/code_02196d58.h"
 #include "Main/Menu/select_return.h"
 #include "01/code_0219c000.h"
 #include "Main/Graphics/layout_rect_table.h"

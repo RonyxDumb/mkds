@@ -1,6 +1,7 @@
 #include "01/Menu/time_attack_top_menu.h"
 
 #include "01/Menu/record_time_attack.h"
+#include "01/Menu/code_02196d58.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/System/heap.h"
 #include "Main/Graphics/oam.h"

@@ -12,6 +12,7 @@
 #include "Main/Net/wifi_session_login.h"
 #include "Main/MapObjects/data_0217a000.h"
 #include "01/Menu/record_time_attack.h"
+#include "01/Menu/code_02196d58.h"
 #include "os_tick.h"
 #include "code_0214d018.h"
 

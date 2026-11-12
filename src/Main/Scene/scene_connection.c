@@ -20,6 +20,7 @@
 #include "00/Menu/wi_fi_vs_matching.h"
 #include "01/Menu/ending_scene.h"
 #include "01/Menu/record_time_attack.h"
+#include "01/Menu/code_02196d58.h"
 #include "os_thread.h"
 #include "pm.h"
 #include "gx.h"

@@ -9,6 +9,7 @@
 #include "Main/Save/buddy_record_time.h"
 #include "dwc_account.h"
 #include "01/Menu/record_time_attack.h"
+#include "01/Menu/code_02196d58.h"
 #include "code_0214d018.h"
 #include "Main/MapObjects/data_0217a000.h" // GhostListEntry
 #include "code_021522a0.h"

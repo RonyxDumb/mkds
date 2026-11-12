@@ -16,6 +16,7 @@
 #include "00/Lib/DWC/code_0219c384.h"
 #include "00/code_021a3000.h"
 #include "01/Menu/record_time_attack.h"
+#include "01/Menu/code_02196d58.h"
 #include "00/Lib/DWC/code_0219b580.h"
 #include "03/Net/essid_wcm.h"
 #include "00/Lib/DWC/dwc_connectinet.h"

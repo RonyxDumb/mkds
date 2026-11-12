@@ -29,6 +29,7 @@
 #include "00/code_021a3000.h"
 #include "00/Lib/DWC/dwc_connectinet.h"
 #include "01/Menu/record_time_attack.h"
+#include "01/Menu/code_02196d58.h"
 #include "code_02004dc0.h"
 #include "code_0200c914.h"
 #include "code_0200fc8c.h"

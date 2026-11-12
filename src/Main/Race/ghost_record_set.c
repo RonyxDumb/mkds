@@ -9,6 +9,7 @@
 #include "Main/Race/gp_records_killer.h"
 
 #include "01/Menu/record_time_attack.h"
+#include "01/Menu/code_02196d58.h"
 #include "Main/Save/ghost_file_records_create.h"
 #include "Main/Menu/data_0217d000.h"
 #include "player.h"

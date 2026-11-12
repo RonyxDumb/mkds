@@ -90,7 +90,7 @@ typedef struct BackupAccess {
     /* 6c */ u8 mUnk_6c;
 } BackupAccess;
 
-extern u16 gRecordTAttCharacterKartCellIndices[][2];
+extern const u16 gRecordTAttCharacterKartCellIndices[5][2];
 
 #include "Main/Menu/kart_icon.h"
 #include "Main/Menu/record_scene.h"
@@ -98,17 +98,8 @@ extern u16 gRecordTAttCharacterKartCellIndices[][2];
 #include "code_021458c4.h"
 
 extern BackupAccess *gBackupAccess;
-extern u16 gRecordTAttTimerZeroSTableIndices[];
-extern u16 gRecordTAttRunningSTableIndices[];
-extern u16 gRecordTAttTimeLabelWidths[];
-extern u16 gRecordTAttTimeLabelIndices[];
-extern u16 gRecordTAttTimeLabelHeights[];
-extern u16 gRecordTAttNameLabelHeights[];
-extern u16 gRecordTAttOffsetSTableIndices[];
-extern u16 gRecordTAttNameLabelWidths[];
-extern u16 gRecordTAttNameLabelIndices[];
-extern u16 gRecordTAttButtonSequence[];
-extern s32 gRecordTAttCourseIds[];
+extern const s32 gRecordTAttCourseIds[32];
+extern RecordTAtt *gRecordTAtt;
 
 void RegisterRecordTAttCallbacks(void);
 void WriteRecordTAttRegisters(void);
@@ -136,30 +127,16 @@ void ReleaseRecordTAtt(void);
 void InitRecordTAtt(void *heap);
 BOOL AdvanceRecordTAttButtonSequence(void);
 void AdvanceRecordTAttOffsetTimers(void);
-void RequestRecordTAttState17(void);
-void RequestRecordTAttState16(void);
-void RequestRecordTAttState15(void);
-void RequestRecordTAttState14(void);
-void RequestRecordTAttState13(void);
-void RequestRecordTAttState12(void);
-void RequestRecordTAttState11(void);
-void RequestRecordTAttState10(void);
-void RequestRecordTAttState9(void);
-void RequestRecordTAttState8(void);
-void RequestRecordTAttState7(void);
-void RequestRecordTAttState6(void);
-void RequestRecordTAttState5(void);
-void RequestRecordTAttState4AndMoveIndex(void);
-void RequestRecordTAttState3(void);
-void RequestRecordTAttState2(void);
-void RequestRecordTAttState1AndSetup(void);
-void ResetRecordTAtt(void);
-BOOL CheckRecordTAttFirstRecordFormat(void);
-void DecrementRecordTAttIndex(void);
-void IncrementRecordTAttIndex(void);
-void SetupRecordTAtt(void);
-void SetupRecordTAttRowDashes(u16 row);
-void SetupRecordTAttRowValues(u16 row);
-void LocateAndQueueRecordTAtt(void);
 
 #include "00/Menu/wi_fi_vs_matching.h"
+
+extern const u16 gRecordTAttRunningSTableIndices[2];
+extern const u16 gRecordTAttNameLabelIndices[5];
+extern const u16 gRecordTAttNameLabelWidths[5];
+extern const u16 gRecordTAttNameLabelHeights[5];
+extern const u16 gRecordTAttButtonSequence[6];
+extern const u16 gRecordTAttTimeLabelHeights[5];
+extern const u16 gRecordTAttTimeLabelIndices[5];
+extern const u16 gRecordTAttOffsetSTableIndices[5];
+extern const u16 gRecordTAttTimeLabelWidths[5];
+extern const u16 gRecordTAttTimerZeroSTableIndices[2];

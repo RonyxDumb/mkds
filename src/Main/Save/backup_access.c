@@ -7,6 +7,7 @@
 #include "os_tick.h"
 #include "card_common.h"
 #include "01/Menu/record_time_attack.h"
+#include "01/Menu/code_02196d58.h"
 #include "Main/Scene/scene_connection.h"
 #include "Main/Save/backup_write_copies.h"
 

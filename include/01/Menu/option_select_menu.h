@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "01/Menu/record_time_attack.h"
+#include "01/Menu/code_02196d58.h"
 #include "Main/MapObjects/data_0217a000.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Graphics/scene_text_init.h"

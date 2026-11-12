@@ -16,6 +16,7 @@ typedef struct OptionStateCallbackTable {
 #include "Main/Menu/select_return.h"
 #include "Main/MapObjects/data_0217a000.h"
 #include "01/Menu/record_time_attack.h"
+#include "01/Menu/code_02196d58.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Graphics/oam.h"
 #include "01/unk_021a6000.h"

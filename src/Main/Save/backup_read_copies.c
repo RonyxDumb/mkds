@@ -19,6 +19,7 @@
 #include "code_02133458.h"
 #include "card_common.h"
 #include "01/Menu/record_time_attack.h"
+#include "01/Menu/code_02196d58.h"
 
 u8 gRomArchiveName[] = "rom";
 FileReadThread gFileReadThread;

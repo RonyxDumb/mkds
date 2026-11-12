@@ -11,6 +11,7 @@
 #include "Main/MapObjects/data_0217b000.h"
 #include "Main/Race/race_setup.h"
 #include "01/Menu/record_time_attack.h"
+#include "01/Menu/code_02196d58.h"
 
 #pragma thumb on
 #pragma optimize_for_size on

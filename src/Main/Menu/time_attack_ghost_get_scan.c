@@ -64,6 +64,7 @@
 #include "code_0214cfe4.h"
 #include "Main/Graphics/message_index.h"
 #include "01/Menu/record_time_attack.h"
+#include "01/Menu/code_02196d58.h"
 #include "code_0214d018.h"
 #include "Main/System/interpolation.h"
 #include "Main/Menu/select_character.h"

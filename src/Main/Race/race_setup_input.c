@@ -55,6 +55,7 @@
 #include "Main/System/thread_function_queue.h"
 #include "Main/System/input_slot_pair_reset.h"
 #include "01/Menu/record_time_attack.h"
+#include "01/Menu/code_02196d58.h"
 #include "code_021458c4.h"
 #include "registers.h"
 #include "code_0200fe74.h"

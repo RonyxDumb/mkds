@@ -18,6 +18,7 @@
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "gfd_VramTransferManager.h"
 #include "01/Menu/record_time_attack.h"
+#include "01/Menu/code_02196d58.h"
 #include "Main/Kart/kart_model_menu.h"
 #include "Main/Menu/record_vs.h"
 #include "Main/Menu/txt_system.h"

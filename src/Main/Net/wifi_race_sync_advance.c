@@ -11,6 +11,7 @@
 #include "00/Lib/DWC/code_0219b580.h"
 #include "00/Menu/wi_fi_vs_matching.h"
 #include "01/Menu/record_time_attack.h"
+#include "01/Menu/code_02196d58.h"
 #include "os_tick.h"
 #include "code_0202056c.h"
 #include "code_021458c4.h"

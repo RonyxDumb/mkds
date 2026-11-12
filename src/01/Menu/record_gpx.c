@@ -13,6 +13,7 @@
 #include "code_02148950.h"
 #include "Main/Graphics/locate_bmg_sections.h"
 #include "01/Menu/record_time_attack.h"
+#include "01/Menu/code_02196d58.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/Graphics/font_and_player_character.h"
 #include "Main/Sound/data_0216c000.h"

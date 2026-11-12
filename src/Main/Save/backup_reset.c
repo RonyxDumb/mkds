@@ -9,6 +9,7 @@
 #include "Main/Save/backup_first_block.h"
 #include "Main/Menu/select_race_rule_state.h"
 #include "01/Menu/record_time_attack.h"
+#include "01/Menu/code_02196d58.h"
 
 #pragma thumb on
 

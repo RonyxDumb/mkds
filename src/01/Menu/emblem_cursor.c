@@ -28,6 +28,7 @@
 #include "01/code_021a2a40.h"
 #include "Main/Save/mission_record.h"
 #include "01/Menu/record_time_attack.h"
+#include "01/Menu/code_02196d58.h"
 #include "Main/Graphics/oam.h"
 #include "Main/Graphics/nibbles_join.h"
 #include "Main/Sound/sound_seq.h"

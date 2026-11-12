@@ -44,6 +44,7 @@
 #include "Main/Sound/sound_source_list.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "01/Menu/record_time_attack.h"
+#include "01/Menu/code_02196d58.h"
 #include "code_021458c4.h"
 #include "Main/MapObjects/sman_with.h"
 #include "Main/Item/item_koura_w.h"

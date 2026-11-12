@@ -5,6 +5,7 @@
 #include "00/unk_021b4000.h"
 #include "Main/Net/wifi_session.h"
 #include "01/Menu/record_time_attack.h"
+#include "01/Menu/code_02196d58.h"
 #include "Main/Net/led_pattern.h"
 #include "Main/Graphics/locate_bmg_sections.h"
 #include "Main/Sound/sound_seq.h"

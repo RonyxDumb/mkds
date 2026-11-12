@@ -7,6 +7,7 @@
 #include "Main/Graphics/palette_blend.h"
 #include "g2.h"
 #include "01/Menu/record_time_attack.h"
+#include "01/Menu/code_02196d58.h"
 #include "00/unk_021b4000.h"
 #include "Main/Menu/txt_system.h"
 #include "Main/Menu/select_return.h"

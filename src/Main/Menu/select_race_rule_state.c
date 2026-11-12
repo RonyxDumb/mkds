@@ -52,6 +52,7 @@
 #include "Main/Save/buddy_record_time.h"
 #include "g2d_CellTransferManager.h"
 #include "01/Menu/record_time_attack.h"
+#include "01/Menu/code_02196d58.h"
 #include "Main/Graphics/text_draw.h"
 #include "gfd_VramTransferManager.h"
 #include "Main/Sound/sound_system.h"

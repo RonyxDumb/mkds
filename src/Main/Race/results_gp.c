@@ -31,6 +31,7 @@
 #include "Main/Race/race_hud_sub_screen_projection.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "01/Menu/record_time_attack.h"
+#include "01/Menu/code_02196d58.h"
 #include "gfd_VramTransferManager.h"
 #include "code_0212df7c.h"
 #include "g2.h"
