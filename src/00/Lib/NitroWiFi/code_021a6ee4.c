@@ -509,14 +509,14 @@ s32 SOCLi_SendCommandPacket(SOCLiSocketCommandPipe *pipe, SOCLiCommandPacket *pa
 
 s32 SOCLi_ExecCommandPacket(SOCLiSocketCommandPipe *pipe, SOCLiCommandPacket *packet) {
     s32 result;
-    void *response;
+    void *reply;
     OSMessageQueue replyQueue;
 
     if (packet->mFlagBlock == 0) {
         packet->mResponse = NULL;
         result = SOCLi_SendCommandPacket(pipe, packet);
     } else {
-        OS_InitMessageQueue(&replyQueue, &response, 1);
+        OS_InitMessageQueue(&replyQueue, &reply, 1);
         packet->mResponse = &replyQueue;
         SOCLi_SendCommandPacket(pipe, packet);
         OS_ReceiveMessage(&replyQueue, (void **) &result, 1);
