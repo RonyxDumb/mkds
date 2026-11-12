@@ -24,8 +24,6 @@ extern const Vec3 gRockMatrixRow1;
 
 extern const Vec3 gRockMatrixRow2;
 
-extern struct MapObjectKindData gRockKindData;
-
 extern s32 gCharacterBalloonOrShineHeights[];
 
 // 8-byte entries of the table at gKeyboardCursorTargets.

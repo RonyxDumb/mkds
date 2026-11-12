@@ -27,6 +27,7 @@
 #include "code_02148538.h"
 #include "registers.h"
 #include "code_0201c528.h"
+#include "Main/MapObjects/rock_kind_data.h"
 
 const Vec3 gRockMatrixRow0 = {0x1000, 0, 0};
 const Vec3 gRockMatrixRow1 = {0, 0x1000, 0};

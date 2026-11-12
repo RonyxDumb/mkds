@@ -3147,6 +3147,11 @@ src/Main/MapObjects/group_follower.c:
     .bss        start:0x0217b630 end:0x0217b650
 
 // provisional: file name and boundaries
+src/Main/MapObjects/rock_kind_data.c:
+    complete
+    .rodata     start:0x02156adc end:0x02156b1c
+
+// provisional: file name and boundaries
 src/Main/MapObjects/straight_segment_lengths.c:
     complete
     .text       start:0x020d7d80 end:0x020d7da8
