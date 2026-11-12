@@ -19,6 +19,8 @@
 #include "os_printf.h"
 #include "card_common.h"
 
+DwcArchive *gDwcArchive;
+
 const u8 gDwcArchiveName[3] = {0x64, 0x77, 0x63};
 char gLzFileSuffix[3] = ".l";
 u8 gRomDir[5] = {0x72, 0x6f, 0x6d, 0x3a, 0x2f};

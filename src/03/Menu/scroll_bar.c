@@ -15,8 +15,10 @@
 #include "03/System/exp_heap.h"
 #include "03/System/tasks.h"
 
-const u8 gScrollBarImageIds[3] = {0x10, 0xf, 0xe};
+struct ScrollBar *gScrollBar;
+
 const u8 gScrollBarLengths[3] = {0x55, 0x36, 0x1e};
+const u8 gScrollBarImageIds[3] = {0x10, 0xf, 0xe};
 
 void CreateScrollBar(u32 sizeIndex, u32 trackLength, u16 positionX, u16 positionY, u32 offset) {
     (gScrollBar = AllocZeroedExpHeapBlock(0x20, 4))->mSizeIndex = sizeIndex;

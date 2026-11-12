@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "03/types_021d299c.h"
 
 typedef struct Rect Rect;
 
@@ -18,3 +19,7 @@ void UpdateTouchInput(void);
 void UpdateKeyInput(void);
 void UpdateKeyTouchInput(void);
 void ReleaseKeyTouchInput(void);
+
+extern u8 gTouchRepeatFrames;
+extern struct KeyTouchInput *gKeyTouchInput;
+extern u8 gKeyRepeatFrames[14];

@@ -3,6 +3,7 @@
 #include "types.h"
 #include "03/types_021d299c.h"
 #include "03/unk_021d7000.h"
+#include "03/unk_021da000.h"
 
 typedef struct Rect Rect;
 
@@ -68,3 +69,9 @@ extern const u8 gJb3ListCellImageIds[5][3];
 extern const u16 gJb3ListBackNscOffsets[9];
 // Objects whose layout isn't known yet.
 extern const s8 gJb3ListDigitColumns[6];
+
+extern u8 gJb3ListSelectedId;
+extern u8 gJb3ListMode;
+extern u16 gJb3ListScrollY;
+extern u8 gJb3ListSelectedRow;
+extern struct Jb3List *gJb3List;

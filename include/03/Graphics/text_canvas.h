@@ -69,3 +69,5 @@ ObjTextCanvas *CreateObjTextCanvas(u32 screen, u16 areaWidth, u16 areaHeight, s3
                                    s32 fontIndex);
 void ReleaseTextCanvases(void);
 void InitTextCanvases(void);
+
+extern TextCanvases *gTextCanvases;

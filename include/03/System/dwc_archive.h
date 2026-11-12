@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "03/unk_021da000.h"
 
 typedef struct FSFile FSFile;
 typedef struct FSArchive FSArchive;
@@ -20,3 +21,5 @@ extern const u8 gDwcArchiveName[3];
 extern char gLzFileSuffix[3];
 extern u8 gRomDir[5];
 extern u8 gDwcUtilityBinName[21];
+
+extern struct DwcArchive *gDwcArchive;

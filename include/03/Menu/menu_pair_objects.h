@@ -10,3 +10,6 @@ extern const MenuPairObjectPosition gMenuPairObjectPositions[5];
 extern const u8 gMenuPairObjectImageIds[3][5];
 extern const u8 gMenuPairObjectPaletteIds[3][5];
 extern char *gMenuPairScreenMapPaths[5];
+
+extern struct MenuPairObjects *gMenuPairObjects;
+extern void *gMenuPairScreenMap;

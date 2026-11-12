@@ -37,3 +37,5 @@ u8 GetScrollBarOffset(void);
 
 extern const u8 gScrollBarImageIds[3];
 extern const u8 gScrollBarLengths[3];
+
+extern struct ScrollBar *gScrollBar;

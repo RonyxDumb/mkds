@@ -83,3 +83,5 @@ extern const u8 gEditAddrKeyboardExtraKeyImages[2];
 extern const u16 gEditAddrKeyboardDigitKeySize[2];
 extern const u16 gEditAddrKeyboardRow4KeySize[2];
 extern u8 gEditAddrKeyboardRow4KeyCounts[5];
+
+extern struct EditAddrKeyboard *gEditAddrKeyboard;

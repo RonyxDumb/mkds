@@ -8,6 +8,7 @@
 #include "03/code_021d1000.h"
 #include "03/System/task_input.h"
 #include "03/code_021d2d50.h"
+#include "03/System/task_vblank_irq.h"
 #include "03/code_021d2ecc.h"
 #include "03/Graphics/text_canvas.h"
 #include "03/System/exp_heap.h"

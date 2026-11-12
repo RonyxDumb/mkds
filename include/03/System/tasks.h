@@ -34,3 +34,6 @@ unsigned int AddTask(unsigned int listIndex, void *function, void *arg, unsigned
 void RunTasksAndRemoveRequested(int listIndex);
 void ReleaseTasks(void);
 void InitTasks(void);
+
+extern const u8 gTaskListCapacities[2];
+extern struct TaskList *gTaskLists;

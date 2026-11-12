@@ -14,9 +14,12 @@
 #include "03/code_021d2ecc.h"
 #include "03/unk_021d6000.h"
 
+const u8 gTaskListCapacities[2] = {0x80, 0x20};
+struct TaskList *gTaskLists;
+
 void InitTasks(void) {
     s32 i;
-    u8 *countPtr;
+    const u8 *countPtr;
 
     gTaskLists = AllocExpHeapBlock(0x78, 4);
     i = 0;

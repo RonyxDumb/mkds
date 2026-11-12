@@ -20,7 +20,7 @@ typedef struct WMStartScanExCallback {
     /* 50 */ u16 mLinkLevel[0x10];
 } WMStartScanExCallback;
 
-extern u8 gOtherElementPrefix[];
-
 void StoreApScanEntries(WMStartScanExCallback *scanResult);
 void ApScanCallback(Unk021425e8 *message);
+
+extern const u8 gOtherElementPrefix[4];

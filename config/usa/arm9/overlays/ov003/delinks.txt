@@ -376,11 +376,13 @@ src/03/Menu/scroll_bar.c:
     complete
     .text       start:0x021cca34 end:0x021ccef0
     .rodata     start:0x021d65ec end:0x021d65f4
+    .bss        start:0x021da228 end:0x021da22c
 
 // provisional: file name and boundaries
 src/03/Net/ap_scan_callback.c:
     complete
     .text       start:0x021ccef0 end:0x021cd090
+    .rodata     start:0x021d65f4 end:0x021d65f8
 
 // provisional: file name and boundaries
 src/03/Net/ap_scan.c:
@@ -452,6 +454,7 @@ src/03/System/dwc_archive.c:
     .text       start:0x021d1400 end:0x021d1730
     .rodata     start:0x021d6798 end:0x021d679c
     .data       start:0x021d7b94 end:0x021d7bc0
+    .bss        start:0x021da270 end:0x021da274
 
 // provisional: file name and boundaries
 src/03/Graphics/nce_oam.c:
@@ -503,7 +506,14 @@ src/03/System/lcd_power.c:
 // provisional: file name and boundaries
 src/03/System/task_input.c:
     complete
-    .text       start:0x021d2900 end:0x021d2e10
+    .text       start:0x021d2900 end:0x021d2d64
+    .bss        start:0x021da290 end:0x021da2a8
+
+// provisional: file name and boundaries
+src/03/System/task_vblank_irq.c:
+    complete
+    .text       start:0x021d2d64 end:0x021d2e10
+    .bss        start:0x021da2a8 end:0x021da2b0
 
 // provisional: file name and boundaries
 src/03/Graphics/oam_buffers.c:
@@ -536,3 +546,5 @@ src/03/Graphics/vram_bank_settings.c:
 src/03/System/tasks.c:
     complete
     .text       start:0x021d3448 end:0x021d3654
+    .rodata     start:0x021d67b0 end:0x021d67b4
+    .bss        start:0x021da2ec end:0x021da300

@@ -17,6 +17,8 @@
 #include "code_0214d018.h"
 #include "code_0200eddc.h"
 
+const u8 gOtherElementPrefix[4] = {0, 0x50, 0xf2, 1};
+
 void ApScanCallback(Unk021425e8 *message) {
     if (message->mResultCode == 0 && *((u8 *) gApScan + 0x1e48) == 0 && message->mCommand == 0x26) {
         switch (message->mReplyState) {

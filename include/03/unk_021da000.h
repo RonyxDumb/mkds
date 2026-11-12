@@ -72,7 +72,6 @@ typedef struct EditKeyboard {
 
 extern EditKeyboard *gEditKeyboard;
 struct EditAddrKeyboard;
-extern struct EditAddrKeyboard *gEditAddrKeyboard;
 struct ValueRecordsRequest;
 extern u8 gLanguageIndex[];
 extern u8 gQuitFlag[];
@@ -80,22 +79,14 @@ extern void *gHeapMemoryBlock;
 struct ApList;
 struct Edit;
 struct EditAddr;
-extern u8 gJb3ListSelectedId;
-extern u8 gJb3ListMode;
-extern u8 gJb3ListSelectedRow;
-extern u16 gJb3ListScrollY;
-extern Jb3List *gJb3List;
 struct Ap;
 struct Bg2ScrBuffer;
 struct ScrollBar;
-extern struct ScrollBar *gScrollBar;
 struct ApScan;
 extern struct ApScan *gApScan;
 struct ApStore;
 struct SoundData;
-extern void *gMenuPairScreenMap;
 struct MenuPairObjects;
-extern struct MenuPairObjects *gMenuPairObjects;
 extern UsbScan *gUsbScan;
 // Object behind gMessageBox: AdvanceMessageBoxSlideOut passes 0x00 to GetOamRangeEntryPosition and reads the byte at
 // 0x1e; GetMessageBoxResult reads the byte at 0x1b.
@@ -173,7 +164,6 @@ typedef struct DwcArchive {
     /* e6 */ u8 mUnk_e6[2];
 } DwcArchive;
 
-extern DwcArchive *gDwcArchive;
 // Two objects of 0x228 bytes: 32 objects from 0x000, two list heads at 0x200 and 0x210, a pointer at 0x220 and the
 // list of the free objects at 0x224.
 typedef struct OamRanges {
@@ -191,14 +181,7 @@ typedef struct NceImage {
     /* 04 */ u32 mEntriesOffset;
 } NceImage;
 
-extern TextCanvases *gTextCanvases;
-extern u8 gTouchRepeatFrames;
-extern KeyTouchInput *gKeyTouchInput;
-extern u8 gKeyRepeatFrames[];
-extern UnkFunc *gSavedIrqFunction;
-extern u32 gSavedIrqMask;
 struct OamBuffers;
 extern struct OamBuffers *gOamBuffers;
 struct ObjCharRanges;
 struct TaskList;
-extern struct TaskList *gTaskLists;
