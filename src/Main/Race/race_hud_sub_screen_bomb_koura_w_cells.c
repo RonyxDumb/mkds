@@ -30,6 +30,7 @@
 #include "g2d_Animation.h"
 #include "Main/Item/item_koura_w.h"
 #include "Main/Item/item_bomb.h"
+#include "Main/Item/item_pool.h"
 
 RaceHudSubScreenCells *gRaceHudSubScreenBombKouraWCells;
 RaceHudSubScreenBgColors *gRaceHudSubScreenBgColors;

@@ -38,22 +38,23 @@
 #include "Main/Kart/karts.h"
 #include "Main/Item/held_item.h"
 
+const u16 gItemInUseThrowForwardBit = 0x10;
 const u16 gItemInUseDownBit = 0x20;
-const u16 data_usa_021595d4 = 0x200;
+const u32 gItemCollisionBitOrder[13] = {0x80, 0x40000, 0x1000, 0x80000, 0x20000, 1, 0x100000, 2, 0x40, 4, 8, 0x20, 0x2000};
 const u16 gKartItemsKeyReleasedBit = 0x4000;
 const u16 gKartItemsKeyDownBit = 0x1000;
 const u16 gKartItemsDownBit = 0x20;
-const u16 gKartItemsThrowForwardBit = 0x10;
-const u16 gKartItemsSlotBit = 1;
-const u32 gItemCollisionBitOrder[13] = {0x80, 0x40000, 0x1000, 0x80000, 0x20000, 1, 0x100000, 2, 0x40, 4, 8, 0x20, 0x2000};
-const u16 gKartItemsInUseBit = 4;
 const Vec3 gKartItemsVec3UnitY = {0, 0x1000, 0};
-const u16 gKartItemsStartUseBit = 0x40;
-const u16 gItemObjectKouraRTargetedBit = 0x1000;
+const u16 gKartItemsSlotBit = 1;
 const u16 gKartItemsHeldBit = 2;
-const u16 gKartItemsEndUseBit = 0x80;
+const u16 gKartItemsInUseBit = 4;
+const u16 data_usa_021595d4 = 0x200;
+const u16 gKartItemsStartUseBit = 0x40;
+const u16 gKartItemsThrowForwardBit = 0x10;
 const u16 gItemInUseAdvancedBit = 0x100;
-const u16 gItemInUseThrowForwardBit = 0x10;
+const u16 gKartItemsEndUseBit = 0x80;
+const u16 gItemObjectKouraRTargetedBit = 0x1000;
+ItemKind *gItemKinds;
 
 // Hands out count objects from the pool, releasing the first active one while the pool is too full.
 void TakeItemPoolObjects(ItemPool *pool, s32 count, ItemObject **out, u16 kartIndex, Vec3 *pos) {

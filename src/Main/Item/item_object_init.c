@@ -3,6 +3,7 @@
 #include "Main/Race/data_020f36d8.h"
 #include "Main/Sound/sound_start.h"
 #include "Main/Sound/sound_source_init.h"
+#include "Main/Item/item_pool.h"
 
 #pragma thumb on
 

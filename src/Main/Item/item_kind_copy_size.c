@@ -1,5 +1,6 @@
 #include "Main/Item/item_kind_copy_size.h"
 #include "Main/Race/data_020f36d8.h"
+#include "Main/Item/item_pool.h"
 
 #pragma thumb on
 

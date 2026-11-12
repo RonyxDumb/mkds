@@ -484,7 +484,6 @@ typedef struct HeldItem {
 
 #include "Main/MapObjects/code_020d6dc0.h"
 
-extern ItemKind *gItemKinds;
 extern RaceProgress *gRaceProgress;
 
 static inline RaceProgressKart *GetRaceProgressKart(u16 kartIndex) {

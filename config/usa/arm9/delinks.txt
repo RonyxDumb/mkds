@@ -3529,6 +3529,7 @@ src/Main/Item/item_pool.c:
     complete
     .text       start:0x020ee684 end:0x020f1104
     .rodata     start:0x021595a0 end:0x02159618
+    .bss        start:0x0217bc14 end:0x0217bc18
 
 // provisional: file name and boundaries
 src/Main/Item/item_koura_r_kart_items.c:

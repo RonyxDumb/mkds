@@ -20,6 +20,7 @@
 #include "Main/Item/code_021035ac.h"
 #include "Main/Sound/surface_sound_ids.h"
 #include "Main/Sound/sound_source_list.h"
+#include "Main/Item/item_pool.h"
 
 #pragma thumb on
 

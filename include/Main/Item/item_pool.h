@@ -59,6 +59,7 @@ typedef struct KartItems {
     /* 208 */ BOOL mTargetedByKouraR;
     /* 20c */ BOOL mUnk_20c;
 } KartItems;
+extern struct ItemKind *gItemKinds;
 
 static inline KartItems *GetKartItems(u16 kartIndex) {
     return &gKartItems[kartIndex];
