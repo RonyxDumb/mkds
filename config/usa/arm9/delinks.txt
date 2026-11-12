@@ -2717,7 +2717,12 @@ src/Main/Unknown/code_0209bef0.c:
 // provisional: file name and boundaries
 src/Main/Unknown/code_0209bf70.c:
     complete
-    .text       start:0x0209bf70 end:0x0209d694
+    .text       start:0x0209bf70 end:0x0209cef0
+
+// provisional: file name and boundaries
+src/Main/Unknown/code_0209cef0.c:
+    complete
+    .text       start:0x0209cef0 end:0x0209d694
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_0209d694.c:
