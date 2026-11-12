@@ -3663,17 +3663,7 @@ src/Main/Unknown/code_020e662c.c:
 // provisional: file name and boundaries
 src/Main/Unknown/code_020e6f50.c:
     complete
-    .text       start:0x020e6f50 end:0x020e6f58
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_020e6f58.c:
-    complete
-    .text       start:0x020e6f58 end:0x020e6f9c
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_020e6f9c.c:
-    complete
-    .text       start:0x020e6f9c end:0x020e6fc4
+    .text       start:0x020e6f50 end:0x020e6fc4
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_020e6fc4.c:
