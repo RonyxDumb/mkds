@@ -12,6 +12,7 @@
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Race/race_hud_sub_screen_pakkun_spit_cells.h"
+#include "Main/Menu/menu_shared_clear.h"
 
 u32 ShuffledIndicesGetConnectionKind(void) {
     return (gStartupWork->mConnectionKind);

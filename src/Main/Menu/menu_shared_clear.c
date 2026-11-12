@@ -4,6 +4,8 @@
 
 #pragma thumb on
 
+MenuShared *gMenuShared;
+
 void ClearMenuShared(void) {
     MenuMI_CpuClearFast(gMenuShared, 0x130);
     gMenuShared->mTitleBlendDone = 0;

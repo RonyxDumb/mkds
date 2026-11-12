@@ -14,6 +14,7 @@
 #include "Main/Graphics/layout_rect_table.h"
 #include "g2.h"
 #include "registers.h"
+#include "Main/Menu/menu_shared_clear.h"
 
 void LoadSelectBattleStageData(void) {
     void *v1;

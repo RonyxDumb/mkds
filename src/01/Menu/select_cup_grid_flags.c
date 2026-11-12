@@ -1,5 +1,6 @@
 #include "01/Menu/select_cup_grid_flags.h"
 #include "00/Menu/wi_fi_vs_setting.h"
+#include "Main/Menu/menu_shared_clear.h"
 
 #pragma thumb off
 

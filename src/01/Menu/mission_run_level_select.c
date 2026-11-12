@@ -13,6 +13,7 @@
 #include "01/unk_021ca000.h"
 #include "registers.h"
 #include "Main/Sound/sound_system.h"
+#include "Main/Menu/menu_shared_clear.h"
 
 const s16 gMissionRunLVselRightIndexOffsets[7] = {1, 1, 0, 1, 1, 0, 0};
 const s16 gMissionRunLVselLeftIndexOffsets[7] = {0, -1, -1, 0, -1, -1, 0};

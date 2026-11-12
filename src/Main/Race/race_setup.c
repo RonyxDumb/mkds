@@ -23,6 +23,7 @@
 #include "Main/Net/packed_index.h"
 #include "Main/Net/wifi_session_karts.h"
 #include "00/Menu/wi_fi_vs_setting.h"
+#include "Main/Menu/menu_shared_clear.h"
 
 RaceSetupCopy *gRaceSetupCopy;
 

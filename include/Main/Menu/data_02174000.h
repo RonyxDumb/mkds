@@ -109,8 +109,6 @@ typedef struct SelectKart {
     /* 116 */ u8 mUnk_116[2];
 } SelectKart;
 
-extern SelectKart *gSelectKart;
-
 // Four words at 0x04 of PlayerEntryRow.
 typedef struct EntrySlotMove {
     /* 00 */ s32 mMoveFrames;

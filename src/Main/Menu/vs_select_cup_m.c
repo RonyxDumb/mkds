@@ -17,6 +17,7 @@
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "Main/Race/race_hud_sub_screen_rain_star_cells.h"
 #include "Main/MapObjects/data_0217b000.h"
+#include "Main/Menu/menu_shared_clear.h"
 
 #pragma thumb on
 

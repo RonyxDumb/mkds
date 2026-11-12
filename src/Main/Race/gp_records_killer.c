@@ -59,6 +59,7 @@
 #include "Main/Item/data_027e0000.h"
 #include "Main/Kart/code_0207e654.h"
 #include "code_02147cd8.h"
+#include "Main/Menu/menu_shared_clear.h"
 
 typedef void (*KartAiItemHandler)(KartAiItemUse *itemUse, struct KartAi *kartAi);
 

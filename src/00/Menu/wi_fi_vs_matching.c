@@ -10,6 +10,7 @@
 #include "00/unk_021b4000.h"
 #include "00/code_02180608.h"
 #include "Main/Sound/sound_system.h"
+#include "Main/Menu/menu_shared_clear.h"
 
 WiFiVSMatching *gWiFiVSMatching;
 

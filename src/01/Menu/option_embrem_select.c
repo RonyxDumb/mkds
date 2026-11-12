@@ -9,6 +9,7 @@
 #include "Main/Save/backup_first_block_write_wrapper.h"
 #include "Main/Graphics/layout_rect_table.h"
 #include "g2.h"
+#include "Main/Menu/menu_shared_clear.h"
 
 const s32 gOptionEmbremSelectCellCounts[2] = {1, 2};
 const s32 gOptionEmbremSelectSTableCounts[2] = {4, 0xb};

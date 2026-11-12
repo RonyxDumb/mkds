@@ -42,6 +42,7 @@
 #include "g2d_CellTransferManager.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/Menu/select_character.h"
+#include "Main/Menu/menu_shared_clear.h"
 
 WiFiStates *gWiFiStates;
 

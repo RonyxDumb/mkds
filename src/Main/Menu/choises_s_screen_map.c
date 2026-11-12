@@ -34,6 +34,7 @@
 #include "Main/Menu/title_scene.h"
 #include "Main/Graphics/oam.h"
 #include "Main/System/heap_call.h"
+#include "Main/Menu/menu_shared_clear.h"
 
 s32 GetEntryEndKind(void) {
     if (IsKartEnded((u16) GetEntryIndex()) != 0) {

@@ -58,6 +58,7 @@
 #include "Main/Kart/code_0208fd8c.h"
 #include "Main/Menu/select_character.h"
 #include "Main/Menu/select_race_rule_state.h"
+#include "Main/Menu/menu_shared_clear.h"
 
 const u8 gMenuDisplaySettingsDesc[37] = {1, 0, 0x1f, 0, 0x1f, 0, 1, 0, 0, 0, 1, 0, 0, 0, 4, 0, 0x60, 0, 0, 0, 0, 0, 3, 0, 0x10, 0, 0, 0, 0x80, 0, 0, 1, 0, 0, 0, 0, 8};
 

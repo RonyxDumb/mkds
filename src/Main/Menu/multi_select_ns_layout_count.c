@@ -70,6 +70,7 @@
 #include "Main/Menu/select_character.h"
 #include "registers.h"
 #include "Main/Sound/sound_system.h"
+#include "Main/Menu/menu_shared_clear.h"
 
 #pragma thumb on
 

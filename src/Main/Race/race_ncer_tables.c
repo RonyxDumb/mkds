@@ -34,6 +34,7 @@
 #include "g2d_NOB_load.h"
 #include "g2d_CharCanvas.h"
 #include "code_0214cfe4.h"
+#include "Main/Menu/menu_shared_clear.h"
 
 struct RaceNcerNclrNcgrTables *gRaceNcerNclrNcgrTables;
 

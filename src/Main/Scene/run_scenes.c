@@ -49,6 +49,7 @@
 #include "01/Scene/test_scene.h"
 #include "01/Menu/option_nickname_scenes.h"
 #include "00/Scene/wi_fi_menu_scene.h"
+#include "Main/Menu/menu_shared_clear.h"
 
 const u8 gDWCUtilityLanguageTable[6] = {0, 1, 2, 3, 4, 5};
 const u32 gSceneFuncs[16] = {

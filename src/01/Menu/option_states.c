@@ -10,6 +10,7 @@
 #include "gx_bgcnt.h"
 #include "code_0214d018.h"
 #include "registers.h"
+#include "Main/Menu/menu_shared_clear.h"
 
 OptionStates *gOptionStates;
 

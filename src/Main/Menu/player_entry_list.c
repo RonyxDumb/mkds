@@ -46,6 +46,7 @@
 #include "Main/MapObjects/map_object_park.h"
 #include "Main/Race/followed_kart_or.h"
 #include "Main/Sound/sound_system.h"
+#include "Main/Menu/menu_shared_clear.h"
 
 const u16 gTitleCellIndices[4] = {0, 1, 2, 0};
 const u16 gNormalTimerDigitCellIndices[10] = {0x2f, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38};

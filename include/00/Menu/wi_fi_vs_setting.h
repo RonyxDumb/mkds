@@ -294,8 +294,6 @@ void AdvanceWiFiVSMatching(void);
 #include "player.h"
 #include "gfd_VramTransferManager.h"
 
-extern MenuShared *gMenuShared;
-
 void WriteWiFiVSSettingRegisters(void);
 void AdvanceWiFiVSSettingIndexTimers(void);
 void UpdateWiFiVSSettingHighlight(void);

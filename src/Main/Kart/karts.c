@@ -97,6 +97,7 @@
 #include "ITCM/kart_motion.h"
 #include "Main/Race/race_clock.h"
 #include "Main/Sound/sound_system.h"
+#include "Main/Menu/menu_shared_clear.h"
 
 void DrawShadowModelIfDrawFlag(ShadowModel *shadowModel, u32 unusedArg1, u32 unusedArg2) {
     if ((shadowModel->mFlags & 1) != 0) {

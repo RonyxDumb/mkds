@@ -13,6 +13,7 @@
 #include "01/Menu/record_time_attack.h"
 #include "01/Menu/code_02196d58.h"
 #include "Main/System/heap.h"
+#include "Main/Menu/menu_shared_clear.h"
 
 WiFiStateCallbacks gWiFiConnectionLostCallbacks = {InitWiFiConnectionLost, ClearWiFiConnectionLostPointer, AdvanceWiFiConnectionLost, WriteWiFiConnectionLostRegistersNop};
 WiFiConnectionLost *gWiFiConnectionLost;

@@ -654,6 +654,7 @@ src/Main/Graphics/rect_containing_point.c:
 src/Main/Menu/select_kart_entry_list.c:
     complete
     .text       start:0x020291f0 end:0x02029440
+    .bss        start:0x02174df8 end:0x02174dfc
 
 // provisional: file name and boundaries
 src/Main/Race/race_setup.c:
@@ -3010,6 +3011,7 @@ src/Main/Menu/shuffled_indices.c:
 src/Main/Menu/menu_shared_clear.c:
     complete
     .text       start:0x020cef1c end:0x020cef68
+    .bss        start:0x0217b468 end:0x0217b46c
 
 // provisional: file name and boundaries
 src/Main/Menu/menu_mi_fill.c:
@@ -3039,6 +3041,7 @@ src/Main/Race/race_goal_times.c:
 src/Main/Menu/cup_picture.c:
     complete
     .text       start:0x020d0e3c end:0x020d0ee8
+    .data       start:0x0216ae58 end:0x0216ae88
 
 // provisional: file name and boundaries
 src/Main/System/thread_function_queue_run.c:

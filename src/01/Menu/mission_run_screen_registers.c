@@ -15,6 +15,7 @@
 #include "gx.h"
 #include "code_02148950.h"
 #include "registers.h"
+#include "Main/Menu/menu_shared_clear.h"
 
 #pragma optimize_for_size on
 

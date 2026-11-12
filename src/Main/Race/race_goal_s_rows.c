@@ -10,6 +10,7 @@
 #include "Main/MapObjects/data_0217b000.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Race/race_clock.h"
+#include "Main/Menu/menu_shared_clear.h"
 
 void RefreshRaceGoalSRows(void) {
     s32 sortKeys[8];

@@ -68,6 +68,7 @@
 #include "g2d_CellTransferManager.h"
 #include "Main/Sound/kart_sound.h"
 #include "Main/Menu/select_race_rule_state.h"
+#include "Main/Menu/menu_shared_clear.h"
 
 const Vec3 gVec3Ones = {0x1000, 0x1000, 0x1000};
 const Vec3 gPooledMapObjectVec3Zero = {0, 0, 0};

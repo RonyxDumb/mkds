@@ -22,6 +22,8 @@
 
 #pragma thumb on
 
+SelectKart *gSelectKart;
+
 void StartSelectKartEntryListKindIfUsed(s32 kind) {
     if (gSelectKart->mEntryListUsed != FALSE) {
         StartPlayerEntryListKind(kind);

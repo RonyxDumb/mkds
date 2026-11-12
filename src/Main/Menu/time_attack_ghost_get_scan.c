@@ -81,6 +81,7 @@
 #include "Main/Net/connect_non_multiboot.h"
 #include "Main/Graphics/oam.h"
 #include "Main/Sound/sound_system.h"
+#include "Main/Menu/menu_shared_clear.h"
 
 #pragma thumb on
 

@@ -42,6 +42,7 @@
 #include "Main/Race/gp_records_killer.h"
 #include "Main/MapObjects/data_02154000.h"
 #include "Main/Sound/sound_system.h"
+#include "Main/Menu/menu_shared_clear.h"
 
 const u16 gEngineMessageIndexTable[4] = {0x6e, 0x6f, 0x70, 0};
 const u16 gCupNameLeftCharIndices[8] = {0, 1, 2, 3, 4, 5, 6, 7};

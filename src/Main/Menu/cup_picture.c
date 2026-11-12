@@ -9,6 +9,10 @@
 #pragma optimize_for_size on
 
 #pragma thumb on
+char gCupPictureRetro[6] = "retro";
+char gCupPictureNitro[6] = "nitro";
+char gCupPicturePrefix[29] = "/data/CupPicture/select_cup_";
+
 BOOL IsCupPictureReady(void) {
     if (gCupPicture != NULL && GetThreadFunctionQueueRunRequested() == 0) {
         return TRUE;

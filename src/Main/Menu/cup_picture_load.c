@@ -8,6 +8,7 @@
 #include "Main/Race/followed_kart_or.h"
 #include "code_02134398.h"
 #include "Main/Menu/data_0216a000.h"
+#include "Main/Menu/cup_picture.h"
 
 struct CupPicture *gCupPicture;
 

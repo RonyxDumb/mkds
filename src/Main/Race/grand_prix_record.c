@@ -29,6 +29,7 @@
 #include "tp.h"
 #include "Main/Net/pending_files.h"
 #include "Main/Race/kart.h"
+#include "Main/Menu/menu_shared_clear.h"
 
 const u8 gCupRankTable[8] = {0, 1, 2, 3, 3, 3, 3, 3};
 

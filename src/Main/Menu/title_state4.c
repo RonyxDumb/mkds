@@ -7,6 +7,7 @@
 #include "Main/Graphics/oam.h"
 #include "Main/MapObjects/data_0217b000.h"
 #include "00/Menu/wi_fi_vs_setting.h"
+#include "Main/Menu/menu_shared_clear.h"
 
 #pragma thumb on
 u32 TitleState4ReturnArgumentWrapper(u32 value) {

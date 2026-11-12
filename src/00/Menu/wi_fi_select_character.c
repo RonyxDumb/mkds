@@ -10,6 +10,7 @@
 #include "Main/Net/wifi_session.h"
 #include "Main/Net/packed_index.h"
 #include "Main/Menu/message_screen.h"
+#include "Main/Menu/menu_shared_clear.h"
 
 WiFiStateCallbacks gSelectCharacterCallbacks = {InitWiFiSelectCharacterState, ReleaseWiFiSelectCharacterState, AdvanceWiFiSelectCharacterState, WriteSelectCharacterRegistersWrapper};
 WiFiSelectHeapHolder *gWiFiSelectCharacterState;

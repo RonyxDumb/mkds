@@ -49,6 +49,7 @@
 #include "Main/Race/grand_prix_next_course.h"
 #include "registers.h"
 #include "Main/Sound/sound_system.h"
+#include "Main/Menu/menu_shared_clear.h"
 
 static inline u32 IsSlot8PairPresentOrRecentlyLost(void) {
     InputSlotIndex slotIndex = UNK_02175628_INDEX_8;

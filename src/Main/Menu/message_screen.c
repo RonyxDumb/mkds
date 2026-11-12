@@ -48,6 +48,7 @@
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "gx.h"
 #include "Main/Menu/select_race_rule_state.h"
+#include "Main/Menu/menu_shared_clear.h"
 
 #pragma thumb on
 
