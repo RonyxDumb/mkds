@@ -6,7 +6,7 @@
 #include "00/code_021a6fb4.h"
 #include "00/code_021a6d1c.h"
 #include "00/code_021a669c.h"
-#include "00/code_021a6934.h"
+#include "00/cpsif.h"
 #include "00/code_021a73d8.h"
 #include "00/code_021a8424.h"
 #include "00/code_021a8878.h"

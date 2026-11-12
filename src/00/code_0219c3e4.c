@@ -33,7 +33,7 @@
 #include "00/code_021acef8.h"
 #include "00/code_021a6c08.h"
 #include "00/code_0218a67c.h"
-#include "00/code_021a6934.h"
+#include "00/cpsif.h"
 #include "00/code_02185954.h"
 #include "00/code_0219c384.h"
 #include "00/code_02198a8c.h"

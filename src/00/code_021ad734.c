@@ -16,7 +16,7 @@
 #include "code_02134398.h"
 #include "code_02133048.h"
 #include "00/code_021a669c.h"
-#include "00/code_021a6934.h"
+#include "00/cpsif.h"
 #include "00/code_021a8878.h"
 #include "03/code_021b94b8.h"
 #include "02/unk_02180500.h"

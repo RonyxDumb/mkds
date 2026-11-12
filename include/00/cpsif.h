@@ -6,6 +6,8 @@
 #include "00/unk_021b5000.h"
 #include "00/code_021a6c08.h"
 
+BOOL WcmCpsifTryLockMutexInIRQ(OSMutex *mutex);
+
 extern OSMutex gWcmCpsifSendMutex;
 
 void WcmCpsifKACallback(void);

@@ -1,6 +1,5 @@
-#include "00/code_021a6934.h"
+#include "00/cpsif.h"
 #include "00/code_021a669c.h"
-
 #include "03/code_021b94b8.h"
 #include "00/unk_021b5000.h"
 #include "00/code_021a574c.h"
@@ -8,11 +7,11 @@
 #include "os_thread.h"
 #include "code_0200fc8c.h"
 #include "code_0214d018.h"
-#include "00/code_021a6908.h"
 #include "00/code_021a68dc.h"
 #include "code_0200edc0.h"
 #include "code_02133048.h"
 #include "code_02142eac.h"
+#include "ITCM/code_01ff8000.h"
 
 void WCMi_InitCpsif(void) {
     if (gWcmCpsifWork.mInitialized == 0) {
@@ -155,4 +154,17 @@ void WcmCpsifWmCallback(Unk021425e8 *callback) {
 
 void WcmCpsifKACallback(void) {
     WcmCpsifUnlockMutexInIRQ(&gWcmCpsifSendMutex);
+}
+
+BOOL WcmCpsifTryLockMutexInIRQ(OSMutex *mutex) {
+    if (mutex->mHolder == NULL) {
+        mutex->mHolder = (struct OSThread *) OS_IrqHandler;
+        mutex->mLockCount = mutex->mLockCount + 1;
+        return 1;
+    }
+    if (mutex->mHolder == (struct OSThread *) OS_IrqHandler) {
+        mutex->mLockCount = mutex->mLockCount + 1;
+        return 1;
+    }
+    return 0;
 }

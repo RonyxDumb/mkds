@@ -1,9 +1,8 @@
 #include "00/code_021a6c08.h"
 
-#include "00/code_021a6908.h"
+#include "00/cpsif.h"
 #include "00/code_021a68dc.h"
 #include "00/code_021a669c.h"
-#include "00/code_021a6934.h"
 #include "00/unk_021b5000.h"
 #include "code_0200edc0.h"
 #include "code_02133048.h"

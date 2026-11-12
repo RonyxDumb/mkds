@@ -7,7 +7,7 @@
 #include "00/code_021acef8.h"
 #include "00/code_021a6c08.h"
 #include "00/code_0218a67c.h"
-#include "00/code_021a6934.h"
+#include "00/cpsif.h"
 
 #include "00/code_02181f98.h"
 #include "code_0200e77c.h"

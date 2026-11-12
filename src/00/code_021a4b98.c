@@ -8,7 +8,7 @@
 #include "code_02142eac.h"
 #include "00/code_021a574c.h"
 #include "00/code_021a669c.h"
-#include "00/code_021a6934.h"
+#include "00/cpsif.h"
 #include "00/code_021a6c08.h"
 #include "00/code_021a6ce4.h"
 #include "code_02133048.h"
