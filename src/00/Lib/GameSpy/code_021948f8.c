@@ -56,13 +56,13 @@ s32 gpiProcessNewProfile(GpConnection *connection, GpiOperation *operation, cons
     if (GpiReadError(connection, input, 1) != FALSE) {
         return 4;
     }
-    if (strncmp(input, gNprKey, 5) != 0) {
-        GpiSetError(connection, 1, data_ov000_021b356c);
+    if (strncmp(input, "\\npr\\", 5) != 0) {
+        GpiSetError(connection, 1, "Unexpected data was received from the server.");
         GpiQueueErrorCallback(connection, 3, 1);
         return 3;
     }
-    if (GpiGetValue(input, data_ov000_021b359c, intValue, 0x10) == FALSE) {
-        GpiSetError(connection, 1, data_ov000_021b356c);
+    if (GpiGetValue(input, "\\profileid\\", intValue, 0x10) == FALSE) {
+        GpiSetError(connection, 1, "Unexpected data was received from the server.");
         GpiQueueErrorCallback(connection, 3, 1);
         return 3;
     }
@@ -71,7 +71,7 @@ s32 gpiProcessNewProfile(GpConnection *connection, GpiOperation *operation, cons
     if (callback.mCallback != NULL) {
         arg = DWCi_GsMalloc(8);
         if (arg == NULL) {
-            GpiSetErrorMessage(connection, data_ov000_021b35a8);
+            GpiSetErrorMessage(connection, "Out of memory.");
             return 1;
         }
         arg[1] = profileNumber;
@@ -91,7 +91,7 @@ GpiProfile *GpiFindOrAddProfile(GpConnection *connection, s32 id) {
 
     profileStore = &connection->mGpiConnection->mProfileList;
     if (id <= 0) {
-        AssertionFailed(gIdPositiveAssertion, gGpiProfileFileName, NULL, 0x2b5);
+        AssertionFailed("id > 0", "gpiProfile.c", NULL, 0x2b5);
     }
     if (id <= 0) {
         return NULL;

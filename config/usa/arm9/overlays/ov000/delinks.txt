@@ -379,11 +379,13 @@ src/00/Lib/GameSpy/code_0219218c.c:
 src/00/Lib/GameSpy/code_02193634.c:
     complete
     .text       start:0x02193600 end:0x02193b54
+    .data       start:0x021b3224 end:0x021b32ec
 
 // provisional: file name and boundaries
 src/00/Lib/GameSpy/code_02193b88.c:
     complete
     .text       start:0x02193b54 end:0x021947b0
+    .data       start:0x021b32ec end:0x021b350c
 
 // provisional: file name and boundaries
 src/00/Lib/GameSpy/code_021947e4.c:
@@ -404,6 +406,7 @@ src/00/Lib/GameSpy/gpiProfile.c:
 src/00/Lib/GameSpy/code_021948f8.c:
     complete
     .text       start:0x021948c4 end:0x02194b68
+    .data       start:0x021b350c end:0x021b3578
 
 // provisional: file name and boundaries
 src/00/Lib/GameSpy/code_02194b9c.c:
@@ -419,11 +422,13 @@ src/00/Lib/GameSpy/code_02194ba4.c:
 src/00/Lib/GameSpy/code_02194bb8.c:
     complete
     .text       start:0x02194b84 end:0x0219644c
+    .data       start:0x021b3578 end:0x021b3968
 
 // provisional: file name and boundaries
 src/00/Lib/GameSpy/code_02196480.c:
     complete
     .text       start:0x0219644c end:0x0219655c
+    .data       start:0x021b3968 end:0x021b39cc
 
 // provisional: file name and boundaries
 src/00/Lib/GameSpy/code_02196590.c:
@@ -439,6 +444,7 @@ src/00/Lib/GameSpy/code_021965a0.c:
 src/00/Lib/GameSpy/code_02196594.c:
     complete
     .text       start:0x02196594 end:0x0219692c
+    .data       start:0x021b39cc end:0x021b3aec
 
 // provisional: file name and boundaries
 src/00/Lib/GameSpy/code_02196960.c:
@@ -470,6 +476,7 @@ src/00/Lib/GameSpy/code_02197ddc.c:
 src/00/Lib/GameSpy/code_02197e58.c:
     complete
     .text       start:0x02197e58 end:0x02198550
+    .data       start:0x021b3f10 end:0x021b3f4c
 
 // provisional: file name and boundaries
 src/00/Lib/GameSpy/gt2Connection.c:
@@ -480,6 +487,7 @@ src/00/Lib/GameSpy/gt2Connection.c:
 src/00/Lib/GameSpy/code_0219887c.c:
     complete
     .text       start:0x02198848 end:0x021988b4
+    .data       start:0x021b3f4c end:0x021b3f64
 
 // provisional: file name and boundaries
 src/00/Lib/GameSpy/gt2Main.c:

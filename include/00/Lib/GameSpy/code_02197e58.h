@@ -85,10 +85,6 @@ BOOL Gt2SetResultAndCallResultCallback(Gt2Connection *connection, int result, vo
 BOOL CallIncomingConnectionCallback(Gt2Socket *socket, Gt2Connection *connection, int address, int port, int latency,
                                     const u8 *message, int len);
 
-extern const char gGt2CallbackSocketAssert[];
-extern const char gGt2CallbackFileName[];
-extern const char gGt2CallbackConnectionAssert[];
-
 u32 gti2DumpCallback(Gt2Socket *socket, Gt2Connection *connection, u32 address, u32 port, u32 reset, int message,
                      int len, int send);
 BOOL gti2ReceiveFilterCallback(Gt2Connection *connection, s32 filterId, void *message, s32 len, s32 reliable);

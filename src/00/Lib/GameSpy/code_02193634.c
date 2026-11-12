@@ -43,13 +43,13 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
     s32 result;
 
     if (connection == NULL) {
-        AssertionFailed(gConnectionAssertText, gGpiOperationFileName, NULL, 0x22);
+        AssertionFailed("connection != NULL", "gpiOperation.c", NULL, 0x22);
     }
     if (connection->mGpiConnection == NULL) {
-        AssertionFailed(gConnectionDerefAssertText, gGpiOperationFileName, NULL, 0x23);
+        AssertionFailed("*connection != NULL", "gpiOperation.c", NULL, 0x23);
     }
     if (operation == NULL) {
-        AssertionFailed(gOperationAssertText, gGpiOperationFileName, NULL, 0x24);
+        AssertionFailed("operation != NULL", "gpiOperation.c", NULL, 0x24);
     }
     callback = operation->mCallback;
     if (callback.mCallback != NULL) {
@@ -57,7 +57,7 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
             case 0:
                 arg = DWCi_GsMalloc(0x20);
                 if (arg == NULL) {
-                    GpiSetErrorMessage(connection, data_ov000_021b32e0);
+                    GpiSetErrorMessage(connection, "Out of memory.");
                     return 1;
                 }
                 memset(arg, 0, 0x20);
@@ -74,7 +74,7 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
             case 1:
                 newProfileArg = DWCi_GsMalloc(8);
                 if (newProfileArg == NULL) {
-                    GpiSetErrorMessage(connection, data_ov000_021b32e0);
+                    GpiSetErrorMessage(connection, "Out of memory.");
                     return 1;
                 }
                 memset(newProfileArg, 0, 8);
@@ -87,7 +87,7 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
             case 2:
                 arg = DWCi_GsMalloc(0x204);
                 if (arg == NULL) {
-                    GpiSetErrorMessage(connection, data_ov000_021b32e0);
+                    GpiSetErrorMessage(connection, "Out of memory.");
                     return 1;
                 }
                 memset(arg, 0, 0x204);
@@ -100,7 +100,7 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
             case 3:
                 searchArg = DWCi_GsMalloc(0x10);
                 if (searchArg == NULL) {
-                    GpiSetErrorMessage(connection, data_ov000_021b32e0);
+                    GpiSetErrorMessage(connection, "Out of memory.");
                     return 1;
                 }
                 memset(searchArg, 0, 0x10);
@@ -114,7 +114,7 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
             case 4:
                 uniquenickArg = DWCi_GsMalloc(4);
                 if (uniquenickArg == NULL) {
-                    GpiSetErrorMessage(connection, data_ov000_021b32e0);
+                    GpiSetErrorMessage(connection, "Out of memory.");
                     return 1;
                 }
                 memset(uniquenickArg, 0, 4);
@@ -125,7 +125,7 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
                 }
                 break;
             default:
-                AssertionFailed(data_ov000_021b32ac, gGpiOperationFileName, NULL, 0x6b);
+                AssertionFailed("0", "gpiOperation.c", NULL, 0x6b);
                 break;
         }
     }
@@ -138,7 +138,7 @@ u32 GpiCreateOperation(GpConnection *connection, int type, int data, int *operat
     GpiOperation *pendingOp = DWCi_GsMalloc(0x24);
 
     if (pendingOp == NULL) {
-        GpiSetErrorMessage(connection, data_ov000_021b32e0);
+        GpiSetErrorMessage(connection, "Out of memory.");
         return 1;
     }
     pendingOp->mType = type;
@@ -170,7 +170,7 @@ void GpiDeleteOperation(GpConnection *connection, GpiOperation *operation) {
         searchData = operation->mData;
         gpState->mSearchCount--;
         if (gpState->mSearchCount < 0) {
-            AssertionFailed(gNumSearchesAssertion, gGpiOperationFileName, NULL, 0xb6);
+            AssertionFailed("iconnection->numSearches >= 0", "gpiOperation.c", NULL, 0xb6);
         }
         shutdown(searchData->mSocket, 2);
         closesocket(searchData->mSocket);
@@ -250,8 +250,8 @@ s32 GpiProcessOperation(GpConnection *connection, GpiOperation *operation, const
             result = gpiProcessRegisterUniqueNick(connection, operation, input);
             break;
         default:
-            gpiDebug(connection, gInvalidOperationTypeFormat, type);
-            AssertionFailed(data_ov000_021b32ac, gGpiOperationFileName, NULL, 0x146);
+            gpiDebug(connection, "gpiProcessOperation was passed an operation with an invalid type (%d)\n", type);
+            AssertionFailed("0", "gpiOperation.c", NULL, 0x146);
             break;
     }
     if (result != 0) {

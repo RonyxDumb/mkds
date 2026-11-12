@@ -65,22 +65,22 @@ s32 gpiProcessPeerInitiatingConnection(GpConnection *connection, GpiPeer *peer) 
                 return result;
             }
             if (state == 4) {
-                GpiSetErrorMessage(connection, gPeerConnectErrorString);
+                GpiSetErrorMessage(connection, "Error connecting to a peer.");
                 return 3;
             } else if (state == 3) {
                 canFreeSig = TRUE;
                 if (GpiFindProfile(connection, peer->mProfileId, &profileEntry) == 0) {
-                    GpiSetErrorMessage(connection, gPeerConnectErrorString);
+                    GpiSetErrorMessage(connection, "Error connecting to a peer.");
                     return 3;
                 }
-                GpiAppendBufferString(connection, &peer->mOutputBuffer, gAuthStatement);
-                GpiAppendBufferString(connection, &peer->mOutputBuffer, data_ov000_021b34d8);
+                GpiAppendBufferString(connection, &peer->mOutputBuffer, "\\auth\\");
+                GpiAppendBufferString(connection, &peer->mOutputBuffer, "\\pid\\");
                 GpiAppendBufferNumber(connection, &peer->mOutputBuffer, gpState->mProfileId);
-                GpiAppendBufferString(connection, &peer->mOutputBuffer, data_ov000_021b34e0);
+                GpiAppendBufferString(connection, &peer->mOutputBuffer, "\\nick\\");
                 GpiAppendBufferString(connection, &peer->mOutputBuffer, gpState->mNick);
-                GpiAppendBufferString(connection, &peer->mOutputBuffer, data_ov000_021b34e8);
+                GpiAppendBufferString(connection, &peer->mOutputBuffer, "\\sig\\");
                 GpiAppendBufferString(connection, &peer->mOutputBuffer, profileEntry->mPeerSig);
-                GpiAppendBufferString(connection, &peer->mOutputBuffer, data_ov000_021b34c8);
+                GpiAppendBufferString(connection, &peer->mOutputBuffer, "\\final\\");
                 for (otherPeer = gpState->mPeerList; otherPeer != NULL; otherPeer = otherPeer->mNext) {
                     if (otherPeer->mProfileId == peer->mProfileId && otherPeer != peer && otherPeer->mState <= 0x67) {
                         canFreeSig = FALSE;
@@ -98,40 +98,40 @@ s32 gpiProcessPeerInitiatingConnection(GpConnection *connection, GpiPeer *peer) 
             break;
         case 0x68:
             result = GpiReceiveBuffer(connection, peer->mSocket, (GpiBuffer *) &peer->mInputBuffer, &len, &socketGone,
-                                      gPeerBufferName);
+                                      (const s8 *) "PR");
             if (result != 0) {
                 return result;
             }
-            end = strstr(peer->mInputBuffer, data_ov000_021b34c8);
+            end = strstr(peer->mInputBuffer, "\\final\\");
             if (end == NULL) {
                 break;
             }
             *end = 0;
             input = peer->mInputBuffer;
-            if (strncmp(input, gAnackStatement, 7) == 0) {
+            if (strncmp(input, "\\anack\\", 7) == 0) {
                 peer->mNackCount = peer->mNackCount + 1;
                 if (peer->mNackCount > 1) {
-                    GpiSetErrorMessage(connection, gPeerAuthorizationErrorString);
+                    GpiSetErrorMessage(connection, "Error getting buddy authorization.");
                     return 3;
                 }
                 result = gpiPeerGetSig(connection, peer);
                 if (result != 0) {
                     return result;
                 }
-            } else if (strncmp(input, gAackStatement, 6) != 0) {
-                GpiSetErrorMessage(connection, gPeerMessageParseErrorString);
+            } else if (strncmp(input, "\\aack\\", 6) != 0) {
+                GpiSetErrorMessage(connection, "Error parsing buddy message.");
                 return 3;
             }
             peer->mState = 0x69;
             peer->mInputBufferLength = FALSE;
             break;
         default:
-            AssertionFailed(data_ov000_021b3440, gGpiPeerFileName, NULL, 0x9f);
+            AssertionFailed("0", "gpiPeer.c", NULL, 0x9f);
             break;
     }
     if (peer->mOutputBuffer.mLength > 0) {
         result = GpiSendBuffer(connection, peer->mSocket, &peer->mOutputBuffer, &socketGone, 1,
-                               gPeerBufferName);
+                               (const s8 *) "PR");
         if (socketGone != 0 || result != 0) {
             peer->mState = 0x6a;
         }
@@ -155,10 +155,10 @@ s32 GpiPeerUpdateWaiting(GpConnection *connection, GpiPeer *peer) {
 
     gpState = connection->mGpiConnection;
     if (peer->mState != 0x68) {
-        AssertionFailed(gPeerWaitingAssertion, gGpiPeerFileName, NULL, 0xc1);
+        AssertionFailed("peer->state == GPI_PEER_WAITING", "gpiPeer.c", NULL, 0xc1);
     }
     result = GpiReceiveBuffer(connection, peer->mSocket, (GpiBuffer *) &peer->mInputBuffer, &len, &socketGone,
-                              gPeerBufferName);
+                              (const s8 *) "PR");
     if (result != 0) {
         return result;
     }
@@ -166,34 +166,34 @@ s32 GpiPeerUpdateWaiting(GpConnection *connection, GpiPeer *peer) {
         peer->mState = 0x6a;
         return 0;
     }
-    end = strstr(peer->mInputBuffer, data_ov000_021b34c8);
+    end = strstr(peer->mInputBuffer, "\\final\\");
     if (end != NULL) {
         *end = 0;
         input = peer->mInputBuffer;
-        if (strncmp(input, gAuthStatement, 6) == 0) {
-            if (GpiGetValue(input, data_ov000_021b34d8, intText, 0x10) == FALSE) {
+        if (strncmp(input, "\\auth\\", 6) == 0) {
+            if (GpiGetValue(input, "\\pid\\", intText, 0x10) == FALSE) {
                 peer->mState = 0x6a;
                 return 0;
             }
             pid = StrtolBase10(intText);
-            if (GpiGetValue(peer->mInputBuffer, data_ov000_021b34e0, nickText, 0x1f) == FALSE) {
+            if (GpiGetValue(peer->mInputBuffer, "\\nick\\", nickText, 0x1f) == FALSE) {
                 peer->mState = 0x6a;
                 return 0;
             }
-            if (GpiGetValue(peer->mInputBuffer, data_ov000_021b34e8, sig, 0x21) == FALSE) {
+            if (GpiGetValue(peer->mInputBuffer, "\\sig\\", sig, 0x21) == FALSE) {
                 peer->mState = 0x6a;
                 return 0;
             }
-            sprintf(buffer, gSigHashFormat, gpState->mPassword, gpState->mProfileId, pid);
+            sprintf(buffer, "%s%d%d", gpState->mPassword, gpState->mProfileId, pid);
             MD5Digest(buffer, strlen(buffer), sigDigest);
             if (strcmp(sig, sigDigest) != 0) {
-                GpiAppendBufferString(connection, &peer->mOutputBuffer, gAnackStatement);
-                GpiAppendBufferString(connection, &peer->mOutputBuffer, data_ov000_021b34c8);
+                GpiAppendBufferString(connection, &peer->mOutputBuffer, "\\anack\\");
+                GpiAppendBufferString(connection, &peer->mOutputBuffer, "\\final\\");
                 peer->mState = 0x6a;
                 return 0;
             }
-            GpiAppendBufferString(connection, &peer->mOutputBuffer, gAackStatement);
-            GpiAppendBufferString(connection, &peer->mOutputBuffer, data_ov000_021b34c8);
+            GpiAppendBufferString(connection, &peer->mOutputBuffer, "\\aack\\");
+            GpiAppendBufferString(connection, &peer->mOutputBuffer, "\\final\\");
             peer->mState = 0x69;
             peer->mProfileId = pid;
         } else {
@@ -216,7 +216,7 @@ s32 gpiPeerSendMessages(GpConnection *connection, GpiPeer *peer) {
     if (DarrayGetCount(peer->mQueuedMessages) != 0) {
         do {
             message = DarrayGetElement(peer->mQueuedMessages, 0);
-            result = GpiSendBuffer(connection, peer->mSocket, &message->mBuffer, &socketGone, 0, gPeerBufferName);
+            result = GpiSendBuffer(connection, peer->mSocket, &message->mBuffer, &socketGone, 0, (const s8 *) "PR");
             if (socketGone != 0 || result != 0) {
                 peer->mState = 0x6a;
                 return 0;
@@ -244,7 +244,7 @@ s32 gpiProcessPeerConnected(GpConnection *connection, GpiPeer *peerConn) {
     gpState = connection->mGpiConnection;
     if (peerConn->mOutputBuffer.mLength != 0) {
         result = GpiSendBuffer(connection, peerConn->mSocket, &peerConn->mOutputBuffer, &socketGone, 1,
-                               gPeerBufferName);
+                               (const s8 *) "PR");
         if (socketGone != 0 || result != 0) {
             peerConn->mState = 0x6a;
             return 0;
@@ -260,7 +260,7 @@ s32 gpiProcessPeerConnected(GpConnection *connection, GpiPeer *peerConn) {
         }
     }
     result = GpiReceiveBuffer(connection, peerConn->mSocket, (GpiBuffer *) &peerConn->mInputBuffer, &len, &socketGone,
-                              gPeerBufferName);
+                              (const s8 *) "PR");
     if (result != 0) {
         peerConn->mState = 0x6a;
         return 0;
@@ -280,7 +280,7 @@ s32 gpiProcessPeerConnected(GpConnection *connection, GpiPeer *peerConn) {
                     if (callback.mCallback != NULL) {
                         arg = DWCi_GsMalloc(0xc);
                         if (arg == NULL) {
-                            GpiSetErrorMessage(connection, data_ov000_021b3494);
+                            GpiSetErrorMessage(connection, "Out of memory.");
                             return 1;
                         }
                         arg->mProfile = peerConn->mProfileId;
@@ -293,7 +293,7 @@ s32 gpiProcessPeerConnected(GpConnection *connection, GpiPeer *peerConn) {
                     }
                     break;
                 case 0x66:
-                    gpiSendBuddyMessage(connection, peerConn->mProfileId, 0x67, gPongMessageText);
+                    gpiSendBuddyMessage(connection, peerConn->mProfileId, 0x67, "1");
                     break;
                 case 200:
                 case 201:
@@ -320,7 +320,7 @@ s32 GpiPeerUpdate(GpConnection *connection, GpiPeer *peer) {
     s32 result = 0;
 
     if (peer->mState == 0x64) {
-        AssertionFailed(gPeerNotConnectedAssertion, gGpiPeerFileName, NULL, 0x1d9);
+        AssertionFailed("peer->state != GPI_PEER_NOT_CONNECTED", "gpiPeer.c", NULL, 0x1d9);
     }
     if (peer->mState != 0x69) {
         if (peer->mInitiated != 0) {
@@ -357,7 +357,7 @@ void GpiPeerRemoveAndWriteQueuedMessages(GpConnection *connection, GpiPeer *peer
     s32 e;
 
     if (peer == NULL) {
-        AssertionFailed(gPeerAssertText, gGpiPeerFileName, NULL, 0x213);
+        AssertionFailed("peer != NULL", "gpiPeer.c", NULL, 0x213);
     }
     previous = gpState->mPeerList;
     if (previous == peer) {
@@ -366,8 +366,8 @@ void GpiPeerRemoveAndWriteQueuedMessages(GpConnection *connection, GpiPeer *peer
         current = previous->mNext;
         while (current != peer) {
             if (current == NULL) {
-                AssertionFailed(data_ov000_021b3440, gGpiPeerFileName, NULL, 0x225);
-                gpiDebug(connection, gPeerNotInListDebugString);
+                AssertionFailed("0", "gpiPeer.c", NULL, 0x225);
+                gpiDebug(connection, "Tried to remove peer not in list.");
                 return;
             }
             previous = current;
@@ -487,17 +487,17 @@ s32 GpiPeerConnect(GpConnection *connection, GpiPeer *peer) {
     u32 *addressWords;
 
     if (GpiFindProfile(connection, peer->mProfileId, &profileRec) == 0) {
-        GpiSetErrorMessage(connection, gPeerConnectErrorString);
+        GpiSetErrorMessage(connection, "Error connecting to a peer.");
         return 3;
     }
     peer->mSocket = OpenNetSocket(2, 1, 0);
     if (peer->mSocket == -1) {
-        GpiSetError(connection, 5, data_ov000_021b33bc);
+        GpiSetError(connection, 5, "There was an error creating a socket.");
         GpiQueueErrorCallback(connection, 3, 0);
         return 3;
     }
     if (SetSockBlocking(peer->mSocket, 0) == FALSE) {
-        GpiSetError(connection, 5, data_ov000_021b33e4);
+        GpiSetError(connection, 5, "There was an error making a socket non-blocking.");
         GpiQueueErrorCallback(connection, 3, 0);
         return 3;
     }
@@ -512,7 +512,7 @@ s32 GpiPeerConnect(GpConnection *connection, GpiPeer *peer) {
     if (openResult == -1) {
         openResult = GOAGetLastError(peer->mSocket);
         if (openResult != -6 && openResult != -0x1a && openResult != -0x4c) {
-            GpiSetError(connection, 5, data_ov000_021b3418);
+            GpiSetError(connection, 5, "There was an error connecting a socket.");
             GpiQueueErrorCallback(connection, 3, 1);
             return 3;
         }
@@ -526,16 +526,16 @@ s32 GpiPeerQueueMessage(GpConnection *connection, GpiPeer *peer, u32 type, const
     s32 result;
 
     if (peer == NULL) {
-        AssertionFailed(gPeerAssertText, gGpiPeerFileName, NULL, 0x340);
+        AssertionFailed("peer != NULL", "gpiPeer.c", NULL, 0x340);
     }
     if (message == NULL) {
-        AssertionFailed(gMessageAssertText, gGpiPeerFileName, NULL, 0x341);
+        AssertionFailed("message != NULL", "gpiPeer.c", NULL, 0x341);
     }
     len = strlen(message);
     {
         GPIMessage queuedMsg = {0};
         queuedMsg.mType = type;
-        result = GpiAppendBufferString(connection, &queuedMsg, data_ov000_021b338c);
+        result = GpiAppendBufferString(connection, &queuedMsg, "\\m\\");
         if (result != 0) {
             return result;
         }
@@ -543,7 +543,7 @@ s32 GpiPeerQueueMessage(GpConnection *connection, GpiPeer *peer, u32 type, const
         if (result != 0) {
             return result;
         }
-        result = GpiAppendBufferString(connection, &queuedMsg, data_ov000_021b3390);
+        result = GpiAppendBufferString(connection, &queuedMsg, "\\len\\");
         if (result != 0) {
             return result;
         }
@@ -551,7 +551,7 @@ s32 GpiPeerQueueMessage(GpConnection *connection, GpiPeer *peer, u32 type, const
         if (result != 0) {
             return result;
         }
-        result = GpiAppendBufferString(connection, &queuedMsg, gMsgLineKey);
+        result = GpiAppendBufferString(connection, &queuedMsg, "\\msg\\\n");
         if (result != 0) {
             return result;
         }
@@ -577,9 +577,9 @@ u32 GpiPeerSendXfer(GpConnection *connection, GpiPeer *peer, u32 type, GpiTransf
     u32 time = transferID->mTime;
 
     if (transferID == NULL) {
-        AssertionFailed(gTransferIdAssertText, gGpiPeerFileName, NULL, 0x376);
+        AssertionFailed("transferID", "gpiPeer.c", NULL, 0x376);
     }
-    sprintf(buffer, gTransferMessageFormat, type, profileid, count, time);
+    sprintf(buffer, "\\m\\%d\\xfer\\%d %u %u", type, profileid, count, time);
     return GpiPeerSendString(connection, peer, buffer);
 }
 
@@ -588,15 +588,15 @@ s32 GpiPeerSendLenMsg(GpConnection *connection, GpiPeer *peer, const char *messa
     s32 result;
 
     if (peer == NULL) {
-        AssertionFailed(gPeerAssertText, gGpiPeerFileName, NULL, 0x389);
+        AssertionFailed("peer != NULL", "gpiPeer.c", NULL, 0x389);
     }
     if (message == NULL) {
-        message = data_ov000_021b3348;
+        message = "";
     }
     if (len == -1) {
         len = strlen(message);
     }
-    sprintf(buffer, gLenMsgFormat, len);
+    sprintf(buffer, "\\len\\%d\\msg\\\n", len);
     result = GpiPeerSendString(connection, peer, buffer);
     if (result != 0) {
         return result;

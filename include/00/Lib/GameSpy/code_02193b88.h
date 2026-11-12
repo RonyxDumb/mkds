@@ -49,20 +49,6 @@ u32 GpiCreateOperation(GpConnection *connection, int type, int data, int *operat
 #include "00/Lib/GameSpy/code_02196594.h"
 #include "00/Lib/GameSpy/code_0218e2dc.h"
 
-extern s8 gPeerBufferName[];
-extern u8 data_ov000_021b3494[];
-extern char gPongMessageText[];
-extern char gPeerWaitingAssertion[];
-extern char data_ov000_021b34c8[];
-extern char gAuthStatement[];
-extern char data_ov000_021b34d8[];
-extern char data_ov000_021b34e0[];
-extern char data_ov000_021b34e8[];
-extern char gSigHashFormat[];
-extern char gAnackStatement[];
-extern char gAackStatement[];
-extern u8 gPeerAuthorizationErrorString[];
-extern u8 gPeerMessageParseErrorString[];
 
 s32 GpiPeerSendLenMsg(GpConnection *connection, GpiPeer *peer, const char *message, s32 len);
 u32 GpiPeerSendXfer(GpConnection *connection, GpiPeer *peer, u32 type, GpiTransferId *transferID);

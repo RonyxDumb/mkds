@@ -38,8 +38,8 @@ s32 gpiProcessRegisterUniqueNick(GpConnection *connection, GpiOperation *operati
     if (GpiReadError(connection, input, 1) != FALSE) {
         return 4;
     }
-    if (strncmp(input, gRnKey, 4) != 0) {
-        GpiSetError(connection, 1, data_ov000_021b39cc);
+    if (strncmp(input, "\\rn\\", 4) != 0) {
+        GpiSetError(connection, 1, "Unexpected data was received from the server.");
         GpiQueueErrorCallback(connection, 3, 1);
         return 3;
     }
@@ -47,7 +47,7 @@ s32 gpiProcessRegisterUniqueNick(GpConnection *connection, GpiOperation *operati
     if (callback.mCallback != NULL) {
         arg = DWCi_GsMalloc(4);
         if (arg == NULL) {
-            GpiSetErrorMessage(connection, data_ov000_021b39fc);
+            GpiSetErrorMessage(connection, "Out of memory.");
             return 1;
         }
         arg[0] = 0;
@@ -65,13 +65,13 @@ s32 gpiSendTransferReply(GpConnection *connection, s32 *transferID, GpiPeer *pee
     s32 stepResult;
 
     if (msg == NULL) {
-        msg = data_ov000_021b39a8;
+        msg = "";
     }
     stepResult = GpiPeerSendXfer(connection, peer, 0xc9, (GpiTransferId *) transferID);
     if (stepResult != 0) {
         return stepResult;
     }
-    sprintf(buffer, gVersionResultFormat, 1, result);
+    sprintf(buffer, "\\version\\%d\\result\\%d", 1, result);
     stepResult = GpiPeerSendString(connection, peer, buffer);
     if (stepResult != 0) {
         return stepResult;

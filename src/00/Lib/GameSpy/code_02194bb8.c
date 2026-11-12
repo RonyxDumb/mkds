@@ -38,13 +38,15 @@
 #include "00/Lib/NitroWiFi/code_021a6d5c.h"
 #include "00/Lib/GameSpy/code_0218d488.h"
 
+char gSearchManagerName[0x40] = "gpsp.gs.nintendowifi.net";
+
 void gpiHandleTransferMessage(GpConnection *connection, GpiPeer *peer, s32 type, const char *headers, s32 buffer,
                               s32 len) {
     char value[0x40];
     s32 transferKey[3];
 
-    if (GpiGetValue(headers, gXferKey, value, 0x40) != FALSE) {
-        if (sscanf(value, gTransferIdFormat, &transferKey[0], &transferKey[1], &transferKey[2]) == 3) {
+    if (GpiGetValue(headers, "\\xfer\\", value, 0x40) != FALSE) {
+        if (sscanf(value, "%d %u %u", &transferKey[0], &transferKey[1], &transferKey[2]) == 3) {
             gpiSendTransferReply(connection, transferKey, peer, 2, NULL);
         }
     }
@@ -59,23 +61,23 @@ s32 GpiOpenSearchSocket(GpConnection *connection, GpiOperation *operation) {
     data->mInputBufferCapacity = 0x1000;
     data->mInputBuffer = DWCi_GsMalloc(data->mInputBufferCapacity + 1);
     if (data->mInputBuffer == NULL) {
-        GpiSetErrorMessage(connection, data_ov000_021b35f8);
+        GpiSetErrorMessage(connection, "Out of memory.");
         return 1;
     }
     data->mSocket = OpenNetSocket(2, 1, 0);
     if (data->mSocket == -1) {
-        GpiSetError(connection, 5, data_ov000_021b38c0);
+        GpiSetError(connection, 5, "There was an error creating a socket.");
         GpiQueueErrorCallback(connection, 3, 1);
         return 3;
     }
     if (SetSockBlocking(data->mSocket, 0) == FALSE) {
-        GpiSetError(connection, 5, data_ov000_021b38e8);
+        GpiSetError(connection, 5, "There was an error making a socket non-blocking.");
         GpiQueueErrorCallback(connection, 3, 1);
         return 3;
     }
     resolvedHost = SOC_GetHostByName(gSearchManagerName);
     if (resolvedHost == NULL) {
-        GpiSetError(connection, 5, gResolveSearchHostErrorString);
+        GpiSetError(connection, 5, "Could not resolve search mananger host name.");
         GpiQueueErrorCallback(connection, 3, 1);
         return 3;
     }
@@ -85,13 +87,13 @@ s32 GpiOpenSearchSocket(GpConnection *connection, GpiOperation *operation) {
         address.mFamily = 2;
         address.mAddr = resolvedHost->mAddrList[0][0];
         if (address.mAddr == 0) {
-            AssertionFailed(data_ov000_021b394c, gGpiSearchFileName, NULL, 0x59);
+            AssertionFailed("address.sin_addr.s_addr != 0", "gpiSearch.c", NULL, 0x59);
         }
         address.mPort = 0xcd74;
         if (connect(data->mSocket, &address, 8) == -1) {
             openResult = GOAGetLastError(data->mSocket);
             if (openResult != -6 && openResult != -0x1a && openResult != -0x4c) {
-                GpiSetError(connection, 5, data_ov000_021b396c);
+                GpiSetError(connection, 5, "There was an error connecting a socket.");
                 GpiQueueErrorCallback(connection, 3, 1);
                 return 3;
             }
@@ -106,7 +108,7 @@ BOOL GpiCreateSearch(GpConnection *connection, GPISearchData **searchData, u32 k
 
     data = DWCi_GsMalloc(0x144);
     if (data == NULL) {
-        GpiSetErrorMessage(connection, data_ov000_021b35f8);
+        GpiSetErrorMessage(connection, "Out of memory.");
         return TRUE;
     }
     memset(data, 0, 0x144);
@@ -121,7 +123,7 @@ BOOL GpiCreateSearch(GpConnection *connection, GPISearchData **searchData, u32 k
     data->mOutputBufferCapacity = 0x1000;
     data->mOutputBuffer = DWCi_GsMalloc(data->mOutputBufferCapacity + 1);
     if (data->mOutputBuffer == NULL) {
-        GpiSetErrorMessage(connection, data_ov000_021b35f8);
+        GpiSetErrorMessage(connection, "Out of memory.");
         return TRUE;
     }
     data->mProcessing = 0;
@@ -151,7 +153,7 @@ int gpiProfileSearch(GpConnection *connection, s8 *nick, s8 *uniquenick, s8 *ema
           ((firstname == NULL || (*firstname == 0)))) &&
          ((lastname == NULL || (*lastname == 0)))) &&
         ((icquin == 0 && ((uniquenick == NULL || (*uniquenick == 0)))))) {
-        GpiSetErrorMessage((u32 *) connection, gNoSearchCriteriaErrorString);
+        GpiSetErrorMessage((u32 *) connection, "No search criteria.");
         return 2;
     }
     result = GpiCreateSearch(connection, &data, 1);
@@ -243,7 +245,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
     }
     do {
         result =
-            GpiSendBuffer(connection, data->mSocket, (GpiBuffer *) &data->mOutputBuffer, &socketGone, 1, gSmString);
+            GpiSendBuffer(connection, data->mSocket, (GpiBuffer *) &data->mOutputBuffer, &socketGone, 1, (const s8 *) "SM");
         if (result != 0) {
             return result;
         }
@@ -253,127 +255,127 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                 return result;
             }
             if (state == 4) {
-                GpiSetError(connection, 0xd01, gSearchManagerConnectErrorString);
+                GpiSetError(connection, 0xd01, "Could not connect to the search manager.");
                 GpiQueueErrorCallback(connection, 4, 0);
                 return 4;
             }
             if (state == 3) {
                 if (data->mKind == 1) {
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, gSearchKey);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b3670);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\search\\");
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\sesskey\\");
                     GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mSesskey);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b367c);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\profileid\\");
                     GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mProfileId);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b3688);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\namespaceid\\");
                     GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mNamespaceId);
                     if (data->mNick[0] != 0) {
-                        GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b3698);
+                        GpiAppendBufferString(connection, &data->mOutputBuffer, "\\nick\\");
                         GpiAppendBufferString(connection, &data->mOutputBuffer, data->mNick);
                     }
                     if (data->mUniquenick[0] != 0) {
-                        GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b36a0);
+                        GpiAppendBufferString(connection, &data->mOutputBuffer, "\\uniquenick\\");
                         GpiAppendBufferString(connection, &data->mOutputBuffer, data->mUniquenick);
                     }
                     if (data->mEmail[0] != 0) {
-                        GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b36b0);
+                        GpiAppendBufferString(connection, &data->mOutputBuffer, "\\email\\");
                         GpiAppendBufferString(connection, &data->mOutputBuffer, data->mEmail);
                     }
                     if (data->mFirstname[0] != 0) {
-                        GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b36b8);
+                        GpiAppendBufferString(connection, &data->mOutputBuffer, "\\firstname\\");
                         GpiAppendBufferString(connection, &data->mOutputBuffer, data->mFirstname);
                     }
                     if (data->mLastname[0] != 0) {
-                        GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b36c4);
+                        GpiAppendBufferString(connection, &data->mOutputBuffer, "\\lastname\\");
                         GpiAppendBufferString(connection, &data->mOutputBuffer, data->mLastname);
                     }
                     if (data->mIcquin != 0) {
-                        GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b36d0);
+                        GpiAppendBufferString(connection, &data->mOutputBuffer, "\\icquin\\");
                         GpiAppendBufferNumber(connection, &data->mOutputBuffer, data->mIcquin);
                     }
                     if (data->mSkip > 0) {
-                        GpiAppendBufferString(connection, &data->mOutputBuffer, gSkipKey);
+                        GpiAppendBufferString(connection, &data->mOutputBuffer, "\\skip\\");
                         GpiAppendBufferNumber(connection, &data->mOutputBuffer, data->mSkip);
                     }
                 } else if (data->mKind == 2) {
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, gValidKey);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b36b0);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\valid\\");
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\email\\");
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data->mEmail);
                 } else if (data->mKind == 3) {
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, gNicksKey);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b36b0);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\nicks\\");
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\email\\");
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data->mEmail);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, gPassKey);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\pass\\");
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data->mPassword);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b3688);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\namespaceid\\");
                     GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mNamespaceId);
                 } else if (data->mKind == 4) {
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, gPmatchKey);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b3670);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\pmatch\\");
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\sesskey\\");
                     GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mSesskey);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b367c);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\profileid\\");
                     GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mProfileId);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b3708);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\productid\\");
                     GpiAppendBufferNumber(connection, &data->mOutputBuffer, data->mProductId);
                 } else if (data->mKind == 5) {
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, gCheckKey);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b3698);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\check\\");
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\nick\\");
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data->mNick);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b36b0);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\email\\");
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data->mEmail);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, gPassKey);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\pass\\");
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data->mPassword);
                 } else if (data->mKind == 6) {
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b371c);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b3698);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\newuser\\");
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\nick\\");
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data->mNick);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b36b0);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\email\\");
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data->mEmail);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, gPassKey);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\pass\\");
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data->mPassword);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, gProductIDKey);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\productID\\");
                     GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mProductId);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b3688);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\namespaceid\\");
                     GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mNamespaceId);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b36a0);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\uniquenick\\");
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data->mUniquenick);
                     if (data->mCdkey[0] != 0) {
-                        GpiAppendBufferString(connection, &data->mOutputBuffer, gCdkeyKey);
+                        GpiAppendBufferString(connection, &data->mOutputBuffer, "\\cdkey\\");
                         GpiAppendBufferString(connection, &data->mOutputBuffer, data->mCdkey);
                     }
                 } else if (data->mKind == 7) {
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, gOthersKey);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b3670);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\others\\");
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\sesskey\\");
                     GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mSesskey);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b367c);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\profileid\\");
                     GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mProfileId);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b3688);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\namespaceid\\");
                     GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mNamespaceId);
                 } else if (data->mKind == 8) {
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, gUniquesearchKey);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, gPreferrednickKey);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\uniquesearch\\");
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\preferrednick\\");
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data->mUniquenick);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b3688);
+                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\namespaceid\\");
                     GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mNamespaceId);
                 } else {
-                    AssertionFailed(data_ov000_021b3768, gGpiSearchFileName, NULL, 0x275);
+                    AssertionFailed("0", "gpiSearch.c", NULL, 0x275);
                 }
-                GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b376c);
+                GpiAppendBufferString(connection, &data->mOutputBuffer, "\\gamename\\");
                 GpiAppendBufferString(connection, &data->mOutputBuffer, gGsiAcGamename);
-                GpiAppendBufferString(connection, &data->mOutputBuffer, data_ov000_021b3778);
+                GpiAppendBufferString(connection, &data->mOutputBuffer, "\\final\\");
                 operation->mState = 4;
             }
         } else if (operation->mState == 4) {
             result = GpiReceiveBuffer(connection, data->mSocket, (GpiBuffer *) &data->mInputBuffer, (s32 *) &j,
-                                      &socketGone, gSmString);
+                                      &socketGone, (const s8 *) "SM");
             if (result != 0) {
                 if (result != 3) {
                     return result;
                 }
-                GpiSetError(connection, 0xd01, data_ov000_021b3780);
+                GpiSetError(connection, 0xd01, "There was an error reading from the server.");
                 GpiQueueErrorCallback(connection, 3, 0);
                 return 3;
             }
-            if (strstr(data->mInputBuffer, data_ov000_021b3778) != NULL) {
+            if (strstr(data->mInputBuffer, "\\final\\") != NULL) {
                 n = 0;
                 operation->mState = 5;
                 if (GpiReadError(connection, data->mInputBuffer, 1) != FALSE) {
@@ -391,20 +393,20 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         if (result != 0) {
                             return result;
                         }
-                        if (strcmp(key, gBsrdoneKey) == 0) {
+                        if (strcmp(key, "bsrdone") == 0) {
                             result = GpiReadKeyValue(connection, data->mInputBuffer, &n, (s8 *) key, (s8 *) value);
                             if (result != 0) {
                                 return result;
                             }
-                            if (strcmp(key, gMoreKey) == 0 && strcmp(value, data_ov000_021b3768) != 0) {
+                            if (strcmp(key, "more") == 0 && strcmp(value, "0") != 0) {
                                 e.mMore = 0x600;
                             }
                             d = TRUE;
-                        } else if (strcmp(key, gBsrKey) == 0) {
+                        } else if (strcmp(key, "bsr") == 0) {
                             q1 = DWCi_GsRealloc(e.mMatches, ++e.mNumMatches * 0xac);
                             e.mMatches = q1;
                             if (q1 == NULL) {
-                                GpiSetErrorMessage(connection, data_ov000_021b35f8);
+                                GpiSetErrorMessage(connection, "Out of memory.");
                                 return 1;
                             }
                             i = e.mNumMatches - 1;
@@ -418,23 +420,23 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                                 if (result != 0) {
                                     return result;
                                 }
-                                if (strcmp(key, gNickResultKey) == 0) {
+                                if (strcmp(key, "nick") == 0) {
                                     GpiCopyString(t1->mNick, value, 0x1f);
-                                } else if (strcmp(key, gUniquenickResultKey) == 0) {
+                                } else if (strcmp(key, "uniquenick") == 0) {
                                     GpiCopyString(t1->mUniquenick, value, 0x15);
-                                } else if (strcmp(key, gSearchFirstnameKey) == 0) {
+                                } else if (strcmp(key, "firstname") == 0) {
                                     GpiCopyString(t1->mFirstname, value, 0x1f);
-                                } else if (strcmp(key, gSearchLastnameKey) == 0) {
+                                } else if (strcmp(key, "lastname") == 0) {
                                     GpiCopyString(t1->mLastname, value, 0x1f);
-                                } else if (strcmp(key, gSearchEmailKey) == 0) {
+                                } else if (strcmp(key, "email") == 0) {
                                     GpiCopyString(t1->mEmail, value, 0x33);
-                                } else if (strcmp(key, gBsrKey) == 0 || strcmp(key, gBsrdoneKey) == 0) {
+                                } else if (strcmp(key, "bsr") == 0 || strcmp(key, "bsrdone") == 0) {
                                     f = TRUE;
                                     n = g;
                                 }
                             } while (f == FALSE);
                         } else {
-                            GpiSetError(connection, 1, gSearchServerReadErrorString);
+                            GpiSetError(connection, 1, "Error reading from the search server.");
                             GpiQueueErrorCallback(connection, 3, 1);
                             return 3;
                         }
@@ -462,14 +464,14 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         if (result != 0) {
                             return result;
                         }
-                        if (strcmp(key, gVrKey) != 0) {
-                            GpiSetError(connection, 1, gSearchServerReadErrorString);
+                        if (strcmp(key, "vr") != 0) {
+                            GpiSetError(connection, 1, "Error reading from the search server.");
                             GpiQueueErrorCallback(connection, 3, 1);
                             return 3;
                         }
                         u2 = DWCi_GsMalloc(0x3c);
                         if (u2 == NULL) {
-                            GpiSetErrorMessage(connection, data_ov000_021b35f8);
+                            GpiSetErrorMessage(connection, "Out of memory.");
                             return 1;
                         }
                         u2->mResult = 0;
@@ -489,7 +491,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                     if (c3.mCallback != NULL) {
                         u3 = DWCi_GsMalloc(0x44);
                         if (u3 == NULL) {
-                            GpiSetErrorMessage(connection, data_ov000_021b35f8);
+                            GpiSetErrorMessage(connection, "Out of memory.");
                             return 1;
                         }
                         u3->mResult = 0;
@@ -501,8 +503,8 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         if (result != 0) {
                             return result;
                         }
-                        if (strcmp(key, gNrKey) != 0) {
-                            GpiSetError(connection, 1, gSearchServerReadErrorString);
+                        if (strcmp(key, "nr") != 0) {
+                            GpiSetError(connection, 1, "Error reading from the search server.");
                             GpiQueueErrorCallback(connection, 3, 1);
                             return 3;
                         }
@@ -512,41 +514,41 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             if (result != 0) {
                                 return result;
                             }
-                            if (strcmp(key, gNickResultKey) == 0) {
+                            if (strcmp(key, "nick") == 0) {
                                 q = DWCi_GsRealloc(u3->mNicks, (u3->mNumNicks + 1) * 4);
                                 if (q == NULL) {
-                                    GpiSetErrorMessage(connection, data_ov000_021b35f8);
+                                    GpiSetErrorMessage(connection, "Out of memory.");
                                     return 1;
                                 }
                                 u3->mNicks = (char **) q;
                                 q = DWCi_GsMalloc(0x1f);
                                 if (q == NULL) {
-                                    GpiSetErrorMessage(connection, data_ov000_021b35f8);
+                                    GpiSetErrorMessage(connection, "Out of memory.");
                                     return 1;
                                 }
                                 u3->mNicks[u3->mNumNicks] = q;
                                 GpiCopyString(u3->mNicks[u3->mNumNicks], value, 0x1f);
                                 u3->mNumNicks++;
-                            } else if (strcmp(key, gUniquenickResultKey) == 0) {
+                            } else if (strcmp(key, "uniquenick") == 0) {
                                 if (u3->mNumNicks > 0) {
                                     q = DWCi_GsRealloc(u3->mUniquenicks, u3->mNumNicks * 4);
                                     if (q == NULL) {
-                                        GpiSetErrorMessage(connection, data_ov000_021b35f8);
+                                        GpiSetErrorMessage(connection, "Out of memory.");
                                         return 1;
                                     }
                                     u3->mUniquenicks = (char **) q;
                                     q = DWCi_GsMalloc(0x15);
                                     if (q == NULL) {
-                                        GpiSetErrorMessage(connection, data_ov000_021b35f8);
+                                        GpiSetErrorMessage(connection, "Out of memory.");
                                         return 1;
                                     }
                                     u3->mUniquenicks[u3->mNumNicks - 1] = q;
                                     GpiCopyString(u3->mUniquenicks[u3->mNumNicks - 1], value, 0x15);
                                 }
-                            } else if (strcmp(key, gNdoneKey) == 0) {
+                            } else if (strcmp(key, "ndone") == 0) {
                                 d = TRUE;
                             } else {
-                                GpiSetError(connection, 1, gSearchServerReadErrorString);
+                                GpiSetError(connection, 1, "Error reading from the search server.");
                                 GpiQueueErrorCallback(connection, 3, 1);
                                 return 3;
                             }
@@ -561,7 +563,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                     if (c4.mCallback != NULL) {
                         u4 = DWCi_GsMalloc(0x10);
                         if (u4 == NULL) {
-                            GpiSetErrorMessage(connection, data_ov000_021b35f8);
+                            GpiSetErrorMessage(connection, "Out of memory.");
                             return 1;
                         }
                         u4->mProductId = data->mProductId;
@@ -574,14 +576,14 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             if (result != 0) {
                                 return result;
                             }
-                            if (strcmp(key, gPsrdoneKey) == 0) {
+                            if (strcmp(key, "psrdone") == 0) {
                                 d = TRUE;
-                            } else if (strcmp(key, gPsrKey) == 0) {
+                            } else if (strcmp(key, "psr") == 0) {
                                 u4->mNumMatches++;
                                 u4->mMatches = DWCi_GsRealloc(u4->mMatches, u4->mNumMatches * 0x128);
                                 q4 = u4->mMatches;
                                 if (q4 == NULL) {
-                                    GpiSetErrorMessage(connection, data_ov000_021b35f8);
+                                    GpiSetErrorMessage(connection, "Out of memory.");
                                     return 1;
                                 }
                                 i = u4->mNumMatches - 1;
@@ -597,20 +599,20 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                                     if (result != 0) {
                                         return result;
                                     }
-                                    if (strcmp(key, gStatusResultKey) == 0) {
+                                    if (strcmp(key, "status") == 0) {
                                         GpiCopyString(t4->mStatusString, value, 0x100);
-                                    } else if (strcmp(key, gNickResultKey) == 0) {
+                                    } else if (strcmp(key, "nick") == 0) {
                                         GpiCopyString(t4->mNick, value, 0x1f);
                                     }
-                                    if (strcmp(key, gStatuscodeKey) == 0) {
+                                    if (strcmp(key, "statuscode") == 0) {
                                         t4->mStatus = StrtolBase10(value);
-                                    } else if (strcmp(key, gPsrKey) == 0 || strcmp(key, gPsrdoneKey) == 0) {
+                                    } else if (strcmp(key, "psr") == 0 || strcmp(key, "psrdone") == 0) {
                                         f = TRUE;
                                         n = g;
                                     }
                                 } while (f == FALSE);
                             } else {
-                                GpiSetError(connection, 1, gSearchServerReadErrorString);
+                                GpiSetError(connection, 1, "Error reading from the search server.");
                                 GpiQueueErrorCallback(connection, 3, 1);
                                 return 3;
                             }
@@ -627,8 +629,8 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         if (result != 0) {
                             return result;
                         }
-                        if (strcmp(key, gCurKey) != 0) {
-                            GpiSetError(connection, 1, gSearchServerReadErrorString);
+                        if (strcmp(key, "cur") != 0) {
+                            GpiSetError(connection, 1, "Error reading from the search server.");
                             GpiQueueErrorCallback(connection, 3, 1);
                             return 3;
                         }
@@ -637,8 +639,8 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             gpState->mErrorNumber = x;
                             y = 0;
                         } else {
-                            if (GpiGetValue(data->mInputBuffer, data_ov000_021b3850, value, 0x200) == FALSE) {
-                                GpiSetError(connection, 1, gSearchServerReadErrorString);
+                            if (GpiGetValue(data->mInputBuffer, "\\pid\\", value, 0x200) == FALSE) {
+                                GpiSetError(connection, 1, "Error reading from the search server.");
                                 GpiQueueErrorCallback(connection, 3, 1);
                                 return 3;
                             }
@@ -646,7 +648,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         }
                         u5 = DWCi_GsMalloc(8);
                         if (u5 == NULL) {
-                            GpiSetErrorMessage(connection, data_ov000_021b35f8);
+                            GpiSetErrorMessage(connection, "Out of memory.");
                             return 1;
                         }
                         u5->mResult = x;
@@ -663,8 +665,8 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         if (result != 0) {
                             return result;
                         }
-                        if (strcmp(key, gNurResultKey) != 0) {
-                            GpiSetError(connection, 1, gSearchServerReadErrorString);
+                        if (strcmp(key, "nur") != 0) {
+                            GpiSetError(connection, 1, "Error reading from the search server.");
                             GpiQueueErrorCallback(connection, 3, 1);
                             return 3;
                         }
@@ -672,9 +674,9 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         if (x != 0) {
                             gpState->mErrorNumber = x;
                         }
-                        if (GpiGetValue(data->mInputBuffer, data_ov000_021b3850, value, 0x200) == FALSE) {
+                        if (GpiGetValue(data->mInputBuffer, "\\pid\\", value, 0x200) == FALSE) {
                             if (x == 0) {
-                                GpiSetError(connection, 1, gSearchServerReadErrorString);
+                                GpiSetError(connection, 1, "Error reading from the search server.");
                                 GpiQueueErrorCallback(connection, 3, 1);
                                 return 3;
                             }
@@ -684,7 +686,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         }
                         u5 = DWCi_GsMalloc(8);
                         if (u5 == NULL) {
-                            GpiSetErrorMessage(connection, data_ov000_021b35f8);
+                            GpiSetErrorMessage(connection, "Out of memory.");
                             return 1;
                         }
                         u5->mResult = x;
@@ -699,7 +701,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                     if (c7.mCallback != NULL) {
                         u7 = DWCi_GsMalloc(0xc);
                         if (u7 == NULL) {
-                            GpiSetErrorMessage(connection, data_ov000_021b35f8);
+                            GpiSetErrorMessage(connection, "Out of memory.");
                             return 1;
                         }
                         u7->mResult = 0;
@@ -709,8 +711,8 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         if (result != 0) {
                             return result;
                         }
-                        if (strcmp(key, gOthersResultKey) != 0) {
-                            GpiSetError(connection, 1, gSearchServerReadErrorString);
+                        if (strcmp(key, "others") != 0) {
+                            GpiSetError(connection, 1, "Error reading from the search server.");
                             GpiQueueErrorCallback(connection, 3, 1);
                             return 3;
                         }
@@ -720,12 +722,12 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             if (result != 0) {
                                 return result;
                             }
-                            if (strcmp(key, gOdoneKey) == 0) {
+                            if (strcmp(key, "odone") == 0) {
                                 d = TRUE;
-                            } else if (strcmp(key, gOKey) == 0) {
+                            } else if (strcmp(key, "o") == 0) {
                                 q1 = DWCi_GsRealloc(u7->mProfiles, (u7->mNumProfiles + 1) * 0xac);
                                 if (q1 == NULL) {
-                                    GpiSetErrorMessage(connection, data_ov000_021b35f8);
+                                    GpiSetErrorMessage(connection, "Out of memory.");
                                     return 1;
                                 }
                                 u7->mProfiles = q1;
@@ -743,23 +745,23 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                                     if (result != 0) {
                                         return result;
                                     }
-                                    if (strcmp(key, gNickResultKey) == 0) {
+                                    if (strcmp(key, "nick") == 0) {
                                         GpiCopyString(t1->mNick, value, 0x1f);
-                                    } else if (strcmp(key, gUniquenickResultKey) == 0) {
+                                    } else if (strcmp(key, "uniquenick") == 0) {
                                         GpiCopyString(t1->mUniquenick, value, 0x15);
-                                    } else if (strcmp(key, gOthersFirstKey) == 0) {
+                                    } else if (strcmp(key, "first") == 0) {
                                         GpiCopyString(t1->mFirstname, value, 0x1f);
-                                    } else if (strcmp(key, gOthersLastKey) == 0) {
+                                    } else if (strcmp(key, "last") == 0) {
                                         GpiCopyString(t1->mLastname, value, 0x1f);
-                                    } else if (strcmp(key, gSearchEmailKey) == 0) {
+                                    } else if (strcmp(key, "email") == 0) {
                                         GpiCopyString(t1->mEmail, value, 0x33);
-                                    } else if (strcmp(key, gOKey) == 0 || strcmp(key, gOdoneKey) == 0) {
+                                    } else if (strcmp(key, "o") == 0 || strcmp(key, "odone") == 0) {
                                         f = TRUE;
                                         n = g;
                                     }
                                 } while (f == FALSE);
                             } else {
-                                GpiSetError(connection, 1, gSearchServerReadErrorString);
+                                GpiSetError(connection, 1, "Error reading from the search server.");
                                 GpiQueueErrorCallback(connection, 3, 1);
                                 return 3;
                             }
@@ -775,7 +777,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         i = 0;
                         u9 = DWCi_GsMalloc(0xc);
                         if (u9 == NULL) {
-                            GpiSetErrorMessage(connection, data_ov000_021b35f8);
+                            GpiSetErrorMessage(connection, "Out of memory.");
                             return 1;
                         }
                         u9->mResult = 0;
@@ -785,15 +787,15 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         if (result != 0) {
                             return result;
                         }
-                        if (strcmp(key, gUsKey) != 0) {
-                            GpiSetError(connection, 1, gSearchServerReadErrorString);
+                        if (strcmp(key, "us") != 0) {
+                            GpiSetError(connection, 1, "Error reading from the search server.");
                             GpiQueueErrorCallback(connection, 3, 1);
                             return 3;
                         }
                         u9->mNumSuggestedNicks = StrtolBase10(value);
                         u9->mSuggestedNicks = DWCi_GsMalloc(u9->mNumSuggestedNicks * 4);
                         if (u9->mSuggestedNicks == NULL) {
-                            GpiSetErrorMessage(connection, data_ov000_021b35f8);
+                            GpiSetErrorMessage(connection, "Out of memory.");
                             return 1;
                         }
                         d = FALSE;
@@ -802,22 +804,22 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             if (result != 0) {
                                 return result;
                             }
-                            if (strcmp(key, gNickResultKey) == 0) {
+                            if (strcmp(key, "nick") == 0) {
                                 u9->mSuggestedNicks[i] = DWCi_GsMalloc(0x15);
                                 if (u9->mSuggestedNicks[i] == NULL) {
-                                    GpiSetErrorMessage(connection, data_ov000_021b35f8);
+                                    GpiSetErrorMessage(connection, "Out of memory.");
                                     return 1;
                                 }
                                 GpiCopyString(u9->mSuggestedNicks[i], value, 0x15);
                                 i++;
-                            } else if (strcmp(key, gUsdoneKey) == 0) {
+                            } else if (strcmp(key, "usdone") == 0) {
                                 if (i != u9->mNumSuggestedNicks) {
-                                    AssertionFailed(gSuggestedNickCountAssertion, gGpiSearchFileName, NULL, 0x515);
+                                    AssertionFailed("count == arg->numSuggestedNicks", "gpiSearch.c", NULL, 0x515);
                                 }
                                 u9->mNumSuggestedNicks = i;
                                 d = TRUE;
                             } else {
-                                GpiSetError(connection, 1, gSearchServerReadErrorString);
+                                GpiSetError(connection, 1, "Error reading from the search server.");
                                 GpiQueueErrorCallback(connection, 3, 1);
                                 return 3;
                             }
@@ -828,7 +830,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         }
                     }
                 } else {
-                    AssertionFailed(data_ov000_021b3768, gGpiSearchFileName, NULL, 0x52a);
+                    AssertionFailed("0", "gpiSearch.c", NULL, 0x52a);
                 }
                 data->mRemove = TRUE;
                 loop = FALSE;
@@ -855,13 +857,13 @@ BOOL GpiUpdateSearches(GpConnection *connection) {
     if (gpState->mSearchCount > 0) {
         operations = DWCi_GsMalloc(gpState->mSearchCount * 4);
         if (operations == NULL) {
-            GpiSetErrorMessage(connection, data_ov000_021b35f8);
+            GpiSetErrorMessage(connection, "Out of memory.");
             return TRUE;
         }
         for (pendingOp = gpState->mOperationList; pendingOp != NULL; pendingOp = pendingOp->mNext) {
             if (pendingOp->mType == 3 && pendingOp->mState != 5 && pendingOp->mData->mProcessing == 0) {
                 if (count >= gpState->mSearchCount) {
-                    AssertionFailed(gSearchIndexAssertion, gGpiSearchFileName, NULL, 0x563);
+                    AssertionFailed("num < iconnection->numSearches", "gpiSearch.c", NULL, 0x563);
                 }
                 operations[count++] = pendingOp;
                 pendingOp->mData->mProcessing = 1;
