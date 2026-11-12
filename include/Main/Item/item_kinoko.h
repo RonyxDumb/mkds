@@ -113,3 +113,6 @@ void ReleaseItemObjectToItsPool(ItemObject *item);
 void StartItemObjectSoundOnSource(ItemObject *item, s32 soundId);
 
 extern Vec3 *gItemPushVector;
+
+extern const ItemInfo gItemInfoKinokoThree;
+extern const ItemInfo gItemInfoBananaThree;

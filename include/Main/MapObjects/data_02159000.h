@@ -5,14 +5,6 @@
 
 extern u8 data_02159578[];
 
-extern u16 data_0215969c;
-
-extern u8 data_02159764;
-
-extern u16 data_02159834;
-
-extern u16 data_02159b64;
-
 extern u16 gSecondHandFlag;
 
 extern MapObjectList gObPakkunSfUpdateListData;
@@ -30,14 +22,6 @@ extern MapObjectKindData gAttractorKindData;
 extern u8 data_021594d4[];
 
 extern Vec3 gJgMatrixRow1Source;
-
-extern u16 gItemObjectFadeOutPendingBit;
-
-extern u16 gItemObjectNoCallbackFadeOutPendingBit;
-
-extern u16 gItemObjectReleasePendingBit;
-
-extern u16 gItemObjectReleaseTimerPendingBit;
 
 extern u16 gItemObjectOwnerExcludedBit;
 

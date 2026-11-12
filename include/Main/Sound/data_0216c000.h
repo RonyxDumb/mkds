@@ -110,6 +110,5 @@ extern const StateCallbacks gPushedObjectStateTable[];
 
 extern u8 gSoundDataSdatPath[];
 
-extern const StateCallbacks gItemKouraRStateTable[];
 
 extern s32 gKartSurfaceSoundSortOffsets[];

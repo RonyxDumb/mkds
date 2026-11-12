@@ -382,21 +382,7 @@ extern ItemKind data_0215a4dc;
 
 extern ItemKind gItemKindFBox;
 
-// Default record: its only function pointer is the shared ComputeViewTest hook.
-extern ItemKind gItemKindThunder;
-
 extern ItemKind gItemKindKouraW;
-
-// Default record: its only function pointer is the shared ComputeViewTest hook.
-extern ItemKind gItemKindStar;
-
-extern ItemKind gItemKindKinoko;
-
-extern ItemKind gItemKindBanana;
-
-extern ItemKind gItemKindKouraR;
-
-extern ItemKind gItemKindKouraG;
 
 // Two words of a row of gItemSpreadRows.
 typedef struct {
@@ -441,31 +427,13 @@ extern ItemInfo data_0215a2ec;
 
 extern ItemInfo data_02159d90;
 
-extern ItemInfo data_021599dc;
-
-extern ItemInfo data_021598fc;
-
-extern ItemInfo data_02159680;
-
 extern ItemInfo data_02159f4c;
-
-extern ItemInfo data_02159aa0;
 
 extern ItemInfo data_02159cc0;
 
 extern ItemInfo data_02159e54;
 
-extern ItemInfo data_02159664;
-
-extern ItemInfo data_021596a0;
-
 extern ItemInfo data_02159f68;
-
-extern ItemInfo data_02159770;
-
-extern ItemInfo data_02159838;
-
-extern ItemInfo data_02159918;
 
 // Entry of the table behind gItemPools: one pool per object kind (14), indexed by the kind number. The pool's objects
 // sit in one array: the first mActiveCount are started, up to mTakenCount are handed out, the rest are free. Item,

@@ -3531,8 +3531,52 @@ src/Main/Item/held_item.c:
 // provisional: file name and boundaries
 src/Main/Item/item_kinoko.c:
     complete
-    .text       start:0x020f49bc end:0x020f7c90
+    .text       start:0x020f49bc end:0x020f4dfc
+    .rodata     start:0x02159664 end:0x0215969c
     .bss        start:0x0217bc2c end:0x0217bc30
+
+// provisional: file name and boundaries
+src/Main/Item/code_020f4dfc.c:
+    complete
+    .text       start:0x020f4dfc end:0x020f50b4
+    .rodata     start:0x0215969c end:0x02159764
+
+// provisional: file name and boundaries
+src/Main/Item/code_020f50b4.c:
+    complete
+    .text       start:0x020f50b4 end:0x020f5324
+    .rodata     start:0x02159764 end:0x02159834
+
+// provisional: file name and boundaries
+src/Main/Item/code_020f5324.c:
+    complete
+    .text       start:0x020f5324 end:0x020f5ffc
+    .rodata     start:0x02159834 end:0x021598fc
+    .data       start:0x0216c628 end:0x0216c660
+
+// provisional: file name and boundaries
+src/Main/Item/code_020f5ffc.c:
+    complete
+    .text       start:0x020f5ffc end:0x020f6264
+    .rodata     start:0x021598fc end:0x021599dc
+
+// provisional: file name and boundaries
+src/Main/Item/code_020f6264.c:
+    complete
+    .text       start:0x020f6264 end:0x020f62b0
+    .rodata     start:0x021599dc end:0x02159aa0
+
+// provisional: file name and boundaries
+src/Main/Item/code_020f62b0.c:
+    complete
+    .text       start:0x020f62b0 end:0x020f6388
+    .rodata     start:0x02159aa0 end:0x02159b64
+
+// provisional: file name and boundaries
+src/Main/Item/code_020f6388.c:
+    complete
+    .text       start:0x020f6388 end:0x020f7c90
+    .rodata     start:0x02159b64 end:0x02159b78
 
 // provisional: file name and boundaries
 src/Main/Item/item_slot_tables.c:
