@@ -1,7 +1,6 @@
 #include "03/code_021c50f8.h"
-
-#include "03/code_021c5000.h"
 #include "03/code_021c5528.h"
+#include "03/code_021c5000.h"
 #include "03/code_021cb4d0.h"
 #include "03/code_021cd000.h"
 #include "03/code_021be000.h"
@@ -41,6 +40,13 @@
 #include "03/code_021be610.h"
 #include "code_0212df7c.h"
 #include "registers.h"
+
+BOOL ValueRecordsPAD_DetectFold(void) {
+    if ((*(vu16 *) 0x027fffa8 & 0x8000) >> 15) {
+        return 1;
+    }
+    return 0;
+}
 
 void SetupValueRecords(void) {
     gValueRecordsFrames = 0;
