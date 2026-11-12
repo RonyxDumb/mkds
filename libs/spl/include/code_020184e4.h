@@ -2,6 +2,12 @@
 
 #include "types.h"
 #include "code_0201c528.h"
+#include "code_0201c4e8.h"
+
+// Indexed by the rotate kind of an emitter's header.
+extern void (*data_02161ac8[2])(s32 sinValue, s32 cosValue, MtxFx43 *mtx);
+// Indexed by the plane kind of an emitter's header.
+extern void (*data_02161ac0[2])(u32 texCoordU, u32 texCoordV, s32 centerA, s32 centerB);
 
 // Word at ParticleTexture 0x0c and ParticleTextureHeader 0x04.
 typedef struct ParticleTextureParam {

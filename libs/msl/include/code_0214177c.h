@@ -3,8 +3,6 @@
 #include "types.h"
 #include "code_0213ee6c.h" // DigitRecord
 
-// Byte table indexed by bytes below 0x80; read by StrcmpMapped.
-extern const u8 gLowerCaseMap[];
 
 void DigitsPowerOfTwo(DigitRecord *out, int power);
 void DigitsFromString(DigitRecord *out, const char *text, int exponent);

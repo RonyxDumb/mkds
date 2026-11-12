@@ -21,19 +21,6 @@ extern u8 data_0217ef60[10][0x100];
 
 extern struct MWiDestructorChain *data_0217eeb0;
 
-// Function pointers called and cleared by ExitTail (data_0217e984) and exit (data_0217e988).
-extern void (*data_0217e984)(void);
-
-extern void (*data_0217e988)(void);
-
-// Count of the entries of gExitFunctions that ExitTail calls, last first.
-extern int gExitFunctionCount;
-
-// Set by abort; exit reads it.
-extern int gAborted;
-
-extern void (*gExitFunctions[])(void);
-
 // Word arrays; ExitTail uses entry 0 of each, fwrite entries 3-5, printf entry 3 and
 // raise entry 7.
 extern u32 gLockOwnerThreadIds[];

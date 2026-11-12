@@ -8857,9 +8857,9 @@ FX_AtanTable_ kind:data(any) addr:0x021614b4
 FX_AtanIdxTable_ kind:data(any) addr:0x021615b8
 gTexturePaletteBaseTable kind:data(any) addr:0x021616bc
 gTextureBlockTable kind:data(any) addr:0x021616cc
-data_usa_0216172c kind:data(any) addr:0x0216172c
-data_usa_02161730 kind:data(any) addr:0x02161730
-data_usa_02161738 kind:data(any) addr:0x02161738
+DWCi_SETTING_NONE kind:data(any) addr:0x0216172c
+DWCi_util_wifiid_exctable kind:data(any) addr:0x02161730
+DWCi_util_wifiid_ttable kind:data(any) addr:0x02161738
 ARM9_DATA_START kind:data(any) addr:0x02161760
 data_02161764 kind:data(any) addr:0x02161764
 fsi_digest_key_ptr kind:data(any) addr:0x02161768
@@ -11028,7 +11028,7 @@ gRandValue kind:data(any) addr:0x0216ee98
 @1179 kind:data(any) addr:0x0216ef00 local
 @1180 kind:data(any) addr:0x0216ef08 local
 data_0216ef30 kind:data(any) addr:0x0216ef10
-data_0216ef70 kind:data(any) addr:0x0216ef50
+@1362 kind:data(any) addr:0x0216ef50 local
 @297 kind:data(any) addr:0x0216ef78 local
 @298 kind:data(any) addr:0x0216efa8 local
 @299 kind:data(any) addr:0x0216efd0 local
@@ -11059,9 +11059,9 @@ data_0216f0ac kind:data(any) addr:0x0216f08c
 data_0216f16c kind:data(any) addr:0x0216f14c
 DGTi_Hash2ProcessMessageBlockFunc kind:data(any) addr:0x0216f24c
 sMonthStartDay kind:data(any) addr:0x0216f250
-data_0216f2a0 kind:data(any) addr:0x0216f280
-data_0216f2b0 kind:data(any) addr:0x0216f290
-data_0216f2d4 kind:data(any) addr:0x0216f2b4
+@1276 kind:data(any) addr:0x0216f280 local
+@1290 kind:data(any) addr:0x0216f290 local
+@1304 kind:data(any) addr:0x0216f2b4 local
 SDK_OVERLAYTABLE_DIGEST kind:data(any) addr:0x0216f2bc
 OverlaySignatures kind:data(any) addr:0x0216f2d0
 data_0216f340 kind:bss addr:0x0216f320
@@ -12132,13 +12132,9 @@ gPowerCommand kind:bss addr:0x02180428
 data_02180458 kind:bss addr:0x02180438
 gPowerRegisterSlots kind:bss addr:0x02180450
 data_02180490 kind:bss addr:0x02180470
-data_usa_02180474 kind:bss addr:0x02180474
-data_usa_02180478 kind:bss addr:0x02180478
+nv_result kind:bss addr:0x02180474
+nv_cb_occurred kind:bss addr:0x02180478
 gNvramEntriesOffset kind:bss addr:0x0218047c
 gPackedWiFiInfo kind:bss addr:0x02180480
-data_usa_02180485 kind:bss addr:0x02180485
-data_usa_02180486 kind:bss addr:0x02180486
-data_usa_0218048a kind:bss addr:0x0218048a
-data_usa_0218048c kind:bss addr:0x0218048c
 Work kind:bss addr:0x021804a0
 data_02400000 kind:data(any) addr:0x02400000

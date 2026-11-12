@@ -6,6 +6,10 @@
 #include "stream.h"
 #include "code_0212d214.h"
 
+u32 gFloatStatus;
+struct MWiDestructorChain *data_0217eeb0;
+FloatTrapTable gFloatTrapTable;
+
 void ExitViaSwi(void) {
     SwiCall24();
 }

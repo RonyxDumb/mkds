@@ -18,12 +18,12 @@ typedef struct FormatWideSpec {
     /* 0c */ s32 mUnk_0c;
 } FormatWideSpec;
 
-// u16 table indexed by characters below 0x80; FormatWideParseSpec tests bit 3, FormatWideDouble bit 9.
-extern const u16 data_0215d384[];
-
 int FormatWideWithPutFunc(void *(*putFunc)(void *, const u16 *, u32), void *putArg, const u16 *format, char *argList);
 u16 *FormatWideDouble(double value, u16 *end, FormatWideSpec spec);
 void FormatWideRoundDigitChars(DigitRecord *record, int keepCount);
 u16 *FormatWideInt64(u64 value, u16 *end, FormatWideSpec spec);
 u16 *FormatWideInt32(unsigned long value, u16 *end, FormatWideSpec spec);
 const u16 *FormatWideParseSpec(const u16 *format, char **argList, FormatWideSpec *specOut);
+
+// u16 table indexed by characters below 0x80; FormatWideParseSpec tests bit 3, FormatWideDouble bit 9.
+extern const u16 data_0215d384[128];

@@ -432,6 +432,8 @@ libs/NitroSystem/fnd/src/code_020182c0.c:
 libs/spl/src/code_020184e4.c:
     complete
     .text       start:0x020184e4 end:0x0201e5a8
+    .data       start:0x02161ac0 end:0x02161ad0
+    .bss        start:0x02173254 end:0x02173258
 
 // provisional: file name and boundaries
 libs/NitroSDK/wvr/src/wvr.c:
@@ -4067,6 +4069,7 @@ libs/msl/src/code_02133da8.c:
 libs/msl/src/code_02133e50.c:
     complete
     .text       start:0x02133e50 end:0x02134008
+    .bss        start:0x0217e964 end:0x0217ea74
 
 // provisional: file name and boundaries
 libs/msl/src/code_02134008.c:
@@ -4100,6 +4103,7 @@ libs/msl/src/code_021384cc.c:
 libs/msl/src/code_02139e20.c:
     complete
     .text       start:0x02139e20 end:0x02139f70
+    .bss        start:0x0217ee74 end:0x0217ee90
 
 // provisional: file name and boundaries
 libs/msl/src/code_02139f70.c:
@@ -4111,6 +4115,7 @@ libs/msl/src/code_0213a460.c:
     complete
     .text       start:0x0213a460 end:0x0213c94c
     .data       start:0x0216eec4 end:0x0216eed8
+    .rodata     start:0x0215d184 end:0x0215d384
 
 // provisional: file name and boundaries
 libs/msl/src/code_0213c94c.c:
@@ -4132,6 +4137,7 @@ libs/msl/src/code_0213cae0.c:
     complete
     .text       start:0x0213cae0 end:0x0213ecf8
     .data       start:0x0216eed8 end:0x0216ef10
+    .rodata     start:0x0215d384 end:0x0215d484
 
 // provisional: file name and boundaries
 libs/msl/src/code_0213ecf8.c:
@@ -4142,6 +4148,8 @@ libs/msl/src/code_0213ecf8.c:
 libs/msl/src/code_0213ee6c.c:
     complete
     .text       start:0x0213ee6c end:0x0214177c
+    .rodata     start:0x0215d484 end:0x0215d4b4
+    .data       start:0x0216ef10 end:0x0216ef78
 
 // provisional: file name and boundaries
 libs/msl/src/code_0214177c.c:
@@ -4153,6 +4161,7 @@ libs/msl/src/code_0214177c.c:
 libs/msl/src/code_021423e4.c:
     complete
     .text       start:0x021423e4 end:0x0214259c
+    .bss        start:0x0217ee90 end:0x0217eeb0
 
 // provisional: file name and boundaries
 libs/NitroSDK/wm/src/wm_system.c:
@@ -4386,6 +4395,7 @@ src/Main/Save/packed_wifi_info.c:
 libs/NitroDWC/bm/src/dwc_backup.c:
     complete
     .text       start:0x021510a4 end:0x021519a8
+    .bss        start:0x02180474 end:0x021804c0
 
 // provisional: file name and boundaries
 src/Main/Save/nvram_first_three.c:
@@ -4396,6 +4406,7 @@ src/Main/Save/nvram_first_three.c:
 libs/NitroDWC/bm/src/code_021519d4.c:
     complete
     .text       start:0x021519d4 end:0x02151f88
+    .rodata     start:0x0216172c end:0x02161730
 
 // provisional: file name and boundaries
 src/Main/Save/nvram_new_wifi_info.c:
@@ -4406,6 +4417,7 @@ src/Main/Save/nvram_new_wifi_info.c:
 libs/NitroDWC/bm/src/code_02151fc4.c:
     complete
     .text       start:0x02151fc4 end:0x0215228c
+    .rodata     start:0x02161730 end:0x02161748
 
 // provisional: file name and boundaries
 libs/NitroDWC/bm/src/code_0215228c.c:
@@ -4426,6 +4438,7 @@ src/Main/Net/friend_data_from_profile.c:
 libs/NitroDWC/account/src/dwc_account.c:
     complete
     .text       start:0x02152490 end:0x02152ac4
+    .data       start:0x0216f280 end:0x0216f2bc
 
 // provisional: file name and boundaries
 src/Main/Net/friend_data_player_id.c:

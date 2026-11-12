@@ -154,7 +154,7 @@ int DWC_Acc_FriendKeyToGsProfileId(u64 friendkey, u32 gamecode) {
 #pragma thumb on
 
 void FormatFriendKey(u32 low, u32 high, u32 buffer) {
-    OS_SNPrintf((char *) buffer, 0xd, data_0216f2d4, low, high);
+    OS_SNPrintf((char *) buffer, 0xd, "%012llu", low, high);
 }
 
 #pragma thumb off
@@ -179,10 +179,10 @@ u64 DWC_StringToFriendKey(const char *string) {
 void DWCi_Acc_U64ToString32(u64 num, s32 bitnum, char *result) {
     s32 charIndex;
     s32 len;
-    const s8 *table;
+    const char *table;
 
     len = (bitnum + 4) / 5;
-    table = data_0216f2b0;
+    table = "0123456789abcdefghijklmnopqrstuv";
     for (charIndex = 0; charIndex < len; charIndex++) {
         *(result + len - 1 - charIndex) = table[num & 0x1f];
         num = num >> 5;
@@ -191,13 +191,13 @@ void DWCi_Acc_U64ToString32(u64 num, s32 bitnum, char *result) {
 }
 
 void DWCi_Acc_LoginIdToUserName(const DWCAccFriendData *loginid, u32 gamecode, char *username) {
-    char userid[0x15];
-    char playerid[0x15];
+    char idPart[0x15];
+    char playerPart[0x15];
 
-    DWCi_Acc_U64ToString32(DWCi_Acc_GetUserId(loginid), 0x2b, userid);
-    DWCi_Acc_U64ToString32(GetFriendDataPlayerId(loginid), 0x20, playerid);
-    OS_SNPrintf(username, 0x15, data_0216f2a0, userid, (u8) (gamecode >> 24), (u8) (gamecode >> 16),
-                (u8) (gamecode >> 8), (u8) gamecode, playerid);
+    DWCi_Acc_U64ToString32(DWCi_Acc_GetUserId(loginid), 0x2b, idPart);
+    DWCi_Acc_U64ToString32(GetFriendDataPlayerId(loginid), 0x20, playerPart);
+    OS_SNPrintf(username, 0x15, "%s%c%c%c%c%s", idPart, (u8) (gamecode >> 24), (u8) (gamecode >> 16),
+                (u8) (gamecode >> 8), (u8) gamecode, playerPart);
 }
 
 void DWCi_Acc_CreateUserData(DWCAccUserData *userdata, u32 gamecode) {

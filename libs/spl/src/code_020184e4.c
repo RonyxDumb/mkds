@@ -17,6 +17,11 @@
 #include "code_0201c4e8.h"
 #include "code_0201c528.h"
 
+u32 gSplRandomState;
+void (*data_02161ac0[2])(u32 texCoordU, u32 texCoordV, s32 centerA, s32 centerB) = {SPLUtil_DrawXYPlane,
+                                                                                    SPLUtil_DrawXZPlane};
+void (*data_02161ac8[2])(s32 sinValue, s32 cosValue, MtxFx43 *mtx) = {SPLUtil_RotateY, SPLUtil_RotateXYZ};
+
 void SPLRandom_VecFx32(Vec3 *vec) {
     vec->x = (s32) (gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 8;
     vec->y = (s32) (gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 8;

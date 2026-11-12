@@ -37,10 +37,6 @@ extern u32 (*NNS_GfdDefaultFuncAllocTexVram)(s32 a, s32 b, s32 c);
 
 extern u32 (*data_021619f4)(s32 a, s32 b, s32 c);
 
-extern void (*data_02161ac0[])(s32 a, s32 b, s32 c, s32 d);
-
-extern void (*data_02161ac8[])(s32 a, s32 b, void *c);
-
 extern Vec3s16 data_02161ad0;
 
 

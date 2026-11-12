@@ -2,6 +2,7 @@
 #pragma dont_reuse_strings off
 
 #include "code_0214177c.h"
+#include "code_0213a460.h"
 
 // Compares the byte strings a and b, mapping each byte below 0x80 through gLowerCaseMap first: -1 or 1 at the first
 // difference, 0 when both end together.

@@ -9,9 +9,9 @@ typedef struct DWCWiFiInfo {
     /* 12 */ u16 mRandomHistory;
 } DWCWiFiInfo;
 
-extern u16 data_usa_02180474;
-extern u32 data_usa_02180478;
-extern u8 Work;
+extern u16 nv_result;
+extern u8 Work[32];
+extern u32 nv_cb_occurred;
 
 u8 *DWCi_BACKUPlConvWifiInfo(const DWCWiFiInfo *info);
 u16 Callback_NVRAM(u32 tag, u32 data, u32 err);

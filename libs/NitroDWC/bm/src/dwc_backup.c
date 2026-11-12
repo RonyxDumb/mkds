@@ -11,6 +11,12 @@
 #include "os_thread.h"
 #include "code_0200007e.h"
 
+u16 nv_result = 0;
+u32 gNvramEntriesOffset = 0;
+u8 gPackedWiFiInfo[32] = {0};
+u32 nv_cb_occurred = 0;
+u8 Work[32] = {0};
+
 #pragma thumb on
 
 void DWCi_BM_GetWiFiInfo(DWCWiFiInfo *info) {
@@ -301,7 +307,7 @@ BOOL NVRAMm_ExecuteCommand(u32 state, u32 addr, u16 size, u8 *srcp) {
     tag = 4;
     while (1) {
         if (sending == 0) {
-            data_usa_02180478 = 0;
+            nv_cb_occurred = 0;
             switch (state) {
                 case 1:
                     sending = sendSixWords(tag, readHeader, addr, 0x20000, sizeWord, readBufHigh, readBufLow);
@@ -336,9 +342,9 @@ BOOL NVRAMm_ExecuteCommand(u32 state, u32 addr, u16 size, u8 *srcp) {
                     sending = sendOneWord(tag, 0x3002100);
                     break;
             }
-        } else if (data_usa_02180478 == 1) {
+        } else if (nv_cb_occurred == 1) {
             sending = 0;
-            if (data_usa_02180474 != 0) {
+            if (nv_result != 0) {
                 break;
             }
             switch (state) {
@@ -354,16 +360,16 @@ BOOL NVRAMm_ExecuteCommand(u32 state, u32 addr, u16 size, u8 *srcp) {
                 case 5:
                     DC_InvalidateRange(&Work, 1);
                     if (state == 4) {
-                        if (Work & 2) {
+                        if (Work[0] & 2) {
                             state = 3;
                             break;
                         }
                         return 0;
                     }
-                    if ((Work & 1) == 0) {
+                    if ((Work[0] & 1) == 0) {
                         return 1;
                     }
-                    if ((Work & 0x20) != 0 || ((OS_GetTick() - start) * 64) / 33514 > 4000) {
+                    if ((Work[0] & 0x20) != 0 || ((OS_GetTick() - start) * 64) / 33514 > 4000) {
                         state = 6;
                     } else {
                         WaitByLoop(0x4000);
@@ -446,12 +452,12 @@ BOOL writeDisable(void) {
 }
 
 u16 Callback_NVRAM(u32 tag, u32 data, u32 err) {
-    data_usa_02180474 = data & 0xff;
-    data_usa_02180478 = 1;
+    nv_result = data & 0xff;
+    nv_cb_occurred = 1;
     if (err != 0) {
-        data_usa_02180474 = 0xff;
+        nv_result = 0xff;
     }
-    return data_usa_02180474;
+    return nv_result;
 }
 
 u8 *DWCi_BACKUPlConvWifiInfo(const DWCWiFiInfo *info) {

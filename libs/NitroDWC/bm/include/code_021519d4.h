@@ -11,7 +11,7 @@ typedef struct DWCAuthWiFiId {
     /* 14 */ u32 mUnk_14;
 } DWCAuthWiFiId;
 
-extern const u8 data_usa_0216172c[];
+extern const u8 DWCi_SETTING_NONE[];
 
 void initPage(u8 *work, u32 page);
 s32 init(u8 *work);

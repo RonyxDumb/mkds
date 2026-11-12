@@ -30,8 +30,6 @@ extern const double data_0215d494[2];
 extern const double data_0215d4a4[2];
 // Indexed 0-7 by DigitCharsToDouble.
 extern double data_0216ef30[];
-// Passed by DigitCharsToDouble to DigitsFromString.
-extern char data_0216ef70[];
 
 double PowBody(double base, double power);
 double copysign(double magnitude, double sign);

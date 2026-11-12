@@ -10,6 +10,8 @@
 #include "stream.h"
 #include "code_0212d214.h"
 
+RaiseHandlerFunc gRaiseHandlers[7];
+
 int raise(int signalNumber) {
     RaiseHandlerFunc handler;
 

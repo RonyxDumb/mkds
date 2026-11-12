@@ -8,6 +8,9 @@
 #include "code_021522a0.h"
 #include "code_0215228c.h"
 
+const u8 DWCi_util_wifiid_exctable[8] = {1, 2, 0, 4, 3, 5, 6, 7};
+const u8 DWCi_util_wifiid_ttable[16] = {5, 9, 1, 14, 12, 2, 10, 0, 11, 13, 3, 4, 8, 6, 15, 7};
+
 #pragma thumb on
 
 // Seconds since 2000-01-01, or -1 for a bad date.
@@ -42,13 +45,13 @@ u64 DWCi_Util_WiFiId_scrambleUid(u16 rand, u32 mac, u8 vend, u8 mainunit) {
     byteIndex = 0;
     src = value.b;
     for (; byteIndex < 5; byteIndex++) {
-        *src = (data_usa_02161738[(*src >> 4) & 0xf] << 4) | data_usa_02161738[*src & 0xf];
+        *src = (DWCi_util_wifiid_ttable[(*src >> 4) & 0xf] << 4) | DWCi_util_wifiid_ttable[*src & 0xf];
         src++;
     }
     MI_CpuCopy8(value.b, copy, 8);
     byteIndex = 0;
     dst = copy;
-    order = data_usa_02161730;
+    order = DWCi_util_wifiid_exctable;
     for (; byteIndex < 5; byteIndex++) {
         value.b[*order] = *dst;
         dst++;

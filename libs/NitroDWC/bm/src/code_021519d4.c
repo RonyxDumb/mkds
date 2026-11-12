@@ -10,6 +10,8 @@
 #include "code_02134398.h"
 #include "code_0200fc8c.h"
 
+const u8 DWCi_SETTING_NONE[4] = {0};
+
 #pragma thumb on
 
 BOOL DWCi_AUTH_UpDateWiFiID(DWCWiFiInfo *info, u8 *work) {
@@ -202,7 +204,7 @@ BOOL checkAp(const u8 *ap) {
     if (DWC_BACKUPlCheckSsid(ap + 0x40) == 0) {
         return 0;
     }
-    if (memcmp(ap + 0xc0, data_usa_0216172c, 4) != 0) {
+    if (memcmp(ap + 0xc0, DWCi_SETTING_NONE, 4) != 0) {
         if (DWC_BACKUPlCheckAddress(ap + 0xc4) == 0) {
             return 0;
         }
@@ -214,7 +216,7 @@ BOOL checkAp(const u8 *ap) {
             return 0;
         }
     }
-    if (memcmp(ap + 0xc8, data_usa_0216172c, 4) != 0) {
+    if (memcmp(ap + 0xc8, DWCi_SETTING_NONE, 4) != 0) {
         if (DWC_BACKUPlCheckAddress(ap + 0xc8) == 0 && DWC_BACKUPlCheckAddress(ap + 0xcc) == 0) {
             return 0;
         }

@@ -6,12 +6,6 @@
 
 // Objects whose layout isn't known yet.
 
-extern char data_0216f2a0[];
-
-extern s8 data_0216f2b0[];
-
-extern const char data_0216f2d4[];
-
 extern u32 wbt_initialize_flag;
 
 extern u8 gRequestId[1];

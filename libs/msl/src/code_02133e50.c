@@ -1,7 +1,7 @@
-#include "code_021423e4.h"
 #pragma avoid_byte all
 
 #include "code_02133e50.h"
+#include "code_021423e4.h"
 #include "code_02134890.h"
 #include "code_02139e20.h"
 #include "code_0200e77c.h"
@@ -11,6 +11,12 @@
 #include "Main/Net/data_0217e000.h"
 #include "stream.h"
 #include "code_0212d214.h"
+
+void (*data_0217e984)(void);
+int gExitFunctionCount;
+void (*data_0217e988)(void);
+void (*gExitFunctions[64])(void);
+int gAborted;
 
 void abort(void) {
     raise(1);

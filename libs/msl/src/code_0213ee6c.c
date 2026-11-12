@@ -6,6 +6,11 @@
 #include "code_0213a460.h"
 #include "code_0214177c.h"
 
+double data_0216ef30[8] = {10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, 10000000.0, 100000000.0};
+const double data_0215d494[2] = {1.0, 1.5};
+const double data_0215d4a4[2] = {0.0, 1.350039202129749e-08};
+const double data_0215d484[2] = {0.0, 0.5849624872207642};
+
 // 1 when left and right are equal.
 int DigitsEqual(const DigitRecord *left, const DigitRecord *right) {
     int digitIndex;
@@ -376,7 +381,7 @@ double DigitCharsToDouble(const DigitRecord *record) {
     }
     parsed.mExponent += parsed.mDigitCount - 1;
     exponent5 = parsed.mExponent;
-    DigitsFromString(&maxRecord, data_0216ef70, 0x134);
+    DigitsFromString(&maxRecord, "179769313486231580793728714053034151", 0x134);
     if (DigitsLess(&maxRecord, &parsed)) {
         return copysign(data_0216ec98, record->mNegative == 0 ? 1.0 : -1.0);
     }
