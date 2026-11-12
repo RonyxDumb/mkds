@@ -2958,28 +2958,8 @@ src/Main/Unknown/code_020cae88.c:
 // provisional: file name and boundaries
 src/Main/Unknown/code_020cae8c.c:
     complete
-    .text       start:0x020cae8c end:0x020caf00
+    .text       start:0x020cae8c end:0x020cb0cc
     .data       start:0x0216aaec end:0x0216ab14
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_020caf00.c:
-    complete
-    .text       start:0x020caf00 end:0x020caf08
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_020caf08.c:
-    complete
-    .text       start:0x020caf08 end:0x020caf90
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_020caf90.c:
-    complete
-    .text       start:0x020caf90 end:0x020caf98
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_020caf98.c:
-    complete
-    .text       start:0x020caf98 end:0x020cb0cc
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_020cb0cc.c:
