@@ -5467,21 +5467,21 @@ from:0x02031d5c kind:thumb_call to:0x02025ebc module:main
 from:0x02031de2 kind:thumb_call_arm to:0x02133068 module:main
 from:0x02031de8 kind:thumb_call_arm to:0x02133068 module:main
 from:0x02031e44 kind:load to:0x02174e38 module:main
-from:0x02031e50 kind:load to:0x02153d46 module:main
+from:0x02031e50 kind:load to:0x02153d44 add:0x2 module:main
 from:0x02031e54 kind:load to:0x02153d44 module:main
 from:0x02031eb0 kind:thumb_call_arm to:0x0214cfe4 module:main
 from:0x02031ed0 kind:thumb_call_arm to:0x0214cffc module:main
 from:0x02031ef0 kind:thumb_call to:0x0212426c module:main
 from:0x02031f16 kind:thumb_call to:0x021241c0 module:main
 from:0x02031f48 kind:load to:0x02174e38 module:main
-from:0x02031f4c kind:load to:0x02153d88 module:main
+from:0x02031f4c kind:load to:0x02153d7c add:0xc module:main
 from:0x02031f50 kind:load to:0x0217a9e0 module:main
 from:0x02031f80 kind:thumb_call_arm to:0x0214cfe4 module:main
 from:0x02031f8c kind:thumb_call_arm to:0x0204fcec module:main
 from:0x02031fac kind:thumb_call to:0x0212426c module:main
 from:0x02031fd6 kind:thumb_call to:0x021241c0 module:main
 from:0x02031ff8 kind:load to:0x02174e38 module:main
-from:0x02031ffc kind:load to:0x02153d88 module:main
+from:0x02031ffc kind:load to:0x02153d7c add:0xc module:main
 from:0x0203200e kind:thumb_call_arm to:0x0204fcec module:main
 from:0x02032032 kind:thumb_call to:0x020b3f7c module:main
 from:0x02032040 kind:thumb_call to:0x020b3f7c module:main

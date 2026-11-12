@@ -7836,12 +7836,10 @@ gMemberGroupLabelMessageRows kind:data(any) addr:0x02153c1c
 gMemberRowCellIndices kind:data(any) addr:0x02153c58
 gMultiSelectNSRowCellIndices kind:data(any) addr:0x02153d20
 gMultiSelectNSLabelMessageRows kind:data(any) addr:0x02153d2c
-gMultiSelectMemberCycleCells kind:data(any) addr:0x02153d44
-gMultiSelectMemberCycleFrameLimits kind:data(any) addr:0x02153d46
+gMultiSelectMemberCycleSteps kind:data(any) addr:0x02153d44
 gMultiSelectMemberCountCellIndices kind:data(any) addr:0x02153d54
-data_usa_02153d64 kind:data(any) addr:0x02153d64
-data_usa_02153d7c kind:data(any) addr:0x02153d7c
-data_usa_02153d88 kind:data(any) addr:0x02153d88
+gMultiSelectMemberMainLabelRows kind:data(any) addr:0x02153d64
+gMultiSelectMemberSubLabelRows kind:data(any) addr:0x02153d7c
 gMultiSelectKeyStartLabelData kind:data(any) addr:0x02153dbc
 gSelectGameBattleRows kind:data(any) addr:0x02153de8
 gSelectGameMultiRows kind:data(any) addr:0x02153df4

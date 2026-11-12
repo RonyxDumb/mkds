@@ -805,6 +805,11 @@ src/Main/Menu/multi_select_ns.c:
     .bss        start:0x02174e34 end:0x02174e38
 
 // provisional: file name and boundaries
+src/Main/Menu/multi_select_member_label_rows.c:
+    complete
+    .rodata     start:0x02153d44 end:0x02153dbc
+
+// provisional: file name and boundaries
 src/Main/Menu/multi_select_ns_layout_count.c:
     complete
     .text       start:0x02030a10 end:0x0203206c

@@ -74,9 +74,13 @@
 
 #pragma thumb on
 
-const s16 gMultiSelectKeyStartLabelData[21] = {0xd, 0xa, -1, -1, 6, 0x82, 0xd, 0xc, -1, -1, 7, 0x82, 0xd, 0xe, -1, -1, 8, 0x78, 0xd, 0x11, 6};
-struct WLMenuCallbacks gMemberKeyStartCallbacks = {InitMultiSelectMemberKeyStart, AdvanceMultiSelectMemberKeyStart, ReleaseMultiSelectMember, WriteMultiSelectMemberRegisters};
-struct WLMenuCallbacks gMemberNoKeyStartCallbacks = {InitMultiSelectMemberNoKeyStart, AdvanceMultiSelectMemberNoKeyStart, ReleaseMultiSelectMember, WriteMultiSelectMemberRegisters};
+const s16 gMultiSelectKeyStartLabelData[22] = {0xd,  0xa, -1,  -1, 6,  0x82, 0xd,  0xc, -1,   -1, 7,
+                                               0x82, 0xd, 0xe, -1, -1, 8,    0x78, 0xd, 0x11, 6,  0};
+struct WLMenuCallbacks gMemberKeyStartCallbacks = {InitMultiSelectMemberKeyStart, AdvanceMultiSelectMemberKeyStart,
+                                                   ReleaseMultiSelectMember, WriteMultiSelectMemberRegisters};
+struct WLMenuCallbacks gMemberNoKeyStartCallbacks = {InitMultiSelectMemberNoKeyStart,
+                                                     AdvanceMultiSelectMemberNoKeyStart, ReleaseMultiSelectMember,
+                                                     WriteMultiSelectMemberRegisters};
 struct MultiSelectMember *gMultiSelectMember;
 
 void SetupMultiSelectMemberSubTextButton(void) {
@@ -106,12 +110,12 @@ s32 CountMultiSelectChildren(void) {
 
 void PrintMultiSelectMemberNames(void) {
     CellFileSet *subFileSet;
-    LabelMessageRow *labelMessageRow;
+    const LabelMessageRow *labelMessageRow;
     u16 nameBuffer[12];
     s32 participantIndex;
 
     subFileSet = &gMultiSelectMember->mCellFileSets[1];
-    for (participantIndex = 1, labelMessageRow = data_usa_02153d88; participantIndex < 8;
+    for (participantIndex = 1, labelMessageRow = &gMultiSelectMemberSubLabelRows.mRows[1]; participantIndex < 8;
          labelMessageRow++, participantIndex++) {
         nameBuffer[0] = 0;
         MIi_CpuClear16(nameBuffer[0], &nameBuffer[1], 0x16);
@@ -132,14 +136,14 @@ void PrintMultiSelectMemberNames(void) {
 
 void PrintMultiSelectConnectionNames(void) {
     CellFileSet *subFileSet;
-    LabelMessageRow *labelMessageRow;
+    const LabelMessageRow *labelMessageRow;
     u16 nameBuffer[12];
     s32 childCount;
     s32 participantIndex;
 
     childCount = 0;
     subFileSet = &gMultiSelectMember->mCellFileSets[1];
-    for (participantIndex = 1, labelMessageRow = data_usa_02153d88; participantIndex < 8;
+    for (participantIndex = 1, labelMessageRow = &gMultiSelectMemberSubLabelRows.mRows[1]; participantIndex < 8;
          labelMessageRow++, participantIndex++) {
         nameBuffer[0] = 0;
         MIi_CpuClear16(nameBuffer[0], &nameBuffer[1], 0x16);
@@ -185,26 +189,26 @@ void UpdateMultiSelectMemberCells(void) {
     mainFileSet->mCellTable[1].mOffsetY = mainFileSet->mCellTable[2].mOffsetY;
     mainFileSet->mCellTable[0].mOffsetY = mainFileSet->mCellTable[1].mOffsetY;
     gMultiSelectMember->mCycleFrames = gMultiSelectMember->mCycleFrames + 1;
-    if (gMultiSelectMember->mCycleFrames > gMultiSelectMemberCycleFrameLimits[gMultiSelectMember->mCycleIndex][0]) {
+    if (gMultiSelectMember->mCycleFrames > gMultiSelectMemberCycleSteps[gMultiSelectMember->mCycleIndex].mFrameLimit) {
         gMultiSelectMember->mCycleIndex = gMultiSelectMember->mCycleIndex + 1;
         if (gMultiSelectMember->mCycleIndex == 4) {
             gMultiSelectMember->mCycleIndex = 0;
         }
         gMultiSelectMember->mCycleFrames = 0;
     }
-    if (gMultiSelectMemberCycleCells[gMultiSelectMember->mCycleIndex][0] == 0) {
+    if (gMultiSelectMemberCycleSteps[gMultiSelectMember->mCycleIndex].mCellIndex == 0) {
         value = 1;
     } else {
         value = 0;
     }
     mainFileSet->mCellTable[0].mVisible = value;
-    if (gMultiSelectMemberCycleCells[gMultiSelectMember->mCycleIndex][0] == 1) {
+    if (gMultiSelectMemberCycleSteps[gMultiSelectMember->mCycleIndex].mCellIndex == 1) {
         value = 1;
     } else {
         value = 0;
     }
     mainFileSet->mCellTable[1].mVisible = value;
-    if (gMultiSelectMemberCycleCells[gMultiSelectMember->mCycleIndex][0] == 2) {
+    if (gMultiSelectMemberCycleSteps[gMultiSelectMember->mCycleIndex].mCellIndex == 2) {
         value = 1;
     } else {
         value = 0;
@@ -473,8 +477,8 @@ void InitMultiSelectMember(void *parentHeap, void *mainOam, void *subOam) {
     u32 subObjSizeLeft;
     void *heap;
     volatile u32 clearValue;
-    LabelMessageRow *canvasRow;
-    LabelMessageRow *printRow;
+    const LabelMessageRow *canvasRow;
+    const LabelMessageRow *printRow;
 
     heap = CreateFrmHeapFromMaxFree(parentHeap);
     gMultiSelectMember = HeapAlloc(heap, 0x154);
@@ -493,7 +497,7 @@ void InitMultiSelectMember(void *parentHeap, void *mainOam, void *subOam) {
                       FindSceneFile);
     SetupCellFileSet(0, gMultiSelectMember->mHeap, mainFileSet);
     index = 0;
-    canvasRow = data_usa_02153d64;
+    canvasRow = gMultiSelectMemberMainLabelRows;
     printRow = canvasRow;
     for (; index < 2; index++) {
         mainObjSizeLeft -= SetupLabelCanvas(0, gMultiSelectMember->mHeap, mainFileSet, canvasRow, mainObjSizeLeft);
@@ -504,8 +508,9 @@ void InitMultiSelectMember(void *parentHeap, void *mainOam, void *subOam) {
         printRow++;
     }
     SetMultiSelectChildCountCellsVisible();
-    LocateAndQueueScreenMapFileSet(1, gMultiSelectMember, "multi_select_member_s_b.NCGR", "multi_select_member_s_b.NCLR",
-                                   "multi_select_member_s_register.NSCR", 3, FindSceneFile);
+    LocateAndQueueScreenMapFileSet(1, gMultiSelectMember, "multi_select_member_s_b.NCGR",
+                                   "multi_select_member_s_b.NCLR", "multi_select_member_s_register.NSCR", 3,
+                                   FindSceneFile);
     subObjSizeLeft = GX_GetSizeOfSubOBJ();
     subFileSet = &gMultiSelectMember->mCellFileSets[1];
     LocateCellFileSet(subFileSet, "multi_select_member_register_s.nce.ncgr", "multi_select_member_register_s.nce.ncer",
@@ -513,8 +518,8 @@ void InitMultiSelectMember(void *parentHeap, void *mainOam, void *subOam) {
                       "multi_select_member_s_register.bnll", "multi_select_member_s_register.bnbl", FindSceneFile);
     SetupCellFileSet(1, gMultiSelectMember->mHeap, subFileSet);
     for (index = 0; index < 9; index++) {
-        subObjSizeLeft -=
-            SetupLabelCanvas(1, gMultiSelectMember->mHeap, subFileSet, &data_usa_02153d7c[index], subObjSizeLeft);
+        subObjSizeLeft -= SetupLabelCanvas(1, gMultiSelectMember->mHeap, subFileSet,
+                                           &gMultiSelectMemberSubLabelRows.mRows[index], subObjSizeLeft);
     }
     SetupInterpolation(&gMultiSelectMember->mInterpolations[3], 3, 10, 0x40, 0);
     InitPaletteBlend(gMultiSelectMember->mHeap, subFileSet->mPalette, 3);
@@ -538,12 +543,12 @@ void InitMultiSelectMemberKeyStart(void *parentHeap, void *mainOam, void *subOam
     subFileSet = &gMultiSelectMember->mCellFileSets[1];
     MIi_CpuCopy16(gBackupBuffers->mFirstBlock->mPlayerName, nameBuffer, 0x14);
     nameBuffer[10] = 0;
-    PrintLabelLayoutTextNoFixedAdvance(1, data_usa_02153d7c[0].mLabelIndex, subFileSet->mLabelLayout, nameBuffer,
-                                       subFileSet->mCellLayout, subFileSet->mCellTable);
+    PrintLabelLayoutTextNoFixedAdvance(1, gMultiSelectMemberSubLabelRows.mRows[0].mLabelIndex, subFileSet->mLabelLayout,
+                                       nameBuffer, subFileSet->mCellLayout, subFileSet->mCellTable);
     PrintLabelLayoutTextNoFixedAdvance(
         1, gMultiSelectKeyStartLabelData[16], subFileSet->mLabelLayout,
-        GetBmgEntry(gMultiSelectMember->mBannerMessages, data_usa_02153d7c[8].mMessageIndex), subFileSet->mCellLayout,
-        subFileSet->mCellTable);
+        GetBmgEntry(gMultiSelectMember->mBannerMessages, gMultiSelectMemberSubLabelRows.mRows[8].mMessageIndex),
+        subFileSet->mCellLayout, subFileSet->mCellTable);
     gStartupWork->mConnectionKind = 1;
     SetupTxtSystemMainTextEx(GetBmgEntry(gMultiSelectMember->mBannerMessages, 9), 0, 0, 1, 0, 0, 0);
     subFileSet->mCellTable[0x11].mVisible = 0;
@@ -573,8 +578,9 @@ void InitMultiSelectMemberNoKeyStart(void *parentHeap, void *mainOam, void *subO
     if (gMultiSelectMember->mUnk_84 == 0 &&
         TryGetScanSlotName(GetWLMenuSceneScanSlotPick()->mSlotIndex, &nameBuffer[1]) != 0) {
         nameBuffer[11] = 0;
-        PrintLabelLayoutTextNoFixedAdvance(1, data_usa_02153d7c[0].mLabelIndex, subFileSet->mLabelLayout,
-                                           &nameBuffer[1], subFileSet->mCellLayout, subFileSet->mCellTable);
+        PrintLabelLayoutTextNoFixedAdvance(1, gMultiSelectMemberSubLabelRows.mRows[0].mLabelIndex,
+                                           subFileSet->mLabelLayout, &nameBuffer[1], subFileSet->mCellLayout,
+                                           subFileSet->mCellTable);
         gMultiSelectMember->mNameLabelDone = TRUE;
     }
     subFileSet->mCellTable[0x11].mVisible = 0;
@@ -858,8 +864,9 @@ s32 AdvanceMultiSelectMemberNoKeyStart(SceneNumbers *sceneNumbers) {
         MIi_CpuClear16(nameBuffer[0], &nameBuffer[1], 0x16);
         if (TryGetScanSlotName(GetWLMenuSceneScanSlotPick()->mSlotIndex, &nameBuffer[1]) != 0) {
             nameBuffer[11] = 0;
-            PrintLabelLayoutTextNoFixedAdvance(1, data_usa_02153d7c[0].mLabelIndex, subFileSet->mLabelLayout,
-                                               &nameBuffer[1], subFileSet->mCellLayout, subFileSet->mCellTable);
+            PrintLabelLayoutTextNoFixedAdvance(1, gMultiSelectMemberSubLabelRows.mRows[0].mLabelIndex,
+                                               subFileSet->mLabelLayout, &nameBuffer[1], subFileSet->mCellLayout,
+                                               subFileSet->mCellTable);
             gMultiSelectMember->mNameLabelDone = TRUE;
         }
     }

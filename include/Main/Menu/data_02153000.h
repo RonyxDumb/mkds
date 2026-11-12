@@ -37,7 +37,8 @@ typedef struct SoundRow {
     /* 00 */ u8 mUnk_00[4];
 } SoundRow;
 
-// 4-byte entries of the tables at gSelectCharacterPositions8Rows, gSelectCharacterPositions9Rows, gSelectCharacterPositions10Rows and gSelectCharacterPositions11Rows.
+// 4-byte entries of the tables at gSelectCharacterPositions8Rows, gSelectCharacterPositions9Rows,
+// gSelectCharacterPositions10Rows and gSelectCharacterPositions11Rows.
 typedef struct SelectCharacterRowPosition {
     /* 00 */ s16 mEntryX;
     /* 02 */ s16 mEntryY;
@@ -63,16 +64,24 @@ typedef struct MultiSelectNSLabelMessageRow {
     /* 08 */ s32 mMessageIndex;
 } MultiSelectNSLabelMessageRow;
 
-// Tables of 12-byte entries (data_usa_02153d7c is the third entry of data_usa_02153d64) and of u16 pairs.
-extern LabelMessageRow data_usa_02153d64[];
+// One step of the cell cycle of the multi-select member screen: the visible cell and the frames it stays.
+typedef struct MultiSelectMemberCycleStep {
+    /* 00 */ u16 mCellIndex;
+    /* 02 */ u16 mFrameLimit;
+} MultiSelectMemberCycleStep;
 
-extern LabelMessageRow data_usa_02153d7c[];
+extern const MultiSelectMemberCycleStep gMultiSelectMemberCycleSteps[4];
 
-extern LabelMessageRow data_usa_02153d88[];
+// The label rows of the sub screen. The code indexes mRows up to 8; the rows after the fifth are in
+// gMultiSelectKeyStartLabelData, which follows in the next file.
+typedef struct MultiSelectMemberSubLabelRows {
+    /* 00 */ LabelMessageRow mRows[5];
+    /* 3c */ s16 mNextLabelIndex;
+    /* 3e */ s16 mNextWidth;
+} MultiSelectMemberSubLabelRows;
 
-extern u16 gMultiSelectMemberCycleCells[][2];
+extern const LabelMessageRow gMultiSelectMemberMainLabelRows[2];
 
-extern u16 gMultiSelectMemberCycleFrameLimits[][2];
+extern const MultiSelectMemberSubLabelRows gMultiSelectMemberSubLabelRows;
 
-extern u16 gMultiSelectMemberCountCellIndices[];
-
+extern const u16 gMultiSelectMemberCountCellIndices[8];

@@ -83,4 +83,4 @@ extern struct WLMenuCallbacks gMemberKeyStartCallbacks;
 extern struct WLMenuCallbacks gMemberNoKeyStartCallbacks;
 extern struct MultiSelectMember *gMultiSelectMember;
 
-extern const s16 gMultiSelectKeyStartLabelData[21];
+extern const s16 gMultiSelectKeyStartLabelData[22];
