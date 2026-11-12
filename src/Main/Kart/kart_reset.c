@@ -36,6 +36,7 @@
 #include "Main/Item/code_021035ac.h"
 #include "Main/Sound/surface_sound_ids.h"
 #include "Main/Menu/data_0217d000.h"
+#include "Main/Sound/sound_system.h"
 #include "code_0212c7a0.h"
 #include "stream.h"
 #include "code_0212c9d4.h"

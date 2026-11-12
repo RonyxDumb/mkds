@@ -39,3 +39,7 @@ extern void *gSoundOutputEffectBuffer;
 // it for null.
 extern NNSSndSeqPlayer *gSharedSeqHandle;
 extern u32 gFileSndArcOpen;
+
+extern ScenePlayers gScenePlayers;
+extern SoundModeHolder gSoundModeHolder;
+extern struct NNSSndArc gFileSndArc;

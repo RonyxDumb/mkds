@@ -21,6 +21,7 @@
 #include "Main/Item/pooled_item_box_init.h"
 #include "Main/Sound/playing_sounds.h"
 #include "Main/Menu/data_0217d000.h"
+#include "Main/Sound/sound_system.h"
 #include "code_0212c7a0.h"
 #include "stream.h"
 #include "code_0212c9d4.h"
