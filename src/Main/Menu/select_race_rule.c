@@ -145,14 +145,14 @@ void DrawSelectRaceRuleOffsetLabel(s32 labelIndex) {
 void DrawSelectRaceRuleRowOffsetLabels(s32 row) {
     if (row == 3) {
         if (gStartupWork->mConnectionKind != 2) {
-            DrawSelectRaceRuleOffsetLabel(data_0215cd4e[row * 2]);
+            DrawSelectRaceRuleOffsetLabel(gSelectRaceRuleRowEntries[row].mEntryIndices[1]);
         }
         DrawSelectRaceRuleOffsetLabel(10);
     } else if (row == 4) {
-        DrawSelectRaceRuleOffsetLabel(data_0215cd4e[row * 2]);
+        DrawSelectRaceRuleOffsetLabel(gSelectRaceRuleRowEntries[row].mEntryIndices[1]);
         DrawSelectRaceRuleOffsetLabel(12);
     } else {
-        DrawSelectRaceRuleOffsetLabel(data_0215cd4e[row * 2]);
+        DrawSelectRaceRuleOffsetLabel(gSelectRaceRuleRowEntries[row].mEntryIndices[1]);
     }
 }
 

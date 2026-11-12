@@ -32035,7 +32035,7 @@ from:0x0211a93a kind:thumb_call to:0x0211a964 module:main
 from:0x0211a940 kind:thumb_call to:0x0211a964 module:main
 from:0x0211a950 kind:thumb_call to:0x0211a964 module:main
 from:0x0211a95c kind:load to:0x021759b0 module:main
-from:0x0211a960 kind:load to:0x0215cd4e module:main
+from:0x0211a960 kind:load to:0x0215cd4c add:0x2 module:main
 from:0x0211a98c kind:thumb_call to:0x02124100 module:main
 from:0x0211a9a8 kind:thumb_call to:0x02124bc8 module:main
 from:0x0211a9c8 kind:thumb_call to:0x02124100 module:main
@@ -32111,8 +32111,8 @@ from:0x0211afac kind:load to:0x02175650 module:main
 from:0x0211afb0 kind:load to:0x0217d348 module:main
 from:0x0211afb4 kind:load to:0x02175608 module:main
 from:0x0211afb8 kind:load to:0x0215cdd8 module:main
-from:0x0211afbc kind:load to:0x0215cd24 module:main
-from:0x0211afc0 kind:load to:0x0215cd74 module:main
+from:0x0211afbc kind:load to:0x0215cd38 add:-0x14 module:main
+from:0x0211afc0 kind:load to:0x0215cd9c add:-0x28 module:main
 from:0x0211afc4 kind:load to:0x0217d048 module:main
 from:0x0211afd2 kind:thumb_call to:0x0211c818 module:main
 from:0x0211afd6 kind:thumb_call to:0x0211c14c module:main
@@ -32387,7 +32387,7 @@ from:0x0211cc8a kind:thumb_call_arm to:0x0212ecc0 module:main
 from:0x0211cc98 kind:load to:0x0217d348 module:main
 from:0x0211cc9c kind:load to:0x0215ccc0 module:main
 from:0x0211cca0 kind:load to:0x0216dbec module:main
-from:0x0211cca4 kind:load to:0x0215cd4e module:main
+from:0x0211cca4 kind:load to:0x0215cd4c add:0x2 module:main
 from:0x0211cca8 kind:load to:0x0217d048 module:main
 from:0x0211ccde kind:thumb_call to:0x0211cea8 module:main
 from:0x0211cce8 kind:thumb_call to:0x0211ccac module:main
@@ -32405,7 +32405,7 @@ from:0x0211cdca kind:thumb_call_arm to:0x0212ecc0 module:main
 from:0x0211cdd8 kind:load to:0x0217d348 module:main
 from:0x0211cddc kind:load to:0x0215ccc0 module:main
 from:0x0211cde0 kind:load to:0x0216dbec module:main
-from:0x0211cde4 kind:load to:0x0215cd4e module:main
+from:0x0211cde4 kind:load to:0x0215cd4c add:0x2 module:main
 from:0x0211cde8 kind:load to:0x0217d048 module:main
 from:0x0211cdf2 kind:thumb_call to:0x0211d478 module:main
 from:0x0211cdfe kind:thumb_call to:0x0211d478 module:main

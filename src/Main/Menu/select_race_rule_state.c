@@ -57,9 +57,64 @@
 #include "gfd_VramTransferManager.h"
 #include "Main/Sound/sound_system.h"
 
+
 #pragma thumb on
 
-const u32 gSelectRaceRuleEngineIndices[3] = {0, 1, 2};
+const u16 gSelectRaceRuleTeamCellsPlain[2] = {0x23, 0x26};
+const u16 gSelectRaceRuleTeamCellsHighlighted[2] = {0x22, 0x25};
+const u16 gSelectRaceRuleRow4ValueMessageIndices[3] = {0xa, 9, 9};
+const u16 gSelectRaceRuleRow3ValueMessageIndices[3] = {0x11, 0x12, 0x13};
+const u16 gSelectRaceRuleRow2ValueMessageIndices[3] = {0xe, 0xf, 0x10};
+const u16 gSelectRaceRuleCountTeamChangeCells[2][2] = {{0x20, 0x21}, {0x24, 0x27}};
+const u16 gSelectRaceRuleRow1ValueMessageIndices[4] = {0xa, 0xb, 0xc, 0xd};
+const u32 gSelectRaceRuleTeamsFromSetupCopy[2] = {0, 1};
+const u32 gSelectRaceRuleTeamsToSetupCopy[2] = {0, 1};
+const u16 gSelectRaceRuleRow0ValueMessageIndices[4] = {5, 6, 7, 8};
+const u16 gSelectRaceRuleRowMessageIndices[6] = {0, 1, 2, 3, 4, 0};
+const u16 gSelectRaceRuleRowValueCounts[6] = {4, 4, 3, 3, 3, 0};
+const u32 gSelectRaceRuleCourseListModeValues[3] = {2, 0, 1};
+const u32 gSelectRaceRuleEngineIndexValues[3] = {0, 1, 2};
+const u32 gSelectRaceRuleRuleKindValues[3] = {2, 0, 1};
+const u32 gSelectRaceRuleCourseListModes[3] = {1, 2, 0};
+const u32 gSelectRaceRuleRuleKinds[3] = {1, 2, 0};
+const u32 gSelectRaceRuleCpuDifficulties[4] = {0, 1, 2, 3};
+const u32 gSelectRaceRuleCpuDifficultyValues[4] = {0, 1, 2, 3};
+const u32 gSelectRaceRuleEngineIndices[4] = {0, 1, 2, 1};
+const SelectRaceRuleRowEntries gSelectRaceRuleRowEntries[5] = {{{0, 5}}, {{1, 6}}, {{2, 7}}, {{3, 9}}, {{4, 0xb}}};
+const u16 gSelectRaceRuleLabelWidths[5][2] = {{0x60, 0x64}, {0x58, 0x64}, {0x58, 0x64}, {0x58, 0x96}, {0x58, 0x64}};
+const u16 gSelectRaceRuleLabelHeights[5][2] = {{0xd, 0xf}, {0xd, 0xf}, {0xd, 0xf}, {0xd, 0xf}, {0xd, 0xf}};
+const u16 gSelectRaceRuleStepCellsHighlighted[5][2] = {{0, 5}, {1, 6}, {2, 7}, {3, 8}, {4, 9}};
+const u32 gSelectRaceRuleRowRectRows[5] = {0, 1, 2, 3, 4};
+const u32 gSelectRaceRuleNextRectRows[5] = {0, 1, 2, 3, 4};
+char gSelectRaceRuleSBnclPath[] = "common/select_race_rule_s.bncl";
+const char *gSelectRaceRuleSBnclName = gSelectRaceRuleSBnclPath;
+char gSelectRaceRuleSBNcgrPath[] = "common/select_race_rule_s_b.ncgr";
+const char *gSelectRaceRuleSBNcgrName = gSelectRaceRuleSBNcgrPath;
+char gSelectRaceRuleMultiSimpleSNscrPath[] = "common/select_race_rule_multi_simple_s.nscr";
+const char *gSelectRaceRuleSNcgrName = gSelectRaceRuleSNcgrPath;
+char gSelectRaceRuleMultiSimpleSBnclPath[] = "common/select_race_rule_multi_simple_s.bncl";
+const char *gSelectRaceRuleMultiSimpleSBnblName = gSelectRaceRuleMultiSimpleSBnblPath;
+char gSelectRaceRuleSBNclrPath[] = "common/select_race_rule_s_b.nclr";
+const char *gSelectRaceRuleSONclrName = gSelectRaceRuleSONclrPath;
+char gSelectRaceRuleSBnllPath[] = "common/select_race_rule_s.bnll";
+const char *gSelectRaceRuleSBNclrName = gSelectRaceRuleSBNclrPath;
+char gSelectRaceRuleSONclrPath[] = "common/select_race_rule_s_o.nclr";
+const char *gSelectRaceRuleMultiSimpleSNscrName = gSelectRaceRuleMultiSimpleSNscrPath;
+char gSelectRaceRuleSMenuNscrPath[] = "common/select_race_rule_s_menu.nscr";
+const char *gSelectRaceRuleSBnllName = gSelectRaceRuleSBnllPath;
+char gSelectRaceRuleSBnblPath[] = "common/select_race_rule_s.bnbl";
+const char *gSelectRaceRuleSBnblName = gSelectRaceRuleSBnblPath;
+char gSelectRaceRuleSNcgrPath[] = "common/select_race_rule_s.nce.ncgr";
+const char *gSelectRaceRuleMultiSimpleSBnllName = gSelectRaceRuleMultiSimpleSBnllPath;
+char gSelectRaceRuleMultiSimpleSBnblPath[] = "common/select_race_rule_multi_simple_s.bnbl";
+const char *gSelectRaceRuleSMenuNscrName = gSelectRaceRuleSMenuNscrPath;
+char gSelectRaceRuleMultiSimpleSBnllPath[] = "common/select_race_rule_multi_simple_s.bnll";
+const char *gSelectRaceRuleMultiSimpleSBnclName = gSelectRaceRuleMultiSimpleSBnclPath;
+char gSelectRaceRuleSNcerPath[] = "common/select_race_rule_s.nce.ncer";
+const char *gSelectRaceRuleMultiSimpleSBNcgrName = gSelectRaceRuleMultiSimpleSBNcgrPath;
+char gSelectRaceRuleMultiSimpleSBNcgrPath[] = "common/select_race_rule_multi_simple_s_b.ncgr";
+const char *gSelectRaceRuleSNcerName = gSelectRaceRuleSNcerPath;
+const u16 *gSelectRaceRuleValueMessageIndices[5] = {gSelectRaceRuleRow0ValueMessageIndices, gSelectRaceRuleRow1ValueMessageIndices, gSelectRaceRuleRow2ValueMessageIndices, gSelectRaceRuleRow3ValueMessageIndices, gSelectRaceRuleRow4ValueMessageIndices};
 SelectRaceRule *gSelectRaceRule;
 
 // Copies the rectangle of row b; which table is read depends on the mode's screen file.
@@ -679,7 +734,7 @@ void MoveSelectRaceRuleValueNext(s32 playSound) {
     selectRaceRule = gSelectRaceRule;
     if (selectRaceRule->mRow != 3) {
         PrintLabelLayoutTextNoFixedAdvance(
-            1, data_0215cd4e[selectRaceRule->mRow * 2], selectRaceRule->mBnll,
+            1, gSelectRaceRuleRowEntries[selectRaceRule->mRow].mEntryIndices[1], selectRaceRule->mBnll,
             GetBmgEntry(selectRaceRule->mRuleMessages,
                         gSelectRaceRuleValueMessageIndices[selectRaceRule->mRow]
                                                           [selectRaceRule->mRowValues[selectRaceRule->mRow]]),
@@ -734,7 +789,7 @@ void MoveSelectRaceRuleValuePrevious(s32 playSound) {
     selectRaceRule = gSelectRaceRule;
     if (selectRaceRule->mRow != 3) {
         PrintLabelLayoutTextNoFixedAdvance(
-            1, data_0215cd4e[selectRaceRule->mRow * 2], selectRaceRule->mBnll,
+            1, gSelectRaceRuleRowEntries[selectRaceRule->mRow].mEntryIndices[1], selectRaceRule->mBnll,
             GetBmgEntry(selectRaceRule->mRuleMessages,
                         gSelectRaceRuleValueMessageIndices[selectRaceRule->mRow]
                                                           [selectRaceRule->mRowValues[selectRaceRule->mRow]]),
@@ -1429,7 +1484,7 @@ void InitSelectRaceRule(void *parentHeap, s32 unusedArg1, void *oamList, s32 mod
                 remainingSubObjSize -= InitLabelCanvas(
                     gSelectRaceRule->mHeap, gSelectRaceRuleRowEntries[rowIndex].mEntryIndices[columnIndex],
                     gSelectRaceRule->mBnll, gSelectRaceRuleLabelWidths[rowIndex][columnIndex],
-                    data_0215cd74[rowIndex].h[columnIndex], rowIndex * 2 + columnIndex, gSelectRaceRule->mNcer,
+                    gSelectRaceRuleLabelHeights[rowIndex][columnIndex], rowIndex * 2 + columnIndex, gSelectRaceRule->mNcer,
                     gSelectRaceRule->mBncl, gSelectRaceRule->mTable, remainingSubObjSize);
             }
         }
@@ -1815,7 +1870,7 @@ chain:
             MoveSelectRaceRuleValuePrevious(1);
         }
     } else if (hitRectIndex - 5 <= 4) {
-        row = data_0215cd24[hitRectIndex];
+        row = (gSelectRaceRuleNextRectRows - 5)[hitRectIndex];
         if (GetSelectRaceRuleHumanCount() != 8 || row != 1) {
             gSelectRaceRule->mRow = row;
             gSelectRaceRule->mOnButton = 0;
@@ -1828,7 +1883,7 @@ chain:
         gSelectRaceRule->mOnButton = 1;
         RequestSelectRaceRuleState4();
     } else if (hitRectIndex - 10 <= 4) {
-        row = data_0215cd74[hitRectIndex].mUnk_00;
+        row = (gSelectRaceRuleRowRectRows - 10)[hitRectIndex];
         if (GetSelectRaceRuleHumanCount() != 8 || row != 1) {
             gSelectRaceRule->mRow = row;
             gSelectRaceRule->mOnButton = 0;

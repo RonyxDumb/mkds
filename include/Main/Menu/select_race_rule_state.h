@@ -76,8 +76,6 @@ typedef struct SelectRaceRuleRowEntries {
     /* 00 */ u16 mEntryIndices[2];
 } SelectRaceRuleRowEntries;
 
-extern SelectRaceRuleRowEntries gSelectRaceRuleRowEntries[];
-
 void MoveSelectRaceRuleRowPrevious(void);
 void MoveSelectRaceRuleRowNext(void);
 
@@ -85,4 +83,59 @@ unsigned short GetSelectRaceRuleCpuCount(void);
 
 extern struct SelectRaceRule *gSelectRaceRule;
 
-extern const u32 gSelectRaceRuleEngineIndices[3];
+extern const u16 gSelectRaceRuleTeamCellsHighlighted[2];
+extern const u16 gSelectRaceRuleTeamCellsPlain[2];
+extern const u16 gSelectRaceRuleRow2ValueMessageIndices[3];
+extern const u16 gSelectRaceRuleRow3ValueMessageIndices[3];
+extern const u16 gSelectRaceRuleRow4ValueMessageIndices[3];
+extern const u16 gSelectRaceRuleRow0ValueMessageIndices[4];
+extern const u16 gSelectRaceRuleRow1ValueMessageIndices[4];
+extern const u32 gSelectRaceRuleTeamsFromSetupCopy[2];
+extern const u32 gSelectRaceRuleTeamsToSetupCopy[2];
+extern const u16 gSelectRaceRuleCountTeamChangeCells[2][2];
+extern const u16 gSelectRaceRuleRowMessageIndices[6];
+extern const u16 gSelectRaceRuleRowValueCounts[6];
+extern const u32 gSelectRaceRuleCourseListModeValues[3];
+extern const u32 gSelectRaceRuleRuleKindValues[3];
+extern const u32 gSelectRaceRuleCourseListModes[3];
+extern const u32 gSelectRaceRuleRuleKinds[3];
+extern const u32 gSelectRaceRuleEngineIndexValues[3];
+extern const u32 gSelectRaceRuleCpuDifficultyValues[4];
+extern const u32 gSelectRaceRuleEngineIndices[4];
+extern const u32 gSelectRaceRuleCpuDifficulties[4];
+extern const u32 gSelectRaceRuleNextRectRows[5];
+extern const SelectRaceRuleRowEntries gSelectRaceRuleRowEntries[5];
+extern const u16 gSelectRaceRuleLabelWidths[5][2];
+extern const u16 gSelectRaceRuleLabelHeights[5][2];
+extern const u16 gSelectRaceRuleStepCellsHighlighted[5][2];
+extern const u32 gSelectRaceRuleRowRectRows[5];
+extern const char *gSelectRaceRuleSBnblName;
+extern const char *gSelectRaceRuleSBNclrName;
+extern const char *gSelectRaceRuleMultiSimpleSNscrName;
+extern const char *gSelectRaceRuleMultiSimpleSBnclName;
+extern const char *gSelectRaceRuleSBNcgrName;
+extern const char *gSelectRaceRuleSBnllName;
+extern const char *gSelectRaceRuleSONclrName;
+extern const char *gSelectRaceRuleSMenuNscrName;
+extern const char *gSelectRaceRuleSBnclName;
+extern const char *gSelectRaceRuleSNcgrName;
+extern const char *gSelectRaceRuleMultiSimpleSBnllName;
+extern const char *gSelectRaceRuleMultiSimpleSBnblName;
+extern const char *gSelectRaceRuleSNcerName;
+extern const char *gSelectRaceRuleMultiSimpleSBNcgrName;
+extern const u16 *gSelectRaceRuleValueMessageIndices[5];
+
+extern char gSelectRaceRuleSBnblPath[31];
+extern char gSelectRaceRuleSBNclrPath[33];
+extern char gSelectRaceRuleMultiSimpleSNscrPath[44];
+extern char gSelectRaceRuleMultiSimpleSBnclPath[44];
+extern char gSelectRaceRuleSBNcgrPath[33];
+extern char gSelectRaceRuleSBnllPath[31];
+extern char gSelectRaceRuleSONclrPath[33];
+extern char gSelectRaceRuleSMenuNscrPath[36];
+extern char gSelectRaceRuleSBnclPath[31];
+extern char gSelectRaceRuleSNcgrPath[35];
+extern char gSelectRaceRuleMultiSimpleSBnllPath[44];
+extern char gSelectRaceRuleMultiSimpleSBnblPath[44];
+extern char gSelectRaceRuleSNcerPath[35];
+extern char gSelectRaceRuleMultiSimpleSBNcgrPath[46];

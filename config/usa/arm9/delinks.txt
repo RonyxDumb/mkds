@@ -4099,8 +4099,8 @@ src/Main/Menu/select_race_rule.c:
 src/Main/Menu/select_race_rule_state.c:
     complete
     .text       start:0x0211ac70 end:0x0211db90
-    .rodata     start:0x0215cd18 end:0x0215cd24
-    .data       start:0x0216de18 end:0x0216de30
+    .rodata     start:0x0215cc6c end:0x0215cdb0
+    .data       start:0x0216dbb4 end:0x0216de30
     .bss        start:0x0217d348 end:0x0217d34c
 
 // provisional: file name and boundaries
