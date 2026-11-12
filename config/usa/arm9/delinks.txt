@@ -3159,6 +3159,11 @@ src/Main/MapObjects/view_frustum.c:
     .bss        start:0x0217b4d4 end:0x0217b588
 
 // provisional: file name and boundaries
+src/Main/MapObjects/sphere_collision_data.c:
+    complete
+    .data       start:0x0216b8a4 end:0x0216b8f4
+
+// provisional: file name and boundaries
 src/Main/MapObjects/rock.c:
     complete
     .text       start:0x020d50ec end:0x020d6538

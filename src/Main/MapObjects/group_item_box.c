@@ -23,7 +23,6 @@
 #include "Main/MapObjects/update_list_slot.h"
 #include "Main/MapObjects/model_animation_entries.h"
 #include "Main/MapObjects/nsbmd_model_draw.h"
-#include "Main/MapObjects/data_0216b000.h"
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/MapObjects/choropu.h"
 #include "Main/Sound/data_0210b000.h"

@@ -25,7 +25,6 @@
 #include "Main/Item/item_koura_w.h"
 #include "Main/Sound/code_0210b760.h"
 #include "Main/MapObjects/data_02158000.h"
-#include "Main/MapObjects/data_0216b000.h"
 #include "Main/MapObjects/choropu.h"
 #include "Main/Sound/data_0210b000.h"
 #include "Main/MapObjects/data_0217c000.h"

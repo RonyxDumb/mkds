@@ -10,12 +10,12 @@
 #include "ITCM/code_01ffd000.h"
 #include "ITCM/kart_items_update.h"
 #include "Main/Kart/kart_drift.h"
-#include "Main/MapObjects/data_0216b000.h"
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/Sound/data_0210b000.h"
 #include "Main/MapObjects/data_0217b000.h"
 #include "code_02147cd8.h"
 #include "registers.h"
+#include "Main/MapObjects/sphere_collision_data.h"
 
 BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *vector, int radius, u16 queryFlags,
                              short collisionSlotIndex, Vec3 *pushOut, Vec3 *normal, Vec3 *secondNormal,
@@ -38,8 +38,8 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *vector, i
     Vec3 offset = {0, 0, 0};
     BOOL wantsHitRecords = pushOut != NULL || normal != NULL || secondNormal != NULL;
     u32 hitBits = 0;
-    CollisionHitRecord firstHitRecord = data_0216b8c4;
-    CollisionHitRecord secondHitRecord = data_0216b8ec;
+    CollisionHitRecord firstHitRecord = gFirstHitRecordInitial;
+    CollisionHitRecord secondHitRecord = gSecondHitRecordInitial;
     Vec3 extraMaxOffset = {0, 0, 0};
     Vec3 extraMinOffset = {0, 0, 0};
     Vec3 maxXZOffset = {0, 0, 0};

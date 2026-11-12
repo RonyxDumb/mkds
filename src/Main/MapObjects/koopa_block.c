@@ -34,7 +34,6 @@
 #include "Main/MapObjects/model_animation_entries.h"
 #include "Main/MapObjects/nsbmd_model_draw.h"
 #include "Main/MapObjects/woodbox.h"
-#include "Main/MapObjects/data_0216b000.h"
 #include "Main/MapObjects/data_0217b000.h"
 #include "Main/MapObjects/data_0217c000.h"
 #include "player.h"

@@ -10,7 +10,6 @@
 #include "Main/MapObjects/update_list_slot.h"
 #include "Main/MapObjects/data_02156000.h"
 #include "Main/Kart/code_0208fd8c.h"
-#include "Main/MapObjects/data_0216b000.h"
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/MapObjects/choropu.h"
 #include "Main/Sound/data_0210b000.h"

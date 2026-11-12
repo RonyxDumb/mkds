@@ -18,7 +18,6 @@
 #include "Main/MapObjects/code_020e6a74.h"
 #include "Main/MapObjects/code_020ec1fc.h"
 #include "Main/MapObjects/pushed_motion.h"
-#include "Main/MapObjects/data_0216b000.h"
 #include "Main/MapObjects/choropu.h"
 #include "Main/Sound/data_0210b000.h"
 #include "Main/MapObjects/earthen_pipe_create.h"

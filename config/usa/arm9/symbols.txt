@@ -10277,8 +10277,8 @@ gCupPictureNumberTable kind:data(any) addr:0x0216ae8c
 @2450 kind:data(any) addr:0x0216b248 local
 @3671 kind:data(any) addr:0x0216b254 local
 gMapObjectKindRows kind:data(any) addr:0x0216b268
-data_0216b8c4 kind:data(any) addr:0x0216b8a4
-data_0216b8ec kind:data(any) addr:0x0216b8cc
+gFirstHitRecordInitial kind:data(any) addr:0x0216b8a4
+gSecondHitRecordInitial kind:data(any) addr:0x0216b8cc
 @3224 kind:data(any) addr:0x0216b8f4 local
 @3272 kind:data(any) addr:0x0216b90c local
 @3273 kind:data(any) addr:0x0216b918 local
