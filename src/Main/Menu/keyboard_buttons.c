@@ -103,8 +103,14 @@ const u8 gKeyboardRemainingEntryIndices[6] = {0x11, 0x12, 0x13, 0x14, 0x15, 0x16
 const u8 gKeyboardCursorCornerEntryIndices[2][4] = {{0x13, 0x14, 0x15, 0x16}, {0x21, 0x22, 0x23, 0x24}};
 const s16 gKeyboardTextOffsetYTarget[2][2] = {{0x82, 0}, {0x96, 0}};
 const s16 gKeyboardTextOffsetYInitial[2][2] = {{0xc0, -54}, {0xc0, -54}};
-const u8 gKeyboardTextLimits[2] = {0xc, 0xa};
 const u8 gKeyboardTextSlotEntryIndices[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+const u8 gKeyboardNextLayouts[2][6] = {{6, 2, 3, 4, 5, 1}, {6, 4, 3, 1, 5, 2}};
+const u8 gKeyboardButtonEntryIndices[2][2][3] = {{{4, 6, 2}, {3, 5, 1}}, {{12, 14, 10}, {13, 15, 11}}};
+const u8 gKeyboardTextLimits[2] = {0xc, 0xa};
+const u8 gKeyboardTextCharLabelIndices[2][12] = {{2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13},
+                                                 {2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0, 0}};
+const u8 gKeyboardTextIndexEntryIndices[2][12] = {{7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18},
+                                                  {23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 0, 0}};
 
 void SetKeyboardButtonCorners(void) {
     SetKeyboardButton0Corners(0x24, 0x7a, 0x7e, 0x8e);
@@ -335,7 +341,8 @@ void WriteKeyboardObjectOffsets(void) {
                 offsetY = gKeyboard->mTextOffsetY[kindIndex][screenIndex];
             }
             for (entryIndex = 0; entryIndex < gKeyboardKindEntryCounts[kindIndex]; entryIndex++) {
-                gKeyboard->mTables[kindIndex][screenIndex][gKeyboardKindEntryIndices[kindIndex][entryIndex]].mOffsetY = offsetY;
+                gKeyboard->mTables[kindIndex][screenIndex][gKeyboardKindEntryIndices[kindIndex][entryIndex]].mOffsetY =
+                    offsetY;
             }
             for (entryIndex = 0; entryIndex < gKeyboardTextLimits[kindIndex]; entryIndex++) {
                 gKeyboard->mTables[kindIndex][screenIndex][gKeyboardTextIndexEntryIndices[kindIndex][entryIndex]]
@@ -742,9 +749,9 @@ void AdvanceKeyboardState7(void) {
         }
     } else if ((u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_Y) != 0) {
         if (gStartupWork->mRegion == 0) {
-            gKeyboard->mLayout = gKeyboardNextLayoutRegion0[gKeyboard->mLayout];
+            gKeyboard->mLayout = gKeyboardNextLayouts[0][gKeyboard->mLayout];
         } else {
-            gKeyboard->mLayout = gKeyboardNextLayoutOtherRegion[gKeyboard->mLayout];
+            gKeyboard->mLayout = gKeyboardNextLayouts[1][gKeyboard->mLayout];
         }
         SelectKeyboardLayout(gKeyboard->mLayout);
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1e5);

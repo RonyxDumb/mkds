@@ -34197,7 +34197,7 @@ from:0x021295d4 kind:load to:0x02175608 module:main
 from:0x021295d8 kind:load to:0x0217d048 module:main
 from:0x021295e0 kind:load to:0x021759b0 module:main
 from:0x021295e4 kind:load to:0x0215d11c module:main
-from:0x021295e8 kind:load to:0x0215d122 module:main
+from:0x021295e8 kind:load to:0x0215d11c add:0x6 module:main
 from:0x02129610 kind:thumb_call to:0x020ae4c0 module:main
 from:0x02129630 kind:thumb_call to:0x020ae4c0 module:main
 from:0x02129656 kind:thumb_call to:0x020ae4c0 module:main

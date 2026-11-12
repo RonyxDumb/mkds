@@ -8795,8 +8795,7 @@ gKeyboardCursorCornerEntryIndices kind:data(any) addr:0x0215d0f8
 gKeyboardTextOffsetYTarget kind:data(any) addr:0x0215d100
 gKeyboardTextOffsetYInitial kind:data(any) addr:0x0215d108
 gKeyboardTextSlotEntryIndices kind:data(any) addr:0x0215d110
-gKeyboardNextLayoutRegion0 kind:data(any) addr:0x0215d11c
-gKeyboardNextLayoutOtherRegion kind:data(any) addr:0x0215d122
+gKeyboardNextLayouts kind:data(any) addr:0x0215d11c
 gKeyboardButtonEntryIndices kind:data(any) addr:0x0215d128
 gKeyboardTextCharLabelIndices kind:data(any) addr:0x0215d134
 gKeyboardTextIndexEntryIndices kind:data(any) addr:0x0215d14c

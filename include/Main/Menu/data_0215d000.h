@@ -18,12 +18,10 @@ extern const u8 gBackScreenInLoadedArchives[];
 // Pairs of indices per kind: the M index, then the S index.
 extern const u8 gBackScreenKindIndices[];
 
-extern u8 gKeyboardNextLayoutRegion0[6];
+extern const u8 gKeyboardNextLayouts[2][6];
 
-extern u8 gKeyboardNextLayoutOtherRegion[6];
+extern const u8 gKeyboardButtonEntryIndices[2][2][3];
 
-extern u8 gKeyboardButtonEntryIndices[2][2][3];
+extern const u8 gKeyboardTextCharLabelIndices[2][12];
 
-extern u8 gKeyboardTextCharLabelIndices[][12];
-
-extern u8 gKeyboardTextIndexEntryIndices[][12];
+extern const u8 gKeyboardTextIndexEntryIndices[2][12];
