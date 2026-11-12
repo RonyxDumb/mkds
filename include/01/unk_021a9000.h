@@ -199,10 +199,6 @@ extern const char *gMissionRunLVselSNcerName;
 extern const char *gMissionRunLVselSONclrName;
 extern s32 gTestSceneCharTableIndex;
 extern u16 gTestSceneCharText[];
-extern char gMissionRunMSselCommonBmgName[];
-extern char gMissionRunMSselMissionBmgName[];
-extern char gMissionRunMSselMtblName[];
-extern char gMissionRunMSselMissionMrName[];
 typedef struct TimeAttackTopMenu {
     /* 00 */ struct Unk02021dc8 *mTimeAttackTopMenuSNcer;
     /* 04 */ struct LayoutEntryTable *mTimeAttackTopMenuSBncl;
@@ -222,7 +218,7 @@ typedef struct TimeAttackTopMenu {
 } TimeAttackTopMenu;
 
 extern RaceHudSubScreenCells *gRaceHudSubScreenKurikingCells;
-extern const char *gMissionRunLVselGradeStrings[5];
-extern const char *gMissionRunMSselGradeStrings[5];
+extern u16 *gMissionRunLVselGradeStrings[5];
+extern u16 *gMissionRunMSselGradeStrings[5];
 
 #include "00/Menu/wi_fi_vs_matching.h"

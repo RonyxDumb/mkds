@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-extern const char data_usa_ov001_021a7680[];
+extern const char gLogoState5CommonBmgFileName[];
 
 void UpdateLogoState7(void);
 void EnterLogoState7(void);

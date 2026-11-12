@@ -1339,14 +1339,14 @@ gEmblemTemplateCursorVerticalMoves kind:data(any) addr:0x021a738c
 gEmblemTemplateCursorHorizontalMoves kind:data(any) addr:0x021a74e8
 gMissionRunBossIconCellIndices kind:data(any) addr:0x021a7644
 gMissionRunBossIconPaletteIndices kind:data(any) addr:0x021a7654
-data_usa_ov001_021a7680 kind:data(any) addr:0x021a7680 ambiguous
-data_usa_ov001_021a768c kind:data(any) addr:0x021a768c ambiguous
-data_usa_ov001_021a76a8 kind:data(any) addr:0x021a76a8 ambiguous
-data_usa_ov001_021a76c4 kind:data(any) addr:0x021a76c4 ambiguous
-data_usa_ov001_021a76dc kind:data(any) addr:0x021a76dc ambiguous
-data_usa_ov001_021a76f4 kind:data(any) addr:0x021a76f4 ambiguous
-data_usa_ov001_021a770c kind:data(any) addr:0x021a770c ambiguous
-data_usa_ov001_021a7720 kind:data(any) addr:0x021a7720 ambiguous
+gLogoState5CommonBmgFileName kind:data(any) addr:0x021a7680 ambiguous
+gLogoMainBgPaletteFileName kind:data(any) addr:0x021a768c ambiguous
+gLogoMainBgCharsFileName kind:data(any) addr:0x021a76a8 ambiguous
+gLogoMainBgScreenMapFileName kind:data(any) addr:0x021a76c4 ambiguous
+gLogoSubBgPaletteFileName kind:data(any) addr:0x021a76dc ambiguous
+gLogoSubBgCharsFileName kind:data(any) addr:0x021a76f4 ambiguous
+gLogoSubBgScreenMapFileName kind:data(any) addr:0x021a770c ambiguous
+gLogoSceneCommonBmgFileName kind:data(any) addr:0x021a7720 ambiguous
 @4327 kind:data(any) addr:0x021a772c local
 @4470 kind:data(any) addr:0x021a774c local
 @4409 kind:data(any) addr:0x021a776c local
@@ -1453,11 +1453,11 @@ gOptionTopMenuCallbacks kind:data(any) addr:0x021a8140
 @6050 kind:data(any) addr:0x021a8208 local
 @6107 kind:data(any) addr:0x021a8224 local
 @6108 kind:data(any) addr:0x021a8230 local
-data_usa_ov001_021a823c kind:data(any) addr:0x021a823c
-data_usa_ov001_021a8240 kind:data(any) addr:0x021a8240
-data_usa_ov001_021a8244 kind:data(any) addr:0x021a8244
-data_usa_ov001_021a8248 kind:data(any) addr:0x021a8248
-data_usa_ov001_021a824c kind:data(any) addr:0x021a824c
+gRecordGpxGradeTextA kind:data(any) addr:0x021a823c
+gRecordGpxGradeTextE kind:data(any) addr:0x021a8240
+gRecordGpxGradeTextD kind:data(any) addr:0x021a8244
+gRecordGpxGradeTextC kind:data(any) addr:0x021a8248
+gRecordGpxGradeTextB kind:data(any) addr:0x021a824c
 gRecordGpxGradeStrings kind:data(any) addr:0x021a8250
 gRecordGpxCallbacks kind:data(any) addr:0x021a8264
 @4155 kind:data(any) addr:0x021a8278 local
@@ -1618,44 +1618,42 @@ gOptionSceneCallbacks kind:data(any) addr:0x021a9034 local
 gEndingSceneCallbacks kind:data(any) addr:0x021a9054 local
 gMissionRunLVselS6BnblName kind:data(any) addr:0x021a9074
 gMissionRunLVselMBNcgrName kind:data(any) addr:0x021a9078
-data_usa_ov001_021a907c kind:data(any) addr:0x021a907c
-data_usa_ov001_021a9080 kind:data(any) addr:0x021a9080
-data_usa_ov001_021a9084 kind:data(any) addr:0x021a9084
+gMissionRunLVselGradeTextE kind:data(any) addr:0x021a907c
+gMissionRunLVselGradeTextA kind:data(any) addr:0x021a9080
+gMissionRunLVselGradeTextD kind:data(any) addr:0x021a9084
 gMissionRunLVselS7BnblName kind:data(any) addr:0x021a9088
 gMissionRunLVselS7BnllName kind:data(any) addr:0x021a908c
 gMissionRunLVselSONclrName kind:data(any) addr:0x021a9090
 gMissionRunLVselSNcerName kind:data(any) addr:0x021a9094
 gMissionRunLVselS6BnclName kind:data(any) addr:0x021a9098
 gMissionRunLVselMBNclrName kind:data(any) addr:0x021a909c
-data_usa_ov001_021a90a0 kind:data(any) addr:0x021a90a0
+gMissionRunLVselGradeTextB kind:data(any) addr:0x021a90a0
 gMissionRunLVselSNcgrName kind:data(any) addr:0x021a90a4
 gMissionRunLVselS6BnllName kind:data(any) addr:0x021a90a8
 gMissionRunLVselS7BnclName kind:data(any) addr:0x021a90ac
-data_usa_ov001_021a90b0 kind:data(any) addr:0x021a90b0
+gMissionRunLVselGradeTextC kind:data(any) addr:0x021a90b0
 gMissionRunLVselMNscrName kind:data(any) addr:0x021a90b4
 gMissionRunLVselGradeStrings kind:data(any) addr:0x021a90b8
-data_usa_ov001_021a90cc kind:data(any) addr:0x021a90cc
-data_usa_ov001_021a90e8 kind:data(any) addr:0x021a90e8
-data_usa_ov001_021a9108 kind:data(any) addr:0x021a9108
-data_usa_ov001_021a9128 kind:data(any) addr:0x021a9128
-data_usa_ov001_021a9139 kind:data(any) addr:0x021a9139 ambiguous
-data_usa_ov001_021a9148 kind:data(any) addr:0x021a9148
-data_usa_ov001_021a9159 kind:data(any) addr:0x021a9159 ambiguous
-data_usa_ov001_021a9168 kind:data(any) addr:0x021a9168
-data_usa_ov001_021a9188 kind:data(any) addr:0x021a9188
-data_usa_ov001_021a91a8 kind:data(any) addr:0x021a91a8
-data_usa_ov001_021a91c8 kind:data(any) addr:0x021a91c8
-data_usa_ov001_021a91e8 kind:data(any) addr:0x021a91e8
-data_usa_ov001_021a9208 kind:data(any) addr:0x021a9208
-data_usa_ov001_021a9228 kind:data(any) addr:0x021a9228
+gMissionRunLVselMNscrFileName kind:data(any) addr:0x021a90cc
+gMissionRunLVselSONclrFileName kind:data(any) addr:0x021a90e8
+gMissionRunLVselS6BnclFileName kind:data(any) addr:0x021a9108
+gMissionRunLVselS6BnblFileName kind:data(any) addr:0x021a9128
+gMissionRunLVselS6BnllFileName kind:data(any) addr:0x021a9148
+gMissionRunLVselS7BnclFileName kind:data(any) addr:0x021a9168
+gMissionRunLVselMBNcgrFileName kind:data(any) addr:0x021a9188
+gMissionRunLVselS7BnblFileName kind:data(any) addr:0x021a91a8
+gMissionRunLVselMBNclrFileName kind:data(any) addr:0x021a91c8
+gMissionRunLVselS7BnllFileName kind:data(any) addr:0x021a91e8
+gMissionRunLVselSNcgrFileName kind:data(any) addr:0x021a9208
+gMissionRunLVselSNcerFileName kind:data(any) addr:0x021a9228
 gMissionRunMSselMNcgrName kind:data(any) addr:0x021a9248
 gMissionRunMSselSONclrName kind:data(any) addr:0x021a924c
 gMissionRunMSselSBnllName kind:data(any) addr:0x021a9250
 gMissionRunMSselSNcerName kind:data(any) addr:0x021a9254
-data_usa_ov001_021a9258 kind:data(any) addr:0x021a9258
+gMissionRunMSselGradeTextB kind:data(any) addr:0x021a9258
 gMissionRunMSselMWNscrName kind:data(any) addr:0x021a925c
-data_usa_ov001_021a9260 kind:data(any) addr:0x021a9260
-data_usa_ov001_021a9264 kind:data(any) addr:0x021a9264
+gMissionRunMSselGradeTextD kind:data(any) addr:0x021a9260
+gMissionRunMSselGradeTextE kind:data(any) addr:0x021a9264
 gMissionRunMSselMONclrName kind:data(any) addr:0x021a9268
 gMissionRunMSselMBnclName kind:data(any) addr:0x021a926c
 gMissionRunMSselSBnblName kind:data(any) addr:0x021a9270
@@ -1663,31 +1661,31 @@ gMissionRunMSselSBnclName kind:data(any) addr:0x021a9274
 gMissionRunMSselMBNclrName kind:data(any) addr:0x021a9278
 gMissionRunMSselMBnllName kind:data(any) addr:0x021a927c
 gMissionRunMSselSNcgrName kind:data(any) addr:0x021a9280
-data_usa_ov001_021a9284 kind:data(any) addr:0x021a9284
-data_usa_ov001_021a9288 kind:data(any) addr:0x021a9288
+gMissionRunMSselGradeTextA kind:data(any) addr:0x021a9284
+gMissionRunMSselGradeTextC kind:data(any) addr:0x021a9288
 gMissionRunMSselMBNcgrName kind:data(any) addr:0x021a928c
 gMissionRunMSselMNscrName kind:data(any) addr:0x021a9290
 gMissionRunMSselMNcerName kind:data(any) addr:0x021a9294
 gMissionRunMSselGradeStrings kind:data(any) addr:0x021a9298
-data_usa_ov001_021a92ac kind:data(any) addr:0x021a92ac
-data_usa_ov001_021a92c8 kind:data(any) addr:0x021a92c8
-data_usa_ov001_021a92e4 kind:data(any) addr:0x021a92e4
-data_usa_ov001_021a9300 kind:data(any) addr:0x021a9300
-data_usa_ov001_021a931c kind:data(any) addr:0x021a931c
-data_usa_ov001_021a9338 kind:data(any) addr:0x021a9338
-data_usa_ov001_021a9354 kind:data(any) addr:0x021a9354
-data_usa_ov001_021a9374 kind:data(any) addr:0x021a9374
-data_usa_ov001_021a9394 kind:data(any) addr:0x021a9394
-data_usa_ov001_021a93b4 kind:data(any) addr:0x021a93b4
-data_usa_ov001_021a93d4 kind:data(any) addr:0x021a93d4
-data_usa_ov001_021a93f4 kind:data(any) addr:0x021a93f4
-data_usa_ov001_021a9414 kind:data(any) addr:0x021a9414
-data_usa_ov001_021a9434 kind:data(any) addr:0x021a9434
-data_usa_ov001_021a9454 kind:data(any) addr:0x021a9454
-gMissionRunMSselCommonBmgName kind:data(any) addr:0x021a9474
-gMissionRunMSselMissionBmgName kind:data(any) addr:0x021a9480
-gMissionRunMSselMtblName kind:data(any) addr:0x021a948c
-gMissionRunMSselMissionMrName kind:data(any) addr:0x021a94a0
+gMissionRunMSselSBnclFileName kind:data(any) addr:0x021a92ac
+gMissionRunMSselSBnblFileName kind:data(any) addr:0x021a92c8
+gMissionRunMSselMNscrFileName kind:data(any) addr:0x021a92e4
+gMissionRunMSselSBnllFileName kind:data(any) addr:0x021a9300
+gMissionRunMSselMBnclFileName kind:data(any) addr:0x021a931c
+gMissionRunMSselMBnllFileName kind:data(any) addr:0x021a9338
+gMissionRunMSselSONclrFileName kind:data(any) addr:0x021a9354
+gMissionRunMSselMBNcgrFileName kind:data(any) addr:0x021a9374
+gMissionRunMSselMWNscrFileName kind:data(any) addr:0x021a9394
+gMissionRunMSselMBNclrFileName kind:data(any) addr:0x021a93b4
+gMissionRunMSselMONclrFileName kind:data(any) addr:0x021a93d4
+gMissionRunMSselSNcgrFileName kind:data(any) addr:0x021a93f4
+gMissionRunMSselSNcerFileName kind:data(any) addr:0x021a9414
+gMissionRunMSselMNcgrFileName kind:data(any) addr:0x021a9434
+gMissionRunMSselMNcerFileName kind:data(any) addr:0x021a9454
+@6581 kind:data(any) addr:0x021a9474 local
+@6582 kind:data(any) addr:0x021a9480 local
+@6583 kind:data(any) addr:0x021a948c local
+@6584 kind:data(any) addr:0x021a94a0 local
 gSelectEngineMNcgrName kind:data(any) addr:0x021a94ac
 gSelectEngineASBnblName kind:data(any) addr:0x021a94b0
 gSelectEngineMNcerName kind:data(any) addr:0x021a94b4

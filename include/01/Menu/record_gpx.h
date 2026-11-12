@@ -90,7 +90,7 @@ typedef struct RecordGpx {
 
 extern RecordGpx *gRecordGpx;
 // Objects whose layout isn't known yet.
-extern const RecordScreenCallbacks gRecordGpxCallbacks;
+extern RecordScreenCallbacks gRecordGpxCallbacks;
 
 void RegisterRecordGpxCallbacks(void);
 void WriteRecordGpxRegisters(void);

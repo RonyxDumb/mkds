@@ -15,15 +15,47 @@
 #include "Main/Sound/sound_system.h"
 #include "Main/Menu/menu_shared_clear.h"
 
-const s16 gMissionRunLVselRightIndexOffsets[7] = {1, 1, 0, 1, 1, 0, 0};
-const s16 gMissionRunLVselLeftIndexOffsets[7] = {0, -1, -1, 0, -1, -1, 0};
-const s16 gMissionRunLVselDownIndexOffsets[7] = {3, 3, 3, 0, 2, 0, 0};
-const s16 gMissionRunLVselUpIndexOffsets[7] = {0, 0, 0, -3, -3, -3, -2};
+const u16 gMissionRunLVselGradeLabelWidths[7] = {0xe, 0xe, 0xe, 0xe, 0xe, 0xe, 0xe};
 const u16 gMissionRunLVselGradeLabelIndices[7] = {0, 1, 2, 3, 4, 5, 6};
 const u16 gMissionRunLVselGradeLabelHeights[7] = {0xe, 0xe, 0xe, 0xe, 0xe, 0xe, 0xe};
-const u16 gMissionRunLVselGradeLabelWidths[7] = {0xe, 0xe, 0xe, 0xe, 0xe, 0xe, 0xe};
-const u16 gMissionRunLVselLevelCellIndices[7][11] = {{0, 7, 0xe, 0x15, 0x1c, 0x23, 0x2a, 0x31, 0x38, 0x39, 0x3a}, {1, 8, 0xf, 0x16, 0x1d, 0x24, 0x2b, 0x32, 0x3b, 0x3c, 0x3d}, {2, 9, 0x10, 0x17, 0x1e, 0x25, 0x2c, 0x33, 0x3e, 0x3f, 0x40}, {3, 0xa, 0x11, 0x18, 0x1f, 0x26, 0x2d, 0x34, 0x41, 0x42, 0x43}, {4, 0xb, 0x12, 0x19, 0x20, 0x27, 0x2e, 0x35, 0x44, 0x45, 0x46}, {5, 0xc, 0x13, 0x1a, 0x21, 0x28, 0x2f, 0x36, 0x47, 0x48, 0x49}, {6, 0xd, 0x14, 0x1b, 0x22, 0x29, 0x30, 0x37, 0x4a, 0x4b, 0x4c}};
 const s16 gMissionRunLVselTouchLevelIndices[7] = {0, 1, 2, 3, 4, 5, 6};
+const s16 gMissionRunLVselUpIndexOffsets[7] = {0, 0, 0, -3, -3, -3, -2};
+const s16 gMissionRunLVselDownIndexOffsets[7] = {3, 3, 3, 0, 2, 0, 0};
+const s16 gMissionRunLVselLeftIndexOffsets[7] = {0, -1, -1, 0, -1, -1, 0};
+const u16 gMissionRunLVselLevelCellIndices[7][11] = {{0, 7, 0xe, 0x15, 0x1c, 0x23, 0x2a, 0x31, 0x38, 0x39, 0x3a}, {1, 8, 0xf, 0x16, 0x1d, 0x24, 0x2b, 0x32, 0x3b, 0x3c, 0x3d}, {2, 9, 0x10, 0x17, 0x1e, 0x25, 0x2c, 0x33, 0x3e, 0x3f, 0x40}, {3, 0xa, 0x11, 0x18, 0x1f, 0x26, 0x2d, 0x34, 0x41, 0x42, 0x43}, {4, 0xb, 0x12, 0x19, 0x20, 0x27, 0x2e, 0x35, 0x44, 0x45, 0x46}, {5, 0xc, 0x13, 0x1a, 0x21, 0x28, 0x2f, 0x36, 0x47, 0x48, 0x49}, {6, 0xd, 0x14, 0x1b, 0x22, 0x29, 0x30, 0x37, 0x4a, 0x4b, 0x4c}};
+const s16 gMissionRunLVselRightIndexOffsets[7] = {1, 1, 0, 1, 1, 0, 0};
+u16 gMissionRunLVselGradeTextB[2] = {0x42, 0};
+const char *gMissionRunLVselMBNclrName = gMissionRunLVselMBNclrFileName;
+const char *gMissionRunLVselS7BnblName = gMissionRunLVselS7BnblFileName;
+u16 gMissionRunLVselGradeTextD[2] = {0x44, 0};
+const char *gMissionRunLVselS7BnllName = gMissionRunLVselS7BnllFileName;
+u16 gMissionRunLVselGradeTextC[2] = {0x43, 0};
+const char *gMissionRunLVselMNscrName = gMissionRunLVselMNscrFileName;
+const char *gMissionRunLVselSONclrName = gMissionRunLVselSONclrFileName;
+u16 gMissionRunLVselGradeTextE[2] = {0x45, 0};
+u16 gMissionRunLVselGradeTextA[2] = {0x41, 0};
+const char *gMissionRunLVselS6BnblName = gMissionRunLVselS6BnblFileName;
+const char *gMissionRunLVselS6BnllName = gMissionRunLVselS6BnllFileName;
+const char *gMissionRunLVselS6BnclName = gMissionRunLVselS6BnclFileName;
+const char *gMissionRunLVselMBNcgrName = gMissionRunLVselMBNcgrFileName;
+const char *gMissionRunLVselSNcerName = gMissionRunLVselSNcerFileName;
+const char *gMissionRunLVselS7BnclName = gMissionRunLVselS7BnclFileName;
+const char *gMissionRunLVselSNcgrName = gMissionRunLVselSNcgrFileName;
+u16 *gMissionRunLVselGradeStrings[5] = {gMissionRunLVselGradeTextE, gMissionRunLVselGradeTextD,
+                                        gMissionRunLVselGradeTextC, gMissionRunLVselGradeTextB,
+                                        gMissionRunLVselGradeTextA};
+char gMissionRunLVselMNscrFileName[28] = "mr/Mission_run_LVsel_m.nscr";
+char gMissionRunLVselS6BnclFileName[30] = "mr/Mission_run_LVsel_s_6.bncl";
+char gMissionRunLVselS6BnllFileName[30] = "mr/Mission_run_LVsel_s_6.bnll";
+char gMissionRunLVselS7BnclFileName[30] = "mr/Mission_run_LVsel_s_7.bncl";
+char gMissionRunLVselS7BnblFileName[30] = "mr/Mission_run_LVsel_s_7.bnbl";
+char gMissionRunLVselMBNclrFileName[30] = "mr/Mission_run_LVsel_m_b.nclr";
+char gMissionRunLVselSONclrFileName[30] = "mr/Mission_run_LVsel_s_o.nclr";
+char gMissionRunLVselS6BnblFileName[30] = "mr/Mission_run_LVsel_s_6.bnbl";
+char gMissionRunLVselMBNcgrFileName[30] = "mr/Mission_run_LVsel_m_b.ncgr";
+char gMissionRunLVselS7BnllFileName[30] = "mr/Mission_run_LVsel_s_7.bnll";
+char gMissionRunLVselSNcgrFileName[32] = "mr/Mission_run_LVsel_s.nce.ncgr";
+char gMissionRunLVselSNcerFileName[32] = "mr/Mission_run_LVsel_s.nce.ncer";
 MissionRunLVsel *gMissionRunLVsel;
 
 void LoadMissionRunLVselData(void) {

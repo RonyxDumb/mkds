@@ -138,7 +138,7 @@ void EnterLogoState5(void) {
     void *message;
     void *firstButtonMessage;
     void *secondButtonMessage;
-    commonMessages = FindFileInLoadedArchives(data_usa_ov001_021a7680);
+    commonMessages = FindFileInLoadedArchives(gLogoState5CommonBmgFileName);
     message = GetBmgEntry(commonMessages, 124);
     firstButtonMessage = GetBmgEntry(commonMessages, 0);
     secondButtonMessage = GetBmgEntry(commonMessages, 1);

@@ -5,13 +5,13 @@
 
 typedef struct Bg1Files Bg1Files;
 
-extern const char data_usa_ov001_021a768c[];
-extern const char data_usa_ov001_021a76a8[];
-extern const char data_usa_ov001_021a76c4[];
-extern const char data_usa_ov001_021a76dc[];
-extern const char data_usa_ov001_021a76f4[];
-extern const char data_usa_ov001_021a770c[];
-extern const char data_usa_ov001_021a7720[];
+extern const char gLogoMainBgPaletteFileName[];
+extern const char gLogoMainBgCharsFileName[];
+extern const char gLogoMainBgScreenMapFileName[];
+extern const char gLogoSubBgPaletteFileName[];
+extern const char gLogoSubBgCharsFileName[];
+extern const char gLogoSubBgScreenMapFileName[];
+extern const char gLogoSceneCommonBmgFileName[];
 
 void UpdateLogoState0(void);
 void EnterLogoState0(void);

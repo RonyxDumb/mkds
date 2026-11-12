@@ -59,14 +59,14 @@ void InitLogoScene(void *heap) {
     SetBg1Record(&displaySettings->mMainBgRecords, 1, 0, 0, 0, 0, 1, 0);
     SetBg1Record(&displaySettings->mSubBgRecords, 1, 0, 0, 0, 0, 2, 0);
     InitDisplayFromSettings(displaySettings);
-    LoadBg1FromSceneFiles(&gLogoScene->mMainBg, 1, data_usa_ov001_021a768c, data_usa_ov001_021a76a8,
-                          data_usa_ov001_021a76c4);
-    LoadBg1FromSceneFiles(&gLogoScene->mSubBg, 0, data_usa_ov001_021a76dc, data_usa_ov001_021a76f4,
-                          data_usa_ov001_021a770c);
+    LoadBg1FromSceneFiles(&gLogoScene->mMainBg, 1, gLogoMainBgPaletteFileName, gLogoMainBgCharsFileName,
+                          gLogoMainBgScreenMapFileName);
+    LoadBg1FromSceneFiles(&gLogoScene->mSubBg, 0, gLogoSubBgPaletteFileName, gLogoSubBgCharsFileName,
+                          gLogoSubBgScreenMapFileName);
     InitStateMachine(&gLogoScene->mStateMachine, gLogoStateTable, 12, NULL);
     gLogoScene->mUnk_2c_0 = 0;
     gLogoScene->mState0Frames = 0;
-    gLogoScene->mCommonMessages = FindFileInLoadedArchives(data_usa_ov001_021a7720);
+    gLogoScene->mCommonMessages = FindFileInLoadedArchives(gLogoSceneCommonBmgFileName);
     arg.mUseTxtSystem = TRUE;
     arg.mTxtSystemFont = GetFontByIndex(1);
     arg.mUseCanvas1 = 0;
