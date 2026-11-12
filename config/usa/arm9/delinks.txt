@@ -4165,19 +4165,9 @@ src/Main/Unknown/code_02112b48.c:
 // provisional: file name and boundaries
 src/Main/Unknown/code_021145b4.c:
     complete
-    .text       start:0x021145b4 end:0x02116084
-    .data       start:0x0216d410 end:0x0216d424
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_02116084.c:
-    complete
-    .text       start:0x02116084 end:0x02116174
+    .text       start:0x021145b4 end:0x02116a4c
     .rodata     start:0x0215c4ac end:0x0215c4b0
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_02116174.c:
-    complete
-    .text       start:0x02116174 end:0x02116a4c
+    .data       start:0x0216d410 end:0x0216d424
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_02116a4c.c:
