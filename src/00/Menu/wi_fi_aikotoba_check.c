@@ -16,6 +16,11 @@
 #include "Main/Save/ghost_file_records.h"
 #include "Main/System/result_archive_path.h"
 
+const u8 gWiFiAikotobaCheckOffsetIndices[2] = {0, 1};
+const u8 gWiFiAikotobaCheckDigitLabelIndices[12] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0xa, 0xb};
+WiFiStateCallbacks gWiFiAikotobaCheckCallbacks = {InitWiFiAikotobaCheck, ClearWiFiAikotobaCheckPointer, AdvanceWiFiAikotobaCheck, WriteWiFiAikotobaCheckRegistersNop};
+WiFiAikotobaCheck *gWiFiAikotobaCheck;
+
 void SetWiFiAikotobaCheckDigits(void) {
     u8 friendKeyText[20];
     s32 i;
@@ -65,8 +70,8 @@ void InitWiFiAikotobaCheck(void *heap) {
     gWiFiAikotobaCheck->mNextState = 0;
     gWiFiAikotobaCheck->mPendingWiFiState = -1;
     gWiFiAikotobaCheck->mStateFrames = 0;
-    gWiFiAikotobaCheck->mWiFiMessages = FindSceneFile(data_ov000_021b0fc0);
-    gWiFiAikotobaCheck->mCommonMessages = FindFileInLoadedArchives(data_ov000_021b0fcc);
+    gWiFiAikotobaCheck->mWiFiMessages = FindSceneFile("wifi.bmg");
+    gWiFiAikotobaCheck->mCommonMessages = FindFileInLoadedArchives("common.bmg");
     LocateAndUploadWiFiAikotobaCheck();
     oamList = GetWiFiMenuMainOamList();
     ResetOamLists(oamList, GetWiFiMenuSubOamList());
@@ -84,15 +89,15 @@ void ClearWiFiAikotobaCheckPointer(void) {
 
 void LocateAndUploadWiFiAikotobaCheck(void) {
     void *sceneFile;
-    sceneFile = FindSceneFile(gWiFiAikotobaCheckBnclName);
+    sceneFile = FindSceneFile("WiFi_aikotoba_check.bncl");
     gWiFiAikotobaCheck->mWiFiAikotobaCheckBncl = sceneFile;
-    sceneFile = FindSceneFile(gWiFiAikotobaCheckBnllName);
+    sceneFile = FindSceneFile("WiFi_aikotoba_check.bnll");
     gWiFiAikotobaCheck->mWiFiAikotobaCheckBnll = sceneFile;
-    sceneFile = FindSceneFile(gWiFiAikotobaCheckMNcgrName);
+    sceneFile = FindSceneFile("WiFi_aikotoba_check_m.nce.ncgr");
     LocateNcgr2(&gWiFiAikotobaCheck->mWiFiAikotobaCheckMNcgr, sceneFile);
-    sceneFile = FindSceneFile(gWiFiAikotobaCheckMNcerName);
+    sceneFile = FindSceneFile("WiFi_aikotoba_check_m.nce.ncer");
     LocateNcer(&gWiFiAikotobaCheck->mWiFiAikotobaCheckMNcer, sceneFile);
-    sceneFile = FindSceneFile(gWiFiAikotobaCheckMONclrName);
+    sceneFile = FindSceneFile("WiFi_aikotoba_check_m_o.nclr");
     LocateNclr(&gWiFiAikotobaCheck->mWiFiAikotobaCheckMONclr, sceneFile);
     GX_LoadOBJ(gWiFiAikotobaCheck->mWiFiAikotobaCheckMNcgr->mData, 0,
                gWiFiAikotobaCheck->mWiFiAikotobaCheckMNcgr->mDataSize);

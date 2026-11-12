@@ -33,11 +33,6 @@ typedef struct WiFiAikotobaCheck {
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/System/result_archive_path.h"
 
-extern WiFiStateCallbacks gWiFiAikotobaCheckCallbacks;
-extern char data_ov000_021b0fc0[];
-extern char data_ov000_021b0fcc[];
-extern WiFiAikotobaCheck *gWiFiAikotobaCheck;
-
 void RegisterWiFiAikotobaCheckCallbacks(void);
 void WriteWiFiAikotobaCheckRegistersNop(void);
 void AdvanceWiFiAikotobaCheck(void);
@@ -52,3 +47,8 @@ void InitWiFiAikotobaCheckDigits(void);
 void SetWiFiAikotobaCheckDigits(void);
 
 #include "00/Menu/wi_fi_vs_matching.h"
+
+extern const u8 gWiFiAikotobaCheckOffsetIndices[2];
+extern const u8 gWiFiAikotobaCheckDigitLabelIndices[12];
+extern WiFiStateCallbacks gWiFiAikotobaCheckCallbacks;
+extern WiFiAikotobaCheck *gWiFiAikotobaCheck;

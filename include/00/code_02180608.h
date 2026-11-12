@@ -27,8 +27,6 @@ typedef struct WiFiStates {
     /* 38 */ u8 pad_38[4];
 } WiFiStates;
 
-extern WiFiStates *gWiFiStates;
-
 BOOL IsWiFiSessionOffOutsideLogin(void);
 void SetWiFiVSSettingFlag(s32 flag);
 s32 GetWiFiVSSettingFlag(void);

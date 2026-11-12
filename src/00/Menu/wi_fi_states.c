@@ -43,6 +43,8 @@
 #include "Main/System/result_archive_path.h"
 #include "Main/Menu/select_character.h"
 
+WiFiStates *gWiFiStates;
+
 void ClearWiFiStateCallbacks(void) {
     gWiFiStates->mCallbacks.mInit = NULL;
     gWiFiStates->mCallbacks.mRelease = NULL;

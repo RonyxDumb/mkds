@@ -2,8 +2,6 @@
 
 #include "types.h"
 
-extern u8 gWiFiTopMenuOffsetTableIndices[][5];
-
 #include "Main/Graphics/layout_rect_table.h"
 #include "Main/Graphics/layout_entry_angle.h"
 
@@ -39,15 +37,6 @@ typedef struct WiFiTopMenu {
 #include "Main/Graphics/font_and_player_character.h"
 #include "Main/System/result_archive_path.h"
 
-// Objects whose layout isn't known yet.
-extern u8 gWiFiTopMenuXluCellIndices[];
-extern const u8 gWiFiTopMenuSTableIndices[];
-extern const u8 gWiFiTopMenuCellIndices[];
-// Objects whose layout isn't known yet.
-extern s32 gWiFiTopMenuOffsetCellCounts[];
-extern WiFiStateCallbacks gWiFiTopMenuCallbacks;
-extern WiFiTopMenu *gWiFiTopMenu;
-
 void RegisterWiFiTopMenuCallbacks(void);
 void WriteWiFiTopMenuRegisters(void);
 void AdvanceWiFiTopMenu(void);
@@ -67,3 +56,13 @@ void ClearWiFiTopMenuPointer(void);
 void InitWiFiTopMenu(void *heap);
 
 #include "00/Menu/wi_fi_vs_matching.h"
+
+extern const u8 gWiFiTopMenuSTableIndices[3];
+extern const u8 gWiFiTopMenuCellIndices[3];
+// Objects whose layout isn't known yet.
+extern const u8 gWiFiTopMenuXluCellIndices[3];
+// Objects whose layout isn't known yet.
+extern const s32 gWiFiTopMenuOffsetCellCounts[3];
+extern const u8 gWiFiTopMenuOffsetTableIndices[3][5];
+extern WiFiStateCallbacks gWiFiTopMenuCallbacks;
+extern WiFiTopMenu *gWiFiTopMenu;

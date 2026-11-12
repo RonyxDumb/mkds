@@ -6,6 +6,11 @@
 #include "code_0214d018.h"
 #include "code_02139f70.h"
 
+const u8 gWayportSsid[8] = {0x57, 0x61, 0x79, 0x70, 0x6f, 0x72, 0x74, 0x32};
+const char gFreespotSsid[8] = {'F', 'R', 'E', 'E', 'S', 'P', 'O', 'T'};
+const u8 gNintendoWfcSsid[12] = {0x4e, 0x49, 0x4e, 0x54, 0x45, 0x4e, 0x44, 0x4f, 0x57, 0x46, 0x43, 0};
+u8 data_ov000_021b20d0[12] = {0x4e, 0x57, 0x43, 0x55, 0x53, 0x42, 0x41, 0x50, 0, 0, 0, 0};
+
 u32 DWCi_AC_CheckFreespot(WMBssDesc *bssDesc) {
     int compare;
     compare = strncmp((const char *) bssDesc->mSsid, gFreespotSsid, 8);

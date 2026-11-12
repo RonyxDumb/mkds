@@ -13,6 +13,9 @@
 #include "01/Menu/record_time_attack.h"
 #include "Main/System/heap.h"
 
+WiFiStateCallbacks gWiFiConnectionLostCallbacks = {InitWiFiConnectionLost, ClearWiFiConnectionLostPointer, AdvanceWiFiConnectionLost, WriteWiFiConnectionLostRegistersNop};
+WiFiConnectionLost *gWiFiConnectionLost;
+
 void InitWiFiConnectionLost(void *heap) {
     gWiFiConnectionLost = HeapAlloc(heap, 8);
     gWiFiConnectionLost->mState = 0;

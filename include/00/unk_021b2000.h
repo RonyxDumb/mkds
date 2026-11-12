@@ -3,9 +3,6 @@
 #include "types.h"
 
 // Objects whose layout isn't known yet.
-extern u8 data_ov000_021b20d0[];
-extern u8 gNintendoUsbApSsid[];
-extern u8 gShopSsidPrefix[];
 extern char gKeyListEntryFormat[];
 extern char gInBufferLengthAssertText[];
 extern char gSBServerListFileName[];

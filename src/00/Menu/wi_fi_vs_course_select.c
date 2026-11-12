@@ -23,6 +23,9 @@
 #include "Main/Race/race_setup.h"
 #include "Main/Race/race_setup_input.h"
 
+WiFiStateCallbacks gWiFiVSCourseSelectCallbacks = {(void (*)(void *)) InitWiFiVSCourseSelectState, ReleaseWiFiVSCourseSelectState, AdvanceWiFiVSCourseSelectState, WriteWiFiVSCourseSelectRegistersWrapper};
+u8 gWiFiVSCourseSelectState[1];
+
 void InitWiFiVSCourseSelectState(u32 heap) {
     int recordAddress;
     void *firstOamList;

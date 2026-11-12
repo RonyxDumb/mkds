@@ -8,6 +8,8 @@
 #include "code_02134398.h"
 #include "code_0214d018.h"
 
+u8 gShopSsidPrefix[9] = {0x4e, 0x44, 0x57, 0x43, 0x53, 0x48, 0x41, 0x50, 0};
+
 void GOADecrypt(u8 *state, u8 *data, int length) {
     u8 decrypted;
     int index;

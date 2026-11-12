@@ -15,6 +15,7 @@ src/00/Menu/wi_fi_states.c:
     complete
     .text       start:0x021805e0 end:0x02180bd0
     .data       start:0x021b07e0 end:0x021b0a38
+    .bss        start:0x021b4c24 end:0x021b4c28
 
 // provisional: file name and boundaries
 src/00/Menu/wi_fi_login_menu.c:
@@ -27,13 +28,17 @@ src/00/Menu/wi_fi_login_menu.c:
 src/00/Menu/wi_fi_top_menu.c:
     complete
     .text       start:0x021816e0 end:0x02181f98
-    .data       start:0x021b0b34 end:0x021b0b4c
+    .rodata     start:0x021b058c end:0x021b05b4
+    .data       start:0x021b0aa4 end:0x021b0b4c
+    .bss        start:0x021b4c2c end:0x021b4c30
 
 // provisional: file name and boundaries
 src/00/Menu/wi_fi_vs_setting.c:
     complete
     .text       start:0x02181f98 end:0x021832d8
+    .rodata     start:0x021b05b4 end:0x021b0624
     .data       start:0x021b0b4c end:0x021b0c74
+    .bss        start:0x021b4c30 end:0x021b4c34
 
 // provisional: file name and boundaries
 src/00/Menu/wi_fi_vs_matching.c:
@@ -45,32 +50,45 @@ src/00/Menu/wi_fi_vs_matching.c:
 src/00/Menu/wi_fi_select_character.c:
     complete
     .text       start:0x02184894 end:0x021849ac
+    .data       start:0x021b0df0 end:0x021b0e00
+    .bss        start:0x021b4c38 end:0x021b4c3c
 
 // provisional: file name and boundaries
 src/00/Menu/wi_fi_select_kart.c:
     complete
     .text       start:0x021849ac end:0x02184a70
+    .data       start:0x021b0e00 end:0x021b0e10
+    .bss        start:0x021b4c3c end:0x021b4c40
 
 // provisional: file name and boundaries
 src/00/Menu/wi_fi_vs_course_select.c:
     complete
     .text       start:0x02184a70 end:0x02184b74
+    .data       start:0x021b0e10 end:0x021b0e20
+    .bss        start:0x021b4c40 end:0x021b4c44
 
 // provisional: file name and boundaries
 src/00/Menu/wi_fi_aikotoba.c:
     complete
     .text       start:0x02184b74 end:0x02185310
+    .rodata     start:0x021b0688 end:0x021b06a4
+    .data       start:0x021b0e20 end:0x021b0ec0
+    .bss        start:0x021b4c44 end:0x021b4c48
 
 // provisional: file name and boundaries
 src/00/Menu/wi_fi_aikotoba_check.c:
     complete
     .text       start:0x02185310 end:0x02185784
-    .data       start:0x021b0ec0 end:0x021b0ed8
+    .rodata     start:0x021b06a4 end:0x021b06b4
+    .data       start:0x021b0ec0 end:0x021b0f98
+    .bss        start:0x021b4c48 end:0x021b4c4c
 
 // provisional: file name and boundaries
 src/00/Menu/wi_fi_connection_lost.c:
     complete
     .text       start:0x02185784 end:0x02185920
+    .data       start:0x021b0f98 end:0x021b0fa8
+    .bss        start:0x021b4c4c end:0x021b4c50
 
 // provisional: file name and boundaries
 src/00/Lib/DWC/code_02185954.c:
@@ -156,11 +174,14 @@ src/00/Lib/DWC/code_02189478.c:
 src/00/Lib/DWC/code_021894e4.c:
     complete
     .text       start:0x021894b0 end:0x02189708
+    .rodata     start:0x021b06b4 end:0x021b06d0
+    .data       start:0x021b2090 end:0x021b209c
 
 // provisional: file name and boundaries
 src/00/Lib/DWC/code_0218973c.c:
     complete
     .text       start:0x02189708 end:0x02189854
+    .rodata     start:0x021b06d0 end:0x021b0704
 
 // provisional: file name and boundaries
 src/00/Lib/DWC/code_02189888.c:
@@ -231,11 +252,13 @@ src/00/Lib/DWC/code_0218a64c.c:
 src/00/Lib/DWC/code_0218a658.c:
     complete
     .text       start:0x0218a624 end:0x0218a648
+    .data       start:0x021b2128 end:0x021b2134
 
 // provisional: file name and boundaries
 src/00/Lib/DWC/code_0218a67c.c:
     complete
     .text       start:0x0218a648 end:0x0218a6e8
+    .data       start:0x021b2134 end:0x021b2140
 
 // provisional: file name and boundaries
 src/00/Lib/GameSpy/code_0218a71c.c:

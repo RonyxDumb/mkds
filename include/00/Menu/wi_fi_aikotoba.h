@@ -2,8 +2,6 @@
 
 #include "types.h"
 
-extern u8 gWiFiAikotobaOffsetTableIndices[2][4];
-
 #include "Main/Graphics/layout_entry_angle.h" // LayoutTableEntry
 
 struct Unk02021dc8;
@@ -35,17 +33,6 @@ typedef struct WiFiAikotoba {
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/System/result_archive_path.h"
 
-extern u8 gWiFiAikotobaCellIndices[2];
-extern u8 gWiFiAikotobaXluCellIndices[2];
-extern u8 gWiFiAikotobaSTableIndices[2];
-extern s32 gWiFiAikotobaOffsetCellCounts[2];
-extern u8 gWiFiAikotobaCheckOffsetIndices[2];
-extern u8 gWiFiAikotobaCheckDigitLabelIndices[12];
-extern WiFiStateCallbacks gWiFiAikotobaCallbacks;
-extern char data_ov000_021b0ee8[];
-extern char data_ov000_021b0ef4[];
-extern WiFiAikotoba *gWiFiAikotoba;
-
 void RegisterWiFiAikotobaCallbacks(void);
 void WriteWiFiAikotobaRegisters(void);
 void AdvanceWiFiAikotoba(void);
@@ -64,3 +51,11 @@ void ClearWiFiAikotobaPointer(void);
 void InitWiFiAikotoba(void *heap);
 
 #include "00/Menu/wi_fi_vs_matching.h"
+
+extern const u8 gWiFiAikotobaCellIndices[2];
+extern const u8 gWiFiAikotobaSTableIndices[2];
+extern const s32 gWiFiAikotobaOffsetCellCounts[2];
+extern const u8 gWiFiAikotobaOffsetTableIndices[2][4];
+extern const u8 gWiFiAikotobaXluCellIndices[2];
+extern WiFiStateCallbacks gWiFiAikotobaCallbacks;
+extern WiFiAikotoba *gWiFiAikotoba;

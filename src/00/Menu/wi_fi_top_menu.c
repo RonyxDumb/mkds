@@ -33,6 +33,14 @@
 #include "Main/MapObjects/map_object_park.h"
 #include "pm.h"
 
+const u8 gWiFiTopMenuSTableIndices[3] = {6, 7, 8};
+const u8 gWiFiTopMenuCellIndices[3] = {9, 0xa, 0xb};
+const u8 gWiFiTopMenuXluCellIndices[3] = {0, 1, 2};
+const s32 gWiFiTopMenuOffsetCellCounts[3] = {5, 4, 5};
+const u8 gWiFiTopMenuOffsetTableIndices[3][5] = {{0, 3, 6, 9, 0xc}, {1, 4, 7, 0xa, 0}, {2, 5, 8, 0xb, 0xd}};
+WiFiStateCallbacks gWiFiTopMenuCallbacks = {InitWiFiTopMenu, ClearWiFiTopMenuPointer, AdvanceWiFiTopMenu, WriteWiFiTopMenuRegisters};
+WiFiTopMenu *gWiFiTopMenu;
+
 void InitWiFiTopMenu(void *heap) {
     s32 i;
     s32 j;
@@ -82,15 +90,15 @@ void ClearWiFiTopMenuPointer(void) {
 
 void LocateAndQueueWiFiTopMenu(void) {
     void *sceneFile;
-    sceneFile = FindSceneFile(gWiFiTopMenuSBnclName);
+    sceneFile = FindSceneFile("WiFi_top_menu_s.bncl");
     gWiFiTopMenu->mWiFiTopMenuBncl = sceneFile;
-    sceneFile = FindSceneFile(gWiFiTopMenuSBnblName);
+    sceneFile = FindSceneFile("WiFi_top_menu_s.bnbl");
     gWiFiTopMenu->mWiFiTopMenuBnbl = sceneFile;
-    sceneFile = FindSceneFile(gWiFiTopMenuSNcgrName);
+    sceneFile = FindSceneFile("WiFi_top_menu_s.nce.ncgr");
     LocateNcgr2(&gWiFiTopMenu->mWiFiTopMenuSNcgr, sceneFile);
-    sceneFile = FindSceneFile(gWiFiTopMenuSNcerName);
+    sceneFile = FindSceneFile("WiFi_top_menu_s.nce.ncer");
     LocateNcer(&gWiFiTopMenu->mWiFiTopMenuSNcer, sceneFile);
-    sceneFile = FindSceneFile(gWiFiTopMenuSONclrName);
+    sceneFile = FindSceneFile("WiFi_top_menu_s_o.nclr");
     LocateNclr(&gWiFiTopMenu->mWiFiTopMenuSONclr, sceneFile);
     NNS_GfdRegisterNewVramTransferTask(0x23, 0, (gWiFiTopMenu->mWiFiTopMenuSNcgr->mData),
                                        gWiFiTopMenu->mWiFiTopMenuSNcgr->mDataSize);

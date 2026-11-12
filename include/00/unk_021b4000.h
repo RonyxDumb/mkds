@@ -81,7 +81,6 @@ extern u8 gLabelBBText[];
 extern u8 gLabelCCCText[];
 extern u8 gSha1PaddingBytes[];
 extern u8 gSha1ZeroPaddingBytes[];
-extern u8 gWiFiVSCourseSelectState[];
 extern Http *gHttp;
 extern DWCNetcheck *gNetcheck;
 extern ACWORK *gAcWork;
@@ -95,9 +94,6 @@ extern struct SbServer *gSBNullServer;
 typedef struct WiFiSelectHeapHolder {
     /* 0 */ void *mHeap;
 } WiFiSelectHeapHolder;
-
-extern WiFiSelectHeapHolder *gWiFiSelectCharacterState;
-extern WiFiSelectHeapHolder *gWiFiSelectKartState;
 
 // Object behind gSortServerList; the 0x5d8 bytes at offset 0x4c of a MatchingServerList.
 typedef struct SbServerList {

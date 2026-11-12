@@ -11,6 +11,9 @@
 #include "Main/Net/packed_index.h"
 #include "Main/Menu/message_screen.h"
 
+WiFiStateCallbacks gSelectCharacterCallbacks = {InitWiFiSelectCharacterState, ReleaseWiFiSelectCharacterState, AdvanceWiFiSelectCharacterState, WriteSelectCharacterRegistersWrapper};
+WiFiSelectHeapHolder *gWiFiSelectCharacterState;
+
 void InitWiFiSelectCharacterState(void *heap) {
     void *firstOamList;
     void *secondOamList;

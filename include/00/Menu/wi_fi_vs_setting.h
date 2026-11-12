@@ -4,9 +4,6 @@
 
 typedef struct WiFiStateCallbacks WiFiStateCallbacks;
 
-// Objects whose layout isn't known yet.
-extern u8 gWiFiVSSettingTimerTableIndices[][2];
-
 extern WiFiStateCallbacks gWiFiVSSettingCallbacks;
 
 void RegisterWiFiVSSettingCallbacks(void);
@@ -268,14 +265,6 @@ typedef struct WiFiSession {
     /* 1f57 */ u8 mBuddyPollIndex;
 } WiFiSession;
 
-extern u8 gWiFiVSSettingOffsetTableIndices[3][9];
-extern s32 gWiFiVSSettingMessageIndices[3][4];
-extern u8 gWiFiVSMatchingTotalLabelIndices[3][2];
-extern u8 gWiFiVSMatchingTotalCellIndices[3][2];
-extern u8 gWiFiVSMatchingOffsetTableIndices[3][5];
-extern WiFiVSSetting *gWiFiVSSetting;
-extern WiFiVSMatching *gWiFiVSMatching;
-
 void InitWiFiVSSetting(void *heap);
 void RegisterWiFiVSMatchingCallbacks(void);
 void AdvanceWiFiVSMatching(void);
@@ -306,12 +295,6 @@ void AdvanceWiFiVSMatching(void);
 #include "gfd_VramTransferManager.h"
 
 extern MenuShared *gMenuShared;
-extern u8 gWiFiVSSettingLabelIndices[3];
-extern u8 gWiFiVSSettingKartTypes[];
-extern u8 gWiFiVSSettingIndexByKartType[];
-// Objects whose layout isn't known yet.
-extern s32 gWiFiVSSettingOffsetCellCounts[];
-extern u8 gWiFiVSMatchingNameCellIndices[3];
 
 void WriteWiFiVSSettingRegisters(void);
 void AdvanceWiFiVSSettingIndexTimers(void);
@@ -333,3 +316,19 @@ void SetupWiFiVSSettingText(void);
 void LocateAndQueueWiFiVSSetting(void);
 void ReleaseWiFiVSSetting(void);
 BOOL HasBuddyRecords(void);
+
+// Objects whose layout isn't known yet.
+extern const u8 gWiFiVSSettingTimerTableIndices[3][2];
+extern const u8 gWiFiVSSettingLabelIndices[3];
+extern const u8 gWiFiVSSettingOffsetTableIndices[3][9];
+// Objects whose layout isn't known yet.
+extern const s32 gWiFiVSSettingOffsetCellCounts[3];
+extern const u8 gWiFiVSSettingKartTypes[4];
+extern const u8 gWiFiVSSettingIndexByKartType[5];
+extern const s32 gWiFiVSSettingMessageIndices[3][4];
+extern WiFiVSSetting *gWiFiVSSetting;
+extern u8 gWiFiVSMatchingTotalLabelIndices[3][2];
+extern u8 gWiFiVSMatchingTotalCellIndices[3][2];
+extern u8 gWiFiVSMatchingOffsetTableIndices[3][5];
+extern WiFiVSMatching *gWiFiVSMatching;
+extern u8 gWiFiVSMatchingNameCellIndices[3];

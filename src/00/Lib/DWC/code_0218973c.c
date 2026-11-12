@@ -7,6 +7,8 @@
 #include "00/unk_021b0000.h"
 #include "code_0214d018.h"
 
+const u32 gAcSearchChannel[13] = {0x8002, 0x8004, 0x8008, 0x8010, 0x8020, 0x8040, 0x8080, 0x8100, 0x8200, 0x8400, 0x8800, 0x9000, 0xa000};
+
 void ScanStart(const u8 *bssid, const u8 *essid, s32 channel, u32 mode) {
     if (channel > 12) {
         channel = 12;

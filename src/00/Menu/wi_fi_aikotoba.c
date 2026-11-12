@@ -19,6 +19,14 @@
 #include "Main/Graphics/layout_rect_table.h"
 #include "Main/System/result_archive_path.h"
 
+const u8 gWiFiAikotobaCellIndices[2] = {6, 7};
+const u8 gWiFiAikotobaSTableIndices[2] = {4, 5};
+const s32 gWiFiAikotobaOffsetCellCounts[2] = {4, 4};
+const u8 gWiFiAikotobaOffsetTableIndices[2][4] = {{0, 2, 4, 6}, {1, 3, 5, 7}};
+const u8 gWiFiAikotobaXluCellIndices[2] = {0, 1};
+WiFiStateCallbacks gWiFiAikotobaCallbacks = {InitWiFiAikotoba, ClearWiFiAikotobaPointer, AdvanceWiFiAikotoba, WriteWiFiAikotobaRegisters};
+WiFiAikotoba *gWiFiAikotoba;
+
 void InitWiFiAikotoba(void *heap) {
     s32 i;
     s32 j;
@@ -50,8 +58,8 @@ void InitWiFiAikotoba(void *heap) {
     oamList = GetWiFiMenuMainOamList();
     ResetOamLists(oamList, GetWiFiMenuSubOamList());
     InitLayoutTable(heap, gWiFiAikotoba->mWiFiAikotobaBncl, NULL, &gWiFiAikotoba->mWiFiAikotobaTable);
-    gWiFiAikotoba->mWiFiMessages = FindSceneFile(data_ov000_021b0ee8);
-    gWiFiAikotoba->mCommonMessages = FindFileInLoadedArchives(data_ov000_021b0ef4);
+    gWiFiAikotoba->mWiFiMessages = FindSceneFile("wifi.bmg");
+    gWiFiAikotoba->mCommonMessages = FindFileInLoadedArchives("common.bmg");
     for (i = 0; i < 2; i++) {
         for (j = 0; j < gWiFiAikotobaOffsetCellCounts[i]; j++) {
             gWiFiAikotoba->mWiFiAikotobaTable[gWiFiAikotobaOffsetTableIndices[i][j]].mOffsetX = 0xfa;
@@ -66,15 +74,15 @@ void ClearWiFiAikotobaPointer(void) {
 
 void LocateAndUploadWiFiAikotoba(void) {
     void *sceneFile;
-    sceneFile = FindSceneFile(gWiFiAikotobaBnclName);
+    sceneFile = FindSceneFile("WiFi_aikotoba.bncl");
     gWiFiAikotoba->mWiFiAikotobaBncl = sceneFile;
-    sceneFile = FindSceneFile(gWiFiAikotobaBnblName);
+    sceneFile = FindSceneFile("WiFi_aikotoba.bnbl");
     gWiFiAikotoba->mWiFiAikotobaBnbl = sceneFile;
-    sceneFile = FindSceneFile(gWiFiAikotobaSNcgrName);
+    sceneFile = FindSceneFile("WiFi_aikotoba_s.nce.ncgr");
     LocateNcgr2(&gWiFiAikotoba->mWiFiAikotobaSNcgr, sceneFile);
-    sceneFile = FindSceneFile(gWiFiAikotobaSNcerName);
+    sceneFile = FindSceneFile("WiFi_aikotoba_s.nce.ncer");
     LocateNcer(&gWiFiAikotoba->mWiFiAikotobaSNcer, sceneFile);
-    sceneFile = FindSceneFile(gWiFiAikotobaSONclrName);
+    sceneFile = FindSceneFile("WiFi_aikotoba_s_o.nclr");
     LocateNclr(&gWiFiAikotoba->mWiFiAikotobaSONclr, sceneFile);
     GXS_LoadOBJ(gWiFiAikotoba->mWiFiAikotobaSNcgr->mData, 0, gWiFiAikotoba->mWiFiAikotobaSNcgr->mDataSize);
     GXS_LoadOBJPltt(gWiFiAikotoba->mWiFiAikotobaSONclr->mData, 0, gWiFiAikotoba->mWiFiAikotobaSONclr->mDataSize);
