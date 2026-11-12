@@ -1,30 +1,35 @@
 #include "Main/Unknown/code_02025f80.h"
-#include "registers.h"
-
-#include "Main/Unknown/code_02025edc.h"
+#include "Main/Unknown/code_0202719c.h"
+#include "Main/Unknown/code_02025000.h"
+#include "Main/Unknown/code_02025bb4.h"
 #include "Main/Unknown/code_0202b000.h"
+#include "Main/Unknown/code_02078000.h"
+#include "Main/Unknown/code_0211d4a8.h"
+#include "Main/Unknown/code_02124094.h"
+#include "Main/Unknown/code_02128274.h"
+#include "Main/Unknown/unk_02153000.h"
+#include "Main/Unknown/unk_02174000.h"
+#include "Main/Unknown/code_02025edc.h"
+#include "Main/Unknown/code_0202b604.h"
+#include "Main/Unknown/code_02077bc0.h"
+#include "registers.h"
 #include "Main/Unknown/code_02029890.h"
 #include "Main/Unknown/code_02036000.h"
 #include "Main/Unknown/code_02036820.h"
 #include "Main/Unknown/code_02047104.h"
 #include "Main/Unknown/code_020b47d8.h"
 #include "Main/Unknown/code_0211f498.h"
-#include "Main/Unknown/unk_02174000.h"
 #include "code_0214a390.h"
 #include "Main/Unknown/code_0202578c.h"
 #include "Main/Unknown/code_02025eb0.h"
-#include "Main/Unknown/code_02025000.h"
 #include "Main/Unknown/code_02025ebc.h"
 #include "Main/Unknown/code_02027000.h"
 #include "Main/Unknown/code_0202bb80.h"
 #include "Main/Unknown/code_02056d54.h"
-#include "Main/Unknown/code_0202b604.h"
 #include "Main/Unknown/code_02036c5c.h"
 #include "Main/Unknown/code_02077000.h"
 #include "Main/Unknown/code_02148000.h"
 #include "Main/Unknown/unk_0217a000.h"
-#include "Main/Unknown/code_02077bc0.h"
-#include "Main/Unknown/code_02078000.h"
 #include "Main/Unknown/code_020ae408.h"
 #include "Main/Unknown/code_020ae5d4.h"
 #include "Main/Unknown/code_020b1dbc.h"
@@ -40,33 +45,541 @@
 #include "Main/Unknown/code_021105a0.h"
 #include "Main/Unknown/code_021106a8.h"
 #include "Main/Unknown/code_02116ec0.h"
-#include "Main/Unknown/code_0211d4a8.h"
 #include "Main/Unknown/code_0211f378.h"
 #include "Main/Unknown/code_0211f394.h"
 #include "Main/Unknown/code_02120610.h"
 #include "Main/Unknown/code_02121e84.h"
 #include "Main/Unknown/code_02124bf0.h"
 #include "Main/Unknown/code_02128210.h"
-#include "Main/Unknown/unk_02153000.h"
 #include "Main/Unknown/unk_02175628.h"
 #include "Main/Unknown/code_0201ea58.h"
 #include "Main/Unknown/code_02025b84.h"
-#include "Main/Unknown/code_02025bb4.h"
 #include "Main/Unknown/code_02029440.h"
 #include "Main/Unknown/code_0202c000.h"
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/Unknown/code_02037000.h"
 #include "Main/Unknown/code_02056000.h"
 #include "Main/Unknown/code_0211f4b0.h"
-#include "Main/Unknown/code_02124094.h"
 #include "Main/Unknown/code_0212775c.h"
-#include "Main/Unknown/code_02128274.h"
 #include "Main/Unknown/code_0214d000.h"
 #include "Main/Unknown/unk_02161000.h"
 #include "Main/Unknown/code_02025f54.h"
-#include "Main/Unknown/code_0202719c.h"
 #include "code_0214d018.h"
 #include "Main/Unknown/code_02025e28.h"
+
+#pragma thumb on
+
+void SetSelectCharacterKeyTargets8Rows(void) {
+    SelectCharacter *selectCharacter;
+
+    selectCharacter = gSelectCharacter;
+    switch (selectCharacter->mTableIndex) {
+        case 0:
+            selectCharacter->mTableIndexByKey[0] = data_usa_0215377c[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_0215377c[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_0215377c[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_0215377c[3];
+            break;
+        case 1:
+            if (selectCharacter->mPreviousTableIndex == 4) {
+                selectCharacter->mTableIndexByKey[0] = data_usa_02153784[0];
+                selectCharacter->mTableIndexByKey[1] = data_usa_02153784[1];
+                selectCharacter->mTableIndexByKey[2] = data_usa_02153784[2];
+                selectCharacter->mTableIndexByKey[3] = data_usa_02153784[3];
+            } else {
+                selectCharacter->mTableIndexByKey[0] = data_usa_0215378c[0];
+                selectCharacter->mTableIndexByKey[1] = data_usa_0215378c[1];
+                selectCharacter->mTableIndexByKey[2] = data_usa_0215378c[2];
+                selectCharacter->mTableIndexByKey[3] = data_usa_0215378c[3];
+            }
+            break;
+        case 2:
+            selectCharacter->mTableIndexByKey[0] = data_usa_02153794[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_02153794[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_02153794[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_02153794[3];
+            break;
+        case 3:
+            if (selectCharacter->mPreviousTableIndex == 1 || selectCharacter->mPreviousTableIndex == 6) {
+                selectCharacter->mTableIndexByKey[0] = data_usa_0215379c[0];
+                selectCharacter->mTableIndexByKey[1] = data_usa_0215379c[1];
+                selectCharacter->mTableIndexByKey[2] = data_usa_0215379c[2];
+                selectCharacter->mTableIndexByKey[3] = data_usa_0215379c[3];
+            } else {
+                selectCharacter->mTableIndexByKey[0] = data_usa_021537a4[0];
+                selectCharacter->mTableIndexByKey[1] = data_usa_021537a4[1];
+                selectCharacter->mTableIndexByKey[2] = data_usa_021537a4[2];
+                selectCharacter->mTableIndexByKey[3] = data_usa_021537a4[3];
+            }
+            break;
+        case 4:
+            if (selectCharacter->mPreviousTableIndex == 2 || selectCharacter->mPreviousTableIndex == 7) {
+                selectCharacter->mTableIndexByKey[0] = data_usa_021537ac[0];
+                selectCharacter->mTableIndexByKey[1] = data_usa_021537ac[1];
+                selectCharacter->mTableIndexByKey[2] = data_usa_021537ac[2];
+                selectCharacter->mTableIndexByKey[3] = data_usa_021537ac[3];
+            } else {
+                selectCharacter->mTableIndexByKey[0] = data_usa_021537b4[0];
+                selectCharacter->mTableIndexByKey[1] = data_usa_021537b4[1];
+                selectCharacter->mTableIndexByKey[2] = data_usa_021537b4[2];
+                selectCharacter->mTableIndexByKey[3] = data_usa_021537b4[3];
+            }
+            break;
+        case 5:
+            selectCharacter->mTableIndexByKey[0] = data_usa_021537bc[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_021537bc[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_021537bc[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_021537bc[3];
+            break;
+        case 6:
+            if (selectCharacter->mPreviousTableIndex == 4) {
+                selectCharacter->mTableIndexByKey[0] = data_usa_021537c4[0];
+                selectCharacter->mTableIndexByKey[1] = data_usa_021537c4[1];
+                selectCharacter->mTableIndexByKey[2] = data_usa_021537c4[2];
+                selectCharacter->mTableIndexByKey[3] = data_usa_021537c4[3];
+            } else {
+                selectCharacter->mTableIndexByKey[0] = data_usa_021537cc[0];
+                selectCharacter->mTableIndexByKey[1] = data_usa_021537cc[1];
+                selectCharacter->mTableIndexByKey[2] = data_usa_021537cc[2];
+                selectCharacter->mTableIndexByKey[3] = data_usa_021537cc[3];
+            }
+            break;
+        case 7:
+            selectCharacter->mTableIndexByKey[0] = data_usa_021537d4[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_021537d4[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_021537d4[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_021537d4[3];
+            break;
+    }
+}
+
+void SetSelectCharacterKeyTargets9Rows(void) {
+    SelectCharacter *selectCharacter;
+
+    selectCharacter = gSelectCharacter;
+    switch (selectCharacter->mTableIndex) {
+        case 0:
+            selectCharacter->mTableIndexByKey[0] = data_usa_02153734[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_02153734[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_02153734[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_02153734[3];
+            break;
+        case 1:
+            selectCharacter->mTableIndexByKey[0] = data_usa_0215373c[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_0215373c[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_0215373c[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_0215373c[3];
+            break;
+        case 2:
+            selectCharacter->mTableIndexByKey[0] = data_usa_02153744[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_02153744[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_02153744[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_02153744[3];
+            break;
+        case 3:
+            selectCharacter->mTableIndexByKey[0] = data_usa_0215374c[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_0215374c[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_0215374c[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_0215374c[3];
+            break;
+        case 4:
+            selectCharacter->mTableIndexByKey[0] = data_usa_02153754[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_02153754[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_02153754[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_02153754[3];
+            break;
+        case 5:
+            selectCharacter->mTableIndexByKey[0] = data_usa_0215375c[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_0215375c[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_0215375c[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_0215375c[3];
+            break;
+        case 6:
+            selectCharacter->mTableIndexByKey[0] = data_usa_02153764[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_02153764[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_02153764[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_02153764[3];
+            break;
+        case 7:
+            selectCharacter->mTableIndexByKey[0] = data_usa_0215376c[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_0215376c[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_0215376c[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_0215376c[3];
+            break;
+        case 8:
+            selectCharacter->mTableIndexByKey[0] = data_usa_02153774[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_02153774[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_02153774[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_02153774[3];
+            break;
+    }
+}
+
+void SetSelectCharacterKeyTargets10Rows(void) {
+    SelectCharacter *selectCharacter;
+
+    selectCharacter = gSelectCharacter;
+    switch (selectCharacter->mTableIndex) {
+        case 0:
+            selectCharacter->mTableIndexByKey[0] = data_usa_021536d4[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_021536d4[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_021536d4[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_021536d4[3];
+            break;
+        case 1:
+            if (selectCharacter->mPreviousTableIndex == 5) {
+                selectCharacter->mTableIndexByKey[0] = data_usa_021536dc[0];
+                selectCharacter->mTableIndexByKey[1] = data_usa_021536dc[1];
+                selectCharacter->mTableIndexByKey[2] = data_usa_021536dc[2];
+                selectCharacter->mTableIndexByKey[3] = data_usa_021536dc[3];
+            } else {
+                selectCharacter->mTableIndexByKey[0] = data_usa_021536e4[0];
+                selectCharacter->mTableIndexByKey[1] = data_usa_021536e4[1];
+                selectCharacter->mTableIndexByKey[2] = data_usa_021536e4[2];
+                selectCharacter->mTableIndexByKey[3] = data_usa_021536e4[3];
+            }
+            break;
+        case 2:
+            selectCharacter->mTableIndexByKey[0] = data_usa_021536ec[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_021536ec[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_021536ec[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_021536ec[3];
+            break;
+        case 3:
+            selectCharacter->mTableIndexByKey[0] = data_usa_021536f4[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_021536f4[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_021536f4[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_021536f4[3];
+            break;
+        case 4:
+            selectCharacter->mTableIndexByKey[0] = data_usa_021536fc[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_021536fc[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_021536fc[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_021536fc[3];
+            break;
+        case 5:
+            selectCharacter->mTableIndexByKey[0] = data_usa_02153704[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_02153704[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_02153704[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_02153704[3];
+            break;
+        case 6:
+            selectCharacter->mTableIndexByKey[0] = data_usa_0215370c[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_0215370c[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_0215370c[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_0215370c[3];
+            break;
+        case 7:
+            selectCharacter->mTableIndexByKey[0] = data_usa_02153714[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_02153714[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_02153714[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_02153714[3];
+            break;
+        case 8:
+            if (selectCharacter->mPreviousTableIndex == 5) {
+                selectCharacter->mTableIndexByKey[0] = data_usa_0215371c[0];
+                selectCharacter->mTableIndexByKey[1] = data_usa_0215371c[1];
+                selectCharacter->mTableIndexByKey[2] = data_usa_0215371c[2];
+                selectCharacter->mTableIndexByKey[3] = data_usa_0215371c[3];
+            } else {
+                selectCharacter->mTableIndexByKey[0] = data_usa_02153724[0];
+                selectCharacter->mTableIndexByKey[1] = data_usa_02153724[1];
+                selectCharacter->mTableIndexByKey[2] = data_usa_02153724[2];
+                selectCharacter->mTableIndexByKey[3] = data_usa_02153724[3];
+            }
+            break;
+        case 9:
+            selectCharacter->mTableIndexByKey[0] = data_usa_0215372c[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_0215372c[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_0215372c[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_0215372c[3];
+            break;
+    }
+}
+
+void SetSelectCharacterKeyTargets11Rows(void) {
+    SelectCharacter *selectCharacter;
+
+    selectCharacter = gSelectCharacter;
+    switch (selectCharacter->mTableIndex) {
+        case 0:
+            selectCharacter->mTableIndexByKey[0] = data_usa_02153674[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_02153674[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_02153674[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_02153674[3];
+            break;
+        case 1:
+            selectCharacter->mTableIndexByKey[0] = data_usa_0215367c[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_0215367c[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_0215367c[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_0215367c[3];
+            break;
+        case 2:
+            selectCharacter->mTableIndexByKey[0] = data_usa_02153684[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_02153684[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_02153684[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_02153684[3];
+            break;
+        case 3:
+            selectCharacter->mTableIndexByKey[0] = data_usa_0215368c[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_0215368c[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_0215368c[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_0215368c[3];
+            break;
+        case 4:
+            selectCharacter->mTableIndexByKey[0] = data_usa_02153694[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_02153694[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_02153694[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_02153694[3];
+            break;
+        case 5:
+            if (selectCharacter->mPreviousTableIndex == 2 || selectCharacter->mPreviousTableIndex == 9) {
+                selectCharacter->mTableIndexByKey[0] = data_usa_0215369c[0];
+                selectCharacter->mTableIndexByKey[1] = data_usa_0215369c[1];
+                selectCharacter->mTableIndexByKey[2] = data_usa_0215369c[2];
+                selectCharacter->mTableIndexByKey[3] = data_usa_0215369c[3];
+            } else {
+                selectCharacter->mTableIndexByKey[0] = data_usa_021536a4[0];
+                selectCharacter->mTableIndexByKey[1] = data_usa_021536a4[1];
+                selectCharacter->mTableIndexByKey[2] = data_usa_021536a4[2];
+                selectCharacter->mTableIndexByKey[3] = data_usa_021536a4[3];
+            }
+            break;
+        case 6:
+            selectCharacter->mTableIndexByKey[0] = data_usa_021536ac[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_021536ac[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_021536ac[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_021536ac[3];
+            break;
+        case 7:
+            selectCharacter->mTableIndexByKey[0] = data_usa_021536b4[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_021536b4[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_021536b4[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_021536b4[3];
+            break;
+        case 8:
+            selectCharacter->mTableIndexByKey[0] = data_usa_021536bc[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_021536bc[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_021536bc[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_021536bc[3];
+            break;
+        case 9:
+            selectCharacter->mTableIndexByKey[0] = data_usa_021536c4[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_021536c4[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_021536c4[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_021536c4[3];
+            break;
+        case 10:
+            selectCharacter->mTableIndexByKey[0] = data_usa_021536cc[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_021536cc[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_021536cc[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_021536cc[3];
+            break;
+    }
+}
+
+void SetSelectCharacterKeyTargets12Rows(void) {
+    SelectCharacter *selectCharacter;
+
+    selectCharacter = gSelectCharacter;
+    switch (selectCharacter->mTableIndex) {
+        case 0:
+            selectCharacter->mTableIndexByKey[0] = data_usa_02153614[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_02153614[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_02153614[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_02153614[3];
+            break;
+        case 1:
+            selectCharacter->mTableIndexByKey[0] = data_usa_0215361c[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_0215361c[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_0215361c[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_0215361c[3];
+            break;
+        case 2:
+            selectCharacter->mTableIndexByKey[0] = data_usa_02153624[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_02153624[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_02153624[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_02153624[3];
+            break;
+        case 3:
+            selectCharacter->mTableIndexByKey[0] = data_usa_0215362c[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_0215362c[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_0215362c[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_0215362c[3];
+            break;
+        case 4:
+            selectCharacter->mTableIndexByKey[0] = data_usa_02153634[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_02153634[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_02153634[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_02153634[3];
+            break;
+        case 5:
+            selectCharacter->mTableIndexByKey[0] = data_usa_0215363c[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_0215363c[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_0215363c[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_0215363c[3];
+            break;
+        case 6:
+            selectCharacter->mTableIndexByKey[0] = data_usa_02153644[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_02153644[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_02153644[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_02153644[3];
+            break;
+        case 7:
+            selectCharacter->mTableIndexByKey[0] = data_usa_0215364c[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_0215364c[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_0215364c[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_0215364c[3];
+            break;
+        case 8:
+            selectCharacter->mTableIndexByKey[0] = data_usa_02153654[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_02153654[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_02153654[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_02153654[3];
+            break;
+        case 9:
+            selectCharacter->mTableIndexByKey[0] = data_usa_0215365c[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_0215365c[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_0215365c[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_0215365c[3];
+            break;
+        case 10:
+            selectCharacter->mTableIndexByKey[0] = data_usa_02153664[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_02153664[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_02153664[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_02153664[3];
+            break;
+        case 11:
+            selectCharacter->mTableIndexByKey[0] = data_usa_0215366c[0];
+            selectCharacter->mTableIndexByKey[1] = data_usa_0215366c[1];
+            selectCharacter->mTableIndexByKey[2] = data_usa_0215366c[2];
+            selectCharacter->mTableIndexByKey[3] = data_usa_0215366c[3];
+            break;
+    }
+}
+
+void StartPlayerEntryListKindIfUsed(s32 kind) {
+    if (gSelectCharacter->mUsePlayerEntryList != FALSE) {
+        StartPlayerEntryListKind(kind);
+    }
+}
+
+void StartSelectCharacterReturn(void) {
+    gSelectCharacter->mStateFrames = 0;
+    gSelectCharacter->mResult = 2;
+    gSelectCharacter->mState = 8;
+    RequestSelectReturnState3WithSound(0);
+    StartPlayerEntryListKindIfUsed(3);
+    SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[0], 2);
+    SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[1], 2);
+    SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[2], 2);
+    StartKartModelMenuBg0Decrease();
+}
+
+void SetSelectCharacterRowCellsVisible(s32 visible) {
+    SelectCharacter *selectCharacter;
+    s32 rowIndex;
+    CellFileSet *sParts;
+
+    selectCharacter = gSelectCharacter;
+    sParts = &selectCharacter->mSParts;
+    if (gBootInfo->mBootType != 2) {
+        for (rowIndex = 0; rowIndex < gSelectCharacter->mTableRowCount; rowIndex++) {
+            sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mUnk_04].mVisible = visible;
+            sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mCharacterCellIndex].mVisible =
+                sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mUnk_04].mVisible;
+            sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mUnk_00].mVisible =
+                sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mCharacterCellIndex].mVisible;
+        }
+        sParts->mCellTable[25].mVisible = visible;
+    }
+}
+
+void SetSelectCharacterBracketsResting(void) {
+    s32 rowIndex;
+    CellFileSet *sParts;
+    SelectCharacterRowCellIndices *tableRow;
+
+    if (gBootInfo->mBootType != 2) {
+        sParts = &gSelectCharacter->mSParts;
+        sParts->mCellTable[24].mVisible = 0;
+        sParts->mCellTable[25].mVisible = 1;
+        tableRow = gSelectCharacterRowCellIndices;
+        for (rowIndex = 0; rowIndex < 12; rowIndex++) {
+            sParts->mCellTable[tableRow->mCharacterCellIndex].mOffsetX = 0;
+            sParts->mCellTable[tableRow->mCharacterCellIndex].mOffsetY = 0;
+            tableRow++;
+        }
+    }
+}
+
+void SetSelectCharacterCellOffsetsY(s16 firstOffsetY, s16 secondOffsetY) {
+    SelectCharacter *selectCharacter;
+
+    if (gBootInfo->mBootType != 2) {
+        selectCharacter = gSelectCharacter;
+        if (selectCharacter->mUsePlayerEntryList == FALSE) {
+            selectCharacter->mGpMParts.mCellTable[0].mOffsetY = firstOffsetY;
+            selectCharacter->mGpMParts.mCellTable[3].mOffsetY = secondOffsetY;
+        }
+    }
+}
+
+void SetSelectCharacterNameOffsetX(s16 offsetX) {
+    SelectCharacter *selectCharacter;
+
+    if (gBootInfo->mBootType != 2) {
+        selectCharacter = gSelectCharacter;
+        if (selectCharacter->mUsePlayerEntryList == FALSE) {
+            selectCharacter->mGpMParts.mCellTable[1].mOffsetX = offsetX;
+            selectCharacter->mGpMParts.mCellTable[2].mOffsetX = selectCharacter->mGpMParts.mCellTable[1].mOffsetX;
+        }
+    }
+}
+
+void QueueSelectCharacterNameChars(void) {
+    SelectCharacter *selectCharacter;
+    CellFileSet *nameParts;
+
+    selectCharacter = gSelectCharacter;
+    if (selectCharacter->mUsePlayerEntryList == FALSE) {
+        nameParts = &selectCharacter->mGpNameMParts;
+        QueueCellChars(*(s16 *) &selectCharacter->mRows[selectCharacter->mTableIndex].mNameLayoutEntryIndex,
+                       nameParts->mCells, selectCharacter->mGpNameMParts.mChars, nameParts->mCellLayout, 0, 2,
+                       selectCharacter->mGpMParts.mCells, selectCharacter->mGpMParts.mCellLayout);
+        QueueCellChars(*(s16 *) &gSelectCharacter->mRows[gSelectCharacter->mTableIndex].mNameLayoutEntryIndex,
+                       nameParts->mCells, selectCharacter->mGpNameMParts.mChars, nameParts->mCellLayout, 0, 1,
+                       selectCharacter->mGpMParts.mCells, selectCharacter->mGpMParts.mCellLayout);
+    }
+}
+
+void MoveSelectCharacterBracketsToRow(void) {
+    SelectCharacter *selectCharacter;
+    CellFileSet *sParts;
+    s32 tableIndex;
+
+    selectCharacter = gSelectCharacter;
+    sParts = &selectCharacter->mSParts;
+    tableIndex = selectCharacter->mTableIndex;
+    CopyCellLayoutEntryPosition(0x18, gSelectCharacterRowCellIndices[tableIndex].mUnk_00, sParts->mCellLayout);
+    CopyCellLayoutEntryPosition(0x19, gSelectCharacterRowCellIndices[tableIndex].mUnk_00, sParts->mCellLayout);
+}
+
+void SetSelectCharacterBracketsMoving(void) {
+    SelectCharacter *selectCharacter;
+    CellFileSet *sParts;
+    SelectCharacterRowCellIndices *tableRow;
+
+    selectCharacter = gSelectCharacter;
+    sParts = &selectCharacter->mSParts;
+    tableRow = &gSelectCharacterRowCellIndices[selectCharacter->mTableIndex];
+    sParts->mCellTable[24].mVisible = 1;
+    sParts->mCellTable[25].mVisible = 0;
+    sParts->mCellTable[tableRow->mCharacterCellIndex].mOffsetX = 1;
+    sParts->mCellTable[tableRow->mCharacterCellIndex].mOffsetY = 1;
+}
+
+#pragma thumb off
 
 #pragma thumb on
 
