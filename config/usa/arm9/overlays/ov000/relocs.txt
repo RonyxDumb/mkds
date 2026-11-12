@@ -622,7 +622,7 @@ from:0x02182c00 kind:load to:0x02175652 module:main
 from:0x02182c04 kind:load to:0x02175608 module:main
 from:0x02182c08 kind:load to:0x021b05b8 module:overlay(0)
 from:0x02182c0c kind:load to:0x0217b468 module:main
-from:0x02182c10 kind:load to:0x0217560a module:main
+from:0x02182c10 kind:load to:0x02175608 add:0x2 module:main
 from:0x02182c24 kind:load to:0x021b05b4 module:overlay(0)
 from:0x02182c44 kind:thumb_call to:0x0212825c module:main
 from:0x02182c52 kind:thumb_call to:0x0212825c module:main

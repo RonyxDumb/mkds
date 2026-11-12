@@ -80,7 +80,7 @@ void ApplyCameraFrustum(Camera *camera, s32 useSecondFar) {
         farPlane = camera->mFar;
     }
     G3i_FrustumW_(camera->mFrustumTop, camera->mFrustumBottom, camera->mFrustumLeft, camera->mFrustumRight,
-                  camera->mNear, farPlane, 0x1000, 0, &data_usa_02170284);
+                  camera->mNear, farPlane, 0x1000, 0, &NNS_G3dGlb.mProjMtx);
     NNS_G3dGlb.mFlag &= ~0x50;
 }
 
@@ -91,7 +91,7 @@ void ApplyCameraLookAt(Camera *camera) {
     gCameraLookAtVectors[0] = *viewPos;
     gCameraLookAtVectors[1] = camera->mUp;
     gCameraLookAtVectors[2] = *viewLookAt;
-    G3i_LookAt_(viewPos, &camera->mUp, viewLookAt, 0, &data_usa_021702c8);
+    G3i_LookAt_(viewPos, &camera->mUp, viewLookAt, 0, &NNS_G3dGlb.mCameraMtx);
     NNS_G3dGlb.mFlag &= ~0xe8;
 }
 

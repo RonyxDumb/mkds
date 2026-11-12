@@ -45,8 +45,6 @@ typedef struct CourseMapCamera {
 #include "code_02012b30.h" // MtxFx43
 #include "code_021479b4.h"
 
-extern MtxFx44 data_usa_02170284;
-extern MtxFx43 data_usa_021702c8;
 
 void UpdateCameraWobble(Camera *camera);
 void StartCameraWobbleByCourse(void);
