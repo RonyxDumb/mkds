@@ -21,7 +21,6 @@
 #include "Main/Menu/select_race_rule_state.h"
 #include "code_0200e77c.h"
 #include "code_0214d93c.h"
-#include "Main/Race/race_entries.h"
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/System/archive_slots.h"
 #include "Main/Scene/scene_connection.h"

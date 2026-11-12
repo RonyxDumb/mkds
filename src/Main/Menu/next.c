@@ -23,7 +23,6 @@
 #include "Main/Menu/menu.h"
 #include "Main/Menu/multi_simple.h"
 #include "Main/Menu/menu_connection_kind.h"
-#include "Main/Race/course_list.h"
 
 #pragma thumb on
 void SetNextGrandPrixEntries(void) {

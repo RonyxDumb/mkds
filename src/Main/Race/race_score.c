@@ -1,7 +1,7 @@
 #include "Main/Race/race_score.h"
 #include "Main/Race/race_checkpoint_progress.h"
 #include "Main/Course/code_02042064.h"
-#include "Main/Race/race_entries.h"
+#include "Main/Race/race_setup_input.h"
 #include "Main/Kart/kart_drift.h"
 #include "Main/MapObjects/data_0217a000.h"
 #include "Main/Race/data_021759c0.h"

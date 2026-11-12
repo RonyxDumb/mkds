@@ -34,7 +34,7 @@
 #include "Main/Sound/sound_source_list.h"
 #include "code_02147cd8.h"
 #include "code_02148538.h"
-#include "Main/Race/course_list.h"
+#include "Main/Race/race_setup_input.h"
 #include "Main/Kart/karts.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 #include "Main/MapObjects/bound.h"

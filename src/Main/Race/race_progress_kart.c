@@ -4,7 +4,6 @@
 #include "Main/Race/race_checkpoint_progress.h"
 #include "Main/Race/race_setup_input.h"
 #include "Main/Race/race_keys.h"
-#include "Main/Race/race_entries.h"
 #include "Main/Kart/karts.h"
 #include "Main/Race/data_02164000.h"
 #include "Main/Scene/display_settings.h"

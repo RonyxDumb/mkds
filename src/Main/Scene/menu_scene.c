@@ -12,11 +12,10 @@
 #include "Main/MapObjects/map_object_park.h"
 #include "pm.h"
 #include "Main/Sound/sound_seq.h"
-#include "Main/Race/course_list.h"
+#include "Main/Race/race_setup_input.h"
 #include "Main/Race/race_scene.h"
 #include "Main/Menu/select_race_rule_state.h"
 #include "Main/Race/time_attack_next_scene.h"
-#include "Main/Race/race_setup_input.h"
 #include "Main/System/touch_mic_input.h"
 #include "Main/Race/race_keys.h"
 #include "Main/Net/wifi_race_sync_advance.h"
@@ -42,7 +41,6 @@
 #include "Main/Sound/sound_source_list.h"
 #include "01/Menu/ending_scene.h"
 #include "code_020176c0.h"
-#include "Main/Race/race_entries.h"
 
 SceneCallbacks gMenuSceneCallbacks = {InitMenuScene, UpdateMenuScene, ReleaseMenuScene, WriteMenuSceneRegistersCallback, NULL, NULL, 0xa, 0xa, 0};
 

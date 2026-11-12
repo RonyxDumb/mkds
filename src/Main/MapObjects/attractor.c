@@ -13,7 +13,7 @@
 #include "Main/Race/data_021759c0.h"
 #include "tp.h"
 #include "Main/MapObjects/data_0217b000.h"
-#include "Main/Race/race_entries.h"
+#include "Main/Race/race_setup_input.h"
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/MapObjects/jg.h"
 #include "Main/Sound/data_0216c000.h"

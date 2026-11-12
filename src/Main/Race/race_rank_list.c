@@ -39,7 +39,7 @@
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "Main/Sound/sound_seq.h"
 #include "Main/MapObjects/data_0217b000.h"
-#include "Main/Race/race_entries.h"
+#include "Main/Race/race_setup_input.h"
 #include "Main/Race/standings_balloons.h"
 #include "Main/Kart/code_0207a000.h"
 #include "Main/Race/code_020b1cf4.h"

@@ -7,20 +7,7 @@ typedef struct Kart Kart;
 
 extern void *gGameRegistry[];
 
-
-
-
 extern const u32 data_usa_02154ff8[];
-
-extern const u32 data_usa_021540c0[];
-
-extern const u32 data_usa_021540c8[];
-
-extern const u32 data_usa_021540d4[];
-
-extern const u32 data_usa_02154108[];
-
-
 
 extern u8 data_usa_021547c8[];
 
@@ -30,31 +17,11 @@ extern u8 data_021547f0[];
 
 extern u8 data_02154818[];
 
-
-
 // The 16 scene functions, indexed by scene number; the names are in gSceneNames
 // (data_usa_021541a8).
 extern const u32 gSceneFuncs[16];
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 extern u32 gCupCourseIdTable[][4];
-
-
-
-
-
 
 extern const s32 gKartScaleFactorXTable[25];
 
@@ -69,14 +36,6 @@ extern Vec3 data_usa_02154fdc;
 extern const Vec3 data_usa_02154fb8;
 
 extern const Vec3 data_usa_02154fd0;
-
-extern u16 data_021540ec[];
-
-
-
-
-
-
 
 extern const s32 data_usa_02154d4c[][2];
 

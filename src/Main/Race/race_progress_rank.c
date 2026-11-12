@@ -1,5 +1,5 @@
 #include "Main/Race/race_progress_rank.h"
-#include "Main/Race/race_entries.h"
+#include "Main/Race/race_setup_input.h"
 #include "Main/Race/standings_balloons.h"
 #include "Main/Race/race_hud_kart_removed.h"
 #include "Main/Race/race_end_condition.h"

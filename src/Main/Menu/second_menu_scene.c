@@ -17,7 +17,7 @@
 #include "Main/Kart/kart_name_tags.h"
 #include "Main/Race/data_021759c0.h"
 #include "tp.h"
-#include "Main/Race/race_entries.h"
+#include "Main/Race/race_setup_input.h"
 #include "Main/System/heap_call.h"
 
 SceneCallbacks gSecondMenuSceneCallbacks = {InitSecondMenuScene,

@@ -1,6 +1,6 @@
 #include "Main/Race/grand_prix_record.h"
 #include "code_0214d018.h"
-#include "Main/Net/race_mp_state16.h"
+#include "Main/Race/race_setup_input.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/Net/multiboot_connect.h"
 #include "Main/Net/packet_port.h"
@@ -27,7 +27,6 @@
 #include "Main/Sound/sound_seq.h"
 #include "Main/Race/data_021759c0.h"
 #include "tp.h"
-#include "Main/Race/race_entries.h"
 #include "Main/Net/pending_files.h"
 #include "Main/Race/kart.h"
 

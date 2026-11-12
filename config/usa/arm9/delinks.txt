@@ -1067,21 +1067,8 @@ src/Main/Race/race_keys.c:
 // provisional: file name and boundaries
 src/Main/Race/race_setup_input.c:
     complete
-    .text       start:0x020435c4 end:0x020445f8
-
-// provisional: file name and boundaries
-src/Main/Net/race_mp_state16.c:
-    complete
-    .text       start:0x020445f8 end:0x02044618
-
-src/Main/Race/race_entries.c:
-    complete
-    .text       start:0x02044618 end:0x02045874
-
-// provisional: file name and boundaries
-src/Main/Race/course_list.c:
-    complete
-    .text       start:0x02045874 end:0x0204673c
+    .text       start:0x020435c4 end:0x0204673c
+    .rodata     start:0x021540c0 end:0x02154128
 
 // provisional: file name and boundaries
 src/Main/Race/time_attack_next_scene.c:

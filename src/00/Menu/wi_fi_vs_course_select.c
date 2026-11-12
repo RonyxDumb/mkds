@@ -21,7 +21,7 @@
 #include "Main/Net/wifi_session.h"
 #include "Main/Net/wifi_connection_lost.h"
 #include "Main/Race/race_setup.h"
-#include "Main/Race/course_list.h"
+#include "Main/Race/race_setup_input.h"
 
 void InitWiFiVSCourseSelectState(u32 heap) {
     int recordAddress;

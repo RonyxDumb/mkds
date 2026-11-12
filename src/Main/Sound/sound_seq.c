@@ -3,7 +3,7 @@
 #include "Main/Menu/data_02153000.h"
 #include "code_02022aa8.h"
 #include "Main/Graphics/cell_file_set.h"
-#include "Main/Race/race_entries.h"
+#include "Main/Race/race_setup_input.h"
 #include "Main/Scene/scene_connection.h"
 
 #include "player.h"

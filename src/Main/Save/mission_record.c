@@ -1,6 +1,6 @@
 #include "Main/Save/mission_record.h"
 #include "Main/Menu/title_scene.h"
-#include "Main/Race/race_entries.h"
+#include "Main/Race/race_setup_input.h"
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/Graphics/disp_cap.h"
 #include "Main/Save/backup_records_write.h"

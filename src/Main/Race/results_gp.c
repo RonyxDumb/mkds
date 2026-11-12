@@ -38,7 +38,7 @@
 #include "code_0214cfe4.h"
 #include "code_0214d018.h"
 #include "code_021458c4.h"
-#include "Main/Race/course_list.h"
+#include "Main/Race/race_setup_input.h"
 #include "Main/Race/gp_records_killer.h"
 #include "Main/MapObjects/data_02154000.h"
 

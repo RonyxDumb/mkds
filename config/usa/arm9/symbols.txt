@@ -7868,11 +7868,11 @@ gTimeAttackGhostGetSlotMLabelTextRows kind:data(any) addr:0x0215404c
 gCupRankTable kind:data(any) addr:0x02154064
 gKartStartGroupCounts kind:data(any) addr:0x0215406c
 gCourseMapSectionLoaders kind:data(any) addr:0x0215407c
-data_usa_021540c0 kind:data(any) addr:0x021540c0
-data_usa_021540c8 kind:data(any) addr:0x021540c8
-data_usa_021540d4 kind:data(any) addr:0x021540d4
-data_021540ec kind:data(any) addr:0x021540ec
-data_usa_02154108 kind:data(any) addr:0x02154108
+gCupIndicesTwoCups kind:data(any) addr:0x021540c0
+gThreeCourseIds kind:data(any) addr:0x021540c8
+gSixCourseIds kind:data(any) addr:0x021540d4
+gCharacterSndBankMasks kind:data(any) addr:0x021540ec
+gCupIndicesEightCups kind:data(any) addr:0x02154108
 gCupCourseIdTable kind:data(any) addr:0x02154128
 gSceneNames kind:data(any) addr:0x021541a8
 data_usa_021541ac kind:data(any) addr:0x021541ac

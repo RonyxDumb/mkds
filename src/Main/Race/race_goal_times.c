@@ -15,7 +15,7 @@
 #include "Main/Race/data_020b837c.h"
 #include "g2d_Animation.h"
 #include "Main/MapObjects/data_0217b000.h"
-#include "Main/Race/race_entries.h"
+#include "Main/Race/race_setup_input.h"
 #include "Main/Graphics/oam.h"
 #include "Main/Race/race_hud_sub_screen_item_box_cells.h"
 #include "Main/Race/race_goal_m.h"

@@ -19,7 +19,7 @@
 #include "Main/Race/mission_table_value.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/Sound/scene_sound_set.h"
-#include "Main/Race/course_list.h"
+#include "Main/Race/race_setup_input.h"
 #include "Main/Menu/data_02175000.h"
 #include "Main/Scene/display_settings.h"
 #include "code_020182c0.h"
