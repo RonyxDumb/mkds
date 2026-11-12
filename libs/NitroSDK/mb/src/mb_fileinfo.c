@@ -1,6 +1,5 @@
-#include "code_02008570.h"
+#include "mb_fileinfo.h"
 #include "code_0200fc8c.h"
-#include "code_0200850c.h"
 #include "code_02000a58.h"
 #include "code_0200aea8.h"
 #include "code_02003024.h"
@@ -146,6 +145,35 @@ int MB_ReadSegment(FSFile *file, void *buffer, u32 bufferSize) {
         }
     }
     return result;
+}
+
+#pragma thumb off
+
+#pragma thumb on
+
+void MBi_ReadSegmentHeader(u32 *segmentHeader, u32 offsetStart, u32 offsetEnd, int fillFlag) {
+    u32 rangeStart;
+    if (offsetStart < (0x00004000u)) {
+        offsetStart = (0x00004000u);
+    }
+    if ((0x00008000u) < offsetEnd) {
+        offsetEnd = (0x00008000u);
+    }
+    rangeStart = *segmentHeader;
+    if (offsetStart < rangeStart) {
+        offsetStart = rangeStart;
+    }
+    if (offsetEnd > rangeStart + segmentHeader[3]) {
+        offsetEnd = rangeStart + segmentHeader[3];
+    }
+    if (offsetStart < offsetEnd) {
+        if (fillFlag != 0) {
+            MI_CpuFill8(((u32 *) (u32) (segmentHeader[2] + offsetStart)), 0, offsetEnd - offsetStart);
+            return;
+        }
+        MI_CpuCopy8(((u16 *) (u32) (segmentHeader[1] + offsetStart)), ((u32 *) (u32) (segmentHeader[2] + offsetStart)),
+                    offsetEnd - offsetStart);
+    }
 }
 
 #pragma thumb off

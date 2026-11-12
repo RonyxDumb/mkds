@@ -20,7 +20,7 @@
 #include "code_02007ec4.h"
 #include "code_02003be0.h"
 #include "03/code_021cfa68.h"
-#include "code_02008570.h"
+#include "mb_fileinfo.h"
 
 void InitMultiBootParent(u8 *object) {
     gMultiBootParent = (MultiBootParent *) object;

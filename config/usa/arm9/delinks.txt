@@ -138,14 +138,9 @@ libs/NitroSDK/mb/src/code_02007ec4.c:
     .text       start:0x02007ec4 end:0x0200850c
 
 // provisional: file name and boundaries
-libs/NitroSDK/mb/src/code_0200850c.c:
+libs/NitroSDK/mb/src/mb_fileinfo.c:
     complete
-    .text       start:0x0200850c end:0x02008570
-
-// provisional: file name and boundaries
-libs/NitroSDK/mb/src/code_02008570.c:
-    complete
-    .text       start:0x02008570 end:0x02008880
+    .text       start:0x0200850c end:0x02008880
 
 // provisional: file name and boundaries
 libs/NitroSDK/mb/src/code_02008880.c:

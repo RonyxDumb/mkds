@@ -5,7 +5,7 @@
 #include "Main/Graphics/locate_bmg_sections.h"
 #include "Main/Unknown/unk_02154000.h"
 #include "Main/Unknown/unk_0217a000.h"
-#include "code_02008570.h"
+#include "mb_fileinfo.h"
 
 #pragma thumb on
 
