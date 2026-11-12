@@ -20,13 +20,17 @@
 #include "code_0212ba34.h"
 #include "Main/Sound/sound_set_load.h"
 
-u32 gSoundFadeSteps = 0xa;
-s32 gSceneSeqVolume = 0x50;
 s32 gSoundOutputEffectType = -1;
+s32 gSceneSeqVolume = 0x50;
+u32 gSoundFadeSteps = 0xa;
 u16 gSeqTrackMask = 0xf;
-void *gSoundOutputEffectBuffer;
 NNSSndSeqPlayer *gSharedSeqHandle;
 u32 gFileSndArcOpen;
+void *gSoundOutputEffectBuffer;
+SoundSetPlayer *gCurrentSoundSetPlayer;
+ScenePlayers gScenePlayers;
+SoundModeHolder gSoundModeHolder;
+NNSSndArc gFileSndArc;
 
 void SetFileSndArcOpen(u32 flag) {
     gFileSndArcOpen = flag;

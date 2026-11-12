@@ -11855,7 +11855,6 @@ gFileSndArcOpen kind:bss addr:0x0217d044
 gSharedSeqHandle kind:bss addr:0x0217d048
 gSoundOutputEffectBuffer kind:bss addr:0x0217d04c
 gScenePlayers kind:bss addr:0x0217d050
-gScenePlayersSeqPlayer kind:bss addr:0x0217d05c
 gSoundModeHolder kind:bss addr:0x0217d064
 gFileSndArc kind:bss addr:0x0217d080
 gCurrentSndHeap kind:bss addr:0x0217d110

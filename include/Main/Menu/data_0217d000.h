@@ -135,7 +135,7 @@ typedef struct CupMark {
     /* 0c */ struct LayoutEntryTable *mBncl;
 } CupMark;
 
-// Object at gScenePlayers (0x14 bytes); InitScenePlayers fills it. gScenePlayersSeqPlayer names its member 0x0c.
+// Object at gScenePlayers (0x14 bytes); InitScenePlayers fills it.
 typedef struct ScenePlayers {
     /* 00 */ s32 mProgress;
     /* 04 */ SceneSoundState *mSceneSoundState;
@@ -750,9 +750,6 @@ extern SeqQueue gSeqQueue;
 extern s32 gSeqQueuePairSides[];
 
 extern ScenePlayers gScenePlayers;
-
-// The member at 0x0c of gScenePlayers.
-extern NNSSndSeqPlayer *gScenePlayersSeqPlayer;
 
 extern SoundModeHolder gSoundModeHolder;
 

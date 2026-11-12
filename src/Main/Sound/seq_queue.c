@@ -564,14 +564,14 @@ SeqPlayerControl *FadeSeqVolumeToZeroAfterKartRemoval(void) {
 
 void StartKartRemovalSeqEffect(void) {
     NNSSndSeqPlayer **handle;
-    handle = &gScenePlayersSeqPlayer;
+    handle = &gScenePlayers.mSeqPlayer;
     gSeqPlayerControl.mVolumeOverride = 2;
     NNS_SndPlayerSetTrackMuteEx(handle, 1, 1);
-    NNS_SndPlayerSetTempoRatio(&gScenePlayersSeqPlayer, 0xd9);
+    NNS_SndPlayerSetTempoRatio(&gScenePlayers.mSeqPlayer, 0xd9);
 }
 
 void UpdateSceneSeqPlayerControl(void) {
-    UpdateSeqPlayerControl(&gSeqPlayerControl, &gScenePlayersSeqPlayer);
+    UpdateSeqPlayerControl(&gSeqPlayerControl, &gScenePlayers.mSeqPlayer);
 }
 
 u32 IsTeresaSoundFlagSet(void) {
