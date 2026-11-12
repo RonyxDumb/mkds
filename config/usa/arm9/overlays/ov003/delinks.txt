@@ -360,24 +360,8 @@ src/03/code_021d1cd4.c:
 // provisional: file name and boundaries
 src/03/code_021d1da8.c:
     complete
-    .text       start:0x021d1d68 end:0x021d1d90
-
-// provisional: file name and boundaries
-src/03/code_021d1dd0.c:
-    complete
-    .text       start:0x021d1d90 end:0x021d1ea0
-    .data       start:0x021d7bc0 end:0x021d7bc8
-
-// provisional: file name and boundaries
-src/03/code_021d1ee0.c:
-    complete
-    .text       start:0x021d1ea0 end:0x021d1f30
-    .data       start:0x021d7bc8 end:0x021d7bcc
-
-// provisional: file name and boundaries
-src/03/code_021d1f70.c:
-    complete
-    .text       start:0x021d1f30 end:0x021d1f90
+    .text       start:0x021d1d68 end:0x021d1f90
+    .data       start:0x021d7bc0 end:0x021d7bcc
 
 // provisional: file name and boundaries
 src/03/code_021d1fd0.c:
