@@ -3,20 +3,11 @@
 #include "types.h"
 #include "code_0200e77c.h"
 
-// Fixed-address object in the data TCM; the code reads and writes words at these offsets.
-typedef struct DtcmData {
-    /* 0000 */ OSThreadQueue mIrqThreadQueue;
-    /* 0008 */ u8 mUnk_0008[0x3380 - 0x8];
-    /* 3380 */ u32 mUnk_3380;
-    /* 3384 */ u8 mUnk_3384[0x3f7c - 0x3384];
-    /* 3f7c */ u32 mUnk_3f7c;
-    /* 3f80 */ u8 mUnk_3f80[0x3ff8 - 0x3f80];
-    /* 3ff8 */ u32 mIrqCheckFlags;
-} DtcmData;
+#include "os_irqHandler.h"
 
-extern DtcmData gDtcmData;
-
-#define HW_DTCM ((DtcmData *) 0x027e0000)
+// Start of the data TCM, and the interrupt check word at 0x3ff8 from it.
+#define HW_DTCM 0x027e0000
+#define IRQ_CHECK_FLAGS (*OFFSET_PTR(u32, &OSi_IrqThreadQueue, 0x3ff8))
 
 typedef void (*OSIrqFunction)(void);
 typedef u32 OSIrqMask;

@@ -1,11 +1,11 @@
 #include "code_0200cd04.h"
-#include "code_0200c914.h"
+#include "os_irqHandler.h"
 
 // Empties the queue of threads waiting for an interrupt.
 void OS_InitIrqTable(void) {
     OSThreadQueue *queue;
 
-    queue = &gDtcmData.mIrqThreadQueue;
+    queue = &OSi_IrqThreadQueue;
     queue->mTail = 0;
     queue->mHead = 0;
 }

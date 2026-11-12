@@ -82,7 +82,7 @@ void *OS_GetInitArenaHi(OSArenaId id) {
         case OS_ARENA_ITCM:
             return (void *) 0x2000000;
         case OS_ARENA_DTCM:
-            dtcmStart = (u32) &gDtcmData;
+            dtcmStart = (u32) &OSi_IrqThreadQueue;
             irqStackBottom = dtcmStart + 0x3f80 - (u32) data_00000c00;
             sysStackSize = (s32) data_00002800;
             if (sysStackSize == 0) {

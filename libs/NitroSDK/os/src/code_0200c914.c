@@ -132,7 +132,7 @@ OSIrqMask OS_ResetRequestIrqMask(OSIrqMask intr) {
 void OS_SetIrqStackChecker(void) {
     u32 base;
 
-    base = (u32) &gDtcmData;
+    base = (u32) &OSi_IrqThreadQueue;
     *OFFSET_PTR(u32, base, 0x3f7c) = 0xfddb597d;
     *(u32 *) (base + 0x3f80 - (u32) data_00000c00) = 0x7bf9dd5b;
 }
@@ -151,7 +151,7 @@ void OSi_IrqCallback(int index) {
     if (callback != 0) {
         callback(OSi_IrqCallbackInfo[index].mArg);
     }
-    *OFFSET_PTR(u32, &gDtcmData, 0x3ff8) |= irqBit;
+    IRQ_CHECK_FLAGS |= irqBit;
     if (OSi_IrqCallbackInfo[index].mEnable != 0) {
         return;
     }

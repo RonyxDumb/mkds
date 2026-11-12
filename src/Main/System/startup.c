@@ -45,7 +45,7 @@ void VBlankIrqHandler(void) {
             gDisplaySettings->mIrqCallback();
         }
     }
-    *OFFSET_PTR(u32, &gDtcmData, 0x3ff8) |= 1;
+    IRQ_CHECK_FLAGS |= 1;
 }
 
 void EnableVBlankIrq(void) {

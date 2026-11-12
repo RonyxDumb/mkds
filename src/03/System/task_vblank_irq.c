@@ -34,5 +34,5 @@ void RestoreTaskVBlankIrq(void) {
 
 void TaskVBlankIrqHandler(void) {
     RunTasksAndRemoveRequested(1);
-    *OFFSET_PTR(u32, &gDtcmData, 0x3ff8) |= 1;
+    IRQ_CHECK_FLAGS |= 1;
 }
