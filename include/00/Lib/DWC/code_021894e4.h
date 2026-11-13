@@ -17,4 +17,4 @@ u32 DWCi_AC_CheckFreespot(WMBssDesc *bssDesc);
 extern const u8 gWayportSsid[8];
 extern const char gFreespotSsid[8];
 extern const u8 gNintendoWfcSsid[12];
-extern u8 data_ov000_021b20d0[12];
+extern u8 gNwcUsbApSsid[12];

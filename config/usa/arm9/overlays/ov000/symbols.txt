@@ -1730,7 +1730,7 @@ gRsaSecureServerCaExponent kind:data(byte[4]) addr:0x021b1fb4
 gRsaSecureServerCaInfo kind:data(byte[20]) addr:0x021b1fb8
 @1 kind:data(byte[67]) addr:0x021b1fcc local
 gRsaSecureServerCaModulus kind:data(byte[128]) addr:0x021b2010
-data_ov000_021b20d0 kind:data(byte[12]) addr:0x021b2090
+gNwcUsbApSsid kind:data(byte[12]) addr:0x021b2090
 @676 kind:data(byte[12]) addr:0x021b209c local
 gSsidDecodeSecondXorKey kind:data(byte[4]) addr:0x021b20a8
 gUsbWepFirstXorKey kind:data(byte[4]) addr:0x021b20ac
