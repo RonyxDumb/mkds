@@ -45,7 +45,6 @@ typedef struct ItemGessoStep {
     /* 0a */ u16 mDampFrameCount;
 } ItemGessoStep;
 
-
 void CreateItemTeresaFrameScaleTable(void);
 void ComputeItemGessoFrameCount(void);
 void InitItemGessoFromData(ItemGesso *gesso);
@@ -69,4 +68,4 @@ extern s32 gItemGessoFrameCount;
 extern u16 *gItemTeresaFrameScales;
 
 extern const ItemKind gItemKindGesso;
-extern const ItemInfo data_0215a2ec;
+extern const ItemInfo gItemInfoGesso;

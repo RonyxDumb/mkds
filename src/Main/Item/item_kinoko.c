@@ -92,21 +92,21 @@ void CreateItemInfos(void) {
     infos[0] = gItemInfoKouraG;
     infos[1] = gItemInfoKouraR;
     infos[2] = gItemInfoBanana;
-    infos[3] = data_02159f68;
+    infos[3] = gItemInfoFBox;
     infos[4] = gItemInfoKinoko;
     infos[5] = gItemInfoKinokoThree;
-    infos[6] = data_02159e54;
-    infos[7] = data_02159cc0;
+    infos[6] = gItemInfoBomb;
+    infos[7] = gItemInfoKouraW;
     infos[8] = gItemInfoThunder;
-    infos[9] = data_02159f4c;
+    infos[9] = gItemInfoKouraGThree;
     infos[10] = gItemInfoBananaThree;
     infos[11] = gItemInfoKouraRThree;
     infos[12] = gItemInfoStar;
-    infos[13] = data_02159d90;
+    infos[13] = gItemInfoKinokoP;
     infos[14] = gItemInfoKiller;
-    infos[15] = data_0215a2ec;
+    infos[15] = gItemInfoGesso;
     infos[16] = gItemInfoTeresa;
-    infos[17] = data_0215a4c0;
+    infos[17] = gItemInfoBouncingItemBox;
     switch (gRaceSetup->mMode) {
         case MODE_BATTLE:
             infos[17].mEnabled = TRUE;

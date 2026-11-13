@@ -137,5 +137,5 @@ extern s32 gKouraWState7ScaleLimit;
 extern s32 gKouraWState7InverseLimit;
 
 extern const u16 gItemObjectNoOwnerBit;
-extern const ItemInfo data_02159cc0;
+extern const ItemInfo gItemInfoKouraW;
 extern const ItemKind gItemKindKouraW;

@@ -49,7 +49,7 @@ void CreateItemKinds(void) {
     kinds[5] = gItemKindKouraW;
     kinds[6] = gItemKindThunder;
     kinds[7] = gItemKindFBox;
-    kinds[8] = data_0215a4dc;
+    kinds[8] = gItemKindBouncingItemBox;
     kinds[9] = gItemKindBomb;
     kinds[10] = gItemKindGesso;
     kinds[11] = gItemKindTeresa;

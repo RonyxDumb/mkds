@@ -11,7 +11,7 @@
 #include "Main/Item/item_bomb.h"
 #include "ITCM/collision_slots.h"
 
-const ItemInfo data_02159e54 = {1, 1, 9, 1, 0, 1, NULL};
+const ItemInfo gItemInfoBomb = {1, 1, 9, 1, 0, 1, NULL};
 const ItemKind gItemKindBomb = {0x1a4,
                                 1,
                                 0x18,

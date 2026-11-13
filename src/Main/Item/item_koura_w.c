@@ -93,7 +93,7 @@
 #include "Main/System/init_after_startup.h"
 
 const u16 gItemObjectNoOwnerBit = 0x8000;
-const ItemInfo data_02159cc0 = {1, 1, 5, 1, 0, 1, (void (*)(ItemInUse *, HeldItem *)) MarkItemInUseAsActiveItem};
+const ItemInfo gItemInfoKouraW = {1, 1, 5, 1, 0, 1, (void (*)(ItemInUse *, HeldItem *)) MarkItemInUseAsActiveItem};
 const ItemKind gItemKindKouraW = {0x31c,
                                   1,
                                   1,

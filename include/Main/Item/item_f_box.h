@@ -50,6 +50,6 @@ extern u8 gItemDataDelayedLinks[32][2];
 
 extern const u16 gItemBombExcludedUntilCourseHitBit;
 extern const u8 gItemBombVec3UnitY[12];
-extern const ItemInfo data_02159f4c;
-extern const ItemInfo data_02159f68;
+extern const ItemInfo gItemInfoKouraGThree;
+extern const ItemInfo gItemInfoFBox;
 extern const ItemKind gItemKindFBox;

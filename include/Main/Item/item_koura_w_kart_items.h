@@ -18,5 +18,5 @@ void SteerItemKouraWAtAngleZero(ItemKouraW *item, u32 gain, u32 maxStep, u32 rad
 
 void ClearItemKouraWKartItemsAndAngle(ItemKouraW *item);
 
-extern const ItemInfo data_02159e54;
+extern const ItemInfo gItemInfoBomb;
 extern const ItemKind gItemKindBomb;

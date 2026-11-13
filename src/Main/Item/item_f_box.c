@@ -23,8 +23,8 @@
 
 const u16 gItemBombExcludedUntilCourseHitBit = 0x2000;
 const u8 gItemBombVec3UnitY[12] = {0, 0, 0, 0, 0, 0x10, 0, 0, 0, 0, 0, 0};
-const ItemInfo data_02159f68 = {1, 1, 7, 1, 0, 2, NULL};
-const ItemInfo data_02159f4c = {1, 0, 0, 3, 0, 4, NULL};
+const ItemInfo gItemInfoFBox = {1, 1, 7, 1, 0, 2, NULL};
+const ItemInfo gItemInfoKouraGThree = {1, 0, 0, 3, 0, 4, NULL};
 const ItemKind gItemKindFBox = {0x144,
                                 3,
                                 0x20,

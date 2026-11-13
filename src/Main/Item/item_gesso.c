@@ -32,7 +32,8 @@
 #include "Main/System/heap_call.h"
 #include "ITCM/collision_slots.h"
 
-const ItemInfo data_0215a2ec = {1, 1, 0xa, 1, 0, 1, (void (*)(ItemInUse *, HeldItem *)) GessoMarkItemInUseAsActiveItem};
+const ItemInfo gItemInfoGesso = {
+    1, 1, 0xa, 1, 0, 1, (void (*)(ItemInUse *, HeldItem *)) GessoMarkItemInUseAsActiveItem};
 const ItemKind gItemKindGesso = {0x1b4,
                                  1,
                                  1,
