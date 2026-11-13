@@ -51,12 +51,12 @@ void InitDisplaySettingsDesc(DisplaySettingsDesc *p0) {
 
 void UpdateBrightnessFade(BrightnessFade *fade) {
     switch (fade->mState) {
-        case 0:
+        case BRIGHTNESS_FADE_FADED:
             break;
-        case 1:
+        case BRIGHTNESS_FADE_TO_CLEAR:
             fade->mFadeFrames++;
             if (fade->mFadeFrames >= fade->mFadeFrameCount) {
-                fade->mState = 2;
+                fade->mState = BRIGHTNESS_FADE_CLEAR;
                 fade->mBrightness = 0;
             } else {
                 fade->mBrightness = 0x10 - (fade->mFadeFrames << 4) / fade->mFadeFrameCount;
@@ -65,13 +65,13 @@ void UpdateBrightnessFade(BrightnessFade *fade) {
                 fade->mBrightness = -fade->mBrightness;
             }
             break;
-        case 2:
+        case BRIGHTNESS_FADE_CLEAR:
             fade->mBrightness = 0;
             break;
-        case 3:
+        case BRIGHTNESS_FADE_TO_FADED:
             fade->mFadeFrames++;
             if (fade->mFadeFrames >= fade->mFadeFrameCount) {
-                fade->mState = 0;
+                fade->mState = BRIGHTNESS_FADE_FADED;
                 fade->mBrightness = 0x10;
             } else {
                 fade->mBrightness = (fade->mFadeFrames << 4) / fade->mFadeFrameCount;
@@ -84,12 +84,12 @@ void UpdateBrightnessFade(BrightnessFade *fade) {
 }
 
 void InitBrightnessFades(void) {
-    gMainBrightnessFade.mState = 0;
+    gMainBrightnessFade.mState = BRIGHTNESS_FADE_FADED;
     gMainBrightnessFade.mPositive = 1;
     gMainBrightnessFade.mFadeFrames = 0;
     gMainBrightnessFade.mFadeFrameCount = 0;
     gMainBrightnessFade.mBrightness = 0x10;
-    gSubBrightnessFade.mState = 0;
+    gSubBrightnessFade.mState = BRIGHTNESS_FADE_FADED;
     gSubBrightnessFade.mPositive = 1;
     gSubBrightnessFade.mFadeFrames = 0;
     gSubBrightnessFade.mFadeFrameCount = 0;
@@ -754,60 +754,60 @@ void ClearFrameFinishedFlag(void) {
 }
 
 static inline void StartBrightnessFadeToFadedPositive(BrightnessFade *fade, s16 frameCount) {
-    if (fade->mState == 0 || (fade->mState == 3 && fade->mPositive == 1)) {
+    if (fade->mState == BRIGHTNESS_FADE_FADED || (fade->mState == BRIGHTNESS_FADE_TO_FADED && fade->mPositive == 1)) {
         return;
     }
     fade->mPositive = 1;
-    if (fade->mState != 1) {
+    if (fade->mState != BRIGHTNESS_FADE_TO_CLEAR) {
         fade->mFadeFrames = 0;
     } else {
         fade->mFadeFrames = (frameCount * fade->mBrightness) / 16;
     }
-    fade->mState = 3;
+    fade->mState = BRIGHTNESS_FADE_TO_FADED;
     fade->mFadeFrameCount = frameCount;
 }
 
 static inline void StartBrightnessFadeToFadedNegative(BrightnessFade *fade, s16 frameCount) {
-    if (fade->mState == 0 || (fade->mState == 3 && fade->mPositive == 0)) {
+    if (fade->mState == BRIGHTNESS_FADE_FADED || (fade->mState == BRIGHTNESS_FADE_TO_FADED && fade->mPositive == 0)) {
         return;
     }
     fade->mPositive = 0;
-    if (fade->mState != 1) {
+    if (fade->mState != BRIGHTNESS_FADE_TO_CLEAR) {
         fade->mFadeFrames = 0;
     } else {
         fade->mFadeFrames = (frameCount * fade->mBrightness) / 16;
     }
-    fade->mState = 3;
+    fade->mState = BRIGHTNESS_FADE_TO_FADED;
     fade->mFadeFrameCount = frameCount;
 }
 
 static inline void StartBrightnessFadeToClearNegative(BrightnessFade *fade, s16 frameCount) {
-    if (fade->mState == 2 || fade->mState == 1) {
+    if (fade->mState == BRIGHTNESS_FADE_CLEAR || fade->mState == BRIGHTNESS_FADE_TO_CLEAR) {
         return;
     }
     fade->mPositive = 0;
-    if (fade->mState == 2 || fade->mState == 1) {
+    if (fade->mState == BRIGHTNESS_FADE_CLEAR || fade->mState == BRIGHTNESS_FADE_TO_CLEAR) {
         return;
     }
-    if (fade->mState != 3) {
+    if (fade->mState != BRIGHTNESS_FADE_TO_FADED) {
         fade->mFadeFrames = 0;
     } else {
         fade->mFadeFrames = (frameCount * fade->mBrightness) / 16;
     }
-    fade->mState = 1;
+    fade->mState = BRIGHTNESS_FADE_TO_CLEAR;
     fade->mFadeFrameCount = frameCount;
 }
 
 static inline void StartBrightnessFadeToClear(BrightnessFade *fade, s16 frameCount) {
-    if (fade->mState == 2 || fade->mState == 1) {
+    if (fade->mState == BRIGHTNESS_FADE_CLEAR || fade->mState == BRIGHTNESS_FADE_TO_CLEAR) {
         return;
     }
-    if (fade->mState != 3) {
+    if (fade->mState != BRIGHTNESS_FADE_TO_FADED) {
         fade->mFadeFrames = 0;
     } else {
         fade->mFadeFrames = (frameCount * fade->mBrightness) / 16;
     }
-    fade->mState = 1;
+    fade->mState = BRIGHTNESS_FADE_TO_CLEAR;
     fade->mFadeFrameCount = frameCount;
 }
 
@@ -1014,19 +1014,19 @@ void StartFadeToFadedPositive(s16 frameCount) {
 }
 
 u32 AreBrightnessFadesFaded(void) {
-    if (gMainBrightnessFade.mState == 0 && gSubBrightnessFade.mState == 0) {
+    if (gMainBrightnessFade.mState == BRIGHTNESS_FADE_FADED && gSubBrightnessFade.mState == BRIGHTNESS_FADE_FADED) {
         return 1;
     }
     return 0;
 }
 
 void SetBrightnessFadesClear(void) {
-    gMainBrightnessFade.mState = 2;
+    gMainBrightnessFade.mState = BRIGHTNESS_FADE_CLEAR;
     gMainBrightnessFade.mPositive = 0;
     gMainBrightnessFade.mFadeFrames = 0;
     gMainBrightnessFade.mFadeFrameCount = 0;
     gMainBrightnessFade.mBrightness = 0;
-    gSubBrightnessFade.mState = 2;
+    gSubBrightnessFade.mState = BRIGHTNESS_FADE_CLEAR;
     gSubBrightnessFade.mPositive = 0;
     gSubBrightnessFade.mFadeFrames = 0;
     gSubBrightnessFade.mFadeFrameCount = 0;
@@ -1036,7 +1036,7 @@ void SetBrightnessFadesClear(void) {
 }
 
 u32 AreBrightnessFadesClear(void) {
-    if ((gMainBrightnessFade.mState == 2) && (gSubBrightnessFade.mState == 2)) {
+    if ((gMainBrightnessFade.mState == BRIGHTNESS_FADE_CLEAR) && (gSubBrightnessFade.mState == BRIGHTNESS_FADE_CLEAR)) {
         return 1;
     }
     return 0;

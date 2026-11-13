@@ -51,6 +51,9 @@ typedef struct DisplaySettingsDesc {
     /* 0e */ u16 mUnk_0e[13];
 } DisplaySettingsDesc;
 
+// Values of BrightnessFade.mState: fully faded and still, fading toward clear, clear, fading toward faded.
+enum { BRIGHTNESS_FADE_FADED, BRIGHTNESS_FADE_TO_CLEAR, BRIGHTNESS_FADE_CLEAR, BRIGHTNESS_FADE_TO_FADED };
+
 // Two of these sit at gSubBrightnessFade and gMainBrightnessFade; UpdateBrightnessFade steps one.
 typedef struct BrightnessFade {
     /* 00 */ u16 mState;
