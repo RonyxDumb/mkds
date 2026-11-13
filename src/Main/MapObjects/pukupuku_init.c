@@ -23,37 +23,11 @@
 
 const MapObjectDrawList gRotaryDrawListData = {
     {NULL, 0, {0, 0}, (void (*)(MapObjectList *)) CreateRotary, NULL, NULL, NULL, 1, NULL, 0, NULL}, 0};
-const MapObjectKindData gRotaryBridgeKindData = {NULL, NULL, 5, 0x50000, 0x866000, 0, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0};
 const MapObjectKindData gRotaryRoomKindData = {NULL, NULL, 5, 0x1d8000, 0x19000, 0, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0};
+const MapObjectKindData gRotaryBridgeKindData = {NULL, NULL, 5, 0x50000, 0x866000, 0, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0};
 const MapObjectList gRotaryUpdateListData = {
     NULL, 0, {0, 0}, (void (*)(MapObjectList *)) InitRotaryObjects, NULL, (UnkFunc *) UpdateRotary, NULL, 0, NULL, 0, NULL};
 const MapObjectKindData gRotaryGearTestCylinderKindData = {NULL, NULL, 5, 0x12c000, 0x32000, 0, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0};
-StateCallbacks gPukupukuStateTable[4] = {{EnterPukupukuState0, UpdatePukupukuState0}, {EnterPukupukuState1, UpdatePukupukuState1}, {EnterPukupukuState2, UpdatePukupukuState2}, {EnterPukupukuState3, UpdatePukupukuState3}};
-
-void InitPukupuku(Pukupuku *pukupuku, Vec3 *position) {
-    InitStateMachine(&pukupuku->mPushedObject.mMapObject.mStateMachine, gPukupukuStateTable, 4, pukupuku);
-    pukupuku->mPushedObject.mMapObject.mPos.y =
-        pukupuku->mPushedObject.mMapObject.mPos.y +
-        MUL_FIXED12_NO_ROUND(pukupuku->mPushedObject.mMapObject.mScale.y, 0xa000);
-    pukupuku->mInitialPos = pukupuku->mPushedObject.mMapObject.mPos;
-    pukupuku->mJumpsUntilHighJump = 4;
-    pukupuku->mPushedObject.mMapObject.mPosStep.x = 0;
-    pukupuku->mPushedObject.mMapObject.mPosStep.y = 0;
-    pukupuku->mPushedObject.mMapObject.mPosStep.z = 0;
-    InitPushedMotion(&pukupuku->mPushedObject, pukupuku->mPushedObject.mMapObject.mPos.y - 0x1e000, 0x400, 0x400,
-                     0x4000, 0x1800);
-    pukupuku->mPushedObject.mMapObject.mStateMachine.mNextState = 0;
-    pukupuku->mPushedObject.mMapObject.mStateMachine.mNextStateRequested = 1;
-    RefreshShadowMatrix(&pukupuku->mShadowMatrix, position,
-                        MUL_FIXED12_NO_ROUND(pukupuku->mPushedObject.mMapObject.mScale.x, 0x12000), 0xd);
-    pukupuku->mInitialGroundY = position->y;
-    {
-        Vec3 *secondRow = &pukupuku->mShadowMatrix.mMatrix.mRows[1];
-        pukupuku->mGroundSlopeX = -FX_Div(secondRow->x, secondRow->y);
-        pukupuku->mGroundSlopeZ = -FX_Div(secondRow->z, secondRow->y);
-    }
-}
-
 #pragma thumb off
 
 MapObjectKindData *CreateRotaryGearTestCylinderKindData(void) {

@@ -1,6 +1,22 @@
 #include "Main/MapObjects/pukupuku_kind_descriptor.h"
 #include "Main/MapObjects/pukupuku.h"
 #include "Main/MapObjects/pukupuku_init.h"
+#include "Main/System/heap.h"
+#include "Main/Menu/second_menu_scene.h"
+#include "Main/MapObjects/pushed_motion.h"
+#include "Main/MapObjects/choropu.h"
+#include "Main/MapObjects/data_02158000.h"
+#include "Main/Sound/data_0216c000.h"
+#include "Main/MapObjects/data_0217b000.h"
+#include "Main/System/heap_call.h"
+#include "Main/System/state_machine_init.h"
+#include "Main/MapObjects/map_object_sound.h"
+#include "Main/MapObjects/view_frustum.h"
+#include "Main/MapObjects/update_list_slot.h"
+#include "fx_mtx33.h"
+#include "code_02147cd8.h"
+#include "Main/MapObjects/rotary.h"
+#include "Main/MapObjects/bridge.h"
 
 const MapObjectKindDescriptor gPukupukuKindDescriptor = {0,
                                                          {0, 0},
@@ -13,3 +29,32 @@ const MapObjectKindDescriptor gPukupukuKindDescriptor = {0,
                                                          CreatePukupukuUpdateList,
                                                          NULL,
                                                          {NULL, NULL, NULL, NULL}};
+
+#pragma thumb on
+
+StateCallbacks gPukupukuStateTable[4] = {{EnterPukupukuState0, UpdatePukupukuState0}, {EnterPukupukuState1, UpdatePukupukuState1}, {EnterPukupukuState2, UpdatePukupukuState2}, {EnterPukupukuState3, UpdatePukupukuState3}};
+
+void InitPukupuku(Pukupuku *pukupuku, Vec3 *position) {
+    InitStateMachine(&pukupuku->mPushedObject.mMapObject.mStateMachine, gPukupukuStateTable, 4, pukupuku);
+    pukupuku->mPushedObject.mMapObject.mPos.y =
+        pukupuku->mPushedObject.mMapObject.mPos.y +
+        MUL_FIXED12_NO_ROUND(pukupuku->mPushedObject.mMapObject.mScale.y, 0xa000);
+    pukupuku->mInitialPos = pukupuku->mPushedObject.mMapObject.mPos;
+    pukupuku->mJumpsUntilHighJump = 4;
+    pukupuku->mPushedObject.mMapObject.mPosStep.x = 0;
+    pukupuku->mPushedObject.mMapObject.mPosStep.y = 0;
+    pukupuku->mPushedObject.mMapObject.mPosStep.z = 0;
+    InitPushedMotion(&pukupuku->mPushedObject, pukupuku->mPushedObject.mMapObject.mPos.y - 0x1e000, 0x400, 0x400,
+                     0x4000, 0x1800);
+    pukupuku->mPushedObject.mMapObject.mStateMachine.mNextState = 0;
+    pukupuku->mPushedObject.mMapObject.mStateMachine.mNextStateRequested = 1;
+    RefreshShadowMatrix(&pukupuku->mShadowMatrix, position,
+                        MUL_FIXED12_NO_ROUND(pukupuku->mPushedObject.mMapObject.mScale.x, 0x12000), 0xd);
+    pukupuku->mInitialGroundY = position->y;
+    {
+        Vec3 *secondRow = &pukupuku->mShadowMatrix.mMatrix.mRows[1];
+        pukupuku->mGroundSlopeX = -FX_Div(secondRow->x, secondRow->y);
+        pukupuku->mGroundSlopeZ = -FX_Div(secondRow->z, secondRow->y);
+    }
+}
+#pragma thumb off

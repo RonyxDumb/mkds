@@ -3572,14 +3572,15 @@ src/Main/MapObjects/rotary_state.c:
 // provisional: file name and boundaries
 src/Main/MapObjects/pukupuku_init.c:
     complete
-    .text       start:0x020e44e4 end:0x020e48b4
+    .text       start:0x020e44e4 end:0x020e47c8
     .rodata     start:0x02158e9c end:0x02158fb0
-    .data       start:0x0216c1cc end:0x0216c1ec
 
 // provisional: file name and boundaries
 src/Main/MapObjects/pukupuku_kind_descriptor.c:
     complete
+    .text       start:0x020e47c8 end:0x020e48b4
     .rodata     start:0x02158fb0 end:0x02158fe4
+    .data       start:0x0216c1cc end:0x0216c1ec
 
 // provisional: file name and boundaries
 src/Main/MapObjects/pukupuku.c:
