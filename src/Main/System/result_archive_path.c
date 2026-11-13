@@ -1000,7 +1000,7 @@ void ClearArchiveBuffersBit31(void) {
     s32 bufferIndex;
 
     for (bufferIndex = 0; bufferIndex < 16; bufferIndex++) {
-        *OFFSET_PTR(u32, &gArchiveSlots->mBuffers[0].mUnk_08, bufferIndex * 12) &= 0x7fffffff;
+        gArchiveSlots->mBuffers[bufferIndex].mUnk_08_31 = 0;
     }
 }
 
