@@ -25,8 +25,8 @@ const s32 gOptionHensyuMenuOffsetCellCounts[2] = {4, 4};
 OptionHensyuMenu *gOptionHensyuMenu;
 
 void InitOptionHensyuMenu(void *heap) {
-    s32 i;
-    s32 j;
+    s32 index;
+    s32 cellIndex;
     void *optionFirstBuffer;
     gOptionHensyuMenu = HeapAlloc(heap, 0x34);
     gOptionHensyuMenu->mHeap = heap;
@@ -45,19 +45,21 @@ void InitOptionHensyuMenu(void *heap) {
     gOptionHensyuMenu->mStateFrames = 0;
     gOptionHensyuMenu->mHighlightVisible = TRUE;
     LocateAndQueueOptionHensyuMenu();
-    for (i = 0; i < 2; i++) {
-        SetCellOamModeXlu(gOptionHensyuMenuXluCellIndices[i], 1, gOptionHensyuMenu->mOptionHensyuMenuSNcer,
+    for (index = 0; index < 2; index++) {
+        SetCellOamModeXlu(gOptionHensyuMenuXluCellIndices[index], 1, gOptionHensyuMenu->mOptionHensyuMenuSNcer,
                           gOptionHensyuMenu->mOptionHensyuMenuSBncl);
     }
     optionFirstBuffer = GetOptionFirstBuffer();
     ResetOamLists(optionFirstBuffer, GetOptionSecondBuffer());
     InitLayoutTable(heap, gOptionHensyuMenu->mOptionHensyuMenuSBncl, NULL, &gOptionHensyuMenu->mOptionHensyuMenuSTable);
-    for (i = 0; i < 2; i++) {
-        for (j = 0; j < gOptionHensyuMenuOffsetCellCounts[i]; j++) {
-            if (i == 1) {
-                gOptionHensyuMenu->mOptionHensyuMenuSTable[gOptionHensyuMenuOffsetTableIndices[i][j]].mOffsetX = 0xfa;
+    for (index = 0; index < 2; index++) {
+        for (cellIndex = 0; cellIndex < gOptionHensyuMenuOffsetCellCounts[index]; cellIndex++) {
+            if (index == 1) {
+                gOptionHensyuMenu->mOptionHensyuMenuSTable[gOptionHensyuMenuOffsetTableIndices[index][cellIndex]]
+                    .mOffsetX = 0xfa;
             } else {
-                gOptionHensyuMenu->mOptionHensyuMenuSTable[gOptionHensyuMenuOffsetTableIndices[i][j]].mOffsetX = -0xfa;
+                gOptionHensyuMenu->mOptionHensyuMenuSTable[gOptionHensyuMenuOffsetTableIndices[index][cellIndex]]
+                    .mOffsetX = -0xfa;
             }
         }
     }
@@ -99,19 +101,19 @@ void AdvanceOptionHensyuMenuState0(void) {
 }
 
 void AdvanceOptionHensyuMenuState1(void) {
-    s32 i;
-    s32 j;
+    s32 rowIndex;
+    s32 cellIndex;
     s32 offsetX;
     gOptionHensyuMenu->mStateFrames++;
     offsetX = InterpolateS16(1, 0xfa, 0, gOptionHensyuMenu->mStateFrames, 10);
-    for (i = 0; i < 2; i++) {
-        for (j = 0; j < gOptionHensyuMenuOffsetCellCounts[i]; j++) {
-            if (i == 1) {
-                gOptionHensyuMenu->mOptionHensyuMenuSTable[gOptionHensyuMenuOffsetTableIndices[i][j]].mOffsetX =
-                    offsetX;
+    for (rowIndex = 0; rowIndex < 2; rowIndex++) {
+        for (cellIndex = 0; cellIndex < gOptionHensyuMenuOffsetCellCounts[rowIndex]; cellIndex++) {
+            if (rowIndex == 1) {
+                gOptionHensyuMenu->mOptionHensyuMenuSTable[gOptionHensyuMenuOffsetTableIndices[rowIndex][cellIndex]]
+                    .mOffsetX = offsetX;
             } else {
-                gOptionHensyuMenu->mOptionHensyuMenuSTable[gOptionHensyuMenuOffsetTableIndices[i][j]].mOffsetX =
-                    -offsetX;
+                gOptionHensyuMenu->mOptionHensyuMenuSTable[gOptionHensyuMenuOffsetTableIndices[rowIndex][cellIndex]]
+                    .mOffsetX = -offsetX;
             }
         }
     }
@@ -239,8 +241,8 @@ void AdvanceOptionHensyuMenuState4(void) {
 }
 
 void AdvanceOptionHensyuMenuState5(void) {
-    s32 i;
-    s32 j;
+    s32 rowIndex;
+    s32 cellIndex;
     s32 offsetX;
     if (GetOptionNextScene() == -1) {
         if (gOptionHensyuMenu->mNextOptionState == 5) {
@@ -255,14 +257,14 @@ void AdvanceOptionHensyuMenuState5(void) {
     } else {
         offsetX = 0xfa;
     }
-    for (i = 0; i < 2; i++) {
-        for (j = 0; j < gOptionHensyuMenuOffsetCellCounts[i]; j++) {
-            if (i == 1) {
-                gOptionHensyuMenu->mOptionHensyuMenuSTable[gOptionHensyuMenuOffsetTableIndices[i][j]].mOffsetX =
-                    offsetX;
+    for (rowIndex = 0; rowIndex < 2; rowIndex++) {
+        for (cellIndex = 0; cellIndex < gOptionHensyuMenuOffsetCellCounts[rowIndex]; cellIndex++) {
+            if (rowIndex == 1) {
+                gOptionHensyuMenu->mOptionHensyuMenuSTable[gOptionHensyuMenuOffsetTableIndices[rowIndex][cellIndex]]
+                    .mOffsetX = offsetX;
             } else {
-                gOptionHensyuMenu->mOptionHensyuMenuSTable[gOptionHensyuMenuOffsetTableIndices[i][j]].mOffsetX =
-                    -offsetX;
+                gOptionHensyuMenu->mOptionHensyuMenuSTable[gOptionHensyuMenuOffsetTableIndices[rowIndex][cellIndex]]
+                    .mOffsetX = -offsetX;
             }
         }
     }
@@ -277,15 +279,15 @@ void AdvanceOptionHensyuMenuState5(void) {
 }
 
 void UpdateOptionHensyuMenuHighlight(void) {
-    s32 i;
-    for (i = 0; i < 2; i++) {
-        if (i == gOptionHensyuMenu->mIndex && gOptionHensyuMenu->mHighlightVisible != FALSE) {
-            gOptionHensyuMenu->mOptionHensyuMenuSTable[gOptionHensyuMenuSTableIndices[i]].mVisible = 1;
-            SetCellPaletteIndex(gOptionHensyuMenuCellIndices[i], 0xe, gOptionHensyuMenu->mOptionHensyuMenuSNcer,
+    s32 rowIndex;
+    for (rowIndex = 0; rowIndex < 2; rowIndex++) {
+        if (rowIndex == gOptionHensyuMenu->mIndex && gOptionHensyuMenu->mHighlightVisible != FALSE) {
+            gOptionHensyuMenu->mOptionHensyuMenuSTable[gOptionHensyuMenuSTableIndices[rowIndex]].mVisible = 1;
+            SetCellPaletteIndex(gOptionHensyuMenuCellIndices[rowIndex], 0xe, gOptionHensyuMenu->mOptionHensyuMenuSNcer,
                                 gOptionHensyuMenu->mOptionHensyuMenuSBncl);
         } else {
-            gOptionHensyuMenu->mOptionHensyuMenuSTable[gOptionHensyuMenuSTableIndices[i]].mVisible = 0;
-            SetCellPaletteIndex(gOptionHensyuMenuCellIndices[i], 0xf, gOptionHensyuMenu->mOptionHensyuMenuSNcer,
+            gOptionHensyuMenu->mOptionHensyuMenuSTable[gOptionHensyuMenuSTableIndices[rowIndex]].mVisible = 0;
+            SetCellPaletteIndex(gOptionHensyuMenuCellIndices[rowIndex], 0xf, gOptionHensyuMenu->mOptionHensyuMenuSNcer,
                                 gOptionHensyuMenu->mOptionHensyuMenuSBncl);
         }
     }

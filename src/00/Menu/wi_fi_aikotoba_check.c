@@ -19,16 +19,17 @@
 
 const u8 gWiFiAikotobaCheckOffsetIndices[2] = {0, 1};
 const u8 gWiFiAikotobaCheckDigitLabelIndices[12] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0xa, 0xb};
-WiFiStateCallbacks gWiFiAikotobaCheckCallbacks = {InitWiFiAikotobaCheck, ClearWiFiAikotobaCheckPointer, AdvanceWiFiAikotobaCheck, WriteWiFiAikotobaCheckRegistersNop};
+WiFiStateCallbacks gWiFiAikotobaCheckCallbacks = {InitWiFiAikotobaCheck, ClearWiFiAikotobaCheckPointer,
+                                                  AdvanceWiFiAikotobaCheck, WriteWiFiAikotobaCheckRegistersNop};
 WiFiAikotobaCheck *gWiFiAikotobaCheck;
 
 void SetWiFiAikotobaCheckDigits(void) {
     u8 friendKeyText[20];
-    s32 i;
+    s32 digitIndex;
 
     FormatUserDataFriendKey((u32) friendKeyText);
-    for (i = 0; i < 12; i++) {
-        gWiFiAikotobaCheck->mDigits[i] = friendKeyText[i];
+    for (digitIndex = 0; digitIndex < 12; digitIndex++) {
+        gWiFiAikotobaCheck->mDigits[digitIndex] = friendKeyText[digitIndex];
     }
 }
 
@@ -37,27 +38,27 @@ void InitWiFiAikotobaCheckDigits(void) {
     u8 entryIndices[12] = {0, 0, 1, 2, 3, 4, 1, 6, 7, 8, 9, 10};
     u8 entryIsCell[12] = {1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0};
     u16 cellCount;
-    s32 i;
+    s32 digitIndex;
     s16 digitText[2];
 
     cellCount = gWiFiAikotobaCheck->mWiFiAikotobaCheckBncl->mCount;
     SetWiFiAikotobaCheckDigits();
-    for (i = 0; i < 12; i++) {
-        if (entryIsCell[i] == 0) {
-            entryIndices[i] = entryIndices[i] + cellCount;
+    for (digitIndex = 0; digitIndex < 12; digitIndex++) {
+        if (entryIsCell[digitIndex] == 0) {
+            entryIndices[digitIndex] = entryIndices[digitIndex] + cellCount;
         }
     }
-    for (i = 0; i < 12; i++) {
+    for (digitIndex = 0; digitIndex < 12; digitIndex++) {
         subObjSizeLeft -=
-            InitLabelCanvas(gWiFiAikotobaCheck->mHeap, gWiFiAikotobaCheckDigitLabelIndices[i],
-                            gWiFiAikotobaCheck->mWiFiAikotobaCheckBnll, 8, 0x10, entryIndices[i],
+            InitLabelCanvas(gWiFiAikotobaCheck->mHeap, gWiFiAikotobaCheckDigitLabelIndices[digitIndex],
+                            gWiFiAikotobaCheck->mWiFiAikotobaCheckBnll, 8, 0x10, entryIndices[digitIndex],
                             gWiFiAikotobaCheck->mWiFiAikotobaCheckMNcer, gWiFiAikotobaCheck->mWiFiAikotobaCheckBncl,
                             gWiFiAikotobaCheck->mWiFiAikotobaCheckTable, subObjSizeLeft);
         digitText[0] = 0;
         digitText[1] = 0;
-        digitText[0] = gWiFiAikotobaCheck->mDigits[i];
+        digitText[0] = gWiFiAikotobaCheck->mDigits[digitIndex];
         PrintLabelLayoutTextNoFixedAdvance(
-            0, gWiFiAikotobaCheckDigitLabelIndices[i], gWiFiAikotobaCheck->mWiFiAikotobaCheckBnll, digitText,
+            0, gWiFiAikotobaCheckDigitLabelIndices[digitIndex], gWiFiAikotobaCheck->mWiFiAikotobaCheckBnll, digitText,
             gWiFiAikotobaCheck->mWiFiAikotobaCheckBncl, gWiFiAikotobaCheck->mWiFiAikotobaCheckTable);
     }
 }
@@ -107,15 +108,15 @@ void LocateAndUploadWiFiAikotobaCheck(void) {
 }
 
 void UpdateWiFiAikotobaCheckOffsets(void) {
-    s32 i;
+    s32 index;
 
-    for (i = 0; i < 2; i++) {
-        gWiFiAikotobaCheck->mWiFiAikotobaCheckTable[gWiFiAikotobaCheckOffsetIndices[i]].mOffsetY =
+    for (index = 0; index < 2; index++) {
+        gWiFiAikotobaCheck->mWiFiAikotobaCheckTable[gWiFiAikotobaCheckOffsetIndices[index]].mOffsetY =
             gWiFiAikotobaCheck->mOffset;
     }
-    for (i = 0; i < 12; i++) {
+    for (index = 0; index < 12; index++) {
         gWiFiAikotobaCheck
-            ->mWiFiAikotobaCheckTable[gWiFiAikotobaCheckDigitLabelIndices[i] +
+            ->mWiFiAikotobaCheckTable[gWiFiAikotobaCheckDigitLabelIndices[index] +
                                       gWiFiAikotobaCheck->mWiFiAikotobaCheckBncl->mCount]
             .mOffsetY = gWiFiAikotobaCheck->mOffset;
     }

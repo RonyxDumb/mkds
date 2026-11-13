@@ -19,15 +19,16 @@
 
 const u8 gOptionTopMenuOffsetTableIndices[3][4] = {{0, 3, 6, 9}, {1, 4, 7, 0xa}, {2, 5, 8, 0xb}};
 const s32 gOptionTopMenuOffsetCellCounts[3] = {4, 4, 4};
-OptionStateCallbacks gOptionTopMenuCallbacks = {InitOptionTopMenu, ReleaseOptionTopMenu, AdvanceOptionTopMenu, WriteOptionTopMenuRegisters};
+OptionStateCallbacks gOptionTopMenuCallbacks = {InitOptionTopMenu, ReleaseOptionTopMenu, AdvanceOptionTopMenu,
+                                                WriteOptionTopMenuRegisters};
 const u8 gOptionTopMenuSTableIndices[3] = {6, 7, 8};
 const u8 gOptionTopMenuXluCellIndices[3] = {0, 1, 2};
 const u8 gOptionTopMenuCellIndices[3] = {9, 0xa, 0xb};
 OptionTopMenu *gOptionTopMenu;
 
 void InitOptionTopMenu(void *heap) {
-    s32 i;
-    s32 j;
+    s32 index;
+    s32 cellIndex;
 
     gOptionTopMenu = HeapAlloc(heap, 0x40);
     gOptionTopMenu->mHeap = heap;
@@ -52,18 +53,19 @@ void InitOptionTopMenu(void *heap) {
         gOptionTopMenu->mBg0Offset = 0;
     }
     LocateAndQueueOptionTopMenu();
-    for (i = 0; i < 3; i++) {
-        SetCellOamModeXlu(gOptionTopMenuXluCellIndices[i], 1, gOptionTopMenu->mOptionTopMenuSNcer,
+    for (index = 0; index < 3; index++) {
+        SetCellOamModeXlu(gOptionTopMenuXluCellIndices[index], 1, gOptionTopMenu->mOptionTopMenuSNcer,
                           gOptionTopMenu->mOptionTopMenuSBncl);
     }
     ResetOamLists(GetOptionFirstBuffer(), GetOptionSecondBuffer());
     InitLayoutTable(heap, gOptionTopMenu->mOptionTopMenuSBncl, NULL, &gOptionTopMenu->mOptionTopMenuSTable);
-    for (i = 0; i < 3; i++) {
-        for (j = 0; j < gOptionTopMenuOffsetCellCounts[i]; j++) {
-            if (i == 1) {
-                gOptionTopMenu->mOptionTopMenuSTable[gOptionTopMenuOffsetTableIndices[i][j]].mOffsetX = 250;
+    for (index = 0; index < 3; index++) {
+        for (cellIndex = 0; cellIndex < gOptionTopMenuOffsetCellCounts[index]; cellIndex++) {
+            if (index == 1) {
+                gOptionTopMenu->mOptionTopMenuSTable[gOptionTopMenuOffsetTableIndices[index][cellIndex]].mOffsetX = 250;
             } else {
-                gOptionTopMenu->mOptionTopMenuSTable[gOptionTopMenuOffsetTableIndices[i][j]].mOffsetX = -250;
+                gOptionTopMenu->mOptionTopMenuSTable[gOptionTopMenuOffsetTableIndices[index][cellIndex]].mOffsetX =
+                    -250;
             }
         }
     }
@@ -106,17 +108,19 @@ void AdvanceOptionTopMenuState0(void) {
 
 void AdvanceOptionTopMenuState1(void) {
     s32 amount;
-    s32 i;
-    s32 j;
+    s32 rowIndex;
+    s32 cellIndex;
 
     gOptionTopMenu->mStateFrames++;
     amount = InterpolateS16(1, 250, 0, gOptionTopMenu->mStateFrames, 10);
-    for (i = 0; i < 3; i++) {
-        for (j = 0; j < gOptionTopMenuOffsetCellCounts[i]; j++) {
-            if (i == 1) {
-                gOptionTopMenu->mOptionTopMenuSTable[gOptionTopMenuOffsetTableIndices[i][j]].mOffsetX = amount;
+    for (rowIndex = 0; rowIndex < 3; rowIndex++) {
+        for (cellIndex = 0; cellIndex < gOptionTopMenuOffsetCellCounts[rowIndex]; cellIndex++) {
+            if (rowIndex == 1) {
+                gOptionTopMenu->mOptionTopMenuSTable[gOptionTopMenuOffsetTableIndices[rowIndex][cellIndex]].mOffsetX =
+                    amount;
             } else {
-                gOptionTopMenu->mOptionTopMenuSTable[gOptionTopMenuOffsetTableIndices[i][j]].mOffsetX = -amount;
+                gOptionTopMenu->mOptionTopMenuSTable[gOptionTopMenuOffsetTableIndices[rowIndex][cellIndex]].mOffsetX =
+                    -amount;
             }
         }
     }
@@ -242,8 +246,8 @@ void AdvanceOptionTopMenuState4(void) {
 
 void AdvanceOptionTopMenuState5(void) {
     s32 amount;
-    s32 i;
-    s32 j;
+    s32 rowIndex;
+    s32 cellIndex;
 
     if (GetOptionNextScene() == -1 && gOptionTopMenu->mNextOptionState == 4) {
         RequestOptionNextScene(0);
@@ -254,12 +258,14 @@ void AdvanceOptionTopMenuState5(void) {
     } else {
         amount = 250;
     }
-    for (i = 0; i < 3; i++) {
-        for (j = 0; j < gOptionTopMenuOffsetCellCounts[i]; j++) {
-            if (i == 1) {
-                gOptionTopMenu->mOptionTopMenuSTable[gOptionTopMenuOffsetTableIndices[i][j]].mOffsetX = amount;
+    for (rowIndex = 0; rowIndex < 3; rowIndex++) {
+        for (cellIndex = 0; cellIndex < gOptionTopMenuOffsetCellCounts[rowIndex]; cellIndex++) {
+            if (rowIndex == 1) {
+                gOptionTopMenu->mOptionTopMenuSTable[gOptionTopMenuOffsetTableIndices[rowIndex][cellIndex]].mOffsetX =
+                    amount;
             } else {
-                gOptionTopMenu->mOptionTopMenuSTable[gOptionTopMenuOffsetTableIndices[i][j]].mOffsetX = -amount;
+                gOptionTopMenu->mOptionTopMenuSTable[gOptionTopMenuOffsetTableIndices[rowIndex][cellIndex]].mOffsetX =
+                    -amount;
             }
         }
     }
@@ -351,17 +357,17 @@ void AdvanceOptionTopMenuState9(void) {
 }
 
 void UpdateOptionTopMenuHighlight(void) {
-    int i;
+    int rowIndex;
     BOOL zero = FALSE;
 
-    for (i = 0; i < 3; i++) {
-        if (i == gOptionTopMenu->mIndex && gOptionTopMenu->mHighlightVisible != FALSE) {
-            gOptionTopMenu->mOptionTopMenuSTable[gOptionTopMenuSTableIndices[i]].mVisible = 1;
-            SetCellPaletteIndex(gOptionTopMenuCellIndices[i], 14, gOptionTopMenu->mOptionTopMenuSNcer,
+    for (rowIndex = 0; rowIndex < 3; rowIndex++) {
+        if (rowIndex == gOptionTopMenu->mIndex && gOptionTopMenu->mHighlightVisible != FALSE) {
+            gOptionTopMenu->mOptionTopMenuSTable[gOptionTopMenuSTableIndices[rowIndex]].mVisible = 1;
+            SetCellPaletteIndex(gOptionTopMenuCellIndices[rowIndex], 14, gOptionTopMenu->mOptionTopMenuSNcer,
                                 gOptionTopMenu->mOptionTopMenuSBncl);
         } else {
-            gOptionTopMenu->mOptionTopMenuSTable[gOptionTopMenuSTableIndices[i]].mVisible = zero;
-            SetCellPaletteIndex(gOptionTopMenuCellIndices[i], 15, gOptionTopMenu->mOptionTopMenuSNcer,
+            gOptionTopMenu->mOptionTopMenuSTable[gOptionTopMenuSTableIndices[rowIndex]].mVisible = zero;
+            SetCellPaletteIndex(gOptionTopMenuCellIndices[rowIndex], 15, gOptionTopMenu->mOptionTopMenuSNcer,
                                 gOptionTopMenu->mOptionTopMenuSBncl);
         }
     }

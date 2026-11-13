@@ -53,6 +53,6 @@ void UpdateSelectBattleStageCellOffsets(void);
 void CopyAndQueueSelectBattleStageNscrRect(void);
 void LocateAndQueueSelectBattleStage(void);
 void ReleaseSelectBattleStage(void);
-void InitSelectBattleStage(void *parentHeap, s32 d, void *mainOam, void *subOam);
+void InitSelectBattleStage(void *parentHeap, s32 variant, void *mainOam, void *subOam);
 
 #include "00/Menu/wi_fi_vs_matching.h"

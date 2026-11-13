@@ -51,7 +51,7 @@ void StoreApWorkSsid(const u8 *ssid) {
 }
 
 void StoreApWorkWepKey(const u8 *text) {
-    s32 i;
+    s32 charIndex;
     s32 textLength;
     u8 *keyCursor;
     MI_CpuFill8(gApStore->mWorkCopy.mEntry.mWepKeys[0], 0, 0x10);
@@ -63,10 +63,10 @@ void StoreApWorkWepKey(const u8 *text) {
         case 32:
             gApStore->mWorkCopy.mEntry.mWepNotation = 0;
             keyCursor = gApStore->mWorkCopy.mEntry.mWepKeys[0];
-            i = 0;
-            for (; i < textLength;) {
-                *keyCursor = (ParseHexDigit(text[i]) << 4) + ParseHexDigit(text[i + 1]);
-                i += 2;
+            charIndex = 0;
+            for (; charIndex < textLength;) {
+                *keyCursor = (ParseHexDigit(text[charIndex]) << 4) + ParseHexDigit(text[charIndex + 1]);
+                charIndex += 2;
                 keyCursor++;
             }
             break;
@@ -213,7 +213,7 @@ void WriteApWorkCopy(void) {
 void WriteApWorkFromExchangeResult(const ExchangeResult *exchangeResult) {
     ApWorkCopy *workCopy;
     u32 keyLength;
-    s32 i;
+    s32 entryIndex;
     const u8 *sourceKey;
     u8 *destinationKey;
     workCopy = &gApStore->mWorkCopy;
@@ -238,10 +238,10 @@ void WriteApWorkFromExchangeResult(const ExchangeResult *exchangeResult) {
             break;
     }
     workCopy->mEntry.mWepNotation = 0;
-    i = 0;
+    entryIndex = 0;
     destinationKey = workCopy->mEntry.mWepKeys[0];
     sourceKey = exchangeResult->mValueBytes[0];
-    for (; i < 4; i++) {
+    for (; entryIndex < 4; entryIndex++) {
         MI_CpuCopy8(sourceKey, destinationKey, keyLength);
         destinationKey += 0x10;
         sourceKey += 0x20;
@@ -378,18 +378,18 @@ void ResetApEntries(void) {
     volatile u16 zeroValue = 0;
     DWCWiFiInfo wifiInfo;
     u8 *packedWifiInfo;
-    s32 i;
+    s32 entryIndex;
     MIi_CpuClear16(zeroValue, gApStore, 0x400);
-    for (i = 0; i < 3; i++) {
-        gApStore->mUnk_000[i].mUnk_00.mSetType = 0xff;
+    for (entryIndex = 0; entryIndex < 3; entryIndex++) {
+        gApStore->mUnk_000[entryIndex].mUnk_00.mSetType = 0xff;
     }
     DWCi_AUTH_GetNewWiFiInfo(&wifiInfo);
     packedWifiInfo = DWCi_BACKUPlConvWifiInfo(&wifiInfo);
-    for (i = 0; i < 2; i++) {
-        MI_CpuCopy8(packedWifiInfo, gApStore->mUnk_000[i].mUnk_f0, 0xe);
+    for (entryIndex = 0; entryIndex < 2; entryIndex++) {
+        MI_CpuCopy8(packedWifiInfo, gApStore->mUnk_000[entryIndex].mUnk_f0, 0xe);
     }
-    for (i = 0; i < 4; i++) {
-        WriteApEntryToNvram(i);
+    for (entryIndex = 0; entryIndex < 4; entryIndex++) {
+        WriteApEntryToNvram(entryIndex);
     }
 }
 
@@ -400,7 +400,7 @@ void WriteApEntryToNvram(s32 entryIndex) {
     s32 entryFlags[4];
     void *workBuffer;
     ApStore *store;
-    s32 i;
+    s32 slotIndex;
     MI_CpuFill8(entryFlags, 0, 0x10);
     entryFlags[entryIndex] = 1;
     if (entryIndex <= 2) {
@@ -420,10 +420,10 @@ void WriteApEntryToNvram(s32 entryIndex) {
             entryFlags[0] = 1;
         }
     }
-    for (i = 0; i < 4; i++) {
-        if (entryFlags[i] != 0) {
-            gApStore->mUnk_000[i].mUnk_fe =
-                Crc16(&gApStore->mWorkCopy.mCrcTable, gApStore->mUnk_000[i].mUnk_00.mUnk_00, 0xfe);
+    for (slotIndex = 0; slotIndex < 4; slotIndex++) {
+        if (entryFlags[slotIndex] != 0) {
+            gApStore->mUnk_000[slotIndex].mUnk_fe =
+                Crc16(&gApStore->mWorkCopy.mCrcTable, gApStore->mUnk_000[slotIndex].mUnk_00.mUnk_00, 0xfe);
         }
     }
     workBuffer = AllocExpHeapBlock(0x100, 0x20);
@@ -433,22 +433,22 @@ void WriteApEntryToNvram(s32 entryIndex) {
 
 void ParseAddressText(const char *input, u8 *output) {
     u8 group[4];
-    s32 i;
-    s32 j;
+    s32 groupIndex;
+    s32 charIndex;
     u8 *cursor;
     MI_CpuFill8(group, 0, 4);
-    for (i = 0; i < 4; i++) {
-        MI_CpuCopy8(input + i * 3, group, 3);
-        j = 0;
+    for (groupIndex = 0; groupIndex < 4; groupIndex++) {
+        MI_CpuCopy8(input + groupIndex * 3, group, 3);
+        charIndex = 0;
         cursor = group;
-        for (; j < 3; j++) {
+        for (; charIndex < 3; charIndex++) {
             if (*cursor != 0) {
                 break;
             }
             *cursor = ' ';
             cursor++;
         }
-        output[i] = StrtolBase10((const char *) group);
+        output[groupIndex] = StrtolBase10((const char *) group);
     }
 }
 

@@ -26,12 +26,13 @@ const u8 gWiFiAikotobaSTableIndices[2] = {4, 5};
 const s32 gWiFiAikotobaOffsetCellCounts[2] = {4, 4};
 const u8 gWiFiAikotobaOffsetTableIndices[2][4] = {{0, 2, 4, 6}, {1, 3, 5, 7}};
 const u8 gWiFiAikotobaXluCellIndices[2] = {0, 1};
-WiFiStateCallbacks gWiFiAikotobaCallbacks = {InitWiFiAikotoba, ClearWiFiAikotobaPointer, AdvanceWiFiAikotoba, WriteWiFiAikotobaRegisters};
+WiFiStateCallbacks gWiFiAikotobaCallbacks = {InitWiFiAikotoba, ClearWiFiAikotobaPointer, AdvanceWiFiAikotoba,
+                                             WriteWiFiAikotobaRegisters};
 WiFiAikotoba *gWiFiAikotoba;
 
 void InitWiFiAikotoba(void *heap) {
-    s32 i;
-    s32 j;
+    s32 index;
+    s32 cellIndex;
     u32 wiFiPrevState;
     void *oamList;
 
@@ -53,8 +54,8 @@ void InitWiFiAikotoba(void *heap) {
     gWiFiAikotoba->mStateFrames = 0;
     gWiFiAikotoba->mHighlightVisible = TRUE;
     LocateAndUploadWiFiAikotoba();
-    for (i = 0; i < 2; i++) {
-        SetCellOamModeXlu(gWiFiAikotobaXluCellIndices[i], 1, gWiFiAikotoba->mWiFiAikotobaSNcer,
+    for (index = 0; index < 2; index++) {
+        SetCellOamModeXlu(gWiFiAikotobaXluCellIndices[index], 1, gWiFiAikotoba->mWiFiAikotobaSNcer,
                           gWiFiAikotoba->mWiFiAikotobaBncl);
     }
     oamList = GetWiFiMenuMainOamList();
@@ -62,9 +63,9 @@ void InitWiFiAikotoba(void *heap) {
     InitLayoutTable(heap, gWiFiAikotoba->mWiFiAikotobaBncl, NULL, &gWiFiAikotoba->mWiFiAikotobaTable);
     gWiFiAikotoba->mWiFiMessages = FindSceneFile("wifi.bmg");
     gWiFiAikotoba->mCommonMessages = FindFileInLoadedArchives("common.bmg");
-    for (i = 0; i < 2; i++) {
-        for (j = 0; j < gWiFiAikotobaOffsetCellCounts[i]; j++) {
-            gWiFiAikotoba->mWiFiAikotobaTable[gWiFiAikotobaOffsetTableIndices[i][j]].mOffsetX = 0xfa;
+    for (index = 0; index < 2; index++) {
+        for (cellIndex = 0; cellIndex < gWiFiAikotobaOffsetCellCounts[index]; cellIndex++) {
+            gWiFiAikotoba->mWiFiAikotobaTable[gWiFiAikotobaOffsetTableIndices[index][cellIndex]].mOffsetX = 0xfa;
         }
     }
     SetSelectReturnSoundId(0xe);
@@ -109,17 +110,19 @@ void AdvanceWiFiAikotobaState0(void) {
 
 void AdvanceWiFiAikotobaState1(void) {
     s32 offsetX;
-    s32 i;
-    s32 j;
+    s32 rowIndex;
+    s32 cellIndex;
 
     gWiFiAikotoba->mStateFrames = gWiFiAikotoba->mStateFrames + 1;
     offsetX = InterpolateS16(1, 0xfa, 0, gWiFiAikotoba->mStateFrames, 10);
-    for (i = 0; i < 2; i++) {
-        for (j = 0; j < gWiFiAikotobaOffsetCellCounts[i]; j++) {
-            if (i == 1) {
-                gWiFiAikotoba->mWiFiAikotobaTable[gWiFiAikotobaOffsetTableIndices[i][j]].mOffsetX = offsetX;
+    for (rowIndex = 0; rowIndex < 2; rowIndex++) {
+        for (cellIndex = 0; cellIndex < gWiFiAikotobaOffsetCellCounts[rowIndex]; cellIndex++) {
+            if (rowIndex == 1) {
+                gWiFiAikotoba->mWiFiAikotobaTable[gWiFiAikotobaOffsetTableIndices[rowIndex][cellIndex]].mOffsetX =
+                    offsetX;
             } else {
-                gWiFiAikotoba->mWiFiAikotobaTable[gWiFiAikotobaOffsetTableIndices[i][j]].mOffsetX = -offsetX;
+                gWiFiAikotoba->mWiFiAikotobaTable[gWiFiAikotobaOffsetTableIndices[rowIndex][cellIndex]].mOffsetX =
+                    -offsetX;
             }
         }
     }
@@ -237,9 +240,9 @@ void AdvanceWiFiAikotobaState4(void) {
 
 void AdvanceWiFiAikotobaState5(void) {
     s32 offsetX;
-    s32 i;
-    s32 j;
-    s32 b;
+    s32 rowIndex;
+    s32 cellIndex;
+    s32 unusedValue;
     void *bmgEntry;
 
     if (GetWiFiNextScene() == -1 && IsBuddyRecordBlockFull() == 0 && gWiFiAikotoba->mPendingWiFiState == 11) {
@@ -251,12 +254,14 @@ void AdvanceWiFiAikotobaState5(void) {
     } else {
         offsetX = 0xfa;
     }
-    for (i = 0; i < 2; i++) {
-        for (j = 0; j < gWiFiAikotobaOffsetCellCounts[i]; j++) {
-            if (i == 1) {
-                gWiFiAikotoba->mWiFiAikotobaTable[gWiFiAikotobaOffsetTableIndices[i][j]].mOffsetX = offsetX;
+    for (rowIndex = 0; rowIndex < 2; rowIndex++) {
+        for (cellIndex = 0; cellIndex < gWiFiAikotobaOffsetCellCounts[rowIndex]; cellIndex++) {
+            if (rowIndex == 1) {
+                gWiFiAikotoba->mWiFiAikotobaTable[gWiFiAikotobaOffsetTableIndices[rowIndex][cellIndex]].mOffsetX =
+                    offsetX;
             } else {
-                gWiFiAikotoba->mWiFiAikotobaTable[gWiFiAikotobaOffsetTableIndices[i][j]].mOffsetX = -offsetX;
+                gWiFiAikotoba->mWiFiAikotobaTable[gWiFiAikotobaOffsetTableIndices[rowIndex][cellIndex]].mOffsetX =
+                    -offsetX;
             }
         }
     }
@@ -311,16 +316,16 @@ void AdvanceWiFiAikotobaState7(void) {
 }
 
 void UpdateWiFiAikotobaHighlight(void) {
-    s32 i;
+    s32 rowIndex;
 
-    for (i = 0; i < 2; i++) {
-        if (i == gWiFiAikotoba->mSelectedIndex && gWiFiAikotoba->mHighlightVisible != FALSE) {
-            gWiFiAikotoba->mWiFiAikotobaTable[gWiFiAikotobaSTableIndices[i]].mVisible = 1;
-            SetCellPaletteIndex(gWiFiAikotobaCellIndices[i], 0xe, gWiFiAikotoba->mWiFiAikotobaSNcer,
+    for (rowIndex = 0; rowIndex < 2; rowIndex++) {
+        if (rowIndex == gWiFiAikotoba->mSelectedIndex && gWiFiAikotoba->mHighlightVisible != FALSE) {
+            gWiFiAikotoba->mWiFiAikotobaTable[gWiFiAikotobaSTableIndices[rowIndex]].mVisible = 1;
+            SetCellPaletteIndex(gWiFiAikotobaCellIndices[rowIndex], 0xe, gWiFiAikotoba->mWiFiAikotobaSNcer,
                                 gWiFiAikotoba->mWiFiAikotobaBncl);
         } else {
-            gWiFiAikotoba->mWiFiAikotobaTable[gWiFiAikotobaSTableIndices[i]].mVisible = 0;
-            SetCellPaletteIndex(gWiFiAikotobaCellIndices[i], 0xf, gWiFiAikotoba->mWiFiAikotobaSNcer,
+            gWiFiAikotoba->mWiFiAikotobaTable[gWiFiAikotobaSTableIndices[rowIndex]].mVisible = 0;
+            SetCellPaletteIndex(gWiFiAikotobaCellIndices[rowIndex], 0xf, gWiFiAikotoba->mWiFiAikotobaSNcer,
                                 gWiFiAikotoba->mWiFiAikotobaBncl);
         }
     }

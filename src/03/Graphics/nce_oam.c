@@ -37,12 +37,12 @@ void CopyNceImageToOamEntries(u32 slot, u32 imageIndex, OamEntry *destination) {
     NceImage *file = gNceFiles[slot];
     u8 *source = (u8 *) file + file[imageIndex].mEntriesOffset;
     u16 entryCount = file[imageIndex].mEntryCount;
-    s32 i;
+    s32 entryIndex;
     u8 buffer[8];
-    volatile u32 d = 0;
+    volatile u32 clearValue = 0;
 
-    MIi_CpuClear32(d, buffer, 8);
-    for (i = 0; i < entryCount; i++, source += 6, destination++) {
+    MIi_CpuClear32(clearValue, buffer, 8);
+    for (entryIndex = 0; entryIndex < entryCount; entryIndex++, source += 6, destination++) {
         MIi_CpuCopy16(source, buffer, 6);
         MIi_CpuCopy32(buffer, destination, 8);
     }
@@ -64,25 +64,25 @@ OamRange *CreateOamRangeFromNceImage(u32 screen, u32 imageIndex, s32 fromFront) 
 }
 
 void InitOamRanges(void) {
-    s32 i;
+    s32 bufferIndex;
 
     gOamRanges = AllocZeroedExpHeapBlock(0x450, 4);
-    for (i = 0; i < 2; i++) {
-        gOamRanges[i].mFreeRanges = CreateFilledPointerStack(0x20, &gOamRanges[i], 0x10);
-        gOamRanges[i].mNodeList = CreateNodeList();
-        gOamRanges[i].mListStart.mEntries = GetOamBufferEntry(i, 0x40);
-        gOamRanges[i].mListEnd.mEntries = GetOamBufferEntry(i, 0x7f) + 1;
-        AddNodeToListFront(gOamRanges[i].mNodeList, &gOamRanges[i].mListStart);
-        AddNodeToListBack(gOamRanges[i].mNodeList, &gOamRanges[i].mListEnd);
+    for (bufferIndex = 0; bufferIndex < 2; bufferIndex++) {
+        gOamRanges[bufferIndex].mFreeRanges = CreateFilledPointerStack(0x20, &gOamRanges[bufferIndex], 0x10);
+        gOamRanges[bufferIndex].mNodeList = CreateNodeList();
+        gOamRanges[bufferIndex].mListStart.mEntries = GetOamBufferEntry(bufferIndex, 0x40);
+        gOamRanges[bufferIndex].mListEnd.mEntries = GetOamBufferEntry(bufferIndex, 0x7f) + 1;
+        AddNodeToListFront(gOamRanges[bufferIndex].mNodeList, &gOamRanges[bufferIndex].mListStart);
+        AddNodeToListBack(gOamRanges[bufferIndex].mNodeList, &gOamRanges[bufferIndex].mListEnd);
     }
 }
 
 void ReleaseOamRanges(void) {
-    s32 i;
+    s32 bufferIndex;
 
-    for (i = 0; i < 2; i++) {
-        DeleteNodeList(gOamRanges[i].mNodeList);
-        DeletePointerStack(gOamRanges[i].mFreeRanges);
+    for (bufferIndex = 0; bufferIndex < 2; bufferIndex++) {
+        DeleteNodeList(gOamRanges[bufferIndex].mNodeList);
+        DeletePointerStack(gOamRanges[bufferIndex].mFreeRanges);
     }
     FreeExpHeapBlockAndClearPointer(&gOamRanges);
 }
@@ -139,9 +139,9 @@ OamRange *CreateOamRange(u32 screen, s32 entryCount, s32 fromFront) {
 void DeleteOamRange(OamRange *range) {
     OamEntry *entries = range->mEntries;
     u32 screen = 0;
-    s32 i;
+    s32 entryIndex;
 
-    for (i = 0; i < range->mEntryCount; i++, entries++) {
+    for (entryIndex = 0; entryIndex < range->mEntryCount; entryIndex++, entries++) {
         entries->mAttr01 = (entries->mAttr01 & 0xc1fffcff) | 0x200;
     }
     RemoveNodeFromList((u32) range);
@@ -166,7 +166,7 @@ static inline void G2_GetOBJPosition(OamEntry *oam, u32 *x, u32 *y) {
 
 void SetOamRangeEffect(OamRange *range, s32 index, u32 effect, u32 affineIndex) {
     OamEntry *entries = range->mEntries;
-    s32 i;
+    s32 entryIndex;
 
     if (index >= 0) {
         if (effect != 0x100 && effect != 0x300) {
@@ -179,7 +179,7 @@ void SetOamRangeEffect(OamRange *range, s32 index, u32 effect, u32 affineIndex) 
             entries[index].mAttr01 = (affineIndex << 25) | ((word & 0xc1fffcff) | effect);
         }
     } else {
-        for (i = 0; i < range->mEntryCount; i++) {
+        for (entryIndex = 0; entryIndex < range->mEntryCount; entryIndex++) {
             if (effect != 0x100 && effect != 0x300) {
                 entries->mAttr01 = (entries->mAttr01 & 0xc1fffcff) | effect;
             } else {
@@ -191,7 +191,7 @@ void SetOamRangeEffect(OamRange *range, s32 index, u32 effect, u32 affineIndex) 
 }
 
 void SetOamRangeMode(OamRange *range, s32 index, u32 mode, u32 colorParam) {
-    s32 i;
+    s32 entryIndex;
     OamEntry *entries = range->mEntries;
 
     if (index >= 0) {
@@ -202,7 +202,7 @@ void SetOamRangeMode(OamRange *range, s32 index, u32 mode, u32 colorParam) {
         attr2 = entries[index].mAttr2;
         entries[index].mAttr2 = (attr2 & 0xffff0fff) | (colorParam << 12);
     } else {
-        for (i = 0; i < range->mEntryCount; i++) {
+        for (entryIndex = 0; entryIndex < range->mEntryCount; entryIndex++) {
             entries->mAttr01 = (entries->mAttr01 & 0xfffff3ff) | (mode << 10);
             entries->mAttr2 = (entries->mAttr2 & 0xffff0fff) | (colorParam << 12);
             entries++;
@@ -212,7 +212,7 @@ void SetOamRangeMode(OamRange *range, s32 index, u32 mode, u32 colorParam) {
 
 void SetOamRangePosition(OamRange *range, s32 index, u32 xPos, u32 yPos) {
     OamEntry *entries = range->mEntries;
-    s32 i;
+    s32 entryIndex;
     s32 firstX;
     s32 firstY;
     s32 deltaX;
@@ -229,24 +229,24 @@ void SetOamRangePosition(OamRange *range, s32 index, u32 xPos, u32 yPos) {
         entries->mAttr01 = ((xPos & 0x1ff) << 16) | ((entries->mAttr01 & 0xfe00ff00) | (yPos & 0xff));
         deltaX = xPos - firstX;
         deltaY = yPos - firstY;
-        for (i = 1; i < range->mEntryCount; i++) {
-            G2_GetOBJPosition(&entries[i], (u32 *) &entryX, (u32 *) &entryY);
-            entries[i].mAttr01 =
-                (((entryX + deltaX) & 0x1ff) << 16) | ((entries[i].mAttr01 & 0xfe00ff00) | ((entryY + deltaY) & 0xff));
+        for (entryIndex = 1; entryIndex < range->mEntryCount; entryIndex++) {
+            G2_GetOBJPosition(&entries[entryIndex], (u32 *) &entryX, (u32 *) &entryY);
+            entries[entryIndex].mAttr01 = (((entryX + deltaX) & 0x1ff) << 16) |
+                                          ((entries[entryIndex].mAttr01 & 0xfe00ff00) | ((entryY + deltaY) & 0xff));
         }
     }
 }
 
 void SetOamRangePriority(OamRange *range, s32 index, u32 priority) {
     OamEntry *entries = range->mEntries;
-    s32 i;
+    s32 entryIndex;
 
     if (index >= 0) {
         u32 word = entries[index].mAttr2;
 
         entries[index].mAttr2 = (word & 0xfffff3ff) | (priority << 10);
     } else {
-        for (i = 0; i < range->mEntryCount; i++) {
+        for (entryIndex = 0; entryIndex < range->mEntryCount; entryIndex++) {
             entries->mAttr2 = (entries->mAttr2 & 0xfffff3ff) | (priority << 10);
             entries++;
         }
