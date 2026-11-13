@@ -15,8 +15,6 @@ typedef struct MkdEfBubbleUpdateList {
     /* 28 */ s32 mAngleScale;
 } MkdEfBubbleUpdateList;
 
-extern u16 gItemBoxTriangleFlag2Flag;
-extern u32 gItemBoxInitDistanceFlag;
 extern const u32 gMkdEfBubbleHitFlag;
 extern u16 gKoopaBlockFlag;
 

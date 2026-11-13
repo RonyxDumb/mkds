@@ -3420,6 +3420,11 @@ src/Main/MapObjects/earthen_pipe_create.c:
     .data       start:0x0216bf84 end:0x0216bfa0
 
 // provisional: file name and boundaries
+src/Main/MapObjects/item_box_kind_descriptor.c:
+    complete
+    .rodata     start:0x02158568 end:0x021585a4
+
+// provisional: file name and boundaries
 src/Main/MapObjects/item_box.c:
     complete
     .text       start:0x020de9ec end:0x020df48c

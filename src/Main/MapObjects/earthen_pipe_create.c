@@ -26,6 +26,7 @@
 #include "code_02147cd8.h"
 #include "Main/MapObjects/earthen_pipe.h"
 #include "Main/MapObjects/group_item_box_kind_descriptor.h"
+#include "Main/MapObjects/item_box_kind_descriptor.h"
 
 const MapObjectList gEarthenPipeUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, UpdateEarthenPipe, NULL, 0, NULL, 0, NULL};
 const MapObjectDrawList gEarthenPipeDrawListData = {{NULL, 0, {0, 0}, (void (*)(MapObjectList *)) CreateEarthenPipe1AndEarthenPipe2, (void (*)(MapObjectList *)) SetupDrawEarthenPipe, (UnkFunc *) DrawEarthenPipe, NULL, 2, NULL, 0, NULL}, 0};
