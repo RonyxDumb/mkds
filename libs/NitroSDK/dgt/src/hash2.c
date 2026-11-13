@@ -168,18 +168,20 @@ void DGT_Hash2GetDigest(DGTHash2Context *ctx, u8 *digest, ...) {
 void DGTi_Hash2ProcessMessageBlock(DGTHash2Context *ctx, u8 *source, int length) {
     u32 saved18;
     u32 saved38;
+    u32 *words;
     int blockIndex;
     int blocks;
 
     blocks = length / 64;
     for (blockIndex = 0; blockIndex < blocks; blockIndex++) {
-        saved18 = *OFFSET_PTR(u32, source, 0x18);
-        saved38 = *OFFSET_PTR(u32, source, 0x38);
-        *OFFSET_PTR(u32, source, 0x18) = 0;
-        *OFFSET_PTR(u32, source, 0x38) = 0;
+        words = (u32 *) source;
+        saved18 = words[6];
+        saved38 = words[14];
+        words[6] = 0;
+        words[14] = 0;
         DGTi_hash2_arm4_small(ctx, source, 0x40);
-        *OFFSET_PTR(u32, source, 0x18) = saved18;
-        *OFFSET_PTR(u32, source, 0x38) = saved38;
+        words[6] = saved18;
+        words[14] = saved38;
         source += 0x40;
     }
 }
