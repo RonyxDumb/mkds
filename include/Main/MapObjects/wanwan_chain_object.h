@@ -4,6 +4,7 @@
 #include "Main/MapObjects/wanwan.h"
 #include "Main/MapObjects/wanwan_chain_init.h"
 #include "Main/MapObjects/code_020e66e4.h"
+#include "Main/MapObjects/map_object_kind_update_list.h"
 
 // Object of InitWanwanChainObject: a vector at 0x04, a vector at 0x1c, a word at 0x68, the Wanwan it was set up from at
 // 0xa0, an WanwanChain at 0xa4 and a word at 0xf4.
@@ -35,3 +36,5 @@ unsigned int CollideItemObjectWithWanwanChain(unsigned int unused0, unsigned int
                                               unsigned int bytePointer);
 unsigned int CollideKartWithWanwanChain(unsigned int unused0, unsigned int unused1, unsigned int unused2,
                                         unsigned int bytePointer);
+
+extern const MapObjectKindDescriptor gWanwanChainKindDescriptor;

@@ -29,6 +29,19 @@
 #include "Main/MapObjects/data_0217b000.h"
 #include "Main/MapObjects/wanwan_chain.h"
 
+const MapObjectKindDescriptor gWanwanChainKindDescriptor = {
+    0,
+    {0, 0},
+    0xf8,
+    (void (*)(void *, CourseMapRow *, void *)) InitWanwanChainObject,
+    CreateWanwanChainKindData,
+    (MapObjectList *(*)(void)) CreateWanwanChainDrawList,
+    NULL,
+    NULL,
+    CreateWanwanChainUpdateList,
+    NULL,
+    {NULL, NULL, NULL, NULL}};
+
 u32 CollideKartWithWanwanChain(u32 unused0, u32 unused1, u32 unused2, u32 bytePointer) {
     return (*OFFSET_PTR(const u8, bytePointer, 0));
 }

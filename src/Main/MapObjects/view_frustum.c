@@ -44,6 +44,7 @@
 #include "Main/MapObjects/dossun_kind_descriptor.h"
 #include "Main/MapObjects/wanwan_reset.h"
 #include "Main/MapObjects/model_animation_entries.h"
+#include "Main/MapObjects/wanwan_chain_object.h"
 #include "Main/MapObjects/group_item_box_kind_descriptor.h"
 #include "Main/MapObjects/vehicle_kind_descriptor.h"
 #include "Main/MapObjects/kart_balloons_kind_descriptor.h"
@@ -64,7 +65,7 @@ MapObjectKindRow gMapObjectKindRows[133] = {
     {401, (MapObjectKindDescriptor *) &gKuriboKindDescriptor, NULL},
     {406, (MapObjectKindDescriptor *) &gWanwanOnChainKindDescriptor, NULL},
     {421, (MapObjectKindDescriptor *) &gWanwanOnPathKindDescriptor, NULL},
-    {407, (MapObjectKindDescriptor *) &data_usa_021583d8, NULL},
+    {407, (MapObjectKindDescriptor *) &gWanwanChainKindDescriptor, NULL},
     {408, (MapObjectKindDescriptor *) &gMkdEfBubbleKindDescriptor, NULL},
     {409, (MapObjectKindDescriptor *) &data_usa_02158b80, NULL},
     {411, (MapObjectKindDescriptor *) &data_usa_02158fb0, NULL},
