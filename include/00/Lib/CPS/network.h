@@ -71,8 +71,13 @@ typedef struct IpHeader IpHeader;
 typedef struct TcpHeader TcpHeader;
 
 typedef struct IcmpHeader {
-    /* 00 */ u8 mType;
-    /* 01 */ u8 mUnk_01;
+    union {
+        /* 00 */ u16 mTypeAndCode;
+        struct {
+            /* 00 */ u8 mType;
+            /* 01 */ u8 mUnk_01;
+        };
+    };
     /* 02 */ u16 mChecksum;
     /* 04 */ u16 mIdentifier;
     /* 06 */ u16 mSequence;

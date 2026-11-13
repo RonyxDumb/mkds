@@ -654,22 +654,22 @@ void send_ping(u8 *pattern, u32 length, CPSSoc *socket) {
     u16 invertedChecksum;
     u16 sequence;
     u8 *sendBuffer;
-    u8 *icmpHeader;
+    IcmpHeader *icmpHeader;
 
     sendBuffer = socket->mSendBuffer;
-    icmpHeader = sendBuffer + 0x22;
-    *OFFSET_PTR(u16, sendBuffer, 0x22) = 8;
-    *OFFSET_PTR(u16, icmpHeader, 4) = (u32) OSi_ThreadInfo.mCurrentThread;
-    *OFFSET_PTR(u16, icmpHeader, 2) = 0;
+    icmpHeader = OFFSET_PTR(IcmpHeader, sendBuffer, 0x22);
+    icmpHeader->mTypeAndCode = 8;
+    icmpHeader->mIdentifier = (u32) OSi_ThreadInfo.mCurrentThread;
+    icmpHeader->mChecksum = 0;
     sequence = gPingSequence;
     socket->mLocalPort = sequence;
     gPingSequence++;
-    *OFFSET_PTR(u16, icmpHeader, 6) = sequence;
+    icmpHeader->mSequence = sequence;
     checksum = calc_checksum_do(icmpHeader, 8, 0);
     checksum = calc_checksum_do(pattern, length, checksum);
     invertedChecksum = invert_checksum(checksum);
-    *OFFSET_PTR(u16, icmpHeader, 2) = (invertedChecksum >> 8) | (invertedChecksum << 8);
-    send_ip(icmpHeader, 8, pattern, length, socket->mRemoteIp, 1);
+    icmpHeader->mChecksum = (invertedChecksum >> 8) | (invertedChecksum << 8);
+    send_ip((u8 *) icmpHeader, 8, pattern, length, socket->mRemoteIp, 1);
 }
 
 void send_udp(u8 *data, u32 length, CPSSoc *socket) {
