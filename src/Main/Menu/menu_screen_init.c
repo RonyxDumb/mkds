@@ -45,27 +45,29 @@ void InitCurrentMenuScreen(void) {
             case SCREEN_SELECT_ENGINE:
                 InitSelectEngine(MenuGetCurrentHeap(), menu->mMainOam, menu->mSubOam);
                 break;
-            case 5:
-            case 8:
-            case 15:
-            case 21:
-                variant = (MenuGetConnectionKind() == 0) ? UNK_020CB6C0_0 : UNK_020CB6C0_1;
+            case SCREEN_SELECT_CHARACTER_GRAND_PRIX:
+            case SCREEN_SELECT_CHARACTER_VS:
+            case SCREEN_SELECT_CHARACTER_BATTLE:
+            case SCREEN_SELECT_CHARACTER_TIME_ATTACK:
+                variant = (MenuGetConnectionKind() == CONNECTION_KIND_NONE) ? SELECT_CHARACTER_MODE_NO_CONNECTION
+                                                                            : SELECT_CHARACTER_MODE_CONNECTION;
                 menu = gMenuScene;
                 InitSelectCharacter(MenuGetCurrentHeap(), variant, menu->mMainOam, menu->mSubOam);
                 break;
-            case 6:
-            case 9:
-            case 22:
-                variant = (MenuGetConnectionKind() == 0) ? UNK_020CB6C0_0 : UNK_020CB6C0_1;
+            case SCREEN_SELECT_KART_GRAND_PRIX:
+            case SCREEN_SELECT_KART_VS:
+            case SCREEN_SELECT_KART_TIME_ATTACK:
+                variant = (MenuGetConnectionKind() == CONNECTION_KIND_NONE) ? SELECT_KART_MODE_NO_CONNECTION
+                                                                            : SELECT_KART_MODE_CONNECTION;
                 menu = gMenuScene;
                 InitSelectKart(MenuGetCurrentHeap(), variant, menu->mMainOam, menu->mSubOam);
                 break;
-            case 7:
+            case SCREEN_SELECT_CUP_GRID_GRAND_PRIX:
                 InitSelectCupGrid(MenuGetCurrentHeap(), menu->mMainOam, menu->mSubOam,
                                   SELECT_CUP_GRID_MODE_SHOW_RECORDS);
                 break;
-            case 11:
-                if (MenuGetConnectionKind() == 0) {
+            case SCREEN_SELECT_CUP_GRID_VS:
+                if (MenuGetConnectionKind() == CONNECTION_KIND_NONE) {
                     variant = SELECT_CUP_GRID_MODE_NO_CONNECTION;
                 } else if (GetMultiSimple() != 0) {
                     variant = SELECT_CUP_GRID_MODE_MULTI_SIMPLE;
@@ -75,25 +77,26 @@ void InitCurrentMenuScreen(void) {
                 menu = gMenuScene;
                 InitSelectCupGrid(MenuGetCurrentHeap(), menu->mMainOam, menu->mSubOam, variant);
                 break;
-            case 23:
+            case SCREEN_SELECT_CUP_GRID_TIME_ATTACK:
                 InitSelectCupGrid(MenuGetCurrentHeap(), menu->mMainOam, menu->mSubOam, SELECT_CUP_GRID_MODE_NO_RECORDS);
                 break;
-            case 13:
-                if (MenuGetConnectionKind() == 0) {
-                    variant = 1;
+            case SCREEN_SELECT_CUP_COURSE_VS:
+                if (MenuGetConnectionKind() == CONNECTION_KIND_NONE) {
+                    variant = SELECT_CUP_COURSE_MODE_NO_CONNECTION;
                 } else if (GetMultiSimple() != 0) {
-                    variant = 2;
+                    variant = SELECT_CUP_COURSE_MODE_MULTI_SIMPLE;
                 } else {
-                    variant = 3;
+                    variant = SELECT_CUP_COURSE_MODE_MULTI_OTHER;
                 }
                 menu = gMenuScene;
                 InitSelectCupCourse(MenuGetCurrentHeap(), menu->mMainOam, menu->mSubOam, variant);
                 break;
-            case 25:
-                InitSelectCupCourse(MenuGetCurrentHeap(), menu->mMainOam, menu->mSubOam, 0);
+            case SCREEN_SELECT_CUP_COURSE_TIME_ATTACK:
+                InitSelectCupCourse(MenuGetCurrentHeap(), menu->mMainOam, menu->mSubOam,
+                                    SELECT_CUP_COURSE_MODE_WITH_GHOSTS);
                 break;
-            case 10:
-                if (MenuGetConnectionKind() == 0) {
+            case SCREEN_SELECT_RACE_RULE_VS:
+                if (MenuGetConnectionKind() == CONNECTION_KIND_NONE) {
                     variant = SELECT_RACE_RULE_MODE_VS_NO_CONNECTION;
                 } else if (GetMultiSimple() != 0) {
                     variant = SELECT_RACE_RULE_MODE_VS_MULTI_SIMPLE;
@@ -103,8 +106,8 @@ void InitCurrentMenuScreen(void) {
                 menu = gMenuScene;
                 InitSelectRaceRule(MenuGetCurrentHeap(), (s32) menu->mMainOam, menu->mSubOam, variant);
                 break;
-            case 16:
-                if (MenuGetConnectionKind() == 0) {
+            case SCREEN_SELECT_RACE_RULE_BATTLE:
+                if (MenuGetConnectionKind() == CONNECTION_KIND_NONE) {
                     variant = SELECT_RACE_RULE_MODE_BATTLE_NO_CONNECTION;
                 } else if (GetMultiSimple() != 0) {
                     variant = SELECT_RACE_RULE_MODE_BATTLE_MULTI_SIMPLE;
@@ -114,13 +117,15 @@ void InitCurrentMenuScreen(void) {
                 menu = gMenuScene;
                 InitSelectRaceRule(MenuGetCurrentHeap(), (s32) menu->mMainOam, menu->mSubOam, variant);
                 break;
-            case 14:
-                variant = (MenuGetConnectionKind() == 0) ? UNK_020CB6C0_0 : UNK_020CB6C0_1;
+            case SCREEN_SELECT_GAME:
+                variant = (MenuGetConnectionKind() == CONNECTION_KIND_NONE) ? SELECT_GAME_MODE_NO_CONNECTION
+                                                                            : SELECT_GAME_MODE_CONNECTION;
                 menu = gMenuScene;
                 InitSelectGame(MenuGetCurrentHeap(), variant, menu->mMainOam, menu->mSubOam);
                 break;
             case SCREEN_SELECT_BATTLE_STAGE:
-                variant = (GetRaceSetupCopy()->mBattleKind == BATTLE_KIND_BALLOON) ? UNK_020CB6C0_1 : UNK_020CB6C0_0;
+                variant = (GetRaceSetupCopy()->mBattleKind == BATTLE_KIND_BALLOON) ? SELECT_BATTLE_STAGE_VARIANT_BALLOON
+                                                                                   : SELECT_BATTLE_STAGE_VARIANT_SHINE;
                 menu = gMenuScene;
                 InitSelectBattleStage(MenuGetCurrentHeap(), variant, menu->mMainOam, menu->mSubOam);
                 break;
@@ -136,28 +141,28 @@ void InitCurrentMenuScreen(void) {
             case SCREEN_SELECT_GHOST:
                 InitSelectGhost(MenuGetCurrentHeap(), (u32) menu->mMainOam, (u32) menu->mSubOam);
                 break;
-            case 12:
-            case 24:
+            case SCREEN_SELECT_CUP_M_VS:
+            case SCREEN_SELECT_CUP_M_TIME_ATTACK:
                 InitSelectCupM(MenuGetCurrentHeap(), menu->mMainOam, menu->mSubOam);
                 break;
-            case 29:
+            case SCREEN_NEXT_RACE_SETUP:
                 SetNextRaceSetupFromCopy();
                 break;
         }
         switch (gMenuScene->mScreenNumber) {
-            case 10:
-            case 11:
-            case 12:
-            case 13:
-            case 14:
-            case 16:
+            case SCREEN_SELECT_RACE_RULE_VS:
+            case SCREEN_SELECT_CUP_GRID_VS:
+            case SCREEN_SELECT_CUP_M_VS:
+            case SCREEN_SELECT_CUP_COURSE_VS:
+            case SCREEN_SELECT_GAME:
+            case SCREEN_SELECT_RACE_RULE_BATTLE:
             case SCREEN_SELECT_BATTLE_STAGE:
                 gMenuScene->mDataSharingSyncStarted = FALSE;
                 gMenuScene->mDataSharingSyncFinished = FALSE;
                 break;
-            case 8:
-            case 15:
-                if (GetPreviousMenuScreenNumber() == 0xe) {
+            case SCREEN_SELECT_CHARACTER_VS:
+            case SCREEN_SELECT_CHARACTER_BATTLE:
+                if (GetPreviousMenuScreenNumber() == SCREEN_SELECT_GAME) {
                     gMenuScene->mDataSharingSyncStarted = FALSE;
                     gMenuScene->mDataSharingSyncFinished = FALSE;
                 }
@@ -172,31 +177,31 @@ void ReleasePreviousMenuScreen(void) {
             case SCREEN_SELECT_ENGINE:
                 ReleaseSelectEngine();
                 break;
-            case 5:
-            case 8:
-            case 15:
-            case 21:
+            case SCREEN_SELECT_CHARACTER_GRAND_PRIX:
+            case SCREEN_SELECT_CHARACTER_VS:
+            case SCREEN_SELECT_CHARACTER_BATTLE:
+            case SCREEN_SELECT_CHARACTER_TIME_ATTACK:
                 ReleaseSelectCharacter();
                 break;
-            case 6:
-            case 9:
-            case 22:
+            case SCREEN_SELECT_KART_GRAND_PRIX:
+            case SCREEN_SELECT_KART_VS:
+            case SCREEN_SELECT_KART_TIME_ATTACK:
                 ReleaseSelectKart();
                 break;
-            case 7:
-            case 11:
-            case 23:
+            case SCREEN_SELECT_CUP_GRID_GRAND_PRIX:
+            case SCREEN_SELECT_CUP_GRID_VS:
+            case SCREEN_SELECT_CUP_GRID_TIME_ATTACK:
                 ReleaseSelectCupGrid();
                 break;
-            case 13:
-            case 25:
+            case SCREEN_SELECT_CUP_COURSE_VS:
+            case SCREEN_SELECT_CUP_COURSE_TIME_ATTACK:
                 ReleaseSelectCupCourse();
                 break;
-            case 10:
-            case 16:
+            case SCREEN_SELECT_RACE_RULE_VS:
+            case SCREEN_SELECT_RACE_RULE_BATTLE:
                 ReleaseSelectRaceRule();
                 break;
-            case 14:
+            case SCREEN_SELECT_GAME:
                 ReleaseSelectGame();
                 break;
             case SCREEN_SELECT_BATTLE_STAGE:
@@ -214,8 +219,8 @@ void ReleasePreviousMenuScreen(void) {
             case SCREEN_SELECT_GHOST:
                 ReleaseSelectGhost();
                 break;
-            case 12:
-            case 24:
+            case SCREEN_SELECT_CUP_M_VS:
+            case SCREEN_SELECT_CUP_M_TIME_ATTACK:
                 ReleaseSelectCupM();
                 break;
         }

@@ -9,6 +9,9 @@
 #include "pm.h" // PMSleepCallbackInfo
 #include "Main/Sound/sound_seq.h" // SoundSetPlayer
 
+// Value of StartupWork.mConnectionKind.
+#define CONNECTION_KIND_NONE 0
+
 // Object behind gStartupWork (0x7c bytes); the 0x14 bytes at 0x2a are the source of a block move into
 // gBackupBuffers.
 typedef struct StartupWork {

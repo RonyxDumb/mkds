@@ -91,6 +91,12 @@ typedef struct EmblemGrid {
     /* 1c */ u8 *mBuffers[5];
 } EmblemGrid;
 
+// The variant argument of InitSelectBattleStage: the battle kind the screen is opened for.
+typedef enum SelectBattleStageVariant {
+    SELECT_BATTLE_STAGE_VARIANT_SHINE = 0,
+    SELECT_BATTLE_STAGE_VARIANT_BALLOON = 1,
+} SelectBattleStageVariant;
+
 // Allocated by InitSelectBattleStage and held in gSelectBattleStage.
 typedef struct SelectBattleStage {
     /* 0000 */ s32 mState;

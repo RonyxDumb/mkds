@@ -21,6 +21,12 @@ typedef struct SelectGameRow {
     /* 04 */ u16 mRectEntryId;
 } SelectGameRow;
 
+// Value of SelectGame.mMode.
+typedef enum SelectGameMode {
+    SELECT_GAME_MODE_NO_CONNECTION = 0,
+    SELECT_GAME_MODE_CONNECTION = 1,
+} SelectGameMode;
+
 // 0x6c bytes.
 typedef struct SelectGame {
     /* 00 */ CellFileSet mCellFileSets[2];

@@ -76,6 +76,13 @@ typedef struct RaceSetupCopy {
     /* 10d */ u8 mSessionKartCount;
 } RaceSetupCopy;
 
+// Value of SelectKart.mMode: the same three sources as SelectCharacterMode.
+typedef enum SelectKartMode {
+    SELECT_KART_MODE_NO_CONNECTION = 0,
+    SELECT_KART_MODE_CONNECTION = 1,
+    SELECT_KART_MODE_WIFI_SESSION = 2,
+} SelectKartMode;
+
 // 0x118-byte object that gSelectKart points to.
 typedef struct SelectKart {
     /* 000 */ u8 mUnk_000[0x24];

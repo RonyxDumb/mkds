@@ -303,6 +303,14 @@ typedef struct SelectCupGrid {
     /* 88 */ s32 mResult;
 } SelectCupGrid;
 
+// Value of SelectCupCourse.mMode.
+typedef enum SelectCupCourseMode {
+    SELECT_CUP_COURSE_MODE_WITH_GHOSTS = 0,
+    SELECT_CUP_COURSE_MODE_NO_CONNECTION = 1,
+    SELECT_CUP_COURSE_MODE_MULTI_SIMPLE = 2,
+    SELECT_CUP_COURSE_MODE_MULTI_OTHER = 3,
+} SelectCupCourseMode;
+
 // Object behind gSelectCupCourse.
 typedef struct SelectCupCourse {
     /* 00 */ struct NNSG2dCellDataBank *mSelectCupCourseMNcer;
