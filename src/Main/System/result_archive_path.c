@@ -877,7 +877,7 @@ void InitArchiveBuffer(NNSiFndHeapHead *heap, s32 bufferIndex, s32 sizeInKb, u32
     ArchiveBuffer *buffer = &gArchiveSlots->mBuffers[bufferIndex];
     buffer->mHeap = heap;
     buffer->mData = NULL;
-    buffer->mUnk_08_0 = sizeInKb << 10;
+    buffer->mByteSize = sizeInKb << 10;
     buffer->mUncompress = uncompress;
     buffer->mUnk_08_30 = flag;
     buffer->mUnk_08_31 = 1;
@@ -919,7 +919,7 @@ void InitArchiveBuffersOnOverlayHeap(void) {
 
 void RequestArchiveLoad(const void *path, s32 bufferIndex) {
     ArchiveBuffer *buffer = &gArchiveSlots->mBuffers[bufferIndex];
-    AddPendingFile(path, buffer->mHeap, &buffer->mData, buffer->mUnk_08_0, buffer->mUncompress);
+    AddPendingFile(path, buffer->mHeap, &buffer->mData, buffer->mByteSize, buffer->mUncompress);
     buffer->mUnk_08_31 = 1;
 }
 

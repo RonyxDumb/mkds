@@ -176,7 +176,7 @@ typedef struct ArchiveBuffer {
     /* 08 */ union {
         s32 mUnk_08;
         struct {
-            u32 mUnk_08_0 : 29;
+            u32 mByteSize : 29;
             s32 mUncompress : 1;
             u32 mUnk_08_30 : 1;
             u32 mUnk_08_31 : 1;
