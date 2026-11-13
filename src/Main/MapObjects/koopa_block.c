@@ -50,18 +50,6 @@
 
 const u16 gMkdEfBubbleState1SecondFlag = 8;
 const u16 gMkdEfBubbleState1Flag = 2;
-const MkdEfBubbleUpdateList gMkdEfBubbleUpdateListData = {{NULL,
-                                                           0,
-                                                           {0, 0},
-                                                           NULL,
-                                                           (void (*)(MapObjectList *)) AdvanceMkdEfBubbleAnimation,
-                                                           (UnkFunc *) UpdateMkdEfBubble,
-                                                           NULL,
-                                                           0,
-                                                           NULL,
-                                                           0,
-                                                           NULL},
-                                                          0};
 const MapObjectDrawList gMkdEfBubbleDrawListData = {{NULL,
                                                      0,
                                                      {0, 0},
@@ -74,6 +62,18 @@ const MapObjectDrawList gMkdEfBubbleDrawListData = {{NULL,
                                                      0,
                                                      NULL},
                                                     0};
+const MkdEfBubbleUpdateList gMkdEfBubbleUpdateListData = {{NULL,
+                                                           0,
+                                                           {0, 0},
+                                                           NULL,
+                                                           (void (*)(MapObjectList *)) AdvanceMkdEfBubbleAnimation,
+                                                           (UnkFunc *) UpdateMkdEfBubble,
+                                                           NULL,
+                                                           0,
+                                                           NULL,
+                                                           0,
+                                                           NULL},
+                                                          0};
 const MapObjectKindData gMkdEfBubbleKindData = {
     (s32(*)(MapObject *, void *, s32 *, s32 *)) CollideKartWithMkdEfBubble,
     (s32(*)(MapObject *, void *, void *, void *)) CollideItemObjectWithMkdEfBubble,
@@ -92,110 +92,12 @@ const MapObjectKindData gMkdEfBubbleKindData = {
     0,
     0};
 
-StateCallbacks gKoopaBlockStateTable[3] = {{(UnkFunc *) KoopaBlockState0ReturnArgument, UpdateKoopaBlockState0},
-                                           {EnterKoopaBlockState1, UpdateKoopaBlockState1},
-                                           {(UnkFunc *) KoopaBlockState2ReturnArgument, UpdateKoopaBlockState2}};
-MkdEfBubbleUpdateList *gMkdEfBubbleUpdateList;
-MapObjectDrawList *gMkdEfBubbleDrawList;
 ModelAnimation *gMkdEfBubbleNsbta;
 struct Nsbmd *gKoopaBlock;
+MkdEfBubbleUpdateList *gMkdEfBubbleUpdateList;
+MapObjectDrawList *gMkdEfBubbleDrawList;
 struct Nsbmd *gMkdEfBubble;
 
-#pragma thumb off
-
-void UpdateKoopaBlockState2(KoopaBlock *koopaBlock) {
-    GroupFollower *follower;
-    s32 progress;
-    s32 speed;
-    u16 angle;
-    s32 sine;
-
-    follower = &koopaBlock->mFollower;
-    progress = GetGroupFollowerProgress(follower);
-    angle = MUL_FIXED12_NO_ROUND(progress, 0x40000);
-    sine = FX_SinIdx(angle);
-    speed = MUL_FIXED12_NO_ROUND(-sine, koopaBlock->mFollowSpeed);
-    follower->mSpeed = speed > 0x200 ? speed : 0x200;
-    if (speed <= 0x200) {
-        speed = 0x200;
-    }
-    follower->mProgressStep =
-        MUL_FIXED12_NO_ROUND(speed, follower->mPath->mSegments[follower->mSegmentIndex].mInverseProgressLength);
-}
-
-void DrawAllKoopaBlocks(void *viewMatrix) {
-    DrawVisibleMapObjects(gKoopaBlockDrawList, viewMatrix, DrawMapObjectModelAtPos);
-}
-
-BOOL IsKoopaBlockKind(u32 kind) {
-    switch (kind) {
-        case 0xca:
-            return 1;
-        default:
-            return 0;
-    }
-}
-
-s32 GetKoopaBlockProgress(KoopaBlock *koopaBlock) {
-    s32 progress;
-    GroupFollower *follower;
-
-    follower = &koopaBlock->mFollower;
-    progress = GetGroupFollowerProgress(follower);
-    if (follower->mForward == 0) {
-        progress = 0x1000 - progress;
-    }
-    return progress;
-}
-
-#pragma thumb on
-void CreateKoopaBlock(void) {
-    void *file;
-
-    file = FindCourseMapObjFile("koopa_block.nsbmd");
-    CreateNsbmd(&gKoopaBlock, file, NULL);
-    SetNsbmdPolygonIdLightEmiAll(gKoopaBlock, 0x3f, 2, 0x294a);
-    SetMapObjectsModel(gKoopaBlockDrawList, gKoopaBlock);
-}
-
-void InitKoopaBlock(KoopaBlock *koopaBlock, CourseMapRow *courseRow) {
-    InitStateMachine(&koopaBlock->mCollisionMapObject.mMapObject.mStateMachine, gKoopaBlockStateTable, 3, koopaBlock);
-    koopaBlock->mFollowSpeed = TO_FIXED12(courseRow->mSettings[0]) / 100;
-    InitGroupFollower(&koopaBlock->mFollower, courseRow, koopaBlock->mFollowSpeed);
-    koopaBlock->mPauseTimer = 0;
-    koopaBlock->mCollisionMapObject.mCollisionData.mPrevMatrix =
-        koopaBlock->mCollisionMapObject.mMapObject.mMatrix.mAxes;
-    koopaBlock->mCollisionMapObject.mCollisionData.mAngleChangeVector.x = 0;
-    koopaBlock->mCollisionMapObject.mCollisionData.mAngleChangeVector.y = 0;
-    koopaBlock->mCollisionMapObject.mCollisionData.mAngleChangeVector.z = 0;
-    koopaBlock->mCollisionMapObject.mCollisionData.mUnk_130 = FALSE;
-    koopaBlock->mCollisionMapObject.mCollisionData.mUnk_100 =
-        MUL_FIXED12_NO_ROUND(koopaBlock->mCollisionMapObject.mMapObject.mScale.x, 0x190000);
-    koopaBlock->mCollisionMapObject.mCollisionData.mHalfSizeY =
-        MUL_FIXED12_NO_ROUND(koopaBlock->mCollisionMapObject.mMapObject.mScale.y, 0x64000) >> 1;
-    koopaBlock->mCollisionMapObject.mCollisionData.mPositiveHalfSizeZ =
-        MUL_FIXED12_NO_ROUND(koopaBlock->mCollisionMapObject.mMapObject.mScale.z, 0xaf000);
-    koopaBlock->mCollisionMapObject.mCollisionData.mNegativeHalfSizeZ =
-        MUL_FIXED12_NO_ROUND(koopaBlock->mCollisionMapObject.mMapObject.mScale.z, 0xaf000);
-    koopaBlock->mCollisionMapObject.mCollisionData.mUnk_110 = 0;
-    koopaBlock->mCollisionMapObject.mCollisionData.mUnk_114.x = 1;
-    koopaBlock->mCollisionMapObject.mCollisionData.mUnk_114.y = 0;
-    koopaBlock->mCollisionMapObject.mCollisionData.mUnk_114.z = 0;
-    koopaBlock->mCollisionMapObject.mCollisionData.mUnk_120 = 0x800;
-    SetupGroupFollowerAtEntry(&koopaBlock->mFollower, 0, 1);
-    GetGroupFollowerLinearPosStep(&koopaBlock->mFollower, &koopaBlock->mCollisionMapObject.mMapObject.mPos,
-                                  &koopaBlock->mCollisionMapObject.mMapObject.mPosStep);
-    koopaBlock->mCollisionMapObject.mCollisionData.mUnk_e8 = koopaBlock->mCollisionMapObject.mMapObject.mPos;
-    koopaBlock->mCollisionMapObject.mCollisionData.mUnk_134 = COLLISION_SHAPE_BOX;
-    koopaBlock->mCollisionMapObject.mCollisionData.mUnk_138 = 0;
-    koopaBlock->mCollisionMapObject.mMapObject.mFlags |= gKoopaBlockFlag;
-    koopaBlock->mCollisionMapObject.mMapObject.mFlags &= ~2;
-    koopaBlock->mCollisionMapObject.mMapObject.mFlags &= ~8;
-    koopaBlock->mCollisionMapObject.mMapObject.mAlpha = 0x1f;
-    koopaBlock->mCollisionMapObject.mMapObject.mStateMachine.mNextState = 0;
-    koopaBlock->mCollisionMapObject.mMapObject.mStateMachine.mNextStateRequested = 1;
-    koopaBlock->mCollisionMapObject.mMapObject.mFarDistanceSquared = gSoundFalloffs[3].mFarDistanceSquared;
-}
 #pragma thumb off
 
 MapObjectKindData *CreateMkdEfBubbleKindData(void) {
