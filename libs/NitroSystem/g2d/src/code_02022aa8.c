@@ -5,7 +5,7 @@
 #include "Main/Menu/data_02153000.h"
 #include "Main/Graphics/cell_file_set.h"
 #include "g2d_CharCanvas.h"
-#include "Main/Graphics/layout_entry_angle.h" // Unk02022eb0
+#include "Main/Graphics/layout_entry_angle.h" // OamAttrEntry
 
 void NNS_G2dMapScrToCharText(u16 *scnBase, s32 areaWidth, s32 areaHeight, s32 areaLeft, s32 areaTop, s32 scnWidth,
                              s32 charNo, u32 cplt) {
@@ -91,7 +91,7 @@ static inline u32 clz_inline(u32 value) {
 
 s32 NNS_G2dArrangeOBJ1D(void *oam, s32 areaWidth, s32 areaHeight, s32 originX, s32 originY, s32 color, s32 charName,
                         s32 vramMode) {
-    Unk02022eb0 *pObj;
+    OamAttrEntry *pObj;
     const u8 *sizeEntry;
     s32 heightLog;
     s32 widthLog;
@@ -178,9 +178,9 @@ s32 NNS_G2dArrangeOBJ1D(void *oam, s32 areaWidth, s32 areaHeight, s32 originX, s
 
 u32 GetGlyphIndex(FontCodeMap *pMap, u32 code) {
     u32 index;
-    Unk02021a5c *first;
-    Unk02021a5c *last;
-    Unk02021a5c *middle;
+    UnsignedHalfwordPair *first;
+    UnsignedHalfwordPair *last;
+    UnsignedHalfwordPair *middle;
     FontCodeMapInfo *scan;
 
     index = 0xffff;
@@ -211,7 +211,7 @@ u32 GetGlyphIndex(FontCodeMap *pMap, u32 code) {
     return index;
 }
 
-void NNS_G2dFontInitAuto(Unk02022aa8 *pFont, NNSG2dBinaryFileHeader *pNftrFile) {
+void NNS_G2dFontInitAuto(NNSG2dFont *pFont, NNSG2dBinaryFileHeader *pNftrFile) {
     u32 result;
     u32 encodingId;
 
@@ -222,13 +222,13 @@ void NNS_G2dFontInitAuto(Unk02022aa8 *pFont, NNSG2dBinaryFileHeader *pNftrFile) 
     pFont->mCbCharSpliter = spliterTable[encodingId];
 }
 
-void NNS_G2dFontInitUTF16(Unk02022aa8 *pFont, NNSG2dBinaryFileHeader *pNftrFile) {
+void NNS_G2dFontInitUTF16(NNSG2dFont *pFont, NNSG2dBinaryFileHeader *pNftrFile) {
     pFont->mUnk_08 = NNSi_G2dGetUnpackedFont(pNftrFile, &pFont->mPRes) - 1;
     pFont->mUnk_0a = pFont->mUnk_08 != 0 ? 2 : 3;
     pFont->mCbCharSpliter = NNSi_G2dSplitCharUTF16;
 }
 
-u32 NNS_G2dFontFindGlyphIndex(Unk02022aa8 *pFont, u32 code) {
+u32 NNS_G2dFontFindGlyphIndex(NNSG2dFont *pFont, u32 code) {
     FontCodeMap *charMap;
 
     charMap = pFont->mPRes->mPMap;
@@ -241,7 +241,7 @@ u32 NNS_G2dFontFindGlyphIndex(Unk02022aa8 *pFont, u32 code) {
     return 0xffff;
 }
 
-NNSG2dCharWidths *NNS_G2dFontGetCharWidthsFromIndex(Unk02022aa8 *pFont, u32 idx) {
+NNSG2dCharWidths *NNS_G2dFontGetCharWidthsFromIndex(NNSG2dFont *pFont, u32 idx) {
     NNSG2dFontWidth *pRange;
     NNSG2dFontInformation *pRes;
 
@@ -256,7 +256,7 @@ NNSG2dCharWidths *NNS_G2dFontGetCharWidthsFromIndex(Unk02022aa8 *pFont, u32 idx)
     return &pRes->mDefaultWidth;
 }
 
-s32 NNSi_G2dFontGetStringWidth(Unk02022aa8 *pFont, s32 hSpace, u8 *str, u8 **pPos) {
+s32 NNSi_G2dFontGetStringWidth(NNSG2dFont *pFont, s32 hSpace, u8 *str, u8 **pPos) {
     u8 *pos = str;
     s32 width;
     SplitCharFunc *readChar;
@@ -294,7 +294,7 @@ s32 NNSi_G2dFontGetStringWidth(Unk02022aa8 *pFont, s32 hSpace, u8 *str, u8 **pPo
     return width;
 }
 
-s32 NNSi_G2dFontGetTextHeight(Unk02022aa8 *pFont, s32 vSpace, u8 *txt) {
+s32 NNSi_G2dFontGetTextHeight(NNSG2dFont *pFont, s32 vSpace, u8 *txt) {
     u8 *pos = txt;
     NNSG2dTextRect unusedState = {0, 0};
     s32 lineCount;
@@ -313,7 +313,7 @@ s32 NNSi_G2dFontGetTextHeight(Unk02022aa8 *pFont, s32 vSpace, u8 *txt) {
     return lineCount * (vSpace + pFont->mPRes->mLinefeed) - vSpace;
 }
 
-void NNSi_G2dFontGetTextRect(NNSG2dTextRect *pRect, Unk02022aa8 *pFont, s32 hSpace, s32 vSpace, u8 *txt) {
+void NNSi_G2dFontGetTextRect(NNSG2dTextRect *pRect, NNSG2dFont *pFont, s32 hSpace, s32 vSpace, u8 *txt) {
     NNSG2dTextRect rect = {0, 0};
     s32 lineCount;
     s32 width;

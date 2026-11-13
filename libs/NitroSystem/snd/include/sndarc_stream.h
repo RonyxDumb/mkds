@@ -17,12 +17,12 @@ typedef struct NNSSndStrmThread {
     /* 4e4 */ NNSFndList mCommandList;
 } NNSSndStrmThread;
 
-#include "stream.h" // Unk0212c7f0
+#include "stream.h" // NNSSndStrmPlayer
 
 void FreeCommandBuffer(LoadCommand *command);
-void RemoveCommandByPlayer(NNSFndList *commandList, Unk0212c7f0 *player);
-void FreeChannel(Unk0212c7f0 *player);
-void ShutdownPlayer_(Unk0212c7f0 *player);
-void ForceStopStrm_(Unk0212c7f0 *player);
-void FreePlayer(Unk0212c7f0 *player);
+void RemoveCommandByPlayer(NNSFndList *commandList, NNSSndStrmPlayer *player);
+void FreeChannel(NNSSndStrmPlayer *player);
+void ShutdownPlayer_(NNSSndStrmPlayer *player);
+void ForceStopStrm_(NNSSndStrmPlayer *player);
+void FreePlayer(NNSSndStrmPlayer *player);
 void NNSi_SndArcStrmMain(void);

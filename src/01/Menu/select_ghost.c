@@ -54,7 +54,7 @@ SelectGhost *gSelectGhost;
 
 void LoadSelectGhostAndKartIconData(void) {
     Ncgr *selectGhostSONcgr = NULL;
-    Unk02021dc8 *selectGhostSONcer = NULL;
+    NNSG2dCellDataBank *selectGhostSONcer = NULL;
     Nclr *selectGhostSONclr = NULL;
     Ncgr *selectGhostSBNcgr = NULL;
     Nclr *selectGhostSBNclr = NULL;

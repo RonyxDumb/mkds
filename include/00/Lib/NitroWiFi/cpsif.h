@@ -9,7 +9,7 @@
 BOOL WcmCpsifTryLockMutexInIRQ(OSMutex *mutex);
 
 void WcmCpsifKACallback(void);
-void WcmCpsifWmCallback(Unk021425e8 *callback);
+void WcmCpsifWmCallback(WirelessMessage *callback);
 s32 WCM_SendDCFData(const void *dstAddr, const void *buf, s32 len);
 u32 WCM_SetRecvDCFCallback(Unk021b5f54Func callback);
 u8 *WCM_GetApEssid(u16 *length);

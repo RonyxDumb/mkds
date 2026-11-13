@@ -8,7 +8,7 @@
 
 #pragma thumb on
 
-void ScanConnectEndScanCallback(Unk021425e8 *info) {
+void ScanConnectEndScanCallback(WirelessMessage *info) {
     if (info->mResultCode != 0) {
         ReportScanError(0xb, info->mResultCode);
         return;
@@ -37,7 +37,7 @@ u32 StartConnectToEntry(u32 entryIndex) {
     return 1;
 }
 
-void MPLinkCallback(s32 eventKind, Unk021425e8 *info) {
+void MPLinkCallback(s32 eventKind, WirelessMessage *info) {
     u16 resultCode;
     u16 commandCode;
     u16 code;
@@ -123,7 +123,7 @@ void MPLinkCallback(s32 eventKind, Unk021425e8 *info) {
     }
 }
 
-void ReceivePortMessage(Unk021425e8 *info) {
+void ReceivePortMessage(WirelessMessage *info) {
     ParentMessage parentMessage;
     MBi_SetRecvBufferFromParent(&parentMessage, info->mData);
     switch (parentMessage.mKind) {

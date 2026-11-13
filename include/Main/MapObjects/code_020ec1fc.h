@@ -25,7 +25,7 @@ typedef struct Woodbox1DrawList {
 } Woodbox1DrawList;
 
 // Initialiser stored into the 0x40-byte object CreateWoodbox1KindData allocates.
-typedef struct Unk02159538 {
+typedef struct Woodbox1KindData {
     /* 00 */ u32 (*mUnk_00)(Woodbox1 *woodbox, Kart *kart, u8 *firstResponse, u8 *response);
     /* 04 */ u32 (*mUnk_04)(Woodbox1 *woodbox, ItemObject *itemObject, u8 *firstResponse, u8 *response);
     /* 08 */ u32 mUnk_08;
@@ -42,15 +42,15 @@ typedef struct Unk02159538 {
     /* 34 */ u32 mUnk_34;
     /* 38 */ u32 mUnk_38;
     /* 3c */ u32 mUnk_3c;
-} Unk02159538;
+} Woodbox1KindData;
 
 extern const MapObjectList gWoodbox1UpdateListData;
 extern const Woodbox1DrawList gWoodbox1DrawListData;
-extern const Unk02159538 gWoodbox1KindData;
+extern const Woodbox1KindData gWoodbox1KindData;
 
 void DrawWoodbox1(void *mapObjectList, Woodbox1 *woodbox, void *unused, u32 maxAlpha);
 MapObjectList *CreateWoodbox1UpdateList(void);
 Woodbox1DrawList *CreateWoodbox1DrawList(void);
-Unk02159538 *CreateWoodbox1KindData(void);
+Woodbox1KindData *CreateWoodbox1KindData(void);
 BOOL HitPushedObjectByItemObject(PushedObject *mapObject, void *other, u8 *firstResponse);
 BOOL HitPushedObjectByKart(PushedObject *mapObject, void *other, u8 *firstResponse);

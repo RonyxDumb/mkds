@@ -1251,7 +1251,7 @@ void WriteSelectCharacterRegisters(void) {
 void LoadSelectCharacterData(void) {
     Ncgr *chars = NULL;
     Nclr *palette = NULL;
-    Unk02021dc8 *cells = NULL;
+    NNSG2dCellDataBank *cells = NULL;
 
     LoadNcgrData2(&chars, FindFileInLoadedArchives("select_character_gp_m.nce.ncgr"));
     LoadNcerData(&cells, FindFileInLoadedArchives("select_character_gp_m.nce.ncer"));

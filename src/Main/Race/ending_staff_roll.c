@@ -31,7 +31,7 @@ void UploadEndingStaffRollOam(void) {
 
 void InitEndingStaffRoll(void) {
     s32 oamIndex;
-    Unk02021dc8 *cells;
+    NNSG2dCellDataBank *cells;
     RaceHudOamBits *oamBits;
 
     gEndingStaffRoll = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x414);

@@ -22,7 +22,7 @@ const char *gSelectCupNameMNcerName = "common/select_cup_name_m.nce.ncer";
 void LoadSelectRaceRuleAndWaitData(void) {
     void *sceneFile;
     Ncgr *cellChars;
-    Unk02021dc8 *cells;
+    NNSG2dCellDataBank *cells;
     Nclr *cellPalette;
     Ncgr *bgChars;
     Nscr *screenMap;

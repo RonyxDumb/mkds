@@ -95,7 +95,7 @@ void SetUsbScanCallback(u32 callback) {
     gUsbScan->mResultCallback = (void (*)(u32)) callback;
 }
 
-void UsbScanCallback(Unk021425e8 *message) {
+void UsbScanCallback(WirelessMessage *message) {
     UsbScan *scan;
 
     if (message->mResultCode != 0) {

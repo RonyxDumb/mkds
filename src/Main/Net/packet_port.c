@@ -65,7 +65,7 @@ void QueuePacketToPort(void) {
     }
 }
 
-void PacketPortCallback(Unk021425e8 *result) {
+void PacketPortCallback(WirelessMessage *result) {
     u8 packet[0x192];
     u32 connectionMode;
     if (result->mResultCode == 0 && result->mData != NULL && result->mLength <= 0x192) {

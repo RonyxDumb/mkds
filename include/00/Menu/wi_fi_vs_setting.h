@@ -39,7 +39,7 @@ typedef struct WiFiVSSetting {
     /* 1038 */ void *mHeap;
     // Table of cells built from the Bncl / Bnll by InitLayoutTable.
     /* 103c */ LayoutTableEntry *mWiFiVSSettingTable;
-    /* 1040 */ Unk02021dc8 *mWiFiVSSettingSNcer;
+    /* 1040 */ NNSG2dCellDataBank *mWiFiVSSettingSNcer;
     /* 1044 */ Ncgr *mWiFiVSSettingSNcgr;
     /* 1048 */ Nclr *mWiFiVSSettingSONclr;
     /* 104c */ LayoutEntryTable *mWiFiVSSettingBncl;
@@ -80,7 +80,7 @@ typedef struct WiFiVSMatching {
     /* 10d4 */ LayoutTableEntry *mWiFiVSMatchingTable;
     /* 10d8 */ u8 mOtherEmblems[3][0x200];
     /* 16d8 */ s32 mOtherHasEmblem[3];
-    /* 16e4 */ struct Unk02021dc8 *mWiFiVSMatchingSNcer;
+    /* 16e4 */ struct NNSG2dCellDataBank *mWiFiVSMatchingSNcer;
     /* 16e8 */ Ncgr *mWiFiVSMatchingSNcgr;
     /* 16ec */ Nclr *mWiFiVSMatchingSONclr;
     /* 16f0 */ LayoutEntryTable *mWiFiVSMatchingBncl;

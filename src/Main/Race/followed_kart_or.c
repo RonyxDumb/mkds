@@ -221,7 +221,7 @@ void LocateNcgr(Ncgr **outNcgr, void *file) {
     }
 }
 
-void LoadNcerData(Unk02021dc8 **outNcer, void *file) {
+void LoadNcerData(NNSG2dCellDataBank **outNcer, void *file) {
     NNSG2dBinaryBlockHeader *part;
 
     if (file == NULL) {
@@ -231,11 +231,11 @@ void LoadNcerData(Unk02021dc8 **outNcer, void *file) {
     if (part == NULL) {
         return;
     }
-    *outNcer = (Unk02021dc8 *) (part + 1);
+    *outNcer = (NNSG2dCellDataBank *) (part + 1);
     NNS_G2dUnpackNCE(*outNcer);
 }
 
-void LocateNcer(Unk02021dc8 **outNcer, void *file) {
+void LocateNcer(NNSG2dCellDataBank **outNcer, void *file) {
     NNSG2dBinaryBlockHeader *part;
 
     if (file == NULL) {
@@ -243,7 +243,7 @@ void LocateNcer(Unk02021dc8 **outNcer, void *file) {
     }
     part = FindPartByTag(file, 0x4345424b);
     if (part != NULL) {
-        *outNcer = (Unk02021dc8 *) (part + 1);
+        *outNcer = (NNSG2dCellDataBank *) (part + 1);
     }
 }
 

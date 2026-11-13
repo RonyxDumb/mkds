@@ -160,7 +160,7 @@ s32 WM_SetMPDataToPortEx(UnkFunc *callback, void *arg, void *sendData, s32 sendD
                          u16 prio) {
     u16 limit;
     u32 children;
-    Unk02142988 *status;
+    WMStatus *status;
     s32 result;
     s32 parent;
 
@@ -710,7 +710,7 @@ s32 WM_GetMPReceiveBufferSize(void) {
 }
 
 // Returns the record of station aid in the MP receive data header, or NULL when there is none.
-void *WM_ReadMPData(const Unk021432ac *header, u16 aid) {
+void *WM_ReadMPData(const WMMpRecvHeader *header, u16 aid) {
     WMArm9Buf *work;
     u32 records[16];
     s32 recordIndex;

@@ -64,7 +64,7 @@ void MeasureAndExpandText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineW
     u8 *readPointer;
     u16 playerNameChars[10];
     u16 ownerTextChars[10];
-    Unk02022aa8 *font;
+    NNSG2dFont *font;
     u16 charCode;
     s32 variant;
     s32 value;
@@ -242,7 +242,7 @@ void DrawTextLines(LabelTextCanvas *textCanvas, s32 textWidth, s32 *lineWidths, 
     s32 cursorY;
     s32 lineAdvance;
     s32 charSpacing;
-    Unk02022aa8 *font;
+    NNSG2dFont *font;
     s32 bottom;
     s32 right;
     NNSG2dCharWidths *charWidths;

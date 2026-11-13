@@ -45,13 +45,13 @@ typedef struct NNSG2dVramTransferData {
 
 // Header of a cell bank: mUnk_04 and mUnk_0c are offsets from the start that NNS_G2dUnpackNCE turns into addresses.
 // mUnk_04 holds mUnk_00 entries (16 bytes, or 8 bytes without bit 0 of mUnk_02, see NNS_G2dGetCellDataByIdx).
-typedef struct Unk02021dc8 {
+typedef struct NNSG2dCellDataBank {
     /* 00 */ u16 mNumCells;
     /* 02 */ u16 mCellBankAttr;
     /* 04 */ u32 mPCellDataArrayHead;
     /* 08 */ u32 mUnk_08;
     /* 0c */ NNSG2dVramTransferData *mPVramTransferData;
-} Unk02021dc8;
+} NNSG2dCellDataBank;
 
 NNSG2dAnimSequenceData *NNS_G2dGetAnimSequenceByIdx(AnimBank *bank, u32 idx);
 void NNS_G2dUnpackNAN(AnimBank *bank);

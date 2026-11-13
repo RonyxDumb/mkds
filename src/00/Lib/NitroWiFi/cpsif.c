@@ -144,7 +144,7 @@ s32 WCM_SendDCFData(const void *dstAddr, const void *buf, s32 len) {
     }
 }
 
-void WcmCpsifWmCallback(Unk021425e8 *callback) {
+void WcmCpsifWmCallback(WirelessMessage *callback) {
     if (callback->mCommand == 0x12) {
         gWcmCpsifWork.mSendResult = callback->mResultCode;
         if (callback->mResultCode == 0) {

@@ -10,7 +10,7 @@
 typedef struct CellFileSet {
     /* 00 */ Ncgr *mChars;
     /* 04 */ Nclr *mPalette;
-    /* 08 */ struct Unk02021dc8 *mCells;
+    /* 08 */ struct NNSG2dCellDataBank *mCells;
     /* 0c */ LayoutEntryTable *mCellLayout;
     /* 10 */ struct LayoutEntryTable *mRects;
     /* 14 */ LayoutEntryTable *mLabelLayout;
@@ -56,7 +56,7 @@ typedef struct SceneNumbers SceneNumbers;
 typedef struct MultiSelectNS {
     /* 00 */ Ncgr *mNcgr;
     /* 04 */ Nclr *mNclr;
-    /* 08 */ struct Unk02021dc8 *mNcer;
+    /* 08 */ struct NNSG2dCellDataBank *mNcer;
     /* 0c */ LayoutEntryTable *mBncl;
     /* 10 */ void *mBnbl;
     /* 14 */ LayoutEntryTable *mBnll;

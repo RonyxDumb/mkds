@@ -16,7 +16,7 @@ typedef struct EndingScene {
     /* 018 */ BOOL mIndex1Queued;
     /* 01c */ void *mUnk_01c;
     /* 020 */ LayoutTableEntry *mEndingThanksTable;
-    /* 024 */ struct Unk02021dc8 *mThanksYouMNcer;
+    /* 024 */ struct NNSG2dCellDataBank *mThanksYouMNcer;
     /* 028 */ u8 mUnk_028[0x4];
     /* 02c */ Nclr *mThanksYouMO00Nclr;
     /* 030 */ struct LayoutEntryTable *mEndingThanksBncl;
@@ -34,7 +34,7 @@ typedef struct EndingScene {
 // Objects whose layout isn't known yet.
 // Object behind gMissionRunLVsel.
 typedef struct MissionRunLVsel {
-    /* 00 */ struct Unk02021dc8 *mMissionRunLVselSNcer;
+    /* 00 */ struct NNSG2dCellDataBank *mMissionRunLVselSNcer;
     // mr/Mission_run_LVsel_s_7.bncl when mUnk_4a >= 6, else _s_6; Bnbl and Bnll follow the same test
     // (mUnk_4a is the highest level number whose conditions hold)
     /* 04 */ LayoutEntryTable *mMissionRunLVselS7Or6Bncl;
@@ -62,10 +62,10 @@ typedef struct MissionRunLVsel {
 
 // Object behind gMissionRunMSsel.
 typedef struct MissionRunMSsel {
-    /* 00 */ struct Unk02021dc8 *mMissionRunMSselMNcer;
+    /* 00 */ struct NNSG2dCellDataBank *mMissionRunMSselMNcer;
     /* 04 */ LayoutEntryTable *mMissionRunMSselMBncl;
     /* 08 */ struct LayoutEntryTable *mMissionRunMSselMBnll;
-    /* 0c */ struct Unk02021dc8 *mMissionRunMSselSNcer;
+    /* 0c */ struct NNSG2dCellDataBank *mMissionRunMSselSNcer;
     /* 10 */ LayoutEntryTable *mMissionRunMSselSBncl;
     /* 14 */ void *mMissionRunMSselSBnbl;
     /* 18 */ struct LayoutEntryTable *mMissionRunMSselSBnll;
@@ -107,9 +107,9 @@ typedef struct MissionRunMSsel {
 
 // Object behind gSelectEngine.
 typedef struct SelectEngine {
-    /* 00 */ struct Unk02021dc8 *mSelectEngineMNcer;
+    /* 00 */ struct NNSG2dCellDataBank *mSelectEngineMNcer;
     /* 04 */ struct LayoutEntryTable *mSelectEngineMBncl;
-    /* 08 */ struct Unk02021dc8 *mSelectEngineSNcer;
+    /* 08 */ struct NNSG2dCellDataBank *mSelectEngineSNcer;
     // gp/select_engine_B_s.bncl when IsBackupFlagSet(0x10) != 0, else gp/select_engine_A_s.bncl; the same flag hides
     // item 3 (A layout has no fourth item); the cells of item 3 are zeroed when
     // IsBackupFlagSet(0x10) is 0
@@ -158,7 +158,7 @@ typedef struct EmblemCursor {
 
 typedef struct MissionRunBossIcon {
     /* 00 */ Ncgr *mNcgr;
-    /* 04 */ struct Unk02021dc8 *mNcer;
+    /* 04 */ struct NNSG2dCellDataBank *mNcer;
     /* 08 */ Nclr *mNclr;
     /* 0c */ void *mBncl;
 } MissionRunBossIcon;

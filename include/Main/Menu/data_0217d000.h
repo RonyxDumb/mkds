@@ -49,7 +49,7 @@ struct Nclr;
 // 0x18 bytes.
 typedef struct KartIcon {
     /* 00 */ struct Ncgr *mNcgr;
-    /* 04 */ struct Unk02021dc8 *mNcer;
+    /* 04 */ struct NNSG2dCellDataBank *mNcer;
     /* 08 */ struct Nclr *mNclrs[3];
     /* 14 */ void *mBncl;
 } KartIcon;
@@ -63,11 +63,11 @@ struct Ncgr;
 struct Nscr;
 
 typedef struct Wait {
-    /* 00 */ struct Unk02021dc8 *mNcer;
+    /* 00 */ struct NNSG2dCellDataBank *mNcer;
     /* 04 */ struct Ncgr *mNcgr;
     /* 08 */ struct Nclr *mNclr;
     /* 0c */ void *mBncl;
-    /* 10 */ struct Unk02021dc8 *mDestinationNcer;
+    /* 10 */ struct NNSG2dCellDataBank *mDestinationNcer;
     /* 14 */ struct LayoutEntryTable *mDestinationBncl;
     /* 18 */ u32 mDestinationBnclIndex;
     /* 1c */ u16 mPaletteIndex;
@@ -78,7 +78,7 @@ typedef struct Wait {
 
 typedef struct RecordVSErase {
     /* 00 */ struct Ncgr *mRecordVSMNcgr;
-    /* 04 */ struct Unk02021dc8 *mRecordVSMNcer;
+    /* 04 */ struct NNSG2dCellDataBank *mRecordVSMNcer;
     /* 08 */ LayoutEntryTable *mRecordVSMBncl;
     /* 0c */ struct LayoutEntryTable *mRecordVSMBnll;
     /* 10 */ struct Nscr *mRecordVSM02Nscr;
@@ -88,7 +88,7 @@ typedef struct RecordVSErase {
     /* 20 */ struct Nscr *mRecordVSM03Nscr;
     /* 24 */ LayoutTableEntry *mRecordVSMTransientTable;
     /* 28 */ struct Ncgr *mRecordVSSNcgr;
-    /* 2c */ struct Unk02021dc8 *mRecordVSSNcer;
+    /* 2c */ struct NNSG2dCellDataBank *mRecordVSSNcer;
     /* 30 */ LayoutEntryTable *mRecordVSSEraseBncl;
     /* 34 */ struct LayoutEntryTable *mRecordVSSEraseBnbl;
     /* 38 */ struct LayoutEntryTable *mRecordVSSEraseBnll;
@@ -123,14 +123,14 @@ typedef struct RecordVSErase {
 
 typedef struct SelectCupNameM {
     /* 00 */ struct Ncgr *mNcgr;
-    /* 04 */ struct Unk02021dc8 *mNcer;
+    /* 04 */ struct NNSG2dCellDataBank *mNcer;
     /* 08 */ void *mBncl;
 } SelectCupNameM;
 
 // 0x10 bytes.
 typedef struct CupMark {
     /* 00 */ struct Ncgr *mNcgr;
-    /* 04 */ struct Unk02021dc8 *mNcer;
+    /* 04 */ struct NNSG2dCellDataBank *mNcer;
     /* 08 */ struct Nclr *mNclr;
     /* 0c */ struct LayoutEntryTable *mBncl;
 } CupMark;
@@ -169,7 +169,7 @@ typedef struct SeqRowState {
 // Object behind gRecordVS.
 typedef struct RecordVS {
     /* 00 */ struct Ncgr *mRecordVSMNcgr;
-    /* 04 */ struct Unk02021dc8 *mRecordVSMNcer;
+    /* 04 */ struct NNSG2dCellDataBank *mRecordVSMNcer;
     /* 08 */ LayoutEntryTable *mRecordVSMBncl;
     /* 0c */ struct LayoutEntryTable *mRecordVSMBnll;
     /* 10 */ struct Nscr *mRecordVSM02Nscr;
@@ -181,7 +181,7 @@ typedef struct RecordVS {
     // Object table of the transient part of the main screen (files mRecordVSMTransientBncl / mRecordVSMTransientBnll).
     /* 24 */ LayoutTableEntry *mRecordVSMTransientTable;
     /* 28 */ struct Ncgr *mRecordVSSNcgr;
-    /* 2c */ struct Unk02021dc8 *mRecordVSSNcer;
+    /* 2c */ struct NNSG2dCellDataBank *mRecordVSSNcer;
     /* 30 */ LayoutEntryTable *mRecordVSSBncl;
     /* 34 */ LayoutEntryTable *mRecordVSSBnbl;
     /* 38 */ struct LayoutEntryTable *mRecordVSSBnll;
@@ -229,10 +229,10 @@ typedef struct RecordVS {
 // the stored cup. Allocated by InitSelectCupGrid, freed by ReleaseSelectCupGrid; mMode is 0, 1 or 2 to 4 by the screen
 // that opened it.
 typedef struct SelectCupGrid {
-    /* 00 */ struct Unk02021dc8 *mSelectCupMNcer;
+    /* 00 */ struct NNSG2dCellDataBank *mSelectCupMNcer;
     /* 04 */ LayoutEntryTable *mSelectCupMBncl;
     /* 08 */ struct LayoutEntryTable *mSelectCupMBnll;
-    /* 0c */ struct Unk02021dc8 *mSelectCupSNcer;
+    /* 0c */ struct NNSG2dCellDataBank *mSelectCupSNcer;
     /* 10 */ struct LayoutEntryTable *mSelectCupSBncl;
     /* 14 */ LayoutEntryTable *mSelectCupSBnbl;
     /* 18 */ LayoutTableEntry *mSelectCupMTable;
@@ -277,10 +277,10 @@ typedef struct SelectCupGrid {
 
 // Object behind gSelectCupCourse.
 typedef struct SelectCupCourse {
-    /* 00 */ struct Unk02021dc8 *mSelectCupCourseMNcer;
+    /* 00 */ struct NNSG2dCellDataBank *mSelectCupCourseMNcer;
     /* 04 */ LayoutEntryTable *mSelectCupCourseTaOrVsMBncl; /* ta_m file when mMode == 0, vs_m otherwise */
     /* 08 */ struct LayoutEntryTable *mSelectCupCourseTaOrVsMBnll; /* ta_m file when mMode == 0, vs_m otherwise */
-    /* 0c */ struct Unk02021dc8 *mSelectCupMNcer;
+    /* 0c */ struct NNSG2dCellDataBank *mSelectCupMNcer;
     /* 10 */ LayoutEntryTable *mSelectCupMBncl;
     /* 14 */ LayoutEntryTable *mSelectCupMBnbl;
     /* 18 */ struct LayoutEntryTable *mSelectCupMBnll;
@@ -333,7 +333,7 @@ typedef struct SelectCupCourse {
 
 // Object behind gSelectRaceRule.
 typedef struct SelectRaceRule {
-    /* 00 */ struct Unk02021dc8 *mNcer;
+    /* 00 */ struct NNSG2dCellDataBank *mNcer;
     /* 04 */ LayoutEntryTable *mBncl;
     /* 08 */ LayoutEntryTable *mBnbl;
     /* 0c */ struct LayoutEntryTable *mBnll;
@@ -395,14 +395,14 @@ typedef struct SelectRaceRule {
 // 0x10 bytes.
 typedef struct TrophyIcon {
     /* 00 */ struct Ncgr *mNcgr;
-    /* 04 */ struct Unk02021dc8 *mNcer;
+    /* 04 */ struct NNSG2dCellDataBank *mNcer;
     /* 08 */ struct Nclr *mNclr;
     /* 0c */ void *mBncl;
 } TrophyIcon;
 
 // Object behind gSelectRaceRuleWait (0x28 bytes), allocated by InitSelectRaceRuleWait.
 typedef struct SelectRaceRuleWait {
-    /* 00 */ struct Unk02021dc8 *mNcer;
+    /* 00 */ struct NNSG2dCellDataBank *mNcer;
     /* 04 */ LayoutEntryTable *mBncl;
     /* 08 */ u8 mUnk_08[0x4];
     /* 0c */ struct LayoutEntryTable *mBnll;
@@ -445,10 +445,10 @@ typedef struct GhostRecordSet {
 } GhostRecordSet;
 
 typedef struct SelectCupM {
-    /* 00 */ struct Unk02021dc8 *mMainNcer;
+    /* 00 */ struct NNSG2dCellDataBank *mMainNcer;
     /* 04 */ LayoutEntryTable *mMainBncl;
     /* 08 */ struct LayoutEntryTable *mMainBnll;
-    /* 0c */ struct Unk02021dc8 *mSubNcer;
+    /* 0c */ struct NNSG2dCellDataBank *mSubNcer;
     /* 10 */ LayoutEntryTable *mSubBncl;
     /* 14 */ struct LayoutEntryTable *mSubBnll;
     /* 18 */ LayoutTableEntry *mMainTable;
@@ -524,7 +524,7 @@ typedef struct TxtSystem {
     /* 2080 */ u32 mBlendPlanes[2];
     /* 2088 */ u32 mBlendEv1[2];
     /* 2090 */ u32 mBlendEv2[2];
-    /* 2098 */ Unk02023374 mCharCanvases[7];
+    /* 2098 */ NNSG2dCharCanvas mCharCanvases[7];
     /* 2178 */ TextCanvas mTextCanvases[7];
     /* 21e8 */ void *mCharBuffers[7];
     /* 2204 */ u32 mCanvasInUse[7];
@@ -555,7 +555,7 @@ typedef struct SelectChoises {
     /* 02c */ u16 mNscrCopy[0x400];
     /* 82c */ u32 mToggleOnFirstTile;
     /* 830 */ u32 mToggleOffFirstTile;
-    /* 834 */ Unk02023374 mCharCanvases[2];
+    /* 834 */ NNSG2dCharCanvas mCharCanvases[2];
     /* 874 */ TextCanvas mTextCanvases[2];
     /* 894 */ u8 *mCharBuffers[2];
     /* 89c */ s32 mFirstTileIndex;
@@ -639,7 +639,7 @@ typedef struct Keyboard {
     /* 84 */ s16 mOffsetY;
     /* 86 */ s16 mTextOffsetY[2][2];
     /* 8e */ u8 mUnk_8e[2];
-    /* 90 */ struct Unk02021dc8 *mNcer;
+    /* 90 */ struct NNSG2dCellDataBank *mNcer;
     /* 94 */ struct Ncgr *mNcgr;
     /* 98 */ struct Nclr *mNclr;
     /* 9c */ LayoutEntryTable *mBncls[2];

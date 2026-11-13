@@ -93,10 +93,10 @@ MissionRunMSsel *gMissionRunMSsel;
 
 void LoadMissionRunMSselAndBossIconData(void) {
     Ncgr *missionRunMSselMChars = NULL;
-    Unk02021dc8 *missionRunMSselMCells = NULL;
+    NNSG2dCellDataBank *missionRunMSselMCells = NULL;
     Nclr *missionRunMSselMOPalette = NULL;
     Ncgr *missionRunMSselSChars = NULL;
-    Unk02021dc8 *missionRunMSselSCells = NULL;
+    NNSG2dCellDataBank *missionRunMSselSCells = NULL;
     Nclr *missionRunMSselSOPalette = NULL;
     Ncgr *missionRunMSselMBChars = NULL;
     Nscr *missionRunMSselMWScreenMap = NULL;

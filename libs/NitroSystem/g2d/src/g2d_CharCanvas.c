@@ -183,7 +183,7 @@ void LetterChar(LetterCharInfo *pInfo) {
     }
 }
 
-void DrawGlyphLine(Unk02023374 *pCanvas, Unk02022aa8 *pFont, s32 drawX, s32 drawY, u32 cl, NNSG2dGlyph *pGlyph) {
+void DrawGlyphLine(NNSG2dCharCanvas *pCanvas, NNSG2dFont *pFont, s32 drawX, s32 drawY, u32 cl, NNSG2dGlyph *pGlyph) {
     LetterCharInfo info;
     s32 inkWidth;
     s32 rowSkip;
@@ -277,7 +277,7 @@ void DrawGlyphLine(Unk02023374 *pCanvas, Unk02022aa8 *pFont, s32 drawX, s32 draw
     }
 }
 
-void DrawGlyph1D(Unk02023374 *pCanvas, Unk02022aa8 *pFont, s32 drawX, s32 drawY, u32 cl, NNSG2dGlyph *pGlyph) {
+void DrawGlyph1D(NNSG2dCharCanvas *pCanvas, NNSG2dFont *pFont, s32 drawX, s32 drawY, u32 cl, NNSG2dGlyph *pGlyph) {
     LetterCharInfo info;
     s32 inkWidth;
     u32 canvasW;
@@ -381,7 +381,7 @@ void DrawGlyph1D(Unk02023374 *pCanvas, Unk02022aa8 *pFont, s32 drawX, s32 drawY,
     }
 }
 
-void ClearContinuous(Unk02023374 *pCanvas, u32 cl) {
+void ClearContinuous(NNSG2dCharCanvas *pCanvas, u32 cl) {
     volatile u32 fill;
     s32 bytes;
 
@@ -399,7 +399,7 @@ void ClearContinuous(Unk02023374 *pCanvas, u32 cl) {
     MIi_CpuClearFast(fill, pCanvas->mCharBase, bytes);
 }
 
-void ClearAreaLine(Unk02023374 *pCanvas, u32 cl, s32 areaX, s32 areaY, s32 areaWidth, s32 areaHeight) {
+void ClearAreaLine(NNSG2dCharCanvas *pCanvas, u32 cl, s32 areaX, s32 areaY, s32 areaWidth, s32 areaHeight) {
     s32 pixelY;
     s32 xEnd;
     s32 yEnd;
@@ -465,7 +465,7 @@ void ClearAreaLine(Unk02023374 *pCanvas, u32 cl, s32 areaX, s32 areaY, s32 areaW
     }
 }
 
-void ClearArea1D(Unk02023374 *pCanvas, u32 cl, s32 areaX, s32 areaY, s32 areaWidth, s32 areaHeight) {
+void ClearArea1D(NNSG2dCharCanvas *pCanvas, u32 cl, s32 areaX, s32 areaY, s32 areaWidth, s32 areaHeight) {
     s32 pixelY;
     s32 rows;
     s32 rowEnd;
@@ -546,9 +546,9 @@ void ClearArea1D(Unk02023374 *pCanvas, u32 cl, s32 areaX, s32 areaY, s32 areaWid
     }
 }
 
-void InitCharCanvas(Unk02023374 *pCanvas, void *charBase, s32 areaWidth, s32 areaHeight, u32 bpp,
-                    void (*drawGlyph)(Unk02023374 *, Unk02022aa8 *, s32, s32, u32, NNSG2dGlyph *),
-                    void (*clearAll)(Unk02023374 *, u32), void (*clearArea)(Unk02023374 *, u32, s32, s32, s32, s32),
+void InitCharCanvas(NNSG2dCharCanvas *pCanvas, void *charBase, s32 areaWidth, s32 areaHeight, u32 bpp,
+                    void (*drawGlyph)(NNSG2dCharCanvas *, NNSG2dFont *, s32, s32, u32, NNSG2dGlyph *),
+                    void (*clearAll)(NNSG2dCharCanvas *, u32), void (*clearArea)(NNSG2dCharCanvas *, u32, s32, s32, s32, s32),
                     u32 stride) {
     pCanvas->mAreaWidth = areaWidth;
     pCanvas->mAreaHeight = areaHeight;
@@ -560,7 +560,7 @@ void InitCharCanvas(Unk02023374 *pCanvas, void *charBase, s32 areaWidth, s32 are
     pCanvas->mParam = stride;
 }
 
-s32 NNS_G2dCharCanvasDrawChar(Unk02023374 *pCanvas, Unk02022aa8 *pFont, s32 drawX, s32 drawY, u32 cl, u16 ccode) {
+s32 NNS_G2dCharCanvasDrawChar(NNSG2dCharCanvas *pCanvas, NNSG2dFont *pFont, s32 drawX, s32 drawY, u32 cl, u16 ccode) {
     NNSG2dGlyph glyphInfo;
     u32 glyphIdx;
     FontGlyph *pRes;

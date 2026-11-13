@@ -8,7 +8,7 @@ void FillHalfwords(void *destination, u16 value, s32 size) {
     MIi_CpuClear16(valueCopy, destination, size);
 }
 
-u32 GetFontGlyphIndex(Unk02022aa8 *font, u32 code) {
+u32 GetFontGlyphIndex(NNSG2dFont *font, u32 code) {
     u32 glyphIndex;
 
     glyphIndex = NNS_G2dFontFindGlyphIndex(font, code);

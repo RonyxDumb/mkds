@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_02142eac.h" // Unk021425e8
+#include "code_02142eac.h" // WirelessMessage
 #include "Main/Menu/second_menu_scene.h" // StateCallbacks
 
 typedef struct SceneNumbers SceneNumbers;
@@ -13,6 +13,6 @@ u32 IsAllMPChunksReceived(u32 slot);
 // RunScene. Returns 0.
 s32 RunResultScene(SceneNumbers *sceneNumbers);
 
-void MPChunkPortCallback(Unk021425e8 *event);
+void MPChunkPortCallback(WirelessMessage *event);
 
 extern StateCallbacks gMPStateTable[23];

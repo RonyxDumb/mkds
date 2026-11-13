@@ -11,7 +11,7 @@ typedef struct DownloadScreenFiles {
     /* 00 */ void *mSearchIconCellLayout;
     /* 04 */ void *mSearchIconLayoutCellLayout;
     /* 08 */ Ncgr *mSearchIconChars;
-    /* 0c */ Unk02021dc8 *mSearchIconCells;
+    /* 0c */ NNSG2dCellDataBank *mSearchIconCells;
     /* 10 */ Nclr *mSearchIconPalette;
     /* 14 */ void *mMBChildFont;
     /* 18 */ u8 mUnk_18[8];

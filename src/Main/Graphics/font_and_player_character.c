@@ -3,15 +3,15 @@
 #include "Main/System/archive_slot_loaded.h"
 #include "Main/MapObjects/data_0217b000.h"
 
-struct Unk02021dc8 *gPlayerCharacterNcer[2];
+struct NNSG2dCellDataBank *gPlayerCharacterNcer[2];
 struct Nclr *gPlayerCharacterNclr[2];
 struct Nclr *gPlayerCharacterShyguyNclr[2];
 struct Ncgr *gPlayerCharacterNcgr[2];
 void *gPlayerCharacterBncl[2];
-struct Unk02022aa8 gLCFontS;
-struct Unk02022aa8 *gFontTable[3];
-struct Unk02022aa8 gMarioFont;
-struct Unk02022aa8 gLCFontM;
+struct NNSG2dFont gLCFontS;
+struct NNSG2dFont *gFontTable[3];
+struct NNSG2dFont gMarioFont;
+struct NNSG2dFont gLCFontM;
 
 #pragma thumb on
 #pragma optimize_for_size on
@@ -54,7 +54,7 @@ void ClearFontAndPlayerCharacterTables(void) {
 #pragma thumb off
 
 #pragma thumb on
-Unk02022aa8 *GetFontByIndex(s32 index) {
+NNSG2dFont *GetFontByIndex(s32 index) {
     return gFontTable[index];
 }
 #pragma thumb off
@@ -78,7 +78,7 @@ Ncgr *GetPlayerCharacterNcgr(int index) {
 #pragma thumb off
 
 #pragma thumb on
-Unk02021dc8 *GetPlayerCharacterNcer(int index) {
+NNSG2dCellDataBank *GetPlayerCharacterNcer(int index) {
     return gPlayerCharacterNcer[index];
 }
 #pragma thumb off

@@ -76,7 +76,7 @@ s32 KeyboardKeyCallback(u32 keyValue, s32 newPress);
 s32 GetKeyboardLastCharIndex(void);
 void SplitBytesIntoNibbles(u8 *src, u8 *dst, s32 size);
 
-void InitKeyboardKeysAndCanvas(struct Unk02022aa8 *font, void *bg2Char, u16 *bg2Scr, s32 screenMapWidth,
+void InitKeyboardKeysAndCanvas(struct NNSG2dFont *font, void *bg2Char, u16 *bg2Scr, s32 screenMapWidth,
                                s32 screenMapHeight, s32 screenMapTileBase);
 void GetKeyboardCursorRectBounds(s32 *left, s32 *top, s32 *right, s32 *bottom);
 

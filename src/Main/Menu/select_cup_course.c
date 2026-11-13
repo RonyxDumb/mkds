@@ -367,10 +367,10 @@ void WriteSelectCupCourseBgOffsets(void) {
 
 void LoadSelectCupGridData(void) {
     Ncgr *selectCupMChars = NULL;
-    Unk02021dc8 *selectCupMCells = NULL;
+    NNSG2dCellDataBank *selectCupMCells = NULL;
     Nclr *selectCupMOPalette = NULL;
     Ncgr *selectCupSChars = NULL;
-    Unk02021dc8 *selectCupSCells = NULL;
+    NNSG2dCellDataBank *selectCupSCells = NULL;
     Nclr *selectCupSOPalette = NULL;
     Ncgr *selectCupMBChars = NULL;
     Nscr *selectCupMScreenMap = NULL;

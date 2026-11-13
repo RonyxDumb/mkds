@@ -1,13 +1,13 @@
 #include "g2d_NOB_load.h"
 
-NNSG2dCellOAMAttrData *GetPtrOamArrayHead_(Unk02021dc8 *bank) {
+NNSG2dCellOAMAttrData *GetPtrOamArrayHead_(NNSG2dCellDataBank *bank) {
     if (bank->mCellBankAttr & 1) {
         return OFFSET_PTR(NNSG2dCellOAMAttrData, bank->mPCellDataArrayHead, bank->mNumCells * 16);
     }
     return OFFSET_PTR(NNSG2dCellOAMAttrData, bank->mPCellDataArrayHead, bank->mNumCells * 8);
 }
 
-NNSG2dCellDataWithBR *NNS_G2dGetCellDataByIdx(Unk02021dc8 *bank, u32 idx) {
+NNSG2dCellDataWithBR *NNS_G2dGetCellDataByIdx(NNSG2dCellDataBank *bank, u32 idx) {
     if (idx >= bank->mNumCells) {
         return 0;
     }
@@ -17,7 +17,7 @@ NNSG2dCellDataWithBR *NNS_G2dGetCellDataByIdx(Unk02021dc8 *bank, u32 idx) {
     return (NNSG2dCellDataWithBR *) (bank->mPCellDataArrayHead + idx * 8);
 }
 
-void NNS_G2dUnpackNCE(Unk02021dc8 *bank) {
+void NNS_G2dUnpackNCE(NNSG2dCellDataBank *bank) {
     NNSG2dCellOAMAttrData *oamHead;
     NNSG2dCellDataWithBR *cell;
     NNSG2dVramTransferData *transfer;

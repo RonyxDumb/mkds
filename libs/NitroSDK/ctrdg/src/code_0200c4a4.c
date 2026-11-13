@@ -42,8 +42,8 @@ void CTRDG_Init(void) {
 void CTRDGi_InitModuleInfo(void) {
     u32 savedIrqMask;
     u16 savedMasterEnable;
-    Unk0200c4a4 procLock;
-    Unk0200c4a4 romCycle;
+    CartridgeAccessSave procLock;
+    CartridgeAccessSave romCycle;
     s32 priority;
     s32 infoIndex;
     CTRDGModuleInfo *idInfo;
@@ -127,8 +127,8 @@ void CTRDGi_InitCommon(void) {
 
 s32 CTRDG_IsExisting(void) {
     s32 exists;
-    Unk0200c4a4 procLock;
-    Unk0200c4a4 romCycle;
+    CartridgeAccessSave procLock;
+    CartridgeAccessSave romCycle;
     CTRDGModuleInfo *idInfo;
     CTRDGHeader *romHeader;
 
@@ -154,14 +154,14 @@ s32 CTRDG_IsExisting(void) {
     return exists;
 }
 
-void CTRDGi_ChangeLatestAccessCycle(Unk0200c4a4 *cycleInfo) {
+void CTRDGi_ChangeLatestAccessCycle(CartridgeAccessSave *cycleInfo) {
     cycleInfo->mUnk_00 = (reg_MI_EXMEMCNT & 0xc) >> 2;
     cycleInfo->mUnk_04 = (reg_MI_EXMEMCNT & 0x10) >> 4;
     reg_MI_EXMEMCNT = (reg_MI_EXMEMCNT & ~0xc) | 0xc;
     reg_MI_EXMEMCNT &= ~0x10;
 }
 
-void CTRDGi_RestoreAccessCycle(Unk0200c4a4 *cycleInfo) {
+void CTRDGi_RestoreAccessCycle(CartridgeAccessSave *cycleInfo) {
     u32 cycle1;
     u32 cycle2;
 
@@ -171,7 +171,7 @@ void CTRDGi_RestoreAccessCycle(Unk0200c4a4 *cycleInfo) {
     reg_MI_EXMEMCNT = (reg_MI_EXMEMCNT & ~0x10) | (cycle2 << 4);
 }
 
-void CTRDGi_LockByProcessor(u16 lockID, Unk0200c4a4 *info) {
+void CTRDGi_LockByProcessor(u16 lockID, CartridgeAccessSave *info) {
     for (;;) {
         info->mUnk_04 = OS_DisableInterrupts();
         info->mUnk_00 = OS_ReadOwnerOfLockWord(&SYSTEM_WORK->mLockCartridge) & 0x40;
@@ -186,7 +186,7 @@ void CTRDGi_LockByProcessor(u16 lockID, Unk0200c4a4 *info) {
     }
 }
 
-void CTRDGi_UnlockByProcessor(u16 lockID, Unk0200c4a4 *info) {
+void CTRDGi_UnlockByProcessor(u16 lockID, CartridgeAccessSave *info) {
     if (info->mUnk_00 == 0) {
         OS_UnLockCartridge(lockID);
     }

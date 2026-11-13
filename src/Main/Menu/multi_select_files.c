@@ -10,7 +10,7 @@ void LoadMultiSelectFiles(void) {
     void *file;
     Ncgr *chars;
     Nclr *palette;
-    Unk02021dc8 *cells;
+    NNSG2dCellDataBank *cells;
     Nscr *screenMaps[1];
     chars = NULL;
     palette = NULL;

@@ -298,7 +298,7 @@ void ClearLinkLevelIconsPointer(void) {
 void SetupLinkLevelIcons(void) {
     s32 iconIndex;
     Ncgr *chars;
-    Unk02021dc8 *cells;
+    NNSG2dCellDataBank *cells;
     Nclr *palette;
     void *searchIconCellLayout;
     LayoutEntryTable *cellLayout;

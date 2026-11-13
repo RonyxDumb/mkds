@@ -236,7 +236,7 @@ void WriteSelectRaceRuleRegisters(void) {
 
 void LoadSelectCupCourseData(void) {
     Ncgr *cellChars = NULL;
-    Unk02021dc8 *cells = NULL;
+    NNSG2dCellDataBank *cells = NULL;
     Nclr *cellPalette = NULL;
     Ncgr *bgChars = NULL;
     Nscr *screenMap = NULL;

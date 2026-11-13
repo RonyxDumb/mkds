@@ -2,11 +2,11 @@
 #include "code_020222ec.h"
 #include "code_02134398.h"
 
-NNSG2dAnimDataSRT *NNS_G2dGetAnimCtrlCurrentElement(Unk02022030 *pAnimCtrl) {
+NNSG2dAnimDataSRT *NNS_G2dGetAnimCtrlCurrentElement(NNSG2dCellAnimation *pAnimCtrl) {
     return (NNSG2dAnimDataSRT *) pAnimCtrl->mPCurrent->mPContent;
 }
 
-static inline void CallbackFuncHandling_(const Unk02022030 *pAnimCtrl, u16 currentFrameIdx) {
+static inline void CallbackFuncHandling_(const NNSG2dCellAnimation *pAnimCtrl, u16 currentFrameIdx) {
     switch (pAnimCtrl->mCallbackFunctor.mType) {
         case 2:
             if (currentFrameIdx == pAnimCtrl->mCallbackFunctor.mFrameIdx) {
@@ -19,14 +19,14 @@ static inline void CallbackFuncHandling_(const Unk02022030 *pAnimCtrl, u16 curre
     }
 }
 
-static inline u32 ShouldAnmCtrlMoveNext_(Unk02022030 *pAnimCtrl) {
+static inline u32 ShouldAnmCtrlMoveNext_(NNSG2dCellAnimation *pAnimCtrl) {
     if (pAnimCtrl->mActive != 0 && pAnimCtrl->mCurrentTime >= TO_FIXED12(pAnimCtrl->mPCurrent->mFrames)) {
         return 1;
     }
     return 0;
 }
 
-u32 NNS_G2dTickAnimCtrl(Unk02022030 *pAnimCtrl, s32 frames) {
+u32 NNS_G2dTickAnimCtrl(NNSG2dCellAnimation *pAnimCtrl, s32 frames) {
     u32 changedFrame;
     s32 atEdge;
     NNSG2dAnimFrameData *next;
@@ -65,7 +65,7 @@ u32 NNS_G2dTickAnimCtrl(Unk02022030 *pAnimCtrl, s32 frames) {
     return changedFrame;
 }
 
-u32 NNS_G2dSetAnimCtrlCurrentFrame(Unk02022030 *pAnimCtrl, u32 index) {
+u32 NNS_G2dSetAnimCtrlCurrentFrame(NNSG2dCellAnimation *pAnimCtrl, u32 index) {
     u32 result;
 
     result = SetAnimCtrlCurrentFrameImpl_(pAnimCtrl, index);
@@ -75,12 +75,12 @@ u32 NNS_G2dSetAnimCtrlCurrentFrame(Unk02022030 *pAnimCtrl, u32 index) {
     return result;
 }
 
-u16 NNS_G2dGetAnimCtrlCurrentFrame(const Unk02022030 *pAnimCtrl) {
+u16 NNS_G2dGetAnimCtrlCurrentFrame(const NNSG2dCellAnimation *pAnimCtrl) {
     return ((u32) pAnimCtrl->mPCurrent - (u32) pAnimCtrl->mPAnimSequence->mPAnmFrameArray) /
            sizeof(NNSG2dAnimFrameData);
 }
 
-void NNS_G2dInitAnimCtrl(Unk02022030 *pAnimCtrl) {
+void NNS_G2dInitAnimCtrl(NNSG2dCellAnimation *pAnimCtrl) {
     NNS_G2dInitAnimCallBackFunctor(&pAnimCtrl->mCallbackFunctor);
     pAnimCtrl->mPCurrent = 0;
     pAnimCtrl->mReverse = 0;
@@ -98,7 +98,7 @@ void NNS_G2dInitAnimCallBackFunctor(NNSG2dCallBackFunctor *pCallBack) {
     pCallBack->mFrameIdx = 0;
 }
 
-void NNS_G2dResetAnimCtrlState(Unk02022030 *pAnimCtrl) {
+void NNS_G2dResetAnimCtrlState(NNSG2dCellAnimation *pAnimCtrl) {
     if ((pAnimCtrl->mSpeed > 0) ^ pAnimCtrl->mReverse) {
         pAnimCtrl->mPCurrent =
             &pAnimCtrl->mPAnimSequence->mPAnmFrameArray[pAnimCtrl->mPAnimSequence->mLoopStartFrameIdx];
@@ -108,7 +108,7 @@ void NNS_G2dResetAnimCtrlState(Unk02022030 *pAnimCtrl) {
     pAnimCtrl->mCurrentTime = 0;
 }
 
-void NNS_G2dBindAnimCtrl(Unk02022030 *pAnimCtrl, NNSG2dAnimSequenceData *pAnimSequence) {
+void NNS_G2dBindAnimCtrl(NNSG2dCellAnimation *pAnimCtrl, NNSG2dAnimSequenceData *pAnimSequence) {
     pAnimCtrl->mPAnimSequence = pAnimSequence;
     NNS_G2dResetAnimCtrlState(pAnimCtrl);
 }

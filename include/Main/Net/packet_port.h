@@ -3,9 +3,9 @@
 #include "types.h"
 #include "Main/MapObjects/data_02165000.h"
 
-typedef struct Unk021425e8 Unk021425e8;
+typedef struct WirelessMessage WirelessMessage;
 
-void PacketPortCallback(Unk021425e8 *result);
+void PacketPortCallback(WirelessMessage *result);
 void QueuePacketToPort(void);
 void PacketPortSendCallback(void);
 void SetBlockEntryBuffer(u32 entryIndex, void *buffer);

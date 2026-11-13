@@ -21,7 +21,7 @@ u16 GetChildWaitReplyCode(void);
 void ReadChildWaitReply(void);
 void ExchangeChildWaitSharedEntries(u16 code, u16 value, u8 *payload);
 void ClearChildWaitSharedEntries(void);
-u32 AcceptMatchingWhChild(Unk021425e8 *event);
+u32 AcceptMatchingWhChild(WirelessMessage *event);
 BOOL EndChildWaitWh(void);
 void AdvanceChildWaitAfterReply(void);
 void AdvanceChildWaitDataSharing(void);

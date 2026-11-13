@@ -2,8 +2,8 @@
 
 #include "types.h"
 #include "code_02012b30.h" // MtxFx22
-#include "g2d_CharCanvas.h" // Unk02023374
-#include "g2d_NAN_load.h" // Unk02021dc8
+#include "g2d_CharCanvas.h" // NNSG2dCharCanvas
+#include "g2d_NAN_load.h" // NNSG2dCellDataBank
 #include "g2d_Animation.h" // NNSG2dCellDataWithBR, NNSG2dCellOAMAttrData
 #include "Main/Graphics/layout_rect_table.h" // LayoutEntryTable
 
@@ -24,8 +24,8 @@ typedef struct CellLayoutEntry {
 
 // 0x24 bytes at member 0x20 of LabelCanvas (DrawTextInRectFixedAdvance takes its address).
 typedef struct LabelTextCanvas {
-    /* 00 */ Unk02023374 *mCharCanvas;
-    /* 04 */ struct Unk02022aa8 *mFont;
+    /* 00 */ NNSG2dCharCanvas *mCharCanvas;
+    /* 04 */ struct NNSG2dFont *mFont;
     /* 08 */ s32 mCharSpacing;
     /* 0c */ s32 mLineSpacing;
     /* 10 */ void *mCharBuffer;
@@ -37,7 +37,7 @@ typedef struct LabelTextCanvas {
 
 // Object of 0x48 bytes allocated by InitLabelCanvas.
 typedef struct LabelCanvas {
-    /* 00 */ Unk02023374 mCharCanvas;
+    /* 00 */ NNSG2dCharCanvas mCharCanvas;
     /* 20 */ LabelTextCanvas mTextCanvas;
     /* 44 */ NNSG2dCellDataWithBR *mCellData;
 } LabelCanvas;
@@ -61,7 +61,7 @@ typedef struct LayoutTableEntry {
 } LayoutTableEntry;
 
 // 8-byte elements InitLabelCanvas fills and copies into NNSG2dCellOAMAttrData elements.
-typedef struct Unk02022eb0 {
+typedef struct OamAttrEntry {
     /* 00 */ union {
         u32 mUnk_00;
         struct {
@@ -71,7 +71,7 @@ typedef struct Unk02022eb0 {
     };
     /* 04 */ u16 mUnk_04;
     /* 06 */ u16 mUnk_06;
-} Unk02022eb0;
+} OamAttrEntry;
 
 // 12-byte elements of the array GetLabelLayoutEntry indexes.
 typedef struct LabelLayoutEntry {
@@ -85,24 +85,24 @@ typedef struct LabelLayoutEntry {
     /* 08 */ u8 mUnk_08[4];
 } LabelLayoutEntry;
 
-BOOL IsCellOamModeXlu(s32 index, Unk02021dc8 *cells, LayoutEntryTable *cellLayout);
+BOOL IsCellOamModeXlu(s32 index, NNSG2dCellDataBank *cells, LayoutEntryTable *cellLayout);
 void SetLayoutEntryAngleAndScale(LayoutTableEntry *entry, s32 angle, s32 scale);
-void SetCellOamModeXlu(u32 index, s32 enableXlu, Unk02021dc8 *cells, LayoutEntryTable *cellLayout);
-u8 GetCellPaletteIndex(u32 index, Unk02021dc8 *cells, LayoutEntryTable *cellLayout);
-void SetCellPaletteIndex(s32 index, s32 paletteIndex, Unk02021dc8 *cells, LayoutEntryTable *cellLayout);
-u8 GetCellPriority(s32 index, Unk02021dc8 *cells, LayoutEntryTable *cellLayout);
-void SetCellPriority(u32 index, u32 priority, Unk02021dc8 *cells, LayoutEntryTable *cellLayout);
-u16 GetCellCharIndex(u32 index, Unk02021dc8 *cells, LayoutEntryTable *cellLayout);
-void QueueCellCharsAndCopyPalettes(u32 index, Unk02021dc8 *cells, Ncgr *chars, Nclr *palette,
+void SetCellOamModeXlu(u32 index, s32 enableXlu, NNSG2dCellDataBank *cells, LayoutEntryTable *cellLayout);
+u8 GetCellPaletteIndex(u32 index, NNSG2dCellDataBank *cells, LayoutEntryTable *cellLayout);
+void SetCellPaletteIndex(s32 index, s32 paletteIndex, NNSG2dCellDataBank *cells, LayoutEntryTable *cellLayout);
+u8 GetCellPriority(s32 index, NNSG2dCellDataBank *cells, LayoutEntryTable *cellLayout);
+void SetCellPriority(u32 index, u32 priority, NNSG2dCellDataBank *cells, LayoutEntryTable *cellLayout);
+u16 GetCellCharIndex(u32 index, NNSG2dCellDataBank *cells, LayoutEntryTable *cellLayout);
+void QueueCellCharsAndCopyPalettes(u32 index, NNSG2dCellDataBank *cells, Ncgr *chars, Nclr *palette,
                                    LayoutEntryTable *cellLayout, s32 queueSelector, u32 destIndex,
-                                   Unk02021dc8 *destCells, LayoutEntryTable *destCellLayout);
-void QueueCellChars(u32 index, Unk02021dc8 *cells, Ncgr *chars, LayoutEntryTable *cellLayout, s32 queueSelector,
-                    u32 destIndex, Unk02021dc8 *destCells, LayoutEntryTable *destCellLayout);
-void QueueCellCharsAndFirstPalette(u32 index, Unk02021dc8 *cells, Ncgr *chars, Nclr *palette,
+                                   NNSG2dCellDataBank *destCells, LayoutEntryTable *destCellLayout);
+void QueueCellChars(u32 index, NNSG2dCellDataBank *cells, Ncgr *chars, LayoutEntryTable *cellLayout, s32 queueSelector,
+                    u32 destIndex, NNSG2dCellDataBank *destCells, LayoutEntryTable *destCellLayout);
+void QueueCellCharsAndFirstPalette(u32 index, NNSG2dCellDataBank *cells, Ncgr *chars, Nclr *palette,
                                    LayoutEntryTable *cellLayout, s32 queueSelector, u32 destIndex,
-                                   Unk02021dc8 *destCells, LayoutEntryTable *destCellLayout);
+                                   NNSG2dCellDataBank *destCells, LayoutEntryTable *destCellLayout);
 s32 InitLabelCanvas(void *heap, s32 labelIndex, LayoutEntryTable *labelLayout, s32 width, s32 height, s32 entryIndex,
-                    Unk02021dc8 *cells, LayoutEntryTable *cellLayout, LayoutTableEntry *table, s32 charOffset);
+                    NNSG2dCellDataBank *cells, LayoutEntryTable *cellLayout, LayoutTableEntry *table, s32 charOffset);
 void PrintLabelLayoutText(s32 queueSelector, s32 labelIndex, LayoutEntryTable *labelLayout, void *text,
                           LayoutEntryTable *cellLayout, LayoutTableEntry *table, s32 fixedDigitsOnly, s8 fixedAdvance);
 void PrintLabelLayoutTextNoFixedAdvance(s32 queueSelector, s32 labelIndex, LayoutEntryTable *labelLayout, void *text,

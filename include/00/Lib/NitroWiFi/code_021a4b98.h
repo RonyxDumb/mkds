@@ -69,16 +69,16 @@ typedef struct WCMWork {
 
 typedef struct WMStartScanExCallback WMStartScanExCallback;
 
-void WcmWmcbCommon(Unk021425e8 *event);
+void WcmWmcbCommon(WirelessMessage *event);
 
 u32 WcmCountBits(u32 bits);
 u32 WcmCountLeadingZero(u32 value);
-void WcmWmcbReset(Unk021425e8 *event);
-void WcmWmcbEndDCF(Unk021425e8 *event);
-void WcmWmcbStartDCF(Unk021425e8 *event);
-void WcmWmcbDisconnect(Unk021425e8 *event);
+void WcmWmcbReset(WirelessMessage *event);
+void WcmWmcbEndDCF(WirelessMessage *event);
+void WcmWmcbStartDCF(WirelessMessage *event);
+void WcmWmcbDisconnect(WirelessMessage *event);
 void WcmWmcbConnect(WMStartScanExCallback *event);
-void WcmWmcbEndScan(Unk021425e8 *event);
+void WcmWmcbEndScan(WirelessMessage *event);
 void WcmWmcbScanEx(WMStartScanExCallback *event);
 u32 WCM_GetPhase(void);
 s32 WCM_DisconnectAsync(void);

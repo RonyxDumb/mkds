@@ -470,7 +470,7 @@ void UploadRaceStartGpOam(void) {
 }
 
 void InitRaceStartGp(void) {
-    Unk02021dc8 *ncer;
+    NNSG2dCellDataBank *ncer;
     u8 charCanvas[0x20];
     TextCanvas textCanvas;
     void *font;

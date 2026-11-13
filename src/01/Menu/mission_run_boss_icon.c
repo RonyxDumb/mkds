@@ -25,7 +25,7 @@ MissionRunBossIcon *gMissionRunBossIcon;
 void LoadMissionRunBossIconData(void) {
     void *sceneFile;
     Ncgr *ncgr;
-    Unk02021dc8 *ncer;
+    NNSG2dCellDataBank *ncer;
     Nclr *nclr[1];
     ncgr = NULL;
     ncer = NULL;

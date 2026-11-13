@@ -598,7 +598,7 @@ u32 DWCi_GT2UnrecognizedMessageCallback(u32 socket, u32 address, u16 port, u8 *d
 }
 
 // Accepts an incoming connection in state 7 from the expected participant, otherwise refuses it with a reason text.
-void DWCi_GT2ConnectAttemptCallback(u32 socket, Unk0219887c *connection, u32 address, u32 port, s32 latency,
+void DWCi_GT2ConnectAttemptCallback(u32 socket, Gt2ConnectionView *connection, u32 address, u32 port, s32 latency,
                                     char *message) {
     WiFiMatching *wiFiMatching;
     DWCConnectionInfo *connectionInfo;
@@ -657,7 +657,7 @@ void DWCi_GT2ConnectAttemptCallback(u32 socket, Unk0219887c *connection, u32 add
 
 // Result of a connect to a peer: 0 adds the peer, 6 retries the connect up to 5 times, 5 is ignored, 2 ends the
 // attempt, other results are reported.
-void DWCi_GT2ConnectedCallback(Unk0219887c *connection, s32 result) {
+void DWCi_GT2ConnectedCallback(Gt2ConnectionView *connection, s32 result) {
     WiFiMatching *wiFiMatching;
     s32 index;
     void **connHandleSlot;

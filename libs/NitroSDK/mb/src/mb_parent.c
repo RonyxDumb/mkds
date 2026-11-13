@@ -93,7 +93,7 @@ void MBi_CommChangeParentStateCallbackOnly(u32 child, u32 value, void *data) {
     }
 }
 
-void MBi_CommParentCallback(s32 eventCode, Unk021425e8 *eventData) {
+void MBi_CommParentCallback(s32 eventCode, WirelessMessage *eventData) {
     u32 childBit;
     u8 slotIndex;
     MB_CommPWork *work;
@@ -148,7 +148,7 @@ void MBi_CommParentCallback(s32 eventCode, Unk021425e8 *eventData) {
         case 0x11:
             break;
         case 3:
-            MBi_CommParentRecvData((Unk021432ac *) eventData);
+            MBi_CommParentRecvData((WMMpRecvHeader *) eventData);
             break;
         case 0x19:
             MBi_CommParentSendData();
@@ -338,7 +338,7 @@ void MBi_CommParentRecvDataPerChild(WMMpRecvData *childData, u32 child) {
     }
 }
 
-void MBi_CommParentRecvData(Unk021432ac *header) {
+void MBi_CommParentRecvData(WMMpRecvHeader *header) {
     u16 index;
     u16 firstHalfword;
     void *childData;

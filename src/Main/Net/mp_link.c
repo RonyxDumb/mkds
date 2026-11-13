@@ -63,7 +63,7 @@ void ScanConnectStartConnect(WMBssDesc *scanBuffer) {
     }
 }
 
-void ScanConnectStartConnectCallback(Unk021425e8 *result) {
+void ScanConnectStartConnectCallback(WirelessMessage *result) {
     if (result->mResultCode != 0) {
         if (gMPLink->mCallback != NULL) {
             gMPLink->mCallback(11, result);
@@ -123,7 +123,7 @@ void SetPortCallbackAndStartMP(void *sendBuffer, u8 *receiveBuffer) {
     }
 }
 
-void ScanConnectStartMPCallback(Unk021425e8 *result) {
+void ScanConnectStartMPCallback(WirelessMessage *result) {
     CommandResult errorResult;
     CommandResult stateResult;
     MPLink *mpLink;
@@ -186,7 +186,7 @@ void StartResetWithFlag(void) {
     }
 }
 
-void StartResetWithFlagCallback(Unk021425e8 *result) {
+void StartResetWithFlagCallback(WirelessMessage *result) {
     CommandResult errorResult;
     u16 resultCode;
     gMPLink->mResetting = 0;
@@ -219,7 +219,7 @@ void StartReset(void) {
     }
 }
 
-void StartResetCallback(Unk021425e8 *result) {
+void StartResetCallback(WirelessMessage *result) {
     CommandResult errorResult;
     u16 resultCode = result->mResultCode;
     if (resultCode != 0) {
@@ -250,7 +250,7 @@ u32 IsMPReadyToQueueData(void) {
     return ready;
 }
 
-void PortCallback(Unk021425e8 *result) {
+void PortCallback(WirelessMessage *result) {
     if (result->mResultCode == 0) {
         switch (result->mState) {
             case 7:
@@ -280,7 +280,7 @@ s32 QueueMPDataIfReady(u32 dataSize, u16 destBitmap, u8 *data) {
     return wmResult;
 }
 
-void QueueMPDataCallback(Unk021425e8 *result) {
+void QueueMPDataCallback(WirelessMessage *result) {
     gMPLink->mDataQueued = 0;
     if (result->mResultCode == 0) {
         if (gMPLink->mCallback != NULL) {
@@ -446,7 +446,7 @@ void ScanConnectStartScan(void) {
     }
 }
 
-void ScanConnectStartScanCallback(Unk021425e8 *result) {
+void ScanConnectStartScanCallback(WirelessMessage *result) {
     if (result->mResultCode != 0) {
         ReportScanError(0xa, result->mResultCode);
         return;

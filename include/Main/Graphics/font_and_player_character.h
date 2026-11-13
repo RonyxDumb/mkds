@@ -3,11 +3,11 @@
 #include "types.h"
 
 #include "Main/MapObjects/data_0217b000.h"
-#include "g2d_NAN_load.h" // Unk02021dc8
+#include "g2d_NAN_load.h" // NNSG2dCellDataBank
 
 // Objects stored through the first parameter: Nscr by LocateNscr and LoadNscrData, Ncgr by
 // LocateNcgr, LoadNcgrData, LocateNcgr2 and LoadNcgrData2, Nclr by LocateNclr and LoadNclrData,
-// AnimBank by LoadNanrData, Unk02021dc8 by LocateNcer and LoadNcerData (LoadNanrData passes it to
+// AnimBank by LoadNanrData, NNSG2dCellDataBank by LocateNcer and LoadNcerData (LoadNanrData passes it to
 // NNS_G2dUnpackNAN, LoadNcerData to NNS_G2dUnpackNCE; LocateNcer looks up the same block tag as LoadNcerData).
 typedef struct Ncgr {
     /* 0000 */ u16 mUnk_00;
@@ -35,21 +35,21 @@ typedef union LoadedPartPointer {
     Ncgr *mNcgr;
     Nscr *mNscr;
     Nclr *mNclr;
-    Unk02021dc8 *mNcer;
+    NNSG2dCellDataBank *mNcer;
 } LoadedPartPointer;
 
 void *GetPlayerCharacterBncl(int param_1);
-Unk02021dc8 *GetPlayerCharacterNcer(int param_1);
+NNSG2dCellDataBank *GetPlayerCharacterNcer(int param_1);
 Ncgr *GetPlayerCharacterNcgr(int param_1);
 void *GetPlayerCharacterNclr(int param_1);
 #include "Main/Graphics/chars_block.h"
 #include "Main/Race/followed_kart_or.h"
 #include "Main/Race/point_along_line.h"
-Unk02022aa8 *GetFontByIndex(s32 index);
+NNSG2dFont *GetFontByIndex(s32 index);
 Nclr *GetPlayerCharacterShyguyNclr(u32 index);
 
 void LoadFontAndPlayerCharacterData(void);
 void ClearFontAndPlayerCharacterTables(void);
 
 #include "Main/Race/followed_kart_outside_box.h"
-#include "code_02022aa8.h" // Unk02022aa8
+#include "code_02022aa8.h" // NNSG2dFont

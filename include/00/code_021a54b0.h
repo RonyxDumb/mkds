@@ -10,4 +10,4 @@
 #include "00/Lib/NitroWiFi/code_021a4b98.h"
 
 
-void WcmWmcbIndication(Unk021425e8 *event);
+void WcmWmcbIndication(WirelessMessage *event);

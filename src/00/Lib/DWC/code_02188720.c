@@ -22,7 +22,7 @@ void *gWcmBuffer;
 void *gSocConfig;
 DWCNetcheckParam *gNetCheck;
 
-void DWCi_AC_CallBackWCM(Unk02188d78 *notice) {
+void DWCi_AC_CallBackWCM(WifiReportArgument *notice) {
     ACWORK *work;
 
     work = (ACWORK *) DWCi_AC_GetMemPtr(0x10);

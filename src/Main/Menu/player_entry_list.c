@@ -645,7 +645,7 @@ void WritePlayerEntryListRegisters(void) {
 void LoadPlayerEntryListFiles(void) {
     Ncgr *chars;
     Nclr *palette;
-    Unk02021dc8 *cells;
+    NNSG2dCellDataBank *cells;
     Nscr *screenMap;
 
     if (gBootInfo->mBootType == 2) {

@@ -13,7 +13,7 @@ typedef struct TextTagWithCharCode {
 } TextTagWithCharCode;
 
 // Tag that MeasureAndExpandText and DrawTextLines read through the pointer they pass to the function at member 4 of
-// Unk02022aa8: a byte (the number of bytes), a byte, a halfword and a byte.
+// NNSG2dFont: a byte (the number of bytes), a byte, a halfword and a byte.
 typedef struct TextTag {
     /* 00 */ u8 mSize;
     /* 01 */ u8 mKind;

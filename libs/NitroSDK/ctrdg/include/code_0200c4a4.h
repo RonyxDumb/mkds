@@ -4,10 +4,10 @@
 
 // Two words filled by CTRDGi_LockByProcessor and CTRDGi_ChangeLatestAccessCycle and read back by
 // CTRDGi_UnlockByProcessor and CTRDGi_RestoreAccessCycle.
-typedef struct Unk0200c4a4 {
+typedef struct CartridgeAccessSave {
     /* 00 */ vs32 mUnk_00;
     /* 04 */ vs32 mUnk_04;
-} Unk0200c4a4;
+} CartridgeAccessSave;
 
 // Two halfwords at the start of the first object this file defines.
 typedef struct CTRDGWork {
@@ -83,18 +83,18 @@ extern CartridgeHeaderCopy gCartridgeHeaderCopy;
 
 // Calls OS_UnLockCartridge(lockID) when the first word of info is 0, then OS_RestoreInterrupts with the second word of
 // info.
-void CTRDGi_UnlockByProcessor(u16 lockID, Unk0200c4a4 *info);
+void CTRDGi_UnlockByProcessor(u16 lockID, CartridgeAccessSave *info);
 // Loops: stores OS_DisableInterrupts() in the second word of info and the owner id of the lock word at 0x027fffe8
 // (OS_ReadOwnerOfLockWord) & 0x40 in the first word, and returns when that is not 0; otherwise calls
 // OS_TryLockCartridge(lockID) and returns when it gives 0; else calls OS_RestoreInterrupts, WaitByLoop(1) and tries
 // again. Returns with the interrupts disabled.
-void CTRDGi_LockByProcessor(u16 lockID, Unk0200c4a4 *info);
+void CTRDGi_LockByProcessor(u16 lockID, CartridgeAccessSave *info);
 // Writes the first word of r (shifted left by 2) into bits 2 and 3 and the second word (shifted left by 4) into bit 4
 // of the halfword at 0x04000204.
-void CTRDGi_RestoreAccessCycle(Unk0200c4a4 *cycleInfo);
+void CTRDGi_RestoreAccessCycle(CartridgeAccessSave *cycleInfo);
 // Stores bits 2 and 3 of the halfword at 0x04000204 (as 0 to 3) in the first word of the record r and bit 4 in the
 // second word, then sets bits 2 and 3 and clears bit 4.
-void CTRDGi_ChangeLatestAccessCycle(Unk0200c4a4 *cycleInfo);
+void CTRDGi_ChangeLatestAccessCycle(CartridgeAccessSave *cycleInfo);
 // Returns 0 when the halfword at 0x027ffc30 is 0xffff or bit 1 of the byte at 0x027ffc35 is set. Otherwise locks and
 // compares the record with the window: the halfword at 0x080000be (0x0801fffe when the byte at 0x080000b2 is not 0x96)
 // against the halfword at 0x027ffc30, and when bit 0 of the byte at 0x027ffc35 is set the word at 0x080000ac against

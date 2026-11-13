@@ -490,7 +490,7 @@ s32 WCM_TerminateAsync(void) {
     u32 enabled;
     s32 result;
     WCMWork *work;
-    Unk02142988 *wmStatus;
+    WMStatus *wmStatus;
 
     enabled = OS_DisableInterrupts();
     work = gWcmWork;
@@ -764,7 +764,7 @@ void WcmWmReset(void) {
     }
 }
 
-void WcmWmcbIndication(Unk021425e8 *callback) {
+void WcmWmcbIndication(WirelessMessage *callback) {
     if (callback->mResultCode == 8 && callback->mState == 0x16 && callback->mPort == 0x25) {
         switch (gWcmWork->mPhase) {
             case 8:
@@ -781,7 +781,7 @@ void WcmWmcbIndication(Unk021425e8 *callback) {
     }
 }
 
-void WcmWmcbCommon(Unk021425e8 *callback) {
+void WcmWmcbCommon(WirelessMessage *callback) {
     WCMWork *work;
     s32 result = 0x14;
 
@@ -955,7 +955,7 @@ void WcmWmcbScanEx(WMStartScanExCallback *callback) {
     }
 }
 
-void WcmWmcbEndScan(Unk021425e8 *callback) {
+void WcmWmcbEndScan(WirelessMessage *callback) {
     switch (callback->mResultCode) {
         case 0:
             WcmSetPhase(3);
@@ -1056,7 +1056,7 @@ void WcmWmcbConnect(WMStartScanExCallback *callback) {
     }
 }
 
-void WcmWmcbDisconnect(Unk021425e8 *callback) {
+void WcmWmcbDisconnect(WirelessMessage *callback) {
     switch (callback->mResultCode) {
         case 0:
             if (gWcmWork->mPhase == 0xc) {
@@ -1082,7 +1082,7 @@ void WcmWmcbDisconnect(Unk021425e8 *callback) {
     }
 }
 
-void WcmWmcbStartDCF(Unk021425e8 *callback) {
+void WcmWmcbStartDCF(WirelessMessage *callback) {
     switch (callback->mResultCode) {
         case 0:
             switch (callback->mState) {
@@ -1113,7 +1113,7 @@ void WcmWmcbStartDCF(Unk021425e8 *callback) {
     }
 }
 
-void WcmWmcbEndDCF(Unk021425e8 *callback) {
+void WcmWmcbEndDCF(WirelessMessage *callback) {
     s32 result;
 
     switch (callback->mResultCode) {
@@ -1154,7 +1154,7 @@ void WcmWmcbEndDCF(Unk021425e8 *callback) {
     }
 }
 
-void WcmWmcbReset(Unk021425e8 *callback) {
+void WcmWmcbReset(WirelessMessage *callback) {
     u16 failStatus;
     u32 sharedKeyFlag;
     u32 powerSave;

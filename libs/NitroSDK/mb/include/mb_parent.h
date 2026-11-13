@@ -82,9 +82,9 @@ u32 MBi_CommParentSendDLFileInfo(void);
 
 int MBi_CommParentSendMsg(u8 messageKind, u32 childMask);
 
-void MBi_CommParentRecvData(Unk021432ac *header);
+void MBi_CommParentRecvData(WMMpRecvHeader *header);
 void MBi_CommParentRecvDataPerChild(WMMpRecvData *childData, u32 child);
-void MBi_CommParentCallback(s32 eventCode, Unk021425e8 *eventData);
+void MBi_CommParentCallback(s32 eventCode, WirelessMessage *eventData);
 void MBi_CommChangeParentStateCallbackOnly(u32 child, u32 value, void *data);
 void MBi_CommChangeParentState(u32 child, u32 value, void *data);
 u32 MB_CommResponseRequest(u32 child, u32 pairIndex);

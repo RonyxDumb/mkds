@@ -26,7 +26,7 @@
 #include "01/MapObjects/data_0209bc74.h" // MapObjectModel
 #include "Main/MapObjects/data_02158000.h"
 #include "Main/Kart/code_0208fd8c.h"
-#include "Main/Menu/data_0217d000.h" // Unk02023374
+#include "Main/Menu/data_0217d000.h" // NNSG2dCharCanvas
 #include "player.h"
 #include "code_0212c7a0.h"
 #include "stream.h"
@@ -46,7 +46,7 @@ struct MenuScene;
 struct Nscr;
 struct Ncgr;
 struct Nclr;
-struct Unk02022aa8;
+struct NNSG2dFont;
 struct KartBalloons;
 
 // Element of 0x14 bytes of the table behind gBoxRotations.
@@ -169,7 +169,7 @@ typedef struct EmblemChoises {
     /* 24 */ s32 mCycleFrames;
     /* 28 */ s32 mChoisesCount;
     /* 2c */ void *mFont;
-    /* 30 */ Unk02023374 mCharCanvas;
+    /* 30 */ NNSG2dCharCanvas mCharCanvas;
     /* 50 */ TextCanvas mTextCanvas;
     /* 60 */ struct Nclr *mChoisesSBNclr;
     /* 64 */ struct Ncgr *mChoisesSBNcgr;
@@ -509,7 +509,7 @@ typedef struct TitleScene {
     /* 094 */ u8 mUnk_94[0xc];
     /* 0a0 */ struct Nclr *mTitleSONclr;
     /* 0a4 */ struct Ncgr *mTitleSNceNcgr;
-    /* 0a8 */ struct Unk02021dc8 *mTitleSNceNcer;
+    /* 0a8 */ struct NNSG2dCellDataBank *mTitleSNceNcer;
     /* 0ac */ u8 mUnk_ac[4];
     /* 0b0 */ OamEntryList mMainOam;
     /* 4b4 */ OamEntryList mSubOam;
@@ -806,7 +806,7 @@ struct ItemObject;
 
 // Object at gKeyboardCanvas, 0x24 bytes.
 typedef struct KeyboardCanvas {
-    /* 00 */ struct Unk02022aa8 *mFont;
+    /* 00 */ struct NNSG2dFont *mFont;
     /* 04 */ void *mBg2Char;
     /* 08 */ void *mMarkedBg2Char;
     /* 0c */ u16 *mBg2Scr;
@@ -820,16 +820,16 @@ typedef struct KeyboardCanvas {
 struct BmgEntryOffsetSection;
 struct BmgBodySection;
 struct Nclr;
-struct Unk02021dc8;
+struct NNSG2dCellDataBank;
 extern struct Nclr *gPlayerCharacterNclr[2];
 extern struct Ncgr *gPlayerCharacterNcgr[2];
-extern struct Unk02021dc8 *gPlayerCharacterNcer[2];
+extern struct NNSG2dCellDataBank *gPlayerCharacterNcer[2];
 extern void *gPlayerCharacterBncl[2];
 extern struct Nclr *gPlayerCharacterShyguyNclr[2];
-extern struct Unk02022aa8 *gFontTable[3];
-extern struct Unk02022aa8 gLCFontS;
-extern struct Unk02022aa8 gLCFontM;
-extern struct Unk02022aa8 gMarioFont;
+extern struct NNSG2dFont *gFontTable[3];
+extern struct NNSG2dFont gLCFontS;
+extern struct NNSG2dFont gLCFontM;
+extern struct NNSG2dFont gMarioFont;
 extern RaceHudSubScreenCells *gRaceHudSubScreenItemBoxCells;
 extern RaceHudSubScreenCells *gRaceHudSubScreenDossunCells;
 

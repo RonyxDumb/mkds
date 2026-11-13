@@ -6,7 +6,7 @@
 typedef struct Ncgr Ncgr;
 typedef struct Nclr Nclr;
 typedef struct CharacterKartPicks CharacterKartPicks;
-typedef struct Unk02021dc8 Unk02021dc8;
+typedef struct NNSG2dCellDataBank NNSG2dCellDataBank;
 
 // Elements of the table at member 0x14 of MenuScene.
 typedef struct ScreenCallbacks {
@@ -27,11 +27,11 @@ typedef struct MenuScene {
     /* 50c */ u8 mSubOam[0x404];
     /* 910 */ Nclr *mSinglePlaySelectModeMONclr;
     /* 914 */ Ncgr *mSinglePlaySelectModeMNcgr;
-    /* 918 */ Unk02021dc8 *mSinglePlaySelectModeMNcer;
+    /* 918 */ NNSG2dCellDataBank *mSinglePlaySelectModeMNcer;
     /* 91c */ u8 mUnk_91c[4];
     /* 920 */ Nclr *mSinglePlaySelectModeSONclr;
     /* 924 */ Ncgr *mSinglePlaySelectModeSNcgr;
-    /* 928 */ Unk02021dc8 *mSinglePlaySelectModeSNcer;
+    /* 928 */ NNSG2dCellDataBank *mSinglePlaySelectModeSNcer;
     /* 92c */ u8 mUnk_92c[4];
     /* 930 */ s32 mSinglePlaySelectModeIndex;
     /* 934 */ BOOL mSinglePlaySelectStartedOnSelected;

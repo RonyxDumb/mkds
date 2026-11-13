@@ -67,7 +67,7 @@ MissionRunLVsel *gMissionRunLVsel;
 
 void LoadMissionRunLVselData(void) {
     Ncgr *missionRunLVselSNcgr = NULL;
-    Unk02021dc8 *missionRunLVselSNcer = NULL;
+    NNSG2dCellDataBank *missionRunLVselSNcer = NULL;
     Nclr *missionRunLVselSONclr = NULL;
     Ncgr *missionRunLVselMBNcgr = NULL;
     Nscr *missionRunLVselMNscr = NULL;

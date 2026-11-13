@@ -23,7 +23,7 @@ int WM_EndKeySharing(WMDataSharingInfo *buf) {
 int WM_StartDataSharing(WMDataSharingInfo *dsInfo, u16 port, u16 aidBitmap, u16 dataLength, BOOL doubleMode) {
     u32 readyMembers;
     u32 ownIndex;
-    Unk02142988 *status;
+    WMStatus *status;
     int result;
     int index;
     u16 mask;
@@ -129,7 +129,7 @@ int WM_EndDataSharing(WMDataSharingInfo *dsInfo) {
 int WM_StepDataSharing(WMDataSharingInfo *dsInfo, void *sendData, WMDataSet *receiveData) {
     int late;
     int result;
-    Unk02142988 *status;
+    WMStatus *status;
     u32 readyMembers;
     u32 mode;
     int delivered;
@@ -249,7 +249,7 @@ int WM_StepDataSharing(WMDataSharingInfo *dsInfo, void *sendData, WMDataSet *rec
 // otherwise.
 void WmDataSharingSetDataCallback(PortCallbackMessage *callback) {
     WMArm9Buf *work;
-    Unk02142988 *status;
+    WMStatus *status;
     WMDataSharingInfo *share;
     UnkFunc *registered;
     u32 code;
@@ -338,7 +338,7 @@ void WmDataSharingReceiveCallback_Parent(PortCallbackMessage *callback) {
 
 // Port callback of a child: stores the data set the parent sent (0x15) as the next one to read.
 void WmDataSharingReceiveCallback_Child(PortCallbackMessage *callback) {
-    Unk02142988 *status;
+    WMStatus *status;
     WMDataSharingInfo *share;
     u32 size;
     u32 blockMask;
@@ -424,7 +424,7 @@ void WmDataSharingSendDataSet(WMDataSharingInfo *dsInfo, u32 delayed) {
     u32 enabled;
     u16 done;
     u32 ready;
-    Unk02142988 *status;
+    WMStatus *status;
     u16 next;
     u16 ahead;
     int result;

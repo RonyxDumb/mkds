@@ -5,23 +5,23 @@
 
 void SND_SetWaveDataAddress(SNDWaveArc *waveArc, u32 index, void *address);
 
-typedef struct Unk02021a5c {
+typedef struct UnsignedHalfwordPair {
     /* 00 */ u16 mUnk_00;
     /* 02 */ u16 mUnk_02;
-} Unk02021a5c;
+} UnsignedHalfwordPair;
 
 // 10 bytes that SND_GetNextInstData copies to mUnk_02..mUnk_0a of its record.
 typedef struct InstSimple {
-    /* 00 */ Unk02021a5c mWave;
-    /* 04 */ Unk02021a5c mUnk_04;
+    /* 00 */ UnsignedHalfwordPair mWave;
+    /* 04 */ UnsignedHalfwordPair mUnk_04;
     /* 08 */ u16 mUnk_08;
 } InstSimple;
 
 // 12-byte instrument entry: a type byte then 10 bytes. SND_GetNextInstData writes it to its record.
 typedef struct SNDInstData {
     /* 00 */ u8 mType;
-    /* 02 */ Unk02021a5c mWave;
-    /* 06 */ Unk02021a5c mUnk_06;
+    /* 02 */ UnsignedHalfwordPair mWave;
+    /* 06 */ UnsignedHalfwordPair mUnk_06;
     /* 0a */ u16 mUnk_0a;
 } SNDInstData;
 

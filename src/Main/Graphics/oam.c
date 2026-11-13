@@ -381,7 +381,7 @@ void DrawTextOnCanvas(TextCanvas *textCanvas, s32 textX, s32 textY, u32 color, u
 
 // Writes the entry name, outlined, into the text buffer and flushes it.
 void RenderKartEntryName(u32 entryIndex) {
-    Unk02023374 charCanvas;
+    NNSG2dCharCanvas charCanvas;
     TextCanvas textCanvas;
     u16 name[22];
     void *font;

@@ -48,13 +48,13 @@
 MapObjectList *gWanwanUpdateList = 0;
 WanwanDrawList *gWanwanDrawList = 0;
 
-const Unk020dd860 gWanwanKindData = {
+const WanwanKindData gWanwanKindData = {
     CollideKartWithWanwan, CollideItemObjectWithWanwan, 1, 0x1b000, {0}, 1, 1, 0x12e, {0}};
 const WanwanDrawList gWanwanDrawListData = {{0}, CreateWanwanAndRockShadow, {0}, DrawWanwan, {0}, 1, {0}, 0};
 const MapObjectList gWanwanUpdateListData = {NULL, 0, {0}, NULL, NULL, UpdateWanwan, NULL, 0, NULL, 0, NULL};
 
-Unk020dd860 *CreateWanwanKindData(void) {
-    Unk020dd860 *kindData;
+WanwanKindData *CreateWanwanKindData(void) {
+    WanwanKindData *kindData;
 
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
     *kindData = gWanwanKindData;

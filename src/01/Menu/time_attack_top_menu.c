@@ -37,7 +37,7 @@ TimeAttackTopMenu *gTimeAttackTopMenu;
 
 void LoadTimeAttackTopMenuData(void) {
     Ncgr *sNcgr = NULL;
-    Unk02021dc8 *sNcer = NULL;
+    NNSG2dCellDataBank *sNcer = NULL;
     Nclr *soNclr = NULL;
     Ncgr *mbNcgr = NULL;
     Nclr *mbNclr = NULL;

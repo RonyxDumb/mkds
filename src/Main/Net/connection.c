@@ -249,7 +249,7 @@ void Initialize(void) {
     }
 }
 
-void InitializeCallback(Unk021425e8 *event) {
+void InitializeCallback(WirelessMessage *event) {
     s32 result;
 
     result = WM_SetPortCallback(0xf, MPDataPortCallback, NULL);
@@ -351,7 +351,7 @@ void StopConnection(void) {
     End();
 }
 
-void ResetCallback(Unk021425e8 *event) {
+void ResetCallback(WirelessMessage *event) {
     gConnectionWork->mRequestPending = 0;
     if (event->mResultCode != 0) {
         gConnectionWork->mErrorCode = 1;
@@ -369,7 +369,7 @@ void SetLifeTime(s32 camLifeTime) {
     }
 }
 
-void SetLifeTimeCallback(Unk021425e8 *event) {
+void SetLifeTimeCallback(WirelessMessage *event) {
     gConnectionWork->mRequestPending = 0;
     if (event->mResultCode != 0) {
         StopConnection();
@@ -427,7 +427,7 @@ void MeasureChannel(u16 measuredChannel) {
     }
 }
 
-void MeasureChannelCallback(Unk021425e8 *event) {
+void MeasureChannelCallback(WirelessMessage *event) {
     s16 *channelSum;
 
     if (event->mResultCode != 0) {
@@ -574,7 +574,7 @@ void SetParentParameter(void) {
     }
 }
 
-void SetParentParameterCallback(Unk021425e8 *event) {
+void SetParentParameterCallback(WirelessMessage *event) {
     gConnectionWork->mRequestPending = 0;
     if (event->mResultCode != 0) {
         StopConnection();
@@ -593,7 +593,7 @@ void StartParent(Unk021425e8Func callback) {
 }
 
 // Callback of WM_StartParent: code 7 adds a child, 9 removes one, 0 copies the own data into the first member record.
-void StartParentCallback(Unk021425e8 *event) {
+void StartParentCallback(WirelessMessage *event) {
     RandomState64 *randomState;
     u32 role;
     u16 seed;

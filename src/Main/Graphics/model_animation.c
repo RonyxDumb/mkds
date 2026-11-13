@@ -12,23 +12,23 @@
 const AnmFrameCountGetter gAnmFrameCountGetters[5] = {(AnmFrameCountGetter) JointGetAnmObjFrameCount, (AnmFrameCountGetter) TexSrtGetAnmObjFrameCount, (AnmFrameCountGetter) TexPatGetAnmObjFrameCount, (AnmFrameCountGetter) VisGetAnmObjFrameCount, (AnmFrameCountGetter) MatCGetAnmObjFrameCount};
 u32 gAnmObjSizeRequired;
 
-u32 JointGetAnmObjFrameCount(Unk020882fc *anmObj) {
+u32 JointGetAnmObjFrameCount(AnmObjView *anmObj) {
     return anmObj->mUnk_08->mFrameCount;
 }
 
-u32 TexSrtGetAnmObjFrameCount(Unk020882fc *anmObj) {
+u32 TexSrtGetAnmObjFrameCount(AnmObjView *anmObj) {
     return anmObj->mUnk_08->mFrameCount;
 }
 
-u32 TexPatGetAnmObjFrameCount(Unk020882fc *anmObj) {
+u32 TexPatGetAnmObjFrameCount(AnmObjView *anmObj) {
     return anmObj->mUnk_08->mFrameCount;
 }
 
-u32 VisGetAnmObjFrameCount(Unk020882fc *anmObj) {
+u32 VisGetAnmObjFrameCount(AnmObjView *anmObj) {
     return anmObj->mUnk_08->mFrameCount;
 }
 
-u32 MatCGetAnmObjFrameCount(Unk020882fc *anmObj) {
+u32 MatCGetAnmObjFrameCount(AnmObjView *anmObj) {
     return anmObj->mUnk_08->mFrameCount;
 }
 

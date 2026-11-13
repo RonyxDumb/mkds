@@ -23,14 +23,14 @@
 NNSSndStrmThread *sPrepareThread;
 NNSFndList sFreeCommandList;
 NNSSndStrmThread sStrmThread;
-Unk0212c7f0 sStrmPlayer[4];
+NNSSndStrmPlayer sStrmPlayer[4];
 
 // Steps the four stream players: start, volume and fade-out.
 void NNSi_SndArcStrmMain(void) {
     s32 playerIndex;
     s32 initVolume;
     s32 mixedLevel;
-    Unk0212c7f0 *strmSlot;
+    NNSSndStrmPlayer *strmSlot;
 
     strmSlot = sStrmPlayer;
     for (playerIndex = 0; playerIndex < 4; playerIndex++, strmSlot++) {
@@ -64,7 +64,7 @@ void NNSi_SndArcStrmMain(void) {
     }
 }
 
-void FreePlayer(Unk0212c7f0 *player) {
+void FreePlayer(NNSSndStrmPlayer *player) {
     if (player->mHandle != 0) {
         *player->mHandle = 0;
         player->mHandle = 0;
@@ -75,7 +75,7 @@ void FreePlayer(Unk0212c7f0 *player) {
 }
 
 // Stops the player with the thread mutexes held.
-void ForceStopStrm_(Unk0212c7f0 *player) {
+void ForceStopStrm_(NNSSndStrmPlayer *player) {
     OS_LockMutex(&sStrmThread.mMutex);
     if (sPrepareThread != 0) {
         OS_LockMutex(&sPrepareThread->mMutex);
@@ -94,7 +94,7 @@ void ForceStopStrm_(Unk0212c7f0 *player) {
 }
 
 // Frees the channels and file and drops the player's load commands.
-void ShutdownPlayer_(Unk0212c7f0 *player) {
+void ShutdownPlayer_(NNSSndStrmPlayer *player) {
     if (!player->mActiveFlag) {
         return;
     }
@@ -108,7 +108,7 @@ void ShutdownPlayer_(Unk0212c7f0 *player) {
 }
 
 // Frees the stream channel when the count reaches 0.
-void FreeChannel(Unk0212c7f0 *player) {
+void FreeChannel(NNSSndStrmPlayer *player) {
     if (player->mAllocChannelCount == 0) {
         return;
     }
@@ -119,7 +119,7 @@ void FreeChannel(Unk0212c7f0 *player) {
     NNS_SndStrmFreeChannel(&player->mStream);
 }
 
-void RemoveCommandByPlayer(NNSFndList *commandList, Unk0212c7f0 *player) {
+void RemoveCommandByPlayer(NNSFndList *commandList, NNSSndStrmPlayer *player) {
     u32 enabled;
     LoadCommand *request;
     LoadCommand *next;

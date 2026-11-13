@@ -33,7 +33,7 @@ typedef struct WMDataSharingInfo {
     /* 81e */ u16 mReserved;
 } WMDataSharingInfo;
 
-// Message passed to the data sharing callbacks. The first two members are the same as in Unk021425e8.
+// Message passed to the data sharing callbacks. The first two members are the same as in WirelessMessage.
 typedef struct PortCallbackMessage {
     /* 00 */ u16 mCommand;
     /* 02 */ u16 mResultCode;

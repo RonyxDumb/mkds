@@ -62,7 +62,7 @@ void InitMultiBootParentComm(u32 ggid, u32 tgid) {
     SetMultiBootParentState(1);
 }
 
-void StartMultiBootParentFromIdle(Unk021cf8ac *gameRegistry, u16 channel) {
+void StartMultiBootParentFromIdle(MultiBootGameRegistryView *gameRegistry, u16 channel) {
     SetMultiBootParentState(2);
     if (MB_StartParentFromIdle(channel) != 0) {
         SetMultiBootParentState(7);
@@ -73,7 +73,7 @@ void StartMultiBootParentFromIdle(Unk021cf8ac *gameRegistry, u16 channel) {
     }
 }
 
-BOOL RegisterMultiBootFile(Unk021cf8ac *gameRegistry) {
+BOOL RegisterMultiBootFile(MultiBootGameRegistryView *gameRegistry) {
     FSFile *segmentFile;
     FSFile openedFile;
     u32 registered;
@@ -258,7 +258,7 @@ void StartMultiBootEndToIdle(void) {
     MB_EndToIdle();
 }
 
-void MultiBootParentStateCallback(u32 aid, u32 code, Unk021425e8 *event) {
+void MultiBootParentStateCallback(u32 aid, u32 code, WirelessMessage *event) {
     MultiBootParent *parent;
     u32 value;
     u16 clearMask;

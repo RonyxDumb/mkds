@@ -4,11 +4,11 @@
 #include "Main/Menu/data_0215c000.h"
 #include "Main/Menu/data_0217d000.h"
 
-typedef struct Unk02021dc8 Unk02021dc8;
+typedef struct NNSG2dCellDataBank NNSG2dCellDataBank;
 
 typedef struct LayoutEntryTable LayoutEntryTable;
 
-void QueueKartIcon(s32 iconIndex, Unk02021dc8 *destinationNcer, LayoutEntryTable *destinationBncl,
+void QueueKartIcon(s32 iconIndex, NNSG2dCellDataBank *destinationNcer, LayoutEntryTable *destinationBncl,
                    u32 destinationBnclIndex, u16 paletteIndex, s32 queueSelector);
 
 void ClearKartIconPointer(void);

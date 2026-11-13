@@ -72,7 +72,7 @@ u32 MeasureNextWhChannel(u16 channel) {
     return (u16) StartWhMeasureChannel(StartWhMeasureChannelCallback, channel);
 }
 
-void StartWhMeasureChannelCallback(Unk021425e8 *event) {
+void StartWhMeasureChannelCallback(WirelessMessage *event) {
     u16 channel;
     u16 busyRatio;
     u32 result;
@@ -172,7 +172,7 @@ BOOL ClearWhAndInitialize(void) {
     return FALSE;
 }
 
-void WhIndicationCallback(Unk021425e8 *event) {
+void WhIndicationCallback(WirelessMessage *event) {
     if (event->mResultCode == 8) {
         SetWhState(9);
         OS_Terminate();
@@ -191,7 +191,7 @@ BOOL StartWhInitialize(void) {
     return TRUE;
 }
 
-void StartWhInitializeCallback(Unk021425e8 *event) {
+void StartWhInitializeCallback(WirelessMessage *event) {
     if (event->mResultCode != 0) {
         SetWhErrorCode(event->mResultCode);
         SetWhState(10);
@@ -240,7 +240,7 @@ BOOL StartWhParentConnect(u32 mode, u16 tgid, u16 channel) {
 }
 
 void SetWhConnectCallback(u32 callback) {
-    gWhWork->mConnectCallback = (s32(*)(Unk021425e8 *)) callback;
+    gWhWork->mConnectCallback = (s32(*)(WirelessMessage *)) callback;
 }
 
 u8 *GetWhSharedDataAddress(u32 aid) {

@@ -35,7 +35,7 @@ typedef struct OptionHensyuMenu {
     /* 18 */ void *mHeap;
     // one 0x40-byte record per cell of the Bncl member, built by InitLayoutTable
     /* 1c */ LayoutTableEntry *mOptionHensyuMenuSTable;
-    /* 20 */ struct Unk02021dc8 *mOptionHensyuMenuSNcer;
+    /* 20 */ struct NNSG2dCellDataBank *mOptionHensyuMenuSNcer;
     /* 24 */ Ncgr *mOptionHensyuMenuSNcgr;
     /* 28 */ Nclr *mOptionHensyuMenuSONclr;
     /* 2c */ struct LayoutEntryTable *mOptionHensyuMenuSBncl;
@@ -108,8 +108,8 @@ typedef struct SelectBattleStage {
     /* 0030 */ u16 mSelectBattleStageMNscrCopy[64][32];
     /* 1030 */ void *mHeap;
     /* 1034 */ LayoutTableEntry *mSelectBattleStageTables[2];
-    /* 103c */ struct Unk02021dc8 *mSelectBattleStageMNcer;
-    /* 1040 */ struct Unk02021dc8 *mSelectBattleStageSNcer;
+    /* 103c */ struct NNSG2dCellDataBank *mSelectBattleStageMNcer;
+    /* 1040 */ struct NNSG2dCellDataBank *mSelectBattleStageSNcer;
     /* 1044 */ Ncgr *mSelectBattleStageMNcgr;
     /* 1048 */ Ncgr *mSelectBattleStageSNcgr;
     /* 104c */ u8 pad_104c[8];
@@ -175,7 +175,7 @@ typedef struct OptionEmbremSelect {
     /* 28 */ s32 mOffsetTimers[2];
     /* 30 */ void *mUnk_30;
     /* 34 */ LayoutTableEntry *mOptionEmbremSelectSTable;
-    /* 38 */ struct Unk02021dc8 *mOptionEmbremSelectSNcer;
+    /* 38 */ struct NNSG2dCellDataBank *mOptionEmbremSelectSNcer;
     /* 3c */ Ncgr *mOptionEmbremSelectSNcgr;
     /* 40 */ Nclr *mOptionEmbremSelectSONclr;
     /* 44 */ LayoutEntryTable *mOptionEmbremSelectSBncl;
@@ -200,7 +200,7 @@ extern const char *gMissionRunLVselSONclrName;
 extern s32 gTestSceneCharTableIndex;
 extern u16 gTestSceneCharText[];
 typedef struct TimeAttackTopMenu {
-    /* 00 */ struct Unk02021dc8 *mTimeAttackTopMenuSNcer;
+    /* 00 */ struct NNSG2dCellDataBank *mTimeAttackTopMenuSNcer;
     /* 04 */ struct LayoutEntryTable *mTimeAttackTopMenuSBncl;
     /* 08 */ void *mTimeAttackTopMenuSBnbl;
     // one 0x40-byte record per cell of the Bncl member, built by InitLayoutTable

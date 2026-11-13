@@ -141,7 +141,7 @@ void MBi_OnInitializeDone(void) {
 #pragma thumb on
 
 // Handles the results of the parent start-up steps, then child connects, disconnects and sent data.
-void MBi_ParentCallback(Unk021425e8 *result) {
+void MBi_ParentCallback(WirelessMessage *result) {
     u32 nonZeroCount;
     u32 childIndex;
     MB_CommPWork *parentWork;
@@ -318,7 +318,7 @@ void MBi_ParentCallback(Unk021425e8 *result) {
     }
 }
 
-void MBi_ChildPortCallback(Unk021425e8 *result) {
+void MBi_ChildPortCallback(WirelessMessage *result) {
     if (result->mResultCode == 0) {
         if (result->mState == 7) {
         } else if (result->mState == 9) {
@@ -329,7 +329,7 @@ void MBi_ChildPortCallback(Unk021425e8 *result) {
 }
 
 // Child side (scan, connect, MP data); mMode is only ever 1, so this does not run in this build.
-void MBi_ChildCallback(Unk021425e8 *result) {
+void MBi_ChildCallback(WirelessMessage *result) {
     ScanEntry *entry;
     u8 firstByte;
     MBiParam *work;
@@ -949,7 +949,7 @@ void MBi_CheckWmErrcode(u16 command, s32 resultCode) {
     if (resultCode != 2 && resultCode != 0) {
         report[0] = command;
         report[1] = resultCode;
-        gWirelessWork->mCallback(0xff, (Unk021425e8 *) report);
+        gWirelessWork->mCallback(0xff, (WirelessMessage *) report);
     }
 }
 

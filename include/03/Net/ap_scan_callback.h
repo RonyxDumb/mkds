@@ -21,6 +21,6 @@ typedef struct WMStartScanExCallback {
 } WMStartScanExCallback;
 
 void StoreApScanEntries(WMStartScanExCallback *scanResult);
-void ApScanCallback(Unk021425e8 *message);
+void ApScanCallback(WirelessMessage *message);
 
 extern const u8 gOtherElementPrefix[4];

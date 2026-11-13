@@ -372,8 +372,8 @@ void InitCourseCollision(void) {
 // Keeps the link c on the first object of the hit list a: clears it when b has the top bit or the object changed, sets
 // it when b has a bit of 0x1e34ef.
 void UpdateCollisionHitLink(void *hitListPtr, u32 collisionBits, CollisionHitLink *link, Vec3 *position, Vec3 *normal) {
-    Unk020d5a68 **hitList = hitListPtr;
-    Unk020d5a68 *firstHit;
+    CollisionFirstHit **hitList = hitListPtr;
+    CollisionFirstHit *firstHit;
 
     if (link->mObject != NULL) {
         if (collisionBits & 0x80000000) {
@@ -406,7 +406,7 @@ void UpdateCollisionHitLink(void *hitListPtr, u32 collisionBits, CollisionHitLin
 
 // TRUE when b has the top bit, the hit list a has a non-zero word at 4, or its object differs from the link c.
 BOOL IsCollisionHitLinkOutdated(void *hitListPtr, u32 collisionBits, CollisionHitLink *link) {
-    Unk020d5a68 **hitList = hitListPtr;
+    CollisionFirstHit **hitList = hitListPtr;
 
     if ((collisionBits & 0x80000000) || (*hitList)->mUnk_04 != 0 || link->mObject != (*hitList)->mUnk_00) {
         return TRUE;

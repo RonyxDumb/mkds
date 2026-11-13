@@ -24,12 +24,12 @@ typedef struct DWCACConfig {
 } DWCACConfig;
 
 // Argument of DWCi_AC_CallBackWCM.
-typedef struct Unk02188d78 {
+typedef struct WifiReportArgument {
     /* 00 */ s16 mNotify;
     /* 02 */ s16 mResult;
     /* 04 */ WMBssDesc *mUnk_04;
     /* 08 */ s32 mUnk_08;
-} Unk02188d78;
+} WifiReportArgument;
 
 static inline void func_0214d018_inline(void *p, u32 n) {
     vu32 v = 0;
@@ -47,4 +47,4 @@ s32 AddList(u32 type, WMBssDesc *bssdesc, ACWORK *work);
 s32 CompareList(WMBssDesc *bssdesc, s32 num, ACSL *list);
 s32 DWCi_AC_CheckNintendoSSID(WMBssDesc *bssdesc);
 void DWCi_AC_GetBeacon(WMBssDesc *bssdesc);
-void DWCi_AC_CallBackWCM(Unk02188d78 *notice);
+void DWCi_AC_CallBackWCM(WifiReportArgument *notice);

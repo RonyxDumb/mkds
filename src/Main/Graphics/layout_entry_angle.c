@@ -42,7 +42,7 @@ void SetLayoutEntryAngleAndScale(LayoutTableEntry *entry, s32 angle, s32 scale) 
     matrix->mUnk_00[3] = FX_MulFunc(matrix->mUnk_00[3], scale);
 }
 
-BOOL IsCellOamModeXlu(s32 index, Unk02021dc8 *cells, LayoutEntryTable *cellLayout) {
+BOOL IsCellOamModeXlu(s32 index, NNSG2dCellDataBank *cells, LayoutEntryTable *cellLayout) {
     NNSG2dCellDataWithBR *cellData;
     CellLayoutEntry *cellEntry;
     cellEntry = (CellLayoutEntry *) (cellLayout + 1);
@@ -54,7 +54,7 @@ BOOL IsCellOamModeXlu(s32 index, Unk02021dc8 *cells, LayoutEntryTable *cellLayou
     return FALSE;
 }
 
-void SetCellOamModeXlu(u32 index, s32 enableXlu, Unk02021dc8 *cells, LayoutEntryTable *cellLayout) {
+void SetCellOamModeXlu(u32 index, s32 enableXlu, NNSG2dCellDataBank *cells, LayoutEntryTable *cellLayout) {
     NNSG2dCellDataWithBR *cellData;
     CellLayoutEntry *cellEntry;
     s32 oamIndex;
@@ -72,7 +72,7 @@ void SetCellOamModeXlu(u32 index, s32 enableXlu, Unk02021dc8 *cells, LayoutEntry
     }
 }
 
-u8 GetCellPaletteIndex(u32 index, Unk02021dc8 *cells, LayoutEntryTable *cellLayout) {
+u8 GetCellPaletteIndex(u32 index, NNSG2dCellDataBank *cells, LayoutEntryTable *cellLayout) {
     NNSG2dCellDataWithBR *cellData;
     CellLayoutEntry *cellEntry;
     cellEntry = (CellLayoutEntry *) (cellLayout + 1);
@@ -81,7 +81,7 @@ u8 GetCellPaletteIndex(u32 index, Unk02021dc8 *cells, LayoutEntryTable *cellLayo
     return (cellData->mPOamAttrArray->mAttr2 & 0xf000) >> 12;
 }
 
-void SetCellPaletteIndex(s32 index, s32 paletteIndex, Unk02021dc8 *cells, LayoutEntryTable *cellLayout) {
+void SetCellPaletteIndex(s32 index, s32 paletteIndex, NNSG2dCellDataBank *cells, LayoutEntryTable *cellLayout) {
     NNSG2dCellDataWithBR *cellData;
     CellLayoutEntry *cellEntry;
     s32 oamIndex;
@@ -97,7 +97,7 @@ void SetCellPaletteIndex(s32 index, s32 paletteIndex, Unk02021dc8 *cells, Layout
     }
 }
 
-u8 GetCellPriority(s32 index, Unk02021dc8 *cells, LayoutEntryTable *cellLayout) {
+u8 GetCellPriority(s32 index, NNSG2dCellDataBank *cells, LayoutEntryTable *cellLayout) {
     NNSG2dCellDataWithBR *cellData;
     CellLayoutEntry *cellEntry;
     cellEntry = (CellLayoutEntry *) (cellLayout + 1);
@@ -106,7 +106,7 @@ u8 GetCellPriority(s32 index, Unk02021dc8 *cells, LayoutEntryTable *cellLayout) 
     return (cellData->mPOamAttrArray->mAttr2 & 0xc00) >> 10;
 }
 
-void SetCellPriority(u32 index, u32 priority, Unk02021dc8 *cells, LayoutEntryTable *cellLayout) {
+void SetCellPriority(u32 index, u32 priority, NNSG2dCellDataBank *cells, LayoutEntryTable *cellLayout) {
     NNSG2dCellDataWithBR *cellData;
     CellLayoutEntry *cellEntry;
     s32 oamIndex;
@@ -122,7 +122,7 @@ void SetCellPriority(u32 index, u32 priority, Unk02021dc8 *cells, LayoutEntryTab
     }
 }
 
-u16 GetCellCharIndex(u32 index, Unk02021dc8 *cells, LayoutEntryTable *cellLayout) {
+u16 GetCellCharIndex(u32 index, NNSG2dCellDataBank *cells, LayoutEntryTable *cellLayout) {
     NNSG2dCellDataWithBR *cellData;
     CellLayoutEntry *cellEntry;
     cellEntry = (CellLayoutEntry *) (cellLayout + 1);
@@ -132,9 +132,9 @@ u16 GetCellCharIndex(u32 index, Unk02021dc8 *cells, LayoutEntryTable *cellLayout
 }
 
 // Queues every entry's characters and used palette rows; copies the source palette index to the destination entries.
-void QueueCellCharsAndCopyPalettes(u32 index, Unk02021dc8 *cells, Ncgr *chars, Nclr *palette,
+void QueueCellCharsAndCopyPalettes(u32 index, NNSG2dCellDataBank *cells, Ncgr *chars, Nclr *palette,
                                    LayoutEntryTable *cellLayout, s32 queueSelector, u32 destIndex,
-                                   Unk02021dc8 *destCells, LayoutEntryTable *destCellLayout) {
+                                   NNSG2dCellDataBank *destCells, LayoutEntryTable *destCellLayout) {
     u8 usedPalettes[16];
     s32 oamCount;
     s32 destCharOffset;
@@ -206,8 +206,8 @@ void QueueCellCharsAndCopyPalettes(u32 index, Unk02021dc8 *cells, Ncgr *chars, N
     }
 }
 
-void QueueCellChars(u32 index, Unk02021dc8 *cells, Ncgr *chars, LayoutEntryTable *cellLayout, s32 queueSelector,
-                    u32 destIndex, Unk02021dc8 *destCells, LayoutEntryTable *destCellLayout) {
+void QueueCellChars(u32 index, NNSG2dCellDataBank *cells, Ncgr *chars, LayoutEntryTable *cellLayout, s32 queueSelector,
+                    u32 destIndex, NNSG2dCellDataBank *destCells, LayoutEntryTable *destCellLayout) {
     s32 oamIndex;
     NNSG2dCellDataWithBR *cellData;
     NNSG2dCellDataWithBR *destCellData;
@@ -244,9 +244,9 @@ void QueueCellChars(u32 index, Unk02021dc8 *cells, Ncgr *chars, LayoutEntryTable
     }
 }
 
-void QueueCellCharsAndFirstPalette(u32 index, Unk02021dc8 *cells, Ncgr *chars, Nclr *palette,
+void QueueCellCharsAndFirstPalette(u32 index, NNSG2dCellDataBank *cells, Ncgr *chars, Nclr *palette,
                                    LayoutEntryTable *cellLayout, s32 queueSelector, u32 destIndex,
-                                   Unk02021dc8 *destCells, LayoutEntryTable *destCellLayout) {
+                                   NNSG2dCellDataBank *destCells, LayoutEntryTable *destCellLayout) {
     s32 oamIndex;
     NNSG2dCellDataWithBR *cellData;
     NNSG2dCellDataWithBR *destCellData;
@@ -295,8 +295,8 @@ void QueueCellCharsAndFirstPalette(u32 index, Unk02021dc8 *cells, Ncgr *chars, N
 }
 
 s32 InitLabelCanvas(void *heap, s32 labelIndex, LayoutEntryTable *labelLayout, s32 width, s32 height, s32 entryIndex,
-                    Unk02021dc8 *cells, LayoutEntryTable *cellLayout, LayoutTableEntry *table, s32 charOffset) {
-    Unk02022eb0 oamBuffer[128];
+                    NNSG2dCellDataBank *cells, LayoutEntryTable *cellLayout, LayoutTableEntry *table, s32 charOffset) {
+    OamAttrEntry oamBuffer[128];
     LabelLayoutEntry *labelEntry;
     LabelCanvas *canvas;
     NNSG2dCellDataWithBR *cellData;

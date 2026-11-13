@@ -7,7 +7,7 @@
 // 0x180-byte entries from 0x600 of MBiParam.
 typedef struct ScanEntry {
     /* 000 */ u8 mUnk_000[0xc0];
-    /* 0c0 */ Unk021425e8 mMessage;
+    /* 0c0 */ WirelessMessage mMessage;
     /* 178 */ u8 mUnk_178[8];
 } ScanEntry;
 
@@ -38,7 +38,7 @@ typedef struct MBiParam {
     /* 50e */ u8 mUnk_50e[0x518 - 0x50e];
     /* 518 */ u16 mSendBufferSize;
     /* 51a */ u16 mReceiveBufferSize;
-    /* 51c */ void (*mCallback)(s32, Unk021425e8 *);
+    /* 51c */ void (*mCallback)(s32, WirelessMessage *);
     /* 520 */ u16 *mUnk_520;
     /* 524 */ u16 mMode;
     /* 526 */ u16 mResetting;

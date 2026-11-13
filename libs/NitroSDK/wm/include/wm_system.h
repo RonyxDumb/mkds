@@ -7,9 +7,9 @@
 #include "stream.h"
 #include "code_0212d214.h"
 
-Unk02142988 *WMi_GetStatusAddress(void);
+WMStatus *WMi_GetStatusAddress(void);
 void WmClearFifoRecvFlag(void);
-void WmReceiveFifo(u32 tag, Unk021425e8 *callback, s32 err);
+void WmReceiveFifo(u32 tag, WirelessMessage *callback, s32 err);
 s32 WMi_CheckStateEx(s32 paramNum, ...);
 s32 WMi_CheckIdle(void);
 s32 WMi_CheckInitialized(void);

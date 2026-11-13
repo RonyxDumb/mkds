@@ -33,16 +33,16 @@ typedef struct MultiBootParentHeader {
 } MultiBootParentHeader;
 
 // Object with the path pointer at 0x00 that RegisterMultiBootFile takes.
-typedef struct Unk021cf8ac {
+typedef struct MultiBootGameRegistryView {
     /* 00 */ const u8 *mRomFilePathp;
-} Unk021cf8ac;
+} MultiBootGameRegistryView;
 
 void *GetMultiBootChildRecord(u32 index);
 u32 GetMultiBootChildState(u32 aid);
 u16 GetMultiBootChildMask(u32 maskIndex);
 u16 GetMultiBootParentState(void);
 void SetMultiBootParentState(u16 state);
-void MultiBootParentStateCallback(u32 aid, u32 code, Unk021425e8 *event);
+void MultiBootParentStateCallback(u32 aid, u32 code, WirelessMessage *event);
 void StartMultiBootEndToIdle(void);
 void StartMultiBootBootRequests(void);
 BOOL AreMultiBootChildrenBootable(void);
@@ -50,8 +50,8 @@ void StartMultiBootDownloads(void);
 void StartMultiBootChildDownload(u32 aid);
 void KickMultiBootChild(u32 aid);
 void AcceptMultiBootChildRequest(u32 aid);
-BOOL RegisterMultiBootFile(Unk021cf8ac *gameRegistry);
-void StartMultiBootParentFromIdle(Unk021cf8ac *gameRegistry, u16 channel);
+BOOL RegisterMultiBootFile(MultiBootGameRegistryView *gameRegistry);
+void StartMultiBootParentFromIdle(MultiBootGameRegistryView *gameRegistry, u16 channel);
 void InitMultiBootParentComm(u32 ggid, u32 tgid);
 void InitMultiBootParent(u8 *object);
 

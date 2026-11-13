@@ -22,7 +22,7 @@ typedef struct OptionTopMenu {
     /* 1c */ void *mHeap;
     // one 0x40-byte record per cell of the Bncl member, built by InitLayoutTable
     /* 20 */ LayoutTableEntry *mOptionTopMenuSTable;
-    /* 24 */ struct Unk02021dc8 *mOptionTopMenuSNcer;
+    /* 24 */ struct NNSG2dCellDataBank *mOptionTopMenuSNcer;
     /* 28 */ Ncgr *mOptionTopMenuSNcgr;
     /* 2c */ Nclr *mOptionTopMenuSONclr;
     /* 30 */ struct LayoutEntryTable *mOptionTopMenuSBncl;
@@ -34,21 +34,21 @@ typedef struct OptionTopMenu {
 // Object behind gRecordGpx.
 typedef struct RecordGpx {
     /* 00 */ Ncgr *mRecordGpxMNcgr;
-    /* 04 */ struct Unk02021dc8 *mRecordGpxMNcer;
+    /* 04 */ struct NNSG2dCellDataBank *mRecordGpxMNcer;
     /* 08 */ LayoutEntryTable *mRecordGpxMBncl;
     /* 0c */ u8 mUnk_0c[4];
     /* 10 */ LayoutEntryTable *mRecordGpxMBnll;
     /* 14 */ Ncgr *mRecordGpxSNcgr;
-    /* 18 */ struct Unk02021dc8 *mRecordGpxSNcer;
+    /* 18 */ struct NNSG2dCellDataBank *mRecordGpxSNcer;
     /* 1c */ LayoutEntryTable *mRecordGpxSBncl;
     /* 20 */ struct LayoutEntryTable *mRecordGpxSBnbl;
     /* 24 */ LayoutEntryTable *mRecordGpxSBnll;
     /* 28 */ Ncgr *mRecordTrophyONcgr;
-    /* 2c */ struct Unk02021dc8 *mRecordTrophyONcer;
+    /* 2c */ struct NNSG2dCellDataBank *mRecordTrophyONcer;
     /* 30 */ Nclr *mRecordTrophySONclr;
     /* 34 */ void *mRecordTrophySOBncl;
     /* 38 */ void *mPlayerCharacterMNcgr;
-    /* 3c */ struct Unk02021dc8 *mPlayerCharacterMNcer;
+    /* 3c */ struct NNSG2dCellDataBank *mPlayerCharacterMNcer;
     /* 40 */ Nclr *mPlayerCharacterMONclr;
     /* 44 */ struct LayoutEntryTable *mPlayerCharacterMBncl;
     /* 48 */ Nscr *mRecordGpxSNscr;

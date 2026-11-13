@@ -33,7 +33,7 @@ TrophyIcon *gTrophyIcon;
 void LoadTrophyIconData(void) {
     void *sceneFile;
     Ncgr *chars;
-    Unk02021dc8 *cells;
+    NNSG2dCellDataBank *cells;
     Nclr *palette[1];
     chars = NULL;
     cells = NULL;

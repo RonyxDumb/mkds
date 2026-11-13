@@ -18,7 +18,7 @@ struct UsbScan {
     /* 1370 */ void (*mResultCallback)(u32);
     /* 1374 */ ScanExParam mUnk_1374;
     /* 13ac */ u8 mUnk_13ac[0xc];
-    /* 13b8 */ Unk02142988 mUnk_13b8;
+    /* 13b8 */ WMStatus mUnk_13b8;
     /* 1b74 */ u32 mStartTickLow;
     /* 1b78 */ u32 mStartTickHigh;
     /* 1b7c */ u32 mReportTask;
@@ -34,7 +34,7 @@ typedef struct WMStartScanExCallback WMStartScanExCallback;
 
 void CheckUsbScanEntries(WMStartScanExCallback *scanResult);
 void StoreUsbScanEntries(WMStartScanExCallback *scanResult);
-void UsbScanCallback(Unk021425e8 *message);
+void UsbScanCallback(WirelessMessage *message);
 void SetUsbScanCallback(u32 callback);
 BOOL ReleaseUsbScan(void);
 BOOL StartUsbScan(void);

@@ -39,19 +39,19 @@
 struct RaceNcerNclrNcgrTables *gRaceNcerNclrNcgrTables;
 
 void InitRaceNcerNclrNcgrTables(void) {
-    Unk02021dc8 *raceMCells;
-    Unk02021dc8 *raceGoalMCells;
-    Unk02021dc8 *raceTaMCells;
-    Unk02021dc8 *raceBattleMCells;
-    Unk02021dc8 *raceStartBattleMCells;
-    Unk02021dc8 *raceMrMCells;
-    Unk02021dc8 *raceGoalMrMCells;
+    NNSG2dCellDataBank *raceMCells;
+    NNSG2dCellDataBank *raceGoalMCells;
+    NNSG2dCellDataBank *raceTaMCells;
+    NNSG2dCellDataBank *raceBattleMCells;
+    NNSG2dCellDataBank *raceStartBattleMCells;
+    NNSG2dCellDataBank *raceMrMCells;
+    NNSG2dCellDataBank *raceGoalMrMCells;
     Ncgr *raceIconTxtChars;
     Nclr *ownCharacterPalette;
-    Unk02021dc8 *raceSCells;
-    Unk02021dc8 *raceGoalSCells;
-    Unk02021dc8 *raceGoalTeamSCells;
-    Unk02021dc8 *raceNewRecordTaSCells;
+    NNSG2dCellDataBank *raceSCells;
+    NNSG2dCellDataBank *raceGoalSCells;
+    NNSG2dCellDataBank *raceGoalTeamSCells;
+    NNSG2dCellDataBank *raceNewRecordTaSCells;
     u8 raceGoalMOCharCanvas[0x20];
     TextCanvas raceGoalMOTextCanvas;
     u8 raceTaMOCharCanvas[0x20];

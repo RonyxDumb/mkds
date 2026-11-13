@@ -21,7 +21,7 @@ typedef struct NNSG2dFontWidth {
 // Halfword number, then pairs of halfwords.
 typedef struct FontCodeMapInfo {
     /* 00 */ u16 mUnk_00;
-    /* 02 */ Unk02021a5c mScanEntries[1];
+    /* 02 */ UnsignedHalfwordPair mScanEntries[1];
 } FontCodeMapInfo;
 
 // Entry of the chain at 0x10 of an NNSG2dFontInformation: a range of mUnk_00..mUnk_02 and a kind (0: base number in
@@ -59,12 +59,12 @@ typedef struct NNSG2dFontInformation {
 // Called with the address of a pointer to halfwords (NNSi_G2dSplitCharUTF16); returns a u16.
 typedef u16 SplitCharFunc();
 
-typedef struct Unk02022aa8 {
+typedef struct NNSG2dFont {
     /* 00 */ NNSG2dFontInformation *mPRes;
     /* 04 */ SplitCharFunc *mCbCharSpliter;
     /* 08 */ u16 mUnk_08;
     /* 0a */ u16 mUnk_0a;
-} Unk02022aa8;
+} NNSG2dFont;
 
 // Width and height written by NNSi_G2dFontGetTextRect.
 typedef struct NNSG2dTextRect {
@@ -74,13 +74,13 @@ typedef struct NNSG2dTextRect {
 
 #include "g2d_NSC_load.h" // NNSG2dBinaryFileHeader
 
-void NNSi_G2dFontGetTextRect(NNSG2dTextRect *pRect, Unk02022aa8 *pFont, s32 hSpace, s32 vSpace, u8 *txt);
-s32 NNSi_G2dFontGetTextHeight(Unk02022aa8 *pFont, s32 vSpace, u8 *txt);
-s32 NNSi_G2dFontGetStringWidth(Unk02022aa8 *pFont, s32 hSpace, u8 *str, u8 **pPos);
-NNSG2dCharWidths *NNS_G2dFontGetCharWidthsFromIndex(Unk02022aa8 *pFont, u32 idx);
-u32 NNS_G2dFontFindGlyphIndex(Unk02022aa8 *pFont, u32 code);
-void NNS_G2dFontInitUTF16(Unk02022aa8 *pFont, NNSG2dBinaryFileHeader *pNftrFile);
-void NNS_G2dFontInitAuto(Unk02022aa8 *pFont, NNSG2dBinaryFileHeader *pNftrFile);
+void NNSi_G2dFontGetTextRect(NNSG2dTextRect *pRect, NNSG2dFont *pFont, s32 hSpace, s32 vSpace, u8 *txt);
+s32 NNSi_G2dFontGetTextHeight(NNSG2dFont *pFont, s32 vSpace, u8 *txt);
+s32 NNSi_G2dFontGetStringWidth(NNSG2dFont *pFont, s32 hSpace, u8 *str, u8 **pPos);
+NNSG2dCharWidths *NNS_G2dFontGetCharWidthsFromIndex(NNSG2dFont *pFont, u32 idx);
+u32 NNS_G2dFontFindGlyphIndex(NNSG2dFont *pFont, u32 code);
+void NNS_G2dFontInitUTF16(NNSG2dFont *pFont, NNSG2dBinaryFileHeader *pNftrFile);
+void NNS_G2dFontInitAuto(NNSG2dFont *pFont, NNSG2dBinaryFileHeader *pNftrFile);
 u32 GetGlyphIndex(FontCodeMap *pMap, u32 code);
 u32 NNSi_G2dCalcRequiredOBJ(u32 areaWidth, u32 areaHeight);
 void NNS_G2dMapScrToChar256x16Pltt(u16 *areaBase, s32 areaWidth, s32 areaHeight, s32 scnWidth, s32 charNo, u32 cplt);

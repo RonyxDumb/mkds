@@ -64,9 +64,9 @@ s32 WmInitCore(void *wmSysBuf, u16 dmaNo, u32 bufSize) {
     MI_DmaFill32(dmaNo, wmSysBuf, 0, bufSize);
     wm9buf = wmSysBuf;
     wm9buf->mWM7 = (u8 *) wmSysBuf + 0x200;
-    wm9buf->mStatusArea = OFFSET_PTR(Unk02142988, wm9buf->mWM7, 0x300);
+    wm9buf->mStatusArea = OFFSET_PTR(WMStatus, wm9buf->mWM7, 0x300);
     wm9buf->mRequestArea = OFFSET_PTR(u16, wm9buf->mStatusArea, 0x800);
-    wm9buf->mMessageArea = OFFSET_PTR(Unk021425e8, wm9buf->mRequestArea, 0x100);
+    wm9buf->mMessageArea = OFFSET_PTR(WirelessMessage, wm9buf->mRequestArea, 0x100);
     WmClearFifoRecvFlag();
     wm9buf->mDmaNo = dmaNo;
     for (port = 0; port < 16; port++) {
@@ -169,7 +169,7 @@ s32 WMi_CheckIdle(void) {
     return 0;
 }
 
-// Returns 0 when Unk02142988.mState equals one of the paramNum state numbers that follow, otherwise 3.
+// Returns 0 when WMStatus.mState equals one of the paramNum state numbers that follow, otherwise 3.
 s32 WMi_CheckStateEx(s32 paramNum, ...) {
     u32 *args;
     u16 current;
@@ -196,7 +196,7 @@ s32 WMi_CheckStateEx(s32 paramNum, ...) {
 // Handler of the WM PXI tag: takes the message the other processor sent and calls the handler stored for it (the
 // command callback, the indication callback or a port callback). Replies to commands 8 and 12 (start
 // parent, start connect) with a connect or disconnect state are also passed to every port callback.
-void WmReceiveFifo(u32 tag, Unk021425e8 *callback, s32 err) {
+void WmReceiveFifo(u32 tag, WirelessMessage *callback, s32 err) {
     Unk021425e8Func handler;
     u16 command;
     u16 stateCode;
@@ -299,7 +299,7 @@ void WmReceiveFifo(u32 tag, Unk021425e8 *callback, s32 err) {
                     gPortCallbackEvent.mPort = port;
                     if (wm9buf->mPortCallbacks[port] != 0) {
                         gPortCallbackEvent.mArg = wm9buf->mPortCallbackArgs[port];
-                        wm9buf->mPortCallbacks[port]((Unk021425e8 *) &gPortCallbackEvent);
+                        wm9buf->mPortCallbacks[port]((WirelessMessage *) &gPortCallbackEvent);
                     }
                 }
             }
@@ -322,7 +322,7 @@ void WmClearFifoRecvFlag(void) {
 }
 
 // Returns the status area, or NULL when the library is not set up.
-Unk02142988 *WMi_GetStatusAddress(void) {
+WMStatus *WMi_GetStatusAddress(void) {
     if (WMi_CheckInitialized() != 0) {
         return 0;
     }

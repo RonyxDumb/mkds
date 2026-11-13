@@ -13,16 +13,16 @@
 
 // Object behind gSelectGhost.
 typedef struct SelectGhost {
-    /* 00 */ struct Unk02021dc8 *mSelectCupCourseMNcer;
+    /* 00 */ struct NNSG2dCellDataBank *mSelectCupCourseMNcer;
     /* 04 */ LayoutEntryTable *mSelectCupCourseTaMBncl;
     /* 08 */ struct LayoutEntryTable *mSelectCupCourseTaMBnll;
-    /* 0c */ struct Unk02021dc8 *mSelectGhostSONcer;
+    /* 0c */ struct NNSG2dCellDataBank *mSelectGhostSONcer;
     /* 10 */ LayoutEntryTable *mSelectGhostSBncl;
     /* 14 */ void *mSelectGhostSBnbl;
     /* 18 */ struct LayoutEntryTable *mSelectGhostSBnll;
     /* 1c */ Nclr *mSelectGhostSONclr;
     /* 20 */ void *mPlayerCharacterMNcgr;
-    /* 24 */ struct Unk02021dc8 *mPlayerCharacterMNcer;
+    /* 24 */ struct NNSG2dCellDataBank *mPlayerCharacterMNcer;
     /* 28 */ Nclr *mPlayerCharacterMONclr;
     /* 2c */ struct LayoutEntryTable *mPlayerCharacterMBncl;
     /* 30 */ LayoutTableEntry *mSelectCupCourseTaMTable;

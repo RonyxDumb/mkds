@@ -36,7 +36,7 @@ CupMark *gCupMark;
 void LoadCupMarkData(void) {
     void *sceneFile;
     Ncgr *chars;
-    Unk02021dc8 *cells;
+    NNSG2dCellDataBank *cells;
     Nclr *palette[1];
     chars = NULL;
     cells = NULL;
@@ -52,7 +52,7 @@ void LoadCupMarkData(void) {
 void LoadCommonCupMarkData(void) {
     void *sceneFile;
     Ncgr *chars;
-    Unk02021dc8 *cells;
+    NNSG2dCellDataBank *cells;
     Nclr *palette[1];
     chars = NULL;
     cells = NULL;
@@ -105,7 +105,7 @@ void ClearCupMarkPointer(void) {
 
 #pragma thumb on
 
-void QueueCupMark(u32 cupMarkIndex, Unk02021dc8 *cells, LayoutEntryTable *cellLayout, u32 destIndex, u16 paletteSlot,
+void QueueCupMark(u32 cupMarkIndex, NNSG2dCellDataBank *cells, LayoutEntryTable *cellLayout, u32 destIndex, u16 paletteSlot,
                   s32 queueSelector) {
     CupMark *cupMark;
     u8 *dst;
@@ -130,7 +130,7 @@ void QueueCupMark(u32 cupMarkIndex, Unk02021dc8 *cells, LayoutEntryTable *cellLa
 void LoadSelectCupNameMData(void) {
     void *sceneFile;
     Ncgr *chars;
-    Unk02021dc8 *cells[1];
+    NNSG2dCellDataBank *cells[1];
     chars = NULL;
     cells[0] = NULL;
     sceneFile = FindSceneFile(gSelectCupNameMNcgrName);
@@ -162,7 +162,7 @@ void ClearSelectCupNameMPointer(void) {
 
 #pragma thumb on
 
-void QueueSelectCupNameM(u32 nameIndex, Unk02021dc8 *cells, LayoutEntryTable *cellLayout, u32 destIndex,
+void QueueSelectCupNameM(u32 nameIndex, NNSG2dCellDataBank *cells, LayoutEntryTable *cellLayout, u32 destIndex,
                          u32 queueSelector) {
     QueueCellChars(gSelectCupNameMBnclIndices[nameIndex], gSelectCupNameM->mNcer, gSelectCupNameM->mNcgr,
                    gSelectCupNameM->mBncl, queueSelector, destIndex, cells, cellLayout);

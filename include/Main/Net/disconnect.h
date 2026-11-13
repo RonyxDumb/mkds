@@ -45,7 +45,7 @@ typedef struct MPPlayerNameMessage {
 #include "pm.h"
 #include "Main/Sound/sound_seq.h"
 #include "Main/Kart/kart_name_tags.h"
-#include "code_02142eac.h" // Unk021425e8
+#include "code_02142eac.h" // WirelessMessage
 #include "Main/MapObjects/data_02165000.h"
 
 typedef struct PlayerRecord PlayerRecord;
@@ -56,25 +56,25 @@ BOOL QueueMPDataPlayerBits(s32 playerIndex, u16 destBitmap);
 BOOL QueueMPDataPlayerName(s32 playerIndex, u16 destBitmap);
 BOOL QueueMPDataHalfword(s32 kind, u16 destBitmap);
 BOOL QueueMPDataToPort(void *data, s32 dataSize, u16 destBitmap, void *sendBuffer, QueueMPDataToPortParams *params);
-void MPDataPortCallback(Unk021425e8 *event);
+void MPDataPortCallback(WirelessMessage *event);
 void ProcessMPData(u32 aid, MPMessage *message);
 void RemoveChild(u32 aid);
 void AddChild(u32 aid, u8 *bytes, PlayerRecord *playerEntry);
 void SetRequestErrorCode(s32 errorCode);
-void EndCallback(Unk021425e8 *event);
+void EndCallback(WirelessMessage *event);
 void End(void);
 void SetStepAndRequestPending(s32 step);
 BOOL ConnectionMB_IsMultiBootChild(void);
 s32 GetConnectionMode(void);
 BOOL IsMultiBootSetupStarted(void);
-void DisconnectCallback(Unk021425e8 *event);
+void DisconnectCallback(WirelessMessage *event);
 void Disconnect(void);
-void EndParentCallback(Unk021425e8 *event);
+void EndParentCallback(WirelessMessage *event);
 void EndParent(void);
-void EndMPCallback(Unk021425e8 *event);
+void EndMPCallback(WirelessMessage *event);
 void EndMP(void);
 void EndDataSharing(void);
-void DisconnectChildrenCallback(Unk021425e8 *event);
+void DisconnectChildrenCallback(WirelessMessage *event);
 void DisconnectChildren(u32 aidBitmap);
 
 extern QueueMPDataToPortParams gMPDataToPortParams;

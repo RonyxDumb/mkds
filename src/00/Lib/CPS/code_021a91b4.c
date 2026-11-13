@@ -6,9 +6,9 @@
 
 void CPSi_SslPeriodical(s32 now) {
     s32 sessionIndex;
-    Unk021a91cc *session;
+    HttpsEntryView *session;
     sessionIndex = 0;
-    session = (Unk021a91cc *) gHttpsEntries;
+    session = (HttpsEntryView *) gHttpsEntries;
     for (; sessionIndex < 4; sessionIndex++) {
         if (session->mUnk_5a != 0 && now - session->mUnk_50 > 0xef) {
             session->mUnk_5a = 0;

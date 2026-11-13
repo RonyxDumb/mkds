@@ -38,8 +38,8 @@ typedef struct OptionSelectMenu {
     // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable; indexed with an offset
     // added
     /* 58 */ LayoutTableEntry *mOptionSelectMenuSTable;
-    /* 5c */ struct Unk02021dc8 *mOptionSelectMenuMNcer;
-    /* 60 */ struct Unk02021dc8 *mOptionSelectMenuSNcer;
+    /* 5c */ struct NNSG2dCellDataBank *mOptionSelectMenuMNcer;
+    /* 60 */ struct NNSG2dCellDataBank *mOptionSelectMenuSNcer;
     /* 64 */ Ncgr *mOptionSelectMenuMNcgr;
     /* 68 */ Ncgr *mOptionSelectMenuSNcgr;
     /* 6c */ Nclr *mOptionSelectMenuMONclr;

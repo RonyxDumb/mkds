@@ -56,7 +56,7 @@ ObjTextCanvas *CreateObjTextCanvas(u32 screen, u16 areaWidth, u16 areaHeight, s3
     ObjTextCanvas *canvas = PopPointerStack(gTextCanvases->mFreeObjCanvases);
     u32 charName;
     u32 charBase;
-    Unk02022aa8 *font;
+    NNSG2dFont *font;
 
     canvas->mAreaWidth = areaWidth;
     canvas->mAreaHeight = areaHeight;
@@ -173,7 +173,7 @@ void DrawCanvasChar(void *canvas, u32 xPos, u32 yPos, u32 color, u16 charCode, i
 }
 
 void DrawCharsCentered(void *canvas, s32 xPos, u32 yPos, u32 color, s32 cellWidth, u16 *text, s32 fontIndex) {
-    Unk02022aa8 *font;
+    NNSG2dFont *font;
     u32 glyphIndex;
     NNSG2dCharWidths *widths;
     s32 charWidth;

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "g2d_NAN_load.h" // Unk02021dc8, NNSG2dCellVramTransferData
+#include "g2d_NAN_load.h" // NNSG2dCellDataBank, NNSG2dCellVramTransferData
 
 typedef struct NNSG2dSRTControl {
     /* 00 */ u32 mType;
@@ -55,7 +55,7 @@ typedef struct NNSG2dCellDataWithBR {
     /* 0e */ s16 mMinY;
 } NNSG2dCellDataWithBR;
 
-typedef struct Unk02022030 {
+typedef struct NNSG2dCellAnimation {
     /* 00 */ NNSG2dAnimFrameData *mPCurrent;
     /* 04 */ u32 mReverse;
     /* 08 */ u32 mActive;
@@ -65,10 +65,10 @@ typedef struct Unk02022030 {
     /* 18 */ NNSG2dAnimSequenceData *mPAnimSequence;
     /* 1c */ NNSG2dCallBackFunctor mCallbackFunctor;
     /* 2c */ NNSG2dCellDataWithBR *mPCurrentCell;
-    /* 30 */ Unk02021dc8 *mPCellDataBank;
+    /* 30 */ NNSG2dCellDataBank *mPCellDataBank;
     /* 34 */ s32 mCellTransferStateHandle;
     /* 38 */ NNSG2dSRTControl mSrtCtrl;
-} Unk02022030;
+} NNSG2dCellAnimation;
 
 // Record at the first word of the element: ApplyCurrentAnimResult_ reads these members, except when the low byte of
 // mUnk_04 of the header is 2 (then NNSG2dAnimDataT).
@@ -88,16 +88,16 @@ typedef struct NNSG2dAnimDataT {
     /* 06 */ s16 mPy;
 } NNSG2dAnimDataT;
 
-void NNS_G2dBindAnimCtrl(Unk02022030 *pAnimCtrl, NNSG2dAnimSequenceData *pAnimSequence);
-void NNS_G2dResetAnimCtrlState(Unk02022030 *pAnimCtrl);
+void NNS_G2dBindAnimCtrl(NNSG2dCellAnimation *pAnimCtrl, NNSG2dAnimSequenceData *pAnimSequence);
+void NNS_G2dResetAnimCtrlState(NNSG2dCellAnimation *pAnimCtrl);
 
 void NNS_G2dInitAnimCallBackFunctor(NNSG2dCallBackFunctor *pCallBack);
 
-void NNS_G2dInitAnimCtrl(Unk02022030 *pAnimCtrl);
+void NNS_G2dInitAnimCtrl(NNSG2dCellAnimation *pAnimCtrl);
 
-u16 NNS_G2dGetAnimCtrlCurrentFrame(const Unk02022030 *pAnimCtrl);
+u16 NNS_G2dGetAnimCtrlCurrentFrame(const NNSG2dCellAnimation *pAnimCtrl);
 
-u32 NNS_G2dSetAnimCtrlCurrentFrame(Unk02022030 *pAnimCtrl, u32 index);
-u32 NNS_G2dTickAnimCtrl(Unk02022030 *pAnimCtrl, s32 frames);
+u32 NNS_G2dSetAnimCtrlCurrentFrame(NNSG2dCellAnimation *pAnimCtrl, u32 index);
+u32 NNS_G2dTickAnimCtrl(NNSG2dCellAnimation *pAnimCtrl, s32 frames);
 
-NNSG2dAnimDataSRT *NNS_G2dGetAnimCtrlCurrentElement(Unk02022030 *pAnimCtrl);
+NNSG2dAnimDataSRT *NNS_G2dGetAnimCtrlCurrentElement(NNSG2dCellAnimation *pAnimCtrl);

@@ -52,7 +52,7 @@ BOOL SetWhParentParameter(void) {
     return TRUE;
 }
 
-void SetWhParentParameterCallback(Unk021425e8 *event) {
+void SetWhParentParameterCallback(WirelessMessage *event) {
     if (event->mResultCode != 0) {
         SetWhErrorCode(event->mResultCode);
         SetWhState(9);
@@ -82,7 +82,7 @@ BOOL SetWhWepKey(void) {
     return TRUE;
 }
 
-void SetWhWepKeyCallback(Unk021425e8 *event) {
+void SetWhWepKeyCallback(WirelessMessage *event) {
     if (event->mResultCode != 0) {
         SetWhErrorCode(event->mResultCode);
         SetWhState(9);
@@ -109,7 +109,7 @@ BOOL StartWhParent(void) {
     return TRUE;
 }
 
-void StartWhParentCallback(Unk021425e8 *event) {
+void StartWhParentCallback(WirelessMessage *event) {
     u16 aidBit;
     s32 result;
 
@@ -172,7 +172,7 @@ BOOL StartWhMP(void) {
     return TRUE;
 }
 
-void StartWhMPCallback(Unk021425e8 *event) {
+void StartWhMPCallback(WirelessMessage *event) {
     s32 result;
 
     if (event->mResultCode != 0) {
@@ -252,7 +252,7 @@ BOOL EndWhMP(void) {
     return TRUE;
 }
 
-void EndWhMPCallback(Unk021425e8 *event) {
+void EndWhMPCallback(WirelessMessage *event) {
     if (event->mResultCode != 0) {
         SetWhErrorCode(event->mResultCode);
         StartWhResetOrFail();
@@ -273,7 +273,7 @@ BOOL EndWhParent(void) {
     return TRUE;
 }
 
-void EndWhParentCallback(Unk021425e8 *event) {
+void EndWhParentCallback(WirelessMessage *event) {
     if (event->mResultCode != 0) {
         SetWhErrorCode(event->mResultCode);
     } else {
@@ -307,7 +307,7 @@ BOOL EndWhMPBeforeDisconnect(void) {
     return TRUE;
 }
 
-void EndWhMPBeforeDisconnectCallback(Unk021425e8 *event) {
+void EndWhMPBeforeDisconnectCallback(WirelessMessage *event) {
     if (event->mResultCode != 0) {
         SetWhErrorCode(event->mResultCode);
         FinalizeWh();
@@ -331,7 +331,7 @@ BOOL DisconnectWh(void) {
     return TRUE;
 }
 
-void DisconnectWhCallback(Unk021425e8 *event) {
+void DisconnectWhCallback(WirelessMessage *event) {
     if (event->mResultCode != 0) {
         SetWhErrorCode(event->mResultCode);
     } else {
@@ -350,7 +350,7 @@ BOOL StartWhReset(void) {
     return TRUE;
 }
 
-void StartWhResetCallback(Unk021425e8 *event) {
+void StartWhResetCallback(WirelessMessage *event) {
     if (event->mResultCode != 0) {
         SetWhState(9);
         SetWhErrorCode(event->mResultCode);
@@ -359,7 +359,7 @@ void StartWhResetCallback(Unk021425e8 *event) {
     }
 }
 
-void EndWhCallback(Unk021425e8 *event) {
+void EndWhCallback(WirelessMessage *event) {
     if (event->mResultCode != 0) {
         SetWhState(10);
         return;

@@ -15,7 +15,7 @@ char *gWaitNcgrName = "common/wait.nce.ncgr";
 
 void LoadWaitData(void) {
     void *sceneFile;
-    Unk02021dc8 *cells;
+    NNSG2dCellDataBank *cells;
     Ncgr *chars;
     Nclr *palette[1];
     cells = NULL;
@@ -29,7 +29,7 @@ void LoadWaitData(void) {
     LoadNclrData(palette, sceneFile);
 }
 
-void CreateWait(void *heap, Unk02021dc8 *destinationNcer, LayoutEntryTable *destinationBncl, u32 destinationBnclIndex,
+void CreateWait(void *heap, NNSG2dCellDataBank *destinationNcer, LayoutEntryTable *destinationBncl, u32 destinationBnclIndex,
                 u16 paletteIndex, u32 queueSelector) {
     Wait *wait;
     Wait *newWait;

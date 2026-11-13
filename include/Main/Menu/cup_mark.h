@@ -5,13 +5,13 @@
 
 typedef struct LayoutEntryTable LayoutEntryTable;
 
-typedef struct Unk02021dc8 Unk02021dc8;
+typedef struct NNSG2dCellDataBank NNSG2dCellDataBank;
 
-void QueueSelectCupNameM(u32 nameIndex, Unk02021dc8 *cells, LayoutEntryTable *cellLayout, u32 destIndex,
+void QueueSelectCupNameM(u32 nameIndex, NNSG2dCellDataBank *cells, LayoutEntryTable *cellLayout, u32 destIndex,
                          u32 queueSelector);
 void CreateSelectCupNameM(void *heap);
 void LoadSelectCupNameMData(void);
-void QueueCupMark(u32 cupMarkIndex, Unk02021dc8 *cells, LayoutEntryTable *cellLayout, u32 destIndex, u16 paletteSlot,
+void QueueCupMark(u32 cupMarkIndex, NNSG2dCellDataBank *cells, LayoutEntryTable *cellLayout, u32 destIndex, u16 paletteSlot,
                   s32 queueSelector);
 void ClearCupMarkPointer(void);
 

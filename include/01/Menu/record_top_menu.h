@@ -4,10 +4,10 @@
 #include "Main/Graphics/layout_entry_angle.h" // LayoutTableEntry, LayoutEntryTable
 
 typedef struct RecordTopMenu {
-    /* 0x00 */ struct Unk02021dc8 *mRecordTopMenuMNcer;
+    /* 0x00 */ struct NNSG2dCellDataBank *mRecordTopMenuMNcer;
     /* 0x04 */ LayoutEntryTable *mRecordTopMenuMBncl;
     /* 0x08 */ struct LayoutEntryTable *mRecordTopMenuMBnll;
-    /* 0x0c */ struct Unk02021dc8 *mRecordTopMenuSNcer;
+    /* 0x0c */ struct NNSG2dCellDataBank *mRecordTopMenuSNcer;
     /* 0x10 */ struct LayoutEntryTable *mRecordTopMenuSBncl;
     /* 0x14 */ struct LayoutEntryTable *mRecordTopMenuSBnbl;
     // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable

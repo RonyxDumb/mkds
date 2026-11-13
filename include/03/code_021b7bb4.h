@@ -12,7 +12,7 @@ typedef struct SOCConfig SOCConfig;
 
 typedef struct SocketAddress SocketAddress;
 typedef struct PacketTag PacketTag;
-typedef struct Unk021b86e4 Unk021b86e4;
+typedef struct SendPacketScratch SendPacketScratch;
 
 typedef struct KeyStreamState {
     /* 00 */ u32 mIndex;
@@ -152,10 +152,10 @@ void FillPacketHeader(void *buffer, s32 kind, s32 payloadLength, s32 flags, s8 p
                       const u8 *tagBytes);
 void FillPayloadRecord(s32 useKeyStream, void *destination, const void *source, s16 *length, s16 *flags, s8 *crc);
 s16 BuildTwoItemChain(void *buffer);
-s32 SendPacketKind3000(Unk021b86e4 *buf, PacketTag *list, s32 descriptor);
-s32 SendPacketKind2000(Unk021b86e4 *buf, PacketTag *list, s32 descriptor);
-s32 SendPacketKind1000(Unk021b86e4 *buf, PacketTag *list, s32 descriptor);
-s32 ReportStateAndSendPacketForMode(s32 mode, Unk021b86e4 *buf, PacketTag *list, s32 id);
+s32 SendPacketKind3000(SendPacketScratch *buf, PacketTag *list, s32 descriptor);
+s32 SendPacketKind2000(SendPacketScratch *buf, PacketTag *list, s32 descriptor);
+s32 SendPacketKind1000(SendPacketScratch *buf, PacketTag *list, s32 descriptor);
+s32 ReportStateAndSendPacketForMode(s32 mode, SendPacketScratch *buf, PacketTag *list, s32 id);
 s32 IsBit4Set(u32 value);
 s32 FindItemAndParseSubItems(s32 index, PacketItem *item, s32 remaining, ParsedItems *parsedItems, u8 *slots);
 s32 CopyFirstItemValueIfType0x70(PacketItem *container, u8 *output);

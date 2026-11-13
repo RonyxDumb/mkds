@@ -48,7 +48,7 @@ void InitLayoutTable(void *heap, LayoutEntryTable *cellLayout, LayoutEntryTable 
 
 // Draws entry a: first the entry it is chained to, then itself; appends the cell OAMs to the list, and returns without
 // drawing when the entry is disabled or lies off the 256 x 192 screen.
-u32 DrawLayoutEntry(s32 index, Unk02021dc8 *cells, LayoutEntryTable *cellLayout, LayoutEntryTable *labelLayout,
+u32 DrawLayoutEntry(s32 index, NNSG2dCellDataBank *cells, LayoutEntryTable *cellLayout, LayoutEntryTable *labelLayout,
                     RaceHudOamBuffer *oamList, LayoutTableEntry *entry, s32 incrementFlag) {
     s32 width;
     s32 height;
@@ -121,7 +121,7 @@ u32 DrawLayoutEntry(s32 index, Unk02021dc8 *cells, LayoutEntryTable *cellLayout,
                                                 groupIndex, entry->mDoubleAffine);
 }
 
-void DrawLayoutTable(LayoutEntryTable *cellLayout, Unk02021dc8 *cells, LayoutEntryTable *labelLayout, void *oamList,
+void DrawLayoutTable(LayoutEntryTable *cellLayout, NNSG2dCellDataBank *cells, LayoutEntryTable *labelLayout, void *oamList,
                      LayoutTableEntry *table) {
     s32 entryIndex;
     for (entryIndex = cellLayout->mCount - 1; entryIndex >= 0; entryIndex--) {
@@ -129,7 +129,7 @@ void DrawLayoutTable(LayoutEntryTable *cellLayout, Unk02021dc8 *cells, LayoutEnt
     }
 }
 
-void DrawLayoutTableKeepMatrixCount(LayoutEntryTable *cellLayout, Unk02021dc8 *cells, LayoutEntryTable *labelLayout,
+void DrawLayoutTableKeepMatrixCount(LayoutEntryTable *cellLayout, NNSG2dCellDataBank *cells, LayoutEntryTable *labelLayout,
                                     void *oamList, LayoutTableEntry *table) {
     s32 entryIndex;
     for (entryIndex = cellLayout->mCount - 1; entryIndex >= 0; entryIndex--) {
@@ -141,7 +141,7 @@ void DrawLayoutTableKeepMatrixCount(LayoutEntryTable *cellLayout, Unk02021dc8 *c
 
 #pragma thumb on
 
-void DrawLayoutTableEntry(s32 index, LayoutEntryTable *cellLayout, Unk02021dc8 *cells, LayoutEntryTable *labelLayout,
+void DrawLayoutTableEntry(s32 index, LayoutEntryTable *cellLayout, NNSG2dCellDataBank *cells, LayoutEntryTable *labelLayout,
                           void *oamList, LayoutTableEntry *table) {
     DrawLayoutEntry(index, cells, cellLayout, labelLayout, oamList, &table[index], 1);
 }

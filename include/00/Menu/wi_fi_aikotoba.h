@@ -4,7 +4,7 @@
 
 #include "Main/Graphics/layout_entry_angle.h" // LayoutTableEntry
 
-struct Unk02021dc8;
+struct NNSG2dCellDataBank;
 struct Ncgr;
 struct Nclr;
 
@@ -19,7 +19,7 @@ typedef struct WiFiAikotoba {
     /* 18 */ void *mHeap;
     // Table of cells built from the Bncl by InitLayoutTable.
     /* 1c */ LayoutTableEntry *mWiFiAikotobaTable;
-    /* 20 */ struct Unk02021dc8 *mWiFiAikotobaSNcer;
+    /* 20 */ struct NNSG2dCellDataBank *mWiFiAikotobaSNcer;
     /* 24 */ struct Ncgr *mWiFiAikotobaSNcgr;
     /* 28 */ struct Nclr *mWiFiAikotobaSONclr;
     /* 2c */ struct LayoutEntryTable *mWiFiAikotobaBncl;

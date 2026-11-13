@@ -99,11 +99,11 @@ typedef struct PacketTag {
     /* 6 */ u16 mSequence;
 } PacketTag;
 
-typedef struct Unk021b86e4 {
+typedef struct SendPacketScratch {
     /* 00 */ u32 mUnk_00;
     /* 04 */ u8 pad_04[0xc];
     /* 10 */ u32 mUnk_10;
-} Unk021b86e4;
+} SendPacketScratch;
 
 typedef struct PacketBuffer {
     /* 00 */ s32 mDescriptor;

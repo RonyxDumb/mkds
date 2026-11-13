@@ -62,10 +62,10 @@ SelectEngine *gSelectEngine;
 
 void LoadSelectEngineData(void) {
     Ncgr *selectEngineMChars = NULL;
-    Unk02021dc8 *selectEngineMCells = NULL;
+    NNSG2dCellDataBank *selectEngineMCells = NULL;
     Nclr *selectEngineMOPalette = NULL;
     Ncgr *selectEngineSChars = NULL;
-    Unk02021dc8 *selectEngineSCells = NULL;
+    NNSG2dCellDataBank *selectEngineSCells = NULL;
     Nclr *selectEngineSOPalette = NULL;
     Ncgr *selectEngineMBChars = NULL;
     Nscr *selectEngineMScreenMap = NULL;

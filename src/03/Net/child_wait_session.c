@@ -283,7 +283,7 @@ void InitChildWaitMultiBoot(void) {
 void AdvanceChildWaitMultiBoot(void) {
     switch (GetMultiBootParentState()) {
         case 1:
-            StartMultiBootParentFromIdle((Unk021cf8ac *) &gChildWaitSessionView->mRomFilePathp,
+            StartMultiBootParentFromIdle((MultiBootGameRegistryView *) &gChildWaitSessionView->mRomFilePathp,
                                          gChildWaitSessionView->mChannel);
             return;
         case 2:
@@ -405,7 +405,7 @@ BOOL EndChildWaitWh(void) {
     return 0;
 }
 
-u32 AcceptMatchingWhChild(Unk021425e8 *event) {
+u32 AcceptMatchingWhChild(WirelessMessage *event) {
     u16 aid = GetRecordValueByMacAddress(event->mMacAddress);
     if (aid == 0) {
         return 0;

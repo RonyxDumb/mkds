@@ -16,7 +16,7 @@ u8 gValueRecordsRequestSucceeded[1];
 struct ValueRecordsRequest *gValueRecordsRequest;
 
 void InitValueRecordsRequest(void) {
-    Unk021c1fc8 requestItem;
+    ValueRecordsRequestView requestItem;
     ValueRecordsRequest *request;
     gValueRecordsRequest = AllocZeroedExpHeapBlock(0x26c, 4);
     gValueRecordsRequestSucceeded[0] = 0;

@@ -14,17 +14,17 @@
 
 typedef struct RecordTAtt {
     /* 00 */ Ncgr *mRecordTAttMNcgr;
-    /* 04 */ struct Unk02021dc8 *mRecordTAttMNcer;
+    /* 04 */ struct NNSG2dCellDataBank *mRecordTAttMNcer;
     /* 08 */ LayoutEntryTable *mRecordTAttMBncl;
     /* 0c */ u8 mUnk_0c[4];
     /* 10 */ LayoutEntryTable *mRecordTAttMBnll;
     /* 14 */ Ncgr *mRecordTAttSNcgr;
-    /* 18 */ struct Unk02021dc8 *mRecordTAttSNcer;
+    /* 18 */ struct NNSG2dCellDataBank *mRecordTAttSNcer;
     /* 1c */ LayoutEntryTable *mRecordTAttSBncl;
     /* 20 */ struct LayoutEntryTable *mRecordTAttSBnbl;
     /* 24 */ LayoutEntryTable *mRecordTAttSBnll;
     /* 28 */ void *mPlayerCharacterChars;
-    /* 2c */ struct Unk02021dc8 *mPlayerCharacterCells;
+    /* 2c */ struct NNSG2dCellDataBank *mPlayerCharacterCells;
     /* 30 */ Nclr *mPlayerCharacterPalette;
     /* 34 */ struct LayoutEntryTable *mPlayerCharacterCellLayout;
     // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable

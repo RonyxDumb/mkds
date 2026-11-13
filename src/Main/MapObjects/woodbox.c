@@ -63,7 +63,7 @@ const MapObjectList gWoodbox1UpdateListData = {
 const Woodbox1DrawList gWoodbox1DrawListData = {
     0, 0, {0, 0}, &CreateWoodbox1, 0, &DrawWoodbox1, 0, 1, 0, 0, 0, 0,
 };
-const Unk02159538 gWoodbox1KindData = {
+const Woodbox1KindData gWoodbox1KindData = {
     &CollideKartWithWoodbox1,
     &CollideItemObjectWithWoodbox1,
     4,
@@ -107,8 +107,8 @@ BOOL HitPushedObjectByItemObject(PushedObject *mapObject, void *other, u8 *first
     return TRUE;
 }
 
-Unk02159538 *CreateWoodbox1KindData(void) {
-    Unk02159538 *kindData;
+Woodbox1KindData *CreateWoodbox1KindData(void) {
+    Woodbox1KindData *kindData;
 
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
     *kindData = gWoodbox1KindData;

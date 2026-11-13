@@ -127,7 +127,7 @@ s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
     SocketAddress bindAddress;
     PacketTag list[3];
     EssidMelcoRequest request;
-    Unk021b86e4 buf;
+    SendPacketScratch buf;
 
     mode = 0;
     attempts = mode;
@@ -1269,7 +1269,7 @@ s32 IsBit4Set(u32 value) {
 }
 
 // Reports state 2, 3 or 5 and sends the packet of kind 0x1000, 0x2000 or 0x3000 for mode 0, 1 or 2.
-s32 ReportStateAndSendPacketForMode(s32 mode, Unk021b86e4 *buf, PacketTag *list, s32 descriptor) {
+s32 ReportStateAndSendPacketForMode(s32 mode, SendPacketScratch *buf, PacketTag *list, s32 descriptor) {
     switch (mode) {
         case 0:
             ReportStateChange(2);
@@ -1284,7 +1284,7 @@ s32 ReportStateAndSendPacketForMode(s32 mode, Unk021b86e4 *buf, PacketTag *list,
     return -1;
 }
 
-s32 SendPacketKind1000(Unk021b86e4 *buf, PacketTag *list, s32 descriptor) {
+s32 SendPacketKind1000(SendPacketScratch *buf, PacketTag *list, s32 descriptor) {
     PacketFieldValues fields;
     PacketBuffer *packetBuffer;
     ItemContainer *container;
@@ -1332,7 +1332,7 @@ s32 SendPacketKind1000(Unk021b86e4 *buf, PacketTag *list, s32 descriptor) {
     return 0;
 }
 
-s32 SendPacketKind2000(Unk021b86e4 *buf, PacketTag *list, s32 descriptor) {
+s32 SendPacketKind2000(SendPacketScratch *buf, PacketTag *list, s32 descriptor) {
     s8 payloadCrc;
     s16 payloadLength;
     s16 flags;
@@ -1363,7 +1363,7 @@ s32 SendPacketKind2000(Unk021b86e4 *buf, PacketTag *list, s32 descriptor) {
     return 0;
 }
 
-s32 SendPacketKind3000(Unk021b86e4 *buf, PacketTag *list, s32 descriptor) {
+s32 SendPacketKind3000(SendPacketScratch *buf, PacketTag *list, s32 descriptor) {
     PacketBuffer *packetBuffer;
     u8 tagBytes[8];
     packetBuffer = gRequestPacketBuffer;

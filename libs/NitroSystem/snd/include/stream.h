@@ -29,7 +29,7 @@ typedef struct NNSSndStrm {
 
 // 0x160 bytes; sStrmPlayer holds four. Bits of mUnk_110: 0 is tested by ShutdownPlayer_, ForceStopStrm_ and
 // NNSi_SndArcStrmMain, 1 by ForceStopStrm_ and NNSi_SndArcStrmMain, 2 and 3 by NNSi_SndArcStrmMain.
-typedef struct Unk0212c7f0 {
+typedef struct NNSSndStrmPlayer {
     /* 00 */ NNSSndStrm mStream;
     /* 5c */ FSFile mFile;
     /* a4 */ u8 mUnk_a4[0x44];
@@ -50,7 +50,7 @@ typedef struct Unk0212c7f0 {
     /* 154 */ s32 mInitVolume;
     /* 158 */ s32 mVolume;
     /* 15c */ u8 mUnk_15c[4];
-} Unk0212c7f0;
+} NNSSndStrmPlayer;
 
 // 8 bytes; NNS_SndStrmSetVolume reads mVolume of the element a byte of NNSSndStrm.mChannelNo selects in sStrmChannel.
 typedef struct NNSSndStrmChannel {

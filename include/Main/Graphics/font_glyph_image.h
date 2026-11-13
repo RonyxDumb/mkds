@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-typedef struct Unk02022aa8 Unk02022aa8;
+typedef struct NNSG2dFont NNSG2dFont;
 
-u8 *GetFontGlyphImage(Unk02022aa8 *font, int glyphIndex);
+u8 *GetFontGlyphImage(NNSG2dFont *font, int glyphIndex);

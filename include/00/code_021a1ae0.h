@@ -40,8 +40,8 @@ typedef struct UnmatchedDataAddress {
 } UnmatchedDataAddress;
 
 void DWCi_MatchGPRecvBuddyMsgCallback(GpConnection *gpConnection, u32 profileId, const char *message);
-void DWCi_GT2ConnectedCallback(Unk0219887c *connection, s32 result);
-void DWCi_GT2ConnectAttemptCallback(u32 socket, Unk0219887c *connection, u32 address, u32 port, s32 latency,
+void DWCi_GT2ConnectedCallback(Gt2ConnectionView *connection, s32 result);
+void DWCi_GT2ConnectAttemptCallback(u32 socket, Gt2ConnectionView *connection, u32 address, u32 port, s32 latency,
                                     char *message);
 u32 DWCi_GT2UnrecognizedMessageCallback(u32 socket, u32 address, u16 port, u8 *data, u32 size);
 void DWCi_MatchProcess(s32 param_1);

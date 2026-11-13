@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "00/Lib/GameSpy/code_0219887c.h" // Unk0219887c
+#include "00/Lib/GameSpy/code_0219887c.h" // Gt2ConnectionView
 #include "00/Lib/GameSpy/code_0219b1d4.h" // NatTraversalEntry
 #include "00/Lib/GameSpy/code_0218f960.h" // BuddyMessageData
 #include "00/code_0219c93c.h"
@@ -13,9 +13,9 @@ typedef struct GpConnection GpConnection;
 
 NatTraversalEntry *FindNegotiatorForCookie(u32 cookie);
 void DWCi_GT2SocketErrorCallback(u32 *socket);
-void DWCi_GT2PingCallback(Unk0219887c *connection, u32 latency);
-void DWCi_GT2ClosedCallback(Unk0219887c *connection, u32 reason);
-void DWCi_GT2ReceivedCallback(Unk0219887c *connection, void *message, s32 length, u32 reliable);
+void DWCi_GT2PingCallback(Gt2ConnectionView *connection, u32 latency);
+void DWCi_GT2ClosedCallback(Gt2ConnectionView *connection, u32 reason);
+void DWCi_GT2ReceivedCallback(Gt2ConnectionView *connection, void *message, s32 length, u32 reliable);
 void DWCi_GPRecvBuddyMessageCallback(GpConnection *connection, BuddyMessageData *arg, u32 param);
 
 extern s32 stLastSocketError;
@@ -102,7 +102,7 @@ typedef struct WiFiConnection {
     /* 7a0 */ WiFiMessageLayer mMessageLayer;
 } WiFiConnection;
 
-typedef struct Unk0219887c Unk0219887c;
+typedef struct Gt2ConnectionView Gt2ConnectionView;
 
 typedef struct DWCConnectionInfo {
     /* 00 */ u8 mIndex;
@@ -135,8 +135,8 @@ void **DWCi_GetGT2ConnectionByProfileID(u32 profileId, s32 numHost);
 void **DWCi_GetGT2ConnectionByIdx(s32 index);
 void DWCi_ClearGT2ConnectionList(void);
 s32 DWCi_GT2GetConnectionListIdx(void);
-u32 DWCi_GetConnectionIndex(Unk0219887c *connection);
-u8 DWCi_GetConnectionAID(Unk0219887c *connection);
+u32 DWCi_GetConnectionIndex(Gt2ConnectionView *connection);
+u8 DWCi_GetConnectionAID(Gt2ConnectionView *connection);
 void *DWCi_GetGT2Connection(u32 aid);
 s32 DWCi_GT2Startup(void);
 u32 DWC_GetState(void);

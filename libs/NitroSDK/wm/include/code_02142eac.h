@@ -4,8 +4,8 @@
 
 typedef struct WMDataSharingInfo WMDataSharingInfo;
 
-typedef struct Unk021425e8 Unk021425e8;
-typedef void (*Unk021425e8Func)(Unk021425e8 *);
+typedef struct WirelessMessage WirelessMessage;
+typedef void (*Unk021425e8Func)(WirelessMessage *);
 
 // 0x2c bytes from 0x36 of Unk0217aa00_24_50_0e.
 typedef struct Unk0217aa00_24_50_0e_36 {
@@ -108,12 +108,12 @@ typedef struct WMBssDesc {
 // WmReceiveFifo takes.
 typedef struct WMArm9Buf {
     /* 000 */ void *mWM7;
-    /* 004 */ struct Unk02142988 *mStatusArea;
+    /* 004 */ struct WMStatus *mStatusArea;
     /* 008 */ u32 mUnk_008;
     // Command request area; the command functions fill it in and WMi_SendCommand copies it for a command with no words.
     /* 00c */ u16 *mRequestArea;
     // Message area for replies; WmReceiveFifo does not mark it free after handling.
-    /* 010 */ Unk021425e8 *mMessageArea;
+    /* 010 */ WirelessMessage *mMessageArea;
     /* 014 */ u16 mDmaNo;
     /* 016 */ u16 mScanOnlyFlag;
     /* 018 */ Unk021425e8Func mCommandCallbacks[0x2a];
@@ -123,7 +123,7 @@ typedef struct WMArm9Buf {
 } WMArm9Buf;
 
 // Wireless status area written by the other processor; WM_ReadStatus copies 0x7bc bytes of it.
-typedef struct Unk02142988 {
+typedef struct WMStatus {
     /* 000 */ u16 mState;
     /* 002 */ u8 mUnk_002[2];
     /* 004 */ void *mUnk_004;
@@ -152,11 +152,11 @@ typedef struct Unk02142988 {
     /* 18e */ u16 mMpMaxSendSize;
     /* 190 */ u16 mMpMaxRecvSize;
     /* 192 */ u8 mUnk_192[0x62a];
-} Unk02142988;
+} WMStatus;
 
 // Message the other processor passes to WmReceiveFifo and to the callbacks. Several layouts overlay it: port and
 // indication messages hold the state at 0x04, command replies at 0x08 (mReplyState); names with Or cover both.
-struct Unk021425e8 {
+struct WirelessMessage {
     // Command number; 0x80, 0x81 and 0x82 are indications and port messages. Bit 15 marks a ring message as free.
     /* 00 */ u16 mCommand;
     // 0 on success, otherwise an error number.
@@ -192,7 +192,7 @@ struct Unk021425e8 {
 };
 
 // 0x40 bytes. The port callback message WmReceiveFifo builds for gPortCallbackEvent: the first 0x3c bytes have the
-// members of the same offsets in Unk021425e8.
+// members of the same offsets in WirelessMessage.
 typedef struct WMPortRecvCallback {
     /* 00 */ u16 mCommand;
     /* 02 */ u16 mResultCode;
@@ -223,13 +223,13 @@ typedef struct WMOtherElements {
 
 // Header of the MP receive buffer: mCount is the number of records, mLength the size of each, and the records start at
 // mData.
-typedef struct Unk021432ac {
+typedef struct WMMpRecvHeader {
     /* 00 */ u8 mUnk_00[4];
     /* 04 */ u16 mCount;
     /* 06 */ u16 mLength;
     /* 08 */ u8 mUnk_08[2];
     /* 0a */ u8 mData[1];
-} Unk021432ac;
+} WMMpRecvHeader;
 
 // One station's record in the MP receive buffer; the payload starts at 0x0a.
 typedef struct WMMpRecvData {
@@ -348,7 +348,7 @@ s32 WM_SetPortCallback(u16 port, UnkFunc *callback, void *arg);
 s32 WM_ReadStatus(void *statusBuf);
 s32 WM_GetMPSendBufferSize(void);
 s32 WM_GetMPReceiveBufferSize(void);
-void *WM_ReadMPData(const Unk021432ac *header, u16 aid);
+void *WM_ReadMPData(const WMMpRecvHeader *header, u16 aid);
 u16 WM_GetAllowedChannel(void);
 u16 WM_GetLinkLevel(void);
 u16 WM_GetDispersionBeaconPeriod(void);

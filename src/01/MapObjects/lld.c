@@ -80,7 +80,7 @@ Lld *CreateLld(const char *fileName, void *cells, void *cellAnims) {
 void AdvanceLld(Lld *lld, OamBuffer *oamBuffer) {
     s32 entryIndex;
     LldEntry *entry;
-    Unk02022030 *cellAnim;
+    NNSG2dCellAnimation *cellAnim;
     s32 screenX;
     s32 screenY;
     s32 scaledPos[2];
@@ -164,7 +164,7 @@ void SetLldEntryCallback(LldEntry *entry, s32 (*callback)(LldEntry *)) {
 }
 
 void ApplyLldEntryFrameCommand(LldEntry *entry, s32 frameOrCommand) {
-    Unk02022030 *cellAnim = &entry->mCellAnim;
+    NNSG2dCellAnimation *cellAnim = &entry->mCellAnim;
 
     if (frameOrCommand == -1) {
         cellAnim->mOverriddenPlayMode = 2;

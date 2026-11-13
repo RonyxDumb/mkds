@@ -22,7 +22,7 @@ typedef struct WanwanDrawList {
 } WanwanDrawList;
 
 // Object of CreateWanwanKindData: two functions and words at 0x08, 0x0c, 0x1c, 0x20 and 0x24.
-typedef struct Unk020dd860 {
+typedef struct WanwanKindData {
     /* 00 */ u8 (*mUnk_00)(Wanwan *, void *, u8 *, u8 *);
     /* 04 */ u8 (*mUnk_04)(Wanwan *, void *, u8 *, u8 *);
     /* 08 */ s32 mUnk_08;
@@ -32,11 +32,11 @@ typedef struct Unk020dd860 {
     /* 20 */ s32 mUnk_20;
     /* 24 */ s32 mUnk_24;
     /* 28 */ u8 mUnk_28[0x18];
-} Unk020dd860;
+} WanwanKindData;
 
 extern const MapObjectList gWanwanUpdateListData;
 extern const WanwanDrawList gWanwanDrawListData;
-extern const Unk020dd860 gWanwanKindData;
+extern const WanwanKindData gWanwanKindData;
 extern MapObjectList *gWanwanUpdateList;
 extern WanwanDrawList *gWanwanDrawList;
 
@@ -54,7 +54,7 @@ void UpdateWanwan(void *unused, Wanwan *wanwan); /* skipped for objects with mFl
 void DrawWanwan(void *unused0, Wanwan *wanwan, void *unused1, u32 maxAlpha);
 MapObjectList *CreateWanwanUpdateList(void);
 WanwanDrawList *CreateWanwanDrawList(void);
-Unk020dd860 *CreateWanwanKindData(void);
+WanwanKindData *CreateWanwanKindData(void);
 
 void EnterWanwanState4(Wanwan *wanwan);
 

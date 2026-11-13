@@ -10,7 +10,7 @@ void DrawCanvasText(unsigned int canvas, unsigned int xPos, unsigned int yPos, u
 
 // 0x38-byte object; InitBgTextCanvas sets it up.
 typedef struct BgTextCanvas {
-    /* 00 */ Unk02023374 mCharCanvas;
+    /* 00 */ NNSG2dCharCanvas mCharCanvas;
     /* 20 */ TextCanvas mTextCanvas;
     /* 30 */ u8 *mChars;
     /* 34 */ u32 mUploadTask;
@@ -38,7 +38,7 @@ typedef struct ObjTextCanvas {
 } ObjTextCanvas;
 
 typedef struct TextCanvases {
-    /* 000 */ Unk02022aa8 mFonts[2];
+    /* 000 */ NNSG2dFont mFonts[2];
     /* 018 */ u8 mObjCanvasStorage[0x700];
     /* 718 */ BgTextCanvas mBgTextCanvases[2];
     /* 788 */ PointerStack *mFreeObjCanvases;

@@ -17,7 +17,7 @@ typedef struct LldEntry {
     /* 20 */ s32 mBoundsRight;
     /* 24 */ s32 mBoundsTop;
     /* 28 */ s32 mBoundsBottom;
-    /* 2c */ Unk02022030 mCellAnim;
+    /* 2c */ NNSG2dCellAnimation mCellAnim;
     /* 80 */ struct Lld *mLld;
     /* 84 */ s32 (*mCallback)(struct LldEntry *);
 } LldEntry;

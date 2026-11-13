@@ -52,7 +52,7 @@ void DisconnectChildren(u32 aidBitmap) {
     gConnectionWork->mRequestPending = 0;
 }
 
-void DisconnectChildrenCallback(Unk021425e8 *event) {
+void DisconnectChildrenCallback(WirelessMessage *event) {
     gConnectionWork->mRequestPending = 0;
     if (event->mResultCode != 0 && event->mResultCode != 7) {
         return;
@@ -91,7 +91,7 @@ void EndMP(void) {
     StopConnection();
 }
 
-void EndMPCallback(Unk021425e8 *event) {
+void EndMPCallback(WirelessMessage *event) {
     ConnectionWork *connection;
 
     gConnectionWork->mRequestPending = 0;
@@ -115,7 +115,7 @@ void EndParent(void) {
     StopConnection();
 }
 
-void EndParentCallback(Unk021425e8 *event) {
+void EndParentCallback(WirelessMessage *event) {
     gConnectionWork->mRequestPending = 0;
     if (event->mResultCode != 0) {
         StopConnection();
@@ -167,7 +167,7 @@ void Disconnect(void) {
     }
 }
 
-void DisconnectCallback(Unk021425e8 *event) {
+void DisconnectCallback(WirelessMessage *event) {
     u16 aid;
 
     switch (event->mResultCode) {
@@ -281,7 +281,7 @@ void End(void) {
     End();
 }
 
-void EndCallback(Unk021425e8 *event) {
+void EndCallback(WirelessMessage *event) {
     gConnectionWork->mRequestPending = 0;
     if (event->mResultCode != 0) {
         gConnectionWork->mErrorCode = 8;
@@ -452,7 +452,7 @@ void ProcessMPData(u32 aid, MPMessage *message) {
     }
 }
 
-void MPDataPortCallback(Unk021425e8 *event) {
+void MPDataPortCallback(WirelessMessage *event) {
     MPMessage message;
 
     if (event->mResultCode != 0) {

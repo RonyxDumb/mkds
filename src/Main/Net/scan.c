@@ -234,7 +234,7 @@ void FindOrAddScanSlot(WMBssDesc *scanBuffer, ScanMacAddress *key, UserGameInfo 
     }
 }
 
-void StartScanCallback(Unk021425e8 *event) {
+void StartScanCallback(WirelessMessage *event) {
     WMBssDesc scanBuffer;
     ScanMacAddress key;
     s32 slotIndex;
@@ -346,7 +346,7 @@ void EndScan(void) {
     StopConnection();
 }
 
-void EndScanCallback(Unk021425e8 *event) {
+void EndScanCallback(WirelessMessage *event) {
     gConnectionWork->mRequestPending = 0;
     if (event->mResultCode == 0) {
         return;
@@ -382,7 +382,7 @@ void StartConnect(WMBssDesc *parentBssDesc, void *customUserData, void (*connect
     gConnectionWork->mDisconnectedCallback = disconnectedCallback;
 }
 
-void StartConnectCallback(Unk021425e8 *event) {
+void StartConnectCallback(WirelessMessage *event) {
     BOOL shouldReset;
     u16 seed;
     RandomState64 *randomState;
@@ -480,7 +480,7 @@ void StartMP(void) {
     gConnectionWork->mRequestPending = 0;
 }
 
-void StartMPCallback(Unk021425e8 *event) {
+void StartMPCallback(WirelessMessage *event) {
     switch (event->mResultCode) {
         case 0:
             switch (event->mState) {
@@ -523,7 +523,7 @@ void SetMPFrequency(u32 mpFreq) {
     gConnectionWork->mRequestPending = 0;
 }
 
-void SetMPFrequencyCallback(Unk021425e8 *event) {
+void SetMPFrequencyCallback(WirelessMessage *event) {
     gConnectionWork->mRequestPending = 0;
     if (event->mResultCode != 0) {
         gConnectionWork->mErrorCode = 2;
@@ -546,7 +546,7 @@ void SetEntry(s32 enabled) {
     StopConnection();
 }
 
-void SetEntryCallback(Unk021425e8 *event) {
+void SetEntryCallback(WirelessMessage *event) {
     gConnectionWork->mRequestPending = 0;
     if (event->mResultCode == 0) {
         return;

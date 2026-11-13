@@ -960,7 +960,7 @@ void GetKeyboardCursorRectBounds(s32 *left, s32 *top, s32 *right, s32 *bottom) {
     }
 }
 
-void InitKeyboardKeysAndCanvas(struct Unk02022aa8 *font, void *bg2Char, u16 *bg2Scr, s32 screenMapWidth,
+void InitKeyboardKeysAndCanvas(struct NNSG2dFont *font, void *bg2Char, u16 *bg2Scr, s32 screenMapWidth,
                                s32 screenMapHeight, s32 screenMapTileBase) {
     MI_CpuFill8(&gKeyboardKeys, 0, 0x54);
     gKeyboardCanvas.mFont = font;
@@ -1099,12 +1099,12 @@ KeyboardRect *FindKeyboardRectAt(KeyboardKeys *keyboardKeys, s32 pointX, s32 poi
 }
 
 void DrawKeyboardGlyphs(KeyboardKeys *keyboardKeys) {
-    Unk02022aa8 *font;
+    NNSG2dFont *font;
     KeyboardRect *rect;
     FontGlyph *glyphInfo;
     NNSG2dCharWidths *charWidths;
     NNSG2dGlyph glyph;
-    Unk02023374 charCanvas;
+    NNSG2dCharCanvas charCanvas;
     s32 glyphHeight;
     KeyboardLayout *layout;
     u32 character;

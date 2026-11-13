@@ -5,7 +5,7 @@
 #include "Main/Graphics/layout_rect_table.h"
 #include "Main/Graphics/layout_entry_angle.h"
 
-struct Unk02021dc8;
+struct NNSG2dCellDataBank;
 struct Ncgr;
 struct Nclr;
 
@@ -20,7 +20,7 @@ typedef struct WiFiTopMenu {
     /* 18 */ BOOL mHighlightVisible;
     // Table of cells built from the Bncl / Bnll by InitLayoutTable.
     /* 1c */ LayoutTableEntry *mWiFiTopMenuTable;
-    /* 20 */ struct Unk02021dc8 *mWiFiTopMenuSNcer;
+    /* 20 */ struct NNSG2dCellDataBank *mWiFiTopMenuSNcer;
     /* 24 */ struct Ncgr *mWiFiTopMenuSNcgr;
     /* 28 */ struct Nclr *mWiFiTopMenuSONclr;
     /* 2c */ struct LayoutEntryTable *mWiFiTopMenuBncl;

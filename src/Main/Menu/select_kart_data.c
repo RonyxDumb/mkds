@@ -867,7 +867,7 @@ void LoadSelectKartData(void) {
     void *fileData;
     Ncgr *chars;
     Nclr *palette;
-    Unk02021dc8 *cells;
+    NNSG2dCellDataBank *cells;
     Nscr *screenMap[1];
     chars = NULL;
     palette = NULL;

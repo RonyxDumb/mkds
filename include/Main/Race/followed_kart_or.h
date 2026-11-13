@@ -3,14 +3,14 @@
 #include "types.h"
 #include "code_02012b30.h" // MtxFx22
 #include "Main/Graphics/font_and_player_character.h" // Nscr, Ncgr, Nclr
-#include "g2d_NAN_load.h" // Unk02021dc8
+#include "g2d_NAN_load.h" // NNSG2dCellDataBank
 #include "g2d_NSC_load.h" // NNSG2dBinaryFileHeader
 
 void LocateNscr(Nscr **out, void *file);
 void LoadNscrData(Nscr **out, void *file);
 void LoadNanrData(AnimBank **out, void *file);
-void LocateNcer(Unk02021dc8 **out, void *file);
-void LoadNcerData(Unk02021dc8 **out, void *file);
+void LocateNcer(NNSG2dCellDataBank **out, void *file);
+void LoadNcerData(NNSG2dCellDataBank **out, void *file);
 void LocateNcgr(Ncgr **out, void *file);
 void LoadNcgrData(Ncgr **out, void *file);
 void LocateNcgr2(Ncgr **out, void *file);
