@@ -6,6 +6,7 @@
 #include "Main/Race/data_020f36d8.h" // ItemObject
 #include "Main/MapObjects/data_0217b000.h"
 #include "Main/MapObjects/shine16.h" // KartBalloons
+#include "Main/MapObjects/map_object_kind_update_list.h"
 
 // Object with the MapObject base at 0x00 (UpdateDistanceSound, InitDistanceSoundObjects, InitDistanceSound).
 typedef struct DistanceSound {
@@ -36,6 +37,7 @@ typedef struct DistanceSound {
 #include "Main/Race/race_hud_sub_screen_projection.h" // CourseMapPoint
 
 MapObjectList *CreateDistanceSoundUpdateList(void);
+extern MapObjectKindDescriptor gDistanceSoundKindDescriptor;
 void UpdateDistanceSound(void *mapObjectList, DistanceSound *mapObject);
 void InitDistanceSoundObjects(MapObjectList *mapObjectList);
 void InitDistanceSound(DistanceSound *mapObject);

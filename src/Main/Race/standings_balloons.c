@@ -1,4 +1,5 @@
 #include "Main/Race/standings_balloons.h"
+#include "Main/MapObjects/bound.h"
 
 #include "Main/System/heap.h"
 #include "Main/Kart/kart_participant_record.h"
@@ -48,6 +49,16 @@
 const u32 gShineBattleTimeLimits[4] = {0xffff, 0x1e, 0x1e, 0x1e};
 const s32 gCharacterBalloonOrShineHeights[16] = {0x11000, 0x16000, 0x11000, 0x17000, 0x11800, 0x12000, 0x11000, 0x11000, 0x10800, 0x11000, 0x13000, 0x15000, 0x10800, 0, 0, 0};
 Standings *gStandings;
+
+MapObjectKindDescriptor gDistanceSoundKindDescriptor = {0,
+                                                        {0, 0},
+                                                        0xcc,
+                                                        InitDistanceSound,
+                                                        CreateEmptyMapObjectKindData,
+                                                        0,
+                                                        0,
+                                                        0,
+                                                        CreateDistanceSoundUpdateList};
 
 void SetStandingsKartBalloons(KartBalloons *kartBalloons) {
     gStandings->mKartBalloons = kartBalloons;

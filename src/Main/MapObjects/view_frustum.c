@@ -54,7 +54,7 @@
 #include "Main/MapObjects/group_item_box_kind_descriptor.h"
 #include "Main/MapObjects/vehicle_kind_descriptor.h"
 #include "Main/MapObjects/kart_balloons_kind_descriptor.h"
-#include "Main/Sound/distance_sound_volume.h"
+#include "Main/Race/standings_balloons.h"
 #include "Main/MapObjects/sanbo_launch.h"
 #include "Main/MapObjects/ob_pakkun_sf_kind_descriptor.h"
 #include "Main/MapObjects/pendulum_kind_descriptor.h"
