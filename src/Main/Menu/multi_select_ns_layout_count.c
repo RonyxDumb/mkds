@@ -1015,10 +1015,10 @@ void WriteMultiSelectMemberRegisters(void) {
 
 #pragma thumb off
 
-u32 MultiSelectNSGetCellLayoutCount(const void *cellLayout) {
-    return (*OFFSET_PTR(const u16, cellLayout, 6));
+u32 MultiSelectNSGetCellLayoutCount(LayoutEntryTable *cellLayout) {
+    return cellLayout->mCount;
 }
 
-u32 MultiSelectNSGetLabelLayoutCount(const void *labelLayout) {
-    return (*OFFSET_PTR(const u16, labelLayout, 6));
+u32 MultiSelectNSGetLabelLayoutCount(LayoutEntryTable *labelLayout) {
+    return labelLayout->mCount;
 }

@@ -61,8 +61,8 @@ void PrintSelectKartMessage(void);
 u32 IsSelectKartModeAndTimerZero(void);
 void SetSelectKartSPartsOffsetY(void);
 
-unsigned int GetLabelLayoutCount(void *labelLayout);
-unsigned int GetCellLayoutCount(void *cellLayout);
+unsigned int GetLabelLayoutCount(LayoutEntryTable *labelLayout);
+unsigned int GetCellLayoutCount(LayoutEntryTable *cellLayout);
 
 void SetSelectKartGpMPartsOffsets(void);
 u32 IsSelectKartTouchRepeat(s32 rectIndex);

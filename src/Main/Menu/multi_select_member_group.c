@@ -114,7 +114,7 @@ void SetMemberGroupCellTableOffsetY(void) {
     CellFileSet *cellFileSet;
 
     cellFileSet = &gMultiSelectMemberGroup->mGroupSParts;
-    entryCount = *OFFSET_PTR(u16, cellFileSet->mCellLayout, 6) + *OFFSET_PTR(u16, cellFileSet->mLabelLayout, 6);
+    entryCount = cellFileSet->mCellLayout->mCount + cellFileSet->mLabelLayout->mCount;
     for (cellIndex = 0; cellIndex < entryCount; cellIndex++) {
         cellFileSet->mCellTable[cellIndex].mOffsetY = gMultiSelectMemberGroup->mBg3Offset;
     }
@@ -183,7 +183,7 @@ void RefreshMultiSelectMemberGroup(s32 showSelected) {
         SetLabelPaletteIndex(rowCellIndices->mLabelIndex, valueTable.mPaletteIndices[rowSelected],
                              cellFileSet->mLabelLayout, cellFileSet->mCellTable, cellFileSet->mCellLayout);
         entryOffset += 0xc;
-        rowCellIndices = OFFSET_PTR(MemberRowCellIndices, rowCellIndices, 0x32);
+        rowCellIndices++;
         rowIndex++;
     } while (rowIndex < 4);
     if (gMultiSelectMemberGroup->mSelectedIndex == rowIndex && showSelected != 0) {

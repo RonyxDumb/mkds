@@ -187,12 +187,12 @@ void SetSelectKartGpMPartsOffsets(void) {
 }
 #pragma thumb off
 
-u32 GetCellLayoutCount(void *cellLayout) {
-    return *OFFSET_PTR(const u16, cellLayout, 6);
+u32 GetCellLayoutCount(LayoutEntryTable *cellLayout) {
+    return cellLayout->mCount;
 }
 
-u32 GetLabelLayoutCount(void *labelLayout) {
-    return *OFFSET_PTR(const u16, labelLayout, 6);
+u32 GetLabelLayoutCount(LayoutEntryTable *labelLayout) {
+    return labelLayout->mCount;
 }
 
 #pragma optimize_for_size on

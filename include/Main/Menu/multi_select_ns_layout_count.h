@@ -7,8 +7,8 @@
 #include "Main/Graphics/locate_bmg_sections.h"
 #include "Main/Graphics/font_and_player_character.h"
 
-unsigned int MultiSelectNSGetLabelLayoutCount(const void *labelLayout);
-unsigned int MultiSelectNSGetCellLayoutCount(const void *cellLayout);
+unsigned int MultiSelectNSGetLabelLayoutCount(LayoutEntryTable *labelLayout);
+unsigned int MultiSelectNSGetCellLayoutCount(LayoutEntryTable *cellLayout);
 
 // 0xc-byte elements from 0xe0 of MultiSelectMember.
 typedef struct MultiSelectMemberRow {
