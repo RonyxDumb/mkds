@@ -1637,4 +1637,3 @@ static inline CourseTeamResult *GetCupCourseTeamResult(CourseTeamResults *course
 // The event counters of the selected entry's Kart, allocated by InitKarts.
 struct EntryKartCounters;
 
-extern void *data_usa_0217aa68;
