@@ -69,7 +69,8 @@ s32 LoadCourseMapSubScreenViewData(void *section, ...);
 void ShuffleCourseMapRespawnSlots(RandomState64 *randomState64);
 s32 LoadCourseMapRespawnsData(void *section, ...);
 s32 LoadCourseMapStartPlacementsData(void *section, ...);
-u32 LoadCourseMapSettingsData(void *section);
+typedef struct CourseMapSettingsSection CourseMapSettingsSection;
+u32 LoadCourseMapSettingsData(CourseMapSettingsSection *section);
 // Called once by CreateCourseMap after the sections are loaded: builds mItemPointLinks when mItemRouteCount is not 0,
 // and mRacePointLinks when mRaceRouteCount is not 0, else mBattlePointLinks when mBattleRouteCount is not 0.
 void BuildCourseMapPointLinks(void *heap);

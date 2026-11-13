@@ -453,9 +453,15 @@ void BuildCourseMapPointLinks(void *heap) {
 }
 #pragma thumb off
 
+// The settings section of a course map file: four unread bytes, then the settings record.
+struct CourseMapSettingsSection {
+    /* 00 */ u8 mUnk_00[4];
+    /* 04 */ CourseMapSettings mSettings;
+};
+
 #pragma thumb on
-u32 LoadCourseMapSettingsData(void *section) {
-    gCourseMap->mSettings = OFFSET_PTR(CourseMapSettings, section, 4);
+u32 LoadCourseMapSettingsData(CourseMapSettingsSection *section) {
+    gCourseMap->mSettings = &section->mSettings;
     return 1;
 }
 #pragma thumb off
