@@ -903,8 +903,6 @@ extern u16 gJgAngle;
 extern Vec3 gJgKind3Offset;
 extern Vec3 gJgKind2Offset;
 extern void *gSphereHitObjects[16];
-extern s32 data_0217b610;
-extern CourseCollision gCourseCollision;
 extern s32 gJgOffsetY;
 extern s32 gJgOffsetX;
 extern s32 gJgFarFromKart;

@@ -11505,7 +11505,7 @@ gFoundCollisionSlotObjects kind:bss addr:0x0217b5a4
 gCollisionSlotNextFree kind:bss addr:0x0217b5a8
 gFoundCollisionSlotIndices kind:bss addr:0x0217b5ac
 gSphereHitObjects kind:bss addr:0x0217b5b0
-data_0217b610 kind:bss addr:0x0217b5f0
+gSearchCollisionSlots kind:bss addr:0x0217b5f0
 gCourseCollision kind:bss addr:0x0217b5f4
 gRockDrawList kind:bss addr:0x0217b630
 gRockUpdateList kind:bss addr:0x0217b634

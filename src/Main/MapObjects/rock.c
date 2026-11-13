@@ -35,6 +35,7 @@
 #include "Main/MapObjects/data_02156000.h"
 #include "Main/Kart/code_0208fd8c.h"
 #include "Main/MapObjects/sphere_collision_data.h"
+#include "Main/MapObjects/course_collision_data.h"
 
 const s16 gRockFirstEffectRows08[4] = {0, 0x1000, -1024, 0x1400};
 const s16 gRockSecondEffectRows04[4] = {0x52, 0x29, -123, 0xf6};
@@ -358,7 +359,7 @@ void LoadCourseCollisionData(CourseCollision *collision, CourseCollision *file) 
     collision->mNormals = OFFSET_PTR(Vec3s16, file, (u32) collision->mNormals);
     collision->mTriangles = OFFSET_PTR(CourseTriangle, file, (u32) collision->mTriangles);
     collision->mTree = OFFSET_PTR(u8, file, (u32) collision->mTree);
-    data_0217b610 = 0;
+    gSearchCollisionSlots = 0;
 }
 #pragma thumb off
 

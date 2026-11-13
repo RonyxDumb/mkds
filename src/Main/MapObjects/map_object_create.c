@@ -55,6 +55,7 @@
 #include "Main/MapObjects/data_0217a000.h"
 #include "Main/Save/ghost_record_file.h"
 #include "Main/System/init_after_startup.h"
+#include "Main/MapObjects/course_collision_data.h"
 
 u16 gMapObjectLastPolygonId;
 u16 gWrappingPolygonIdBase;
@@ -425,7 +426,7 @@ void InitMapObjects(void) {
     }
     if (gMapObjects->mHasKoopaBlock != 0 || gMapObjects->mUnk_180 != 0 || gMapObjects->mUnk_184 != 0 ||
         gMapObjects->mUnk_188 != 0) {
-        data_0217b610 = 1;
+        gSearchCollisionSlots = 1;
     }
     CreatePooledMapObjects();
     gMapObjects->mDrawListCount = 0;

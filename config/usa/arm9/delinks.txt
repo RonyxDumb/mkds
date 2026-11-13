@@ -3272,6 +3272,11 @@ src/Main/MapObjects/rock.c:
     .bss        start:0x0217b588 end:0x0217b5f0
 
 // provisional: file name and boundaries
+src/Main/MapObjects/course_collision_data.c:
+    complete
+    .bss        start:0x0217b5f0 end:0x0217b630
+
+// provisional: file name and boundaries
 src/Main/MapObjects/group_follower.c:
     complete
     .text       start:0x020d6538 end:0x020d7d80

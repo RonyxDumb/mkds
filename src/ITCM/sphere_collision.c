@@ -16,6 +16,7 @@
 #include "code_02147cd8.h"
 #include "registers.h"
 #include "Main/MapObjects/sphere_collision_data.h"
+#include "Main/MapObjects/course_collision_data.h"
 
 BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *vector, int radius, u16 queryFlags,
                              short collisionSlotIndex, Vec3 *pushOut, Vec3 *normal, Vec3 *secondNormal,
@@ -502,7 +503,7 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *vector, i
         gSphereHitObjects[1] = NULL;
         gSphereHitObjects[0] = NULL;
     }
-    if (data_0217b610 != 0 && collisionSlotIndex != -2) {
+    if (gSearchCollisionSlots != 0 && collisionSlotIndex != -2) {
         hitObjectCount = 0;
         if (collisionSlotIndex == -1) {
             FindCollisionSlotsAroundPos(position, radius, 0x1000);
