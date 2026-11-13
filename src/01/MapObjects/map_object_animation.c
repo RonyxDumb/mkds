@@ -424,8 +424,8 @@ void SetCollisionOffsetAndExtentTarget(MissionRunMapObject *mapObject, u32 offse
     mapObject->mCollisionExtentPerCall = extentPerCall;
 }
 
-void SetShadowOffsetAndScale(MissionRunMapObject *mapObject, int offsetX, u32 offsetY, u32 offsetZ, u32 scaleX, u32 f,
-                             u32 scaleZ) {
+void SetShadowOffsetAndScale(MissionRunMapObject *mapObject, int offsetX, u32 offsetY, u32 offsetZ, u32 scaleX,
+                             u32 unusedScaleY, u32 scaleZ) {
     int *v1;
     int *v2;
     mapObject->mUnk_27c = 0;
@@ -455,7 +455,7 @@ void SetShadowOffsetAndScale(MissionRunMapObject *mapObject, int offsetX, u32 of
 }
 
 void SetShadowOffsetAndScaleTarget(MissionRunMapObject *mapObject, int offsetX, u32 offsetY, u32 offsetZ,
-                                   u32 offsetPerCall, u32 scaleX, u32 g, u32 scaleZ, u32 scalePerCall) {
+                                   u32 offsetPerCall, u32 scaleX, u32 unusedScaleY, u32 scaleZ, u32 scalePerCall) {
     mapObject->mUnk_27c = 0;
     if ((mapObject->mUnk_000.mFlags & (0x00000400u)) != 0) {
         offsetX = -offsetX;

@@ -799,8 +799,8 @@ void WriteWiFiVSMatchingRegisters(void) {
 }
 
 void RegisterWiFiVSMatchingCallbacks(void) {
-    WiFiStateCallbacks x = {InitWiFiVSMatching, ReleaseWiFiVSMatching, AdvanceWiFiVSMatching,
-                            WriteWiFiVSMatchingRegisters};
+    WiFiStateCallbacks callbacks = {InitWiFiVSMatching, ReleaseWiFiVSMatching, AdvanceWiFiVSMatching,
+                                    WriteWiFiVSMatchingRegisters};
 
-    SetWiFiStateCallbacks(&x);
+    SetWiFiStateCallbacks(&callbacks);
 }
