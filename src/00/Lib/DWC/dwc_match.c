@@ -8,6 +8,7 @@
 #include "code_02134398.h"
 #include "00/Lib/GameSpy/code_0218d818.h"
 #include "00/unk_021b5000.h"
+#include "00/Menu/wi_fi_vs_setting.h"
 #include "00/Lib/DWC/code_0219b1f8.h"
 #include "00/Lib/DWC/code_0219c384.h"
 #include "00/code_0219eac8.h"
@@ -176,6 +177,7 @@ s32 DWC_GetMatchIntValue(u32 index, void *keyString, s32 idefault) {
 u32 DWC_SetMatchingOption(u32 opttype, void *optval, u32 optlen) {
     WiFiMatching *wiFiMatching = gWiFiMatching;
     DWCMatchOptMinCompleteIn *optMinComp;
+    DWCMatchOptMinComplete *minCompleteOption = optval;
     if (wiFiMatching == NULL) {
         return 1;
     }
@@ -187,7 +189,7 @@ u32 DWC_SetMatchingOption(u32 opttype, void *optval, u32 optlen) {
             if (wiFiMatching->mState == 0x13) {
                 return 1;
             }
-            if (*(u8 *) optval != 0 && ((u8 *) optval)[1] <= 1) {
+            if (minCompleteOption->mValid != 0 && minCompleteOption->mMinEntry <= 1) {
                 return 3;
             }
             optMinComp = gOptMinComp;
@@ -198,11 +200,11 @@ u32 DWC_SetMatchingOption(u32 opttype, void *optval, u32 optlen) {
                     return 4;
                 }
             }
-            optMinComp->mValid = *(u8 *) optval;
-            gOptMinComp->mMinEntry = ((u8 *) optval)[1];
+            optMinComp->mValid = minCompleteOption->mValid;
+            gOptMinComp->mMinEntry = minCompleteOption->mMinEntry;
             gOptMinComp->mRetry = 0;
             gOptMinComp->mPad = 0;
-            gOptMinComp->mTimeout = *OFFSET_PTR(u32, optval, 4);
+            gOptMinComp->mTimeout = minCompleteOption->mTimeLimit;
             gOptMinComp->mRecvBit = 0;
             gOptMinComp->mTimeoutBit = 0;
             gOptMinComp->mStartTime = MatchingGetTickMilliseconds();
