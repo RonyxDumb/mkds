@@ -3504,6 +3504,11 @@ src/Main/MapObjects/choropu.c:
     .bss        start:0x0217b768 end:0x0217b794
 
 // provisional: file name and boundaries
+src/Main/MapObjects/choropu_kind_descriptor.c:
+    complete
+    .rodata     start:0x02158b7c end:0x02158bb4
+
+// provisional: file name and boundaries
 src/Main/MapObjects/choropu_state.c:
     complete
     .text       start:0x020e2fac end:0x020e3618

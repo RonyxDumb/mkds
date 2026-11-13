@@ -8453,8 +8453,8 @@ gVehicleDrawListData kind:data(any) addr:0x02158a7c
 gBusAKindData kind:data(any) addr:0x02158abc
 gTruckAKindData kind:data(any) addr:0x02158afc
 gCarAKindData kind:data(any) addr:0x02158b3c
-data_02158b7c kind:data(any) addr:0x02158b7c
-data_usa_02158b80 kind:data(any) addr:0x02158b80
+gChoropuInitFlag kind:data(any) addr:0x02158b7c
+gChoropuKindDescriptor kind:data(any) addr:0x02158b80
 gChoropuFlag kind:data(any) addr:0x02158bb4
 gChoropuSecondFlag kind:data(any) addr:0x02158bb8
 gChoropuUpdateListData kind:data(any) addr:0x02158bbc

@@ -19,5 +19,4 @@ extern const u32 gMkdEfBubbleHitFlag;
 
 // Objects whose layout isn't known yet.
 extern const u16 gKuriboFlag;
-extern const u16 data_02158b7c;
 extern const u16 gRotaryFlag;

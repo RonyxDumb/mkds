@@ -64,6 +64,7 @@
 #include "Main/MapObjects/choropu_state.h"
 #include "Main/MapObjects/collision_hit_link_create.h"
 #include "Main/System/init_after_startup.h"
+#include "Main/MapObjects/choropu_kind_descriptor.h"
 
 const MapObjectKindData gBusAKindData = {(s32 (*)(MapObject *, void *, s32 *, s32 *)) CollideKartWithVehicle,
                                          (s32 (*)(MapObject *, void *, void *, void *)) CollideItemObjectWithVehicle,
@@ -155,7 +156,7 @@ void InitChoropu(Choropu *choropu, struct CourseMapRow *courseRow) {
     choropu->mMapObject.mStateMachine.mNextStateRequested = 1;
     RefreshShadowMatrix(&choropu->mShadowMatrix, &choropu->mMapObject.mPos,
                         MUL_FIXED12_NO_ROUND(choropu->mMapObject.mScale.x, 0x1b000), 0x1e);
-    choropu->mMapObject.mFlags |= data_02158b7c;
+    choropu->mMapObject.mFlags |= gChoropuInitFlag;
 }
 
 #pragma thumb off

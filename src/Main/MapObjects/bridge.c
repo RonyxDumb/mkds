@@ -115,7 +115,7 @@ void InitBridge(Bridge *bridge, struct CourseMapRow *courseRow) {
 
 #pragma thumb off
 
-void *CreateChoropuKindData(void) {
+MapObjectKindData *CreateChoropuKindData(void) {
     MapObjectKindData *kindData;
 
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
@@ -123,7 +123,7 @@ void *CreateChoropuKindData(void) {
     return kindData;
 }
 
-void *CreateChoropuDrawList(void) {
+MapObjectDrawList *CreateChoropuDrawList(void) {
     MapObjectDrawList *drawList;
 
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
@@ -133,7 +133,7 @@ void *CreateChoropuDrawList(void) {
     return gChoropuDrawList;
 }
 
-void *CreateChoropuShadowDrawList(void) {
+MapObjectDrawList *CreateChoropuShadowDrawList(void) {
     MapObjectDrawList *drawList;
 
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
@@ -143,7 +143,7 @@ void *CreateChoropuShadowDrawList(void) {
     return gChoropuShadowDrawList;
 }
 
-void *CreateChoropuUpdateList(void) {
+MapObjectList *CreateChoropuUpdateList(void) {
     MapObjectList *updateList;
 
     updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);

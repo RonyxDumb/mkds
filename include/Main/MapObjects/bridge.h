@@ -26,10 +26,10 @@ typedef struct Bridge {
 BOOL IsBridgeKind(u32 kind);
 void CreateBridge(void); /* no argument; also gives the model to the registered objects (SetMapObjectsModel) */
 void InitBridge(Bridge *bridge, struct CourseMapRow *courseRow);
-void *CreateChoropuKindData(void);
-void *CreateChoropuDrawList(void);
-void *CreateChoropuShadowDrawList(void);
-void *CreateChoropuUpdateList(void);
+MapObjectKindData *CreateChoropuKindData(void);
+MapObjectDrawList *CreateChoropuDrawList(void);
+MapObjectDrawList *CreateChoropuShadowDrawList(void);
+MapObjectList *CreateChoropuUpdateList(void);
 void SetupDrawChoropu(void);
 void DrawChoropu(s32 unused, Choropu *choropu, s32 unusedArg, u16 alpha);
 

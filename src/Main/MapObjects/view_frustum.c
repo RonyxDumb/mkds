@@ -48,6 +48,7 @@
 #include "Main/MapObjects/item_box_kind_descriptor.h"
 #include "Main/MapObjects/mkd_ef_bubble_kind_descriptor.h"
 #include "Main/MapObjects/koopa_block_kind_descriptor.h"
+#include "Main/MapObjects/choropu_kind_descriptor.h"
 #include "Main/MapObjects/group_item_box_kind_descriptor.h"
 #include "Main/MapObjects/vehicle_kind_descriptor.h"
 #include "Main/MapObjects/kart_balloons_kind_descriptor.h"
@@ -72,7 +73,7 @@ MapObjectKindRow gMapObjectKindRows[133] = {
     {421, (MapObjectKindDescriptor *) &gWanwanOnPathKindDescriptor, NULL},
     {407, (MapObjectKindDescriptor *) &gWanwanChainKindDescriptor, NULL},
     {408, (MapObjectKindDescriptor *) &gMkdEfBubbleKindDescriptor, NULL},
-    {409, (MapObjectKindDescriptor *) &data_usa_02158b80, NULL},
+    {409, (MapObjectKindDescriptor *) &gChoropuKindDescriptor, NULL},
     {411, (MapObjectKindDescriptor *) &data_usa_02158fb0, NULL},
     {422, (MapObjectKindDescriptor *) &gObPakkunSfKindDescriptor, NULL},
     {303, (MapObjectKindDescriptor *) &gEarthenPipeKindDescriptor, NULL},
