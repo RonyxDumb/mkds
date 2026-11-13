@@ -58,7 +58,7 @@ void InitDwcArchive(void) {
     tablesSize = FS_LoadArchiveTables(&gDwcArchive->mArchive, 0, 0);
     gDwcArchive->mTables = AllocExpHeapBlock(tablesSize, 4);
     FS_LoadArchiveTables(&gDwcArchive->mArchive, (u32) gDwcArchive->mTables, tablesSize);
-    gDwcArchive->mUnk_84 = CreateFilledPointerStack(0x20, gDwcArchive->mStackStorage, 4);
+    gDwcArchive->mStack = CreateFilledPointerStack(0x20, gDwcArchive->mStackStorage, 4);
     OS_SPrintf(dirPath, "%s:/", gDwcArchiveName);
     FS_ChangeDir((u8 *) dirPath);
 }
@@ -110,7 +110,7 @@ void *LoadFile(const u8 *path, u32 *outSize, s32 alignment) {
     u32 size;
     s32 readAlignment;
 
-    PopPointerStack(gDwcArchive->mUnk_84);
+    PopPointerStack(gDwcArchive->mStack);
     FS_InitFile(&file);
     if (FS_OpenFile(&file, path) == 0) {
         OS_Terminate();
@@ -145,7 +145,7 @@ void *LoadFile(const u8 *path, u32 *outSize, s32 alignment) {
 
 void DeleteLoadedFile(void *block, ...) {
     FreeExpHeapBlockAndClearPointer(&block);
-    PushPointerStack(gDwcArchive->mUnk_84, block);
+    PushPointerStack(gDwcArchive->mStack, block);
 }
 
 BOOL AreStringEndsEqual(const u8 *first, const char *second, s32 endLength) {

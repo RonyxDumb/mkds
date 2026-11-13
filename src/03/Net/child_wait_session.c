@@ -23,7 +23,7 @@ ChildWaitSessionView *gChildWaitSessionView;
 
 void InitChildWaitSession(ChildWaitSessionView *session, ChildWaitParamsView *params) {
     gChildWaitSessionView = session;
-    InitMultiBootParent(session->mUnk_b00);
+    InitMultiBootParent(session->mMultiBootParent);
     gChildWaitSessionView->mTgid = 0;
     gChildWaitSessionView->mChannel = 0;
     gChildWaitSessionView->mState = 1;
@@ -39,7 +39,7 @@ void InitChildWaitSession(ChildWaitSessionView *session, ChildWaitParamsView *pa
     gChildWaitSessionView->mHandshakeByte = params->mHandshakeByte;
     gChildWaitSessionView->mMaxPlayerNum = 2;
     OS_GetTick();
-    ReadNvramEntries(gChildWaitSessionView->mUnk_64c);
+    ReadNvramEntries(gChildWaitSessionView->mNvramEntries);
     OS_GetTick();
     gChildWaitSessionView->mUnk_aa0[1] = (u8 *) GetApStore();
 }
@@ -425,12 +425,12 @@ void ExchangeChildWaitSharedEntries(u16 code, u16 value, u8 *payload) {
 
     if (gChildWaitSessionView->mHandshakeDone == 1) {
         gChildWaitSessionView->mSendEntry->mCode = code;
-        gChildWaitSessionView->mSendEntry->mUnk_02 = value;
-        MI_CpuCopy8(payload, gChildWaitSessionView->mSendEntry->mUnk_04, 0x40);
+        gChildWaitSessionView->mSendEntry->mValue = value;
+        MI_CpuCopy8(payload, gChildWaitSessionView->mSendEntry->mPayload, 0x40);
     } else {
         gChildWaitSessionView->mStallCount = gChildWaitSessionView->mStallCount + 1;
         gChildWaitSessionView->mSendEntry->mCode = 0xbc;
-        gChildWaitSessionView->mSendEntry->mUnk_04[0] = gChildWaitSessionView->mHandshakeByte;
+        gChildWaitSessionView->mSendEntry->mPayload[0] = gChildWaitSessionView->mHandshakeByte;
     }
     if (GetWhState() == 5) {
         if (StepWhDataSharing(gChildWaitSessionView) == FALSE) {

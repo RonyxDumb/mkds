@@ -106,8 +106,8 @@ extern MultiBootParent *gMultiBootParent;
 extern UnkFunc *gWhPrintFunction;
 typedef struct ChildWaitSharedEntry {
     /* 00 */ u16 mCode;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u8 mUnk_04[0x40];
+    /* 02 */ u16 mValue;
+    /* 04 */ u8 mPayload[0x40];
 } ChildWaitSharedEntry;
 
 // Object behind gChildWaitSessionView.
@@ -122,7 +122,7 @@ typedef struct ChildWaitSessionView {
     /* 248 */ u8 pad_248[0x400];
     /* 648 */ u16 mTgid;
     /* 64a */ u16 mChannel;
-    /* 64c */ u8 mUnk_64c[0x404];
+    /* 64c */ u8 mNvramEntries[0x404];
     /* a50 */ u8 mUnk_a50[0x40];
     /* a90 */ u8 mState;
     /* a91 */ u8 mPrevState;
@@ -144,7 +144,7 @@ typedef struct ChildWaitSessionView {
     /* ac8 */ u32 mGgid;
     /* acc */ u8 mMaxPlayerNum;
     /* acd */ u8 mUnk_acd[0x33];
-    /* b00 */ u8 mUnk_b00[4];
+    /* b00 */ u8 mMultiBootParent[4];
 } ChildWaitSessionView;
 
 static inline ChildWaitSharedEntry *GetChildWaitSharedEntry(ChildWaitSessionView *session, u32 entryIndex) {
@@ -156,7 +156,7 @@ static inline ChildWaitSharedEntry *GetChildWaitSharedEntry(ChildWaitSessionView
 typedef struct DwcArchive {
     /* 00 */ void *mTables;
     /* 04 */ void *mStackStorage[0x20];
-    /* 84 */ PointerStack *mUnk_84;
+    /* 84 */ PointerStack *mStack;
     /* 88 */ FSArchive mArchive;
     /* e4 */ u16 mLockId;
     /* e6 */ u8 mUnk_e6[2];
