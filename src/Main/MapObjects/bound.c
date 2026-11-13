@@ -44,6 +44,7 @@
 #include "Main/Race/race.h"
 #include "Main/MapObjects/code_020e6b58.h"
 #include "Main/Kart/karts.h"
+#include "Main/System/init_after_startup.h"
 
 const u32 gBoundHitDistanceFlag = 0x80000000;
 MapObjectModel *gBound;

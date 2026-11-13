@@ -108,6 +108,7 @@
 #include "Main/Sound/sound_system.h"
 #include "Main/Kart/code_02066ac0.h"
 #include "Main/Save/ghost_record_file.h"
+#include "Main/System/init_after_startup.h"
 
 const u32 gKartSurfaceKind1Effects[8] = {0, 0, 0, 4, 0, 0, 0, 0};
 const u32 gKartSurfaceStopEffects[8] = {0, 0, 0, 0, 0, 0, 0, 0};

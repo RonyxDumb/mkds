@@ -22,6 +22,7 @@
 #include "Main/Item/item_kinoko.h"
 #include "Main/Item/item_f_box.h"
 #include "Main/Kart/karts.h"
+#include "Main/System/init_after_startup.h"
 
 const u16 gItemObjectPendingUpdateBit = 0x8000;
 const ItemSpreadRow gItemSpreadRows[3] = {{{{0x1000, 0}, {0, 0}, {0, 0}}}, {{{-2048, 0xddb}, {-2048, -3547}, {0, 0}}}, {{{0x1000, 0}, {-2048, 0xddb}, {-2048, -3547}}}};

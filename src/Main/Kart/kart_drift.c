@@ -63,6 +63,7 @@
 #include "Main/Kart/kart_slot8_return.h"
 #include "Main/Kart/kart_state0_return.h"
 #include "Main/Sound/map_object_sound_counter.h"
+#include "Main/System/init_after_startup.h"
 
 const int gKartCollisionSingleEffectIds[1] = {0x3a};
 const Vec4 gKartResetSecondQuaternion = {0, 0, 0, 0x1000};

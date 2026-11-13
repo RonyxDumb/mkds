@@ -26,6 +26,7 @@
 #include "Main/System/result_archive_path.h"
 #include "Main/Graphics/font_and_player_character.h"
 #include "Main/Sound/sound_system.h"
+#include "Main/System/init_after_startup.h"
 
 const u16 gSelectGhostSTableIndices[6] = {0, 1, 2, 4, 3, 5};
 char *gSelectGhostSONcerName = "ta/select_ghost_s_o.nce.ncer";

@@ -19,6 +19,7 @@
 #include "registers.h"
 #include "Main/Sound/sound_system.h"
 #include "Main/Menu/menu_shared_clear.h"
+#include "Main/System/init_after_startup.h"
 
 char *gTimeAttackTopMenuSNcgrName = "ta/TimeAttack_top_menu_s.nce.ncgr";
 char *gTimeAttackTopMenuSNcerName = "ta/TimeAttack_top_menu_s.nce.ncer";

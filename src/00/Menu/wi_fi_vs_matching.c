@@ -12,6 +12,7 @@
 #include "Main/Sound/sound_system.h"
 #include "Main/Menu/menu_shared_clear.h"
 #include "Main/Net/wifi_session.h"
+#include "Main/System/init_after_startup.h"
 
 WiFiVSMatching *gWiFiVSMatching;
 

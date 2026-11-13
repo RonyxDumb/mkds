@@ -14,6 +14,7 @@
 #include "Main/Race/kart.h"
 #include "Main/Kart/karts.h"
 #include "Main/Save/ghost_record_file.h"
+#include "Main/System/init_after_startup.h"
 
 s32 IsRaceEndConditionMet(void) {
     BOOL endConditionMet;

@@ -54,6 +54,7 @@
 #include "Main/Sound/surface_sound_ids.h"
 #include "Main/Sound/sound_source_list.h"
 #include "Main/Kart/karts.h"
+#include "Main/System/init_after_startup.h"
 
 MapObjectKindDescriptor gShine16KindDescriptor = {0,
                                              {0, 0},

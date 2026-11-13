@@ -39,6 +39,7 @@
 #include "Main/Kart/karts.h"
 #include "ITCM/collision_slots.h"
 #include "Main/Save/ghost_record_file.h"
+#include "Main/System/init_after_startup.h"
 
 const u8 gItemTeresaBattleKartOrder[16] = {4, 3, 1, 6, 7, 5, 0, 2, 4, 3, 1, 6, 7, 5, 0, 2};
 const u16 gItemTeresaPickWeights[8] = {0x64, 0x4b, 0x32, 0x1e, 0x14, 0xa, 5, 0};

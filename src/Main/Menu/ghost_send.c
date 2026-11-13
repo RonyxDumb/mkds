@@ -63,6 +63,7 @@
 #include "registers.h"
 #include "Main/Sound/sound_system.h"
 #include "Main/Menu/menu_shared_clear.h"
+#include "Main/System/init_after_startup.h"
 
 const s16 gTimeAttackGhostSendMLabelTextRows[3][4] = {{0, 0xdc, 0x10, 0}, {1, 0x50, 0xc, 1}, {2, 0x82, 0x10, 2}};
 GhostSceneCallbacks gTimeAttackGhostSendCallbacks = {InitTimeAttackGhostSend, AdvanceTimeAttackGhostSend, ReleaseTimeAttackGhostSend, WriteTimeAttackGhostSendRegisters};

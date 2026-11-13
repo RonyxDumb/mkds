@@ -63,6 +63,7 @@
 #include "fx_mtx43.h"
 #include "Main/MapObjects/choropu_state.h"
 #include "Main/MapObjects/collision_hit_link_create.h"
+#include "Main/System/init_after_startup.h"
 
 const MapObjectKindData gBusAKindData = {(s32 (*)(MapObject *, void *, s32 *, s32 *)) CollideKartWithVehicle,
                                          (s32 (*)(MapObject *, void *, void *, void *)) CollideItemObjectWithVehicle,

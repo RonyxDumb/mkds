@@ -51,6 +51,7 @@
 #include "Main/System/interpolation_state.h"
 #include "code_0214d018.h"
 #include "Main/Menu/select_kart_data.h"
+#include "Main/System/init_after_startup.h"
 
 #pragma thumb on
 

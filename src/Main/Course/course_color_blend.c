@@ -8,6 +8,7 @@
 #include "Main/Race/race_hud_sub_screen_min_max.h"
 #include "Main/Kart/code_0207a880.h"
 #include "Main/Race/race_hud_sub_screen_projection.h"
+#include "Main/System/init_after_startup.h"
 
 CourseColorBlend *InitCourseColorBlend(CourseColorBlend *blend, u32 colorMask) {
     u16 colorIndex;

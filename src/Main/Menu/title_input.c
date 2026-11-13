@@ -2,6 +2,7 @@
 
 #include "Main/Menu/title_state0.h"
 #include "Main/Menu/data_02175628.h"
+#include "Main/System/init_after_startup.h"
 
 #pragma thumb on
 u32 TitleState2ReturnArgumentWrapper(u32 value) {

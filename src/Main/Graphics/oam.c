@@ -29,6 +29,7 @@
 #include "Main/Sound/sound_seq.h"
 #include "Main/MapObjects/data_0217a000.h"
 #include "code_02147cd8.h"
+#include "Main/System/init_after_startup.h"
 
 #pragma optimize_for_size on
 

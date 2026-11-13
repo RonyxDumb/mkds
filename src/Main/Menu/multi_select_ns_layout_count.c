@@ -72,6 +72,7 @@
 #include "Main/Sound/sound_system.h"
 #include "Main/Menu/menu_shared_clear.h"
 #include "Main/Save/ghost_record_file.h"
+#include "Main/System/init_after_startup.h"
 
 #pragma thumb on
 

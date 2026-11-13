@@ -37,6 +37,7 @@
 #include "Main/Graphics/font_glyph_text.h"
 #include "g2d_CharCanvas.h"
 #include "Main/Save/ghost_record_file.h"
+#include "Main/System/init_after_startup.h"
 
 char gChoisesSNscr4Name[] = "choises_s_4.NSCR";
 char gChoisesSNscr1Name[] = "choises_s_1.NSCR";

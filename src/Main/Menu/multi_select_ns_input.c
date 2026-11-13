@@ -47,6 +47,7 @@
 #include "g2d_CellTransferManager.h"
 #include "registers.h"
 #include "Main/Sound/sound_system.h"
+#include "Main/System/init_after_startup.h"
 
 u32 MultiSelectNSGetPairX(InputSlotPair *pair) {
     return pair->mPairX;

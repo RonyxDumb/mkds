@@ -7,6 +7,7 @@
 #include "00/Lib/DWC/code_0219b1f8.h"
 #include "Main/Race/kart.h"
 #include "Main/Save/ghost_record_file.h"
+#include "Main/System/init_after_startup.h"
 
 s32 PackOwnKartProgress(void) {
     u32 progress;

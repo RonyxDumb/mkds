@@ -61,6 +61,7 @@
 #include "Main/Race/race_m_number_pair.h"
 #include "Main/Sound/sound_system.h"
 #include "Main/Menu/menu_shared_clear.h"
+#include "Main/System/init_after_startup.h"
 
 RaceHud *gRaceHud;
 u16 *gRaceHudSubScreenPalettes;
@@ -850,7 +851,7 @@ void UpdateRaceHudSubScreen(void) {
                 }
                 if (switchAllowed != FALSE) {
                     switchPressed = TRUE;
-                    if ((u16) (data_0217562c[GetPadInputSlot()].mPressedBits & 0x800) == 0) {
+                    if ((u16) (gInputClearedBitsSlots[GetPadInputSlot()].mPressedBits & 0x800) == 0) {
                         condition = FALSE;
                         if (IsChoisesSOpen() == 0) {
                             if (gInputSlots[GetPadInputSlot()].mPair.mNoPairCount == 5) {
@@ -905,7 +906,7 @@ void UpdateRaceHudSubScreen(void) {
                 }
                 if (switchAllowed != FALSE) {
                     switchPressed = TRUE;
-                    if ((u16) (data_0217562c[GetPadInputSlot()].mPressedBits & 0x800) == 0) {
+                    if ((u16) (gInputClearedBitsSlots[GetPadInputSlot()].mPressedBits & 0x800) == 0) {
                         condition = FALSE;
                         if (IsChoisesSOpen() == 0) {
                             if (gInputSlots[GetPadInputSlot()].mPair.mNoPairCount == 5) {
@@ -981,7 +982,7 @@ void UpdateRaceHudSubScreen(void) {
                 }
                 if (switchAllowed != FALSE) {
                     switchPressed = TRUE;
-                    if ((u16) (data_0217562c[GetPadInputSlot()].mPressedBits & 0x800) == 0) {
+                    if ((u16) (gInputClearedBitsSlots[GetPadInputSlot()].mPressedBits & 0x800) == 0) {
                         condition = FALSE;
                         if (IsChoisesSOpen() == 0) {
                             if (gInputSlots[GetPadInputSlot()].mPair.mNoPairCount == 5) {
@@ -1051,7 +1052,7 @@ void UpdateRaceHudSubScreen(void) {
                     }
                     if (switchAllowed != FALSE) {
                         switchPressed = TRUE;
-                        if ((u16) (data_0217562c[GetPadInputSlot()].mPressedBits & 0x800) == 0) {
+                        if ((u16) (gInputClearedBitsSlots[GetPadInputSlot()].mPressedBits & 0x800) == 0) {
                             condition = FALSE;
                             if (IsChoisesSOpen() == 0) {
                                 if (gInputSlots[GetPadInputSlot()].mPair.mNoPairCount == 5) {
@@ -1098,7 +1099,7 @@ void UpdateRaceHudSubScreen(void) {
                 }
                 if (switchAllowed != FALSE) {
                     switchPressed = TRUE;
-                    if ((u16) (data_0217562c[GetPadInputSlot()].mPressedBits & 0x800) == 0) {
+                    if ((u16) (gInputClearedBitsSlots[GetPadInputSlot()].mPressedBits & 0x800) == 0) {
                         condition = FALSE;
                         if (IsChoisesSOpen() == 0) {
                             if (gInputSlots[GetPadInputSlot()].mPair.mNoPairCount == 5) {
@@ -1156,7 +1157,7 @@ void UpdateRaceHudSubScreen(void) {
                     gRaceHud->mGoalMEnabled = 1;
                 }
             }
-            if ((u16) (data_0217562c[GetPadInputSlot()].mPressedBits & 0x800) != 0) {
+            if ((u16) (gInputClearedBitsSlots[GetPadInputSlot()].mPressedBits & 0x800) != 0) {
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x19);
             }
             gRaceHud->mSubScreenEnabled = FALSE;

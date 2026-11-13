@@ -36,6 +36,7 @@
 #include "01/Menu/code_02196d58.h"
 #include "Main/Sound/data_0216c000.h"
 #include "Main/Sound/sound_system.h"
+#include "Main/System/init_after_startup.h"
 
 char *gRecordVSMTransientBnclName = "Record_VS_m_transient.bncl";
 const u16 gRecordVSGridLabelIndices[3][3] = {{2, 3, 4}, {5, 7, 9}, {6, 8, 0xa}};

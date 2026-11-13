@@ -2,6 +2,7 @@
 #include "Main/Race/data_021759c0.h"
 #include "tp.h"
 #include "Main/Race/data_020f36d8.h"
+#include "Main/System/init_after_startup.h"
 
 u32 RaceProgressGetCurrentKartCount(void) {
     return (gRaceSetup->mKartCount);

@@ -39,6 +39,7 @@
 #include "code_02010c84.h"
 #include "Main/Race/kart.h"
 #include "Main/Kart/camera_shake.h"
+#include "Main/System/init_after_startup.h"
 
 s32 gDefaultLookAtHeight;
 struct Camera *gChaseCamera;

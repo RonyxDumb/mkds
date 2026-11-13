@@ -34,6 +34,7 @@
 #include "code_02147cd8.h"
 #include "ITCM/kart_ground_contact.h"
 #include "Main/Kart/kart_drift.h"
+#include "Main/System/init_after_startup.h"
 
 u32 gCoursePushStrongEnabled;
 void *gLowestOffsetFarCheck;

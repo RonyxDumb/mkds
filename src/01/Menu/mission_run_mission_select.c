@@ -29,6 +29,7 @@
 #include "Main/Graphics/font_and_player_character.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/Sound/sound_system.h"
+#include "Main/System/init_after_startup.h"
 
 const u16 gMissionRunMSselValueMTableIndices[6] = {0x15, 0x14, 0x13, 0x16, 0x17, 0x18};
 const s16 gMissionRunMSselRectIndices[9] = {0, 1, 2, 3, 4, 5, 6, 7, 8};

@@ -71,6 +71,7 @@
 #include "Main/Kart/kart_participant_record.h"
 #include "Main/Kart/karts.h"
 #include "Main/Kart/kart_resources.h"
+#include "Main/System/init_after_startup.h"
 
 #pragma opt_arithtransformation off
 

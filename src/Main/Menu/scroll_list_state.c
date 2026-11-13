@@ -29,6 +29,7 @@
 #include "code_0214cfe4.h"
 #include "Main/System/heap.h"
 #include "Main/Sound/sound_system.h"
+#include "Main/System/init_after_startup.h"
 
 ScrollList *gScrollList;
 

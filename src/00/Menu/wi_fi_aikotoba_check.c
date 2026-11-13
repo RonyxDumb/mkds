@@ -15,6 +15,7 @@
 #include "Main/Graphics/locate_bmg_sections.h"
 #include "Main/Save/ghost_file_records.h"
 #include "Main/System/result_archive_path.h"
+#include "Main/System/init_after_startup.h"
 
 const u8 gWiFiAikotobaCheckOffsetIndices[2] = {0, 1};
 const u8 gWiFiAikotobaCheckDigitLabelIndices[12] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0xa, 0xb};

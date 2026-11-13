@@ -21,6 +21,7 @@
 #include "Main/Sound/surface_sound_ids.h"
 #include "Main/Sound/sound_source_list.h"
 #include "code_02147cd8.h"
+#include "Main/System/init_after_startup.h"
 
 void StartMapObjectKindSound(MapObject *mapObject, SoundSource *soundSource, s32 value, s32 fraction) {
     s32 soundId;

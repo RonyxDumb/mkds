@@ -54,6 +54,7 @@
 #include "Main/MapObjects/group_follower.h"
 #include "Main/MapObjects/kuribo.h"
 #include "Main/MapObjects/dossun_list_data.h"
+#include "Main/System/init_after_startup.h"
 
 const u16 gKuriboFlag = 1;
 const MapObjectList gKuriboUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, UpdateKuribo, NULL, 0, NULL, 0, NULL};

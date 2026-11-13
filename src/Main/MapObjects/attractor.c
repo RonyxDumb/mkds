@@ -39,6 +39,7 @@
 #include "Main/Item/item_in_use.h"
 #include "Main/Kart/karts.h"
 #include "Main/MapObjects/attractor_list_data.h"
+#include "Main/System/init_after_startup.h"
 
 char gJgFlagNsbcaName[] = "jg_flag.nsbca";
 char gJgFlagNsbmdName[] = "jg_flag.nsbmd";

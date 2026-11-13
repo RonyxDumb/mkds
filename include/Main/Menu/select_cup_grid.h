@@ -141,3 +141,6 @@ extern char *gSelectCupGridMBnclName;
 
 // Pointer to the cup chooser object: set by InitSelectCupGrid, cleared by ReleaseSelectCupGrid.
 extern struct SelectCupGrid *gSelectCupGrid;
+
+extern const u16 gSelectCupGridCupCellIndices[8][6];
+extern const u32 gSelectCupGridCourseIds[8][4];

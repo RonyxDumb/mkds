@@ -12,6 +12,7 @@
 #include "Main/MapObjects/data_0217a000.h"
 #include "Main/Race/race.h"
 #include "Main/MapObjects/bound.h"
+#include "Main/System/init_after_startup.h"
 
 MapObjectKindDescriptor gCameraEffectKindDescriptor = {0, {0, 0}, 0xa8, NULL, CreateEmptyMapObjectKindData, NULL, NULL, NULL, CreateCameraEffectUpdateList, NULL, {NULL, NULL, NULL, NULL}};
 MapObjectKindDescriptor gPeriodicEffectKindDescriptor = {0, {0, 0}, 0xa0, NULL, CreateEmptyMapObjectKindData, NULL, NULL, NULL, CreatePeriodicEffectUpdateList, NULL, {NULL, NULL, NULL, NULL}};

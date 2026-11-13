@@ -11,6 +11,7 @@
 #include "Main/Race/race_hud_sub_screen_projection.h"
 #include "Main/Race/data_020f36d8.h"
 #include "code_0214d018.h"
+#include "Main/System/init_after_startup.h"
 
 s32 IsKartEnded(u32 kartIndex) {
     BOOL ended = FALSE;

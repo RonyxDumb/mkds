@@ -12,6 +12,7 @@
 #include "code_02148950.h"
 #include "code_0214d018.h"
 #include "registers.h"
+#include "Main/Scene/scene_run_forever.h"
 
 UnreadHalfwordGroups gUnreadHalfwordGroups;
 

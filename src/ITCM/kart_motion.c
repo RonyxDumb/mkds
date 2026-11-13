@@ -41,6 +41,7 @@
 #include "Main/Race/race_clock.h"
 #include "Main/Kart/kart_drift.h"
 #include "Main/Sound/map_object_sound_counter.h"
+#include "Main/System/init_after_startup.h"
 
 void QuaternionMultiply(const Vec4 *left, const Vec4 *right, Vec4 *result) {
     Vec4 product;

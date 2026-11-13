@@ -5,6 +5,7 @@
 #include "Main/Race/race_end_condition.h"
 #include "Main/Kart/kart_participant_record.h"
 #include "Main/Kart/karts.h"
+#include "Main/System/init_after_startup.h"
 
 u16 LookupRankPoints(u8 rank) {
     u16 rowOffset = 0;

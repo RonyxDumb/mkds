@@ -17,6 +17,7 @@
 #include "Main/Menu/wifi_vs_course_select_files.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "Main/Menu/player_entry_list.h"
+#include "Main/System/init_after_startup.h"
 
 #pragma optimize_for_size on
 

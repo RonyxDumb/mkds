@@ -63,6 +63,7 @@
 #include "code_0214d018.h"
 #include "Main/Menu/multi_select_ns_input.h"
 #include "Main/Sound/sound_system.h"
+#include "Main/System/init_after_startup.h"
 
 const u16 gMemberRowRectIndices[4][3] = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {9, 0xa, 0xb}};
 const LabelMessageRow gMemberGroupLabelMessageRows[5] = {{0, 0x82, 0xd, 4, -1}, {1, 0x82, 0xd, 5, -1}, {2, 0x82, 0xd, 6, -1}, {3, 0x82, 0xd, 7, -1}, {4, 0xaf, 0xd, 0x59, 2}};

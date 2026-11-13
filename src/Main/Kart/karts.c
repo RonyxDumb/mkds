@@ -100,6 +100,7 @@
 #include "Main/Menu/menu_shared_clear.h"
 #include "Main/Graphics/nsbmd_draw.h"
 #include "Main/Save/ghost_record_file.h"
+#include "Main/System/init_after_startup.h"
 
 u16 gKartCount;
 u16 gKillerItemKartIndex;

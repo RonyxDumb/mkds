@@ -151,7 +151,6 @@ typedef struct DisplaySettings {
     /* d8 */ u8 mFrameFlags;
 } DisplaySettings;
 
-
 // Set from the start of a race; recording and playback slots read keys only while set.
 #define INPUT_STATE_READ_RACE_KEYS 2
 
@@ -169,8 +168,6 @@ typedef struct InputState {
     /* 08 */ s32 mParticipantPosition;
     /* 0c */ BOOL mUnk_0c;
 } InputState;
-
-extern InputState *gInputState;
 
 // Entries of 0x0c bytes from 0x9b0 of ArchiveSlots.
 typedef struct ArchiveBuffer {
@@ -237,8 +234,6 @@ typedef struct FileReadThread {
 
 extern FileReadThread gFileReadThread;
 
-extern vu16 gEmblemInputSlotWords[];
-
 // Object at gWvrState: a word and a function pointer.
 // Values of WvrState.mState (3 is also tested and never named here).
 #define BANK_SHARE_ACTIVE 0 // after WVR_StartUpAsync finished
@@ -251,8 +246,6 @@ typedef struct WvrState {
     /* 00 */ volatile s32 mState;
     /* 04 */ s32 (*mCallback)();
 } WvrState;
-
-extern WvrState gWvrState;
 
 // Eight halfwords at gUnreadHalfwordGroups: two groups of four.
 typedef struct UnreadHalfwordGroups {

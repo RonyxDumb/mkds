@@ -52,6 +52,7 @@
 #include "code_02147cd8.h"
 #include "Main/Race/kart.h"
 #include "Main/MapObjects/model_animation_entries.h"
+#include "Main/System/init_after_startup.h"
 
 const Vec3 gJgKind2BaseOffset = {0, 0x2e000, -196608};
 const Vec3 gJgVelocityFactors = {0x19a, 0x52, 0x800};

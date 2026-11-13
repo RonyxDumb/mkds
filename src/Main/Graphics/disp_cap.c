@@ -38,6 +38,7 @@
 #include "Main/Save/buddy_record.h"
 #include "Main/Race/data_021759c0.h"
 #include "tp.h"
+#include "Main/Scene/scene_run_forever.h"
 
 SceneCallbacks gRecordSceneCallbacks = {InitRecordScene, UpdateRecordScene, ReleaseRecordScene, WriteRecordSceneRegistersCallback, NULL, NULL, 0xa, 0xa, 0};
 DispCap *gDispCap;

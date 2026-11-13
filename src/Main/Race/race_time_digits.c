@@ -40,6 +40,7 @@
 #include "code_020222ec.h"
 #include "Main/Race/race_clock.h"
 #include "Main/Race/kart.h"
+#include "Main/System/init_after_startup.h"
 
 RaceTimeDigits *gRaceTimeDigits;
 

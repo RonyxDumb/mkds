@@ -32,6 +32,7 @@
 #include "Main/System/result_archive_path.h"
 #include "registers.h"
 #include "Main/Sound/sound_system.h"
+#include "Main/System/init_after_startup.h"
 
 const u16 gRecordVSEraseRow0MessageIndices[4] = {6, 7, 8, 0};
 const u16 gRecordVSEraseGridLabelWidths[3][3] = {{0x70, 0x70, 0x70}, {0x20, 0x20, 0x20}, {0x20, 0x20, 0x20}};

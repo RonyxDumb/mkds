@@ -65,6 +65,7 @@
 #include "Main/Item/item_teresa_offset.h"
 #include "ITCM/collision_slots.h"
 #include "Main/Item/code_020f5324.h"
+#include "Main/System/init_after_startup.h"
 
 const u16 data_02159834 = 0x2000;
 

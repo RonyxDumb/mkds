@@ -9,6 +9,3 @@ typedef struct KartIconRow {
     /* 0a */ u16 mUnk_0a;
 } KartIconRow;
 
-extern u16 gSelectCupGridCupCellIndices[4][6];
-
-extern u32 gSelectCupGridCourseIds[8][4];

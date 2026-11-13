@@ -429,7 +429,7 @@ typedef struct RaceHudSubScreenProjection {
     /* 90 */ Vec3 mScrollPosition;
 } RaceHudSubScreenProjection;
 
-extern CourseMap *gCourseMap;
+extern struct CourseMap *gCourseMap;
 
 static inline CourseMapRoute *GetCheckpointRoute(u16 routeIndex) {
     return &gCourseMap->mCheckpointRoutes[routeIndex];

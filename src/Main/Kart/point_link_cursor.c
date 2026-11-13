@@ -54,6 +54,7 @@
 #include "Main/Kart/camera.h"
 #include "Main/Item/item_pool.h"
 #include "Main/Item/data_027e0000.h"
+#include "Main/System/init_after_startup.h"
 
 const s32 gKartAiRaceStartBoostRandomLimitsIndex0[9] = {0xb33, 0, 0, 0, 0, 0, 0, 0, 0};
 const s32 gKartAiRaceStartBoostRandomLimitsIndex1[9] = {0x1000, 0x1000, 0xe66, 0x800, 0x333, 0, 0, 0, 0};

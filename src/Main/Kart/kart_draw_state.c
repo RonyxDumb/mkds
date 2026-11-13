@@ -16,6 +16,7 @@
 #include "fx_mtx43.h"
 #include "Main/Race/kart.h"
 #include "code_02147cd8.h"
+#include "Main/System/init_after_startup.h"
 
 void AdvanceKartDrawState(Kart *kart) {
     KartModelsEntry *modelsEntry;

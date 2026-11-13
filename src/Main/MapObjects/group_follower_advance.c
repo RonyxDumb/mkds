@@ -19,6 +19,7 @@
 #include "Main/Race/race_hud_sub_screen_projection.h"
 #include "Main/Item/item_koura_w.h"
 #include "registers.h"
+#include "Main/System/init_after_startup.h"
 
 void GetGroupFollowerCurvePosition(GroupFollower *follower, Vec3 *output) {
     GetCurvePoint(follower->mPath->mSegments[follower->mSegmentIndex].mPoints, follower->mProgress, output);

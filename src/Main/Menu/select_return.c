@@ -31,6 +31,7 @@
 #include "code_0212df7c.h"
 #include "Main/Menu/select_race_rule_state.h"
 #include "Main/Sound/sound_system.h"
+#include "Main/System/init_after_startup.h"
 
 const u8 gSelectChoisesNscrOrigins[2][2] = {{2, 8}, {2, 0xe}};
 const ByteRect gSelectChoisesTileRect = {1, 1, 1, 2};

@@ -114,19 +114,18 @@ typedef struct InputSlot {
     /* 48 */ InputSlotPair mPair;
 } InputSlot;
 
-extern InputSlot data_0217562c[];
+extern InputSlot gInputSlots[10];
 
-extern InputSlot gInputNoPairCounts[];
-
-extern InputSlot gInputPrevHasPairs[];
-
-extern InputSlot gInputHasPairs[];
-
-extern InputSlot gInputPairYs[];
-
-extern InputSlot gInputPairXs[];
-
-extern InputSlot gInputSlots[];
+// Views of gInputSlots: an array of slots starting at a member of
+// slot 0 (the element stride is still 0x5c), and halfword views into slots 7 and 8.
+#define gInputClearedBitsSlots ((InputSlot *) &gInputSlots[0].mClearedBits)
+#define gInputPairXs ((InputSlot *) &gInputSlots[0].mPair.mPairX)
+#define gInputPairYs ((InputSlot *) &gInputSlots[0].mPair.mPairY)
+#define gInputHasPairs ((InputSlot *) &gInputSlots[0].mPair.mHasPair)
+#define gInputPrevHasPairs ((InputSlot *) &gInputSlots[0].mPair.mPrevHasPair)
+#define gInputNoPairCounts ((InputSlot *) &gInputSlots[0].mPair.mNoPairCount)
+#define gEmblemInputSlotWords ((vu16 *) &gInputSlots[7].mSourceKind)
+#define gInputSlot8PairWords ((vu16 *) &gInputSlots[8].mUnk_20)
 
 static inline InputSlot *GetInputSlot(u32 inputSlotIndex) {
     return &gInputSlots[inputSlotIndex];

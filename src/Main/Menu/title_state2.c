@@ -14,6 +14,7 @@
 #include "Main/Sound/seq_queue.h"
 #include "Main/Sound/sound_seq.h"
 #include "Main/MapObjects/data_0217b000.h"
+#include "Main/System/init_after_startup.h"
 
 u32 TitleGetPairX(InputSlotPair *pair) {
     return pair->mPairX;

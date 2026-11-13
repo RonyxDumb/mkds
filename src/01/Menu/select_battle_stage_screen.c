@@ -15,6 +15,7 @@
 #include "g2.h"
 #include "registers.h"
 #include "Main/Menu/menu_shared_clear.h"
+#include "Main/System/init_after_startup.h"
 
 void LoadSelectBattleStageData(void) {
     void *v1;

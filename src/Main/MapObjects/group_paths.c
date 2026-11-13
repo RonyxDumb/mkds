@@ -19,6 +19,7 @@
 #include "Main/MapObjects/data_0217b000.h"
 #include "Main/MapObjects/group_follower_advance.h"
 #include "code_02147cd8.h"
+#include "Main/System/init_after_startup.h"
 
 const Vec3 gGroupPathZeroLengthUp = {0, 0x1000, 0};
 const Vec3 gGroupPathUpAxis = {0, 0x1000, 0};

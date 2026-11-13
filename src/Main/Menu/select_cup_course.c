@@ -37,6 +37,7 @@
 #include "Main/Menu/select_race_rule_state.h"
 #include "Main/Menu/select_cup_grid.h"
 #include "Main/Sound/sound_system.h"
+#include "Main/System/init_after_startup.h"
 
 #pragma thumb on
 SelectCupCourse *gSelectCupCourse;

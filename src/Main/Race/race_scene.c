@@ -52,6 +52,7 @@
 #include "Main/Net/wifi_session.h"
 #include "Main/Scene/menu_scene.h"
 #include "Main/Scene/display_settings_descs.h"
+#include "Main/System/init_after_startup.h"
 
 void *gRaceDisplaySettingsDescs[7] = {(void *) gRaceDisplaySettingsDescNormal, (void *) gRaceDisplaySettingsDescNormal, (void *) gRaceDisplaySettingsDescNormal, (void *) gRaceDisplaySettingsDescBitmap, (void *) gRaceDisplaySettingsDescNormal, (void *) gRaceDisplaySettingsDescBitmap, (void *) gRaceDisplaySettingsDescNormal};
 SceneCallbacks gRaceSceneCallbacks = {InitRaceScene, UpdateRaceScene, ReleaseRaceScene, AdvanceDispCapAndUploadRaceHud, PreSleepRaceScene, PostSleepRaceScene, 0x1e, 0x1e, 0};

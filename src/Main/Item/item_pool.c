@@ -37,6 +37,7 @@
 #include "code_02147cd8.h"
 #include "Main/Kart/karts.h"
 #include "Main/Item/held_item.h"
+#include "Main/System/init_after_startup.h"
 
 const u16 gItemInUseThrowForwardBit = 0x10;
 const u16 gItemInUseDownBit = 0x20;

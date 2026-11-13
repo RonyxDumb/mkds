@@ -7,6 +7,7 @@
 #include "Main/Race/data_020f36d8.h"
 #include "Main/MapObjects/data_02156000.h"
 #include "Main/Kart/code_0208fd8c.h"
+#include "Main/System/init_after_startup.h"
 
 struct RandomState64 *gMapObjectRandom;
 struct RandomState64 *gRaceRandom;

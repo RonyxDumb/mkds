@@ -20,6 +20,7 @@
 #include "Main/MapObjects/picture_init.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 #include "Main/MapObjects/bound.h"
+#include "Main/System/init_after_startup.h"
 
 MapObjectModel *gPicture1;
 MapObjectModel *gPicture2;

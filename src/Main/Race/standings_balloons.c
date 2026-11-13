@@ -43,6 +43,7 @@
 #include "Main/Kart/karts.h"
 #include "Main/Sound/sound_system.h"
 #include "Main/MapObjects/data_02156000.h"
+#include "Main/System/init_after_startup.h"
 
 const u32 gShineBattleTimeLimits[4] = {0xffff, 0x1e, 0x1e, 0x1e};
 const s32 gCharacterBalloonOrShineHeights[16] = {0x11000, 0x16000, 0x11000, 0x17000, 0x11800, 0x12000, 0x11000, 0x11000, 0x10800, 0x11000, 0x13000, 0x15000, 0x10800, 0, 0, 0};

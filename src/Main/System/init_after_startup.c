@@ -27,6 +27,11 @@
 #include "Main/Scene/wl_menu_scene_callback.h"
 #include "Main/Save/backup_read_copies.h"
 
+RaceProgress *gRaceProgress;
+InputState *gInputState;
+CourseMap *gCourseMap;
+InputSlot gInputSlots[10];
+
 void InitAfterStartup(void) {
     void *backHeap;
     void *firstFrontHeap;

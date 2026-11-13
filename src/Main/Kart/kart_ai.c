@@ -22,6 +22,7 @@
 #include "code_020172d0.h"
 #include "code_0201750c.h"
 #include "Main/Race/race_clock.h"
+#include "Main/System/init_after_startup.h"
 
 #pragma thumb on
 

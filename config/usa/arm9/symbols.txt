@@ -8698,7 +8698,6 @@ gSelectCupGridIndicesByCup kind:data(any) addr:0x0215c8fc
 gSelectCupGridCupMessageIndices kind:data(any) addr:0x0215c91c
 gSelectCupGridEngineFlagIndices kind:data(any) addr:0x0215c95c
 gSelectCupGridCupCellIndices kind:data(any) addr:0x0215c9bc
-data_usa_0215c9ec kind:data(any) addr:0x0215c9ec
 gSelectCupGridCourseIds kind:data(any) addr:0x0215ca1c
 gSelectCupCourseTrophyCells kind:data(any) addr:0x0215ca9c
 gSelectCupCourseLabelCells kind:data(any) addr:0x0215caa4
@@ -11138,14 +11137,6 @@ gRaceProgress kind:bss addr:0x021755fc
 gCourseMap kind:bss addr:0x02175600
 gInputState kind:bss addr:0x02175604
 gInputSlots kind:bss addr:0x02175608
-data_0217562c kind:bss addr:0x0217560c
-gInputPairXs kind:bss addr:0x02175650
-gInputPairYs kind:bss addr:0x02175652
-gInputHasPairs kind:bss addr:0x02175654
-gInputPrevHasPairs kind:bss addr:0x0217565c
-gInputNoPairCounts kind:bss addr:0x02175660
-gEmblemInputSlotWords kind:bss addr:0x021758c8
-gInputSlot8PairWords kind:bss addr:0x02175908
 gRaceSetup kind:bss addr:0x021759a0
 gTouchMicInput kind:bss addr:0x021759a4
 gArchiveSlots kind:bss addr:0x021759a8

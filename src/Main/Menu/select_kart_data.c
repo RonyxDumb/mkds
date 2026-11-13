@@ -50,6 +50,7 @@
 #include "registers.h"
 #include "g2.h"
 #include "Main/Menu/select_race_rule_state.h"
+#include "Main/System/init_after_startup.h"
 
 const u16 gKeyTargets12RowsRow0[4] = {0xffff, 4, 1, 0xffff};
 const u16 gKeyTargets8RowsRow7[4] = {4, 0xffff, 0xffff, 6};

@@ -14,6 +14,7 @@
 #include "registers.h"
 #include "Main/Sound/sound_system.h"
 #include "Main/Menu/menu_shared_clear.h"
+#include "Main/System/init_after_startup.h"
 
 const u16 gMissionRunLVselGradeLabelWidths[7] = {0xe, 0xe, 0xe, 0xe, 0xe, 0xe, 0xe};
 const u16 gMissionRunLVselGradeLabelIndices[7] = {0, 1, 2, 3, 4, 5, 6};

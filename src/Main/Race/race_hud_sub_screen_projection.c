@@ -20,6 +20,7 @@
 #include "Main/Race/race_hud_sub_screen_bg3.h"
 #include "Main/Race/race_hud_sub_screen_heap.h"
 #include "Main/Kart/karts.h"
+#include "Main/System/init_after_startup.h"
 
 RaceHudSubScreenProjection *gRaceHudSubScreenProjection;
 

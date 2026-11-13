@@ -31,6 +31,7 @@
 #include "Main/Item/code_020f6be8.h"
 #include "code_02147cd8.h"
 #include "Main/Save/ghost_record_file.h"
+#include "Main/System/init_after_startup.h"
 
 const ItemSlotRowRemap gItemSlotRowRemaps[7] = {{{1, 0, 0, 0, 0, 0, 0}},
                                                 {{1, 5, 0, 0, 0, 0, 0}},

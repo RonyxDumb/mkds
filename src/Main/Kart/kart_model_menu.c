@@ -37,6 +37,7 @@
 #include "registers.h"
 #include "Main/Kart/camera.h"
 #include "Main/Save/ghost_record_file.h"
+#include "Main/System/init_after_startup.h"
 
 #pragma thumb on
 

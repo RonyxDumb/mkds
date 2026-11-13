@@ -28,6 +28,7 @@
 #include "Main/System/result_archive_path.h"
 #include "Main/Race/race_setup.h"
 #include "Main/Sound/sound_system.h"
+#include "Main/System/init_after_startup.h"
 
 const char *gSelectEngineMBNclrName = "gp/select_engine_m_b.nclr";
 const u16 gSelectEngineAOrBSTableIndices[4][3] = {{3, 7, 0xb}, {2, 6, 0xa}, {1, 5, 9}, {0, 4, 8}};

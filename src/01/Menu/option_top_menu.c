@@ -15,6 +15,7 @@
 #include "Main/Menu/record_vs.h"
 #include "Main/Sound/sound_system.h"
 #include "Main/Save/ghost_record_file.h"
+#include "Main/System/init_after_startup.h"
 
 const u8 gOptionTopMenuOffsetTableIndices[3][4] = {{0, 3, 6, 9}, {1, 4, 7, 0xa}, {2, 5, 8, 0xb}};
 const s32 gOptionTopMenuOffsetCellCounts[3] = {4, 4, 4};

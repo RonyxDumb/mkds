@@ -24,6 +24,7 @@
 #include "code_0201c528.h"
 #include "Main/Kart/karts.h"
 #include "Main/Graphics/nsbmd_render_obj.h"
+#include "Main/System/init_after_startup.h"
 
 const Vec3 gPointLinkVec3Zero = {0, 0, 0};
 

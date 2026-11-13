@@ -29,6 +29,7 @@
 #include "fx_mtx43.h"
 #include "code_02147cd8.h"
 #include "Main/Kart/karts.h"
+#include "Main/System/init_after_startup.h"
 
 const u8 gKartStartGroupCounts[16] = {1, 0, 2, 0, 3, 0, 4, 0, 3, 2, 3, 3, 4, 3, 4, 4};
 

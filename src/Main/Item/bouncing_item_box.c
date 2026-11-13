@@ -52,6 +52,7 @@
 #include "Main/Kart/karts.h"
 #include "registers.h"
 #include "code_02147cd8.h"
+#include "Main/System/init_after_startup.h"
 
 u16 gOrthoQuadFirstPolygonId;
 u16 gOrthoQuadAlpha;

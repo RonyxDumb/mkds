@@ -25,6 +25,7 @@
 #include "01/unk_021a9000.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/Sound/sound_system.h"
+#include "Main/System/init_after_startup.h"
 
 void AdvanceRecordTAtt(void);
 void InitRecordTAtt(void *heap);

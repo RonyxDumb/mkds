@@ -31,6 +31,7 @@
 #include "Main/Kart/code_0208fd8c.h"
 #include "Main/Kart/point_link_cursor.h"
 #include "Main/Graphics/nsbmd_draw.h"
+#include "Main/System/init_after_startup.h"
 
 const s32 gCharacterFaceFrames[2] = {0, 0x1000};
 const KartAiItemUseEntry gRaceItemInUseEntries[14] = {{UseItemAfterInUseByCircleKind, 1, 0x5, 0x10},

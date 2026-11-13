@@ -22,6 +22,7 @@
 #include "g2.h"
 #include "registers.h"
 #include "Main/Save/ghost_record_file.h"
+#include "Main/System/init_after_startup.h"
 
 const u8 gOptionSelectMenuMLabelIndices[2] = {0, 1};
 const u8 gOptionSelectMenuXluCellIndices[2] = {0, 1};

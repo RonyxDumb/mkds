@@ -2,6 +2,7 @@
 #include "Main/Race/race.h"
 #include "Main/Race/data_020f36d8.h"
 #include "code_02147cd8.h"
+#include "Main/System/init_after_startup.h"
 
 s32 gCameraShakeLookAtScaleFactor = 0x9000;
 s32 gCameraShakeCounterScales[3] = {0x1400, 0x2000, 0x2c00};

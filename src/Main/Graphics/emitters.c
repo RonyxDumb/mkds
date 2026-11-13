@@ -16,6 +16,7 @@
 #include "code_0214d018.h"
 #include "Main/Graphics/effects.h"
 #include "Main/Graphics/stem_names.h"
+#include "Main/System/init_after_startup.h"
 
 const StemSetParams gWinStems = {1, 1, 0, 0, {gStemNameWin, NULL}};
 const StemSetParams gFailedStems = {1, 1, 1, 0, {gStemNameFailed, NULL}};

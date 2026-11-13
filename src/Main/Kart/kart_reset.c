@@ -101,6 +101,7 @@
 #include "Main/Item/data_027e0000.h"
 #include "Main/Kart/kart_call.h"
 #include "Main/Kart/karts.h"
+#include "Main/System/init_after_startup.h"
 
 const Vec3 gKartVec3UnitX = {0x1000, 0, 0};
 const Vec3 gKartVec3UnitY = {0, 0x1000, 0};

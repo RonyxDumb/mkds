@@ -86,6 +86,7 @@
 #include "Main/MapObjects/map_object.h"
 #include "Main/MapObjects/bound.h"
 #include "01/code_0218b9b4.h"
+#include "Main/System/init_after_startup.h"
 
 Vec3 gItemKinokoUpNormal = {0, 0x1000, 0};
 Vec3 gItemBombUpNormal = {0, 0x1000, 0};

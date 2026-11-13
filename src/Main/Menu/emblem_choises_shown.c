@@ -18,6 +18,7 @@
 #include "Main/MapObjects/map_object_kind_update_list.h"
 #include "Main/Race/race_hud_sub_screen_shine16_cells.h"
 #include "Main/Sound/sound_system.h"
+#include "Main/System/init_after_startup.h"
 
 EmblemChoises *gEmblemChoises;
 

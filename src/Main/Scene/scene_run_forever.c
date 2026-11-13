@@ -3,6 +3,8 @@
 #include "Main/Race/race_setup_input.h"
 #include "Main/Scene/run_scenes.h"
 
+WvrState gWvrState;
+
 u32 InitAndRunScenesForever(void) {
     InitAfterStartup();
     RunScenesForever();

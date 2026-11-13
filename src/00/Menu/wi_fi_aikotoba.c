@@ -19,6 +19,7 @@
 #include "Main/Graphics/layout_rect_table.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/Menu/menu_shared_clear.h"
+#include "Main/System/init_after_startup.h"
 
 const u8 gWiFiAikotobaCellIndices[2] = {6, 7};
 const u8 gWiFiAikotobaSTableIndices[2] = {4, 5};

@@ -9,6 +9,7 @@
 #include "code_02147cd8.h"
 #include "os_tick.h"
 #include "Main/Kart/karts.h"
+#include "Main/System/init_after_startup.h"
 
 PointLink *GetKeyedPlacementBattlePointLink(u32 key) {
     return &gCourseMap->mBattlePointLinks[gCourseMap->mKeyedPlacements[gCourseMap->mKeyedPlacementIndexByKey[key]]

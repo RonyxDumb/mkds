@@ -21,6 +21,7 @@
 #include "registers.h"
 #include "Main/Sound/sound_system.h"
 #include "01/Menu/code_02194a30.h"
+#include "Main/System/init_after_startup.h"
 
 const u16 gRecordGpxRunningSTableIndices[2] = {0x2e, 0x2f};
 const u16 gRecordGpxTimeLabelIndices[4] = {0, 1, 2, 3};

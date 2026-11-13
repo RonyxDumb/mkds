@@ -43,6 +43,7 @@
 #include "Main/Kart/karts.h"
 #include "code_02147cd8.h"
 #include "Main/MapObjects/bound.h"
+#include "Main/System/init_after_startup.h"
 
 MapObjectModel *gTeresa;
 u32 gUnparkedTeresaCount;

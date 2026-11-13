@@ -21,6 +21,7 @@
 #include "Main/Menu/message_screen.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/Save/ghost_record_file.h"
+#include "Main/System/init_after_startup.h"
 
 void InitWiFiLoginMenu(void *heap) {
     gWiFiLoginMenu = HeapAlloc(heap, 0x40);

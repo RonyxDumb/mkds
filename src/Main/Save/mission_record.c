@@ -22,6 +22,7 @@
 #include "code_0214d018.h"
 #include "Main/Race/kart.h"
 #include "Main/Save/ghost_record_file.h"
+#include "Main/System/init_after_startup.h"
 
 #pragma thumb on
 

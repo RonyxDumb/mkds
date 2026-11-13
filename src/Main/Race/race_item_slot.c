@@ -59,6 +59,7 @@
 #include "code_02147cd8.h"
 #include "Main/Race/kart.h"
 #include "Main/Race/race_clock.h"
+#include "Main/System/init_after_startup.h"
 
 RaceItemSlot *gRaceItemSlot;
 RaceModeCount *gRaceModeCount;

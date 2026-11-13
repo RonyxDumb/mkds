@@ -20,6 +20,7 @@
 #include "g2.h"
 #include "Main/System/heap.h"
 #include "Main/System/startup.h"
+#include "Main/Scene/scene_run_forever.h"
 
 void (*gFrameCallback)(s32);
 BrightnessFade gMainBrightnessFade;

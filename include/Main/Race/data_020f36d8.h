@@ -455,7 +455,7 @@ typedef struct HeldItem {
 
 #include "Main/MapObjects/code_020d6dc0.h"
 
-extern RaceProgress *gRaceProgress;
+extern struct RaceProgress *gRaceProgress;
 
 static inline RaceProgressKart *GetRaceProgressKart(u16 kartIndex) {
     return &gRaceProgress->mKarts[kartIndex];

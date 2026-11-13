@@ -19,6 +19,7 @@
 #include "code_02147cd8.h"
 #include "Main/Kart/course_models.h"
 #include "Main/Kart/kart_participant_record.h"
+#include "Main/System/init_after_startup.h"
 
 void PlaceKartAtStartPlacement(Kart *kart, s32 useCourseMapRecord) {
     MtxFx43 *rotationMatrix;

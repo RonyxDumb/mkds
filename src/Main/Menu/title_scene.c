@@ -36,6 +36,7 @@
 #include "01/Race/mission_run_state.h"
 #include "Main/Race/race_end_condition.h"
 #include "Main/Save/ghost_record_file.h"
+#include "Main/System/init_after_startup.h"
 
 SceneCallbacks gTitleSceneCallbacks = {
     InitTitleScene, UpdateTitleScene, ReleaseTitleScene, WriteTitleSceneRegistersCallback, NULL, NULL, 0xa, 0xa, 0};

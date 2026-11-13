@@ -33,6 +33,7 @@
 #include "Main/MapObjects/map_object_park.h"
 #include "pm.h"
 #include "Main/Sound/sound_system.h"
+#include "Main/System/init_after_startup.h"
 
 const u8 gWiFiTopMenuSTableIndices[3] = {6, 7, 8};
 const u8 gWiFiTopMenuCellIndices[3] = {9, 0xa, 0xb};

@@ -24,6 +24,7 @@
 #include "code_0200fe74.h"
 #include "code_0213ecf8.h"
 #include "Main/Sound/sound_system.h"
+#include "Main/System/init_after_startup.h"
 
 s32 gKeyboardOffsetX;
 s32 gKeyboardOffsetY;

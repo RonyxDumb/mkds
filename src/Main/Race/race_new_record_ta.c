@@ -30,6 +30,7 @@
 #include "01/Menu/code_02196d58.h"
 #include "Main/Race/kart.h"
 #include "Main/Save/ghost_record_file.h"
+#include "Main/System/init_after_startup.h"
 
 struct RaceNewRecordTa *gRaceNewRecordTa;
 

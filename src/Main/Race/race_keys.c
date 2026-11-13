@@ -23,6 +23,7 @@
 #include "pm.h"
 #include "Main/Sound/sound_seq.h"
 #include "Main/MapObjects/data_0217a000.h"
+#include "Main/System/init_after_startup.h"
 
 #pragma opt_rebuildconditionals off
 
