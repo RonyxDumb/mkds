@@ -181,20 +181,20 @@ void CreateKartPhysicalParamTable(void *heap, u32 entryCount) {
     gKartPhysicalParamTable->mCharParams = HeapAlloc(heap, entryCount * 8);
     gKartPhysicalParamTable->mKartParamFile = FindKartModelFile("kartphysicalparam.bin");
     gKartPhysicalParamTable->mCharParamFile = FindKartModelFile("charphysicalparam.bin");
-    gKartPhysicalParamTable->mFirstBaseSpeedLimit = *OFFSET_PTR(s32, gKartPhysicalParamTable->mKartParamFile, 0x10);
+    gKartPhysicalParamTable->mFirstBaseSpeedLimit = gKartPhysicalParamTable->mKartParamFile->mBaseSpeedLimit;
 }
 
 // Copies the kart row and the character row of the files to the slot after choosing the rows (rows 0 when
 // IsRaceAwardOrStaffRoll() != 0; character + 0x25 in mode 2).
 void CopyKartPhysicalParams(u32 slot, u32 kartRow, u32 characterRow) {
-    u8 *kartParamFile = gKartPhysicalParamTable->mKartParamFile;
-    u8 *characterParamFile = gKartPhysicalParamTable->mCharParamFile;
+    KartPhysicalParam *kartParamFile = gKartPhysicalParamTable->mKartParamFile;
+    s32 *characterParamFile = gKartPhysicalParamTable->mCharParamFile;
     if (IsRaceAwardOrStaffRoll() != 0) {
         characterRow = 0;
         kartRow = characterRow;
     } else if (gRaceSetup->mMode == MODE_BATTLE) {
         kartRow = (u16) (characterRow + 0x25);
     }
-    MI_CpuCopy8(kartParamFile + kartRow * 0x98, &gKartPhysicalParamTable->mKartParams[slot], sizeof(KartPhysicalParam));
-    MI_CpuCopy8(characterParamFile + characterRow * 8, gKartPhysicalParamTable->mCharParams + slot * 8, 8);
+    MI_CpuCopy8(&kartParamFile[kartRow], &gKartPhysicalParamTable->mKartParams[slot], sizeof(KartPhysicalParam));
+    MI_CpuCopy8(&characterParamFile[characterRow * 2], &gKartPhysicalParamTable->mCharParams[slot * 2], 8);
 }

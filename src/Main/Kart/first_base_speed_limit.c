@@ -8,7 +8,7 @@ struct KartPhysicalParam *GetKartPhysicalParam(u32 arg0) {
 }
 
 s32 *GetCharPhysicalParam(u32 p0) {
-    return OFFSET_PTR(s32, gKartPhysicalParamTable->mCharParams, p0 << 3);
+    return &gKartPhysicalParamTable->mCharParams[p0 << 1];
 }
 
 s32 GetFirstBaseSpeedLimit(void) {

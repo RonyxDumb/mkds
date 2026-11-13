@@ -197,10 +197,10 @@ struct KartAiItemUse;
 // character rows (mCharParams) and the two loaded files. mFirstBaseSpeedLimit is a copy of file word 0x10.
 typedef struct KartPhysicalParamTable {
     /* 00 */ struct KartPhysicalParam *mKartParams;
-    /* 04 */ u8 *mCharParams;
+    /* 04 */ s32 *mCharParams;
     /* 08 */ s32 mFirstBaseSpeedLimit;
-    /* 0c */ u8 *mKartParamFile;
-    /* 10 */ u8 *mCharParamFile;
+    /* 0c */ struct KartPhysicalParam *mKartParamFile;
+    /* 10 */ s32 *mCharParamFile;
 } KartPhysicalParamTable;
 
 struct ModelEffect;
