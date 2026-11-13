@@ -28,9 +28,37 @@
 #include "Main/MapObjects/group_item_box_kind_descriptor.h"
 #include "Main/MapObjects/item_box_kind_descriptor.h"
 
-const MapObjectList gEarthenPipeUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, UpdateEarthenPipe, NULL, 0, NULL, 0, NULL};
-const MapObjectDrawList gEarthenPipeDrawListData = {{NULL, 0, {0, 0}, (void (*)(MapObjectList *)) CreateEarthenPipe1AndEarthenPipe2, (void (*)(MapObjectList *)) SetupDrawEarthenPipe, (UnkFunc *) DrawEarthenPipe, NULL, 2, NULL, 0, NULL}, 0};
-const MapObjectKindData gEarthenPipeKindData = {(s32 (*)(MapObject *, void *, s32 *, s32 *)) CollideKartWithEarthenPipe, (s32 (*)(MapObject *, void *, void *, void *)) CollideItemObjectWithEarthenPipe, 2, 0xb000, 0xc000, 0, NULL, 1, 0, 0x127, 0, 0, 0, 0, 0, 0};
+const MapObjectList gEarthenPipeUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, UpdateEarthenPipe,
+                                                  NULL, 0, NULL,   0,    NULL};
+const MapObjectDrawList gEarthenPipeDrawListData = {{NULL,
+                                                     0,
+                                                     {0, 0},
+                                                     (void (*)(MapObjectList *)) CreateEarthenPipe1AndEarthenPipe2,
+                                                     (void (*)(MapObjectList *)) SetupDrawEarthenPipe,
+                                                     (UnkFunc *) DrawEarthenPipe,
+                                                     NULL,
+                                                     2,
+                                                     NULL,
+                                                     0,
+                                                     NULL},
+                                                    0};
+const MapObjectKindData gEarthenPipeKindData = {
+    (s32(*)(MapObject *, void *, s32 *, s32 *)) CollideKartWithEarthenPipe,
+    (s32(*)(MapObject *, void *, void *, void *)) CollideItemObjectWithEarthenPipe,
+    2,
+    0xb000,
+    0xc000,
+    0,
+    NULL,
+    1,
+    0,
+    0x127,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0};
 
 #pragma thumb off
 
@@ -42,11 +70,11 @@ MapObjectKindData *CreateEarthenPipeKindData(void) {
     return kindData;
 }
 
-MapObjectDrawList *CreateEarthenPipeDrawList(void) {
+MapObjectList *CreateEarthenPipeDrawList(void) {
     gEarthenPipeDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     *gEarthenPipeDrawList = gEarthenPipeDrawListData;
     SetDrawListSlot(&gEarthenPipeDrawList);
-    return gEarthenPipeDrawList;
+    return &gEarthenPipeDrawList->mList;
 }
 
 MapObjectList *CreateEarthenPipeUpdateList(void) {

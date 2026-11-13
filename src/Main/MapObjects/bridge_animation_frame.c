@@ -33,7 +33,8 @@
 #include "Main/MapObjects/map_object_kind_update_list.h"
 
 const MapObjectList gBridgeUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, UpdateBridge, NULL, 0, NULL, 0, NULL};
-const BridgeDrawList gBridgeDrawListData = {{NULL, 0, {0, 0}, (void (*)(MapObjectList *)) CreateBridge, NULL, NULL, NULL, 1, NULL, 0, NULL}, 0, 0};
+const BridgeDrawList gBridgeDrawListData = {
+    {NULL, 0, {0, 0}, (void (*)(MapObjectList *)) CreateBridge, NULL, NULL, NULL, 1, NULL, 0, NULL}, 0, 0};
 const MapObjectKindData gBridgeKindData = {NULL, NULL, 5, 0x5a000, 0x1e000, 0x15e000, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0};
 
 MapObjectKindData *CreateBridgeKindData(void) {
@@ -44,14 +45,14 @@ MapObjectKindData *CreateBridgeKindData(void) {
     return kindData;
 }
 
-BridgeDrawList *CreateBridgeDrawList(void) {
+MapObjectList *CreateBridgeDrawList(void) {
     BridgeDrawList *drawList;
 
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x30);
     gBridgeDrawList = drawList;
     *drawList = gBridgeDrawListData;
     SetDrawListSlot(&gBridgeDrawList);
-    return gBridgeDrawList;
+    return &gBridgeDrawList->mMapObjectList;
 }
 
 MapObjectList *CreateBridgeUpdateList(void) {
@@ -135,7 +136,6 @@ void DrawBridge(CollisionMapObject *object, void *viewMatrix, u32 alpha) {
 void DrawAllBridges(void *viewMatrix) {
     DrawVisibleMapObjects(&gBridgeDrawList->mMapObjectList, viewMatrix, DrawBridge);
 }
-
 
 u32 GetFirstBridgeAnimationFrame(void) {
     Bridge *firstBridge = gBridgeDrawList->mMapObjectList.mMapObjects[0];

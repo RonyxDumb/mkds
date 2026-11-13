@@ -108,19 +108,19 @@ MapObjectKindData *CreateMkdEfBubbleKindData(void) {
     return kindData;
 }
 
-MapObjectDrawList *CreateMkdEfBubbleDrawList(void) {
+MapObjectList *CreateMkdEfBubbleDrawList(void) {
     gMkdEfBubbleDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     *gMkdEfBubbleDrawList = gMkdEfBubbleDrawListData;
     SetDrawListSlot(&gMkdEfBubbleDrawList);
-    return gMkdEfBubbleDrawList;
+    return &gMkdEfBubbleDrawList->mList;
 }
 
-MkdEfBubbleUpdateList *CreateMkdEfBubbleUpdateList(void) {
+MapObjectList *CreateMkdEfBubbleUpdateList(void) {
     gMkdEfBubbleUpdateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     *gMkdEfBubbleUpdateList = gMkdEfBubbleUpdateListData;
     SetUpdateListSlot(&gMkdEfBubbleUpdateList);
     gMkdEfBubbleUpdateList->mAngleScale = FX_Div(0x4000000, 0x1333);
-    return gMkdEfBubbleUpdateList;
+    return &gMkdEfBubbleUpdateList->mList;
 }
 
 void DrawMkdEfBubble(void *unused0, MkdEfBubbleObject *bubble, void *unused1, s32 alpha) {

@@ -47,22 +47,22 @@ MapObjectKindData *CreatePukupukuKindData(void) {
     return kindData;
 }
 
-PukupukuDrawList *CreatePukupukuDrawList(void) {
-    PukupukuDrawList *drawList;
+MapObjectList *CreatePukupukuDrawList(void) {
+    MapObjectDrawList *drawList;
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     gPukupukuDrawList = drawList;
     *drawList = gPukupukuDrawListData;
     SetDrawListSlot(&gPukupukuDrawList);
-    return gPukupukuDrawList;
+    return &gPukupukuDrawList->mList;
 }
 
-PukupukuShadowDrawList *CreatePukupukuShadowDrawList(void) {
-    PukupukuShadowDrawList *shadowDrawList;
+MapObjectList *CreatePukupukuShadowDrawList(void) {
+    MapObjectDrawList *shadowDrawList;
     shadowDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     gPukupukuShadowDrawList = shadowDrawList;
     *shadowDrawList = gPukupukuShadowDrawListData;
     SetDrawListSlot(&gPukupukuShadowDrawList);
-    return gPukupukuShadowDrawList;
+    return &gPukupukuShadowDrawList->mList;
 }
 
 MapObjectList *CreatePukupukuUpdateList(void) {
@@ -222,7 +222,8 @@ void UpdatePukupukuState0(Pukupuku *pukupuku) {
 }
 
 void EnterPukupukuState1(Pukupuku *pukupuku) {
-    pukupuku->mPushedObject.mMapObject.mFlags = (((pukupuku->mPushedObject.mMapObject.mFlags)) | ((gPukupukuPushedFlag)));
+    pukupuku->mPushedObject.mMapObject.mFlags =
+        (((pukupuku->mPushedObject.mMapObject.mFlags)) | ((gPukupukuPushedFlag)));
 }
 
 void UpdatePukupukuState1(Pukupuku *pukupuku) {
@@ -304,13 +305,52 @@ void CreatePukupuku(void) {
 
 const u16 gPukupukuState2Flag = 2;
 const u16 gPukupukuState2SecondFlag = 8;
-const struct MapObjectList gPukupukuUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, UpdatePukupuku, NULL, 0, NULL, 0, NULL};
-const struct PukupukuShadowDrawList gPukupukuShadowDrawListData = {NULL, 0, {0, 0}, NULL, (void (*)(MapObjectList *)) SetupDrawPukupukuShadow, DrawPukupukuShadow, NULL, 1, 0, 1, NULL, 0};
-const struct PukupukuDrawList gPukupukuDrawListData = {NULL, 0, {0, 0}, (void (*)(MapObjectList *)) CreatePukupuku, (void (*)(MapObjectList *)) SetupDrawPukupuku, (UnkFunc *) DrawPukupuku, NULL, 2, 0, 0, NULL, 0};
+const struct MapObjectList gPukupukuUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, UpdatePukupuku,
+                                                      NULL, 0, NULL,   0,    NULL};
+const MapObjectDrawList gPukupukuShadowDrawListData = {{NULL,
+                                                        0,
+                                                        {0, 0},
+                                                        NULL,
+                                                        (void (*)(MapObjectList *)) SetupDrawPukupukuShadow,
+                                                        DrawPukupukuShadow,
+                                                        NULL,
+                                                        1,
+                                                        0,
+                                                        1,
+                                                        NULL},
+                                                       0};
+const MapObjectDrawList gPukupukuDrawListData = {{NULL,
+                                                  0,
+                                                  {0, 0},
+                                                  (void (*)(MapObjectList *)) CreatePukupuku,
+                                                  (void (*)(MapObjectList *)) SetupDrawPukupuku,
+                                                  (UnkFunc *) DrawPukupuku,
+                                                  NULL,
+                                                  2,
+                                                  0,
+                                                  0,
+                                                  NULL},
+                                                 0};
 const u16 gPukupukuPushedFlag = 1;
-const struct MapObjectKindData gPukupukuKindData = {(s32 (*)(MapObject *, void *, s32 *, s32 *)) CollideKartWithPukupuku, (s32 (*)(MapObject *, void *, void *, void *)) CollideItemObjectWithPukupuku, 1, 0xa000, 0, 0, NULL, 1, 1, 0x10c, 0x10d, 0, 0, 0, 0, 0};
+const struct MapObjectKindData gPukupukuKindData = {
+    (s32(*)(MapObject *, void *, s32 *, s32 *)) CollideKartWithPukupuku,
+    (s32(*)(MapObject *, void *, void *, void *)) CollideItemObjectWithPukupuku,
+    1,
+    0xa000,
+    0,
+    0,
+    NULL,
+    1,
+    1,
+    0x10c,
+    0x10d,
+    0,
+    0,
+    0,
+    0,
+    0};
 NsbmdModel *gPukupuku;
-PukupukuShadowDrawList *gPukupukuShadowDrawList;
+MapObjectDrawList *gPukupukuShadowDrawList;
 MapObjectList *gPukupukuUpdateList;
 Vec3 gPukupukuDrawScale;
-PukupukuDrawList *gPukupukuDrawList;
+MapObjectDrawList *gPukupukuDrawList;

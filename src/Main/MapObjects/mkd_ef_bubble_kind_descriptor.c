@@ -38,14 +38,15 @@ const MapObjectKindDescriptor gMkdEfBubbleKindDescriptor = {0,
                                                             0xf4,
                                                             InitMkdEfBubble,
                                                             CreateMkdEfBubbleKindData,
-                                                            (MapObjectList *(*)(void)) CreateMkdEfBubbleDrawList,
+                                                            CreateMkdEfBubbleDrawList,
                                                             NULL,
                                                             NULL,
-                                                            (MapObjectList *(*)(void)) CreateMkdEfBubbleUpdateList,
+                                                            CreateMkdEfBubbleUpdateList,
                                                             NULL,
                                                             {NULL, NULL, NULL, NULL}};
 
-StateCallbacks gMkdEfBubbleStateTable[2] = {{EnterMkdEfBubbleState0, UpdateMkdEfBubbleState0}, {EnterMkdEfBubbleState1, UpdateMkdEfBubbleState1}};
+StateCallbacks gMkdEfBubbleStateTable[2] = {{EnterMkdEfBubbleState0, UpdateMkdEfBubbleState0},
+                                            {EnterMkdEfBubbleState1, UpdateMkdEfBubbleState1}};
 
 #pragma thumb on
 void CreateMkdEfBubble(void) {

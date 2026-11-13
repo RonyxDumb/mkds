@@ -27,8 +27,8 @@ BOOL IsBridgeKind(u32 kind);
 void CreateBridge(void); /* no argument; also gives the model to the registered objects (SetMapObjectsModel) */
 void InitBridge(Bridge *bridge, struct CourseMapRow *courseRow);
 MapObjectKindData *CreateChoropuKindData(void);
-MapObjectDrawList *CreateChoropuDrawList(void);
-MapObjectDrawList *CreateChoropuShadowDrawList(void);
+MapObjectList *CreateChoropuDrawList(void);
+MapObjectList *CreateChoropuShadowDrawList(void);
 MapObjectList *CreateChoropuUpdateList(void);
 void SetupDrawChoropu(void);
 void DrawChoropu(s32 unused, Choropu *choropu, s32 unusedArg, u16 alpha);

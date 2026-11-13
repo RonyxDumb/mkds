@@ -96,13 +96,13 @@ MapObjectKindData *CreateDossunKindData(void) {
     return kindData;
 }
 
-DossunDrawList *CreateDossunDrawList(void) {
+MapObjectList *CreateDossunDrawList(void) {
     DossunDrawList *drawList;
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     gDossunDrawList = drawList;
     *drawList = gDossunDrawListData;
     SetDrawListSlot(&gDossunDrawList);
-    return gDossunDrawList;
+    return &gDossunDrawList->mList;
 }
 
 MapObjectList *CreateDossunUpdateList(void) {

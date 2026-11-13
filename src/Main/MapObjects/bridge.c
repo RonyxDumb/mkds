@@ -50,7 +50,6 @@ struct Nsbmd *gRotaryBridge;
 void *gRotaryDrawList;
 struct Nsbmd *gTestCylinder;
 
-
 MapObjectKindData *CreateChoropuKindData(void) {
     MapObjectKindData *kindData;
 
@@ -59,24 +58,24 @@ MapObjectKindData *CreateChoropuKindData(void) {
     return kindData;
 }
 
-MapObjectDrawList *CreateChoropuDrawList(void) {
+MapObjectList *CreateChoropuDrawList(void) {
     MapObjectDrawList *drawList;
 
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     gChoropuDrawList = drawList;
     *drawList = gChoropuDrawListData;
     SetDrawListSlot(&gChoropuDrawList);
-    return gChoropuDrawList;
+    return &gChoropuDrawList->mList;
 }
 
-MapObjectDrawList *CreateChoropuShadowDrawList(void) {
+MapObjectList *CreateChoropuShadowDrawList(void) {
     MapObjectDrawList *drawList;
 
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     gChoropuShadowDrawList = drawList;
     *drawList = gChoropuShadowDrawListData;
     SetDrawListSlot(&gChoropuShadowDrawList);
-    return gChoropuShadowDrawList;
+    return &gChoropuShadowDrawList->mList;
 }
 
 MapObjectList *CreateChoropuUpdateList(void) {

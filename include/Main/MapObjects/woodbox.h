@@ -75,4 +75,4 @@ extern Woodbox1 *gBouncingWoodbox1;
 extern Nsbmd *gWoodbox1;
 extern u32 gWoodbox1PolyAttr;
 extern MapObjectList *gWoodbox1UpdateList;
-extern struct Woodbox1DrawList *gWoodbox1DrawList;
+extern MapObjectDrawList *gWoodbox1DrawList;

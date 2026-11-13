@@ -57,15 +57,8 @@
 #include "Main/System/init_after_startup.h"
 
 const Vec3 gKuriboItemNormal = {0, 0x1000, 0};
-const MapObjectKindDescriptor gDossunKindDescriptor = {0,
-                                                       {0, 0},
-                                                       0x10c,
-                                                       InitDossun,
-                                                       CreateDossunKindData,
-                                                       (MapObjectList *(*)(void)) CreateDossunDrawList,
-                                                       0,
-                                                       0,
-                                                       CreateDossunUpdateList};
+const MapObjectKindDescriptor gDossunKindDescriptor = {
+    0, {0, 0}, 0x10c, InitDossun, CreateDossunKindData, CreateDossunDrawList, 0, 0, CreateDossunUpdateList};
 
 #pragma thumb off
 

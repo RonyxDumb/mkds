@@ -28,7 +28,7 @@ const MapObjectKindDescriptor gEarthenPipeKindDescriptor = {0,
                                                             0xb8,
                                                             InitEarthenPipe,
                                                             CreateEarthenPipeKindData,
-                                                            (MapObjectList *(*)(void)) CreateEarthenPipeDrawList,
+                                                            CreateEarthenPipeDrawList,
                                                             0,
                                                             0,
                                                             CreateEarthenPipeUpdateList};

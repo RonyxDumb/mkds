@@ -11,5 +11,5 @@ unsigned int KoopaBlockState0ReturnArgument(unsigned int value);
 extern const MapObjectList gKoopaBlockUpdateListData;
 extern const MapObjectDrawList gKoopaBlockDrawListData;
 extern const MapObjectKindData gKoopaBlockKindData;
-extern void *gKoopaBlockDrawList;
+extern MapObjectDrawList *gKoopaBlockDrawList;
 extern struct MapObjectList *gKoopaBlockUpdateList;

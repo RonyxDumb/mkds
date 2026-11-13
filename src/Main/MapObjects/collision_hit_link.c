@@ -27,9 +27,11 @@
 #include "Main/MapObjects/koopa_block.h"
 
 const MapObjectList gKoopaBlockUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, UpdateKoopaBlock, NULL, 0, NULL, 0, NULL};
-const MapObjectDrawList gKoopaBlockDrawListData = {{NULL, 0, {0, 0}, (void (*)(MapObjectList *)) CreateKoopaBlock, NULL, NULL, NULL, 1, NULL, 0, NULL}, 0};
-const MapObjectKindData gKoopaBlockKindData = {NULL, NULL, 5, 0x190000, 0x64000, 0xaf000, NULL, 1, 1, 0, 0, 0, 0, 0, 0, 0};
-void *gKoopaBlockDrawList;
+const MapObjectDrawList gKoopaBlockDrawListData = {
+    {NULL, 0, {0, 0}, (void (*)(MapObjectList *)) CreateKoopaBlock, NULL, NULL, NULL, 1, NULL, 0, NULL}, 0};
+const MapObjectKindData gKoopaBlockKindData = {NULL, NULL, 5, 0x190000, 0x64000, 0xaf000, NULL, 1,
+                                               1,    0,    0, 0,        0,       0,       0,    0};
+MapObjectDrawList *gKoopaBlockDrawList;
 struct MapObjectList *gKoopaBlockUpdateList;
 
 void SetCollisionHitLink(CollisionMapObject *object, Vec3 *position, Vec3 *velocity, CollisionHitLink *link) {
@@ -105,13 +107,13 @@ MapObjectKindData *CreateKoopaBlockKindData(void) {
     return kindData;
 }
 
-MapObjectDrawList *CreateKoopaBlockDrawList(void) {
+MapObjectList *CreateKoopaBlockDrawList(void) {
     MapObjectDrawList *drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
 
     gKoopaBlockDrawList = drawList;
     *drawList = gKoopaBlockDrawListData;
     SetDrawListSlot(&gKoopaBlockDrawList);
-    return gKoopaBlockDrawList;
+    return &gKoopaBlockDrawList->mList;
 }
 
 MapObjectList *CreateKoopaBlockUpdateList(void) {

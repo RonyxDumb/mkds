@@ -23,8 +23,8 @@ const MapObjectKindDescriptor gPukupukuKindDescriptor = {0,
                                                          0x10c,
                                                          InitPukupuku,
                                                          CreatePukupukuKindData,
-                                                         (MapObjectList *(*)(void)) CreatePukupukuDrawList,
-                                                         (MapObjectList *(*)(void)) CreatePukupukuShadowDrawList,
+                                                         CreatePukupukuDrawList,
+                                                         CreatePukupukuShadowDrawList,
                                                          NULL,
                                                          CreatePukupukuUpdateList,
                                                          NULL,
@@ -32,7 +32,10 @@ const MapObjectKindDescriptor gPukupukuKindDescriptor = {0,
 
 #pragma thumb on
 
-StateCallbacks gPukupukuStateTable[4] = {{EnterPukupukuState0, UpdatePukupukuState0}, {EnterPukupukuState1, UpdatePukupukuState1}, {EnterPukupukuState2, UpdatePukupukuState2}, {EnterPukupukuState3, UpdatePukupukuState3}};
+StateCallbacks gPukupukuStateTable[4] = {{EnterPukupukuState0, UpdatePukupukuState0},
+                                         {EnterPukupukuState1, UpdatePukupukuState1},
+                                         {EnterPukupukuState2, UpdatePukupukuState2},
+                                         {EnterPukupukuState3, UpdatePukupukuState3}};
 
 void InitPukupuku(Pukupuku *pukupuku, Vec3 *position) {
     InitStateMachine(&pukupuku->mPushedObject.mMapObject.mStateMachine, gPukupukuStateTable, 4, pukupuku);

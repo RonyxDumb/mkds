@@ -32,28 +32,52 @@ const Vec3 gRockMatrixRow0 = {0x1000, 0, 0};
 const Vec3 gRockMatrixRow1 = {0, 0x1000, 0};
 const Vec3 gRockMatrixRow2 = {0, 0, 0x1000};
 const struct MapObjectList gRockUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, UpdateRock, NULL, 0, NULL, 0, NULL};
-const struct RockDrawList gRock2DrawListData = {{NULL, 0, {0, 0}, (void (*)(MapObjectList *)) CreateRock2, (void (*)(MapObjectList *)) SetupDrawRock, DrawRock, NULL, 1, NULL, 0, NULL}, NULL, {{{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}}}};
-const struct RockDrawList gRockDrawListData = {{NULL, 0, {0, 0}, (void (*)(MapObjectList *)) CreateRock, (void (*)(MapObjectList *)) SetupDrawRock, DrawRock, NULL, 1, NULL, 0, NULL}, NULL, {{{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}}}};
+const struct RockDrawList gRock2DrawListData = {{NULL,
+                                                 0,
+                                                 {0, 0},
+                                                 (void (*)(MapObjectList *)) CreateRock2,
+                                                 (void (*)(MapObjectList *)) SetupDrawRock,
+                                                 DrawRock,
+                                                 NULL,
+                                                 1,
+                                                 NULL,
+                                                 0,
+                                                 NULL},
+                                                NULL,
+                                                {{{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}}}};
+const struct RockDrawList gRockDrawListData = {{NULL,
+                                                0,
+                                                {0, 0},
+                                                (void (*)(MapObjectList *)) CreateRock,
+                                                (void (*)(MapObjectList *)) SetupDrawRock,
+                                                DrawRock,
+                                                NULL,
+                                                1,
+                                                NULL,
+                                                0,
+                                                NULL},
+                                               NULL,
+                                               {{{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}}}};
 struct RockDrawList *gRockDrawList;
 struct Nsbmd *gRock;
 struct MapObjectList *gRockUpdateList;
 struct Quaternion gViewYawQuaternion;
 struct ShadowModel *gRockShadow;
 
-RockDrawList *CreateRockDrawList(void) {
+MapObjectList *CreateRockDrawList(void) {
     RockDrawList *drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x5c);
     gRockDrawList = drawList;
     *drawList = gRockDrawListData;
     SetDrawListSlot(&gRockDrawList);
-    return gRockDrawList;
+    return &gRockDrawList->mMapObjectList;
 }
 
-RockDrawList *CreateRock2DrawList(void) {
+MapObjectList *CreateRock2DrawList(void) {
     RockDrawList *drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x5c);
     gRockDrawList = drawList;
     *drawList = gRock2DrawListData;
     SetDrawListSlot(&gRockDrawList);
-    return gRockDrawList;
+    return &gRockDrawList->mMapObjectList;
 }
 
 MapObjectList *CreateRockUpdateList(void) {

@@ -38,7 +38,7 @@ void ComputeSphereHitOnSecondHand(SecondHand *secondHand, Vec3 *sphereCenter, s3
 void UpdateSecondHand(u32 unused, SecondHand *secondHand);
 void DrawSecondHand(u32 unused, SecondHand *secondHand, u32 unusedArg, u32 alpha);
 MapObjectList *CreateSecondHandUpdateList(void);
-MapObjectDrawList *CreateSecondHandDrawList(void);
+MapObjectList *CreateSecondHandDrawList(void);
 MapObjectKindData *CreateSecondHandKindData(void);
 void InitObPakkunSf(ObPakkunSf *obPakkunSf);
 

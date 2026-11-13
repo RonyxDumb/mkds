@@ -53,15 +53,19 @@
 
 s32 gSavedModelAlpha = -1;
 Vec3 gWoodbox1GroundUp = {0, 0x1000, 0};
-StateCallbacks gWoodbox1StateTable[4] = {{EnterWoodbox1State0, NULL}, {EnterWoodbox1State1, UpdateWoodbox1State1}, {EnterWoodbox1State2, UpdateWoodbox1State2}, {NULL, UpdateWoodbox1State3}};
+StateCallbacks gWoodbox1StateTable[4] = {{EnterWoodbox1State0, NULL},
+                                         {EnterWoodbox1State1, UpdateWoodbox1State1},
+                                         {EnterWoodbox1State2, UpdateWoodbox1State2},
+                                         {NULL, UpdateWoodbox1State3}};
 const u16 gWoodbox1Flag = 1;
 const u16 gWoodbox1SecondFlag = 2;
 const u16 gWoodbox1ThirdFlag = 8;
 const MapObjectList gWoodbox1UpdateListData = {
     0, 0, {0, 0}, &ClearWoodbox1Pointer, 0, &AdvanceWoodbox1, 0, 0, 0, 0, 0,
 };
-const Woodbox1DrawList gWoodbox1DrawListData = {
-    0, 0, {0, 0}, &CreateWoodbox1, 0, &DrawWoodbox1, 0, 1, 0, 0, 0, 0,
+const MapObjectDrawList gWoodbox1DrawListData = {
+    {0, 0, {0, 0}, &CreateWoodbox1, 0, &DrawWoodbox1, 0, 1, 0, 0, 0},
+    0,
 };
 const Woodbox1KindData gWoodbox1KindData = {
     &CollideKartWithWoodbox1,
@@ -85,7 +89,7 @@ Woodbox1 *gBouncingWoodbox1;
 Nsbmd *gWoodbox1;
 u32 gWoodbox1PolyAttr;
 MapObjectList *gWoodbox1UpdateList;
-Woodbox1DrawList *gWoodbox1DrawList;
+MapObjectDrawList *gWoodbox1DrawList;
 
 BOOL HitPushedObjectByKart(PushedObject *mapObject, void *other, u8 *firstResponse) {
     if (*firstResponse != 1) {
@@ -115,14 +119,14 @@ Woodbox1KindData *CreateWoodbox1KindData(void) {
     return kindData;
 }
 
-Woodbox1DrawList *CreateWoodbox1DrawList(void) {
-    Woodbox1DrawList *drawList;
+MapObjectList *CreateWoodbox1DrawList(void) {
+    MapObjectDrawList *drawList;
 
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     gWoodbox1DrawList = drawList;
     *drawList = gWoodbox1DrawListData;
     SetDrawListSlot(&gWoodbox1DrawList);
-    return gWoodbox1DrawList;
+    return &gWoodbox1DrawList->mList;
 }
 
 MapObjectList *CreateWoodbox1UpdateList(void) {
@@ -879,4 +883,3 @@ void DrawNsbmdWithMaxAlphaAndMaterial(Nsbmd *model, s32 maxAlpha) {
     }
     gSavedModelAlpha = -1;
 }
-

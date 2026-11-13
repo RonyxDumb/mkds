@@ -55,7 +55,7 @@ const MapObjectKindDescriptor gKoopaBlockKindDescriptor = {0,
                                                            0x170,
                                                            InitKoopaBlock,
                                                            CreateKoopaBlockKindData,
-                                                           (MapObjectList *(*)(void)) CreateKoopaBlockDrawList,
+                                                           CreateKoopaBlockDrawList,
                                                            NULL,
                                                            NULL,
                                                            CreateKoopaBlockUpdateList,
@@ -89,7 +89,7 @@ void UpdateKoopaBlockState2(KoopaBlock *koopaBlock) {
 }
 
 void DrawAllKoopaBlocks(void *viewMatrix) {
-    DrawVisibleMapObjects(gKoopaBlockDrawList, viewMatrix, DrawMapObjectModelAtPos);
+    DrawVisibleMapObjects(&gKoopaBlockDrawList->mList, viewMatrix, DrawMapObjectModelAtPos);
 }
 
 BOOL IsKoopaBlockKind(u32 kind) {
@@ -120,7 +120,7 @@ void CreateKoopaBlock(void) {
     file = FindCourseMapObjFile("koopa_block.nsbmd");
     CreateNsbmd(&gKoopaBlock, file, NULL);
     SetNsbmdPolygonIdLightEmiAll(gKoopaBlock, 0x3f, 2, 0x294a);
-    SetMapObjectsModel(gKoopaBlockDrawList, gKoopaBlock);
+    SetMapObjectsModel(&gKoopaBlockDrawList->mList, gKoopaBlock);
 }
 
 void InitKoopaBlock(KoopaBlock *koopaBlock, CourseMapRow *courseRow) {

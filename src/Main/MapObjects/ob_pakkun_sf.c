@@ -47,8 +47,35 @@
 #include "Main/MapObjects/second_hand_kind_descriptor.h"
 
 const MapObjectList gSecondHandUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, UpdateSecondHand, NULL, 0, NULL, 0, NULL};
-const MapObjectDrawList gSecondHandDrawListData = {{NULL, 0, {0, 0}, (void (*)(MapObjectList *)) CreateSecondHand, NULL, (UnkFunc *) DrawSecondHand, NULL, 1, NULL, 0, NULL}, 0};
-const MapObjectKindData gSecondHandKindData = {(s32 (*)(MapObject *, void *, s32 *, s32 *)) CollideKartWithSecondHand, (s32 (*)(MapObject *, void *, void *, void *)) CollideItemObjectWithSecondHand, 5, 0xf000, 0x4b000, 0x320000, (s32 (*)(MapObject *, Vec3 *, s32, Vec3 *)) ComputeSphereHitOnSecondHand, 0, 0, 0x178, 0, 0, 0, 0, 0, 0};
+const MapObjectDrawList gSecondHandDrawListData = {{NULL,
+                                                    0,
+                                                    {0, 0},
+                                                    (void (*)(MapObjectList *)) CreateSecondHand,
+                                                    NULL,
+                                                    (UnkFunc *) DrawSecondHand,
+                                                    NULL,
+                                                    1,
+                                                    NULL,
+                                                    0,
+                                                    NULL},
+                                                   0};
+const MapObjectKindData gSecondHandKindData = {
+    (s32(*)(MapObject *, void *, s32 *, s32 *)) CollideKartWithSecondHand,
+    (s32(*)(MapObject *, void *, void *, void *)) CollideItemObjectWithSecondHand,
+    5,
+    0xf000,
+    0x4b000,
+    0x320000,
+    (s32(*)(MapObject *, Vec3 *, s32, Vec3 *)) ComputeSphereHitOnSecondHand,
+    0,
+    0,
+    0x178,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0};
 const u32 gSecondHandHitFlag = 0x40000000;
 MapObjectList *gSecondHandUpdateList;
 MapObjectDrawList *gSecondHandDrawList;
@@ -137,13 +164,13 @@ MapObjectKindData *CreateSecondHandKindData(void) {
     return kindData;
 }
 
-MapObjectDrawList *CreateSecondHandDrawList(void) {
+MapObjectList *CreateSecondHandDrawList(void) {
     MapObjectDrawList *drawList;
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     gSecondHandDrawList = drawList;
     *drawList = gSecondHandDrawListData;
     SetDrawListSlot(&gSecondHandDrawList);
-    return gSecondHandDrawList;
+    return &gSecondHandDrawList->mList;
 }
 
 MapObjectList *CreateSecondHandUpdateList(void) {

@@ -60,7 +60,7 @@ typedef struct DossunDrawList {
 } DossunDrawList;
 
 MapObjectKindData *CreateDossunKindData(void);
-DossunDrawList *CreateDossunDrawList(void);
+MapObjectList *CreateDossunDrawList(void);
 MapObjectList *CreateDossunUpdateList(void);
 MapObjectKindData *CreateKuriboKindData(void);
 KuriboDrawList *CreateKuriboDrawList(void);

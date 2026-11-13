@@ -34,8 +34,8 @@ void CopyEmitterParams(ParticleEmitter *emitter, EmitterParams *params);
 void DrawRock(void *unused0, RockObject *rock, void *unused1, s32 alpha);
 void SetupDrawRock(void);
 MapObjectList *CreateRockUpdateList(void);
-RockDrawList *CreateRock2DrawList(void);
-RockDrawList *CreateRockDrawList(void);
+MapObjectList *CreateRock2DrawList(void);
+MapObjectList *CreateRockDrawList(void);
 MapObjectKindData *CreateRockKindData(void);
 s32 GetItemObjectFirstResponse(s32 itemKind, MapObject *mapObject);
 // 1 when the ItemObject kind a has a response to the map object b, else 0.

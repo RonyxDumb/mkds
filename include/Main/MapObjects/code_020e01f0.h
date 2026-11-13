@@ -14,7 +14,7 @@ typedef struct CollisionHitLink {
 
 void UpdateKoopaBlock(void *unused, KoopaBlock *koopaBlock);
 MapObjectList *CreateKoopaBlockUpdateList(void);
-MapObjectDrawList *CreateKoopaBlockDrawList(void);
+MapObjectList *CreateKoopaBlockDrawList(void);
 MapObjectKindData *CreateKoopaBlockKindData(void);
 s32 IsHitLinkOutsideGearRadiusOrFlagged(CollisionHitLink *link);
 BOOL GetCollisionHitLinkPosAndVelocity(CollisionHitLink *link, Vec3 *outPosition, Vec3 *outVelocity);

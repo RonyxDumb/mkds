@@ -45,24 +45,10 @@ const s16 gRockSecondEffectRows08[4] = {0, 0x1000, -1024, 0x1400};
 const s32 gRockFirstEffectRows00[4] = {0x3d7, 0xf5c, 0, 0x1333};
 const s16 gRockFirstEffectRows04[4] = {0x66, 0x11f, 0x4a, 0x13f};
 const s16 gRockFirstEffectRows06[4] = {0x1ec, 0xa4, 0x23d, 0x52};
-const MapObjectKindDescriptor gRock2KindDescriptor = {0,
-                                                   {0, 0},
-                                                   0x124,
-                                                   InitRock,
-                                                   CreateRockKindData,
-                                                   (MapObjectList *(*)(void)) CreateRock2DrawList,
-                                                   0,
-                                                   0,
-                                                   CreateRockUpdateList};
-const MapObjectKindDescriptor gRockKindDescriptor = {0,
-                                                   {0, 0},
-                                                   0x124,
-                                                   InitRock,
-                                                   CreateRockKindData,
-                                                   (MapObjectList *(*)(void)) CreateRockDrawList,
-                                                   0,
-                                                   0,
-                                                   CreateRockUpdateList};
+const MapObjectKindDescriptor gRock2KindDescriptor = {
+    0, {0, 0}, 0x124, InitRock, CreateRockKindData, CreateRock2DrawList, 0, 0, CreateRockUpdateList};
+const MapObjectKindDescriptor gRockKindDescriptor = {
+    0, {0, 0}, 0x124, InitRock, CreateRockKindData, CreateRockDrawList, 0, 0, CreateRockUpdateList};
 s16 gFoundCollisionSlotCount;
 s16 gFirstFreeCollisionSlot;
 s16 gCollisionSlotCount;
