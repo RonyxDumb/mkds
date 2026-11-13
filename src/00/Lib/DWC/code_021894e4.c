@@ -67,9 +67,9 @@ u8 MakeStealthList(ACWORK *work) {
 }
 
 u8 MakeUserList(ACWORK *work) {
-    s32 i;
+    s32 apIndex;
     u8 num;
-    u8 j;
+    u8 ssidIndex;
     BOOL hasName;
     DWCMemPage *info;
     ACSL *list;
@@ -77,18 +77,18 @@ u8 MakeUserList(ACWORK *work) {
     num = 0;
     info = work->mUserInfo;
     list = work->mSearchList;
-    for (i = 0; i < 3; info++, i++) {
-        if (work->mConnectType == 0 || work->mConnectType == i + 1) {
+    for (apIndex = 0; apIndex < 3; info++, apIndex++) {
+        if (work->mConnectType == 0 || work->mConnectType == apIndex + 1) {
             if (info->mSetType != 0xff) {
-                for (j = 0; j < 0x20; j++) {
-                    if (info->mSsid[j] == 0) {
+                for (ssidIndex = 0; ssidIndex < 0x20; ssidIndex++) {
+                    if (info->mSsid[ssidIndex] == 0) {
                         break;
                     }
-                    list->mSsid[j] = info->mSsid[j];
+                    list->mSsid[ssidIndex] = info->mSsid[ssidIndex];
                 }
-                if (j != 0) {
-                    list->mSsidLength = j;
-                    list->mApType = i;
+                if (ssidIndex != 0) {
+                    list->mSsidLength = ssidIndex;
+                    list->mApType = apIndex;
                     hasName = TRUE;
                 } else {
                     hasName = FALSE;
@@ -98,15 +98,15 @@ u8 MakeUserList(ACWORK *work) {
                     list++;
                 }
                 if (info->mSetType == 1) {
-                    for (j = 0; j < 0x20; j++) {
-                        if (info->mSecondSsid[j] == 0) {
+                    for (ssidIndex = 0; ssidIndex < 0x20; ssidIndex++) {
+                        if (info->mSecondSsid[ssidIndex] == 0) {
                             break;
                         }
-                        list->mSsid[j] = info->mSecondSsid[j];
+                        list->mSsid[ssidIndex] = info->mSecondSsid[ssidIndex];
                     }
-                    if (j != 0) {
-                        list->mSsidLength = j;
-                        list->mApType = i + 3;
+                    if (ssidIndex != 0) {
+                        list->mSsidLength = ssidIndex;
+                        list->mApType = apIndex + 3;
                         hasName = TRUE;
                     } else {
                         hasName = FALSE;
@@ -124,22 +124,22 @@ u8 MakeUserList(ACWORK *work) {
 
 u8 MakeDifferChannelList(s32 findListNum, ACFL *findList, ACSL *searchList, WMBssDesc *bssDescs) {
     u8 num;
-    u8 i;
-    u8 j;
+    u8 findIndex;
+    u8 ssidIndex;
 
     num = 0;
-    for (i = 0; i < findListNum; findList++, bssDescs++, i++) {
-        if (i >= 9) {
+    for (findIndex = 0; findIndex < findListNum; findList++, bssDescs++, findIndex++) {
+        if (findIndex >= 9) {
             break;
         }
         if (findList->mState == 0 && bssDescs->mChannel != findList->mChannel) {
-            for (j = 0; j < 0x20; j++) {
-                if (bssDescs->mSsid[j] == 0) {
+            for (ssidIndex = 0; ssidIndex < 0x20; ssidIndex++) {
+                if (bssDescs->mSsid[ssidIndex] == 0) {
                     break;
                 }
-                searchList->mSsid[j] = bssDescs->mSsid[j];
+                searchList->mSsid[ssidIndex] = bssDescs->mSsid[ssidIndex];
             }
-            searchList->mSsidLength = j;
+            searchList->mSsidLength = ssidIndex;
             searchList->mChannel = bssDescs->mChannel - 1;
             searchList++;
             num++;

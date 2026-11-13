@@ -5,7 +5,6 @@
 #include "00/code_021a574c.h"
 #include "00/code_021a5b3c.h"
 
-
 u32 SearchEndCheck(ACWORK *object, u32 phase);
 u32 NextSearchCheck(ACWORK *object, u32 phase);
 u32 SearchStealth(ACWORK *object);
@@ -19,4 +18,4 @@ void DWCi_AC_SetStealthChannel(u32 channel);
 u32 DWCi_AC_SearchAP(void);
 u8 DWCi_AC_Start(void);
 void CheckSetDNS(ACWORK *object);
-u32 ConvNetMask(s32 a);
+u32 ConvNetMask(s32 prefixLength);

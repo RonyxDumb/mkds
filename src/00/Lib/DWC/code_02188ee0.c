@@ -131,7 +131,7 @@ u32 ConnectAP(ACWORK *work) {
 u8 GetConnectType(ACWORK *work) {
     WMBssDesc *bssDesc;
     s32 apType;
-    s32 i;
+    s32 searchIndex;
     s32 matchCount;
 
     bssDesc = &work->mBssDesc[work->mConnectNo];
@@ -153,27 +153,27 @@ u8 GetConnectType(ACWORK *work) {
                 apType = 0;
             }
         }
-        for (i = 0; i < work->mSearchListNum; i++) {
-            if (bssDesc->mSsidLength == work->mSearchList[i].mSsidLength &&
-                strncmp((const char *) bssDesc->mSsid, (const char *) work->mSearchList[i].mSsid, bssDesc->mSsidLength) ==
-                    0) {
+        for (searchIndex = 0; searchIndex < work->mSearchListNum; searchIndex++) {
+            if (bssDesc->mSsidLength == work->mSearchList[searchIndex].mSsidLength &&
+                strncmp((const char *) bssDesc->mSsid, (const char *) work->mSearchList[searchIndex].mSsid,
+                        bssDesc->mSsidLength) == 0) {
                 if (matchCount == 0) {
-                    apType = work->mSearchList[i].mApType;
+                    apType = work->mSearchList[searchIndex].mApType;
                 } else {
-                    work->mSearchList[i].mDuplicateMatch = 1;
+                    work->mSearchList[searchIndex].mDuplicateMatch = 1;
                     work->mDuplicateFlag = 1;
                 }
                 matchCount++;
             }
         }
     } else {
-        i = apType;
+        searchIndex = apType;
         matchCount = apType;
-        for (; i < work->mSearchListNum; i++) {
-            if (work->mSearchList[i].mDuplicateMatch == 1) {
+        for (; searchIndex < work->mSearchListNum; searchIndex++) {
+            if (work->mSearchList[searchIndex].mDuplicateMatch == 1) {
                 if (matchCount == 0) {
-                    work->mSearchList[i].mDuplicateMatch = 0;
-                    apType = work->mSearchList[i].mApType;
+                    work->mSearchList[searchIndex].mDuplicateMatch = 0;
+                    apType = work->mSearchList[searchIndex].mApType;
                 }
                 matchCount++;
             }

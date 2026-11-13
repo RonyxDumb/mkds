@@ -10,14 +10,14 @@
 #include "00/code_021a8aa8.h"
 #include "00/unk_021b0000.h"
 #include "os_tick.h"
-u32 ConvNetMask(s32 a) {
-    s32 i;
+u32 ConvNetMask(s32 prefixLength) {
+    s32 shiftCount;
     u32 mask;
 
-    a = 0x20 - a;
-    i = 0;
-    mask = ~i;
-    for (; i < a; i++) {
+    prefixLength = 0x20 - prefixLength;
+    shiftCount = 0;
+    mask = ~shiftCount;
+    for (; shiftCount < prefixLength; shiftCount++) {
         mask <<= 1;
     }
     return ((mask << 24) & 0xff000000) | (((mask << 8) & 0xff0000) | (((mask >> 24) & 0xff) | ((mask >> 8) & 0xff00)));
@@ -105,7 +105,7 @@ void DWCi_AC_SetStealthChannel(u32 channel) {
 s8 DWCi_AC_GetStealthChannel(s32 index) {
     ACWORK *work;
     u16 mask;
-    u8 i;
+    u8 channel;
     u8 found;
 
     work = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
@@ -113,11 +113,11 @@ s8 DWCi_AC_GetStealthChannel(s32 index) {
     if (mask == 0) {
         return -1;
     }
-    found = i = 0;
-    for (; i < 0xd; i++) {
-        if ((mask & (1 << i)) != 0) {
+    found = channel = 0;
+    for (; channel < 0xd; channel++) {
+        if ((mask & (1 << channel)) != 0) {
             if (found == index) {
-                return i;
+                return channel;
             }
             found++;
         }
@@ -241,22 +241,22 @@ u32 NextSearchCheck(ACWORK *work, u32 phase) {
 }
 
 u32 SearchEndCheck(ACWORK *work, u32 phase) {
-    u8 i;
+    u8 findIndex;
     u8 findListNum;
 
     if (phase == 0x11) {
         return phase;
     }
-    i = 0;
+    findIndex = 0;
     findListNum = work->mFindListNum;
-    for (; i < findListNum; i++) {
-        if (work->mFindList[i].mState == 0) {
+    for (; findIndex < findListNum; findIndex++) {
+        if (work->mFindList[findIndex].mState == 0) {
             break;
         }
     }
     if (phase == 6) {
-        if (findListNum == i) {
-            if (i == 0) {
+        if (findListNum == findIndex) {
+            if (findIndex == 0) {
                 DWCi_AC_SetError(5);
             } else {
                 DWCi_AC_SetError(6);
@@ -267,14 +267,14 @@ u32 SearchEndCheck(ACWORK *work, u32 phase) {
         if (findListNum == 0) {
             return phase;
         }
-        if (findListNum == i) {
+        if (findListNum == findIndex) {
             return phase;
         }
-        if (work->mFindList[i].mRssi < 0x14) {
+        if (work->mFindList[findIndex].mRssi < 0x14) {
             return phase;
         }
     }
-    work->mConnectNo = i;
+    work->mConnectNo = findIndex;
     if (WCM_EndSearchAsync() != 1) {
         work->mPhaseBak = phase;
         phase = 7;

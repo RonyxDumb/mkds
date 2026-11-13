@@ -18,7 +18,7 @@
 
 extern CPSCaInfo *gCaInfoTable[11];
 
-void ReleaseHttp(Http *a);
+void ReleaseHttp(Http *httpContext);
 void DWCi_Http_Thread(void *argument);
 u32 SleepUnlessHttpAborted(Http *http);
 void DWC_Http_Abort(Http *http);

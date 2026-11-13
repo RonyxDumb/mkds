@@ -40,14 +40,14 @@ void DWC_SetBuddyFriendCallback(void *callback, void *param) {
 // Runs from DWC_InitFriendsMatch, per login.
 void DWCi_FriendInit(WiFiBuddySync *buddySync, struct GpConnection *gpConnection, char *playerName,
                      DWCAccFriendData *friendList, s32 friendListLength) {
-    WiFiBuddySync *q;
+    WiFiBuddySync *loadedSync;
     gWiFiBuddySync = buddySync;
     buddySync->mState = 0;
     gWiFiBuddySync->mGpConnection = gpConnection;
     gWiFiBuddySync->mPollCount = 0;
-    q = gWiFiBuddySync;
-    q->mLastPollTime = 0;
-    q->mBuddyEntryCount = friendListLength;
+    loadedSync = gWiFiBuddySync;
+    loadedSync->mLastPollTime = 0;
+    loadedSync->mBuddyEntryCount = friendListLength;
     gWiFiBuddySync->mBuddies = friendList;
     gWiFiBuddySync->mSyncIndex = 0;
     gWiFiBuddySync->mBuddiesChanged = 0;
@@ -109,7 +109,7 @@ void StartBuddySync(s32 authToken, const char *partnerChallenge, void (*updateCa
                     void *updateParam, void (*statusCallback)(s32, u8, void *, void *), void *statusParam,
                     void (*deleteCallback)(s32, s32, void *), void *deleteParam) {
     s32 attemptIndex;
-    s32 j;
+    s32 statsAttempt;
     s32 statsResult;
     s8 statsRequestText[0x28];
     gWiFiBuddySync->mResultCallback = updateCallback;
@@ -124,9 +124,9 @@ void StartBuddySync(s32 authToken, const char *partnerChallenge, void (*updateCa
     gWiFiBuddySync->mCompletedParts = 0;
     gWiFiBuddySync->mState = 1;
     if (((s8 *) gWiFiBuddySync->mPlayerName)[attemptIndex] != 0) {
-        j = attemptIndex;
+        statsAttempt = attemptIndex;
         for (; attemptIndex < 5; attemptIndex++) {
-            statsResult = GstatsConnect(j);
+            statsResult = GstatsConnect(statsAttempt);
             if (statsResult == 0) {
                 break;
             }

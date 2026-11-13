@@ -563,9 +563,9 @@ u32 DWCi_DeleteAID(u32 aid) {
 
 u32 DWCi_GetAIDBitmapFromList(const u8 *values, s32 count) {
     u32 mask = 0;
-    s32 i;
-    for (i = 0; i < count; i++) {
-        mask |= 1 << values[i];
+    s32 valueIndex;
+    for (valueIndex = 0; valueIndex < count; valueIndex++) {
+        mask |= 1 << values[valueIndex];
     }
     return mask;
 }
@@ -854,8 +854,7 @@ void DWCi_GT2ClosedCallback(Unk0219887c *connection, u32 reason) {
         }
         friendListIndex = DWCi_GetFriendListIndex(profileId);
         closedCallbackArg = &wiFiConnection->mConnectionClosedCallbackArg;
-        gWiFiConnection->mConnectionClosedCallback(kind, reason, hostSide, aid, friendListIndex,
-                                                   *closedCallbackArg);
+        gWiFiConnection->mConnectionClosedCallback(kind, reason, hostSide, aid, friendListIndex, *closedCallbackArg);
     }
     if (gWiFiConnection->mOwnCloseFlag != 0 || gWiFiConnection->mMatching.mMode != 2) {
         if (gWiFiConnection->mMatching.mLastParticipantPos == 0) {

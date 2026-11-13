@@ -41,10 +41,10 @@
 
 u32 DWChttpignoreca;
 
-CPSCaInfo *gCaInfoTable[11] = {&gVeriSignClass3G3CaInfo, &gVeriSignClass3G2CaInfo, &gVeriSignClass3CaInfo,
-                               &gRsaSecureServerCaInfo, &gGlobalSignRootCaInfo, &gGteGlobalRootCaInfo,
-                               &gGteRootCaInfo, &gBaltimoreRootCaInfo, &gThawteServerCaInfo,
-                               &gThawtePremiumServerCaInfo, &gNintendoCaInfo};
+CPSCaInfo *gCaInfoTable[11] = {
+    &gVeriSignClass3G3CaInfo, &gVeriSignClass3G2CaInfo,    &gVeriSignClass3CaInfo, &gRsaSecureServerCaInfo,
+    &gGlobalSignRootCaInfo,   &gGteGlobalRootCaInfo,       &gGteRootCaInfo,        &gBaltimoreRootCaInfo,
+    &gThawteServerCaInfo,     &gThawtePremiumServerCaInfo, &gNintendoCaInfo};
 
 s32 DWC_Http_Create(Http *http, const DWCHttpParam *param) {
     MI_CpuFill8(http, 0, 0x1a60);
@@ -125,7 +125,7 @@ u32 SleepUnlessHttpAborted(Http *http) {
 
 void DWCi_Http_Thread(void *argument) {
     Http *http = argument;
-    char *s;
+    char *bufferText;
     HttpB4 *socketBuffers;
     Http118 *sslInfo;
     HttpBuffer *receiveBuffer;
@@ -141,7 +141,7 @@ void DWCi_Http_Thread(void *argument) {
     u64 nowTick;
     s8 *lengthEnd;
     s8 savedByte;
-    s32 n;
+    s32 byteCount;
     LowEntropyData entropyData;
     const char *contentLengthText;
 
@@ -190,19 +190,19 @@ void DWCi_Http_Thread(void *argument) {
         return;
     }
     http->mSendBuffer.mCursor = http->mSendBuffer.mStart;
-    s = http->mSendBuffer.mStart;
-    http->mSendBuffer.mEnd = s + strlen(s);
+    bufferText = http->mSendBuffer.mStart;
+    http->mSendBuffer.mEnd = bufferText + strlen(bufferText);
     while (http->mSendBuffer.mCursor < http->mSendBuffer.mEnd) {
         if (CPSMyIp == 0) {
             http->mResult = 5;
             goto fail;
         }
-        n = http->mSendBuffer.mEnd - http->mSendBuffer.mCursor;
-        if (n > 0x238) {
-            n = 0x238;
+        byteCount = http->mSendBuffer.mEnd - http->mSendBuffer.mCursor;
+        if (byteCount > 0x238) {
+            byteCount = 0x238;
         }
-        n = CPS_SocWrite((const u8 *) http->mSendBuffer.mCursor, n);
-        if (n <= 0) {
+        byteCount = CPS_SocWrite((const u8 *) http->mSendBuffer.mCursor, byteCount);
+        if (byteCount <= 0) {
             http->mResult = 5;
             goto fail;
         }
@@ -219,7 +219,7 @@ void DWCi_Http_Thread(void *argument) {
                 entropyTick = nowTick;
             }
         }
-        http->mSendBuffer.mCursor += n;
+        http->mSendBuffer.mCursor += byteCount;
         if (SleepUnlessHttpAborted(http) == 0) {
             http->mResult = 7;
             goto fail;
@@ -252,15 +252,15 @@ void DWCi_Http_Thread(void *argument) {
             OS_UnlockMutex(&http->mReceiveMutex);
             break;
         }
-        n = CPS_SocGetLength();
-        if (n > 0) {
-            receivedData = CPS_SocRead((u32 *) &n);
+        byteCount = CPS_SocGetLength();
+        if (byteCount > 0) {
+            receivedData = CPS_SocRead((u32 *) &byteCount);
             if (receivedData == NULL) {
                 OS_UnlockMutex(&http->mReceiveMutex);
                 break;
             }
             bufferSpace = receiveBuffer->mEnd - 1 - receiveBuffer->mCursor;
-            copyLength = n;
+            copyLength = byteCount;
             if ((s32) copyLength >= bufferSpace) {
                 copyLength = bufferSpace;
             }
@@ -268,10 +268,10 @@ void DWCi_Http_Thread(void *argument) {
             receiveBuffer->mCursor += copyLength;
             *receiveBuffer->mCursor = 0;
             if (headerReceived != 1) {
-                s = receiveBuffer->mStart;
-                if (strstr(s, "\r\n\r\n") != NULL) {
+                bufferText = receiveBuffer->mStart;
+                if (strstr(bufferText, "\r\n\r\n") != NULL) {
                     headerReceived = 1;
-                    http->mBodyStart = strstr(s, "\r\n\r\n") + 4;
+                    http->mBodyStart = strstr(bufferText, "\r\n\r\n") + 4;
                     contentLengthText = strstr(receiveBuffer->mStart, "Content-Length: ");
                     if (contentLengthText != NULL) {
                         contentLengthText = contentLengthText + strlen("Content-Length: ");
@@ -283,18 +283,19 @@ void DWCi_Http_Thread(void *argument) {
                     }
                 }
             }
-            if (n > copyLength) {
-                CPS_SocConsume(n);
+            if (byteCount > copyLength) {
+                CPS_SocConsume(byteCount);
                 OS_UnlockMutex(&http->mReceiveMutex);
                 break;
             }
             CPS_SocConsume(copyLength);
         }
-        if (n < 0) {
+        if (byteCount < 0) {
             OS_UnlockMutex(&http->mReceiveMutex);
             break;
         }
-        if (http->mContentLength > 0 && n > 0 && http->mBodyStart + http->mContentLength <= receiveBuffer->mCursor) {
+        if (http->mContentLength > 0 && byteCount > 0 &&
+            http->mBodyStart + http->mContentLength <= receiveBuffer->mCursor) {
             OS_UnlockMutex(&http->mReceiveMutex);
             break;
         }
@@ -330,126 +331,127 @@ fail:
     CPS_SocUnRegister();
 }
 
-void ReleaseHttp(Http *a) {
-    if (a != NULL) {
-        if (a->mParam.mReceiveBufferStart == NULL) {
-            FreeHttpBuffer(a, &a->mReceiveBuffer);
+void ReleaseHttp(Http *httpContext) {
+    if (httpContext != NULL) {
+        if (httpContext->mParam.mReceiveBufferStart == NULL) {
+            FreeHttpBuffer(httpContext, &httpContext->mReceiveBuffer);
         }
-        FreeHttpBuffer(a, &a->mSendBuffer);
-        if (a->mLowReceiveBuffer != NULL) {
-            a->mParam.mFree("http->lowrecvbuf", a->mLowReceiveBuffer, 0);
-            a->mLowReceiveBuffer = NULL;
+        FreeHttpBuffer(httpContext, &httpContext->mSendBuffer);
+        if (httpContext->mLowReceiveBuffer != NULL) {
+            httpContext->mParam.mFree("http->lowrecvbuf", httpContext->mLowReceiveBuffer, 0);
+            httpContext->mLowReceiveBuffer = NULL;
         }
-        if (a->mLowSendBuffer != NULL) {
-            a->mParam.mFree("http->lowsendbuf", a->mLowSendBuffer, 0);
-            a->mLowSendBuffer = NULL;
+        if (httpContext->mLowSendBuffer != NULL) {
+            httpContext->mParam.mFree("http->lowsendbuf", httpContext->mLowSendBuffer, 0);
+            httpContext->mLowSendBuffer = NULL;
         }
-        MI_CpuFill8(a, 0, 0x1a60);
+        MI_CpuFill8(httpContext, 0, 0x1a60);
     }
 }
 
-BOOL DWCi_Http_WriteBasicHeader(Http *a) {
-    HttpBuffer *b = &a->mSendBuffer;
-    char *c;
-    s32 d;
-    s32 e;
-    s32 f;
-    if (a->mParam.mAction == 0) {
-        c = "POST /%s HTTP/1.0\r\nContent-type: application/x-www-form-urlencoded\r\nHost: %s\r\n\r\n";
+BOOL DWCi_Http_WriteBasicHeader(Http *http) {
+    HttpBuffer *sendBuffer = &http->mSendBuffer;
+    char *format;
+    s32 hostLength;
+    s32 formatLength;
+    s32 totalLength;
+    if (http->mParam.mAction == 0) {
+        format = "POST /%s HTTP/1.0\r\nContent-type: application/x-www-form-urlencoded\r\nHost: %s\r\n\r\n";
     } else {
-        c = "GET /%s HTTP/1.0\r\nHost: %s\r\n\r\n";
+        format = "GET /%s HTTP/1.0\r\nHost: %s\r\n\r\n";
     }
-    d = strlen(a->mHost);
-    e = strlen(c);
-    f = d + (e - 4 + strlen(a->mPath));
-    if (InitHttpBuffer(a, &a->mSendBuffer, f + 0x400) != 1) {
+    hostLength = strlen(http->mHost);
+    formatLength = strlen(format);
+    totalLength = hostLength + (formatLength - 4 + strlen(http->mPath));
+    if (InitHttpBuffer(http, &http->mSendBuffer, totalLength + 0x400) != 1) {
         return TRUE;
     }
-    b->mCursor = b->mCursor + OS_SNPrintf(b->mCursor, b->mSize, c, a->mPath, a->mHost);
+    sendBuffer->mCursor =
+        sendBuffer->mCursor + OS_SNPrintf(sendBuffer->mCursor, sendBuffer->mSize, format, http->mPath, http->mHost);
     return FALSE;
 }
 
-BOOL DWC_Http_Add_HeaderItem(Http *a, const char *b, const char *c) {
-    s32 e;
-    HttpBuffer *d;
-    s32 f;
+BOOL DWC_Http_Add_HeaderItem(Http *http, const char *name, const char *value) {
+    s32 itemLength;
+    HttpBuffer *sendBuffer;
+    s32 formatLength;
     const char *format;
-    char *g;
-    s8 h;
-    s8 *p;
-    s32 i;
-    d = &a->mSendBuffer;
-    e = strlen(c);
+    char *insertPos;
+    s8 savedByte;
+    s8 *headerEnd;
+    s32 spaceLeft;
+    sendBuffer = &http->mSendBuffer;
+    itemLength = strlen(value);
     format = "%s: %s\r\n";
-    f = strlen(format);
-    e += (f - 4 + strlen(b));
-    i = d->mEnd - d->mCursor;
-    if (e + 1 > i) {
-        if (GrowHttpBuffer(a, d, e - i + 1) == 0) {
+    formatLength = strlen(format);
+    itemLength += (formatLength - 4 + strlen(name));
+    spaceLeft = sendBuffer->mEnd - sendBuffer->mCursor;
+    if (itemLength + 1 > spaceLeft) {
+        if (GrowHttpBuffer(http, sendBuffer, itemLength - spaceLeft + 1) == 0) {
             return TRUE;
         }
     }
-    p = (s8 *) strstr(d->mStart, "\r\n\r\n");
-    g = (char *) p + 2;
-    h = p[2];
-    memmove(g + e, g, strlen(g) + 1);
-    i = OS_SNPrintf(g, e + 1, format, b, c);
-    g[i] = h;
-    d->mCursor = d->mCursor + e;
+    headerEnd = (s8 *) strstr(sendBuffer->mStart, "\r\n\r\n");
+    insertPos = (char *) headerEnd + 2;
+    savedByte = headerEnd[2];
+    memmove(insertPos + itemLength, insertPos, strlen(insertPos) + 1);
+    spaceLeft = OS_SNPrintf(insertPos, itemLength + 1, format, name, value);
+    insertPos[spaceLeft] = savedByte;
+    sendBuffer->mCursor = sendBuffer->mCursor + itemLength;
     return FALSE;
 }
 
-BOOL DWC_Http_Add_PostBase64Item(Http *a, const char *b, const void *c, s32 d) {
-    HttpBuffer *e = &a->mSendBuffer;
-    char *f;
-    s32 g;
-    s32 h;
-    s32 i;
-    s32 j;
-    if (a->mPairCount == 0) {
-        f = "%s=";
+BOOL DWC_Http_Add_PostBase64Item(Http *http, const char *name, const void *data, s32 dataSize) {
+    HttpBuffer *sendBuffer = &http->mSendBuffer;
+    char *format;
+    s32 encodedLength;
+    s32 formatLength;
+    s32 neededLength;
+    s32 spaceLeft;
+    if (http->mPairCount == 0) {
+        format = "%s=";
     } else {
-        f = "&%s=";
+        format = "&%s=";
     }
-    a->mPairCount = a->mPairCount + 1;
-    g = DWC_Auth_Base64Encode(c, d, NULL, 0);
-    h = strlen(f);
-    i = g + (h - 2 + strlen(b));
-    j = e->mEnd - e->mCursor;
-    if (i > j) {
-        if (GrowHttpBuffer(a, e, i - j + 1) == 0) {
+    http->mPairCount = http->mPairCount + 1;
+    encodedLength = DWC_Auth_Base64Encode(data, dataSize, NULL, 0);
+    formatLength = strlen(format);
+    neededLength = encodedLength + (formatLength - 2 + strlen(name));
+    spaceLeft = sendBuffer->mEnd - sendBuffer->mCursor;
+    if (neededLength > spaceLeft) {
+        if (GrowHttpBuffer(http, sendBuffer, neededLength - spaceLeft + 1) == 0) {
             return TRUE;
         }
-        j = e->mEnd - e->mCursor;
+        spaceLeft = sendBuffer->mEnd - sendBuffer->mCursor;
     }
-    e->mCursor = e->mCursor + OS_SNPrintf(e->mCursor, j, f, b);
-    if (DWC_Auth_Base64Encode(c, d, e->mCursor, e->mEnd - e->mCursor - 1) < 0) {
+    sendBuffer->mCursor = sendBuffer->mCursor + OS_SNPrintf(sendBuffer->mCursor, spaceLeft, format, name);
+    if (DWC_Auth_Base64Encode(data, dataSize, sendBuffer->mCursor, sendBuffer->mEnd - sendBuffer->mCursor - 1) < 0) {
         return TRUE;
     }
-    e->mCursor = e->mCursor + g;
-    *e->mCursor = 0;
+    sendBuffer->mCursor = sendBuffer->mCursor + encodedLength;
+    *sendBuffer->mCursor = 0;
     return FALSE;
 }
 
-BOOL DWC_Http_Add_Body(Http *a, const char *b) {
-    s32 d;
-    HttpBuffer *c;
-    s32 e;
-    s32 f;
-    c = &a->mSendBuffer;
-    d = strlen(b);
-    e = c->mEnd - c->mCursor;
-    if (d > e) {
-        if (GrowHttpBuffer(a, c, d - e + 1) == 0) {
+BOOL DWC_Http_Add_Body(Http *http, const char *body) {
+    s32 bodyLength;
+    HttpBuffer *sendBuffer;
+    s32 spaceLeft;
+    s32 printed;
+    sendBuffer = &http->mSendBuffer;
+    bodyLength = strlen(body);
+    spaceLeft = sendBuffer->mEnd - sendBuffer->mCursor;
+    if (bodyLength > spaceLeft) {
+        if (GrowHttpBuffer(http, sendBuffer, bodyLength - spaceLeft + 1) == 0) {
             return TRUE;
         }
-        e = c->mEnd - c->mCursor;
+        spaceLeft = sendBuffer->mEnd - sendBuffer->mCursor;
     }
-    f = OS_SNPrintf(c->mCursor, e, "%s", b);
-    if (f != d) {
+    printed = OS_SNPrintf(sendBuffer->mCursor, spaceLeft, "%s", body);
+    if (printed != bodyLength) {
         return TRUE;
     }
-    c->mCursor = c->mCursor + f;
+    sendBuffer->mCursor = sendBuffer->mCursor + printed;
     return FALSE;
 }
 
@@ -548,8 +550,8 @@ BOOL DWC_Http_ParseResult(DWCHttpLabelValue *labelValues, s32 labelValueCount, s
     char *bodyEnd;
     DWCHttpParseResult results;
     s8 *statusText;
-    s8 *h;
-    char *j;
+    s8 *fieldPtr;
+    char *textPtr;
     s8 *delimiter;
     results.mEntries = labelValues;
     results.mCapacity = labelValueCount;
@@ -579,45 +581,45 @@ BOOL DWC_Http_ParseResult(DWCHttpLabelValue *labelValues, s32 labelValueCount, s
     if (delimiter == NULL) {
         return FALSE;
     }
-    h = delimiter + 2;
-    while (h[0] != 0xd && h[1] != 0xa) {
-        delimiter = (s8 *) strstr((const char *) h, ": ");
+    fieldPtr = delimiter + 2;
+    while (fieldPtr[0] != 0xd && fieldPtr[1] != 0xa) {
+        delimiter = (s8 *) strstr((const char *) fieldPtr, ": ");
         if (delimiter == NULL) {
             break;
         }
         delimiter[0] = delimiter[1] = 0;
-        j = (char *) (delimiter + 2);
-        delimiter = (s8 *) strstr(j, "\r\n");
+        textPtr = (char *) (delimiter + 2);
+        delimiter = (s8 *) strstr(textPtr, "\r\n");
         if (delimiter == NULL) {
             break;
         }
         delimiter[0] = delimiter[1] = 0;
-        if (DWCi_Http_AddResult(&results, h, j) != TRUE) {
+        if (DWCi_Http_AddResult(&results, fieldPtr, textPtr) != TRUE) {
             return FALSE;
         }
-        h = (s8 *) (j + strlen(j) + 2);
+        fieldPtr = (s8 *) (textPtr + strlen(textPtr) + 2);
     }
-    j = headerEnd + 4;
-    if (j < bodyEnd) {
+    textPtr = headerEnd + 4;
+    if (textPtr < bodyEnd) {
         do {
-            delimiter = (s8 *) strstr(j, "=");
+            delimiter = (s8 *) strstr(textPtr, "=");
             if (delimiter == NULL) {
                 break;
             }
             delimiter[0] = 0;
-            h = delimiter + 1;
-            delimiter = (s8 *) strstr((const char *) h, "&");
+            fieldPtr = delimiter + 1;
+            delimiter = (s8 *) strstr((const char *) fieldPtr, "&");
             if (delimiter == NULL) {
-                delimiter = (s8 *) strstr((const char *) h, "\r\n");
+                delimiter = (s8 *) strstr((const char *) fieldPtr, "\r\n");
             }
             if (delimiter != NULL) {
                 delimiter[0] = 0;
             }
-            if (DWCi_Http_AddResult(&results, j, h) != TRUE) {
+            if (DWCi_Http_AddResult(&results, textPtr, fieldPtr) != TRUE) {
                 return FALSE;
             }
-            j = (char *) h + strlen((const char *) h) + 1;
-        } while (j < bodyEnd);
+            textPtr = (char *) fieldPtr + strlen((const char *) fieldPtr) + 1;
+        } while (textPtr < bodyEnd);
     }
     return TRUE;
 }

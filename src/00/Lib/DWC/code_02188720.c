@@ -108,7 +108,7 @@ s32 DWCi_AC_CheckNintendoSSID(WMBssDesc *bssdesc) {
 }
 
 s32 CompareList(WMBssDesc *bssdesc, s32 num, ACSL *list) {
-    s32 i;
+    s32 listIndex;
     s32 checkResult;
     u16 ssidLength;
 
@@ -118,7 +118,7 @@ s32 CompareList(WMBssDesc *bssdesc, s32 num, ACSL *list) {
             return checkResult;
         }
     }
-    i = 0;
+    listIndex = 0;
     if (num > 0) {
         ssidLength = bssdesc->mSsidLength;
         do {
@@ -128,19 +128,19 @@ s32 CompareList(WMBssDesc *bssdesc, s32 num, ACSL *list) {
                 }
             }
             list++;
-            i++;
-        } while (i < num);
+            listIndex++;
+        } while (listIndex < num);
     }
     return -1;
 }
 
 s32 AddList(u32 type, WMBssDesc *bssdesc, ACWORK *work) {
-    s32 i;
+    s32 findIndex;
     s32 found;
     u8 *entryBssid;
     s32 findListNum;
 
-    i = 0;
+    findIndex = 0;
     found = -1;
     findListNum = work->mFindListNum;
     if (findListNum > 0) {
@@ -149,12 +149,12 @@ s32 AddList(u32 type, WMBssDesc *bssdesc, ACWORK *work) {
             if (bssdesc->mBssid[0] == entryBssid[0] && bssdesc->mBssid[1] == entryBssid[1] &&
                 bssdesc->mBssid[2] == entryBssid[2] && bssdesc->mBssid[3] == entryBssid[3] &&
                 bssdesc->mBssid[4] == entryBssid[4] && bssdesc->mBssid[5] == entryBssid[5]) {
-                found = i;
+                found = findIndex;
                 break;
             }
             entryBssid += 0xc0;
-            i++;
-        } while (i < work->mFindListNum);
+            findIndex++;
+        } while (findIndex < work->mFindListNum);
     }
     if (found == -1) {
         SetDataListTail(type, bssdesc, work);
@@ -208,14 +208,14 @@ void SortList(u32 listIndex, ACWORK *work) {
     WMBssDesc *previousBss;
     ACFL swapFind;
     WMBssDesc swapBss;
-    s32 i;
+    s32 previousIndex;
 
     findList = work->mFindList;
     bssDescList = work->mBssDesc;
-    i = listIndex - 1;
-    if (i >= 0) {
-        previousFind = &findList[i];
-        previousBss = &bssDescList[i];
+    previousIndex = listIndex - 1;
+    if (previousIndex >= 0) {
+        previousFind = &findList[previousIndex];
+        previousBss = &bssDescList[previousIndex];
         do {
             if (findList[listIndex].mRssi < previousFind->mRssi) {
                 break;
@@ -226,11 +226,11 @@ void SortList(u32 listIndex, ACWORK *work) {
             MIi_CpuCopy32(previousBss, &swapBss, 0xc0);
             MIi_CpuCopy32(&bssDescList[listIndex], previousBss, 0xc0);
             MIi_CpuCopy32(&swapBss, &bssDescList[listIndex], 0xc0);
-            listIndex = i;
+            listIndex = previousIndex;
             previousFind--;
             previousBss--;
-            i--;
-        } while (i >= 0);
+            previousIndex--;
+        } while (previousIndex >= 0);
     }
     findList += 10;
     func_0214d018_inline(findList, 4);

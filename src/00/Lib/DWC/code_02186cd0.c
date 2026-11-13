@@ -112,11 +112,11 @@ void DWCi_Netcheck_Thread(void) {
     s32 dataLength;
     char *waitText;
     s32 waitMillis;
-    char *t;
-    char *s;
+    char *copyDest;
+    char *bodyText;
     s32 waitLength;
     s32 decodedLength;
-    s32 r;
+    s32 statusCode;
     u32 interruptState;
     Http *http;
     DWCNetcheck *netcheck;
@@ -163,13 +163,13 @@ void DWCi_Netcheck_Thread(void) {
             DWCi_Netcheck_SetError(2);
             break;
         }
-        r = StrtolBase10(DWC_Http_GetResult(gNetcheck->mHttpLabelvalue, 0x20, "httpresult"));
+        statusCode = StrtolBase10(DWC_Http_GetResult(gNetcheck->mHttpLabelvalue, 0x20, "httpresult"));
         if (gLibErrorCode == 0x22) {
             DWCi_Netcheck_SetError(2);
             break;
         }
-        if (r != 200) {
-            if (r == 0x12e) {
+        if (statusCode != 200) {
+            if (statusCode == 0x12e) {
                 netcheck = gNetcheck;
                 if (netcheck->mBodyWayport != NULL) {
                     netcheck->mReturnCode = -6;
@@ -189,8 +189,7 @@ void DWCi_Netcheck_Thread(void) {
                         DWCi_Netcheck_SetError(1);
                         break;
                     }
-                    if (DWCi_Auth_Prepare_FirstPost(gHttp, "", "",
-                                                    gNetcheck->mHttpLabelvalue, 0x20, 1) != 0) {
+                    if (DWCi_Auth_Prepare_FirstPost(gHttp, "", "", gNetcheck->mHttpLabelvalue, 0x20, 1) != 0) {
                         ReleaseHttp(gHttp);
                         DWCi_Netcheck_SetError(8);
                         break;
@@ -210,8 +209,8 @@ void DWCi_Netcheck_Thread(void) {
                         DWCi_Netcheck_SetError(8);
                         break;
                     }
-                    s = gNetcheck->mBodyWayport;
-                    if (DWC_Http_Add_PostBase64Item(gHttp, "HotSpotResponse", s, strlen(s)) != FALSE) {
+                    bodyText = gNetcheck->mBodyWayport;
+                    if (DWC_Http_Add_PostBase64Item(gHttp, "HotSpotResponse", bodyText, strlen(bodyText)) != FALSE) {
                         ReleaseHttp(gHttp);
                         DWCi_Netcheck_SetError(8);
                         break;
@@ -242,20 +241,20 @@ void DWCi_Netcheck_Thread(void) {
                             goto end;
                     }
                 }
-                s = DWC_Http_GetResult(netcheck->mHttpLabelvalue, 0x20, "httpbody");
-                if (s == NULL) {
+                bodyText = DWC_Http_GetResult(netcheck->mHttpLabelvalue, 0x20, "httpbody");
+                if (bodyText == NULL) {
                     ReleaseHttp(gHttp);
                     DWCi_Netcheck_SetError(2);
                     break;
                 }
-                gNetcheck->mBody302 = gNetcheck->mParam.mAlloc("DWCnetcheck->body_302", strlen(s) + 1);
-                t = gNetcheck->mBody302;
-                if (t == NULL) {
+                gNetcheck->mBody302 = gNetcheck->mParam.mAlloc("DWCnetcheck->body_302", strlen(bodyText) + 1);
+                copyDest = gNetcheck->mBody302;
+                if (copyDest == NULL) {
                     ReleaseHttp(gHttp);
                     DWCi_Netcheck_SetError(4);
                     break;
                 }
-                strncpy(t, s, strlen(s));
+                strncpy(copyDest, bodyText, strlen(bodyText));
             } else {
                 ReleaseHttp(gHttp);
                 DWCi_Netcheck_SetError(10);
@@ -287,7 +286,7 @@ void DWCi_Netcheck_Thread(void) {
             }
             DWC_Auth_Destroy();
         }
-        if (r == 200) {
+        if (statusCode == 200) {
             gNetcheck->mReturnCode = 0;
             DWCi_Netcheck_SetError(11);
             break;
@@ -308,8 +307,7 @@ void DWCi_Netcheck_Thread(void) {
             DWCi_Netcheck_SetError(1);
             break;
         }
-        if (DWCi_Auth_Prepare_FirstPost(gHttp, "", "", gNetcheck->mHttpLabelvalue,
-                                        0x20, 1) != 0) {
+        if (DWCi_Auth_Prepare_FirstPost(gHttp, "", "", gNetcheck->mHttpLabelvalue, 0x20, 1) != 0) {
             ReleaseHttp(gHttp);
             DWCi_Netcheck_SetError(8);
             break;
@@ -329,8 +327,8 @@ void DWCi_Netcheck_Thread(void) {
             DWCi_Netcheck_SetError(8);
             break;
         }
-        s = gNetcheck->mBody302;
-        if (DWC_Http_Add_PostBase64Item(gHttp, "HTML", s, strlen(s)) != FALSE) {
+        bodyText = gNetcheck->mBody302;
+        if (DWC_Http_Add_PostBase64Item(gHttp, "HTML", bodyText, strlen(bodyText)) != FALSE) {
             ReleaseHttp(gHttp);
             DWCi_Netcheck_SetError(8);
             break;
@@ -363,30 +361,29 @@ void DWCi_Netcheck_Thread(void) {
             DWCi_Netcheck_SetError(2);
             break;
         }
-        r = StrtolBase10(DWC_Http_GetResult(gNetcheck->mHttpLabelvalue, 0x20, "httpresult"));
+        statusCode = StrtolBase10(DWC_Http_GetResult(gNetcheck->mHttpLabelvalue, 0x20, "httpresult"));
         if (gLibErrorCode == 0x22) {
             ReleaseHttp(gHttp);
             DWCi_Netcheck_SetError(2);
             break;
         }
-        if (r != 200) {
+        if (statusCode != 200) {
             ReleaseHttp(gHttp);
             DWCi_Netcheck_SetError(2);
             break;
         }
-        if (DWC_Http_GetBase64DecodedResult(gNetcheck->mHttpLabelvalue, 0x20, "returncd", retcodeText, 4) <=
-            0) {
+        if (DWC_Http_GetBase64DecodedResult(gNetcheck->mHttpLabelvalue, 0x20, "returncd", retcodeText, 4) <= 0) {
             ReleaseHttp(gHttp);
             DWCi_Netcheck_SetError(9);
             break;
         }
-        r = StrtolBase10(retcodeText);
+        statusCode = StrtolBase10(retcodeText);
         if (gLibErrorCode == 0x22) {
             ReleaseHttp(gHttp);
             DWCi_Netcheck_SetError(9);
             break;
         }
-        if (r >= 100) {
+        if (statusCode >= 100) {
             ReleaseHttp(gHttp);
             DWCi_Netcheck_SetError(6);
             break;
@@ -442,8 +439,8 @@ void DWCi_Netcheck_Thread(void) {
         dataText[decodedLength] = 0;
         waitMillis = 0;
         if (waitLength > 0) {
-            decodedLength = DWC_Http_GetBase64DecodedResult(gNetcheck->mHttpLabelvalue, 0x20, "wait", waitText,
-                                                            waitLength + 1);
+            decodedLength =
+                DWC_Http_GetBase64DecodedResult(gNetcheck->mHttpLabelvalue, 0x20, "wait", waitText, waitLength + 1);
             if (decodedLength < 0) {
                 ReleaseHttp(gHttp);
                 DWCi_Netcheck_SetError(9);
@@ -505,20 +502,20 @@ void DWCi_Netcheck_Thread(void) {
             DWCi_Netcheck_SetError(2);
             break;
         }
-        s = DWC_Http_GetResult(gNetcheck->mHttpLabelvalue, 0x20, "httpbody");
-        if (s == NULL) {
+        bodyText = DWC_Http_GetResult(gNetcheck->mHttpLabelvalue, 0x20, "httpbody");
+        if (bodyText == NULL) {
             ReleaseHttp(gHttp);
             DWCi_Netcheck_SetError(2);
             break;
         }
-        gNetcheck->mBodyWayport = gNetcheck->mParam.mAlloc("DWCnetcheck->body_wayport", strlen(s) + 1);
-        t = gNetcheck->mBodyWayport;
-        if (t == NULL) {
+        gNetcheck->mBodyWayport = gNetcheck->mParam.mAlloc("DWCnetcheck->body_wayport", strlen(bodyText) + 1);
+        copyDest = gNetcheck->mBodyWayport;
+        if (copyDest == NULL) {
             ReleaseHttp(gHttp);
             DWCi_Netcheck_SetError(4);
             break;
         }
-        strncpy(t, s, strlen(s));
+        strncpy(copyDest, bodyText, strlen(bodyText));
         ReleaseHttp(gHttp);
         OS_Sleep(waitMillis);
     }

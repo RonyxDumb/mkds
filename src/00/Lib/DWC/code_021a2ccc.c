@@ -97,7 +97,7 @@ void DWCi_PingCallback(Unk0219887c *connection, u32 latency) {
 void DWCi_TransportProcess(void) {
     u8 *aids;
     s32 aidCount;
-    s32 i;
+    s32 aidIndex;
     u8 aid;
     WiFiPeerMessage *peer;
     s32 remaining;
@@ -105,8 +105,8 @@ void DWCi_TransportProcess(void) {
     u64 now;
     if (gWiFiMessageLayer != NULL) {
         aidCount = DWC_GetAIDList(&aids);
-        for (i = 0; i < aidCount; i++) {
-            aid = aids[i];
+        for (aidIndex = 0; aidIndex < aidCount; aidIndex++) {
+            aid = aids[aidIndex];
             if (aid != DWC_GetMyAID() && DWCs_GetSendState(aid) == 1) {
                 peer = DWCs_GetTransConnection(aid);
                 remaining = peer->mSendSize - peer->mSentSize;
@@ -133,8 +133,7 @@ void DWCi_TransportProcess(void) {
                 peer = DWCs_GetTransConnection(aid);
                 if (gWiFiMessageLayer->mReceiveTimeoutCallback != NULL && peer->mReceiveTimeoutTime != 0) {
                     now = OS_GetTick();
-                    if ((u32) _ll_udiv((now - peer->mPreviousReceiveTick) << 6, 0x82ea) >
-                        peer->mReceiveTimeoutTime) {
+                    if ((u32) _ll_udiv((now - peer->mPreviousReceiveTick) << 6, 0x82ea) > peer->mReceiveTimeoutTime) {
                         gWiFiMessageLayer->mReceiveTimeoutCallback(aid);
                         peer->mPreviousReceiveTick = now;
                     }
@@ -181,8 +180,8 @@ void DWCs_HandleReliableMessage(Unk0219887c *connection, void *message, s32 size
     u8 aid = DWCi_GetConnectionAID(connection);
     switch (DWCs_GetRecvState(aid)) {
         case 0: {
-            u16 n = DWCs_DecodeHeader(message);
-            if (n >= 2 && n <= 4) {
+            u16 headerType = DWCs_DecodeHeader(message);
+            if (headerType >= 2 && headerType <= 4) {
                 DWCs_RecvDataHeader(aid, message, size);
             }
             break;
@@ -227,7 +226,7 @@ void DWCs_HandleUnreliableMessage(Unk0219887c *connection, const void *message, 
 
 void DWCs_RecvDataHeader(int aid, void *message, s32 size) {
     WiFiPeerMessage *connection = &gWiFiMessageLayer->mPeers[aid];
-    u32 t[2];
+    u32 headerWords[2];
     u16 type;
     connection->mLastReceiveState = DWCs_GetRecvState(aid);
     type = DWCs_DecodeHeader(message);
@@ -236,8 +235,8 @@ void DWCs_RecvDataHeader(int aid, void *message, s32 size) {
             if (size != 8) {
                 return;
             }
-            MI_CpuCopy8(message, t, 8);
-            connection->mReceiveSize = t[0];
+            MI_CpuCopy8(message, headerWords, 8);
+            connection->mReceiveSize = headerWords[0];
             connection->mReceivedSize = 0;
             if (connection->mReceiveBuffer != NULL && connection->mReceiveBufferSize >= connection->mReceiveSize) {
                 connection->mReceiveState = 2;

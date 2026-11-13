@@ -27,7 +27,7 @@
 
 void DWCi_GPProfileSearchCallback(GpConnection *connection, ProfileSearchReply *arg, u32 friendIdx) {
     s32 matchSlot;
-    s32 k;
+    s32 zero;
     s32 buddyIndex;
     if (arg->mResult == 0 && arg->mNumMatches != 0 && GetFriendDataType(&gWiFiBuddySync->mBuddies[friendIdx]) != 0) {
         if (gWiFiBuddySync->mState == 1) {
@@ -41,10 +41,10 @@ void DWCi_GPProfileSearchCallback(GpConnection *connection, ProfileSearchReply *
                     return;
                 }
             }
-            k = 0;
+            zero = 0;
             for (matchSlot = 0; matchSlot < arg->mNumMatches; matchSlot++) {
                 ReportBuddySyncGpResult(GpGetBuddyIndex(connection, arg->mMatches[matchSlot].mProfile, &buddyIndex));
-                if (buddyIndex == ~k) {
+                if (buddyIndex == ~zero) {
                     DWCi_GPSendBuddyRequest(arg->mMatches[matchSlot].mProfile);
                 } else {
                     InitFriendDataFromGsProfileId(&gWiFiBuddySync->mBuddies[friendIdx], arg->mMatches[0].mProfile);

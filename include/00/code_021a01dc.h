@@ -22,4 +22,4 @@ typedef struct PeerAddress {
     /* 04 */ u32 mAddress;
 } PeerAddress;
 
-s32 DWCi_ProcessRecvMatchCommand(s32 command, u32 profileId, u32 c, u16 d, u32 *values, s32 valueCount);
+s32 DWCi_ProcessRecvMatchCommand(s32 command, u32 profileId, u32 address, u16 port, u32 *values, s32 valueCount);
