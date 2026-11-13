@@ -10,9 +10,9 @@ void WriteSelectCupGridScreenRegisters(void) {
     screenChanged = GetMenuScreenSwitched();
     if (screenChanged != 0) {
         SelectGX_SetVisiblePlane(0x19);
-        GX_SetGraphicsMode(1, 0, 0);
+        GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
         SelectGXS_SetVisiblePlane(0x16);
-        GXS_SetGraphicsMode(0);
+        GXS_SetGraphicsMode(GX_BGMODE_0);
     }
     WriteSelectCupGridRegisters();
 }

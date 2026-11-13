@@ -116,7 +116,7 @@ void InitGraphics(void) {
     GX_VBlankIntr(0);
     GX_SetBankForBG(1);
     GX_SetBankForOBJ(2);
-    GX_SetGraphicsMode(1, 0, 0);
+    GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
     p = &reg_GX_DISPCNT;
     *p = *p & 0xffffe0ff;
     GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, 0);
@@ -132,7 +132,7 @@ void InitGraphics(void) {
     G2x_SetBlendBrightness_(&reg_G2_BLDCNT, 0x3f, 0x10);
     GX_SetBankForSubBG(0x80);
     GX_SetBankForSubOBJ(0x100);
-    GXS_SetGraphicsMode(0);
+    GXS_SetGraphicsMode(GX_BGMODE_0);
     p = &reg_GXS_DB_DISPCNT;
     *p = *p & 0xffffe0ff;
     GXx_SetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT, 0);

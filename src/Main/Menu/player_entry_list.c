@@ -52,12 +52,22 @@
 const u16 gTitleCellIndices[4] = {0, 1, 2, 0};
 const u16 gNormalTimerDigitCellIndices[10] = {0x2f, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38};
 const u16 gDownloadTimerDigitCellIndices[10] = {0x2e, 0x2f, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37};
-const u16 gDownloadCharacterCellIndices[14] = {0x19, 0x1a, 0x1b, 0x1c, 0x1d, 0x1e, 0x1f, 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0};
-const u16 gNormalCharacterCellIndices[14] = {0x1a, 0x1b, 0x1c, 0x1d, 0x1e, 0x1f, 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0};
-const EntryCellIndices gNormalEntryCellIndices[8] = {{0, 9, 0x11}, {1, 0xa, 0x12}, {2, 0xb, 0x13}, {3, 0xc, 0x14}, {4, 0xd, 0x15}, {5, 0xe, 0x16}, {6, 0xf, 0x17}, {7, 0x10, 0x18}};
-const EntryCellIndices gDownloadEntryCellIndices[8] = {{0, 9, 0x11}, {1, 0xa, 0x12}, {2, 0xb, 0x13}, {3, 0xc, 0x14}, {4, 0xd, 0x15}, {5, 0xe, 0x16}, {6, 0xf, 0x17}, {7, 0x10, 0x18}};
-const EntryLabelTextRow gDownloadEntryLabelTextRows[8] = {{0, {0x30, 0, 0xb, 0, 9, 0}}, {1, {0x30, 0, 0xb, 0, 0xa, 0}}, {2, {0x30, 0, 0xb, 0, 0xb, 0}}, {3, {0x30, 0, 0xb, 0, 0xc, 0}}, {4, {0x30, 0, 0xb, 0, 0xd, 0}}, {5, {0x30, 0, 0xb, 0, 0xe, 0}}, {6, {0x30, 0, 0xb, 0, 0xf, 0}}, {7, {0x30, 0, 0xb, 0, 0x10, 0}}};
-const EntryLabelTextRow gNormalEntryLabelTextRows[8] = {{0, {0x30, 0, 0xb, 0, 9, 0}}, {1, {0x30, 0, 0xb, 0, 0xa, 0}}, {2, {0x30, 0, 0xb, 0, 0xb, 0}}, {3, {0x30, 0, 0xb, 0, 0xc, 0}}, {4, {0x30, 0, 0xb, 0, 0xd, 0}}, {5, {0x30, 0, 0xb, 0, 0xe, 0}}, {6, {0x30, 0, 0xb, 0, 0xf, 0}}, {7, {0x30, 0, 0xb, 0, 0x10, 0}}};
+const u16 gDownloadCharacterCellIndices[14] = {0x19, 0x1a, 0x1b, 0x1c, 0x1d, 0x1e, 0x1f,
+                                               0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0};
+const u16 gNormalCharacterCellIndices[14] = {0x1a, 0x1b, 0x1c, 0x1d, 0x1e, 0x1f, 0x20,
+                                             0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0};
+const EntryCellIndices gNormalEntryCellIndices[8] = {{0, 9, 0x11},   {1, 0xa, 0x12}, {2, 0xb, 0x13}, {3, 0xc, 0x14},
+                                                     {4, 0xd, 0x15}, {5, 0xe, 0x16}, {6, 0xf, 0x17}, {7, 0x10, 0x18}};
+const EntryCellIndices gDownloadEntryCellIndices[8] = {{0, 9, 0x11},   {1, 0xa, 0x12}, {2, 0xb, 0x13}, {3, 0xc, 0x14},
+                                                       {4, 0xd, 0x15}, {5, 0xe, 0x16}, {6, 0xf, 0x17}, {7, 0x10, 0x18}};
+const EntryLabelTextRow gDownloadEntryLabelTextRows[8] = {
+    {0, {0x30, 0, 0xb, 0, 9, 0}},   {1, {0x30, 0, 0xb, 0, 0xa, 0}}, {2, {0x30, 0, 0xb, 0, 0xb, 0}},
+    {3, {0x30, 0, 0xb, 0, 0xc, 0}}, {4, {0x30, 0, 0xb, 0, 0xd, 0}}, {5, {0x30, 0, 0xb, 0, 0xe, 0}},
+    {6, {0x30, 0, 0xb, 0, 0xf, 0}}, {7, {0x30, 0, 0xb, 0, 0x10, 0}}};
+const EntryLabelTextRow gNormalEntryLabelTextRows[8] = {
+    {0, {0x30, 0, 0xb, 0, 9, 0}},   {1, {0x30, 0, 0xb, 0, 0xa, 0}}, {2, {0x30, 0, 0xb, 0, 0xb, 0}},
+    {3, {0x30, 0, 0xb, 0, 0xc, 0}}, {4, {0x30, 0, 0xb, 0, 0xd, 0}}, {5, {0x30, 0, 0xb, 0, 0xe, 0}},
+    {6, {0x30, 0, 0xb, 0, 0xf, 0}}, {7, {0x30, 0, 0xb, 0, 0x10, 0}}};
 const s16 gEntrySlotOffsetsX[4] = {-96, 0, 0xa0, 0x100};
 const EntryLabelTextRow *gEntryLabelTextRows;
 const u16 *gCharacterCellIndices;
@@ -249,11 +259,13 @@ void InitPlayerEntryList(void *parentHeap, void *mainOam) {
     objSizeLeft = GX_GetSizeOfOBJ();
     fileSet = &gPlayerEntryList->mParts;
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
-        LocateCellFileSet(fileSet, "mb/select_menu_etc_download_m.nce.ncgr", "mb/select_menu_etc_download_m.nce.ncer", "mb/select_menu_etc_download_m_o.NCLR",
-                          "mb/select_menu_etc_download_m.bncl", "mb/select_menu_etc_download_m.bnll", NULL, FindSceneFile);
+        LocateCellFileSet(fileSet, "mb/select_menu_etc_download_m.nce.ncgr", "mb/select_menu_etc_download_m.nce.ncer",
+                          "mb/select_menu_etc_download_m_o.NCLR", "mb/select_menu_etc_download_m.bncl",
+                          "mb/select_menu_etc_download_m.bnll", NULL, FindSceneFile);
     } else {
-        LocateCellFileSet(fileSet, "select_menu_etc_m.nce.ncgr", "select_menu_etc_m.nce.ncer", "select_menu_etc_m_o.NCLR", "select_menu_etc_m.bncl",
-                          "select_menu_etc_m.bnll", NULL, FindFileInLoadedArchives);
+        LocateCellFileSet(fileSet, "select_menu_etc_m.nce.ncgr", "select_menu_etc_m.nce.ncer",
+                          "select_menu_etc_m_o.NCLR", "select_menu_etc_m.bncl", "select_menu_etc_m.bnll", NULL,
+                          FindFileInLoadedArchives);
     }
     InitLayoutTable(gPlayerEntryList->mHeap, fileSet->mCellLayout, fileSet->mLabelLayout, &fileSet->mCellTable);
     for (entryIndex = 0; entryIndex < 8; entryIndex++) {
@@ -270,8 +282,9 @@ void InitPlayerEntryList(void *parentHeap, void *mainOam) {
     SetupInterpolation(&gPlayerEntryList->mInterpolations[2], 3, 10, 0x60, 0);
     SetupInterpolation(&gPlayerEntryList->mInterpolations[3], 3, 10, 0x40, 0);
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
-        LocateCellFileSet(&gPlayerEntryList->mTitleParts, "select_menu_etc_title_m.nce.ncgr", "select_menu_etc_title_m.nce.ncer", NULL,
-                          "select_menu_etc_title_m.bncl", NULL, NULL, FindFileInLoadedArchives);
+        LocateCellFileSet(&gPlayerEntryList->mTitleParts, "select_menu_etc_title_m.nce.ncgr",
+                          "select_menu_etc_title_m.nce.ncer", NULL, "select_menu_etc_title_m.bncl", NULL, NULL,
+                          FindFileInLoadedArchives);
     }
     gPlayerEntryList->mSetupRequested = TRUE;
     FrmHeapShrinkInParent(gPlayerEntryList->mHeap);
@@ -379,15 +392,17 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
         reg_G2_BG0CNT = (reg_G2_BG0CNT & 0x43) | 0xd08;
         reg_G2_BG1CNT = (reg_G2_BG1CNT & 0x43) | 0xc00;
         if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
-            LocateAndQueueScreenMapFileSet(0, screenMapFileSet, "mb/select_menu_etc_download_m_b.NCGR", "mb/select_menu_etc_download_m_b.NCLR", "mb/select_menu_etc_download_m_bg_00.NSCR",
-                                           0, FindSceneFile);
-            LocateAndQueueScreenMapFileSet(0, screenMapFileSet, "mb/select_menu_etc_download_m_b.NCGR", "mb/select_menu_etc_download_m_b.NCLR", "mb/select_menu_etc_download_m_bg_01.NSCR",
-                                           1, FindSceneFile);
+            LocateAndQueueScreenMapFileSet(0, screenMapFileSet, "mb/select_menu_etc_download_m_b.NCGR",
+                                           "mb/select_menu_etc_download_m_b.NCLR",
+                                           "mb/select_menu_etc_download_m_bg_00.NSCR", 0, FindSceneFile);
+            LocateAndQueueScreenMapFileSet(0, screenMapFileSet, "mb/select_menu_etc_download_m_b.NCGR",
+                                           "mb/select_menu_etc_download_m_b.NCLR",
+                                           "mb/select_menu_etc_download_m_bg_01.NSCR", 1, FindSceneFile);
         } else {
-            LocateAndQueueScreenMapFileSet(0, screenMapFileSet, "select_menu_etc_m_b.NCGR", "select_menu_etc_m_b.NCLR", "select_menu_etc_m_bg_00.NSCR",
-                                           0, FindFileInLoadedArchives);
-            LocateAndQueueScreenMapFileSet(0, screenMapFileSet, "select_menu_etc_m_b.NCGR", "select_menu_etc_m_b.NCLR", "select_menu_etc_m_bg_01.NSCR",
-                                           1, FindFileInLoadedArchives);
+            LocateAndQueueScreenMapFileSet(0, screenMapFileSet, "select_menu_etc_m_b.NCGR", "select_menu_etc_m_b.NCLR",
+                                           "select_menu_etc_m_bg_00.NSCR", 0, FindFileInLoadedArchives);
+            LocateAndQueueScreenMapFileSet(0, screenMapFileSet, "select_menu_etc_m_b.NCGR", "select_menu_etc_m_b.NCLR",
+                                           "select_menu_etc_m_bg_01.NSCR", 1, FindFileInLoadedArchives);
         }
     } else if (gPlayerEntryList->mScreenKind == PLAYER_ENTRY_LIST_KART) {
         SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[3], 0);
@@ -628,7 +643,7 @@ void WritePlayerEntryListRegisters(void) {
         displayBits |= 2;
     }
     reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | (displayBits << 8);
-    GX_SetGraphicsMode(1, 0, bg0As);
+    GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, bg0As);
     if (gPlayerEntryList->mScreenKind == PLAYER_ENTRY_LIST_RACE_RULE) {
         reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffff1fff) | 0x6000;
         reg_G2_WININ = (u32) ((reg_G2_WININ & ~0x3f) | 0x1d) | 0x20;

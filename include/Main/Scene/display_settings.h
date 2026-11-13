@@ -1,6 +1,18 @@
 #pragma once
 
 #include "types.h"
+#include "gx.h"
+
+// Values of Bg23Cnt.mMode, the kind of background 2 or 3: a tile map, an affine map, an affine map without a
+// character base, a 256-colour bitmap, a direct-colour bitmap. NONE leaves the register alone (large bitmap mode).
+typedef enum {
+    BG23_MODE_TEXT = 1,
+    BG23_MODE_AFFINE,
+    BG23_MODE_AFFINE_NO_CHAR_BASE,
+    BG23_MODE_256_BMP,
+    BG23_MODE_DC_BMP,
+    BG23_MODE_NONE
+} Bg23Mode;
 
 // Halfwords of Bg23Cnt after the mode.
 typedef struct Bg23CntFields {
@@ -63,7 +75,6 @@ typedef struct BrightnessFade {
     /* 08 */ s16 mBrightness;
     /* 0a */ u16 mUnk_0a;
 } BrightnessFade;
-
 
 u32 AreBrightnessFadesClear(void);
 void SetBrightnessFadesClear(void);

@@ -26,9 +26,9 @@ void WriteVsSelectCharacterRegisters(void) {
     screenChanged = GetMenuScreenSwitched();
     if (screenChanged != 0) {
         VsSelectGX_SetVisiblePlane(0xb);
-        GX_SetGraphicsMode(1, 0, 1);
+        GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_3D);
         VsSelectGXS_SetVisiblePlane(8);
-        GXS_SetGraphicsMode(0);
+        GXS_SetGraphicsMode(GX_BGMODE_0);
     }
     VsSelectGXS_SetVisiblePlane(0x12);
     WriteSelectCharacterRegisters();
@@ -60,7 +60,7 @@ void WriteVsSelectKartRegisters(void) {
     screenChanged = GetMenuScreenSwitched();
     if (screenChanged != 0) {
         VsSelectGX_SetVisiblePlane(0xb);
-        GX_SetGraphicsMode(1, 0, 1);
+        GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_3D);
     }
     VsSelectGXS_SetVisiblePlane(0x12);
     WriteSelectKartRegisters();
@@ -89,7 +89,7 @@ void WriteVsSelectRaceRuleRegisters(void) {
     screenChanged = GetMenuScreenSwitched();
     if (screenChanged != 0) {
         VsSelectGXS_SetVisiblePlane(0x1f);
-        GXS_SetGraphicsMode(0);
+        GXS_SetGraphicsMode(GX_BGMODE_0);
     }
     WriteSelectRaceRuleRegisters();
 }
@@ -124,14 +124,14 @@ void WriteVsSelectCupGridRegisters(void) {
         flag = VsSelectCupMB_IsMultiBootChildWrapper();
         if (flag == 0) {
             VsSelectGX_SetVisiblePlane(0x19);
-            GX_SetGraphicsMode(1, 0, 0);
+            GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
             VsSelectGXS_SetVisiblePlane(0x16);
-            GXS_SetGraphicsMode(0);
+            GXS_SetGraphicsMode(GX_BGMODE_0);
         } else {
             VsSelectGX_SetVisiblePlane(0x18);
-            GX_SetGraphicsMode(1, 0, 0);
+            GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
             VsSelectGXS_SetVisiblePlane(0x12);
-            GXS_SetGraphicsMode(0);
+            GXS_SetGraphicsMode(GX_BGMODE_0);
         }
     }
     WriteSelectCupGridRegisters();
@@ -183,14 +183,14 @@ void WriteVsSelectCupCourseRegisters(void) {
         flag = VsSelectCupMB_IsMultiBootChildWrapper();
         if (flag == 0) {
             VsSelectGX_SetVisiblePlane(0x19);
-            GX_SetGraphicsMode(1, 0, 0);
+            GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
             VsSelectGXS_SetVisiblePlane(0x1e);
-            GXS_SetGraphicsMode(0);
+            GXS_SetGraphicsMode(GX_BGMODE_0);
         } else {
             VsSelectGX_SetVisiblePlane(0x1c);
-            GX_SetGraphicsMode(1, 0, 0);
+            GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
             VsSelectGXS_SetVisiblePlane(0x12);
-            GXS_SetGraphicsMode(0);
+            GXS_SetGraphicsMode(GX_BGMODE_0);
         }
     }
     WriteSelectCupCourseBgOffsets();
@@ -251,14 +251,14 @@ void WriteVsSelectCupMRegisters(void) {
         flag = VsSelectCupMB_IsMultiBootChildWrapper();
         if (flag == 0) {
             VsSelectGX_SetVisiblePlane(0x19);
-            GX_SetGraphicsMode(1, 0, 0);
+            GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
             VsSelectGXS_SetVisiblePlane(0x1e);
-            GXS_SetGraphicsMode(0);
+            GXS_SetGraphicsMode(GX_BGMODE_0);
         } else {
             VsSelectGX_SetVisiblePlane(0x18);
-            GX_SetGraphicsMode(1, 0, 0);
+            GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
             VsSelectGXS_SetVisiblePlane(0x12);
-            GXS_SetGraphicsMode(0);
+            GXS_SetGraphicsMode(GX_BGMODE_0);
         }
     }
     WriteSelectCupMBgOffsets();

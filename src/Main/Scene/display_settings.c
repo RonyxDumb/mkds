@@ -31,9 +31,9 @@ void InitDisplaySettingsDesc(DisplaySettingsDesc *p0) {
     p0->mUnk_00[1] = 0x0u;
     p0->mUnk_00[2] = 0x0u;
     p0->mUnk_00[3] = 0x1u;
-    p0->mMainBgMode = 0x0u;
+    p0->mMainBgMode = GX_BGMODE_0;
     p0->mUnk_0a = 0x0u;
-    p0->mSubBgMode = 0x0u;
+    p0->mSubBgMode = GX_BGMODE_0;
     p0->mUnk_0e[0] = 0x0u;
     p0->mUnk_0e[1] = 0x0u;
     p0->mUnk_0e[2] = 0x0u;
@@ -61,7 +61,7 @@ void UpdateBrightnessFade(BrightnessFade *fade) {
             } else {
                 fade->mBrightness = 0x10 - (fade->mFadeFrames << 4) / fade->mFadeFrameCount;
             }
-            if (fade->mPositive == 0) {
+            if (fade->mPositive == FALSE) {
                 fade->mBrightness = -fade->mBrightness;
             }
             break;
@@ -76,7 +76,7 @@ void UpdateBrightnessFade(BrightnessFade *fade) {
             } else {
                 fade->mBrightness = (fade->mFadeFrames << 4) / fade->mFadeFrameCount;
             }
-            if (fade->mPositive == 0) {
+            if (fade->mPositive == FALSE) {
                 fade->mBrightness = -fade->mBrightness;
             }
             break;
@@ -85,12 +85,12 @@ void UpdateBrightnessFade(BrightnessFade *fade) {
 
 void InitBrightnessFades(void) {
     gMainBrightnessFade.mState = BRIGHTNESS_FADE_FADED;
-    gMainBrightnessFade.mPositive = 1;
+    gMainBrightnessFade.mPositive = TRUE;
     gMainBrightnessFade.mFadeFrames = 0;
     gMainBrightnessFade.mFadeFrameCount = 0;
     gMainBrightnessFade.mBrightness = 0x10;
     gSubBrightnessFade.mState = BRIGHTNESS_FADE_FADED;
-    gSubBrightnessFade.mPositive = 1;
+    gSubBrightnessFade.mPositive = TRUE;
     gSubBrightnessFade.mFadeFrames = 0;
     gSubBrightnessFade.mFadeFrameCount = 0;
     gSubBrightnessFade.mBrightness = 0x10;
@@ -120,26 +120,26 @@ void InitDisplayBgRecords(DisplayBgRecords *records, u32 bgMode) {
     records->mBg1.mBgCntVal8 = 0;
     records->mBg1.mBgCntVal2 = 0;
     records->mBg1.mBgCntVal13 = 0;
-    bgCntMode = 6;
+    bgCntMode = BG23_MODE_NONE;
     switch (bgMode) {
-        case 0:
-        case 1:
-        case 3:
-            bgCntMode = 1;
+        case GX_BGMODE_0:
+        case GX_BGMODE_1:
+        case GX_BGMODE_3:
+            bgCntMode = BG23_MODE_TEXT;
             break;
-        case 2:
-        case 4:
-            bgCntMode = 2;
+        case GX_BGMODE_2:
+        case GX_BGMODE_4:
+            bgCntMode = BG23_MODE_AFFINE;
             break;
-        case 5:
-            bgCntMode = 3;
+        case GX_BGMODE_5:
+            bgCntMode = BG23_MODE_AFFINE_NO_CHAR_BASE;
             break;
-        case 6:
+        case GX_BGMODE_6:
             break;
     }
     records->mBg2.mMode = bgCntMode;
     switch (bgCntMode) {
-        case 1:
+        case BG23_MODE_TEXT:
             records->mBg2.mFields.mBgCntLow2 = 2;
             records->mBg2.mFields.mBgCntVal14 = 0;
             records->mBg2.mFields.mBgCntVal7Or13 = 0;
@@ -147,7 +147,7 @@ void InitDisplayBgRecords(DisplayBgRecords *records, u32 bgMode) {
             records->mBg2.mFields.mBgCntVal8 = 0;
             records->mBg2.mFields.mBgCntVal2 = 0;
             break;
-        case 2:
+        case BG23_MODE_AFFINE:
             records->mBg2.mFields.mBgCntLow2 = 2;
             records->mBg2.mFields.mBgCntVal14 = 0;
             records->mBg2.mFields.mBgCntBit6 = 0;
@@ -155,7 +155,7 @@ void InitDisplayBgRecords(DisplayBgRecords *records, u32 bgMode) {
             records->mBg2.mFields.mBgCntVal8 = 0;
             records->mBg2.mFields.mBgCntVal2 = 0;
             break;
-        case 3:
+        case BG23_MODE_AFFINE_NO_CHAR_BASE:
             records->mBg2.mFields.mBgCntLow2 = 2;
             records->mBg2.mFields.mBgCntBit6 = 0;
             records->mBg2.mFields.mBgCntVal14 = 0;
@@ -163,26 +163,26 @@ void InitDisplayBgRecords(DisplayBgRecords *records, u32 bgMode) {
             records->mBg2.mFields.mBgCntVal8 = 0;
             break;
     }
-    bgCntMode = 6;
+    bgCntMode = BG23_MODE_NONE;
     switch (bgMode) {
-        case 0:
-            bgCntMode = 1;
+        case GX_BGMODE_0:
+            bgCntMode = BG23_MODE_TEXT;
             break;
-        case 1:
-        case 2:
-            bgCntMode = 2;
+        case GX_BGMODE_1:
+        case GX_BGMODE_2:
+            bgCntMode = BG23_MODE_AFFINE;
             break;
-        case 3:
-        case 4:
-        case 5:
-            bgCntMode = 3;
+        case GX_BGMODE_3:
+        case GX_BGMODE_4:
+        case GX_BGMODE_5:
+            bgCntMode = BG23_MODE_AFFINE_NO_CHAR_BASE;
             break;
-        case 6:
+        case GX_BGMODE_6:
             break;
     }
     records->mBg3.mMode = bgCntMode;
     switch (bgCntMode) {
-        case 1:
+        case BG23_MODE_TEXT:
             records->mBg3.mFields.mBgCntLow2 = 2;
             records->mBg3.mFields.mBgCntVal14 = 0;
             records->mBg3.mFields.mBgCntVal7Or13 = 0;
@@ -190,7 +190,7 @@ void InitDisplayBgRecords(DisplayBgRecords *records, u32 bgMode) {
             records->mBg3.mFields.mBgCntVal8 = 0;
             records->mBg3.mFields.mBgCntVal2 = 0;
             break;
-        case 2:
+        case BG23_MODE_AFFINE:
             records->mBg3.mFields.mBgCntLow2 = 2;
             records->mBg3.mFields.mBgCntVal14 = 0;
             records->mBg3.mFields.mBgCntBit6 = 0;
@@ -198,7 +198,7 @@ void InitDisplayBgRecords(DisplayBgRecords *records, u32 bgMode) {
             records->mBg3.mFields.mBgCntVal8 = 0;
             records->mBg3.mFields.mBgCntVal2 = 0;
             break;
-        case 3:
+        case BG23_MODE_AFFINE_NO_CHAR_BASE:
             records->mBg3.mFields.mBgCntLow2 = 2;
             records->mBg3.mFields.mBgCntBit6 = 0;
             records->mBg3.mFields.mBgCntVal14 = 0;
@@ -230,7 +230,7 @@ DisplaySettings *CreateDisplaySettings(void *heap, void *descriptor) {
     DisplaySettings *settings = HeapAlloc(heap, 0xdc);
     G3xParams *g3xParams;
     InitDisplaySettings(settings, descriptor);
-    if (settings->mBg0As == 1) {
+    if (settings->mBg0As == GX_BG0_AS_3D) {
         g3xParams = HeapAlloc(heap, 8);
         g3xParams->mClearColor = 0x5000;
         g3xParams->mSwapBit0 = 1;
@@ -284,7 +284,7 @@ void SetBg3RecordParams(DisplayBgRecords *records, u32 cntLow2, u32 cntBit6, u32
 
 void SetBg2RecordMode5(DisplayBgRecords *records, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7Or13,
                        u32 cntVal8) {
-    records->mBg2.mMode = 5;
+    records->mBg2.mMode = BG23_MODE_DC_BMP;
     records->mBg2.mFields.mBgCntLow2 = cntLow2;
     records->mBg2.mFields.mBgCntBit6 = cntBit6;
     records->mBg2.mFields.mBgCntVal14 = cntVal14;
@@ -394,7 +394,7 @@ void ApplyBg2Cnt(Bg23Cnt *cnt, s32 isMainScreen) {
     matrix[3] = 0x1000;
     fields = &cnt->mFields;
     switch (cnt->mMode) {
-        case 1:
+        case BG23_MODE_TEXT:
             if (isMainScreen != 0) {
                 reg_G2_BG2OFS = 0;
                 SetBg2PriorityAndMosaic(&reg_G2_BG2CNT, fields);
@@ -409,7 +409,7 @@ void ApplyBg2Cnt(Bg23Cnt *cnt, s32 isMainScreen) {
                                   (Unk0203810c_Arg) fields->mBgCntVal2);
             }
             break;
-        case 2:
+        case BG23_MODE_AFFINE:
             if (isMainScreen != 0) {
                 G2x_SetBGyAffine_(&reg_G2_BG2PA, matrix, 0, 0, 0, 0);
                 SetBg2PriorityAndMosaic(&reg_G2_BG2CNT, fields);
@@ -424,7 +424,7 @@ void ApplyBg2Cnt(Bg23Cnt *cnt, s32 isMainScreen) {
                                     (Unk0203810c_Arg) fields->mBgCntVal7Or13);
             }
             break;
-        case 3:
+        case BG23_MODE_AFFINE_NO_CHAR_BASE:
             if (isMainScreen != 0) {
                 G2x_SetBGyAffine_(&reg_G2_BG2PA, matrix, 0, 0, 0, 0);
                 SetBg2PriorityAndMosaic(&reg_G2_BG2CNT, fields);
@@ -439,7 +439,7 @@ void ApplyBg2Cnt(Bg23Cnt *cnt, s32 isMainScreen) {
                                              (Unk0203810c_Arg) fields->mBgCntVal8);
             }
             break;
-        case 4:
+        case BG23_MODE_256_BMP:
             if (isMainScreen != 0) {
                 G2x_SetBGyAffine_(&reg_G2_BG2PA, matrix, 0, 0, 0, 0);
                 SetBg2PriorityAndMosaic(&reg_G2_BG2CNT, fields);
@@ -452,7 +452,7 @@ void ApplyBg2Cnt(Bg23Cnt *cnt, s32 isMainScreen) {
                                     (Unk0203810c_Arg) fields->mBgCntVal7Or13, (Unk0203810c_Arg) fields->mBgCntVal8);
             }
             break;
-        case 5:
+        case BG23_MODE_DC_BMP:
             if (isMainScreen != 0) {
                 G2x_SetBGyAffine_(&reg_G2_BG2PA, matrix, 0, 0, 0, 0);
                 SetBg2PriorityAndMosaic(&reg_G2_BG2CNT, fields);
@@ -480,7 +480,7 @@ void ApplyBg3Cnt(Bg23Cnt *cnt, s32 isMainScreen) {
     matrix[3] = 0x1000;
     fields = &cnt->mFields;
     switch (cnt->mMode) {
-        case 1:
+        case BG23_MODE_TEXT:
             if (isMainScreen != 0) {
                 reg_G2_BG3OFS = 0;
                 SetBg3PriorityAndMosaic(&reg_G2_BG3CNT, fields);
@@ -495,7 +495,7 @@ void ApplyBg3Cnt(Bg23Cnt *cnt, s32 isMainScreen) {
                                   (Unk0203810c_Arg) fields->mBgCntVal2);
             }
             break;
-        case 2:
+        case BG23_MODE_AFFINE:
             if (isMainScreen != 0) {
                 G2x_SetBGyAffine_(&reg_G2_BG3PA, matrix, 0, 0, 0, 0);
                 SetBg3PriorityAndMosaic(&reg_G2_BG3CNT, fields);
@@ -510,7 +510,7 @@ void ApplyBg3Cnt(Bg23Cnt *cnt, s32 isMainScreen) {
                                     (Unk0203810c_Arg) fields->mBgCntVal7Or13);
             }
             break;
-        case 3:
+        case BG23_MODE_AFFINE_NO_CHAR_BASE:
             if (isMainScreen != 0) {
                 G2x_SetBGyAffine_(&reg_G2_BG3PA, matrix, 0, 0, 0, 0);
                 SetBg3PriorityAndMosaic(&reg_G2_BG3CNT, fields);
@@ -525,7 +525,7 @@ void ApplyBg3Cnt(Bg23Cnt *cnt, s32 isMainScreen) {
                                              (Unk0203810c_Arg) fields->mBgCntVal8);
             }
             break;
-        case 4:
+        case BG23_MODE_256_BMP:
             if (isMainScreen != 0) {
                 G2x_SetBGyAffine_(&reg_G2_BG3PA, matrix, 0, 0, 0, 0);
                 SetBg3PriorityAndMosaic(&reg_G2_BG3CNT, fields);
@@ -538,7 +538,7 @@ void ApplyBg3Cnt(Bg23Cnt *cnt, s32 isMainScreen) {
                                     (Unk0203810c_Arg) fields->mBgCntVal7Or13, (Unk0203810c_Arg) fields->mBgCntVal8);
             }
             break;
-        case 5:
+        case BG23_MODE_DC_BMP:
             if (isMainScreen != 0) {
                 G2x_SetBGyAffine_(&reg_G2_BG3PA, matrix, 0, 0, 0, 0);
                 SetBg3PriorityAndMosaic(&reg_G2_BG3CNT, fields);
@@ -650,7 +650,7 @@ void InitDisplayFromSettings(DisplaySettings *settings) {
     reg_GX_DISPCNT = (reg_GX_DISPCNT & ~0x1f00) | (settings->mMainDisplayMask << 8);
     GXS_SetGraphicsMode(settings->mSubBgMode);
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | (settings->mSubDisplayMask << 8);
-    if (settings->mBg0As == 1) {
+    if (settings->mBg0As == GX_BG0_AS_3D) {
         G3X_Init();
         G3X_InitTable();
         G3X_InitMtxStack();
@@ -664,10 +664,10 @@ void InitDisplayFromSettings(DisplaySettings *settings) {
         clearColor = settings->mG3xParams->mClearColor;
         G3X_SetClearColor((u16) (clearColor & 0x7fff), (u8) ((clearColor & 0x8000) >> 15), 0x7fff, 0x3f, 0);
     }
-    if (settings->mMainDisplayMask & 1) {
+    if (settings->mMainDisplayMask & GX_PLANEMASK_BG0) {
         cnt = &settings->mMainBgRecords.mBg0;
         SetBg01PriorityAndMosaic(&reg_G2_BG0CNT, cnt);
-        if (settings->mBg0As == 1) {
+        if (settings->mBg0As == GX_BG0_AS_3D) {
             G2Bg0OfsWrite(0);
         } else {
             reg_G2_BG0OFS = 0;
@@ -676,7 +676,7 @@ void InitDisplayFromSettings(DisplaySettings *settings) {
                            (Unk02037abc_Arg) cnt->mBgCntVal13);
         }
     }
-    if (settings->mSubDisplayMask & 1) {
+    if (settings->mSubDisplayMask & GX_PLANEMASK_BG0) {
         reg_G2S_DB_BG0OFS = 0;
         cnt = &settings->mSubBgRecords.mBg0;
         SetBg01PriorityAndMosaic(&reg_G2S_DB_BG0CNT, cnt);
@@ -684,7 +684,7 @@ void InitDisplayFromSettings(DisplaySettings *settings) {
                        (Unk02037abc_Arg) cnt->mBgCntVal8, (Unk02037abc_Arg) cnt->mBgCntVal2,
                        (Unk02037abc_Arg) cnt->mBgCntVal13);
     }
-    if (settings->mMainDisplayMask & 2) {
+    if (settings->mMainDisplayMask & GX_PLANEMASK_BG1) {
         reg_G2_BG1OFS = 0;
         cnt = &settings->mMainBgRecords.mBg1;
         SetBg01PriorityAndMosaic(&reg_G2_BG1CNT, cnt);
@@ -692,7 +692,7 @@ void InitDisplayFromSettings(DisplaySettings *settings) {
                        (Unk02037abc_Arg) cnt->mBgCntVal8, (Unk02037abc_Arg) cnt->mBgCntVal2,
                        (Unk02037abc_Arg) cnt->mBgCntVal13);
     }
-    if (settings->mSubDisplayMask & 2) {
+    if (settings->mSubDisplayMask & GX_PLANEMASK_BG1) {
         reg_G2S_DB_BG1OFS = 0;
         cnt = &settings->mSubBgRecords.mBg1;
         SetBg01PriorityAndMosaic(&reg_G2S_DB_BG1CNT, cnt);
@@ -700,23 +700,23 @@ void InitDisplayFromSettings(DisplaySettings *settings) {
                        (Unk02037abc_Arg) cnt->mBgCntVal8, (Unk02037abc_Arg) cnt->mBgCntVal2,
                        (Unk02037abc_Arg) cnt->mBgCntVal13);
     }
-    if (settings->mMainDisplayMask & 4) {
+    if (settings->mMainDisplayMask & GX_PLANEMASK_BG2) {
         ApplyBg2Cnt(&settings->mMainBgRecords.mBg2, 1);
     }
-    if (settings->mSubDisplayMask & 4) {
+    if (settings->mSubDisplayMask & GX_PLANEMASK_BG2) {
         ApplyBg2Cnt(&settings->mSubBgRecords.mBg2, 0);
     }
-    if (settings->mMainDisplayMask & 8) {
+    if (settings->mMainDisplayMask & GX_PLANEMASK_BG3) {
         ApplyBg3Cnt(&settings->mMainBgRecords.mBg3, 1);
     }
-    if (settings->mSubDisplayMask & 8) {
+    if (settings->mSubDisplayMask & GX_PLANEMASK_BG3) {
         ApplyBg3Cnt(&settings->mSubBgRecords.mBg3, 0);
     }
-    if (settings->mMainDisplayMask & 0x10) {
+    if (settings->mMainDisplayMask & GX_PLANEMASK_OBJ) {
         SetDispcntObjVRamModeChar(&reg_GX_DISPCNT, (Unk02037abc_Arg) settings->mMainBgRecords.mObjVRamModeChar);
         DisplayGX_SetOBJVRamModeBmp((Unk02037abc_Arg) settings->mMainBgRecords.mObjVRamModeBmp);
     }
-    if (settings->mSubDisplayMask & 0x10) {
+    if (settings->mSubDisplayMask & GX_PLANEMASK_OBJ) {
         SetDispcntObjVRamModeChar(&reg_GXS_DB_DISPCNT, (Unk02037abc_Arg) settings->mSubBgRecords.mObjVRamModeChar);
         DisplayGXS_SetOBJVRamModeBmp((Unk02037abc_Arg) settings->mSubBgRecords.mObjVRamModeBmp);
     }
@@ -734,7 +734,7 @@ void PrepareDisplayFrame(void) {
     settings = gDisplaySettings;
     tick = OS_GetTick();
     settings->mFrameStartTick = tick;
-    if (settings->mBg0As == 1) {
+    if (settings->mBg0As == GX_BG0_AS_3D) {
         G3X_Reset();
     }
     if (gFrameCallback != NULL) {
@@ -754,10 +754,11 @@ void ClearFrameFinishedFlag(void) {
 }
 
 static inline void StartBrightnessFadeToFadedPositive(BrightnessFade *fade, s16 frameCount) {
-    if (fade->mState == BRIGHTNESS_FADE_FADED || (fade->mState == BRIGHTNESS_FADE_TO_FADED && fade->mPositive == 1)) {
+    if (fade->mState == BRIGHTNESS_FADE_FADED ||
+        (fade->mState == BRIGHTNESS_FADE_TO_FADED && fade->mPositive == TRUE)) {
         return;
     }
-    fade->mPositive = 1;
+    fade->mPositive = TRUE;
     if (fade->mState != BRIGHTNESS_FADE_TO_CLEAR) {
         fade->mFadeFrames = 0;
     } else {
@@ -768,10 +769,11 @@ static inline void StartBrightnessFadeToFadedPositive(BrightnessFade *fade, s16 
 }
 
 static inline void StartBrightnessFadeToFadedNegative(BrightnessFade *fade, s16 frameCount) {
-    if (fade->mState == BRIGHTNESS_FADE_FADED || (fade->mState == BRIGHTNESS_FADE_TO_FADED && fade->mPositive == 0)) {
+    if (fade->mState == BRIGHTNESS_FADE_FADED ||
+        (fade->mState == BRIGHTNESS_FADE_TO_FADED && fade->mPositive == FALSE)) {
         return;
     }
-    fade->mPositive = 0;
+    fade->mPositive = FALSE;
     if (fade->mState != BRIGHTNESS_FADE_TO_CLEAR) {
         fade->mFadeFrames = 0;
     } else {
@@ -785,7 +787,7 @@ static inline void StartBrightnessFadeToClearNegative(BrightnessFade *fade, s16 
     if (fade->mState == BRIGHTNESS_FADE_CLEAR || fade->mState == BRIGHTNESS_FADE_TO_CLEAR) {
         return;
     }
-    fade->mPositive = 0;
+    fade->mPositive = FALSE;
     if (fade->mState == BRIGHTNESS_FADE_CLEAR || fade->mState == BRIGHTNESS_FADE_TO_CLEAR) {
         return;
     }
@@ -826,7 +828,7 @@ void FinishDisplayFrame(void) {
     UpdateBrightnessFade(&gSubBrightnessFade);
     DC_StoreAll();
     settings = gDisplaySettings;
-    if (settings->mBg0As == 1) {
+    if (settings->mBg0As == GX_BG0_AS_3D) {
         reg_G3_SWAP_BUFFERS = (settings->mG3xParams->mSwapBit1 << 1) | settings->mG3xParams->mSwapBit0;
     }
     if ((gDisplaySettings->mFrameFlags & 1) == 0) {
@@ -881,7 +883,7 @@ void FinishDisplayFrameUnlessSpanned(s32 skipWhenSpanned) {
         swapAndWait = FALSE;
     }
     settings = gDisplaySettings;
-    if (settings->mBg0As == 1 && swapAndWait != FALSE) {
+    if (settings->mBg0As == GX_BG0_AS_3D && swapAndWait != FALSE) {
         reg_G3_SWAP_BUFFERS = (settings->mG3xParams->mSwapBit1 << 1) | settings->mG3xParams->mSwapBit0;
     }
     settings = gDisplaySettings;
@@ -926,7 +928,7 @@ void FinishDisplayFrameSwapIf(s32 doSwap) {
         gDisplaySettings->mFrameFlags &= ~1;
     }
     settings = gDisplaySettings;
-    if (settings->mBg0As == 1 && doSwap != 0) {
+    if (settings->mBg0As == GX_BG0_AS_3D && doSwap != 0) {
         reg_G3_SWAP_BUFFERS = (settings->mG3xParams->mSwapBit1 << 1) | settings->mG3xParams->mSwapBit0;
     }
     settings = gDisplaySettings;
@@ -1022,12 +1024,12 @@ u32 AreBrightnessFadesFaded(void) {
 
 void SetBrightnessFadesClear(void) {
     gMainBrightnessFade.mState = BRIGHTNESS_FADE_CLEAR;
-    gMainBrightnessFade.mPositive = 0;
+    gMainBrightnessFade.mPositive = FALSE;
     gMainBrightnessFade.mFadeFrames = 0;
     gMainBrightnessFade.mFadeFrameCount = 0;
     gMainBrightnessFade.mBrightness = 0;
     gSubBrightnessFade.mState = BRIGHTNESS_FADE_CLEAR;
-    gSubBrightnessFade.mPositive = 0;
+    gSubBrightnessFade.mPositive = FALSE;
     gSubBrightnessFade.mFadeFrames = 0;
     gSubBrightnessFade.mFadeFrameCount = 0;
     gSubBrightnessFade.mBrightness = 0;

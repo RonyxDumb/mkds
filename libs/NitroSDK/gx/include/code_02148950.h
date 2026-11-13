@@ -3,6 +3,7 @@
 #include "types.h"
 #include "os_thread.h"
 #include "mb_data.h"
+#include "gx.h"
 
 // Sets the display mode of the main screen (DISPCNT bits 16-17) and its background mode (bits 0-3), and saves the
 // display mode. While the display is off the mode written is 0.

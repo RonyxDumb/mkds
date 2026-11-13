@@ -17,7 +17,8 @@
 #include "Main/Net/wifi_session.h"
 #include "Main/Save/ghost_record_file.h"
 
-WiFiStateCallbacks gWiFiConnectionLostCallbacks = {InitWiFiConnectionLost, ClearWiFiConnectionLostPointer, AdvanceWiFiConnectionLost, WriteWiFiConnectionLostRegistersNop};
+WiFiStateCallbacks gWiFiConnectionLostCallbacks = {InitWiFiConnectionLost, ClearWiFiConnectionLostPointer,
+                                                   AdvanceWiFiConnectionLost, WriteWiFiConnectionLostRegistersNop};
 WiFiConnectionLost *gWiFiConnectionLost;
 
 void InitWiFiConnectionLost(void *heap) {
@@ -45,7 +46,7 @@ void AdvanceWiFiConnectionLostState0(void) {
         reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | 0x1700;
         reg_GX_DISPCNT = reg_GX_DISPCNT & 0xffff1fff;
         reg_GXS_DB_DISPCNT = reg_GXS_DB_DISPCNT & 0xffff1fff;
-        GX_SetGraphicsMode(1, 0, 1);
+        GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_3D);
         if (gMenuShared->mOtherKartCountAdded != FALSE) {
             firstBlock = gBackupBuffers->mFirstBlock;
             total = firstBlock->mTotals[5];

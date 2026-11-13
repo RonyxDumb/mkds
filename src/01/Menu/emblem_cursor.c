@@ -571,14 +571,14 @@ void InitEmblem(void) {
     gEmblem = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x10c0);
     InitDisplaySettingsDesc(&unk);
     unk.mUnk_00[3] = 1;
-    unk.mMainBgMode = 0;
+    unk.mMainBgMode = GX_BGMODE_0;
     unk.mUnk_0a = 1;
     unk.mUnk_00[1] = 0x11;
     unk.mUnk_0e[4] = 3;
     unk.mUnk_0e[5] = 0x10;
     unk.mUnk_0e[0] = 0x20;
     unk.mUnk_0e[1] = 0x40;
-    unk.mSubBgMode = 1;
+    unk.mSubBgMode = GX_BGMODE_1;
     unk.mUnk_00[2] = 0x10;
     unk.mUnk_0e[7] = 4;
     unk.mUnk_0e[8] = 8;
@@ -701,7 +701,7 @@ void UploadEmblemMainScreen(void) {
 }
 
 void UploadEmblemSubScreen(void) {
-    GXS_SetGraphicsMode(1);
+    GXS_SetGraphicsMode(GX_BGMODE_1);
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | 0x1e00;
     reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & ~3) | 1;
     reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & 0x43) | 0x8a10;
@@ -739,7 +739,7 @@ void UploadEmblemSubScreen(void) {
 }
 
 void UploadEmblemCameraSubScreen(void) {
-    GXS_SetGraphicsMode(1);
+    GXS_SetGraphicsMode(GX_BGMODE_1);
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | 0x1600;
     reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & ~3) | 3;
     reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & 0x43) | 0xe10;
@@ -1701,7 +1701,7 @@ void AdvanceEmblemDisplay(void) {
             reg_G2S_DB_BG0OFS = (-(gEmblem->mTemplateSlideOffset - 0xc0) << 16) & 0x1ff0000;
             reg_G2S_DB_BG2OFS = ((gEmblem->mBgScrollPosition >> 12) & 0x1ff) |
                                 (((-gEmblem->mBgScrollPosition >> 12) << 16) & 0x1ff0000);
-            GXS_SetGraphicsMode(1);
+            GXS_SetGraphicsMode(GX_BGMODE_1);
             reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & ~3) | 2;
             reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & 0x43) | 0x1218;
             DC_FlushRange(gEmblem->mGridCharBytes, 0x200);
@@ -1728,7 +1728,7 @@ void AdvanceEmblemDisplay(void) {
             reg_G2S_DB_BG0OFS = (-(gEmblem->mTemplateSlideOffset - 0xc0) << 16) & 0x1ff0000;
             reg_G2S_DB_BG2OFS = ((gEmblem->mBgScrollPosition >> 12) & 0x1ff) |
                                 (((-gEmblem->mBgScrollPosition >> 12) << 16) & 0x1ff0000);
-            GXS_SetGraphicsMode(0);
+            GXS_SetGraphicsMode(GX_BGMODE_0);
             reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & ~3) | 1;
             reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & 0x43) | 0x1010;
             reg_G2S_DB_BG3OFS = 0;

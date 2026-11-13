@@ -120,7 +120,7 @@ void DrawTestScene(void) {
         switch (gTestScene->mState) {
             case 0:
                 TestSceneGXS_SetVisiblePlane(1);
-                GXS_SetGraphicsMode(0);
+                GXS_SetGraphicsMode(GX_BGMODE_0);
                 WriteSubBg0Offset(0, 0);
                 WriteSubBg0CntBits(0);
                 WriteSubBg0CntBit6(0);
@@ -132,7 +132,7 @@ void DrawTestScene(void) {
             case 2:
             case 3:
                 TestSceneGXS_SetVisiblePlane(2);
-                GXS_SetGraphicsMode(0);
+                GXS_SetGraphicsMode(GX_BGMODE_0);
                 WriteSubBg1Offset(0, 0);
                 WriteSubBg1CntBits(0);
                 WriteSubBg1CntBit6(0);

@@ -42,9 +42,13 @@
 
 const u16 gCourseRowCellIndices[4] = {0, 1, 2, 3};
 const u16 gCourseTimerDigitCellIndices[10] = {5, 6, 7, 8, 9, 0xa, 0xb, 0xc, 0xd, 0xe};
-const LabelTextRow gWiFiVSCourseSelectMLabelTextRows[4] = {{0, 0xb0, 0x10, 0}, {1, 0xb0, 0x10, 1}, {2, 0xb0, 0x10, 2}, {3, 0xb0, 0x10, 3}};
-const LabelTextRow gWiFiVSCourseSelectSLabelTextRows[7] = {{0, 0xa4, 0x10, 0}, {1, 0xa4, 0x10, 1}, {2, 0xa4, 0x10, 2}, {3, 0xa4, 0x10, 3}, {4, 0xa4, 0x10, 4}, {5, 0xa4, 0x10, 5}, {6, 0xa4, 0x10, 6}};
-const s32 gCourseIdTable[20] = {0x14, 0x16, 0x1f, 0x12, 0x1b, 0x1c, 0x1e, 0x19, 0x22, 0x1d, 0xa, 0xb, 0xd, 0xe, 0x10, 9, 0x24, 0x27, 0x28, 1};
+const LabelTextRow gWiFiVSCourseSelectMLabelTextRows[4] = {
+    {0, 0xb0, 0x10, 0}, {1, 0xb0, 0x10, 1}, {2, 0xb0, 0x10, 2}, {3, 0xb0, 0x10, 3}};
+const LabelTextRow gWiFiVSCourseSelectSLabelTextRows[7] = {{0, 0xa4, 0x10, 0}, {1, 0xa4, 0x10, 1}, {2, 0xa4, 0x10, 2},
+                                                           {3, 0xa4, 0x10, 3}, {4, 0xa4, 0x10, 4}, {5, 0xa4, 0x10, 5},
+                                                           {6, 0xa4, 0x10, 6}};
+const s32 gCourseIdTable[20] = {0x14, 0x16, 0x1f, 0x12, 0x1b, 0x1c, 0x1e, 0x19, 0x22, 0x1d,
+                                0xa,  0xb,  0xd,  0xe,  0x10, 9,    0x24, 0x27, 0x28, 1};
 struct WiFiVSCourseSelect *gWiFiVSCourseSelect;
 
 #pragma thumb on
@@ -326,13 +330,13 @@ void InitWiFiVSCourseSelect(void *parentHeap, void *mainOam, void *subOam) {
     SetupInterpolation(&gWiFiVSCourseSelect->mInterpolations[0], 0, 10, -0xc0, 0);
     SetupInterpolation(&gWiFiVSCourseSelect->mInterpolations[2], 0, 10, 0x40, 0);
     reg_G2_BG0CNT = (reg_G2_BG0CNT & 0x43) | 0xc00;
-    LocateAndQueueScreenMapFileSet(0, gWiFiVSCourseSelect, "WiFi_VS_course_select_m_b.NCGR", "WiFi_VS_course_select_m_b.NCLR",
-                                   "WiFi_VS_course_select_m.NSCR", 0, FindSceneFile);
+    LocateAndQueueScreenMapFileSet(0, gWiFiVSCourseSelect, "WiFi_VS_course_select_m_b.NCGR",
+                                   "WiFi_VS_course_select_m_b.NCLR", "WiFi_VS_course_select_m.NSCR", 0, FindSceneFile);
     mainFileSet = &gWiFiVSCourseSelect->mWiFiVSCourseSelectMParts;
     objSizeLeft = GX_GetSizeOfOBJ();
     LocateCellFileSet(mainFileSet, "WiFi_VS_course_select_m.nce.ncgr", "WiFi_VS_course_select_m.nce.ncer",
-                      "WiFi_VS_course_select_m_o.NCLR", "WiFi_VS_course_select_m.bncl", "WiFi_VS_course_select_m.bnll", NULL,
-                      FindSceneFile);
+                      "WiFi_VS_course_select_m_o.NCLR", "WiFi_VS_course_select_m.bncl", "WiFi_VS_course_select_m.bnll",
+                      NULL, FindSceneFile);
     SetupCellFileSet(0, gWiFiVSCourseSelect->mHeap, mainFileSet);
     value = mainFileSet->mCellLayout->mCount;
     for (index = 0; index < value; index++) {
@@ -498,7 +502,7 @@ void ReleaseWiFiVSCourseSelect(void) {
 void WriteWiFiVSCourseSelectRegisters(void) {
     s32 window0V;
 
-    GX_SetGraphicsMode(1, 0, 0);
+    GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | 0x1a00;
     reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & ~3) | 2;
     reg_G2_BG0OFS = (-GetInterpolatedValue(&gWiFiVSCourseSelect->mInterpolations[1]) << 16) & 0x1ff0000;

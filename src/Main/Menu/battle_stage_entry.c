@@ -12,9 +12,9 @@
 void WriteBattleStageScreenRegisters(void) {
     if (GetMenuScreenSwitched() != 0) {
         BattleGX_SetVisiblePlane(0x1e);
-        GX_SetGraphicsMode(1, 0, 0);
+        GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
         BattleGXS_SetVisiblePlane(0x1f);
-        GXS_SetGraphicsMode(0);
+        GXS_SetGraphicsMode(GX_BGMODE_0);
     }
     WriteSelectBattleStageRegisters();
 }
