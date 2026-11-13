@@ -17,7 +17,7 @@ typedef struct MatchingSendHeader {
     /* 08 */ u8 mCommand;
     /* 09 */ u8 mValuesSize;
     /* 0a */ u16 mPort;
-    /* 0c */ void *mAddress;
+    /* 0c */ u32 mAddress;
     /* 10 */ u32 mProfileId;
 } MatchingSendHeader;
 

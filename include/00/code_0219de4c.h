@@ -27,7 +27,7 @@ typedef struct WiFiMatching {
     /* 018 */ u8 mQr2ShutdownPending;
     /* 019 */ u8 mUnk_19;
     /* 01a */ u16 mOwnPort;
-    /* 01c */ void *mOwnAddress;
+    /* 01c */ u32 mOwnAddress;
     /* 020 */ u32 mMresvProfileId;
     // Address each participant's commands are sent to; mParticipantCommandPorts holds the matching ports.
     /* 024 */ u32 mParticipantCommandAddresses[32];
@@ -108,4 +108,4 @@ typedef struct WiFiMatching {
     /* 460 */ u32 mEvalCallbackArg;
 } WiFiMatching;
 
-void DWCi_QR2PublicAddrCallback(void *address, u16 port);
+void DWCi_QR2PublicAddrCallback(u32 address, u16 port, void *userData);

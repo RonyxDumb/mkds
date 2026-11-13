@@ -112,6 +112,6 @@ void qr2_send_statechanged(QueryRecord *qrec);
 void qr2_check_send_heartbeat(QueryRecord *qrec);
 void qr2_check_queries(QueryRecord *qrec);
 void qr2_think(QueryRecord *qrec);
-void qr2_register_publicaddress_callback(void *qrec, void (*pacallback)(void *, u16));
+void qr2_register_publicaddress_callback(QueryRecord *qrec, Unk021a4a08Funca8 pacallback);
 void qr2_register_clientmessage_callback(QueryRecord *qrec, UnkFunc *cmcallback);
 void qr2_register_natneg_callback(QueryRecord *qrec, UnkFunc *nncallback);

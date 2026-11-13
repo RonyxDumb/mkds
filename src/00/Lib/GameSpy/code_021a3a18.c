@@ -110,11 +110,11 @@ void qr2_register_clientmessage_callback(QueryRecord *qrec, UnkFunc *cmcallback)
     qrec->mClientMessageCallback = cmcallback;
 }
 
-void qr2_register_publicaddress_callback(void *qrec, void (*pacallback)(void *, u16)) {
+void qr2_register_publicaddress_callback(QueryRecord *qrec, Unk021a4a08Funca8 pacallback) {
     if (qrec == NULL) {
         qrec = gCurrentQr2Rec;
     }
-    *(void (**)(void *, u16))((u8 *) qrec + 0xa8) = pacallback;
+    qrec->mPublicAddressCallback = pacallback;
 }
 
 void qr2_think(QueryRecord *qrec) {

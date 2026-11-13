@@ -241,7 +241,7 @@ void DWCi_MatchInit(WiFiMatching *wiFiMatching, GpConnection *gpConnection, void
     gWiFiMatching->mConnectionSocket = connectionSocket;
     gWiFiMatching->mConnectionCallbacks = connectionCallbacks;
     gWiFiMatching->mQr2 = NULL;
-    gWiFiMatching->mOwnAddress = NULL;
+    gWiFiMatching->mOwnAddress = 0;
     gWiFiMatching->mOwnPort = 0;
     gWiFiMatching->mServerList = NULL;
     gWiFiMatching->mState = 0;
@@ -293,7 +293,7 @@ u32 DWCi_QR2Startup(u32 profileId) {
         }
         attempt++;
     } while (attempt < 5);
-    gWiFiMatching->mOwnAddress = NULL;
+    gWiFiMatching->mOwnAddress = 0;
     gWiFiMatching->mOwnPort = 0;
     qr2_register_publicaddress_callback(gWiFiMatching->mQr2, DWCi_QR2PublicAddrCallback);
     qr2_register_natneg_callback(gWiFiMatching->mQr2, DWCi_QR2NatnegCallback);
@@ -1490,7 +1490,7 @@ s32 DWCi_ProcessRecvMatchCommand(s32 command, u32 profileId, u32 address, u16 po
                     sendValues[valueIndex] = gWiFiMatching->mParticipantProfileIds[valueIndex];
                 }
                 latestMatching = gWiFiMatching;
-                sendValues[valueIndex++] = (u32) latestMatching->mOwnAddress;
+                sendValues[valueIndex++] = latestMatching->mOwnAddress;
                 sendValues[valueIndex++] = latestMatching->mOwnPort;
                 latestMatching->mState = 11;
             }
@@ -1793,7 +1793,7 @@ s32 DWCi_CheckResvCommand(s32 profileId, u32 senderMode, s32 priorFlag) {
                     qr2_send_statechanged(gWiFiMatching->mQr2);
                 }
             } else if ((gWiFiMatching->mState != 3 && gWiFiMatching->mState != 4) ||
-                       (gWiFiMatching->mOwnAddress == NULL && gWiFiMatching->mOwnPort == 0)) {
+                       (gWiFiMatching->mOwnAddress == 0 && gWiFiMatching->mOwnPort == 0)) {
                 reply = 4;
             } else if (gWiFiMatching->mReplyProfileId != 0) {
                 if (gWiFiMatching->mReplyProfileId == profileId) {
@@ -1824,7 +1824,7 @@ s32 DWCi_CheckResvCommand(s32 profileId, u32 senderMode, s32 priorFlag) {
             } else if (gOptSCBlock.mValid == 1 && gOptSCBlock.mLock == 1) {
                 reply = 0x13;
             } else if (gWiFiMatching->mState != 10 ||
-                       (gWiFiMatching->mOwnAddress == NULL && gWiFiMatching->mOwnPort == 0)) {
+                       (gWiFiMatching->mOwnAddress == 0 && gWiFiMatching->mOwnPort == 0)) {
                 reply = 4;
             } else {
                 reply = 2;
@@ -1910,7 +1910,7 @@ u32 DWCi_SendResvCommand(u32 profileId, s32 delay) {
             gWiFiMatching->mParticipantProfileIds[0] = profileId;
         }
         gWiFiMatching->mReplyProfileId = profileId;
-        words[1] = (u32) gWiFiMatching->mOwnAddress;
+        words[1] = gWiFiMatching->mOwnAddress;
         words[2] = gWiFiMatching->mOwnPort;
         wordCount = 3;
     }
@@ -3194,9 +3194,8 @@ void DWCi_SBCallback(MatchingServerList *list, s32 event, s32 server) {
                         do {
                             listedServer = ServerBrowserGetServer(list, serverIndex);
                             wiFiMatching = gWiFiMatching;
-                            if (wiFiMatching->mOwnAddress != NULL &&
-                                wiFiMatching->mOwnAddress ==
-                                    (void *) SBServerGetPublicInetAddress((u32 *) listedServer) &&
+                            if (wiFiMatching->mOwnAddress != 0 &&
+                                wiFiMatching->mOwnAddress == SBServerGetPublicInetAddress((u32 *) listedServer) &&
                                 wiFiMatching->mOwnPort != 0 &&
                                 gWiFiMatching->mOwnPort == SBServerGetPublicQueryPort(listedServer)) {
                                 break;
@@ -3407,7 +3406,7 @@ u32 DWCi_QR2AddErrorCallback(u32 error) {
     return DWCi_HandleQR2Error(error);
 }
 
-void DWCi_QR2PublicAddrCallback(void *address, u16 port) {
+void DWCi_QR2PublicAddrCallback(u32 address, u16 port, void *userData) {
     gWiFiMatching->mOwnAddress = address;
     gWiFiMatching->mOwnPort = port;
 }
