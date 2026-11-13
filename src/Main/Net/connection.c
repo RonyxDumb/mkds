@@ -33,6 +33,7 @@
 #include "wm_etc.h"
 #include "code_0214d018.h"
 #include "Main/Race/race_progress_rank.h"
+#include "Main/Save/ghost_record_file.h"
 
 void ResetConnection(void) {
     ScanParam *scanParams;

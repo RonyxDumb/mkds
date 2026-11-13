@@ -30,6 +30,7 @@
 #include "Main/Net/pending_files.h"
 #include "Main/Race/kart.h"
 #include "Main/Menu/menu_shared_clear.h"
+#include "Main/Save/ghost_record_file.h"
 
 const u8 gCupRankTable[8] = {0, 1, 2, 3, 3, 3, 3, 3};
 

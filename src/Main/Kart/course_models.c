@@ -27,6 +27,7 @@
 #include "Main/Graphics/nsbmd_render_obj.h"
 #include "fx_mtx43.h"
 #include "Main/Kart/kart_call.h"
+#include "Main/Save/ghost_record_file.h"
 
 char gCourseModelNsbtpName[20] = "/course_model.nsbtp";
 Vec3s16 gKoopaCourseLight2Vector = {0, -4095, 0};

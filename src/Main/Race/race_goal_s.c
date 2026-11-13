@@ -27,6 +27,7 @@
 #include "Main/System/heap_call.h"
 #include "Main/System/file_in_loaded.h"
 #include "Main/Race/race_goal_s_rows.h"
+#include "Main/Save/ghost_record_file.h"
 
 // Object not known yet; it only sets the order of the tables below
 u8 data_020c214c_pad[12];

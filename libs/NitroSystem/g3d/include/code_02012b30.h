@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Kart/data_02161000.h"
 
 // Four words of a 2x2 matrix.
 typedef struct MtxFx22 {
@@ -170,3 +171,9 @@ void NNS_G3dMdlSetMdlSpec(NNSG3dResMdl *mdl, u32 matId, u32 color);
 void NNS_G3dMdlSetMdlAmb(NNSG3dResMdl *mdl, u32 matId, u32 color);
 void NNS_G3dMdlSetMdlDiff(NNSG3dResMdl *mdl, u32 matId, u32 color);
 NNSG3dResTex *NNS_G3dGetTex(NNSG3dResFileHeader *file);
+
+extern u32 gPrjMapTexImageParamCommand[2];
+extern u32 gEnvMapTexImageParamCommand[2];
+extern void (*NNS_G3dFuncSbcMatTable[4])(NNSG3dRS *, u32, void *, u32);
+extern void (*NNS_G3dFuncSbcShpTable[4])(NNSG3dRS *, u32, void *, u32);
+extern s32 gPrjMapTextureMtx[16];

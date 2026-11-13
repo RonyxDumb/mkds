@@ -4,6 +4,7 @@
 #include "gfd_LinkedListPlttVramMan.h"
 #include "mic.h"
 #include "gfd_LinkedListTexVramMan.h"
+#include "gfd_FrameTexVramMan.h"
 
 NNSGfdFrmPlttVramManager s_managerState_;
 
@@ -11,8 +12,8 @@ void NNS_GfdInitFrmPlttVramManager(u32 szByte, s32 useAsDefault) {
     s_managerState_.mSzTotal = szByte;
     NNS_GfdResetFrmPlttVramState();
     if (useAsDefault != 0) {
-        data_021619f4 = (u32(*)(s32, s32, s32)) NNS_GfdAllocFrmPlttVram;
-        data_021619f8 = NNS_GfdFreeFrmPlttVram;
+        NNS_GfdDefaultFuncAllocPlttVram = (u32(*)(s32, s32, s32)) NNS_GfdAllocFrmPlttVram;
+        NNS_GfdDefaultFuncFreePlttVram = NNS_GfdFreeFrmPlttVram;
     }
 }
 

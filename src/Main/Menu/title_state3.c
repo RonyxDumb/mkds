@@ -6,6 +6,7 @@
 #include "Main/Graphics/oam.h"
 #include "Main/Graphics/layout_entry_angle.h"
 #include "Main/MapObjects/data_0217b000.h"
+#include "Main/Save/ghost_record_file.h"
 
 u32 HasPlayerName(void) {
     return gBackupBuffers->mFirstBlock->mHasPlayerName != 0;

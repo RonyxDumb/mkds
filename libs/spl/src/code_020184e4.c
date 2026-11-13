@@ -16,6 +16,7 @@
 #include "registers.h"
 #include "code_0201c4e8.h"
 #include "code_0201c528.h"
+#include "gfd_FrameTexVramMan.h"
 
 u32 gSplRandomState;
 void (*gSplPlaneDrawFunctions[2])(u32 texCoordU, u32 texCoordV, s32 centerA, s32 centerB) = {SPLUtil_DrawXYPlane,
@@ -2034,7 +2035,7 @@ u32 SPLUtil_AllocTextureVRAM(s32 size, s32 is4x4) {
 }
 
 u32 SPLUtil_AllocPaletteVRAM(s32 size, s32 is4Pltt) {
-    return (data_021619f4(size, is4Pltt, 0) & 0xffff) << 3;
+    return (NNS_GfdDefaultFuncAllocPlttVram(size, is4Pltt, 0) & 0xffff) << 3;
 }
 
 SPLManager *SPLManager_New(void *(*alloc)(u32 size), u16 maxEmitters, u16 maxParticles, s32 fixPolyId, u16 minPolyId,

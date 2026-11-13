@@ -12,6 +12,7 @@
 #include "Main/MapObjects/data_0217a000.h"
 #include "code_0214d018.h"
 #include "dwc_account.h"
+#include "Main/Save/ghost_record_file.h"
 
 #pragma thumb on
 

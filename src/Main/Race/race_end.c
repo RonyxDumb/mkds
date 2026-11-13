@@ -36,6 +36,7 @@
 #include "Main/Race/race_clock.h"
 #include "Main/Kart/karts.h"
 #include "Main/Sound/sound_system.h"
+#include "Main/Save/ghost_record_file.h"
 
 RaceEnd *gRaceEnd;
 

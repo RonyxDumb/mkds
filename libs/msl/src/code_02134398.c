@@ -215,7 +215,7 @@ int memcmp(const void *left, const void *right, u32 count) {
 #include "code_02139f70.h"
 
 int mbtowc(u16 *dst, const char *src, u32 maxBytes) {
-    return data_0216eccc.mFunctions->mMbtowc(dst, src, maxBytes);
+    return gCharConversion.mFunctions->mMbtowc(dst, src, maxBytes);
 }
 
 int MbtowcSingleByte(u16 *dst, const char *src, u32 maxBytes) {
@@ -243,7 +243,7 @@ int WctombSingleByte(char *dst, u16 wideChar) {
 }
 
 int wctomb(char *dst, u16 wideChar) {
-    return data_0216eccc.mFunctions->mWctomb(dst, wideChar);
+    return gCharConversion.mFunctions->mWctomb(dst, wideChar);
 }
 
 int mbstowcs(u16 *dst, const char *src, u32 count) {

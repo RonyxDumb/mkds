@@ -32,6 +32,7 @@
 #include "01/Menu/record_time_attack.h"
 #include "01/Menu/code_02196d58.h"
 #include "Main/Sound/sound_system.h"
+#include "Main/Save/ghost_record_file.h"
 
 RecordList *gRecordList;
 RecordVS *gRecordVS;

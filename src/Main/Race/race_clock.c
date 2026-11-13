@@ -4,6 +4,7 @@
 #include "Main/System/key_recording_read.h"
 #include "Main/System/key_recording_start.h"
 #include "Main/Menu/data_02175628.h"
+#include "Main/Save/ghost_record_file.h"
 
 void StartRaceClock(void) {
     gRaceProgress->mHeader.mClockEnabled = 1;

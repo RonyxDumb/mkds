@@ -16,6 +16,7 @@
 #include "pm.h"
 #include "Main/Sound/sound_seq.h"
 #include "dwc_account.h"
+#include "Main/Save/ghost_record_file.h"
 
 #pragma thumb on
 

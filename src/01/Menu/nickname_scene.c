@@ -14,6 +14,7 @@
 #include "01/unk_021a6000.h"
 #include "Main/Save/backup_first_block_write_wrapper.h"
 #include "code_0214d018.h"
+#include "Main/Save/ghost_record_file.h"
 
 NicknameScene *gNicknameScene;
 

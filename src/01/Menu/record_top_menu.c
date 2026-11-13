@@ -25,6 +25,7 @@
 #include "registers.h"
 #include "Main/Sound/data_0216c000.h"
 #include "Main/Sound/sound_system.h"
+#include "Main/Save/ghost_record_file.h"
 
 const u16 gRecordTopMenuGradeSTableIndices[3] = {2, 3, 4};
 const u16 gRecordTopMenuRowCellIndices[3] = {9, 0xa, 0xb};

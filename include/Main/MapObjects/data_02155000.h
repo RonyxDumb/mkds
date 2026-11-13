@@ -52,15 +52,7 @@ static inline const StemSetParams *GetCountStartStem(u32 setIndex) {
     return &gCountStartStems[setIndex];
 }
 
-extern const StemSetParams gGoalStems;
-
-extern const StemSetParams gWinStems;
-
-extern const StemSetParams gLoseStems;
-
-extern const StemSetParams gCompleteStems;
-
-extern const StemSetParams gFailedStems;
+extern const u32 data_02155a54;
 
 extern const Vec3 data_usa_021557c4;
 

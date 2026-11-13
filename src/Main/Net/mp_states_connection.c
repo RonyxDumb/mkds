@@ -7,6 +7,7 @@
 #include "Main/Menu/select_race_rule_state.h"
 #include "Main/MapObjects/data_0217a000.h"
 #include "os_tick.h"
+#include "Main/Save/ghost_record_file.h"
 
 #pragma opt_rebuildconditionals off
 

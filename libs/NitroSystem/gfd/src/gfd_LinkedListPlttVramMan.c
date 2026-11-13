@@ -15,8 +15,8 @@ void NNS_GfdInitLnkPlttVramManager(u32 szByte, void *pManagementWork, u32 szByte
     gPlttVramManager.mSzByteManagementWork = szByteManagementWork;
     NNS_GfdResetLnkPlttVramState();
     if (useAsDefault != 0) {
-        data_021619f4 = (u32(*)(s32, s32, s32)) NNS_GfdAllocLnkPlttVram;
-        data_021619f8 = NNS_GfdFreeLnkPlttVram;
+        NNS_GfdDefaultFuncAllocPlttVram = (u32(*)(s32, s32, s32)) NNS_GfdAllocLnkPlttVram;
+        NNS_GfdDefaultFuncFreePlttVram = NNS_GfdFreeLnkPlttVram;
     }
 }
 

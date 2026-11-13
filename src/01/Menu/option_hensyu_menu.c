@@ -14,6 +14,7 @@
 #include "Main/Graphics/layout_rect_table.h"
 #include "g2.h"
 #include "Main/Menu/menu_shared_clear.h"
+#include "Main/Save/ghost_record_file.h"
 
 const u8 gOptionHensyuMenuSTableIndices[2] = {4, 5};
 const u8 gOptionHensyuMenuXluCellIndices[2] = {0, 1};

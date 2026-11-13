@@ -11,6 +11,7 @@
 #include "g2.h"
 #include "02/unk_02180500.h"
 #include "Main/Menu/menu_shared_clear.h"
+#include "Main/Save/ghost_record_file.h"
 
 const s32 gOptionEmbremSelectCellCounts[2] = {1, 2};
 const s32 gOptionEmbremSelectSTableCounts[2] = {4, 0xb};

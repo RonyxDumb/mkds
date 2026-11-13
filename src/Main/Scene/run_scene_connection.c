@@ -30,6 +30,7 @@
 #include "01/Menu/code_02196d58.h"
 #include "Main/Graphics/font_and_player_character.h"
 #include "Main/System/startup.h"
+#include "Main/Save/ghost_record_file.h"
 
 #pragma opt_rebuildconditionals off
 

@@ -53,6 +53,7 @@
 #include "Main/MapObjects/water.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 #include "Main/MapObjects/data_0217a000.h"
+#include "Main/Save/ghost_record_file.h"
 
 u16 gMapObjectLastPolygonId;
 u16 gWrappingPolygonIdBase;

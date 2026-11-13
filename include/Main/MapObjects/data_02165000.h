@@ -41,9 +41,6 @@ typedef struct BattleKartAiParams {
     /* 1a */ s16 mInflateBalloonsLeftLimit;
 } BattleKartAiParams;
 
-extern const s32 data_02166048;
-
-extern const Vec3 data_0216608c;
 
 // Three words.
 typedef struct KartFollowEffectIds {

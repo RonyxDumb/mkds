@@ -15,6 +15,7 @@
 #include "Main/System/heap.h"
 #include "Main/Menu/menu_shared_clear.h"
 #include "Main/Net/wifi_session.h"
+#include "Main/Save/ghost_record_file.h"
 
 WiFiStateCallbacks gWiFiConnectionLostCallbacks = {InitWiFiConnectionLost, ClearWiFiConnectionLostPointer, AdvanceWiFiConnectionLost, WriteWiFiConnectionLostRegistersNop};
 WiFiConnectionLost *gWiFiConnectionLost;

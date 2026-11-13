@@ -36,6 +36,7 @@
 #include "fx_mtx43.h"
 #include "registers.h"
 #include "Main/Kart/camera.h"
+#include "Main/Save/ghost_record_file.h"
 
 #pragma thumb on
 

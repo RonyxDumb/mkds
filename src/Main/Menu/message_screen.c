@@ -50,6 +50,7 @@
 #include "gx.h"
 #include "Main/Menu/select_race_rule_state.h"
 #include "Main/Menu/menu_shared_clear.h"
+#include "Main/Save/ghost_record_file.h"
 
 #pragma thumb on
 

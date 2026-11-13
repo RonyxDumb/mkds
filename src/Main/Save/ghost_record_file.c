@@ -4,6 +4,13 @@
 
 #pragma thumb on
 
+CupRecords *gCupRecords;
+BackupBuffers *gBackupBuffers;
+ThreadFunctionQueue *gThreadFunctionQueue;
+OverlayLoader *gOverlayLoader;
+WiFiRaceSync *gWiFiRaceSync;
+ParticipantKartMap *gParticipantKartMap;
+
 SlotGhostRecord *LoadGhostRecordFile(const char *path) {
     int result;
     result = ReadWholeFile(path, gBackupBuffers->mSlotGhostRecords[1], (0x00001000u));

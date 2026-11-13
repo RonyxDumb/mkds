@@ -24,6 +24,7 @@
 #include "code_0214d018.h"
 #include "code_021522a0.h"
 #include "Main/Net/wifi_session.h"
+#include "Main/Save/ghost_record_file.h"
 
 void WiFiRaceSyncReceiveCallback(u32 fromIndex, void *message, u32 size) {
     if (gWiFiSession->mStateMachine.mState != 5) {

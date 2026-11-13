@@ -38,6 +38,7 @@
 #include "Main/Kart/karts.h"
 #include "registers.h"
 #include "Main/Race/gp_records_killer.h"
+#include "Main/Save/ghost_record_file.h"
 
 u8 gPosStripFirstPolygonId = 0xe;
 u8 gPosStripAlphaDecreasePerFrame = 3;

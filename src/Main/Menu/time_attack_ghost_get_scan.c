@@ -88,6 +88,7 @@
 #include "Main/Menu/time_attack_ghost_get_names_e.h"
 #include "Main/Menu/time_attack_ghost_get_names_c.h"
 #include "Main/Menu/time_attack_ghost_get_names_f.h"
+#include "Main/Save/ghost_record_file.h"
 
 #pragma thumb on
 

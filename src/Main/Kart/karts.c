@@ -99,6 +99,7 @@
 #include "Main/Sound/sound_system.h"
 #include "Main/Menu/menu_shared_clear.h"
 #include "Main/Graphics/nsbmd_draw.h"
+#include "Main/Save/ghost_record_file.h"
 
 u16 gKartCount;
 u16 gKillerItemKartIndex;

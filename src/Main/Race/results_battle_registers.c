@@ -72,6 +72,7 @@
 #include "Main/Sound/sound_system.h"
 #include "Main/Menu/menu_shared_clear.h"
 #include "Main/Scene/display_settings_descs.h"
+#include "Main/Save/ghost_record_file.h"
 
 const u16 gResultsBattleSubLabelCanvasEntries[16][4] = {
     {0, 0x30, 0x10, 0},     {1, 0x30, 0x10, 1},     {2, 0x30, 0x10, 2},     {3, 0x30, 0x10, 3},

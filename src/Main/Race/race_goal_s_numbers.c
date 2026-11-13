@@ -16,6 +16,7 @@
 #include "code_0212df7c.h"
 #include "Main/Race/race_clock.h"
 #include "Main/Sound/sound_system.h"
+#include "Main/Save/ghost_record_file.h"
 
 RaceGoalS *gRaceGoalS;
 

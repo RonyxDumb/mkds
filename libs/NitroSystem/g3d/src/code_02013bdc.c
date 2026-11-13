@@ -7,6 +7,14 @@
 #include "unk_02152000_data.h"
 #include "Main/Kart/data_02161000.h"
 #include "data_02170000.h"
+#include "ITCM/code_01ff8000.h"
+#include "code_02010c84.h"
+
+void (*NNS_G3dFuncSbcTable[32])(NNSG3dRS *, u32) = {NNSi_G3dFuncSbc_NOP, NNSi_G3dFuncSbc_RET, NNSi_G3dFuncSbc_NODE, NNSi_G3dFuncSbc_MTX, NNSi_G3dFuncSbc_MAT, NNSi_G3dFuncSbc_SHP, NNSi_G3dFuncSbc_NODEDESC, NNSi_G3dFuncSbc_BB, NNSi_G3dFuncSbc_BBY, (void (*)(NNSG3dRS *, u32)) NNSi_G3dFuncSbc_NODEMIX, (void (*)(NNSG3dRS *, u32)) NNSi_G3dFuncSbc_CALLDL, NNSi_G3dFuncSbc_POSSCALE, (void (*)(NNSG3dRS *, u32)) NNSi_G3dFuncSbc_ENVMAP, (void (*)(NNSG3dRS *, u32)) NNSi_G3dFuncSbc_PRJMAP, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
+#pragma explicit_zero_data on
+Vec3 gSbcBillboardYScale = {0, 0, 0};
+Vec3 gSbcBillboardYPosition = {0, 0, 0};
+#pragma explicit_zero_data off
 
 const u8 gRotPivotIndices[9][4] = {
     {4, 5, 7, 8}, {3, 5, 6, 8}, {3, 4, 6, 7}, {1, 2, 7, 8}, {0, 2, 6, 8},

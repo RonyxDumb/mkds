@@ -48,6 +48,7 @@
 #include "Main/Graphics/oam_upload.h"
 #include "Main/Sound/seq_queue.h"
 #include "Main/Sound/sound_system.h"
+#include "Main/Save/ghost_record_file.h"
 
 Emblem *gEmblem;
 

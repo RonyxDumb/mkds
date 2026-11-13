@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "Main/MapObjects/data_0217b000.h"
+#include "Main/MapObjects/data_02155000.h"
 
 typedef struct TimedQuad TimedQuad;
 
@@ -21,3 +22,5 @@ extern struct StemSets *gStemSets;
 extern void (*const gTimedQuadStartFunctions[1])(TimedQuad *a);
 extern void (*const gTimedQuadUpdateFunctions[1])(TimedQuad *a);
 extern const u16 gTimedQuadVertices[12];
+
+extern const StemSetParams gCountStartStems[3];

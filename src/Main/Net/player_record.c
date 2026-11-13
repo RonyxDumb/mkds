@@ -9,6 +9,7 @@
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "00/unk_021b5000.h"
 #include "00/Lib/DWC/code_021a2ccc.h"
+#include "Main/Save/ghost_record_file.h"
 
 DWCAccFriendData *GetPlayerRecordFriendData(u32 index) {
     return &gWiFiSession->mPlayerRecords[index].mPlayer.mFriendData;

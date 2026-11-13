@@ -35,3 +35,15 @@ char *FormatDoubleHex(double v, char *end, FormatSpec spec);
 char *FormatInt64(u64 value, char *end, FormatSpec spec);
 char *FormatInt32(unsigned long value, char *end, FormatSpec spec);
 const char *FormatParseSpec(const char *format, char **argList, FormatSpec *buf);
+
+extern char gLocaleEmptyString[];
+extern char gLocaleTimeFormatHMS[];
+extern char gLocaleAmPmNames[];
+extern char gLocaleDateFormat[];
+extern char gLocaleTime12Format[];
+extern char gLocaleDateTimeFormat[];
+extern char gLocaleDayNames[];
+extern char gLocaleMonthNames[];
+extern u16 gLocaleNameOffsets[58];
+extern void *gLocaleCharInfo[4];
+extern const char *gLocaleTimeStrings[8];

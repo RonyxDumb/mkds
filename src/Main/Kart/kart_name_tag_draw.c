@@ -33,6 +33,7 @@
 #include "Main/Race/race.h"
 #include "registers.h"
 #include "Main/Graphics/model_animation_looping.h"
+#include "gfd_FrameTexVramMan.h"
 
 const char gKartEmblemTextureName[16] = "kart_emblem";
 const u16 gKartPaletteColors[8] = {0x280, 0x7d48, 0x35f, 0x1f, 0x48cc, 0x7ac0, 0x11be, 0x6c1b};
@@ -468,7 +469,7 @@ void UploadTextureAndPalette(TexPlttEntry *texPlttEntry) {
     GX_EndLoadTex();
     texPlttEntry->mTexImageParam = texPlttEntry->mTexImageParam | (texOffset >> 3 & 0xffff);
     if (texPlttEntry->mPlttByteCount != 0) {
-        texPlttEntry->mPlttOffset = (data_021619f4(texPlttEntry->mPlttByteCount, texFormatBits == 2, 0) & 0xffff) << 3;
+        texPlttEntry->mPlttOffset = (NNS_GfdDefaultFuncAllocPlttVram(texPlttEntry->mPlttByteCount, texFormatBits == 2, 0) & 0xffff) << 3;
         GX_BeginLoadTexPltt();
         GX_LoadTexPltt(texPlttEntry->mPlttData, texPlttEntry->mPlttOffset, texPlttEntry->mPlttByteCount);
         GX_EndLoadTexPltt();

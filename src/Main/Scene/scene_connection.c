@@ -28,6 +28,7 @@
 #include "registers.h"
 #include "code_0200fe74.h"
 #include "Main/System/startup.h"
+#include "Main/Save/ghost_record_file.h"
 
 #pragma opt_rebuildconditionals off
 

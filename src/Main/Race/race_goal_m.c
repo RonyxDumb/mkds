@@ -60,6 +60,7 @@
 #include "registers.h"
 #include "code_02147cd8.h"
 #include "Main/Sound/sound_system.h"
+#include "Main/Save/ghost_record_file.h"
 
 const Vec3 gVec3Zero = {0, 0, 0};
 struct RaceTaPositions *gRaceTaPositions;

@@ -19,6 +19,7 @@
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/MapObjects/view_frustum.h"
 #include "Main/Item/item_f_box_park.h"
+#include "Main/Save/ghost_record_file.h"
 
 const u16 gItemBombExcludedUntilCourseHitBit = 0x2000;
 const u8 gItemBombVec3UnitY[12] = {0, 0, 0, 0, 0, 0x10, 0, 0, 0, 0, 0, 0};

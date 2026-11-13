@@ -15,6 +15,7 @@
 #include "code_02142eac.h"
 #include "code_0214d018.h"
 #include "Main/Menu/select_race_rule_state.h"
+#include "Main/Save/ghost_record_file.h"
 
 static inline u32 ScanGetConnectionMode(void) {
     if (gConnectionWork == NULL) {

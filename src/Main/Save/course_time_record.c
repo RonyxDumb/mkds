@@ -2,6 +2,7 @@
 #include "Main/MapObjects/data_0217a000.h"
 #include "code_0214d018.h"
 #include "Main/Menu/second_menu_scene.h"
+#include "Main/Save/ghost_record_file.h"
 
 #pragma thumb on
 

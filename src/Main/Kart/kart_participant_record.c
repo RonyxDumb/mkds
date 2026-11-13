@@ -107,6 +107,7 @@
 #include "Main/MapObjects/data_0206b000.h"
 #include "Main/Sound/sound_system.h"
 #include "Main/Kart/code_02066ac0.h"
+#include "Main/Save/ghost_record_file.h"
 
 const u32 gKartSurfaceKind1Effects[8] = {0, 0, 0, 4, 0, 0, 0, 0};
 const u32 gKartSurfaceStopEffects[8] = {0, 0, 0, 0, 0, 0, 0, 0};

@@ -21,6 +21,7 @@
 #include "code_020172d0.h"
 #include "registers.h"
 #include "Main/Kart/kart_ai_item_throw.h"
+#include "Main/Save/ghost_record_file.h"
 
 char gRaceEffectSpaName[15] = "RaceEffect.spa";
 char gRaceEffectFogOffSpaName[29] = "/effect/RaceEffectFogOff.spa";

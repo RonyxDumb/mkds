@@ -19,6 +19,8 @@
 #include "registers.h"
 #include "gecom.h"
 #include "code_02148950.h"
+#include "code_02013bdc.h"
+#include "code_02012b30.h"
 
 void NNS_G3dGeSetBuffer(GxCommandBuffer *commandBuffer) {
     if (NNS_G3dGeBuffer == 0) {

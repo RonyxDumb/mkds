@@ -30,6 +30,7 @@
 #include "Main/Kart/kart_effects.h"
 #include "Main/Graphics/nsbmd_draw.h"
 #include "Main/Graphics/res_file_entries_reset.h"
+#include "gfd_FrameTexVramMan.h"
 
 const Vec3 gKartEffectVec3UnitY = {0, 0x1000, 0};
 const Vec3 gKartEffectVec3Zero = {0, 0, 0};
@@ -95,7 +96,7 @@ u32 UploadResTexture(NNSG3dResTex *texture) {
             tex4x4Value = 0;
         }
         if (plttValue != 0) {
-            plttValue = data_021619f4(plttValue, texture->mTex4x4Info.mFlag & 0x8000, 0);
+            plttValue = NNS_GfdDefaultFuncAllocPlttVram(plttValue, texture->mTex4x4Info.mFlag & 0x8000, 0);
             if (plttValue == 0) {
                 plttOk = 0;
             }
@@ -103,7 +104,7 @@ u32 UploadResTexture(NNSG3dResTex *texture) {
             plttValue = 0;
         }
         if (texOk == 0 || tex4x4Ok == 0 || plttOk == 0) {
-            data_021619f8(plttValue);
+            NNS_GfdDefaultFuncFreePlttVram(plttValue);
             NNS_GfdDefaultFuncFreeTexVram(tex4x4Value);
             NNS_GfdDefaultFuncFreeTexVram(texValue);
             return 0;

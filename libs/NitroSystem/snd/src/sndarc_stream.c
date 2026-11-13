@@ -18,6 +18,7 @@
 #include "code_0212f788.h"
 #include "Main/Net/data_0217e000.h"
 #include "unk_02152000_data.h"
+#include "code_020218f4.h"
 
 NNSSndStrmThread *sPrepareThread;
 NNSFndList sFreeCommandList;
@@ -47,8 +48,8 @@ void NNSi_SndArcStrmMain(void) {
         }
         if (strmSlot->mPlayFlag) {
             NNSi_SndFaderUpdate(&strmSlot->mFader);
-            initVolume = data_02152ce4[strmSlot->mInitVolume];
-            mixedLevel = data_02152ce4[NNSi_SndFaderGet(&strmSlot->mFader) >> 8];
+            initVolume = gVolumeDecibelTable[strmSlot->mInitVolume];
+            mixedLevel = gVolumeDecibelTable[NNSi_SndFaderGet(&strmSlot->mFader) >> 8];
             mixedLevel += initVolume;
             if (mixedLevel != strmSlot->mVolume) {
                 NNS_SndStrmSetVolume(&strmSlot->mStream, mixedLevel);

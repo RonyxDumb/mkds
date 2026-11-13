@@ -24,6 +24,7 @@
 #include "code_02147cd8.h"
 #include "Main/Kart/karts.h"
 #include "Main/Graphics/model_effects.h"
+#include "Main/Save/ghost_record_file.h"
 
 AwardFirstEffectIds gAwardFirstEffectIds = {{0x87, 0x82}};
 Vec3 gStadiumEmitterDirectionOrigin = {-348160, 0x67000, 0x2e000};

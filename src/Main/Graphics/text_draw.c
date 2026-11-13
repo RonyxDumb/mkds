@@ -15,6 +15,7 @@
 #include "01/code_021a5140.h"
 #include "code_0214d018.h"
 #include "registers.h"
+#include "Main/Save/ghost_record_file.h"
 
 #pragma thumb on
 

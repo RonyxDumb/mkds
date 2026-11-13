@@ -2,6 +2,7 @@
 #include "Main/Save/backup_first_block.h"
 #include "01/Menu/record_time_attack.h"
 #include "01/Menu/code_02196d58.h"
+#include "Main/Save/ghost_record_file.h"
 
 #pragma thumb on
 

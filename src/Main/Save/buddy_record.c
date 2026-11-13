@@ -14,6 +14,7 @@
 #include "00/Menu/wi_fi_vs_matching.h"
 #include "00/Lib/DWC/dwc_friend.h"
 #include "Main/Net/wifi_session.h"
+#include "Main/Save/ghost_record_file.h"
 
 static inline s32 TryGetFilledTimeRecord(s32 courseId, s32 recordIndex, TimeRecord *timeRecord) {
     BOOL isFilled;

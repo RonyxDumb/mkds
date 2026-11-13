@@ -35,10 +35,13 @@
 #include "fx_mtx43.h"
 #include "Main/Graphics/data_02087000.h"
 #include "Main/Graphics/emitters.h"
+#include "Main/Graphics/stem_names.h"
+
+const StemSetParams gCountStartStems[3] = {{1, 1, 1, 2, {gStemNameCount, gStemNameCountD}}, {1, 1, 1, 0, {gStemNameStart, NULL}}, {0, 0, 0, 0, {gStemNameEmpty, NULL}}};
 
 const u16 gTimedQuadVertices[12] = {0xf000, 0x1000, 0, 0xf000, 0xf000, 0, 0x1000, 0xf000, 0, 0x1000, 0x1000, 0};
-void (*const gTimedQuadStartFunctions[1])(TimedQuad *a) = {StartTimedQuad};
 void (*const gTimedQuadUpdateFunctions[1])(TimedQuad *a) = {UpdateTimedQuad};
+void (*const gTimedQuadStartFunctions[1])(TimedQuad *a) = {StartTimedQuad};
 StemSets *gStemSets;
 
 void InitStemSets(void *heap) {
@@ -261,8 +264,8 @@ void DrawStemSets(void) {
         baseTranslation->x = 0;
         baseTranslation->y = 0;
         baseTranslation->z = 0;
-        baseScale = data_0216608c;
-        baseTransform.mRows[3].y = data_02166048;
+        baseScale = gStemBaseScale;
+        baseTransform.mRows[3].y = gStemBaseTranslationY;
         if (gStemSets->mShownIndex == 2) {
             baseTransform.mRows[3].y = 0x50000;
         }

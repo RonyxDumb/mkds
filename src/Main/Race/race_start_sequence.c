@@ -32,6 +32,7 @@
 #include "Main/System/heap_call.h"
 #include "Main/Race/race_clock.h"
 #include "Main/Race/data_0217b358.h"
+#include "Main/Save/ghost_record_file.h"
 
 RaceStartSequence *gRaceStartSequence;
 

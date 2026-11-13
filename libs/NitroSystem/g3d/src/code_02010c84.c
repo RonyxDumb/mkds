@@ -15,6 +15,10 @@
 #include "registers.h"
 #include "fx_mtx44.h"
 #include "code_02013bdc.h"
+#include "gecom.h"
+#include "res_struct_accessor.h"
+#include "code_02013740.h"
+#include "res_struct_accessor_anm.h"
 
 NNSG3dRS *NNS_G3dRS = NULL;
 NNSG3dRSOnGlb NNS_G3dRSOnGlb;
@@ -131,8 +135,8 @@ void NNSi_G3dFuncSbc_BB(NNSG3dRS *state, u32 mode) {
     MtxFx44 camMtx;
     u32 timing;
     u32 commandSize = 2;
-    Vec3 *pos = &data_0216190c;
-    Vec3 *scaleVec = &data_02161918;
+    Vec3 *pos = &gSbcBillboardPosition;
+    Vec3 *scaleVec = &gSbcBillboardScale;
 
     if (state->mFlag & 0x200) {
         if (mode == 0x40 || mode == 0x60) {
@@ -222,8 +226,8 @@ void NNSi_G3dFuncSbc_BBY(NNSG3dRS *state, u32 mode) {
     MtxFx44 camMtx;
     u32 timing;
     u32 commandSize = 2;
-    Vec3 *pos = &data_02161954;
-    Vec3 *scaleVec = &data_02161960;
+    Vec3 *pos = &gSbcBillboardYPosition;
+    Vec3 *scaleVec = &gSbcBillboardYScale;
     Vec3 *axes = data_02161930;
 
     if (state->mFlag & 0x200) {
@@ -451,8 +455,8 @@ void NNSi_G3dFuncSbc_ENVMAP(NNSG3dRS *state) {
         if ((state->mMatAnmResult->mPrmTexImage & 0xc0000000) != 0x80000000) {
             state->mMatAnmResult->mPrmTexImage &= ~0xc0000000;
             state->mMatAnmResult->mPrmTexImage |= 0x80000000;
-            data_02161874[1] = state->mMatAnmResult->mPrmTexImage;
-            NNS_G3dGeBufferOP_N(data_02161874[0], &data_02161874[1], 1);
+            gEnvMapTexImageParamCommand[1] = state->mMatAnmResult->mPrmTexImage;
+            NNS_G3dGeBufferOP_N(gEnvMapTexImageParamCommand[0], &gEnvMapTexImageParamCommand[1], 1);
         }
         texMode = 3;
         NNS_G3dGeBufferOP_N(0x10, &texMode, 1);
@@ -541,8 +545,8 @@ void NNSi_G3dFuncSbc_PRJMAP(NNSG3dRS *state) {
         if ((state->mMatAnmResult->mPrmTexImage & 0xc0000000) != 0xc0000000) {
             state->mMatAnmResult->mPrmTexImage &= ~0xc0000000;
             state->mMatAnmResult->mPrmTexImage |= 0xc0000000;
-            data_0216186c[1] = state->mMatAnmResult->mPrmTexImage;
-            NNS_G3dGeBufferOP_N(data_0216186c[0], &data_0216186c[1], 1);
+            gPrjMapTexImageParamCommand[1] = state->mMatAnmResult->mPrmTexImage;
+            NNS_G3dGeBufferOP_N(gPrjMapTexImageParamCommand[0], &gPrjMapTexImageParamCommand[1], 1);
         }
         if (state->mCbVecFunc[13] != 0) {
             timing = state->mCbVecTiming[13];
@@ -551,11 +555,11 @@ void NNSi_G3dFuncSbc_PRJMAP(NNSG3dRS *state) {
         }
         height = state->mMatAnmResult->mOrigHeight;
         width = state->mMatAnmResult->mOrigWidth;
-        data_0216189c[0] = width << 15;
-        data_0216189c[5] = -height << 15;
-        data_0216189c[12] = width << 15;
-        data_0216189c[13] = height << 15;
-        NNS_G3dGeBufferOP_N(0x16, data_0216189c, 0x10);
+        gPrjMapTextureMtx[0] = width << 15;
+        gPrjMapTextureMtx[5] = -height << 15;
+        gPrjMapTextureMtx[12] = width << 15;
+        gPrjMapTextureMtx[13] = height << 15;
+        NNS_G3dGeBufferOP_N(0x16, gPrjMapTextureMtx, 0x10);
         entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &state->mResMat->mDict, state->mResMat->mDict.mOfsEntry);
         matData =
             OFFSET_PTR(NNSG3dResMatData, state->mResMat, *(u32 *) (entries->mData + entries->mSizeUnit * state->mC[1]));

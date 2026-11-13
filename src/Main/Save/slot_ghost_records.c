@@ -6,6 +6,7 @@
 #include "01/Menu/record_time_attack.h"
 #include "01/Menu/code_02196d58.h"
 #include "Main/MapObjects/data_0217a000.h"
+#include "Main/Save/ghost_record_file.h"
 
 GhostListEntry *CreateSlotGhostRecords(void *heap) {
     return HeapAlloc(heap, 0x15e0u);

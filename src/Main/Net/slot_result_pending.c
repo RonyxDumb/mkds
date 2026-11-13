@@ -6,6 +6,7 @@
 #include "Main/MapObjects/data_0217a000.h"
 #include "00/Lib/DWC/code_0219b1f8.h"
 #include "code_0214d018.h"
+#include "Main/Save/ghost_record_file.h"
 
 void AddItemData(u32 itemKind, u32 messageKind, void *data, u8 size) {
     ItemDataSlot *slot;

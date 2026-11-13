@@ -15,6 +15,7 @@
 #include "code_02004dc0.h"
 #include "code_020176c0.h"
 #include "frameheap.h"
+#include "Main/Save/ghost_record_file.h"
 
 SceneCallbacks gResultSceneCallbacks = {InitResultScene, UpdateResultScene, ReleaseResultScene, WriteResultSceneRegistersCallback, NULL, NULL, 0xa, 0xa, 0};
 

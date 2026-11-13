@@ -14,6 +14,7 @@
 #include "Main/Race/race_checkpoint_progress.h"
 #include "Main/Kart/kart_participant_record.h"
 #include "Main/Kart/karts.h"
+#include "Main/Save/ghost_record_file.h"
 
 static inline s32 GetKartStandingRankIndexPlusOne(u32 kartIndex) {
     return GetKartStandingRankIndex(kartIndex) + 1;

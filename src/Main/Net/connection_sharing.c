@@ -23,6 +23,7 @@
 #include "Main/Sound/sound_seq.h"
 #include "code_020176c0.h"
 #include "code_0214d018.h"
+#include "Main/Save/ghost_record_file.h"
 
 #pragma opt_rebuildconditionals off
 

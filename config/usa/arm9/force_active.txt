@@ -30,3 +30,6 @@ data_usa_02175e88
 gLogoScene
 gTcpipStack
 gUnusedPaletteColors
+gUnusedOrderWords32A
+gUnusedOrderWords32B
+gUnusedOrderWords512

@@ -14,6 +14,13 @@
 #include "Main/Kart/data_02161000.h"
 #include "registers.h"
 #include "fx_mtx44.h"
+#include "gfd_FrameTexVramMan.h"
+
+u32 gPrjMapTexImageParamCommand[2] = {0x2a, 0};
+u32 gEnvMapTexImageParamCommand[2] = {0x2a, 0};
+void (*NNS_G3dFuncSbcMatTable[4])(NNSG3dRS *, u32, void *, u32) = {(void (*)(NNSG3dRS *, u32, void *, u32)) NNSi_G3dFuncSbc_MAT_InternalDefault, NULL, NULL, NULL};
+void (*NNS_G3dFuncSbcShpTable[4])(NNSG3dRS *, u32, void *, u32) = {(void (*)(NNSG3dRS *, u32, void *, u32)) NNSi_G3dFuncSbc_SHP_InternalDefault, NULL, NULL, NULL};
+s32 gPrjMapTextureMtx[16] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x10000, 0, 0, 0, 0, 0x10000};
 
 // Returns the texture block of a model or texture file, or NULL when the file has none.
 NNSG3dResTex *NNS_G3dGetTex(NNSG3dResFileHeader *file) {
@@ -384,7 +391,7 @@ s32 NNS_G3dResDefaultSetup(NNSG3dResFileHeader *file) {
                     tex4x4Key = 0;
                 }
                 if (plttKey != 0) {
-                    plttKey = data_021619f4(plttKey, tex->mTex4x4Info.mFlag & 0x8000, 0);
+                    plttKey = NNS_GfdDefaultFuncAllocPlttVram(plttKey, tex->mTex4x4Info.mFlag & 0x8000, 0);
                     if (plttKey == 0) {
                         plttOk = 0;
                     }
@@ -392,7 +399,7 @@ s32 NNS_G3dResDefaultSetup(NNSG3dResFileHeader *file) {
                     plttKey = 0;
                 }
                 if (texOk == 0 || tex4x4Ok == 0 || plttOk == 0) {
-                    data_021619f8(plttKey);
+                    NNS_GfdDefaultFuncFreePlttVram(plttKey);
                     NNS_GfdDefaultFuncFreeTexVram(tex4x4Key);
                     NNS_GfdDefaultFuncFreeTexVram(texKey);
                     return 0;
@@ -453,7 +460,7 @@ void NNS_G3dResDefaultRelease(NNSG3dResFileHeader *file) {
     paletteKey = NNS_G3dPlttReleasePlttKey(tex);
     NNS_G3dTexReleaseTexKey(tex, &textureKey, &tex4x4Key);
     if (paletteKey != 0) {
-        data_021619f8(paletteKey);
+        NNS_GfdDefaultFuncFreePlttVram(paletteKey);
     }
     if (tex4x4Key != 0) {
         NNS_GfdDefaultFuncFreeTexVram(tex4x4Key);

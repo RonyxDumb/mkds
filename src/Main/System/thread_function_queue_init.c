@@ -3,6 +3,7 @@
 #include "Main/System/thread_function_queue.h"
 #include "Main/MapObjects/data_0217a000.h"
 #include "os_thread.h"
+#include "Main/Save/ghost_record_file.h"
 
 void (*DequeueThreadFunction(ThreadFunctionQueue *queue))(void) {
     void (**lastFilledSlot)(void) = NULL;

@@ -4,6 +4,7 @@
 #include "Main/Race/data_021759c0.h"
 #include "tp.h"
 #include "code_0214d018.h"
+#include "Main/Save/ghost_record_file.h"
 
 void CreateCupRecords(void *heap) {
     gCupRecords = HeapAlloc(heap, sizeof(CupRecords));

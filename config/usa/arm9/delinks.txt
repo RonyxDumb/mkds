@@ -339,27 +339,32 @@ libs/NitroSystem/g3d/src/code_02010c84.c:
 libs/NitroSystem/g3d/src/gecom.c:
     complete
     .text       start:0x02012b20 end:0x02012b30
+    .data       start:0x02161844 end:0x0216186c
     .bss        start:0x021731e4 end:0x021731f0
 
 // provisional: file name and boundaries
 libs/NitroSystem/g3d/src/code_02012b30.c:
     complete
     .text       start:0x02012b30 end:0x02013730
+    .data       start:0x0216186c end:0x021618dc
 
 // provisional: file name and boundaries
 libs/NitroSystem/g3d/src/res_struct_accessor.c:
     complete
     .text       start:0x02013730 end:0x02013740
+    .data       start:0x021618dc end:0x0216190c
 
 // provisional: file name and boundaries
 libs/NitroSystem/g3d/src/code_02013740.c:
     complete
     .text       start:0x02013740 end:0x02013b20
+    .data       start:0x0216190c end:0x02161924
 
 // provisional: file name and boundaries
 libs/NitroSystem/g3d/src/res_struct_accessor_anm.c:
     complete
     .text       start:0x02013b20 end:0x02013bdc
+    .data       start:0x02161924 end:0x02161954
 
 // provisional: file name and boundaries
 libs/NitroSystem/g3d/src/g3d_color_mask_tables.c:
@@ -371,6 +376,7 @@ libs/NitroSystem/g3d/src/code_02013bdc.c:
     complete
     .text       start:0x02013bdc end:0x02015eb8
     .rodata     start:0x02152c30 end:0x02152c54
+    .data       start:0x02161954 end:0x021619ec
 
 // provisional: file name and boundaries
 libs/NitroSystem/gfd/src/code_02015eb8.c:
@@ -381,7 +387,7 @@ libs/NitroSystem/gfd/src/code_02015eb8.c:
 libs/NitroSystem/gfd/src/gfd_FrameTexVramMan.c:
     complete
     .text       start:0x02015f98 end:0x020162b0
-    .data       start:0x021619fc end:0x02161a90
+    .data       start:0x021619ec end:0x02161a90
     .bss        start:0x021731f0 end:0x021731f4
 
 // provisional: file name and boundaries
@@ -526,7 +532,7 @@ libs/NitroSDK/snd/src/snd_work.c:
 libs/NitroSDK/snd/src/code_020218f4.c:
     complete
     .text       start:0x020218f4 end:0x020219b0
-    .rodata     start:0x02152de4 end:0x021530b8
+    .rodata     start:0x02152ce4 end:0x021530b8
 
 // provisional: file name and boundaries
 libs/NitroSDK/snd/src/snd_bank.c:
@@ -1432,6 +1438,7 @@ src/Main/Graphics/disp_cap.c:
 src/Main/Save/ghost_record_file.c:
     complete
     .text       start:0x02056284 end:0x020562b4
+    .bss        start:0x0217a9e8 end:0x0217aa00
 
 // provisional: file name and boundaries
 src/Main/Net/participant_bits.c:
@@ -1978,7 +1985,7 @@ src/Main/Kart/kart_name_tag_colored.c:
 src/Main/Graphics/model_animation_loop.c:
     complete
     .text       start:0x02087934 end:0x02087cd0
-    .rodata     start:0x02155a74 end:0x02155a8c
+    .rodata     start:0x02155a74 end:0x02155ccc
 
 // provisional: file name and boundaries
 src/Main/Graphics/model_animation_looping.c:
@@ -2004,6 +2011,7 @@ src/Main/Kart/kart_model_path.c:
     .text       start:0x02088338 end:0x020888b4
     .rodata     start:0x02155cec end:0x02155eb0
     .data       start:0x02165a8c end:0x02165fec
+    .bss        start:0x0217af04 end:0x0217b008
 
 // provisional: file name and boundaries
 src/Main/Kart/kart_ai_battle.c:
@@ -2013,11 +2021,15 @@ src/Main/Kart/kart_ai_battle.c:
     .data       start:0x02165fec end:0x02166044
     .bss        start:0x0217b008 end:0x0217b014
 
+src/Main/Graphics/stem_names.c:
+    complete
+    .data       start:0x02166044 end:0x02166098
+
 // provisional: file name and boundaries
 src/Main/Graphics/stem_sets.c:
     complete
     .text       start:0x02089d14 end:0x0208ab00
-    .rodata     start:0x02155ec8 end:0x02155ee8
+    .rodata     start:0x02155ec8 end:0x02155f0c
     .data       start:0x02166098 end:0x021660c8
     .bss        start:0x0217b014 end:0x0217b018
 
@@ -2040,9 +2052,13 @@ src/Main/Kart/first_base_speed_limit.c:
 src/Main/Graphics/emitters.c:
     complete
     .text       start:0x0208aea8 end:0x0208b484
-    .rodata     start:0x02155f48 end:0x02155fc0
+    .rodata     start:0x02155f0c end:0x02155fc0
     .data       start:0x021660c8 end:0x021660f8
     .bss        start:0x0217b018 end:0x0217b01c
+
+src/Main/Graphics/award_emitter_position.c:
+    complete
+    .rodata     start:0x02155fc0 end:0x02155fcc
 
 // provisional: file name and boundaries
 src/Main/Graphics/effects.c:
@@ -4629,7 +4645,7 @@ libs/msl/src/code_0216ec78.c:
 libs/msl/src/code_021352e0.c:
     complete
     .text       start:0x021352e0 end:0x021382a8
-    .data       start:0x0216ee58 end:0x0216ee60
+    .data       start:0x0216ec88 end:0x0216ee60
 
 // provisional: file name and boundaries
 libs/msl/src/code_021382a8.c:

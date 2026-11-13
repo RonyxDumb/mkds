@@ -5,6 +5,7 @@
 #include "Main/Save/backup_ghost_head.h"
 #include "01/Menu/record_time_attack.h"
 #include "01/Menu/code_02196d58.h"
+#include "Main/Save/ghost_record_file.h"
 
 GhostRecordHead *CreateCourseGhostRecords(void *heap) {
     return HeapAlloc(heap, 0x600u);

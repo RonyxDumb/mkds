@@ -89,6 +89,7 @@
 #include "ITCM/collision_slots.h"
 #include "Main/Item/item_kinoko_p_boost.h"
 #include "Main/Item/item_owner_bit_and_normal.h"
+#include "Main/Save/ghost_record_file.h"
 
 const u16 gItemObjectNoOwnerBit = 0x8000;
 const ItemInfo data_02159cc0 = {1, 1, 5, 1, 0, 1, (void (*)(ItemInUse *, HeldItem *)) MarkItemInUseAsActiveItem};

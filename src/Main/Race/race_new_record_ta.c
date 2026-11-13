@@ -29,6 +29,7 @@
 #include "01/Menu/record_time_attack.h"
 #include "01/Menu/code_02196d58.h"
 #include "Main/Race/kart.h"
+#include "Main/Save/ghost_record_file.h"
 
 struct RaceNewRecordTa *gRaceNewRecordTa;
 

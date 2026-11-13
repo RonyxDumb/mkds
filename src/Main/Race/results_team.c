@@ -4,6 +4,7 @@
 #include "Main/Net/packed_index.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Menu/menu_shared_clear.h"
+#include "Main/Save/ghost_record_file.h"
 
 #pragma opt_rebuildconditionals off
 

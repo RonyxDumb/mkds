@@ -71,6 +71,7 @@
 #include "registers.h"
 #include "Main/Sound/sound_system.h"
 #include "Main/Menu/menu_shared_clear.h"
+#include "Main/Save/ghost_record_file.h"
 
 #pragma thumb on
 

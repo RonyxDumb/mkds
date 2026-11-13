@@ -739,7 +739,6 @@ static inline u16 GetParticipantIndexByPos(u16 index) {
 static inline PlayerRecord *GetPlayerRecord(u16 index) {
     return &gConnectionWork->mPlayerRecords[index];
 }
-extern BackupBuffers *gBackupBuffers;
 // Object behind gThreadFunctionQueue; the OSThread at 0x2c is passed to OS_CreateThread and OS_WakeupThreadDirect.
 typedef struct ThreadFunctionQueue {
     /* 00 */ void (*mFunctions[10])(void);
@@ -751,7 +750,6 @@ typedef struct ThreadFunctionQueue {
     /* f8 */ s32 mRunRequested;
 } ThreadFunctionQueue;
 
-extern ThreadFunctionQueue *gThreadFunctionQueue;
 // 0xc-byte entries from 0x08 of OverlayLoader.
 typedef struct OverlayLoaderEntry {
     /* 00 */ s32 mOverlayId;
@@ -774,8 +772,6 @@ typedef struct OverlayLoader {
     /* a8 */ u32 mLowestStart;
     /* ac */ u32 mHighestEnd;
 } OverlayLoader;
-
-extern OverlayLoader *gOverlayLoader;
 
 #define WIFI_RACE_SYNC_PARTICIPANT_COUNT 4
 // Probe replies are collected until a peer has this many samples.
@@ -1010,7 +1006,6 @@ typedef struct WiFiRaceSync {
     /* 75c */ u16 mFlags;
 } WiFiRaceSync;
 
-extern WiFiRaceSync *gWiFiRaceSync;
 // Per-run state of the race scene, one record behind gRace (0x48 bytes, allocated by InitRace on the scene heap and
 // never cleared at the end of the scene): frame counters (mUpdateFrames and three phases derived from it), toon-table
 // cycle, fog/fade switch, kind flags derived from gRaceSetup.mUnk_00c (also live in the demo and credits kinds 3 to
@@ -1580,7 +1575,7 @@ typedef struct ParticipantKartMap {
     /* 06 */ s8 mKartOfParticipant[4];
 } ParticipantKartMap;
 
-extern ParticipantKartMap *gParticipantKartMap;
+extern struct ParticipantKartMap *gParticipantKartMap;
 
 static inline s8 GetParticipantOfKart(u8 kartIndex) {
     return gParticipantKartMap->mParticipantOfKart[kartIndex];
@@ -1626,7 +1621,7 @@ typedef struct CupRecords {
     };
 } CupRecords;
 
-extern CupRecords *gCupRecords;
+extern struct CupRecords *gCupRecords;
 
 static inline KartCourseResult *GetKartCourseResult(u8 course, u8 kartIndex) {
     return &gCupRecords->mKartResults[course][kartIndex];

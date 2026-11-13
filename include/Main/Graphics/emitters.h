@@ -3,6 +3,7 @@
 #include "types.h"
 #include "code_020184e4.h"
 #include "Main/MapObjects/data_0217b000.h"
+#include "Main/MapObjects/data_02155000.h"
 
 // The Stadium course emitters: six directions, the six emitters now running, and the countdown to the next round.
 typedef struct StadiumEmitters {
@@ -35,3 +36,9 @@ extern const s32 gStadiumEmitterEffectIds[12];
 extern const Vec3 gStadiumEmitterPositions[6];
 
 extern struct KartPhysicalParamTable *gKartPhysicalParamTable;
+
+extern const StemSetParams gCompleteStems;
+extern const StemSetParams gLoseStems;
+extern const StemSetParams gWinStems;
+extern const StemSetParams gGoalStems;
+extern const StemSetParams gFailedStems;

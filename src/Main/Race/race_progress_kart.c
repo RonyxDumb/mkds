@@ -34,6 +34,7 @@
 #include "code_021458c4.h"
 #include "Main/Race/kart_standing_rank.h"
 #include "Main/Menu/menu_shared_clear.h"
+#include "Main/Save/ghost_record_file.h"
 
 
 #pragma opt_rebuildconditionals off

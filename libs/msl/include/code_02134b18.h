@@ -10,11 +10,12 @@ typedef struct CharConversionFunctions {
 
 // wctomb and mbtowc read the pointer at 0x08.
 typedef struct CharConversion {
-    /* 00 */ u8 mUnk_00[8];
+    /* 00 */ const char **mTimeStrings;
+    /* 04 */ void **mUnk_04;
     /* 08 */ CharConversionFunctions *mFunctions;
 } CharConversion;
 
-extern CharConversion data_0216eccc;
+extern CharConversion gCharConversion;
 
 int wcstombs(char *dst, const u16 *src, u32 count);
 int mbstowcs(u16 *dst, const char *src, u32 count);

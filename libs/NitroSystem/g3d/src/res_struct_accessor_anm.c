@@ -1,5 +1,9 @@
 #include "res_struct_accessor_anm.h"
 
+u32 data_02161924[1] = {0x1b171012};
+u32 data_02161928[2] = {1, 2};
+Vec3 data_02161930[3] = {{0x1000, 0, 0}, {0, 0x1000, 0}, {0, 0, 0x1000}};
+
 const u32 *NNSi_G3dGetTexPatAnmTexNameByIdx(const NNSG3dResTexPatAnm *pPatAnm, u8 texIdx) {
     return (const u32 *) ((const u8 *) pPatAnm + pPatAnm->mOfsTexName + (texIdx << 4));
 }

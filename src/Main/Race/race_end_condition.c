@@ -13,6 +13,7 @@
 #include "code_02147cd8.h"
 #include "Main/Race/kart.h"
 #include "Main/Kart/karts.h"
+#include "Main/Save/ghost_record_file.h"
 
 s32 IsRaceEndConditionMet(void) {
     BOOL endConditionMet;

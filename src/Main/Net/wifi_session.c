@@ -38,6 +38,7 @@
 #include "00/Lib/DWC/code_0219c384.h"
 #include "Main/System/heap_call.h"
 #include "code_020176c0.h"
+#include "Main/Save/ghost_record_file.h"
 
 #pragma opt_arithtransformation off
 

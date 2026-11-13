@@ -11,6 +11,7 @@
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Race/race_clock.h"
 #include "Main/Menu/menu_shared_clear.h"
+#include "Main/Save/ghost_record_file.h"
 
 void RefreshRaceGoalSRows(void) {
     s32 sortKeys[8];

@@ -1,8 +1,11 @@
 #include "gfd_FrameTexVramMan.h"
 #include "Main/Kart/data_02161000.h"
+#include "code_02015eb8.h"
 
-u16 frmExVramMan_;
-
+s32 (*NNS_GfdDefaultFuncFreeTexVram)(u32) = FreeTexVram_;
+s32 (*NNS_GfdDefaultFuncFreePlttVram)(u32) = FreePlttVram_;
+u32 (*NNS_GfdDefaultFuncAllocTexVram)(s32 a, s32 b, s32 c) = (u32(*)(s32, s32, s32)) AllocTexVram_;
+u32 (*NNS_GfdDefaultFuncAllocPlttVram)(s32 a, s32 b, s32 c) = (u32(*)(s32, s32, s32)) AllocPlttVram_;
 NNSGfdFrmTexRegionState vramRegions_[5] = {
     {0xffffffff, 0xffffffff, 0, 0, 0, 0xffff, 0},
     {0xffffffff, 0xffffffff, 0, 1, 1, 0xffff, 0x20000},
@@ -10,11 +13,10 @@ NNSGfdFrmTexRegionState vramRegions_[5] = {
     {0xffffffff, 0xffffffff, 0, 0, 3, 0xffff, 0x40000},
     {0xffffffff, 0xffffffff, 0, 0, 4, 0xffff, 0x60000},
 };
-
 NNSGfdFrmTexRegionState *texNrmSearchArray_[5] = {&vramRegions_[4], &vramRegions_[3], &vramRegions_[0], &vramRegions_[2],
                                              &vramRegions_[1]};
-
 NNSGfdFrmTexRegionState *tex4x4SearchArray_[2] = {&vramRegions_[0], &vramRegions_[3]};
+u16 frmExVramMan_;
 
 void NNSi_GfdSetTexNrmSearchArray(int idx1st, int idx2nd, int idx3rd, int idx4th, int idx5th) {
     texNrmSearchArray_[0] = &vramRegions_[idx1st];

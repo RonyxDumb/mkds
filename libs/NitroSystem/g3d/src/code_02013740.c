@@ -1,6 +1,11 @@
 #include "code_02013740.h"
 #include "code_02013bdc.h"
 
+#pragma explicit_zero_data on
+Vec3 gSbcBillboardPosition = {0, 0, 0};
+Vec3 gSbcBillboardScale = {0, 0, 0};
+#pragma explicit_zero_data off
+
 NNSG3dResTexPatAnm *NNS_G3dGetTexPatAnmByIdx(NNSG3dResTexPatAnmSet *pAnmSet, u8 idx) {
     NNSG3dResDictEntryHeader *dictEntries;
     NNSG3dResDictAnmSetData *setEntry;

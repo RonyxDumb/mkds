@@ -15,6 +15,7 @@
 #include "01/Menu/code_02196d58.h"
 #include "os_tick.h"
 #include "code_0214d018.h"
+#include "Main/Save/ghost_record_file.h"
 
 // Sets the session up for variant a (0 to 3): case 0 resets masks, records and picks and sets mStep 0, case 1 only
 // packs the indices and counts the karts, cases 2 and 3 reset the picks and set mStep 7 and 3.

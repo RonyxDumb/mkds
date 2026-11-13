@@ -94,6 +94,7 @@
 #include "Main/Race/kart_standing_rank.h"
 #include "Main/Net/wifi_session.h"
 #include "Main/Sound/sound_source_list.h"
+#include "Main/Save/ghost_record_file.h"
 
 s16 gToonTableFramesLimit = 2;
 u16 gFadeFogRemaining = 0x48;

@@ -32,6 +32,7 @@
 #include "01/Menu/record_time_attack.h"
 #include "01/Menu/code_02196d58.h"
 #include "Main/Scene/run_scenes.h"
+#include "Main/Save/ghost_record_file.h"
 
 SceneCallbacks gRunGhostSceneCallbacks = {InitGhostSceneCallback, UpdateGhostSceneCallback, ReleaseGhostSceneCallback, WriteGhostSceneRegistersCallback, NULL, NULL, 0xa, 0xa, 0};
 

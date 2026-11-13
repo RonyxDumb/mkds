@@ -17,6 +17,7 @@
 #include "code_0201750c.h"
 #include "code_0212f864.h"
 #include "unk_02152000_data.h"
+#include "code_020218f4.h"
 
 void NNS_SndPlayerSetPlayerVolume(u32 index, u32 volume) {
     sPlayer[index].mVolume = volume;
@@ -150,7 +151,7 @@ void NNS_SndPlayerSetTrackVolume(NNSSndSeqPlayer **handle, u32 tracks, int volum
     if (seq == 0) {
         return;
     }
-    SND_SetTrackVolume(seq->mPlayerNo, tracks, data_02152ce4[volume]);
+    SND_SetTrackVolume(seq->mPlayerNo, tracks, gVolumeDecibelTable[volume]);
 }
 
 // Sets the pitch of the tracks selected by tracks.
@@ -288,10 +289,10 @@ void NNSi_SndPlayerMain(void) {
             continue;
         }
         NNSi_SndFaderUpdate(&seq->mFader);
-        extDecibel = data_02152ce4[seq->mExtVolume];
-        initDecibel = data_02152ce4[seq->mInitVolume];
-        playerDecibel = data_02152ce4[seq->mPlayer->mVolume];
-        volume = data_02152ce4[NNSi_SndFaderGet(&seq->mFader) >> 8];
+        extDecibel = gVolumeDecibelTable[seq->mExtVolume];
+        initDecibel = gVolumeDecibelTable[seq->mInitVolume];
+        playerDecibel = gVolumeDecibelTable[seq->mPlayer->mVolume];
+        volume = gVolumeDecibelTable[NNSi_SndFaderGet(&seq->mFader) >> 8];
         volume += playerDecibel + (initDecibel + extDecibel);
         if (volume < -723) {
             volume = -723;
