@@ -62,6 +62,7 @@ void FillNsbmdModel(Nsbmd *model, ModelAnimation *animation, NsbmdModel *record)
     NNSG3dResShp *resShp;
     NNSG3dResMatData *matData;
     NNSG3dResShpData *shpData;
+    NNSG3dResDictEntryHeader *entries;
     NsbmdTexFrameWork frameWork;
     u16 frameCount;
     u16 frame;
@@ -70,9 +71,11 @@ void FillNsbmdModel(Nsbmd *model, ModelAnimation *animation, NsbmdModel *record)
 
     resMdl = model->mResMdl;
     resMat = OFFSET_PTR(NNSG3dResMat, resMdl, resMdl->mOfsMat);
-    matData = OFFSET_PTR(NNSG3dResMatData, resMat, ((u32 *) OFFSET_PTR(u8, resMat, resMat->mDict.mOfsEntry))[2]);
+    entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &resMat->mDict, resMat->mDict.mOfsEntry);
+    matData = OFFSET_PTR(NNSG3dResMatData, resMat, *DICT_ENTRY(u32, entries, 0));
     resShp = OFFSET_PTR(NNSG3dResShp, resMdl, resMdl->mOfsShp);
-    shpData = OFFSET_PTR(NNSG3dResShpData, resShp, ((u32 *) OFFSET_PTR(u8, resShp, resShp->mDict.mOfsEntry))[1]);
+    entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &resShp->mDict, resShp->mDict.mOfsEntry);
+    shpData = OFFSET_PTR(NNSG3dResShpData, resShp, *DICT_ENTRY(u32, entries, 0));
     record->mDisplayList = (u8 *) shpData + shpData->mOfsDL;
     record->mDisplayListSize = shpData->mSizeDL;
     record->mScale = model->mResMdl->mInfo.mPosScale;

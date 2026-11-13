@@ -112,18 +112,19 @@ void CreateObjShadowAndJgShadow(void) {
     NNSG3dResMdl *resMdl;
     NNSG3dResMat *resMat;
     NNSG3dResShp *resShp;
+    NNSG3dResDictEntryHeader *entries;
 
     CreateNsbmd(&gObjShadow, FindMainRaceOrMainEffectMapObjFile("obj_shadow.nsbmd"), NULL);
     SetNsbmdPolygonIdAll(gObjShadow, 0x3f);
     SetNsbmdLightEnableFlagAll(gObjShadow, 0);
     resMdl = gObjShadow->mResMdl;
     resMat = OFFSET_PTR(NNSG3dResMat, resMdl, resMdl->mOfsMat);
-    gObjShadowMaterial =
-        OFFSET_PTR(NNSG3dResMatData, resMat, ((u32 *) OFFSET_PTR(u8, resMat, resMat->mDict.mOfsEntry))[2]);
+    entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &resMat->mDict, resMat->mDict.mOfsEntry);
+    gObjShadowMaterial = OFFSET_PTR(NNSG3dResMatData, resMat, *DICT_ENTRY(u32, entries, 0));
     resMdl = gObjShadow->mResMdl;
     resShp = OFFSET_PTR(NNSG3dResShp, resMdl, resMdl->mOfsShp);
-    gObjShadowShape =
-        OFFSET_PTR(NNSG3dResShpData, resShp, ((u32 *) OFFSET_PTR(u8, resShp, resShp->mDict.mOfsEntry))[1]);
+    entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &resShp->mDict, resShp->mDict.mOfsEntry);
+    gObjShadowShape = OFFSET_PTR(NNSG3dResShpData, resShp, *DICT_ENTRY(u32, entries, 0));
     if (gRaceSetup->mRaceKind != RACE_KIND_STAFF_ROLL) {
         CreateShadowModel(&gJgShadow, FindSceneFile("jg_shadow.nsbmd"), 0x3f);
     }

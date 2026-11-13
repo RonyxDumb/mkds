@@ -856,6 +856,7 @@ void DrawNsbmdWithMaxAlphaAndMaterial(Nsbmd *model, s32 maxAlpha) {
     NNSG3dResMdl *resMdl;
     NNSG3dResMat *resMat;
     NNSG3dResMatData *matData;
+    NNSG3dResDictEntryHeader *entries;
     s32 modelAlpha;
     s32 savedAlpha;
 
@@ -867,7 +868,8 @@ void DrawNsbmdWithMaxAlphaAndMaterial(Nsbmd *model, s32 maxAlpha) {
         NNS_G3dMdlSetMdlAlphaAll(resMdl, maxAlpha);
     }
     resMat = OFFSET_PTR(NNSG3dResMat, resMdl, resMdl->mOfsMat);
-    matData = OFFSET_PTR(NNSG3dResMatData, resMat, ((u32 *) OFFSET_PTR(u8, resMat, resMat->mDict.mOfsEntry))[2]);
+    entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &resMat->mDict, resMat->mDict.mOfsEntry);
+    matData = OFFSET_PTR(NNSG3dResMatData, resMat, *DICT_ENTRY(u32, entries, 0));
     gWoodbox1PolyAttr = matData->mPolyAttr;
     NNS_G3dRenderObjSetCallBack(&model->mRenderObj, (NNSG3dSbcCallBackFunc) SendMaterialPolygonAttributes, 0, 4, 3);
     DrawNsbmd(model);
