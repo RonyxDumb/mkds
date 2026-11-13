@@ -106,11 +106,13 @@ void InitRecordGpx(void *heap) {
     void *recordMainOam;
     vu16 zero;
 
-    reg_G2_BG0CNT = (reg_G2_BG0CNT & ~3) | 1;
-    reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & ~3) | 1;
-    reg_G2_BG0CNT = (reg_G2_BG0CNT & 0x43) | 0x8800;
-    reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & 0x43) | 0x1018;
-    reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & 0x43) | 0x5810;
+    reg_G2_BG0CNT = (reg_G2_BG0CNT & ~REG_G2_BG0CNT_PRIORITY_MASK) | 1;
+    reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & ~REG_G2S_DB_BG3CNT_PRIORITY_MASK) | 1;
+    reg_G2_BG0CNT = (reg_G2_BG0CNT & (REG_G2_BG0CNT_PRIORITY_MASK | REG_G2_BG0CNT_MOSAIC_MASK)) | 0x8800;
+    reg_G2S_DB_BG1CNT =
+        (reg_G2S_DB_BG1CNT & (REG_G2S_DB_BG1CNT_PRIORITY_MASK | REG_G2S_DB_BG1CNT_MOSAIC_MASK)) | 0x1018;
+    reg_G2S_DB_BG3CNT =
+        (reg_G2S_DB_BG3CNT & (REG_G2S_DB_BG3CNT_PRIORITY_MASK | REG_G2S_DB_BG3CNT_MOSAIC_MASK)) | 0x5810;
     gRecordGpx = HeapAlloc(heap, 0x94);
     gRecordGpx->mHeap = heap;
     gRecordGpx->mState = 0;

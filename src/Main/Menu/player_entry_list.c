@@ -389,8 +389,8 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
                 fileSet->mCellTable[gEntryCellIndices[index].mCharacterCellIndex].mVisible = 1;
             }
         }
-        reg_G2_BG0CNT = (reg_G2_BG0CNT & 0x43) | 0xd08;
-        reg_G2_BG1CNT = (reg_G2_BG1CNT & 0x43) | 0xc00;
+        reg_G2_BG0CNT = (reg_G2_BG0CNT & (REG_G2_BG0CNT_PRIORITY_MASK | REG_G2_BG0CNT_MOSAIC_MASK)) | 0xd08;
+        reg_G2_BG1CNT = (reg_G2_BG1CNT & (REG_G2_BG1CNT_PRIORITY_MASK | REG_G2_BG1CNT_MOSAIC_MASK)) | 0xc00;
         if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
             LocateAndQueueScreenMapFileSet(0, screenMapFileSet, "mb/select_menu_etc_download_m_b.NCGR",
                                            "mb/select_menu_etc_download_m_b.NCLR",
@@ -634,8 +634,8 @@ void WritePlayerEntryListRegisters(void) {
         displayBits |= 2;
         reg_G2_BG0OFS = interpolatedValue & 0x1ff;
         reg_G2_BG1OFS = -interpolatedValue & 0x1ff;
-        reg_G2_BG0CNT = (reg_G2_BG0CNT & ~3) | 3;
-        reg_G2_BG1CNT = (reg_G2_BG1CNT & ~3) | 3;
+        reg_G2_BG0CNT = (reg_G2_BG0CNT & ~REG_G2_BG0CNT_PRIORITY_MASK) | 3;
+        reg_G2_BG1CNT = (reg_G2_BG1CNT & ~REG_G2_BG1CNT_PRIORITY_MASK) | 3;
     } else {
         bg0As = TRUE;
     }

@@ -336,7 +336,7 @@ void InitMissionRunLVsel(void *parentHeap, void *mainOam, void *subOam) {
     s32 levelIndex;
     s32 remainingSize;
 
-    reg_G2_BG0CNT = (reg_G2_BG0CNT & 0x43) | 0x9004;
+    reg_G2_BG0CNT = (reg_G2_BG0CNT & (REG_G2_BG0CNT_PRIORITY_MASK | REG_G2_BG0CNT_MOSAIC_MASK)) | 0x9004;
     {
         void *heap = CreateFrmHeapFromMaxFree(parentHeap);
 

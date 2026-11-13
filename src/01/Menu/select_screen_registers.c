@@ -20,14 +20,15 @@
 
 void WriteMainBg1CntFlag(int enable) {
     if (enable != 0) {
-        reg_G2_BG1CNT |= 0x40;
+        reg_G2_BG1CNT |= REG_G2_BG1CNT_MOSAIC_MASK;
     } else {
-        reg_G2_BG1CNT &= ~0x40;
+        reg_G2_BG1CNT &= ~REG_G2_BG1CNT_MOSAIC_MASK;
     }
 }
 
 void WriteMainBg1CntFields(u32 a, u32 b, u32 c, u32 d, u32 e) {
-    reg_G2_BG1CNT = (reg_G2_BG1CNT & 0x43) | (a << 14) | (b << 7) | (c << 8) | (d << 2) | (e << 13);
+    reg_G2_BG1CNT = (reg_G2_BG1CNT & (REG_G2_BG1CNT_PRIORITY_MASK | REG_G2_BG1CNT_MOSAIC_MASK)) | (a << 14) | (b << 7) |
+                    (c << 8) | (d << 2) | (e << 13);
 }
 
 #pragma thumb on

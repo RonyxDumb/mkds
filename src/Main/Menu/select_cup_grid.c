@@ -512,8 +512,8 @@ void InitSelectCupGrid(void *heap, void *mainOam, void *subOam, s32 mode) {
     s32 remainingSize;
     int index;
 
-    reg_G2_BG0CNT = (reg_G2_BG0CNT & ~3) | 1;
-    reg_G2_BG0CNT = (reg_G2_BG0CNT & 0x43) | 0x9004;
+    reg_G2_BG0CNT = (reg_G2_BG0CNT & ~REG_G2_BG0CNT_PRIORITY_MASK) | 1;
+    reg_G2_BG0CNT = (reg_G2_BG0CNT & (REG_G2_BG0CNT_PRIORITY_MASK | REG_G2_BG0CNT_MOSAIC_MASK)) | 0x9004;
     if (GetPreviousMenuScreenNumber() != 0x18 && GetPreviousMenuScreenNumber() != 0xc) {
         reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | 0x1800;
     }

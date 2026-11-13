@@ -266,10 +266,11 @@ void InitSelectCupM(void *parentHeap, void *mainOamList, void *subOamList) {
     s32 index;
     s32 remainingSize;
 
-    reg_G2_BG0CNT = (reg_G2_BG0CNT & ~3) | 1;
-    reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & ~3) | 1;
-    reg_G2_BG0CNT = (reg_G2_BG0CNT & 0x43) | 0x9004;
-    reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & 0x43) | 0x8300;
+    reg_G2_BG0CNT = (reg_G2_BG0CNT & ~REG_G2_BG0CNT_PRIORITY_MASK) | 1;
+    reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & ~REG_G2S_DB_BG3CNT_PRIORITY_MASK) | 1;
+    reg_G2_BG0CNT = (reg_G2_BG0CNT & (REG_G2_BG0CNT_PRIORITY_MASK | REG_G2_BG0CNT_MOSAIC_MASK)) | 0x9004;
+    reg_G2S_DB_BG3CNT =
+        (reg_G2S_DB_BG3CNT & (REG_G2S_DB_BG3CNT_PRIORITY_MASK | REG_G2S_DB_BG3CNT_MOSAIC_MASK)) | 0x8300;
     heap = CreateFrmHeapFromMaxFree(parentHeap);
     gSelectCupM = HeapAlloc(heap, 0x54);
     gSelectCupM->mHeap = heap;

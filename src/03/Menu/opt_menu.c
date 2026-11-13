@@ -95,10 +95,10 @@ void LoadOptMenuFilesAndSetBgCnt(void) {
     DC_FlushRange(palette, 0x200);
     GX_LoadBGPltt(palette, 0, 0x200);
     DeleteLoadedFile(palette);
-    reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & ~3) | 3;
-    reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & ~3) | 3;
-    reg_G2_BG1CNT = (reg_G2_BG1CNT & ~3) | 3;
-    reg_G2_BG2CNT = (reg_G2_BG2CNT & ~3) | 3;
+    reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & ~REG_G2S_DB_BG0CNT_PRIORITY_MASK) | 3;
+    reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & ~REG_G2S_DB_BG1CNT_PRIORITY_MASK) | 3;
+    reg_G2_BG1CNT = (reg_G2_BG1CNT & ~REG_G2_BG1CNT_PRIORITY_MASK) | 3;
+    reg_G2_BG2CNT = (reg_G2_BG2CNT & ~REG_G2_BG2CNT_PRIORITY_MASK) | 3;
 }
 
 void StartOptMenuFadeIn(void) {

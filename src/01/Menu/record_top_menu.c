@@ -244,9 +244,10 @@ void InitRecordTopMenu(void *heap) {
     s32 labelIndex;
     BackupFirstBlock **firstBlock;
 
-    reg_G2_BG0CNT = (reg_G2_BG0CNT & ~3) | 1;
-    reg_G2_BG0CNT = (reg_G2_BG0CNT & 0x43) | 0x8800;
-    reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & 0x43) | 0x1018;
+    reg_G2_BG0CNT = (reg_G2_BG0CNT & ~REG_G2_BG0CNT_PRIORITY_MASK) | 1;
+    reg_G2_BG0CNT = (reg_G2_BG0CNT & (REG_G2_BG0CNT_PRIORITY_MASK | REG_G2_BG0CNT_MOSAIC_MASK)) | 0x8800;
+    reg_G2S_DB_BG1CNT =
+        (reg_G2S_DB_BG1CNT & (REG_G2S_DB_BG1CNT_PRIORITY_MASK | REG_G2S_DB_BG1CNT_MOSAIC_MASK)) | 0x1018;
     gRecordTopMenu = HeapAlloc(heap, 0x48);
     gRecordTopMenu->mHeap = heap;
     gRecordTopMenu->mState = 0;

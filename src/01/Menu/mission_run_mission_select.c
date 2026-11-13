@@ -592,10 +592,10 @@ void InitMissionRunMSsel(void *parentHeap, void *mainOamList, void *subOamList) 
     s32 rem;
     u16 base;
 
-    reg_G2_BG0CNT = (reg_G2_BG0CNT & ~3) | 1;
-    reg_G2_BG1CNT = (reg_G2_BG1CNT & ~3) | 1;
-    reg_G2_BG0CNT = (reg_G2_BG0CNT & 0x43) | 0xd204;
-    reg_G2_BG1CNT = (reg_G2_BG1CNT & 0x43) | 0x9004;
+    reg_G2_BG0CNT = (reg_G2_BG0CNT & ~REG_G2_BG0CNT_PRIORITY_MASK) | 1;
+    reg_G2_BG1CNT = (reg_G2_BG1CNT & ~REG_G2_BG1CNT_PRIORITY_MASK) | 1;
+    reg_G2_BG0CNT = (reg_G2_BG0CNT & (REG_G2_BG0CNT_PRIORITY_MASK | REG_G2_BG0CNT_MOSAIC_MASK)) | 0xd204;
+    reg_G2_BG1CNT = (reg_G2_BG1CNT & (REG_G2_BG1CNT_PRIORITY_MASK | REG_G2_BG1CNT_MOSAIC_MASK)) | 0x9004;
     heap = CreateFrmHeapFromMaxFree(parentHeap);
     gMissionRunMSsel = HeapAlloc(heap, 0xc0);
     gMissionRunMSsel->mHeap = heap;

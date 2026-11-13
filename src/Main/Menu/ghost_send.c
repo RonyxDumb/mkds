@@ -549,7 +549,7 @@ void WriteTimeAttackGhostSendRegisters(void) {
     reg_G2_BG0OFS = ((interpolatedValue << 16) & 0x1ff0000);
     negatedValue = -interpolatedValue;
     reg_G2S_DB_BG3OFS = ((negatedValue << 16) & 0x1ff0000);
-    reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & ~3) | 1;
+    reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & ~REG_G2S_DB_BG3CNT_PRIORITY_MASK) | 1;
     if (interpolatedValue != 0) {
         reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffff1fff) | 0x2000;
         reg_G2_WININ = (u32) ((reg_G2_WININ & ~0x3f) | 0x1f) | 0x20;

@@ -40,8 +40,8 @@ void AdvanceWiFiConnectionLostState0(void) {
     if (AreBrightnessFadesFaded() != 0) {
         gWiFiConnectionLost->mNextState = 1;
         StartFadeToClear(0x1e);
-        reg_G2_BG1CNT = (reg_G2_BG1CNT & 0x43) | 0x1208;
-        reg_G2_BG1CNT = reg_G2_BG1CNT & ~3;
+        reg_G2_BG1CNT = (reg_G2_BG1CNT & (REG_G2_BG1CNT_PRIORITY_MASK | REG_G2_BG1CNT_MOSAIC_MASK)) | 0x1208;
+        reg_G2_BG1CNT = reg_G2_BG1CNT & ~REG_G2_BG1CNT_PRIORITY_MASK;
         reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | 0x1f00;
         reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x1700;
         reg_GX_DISPCNT = reg_GX_DISPCNT & 0xffff1fff;

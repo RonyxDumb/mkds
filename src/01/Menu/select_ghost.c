@@ -345,9 +345,10 @@ void InitSelectGhost(void *parentHeap, u32 mainOam, u32 subOam) {
     s32 rem;
     s32 index;
 
-    reg_G2S_DB_BG0CNT = reg_G2S_DB_BG0CNT & ~3;
-    reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & ~3) | 1;
-    reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & 0x43) | 0x8300;
+    reg_G2S_DB_BG0CNT = reg_G2S_DB_BG0CNT & ~REG_G2S_DB_BG0CNT_PRIORITY_MASK;
+    reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & ~REG_G2S_DB_BG3CNT_PRIORITY_MASK) | 1;
+    reg_G2S_DB_BG3CNT =
+        (reg_G2S_DB_BG3CNT & (REG_G2S_DB_BG3CNT_PRIORITY_MASK | REG_G2S_DB_BG3CNT_MOSAIC_MASK)) | 0x8300;
     heap = CreateFrmHeapFromMaxFree(parentHeap);
     gSelectGhost = HeapAlloc(heap, 0x70);
     gSelectGhost->mHeap = heap;

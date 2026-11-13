@@ -124,12 +124,12 @@ void InitSelectBattleStage(void *parentHeap, s32 variant, void *mainOam, void *s
             gSelectBattleStage->mSelectBattleStageTables[0][6].mVisible = 0;
         }
     }
-    reg_G2_BG2CNT = (reg_G2_BG2CNT & 0x43) | 0x9e10;
+    reg_G2_BG2CNT = (reg_G2_BG2CNT & (REG_G2_BG2CNT_PRIORITY_MASK | REG_G2_BG2CNT_MOSAIC_MASK)) | 0x9e10;
     SetSelectReturnSoundId(14);
 }
 
 void ReleaseSelectBattleStage(void) {
-    reg_G2_BG2CNT = (reg_G2_BG2CNT & 0x43) | 0x1e10;
+    reg_G2_BG2CNT = (reg_G2_BG2CNT & (REG_G2_BG2CNT_PRIORITY_MASK | REG_G2_BG2CNT_MOSAIC_MASK)) | 0x1e10;
     reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | 0x1800;
     HeapDestroy(gSelectBattleStage->mHeap);
     gSelectBattleStage = NULL;
@@ -495,7 +495,7 @@ s32 AdvanceSelectBattleStage(void) {
 void WriteSelectBattleStageRegisters(void) {
     reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | 0x1c00;
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x1600;
-    reg_G2_BG2CNT = (reg_G2_BG2CNT & ~3) | 1;
+    reg_G2_BG2CNT = (reg_G2_BG2CNT & ~REG_G2_BG2CNT_PRIORITY_MASK) | 1;
     reg_G2_BLDCNT = 0;
     G2x_SetBlendAlpha_(&reg_G2S_DB_BLDCNT, 0, 2, 6, 10);
     reg_G2_BG2OFS = ((gSelectBattleStage->mSlideOffsetY - gSelectBattleStage->mOffset) << 16) & 0x1ff0000;

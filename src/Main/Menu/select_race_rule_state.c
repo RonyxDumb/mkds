@@ -1466,7 +1466,8 @@ void InitSelectRaceRule(void *parentHeap, s32 unusedArg1, void *oamList, s32 mod
     s32 cellEntryCount;
     s32 remainingSubObjSize;
     SelectRaceRule *selectRaceRule;
-    reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & 0x43) | 0x8200;
+    reg_G2S_DB_BG3CNT =
+        (reg_G2S_DB_BG3CNT & (REG_G2S_DB_BG3CNT_PRIORITY_MASK | REG_G2S_DB_BG3CNT_MOSAIC_MASK)) | 0x8200;
     heap = CreateFrmHeapFromMaxFree(parentHeap);
     gSelectRaceRule = HeapAlloc(heap, 0xbc);
     gSelectRaceRule->mHeap = heap;
@@ -1731,7 +1732,7 @@ void ReleaseSelectRaceRule(void) {
     bg2Control = (reg_G2_BG2CNT);
     bg2Control &= ~3;
     (reg_G2_BG2CNT) = bg2Control;
-    (reg_G2_BG2CNT) = ((reg_G2_BG2CNT) & 0x43) | 0x9e10;
+    (reg_G2_BG2CNT) = ((reg_G2_BG2CNT) & (REG_G2_BG2CNT_PRIORITY_MASK | REG_G2_BG2CNT_MOSAIC_MASK)) | 0x9e10;
     ClearWaitPointer();
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         ClearPaletteBlendPointer();

@@ -96,13 +96,15 @@ void InitRecordTAtt(void *heap) {
     s32 remainingSize;
     RecordTAtt *recordTAtt;
 
-    (reg_G2_BG0CNT) = ((reg_G2_BG0CNT) & ~3) | 1;
-    (reg_G2_BG1CNT) = ((reg_G2_BG1CNT) & ~3) | 1;
-    (reg_G2S_DB_BG3CNT) = ((reg_G2S_DB_BG3CNT) & ~3) | 1;
-    (reg_G2_BG0CNT) = ((reg_G2_BG0CNT) & 0x43) | 0x8800;
-    (reg_G2_BG1CNT) = ((reg_G2_BG1CNT) & 0x43) | 0xcc00;
-    (reg_G2S_DB_BG1CNT) = ((reg_G2S_DB_BG1CNT) & 0x43) | 0x1018;
-    (reg_G2S_DB_BG3CNT) = ((reg_G2S_DB_BG3CNT) & 0x43) | 0x5810;
+    (reg_G2_BG0CNT) = ((reg_G2_BG0CNT) & ~REG_G2_BG0CNT_PRIORITY_MASK) | 1;
+    (reg_G2_BG1CNT) = ((reg_G2_BG1CNT) & ~REG_G2_BG1CNT_PRIORITY_MASK) | 1;
+    (reg_G2S_DB_BG3CNT) = ((reg_G2S_DB_BG3CNT) & ~REG_G2S_DB_BG3CNT_PRIORITY_MASK) | 1;
+    (reg_G2_BG0CNT) = ((reg_G2_BG0CNT) & (REG_G2_BG0CNT_PRIORITY_MASK | REG_G2_BG0CNT_MOSAIC_MASK)) | 0x8800;
+    (reg_G2_BG1CNT) = ((reg_G2_BG1CNT) & (REG_G2_BG1CNT_PRIORITY_MASK | REG_G2_BG1CNT_MOSAIC_MASK)) | 0xcc00;
+    (reg_G2S_DB_BG1CNT) =
+        ((reg_G2S_DB_BG1CNT) & (REG_G2S_DB_BG1CNT_PRIORITY_MASK | REG_G2S_DB_BG1CNT_MOSAIC_MASK)) | 0x1018;
+    (reg_G2S_DB_BG3CNT) =
+        ((reg_G2S_DB_BG3CNT) & (REG_G2S_DB_BG3CNT_PRIORITY_MASK | REG_G2S_DB_BG3CNT_MOSAIC_MASK)) | 0x5810;
     gRecordTAtt = HeapAlloc(heap, 0x94);
     gRecordTAtt->mHeap = heap;
     gRecordTAtt->mState = 0;

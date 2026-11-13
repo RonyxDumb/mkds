@@ -1250,7 +1250,7 @@ void WriteSelectCharacterRegisters(void) {
     }
     reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | (displayBits << 8);
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x1600;
-    reg_G2_BG0CNT = (reg_G2_BG0CNT & ~3) | 1;
+    reg_G2_BG0CNT = (reg_G2_BG0CNT & ~REG_G2_BG0CNT_PRIORITY_MASK) | 1;
     if (gSelectCharacter->mUsePlayerEntryList != FALSE) {
         WritePlayerEntryListRegisters();
     }

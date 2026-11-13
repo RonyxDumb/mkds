@@ -94,30 +94,34 @@ void InitSubScreenGraphicsMode5(void) {
         reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x1400;
     }
     GXS_SetGraphicsMode(GX_BGMODE_5);
-    reg_G2S_DB_BG2CNT = (reg_G2S_DB_BG2CNT & ~3) | 2;
-    reg_G2S_DB_BG2CNT &= ~0x40;
-    reg_G2S_DB_BG3CNT &= ~0x40;
-    reg_G2S_DB_BG2CNT = (reg_G2S_DB_BG2CNT & 0x43) | 0x8410;
-    reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & ~3) | 3;
-    reg_G2S_DB_BG3CNT &= ~0x40;
-    reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & 0x43) | 0x8810 | ((IsCourseWithSubBg3CntBit13() != 0) << 13);
+    reg_G2S_DB_BG2CNT = (reg_G2S_DB_BG2CNT & ~REG_G2S_DB_BG2CNT_PRIORITY_MASK) | 2;
+    reg_G2S_DB_BG2CNT &= ~REG_G2S_DB_BG2CNT_MOSAIC_MASK;
+    reg_G2S_DB_BG3CNT &= ~REG_G2S_DB_BG3CNT_MOSAIC_MASK;
+    reg_G2S_DB_BG2CNT =
+        (reg_G2S_DB_BG2CNT & (REG_G2S_DB_BG2CNT_PRIORITY_MASK | REG_G2S_DB_BG2CNT_MOSAIC_MASK)) | 0x8410;
+    reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & ~REG_G2S_DB_BG3CNT_PRIORITY_MASK) | 3;
+    reg_G2S_DB_BG3CNT &= ~REG_G2S_DB_BG3CNT_MOSAIC_MASK;
+    reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & (REG_G2S_DB_BG3CNT_PRIORITY_MASK | REG_G2S_DB_BG3CNT_MOSAIC_MASK)) |
+                        0x8810 | ((IsCourseWithSubBg3CntBit13() != 0) << 13);
 }
 
 void InitSubScreenGraphicsMode0(void) {
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x1e00;
     GXS_SetGraphicsMode(GX_BGMODE_0);
     reg_G2S_DB_BG1OFS = 0;
-    reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & ~3) | 3;
-    reg_G2S_DB_BG1CNT &= ~0x40;
-    reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & 0x43) | 8;
+    reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & ~REG_G2S_DB_BG1CNT_PRIORITY_MASK) | 3;
+    reg_G2S_DB_BG1CNT &= ~REG_G2S_DB_BG1CNT_MOSAIC_MASK;
+    reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & (REG_G2S_DB_BG1CNT_PRIORITY_MASK | REG_G2S_DB_BG1CNT_MOSAIC_MASK)) | 8;
     reg_G2S_DB_BG2OFS = 0x100;
-    reg_G2S_DB_BG2CNT = (reg_G2S_DB_BG2CNT & ~3) | 2;
-    reg_G2S_DB_BG2CNT &= ~0x40;
-    reg_G2S_DB_BG2CNT = (reg_G2S_DB_BG2CNT & 0x43) | 0x4c08;
+    reg_G2S_DB_BG2CNT = (reg_G2S_DB_BG2CNT & ~REG_G2S_DB_BG2CNT_PRIORITY_MASK) | 2;
+    reg_G2S_DB_BG2CNT &= ~REG_G2S_DB_BG2CNT_MOSAIC_MASK;
+    reg_G2S_DB_BG2CNT =
+        (reg_G2S_DB_BG2CNT & (REG_G2S_DB_BG2CNT_PRIORITY_MASK | REG_G2S_DB_BG2CNT_MOSAIC_MASK)) | 0x4c08;
     reg_G2S_DB_BG3OFS = 0x100;
-    reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & ~3) | 2;
-    reg_G2S_DB_BG3CNT &= ~0x40;
-    reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & 0x43) | 0x4e08;
+    reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & ~REG_G2S_DB_BG3CNT_PRIORITY_MASK) | 2;
+    reg_G2S_DB_BG3CNT &= ~REG_G2S_DB_BG3CNT_MOSAIC_MASK;
+    reg_G2S_DB_BG3CNT =
+        (reg_G2S_DB_BG3CNT & (REG_G2S_DB_BG3CNT_PRIORITY_MASK | REG_G2S_DB_BG3CNT_MOSAIC_MASK)) | 0x4e08;
 }
 
 void UploadRaceHud(void) {
@@ -158,9 +162,9 @@ void UploadRaceHud(void) {
                 if (gRaceSetup->mMode == MODE_GRAND_PRIX && gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
                     value = (reg_GX_DISPCNT & REG_GX_DISPCNT_DISPLAY_MASK) >> 8;
                     reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | ((value | 8) << 8);
-                    reg_G2_BG3CNT = (reg_G2_BG3CNT & ~3) | 1;
-                    reg_G2_BG3CNT &= ~0x40;
-                    reg_G2_BG3CNT = (reg_G2_BG3CNT & 0x43) | 0x500;
+                    reg_G2_BG3CNT = (reg_G2_BG3CNT & ~REG_G2_BG3CNT_PRIORITY_MASK) | 1;
+                    reg_G2_BG3CNT &= ~REG_G2_BG3CNT_MOSAIC_MASK;
+                    reg_G2_BG3CNT = (reg_G2_BG3CNT & (REG_G2_BG3CNT_PRIORITY_MASK | REG_G2_BG3CNT_MOSAIC_MASK)) | 0x500;
                     GX_LoadBGPltt(gRaceHud->mNclrs[0]->mData, 0, gRaceHud->mNclrs[0]->mDataSize);
                     GX_LoadBG3Char(gRaceHud->mNcgrs[0]->mData, 0, gRaceHud->mNcgrs[0]->mDataSize);
                     GX_LoadBG3Scr(gRaceHud->mNscrs[1]->mData, 0, 0x600);
@@ -188,12 +192,14 @@ void UploadRaceHud(void) {
                 reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x1c00;
                 GXS_SetGraphicsMode(GX_BGMODE_0);
                 reg_G2S_DB_BG2OFS = 0;
-                reg_G2S_DB_BG2CNT = (reg_G2S_DB_BG2CNT & ~3) | 2;
-                reg_G2S_DB_BG2CNT &= ~0x40;
-                reg_G2S_DB_BG2CNT = (reg_G2S_DB_BG2CNT & 0x43) | 0x208;
-                reg_G2S_DB_BG2CNT = (reg_G2S_DB_BG2CNT & ~3) | 3;
-                reg_G2S_DB_BG3CNT &= ~0x40;
-                reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & 0x43) | 0x308;
+                reg_G2S_DB_BG2CNT = (reg_G2S_DB_BG2CNT & ~REG_G2S_DB_BG2CNT_PRIORITY_MASK) | 2;
+                reg_G2S_DB_BG2CNT &= ~REG_G2S_DB_BG2CNT_MOSAIC_MASK;
+                reg_G2S_DB_BG2CNT =
+                    (reg_G2S_DB_BG2CNT & (REG_G2S_DB_BG2CNT_PRIORITY_MASK | REG_G2S_DB_BG2CNT_MOSAIC_MASK)) | 0x208;
+                reg_G2S_DB_BG2CNT = (reg_G2S_DB_BG2CNT & ~REG_G2S_DB_BG2CNT_PRIORITY_MASK) | 3;
+                reg_G2S_DB_BG3CNT &= ~REG_G2S_DB_BG3CNT_MOSAIC_MASK;
+                reg_G2S_DB_BG3CNT =
+                    (reg_G2S_DB_BG3CNT & (REG_G2S_DB_BG3CNT_PRIORITY_MASK | REG_G2S_DB_BG3CNT_MOSAIC_MASK)) | 0x308;
                 GXS_LoadBGPltt(gRaceHudSubScreenPalettes, 0, 0x200);
                 break;
             case RACE_HUD_SUB_SCREEN_MAP_TURNING:
@@ -205,9 +211,10 @@ void UploadRaceHud(void) {
             case RACE_HUD_SUB_SCREEN_GOAL_KARTS:
             case RACE_HUD_SUB_SCREEN_GOAL_TEAMS:
                 reg_G2S_DB_BG0OFS = 0;
-                reg_G2S_DB_BG0CNT = reg_G2S_DB_BG0CNT & ~3;
-                reg_G2S_DB_BG0CNT &= ~0x40;
-                reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & 0x43) | 0x10c;
+                reg_G2S_DB_BG0CNT = reg_G2S_DB_BG0CNT & ~REG_G2S_DB_BG0CNT_PRIORITY_MASK;
+                reg_G2S_DB_BG0CNT &= ~REG_G2S_DB_BG0CNT_MOSAIC_MASK;
+                reg_G2S_DB_BG0CNT =
+                    (reg_G2S_DB_BG0CNT & (REG_G2S_DB_BG0CNT_PRIORITY_MASK | REG_G2S_DB_BG0CNT_MOSAIC_MASK)) | 0x10c;
                 InitSubScreenGraphicsMode0();
                 GXS_LoadBGPltt(GetRaceGoalSBPaletteAndChars(0)->mPalette->mData, 0,
                                GetRaceGoalSBPaletteAndChars(0)->mPalette->mDataSize);
@@ -299,9 +306,10 @@ void UploadRaceHud(void) {
                 reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x1200;
                 GXS_SetGraphicsMode(GX_BGMODE_0);
                 reg_G2S_DB_BG1OFS = 0;
-                reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & ~3) | 3;
-                reg_G2S_DB_BG1CNT &= ~0x40;
-                reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & 0x43) | 8;
+                reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & ~REG_G2S_DB_BG1CNT_PRIORITY_MASK) | 3;
+                reg_G2S_DB_BG1CNT &= ~REG_G2S_DB_BG1CNT_MOSAIC_MASK;
+                reg_G2S_DB_BG1CNT =
+                    (reg_G2S_DB_BG1CNT & (REG_G2S_DB_BG1CNT_PRIORITY_MASK | REG_G2S_DB_BG1CNT_MOSAIC_MASK)) | 8;
                 GXS_LoadBGPltt(gRaceHud->mNclrs[1]->mData, 0, 0x20);
                 GXS_LoadBG1Char(gRaceHud->mNcgrs[1]->mData, 0, gRaceHud->mNcgrs[1]->mDataSize);
                 GXS_LoadBG1Scr(gRaceHud->mNscrs[2]->mData, 0, gRaceHud->mNscrs[2]->mDataSize);
@@ -606,12 +614,14 @@ void InitMap2D(void) {
         reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x1c00;
         GXS_SetGraphicsMode(GX_BGMODE_0);
         reg_G2S_DB_BG2OFS = 0;
-        reg_G2S_DB_BG2CNT = (reg_G2S_DB_BG2CNT & ~3) | 2;
-        reg_G2S_DB_BG2CNT = reg_G2S_DB_BG2CNT & ~0x40;
-        reg_G2S_DB_BG2CNT = (reg_G2S_DB_BG2CNT & 0x43) | 0x208;
-        reg_G2S_DB_BG2CNT = (reg_G2S_DB_BG2CNT & ~3) | 3;
-        reg_G2S_DB_BG3CNT = reg_G2S_DB_BG3CNT & ~0x40;
-        reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & 0x43) | 0x308;
+        reg_G2S_DB_BG2CNT = (reg_G2S_DB_BG2CNT & ~REG_G2S_DB_BG2CNT_PRIORITY_MASK) | 2;
+        reg_G2S_DB_BG2CNT = reg_G2S_DB_BG2CNT & ~REG_G2S_DB_BG2CNT_MOSAIC_MASK;
+        reg_G2S_DB_BG2CNT =
+            (reg_G2S_DB_BG2CNT & (REG_G2S_DB_BG2CNT_PRIORITY_MASK | REG_G2S_DB_BG2CNT_MOSAIC_MASK)) | 0x208;
+        reg_G2S_DB_BG2CNT = (reg_G2S_DB_BG2CNT & ~REG_G2S_DB_BG2CNT_PRIORITY_MASK) | 3;
+        reg_G2S_DB_BG3CNT = reg_G2S_DB_BG3CNT & ~REG_G2S_DB_BG3CNT_MOSAIC_MASK;
+        reg_G2S_DB_BG3CNT =
+            (reg_G2S_DB_BG3CNT & (REG_G2S_DB_BG3CNT_PRIORITY_MASK | REG_G2S_DB_BG3CNT_MOSAIC_MASK)) | 0x308;
         GXS_LoadBGPltt(nclrs[0]->mData, 0, nclrs[0]->mDataSize);
         GXS_LoadBG2Char(ncgrs[0]->mData, 0, ncgrs[0]->mDataSize);
         GXS_LoadBG2Char(ncgrs[1]->mData, 0x1800, ncgrs[1]->mDataSize);
@@ -692,9 +702,9 @@ void SetupRaceHudScreens(void) {
     GXS_EndLoadBGExtPltt();
     GXS_LoadBGPltt(GetChoisesSBNclr()->mData, 0, 0x200);
     reg_G2S_DB_BG0OFS = 0;
-    reg_G2S_DB_BG0CNT = reg_G2S_DB_BG0CNT & ~3;
-    reg_G2S_DB_BG0CNT &= ~0x40;
-    reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & 0x43) | 0x10c;
+    reg_G2S_DB_BG0CNT = reg_G2S_DB_BG0CNT & ~REG_G2S_DB_BG0CNT_PRIORITY_MASK;
+    reg_G2S_DB_BG0CNT &= ~REG_G2S_DB_BG0CNT_MOSAIC_MASK;
+    reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & (REG_G2S_DB_BG0CNT_PRIORITY_MASK | REG_G2S_DB_BG0CNT_MOSAIC_MASK)) | 0x10c;
     GXS_LoadBG0Char(GetChoisesSBNcgrWithListChars()->mData, 0, GetChoisesSBNcgrWithListChars()->mDataSize);
     GXS_LoadBG0Scr(GetChoisesSListScreenMapData(), 0, 0x600);
     InitSubScreenGraphicsMode5();

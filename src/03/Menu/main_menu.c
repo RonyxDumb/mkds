@@ -68,9 +68,9 @@ void LoadMainFilesAndSetBgCnt(void) {
             LoadFileToVram("char/jtStep1.nsc.l", GXS_LoadBG1Scr);
             break;
     }
-    reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & ~3) | 3;
-    reg_G2_BG1CNT = (reg_G2_BG1CNT & ~3) | 3;
-    reg_G2_BG1CNT = (reg_G2_BG1CNT & ~3) | 3;
+    reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & ~REG_G2S_DB_BG1CNT_PRIORITY_MASK) | 3;
+    reg_G2_BG1CNT = (reg_G2_BG1CNT & ~REG_G2_BG1CNT_PRIORITY_MASK) | 3;
+    reg_G2_BG1CNT = (reg_G2_BG1CNT & ~REG_G2_BG1CNT_PRIORITY_MASK) | 3;
     CombineDispcntBits(1, 2);
     CombineDispcntBits(0, 2);
     SetUpdateFunction(StartMainFadeIn);

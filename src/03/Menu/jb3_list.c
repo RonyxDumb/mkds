@@ -129,7 +129,7 @@ void LoadJb3ListFilesAndSetBgCnt(void) {
     char jb3ListBackNscName[23] = "char/jb3ListBack.nsc.l";
     char ybBgStep2NclName[21] = "char/ybBgStep2.ncl.l";
     char ybBgStep21NclName[22] = "char/ybBgStep21.ncl.l";
-    reg_G2_BG2CNT = (reg_G2_BG2CNT & 0x43) | 0xe18;
+    reg_G2_BG2CNT = (reg_G2_BG2CNT & (REG_G2_BG2CNT_PRIORITY_MASK | REG_G2_BG2CNT_MOSAIC_MASK)) | 0xe18;
     LoadFileToVram("char/ybObjKb.ncl.l", GX_LoadOBJPltt);
     LoadFileToVram("char/jbBgStep2.ncg.l", GX_LoadBG3Char);
     LoadFileToVram("char/jbBgStep21.ncg.l", GX_LoadBG2Char);
@@ -140,12 +140,12 @@ void LoadJb3ListFilesAndSetBgCnt(void) {
     RequestBg2ScrUpload();
     gJb3List->mYbBgStep2NclFiles[0] = LoadFile(BuildFilePathWithLanguage((u8 *) ybBgStep2NclName), NULL, 4);
     gJb3List->mYbBgStep2NclFiles[1] = LoadFile(BuildFilePathWithLanguage((u8 *) ybBgStep21NclName), NULL, 4);
-    reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & ~0x3) | 0x3;
-    reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & ~0x3) | 0x3;
-    reg_G2_BG0CNT = (reg_G2_BG0CNT & ~0x3) | 0x3;
-    reg_G2_BG1CNT = (reg_G2_BG1CNT & ~0x3) | 0x2;
-    reg_G2_BG2CNT = (reg_G2_BG2CNT & ~0x3) | 0x3;
-    reg_G2_BG3CNT = (reg_G2_BG3CNT & ~0x3) | 0x2;
+    reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & ~REG_G2S_DB_BG0CNT_PRIORITY_MASK) | 0x3;
+    reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & ~REG_G2S_DB_BG1CNT_PRIORITY_MASK) | 0x3;
+    reg_G2_BG0CNT = (reg_G2_BG0CNT & ~REG_G2_BG0CNT_PRIORITY_MASK) | 0x3;
+    reg_G2_BG1CNT = (reg_G2_BG1CNT & ~REG_G2_BG1CNT_PRIORITY_MASK) | 0x2;
+    reg_G2_BG2CNT = (reg_G2_BG2CNT & ~REG_G2_BG2CNT_PRIORITY_MASK) | 0x3;
+    reg_G2_BG3CNT = (reg_G2_BG3CNT & ~REG_G2_BG3CNT_PRIORITY_MASK) | 0x2;
 }
 
 void ResetJb3ListScrollAndSelection(void) {
@@ -482,7 +482,7 @@ void UpdateJb3ListRelease(void) {
     ClearDispcntBits(0, 0x1d);
     reg_G2_BG0OFS = 0;
     reg_G2_BG2OFS = 0;
-    reg_G2_BG2CNT = (reg_G2_BG2CNT & 0x43) | 0xe10;
+    reg_G2_BG2CNT = (reg_G2_BG2CNT & (REG_G2_BG2CNT_PRIORITY_MASK | REG_G2_BG2CNT_MOSAIC_MASK)) | 0xe10;
     chosenId = gJb3List->mChosenId;
     switch (chosenId) {
         case 0:

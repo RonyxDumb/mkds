@@ -800,7 +800,7 @@ void SelectKartG2S_SetBG3Offset(u32 offsetX, u32 offsetY) {
 }
 
 void WriteSubBg3CntBits(u32 bits) {
-    reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & ~3) | bits;
+    reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & ~REG_G2S_DB_BG3CNT_PRIORITY_MASK) | bits;
 }
 
 void WriteSubBlendAlpha(u32 firstPlane, u32 secondPlane, u32 firstCoefficient, u32 secondCoefficient) {

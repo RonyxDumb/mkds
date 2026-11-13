@@ -183,9 +183,9 @@ void PrintMessageScreenText(void) {
     *(vu16 *) 0x50001fc = 0xffff;
     *(vu16 *) 0x5000000 = 0;
     reg_G2_BG1OFS = 0;
-    reg_G2_BG1CNT = reg_G2_BG1CNT & ~3;
-    reg_G2_BG1CNT = reg_G2_BG1CNT & ~0x40;
-    reg_G2_BG1CNT = (reg_G2_BG1CNT & 0x43) | 0x400;
+    reg_G2_BG1CNT = reg_G2_BG1CNT & ~REG_G2_BG1CNT_PRIORITY_MASK;
+    reg_G2_BG1CNT = reg_G2_BG1CNT & ~REG_G2_BG1CNT_MOSAIC_MASK;
+    reg_G2_BG1CNT = (reg_G2_BG1CNT & (REG_G2_BG1CNT_PRIORITY_MASK | REG_G2_BG1CNT_MOSAIC_MASK)) | 0x400;
     DC_FlushRange(gMessageScreen->mCharBuffer, 0x1400);
     DC_FlushRange(gMessageScreen->mScreenMap, 0x600);
     GX_LoadBG1Char(gMessageScreen->mCharBuffer, 0, 0x1400);

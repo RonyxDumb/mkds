@@ -801,11 +801,12 @@ void InitRecordVS(void *heap) {
     s32 columnIndex;
     u16 objectIndex;
     u16 mainBase;
-    reg_G2_BG0CNT = (reg_G2_BG0CNT & ~3) | 2;
-    reg_G2_BG1CNT = (reg_G2_BG1CNT & ~3) | 1;
-    reg_G2_BG0CNT = (reg_G2_BG0CNT & 0x43) | 0xc800;
-    reg_G2_BG1CNT = (reg_G2_BG1CNT & 0x43) | 0xcc00;
-    reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & 0x43) | 0x1018;
+    reg_G2_BG0CNT = (reg_G2_BG0CNT & ~REG_G2_BG0CNT_PRIORITY_MASK) | 2;
+    reg_G2_BG1CNT = (reg_G2_BG1CNT & ~REG_G2_BG1CNT_PRIORITY_MASK) | 1;
+    reg_G2_BG0CNT = (reg_G2_BG0CNT & (REG_G2_BG0CNT_PRIORITY_MASK | REG_G2_BG0CNT_MOSAIC_MASK)) | 0xc800;
+    reg_G2_BG1CNT = (reg_G2_BG1CNT & (REG_G2_BG1CNT_PRIORITY_MASK | REG_G2_BG1CNT_MOSAIC_MASK)) | 0xcc00;
+    reg_G2S_DB_BG1CNT =
+        (reg_G2S_DB_BG1CNT & (REG_G2S_DB_BG1CNT_PRIORITY_MASK | REG_G2S_DB_BG1CNT_MOSAIC_MASK)) | 0x1018;
     gRecordVS = HeapAlloc(heap, 0x94);
     gRecordVS->mHeap = heap;
     gRecordVS->mPageIndex = GetRecordScenePageIndex();

@@ -65,9 +65,9 @@ void ClearEndingScenePointer(void) {
 void InitEndingSceneDisplay(void) {
     reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | 0x100;
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x100;
-    reg_G2_BG0CNT = (reg_G2_BG0CNT & ~3) | 3;
-    reg_G2_BG0CNT = (reg_G2_BG0CNT & 0x43) | 0x1f00;
-    reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & 0x43) | 0x1000;
+    reg_G2_BG0CNT = (reg_G2_BG0CNT & ~REG_G2_BG0CNT_PRIORITY_MASK) | 3;
+    reg_G2_BG0CNT = (reg_G2_BG0CNT & (REG_G2_BG0CNT_PRIORITY_MASK | REG_G2_BG0CNT_MOSAIC_MASK)) | 0x1f00;
+    reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & (REG_G2S_DB_BG0CNT_PRIORITY_MASK | REG_G2S_DB_BG0CNT_MOSAIC_MASK)) | 0x1000;
     reg_G2_BG2OFS = 0;
     reg_G2S_DB_BG0OFS = 0;
     *(vu16 *) 0x5000000 = 0;
@@ -93,7 +93,7 @@ void QueueEndingSceneNcgrNscrNclr(int i) {
 }
 
 void QueueEndingSceneIndex1Data(void) {
-    reg_G2_BG0CNT = reg_G2_BG0CNT & 0x43 | 0x00001f80u;
+    reg_G2_BG0CNT = reg_G2_BG0CNT & (REG_G2_BG0CNT_PRIORITY_MASK | REG_G2_BG0CNT_MOSAIC_MASK) | 0x00001f80u;
     QueueEndingSceneNcgrNscrNclr(1);
     gEndingScene->mIndex1Queued = TRUE;
 }

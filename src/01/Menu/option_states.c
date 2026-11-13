@@ -55,10 +55,10 @@ void SetupOptionBackgrounds(void) {
     visiblePlaneBits = (reg_GX_DISPCNT & REG_GX_DISPCNT_DISPLAY_MASK) >> 8;
     visiblePlaneBits |= 1;
     reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | (visiblePlaneBits << 8);
-    reg_G2_BG0CNT = (reg_G2_BG0CNT & 0x43) | 0x9000;
-    reg_G2_BG0CNT = (reg_G2_BG0CNT & ~3) | 2;
-    reg_G2_BG1CNT = (reg_G2_BG1CNT & 0x43) | 0x9204;
-    reg_G2_BG1CNT = (reg_G2_BG1CNT & ~3) | 1;
+    reg_G2_BG0CNT = (reg_G2_BG0CNT & (REG_G2_BG0CNT_PRIORITY_MASK | REG_G2_BG0CNT_MOSAIC_MASK)) | 0x9000;
+    reg_G2_BG0CNT = (reg_G2_BG0CNT & ~REG_G2_BG0CNT_PRIORITY_MASK) | 2;
+    reg_G2_BG1CNT = (reg_G2_BG1CNT & (REG_G2_BG1CNT_PRIORITY_MASK | REG_G2_BG1CNT_MOSAIC_MASK)) | 0x9204;
+    reg_G2_BG1CNT = (reg_G2_BG1CNT & ~REG_G2_BG1CNT_PRIORITY_MASK) | 1;
     bg0Screen = (void *) G2S_GetBG0ScrPtr();
     firstFillValue = 0;
     MIi_CpuClearFast(firstFillValue, bg0Screen, 0x1000);

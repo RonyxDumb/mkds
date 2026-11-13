@@ -70,11 +70,11 @@ void LoadValueRecordsFilesAndSetBgCnt(void) {
     LoadFileToVram("char/jbBgStep3.ncg.l", GX_LoadBG2Char);
     LoadFileToVram("char/ybBgStep3.ncl.l", GX_LoadBGPltt);
     LoadFileToVram("char/xb4Multi.nsc.l", GX_LoadBG2Scr);
-    reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & ~3) | 3;
-    reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & ~3) | 3;
-    reg_G2_BG0CNT = (reg_G2_BG0CNT & ~3) | 3;
-    reg_G2_BG1CNT = (reg_G2_BG1CNT & ~3) | 3;
-    reg_G2_BG2CNT = (reg_G2_BG2CNT & ~3) | 3;
+    reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & ~REG_G2S_DB_BG0CNT_PRIORITY_MASK) | 3;
+    reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & ~REG_G2S_DB_BG1CNT_PRIORITY_MASK) | 3;
+    reg_G2_BG0CNT = (reg_G2_BG0CNT & ~REG_G2_BG0CNT_PRIORITY_MASK) | 3;
+    reg_G2_BG1CNT = (reg_G2_BG1CNT & ~REG_G2_BG1CNT_PRIORITY_MASK) | 3;
+    reg_G2_BG2CNT = (reg_G2_BG2CNT & ~REG_G2_BG2CNT_PRIORITY_MASK) | 3;
 }
 
 void StartValueRecordsFadeIn(void) {

@@ -280,7 +280,7 @@ void G3X_Init(void) {
     reg_G3X_CLRIMAGE_OFFSET = 0;
     reg_G3X_FOG_COLOR = 0;
     reg_G3X_FOG_OFFSET = 0;
-    reg_G2_BG0CNT &= ~3;
+    reg_G2_BG0CNT &= ~REG_G2_BG0CNT_PRIORITY_MASK;
     G3X_InitTable();
     reg_G3_POLYGON_ATTR = 0x1f0080;
     reg_G3_TEXIMAGE_PARAM = 0;

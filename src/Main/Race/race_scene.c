@@ -137,7 +137,7 @@ void SetupRaceDisplay(void *heap) {
     }
     InitDisplayFromSettings(settings);
     SetupDispCap();
-    reg_G2_BG0CNT = (reg_G2_BG0CNT & ~3) | 2;
+    reg_G2_BG0CNT = (reg_G2_BG0CNT & ~REG_G2_BG0CNT_PRIORITY_MASK) | 2;
 }
 
 void InitRaceScene(void) {
