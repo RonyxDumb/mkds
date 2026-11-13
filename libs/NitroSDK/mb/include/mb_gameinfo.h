@@ -67,7 +67,7 @@ typedef struct MbBeacon {
     /* 05 */ u8 mSeqNoFixed;
     /* 06 */ u8 mSeqNoVolat;
     /* 07 */ u8 mSequence;
-    /* 08 */ u8 mChecksum[2];
+    /* 08 */ u16 mChecksum;
     /* 0a */ u8 mByte0a;
     /* 0b */ u8 mFlagmentMaxNum;
     /* 0c */ u16 mHalf0c;

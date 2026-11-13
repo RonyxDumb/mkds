@@ -324,7 +324,7 @@ u32 MB_RecvGameInfoBeacon(EntryCallbackFunc callback, u32 value, WMBssDesc *scan
     MIi_CpuCopy16(scanBlock, &bssDescbuf, 0xc0);
     scanBlock = &bssDescbuf;
     gReceivedGameInfo = (MbBeacon *) &bssDescbuf.mGameInfo.mUserGameInfo;
-    if (MBi_calc_cksum(OFFSET_PTR(u16, gReceivedGameInfo, 8), 0x68) != 0) {
+    if (MBi_calc_cksum(&gReceivedGameInfo->mChecksum, 0x68) != 0) {
         return 0;
     }
     entryIndex = MBi_GetStoreElement((u8 *) scanBlock, callback);
