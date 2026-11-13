@@ -10,6 +10,6 @@ NNSG3dResTexPatAnmFV *NNSi_G3dGetTexPatAnmFV(const NNSG3dResTexPatAnm *pPatAnm, 
 const u32 *NNSi_G3dGetTexPatAnmPlttNameByIdx(const NNSG3dResTexPatAnm *pPatAnm, u8 plttIdx);
 const u32 *NNSi_G3dGetTexPatAnmTexNameByIdx(const NNSG3dResTexPatAnm *pPatAnm, u8 texIdx);
 
-extern u32 data_02161924[1];
-extern u32 data_02161928[2];
-extern Vec3 data_02161930[3];
+extern u32 gSbcBillboardYPackedOps[1];
+extern u32 gSbcBillboardYOpArgs[2];
+extern Vec3 gSbcBillboardYAxes[3];

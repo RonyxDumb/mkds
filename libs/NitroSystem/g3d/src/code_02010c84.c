@@ -33,10 +33,8 @@ void (*NNS_G3dFuncAnmJntNsBcaDefault)(void *, NNSG3dAnmObj *, u32) = (void *) NN
 void (*NNS_G3dFuncAnmVisNsBvaDefault)(void *, NNSG3dAnmObj *, u32) = (void *) NNSi_G3dAnmCalcNsBva;
 u32 NNS_G3dAnmFmtNum = 5;
 NNSG3dAnmObjInitFunc NNS_G3dAnmObjInitFuncArray[10] = {
-    {'M', 0, 'MA', NNSi_G3dAnmObjInitNsBma},
-    {'M', 0, 'TP', NNSi_G3dAnmObjInitNsBtp},
-    {'M', 0, 'TA', NNSi_G3dAnmObjInitNsBta},
-    {'V', 0, 'VA', NNSi_G3dAnmObjInitNsBva},
+    {'M', 0, 'MA', NNSi_G3dAnmObjInitNsBma}, {'M', 0, 'TP', NNSi_G3dAnmObjInitNsBtp},
+    {'M', 0, 'TA', NNSi_G3dAnmObjInitNsBta}, {'V', 0, 'VA', NNSi_G3dAnmObjInitNsBva},
     {'J', 0, 'CA', NNSi_G3dAnmObjInitNsBca},
 };
 
@@ -186,18 +184,18 @@ void NNSi_G3dFuncSbc_BB(NNSG3dRS *state, u32 mode) {
         scaleVec->z = VEC_Mag((Vec3 *) &clipMtx.mUnk_00[2]);
         if (NNS_G3dGlb.mFlag & 1) {
             reg_G3X_GXFIFO = 0x171012;
-            MIi_CpuSend32(data_021618e0, &reg_G3X_GXFIFO, 8);
+            MIi_CpuSend32(gSbcBillboardOpArgs, &reg_G3X_GXFIFO, 8);
             MIi_CpuSend32(NNS_G3dGlbGetInvWV(), &reg_G3X_GXFIFO, 0x30);
             reg_G3X_GXFIFO = 0x1b19;
-            MIi_CpuSend32(data_021618e8, &reg_G3X_GXFIFO, 0x3c);
+            MIi_CpuSend32(gSbcBillboardMatrix, &reg_G3X_GXFIFO, 0x3c);
         } else if (NNS_G3dGlb.mFlag & 2) {
             reg_G3X_GXFIFO = 0x171012;
-            MIi_CpuSend32(data_021618e0, &reg_G3X_GXFIFO, 8);
+            MIi_CpuSend32(gSbcBillboardOpArgs, &reg_G3X_GXFIFO, 8);
             MIi_CpuSend32(NNS_G3dGlbGetInvV(), &reg_G3X_GXFIFO, 0x30);
             reg_G3X_GXFIFO = 0x1b19;
-            MIi_CpuSend32(data_021618e8, &reg_G3X_GXFIFO, 0x3c);
+            MIi_CpuSend32(gSbcBillboardMatrix, &reg_G3X_GXFIFO, 0x3c);
         } else {
-            MIi_CpuSend32(data_021618dc, &reg_G3X_GXFIFO, 0x48);
+            MIi_CpuSend32(gSbcBillboardPackedOps, &reg_G3X_GXFIFO, 0x48);
         }
     }
     if (timing == 3) {
@@ -228,7 +226,7 @@ void NNSi_G3dFuncSbc_BBY(NNSG3dRS *state, u32 mode) {
     u32 commandSize = 2;
     Vec3 *pos = &gSbcBillboardYPosition;
     Vec3 *scaleVec = &gSbcBillboardYScale;
-    Vec3 *axes = data_02161930;
+    Vec3 *axes = gSbcBillboardYAxes;
 
     if (state->mFlag & 0x200) {
         if (mode == 0x40 || mode == 0x60) {
@@ -287,18 +285,18 @@ void NNSi_G3dFuncSbc_BBY(NNSG3dRS *state, u32 mode) {
         }
         if (NNS_G3dGlb.mFlag & 1) {
             reg_G3X_GXFIFO = 0x171012;
-            MIi_CpuSend32(data_02161928, &reg_G3X_GXFIFO, 8);
+            MIi_CpuSend32(gSbcBillboardYOpArgs, &reg_G3X_GXFIFO, 8);
             MIi_CpuSend32(NNS_G3dGlbGetInvWV(), &reg_G3X_GXFIFO, 0x30);
             reg_G3X_GXFIFO = 0x1b19;
-            MIi_CpuSend32(data_02161930, &reg_G3X_GXFIFO, 0x3c);
+            MIi_CpuSend32(gSbcBillboardYAxes, &reg_G3X_GXFIFO, 0x3c);
         } else if (NNS_G3dGlb.mFlag & 2) {
             reg_G3X_GXFIFO = 0x171012;
-            MIi_CpuSend32(data_02161928, &reg_G3X_GXFIFO, 8);
+            MIi_CpuSend32(gSbcBillboardYOpArgs, &reg_G3X_GXFIFO, 8);
             MIi_CpuSend32(NNS_G3dGlbGetInvV(), &reg_G3X_GXFIFO, 0x30);
             reg_G3X_GXFIFO = 0x1b19;
-            MIi_CpuSend32(data_02161930, &reg_G3X_GXFIFO, 0x3c);
+            MIi_CpuSend32(gSbcBillboardYAxes, &reg_G3X_GXFIFO, 0x3c);
         } else {
-            MIi_CpuSend32(data_02161924, &reg_G3X_GXFIFO, 0x48);
+            MIi_CpuSend32(gSbcBillboardYPackedOps, &reg_G3X_GXFIFO, 0x48);
         }
     }
     if (timing == 3) {
