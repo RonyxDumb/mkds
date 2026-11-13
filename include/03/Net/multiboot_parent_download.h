@@ -15,8 +15,8 @@ struct MultiBootParent {
     /* 0004 */ u16 mRequestedMask;
     /* 0006 */ u16 mDownloadPendingMask;
     /* 0008 */ u16 mDownloadStartedMask;
-    /* 000a */ u16 mUnk_0a;
-    /* 000c */ u16 mUnk_0c;
+    /* 000a */ u16 mSendCompleteMask;
+    /* 000c */ u16 mBootStartableMask;
     /* 000e */ MultiBootChildRecord mRecords[15];
     /* 01d0 */ u8 mUnk_01d0[0xfe70];
     /* 10040 */ u8 mCommWork[0xb100];

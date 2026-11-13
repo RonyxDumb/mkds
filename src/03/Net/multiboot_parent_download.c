@@ -115,8 +115,8 @@ void AcceptMultiBootChildRequest(u32 aid) {
         gMultiBootParent->mRequestedMask &= clearMask;
         gMultiBootParent->mDownloadPendingMask &= clearMask;
         gMultiBootParent->mDownloadStartedMask &= clearMask;
-        gMultiBootParent->mUnk_0a &= clearMask;
-        gMultiBootParent->mUnk_0c &= clearMask;
+        gMultiBootParent->mSendCompleteMask &= clearMask;
+        gMultiBootParent->mBootStartableMask &= clearMask;
         OS_RestoreInterrupts(savedInterrupts);
         MB_DisconnectChild(aid);
     }
@@ -134,8 +134,8 @@ void KickMultiBootChild(u32 aid) {
         gMultiBootParent->mRequestedMask &= clearMask;
         gMultiBootParent->mDownloadPendingMask &= clearMask;
         gMultiBootParent->mDownloadStartedMask &= clearMask;
-        gMultiBootParent->mUnk_0a &= clearMask;
-        gMultiBootParent->mUnk_0c &= clearMask;
+        gMultiBootParent->mSendCompleteMask &= clearMask;
+        gMultiBootParent->mBootStartableMask &= clearMask;
         OS_RestoreInterrupts(savedInterrupts);
         MB_DisconnectChild(aid);
     } else {
@@ -159,8 +159,8 @@ void StartMultiBootChildDownload(u32 aid) {
         gMultiBootParent->mRequestedMask &= clearMask;
         gMultiBootParent->mDownloadPendingMask &= clearMask;
         gMultiBootParent->mDownloadStartedMask &= clearMask;
-        gMultiBootParent->mUnk_0a &= clearMask;
-        gMultiBootParent->mUnk_0c &= clearMask;
+        gMultiBootParent->mSendCompleteMask &= clearMask;
+        gMultiBootParent->mBootStartableMask &= clearMask;
         OS_RestoreInterrupts(savedInterrupts);
         MB_DisconnectChild(aid);
     } else {
@@ -190,8 +190,8 @@ void StartMultiBootDownloads(void) {
                     gMultiBootParent->mRequestedMask &= clearMask;
                     gMultiBootParent->mDownloadPendingMask &= clearMask;
                     gMultiBootParent->mDownloadStartedMask &= clearMask;
-                    gMultiBootParent->mUnk_0a &= clearMask;
-                    gMultiBootParent->mUnk_0c &= clearMask;
+                    gMultiBootParent->mSendCompleteMask &= clearMask;
+                    gMultiBootParent->mBootStartableMask &= clearMask;
                     OS_RestoreInterrupts(savedInterrupts);
                     MB_DisconnectChild(aid);
                 } else {
@@ -229,7 +229,7 @@ void StartMultiBootBootRequests(void) {
     aid = 1;
     for (; aid < 16; aid++) {
         aidBit = 1 << aid;
-        if ((gMultiBootParent->mUnk_0a & aidBit) != 0) {
+        if ((gMultiBootParent->mSendCompleteMask & aidBit) != 0) {
             if (MB_CommResponseRequest(aid, 3) == 0) {
                 clearMask = ~aidBit;
                 savedInterrupts = OS_DisableInterrupts();
@@ -237,8 +237,8 @@ void StartMultiBootBootRequests(void) {
                 gMultiBootParent->mRequestedMask &= clearMask;
                 gMultiBootParent->mDownloadPendingMask &= clearMask;
                 gMultiBootParent->mDownloadStartedMask &= clearMask;
-                gMultiBootParent->mUnk_0a &= clearMask;
-                gMultiBootParent->mUnk_0c &= clearMask;
+                gMultiBootParent->mSendCompleteMask &= clearMask;
+                gMultiBootParent->mBootStartableMask &= clearMask;
                 OS_RestoreInterrupts(savedInterrupts);
                 MB_DisconnectChild(aid);
             } else {
@@ -265,7 +265,7 @@ void MultiBootParentStateCallback(u32 aid, u32 code, WirelessMessage *event) {
     u8 *childMac;
 
     switch (code) {
-        case 2:
+        case MULTIBOOT_PARENT_CHILD_CONNECTED:
             if (GetMultiBootParentState() == 2) {
                 parent = gMultiBootParent;
                 value = OS_DisableInterrupts();
@@ -281,7 +281,7 @@ void MultiBootParentStateCallback(u32 aid, u32 code, WirelessMessage *event) {
                 gMultiBootParent->mRecords[aid - 1].mAid = aid;
             }
             break;
-        case 3:
+        case MULTIBOOT_PARENT_CHILD_DISCONNECTED:
             if (GetMultiBootChildState(aid) != 6) {
                 clearMask = ~(1 << aid);
                 value = OS_DisableInterrupts();
@@ -289,12 +289,12 @@ void MultiBootParentStateCallback(u32 aid, u32 code, WirelessMessage *event) {
                 gMultiBootParent->mRequestedMask &= clearMask;
                 gMultiBootParent->mDownloadPendingMask &= clearMask;
                 gMultiBootParent->mDownloadStartedMask &= clearMask;
-                gMultiBootParent->mUnk_0a &= clearMask;
-                gMultiBootParent->mUnk_0c &= clearMask;
+                gMultiBootParent->mSendCompleteMask &= clearMask;
+                gMultiBootParent->mBootStartableMask &= clearMask;
                 OS_RestoreInterrupts(value);
             }
             break;
-        case 10:
+        case MULTIBOOT_PARENT_CHILD_REQUESTED:
             if (GetMultiBootParentState() != 2) {
                 KickMultiBootChild(aid);
                 break;
@@ -306,25 +306,25 @@ void MultiBootParentStateCallback(u32 aid, u32 code, WirelessMessage *event) {
                 MI_CpuCopy8((void *) value, &gMultiBootParent->mRecords[aid - 1], 0x16);
             }
             break;
-        case 14:
+        case MULTIBOOT_PARENT_CHILD_WAITING:
             gMultiBootParent->mRequestedMask &= ~(1 << aid);
             gMultiBootParent->mDownloadPendingMask |= 1 << aid;
             if (GetMultiBootParentState() == 3) {
                 StartMultiBootChildDownload(aid);
             }
             break;
-        case 7:
+        case MULTIBOOT_PARENT_DOWNLOAD_DONE:
             gMultiBootParent->mDownloadStartedMask &= ~(1 << aid);
-            gMultiBootParent->mUnk_0a |= 1 << aid;
+            gMultiBootParent->mSendCompleteMask |= 1 << aid;
             break;
-        case 9:
-            gMultiBootParent->mUnk_0a &= ~(1 << aid);
-            gMultiBootParent->mUnk_0c |= 1 << aid;
-            if (gMultiBootParent->mMask == gMultiBootParent->mUnk_0c) {
+        case MULTIBOOT_PARENT_CHILD_BOOTED:
+            gMultiBootParent->mSendCompleteMask &= ~(1 << aid);
+            gMultiBootParent->mBootStartableMask |= 1 << aid;
+            if (gMultiBootParent->mMask == gMultiBootParent->mBootStartableMask) {
                 MB_EndToIdle();
             }
             break;
-        case 12:
+        case MULTIBOOT_PARENT_ENDED:
             if (GetMultiBootParentState() == 4) {
                 SetMultiBootParentState(5);
             } else {
@@ -337,7 +337,7 @@ void MultiBootParentStateCallback(u32 aid, u32 code, WirelessMessage *event) {
                 gMultiBootParent->mCommWorkPointer = NULL;
             }
             break;
-        case 13:
+        case MULTIBOOT_PARENT_ERROR:
             switch (event->mCommand) {
                 case 1:
                 case 2:
@@ -348,12 +348,12 @@ void MultiBootParentStateCallback(u32 aid, u32 code, WirelessMessage *event) {
                     break;
             }
             break;
-        case 1:
-        case 4:
-        case 5:
-        case 6:
-        case 8:
-        case 11:
+        case MULTIBOOT_PARENT_STARTED:
+        case MULTIBOOT_PARENT_CHILD_REFUSED:
+        case MULTIBOOT_PARENT_CHILD_ENTERED:
+        case MULTIBOOT_PARENT_DOWNLOAD_STARTED:
+        case MULTIBOOT_PARENT_BOOT_ACKED:
+        case MULTIBOOT_PARENT_ENTRY_FULL:
             break;
         default:
             OS_Terminate();
@@ -377,8 +377,8 @@ u16 GetMultiBootChildMask(u32 maskIndex) {
     gMultiBootMaskPointers[1] = &parent->mRequestedMask;
     gMultiBootMaskPointers[2] = &parent->mDownloadPendingMask;
     gMultiBootMaskPointers[3] = &parent->mDownloadStartedMask;
-    gMultiBootMaskPointers[4] = &parent->mUnk_0a;
-    gMultiBootMaskPointers[5] = &parent->mUnk_0c;
+    gMultiBootMaskPointers[4] = &parent->mSendCompleteMask;
+    gMultiBootMaskPointers[5] = &parent->mBootStartableMask;
     return *gMultiBootMaskPointers[maskIndex];
 }
 
