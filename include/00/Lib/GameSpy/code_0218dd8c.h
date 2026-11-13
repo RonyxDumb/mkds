@@ -14,13 +14,13 @@ typedef struct Hashtable {
     /* 10 */ s32 (*mCompFn)(void *, void *);
 } Hashtable;
 
-Hashtable *HashtableCreate(s32 elemSize, s32 nBuckets, s32 e, s32 (*hashFn)(void *, s32), s32 (*compFn)(void *, void *),
-                           void (*h)(void *));
+Hashtable *HashtableCreate(s32 elemSize, s32 nBuckets, s32 initialCount, s32 (*hashFn)(void *, s32),
+                           s32 (*compFn)(void *, void *), void (*freeElement)(void *));
 
-void *HashtableFindByFn(Hashtable *table, int fn, const void *c);
-void HashtableForEach(Hashtable *table, void (*fn)(void *, void *), void *d);
-void *HashtableFind(Hashtable *table, void *d);
-BOOL HashtableRemove(Hashtable *table, void *d);
-void HashtableSet(Hashtable *table, void *d);
+void *HashtableFindByFn(Hashtable *table, int fn, const void *userData);
+void HashtableForEach(Hashtable *table, void (*fn)(void *, void *), void *userData);
+void *HashtableFind(Hashtable *table, void *elem);
+BOOL HashtableRemove(Hashtable *table, void *elem);
+void HashtableSet(Hashtable *table, void *elem);
 s32 HashtableGetCount(Hashtable *table);
-void HashtableDelete(void *c);
+void HashtableDelete(void *tableArg);

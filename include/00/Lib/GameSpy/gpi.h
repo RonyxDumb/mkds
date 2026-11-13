@@ -12,4 +12,4 @@ void gpiDestroy(GpConnection *connection);
 
 typedef struct GpConnection GpConnection;
 
-u32 GpiInitialize(GpConnection *a, s32 b, s32 c);
+u32 GpiInitialize(GpConnection *connection, s32 titleNumber, s32 spaceId);

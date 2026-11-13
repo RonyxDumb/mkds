@@ -9,10 +9,10 @@
 #include "00/Lib/GameSpy/code_0218d818.h"
 #include "code_021382a8.h"
 
-Hashtable *HashtableCreate(s32 elemSize, s32 nBuckets, s32 e, s32 (*hashFn)(void *, s32), s32 (*compFn)(void *, void *),
-                           void (*h)(void *)) {
+Hashtable *HashtableCreate(s32 elemSize, s32 nBuckets, s32 initialCount, s32 (*hashFn)(void *, s32),
+                           s32 (*compFn)(void *, void *), void (*freeElement)(void *)) {
     Hashtable *table;
-    s32 b;
+    s32 bucketIndex;
     if (hashFn == NULL) {
         AssertionFailed("hashFn", "hashtable.c", NULL, 0x38);
     }
@@ -33,25 +33,25 @@ Hashtable *HashtableCreate(s32 elemSize, s32 nBuckets, s32 e, s32 (*hashFn)(void
     if (table->mBuckets == NULL) {
         AssertionFailed("table->buckets", "hashtable.c", NULL, 0x41);
     }
-    for (b = 0; b < nBuckets; b++) {
-        table->mBuckets[b] = DarrayCreate(elemSize, e, h);
+    for (bucketIndex = 0; bucketIndex < nBuckets; bucketIndex++) {
+        table->mBuckets[bucketIndex] = DarrayCreate(elemSize, initialCount, freeElement);
     }
     table->mBucketCount = nBuckets;
-    table->mElemCallback = h;
+    table->mElemCallback = freeElement;
     table->mCompFn = compFn;
     table->mHashFn = hashFn;
     return table;
 }
 
-void HashtableDelete(void *c) {
-    Hashtable *table = c;
-    s32 b;
+void HashtableDelete(void *tableArg) {
+    Hashtable *table = tableArg;
+    s32 bucketIndex;
     if (table == NULL) {
         AssertionFailed("table", "hashtable.c", NULL, 0x51);
     }
     if (table != NULL) {
-        for (b = 0; b < table->mBucketCount; b++) {
-            DarrayDelete(table->mBuckets[b]);
+        for (bucketIndex = 0; bucketIndex < table->mBucketCount; bucketIndex++) {
+            DarrayDelete(table->mBuckets[bucketIndex]);
         }
         DWCi_GsFree(table->mBuckets);
         DWCi_GsFree(table);
@@ -59,83 +59,83 @@ void HashtableDelete(void *c) {
 }
 
 s32 HashtableGetCount(Hashtable *table) {
-    s32 a = 0;
-    s32 b;
+    s32 total = 0;
+    s32 bucketIndex;
     if (table == NULL) {
         AssertionFailed("table", "hashtable.c", NULL, 0x61);
     }
     if (table == NULL) {
         return 0;
     }
-    for (b = 0; b < table->mBucketCount; b++) {
-        a += DarrayGetCount(table->mBuckets[b]);
+    for (bucketIndex = 0; bucketIndex < table->mBucketCount; bucketIndex++) {
+        total += DarrayGetCount(table->mBuckets[bucketIndex]);
     }
-    return a;
+    return total;
 }
 
-void HashtableSet(Hashtable *table, void *d) {
-    s32 a;
-    s32 b;
+void HashtableSet(Hashtable *table, void *elem) {
+    s32 bucketNo;
+    s32 elemIndex;
     if (table == NULL) {
         AssertionFailed("table", "hashtable.c", NULL, 0x71);
     }
     if (table != NULL) {
-        a = table->mHashFn(d, table->mBucketCount);
-        b = DarrayFindIndex(table->mBuckets[a], d, (UnkCompare *) table->mCompFn, 0, 0);
-        if (b == -1) {
-            DarrayAppend(table->mBuckets[a], d);
+        bucketNo = table->mHashFn(elem, table->mBucketCount);
+        elemIndex = DarrayFindIndex(table->mBuckets[bucketNo], elem, (UnkCompare *) table->mCompFn, 0, 0);
+        if (elemIndex == -1) {
+            DarrayAppend(table->mBuckets[bucketNo], elem);
             return;
         }
-        DarrayReplace(table->mBuckets[a], d, b);
+        DarrayReplace(table->mBuckets[bucketNo], elem, elemIndex);
     }
 }
 
-BOOL HashtableRemove(Hashtable *table, void *d) {
-    s32 a;
-    s32 b;
+BOOL HashtableRemove(Hashtable *table, void *elem) {
+    s32 bucketNo;
+    s32 elemIndex;
     if (table == NULL) {
         AssertionFailed("table", "hashtable.c", NULL, 0x82);
     }
     if (table == NULL) {
         return FALSE;
     }
-    a = table->mHashFn(d, table->mBucketCount);
-    b = DarrayFindIndex(table->mBuckets[a], d, (UnkCompare *) table->mCompFn, 0, 0);
-    if (b != -1) {
-        DarrayRemove(table->mBuckets[a], b);
+    bucketNo = table->mHashFn(elem, table->mBucketCount);
+    elemIndex = DarrayFindIndex(table->mBuckets[bucketNo], elem, (UnkCompare *) table->mCompFn, 0, 0);
+    if (elemIndex != -1) {
+        DarrayRemove(table->mBuckets[bucketNo], elemIndex);
         return TRUE;
     }
     return FALSE;
 }
 
-void *HashtableFind(Hashtable *table, void *d) {
-    s32 a;
-    s32 b;
+void *HashtableFind(Hashtable *table, void *elem) {
+    s32 bucketNo;
+    s32 elemIndex;
     if (table == NULL) {
         AssertionFailed("table", "hashtable.c", NULL, 0x94);
     }
     if (table == NULL) {
         return NULL;
     }
-    a = table->mHashFn(d, table->mBucketCount);
-    b = DarrayFindIndex(table->mBuckets[a], d, (UnkCompare *) table->mCompFn, 0, 0);
-    if (b != -1) {
-        return DarrayGetElement(table->mBuckets[a], b);
+    bucketNo = table->mHashFn(elem, table->mBucketCount);
+    elemIndex = DarrayFindIndex(table->mBuckets[bucketNo], elem, (UnkCompare *) table->mCompFn, 0, 0);
+    if (elemIndex != -1) {
+        return DarrayGetElement(table->mBuckets[bucketNo], elemIndex);
     }
     return NULL;
 }
 
-void HashtableForEach(Hashtable *table, void (*fn)(void *, void *), void *d) {
-    s32 a;
+void HashtableForEach(Hashtable *table, void (*fn)(void *, void *), void *userData) {
+    s32 bucketIndex;
     if (fn == NULL) {
         AssertionFailed("fn", "hashtable.c", NULL, 0xb6);
     }
-    for (a = 0; a < table->mBucketCount; a++) {
-        DarrayForEachReverse(table->mBuckets[a], (UnkCompare *) fn, d);
+    for (bucketIndex = 0; bucketIndex < table->mBucketCount; bucketIndex++) {
+        DarrayForEachReverse(table->mBuckets[bucketIndex], (UnkCompare *) fn, userData);
     }
 }
 
-void *HashtableFindByFn(Hashtable *table, int fn, const void *c) {
+void *HashtableFindByFn(Hashtable *table, int fn, const void *userData) {
     void *v1;
     int v3;
     if (fn == 0) {
@@ -144,7 +144,7 @@ void *HashtableFindByFn(Hashtable *table, int fn, const void *c) {
     v3 = 0;
     if (0 < table->mBucketCount) {
         do {
-            v1 = DarrayFindByFnReverse(table->mBuckets[v3], (UnkCompare *) fn, c);
+            v1 = DarrayFindByFnReverse(table->mBuckets[v3], (UnkCompare *) fn, userData);
             if (v1 != NULL) {
                 return v1;
             }

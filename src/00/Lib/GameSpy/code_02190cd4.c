@@ -28,12 +28,12 @@
 #include "00/Lib/GameSpy/code_02193b88.h"
 #include "00/Lib/GameSpy/gpiProfile.h"
 
-void GpiQueueErrorCallback(GpConnection *a, s32 result, s32 fatal) {
+void GpiQueueErrorCallback(GpConnection *connection, s32 result, s32 fatal) {
     GpiConnection *iconnection;
-    GpiCallback e;
-    ErrorData *f;
+    GpiCallback errorCallback;
+    ErrorData *errorArg;
 
-    iconnection = a->mGpiConnection;
+    iconnection = connection->mGpiConnection;
     if (iconnection == NULL) {
         AssertionFailed("iconnection != NULL", "gpiCallback.c", NULL, 0x23);
     }
@@ -46,52 +46,52 @@ void GpiQueueErrorCallback(GpConnection *a, s32 result, s32 fatal) {
     if (fatal == 1) {
         iconnection->mFatal = TRUE;
     }
-    e = iconnection->mCallbacks[0];
-    if (e.mCallback != NULL) {
-        f = DWCi_GsMalloc(0x10);
-        if (f != NULL) {
-            f->mResult = result;
-            f->mFatal = fatal;
-            f->mErrorCode = iconnection->mErrorNumber;
-            f->mErrorString = iconnection;
+    errorCallback = iconnection->mCallbacks[0];
+    if (errorCallback.mCallback != NULL) {
+        errorArg = DWCi_GsMalloc(0x10);
+        if (errorArg != NULL) {
+            errorArg->mResult = result;
+            errorArg->mFatal = fatal;
+            errorArg->mErrorCode = iconnection->mErrorNumber;
+            errorArg->mErrorString = iconnection;
         }
-        GpiQueueCallback(a, e, f, NULL, 1);
+        GpiQueueCallback(connection, errorCallback, errorArg, NULL, 1);
     }
 }
 
-u32 GpiQueueCallback(GpConnection *a, GpiCallback b, void *c, GpiOperation *d, s32 e) {
-    GpiConnection *f;
-    GpiQueuedCallback *g;
+u32 GpiQueueCallback(GpConnection *connection, GpiCallback callback, void *arg, GpiOperation *operation, s32 type) {
+    GpiConnection *gpState;
+    GpiQueuedCallback *queued;
 
-    f = a->mGpiConnection;
-    g = DWCi_GsMalloc(0x18);
-    if (g == NULL) {
-        GpiSetErrorMessage(a, "Out of memory.");
+    gpState = connection->mGpiConnection;
+    queued = DWCi_GsMalloc(0x18);
+    if (queued == NULL) {
+        GpiSetErrorMessage(connection, "Out of memory.");
         return 1;
     }
-    g->mCallback = b;
-    g->mArg = c;
-    if (d != NULL) {
-        g->mOperationId = d->mId;
+    queued->mCallback = callback;
+    queued->mArg = arg;
+    if (operation != NULL) {
+        queued->mOperationId = operation->mId;
     } else {
-        g->mOperationId = 0;
+        queued->mOperationId = 0;
     }
-    g->mType = e;
-    g->mNext = NULL;
-    if (f->mCallbackQueueHead == NULL) {
-        f->mCallbackQueueHead = g;
+    queued->mType = type;
+    queued->mNext = NULL;
+    if (gpState->mCallbackQueueHead == NULL) {
+        gpState->mCallbackQueueHead = queued;
     }
-    if (f->mCallbackQueueTail != NULL) {
-        f->mCallbackQueueTail->mNext = g;
+    if (gpState->mCallbackQueueTail != NULL) {
+        gpState->mCallbackQueueTail->mNext = queued;
     }
-    f->mCallbackQueueTail = g;
+    gpState->mCallbackQueueTail = queued;
     return 0;
 }
 
-void GpiCallAndFreeCallback(GpConnection *a, GpiQueuedCallback *data) {
-    CallbackArgData *c;
-    CallbackArgData *e;
-    s32 d;
+void GpiCallAndFreeCallback(GpConnection *connection, GpiQueuedCallback *data) {
+    CallbackArgData *callbackArg;
+    CallbackArgData *listArg;
+    s32 entryIndex;
 
     if (data->mCallback.mCallback == NULL) {
         AssertionFailed("data->callback.callback != NULL", "gpiCallback.c", NULL, 0x6e);
@@ -99,107 +99,107 @@ void GpiCallAndFreeCallback(GpConnection *a, GpiQueuedCallback *data) {
     if (data->mArg == NULL) {
         AssertionFailed("data->arg != NULL", "gpiCallback.c", NULL, 0x6f);
     }
-    data->mCallback.mCallback(a, data->mArg, data->mCallback.mParam);
+    data->mCallback.mCallback(connection, data->mArg, data->mCallback.mParam);
     if (data->mType == 2) {
-        c = data->mArg;
-        DWCi_GsFree(c->mUnk_08);
-        c = data->mArg;
-        c->mUnk_08 = NULL;
+        callbackArg = data->mArg;
+        DWCi_GsFree(callbackArg->mUnk_08);
+        callbackArg = data->mArg;
+        callbackArg->mUnk_08 = NULL;
     } else if (data->mType == 3) {
-        e = data->mArg;
-        for (d = 0; d < e->mUnk_38; d++) {
-            DWCi_GsFree(e->mUnk_3c[d]);
-            e->mUnk_3c[d] = NULL;
-            DWCi_GsFree(e->mUnk_40[d]);
-            e->mUnk_40[d] = NULL;
+        listArg = data->mArg;
+        for (entryIndex = 0; entryIndex < listArg->mUnk_38; entryIndex++) {
+            DWCi_GsFree(listArg->mUnk_3c[entryIndex]);
+            listArg->mUnk_3c[entryIndex] = NULL;
+            DWCi_GsFree(listArg->mUnk_40[entryIndex]);
+            listArg->mUnk_40[entryIndex] = NULL;
         }
-        DWCi_GsFree(e->mUnk_3c);
-        e->mUnk_3c = NULL;
-        DWCi_GsFree(e->mUnk_40);
-        e->mUnk_40 = NULL;
+        DWCi_GsFree(listArg->mUnk_3c);
+        listArg->mUnk_3c = NULL;
+        DWCi_GsFree(listArg->mUnk_40);
+        listArg->mUnk_40 = NULL;
     } else if (data->mType == 4) {
-        c = data->mArg;
-        DWCi_GsFree(c->mUnk_0c);
-        c->mUnk_0c = NULL;
+        callbackArg = data->mArg;
+        DWCi_GsFree(callbackArg->mUnk_0c);
+        callbackArg->mUnk_0c = NULL;
     } else if (data->mType == 7) {
-        c = data->mArg;
-        if (c->mUnk_10 != NULL) {
-            DWCi_GsFree(c->mUnk_10);
-            c->mUnk_10 = NULL;
+        callbackArg = data->mArg;
+        if (callbackArg->mUnk_10 != NULL) {
+            DWCi_GsFree(callbackArg->mUnk_10);
+            callbackArg->mUnk_10 = NULL;
         }
     } else if (data->mType == 8) {
-        c = data->mArg;
-        if (c->mUnk_08 != NULL) {
-            DWCi_GsFree(c->mUnk_08);
-            c->mUnk_08 = NULL;
+        callbackArg = data->mArg;
+        if (callbackArg->mUnk_08 != NULL) {
+            DWCi_GsFree(callbackArg->mUnk_08);
+            callbackArg->mUnk_08 = NULL;
         }
     } else if (data->mType == 9) {
-        CallbackArgData *f = data->mArg;
-        for (d = 0; d < f->mUnk_04; d++) {
-            DWCi_GsFree(f->mUnk_08[d]);
-            f->mUnk_08[d] = NULL;
+        CallbackArgData *arrayArg = data->mArg;
+        for (entryIndex = 0; entryIndex < arrayArg->mUnk_04; entryIndex++) {
+            DWCi_GsFree(arrayArg->mUnk_08[entryIndex]);
+            arrayArg->mUnk_08[entryIndex] = NULL;
         }
-        DWCi_GsFree(f->mUnk_08);
-        f->mUnk_08 = NULL;
+        DWCi_GsFree(arrayArg->mUnk_08);
+        arrayArg->mUnk_08 = NULL;
     }
     DWCi_GsFree(data->mArg);
     data->mArg = NULL;
     DWCi_GsFree(data);
 }
 
-u32 GpiCallQueuedCallbacks(GpConnection *a, s32 b) {
-    GpiConnection *c;
-    GpiQueuedCallback *d;
-    GpiQueuedCallback *e;
-    GpiQueuedCallback *f;
-    GpiQueuedCallback *g;
+u32 GpiCallQueuedCallbacks(GpConnection *connection, s32 operationId) {
+    GpiConnection *gpState;
+    GpiQueuedCallback *queueHead;
+    GpiQueuedCallback *queueTail;
+    GpiQueuedCallback *previousKept;
+    GpiQueuedCallback *current;
 
-    c = a->mGpiConnection;
-    if (b != 0) {
-        d = c->mCallbackQueueHead;
-        e = c->mCallbackQueueTail;
-        f = NULL;
-        c->mCallbackQueueHead = NULL;
-        c->mCallbackQueueTail = NULL;
-        g = d;
-        if (g != NULL) {
+    gpState = connection->mGpiConnection;
+    if (operationId != 0) {
+        queueHead = gpState->mCallbackQueueHead;
+        queueTail = gpState->mCallbackQueueTail;
+        previousKept = NULL;
+        gpState->mCallbackQueueHead = NULL;
+        gpState->mCallbackQueueTail = NULL;
+        current = queueHead;
+        if (current != NULL) {
             do {
-                GpiQueuedCallback *h = g->mNext;
-                if (g->mOperationId == b || g->mType == 1) {
-                    if (f != NULL) {
-                        f->mNext = h;
+                GpiQueuedCallback *next = current->mNext;
+                if (current->mOperationId == operationId || current->mType == 1) {
+                    if (previousKept != NULL) {
+                        previousKept->mNext = next;
                     } else {
-                        d = h;
+                        queueHead = next;
                     }
-                    if (e == g) {
-                        e = f;
+                    if (queueTail == current) {
+                        queueTail = previousKept;
                     }
-                    GpiCallAndFreeCallback(a, g);
+                    GpiCallAndFreeCallback(connection, current);
                 } else {
-                    f = g;
+                    previousKept = current;
                 }
-                g = h;
-            } while (g != NULL);
+                current = next;
+            } while (current != NULL);
         }
-        if (c->mCallbackQueueHead != NULL) {
-            c->mCallbackQueueTail->mNext = d;
-            c->mCallbackQueueTail = e;
+        if (gpState->mCallbackQueueHead != NULL) {
+            gpState->mCallbackQueueTail->mNext = queueHead;
+            gpState->mCallbackQueueTail = queueTail;
         } else {
-            c->mCallbackQueueHead = d;
-            c->mCallbackQueueTail = e;
+            gpState->mCallbackQueueHead = queueHead;
+            gpState->mCallbackQueueTail = queueTail;
         }
         return 0;
     }
-    g = c->mCallbackQueueHead;
-    while (g != NULL) {
-        c->mCallbackQueueHead = NULL;
-        c->mCallbackQueueTail = NULL;
-        while (g != NULL) {
-            d = g->mNext;
-            GpiCallAndFreeCallback(a, g);
-            g = d;
+    current = gpState->mCallbackQueueHead;
+    while (current != NULL) {
+        gpState->mCallbackQueueHead = NULL;
+        gpState->mCallbackQueueTail = NULL;
+        while (current != NULL) {
+            queueHead = current->mNext;
+            GpiCallAndFreeCallback(connection, current);
+            current = queueHead;
         }
-        g = c->mCallbackQueueHead;
+        current = gpState->mCallbackQueueHead;
     }
     return 0;
 }

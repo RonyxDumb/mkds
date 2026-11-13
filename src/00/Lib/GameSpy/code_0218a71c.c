@@ -12,8 +12,8 @@ u8 keyrand(GOACryptState *state, u32 limit, const u8 *keyBytes, u32 keyBytesLen,
     for (mask = 1; mask < limit; mask = mask * 2 + 1) {
     }
     do {
-        u32 q = (*keyReadPos)++;
-        *runningSum = state->mCards[*runningSum] + keyBytes[q];
+        u32 position = (*keyReadPos)++;
+        *runningSum = state->mCards[*runningSum] + keyBytes[position];
         if (*keyReadPos >= keyBytesLen) {
             *keyReadPos = 0;
             *runningSum = *runningSum + keyBytesLen;
@@ -28,32 +28,32 @@ u8 keyrand(GOACryptState *state, u32 limit, const u8 *keyBytes, u32 keyBytesLen,
 }
 
 void GOAHashInit(GOACryptState *state) {
-    s32 i;
+    s32 cardIndex;
     u32 card;
     state->mRegisterBytes[0] = 1;
     state->mRegisterBytes[1] = 3;
     state->mRegisterBytes[2] = 5;
     state->mRegisterBytes[3] = 7;
     state->mRegisterBytes[4] = 11;
-    i = 0;
+    cardIndex = 0;
     card = 255;
-    for (; i < 256; i++, card--) {
-        state->mCards[i] = card;
+    for (; cardIndex < 256; cardIndex++, card--) {
+        state->mCards[cardIndex] = card;
     }
 }
 
 void GOACryptInit(GOACryptState *state, const u8 *key, u32 keyBytesLen) {
     u8 runningSum;
     u32 keyReadPos;
-    s32 i;
+    s32 cardIndex;
     u32 countdown;
     u8 heldValue;
     if (keyBytesLen < 1) {
         GOAHashInit(state);
         return;
     }
-    for (i = 0; i < 256; i++) {
-        state->mCards[i] = i;
+    for (cardIndex = 0; cardIndex < 256; cardIndex++) {
+        state->mCards[cardIndex] = cardIndex;
     }
     keyReadPos = 0;
     runningSum = 0;

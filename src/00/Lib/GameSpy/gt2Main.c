@@ -34,7 +34,7 @@ int gt2Connect(void *socket, Gt2Connection **connection, u32 remoteAddress, void
     u32 ipAddress;
     u16 netPort;
     u32 portValue;
-    int l;
+    int result;
     int startResult;
     if (gt2StringToAddress((const char *) remoteAddress, &ipAddress, &netPort) == FALSE || ipAddress == 0 ||
         (portValue = netPort) == 0) {
@@ -45,9 +45,9 @@ int gt2Connect(void *socket, Gt2Connection **connection, u32 remoteAddress, void
          0xe0000000) == 0xe0000000) {
         return 4;
     }
-    l = gti2NewOutgoingConnection(socket, &pendingConn, ipAddress, portValue);
-    if (l != 0) {
-        return l;
+    result = gti2NewOutgoingConnection(socket, &pendingConn, ipAddress, portValue);
+    if (result != 0) {
+        return result;
     }
     pendingConn->mTimeSinceCreateLimit = timeout;
     startResult = gti2StartConnectionAttempt(pendingConn, message, len, callbacks);
@@ -64,11 +64,11 @@ int gt2Connect(void *socket, Gt2Connection **connection, u32 remoteAddress, void
     pendingConn->mCallbackLevel++;
     do {
         gt2Think(socket);
-        l = pendingConn->mState >= 5 ? 1 : 0;
-        if (l == 0) {
+        result = pendingConn->mState >= 5 ? 1 : 0;
+        if (result == 0) {
             msleep(1);
         }
-    } while (l == 0);
+    } while (result == 0);
     pendingConn->mCallbackLevel--;
     if (pendingConn->mState == 5) {
         *connection = pendingConn;

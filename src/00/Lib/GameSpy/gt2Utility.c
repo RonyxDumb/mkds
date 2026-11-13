@@ -39,7 +39,7 @@ BOOL gt2StringToAddress(const char *string, u32 *ipOut, u16 *portOut) {
     char hostCopy[0x100];
     const char *portSeparator;
     const char *portCursor;
-    s32 g;
+    s32 value;
     s32 character;
     u32 sourceIp;
     u32 sourcePort;
@@ -57,12 +57,12 @@ BOOL gt2StringToAddress(const char *string, u32 *ipOut, u16 *portOut) {
                 string = NULL;
                 sourceIp = 0;
             } else {
-                g = portSeparator - string;
-                if (g >= 0x100) {
+                value = portSeparator - string;
+                if (value >= 0x100) {
                     AssertionFailed("len < GTI2_STACK_HOSTLEN_MAX", "gt2Utility.c", NULL, 0x81);
                 }
-                memcpy(hostCopy, string, g);
-                hostCopy[g] = 0;
+                memcpy(hostCopy, string, value);
+                hostCopy[value] = 0;
                 string = hostCopy;
             }
             portCursor = portSeparator + 1;
@@ -70,22 +70,22 @@ BOOL gt2StringToAddress(const char *string, u32 *ipOut, u16 *portOut) {
             if (character != 0) {
                 do {
                     if (character < 0 || character >= 0x80) {
-                        g = 0;
+                        value = 0;
                     } else {
-                        g = gCharClassFlags[character] & 8;
+                        value = gCharClassFlags[character] & 8;
                     }
-                    if (g == 0) {
+                    if (value == 0) {
                         return FALSE;
                     }
                     portCursor++;
                     character = *(s8 *) portCursor;
                 } while (character != 0);
             }
-            g = StrtolBase10(portSeparator + 1);
-            if (g < 0 || g > 0xffff) {
+            value = StrtolBase10(portSeparator + 1);
+            if (value < 0 || value > 0xffff) {
                 return FALSE;
             }
-            sourcePort = (u16) g;
+            sourcePort = (u16) value;
         }
         if (string != NULL) {
             sourceIp = inet_addr((u32) string);

@@ -546,18 +546,18 @@ s32 SBServerListConnectAndQuery(SbServerList *serverList, const char *fieldList,
 }
 
 void FreePopularValues(SbServerList *serverList) {
-    int i;
-    for (i = 0; i < serverList->mNumPopularValues; i++) {
-        SBReleaseStr(serverList, (u32) serverList->mPopularValues[i]);
+    int valueIndex;
+    for (valueIndex = 0; valueIndex < serverList->mNumPopularValues; valueIndex++) {
+        SBReleaseStr(serverList, (u32) serverList->mPopularValues[valueIndex]);
     }
     serverList->mNumPopularValues = 0;
 }
 
 void FreeKeyList(SbServerList *serverList) {
-    int i;
+    int keyIndex;
     if (serverList->mKeyList != NULL) {
-        for (i = 0; i < DarrayGetCount(serverList->mKeyList); i++) {
-            SBReleaseStr(serverList, *(u32 *) DarrayGetElement(serverList->mKeyList, i));
+        for (keyIndex = 0; keyIndex < DarrayGetCount(serverList->mKeyList); keyIndex++) {
+            SBReleaseStr(serverList, *(u32 *) DarrayGetElement(serverList->mKeyList, keyIndex));
         }
         DarrayDelete(serverList->mKeyList);
         serverList->mKeyList = NULL;
@@ -1149,12 +1149,12 @@ s32 ProcessMaploop(SbServerList *serverList, u8 *buffer, s32 length) {
     u16 netPort;
     u32 foundServer;
     s32 nameCount;
-    s32 i;
+    s32 index;
     s32 mapIndex;
     u8 *mapNames[16];
     u8 *source;
     u8 *destination;
-    u8 *l;
+    u8 *unusedLocal;
     if (length < 11) {
         return 4;
     }
@@ -1168,11 +1168,11 @@ s32 ProcessMaploop(SbServerList *serverList, u8 *buffer, s32 length) {
     source = buffer + 4;
     destination[0] = source[0];
     destination[1] = source[1];
-    i = SBServerListFindServerByIP(serverList, ipAddress, netPort);
-    if (i == -1) {
+    index = SBServerListFindServerByIP(serverList, ipAddress, netPort);
+    if (index == -1) {
         return 0;
     }
-    foundServer = SBServerListNth(serverList, i);
+    foundServer = SBServerListNth(serverList, index);
     destination = (u8 *) &rotationTime;
     source = buffer + 6;
     destination[0] = source[0];
@@ -1180,7 +1180,7 @@ s32 ProcessMaploop(SbServerList *serverList, u8 *buffer, s32 length) {
     destination[2] = source[2];
     destination[3] = source[3];
     rotationTime = (rotationTime << 24 & 0xff000000) |
-                 ((rotationTime << 8 & 0xff0000) | ((rotationTime >> 24 & 0xff) | (rotationTime >> 8 & 0xff00)));
+                   ((rotationTime << 8 & 0xff0000) | ((rotationTime >> 24 & 0xff) | (rotationTime >> 8 & 0xff00)));
     nameCount = buffer[10];
     buffer += 11;
     length -= 11;
@@ -1188,13 +1188,13 @@ s32 ProcessMaploop(SbServerList *serverList, u8 *buffer, s32 length) {
         if (length < 1) {
             break;
         }
-        i = NTSLengthSB(buffer, length);
-        if (i == -1) {
+        index = NTSLengthSB(buffer, length);
+        if (index == -1) {
             return 4;
         }
         mapNames[mapIndex] = buffer;
-        buffer += i;
-        length -= i;
+        buffer += index;
+        length -= index;
         mapIndex++;
     }
     if (serverList->mMaploopCallback == NULL) {
@@ -1447,4 +1447,3 @@ s32 SBListThink(SbServerList *serverList) {
             return 0;
     }
 }
-

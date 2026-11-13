@@ -10,44 +10,45 @@
 s8 gGt2ChallengeKey[33] = "3b8dd8995f7c40a9a5c5b7dd5b481341";
 
 BOOL gti2VerifyChallenge(const s8 *buffer) {
-    s32 b[8];
-    u32 h;
-    u32 g;
+    s32 masks[8];
+    u32 firstByteMask;
+    u32 previousMask;
     s32 runningXor;
     s32 index;
     u32 firstByte;
-    u32 d;
+    u32 previousByte;
     runningXor = 0;
     index = 1;
     firstByte = (u8) buffer[0];
-    b[0] = firstByte;
-    b[0] &= index;
-    b[2] = runningXor;
-    b[1] = index;
-    b[4] = runningXor;
-    b[3] = index;
-    b[6] = index;
-    b[5] = index;
-    b[7] = index;
+    masks[0] = firstByte;
+    masks[0] &= index;
+    masks[2] = runningXor;
+    masks[1] = index;
+    masks[4] = runningXor;
+    masks[3] = index;
+    masks[6] = index;
+    masks[5] = index;
+    masks[7] = index;
     do {
-        d = (u8) buffer[index - 1];
-        if (d < firstByte) {
-            g = b[1];
+        previousByte = (u8) buffer[index - 1];
+        if (previousByte < firstByte) {
+            previousMask = masks[1];
         } else {
-            g = b[2];
+            previousMask = masks[2];
         }
         if (firstByte < 0x4f) {
-            h = b[3];
+            firstByteMask = masks[3];
         } else {
-            h = b[4];
+            firstByteMask = masks[4];
         }
-        runningXor ^= (index ^ d) & b[5];
-        d = b[0];
-        d ^= runningXor;
-        d ^= h;
-        runningXor = d;
-        runningXor ^= g;
-        if ((runningXor != 0 && ((u8) buffer[index] & b[6]) == 0) || (runningXor == 0 && ((u8) buffer[index] & b[7]) == 1)) {
+        runningXor ^= (index ^ previousByte) & masks[5];
+        previousByte = masks[0];
+        previousByte ^= runningXor;
+        previousByte ^= firstByteMask;
+        runningXor = previousByte;
+        runningXor ^= previousMask;
+        if ((runningXor != 0 && ((u8) buffer[index] & masks[6]) == 0) ||
+            (runningXor == 0 && ((u8) buffer[index] & masks[7]) == 1)) {
             return FALSE;
         }
         index++;
@@ -56,13 +57,13 @@ BOOL gti2VerifyChallenge(const s8 *buffer) {
 }
 
 s8 *gti2GetChallenge(s8 *buffer) {
-    s32 b[9];
+    s32 masks[9];
     u32 previousByte;
-    u32 h;
-    u32 d;
+    u32 firstByteMask;
+    u32 firstByteValue;
     s32 index;
     s32 parityFlag;
-    u32 g;
+    u32 previousMask;
     u8 *current;
     if (buffer == NULL) {
         AssertionFailed("buffer", "gt2Auth.c", NULL, 0x2b);
@@ -71,39 +72,39 @@ s8 *gti2GetChallenge(s8 *buffer) {
     buffer[0] = (s32) rand() % 0x5d + 0x21;
     parityFlag = 0;
     index = 1;
-    b[1] = parityFlag;
-    b[0] = index;
-    b[3] = parityFlag;
-    b[2] = index;
-    b[5] = index;
-    b[4] = index;
-    b[6] = index;
-    b[7] = index;
+    masks[1] = parityFlag;
+    masks[0] = index;
+    masks[3] = parityFlag;
+    masks[2] = index;
+    masks[5] = index;
+    masks[4] = index;
+    masks[6] = index;
+    masks[7] = index;
     do {
         previousByte = (u8) buffer[index - 1];
-        d = (u8) buffer[0];
-        if (previousByte < d) {
-            g = b[0];
+        firstByteValue = (u8) buffer[0];
+        if (previousByte < firstByteValue) {
+            previousMask = masks[0];
         } else {
-            g = b[1];
+            previousMask = masks[1];
         }
-        if (d < 0x4f) {
-            h = b[2];
+        if (firstByteValue < 0x4f) {
+            firstByteMask = masks[2];
         } else {
-            h = b[3];
+            firstByteMask = masks[3];
         }
-        d &= b[5];
-        b[8] = index;
-        b[8] ^= previousByte;
-        b[8] &= b[4];
-        parityFlag ^= b[8];
-        d ^= parityFlag;
-        d ^= h;
-        parityFlag = d;
-        parityFlag ^= g;
+        firstByteValue &= masks[5];
+        masks[8] = index;
+        masks[8] ^= previousByte;
+        masks[8] &= masks[4];
+        parityFlag ^= masks[8];
+        firstByteValue ^= parityFlag;
+        firstByteValue ^= firstByteMask;
+        parityFlag = firstByteValue;
+        parityFlag ^= previousMask;
         current = (u8 *) &buffer[index];
         buffer[index] = (s32) rand() % 0x5d + 0x21;
-        if ((parityFlag != 0 && (*current & b[6]) == 0) || (parityFlag == 0 && (*current & b[7]) == 1)) {
+        if ((parityFlag != 0 && (*current & masks[6]) == 0) || (parityFlag == 0 && (*current & masks[7]) == 1)) {
             (*current)++;
         }
         index++;

@@ -323,8 +323,8 @@ void gs_encode(const u8 *ins, s32 size, u8 *result) {
     s32 position;
     u8 *tripCursor;
     s32 quartetIndex;
-    u8 i;
-    u8 j;
+    u8 currentByte;
+    u8 previousByte;
 
     inputIndex = 0;
     if (size > 0) {
@@ -337,13 +337,13 @@ void gs_encode(const u8 *ins, s32 size, u8 *result) {
                 }
                 tripCursor++;
             }
-            i = tripKwart[0];
-            tripKwart[3] = i >> 2;
-            j = tripKwart[1];
-            tripKwart[4] = ((i & 3) << 4) + (j >> 4);
-            i = tripKwart[2];
-            tripKwart[5] = ((j & 0xf) << 2) + (i >> 6);
-            tripKwart[6] = i & 0x3f;
+            currentByte = tripKwart[0];
+            tripKwart[3] = currentByte >> 2;
+            previousByte = tripKwart[1];
+            tripKwart[4] = ((currentByte & 3) << 4) + (previousByte >> 4);
+            currentByte = tripKwart[2];
+            tripKwart[5] = ((previousByte & 0xf) << 2) + (currentByte >> 6);
+            tripKwart[6] = currentByte & 0x3f;
             for (quartetIndex = 0, tripCursor = &tripKwart[3]; quartetIndex <= 3; quartetIndex++) {
                 *result++ = encode_ct(*tripCursor);
                 tripCursor++;

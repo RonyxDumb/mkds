@@ -81,7 +81,7 @@ void QEStartQuery(SBQueryEngine *engine, SbServer *server) {
     SocketAddress address;
     u8 query[0x100];
     s32 queryLength;
-    s32 i;
+    s32 keyIndex;
     FIFOAddRear(&engine->mQueryList, server);
     server->mPing = GetElapsedMilliseconds();
     address.mFamily = 2;
@@ -93,8 +93,8 @@ void QEStartQuery(SBQueryEngine *engine, SbServer *server) {
             __memcpy(&query[3], &server->mPing, 4);
             if ((server->mStateFlags & 4) != 0) {
                 query[7] = engine->mNumServerKeys;
-                for (i = 0; i < engine->mNumServerKeys; i++) {
-                    query[i + 8] = engine->mServerKeys[i];
+                for (keyIndex = 0; keyIndex < engine->mNumServerKeys; keyIndex++) {
+                    query[keyIndex + 8] = engine->mServerKeys[keyIndex];
                 }
                 query[engine->mNumServerKeys + 8] = 0;
                 query[engine->mNumServerKeys + 9] = 0;
@@ -256,7 +256,8 @@ void ProcessIncomingReplies(SBQueryEngine *engine, s32 probeSocket) {
         data[length] = 0;
         for (queryEntry = engine->mQueryList.mFirst; queryEntry != NULL; queryEntry = queryEntry->mNext) {
             if ((probeSocket != 0 && (queryEntry->mFlags & 8) != 0 && queryEntry->mIcmpIp == address.mAddress) ||
-                (queryEntry->mPublicIp == address.mAddress && (queryEntry->mPublicPort == address.mPort || probeSocket != 0)) ||
+                (queryEntry->mPublicIp == address.mAddress &&
+                 (queryEntry->mPublicPort == address.mPort || probeSocket != 0)) ||
                 (queryEntry->mPublicIp == engine->mMyPublicIp && (queryEntry->mFlags & 2) != 0 &&
                  queryEntry->mPrivateIp == address.mAddress && queryEntry->mPrivatePort == address.mPort)) {
                 if (probeSocket != 0) {

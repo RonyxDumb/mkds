@@ -412,20 +412,20 @@ u32 gti2BufferIncomingMessage(Gt2Connection *connection, s32 type, u32 serialNum
 }
 
 void gti2RemoveHoldMessage(Gt2Connection *connection, GTI2IncomingBufferMessage *message, s32 index) {
-    s32 d = 0;
+    s32 heldEnd = 0;
     s32 removedStart = message->mStart;
     s32 removedLen = message->mLen;
     s32 num;
-    s32 i;
+    s32 heldIndex;
     GTI2IncomingBufferMessage *heldMessage;
     DarrayRemove(connection->mIncomingBufferMessages, index);
     num = DarrayGetCount(connection->mIncomingBufferMessages);
-    for (i = 0; i < num; i++) {
-        heldMessage = DarrayGetElement(connection->mIncomingBufferMessages, i);
+    for (heldIndex = 0; heldIndex < num; heldIndex++) {
+        heldMessage = DarrayGetElement(connection->mIncomingBufferMessages, heldIndex);
         if (heldMessage->mStart > removedStart) {
             heldMessage->mStart -= removedLen;
-            if (d <= heldMessage->mStart + heldMessage->mLen) {
-                d = heldMessage->mStart + heldMessage->mLen;
+            if (heldEnd <= heldMessage->mStart + heldMessage->mLen) {
+                heldEnd = heldMessage->mStart + heldMessage->mLen;
             }
         }
     }
@@ -613,10 +613,10 @@ u32 gti2HandleUnreliableMessage(Gt2Connection *connection, u32 type, u8 *message
 
 u32 gti2HandleMessage(Gt2Socket *socket, u8 *message, s32 len, u32 address, u32 port) {
     Gt2Connection *connection;
-    Gt2Connection *k;
+    Gt2Connection *activeConnection;
     s32 wasHandled;
     BOOL hasMagic;
-    s32 i;
+    s32 value;
     connection = gti2SocketFindConnection(socket, address, port);
     if (socket->mReceiveDumpCallback != NULL) {
         if (gti2DumpCallback(socket, connection, address, port, 0, (s32) message, len, 0) == 0) {
@@ -646,19 +646,19 @@ u32 gti2HandleMessage(Gt2Socket *socket, u8 *message, s32 len, u32 address, u32 
             if (socket->mIncomingConnectionCallback == NULL) {
                 return 1;
             }
-            i = gti2NewIncomingConnection(socket, &connection, address, port);
-            if (i != 0) {
-                if (i != 5 && gti2SendClosedOnSocket(socket, address, port) == FALSE) {
+            value = gti2NewIncomingConnection(socket, &connection, address, port);
+            if (value != 0) {
+                if (value != 5 && gti2SendClosedOnSocket(socket, address, port) == FALSE) {
                     return 0;
                 }
                 return 1;
             }
         }
     }
-    k = connection;
-    if (k->mState == 7) {
+    activeConnection = connection;
+    if (activeConnection->mState == 7) {
         if (hasMagic == FALSE || message[2] != 0x68) {
-            if (gti2SendClosed(k) == 0) {
+            if (gti2SendClosed(activeConnection) == 0) {
                 return 0;
             }
         }
@@ -670,25 +670,25 @@ u32 gti2HandleMessage(Gt2Socket *socket, u8 *message, s32 len, u32 address, u32 
         hasMagic = FALSE;
     }
     if (hasMagic == FALSE) {
-        if (gti2HandleAppUnreliable(k, message, len) != 0) {
+        if (gti2HandleAppUnreliable(activeConnection, message, len) != 0) {
             return 1;
         }
         return 0;
     }
-    i = message[2];
-    if (i < 0) {
-        if (gti2ConnectionCommunicationError(k) != 0) {
+    value = message[2];
+    if (value < 0) {
+        if (gti2ConnectionCommunicationError(activeConnection) != 0) {
             return 1;
         }
         return 0;
     }
-    if (i < 8) {
-        if (gti2HandleReliableMessage(k, i, message, len) != 0) {
+    if (value < 8) {
+        if (gti2HandleReliableMessage(activeConnection, value, message, len) != 0) {
             return 1;
         }
         return 0;
     }
-    if (gti2HandleUnreliableMessage(k, i, message, len) != 0) {
+    if (gti2HandleUnreliableMessage(activeConnection, value, message, len) != 0) {
         return 1;
     }
     return 0;

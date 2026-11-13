@@ -647,15 +647,15 @@ u32 gpiSetInfos(GpConnection *connection, s32 info, const s8 *value) {
             }
             break;
         case 0x70b: {
-            s32 d;
+            s32 character;
 
-            d = *value;
-            if (d >= 0 && d < 0x80) {
-                d = gUpperCaseMap[d];
+            character = *value;
+            if (character >= 0 && character < 0x80) {
+                character = gUpperCaseMap[character];
             }
-            if ((s8) d == 0x4d) {
+            if ((s8) character == 0x4d) {
                 __memcpy(valueCopy, "0", 2);
-            } else if ((s8) d == 0x46) {
+            } else if ((s8) character == 0x46) {
                 __memcpy(valueCopy, "1", 2);
             } else {
                 __memcpy(valueCopy, "2", 2);

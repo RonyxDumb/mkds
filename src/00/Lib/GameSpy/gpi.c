@@ -11,44 +11,44 @@
 #include "00/Lib/GameSpy/code_0218dd8c.h"
 #include "00/Lib/GameSpy/code_02190ff8.h"
 
-u32 GpiInitialize(GpConnection *a, s32 b, s32 c) {
-    GpConnection p;
-    u32 r;
-    s32 i;
-    a->mGpiConnection = NULL;
-    p.mGpiConnection = DWCi_GsMalloc(0x490);
-    if (p.mGpiConnection == NULL) {
+u32 GpiInitialize(GpConnection *connection, s32 titleNumber, s32 spaceId) {
+    GpConnection newConnection;
+    u32 result;
+    s32 callbackIndex;
+    connection->mGpiConnection = NULL;
+    newConnection.mGpiConnection = DWCi_GsMalloc(0x490);
+    if (newConnection.mGpiConnection == NULL) {
         return 1;
     }
-    memset(p.mGpiConnection, 0, 0x490);
-    p.mGpiConnection->mErrorMessage[0] = 0;
-    p.mGpiConnection->mErrorNumber = 0;
-    p.mGpiConnection->mInfoCaching = 1;
-    p.mGpiConnection->mInfoCachingBuddyOnly = FALSE;
-    p.mGpiConnection->mSimulation = 0;
-    p.mGpiConnection->mFirewall = FALSE;
-    p.mGpiConnection->mProductId = b;
-    p.mGpiConnection->mNamespaceId = c;
-    if (GpiInitProfileList(&p) == FALSE) {
-        DWCi_GsFree(p.mGpiConnection);
-        p.mGpiConnection = NULL;
+    memset(newConnection.mGpiConnection, 0, 0x490);
+    newConnection.mGpiConnection->mErrorMessage[0] = 0;
+    newConnection.mGpiConnection->mErrorNumber = 0;
+    newConnection.mGpiConnection->mInfoCaching = 1;
+    newConnection.mGpiConnection->mInfoCachingBuddyOnly = FALSE;
+    newConnection.mGpiConnection->mSimulation = 0;
+    newConnection.mGpiConnection->mFirewall = FALSE;
+    newConnection.mGpiConnection->mProductId = titleNumber;
+    newConnection.mGpiConnection->mNamespaceId = spaceId;
+    if (GpiInitProfileList(&newConnection) == FALSE) {
+        DWCi_GsFree(newConnection.mGpiConnection);
+        newConnection.mGpiConnection = NULL;
         return 1;
     }
-    p.mGpiConnection->mUnk_420 = 0;
-    for (i = 0; i < 6; i++) {
-        p.mGpiConnection->mCallbacks[i].mCallback = NULL;
-        p.mGpiConnection->mCallbacks[i].mParam = 0;
+    newConnection.mGpiConnection->mUnk_420 = 0;
+    for (callbackIndex = 0; callbackIndex < 6; callbackIndex++) {
+        newConnection.mGpiConnection->mCallbacks[callbackIndex].mCallback = NULL;
+        newConnection.mGpiConnection->mCallbacks[callbackIndex].mParam = 0;
     }
-    p.mGpiConnection->mDebugBuffer = NULL;
-    gpiDebug(&p, "\n\n\n\n\n*************\ngpiInitialize\n");
-    r = GpiResetConnection(&p);
-    if (r != 0) {
-        gpiDestroy(&p);
-        return r;
+    newConnection.mGpiConnection->mDebugBuffer = NULL;
+    gpiDebug(&newConnection, "\n\n\n\n\n*************\ngpiInitialize\n");
+    result = GpiResetConnection(&newConnection);
+    if (result != 0) {
+        gpiDestroy(&newConnection);
+        return result;
     }
     SocketStartUp();
     srand(GetElapsedMilliseconds());
-    a->mGpiConnection = p.mGpiConnection;
+    connection->mGpiConnection = newConnection.mGpiConnection;
     return 0;
 }
 

@@ -125,7 +125,7 @@ u16 GetLocalPort(u32 sock) {
 
 void SendInitPackets(NatTraversalEntry *negotiator) {
     InitPacketWithGamename packet;
-    u32 c;
+    u32 value;
     u32 packetLength;
     u32 portSocket;
     u16 ownPort;
@@ -136,20 +136,20 @@ void SendInitPackets(NatTraversalEntry *negotiator) {
     packetView->mVersion = 2;
     packetView->mPacketType = 0;
     packetView->mClientIndex = negotiator->mClientIndex;
-    c = negotiator->mCookie;
+    value = negotiator->mCookie;
     *(u32 *) packetView->mCookie =
-        (c << 24 & 0xff000000) | ((c << 8 & 0xff0000) | ((c >> 24 & 0xff) | (c >> 8 & 0xff00)));
-    c = 0;
+        (value << 24 & 0xff000000) | ((value << 8 & 0xff0000) | ((value >> 24 & 0xff) | (value >> 8 & 0xff00)));
+    value = 0;
     if (negotiator->mGameSock != -1) {
-        c = 1;
+        value = 1;
     }
-    packetView->mUseGamePort = c;
-    c = (GetLocalIP() << 24 & 0xff000000) |
-        ((GetLocalIP() << 8 & 0xff0000) | ((GetLocalIP() >> 24 & 0xff) | (GetLocalIP() >> 8 & 0xff00)));
-    packet.mLocalIpFirstByte = c >> 24;
-    packet.mLocalIpSecondByte = c >> 16;
-    packet.mLocalIpThirdByte = c >> 8;
-    packet.mLocalIpFourthByte = c;
+    packetView->mUseGamePort = value;
+    value = (GetLocalIP() << 24 & 0xff000000) |
+            ((GetLocalIP() << 8 & 0xff0000) | ((GetLocalIP() >> 24 & 0xff) | (GetLocalIP() >> 8 & 0xff00)));
+    packet.mLocalIpFirstByte = value >> 24;
+    packet.mLocalIpSecondByte = value >> 16;
+    packet.mLocalIpThirdByte = value >> 8;
+    packet.mLocalIpFourthByte = value;
     packet.mLocalPortHighByte = 0;
     packet.mLocalPortLowByte = 0;
     strcpy(packet.mGameName, gGsiAcGamename);
@@ -311,8 +311,8 @@ void NegotiateThink(NatTraversalEntry *negotiator) {
             if (CanReceiveOnSocket(negotiator->mDescriptor) == 0) {
                 break;
             }
-            receivedLength = recvfrom(negotiator->mDescriptor, receiveBuffer, 0x200, 0, (u8 *) &senderAddress,
-                                      &senderAddressLength);
+            receivedLength =
+                recvfrom(negotiator->mDescriptor, receiveBuffer, 0x200, 0, (u8 *) &senderAddress, &senderAddressLength);
             if (receivedLength == -1) {
                 break;
             }
