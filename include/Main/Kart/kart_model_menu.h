@@ -65,7 +65,7 @@ extern char gKartMenuParamBinName[20];
 extern char gKartSelectNsbmdName[28];
 extern char gKartSelectNsbtxName[28];
 
-extern u8 *gSpecialKartBodyMaterial;
+extern NNSG3dResMatData *gSpecialKartBodyMaterial;
 extern struct KartModels *gKartModels;
 extern struct Nclr *gEmblemSBNclr;
 extern KartModelMenuData *gKartModelMenu;

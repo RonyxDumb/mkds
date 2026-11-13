@@ -431,23 +431,22 @@ void UploadKartEmblems(void) {
 
 // Replaces the pixels and palette of the kart_emblem texture of the model of kart a.
 void UploadKartEmblem(u32 kartIndex, void *texData, void *plttData) {
-    u8 *kartModelResMdl;
-    u8 *texBlock;
-    u8 *texDict;
-    u8 *texEntry;
+    NNSG3dResMdl *kartModelResMdl;
+    NNSG3dResMat *matBlock;
+    NNSG3dResDictEntryHeader *entries;
+    NNSG3dResMatData *material;
     s32 textureIndex;
-    s32 dictEntrySize;
     u32 texOffset;
     u32 plttOffset;
     kartModelResMdl = GetKartModelResMdl((u16) kartIndex);
-    textureIndex = NNS_G3dGetResDictIdxByName(kartModelResMdl + *OFFSET_PTR(u32, kartModelResMdl, 8) + 4,
-                                              (const u32 *) gKartEmblemTextureName);
-    texBlock = kartModelResMdl + *OFFSET_PTR(u32, kartModelResMdl, 8);
-    texDict = texBlock + 4;
-    dictEntrySize = *(u16 *) (texDict + *OFFSET_PTR(u16, texBlock, 0xa));
-    texEntry = texBlock + *(u32 *) (texDict + *OFFSET_PTR(u16, texBlock, 0xa) + dictEntrySize * textureIndex + 4);
-    texOffset = (*OFFSET_PTR(u32, texEntry, 0x14) & 0xffff) << 3;
-    plttOffset = *OFFSET_PTR(u16, texEntry, 0x1c) << 4;
+    textureIndex =
+        NNS_G3dGetResDictIdxByName(&OFFSET_PTR(NNSG3dResMat, kartModelResMdl, kartModelResMdl->mOfsMat)->mDict,
+                                   (const u32 *) gKartEmblemTextureName);
+    matBlock = OFFSET_PTR(NNSG3dResMat, kartModelResMdl, kartModelResMdl->mOfsMat);
+    entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &matBlock->mDict, matBlock->mDict.mOfsEntry);
+    material = OFFSET_PTR(NNSG3dResMatData, matBlock, *DICT_ENTRY(u32, entries, textureIndex));
+    texOffset = (material->mTexImageParam & 0xffff) << 3;
+    plttOffset = material->mTexPlttBase << 4;
     DC_FlushRange(texData, 0x200);
     DC_FlushRange(plttData, 0x20);
     GX_BeginLoadTex();

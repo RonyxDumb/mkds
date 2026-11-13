@@ -41,7 +41,7 @@
 
 #pragma thumb on
 
-u8 *gSpecialKartBodyMaterial;
+NNSG3dResMatData *gSpecialKartBodyMaterial;
 Nclr *gEmblemSBNclr;
 KartModels *gKartModels;
 KartModelMenuData *gKartModelMenu;

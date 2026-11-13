@@ -1076,18 +1076,20 @@ void UploadKartModelsEntryPalettes(KartModelsEntry *kartModelsEntry, s32 pNameUs
     u32 paletteBase;
     u32 secondPaletteSize;
     const u16 *secondPalette;
-    u8 *mdlBytes;
     u8 *materialBlock;
     u8 *dictionary;
-    u8 *material;
-    u8 *firstMaterial;
+    NNSG3dResMat *matBlock;
+    NNSG3dResDictEntryHeader *entries;
+    NNSG3dResMdl *mdl;
+    NNSG3dResMatData *material;
+    NNSG3dResMatData *firstMaterial;
     u8 *paletteAddress;
     s32 secondMaterialIndex;
     s32 materialIndex;
     if (kartModelsEntry->mRegion != 0) {
         if ((u32) (kartModelsEntry->mKartIndex - 0x22) <= 1) {
             palette = NULL;
-            mdlBytes = (u8 *) kartModelsEntry->mModels[1]->mResMdl;
+            mdl = kartModelsEntry->mModels[1]->mResMdl;
             switch (kartModelsEntry->mKartIndex) {
                 case 0x22:
                     palette = gSpecialKartFirstPalette;
@@ -1096,43 +1098,47 @@ void UploadKartModelsEntryPalettes(KartModelsEntry *kartModelsEntry, s32 pNameUs
                     palette = gSpecialKartSecondPalette;
                     break;
             }
-            materialIndex = NNS_G3dGetResDictIdxByName(mdlBytes + *(s32 *) (mdlBytes + 8) + 4, (const u32 *) gSpecialKartBodyMaterialName);
-            materialBlock = mdlBytes + *(s32 *) (mdlBytes + 8);
-            dictionary = materialBlock + 4 + *OFFSET_PTR(u16, materialBlock, 0xa);
-            material = materialBlock + *(s32 *) (dictionary + *(u16 *) dictionary * materialIndex + 4);
-            gSpecialKartBodyMaterial = material;
-            paletteBase = *OFFSET_PTR(u16, material, 0x1c) << 4;
+            materialIndex = NNS_G3dGetResDictIdxByName(&OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat)->mDict,
+                                                       (const u32 *) gSpecialKartBodyMaterialName);
+            matBlock = OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat);
+            entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &matBlock->mDict, matBlock->mDict.mOfsEntry);
+            gSpecialKartBodyMaterial = OFFSET_PTR(NNSG3dResMatData, matBlock, *DICT_ENTRY(u32, entries, materialIndex));
+            paletteBase = gSpecialKartBodyMaterial->mTexPlttBase << 4;
             GX_BeginLoadTexPltt();
             GX_LoadTexPltt(palette, paletteBase, 0x20);
             GX_EndLoadTexPltt();
         }
         if (kartModelsEntry->mCharacterIndex == 0xb) {
-            mdlBytes = (u8 *) kartModelsEntry->mModels[0]->mResMdl;
+            mdl = kartModelsEntry->mModels[0]->mResMdl;
             if (pNameUsed != 0) {
-                materialIndex = NNS_G3dGetResDictIdxByName(mdlBytes + *(s32 *) (mdlBytes + 8) + 4, (const u32 *) gCharacterBPMainMaterialName);
-                secondMaterialIndex =
-                    NNS_G3dGetResDictIdxByName(mdlBytes + *(s32 *) (mdlBytes + 8) + 4, (const u32 *) gCharacterBPFaceMaterialName);
+                materialIndex = NNS_G3dGetResDictIdxByName(&OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat)->mDict,
+                                                           (const u32 *) gCharacterBPMainMaterialName);
+                secondMaterialIndex = NNS_G3dGetResDictIdxByName(&OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat)->mDict,
+                                                                 (const u32 *) gCharacterBPFaceMaterialName);
                 palette = gCharacterBPMainPalette;
                 secondPalette = gCharacterBPFacePalette;
                 secondPaletteSize = 0x40;
             } else {
-                materialIndex = NNS_G3dGetResDictIdxByName(mdlBytes + *(s32 *) (mdlBytes + 8) + 4, (const u32 *) gCharacterBEMainMaterialName);
-                secondMaterialIndex =
-                    NNS_G3dGetResDictIdxByName(mdlBytes + *(s32 *) (mdlBytes + 8) + 4, (const u32 *) gCharacterBEFaceMaterialName);
+                materialIndex = NNS_G3dGetResDictIdxByName(&OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat)->mDict,
+                                                           (const u32 *) gCharacterBEMainMaterialName);
+                secondMaterialIndex = NNS_G3dGetResDictIdxByName(&OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat)->mDict,
+                                                                 (const u32 *) gCharacterBEFaceMaterialName);
                 palette = gCharacterBEMainPalette;
                 secondPalette = gCharacterBEFacePalette;
                 secondPaletteSize = 0x10;
             }
-            materialBlock = mdlBytes + *(s32 *) (mdlBytes + 8);
+            materialBlock = OFFSET_PTR(u8, mdl, mdl->mOfsMat);
             dictionary = materialBlock + 4;
-            material = materialBlock + *(s32 *) ((dictionary = dictionary + *OFFSET_PTR(u16, materialBlock, 0xa)) +
-                                                 *(u16 *) dictionary * secondMaterialIndex + 4);
-            firstMaterial = materialBlock + *(s32 *) (dictionary + *(u16 *) dictionary * materialIndex + 4);
-            paletteAddress = (u8 *) (*OFFSET_PTR(u16, firstMaterial, 0x1c) << 4);
+            material = OFFSET_PTR(NNSG3dResMatData, materialBlock,
+                                  *(s32 *) ((dictionary = dictionary + *OFFSET_PTR(u16, materialBlock, 0xa)) +
+                                            *(u16 *) dictionary * secondMaterialIndex + 4));
+            firstMaterial = OFFSET_PTR(NNSG3dResMatData, materialBlock,
+                                       *(s32 *) (dictionary + *(u16 *) dictionary * materialIndex + 4));
+            paletteAddress = (u8 *) (firstMaterial->mTexPlttBase << 4);
             GX_BeginLoadTexPltt();
             GX_LoadTexPltt(palette, (u32) paletteAddress, 0x20);
             GX_EndLoadTexPltt();
-            paletteAddress = (u8 *) (*OFFSET_PTR(u16, material, 0x1c) << 4);
+            paletteAddress = (u8 *) (material->mTexPlttBase << 4);
             GX_BeginLoadTexPltt();
             GX_LoadTexPltt(secondPalette, (u32) paletteAddress, secondPaletteSize);
             GX_EndLoadTexPltt();
