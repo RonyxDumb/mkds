@@ -68,17 +68,14 @@ u16 GetKartBestLapTime(u16 kartIndex, u8 *outMinute, u8 *outSecond, u16 *outMill
     u16 bestLap = 1;
     u16 lap;
     BOOL first = TRUE;
-    u32 kartOffset;
     MinuteSecondMillisecondTime bestTime;
     MinuteSecondMillisecondTime *lapTime;
     BOOL isBest;
     MinuteSecondMillisecondTime *bestTimeRef;
     lap = 1;
     if (gCourseMap->mSettings->mLapCountOrBattleSeconds >= 1) {
-        kartOffset = kartIndex * 0x8c;
         do {
-            lapTime =
-                OFFSET_PTR(MinuteSecondMillisecondTime, &gRaceProgress->mKarts[0].mLapTimes[0], kartOffset) + (lap - 1);
+            lapTime = &gRaceProgress->mKarts[kartIndex].mLapTimes[lap - 1];
             if (first != FALSE) {
                 first = FALSE;
                 bestLap = lap;

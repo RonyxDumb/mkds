@@ -207,15 +207,13 @@ void AdvanceMissionRunEnd(void) {
     RaceSetup *raceSetup = gRaceSetup;
     s32 entryIndex = raceSetup->mEntryIndex;
     u16 kartIndex;
-    u32 kartOffset;
     RaceProgressKart *kart;
     BOOL hasEnded;
     if (entryIndex < 0) {
         return;
     }
     kartIndex = entryIndex;
-    kartOffset = kartIndex * 0x8c;
-    kart = OFFSET_PTR(RaceProgressKart, &gRaceProgress->mKarts[0], kartOffset);
+    kart = &gRaceProgress->mKarts[kartIndex];
     hasEnded = FALSE;
     switch (kart->mStatus) {
         case RACE_PROGRESS_KART_STATUS_GOAL_REACHED:
@@ -237,7 +235,7 @@ void AdvanceMissionRunEnd(void) {
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 FinishStandings();
             }
-            kart = OFFSET_PTR(RaceProgressKart, &gRaceProgress->mKarts[0], kartOffset);
+            kart = &gRaceProgress->mKarts[kartIndex];
             kart->mFlags &= ~RACE_PROGRESS_KART_FLAG_GOAL_WAIT;
         } else if ((kart->mFlags & RACE_PROGRESS_KART_FLAG_FAILURE_WAIT) != 0) {
             if (IsEntryKartNormalOrNotMissionRun() != 0) {
@@ -252,7 +250,7 @@ void AdvanceMissionRunEnd(void) {
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 FinishStandings();
             }
-            kart = OFFSET_PTR(RaceProgressKart, &gRaceProgress->mKarts[0], kartOffset);
+            kart = &gRaceProgress->mKarts[kartIndex];
             kart->mFlags &= ~RACE_PROGRESS_KART_FLAG_FAILURE_WAIT;
         }
         return;
