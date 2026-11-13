@@ -246,27 +246,33 @@ const CourseNameEntry gCourseArchiveNames[55] = {
 };
 
 const ArchiveSlotInfo gArchiveSlotInfos[21] = {
-    {gArchiveSlotPathDataMainRaceCarc, -1, 8, {0, 0, 0}, 0, 0, -1},
-    {gArchiveSlotPathDataMain2DCarc, 2, 9, {0, 0, 0}, 1, 0, -1},
-    {gArchiveSlotPathDataMain2D, -1, 10, {0, 0, 0}, 1, 0, -1},
-    {gArchiveSlotInfosEmptyPath3, 13, 6, {0, 0, 0}, 0, 0, -1},
-    {gArchiveSlotInfosEmptyPath4, -1, -1, {0, 0, 0}, 0, 0, -1},
-    {gArchiveSlotInfosEmptyPath5, 9, -1, {0, 0, 0}, 1, 0, -1},
-    {gArchiveSlotPathDataKartModelMainACarc, -1, 11, {0, 0, 0}, 1, 1, -1},
-    {gArchiveSlotPathDataKartModelMainBCarc, -1, 12, {0, 0, 0}, 1, 1, -1},
-    {gArchiveSlotPathDataKartModelSubCarc, -1, -1, {0, 0, 0}, 1, 1, -1},
-    {gArchiveSlotInfosEmptyPath9, -1, -1, {0, 0, 0}, 1, 0, 286720},
-    {gArchiveSlotPathDataKartModelMenuCarc, -1, -1, {0, 0, 0}, 1, 1, -1},
-    {gArchiveSlotInfosEmptyPath11, 12, 4, {0, 0, 0}, 1, 0, -1},
-    {gArchiveSlotInfosEmptyPath12, -1, 5, {0, 0, 0}, 1, 0, -1},
-    {gArchiveSlotInfosEmptyPath13, -1, 7, {0, 0, 0}, 1, 1, -1},
-    {gArchiveSlotPathDataCharacterKartSelectCarc, 15, -1, {0, 0, 0}, 1, 0, -1},
-    {gArchiveSlotPathDataCharacterKartSelect, -1, -1, {0, 0, 0}, 1, 0, -1},
-    {gArchiveSlotPathDataGeneralMenuCarc, 17, -1, {0, 0, 0}, 1, 0, -1},
-    {gArchiveSlotPathDataGeneralMenu, -1, -1, {0, 0, 0}, 1, 0, -1},
-    {gArchiveSlotPathDataMainEffectCarc, -1, 13, {0, 0, 0}, 1, 0, -1},
-    {gArchiveSlotInfosEmptyPath19, -1, -1, {0, 0, 0}, 1, 0, -1},
-    {gArchiveSlotInfosEmptyPath20, -1, -1, {0, 0, 0}, 0, 0, -1},
+    {gArchiveSlotPathDataMainRaceCarc, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_MAIN_RACE, {0, 0, 0}, 0, 0, -1},
+    {gArchiveSlotPathDataMain2DCarc, ARCHIVE_SLOT_MAIN_2D_LANGUAGE, ARCHIVE_BUFFER_MAIN_2D, {0, 0, 0}, 1, 0, -1},
+    {gArchiveSlotPathDataMain2D, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_MAIN_2D_LANGUAGE, {0, 0, 0}, 1, 0, -1},
+    {gArchiveSlotInfosEmptyPath3, ARCHIVE_SLOT_COURSE_TEXTURE, ARCHIVE_BUFFER_COURSE, {0, 0, 0}, 0, 0, -1},
+    {gArchiveSlotInfosEmptyPath4, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_NONE, {0, 0, 0}, 0, 0, -1},
+    {gArchiveSlotInfosEmptyPath5, ARCHIVE_SLOT_SCENE_LANGUAGE, ARCHIVE_BUFFER_NONE, {0, 0, 0}, 1, 0, -1},
+    {gArchiveSlotPathDataKartModelMainACarc, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_KART_MODEL_MAIN_A, {0, 0, 0}, 1, 1, -1},
+    {gArchiveSlotPathDataKartModelMainBCarc, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_KART_MODEL_MAIN_B, {0, 0, 0}, 1, 1, -1},
+    {gArchiveSlotPathDataKartModelSubCarc, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_NONE, {0, 0, 0}, 1, 1, -1},
+    {gArchiveSlotInfosEmptyPath9, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_NONE, {0, 0, 0}, 1, 0, 286720},
+    {gArchiveSlotPathDataKartModelMenuCarc, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_NONE, {0, 0, 0}, 1, 1, -1},
+    {gArchiveSlotInfosEmptyPath11, ARCHIVE_SLOT_SCENE_MODE_LANGUAGE, ARCHIVE_BUFFER_RACE_MODE, {0, 0, 0}, 1, 0, -1},
+    {gArchiveSlotInfosEmptyPath12, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_RACE_MODE_LANGUAGE, {0, 0, 0}, 1, 0, -1},
+    {gArchiveSlotInfosEmptyPath13, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_COURSE_TEXTURE, {0, 0, 0}, 1, 1, -1},
+    {gArchiveSlotPathDataCharacterKartSelectCarc,
+     ARCHIVE_SLOT_CHARACTER_KART_SELECT_LANGUAGE,
+     ARCHIVE_BUFFER_NONE,
+     {0, 0, 0},
+     1,
+     0,
+     -1},
+    {gArchiveSlotPathDataCharacterKartSelect, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_NONE, {0, 0, 0}, 1, 0, -1},
+    {gArchiveSlotPathDataGeneralMenuCarc, ARCHIVE_SLOT_GENERAL_MENU_LANGUAGE, ARCHIVE_BUFFER_NONE, {0, 0, 0}, 1, 0, -1},
+    {gArchiveSlotPathDataGeneralMenu, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_NONE, {0, 0, 0}, 1, 0, -1},
+    {gArchiveSlotPathDataMainEffectCarc, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_MAIN_EFFECT, {0, 0, 0}, 1, 0, -1},
+    {gArchiveSlotInfosEmptyPath19, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_NONE, {0, 0, 0}, 1, 0, -1},
+    {gArchiveSlotInfosEmptyPath20, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_NONE, {0, 0, 0}, 0, 0, -1},
 };
 
 char gArchiveSlotPathDataKartModelSubCarc[] = "/data/KartModelSub.carc";
@@ -278,25 +284,25 @@ const char *gArchiveNames[20] = {gArchiveNameMAR, gArchiveNameMA2, gArchiveNameM
 void BuildResultArchivePath(char *path) {
     const char *suffix;
 
-    if (gMenuShared->mResultArchiveDl == 1) {
+    if (gMenuShared->mResultArchiveDl == TRUE) {
         suffix = "DL";
     } else {
         suffix = "";
     }
-    OS_SNPrintf(path, 0x80, "/data/Scene/%s%s%s", gSceneNames[10].mName, suffix, ".carc");
+    OS_SNPrintf(path, ARCHIVE_PATH_SIZE, "/data/Scene/%s%s%s", gSceneNames[SCENE_RESULT].mName, suffix, ".carc");
 }
 
 void BuildResultArchivePathWithLanguage(char *path) {
     const char *suffix;
     u32 languageCode;
 
-    if (gMenuShared->mResultArchiveDl == 1) {
+    if (gMenuShared->mResultArchiveDl == TRUE) {
         suffix = "DL";
     } else {
         suffix = "";
     }
     languageCode = GetLanguageCode();
-    OS_SNPrintf(path, 0x80, "/data/Scene/%s%s_%s%s", gSceneNames[10].mName, suffix, languageCode,
+    OS_SNPrintf(path, ARCHIVE_PATH_SIZE, "/data/Scene/%s%s_%s%s", gSceneNames[SCENE_RESULT].mName, suffix, languageCode,
                 ".carc");
 }
 
@@ -307,12 +313,12 @@ void BuildResultArchivePathWithLanguage(char *path) {
 void BuildStaffRollArchivePath(char *path) {
     u32 languageCode;
     languageCode = GetLanguageCode();
-    OS_SNPrintf(path, 0x80, "/data/Scene/StaffRoll_%s%s", languageCode, ".carc");
+    OS_SNPrintf(path, ARCHIVE_PATH_SIZE, "/data/Scene/StaffRoll_%s%s", languageCode, ".carc");
 }
 
 void BuildSceneModeArchivePath(char *path, const char *sceneName, int mode) {
     if (*sceneName != 0) {
-        OS_SNPrintf(path, 0x80, "/data/Scene/%s_%s%s", sceneName, gModeArchiveNames[mode], ".carc");
+        OS_SNPrintf(path, ARCHIVE_PATH_SIZE, "/data/Scene/%s_%s%s", sceneName, gModeArchiveNames[mode], ".carc");
     }
 }
 
@@ -320,7 +326,7 @@ void BuildSceneModeLanguageArchivePath(char *path, const char *sceneName, int mo
     u32 languageCode;
     if (*sceneName != 0) {
         languageCode = GetLanguageCode();
-        OS_SNPrintf(path, 0x80, "/data/Scene/%s_%s_%s%s", sceneName, gModeArchiveNames[mode], languageCode,
+        OS_SNPrintf(path, ARCHIVE_PATH_SIZE, "/data/Scene/%s_%s_%s%s", sceneName, gModeArchiveNames[mode], languageCode,
                     ".carc");
     }
 }
@@ -328,7 +334,7 @@ void BuildSceneModeLanguageArchivePath(char *path, const char *sceneName, int mo
 void BuildArchivePathWithLanguage(const char *prefix, char *path) {
     u32 languageCode;
     languageCode = GetLanguageCode();
-    OS_SNPrintf(path, 0x80, "%s_%s.carc", prefix, languageCode);
+    OS_SNPrintf(path, ARCHIVE_PATH_SIZE, "%s_%s.carc", prefix, languageCode);
 }
 
 #pragma thumb off
@@ -336,7 +342,7 @@ void BuildArchivePathWithLanguage(const char *prefix, char *path) {
 #pragma thumb on
 
 void LoadArchiveSlotForScene(int slotIndex, int sceneNumber) {
-    char path[0x80] = {0};
+    char path[ARCHIVE_PATH_SIZE] = {0};
     u32 *bufferData;
     s32 infoValueA;
     s32 uncompressSource;
@@ -351,33 +357,33 @@ void LoadArchiveSlotForScene(int slotIndex, int sceneNumber) {
     infoValueA = gArchiveSlotInfos[slotIndex].mUnk_10;
     infoValueB = gArchiveSlotInfos[slotIndex].mUnk_14;
     bufferIndex = gArchiveSlotInfos[slotIndex].mBufferIndex;
-    if (bufferIndex != -1) {
+    if (bufferIndex != ARCHIVE_BUFFER_NONE) {
         bufferData = gArchiveSlots->mBuffers[bufferIndex].mData;
     }
     switch (slotIndex) {
-        case 3:
-        case 13:
-            BuildCourseArchivePath(path, gRaceSetup->mCourseId, slotIndex != 3);
+        case ARCHIVE_SLOT_COURSE:
+        case ARCHIVE_SLOT_COURSE_TEXTURE:
+            BuildCourseArchivePath(path, gRaceSetup->mCourseId, slotIndex != ARCHIVE_SLOT_COURSE);
             break;
-        case 5:
+        case ARCHIVE_SLOT_SCENE:
             switch (sceneNumber) {
-                case 2:
-                    bufferData = gArchiveSlots->mBuffers[2].mData;
+                case SCENE_RACE:
+                    bufferData = gArchiveSlots->mBuffers[ARCHIVE_BUFFER_RACE].mData;
                     break;
-                case 1:
-                    bufferData = gArchiveSlots->mBuffers[0].mData;
+                case SCENE_MENU_1:
+                    bufferData = gArchiveSlots->mBuffers[ARCHIVE_BUFFER_MENU_DL].mData;
                     break;
-                case 10:
-                    bufferData = gArchiveSlots->mBuffers[14].mData;
+                case SCENE_RESULT:
+                    bufferData = gArchiveSlots->mBuffers[ARCHIVE_BUFFER_RESULT_DL].mData;
                     break;
             }
             switch (sceneNumber) {
-                case 10:
+                case SCENE_RESULT:
                     BuildResultArchivePath(path);
                     break;
-                case 2:
+                case SCENE_RACE:
                     if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {
-                        OS_SNPrintf(path, 0x80, "/data/Scene/StaffRoll.carc");
+                        OS_SNPrintf(path, ARCHIVE_PATH_SIZE, "/data/Scene/StaffRoll.carc");
                     } else {
                         BuildSceneArchivePath(path, gSceneNames[sceneNumber].mName);
                     }
@@ -388,23 +394,23 @@ void LoadArchiveSlotForScene(int slotIndex, int sceneNumber) {
             }
             infoValueB = gSceneNames[sceneNumber].mUnk_04;
             break;
-        case 9:
+        case ARCHIVE_SLOT_SCENE_LANGUAGE:
             switch (sceneNumber) {
-                case 2:
-                    bufferData = gArchiveSlots->mBuffers[3].mData;
+                case SCENE_RACE:
+                    bufferData = gArchiveSlots->mBuffers[ARCHIVE_BUFFER_RACE_LANGUAGE].mData;
                     break;
-                case 1:
-                    bufferData = gArchiveSlots->mBuffers[1].mData;
+                case SCENE_MENU_1:
+                    bufferData = gArchiveSlots->mBuffers[ARCHIVE_BUFFER_MENU_DL_LANGUAGE].mData;
                     break;
-                case 10:
-                    bufferData = gArchiveSlots->mBuffers[15].mData;
+                case SCENE_RESULT:
+                    bufferData = gArchiveSlots->mBuffers[ARCHIVE_BUFFER_RESULT_DL_LANGUAGE].mData;
                     break;
             }
             switch (sceneNumber) {
-                case 10:
+                case SCENE_RESULT:
                     BuildResultArchivePathWithLanguage(path);
                     break;
-                case 2:
+                case SCENE_RACE:
                     if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {
                         BuildStaffRollArchivePath(path);
                     } else {
@@ -416,34 +422,34 @@ void LoadArchiveSlotForScene(int slotIndex, int sceneNumber) {
                     break;
             }
             break;
-        case 11:
+        case ARCHIVE_SLOT_SCENE_MODE:
             BuildSceneModeArchivePath(path, gSceneNames[sceneNumber].mName, gRaceSetup->mMode);
             break;
-        case 12:
+        case ARCHIVE_SLOT_SCENE_MODE_LANGUAGE:
             BuildSceneModeLanguageArchivePath(path, gSceneNames[sceneNumber].mName, gRaceSetup->mMode);
             break;
-        case 2:
-        case 15:
-        case 17:
+        case ARCHIVE_SLOT_MAIN_2D_LANGUAGE:
+        case ARCHIVE_SLOT_CHARACTER_KART_SELECT_LANGUAGE:
+        case ARCHIVE_SLOT_GENERAL_MENU_LANGUAGE:
             BuildArchivePathWithLanguage(gArchiveSlotInfos[slotIndex].mPath, path);
             break;
-        case 0:
-        case 1:
-        case 6:
-        case 7:
-        case 8:
-        case 10:
-        case 14:
-        case 16:
-        case 18:
-            strncpy(path, gArchiveSlotInfos[(s32) slotIndex].mPath, 0x80);
+        case ARCHIVE_SLOT_MAIN_RACE:
+        case ARCHIVE_SLOT_MAIN_2D:
+        case ARCHIVE_SLOT_KART_MODEL_MAIN_A:
+        case ARCHIVE_SLOT_KART_MODEL_MAIN_B:
+        case ARCHIVE_SLOT_KART_MODEL_SUB:
+        case ARCHIVE_SLOT_KART_MODEL_MENU:
+        case ARCHIVE_SLOT_CHARACTER_KART_SELECT:
+        case ARCHIVE_SLOT_GENERAL_MENU:
+        case ARCHIVE_SLOT_MAIN_EFFECT:
+            strncpy(path, gArchiveSlotInfos[(s32) slotIndex].mPath, ARCHIVE_PATH_SIZE);
             break;
     }
     if (path[0] != 0) {
         LoadArchiveSlot(slotIndex, path, bufferData, NULL, infoValueA, uncompressSource, infoValueB);
     }
     bufferIndex = *(s32 *) ((s32) &gArchiveSlotInfos[0].mNextSlot + slotIndex * 0x18);
-    if (bufferIndex != -1) {
+    if (bufferIndex != ARCHIVE_SLOT_NONE) {
         LoadArchiveSlotForScene(bufferIndex, sceneNumber);
     }
 }
@@ -454,7 +460,7 @@ void LoadArchiveSlot(s32 slotIndex, const char *path, u32 *sourceData, void *dat
     s32 bufferIndex;
 
     request = &gArchiveSlots->mLoadRequest;
-    strncpy((char *) request->mPath, path, 0x80);
+    strncpy((char *) request->mPath, path, ARCHIVE_PATH_SIZE);
     request->mSlotIndex = slotIndex;
     request->mSourceData = sourceData;
     request->mData = data;
@@ -465,7 +471,7 @@ void LoadArchiveSlot(s32 slotIndex, const char *path, u32 *sourceData, void *dat
         if (request->mSourceData != NULL) {
             if (request->mUncompressSource != 0) {
                 bufferIndex = gArchiveSlotInfos[slotIndex].mBufferIndex;
-                if (bufferIndex != -1) {
+                if (bufferIndex != ARCHIVE_BUFFER_NONE) {
                     gArchiveSlots->mBuffers[bufferIndex].mUnk_08_31 = 1;
                 }
                 UncompressArchiveMemory();
@@ -475,7 +481,7 @@ void LoadArchiveSlot(s32 slotIndex, const char *path, u32 *sourceData, void *dat
             LoadArchiveSlotData();
         }
     } else {
-        if (slotIndex == 0x13) {
+        if (slotIndex == ARCHIVE_SLOT_IN_MEMORY) {
             UncompressArchiveMemory();
         } else {
             UncompressArchiveFile();
@@ -555,11 +561,11 @@ void ReleaseArchiveSlot(int slotIndex) {
     s32 bufferIndex;
 
     shouldFree = TRUE;
-    if (gArchiveSlots->mSlots[slotIndex].mLoaded != 0 && slotIndex != 0x13) {
+    if (gArchiveSlots->mSlots[slotIndex].mLoaded != 0 && slotIndex != ARCHIVE_SLOT_IN_MEMORY) {
         ArchiveUnload(&gArchiveSlots->mSlots[slotIndex].mArchive.mFsArchive);
         if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
             bufferIndex = gArchiveSlotInfos[slotIndex].mBufferIndex;
-            if (bufferIndex != -1 && gArchiveSlots->mBuffers[bufferIndex].mUncompress != 0) {
+            if (bufferIndex != ARCHIVE_BUFFER_NONE && gArchiveSlots->mBuffers[bufferIndex].mUncompress != 0) {
                 shouldFree = FALSE;
             } else {
                 gArchiveSlots->mBuffers[bufferIndex].mUnk_08_31 = 1;
@@ -575,59 +581,59 @@ void ReleaseArchiveSlot(int slotIndex) {
 }
 
 void LoadArchiveSlotsForScene(s32 sceneNumber) {
-    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT && sceneNumber == 6 && gMenuShared->mWLMenuKind == 0) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT && sceneNumber == SCENE_WL_MENU && gMenuShared->mWLMenuKind == 0) {
     } else {
-        LoadArchiveSlotForScene(1, sceneNumber);
+        LoadArchiveSlotForScene(ARCHIVE_SLOT_MAIN_2D, sceneNumber);
     }
     switch (sceneNumber) {
-        case 1:
-        case 12:
-            LoadArchiveSlotForScene(5, sceneNumber);
-            LoadArchiveSlotForScene(14, sceneNumber);
-            LoadArchiveSlotForScene(16, sceneNumber);
+        case SCENE_MENU_1:
+        case SCENE_WIFI_MENU:
+            LoadArchiveSlotForScene(ARCHIVE_SLOT_SCENE, sceneNumber);
+            LoadArchiveSlotForScene(ARCHIVE_SLOT_CHARACTER_KART_SELECT, sceneNumber);
+            LoadArchiveSlotForScene(ARCHIVE_SLOT_GENERAL_MENU, sceneNumber);
             break;
-        case 10:
-            LoadArchiveSlotForScene(0, sceneNumber);
-            LoadArchiveSlotForScene(5, sceneNumber);
-            LoadArchiveSlotForScene(16, sceneNumber);
-            LoadArchiveSlotForScene(18, sceneNumber);
+        case SCENE_RESULT:
+            LoadArchiveSlotForScene(ARCHIVE_SLOT_MAIN_RACE, sceneNumber);
+            LoadArchiveSlotForScene(ARCHIVE_SLOT_SCENE, sceneNumber);
+            LoadArchiveSlotForScene(ARCHIVE_SLOT_GENERAL_MENU, sceneNumber);
+            LoadArchiveSlotForScene(ARCHIVE_SLOT_MAIN_EFFECT, sceneNumber);
             break;
-        case 2:
-            LoadArchiveSlotForScene(18, sceneNumber);
-            LoadArchiveSlotForScene(6, sceneNumber);
-            LoadArchiveSlotForScene(8, sceneNumber);
+        case SCENE_RACE:
+            LoadArchiveSlotForScene(ARCHIVE_SLOT_MAIN_EFFECT, sceneNumber);
+            LoadArchiveSlotForScene(ARCHIVE_SLOT_KART_MODEL_MAIN_A, sceneNumber);
+            LoadArchiveSlotForScene(ARCHIVE_SLOT_KART_MODEL_SUB, sceneNumber);
             break;
-        case 3:
-            LoadArchiveSlotForScene(0, sceneNumber);
-            LoadArchiveSlotForScene(5, sceneNumber);
-            LoadArchiveSlotForScene(16, sceneNumber);
+        case SCENE_EMBLEM:
+            LoadArchiveSlotForScene(ARCHIVE_SLOT_MAIN_RACE, sceneNumber);
+            LoadArchiveSlotForScene(ARCHIVE_SLOT_SCENE, sceneNumber);
+            LoadArchiveSlotForScene(ARCHIVE_SLOT_GENERAL_MENU, sceneNumber);
             break;
-        case 5:
-            LoadArchiveSlotForScene(5, sceneNumber);
-            LoadArchiveSlotForScene(14, sceneNumber);
-            LoadArchiveSlotForScene(16, sceneNumber);
+        case SCENE_TEST:
+            LoadArchiveSlotForScene(ARCHIVE_SLOT_SCENE, sceneNumber);
+            LoadArchiveSlotForScene(ARCHIVE_SLOT_CHARACTER_KART_SELECT, sceneNumber);
+            LoadArchiveSlotForScene(ARCHIVE_SLOT_GENERAL_MENU, sceneNumber);
             break;
-        case 0:
-        case 7:
-        case 8:
-        case 9:
-        case 11:
-        case 13:
-        case 14:
-        case 15:
-            LoadArchiveSlotForScene(5, sceneNumber);
-            LoadArchiveSlotForScene(16, sceneNumber);
+        case SCENE_TITLE:
+        case SCENE_OPTION:
+        case SCENE_RECORD:
+        case SCENE_LOGO:
+        case SCENE_NICKNAME:
+        case SCENE_GHOST:
+        case SCENE_KEYBOARD:
+        case SCENE_ENDING:
+            LoadArchiveSlotForScene(ARCHIVE_SLOT_SCENE, sceneNumber);
+            LoadArchiveSlotForScene(ARCHIVE_SLOT_GENERAL_MENU, sceneNumber);
             break;
-        case 4:
+        case SCENE_MENU_4:
             if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
-                LoadArchiveSlotForScene(5, sceneNumber);
-                LoadArchiveSlotForScene(16, sceneNumber);
+                LoadArchiveSlotForScene(ARCHIVE_SLOT_SCENE, sceneNumber);
+                LoadArchiveSlotForScene(ARCHIVE_SLOT_GENERAL_MENU, sceneNumber);
             }
             break;
-        case 6:
+        case SCENE_WL_MENU:
             if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
-                LoadArchiveSlotForScene(5, sceneNumber);
-                LoadArchiveSlotForScene(16, sceneNumber);
+                LoadArchiveSlotForScene(ARCHIVE_SLOT_SCENE, sceneNumber);
+                LoadArchiveSlotForScene(ARCHIVE_SLOT_GENERAL_MENU, sceneNumber);
             }
             break;
     }
@@ -636,7 +642,7 @@ void LoadArchiveSlotsForScene(s32 sceneNumber) {
 void ReleaseArchiveSlots(void) {
     s32 slotIndex;
 
-    for (slotIndex = 0; slotIndex < 20; slotIndex++) {
+    for (slotIndex = 0; slotIndex < ARCHIVE_SLOT_COUNT; slotIndex++) {
         ReleaseArchiveSlot(slotIndex);
     }
 }
@@ -652,12 +658,12 @@ void SetHeapGroupId(u32 groupId) {
 #pragma thumb on
 
 void *FindArchiveFile(const char *archiveName, const char *path) {
-    char fullPath[0x80];
+    char fullPath[ARCHIVE_PATH_SIZE];
 
     if (path[0] == '/') {
-        OS_SNPrintf(fullPath, 0x80, "%s:%s", archiveName, path);
+        OS_SNPrintf(fullPath, ARCHIVE_PATH_SIZE, "%s:%s", archiveName, path);
     } else {
-        OS_SNPrintf(fullPath, 0x80, "%s:/%s", archiveName, path);
+        OS_SNPrintf(fullPath, ARCHIVE_PATH_SIZE, "%s:/%s", archiveName, path);
     }
     return ArchiveFileGetAddress((const u8 *) fullPath);
 }
@@ -668,9 +674,9 @@ void *FindArchiveFile(const char *archiveName, const char *path) {
 
 void *FindMainRaceOrMainEffectFile(const char *path) {
     void *file;
-    file = FindArchiveFile(gArchiveNames[0], path);
+    file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_MAIN_RACE], path);
     if (file == NULL) {
-        file = FindArchiveFile(gArchiveNames[18], path);
+        file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_MAIN_EFFECT], path);
     }
     return file;
 }
@@ -684,26 +690,26 @@ void *FindFileInLoadedArchives(const char *path) {
     void *file;
 
     file = NULL;
-    if (gArchiveSlots->mSlots[17].mLoaded != 0) {
-        file = FindArchiveFile(gArchiveNames[17], path);
+    if (gArchiveSlots->mSlots[ARCHIVE_SLOT_GENERAL_MENU_LANGUAGE].mLoaded != 0) {
+        file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_GENERAL_MENU_LANGUAGE], path);
     }
-    if (file == NULL && gArchiveSlots->mSlots[16].mLoaded != 0) {
-        file = FindArchiveFile(gArchiveNames[16], path);
+    if (file == NULL && gArchiveSlots->mSlots[ARCHIVE_SLOT_GENERAL_MENU].mLoaded != 0) {
+        file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_GENERAL_MENU], path);
     }
-    if (file == NULL && gArchiveSlots->mSlots[15].mLoaded != 0) {
-        file = FindArchiveFile(gArchiveNames[15], path);
+    if (file == NULL && gArchiveSlots->mSlots[ARCHIVE_SLOT_CHARACTER_KART_SELECT_LANGUAGE].mLoaded != 0) {
+        file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_CHARACTER_KART_SELECT_LANGUAGE], path);
     }
-    if (file == NULL && gArchiveSlots->mSlots[14].mLoaded != 0) {
-        file = FindArchiveFile(gArchiveNames[14], path);
+    if (file == NULL && gArchiveSlots->mSlots[ARCHIVE_SLOT_CHARACTER_KART_SELECT].mLoaded != 0) {
+        file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_CHARACTER_KART_SELECT], path);
     }
-    if (file == NULL && gArchiveSlots->mSlots[19].mLoaded != 0) {
-        file = FindArchiveFile(gArchiveNames[19], path);
+    if (file == NULL && gArchiveSlots->mSlots[ARCHIVE_SLOT_IN_MEMORY].mLoaded != 0) {
+        file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_IN_MEMORY], path);
     }
-    if (file == NULL && gArchiveSlots->mSlots[2].mLoaded != 0) {
-        file = FindArchiveFile(gArchiveNames[2], path);
+    if (file == NULL && gArchiveSlots->mSlots[ARCHIVE_SLOT_MAIN_2D_LANGUAGE].mLoaded != 0) {
+        file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_MAIN_2D_LANGUAGE], path);
     }
-    if (file == NULL && gArchiveSlots->mSlots[1].mLoaded != 0) {
-        file = FindArchiveFile(gArchiveNames[1], path);
+    if (file == NULL && gArchiveSlots->mSlots[ARCHIVE_SLOT_MAIN_2D].mLoaded != 0) {
+        file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_MAIN_2D], path);
     }
     return file;
 }
@@ -711,16 +717,16 @@ void *FindFileInLoadedArchives(const char *path) {
 void *FindSceneFile(const char *path) {
     void *file;
 
-    file = FindArchiveFile(gArchiveNames[5], path);
-    if (file == NULL && gArchiveSlots->mSlots[9].mLoaded != 0) {
-        file = FindArchiveFile(gArchiveNames[9], path);
+    file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_SCENE], path);
+    if (file == NULL && gArchiveSlots->mSlots[ARCHIVE_SLOT_SCENE_LANGUAGE].mLoaded != 0) {
+        file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_SCENE_LANGUAGE], path);
     }
-    if (GetCurrentSceneNumber() == 2) {
-        if (file == NULL && gArchiveSlots->mSlots[11].mLoaded != 0) {
-            file = FindArchiveFile(gArchiveNames[11], path);
+    if (GetCurrentSceneNumber() == SCENE_RACE) {
+        if (file == NULL && gArchiveSlots->mSlots[ARCHIVE_SLOT_SCENE_MODE].mLoaded != 0) {
+            file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_SCENE_MODE], path);
         }
-        if (file == NULL && gArchiveSlots->mSlots[12].mLoaded != 0) {
-            file = FindArchiveFile(gArchiveNames[12], path);
+        if (file == NULL && gArchiveSlots->mSlots[ARCHIVE_SLOT_SCENE_MODE_LANGUAGE].mLoaded != 0) {
+            file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_SCENE_MODE_LANGUAGE], path);
         }
     }
     return file;
@@ -732,9 +738,9 @@ void *FindSceneFile(const char *path) {
 
 void *FindCourseFile(const char *path) {
     void *file;
-    file = FindArchiveFile(gArchiveNames[3], path);
+    file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_COURSE], path);
     if (file == NULL) {
-        file = FindArchiveFile(gArchiveNames[13], path);
+        file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_COURSE_TEXTURE], path);
     }
     return file;
 }
@@ -742,7 +748,7 @@ void *FindCourseFile(const char *path) {
 void *GetKartModelFile(const char *path) {
     int currentSceneNumber;
     currentSceneNumber = GetCurrentSceneNumber();
-    if (currentSceneNumber == 3) {
+    if (currentSceneNumber == SCENE_EMBLEM) {
         return FindKartModelFile(path);
     }
     return LoadKartModelFile(path);
@@ -753,17 +759,18 @@ void *FindKartModelFile(const char *path) {
     void *file;
     file = NULL;
     currentSceneNumber = GetCurrentSceneNumber();
-    if (((currentSceneNumber == 1) || (currentSceneNumber == 3)) || (currentSceneNumber == 0xc)) {
-        file = FindArchiveFile(gArchiveNames[10], path);
+    if (((currentSceneNumber == SCENE_MENU_1) || (currentSceneNumber == SCENE_EMBLEM)) ||
+        (currentSceneNumber == SCENE_WIFI_MENU)) {
+        file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_KART_MODEL_MENU], path);
     } else {
-        if (gArchiveSlots->mSlots[6].mLoaded != 0) {
-            file = FindArchiveFile(gArchiveNames[6], path);
+        if (gArchiveSlots->mSlots[ARCHIVE_SLOT_KART_MODEL_MAIN_A].mLoaded != 0) {
+            file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_KART_MODEL_MAIN_A], path);
         }
-        if ((file == NULL) && (gArchiveSlots->mSlots[7].mLoaded != 0)) {
-            file = FindArchiveFile(gArchiveNames[7], path);
+        if ((file == NULL) && (gArchiveSlots->mSlots[ARCHIVE_SLOT_KART_MODEL_MAIN_B].mLoaded != 0)) {
+            file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_KART_MODEL_MAIN_B], path);
         }
-        if ((file == NULL) && (gArchiveSlots->mSlots[8].mLoaded != 0)) {
-            file = FindArchiveFile(gArchiveNames[8], path);
+        if ((file == NULL) && (gArchiveSlots->mSlots[ARCHIVE_SLOT_KART_MODEL_SUB].mLoaded != 0)) {
+            file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_KART_MODEL_SUB], path);
         }
     }
     return file;
@@ -776,44 +783,45 @@ void *FindKartModelFile(const char *path) {
 void *LoadKartModelFile(const char *path) {
     void *file;
     s32 currentSceneNumber;
-    char fullPath[0x80];
+    char fullPath[ARCHIVE_PATH_SIZE];
     const char *archiveName;
 
     file = NULL;
     currentSceneNumber = GetCurrentSceneNumber();
-    if (currentSceneNumber == 1 || currentSceneNumber == 3 || currentSceneNumber == 0xc) {
-        archiveName = gArchiveNames[10];
+    if (currentSceneNumber == SCENE_MENU_1 || currentSceneNumber == SCENE_EMBLEM ||
+        currentSceneNumber == SCENE_WIFI_MENU) {
+        archiveName = gArchiveNames[ARCHIVE_SLOT_KART_MODEL_MENU];
         if (path[0] == '/') {
-            OS_SNPrintf(fullPath, 0x80, "%s:%s", archiveName, path);
+            OS_SNPrintf(fullPath, ARCHIVE_PATH_SIZE, "%s:%s", archiveName, path);
         } else {
-            OS_SNPrintf(fullPath, 0x80, "%s:/%s", archiveName, path);
+            OS_SNPrintf(fullPath, ARCHIVE_PATH_SIZE, "%s:/%s", archiveName, path);
         }
         file = LoadFileAligned(fullPath, 8);
     } else {
-        if (gArchiveSlots->mSlots[6].mLoaded != 0) {
-            archiveName = gArchiveNames[6];
+        if (gArchiveSlots->mSlots[ARCHIVE_SLOT_KART_MODEL_MAIN_A].mLoaded != 0) {
+            archiveName = gArchiveNames[ARCHIVE_SLOT_KART_MODEL_MAIN_A];
             if (path[0] == '/') {
-                OS_SNPrintf(fullPath, 0x80, "%s:%s", archiveName, path);
+                OS_SNPrintf(fullPath, ARCHIVE_PATH_SIZE, "%s:%s", archiveName, path);
             } else {
-                OS_SNPrintf(fullPath, 0x80, "%s:/%s", archiveName, path);
+                OS_SNPrintf(fullPath, ARCHIVE_PATH_SIZE, "%s:/%s", archiveName, path);
             }
             file = LoadFileAligned(fullPath, 8);
         }
-        if (file == NULL && gArchiveSlots->mSlots[7].mLoaded != 0) {
-            archiveName = gArchiveNames[7];
+        if (file == NULL && gArchiveSlots->mSlots[ARCHIVE_SLOT_KART_MODEL_MAIN_B].mLoaded != 0) {
+            archiveName = gArchiveNames[ARCHIVE_SLOT_KART_MODEL_MAIN_B];
             if (path[0] == '/') {
-                OS_SNPrintf(fullPath, 0x80, "%s:%s", archiveName, path);
+                OS_SNPrintf(fullPath, ARCHIVE_PATH_SIZE, "%s:%s", archiveName, path);
             } else {
-                OS_SNPrintf(fullPath, 0x80, "%s:/%s", archiveName, path);
+                OS_SNPrintf(fullPath, ARCHIVE_PATH_SIZE, "%s:/%s", archiveName, path);
             }
             file = LoadFileAligned(fullPath, 8);
         }
-        if (file == NULL && gArchiveSlots->mSlots[8].mLoaded != 0) {
-            archiveName = gArchiveNames[8];
+        if (file == NULL && gArchiveSlots->mSlots[ARCHIVE_SLOT_KART_MODEL_SUB].mLoaded != 0) {
+            archiveName = gArchiveNames[ARCHIVE_SLOT_KART_MODEL_SUB];
             if (path[0] == '/') {
-                OS_SNPrintf(fullPath, 0x80, "%s:%s", archiveName, path);
+                OS_SNPrintf(fullPath, ARCHIVE_PATH_SIZE, "%s:%s", archiveName, path);
             } else {
-                OS_SNPrintf(fullPath, 0x80, "%s:/%s", archiveName, path);
+                OS_SNPrintf(fullPath, ARCHIVE_PATH_SIZE, "%s:/%s", archiveName, path);
             }
             file = LoadFileAligned(fullPath, 8);
         }
@@ -826,47 +834,47 @@ void *LoadKartModelFile(const char *path) {
 #pragma thumb on
 
 void ReplaceKm1ArchiveWithKm2(void) {
-    ReleaseArchiveSlot(6);
-    SetHeapGroupId((u16) 0);
-    LoadArchiveSlotForScene(7, 2);
-    SetHeapGroupId((u16) 9);
+    ReleaseArchiveSlot(ARCHIVE_SLOT_KART_MODEL_MAIN_A);
+    SetHeapGroupId((u16) HEAP_GROUP_DEFAULT);
+    LoadArchiveSlotForScene(ARCHIVE_SLOT_KART_MODEL_MAIN_B, SCENE_RACE);
+    SetHeapGroupId((u16) HEAP_GROUP_SCENE);
 }
 
 void ReleaseKartModelSlotsLoadCourse(void) {
     int currentSceneNumber;
-    ReleaseArchiveSlot(7);
-    ReleaseArchiveSlot(8);
-    SetHeapGroupId((u16) 0);
+    ReleaseArchiveSlot(ARCHIVE_SLOT_KART_MODEL_MAIN_B);
+    ReleaseArchiveSlot(ARCHIVE_SLOT_KART_MODEL_SUB);
+    SetHeapGroupId((u16) HEAP_GROUP_DEFAULT);
     currentSceneNumber = GetCurrentSceneNumber();
-    if (currentSceneNumber == 2) {
-        LoadArchiveSlotForScene(3, 2);
+    if (currentSceneNumber == SCENE_RACE) {
+        LoadArchiveSlotForScene(ARCHIVE_SLOT_COURSE, SCENE_RACE);
     }
-    SetHeapGroupId((u16) 9);
+    SetHeapGroupId((u16) HEAP_GROUP_SCENE);
 }
 
 void ReleaseCourseLoadSlotsInRace(void) {
     int currentSceneNumber;
-    ReleaseArchiveSlot(0xd);
-    SetHeapGroupId((u16) 0);
+    ReleaseArchiveSlot(ARCHIVE_SLOT_COURSE_TEXTURE);
+    SetHeapGroupId((u16) HEAP_GROUP_DEFAULT);
     currentSceneNumber = GetCurrentSceneNumber();
-    if (currentSceneNumber == 2) {
-        LoadArchiveSlotForScene(5, 2);
-        LoadArchiveSlotForScene(0xb, 2);
-        LoadArchiveSlotForScene(0, 2);
+    if (currentSceneNumber == SCENE_RACE) {
+        LoadArchiveSlotForScene(ARCHIVE_SLOT_SCENE, SCENE_RACE);
+        LoadArchiveSlotForScene(ARCHIVE_SLOT_SCENE_MODE, SCENE_RACE);
+        LoadArchiveSlotForScene(ARCHIVE_SLOT_MAIN_RACE, SCENE_RACE);
     }
-    SetHeapGroupId((u16) 9);
+    SetHeapGroupId((u16) HEAP_GROUP_SCENE);
 }
 
 void ReleaseKartModelLoadSlotsForScene(void) {
     u32 currentSceneNumber;
     currentSceneNumber = GetCurrentSceneNumber();
-    ReleaseArchiveSlot(10);
-    SetHeapGroupId((u16) 0);
-    LoadArchiveSlotForScene(1, currentSceneNumber);
-    LoadArchiveSlotForScene(5, currentSceneNumber);
-    LoadArchiveSlotForScene(0xe, currentSceneNumber);
-    LoadArchiveSlotForScene(0x10, currentSceneNumber);
-    SetHeapGroupId((u16) 9);
+    ReleaseArchiveSlot(ARCHIVE_SLOT_KART_MODEL_MENU);
+    SetHeapGroupId((u16) HEAP_GROUP_DEFAULT);
+    LoadArchiveSlotForScene(ARCHIVE_SLOT_MAIN_2D, currentSceneNumber);
+    LoadArchiveSlotForScene(ARCHIVE_SLOT_SCENE, currentSceneNumber);
+    LoadArchiveSlotForScene(ARCHIVE_SLOT_CHARACTER_KART_SELECT, currentSceneNumber);
+    LoadArchiveSlotForScene(ARCHIVE_SLOT_GENERAL_MENU, currentSceneNumber);
+    SetHeapGroupId((u16) HEAP_GROUP_SCENE);
 }
 
 #pragma thumb off
@@ -889,28 +897,28 @@ void InitArchiveBuffer(NNSiFndHeapHead *heap, s32 bufferIndex, s32 sizeInKb, u32
 
 // Sets up 12 archive buffers on three heaps.
 void InitArchiveBuffers(NNSiFndHeapHead *firstHeap, NNSiFndHeapHead *courseBufferHeap, NNSiFndHeapHead *lastHeap) {
-    InitArchiveBuffer(lastHeap, 2, 0x3c, 0, 1);
-    InitArchiveBuffer(lastHeap, 3, 0x32, 0, 1);
-    InitArchiveBuffer(lastHeap, 4, 5, 0, 1);
-    InitArchiveBuffer(lastHeap, 5, 5, 0, 1);
-    InitArchiveBuffer(lastHeap, 0, 0x14, 0, 1);
-    InitArchiveBuffer(lastHeap, 1, 0x14, 0, 1);
-    InitArchiveBuffer(lastHeap, 0xe, 0x46, 0, 1);
-    InitArchiveBuffer(lastHeap, 0xf, 0x46, 0, 1);
-    InitArchiveBuffer(courseBufferHeap, 6, 200, 1, 1);
-    InitArchiveBuffer(courseBufferHeap, 7, 200, 0, 1);
-    InitArchiveBuffer(firstHeap, 8, 0x46, 1, 0);
-    InitArchiveBuffer(firstHeap, 0xd, 0x1e, 0, 0);
+    InitArchiveBuffer(lastHeap, ARCHIVE_BUFFER_RACE, 0x3c, 0, 1);
+    InitArchiveBuffer(lastHeap, ARCHIVE_BUFFER_RACE_LANGUAGE, 0x32, 0, 1);
+    InitArchiveBuffer(lastHeap, ARCHIVE_BUFFER_RACE_MODE, 5, 0, 1);
+    InitArchiveBuffer(lastHeap, ARCHIVE_BUFFER_RACE_MODE_LANGUAGE, 5, 0, 1);
+    InitArchiveBuffer(lastHeap, ARCHIVE_BUFFER_MENU_DL, 0x14, 0, 1);
+    InitArchiveBuffer(lastHeap, ARCHIVE_BUFFER_MENU_DL_LANGUAGE, 0x14, 0, 1);
+    InitArchiveBuffer(lastHeap, ARCHIVE_BUFFER_RESULT_DL, 0x46, 0, 1);
+    InitArchiveBuffer(lastHeap, ARCHIVE_BUFFER_RESULT_DL_LANGUAGE, 0x46, 0, 1);
+    InitArchiveBuffer(courseBufferHeap, ARCHIVE_BUFFER_COURSE, 200, 1, 1);
+    InitArchiveBuffer(courseBufferHeap, ARCHIVE_BUFFER_COURSE_TEXTURE, 200, 0, 1);
+    InitArchiveBuffer(firstHeap, ARCHIVE_BUFFER_MAIN_RACE, 0x46, 1, 0);
+    InitArchiveBuffer(firstHeap, ARCHIVE_BUFFER_MAIN_EFFECT, 0x1e, 0, 0);
     gArchiveSlots->mFirstHeap = firstHeap;
     gArchiveSlots->mCourseBufferHeap = courseBufferHeap;
     gArchiveSlots->mLastHeap = lastHeap;
 }
 
 void InitArchiveBuffersOnOverlayHeap(void) {
-    InitArchiveBuffer(gOverlayLoader->mFrmHeap, 0xb, 0xaa, 0, 0);
-    InitArchiveBuffer(gOverlayLoader->mFrmHeap, 0xc, 0x6e, 0, 0);
-    InitArchiveBuffer(gOverlayLoader->mFrmHeap, 9, 0x1e, 0, 0);
-    InitArchiveBuffer(gOverlayLoader->mFrmHeap, 10, 0x1e, 0, 0);
+    InitArchiveBuffer(gOverlayLoader->mFrmHeap, ARCHIVE_BUFFER_KART_MODEL_MAIN_A, 0xaa, 0, 0);
+    InitArchiveBuffer(gOverlayLoader->mFrmHeap, ARCHIVE_BUFFER_KART_MODEL_MAIN_B, 0x6e, 0, 0);
+    InitArchiveBuffer(gOverlayLoader->mFrmHeap, ARCHIVE_BUFFER_MAIN_2D, 0x1e, 0, 0);
+    InitArchiveBuffer(gOverlayLoader->mFrmHeap, ARCHIVE_BUFFER_MAIN_2D_LANGUAGE, 0x1e, 0, 0);
 }
 
 #pragma thumb off
@@ -929,30 +937,30 @@ void RequestArchiveLoad(const void *path, s32 bufferIndex) {
 
 void RequestArchiveLoadWithLanguage(const void *prefix, u32 bufferIndex) {
     u32 languageCode;
-    char path[128];
+    char path[ARCHIVE_PATH_SIZE];
     languageCode = GetMPLanguageCode();
-    OS_SNPrintf(path, 0x80, "%s%s.carc", prefix, languageCode);
+    OS_SNPrintf(path, ARCHIVE_PATH_SIZE, "%s%s.carc", prefix, languageCode);
     RequestArchiveLoad(path, bufferIndex);
 }
 
 void RequestMainAndMenuDLArchives(void) {
     ResetPendingFiles();
     NNS_FndFreeToFrmHeap(gArchiveSlots->mLastHeap, 3);
-    RequestArchiveLoad("/data/KartModelMainA.carc", 0xb);
-    RequestArchiveLoad("/data/KartModelMainB.carc", 0xc);
-    RequestArchiveLoad("/data/Scene/MenuDL.carc", 0);
-    RequestArchiveLoadWithLanguage("/data/Scene/MenuDL_", 1);
-    RequestArchiveLoad("/data/MainRace.carc", 8);
-    RequestArchiveLoad("/data/Main2D.carc", 9);
-    RequestArchiveLoadWithLanguage("/data/Main2D_", 10);
-    RequestArchiveLoad("/data/MainEffect.carc", 0xd);
+    RequestArchiveLoad("/data/KartModelMainA.carc", ARCHIVE_BUFFER_KART_MODEL_MAIN_A);
+    RequestArchiveLoad("/data/KartModelMainB.carc", ARCHIVE_BUFFER_KART_MODEL_MAIN_B);
+    RequestArchiveLoad("/data/Scene/MenuDL.carc", ARCHIVE_BUFFER_MENU_DL);
+    RequestArchiveLoadWithLanguage("/data/Scene/MenuDL_", ARCHIVE_BUFFER_MENU_DL_LANGUAGE);
+    RequestArchiveLoad("/data/MainRace.carc", ARCHIVE_BUFFER_MAIN_RACE);
+    RequestArchiveLoad("/data/Main2D.carc", ARCHIVE_BUFFER_MAIN_2D);
+    RequestArchiveLoadWithLanguage("/data/Main2D_", ARCHIVE_BUFFER_MAIN_2D_LANGUAGE);
+    RequestArchiveLoad("/data/MainEffect.carc", ARCHIVE_BUFFER_MAIN_EFFECT);
 }
 
 void RequestMenuDLArchives(void) {
     ResetPendingFiles();
     NNS_FndFreeToFrmHeap(gArchiveSlots->mLastHeap, 3);
-    RequestArchiveLoad("/data/Scene/MenuDL.carc", 0);
-    RequestArchiveLoadWithLanguage("/data/Scene/MenuDL_", 1);
+    RequestArchiveLoad("/data/Scene/MenuDL.carc", ARCHIVE_BUFFER_MENU_DL);
+    RequestArchiveLoadWithLanguage("/data/Scene/MenuDL_", ARCHIVE_BUFFER_MENU_DL_LANGUAGE);
 }
 
 #pragma thumb off
@@ -960,24 +968,24 @@ void RequestMenuDLArchives(void) {
 #pragma thumb on
 
 void RequestRaceArchives(void *courseId, void *kind) {
-    char path[128];
+    char path[ARCHIVE_PATH_SIZE];
     ResetPendingFiles();
     NNS_FndFreeToFrmHeap(gArchiveSlots->mLastHeap, 3);
-    RequestArchiveLoad("/data/Scene/Race.carc", 2);
-    RequestArchiveLoadWithLanguage("/data/Scene/Race_", 3);
-    if (kind == (void *) 3) {
-        RequestArchiveLoad("/data/Scene/Race_vs.carc", 4);
-        RequestArchiveLoadWithLanguage("/data/Scene/Race_vs_", 5);
+    RequestArchiveLoad("/data/Scene/Race.carc", ARCHIVE_BUFFER_RACE);
+    RequestArchiveLoadWithLanguage("/data/Scene/Race_", ARCHIVE_BUFFER_RACE_LANGUAGE);
+    if (kind == (void *) MODE_VS) {
+        RequestArchiveLoad("/data/Scene/Race_vs.carc", ARCHIVE_BUFFER_RACE_MODE);
+        RequestArchiveLoadWithLanguage("/data/Scene/Race_vs_", ARCHIVE_BUFFER_RACE_MODE_LANGUAGE);
     } else {
-        RequestArchiveLoad("/data/Scene/Race_mg.carc", 4);
-        RequestArchiveLoadWithLanguage("/data/Scene/Race_mg_", 5);
+        RequestArchiveLoad("/data/Scene/Race_mg.carc", ARCHIVE_BUFFER_RACE_MODE);
+        RequestArchiveLoadWithLanguage("/data/Scene/Race_mg_", ARCHIVE_BUFFER_RACE_MODE_LANGUAGE);
     }
     gArchiveSlots->mRaceKind = kind;
     NNS_FndFreeToFrmHeap(gArchiveSlots->mCourseBufferHeap, 3);
     BuildCourseArchivePath(path, (s32) courseId, 0);
-    RequestArchiveLoad(path, 6);
+    RequestArchiveLoad(path, ARCHIVE_BUFFER_COURSE);
     BuildCourseArchivePath(path, (s32) courseId, 1);
-    RequestArchiveLoad(path, 7);
+    RequestArchiveLoad(path, ARCHIVE_BUFFER_COURSE_TEXTURE);
     gArchiveSlots->mCourseId = courseId;
 }
 
@@ -988,8 +996,8 @@ void RequestRaceArchives(void *courseId, void *kind) {
 void RequestResultDLArchives(void) {
     ResetPendingFiles();
     NNS_FndFreeToFrmHeap(gArchiveSlots->mLastHeap, 3);
-    RequestArchiveLoad("/data/Scene/ResultDL.carc", 0xe);
-    RequestArchiveLoadWithLanguage("/data/Scene/ResultDL_", 0xf);
+    RequestArchiveLoad("/data/Scene/ResultDL.carc", ARCHIVE_BUFFER_RESULT_DL);
+    RequestArchiveLoadWithLanguage("/data/Scene/ResultDL_", ARCHIVE_BUFFER_RESULT_DL_LANGUAGE);
 }
 
 #pragma thumb off
@@ -999,14 +1007,14 @@ void RequestResultDLArchives(void) {
 void ClearArchiveBuffersBit31(void) {
     s32 bufferIndex;
 
-    for (bufferIndex = 0; bufferIndex < 16; bufferIndex++) {
+    for (bufferIndex = 0; bufferIndex < ARCHIVE_BUFFER_COUNT; bufferIndex++) {
         gArchiveSlots->mBuffers[bufferIndex].mUnk_08_31 = 0;
     }
 }
 
 s32 ShouldLoadMap2DData(void) {
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
-        return gArchiveSlots->mBuffers[7].mUnk_08 >> 31;
+        return gArchiveSlots->mBuffers[ARCHIVE_BUFFER_COURSE_TEXTURE].mUnk_08 >> 31;
     }
     return 1;
 }
@@ -1015,7 +1023,7 @@ s32 ShouldLoadMap2DData(void) {
 void ResizeMainEffectArchiveBlock(u8 *regionStart, u32 regionSize) {
     u8 *block;
 
-    block = gArchiveSlots->mSlots[18].mData;
+    block = gArchiveSlots->mSlots[ARCHIVE_SLOT_MAIN_EFFECT].mData;
     NNS_FndResizeForMBlockExpHeap(GetHeap(GetCurrentHeapCall()), block, regionSize + (regionStart - block));
 }
 
@@ -1024,12 +1032,13 @@ void InitCompressedArchiveAndMBChild(void *heap) {
     void *data;
 
     uncompressedSize = *GetCompressedArchive() >> 8;
-    gArchiveSlots->mSlots[19].mLoaded = 0;
+    gArchiveSlots->mSlots[ARCHIVE_SLOT_IN_MEMORY].mLoaded = 0;
     data = HeapAllocAligned(heap, uncompressedSize, 0x20);
     UncompressLZ8AndStoreRange(GetCompressedArchive(), data, uncompressedSize);
-    ArchiveLoadFromMemory(&gArchiveSlots->mSlots[19].mArchive, (const u8 *) gArchiveNames[19], data);
-    gArchiveSlots->mSlots[19].mData = data;
-    gArchiveSlots->mSlots[19].mLoaded = 1;
+    ArchiveLoadFromMemory(&gArchiveSlots->mSlots[ARCHIVE_SLOT_IN_MEMORY].mArchive,
+                          (const u8 *) gArchiveNames[ARCHIVE_SLOT_IN_MEMORY], data);
+    gArchiveSlots->mSlots[ARCHIVE_SLOT_IN_MEMORY].mData = data;
+    gArchiveSlots->mSlots[ARCHIVE_SLOT_IN_MEMORY].mLoaded = 1;
     CreateSearchIconMBChildAndMultiDownload(heap);
 }
 

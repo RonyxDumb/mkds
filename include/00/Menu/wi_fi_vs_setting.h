@@ -117,7 +117,7 @@ typedef struct MenuShared {
     /* 06c */ BOOL mOtherKartCountAdded;
     /* 070 */ s32 mStaffRollEndedEarly;
     /* 074 */ s32 mWLMenuKind;
-    /* 078 */ s32 mResultArchiveDl;
+    /* 078 */ BOOL mResultArchiveDl;
     /* 07c */ s32 mCupRankIndex;
     /* 080 */ s32 mGrade;
     /* 084 */ s32 mCupIndex;

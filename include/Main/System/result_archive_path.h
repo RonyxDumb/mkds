@@ -35,9 +35,29 @@ typedef struct SceneName {
 #include "Main/Sound/sound_seq.h"
 #include "Main/System/archive_slots.h"
 
-// The scene-name table, 16 rows indexed by scene number like gSceneFuncs: 0 'Title', 1 'Menu', 2 'Race', 3 'Emblem',
-// 4 'Menu', 5 'Test', 6 'WLMenu', 7 'Option', 8 'Record', 9 'Logo', 10 'Result', 11 'Nickname', 12 'WiFiMenu',
-// 13 'Ghost', 14 'Keyboard', 15 'Ending'.
+// The scene-name table, 16 rows indexed by scene number like gSceneFuncs; the scene numbers are named after the row's
+// name (the two rows named 'Menu' keep their row numbers).
+#define SCENE_TITLE 0
+#define SCENE_MENU_1 1
+#define SCENE_RACE 2
+#define SCENE_EMBLEM 3
+#define SCENE_MENU_4 4
+#define SCENE_TEST 5
+#define SCENE_WL_MENU 6
+#define SCENE_OPTION 7
+#define SCENE_RECORD 8
+#define SCENE_LOGO 9
+#define SCENE_RESULT 10
+#define SCENE_NICKNAME 11
+#define SCENE_WIFI_MENU 12
+#define SCENE_GHOST 13
+#define SCENE_KEYBOARD 14
+#define SCENE_ENDING 15
+
+// Heap group ids passed to SetHeapGroupId: 0 is the id every expanded heap starts with; 9 is the id restored once the
+// special-purpose allocations of a step are done.
+#define HEAP_GROUP_DEFAULT 0
+#define HEAP_GROUP_SCENE 9
 
 void InitTouchMicInput(void *heap);
 void InitTouchPanelAndSetCalibration(void);
