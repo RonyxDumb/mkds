@@ -331,7 +331,7 @@ u32 MB_RecvGameInfoBeacon(EntryCallbackFunc callback, u32 value, WMBssDesc *scan
     if (entryIndex < 0) {
         return 0;
     }
-    MBi_AnalyzeBeacon((u8 *) scanBlock, entryIndex, value);
+    MBi_AnalyzeBeacon(scanBlock, entryIndex, value);
     MBi_CheckCompleteGameInfoFlagments(entryIndex, callback);
     return 1;
 }
@@ -469,7 +469,7 @@ void MB_CountGameInfoLifetime(EntryCallbackFunc callback, u32 value) {
     }
 }
 
-void MBi_AnalyzeBeacon(u8 *scanBlock, u32 entryIndex, u32 value) {
+void MBi_AnalyzeBeacon(WMBssDesc *scanBlock, u32 entryIndex, u32 value) {
     MBGameInfoRecvList *entry;
     MBi_CheckTGID(scanBlock, entryIndex);
     MBi_CheckSeqNoFixed(entryIndex);
@@ -502,8 +502,8 @@ void MBi_AnalyzeBeacon(u8 *scanBlock, u32 entryIndex, u32 value) {
 
 #pragma thumb on
 
-void MBi_CheckTGID(u8 *newBlock, int entryIndex) {
-    if (*OFFSET_PTR(u16, newBlock, 0x48) != mbrsp->mEntries[entryIndex].mTgid) {
+void MBi_CheckTGID(WMBssDesc *newBlock, int entryIndex) {
+    if (newBlock->mGameInfo.mTgid != mbrsp->mEntries[entryIndex].mTgid) {
         MB_DeleteRecvGameInfoWithoutBssdesc(entryIndex);
         MIi_CpuCopy16(newBlock, mbrsp->mEntries[entryIndex].mScanBuffer, 0xc0);
         MBi_LockScanTarget(entryIndex);
