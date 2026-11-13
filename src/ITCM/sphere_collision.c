@@ -318,7 +318,7 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *vector, i
             sqrtInput = remainingSquared;
             reg_CP_SQRTCNT = 1;
             reg_CP_SQRT_PARAM = sqrtInput;
-            while (reg_CP_SQRTCNT & 0x8000) {
+            while (reg_CP_SQRTCNT & REG_CP_SQRTCNT_BUSY_MASK) {
             }
             penetration = reg_CP_SQRT_RESULT - planeDistance;
             if (penetration < 0) {

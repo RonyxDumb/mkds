@@ -231,7 +231,7 @@ BOOL ComputeSphereHitOnPendulum(PendulumObject *pendulum, Vec3 *sphereCenter, s3
     if (distanceSquared < (s64) combinedRadius * combinedRadius) {
         reg_CP_SQRTCNT = 1;
         reg_CP_SQRT_PARAM = distanceSquared;
-        while (reg_CP_SQRTCNT & 0x8000) {
+        while (reg_CP_SQRTCNT & REG_CP_SQRTCNT_BUSY_MASK) {
         }
         combinedRadius -= reg_CP_SQRT_RESULT;
     } else {

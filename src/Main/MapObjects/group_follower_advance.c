@@ -135,7 +135,7 @@ u32 GetMaxXzDistanceToGroup(GroupFollower *follower, Vec3 *point) {
     }
     reg_CP_SQRTCNT = 1;
     *(vs64 *) 0x40002b8 = maxDistanceSquared;
-    while (reg_CP_SQRTCNT & 0x8000) {
+    while (reg_CP_SQRTCNT & REG_CP_SQRTCNT_BUSY_MASK) {
     }
     return reg_CP_SQRT_RESULT;
 }

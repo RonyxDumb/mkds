@@ -1095,7 +1095,7 @@ s32 VEC_Mag(const Vec3 *vec) {
     squared += (s64) vec->z * vec->z;
     reg_CP_SQRTCNT = 1;
     reg_CP_SQRT_PARAM = squared << 2;
-    while (reg_CP_SQRTCNT & 0x8000) {
+    while (reg_CP_SQRTCNT & REG_CP_SQRTCNT_BUSY_MASK) {
     }
     return ((s32) reg_CP_SQRT_RESULT + 1) >> 1;
 }
@@ -1114,10 +1114,10 @@ void VEC_Normalize(const Vec3 *src, Vec3 *dst) {
     reg_CP_DIV_DENOM = squared;
     reg_CP_SQRTCNT = 1;
     reg_CP_SQRT_PARAM = squared << 2;
-    while (reg_CP_SQRTCNT & 0x8000) {
+    while (reg_CP_SQRTCNT & REG_CP_SQRTCNT_BUSY_MASK) {
     }
     root = reg_CP_SQRT_RESULT;
-    while (reg_CP_DIVCNT & 0x8000) {
+    while (reg_CP_DIVCNT & REG_CP_DIVCNT_BUSY_MASK) {
     }
     scale = (s64) reg_CP_DIV_RESULT * root;
     dst->x = (scale * src->x + 0x100000000000LL) >> 45;
@@ -1139,10 +1139,10 @@ void VEC_Fx16Normalize(const Vec3s16 *src, Vec3s16 *dst) {
     reg_CP_DIV_DENOM = squared;
     reg_CP_SQRTCNT = 1;
     reg_CP_SQRT_PARAM = squared << 2;
-    while (reg_CP_SQRTCNT & 0x8000) {
+    while (reg_CP_SQRTCNT & REG_CP_SQRTCNT_BUSY_MASK) {
     }
     root = reg_CP_SQRT_RESULT;
-    while (reg_CP_DIVCNT & 0x8000) {
+    while (reg_CP_DIVCNT & REG_CP_DIVCNT_BUSY_MASK) {
     }
     scale = (s64) reg_CP_DIV_RESULT * root;
     dst->x = (scale * src->x + 0x100000000000LL) >> 45;
@@ -1172,7 +1172,7 @@ s32 VEC_Distance(const Vec3 *firstVec, const Vec3 *secondVec) {
     squared += (s64) deltaZ * deltaZ;
     reg_CP_SQRTCNT = 1;
     reg_CP_SQRT_PARAM = squared << 2;
-    while (reg_CP_SQRTCNT & 0x8000) {
+    while (reg_CP_SQRTCNT & REG_CP_SQRTCNT_BUSY_MASK) {
     }
     return ((s32) reg_CP_SQRT_RESULT + 1) >> 1;
 }
@@ -1192,7 +1192,7 @@ s32 FX_Inv(s32 denom) {
 // Returns the raw 64-bit result of 1.0 / denom.
 s64 FX_InvFx64c(s32 denom) {
     FX_InvAsync(denom);
-    while (reg_CP_DIVCNT & 0x8000) {
+    while (reg_CP_DIVCNT & REG_CP_DIVCNT_BUSY_MASK) {
     }
     return (s64) reg_CP_DIV_RESULT;
 }
@@ -1209,14 +1209,14 @@ s32 FX_Sqrt(s32 value) {
 
 // Waits for the divider and returns the raw 64-bit quotient.
 s64 FX_GetDivResultFx64c(void) {
-    while (reg_CP_DIVCNT & 0x8000) {
+    while (reg_CP_DIVCNT & REG_CP_DIVCNT_BUSY_MASK) {
     }
     return (s64) reg_CP_DIV_RESULT;
 }
 
 // Waits for the divider and returns the quotient rounded to 20.12.
 s32 FX_GetDivResult(void) {
-    while (reg_CP_DIVCNT & 0x8000) {
+    while (reg_CP_DIVCNT & REG_CP_DIVCNT_BUSY_MASK) {
     }
     return ((s64) reg_CP_DIV_RESULT + 0x80000) >> 20;
 }
@@ -1230,7 +1230,7 @@ void FX_InvAsync(s32 denom) {
 
 // Waits for the square root unit and returns the result rounded to 20.12.
 s32 FX_GetSqrtResult(void) {
-    while (reg_CP_SQRTCNT & 0x8000) {
+    while (reg_CP_SQRTCNT & REG_CP_SQRTCNT_BUSY_MASK) {
     }
     return (reg_CP_SQRT_RESULT + 0x200) >> 10;
 }
@@ -1247,7 +1247,7 @@ s32 FX_DivS32(s32 numer, s32 denom) {
     reg_CP_DIVCNT = 0;
     reg_CP_DIV_NUMER_LO = numer;
     reg_CP_DIV_DENOM = (u32) denom;
-    while (reg_CP_DIVCNT & 0x8000) {
+    while (reg_CP_DIVCNT & REG_CP_DIVCNT_BUSY_MASK) {
     }
     return reg_CP_DIV_RESULT_LO;
 }
@@ -1257,7 +1257,7 @@ s32 FX_ModS32(s32 numer, s32 denom) {
     reg_CP_DIVCNT = 0;
     reg_CP_DIV_NUMER_LO = numer;
     reg_CP_DIV_DENOM = (u32) denom;
-    while (reg_CP_DIVCNT & 0x8000) {
+    while (reg_CP_DIVCNT & REG_CP_DIVCNT_BUSY_MASK) {
     }
     return reg_CP_DIVREM_RESULT_LO;
 }

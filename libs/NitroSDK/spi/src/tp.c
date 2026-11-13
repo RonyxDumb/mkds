@@ -161,7 +161,7 @@ void TP_SetCalibrateParam(TPCalibrateParam *param) {
         den[1] = 0;
         gTouchPanelState.mCalibration.mX0 = param->mX0;
         gTouchPanelState.mCalibration.mXDotSize = param->mXDotSize;
-        while (reg_CP_DIVCNT & 0x8000) {
+        while (reg_CP_DIVCNT & REG_CP_DIVCNT_BUSY_MASK) {
         }
         gTouchPanelState.mCalibration.mXDotSizeInv = *(vu32 *) 0x40002a0;
     } else {
@@ -178,7 +178,7 @@ void TP_SetCalibrateParam(TPCalibrateParam *param) {
         den[1] = 0;
         gTouchPanelState.mCalibration.mY0 = param->mY0;
         gTouchPanelState.mCalibration.mYDotSize = param->mYDotSize;
-        while (reg_CP_DIVCNT & 0x8000) {
+        while (reg_CP_DIVCNT & REG_CP_DIVCNT_BUSY_MASK) {
         }
         gTouchPanelState.mCalibration.mYDotSizeInv = *(vu32 *) 0x40002a0;
     } else {
@@ -309,7 +309,7 @@ u32 TP_CalcCalibrateParam(TPCalibrateParam *calibrate, u16 rawX1, u16 rawY1, u16
     reg_CP_DIV_DENOM = (u32) (dx1 - dx2);
     ryWidth = rawY1 - rawY2;
     dyWidth = dy1 - dy2;
-    while (reg_CP_DIVCNT & 0x8000) {
+    while (reg_CP_DIVCNT & REG_CP_DIVCNT_BUSY_MASK) {
     }
     value = reg_CP_DIV_RESULT_LO;
     reg_CP_DIVCNT = 0;
@@ -326,7 +326,7 @@ u32 TP_CalcCalibrateParam(TPCalibrateParam *calibrate, u16 rawX1, u16 rawY1, u16
         return 1;
     }
     calibrate->mX0 = value;
-    while (reg_CP_DIVCNT & 0x8000) {
+    while (reg_CP_DIVCNT & REG_CP_DIVCNT_BUSY_MASK) {
     }
     value = reg_CP_DIV_RESULT_LO;
     OS_RestoreInterrupts(enabled);

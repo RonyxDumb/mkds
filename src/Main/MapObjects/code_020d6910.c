@@ -207,10 +207,10 @@ void QuaternionNormalizeUnlessNearOne(Quaternion *input, Quaternion *output) {
     reg_CP_DIV_DENOM = lengthSquared;
     reg_CP_SQRTCNT = 1;
     reg_CP_SQRT_PARAM = lengthSquared << 2;
-    while (reg_CP_SQRTCNT & 0x8000) {
+    while (reg_CP_SQRTCNT & REG_CP_SQRTCNT_BUSY_MASK) {
     }
     root = reg_CP_SQRT_RESULT;
-    while (reg_CP_DIVCNT & 0x8000) {
+    while (reg_CP_DIVCNT & REG_CP_DIVCNT_BUSY_MASK) {
     }
     quotient = reg_CP_DIV_RESULT;
     factor = quotient * root;
@@ -266,10 +266,10 @@ s32 Vec3NormalizeAndGetLengthOrZero(Vec3 *vector, Vec3 *result) {
     reg_CP_DIV_DENOM = lengthSquared;
     reg_CP_SQRTCNT = 1;
     reg_CP_SQRT_PARAM = lengthSquared << 2;
-    while (reg_CP_SQRTCNT & 0x8000) {
+    while (reg_CP_SQRTCNT & REG_CP_SQRTCNT_BUSY_MASK) {
     }
     root = reg_CP_SQRT_RESULT;
-    while (reg_CP_DIVCNT & 0x8000) {
+    while (reg_CP_DIVCNT & REG_CP_DIVCNT_BUSY_MASK) {
     }
     quotient = reg_CP_DIV_RESULT;
     factor = quotient * root;
@@ -295,10 +295,10 @@ s32 Vec3NormalizeXZAndGetLengthOrZero(Vec3 *vector, Vec3 *result) {
     reg_CP_DIV_DENOM = lengthSquared;
     reg_CP_SQRTCNT = 1;
     reg_CP_SQRT_PARAM = lengthSquared << 2;
-    while (reg_CP_SQRTCNT & 0x8000) {
+    while (reg_CP_SQRTCNT & REG_CP_SQRTCNT_BUSY_MASK) {
     }
     root = reg_CP_SQRT_RESULT;
-    while (reg_CP_DIVCNT & 0x8000) {
+    while (reg_CP_DIVCNT & REG_CP_DIVCNT_BUSY_MASK) {
     }
     quotient = reg_CP_DIV_RESULT;
     factor = quotient * root;

@@ -441,7 +441,7 @@ u32 ComputeSoundDistanceAndOffsets(SoundParams *soundParams) {
     positionSource = soundParams->mPositionSource;
     soundParams->mUnk_08 = FROM_FIXED12(GetCameraForwardDistance(positionSource));
     soundParams->mUnk_0c = FROM_FIXED12(GetCameraSideDistance(positionSource));
-    while (reg_CP_SQRTCNT & 0x8000) {
+    while (reg_CP_SQRTCNT & REG_CP_SQRTCNT_BUSY_MASK) {
     }
     return reg_CP_SQRT_RESULT;
 }
