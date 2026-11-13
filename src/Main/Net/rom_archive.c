@@ -560,15 +560,15 @@ void RomArchiveParentCallback(WBTCommand *record) {
     s32 statFlag;
 
     fromIndex = WBT_AidbitmapToAid(record->mPeerBmp);
-    if (record->mCommand != 0xc) {
+    if (record->mCommand != XFER_COMMAND_HOOK_RECORD) {
         return;
     }
     switch (record->mEvent) {
-        case 2:
+        case XFER_EVENT_HANDSHAKE_ASKED:
             break;
-        case 8:
+        case XFER_EVENT_ALL_CHUNKS_HELD:
             break;
-        case 10:
+        case XFER_EVENT_CUSTOM_ARRIVED:
             view = &gRomArchiveTransfer.mParentView;
             payload = &record->mData;
             view->mEntries[fromIndex] = payload->mUnk_0e;
@@ -640,7 +640,7 @@ void RomArchiveParentCallback(WBTCommand *record) {
                     return;
             }
             return;
-        case 13:
+        case XFER_EVENT_BEFORE_SEND:
             commandData = &record->mData;
             identifier = commandData->mPrepareSendData.mBlockId;
             commandData->mUnk_0e.mUnk_08 = 0;
@@ -729,7 +729,7 @@ void RomArchiveChildCallback(WBTCommand *record) {
     fromIndex = WBT_AidbitmapToAid(record->mPeerBmp);
     childView = (RomArchiveChildView *) &gRomArchiveTransfer.mParentView;
     switch (record->mCommand) {
-        case 2:
+        case XFER_COMMAND_HANDSHAKE:
             if (record->mTargetBmp != 0) {
                 return;
             }
@@ -763,7 +763,7 @@ void RomArchiveChildCallback(WBTCommand *record) {
             }
             RequestRomArchiveBytes(gRomArchiveTransfer.mPendingFile);
             return;
-        case 6:
+        case XFER_COMMAND_FETCH_DETAILS:
             blockSize = childView->mNodeBuffers[fromIndex]->mBlockSize;
             gRomArchiveTransfer.mArchiveBlockSize = blockSize;
             savedInterrupts = OS_DisableInterrupts();
@@ -796,7 +796,7 @@ void RomArchiveChildCallback(WBTCommand *record) {
             WBT_GetBlock(1, 0x20000, childView->mBlockBuffers, gRomArchiveTransfer.mArchiveBlockSize,
                          childView->mChunkBitmaps, RomArchiveChildCallback);
             return;
-        case 4:
+        case XFER_COMMAND_FETCH_DATA:
             if (record->mTargetBmp != 0) {
                 return;
             }
@@ -820,8 +820,8 @@ void RomArchiveChildCallback(WBTCommand *record) {
             }
             OS_Terminate();
             return;
-        case 12:
-            if (record->mEvent != 0xa) {
+        case XFER_COMMAND_HOOK_RECORD:
+            if (record->mEvent != XFER_EVENT_CUSTOM_ARRIVED) {
                 return;
             }
             received = &record->mData.mUnk_m;

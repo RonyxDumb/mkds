@@ -13,6 +13,12 @@ typedef struct WBTBlockInfo {
     /* 08 */ u8 mUserId[0x20];
 } WBTBlockInfo;
 
+// WBTBlockInfoList.mBlockType.
+typedef enum WBTBlockType {
+    XFER_BLOCK_TYPE_MEMORY = 0, // the chunks are read from mDataPtr
+    XFER_BLOCK_TYPE_SUPPLIED = 1, // registered without a buffer; the callback supplies each chunk
+} WBTBlockType;
+
 // List node.
 typedef struct WBTBlockInfoList {
     /* 00 */ WBTBlockInfo mDataInfo;

@@ -10,6 +10,80 @@
 #include "pm.h"
 #include "Main/Sound/sound_seq.h"
 
+// WBTCommand.mCommand.
+typedef enum WBTCommandKind {
+    XFER_COMMAND_UNUSED = 0, // no request is running
+    XFER_COMMAND_HANDSHAKE = 2,
+    XFER_COMMAND_FETCH_DATA = 4,
+    XFER_COMMAND_FETCH_DETAILS = 6,
+    XFER_COMMAND_SEND_CUSTOM = 10,
+    XFER_COMMAND_HOOK_RECORD = 12, // only the callback record carries it
+} WBTCommandKind;
+
+// WBTCommand.mEvent. Values 1 to 11 are the packet kinds that raise them, except that the answer to a data or info
+// request is 5 or 7.
+typedef enum WBTEventKind {
+    XFER_EVENT_NOTHING = 0,
+    XFER_EVENT_QUIET = 1,
+    XFER_EVENT_HANDSHAKE_ASKED = 2,
+    XFER_EVENT_HANDSHAKE_ENDED = 3,
+    XFER_EVENT_DATA_ASKED = 4,
+    XFER_EVENT_DATA_ENDED = 5,
+    XFER_EVENT_LAYOUT_ASKED = 6,
+    XFER_EVENT_LAYOUT_ENDED = 7,
+    XFER_EVENT_ALL_CHUNKS_HELD = 8,
+    XFER_EVENT_ALL_CHUNKS_ANSWER = 9,
+    XFER_EVENT_CUSTOM_ARRIVED = 10,
+    XFER_EVENT_CUSTOM_ENDED = 11,
+    XFER_EVENT_UNUSED_12 = 12, // never raised
+    XFER_EVENT_BEFORE_SEND = 13,
+    XFER_EVENT_UNUSED_14 = 14, // never raised
+    XFER_EVENT_FAILED = 15, // the callback record's result says why
+} WBTEventKind;
+
+// BlockTransferEntry.mPacketKind: the first byte of a packet.
+typedef enum WBTPacketKind {
+    XFER_PACKET_FILLER = 1,
+    XFER_PACKET_HANDSHAKE_ASK = 2,
+    XFER_PACKET_HANDSHAKE_ANSWER = 3,
+    XFER_PACKET_DATA_ASK = 4,
+    XFER_PACKET_DATA_CHUNK = 5,
+    XFER_PACKET_LAYOUT_ASK = 6,
+    XFER_PACKET_LAYOUT_ANSWER = 7,
+    XFER_PACKET_ALL_HELD = 8,
+    XFER_PACKET_ALL_HELD_ANSWER = 9,
+    XFER_PACKET_CUSTOM = 10,
+    XFER_PACKET_CUSTOM_ANSWER = 11,
+} WBTPacketKind;
+
+// WBTCommand.mResult of an error event.
+typedef enum WBTResultKind {
+    XFER_RESULT_OK = 0,
+    XFER_RESULT_KIND_REJECTED = 3,
+    XFER_RESULT_STEP_REJECTED = 4,
+    XFER_RESULT_CUT_SHORT = 5,
+    XFER_RESULT_CHUNK_BEYOND_END = 6,
+} WBTResultKind;
+
+// Fields of a packet in the order WBT_CallPacketRecvHook reads them.
+typedef enum WBTParseStep {
+    XFER_PARSE_KIND_FIELD = 1,
+    XFER_PARSE_MASK_FIELD = 2,
+    XFER_PARSE_ASK_NUMBER = 3,
+    XFER_PARSE_TOTAL_FIELD = 4,
+    XFER_PARSE_SIZE_LIST = 5,
+    XFER_PARSE_TARGET_FIELD = 7,
+    XFER_PARSE_SLICE_NUMBER = 8,
+    XFER_PARSE_BODY = 9,
+    XFER_PARSE_LENGTH_FIELD = 10,
+} WBTParseStep;
+
+// BlockTransferEntry.mUnk_00.
+typedef enum WBTEntryState {
+    XFER_ENTRY_FREE = 1,
+    XFER_ENTRY_AWAITING_ANSWER = 2,
+} WBTEntryState;
+
 // Starts at offset 0x24 of an entry of BlockTransfer; 0x44 bytes (see WBTi_FindBitmapIndex).
 typedef struct WBTPacketBitmap {
     /* 00 */ s32 mLength;

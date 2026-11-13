@@ -6,23 +6,23 @@
 
 void ParentBlockTransferCallback(WBTCommand *record) {
     s32 callbackCode = record->mEvent;
-    if (callbackCode == 10) {
+    if (callbackCode == XFER_EVENT_CUSTOM_ARRIVED) {
         SetZeroWordReceived(&record->mData.mUserDataWord, record->mData.mUserData.mSize);
         return;
     }
     switch (gConnectionWork->mParentTransferStep) {
         case 0:
-            if (callbackCode == 2) {
+            if (callbackCode == XFER_EVENT_HANDSHAKE_ASKED) {
                 gConnectionWork->mParentTransferStep = 1;
             }
             break;
         case 1:
-            if (callbackCode == 8) {
+            if (callbackCode == XFER_EVENT_ALL_CHUNKS_HELD) {
                 gConnectionWork->mParentTransferStep = 2;
             }
             break;
         case 2:
-            if (callbackCode == 8) {
+            if (callbackCode == XFER_EVENT_ALL_CHUNKS_HELD) {
                 gConnectionWork->mTransferFlags |= CONNECTION_TRANSFER_SEQUENCE_DONE;
                 gConnectionWork->mParentTransferStep = 0;
             }

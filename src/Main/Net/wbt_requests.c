@@ -56,7 +56,7 @@ u32 TrySetNextRequest(const WBTCommand *request) {
         return 0;
     }
     nextRequest = GetNextRequestAddress();
-    if (nextRequest == NULL || nextRequest->mCommand != 0) {
+    if (nextRequest == NULL || nextRequest->mCommand != XFER_COMMAND_UNUSED) {
         OS_RestoreInterrupts(savedInterrupts);
         return 0;
     }
@@ -130,7 +130,8 @@ BOOL WBT_GetCurrentDownloadProgress(u32 blockId, s32 entryIndex, s32 *receivedCh
     WBTPacketBitmap *receive;
     transfer = GetBlockTransfer();
     receive = &transfer->mEntries[entryIndex].mReceive;
-    if (transfer->mCurrentRequest.mCommand == 4 && transfer->mCurrentRequest.mData.mGet.mBlockId == blockId) {
+    if (transfer->mCurrentRequest.mCommand == XFER_COMMAND_FETCH_DATA &&
+        transfer->mCurrentRequest.mData.mGet.mBlockId == blockId) {
         *chunkCountOut = receive->mTotal;
         *receivedChunkCountOut = receive->mCount;
         return TRUE;
@@ -140,8 +141,8 @@ BOOL WBT_GetCurrentDownloadProgress(u32 blockId, s32 entryIndex, s32 *receivedCh
 
 u32 WBT_SetPacketSize(s32 sendSize, s32 receiveSize) {
     switch (GetBlockTransfer()->mCurrentRequest.mCommand) {
-        case 4:
-        case 6:
+        case XFER_COMMAND_FETCH_DATA:
+        case XFER_COMMAND_FETCH_DETAILS:
             return 0;
     }
     SetSendChunkSize(sendSize - 0xe);
@@ -179,10 +180,10 @@ s32 WBT_RegisterBlock(WBTBlockInfoList *node, u32 blockId, const void *info, u8 
         lastNode->mNext = node;
     }
     if (data == NULL) {
-        node->mBlockType = 1;
+        node->mBlockType = XFER_BLOCK_TYPE_SUPPLIED;
     } else {
         node->mDataPtr = data;
-        node->mBlockType = 0;
+        node->mBlockType = XFER_BLOCK_TYPE_MEMORY;
     }
     node->mNext = NULL;
     node->mDataInfo.mId = blockId;
@@ -226,7 +227,7 @@ WBTBlockInfoList *WBT_UnregisterBlock(u32 blockId) {
 
 u32 WBT_RequestSync(u16 indexMask, void (*callback)(WBTCommand *)) {
     WBTCommand request;
-    request.mCommand = 2;
+    request.mCommand = XFER_COMMAND_HANDSHAKE;
     request.mTargetBmp = indexMask;
     request.mCallback = callback;
     return TrySetNextRequest(&request);
@@ -234,7 +235,7 @@ u32 WBT_RequestSync(u16 indexMask, void (*callback)(WBTCommand *)) {
 
 u32 WBT_GetBlockInfo(u16 indexMask, u32 blockIdOrPosition, const void *buffers, void (*callback)(WBTCommand *)) {
     WBTCommand request;
-    request.mCommand = 6;
+    request.mCommand = XFER_COMMAND_FETCH_DETAILS;
     request.mTargetBmp = indexMask;
     request.mCallback = callback;
     request.mData.mGet.mBlockId = blockIdOrPosition;
@@ -246,7 +247,7 @@ u32 WBT_GetBlockInfo(u16 indexMask, u32 blockIdOrPosition, const void *buffers, 
 u32 WBT_GetBlock(u16 indexMask, u32 blockId, const void *buffers, u32 blockSize, const void *chunkBitmaps,
                  void (*callback)(WBTCommand *)) {
     WBTCommand request;
-    request.mCommand = 4;
+    request.mCommand = XFER_COMMAND_FETCH_DATA;
     request.mTargetBmp = indexMask;
     request.mCallback = callback;
     request.mData.mGet.mBlockId = blockId;
@@ -262,7 +263,7 @@ u32 WBT_PutUserData(u16 indexMask, const void *bytes, s32 byteCount, void (*call
     if (byteCount < 0 || byteCount > 9) {
         return 0;
     }
-    request.mCommand = 10;
+    request.mCommand = XFER_COMMAND_SEND_CUSTOM;
     requestPointer = &request;
     requestPointer->mTargetBmp = indexMask;
     requestPointer->mCallback = callback;
@@ -394,18 +395,18 @@ void WBT_InitParent(s32 sendSize, s32 receiveSize, void (*callback)(WBTCommand *
     WBT_SetOwnAid(0);
     SetBlockListHead(NULL);
     transfer = GetBlockTransfer();
-    transfer->mCurrentRequest.mCommand = 0;
+    transfer->mCurrentRequest.mCommand = XFER_COMMAND_UNUSED;
     transfer->mCurrentRequest.mTargetBmp = 0;
     transfer->mCurrentRequest.mPeerBmp = 0;
     transfer->mCurrentRequest.mCallback = NULL;
-    transfer->mCallbackRecord.mCommand = 0;
+    transfer->mCallbackRecord.mCommand = XFER_COMMAND_UNUSED;
     transfer->mCallbackRecord.mTargetBmp = 0;
     transfer->mCallbackRecord.mPeerBmp = 0;
     transfer->mCallbackRecord.mCallback = callback;
     for (entryIndex = 0; entryIndex < 16; entryIndex++) {
         transfer->mEntries[entryIndex].mLastCallbackId = 0;
     }
-    request.mCommand = 0;
+    request.mCommand = XFER_COMMAND_UNUSED;
     TrySetNextRequest(&request);
     ResetRequestId();
     SetSendChunkSize(sendSize - 0xe);
@@ -427,18 +428,18 @@ void WBT_InitChild(void (*callback)(WBTCommand *)) {
     WBT_SetOwnAid(-1);
     SetBlockListHead(NULL);
     transfer = GetBlockTransfer();
-    transfer->mCurrentRequest.mCommand = 0;
+    transfer->mCurrentRequest.mCommand = XFER_COMMAND_UNUSED;
     transfer->mCurrentRequest.mTargetBmp = 0;
     transfer->mCurrentRequest.mPeerBmp = 0;
     transfer->mCurrentRequest.mCallback = NULL;
-    transfer->mCallbackRecord.mCommand = 0;
+    transfer->mCallbackRecord.mCommand = XFER_COMMAND_UNUSED;
     transfer->mCallbackRecord.mTargetBmp = 0;
     transfer->mCallbackRecord.mPeerBmp = 0;
     transfer->mCallbackRecord.mCallback = callback;
     for (entryIndex = 0; entryIndex < 16; entryIndex++) {
         transfer->mEntries[entryIndex].mLastCallbackId = 0;
     }
-    request.mCommand = 0;
+    request.mCommand = XFER_COMMAND_UNUSED;
     TrySetNextRequest(&request);
     ResetRequestId();
     SetSendChunkSize(0);
@@ -460,18 +461,18 @@ void WBT_End(void) {
     WBT_SetOwnAid(-1);
     SetBlockListHead(NULL);
     transfer = GetBlockTransfer();
-    transfer->mCurrentRequest.mCommand = 0;
+    transfer->mCurrentRequest.mCommand = XFER_COMMAND_UNUSED;
     transfer->mCurrentRequest.mTargetBmp = 0;
     transfer->mCurrentRequest.mPeerBmp = 0;
     transfer->mCurrentRequest.mCallback = NULL;
-    transfer->mCallbackRecord.mCommand = 0;
+    transfer->mCallbackRecord.mCommand = XFER_COMMAND_UNUSED;
     transfer->mCallbackRecord.mTargetBmp = 0;
     transfer->mCallbackRecord.mPeerBmp = 0;
     transfer->mCallbackRecord.mCallback = NULL;
     for (entryIndex = 0; entryIndex < 16; entryIndex++) {
         transfer->mEntries[entryIndex].mLastCallbackId = 0;
     }
-    request.mCommand = 0;
+    request.mCommand = XFER_COMMAND_UNUSED;
     TrySetNextRequest(&request);
     ResetRequestId();
     SetSendChunkSize(-1);

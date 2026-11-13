@@ -84,22 +84,22 @@ void WBTi_NotifySystemCallback(BlockTransfer *transfer, s32 event, s32 entryInde
     WBTCommand *callbackRecord;
     callbackRecord = &transfer->mCallbackRecord;
     entry = &transfer->mEntries[entryIndex];
-    if (event == 13 || entry->mRequestId != entry->mLastCallbackId) {
-        callbackRecord->mCommand = 12;
+    if (event == XFER_EVENT_BEFORE_SEND || entry->mRequestId != entry->mLastCallbackId) {
+        callbackRecord->mCommand = XFER_COMMAND_HOOK_RECORD;
         callbackRecord->mPeerBmp = 1 << entryIndex;
         entry->mLastCallbackId = entry->mRequestId;
         callbackRecord->mPeerCmdCounter = entry->mRequestId;
         callbackRecord->mResult = result;
         switch (event) {
-            case 8:
+            case XFER_EVENT_ALL_CHUNKS_HELD:
                 callbackRecord->mData.mBlockDone.mBlockId = entry->mBlockId;
                 break;
-            case 2:
+            case XFER_EVENT_HANDSHAKE_ASKED:
                 callbackRecord->mData.mSync.mNumOfList = entry->mBlockCount;
                 callbackRecord->mData.mSync.mPeerPacketSize = entry->mPacketSendChunkSize;
                 callbackRecord->mData.mSync.mMyPacketSize = entry->mPacketReceiveChunkSize;
                 break;
-            case 10:
+            case XFER_EVENT_CUSTOM_ARRIVED:
                 if (entry->mByteCount > 9) {
                     callbackRecord->mData.mUserData.mSize = 0;
                 } else {
@@ -108,8 +108,8 @@ void WBTi_NotifySystemCallback(BlockTransfer *transfer, s32 event, s32 entryInde
                                 callbackRecord->mData.mUserData.mSize);
                 }
                 break;
-            case 12:
-            case 14:
+            case XFER_EVENT_UNUSED_12:
+            case XFER_EVENT_UNUSED_14:
                 break;
         }
         callbackRecord->mEvent = event;
@@ -134,22 +134,22 @@ void WBTi_NotifyCompletionCallback(BlockTransfer *transfer, s32 event, s32 entry
         if ((transfer->mCurrentRequest.mTargetBmp & entryBit) != 0) {
             transfer->mCurrentRequest.mTargetBmp &= ~entryBit;
             switch (event) {
-                case 3:
+                case XFER_EVENT_HANDSHAKE_ENDED:
                     transfer->mCurrentRequest.mData.mSync.mNumOfList = entry->mBlockCount;
                     transfer->mCurrentRequest.mData.mSync.mPeerPacketSize = entry->mPacketSendChunkSize;
                     transfer->mCurrentRequest.mData.mSync.mMyPacketSize = entry->mPacketReceiveChunkSize;
                     break;
-                case 0:
-                case 1:
-                case 2:
-                case 4:
-                case 5:
-                case 6:
-                case 7:
-                case 8:
-                case 9:
-                case 10:
-                case 11:
+                case XFER_EVENT_NOTHING:
+                case XFER_EVENT_QUIET:
+                case XFER_EVENT_HANDSHAKE_ASKED:
+                case XFER_EVENT_DATA_ASKED:
+                case XFER_EVENT_DATA_ENDED:
+                case XFER_EVENT_LAYOUT_ASKED:
+                case XFER_EVENT_LAYOUT_ENDED:
+                case XFER_EVENT_ALL_CHUNKS_HELD:
+                case XFER_EVENT_ALL_CHUNKS_ANSWER:
+                case XFER_EVENT_CUSTOM_ARRIVED:
+                case XFER_EVENT_CUSTOM_ENDED:
                     break;
             }
             transfer->mCurrentRequest.mEvent = event;
@@ -158,7 +158,7 @@ void WBTi_NotifyCompletionCallback(BlockTransfer *transfer, s32 event, s32 entry
             }
         }
         if (transfer->mCurrentRequest.mTargetBmp == 0) {
-            transfer->mCurrentRequest.mCommand = 0;
+            transfer->mCurrentRequest.mCommand = XFER_COMMAND_UNUSED;
         }
     }
 }
@@ -173,23 +173,23 @@ u32 WBT_CallPacketRecvHook(BlockTransfer *transfer, s32 entryIndex, const u8 *cu
     BlockTransferEntry *entry;
     WBTPacketBitmap *receiveBitmap;
     consumedBytes = 0;
-    parseState = 1;
+    parseState = XFER_PARSE_KIND_FIELD;
     entry = &transfer->mEntries[entryIndex];
     receiveBitmap = &transfer->mEntries[entryIndex].mReceive;
-    entry->mUnk_00 = 1;
+    entry->mUnk_00 = XFER_ENTRY_FREE;
     if (packetSize == 0) {
         return 0;
     }
     if (packetSize > 0) {
         do {
             switch (parseState) {
-                case 1:
+                case XFER_PARSE_KIND_FIELD:
                     MI_CpuCopy8(cursor, &entry->mPacketKind, 1);
                     cursor = cursor + 1;
                     consumedBytes = consumedBytes + 1;
-                    parseState = 2;
+                    parseState = XFER_PARSE_MASK_FIELD;
                     continue;
-                case 2:
+                case XFER_PARSE_MASK_FIELD:
                     MI_CpuCopy8(cursor, &entry->mIndexMask, 2);
                     cursor = cursor + 2;
                     consumedBytes = consumedBytes + 2;
@@ -207,54 +207,54 @@ u32 WBT_CallPacketRecvHook(BlockTransfer *transfer, s32 entryIndex, const u8 *cu
                     if (isAddressedToOwnAid == FALSE) {
                         return consumedBytes;
                     }
-                    parseState = 3;
+                    parseState = XFER_PARSE_ASK_NUMBER;
                     continue;
-                case 3:
+                case XFER_PARSE_ASK_NUMBER:
                     MI_CpuCopy8(cursor, &entry->mRequestId, 1);
                     cursor = cursor + 1;
                     consumedBytes = consumedBytes + 1;
                     switch (entry->mPacketKind) {
-                        case 1:
+                        case XFER_PACKET_FILLER:
                             return consumedBytes;
-                        case 2:
-                            parseState = 5;
+                        case XFER_PACKET_HANDSHAKE_ASK:
+                            parseState = XFER_PARSE_SIZE_LIST;
                             continue;
-                        case 3:
-                            parseState = 4;
+                        case XFER_PACKET_HANDSHAKE_ANSWER:
+                            parseState = XFER_PARSE_TOTAL_FIELD;
                             continue;
-                        case 11:
-                            if (transfer->mCurrentRequest.mCommand == 10) {
+                        case XFER_PACKET_CUSTOM_ANSWER:
+                            if (transfer->mCurrentRequest.mCommand == XFER_COMMAND_SEND_CUSTOM) {
                                 WBTi_NotifyCompletionCallback(transfer, entry->mPacketKind, entryIndex);
                             }
                             return consumedBytes;
-                        case 10:
-                            parseState = 10;
+                        case XFER_PACKET_CUSTOM:
+                            parseState = XFER_PARSE_LENGTH_FIELD;
                             continue;
                         default:
-                            parseState = 7;
+                            parseState = XFER_PARSE_TARGET_FIELD;
                             continue;
                     }
-                case 10:
+                case XFER_PARSE_LENGTH_FIELD:
                     MI_CpuCopy8(cursor, &entry->mByteCount, 1);
                     cursor = cursor + 1;
                     consumedBytes = consumedBytes + 1;
-                    parseState = 9;
+                    parseState = XFER_PARSE_BODY;
                     continue;
-                case 9:
+                case XFER_PARSE_BODY:
                     entry->mPayload = (u8 *) cursor;
                     WBTi_NotifySystemCallback(transfer, entry->mPacketKind, entryIndex, 0);
-                    entry->mUnk_00 = 2;
+                    entry->mUnk_00 = XFER_ENTRY_AWAITING_ANSWER;
                     consumedBytes = consumedBytes + 9;
                     return consumedBytes;
-                case 4:
+                case XFER_PARSE_TOTAL_FIELD:
                     MI_CpuCopy8(cursor, &entry->mBlockCount, 2);
                     cursor = cursor + 2;
                     consumedBytes = consumedBytes + 2;
-                    if (entry->mPacketKind == 3) {
-                        parseState = 5;
+                    if (entry->mPacketKind == XFER_PACKET_HANDSHAKE_ANSWER) {
+                        parseState = XFER_PARSE_SIZE_LIST;
                     }
                     continue;
-                case 5:
+                case XFER_PARSE_SIZE_LIST:
                     MI_CpuCopy8(cursor, &entry->mPacketSendChunkSize, 2);
                     MI_CpuCopy8(cursor + 2, &entry->mPacketReceiveChunkSize, 2);
                     if (WBT_GetOwnAid() != 0) {
@@ -263,64 +263,67 @@ u32 WBT_CallPacketRecvHook(BlockTransfer *transfer, s32 entryIndex, const u8 *cu
                     }
                     packetKind = entry->mPacketKind;
                     switch (packetKind) {
-                        case 2:
-                            WBTi_NotifySystemCallback(transfer, packetKind, entryIndex, 0);
-                            entry->mUnk_00 = 2;
+                        case XFER_PACKET_HANDSHAKE_ASK:
+                            WBTi_NotifySystemCallback(transfer, packetKind, entryIndex, XFER_RESULT_OK);
+                            entry->mUnk_00 = XFER_ENTRY_AWAITING_ANSWER;
                             return consumedBytes + 4;
-                        case 3:
-                            if (transfer->mCurrentRequest.mCommand == 2) {
+                        case XFER_PACKET_HANDSHAKE_ANSWER:
+                            if (transfer->mCurrentRequest.mCommand == XFER_COMMAND_HANDSHAKE) {
                                 WBTi_NotifyCompletionCallback(transfer, packetKind, entryIndex);
                             }
                             return consumedBytes + 4;
                         default:
-                            WBTi_NotifySystemCallback(transfer, 15, entryIndex, 3);
+                            WBTi_NotifySystemCallback(transfer, XFER_EVENT_FAILED, entryIndex,
+                                                      XFER_RESULT_KIND_REJECTED);
                             return consumedBytes + 4;
                     }
-                case 7:
+                case XFER_PARSE_TARGET_FIELD:
                     MI_CpuCopy8(cursor, &entry->mBlockId, 4);
                     cursor = cursor + 4;
                     consumedBytes = consumedBytes + 4;
                     packetKind = entry->mPacketKind;
                     switch (packetKind) {
-                        case 8:
-                            WBTi_NotifySystemCallback(transfer, packetKind, entryIndex, 0);
-                            entry->mUnk_00 = 2;
+                        case XFER_PACKET_ALL_HELD:
+                            WBTi_NotifySystemCallback(transfer, packetKind, entryIndex, XFER_RESULT_OK);
+                            entry->mUnk_00 = XFER_ENTRY_AWAITING_ANSWER;
                             return consumedBytes;
-                        case 9:
-                            if (transfer->mCurrentRequest.mCommand == 4) {
+                        case XFER_PACKET_ALL_HELD_ANSWER:
+                            if (transfer->mCurrentRequest.mCommand == XFER_COMMAND_FETCH_DATA) {
                                 if (transfer->mCurrentRequest.mData.mGet.mBlockId == entry->mBlockId) {
-                                    WBTi_NotifyCompletionCallback(transfer, 5, entryIndex);
+                                    WBTi_NotifyCompletionCallback(transfer, XFER_EVENT_DATA_ENDED, entryIndex);
                                 }
-                            } else if (transfer->mCurrentRequest.mCommand == 6) {
+                            } else if (transfer->mCurrentRequest.mCommand == XFER_COMMAND_FETCH_DETAILS) {
                                 if (transfer->mCurrentRequest.mData.mGet.mBlockId == entry->mBlockId) {
-                                    WBTi_NotifyCompletionCallback(transfer, 7, entryIndex);
+                                    WBTi_NotifyCompletionCallback(transfer, XFER_EVENT_LAYOUT_ENDED, entryIndex);
                                 }
                             }
                             return consumedBytes;
-                        case 4:
-                        case 5:
-                        case 6:
-                        case 7:
-                            parseState = 8;
+                        case XFER_PACKET_DATA_ASK:
+                        case XFER_PACKET_DATA_CHUNK:
+                        case XFER_PACKET_LAYOUT_ASK:
+                        case XFER_PACKET_LAYOUT_ANSWER:
+                            parseState = XFER_PARSE_SLICE_NUMBER;
                             continue;
                         default:
-                            WBTi_NotifySystemCallback(transfer, 15, entryIndex, 3);
+                            WBTi_NotifySystemCallback(transfer, XFER_EVENT_FAILED, entryIndex,
+                                                      XFER_RESULT_KIND_REJECTED);
                             continue;
                     }
-                case 8:
+                case XFER_PARSE_SLICE_NUMBER:
                     MI_CpuCopy8(cursor, &entry->mChunkIndex, 4);
                     cursor = cursor + 4;
                     consumedBytes = consumedBytes + 4;
                     packetKind = entry->mPacketKind;
                     switch (packetKind) {
-                        case 4:
-                        case 6:
-                            entry->mUnk_00 = 2;
+                        case XFER_PACKET_DATA_ASK:
+                        case XFER_PACKET_LAYOUT_ASK:
+                            entry->mUnk_00 = XFER_ENTRY_AWAITING_ANSWER;
                             return consumedBytes;
-                        case 5:
-                        case 7:
+                        case XFER_PACKET_DATA_CHUNK:
+                        case XFER_PACKET_LAYOUT_ANSWER:
                             entry->mPayload = (u8 *) cursor;
-                            if (transfer->mCurrentRequest.mCommand == 4 || transfer->mCurrentRequest.mCommand == 6) {
+                            if (transfer->mCurrentRequest.mCommand == XFER_COMMAND_FETCH_DATA ||
+                                transfer->mCurrentRequest.mCommand == XFER_COMMAND_FETCH_DETAILS) {
                                 if (entry->mBlockId == transfer->mCurrentRequest.mData.mGet.mBlockId) {
                                     if ((transfer->mCurrentRequest.mTargetBmp & (u16) (1 << entryIndex)) != 0) {
                                         if (IsChunkReceived(receiveBitmap, entry->mChunkIndex) == FALSE) {
@@ -328,7 +331,8 @@ u32 WBT_CallPacketRecvHook(BlockTransfer *transfer, s32 entryIndex, const u8 *cu
                                                                    entry->mPayload) == TRUE) {
                                                 MarkChunkReceived(receiveBitmap, entry->mChunkIndex);
                                             } else {
-                                                WBTi_NotifySystemCallback(transfer, 15, entryIndex, 6);
+                                                WBTi_NotifySystemCallback(transfer, XFER_EVENT_FAILED, entryIndex,
+                                                                          XFER_RESULT_CHUNK_BEYOND_END);
                                             }
                                         }
                                     }
@@ -336,16 +340,17 @@ u32 WBT_CallPacketRecvHook(BlockTransfer *transfer, s32 entryIndex, const u8 *cu
                             }
                             return consumedBytes;
                         default:
-                            WBTi_NotifySystemCallback(transfer, 15, entryIndex, 3);
+                            WBTi_NotifySystemCallback(transfer, XFER_EVENT_FAILED, entryIndex,
+                                                      XFER_RESULT_KIND_REJECTED);
                             continue;
                     }
                 default:
-                    WBTi_NotifySystemCallback(transfer, 15, entryIndex, 4);
+                    WBTi_NotifySystemCallback(transfer, XFER_EVENT_FAILED, entryIndex, XFER_RESULT_STEP_REJECTED);
                     continue;
             }
         } while (consumedBytes < packetSize);
     }
-    WBTi_NotifySystemCallback(transfer, 15, entryIndex, 5);
+    WBTi_NotifySystemCallback(transfer, XFER_EVENT_FAILED, entryIndex, XFER_RESULT_CUT_SHORT);
     return consumedBytes;
 }
 
@@ -358,13 +363,13 @@ s32 ReplyToBlockCountRequest(BlockTransfer *transfer, s32 entryIndex, u8 *buffer
     packetSize = 0;
     entry = &transfer->mEntries[entryIndex];
     targetMask = 1 << entryIndex;
-    if (entry->mUnk_00 == 2) {
-        if (entry->mPacketKind == 2) {
+    if (entry->mUnk_00 == XFER_ENTRY_AWAITING_ANSWER) {
+        if (entry->mPacketKind == XFER_PACKET_HANDSHAKE_ASK) {
             blockCount = WBT_NumOfRegisteredBlock();
             ownPacketLength = WBT_GetOwnPacketLength();
             packetSize = WriteBlockCountReplyPacket(buffer, targetMask, entry->mRequestId, blockCount, ownPacketLength,
                                                     WBT_GetPeerPacketLength());
-            entry->mUnk_00 = 1;
+            entry->mUnk_00 = XFER_ENTRY_FREE;
         }
     }
     return packetSize;
@@ -377,10 +382,10 @@ s32 ReplyToNoMissingChunk(BlockTransfer *transfer, s32 entryIndex, u8 *buffer, s
     packetSize = 0;
     entry = &transfer->mEntries[entryIndex];
     targetMask = 1 << entryIndex;
-    if (entry->mUnk_00 == 2) {
-        if (entry->mPacketKind == 8) {
+    if (entry->mUnk_00 == XFER_ENTRY_AWAITING_ANSWER) {
+        if (entry->mPacketKind == XFER_PACKET_ALL_HELD) {
             packetSize = WriteNoMissingChunkReplyPacket(buffer, targetMask, entry->mRequestId, entry->mBlockId);
-            entry->mUnk_00 = 1;
+            entry->mUnk_00 = XFER_ENTRY_FREE;
         }
     }
     return packetSize;
@@ -393,10 +398,10 @@ s32 ReplyToBytesPacket(BlockTransfer *transfer, s32 entryIndex, u8 *buffer, s32 
     packetSize = 0;
     entry = &transfer->mEntries[entryIndex];
     targetMask = 1 << entryIndex;
-    if (entry->mUnk_00 == 2) {
-        if (entry->mPacketKind == 10) {
+    if (entry->mUnk_00 == XFER_ENTRY_AWAITING_ANSWER) {
+        if (entry->mPacketKind == XFER_PACKET_CUSTOM) {
             packetSize = WriteBytesReplyPacket(buffer, targetMask, entry->mRequestId);
-            entry->mUnk_00 = 1;
+            entry->mUnk_00 = XFER_ENTRY_FREE;
         }
     }
     return packetSize;
@@ -413,27 +418,27 @@ s32 ReplyToBlockDataRequest(BlockTransfer *transfer, s32 entryIndex, u8 *buffer,
     packetSize = 0;
     callbackRecord = &transfer->mCallbackRecord;
     entry = &transfer->mEntries[entryIndex];
-    if (entry->mUnk_00 == 2) {
+    if (entry->mUnk_00 == XFER_ENTRY_AWAITING_ANSWER) {
         if (WBT_GetOwnAid() == 0) {
             indexMask = 0xfffe;
         } else {
             indexMask = 1;
         }
-        if (entry->mPacketKind == 4) {
+        if (entry->mPacketKind == XFER_PACKET_DATA_ASK) {
             block = FindBlockById(entry->mBlockId);
             if (block != NULL) {
                 chunkIndex = PickSendChunkIndex(entry->mBlockId, entry->mChunkIndex);
                 if (chunkIndex != -1) {
-                    if (block->mBlockType == 0) {
+                    if (block->mBlockType == XFER_BLOCK_TYPE_MEMORY) {
                         chunkAddress = WBTi_GetPacketBuffer(entry->mBlockId, chunkIndex);
                         packetSize = WriteBlockDataPacket(buffer, indexMask, entry->mRequestId, entry->mBlockId,
                                                           chunkIndex, chunkAddress, WBT_GetOwnPacketLength());
-                    } else if (block->mBlockType == 1) {
+                    } else if (block->mBlockType == XFER_BLOCK_TYPE_SUPPLIED) {
                         callbackRecord->mData.mPrepareSendData.mBlockId = entry->mBlockId;
                         callbackRecord->mData.mPrepareSendData.mBlockSeqNo = chunkIndex;
                         callbackRecord->mData.mPrepareSendData.mOwnPacketSize = WBT_GetOwnPacketLength();
                         callbackRecord->mData.mPrepareSendData.mDataPtr = 0;
-                        WBTi_NotifySystemCallback(transfer, 13, entryIndex, 0);
+                        WBTi_NotifySystemCallback(transfer, XFER_EVENT_BEFORE_SEND, entryIndex, XFER_RESULT_OK);
                         if (callbackRecord->mData.mPrepareSendData.mDataPtr != 0) {
                             packetSize = WriteBlockDataPacket(buffer, indexMask, entry->mRequestId,
                                                               callbackRecord->mData.mPrepareSendData.mBlockId,
@@ -444,7 +449,7 @@ s32 ReplyToBlockDataRequest(BlockTransfer *transfer, s32 entryIndex, u8 *buffer,
                     }
                 }
             }
-            entry->mUnk_00 = 1;
+            entry->mUnk_00 = XFER_ENTRY_FREE;
         }
     }
     return packetSize;
@@ -458,18 +463,18 @@ s32 ReplyToBlockNodeRequest(BlockTransfer *transfer, s32 entryIndex, u8 *buffer,
     BlockTransferEntry *entry;
     packetSize = 0;
     entry = &transfer->mEntries[entryIndex];
-    if (entry->mUnk_00 == 2) {
+    if (entry->mUnk_00 == XFER_ENTRY_AWAITING_ANSWER) {
         if (WBT_GetOwnAid() == 0) {
             targetMask = 0xffff;
         } else {
             targetMask = 1;
         }
-        if (entry->mPacketKind == 6) {
+        if (entry->mPacketKind == XFER_PACKET_LAYOUT_ASK) {
             chunkBuffer = WBTi_GetPacketBuffer(entry->mBlockId, entry->mChunkIndex);
             if (chunkBuffer != 0) {
                 packetSize = WriteBlockNodePacket(buffer, targetMask, entry->mRequestId, entry->mBlockId,
                                                   entry->mChunkIndex, chunkBuffer, WBT_GetOwnPacketLength());
-                entry->mUnk_00 = 1;
+                entry->mUnk_00 = XFER_ENTRY_FREE;
             }
         }
     }
@@ -484,17 +489,17 @@ s32 ReplyToBlockNodeRequestAlways(BlockTransfer *transfer, s32 entryIndex, u8 *b
     BlockTransferEntry *entry;
     packetSize = 0;
     entry = &transfer->mEntries[entryIndex];
-    if (entry->mUnk_00 == 2) {
+    if (entry->mUnk_00 == XFER_ENTRY_AWAITING_ANSWER) {
         if (WBT_GetOwnAid() == 0) {
             targetMask = 0xffff;
         } else {
             targetMask = 1;
         }
-        if (entry->mPacketKind == 6) {
+        if (entry->mPacketKind == XFER_PACKET_LAYOUT_ASK) {
             chunkBuffer = WBTi_GetPacketBuffer(entry->mBlockId, entry->mChunkIndex);
             packetSize = WriteBlockNodePacket(buffer, targetMask, entry->mRequestId, entry->mBlockId,
                                               entry->mChunkIndex, chunkBuffer, WBT_GetOwnPacketLength());
-            entry->mUnk_00 = 1;
+            entry->mUnk_00 = XFER_ENTRY_FREE;
         }
     }
     return packetSize;
@@ -510,13 +515,13 @@ s32 WBTi_CheckRequest(BlockTransfer *transfer, u8 *buffer, s32 bufferSize) {
     u16 targetBitmap;
     packetSize = 0;
     switch (transfer->mCurrentRequest.mCommand) {
-        case 2:
+        case XFER_COMMAND_HANDSHAKE:
             value = WBT_GetOwnPacketLength();
             return WriteBlockCountRequestPacket(buffer, transfer->mCurrentRequest.mTargetBmp,
                                                 transfer->mCurrentRequest.mMyCmdCounter, value,
                                                 WBT_GetPeerPacketLength());
-        case 4:
-        case 6:
+        case XFER_COMMAND_FETCH_DATA:
+        case XFER_COMMAND_FETCH_DETAILS:
             for (entryIndex = 0, receiveBitmap = &transfer->mEntries[0].mReceive; entryIndex < 16; entryIndex++) {
                 value = 1;
                 value = value << entryIndex;
@@ -527,7 +532,7 @@ s32 WBTi_CheckRequest(BlockTransfer *transfer, u8 *buffer, s32 bufferSize) {
                                                                transfer->mCurrentRequest.mData.mGet.mBlockId);
                     } else {
                         targetBitmap = transfer->mCurrentRequest.mTargetBmp;
-                        if (transfer->mCurrentRequest.mCommand == 4) {
+                        if (transfer->mCurrentRequest.mCommand == XFER_COMMAND_FETCH_DATA) {
                             packetSize = WriteBlockDataRequestPacket(
                                 buffer, targetBitmap, transfer->mCurrentRequest.mMyCmdCounter,
                                 transfer->mCurrentRequest.mData.mGet.mBlockId, missingChunkIndex);
@@ -544,7 +549,7 @@ s32 WBTi_CheckRequest(BlockTransfer *transfer, u8 *buffer, s32 bufferSize) {
                 receiveBitmap = OFFSET_PTR(WBTPacketBitmap, receiveBitmap, sizeof(BlockTransferEntry));
             }
             return packetSize;
-        case 10:
+        case XFER_COMMAND_SEND_CUSTOM:
             packetSize = WriteBytesPacket(
                 buffer, transfer->mCurrentRequest.mTargetBmp, transfer->mCurrentRequest.mMyCmdCounter,
                 &transfer->mCurrentRequest.mData.mUserDataWord, transfer->mCurrentRequest.mData.mUserData.mSize);
@@ -563,16 +568,16 @@ s32 WBTi_SwitchNextCommand(BlockTransfer *transfer, u8 *buffer, s32 bufferSize) 
     WBTPacketBitmap *dataBitmap;
     packetSize = 0;
     nextRequest = &transfer->mNextRequest;
-    if (transfer->mCurrentRequest.mCommand != 0) {
+    if (transfer->mCurrentRequest.mCommand != XFER_COMMAND_UNUSED) {
         return 0;
     }
-    if (nextRequest->mCommand == 0) {
+    if (nextRequest->mCommand == XFER_COMMAND_UNUSED) {
         return 0;
     }
     AdvanceRequestId();
     value = GetRequestId();
     switch (nextRequest->mCommand) {
-        case 2:
+        case XFER_COMMAND_HANDSHAKE:
             MIi_CpuCopy32(nextRequest, transfer, 0x9c);
             transfer->mCurrentRequest.mMyCmdCounter = value;
             value = WBT_GetOwnPacketLength();
@@ -580,7 +585,7 @@ s32 WBTi_SwitchNextCommand(BlockTransfer *transfer, u8 *buffer, s32 bufferSize) 
                 WriteBlockCountRequestPacket(buffer, transfer->mCurrentRequest.mTargetBmp,
                                              transfer->mCurrentRequest.mMyCmdCounter, value, WBT_GetPeerPacketLength());
             break;
-        case 6:
+        case XFER_COMMAND_FETCH_DETAILS:
             MIi_CpuCopy32(nextRequest, transfer, 0x9c);
             transfer->mCurrentRequest.mMyCmdCounter = value;
             for (entryIndex = 0, nodeBitmap = &transfer->mEntries[0].mReceive; entryIndex < 16; entryIndex++) {
@@ -591,7 +596,7 @@ s32 WBTi_SwitchNextCommand(BlockTransfer *transfer, u8 *buffer, s32 bufferSize) 
                 }
                 nodeBitmap = OFFSET_PTR(WBTPacketBitmap, nodeBitmap, sizeof(BlockTransferEntry));
             }
-            if (nextRequest->mCommand == 4) {
+            if (nextRequest->mCommand == XFER_COMMAND_FETCH_DATA) {
                 packetSize = WriteBlockDataRequestPacket(buffer, transfer->mCurrentRequest.mTargetBmp,
                                                          transfer->mCurrentRequest.mMyCmdCounter,
                                                          transfer->mCurrentRequest.mData.mGet.mBlockId, 0);
@@ -601,7 +606,7 @@ s32 WBTi_SwitchNextCommand(BlockTransfer *transfer, u8 *buffer, s32 bufferSize) 
                                                          transfer->mCurrentRequest.mData.mGet.mBlockId, 0);
             }
             break;
-        case 4:
+        case XFER_COMMAND_FETCH_DATA:
             MIi_CpuCopy32(nextRequest, transfer, 0x9c);
             transfer->mCurrentRequest.mMyCmdCounter = value;
             for (entryIndex = 0, dataBitmap = &transfer->mEntries[0].mReceive; entryIndex < 16; entryIndex++) {
@@ -612,7 +617,7 @@ s32 WBTi_SwitchNextCommand(BlockTransfer *transfer, u8 *buffer, s32 bufferSize) 
                 }
                 dataBitmap = OFFSET_PTR(WBTPacketBitmap, dataBitmap, sizeof(BlockTransferEntry));
             }
-            if (nextRequest->mCommand == 4) {
+            if (nextRequest->mCommand == XFER_COMMAND_FETCH_DATA) {
                 packetSize = WriteBlockDataRequestPacket(buffer, transfer->mCurrentRequest.mTargetBmp,
                                                          transfer->mCurrentRequest.mMyCmdCounter,
                                                          transfer->mCurrentRequest.mData.mGet.mBlockId, 0);
@@ -622,7 +627,7 @@ s32 WBTi_SwitchNextCommand(BlockTransfer *transfer, u8 *buffer, s32 bufferSize) 
                                                          transfer->mCurrentRequest.mData.mGet.mBlockId, 0);
             }
             break;
-        case 10:
+        case XFER_COMMAND_SEND_CUSTOM:
             MIi_CpuCopy32(nextRequest, transfer, 0x9c);
             transfer->mCurrentRequest.mMyCmdCounter = value;
             packetSize = WriteBytesPacket(
@@ -630,7 +635,7 @@ s32 WBTi_SwitchNextCommand(BlockTransfer *transfer, u8 *buffer, s32 bufferSize) 
                 &transfer->mCurrentRequest.mData.mUserDataWord, transfer->mCurrentRequest.mData.mUserData.mSize);
             break;
     }
-    nextRequest->mCommand = 0;
+    nextRequest->mCommand = XFER_COMMAND_UNUSED;
     return packetSize;
 }
 

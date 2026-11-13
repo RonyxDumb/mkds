@@ -27,8 +27,8 @@ void StartBlockCountRequest(void) {
 }
 
 void BlockCountRequestCallback(WBTCommand *record) {
-    if (record->mCommand == 2) {
-        if (record->mEvent == 3) {
+    if (record->mCommand == XFER_COMMAND_HANDSHAKE) {
+        if (record->mEvent == XFER_EVENT_HANDSHAKE_ENDED) {
             gConnectionWork->mBlockCount = record->mData.mSync.mNumOfList;
             gConnectionWork->mRequestPending = 0;
         } else {
@@ -51,8 +51,8 @@ void StartBlockNodeRequest(void) {
 }
 
 void BlockNodeRequestCallback(WBTCommand *record) {
-    if (record->mCommand == 6) {
-        if (record->mEvent == 7) {
+    if (record->mCommand == XFER_COMMAND_FETCH_DETAILS) {
+        if (record->mEvent == XFER_EVENT_LAYOUT_ENDED) {
             gConnectionWork->mRequestPending = 0;
         } else {
             StartBlockNodeRequest();
@@ -76,8 +76,8 @@ void StartBlockDataRequest(void) {
 }
 
 void BlockDataRequestCallback(WBTCommand *record) {
-    if (record->mCommand == 4) {
-        if (record->mEvent == 5) {
+    if (record->mCommand == XFER_COMMAND_FETCH_DATA) {
+        if (record->mEvent == XFER_EVENT_DATA_ENDED) {
             gConnectionWork->mRequestPending = 0;
         } else {
             SetRequestErrorCode(CONNECTION_ERROR_OPERATION_FAILED);
