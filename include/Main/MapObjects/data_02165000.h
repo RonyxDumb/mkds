@@ -23,16 +23,6 @@ typedef struct QueueMPDataToPortParams {
 
 struct Kart;
 
-extern u16 gKartNameTagLineVertices[12];
-
-extern TexPlttEntry data_021659ec;
-
-extern TexPlttEntry data_02165a10;
-
-extern TexPlttEntry data_02165a34;
-
-extern TexPlttEntry data_02165a58;
-
 // Three words, three more words and two halfwords; gBattleKartAiParamsHard, gBattleKartAiParamsDefault and gBattleKartAiParamsNormal are one each.
 typedef struct BattleKartAiParams {
     /* 00 */ s32 mUnk_00[3];
@@ -40,7 +30,6 @@ typedef struct BattleKartAiParams {
     /* 18 */ s16 mInflateWaitFrameCount;
     /* 1a */ s16 mInflateBalloonsLeftLimit;
 } BattleKartAiParams;
-
 
 // Three words.
 typedef struct KartFollowEffectIds {

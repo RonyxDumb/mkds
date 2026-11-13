@@ -15,9 +15,9 @@
 #include "registers.h"
 
 const u16 gKartNameTagQuadVertices[12] = {0xf000, 0x2000, 0, 0xf000, 0, 0, 0x1000, 0, 0, 0x1000, 0x2000, 0};
-const u32 gUnusedOrderWords32A[8] = {0x55555555, 1, 1, 1, 1, 1, 1, 1};
-const u32 gUnusedOrderWords32B[8] = {0x1f, 0x22e03fb, 0x3fb0000, 0x22e, 0x22e03fb, 0, 0, 0};
-const u32 gUnusedOrderWords512[128] = {
+const u32 gKartNameTagColorQuadTexture[8] = {0x55555555, 1, 1, 1, 1, 1, 1, 1};
+const u32 gKartNameTagMaskedPalette[8] = {0x1f, 0x22e03fb, 0x3fb0000, 0x22e, 0x22e03fb, 0, 0, 0};
+const u32 gKartNameTagMaskedTexture[128] = {
     0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
     0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
     0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,

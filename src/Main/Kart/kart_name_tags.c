@@ -35,7 +35,17 @@
 #include "Main/Kart/karts.h"
 #include "registers.h"
 
-s32 gKartNameTagEntry0XOffset = 0x52ac;
+u16 gKartNameTagLineVertices[12] = {0xf400, 0x2000, 0, 0xf000, 0, 0, 0x1000, 0, 0, 0x1000, 0x2000, 0};
+TexPlttEntry gKartNameTagEmblemTexPltt = {0xd200000, 0, 0, {0, 0}, NULL, NULL, {0, 0, 0, 0}, 0, 0, 0};
+TexPlttEntry gKartNameTagColorQuadTexPltt = {
+    0x28100000,   0x20, 8, {0, 0}, (void *) gKartNameTagColorQuadTexture, (void *) gKartNameTagColorQuadPalette,
+    {0, 0, 0, 0}, 0,    0, 0};
+TexPlttEntry gKartNameTagEntryNameTexPltt = {0x28b00000, 0x100, 8, {0, 0}, NULL, NULL, {0, 0, 0, 0}, 0, 0, 0};
+TexPlttEntry gKartNameTagMaskedTexPltt = {
+    0x2cb00000,   0x200, 0x20, {0, 0}, (void *) gKartNameTagMaskedTexture, (void *) gKartNameTagMaskedPalette,
+    {0, 0, 0, 0}, 0,     0,    0};
+
+s32 gKartNameTagEntry3YOffset = 0x3b33;
 s32 gKartNameTagEntry3ScaleX = 0x20000;
 s32 gKartNameTagEntry3ScaleY = 0x8971;
 s32 gKartNameTagEntry1XOffset = 0x571;
@@ -47,19 +57,19 @@ s32 gKartNameTagColorQuadScaleX = 0x12e1;
 s32 gKartNameTagEntry3XOffset = 0x733;
 s32 gKartNameTagEntry0YOffset = 0x1c00;
 s32 gKartNameTagColorQuadScaleY = 0x119a;
-s32 gKartNameTagEntry3YOffset = 0x3b33;
+s32 gKartNameTagEntry0XOffset = 0x52ac;
 const u16 gTeamPaletteColors[2] = {0x7cc1, 0x43f};
 const u16 gRegionPaletteColors[4] = {0x43f, 0x7cc1, 0x1a80, 0};
-const u16 gUnusedPaletteColors[4] = {0, 0, 0x7fff, 0x7fff};
+const u16 gKartNameTagColorQuadPalette[4] = {0, 0, 0x7fff, 0x7fff};
 const Vec3 gChaseDistanceLimitsSquared = {0x57e40, 0x9c400, 0x19c990};
 const Vec3 gOtherCameraDistanceLimitsSquared = {0x225510, 0x317040, 0x3d0900};
 u8 *gKartEntryNameTexBuffer;
+u8 *gKartNameTagMaskedTexBuffer;
 u16 *gKartEmblemPlltBuffer;
 u16 *gKartEntryNamePlltBuffer;
 KartNameTags *gKartNameTags;
 const Vec3 *gKartDistanceLimitsSquared;
 s32 data_0217aedc;
-u8 *gKartNameTagMaskedTexBuffer;
 MtxFx44 gKartNameTagProjection;
 
 void UpdateKartViewDistancesAndOutOfView(void) {

@@ -164,10 +164,10 @@ void InitKartNameTag(KartNameTag *kartObject, u16 kartIndex, void *heap) {
     kartObject->mTexPlttEntries = HeapAlloc(heap, 0x90);
     kartObject->mPos = gKartNameTagInitialPos;
     kartObject->mKartIndex = kartIndex;
-    kartObject->mTexPlttEntries->mEntries[0] = data_021659ec;
-    kartObject->mTexPlttEntries->mEntries[1] = data_02165a34;
-    kartObject->mTexPlttEntries->mEntries[2] = data_02165a10;
-    kartObject->mTexPlttEntries->mEntries[3] = data_02165a58;
+    kartObject->mTexPlttEntries->mEntries[0] = gKartNameTagEmblemTexPltt;
+    kartObject->mTexPlttEntries->mEntries[1] = gKartNameTagEntryNameTexPltt;
+    kartObject->mTexPlttEntries->mEntries[2] = gKartNameTagColorQuadTexPltt;
+    kartObject->mTexPlttEntries->mEntries[3] = gKartNameTagMaskedTexPltt;
     kartObject->mUnk_10 = TRUE;
     kartObject->mUnk_14 = 0;
     kartObject->mFadeStopped = TRUE;

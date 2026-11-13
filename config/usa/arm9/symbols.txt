@@ -8004,15 +8004,15 @@ gKartEffectVec3Zero kind:data(any) addr:0x02155a14
 gNsbmdDrawFunctions kind:data(any) addr:0x02155a20
 gTeamPaletteColors kind:data(any) addr:0x02155a28
 gRegionPaletteColors kind:data(any) addr:0x02155a2c
-gUnusedPaletteColors kind:data(any) addr:0x02155a34
+gKartNameTagColorQuadPalette kind:data(any) addr:0x02155a34
 gChaseDistanceLimitsSquared kind:data(any) addr:0x02155a3c
 gOtherCameraDistanceLimitsSquared kind:data(any) addr:0x02155a48
 gKartEmblemTextureName kind:data(any) addr:0x02155a54
 gKartPaletteColors kind:data(any) addr:0x02155a64
 gKartNameTagQuadVertices kind:data(any) addr:0x02155a74
-gUnusedOrderWords32A kind:data(any) addr:0x02155a8c
-gUnusedOrderWords32B kind:data(any) addr:0x02155aac
-gUnusedOrderWords512 kind:data(any) addr:0x02155acc
+gKartNameTagColorQuadTexture kind:data(any) addr:0x02155a8c
+gKartNameTagMaskedPalette kind:data(any) addr:0x02155aac
+gKartNameTagMaskedTexture kind:data(any) addr:0x02155acc
 gKartNameTagInitialPos kind:data(any) addr:0x02155ccc
 gAnmFrameCountGetters kind:data(any) addr:0x02155cd8
 gCharacterNames kind:data(any) addr:0x02155cec
@@ -9593,10 +9593,10 @@ gKartNameTagEntry0ScaleX kind:data(any) addr:0x021659c8
 gKartNameTagEntry2ScaleX kind:data(any) addr:0x021659cc
 gKartNameTagEntry2XOffset kind:data(any) addr:0x021659d0
 gKartNameTagLineVertices kind:data(any) addr:0x021659d4
-data_021659ec kind:data(any) addr:0x021659ec
-data_02165a10 kind:data(any) addr:0x02165a10
-data_02165a34 kind:data(any) addr:0x02165a34
-data_02165a58 kind:data(any) addr:0x02165a58
+gKartNameTagEmblemTexPltt kind:data(any) addr:0x021659ec
+gKartNameTagColorQuadTexPltt kind:data(any) addr:0x02165a10
+gKartNameTagEntryNameTexPltt kind:data(any) addr:0x02165a34
+gKartNameTagMaskedTexPltt kind:data(any) addr:0x02165a58
 @4961 kind:data(any) addr:0x02165a7c local
 gCharacterEmblemNameMR kind:data(any) addr:0x02165a8c
 gCharacterEmblemNameYS kind:data(any) addr:0x02165a90

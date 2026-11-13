@@ -12,3 +12,6 @@ void ApplyModelAnimationLoopMode(ModelAnimationFrameLoop *modelAnimation);
 void ResetModelAnimationWithLoopFlag(ModelAnimationFrameLoop *modelAnimation, s32 frameCountFixed, u16 loopFlag);
 
 extern const u16 gKartNameTagQuadVertices[12];
+extern const u32 gKartNameTagColorQuadTexture[8];
+extern const u32 gKartNameTagMaskedPalette[8];
+extern const u32 gKartNameTagMaskedTexture[128];
