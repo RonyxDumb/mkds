@@ -1,5 +1,17 @@
 #include "Main/Sound/distance_sound_volume.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
+#include "Main/Race/standings_balloons.h"
+#include "Main/MapObjects/bound.h"
+
+MapObjectKindDescriptor gDistanceSoundKindDescriptor = {0,
+                                                        {0, 0},
+                                                        0xcc,
+                                                        (void (*)(void *, CourseMapRow *, void *)) InitDistanceSound,
+                                                        CreateEmptyMapObjectKindData,
+                                                        0,
+                                                        0,
+                                                        0,
+                                                        CreateDistanceSoundUpdateList};
 
 u32 GetDistanceSoundInverseVolume(void) {
     u32 value0;

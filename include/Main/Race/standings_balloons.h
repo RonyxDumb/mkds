@@ -35,7 +35,7 @@ typedef struct DistanceSound {
 #include "Main/Kart/code_0207a880.h"
 #include "Main/Race/race_hud_sub_screen_projection.h" // CourseMapPoint
 
-void *CreateDistanceSoundUpdateList(void);
+MapObjectList *CreateDistanceSoundUpdateList(void);
 void UpdateDistanceSound(void *mapObjectList, DistanceSound *mapObject);
 void InitDistanceSoundObjects(MapObjectList *mapObjectList);
 void InitDistanceSound(DistanceSound *mapObject);

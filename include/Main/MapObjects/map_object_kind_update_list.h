@@ -104,7 +104,6 @@ extern const MapObjectKindDescriptor data_usa_02158b80;
 extern const MapObjectKindDescriptor data_usa_02158c8c;
 extern const MapObjectKindDescriptor data_usa_02158fb0;
 extern const MapObjectKindDescriptor gSecondHandKindDescriptor;
-extern MapObjectKindDescriptor data_usa_02167690;
 extern MapObjectKindDescriptor data_usa_02167940;
 extern MapObjectKindDescriptor gShineBalloonKindDescriptor;
 extern const MapObjectKindDescriptor gKuriboKindDescriptor;

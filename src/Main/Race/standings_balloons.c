@@ -1058,6 +1058,6 @@ void UpdateDistanceSound(void *mapObjectList, DistanceSound *mapObject) {
     SetSndHandleTrackVolume(GetSndHandleSlot(9), FROM_FIXED12(mapObject->mDistanceVolumeFixed12));
 }
 
-void *CreateDistanceSoundUpdateList(void) {
+MapObjectList *CreateDistanceSoundUpdateList(void) {
     return CreateMapObjectUpdateList(InitDistanceSoundObjects, UpdateDistanceSound, NULL);
 }

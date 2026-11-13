@@ -9945,7 +9945,7 @@ gTownMonteKindDescriptor kind:data(any) addr:0x021675c4
 gCourseMapRowKindDescriptor kind:data(any) addr:0x02167618
 gAirshipKindDescriptor kind:data(any) addr:0x0216764c
 @4554 kind:data(any) addr:0x02167680 local
-data_usa_02167690 kind:data(any) addr:0x02167690
+gDistanceSoundKindDescriptor kind:data(any) addr:0x02167690
 gTrophyCameraPos kind:data(any) addr:0x021676c4
 gTrophyCameraUp kind:data(any) addr:0x021676d0
 gTrophyTKonoNsbtp kind:data(any) addr:0x021676dc

@@ -48,6 +48,7 @@
 #include "Main/MapObjects/group_item_box_kind_descriptor.h"
 #include "Main/MapObjects/vehicle_kind_descriptor.h"
 #include "Main/MapObjects/kart_balloons_kind_descriptor.h"
+#include "Main/Sound/distance_sound_volume.h"
 #include "Main/MapObjects/ob_pakkun_sf_kind_descriptor.h"
 #include "Main/MapObjects/pendulum_kind_descriptor.h"
 #include "Main/MapObjects/shine_battle.h"
@@ -125,7 +126,7 @@ MapObjectKindRow gMapObjectKindRows[133] = {
     {106, &gShine16KindDescriptor, NULL},
     {107, (MapObjectKindDescriptor *) &gShineBattleKindDescriptor, NULL},
     {344, &gAirshipKindDescriptor, NULL},
-    {10, &data_usa_02167690, NULL},
+    {10, &gDistanceSoundKindDescriptor, NULL},
     {105, (MapObjectKindDescriptor *) &gKartBalloonsKindDescriptor, NULL},
     {108, &gBalloonKindDescriptor, NULL},
     {434, &gSanboKindDescriptor, NULL},
