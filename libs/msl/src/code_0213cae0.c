@@ -31,7 +31,7 @@ const u16 *FormatWideParseSpec(const u16 *format, char **argList, FormatWideSpec
     parsed.mHash = 0;
     parsed.mArgKind = 0;
     parsed.mMinLength = 0;
-    parsed.mUnk_0c = 0;
+    parsed.mPrecision = 0;
     cursor = format + 1;
     ch = *cursor;
     if (ch == '%') {
@@ -94,14 +94,14 @@ const u16 *FormatWideParseSpec(const u16 *format, char **argList, FormatWideSpec
         ch = *++cursor;
         if (ch == '*') {
             *argList += 4;
-            parsed.mUnk_0c = *(int *) (*argList - 4);
-            if (parsed.mUnk_0c < 0) {
+            parsed.mPrecision = *(int *) (*argList - 4);
+            if (parsed.mPrecision < 0) {
                 parsed.mHasDot = 0;
             }
             ch = *++cursor;
         } else {
             while ((ch >= 0x80 ? 0 : gCharFlags[ch] & 8) != 0) {
-                parsed.mUnk_0c = parsed.mUnk_0c * 10 + (ch - '0');
+                parsed.mPrecision = parsed.mPrecision * 10 + (ch - '0');
                 ch = *++cursor;
             }
         }
@@ -144,7 +144,7 @@ const u16 *FormatWideParseSpec(const u16 *format, char **argList, FormatWideSpec
                 parsed.mArgKind = 4;
             }
             if (parsed.mHasDot == 0) {
-                parsed.mUnk_0c = 1;
+                parsed.mPrecision = 1;
             } else if (parsed.mPadKind == 2) {
                 parsed.mPadKind = 1;
             }
@@ -154,27 +154,27 @@ const u16 *FormatWideParseSpec(const u16 *format, char **argList, FormatWideSpec
             if (parsed.mArgKind == 2 || parsed.mArgKind == 4) {
                 parsed.mSpecChar = 0xffff;
             } else if (parsed.mHasDot == 0) {
-                parsed.mUnk_0c = 6;
+                parsed.mPrecision = 6;
             }
             break;
         case 'g':
         case 'G':
-            if (parsed.mUnk_0c == 0) {
-                parsed.mUnk_0c = 1;
+            if (parsed.mPrecision == 0) {
+                parsed.mPrecision = 1;
             }
         case 'e':
         case 'E':
             if (parsed.mArgKind == 2 || parsed.mArgKind == 4 || parsed.mArgKind == 1) {
                 parsed.mSpecChar = 0xffff;
             } else if (parsed.mHasDot == 0) {
-                parsed.mUnk_0c = 6;
+                parsed.mPrecision = 6;
             }
             break;
         case 'p':
             parsed.mArgKind = 3;
             parsed.mHash = 1;
             parsed.mSpecChar = 'x';
-            parsed.mUnk_0c = 8;
+            parsed.mPrecision = 8;
             break;
         case 'c':
             if (parsed.mArgKind == 3) {
@@ -216,7 +216,7 @@ u16 *FormatWideInt32(unsigned long value, u16 *end, FormatWideSpec spec) {
     int digit;
     u16 conv;
 
-    precision = spec.mUnk_0c;
+    precision = spec.mPrecision;
     alt = spec.mHash;
     conv = spec.mSpecChar;
     width = spec.mMinLength;
@@ -318,7 +318,7 @@ u16 *FormatWideInt64(u64 value, u16 *end, FormatWideSpec spec) {
     u8 signKind;
     int digitChar;
 
-    precision = spec.mUnk_0c;
+    precision = spec.mPrecision;
     alt = spec.mHash;
     signKind = spec.mSignKind;
     width = spec.mMinLength;
@@ -478,7 +478,7 @@ u16 *FormatWideDouble(double value, u16 *end, FormatWideSpec spec) {
     int index;
     u8 exponentSign;
 
-    precision = spec.mUnk_0c;
+    precision = spec.mPrecision;
     conv = spec.mSpecChar;
     alt = spec.mHash;
     signKind = spec.mSignKind;
@@ -770,11 +770,11 @@ int FormatWideWithPutFunc(void *(*putFunc)(void *, const u16 *, u32), void *putA
                     }
                     if (spec.mHash != 0) {
                         textLength = (u8) *text++;
-                        if (spec.mHasDot != 0 && textLength > spec.mUnk_0c) {
-                            textLength = spec.mUnk_0c;
+                        if (spec.mHasDot != 0 && textLength > spec.mPrecision) {
+                            textLength = spec.mPrecision;
                         }
                     } else if (spec.mHasDot != 0) {
-                        textLength = spec.mUnk_0c;
+                        textLength = spec.mPrecision;
                         nulPos = wmemchr(text, 0, textLength);
                         if (nulPos != 0) {
                             textLength = nulPos - text;
@@ -791,11 +791,11 @@ int FormatWideWithPutFunc(void *(*putFunc)(void *, const u16 *, u32), void *putA
                     if (spec.mHash != 0) {
                     // reads p (the u16 pointer of the other branch), not bp
                         narrowLength = (u8) *text;
-                        if (spec.mHasDot != 0 && narrowLength > spec.mUnk_0c) {
-                            narrowLength = spec.mUnk_0c;
+                        if (spec.mHasDot != 0 && narrowLength > spec.mPrecision) {
+                            narrowLength = spec.mPrecision;
                         }
                     } else if (spec.mHasDot != 0) {
-                        narrowLength = spec.mUnk_0c;
+                        narrowLength = spec.mPrecision;
                         narrowNulPos = memchr(narrowText, 0, narrowLength);
                         if (narrowNulPos != 0) {
                             narrowLength = narrowNulPos - narrowText;

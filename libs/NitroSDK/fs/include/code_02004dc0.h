@@ -24,8 +24,8 @@ typedef struct FSOverlayInfo {
         u8 b[4];
     } mUnk_1c;
     /* 20 */ u32 mTarget;
-    /* 24 */ u32 mUnk_24;
-    /* 28 */ u32 mUnk_28;
+    /* 24 */ u32 mFileOffset;
+    /* 28 */ u32 mFileLength;
 } FSOverlayInfo;
 
 // Node of the list at gGlobalDestructorChain that FS_EndOverlay walks.

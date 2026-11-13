@@ -49,7 +49,7 @@ typedef struct NNSG2dCellDataBank {
     /* 00 */ u16 mNumCells;
     /* 02 */ u16 mCellBankAttr;
     /* 04 */ u32 mPCellDataArrayHead;
-    /* 08 */ u32 mUnk_08;
+    /* 08 */ u32 mMappingMode;
     /* 0c */ NNSG2dVramTransferData *mPVramTransferData;
 } NNSG2dCellDataBank;
 

@@ -83,7 +83,7 @@ struct NNSG2dAnimDataSRT {
 
 typedef struct NNSG2dAnimDataT {
     /* 00 */ u16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
+    /* 02 */ u16 mPad;
     /* 04 */ s16 mPx;
     /* 06 */ s16 mPy;
 } NNSG2dAnimDataT;

@@ -282,8 +282,8 @@ void SPLAnim_Alpha(ParticleInstance *ptcl, ParticleResource *res, s32 lifeRate) 
     s32 hi;
 
     alphaAnim = res->mAlphaAnim;
-    lo = alphaAnim->mUnk_04;
-    hi = alphaAnim->mUnk_05;
+    lo = alphaAnim->mMidStartRate;
+    hi = alphaAnim->mMidEndRate;
     if (lifeRate < lo) {
         alpha = alphaAnim->mStartAlpha + (lifeRate * (alphaAnim->mMidAlpha - alphaAnim->mStartAlpha)) / lo;
     } else if (lifeRate < hi) {
@@ -1794,7 +1794,7 @@ void SPLEmitter_Update(SPLManager *mgr, ParticleEmitter *emtr) {
     if (header->mEmitFrameCount == 0 || emtr->mAge < header->mEmitFrameCount) {
         if (emtr->mAge % emtr->mEmitInterval == 0 && !emtr->mFlags.mEnding && !emtr->mFlags.mEmissionStopped &&
             emtr->mFlags.mStarted) {
-            SPLEmitter_EmitParticles(emtr, &mgr->mUnk_04[2]);
+            SPLEmitter_EmitParticles(emtr, &mgr->mLists[2]);
         }
     }
 
@@ -1843,7 +1843,7 @@ void SPLEmitter_Update(SPLManager *mgr, ParticleEmitter *emtr) {
             childAge = TO_FIXED12(particle->mAge) -
                        (MUL_FIXED12_ROUNDED(TO_FIXED12(particle->mLife), TO_FIXED12(childAnim->mStartLifeRate)) >> 8);
             if (childAge >= 0 && FROM_FIXED12(childAge) % childAnim->mInterval == 0) {
-                SPLEmitter_EmitChildren(particle, emtr, &mgr->mUnk_04[2]);
+                SPLEmitter_EmitChildren(particle, emtr, &mgr->mLists[2]);
             }
         }
         if (emtr->mResource->mHeader->mFlags.mFixedPolygonId) {
@@ -1857,7 +1857,7 @@ void SPLEmitter_Update(SPLManager *mgr, ParticleEmitter *emtr) {
         }
         particle->mAge++;
         if (particle->mAge > particle->mLife) {
-            SPLList_PushFront(&mgr->mUnk_04[2], SPLList_Erase(&emtr->mParticles, particle));
+            SPLList_PushFront(&mgr->mLists[2], SPLList_Erase(&emtr->mParticles, particle));
         }
     }
 
@@ -1908,7 +1908,7 @@ void SPLEmitter_Update(SPLManager *mgr, ParticleEmitter *emtr) {
             }
             particle->mAge++;
             if (particle->mAge > particle->mLife) {
-                SPLList_PushFront(&mgr->mUnk_04[2], SPLList_Erase(&emtr->mChildParticles, particle));
+                SPLList_PushFront(&mgr->mLists[2], SPLList_Erase(&emtr->mChildParticles, particle));
             }
         }
     }
@@ -2055,24 +2055,24 @@ SPLManager *SPLManager_New(void *(*alloc)(u32 size), u16 maxEmitters, u16 maxPar
     mgr->mPolygonIDDrawOrder = 0;
     mgr->mUnk_38_25 = 0;
     mgr->mAlloc = alloc;
-    mgr->mUnk_04[0].mCount = 0;
-    mgr->mUnk_04[1].mCount = 0;
-    mgr->mUnk_04[2].mCount = 0;
-    mgr->mUnk_04[0].mFront = 0;
-    mgr->mUnk_04[1].mFront = 0;
-    mgr->mUnk_04[2].mFront = 0;
+    mgr->mLists[0].mCount = 0;
+    mgr->mLists[1].mCount = 0;
+    mgr->mLists[2].mCount = 0;
+    mgr->mLists[0].mFront = 0;
+    mgr->mLists[1].mFront = 0;
+    mgr->mLists[2].mFront = 0;
     mgr->mMiscPolygonAttr = 0;
     mgr->mCurrentCycle = 0;
     block = alloc(maxEmitters * 0x9c);
     MI_CpuFill8(block, 0, maxEmitters * 0x9c);
     for (index = 0; index < maxEmitters; index++) {
-        SPLList_PushFront(&mgr->mUnk_04[1], (ParticleInstance *) block);
+        SPLList_PushFront(&mgr->mLists[1], (ParticleInstance *) block);
         block += 0x9c;
     }
     block = alloc(maxParticles * 0x44);
     MI_CpuFill8(block, 0, maxParticles * 0x44);
     for (index = 0; index < maxParticles; index++) {
-        SPLList_PushFront(&mgr->mUnk_04[2], (ParticleInstance *) block);
+        SPLList_PushFront(&mgr->mLists[2], (ParticleInstance *) block);
         block += 0x44;
     }
     mgr->mResources = 0;
@@ -2198,8 +2198,8 @@ s32 SPLManager_UploadTexturesEx(SPLManager *mgr, u32 (*vramAlloc)(s32 size, s32 
     for (index = 0; index < mgr->mTexCount; index++) {
         texture = mgr->mTextures + index;
         textureHeader = texture->mHeader;
-        if (textureHeader->mImageParam.mUnk_00_17) {
-            texture->mTextureVramAddr = mgr->mTextures[textureHeader->mImageParam.mUnk_00_18].mTextureVramAddr;
+        if (textureHeader->mImageParam.mSharesTexture) {
+            texture->mTextureVramAddr = mgr->mTextures[textureHeader->mImageParam.mSharedTextureIndex].mTextureVramAddr;
         } else {
             vramAddr = vramAlloc(textureHeader->mTextureSize, textureHeader->mImageParam.mFormat == 5 ? 1 : 0);
             GX_LoadTex((u8 *) texture->mHeader + 0x20, vramAddr, textureHeader->mTextureSize);
@@ -2245,7 +2245,7 @@ void SPLManager_Update(SPLManager *mgr) {
     ParticleEmitter *next;
     ParticleResourceHeader *header;
 
-    for (emtr = (ParticleEmitter *) mgr->mUnk_04[0].mFront; emtr != 0; emtr = next) {
+    for (emtr = (ParticleEmitter *) mgr->mLists[0].mFront; emtr != 0; emtr = next) {
         header = emtr->mResource->mHeader;
         next = emtr->mNext;
         if (emtr->mFlags.mStarted == 0) {
@@ -2263,7 +2263,7 @@ void SPLManager_Update(SPLManager *mgr) {
              emtr->mAge > header->mEmitFrameCount) ||
             emtr->mFlags.mEnding != 0) {
             if (emtr->mParticles.mCount == 0 && emtr->mChildParticles.mCount == 0) {
-                SPLList_PushFront(&mgr->mUnk_04[1], SPLList_Erase(&mgr->mUnk_04[0], (ParticleInstance *) emtr));
+                SPLList_PushFront(&mgr->mLists[1], SPLList_Erase(&mgr->mLists[0], (ParticleInstance *) emtr));
             }
         }
     }
@@ -2279,14 +2279,14 @@ void SPLManager_Draw(SPLManager *mgr, MtxFx43 *viewMatrix) {
     reg_G3X_DISP3DCNT = (reg_G3X_DISP3DCNT & ~0x3000) | 8;
     mgr->mRenderStateViewMatrix = viewMatrix;
     if (mgr->mPolygonIDDrawOrder == 0) {
-        for (emtr = (ParticleEmitter *) mgr->mUnk_04[0].mFront; emtr != 0; emtr = emtr->mNext) {
+        for (emtr = (ParticleEmitter *) mgr->mLists[0].mFront; emtr != 0; emtr = emtr->mNext) {
             mgr->mRenderStateEmitter = emtr;
             if (emtr->mFlags.mHidden == 0) {
                 SPLManager_DoDraw(mgr);
             }
         }
     } else {
-        for (emtr = (ParticleEmitter *) mgr->mUnk_04[0].mBack; emtr != 0; emtr = emtr->mPrev) {
+        for (emtr = (ParticleEmitter *) mgr->mLists[0].mBack; emtr != 0; emtr = emtr->mPrev) {
             mgr->mRenderStateEmitter = emtr;
             if (emtr->mFlags.mHidden == 0) {
                 SPLManager_DoDraw(mgr);
@@ -2299,10 +2299,10 @@ ParticleEmitter *SPLManager_CreateEmitter(SPLManager *mgr, s32 resourceId, Vec3 
     ParticleEmitter *emtr;
 
     emtr = 0;
-    if (mgr->mUnk_04[1].mFront != 0) {
-        emtr = (ParticleEmitter *) SPLList_PopFront(&mgr->mUnk_04[1]);
+    if (mgr->mLists[1].mFront != 0) {
+        emtr = (ParticleEmitter *) SPLList_PopFront(&mgr->mLists[1]);
         SPLEmitter_Init(emtr, mgr->mResources + resourceId, pos);
-        SPLList_PushFront(&mgr->mUnk_04[0], (ParticleInstance *) emtr);
+        SPLList_PushFront(&mgr->mLists[0], (ParticleInstance *) emtr);
         if (emtr->mResource->mHeader->mFlags.mEndAfterEmit) {
             emtr = 0;
         }
@@ -2315,13 +2315,13 @@ ParticleEmitter *SPLManager_CreateEmitterWithCallbackEx(SPLManager *mgr, s32 res
     ParticleEmitter *emtr;
 
     emtr = 0;
-    if (mgr->mUnk_04[1].mFront != 0) {
-        emtr = (ParticleEmitter *) SPLList_PopFront(&mgr->mUnk_04[1]);
+    if (mgr->mLists[1].mFront != 0) {
+        emtr = (ParticleEmitter *) SPLList_PopFront(&mgr->mLists[1]);
         SPLEmitter_Init(emtr, mgr->mResources + resourceId, pos);
         if (initCallback != 0) {
             initCallback(emtr, param);
         }
-        SPLList_PushFront(&mgr->mUnk_04[0], (ParticleInstance *) emtr);
+        SPLList_PushFront(&mgr->mLists[0], (ParticleInstance *) emtr);
         if (emtr->mResource->mHeader->mFlags.mEndAfterEmit) {
             emtr = 0;
         }
@@ -2333,11 +2333,11 @@ void SPLManager_DeleteEmitter(SPLManager *mgr, ParticleEmitter *emtr) {
     ParticleInstance *particle;
 
     while ((particle = SPLList_PopFront(&emtr->mParticles)) != 0) {
-        SPLList_PushFront(&mgr->mUnk_04[2], particle);
+        SPLList_PushFront(&mgr->mLists[2], particle);
     }
     while ((particle = SPLList_PopFront(&emtr->mChildParticles)) != 0) {
-        SPLList_PushFront(&mgr->mUnk_04[2], particle);
+        SPLList_PushFront(&mgr->mLists[2], particle);
     }
-    SPLList_Erase(&mgr->mUnk_04[0], (ParticleInstance *) emtr);
-    SPLList_PushFront(&mgr->mUnk_04[1], (ParticleInstance *) emtr);
+    SPLList_Erase(&mgr->mLists[0], (ParticleInstance *) emtr);
+    SPLList_PushFront(&mgr->mLists[1], (ParticleInstance *) emtr);
 }

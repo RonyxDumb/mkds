@@ -200,13 +200,13 @@ typedef struct SNDBankData {
 
 // Wave archive file: the first link of its chain, then the table of wave offsets or addresses. SND_GetWaveDataAddress
 // and SND_SetWaveDataAddress read and write the first mWaveCount words; LoadSingleWave reads the second table, whose
-// words b and b + 1 bound a block (the last block ends at mUnk_08).
+// words b and b + 1 bound a block (the last block ends at mFileSize).
 typedef struct SNDWaveArc {
     /* 00 */ u8 mUnk_00[8];
-    /* 08 */ u32 mUnk_08;
+    /* 08 */ u32 mFileSize;
     /* 0c */ u8 mUnk_0c[0xc];
     /* 18 */ SNDWaveArcLink *mTopLink;
-    /* 1c */ u8 mUnk_1c[0x1c];
+    /* 1c */ u8 mReserved[0x1c];
     /* 38 */ u32 mWaveCount;
     /* 3c */ u32 mWaveOffset[];
 } SNDWaveArc;

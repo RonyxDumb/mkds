@@ -746,7 +746,7 @@ u16 WM_GetAllowedChannel(void) {
     if (WMi_CheckInitialized() != 0) {
         return 0x8000;
     }
-    return SYSTEM_WORK->mNvramUserInfo.mUnk_7a;
+    return SYSTEM_WORK->mNvramUserInfo.mAllowedChannel;
 }
 
 // Returns the signal strength of the link, 0 when there is no link.

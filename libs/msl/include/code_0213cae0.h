@@ -15,7 +15,7 @@ typedef struct FormatWideSpec {
     /* 04 */ u8 mArgKind;
     /* 06 */ u16 mSpecChar;
     /* 08 */ s32 mMinLength;
-    /* 0c */ s32 mUnk_0c;
+    /* 0c */ s32 mPrecision;
 } FormatWideSpec;
 
 int FormatWideWithPutFunc(void *(*putFunc)(void *, const u16 *, u32), void *putArg, const u16 *format, char *argList);

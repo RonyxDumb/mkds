@@ -18,8 +18,8 @@ typedef struct ParticleTextureParam {
     /* 00 */ u32 mWrapS : 2;
     /* 00 */ u32 mWrapT : 2;
     /* 00 */ u32 mColor0Transparent : 1;
-    /* 00 */ u32 mUnk_00_17 : 1;
-    /* 00 */ u32 mUnk_00_18 : 8;
+    /* 00 */ u32 mSharesTexture : 1;
+    /* 00 */ u32 mSharedTextureIndex : 8;
     /* 00 */ u32 mUnk_00_26 : 6;
 } ParticleTextureParam;
 
@@ -53,7 +53,7 @@ typedef struct ParticleFileHeader {
 
 typedef struct SPLManager {
     /* 00 */ void *(*mAlloc)(u32 a);
-    /* 04 */ ParticleList mUnk_04[3];
+    /* 04 */ ParticleList mLists[3];
     /* 28 */ ParticleResource *mResources;
     /* 2c */ ParticleTexture *mTextures;
     /* 30 */ u16 mResCount;

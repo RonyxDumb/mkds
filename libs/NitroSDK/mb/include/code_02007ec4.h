@@ -45,15 +45,15 @@ typedef struct MBDownloadFileInfo {
 // the entry.
 typedef struct SegmentBuffer {
     /* 000 */ u8 mUnk_000[0x24];
-    /* 024 */ u32 mUnk_024;
-    /* 028 */ u32 mUnk_028[2];
+    /* 024 */ u32 mMainEntryAddress;
+    /* 028 */ u32 mMainRamRange[2];
     /* 030 */ u8 mUnk_030[4];
-    /* 034 */ u32 mUnk_034;
-    /* 038 */ u32 mUnk_038[2];
+    /* 034 */ u32 mSubEntryAddress;
+    /* 038 */ u32 mSubRamRange[2];
     /* 040 */ u8 mUnk_040[0x120];
     /* 160 */ u8 mUnk_160[0x88];
-    /* 1e8 */ MBiCacheList mUnk_1e8;
-    /* 258 */ u32 mUnk_258[1];
+    /* 1e8 */ MBiCacheList mCacheList;
+    /* 258 */ u32 mCardMapping[1];
 } SegmentBuffer;
 
 void MB_ReadMultiBootParentBssDesc(WMBssDesc *bssDesc, u16 parentMaxSize, u16 childMaxSize, u32 ksFlag, u32 flagTwo);

@@ -42,7 +42,7 @@ typedef struct NvramUserInfo {
     // The 6 bytes OS_GetMacAddress copies.
     /* 74 */ u8 mMacAddress[6];
     // The halfword WM_GetAllowedChannel returns.
-    /* 7a */ u16 mUnk_7a;
+    /* 7a */ u16 mAllowedChannel;
     /* 7c */ u8 mUnk_7c[0x84];
 } NvramUserInfo;
 

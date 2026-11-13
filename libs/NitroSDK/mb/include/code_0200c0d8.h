@@ -8,18 +8,18 @@ typedef struct MbRequestPieceBuf MbRequestPieceBuf;
 // Six bytes that MBi_SetRecvBufferFromParent fills and MBi_MakeParentSendBuffer writes out.
 typedef struct ParentMessage {
     /* 0 */ u8 mKind;
-    /* 1 */ u8 mUnk_01;
-    /* 2 */ u16 mUnk_02;
-    /* 4 */ u16 mUnk_04;
+    /* 1 */ u8 mPad1;
+    /* 2 */ u16 mFid;
+    /* 4 */ u16 mSeqno;
 } ParentMessage;
 
 // 0x14 bytes that MBi_MakeChildSendBuffer writes out and MBi_SetRecvBufferFromChild fills; the bytes from 3 or 4 on are
 // moved from or to the entry in the word at gPieceSizes.
 typedef struct ChildMessage {
     /* 00 */ u8 mKind;
-    /* 01 */ u8 mUnk_01;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u8 mUnk_04[0x10];
+    /* 01 */ u8 mPad1;
+    /* 02 */ u16 mPieceRequest;
+    /* 04 */ u8 mData[0x10];
 } ChildMessage;
 
 // 0x20-byte entry that MBi_SendRequestDataPiece copies.

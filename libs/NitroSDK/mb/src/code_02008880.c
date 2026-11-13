@@ -37,7 +37,7 @@ u32 MB_GetSegmentLength(FSFile *file) {
         headerPtr = &SYSTEM_WORK->mRomHeader.mHead;
     }
     if (headerPtr != NULL) {
-        size = headerPtr->mUnk_2c + 0x268 + headerPtr->mUnk_3c;
+        size = headerPtr->mMainSize + 0x268 + headerPtr->mSubSize;
         if (size < 0x10000) {
             size = 0x10000;
         }

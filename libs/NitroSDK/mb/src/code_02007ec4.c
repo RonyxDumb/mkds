@@ -47,22 +47,22 @@ u32 MB_RegisterFile(void *rangeTable, SegmentBuffer *source) {
     record = (MBDownloadFileInfo *) (mbc->mUnk_1788 + entryOffset);
     MBi_MakeDownloadFileInfo(record, source);
     MI_CpuCopy8((u8 *) rangeTable + 0x1c, record->mReserved, 0x20);
-    if (MBi_MakeBlockInfoTable((MB_BlockInfoTable *) (mbc->mUnk_1d2c + entryOffset), record) == 0) {
+    if (MBi_MakeBlockInfoTable((MB_BlockInfoTable *) (mbc->mBlockInfoTable + entryOffset), record) == 0) {
         OS_RestoreInterrupts(savedInterrupts);
         return 0;
     }
     MBi_MakeGameInfo((GameInfoEntry *) (mbc->mUnk_1788 + 0xe4 + entryOffset), rangeTable, (const u8 *) &mbc->mUser);
-    (OFFSET_PTR(MB_CommPWork, mbc, entryOffset))->mUnk_1d21 = entryIndex;
+    (OFFSET_PTR(MB_CommPWork, mbc, entryOffset))->mFileNo = entryIndex;
     MB_AddGameInfo((GameInfoEntry *) (mbc->mUnk_1788 + 0xe4 + entryOffset));
-    (OFFSET_PTR(MB_CommPWork, mbc, entryOffset))->mUnk_1d1f = gNextSeqNoFixed++;
+    (OFFSET_PTR(MB_CommPWork, mbc, entryOffset))->mSeqNoFixed = gNextSeqNoFixed++;
     (OFFSET_PTR(MB_CommPWork, mbc, entryOffset))->mGameinfoChildBmp = 1;
     (OFFSET_PTR(MB_CommPWork, mbc, entryOffset))->mSrcAdr = source;
-    (OFFSET_PTR(MB_CommPWork, mbc, entryOffset))->mCacheList = &source->mUnk_1e8;
-    (OFFSET_PTR(MB_CommPWork, mbc, entryOffset))->mCardMapping = source->mUnk_258;
+    (OFFSET_PTR(MB_CommPWork, mbc, entryOffset))->mCacheList = &source->mCacheList;
+    (OFFSET_PTR(MB_CommPWork, mbc, entryOffset))->mCardMapping = source->mCardMapping;
     if ((OFFSET_PTR(MB_CommPWork, mbc, entryOffset))->mCacheList->mList[3].mState != 0) {
         if (MBi_IsTaskAvailable() == 0) {
             MBi_InitTaskInfo(mbc->mCurTask);
-            MBi_InitTaskThread(&mbc->mUnk_74e0, 0x800);
+            MBi_InitTaskThread(&mbc->mTaskWork, 0x800);
         }
     }
     (OFFSET_PTR(MB_CommPWork, mbc, entryOffset))->mEntryUsed = 1;
@@ -79,8 +79,8 @@ void MBi_MakeDownloadFileInfo(MBDownloadFileInfo *record, SegmentBuffer *source)
     s32 rangeIndex;
     nextAddress = 0x022c0000;
     headerTail = source->mUnk_160;
-    record->mArm9EntryAddr = source->mUnk_024;
-    record->mArm7EntryAddr = source->mUnk_034;
+    record->mArm9EntryAddr = source->mMainEntryAddress;
+    record->mArm7EntryAddr = source->mSubEntryAddress;
     range = record->mSeg;
     kinds = MBi_defaultLoadSegList;
     for (rangeIndex = 0; rangeIndex < 3; rangeIndex++) {
@@ -98,9 +98,9 @@ void MBi_SetSegmentInfo(SegmentBuffer *source, const u32 *kindWord, MbSegmentInf
     u32 end;
     switch (*kindWord) {
         case 0:
-            pair = source->mUnk_028;
-            if (source->mUnk_028[0] >= 0x02000000 && source->mUnk_028[0] < 0x022c0000 &&
-                source->mUnk_028[0] + pair[1] <= 0x022c0000) {
+            pair = source->mMainRamRange;
+            if (source->mMainRamRange[0] >= 0x02000000 && source->mMainRamRange[0] < 0x022c0000 &&
+                source->mMainRamRange[0] + pair[1] <= 0x022c0000) {
                 range->mSize = pair[1];
                 range->mLoadAddr = pair[0];
                 range->mRecvAddr = range->mLoadAddr;
@@ -112,9 +112,9 @@ void MBi_SetSegmentInfo(SegmentBuffer *source, const u32 *kindWord, MbSegmentInf
         case 1:
             outOfBounds = 0;
             useNextAddress = 0;
-            pair = source->mUnk_038;
-            end = source->mUnk_038[0] + pair[1];
-            if (source->mUnk_038[0] >= 0x02000000 && source->mUnk_038[0] < 0x023fe800) {
+            pair = source->mSubRamRange;
+            end = source->mSubRamRange[0] + pair[1];
+            if (source->mSubRamRange[0] >= 0x02000000 && source->mSubRamRange[0] < 0x023fe800) {
                 if (end > 0x02300000) {
                     if (end < 0x023fe800 && pair[1] <= 0x40000) {
                         useNextAddress = 1;
@@ -122,7 +122,7 @@ void MBi_SetSegmentInfo(SegmentBuffer *source, const u32 *kindWord, MbSegmentInf
                         outOfBounds = 1;
                     }
                 }
-            } else if (source->mUnk_038[0] >= 0x037f8000 && source->mUnk_038[0] < 0x0380f000) {
+            } else if (source->mSubRamRange[0] >= 0x037f8000 && source->mSubRamRange[0] < 0x0380f000) {
                 if (end <= 0x0380f000) {
                     useNextAddress = 1;
                 } else {

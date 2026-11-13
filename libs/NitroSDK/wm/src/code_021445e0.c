@@ -300,21 +300,21 @@ void WmDataSharingReceiveCallback_Parent(PortCallbackMessage *callback) {
     u32 mask;
     u16 next;
 
-    share = callback->mUnk_1c;
+    share = callback->mArg;
     if (share == 0) {
         return;
     }
     if (callback->mResultCode == 0) {
-        switch (callback->mUnk_04) {
+        switch (callback->mState) {
             case 0x15:
-                WmDataSharingReceiveData(share, callback->mUnk_12, callback->mUnk_0c);
+                WmDataSharingReceiveData(share, callback->mAid, callback->mData);
                 WmDataSharingSendDataSet(share, 0);
                 return;
             case 7:
                 WmDataSharingSendDataSet(share, 0);
                 return;
             case 9:
-                member = callback->mUnk_12;
+                member = callback->mAid;
                 bit = 1;
                 enabled = OS_DisableInterrupts();
                 current = share->mWriteIndex;
@@ -346,23 +346,23 @@ void WmDataSharingReceiveCallback_Child(PortCallbackMessage *callback) {
     u16 *data;
 
     status = WMi_GetSystemWork()->mStatusArea;
-    share = callback->mUnk_1c;
+    share = callback->mArg;
     if (share == 0) {
         return;
     }
     if (callback->mResultCode == 0) {
-        if (callback->mUnk_04 == 7) {
+        if (callback->mState == 7) {
             return;
         }
-        if (callback->mUnk_04 == 9) {
+        if (callback->mState == 9) {
             return;
         }
-        if (callback->mUnk_04 != 0x15) {
+        if (callback->mState != 0x15) {
             return;
         }
-        data = callback->mUnk_0c;
+        data = callback->mData;
         blockMask = *data;
-        size = callback->mUnk_10;
+        size = callback->mLength;
         DC_InvalidateRange(&status->mOwnMemberIndex, 2);
         ownIndex = status->mOwnMemberIndex;
         if (size != share->mDataSetLength) {

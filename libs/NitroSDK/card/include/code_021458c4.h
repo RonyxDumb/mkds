@@ -12,13 +12,13 @@ typedef struct CARDRomRegion {
 // The first 0x60 bytes of the ROM header, the part FS_ReadFile reads to find the tables.
 typedef struct RomHeaderStart {
     /* 00 */ u8 mUnk_00[0x20];
-    /* 20 */ u32 mUnk_20;
-    /* 24 */ u8 mUnk_24[0x4];
-    /* 28 */ u32 mUnk_28;
-    /* 2c */ u32 mUnk_2c;
-    /* 30 */ u32 mUnk_30;
+    /* 20 */ u32 mMainRomOffset;
+    /* 24 */ u8 mMainEntryAddress[0x4];
+    /* 28 */ u32 mMainRamAddress;
+    /* 2c */ u32 mMainSize;
+    /* 30 */ u32 mSubRomOffset;
     /* 34 */ u8 mUnk_34[0x8];
-    /* 3c */ u32 mUnk_3c;
+    /* 3c */ u32 mSubSize;
     union {
         struct {
             /* 40 */ u32 mFntOffset;
@@ -65,7 +65,7 @@ typedef struct CARDRomHeader {
 typedef struct CARDiCommandArg {
     /* 00 */ u32 mResult;
     /* 04 */ s32 mType;
-    /* 08 */ u32 mUnk_08;
+    /* 08 */ u32 mId;
     /* 0c */ u32 mSrc;
     /* 10 */ u32 mDst;
     /* 14 */ u32 mLen;
@@ -114,7 +114,7 @@ typedef struct CARDRomStat {
     /* 00 */ void (*mReadFunc)(struct CARDRomStat *);
     /* 04 */ u32 mCtrl;
     /* 08 */ u32 mCachePage;
-    /* 0c */ u8 mUnk_0c[0x14];
+    /* 0c */ u8 mDummy[0x14];
     /* 20 */ u32 mCacheBuf[0x80];
 } CARDRomStat;
 

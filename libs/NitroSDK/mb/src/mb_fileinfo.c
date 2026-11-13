@@ -93,23 +93,23 @@ int MB_ReadSegment(FSFile *file, void *buffer, u32 bufferSize) {
         if (remaining >= 0x10) {
             v6 = (u32 *) v3;
             v6[0] = 0;
-            v6[1] = header->mHead.mUnk_20 + (basePosition + activeFile->mProp.w.mUnk_04);
-            v6[2] = header->mHead.mUnk_30 + (basePosition + activeFile->mProp.w.mUnk_04);
+            v6[1] = header->mHead.mMainRomOffset + (basePosition + activeFile->mProp.w.mUnk_04);
+            v6[2] = header->mHead.mSubRomOffset + (basePosition + activeFile->mProp.w.mUnk_04);
             v3 += 0x10;
             remaining -= 0x10;
         } else {
             remaining = 0;
         }
-        v8 = header->mHead.mUnk_2c + header->mHead.mUnk_3c;
+        v8 = header->mHead.mMainSize + header->mHead.mSubSize;
         if (remaining >= v8) {
             v10 = activeFile->mProp.w.mUnk_04;
             FS_SeekFile(activeFile, v6[1] - v10, 0);
-            FS_ReadFile(activeFile, v3, header->mHead.mUnk_2c);
-            MBi_AttachCacheBuffer(rangeTable, v6[1], header->mHead.mUnk_2c, v3, 3);
-            v3 += header->mHead.mUnk_2c;
+            FS_ReadFile(activeFile, v3, header->mHead.mMainSize);
+            MBi_AttachCacheBuffer(rangeTable, v6[1], header->mHead.mMainSize, v3, 3);
+            v3 += header->mHead.mMainSize;
             FS_SeekFile(activeFile, v6[2] - v10, 0);
-            FS_ReadFile(activeFile, v3, header->mHead.mUnk_3c);
-            MBi_AttachCacheBuffer(rangeTable, v6[2], header->mHead.mUnk_3c, v3, 3);
+            FS_ReadFile(activeFile, v3, header->mHead.mSubSize);
+            MBi_AttachCacheBuffer(rangeTable, v6[2], header->mHead.mSubSize, v3, 3);
             result = TRUE;
         } else if (remaining >= 0xcc00) {
             v10 = activeFile->mProp.w.mUnk_04;
@@ -130,9 +130,9 @@ int MB_ReadSegment(FSFile *file, void *buffer, u32 bufferSize) {
             FS_CloseFile(&openedFile);
             if (result != FALSE) {
                 v6 = mbi_seg_header;
-                v14[0] = header->mHead.mUnk_20;
-                v14[1] = header->mHead.mUnk_28 - header->mHead.mUnk_20;
-                v14[2] = (u32) rangeTable->mList[1].mPtr - header->mHead.mUnk_20;
+                v14[0] = header->mHead.mMainRomOffset;
+                v14[1] = header->mHead.mMainRamAddress - header->mHead.mMainRomOffset;
+                v14[2] = (u32) rangeTable->mList[1].mPtr - header->mHead.mMainRomOffset;
                 v14[3] = bufferSize;
                 MBi_ReadSegmentHeader(v14, 0x4000, 0x8000, 1);
                 while (((s32 *) v6)[1] != 0) {
@@ -140,7 +140,7 @@ int MB_ReadSegment(FSFile *file, void *buffer, u32 bufferSize) {
                     v6 += 2;
                 }
                 v3 = rangeTable->mList[1].mPtr;
-                v3 += (u32) AutoloadCallback - header->mHead.mUnk_28;
+                v3 += (u32) AutoloadCallback - header->mHead.mMainRamAddress;
                 *(u32 *) v3 = 0xe12fff1e;
             }
         }

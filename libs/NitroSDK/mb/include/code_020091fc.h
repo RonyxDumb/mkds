@@ -9,10 +9,10 @@
 #include "fs_file.h"
 #include "mb_gameinfo.h"
 
-// Entry of the list that mbss walks (the lists are chained through mUnk_4bc). MB_GetGameInfoRecvList returns one;
+// Entry of the list that mbss walks (the lists are chained through mNext). MB_GetGameInfoRecvList returns one;
 // the 0xc0 bytes at 0x4c0 are moved out by MB_FakeGetParentBssDesc.
 typedef struct GameInfoEntry {
-    /* 000 */ u8 mUnk_000[0x220];
+    /* 000 */ u8 mIcon[0x220];
     /* 220 */ u8 mParent[0x16];
     /* 236 */ u8 mMaxPlayerNum;
     /* 237 */ u8 mUnk_237;
@@ -29,10 +29,10 @@ typedef struct GameInfoEntry {
     /* 4b3 */ u8 mSeqNoFixed;
     /* 4b4 */ u8 mSeqNoVolat;
     /* 4b5 */ u8 mFileNo;
-    /* 4b6 */ u8 mUnk_4b6[2];
+    /* 4b6 */ u8 mPad[2];
     /* 4b8 */ u32 mGgid;
     /* 4bc */ struct GameInfoEntry *mNext;
-    /* 4c0 */ u8 mUnk_4c0[0xc0];
+    /* 4c0 */ u8 mBssDesc[0xc0];
 } GameInfoEntry;
 
 // State of the walk over the GameInfoEntry list: the first entry, the current entry, the position in the current
@@ -78,7 +78,7 @@ typedef struct GameInfoBlock {
 
 // Fields MBi_MakeGameInfo reads.
 typedef struct MBGameRegistry {
-    /* 00 */ u8 mUnk_00[4];
+    /* 00 */ u8 mRomFilePathp[4];
     /* 04 */ const u16 *mGameNamep;
     /* 08 */ const u8 *mGameIntroductionp;
     /* 0c */ const u8 *mIconCharPathp;

@@ -37,7 +37,7 @@ const char *FormatParseSpec(const char *format, char **argList, FormatSpec *buf)
     parsed.mHash = 0;
     parsed.mArgKind = 0;
     parsed.mMinLength = 0;
-    parsed.mUnk_0c = 0;
+    parsed.mPrecision = 0;
     cursor = format + 1;
     currentChar = *cursor;
     if (currentChar == '%') {
@@ -101,14 +101,14 @@ const char *FormatParseSpec(const char *format, char **argList, FormatSpec *buf)
         currentChar = *++cursor;
         if (currentChar == '*') {
             *argList += 4;
-            parsed.mUnk_0c = ((int *) *argList)[-1];
-            if (parsed.mUnk_0c < 0) {
+            parsed.mPrecision = ((int *) *argList)[-1];
+            if (parsed.mPrecision < 0) {
                 parsed.mHasDot = 0;
             }
             currentChar = *++cursor;
         } else {
             while ((currentChar < 0 || currentChar >= 0x80) ? 0 : (gCharClassFlags[currentChar] & 8)) {
-                parsed.mUnk_0c = parsed.mUnk_0c * 10 + (currentChar - '0');
+                parsed.mPrecision = parsed.mPrecision * 10 + (currentChar - '0');
                 currentChar = *++cursor;
             }
         }
@@ -159,7 +159,7 @@ const char *FormatParseSpec(const char *format, char **argList, FormatSpec *buf)
             if (parsed.mArgKind == 8) {
                 parsed.mSpecChar = 0xff;
             } else if (parsed.mHasDot == 0) {
-                parsed.mUnk_0c = 1;
+                parsed.mPrecision = 1;
             } else if (parsed.mPadKind == 2) {
                 parsed.mPadKind = 1;
             }
@@ -170,13 +170,13 @@ const char *FormatParseSpec(const char *format, char **argList, FormatSpec *buf)
                 parsed.mArgKind == 7) {
                 parsed.mSpecChar = 0xff;
             } else if (parsed.mHasDot == 0) {
-                parsed.mUnk_0c = 6;
+                parsed.mPrecision = 6;
             }
             break;
         case 'a':
         case 'A':
             if (parsed.mHasDot == 0) {
-                parsed.mUnk_0c = 0xd;
+                parsed.mPrecision = 0xd;
             }
             if (parsed.mArgKind == 2 || parsed.mArgKind == 4 || parsed.mArgKind == 5 || parsed.mArgKind == 6 ||
                 parsed.mArgKind == 7 || parsed.mArgKind == 1) {
@@ -185,8 +185,8 @@ const char *FormatParseSpec(const char *format, char **argList, FormatSpec *buf)
             break;
         case 'g':
         case 'G':
-            if (parsed.mUnk_0c == 0) {
-                parsed.mUnk_0c = 1;
+            if (parsed.mPrecision == 0) {
+                parsed.mPrecision = 1;
             }
         case 'e':
         case 'E':
@@ -194,14 +194,14 @@ const char *FormatParseSpec(const char *format, char **argList, FormatSpec *buf)
                 parsed.mArgKind == 7 || parsed.mArgKind == 1) {
                 parsed.mSpecChar = 0xff;
             } else if (parsed.mHasDot == 0) {
-                parsed.mUnk_0c = 6;
+                parsed.mPrecision = 6;
             }
             break;
         case 'p':
             parsed.mSpecChar = 'x';
             parsed.mHash = 1;
             parsed.mArgKind = 3;
-            parsed.mUnk_0c = 8;
+            parsed.mPrecision = 8;
             break;
         case 'c':
             if (parsed.mArgKind == 3) {
@@ -242,7 +242,7 @@ char *FormatInt32(unsigned long value, char *end, FormatSpec spec) {
     int prec;
     u8 conv;
 
-    prec = spec.mUnk_0c;
+    prec = spec.mPrecision;
     alt = spec.mHash;
     conv = spec.mSpecChar;
     width = spec.mMinLength;
@@ -336,7 +336,7 @@ char *FormatInt64(u64 value, char *end, FormatSpec spec) {
     int ch;
     int digit;
 
-    precision = spec.mUnk_0c;
+    precision = spec.mPrecision;
     alt = spec.mHash;
     ch = spec.mSpecChar;
     wid = spec.mMinLength;
@@ -435,7 +435,7 @@ char *FormatDoubleHex(double value, char *buf, FormatSpec spec) {
     int counter;
     int bitOffset;
 
-    precision = spec.mUnk_0c;
+    precision = spec.mPrecision;
     conv = spec.mSpecChar;
     alt = spec.mHash;
     signKind = spec.mSignKind;
@@ -491,7 +491,7 @@ char *FormatDoubleHex(double value, char *buf, FormatSpec spec) {
     exponentSpec.mHasDot = 0;
     exponentSpec.mHash = 0;
     exponentSpec.mArgKind = 0;
-    exponentSpec.mUnk_0c = 1;
+    exponentSpec.mPrecision = 1;
     exponentSpec.mMinLength = 0;
     exponentSpec.mSpecChar = 'd';
     swapBytes = (u8 *) &value;
@@ -627,7 +627,7 @@ char *FormatDouble(double value, char *buf, FormatSpec spec) {
     int counter;
 
     conv = spec.mSpecChar;
-    precision = spec.mUnk_0c;
+    precision = spec.mPrecision;
     alt = spec.mHash;
     signKind = spec.mSignKind;
     digitOptions.mUnk_00 = 0;
@@ -967,11 +967,11 @@ int FormatWithPutFunc(void *(*putFunc)(void *, const char *, u32), void *putArg,
                 }
                 if (spec.mHash != 0) {
                     textLength = *text++;
-                    if (spec.mHasDot != 0 && textLength > spec.mUnk_0c) {
-                        textLength = spec.mUnk_0c;
+                    if (spec.mHasDot != 0 && textLength > spec.mPrecision) {
+                        textLength = spec.mPrecision;
                     }
                 } else if (spec.mHasDot != 0) {
-                    textLength = spec.mUnk_0c;
+                    textLength = spec.mPrecision;
                     nulPos = memchr(text, 0, textLength);
                     if (nulPos != 0) {
                         textLength = nulPos - text;

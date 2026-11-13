@@ -3,7 +3,7 @@
 #include "types.h"
 
 typedef struct MBGameInfoRecvList {
-    /* 000 */ u8 mUnk_000[0x220];
+    /* 000 */ u8 mIcon[0x220];
     /* 220 */ u8 mFixedNoIcon[0x138];
     /* 358 */ u8 mNowPlayerNum;
     /* 359 */ u8 mUnk_359;
@@ -11,14 +11,14 @@ typedef struct MBGameInfoRecvList {
     /* 35c */ u16 mChangePlayerFlag;
     /* 35e */ u8 mMember[0x14a];
     /* 4a8 */ u8 mUserVolatData[8];
-    /* 4b0 */ u8 mUnk_4b0[2];
+    /* 4b0 */ u8 mBroadcastedPlayerFlag[2];
     /* 4b2 */ u8 mDataAttr;
     /* 4b3 */ u8 mSeqNoFixed;
     /* 4b4 */ u8 mSeqNoVolat;
     /* 4b5 */ u8 mFileNo;
-    /* 4b6 */ u8 mUnk_4b6[2];
+    /* 4b6 */ u8 mPad[2];
     /* 4b8 */ u32 mGgid;
-    /* 4bc */ u8 mUnk_4bc[4];
+    /* 4bc */ u8 mNext[4];
     /* 4c0 */ u8 mScanBuffer[4];
     /* 4c4 */ u8 mBssid[6];
     /* 4ca */ u8 mUnk_4ca[0x3e];
@@ -42,7 +42,7 @@ typedef struct MbBeaconRecvStatus {
     /* 08 */ s16 mNowLockTimeCount;
     /* 0a */ s16 mNotFoundLockTargetCount;
     /* 0c */ u16 mScanCountUnit;
-    /* 0e */ u16 mUnk_0e;
+    /* 0e */ u16 mPad;
     /* 10 */ MBGameInfoRecvList mEntries[16];
 } MbBeaconRecvStatus;
 

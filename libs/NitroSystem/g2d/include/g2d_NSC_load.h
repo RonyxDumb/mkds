@@ -9,7 +9,7 @@ typedef struct NNSG2dBinaryFileHeader {
     /* 00 */ u32 mSignature;
     /* 04 */ u16 mByteOrder;
     /* 06 */ u16 mVersion;
-    /* 08 */ u8 mUnk_08[4];
+    /* 08 */ u8 mFileSize[4];
     /* 0c */ u16 mHeaderSize;
     /* 0e */ u16 mDataBlocks;
 } NNSG2dBinaryFileHeader;

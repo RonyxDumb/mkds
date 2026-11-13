@@ -42,11 +42,11 @@ typedef struct NNSSndStrmPlayer {
     /* 110 */ s32 mUnk_110_4 : 28;
     /* 114 */ s32 mFinishCounter;
     /* 118 */ s32 mPrepareFlag;
-    /* 11c */ u8 mUnk_11c[4];
+    /* 11c */ u8 mCommandCount[4];
     /* 120 */ s32 mAllocChannelCount;
     /* 124 */ u8 mUnk_124[0x28];
     /* 14c */ u32 *mHandle;
-    /* 150 */ u8 mUnk_150[4];
+    /* 150 */ u8 mPrio[4];
     /* 154 */ s32 mInitVolume;
     /* 158 */ s32 mVolume;
     /* 15c */ u8 mUnk_15c[4];

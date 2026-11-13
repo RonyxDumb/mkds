@@ -191,7 +191,7 @@ void MBi_ParentCallback(WirelessMessage *result) {
                     if (gWirelessWork->mMPStarted == 0 && mbc->mStartMpBusy == 0) {
                         mbc->mStartMpBusy = 1;
                         flag = 1;
-                        if (gWirelessWork->mUnk_52c != 0) {
+                        if (gWirelessWork->mContSend != 0) {
                             flag = 0;
                         }
                         MBi_CheckWmErrcode(0xe,
@@ -366,7 +366,7 @@ void MBi_ChildCallback(WirelessMessage *result) {
             gScanParams.mBssid[4] = 0xff;
             gScanParams.mBssid[5] = 0xff;
             work->mRepeatScan = 1;
-            work->mUnk_5e8 = 1;
+            work->mScanChannelFlag = 1;
             MBi_CheckWmErrcode(0xa, WM_StartScan(MBi_ChildCallback, &gScanParams));
             return;
         case 10:
@@ -415,7 +415,7 @@ void MBi_ChildCallback(WirelessMessage *result) {
                     if (work->mRepeatScan == 0) {
                         return;
                     }
-                    if (work->mUnk_5e8 != 0) {
+                    if (work->mScanChannelFlag != 0) {
                         if (changeScanChannel(&gScanParams) == 0) {
                             MBi_CommEnd();
                         }
@@ -427,7 +427,7 @@ void MBi_ChildCallback(WirelessMessage *result) {
                     if (work->mRepeatScan == 0) {
                         return;
                     }
-                    if (work->mUnk_5e8 != 0) {
+                    if (work->mScanChannelFlag != 0) {
                         if (changeScanChannel(&gScanParams) == 0) {
                             MBi_CommEnd();
                         }
@@ -443,7 +443,7 @@ void MBi_ChildCallback(WirelessMessage *result) {
                 work->mCallback(0x100, result);
                 return;
             }
-            MBi_CheckWmErrcode(0xc, WM_StartConnectEx(MBi_ChildCallback, work->mUnk_520, NULL, 1, 0));
+            MBi_CheckWmErrcode(0xc, WM_StartConnectEx(MBi_ChildCallback, work->mPInfo, NULL, 1, 0));
             return;
         case 12:
             if (result->mResultCode != 0) {
@@ -457,7 +457,7 @@ void MBi_ChildCallback(WirelessMessage *result) {
                     work->mMPStarted = 1;
                     return;
                 case 7:
-                    work->mUnk_5e2 = result->mUnk_08_2;
+                    work->mMyAid = result->mUnk_08_2;
                     work->mCallback(6, result);
                     work->mConnectedAids = 1;
                     if (WM_SetPortCallback(1, MBi_ChildPortCallback, NULL) != 0) {
@@ -466,7 +466,7 @@ void MBi_ChildCallback(WirelessMessage *result) {
                     MBi_CheckWmErrcode(0xe,
                                        WM_StartMPEx(MBi_ChildCallback, work->mReceiveBuffer, work->mReceiveBufferSize,
                                                     work->mSendBuffer, work->mSendBufferSize,
-                                                    work->mUnk_52c == 0 ? 1 : 0, 0, 0, 0, 1, 1));
+                                                    work->mContSend == 0 ? 1 : 0, 0, 0, 0, 1, 1));
                     return;
                 case 9:
                     work->mCallback(10, result);
@@ -583,12 +583,12 @@ s32 MB_Init(void *buffer, MBUserInfo *user, u32 ggid, u32 tgid, u32 dmaNo) {
     MIi_CpuClear32(clearValue32, wirelessWork, 0x1e00);
     clearValue16 = 0;
     MIi_CpuClear16(clearValue16, parentWork, 0x1340);
-    cursor = wirelessWork->mUnk_530;
+    cursor = wirelessWork->mUname;
     for (index = 0; index < user->mNameLength; index++) {
         *cursor = user->mName[index];
         cursor++;
     }
-    cursor = wirelessWork->mUnk_538;
+    cursor = wirelessWork->mGname;
     for (index = 0; index < 16; index++) {
         if (*gMultibootGameNameCursor == 0) {
             break;
@@ -604,12 +604,12 @@ s32 MB_Init(void *buffer, MBUserInfo *user, u32 ggid, u32 tgid, u32 dmaNo) {
     wirelessWork->mReceiveDataSize = 8;
     wirelessWork->mSendBufferSize = 0;
     wirelessWork->mReceiveBufferSize = 0;
-    wirelessWork->mUnk_52c = 1;
+    wirelessWork->mContSend = 1;
     wirelessWork->mReceiveBuffer = parentWork->mUnk_0000 + 0x400;
-    wirelessWork->mUnk_00e = 1;
-    wirelessWork->mUnk_012 = 0;
-    wirelessWork->mUnk_016 = 1;
-    wirelessWork->mUnk_014 = 0;
+    wirelessWork->mEntryFlag = 1;
+    wirelessWork->mMultiBootFlag = 0;
+    wirelessWork->mCsFlag = 1;
+    wirelessWork->mKsFlag = 0;
     wirelessWork->mGgid = ggid;
     wirelessWork->mTgid = tgid;
     wirelessWork->mBeaconPeriod = MBi_GetBeaconPeriodDispersion() + 0xc8;
@@ -661,7 +661,7 @@ s32 MBi_StartCommon(void) {
     gWirelessWork->mMPStarted = 0;
     gWirelessWork->mConnectedAids = 0;
     gWirelessWork->mResetting = 0;
-    gWirelessWork->mUnk_538[8] = 0;
+    gWirelessWork->mGname[8] = 0;
     MBi_SetMaxScanTime(10);
     if (mbc->mIsStartedEx == 0) {
         s32 result;
@@ -711,12 +711,12 @@ s32 MBi_StartParentCore(u16 channel) {
     gWirelessWork->mMode = 1;
     gWirelessWork->mCallback = MBi_CommParentCallback;
     gWirelessWork->mCommandCallback = MBi_ParentCallback;
-    gWirelessWork->mUnk_034 = gWirelessWork->mSendDataSize;
+    gWirelessWork->mParentMaxSize = gWirelessWork->mSendDataSize;
     wirelessWork = gWirelessWork;
-    wirelessWork->mSendBufferSize = (wirelessWork->mUnk_034 + 0x23) & ~0x1f;
-    gWirelessWork->mUnk_036 = gWirelessWork->mReceiveDataSize;
+    wirelessWork->mSendBufferSize = (wirelessWork->mParentMaxSize + 0x23) & ~0x1f;
+    gWirelessWork->mChildMaxSize = gWirelessWork->mReceiveDataSize;
     wirelessWork = gWirelessWork;
-    wirelessWork->mReceiveBufferSize = (((wirelessWork->mUnk_036 + 0xe) * 0xf + 0x29) & ~0x1f) << 1;
+    wirelessWork->mReceiveBufferSize = (((wirelessWork->mChildMaxSize + 0xe) * 0xf + 0x29) & ~0x1f) << 1;
     MB_InitSendGameInfoStatus();
     value = MBi_StartCommon();
     OS_RestoreInterrupts(savedInterrupts);
@@ -856,7 +856,7 @@ int MBi_SendMP(void *data, u32 size, u32 childMask) {
     }
     switch (work->mMode) {
         case 1:
-            if (work->mUnk_52c == 0) {
+            if (work->mContSend == 0) {
                 value = 0x3e8;
             } else {
                 value = 0;
@@ -906,22 +906,22 @@ u8 MBi_GetAttribute(void) {
     u32 bit4;
     u32 bit8;
     work = gWirelessWork;
-    if (work->mUnk_012 != 0) {
+    if (work->mMultiBootFlag != 0) {
         bit2 = 2;
     } else {
         bit2 = 0;
     }
-    if (work->mUnk_00e != 0) {
+    if (work->mEntryFlag != 0) {
         bit1 = 1;
     } else {
         bit1 = 0;
     }
-    if (work->mUnk_014 != 0) {
+    if (work->mKsFlag != 0) {
         bit4 = 4;
     } else {
         bit4 = 0;
     }
-    if (work->mUnk_016 != 0) {
+    if (work->mCsFlag != 0) {
         bit8 = 8;
     } else {
         bit8 = 0;

@@ -7,7 +7,7 @@
 typedef struct PieceSizes {
     /* 00 */ s32 mPieceSize;
     /* 04 */ s32 mPieceCount;
-    /* 08 */ s32 mUnk_08;
+    /* 08 */ s32 mBufSize;
 } PieceSizes;
 
 // Object behind gPieceBuffer (also the member of MB_CommPWork at 0x1538): the words from 0x1e0 on are indexed like the

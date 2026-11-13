@@ -37,16 +37,16 @@ typedef struct WMDataSharingInfo {
 typedef struct PortCallbackMessage {
     /* 00 */ u16 mCommand;
     /* 02 */ u16 mResultCode;
-    /* 04 */ u16 mUnk_04;
+    /* 04 */ u16 mState;
     /* 06 */ u16 mUnk_06;
     /* 08 */ u16 mUnk_08;
     /* 0a */ u16 mUnk_0a;
-    /* 0c */ u16 *mUnk_0c;
-    /* 10 */ u16 mUnk_10;
-    /* 12 */ u16 mUnk_12;
+    /* 0c */ u16 *mData;
+    /* 10 */ u16 mLength;
+    /* 12 */ u16 mAid;
     /* 14 */ u8 mUnk_14[6];
     /* 1a */ u16 mSeqNo;
-    /* 1c */ WMDataSharingInfo *mUnk_1c;
+    /* 1c */ WMDataSharingInfo *mArg;
     /* 20 */ WMDataSharingInfo *mUnk_20;
 } PortCallbackMessage;
 

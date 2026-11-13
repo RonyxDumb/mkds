@@ -315,7 +315,7 @@ void MBi_CommParentRecvDataPerChild(WMMpRecvData *childData, u32 child) {
                 entryIndex = mbc->mChildEntryIndex[arrayIndex];
                 if (entryIndex != 0xff) {
                     (OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mNextb = MBi_calc_nextsendblock(
-                        (OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mNextb, message.mUnk_02);
+                        (OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mNextb, message.mPieceRequest);
                 }
             }
             break;
@@ -413,7 +413,7 @@ u32 MBi_CommParentSendDLFileInfo(void) {
         }
     }
     message.mKind = 3;
-    message.mUnk_02 = candidateFile;
+    message.mFid = candidateFile;
     sendBlock = MBi_MakeParentSendBuffer((u8 *) &message, (u8 *) work);
     if (sendBlock != NULL) {
         MI_CpuCopy8(mbc->mUnk_1788 + candidateFile * 0x5d4, sendBlock, 0xe4);
@@ -483,25 +483,25 @@ u32 MBi_CommParentSendBlock(void) {
     MBi_calc_sendblock(parentWorkAgain->mCurFileid);
     work = mbc;
     childEntry = OFFSET_PTR(MB_CommPWork, work, work->mCurFileid * 0x5d4);
-    if (MBi_get_blockinfo(&blockInfo, work->mUnk_1d2c + work->mCurFileid * 0x5d4, childEntry->mCurrentb,
+    if (MBi_get_blockinfo(&blockInfo, work->mBlockInfoTable + work->mCurFileid * 0x5d4, childEntry->mCurrentb,
                           work->mUnk_1788 + work->mCurFileid * 0x5d4) == FALSE) {
         return 21;
     }
     message.mKind = 4;
     work = mbc;
-    message.mUnk_02 = work->mCurFileid;
-    message.mUnk_04 = (OFFSET_PTR(MB_CommPWork, work, work->mCurFileid * 0x5d4))->mCurrentb;
+    message.mFid = work->mCurFileid;
+    message.mSeqno = (OFFSET_PTR(MB_CommPWork, work, work->mCurFileid * 0x5d4))->mCurrentb;
     sendBlock = MBi_MakeParentSendBuffer((u8 *) &message, (u8 *) work);
     segmentNum = blockInfo.mSegmentNo;
     work = mbc;
     readOffset = blockInfo.mOffset -
-               ((u32 *) (OFFSET_PTR(MB_CommPWork, work, work->mCurFileid * 0x5d4))->mUnk_1d2c)[segmentNum] +
+               ((u32 *) (OFFSET_PTR(MB_CommPWork, work, work->mCurFileid * 0x5d4))->mBlockInfoTable)[segmentNum] +
                (OFFSET_PTR(MB_CommPWork, work, work->mCurFileid * 0x5d4))->mCardMapping[segmentNum];
     childEntry = OFFSET_PTR(MB_CommPWork, work, work->mCurFileid * 0x5d4);
     rangeTable = childEntry->mCacheList;
     if (MBi_ReadFromCache(rangeTable, readOffset, sendBlock, blockInfo.mSize) == 0) {
         loadJob = (DataRangeLoadJob *) mbc->mCurTask;
-        if (MBi_IsTaskBusy(&loadJob->mUnk_00) == 0) {
+        if (MBi_IsTaskBusy(&loadJob->mTask) == 0) {
             if (rangeTable->mUnk_00 != 0) {
                 range = rangeTable->mList;
                 lowestRange = NULL;
@@ -520,7 +520,7 @@ u32 MBi_CommParentSendBlock(void) {
                 lowestRange->mSrc = readOffset & ~0x1f;
                 loadJob->mDataRange = lowestRange;
                 loadJob->mDataRangeTable = rangeTable;
-                MBi_SetTask(&loadJob->mUnk_00, (void *) MBi_ReloadCache, NULL, 4);
+                MBi_SetTask(&loadJob->mTask, (void *) MBi_ReloadCache, NULL, 4);
             }
         }
         return 21;

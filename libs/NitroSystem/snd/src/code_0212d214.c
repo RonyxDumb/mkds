@@ -533,7 +533,7 @@ BOOL LoadSingleWave(SNDWaveArc *waveArc, s32 waveNo, u32 fileId, NNSSndHeap *hea
     waveTotal = SND_GetWaveDataCount(waveArc);
     entry = (u32 *) waveArc + (waveArc->mWaveCount + waveNo);
     startOffset = entry[15];
-    end = waveNo < waveTotal - 1 ? entry[16] : waveArc->mUnk_08;
+    end = waveNo < waveTotal - 1 ? entry[16] : waveArc->mFileSize;
     len = end - startOffset;
     if (heap == 0) {
         return 0;

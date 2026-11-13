@@ -19,7 +19,7 @@ typedef struct FxPairS32 {
 // Node info block of a model.
 typedef struct Unk02170500_d4 {
     /* 00 */ u8 mUnk_00[6];
-    /* 06 */ u16 mUnk_06;
+    /* 06 */ u16 mOfsEntry;
 } Unk02170500_d4;
 
 typedef struct NNSG3dResNodeData {

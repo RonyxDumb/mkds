@@ -139,8 +139,8 @@ typedef struct ParticleAlphaAnim {
     /* 02 */ u16 mAlphaRandom : 8;
     /* 02 */ u16 mTimeIndex : 1;
     /* 02 */ u16 mUnk_02_9 : 7;
-    /* 04 */ u8 mUnk_04;
-    /* 05 */ u8 mUnk_05;
+    /* 04 */ u8 mMidStartRate;
+    /* 05 */ u8 mMidEndRate;
     /* 06 */ u8 mUnk_06[2];
 } ParticleAlphaAnim;
 

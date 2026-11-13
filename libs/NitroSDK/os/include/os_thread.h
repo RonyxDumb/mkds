@@ -10,23 +10,23 @@
 typedef struct OSThread {
     /* 00 */ u32 mCpsr;
     /* 04 */ void *mR0;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u32 mUnk_0c;
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ u32 mUnk_14;
-    /* 18 */ u32 mUnk_18;
-    /* 1c */ u32 mUnk_1c;
-    /* 20 */ u32 mUnk_20;
-    /* 24 */ u32 mUnk_24;
-    /* 28 */ u32 mUnk_28;
-    /* 2c */ u32 mUnk_2c;
-    /* 30 */ u32 mUnk_30;
-    /* 34 */ u32 mUnk_34;
-    /* 38 */ u32 mUnk_38;
+    /* 08 */ u32 mR1;
+    /* 0c */ u32 mR2;
+    /* 10 */ u32 mR3;
+    /* 14 */ u32 mR4;
+    /* 18 */ u32 mR5;
+    /* 1c */ u32 mR6;
+    /* 20 */ u32 mR7;
+    /* 24 */ u32 mR8;
+    /* 28 */ u32 mR9;
+    /* 2c */ u32 mR10;
+    /* 30 */ u32 mR11;
+    /* 34 */ u32 mR12;
+    /* 38 */ u32 mSp;
     /* 3c */ void (*mLr)(void);
-    /* 40 */ u32 mUnk_40;
-    /* 44 */ u32 mUnk_44;
-    /* 48 */ u8 mUnk_48[0x1c]; // its address goes to the functions called by OS_SaveContext and OS_LoadContext
+    /* 40 */ u32 mPcPlus4;
+    /* 44 */ u32 mSpSvc;
+    /* 48 */ u8 mCpContext[0x1c]; // its address goes to the functions called by OS_SaveContext and OS_LoadContext
     /* 64 */ u32 mState; // 0 waiting, 1 ready, 2 terminated
     /* 68 */ struct OSThread *mNext;
     // The id OSi_GetUnusedThreadId gives (0 for the first thread); the game tests it against 0 and the C library code

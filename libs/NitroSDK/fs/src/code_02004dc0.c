@@ -94,8 +94,8 @@ u32 FSi_LoadOverlayInfoCore(FSOverlayInfo *info, u32 selector, u32 index, FSArch
     if (FS_OpenFileFast(&file, fileID) == 0) {
         return 0;
     }
-    info->mUnk_24 = file.mProp.p.mUnk_04;
-    info->mUnk_28 = file.mProp.p.mUnk_08 - file.mProp.p.mUnk_04;
+    info->mFileOffset = file.mProp.p.mUnk_04;
+    info->mFileLength = file.mProp.p.mUnk_08 - file.mProp.p.mUnk_04;
     FS_CloseFile(&file);
     return 1;
 }
@@ -124,8 +124,8 @@ u32 FS_LoadOverlayInfo(FSOverlayInfo *info, u32 selector, u32 index) {
         if (FS_OpenFileFast(&file, fileID) == 0) {
             return 0;
         }
-        info->mUnk_24 = file.mProp.p.mUnk_04;
-        info->mUnk_28 = file.mProp.p.mUnk_08 - file.mProp.p.mUnk_04;
+        info->mFileOffset = file.mProp.p.mUnk_04;
+        info->mFileLength = file.mProp.p.mUnk_08 - file.mProp.p.mUnk_04;
         FS_CloseFile(&file);
         return 1;
     }

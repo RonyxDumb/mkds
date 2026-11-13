@@ -109,7 +109,7 @@ typedef struct WMBssDesc {
 typedef struct WMArm9Buf {
     /* 000 */ void *mWM7;
     /* 004 */ struct WMStatus *mStatusArea;
-    /* 008 */ u32 mUnk_008;
+    /* 008 */ u32 mIndBuf;
     // Command request area; the command functions fill it in and WMi_SendCommand copies it for a command with no words.
     /* 00c */ u16 *mRequestArea;
     // Message area for replies; WmReceiveFifo does not mark it free after handling.
@@ -125,14 +125,14 @@ typedef struct WMArm9Buf {
 // Wireless status area written by the other processor; WM_ReadStatus copies 0x7bc bytes of it.
 typedef struct WMStatus {
     /* 000 */ u16 mState;
-    /* 002 */ u8 mUnk_002[2];
+    /* 002 */ u8 mBusyApiid[2];
     /* 004 */ void *mUnk_004;
-    /* 008 */ u8 mUnk_008[4];
+    /* 008 */ u8 mScanContinue[4];
     /* 00c */ u32 mMpFlag;
     /* 010 */ u32 mDcfFlag;
     /* 014 */ u8 mUnk_014[0x32];
     /* 046 */ u16 mMpRecvBufSize;
-    /* 048 */ u8 mUnk_048[8];
+    /* 048 */ u8 mMpRecvBuf[8];
     /* 050 */ void *mMpSendBuf;
     /* 054 */ u8 mUnk_054[0x32];
     /* 086 */ u16 mMpReadyBitmap;
@@ -285,7 +285,7 @@ typedef struct ScanParam {
     /* 04 */ u16 mChannel;
     /* 06 */ u16 mMaxChannelTime;
     /* 08 */ u8 mBssid[6];
-    /* 0e */ u16 mUnk_0e[9];
+    /* 0e */ u16 mReserved[9];
 } ScanParam;
 
 // Request WM_StartScan writes into the request area.
@@ -305,9 +305,9 @@ typedef struct ParentParameter {
     /* 0c */ u16 mTgid;
     /* 0e */ u16 mEntryFlag;
     /* 10 */ u16 mMaxEntry;
-    /* 12 */ u8 mUnk_12[2];
+    /* 12 */ u8 mMultiBootFlag[2];
     /* 14 */ u16 mKsFlag;
-    /* 16 */ u8 mUnk_16[2];
+    /* 16 */ u8 mCsFlag[2];
     /* 18 */ u16 mBeaconPeriod;
     /* 1a */ u8 mUnk_1a[0x18];
     /* 32 */ u16 mChannel;

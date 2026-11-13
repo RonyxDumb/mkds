@@ -17,7 +17,7 @@ typedef struct NNSSndSeqPlayer {
     /* 2f */ u8 mPrepareFlag;
     /* 30 */ u32 mCommandTag;
     /* 34 */ u16 mSeqType;
-    /* 36 */ u8 mUnk_36[2];
+    /* 36 */ u8 mPad2[2];
     /* 38 */ u16 mSeqNo;
     /* 3a */ u16 mSeqArcIndex;
     /* 3c */ u8 mPlayerNo;
@@ -25,7 +25,7 @@ typedef struct NNSSndSeqPlayer {
     /* 3e */ s16 mVolume;
     /* 40 */ u8 mInitVolume;
     /* 41 */ u8 mExtVolume;
-    /* 42 */ u8 mUnk_42[2];
+    /* 42 */ u8 mPad3[2];
 } NNSSndSeqPlayer;
 
 #include "code_0212d214.h"
