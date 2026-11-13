@@ -46,7 +46,7 @@ u8 data_020da414_pad = 0;
 const MapObjectKindDescriptor gKuriboKindDescriptor = {0,
                                                    {0, 0},
                                                    0x108,
-                                                   (void (*)(void *, CourseMapRow *, void *)) InitKuribo,
+                                                   InitKuribo,
                                                    CreateKuriboKindData,
                                                    (MapObjectList * (*) (void) ) CreateKuriboDrawList,
                                                    0,

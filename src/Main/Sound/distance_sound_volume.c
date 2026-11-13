@@ -6,7 +6,7 @@
 MapObjectKindDescriptor gDistanceSoundKindDescriptor = {0,
                                                         {0, 0},
                                                         0xcc,
-                                                        (void (*)(void *, CourseMapRow *, void *)) InitDistanceSound,
+                                                        InitDistanceSound,
                                                         CreateEmptyMapObjectKindData,
                                                         0,
                                                         0,

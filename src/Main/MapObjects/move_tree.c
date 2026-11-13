@@ -50,7 +50,7 @@ MapObjectModel *gMoveTree;
 MapObjectKindDescriptor gMoveTreeKindDescriptor = {0,
                                                    {0, 0},
                                                    0x110,
-                                                   (void (*)(void *, CourseMapRow *, void *)) InitMoveTree,
+                                                   InitMoveTree,
                                                    CreateMoveTreeKindData,
                                                    CreateMoveTreeDrawList,
                                                    0,

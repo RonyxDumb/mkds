@@ -29,7 +29,7 @@ const u16 gCrabLaunchFlag = 1;
 MapObjectKindDescriptor gCrabKindDescriptor = {0,
                                                {0, 0},
                                                0x118,
-                                               (void (*)(void *, CourseMapRow *, void *)) InitCrab,
+                                               InitCrab,
                                                CreateCrabKindData,
                                                CreateCrabDrawList,
                                                0,

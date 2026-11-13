@@ -9,7 +9,7 @@ const Vec3 gJgMatrixRow1Source = {0, 0x1000, 0};
 const MapObjectKindDescriptor gWoodbox1KindDescriptor = {0,
                                                          {0, 0},
                                                          0x148,
-                                                         (void (*)(void *, CourseMapRow *, void *)) InitWoodbox1,
+                                                         InitWoodbox1,
                                                          (MapObjectKindData *(*)(void)) CreateWoodbox1KindData,
                                                          (MapObjectList *(*)(void)) CreateWoodbox1DrawList,
                                                          NULL,

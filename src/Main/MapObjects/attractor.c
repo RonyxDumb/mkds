@@ -453,7 +453,7 @@ void CallMapObjectListCallback(MapObjectList *list) {
 const MapObjectKindDescriptor gAttractorKindDescriptor = {0,
                                                           {0, 0},
                                                           0xa4,
-                                                          (void (*)(void *, CourseMapRow *, void *)) InitAttractorMapObject,
+                                                          InitAttractorMapObject,
                                                           CreateAttractorKindData,
                                                           0,
                                                           0,

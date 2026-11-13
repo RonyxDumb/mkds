@@ -21,7 +21,7 @@
 MapObjectKindDescriptor gTeresaSpawnerKindDescriptor = {0,
                                                         {0, 0},
                                                         0xb0,
-                                                        (void (*)(void *, CourseMapRow *, void *)) InitTeresaSpawner,
+                                                        InitTeresaSpawner,
                                                         CreateTeresaSpawnerKindData,
                                                         0,
                                                         0,

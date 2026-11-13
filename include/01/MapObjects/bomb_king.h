@@ -13,7 +13,7 @@ typedef struct ItemObject ItemObject;
 
 MapObjectList *CreateBombKingUpdateList(void);
 MapObjectList *CreateBombKingDrawList(void);
-void CreateBombKingKindData(void);
+MapObjectKindData *CreateBombKingKindData(void);
 void DrawBombKing(void *mapObjectList, MissionRunMapObject *mapObject);
 void InitBombKing(MapObjectList *list);
 void BombKingItemHitCallback(MissionRunMapObject *mapObject, ItemObject *itemObject);

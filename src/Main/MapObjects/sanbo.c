@@ -41,7 +41,7 @@ void InitSanbo(Sanbo *sanbo) {
 MapObjectKindDescriptor gSanboKindDescriptor = {0,
                                              {0, 0},
                                              0x200,
-                                             (void (*)(void *, CourseMapRow *, void *)) InitSanbo,
+                                             InitSanbo,
                                              CreateSanboKindData,
                                              CreateSanboDrawList,
                                              0,

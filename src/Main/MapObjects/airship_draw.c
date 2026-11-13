@@ -17,7 +17,7 @@ MapObjectModel *gAirship;
 MapObjectKindDescriptor gCourseMapRowKindDescriptor = {0,
                                              {0, 0},
                                              0xa0,
-                                             (void (*)(void *, CourseMapRow *, void *)) InitCourseMapRowKindData,
+                                             InitCourseMapRowKindData,
                                              CreateCourseMapRowKindData};
 MapObjectKindDescriptor gAirshipKindDescriptor = {
     0, {0, 0}, 0xf0, 0, CreateEmptyMapObjectKindData, CreateAirshipDrawList, 0, 0, CreateAirshipUpdateList};

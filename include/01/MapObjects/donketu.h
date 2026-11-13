@@ -71,7 +71,7 @@
 MapObjectList *CreateDonketuUpdateList(void);
 MapObjectList *CreateKingIceDonketuDrawList(void);
 MapObjectList *CreateBossDonketuDrawList(void);
-void CreateDonketuKindData(void);
+MapObjectKindData *CreateDonketuKindData(void);
 void DrawDonketu(void *mapObjectList, MissionRunMapObject *donketu);
 void InitKingIceDonketu(MapObjectList *list);
 void InitBossDonketu(MapObjectList *list);

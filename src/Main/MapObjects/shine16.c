@@ -59,7 +59,7 @@
 MapObjectKindDescriptor gShine16KindDescriptor = {0,
                                              {0, 0},
                                              0xec,
-                                             (void (*)(void *, CourseMapRow *, void *)) InitShine16,
+                                             InitShine16,
                                              CreateShine16KindData,
                                              CreateShine16DrawList,
                                              CreateShine16ShadowDrawList,

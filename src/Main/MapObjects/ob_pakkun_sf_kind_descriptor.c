@@ -5,7 +5,7 @@
 const MapObjectKindDescriptor gObPakkunSfKindDescriptor = {0,
                                                            {0, 0},
                                                            0xbc,
-                                                           (void (*)(void *, CourseMapRow *, void *)) InitObPakkunSf,
+                                                           InitObPakkunSf,
                                                            CreateObPakkunSfKindData,
                                                            (MapObjectList * (*) (void) ) CreateObPakkunSfDrawList,
                                                            0,

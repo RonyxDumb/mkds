@@ -49,7 +49,7 @@ extern MapObjectKindDescriptor gIwanteHandsKindDescriptor;
 MapObjectList *CreateIwanteHandsUpdateList(void);
 MapObjectList *CreateIwanteUpdateList(void);
 MapObjectList *CreateIwanteDrawList(void);
-void CreateIwanteKindData(void);
+MapObjectKindData *CreateIwanteKindData(void);
 void DrawIwante(void *mapObjectList, MissionRunMapObject *mapObject);
 void InitIwante(MapObjectList *mapObjectList);
 void UpdateIwante(u32 mapObjectList, MissionRunMapObject *mapObject);

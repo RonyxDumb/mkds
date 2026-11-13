@@ -6,7 +6,7 @@ const u16 gChoropuInitFlag = 0x200;
 const MapObjectKindDescriptor gChoropuKindDescriptor = {0,
                                                         {0, 0},
                                                         0xf0,
-                                                        (void (*)(void *, CourseMapRow *, void *)) InitChoropu,
+                                                        InitChoropu,
                                                         CreateChoropuKindData,
                                                         (MapObjectList *(*)(void)) CreateChoropuDrawList,
                                                         (MapObjectList *(*)(void)) CreateChoropuShadowDrawList,

@@ -58,8 +58,8 @@
 #include "Main/Sound/data_0210b000.h"
 #include "Main/MapObjects/data_0217c000.h"
 
-MapObjectKindDescriptor gBossDonketuKindDescriptor = {0, {0, 0}, 0x30c, (void (*)(void *, CourseMapRow *, void *)) InitDonketuSoundSource, (MapObjectKindData *(*)(void)) CreateDonketuKindData, CreateBossDonketuDrawList, NULL, NULL, CreateDonketuUpdateList, NULL, {NULL, NULL, NULL, NULL}};
-MapObjectKindDescriptor gKingIceDonketuKindDescriptor = {0, {0, 0}, 0x30c, (void (*)(void *, CourseMapRow *, void *)) InitDonketuSoundSource, (MapObjectKindData *(*)(void)) CreateDonketuKindData, CreateKingIceDonketuDrawList, NULL, NULL, CreateDonketuUpdateList, NULL, {NULL, NULL, NULL, NULL}};
+MapObjectKindDescriptor gBossDonketuKindDescriptor = {0, {0, 0}, 0x30c, InitDonketuSoundSource, CreateDonketuKindData, CreateBossDonketuDrawList, NULL, NULL, CreateDonketuUpdateList, NULL, {NULL, NULL, NULL, NULL}};
+MapObjectKindDescriptor gKingIceDonketuKindDescriptor = {0, {0, 0}, 0x30c, InitDonketuSoundSource, CreateDonketuKindData, CreateKingIceDonketuDrawList, NULL, NULL, CreateDonketuUpdateList, NULL, {NULL, NULL, NULL, NULL}};
 
 void StartBossDonketuStepEffectFirst(MissionRunMapObject *mapObject) {
     StartMapObjectSound(&mapObject->mUnk_000, 0x0000020fu);
@@ -798,13 +798,13 @@ void DrawDonketu(void *mapObjectList, MissionRunMapObject *donketu) {
     DrawMissionRunMapObjectShadow(mapObjectList, donketu, 0);
 }
 
-void CreateDonketuKindData(void) {
+MapObjectKindData *CreateDonketuKindData(void) {
     u32 v4 = 0x23eu;
     void *kartCollisionCallback = &CollideKartWithMissionRunMapObject;
     void *itemCollisionCallback = &CollideItemWithMissionRunMapObject;
     void *sphereHitCallback = &ComputeSphereHitOnMissionRunMapObject;
-    void *kindData = CreateMapObjectKindDataWithSoundIds(kartCollisionCallback, itemCollisionCallback,
-                                                         sphereHitCallback, 0x2u, 0x1u, v4, 0x0u);
+    return CreateMapObjectKindDataWithSoundIds(kartCollisionCallback, itemCollisionCallback,
+                                               sphereHitCallback, 0x2u, 0x1u, v4, 0x0u);
 }
 
 MapObjectList *CreateBossDonketuDrawList(void) {

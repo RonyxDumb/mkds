@@ -50,7 +50,7 @@
 MapObjectKindDescriptor gFireball2KindDescriptor = {0,
                                              {0, 0},
                                              0x19e8,
-                                             (void (*)(void *, CourseMapRow *, void *)) InitFireball2,
+                                             InitFireball2,
                                              CreateFireball2KindData,
                                              CreateFireball2DrawList,
                                              0,

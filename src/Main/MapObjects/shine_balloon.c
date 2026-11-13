@@ -29,7 +29,7 @@
 MapObjectKindDescriptor gShineBalloonKindDescriptor = {0,
                                                        {0, 0},
                                                        0xb4,
-                                                       (void (*)(void *, CourseMapRow *, void *)) InitShineBalloon,
+                                                       InitShineBalloon,
                                                        (MapObjectKindData * (*) (void) ) CreateShineBalloonKindData,
                                                        CreateShineBalloonDrawList,
                                                        NULL,
@@ -151,8 +151,8 @@ void UpdateShineBalloon(void *mapObjectList, ShineBalloonObject *shineBalloonObj
     }
 }
 
-void CreateShineBalloonKindData(void) {
-    CreateMapObjectKindData(NULL, NULL, NULL, 1, 0);
+MapObjectKindData *CreateShineBalloonKindData(void) {
+    return CreateMapObjectKindData(NULL, NULL, NULL, 1, 0);
 }
 
 MapObjectList *CreateShineBalloonDrawList(void) {

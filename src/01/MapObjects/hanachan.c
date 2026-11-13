@@ -74,8 +74,8 @@
 
 const u32 gHanachanSkipKindSoundFlag = 0x40000000;
 SoundStartParams gHanachanEndSoundParams = {0x250, NULL, 0xd, 0};
-MapObjectKindDescriptor gHanachanKindDescriptor = {0, {0, 0}, 0x30c, (void (*)(void *, CourseMapRow *, void *)) InitHanachanMapObject, (MapObjectKindData *(*)(void)) CreateHanachanKindData, CreateHanachanDrawList, NULL, NULL, CreateHanachanUpdateList, NULL, {NULL, NULL, NULL, NULL}};
-MapObjectKindDescriptor gHanachanFollowerKindDescriptor = {0, {0, 0}, 0x30c, (void (*)(void *, CourseMapRow *, void *)) InitHanachanFollowerMapObject, (MapObjectKindData *(*)(void)) CreateHanachanFollowerKindData, CreateHanachanFollowerDrawList, NULL, NULL, CreateHanachanFollowerUpdateList, NULL, {NULL, NULL, NULL, NULL}};
+MapObjectKindDescriptor gHanachanKindDescriptor = {0, {0, 0}, 0x30c, InitHanachanMapObject, CreateHanachanKindData, CreateHanachanDrawList, NULL, NULL, CreateHanachanUpdateList, NULL, {NULL, NULL, NULL, NULL}};
+MapObjectKindDescriptor gHanachanFollowerKindDescriptor = {0, {0, 0}, 0x30c, InitHanachanFollowerMapObject, CreateHanachanFollowerKindData, CreateHanachanFollowerDrawList, NULL, NULL, CreateHanachanFollowerUpdateList, NULL, {NULL, NULL, NULL, NULL}};
 
 void HanachanItemHitCallback(MissionRunMapObject *mapObject) {
     mapObject->mUnk_2e0 = 0;
@@ -782,12 +782,11 @@ void DrawHanachan(void *mapObjectList, MissionRunMapObject *mapObject) {
     DrawMissionRunMapObjectShadow(mapObjectList, mapObject, 0);
 }
 
-void CreateHanachanKindData(void) {
+MapObjectKindData *CreateHanachanKindData(void) {
     void *kartCollision = &CollideKartWithMissionRunMapObject;
     void *itemCollision = &CollideItemWithMissionRunMapObject;
     void *sphereHit = &ComputeSphereHitOnMissionRunMapObject;
-    void *kindData =
-        CreateMapObjectKindDataWithSoundIds(kartCollision, itemCollision, sphereHit, 0x2u, 0x1u, 0x0u, 0x0u);
+    return CreateMapObjectKindDataWithSoundIds(kartCollision, itemCollision, sphereHit, 0x2u, 0x1u, 0x0u, 0x0u);
 }
 
 MapObjectList *CreateHanachanDrawList(void) {
@@ -798,12 +797,11 @@ MapObjectList *CreateHanachanUpdateList(void) {
     return CreateMapObjectUpdateList(InitHanachanObjects, UpdateHanachan, NULL);
 }
 
-void CreateHanachanFollowerKindData(void) {
+MapObjectKindData *CreateHanachanFollowerKindData(void) {
     void *kartCollision = &CollideKartWithMissionRunMapObject;
     void *itemCollision = &CollideItemWithMissionRunMapObject;
     void *sphereHit = &ComputeSphereHitOnMissionRunMapObject;
-    void *kindData =
-        CreateMapObjectKindDataWithSoundIds(kartCollision, itemCollision, sphereHit, 0x2u, 0x1u, 0x0u, 0x0u);
+    return CreateMapObjectKindDataWithSoundIds(kartCollision, itemCollision, sphereHit, 0x2u, 0x1u, 0x0u, 0x0u);
 }
 
 MapObjectList *CreateHanachanFollowerDrawList(void) {

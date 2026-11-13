@@ -49,7 +49,7 @@ MapObjectModel *gNsKiller1;
 MapObjectKindDescriptor gNsKiller1KindDescriptor = {0,
                                                     {0, 0},
                                                     0xd0,
-                                                    (void (*)(void *, CourseMapRow *, void *)) InitNsKiller1,
+                                                    InitNsKiller1,
                                                     CreateEmptyMapObjectKindData,
                                                     CreateNsKiller1DrawList,
                                                     0,

@@ -6,7 +6,7 @@ const u16 gBridgeInitFlag = 1;
 const MapObjectKindDescriptor gBridgeKindDescriptor = {0,
                                                        {0, 0},
                                                        0x158,
-                                                       (void (*)(void *, CourseMapRow *, void *)) InitBridge,
+                                                       InitBridge,
                                                        CreateBridgeKindData,
                                                        (MapObjectList *(*)(void)) CreateBridgeDrawList,
                                                        NULL,

@@ -77,7 +77,7 @@
 #include "01/MapObjects/king_teresa.h"
 #include "Main/MapObjects/bound.h"
 
-MapObjectKindDescriptor gIwanteKindDescriptor = {0, {0, 0}, 0x30c, (void (*)(void *, CourseMapRow *, void *)) InitIwanteSoundSource, (MapObjectKindData *(*)(void)) CreateIwanteKindData, CreateIwanteDrawList, NULL, NULL, CreateIwanteUpdateList, NULL, {NULL, NULL, NULL, NULL}};
+MapObjectKindDescriptor gIwanteKindDescriptor = {0, {0, 0}, 0x30c, InitIwanteSoundSource, CreateIwanteKindData, CreateIwanteDrawList, NULL, NULL, CreateIwanteUpdateList, NULL, {NULL, NULL, NULL, NULL}};
 SoundStartParams gIwanteEndSoundParams = {0x217, NULL, 0xc, 0};
 MapObjectKindDescriptor gIwanteHandsKindDescriptor = {0, {0, 0}, 0x30c, NULL, CreateEmptyMapObjectKindData, NULL, NULL, NULL, CreateIwanteHandsUpdateList, NULL, {NULL, NULL, NULL, NULL}};
 
@@ -1419,14 +1419,14 @@ void DrawIwante(void *mapObjectList, MissionRunMapObject *mapObject) {
     DrawMissionRunMapObjectShadow(mapObjectList, mapObject, 0);
 }
 
-void CreateIwanteKindData(void) {
+MapObjectKindData *CreateIwanteKindData(void) {
     u32 soundId = 0x21au;
     u32 collideItemSoundId = 0x216u;
     void *kartCollision = &CollideKartWithMissionRunMapObject;
     void *itemCollision = &CollideItemWithMissionRunMapObject;
     void *sphereHit = &ComputeSphereHitOnMissionRunMapObject;
-    void *kindData = CreateMapObjectKindDataWithSoundIds(kartCollision, itemCollision, sphereHit, 0x2u, 0x1u, soundId,
-                                                         collideItemSoundId);
+    return CreateMapObjectKindDataWithSoundIds(kartCollision, itemCollision, sphereHit, 0x2u, 0x1u, soundId,
+                                               collideItemSoundId);
 }
 
 MapObjectList *CreateIwanteDrawList(void) {

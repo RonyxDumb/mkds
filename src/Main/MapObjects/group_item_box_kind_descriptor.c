@@ -7,7 +7,7 @@ const MapObjectKindDescriptor gGroupItemBoxKindDescriptor = {
     0,
     {0, 0},
     0x140,
-    (void (*)(void *, CourseMapRow *, void *)) InitGroupItemBox,
+    InitGroupItemBox,
     CreateGroupItemBoxKindData,
     CreateItemBoxShadowDrawList,
     CreateQuestionDrawList,

@@ -6,7 +6,7 @@ const u16 gKoopaBlockFlag = 1;
 const MapObjectKindDescriptor gKoopaBlockKindDescriptor = {0,
                                                            {0, 0},
                                                            0x170,
-                                                           (void (*)(void *, CourseMapRow *, void *)) InitKoopaBlock,
+                                                           InitKoopaBlock,
                                                            CreateKoopaBlockKindData,
                                                            (MapObjectList *(*)(void)) CreateKoopaBlockDrawList,
                                                            NULL,

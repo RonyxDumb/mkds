@@ -44,7 +44,7 @@ const MapObjectKindDescriptor data_usa_0215a034 = {
     0,
     {0, 0},
     0x144,
-    (void (*)(void *, CourseMapRow *, void *)) InitMissionRunBoxMapObject,
+    InitMissionRunBoxMapObject,
     CreateMissionRunBoxKindData,
     NULL,
     NULL,

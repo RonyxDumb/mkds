@@ -43,7 +43,7 @@ const u32 gFlipperSkipSoundFlag = 0x40000000;
 MapObjectKindDescriptor gPakkunKindDescriptor = {0,
                                                  {0, 0},
                                                  0x200,
-                                                 (void (*)(void *, CourseMapRow *, void *)) InitPakkun,
+                                                 InitPakkun,
                                                  CreateEmptyMapObjectKindData,
                                                  CreatePakkunMouthDrawList,
                                                  CreatePakkunBodyDrawList,

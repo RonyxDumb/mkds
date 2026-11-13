@@ -23,7 +23,7 @@ void StartShineBalloon(Kart *kart);
 MapObjectList *CreateShineBalloonUpdateList(void);
 MapObjectList *CreateShineBalloonDrawList(void);
 
-void CreateShineBalloonKindData(void);
+MapObjectKindData *CreateShineBalloonKindData(void);
 
 /* skipped for objects with mFlags & 4 (parked pool objects) */
 void UpdateShineBalloon(void *mapObjectList, ShineBalloonObject *shineBalloonObject);

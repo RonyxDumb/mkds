@@ -84,7 +84,8 @@ typedef struct MapObjectKindDescriptor {
     /* 00 */ u16 mObjectCount;
     /* 02 */ u8 mUnk_02[2];
     /* 04 */ s32 mObjectSize;
-    /* 08 */ void (*mInitObject)(void *a, CourseMapRow *b, void *c);
+    // Each kind's init takes its own object type and uses only some of the three arguments, so no parameter list.
+    /* 08 */ void (*mInitObject)();
     /* 0c */ MapObjectKindData *(*mCreateKindData)(void);
     /* 10 */ MapObjectList *(*mCreateDrawList0)(void);
     /* 14 */ MapObjectList *(*mCreateDrawList1)(void);

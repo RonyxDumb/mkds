@@ -43,7 +43,7 @@ MapObjectModel *gBasabasa;
 MapObjectKindDescriptor gBasabasaKindDescriptor = {0,
                                                    {0, 0},
                                                    0xd8,
-                                                   (void (*)(void *, CourseMapRow *, void *)) InitBasabasa,
+                                                   InitBasabasa,
                                                    CreateBasabasaKindData,
                                                    CreateBasabasaDrawList,
                                                    0,

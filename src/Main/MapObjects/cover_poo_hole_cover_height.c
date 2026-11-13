@@ -659,7 +659,7 @@ MapObjectModel *gHole;
 MapObjectKindDescriptor gCoverPooHoleKindDescriptor = {0,
                                                        {0, 0},
                                                        0x10c,
-                                                       (void (*)(void *, CourseMapRow *, void *)) InitCoverPooHole,
+                                                       InitCoverPooHole,
                                                        CreateCoverPooHoleKindData,
                                                        CreateCoverPooHoleDrawList,
                                                        0,

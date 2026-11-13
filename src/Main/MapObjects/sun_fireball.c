@@ -27,7 +27,7 @@ const u16 gBoundInitMapObjectFlag = 0x200;
 MapObjectKindDescriptor gSunFireballKindDescriptor = {0,
                                              {0, 0},
                                              0xc4,
-                                             (void (*)(void *, CourseMapRow *, void *)) InitSunFireball,
+                                             InitSunFireball,
                                              CreateSunFireballKindData,
                                              0,
                                              0,

@@ -26,7 +26,7 @@
 const MapObjectKindDescriptor gEarthenPipeKindDescriptor = {0,
                                                             {0, 0},
                                                             0xb8,
-                                                            (void (*)(void *, CourseMapRow *, void *)) InitEarthenPipe,
+                                                            InitEarthenPipe,
                                                             CreateEarthenPipeKindData,
                                                             (MapObjectList *(*)(void)) CreateEarthenPipeDrawList,
                                                             0,

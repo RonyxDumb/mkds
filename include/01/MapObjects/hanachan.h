@@ -12,10 +12,10 @@ typedef struct MapObjectList MapObjectList;
 
 MapObjectList *CreateHanachanFollowerUpdateList(void);
 MapObjectList *CreateHanachanFollowerDrawList(void);
-void CreateHanachanFollowerKindData(void);
+MapObjectKindData *CreateHanachanFollowerKindData(void);
 MapObjectList *CreateHanachanUpdateList(void);
 MapObjectList *CreateHanachanDrawList(void);
-void CreateHanachanKindData(void);
+MapObjectKindData *CreateHanachanKindData(void);
 void DrawHanachan(void *mapObjectList, MissionRunMapObject *mapObject);
 void InitHanachanFollower(MapObjectList *mapObjectList);
 void InitHanachan(MapObjectList *mapObjectList);

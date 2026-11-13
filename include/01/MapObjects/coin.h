@@ -63,7 +63,7 @@ typedef struct Coin {
 MapObjectList *CreateCoinUpdateList(void);
 MapObjectList *CreateCoinShadowDrawList(void);
 MapObjectList *CreateCoinDrawList(void);
-void CreateCoinKindData(void);
+MapObjectKindData *CreateCoinKindData(void);
 void UpdateCoin(void *mapObjectList, Coin *coin);
 void CoinBeforeObjectsNop(void);
 void InitCoinObjects(MapObjectList *coinList);

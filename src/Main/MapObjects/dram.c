@@ -184,7 +184,7 @@ void UpdateDramState5(Dram *dram) {
 const MapObjectKindDescriptor gDramKindDescriptor = {0,
                                                    {0, 0},
                                                    0xc0,
-                                                   (void (*)(void *, CourseMapRow *, void *)) InitDram,
+                                                   InitDram,
                                                    CreateDramKindData,
                                                    (MapObjectList * (*) (void) ) CreateDramDrawList,
                                                    0,

@@ -7,7 +7,7 @@ const u32 gItemBoxInitDistanceFlag = 0x10;
 const MapObjectKindDescriptor gItemBoxKindDescriptor = {0,
                                                         {0, 0},
                                                         0x108,
-                                                        (void (*)(void *, CourseMapRow *, void *)) InitItemBox,
+                                                        InitItemBox,
                                                         CreateItemBoxKindData,
                                                         CreateItemBoxShadowDrawList,
                                                         CreateQuestionDrawList,

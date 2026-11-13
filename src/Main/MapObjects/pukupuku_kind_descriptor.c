@@ -5,7 +5,7 @@
 const MapObjectKindDescriptor gPukupukuKindDescriptor = {0,
                                                          {0, 0},
                                                          0x10c,
-                                                         (void (*)(void *, CourseMapRow *, void *)) InitPukupuku,
+                                                         InitPukupuku,
                                                          CreatePukupukuKindData,
                                                          (MapObjectList *(*)(void)) CreatePukupukuDrawList,
                                                          (MapObjectList *(*)(void)) CreatePukupukuShadowDrawList,

@@ -50,7 +50,7 @@ MapObjectModel *gSunLOD;
 MapObjectKindDescriptor gSunKindDescriptor = {0,
                                              {0, 0},
                                              0xe0,
-                                             (void (*)(void *, CourseMapRow *, void *)) InitSun,
+                                             InitSun,
                                              CreateEmptyMapObjectKindData,
                                              CreateSunDrawList,
                                              0,

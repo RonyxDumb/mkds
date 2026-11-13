@@ -51,7 +51,7 @@ u32 gUnparkedTeresaCount;
 MapObjectKindDescriptor gTeresaKindDescriptor = {0,
                                                  {0, 0},
                                                  0x114,
-                                                 (void (*)(void *, CourseMapRow *, void *)) InitTeresa,
+                                                 InitTeresa,
                                                  CreateEmptyMapObjectKindData,
                                                  CreateTeresaDrawList,
                                                  0,

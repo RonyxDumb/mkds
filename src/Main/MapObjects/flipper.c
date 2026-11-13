@@ -48,7 +48,7 @@ const Vec3 gFlipperThirdBoxHalfSizesPositive[2] = {{-40960, 0x3c000, 0x32000}, {
 MapObjectKindDescriptor gFlipperKindDescriptor = {0,
                                                   {0, 0},
                                                   0xef4,
-                                                  (void (*)(void *, CourseMapRow *, void *)) InitFlipper,
+                                                  InitFlipper,
                                                   CreateFlipperKindData,
                                                   CreateFlipperDrawList,
                                                   0,

@@ -32,7 +32,7 @@ const u16 gFlipperInitMapObjectFlag = 0x200;
 MapObjectKindDescriptor gPakkunSpitKindDescriptor = {0,
                                                      {0, 0},
                                                      0xd4,
-                                                     (void (*)(void *, CourseMapRow *, void *)) InitPakkunSpit,
+                                                     InitPakkunSpit,
                                                      CreatePakkunSpitKindData,
                                                      0,
                                                      0,

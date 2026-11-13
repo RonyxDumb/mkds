@@ -21,7 +21,7 @@
 MapObjectKindDescriptor gBasabasaBurstKindDescriptor = {0,
                                                         {0, 0},
                                                         0xb0,
-                                                        (void (*)(void *, CourseMapRow *, void *)) InitBasabasaBurst,
+                                                        InitBasabasaBurst,
                                                         CreateEmptyMapObjectKindData,
                                                         0,
                                                         0,

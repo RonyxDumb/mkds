@@ -48,7 +48,7 @@ MapObjectModel *gKanoke64;
 MapObjectKindDescriptor gKanoke64KindDescriptor = {0,
                                                    {0, 0},
                                                    0xb0,
-                                                   (void (*)(void *, CourseMapRow *, void *)) InitKanoke64,
+                                                   InitKanoke64,
                                                    CreateEmptyMapObjectKindData,
                                                    CreateKanoke64DrawList,
                                                    0,

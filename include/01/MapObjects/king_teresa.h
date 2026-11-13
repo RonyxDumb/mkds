@@ -10,7 +10,7 @@ typedef struct Kart Kart;
 
 MapObjectList *CreateKingTeresaUpdateList(void);
 MapObjectList *CreateKingTeresaDrawList(void);
-void CreateKingTeresaKindData(void);
+MapObjectKindData *CreateKingTeresaKindData(void);
 void DrawKingTeresa(void *mapObjectList, MissionRunMapObject *mapObject);
 void InitKingTeresa(MapObjectList *mapObjectList);
 void UpdateKingTeresa(u32 unused, MissionRunMapObject *mapObject);

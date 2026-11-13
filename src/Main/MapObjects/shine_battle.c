@@ -21,7 +21,7 @@ const MapObjectKindDescriptor gShineBattleKindDescriptor = {
     0,
     {0, 0},
     0xac,
-    (void (*)(void *, CourseMapRow *, void *)) InitShineBattleObjects,
+    InitShineBattleObjects,
     CreateShineBattleKindData,
     0,
     0,

@@ -12,7 +12,7 @@ extern MapObjectKindDescriptor gKurikingKindDescriptor;
 
 MapObjectList *CreateKurikingUpdateList(void);
 MapObjectList *CreateKurikingDrawList(void);
-void CreateKurikingKindData(void);
+MapObjectKindData *CreateKurikingKindData(void);
 void DrawKuriking(
     void *mapObjectList,
     MissionRunMapObject *mapObject); /* only calls the two draw helpers shared with five other ov001 draw callbacks */

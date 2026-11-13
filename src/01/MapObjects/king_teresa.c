@@ -80,7 +80,7 @@
 #include "code_02147cd8.h"
 #include "Main/MapObjects/data_0217a000.h"
 
-MapObjectKindDescriptor gKingTeresaKindDescriptor = {0, {0, 0}, 0x30c, (void (*)(void *, CourseMapRow *, void *)) InitKingTeresaMapObject, (MapObjectKindData *(*)(void)) CreateKingTeresaKindData, CreateKingTeresaDrawList, NULL, NULL, CreateKingTeresaUpdateList, NULL, {NULL, NULL, NULL, NULL}};
+MapObjectKindDescriptor gKingTeresaKindDescriptor = {0, {0, 0}, 0x30c, InitKingTeresaMapObject, CreateKingTeresaKindData, CreateKingTeresaDrawList, NULL, NULL, CreateKingTeresaUpdateList, NULL, {NULL, NULL, NULL, NULL}};
 
 u16 IsIwanteWalkB(MissionRunMapObject *mapObject) {
     return mapObject->mUnk_0a8 == 2;
@@ -818,12 +818,11 @@ void DrawKingTeresa(void *mapObjectList, MissionRunMapObject *mapObject) {
     DrawMissionRunMapObjectShadow(mapObjectList, mapObject, 1);
 }
 
-void CreateKingTeresaKindData(void) {
+MapObjectKindData *CreateKingTeresaKindData(void) {
     void *kartCollision = &CollideKartWithMissionRunMapObject;
     void *itemCollision = &CollideItemWithMissionRunMapObject;
     void *sphereHit = &ComputeSphereHitOnMissionRunMapObject;
-    void *kindData =
-        CreateMapObjectKindDataWithSoundIds(kartCollision, itemCollision, sphereHit, 0x2u, 0x0u, 0x0u, 0x0u);
+    return CreateMapObjectKindDataWithSoundIds(kartCollision, itemCollision, sphereHit, 0x2u, 0x0u, 0x0u, 0x0u);
 }
 
 MapObjectList *CreateKingTeresaDrawList(void) {

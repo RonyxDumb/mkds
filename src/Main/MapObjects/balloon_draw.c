@@ -36,7 +36,7 @@ Vec3 gBalloonCameraPosHalf;
 MapObjectKindDescriptor gBalloonKindDescriptor = {0,
                                              {0, 0},
                                              0x100,
-                                             (void (*)(void *, CourseMapRow *, void *)) InitBalloon,
+                                             InitBalloon,
                                              CreateEmptyMapObjectKindData,
                                              CreateBalloonDrawList,
                                              0,

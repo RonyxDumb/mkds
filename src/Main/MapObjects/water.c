@@ -45,12 +45,12 @@ const u32 gWaterCMaterialName[4] = {0x65746177, 0x4372, 0, 0};
 const MapObjectKindDescriptor gWaterKindDescriptor = {0,
                                                    {0, 0},
                                                    0xa0,
-                                                   (void (*)(void *, CourseMapRow *, void *)) InitWater,
+                                                   InitWater,
                                                    CreateWaterKindData};
 const MapObjectKindDescriptor gWaterEfctKindDescriptor = {0,
                                                    {0, 0},
                                                    0xa0,
-                                                   (void (*)(void *, CourseMapRow *, void *)) CreateWaterEfct,
+                                                   CreateWaterEfct,
                                                    CreateWaterEfctKindData};
 Water *gWater;
 MapObject *gWaterMapObject;

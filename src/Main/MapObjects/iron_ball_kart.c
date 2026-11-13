@@ -30,7 +30,7 @@ Vec3 gIronBallInitialScale = {0x4000, 0x4000, 0x4000};
 MapObjectKindDescriptor gIronBallKindDescriptor = {0,
                                              {0, 0},
                                              0x134,
-                                             (void (*)(void *, CourseMapRow *, void *)) InitIronBall,
+                                             InitIronBall,
                                              CreateIronBallKindData,
                                              CreateIronBallDrawList,
                                              CreateIronBallShadowDrawList,
@@ -39,7 +39,7 @@ MapObjectKindDescriptor gIronBallKindDescriptor = {0,
 MapObjectKindDescriptor gIronBallDrawOnlyKindDescriptor = {0,
                                              {0, 0},
                                              0x134,
-                                             (void (*)(void *, CourseMapRow *, void *)) InitIronBall,
+                                             InitIronBall,
                                              CreateEmptyMapObjectKindData,
                                              CreateIronBallDrawList};
 

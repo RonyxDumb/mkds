@@ -4,7 +4,7 @@
 const MapObjectKindDescriptor gKartBalloonsKindDescriptor = {0,
                                                              {0, 0},
                                                              0x364,
-                                                             (void (*)(void *, CourseMapRow *, void *)) InitKartBalloons,
+                                                             InitKartBalloons,
                                                              CreateKartBalloonsKindData,
                                                              0,
                                                              0,

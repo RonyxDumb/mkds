@@ -33,7 +33,7 @@ const MapObjectKindDescriptor gWanwanChainKindDescriptor = {
     0,
     {0, 0},
     0xf8,
-    (void (*)(void *, CourseMapRow *, void *)) InitWanwanChainObject,
+    InitWanwanChainObject,
     CreateWanwanChainKindData,
     (MapObjectList *(*)(void)) CreateWanwanChainDrawList,
     NULL,

@@ -6,7 +6,7 @@ const u16 gMkdEfBubbleInitFlag = 0x200;
 const MapObjectKindDescriptor gMkdEfBubbleKindDescriptor = {0,
                                                             {0, 0},
                                                             0xf4,
-                                                            (void (*)(void *, CourseMapRow *, void *)) InitMkdEfBubble,
+                                                            InitMkdEfBubble,
                                                             CreateMkdEfBubbleKindData,
                                                             (MapObjectList *(*)(void)) CreateMkdEfBubbleDrawList,
                                                             NULL,

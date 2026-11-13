@@ -11,7 +11,7 @@ typedef struct MapObjectModel MapObjectModel;
 
 MapObjectList *CreateMissionGateUpdateList(void);
 MapObjectList *CreateMissionGateDrawList(void);
-void CreateMissionGateKindData(void);
+MapObjectKindData *CreateMissionGateKindData(void);
 void UpdateMissionGate(
     void *unused, MissionGateObject *missionGateObject); /* skipped for objects with mFlags & 4 (parked pool objects) */
 void InitMissionGateObjects(MapObjectList *missionGateList);

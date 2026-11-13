@@ -58,7 +58,7 @@ MapObjectModel *gSmanBottom;
 MapObjectKindDescriptor gSmanKindDescriptor = {0,
                                                {0, 0},
                                                0xcc,
-                                               (void (*)(void *, CourseMapRow *, void *)) InitSman,
+                                               InitSman,
                                                CreateSmanKindData,
                                                CreateSmanTopDrawList,
                                                CreateSmanBottomDrawList,

@@ -4,7 +4,7 @@
 const MapObjectKindDescriptor gPendulumKindDescriptor = {0,
                                                          {0, 0},
                                                          0x110,
-                                                         (void (*)(void *, CourseMapRow *, void *)) InitPendulum,
+                                                         InitPendulum,
                                                          CreatePendulumKindData,
                                                          (MapObjectList * (*) (void) ) CreatePendulumDrawList,
                                                          0,

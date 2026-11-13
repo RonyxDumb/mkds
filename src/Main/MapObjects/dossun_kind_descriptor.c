@@ -5,7 +5,7 @@ const Vec3 gKuriboItemNormal = {0, 0x1000, 0};
 const MapObjectKindDescriptor gDossunKindDescriptor = {0,
                                                        {0, 0},
                                                        0x10c,
-                                                       (void (*)(void *, CourseMapRow *, void *)) InitDossun,
+                                                       InitDossun,
                                                        CreateDossunKindData,
                                                        (MapObjectList *(*)(void)) CreateDossunDrawList,
                                                        0,
