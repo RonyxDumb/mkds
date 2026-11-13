@@ -342,7 +342,7 @@ void RunMessageScreen(void) {
             sleepAllowed = waitDone;
         } else {
             waitDone = TRUE;
-            sleepAllowed = gWiFiSession->mStateMachine.mState == 0;
+            sleepAllowed = gWiFiSession->mStateMachine.mState == WIFI_SESSION_STATE_OFF;
         }
         if (sleepAllowed != 0 && ((SYSTEM_WORK->mButtonXY & 0x8000) >> 15)) {
             PM_GoSleepMode(12, 0, 0);
@@ -470,8 +470,8 @@ u32 IsDataSharingIncomplete(void) {
 BOOL ShouldGoSleepMode(void) {
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT || SceneIsConnectionActive() ||
         (GetCurrentSceneNumber() == 12 && IsWiFiSessionOffOutsideLoginWrapper() == FALSE) ||
-        (GetCurrentSceneNumber() != 12 && gWiFiSession->mStateMachine.mState != 0) || GetCurrentSceneNumber() == 13 ||
-        GetCurrentSceneNumber() == 6) {
+        (GetCurrentSceneNumber() != 12 && gWiFiSession->mStateMachine.mState != WIFI_SESSION_STATE_OFF) ||
+        GetCurrentSceneNumber() == 13 || GetCurrentSceneNumber() == 6) {
         return FALSE;
     }
     return TRUE;
@@ -482,7 +482,7 @@ u32 IsVolatileHalfwordIndex39Ignored(void) {
 
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT || SceneIsConnectionActive() || GetCurrentSceneNumber() == 6 ||
         GetCurrentSceneNumber() == 13 || (GetCurrentSceneNumber() == 12 && IsWiFiSessionOffOutsideLogin() == FALSE) ||
-        (GetCurrentSceneNumber() != 12 && gWiFiSession->mStateMachine.mState != 0)) {
+        (GetCurrentSceneNumber() != 12 && gWiFiSession->mStateMachine.mState != WIFI_SESSION_STATE_OFF)) {
         return 1;
     }
     switch (GetCurrentSceneNumber()) {
@@ -509,15 +509,15 @@ s32 RunMessageScreenOnDisconnect(SceneNumbers *sceneNumbers, s32 flag) {
     result = FALSE;
     if (SceneIsWiFiSessionHeapCreated()) {
         value = CheckWiFiSessionDisconnect();
-        if (flag != 0 && value != 0) {
+        if (flag != 0 && value != WIFI_DISCONNECT_NONE) {
             switch (value) {
-                case 1:
+                case WIFI_DISCONNECT_NO_INPUT:
                     value = 5;
                     break;
-                case 2:
+                case WIFI_DISCONNECT_OPPONENT_LEFT:
                     value = 6;
                     break;
-                case 3:
+                case WIFI_DISCONNECT_ERROR:
                 default:
                     value = 4;
                     break;

@@ -27,7 +27,7 @@
 #include "Main/Save/ghost_record_file.h"
 
 void WiFiRaceSyncReceiveCallback(u32 fromIndex, void *message, u32 size) {
-    if (gWiFiSession->mStateMachine.mState != 5) {
+    if (gWiFiSession->mStateMachine.mState != WIFI_SESSION_STATE_RACE) {
         return;
     }
     if (gWiFiSession->mRaceSyncEnabled == FALSE) {
@@ -55,7 +55,7 @@ void RequestWiFiSessionLogin(void) {
     StateMachine *stateMachine;
 
     stateMachine = &gWiFiSession->mStateMachine;
-    stateMachine->mNextState = 1;
+    stateMachine->mNextState = WIFI_SESSION_STATE_LOGIN;
     stateMachine->mNextStateRequested = 1;
 }
 
@@ -66,7 +66,7 @@ void ReleaseWiFiConnectionWrapper(void) {
 BOOL UpdateWiFiSessionRelease(void) {
     StateMachine *stateMachine;
 
-    if (gWiFiSession->mStateMachine.mState == 0) {
+    if (gWiFiSession->mStateMachine.mState == WIFI_SESSION_STATE_OFF) {
         return 1;
     }
     if (DWC_CleanupInetAsync() == FALSE) {
@@ -74,7 +74,7 @@ BOOL UpdateWiFiSessionRelease(void) {
     }
     ResetWiFiSession();
     stateMachine = &gWiFiSession->mStateMachine;
-    stateMachine->mNextState = 0;
+    stateMachine->mNextState = WIFI_SESSION_STATE_OFF;
     stateMachine->mNextStateRequested = 1;
     return 1;
 }
@@ -97,7 +97,7 @@ void ReleaseWiFiSession(void) {
     DWC_CleanupInet();
     ResetWiFiSession();
     stateMachine = &gWiFiSession->mStateMachine;
-    stateMachine->mNextState = 0;
+    stateMachine->mNextState = WIFI_SESSION_STATE_OFF;
     stateMachine->mNextStateRequested = 1;
 }
 

@@ -658,7 +658,7 @@ void UpdateWiFiRaceSyncState4(void) {
             gWiFiRaceSync->mIdleFrames = gWiFiRaceSync->mIdleFrames + 1;
             if (gWiFiRaceSync->mIdleFrames > WIFI_RACE_SYNC_IDLE_FRAMES) {
                 gWiFiRaceSync->mFlags = gWiFiRaceSync->mFlags | WIFI_RACE_SYNC_FLAG_IDLE_DISCONNECT_SENT;
-                SetWiFiDisconnectKind(1);
+                SetWiFiDisconnectKind(WIFI_DISCONNECT_NO_INPUT);
             }
         } else {
             gWiFiRaceSync->mIdleFrames = 0;
@@ -1059,7 +1059,7 @@ void RemoveDroppedParticipants(void) {
     sessionState = gWiFiSession->mStateMachine.mState;
     firstBlock = gBackupBuffers->mFirstBlock;
     firstBlockCount = firstBlock->mTotals[5];
-    if (sessionState != 0) {
+    if (sessionState != WIFI_SESSION_STATE_OFF) {
         s8 otherKartCount = gWiFiSession->mKartCountCopy - 1;
         if (otherKartCount > 0) {
             if (firstBlockCount < otherKartCount) {
@@ -1075,7 +1075,7 @@ void RemoveDroppedParticipants(void) {
             CARD_WaitBackupAsync();
         }
     }
-    SetWiFiDisconnectKind(2);
+    SetWiFiDisconnectKind(WIFI_DISCONNECT_OPPONENT_LEFT);
 }
 
 void AdvanceWiFiRaceSync(void) {

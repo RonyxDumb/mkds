@@ -136,6 +136,128 @@ typedef struct MenuShared {
     /* 12c */ s32 mIndicesShuffled;
 } MenuShared;
 
+// Values of WiFiSession.mStateMachine.mState: the seven (enter, update) pairs of gWiFiSessionStateTable.
+typedef enum WiFiSessionState {
+    WIFI_SESSION_STATE_OFF = 0,
+    WIFI_SESSION_STATE_LOGIN = 1,
+    WIFI_SESSION_STATE_IDLE = 2, // logged in, nothing running
+    WIFI_SESSION_STATE_SEARCH = 3, // partner search with the registered keys
+    WIFI_SESSION_STATE_EXCHANGE = 4, // message exchange, one WiFiSessionStep at a time
+    WIFI_SESSION_STATE_RACE = 5, // running match, set by the race
+    WIFI_SESSION_STATE_UNUSED = 6, // never requested
+} WiFiSessionState;
+
+// Values of WiFiSession.mStep: the exchange steps, named after what the step's message carries.
+typedef enum WiFiSessionStep {
+    WIFI_SESSION_STEP_EXCHANGE_RECORDS = 0,
+    WIFI_SESSION_STEP_EXCHANGE_SEEDS = 1, // sums the seeds into mRandom and starts the emblem copy
+    WIFI_SESSION_STEP_WAIT_BACKUP = 2, // waits until the backup is idle
+    WIFI_SESSION_STEP_EXCHANGE_CONTINUE_CHOICES = 3,
+    WIFI_SESSION_STEP_CONFIRM_CONTINUE = 4, // ends the session when one kart is left
+    WIFI_SESSION_STEP_EXCHANGE_PICKS = 5, // character and kart picks
+    WIFI_SESSION_STEP_EXCHANGE_PICK_MASKS = 6,
+    WIFI_SESSION_STEP_EXCHANGE_COURSE_PICKS = 7,
+    WIFI_SESSION_STEP_EXCHANGE_COURSE_MASKS = 8, // then tallies the course
+    WIFI_SESSION_STEP_VERIFY_RESULT = 9,
+    WIFI_SESSION_STEP_READY = 10,
+    WIFI_SESSION_STEP_LEAVING = 11, // connections are being closed
+    WIFI_SESSION_STEP_ENDED = 12,
+} WiFiSessionStep;
+
+// Values of the mKind member of WiFiSessionMessage, WiFiSessionMessageHeader and WiFiPlayerRecord; each kind belongs
+// to one step (IsWiFiSessionMessageKindAllowed). Kinds from WIFI_SESSION_MESSAGE_KIND_COUNT up are rejected.
+typedef enum WiFiSessionMessageKind {
+    WIFI_SESSION_MESSAGE_RECORD_REQUEST = 0,
+    WIFI_SESSION_MESSAGE_RECORD = 1,
+    WIFI_SESSION_MESSAGE_RECORDS_SENT = 2,
+    WIFI_SESSION_MESSAGE_PICKS = 3,
+    WIFI_SESSION_MESSAGE_PICK_MASK = 4,
+    WIFI_SESSION_MESSAGE_COURSE_PICK = 5,
+    WIFI_SESSION_MESSAGE_COURSE_MASK = 6,
+    WIFI_SESSION_MESSAGE_RESULT = 7,
+    WIFI_SESSION_MESSAGE_CONTINUE_CHOICE = 8,
+    WIFI_SESSION_MESSAGE_CONTINUE_CONFIRM = 9,
+    WIFI_SESSION_MESSAGE_KIND_COUNT = 10,
+} WiFiSessionMessageKind;
+
+// Values of WiFiSessionMessage.mContinueChoice.
+#define WIFI_CONTINUE_CHOICE_NONE 0
+#define WIFI_CONTINUE_CHOICE_CONTINUE 1
+#define WIFI_CONTINUE_CHOICE_QUIT 2
+
+// Results of GetWiFiSessionContinueResult.
+#define WIFI_CONTINUE_RESULT_NOT_SETTLED 0
+#define WIFI_CONTINUE_RESULT_KARTS_LEFT 1 // more than one kart is left
+#define WIFI_CONTINUE_RESULT_ENDED 2 // one kart left or the run ended
+
+// Indices of WiFiSession.mKeys, named after the key strings registered for the matching.
+#define WIFI_MATCH_KEY_REGION 0
+#define WIFI_MATCH_KEY_TYPE 1
+#define WIFI_MATCH_KEY_FILTER 2
+#define WIFI_MATCH_KEY_ELO 3
+
+// Values of the kart type key (mKeys[WIFI_MATCH_KEY_TYPE].mValue and the first argument of RequestWiFiSessionMatching).
+#define WIFI_MATCH_TYPE_FRIENDS 0
+#define WIFI_MATCH_TYPE_ELO 1
+#define WIFI_MATCH_TYPE_REGION 3
+#define WIFI_MATCH_TYPE_REGION_ELO 4
+// Defaults for the keys a candidate did not register.
+#define WIFI_MATCH_TYPE_MISSING 5
+#define WIFI_MATCH_REGION_MISSING 3
+#define WIFI_MATCH_ELO_MISSING (-1)
+// Elo window of the candidates: a key must be within this many points of the own elo (clamped to 0..WIFI_ELO_MAX).
+#define WIFI_ELO_WINDOW 1000
+#define WIFI_ELO_MAX 10000
+// Scores the candidate evaluators return (the elo difference is subtracted).
+#define WIFI_MATCH_SCORE_HIGH 2000
+#define WIFI_MATCH_SCORE_LOW 1000
+// Time limit in milliseconds of the minimum-complete option: 1 (no wait) or one minute.
+#define WIFI_MATCH_NO_WAIT 1
+#define WIFI_MATCH_WAIT_LIMIT 60000
+
+// Values of WiFiSession.mStartStatus, set by RegisterKartKeysAndStart and KartKeysStartCallback.
+typedef enum WiFiStartStatus {
+    WIFI_START_STATUS_PENDING = 1,
+    WIFI_START_STATUS_CANCELED = 2, // the callback result was 0 with its flag set
+    WIFI_START_STATUS_CONNECTED = 3,
+    WIFI_START_STATUS_FAILED = 4,
+} WiFiStartStatus;
+
+// Values of WiFiSession.mDisconnectKind and the results of CheckWiFiSessionDisconnect.
+typedef enum WiFiDisconnectKind {
+    WIFI_DISCONNECT_NONE = 0,
+    WIFI_DISCONNECT_NO_INPUT = 1, // no input for 30 seconds
+    WIFI_DISCONNECT_OPPONENT_LEFT = 2,
+    WIFI_DISCONNECT_ERROR = 3, // result only
+} WiFiDisconnectKind;
+
+// Values of WiFiSession.mErrorKind (what DWC_GetLastError returned) that the session code tells apart.
+#define WIFI_ERROR_KIND_MATCHING_CLOSED 3
+#define WIFI_ERROR_KIND_HTTP_CLOSED 4
+#define WIFI_ERROR_KIND_LINK_DROPPED 6
+#define WIFI_ERROR_KIND_UNRECOVERABLE 7
+
+// Values of the mode argument of SetupWiFiSession.
+typedef enum WiFiSessionSetup {
+    WIFI_SESSION_SETUP_FIRST = 0, // resets masks, records and picks and starts at the first step
+    WIFI_SESSION_SETUP_PACK = 1, // packs the indices and counts the karts
+    WIFI_SESSION_SETUP_COURSE_PICKS = 2, // resets the picks and restarts at the course picks
+    WIFI_SESSION_SETUP_CONTINUE_CHOICES = 3, // resets the picks and restarts at the continue choices
+} WiFiSessionSetup;
+
+// Smallest number of entries a match needs to complete.
+#define WIFI_MATCH_MIN_ENTRIES 2
+
+// Number of kart slots of the session (the size of the per-index tables).
+#define WIFI_SESSION_KART_SLOTS 4
+// mReceivedMask with every bit set: a message of this kind arrived once for all indices.
+#define WIFI_SESSION_ALL_RECEIVED 0xff
+// Calls PickNextToIndex returns "no index" for after it picked one.
+#define WIFI_SESSION_CALLS_AFTER_PICK 2
+// Value of the buddy status bytes the poll counts, and the one it skips.
+#define WIFI_BUDDY_STATUS_NOT_COUNTED 2
+#define WIFI_BUDDY_STATUS_COUNTED 4
+
 // 0x10-byte object at member 0x1f20 of WiFiSession.
 typedef struct WiFiSessionLogin {
     /* 00 */ u8 mUnk_00[0xc];

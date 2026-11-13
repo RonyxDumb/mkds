@@ -65,7 +65,7 @@ void AdvanceWiFiSessionOnIrq(void) {
         return;
     }
     session->mIrqCallbackCount++;
-    if (gWiFiSession->mStateMachine.mState != 5) {
+    if (gWiFiSession->mStateMachine.mState != WIFI_SESSION_STATE_RACE) {
         return;
     }
     if (gWiFiSession->mRaceSyncEnabled == FALSE) {
@@ -85,7 +85,7 @@ void UpdateWiFiSessionState1(void) {
         return;
     }
     stateMachine = &gWiFiSession->mStateMachine;
-    stateMachine->mNextState = 2;
+    stateMachine->mNextState = WIFI_SESSION_STATE_IDLE;
     stateMachine->mNextStateRequested = 1;
 }
 
@@ -100,7 +100,7 @@ void UpdateWiFiSessionState3(void) {
         return;
     }
     stateMachine = &gWiFiSession->mStateMachine;
-    stateMachine->mNextState = 4;
+    stateMachine->mNextState = WIFI_SESSION_STATE_EXCHANGE;
     stateMachine->mNextStateRequested = 1;
 }
 

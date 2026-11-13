@@ -188,7 +188,7 @@ void InitRaceScene(void) {
                 StateMachine *stateMachine;
                 session->mRaceSyncEnabled = TRUE;
                 stateMachine = &gWiFiSession->mStateMachine;
-                stateMachine->mNextState = 5;
+                stateMachine->mNextState = WIFI_SESSION_STATE_RACE;
                 stateMachine->mNextStateRequested = 1;
             }
         }
@@ -217,7 +217,7 @@ void ReleaseRaceScene(void) {
             StateMachine *stateMachine;
             session->mRaceSyncEnabled = FALSE;
             stateMachine = &gWiFiSession->mStateMachine;
-            stateMachine->mNextState = 4;
+            stateMachine->mNextState = WIFI_SESSION_STATE_EXCHANGE;
             stateMachine->mNextStateRequested = 1;
         }
     }

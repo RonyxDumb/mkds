@@ -708,7 +708,7 @@ void InitResultsBattle(void *heap, void *mainOam, void *subOam) {
     gResultsBattle->mOamLists[1] = subOam;
     gResultsBattle->mMode = gStartupWork->mConnectionKind;
     if (gResultsBattle->mMode == 3) {
-        SetupWiFiSession(3);
+        SetupWiFiSession(WIFI_SESSION_SETUP_CONTINUE_CHOICES);
     }
     Init3dEngine();
     displaySettings = CreateDisplaySettings(heap, gResultsDisplaySettingsDesc);

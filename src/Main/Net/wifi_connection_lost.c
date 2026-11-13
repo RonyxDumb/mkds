@@ -4,10 +4,10 @@
 
 BOOL IsWiFiConnectionLost(void) {
     u32 result = 0u;
-    if (gWiFiSession->mConnectionLost != 1u) {
+    if (gWiFiSession->mConnectionLost != TRUE) {
         return result;
     }
-    if (gWiFiSession->mStep == 0xcu) {
+    if (gWiFiSession->mStep == WIFI_SESSION_STEP_ENDED) {
         result = 1u;
     }
     return result;

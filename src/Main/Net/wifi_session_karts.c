@@ -9,28 +9,28 @@
 
 void ResetWiFiConnectionLost(void) {
     StateMachine *stateMachine;
-    gWiFiSession->mConnectionLost = 0;
+    gWiFiSession->mConnectionLost = FALSE;
     stateMachine = &gWiFiSession->mStateMachine;
-    stateMachine->mNextState = 2;
+    stateMachine->mNextState = WIFI_SESSION_STATE_IDLE;
     stateMachine->mNextStateRequested = 1;
 }
 
-// Drops the indices set in mKartRemoveMask from the roster; ends the run (step 11) if the own index is removed or one
-// kart or none remains.
+// Drops the indices set in mKartRemoveMask from the roster; ends the run (the leaving step) if the own index is removed
+// or one kart or none remains.
 void RemoveWiFiSessionKarts(void) {
     u8 participantIndex;
     u32 bit;
-    if (gWiFiSession->mStep == 11 || gWiFiSession->mStep == 12) {
+    if (gWiFiSession->mStep == WIFI_SESSION_STEP_LEAVING || gWiFiSession->mStep == WIFI_SESSION_STEP_ENDED) {
         return;
     }
     for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
         bit = 1 << participantIndex;
         if ((gWiFiSession->mKartMask & bit) != 0 && (gWiFiSession->mKartRemoveMask & bit) != 0) {
             if (participantIndex == DWC_GetMyAID()) {
-                gWiFiSession->mConnectionLost = 1;
+                gWiFiSession->mConnectionLost = TRUE;
                 DWC_RegisterMatchingStatus();
                 DWC_CloseAllConnectionsHard();
-                gWiFiSession->mStep = 11;
+                gWiFiSession->mStep = WIFI_SESSION_STEP_LEAVING;
                 return;
             }
             gWiFiSession->mKartMask &= ~bit;
@@ -39,20 +39,20 @@ void RemoveWiFiSessionKarts(void) {
         }
     }
     if (gWiFiSession->mKartCount <= 1) {
-        gWiFiSession->mConnectionLost = 1;
+        gWiFiSession->mConnectionLost = TRUE;
         DWC_RegisterMatchingStatus();
         DWC_CloseAllConnectionsHard();
-        gWiFiSession->mStep = 11;
+        gWiFiSession->mStep = WIFI_SESSION_STEP_LEAVING;
     }
 }
 
 void UpdateWiFiSessionKartTimeouts(void) {
     u8 participantIndex;
     u8 ownIndex;
-    if (gWiFiSession->mStep > 2 && gWiFiSession->mStep < 9) {
-        if (gWiFiSession->mStep == 3) {
+    if (gWiFiSession->mStep > WIFI_SESSION_STEP_WAIT_BACKUP && gWiFiSession->mStep < WIFI_SESSION_STEP_VERIFY_RESULT) {
+        if (gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_CONTINUE_CHOICES) {
             ownIndex = DWC_GetMyAID();
-            if (gWiFiSession->mIndexMessages[ownIndex].mContinueChoice != 1) {
+            if (gWiFiSession->mIndexMessages[ownIndex].mContinueChoice != WIFI_CONTINUE_CHOICE_CONTINUE) {
                 return;
             }
         }
