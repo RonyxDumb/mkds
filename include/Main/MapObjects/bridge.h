@@ -35,8 +35,6 @@ void DrawChoropu(s32 unused, Choropu *choropu, s32 unusedArg, u16 alpha);
 
 extern const Vec3 gChoropuZeroVector;
 
-extern const u16 gBridgeInitFlag;
-
 extern struct MapObjectList *gChoropuUpdateList;
 extern struct MapObjectDrawList *gChoropuDrawList;
 extern struct NsbmdModel *gChoropu;

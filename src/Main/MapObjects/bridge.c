@@ -29,6 +29,7 @@
 #include "Main/Item/item_koura_w.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 #include "Main/MapObjects/choropu_state.h"
+#include "Main/MapObjects/bridge_kind_descriptor.h"
 
 #pragma thumb off
 

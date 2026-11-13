@@ -49,6 +49,7 @@
 #include "Main/MapObjects/mkd_ef_bubble_kind_descriptor.h"
 #include "Main/MapObjects/koopa_block_kind_descriptor.h"
 #include "Main/MapObjects/choropu_kind_descriptor.h"
+#include "Main/MapObjects/bridge_kind_descriptor.h"
 #include "Main/MapObjects/group_item_box_kind_descriptor.h"
 #include "Main/MapObjects/vehicle_kind_descriptor.h"
 #include "Main/MapObjects/kart_balloons_kind_descriptor.h"
@@ -97,7 +98,7 @@ MapObjectKindRow gMapObjectKindRows[133] = {
     {208, (MapObjectKindDescriptor *) &gRotaryRoomKindDescriptor, &gRotaryRoomKindInfo},
     {209, (MapObjectKindDescriptor *) &gRotaryBridgeKindDescriptor, &gRotaryBridgeKindInfo},
     {210, (MapObjectKindDescriptor *) &gDramKindDescriptor, NULL},
-    {204, (MapObjectKindDescriptor *) &data_usa_02158c8c, NULL},
+    {204, (MapObjectKindDescriptor *) &gBridgeKindDescriptor, NULL},
     {11, (MapObjectKindDescriptor *) &data_usa_0215a034, NULL},
     {413, &gSmanKindDescriptor, NULL},
     {308, &gCowKindDescriptor, NULL},

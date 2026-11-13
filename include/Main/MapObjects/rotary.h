@@ -19,9 +19,9 @@ BOOL IsRotaryKind(s32 kind);
 void CreateRotary(BridgeDrawList *list);
 void InitRotaryObjects(BridgeDrawList *list);
 void InitRotary(Rotary *object, struct CourseMapRow *courseRow, RotaryKindInfo *kindInfo);
-void *CreateBridgeKindData(void);
-void *CreateBridgeDrawList(void);
-void *CreateBridgeUpdateList(void);
+MapObjectKindData *CreateBridgeKindData(void);
+BridgeDrawList *CreateBridgeDrawList(void);
+MapObjectList *CreateBridgeUpdateList(void);
 void UpdateBridge(s32 unused, Bridge *bridge); /* skipped for objects with mFlags & 4 (parked pool objects) */
 void DrawBridge(CollisionMapObject *object, void *viewMatrix, u32 alpha);
 void DrawAllBridges(void *viewMatrix);

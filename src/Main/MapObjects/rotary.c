@@ -266,7 +266,7 @@ void InitRotary(Rotary *object, struct CourseMapRow *courseRow, RotaryKindInfo *
 
 #pragma thumb off
 
-void *CreateBridgeKindData(void) {
+MapObjectKindData *CreateBridgeKindData(void) {
     MapObjectKindData *kindData;
 
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
@@ -274,7 +274,7 @@ void *CreateBridgeKindData(void) {
     return kindData;
 }
 
-void *CreateBridgeDrawList(void) {
+BridgeDrawList *CreateBridgeDrawList(void) {
     BridgeDrawList *drawList;
 
     drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x30);
@@ -284,7 +284,7 @@ void *CreateBridgeDrawList(void) {
     return gBridgeDrawList;
 }
 
-void *CreateBridgeUpdateList(void) {
+MapObjectList *CreateBridgeUpdateList(void) {
     MapObjectList *updateList;
 
     updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);

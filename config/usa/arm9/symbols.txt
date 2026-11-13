@@ -8463,7 +8463,7 @@ gChoropuDrawListData kind:data(any) addr:0x02158c10
 gChoropuKindData kind:data(any) addr:0x02158c3c
 gChoropuZeroVector kind:data(any) addr:0x02158c7c
 gBridgeInitFlag kind:data(any) addr:0x02158c88
-data_usa_02158c8c kind:data(any) addr:0x02158c8c
+gBridgeKindDescriptor kind:data(any) addr:0x02158c8c
 gBridgeUpdateListData kind:data(any) addr:0x02158cc0
 gBridgeDrawListData kind:data(any) addr:0x02158ce8
 gBridgeKindData kind:data(any) addr:0x02158d18

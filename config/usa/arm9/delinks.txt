@@ -3529,6 +3529,11 @@ src/Main/MapObjects/bridge.c:
     .bss        start:0x0217b794 end:0x0217b7d0
 
 // provisional: file name and boundaries
+src/Main/MapObjects/bridge_kind_descriptor.c:
+    complete
+    .rodata     start:0x02158c88 end:0x02158cc0
+
+// provisional: file name and boundaries
 src/Main/MapObjects/bridge_animation_frame.c:
     complete
     .text       start:0x020e3b08 end:0x020e3b28
