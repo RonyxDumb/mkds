@@ -56,7 +56,7 @@ void AllocConnectionBuffers(void *heap, u32 unused, void *bmg) {
 
 void ParentStateCallback(u32 index, u32 code, MBUserInfo *childInfo) {
     gConnectionWork->mMultiBootState.mChildStateCodes[index] = code;
-    if (gConnectionWork->mStep == 0x1b && code != 0xc) {
+    if (gConnectionWork->mStep == CONNECTION_STEP_MULTIBOOT_END_TO_IDLE && code != 0xc) {
         return;
     }
     switch (code) {
@@ -105,7 +105,7 @@ void ParentStateCallback(u32 index, u32 code, MBUserInfo *childInfo) {
                         gConnectionWork->mWaitToSendCount--;
                     }
                     if ((gConnectionWork->mMultiBootRequestFlags & 1) && gConnectionWork->mWaitToSendMask == 0) {
-                        SetRequestErrorCode(7);
+                        SetRequestErrorCode(CONNECTION_ERROR_COMMUNICATION_LOST);
                     }
                 } else {
                     gConnectionWork->mWaitToSendMask = 0;
@@ -117,14 +117,14 @@ void ParentStateCallback(u32 index, u32 code, MBUserInfo *childInfo) {
             if ((gConnectionWork->mMultiBootRequestFlags & 2) &&
                 gConnectionWork->mWaitToSendMask ==
                     (gConnectionWork->mWaitToSendMask & gConnectionWork->mBootRequestDoneMask) &&
-                gConnectionWork->mStep == 0x19) {
+                gConnectionWork->mStep == CONNECTION_STEP_MULTIBOOT_BOOT_REQUEST) {
                 gConnectionWork->mRequestPending = 0;
                 return;
             }
             if ((gConnectionWork->mMultiBootRequestFlags & 1) &&
                 gConnectionWork->mWaitToSendMask ==
                     (gConnectionWork->mWaitToSendMask & gConnectionWork->mSendCompleteMask) &&
-                gConnectionWork->mStep == 0x18) {
+                gConnectionWork->mStep == CONNECTION_STEP_MULTIBOOT_SEND_TO_CHILDREN) {
                 gConnectionWork->mRequestPending = 0;
                 return;
             }
@@ -163,7 +163,7 @@ void ResetConnectionBuffers(MultiBootStateView *view) {
 
 void StartMultiBootParent(void) {
     MBUserInfo user;
-    gConnectionWork->mStep = 0x16;
+    gConnectionWork->mStep = CONNECTION_STEP_MULTIBOOT_START_PARENT;
     gConnectionWork->mRequestPending = 1;
     ResetConnectionBuffers(&gConnectionWork->mMultiBootState);
     user.mNameLength = 10;
@@ -172,15 +172,15 @@ void StartMultiBootParent(void) {
     MI_CpuCopy8(gBackupBuffers->mFirstBlock->mPlayerName, user.mName, 0x14);
     gConnectionWork->mParentTgid = ComputeParentTgid(1);
     if (MB_Init(gConnectionWork->mMultiBootWork, &user, 0x25, gConnectionWork->mParentTgid, 2) != 0) {
-        SetRequestErrorCode(5);
+        SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
     }
     MB_SetParentCommParam(0x1fe, 7);
     MB_CommSetParentStateCallback(ParentStateCallback);
     if (((s32(*)(u32)) MB_StartParentFromIdle)(gConnectionWork->mParentChannel) != 0) {
-        SetRequestErrorCode(5);
+        SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
     }
     if (RegisterMultiBootSegment() == 0) {
-        SetRequestErrorCode(5);
+        SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
     }
     gConnectionWork->mStatusFlags &= ~4;
     gConnectionWork->mRequestPending = 0;
@@ -188,7 +188,7 @@ void StartMultiBootParent(void) {
 
 void SetupScanConnect(void) {
     MBUserInfo userInfo;
-    gConnectionWork->mStep = 0x1c;
+    gConnectionWork->mStep = CONNECTION_STEP_SCAN_CONNECT_SETUP;
     gConnectionWork->mRequestPending = 1;
     userInfo.mFavoriteColor = gStartupWork->mFavoriteColor;
     userInfo.mNameLength = 10;
@@ -201,13 +201,13 @@ void SetupScanConnect(void) {
 }
 
 void StartCloseScanConnect(void) {
-    gConnectionWork->mStep = 0x1f;
+    gConnectionWork->mStep = CONNECTION_STEP_SCAN_CONNECT_CLOSE;
     gConnectionWork->mRequestPending = 1;
     CloseScanConnect();
 }
 
 void StartRepeatedScanStep1D(void) {
-    gConnectionWork->mStep = 0x1d;
+    gConnectionWork->mStep = CONNECTION_STEP_SCAN_CONNECT_REPEATED_SCAN;
     gConnectionWork->mRequestPending = 1;
     StartRepeatedScan(RepeatedScanCallback, 0x25);
 }
@@ -220,7 +220,7 @@ static inline u32 MultiBootGetConnectionMode(void) {
 }
 
 void StartRepeatedScanStep1E(void) {
-    gConnectionWork->mStep = 0x1e;
+    gConnectionWork->mStep = CONNECTION_STEP_SCAN_CONNECT_FIND_ENTRY;
     gConnectionWork->mRequestPending = 1;
     StartRepeatedScan(RepeatedScanCallback, 0x25);
 }
@@ -231,7 +231,7 @@ s32 FindScanEntryIndex(u32 entryIndex) {
     u16 index;
     WMBssDesc scanBlock;
     result = -1;
-    if (gConnectionWork->mStep == 0x1e) {
+    if (gConnectionWork->mStep == CONNECTION_STEP_SCAN_CONNECT_FIND_ENTRY) {
         for (index = 0; index < 16; index++) {
             if (MB_FakeGetParentBssDesc(index, &scanBlock) != 0) {
                 u8 *tableBytes = gConnectionWork->mScanSlots[0].mKey.mBytes;
@@ -255,7 +255,7 @@ void RepeatedScanCallback(u32 code) {
         case 1:
             break;
         case 2:
-            SetRequestErrorCode(5);
+            SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
             break;
         case 3:
             gConnectionWork->mRequestPending = 0;
@@ -274,10 +274,10 @@ void ScanConnectStateCallback(u32 state) {
             break;
         case 7:
             gConnectionWork->mScanConnected = 1;
-            gConnectionWork->mState = 6;
+            gConnectionWork->mState = CONNECTION_STATE_CONNECTED;
             break;
         case 4:
-            SetRequestErrorCode(5);
+            SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
             break;
         case 3:
         case 6:
@@ -290,19 +290,19 @@ void ScanConnectStateCallback(u32 state) {
 s32 AdvanceMultiBootParentSetup(void) {
     BOOL result = FALSE;
     switch (gConnectionWork->mStep) {
-        case 0:
+        case CONNECTION_STEP_NOTHING:
             gConnectionWork->mFlags |= CONNECTION_FLAG_MULTIBOOT_SETUP;
-            gConnectionWork->mState = 1;
+            gConnectionWork->mState = CONNECTION_STATE_STARTING;
             Initialize();
             break;
-        case 1:
+        case CONNECTION_STEP_STARTING_UP:
             MeasureChannel(result);
             break;
-        case 4:
+        case CONNECTION_STEP_CHECKING_CHANNELS:
             SetParentChannelLowestSum();
             StartMultiBootParent();
             break;
-        case 0x16:
+        case CONNECTION_STEP_MULTIBOOT_START_PARENT:
             FinishMultiBootParentSetup();
             result = TRUE;
             break;
@@ -315,33 +315,33 @@ s32 AdvanceMultiBootScanSetup(void) {
     BOOL result = FALSE;
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         switch (gConnectionWork->mStep) {
-            case 0:
+            case CONNECTION_STEP_NOTHING:
                 gConnectionWork->mFlags |= CONNECTION_FLAG_MULTIBOOT_SETUP;
-                gConnectionWork->mState = 1;
+                gConnectionWork->mState = CONNECTION_STATE_STARTING;
                 Initialize();
                 break;
-            case 1:
+            case CONNECTION_STEP_STARTING_UP:
                 stepDone = TRUE;
                 break;
         }
     } else {
         switch (gConnectionWork->mStep) {
-            case 0:
+            case CONNECTION_STEP_NOTHING:
                 gConnectionWork->mFlags |= CONNECTION_FLAG_MULTIBOOT_SETUP;
-                gConnectionWork->mState = 1;
+                gConnectionWork->mState = CONNECTION_STATE_STARTING;
                 Initialize();
                 break;
-            case 1:
+            case CONNECTION_STEP_STARTING_UP:
                 SetupScanConnect();
                 break;
-            case 0x1c:
+            case CONNECTION_STEP_SCAN_CONNECT_SETUP:
                 StartRepeatedScanStep1D();
                 stepDone = TRUE;
                 break;
         }
     }
     if (stepDone != FALSE) {
-        gConnectionWork->mState = 3;
+        gConnectionWork->mState = CONNECTION_STATE_MULTIBOOT_SCAN_READY;
         result = TRUE;
     }
     return result;
@@ -353,17 +353,17 @@ s32 AdvanceMultiBootSetup(s32 isParent) {
         return 0;
     }
     switch (MultiBootGetConnectionMode()) {
-        case 1:
+        case CONNECTION_MODE_PARENT:
             result = AdvanceMultiBootParentSetup();
             break;
-        case 2:
+        case CONNECTION_MODE_CHILD:
             result = AdvanceMultiBootScanSetup();
             break;
-        case 0:
+        case CONNECTION_MODE_NONE:
             if (isParent != 0) {
-                gConnectionWork->mConnectionMode = 1;
+                gConnectionWork->mConnectionMode = CONNECTION_MODE_PARENT;
             } else {
-                gConnectionWork->mConnectionMode = 2;
+                gConnectionWork->mConnectionMode = CONNECTION_MODE_CHILD;
             }
             break;
     }
@@ -374,10 +374,10 @@ void StartSendingToAllChildren(void) {
     u8 index;
     u8 count;
     if (gConnectionWork->mWaitToSendMask == 0) {
-        SetRequestErrorCode(5);
+        SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
         return;
     }
-    gConnectionWork->mStep = 0x18;
+    gConnectionWork->mStep = CONNECTION_STEP_MULTIBOOT_SEND_TO_CHILDREN;
     index = 1;
     gConnectionWork->mRequestPending = index;
     count = 0;
@@ -396,7 +396,7 @@ void StartSendingToAllChildren(void) {
 void StartBootRequestToAllChildren(void) {
     u8 index;
     u8 count;
-    gConnectionWork->mStep = 0x19;
+    gConnectionWork->mStep = CONNECTION_STEP_MULTIBOOT_BOOT_REQUEST;
     index = 1;
     gConnectionWork->mRequestPending = index;
     gConnectionWork->mMultiBootRequestFlags |= 2;
@@ -413,41 +413,41 @@ void StartBootRequestToAllChildren(void) {
 }
 
 void StartEndToIdle(void) {
-    gConnectionWork->mStep = 0x1b;
+    gConnectionWork->mStep = CONNECTION_STEP_MULTIBOOT_END_TO_IDLE;
     gConnectionWork->mRequestPending = 1;
     gConnectionWork->mMultiBootRequestFlags &= ~2;
     MB_EndToIdle();
 }
 
 void StartRequestEndScan(void) {
-    gConnectionWork->mStep = 0x21;
+    gConnectionWork->mStep = CONNECTION_STEP_SCAN_CONNECT_END_SCAN;
     gConnectionWork->mRequestPending = 1;
     RequestEndScan();
 }
 
 void StartConnectToScanEntry(u32 entryIndex) {
-    gConnectionWork->mStep = 0x22;
+    gConnectionWork->mStep = CONNECTION_STEP_SCAN_CONNECT_CONNECT_ENTRY;
     gConnectionWork->mRequestPending = 1;
     gConnectionWork->mScanConnected = 0;
     if (StartConnectToEntry(entryIndex) == 0) {
-        SetRequestErrorCode(5);
+        SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
     }
 }
 
 void ReadFakeParentBssDesc(u32 entryIndex) {
     u32 result;
-    gConnectionWork->mStep = 0x23;
+    gConnectionWork->mStep = CONNECTION_STEP_SCAN_CONNECT_READ_PARENT_DESC;
     gConnectionWork->mRequestPending = 1;
     result = MB_FakeReadParentBssDesc(entryIndex, gConnectionWork->mParentBssDesc, 0x1bc, 0x36, 0, 0);
     gConnectionWork->mRequestPending = 0;
     gConnectionWork->mParentBssDesc->mGameInfo.mTgid = (gConnectionWork->mParentBssDesc->mGameInfo.mTgid + 7) & 0x7fff;
     if (result == 0) {
-        SetRequestErrorCode(5);
+        SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
     }
 }
 
 void ReadMultiBootParentBssDesc(void) {
-    gConnectionWork->mStep = 0x1a;
+    gConnectionWork->mStep = CONNECTION_STEP_MULTIBOOT_READ_PARENT_DESC;
     gConnectionWork->mRequestPending = 1;
     MB_ReadMultiBootParentBssDesc(gConnectionWork->mParentBssDesc, 0x1bc, 0x36, 0, 0);
     gConnectionWork->mParentBssDesc->mGameInfo.mTgid = (gConnectionWork->mParentBssDesc->mGameInfo.mTgid + 7) & 0x7fff;

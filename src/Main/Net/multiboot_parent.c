@@ -21,31 +21,31 @@ s32 AdvanceScanConnect(u16 entryIndex) {
     ConnectionWork *connectionWork = gConnectionWork;
 
     switch (connectionWork->mStep) {
-        case 29:
+        case CONNECTION_STEP_SCAN_CONNECT_REPEATED_SCAN:
             if (TrySelectScanSlot(entryIndex) == 0) {
-                SetRequestErrorCode(5);
+                SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
             }
             if (TryGetScanSlotName(entryIndex, NULL) != 0) {
                 StartRequestEndScan();
             } else {
-                SetRequestErrorCode(5);
+                SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
             }
             break;
-        case 10:
+        case CONNECTION_STEP_JOINING:
             connectionWork->mStepWaitFrames = connectionWork->mStepWaitFrames + 1;
             if (gConnectionWork->mStepWaitFrames > 0x4b0) {
-                SetRequestErrorCode(5);
+                SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
                 return 3;
             }
             break;
-        case 7:
+        case CONNECTION_STEP_SEARCHING:
             connectionWork->mRequestPending = 0;
             break;
-        case 30: {
+        case CONNECTION_STEP_SCAN_CONNECT_FIND_ENTRY: {
             s32 scanEntryIndex;
             connectionWork->mStepWaitFrames = connectionWork->mStepWaitFrames + 1;
             if (gConnectionWork->mStepWaitFrames > 0x4b0) {
-                SetRequestErrorCode(5);
+                SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
             } else {
                 scanEntryIndex = FindScanEntryIndex(entryIndex);
                 if (scanEntryIndex != -1) {
@@ -61,28 +61,28 @@ s32 AdvanceScanConnect(u16 entryIndex) {
         return 0;
     }
     switch (connectionWork->mStep) {
-        case 7:
+        case CONNECTION_STEP_SEARCHING:
             connectionWork->mFlags |= CONNECTION_FLAG_MULTIBOOT_SETUP;
             EndScan();
             break;
-        case 9:
+        case CONNECTION_STEP_STOPPING_SEARCH:
             SetupScanConnect();
             break;
-        case 28:
+        case CONNECTION_STEP_SCAN_CONNECT_SETUP:
             connectionWork->mStepWaitFrames = 0;
             StartRepeatedScanStep1E();
             break;
-        case 30:
+        case CONNECTION_STEP_SCAN_CONNECT_FIND_ENTRY:
             StartRequestEndScan();
             break;
-        case 33:
+        case CONNECTION_STEP_SCAN_CONNECT_END_SCAN:
             if (connectionWork->mScanEntryIndex == -1) {
                 StartConnectToScanEntry(entryIndex);
             } else {
                 StartConnectToScanEntry((u16) connectionWork->mScanEntryIndex);
             }
             break;
-        case 34:
+        case CONNECTION_STEP_SCAN_CONNECT_CONNECT_ENTRY:
             if (connectionWork->mScanConnected != 0) {
                 if (connectionWork->mScanEntryIndex == -1) {
                     ReadFakeParentBssDesc(entryIndex);
@@ -93,37 +93,37 @@ s32 AdvanceScanConnect(u16 entryIndex) {
                 result = 2;
             }
             break;
-        case 35:
+        case CONNECTION_STEP_SCAN_CONNECT_READ_PARENT_DESC:
             StartCloseScanConnect();
             break;
-        case 1:
+        case CONNECTION_STEP_STARTING_UP:
             connectionWork->mStepWaitFrames = 0;
-        case 2:
+        case CONNECTION_STEP_RESTARTING:
             if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
                 ReadMultiBootParentBssDesc();
             } else {
                 StartConnect(NULL, NULL, NULL, ConnectFailedCallback, NULL);
             }
             break;
-        case 31:
+        case CONNECTION_STEP_SCAN_CONNECT_CLOSE:
             if (connectionWork->mStepWaitFrames < 0x3c) {
                 connectionWork->mStepWaitFrames = connectionWork->mStepWaitFrames + 1;
             } else {
-                connectionWork->mStep = 32;
+                connectionWork->mStep = CONNECTION_STEP_SCAN_CONNECT_CLOSED;
             }
             break;
-        case 26:
-        case 32:
+        case CONNECTION_STEP_MULTIBOOT_READ_PARENT_DESC:
+        case CONNECTION_STEP_SCAN_CONNECT_CLOSED:
             StartRomArchiveTransfer();
             break;
-        case 36:
+        case CONNECTION_STEP_ROM_ARCHIVE_TRANSFER:
             StartConnect(NULL, NULL, NULL, ConnectFailedCallback, NULL);
             break;
-        case 10:
+        case CONNECTION_STEP_JOINING:
             StartMP();
             break;
-        case 11:
-            connectionWork->mState = 6;
+        case CONNECTION_STEP_STARTING_EXCHANGE:
+            connectionWork->mState = CONNECTION_STATE_CONNECTED;
             InitMPStateMachine();
             result = 1;
             break;
@@ -155,7 +155,7 @@ s32 AdvanceChildMaskCovered(void) {
         result = TRUE;
     } else if (connectionWork->mStepWaitFrames > 0x708) {
         if (childMask == 0) {
-            SetRequestErrorCode(5);
+            SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
         } else {
             gConnectionWork->mMultiBootChildMask = CompactMaskBits(childMask);
             result = TRUE;
@@ -169,12 +169,12 @@ s32 AdvanceChildMaskCovered(void) {
 s32 AdvanceMultiBootParent(void) {
     BOOL result = FALSE;
     switch (gConnectionWork->mState) {
-        case 2:
-            gConnectionWork->mState = 5;
+        case CONNECTION_STATE_MULTIBOOT_PARENT_READY:
+            gConnectionWork->mState = CONNECTION_STATE_MULTIBOOT_PARENT_ACTIVE;
             break;
-        case 5:
+        case CONNECTION_STATE_MULTIBOOT_PARENT_ACTIVE:
             break;
-        case 10:
+        case CONNECTION_STATE_ENTRY_EXCHANGE:
             return 1;
         default:
             return 3;
@@ -183,40 +183,40 @@ s32 AdvanceMultiBootParent(void) {
         return 0;
     }
     switch (gConnectionWork->mStep) {
-        case 22:
+        case CONNECTION_STEP_MULTIBOOT_START_PARENT:
             StartSendingToAllChildren();
             break;
-        case 24:
+        case CONNECTION_STEP_MULTIBOOT_SEND_TO_CHILDREN:
             StartBootRequestToAllChildren();
             break;
-        case 25:
+        case CONNECTION_STEP_MULTIBOOT_BOOT_REQUEST:
             StartEndToIdle();
             break;
-        case 27:
+        case CONNECTION_STEP_MULTIBOOT_END_TO_IDLE:
             StartRomArchiveTransfer();
             break;
-        case 36:
+        case CONNECTION_STEP_ROM_ARCHIVE_TRANSFER:
             SetLifeTime(0x14);
             break;
-        case 3:
+        case CONNECTION_STEP_SETTING_TIMEOUT:
             FillParentParameter(1);
             SetParentParameter();
             break;
-        case 4:
+        case CONNECTION_STEP_CHECKING_CHANNELS:
             SetParentChannelLowestSum();
             FillParentParameter(1);
             SetParentParameter();
             break;
-        case 5:
+        case CONNECTION_STEP_CONFIGURING_HOST:
             StartParent(NULL);
             break;
-        case 6:
+        case CONNECTION_STEP_OPENING_HOST:
             gConnectionWork->mMultiBootChildMask = CompactMaskBits(gConnectionWork->mMultiBootChildMask);
             gConnectionWork->mStepWaitFrames = 0;
             StartMP();
             break;
-        case 11:
-        case 15:
+        case CONNECTION_STEP_STARTING_EXCHANGE:
+        case CONNECTION_STEP_PUBLISHING_GAME_INFO:
             if (AdvanceChildMaskCovered() != 0) {
                 InitMPStateMachine();
                 result = TRUE;

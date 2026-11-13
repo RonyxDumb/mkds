@@ -31,7 +31,7 @@ u32 TrySelectScanSlot(u32 entryIndex) {
     }
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
         entryValid = result;
-        if (ScanSlotGetConnectionMode() != 2) {
+        if (ScanSlotGetConnectionMode() != CONNECTION_MODE_CHILD) {
             entryValid = 0;
         } else if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
             entryValid = 0;
@@ -65,7 +65,7 @@ void RefreshParticipantTables(void) {
     u16 participantCount;
 
     proceed = FALSE;
-    if (ScanSlotGetConnectionMode() != 0 && gConnectionWork->mState != 13) {
+    if (ScanSlotGetConnectionMode() != CONNECTION_MODE_NONE && gConnectionWork->mState != CONNECTION_STATE_ENDED) {
         proceed = TRUE;
     }
     if (proceed == FALSE) {

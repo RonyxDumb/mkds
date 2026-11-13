@@ -347,7 +347,7 @@ void UpdateLinkLevelIconTiles(void) {
     if (gLinkLevelIcons->mIconEnabled[0] != 0) {
         gLinkLevelIcons->mIconKind[slotCount] = 0;
         linkLevel = 0;
-        if (gConnectionWork->mState != 0) {
+        if (gConnectionWork->mState != CONNECTION_STATE_IDLE) {
             linkLevel = WM_GetLinkLevel();
         }
         gLinkLevelIcons->mIconLevel[slotCount] = linkLevel;

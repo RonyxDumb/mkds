@@ -26,7 +26,7 @@ static inline void MPStatesRequestMPState(u16 nextState) {
 
 static inline s32 MPStatesIsConnectionActive(void) {
     BOOL result = FALSE;
-    if (MPStatesGetConnectionMode() != 0 && gConnectionWork->mState != 13) {
+    if (MPStatesGetConnectionMode() != CONNECTION_MODE_NONE && gConnectionWork->mState != CONNECTION_STATE_ENDED) {
         result = TRUE;
     }
     return result;
@@ -42,7 +42,7 @@ static inline s32 MPStatesIsConnectionActiveNotEnding(void) {
 
 static inline s32 MPStatesIsConnectionActiveNotEndingWithError(void) {
     BOOL result = FALSE;
-    if (MPStatesIsConnectionActiveNotEnding() && gConnectionWork->mErrorCode != 9) {
+    if (MPStatesIsConnectionActiveNotEnding() && gConnectionWork->mErrorCode != CONNECTION_ERROR_NONE) {
         result = TRUE;
     }
     return result;
@@ -58,10 +58,10 @@ s32 AdvanceSyncedCallback(void (*callback)(void)) {
         case 0:
             if (gConnectionWork->mFlags & CONNECTION_FLAG_SEND_READY) {
                 switch (MPStatesGetConnectionMode()) {
-                    case 1:
+                    case CONNECTION_MODE_PARENT:
                         gConnectionWork->mSyncState = 6;
                         break;
-                    case 2:
+                    case CONNECTION_MODE_CHILD:
                         gConnectionWork->mSyncState = 2;
                         break;
                 }
@@ -90,7 +90,7 @@ s32 AdvanceSyncedCallback(void (*callback)(void)) {
         case 3:
             if (gThreadFunctionQueue->mRunRequested == 0) {
                 if (gConnectionWork->mCallbackFailed != 0) {
-                    SetRequestErrorCode(7);
+                    SetRequestErrorCode(CONNECTION_ERROR_COMMUNICATION_LOST);
                 } else {
                     gConnectionWork->mSyncState = 5;
                 }
@@ -118,18 +118,20 @@ s32 AdvanceMPStateMachineWithOwnIndex(void) {
     if (!MPStatesIsConnectionActive()) {
         return 1;
     }
-    ownIndex = ((const ConnectionWork *) gConnectionWork)->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0;
-    if (ownIndex == 0xffff && MPStatesGetConnectionMode() == 2) {
+    ownIndex = ((const ConnectionWork *) gConnectionWork)->mConnectionMode == CONNECTION_MODE_CHILD
+                   ? gConnectionWork->mOwnIndex
+                   : 0;
+    if (ownIndex == 0xffff && MPStatesGetConnectionMode() == CONNECTION_MODE_CHILD) {
         if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
-            SetRequestErrorCode(0);
+            SetRequestErrorCode(CONNECTION_ERROR_DISCONNECTED);
             return 3;
         }
         return 2;
     }
     AdvanceStateMachine(&gConnectionWork->mMPStateMachine.mStateMachine);
     if (!MPStatesIsConnectionActiveNotEndingWithError()) {
-        if (MPStatesGetConnectionMode() == 1 && gConnectionWork->mChildren.mChildCount == 0) {
-            SetRequestErrorCode(7);
+        if (MPStatesGetConnectionMode() == CONNECTION_MODE_PARENT && gConnectionWork->mChildren.mChildCount == 0) {
+            SetRequestErrorCode(CONNECTION_ERROR_COMMUNICATION_LOST);
         }
     }
     if (gConnectionWork->mMPStateMachine.mStateMachine.mState == 0xf) {
@@ -141,7 +143,7 @@ s32 AdvanceMPStateMachineWithOwnIndex(void) {
 void EnterMPState0(void) {
     u16 ownIndex;
 
-    ownIndex = gConnectionWork->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0;
+    ownIndex = gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD ? gConnectionWork->mOwnIndex : 0;
     FillPlayerRecord(&gConnectionWork->mPlayerRecords[ownIndex]);
 }
 
@@ -149,16 +151,16 @@ void UpdateMPState0(void) {
     if (gConnectionWork->mRequestPending != 0) {
         return;
     }
-    if (MPStatesGetConnectionMode() != 1) {
+    if (MPStatesGetConnectionMode() != CONNECTION_MODE_PARENT) {
         MPStatesRequestMPState(0x16);
         return;
     }
     switch (gConnectionWork->mStep) {
-        case 11:
-        case 15:
+        case CONNECTION_STEP_STARTING_EXCHANGE:
+        case CONNECTION_STEP_PUBLISHING_GAME_INFO:
             SetEntry(0);
             return;
-        case 13:
+        case CONNECTION_STEP_REGISTERING_ENTRY:
             MPStatesRequestMPState(7);
             break;
     }
@@ -185,7 +187,7 @@ void UpdateMPState22(void) {
 }
 
 void EnterMPState5(void) {
-    if (MPStatesGetConnectionMode() == 1) {
+    if (MPStatesGetConnectionMode() == CONNECTION_MODE_PARENT) {
         gConnectionWork->mParticipantMask = gConnectionWork->mChildren.mChildMask | 1;
     }
     gConnectionWork->mMPStateMachine.mChildDataWaitFrames = 0;

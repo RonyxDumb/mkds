@@ -45,10 +45,10 @@ void ResetConnection(void) {
     if (gConnectionWork == NULL) {
         return;
     }
-    gConnectionWork->mConnectionMode = 0;
-    gConnectionWork->mState = 0;
-    gConnectionWork->mErrorCode = 9;
-    gConnectionWork->mStep = 0;
+    gConnectionWork->mConnectionMode = CONNECTION_MODE_NONE;
+    gConnectionWork->mState = CONNECTION_STATE_IDLE;
+    gConnectionWork->mErrorCode = CONNECTION_ERROR_NONE;
+    gConnectionWork->mStep = CONNECTION_STEP_NOTHING;
     gConnectionWork->mRequestPending = 0;
     gConnectionWork->mFlags = 0;
     scanParams = gConnectionWork->mScanParams;
@@ -93,23 +93,24 @@ void StepDataSharing(void) {
 
     GetSceneFrames();
     sendData = gConnectionWork->mSharingSendRecord;
-    if (gConnectionWork->mState == 8) {
+    if (gConnectionWork->mState == CONNECTION_STATE_SYNCED) {
         sendData->mSendByte = gConnectionWork->mDataSharingSendByte;
     } else {
         sendData->mSendByte = 0;
     }
-    sendData->mLeftParticipantMask = (gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode) == 1
-                                         ? gConnectionWork->mLeftParticipantMask[0]
-                                         : 0;
+    sendData->mLeftParticipantMask =
+        (gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode) == CONNECTION_MODE_PARENT
+            ? gConnectionWork->mLeftParticipantMask[0]
+            : 0;
     sendData->mPadKeys = GetPadKeys();
     sendData->mFlags = 0;
     sendData->mUnk_07 = 0;
-    role = 0;
-    if (gConnectionWork->mState == 9) {
+    role = CONNECTION_MODE_NONE;
+    if (gConnectionWork->mState == CONNECTION_STATE_SYNCED_RACE) {
         if (gConnectionWork != NULL) {
             role = gConnectionWork->mConnectionMode;
         }
-        if (role == 1) {
+        if (role == CONNECTION_MODE_PARENT) {
             if (IsDispCapFadeFlagSet() != FALSE) {
                 sendData->mFlags |= 4;
             } else {
@@ -117,8 +118,8 @@ void StepDataSharing(void) {
             }
         }
     }
-    role = gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode;
-    if (role != 1 || (gConnectionWork->mStatusFlags & CONNECTION_STATUS_SHARING_SYNCED) != 0) {
+    role = gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode;
+    if (role != CONNECTION_MODE_PARENT || (gConnectionWork->mStatusFlags & CONNECTION_STATUS_SHARING_SYNCED) != 0) {
         if (gConnectionWork->mSyncToggle == 0) {
             sendData->mFlags |= 1;
             sendData->mFlags &= ~2;
@@ -131,7 +132,7 @@ void StepDataSharing(void) {
     sendData->mTouchPoint = GetPackedTouchPoint();
     result = WM_StepDataSharing(gConnectionWork->mSharingInfo, sendData, gConnectionWork->mSharingDataSet);
     if (result == 0) {
-        if (gConnectionWork->mState == 8) {
+        if (gConnectionWork->mState == CONNECTION_STATE_SYNCED) {
             gConnectionWork->mDataSharingSendByte = 0;
         }
     }
@@ -154,15 +155,15 @@ BOOL UpdateDataSharing(void) {
     gConnectionWork->mArrivedMemberMask =
         gConnectionWork->mSharingInfo->mDs[gConnectionWork->mSharingInfo->mWriteIndex].mArrivedMembers;
     gConnectionWork->mFlags &= ~CONNECTION_FLAG_SHARING_NOT_UPDATED;
-    switch (gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode) {
-        case 1:
+    switch (gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode) {
+        case CONNECTION_MODE_PARENT:
             if (gConnectionWork->mChildren.mChildCount != 0) {
                 StepDataSharing();
             } else {
                 return FALSE;
             }
             break;
-        case 2:
+        case CONNECTION_MODE_CHILD:
             if (gConnectionWork->mOwnIndex != 0xffff) {
                 StepDataSharing();
             } else {
@@ -171,18 +172,19 @@ BOOL UpdateDataSharing(void) {
             break;
     }
     switch (gConnectionWork->mState) {
-        case 8:
+        case CONNECTION_STATE_SYNCED:
             if (dataSharing->mSharingPhase != 0 && dataSharing->mSharingPhase == 5) {
                 return FALSE;
             }
             break;
-        case 9:
+        case CONNECTION_STATE_SYNCED_RACE:
             if (dataSharing->mSharingPhase != 0) {
                 if (dataSharing->mSharingPhase == 5) {
                     return FALSE;
                 }
             } else {
-                if ((gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode) == 1) {
+                if ((gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode) ==
+                    CONNECTION_MODE_PARENT) {
                     for (clearIndex = 1; clearIndex < 8; clearIndex++) {
                         if ((gConnectionWork->mParticipantMask & (1 << clearIndex)) != 0) {
                             gConnectionWork->mUnk_15f8[clearIndex - 1] = 0;
@@ -203,10 +205,11 @@ BOOL UpdateDataSharing(void) {
                 entryIndex = gConnectionWork->mParticipantPosByIndex[participantIndex].mEntryIndex;
                 if ((participantMask & bit) != 0 && (receivedMask & bit) != 0) {
                     gConnectionWork->mParticipantMask = participantMask & ~bit;
-                    if (gConnectionWork->mState == 9) {
+                    if (gConnectionWork->mState == CONNECTION_STATE_SYNCED_RACE) {
                         RemoveRaceProgressKart(entryIndex);
                     }
-                    if ((gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode) == 1) {
+                    if ((gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode) ==
+                        CONNECTION_MODE_PARENT) {
                         gConnectionWork->mLeftParticipantMask[0] &= ~bit;
                     }
                 }
@@ -242,7 +245,7 @@ BOOL UpdateDataSharing(void) {
 }
 
 void Initialize(void) {
-    gConnectionWork->mStep = 1;
+    gConnectionWork->mStep = CONNECTION_STEP_STARTING_UP;
     gConnectionWork->mRequestPending = 1;
     if (WM_Initialize(gConnectionWork->mWmWorkBuffer, InitializeCallback, 2) != 2) {
         gConnectionWork->mRequestPending = 0;
@@ -272,13 +275,13 @@ void StopConnection(void) {
     BOOL allowed;
 
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_ROM_ARCHIVE_TRANSFER) != 0) {
-        gConnectionWork->mStep = 0x26;
+        gConnectionWork->mStep = CONNECTION_STEP_ROM_ARCHIVE_STOP;
         gConnectionWork->mRequestPending = 1;
         shouldStop = FALSE;
         if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
             allowed = TRUE;
-            role = gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode;
-            if (role != 1 && gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
+            role = gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode;
+            if (role != CONNECTION_MODE_PARENT && gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
                 allowed = FALSE;
             }
             if (allowed != FALSE) {
@@ -296,21 +299,21 @@ void StopConnection(void) {
         EndWbtStep();
         return;
     }
-    gConnectionWork->mStep = 2;
+    gConnectionWork->mStep = CONNECTION_STEP_RESTARTING;
     gConnectionWork->mRequestPending = 1;
     if (WM_Reset(ResetCallback) == 2) {
         return;
     }
-    gConnectionWork->mStep = 0x15;
+    gConnectionWork->mStep = CONNECTION_STEP_SHUTTING_DOWN;
     gConnectionWork->mRequestPending = 1;
     if (WM_End(EndCallback) == 2) {
         return;
     }
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_ROM_ARCHIVE_TRANSFER) != 0) {
-        gConnectionWork->mStep = 0x26;
+        gConnectionWork->mStep = CONNECTION_STEP_ROM_ARCHIVE_STOP;
         gConnectionWork->mRequestPending = 1;
         if (IsMultiBootSetupStarted() != FALSE &&
-            (GetConnectionMode() == 1 || ConnectionMB_IsMultiBootChild() != FALSE)) {
+            (GetConnectionMode() == CONNECTION_MODE_PARENT || ConnectionMB_IsMultiBootChild() != FALSE)) {
             allowed = TRUE;
         } else {
             allowed = FALSE;
@@ -326,12 +329,12 @@ void StopConnection(void) {
         EndWbtStep();
         return;
     }
-    gConnectionWork->mStep = 2;
+    gConnectionWork->mStep = CONNECTION_STEP_RESTARTING;
     gConnectionWork->mRequestPending = 1;
     if (WM_Reset(ResetCallback) == 2) {
         return;
     }
-    gConnectionWork->mStep = 0x15;
+    gConnectionWork->mStep = CONNECTION_STEP_SHUTTING_DOWN;
     gConnectionWork->mRequestPending = 1;
     if (WM_End(EndCallback) == 2) {
         return;
@@ -344,7 +347,7 @@ void StopConnection(void) {
         EndWbtStep();
         return;
     }
-    SetStepAndRequestPending(2);
+    SetStepAndRequestPending(CONNECTION_STEP_RESTARTING);
     if (WM_Reset(ResetCallback) == 2) {
         return;
     }
@@ -354,7 +357,7 @@ void StopConnection(void) {
 void ResetCallback(WirelessMessage *event) {
     gConnectionWork->mRequestPending = 0;
     if (event->mResultCode != 0) {
-        gConnectionWork->mErrorCode = 1;
+        gConnectionWork->mErrorCode = CONNECTION_ERROR_RESET_FAILED;
         gConnectionWork->mRequestPending = 0;
     } else {
         ResetConnectionData();
@@ -362,7 +365,7 @@ void ResetCallback(WirelessMessage *event) {
 }
 
 void SetLifeTime(s32 camLifeTime) {
-    gConnectionWork->mStep = 3;
+    gConnectionWork->mStep = CONNECTION_STEP_SETTING_TIMEOUT;
     gConnectionWork->mRequestPending = 1;
     if (WM_SetLifeTime(SetLifeTimeCallback, 0xffff, camLifeTime, 0xffff, 0xf) != 2) {
         StopConnection();
@@ -382,17 +385,17 @@ void MeasureChannel(u16 measuredChannel) {
     u16 channel;
     s32 channelIndex;
 
-    gConnectionWork->mStep = 4;
+    gConnectionWork->mStep = CONNECTION_STEP_CHECKING_CHANNELS;
     gConnectionWork->mRequestPending = 1;
     channel = measuredChannel;
     allowedChannels = WM_GetAllowedChannel();
     if (allowedChannels == 0) {
         gConnectionWork->mRequestPending = 0;
-        gConnectionWork->mErrorCode = 3;
+        gConnectionWork->mErrorCode = CONNECTION_ERROR_NO_CHANNEL;
         gConnectionWork->mRequestPending = 0;
     } else if (allowedChannels == 0x8000) {
         gConnectionWork->mRequestPending = 0;
-        gConnectionWork->mErrorCode = 8;
+        gConnectionWork->mErrorCode = CONNECTION_ERROR_OPERATION_FAILED;
         gConnectionWork->mRequestPending = 0;
     }
     if (channel == 0) {
@@ -462,13 +465,13 @@ void StartRomArchiveTransfer(void) {
     BOOL flag;
     BOOL shouldStart;
 
-    gConnectionWork->mStep = 0x24;
+    gConnectionWork->mStep = CONNECTION_STEP_ROM_ARCHIVE_TRANSFER;
     gConnectionWork->mRequestPending = 1;
     shouldStart = FALSE;
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
         flag = TRUE;
-        role = gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode;
-        if (role != 1 && gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
+        role = gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode;
+        if (role != CONNECTION_MODE_PARENT && gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
             flag = FALSE;
         }
         if (flag != FALSE) {
@@ -476,15 +479,16 @@ void StartRomArchiveTransfer(void) {
         }
     }
     if (shouldStart != FALSE) {
-        role = gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode;
-        StartRomArchive(role == 1 ? 1 : 0, 4, 0x154, RomArchiveStateCallback, RomArchiveAllocFunc, 0);
+        role = gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode;
+        StartRomArchive(role == CONNECTION_MODE_PARENT ? 1 : 0, 4, 0x154, RomArchiveStateCallback, RomArchiveAllocFunc,
+                        0);
     }
     gConnectionWork->mRequestPending = 0;
     ResetPendingFiles();
 }
 
 void RomArchiveStateCallback(s32 unusedValue) {
-    if (gConnectionWork->mStep == 0x24) {
+    if (gConnectionWork->mStep == CONNECTION_STEP_ROM_ARCHIVE_TRANSFER) {
         if (GetRomArchiveState() == 2) {
             gConnectionWork->mRequestPending = 0;
             ResetPendingFiles();
@@ -499,13 +503,13 @@ void StartRomArchiveSend(void) {
     BOOL allowed;
     BOOL shouldStart;
 
-    gConnectionWork->mStep = 0x25;
+    gConnectionWork->mStep = CONNECTION_STEP_ROM_ARCHIVE_SEND;
     gConnectionWork->mRequestPending = 1;
     shouldStart = FALSE;
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
         allowed = TRUE;
-        role = gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode;
-        if (role != 1 && gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
+        role = gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode;
+        if (role != CONNECTION_MODE_PARENT && gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
             allowed = FALSE;
         }
         if (allowed != FALSE) {
@@ -525,13 +529,13 @@ void StopRomArchiveTransfer(void) {
     BOOL flag;
     BOOL shouldStop;
 
-    gConnectionWork->mStep = 0x26;
+    gConnectionWork->mStep = CONNECTION_STEP_ROM_ARCHIVE_STOP;
     gConnectionWork->mRequestPending = 1;
     shouldStop = FALSE;
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
         flag = TRUE;
-        role = gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode;
-        if (role != 1 && gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
+        role = gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode;
+        if (role != CONNECTION_MODE_PARENT && gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
             flag = FALSE;
         }
         if (flag != FALSE) {
@@ -566,8 +570,8 @@ u16 ComputeParentTgid(u32 unusedValue) {
 
 // Calls WM_SetParentParameter; also stores 1 in the first session word.
 void SetParentParameter(void) {
-    gConnectionWork->mConnectionMode = 1;
-    gConnectionWork->mStep = 5;
+    gConnectionWork->mConnectionMode = CONNECTION_MODE_PARENT;
+    gConnectionWork->mStep = CONNECTION_STEP_CONFIGURING_HOST;
     gConnectionWork->mRequestPending = 1;
     if (WM_SetParentParameter(SetParentParameterCallback, gConnectionWork->mParentParameter) != 2) {
         StopConnection();
@@ -585,7 +589,7 @@ void StartParent(Unk021425e8Func callback) {
     if (callback == NULL) {
         callback = StartParentCallback;
     }
-    gConnectionWork->mStep = 6;
+    gConnectionWork->mStep = CONNECTION_STEP_OPENING_HOST;
     gConnectionWork->mRequestPending = 1;
     if (WM_StartParent(callback) != 2) {
         StopConnection();
@@ -608,12 +612,12 @@ void StartParentCallback(WirelessMessage *event) {
                 MI_CpuCopy8(&gBackupBuffers->mFirstBlock->mPlayerName, &gConnectionWork->mPlayerRecords[0], 0x14);
                 MI_CpuCopy8(&gBackupBuffers->mFirstBlock->mFlags, &gConnectionWork->mPlayerRecords[0].mBits, 4);
                 seed = 0;
-                role = gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode;
+                role = gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode;
                 switch (role) {
-                    case 1:
+                    case CONNECTION_MODE_PARENT:
                         seed = gConnectionWork->mParentParameter->mTgid;
                         break;
-                    case 2:
+                    case CONNECTION_MODE_CHILD:
                         seed = gConnectionWork->mParentBssDesc->mGameInfo.mTgid;
                         break;
                 }
@@ -626,8 +630,8 @@ void StartParentCallback(WirelessMessage *event) {
             case 9:
                 RemoveChild(event->mLength);
                 aid = event->mLength;
-                role = gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode;
-                if (role == 1 && gConnectionWork->mState == 9) {
+                role = gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode;
+                if (role == CONNECTION_MODE_PARENT && gConnectionWork->mState == CONNECTION_STATE_SYNCED_RACE) {
                     gConnectionWork->mLeftParticipantMask[0] |= 1 << aid;
                 }
                 break;

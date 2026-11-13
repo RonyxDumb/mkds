@@ -38,7 +38,7 @@ static inline u32 ConnectionGetConnectionMode(void) {
 
 static inline s32 IsConnectionActive(void) {
     BOOL result = FALSE;
-    if (ConnectionGetConnectionMode() != 0 && gConnectionWork->mState != 13) {
+    if (ConnectionGetConnectionMode() != CONNECTION_MODE_NONE && gConnectionWork->mState != CONNECTION_STATE_ENDED) {
         result = TRUE;
     }
     return result;
@@ -54,7 +54,7 @@ static inline s32 IsConnectionActiveNotEnding(void) {
 
 static inline s32 IsConnectionActiveNotEndingWithError(void) {
     BOOL result = FALSE;
-    if (IsConnectionActiveNotEnding() && gConnectionWork->mErrorCode != 9) {
+    if (IsConnectionActiveNotEnding() && gConnectionWork->mErrorCode != CONNECTION_ERROR_NONE) {
         result = TRUE;
     }
     return result;
@@ -115,7 +115,7 @@ s32 AdvanceConnectionSetup(s32 isParent, void *ghostSource) {
     if (gConnectionWork->mMPSetupActive != 0) {
         u16 ownIndex;
 
-        ownIndex = gConnectionWork->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0;
+        ownIndex = gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD ? gConnectionWork->mOwnIndex : 0;
         if (ownIndex == 0xffff) {
             return 2;
         }
@@ -127,56 +127,56 @@ s32 AdvanceConnectionSetup(s32 isParent, void *ghostSource) {
         return 0;
     }
     switch (gConnectionWork->mStep) {
-        case 0:
-        case 21:
+        case CONNECTION_STEP_NOTHING:
+        case CONNECTION_STEP_SHUTTING_DOWN:
             gConnectionWork->mFlags &= ~CONNECTION_FLAG_MULTIBOOT_SETUP;
-            gConnectionWork->mState = 1;
+            gConnectionWork->mState = CONNECTION_STATE_STARTING;
             Initialize();
             break;
-        case 1:
-            gConnectionWork->mState = 11;
+        case CONNECTION_STEP_STARTING_UP:
+            gConnectionWork->mState = CONNECTION_STATE_GATHERING;
             if (isParent != 0) {
                 SetLifeTime(0x28);
             } else {
                 StartScan(0, NULL, NULL);
             }
             break;
-        case 2:
+        case CONNECTION_STEP_RESTARTING:
             if (isParent != 0) {
                 SetLifeTime(0x28);
             } else {
                 StartScan(0, NULL, NULL);
             }
             break;
-        case 3:
+        case CONNECTION_STEP_SETTING_TIMEOUT:
             MeasureChannel(0);
             break;
-        case 4:
+        case CONNECTION_STEP_CHECKING_CHANNELS:
             SetParentChannelLowestSum();
             FillGhostParentParameter(ghostSource);
             SetParentParameter();
             break;
-        case 5:
+        case CONNECTION_STEP_CONFIGURING_HOST:
             StartParent(NULL);
             break;
-        case 6:
+        case CONNECTION_STEP_OPENING_HOST:
             StartMPWithBuffers();
             break;
-        case 7:
+        case CONNECTION_STEP_SEARCHING:
             if (gConnectionWork->mSelectedScanEntry == -1) {
                 StartScan(0, NULL, NULL);
             } else {
                 EndScan();
             }
             break;
-        case 9:
+        case CONNECTION_STEP_STOPPING_SEARCH:
             StartConnect(NULL, NULL, NULL, NULL, ResetOwnIndex);
             break;
-        case 10:
+        case CONNECTION_STEP_JOINING:
             gConnectionWork->mMPSetupActive = 1;
             StartMPWithBuffers();
             break;
-        case 11:
+        case CONNECTION_STEP_STARTING_EXCHANGE:
             if (isParent != 0) {
                 StartParentSideBlockTransfer();
             } else {
@@ -204,7 +204,7 @@ s32 AdvanceBlockCountRequest(void) {
     if (gConnectionWork->mMPSetupActive != 0) {
         u16 ownIndex;
 
-        ownIndex = gConnectionWork->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0;
+        ownIndex = gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD ? gConnectionWork->mOwnIndex : 0;
         if (ownIndex == 0xffff) {
             return 2;
         }
@@ -212,21 +212,21 @@ s32 AdvanceBlockCountRequest(void) {
     if (gConnectionWork->mRequestPending != 0) {
         return 0;
     }
-    if (ConnectionGetConnectionMode() == 1) {
+    if (ConnectionGetConnectionMode() == CONNECTION_MODE_PARENT) {
         return 1;
     }
     switch (gConnectionWork->mStep) {
-        case 0x28:
-        case 0x29:
+        case CONNECTION_STEP_PARENT_BLOCK_TRANSFER:
+        case CONNECTION_STEP_CHILD_BLOCK_TRANSFER:
             StartBlockCountRequest();
             break;
-        case 0x2a:
+        case CONNECTION_STEP_BLOCK_COUNT_REQUEST:
             switch (ConnectionGetConnectionMode()) {
-                case 1:
-                    gConnectionWork->mStep = 0x28;
+                case CONNECTION_MODE_PARENT:
+                    gConnectionWork->mStep = CONNECTION_STEP_PARENT_BLOCK_TRANSFER;
                     break;
-                case 2:
-                    gConnectionWork->mStep = 0x29;
+                case CONNECTION_MODE_CHILD:
+                    gConnectionWork->mStep = CONNECTION_STEP_CHILD_BLOCK_TRANSFER;
                     break;
             }
             finished = TRUE;
@@ -239,17 +239,17 @@ void UpdateConnectionSendTimer(void) {
     s32 receivedChunkCount;
     s32 chunkCount;
 
-    if (gConnectionWork->mState != 11) {
+    if (gConnectionWork->mState != CONNECTION_STATE_GATHERING) {
         return;
     }
-    if (gConnectionWork->mStep == 0x2c) {
+    if (gConnectionWork->mStep == CONNECTION_STEP_BLOCK_DATA_REQUEST) {
         WBT_GetCurrentDownloadProgress(gConnectionWork->mBlockInfos[0]->mId, 0, &receivedChunkCount, &chunkCount);
     }
     if (gConnectionWork->mSendTimer != 0) {
         gConnectionWork->mSendTimer = gConnectionWork->mSendTimer - 1;
         return;
     }
-    if (ConnectionGetConnectionMode() == 0) {
+    if (ConnectionGetConnectionMode() == CONNECTION_MODE_NONE) {
         return;
     }
     QueuePacketToPort();
@@ -267,7 +267,7 @@ s32 AdvanceBlockReceive(void) {
     if (gConnectionWork->mMPSetupActive != 0) {
         u16 ownIndex;
 
-        ownIndex = gConnectionWork->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0;
+        ownIndex = gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD ? gConnectionWork->mOwnIndex : 0;
         if (ownIndex == 0xffff) {
             return 2;
         }
@@ -275,23 +275,23 @@ s32 AdvanceBlockReceive(void) {
     if (gConnectionWork->mRequestPending != 0) {
         return 0;
     }
-    if (ConnectionGetConnectionMode() == 1) {
+    if (ConnectionGetConnectionMode() == CONNECTION_MODE_PARENT) {
         return 1;
     }
     switch (gConnectionWork->mStep) {
-        case 0x28:
-        case 0x29:
-        case 0x2a:
+        case CONNECTION_STEP_PARENT_BLOCK_TRANSFER:
+        case CONNECTION_STEP_CHILD_BLOCK_TRANSFER:
+        case CONNECTION_STEP_BLOCK_COUNT_REQUEST:
             gConnectionWork->mBlockIndex = 0;
             StartBlockNodeRequest();
             break;
-        case 0x2b:
+        case CONNECTION_STEP_BLOCK_NODE_REQUEST:
             StartBlockDataRequest();
             break;
-        case 0x2c:
+        case CONNECTION_STEP_BLOCK_DATA_REQUEST:
             StartSendWordRequest(1, 0);
             break;
-        case 0x2e:
+        case CONNECTION_STEP_SEND_WORD_REQUEST:
             gConnectionWork->mMPSetupActive = 0;
             finished = TRUE;
             break;
@@ -321,13 +321,13 @@ BOOL FinishDataSharingSync(void) {
         connection = gConnectionWork;
         if (HasSharingRecordSyncToggleBit(dataSharing->mReceivedRecords) != 0) {
             if ((connection->mFlags & CONNECTION_FLAG_RACE) != 0) {
-                connection->mState = 9;
+                connection->mState = CONNECTION_STATE_SYNCED_RACE;
             } else {
-                connection->mState = 8;
+                connection->mState = CONNECTION_STATE_SYNCED;
             }
             finished = TRUE;
             gConnectionWork->mUnk_15f4 = 0;
-        } else if (ConnectionGetConnectionMode() == 1) {
+        } else if (ConnectionGetConnectionMode() == CONNECTION_MODE_PARENT) {
             if (AreChildSharingRecordsSynced(dataSharing, dataSharing->mReceivedRecords) != 0) {
                 connection->mStatusFlags |= CONNECTION_STATUS_SHARING_SYNCED;
             }
@@ -339,7 +339,7 @@ BOOL FinishDataSharingSync(void) {
 // Starts the wait that FinishDataSharingSync completes; always returns 1.
 s32 StartDataSharingSync(void) {
     if (IsConnectionActive()) {
-        gConnectionWork->mState = 7;
+        gConnectionWork->mState = CONNECTION_STATE_SYNC_WAIT;
         gConnectionWork->mStatusFlags &= ~CONNECTION_STATUS_SHARING_SYNCED;
         if (gConnectionWork->mSyncToggle == 0) {
             gConnectionWork->mSyncToggle = 1;
@@ -382,10 +382,10 @@ s32 GetZeroWordResult(void) {
 
 void InitConnection(void *heap) {
     gConnectionWork = HeapAllocAligned(heap, 0x1f00, 0x20);
-    gConnectionWork->mConnectionMode = 0;
-    gConnectionWork->mState = 0;
-    gConnectionWork->mErrorCode = 9;
-    gConnectionWork->mStep = 0;
+    gConnectionWork->mConnectionMode = CONNECTION_MODE_NONE;
+    gConnectionWork->mState = CONNECTION_STATE_IDLE;
+    gConnectionWork->mErrorCode = CONNECTION_ERROR_NONE;
+    gConnectionWork->mStep = CONNECTION_STEP_NOTHING;
     gConnectionWork->mRequestPending = 0;
     gConnectionWork->mFlags = 0;
     gConnectionWork->mUnk_0456_0 = 0;
@@ -536,19 +536,19 @@ void InitRaceConnection(void) {
     connection = gConnectionWork;
     shiftedValue = 0;
     switch (ConnectionGetConnectionMode()) {
-        case 1:
+        case CONNECTION_MODE_PARENT:
             shiftedValue = connection->mParentParameter->mTgid;
             break;
-        case 2:
+        case CONNECTION_MODE_CHILD:
             shiftedValue = connection->mParentBssDesc->mGameInfo.mTgid;
             break;
     }
     addedValue = 0;
     switch (ConnectionGetConnectionMode()) {
-        case 1:
+        case CONNECTION_MODE_PARENT:
             addedValue = connection->mParentParameter->mTgid;
             break;
-        case 2:
+        case CONNECTION_MODE_CHILD:
             addedValue = connection->mParentBssDesc->mGameInfo.mTgid;
             break;
     }

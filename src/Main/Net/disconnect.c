@@ -39,13 +39,13 @@ static inline u32 DisconnectGetConnectionMode(void) {
 }
 
 void DisconnectChildren(u32 aidBitmap) {
-    gConnectionWork->mStep = 0x10;
+    gConnectionWork->mStep = CONNECTION_STEP_DROPPING_CHILDREN;
     gConnectionWork->mRequestPending = 1;
     if (WM_DisconnectChildren(DisconnectChildrenCallback, aidBitmap) != 7) {
         return;
     }
-    if (gConnectionWork->mState == 9) {
-        if (DisconnectGetConnectionMode() == 1) {
+    if (gConnectionWork->mState == CONNECTION_STATE_SYNCED_RACE) {
+        if (DisconnectGetConnectionMode() == CONNECTION_MODE_PARENT) {
             gConnectionWork->mRemovedChildMask = 0;
         }
     }
@@ -57,10 +57,10 @@ void DisconnectChildrenCallback(WirelessMessage *event) {
     if (event->mResultCode != 0 && event->mResultCode != 7) {
         return;
     }
-    if (DisconnectGetConnectionMode() == 1) {
+    if (DisconnectGetConnectionMode() == CONNECTION_MODE_PARENT) {
         switch (gConnectionWork->mState) {
-            case 8:
-            case 9:
+            case CONNECTION_STATE_SYNCED:
+            case CONNECTION_STATE_SYNCED_RACE:
                 gConnectionWork->mLeftParticipantMask[0] =
                     gConnectionWork->mLeftParticipantMask[0] | gConnectionWork->mRemovedChildMask;
                 break;
@@ -72,7 +72,7 @@ void DisconnectChildrenCallback(WirelessMessage *event) {
 void EndDataSharing(void) {
     s32 result;
 
-    gConnectionWork->mStep = 0x11;
+    gConnectionWork->mStep = CONNECTION_STEP_STOPPING_SHARING;
     gConnectionWork->mRequestPending = 1;
     result = WM_EndDataSharing(gConnectionWork->mSharingInfo);
     gConnectionWork->mRequestPending = 0;
@@ -83,7 +83,7 @@ void EndDataSharing(void) {
 }
 
 void EndMP(void) {
-    gConnectionWork->mStep = 0x12;
+    gConnectionWork->mStep = CONNECTION_STEP_STOPPING_EXCHANGE;
     gConnectionWork->mRequestPending = 1;
     if (WM_EndMP(EndMPCallback) == 2) {
         return;
@@ -101,13 +101,13 @@ void EndMPCallback(WirelessMessage *event) {
         return;
     }
     connection = gConnectionWork;
-    if (connection->mState == 0xb) {
-        connection->mState = 0xc;
+    if (connection->mState == CONNECTION_STATE_GATHERING) {
+        connection->mState = CONNECTION_STATE_MP_ENDING;
     }
 }
 
 void EndParent(void) {
-    gConnectionWork->mStep = 0x13;
+    gConnectionWork->mStep = CONNECTION_STEP_CLOSING_HOST;
     gConnectionWork->mRequestPending = 1;
     if (WM_EndParent(EndParentCallback) == 2) {
         return;
@@ -133,20 +133,20 @@ void Disconnect(void) {
     result = 7;
     children = &gConnectionWork->mChildren;
     switch (DisconnectGetConnectionMode()) {
-        case 1:
+        case CONNECTION_MODE_PARENT:
             for (childIndex = 0, child = children->mEntries; childIndex < children->mChildCount;
                  childIndex++, child++) {
                 if (child->mAid != 0xffff) {
                     gConnectionWork->mChildren.mDisconnectingIndex = childIndex;
-                    gConnectionWork->mStep = 0x14;
+                    gConnectionWork->mStep = CONNECTION_STEP_LEAVING;
                     gConnectionWork->mRequestPending = 1;
                     result = WM_Disconnect(DisconnectCallback, child->mAid);
                     break;
                 }
             }
             break;
-        case 2:
-            gConnectionWork->mStep = 0x14;
+        case CONNECTION_MODE_CHILD:
+            gConnectionWork->mStep = CONNECTION_STEP_LEAVING;
             gConnectionWork->mRequestPending = 1;
             result = WM_Disconnect(DisconnectCallback, 0);
             break;
@@ -157,7 +157,7 @@ void Disconnect(void) {
             gConnectionWork->mRequestPending = 0;
             break;
         case 2:
-            if (DisconnectGetConnectionMode() == 2) {
+            if (DisconnectGetConnectionMode() == CONNECTION_MODE_CHILD) {
                 gConnectionWork->mOperationFlags |= CONNECTION_OPERATION_DISCONNECTING;
             }
             break;
@@ -175,17 +175,17 @@ void DisconnectCallback(WirelessMessage *event) {
         case 7:
             gConnectionWork->mRequestPending = 0;
             switch (gConnectionWork->mConnectionMode) {
-                case 1:
+                case CONNECTION_MODE_PARENT:
                     aid = gConnectionWork->mChildren.mEntries[gConnectionWork->mChildren.mDisconnectingIndex].mAid;
                     RemoveChild(aid);
-                    if (DisconnectGetConnectionMode() == 1) {
-                        if (gConnectionWork->mState == 9) {
+                    if (DisconnectGetConnectionMode() == CONNECTION_MODE_PARENT) {
+                        if (gConnectionWork->mState == CONNECTION_STATE_SYNCED_RACE) {
                             gConnectionWork->mLeftParticipantMask[0] |= 1 << aid;
                         }
                     }
                     gConnectionWork->mChildren.mDisconnectingIndex = -1;
                     break;
-                case 2:
+                case CONNECTION_MODE_CHILD:
                     gConnectionWork->mOperationFlags &= ~CONNECTION_OPERATION_DISCONNECTING;
                     ResetConnectionData();
                     break;
@@ -218,7 +218,8 @@ s32 GetConnectionMode(void) {
 }
 
 static inline u32 IsMultiBootSetupStartedModeOneOrChild(void) {
-    return IsMultiBootSetupStarted() != FALSE && (GetConnectionMode() == 1 || ConnectionMB_IsMultiBootChild() != FALSE);
+    return IsMultiBootSetupStarted() != FALSE &&
+           (GetConnectionMode() == CONNECTION_MODE_PARENT || ConnectionMB_IsMultiBootChild() != FALSE);
 }
 
 BOOL ConnectionMB_IsMultiBootChild(void) {
@@ -235,7 +236,7 @@ void End(void) {
     ConnectionWork *connection;
     u32 flags;
 
-    gConnectionWork->mStep = 0x15;
+    gConnectionWork->mStep = CONNECTION_STEP_SHUTTING_DOWN;
     gConnectionWork->mRequestPending = 1;
     if (WM_End(EndCallback) == 2) {
         return;
@@ -243,7 +244,7 @@ void End(void) {
     connection = gConnectionWork;
     flags = connection->mFlags;
     if ((flags & CONNECTION_FLAG_ROM_ARCHIVE_TRANSFER) != 0) {
-        connection->mStep = 0x26;
+        connection->mStep = CONNECTION_STEP_ROM_ARCHIVE_STOP;
         gConnectionWork->mRequestPending = 1;
         if (IsMultiBootSetupStartedModeOneOrChild() != 0) {
             StopRomArchive();
@@ -256,12 +257,12 @@ void End(void) {
         EndWbtStep();
         return;
     }
-    connection->mStep = 2;
+    connection->mStep = CONNECTION_STEP_RESTARTING;
     gConnectionWork->mRequestPending = 1;
     if (WM_Reset(ResetCallback) == 2) {
         return;
     }
-    gConnectionWork->mStep = 0x15;
+    gConnectionWork->mStep = CONNECTION_STEP_SHUTTING_DOWN;
     gConnectionWork->mRequestPending = 1;
     if (WM_End(EndCallback) == 2) {
         return;
@@ -274,7 +275,7 @@ void End(void) {
         EndWbtStep();
         return;
     }
-    SetStepAndRequestPending(2);
+    SetStepAndRequestPending(CONNECTION_STEP_RESTARTING);
     if (WM_Reset(ResetCallback) == 2) {
         return;
     }
@@ -284,10 +285,10 @@ void End(void) {
 void EndCallback(WirelessMessage *event) {
     gConnectionWork->mRequestPending = 0;
     if (event->mResultCode != 0) {
-        gConnectionWork->mErrorCode = 8;
+        gConnectionWork->mErrorCode = CONNECTION_ERROR_OPERATION_FAILED;
         gConnectionWork->mRequestPending = 0;
     } else {
-        gConnectionWork->mConnectionMode = 0;
+        gConnectionWork->mConnectionMode = CONNECTION_MODE_NONE;
     }
 }
 
@@ -331,7 +332,7 @@ static inline void SetGroupSendMaskIfMultiBootMode1(u8 groupSendMask) {
 
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
         isAllowed = 1;
-        if (DisconnectGetConnectionMode() != 1) {
+        if (DisconnectGetConnectionMode() != CONNECTION_MODE_PARENT) {
             if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
                 isAllowed = 0;
             }
@@ -343,7 +344,7 @@ static inline void SetGroupSendMaskIfMultiBootMode1(u8 groupSendMask) {
     if (shouldSend == 0) {
         return;
     }
-    if (DisconnectGetConnectionMode() != 1) {
+    if (DisconnectGetConnectionMode() != CONNECTION_MODE_PARENT) {
         return;
     }
     SetRomArchiveGroupSendMask(groupSendMask);
@@ -355,8 +356,8 @@ static inline void RemoveChildrenInMask(u16 removeMask) {
 
     for (childIndex = 0; childIndex < 8; childIndex++) {
         if ((removeMask & (1 << childIndex)) != 0) {
-            isInState9 = gConnectionWork->mState == 9 ? 1 : 0;
-            if (DisconnectGetConnectionMode() == 1) {
+            isInState9 = gConnectionWork->mState == CONNECTION_STATE_SYNCED_RACE ? 1 : 0;
+            if (DisconnectGetConnectionMode() == CONNECTION_MODE_PARENT) {
                 gConnectionWork->mChildren.mChildMask &= ~(1 << childIndex);
                 if (isInState9 != 0) {
                     gConnectionWork->mRemovedChildMask |= 1 << childIndex;
@@ -365,7 +366,7 @@ static inline void RemoveChildrenInMask(u16 removeMask) {
             gConnectionWork->mGroupSendMask &= ~(1 << childIndex);
         }
     }
-    if (DisconnectGetConnectionMode() != 1) {
+    if (DisconnectGetConnectionMode() != CONNECTION_MODE_PARENT) {
         return;
     }
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_ROM_ARCHIVE_TRANSFER) == 0) {
@@ -386,15 +387,15 @@ void RemoveChild(u32 aid) {
     RemoveChildrenInMask(1 << aid);
     gConnectionWork->mStatusFlags |= CONNECTION_STATUS_CHILDREN_CHANGED;
     switch (gConnectionWork->mState) {
-        case 9:
+        case CONNECTION_STATE_SYNCED_RACE:
             if (children->mChildCount < 1) {
-                gConnectionWork->mErrorCode = 0;
+                gConnectionWork->mErrorCode = CONNECTION_ERROR_DISCONNECTED;
                 gConnectionWork->mRequestPending = 0;
             }
             break;
-        case 7:
-        case 8:
-            gConnectionWork->mErrorCode = 0;
+        case CONNECTION_STATE_SYNC_WAIT:
+        case CONNECTION_STATE_SYNCED:
+            gConnectionWork->mErrorCode = CONNECTION_ERROR_DISCONNECTED;
             gConnectionWork->mRequestPending = 0;
             break;
     }
@@ -421,17 +422,17 @@ void ProcessMPData(u32 aid, MPMessage *message) {
             RequestMPState15AfterCombine();
             break;
         case 2:
-            if (DisconnectGetConnectionMode() == 2) {
+            if (DisconnectGetConnectionMode() == CONNECTION_MODE_CHILD) {
                 gConnectionWork->mGroupSendMask = message->mUnk_04;
             }
             MPDataRequestMPState(1);
             break;
         case 6:
             switch (gConnectionWork->mState) {
-                case 6:
+                case CONNECTION_STATE_CONNECTED:
                     StoreReceivedPlayerName(message->mUnk_02, message->mUnk_16, message->mUnk_17);
                     break;
-                case 0xa:
+                case CONNECTION_STATE_ENTRY_EXCHANGE:
                     StoreReceivedPlayerNameByState(message->mUnk_02, (u8) aid, message->mUnk_16, message->mUnk_17);
                     break;
             }
@@ -486,12 +487,12 @@ BOOL QueueMPDataToPort(void *data, s32 dataSize, u16 destBitmap, void *sendBuffe
 
     sendSize = dataSize;
     switch (DisconnectGetConnectionMode()) {
-        case 1:
+        case CONNECTION_MODE_PARENT:
             if (gConnectionWork->mChildren.mChildMask == 0) {
                 return FALSE;
             }
             break;
-        case 2:
+        case CONNECTION_MODE_CHILD:
             if (gConnectionWork->mOwnIndex == 0xffff) {
                 return FALSE;
             }
@@ -536,7 +537,7 @@ BOOL QueueMPDataPlayerName(s32 playerIndex, u16 destBitmap) {
     message.mKind = 6;
     MI_CpuCopy8(&gConnectionWork->mPlayerRecords[playerIndex], message.mName, 0x14);
     message.mPlayerIndex = playerIndex;
-    if (DisconnectGetConnectionMode() == 1) {
+    if (DisconnectGetConnectionMode() == CONNECTION_MODE_PARENT) {
         message.mConnectedMask = gConnectionWork->mChildren.mChildMask | 1;
     } else {
         message.mConnectedMask = 0;

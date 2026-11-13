@@ -12,11 +12,11 @@
 void EnterMPState21(void) {
     int connectionMode;
     if (gConnectionWork == NULL) {
-        connectionMode = 0;
+        connectionMode = CONNECTION_MODE_NONE;
     } else {
         connectionMode = gConnectionWork->mConnectionMode;
     }
-    if (connectionMode == 1) {
+    if (connectionMode == CONNECTION_MODE_PARENT) {
         SetMPFrequency(0);
     }
 }
@@ -35,11 +35,11 @@ void UpdateMPState21(void) {
 void EnterMPState18(void) {
     int connectionMode;
     if (gConnectionWork == NULL) {
-        connectionMode = 0;
+        connectionMode = CONNECTION_MODE_NONE;
     } else {
         connectionMode = gConnectionWork->mConnectionMode;
     }
-    if (connectionMode == 1) {
+    if (connectionMode == CONNECTION_MODE_PARENT) {
         SetMPFrequency(0);
     }
 }

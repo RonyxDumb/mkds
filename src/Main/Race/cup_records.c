@@ -40,7 +40,8 @@ void ResetCupRecords(void) {
         }
     }
     flag = FALSE;
-    if ((gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode) != 0 && gConnectionWork->mState != 13) {
+    if ((gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode) != CONNECTION_MODE_NONE &&
+        gConnectionWork->mState != CONNECTION_STATE_ENDED) {
         flag = TRUE;
     }
     if (flag != FALSE) {

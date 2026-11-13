@@ -108,7 +108,7 @@ static inline u32 DispCapGetConnectionMode(void) {
 
 static inline s32 DispCapIsConnectionActive(void) {
     BOOL result = FALSE;
-    if (DispCapGetConnectionMode() != 0 && gConnectionWork->mState != 13) {
+    if (DispCapGetConnectionMode() != CONNECTION_MODE_NONE && gConnectionWork->mState != CONNECTION_STATE_ENDED) {
         result = TRUE;
     }
     return result;
@@ -124,7 +124,7 @@ static inline s32 DispCapIsConnectionActiveNotEnding(void) {
 
 static inline s32 DispCapIsConnectionActiveNotEndingWithError(void) {
     BOOL result = FALSE;
-    if (DispCapIsConnectionActiveNotEnding() && gConnectionWork->mErrorCode != 9) {
+    if (DispCapIsConnectionActiveNotEnding() && gConnectionWork->mErrorCode != CONNECTION_ERROR_NONE) {
         result = TRUE;
     }
     return result;
@@ -276,12 +276,12 @@ static inline s32 DispCapIsConnectionActiveViaLocal(void) {
     BOOL result = FALSE;
     u32 connectionMode;
     if (gConnectionWork == NULL) {
-        connectionMode = 0;
+        connectionMode = CONNECTION_MODE_NONE;
         result = FALSE;
     } else {
         connectionMode = gConnectionWork->mConnectionMode;
     }
-    if (connectionMode != 0 && gConnectionWork->mState != 13) {
+    if (connectionMode != CONNECTION_MODE_NONE && gConnectionWork->mState != CONNECTION_STATE_ENDED) {
         result = TRUE;
     }
     return result;
@@ -325,7 +325,7 @@ BOOL IsDispCapFadeFlagSet(void) {
 
 // Sets bit 8; it stays set until the brightness fades are clear. A child console in a link leaves it alone.
 void SetDispCapFadeFlag(void) {
-    if (DispCapIsConnectionActive() != 0 && DispCapGetConnectionMode() != 1) {
+    if (DispCapIsConnectionActive() != 0 && DispCapGetConnectionMode() != CONNECTION_MODE_PARENT) {
         return;
     }
     gDispCap->mFlags |= 8;
@@ -357,41 +357,41 @@ s32 AdvanceNonMultiBootSetup(s32 isParent) {
         return 3;
     }
     switch (gConnectionWork->mStep) {
-        case 0:
-        case 21:
+        case CONNECTION_STEP_NOTHING:
+        case CONNECTION_STEP_SHUTTING_DOWN:
             gConnectionWork->mFlags &= ~CONNECTION_FLAG_MULTIBOOT_SETUP;
-            gConnectionWork->mState = 1;
+            gConnectionWork->mState = CONNECTION_STATE_STARTING;
             Initialize();
             break;
-        case 1:
+        case CONNECTION_STEP_STARTING_UP:
             StartRomArchiveTransfer();
             break;
-        case 2:
-        case 36:
+        case CONNECTION_STEP_RESTARTING:
+        case CONNECTION_STEP_ROM_ARCHIVE_TRANSFER:
             if (isParent != 0) {
                 SetLifeTime(0x14);
             } else {
                 result = TRUE;
-                gConnectionWork->mState = 3;
+                gConnectionWork->mState = CONNECTION_STATE_MULTIBOOT_SCAN_READY;
                 StartScan(1, NULL, NULL);
             }
             break;
-        case 3:
+        case CONNECTION_STEP_SETTING_TIMEOUT:
             MeasureChannel(0);
             break;
-        case 4:
+        case CONNECTION_STEP_CHECKING_CHANNELS:
             SetParentChannelLowestSum();
             FillParentParameter(1);
             SetParentParameter();
             break;
-        case 5:
+        case CONNECTION_STEP_CONFIGURING_HOST:
             StartParent(NULL);
             break;
-        case 6:
+        case CONNECTION_STEP_OPENING_HOST:
             StartMP();
             break;
-        case 11:
-            gConnectionWork->mState = 2;
+        case CONNECTION_STEP_STARTING_EXCHANGE:
+            gConnectionWork->mState = CONNECTION_STATE_MULTIBOOT_PARENT_READY;
             gConnectionWork->mChildren.mNameSendIndex = 0;
             result = TRUE;
             gConnectionWork->mStatusFlags &= ~CONNECTION_STATUS_CHILDREN_CHANGED;

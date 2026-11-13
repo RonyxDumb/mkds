@@ -672,7 +672,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
             SetupInterpolation(&gSelectCharacter->mInterpolations[2], 1, 10, 0x60, 0);
             switch (gSelectCharacter->mMode) {
                 case SELECT_CHARACTER_MODE_CONNECTION:
-                    if (gConnectionWork->mState == 8) {
+                    if (gConnectionWork->mState == CONNECTION_STATE_SYNCED) {
                         gConnectionWork->mDataSharingSendByte = 0xff;
                     }
                     break;
@@ -713,7 +713,8 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
             break;
         case SELECT_CHARACTER_MODE_CONNECTION:
             selectCharacter->mEntryIndex =
-                GetParticipantPosByIndex(gConnectionWork->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0)
+                GetParticipantPosByIndex(
+                    gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD ? gConnectionWork->mOwnIndex : 0)
                     ->mEntryIndex;
             break;
         case SELECT_CHARACTER_MODE_WIFI_SESSION:
@@ -960,14 +961,14 @@ int AdvanceSelectCharacter(void) {
             gSelectCharacter->mResult = 1;
             if (GetRaceSetupCopy()->mMode == 3) {
                 flaggedCharacterIndex = gSelectCharacter->mCharacterIndex | 0x40;
-                if (gConnectionWork->mState == 8) {
+                if (gConnectionWork->mState == CONNECTION_STATE_SYNCED) {
                     gConnectionWork->mDataSharingSendByte = flaggedCharacterIndex;
                 }
                 StartPlayerEntryListKindIfUsed(1);
                 gSelectCharacter->mState = SELECT_CHARACTER_STATE_SCALE_OUT;
             } else if (GetRaceSetupCopy()->mMode == 2) {
                 flaggedCharacterIndex = gSelectCharacter->mCharacterIndex | 0xc0;
-                if (gConnectionWork->mState == 8) {
+                if (gConnectionWork->mState == CONNECTION_STATE_SYNCED) {
                     gConnectionWork->mDataSharingSendByte = flaggedCharacterIndex;
                 }
                 gSelectCharacter->mState = SELECT_CHARACTER_STATE_WAIT_OTHERS;
@@ -1008,7 +1009,7 @@ int AdvanceSelectCharacter(void) {
                         break;
                     case SELECT_CHARACTER_MODE_CONNECTION:
                         flaggedCharacterIndex = selectCharacterReload->mCharacterIndex | 0xc0;
-                        if (gConnectionWork->mState == 8) {
+                        if (gConnectionWork->mState == CONNECTION_STATE_SYNCED) {
                             gConnectionWork->mDataSharingSendByte = flaggedCharacterIndex;
                         }
                         break;
@@ -1096,7 +1097,7 @@ int AdvanceSelectCharacter(void) {
                     case SELECT_CHARACTER_MODE_CONNECTION:
                         if (GetRaceSetupCopy()->mMode == 3) {
                             flaggedCharacterIndex = gSelectCharacter->mCharacterIndex | 0x40;
-                            if (gConnectionWork->mState == 8) {
+                            if (gConnectionWork->mState == CONNECTION_STATE_SYNCED) {
                                 gConnectionWork->mDataSharingSendByte = flaggedCharacterIndex;
                             }
                             SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[1], 2);
@@ -1105,7 +1106,7 @@ int AdvanceSelectCharacter(void) {
                             StartKartModelMenuTimedSpinStop();
                         } else if (GetRaceSetupCopy()->mMode == 2) {
                             flaggedCharacterIndex = gSelectCharacter->mCharacterIndex | 0xc0;
-                            if (gConnectionWork->mState == 8) {
+                            if (gConnectionWork->mState == CONNECTION_STATE_SYNCED) {
                                 gConnectionWork->mDataSharingSendByte = flaggedCharacterIndex;
                             }
                             SetKartModelMenuSpinStopped(1);

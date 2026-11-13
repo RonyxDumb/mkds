@@ -47,7 +47,7 @@ static inline u32 MPStatesGetConnectionMode(void) {
 
 static inline s32 MPStatesIsConnectionActive(void) {
     BOOL result = FALSE;
-    if (MPStatesGetConnectionMode() != 0 && gConnectionWork->mState != 13) {
+    if (MPStatesGetConnectionMode() != CONNECTION_MODE_NONE && gConnectionWork->mState != CONNECTION_STATE_ENDED) {
         result = TRUE;
     }
     return result;
@@ -63,7 +63,7 @@ static inline s32 MPStatesIsConnectionActiveNotEnding(void) {
 
 static inline s32 MPStatesIsConnectionActiveNotEndingWithError(void) {
     BOOL result = FALSE;
-    if (MPStatesIsConnectionActiveNotEnding() && gConnectionWork->mErrorCode != 9) {
+    if (MPStatesIsConnectionActiveNotEnding() && gConnectionWork->mErrorCode != CONNECTION_ERROR_NONE) {
         result = TRUE;
     }
     return result;
@@ -74,7 +74,7 @@ void StoreReceivedPlayerNameByState(const void *data, s32 aid, s32 playerIndex, 
     s32 playerBit;
 
     state = gConnectionWork->mState;
-    if (state != 11) {
+    if (state != CONNECTION_STATE_GATHERING) {
         StoreReceivedPlayerName(data, playerIndex, keepMask);
         return;
     }
@@ -156,7 +156,7 @@ s32 AdvanceChildArchiveSync(s32 archiveKind, void *courseId, void *mode) {
                         RequestMenuDLArchives();
                         break;
                 }
-                gConnectionWork->mStep = 0x27;
+                gConnectionWork->mStep = CONNECTION_STEP_CHILD_ARCHIVE_SYNC;
                 gConnectionWork->mRequestPending = 1;
                 gConnectionWork->mNextLoadIndex = 0;
                 FS_InitFile(&gConnectionWork->mFile);
@@ -190,9 +190,9 @@ u32 AdvanceMainAndMenuDLArchives(void) {
         return 3;
     }
     switch (MPStatesGetConnectionMode()) {
-        case 1:
+        case CONNECTION_MODE_PARENT:
             return AdvanceParentSync();
-        case 2:
+        case CONNECTION_MODE_CHILD:
             return AdvanceChildArchiveSync(0, NULL, NULL);
         default:
             return 3;
@@ -247,9 +247,9 @@ u32 AdvanceRaceArchives(void) {
         return 1;
     }
     switch (MPStatesGetConnectionMode()) {
-        case 1:
+        case CONNECTION_MODE_PARENT:
             return AdvanceParentSync();
-        case 2:
+        case CONNECTION_MODE_CHILD:
             return AdvanceChildArchiveSync(1, gConnectionWork->mCourseId, gConnectionWork->mMode);
         default:
             return 3;
@@ -263,11 +263,11 @@ u32 AdvanceRaceArchives(void) {
 void EnterMPState16(void) {
     int v1;
     if (gConnectionWork == NULL) {
-        v1 = 0;
+        v1 = CONNECTION_MODE_NONE;
     } else {
         v1 = gConnectionWork->mConnectionMode;
     }
-    if (v1 == 1) {
+    if (v1 == CONNECTION_MODE_PARENT) {
         SetMPFrequency(0);
     }
 }
@@ -323,11 +323,11 @@ void UpdateMPState17(void) {
 void EnterMPState20(void) {
     int v1;
     if (gConnectionWork == NULL) {
-        v1 = 0;
+        v1 = CONNECTION_MODE_NONE;
     } else {
         v1 = gConnectionWork->mConnectionMode;
     }
-    if (v1 == 1) {
+    if (v1 == CONNECTION_MODE_PARENT) {
         SetMPFrequency(1);
     }
 }

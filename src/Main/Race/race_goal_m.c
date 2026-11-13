@@ -371,7 +371,7 @@ void UpdateRaceLinkLevel(void) {
             gRaceLinkLevel->mFriendOn = 0;
         }
     } else {
-        gRaceLinkLevel->mLinkLevel = gConnectionWork->mState == 0 ? 0 : WM_GetLinkLevel();
+        gRaceLinkLevel->mLinkLevel = gConnectionWork->mState == CONNECTION_STATE_IDLE ? 0 : WM_GetLinkLevel();
     }
 }
 

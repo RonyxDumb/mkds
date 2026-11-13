@@ -324,12 +324,12 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                 connectionActive = 0;
                 connectionWork = gConnectionWork;
                 if (connectionWork == NULL) {
-                    connectionMode = 0;
+                    connectionMode = CONNECTION_MODE_NONE;
                 } else {
                     connectionMode = connectionWork->mConnectionMode;
                 }
-                if (connectionMode != 0) {
-                    if (connectionWork->mState != 0xd) {
+                if (connectionMode != CONNECTION_MODE_NONE) {
+                    if (connectionWork->mState != CONNECTION_STATE_ENDED) {
                         connectionActive = 1;
                     }
                 }

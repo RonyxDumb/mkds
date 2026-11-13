@@ -55,7 +55,7 @@ u32 IsAllMPChunksReceived(u32 slot) {
 
     receivedFlags = gConnectionWork->mChunkReceivedFlags[slot];
     allReceived = 1;
-    if (MPChunkGetConnectionMode() == 1) {
+    if (MPChunkGetConnectionMode() == CONNECTION_MODE_PARENT) {
         chunkCount = 0x12;
     } else {
         chunkCount = 2;
@@ -80,24 +80,24 @@ void ProcessMPChunk(u8 *chunk) {
     playerIndex = chunk[0];
     entry = &gConnectionWork->mPlayerRecords[playerIndex];
     finished = 0;
-    if (MPChunkGetConnectionMode() == 1) {
+    if (MPChunkGetConnectionMode() == CONNECTION_MODE_PARENT) {
         byteOffset = chunk[1] << 5;
     } else {
         byteOffset = chunk[1] * 0x168;
     }
     switch (chunk[1]) {
         case 0xff:
-            if (MPChunkGetConnectionMode() == 2) {
+            if (MPChunkGetConnectionMode() == CONNECTION_MODE_CHILD) {
                 MPChunkRequestMPState(9);
             }
             break;
         case 0xfe:
-            if (MPChunkGetConnectionMode() == 2) {
+            if (MPChunkGetConnectionMode() == CONNECTION_MODE_CHILD) {
                 gConnectionWork->mExpectedRecordMask = *(u16 *) (chunk + 2);
             }
             break;
         case 0xfd:
-            if (MPChunkGetConnectionMode() == 1) {
+            if (MPChunkGetConnectionMode() == CONNECTION_MODE_PARENT) {
                 gConnectionWork->mRecordReceivedMask |= 1 << playerIndex;
                 if (gConnectionWork->mChildren.mChildMask ==
                     (gConnectionWork->mChildren.mChildMask & gConnectionWork->mRecordReceivedMask)) {
@@ -119,7 +119,7 @@ void ProcessMPChunk(u8 *chunk) {
     }
     if (finished != 0) {
         playerBit = 1U << chunk[0];
-        if (MPChunkGetConnectionMode() == 1) {
+        if (MPChunkGetConnectionMode() == CONNECTION_MODE_PARENT) {
             if (QueueMPChunk(0xff, NULL, 0, 0, playerBit) != FALSE) {
                 gConnectionWork->mRecordReceivedMask |= 1 << chunk[0];
                 return;
@@ -128,7 +128,7 @@ void ProcessMPChunk(u8 *chunk) {
             gConnectionWork->mRecordReceivedMask |= 1 << chunk[0];
             if (gConnectionWork->mExpectedRecordMask ==
                 (gConnectionWork->mExpectedRecordMask & gConnectionWork->mRecordReceivedMask)) {
-                ownIndex = gConnectionWork->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0;
+                ownIndex = gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD ? gConnectionWork->mOwnIndex : 0;
                 if (QueueMPChunk(0xfd, NULL, 0, ownIndex, 1) != FALSE) {
                     MPChunkRequestMPState(10);
                 }
@@ -163,11 +163,11 @@ void InitMPStateMachine(void) {
     gConnectionWork->mRecordReceivedMask = 0;
     gConnectionWork->mNamesStoredMask = 0;
     connectionWork = gConnectionWork;
-    connectionMode = 0;
+    connectionMode = CONNECTION_MODE_NONE;
     if (connectionWork != NULL) {
         connectionMode = connectionWork->mConnectionMode;
     }
-    if (connectionMode == 1) {
+    if (connectionMode == CONNECTION_MODE_PARENT) {
         connectionWork->mChildren.mExpectedRecordMask = (connectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0
                                                             ? connectionWork->mMultiBootChildMask
                                                             : connectionWork->mChildren.mChildMask;

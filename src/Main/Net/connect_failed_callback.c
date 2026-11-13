@@ -7,7 +7,7 @@
 
 void ConnectFailedCallback(void) {
     if ((0x00000708u) < gConnectionWork->mStepWaitFrames) {
-        SetRequestErrorCode(5);
+        SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
         return;
     }
     StopConnection();

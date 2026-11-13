@@ -217,7 +217,7 @@ void InitRaceProgressKart(RaceProgressKart *raceProgressKart, s32 kartIndex) {
 }
 
 static inline u32 RaceProgressGetWorkConnectionMode(ConnectionWork *connectionWork) {
-    return connectionWork == NULL ? 0 : connectionWork->mConnectionMode;
+    return connectionWork == NULL ? CONNECTION_MODE_NONE : connectionWork->mConnectionMode;
 }
 
 static inline void ResetRaceProgressClock(RaceProgressHeader *raceProgressHeader) {
@@ -327,7 +327,7 @@ void InitRaceProgress(void) {
                     connectionWork = gConnectionWork;
                     value = 0;
                     if (RaceProgressGetWorkConnectionMode(connectionWork) != 0) {
-                        if (connectionWork->mState != 0xd) {
+                        if (connectionWork->mState != CONNECTION_STATE_ENDED) {
                             value = 1;
                         }
                     }

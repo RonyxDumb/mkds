@@ -26,7 +26,8 @@ void PickRandomKarts(CharacterKartPicks *picks) {
 
     givenBits = picks->mKartGivenBits;
     useSharedRandom = FALSE;
-    if ((gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode) != 0 && gConnectionWork->mState != 0xd) {
+    if ((gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode) != CONNECTION_MODE_NONE &&
+        gConnectionWork->mState != CONNECTION_STATE_ENDED) {
         useSharedRandom = TRUE;
     }
     if (useSharedRandom != FALSE) {
@@ -116,11 +117,11 @@ void PickRandomCharacters(CharacterKartPicks *picks) {
     givenBits = picks->mCharacterGivenBits;
     useSharedRandom = FALSE;
     if (gConnectionWork == NULL) {
-        connectionMode = 0;
+        connectionMode = CONNECTION_MODE_NONE;
     } else {
         connectionMode = gConnectionWork->mConnectionMode;
     }
-    if (connectionMode != 0 && gConnectionWork->mState != 0xd) {
+    if (connectionMode != CONNECTION_MODE_NONE && gConnectionWork->mState != CONNECTION_STATE_ENDED) {
         useSharedRandom = TRUE;
     }
     if (useSharedRandom != FALSE) {

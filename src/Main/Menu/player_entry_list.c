@@ -305,7 +305,8 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
                 break;
             case 1:
                 stateActive = TRUE;
-                if (gConnectionWork->mState != 8 && gConnectionWork->mState != 9) {
+                if (gConnectionWork->mState != CONNECTION_STATE_SYNCED &&
+                    gConnectionWork->mState != CONNECTION_STATE_SYNCED_RACE) {
                     stateActive = FALSE;
                 }
                 if (stateActive != FALSE) {
@@ -314,7 +315,7 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
                     index = 0;
                 }
                 gPlayerEntryList->mPlayerCount = (u8) index;
-                if (gConnectionWork->mConnectionMode == 2) {
+                if (gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD) {
                     index = gConnectionWork->mOwnIndex;
                 } else {
                     index = 0;
@@ -488,7 +489,7 @@ void AdvancePlayerEntryList(void) {
                 s32 sharedCharacter;
 
                 for (entryIndex = 0; entryIndex < gPlayerEntryList->mPlayerCount; entryIndex++) {
-                    if (gConnectionWork->mState == 8 &&
+                    if (gConnectionWork->mState == CONNECTION_STATE_SYNCED &&
                         (gConnectionWork->mParticipantMask & (1 << GetParticipantIndexByPos(entryIndex))) != 0) {
                         counter =
                             gConnectionWork->mSharingReceiveRecords[GetParticipantIndexByPos(entryIndex)].mUnk_00[5];

@@ -34,7 +34,8 @@ static inline BOOL BuddyRecordIsConnectionActive(void) {
     ConnectionWork *connectionWork;
 
     connectionWork = gConnectionWork;
-    return (connectionWork == NULL ? 0 : connectionWork->mConnectionMode) != 0 && connectionWork->mState != 13;
+    return (connectionWork == NULL ? CONNECTION_MODE_NONE : connectionWork->mConnectionMode) != CONNECTION_MODE_NONE &&
+           connectionWork->mState != CONNECTION_STATE_ENDED;
 }
 
 BOOL FormatTimeRecordChars(u8 *charsOut, TimeRecord *timeRecord, s32 courseId) {

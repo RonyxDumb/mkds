@@ -434,7 +434,8 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
                     if (gMultiSelectMemberGroup->mSelectedIndex == 4) {
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x4e);
                     } else {
-                        if ((gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode) == 2) {
+                        if ((gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode) ==
+                            CONNECTION_MODE_CHILD) {
                             gConnectionWork->mOperationFlags |= CONNECTION_OPERATION_SCANNING;
                         }
                         NNS_SndArcSetCurrent(&gOnMemorySndArc);

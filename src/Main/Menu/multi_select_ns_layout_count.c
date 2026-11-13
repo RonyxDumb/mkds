@@ -689,11 +689,11 @@ s32 AdvanceMultiSelectMemberKeyStart(SceneNumbers *sceneNumbers) {
         gMultiSelectMember->mState != MULTI_SELECT_MEMBER_STATE_WAIT_ERROR_MESSAGE &&
         gMultiSelectMember->mState != MULTI_SELECT_MEMBER_STATE_DONE) {
         if (gConnectionWork == NULL) {
-            value = 0;
+            value = CONNECTION_MODE_NONE;
         } else {
             value = gConnectionWork->mConnectionMode;
         }
-        if (value == 1) {
+        if (value == CONNECTION_MODE_PARENT) {
             if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
                 value = gConnectionWork->mWaitToSendCount;
             } else {
@@ -906,11 +906,11 @@ s32 AdvanceMultiSelectMemberNoKeyStart(SceneNumbers *sceneNumbers) {
             started = gMultiSelectMember->mStarted;
             if (started == 0) {
                 switch (gConnectionWork->mState) {
-                    case 7:
-                    case 8:
-                    case 9:
-                    case 10:
-                    case 11:
+                    case CONNECTION_STATE_SYNC_WAIT:
+                    case CONNECTION_STATE_SYNCED:
+                    case CONNECTION_STATE_SYNCED_RACE:
+                    case CONNECTION_STATE_ENTRY_EXCHANGE:
+                    case CONNECTION_STATE_GATHERING:
                         flag = TRUE;
                         break;
                     default:

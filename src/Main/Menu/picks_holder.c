@@ -59,7 +59,8 @@ void ClearNonParticipantCharacterIndices(void) {
         participantCount = 1;
     } else {
         isEightOrNine = TRUE;
-        if (gConnectionWork->mState != 8 && gConnectionWork->mState != 9) {
+        if (gConnectionWork->mState != CONNECTION_STATE_SYNCED &&
+            gConnectionWork->mState != CONNECTION_STATE_SYNCED_RACE) {
             isEightOrNine = FALSE;
         }
         participantCount = (u8) (isEightOrNine != FALSE ? CountSetBits(gConnectionWork->mParticipantMask) : 0);
@@ -84,7 +85,8 @@ void ClearNonParticipantKartIndices(void) {
         participantCount = 1;
     } else {
         isEightOrNine = TRUE;
-        if (gConnectionWork->mState != 8 && gConnectionWork->mState != 9) {
+        if (gConnectionWork->mState != CONNECTION_STATE_SYNCED &&
+            gConnectionWork->mState != CONNECTION_STATE_SYNCED_RACE) {
             isEightOrNine = FALSE;
         }
         participantCount = (u8) (isEightOrNine != FALSE ? CountSetBits(gConnectionWork->mParticipantMask) : 0);
@@ -111,7 +113,8 @@ void FillRandomCharacterIndices(void) {
         participantCount = 1;
     } else {
         isEightOrNine = TRUE;
-        if (gConnectionWork->mState != 8 && gConnectionWork->mState != 9) {
+        if (gConnectionWork->mState != CONNECTION_STATE_SYNCED &&
+            gConnectionWork->mState != CONNECTION_STATE_SYNCED_RACE) {
             isEightOrNine = FALSE;
         }
         participantCount = (u8) (isEightOrNine != FALSE ? CountSetBits(gConnectionWork->mParticipantMask) : 0);
@@ -137,7 +140,8 @@ void FillRandomKartIndices(void) {
         participantCount = 1;
     } else {
         isEightOrNine = TRUE;
-        if (gConnectionWork->mState != 8 && gConnectionWork->mState != 9) {
+        if (gConnectionWork->mState != CONNECTION_STATE_SYNCED &&
+            gConnectionWork->mState != CONNECTION_STATE_SYNCED_RACE) {
             isEightOrNine = FALSE;
         }
         participantCount = (u8) (isEightOrNine != FALSE ? CountSetBits(gConnectionWork->mParticipantMask) : 0);

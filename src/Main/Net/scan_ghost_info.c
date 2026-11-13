@@ -9,7 +9,7 @@
 #pragma thumb on
 
 void EndWbtStep(void) {
-    gConnectionWork->mStep = 0x2d;
+    gConnectionWork->mStep = CONNECTION_STEP_STOPPING_BLOCK_TRANSFER;
     gConnectionWork->mRequestPending = 1;
     WBT_End();
     gConnectionWork->mFlags &= ~CONNECTION_FLAG_BLOCK_TRANSFER;
@@ -53,7 +53,7 @@ BOOL CopySingleChildName(void *destination) {
     u32 childCount;
 
     found = FALSE;
-    if (ChildNameGetConnectionMode() == 1) {
+    if (ChildNameGetConnectionMode() == CONNECTION_MODE_PARENT) {
         if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
             childCount = gConnectionWork->mWaitToSendCount;
         } else {
@@ -65,7 +65,7 @@ BOOL CopySingleChildName(void *destination) {
     if (childCount != 1) {
         return FALSE;
     }
-    if (ChildNameGetConnectionMode() != 1) {
+    if (ChildNameGetConnectionMode() != CONNECTION_MODE_PARENT) {
         return FALSE;
     }
     index = 1;
@@ -85,7 +85,7 @@ void StartSendWordRequest(u16 indexMask, s32 value) {
     s32 valueCopy;
 
     valueCopy = value;
-    gConnectionWork->mStep = 0x2e;
+    gConnectionWork->mStep = CONNECTION_STEP_SEND_WORD_REQUEST;
     gConnectionWork->mRequestPending = 1;
     if (WBT_PutUserData(indexMask, &valueCopy, 4, SendWordRequestCallback) == 0) {
         gConnectionWork->mRequestPending = 0;
@@ -98,9 +98,9 @@ void SendWordRequestCallback(WBTCommand *record) {
             gConnectionWork->mRequestPending = 0;
             return;
         }
-        SetRequestErrorCode(8);
+        SetRequestErrorCode(CONNECTION_ERROR_OPERATION_FAILED);
     } else {
-        SetRequestErrorCode(8);
+        SetRequestErrorCode(CONNECTION_ERROR_OPERATION_FAILED);
     }
 }
 

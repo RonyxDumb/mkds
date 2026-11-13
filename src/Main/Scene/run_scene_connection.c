@@ -43,7 +43,7 @@ static inline u32 RunSceneGetConnectionMode(void) {
 
 static inline s32 RunSceneIsConnectionActive(void) {
     BOOL result = FALSE;
-    if (RunSceneGetConnectionMode() != 0 && gConnectionWork->mState != 13) {
+    if (RunSceneGetConnectionMode() != CONNECTION_MODE_NONE && gConnectionWork->mState != CONNECTION_STATE_ENDED) {
         result = TRUE;
     }
     return result;
@@ -129,7 +129,7 @@ static inline u32 RunSceneGetHalfwordIndex39OrZero(void) {
 }
 
 static inline BOOL RunSceneHasActiveConnection(void) {
-    return RunSceneGetConnectionMode() != 0 && gConnectionWork->mState != 13;
+    return RunSceneGetConnectionMode() != CONNECTION_MODE_NONE && gConnectionWork->mState != CONNECTION_STATE_ENDED;
 }
 
 static inline void RunSceneFinishDisplayFrame(const SceneCallbacks *sceneCallbacks) {

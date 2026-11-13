@@ -41,17 +41,17 @@ void QueuePacketToPort(void) {
     if (!(gConnectionWork->mTransferFlags & 1)) {
         u32 connectionMode;
         if (gConnectionWork == NULL) {
-            connectionMode = 0;
+            connectionMode = CONNECTION_MODE_NONE;
         } else {
             connectionMode = gConnectionWork->mConnectionMode;
         }
         switch (connectionMode) {
-            case 1:
+            case CONNECTION_MODE_PARENT:
                 gPacketPortParams.mMaxDataSize = 0x192;
                 packetSize = WBT_MpParentSendHook(gConnectionWork->mPacketBuffer, 0x192);
                 destMask = gConnectionWork->mChildren.mChildMask;
                 break;
-            case 2:
+            case CONNECTION_MODE_CHILD:
                 gPacketPortParams.mMaxDataSize = 0xe;
                 packetSize = WBT_MpChildSendHook(gConnectionWork->mPacketBuffer, 0xe);
                 destMask = 1;
@@ -79,15 +79,15 @@ void PacketPortCallback(WirelessMessage *result) {
         }
         if (result->mState == 0x15) {
             if (gConnectionWork == NULL) {
-                connectionMode = 0;
+                connectionMode = CONNECTION_MODE_NONE;
             } else {
                 connectionMode = gConnectionWork->mConnectionMode;
             }
             switch (connectionMode) {
-                case 1:
+                case CONNECTION_MODE_PARENT:
                     WBT_MpParentRecvHook(packet, result->mLength, result->mAid);
                     break;
-                case 2:
+                case CONNECTION_MODE_CHILD:
                     WBT_MpChildRecvHook(packet, result->mLength);
                     break;
             }

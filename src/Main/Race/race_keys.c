@@ -29,7 +29,8 @@
 
 static inline s32 RaceKeysIsConnectionActive(ConnectionWork *connectionWork) {
     BOOL result = FALSE;
-    if ((connectionWork == NULL ? 0 : connectionWork->mConnectionMode) != 0 && connectionWork->mState != 13) {
+    if ((connectionWork == NULL ? CONNECTION_MODE_NONE : connectionWork->mConnectionMode) != CONNECTION_MODE_NONE &&
+        connectionWork->mState != CONNECTION_STATE_ENDED) {
         result = TRUE;
     }
     return result;

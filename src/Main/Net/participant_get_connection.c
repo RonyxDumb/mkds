@@ -33,8 +33,8 @@ u16 GetParticipantPadKeys(u32 participantIndex) {
 
     stateMatches = FALSE;
     switch (gConnectionWork->mState) {
-        case 8:
-        case 9:
+        case CONNECTION_STATE_SYNCED:
+        case CONNECTION_STATE_SYNCED_RACE:
             stateMatches = TRUE;
             break;
     }
@@ -51,8 +51,8 @@ BOOL IsDataSharingSyncDone(void) {
 
     result = FALSE;
     switch (gConnectionWork->mState) {
-        case 8:
-        case 9:
+        case CONNECTION_STATE_SYNCED:
+        case CONNECTION_STATE_SYNCED_RACE:
             result = TRUE;
             break;
     }
@@ -86,7 +86,7 @@ BOOL IsScanSlotMultiBoot(u16 entryIndex) {
 
     result = FALSE;
     entryValid = FALSE;
-    if (ParticipantGetConnectionMode() != 2) {
+    if (ParticipantGetConnectionMode() != CONNECTION_MODE_CHILD) {
         entryValid = FALSE;
     } else if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         entryValid = FALSE;
@@ -107,7 +107,7 @@ s32 GetScanSlotChildCount(u16 entryIndex) {
 
     result = 0;
     entryValid = FALSE;
-    if (ParticipantGetConnectionMode() != 2) {
+    if (ParticipantGetConnectionMode() != CONNECTION_MODE_CHILD) {
         entryValid = FALSE;
     } else if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         entryValid = FALSE;
@@ -126,7 +126,7 @@ BOOL TryGetPlayerName(u16 entryIndex, void *destination) {
 
     result = FALSE;
     switch (ParticipantGetConnectionMode()) {
-        case 1:
+        case CONNECTION_MODE_PARENT:
             result = FALSE;
             if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
                 childUser = MB_CommGetChildUser(entryIndex);
@@ -143,7 +143,7 @@ BOOL TryGetPlayerName(u16 entryIndex, void *destination) {
                 result = TRUE;
             }
             break;
-        case 2:
+        case CONNECTION_MODE_CHILD:
             result = FALSE;
             if ((gConnectionWork->mReceivedNameMask & (1 << entryIndex)) != 0) {
                 if (destination != NULL) {
@@ -244,7 +244,7 @@ void SetGroupSendMaskAsParent(u8 sendMask) {
     proceed = FALSE;
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
         allowed = TRUE;
-        if (ParticipantGetConnectionMode() != 1) {
+        if (ParticipantGetConnectionMode() != CONNECTION_MODE_PARENT) {
             if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
                 allowed = FALSE;
             }
@@ -256,7 +256,7 @@ void SetGroupSendMaskAsParent(u8 sendMask) {
     if (proceed == FALSE) {
         return;
     }
-    if (ParticipantGetConnectionMode() != 1) {
+    if (ParticipantGetConnectionMode() != CONNECTION_MODE_PARENT) {
         return;
     }
     SetRomArchiveGroupSendMask(sendMask);
@@ -282,6 +282,6 @@ void SetParentChannelLowestSum(void) {
         return;
     }
     gConnectionWork->mParentChannel = -1;
-    gConnectionWork->mErrorCode = 3;
+    gConnectionWork->mErrorCode = CONNECTION_ERROR_NO_CHANNEL;
     gConnectionWork->mRequestPending = 0;
 }

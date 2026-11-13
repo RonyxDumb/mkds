@@ -41,7 +41,7 @@ static inline u32 SceneGetConnectionMode(void) {
 
 static inline s32 SceneIsConnectionActive(void) {
     BOOL result = FALSE;
-    if (SceneGetConnectionMode() != 0 && gConnectionWork->mState != 13) {
+    if (SceneGetConnectionMode() != CONNECTION_MODE_NONE && gConnectionWork->mState != CONNECTION_STATE_ENDED) {
         result = TRUE;
     }
     return result;
@@ -95,7 +95,7 @@ static inline s32 SceneIsBackupBusy(void) {
 
 static inline s32 SceneIsConnectionActiveNotEndingWithError(void) {
     BOOL result = FALSE;
-    if (SceneIsConnectionActiveNotEnding() && gConnectionWork->mErrorCode != 9) {
+    if (SceneIsConnectionActiveNotEnding() && gConnectionWork->mErrorCode != CONNECTION_ERROR_NONE) {
         result = TRUE;
     }
     return result;
@@ -528,7 +528,7 @@ s32 RunMessageScreenOnDisconnect(SceneNumbers *sceneNumbers, s32 flag) {
     } else if (flag != 0 && SceneIsConnectionActiveNotEndingWithError()) {
         RunMessageScreenOfKind(0);
         result = TRUE;
-        gConnectionWork->mErrorCode = 9;
+        gConnectionWork->mErrorCode = CONNECTION_ERROR_NONE;
     } else {
         AdvanceConnection();
     }

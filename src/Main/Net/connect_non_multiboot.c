@@ -24,7 +24,7 @@ static inline u32 ConnectGetConnectionMode(void) {
 
 static inline s32 ConnectIsConnectionActive(void) {
     BOOL result = FALSE;
-    if (ConnectGetConnectionMode() != 0 && gConnectionWork->mState != 13) {
+    if (ConnectGetConnectionMode() != CONNECTION_MODE_NONE && gConnectionWork->mState != CONNECTION_STATE_ENDED) {
         result = TRUE;
     }
     return result;
@@ -40,7 +40,7 @@ static inline s32 ConnectIsConnectionActiveNotEnding(void) {
 
 static inline s32 ConnectIsConnectionActiveNotEndingWithError(void) {
     BOOL result = FALSE;
-    if (ConnectIsConnectionActiveNotEnding() && gConnectionWork->mErrorCode != 9) {
+    if (ConnectIsConnectionActiveNotEnding() && gConnectionWork->mErrorCode != CONNECTION_ERROR_NONE) {
         result = TRUE;
     }
     return result;
@@ -51,9 +51,9 @@ s32 AdvanceNonMultiBootConnect(s32 entryIndex) {
 
     status = 0;
     if (gConnectionWork->mRequestPending != 0) {
-        if (gConnectionWork->mStep == 7 && gConnectionWork->mKeepScanning == 1) {
+        if (gConnectionWork->mStep == CONNECTION_STEP_SEARCHING && gConnectionWork->mKeepScanning == 1) {
             if (TrySelectScanSlot(entryIndex) == 0) {
-                SetRequestErrorCode(5);
+                SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
             }
         }
         return 0;
@@ -62,17 +62,17 @@ s32 AdvanceNonMultiBootConnect(s32 entryIndex) {
         return 3;
     }
     switch (gConnectionWork->mStep) {
-        case 7:
+        case CONNECTION_STEP_SEARCHING:
             EndScan();
             break;
-        case 9:
+        case CONNECTION_STEP_STOPPING_SEARCH:
             StartConnect(NULL, NULL, NULL, NonMultiBootResetOwnIndex, NULL);
             break;
-        case 2:
-        case 10:
+        case CONNECTION_STEP_RESTARTING:
+        case CONNECTION_STEP_JOINING:
             if (gConnectionWork->mOwnIndex == 0xffff) {
                 if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
-                    SetRequestErrorCode(5);
+                    SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
                     return 3;
                 }
                 status = 2;
@@ -80,8 +80,8 @@ s32 AdvanceNonMultiBootConnect(s32 entryIndex) {
                 StartMP();
             }
             break;
-        case 11:
-            gConnectionWork->mState = 6;
+        case CONNECTION_STEP_STARTING_EXCHANGE:
+            gConnectionWork->mState = CONNECTION_STATE_CONNECTED;
             InitMPStateMachine();
             status = 1;
             break;
@@ -94,14 +94,14 @@ s32 AdvanceGameInfoOnChildChange(void) {
         return 0;
     }
     switch (gConnectionWork->mStep) {
-        case 11:
+        case CONNECTION_STEP_STARTING_EXCHANGE:
             if (gConnectionWork->mStatusFlags & CONNECTION_STATUS_CHILDREN_CHANGED) {
                 SetGameInfo();
             }
             break;
-        case 15:
+        case CONNECTION_STEP_PUBLISHING_GAME_INFO:
             gConnectionWork->mStatusFlags &= ~CONNECTION_STATUS_CHILDREN_CHANGED;
-            gConnectionWork->mStep = 11;
+            gConnectionWork->mStep = CONNECTION_STEP_STARTING_EXCHANGE;
             break;
     }
     return 0;
@@ -116,21 +116,21 @@ void AdvanceConnection(void) {
         return;
     }
     switch (gConnectionWork->mState) {
-        case 7:
-        case 8:
-        case 9:
+        case CONNECTION_STATE_SYNC_WAIT:
+        case CONNECTION_STATE_SYNCED:
+        case CONNECTION_STATE_SYNCED_RACE:
             if (UpdateDataSharing() == FALSE) {
                 gConnectionWork->mFlags |= CONNECTION_FLAG_SHARING_NOT_UPDATED;
             }
-            if (gConnectionWork->mState != 9) {
+            if (gConnectionWork->mState != CONNECTION_STATE_SYNCED_RACE) {
                 return;
             }
-            if (ConnectGetConnectionMode() != 1) {
+            if (ConnectGetConnectionMode() != CONNECTION_MODE_PARENT) {
                 return;
             }
             DisconnectRemovedChildren();
             break;
-        case 2:
+        case CONNECTION_STATE_MULTIBOOT_PARENT_READY:
             childMask = gConnectionWork->mChildren.mChildMask;
             participantMask = childMask | 1;
             if (gConnectionWork->mChildren.mNameSendIndex >= 8) {
@@ -157,33 +157,34 @@ s32 AdvanceConnectionEnd(void) {
     BOOL finished;
 
     finished = FALSE;
-    if (gConnectionWork->mState == 0) {
+    if (gConnectionWork->mState == CONNECTION_STATE_IDLE) {
         gConnectionWork->mFlags &= ~CONNECTION_FLAG_ENDING;
         return 1;
     }
     switch (gConnectionWork->mStep) {
-        case 0x1d:
-        case 0x1e:
+        case CONNECTION_STEP_SCAN_CONNECT_REPEATED_SCAN:
+        case CONNECTION_STEP_SCAN_CONNECT_FIND_ENTRY:
             StartRequestEndScan();
             break;
-        case 0x22:
+        case CONNECTION_STEP_SCAN_CONNECT_CONNECT_ENTRY:
             StartCloseScanConnect();
             break;
-        case 0x16:
-        case 0x17:
-        case 0x18:
-        case 0x19:
-        case 0x27:
-        case 0x28:
-        case 0x29:
-        case 0x2a:
-        case 0x2b:
-        case 0x2c:
-        case 0x2e:
+        case CONNECTION_STEP_MULTIBOOT_START_PARENT:
+        case CONNECTION_STEP_MULTIBOOT_UNUSED:
+        case CONNECTION_STEP_MULTIBOOT_SEND_TO_CHILDREN:
+        case CONNECTION_STEP_MULTIBOOT_BOOT_REQUEST:
+        case CONNECTION_STEP_CHILD_ARCHIVE_SYNC:
+        case CONNECTION_STEP_PARENT_BLOCK_TRANSFER:
+        case CONNECTION_STEP_CHILD_BLOCK_TRANSFER:
+        case CONNECTION_STEP_BLOCK_COUNT_REQUEST:
+        case CONNECTION_STEP_BLOCK_NODE_REQUEST:
+        case CONNECTION_STEP_BLOCK_DATA_REQUEST:
+        case CONNECTION_STEP_SEND_WORD_REQUEST:
             gConnectionWork->mRequestPending = 0;
             break;
     }
-    if (gConnectionWork->mRequestPending != 0 && gConnectionWork->mStep == 7 && gConnectionWork->mKeepScanning == 1) {
+    if (gConnectionWork->mRequestPending != 0 && gConnectionWork->mStep == CONNECTION_STEP_SEARCHING &&
+        gConnectionWork->mKeepScanning == 1) {
         gConnectionWork->mKeepScanning = 0;
     }
     if (gConnectionWork->mRequestPending != 0) {
@@ -193,84 +194,84 @@ s32 AdvanceConnectionEnd(void) {
         return 3;
     }
     switch (gConnectionWork->mStep) {
-        case 38:
+        case CONNECTION_STEP_ROM_ARCHIVE_STOP:
             End();
             break;
-        case 21:
-            gConnectionWork->mStep = 0;
+        case CONNECTION_STEP_SHUTTING_DOWN:
+            gConnectionWork->mStep = CONNECTION_STEP_NOTHING;
             break;
-        case 0:
+        case CONNECTION_STEP_NOTHING:
             ClearParticipantBits();
-            gConnectionWork->mState = 0;
+            gConnectionWork->mState = CONNECTION_STATE_IDLE;
             finished = TRUE;
             gConnectionWork->mFlags &= ~CONNECTION_FLAG_ENDING;
             break;
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-        case 9:
-        case 19:
-        case 20:
-        case 27:
-        case 31:
-        case 32:
-        case 36:
+        case CONNECTION_STEP_STARTING_UP:
+        case CONNECTION_STEP_RESTARTING:
+        case CONNECTION_STEP_SETTING_TIMEOUT:
+        case CONNECTION_STEP_CHECKING_CHANNELS:
+        case CONNECTION_STEP_CONFIGURING_HOST:
+        case CONNECTION_STEP_STOPPING_SEARCH:
+        case CONNECTION_STEP_CLOSING_HOST:
+        case CONNECTION_STEP_LEAVING:
+        case CONNECTION_STEP_MULTIBOOT_END_TO_IDLE:
+        case CONNECTION_STEP_SCAN_CONNECT_CLOSE:
+        case CONNECTION_STEP_SCAN_CONNECT_CLOSED:
+        case CONNECTION_STEP_ROM_ARCHIVE_TRANSFER:
             StopRomArchiveTransfer();
             break;
-        case 7:
-        case 8:
+        case CONNECTION_STEP_SEARCHING:
+        case CONNECTION_STEP_SEARCHING_UNUSED:
             EndScan();
             break;
-        case 11:
-        case 12:
-        case 13:
-        case 17:
+        case CONNECTION_STEP_STARTING_EXCHANGE:
+        case CONNECTION_STEP_SETTING_EXCHANGE_RATE:
+        case CONNECTION_STEP_REGISTERING_ENTRY:
+        case CONNECTION_STEP_STOPPING_SHARING:
             EndMP();
             break;
-        case 6:
-        case 10:
-        case 16:
-        case 18:
+        case CONNECTION_STEP_OPENING_HOST:
+        case CONNECTION_STEP_JOINING:
+        case CONNECTION_STEP_DROPPING_CHILDREN:
+        case CONNECTION_STEP_STOPPING_EXCHANGE:
             switch (ConnectGetConnectionMode()) {
-                case 1:
+                case CONNECTION_MODE_PARENT:
                     EndParent();
                     break;
-                case 2:
+                case CONNECTION_MODE_CHILD:
                     Disconnect();
                     break;
             }
             break;
-        case 14:
-        case 15:
-        case 37:
+        case CONNECTION_STEP_STARTING_SHARING:
+        case CONNECTION_STEP_PUBLISHING_GAME_INFO:
+        case CONNECTION_STEP_ROM_ARCHIVE_SEND:
             EndDataSharing();
             break;
-        case 22:
-        case 23:
-        case 24:
-        case 25:
+        case CONNECTION_STEP_MULTIBOOT_START_PARENT:
+        case CONNECTION_STEP_MULTIBOOT_UNUSED:
+        case CONNECTION_STEP_MULTIBOOT_SEND_TO_CHILDREN:
+        case CONNECTION_STEP_MULTIBOOT_BOOT_REQUEST:
             StartEndToIdle();
             break;
-        case 28:
-        case 29:
-        case 30:
-        case 33:
-        case 34:
-        case 35:
+        case CONNECTION_STEP_SCAN_CONNECT_SETUP:
+        case CONNECTION_STEP_SCAN_CONNECT_REPEATED_SCAN:
+        case CONNECTION_STEP_SCAN_CONNECT_FIND_ENTRY:
+        case CONNECTION_STEP_SCAN_CONNECT_END_SCAN:
+        case CONNECTION_STEP_SCAN_CONNECT_CONNECT_ENTRY:
+        case CONNECTION_STEP_SCAN_CONNECT_READ_PARENT_DESC:
             StartCloseScanConnect();
             break;
-        case 39:
-        case 40:
-        case 41:
-        case 42:
-        case 43:
-        case 44:
-        case 46:
+        case CONNECTION_STEP_CHILD_ARCHIVE_SYNC:
+        case CONNECTION_STEP_PARENT_BLOCK_TRANSFER:
+        case CONNECTION_STEP_CHILD_BLOCK_TRANSFER:
+        case CONNECTION_STEP_BLOCK_COUNT_REQUEST:
+        case CONNECTION_STEP_BLOCK_NODE_REQUEST:
+        case CONNECTION_STEP_BLOCK_DATA_REQUEST:
+        case CONNECTION_STEP_SEND_WORD_REQUEST:
             EndWbtStep();
             break;
-        case 45:
+        case CONNECTION_STEP_STOPPING_BLOCK_TRANSFER:
             EndMP();
             break;
         default:
@@ -288,34 +289,34 @@ s32 AdvanceConnectionEndStopOnError(void) {
     result = AdvanceConnectionEnd();
     if (result == 3) {
         switch (gConnectionWork->mStep) {
-            case 0x16:
-            case 0x17:
-            case 0x18:
-            case 0x19:
+            case CONNECTION_STEP_MULTIBOOT_START_PARENT:
+            case CONNECTION_STEP_MULTIBOOT_UNUSED:
+            case CONNECTION_STEP_MULTIBOOT_SEND_TO_CHILDREN:
+            case CONNECTION_STEP_MULTIBOOT_BOOT_REQUEST:
                 StartEndToIdle();
                 break;
-            case 0x27:
-            case 0x28:
-            case 0x29:
-            case 0x2a:
-            case 0x2b:
-            case 0x2c:
-            case 0x2e:
+            case CONNECTION_STEP_CHILD_ARCHIVE_SYNC:
+            case CONNECTION_STEP_PARENT_BLOCK_TRANSFER:
+            case CONNECTION_STEP_CHILD_BLOCK_TRANSFER:
+            case CONNECTION_STEP_BLOCK_COUNT_REQUEST:
+            case CONNECTION_STEP_BLOCK_NODE_REQUEST:
+            case CONNECTION_STEP_BLOCK_DATA_REQUEST:
+            case CONNECTION_STEP_SEND_WORD_REQUEST:
                 EndWbtStep();
                 break;
-            case 0x1c:
-            case 0x1d:
-            case 0x1e:
-            case 0x21:
-            case 0x22:
-            case 0x23:
+            case CONNECTION_STEP_SCAN_CONNECT_SETUP:
+            case CONNECTION_STEP_SCAN_CONNECT_REPEATED_SCAN:
+            case CONNECTION_STEP_SCAN_CONNECT_FIND_ENTRY:
+            case CONNECTION_STEP_SCAN_CONNECT_END_SCAN:
+            case CONNECTION_STEP_SCAN_CONNECT_CONNECT_ENTRY:
+            case CONNECTION_STEP_SCAN_CONNECT_READ_PARENT_DESC:
                 StartCloseScanConnect();
                 break;
             default:
                 StopConnection();
                 break;
         }
-        gConnectionWork->mErrorCode = 9;
+        gConnectionWork->mErrorCode = CONNECTION_ERROR_NONE;
     } else {
         status = result;
     }

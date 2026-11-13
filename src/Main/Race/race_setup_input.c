@@ -651,7 +651,9 @@ void SetCurrentEntryPlayer(s32 entryIndex) {
         case PLAYER_KIND_HUMAN:
             connectionWork = gConnectionWork;
             connectionActive = FALSE;
-            if ((connectionWork == NULL ? 0 : connectionWork->mConnectionMode) != 0 && connectionWork->mState != 13) {
+            if ((connectionWork == NULL ? CONNECTION_MODE_NONE : connectionWork->mConnectionMode) !=
+                    CONNECTION_MODE_NONE &&
+                connectionWork->mState != CONNECTION_STATE_ENDED) {
                 connectionActive = TRUE;
             }
             if (connectionActive == FALSE) {
@@ -882,14 +884,18 @@ void SetCurrentRaceFromNext(void) {
             }
             connectionWork = gConnectionWork;
             connectionActive = FALSE;
-            if ((connectionWork == NULL ? 0 : connectionWork->mConnectionMode) != 0 && connectionWork->mState != 13) {
+            if ((connectionWork == NULL ? CONNECTION_MODE_NONE : connectionWork->mConnectionMode) !=
+                    CONNECTION_MODE_NONE &&
+                connectionWork->mState != CONNECTION_STATE_ENDED) {
                 connectionActive = TRUE;
             }
             if (connectionActive != FALSE) {
-                entryIndex = connectionWork
-                                 ->mParticipantPosByIndex[(
-                                     u16) (connectionWork->mConnectionMode == 2 ? connectionWork->mOwnIndex : 0)]
-                                 .mEntryIndex;
+                entryIndex =
+                    connectionWork
+                        ->mParticipantPosByIndex[(u16) (connectionWork->mConnectionMode == CONNECTION_MODE_CHILD
+                                                            ? connectionWork->mOwnIndex
+                                                            : 0)]
+                        .mEntryIndex;
             }
             gRaceSetup->mNextHeader.mEntryIndex = entryIndex;
             gRaceSetup->mNextHeader.mFollowedKartIndex = entryIndex;
@@ -1296,7 +1302,8 @@ u32 GetPadKeys(void) {
 
 static inline s32 InputSlotsIsConnectionActive(ConnectionWork *connectionWork) {
     BOOL result = FALSE;
-    if ((connectionWork == NULL ? 0 : connectionWork->mConnectionMode) != 0 && connectionWork->mState != 13) {
+    if ((connectionWork == NULL ? CONNECTION_MODE_NONE : connectionWork->mConnectionMode) != CONNECTION_MODE_NONE &&
+        connectionWork->mState != CONNECTION_STATE_ENDED) {
         result = TRUE;
     }
     return result;

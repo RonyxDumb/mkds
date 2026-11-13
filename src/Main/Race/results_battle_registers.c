@@ -742,7 +742,8 @@ void InitResultsBattle(void *heap, void *mainOam, void *subOam) {
         case 2:
             SetSelectChoisesSoundId(1, 0xf);
             gResultsBattle->mOwnEntryIndex =
-                GetParticipantPosByIndex(gConnectionWork->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0)
+                GetParticipantPosByIndex(
+                    gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD ? gConnectionWork->mOwnIndex : 0)
                     ->mEntryIndex;
             gResultsBattle->mKartCount = gRaceSetup->mKartCount;
             gResultsBattle->mState = 0;

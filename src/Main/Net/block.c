@@ -12,13 +12,13 @@ const u8 gGhostBlockInfo[32] = {0x4e, 0x69, 0x74, 0x72, 0x6f, 0x4b, 0x61, 0x72, 
 void StartBlockCountRequest(void) {
     s32 savedValue = gConnectionWork->mStep;
     u8 mask;
-    s32 connectionMode = gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode;
-    if (connectionMode == 1) {
+    s32 connectionMode = gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode;
+    if (connectionMode == CONNECTION_MODE_PARENT) {
         mask = gConnectionWork->mChildren.mChildMask;
     } else {
         mask = 1;
     }
-    gConnectionWork->mStep = 0x2a;
+    gConnectionWork->mStep = CONNECTION_STEP_BLOCK_COUNT_REQUEST;
     gConnectionWork->mRequestPending = 1;
     if (WBT_RequestSync(mask, BlockCountRequestCallback) == 0) {
         gConnectionWork->mRequestPending = 0;
@@ -32,16 +32,16 @@ void BlockCountRequestCallback(WBTCommand *record) {
             gConnectionWork->mBlockCount = record->mData.mSync.mNumOfList;
             gConnectionWork->mRequestPending = 0;
         } else {
-            SetRequestErrorCode(8);
+            SetRequestErrorCode(CONNECTION_ERROR_OPERATION_FAILED);
         }
     } else {
-        SetRequestErrorCode(8);
+        SetRequestErrorCode(CONNECTION_ERROR_OPERATION_FAILED);
     }
 }
 
 void StartBlockNodeRequest(void) {
     s32 savedValue = gConnectionWork->mStep;
-    gConnectionWork->mStep = 0x2b;
+    gConnectionWork->mStep = CONNECTION_STEP_BLOCK_NODE_REQUEST;
     gConnectionWork->mRequestPending = 1;
     if (WBT_GetBlockInfo(1, gConnectionWork->mBlockIndex, gConnectionWork->mBlockInfos, BlockNodeRequestCallback) ==
         0) {
@@ -58,13 +58,13 @@ void BlockNodeRequestCallback(WBTCommand *record) {
             StartBlockNodeRequest();
         }
     } else {
-        SetRequestErrorCode(8);
+        SetRequestErrorCode(CONNECTION_ERROR_OPERATION_FAILED);
     }
 }
 
 void StartBlockDataRequest(void) {
     s32 savedValue = gConnectionWork->mStep;
-    gConnectionWork->mStep = 0x2c;
+    gConnectionWork->mStep = CONNECTION_STEP_BLOCK_DATA_REQUEST;
     gConnectionWork->mRequestPending = 1;
     gConnectionWork->mCurrentBlockBuffer = gConnectionWork->mBlockEntries[gConnectionWork->mBlockIndex].mBuffer;
     if (WBT_GetBlock(1, gConnectionWork->mBlockInfos[0]->mId, &gConnectionWork->mCurrentBlockBuffer,
@@ -80,18 +80,18 @@ void BlockDataRequestCallback(WBTCommand *record) {
         if (record->mEvent == 5) {
             gConnectionWork->mRequestPending = 0;
         } else {
-            SetRequestErrorCode(8);
+            SetRequestErrorCode(CONNECTION_ERROR_OPERATION_FAILED);
         }
     } else {
-        SetRequestErrorCode(8);
+        SetRequestErrorCode(CONNECTION_ERROR_OPERATION_FAILED);
     }
 }
 
 void SetWbtOwnAidFromConnection(void) {
-    s32 connectionMode = gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode;
-    if (connectionMode == 2) {
+    s32 connectionMode = gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode;
+    if (connectionMode == CONNECTION_MODE_CHILD) {
         if (gConnectionWork->mOwnIndex == 0xffff) {
-            SetRequestErrorCode(8);
+            SetRequestErrorCode(CONNECTION_ERROR_OPERATION_FAILED);
             return;
         }
         WBT_SetOwnAid(gConnectionWork->mOwnIndex);
@@ -99,11 +99,11 @@ void SetWbtOwnAidFromConnection(void) {
 }
 
 void StartMPWithBuffers(void) {
-    gConnectionWork->mStep = 0xb;
+    gConnectionWork->mStep = CONNECTION_STEP_STARTING_EXCHANGE;
     gConnectionWork->mRequestPending = 1;
     if (WM_StartMPEx(StartMPCallback, gConnectionWork->mMPReceiveBuffer, gConnectionWork->mMPReceiveBufferSize,
                      gConnectionWork->mMPSendBuffer, gConnectionWork->mMPSendBufferSize, 1, 0, 0, 0, 0, 0) != 2) {
-        SetRequestErrorCode(2);
+        SetRequestErrorCode(CONNECTION_ERROR_MP_FAILED);
     }
 }
 

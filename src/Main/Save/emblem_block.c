@@ -99,7 +99,7 @@ void CopyOtherPlayerEmblemsToBlocks(void) {
     }
     for (playerIndex = 0; playerIndex < 8; playerIndex++) {
         buddyIndexOfPlayer[playerIndex] = -1;
-        if (gConnectionWork->mConnectionMode == 2) {
+        if (gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD) {
             ownIndex = gConnectionWork->mOwnIndex;
         } else {
             ownIndex = 0;
@@ -244,8 +244,8 @@ void StartCopyOtherEmblems(s32 useConnection) {
     if (useConnection != 0) {
         connectionReady = FALSE;
         connectionMode = EmblemGetConnectionMode();
-        if (connectionMode != 0) {
-            if (gConnectionWork->mState != 13) {
+        if (connectionMode != CONNECTION_MODE_NONE) {
+            if (gConnectionWork->mState != CONNECTION_STATE_ENDED) {
                 connectionReady = TRUE;
             }
         }
@@ -254,13 +254,13 @@ void StartCopyOtherEmblems(s32 useConnection) {
         }
         copyFunction = CopyOtherPlayerEmblemsToBlocks;
     } else {
-        connectionMode = 0;
+        connectionMode = CONNECTION_MODE_NONE;
         if (gWiFiSession != NULL) {
             if (gWiFiSession->mHeapCreated != FALSE) {
-                connectionMode = 1;
+                connectionMode = CONNECTION_MODE_PARENT;
             }
         }
-        if (connectionMode == 0) {
+        if (connectionMode == CONNECTION_MODE_NONE) {
             return;
         }
         copyFunction = CopyWiFiOtherEmblemsToBlocks;

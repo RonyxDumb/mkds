@@ -526,7 +526,7 @@ void ChangeSelectRaceRulePlayerTeam(u16 entryIndex, u32 teamIndex) {
         return;
     }
     if (IsPlayerTeamPlayerCountNotOne(entryIndex) == 0) {
-        ownIndex = gConnectionWork->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0;
+        ownIndex = gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD ? gConnectionWork->mOwnIndex : 0;
         if (entryIndex == gConnectionWork->mParticipantPosByIndex[ownIndex].mEntryIndex) {
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x16);
         }
@@ -548,7 +548,7 @@ void ChangeSelectRaceRulePlayerTeam(u16 entryIndex, u32 teamIndex) {
         }
         ChangeSelectRaceRulePlayerTeam(cpuEntry, GetOtherTeamIndex(teamIndex));
     }
-    ownIndex = gConnectionWork->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0;
+    ownIndex = gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD ? gConnectionWork->mOwnIndex : 0;
     if (entryIndex == gConnectionWork->mParticipantPosByIndex[ownIndex].mEntryIndex) {
         switch (gSelectRaceRule->mPlayerTeamIndices[entryIndex]) {
             case 0:
@@ -712,7 +712,8 @@ BOOL DoesSelectRaceRuleHumanCountMatch(void) {
         case SELECT_RACE_RULE_MODE_VS_MULTI:
         case SELECT_RACE_RULE_MODE_BATTLE_MULTI:
             usesMask = TRUE;
-            if (gConnectionWork->mState != 8 && gConnectionWork->mState != 9) {
+            if (gConnectionWork->mState != CONNECTION_STATE_SYNCED &&
+                gConnectionWork->mState != CONNECTION_STATE_SYNCED_RACE) {
                 usesMask = FALSE;
             }
             participantCount = usesMask != FALSE ? CountSetBits(gConnectionWork->mParticipantMask) : 0;
@@ -1095,7 +1096,8 @@ void AdvanceSelectRaceRuleChangeObjects(void) {
         if (gSelectRaceRule->mRowValues[SELECT_RACE_RULE_ROW_TEAMS] == 2) {
             for (columnIndex = 0; columnIndex < 2; columnIndex++) {
                 if (gSelectRaceRule->mRow == SELECT_RACE_RULE_ROW_TEAMS && gSelectRaceRule->mOnButton == 0) {
-                    ownIndex = gConnectionWork->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0;
+                    ownIndex =
+                        gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD ? gConnectionWork->mOwnIndex : 0;
                     if (IsPlayerTeamPlayerCountNotOne(gConnectionWork->mParticipantPosByIndex[ownIndex].mEntryIndex) !=
                         0) {
                         gSelectRaceRule->mTable[gSelectRaceRuleTeamCellsHighlighted[columnIndex]].mVisible = 1;
@@ -1130,7 +1132,7 @@ void AdvanceSelectRaceRuleChangeObjects(void) {
         }
         if (gSelectRaceRule->mRowValues[SELECT_RACE_RULE_ROW_TEAMS] == 2) {
             for (columnIndex = 0; columnIndex < 2; columnIndex++) {
-                ownIndex = gConnectionWork->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0;
+                ownIndex = gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD ? gConnectionWork->mOwnIndex : 0;
                 if (IsPlayerTeamPlayerCountNotOne(gConnectionWork->mParticipantPosByIndex[ownIndex].mEntryIndex) != 0) {
                     gSelectRaceRule->mTable[gSelectRaceRuleTeamCellsHighlighted[columnIndex]].mVisible = 1;
                     gSelectRaceRule->mTable[gSelectRaceRuleTeamCellsPlain[columnIndex]].mVisible = 0;
@@ -1332,7 +1334,8 @@ void SetSelectRaceRuleHumanCount(void) {
         case SELECT_RACE_RULE_MODE_VS_MULTI:
         case SELECT_RACE_RULE_MODE_BATTLE_MULTI:
             usesMask = TRUE;
-            if (gConnectionWork->mState != 8 && gConnectionWork->mState != 9) {
+            if (gConnectionWork->mState != CONNECTION_STATE_SYNCED &&
+                gConnectionWork->mState != CONNECTION_STATE_SYNCED_RACE) {
                 usesMask = FALSE;
             }
             participantCount = usesMask != FALSE ? CountSetBits(gConnectionWork->mParticipantMask) : 0;

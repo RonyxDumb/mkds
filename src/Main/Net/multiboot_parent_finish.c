@@ -3,7 +3,7 @@
 #include "Main/MapObjects/data_0217a000.h"
 
 void FinishMultiBootParentSetup(void) {
-    gConnectionWork->mState = 2;
+    gConnectionWork->mState = CONNECTION_STATE_MULTIBOOT_PARENT_READY;
     gConnectionWork->mChildren.mNameSendIndex = 0;
     gConnectionWork->mStatusFlags &= ~CONNECTION_STATUS_CHILDREN_CHANGED;
 }
