@@ -1068,7 +1068,7 @@ u32 ReadLittleEndianValue(const u8 *bytes, s32 count) {
 }
 
 s32 ParseFourValueItems(PacketItem *container, FourValueRecord *record) {
-    PacketItem *item = OFFSET_PTR(PacketItem, container, 6);
+    PacketItem *item = (PacketItem *) container->mValue;
     u32 length;
     while (1) {
         length = SwapBytes16(item->mLength);
@@ -1136,7 +1136,7 @@ s32 ParseFourValueItems(PacketItem *container, FourValueRecord *record) {
 }
 
 s32 ParseSingleValueItems(PacketItem *container, SingleValueRecord *record) {
-    PacketItem *item = OFFSET_PTR(PacketItem, container, 6);
+    PacketItem *item = (PacketItem *) container->mValue;
     u32 length;
     while (1) {
         length = SwapBytes16(item->mLength);
@@ -1179,7 +1179,7 @@ s32 ParseSingleValueItems(PacketItem *container, SingleValueRecord *record) {
 }
 
 s32 CopyFirstItemValueIfType0x70(PacketItem *container, u8 *output) {
-    PacketItem *item = OFFSET_PTR(PacketItem, container, 6);
+    PacketItem *item = (PacketItem *) container->mValue;
     s32 length;
     length = SwapBytes16(item->mLength);
     if (length <= 0) {
