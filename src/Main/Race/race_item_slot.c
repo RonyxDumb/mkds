@@ -71,8 +71,8 @@ void InitRaceItemSlot(void) {
     gRaceItemSlot = itemSlot;
     itemSlot->mScrollY = 0;
     gRaceItemSlot->mSlotFrames = 0;
-    gRaceItemSlot->mUpperItem = 0x13;
-    gRaceItemSlot->mLowerItem = 0x13;
+    gRaceItemSlot->mUpperItem = ITEM_INFO_NONE;
+    gRaceItemSlot->mLowerItem = ITEM_INFO_NONE;
     gRaceItemSlot->mSlotRunning = 0;
     gRaceItemSlot->mPrevSlotRunning = 0;
     gRaceItemSlot->mScale.mScaleFrames = 0;
@@ -107,7 +107,7 @@ void UpdateRaceItemSlot(void) {
     kartOffset = GetFollowedKartOrEntryIndex() * 0x210;
     finalScrollFrameCount = GetKartItemsAtOffset(kartOffset)->mSlotFinalScrollFrameCount;
     gRaceItemSlot->mPrevSlotRunning = gRaceItemSlot->mSlotRunning;
-    upperItem = 0x13;
+    upperItem = ITEM_INFO_NONE;
     kartItems = GetKartItemsAtOffset(kartOffset);
     if (kartItems->mSlotState == KART_ITEMS_SLOT_SPINNING) {
         gRaceItemSlot->mSlotFrames = kartItems->mSlotFrames;
@@ -233,8 +233,9 @@ void UpdateRaceItemSlot(void) {
     }
     kartItems = GetKartItemsAtOffset(kartOffset);
     if (kartItems->mSlotState == KART_ITEMS_SLOT_IDLE) {
-        gRaceItemSlot->mLowerItem =
-            kartItems->mHeldItem.mItemInfoIndex == 0x13 ? kartItems->mActiveItem : kartItems->mHeldItem.mItemInfoIndex;
+        gRaceItemSlot->mLowerItem = kartItems->mHeldItem.mItemInfoIndex == ITEM_INFO_NONE
+                                        ? kartItems->mActiveItem
+                                        : kartItems->mHeldItem.mItemInfoIndex;
     } else {
         switch (slotFrames) {
             case 0:
@@ -316,7 +317,7 @@ void UpdateRaceItemSlot(void) {
     }
     if (GetKartItemsAtOffset(kartOffset)->mKinokoBoostStarted != FALSE) {
         s32 heldOrActiveItem;
-        heldOrActiveItem = GetKartItemsAtOffset(kartOffset)->mHeldItem.mItemInfoIndex == 0x13
+        heldOrActiveItem = GetKartItemsAtOffset(kartOffset)->mHeldItem.mItemInfoIndex == ITEM_INFO_NONE
                                ? GetKartItemsAtOffset(kartOffset)->mActiveItem
                                : GetKartItemsAtOffset(kartOffset)->mHeldItem.mItemInfoIndex;
         if (heldOrActiveItem == 0xd) {

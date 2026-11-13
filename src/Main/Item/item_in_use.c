@@ -44,8 +44,8 @@
 
 void (*gItemInUseAdvanceTable[5])(ItemInUse *) = {NULL, AdvanceItemInUseOne, AdvanceItemInUseOneWithOrientation,
                                                   AdvanceItemInUseTrail, AdvanceItemInUseCircle};
-void (*gItemInUseRemoveTable[5])(ItemInUse *, s32, ItemObject *) = {
-    NULL, RemoveItemInUseOne, RemoveItemInUseOne, RemoveItemInUseTrail, RemoveItemInUseCircle};
+void (*gItemInUseRemoveTable[5])(ItemInUse *, s32, ItemObject *) = {NULL, RemoveItemInUseOne, RemoveItemInUseOne,
+                                                                    RemoveItemInUseTrail, RemoveItemInUseCircle};
 void (*gItemInUseStartTable[5])(ItemInUse *) = {NULL, StartItemInUseOne, StartItemInUseOneWithOrientation,
                                                 StartItemInUseTrail, StartItemInUseCircle};
 
@@ -119,8 +119,9 @@ void StartItemInUse(ItemInUse *itemInUse, HeldItem *heldItem) {
     itemInUse->mUseKind = useKind;
     itemInUse->mItemInfoIndex = itemInfoIndex;
     itemInUse->mIsActiveItem = FALSE;
-    itemInUse->mObjectHeight =
-        gItemInfos[itemInfoIndex].mObjectKind == 8 ? ITEM_IN_USE_OBJECT_HEIGHT_KIND_8 : ITEM_IN_USE_OBJECT_HEIGHT;
+    itemInUse->mObjectHeight = gItemInfos[itemInfoIndex].mObjectKind == ITEM_OBJECT_KIND_BOUNCING_ITEM_BOX
+                                   ? ITEM_IN_USE_OBJECT_HEIGHT_BOUNCING_ITEM_BOX
+                                   : ITEM_IN_USE_OBJECT_HEIGHT;
     poolIndex = *(vs32 *) &itemInUse->mObjectKind;
     TakeItemPoolObjects(&gItemPools[poolIndex], itemInUse->mObjectCount, itemInUse->mObjects, itemInUse->mKart->mIndex,
                         &itemInUse->mKartDrawMatrixPos);
@@ -188,7 +189,7 @@ void CollideItemObjects(ItemObject *object, ItemObject *other) {
     otherHitType = GetItemObjectHitType(other, object);
     ApplyItemObjectHitType(object, objectHitType, &other->mPos, &other->mVelocity, NULL);
     ApplyItemObjectHitType(other, otherHitType, &object->mPos, &savedVelocity, NULL);
-    if (other->mKind != 1) {
+    if (other->mKind != ITEM_OBJECT_KIND_KOURA_R) {
         return;
     }
     StartTargetKartSoundOnOwnItemHit(other, otherHitType, object);
@@ -386,7 +387,7 @@ void ReleaseItemInUse(ItemInUse *itemInUse) {
     }
     ResetItemInUse(itemInUse);
     if (itemInUse->mIsActiveItem != FALSE) {
-        itemInUse->mKartItems->mActiveItem = 0x13;
+        itemInUse->mKartItems->mActiveItem = ITEM_INFO_NONE;
         itemInUse->mIsActiveItem = FALSE;
     }
 }
@@ -394,7 +395,7 @@ void ReleaseItemInUse(ItemInUse *itemInUse) {
 void StartItemInUseObjectCountdown(ItemInUse *itemInUse) {
     itemInUse->mObjectStartFramesLeft = 0xa;
     if (itemInUse->mIsActiveItem != FALSE) {
-        itemInUse->mKartItems->mActiveItem = 0x13;
+        itemInUse->mKartItems->mActiveItem = ITEM_INFO_NONE;
         itemInUse->mIsActiveItem = FALSE;
     }
 }

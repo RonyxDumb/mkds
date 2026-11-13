@@ -317,7 +317,7 @@ void AdvanceLinkFollowingItemSegments(LinkFollowingItemObject *follower, s32 tar
             return;
         }
         if (follower->mDirectedItemObject.mItemObject.mCollisionBits & 0x8000) {
-            if (follower->mDirectedItemObject.mItemObject.mKind != 5) {
+            if (follower->mDirectedItemObject.mItemObject.mKind != ITEM_OBJECT_KIND_KOURA_W) {
                 FadeOutItemObjectNoCallback(&follower->mDirectedItemObject.mItemObject, 1);
                 return;
             }

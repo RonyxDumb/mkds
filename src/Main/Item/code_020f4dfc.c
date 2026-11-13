@@ -169,7 +169,7 @@ void AdvanceBouncingItemKinoko(ItemKinoko *kinoko) {
 ItemKinoko *StartItemKinokoOrZero(void) {
     ItemKinoko *kinoko;
 
-    kinoko = StartItemObjectOrZero(3, 8, &gItemKinokoVec3UnitY, &gItemKinokoVec3UnitY);
+    kinoko = StartItemObjectOrZero(ITEM_OBJECT_KIND_KINOKO, 8, &gItemKinokoVec3UnitY, &gItemKinokoVec3UnitY);
     if (kinoko == NULL) {
         return NULL;
     }

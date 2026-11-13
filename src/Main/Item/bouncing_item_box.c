@@ -70,7 +70,8 @@ OrthoQuadModel gOrthoQuadCreamEffect;
 MtxFx44 gOrthoQuadMatrix;
 
 const s32 gOrthoQuadTimersByIndex[4] = {5, 0xb, 0x11, 0x19};
-const s32 gOrthoQuadTableScales[13] = {0, 0x986, 0x1000, 0x1143, 0x117c, 0x1107, 0x1041, 0xf87, 0xf34, 0xf52, 0xf95, 0xfd8, 0xff7};
+const s32 gOrthoQuadTableScales[13] = {0,     0x986, 0x1000, 0x1143, 0x117c, 0x1107, 0x1041,
+                                       0xf87, 0xf34, 0xf52,  0xf95,  0xfd8,  0xff7};
 char gGesoSumiTextureNsbmdName[16] = "geso_sumi.nsbmd";
 char gGesoSumiModelNsbmdName[16] = "geso_sumi.nsbmd";
 
@@ -83,7 +84,7 @@ void InitBouncingItemBoxMapObjects(void) {
     ItemObject **objectCursor;
     ItemPool *pool;
     MapObject *mapObject;
-    if (gItemInfos[17].mEnabled != FALSE) {
+    if (gItemInfos[ITEM_INFO_BOUNCING_ITEM_BOX].mEnabled != FALSE) {
         pool = &gItemPools[8];
         objectCursor = pool->mObjects;
         objectCount = pool->mObjectCount;

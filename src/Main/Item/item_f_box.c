@@ -119,7 +119,7 @@ void SetupItemFBoxPooledMapObjects(void) {
     s32 objectCount;
     s32 index;
 
-    if (gItemInfos[3].mEnabled == FALSE) {
+    if (gItemInfos[ITEM_INFO_F_BOX].mEnabled == FALSE) {
         return;
     }
     axis = gItemFBoxRotationAxis;

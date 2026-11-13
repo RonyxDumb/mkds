@@ -25,7 +25,9 @@
 #include "Main/System/init_after_startup.h"
 
 const u16 gItemObjectPendingUpdateBit = 0x8000;
-const ItemSpreadRow gItemSpreadRows[3] = {{{{0x1000, 0}, {0, 0}, {0, 0}}}, {{{-2048, 0xddb}, {-2048, -3547}, {0, 0}}}, {{{0x1000, 0}, {-2048, 0xddb}, {-2048, -3547}}}};
+const ItemSpreadRow gItemSpreadRows[3] = {{{{0x1000, 0}, {0, 0}, {0, 0}}},
+                                          {{{-2048, 0xddb}, {-2048, -3547}, {0, 0}}},
+                                          {{{0x1000, 0}, {-2048, 0xddb}, {-2048, -3547}}}};
 s32 gItemPointLinksByIndex[4];
 
 // Runs the countdown that starts the held objects, then counts the use timer down and, when it ends, takes one object
@@ -61,7 +63,7 @@ void UpdateHeldItem(HeldItem *rec) {
     reservedCount = gItemPools[objectKind].mReservedCount;
     GetItemPool(objectKind)->mReservedCount = reservedCount - 1;
     if (rec->mObjectCount == 0) {
-        rec->mItemInfoIndex = 0x13;
+        rec->mItemInfoIndex = ITEM_INFO_NONE;
         rec->mObjectCount = 0;
         rec->mObjectStartFramesLeft = 0;
         rec->mUsesTimer = 0;
@@ -99,7 +101,7 @@ void RemoveHeldItemObjects(HeldItem *rec, s32 amount) {
     objectKind = gItemInfos[rec->mItemInfoIndex].mObjectKind;
     GetItemPool(objectKind)->mReservedCount = gItemPools[objectKind].mReservedCount - amount;
     if (rec->mObjectCount == 0) {
-        rec->mItemInfoIndex = 0x13;
+        rec->mItemInfoIndex = ITEM_INFO_NONE;
         rec->mObjectCount = 0;
         rec->mObjectStartFramesLeft = 0;
         rec->mUsesTimer = 0;
@@ -114,7 +116,7 @@ void RemoveHeldItemObjects(HeldItem *rec, s32 amount) {
 void ResetHeldItem(HeldItem *rec) {
     s32 slotIndex;
 
-    rec->mItemInfoIndex = 0x13;
+    rec->mItemInfoIndex = ITEM_INFO_NONE;
     rec->mObjectCount = 0;
     rec->mObjectStartFramesLeft = 0;
     rec->mUsesTimer = 0;
@@ -152,7 +154,7 @@ void ReleaseHeldItem(HeldItem *rec, s32 keep) {
         reservedCount = gItemPools[poolIndex].mReservedCount;
         GetItemPool(poolIndex)->mReservedCount = reservedCount - rec->mObjectCount;
     }
-    rec->mItemInfoIndex = 0x13;
+    rec->mItemInfoIndex = ITEM_INFO_NONE;
     rec->mObjectCount = 0;
     rec->mObjectStartFramesLeft = 0;
     rec->mUsesTimer = 0;
@@ -261,7 +263,7 @@ void RemoveHeldItem(HeldItem *rec, s32 *kind, s32 *count) {
 
     *kind = rec->mItemInfoIndex;
     *count = rec->mObjectCount;
-    rec->mItemInfoIndex = 0x13;
+    rec->mItemInfoIndex = ITEM_INFO_NONE;
     rec->mObjectCount = 0;
     rec->mObjectStartFramesLeft = 0;
     rec->mUsesTimer = 0;

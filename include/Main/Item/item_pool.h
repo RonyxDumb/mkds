@@ -6,8 +6,26 @@
 #include "Main/Race/data_020f36d8.h"
 #include "Main/Kart/kart_drift.h"
 
-// Values of KartItems.mSlotState: no roulette, the spin through random items, the final scroll that lands on the result.
+// Values of KartItems.mSlotState: no roulette, the spin through random items, the final scroll that lands on the
+// result.
 typedef enum { KART_ITEMS_SLOT_IDLE, KART_ITEMS_SLOT_SPINNING, KART_ITEMS_SLOT_SHOWING_RESULT } KartItemsSlotState;
+
+// Frame counts of the roulette spin (KartItems.mSlotFrames, mSlotFrameCount). The spin cannot end before the minimum;
+// the end frame depends on the start: Wi-Fi race, short spin, or normal.
+#define KART_ITEMS_SLOT_MIN_SPIN_FRAMES 0x3c
+#define KART_ITEMS_SLOT_END_FRAME_WIFI 0x85
+#define KART_ITEMS_SLOT_END_FRAME_SHORT 0x65
+#define KART_ITEMS_SLOT_END_FRAME_NORMAL 0xd5
+#define KART_ITEMS_SLOT_SHORT_SPIN_START_FRAME 0x4d
+// Wi-Fi race: while the result from the other machine is awaited the spin frame is wound back from the wait limit to
+// the rewind frame; when the result arrives the end frame moves by the frames spent past the wait limit.
+#define KART_ITEMS_SLOT_WIFI_WAIT_LIMIT_FRAME 0x6e
+#define KART_ITEMS_SLOT_WIFI_WAIT_REWIND_FRAME 0x67
+// Length of the final scroll that lands on the result (KartItems.mSlotFinalScrollFrameCount, and its shift = log2).
+#define KART_ITEMS_SLOT_FINAL_SCROLL_FRAMES 0x10
+#define KART_ITEMS_SLOT_FINAL_SCROLL_SHIFT 4
+#define KART_ITEMS_SLOT_SHORT_FINAL_SCROLL_FRAMES 8
+#define KART_ITEMS_SLOT_SHORT_FINAL_SCROLL_SHIFT 3
 
 // Copy of ITEM_THROW_FORWARD_BIT in KartItems.mFlags (TryAddKartItemFlags and AdvanceItemInUseOne set it from the input
 // word).

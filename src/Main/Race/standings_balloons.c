@@ -47,18 +47,12 @@
 #include "Main/System/init_after_startup.h"
 
 const u32 gShineBattleTimeLimits[4] = {0xffff, 0x1e, 0x1e, 0x1e};
-const s32 gCharacterBalloonOrShineHeights[16] = {0x11000, 0x16000, 0x11000, 0x17000, 0x11800, 0x12000, 0x11000, 0x11000, 0x10800, 0x11000, 0x13000, 0x15000, 0x10800, 0, 0, 0};
+const s32 gCharacterBalloonOrShineHeights[16] = {0x11000, 0x16000, 0x11000, 0x17000, 0x11800, 0x12000, 0x11000, 0x11000,
+                                                 0x10800, 0x11000, 0x13000, 0x15000, 0x10800, 0,       0,       0};
 Standings *gStandings;
 
-MapObjectKindDescriptor gDistanceSoundKindDescriptor = {0,
-                                                        {0, 0},
-                                                        0xcc,
-                                                        InitDistanceSound,
-                                                        CreateEmptyMapObjectKindData,
-                                                        0,
-                                                        0,
-                                                        0,
-                                                        CreateDistanceSoundUpdateList};
+MapObjectKindDescriptor gDistanceSoundKindDescriptor = {
+    0, {0, 0}, 0xcc, InitDistanceSound, CreateEmptyMapObjectKindData, 0, 0, 0, CreateDistanceSoundUpdateList};
 
 void SetStandingsKartBalloons(KartBalloons *kartBalloons) {
     gStandings->mKartBalloons = kartBalloons;
@@ -238,7 +232,8 @@ void SetKartHitByKartIndexFromItem(s32 kartIndex, ItemObject *itemObject) {
     if (GetKart(kartIndex)->mState == KART_STATE_NORMAL) {
         return;
     }
-    if (itemObject->mKind != 0 && itemObject->mKind != 1 && itemObject->mKind != 9) {
+    if (itemObject->mKind != ITEM_OBJECT_KIND_KOURA_G && itemObject->mKind != ITEM_OBJECT_KIND_KOURA_R &&
+        itemObject->mKind != ITEM_OBJECT_KIND_BOMB) {
         return;
     }
     ownerKartIndexAndFlags = itemObject->mOwnerKartIndexAndFlags;

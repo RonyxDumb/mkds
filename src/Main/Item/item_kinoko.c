@@ -112,7 +112,7 @@ void CreateItemInfos(void) {
             infos[17].mEnabled = TRUE;
             break;
         case MODE_WIFI:
-            for (infoIndex = 0; infoIndex < 0x12; infoIndex++) {
+            for (infoIndex = 0; infoIndex < ITEM_INFO_COUNT; infoIndex++) {
                 if (GetItemInfo(infoIndex)->mEnabled != FALSE && GetItemInfo(infoIndex)->mEnabledInWiFi == 0) {
                     gItemInfos[infoIndex].mEnabled = FALSE;
                 }
@@ -120,7 +120,7 @@ void CreateItemInfos(void) {
             break;
     }
     if (gRaceSetup->mRaceKind == RACE_KIND_DEMO) {
-        gItemInfos[15].mEnabled = FALSE;
+        gItemInfos[ITEM_INFO_GESSO].mEnabled = FALSE;
     }
 }
 
@@ -130,7 +130,7 @@ void InitHeldItem(HeldItem *heldItem, KartItems *kartItems) {
     s32 slotIndex;
 
     heldItem->mKartItems = kartItems;
-    heldItem->mItemInfoIndex = 0x13;
+    heldItem->mItemInfoIndex = ITEM_INFO_NONE;
     heldItem->mObjectCount = 0;
     heldItem->mObjectStartFramesLeft = 0;
     heldItem->mUsesTimer = 0;
@@ -178,7 +178,7 @@ void StartNextHeldItemObject(HeldItem *heldItem) {
     if (heldItem->mObjectCount != 0) {
         return;
     }
-    heldItem->mItemInfoIndex = 0x13;
+    heldItem->mItemInfoIndex = ITEM_INFO_NONE;
     heldItem->mObjectCount = 0;
     heldItem->mObjectStartFramesLeft = 0;
     heldItem->mUsesTimer = 0;

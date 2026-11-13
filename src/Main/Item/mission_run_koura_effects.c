@@ -15,7 +15,7 @@ void StartMissionRunKouraEffects(ItemObject *itemParam) {
     if (gRaceSetup->mMode != MODE_MISSION_RUN) {
         return;
     }
-    if ((u32) item->mKind > 1) {
+    if ((u32) item->mKind > ITEM_OBJECT_KIND_KOURA_R) {
         return;
     }
     StartEffect(0x441, &item->mPos);

@@ -58,11 +58,11 @@ void UpdateKartItems(KartItems *kartItems) {
         AddKartItemUseFlags(kartItems);
         kartItems->mFlags |= data_usa_021595d4;
     }
-    if (itemInUse->mObjectKind != 0xf) {
+    if (itemInUse->mObjectKind != ITEM_OBJECT_KIND_NONE) {
         AdvanceItemInUse(itemInUse);
     }
-    if (heldItem->mItemInfoIndex != 0x13) {
-        if ((kartItems->mFlags & 0x242) == 0x242 && heldItem->mItemInfoIndex != 0x13 &&
+    if (heldItem->mItemInfoIndex != ITEM_INFO_NONE) {
+        if ((kartItems->mFlags & 0x242) == 0x242 && heldItem->mItemInfoIndex != ITEM_INFO_NONE &&
             heldItem->mObjectStartFramesLeft == 0 && (kartItems->mFlags & 0x200) && kart->mState == KART_STATE_NORMAL) {
             StartItemInUse(itemInUse, heldItem);
         }
@@ -96,7 +96,7 @@ void AddKartItemUseFlags(KartItems *kartItems) {
     kartItems->mFlags &= ~0xff;
     if (gRaceSetup->mMode == MODE_WIFI) {
         heldItemIndex = kartItems->mHeldItem.mItemInfoIndex;
-        if (heldItemIndex == 0x13 || kartItems->mItemInUse.mObjectKind != 0xf) {
+        if (heldItemIndex == ITEM_INFO_NONE || kartItems->mItemInUse.mObjectKind != ITEM_OBJECT_KIND_NONE) {
             heldItemNotInUseKindOneOrTwo = FALSE;
         } else {
             heldItemNotInUseKindOneOrTwo = (u32) (gItemInfos[heldItemIndex].mUseKind - 1) <= 1;

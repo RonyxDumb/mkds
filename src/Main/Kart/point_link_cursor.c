@@ -180,7 +180,8 @@ void AdvanceStaffRollPointLinkCursor(PointLinkCursor *pointLinkCursor) {
 }
 
 void SetupKartAiGlobals(void) {
-    gKartAiVelocityFactorScale = gRaceSetup->mMode == MODE_BATTLE ? &gKartAiBattleVelocityFactorScale : &gKartAiRaceVelocityFactorScale;
+    gKartAiVelocityFactorScale =
+        gRaceSetup->mMode == MODE_BATTLE ? &gKartAiBattleVelocityFactorScale : &gKartAiRaceVelocityFactorScale;
     switch (GetKartAiEngineOrDifficultyIndex()) {
         case 0:
             gKartAiDriftStartRandomLimits = gKartAiDriftStartRandomLimitsIndex0;
@@ -1743,7 +1744,7 @@ void UseItemByTargetOrRankAfterEveryCall(KartAiItemUse *itemUse, struct KartAi *
     kartItems = &gKartItems[kartAi->mIndex];
     heldItemIndex = kartItems->mHeldItem.mItemInfoIndex;
     if (itemUse->mItemBitsEveryCall != 0) {
-        if (heldItemIndex != 0x13) {
+        if (heldItemIndex != ITEM_INFO_NONE) {
             itemUse->mHeldItemSeen = 1;
         }
         if (itemUse->mHeldItemSeen == 0) {
@@ -1772,7 +1773,7 @@ void UseItemByRankAfterEveryCall(KartAiItemUse *itemUse, struct KartAi *kartAi) 
     kartItems = &gKartItems[kartAi->mIndex];
     heldItemIndex = kartItems->mHeldItem.mItemInfoIndex;
     if (itemUse->mItemBitsEveryCall != 0) {
-        if (heldItemIndex != 0x13) {
+        if (heldItemIndex != ITEM_INFO_NONE) {
             itemUse->mHeldItemSeen = 1;
         }
         if (itemUse->mHeldItemSeen == 0) {
@@ -1945,9 +1946,9 @@ void AdvanceItemBitRequests(struct KartAiItemUse *itemUse, struct KartAi *kartAi
     kartIndex = kartAi->mIndex;
     if (kartIndex == GetRaceUpdateFramesMod8()) {
         kartItems = &gKartItems[kartIndex];
-        if (kartItems->mItemInUse.mObjectKind != 0xf && itemUse->mItemInUseEntry != NULL) {
+        if (kartItems->mItemInUse.mObjectKind != ITEM_OBJECT_KIND_NONE && itemUse->mItemInUseEntry != NULL) {
             itemUse->mItemInUseEntry->mHandler(itemUse, kartAi);
-        } else if ((itemUse->mHeldItemEntry != 0) & (kartItems->mHeldItem.mItemInfoIndex != 0x13)) {
+        } else if ((itemUse->mHeldItemEntry != 0) & (kartItems->mHeldItem.mItemInfoIndex != ITEM_INFO_NONE)) {
             itemUse->mHeldItemEntry->mHandler(itemUse, kartAi);
         } else {
             RequestBits(kartAi->mKart->mEntryIndex, ITEM_BITS);
@@ -1974,7 +1975,7 @@ void AdvanceRaceItemBitRequests(struct KartAiItemUse *itemUse, struct KartAi *ka
     if (IsKartEnded(kartAi->mIndex) != 0) {
         return;
     }
-    if (gKartItems[kartAi->mIndex].mHeldItem.mItemInfoIndex == 0xe) {
+    if (gKartItems[kartAi->mIndex].mHeldItem.mItemInfoIndex == ITEM_INFO_KILLER) {
         if (kartAi->mPointLinkCursor.mLink->mNextCount > 1) {
             return;
         }

@@ -41,7 +41,8 @@
 
 const u16 gItemInUseThrowForwardBit = 0x10;
 const u16 gItemInUseDownBit = 0x20;
-const u32 gItemCollisionBitOrder[13] = {0x80, 0x40000, 0x1000, 0x80000, 0x20000, 1, 0x100000, 2, 0x40, 4, 8, 0x20, 0x2000};
+const u32 gItemCollisionBitOrder[13] = {0x80, 0x40000, 0x1000, 0x80000, 0x20000, 1,     0x100000,
+                                        2,    0x40,    4,      8,       0x20,    0x2000};
 const u16 gKartItemsKeyReleasedBit = 0x4000;
 const u16 gKartItemsKeyDownBit = 0x1000;
 const u16 gKartItemsDownBit = 0x20;
@@ -349,7 +350,7 @@ BOOL ApplyItemObjectEventById(ItemPool *pool, s32 eventByte, s32 objectId) {
                 FadeOutUsedUpItemObject(object, sendEventUsedUp);
                 break;
             case 3:
-                if (pool->mKind == 1) {
+                if (pool->mKind == ITEM_OBJECT_KIND_KOURA_R) {
                     if (RequestItemKouraRState5IfFar(object, eventValue) == 0) {
                         break;
                     }
@@ -388,13 +389,13 @@ BOOL SetItemObjectKartFromPacket(ItemPool *pool, u8 *packet) {
         }
         found = TRUE;
         value = packet[2];
-        if (pool->mKind == 1) {
+        if (pool->mKind == ITEM_OBJECT_KIND_KOURA_R) {
             RequestItemKouraRState4ForKart((ItemKouraR *) object, value);
         }
-        if (pool->mKind == 5) {
+        if (pool->mKind == ITEM_OBJECT_KIND_KOURA_W) {
             SetItemKouraWKartItemsAndStateIfNone((ItemKouraW *) object, value);
         }
-        if (pool->mKind == 0xb) {
+        if (pool->mKind == ITEM_OBJECT_KIND_TERESA) {
             SetItemTeresaFromPacket((ItemTeresa *) object, value, packet[3]);
         }
     }
@@ -414,10 +415,10 @@ void ProcessItemPoolMessage(ItemPool *pool, s32 messageKind, s32 frameDifference
                 return;
             }
             StartItemObjectFromData(pool, frameDifference, packet, 0);
-            if (pool->mKind == 6) {
+            if (pool->mKind == ITEM_OBJECT_KIND_THUNDER) {
                 StartThunderBlockTimer(0);
             }
-            if (pool->mKind == 0xa) {
+            if (pool->mKind == ITEM_OBJECT_KIND_GESSO) {
                 StartGessoBlockTimer(0);
             }
             return;
@@ -509,7 +510,7 @@ void UpdateItemPool(ItemPool *pool) {
                 StartItemObjectReleaseIfOldResting(pool->mObjects[0]);
             }
         } else {
-            if (pool->mKind == 2) {
+            if (pool->mKind == ITEM_OBJECT_KIND_BANANA) {
                 orderEndIndex -= 3;
             }
             OrderItemPoolObjectsForRelease(objects, frameMod8, orderEndIndex, 7);
@@ -634,9 +635,9 @@ BOOL TryAddKartItemFlags(KartItems *kartItems) {
     if ((kart->mEffectFlags & KART_EFFECT_HEADING_SWING) != 0) {
         return FALSE;
     }
-    if (kartItems->mItemInUse.mObjectKind != 0xf) {
+    if (kartItems->mItemInUse.mObjectKind != ITEM_OBJECT_KIND_NONE) {
         kartItems->mFlags |= gKartItemsInUseBit;
-    } else if (kartItems->mHeldItem.mItemInfoIndex != 0x13) {
+    } else if (kartItems->mHeldItem.mItemInfoIndex != ITEM_INFO_NONE) {
         kartItems->mFlags |= gKartItemsHeldBit;
     } else if (kartItems->mSlotState != KART_ITEMS_SLOT_IDLE) {
         kartItems->mFlags |= gKartItemsSlotBit;
@@ -671,7 +672,7 @@ void ReleaseKartItems(KartItems *kartItems) {
     if ((kartItems->mKart->mEntryFlags & KART_ENTRY_WIFI_PEER) != 0) {
         return;
     }
-    if (kartItems->mHeldItem.mItemInfoIndex != 0x13) {
+    if (kartItems->mHeldItem.mItemInfoIndex != ITEM_INFO_NONE) {
         ReleaseHeldItem(&kartItems->mHeldItem, 0);
     }
     if (gRaceSetup->mMode == MODE_WIFI) {
@@ -680,13 +681,13 @@ void ReleaseKartItems(KartItems *kartItems) {
     if (kartItems->mSlotState != KART_ITEMS_SLOT_IDLE) {
         FinishItemSlotAndStopSound(kartItems);
     }
-    if (kartItems->mActiveItem != 0x13) {
-        kartItems->mActiveItem = 0x13;
+    if (kartItems->mActiveItem != ITEM_INFO_NONE) {
+        kartItems->mActiveItem = ITEM_INFO_NONE;
     }
     if (gRaceSetup->mMode == MODE_WIFI) {
         return;
     }
-    if (kartItems->mItemInUse.mObjectKind == 0xf) {
+    if (kartItems->mItemInUse.mObjectKind == ITEM_OBJECT_KIND_NONE) {
         return;
     }
     ReleaseItemInUse(&kartItems->mItemInUse);
@@ -702,10 +703,10 @@ void StartKartItemObjectCountdowns(KartItems *kartItems) {
     if ((u32) (kartItems->mKart->mItemEffect - 2) <= 1) {
         return;
     }
-    if (isMode5 && kartItems->mActiveItem != 0x13) {
+    if (isMode5 && kartItems->mActiveItem != ITEM_INFO_NONE) {
         return;
     }
-    if (kartItems->mHeldItem.mItemInfoIndex != 0x13 && kartItems->mHeldItem.mObjectStartFramesLeft == 0) {
+    if (kartItems->mHeldItem.mItemInfoIndex != ITEM_INFO_NONE && kartItems->mHeldItem.mObjectStartFramesLeft == 0) {
         StartHeldItemObjects(&kartItems->mHeldItem);
     }
     if (isMode5) {
@@ -717,7 +718,7 @@ void StartKartItemObjectCountdowns(KartItems *kartItems) {
     if (isMode5) {
         return;
     }
-    if (kartItems->mItemInUse.mObjectKind == 0xf) {
+    if (kartItems->mItemInUse.mObjectKind == ITEM_OBJECT_KIND_NONE) {
         return;
     }
     if (kartItems->mItemInUse.mObjectStartFramesLeft != 0) {
@@ -733,7 +734,7 @@ void StartKartItemInUseOneCountdown(KartItems *kartItems) {
     if (gRaceSetup->mMode == MODE_WIFI) {
         return;
     }
-    if (kartItems->mItemInUse.mObjectKind == 0xf) {
+    if (kartItems->mItemInUse.mObjectKind == ITEM_OBJECT_KIND_NONE) {
         return;
     }
     if (kartItems->mItemInUse.mObjectStartFramesLeft != 0) {
@@ -752,14 +753,15 @@ BOOL SetKartItemsHeldItemByInfoIndex(KartItems *kartItems, s32 itemInfoIndex) {
     enum { K0 } objectKind;
 
     heldItem = &kartItems->mHeldItem;
-    if (itemInfoIndex == 0x13) {
+    if (itemInfoIndex == ITEM_INFO_NONE) {
         return TRUE;
     }
-    if (kartItems->mActiveItem != 0x13) {
-        kartItems->mActiveItem = 0x13;
+    if (kartItems->mActiveItem != ITEM_INFO_NONE) {
+        kartItems->mActiveItem = ITEM_INFO_NONE;
     }
     if (kartItems->mSlotState != KART_ITEMS_SLOT_IDLE) {
-        if (kartItems->mSlotState == KART_ITEMS_SLOT_SPINNING && kartItems->mSlotFrames < 0x3c) {
+        if (kartItems->mSlotState == KART_ITEMS_SLOT_SPINNING &&
+            kartItems->mSlotFrames < KART_ITEMS_SLOT_MIN_SPIN_FRAMES) {
             objectKind = gItemInfos[itemInfoIndex].mObjectKind;
             pool = &gItemPools[objectKind];
             pool->mReservedCount--;
@@ -768,14 +770,14 @@ BOOL SetKartItemsHeldItemByInfoIndex(KartItems *kartItems, s32 itemInfoIndex) {
         StopItemSlot(kartItems);
         SetHeldItem(heldItem, itemInfoIndex);
     } else {
-        if (heldItem->mItemInfoIndex == 0x13 && heldItem->mObjectCount == 0) {
+        if (heldItem->mItemInfoIndex == ITEM_INFO_NONE && heldItem->mObjectCount == 0) {
             objectKind = gItemInfos[itemInfoIndex].mObjectKind;
             pool = &gItemPools[objectKind];
             pool->mReservedCount--;
         }
     }
     RemoveHeldItemObjects(heldItem, 1);
-    return heldItem->mItemInfoIndex == 0x13;
+    return heldItem->mItemInfoIndex == ITEM_INFO_NONE;
 }
 
 void CopyKartPlacementToItemObject(KartItems *kartItems, ItemObject *object) {
@@ -990,12 +992,12 @@ void AdvanceItemInUseOne(ItemInUse *itemInUse) {
     if (previousScale < 0xccd && object->mScale.z >= 0xccd && itemInUse->mKartIndex == gRaceSetup->mEntryIndex) {
         StartSoundFullVolume(&kartItems->mKart->mSoundSource, 0xe7);
     }
-    if ((kartItems->mFlags & 0x284) == 0x284 && itemInUse->mObjectKind != 0xf &&
+    if ((kartItems->mFlags & 0x284) == 0x284 && itemInUse->mObjectKind != ITEM_OBJECT_KIND_NONE &&
         itemInUse->mObjectStartFramesLeft == 0) {
         StartLastItemInUseObjectAndInit(itemInUse, 1);
     }
     if (itemInUse->mIsActiveItem != FALSE) {
-        kartItems->mActiveItem = 0x13;
+        kartItems->mActiveItem = ITEM_INFO_NONE;
         entryIndex = kartItems->mEntryIndex;
         if ((u16) (gInputSlots[entryIndex].mBits & ITEM_THROW_FORWARD_BIT) != 0) {
             kartItems->mFlags |= gItemInUseThrowForwardBit;
@@ -1193,7 +1195,7 @@ void AdvanceItemInUseTrail(ItemInUse *itemInUse) {
                                        itemInUse->mKartScaleFactorTimesBase.y);
         }
     }
-    if ((kartItems->mFlags & 0x244) == 0x244 && itemInUse->mObjectKind != 0xf &&
+    if ((kartItems->mFlags & 0x244) == 0x244 && itemInUse->mObjectKind != ITEM_OBJECT_KIND_NONE &&
         itemInUse->mObjectStartFramesLeft == 0) {
         StartLastItemInUseObjectAndInit(itemInUse, 1);
     }
@@ -1340,7 +1342,7 @@ void AdvanceItemInUseCircle(ItemInUse *itemInUse) {
     if ((kartItems->mFlags & 0x244) != 0x244) {
         return;
     }
-    if (itemInUse->mObjectKind == 0xf) {
+    if (itemInUse->mObjectKind == ITEM_OBJECT_KIND_NONE) {
         return;
     }
     if (itemInUse->mObjectStartFramesLeft != 0) {
@@ -1369,9 +1371,9 @@ void RemoveItemInUseCircle(ItemInUse *itemInUse, s32 objectIndex, ItemObject *ob
 void ResetItemInUse(ItemInUse *itemInUse) {
     s32 objectIndex;
 
-    itemInUse->mObjectKind = 0xf;
+    itemInUse->mObjectKind = ITEM_OBJECT_KIND_NONE;
     itemInUse->mUseKind = 5;
-    itemInUse->mItemInfoIndex = 0x13;
+    itemInUse->mItemInfoIndex = ITEM_INFO_NONE;
     for (objectIndex = 0; objectIndex < 3; objectIndex++) {
         itemInUse->mObjects[objectIndex] = NULL;
     }

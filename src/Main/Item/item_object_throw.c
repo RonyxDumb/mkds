@@ -268,7 +268,7 @@ void AdvanceItemObjectMotion(DirectedItemObject *object, s32 targetSpeed) {
             FadeOutUsedUpItemObject(&object->mItemObject, 1);
             return;
         }
-        if ((object->mItemObject.mCollisionBits & 0x8000) && object->mItemObject.mKind != 5) {
+        if ((object->mItemObject.mCollisionBits & 0x8000) && object->mItemObject.mKind != ITEM_OBJECT_KIND_KOURA_W) {
             FadeOutItemObjectNoCallback(&object->mItemObject, 1);
             return;
         }

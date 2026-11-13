@@ -88,8 +88,7 @@ void CopyRaceHudSubScreenBgColors(void) {
                 }
             }
             for (rowIndex = 0; rowIndex < 2; rowIndex++) {
-                gRaceHudSubScreenBgColors->mColors.mKoopaColors.mKoopaBlockColors[rowIndex] =
-                    HW_DB_BG_PLTT[rowIndex];
+                gRaceHudSubScreenBgColors->mColors.mKoopaColors.mKoopaBlockColors[rowIndex] = HW_DB_BG_PLTT[rowIndex];
             }
             break;
         case COURSE_ID_MINI_STAGE3:
@@ -351,7 +350,7 @@ void UpdateRaceHudSubScreenBombKouraWCells(void) {
 
     cellCount = 0;
     scale = GetRaceHudSubScreenScale();
-    pool = &gItemPools[9];
+    pool = &gItemPools[ITEM_OBJECT_KIND_BOMB];
     activeCount = pool->mActiveCount;
     objects = pool->mObjects;
     for (objectIndex = 0; objectIndex < activeCount; objectIndex++) {
@@ -376,7 +375,7 @@ void UpdateRaceHudSubScreenBombKouraWCells(void) {
             }
         }
     }
-    pool = &gItemPools[5];
+    pool = &gItemPools[ITEM_OBJECT_KIND_KOURA_W];
     activeCount = pool->mActiveCount;
     objects = pool->mObjects;
     for (objectIndex = 0; objectIndex < activeCount; objectIndex++) {

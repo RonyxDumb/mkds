@@ -218,10 +218,10 @@ void CollideItemObjectWithItemObject(ItemObject *item, ItemObject *other) {
     otherHitType = GetItemObjectHitType(other, item);
     ApplyItemObjectHitType(item, hitType, &other->mPos, &other->mVelocity, NULL);
     ApplyItemObjectHitType(other, otherHitType, &item->mPos, &itemVelocity, NULL);
-    if (item->mKind == 1) {
+    if (item->mKind == ITEM_OBJECT_KIND_KOURA_R) {
         StartTargetKartSoundOnOwnItemHit(item, hitType, other);
     }
-    if (other->mKind != 1) {
+    if (other->mKind != ITEM_OBJECT_KIND_KOURA_R) {
         return;
     }
     StartTargetKartSoundOnOwnItemHit(other, otherHitType, item);

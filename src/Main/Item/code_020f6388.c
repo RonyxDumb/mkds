@@ -530,7 +530,7 @@ void FadeOutUsedUpItemObject(ItemObject *item, s32 sendEvent) {
     if (sendEvent == 0) {
         return;
     }
-    if (item->mKind == 5) {
+    if (item->mKind == ITEM_OBJECT_KIND_KOURA_W) {
         return;
     }
     AddItemDataItemIdAndParts(item->mKind, 2, 8, item->mId);
@@ -554,7 +554,7 @@ void FadeOutItemObjectHitByKart(ItemObject *item, s32 sendEvent, s32 highPart) {
     if (sendEvent == 0) {
         return;
     }
-    if (item->mKind == 5) {
+    if (item->mKind == ITEM_OBJECT_KIND_KOURA_W) {
         return;
     }
     AddItemDataItemIdAndParts(item->mKind, 3, highPart, item->mId);

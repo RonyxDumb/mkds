@@ -172,7 +172,8 @@ BOOL UpdateItemObject(ItemPool *itemPool, ItemObject *itemObject, s32 skipOverla
             StartItemObjectReleaseOnTimeout(itemObject);
         }
     }
-    if (itemObject->mPos.y < 0 && itemObject->mKind != 0xb && itemObject->mKind != 0xa) {
+    if (itemObject->mPos.y < 0 && itemObject->mKind != ITEM_OBJECT_KIND_TERESA &&
+        itemObject->mKind != ITEM_OBJECT_KIND_GESSO) {
         StartItemObjectReleaseTimerSynced(itemObject, 1);
     }
     if (itemObject->mFramesSinceCourseHit < 5) {

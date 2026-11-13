@@ -437,8 +437,52 @@ typedef struct ItemPool {
     /* 40 */ s32 mDrawnByMapObjects;
 } ItemPool;
 
-// Value of the first word of HeldItem.
-typedef enum { UNK_020F40DC_KIND_0 } ItemInfoIndex;
+// Index into gItemInfos (the first word of HeldItem, KartItems.mActiveItem, the roulette's shown and result items).
+// Names follow the gItemInfo records that CreateItemInfos copies in; ITEM_INFO_COUNT is one past the last record and
+// ITEM_INFO_NONE is the value for no item.
+typedef enum {
+    ITEM_INFO_KOURA_G,
+    ITEM_INFO_KOURA_R,
+    ITEM_INFO_BANANA,
+    ITEM_INFO_F_BOX,
+    ITEM_INFO_KINOKO,
+    ITEM_INFO_KINOKO_THREE,
+    ITEM_INFO_BOMB,
+    ITEM_INFO_KOURA_W,
+    ITEM_INFO_THUNDER,
+    ITEM_INFO_KOURA_G_THREE,
+    ITEM_INFO_BANANA_THREE,
+    ITEM_INFO_KOURA_R_THREE,
+    ITEM_INFO_STAR,
+    ITEM_INFO_KINOKO_P,
+    ITEM_INFO_KILLER,
+    ITEM_INFO_GESSO,
+    ITEM_INFO_TERESA,
+    ITEM_INFO_BOUNCING_ITEM_BOX,
+    ITEM_INFO_COUNT,
+    ITEM_INFO_NONE = 0x13
+} ItemInfoIndex;
+
+// ItemInfo.mObjectKind and the index of ItemPool: the kind of object an item hands out. ITEM_OBJECT_KIND_COUNT pools
+// exist; ITEM_OBJECT_KIND_NONE is the value of ItemInUse.mObjectKind when no item is in use.
+typedef enum {
+    ITEM_OBJECT_KIND_KOURA_G,
+    ITEM_OBJECT_KIND_KOURA_R,
+    ITEM_OBJECT_KIND_BANANA,
+    ITEM_OBJECT_KIND_KINOKO,
+    ITEM_OBJECT_KIND_STAR,
+    ITEM_OBJECT_KIND_KOURA_W,
+    ITEM_OBJECT_KIND_THUNDER,
+    ITEM_OBJECT_KIND_F_BOX,
+    ITEM_OBJECT_KIND_BOUNCING_ITEM_BOX,
+    ITEM_OBJECT_KIND_BOMB,
+    ITEM_OBJECT_KIND_GESSO,
+    ITEM_OBJECT_KIND_TERESA,
+    ITEM_OBJECT_KIND_KINOKO_P,
+    ITEM_OBJECT_KIND_KILLER,
+    ITEM_OBJECT_KIND_COUNT,
+    ITEM_OBJECT_KIND_NONE
+} ItemObjectKind;
 
 // The item a kart holds: its item index, how many are left and the objects it holds.
 typedef struct HeldItem {

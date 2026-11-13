@@ -433,25 +433,27 @@ u32 LookupRaceMNcerIndex(u32 kind) {
 
     cellIndex = 0xb;
     switch (kind) {
-        case 0:
+        case ITEM_INFO_KOURA_G:
             cellIndex = 0x12;
             break;
-        case 1:
+        case ITEM_INFO_KOURA_R:
             cellIndex = 0x10;
             break;
-        case 2:
+        case ITEM_INFO_BANANA:
             cellIndex = 0x17;
             break;
-        case 3:
+        case ITEM_INFO_F_BOX:
             cellIndex = 0x14;
             break;
-        case 4:
+        case ITEM_INFO_KINOKO:
             cellIndex = 0xd;
             break;
-        case 5:
+        case ITEM_INFO_KINOKO_THREE:
             kartItems = &gKartItems[GetFollowedKartOrEntryIndex()];
             itemInfoIndex = kartItems->mHeldItem.mItemInfoIndex;
-            switch (gItemInfos[itemInfoIndex].mObjectKind == 3 ? (u16) kartItems->mHeldItem.mObjectCount : 0) {
+            switch (gItemInfos[itemInfoIndex].mObjectKind == ITEM_OBJECT_KIND_KINOKO
+                        ? (u16) kartItems->mHeldItem.mObjectCount
+                        : 0) {
                 case 1:
                     cellIndex = 0xd;
                     break;
@@ -464,44 +466,44 @@ u32 LookupRaceMNcerIndex(u32 kind) {
                     break;
             }
             break;
-        case 6:
+        case ITEM_INFO_BOMB:
             cellIndex = 0x16;
             break;
-        case 7:
+        case ITEM_INFO_KOURA_W:
             cellIndex = 0x1b;
             break;
-        case 8:
+        case ITEM_INFO_THUNDER:
             cellIndex = 0x19;
             break;
-        case 9:
+        case ITEM_INFO_KOURA_G_THREE:
             cellIndex = 0x13;
             break;
-        case 10:
+        case ITEM_INFO_BANANA_THREE:
             cellIndex = 0x18;
             break;
-        case 11:
+        case ITEM_INFO_KOURA_R_THREE:
             cellIndex = 0x11;
             break;
-        case 12:
+        case ITEM_INFO_STAR:
             cellIndex = 0x1a;
             break;
-        case 13:
+        case ITEM_INFO_KINOKO_P:
             cellIndex = 0x1e;
             break;
-        case 14:
+        case ITEM_INFO_KILLER:
             cellIndex = 0x1c;
             break;
-        case 15:
+        case ITEM_INFO_GESSO:
             cellIndex = 0x1d;
             break;
-        case 16:
+        case ITEM_INFO_TERESA:
             cellIndex = 0x15;
             break;
-        case 17:
+        case ITEM_INFO_BOUNCING_ITEM_BOX:
             cellIndex = 0x1f;
             break;
-        case 18:
-        case 19:
+        case ITEM_INFO_COUNT:
+        case ITEM_INFO_NONE:
             break;
     }
     return cellIndex;
@@ -553,20 +555,20 @@ s32 LookupRaceSNcerIndex(s32 kartIndex, s32 shownItem) {
     enum { K0 } itemInfoIndex;
 
     switch (shownItem) {
-        case 0:
+        case ITEM_INFO_KOURA_G:
             return 0x1b;
-        case 1:
+        case ITEM_INFO_KOURA_R:
             return 0x14;
-        case 2:
+        case ITEM_INFO_BANANA:
             return 0x22;
-        case 3:
+        case ITEM_INFO_F_BOX:
             return 0x17;
-        case 4:
+        case ITEM_INFO_KINOKO:
             return 0x11;
-        case 5:
+        case ITEM_INFO_KINOKO_THREE:
             kartItems = GetKartItems(kartIndex);
             itemInfoIndex = kartItems->mHeldItem.mItemInfoIndex;
-            if (gItemInfos[itemInfoIndex].mObjectKind == 3) {
+            if (gItemInfos[itemInfoIndex].mObjectKind == ITEM_OBJECT_KIND_KINOKO) {
                 heldObjectCount = (u16) kartItems->mHeldItem.mObjectCount;
             } else {
                 heldObjectCount = 0;
@@ -581,29 +583,29 @@ s32 LookupRaceSNcerIndex(s32 kartIndex, s32 shownItem) {
                     return 0x13;
             }
             break;
-        case 6:
+        case ITEM_INFO_BOMB:
             return 0x1f;
-        case 7:
+        case ITEM_INFO_KOURA_W:
             return 0x20;
-        case 8:
+        case ITEM_INFO_THUNDER:
             return 0x21;
-        case 9:
+        case ITEM_INFO_KOURA_G_THREE:
             return 0x1c;
-        case 10:
+        case ITEM_INFO_BANANA_THREE:
             return 0x23;
-        case 11:
+        case ITEM_INFO_KOURA_R_THREE:
             return 0x15;
-        case 12:
+        case ITEM_INFO_STAR:
             return 0x19;
-        case 13:
+        case ITEM_INFO_KINOKO_P:
             return 0x18;
-        case 14:
+        case ITEM_INFO_KILLER:
             return 0x1d;
-        case 16:
+        case ITEM_INFO_TERESA:
             return 0x1e;
-        case 15:
+        case ITEM_INFO_GESSO:
             return 0x1a;
-        case 17:
+        case ITEM_INFO_BOUNCING_ITEM_BOX:
             return 0x16;
     }
     return kartIndex;

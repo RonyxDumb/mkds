@@ -11,6 +11,12 @@ s32 GetTeresaOffsetYDivisor(void);
 typedef struct NsbmdModel NsbmdModel;
 typedef struct ItemTeresa ItemTeresa;
 
+// Values of ItemTeresa.mItemObjectKind besides a real ItemObjectKind: nothing carried (no model drawn), and an item
+// taken that was none or that nobody held.
+#define ITEM_TERESA_KIND_EMPTY ITEM_OBJECT_KIND_COUNT
+#define ITEM_TERESA_KIND_TOOK_NOTHING ITEM_OBJECT_KIND_NONE
+// Value of ItemTeresa.mTakenItemInfoIndex and mGivenItemInfoIndex while no item has arrived (the count is -1).
+#define ITEM_TERESA_NOT_RECEIVED ITEM_INFO_COUNT
 
 void DrawItemTeresa(ItemTeresa *teresa, s32 unusedValue, NsbmdModel *model);
 void SetItemTeresaFromPacket(ItemTeresa *teresa, u32 sel, s32 value);

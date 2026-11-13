@@ -1006,7 +1006,7 @@ void SetupItemKouraWKind(void) {
 #pragma thumb off
 
 BOOL IsItemInfoObjectCountFree(s32 itemInfoIndex) {
-    if (itemInfoIndex != 0x13) {
+    if (itemInfoIndex != ITEM_INFO_NONE) {
         return gItemPools[gItemInfos[itemInfoIndex].mObjectKind].mObjectBudget -
                    gItemPools[gItemInfos[itemInfoIndex].mObjectKind].mReservedCount >=
                gItemInfos[itemInfoIndex].mObjectCount;
@@ -1015,7 +1015,7 @@ BOOL IsItemInfoObjectCountFree(s32 itemInfoIndex) {
 }
 
 static inline BOOL ItemsIsItemInfoObjectCountFree(s32 itemInfoIndex) {
-    if (itemInfoIndex != 0x13) {
+    if (itemInfoIndex != ITEM_INFO_NONE) {
         return gItemPools[gItemInfos[itemInfoIndex].mObjectKind].mObjectBudget -
                    gItemPools[gItemInfos[itemInfoIndex].mObjectKind].mReservedCount >=
                gItemInfos[itemInfoIndex].mObjectCount;
@@ -1032,7 +1032,7 @@ BOOL ReplaceUnavailableItem(s32 *itemInfoIndexPointer) {
     s32 objectCount;
 
     itemInfoIndex = *itemInfoIndexPointer;
-    if (itemInfoIndex == 0x13) {
+    if (itemInfoIndex == ITEM_INFO_NONE) {
         goto done;
     }
     if (gRaceSetup->mMode == MODE_WIFI) {
@@ -1077,7 +1077,7 @@ void ReleaseItemsAtFinish(void) {
     enum { K0 } poolIndex;
     u16 kartIndex;
 
-    for (poolIndex = 0; poolIndex < 0xe; poolIndex++) {
+    for (poolIndex = 0; poolIndex < ITEM_OBJECT_KIND_COUNT; poolIndex++) {
         TryReleaseFirstItemObject(&gItemPools[poolIndex]);
     }
     for (kartIndex = 0; kartIndex < gKartItemsCount; kartIndex++) {
@@ -1093,7 +1093,7 @@ void UpdateItems(void) {
         AddQueuedItemData();
         ProcessDelayedItemData();
     }
-    for (poolIndex = 0; poolIndex < 0xe; poolIndex++) {
+    for (poolIndex = 0; poolIndex < ITEM_OBJECT_KIND_COUNT; poolIndex++) {
         if (gItemPools[poolIndex].mActiveCount != 0) {
             UpdateItemPool(&gItemPools[poolIndex]);
         }
@@ -1112,7 +1112,7 @@ void DrawItems(void *unused) {
 
     viewAxis = &GetViewTransposeMatrix()->mRows[2];
     QueueViewMatrix();
-    for (poolIndex = 0; poolIndex < 0xe; poolIndex++) {
+    for (poolIndex = 0; poolIndex < ITEM_OBJECT_KIND_COUNT; poolIndex++) {
         if (gItemPools[poolIndex].mTakenCount > 0 && gItemPools[poolIndex].mDrawnByMapObjects == 0) {
             DrawItemPool(&gItemPools[poolIndex], viewAxis);
         }
@@ -1123,7 +1123,7 @@ void StartItemSlotForKart(s32 kartIndex, s32 forcedRowHandle, s32 shortSpin) {
     s32 playerKind;
     BOOL isHumanGhostOrPeer;
 
-    if (gKartItems[kartIndex].mHeldItem.mItemInfoIndex != 0x13) {
+    if (gKartItems[kartIndex].mHeldItem.mItemInfoIndex != ITEM_INFO_NONE) {
         return;
     }
     playerKind = gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mKind;
@@ -1344,7 +1344,7 @@ void InitItems(void) {
         InitKartItems(&gKartItems[kartIndex], (u16) kartIndex);
     }
     gItemPools = HeapAlloc(heap, 0x3b8);
-    for (kind = 0; kind < 0xe; kind++) {
+    for (kind = 0; kind < ITEM_OBJECT_KIND_COUNT; kind++) {
         CreateItemPool(&gItemPools[kind], kind, &objectIdCounter);
     }
     CreateItemModels();
@@ -1355,7 +1355,7 @@ void InitItems(void) {
     if (gRaceSetup->mMode == MODE_TIME_ATTACK) {
         for (kartIndex = 0; kartIndex < gKartItemsCount; kartIndex++) {
             heldItem = &gKartItems[kartIndex].mHeldItem;
-            SetHeldItem(heldItem, 5);
+            SetHeldItem(heldItem, ITEM_INFO_KINOKO_THREE);
             switch (GetKartVariant((u16) kartIndex)) {
                 case 0:
                     RemoveHeldItemObjects(heldItem, 1);

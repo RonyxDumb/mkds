@@ -213,7 +213,7 @@ void StartItemKinokoFromKuribo(Kuribo *kuribo, Vec3 *hitVector) {
         0x10) {
         Vec3NormalizeAndGetLengthUnchecked(&launchDirection, &launchDirection);
     }
-    itemObject = StartItemObjectOrZero(3, 8, &kuribo->mMapObject.mPos, &gKuriboItemNormal);
+    itemObject = StartItemObjectOrZero(ITEM_OBJECT_KIND_KINOKO, 8, &kuribo->mMapObject.mPos, &gKuriboItemNormal);
     if (itemObject == NULL) {
         return;
     }

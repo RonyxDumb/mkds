@@ -126,8 +126,9 @@ void UpdateRaceRankList(void) {
     }
     for (kartIndex = 0; kartIndex < (s32) gRaceSetup->mKartCount; kartIndex++) {
         kartItems = &gKartItems[kartIndex];
-        gRaceRankList->mShownItems[kartIndex] =
-            kartItems->mHeldItem.mItemInfoIndex == 0x13 ? kartItems->mActiveItem : kartItems->mHeldItem.mItemInfoIndex;
+        gRaceRankList->mShownItems[kartIndex] = kartItems->mHeldItem.mItemInfoIndex == ITEM_INFO_NONE
+                                                    ? kartItems->mActiveItem
+                                                    : kartItems->mHeldItem.mItemInfoIndex;
         if (gRaceRankList->mMoveFrames % 0x1c == 0) {
             gRaceRankList->mPrevRanks[kartIndex] = gRaceRankList->mRanks[kartIndex];
             gRaceRankList->mRanks[kartIndex] = GetKartRank(kartIndex);
@@ -242,7 +243,7 @@ u32 GetRaceRankListSNcerIndex(u16 kartIndex) {
         } else {
             cellIndex = LookupRaceSNcerIndex(kartIndex, itemIndexView[kartIndex].mInUseFrames);
         }
-    } else if (rankList->mShownItems[kartIndex] != 0x13) {
+    } else if (rankList->mShownItems[kartIndex] != ITEM_INFO_NONE) {
         cellIndex = LookupRaceSNcerIndex(kartIndex, rankList->mShownItems[kartIndex]);
     } else if (gKartItems[kartIndex].mSlotState == KART_ITEMS_SLOT_SPINNING) {
         cellIndex = 0x16;

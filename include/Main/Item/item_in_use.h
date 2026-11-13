@@ -117,7 +117,7 @@ typedef struct KartModelsEntry {
 #define ITEM_IN_USE_MOVEMENT_WEIGHT_START 0xee1
 #define ITEM_IN_USE_MOVEMENT_WEIGHT_DECREASE 0x3d
 // The two values of ItemInUse.mObjectHeight (the first for object kind 8).
-#define ITEM_IN_USE_OBJECT_HEIGHT_KIND_8 0xb400
+#define ITEM_IN_USE_OBJECT_HEIGHT_BOUNCING_ITEM_BOX 0xb400
 #define ITEM_IN_USE_OBJECT_HEIGHT 0x4333
 
 // Object at 0x58 of a KartItems (that KartItems at 0x0c), passed first to the function pointers in the

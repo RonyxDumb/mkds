@@ -203,7 +203,7 @@ void StartWoodbox1ItemObject(Woodbox1 *woodbox, Vec3 *velocity) {
     if (woodbox->mItemRowHandle == 0) {
         return;
     }
-    itemIndex = PickItem(0, woodbox->mItemRowHandle, 1, 1, 0, 0x12);
+    itemIndex = PickItem(0, woodbox->mItemRowHandle, 1, 1, 0, ITEM_INFO_COUNT);
     itemObject =
         StartItemObjectOrZero(gItemInfos[itemIndex].mObjectKind, 8, &woodbox->mMapObject.mPos, &woodbox->mGroundUp);
     if (itemObject == NULL) {

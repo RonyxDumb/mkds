@@ -91,7 +91,7 @@ void ComputeItemKindObjectCounts(void) {
         gItemKinds[kindIndex].mObjectBudget = gItemKinds[kindIndex].mLimit - 1;
         maxObjectCounts[kindIndex] = 1;
     }
-    for (itemInfoIndex = 0; itemInfoIndex < 0x12; itemInfoIndex++) {
+    for (itemInfoIndex = 0; itemInfoIndex < ITEM_INFO_COUNT; itemInfoIndex++) {
         if (gItemInfos[itemInfoIndex].mEnabled != FALSE) {
             kindIndex = gItemInfos[itemInfoIndex].mObjectKind;
             objectCount = gItemInfos[itemInfoIndex].mObjectCount;

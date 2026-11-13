@@ -456,7 +456,8 @@ void AdvanceBattleKartAiTargetKart(KartAi *kartAi) {
         return;
     }
     kartItems = &gKartItems[kartIndex];
-    if (kartItems->mItemInUse.mObjectKind == 0xf && kartItems->mHeldItem.mItemInfoIndex == 0x13 &&
+    if (kartItems->mItemInUse.mObjectKind == ITEM_OBJECT_KIND_NONE &&
+        kartItems->mHeldItem.mItemInfoIndex == ITEM_INFO_NONE &&
         (kartAi->mKart->mEffectFlags & KART_EFFECT_STAR) == 0) {
         goto clear;
     }
@@ -493,7 +494,8 @@ void AdvanceBattleKartAiTargetKart(KartAi *kartAi) {
     if (kartAi->mTargetAhead != 0) {
         kartItems = &gKartItems[kartAi->mIndex];
         value = 1;
-        if (kartItems->mItemInUse.mObjectKind == 0xf && kartItems->mHeldItem.mItemInfoIndex == 0x13) {
+        if (kartItems->mItemInUse.mObjectKind == ITEM_OBJECT_KIND_NONE &&
+            kartItems->mHeldItem.mItemInfoIndex == ITEM_INFO_NONE) {
             if ((GetKart(kartAi->mIndex)->mEffectFlags & KART_EFFECT_STAR) == 0) {
                 value = 0;
             }

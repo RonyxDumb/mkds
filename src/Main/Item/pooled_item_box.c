@@ -98,14 +98,14 @@ void StartItemKiller(ItemInUse *itemInUse, HeldItem *heldItem) {
 }
 
 void ResetKartActiveItemAfterKiller(s32 kartIndex) {
-    gKartItems[kartIndex].mActiveItem = 0x13;
+    gKartItems[kartIndex].mActiveItem = ITEM_INFO_NONE;
     if (gRaceSetup->mMode != MODE_WIFI) {
         return;
     }
     if (kartIndex == gRaceSetup->mEntryIndex) {
         return;
     }
-    SetKartItemsHeldItemByInfoIndex(&gKartItems[kartIndex], 0xe);
+    SetKartItemsHeldItemByInfoIndex(&gKartItems[kartIndex], ITEM_INFO_KILLER);
 }
 
 // Battle only: hands item 17 to a kart with an empty hand when its timer is 0 and counts the running timers down.
@@ -127,11 +127,11 @@ void UpdateBouncingItemBoxTimers(void) {
         }
         kartItems = GetKartItems(kartIndex);
         heldItem = &kartItems->mHeldItem;
-        if (heldItem->mItemInfoIndex != 0x13) {
+        if (heldItem->mItemInfoIndex != ITEM_INFO_NONE) {
             continue;
         }
         if (timer == 0) {
-            SetHeldItem(heldItem, 0x11);
+            SetHeldItem(heldItem, ITEM_INFO_BOUNCING_ITEM_BOX);
             gBouncingItemBoxTimerRunning[kartIndex] = 0;
             if (kartIndex == gRaceSetup->mEntryIndex && (gRaceSoundKind & 1)) {
                 sndHandle = TakeSoundHandleEntry(GetSoundHandlePool(0));

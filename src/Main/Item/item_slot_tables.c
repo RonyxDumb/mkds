@@ -33,13 +33,9 @@
 #include "Main/Save/ghost_record_file.h"
 #include "Main/System/init_after_startup.h"
 
-const ItemSlotRowRemap gItemSlotRowRemaps[7] = {{{1, 0, 0, 0, 0, 0, 0}},
-                                                {{1, 5, 0, 0, 0, 0, 0}},
-                                                {{1, 3, 6, 0, 0, 0, 0}},
-                                                {{1, 3, 5, 7, 0, 0, 0}},
-                                                {{1, 2, 3, 5, 7, 0, 0}},
-                                                {{1, 2, 4, 5, 7, 8, 0}},
-                                                {{1, 2, 3, 4, 6, 7, 8}}};
+const ItemSlotRowRemap gItemSlotRowRemaps[7] = {
+    {{1, 0, 0, 0, 0, 0, 0}}, {{1, 5, 0, 0, 0, 0, 0}}, {{1, 3, 6, 0, 0, 0, 0}}, {{1, 3, 5, 7, 0, 0, 0}},
+    {{1, 2, 3, 5, 7, 0, 0}}, {{1, 2, 4, 5, 7, 8, 0}}, {{1, 2, 3, 4, 6, 7, 8}}};
 u16 gItemSlotPossibleItemCount;
 u16 gItemSlotSpinItemCount;
 s32 gGessoBlockTimer;
@@ -77,7 +73,7 @@ s32 PickItem(s32 kartVariant, s32 forcedRowHandle, s32 rankOrRow, s32 isHumanGho
     s32 objectKind;
     enum { K0 } spinItem;
 
-    sel = 0x13;
+    sel = ITEM_INFO_NONE;
     if (forcedRowHandle != 0) {
         rankOrRow = (u16) (forcedRowHandle - 1);
         variant = 0;
@@ -99,13 +95,14 @@ s32 PickItem(s32 kartVariant, s32 forcedRowHandle, s32 rankOrRow, s32 isHumanGho
     }
     for (itemIndex = 0; itemIndex < itemCount; itemIndex++) {
         objectKind = GetItemInfo(itemIndex)->mObjectKind;
-        if (!((itemIndex == 8 && gThunderBlockTimer > 0) || (itemIndex == 7 && gKouraWBlockTimer > 0) ||
-              (itemIndex == 0xf && gGessoBlockTimer > 0))) {
+        if (!((itemIndex == ITEM_INFO_THUNDER && gThunderBlockTimer > 0) ||
+              (itemIndex == ITEM_INFO_KOURA_W && gKouraWBlockTimer > 0) ||
+              (itemIndex == ITEM_INFO_GESSO && gGessoBlockTimer > 0))) {
             if (gItemPools[objectKind].mLimit - gItemPools[objectKind].mReservedCount > 0 &&
                 GetItemInfo(itemIndex)->mEnabled != FALSE) {
                 value = gItemKinds[objectKind].mObjectCapCost * GetItemInfo(itemIndex)->mObjectCount;
                 if (value == 0 || value + usedObjectCost <= 0x28) {
-                    if (itemIndex >= 9 && variant != 0) {
+                    if (itemIndex >= ITEM_INFO_KOURA_G_THREE && variant != 0) {
                         if (variant == 1) {
                             acc = acc + (row[itemIndex] >> 2);
                         } else {
@@ -154,9 +151,9 @@ void InitItemSlot(KartItems *slot, KartItems *kartItems) {
     slot->mSelf = kartItems;
     slot->mSlotState = KART_ITEMS_SLOT_IDLE;
     slot->mSlotFrames = 0;
-    slot->mSlotShownItem = 0x13;
-    slot->mSlotResult = 0x13;
-    slot->mActiveItem = 0x13;
+    slot->mSlotShownItem = ITEM_INFO_NONE;
+    slot->mSlotResult = ITEM_INFO_NONE;
+    slot->mActiveItem = ITEM_INFO_NONE;
     slot->mResultPending = FALSE;
     slot->mIsPeer = gRaceSetup->mCurrentEntries[kartItems->mKartIndex].mPlayer.mKind == PLAYER_KIND_PEER;
 }
@@ -174,39 +171,41 @@ void StartItemSlot(KartItems *slot, s32 forcedRowHandle, s32 rank, s32 isHumanGh
     if (slot->mSlotState != KART_ITEMS_SLOT_IDLE) {
         return;
     }
-    if (slot->mActiveItem != 0x13) {
+    if (slot->mActiveItem != ITEM_INFO_NONE) {
         return;
     }
     slot->mSlotState = KART_ITEMS_SLOT_SPINNING;
-    slot->mSlotShownItem = 0x13;
+    slot->mSlotShownItem = ITEM_INFO_NONE;
     if (!isWiFiRace) {
         StopRaceRankListItemInUse(slot->mSelf->mKartIndex);
     }
     if (isWiFiRace) {
         slot->mIsShortSpin = FALSE;
         slot->mSlotFrames = 0;
-        slot->mSlotFrameCount = 0x85;
-        slot->mSlotFinalScrollFrameCount = 0x10;
-        slot->mSlotFinalScrollFrameShift = 4;
+        slot->mSlotFrameCount = KART_ITEMS_SLOT_END_FRAME_WIFI;
+        slot->mSlotFinalScrollFrameCount = KART_ITEMS_SLOT_FINAL_SCROLL_FRAMES;
+        slot->mSlotFinalScrollFrameShift = KART_ITEMS_SLOT_FINAL_SCROLL_SHIFT;
     } else if (shortSpin != 0) {
         slot->mIsShortSpin = TRUE;
-        slot->mSlotFrames = 0x4d;
-        slot->mSlotFrameCount = 0x65;
-        slot->mSlotFinalScrollFrameCount = 8;
-        slot->mSlotFinalScrollFrameShift = 3;
+        slot->mSlotFrames = KART_ITEMS_SLOT_SHORT_SPIN_START_FRAME;
+        slot->mSlotFrameCount = KART_ITEMS_SLOT_END_FRAME_SHORT;
+        slot->mSlotFinalScrollFrameCount = KART_ITEMS_SLOT_SHORT_FINAL_SCROLL_FRAMES;
+        slot->mSlotFinalScrollFrameShift = KART_ITEMS_SLOT_SHORT_FINAL_SCROLL_SHIFT;
     } else {
         slot->mIsShortSpin = FALSE;
         slot->mSlotFrames = 0;
-        slot->mSlotFrameCount = 0xd5;
-        slot->mSlotFinalScrollFrameCount = 0x10;
-        slot->mSlotFinalScrollFrameShift = 4;
+        slot->mSlotFrameCount = KART_ITEMS_SLOT_END_FRAME_NORMAL;
+        slot->mSlotFinalScrollFrameCount = KART_ITEMS_SLOT_FINAL_SCROLL_FRAMES;
+        slot->mSlotFinalScrollFrameShift = KART_ITEMS_SLOT_FINAL_SCROLL_SHIFT;
     }
     isEntryKart = kartItems->mKartIndex == gRaceSetup->mEntryIndex;
-    if (kartItems->mItemInUse.mObjectKind != 0xf && kartItems->mItemInUse.mItemInfoIndex >= 9) {
-        slot->mSlotResult = PickItem(0, forcedRowHandle, rank, isHumanGhostOrPeer, isEntryKart, 9);
+    if (kartItems->mItemInUse.mObjectKind != ITEM_OBJECT_KIND_NONE &&
+        kartItems->mItemInUse.mItemInfoIndex >= ITEM_INFO_KOURA_G_THREE) {
+        slot->mSlotResult =
+            PickItem(0, forcedRowHandle, rank, isHumanGhostOrPeer, isEntryKart, ITEM_INFO_KOURA_G_THREE);
     } else {
         slot->mSlotResult = PickItem(GetKartVariant(kartItems->mKartIndex), forcedRowHandle, rank, isHumanGhostOrPeer,
-                                     isEntryKart, 0x12);
+                                     isEntryKart, ITEM_INFO_COUNT);
     }
     if (isWiFiRace) {
         StartOwnSlotResultSync(slot->mSlotResult);
@@ -227,8 +226,8 @@ void StartItemSlotResultPending(KartItems *slot) {
     enum { K0 } itemIndex, objectKind;
 
     kartItems = slot->mSelf;
-    if (kartItems->mActiveItem != 0x13) {
-        kartItems->mActiveItem = 0x13;
+    if (kartItems->mActiveItem != ITEM_INFO_NONE) {
+        kartItems->mActiveItem = ITEM_INFO_NONE;
     }
     if (slot->mSlotState != KART_ITEMS_SLOT_IDLE) {
         if (kartItems->mResultPending == FALSE) {
@@ -240,21 +239,21 @@ void StartItemSlotResultPending(KartItems *slot) {
         }
         kartItems->mSlotState = KART_ITEMS_SLOT_IDLE;
         kartItems->mSlotFrames = 0;
-        kartItems->mSlotShownItem = 0x13;
-        kartItems->mSlotResult = 0x13;
-        kartItems->mActiveItem = 0x13;
+        kartItems->mSlotShownItem = ITEM_INFO_NONE;
+        kartItems->mSlotResult = ITEM_INFO_NONE;
+        kartItems->mActiveItem = ITEM_INFO_NONE;
         kartItems->mResultPending = FALSE;
     } else {
-        if (kartItems->mHeldItem.mItemInfoIndex != 0x13) {
+        if (kartItems->mHeldItem.mItemInfoIndex != ITEM_INFO_NONE) {
             ReleaseHeldItem(&kartItems->mHeldItem, 1);
         }
     }
     slot->mSlotState = KART_ITEMS_SLOT_SPINNING;
     slot->mSlotFrames = 0;
-    slot->mSlotFrameCount = 0x85;
-    slot->mSlotShownItem = 0x13;
-    slot->mActiveItem = 0x13;
-    slot->mSlotResult = 0x13;
+    slot->mSlotFrameCount = KART_ITEMS_SLOT_END_FRAME_WIFI;
+    slot->mSlotShownItem = ITEM_INFO_NONE;
+    slot->mActiveItem = ITEM_INFO_NONE;
+    slot->mSlotResult = ITEM_INFO_NONE;
     slot->mResultPending = TRUE;
 }
 
@@ -282,13 +281,13 @@ BOOL UpdateItemSlot(KartItems *slot, KartItems *kartItems) {
                     pool->mReservedCount += itemInfo->mObjectCount;
                     slot->mSlotResult = value;
                     slot->mResultPending = FALSE;
-                    slot->mSlotFrameCount += slot->mSlotFrames - 0x6f;
-                } else if (slot->mSlotFrames > 0x6e) {
-                    slot->mSlotFrames = 0x67;
+                    slot->mSlotFrameCount += slot->mSlotFrames - (KART_ITEMS_SLOT_WIFI_WAIT_LIMIT_FRAME + 1);
+                } else if (slot->mSlotFrames > KART_ITEMS_SLOT_WIFI_WAIT_LIMIT_FRAME) {
+                    slot->mSlotFrames = KART_ITEMS_SLOT_WIFI_WAIT_REWIND_FRAME;
                 }
                 return FALSE;
             }
-            if (slot->mSlotFrames > 0x3c &&
+            if (slot->mSlotFrames > KART_ITEMS_SLOT_MIN_SPIN_FRAMES &&
                 (((kartItems->mFlags & 0x241) == 0x241 && mode != MODE_WIFI && slot->mIsShortSpin == FALSE) ||
                  slot->mSlotFrames > slot->mSlotFrameCount)) {
                 slot->mSlotFrames = 0;
@@ -317,9 +316,9 @@ void FinishItemSlot(KartItems *slot) {
     pool->mReservedCount -= itemInfo->mObjectCount;
     slot->mSlotState = KART_ITEMS_SLOT_IDLE;
     slot->mSlotFrames = 0;
-    slot->mSlotShownItem = 0x13;
-    slot->mSlotResult = 0x13;
-    slot->mActiveItem = 0x13;
+    slot->mSlotShownItem = ITEM_INFO_NONE;
+    slot->mSlotResult = ITEM_INFO_NONE;
+    slot->mActiveItem = ITEM_INFO_NONE;
     slot->mResultPending = FALSE;
 }
 
@@ -337,9 +336,9 @@ void StopItemSlot(KartItems *slot) {
     }
     slot->mSlotState = KART_ITEMS_SLOT_IDLE;
     slot->mSlotFrames = 0;
-    slot->mSlotShownItem = 0x13;
-    slot->mSlotResult = 0x13;
-    slot->mActiveItem = 0x13;
+    slot->mSlotShownItem = ITEM_INFO_NONE;
+    slot->mSlotResult = ITEM_INFO_NONE;
+    slot->mActiveItem = ITEM_INFO_NONE;
     slot->mResultPending = FALSE;
 }
 
@@ -439,9 +438,9 @@ void FinishItemSlotAndStopSound(KartItems *slot) {
     pool->mReservedCount -= itemInfo->mObjectCount;
     slot->mSlotState = KART_ITEMS_SLOT_IDLE;
     slot->mSlotFrames = 0;
-    slot->mSlotShownItem = 0x13;
-    slot->mSlotResult = 0x13;
-    slot->mActiveItem = 0x13;
+    slot->mSlotShownItem = ITEM_INFO_NONE;
+    slot->mSlotResult = ITEM_INFO_NONE;
+    slot->mActiveItem = ITEM_INFO_NONE;
     slot->mResultPending = FALSE;
 }
 
@@ -578,7 +577,7 @@ void CreateItemSlotTables(void) {
             break;
     }
     rowCount = gItemSlotHumanGhostPeerTable.mRowCount;
-    for (itemIndex = 0; itemIndex < 0x12; itemIndex++) {
+    for (itemIndex = 0; itemIndex < ITEM_INFO_COUNT; itemIndex++) {
         gItemSlotPossibleItems[itemIndex] = 0x12;
         for (rowIndex = 0; rowIndex < rowCount; rowIndex++) {
             if (gItemSlotHumanGhostPeerTable.mRows[rowIndex][itemIndex] != 0 ||

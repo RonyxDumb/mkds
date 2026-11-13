@@ -477,7 +477,7 @@ void ParkItemBombMapObject(ItemBomb *bomb) {
 }
 
 u32 GetItemBombActiveCount(void) {
-    return gItemPools[9].mActiveCount;
+    return gItemPools[ITEM_OBJECT_KIND_BOMB].mActiveCount;
 }
 
 #pragma thumb off
@@ -486,7 +486,7 @@ ItemBomb *GetRestingItemBomb(int index) {
     ItemBomb *bomb;
     u32 flags;
 
-    bomb = (ItemBomb *) gItemPools[9].mObjects[index];
+    bomb = (ItemBomb *) gItemPools[ITEM_OBJECT_KIND_BOMB].mObjects[index];
     flags = bomb->mBouncingItemObject.mItemObject.mFlags;
     if ((flags & 0x8000) && (flags & 0x180000) == 0 && bomb->mStateMachine.mState != 3 &&
         bomb->mPooledMapObject == NULL) {
@@ -612,7 +612,7 @@ void ReleaseItemBomb(void **bombSlot) {
 void *StartItemBomb(void) {
     ItemBomb *bomb;
 
-    bomb = StartItemObjectOrZero(9, 8, gItemBombVec3UnitY, gItemBombVec3UnitY);
+    bomb = StartItemObjectOrZero(ITEM_OBJECT_KIND_BOMB, 8, gItemBombVec3UnitY, gItemBombVec3UnitY);
     if (bomb == NULL) {
         return NULL;
     }
@@ -631,7 +631,7 @@ void *StartItemBombWithMapObject(void *mapObject, s32 offsetY) {
     ItemBox *pooledMapObject;
 
     pooledMapObject = mapObject;
-    bomb = StartItemObjectOrZero(9, 8, gItemBombVec3UnitY, gItemBombVec3UnitY);
+    bomb = StartItemObjectOrZero(ITEM_OBJECT_KIND_BOMB, 8, gItemBombVec3UnitY, gItemBombVec3UnitY);
     if (bomb == NULL) {
         bomb = NULL;
     } else {
