@@ -51,6 +51,7 @@
 #include "Main/MapObjects/choropu_kind_descriptor.h"
 #include "Main/MapObjects/bridge_kind_descriptor.h"
 #include "Main/MapObjects/pukupuku_kind_descriptor.h"
+#include "Main/Course/course_triangle_flag.h"
 #include "Main/MapObjects/group_item_box_kind_descriptor.h"
 #include "Main/MapObjects/vehicle_kind_descriptor.h"
 #include "Main/MapObjects/kart_balloons_kind_descriptor.h"

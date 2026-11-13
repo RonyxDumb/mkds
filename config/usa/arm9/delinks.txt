@@ -3576,6 +3576,7 @@ src/Main/MapObjects/pukupuku.c:
 src/Main/Course/course_triangle_flag.c:
     complete
     .text       start:0x020e512c end:0x020e516c
+    .rodata     start:0x021590b0 end:0x021590e8
 
 // provisional: file name and boundaries
 src/Main/MapObjects/send_obj_shadow.c:

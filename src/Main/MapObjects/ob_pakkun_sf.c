@@ -43,6 +43,7 @@
 #include "Main/Sound/sound_source_list.h"
 #include "Main/MapObjects/choropu_state.h"
 #include "Main/MapObjects/pendulum.h"
+#include "Main/Course/course_triangle_flag.h"
 
 const MapObjectList gSecondHandUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, UpdateSecondHand, NULL, 0, NULL, 0, NULL};
 const MapObjectDrawList gSecondHandDrawListData = {{NULL, 0, {0, 0}, (void (*)(MapObjectList *)) CreateSecondHand, NULL, (UnkFunc *) DrawSecondHand, NULL, 1, NULL, 0, NULL}, 0};
