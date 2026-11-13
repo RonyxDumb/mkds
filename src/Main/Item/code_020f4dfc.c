@@ -67,14 +67,52 @@
 #include "Main/Item/code_020f4dfc.h"
 #include "Main/Item/code_020f50b4.h"
 
-const u16 data_0215969c = 0x8000;
+const u16 gItemKinokoNoOwnerBit = 0x8000;
 
 const ItemInfo gItemInfoKinoko = {1, 1, 3, 1, 0, 0, StartItemKinokoBoost};
 
-const ItemKind gItemKindKinoko = {
-    0x138, 8, 0x20, -1, -1, {0}, (void (*)(void *)) ResetItemKinoko, NULL, NULL, NULL, NULL, (void (*)(void *, void *, void *)) DrawItemKinoko, ComputeViewTest, NULL, NULL, NULL,
-    0,     0, NULL, 0,  NULL, 0, 0, 0x4b0000, 2, 0x3800, 0x5000, 0x34cd, 0x1000, 0x1b33, 0x19a, 0x23d,
-    1,     0, 1,    {0}, 0, 1, 1, 1, 1, 0};
+const ItemKind gItemKindKinoko = {0x138,
+                                  8,
+                                  0x20,
+                                  -1,
+                                  -1,
+                                  {0},
+                                  (void (*)(void *)) ResetItemKinoko,
+                                  NULL,
+                                  NULL,
+                                  NULL,
+                                  NULL,
+                                  (void (*)(void *, void *, void *)) DrawItemKinoko,
+                                  ComputeViewTest,
+                                  NULL,
+                                  NULL,
+                                  NULL,
+                                  0,
+                                  0,
+                                  NULL,
+                                  0,
+                                  NULL,
+                                  0,
+                                  0,
+                                  0x4b0000,
+                                  2,
+                                  0x3800,
+                                  0x5000,
+                                  0x34cd,
+                                  0x1000,
+                                  0x1b33,
+                                  0x19a,
+                                  0x23d,
+                                  1,
+                                  0,
+                                  1,
+                                  {0},
+                                  0,
+                                  1,
+                                  1,
+                                  1,
+                                  1,
+                                  0};
 
 // Item hook of the mushroom: starts the kart boost, uses up one held object, marks the use,
 // and makes the event call when the mode is 5.
@@ -165,7 +203,7 @@ void StartBouncingItemKinoko(void **kinokoSlot, Vec3 *velocity, s32 timer) {
     ItemKinoko *kinoko;
 
     kinoko = kinokoSlot[0];
-    kinoko->mBouncingItemObject.mItemObject.mOwnerKartIndexAndFlags |= data_0215969c;
+    kinoko->mBouncingItemObject.mItemObject.mOwnerKartIndexAndFlags |= gItemKinokoNoOwnerBit;
     CreateItemObjectCollisionSlot(&kinoko->mBouncingItemObject.mItemObject);
     StartItemObjectSoundSource(&kinoko->mBouncingItemObject.mItemObject);
     InitBouncingItem(&kinoko->mBouncingItemObject, 0, velocity);

@@ -8553,13 +8553,13 @@ gItemObjectPendingUpdateBit kind:data(any) addr:0x02159618
 gItemSpreadRows kind:data(any) addr:0x0215961c
 gItemInfoKinokoThree kind:data(any) addr:0x02159664
 gItemInfoBananaThree kind:data(any) addr:0x02159680
-data_0215969c kind:data(any) addr:0x0215969c
+gItemKinokoNoOwnerBit kind:data(any) addr:0x0215969c
 gItemInfoKinoko kind:data(any) addr:0x021596a0
 gItemKindKinoko kind:data(any) addr:0x021596bc
 gItemKinokoVec3UnitY kind:data(any) addr:0x02159764
 gItemInfoBanana kind:data(any) addr:0x02159770
 gItemKindBanana kind:data(any) addr:0x0215978c
-data_02159834 kind:data(any) addr:0x02159834
+gItemBananaUntilCourseHitBit kind:data(any) addr:0x02159834
 gItemInfoKouraR kind:data(any) addr:0x02159838
 gItemKindKouraR kind:data(any) addr:0x02159854
 gItemInfoKouraRThree kind:data(any) addr:0x021598fc
@@ -8569,7 +8569,7 @@ gItemInfoStar kind:data(any) addr:0x021599dc
 gItemKindStar kind:data(any) addr:0x021599f8
 gItemInfoThunder kind:data(any) addr:0x02159aa0
 gItemKindThunder kind:data(any) addr:0x02159abc
-data_02159b64 kind:data(any) addr:0x02159b64
+gItemObjectLaunchNoOwnerBit kind:data(any) addr:0x02159b64
 gItemObjectNoCallbackFadeOutPendingBit kind:data(any) addr:0x02159b68
 gItemObjectFadeOutPendingBit kind:data(any) addr:0x02159b6c
 gItemObjectReleasePendingBit kind:data(any) addr:0x02159b70

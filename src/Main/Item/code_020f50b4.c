@@ -71,12 +71,50 @@ const Vec3 gItemKinokoVec3UnitY = {0, 0x1000, 0};
 
 const ItemInfo gItemInfoBanana = {1, 1, 2, 1, 0, 1, NULL};
 
-const ItemKind gItemKindBanana = {
-    0x134, 0xc, 0x20, -1, -1, {0}, NULL, NULL, NULL, (s32 (*)(void *, void *)) InitItemBanana, (void (*)(ItemObject *)) AdvanceItemBanana, NULL, ComputeViewTest, NULL, NULL, NULL,
-    0, 0, (void *(*)(void *, void *, s32)) CopyItemBananaData, 0, (void (*)(void *)) InitItemBananaFromData, 0, 0, 0x4b0000, 2, 0x319a, 0x5000, 0x2e66, 0x14cd, 0x2000, 0x19a, 0x19a,
-    1, 1, 1, {0}, 1, 1, 1, 0xdb, 1, 0};
+const ItemKind gItemKindBanana = {0x134,
+                                  0xc,
+                                  0x20,
+                                  -1,
+                                  -1,
+                                  {0},
+                                  NULL,
+                                  NULL,
+                                  NULL,
+                                  (s32(*)(void *, void *)) InitItemBanana,
+                                  (void (*)(ItemObject *)) AdvanceItemBanana,
+                                  NULL,
+                                  ComputeViewTest,
+                                  NULL,
+                                  NULL,
+                                  NULL,
+                                  0,
+                                  0,
+                                  (void *(*) (void *, void *, s32)) CopyItemBananaData,
+                                  0,
+                                  (void (*)(void *)) InitItemBananaFromData,
+                                  0,
+                                  0,
+                                  0x4b0000,
+                                  2,
+                                  0x319a,
+                                  0x5000,
+                                  0x2e66,
+                                  0x14cd,
+                                  0x2000,
+                                  0x19a,
+                                  0x19a,
+                                  1,
+                                  1,
+                                  1,
+                                  {0},
+                                  1,
+                                  1,
+                                  1,
+                                  0xdb,
+                                  1,
+                                  0};
 
-// Runs StartItemObjectSoundSource, ors data_02159834 into the 0x78 halfword, then makes one of two
+// Runs StartItemObjectSoundSource, ors gItemBananaUntilCourseHitBit into the 0x78 halfword, then makes one of two
 // ThrowBouncingItem calls depending on the 0x1ec halfword of the 0x0c pointer, and returns the
 // 0x130 word it stores.
 s32 InitItemBanana(ItemInUse *itemInUse, ItemBanana *banana) {
@@ -84,7 +122,7 @@ s32 InitItemBanana(ItemInUse *itemInUse, ItemBanana *banana) {
     s32 unused;
 
     StartItemObjectSoundSource(&banana->mBouncingItemObject.mItemObject);
-    banana->mBouncingItemObject.mItemObject.mOwnerKartIndexAndFlags |= data_02159834;
+    banana->mBouncingItemObject.mItemObject.mOwnerKartIndexAndFlags |= gItemBananaUntilCourseHitBit;
     kartItems = itemInUse->mKartItems;
     if (kartItems->mFlags & KART_ITEMS_THROW_FORWARD) {
         ThrowBouncingItem(&banana->mBouncingItemObject, itemInUse, 0, 1, 0x4000, 0x3000, 0x59a);

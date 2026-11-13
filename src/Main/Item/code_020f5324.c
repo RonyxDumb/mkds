@@ -67,16 +67,60 @@
 #include "Main/Item/code_020f5324.h"
 #include "Main/System/init_after_startup.h"
 
-const u16 data_02159834 = 0x2000;
+const u16 gItemBananaUntilCourseHitBit = 0x2000;
 
-StateCallbacks gItemKouraRStateTable[7] = {{NULL, UpdateItemKouraRState0And1}, {NULL, UpdateItemKouraRState0And1}, {NULL, UpdateItemKouraRState2}, {EnterItemKouraRState3, UpdateItemKouraRState3}, {EnterItemKouraRState4, UpdateItemKouraRState4}, {NULL, UpdateItemKouraRState5}, {NULL, UpdateItemKouraRState6}};
+StateCallbacks gItemKouraRStateTable[7] = {{NULL, UpdateItemKouraRState0And1},
+                                           {NULL, UpdateItemKouraRState0And1},
+                                           {NULL, UpdateItemKouraRState2},
+                                           {EnterItemKouraRState3, UpdateItemKouraRState3},
+                                           {EnterItemKouraRState4, UpdateItemKouraRState4},
+                                           {NULL, UpdateItemKouraRState5},
+                                           {NULL, UpdateItemKouraRState6}};
 
 const ItemInfo gItemInfoKouraR = {1, 1, 1, 1, 0, 1, NULL};
 
-const ItemKind gItemKindKouraR = {
-    0x274, 8, 4, -1, -1, {0}, NULL, NULL, NULL, (s32 (*)(void *, void *)) InitItemKouraR, (void (*)(ItemObject *)) AdvanceItemKouraR, NULL, ComputeViewTest, NULL, NULL, NULL,
-    0, 0, (void *(*)(void *, void *, s32)) CopyItemKouraRData, 0, (void (*)(void *)) InitItemKouraRFromData, 0, 0, 0x4b0000, 2, 0x319a, 0x6000, 0x2e66, 0x1000, 0x1ccd, 0x29, 0xa4,
-    1, 1, 1, {0}, 3, 0xd6, 0xd9, 1, 1, 0};
+const ItemKind gItemKindKouraR = {0x274,
+                                  8,
+                                  4,
+                                  -1,
+                                  -1,
+                                  {0},
+                                  NULL,
+                                  NULL,
+                                  NULL,
+                                  (s32(*)(void *, void *)) InitItemKouraR,
+                                  (void (*)(ItemObject *)) AdvanceItemKouraR,
+                                  NULL,
+                                  ComputeViewTest,
+                                  NULL,
+                                  NULL,
+                                  NULL,
+                                  0,
+                                  0,
+                                  (void *(*) (void *, void *, s32)) CopyItemKouraRData,
+                                  0,
+                                  (void (*)(void *)) InitItemKouraRFromData,
+                                  0,
+                                  0,
+                                  0x4b0000,
+                                  2,
+                                  0x319a,
+                                  0x6000,
+                                  0x2e66,
+                                  0x1000,
+                                  0x1ccd,
+                                  0x29,
+                                  0xa4,
+                                  1,
+                                  1,
+                                  1,
+                                  {0},
+                                  3,
+                                  0xd6,
+                                  0xd9,
+                                  1,
+                                  1,
+                                  0};
 
 void StartItemKouraRSound(void *kouraParam, s32 unused) {
     ItemKouraR *kouraR;
