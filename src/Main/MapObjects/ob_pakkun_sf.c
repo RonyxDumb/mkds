@@ -234,8 +234,8 @@ s32 CollideKartWithSecondHand(SecondHand *secondHand, Kart *kart, s32 unused, u8
     return *response;
 }
 
-u32 CollideItemObjectWithSecondHand(u32 secondHand, u32 itemObject, u32 firstResponse, u32 response) {
-    return (*OFFSET_PTR(const u8, response, 0));
+u32 CollideItemObjectWithSecondHand(u32 secondHand, u32 itemObject, u32 firstResponse, const u8 *response) {
+    return *response;
 }
 
 void ComputeSphereHitOnSecondHand(SecondHand *secondHand, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *overlapOffset) {

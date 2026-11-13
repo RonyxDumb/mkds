@@ -43,8 +43,8 @@ u8 CollideKartWithMkdEfBubble(MkdEfBubbleObject *bubble, Kart *kart, void *unuse
     return *secondResponsePtr;
 }
 
-u32 CollideItemObjectWithMkdEfBubble(u32 unused0, u32 unused1, u32 unused2, u32 secondResponsePtr) {
-    return (*OFFSET_PTR(const u8, secondResponsePtr, 0));
+u32 CollideItemObjectWithMkdEfBubble(u32 unused0, u32 unused1, u32 unused2, const u8 *secondResponsePtr) {
+    return *secondResponsePtr;
 }
 
 const u32 gMkdEfBubbleHitFlag = 0x40000000;

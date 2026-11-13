@@ -3,7 +3,7 @@
 #include "types.h"
 
 unsigned int CollideItemObjectWithMkdEfBubble(unsigned int unused0, unsigned int unused1, unsigned int unused2,
-                                              unsigned int secondResponsePtr);
+                                              const unsigned char *secondResponsePtr);
 
 typedef struct MkdEfBubbleObject MkdEfBubbleObject;
 typedef struct Kart Kart;

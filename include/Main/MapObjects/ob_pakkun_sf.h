@@ -43,7 +43,7 @@ MapObjectKindData *CreateSecondHandKindData(void);
 void InitObPakkunSf(ObPakkunSf *obPakkunSf);
 
 unsigned int CollideItemObjectWithSecondHand(unsigned int secondHand, unsigned int itemObject,
-                                             unsigned int firstResponse, unsigned int response);
+                                             unsigned int firstResponse, const unsigned char *response);
 
 typedef struct SecondHand SecondHand;
 typedef struct Kart Kart;

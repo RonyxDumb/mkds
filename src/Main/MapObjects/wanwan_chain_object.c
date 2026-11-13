@@ -41,12 +41,12 @@ const MapObjectKindDescriptor gWanwanChainKindDescriptor = {0,
                                                             NULL,
                                                             {NULL, NULL, NULL, NULL}};
 
-u32 CollideKartWithWanwanChain(u32 unused0, u32 unused1, u32 unused2, u32 bytePointer) {
-    return (*OFFSET_PTR(const u8, bytePointer, 0));
+u32 CollideKartWithWanwanChain(u32 unused0, u32 unused1, u32 unused2, const u8 *bytePointer) {
+    return *bytePointer;
 }
 
-u32 CollideItemObjectWithWanwanChain(u32 unused0, u32 unused1, u32 unused2, u32 bytePointer) {
-    return (*OFFSET_PTR(const u8, bytePointer, 0));
+u32 CollideItemObjectWithWanwanChain(u32 unused0, u32 unused1, u32 unused2, const u8 *bytePointer) {
+    return *bytePointer;
 }
 
 const u16 gWanwanChainMapObjectFlag = 1;

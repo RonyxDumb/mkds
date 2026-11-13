@@ -33,8 +33,8 @@ void DrawWanwanChainLinks(WanwanChain *chain, NsbmdModel *model, s32 unused, u16
 void DrawWanwanChainKui(WanwanChain *chain, NsbmdModel *model, Vec3 *position, s32 unused, u16 maxAlpha);
 
 unsigned int CollideItemObjectWithWanwanChain(unsigned int unused0, unsigned int unused1, unsigned int unused2,
-                                              unsigned int bytePointer);
+                                              const unsigned char *bytePointer);
 unsigned int CollideKartWithWanwanChain(unsigned int unused0, unsigned int unused1, unsigned int unused2,
-                                        unsigned int bytePointer);
+                                        const unsigned char *bytePointer);
 
 extern const MapObjectKindDescriptor gWanwanChainKindDescriptor;
