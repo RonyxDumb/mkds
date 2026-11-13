@@ -625,7 +625,7 @@ void UpdateRaceTaPositions(void) {
     if (IsRaceStartSequenceDone() == 0) {
         return;
     }
-    if ((u16) (gInputSlots[GetPadInputSlot()].mPressedBits & 4) != 0) {
+    if ((u16) (gInputSlots[GetPadInputSlot()].mPressedBits & PAD_KEY_SELECT) != 0) {
         gRaceTaPositions->mVisible = gRaceTaPositions->mVisible == 0 ? 1 : 0;
     }
     for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex = (u16) (kartIndex + 1)) {

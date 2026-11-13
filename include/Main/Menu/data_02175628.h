@@ -24,6 +24,18 @@
 // Bits of the pad key word (the slots' mUnk_00, mBits, mRepeatBits ... and the keyboard's key word): one bit per key.
 #define PAD_KEY_A 0x1
 
+#define PAD_KEY_SELECT 0x4
+
+// A, B, X, Y, Select and Start: every key except the directions and the shoulder keys.
+#define PAD_KEYS_NO_DIRECTION_OR_SHOULDER \
+    (PAD_KEY_A | PAD_KEY_B | PAD_KEY_SELECT | PAD_KEY_START | PAD_KEY_X | PAD_KEY_Y)
+
+// A, B, X, Y and both shoulder keys.
+#define PAD_KEYS_FACE_AND_SHOULDER (PAD_KEY_A | PAD_KEY_B | PAD_KEY_X | PAD_KEY_Y | PAD_KEY_L | PAD_KEY_R)
+
+// Both shoulder keys, Select and Start.
+#define PAD_KEYS_SHOULDER_AND_MENU (PAD_KEY_L | PAD_KEY_R | PAD_KEY_SELECT | PAD_KEY_START)
+
 // The four direction keys together.
 #define PAD_KEY_DIRECTIONS 0xf0
 

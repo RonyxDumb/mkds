@@ -70,9 +70,9 @@ void UpdateInputSlot(u32 keys, InputSlotHead *slot) {
             }
             break;
     }
-    maskedBits = slot->mBits & 0x30c;
-    if (slot->mUnk_14 != 0 && maskedBits == 0x30c) {
-        if (slot->mPressedBits & 0x30c) {
+    maskedBits = slot->mBits & PAD_KEYS_SHOULDER_AND_MENU;
+    if (slot->mUnk_14 != 0 && maskedBits == PAD_KEYS_SHOULDER_AND_MENU) {
+        if (slot->mPressedBits & PAD_KEYS_SHOULDER_AND_MENU) {
             slot->mHoldStartTick = OS_GetTick();
             slot->mHoldLong = 0;
             return;

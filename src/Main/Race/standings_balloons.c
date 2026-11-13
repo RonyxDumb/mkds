@@ -844,7 +844,7 @@ void UpdateStandings(void) {
                 gStandings->mKarts[kartIndex].mSelectKeyInflate = -1;
                 gStandings->mKarts[kartIndex].mMicInflateTimer = -1;
             } else if (IsRaceStarted() == 1) {
-                if ((u16) (GetInputSlot(kart->mEntryIndex)->mBits & 4) != 0) {
+                if ((u16) (GetInputSlot(kart->mEntryIndex)->mBits & PAD_KEY_SELECT) != 0) {
                     gStandings->mKarts[kartIndex].mSelectKeyInflate = 1;
                 } else if (gInputSlots[kart->mEntryIndex].mPair.mMicOverThreshold[0] != 0) {
                     gStandings->mKarts[kartIndex].mMicInflateTimer = 10;

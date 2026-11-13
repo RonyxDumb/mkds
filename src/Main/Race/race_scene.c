@@ -290,7 +290,8 @@ u32 ShouldEndStaffRoll(u32 sceneFrames) {
     result = 0;
     if (IsBackupFlagSet(flagIndex) != 0 && sceneFrames > 0xb4) {
         InputSlotIndex slotIndex = UNK_02175628_INDEX_8;
-        if ((u16) (gInputSlots[slotIndex].mBits & 0xc0f) != 0 || IsSlot8PairPresentOrRecentlyLost() != 0) {
+        if ((u16) (gInputSlots[slotIndex].mBits & PAD_KEYS_NO_DIRECTION_OR_SHOULDER) != 0 ||
+            IsSlot8PairPresentOrRecentlyLost() != 0) {
             result = 1;
         }
     }

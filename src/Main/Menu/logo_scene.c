@@ -141,7 +141,7 @@ void UpdateLogoState0(void) {
         stateMachine->mNextStateRequested = 1;
     }
     slotIndex = GetPadInputSlot();
-    if ((gInputSlots[slotIndex].mBits & 0xf03) != 0xf03) {
+    if ((gInputSlots[slotIndex].mBits & PAD_KEYS_FACE_AND_SHOULDER) != PAD_KEYS_FACE_AND_SHOULDER) {
         return;
     }
     gLogoScene->mUnk_2c_0 = 1;
