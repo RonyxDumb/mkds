@@ -148,14 +148,14 @@ void MBi_ParentCallback(WirelessMessage *result) {
     u32 flag;
     switch (result->mCommand) {
         case 0:
-            if (result->mResultCode != 0) {
+            if (result->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
                 gWirelessWork->mCallback(0x100, result);
                 return;
             }
             MBi_OnInitializeDone();
             return;
         case 0x1d:
-            if (result->mResultCode != 0) {
+            if (result->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
                 gWirelessWork->mCallback(0x100, result);
                 return;
             }
@@ -166,14 +166,14 @@ void MBi_ParentCallback(WirelessMessage *result) {
             MBi_CheckWmErrcode(0x19, WM_SetBeaconIndication(MBi_ParentCallback, 1));
             return;
         case 0x19:
-            if (result->mResultCode != 0) {
+            if (result->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
                 gWirelessWork->mCallback(0x100, result);
                 return;
             }
             MBi_CheckWmErrcode(8, WMi_StartParentEx(MBi_ParentCallback, mbi_power_save_mode));
             return;
         case 8:
-            if (result->mResultCode != 0) {
+            if (result->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
                 gWirelessWork->mCallback(0x100, result);
                 return;
             }
@@ -250,12 +250,12 @@ void MBi_ParentCallback(WirelessMessage *result) {
                 }
             }
             gWirelessWork->mDataQueued = 0;
-            if (result->mResultCode == 0) {
+            if (result->mResultCode == WIRELESS_RESULT_SUCCEEDED) {
                 gWirelessWork->mCallback(2, result);
                 gWirelessWork->mCallback(0x19, NULL);
                 return;
             }
-            if (result->mResultCode == 10) {
+            if (result->mResultCode == WIRELESS_RESULT_SEND_BACKLOG) {
                 gWirelessWork->mCallback(0x2a, result);
                 return;
             }
@@ -264,7 +264,7 @@ void MBi_ParentCallback(WirelessMessage *result) {
             return;
         case 1:
             if (mbc->mIsStartedEx == 0) {
-                if (result->mResultCode != 0) {
+                if (result->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
                     gWirelessWork->mResetting = 0;
                     gWirelessWork->mCallback(0x100, result);
                     return;
@@ -277,7 +277,7 @@ void MBi_ParentCallback(WirelessMessage *result) {
             WM_SetPortCallback(1, NULL, NULL);
             WM_SetIndCallback(NULL);
         case 2:
-            if (result->mResultCode != 0) {
+            if (result->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
                 gWirelessWork->mResetting = 0;
                 gWirelessWork->mCallback(0x100, result);
                 return;
@@ -287,7 +287,7 @@ void MBi_ParentCallback(WirelessMessage *result) {
             gWirelessWork->mCallback(0x11, result);
             return;
         case 13:
-            if (result->mResultCode == 0) {
+            if (result->mResultCode == WIRELESS_RESULT_SUCCEEDED) {
                 gWirelessWork->mConnectedAids &= ~result->mUnk_08_2;
             }
             return;
@@ -319,7 +319,7 @@ void MBi_ParentCallback(WirelessMessage *result) {
 }
 
 void MBi_ChildPortCallback(WirelessMessage *result) {
-    if (result->mResultCode == 0) {
+    if (result->mResultCode == WIRELESS_RESULT_SUCCEEDED) {
         if (result->mState == 7) {
         } else if (result->mState == 9) {
         } else if (result->mState == 0x15) {
@@ -339,7 +339,7 @@ void MBi_ChildCallback(WirelessMessage *result) {
     work = gWirelessWork;
     switch (result->mCommand) {
         case 0:
-            if (result->mResultCode != 0) {
+            if (result->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
                 work->mCallback(0x100, result);
                 return;
             }
@@ -348,7 +348,7 @@ void MBi_ChildCallback(WirelessMessage *result) {
                 0x1d, WM_SetLifeTime(MBi_ChildCallback, mbi_life_table_no, mbi_life_cam, mbi_life_frame, mbi_life_mp));
             return;
         case 0x1d:
-            if (result->mResultCode != 0) {
+            if (result->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
                 work->mCallback(0x100, result);
                 return;
             }
@@ -370,7 +370,7 @@ void MBi_ChildCallback(WirelessMessage *result) {
             MBi_CheckWmErrcode(0xa, WM_StartScan(MBi_ChildCallback, &gScanParams));
             return;
         case 10:
-            if (result->mResultCode != 0) {
+            if (result->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
                 work->mCallback(0x100, result);
                 return;
             }
@@ -439,14 +439,14 @@ void MBi_ChildCallback(WirelessMessage *result) {
                     return;
             }
         case 11:
-            if (result->mResultCode != 0) {
+            if (result->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
                 work->mCallback(0x100, result);
                 return;
             }
             MBi_CheckWmErrcode(0xc, WM_StartConnectEx(MBi_ChildCallback, work->mPInfo, NULL, 1, 0));
             return;
         case 12:
-            if (result->mResultCode != 0) {
+            if (result->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
                 work->mScanEntryCount = 0;
                 work->mCallback(0xb, result);
                 return;
@@ -495,9 +495,9 @@ void MBi_ChildCallback(WirelessMessage *result) {
             }
         case 15:
             work->mDataQueued = 0;
-            if (result->mResultCode == 0) {
+            if (result->mResultCode == WIRELESS_RESULT_SUCCEEDED) {
                 work->mCallback(8, result);
-            } else if (result->mResultCode == 9) {
+            } else if (result->mResultCode == WIRELESS_RESULT_NO_ANSWER) {
                 work->mCallback(0x29, result);
             } else {
                 work->mCallback(0x12, result);
@@ -505,7 +505,7 @@ void MBi_ChildCallback(WirelessMessage *result) {
             work->mCallback(0x19, NULL);
             return;
         case 1:
-            if (result->mResultCode != 0) {
+            if (result->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
                 work->mResetting = 0;
                 work->mCallback(0x100, result);
                 return;
@@ -515,7 +515,7 @@ void MBi_ChildCallback(WirelessMessage *result) {
             MBi_CheckWmErrcode(2, WM_End(MBi_ChildCallback));
             return;
         case 2:
-            if (result->mResultCode != 0) {
+            if (result->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
                 work->mResetting = 0;
                 work->mCallback(0x100, result);
                 return;

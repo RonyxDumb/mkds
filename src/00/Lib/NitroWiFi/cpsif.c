@@ -147,7 +147,7 @@ s32 WCM_SendDCFData(const void *dstAddr, const void *buf, s32 len) {
 void WcmCpsifWmCallback(WirelessMessage *callback) {
     if (callback->mCommand == 0x12) {
         gWcmCpsifWork.mSendResult = callback->mResultCode;
-        if (callback->mResultCode == 0) {
+        if (callback->mResultCode == WIRELESS_RESULT_SUCCEEDED) {
             WCMi_ResetKeepAliveAlarm();
         }
         OS_WakeupThread(&gWcmCpsifWork.mSendQ);

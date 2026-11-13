@@ -219,7 +219,7 @@ void WmReceiveFifo(u32 tag, WirelessMessage *callback, s32 err) {
     }
     if (callback->mCommand >= 0x2a) {
         if (callback->mCommand == 0x80) {
-            if (callback->mResultCode == 0x13) {
+            if (callback->mResultCode == WIRELESS_RESULT_STORAGE_ERROR) {
                 OS_Terminate();
             }
             handler = wm9buf->mIndicationCallback;
@@ -242,12 +242,12 @@ void WmReceiveFifo(u32 tag, WirelessMessage *callback, s32 err) {
     } else {
         if (callback->mCommand == 0xe) {
             if ((u16) (callback->mState + 0xfff5) <= 1) {
-                if (callback->mResultCode == 0) {
+                if (callback->mResultCode == WIRELESS_RESULT_SUCCEEDED) {
                     DC_InvalidateRange(callback->mRecvBuf, wm9buf->mStatusArea->mMpRecvBufSize);
                 }
             }
         }
-        if (callback->mCommand == 2 && callback->mResultCode == 0) {
+        if (callback->mCommand == 2 && callback->mResultCode == WIRELESS_RESULT_SUCCEEDED) {
             handler = wm9buf->mCommandCallbacks[callback->mCommand];
             WM_Finish();
             if (handler == 0) {
@@ -280,7 +280,7 @@ void WmReceiveFifo(u32 tag, WirelessMessage *callback, s32 err) {
             }
             if (stateCode == 7 || stateCode == 9) {
                 gPortCallbackEvent.mCommand = 0x82;
-                gPortCallbackEvent.mResultCode = 0;
+                gPortCallbackEvent.mResultCode = WIRELESS_RESULT_SUCCEEDED;
                 gPortCallbackEvent.mState = stateCode;
                 gPortCallbackEvent.mRecvBuf = 0;
                 gPortCallbackEvent.mData = 0;

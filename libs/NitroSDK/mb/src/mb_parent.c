@@ -178,15 +178,15 @@ void MBi_CommParentCallback(s32 eventCode, WirelessMessage *eventData) {
             break;
         case 0xff:
             switch (eventData->mResultCode) {
-                case 1:
-                case 4:
-                case 5:
-                case 6:
-                case 8:
-                case 9:
+                case WIRELESS_RESULT_REFUSED:
+                case WIRELESS_RESULT_SWITCHED_OFF:
+                case WIRELESS_RESULT_NOT_SET_UP:
+                case WIRELESS_RESULT_BAD_INPUT:
+                case WIRELESS_RESULT_PIPE_ERROR:
+                case WIRELESS_RESULT_NO_ANSWER:
                     MBi_CommCallParentError(0, 9);
                     break;
-                case 15:
+                case WIRELESS_RESULT_TRANSMIT_ERROR:
                 default:
                     MBi_CommCallParentError(0, 8);
                     break;

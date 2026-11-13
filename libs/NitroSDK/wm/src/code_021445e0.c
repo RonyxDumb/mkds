@@ -304,7 +304,7 @@ void WmDataSharingReceiveCallback_Parent(PortCallbackMessage *callback) {
     if (share == 0) {
         return;
     }
-    if (callback->mResultCode == 0) {
+    if (callback->mResultCode == WIRELESS_RESULT_SUCCEEDED) {
         switch (callback->mState) {
             case 0x15:
                 WmDataSharingReceiveData(share, callback->mAid, callback->mData);
@@ -350,7 +350,7 @@ void WmDataSharingReceiveCallback_Child(PortCallbackMessage *callback) {
     if (share == 0) {
         return;
     }
-    if (callback->mResultCode == 0) {
+    if (callback->mResultCode == WIRELESS_RESULT_SUCCEEDED) {
         if (callback->mState == 7) {
             return;
         }

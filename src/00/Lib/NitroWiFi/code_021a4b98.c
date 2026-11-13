@@ -765,7 +765,7 @@ void WcmWmReset(void) {
 }
 
 void WcmWmcbIndication(WirelessMessage *callback) {
-    if (callback->mResultCode == 8 && callback->mState == 0x16 && callback->mPort == 0x25) {
+    if (callback->mResultCode == WIRELESS_RESULT_PIPE_ERROR && callback->mState == 0x16 && callback->mPort == 0x25) {
         switch (gWcmWork->mPhase) {
             case 8:
                 WcmSetPhase(0xc);
@@ -786,7 +786,7 @@ void WcmWmcbCommon(WirelessMessage *callback) {
     s32 result = 0x14;
 
     switch (callback->mResultCode) {
-        case 0:
+        case WIRELESS_RESULT_SUCCEEDED:
             switch (callback->mCommand) {
                 case 3:
                     result = WM_PowerOn(WcmWmcbCommon);
@@ -845,13 +845,13 @@ void WcmWmcbCommon(WirelessMessage *callback) {
                     return;
             }
             break;
-        case 1:
+        case WIRELESS_RESULT_REFUSED:
             WcmSetPhase(0xc);
             WcmNotify(WIFI_REPORT_DECLINED, gWcmWork->mNotifyId == 5 ? gWcmWork->mBssDesc : 0, 0, 0x6d0);
             return;
-        case 2:
-        case 3:
-        case 4:
+        case WIRELESS_RESULT_OCCUPIED:
+        case WIRELESS_RESULT_BAD_PHASE:
+        case WIRELESS_RESULT_SWITCHED_OFF:
         default:
             WcmSetPhase(0xb);
             WcmNotify(WIFI_REPORT_UNRECOVERABLE, gWcmWork->mNotifyId == 5 ? gWcmWork->mBssDesc : 0, 0, 0x6da);
@@ -957,16 +957,16 @@ void WcmWmcbScanEx(WMStartScanExCallback *callback) {
 
 void WcmWmcbEndScan(WirelessMessage *callback) {
     switch (callback->mResultCode) {
-        case 0:
+        case WIRELESS_RESULT_SUCCEEDED:
             WcmSetPhase(3);
             WcmNotify(WIFI_REPORT_SUCCEEDED, 0, 0, 0x774);
             return;
-        case 1:
+        case WIRELESS_RESULT_REFUSED:
             WcmWmReset();
             return;
-        case 2:
-        case 3:
-        case 4:
+        case WIRELESS_RESULT_OCCUPIED:
+        case WIRELESS_RESULT_BAD_PHASE:
+        case WIRELESS_RESULT_SWITCHED_OFF:
         default:
             WcmSetPhase(0xb);
             WcmNotify(WIFI_REPORT_UNRECOVERABLE, 0, 0, 0x784);
@@ -1058,7 +1058,7 @@ void WcmWmcbConnect(WMStartScanExCallback *callback) {
 
 void WcmWmcbDisconnect(WirelessMessage *callback) {
     switch (callback->mResultCode) {
-        case 0:
+        case WIRELESS_RESULT_SUCCEEDED:
             if (gWcmWork->mPhase == 0xc) {
                 WcmSetPhase(0xa);
                 WcmWmReset();
@@ -1068,13 +1068,13 @@ void WcmWmcbDisconnect(WirelessMessage *callback) {
             WcmSetPhase(3);
             WcmNotify(WIFI_REPORT_SUCCEEDED, gWcmWork->mBssDesc, 0, 0x827);
             return;
-        case 1:
-        case 3:
+        case WIRELESS_RESULT_REFUSED:
+        case WIRELESS_RESULT_BAD_PHASE:
             WcmSetPhase(0xa);
             WcmWmReset();
             return;
-        case 2:
-        case 4:
+        case WIRELESS_RESULT_OCCUPIED:
+        case WIRELESS_RESULT_SWITCHED_OFF:
         default:
             WcmSetPhase(0xb);
             WcmNotify(WIFI_REPORT_UNRECOVERABLE, gWcmWork->mBssDesc, 0, 0x839);
@@ -1084,7 +1084,7 @@ void WcmWmcbDisconnect(WirelessMessage *callback) {
 
 void WcmWmcbStartDCF(WirelessMessage *callback) {
     switch (callback->mResultCode) {
-        case 0:
+        case WIRELESS_RESULT_SUCCEEDED:
             switch (callback->mState) {
                 case 0xe:
                     if (gWcmWork->mPhase == 0xc) {
@@ -1105,7 +1105,7 @@ void WcmWmcbStartDCF(WirelessMessage *callback) {
                     WcmNotify(WIFI_REPORT_UNRECOVERABLE, gWcmWork->mBssDesc, callback->mState, 0x86b);
                     return;
             }
-        case 4:
+        case WIRELESS_RESULT_SWITCHED_OFF:
         default:
             WcmSetPhase(0xb);
             WcmNotify(WIFI_REPORT_UNRECOVERABLE, gWcmWork->mBssDesc, 0, 0x877);
@@ -1117,7 +1117,7 @@ void WcmWmcbEndDCF(WirelessMessage *callback) {
     s32 result;
 
     switch (callback->mResultCode) {
-        case 0:
+        case WIRELESS_RESULT_SUCCEEDED:
             if (gWcmWork->mPhase == 0xc) {
                 WcmSetPhase(0xa);
                 WcmWmReset();
@@ -1140,13 +1140,13 @@ void WcmWmcbEndDCF(WirelessMessage *callback) {
                     WcmNotify(WIFI_REPORT_UNRECOVERABLE, gWcmWork->mBssDesc, 0, 0x8ac);
                     return;
             }
-        case 1:
-        case 3:
+        case WIRELESS_RESULT_REFUSED:
+        case WIRELESS_RESULT_BAD_PHASE:
             WcmSetPhase(0xa);
             WcmWmReset();
             return;
-        case 2:
-        case 4:
+        case WIRELESS_RESULT_OCCUPIED:
+        case WIRELESS_RESULT_SWITCHED_OFF:
         default:
             WcmSetPhase(0xb);
             WcmNotify(WIFI_REPORT_UNRECOVERABLE, gWcmWork->mBssDesc, 0, 0x8bf);
@@ -1161,7 +1161,7 @@ void WcmWmcbReset(WirelessMessage *callback) {
     s32 result;
     u16 authMode;
 
-    if (callback->mResultCode == 0) {
+    if (callback->mResultCode == WIRELESS_RESULT_SUCCEEDED) {
         gWcmWork->mResetting = 0;
         gWcmWork->mAuthId = 0;
         switch (gWcmWork->mPhase) {

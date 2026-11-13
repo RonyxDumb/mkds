@@ -5,6 +5,23 @@
 typedef struct WMDataSharingInfo WMDataSharingInfo;
 
 typedef struct WirelessMessage WirelessMessage;
+
+// Values of WirelessMessage.mResultCode, the answer of the other processor to a command.
+typedef enum WirelessResult {
+    WIRELESS_RESULT_SUCCEEDED = 0,
+    WIRELESS_RESULT_REFUSED = 1,
+    WIRELESS_RESULT_OCCUPIED = 2,
+    WIRELESS_RESULT_BAD_PHASE = 3,
+    WIRELESS_RESULT_SWITCHED_OFF = 4,
+    WIRELESS_RESULT_NOT_SET_UP = 5,
+    WIRELESS_RESULT_BAD_INPUT = 6,
+    WIRELESS_RESULT_PIPE_ERROR = 8,
+    WIRELESS_RESULT_NO_ANSWER = 9,
+    WIRELESS_RESULT_SEND_BACKLOG = 10,
+    WIRELESS_RESULT_TRANSMIT_ERROR = 15,
+    WIRELESS_RESULT_STORAGE_ERROR = 19
+} WirelessResult;
+
 typedef void (*Unk021425e8Func)(WirelessMessage *);
 
 // 0x2c bytes from 0x36 of Unk0217aa00_24_50_0e.
