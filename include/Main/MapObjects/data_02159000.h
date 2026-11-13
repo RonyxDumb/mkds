@@ -7,5 +7,3 @@ extern u16 gSecondHandFlag;
 
 extern const u32 gAttractorDistanceFlag;
 
-extern const u32 gWoodbox1HitFlag;
-

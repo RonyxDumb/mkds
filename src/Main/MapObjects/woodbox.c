@@ -49,6 +49,7 @@
 #include "Main/MapObjects/update_list_slot.h"
 #include "Main/MapObjects/pushed_motion.h"
 #include "01/Race/mission_run_state.h"
+#include "Main/MapObjects/shadow_model_create.h"
 
 s32 gSavedModelAlpha = -1;
 Vec3 gWoodbox1GroundUp = {0, 0x1000, 0};
