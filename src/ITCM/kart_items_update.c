@@ -68,7 +68,7 @@ void UpdateKartItems(KartItems *kartItems) {
         }
         UpdateHeldItem(heldItem);
     }
-    if (kartItems->mSlotState != 0 && UpdateItemSlot(kartItems, kartItems) != FALSE) {
+    if (kartItems->mSlotState != KART_ITEMS_SLOT_IDLE && UpdateItemSlot(kartItems, kartItems) != FALSE) {
         slotResult = kartItems->mSlotResult;
         FinishItemSlot(kartItems);
         if (gItemInfos[slotResult].mEnabled != FALSE) {

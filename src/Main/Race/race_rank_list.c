@@ -244,7 +244,7 @@ u32 GetRaceRankListSNcerIndex(u16 kartIndex) {
         }
     } else if (rankList->mShownItems[kartIndex] != 0x13) {
         cellIndex = LookupRaceSNcerIndex(kartIndex, rankList->mShownItems[kartIndex]);
-    } else if (gKartItems[kartIndex].mSlotState == 1) {
+    } else if (gKartItems[kartIndex].mSlotState == KART_ITEMS_SLOT_SPINNING) {
         cellIndex = 0x16;
     } else {
         cellIndex = 0xc9;

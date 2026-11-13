@@ -6,6 +6,9 @@
 #include "Main/Race/data_020f36d8.h"
 #include "Main/Kart/kart_drift.h"
 
+// Values of KartItems.mSlotState: no roulette, the spin through random items, the final scroll that lands on the result.
+typedef enum { KART_ITEMS_SLOT_IDLE, KART_ITEMS_SLOT_SPINNING, KART_ITEMS_SLOT_SHOWING_RESULT } KartItemsSlotState;
+
 // Copy of ITEM_THROW_FORWARD_BIT in KartItems.mFlags (TryAddKartItemFlags and AdvanceItemInUseOne set it from the input
 // word).
 #define KART_ITEMS_THROW_FORWARD 0x10

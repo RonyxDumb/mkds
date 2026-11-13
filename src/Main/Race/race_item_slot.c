@@ -109,7 +109,7 @@ void UpdateRaceItemSlot(void) {
     gRaceItemSlot->mPrevSlotRunning = gRaceItemSlot->mSlotRunning;
     upperItem = 0x13;
     kartItems = GetKartItemsAtOffset(kartOffset);
-    if (kartItems->mSlotState == 1) {
+    if (kartItems->mSlotState == KART_ITEMS_SLOT_SPINNING) {
         gRaceItemSlot->mSlotFrames = kartItems->mSlotFrames;
         slotFrames = gRaceItemSlot->mSlotFrames;
         gRaceItemSlot->mSlotRunning = 1;
@@ -232,7 +232,7 @@ void UpdateRaceItemSlot(void) {
         }
     }
     kartItems = GetKartItemsAtOffset(kartOffset);
-    if (kartItems->mSlotState == 0) {
+    if (kartItems->mSlotState == KART_ITEMS_SLOT_IDLE) {
         gRaceItemSlot->mLowerItem =
             kartItems->mHeldItem.mItemInfoIndex == 0x13 ? kartItems->mActiveItem : kartItems->mHeldItem.mItemInfoIndex;
     } else {

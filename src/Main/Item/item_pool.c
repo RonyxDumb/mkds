@@ -638,7 +638,7 @@ BOOL TryAddKartItemFlags(KartItems *kartItems) {
         kartItems->mFlags |= gKartItemsInUseBit;
     } else if (kartItems->mHeldItem.mItemInfoIndex != 0x13) {
         kartItems->mFlags |= gKartItemsHeldBit;
-    } else if (kartItems->mSlotState != 0) {
+    } else if (kartItems->mSlotState != KART_ITEMS_SLOT_IDLE) {
         kartItems->mFlags |= gKartItemsSlotBit;
     }
     entryIndex = kartItems->mEntryIndex;
@@ -661,7 +661,7 @@ void StopRunningKartItemSlot(KartItems *kartItems) {
     if (gRaceSetup->mMode == MODE_WIFI) {
         return;
     }
-    if (kartItems->mSlotState == 0) {
+    if (kartItems->mSlotState == KART_ITEMS_SLOT_IDLE) {
         return;
     }
     FinishItemSlotAndStopSound(kartItems);
@@ -677,7 +677,7 @@ void ReleaseKartItems(KartItems *kartItems) {
     if (gRaceSetup->mMode == MODE_WIFI) {
         return;
     }
-    if (kartItems->mSlotState != 0) {
+    if (kartItems->mSlotState != KART_ITEMS_SLOT_IDLE) {
         FinishItemSlotAndStopSound(kartItems);
     }
     if (kartItems->mActiveItem != 0x13) {
@@ -711,7 +711,7 @@ void StartKartItemObjectCountdowns(KartItems *kartItems) {
     if (isMode5) {
         return;
     }
-    if (kartItems->mSlotState != 0) {
+    if (kartItems->mSlotState != KART_ITEMS_SLOT_IDLE) {
         FinishItemSlotAndStopSound(kartItems);
     }
     if (isMode5) {
@@ -758,8 +758,8 @@ BOOL SetKartItemsHeldItemByInfoIndex(KartItems *kartItems, s32 itemInfoIndex) {
     if (kartItems->mActiveItem != 0x13) {
         kartItems->mActiveItem = 0x13;
     }
-    if (kartItems->mSlotState != 0) {
-        if (kartItems->mSlotState == 1 && kartItems->mSlotFrames < 0x3c) {
+    if (kartItems->mSlotState != KART_ITEMS_SLOT_IDLE) {
+        if (kartItems->mSlotState == KART_ITEMS_SLOT_SPINNING && kartItems->mSlotFrames < 0x3c) {
             objectKind = gItemInfos[itemInfoIndex].mObjectKind;
             pool = &gItemPools[objectKind];
             pool->mReservedCount--;

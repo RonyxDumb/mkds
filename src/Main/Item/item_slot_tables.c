@@ -152,7 +152,7 @@ s32 PickItem(s32 kartVariant, s32 forcedRowHandle, s32 rankOrRow, s32 isHumanGho
 
 void InitItemSlot(KartItems *slot, KartItems *kartItems) {
     slot->mSelf = kartItems;
-    slot->mSlotState = 0;
+    slot->mSlotState = KART_ITEMS_SLOT_IDLE;
     slot->mSlotFrames = 0;
     slot->mSlotShownItem = 0x13;
     slot->mSlotResult = 0x13;
@@ -171,13 +171,13 @@ void StartItemSlot(KartItems *slot, s32 forcedRowHandle, s32 rank, s32 isHumanGh
 
     kartItems = slot->mSelf;
     isWiFiRace = gRaceSetup->mMode == MODE_WIFI;
-    if (slot->mSlotState != 0) {
+    if (slot->mSlotState != KART_ITEMS_SLOT_IDLE) {
         return;
     }
     if (slot->mActiveItem != 0x13) {
         return;
     }
-    slot->mSlotState = 1;
+    slot->mSlotState = KART_ITEMS_SLOT_SPINNING;
     slot->mSlotShownItem = 0x13;
     if (!isWiFiRace) {
         StopRaceRankListItemInUse(slot->mSelf->mKartIndex);
@@ -230,7 +230,7 @@ void StartItemSlotResultPending(KartItems *slot) {
     if (kartItems->mActiveItem != 0x13) {
         kartItems->mActiveItem = 0x13;
     }
-    if (slot->mSlotState != 0) {
+    if (slot->mSlotState != KART_ITEMS_SLOT_IDLE) {
         if (kartItems->mResultPending == FALSE) {
             itemIndex = kartItems->mSlotResult;
             itemInfo = &gItemInfos[itemIndex];
@@ -238,7 +238,7 @@ void StartItemSlotResultPending(KartItems *slot) {
             pool = &gItemPools[objectKind];
             pool->mReservedCount -= itemInfo->mObjectCount;
         }
-        kartItems->mSlotState = 0;
+        kartItems->mSlotState = KART_ITEMS_SLOT_IDLE;
         kartItems->mSlotFrames = 0;
         kartItems->mSlotShownItem = 0x13;
         kartItems->mSlotResult = 0x13;
@@ -249,7 +249,7 @@ void StartItemSlotResultPending(KartItems *slot) {
             ReleaseHeldItem(&kartItems->mHeldItem, 1);
         }
     }
-    slot->mSlotState = 1;
+    slot->mSlotState = KART_ITEMS_SLOT_SPINNING;
     slot->mSlotFrames = 0;
     slot->mSlotFrameCount = 0x85;
     slot->mSlotShownItem = 0x13;
@@ -266,7 +266,7 @@ BOOL UpdateItemSlot(KartItems *slot, KartItems *kartItems) {
     u32 value;
 
     switch (slot->mSlotState) {
-        case 1:
+        case KART_ITEMS_SLOT_SPINNING:
             slot->mSlotFrames++;
             mode = gRaceSetup->mMode;
             if (mode == MODE_WIFI && slot->mResultPending != FALSE) {
@@ -292,10 +292,10 @@ BOOL UpdateItemSlot(KartItems *slot, KartItems *kartItems) {
                 (((kartItems->mFlags & 0x241) == 0x241 && mode != MODE_WIFI && slot->mIsShortSpin == FALSE) ||
                  slot->mSlotFrames > slot->mSlotFrameCount)) {
                 slot->mSlotFrames = 0;
-                slot->mSlotState = 2;
+                slot->mSlotState = KART_ITEMS_SLOT_SHOWING_RESULT;
             }
             break;
-        case 2:
+        case KART_ITEMS_SLOT_SHOWING_RESULT:
             slot->mSlotFrames++;
             if (slot->mSlotFrames > slot->mSlotFinalScrollFrameCount * 2) {
                 return TRUE;
@@ -315,7 +315,7 @@ void FinishItemSlot(KartItems *slot) {
     objectKind = itemInfo->mObjectKind;
     pool = &gItemPools[objectKind];
     pool->mReservedCount -= itemInfo->mObjectCount;
-    slot->mSlotState = 0;
+    slot->mSlotState = KART_ITEMS_SLOT_IDLE;
     slot->mSlotFrames = 0;
     slot->mSlotShownItem = 0x13;
     slot->mSlotResult = 0x13;
@@ -335,7 +335,7 @@ void StopItemSlot(KartItems *slot) {
         pool = &gItemPools[objectKind];
         pool->mReservedCount -= itemInfo->mObjectCount;
     }
-    slot->mSlotState = 0;
+    slot->mSlotState = KART_ITEMS_SLOT_IDLE;
     slot->mSlotFrames = 0;
     slot->mSlotShownItem = 0x13;
     slot->mSlotResult = 0x13;
@@ -365,9 +365,9 @@ void PickItemSlotShownItem(KartItems *slot) {
     u16 index;
 
     switch (slot->mSlotState) {
-        case 0:
+        case KART_ITEMS_SLOT_IDLE:
             return;
-        case 1:
+        case KART_ITEMS_SLOT_SPINNING:
             if (gItemSlotSpinItemCount != 0) {
                 itemCount = gItemSlotSpinItemCount;
                 items = gItemSlotSpinItems;
@@ -385,7 +385,7 @@ void PickItemSlotShownItem(KartItems *slot) {
             }
             slot->mSlotShownItem = items[index];
             break;
-        case 2:
+        case KART_ITEMS_SLOT_SHOWING_RESULT:
             slot->mSlotShownItem = slot->mSlotResult;
             break;
     }
@@ -437,7 +437,7 @@ void FinishItemSlotAndStopSound(KartItems *slot) {
     objectKind = itemInfo->mObjectKind;
     pool = &gItemPools[objectKind];
     pool->mReservedCount -= itemInfo->mObjectCount;
-    slot->mSlotState = 0;
+    slot->mSlotState = KART_ITEMS_SLOT_IDLE;
     slot->mSlotFrames = 0;
     slot->mSlotShownItem = 0x13;
     slot->mSlotResult = 0x13;
