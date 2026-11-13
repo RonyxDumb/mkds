@@ -448,7 +448,9 @@ void WriteSelectGameMainRegisters(void) {
     reg_G2_BG1CNT = (reg_G2_BG1CNT & ~REG_G2_BG1CNT_PRIORITY_MASK) | bgControlBits;
     reg_G2_BG1OFS = (-gSelectGame->mMainOffsetY << 16) & 0x1ff0000;
     if (gSelectGame->mMainOffsetY != 0) {
-        reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffff1fff) | 0x6000;
+        reg_GX_DISPCNT =
+            (reg_GX_DISPCNT & ~(REG_GX_DISPCNT_OW_MASK | REG_GX_DISPCNT_W1_MASK | REG_GX_DISPCNT_W0_MASK)) |
+            (REG_GX_DISPCNT_W1_MASK | REG_GX_DISPCNT_W0_MASK);
         reg_G2_WININ = (u32) ((reg_G2_WININ & ~0x3f) | 0x1f) | 0x20;
         reg_G2_WININ = (u32) ((reg_G2_WININ & 0xffffc0ff) | 0x1f00) | 0x2000;
         reg_G2_WINOUT = (u32) ((reg_G2_WINOUT & ~0x3f) | 0xd) | 0x20;
@@ -459,7 +461,7 @@ void WriteSelectGameMainRegisters(void) {
         reg_G2_WIN1H = 0xff00;
         reg_G2_WIN1V = windowEndY & 0xff;
     } else {
-        reg_GX_DISPCNT = reg_GX_DISPCNT & 0xffff1fff;
+        reg_GX_DISPCNT = reg_GX_DISPCNT & ~(REG_GX_DISPCNT_OW_MASK | REG_GX_DISPCNT_W1_MASK | REG_GX_DISPCNT_W0_MASK);
     }
 }
 

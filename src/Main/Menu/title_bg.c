@@ -83,13 +83,16 @@ void TitleWriteSubBlendAlpha(u32 plane1, u32 plane2, u32 ev1, u32 ev2) {
 }
 
 u32 WriteMainWinEnableBits(u32 bits) {
-    u32 dispcntValue = (reg_GX_DISPCNT & ~0xe000u) | (bits << 13);
+    u32 dispcntValue =
+        (reg_GX_DISPCNT & ~(REG_GX_DISPCNT_OW_MASK | REG_GX_DISPCNT_W1_MASK | REG_GX_DISPCNT_W0_MASK)) | (bits << 13);
     reg_GX_DISPCNT = dispcntValue;
     return dispcntValue;
 }
 
 u32 TitleWriteSubWinEnableBits(u32 bits) {
-    u32 dispcntValue = (reg_GXS_DB_DISPCNT & ~0xe000u) | (bits << 13);
+    u32 dispcntValue =
+        (reg_GXS_DB_DISPCNT & ~(REG_GXS_DB_DISPCNT_OW_MASK | REG_GXS_DB_DISPCNT_W1_MASK | REG_GXS_DB_DISPCNT_W0_MASK)) |
+        (bits << 13);
     reg_GXS_DB_DISPCNT = dispcntValue;
     return dispcntValue;
 }

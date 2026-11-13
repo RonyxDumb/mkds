@@ -27,7 +27,7 @@ void DrawRaceStartBattle(RaceHudOamBuffer *oamBuffer) {
     NNSG2dCellDataWithBR *cell;
     s32 positions[2][2];
 
-    reg_GX_DISPCNT = reg_GX_DISPCNT & ~0xe000;
+    reg_GX_DISPCNT = reg_GX_DISPCNT & ~(REG_GX_DISPCNT_OW_MASK | REG_GX_DISPCNT_W1_MASK | REG_GX_DISPCNT_W0_MASK);
     cell = GetRaceStartBattleMNcerEntry(gRaceSetup->mBattleKind == BATTLE_KIND_BALLOON ? VALUE_0 : VALUE_1);
     positions[0][0] = 0x80000;
     positions[0][1] = 0x60000;

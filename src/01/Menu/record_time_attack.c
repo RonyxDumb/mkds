@@ -169,10 +169,10 @@ void ReleaseRecordTAtt(void) {
 
     ClearKartIconPointer();
     gRecordTAtt = NULL;
-    mainDisplayBits = ((reg_GX_DISPCNT) & 0x1f00) >> 8;
-    (reg_GX_DISPCNT) = ((reg_GX_DISPCNT) & ~0x1f00) | ((mainDisplayBits & ~0x13) << 8);
-    subDisplayBits = ((reg_GXS_DB_DISPCNT) & 0x1f00) >> 8;
-    (reg_GXS_DB_DISPCNT) = ((reg_GXS_DB_DISPCNT) & ~0x1f00) | ((subDisplayBits & ~9) << 8);
+    mainDisplayBits = ((reg_GX_DISPCNT) & REG_GX_DISPCNT_DISPLAY_MASK) >> 8;
+    (reg_GX_DISPCNT) = ((reg_GX_DISPCNT) & ~REG_GX_DISPCNT_DISPLAY_MASK) | ((mainDisplayBits & ~0x13) << 8);
+    subDisplayBits = ((reg_GXS_DB_DISPCNT) & REG_GXS_DB_DISPCNT_DISPLAY_MASK) >> 8;
+    (reg_GXS_DB_DISPCNT) = ((reg_GXS_DB_DISPCNT) & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | ((subDisplayBits & ~9) << 8);
 }
 
 void AdvanceRecordTAttState0(void) {

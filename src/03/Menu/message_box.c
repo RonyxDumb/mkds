@@ -223,7 +223,7 @@ void AdvanceMessageBoxBrightnessUp(TaskEntry *taskEntry) {
 void AdvanceMessageBoxRelease(u32 task) {
     s32 buttonIndex;
 
-    reg_GX_DISPCNT = reg_GX_DISPCNT & 0xffff1fff;
+    reg_GX_DISPCNT = reg_GX_DISPCNT & ~(REG_GX_DISPCNT_OW_MASK | REG_GX_DISPCNT_W1_MASK | REG_GX_DISPCNT_W0_MASK);
     DeleteOamRange(gMessageBox->mBox);
     DeleteOamRange(gMessageBox->mText);
     for (buttonIndex = 0; buttonIndex < gMessageBoxButtonCounts[gMessageBox->mKind]; buttonIndex++) {

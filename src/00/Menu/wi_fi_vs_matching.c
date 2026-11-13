@@ -787,7 +787,7 @@ void WriteWiFiVSMatchingRegisters(void) {
     s32 bgOffset;
     u32 displayPlanes;
 
-    displayPlanes = ((reg_GXS_DB_DISPCNT) & 0x1f00) >> 8;
+    displayPlanes = ((reg_GXS_DB_DISPCNT) & REG_GXS_DB_DISPCNT_DISPLAY_MASK) >> 8;
     (reg_GXS_DB_DISPCNT) = ((reg_GXS_DB_DISPCNT) & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | ((displayPlanes | 8) << 8);
     bgOffset = -gWiFiVSMatching->mOffset;
     if (bgOffset <= -0x100) {

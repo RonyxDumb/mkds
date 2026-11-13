@@ -155,7 +155,7 @@ void UploadRaceHud(void) {
         GX_LoadOBJ(GetRaceNclrNcgr(RACE_NCER_PAIR_GOAL_M)->mNcgr->mData, 0, 0x4000);
         gRaceHud->mGoalMUploaded = 1;
         gRaceHud->mGoalMUploadFrames = 1;
-        reg_GX_DISPCNT &= ~0xe000;
+        reg_GX_DISPCNT &= ~(REG_GX_DISPCNT_OW_MASK | REG_GX_DISPCNT_W1_MASK | REG_GX_DISPCNT_W0_MASK);
     } else if (gRaceHud->mGoalMUploadFrames != 0) {
         if (GetChoisesSOpenDuringRace() == 0) {
             if (gRaceHud->mGoalMUploadFrames++ >= gRaceHud->mGoalMDelayFrameCount) {
@@ -674,7 +674,8 @@ void SetupRaceHudScreens(void) {
     GX_LoadOBJPltt(GetRaceNclrNcgr(RACE_NCER_PAIR_RACE_M)->mNclr->mData, 0,
                    GetRaceNclrNcgr(RACE_NCER_PAIR_RACE_M)->mNclr->mDataSize);
     GX_LoadOBJ(GetRaceNclrNcgr(RACE_NCER_PAIR_RACE_M)->mNcgr->mData, 0, 0x4000);
-    reg_GX_DISPCNT = (reg_GX_DISPCNT & ~0xe000) | 0xe000;
+    reg_GX_DISPCNT = (reg_GX_DISPCNT & ~(REG_GX_DISPCNT_OW_MASK | REG_GX_DISPCNT_W1_MASK | REG_GX_DISPCNT_W0_MASK)) |
+                     (REG_GX_DISPCNT_OW_MASK | REG_GX_DISPCNT_W1_MASK | REG_GX_DISPCNT_W0_MASK);
     value = reg_G2_WININ;
     reg_G2_WININ = (u32) ((value & ~0x3f) | 0x1f) | 0x20;
     reg_G2_WIN0H = 0xff;
@@ -684,7 +685,7 @@ void SetupRaceHudScreens(void) {
     reg_G2_WIN1V = 0x60;
     reg_G2_WINOUT = (u32) ((reg_G2_WINOUT & ~0x3f00) | 0x1200) | 0x2000;
     reg_G2_WINOUT = (u32) ((reg_G2_WINOUT & ~0x3f) | 0xf) | 0x20;
-    reg_GXS_DB_DISPCNT &= ~0xe000;
+    reg_GXS_DB_DISPCNT &= ~(REG_GXS_DB_DISPCNT_OW_MASK | REG_GXS_DB_DISPCNT_W1_MASK | REG_GXS_DB_DISPCNT_W0_MASK);
     GXS_SetGraphicsMode(GX_BGMODE_5);
     GXS_LoadOBJPltt(GetRaceNclrNcgr(RACE_NCER_PAIR_RACE_S)->mNclr->mData, 0,
                     GetRaceNclrNcgr(RACE_NCER_PAIR_RACE_S)->mNclr->mDataSize);
@@ -751,8 +752,8 @@ void ReleaseRaceHud(void) {
     ClearRaceGoalSPointer();
     ClearRaceNewRecordTaPointer();
     ClearRaceTaPositionsPointer();
-    reg_GX_DISPCNT &= ~0xe000;
-    reg_GXS_DB_DISPCNT &= ~0xe000;
+    reg_GX_DISPCNT &= ~(REG_GX_DISPCNT_OW_MASK | REG_GX_DISPCNT_W1_MASK | REG_GX_DISPCNT_W0_MASK);
+    reg_GXS_DB_DISPCNT &= ~(REG_GXS_DB_DISPCNT_OW_MASK | REG_GXS_DB_DISPCNT_W1_MASK | REG_GXS_DB_DISPCNT_W0_MASK);
 }
 
 void UpdateRaceHud(void) {

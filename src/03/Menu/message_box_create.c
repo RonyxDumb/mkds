@@ -84,7 +84,8 @@ void CreateMessageBox(u32 messageIndex, s32 kind, s32 adjustBrightness, u32 colu
     WriteWinInOutBits(0, 3, 0x1f, 1);
     WriteWinRect(0, 1, gMessageBoxWindowRect);
     PlaceMessageBox(0xc0);
-    reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffff1fff) | 0x6000;
+    reg_GX_DISPCNT = (reg_GX_DISPCNT & ~(REG_GX_DISPCNT_OW_MASK | REG_GX_DISPCNT_W1_MASK | REG_GX_DISPCNT_W0_MASK)) |
+                     (REG_GX_DISPCNT_W1_MASK | REG_GX_DISPCNT_W0_MASK);
     if (adjustBrightness != 0) {
         gMessageBox->mTask = AddTask(1, AdvanceMessageBoxBrightnessDown, NULL, 0x78);
     } else {

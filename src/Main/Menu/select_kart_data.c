@@ -808,7 +808,9 @@ void WriteSubBlendAlpha(u32 firstPlane, u32 secondPlane, u32 firstCoefficient, u
 }
 
 u32 WriteSubWinEnableBits(u32 bits) {
-    u32 value = (reg_GXS_DB_DISPCNT & ~0xe000) | (bits << 13);
+    u32 value =
+        (reg_GXS_DB_DISPCNT & ~(REG_GXS_DB_DISPCNT_OW_MASK | REG_GXS_DB_DISPCNT_W1_MASK | REG_GXS_DB_DISPCNT_W0_MASK)) |
+        (bits << 13);
     reg_GXS_DB_DISPCNT = value;
     return value;
 }

@@ -551,19 +551,24 @@ void WriteTimeAttackGhostSendRegisters(void) {
     reg_G2S_DB_BG3OFS = ((negatedValue << 16) & 0x1ff0000);
     reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & ~REG_G2S_DB_BG3CNT_PRIORITY_MASK) | 1;
     if (interpolatedValue != 0) {
-        reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffff1fff) | 0x2000;
+        reg_GX_DISPCNT =
+            (reg_GX_DISPCNT & ~(REG_GX_DISPCNT_OW_MASK | REG_GX_DISPCNT_W1_MASK | REG_GX_DISPCNT_W0_MASK)) |
+            REG_GX_DISPCNT_W0_MASK;
         reg_G2_WININ = (u32) ((reg_G2_WININ & ~0x3f) | 0x1f) | 0x20;
         reg_G2_WINOUT = (u32) ((reg_G2_WINOUT & ~0x3f) | 0xe) | 0x20;
         reg_G2_WIN0H = 0xff;
         reg_G2_WIN0V = ((negatedValue << 8) & 0xff00) | 0xc0;
-        reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffff1fff) | 0x2000;
+        reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT &
+                              ~(REG_GXS_DB_DISPCNT_OW_MASK | REG_GXS_DB_DISPCNT_W1_MASK | REG_GXS_DB_DISPCNT_W0_MASK)) |
+                             REG_GXS_DB_DISPCNT_W0_MASK;
         reg_G2S_DB_WININ = (u32) ((reg_G2S_DB_WININ & ~0x3f) | 0x1f) | 0x20;
         reg_G2S_DB_WINOUT = (u32) ((reg_G2S_DB_WINOUT & ~0x3f) | 7) | 0x20;
         reg_G2S_DB_WIN0H = 0xff;
         reg_G2S_DB_WIN0V = (interpolatedValue + 0xc0) & 0xff;
     } else {
-        reg_GX_DISPCNT = reg_GX_DISPCNT & 0xffff1fff;
-        reg_GXS_DB_DISPCNT = reg_GXS_DB_DISPCNT & 0xffff1fff;
+        reg_GX_DISPCNT = reg_GX_DISPCNT & ~(REG_GX_DISPCNT_OW_MASK | REG_GX_DISPCNT_W1_MASK | REG_GX_DISPCNT_W0_MASK);
+        reg_GXS_DB_DISPCNT = reg_GXS_DB_DISPCNT &
+                             ~(REG_GXS_DB_DISPCNT_OW_MASK | REG_GXS_DB_DISPCNT_W1_MASK | REG_GXS_DB_DISPCNT_W0_MASK);
     }
 }
 

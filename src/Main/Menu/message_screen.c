@@ -217,7 +217,8 @@ void OpenMessageScreen(s32 messageKind, s32 inputEnabled) {
                 reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | 0x200;
                 reg_GXS_DB_DISPCNT = reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK;
                 *(vu16 *) 0x5000400 = 0;
-                reg_GX_DISPCNT = reg_GX_DISPCNT & 0xffff1fff;
+                reg_GX_DISPCNT =
+                    reg_GX_DISPCNT & ~(REG_GX_DISPCNT_OW_MASK | REG_GX_DISPCNT_W1_MASK | REG_GX_DISPCNT_W0_MASK);
             } else {
                 bits8To12 = (reg_GX_DISPCNT & REG_GX_DISPCNT_DISPLAY_MASK) >> 8;
                 bits8To12 |= 2;
@@ -228,7 +229,8 @@ void OpenMessageScreen(s32 messageKind, s32 inputEnabled) {
             reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | 0x200;
             reg_GXS_DB_DISPCNT = reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK;
             *(vu16 *) 0x5000400 = 0;
-            reg_GX_DISPCNT = reg_GX_DISPCNT & 0xffff1fff;
+            reg_GX_DISPCNT =
+                reg_GX_DISPCNT & ~(REG_GX_DISPCNT_OW_MASK | REG_GX_DISPCNT_W1_MASK | REG_GX_DISPCNT_W0_MASK);
             reg_G2_BLDCNT = 0;
             reg_G2S_DB_BLDCNT = 0;
         }

@@ -555,14 +555,17 @@ void WriteMultiSelectMemberGroupRegisters(void) {
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | (displayBits << 8);
     reg_G2S_DB_BG3OFS = (-gMultiSelectMemberGroup->mBg3Offset << 16) & 0x1ff0000;
     if (gMultiSelectMemberGroup->mBg3Offset != 0) {
-        reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffff1fff) | 0x2000;
+        reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT &
+                              ~(REG_GXS_DB_DISPCNT_OW_MASK | REG_GXS_DB_DISPCNT_W1_MASK | REG_GXS_DB_DISPCNT_W0_MASK)) |
+                             REG_GXS_DB_DISPCNT_W0_MASK;
         reg_G2S_DB_WININ = (u32) ((reg_G2S_DB_WININ & ~0x3f) | 0x1f) | 0x20;
         reg_G2S_DB_WINOUT = (u32) ((reg_G2S_DB_WINOUT & ~0x3f) | 7) | 0x20;
         windowEndY = gMultiSelectMemberGroup->mBg3Offset + 0xc0;
         reg_G2S_DB_WIN0H = 0xff;
         reg_G2S_DB_WIN0V = windowEndY & 0xff;
     } else {
-        reg_GXS_DB_DISPCNT = reg_GXS_DB_DISPCNT & 0xffff1fff;
+        reg_GXS_DB_DISPCNT = reg_GXS_DB_DISPCNT &
+                             ~(REG_GXS_DB_DISPCNT_OW_MASK | REG_GXS_DB_DISPCNT_W1_MASK | REG_GXS_DB_DISPCNT_W0_MASK);
     }
 }
 

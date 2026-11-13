@@ -645,7 +645,9 @@ void WritePlayerEntryListRegisters(void) {
     reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | (displayBits << 8);
     GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, bg0As);
     if (gPlayerEntryList->mScreenKind == PLAYER_ENTRY_LIST_RACE_RULE) {
-        reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffff1fff) | 0x6000;
+        reg_GX_DISPCNT =
+            (reg_GX_DISPCNT & ~(REG_GX_DISPCNT_OW_MASK | REG_GX_DISPCNT_W1_MASK | REG_GX_DISPCNT_W0_MASK)) |
+            (REG_GX_DISPCNT_W1_MASK | REG_GX_DISPCNT_W0_MASK);
         reg_G2_WININ = (u32) ((reg_G2_WININ & ~0x3f) | 0x1d) | 0x20;
         reg_G2_WININ = (u32) ((reg_G2_WININ & 0xffffc0ff) | 0x1e00) | 0x2000;
         reg_G2_WINOUT = (u32) ((reg_G2_WINOUT & ~0x3f) | 0x1c) | 0x20;
@@ -654,7 +656,7 @@ void WritePlayerEntryListRegisters(void) {
         reg_G2_WIN1H = 0x8000;
         reg_G2_WIN1V = 0xc0;
     } else {
-        reg_GX_DISPCNT = reg_GX_DISPCNT & 0xffff1fff;
+        reg_GX_DISPCNT = reg_GX_DISPCNT & ~(REG_GX_DISPCNT_OW_MASK | REG_GX_DISPCNT_W1_MASK | REG_GX_DISPCNT_W0_MASK);
     }
 }
 

@@ -205,7 +205,9 @@ void MultiSelectNSGXS_SetVisiblePlane(u32 bits) {
 }
 
 void MultiSelectNSWriteSubWinEnableBits(u32 bits) {
-    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0xe000) | (bits << 13);
+    reg_GXS_DB_DISPCNT =
+        (reg_GXS_DB_DISPCNT & ~(REG_GXS_DB_DISPCNT_OW_MASK | REG_GXS_DB_DISPCNT_W1_MASK | REG_GXS_DB_DISPCNT_W0_MASK)) |
+        (bits << 13);
 }
 
 void MultiSelectNSG2S_SetWnd0InsidePlane(u32 lowBits, u32 extraBitFlag) {
