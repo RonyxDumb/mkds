@@ -357,9 +357,9 @@ void SetVelocity(MissionRunMapObject *mapObject, Vec3 *velocity) {
 
 void SetShadowOffsetYAndScale(MissionRunMapObject *mapObject, s32 offsetY, s32 scaleXZ) {
     if (offsetY == 0) {
-        mapObject->mUnk_27c = 1;
+        mapObject->mShadowMode = 1;
     } else {
-        mapObject->mUnk_27c = 2;
+        mapObject->mShadowMode = 2;
     }
     mapObject->mShadowOffsetX = mapObject->mShadowOffsetTargetX = 0;
     mapObject->mShadowOffsetY = mapObject->mShadowOffsetTargetY = offsetY;
@@ -374,9 +374,9 @@ void SetShadowOffsetYAndScale(MissionRunMapObject *mapObject, s32 offsetY, s32 s
 void SetShadowOffsetYAndScaleTarget(MissionRunMapObject *mapObject, int offsetY, u32 offsetPerCall, u32 scaleXZ,
                                     u32 scalePerCall) {
     if (offsetY == 0) {
-        mapObject->mUnk_27c = 1;
+        mapObject->mShadowMode = 1;
     } else {
-        mapObject->mUnk_27c = 2;
+        mapObject->mShadowMode = 2;
     }
     mapObject->mShadowOffsetTargetX = 0;
     mapObject->mShadowOffsetTargetY = offsetY;
@@ -428,7 +428,7 @@ void SetShadowOffsetAndScale(MissionRunMapObject *mapObject, int offsetX, u32 of
                              u32 unusedScaleY, u32 scaleZ) {
     int *v1;
     int *v2;
-    mapObject->mUnk_27c = 0;
+    mapObject->mShadowMode = 0;
     if ((mapObject->mUnk_000.mFlags & (0x00000400u)) != 0) {
         offsetX = -offsetX;
     }
@@ -456,7 +456,7 @@ void SetShadowOffsetAndScale(MissionRunMapObject *mapObject, int offsetX, u32 of
 
 void SetShadowOffsetAndScaleTarget(MissionRunMapObject *mapObject, int offsetX, u32 offsetY, u32 offsetZ,
                                    u32 offsetPerCall, u32 scaleX, u32 unusedScaleY, u32 scaleZ, u32 scalePerCall) {
-    mapObject->mUnk_27c = 0;
+    mapObject->mShadowMode = 0;
     if ((mapObject->mUnk_000.mFlags & (0x00000400u)) != 0) {
         offsetX = -offsetX;
     }
@@ -539,7 +539,7 @@ void ResetMissionRunMapObjects(void) {
             table = FindMapObjectKindUpdateList(0x1ff);
             StopMapObjectState(obj);
             obj->mGravityEnabled = FALSE;
-            obj->mUnk_2b8 = 3;
+            obj->mCourseCollisionMode = 3;
             obj->mSpeed = obj->mSpeedTarget = obj->mSpeedPerCall = 0;
             obj->mAngleState = 0;
             obj->mAnglePerCall = obj->mAnglePerCallTarget = obj->mAnglePerCallIncrement = 0;
@@ -601,11 +601,11 @@ u16 GetAbsoluteCounter(MissionRunMapObject *mapObject) {
 }
 
 void SetRepeatsRemaining(MissionRunMapObject *mapObject, s32 repeatsRemaining) {
-    mapObject->mUnk_0b4 = repeatsRemaining;
+    mapObject->mRepeatsRemaining = repeatsRemaining;
 }
 
 u16 GetRepeatsRemaining(MissionRunMapObject *mapObject) {
-    return mapObject->mUnk_0b4;
+    return mapObject->mRepeatsRemaining;
 }
 
 void SetKartCollisionCallback(MissionRunMapObject *mapObject, UnkFunc *kartCollisionCallback) {
@@ -797,19 +797,19 @@ void StoreNodePositionAndPlaceItemBomb(NNSG3dRS *renderState) {
     Camera *currentCamera;
 
     mapObject = renderState->mRenderObj->mPtrUser;
-    if (renderState->mC[1] == mapObject->mUnk_2e4) {
+    if (renderState->mC[1] == mapObject->mNodeMatchValue) {
         currentCamera = GetCurrentCamera();
         NNS_G3dGetCurrentMtx(&currentMatrix, NULL);
         MTX_Inverse43(&currentCamera->mViewMatrix, &inverseViewMatrix);
         MTX_Concat43(&currentMatrix, &inverseViewMatrix, &currentMatrix);
-        mapObject->mUnk_2e8.x = currentMatrix.mRows[3].x << 4;
-        mapObject->mUnk_2e8.y = currentMatrix.mRows[3].y << 4;
-        mapObject->mUnk_2e8.z = currentMatrix.mRows[3].z << 4;
+        mapObject->mNodePosition.x = currentMatrix.mRows[3].x << 4;
+        mapObject->mNodePosition.y = currentMatrix.mRows[3].y << 4;
+        mapObject->mNodePosition.z = currentMatrix.mRows[3].z << 4;
         if (mapObject->mItemBomb != NULL) {
-            bombPosition = mapObject->mUnk_2e8;
-            VEC_MultAdd(mapObject->mUnk_2f4.x, &currentMatrix.mRows[0], &bombPosition, &bombPosition);
-            VEC_MultAdd(mapObject->mUnk_2f4.y, &currentMatrix.mRows[1], &bombPosition, &bombPosition);
-            VEC_MultAdd(mapObject->mUnk_2f4.z, &currentMatrix.mRows[2], &bombPosition, &bombPosition);
+            bombPosition = mapObject->mNodePosition;
+            VEC_MultAdd(mapObject->mBombOffset.x, &currentMatrix.mRows[0], &bombPosition, &bombPosition);
+            VEC_MultAdd(mapObject->mBombOffset.y, &currentMatrix.mRows[1], &bombPosition, &bombPosition);
+            VEC_MultAdd(mapObject->mBombOffset.z, &currentMatrix.mRows[2], &bombPosition, &bombPosition);
             PlaceItemBomb(mapObject->mItemBomb, &currentMatrix.mRows[0], &bombPosition);
         }
     }
@@ -817,8 +817,8 @@ void StoreNodePositionAndPlaceItemBomb(NNSG3dRS *renderState) {
 
 void SetNodePositionSource(MissionRunMapObject *mapObject, u32 matchValue) {
     MapObjectModel **nsbmdPointer;
-    mapObject->mUnk_2e4 = matchValue;
-    mapObject->mUnk_27c = 3;
+    mapObject->mNodeMatchValue = matchValue;
+    mapObject->mShadowMode = 3;
     nsbmdPointer = &mapObject->mNsbmd;
     (*nsbmdPointer)->mAnimatedModel->mRenderObj.mPtrUser = mapObject;
     NNS_G3dRenderObjSetCallBack(&(*nsbmdPointer)->mAnimatedModel->mRenderObj, StoreNodePositionAndPlaceItemBomb, 0, 6,
@@ -826,8 +826,8 @@ void SetNodePositionSource(MissionRunMapObject *mapObject, u32 matchValue) {
 }
 
 void SetNodePositionSourceAndBombOffset(MissionRunMapObject *mapObject, s32 matchValue, const Vec3 *offset) {
-    mapObject->mUnk_2e4 = matchValue;
-    mapObject->mUnk_2f4 = *offset;
+    mapObject->mNodeMatchValue = matchValue;
+    mapObject->mBombOffset = *offset;
     mapObject->mNsbmd->mAnimatedModel->mRenderObj.mPtrUser = mapObject;
     NNS_G3dRenderObjSetCallBack(&mapObject->mNsbmd->mAnimatedModel->mRenderObj, StoreNodePositionAndPlaceItemBomb, 0, 6,
                                 3);
@@ -1131,11 +1131,11 @@ void StartEffectWithRotatedDirection(MissionRunMapObject *mapObject, int offsetX
 }
 
 void StartMapObjectState(MissionRunMapObject *mapObject, int stateNumber, s32 (*nextFunc)(MissionRunMapObject *)) {
-    mapObject->mUnk_158 = NULL;
-    mapObject->mUnk_15c = nextFunc;
-    mapObject->mUnk_150 = stateNumber;
+    mapObject->mStateFunction = NULL;
+    mapObject->mNextStateFunction = nextFunc;
+    mapObject->mStateNumber = stateNumber;
     mapObject->mStateFrames = 0;
-    mapObject->mUnk_0b4 = mapObject->mUnk_0b4 > 0 ? mapObject->mUnk_0b4 - 1 : 0;
+    mapObject->mRepeatsRemaining = mapObject->mRepeatsRemaining > 0 ? mapObject->mRepeatsRemaining - 1 : 0;
     mapObject->mBounceEnabled = FALSE;
     mapObject->mGravityEnabled = TRUE;
     if (mapObject->mUnk_2c4 == FALSE) {
@@ -1161,7 +1161,7 @@ void DisableMissionRunMapObjectGravity(MissionRunMapObject *mapObject) {
 }
 
 u32 IsStateNumberBelow(MissionRunMapObject *mapObject, int stateNumberLimit) {
-    if (mapObject->mUnk_150 < stateNumberLimit) {
+    if (mapObject->mStateNumber < stateNumberLimit) {
         return 1;
     }
     return 0;
@@ -1302,15 +1302,15 @@ void AdvanceMissionRunMapObject(u32 unused, MissionRunMapObject *mapObject) {
     s32 pairWordIndex;
     s64 speed;
 
-    if (mapObject->mUnk_158 == NULL && mapObject->mUnk_15c != NULL) {
-        mapObject->mUnk_158 = mapObject->mUnk_15c;
-        mapObject->mUnk_15c = NULL;
+    if (mapObject->mStateFunction == NULL && mapObject->mNextStateFunction != NULL) {
+        mapObject->mStateFunction = mapObject->mNextStateFunction;
+        mapObject->mNextStateFunction = NULL;
     }
-    if (mapObject->mUnk_158 != NULL && mapObject->mUnk_158(mapObject)) {
-        mapObject->mUnk_158 = NULL;
+    if (mapObject->mStateFunction != NULL && mapObject->mStateFunction(mapObject)) {
+        mapObject->mStateFunction = NULL;
         mapObject->mUnk_154 = 0;
         mapObject->mStateFrames = 0;
-        mapObject->mUnk_150 = 0;
+        mapObject->mStateNumber = 0;
     }
 
     switch (mapObject->mAngleState) {
@@ -1492,9 +1492,10 @@ void AdvanceMissionRunMapObject(u32 unused, MissionRunMapObject *mapObject) {
     probePosition.y = mapObject->mUnk_000.mPos.y + 0x14000;
     probePosition.z = mapObject->mUnk_000.mPos.z;
     mapObject->mCollisionBits = 0;
-    if (CollideSphereWithCourse(&probePosition, NULL, 0, 0x14000, mapObject->mUnk_2b8 == 1 ? (u16) 4 : (u16) 1, -2,
-                                &pushOut, &v50, &v5c, &mapObject->mCollisionBits, NULL, NULL, NULL, NULL)) {
-        if (mapObject->mUnk_2b8 == 2 || mapObject->mUnk_2b8 == 3) {
+    if (CollideSphereWithCourse(&probePosition, NULL, 0, 0x14000,
+                                mapObject->mCourseCollisionMode == 1 ? (u16) 4 : (u16) 1, -2, &pushOut, &v50, &v5c,
+                                &mapObject->mCollisionBits, NULL, NULL, NULL, NULL)) {
+        if (mapObject->mCourseCollisionMode == 2 || mapObject->mCourseCollisionMode == 3) {
             mapObject->mUnk_000.mPos.y += pushOut.y;
         } else {
             mapObject->mUnk_000.mPos.x += pushOut.x;
@@ -1502,7 +1503,7 @@ void AdvanceMissionRunMapObject(u32 unused, MissionRunMapObject *mapObject) {
             mapObject->mUnk_000.mPos.z += pushOut.z;
         }
     }
-    if (mapObject->mUnk_2b8 != 2 && (mapObject->mCollisionBits & 0x214300)) {
+    if (mapObject->mCourseCollisionMode != 2 && (mapObject->mCollisionBits & 0x214300)) {
         if (LENGTH_SQUARED(v5c) >= 0x10) {
             Vec3NormalizeAndGetLengthUnchecked(&v5c, &pushDirection);
         }
@@ -1651,7 +1652,7 @@ void DrawMissionRunMapObject(void *mapObjectList, MissionRunMapObject *mapObject
         if (alpha >= 0x1f) {
             NNS_G3dMdlSetMdlXLDepthUpdateAll(mapObject->mNsbmd->mAnimatedModel->mResMdl, 1);
             SetMapObjectModelPolygonId(mapObject->mNsbmd, 3);
-        } else if (mapObject->mUnk_27c <= 1) {
+        } else if (mapObject->mShadowMode <= 1) {
             NNS_G3dMdlSetMdlXLDepthUpdateAll(mapObject->mNsbmd->mAnimatedModel->mResMdl, 1);
             SetMapObjectModelPolygonId(mapObject->mNsbmd, 3);
         } else {
@@ -1682,14 +1683,14 @@ void DrawMissionRunMapObjectShadow(void *mapObjectList, MissionRunMapObject *map
     Vec3 shadowPosition;
 
     depth = FROM_FIXED12(mapObject->mAlphaLimit);
-    if (mapObject->mUnk_27c == 2) {
+    if (mapObject->mShadowMode == 2) {
         shadowPosition.x = mapObject->mUnk_000.mPos.x;
         shadowPosition.y = mapObject->mUnk_000.mPos.y;
         shadowPosition.z = mapObject->mUnk_000.mPos.z;
-    } else if (mapObject->mUnk_27c == 3) {
-        shadowPosition.x = mapObject->mUnk_2e8.x;
+    } else if (mapObject->mShadowMode == 3) {
+        shadowPosition.x = mapObject->mNodePosition.x;
         shadowPosition.y = mapObject->mUnk_000.mCourseMapRow->mPosition.y;
-        shadowPosition.z = mapObject->mUnk_2e8.z;
+        shadowPosition.z = mapObject->mNodePosition.z;
     } else {
         if (depth >= 4) {
             s32 adjustedDepth =
@@ -1782,7 +1783,7 @@ s32 CollideKartWithMissionRunMapObject(MissionRunMapObject *mapObject, Kart *kar
     UnkFunc *collisionCallback;
 
     mode = *firstResponsePointer;
-    mapObject->mUnk_2d8 = *responsePointer;
+    mapObject->mKartResponse = *responsePointer;
     mapObject->mUnk_000.mPosStep.x = 0;
     mapObject->mUnk_000.mPosStep.y = 0;
     mapObject->mUnk_000.mPosStep.z = 0;
@@ -1810,7 +1811,7 @@ s32 CollideKartWithMissionRunMapObject(MissionRunMapObject *mapObject, Kart *kar
     if (mapObject->mTimer == 0) {
         mapObject->mTimer = 0x1f;
     }
-    return mapObject->mUnk_2d8;
+    return mapObject->mKartResponse;
 }
 
 s32 CollideItemWithMissionRunMapObject(MissionRunMapObject *mapObject, ItemObject *itemObject, u8 *firstResponsePointer,
@@ -1818,7 +1819,7 @@ s32 CollideItemWithMissionRunMapObject(MissionRunMapObject *mapObject, ItemObjec
     Vec3 awayDirection;
     UnkFunc *collisionCallback;
 
-    mapObject->mUnk_2e0 = *responsePointer;
+    mapObject->mItemResponse = *responsePointer;
     awayDirection.x = mapObject->mUnk_000.mPos.x - itemObject->mPos.x;
     awayDirection.y = 0;
     awayDirection.z = mapObject->mUnk_000.mPos.z - itemObject->mPos.z;
@@ -1833,7 +1834,7 @@ s32 CollideItemWithMissionRunMapObject(MissionRunMapObject *mapObject, ItemObjec
     if (collisionCallback) {
         collisionCallback(mapObject, itemObject);
     }
-    return mapObject->mUnk_2e0;
+    return mapObject->mItemResponse;
 }
 
 MapObjectList *CreateEmptyMapObjectUpdateList(void) {

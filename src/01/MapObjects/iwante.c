@@ -108,13 +108,13 @@ void InitIwanteSoundSource(MissionRunMapObject *mapObject) {
 }
 
 void IwanteKartResponse2Callback(MissionRunMapObject *mapObject) {
-    mapObject->mUnk_2d8 = 2;
+    mapObject->mKartResponse = 2;
     SetKartCollisionCallback(mapObject, IwanteKartResponse2Callback);
 }
 
 void IwanteKartHitCallback(MissionRunMapObject *mapObject) {
     if (mapObject->mTimer > 0) {
-        mapObject->mUnk_2d8 = 2;
+        mapObject->mKartResponse = 2;
         SetKartCollisionCallback(mapObject, IwanteKartHitCallback);
         return;
     }
@@ -123,13 +123,13 @@ void IwanteKartHitCallback(MissionRunMapObject *mapObject) {
     mapObject->mUnk_000.mPosStep.y = 0;
     mapObject->mUnk_000.mPosStep.z =
         MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_144, COS_OF_ANGLE((u16) mapObject->mMoveAngle));
-    mapObject->mUnk_2d8 = 0xd;
+    mapObject->mKartResponse = 0xd;
     SetKartCollisionCallback(mapObject, IwanteKartHitCallback);
     StartCameraWobbleAtDistance(mapObject->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
 }
 
 void IwanteKartResponse11Callback(MissionRunMapObject *mapObject) {
-    mapObject->mUnk_2d8 = 0xb;
+    mapObject->mKartResponse = 0xb;
     SetKartCollisionCallback(mapObject, IwanteKartResponse2Callback);
     mapObject->mUnk_000.mDistanceSquaredAndFlags =
         mapObject->mUnk_000.mDistanceSquaredAndFlags | gIwanteSkipKindSoundFlag;
@@ -446,7 +446,7 @@ int AdvanceIwanteHandSidewaysStop(MissionRunMapObject *mapObject) {
     } else {
         ReleaseEffects(mapObject);
         SetKartCollisionCallback(mapObject, IwanteKartResponse2Callback);
-        mapObject->mUnk_158 = NULL;
+        mapObject->mStateFunction = NULL;
     }
     return 0;
 }
@@ -619,14 +619,14 @@ void StartIwanteHandHitSecondAnimation(MissionRunMapObject *mapObject) {
 s32 AdvanceIwanteHandHitCollisionSound(MissionRunMapObject *mapObject) {
     if ((mapObject->mCollisionBits & 0x001e34ef) != 0) {
         StartMapObjectSound(&mapObject->mUnk_000, 0x218);
-        mapObject->mUnk_158 = NULL;
+        mapObject->mStateFunction = NULL;
     }
     return 0;
 }
 
 s32 AdvanceIwanteHandHitCollision(MissionRunMapObject *mapObject) {
     if (mapObject->mCollisionBits & 0x1e34ef) {
-        mapObject->mUnk_158 = (s32(*)(MissionRunMapObject *)) AdvanceIwanteHandHitCollisionSound;
+        mapObject->mStateFunction = (s32(*)(MissionRunMapObject *)) AdvanceIwanteHandHitCollisionSound;
     }
     return 0;
 }
@@ -1281,7 +1281,7 @@ void StartIwanteChainCameraHold(MissionRunMapObject *mapObject) {
 }
 
 void IwanteItemResponse2Callback(MissionRunMapObject *mapObject) {
-    mapObject->mUnk_2e0 = 2;
+    mapObject->mItemResponse = 2;
     SetItemCollisionCallback(mapObject, (UnkFunc *) IwanteItemResponse2Callback);
 }
 
@@ -1322,9 +1322,9 @@ void IwanteItemHitCallback(MissionRunMapObject *mapObject, ItemObject *itemObjec
                       (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 2))
                 : 0);
         SetItemCollisionCallback(mapObject, (UnkFunc *) IwanteItemResponse2Callback);
-        mapObject->mUnk_2e0 = 2;
+        mapObject->mItemResponse = 2;
     } else {
-        mapObject->mUnk_2e0 = 2;
+        mapObject->mItemResponse = 2;
         SetItemCollisionCallback(mapObject, (UnkFunc *) IwanteItemHitCallback);
     }
 }

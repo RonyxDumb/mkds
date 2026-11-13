@@ -549,7 +549,7 @@ void KurikingKartHitCallback(MissionRunMapObject *mapObject, void *kart) {
     mapObject->mUnk_000.mPosStep.y = 0;
     mapObject->mUnk_000.mPosStep.z =
         MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_130, FX_CosIdx((u16) mapObject->mMoveAngle));
-    mapObject->mUnk_2d8 = 0xd;
+    mapObject->mKartResponse = 0xd;
     StartCameraWobbleAtDistance(mapObject->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
     SetKartCollisionCallback(mapObject, KurikingKartHitSoundCallback);
     if (mapObject->mTimer == 0) {
@@ -621,7 +621,7 @@ void UpdateKuriking(u32 unused, MissionRunMapObject *mapObject) {
             StartKurikingWalkState(mapObject);
             SetKartCollisionCallback(mapObject, KurikingKartHitCallback);
         }
-        mapObject->mUnk_2b8 = 1;
+        mapObject->mCourseCollisionMode = 1;
     }
     AdvanceMissionRunMapObject(unused, mapObject);
     AdvanceMapObjectModelNsbtaAnimation(mapObject->mNsbmd);

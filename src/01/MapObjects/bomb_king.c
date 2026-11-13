@@ -100,7 +100,7 @@ u16 GetAbsoluteCounterWrapper(MissionRunMapObject *mapObject) {
 }
 
 void BombKingJumpKartCollisionCallback(MissionRunMapObject *mapObject) {
-    mapObject->mUnk_2d8 = 0xb;
+    mapObject->mKartResponse = 0xb;
     mapObject->mUnk_000.mDistanceSquaredAndFlags |= gBombKingSkipKindSoundFlag;
 }
 
@@ -441,7 +441,7 @@ int StartBombKingBounceEffects(MissionRunMapObject *mapObject) {
 
 int SwitchToBounceEffectsOnCollision(MissionRunMapObject *mapObject) {
     if ((mapObject->mCollisionBits & 0x1e34ef) != 0) {
-        mapObject->mUnk_158 = StartBombKingBounceEffects;
+        mapObject->mStateFunction = StartBombKingBounceEffects;
     }
     return 0;
 }
@@ -637,7 +637,7 @@ void BombKingItemBounceCallback(MissionRunMapObject *mapObject, ItemObject *item
             StartEffectWithCallback(0x3a, &itemObject->mPos, NULL, SetBombKingEffectScale);
         }
     }
-    mapObject->mUnk_2e0 = 1;
+    mapObject->mItemResponse = 1;
     SetItemCollisionCallback(mapObject, (UnkFunc *) BombKingItemBounceCallback);
 }
 
@@ -648,7 +648,7 @@ void BombKingItemHitCallback(MissionRunMapObject *mapObject, ItemObject *itemObj
     if (IsItemBombStored(mapObject) != 0) {
         ThrowOrReleaseStoredItemBomb(mapObject, NULL, 0);
     }
-    mapObject->mUnk_2e0 = 2;
+    mapObject->mItemResponse = 2;
     SetItemCollisionCallback(mapObject, (UnkFunc *) BombKingItemHitCallback);
     if (IsStateNumberBelow(mapObject, 7) != 0) {
         velocity.x = mapObject->mUnk_000.mPos.x - itemObject->mPos.x;

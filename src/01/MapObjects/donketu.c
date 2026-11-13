@@ -244,7 +244,7 @@ void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
         }
     }
     SetKartCollisionCallback(donketu, DonketuKartCollisionCallback);
-    donketu->mUnk_2d8 = 13;
+    donketu->mKartResponse = 13;
 }
 
 void DonketuChaseKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
@@ -328,13 +328,13 @@ void DonketuChaseKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart)
         StartMapObjectSound(&donketu->mUnk_000, 0x213);
     }
     SetKartCollisionCallback(donketu, DonketuKartCollisionCallback);
-    donketu->mUnk_2d8 = 0xd;
+    donketu->mKartResponse = 0xd;
     StartCameraWobbleAtDistance(donketu->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
 }
 
 void DonketuFallKartCollisionCallback(MissionRunMapObject *donketu) {
     SetKartCollisionCallback(donketu, DonketuKartCollisionCallback);
-    donketu->mUnk_2d8 = 0xb;
+    donketu->mKartResponse = 0xb;
 }
 
 void StartDonketuWaterLandState(MissionRunMapObject *donketu) {
@@ -353,8 +353,8 @@ void StartDonketuWaterLandState(MissionRunMapObject *donketu) {
 s32 UpdateDonketuFall(MissionRunMapObject *donketu) {
     if (donketu->mVelocity.y < 0) {
         SetKartCollisionCallback(donketu, DonketuFallKartCollisionCallback);
-        donketu->mUnk_150 = 7;
-        donketu->mUnk_158 = NULL;
+        donketu->mStateNumber = 7;
+        donketu->mStateFunction = NULL;
     }
     return 0;
 }
@@ -363,7 +363,7 @@ s32 UpdateDonketuWaterJumpSplash(MissionRunMapObject *donketu) {
     if (donketu->mUnk_000.mPos.y >= -GetHeightAboveWaterOrEfct(0)) {
         StartModelEffectAtWaterHeight(donketu, 4, 0);
         StartMapObjectSound(&donketu->mUnk_000, 0x241);
-        donketu->mUnk_158 = UpdateDonketuFall;
+        donketu->mStateFunction = UpdateDonketuFall;
     }
     return 0;
 }
@@ -789,7 +789,7 @@ void InitBossDonketu(MapObjectList *list) {
                                         0);
             SetShadowOffsetYAndScale(donketu, 0, 0x11000);
             SetKartCollisionCallback(donketu, DonketuKartCollisionCallback);
-            donketu->mUnk_2b8 = 2;
+            donketu->mCourseCollisionMode = 2;
         }
     }
 }

@@ -195,11 +195,11 @@ typedef struct MissionRunMapObjectEffect {
 typedef struct MissionRunMapObject {
     /* 000 */ MapObject mUnk_000;
     /* 0a0 */ MissionRunPrm *mPrm;
-    /* 0a4 */ struct MissionRunMapObject *mUnk_0a4;
+    /* 0a4 */ struct MissionRunMapObject *mPreviousObject;
     /* 0a8 */ s32 mUnk_0a8;
     /* 0ac */ s32 mUnk_0ac;
     /* 0b0 */ s32 mStateFrames;
-    /* 0b4 */ s32 mUnk_0b4;
+    /* 0b4 */ s32 mRepeatsRemaining;
     /* 0b8 */ s32 mUnk_0b8;
     /* 0bc */ MissionRunMapObjectEffect mEffects[5];
     /* 134 */ s32 mUnk_134;
@@ -209,10 +209,10 @@ typedef struct MissionRunMapObject {
     /* 144 */ s32 mUnk_144;
     /* 148 */ s32 mEntryGroupIndex;
     /* 14c */ s32 mEntryIndex;
-    /* 150 */ s32 mUnk_150;
+    /* 150 */ s32 mStateNumber;
     /* 154 */ s32 mUnk_154;
-    /* 158 */ s32 (*mUnk_158)(struct MissionRunMapObject *);
-    /* 15c */ s32 (*mUnk_15c)(struct MissionRunMapObject *);
+    /* 158 */ s32 (*mStateFunction)(struct MissionRunMapObject *);
+    /* 15c */ s32 (*mNextStateFunction)(struct MissionRunMapObject *);
     /* 160 */ s32 mScaleTarget;
     /* 164 */ s32 mScalePerCall;
     /* 168 */ s32 mAlphaLimit;
@@ -268,7 +268,7 @@ typedef struct MissionRunMapObject {
     /* 270 */ s32 mCollisionExtentTargetZ;
     /* 274 */ s32 mOffsetPerCall;
     /* 278 */ s32 mCollisionExtentPerCall;
-    /* 27c */ u32 mUnk_27c;
+    /* 27c */ u32 mShadowMode;
     /* 280 */ s32 mShadowOffsetX;
     /* 284 */ s32 mShadowOffsetY;
     /* 288 */ s32 mShadowOffsetZ;
@@ -283,7 +283,7 @@ typedef struct MissionRunMapObject {
     /* 2ac */ s32 mShadowScaleTargetZ;
     /* 2b0 */ s32 mShadowOffsetPerCall;
     /* 2b4 */ s32 mShadowScalePerCall;
-    /* 2b8 */ s32 mUnk_2b8;
+    /* 2b8 */ s32 mCourseCollisionMode;
     /* 2bc */ BOOL mBounceEnabled;
     /* 2c0 */ BOOL mGravityEnabled;
     /* 2c4 */ BOOL mUnk_2c4;
@@ -291,12 +291,12 @@ typedef struct MissionRunMapObject {
     /* 2cc */ u8 mUnk_2cc[0x4];
     /* 2d0 */ s32 mTimer;
     /* 2d4 */ UnkFunc *mKartCollisionCallback;
-    /* 2d8 */ s32 mUnk_2d8;
+    /* 2d8 */ s32 mKartResponse;
     /* 2dc */ UnkFunc *mItemCollisionCallback;
-    /* 2e0 */ s32 mUnk_2e0;
-    /* 2e4 */ s32 mUnk_2e4;
-    /* 2e8 */ Vec3 mUnk_2e8;
-    /* 2f4 */ Vec3 mUnk_2f4;
+    /* 2e0 */ s32 mItemResponse;
+    /* 2e4 */ s32 mNodeMatchValue;
+    /* 2e8 */ Vec3 mNodePosition;
+    /* 2f4 */ Vec3 mBombOffset;
     /* 300 */ void *mItemBomb;
     /* 304 */ struct MapObjectModel *mNsbmd;
     /* 308 */ struct MapObjectModel *mShadowNsbmd;
