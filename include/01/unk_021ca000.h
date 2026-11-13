@@ -44,7 +44,7 @@ typedef struct MissionRunLVsel {
     /* 0c */ struct LayoutEntryTable *mMissionRunLVselS7Or6Bnll;
     // cell records of mMissionRunLVselS7Or6Bncl and Bnll
     /* 10 */ LayoutTableEntry *mMissionRunLVselS7Or6Table;
-    /* 14 */ void *mUnk_14;
+    /* 14 */ void *mVramTransferBuffer;
     /* 18 */ void *mHeap;
     /* 1c */ s32 mState;
     /* 20 */ s32 mNextState;
@@ -75,7 +75,7 @@ typedef struct MissionRunMSsel {
     /* 40 */ LayoutTableEntry *mMissionRunMSselMTable;
     // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable
     /* 44 */ LayoutTableEntry *mMissionRunMSselSTable;
-    /* 48 */ void *mUnk_48;
+    /* 48 */ void *mVramTransferBuffer;
     // missionTable.mtbl; GetMissionTableValue(table, row, column) returns the mission number
     /* 4c */ MissionTable *mMissionTableMtbl;
     /* 50 */ MissionFileRow *mMissionFileRows;
@@ -120,14 +120,14 @@ typedef struct SelectEngine {
     /* 14 */ LayoutTableEntry *mSelectEngineMTable;
     // cell records of mSelectEngineAOrBSBncl (variant chosen by IsBackupFlagSet(0x10))
     /* 18 */ LayoutTableEntry *mSelectEngineAOrBSTable;
-    /* 1c */ void *mUnk_1c;
+    /* 1c */ void *mVramTransferBuffer;
     /* 20 */ void *mHeap;
     /* 24 */ s32 mState;
     /* 28 */ s32 mNextState;
     /* 2c */ s32 mStateFrames; /* counted only in states 1, 2, 5, 6; zeroed by the next-state setter */
     /* 30 */ s32 mBg0Offset;
     /* 34 */ s32 mIndex;
-    /* 38 */ BOOL mUnk_38;
+    /* 38 */ BOOL mAlternateCellShown;
     /* 3c */ s32 mIndexChangeFramesRemaining;
     /* 40 */ s16 mLastChangeIndex;
     /* 42 */ u8 mUnk_42[0x2];

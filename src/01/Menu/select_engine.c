@@ -95,7 +95,7 @@ void LocateAndQueueSelectEngine(void) {
     LocateNcgr(&selectEngineMBChars, FindSceneFile(gSelectEngineMBNcgrName));
     LocateNclr(&selectEngineMBPalette, FindSceneFile(gSelectEngineMBNclrName));
     LocateNscr(&selectEngineMScreenMap, FindSceneFile(gSelectEngineMNscrName));
-    gSelectEngine->mUnk_1c = HeapAlloc(gSelectEngine->mHeap, 0x800);
+    gSelectEngine->mVramTransferBuffer = HeapAlloc(gSelectEngine->mHeap, 0x800);
     gSelectEngine->mSelectEngineMBncl = FindSceneFile(gSelectEngineMBnclName);
     LocateNcgr2(&selectEngineMChars, FindSceneFile(gSelectEngineMNcgrName));
     LocateNcer(&gSelectEngine->mSelectEngineMNcer, FindSceneFile(gSelectEngineMNcerName));
@@ -114,7 +114,7 @@ void LocateAndQueueSelectEngine(void) {
     NNS_GfdRegisterNewVramTransferTask(4, 0, selectEngineMBChars->mData, selectEngineMBChars->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0xf, 0, selectEngineMBPalette->mData, 0x100);
     NNS_GfdRegisterNewVramTransferTask(8, 0, selectEngineMScreenMap->mData, selectEngineMScreenMap->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(8, 0x800, gSelectEngine->mUnk_1c, 0x800);
+    NNS_GfdRegisterNewVramTransferTask(8, 0x800, gSelectEngine->mVramTransferBuffer, 0x800);
     NNS_GfdRegisterNewVramTransferTask(0x13, 0, selectEngineMChars->mData, selectEngineMChars->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0xe, 0, selectEngineMOPalette->mData, 0x1a0);
     NNS_GfdRegisterNewVramTransferTask(0xe, 0x1c0, (u8 *) paletteData + 0x1c0, 0x40);
@@ -151,7 +151,7 @@ void UpdateSelectEngineIndexCells(void) {
     for (slotIndex = 0; slotIndex < 4; slotIndex++) {
         gSelectEngine->mSelectEngineAOrBSTable[gSelectEngineAOrBSTableIndices[slotIndex][1]].mVisible = 0;
         gSelectEngine->mSelectEngineAOrBSTable[gSelectEngineAOrBSTableIndices[slotIndex][2]].mVisible = 0;
-        if (gSelectEngine->mIndex == slotIndex && gSelectEngine->mUnk_38 != FALSE) {
+        if (gSelectEngine->mIndex == slotIndex && gSelectEngine->mAlternateCellShown != FALSE) {
             gSelectEngine->mSelectEngineAOrBSTable[gSelectEngineAOrBSTableIndices[slotIndex][2]].mVisible = 1;
         } else {
             gSelectEngine->mSelectEngineAOrBSTable[gSelectEngineAOrBSTableIndices[slotIndex][1]].mVisible = 1;
@@ -313,7 +313,7 @@ void InitSelectEngine(void *parentHeap, void *mainOamList, void *subOamList) {
     selectEngine->mHeap = heap;
     gSelectEngine->mState = 0;
     gSelectEngine->mIndexChangeFramesRemaining = 0;
-    gSelectEngine->mUnk_38 = TRUE;
+    gSelectEngine->mAlternateCellShown = TRUE;
     gSelectEngine->mMainOamList = mainOamList;
     gSelectEngine->mSubOamList = subOamList;
     gSelectEngine->mResult = 0;
@@ -470,14 +470,14 @@ next:
     if (touchedRectIndex <= 3) {
         value = gSelectEngineRectIndices[touchedRectIndex];
         if (gSelectEngine->mIndex == value) {
-            gSelectEngine->mUnk_38 = FALSE;
+            gSelectEngine->mAlternateCellShown = FALSE;
         }
         gSelectEngine->mIndex = value;
         RequestSelectEngineState5();
         return;
     }
     if ((u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_A) != 0) {
-        gSelectEngine->mUnk_38 = FALSE;
+        gSelectEngine->mAlternateCellShown = FALSE;
         RequestSelectEngineState5();
         return;
     }
@@ -543,7 +543,7 @@ next:
 void AdvanceSelectEngineState5(void) {
     AdvanceSelectEngineIndexChange();
     if (gSelectEngine->mStateFrames == 5) {
-        gSelectEngine->mUnk_38 = TRUE;
+        gSelectEngine->mAlternateCellShown = TRUE;
     }
     gSelectEngine->mStateFrames++;
     if (gSelectEngine->mStateFrames >= 10) {
