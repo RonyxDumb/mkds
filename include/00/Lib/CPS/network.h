@@ -80,6 +80,16 @@ typedef struct IcmpHeader {
     /* 06 */ u16 mSequence;
 } IcmpHeader;
 
+// Start of a DHCP message (the fixed part before the options).
+typedef struct DhcpMessage {
+    /* 00 */ u8 mUnk_00[4];
+    /* 04 */ u16 mTransactionIdHigh;
+    /* 06 */ u16 mTransactionIdLow;
+    /* 08 */ u8 mUnk_08[4];
+    /* 0c */ u16 mClientAddressHigh;
+    /* 0e */ u16 mClientAddressLow;
+} DhcpMessage;
+
 typedef struct ArpPacket {
     /* 00 */ u16 mHardwareType;
     /* 02 */ u16 mProtocolType;

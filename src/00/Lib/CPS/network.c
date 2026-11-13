@@ -2195,6 +2195,7 @@ void scavenger(void) {
 }
 
 u8 *dhcp_setcommon(u8 *buffer, u8 type, u32 *transactionIdOut) {
+    DhcpMessage *message = (DhcpMessage *) buffer;
     u32 transactionId;
 
     MI_CpuFill8(buffer, 0, 0xec);
@@ -2205,10 +2206,10 @@ u8 *dhcp_setcommon(u8 *buffer, u8 type, u32 *transactionIdOut) {
     if (transactionIdOut != NULL) {
         *transactionIdOut = transactionId;
     }
-    *OFFSET_PTR(u16, buffer, 4) = (u16) (transactionId >> 16) >> 8 | (u16) (transactionId >> 16) << 8;
-    *OFFSET_PTR(u16, buffer, 6) = (u16) transactionId >> 8 | (u16) transactionId << 8;
-    *OFFSET_PTR(u16, buffer, 0xc) = (u16) (CPSMyIp >> 16) >> 8 | (u16) (CPSMyIp >> 16) << 8;
-    *OFFSET_PTR(u16, buffer, 0xe) = (u16) CPSMyIp >> 8 | (u16) CPSMyIp << 8;
+    message->mTransactionIdHigh = (u16) (transactionId >> 16) >> 8 | (u16) (transactionId >> 16) << 8;
+    message->mTransactionIdLow = (u16) transactionId >> 8 | (u16) transactionId << 8;
+    message->mClientAddressHigh = (u16) (CPSMyIp >> 16) >> 8 | (u16) (CPSMyIp >> 16) << 8;
+    message->mClientAddressLow = (u16) CPSMyIp >> 8 | (u16) CPSMyIp << 8;
     MI_CpuCopy8(CPSMyMac, buffer + 0x1c, 6);
     *(u16 *) (buffer + 0xec) = 0x8263;
     *(u16 *) (buffer + 0xee) = 0x6353;
@@ -2295,6 +2296,7 @@ s32 dhcp_analyze_response(u32 queryId, s32 retry) {
     s32 waitTicks;
     u32 *dnsServers;
     u8 *reply;
+    DhcpMessage *replyMessage;
     u8 *optionCursor;
     u8 *replyEnd;
     u32 assignedIp;
@@ -2311,9 +2313,10 @@ s32 dhcp_analyze_response(u32 queryId, s32 retry) {
             continue;
         }
         reply = CPS_SocRead(&replyLength);
+        replyMessage = (DhcpMessage *) reply;
         if (replyLength > 0xf0 && reply[0] == 2 &&
-            queryId == ((u16) (*OFFSET_PTR(u16, reply, 4) >> 8 | *OFFSET_PTR(u16, reply, 4) << 8) << 16 |
-                        (u16) (*OFFSET_PTR(u16, reply, 6) >> 8 | *OFFSET_PTR(u16, reply, 6) << 8)) &&
+            queryId == ((u16) (replyMessage->mTransactionIdHigh >> 8 | replyMessage->mTransactionIdHigh << 8) << 16 |
+                        (u16) (replyMessage->mTransactionIdLow >> 8 | replyMessage->mTransactionIdLow << 8)) &&
             maccmp((const u16 *) (reply + 0x1c), CPSMyMac) == FALSE) {
             result = 3;
             assignedIp = (u16) (reply[0x10] << 8 | reply[0x11]) << 16 | (u16) (reply[0x12] << 8 | reply[0x13]);
