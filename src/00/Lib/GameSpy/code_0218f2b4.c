@@ -223,7 +223,7 @@ int GpiUpdateConnection(void *connectionArgument, int blockingOperationID) {
         } while (loop != FALSE);
         if (result != 0) {
             if (GpiFindOperation(connection, &pendingOp, 1) != FALSE) {
-                pendingOp->mResult = 4;
+                pendingOp->mResult = GP_REQUEST_CONNECT_FAILED;
             } else {
                 AssertionFailed("0", "gpi.c", NULL, 0x1db);
             }
@@ -243,7 +243,7 @@ int GpiUpdateConnection(void *connectionArgument, int blockingOperationID) {
     pendingOp = gpState->mOperationList;
     if (pendingOp != NULL) {
         do {
-            if (pendingOp->mResult != 0) {
+            if (pendingOp->mResult != GP_REQUEST_OK) {
                 GpiQueueOperationCallback(connection, pendingOp);
                 doomedOp = pendingOp;
                 pendingOp = pendingOp->mNext;

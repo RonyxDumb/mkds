@@ -320,7 +320,7 @@ s32 GpiProcessInfoOperation(GpConnection *connection, GpiOperation *operation, c
                 return 1;
             }
             gpiInfoCacheToArg(&infoRecord, arg);
-            arg->mResult = 0;
+            arg->mResult = GP_REQUEST_OK;
             arg->mProfile = profileid;
             result = GpiQueueCallback(connection, callback, arg, operation, 0);
             if (result != 0) {
@@ -842,7 +842,7 @@ u32 gpiGetInfo(GpConnection *connection, u32 profile, s32 checkCache, u32 blocki
             return 1;
         }
         gpiInfoCacheToArg(profileEntry->mCache, arg);
-        arg->mResult = 0;
+        arg->mResult = GP_REQUEST_OK;
         arg->mProfile = profile;
         queuedCallback.mCallback = (void (*)(void *, void *, u32)) callback;
         queuedCallback.mParam = param;

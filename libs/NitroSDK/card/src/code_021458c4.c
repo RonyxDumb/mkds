@@ -72,8 +72,8 @@ int CARDi_Request(CARDiCommon *common, int reqType, int retryCount) {
         }
         OS_RestoreInterrupts(enabled);
         result = common->mCmd->mResult;
-    } while (result == 4 && --retryCount > 0);
-    return result == 0;
+    } while (result == ROM_ACCESS_AGAIN && --retryCount > 0);
+    return result == ROM_ACCESS_SUCCEEDED;
 }
 
 // Copies from CARDRomStat.mCacheBuf to the destination when the buffered page is the one at CARDiCommon.mSrc. Returns 1
@@ -140,7 +140,7 @@ void CARDi_OnReadCard(void) {
         OS_DisableIrqMask(0x80000);
         OS_ResetRequestIrqMask(0x80000);
         common = (CARDiCommon *) (u32) &gAccessState;
-        common->mCmd->mResult = 0;
+        common->mCmd->mResult = ROM_ACCESS_SUCCEEDED;
         callback = common->mCallback;
         callbackArg = common->mCallbackArg;
         enabled = OS_DisableInterrupts();
@@ -290,7 +290,7 @@ void CARDi_ReadRomSyncCore(CARDiCommon *taskCommon) {
         romStat->mReadFunc(romStat);
     }
     common = (CARDiCommon *) (u32) &gAccessState;
-    common->mCmd->mResult = 0;
+    common->mCmd->mResult = ROM_ACCESS_SUCCEEDED;
     callback = common->mCallback;
     callbackArg = common->mCallbackArg;
     enabled = OS_DisableInterrupts();
@@ -396,7 +396,7 @@ void CARDi_RequestStreamCommandCore(CARDiCommon *common) {
         common->mCmd->mLen = len;
         if (common->mFlag & 0x40) {
             common->mFlag &= ~0x40;
-            common->mCmd->mResult = 7;
+            common->mCmd->mResult = ROM_ACCESS_CALLED_OFF;
             break;
         }
         if (reqMode == 0) {
@@ -467,7 +467,7 @@ int CARDi_RequestStreamCommand(u32 src, u32 dst, u32 len, UnkFunc *callback, voi
     }
     gAccessState.mCurTh = OSi_ThreadInfo.mCurrentThread;
     CARDi_RequestStreamCommandCore(common);
-    return common->mCmd->mResult == 0;
+    return common->mCmd->mResult == ROM_ACCESS_SUCCEEDED;
 }
 
 // Sets the backup type, then reads one byte of the backup to identify it. Returns 1 when CARDiCommandArg.mResult is 0.
@@ -510,7 +510,7 @@ int CARD_IdentifyBackup(s32 type) {
     if (callback != 0) {
         callback(callbackArg);
     }
-    return common->mCmd->mResult == 0;
+    return common->mCmd->mResult == ROM_ACCESS_SUCCEEDED;
 }
 
 // Waits for the running transfer to end.
@@ -524,7 +524,7 @@ int CARD_TryWaitBackupAsync(void) {
 }
 
 // Fills CARDiCommandArg.mType and the device description (size, page size, address width, timings) for a backup type.
-// An unknown type clears them and stores 3 in CARDiCommandArg.mResult.
+// An unknown type clears them and stores ROM_ACCESS_UNKNOWN_TYPE in CARDiCommandArg.mResult.
 void CARDi_IdentifyBackupCore(s32 type) {
     CARDiCommandArg *commandArg;
     u32 size;
@@ -589,7 +589,7 @@ void CARDi_IdentifyBackupCore(s32 type) {
     fail:
         commandArg->mType = 0;
         commandArg->mTotalSize = 0;
-        gAccessState.mCmd->mResult = 3;
+        gAccessState.mCmd->mResult = ROM_ACCESS_UNKNOWN_TYPE;
         return;
     }
 }
@@ -627,7 +627,7 @@ void CARDi_LockResource(u32 owner, u32 target) {
         common->mLockTarget = target;
     }
     common->mLockRef++;
-    common->mCmd->mResult = 0;
+    common->mCmd->mResult = ROM_ACCESS_SUCCEEDED;
     OS_RestoreInterrupts(enabled);
 }
 
@@ -652,7 +652,7 @@ void CARDi_UnlockResource(u32 owner, u32 target) {
             OS_WakeupThread(&common->mLockQueue);
         }
     }
-    common->mCmd->mResult = 0;
+    common->mCmd->mResult = ROM_ACCESS_SUCCEEDED;
     OS_RestoreInterrupts(enabled);
 }
 

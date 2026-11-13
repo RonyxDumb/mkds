@@ -149,13 +149,13 @@ void DWCi_Netcheck_Thread(void) {
         }
         http = gHttp;
         switch (http->mResult) {
-            case 2:
+            case HTTP_RESULT_RESOLVE_FAILED:
                 gNetcheck->mReturnCode = -1;
             default:
                 ReleaseHttp(gHttp);
                 DWCi_Netcheck_SetError(3);
                 goto end;
-            case 8:
+            case HTTP_RESULT_DONE:
                 break;
         }
         if (DWC_Http_ParseResult(gNetcheck->mHttpLabelvalue, 0x20, 0, http->mReceiveBuffer.mStart) != TRUE) {
@@ -229,13 +229,13 @@ void DWCi_Netcheck_Thread(void) {
                     }
                     http = gHttp;
                     switch (http->mResult) {
-                        case 2:
+                        case HTTP_RESULT_RESOLVE_FAILED:
                             gNetcheck->mReturnCode = -1;
                         default:
                             ReleaseHttp(gHttp);
                             DWCi_Netcheck_SetError(3);
                             goto end;
-                        case 8:
+                        case HTTP_RESULT_DONE:
                             ReleaseHttp(http);
                             DWCi_Netcheck_SetError(7);
                             goto end;
@@ -347,13 +347,13 @@ void DWCi_Netcheck_Thread(void) {
         }
         http = gHttp;
         switch (http->mResult) {
-            case 2:
+            case HTTP_RESULT_RESOLVE_FAILED:
                 gNetcheck->mReturnCode = -1;
             default:
                 ReleaseHttp(gHttp);
                 DWCi_Netcheck_SetError(3);
                 goto end;
-            case 8:
+            case HTTP_RESULT_DONE:
                 break;
         }
         if (DWC_Http_ParseResult(gNetcheck->mHttpLabelvalue, 0x20, 0, http->mReceiveBuffer.mStart) != TRUE) {
@@ -488,13 +488,13 @@ void DWCi_Netcheck_Thread(void) {
         }
         http = gHttp;
         switch (http->mResult) {
-            case 2:
+            case HTTP_RESULT_RESOLVE_FAILED:
                 gNetcheck->mReturnCode = -1;
             default:
                 ReleaseHttp(gHttp);
                 DWCi_Netcheck_SetError(3);
                 goto end;
-            case 8:
+            case HTTP_RESULT_DONE:
                 break;
         }
         if (DWC_Http_ParseResult(gNetcheck->mHttpLabelvalue, 0x20, 1, http->mReceiveBuffer.mStart) != TRUE) {

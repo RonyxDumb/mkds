@@ -52,17 +52,17 @@ s32 DWC_Http_Create(Http *http, const DWCHttpParam *param) {
     http->mParam = *param;
     http->mLowReceiveBuffer = http->mParam.mAlloc("http->lowrecvbuf", 0xb68);
     if (http->mLowReceiveBuffer == NULL) {
-        http->mResult = 1;
+        http->mResult = HTTP_RESULT_NO_MEMORY;
         return 1;
     }
     http->mLowSendBuffer = http->mParam.mAlloc("http->lowsendbuf", 0x5ea);
     if (http->mLowSendBuffer == NULL) {
-        http->mResult = 1;
+        http->mResult = HTTP_RESULT_NO_MEMORY;
         return 1;
     }
     DWCi_Http_SetHostinfo(http, param->mUrl);
     http->mResult = DWCi_Http_WriteBasicHeader(http);
-    if (http->mResult == 0) {
+    if (http->mResult == HTTP_RESULT_OK) {
         http->mInitFlag = 0xff;
     }
     return http->mResult;
@@ -161,7 +161,7 @@ void DWCi_Http_Thread(void *argument) {
     CPS_SocRegister(socketBuffers);
     hostAddress = CPS_Resolve(http->mHost);
     if (hostAddress == 0) {
-        http->mResult = 2;
+        http->mResult = HTTP_RESULT_RESOLVE_FAILED;
         return;
     }
     CPS_SocUse();
@@ -184,7 +184,7 @@ void DWCi_Http_Thread(void *argument) {
         entropyTick = startTick;
     }
     if (CPS_TcpConnect() != 0) {
-        http->mResult = 3;
+        http->mResult = HTTP_RESULT_CONNECT_FAILED;
         CPS_SocRelease();
         CPS_SocUnRegister();
         return;
@@ -194,7 +194,7 @@ void DWCi_Http_Thread(void *argument) {
     http->mSendBuffer.mEnd = bufferText + strlen(bufferText);
     while (http->mSendBuffer.mCursor < http->mSendBuffer.mEnd) {
         if (CPSMyIp == 0) {
-            http->mResult = 5;
+            http->mResult = HTTP_RESULT_SEND_FAILED;
             goto fail;
         }
         byteCount = http->mSendBuffer.mEnd - http->mSendBuffer.mCursor;
@@ -203,13 +203,13 @@ void DWCi_Http_Thread(void *argument) {
         }
         byteCount = CPS_SocWrite((const u8 *) http->mSendBuffer.mCursor, byteCount);
         if (byteCount <= 0) {
-            http->mResult = 5;
+            http->mResult = HTTP_RESULT_SEND_FAILED;
             goto fail;
         }
         CPS_SocFlush();
         nowTick = OS_GetTick();
         if ((u64) timeoutMillis < (nowTick - startTick) * 64 / 0x82ea) {
-            http->mResult = 4;
+            http->mResult = HTTP_RESULT_SEND_TIMEOUT;
             goto fail;
         }
         if (http->mUseHttps == 1) {
@@ -221,7 +221,7 @@ void DWCi_Http_Thread(void *argument) {
         }
         http->mSendBuffer.mCursor += byteCount;
         if (SleepUnlessHttpAborted(http) == 0) {
-            http->mResult = 7;
+            http->mResult = HTTP_RESULT_ABORTED;
             goto fail;
         }
     }
@@ -229,7 +229,7 @@ void DWCi_Http_Thread(void *argument) {
     OS_LockMutex(&http->mReceiveMutex);
     if (http->mParam.mReceiveBufferStart == NULL) {
         if (InitHttpBuffer(http, &http->mReceiveBuffer, http->mParam.mReceiveBufferSize) == 0) {
-            http->mResult = 1;
+            http->mResult = HTTP_RESULT_NO_MEMORY;
             OS_UnlockMutex(&http->mReceiveMutex);
             goto fail;
         }
@@ -244,7 +244,7 @@ void DWCi_Http_Thread(void *argument) {
     OS_UnlockMutex(&http->mReceiveMutex);
     while (1) {
         if (CPSMyIp == 0) {
-            http->mResult = 5;
+            http->mResult = HTTP_RESULT_SEND_FAILED;
             goto fail;
         }
         OS_LockMutex(&http->mReceiveMutex);
@@ -301,7 +301,7 @@ void DWCi_Http_Thread(void *argument) {
         }
         nowTick = OS_GetTick();
         if ((u64) timeoutMillis < (nowTick - startTick) * 64 / 0x82ea) {
-            http->mResult = 6;
+            http->mResult = HTTP_RESULT_RECEIVE_TIMEOUT;
             OS_UnlockMutex(&http->mReceiveMutex);
             goto fail;
         }
@@ -314,7 +314,7 @@ void DWCi_Http_Thread(void *argument) {
         }
         OS_UnlockMutex(&http->mReceiveMutex);
         if (SleepUnlessHttpAborted(http) == 0) {
-            http->mResult = 7;
+            http->mResult = HTTP_RESULT_ABORTED;
             goto fail;
         }
     }
@@ -322,7 +322,7 @@ void DWCi_Http_Thread(void *argument) {
     CPS_TcpClose();
     CPS_SocRelease();
     CPS_SocUnRegister();
-    http->mResult = 8;
+    http->mResult = HTTP_RESULT_DONE;
     return;
 fail:
     CPS_TcpShutdown();

@@ -473,7 +473,7 @@ u32 GpiProcessConnectOperation(GpConnection *connection, GpiOperation *operation
                 }
                 memset(arg, 0, 0x20);
                 arg->mProfile = gpState->mProfileId;
-                arg->mResult = 0;
+                arg->mResult = GP_REQUEST_OK;
                 GpiCopyString(arg->mUniquenick, uniqueNickText, 0x15);
                 result = GpiQueueCallback(connection, callback, arg, operation, 0);
                 if (result != 0) {

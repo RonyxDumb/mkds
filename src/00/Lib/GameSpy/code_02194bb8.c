@@ -383,7 +383,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                 }
                 if (data->mKind == 1) {
                     isDone = FALSE;
-                    response.mResult = 0;
+                    response.mResult = GP_REQUEST_OK;
                     response.mNumMatches = 0;
                     response.mMatches = NULL;
                     response.mMore = 0x601;
@@ -475,7 +475,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             GpiSetErrorMessage(connection, "Out of memory.");
                             return 1;
                         }
-                        u2->mResult = 0;
+                        u2->mResult = GP_REQUEST_OK;
                         GpiCopyString(u2->mEmail, (const char *) data->mEmail, 0x33);
                         if ((s8) value[0] == 0x30) {
                             u2->mIsValid = FALSE;
@@ -495,7 +495,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             GpiSetErrorMessage(connection, "Out of memory.");
                             return 1;
                         }
-                        u3->mResult = 0;
+                        u3->mResult = GP_REQUEST_OK;
                         strcpy(u3->mEmail, (const char *) data->mEmail);
                         u3->mNumNicks = 0;
                         u3->mNicks = NULL;
@@ -570,7 +570,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         }
                         u4->mProductId = data->mProductId;
                         isDone = FALSE;
-                        u4->mResult = 0;
+                        u4->mResult = GP_REQUEST_OK;
                         u4->mNumMatches = 0;
                         u4->mMatches = NULL;
                         do {
@@ -707,7 +707,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             GpiSetErrorMessage(connection, "Out of memory.");
                             return 1;
                         }
-                        u7->mResult = 0;
+                        u7->mResult = GP_REQUEST_OK;
                         u7->mNumProfiles = 0;
                         u7->mProfiles = NULL;
                         result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, (s8 *) key, (s8 *) value);
@@ -784,7 +784,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             GpiSetErrorMessage(connection, "Out of memory.");
                             return 1;
                         }
-                        u9->mResult = 0;
+                        u9->mResult = GP_REQUEST_OK;
                         u9->mNumSuggestedNicks = 0;
                         u9->mSuggestedNicks = NULL;
                         result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, (s8 *) key, (s8 *) value);

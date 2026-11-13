@@ -27,7 +27,7 @@ void DWCi_AC_CallBackWCM(WifiReportArgument *notice) {
 
     work = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
     if (notice->mNotify == 5) {
-        if (notice->mResult != 0) {
+        if (notice->mResult != WIFI_REPORT_SUCCEEDED) {
             switch (notice->mUnk_08) {
                 case 0xd:
                     work->mConnectResult = 1;

@@ -153,7 +153,7 @@ u32 GpiCreateOperation(GpConnection *connection, int type, int data, int *operat
             gpState->mNextOperationId = 2;
         }
     }
-    pendingOp->mResult = 0;
+    pendingOp->mResult = GP_REQUEST_OK;
     pendingOp->mCallback.mCallback = (void (*)(void *, void *, u32)) callback;
     pendingOp->mCallback.mParam = param;
     pendingOp->mNext = gpState->mOperationList;

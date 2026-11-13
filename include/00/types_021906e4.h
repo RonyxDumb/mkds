@@ -2,6 +2,13 @@
 
 #include "types.h"
 
+// Result of a GP request, stored in the mResult of the operation and of every response argument.
+// 4 is stored when the connection failed while a blocking request waited for it.
+typedef enum GpRequestResult {
+    GP_REQUEST_OK = 0,
+    GP_REQUEST_CONNECT_FAILED = 4
+} GpRequestResult;
+
 // Growable byte buffer: 0x00 data, 0x04 capacity, 0x08 length, 0x0c read position.
 typedef struct GpiBuffer {
     /* 00 */ u8 *mBuffer;

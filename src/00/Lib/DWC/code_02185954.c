@@ -179,14 +179,14 @@ void DWCi_Auth_Thread(void *authAddress) {
         if (auth->mHttp->mThread.mId != 0) {
             OS_JoinThread(&auth->mHttp->mThread);
         }
-        if (gAuth->mHttp->mResult != 8) {
+        if (gAuth->mHttp->mResult != HTTP_RESULT_DONE) {
             gAuth->mReturncode = -0x4e84;
-            if (gAuth->mHttp->mResult == 7) {
+            if (gAuth->mHttp->mResult == HTTP_RESULT_ABORTED) {
                 DWCi_Auth_SetError(0x13);
                 return;
             }
             if (retryCount > 2) {
-                if (gAuth->mHttp->mResult == 2) {
+                if (gAuth->mHttp->mResult == HTTP_RESULT_RESOLVE_FAILED) {
                     DWCi_Auth_SetError(9);
                     return;
                 }

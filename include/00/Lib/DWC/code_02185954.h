@@ -47,6 +47,19 @@ typedef struct HttpB4 {
     /* 50 */ u8 pad_50[0x14];
 } HttpB4;
 
+// Values of Http.mResult, set by the thread that sends the request and reads the reply.
+typedef enum HttpResult {
+    HTTP_RESULT_OK,
+    HTTP_RESULT_NO_MEMORY,
+    HTTP_RESULT_RESOLVE_FAILED,
+    HTTP_RESULT_CONNECT_FAILED,
+    HTTP_RESULT_SEND_TIMEOUT,
+    HTTP_RESULT_SEND_FAILED,
+    HTTP_RESULT_RECEIVE_TIMEOUT,
+    HTTP_RESULT_ABORTED,
+    HTTP_RESULT_DONE
+} HttpResult;
+
 // 0x1a60 bytes; the stack of its thread ends at mThreadStackBottom. mUnk_04 holds the setup it was created with; its
 // allocate and free functions allocate and release the memory of the buffers.
 typedef struct Http {

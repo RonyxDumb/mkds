@@ -4,6 +4,13 @@
 #include "code_02142eac.h"
 #include "code_0200f790.h"
 
+// Result of a notification: WcmNotify and WcmNotifyEx take it, WCMNotice.mResult holds it.
+typedef enum WifiReportResult {
+    WIFI_REPORT_SUCCEEDED = 0,
+    WIFI_REPORT_DECLINED = 1,
+    WIFI_REPORT_UNRECOVERABLE = 7
+} WifiReportResult;
+
 // Event the function at mNotify is called with; built by WcmNotifyEx.
 typedef struct WCMNotice {
     /* 00 */ u16 mNotify;

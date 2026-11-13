@@ -759,7 +759,7 @@ void WcmWmReset(void) {
         gWcmWork->mResetting = 1;
         if (WM_Reset(WcmWmcbReset) != 2) {
             WcmSetPhase(0xb);
-            WcmNotify(7, NULL, 0, 0x611);
+            WcmNotify(WIFI_REPORT_UNRECOVERABLE, NULL, 0, 0x611);
         }
     }
 }
@@ -795,17 +795,17 @@ void WcmWmcbCommon(WirelessMessage *callback) {
                     switch (WM_Finish()) {
                         case 0:
                             WcmSetPhase(1);
-                            WcmNotify(0, NULL, 0, 0x663);
+                            WcmNotify(WIFI_REPORT_SUCCEEDED, NULL, 0, 0x663);
                             return;
                         case 4:
                         default:
                             WcmSetPhase(0xb);
-                            WcmNotify(7, NULL, 0, 0x66a);
+                            WcmNotify(WIFI_REPORT_UNRECOVERABLE, NULL, 0, 0x66a);
                             return;
                     }
                 case 5:
                     WcmSetPhase(3);
-                    WcmNotify(0, NULL, 0, 0x670);
+                    WcmNotify(WIFI_REPORT_SUCCEEDED, NULL, 0, 0x670);
                     return;
                 case 6:
                     result = WM_Disable(WcmWmcbCommon);
@@ -836,25 +836,25 @@ void WcmWmcbCommon(WirelessMessage *callback) {
             switch (result) {
                 case 8:
                     WcmSetPhase(0xc);
-                    WcmNotify(1, gWcmWork->mNotifyId == 5 ? gWcmWork->mBssDesc : 0, 0, 0x6a7);
+                    WcmNotify(WIFI_REPORT_DECLINED, gWcmWork->mNotifyId == 5 ? gWcmWork->mBssDesc : 0, 0, 0x6a7);
                     return;
                 case 3:
                 default:
                     WcmSetPhase(0xb);
-                    WcmNotify(7, gWcmWork->mNotifyId == 5 ? gWcmWork->mBssDesc : 0, 0, 0x6b0);
+                    WcmNotify(WIFI_REPORT_UNRECOVERABLE, gWcmWork->mNotifyId == 5 ? gWcmWork->mBssDesc : 0, 0, 0x6b0);
                     return;
             }
             break;
         case 1:
             WcmSetPhase(0xc);
-            WcmNotify(1, gWcmWork->mNotifyId == 5 ? gWcmWork->mBssDesc : 0, 0, 0x6d0);
+            WcmNotify(WIFI_REPORT_DECLINED, gWcmWork->mNotifyId == 5 ? gWcmWork->mBssDesc : 0, 0, 0x6d0);
             return;
         case 2:
         case 3:
         case 4:
         default:
             WcmSetPhase(0xb);
-            WcmNotify(7, gWcmWork->mNotifyId == 5 ? gWcmWork->mBssDesc : 0, 0, 0x6da);
+            WcmNotify(WIFI_REPORT_UNRECOVERABLE, gWcmWork->mNotifyId == 5 ? gWcmWork->mBssDesc : 0, 0, 0x6da);
             return;
     }
 }
@@ -894,7 +894,7 @@ void WcmWmcbScanEx(WMStartScanExCallback *callback) {
         case 0:
             if (gWcmWork->mPhase == 5) {
                 WcmSetPhase(6);
-                WcmNotify(0, 0, 0, 0x6f6);
+                WcmNotify(WIFI_REPORT_SUCCEEDED, 0, 0, 0x6f6);
             }
             switch (gWcmWork->mPhase) {
                 case 6:
@@ -903,7 +903,7 @@ void WcmWmcbScanEx(WMStartScanExCallback *callback) {
                         DC_InvalidateRange(gWcmWork->mScanExParam.mScanBuf, gWcmWork->mScanExParam.mScanBufSize);
                         for (index = 0; index < callback->mBssDescCount; index++) {
                             WCMi_EntryApList((WMBssDesc *) callback->mBssDesc[index], callback->mLinkLevel[index]);
-                            WcmNotifyEx(7, 0, callback->mBssDesc[index], (u32) callback, 0x70b);
+                            WcmNotifyEx(7, WIFI_REPORT_SUCCEEDED, callback->mBssDesc[index], (u32) callback, 0x70b);
                         }
                     }
                     option = gWcmWork->mOption;
@@ -912,7 +912,7 @@ void WcmWmcbScanEx(WMStartScanExCallback *callback) {
                         if (channelCount != 0) {
                             scanCount = gWcmWork->mScanCount;
                             if (scanCount % channelCount == 0) {
-                                WcmNotifyEx(8, 0, (void *) scanCount, 0, 0x718);
+                                WcmNotifyEx(8, WIFI_REPORT_SUCCEEDED, (void *) scanCount, 0, 0x718);
                             }
                         }
                     }
@@ -934,12 +934,12 @@ void WcmWmcbScanEx(WMStartScanExCallback *callback) {
                     return;
                 case 8:
                     WcmSetPhase(0xc);
-                    WcmNotify(1, 0, 0, 0x743);
+                    WcmNotify(WIFI_REPORT_DECLINED, 0, 0, 0x743);
                     return;
                 case 3:
                 default:
                     WcmSetPhase(0xb);
-                    WcmNotify(7, 0, 0, 0x74c);
+                    WcmNotify(WIFI_REPORT_UNRECOVERABLE, 0, 0, 0x74c);
                     return;
             }
         case 1:
@@ -950,7 +950,7 @@ void WcmWmcbScanEx(WMStartScanExCallback *callback) {
         case 4:
         default:
             WcmSetPhase(0xb);
-            WcmNotify(7, 0, 0, 0x75d);
+            WcmNotify(WIFI_REPORT_UNRECOVERABLE, 0, 0, 0x75d);
             return;
     }
 }
@@ -959,7 +959,7 @@ void WcmWmcbEndScan(WirelessMessage *callback) {
     switch (callback->mResultCode) {
         case 0:
             WcmSetPhase(3);
-            WcmNotify(0, 0, 0, 0x774);
+            WcmNotify(WIFI_REPORT_SUCCEEDED, 0, 0, 0x774);
             return;
         case 1:
             WcmWmReset();
@@ -969,7 +969,7 @@ void WcmWmcbEndScan(WirelessMessage *callback) {
         case 4:
         default:
             WcmSetPhase(0xb);
-            WcmNotify(7, 0, 0, 0x784);
+            WcmNotify(WIFI_REPORT_UNRECOVERABLE, 0, 0, 0x784);
             return;
     }
 }
@@ -1014,12 +1014,12 @@ void WcmWmcbConnect(WMStartScanExCallback *callback) {
                                 return;
                             case 8:
                                 WcmSetPhase(0xc);
-                                WcmNotify(1, gWcmWork->mBssDesc, 0, 0x7d7);
+                                WcmNotify(WIFI_REPORT_DECLINED, gWcmWork->mBssDesc, 0, 0x7d7);
                                 return;
                             case 3:
                             default:
                                 WcmSetPhase(0xb);
-                                WcmNotify(7, gWcmWork->mBssDesc, 0, 0x7e0);
+                                WcmNotify(WIFI_REPORT_UNRECOVERABLE, gWcmWork->mBssDesc, 0, 0x7e0);
                                 return;
                         }
                     }
@@ -1029,7 +1029,7 @@ void WcmWmcbConnect(WMStartScanExCallback *callback) {
                     break;
                 default:
                     WcmSetPhase(0xb);
-                    WcmNotify(7, gWcmWork->mBssDesc, callback->mState, 0x7ee);
+                    WcmNotify(WIFI_REPORT_UNRECOVERABLE, gWcmWork->mBssDesc, callback->mState, 0x7ee);
                     return;
             }
             break;
@@ -1051,7 +1051,7 @@ void WcmWmcbConnect(WMStartScanExCallback *callback) {
         case 10:
         default:
             WcmSetPhase(0xb);
-            WcmNotify(7, gWcmWork->mBssDesc, 0, 0x804);
+            WcmNotify(WIFI_REPORT_UNRECOVERABLE, gWcmWork->mBssDesc, 0, 0x804);
             return;
     }
 }
@@ -1066,7 +1066,7 @@ void WcmWmcbDisconnect(WirelessMessage *callback) {
             }
             gWcmWork->mAuthId = 0;
             WcmSetPhase(3);
-            WcmNotify(0, gWcmWork->mBssDesc, 0, 0x827);
+            WcmNotify(WIFI_REPORT_SUCCEEDED, gWcmWork->mBssDesc, 0, 0x827);
             return;
         case 1:
         case 3:
@@ -1077,7 +1077,7 @@ void WcmWmcbDisconnect(WirelessMessage *callback) {
         case 4:
         default:
             WcmSetPhase(0xb);
-            WcmNotify(7, gWcmWork->mBssDesc, 0, 0x839);
+            WcmNotify(WIFI_REPORT_UNRECOVERABLE, gWcmWork->mBssDesc, 0, 0x839);
             return;
     }
 }
@@ -1093,7 +1093,7 @@ void WcmWmcbStartDCF(WirelessMessage *callback) {
                         return;
                     }
                     WcmSetPhase(9);
-                    WcmNotify(0, gWcmWork->mBssDesc, 0, 0x85d);
+                    WcmNotify(WIFI_REPORT_SUCCEEDED, gWcmWork->mBssDesc, 0, 0x85d);
                     return;
                 case 0xf:
                     WCMi_ShelterRssi(((u16 *) callback->mRecvBuf)[7] >> 8);
@@ -1102,13 +1102,13 @@ void WcmWmcbStartDCF(WirelessMessage *callback) {
                     return;
                 default:
                     WcmSetPhase(0xb);
-                    WcmNotify(7, gWcmWork->mBssDesc, callback->mState, 0x86b);
+                    WcmNotify(WIFI_REPORT_UNRECOVERABLE, gWcmWork->mBssDesc, callback->mState, 0x86b);
                     return;
             }
         case 4:
         default:
             WcmSetPhase(0xb);
-            WcmNotify(7, gWcmWork->mBssDesc, 0, 0x877);
+            WcmNotify(WIFI_REPORT_UNRECOVERABLE, gWcmWork->mBssDesc, 0, 0x877);
             return;
     }
 }
@@ -1129,7 +1129,7 @@ void WcmWmcbEndDCF(WirelessMessage *callback) {
                     return;
                 case 8:
                     WcmSetPhase(0xc);
-                    WcmNotify(1, gWcmWork->mBssDesc, 0, 0x8a0);
+                    WcmNotify(WIFI_REPORT_DECLINED, gWcmWork->mBssDesc, 0, 0x8a0);
                     return;
                 case 3:
                     WcmSetPhase(0xa);
@@ -1137,7 +1137,7 @@ void WcmWmcbEndDCF(WirelessMessage *callback) {
                     return;
                 default:
                     WcmSetPhase(0xb);
-                    WcmNotify(7, gWcmWork->mBssDesc, 0, 0x8ac);
+                    WcmNotify(WIFI_REPORT_UNRECOVERABLE, gWcmWork->mBssDesc, 0, 0x8ac);
                     return;
             }
         case 1:
@@ -1149,7 +1149,7 @@ void WcmWmcbEndDCF(WirelessMessage *callback) {
         case 4:
         default:
             WcmSetPhase(0xb);
-            WcmNotify(7, gWcmWork->mBssDesc, 0, 0x8bf);
+            WcmNotify(WIFI_REPORT_UNRECOVERABLE, gWcmWork->mBssDesc, 0, 0x8bf);
             return;
     }
 }
@@ -1168,11 +1168,11 @@ void WcmWmcbReset(WirelessMessage *callback) {
             case 5:
             case 6:
                 WcmSetPhase(3);
-                WcmNotify(1, 0, 0, 0x8e1);
+                WcmNotify(WIFI_REPORT_DECLINED, 0, 0, 0x8e1);
                 return;
             case 7:
                 WcmSetPhase(3);
-                WcmNotify(0, 0, 0, 0x8e7);
+                WcmNotify(WIFI_REPORT_SUCCEEDED, 0, 0, 0x8e7);
                 return;
             case 8:
                 failStatus = gWcmWork->mWlStatusOnConnectFail;
@@ -1196,26 +1196,26 @@ void WcmWmcbReset(WirelessMessage *callback) {
                             return;
                         case 8:
                             WcmSetPhase(0xc);
-                            WcmNotify(1, gWcmWork->mBssDesc, failStatus, 0x905);
+                            WcmNotify(WIFI_REPORT_DECLINED, gWcmWork->mBssDesc, failStatus, 0x905);
                             return;
                         case 3:
                         default:
                             WcmSetPhase(0xb);
-                            WcmNotify(7, gWcmWork->mBssDesc, failStatus, 0x90c);
+                            WcmNotify(WIFI_REPORT_UNRECOVERABLE, gWcmWork->mBssDesc, failStatus, 0x90c);
                             return;
                     }
                 }
                 WcmSetPhase(3);
-                WcmNotify(1, gWcmWork->mBssDesc, failStatus, 0x913);
+                WcmNotify(WIFI_REPORT_DECLINED, gWcmWork->mBssDesc, failStatus, 0x913);
                 return;
             case 9:
             case 12:
                 WcmSetPhase(3);
-                WcmNotify(0, gWcmWork->mBssDesc, 1, 0x91b);
+                WcmNotify(WIFI_REPORT_SUCCEEDED, gWcmWork->mBssDesc, 1, 0x91b);
                 return;
             case 10:
                 WcmSetPhase(3);
-                WcmNotify(0, gWcmWork->mBssDesc, 0, 0x922);
+                WcmNotify(WIFI_REPORT_SUCCEEDED, gWcmWork->mBssDesc, 0, 0x922);
                 return;
             case 13:
                 result = WM_PowerOff((Unk021425e8Func) WcmWmcbCommon);
@@ -1224,20 +1224,20 @@ void WcmWmcbReset(WirelessMessage *callback) {
                         return;
                     case 8:
                         WcmSetPhase(0xc);
-                        WcmNotify(1, 0, 0, 0x930);
+                        WcmNotify(WIFI_REPORT_DECLINED, 0, 0, 0x930);
                         return;
                     case 3:
                     default:
                         WcmSetPhase(0xb);
-                        WcmNotify(7, 0, 0, 0x939);
+                        WcmNotify(WIFI_REPORT_UNRECOVERABLE, 0, 0, 0x939);
                         return;
                 }
             default:
                 WcmSetPhase(0xb);
-                WcmNotify(7, 0, gWcmWork->mPhase, 0x93f);
+                WcmNotify(WIFI_REPORT_UNRECOVERABLE, 0, gWcmWork->mPhase, 0x93f);
                 return;
         }
     }
     WcmSetPhase(0xb);
-    WcmNotify(7, 0, 0, 0x946);
+    WcmNotify(WIFI_REPORT_UNRECOVERABLE, 0, 0, 0x946);
 }
