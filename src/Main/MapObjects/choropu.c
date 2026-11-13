@@ -143,23 +143,6 @@ struct VehicleDrawList *gVehicleDrawList;
 struct MapObjectList *gVehicleUpdateList;
 ModelAnimation *gTruckANsbtp;
 
-#pragma thumb on
-
-void InitChoropu(Choropu *choropu, struct CourseMapRow *courseRow) {
-    InitStateMachine(&choropu->mMapObject.mStateMachine, gChoropuStateTable, 8, choropu);
-    choropu->mInitialY = choropu->mMapObject.mPos.y;
-    choropu->mBottomY = choropu->mMapObject.mPos.y - 0x12000;
-    choropu->mLowestY = choropu->mMapObject.mPos.y - 0x18000;
-    choropu->mRepeatDelayFrameCount = courseRow->mSettings[0];
-    choropu->mStartDelayFrameCount = courseRow->mSettings[1];
-    choropu->mMapObject.mStateMachine.mNextState = 0;
-    choropu->mMapObject.mStateMachine.mNextStateRequested = 1;
-    RefreshShadowMatrix(&choropu->mShadowMatrix, &choropu->mMapObject.mPos,
-                        MUL_FIXED12_NO_ROUND(choropu->mMapObject.mScale.x, 0x1b000), 0x1e);
-    choropu->mMapObject.mFlags |= gChoropuInitFlag;
-}
-
-#pragma thumb off
 
 MapObjectKindData *CreateCarAKindData(void) {
     MapObjectKindData *kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
