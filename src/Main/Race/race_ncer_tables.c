@@ -431,22 +431,22 @@ u32 LookupRaceMNcerIndex(u32 kind) {
     KartItems *kartItems;
     enum { K0 } itemInfoIndex;
 
-    cellIndex = 0xb;
+    cellIndex = RACE_M_CELL_ITEM_EMPTY;
     switch (kind) {
         case ITEM_INFO_KOURA_G:
-            cellIndex = 0x12;
+            cellIndex = RACE_M_CELL_KOURA_G;
             break;
         case ITEM_INFO_KOURA_R:
-            cellIndex = 0x10;
+            cellIndex = RACE_M_CELL_KOURA_R;
             break;
         case ITEM_INFO_BANANA:
-            cellIndex = 0x17;
+            cellIndex = RACE_M_CELL_BANANA;
             break;
         case ITEM_INFO_F_BOX:
-            cellIndex = 0x14;
+            cellIndex = RACE_M_CELL_F_BOX;
             break;
         case ITEM_INFO_KINOKO:
-            cellIndex = 0xd;
+            cellIndex = RACE_M_CELL_KINOKO_ONE;
             break;
         case ITEM_INFO_KINOKO_THREE:
             kartItems = &gKartItems[GetFollowedKartOrEntryIndex()];
@@ -455,52 +455,52 @@ u32 LookupRaceMNcerIndex(u32 kind) {
                         ? (u16) kartItems->mHeldItem.mObjectCount
                         : 0) {
                 case 1:
-                    cellIndex = 0xd;
+                    cellIndex = RACE_M_CELL_KINOKO_ONE;
                     break;
                 case 2:
-                    cellIndex = 0xe;
+                    cellIndex = RACE_M_CELL_KINOKO_TWO;
                     break;
                 case 0:
                 case 3:
-                    cellIndex = 0xf;
+                    cellIndex = RACE_M_CELL_KINOKO_THREE;
                     break;
             }
             break;
         case ITEM_INFO_BOMB:
-            cellIndex = 0x16;
+            cellIndex = RACE_M_CELL_BOMB;
             break;
         case ITEM_INFO_KOURA_W:
-            cellIndex = 0x1b;
+            cellIndex = RACE_M_CELL_KOURA_W;
             break;
         case ITEM_INFO_THUNDER:
-            cellIndex = 0x19;
+            cellIndex = RACE_M_CELL_THUNDER;
             break;
         case ITEM_INFO_KOURA_G_THREE:
-            cellIndex = 0x13;
+            cellIndex = RACE_M_CELL_KOURA_G_THREE;
             break;
         case ITEM_INFO_BANANA_THREE:
-            cellIndex = 0x18;
+            cellIndex = RACE_M_CELL_BANANA_THREE;
             break;
         case ITEM_INFO_KOURA_R_THREE:
-            cellIndex = 0x11;
+            cellIndex = RACE_M_CELL_KOURA_R_THREE;
             break;
         case ITEM_INFO_STAR:
-            cellIndex = 0x1a;
+            cellIndex = RACE_M_CELL_STAR;
             break;
         case ITEM_INFO_KINOKO_P:
-            cellIndex = 0x1e;
+            cellIndex = RACE_M_CELL_KINOKO_P;
             break;
         case ITEM_INFO_KILLER:
-            cellIndex = 0x1c;
+            cellIndex = RACE_M_CELL_KILLER;
             break;
         case ITEM_INFO_GESSO:
-            cellIndex = 0x1d;
+            cellIndex = RACE_M_CELL_GESSO;
             break;
         case ITEM_INFO_TERESA:
-            cellIndex = 0x15;
+            cellIndex = RACE_M_CELL_TERESA;
             break;
         case ITEM_INFO_BOUNCING_ITEM_BOX:
-            cellIndex = 0x1f;
+            cellIndex = RACE_M_CELL_BOUNCING_ITEM_BOX;
             break;
         case ITEM_INFO_COUNT:
         case ITEM_INFO_NONE:
@@ -556,15 +556,15 @@ s32 LookupRaceSNcerIndex(s32 kartIndex, s32 shownItem) {
 
     switch (shownItem) {
         case ITEM_INFO_KOURA_G:
-            return 0x1b;
+            return RACE_S_CELL_KOURA_G;
         case ITEM_INFO_KOURA_R:
-            return 0x14;
+            return RACE_S_CELL_KOURA_R;
         case ITEM_INFO_BANANA:
-            return 0x22;
+            return RACE_S_CELL_BANANA;
         case ITEM_INFO_F_BOX:
-            return 0x17;
+            return RACE_S_CELL_F_BOX;
         case ITEM_INFO_KINOKO:
-            return 0x11;
+            return RACE_S_CELL_KINOKO_ONE;
         case ITEM_INFO_KINOKO_THREE:
             kartItems = GetKartItems(kartIndex);
             itemInfoIndex = kartItems->mHeldItem.mItemInfoIndex;
@@ -575,38 +575,38 @@ s32 LookupRaceSNcerIndex(s32 kartIndex, s32 shownItem) {
             }
             switch (heldObjectCount) {
                 case 1:
-                    return 0x11;
+                    return RACE_S_CELL_KINOKO_ONE;
                 case 2:
-                    return 0x12;
+                    return RACE_S_CELL_KINOKO_TWO;
                 case 0:
                 case 3:
-                    return 0x13;
+                    return RACE_S_CELL_KINOKO_THREE;
             }
             break;
         case ITEM_INFO_BOMB:
-            return 0x1f;
+            return RACE_S_CELL_BOMB;
         case ITEM_INFO_KOURA_W:
-            return 0x20;
+            return RACE_S_CELL_KOURA_W;
         case ITEM_INFO_THUNDER:
-            return 0x21;
+            return RACE_S_CELL_THUNDER;
         case ITEM_INFO_KOURA_G_THREE:
-            return 0x1c;
+            return RACE_S_CELL_KOURA_G_THREE;
         case ITEM_INFO_BANANA_THREE:
-            return 0x23;
+            return RACE_S_CELL_BANANA_THREE;
         case ITEM_INFO_KOURA_R_THREE:
-            return 0x15;
+            return RACE_S_CELL_KOURA_R_THREE;
         case ITEM_INFO_STAR:
-            return 0x19;
+            return RACE_S_CELL_STAR;
         case ITEM_INFO_KINOKO_P:
-            return 0x18;
+            return RACE_S_CELL_KINOKO_P;
         case ITEM_INFO_KILLER:
-            return 0x1d;
+            return RACE_S_CELL_KILLER;
         case ITEM_INFO_TERESA:
-            return 0x1e;
+            return RACE_S_CELL_TERESA;
         case ITEM_INFO_GESSO:
-            return 0x1a;
+            return RACE_S_CELL_GESSO;
         case ITEM_INFO_BOUNCING_ITEM_BOX:
-            return 0x16;
+            return RACE_S_CELL_BOUNCING_ITEM_BOX;
     }
     return kartIndex;
 }

@@ -692,7 +692,7 @@ typedef struct RaceModeCount {
     /* 04 */ s32 mMissionRunCountLimit;
     // 1 from init; cleared by DrawRaceModeCount once the time attack key recording is full; IsRaceKeyRecordingNotFull
     // reads it.
-    /* 08 */ s32 mKeyRecordingNotFull;
+    /* 08 */ BOOL mKeyRecordingNotFull;
 } RaceModeCount;
 
 // Scale spring of the item cells: frame counter, x and y scale, y-scale per-frame increment and target (fx32).
@@ -710,8 +710,8 @@ typedef struct RaceItemSlot {
     /* 04 */ s32 mSlotFrames;
     /* 08 */ s32 mUpperItem;
     /* 0c */ s32 mLowerItem;
-    /* 10 */ s32 mSlotRunning;
-    /* 14 */ s32 mPrevSlotRunning;
+    /* 10 */ BOOL mSlotRunning;
+    /* 14 */ BOOL mPrevSlotRunning;
     /* 18 */ RaceItemSlotScale mScale;
 } RaceItemSlot;
 
@@ -918,4 +918,3 @@ extern u8 gItemDataQueueUsedHead[];
 extern u8 gItemDataQueueFreeHead[];
 extern u8 gItemDataDelayedUsedHead[];
 extern MapObjectModel *gIronBall;
-

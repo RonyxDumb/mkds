@@ -31,11 +31,20 @@ typedef struct RaceHudOamBits {
     /* 4 */ u32 mUnk_10 : 20;
 } RaceHudOamBits;
 
+// Number of OAM entries in a RaceHudOamBuffer.
+#define RACE_HUD_OAM_COUNT 0x80
+// Bits 10 and 11 of the first word of an OAM entry hold the object mode (the item cells use the object window mode as
+// a mask); the same bits of the second word hold the priority.
+#define RACE_HUD_OAM_MODE_MASK 0xc00
+#define RACE_HUD_OAM_MODE_OBJ_WINDOW 0x800
+#define RACE_HUD_OAM_PRIORITY_MASK 0xc00
+#define RACE_HUD_OAM_PRIORITY_1 0x400
+
 // Argument of the race HUD draw functions: 0x80 elements of 8 bytes, then a halfword.
 typedef struct RaceHudOamBuffer {
     union {
-        /* 000 */ GXOamAttr mOams[0x80];
-        /* 000 */ RaceHudOamBits mOamBits[0x80];
+        /* 000 */ GXOamAttr mOams[RACE_HUD_OAM_COUNT];
+        /* 000 */ RaceHudOamBits mOamBits[RACE_HUD_OAM_COUNT];
         /* 000 */ GXOamAffine mMatrices[0x20];
     };
     /* 400 */ u16 mOamCount;
