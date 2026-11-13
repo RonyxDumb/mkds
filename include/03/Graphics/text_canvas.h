@@ -64,7 +64,7 @@ void ReleaseBgTextCanvasOfScreen(u32 index);
 void ReleaseBgTextCanvas(BgTextCanvas *canvas);
 void AdvanceBgTextCanvasUpload(u32 task, u8 *flag);
 BgTextCanvas *InitBgTextCanvas(u32 screen, u32 fontIndex);
-void DeleteObjTextCanvas(void *canvas);
+void DeleteObjTextCanvas(ObjTextCanvas *canvas);
 ObjTextCanvas *CreateObjTextCanvas(u32 screen, u16 areaWidth, u16 areaHeight, s32 fromFront, u32 *entryCount,
                                    s32 fontIndex);
 void ReleaseTextCanvases(void);

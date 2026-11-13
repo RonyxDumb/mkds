@@ -21,7 +21,7 @@ const u8 gOtherElementPrefix[4] = {0, 0x50, 0xf2, 1};
 const u8 gApScanEmptyBssid[6] = {0, 0, 0, 0, 0, 0};
 
 void ApScanCallback(WirelessMessage *message) {
-    if (message->mResultCode == 0 && *((u8 *) gApScan + 0x1e48) == 0 && message->mCommand == 0x26) {
+    if (message->mResultCode == 0 && gApScan->mUnk_1e48 == 0 && message->mCommand == 0x26) {
         switch (message->mReplyState) {
             case 5:
                 StoreApScanEntries((WMStartScanExCallback *) message);

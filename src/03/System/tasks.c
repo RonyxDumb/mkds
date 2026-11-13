@@ -54,7 +54,7 @@ void ReleaseTasks(void) {
 void RunTasksAndRemoveRequested(int listIndex) {
     TaskEntry *entry;
     s32 removedCount;
-    u32 queuedEntry;
+    TaskEntry *queuedEntry;
 
     entry = gTaskLists[listIndex].mListStart.mNext;
     if (entry != &gTaskLists[listIndex].mListEnd) {
@@ -66,7 +66,7 @@ void RunTasksAndRemoveRequested(int listIndex) {
     removedCount = 0;
     if (gTaskLists[listIndex].mCapacity > 0) {
         do {
-            queuedEntry = (u32) PopPointerStack(gTaskLists[listIndex].mResource);
+            queuedEntry = PopPointerStack(gTaskLists[listIndex].mResource);
             if (queuedEntry == 0) {
                 break;
             }
@@ -116,13 +116,13 @@ void RemoveTaskEntryWrapper(u32 listIndex, u32 entry) {
     u32 listIndexCopy = listIndex;
     u32 entryCopy = entry;
     u32 unused;
-    RemoveTaskEntry(listIndexCopy, entryCopy);
+    RemoveTaskEntry(listIndexCopy, (TaskEntry *) entryCopy);
 }
 
-void RemoveTaskEntry(int listIndex, int entry) {
-    if (*OFFSET_PTR(u8, entry, 0x11) != 0) {
-        FreeExpHeapBlockAndClearPointer(OFFSET_PTR(s32, entry, 0xc));
+void RemoveTaskEntry(int listIndex, TaskEntry *entry) {
+    if (entry->mFreesArg != 0) {
+        FreeExpHeapBlockAndClearPointer(&entry->mArg);
     }
-    RemoveNodeFromList(entry);
-    PushPointerStack(gTaskLists[listIndex].mFreeEntries, (void *) entry);
+    RemoveNodeFromList((u32) entry);
+    PushPointerStack(gTaskLists[listIndex].mFreeEntries, entry);
 }

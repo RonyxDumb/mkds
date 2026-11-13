@@ -1,4 +1,5 @@
 #include "03/Graphics/messages.h"
+#include "Main/Graphics/locate_bmg_sections.h"
 #include "03/code_021c2530.h"
 #include "03/System/pointer_stack.h"
 #include "03/unk_021da000.h"
@@ -22,13 +23,13 @@ void FreeMessagesPool(void) {
 
 MessageFile *LoadMessages(void *path) {
     MessageFile *messages;
-    u8 *section;
+    BmgEntryOffsetSection *section;
     u32 size;
     messages = PopPointerStack(gMessagesPool->mFreeList);
     messages->mFile = LoadFile(path, &size, 4);
-    section = messages->mFile + 0x20;
-    messages->mOffsets = OFFSET_PTR(u32, section, 0x10);
-    messages->mData = section + *OFFSET_PTR(s32, section, 4) + 8;
+    section = (BmgEntryOffsetSection *) &messages->mFile->mFirstSection;
+    messages->mOffsets = section->mEntryOffsets;
+    messages->mData = ((BmgBodySection *) ((u8 *) section + section->mNextOffset))->mBody;
     return messages;
 }
 

@@ -79,8 +79,8 @@ ObjTextCanvas *CreateObjTextCanvas(u32 screen, u16 areaWidth, u16 areaHeight, s3
     return canvas;
 }
 
-void DeleteObjTextCanvas(void *canvas) {
-    DeleteObjCharRange(*OFFSET_PTR(u32, canvas, 0x30));
+void DeleteObjTextCanvas(ObjTextCanvas *canvas) {
+    DeleteObjCharRange((u32) canvas->mCharRange);
     PushPointerStack(gTextCanvases->mFreeObjCanvases, canvas);
 }
 

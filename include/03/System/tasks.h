@@ -24,7 +24,7 @@ typedef struct TaskList {
     /* 38 */ TaskEntry *mEntryStorage;
 } TaskList;
 
-void RemoveTaskEntry(int listIndex, int entry);
+void RemoveTaskEntry(int listIndex, TaskEntry *entry);
 void RemoveTaskEntryWrapper(u32 listIndex, u32 entry);
 void RequestTaskRemoval(u32 listIndex, u32 entry);
 void SetTaskCallback(TaskEntry *taskEntry, UnkFunc *function);
