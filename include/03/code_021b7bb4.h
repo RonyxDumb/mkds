@@ -148,7 +148,8 @@ s32 XorBytesWithKeyStreamAndCheckCrc(const u8 *src, u8 *dst, s32 length, u32 exp
 s32 XorBytesWithRandomKeyStreamAndComputeCrc(const u8 *src, u8 *dst, s32 length, s8 *crc, u8 *keyPrefix,
                                              const u8 *keyTail, s32 keyTailLength);
 s32 SendPacket(void *packet, s32 length, u32 target, s32 descriptor);
-void FillPacketHeader(void *buffer, s32 kind, s32 payloadLength, s32 flags, s8 payloadCrc, s8 f, const u8 *tagBytes);
+void FillPacketHeader(void *buffer, s32 kind, s32 payloadLength, s32 flags, s8 payloadCrc, s8 byte0f,
+                      const u8 *tagBytes);
 void FillPayloadRecord(s32 useKeyStream, void *destination, const void *source, s16 *length, s16 *flags, s8 *crc);
 s16 BuildTwoItemChain(void *buffer);
 s32 SendPacketKind3000(Unk021b86e4 *buf, PacketTag *list, s32 descriptor);

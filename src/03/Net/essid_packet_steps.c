@@ -32,7 +32,24 @@
 
 u32 AllocSocketMemory(u32 name, int size);
 void FreeSocketMemory(u32 name, u32 pointer);
-SOCConfig gEssidSocketConfig = {{0, 0, 0, 1}, (SocketAllocFn) AllocSocketMemory, (SocketFreeFn) FreeSocketMemory, 0, 0, 0, 0, 0, 0, 0x1000, 0x1000, 0, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, NULL, 0, 0, 0};
+SOCConfig gEssidSocketConfig = {{0, 0, 0, 1},
+                                (SocketAllocFn) AllocSocketMemory,
+                                (SocketFreeFn) FreeSocketMemory,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0x1000,
+                                0x1000,
+                                0,
+                                0,
+                                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                NULL,
+                                0,
+                                0,
+                                0};
 u8 gItemTypesToFind[2] = {9, 8};
 s32 gReportedState = -1;
 s32 gSocketDescriptor = -1;
@@ -665,8 +682,8 @@ fail:
 }
 
 s32 CheckBytesInRange0x20To0x7f(const u8 *bytes, s32 count) {
-    s32 i;
-    for (i = 0; i < count; i++) {
+    s32 byteIndex;
+    for (byteIndex = 0; byteIndex < count; byteIndex++) {
         u32 value = *bytes++;
         if (value < 0x20 || value > 0x7f) {
             return -1;
@@ -687,7 +704,7 @@ typedef struct PacketHeaderPrefix {
 s32 CheckSingleEssidAossEntry(EssidEntryList *entryList) {
     s32 count;
     s32 result;
-    s32 i;
+    s32 entryIndex;
     s32 matchCount;
     result = 0;
     matchCount = 0;
@@ -698,11 +715,11 @@ s32 CheckSingleEssidAossEntry(EssidEntryList *entryList) {
     if ((u32) count > 0x40) {
         count = 0x40;
     }
-    for (i = 0; i < count; i++) {
-        if (entryList->mEntries[i].mUnk_50 & 1) {
-            if (entryList->mEntries[i].mEssidLength == GetStringLength(gEssidAossString)) {
-                if (CompareBytes(entryList->mEntries[i].mEssid, gEssidAossString, GetStringLength(gEssidAossString)) ==
-                    0) {
+    for (entryIndex = 0; entryIndex < count; entryIndex++) {
+        if (entryList->mEntries[entryIndex].mUnk_50 & 1) {
+            if (entryList->mEntries[entryIndex].mEssidLength == GetStringLength(gEssidAossString)) {
+                if (CompareBytes(entryList->mEntries[entryIndex].mEssid, gEssidAossString,
+                                 GetStringLength(gEssidAossString)) == 0) {
                     matchCount++;
                 }
             }
@@ -730,8 +747,8 @@ s32 FillEssidAossAndMelcoRequest(EssidMelcoRequest *request) {
 }
 
 void FillPacketTags(s32 count, PacketTag *tags, const u8 *tagBytes) {
-    s32 i;
-    for (i = 0; i < count; i++) {
+    s32 tagIndex;
+    for (tagIndex = 0; tagIndex < count; tagIndex++) {
         CopyBytes(tags, tagBytes, 6);
         tags->mSequence = NextRandomValue();
         tags->mSequence = PacketSwapBytes16(tags->mSequence);
@@ -861,8 +878,8 @@ s32 AdvanceStepForKind2010(s32 mode, PacketBuffer *buffer, s32 *attempts, Packet
         return -1;
     }
     FillBytes(gParsedItems, 0, 0x6a0);
-    result = FindItemAndParseSubItems(0, &payload->mItem, SwapBytes16(packet->mPayloadLength), gParsedItems,
-                                      gItemSlots);
+    result =
+        FindItemAndParseSubItems(0, &payload->mItem, SwapBytes16(packet->mPayloadLength), gParsedItems, gItemSlots);
     if (result < 0) {
         (*attempts)++;
         return mode;
@@ -958,12 +975,12 @@ s32 CheckPacketAndXorPayload(Packet *packet) {
 
 s32 CheckTagAgainstSavedBytesOrKind1000(s32 kind, const u8 *tag) {
     s32 result;
-    s32 i;
+    s32 byteIndex;
     BOOL found;
     u8 *cursor;
     result = 0;
     found = FALSE;
-    i = 0;
+    byteIndex = 0;
     cursor = gSavedTagBytes;
     do {
         if (*cursor != 0) {
@@ -971,8 +988,8 @@ s32 CheckTagAgainstSavedBytesOrKind1000(s32 kind, const u8 *tag) {
             break;
         }
         cursor++;
-        i++;
-    } while (i < 6);
+        byteIndex++;
+    } while (byteIndex < 6);
     if (found != FALSE) {
         if (CompareBytes(gSavedTagBytes, tag, 6) != 0) {
             result = 1;
@@ -1042,9 +1059,9 @@ s32 ParseItemChain(PacketItem *firstItem, u8 *slots) {
 
 u32 ReadLittleEndianValue(const u8 *bytes, s32 count) {
     u32 value = 0;
-    s32 i;
+    s32 byteIndex;
     const u8 *cursor = bytes + (count - 1);
-    for (i = 0; i < count; i++) {
+    for (byteIndex = 0; byteIndex < count; byteIndex++) {
         value = (value << 8) + *cursor--;
     }
     return value;
@@ -1399,7 +1416,8 @@ void FillPayloadRecord(s32 useKeyStream, void *destination, const void *source, 
     }
 }
 
-void FillPacketHeader(void *buffer, s32 kind, s32 payloadLength, s32 flags, s8 payloadCrc, s8 f, const u8 *tagBytes) {
+void FillPacketHeader(void *buffer, s32 kind, s32 payloadLength, s32 flags, s8 payloadCrc, s8 byte0f,
+                      const u8 *tagBytes) {
     PacketHeader *header = buffer;
     header->mUnk_00 = PacketSwapBytes16(1);
     header->mUnk_02 = 0;
@@ -1409,7 +1427,7 @@ void FillPacketHeader(void *buffer, s32 kind, s32 payloadLength, s32 flags, s8 p
     header->mPayloadLength = PacketSwapBytes16(payloadLength);
     header->mFlags = PacketSwapBytes16(flags);
     header->mPayloadCrc = payloadCrc;
-    header->mUnk_0f = f;
+    header->mUnk_0f = byte0f;
     CopyBytes(header->mTag, tagBytes, 8);
 }
 
@@ -1470,7 +1488,7 @@ s32 XorBytesWithKeyStreamAndCheckCrc(const u8 *src, u8 *dst, s32 length, u32 exp
 // Fills the table with 0..n-1, then permutes it using the key bytes.
 void InitKeyStream(KeyStreamState *state, const u8 *key, u32 keyLength, u32 count) {
     u8 *table;
-    u32 i;
+    u32 index;
     u32 swapIndex;
     u32 keyIndex;
     u8 current;
@@ -1479,17 +1497,17 @@ void InitKeyStream(KeyStreamState *state, const u8 *key, u32 keyLength, u32 coun
     state->mSwapIndex = 0;
     state->mIndex = state->mSwapIndex;
     state->mTableCount = count;
-    for (i = 0; i < count; i++) {
-        table[i] = i;
+    for (index = 0; index < count; index++) {
+        table[index] = index;
     }
     swapIndex = 0;
     keyIndex = 0;
-    for (i = 0; i < count; i++) {
-        current = table[i];
+    for (index = 0; index < count; index++) {
+        current = table[index];
         swapIndex = (swapIndex + key[keyIndex] + current) % state->mTableCount;
         swapped = table[swapIndex];
         table[swapIndex] = current;
-        table[i] = swapped;
+        table[index] = swapped;
         keyIndex++;
         if (keyIndex >= keyLength) {
             keyIndex = 0;
@@ -1498,11 +1516,11 @@ void InitKeyStream(KeyStreamState *state, const u8 *key, u32 keyLength, u32 coun
 }
 
 void XorWithKeyStream(KeyStreamState *state, u8 *dst, const u8 *src, u32 count) {
-    u32 i;
+    u32 byteIndex;
     u8 keyByte;
-    for (i = 0; i < count; i++) {
+    for (byteIndex = 0; byteIndex < count; byteIndex++) {
         keyByte = NextKeyStreamByte(state);
-        dst[i] = keyByte ^ src[i];
+        dst[byteIndex] = keyByte ^ src[byteIndex];
     }
 }
 
@@ -1531,23 +1549,23 @@ u8 ComputeCrcLowByte(const u8 *bytes, s32 count) {
 }
 
 u32 ComputeCrc(u32 crc, const u8 *bytes, s32 count, s32 tableBuilt, u32 *table) {
-    s32 i;
+    s32 byteIndex;
     if (tableBuilt == 0) {
         InitCrcTable(tableBuilt, table);
     }
-    for (i = 0; i < count; i++) {
-        crc = (crc >> 8) ^ table[(crc ^ bytes[i]) & 0xff];
+    for (byteIndex = 0; byteIndex < count; byteIndex++) {
+        crc = (crc >> 8) ^ table[(crc ^ bytes[byteIndex]) & 0xff];
     }
     return crc;
 }
 
 void InitCrcTable(s32 unused, u32 *table) {
     u32 value;
-    s32 i;
-    s32 j;
-    for (i = 0; i < 0x100; i++) {
-        value = i;
-        for (j = 0; j < 8; j++) {
+    s32 entryIndex;
+    s32 bitIndex;
+    for (entryIndex = 0; entryIndex < 0x100; entryIndex++) {
+        value = entryIndex;
+        for (bitIndex = 0; bitIndex < 8; bitIndex++) {
             if (value & 1) {
                 value = (value >> 1) ^ 0xedb88320;
             } else {
@@ -1562,7 +1580,7 @@ void InitCrcTable(s32 unused, u32 *table) {
 s32 XorAndSwapBytesWithKey(u8 *buffer, s32 size, const s8 *key, s32 keyLength) {
     s8 *keyHalf;
     u8 *scratch;
-    s32 i;
+    s32 round;
     keyHalf = CallEssidAllocFunction(size / 2);
     if (keyHalf == NULL) {
         return -1;
@@ -1572,8 +1590,8 @@ s32 XorAndSwapBytesWithKey(u8 *buffer, s32 size, const s8 *key, s32 keyLength) {
         CallEssidFreeFunction(keyHalf);
         return -1;
     }
-    for (i = 0; i < 2; i++) {
-        FillIndexXorKeyBytes(i, keyHalf, size, key, keyLength);
+    for (round = 0; round < 2; round++) {
+        FillIndexXorKeyBytes(round, keyHalf, size, key, keyLength);
         XorSecondHalf(keyHalf, buffer, size);
         SwapBufferHalves(buffer, size, scratch);
     }
@@ -1585,10 +1603,10 @@ s32 XorAndSwapBytesWithKey(u8 *buffer, s32 size, const s8 *key, s32 keyLength) {
 void FillIndexXorKeyBytes(s32 round, s8 *output, s32 size, const s8 *key, s32 keyLength) {
     s32 half = size / 2;
     s32 keyIndex = round % keyLength;
-    s32 i;
-    for (i = 0; i < half; i++) {
-        output[i] = i;
-        output[i] ^= key[keyIndex++];
+    s32 byteIndex;
+    for (byteIndex = 0; byteIndex < half; byteIndex++) {
+        output[byteIndex] = byteIndex;
+        output[byteIndex] ^= key[keyIndex++];
         if (keyIndex >= keyLength) {
             keyIndex = 0;
         }
@@ -1597,9 +1615,9 @@ void FillIndexXorKeyBytes(s32 round, s8 *output, s32 size, const s8 *key, s32 ke
 
 void XorSecondHalf(const s8 *key, u8 *buffer, s32 size) {
     s32 half = size / 2;
-    s32 i;
-    for (i = 0; i < half; i++) {
-        buffer[half + i] ^= key[i];
+    s32 byteIndex;
+    for (byteIndex = 0; byteIndex < half; byteIndex++) {
+        buffer[half + byteIndex] ^= key[byteIndex];
     }
 }
 
@@ -1775,7 +1793,7 @@ int GetStringLength(const void *string) {
 u16 NextRandomValue(void) {
     s32 seed;
     RTCTime time;
-    u32 *c;
+    u32 *unusedState;
     if (gRandomSeeded == 0) {
         seed = 0;
         FillBytes(&time, 0, 12);

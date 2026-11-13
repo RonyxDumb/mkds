@@ -73,7 +73,7 @@ void LocateAndQueueOptionSelectMenu(void);
 /* slot mRelease of OptionStateCallbacks; clears the global and undoes the display setup (DISPCNT bit 1 cleared),
    the state heap is destroyed by AdvanceOptionStates after it returns */
 void ReleaseOptionSelectMenu(void);
-void InitOptionSelectMenu(void *a);
+void InitOptionSelectMenu(void *heap);
 void InitOptionSelectMenuTexts(void);
 
 #include "00/Menu/wi_fi_vs_matching.h"

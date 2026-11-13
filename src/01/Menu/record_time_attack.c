@@ -40,27 +40,28 @@ const s32 gRecordTAttRecordIndices[5] = {0, 1, 2, 3, 4};
 const u16 gRecordTAttOffsetSTableIndices[5] = {0, 0, 1, 2, 3};
 const u16 gRecordTAttTimeLabelHeights[5] = {0x10, 0x10, 0x10, 0x10, 0x10};
 const u16 gRecordTAttTimeLabelIndices[5] = {1, 0, 1, 2, 3};
-RecordScreenCallbacks gRecordTAttCallbacks = {InitRecordTAtt, ReleaseRecordTAtt, AdvanceRecordTAtt, WriteRecordTAttBgOffsets, WriteRecordTAttRegisters};
+RecordScreenCallbacks gRecordTAttCallbacks = {InitRecordTAtt, ReleaseRecordTAtt, AdvanceRecordTAtt,
+                                              WriteRecordTAttBgOffsets, WriteRecordTAttRegisters};
 const u16 gRecordTAttTimerZeroSTableIndices[2] = {0xf, 0x10};
 const u16 gRecordTAttTimeLabelWidths[5] = {0x46, 0x46, 0x46, 0x46, 0x46};
 const u16 gRecordTAttNameLabelWidths[5] = {0x7c, 0x68, 0x68, 0x68, 0x68};
 RecordTAtt *gRecordTAtt;
 
 void AdvanceRecordTAttOffsetTimers(void) {
-    s32 i;
+    s32 timerIndex;
 
     gRecordTAtt->mRecordTAttSTable[gRecordTAttRunningSTableIndices[0]].mOffsetX =
         -LookupFrameOffset(6 - gRecordTAtt->mOffsetTimers[0]);
     gRecordTAtt->mRecordTAttSTable[gRecordTAttRunningSTableIndices[1]].mOffsetX =
         LookupFrameOffset(6 - gRecordTAtt->mOffsetTimers[1]);
-    for (i = 0; i < 2; i++) {
-        if (gRecordTAtt->mOffsetTimers[i] > 0) {
-            gRecordTAtt->mOffsetTimers[i]--;
-            gRecordTAtt->mRecordTAttSTable[gRecordTAttTimerZeroSTableIndices[i]].mVisible = 0;
-            gRecordTAtt->mRecordTAttSTable[gRecordTAttRunningSTableIndices[i]].mVisible = 1;
+    for (timerIndex = 0; timerIndex < 2; timerIndex++) {
+        if (gRecordTAtt->mOffsetTimers[timerIndex] > 0) {
+            gRecordTAtt->mOffsetTimers[timerIndex]--;
+            gRecordTAtt->mRecordTAttSTable[gRecordTAttTimerZeroSTableIndices[timerIndex]].mVisible = 0;
+            gRecordTAtt->mRecordTAttSTable[gRecordTAttRunningSTableIndices[timerIndex]].mVisible = 1;
         } else {
-            gRecordTAtt->mRecordTAttSTable[gRecordTAttTimerZeroSTableIndices[i]].mVisible = 1;
-            gRecordTAtt->mRecordTAttSTable[gRecordTAttRunningSTableIndices[i]].mVisible = 0;
+            gRecordTAtt->mRecordTAttSTable[gRecordTAttTimerZeroSTableIndices[timerIndex]].mVisible = 1;
+            gRecordTAtt->mRecordTAttSTable[gRecordTAttRunningSTableIndices[timerIndex]].mVisible = 0;
         }
     }
 }
@@ -90,8 +91,8 @@ BOOL AdvanceRecordTAttButtonSequence(void) {
 }
 
 void InitRecordTAtt(void *heap) {
-    s32 i;
-    s32 k;
+    s32 timerIndex;
+    s32 recordIndex;
     s32 remainingSize;
     RecordTAtt *recordTAtt;
 
@@ -110,8 +111,8 @@ void InitRecordTAtt(void *heap) {
     gRecordTAtt->mClearChosen = FALSE;
     gRecordTAtt->mLeftRepeat = FALSE;
     gRecordTAtt->mRightRepeat = FALSE;
-    for (i = 0; i < 2; i++) {
-        gRecordTAtt->mOffsetTimers[i] = 0;
+    for (timerIndex = 0; timerIndex < 2; timerIndex++) {
+        gRecordTAtt->mOffsetTimers[timerIndex] = 0;
     }
     LocateAndQueueRecordTAtt();
     CreateKartIcon(heap);
@@ -140,15 +141,17 @@ void InitRecordTAtt(void *heap) {
         InitLabelCanvas(heap, 4, gRecordTAtt->mRecordTAttMBnll, 0x64, 0x10, 4, gRecordTAtt->mRecordTAttMNcer,
                         gRecordTAtt->mRecordTAttMBncl, gRecordTAtt->mRecordTAttMTable, remainingSize);
     remainingSize = GX_GetSizeOfSubOBJ();
-    for (k = 1; k < 5; k++) {
-        remainingSize -= InitLabelCanvas(heap, gRecordTAttTimeLabelIndices[k], gRecordTAtt->mRecordTAttSBnll,
-                                         gRecordTAttTimeLabelWidths[k], gRecordTAttTimeLabelHeights[k], k,
-                                         gRecordTAtt->mRecordTAttSNcer, gRecordTAtt->mRecordTAttSBncl,
-                                         gRecordTAtt->mRecordTAttSTable, remainingSize);
-        remainingSize -= InitLabelCanvas(heap, gRecordTAttNameLabelIndices[k], gRecordTAtt->mRecordTAttSBnll,
-                                         gRecordTAttNameLabelWidths[k], gRecordTAttNameLabelHeights[k], k + 5,
-                                         gRecordTAtt->mRecordTAttSNcer, gRecordTAtt->mRecordTAttSBncl,
-                                         gRecordTAtt->mRecordTAttSTable, remainingSize);
+    for (recordIndex = 1; recordIndex < 5; recordIndex++) {
+        remainingSize -=
+            InitLabelCanvas(heap, gRecordTAttTimeLabelIndices[recordIndex], gRecordTAtt->mRecordTAttSBnll,
+                            gRecordTAttTimeLabelWidths[recordIndex], gRecordTAttTimeLabelHeights[recordIndex],
+                            recordIndex, gRecordTAtt->mRecordTAttSNcer, gRecordTAtt->mRecordTAttSBncl,
+                            gRecordTAtt->mRecordTAttSTable, remainingSize);
+        remainingSize -=
+            InitLabelCanvas(heap, gRecordTAttNameLabelIndices[recordIndex], gRecordTAtt->mRecordTAttSBnll,
+                            gRecordTAttNameLabelWidths[recordIndex], gRecordTAttNameLabelHeights[recordIndex],
+                            recordIndex + 5, gRecordTAtt->mRecordTAttSNcer, gRecordTAtt->mRecordTAttSBncl,
+                            gRecordTAtt->mRecordTAttSTable, remainingSize);
     }
     InitLabelCanvas(heap, 8, gRecordTAtt->mRecordTAttSBnll, 0x98, 0x10, 0xd, gRecordTAtt->mRecordTAttSNcer,
                     gRecordTAtt->mRecordTAttSBncl, gRecordTAtt->mRecordTAttSTable, remainingSize);
@@ -184,10 +187,10 @@ void AdvanceRecordTAttState0(void) {
 }
 
 void AdvanceRecordTAttState1(void) {
-    s32 i;
+    s32 recordIndex;
     u16 mainLayoutCount;
     u16 subLayoutCount;
-    s32 j;
+    s32 cellIndex;
     s16 offsetX;
 
     gRecordTAtt->mStateFrames++;
@@ -214,12 +217,13 @@ void AdvanceRecordTAttState1(void) {
     gRecordTAtt->mRecordTAttSTable[13].mOffsetX = offsetX;
     gRecordTAtt->mRecordTAttSTable[14].mOffsetX = offsetX;
     gRecordTAtt->mRecordTAttSTable[subLayoutCount + 8].mOffsetX = offsetX;
-    for (i = 1; i < 5; i++) {
-        gRecordTAtt->mRecordTAttSTable[gRecordTAttOffsetSTableIndices[i]].mOffsetX = offsetX;
-        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttTimeLabelIndices[i]].mOffsetX = offsetX;
-        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttNameLabelIndices[i]].mOffsetX = offsetX;
-        for (j = 0; j < 2; j++) {
-            gRecordTAtt->mRecordTAttSTable[gRecordTAttCharacterKartCellIndices[i][j]].mOffsetX = offsetX;
+    for (recordIndex = 1; recordIndex < 5; recordIndex++) {
+        gRecordTAtt->mRecordTAttSTable[gRecordTAttOffsetSTableIndices[recordIndex]].mOffsetX = offsetX;
+        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttTimeLabelIndices[recordIndex]].mOffsetX = offsetX;
+        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttNameLabelIndices[recordIndex]].mOffsetX = offsetX;
+        for (cellIndex = 0; cellIndex < 2; cellIndex++) {
+            gRecordTAtt->mRecordTAttSTable[gRecordTAttCharacterKartCellIndices[recordIndex][cellIndex]].mOffsetX =
+                offsetX;
         }
     }
     if (gRecordTAtt->mStateFrames >= 10) {
@@ -231,34 +235,34 @@ void AdvanceRecordTAttState2(void) {
     s32 touchedRect = -1;
     s32 touchBeganRect = -1;
     InputSlotIndex slotIndex = UNK_02175628_INDEX_8;
-    BOOL x;
+    BOOL touchFlag;
     BOOL recentlyLost;
     u16 hasPair;
 
     AdvanceRecordTAttOffsetTimers();
-    x = TRUE;
+    touchFlag = TRUE;
     recentlyLost = FALSE;
     hasPair = gInputSlots[slotIndex].mPair.mHasPair;
     if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
         recentlyLost = TRUE;
     }
     if (recentlyLost == FALSE && hasPair == 0) {
-        x = FALSE;
+        touchFlag = FALSE;
     }
-    if (x != FALSE) {
+    if (touchFlag != FALSE) {
         touchedRect = RectTableFindContaining(gRecordTAtt->mRecordTAttSBnbl, gInputSlots[slotIndex].mPair.mPairX,
                                               gInputSlots[slotIndex].mPair.mPairY);
     }
-    x = FALSE;
+    touchFlag = FALSE;
     recentlyLost = FALSE;
     hasPair = gInputSlots[slotIndex].mPair.mHasPair;
     if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
         recentlyLost = TRUE;
     }
     if (recentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
-        x = TRUE;
+        touchFlag = TRUE;
     }
-    if (x != FALSE) {
+    if (touchFlag != FALSE) {
         touchBeganRect = RectTableFindContaining(gRecordTAtt->mRecordTAttSBnbl, gInputSlots[slotIndex].mPair.mPairX,
                                                  gInputSlots[slotIndex].mPair.mPairY);
     }
@@ -269,17 +273,18 @@ void AdvanceRecordTAttState2(void) {
         gRecordTAtt->mRightRepeat = FALSE;
     }
     if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
-        x = FALSE;
+        touchFlag = FALSE;
         recentlyLost = FALSE;
         hasPair = gInputSlots[slotIndex].mPair.mHasPair;
         if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
             recentlyLost = TRUE;
         }
         if (recentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
-            x = TRUE;
+            touchFlag = TRUE;
         }
-        if (x == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(
-                              gInputSlots[slotIndex].mPair.mPairX, gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
+        if (touchFlag == FALSE ||
+            IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
+                                                            gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
             goto other;
         }
     }
@@ -316,10 +321,10 @@ done:
 }
 
 void AdvanceRecordTAttState3(void) {
-    s32 i;
+    s32 recordIndex;
     u16 mainLayoutCount;
     u16 subLayoutCount;
-    s32 j;
+    s32 cellIndex;
     s16 targetOffsetX;
     s16 offsetX;
 
@@ -351,12 +356,13 @@ void AdvanceRecordTAttState3(void) {
     gRecordTAtt->mRecordTAttMTable[mainLayoutCount + 2].mOffsetX = offsetX;
     gRecordTAtt->mRecordTAttMTable[mainLayoutCount + 3].mOffsetX = offsetX;
     gRecordTAtt->mRecordTAttMTable[mainLayoutCount + 4].mOffsetX = offsetX;
-    for (i = 1; i < 5; i++) {
-        gRecordTAtt->mRecordTAttSTable[gRecordTAttOffsetSTableIndices[i]].mOffsetX = offsetX;
-        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttTimeLabelIndices[i]].mOffsetX = offsetX;
-        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttNameLabelIndices[i]].mOffsetX = offsetX;
-        for (j = 0; j < 2; j++) {
-            gRecordTAtt->mRecordTAttSTable[gRecordTAttCharacterKartCellIndices[i][j]].mOffsetX = offsetX;
+    for (recordIndex = 1; recordIndex < 5; recordIndex++) {
+        gRecordTAtt->mRecordTAttSTable[gRecordTAttOffsetSTableIndices[recordIndex]].mOffsetX = offsetX;
+        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttTimeLabelIndices[recordIndex]].mOffsetX = offsetX;
+        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttNameLabelIndices[recordIndex]].mOffsetX = offsetX;
+        for (cellIndex = 0; cellIndex < 2; cellIndex++) {
+            gRecordTAtt->mRecordTAttSTable[gRecordTAttCharacterKartCellIndices[recordIndex][cellIndex]].mOffsetX =
+                offsetX;
         }
     }
     if (gRecordTAtt->mStateFrames >= 10) {
@@ -365,10 +371,10 @@ void AdvanceRecordTAttState3(void) {
 }
 
 void AdvanceRecordTAttState4(void) {
-    s32 i;
+    s32 recordIndex;
     u16 mainLayoutCount;
     u16 subLayoutCount;
-    s32 j;
+    s32 cellIndex;
     s16 startOffsetX;
     s16 offsetX;
 
@@ -400,12 +406,13 @@ void AdvanceRecordTAttState4(void) {
     gRecordTAtt->mRecordTAttMTable[mainLayoutCount + 2].mOffsetX = offsetX;
     gRecordTAtt->mRecordTAttMTable[mainLayoutCount + 3].mOffsetX = offsetX;
     gRecordTAtt->mRecordTAttMTable[mainLayoutCount + 4].mOffsetX = offsetX;
-    for (i = 1; i < 5; i++) {
-        gRecordTAtt->mRecordTAttSTable[gRecordTAttOffsetSTableIndices[i]].mOffsetX = offsetX;
-        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttTimeLabelIndices[i]].mOffsetX = offsetX;
-        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttNameLabelIndices[i]].mOffsetX = offsetX;
-        for (j = 0; j < 2; j++) {
-            gRecordTAtt->mRecordTAttSTable[gRecordTAttCharacterKartCellIndices[i][j]].mOffsetX = offsetX;
+    for (recordIndex = 1; recordIndex < 5; recordIndex++) {
+        gRecordTAtt->mRecordTAttSTable[gRecordTAttOffsetSTableIndices[recordIndex]].mOffsetX = offsetX;
+        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttTimeLabelIndices[recordIndex]].mOffsetX = offsetX;
+        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttNameLabelIndices[recordIndex]].mOffsetX = offsetX;
+        for (cellIndex = 0; cellIndex < 2; cellIndex++) {
+            gRecordTAtt->mRecordTAttSTable[gRecordTAttCharacterKartCellIndices[recordIndex][cellIndex]].mOffsetX =
+                offsetX;
         }
     }
     if (gRecordTAtt->mStateFrames >= 10) {
@@ -414,10 +421,10 @@ void AdvanceRecordTAttState4(void) {
 }
 
 void AdvanceRecordTAttState5(void) {
-    s32 i;
+    s32 recordIndex;
     u16 mainLayoutCount;
     u16 subLayoutCount;
-    s32 j;
+    s32 cellIndex;
     s16 offsetX;
 
     gRecordTAtt->mStateFrames++;
@@ -444,12 +451,13 @@ void AdvanceRecordTAttState5(void) {
     gRecordTAtt->mRecordTAttSTable[13].mOffsetX = offsetX;
     gRecordTAtt->mRecordTAttSTable[14].mOffsetX = offsetX;
     gRecordTAtt->mRecordTAttSTable[subLayoutCount + 8].mOffsetX = offsetX;
-    for (i = 1; i < 5; i++) {
-        gRecordTAtt->mRecordTAttSTable[gRecordTAttOffsetSTableIndices[i]].mOffsetX = offsetX;
-        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttTimeLabelIndices[i]].mOffsetX = offsetX;
-        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttNameLabelIndices[i]].mOffsetX = offsetX;
-        for (j = 0; j < 2; j++) {
-            gRecordTAtt->mRecordTAttSTable[gRecordTAttCharacterKartCellIndices[i][j]].mOffsetX = offsetX;
+    for (recordIndex = 1; recordIndex < 5; recordIndex++) {
+        gRecordTAtt->mRecordTAttSTable[gRecordTAttOffsetSTableIndices[recordIndex]].mOffsetX = offsetX;
+        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttTimeLabelIndices[recordIndex]].mOffsetX = offsetX;
+        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttNameLabelIndices[recordIndex]].mOffsetX = offsetX;
+        for (cellIndex = 0; cellIndex < 2; cellIndex++) {
+            gRecordTAtt->mRecordTAttSTable[gRecordTAttCharacterKartCellIndices[recordIndex][cellIndex]].mOffsetX =
+                offsetX;
         }
     }
     if (gRecordTAtt->mStateFrames >= 10) {
@@ -487,9 +495,9 @@ void AdvanceRecordTAttState7(void) {
 }
 
 void AdvanceRecordTAttState8(void) {
-    s32 i;
+    s32 recordIndex;
     u16 subLayoutCount;
-    s32 j;
+    s32 cellIndex;
     s16 offsetX;
 
     gRecordTAtt->mStateFrames++;
@@ -502,12 +510,13 @@ void AdvanceRecordTAttState8(void) {
     gRecordTAtt->mRecordTAttSTable[13].mOffsetX = offsetX;
     gRecordTAtt->mRecordTAttSTable[14].mOffsetX = offsetX;
     gRecordTAtt->mRecordTAttSTable[subLayoutCount + 8].mOffsetX = offsetX;
-    for (i = 1; i < 5; i++) {
-        gRecordTAtt->mRecordTAttSTable[gRecordTAttOffsetSTableIndices[i]].mOffsetX = offsetX;
-        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttTimeLabelIndices[i]].mOffsetX = offsetX;
-        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttNameLabelIndices[i]].mOffsetX = offsetX;
-        for (j = 0; j < 2; j++) {
-            gRecordTAtt->mRecordTAttSTable[gRecordTAttCharacterKartCellIndices[i][j]].mOffsetX = offsetX;
+    for (recordIndex = 1; recordIndex < 5; recordIndex++) {
+        gRecordTAtt->mRecordTAttSTable[gRecordTAttOffsetSTableIndices[recordIndex]].mOffsetX = offsetX;
+        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttTimeLabelIndices[recordIndex]].mOffsetX = offsetX;
+        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttNameLabelIndices[recordIndex]].mOffsetX = offsetX;
+        for (cellIndex = 0; cellIndex < 2; cellIndex++) {
+            gRecordTAtt->mRecordTAttSTable[gRecordTAttCharacterKartCellIndices[recordIndex][cellIndex]].mOffsetX =
+                offsetX;
         }
     }
     if (gRecordTAtt->mStateFrames > 10) {
@@ -573,18 +582,18 @@ void AdvanceRecordTAttState11(void) {
 }
 
 void AdvanceRecordTAttState12(void) {
-    s32 i;
+    s32 recordIndex;
     u16 subLayoutCount;
-    s32 j;
+    s32 cellIndex;
     s16 offsetX;
 
     gRecordTAtt->mStateFrames++;
     offsetX = InterpolateS16(1, 0x100, 0, gRecordTAtt->mStateFrames, 10);
     if (gRecordTAtt->mClearChosen != FALSE) {
-        u16 w;
+        u16 mainLayoutCount;
 
         gRecordTAtt->mBg1OffsetX = offsetX;
-        w = gRecordTAtt->mRecordTAttMBncl->mCount;
+        mainLayoutCount = gRecordTAtt->mRecordTAttMBncl->mCount;
         gRecordTAtt->mRecordTAttMTable[0].mOffsetX = offsetX;
         gRecordTAtt->mRecordTAttMTable[1].mOffsetX = offsetX;
         gRecordTAtt->mRecordTAttMTable[2].mOffsetX = offsetX;
@@ -592,11 +601,11 @@ void AdvanceRecordTAttState12(void) {
         gRecordTAtt->mRecordTAttMTable[4].mOffsetX = offsetX;
         gRecordTAtt->mRecordTAttMTable[5].mOffsetX = offsetX;
         gRecordTAtt->mRecordTAttMTable[6].mOffsetX = offsetX;
-        gRecordTAtt->mRecordTAttMTable[w].mOffsetX = offsetX;
-        gRecordTAtt->mRecordTAttMTable[w + 1].mOffsetX = offsetX;
-        gRecordTAtt->mRecordTAttMTable[w + 2].mOffsetX = offsetX;
-        gRecordTAtt->mRecordTAttMTable[w + 3].mOffsetX = offsetX;
-        gRecordTAtt->mRecordTAttMTable[w + 4].mOffsetX = offsetX;
+        gRecordTAtt->mRecordTAttMTable[mainLayoutCount].mOffsetX = offsetX;
+        gRecordTAtt->mRecordTAttMTable[mainLayoutCount + 1].mOffsetX = offsetX;
+        gRecordTAtt->mRecordTAttMTable[mainLayoutCount + 2].mOffsetX = offsetX;
+        gRecordTAtt->mRecordTAttMTable[mainLayoutCount + 3].mOffsetX = offsetX;
+        gRecordTAtt->mRecordTAttMTable[mainLayoutCount + 4].mOffsetX = offsetX;
     }
     gRecordTAtt->mBg3OffsetX = offsetX;
     subLayoutCount = gRecordTAtt->mRecordTAttSBncl->mCount;
@@ -606,12 +615,13 @@ void AdvanceRecordTAttState12(void) {
     gRecordTAtt->mRecordTAttSTable[13].mOffsetX = offsetX;
     gRecordTAtt->mRecordTAttSTable[14].mOffsetX = offsetX;
     gRecordTAtt->mRecordTAttSTable[subLayoutCount + 8].mOffsetX = offsetX;
-    for (i = 1; i < 5; i++) {
-        gRecordTAtt->mRecordTAttSTable[gRecordTAttOffsetSTableIndices[i]].mOffsetX = offsetX;
-        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttTimeLabelIndices[i]].mOffsetX = offsetX;
-        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttNameLabelIndices[i]].mOffsetX = offsetX;
-        for (j = 0; j < 2; j++) {
-            gRecordTAtt->mRecordTAttSTable[gRecordTAttCharacterKartCellIndices[i][j]].mOffsetX = offsetX;
+    for (recordIndex = 1; recordIndex < 5; recordIndex++) {
+        gRecordTAtt->mRecordTAttSTable[gRecordTAttOffsetSTableIndices[recordIndex]].mOffsetX = offsetX;
+        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttTimeLabelIndices[recordIndex]].mOffsetX = offsetX;
+        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttNameLabelIndices[recordIndex]].mOffsetX = offsetX;
+        for (cellIndex = 0; cellIndex < 2; cellIndex++) {
+            gRecordTAtt->mRecordTAttSTable[gRecordTAttCharacterKartCellIndices[recordIndex][cellIndex]].mOffsetX =
+                offsetX;
         }
     }
     if (gRecordTAtt->mStateFrames > 10) {
@@ -625,9 +635,9 @@ void AdvanceRecordTAttState12(void) {
 }
 
 void AdvanceRecordTAttState13(void) {
-    s32 i;
+    s32 recordIndex;
     u16 subLayoutCount;
-    s32 j;
+    s32 cellIndex;
     s16 offsetX;
 
     gRecordTAtt->mStateFrames++;
@@ -640,12 +650,13 @@ void AdvanceRecordTAttState13(void) {
     gRecordTAtt->mRecordTAttSTable[13].mOffsetX = offsetX;
     gRecordTAtt->mRecordTAttSTable[14].mOffsetX = offsetX;
     gRecordTAtt->mRecordTAttSTable[subLayoutCount + 8].mOffsetX = offsetX;
-    for (i = 1; i < 5; i++) {
-        gRecordTAtt->mRecordTAttSTable[gRecordTAttOffsetSTableIndices[i]].mOffsetX = offsetX;
-        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttTimeLabelIndices[i]].mOffsetX = offsetX;
-        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttNameLabelIndices[i]].mOffsetX = offsetX;
-        for (j = 0; j < 2; j++) {
-            gRecordTAtt->mRecordTAttSTable[gRecordTAttCharacterKartCellIndices[i][j]].mOffsetX = offsetX;
+    for (recordIndex = 1; recordIndex < 5; recordIndex++) {
+        gRecordTAtt->mRecordTAttSTable[gRecordTAttOffsetSTableIndices[recordIndex]].mOffsetX = offsetX;
+        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttTimeLabelIndices[recordIndex]].mOffsetX = offsetX;
+        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttNameLabelIndices[recordIndex]].mOffsetX = offsetX;
+        for (cellIndex = 0; cellIndex < 2; cellIndex++) {
+            gRecordTAtt->mRecordTAttSTable[gRecordTAttCharacterKartCellIndices[recordIndex][cellIndex]].mOffsetX =
+                offsetX;
         }
     }
     if (gRecordTAtt->mStateFrames > 10) {
@@ -667,23 +678,24 @@ void AdvanceRecordTAttState14(void) {
 
 void AdvanceRecordTAttState15(void) {
     InputSlotIndex slotIndex;
-    u16 f;
+    u16 pressedOrTouched;
     BOOL recentlyLost;
 
     slotIndex = UNK_02175628_INDEX_8;
-    f = gInputSlots[slotIndex].mPressedBits & PAD_KEY_B;
-    if (f == 0) {
-        f = 0;
+    pressedOrTouched = gInputSlots[slotIndex].mPressedBits & PAD_KEY_B;
+    if (pressedOrTouched == 0) {
+        pressedOrTouched = 0;
         recentlyLost = FALSE;
         if (gInputSlots[slotIndex].mPair.mHasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
             recentlyLost = TRUE;
         }
         if (recentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
             gInputSlots[slotIndex].mPair.mHasPair != 0) {
-            f = 1;
+            pressedOrTouched = 1;
         }
-        if (f == 0 || IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
-                                                                      gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
+        if (pressedOrTouched == 0 ||
+            IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
+                                                            gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
             return;
         }
     }
@@ -700,8 +712,8 @@ void AdvanceRecordTAttState16(void) {
 }
 
 void AdvanceRecordTAttState17(void) {
-    s32 i;
-    s32 j;
+    s32 recordIndex;
+    s32 cellIndex;
     u16 subLayoutCount;
     s16 offsetX;
 
@@ -715,12 +727,13 @@ void AdvanceRecordTAttState17(void) {
     gRecordTAtt->mRecordTAttSTable[13].mOffsetX = offsetX;
     gRecordTAtt->mRecordTAttSTable[14].mOffsetX = offsetX;
     gRecordTAtt->mRecordTAttSTable[subLayoutCount + 8].mOffsetX = offsetX;
-    for (i = 1; i < 5; i++) {
-        gRecordTAtt->mRecordTAttSTable[gRecordTAttOffsetSTableIndices[i]].mOffsetX = offsetX;
-        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttTimeLabelIndices[i]].mOffsetX = offsetX;
-        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttNameLabelIndices[i]].mOffsetX = offsetX;
-        for (j = 0; j < 2; j++) {
-            gRecordTAtt->mRecordTAttSTable[gRecordTAttCharacterKartCellIndices[i][j]].mOffsetX = offsetX;
+    for (recordIndex = 1; recordIndex < 5; recordIndex++) {
+        gRecordTAtt->mRecordTAttSTable[gRecordTAttOffsetSTableIndices[recordIndex]].mOffsetX = offsetX;
+        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttTimeLabelIndices[recordIndex]].mOffsetX = offsetX;
+        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttNameLabelIndices[recordIndex]].mOffsetX = offsetX;
+        for (cellIndex = 0; cellIndex < 2; cellIndex++) {
+            gRecordTAtt->mRecordTAttSTable[gRecordTAttCharacterKartCellIndices[recordIndex][cellIndex]].mOffsetX =
+                offsetX;
         }
     }
     if (gRecordTAtt->mStateFrames > 10) {
@@ -822,7 +835,7 @@ void WriteRecordTAttRegisters(void) {
 }
 
 void RegisterRecordTAttCallbacks(void) {
-    RecordScreenCallbacks a = gRecordTAttCallbacks;
+    RecordScreenCallbacks callbacks = gRecordTAttCallbacks;
 
-    SetRecordScreenCallbacks(&a);
+    SetRecordScreenCallbacks(&callbacks);
 }

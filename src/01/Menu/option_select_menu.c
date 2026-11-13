@@ -32,86 +32,92 @@ const u8 gOptionSelectMenuValueCounts[3] = {3, 2, 0};
 const u8 gOptionSelectMenuSLabelIndices[3] = {0, 1, 2};
 const u8 gOptionSelectMenuValueSTableIndices[3][3] = {{0x14, 0x15, 0x16}, {0x17, 0x18, 0}, {0, 0, 0}};
 const s32 gOptionSelectMenuGroupSTableCounts[3] = {0xc, 0xb, 2};
-const u8 gOptionSelectMenuTimerSTableIndices[2][3][2] = {{{0x10, 0x11}, {0xc, 0xd}, {8, 9}}, {{0x12, 0x13}, {0xe, 0xf}, {0xa, 0xb}}};
-const u8 gOptionSelectMenuGroupSTableIndices[3][12] = {{0, 2, 5, 0xc, 0xd, 8, 9, 0x10, 0x11, 0x14, 0x15, 0x16}, {1, 3, 6, 0xe, 0xf, 0xa, 0xb, 0x12, 0x13, 0x17, 0x18, 0}, {4, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+const u8 gOptionSelectMenuTimerSTableIndices[2][3][2] = {{{0x10, 0x11}, {0xc, 0xd}, {8, 9}},
+                                                         {{0x12, 0x13}, {0xe, 0xf}, {0xa, 0xb}}};
+const u8 gOptionSelectMenuGroupSTableIndices[3][12] = {{0, 2, 5, 0xc, 0xd, 8, 9, 0x10, 0x11, 0x14, 0x15, 0x16},
+                                                       {1, 3, 6, 0xe, 0xf, 0xa, 0xb, 0x12, 0x13, 0x17, 0x18, 0},
+                                                       {4, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
 OptionSelectMenu *gOptionSelectMenu;
 
 void InitOptionSelectMenuTexts(void) {
-    s32 i;
+    s32 labelIndex;
 
     {
         s32 v0 = 0x8000;
-        u8 a[2][2] = {{0xdc, 0x10}, {0xf0, 0x50}};
-        s32 c[2] = {0xb, 0xc};
+        u8 mainLabelSizes[2][2] = {{0xdc, 0x10}, {0xf0, 0x50}};
+        s32 mainMessageIndices[2] = {0xb, 0xc};
 
-        for (i = 0; i < 2; i++) {
-            v0 -= InitLabelCanvas(gOptionSelectMenu->mHeap, gOptionSelectMenuMLabelIndices[i],
-                                  gOptionSelectMenu->mOptionSelectMenuMBnll, a[i][0], a[i][1], i,
-                                  gOptionSelectMenu->mOptionSelectMenuMNcer, gOptionSelectMenu->mOptionSelectMenuMBncl,
-                                  gOptionSelectMenu->mOptionSelectMenuMTable, v0);
+        for (labelIndex = 0; labelIndex < 2; labelIndex++) {
+            v0 -= InitLabelCanvas(gOptionSelectMenu->mHeap, gOptionSelectMenuMLabelIndices[labelIndex],
+                                  gOptionSelectMenu->mOptionSelectMenuMBnll, mainLabelSizes[labelIndex][0],
+                                  mainLabelSizes[labelIndex][1], labelIndex, gOptionSelectMenu->mOptionSelectMenuMNcer,
+                                  gOptionSelectMenu->mOptionSelectMenuMBncl, gOptionSelectMenu->mOptionSelectMenuMTable,
+                                  v0);
             PrintLabelLayoutTextNoFixedAdvance(
-                0, gOptionSelectMenuMLabelIndices[i], gOptionSelectMenu->mOptionSelectMenuMBnll,
-                GetBmgEntry(gOptionSelectMenu->mOptionMessages, c[i]), gOptionSelectMenu->mOptionSelectMenuMBncl,
-                gOptionSelectMenu->mOptionSelectMenuMTable);
+                0, gOptionSelectMenuMLabelIndices[labelIndex], gOptionSelectMenu->mOptionSelectMenuMBnll,
+                GetBmgEntry(gOptionSelectMenu->mOptionMessages, mainMessageIndices[labelIndex]),
+                gOptionSelectMenu->mOptionSelectMenuMBncl, gOptionSelectMenu->mOptionSelectMenuMTable);
         }
     }
     {
         s32 v2 = GX_GetSizeOfSubOBJ();
         void *v1;
-        u8 b[3][2] = {{0x9b, 0x10}, {0xa0, 0x10}, {0x32, 0x10}};
-        s32 d[3] = {0, 2, 4};
+        u8 subLabelSizes[3][2] = {{0x9b, 0x10}, {0xa0, 0x10}, {0x32, 0x10}};
+        s32 subMessageIndices[3] = {0, 2, 4};
 
-        for (i = 0; i < 3; i++) {
+        for (labelIndex = 0; labelIndex < 3; labelIndex++) {
             v1 = gOptionSelectMenu->mOptionMessages;
-            if (i == 2) {
+            if (labelIndex == 2) {
                 v1 = gOptionSelectMenu->mCommonMessages;
             }
-            v2 -= InitLabelCanvas(
-                gOptionSelectMenu->mHeap, gOptionSelectMenuSLabelIndices[i], gOptionSelectMenu->mOptionSelectMenuSBnll,
-                b[i][0], b[i][1], gOptionSelectMenuRowSTableIndices[i], gOptionSelectMenu->mOptionSelectMenuSNcer,
-                gOptionSelectMenu->mOptionSelectMenuSBncl, gOptionSelectMenu->mOptionSelectMenuSTable, v2);
+            v2 -= InitLabelCanvas(gOptionSelectMenu->mHeap, gOptionSelectMenuSLabelIndices[labelIndex],
+                                  gOptionSelectMenu->mOptionSelectMenuSBnll, subLabelSizes[labelIndex][0],
+                                  subLabelSizes[labelIndex][1], gOptionSelectMenuRowSTableIndices[labelIndex],
+                                  gOptionSelectMenu->mOptionSelectMenuSNcer, gOptionSelectMenu->mOptionSelectMenuSBncl,
+                                  gOptionSelectMenu->mOptionSelectMenuSTable, v2);
             PrintLabelLayoutTextNoFixedAdvance(
-                1, gOptionSelectMenuSLabelIndices[i], gOptionSelectMenu->mOptionSelectMenuSBnll, GetBmgEntry(v1, d[i]),
-                gOptionSelectMenu->mOptionSelectMenuSBncl, gOptionSelectMenu->mOptionSelectMenuSTable);
+                1, gOptionSelectMenuSLabelIndices[labelIndex], gOptionSelectMenu->mOptionSelectMenuSBnll,
+                GetBmgEntry(v1, subMessageIndices[labelIndex]), gOptionSelectMenu->mOptionSelectMenuSBncl,
+                gOptionSelectMenu->mOptionSelectMenuSTable);
         }
     }
 }
 
-void InitOptionSelectMenu(void *a) {
-    s32 i;
+void InitOptionSelectMenu(void *heap) {
+    s32 index;
 
-    gOptionSelectMenu = HeapAlloc(a, 0x90);
-    gOptionSelectMenu->mHeap = a;
+    gOptionSelectMenu = HeapAlloc(heap, 0x90);
+    gOptionSelectMenu->mHeap = heap;
     gOptionSelectMenu->mState = 0;
     gOptionSelectMenu->mNextState = 0;
     gOptionSelectMenu->mIndex = 0;
     gOptionSelectMenu->mStateFrames = 0;
     gOptionSelectMenu->mHighlightVisible = TRUE;
     LocateAndQueueOptionSelectMenu();
-    InitPaletteBlend(a, gOptionSelectMenu->mOptionSelectMenuSONclr, 3);
-    for (i = 0; i < 2; i++) {
-        SetCellOamModeXlu(gOptionSelectMenuXluCellIndices[i], 1, gOptionSelectMenu->mOptionSelectMenuSNcer,
+    InitPaletteBlend(heap, gOptionSelectMenu->mOptionSelectMenuSONclr, 3);
+    for (index = 0; index < 2; index++) {
+        SetCellOamModeXlu(gOptionSelectMenuXluCellIndices[index], 1, gOptionSelectMenu->mOptionSelectMenuSNcer,
                           gOptionSelectMenu->mOptionSelectMenuSBncl);
     }
     ResetOamLists(GetOptionFirstBuffer(), GetOptionSecondBuffer());
-    InitLayoutTable(a, gOptionSelectMenu->mOptionSelectMenuMBncl, gOptionSelectMenu->mOptionSelectMenuMBnll,
+    InitLayoutTable(heap, gOptionSelectMenu->mOptionSelectMenuMBncl, gOptionSelectMenu->mOptionSelectMenuMBnll,
                     &gOptionSelectMenu->mOptionSelectMenuMTable);
-    InitLayoutTable(a, gOptionSelectMenu->mOptionSelectMenuSBncl, gOptionSelectMenu->mOptionSelectMenuSBnll,
+    InitLayoutTable(heap, gOptionSelectMenu->mOptionSelectMenuSBncl, gOptionSelectMenu->mOptionSelectMenuSBnll,
                     &gOptionSelectMenu->mOptionSelectMenuSTable);
     gOptionSelectMenu->mOptionMessages = FindSceneFile("option.bmg");
     gOptionSelectMenu->mCommonMessages = FindFileInLoadedArchives("common.bmg");
     InitOptionSelectMenuTexts();
     gOptionSelectMenu->mBg0Bg1Offset = -140;
-    for (i = 0; i < 3; i++) {
-        if (i == 2) {
-            gOptionSelectMenu->mGroupOffsets[i].mOffsetX = 0;
-            gOptionSelectMenu->mGroupOffsets[i].mOffsetY = 0x28;
-        } else if (i == 1) {
-            gOptionSelectMenu->mGroupOffsets[i].mOffsetX = 250;
-            gOptionSelectMenu->mGroupOffsets[i].mOffsetY = 0;
+    for (index = 0; index < 3; index++) {
+        if (index == 2) {
+            gOptionSelectMenu->mGroupOffsets[index].mOffsetX = 0;
+            gOptionSelectMenu->mGroupOffsets[index].mOffsetY = 0x28;
+        } else if (index == 1) {
+            gOptionSelectMenu->mGroupOffsets[index].mOffsetX = 250;
+            gOptionSelectMenu->mGroupOffsets[index].mOffsetY = 0;
         } else {
-            gOptionSelectMenu->mGroupOffsets[i].mOffsetX = -250;
-            gOptionSelectMenu->mGroupOffsets[i].mOffsetY = 0;
+            gOptionSelectMenu->mGroupOffsets[index].mOffsetX = -250;
+            gOptionSelectMenu->mGroupOffsets[index].mOffsetY = 0;
         }
     }
     SetOptionSoundRowFromSave();
@@ -120,14 +126,14 @@ void InitOptionSelectMenu(void *a) {
     } else {
         gOptionSelectMenu->mRowValues[1] = 1;
     }
-    for (i = 0; i < 2; i++) {
-        gOptionSelectMenu->mSavedRowValues[i] = gOptionSelectMenu->mRowValues[i];
+    for (index = 0; index < 2; index++) {
+        gOptionSelectMenu->mSavedRowValues[index] = gOptionSelectMenu->mRowValues[index];
     }
     WriteOptionSelectMenuTableOffsets();
     SetOptionSelectMenuValuesOnOff();
-    for (i = 0; i < 2; i++) {
-        gOptionSelectMenu->mOffsetTimers[i][0] = 0;
-        gOptionSelectMenu->mOffsetTimers[i][1] = 0;
+    for (index = 0; index < 2; index++) {
+        gOptionSelectMenu->mOffsetTimers[index][0] = 0;
+        gOptionSelectMenu->mOffsetTimers[index][1] = 0;
     }
     gOptionSelectMenu->mOkChosen = FALSE;
     gOptionSelectMenu->mBg1Visible = TRUE;
@@ -135,24 +141,24 @@ void InitOptionSelectMenu(void *a) {
 }
 
 void ReleaseOptionSelectMenu(void) {
-    u32 v;
+    u32 displayBits;
 
     SetOptionSoundRowFromSave();
     ApplyOptionSelectMenuSound();
-    v = (reg_GX_DISPCNT & 0x1f00) >> 8;
-    reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | ((v & ~2) << 8);
+    displayBits = (reg_GX_DISPCNT & 0x1f00) >> 8;
+    reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | ((displayBits & ~2) << 8);
     ClearPaletteBlendPointer();
     gOptionSelectMenu = NULL;
 }
 
 void LocateAndQueueOptionSelectMenu(void) {
-    Ncgr *a;
-    Nscr *b;
-    Nclr *c;
+    Ncgr *chars;
+    Nscr *screenMap;
+    Nclr *palette;
 
-    LocateNcgr(&a, FindSceneFile("Option_select_menu_m_b.ncgr"));
-    LocateNscr(&b, FindSceneFile("Option_select_menu_m.nscr"));
-    LocateNclr(&c, FindSceneFile("Option_select_menu_m_b.nclr"));
+    LocateNcgr(&chars, FindSceneFile("Option_select_menu_m_b.ncgr"));
+    LocateNscr(&screenMap, FindSceneFile("Option_select_menu_m.nscr"));
+    LocateNclr(&palette, FindSceneFile("Option_select_menu_m_b.nclr"));
     gOptionSelectMenu->mOptionSelectMenuMBncl = FindSceneFile("Option_select_menu_m.bncl");
     gOptionSelectMenu->mOptionSelectMenuSBncl = FindSceneFile("Option_select_menu_s.bncl");
     gOptionSelectMenu->mOptionSelectMenuSBnbl = FindSceneFile("Option_select_menu_s.bnbl");
@@ -164,9 +170,9 @@ void LocateAndQueueOptionSelectMenu(void) {
     LocateNcgr2(&gOptionSelectMenu->mOptionSelectMenuSNcgr, FindSceneFile("Option_select_menu_s.nce.ncgr"));
     LocateNcer(&gOptionSelectMenu->mOptionSelectMenuSNcer, FindSceneFile("Option_select_menu_s.nce.ncer"));
     LocateNclr(&gOptionSelectMenu->mOptionSelectMenuSONclr, FindSceneFile("Option_select_menu_s_o.nclr"));
-    NNS_GfdRegisterNewVramTransferTask(5, 0, a->mData, a->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(9, 0, b->mData, b->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0xf, 0x20, c->mData + 0x10, 0x20);
+    NNS_GfdRegisterNewVramTransferTask(5, 0, chars->mData, chars->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(9, 0, screenMap->mData, screenMap->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xf, 0x20, palette->mData + 0x10, 0x20);
     NNS_GfdRegisterNewVramTransferTask(0x13, 0, gOptionSelectMenu->mOptionSelectMenuMNcgr->mData,
                                        gOptionSelectMenu->mOptionSelectMenuMNcgr->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0x23, 0, gOptionSelectMenu->mOptionSelectMenuSNcgr->mData,
@@ -220,19 +226,19 @@ void SetOptionSoundRowFromSave(void) {
 }
 
 void AdvanceOptionSelectMenuState0(void) {
-    s32 i;
-    s32 j;
-    s16 v;
+    s32 groupIndex;
+    s32 entryIndex;
+    s16 offsetX;
 
     gOptionSelectMenu->mStateFrames++;
     gOptionSelectMenu->mBg0Bg1Offset = InterpolateS16(1, -140, 0, gOptionSelectMenu->mStateFrames, 10);
-    v = InterpolateS16(1, 250, 0, gOptionSelectMenu->mStateFrames, 10);
-    for (i = 0; i < 2; i++) {
-        for (j = 0; j < gOptionSelectMenuGroupSTableCounts[i]; j++) {
-            if (i == 1) {
-                gOptionSelectMenu->mGroupOffsets[i].mOffsetX = -v;
+    offsetX = InterpolateS16(1, 250, 0, gOptionSelectMenu->mStateFrames, 10);
+    for (groupIndex = 0; groupIndex < 2; groupIndex++) {
+        for (entryIndex = 0; entryIndex < gOptionSelectMenuGroupSTableCounts[groupIndex]; entryIndex++) {
+            if (groupIndex == 1) {
+                gOptionSelectMenu->mGroupOffsets[groupIndex].mOffsetX = -offsetX;
             } else {
-                gOptionSelectMenu->mGroupOffsets[i].mOffsetX = v;
+                gOptionSelectMenu->mGroupOffsets[groupIndex].mOffsetX = offsetX;
             }
         }
     }
@@ -252,51 +258,51 @@ void AdvanceOptionSelectMenuState1(void) {
 }
 
 void AdvanceOptionSelectMenuState2(void) {
-    OptionSelectMenu *p;
+    OptionSelectMenu *menu;
     s32 sel;
     s32 r5;
     BOOL hasB;
     BOOL hasA;
-    s32 i;
+    s32 rowIndex;
     InputSlotIndex idx;
-    u16 v;
+    u16 hasPair;
 
-    p = gOptionSelectMenu;
-    sel = p->mIndex;
+    menu = gOptionSelectMenu;
+    sel = menu->mIndex;
     idx = UNK_02175628_INDEX_8;
     hasB = FALSE;
     r5 = -1;
     hasA = FALSE;
-    v = gInputSlots[idx].mPair.mHasPair;
-    if (v == 0 && gInputSlots[idx].mPair.mNoPairCount < 5) {
+    hasPair = gInputSlots[idx].mPair.mHasPair;
+    if (hasPair == 0 && gInputSlots[idx].mPair.mNoPairCount < 5) {
         hasA = TRUE;
     }
-    if (hasA == FALSE && gInputSlots[idx].mPair.mPrevHasPair == 0 && v != 0) {
+    if (hasA == FALSE && gInputSlots[idx].mPair.mPrevHasPair == 0 && hasPair != 0) {
         hasB = TRUE;
     }
     if (hasB != FALSE) {
-        r5 = RectTableFindContaining(p->mOptionSelectMenuSBnbl, gInputSlots[idx].mPair.mPairX,
+        r5 = RectTableFindContaining(menu->mOptionSelectMenuSBnbl, gInputSlots[idx].mPair.mPairX,
                                      gInputSlots[idx].mPair.mPairY);
     }
     if ((u16) (gInputSlots[idx].mPressedBits & PAD_KEY_B) != 0) {
         goto L1;
     } else {
-        BOOL c = FALSE;
-        BOOL d = FALSE;
-        v = gInputSlots[idx].mPair.mHasPair;
-        if (v == 0 && gInputSlots[idx].mPair.mNoPairCount < 5) {
-            d = TRUE;
+        BOOL touchBegan = FALSE;
+        BOOL recentlyLost = FALSE;
+        hasPair = gInputSlots[idx].mPair.mHasPair;
+        if (hasPair == 0 && gInputSlots[idx].mPair.mNoPairCount < 5) {
+            recentlyLost = TRUE;
         }
-        if (d == FALSE && gInputSlots[idx].mPair.mPrevHasPair == 0 && v != 0) {
-            c = TRUE;
+        if (recentlyLost == FALSE && gInputSlots[idx].mPair.mPrevHasPair == 0 && hasPair != 0) {
+            touchBegan = TRUE;
         }
-        if (c != FALSE && IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[idx].mPair.mPairX,
-                                                                          gInputSlots[idx].mPair.mPairY) != FALSE) {
+        if (touchBegan != FALSE && IsSelectReturnState2NoState3Or4RequestAndInRect(
+                                       gInputSlots[idx].mPair.mPairX, gInputSlots[idx].mPair.mPairY) != FALSE) {
         L1:
             gOptionSelectMenu->mNextState = 4;
             gOptionSelectMenu->mNextOptionState = 0;
-            for (i = 0; i < 2; i++) {
-                gOptionSelectMenu->mRowValues[i] = gOptionSelectMenu->mSavedRowValues[i];
+            for (rowIndex = 0; rowIndex < 2; rowIndex++) {
+                gOptionSelectMenu->mRowValues[rowIndex] = gOptionSelectMenu->mSavedRowValues[rowIndex];
             }
             RequestSelectReturnState3WithSound(0);
             goto end;
@@ -409,21 +415,21 @@ void AdvanceOptionSelectMenuState3(void) {
 }
 
 void AdvanceOptionSelectMenuState4(void) {
-    s32 i;
-    s32 j;
-    s16 t;
-    void *a;
-    void *b;
+    s32 groupIndex;
+    s32 entryIndex;
+    s16 offsetX;
+    void *text;
+    void *buttonText;
 
     gOptionSelectMenu->mBg0Bg1Offset = InterpolateS16(1, 0, -0x8c, gOptionSelectMenu->mStateFrames, 10);
     gOptionSelectMenu->mStateFrames++;
-    t = InterpolateS16(1, 0, 250, gOptionSelectMenu->mStateFrames, 10);
-    for (i = 0; i < 2; i++) {
-        for (j = 0; j < gOptionSelectMenuGroupSTableCounts[i]; j++) {
-            if (i == 1) {
-                gOptionSelectMenu->mGroupOffsets[i].mOffsetX = -t;
+    offsetX = InterpolateS16(1, 0, 250, gOptionSelectMenu->mStateFrames, 10);
+    for (groupIndex = 0; groupIndex < 2; groupIndex++) {
+        for (entryIndex = 0; entryIndex < gOptionSelectMenuGroupSTableCounts[groupIndex]; entryIndex++) {
+            if (groupIndex == 1) {
+                gOptionSelectMenu->mGroupOffsets[groupIndex].mOffsetX = -offsetX;
             } else {
-                gOptionSelectMenu->mGroupOffsets[i].mOffsetX = t;
+                gOptionSelectMenu->mGroupOffsets[groupIndex].mOffsetX = offsetX;
             }
         }
     }
@@ -433,9 +439,9 @@ void AdvanceOptionSelectMenuState4(void) {
             gOptionSelectMenu->mBg1Visible = FALSE;
             if (gOptionSelectMenu->mOkChosen != FALSE) {
                 SetTxtSystemOpenSoundId(0x21);
-                a = GetBmgEntry(gOptionSelectMenu->mOptionMessages, 0x10);
-                b = GetBmgEntry(gOptionSelectMenu->mCommonMessages, 4);
-                SetupTxtSystemSubTextButton(a, b);
+                text = GetBmgEntry(gOptionSelectMenu->mOptionMessages, 0x10);
+                buttonText = GetBmgEntry(gOptionSelectMenu->mCommonMessages, 4);
+                SetupTxtSystemSubTextButton(text, buttonText);
                 gOptionSelectMenu->mNextState = 5;
                 gOptionSelectMenu->mStateFrames = 0;
                 RequestSelectReturnState4();
@@ -447,19 +453,19 @@ void AdvanceOptionSelectMenuState4(void) {
 }
 
 void AdvanceOptionSelectMenuState5(void) {
-    s32 r;
+    s32 backupBusy;
 
     if (GetTxtSystemDone() != 0) {
         if (gBackupBuffers->mBusy == 0) {
             if (gBackupAccess->mBackupEnabled != 0) {
-                r = gBackupAccess->mCommandRunning;
+                backupBusy = gBackupAccess->mCommandRunning;
             } else {
-                r = 0;
+                backupBusy = 0;
             }
         } else {
-            r = 1;
+            backupBusy = 1;
         }
-        if (r == 0) {
+        if (backupBusy == 0) {
             SetTxtSystemOpenSoundId(0x23);
             RequestTxtSystemClose();
             RequestSelectReturnState1();
@@ -471,78 +477,82 @@ void AdvanceOptionSelectMenuState5(void) {
 }
 
 void WriteOptionSelectMenuTableOffsets(void) {
-    s32 i;
-    s32 j;
-    u16 a;
-    u16 b;
+    s32 index;
+    s32 entryIndex;
+    u16 mainLayoutCount;
+    u16 subLayoutCount;
 
-    a = gOptionSelectMenu->mOptionSelectMenuMBncl->mCount;
-    b = gOptionSelectMenu->mOptionSelectMenuSBncl->mCount;
-    for (i = 0; i < 1; i++) {
-        gOptionSelectMenu->mOptionSelectMenuMTable[gOptionSelectMenuOffsetMIndices[i]].mOffsetY =
+    mainLayoutCount = gOptionSelectMenu->mOptionSelectMenuMBncl->mCount;
+    subLayoutCount = gOptionSelectMenu->mOptionSelectMenuSBncl->mCount;
+    for (index = 0; index < 1; index++) {
+        gOptionSelectMenu->mOptionSelectMenuMTable[gOptionSelectMenuOffsetMIndices[index]].mOffsetY =
             gOptionSelectMenu->mBg0Bg1Offset;
     }
-    for (i = 0; i < 2; i++) {
-        (gOptionSelectMenu->mOptionSelectMenuMTable + a)[gOptionSelectMenuMLabelIndices[i]].mOffsetY =
+    for (index = 0; index < 2; index++) {
+        (gOptionSelectMenu->mOptionSelectMenuMTable + mainLayoutCount)[gOptionSelectMenuMLabelIndices[index]].mOffsetY =
             gOptionSelectMenu->mBg0Bg1Offset;
     }
-    for (i = 0; i < 3; i++) {
-        for (j = 0; j < gOptionSelectMenuGroupSTableCounts[i]; j++) {
-            gOptionSelectMenu->mOptionSelectMenuSTable[gOptionSelectMenuGroupSTableIndices[i][j]].mOffsetX =
-                gOptionSelectMenu->mGroupOffsets[i].mOffsetX;
-            gOptionSelectMenu->mOptionSelectMenuSTable[gOptionSelectMenuGroupSTableIndices[i][j]].mOffsetY =
-                gOptionSelectMenu->mGroupOffsets[i].mOffsetY;
+    for (index = 0; index < 3; index++) {
+        for (entryIndex = 0; entryIndex < gOptionSelectMenuGroupSTableCounts[index]; entryIndex++) {
+            gOptionSelectMenu->mOptionSelectMenuSTable[gOptionSelectMenuGroupSTableIndices[index][entryIndex]]
+                .mOffsetX = gOptionSelectMenu->mGroupOffsets[index].mOffsetX;
+            gOptionSelectMenu->mOptionSelectMenuSTable[gOptionSelectMenuGroupSTableIndices[index][entryIndex]]
+                .mOffsetY = gOptionSelectMenu->mGroupOffsets[index].mOffsetY;
         }
-        (gOptionSelectMenu->mOptionSelectMenuSTable + b)[gOptionSelectMenuSLabelIndices[i]].mOffsetX =
-            gOptionSelectMenu->mGroupOffsets[i].mOffsetX;
-        (gOptionSelectMenu->mOptionSelectMenuSTable + b)[gOptionSelectMenuSLabelIndices[i]].mOffsetY =
-            gOptionSelectMenu->mGroupOffsets[i].mOffsetY;
+        (gOptionSelectMenu->mOptionSelectMenuSTable + subLayoutCount)[gOptionSelectMenuSLabelIndices[index]].mOffsetX =
+            gOptionSelectMenu->mGroupOffsets[index].mOffsetX;
+        (gOptionSelectMenu->mOptionSelectMenuSTable + subLayoutCount)[gOptionSelectMenuSLabelIndices[index]].mOffsetY =
+            gOptionSelectMenu->mGroupOffsets[index].mOffsetY;
     }
-    for (i = 0; i < 2; i++) {
-        for (j = 0; j < 3; j++) {
-            gOptionSelectMenu->mOptionSelectMenuSTable[gOptionSelectMenuTimerSTableIndices[i][j][0]].mOffsetX -=
-                LookupFrameOffset(6 - gOptionSelectMenu->mOffsetTimers[i][0]);
-            gOptionSelectMenu->mOptionSelectMenuSTable[gOptionSelectMenuTimerSTableIndices[i][j][1]].mOffsetX +=
-                LookupFrameOffset(6 - gOptionSelectMenu->mOffsetTimers[i][1]);
+    for (index = 0; index < 2; index++) {
+        for (entryIndex = 0; entryIndex < 3; entryIndex++) {
+            gOptionSelectMenu->mOptionSelectMenuSTable[gOptionSelectMenuTimerSTableIndices[index][entryIndex][0]]
+                .mOffsetX -= LookupFrameOffset(6 - gOptionSelectMenu->mOffsetTimers[index][0]);
+            gOptionSelectMenu->mOptionSelectMenuSTable[gOptionSelectMenuTimerSTableIndices[index][entryIndex][1]]
+                .mOffsetX += LookupFrameOffset(6 - gOptionSelectMenu->mOffsetTimers[index][1]);
         }
     }
 }
 
 void SetOptionSelectMenuValuesOnOff(void) {
-    s32 i;
-    s32 j;
+    s32 rowIndex;
+    s32 valueIndex;
 
-    for (i = 0; i < 2; i++) {
-        for (j = 0; j < gOptionSelectMenuValueCounts[i]; j++) {
-            if (j == gOptionSelectMenu->mRowValues[i]) {
-                gOptionSelectMenu->mOptionSelectMenuSTable[gOptionSelectMenuValueSTableIndices[i][j]].mVisible = 1;
+    for (rowIndex = 0; rowIndex < 2; rowIndex++) {
+        for (valueIndex = 0; valueIndex < gOptionSelectMenuValueCounts[rowIndex]; valueIndex++) {
+            if (valueIndex == gOptionSelectMenu->mRowValues[rowIndex]) {
+                gOptionSelectMenu->mOptionSelectMenuSTable[gOptionSelectMenuValueSTableIndices[rowIndex][valueIndex]]
+                    .mVisible = 1;
             } else {
-                gOptionSelectMenu->mOptionSelectMenuSTable[gOptionSelectMenuValueSTableIndices[i][j]].mVisible = 0;
+                gOptionSelectMenu->mOptionSelectMenuSTable[gOptionSelectMenuValueSTableIndices[rowIndex][valueIndex]]
+                    .mVisible = 0;
             }
         }
     }
 }
 
 void SetOptionSelectMenuRowsOnOff(void) {
-    s32 i;
-    s32 k;
+    s32 rowIndex;
+    s32 valueIndex;
 
-    for (i = 0; i < 3; i++) {
-        if (i == gOptionSelectMenu->mIndex && gOptionSelectMenu->mHighlightVisible != FALSE) {
-            gOptionSelectMenu->mOptionSelectMenuSTable[gOptionSelectMenuRowSTableIndices[i]].mVisible = 1;
-            SetLabelPaletteIndex(gOptionSelectMenuSLabelIndices[i], 14, gOptionSelectMenu->mOptionSelectMenuSBnll,
-                                 gOptionSelectMenu->mOptionSelectMenuSTable, gOptionSelectMenu->mOptionSelectMenuSBncl);
-            for (k = 0; k < gOptionSelectMenuValueCounts[i]; k++) {
-                SetCellPaletteIndex(gOptionSelectMenuValueSTableIndices[i][k], 14,
+    for (rowIndex = 0; rowIndex < 3; rowIndex++) {
+        if (rowIndex == gOptionSelectMenu->mIndex && gOptionSelectMenu->mHighlightVisible != FALSE) {
+            gOptionSelectMenu->mOptionSelectMenuSTable[gOptionSelectMenuRowSTableIndices[rowIndex]].mVisible = 1;
+            SetLabelPaletteIndex(gOptionSelectMenuSLabelIndices[rowIndex], 14,
+                                 gOptionSelectMenu->mOptionSelectMenuSBnll, gOptionSelectMenu->mOptionSelectMenuSTable,
+                                 gOptionSelectMenu->mOptionSelectMenuSBncl);
+            for (valueIndex = 0; valueIndex < gOptionSelectMenuValueCounts[rowIndex]; valueIndex++) {
+                SetCellPaletteIndex(gOptionSelectMenuValueSTableIndices[rowIndex][valueIndex], 14,
                                     gOptionSelectMenu->mOptionSelectMenuSNcer,
                                     gOptionSelectMenu->mOptionSelectMenuSBncl);
             }
         } else {
-            gOptionSelectMenu->mOptionSelectMenuSTable[gOptionSelectMenuRowSTableIndices[i]].mVisible = 0;
-            SetLabelPaletteIndex(gOptionSelectMenuSLabelIndices[i], 15, gOptionSelectMenu->mOptionSelectMenuSBnll,
-                                 gOptionSelectMenu->mOptionSelectMenuSTable, gOptionSelectMenu->mOptionSelectMenuSBncl);
-            for (k = 0; k < gOptionSelectMenuValueCounts[i]; k++) {
-                SetCellPaletteIndex(gOptionSelectMenuValueSTableIndices[i][k], 15,
+            gOptionSelectMenu->mOptionSelectMenuSTable[gOptionSelectMenuRowSTableIndices[rowIndex]].mVisible = 0;
+            SetLabelPaletteIndex(gOptionSelectMenuSLabelIndices[rowIndex], 15,
+                                 gOptionSelectMenu->mOptionSelectMenuSBnll, gOptionSelectMenu->mOptionSelectMenuSTable,
+                                 gOptionSelectMenu->mOptionSelectMenuSBncl);
+            for (valueIndex = 0; valueIndex < gOptionSelectMenuValueCounts[rowIndex]; valueIndex++) {
+                SetCellPaletteIndex(gOptionSelectMenuValueSTableIndices[rowIndex][valueIndex], 15,
                                     gOptionSelectMenu->mOptionSelectMenuSNcer,
                                     gOptionSelectMenu->mOptionSelectMenuSBncl);
             }
@@ -551,34 +561,40 @@ void SetOptionSelectMenuRowsOnOff(void) {
 }
 
 void AdvanceOptionSelectMenuOffsetTimers(void) {
-    s32 i;
-    s32 j;
+    s32 rowIndex;
+    s32 timerIndex;
 
-    for (i = 0; i < 2; i++) {
-        for (j = 0; j < 2; j++) {
-            if (i == gOptionSelectMenu->mIndex) {
-                if (gOptionSelectMenu->mOffsetTimers[i][j] > 0) {
-                    gOptionSelectMenu->mOptionSelectMenuSTable[gOptionSelectMenuTimerSTableIndices[i][0][j]].mVisible =
-                        1;
-                    gOptionSelectMenu->mOptionSelectMenuSTable[gOptionSelectMenuTimerSTableIndices[i][1][j]].mVisible =
-                        1;
-                    gOptionSelectMenu->mOffsetTimers[i][j]--;
+    for (rowIndex = 0; rowIndex < 2; rowIndex++) {
+        for (timerIndex = 0; timerIndex < 2; timerIndex++) {
+            if (rowIndex == gOptionSelectMenu->mIndex) {
+                if (gOptionSelectMenu->mOffsetTimers[rowIndex][timerIndex] > 0) {
+                    gOptionSelectMenu
+                        ->mOptionSelectMenuSTable[gOptionSelectMenuTimerSTableIndices[rowIndex][0][timerIndex]]
+                        .mVisible = 1;
+                    gOptionSelectMenu
+                        ->mOptionSelectMenuSTable[gOptionSelectMenuTimerSTableIndices[rowIndex][1][timerIndex]]
+                        .mVisible = 1;
+                    gOptionSelectMenu->mOffsetTimers[rowIndex][timerIndex]--;
                 } else {
-                    gOptionSelectMenu->mOptionSelectMenuSTable[gOptionSelectMenuTimerSTableIndices[i][0][j]].mVisible =
-                        0;
-                    gOptionSelectMenu->mOptionSelectMenuSTable[gOptionSelectMenuTimerSTableIndices[i][1][j]].mVisible =
-                        1;
+                    gOptionSelectMenu
+                        ->mOptionSelectMenuSTable[gOptionSelectMenuTimerSTableIndices[rowIndex][0][timerIndex]]
+                        .mVisible = 0;
+                    gOptionSelectMenu
+                        ->mOptionSelectMenuSTable[gOptionSelectMenuTimerSTableIndices[rowIndex][1][timerIndex]]
+                        .mVisible = 1;
                 }
             } else {
-                gOptionSelectMenu->mOptionSelectMenuSTable[gOptionSelectMenuTimerSTableIndices[i][0][j]].mVisible = 0;
-                gOptionSelectMenu->mOptionSelectMenuSTable[gOptionSelectMenuTimerSTableIndices[i][1][j]].mVisible = 0;
+                gOptionSelectMenu->mOptionSelectMenuSTable[gOptionSelectMenuTimerSTableIndices[rowIndex][0][timerIndex]]
+                    .mVisible = 0;
+                gOptionSelectMenu->mOptionSelectMenuSTable[gOptionSelectMenuTimerSTableIndices[rowIndex][1][timerIndex]]
+                    .mVisible = 0;
             }
         }
     }
 }
 
 void AdvanceOptionSelectMenu(void) {
-    OptionSelectMenu *p;
+    OptionSelectMenu *menu;
 
     gOptionSelectMenu->mState = gOptionSelectMenu->mNextState;
     switch (gOptionSelectMenu->mState) {
@@ -606,12 +622,12 @@ void AdvanceOptionSelectMenu(void) {
     SetOptionSelectMenuValuesOnOff();
     SetOptionSelectMenuRowsOnOff();
     AdvanceOptionSelectMenuOffsetTimers();
-    p = gOptionSelectMenu;
-    DrawLayoutTable(p->mOptionSelectMenuMBncl, p->mOptionSelectMenuMNcer, p->mOptionSelectMenuMBnll,
-                    GetOptionFirstBuffer(), p->mOptionSelectMenuMTable);
-    p = gOptionSelectMenu;
-    DrawLayoutTable(p->mOptionSelectMenuSBncl, p->mOptionSelectMenuSNcer, p->mOptionSelectMenuSBnll,
-                    GetOptionSecondBuffer(), p->mOptionSelectMenuSTable);
+    menu = gOptionSelectMenu;
+    DrawLayoutTable(menu->mOptionSelectMenuMBncl, menu->mOptionSelectMenuMNcer, menu->mOptionSelectMenuMBnll,
+                    GetOptionFirstBuffer(), menu->mOptionSelectMenuMTable);
+    menu = gOptionSelectMenu;
+    DrawLayoutTable(menu->mOptionSelectMenuSBncl, menu->mOptionSelectMenuSNcer, menu->mOptionSelectMenuSBnll,
+                    GetOptionSecondBuffer(), menu->mOptionSelectMenuSTable);
 }
 
 void WriteOptionSelectMenuRegisters(void) {
