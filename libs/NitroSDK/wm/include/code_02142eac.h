@@ -52,11 +52,15 @@ typedef enum WirelessResult {
     WIRELESS_RESULT_PIPE_ERROR = 8,
     WIRELESS_RESULT_NO_ANSWER = 9,
     WIRELESS_RESULT_SEND_BACKLOG = 10,
+    WIRELESS_RESULT_EMPTY_STATION_MASK = 13,
     WIRELESS_RESULT_NOT_LISTED = 11,
     WIRELESS_RESULT_LIST_FULL = 12,
     WIRELESS_RESULT_TRANSMIT_ERROR = 15,
     WIRELESS_RESULT_STORAGE_ERROR = 19
 } WirelessResult;
+
+// Result of a WM_ call that only queues the request: the result then arrives in the callback.
+#define WIRELESS_CALL_QUEUED 2
 
 typedef void (*Unk021425e8Func)(WirelessMessage *);
 

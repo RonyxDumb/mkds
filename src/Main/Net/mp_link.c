@@ -22,10 +22,10 @@ struct ScanConnectWork *gScanConnectWork;
 void SetupMPLink(MPLink *link) {
     gMPLink = link;
     link->mUnk_0c = 0;
-    gMPLink->mMPStarted = 0;
+    gMPLink->mMPStarted = FALSE;
     gMPLink->mUnk_1e = 0;
-    gMPLink->mDataQueued = 0;
-    gMPLink->mResetting = 0;
+    gMPLink->mDataQueued = FALSE;
+    gMPLink->mResetting = FALSE;
     gMPLink->mSendBuffer = NULL;
     gMPLink->mReceiveBuffer = NULL;
     gMPLink->mCallback = NULL;
@@ -47,8 +47,8 @@ void SetMPLinkCallback(UnkFunc *callback) {
 
 void ScanConnectStartConnect(WMBssDesc *scanBuffer) {
     s32 wmResult;
-    gMPLink->mMPStarted = 0;
-    gMPLink->mResetting = 0;
+    gMPLink->mMPStarted = FALSE;
+    gMPLink->mResetting = FALSE;
     gMPLink->mSendBufferSize = (scanBuffer->mGameInfo.mChildMaxSize + 0x21) & ~0x1f;
     gMPLink->mReceiveBufferSize = ((scanBuffer->mGameInfo.mParentMaxSize + 0x55) & ~0x1f) * 2;
     gMPLink->mUnk_14 = scanBuffer->mGameInfo.mParentMaxSize;
@@ -56,7 +56,7 @@ void ScanConnectStartConnect(WMBssDesc *scanBuffer) {
     gMPLink->mUnk_18 = gMPLink->mUnk_14 - 6;
     MBi_SetChildMPMaxSize(gMPLink->mUnk_16);
     wmResult = WM_StartConnectEx(ScanConnectStartConnectCallback, (u16 *) scanBuffer, NULL, 1, 0);
-    if (wmResult != 2) {
+    if (wmResult != WIRELESS_CALL_QUEUED) {
         if (gMPLink->mCallback != NULL) {
             gMPLink->mCallback(MP_LINK_EVENT_CONNECT_FAILED, 0);
         }
@@ -64,27 +64,27 @@ void ScanConnectStartConnect(WMBssDesc *scanBuffer) {
 }
 
 void ScanConnectStartConnectCallback(WirelessMessage *result) {
-    if (result->mResultCode != 0) {
+    if (result->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
         if (gMPLink->mCallback != NULL) {
             gMPLink->mCallback(MP_LINK_EVENT_CONNECT_FAILED, result);
         }
     } else {
         switch (result->mReplyState) {
-            case 0:
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-            case 6:
-            case 8:
+            case WIRELESS_STATE_SESSION_START:
+            case WIRELESS_STATE_NEVER_HANDLED:
+            case WIRELESS_STATE_FORWARD_UNLESS_RESETTING:
+            case WIRELESS_STATE_SEARCH_NO_ACTION:
+            case WIRELESS_STATE_SEARCH_EMPTY:
+            case WIRELESS_STATE_HOST_SIGHTED:
+            case WIRELESS_STATE_CHILD_SESSION_START:
+            case WIRELESS_STATE_CHILD_NO_ACTION:
                 break;
-            case 9:
+            case WIRELESS_STATE_UNLINKED:
                 if (gMPLink->mCallback != NULL) {
                     gMPLink->mCallback(MP_LINK_EVENT_DISCONNECTED, 0);
                 }
                 break;
-            case 7:
+            case WIRELESS_STATE_LINKED:
                 if (gMPLink->mCallback != NULL) {
                     gMPLink->mCallback(MP_LINK_EVENT_CONNECTED, result);
                 }
@@ -100,11 +100,11 @@ void SetPortCallbackAndStartMP(void *sendBuffer, u8 *receiveBuffer) {
     MPLink *mpLink;
     gMPLink->mSendBuffer = sendBuffer;
     gMPLink->mReceiveBuffer = receiveBuffer;
-    wmResult = WM_SetPortCallback(1, PortCallback, NULL);
-    if (wmResult != 0) {
+    wmResult = WM_SetPortCallback(MP_LINK_PORT, PortCallback, NULL);
+    if (wmResult != WIRELESS_RESULT_SUCCEEDED) {
         mpLink = gMPLink;
         if (mpLink->mCallback != NULL) {
-            portError.mCommand = 14;
+            portError.mCommand = WIRELESS_REQUEST_BEGIN_EXCHANGE;
             portError.mResultCode = wmResult;
             mpLink->mCallback(MP_LINK_EVENT_CALL_FAILED, &portError);
         }
@@ -113,10 +113,10 @@ void SetPortCallbackAndStartMP(void *sendBuffer, u8 *receiveBuffer) {
     mpLink = gMPLink;
     wmResult = WM_StartMPEx(ScanConnectStartMPCallback, receiveBuffer, mpLink->mReceiveBufferSize, sendBuffer,
                             mpLink->mSendBufferSize, 1, 0, 0, 0, 1, 1);
-    if (wmResult != 2) {
+    if (wmResult != WIRELESS_CALL_QUEUED) {
         mpLink = gMPLink;
         if (mpLink->mCallback != NULL) {
-            startError.mCommand = 14;
+            startError.mCommand = WIRELESS_REQUEST_BEGIN_EXCHANGE;
             startError.mResultCode = wmResult;
             mpLink->mCallback(MP_LINK_EVENT_CALL_FAILED, &startError);
         }
@@ -129,8 +129,9 @@ void ScanConnectStartMPCallback(WirelessMessage *result) {
     MPLink *mpLink;
     u16 command;
     u16 resultCode = result->mResultCode;
-    if (resultCode != 0) {
-        if (resultCode != 15 && resultCode != 9 && resultCode != 13) {
+    if (resultCode != WIRELESS_RESULT_SUCCEEDED) {
+        if (resultCode != WIRELESS_RESULT_TRANSMIT_ERROR && resultCode != WIRELESS_RESULT_NO_ANSWER &&
+            resultCode != WIRELESS_RESULT_EMPTY_STATION_MASK) {
             command = result->mCommand;
             mpLink = gMPLink;
             if (mpLink->mCallback != NULL) {
@@ -141,9 +142,9 @@ void ScanConnectStartMPCallback(WirelessMessage *result) {
         }
     } else {
         switch (result->mState) {
-            case 10:
-                gMPLink->mMPStarted = 1;
-                gMPLink->mDataQueued = 0;
+            case WIRELESS_STATE_EXCHANGE_BEGUN:
+                gMPLink->mMPStarted = TRUE;
+                gMPLink->mDataQueued = FALSE;
                 gMPLink->mUnk_1e = 0;
                 if (gMPLink->mCallback != NULL) {
                     gMPLink->mCallback(MP_LINK_EVENT_MP_STARTED, 0);
@@ -152,18 +153,18 @@ void ScanConnectStartMPCallback(WirelessMessage *result) {
                     gMPLink->mCallback(MP_LINK_EVENT_SEND_READY, 0);
                 }
                 break;
-            case 11:
+            case WIRELESS_STATE_EXCHANGE_PASS_RECV_BUFFER:
             default:
                 command = result->mCommand;
                 mpLink = gMPLink;
                 if (mpLink->mCallback != NULL) {
                     stateResult.mCommand = command;
-                    stateResult.mResultCode = 1;
+                    stateResult.mResultCode = WIRELESS_RESULT_REFUSED;
                     mpLink->mCallback(MP_LINK_EVENT_REPLY_FAILED, &stateResult);
                 }
                 break;
-            case 12:
-            case 13:
+            case WIRELESS_STATE_EXCHANGE_IGNORED_FIRST:
+            case WIRELESS_STATE_EXCHANGE_IGNORED_SECOND:
                 break;
         }
     }
@@ -172,14 +173,14 @@ void ScanConnectStartMPCallback(WirelessMessage *result) {
 void StartResetWithFlag(void) {
     CommandResult errorResult;
     s32 wmResult;
-    gMPLink->mResetting = 1;
+    gMPLink->mResetting = TRUE;
     wmResult = WM_Reset(StartResetWithFlagCallback);
-    if (wmResult != 2) {
+    if (wmResult != WIRELESS_CALL_QUEUED) {
         MPLink *mpLink;
-        gMPLink->mResetting = 0;
+        gMPLink->mResetting = FALSE;
         mpLink = gMPLink;
         if (mpLink->mCallback != NULL) {
-            errorResult.mCommand = 1;
+            errorResult.mCommand = WIRELESS_REQUEST_RESTART;
             errorResult.mResultCode = wmResult;
             mpLink->mCallback(MP_LINK_EVENT_CALL_FAILED, &errorResult);
         }
@@ -189,9 +190,9 @@ void StartResetWithFlag(void) {
 void StartResetWithFlagCallback(WirelessMessage *result) {
     CommandResult errorResult;
     u16 resultCode;
-    gMPLink->mResetting = 0;
+    gMPLink->mResetting = FALSE;
     resultCode = result->mResultCode;
-    if (resultCode != 0) {
+    if (resultCode != WIRELESS_RESULT_SUCCEEDED) {
         u16 command = result->mCommand;
         MPLink *mpLink = gMPLink;
         if (mpLink->mCallback != NULL) {
@@ -209,10 +210,10 @@ void StartResetWithFlagCallback(WirelessMessage *result) {
 void StartReset(void) {
     CommandResult errorResult;
     s32 wmResult = WM_Reset(StartResetCallback);
-    if (wmResult != 2) {
+    if (wmResult != WIRELESS_CALL_QUEUED) {
         MPLink *mpLink = gMPLink;
         if (mpLink->mCallback != NULL) {
-            errorResult.mCommand = 1;
+            errorResult.mCommand = WIRELESS_REQUEST_RESTART;
             errorResult.mResultCode = wmResult;
             mpLink->mCallback(MP_LINK_EVENT_CALL_FAILED, &errorResult);
         }
@@ -222,7 +223,7 @@ void StartReset(void) {
 void StartResetCallback(WirelessMessage *result) {
     CommandResult errorResult;
     u16 resultCode = result->mResultCode;
-    if (resultCode != 0) {
+    if (resultCode != WIRELESS_RESULT_SUCCEEDED) {
         u16 command = result->mCommand;
         MPLink *mpLink = gMPLink;
         if (mpLink->mCallback != NULL) {
@@ -241,22 +242,22 @@ u32 IsMPReadyToQueueData(void) {
     u32 ready = 0;
     u32 mpActive = 0;
     MPLink *mpLink = gMPLink;
-    if (mpLink->mMPStarted == 1 && mpLink->mDataQueued == 0) {
+    if (mpLink->mMPStarted == TRUE && mpLink->mDataQueued == FALSE) {
         mpActive = 1;
     }
-    if (mpActive != 0 && mpLink->mResetting == 0) {
+    if (mpActive != 0 && mpLink->mResetting == FALSE) {
         ready = 1;
     }
     return ready;
 }
 
 void PortCallback(WirelessMessage *result) {
-    if (result->mResultCode == 0) {
+    if (result->mResultCode == WIRELESS_RESULT_SUCCEEDED) {
         switch (result->mState) {
-            case 7:
-            case 9:
+            case WIRELESS_STATE_LINKED:
+            case WIRELESS_STATE_UNLINKED:
                 break;
-            case 21:
+            case WIRELESS_STATE_PORT_DATA_ARRIVED:
                 if (gMPLink->mCallback != NULL) {
                     gMPLink->mCallback(MP_LINK_EVENT_RECEIVED, result);
                 }
@@ -270,23 +271,23 @@ s32 QueueMPDataIfReady(u32 dataSize, u16 destBitmap, u8 *data) {
     DC_FlushRange(data, 4);
     DC_WaitWriteBufferEmpty();
     if (IsMPReadyToQueueData() == 0) {
-        return 1;
+        return MP_LINK_QUEUE_NOT_READY;
     }
-    wmResult = WM_SetMPDataToPortEx(QueueMPDataCallback, NULL, data, (u16) dataSize, destBitmap, 1, 3);
-    if (wmResult == 2) {
-        gMPLink->mDataQueued = 1;
-        return 2;
+    wmResult = WM_SetMPDataToPortEx(QueueMPDataCallback, NULL, data, (u16) dataSize, destBitmap, MP_LINK_PORT, 3);
+    if (wmResult == WIRELESS_CALL_QUEUED) {
+        gMPLink->mDataQueued = TRUE;
+        return WIRELESS_CALL_QUEUED;
     }
     return wmResult;
 }
 
 void QueueMPDataCallback(WirelessMessage *result) {
-    gMPLink->mDataQueued = 0;
-    if (result->mResultCode == 0) {
+    gMPLink->mDataQueued = FALSE;
+    if (result->mResultCode == WIRELESS_RESULT_SUCCEEDED) {
         if (gMPLink->mCallback != NULL) {
             gMPLink->mCallback(MP_LINK_EVENT_SENT, result);
         }
-    } else if (result->mResultCode == 9) {
+    } else if (result->mResultCode == WIRELESS_RESULT_NO_ANSWER) {
         if (gMPLink->mCallback != NULL) {
             gMPLink->mCallback(MP_LINK_EVENT_SEND_BUSY, result);
         }
@@ -301,13 +302,13 @@ void QueueMPDataCallback(WirelessMessage *result) {
 }
 
 void ClearPortCallback(void) {
-    WM_SetPortCallback(1, NULL, NULL);
+    WM_SetPortCallback(MP_LINK_PORT, NULL, NULL);
 }
 
 void InitScanConnectWork(ScanConnectWork *work, void *initData) {
-    if (gScanConnectInitialized == 0) {
-        gScanConnectInitialized = 1;
-        MI_CpuFill8(work, 0, 0x5f20);
+    if (gScanConnectInitialized == FALSE) {
+        gScanConnectInitialized = TRUE;
+        MI_CpuFill8(work, 0, SCAN_CONNECT_WORK_SIZE);
         gScanConnectWork = work;
         work->mState = SCAN_CONNECT_STATE_IDLE;
         MI_CpuCopy8(initData, gScanConnectWork->mUnk_05c4, 0x16);
@@ -318,15 +319,15 @@ void InitScanConnectWork(ScanConnectWork *work, void *initData) {
 }
 
 void CloseScanConnect(void) {
-    if (gScanConnectWork->mEndRequested == 0) {
-        gScanConnectWork->mEndRequested = 1;
+    if (gScanConnectWork->mEndRequested == FALSE) {
+        gScanConnectWork->mEndRequested = TRUE;
         switch (gScanConnectWork->mState) {
             case SCAN_CONNECT_STATE_IDLE:
-                if (gScanConnectWork->mRepeatScan != 0) {
-                    gScanConnectWork->mRepeatScan = 0;
+                if (gScanConnectWork->mRepeatScan != FALSE) {
+                    gScanConnectWork->mRepeatScan = FALSE;
                     return;
                 }
-                if (gScanConnectWork->mEndScanRequested == 0) {
+                if (gScanConnectWork->mEndScanRequested == FALSE) {
                     FinishScanConnect();
                     return;
                 }
@@ -364,14 +365,14 @@ void CloseScanConnect(void) {
 #pragma thumb on
 
 void FinishScanConnect(void) {
-    gScanConnectInitialized = 0;
-    gScanConnectWork->mEndRequested = 0;
+    gScanConnectInitialized = FALSE;
+    gScanConnectWork->mEndRequested = FALSE;
     ClearPortCallback();
-    SetScanConnectStateAndNotify(0x14, NULL);
+    SetScanConnectStateAndNotify(SCAN_CONNECT_STATE_FINISHED, NULL);
 }
 
 u32 GetScanConnectWorkSize(void) {
-    return 0x5f20u;
+    return SCAN_CONNECT_WORK_SIZE;
 }
 
 void SetScanConnectStateCallback(UnkFunc *callback) {
@@ -404,8 +405,8 @@ void StartRepeatedScan(UnkFunc *callback, u32 param) {
     gScanConnectWork->mUnk_05e4 = param;
     gScanConnectWork->mScanParams.mChannel = 0;
     gScanConnectWork->mScanParams.mScanBuf = &gScanConnectWork->mScanBuffer;
-    gScanConnectWork->mRepeatScan = 1;
-    gScanConnectWork->mUseScanBssid = 0;
+    gScanConnectWork->mRepeatScan = TRUE;
+    gScanConnectWork->mUseScanBssid = FALSE;
     gScanConnectWork->mUnk_05ee = 0;
     ScanConnectStartScan();
 }
@@ -420,8 +421,8 @@ void ScanConnectStartScan(void) {
     u8 *bssid;
     const u8 *defaultBssid;
     work = gScanConnectWork;
-    if (work->mUseScanBssid != 0) {
-        work->mScanParams.mMaxChannelTime = 0xdc;
+    if (work->mUseScanBssid != FALSE) {
+        work->mScanParams.mMaxChannelTime = SCAN_CHANNEL_TIME_LOCKED;
     } else {
         bssid = work->mScanParams.mBssid;
         defaultBssid = gDefaultScanBssid;
@@ -431,45 +432,45 @@ void ScanConnectStartScan(void) {
         bssid[3] = defaultBssid[3];
         bssid[4] = defaultBssid[4];
         bssid[5] = defaultBssid[5];
-        gScanConnectWork->mScanParams.mMaxChannelTime = 10;
+        gScanConnectWork->mScanParams.mMaxChannelTime = SCAN_CHANNEL_TIME_ANY;
         if (PickScanChannel() == 0) {
             ReportScanError(SCAN_ERROR_NO_CHANNEL, 0);
             return;
         }
     }
     if (gScanConnectWork->mScanParams.mChannel == 0) {
-        gScanConnectWork->mScanParams.mChannel = 1;
+        gScanConnectWork->mScanParams.mChannel = SCAN_CHANNEL_FIRST;
     }
     wmResult = WM_StartScan(ScanConnectStartScanCallback, &gScanConnectWork->mScanParams);
-    if (wmResult != 2) {
+    if (wmResult != WIRELESS_CALL_QUEUED) {
         ReportScanError(SCAN_ERROR_START, wmResult);
     }
 }
 
 void ScanConnectStartScanCallback(WirelessMessage *result) {
-    if (result->mResultCode != 0) {
+    if (result->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
         ReportScanError(SCAN_ERROR_START, result->mResultCode);
         return;
     }
     switch (result->mReplyState) {
-        case 3:
+        case WIRELESS_STATE_SEARCH_NO_ACTION:
             break;
-        case 5:
+        case WIRELESS_STATE_HOST_SIGHTED:
             if (result->mUnk_38.mUnk_00[1] == gScanConnectWork->mUnk_05e4) {
-                DC_InvalidateRange(&gScanConnectWork->mScanBuffer, 0xc0);
+                DC_InvalidateRange(&gScanConnectWork->mScanBuffer, sizeof(gScanConnectWork->mScanBuffer));
                 MB_RecvGameInfoBeacon(EntryCallback, result->mAid, &gScanConnectWork->mScanBuffer);
                 MB_CountGameInfoLifetime(EntryCallback, 1);
             }
-        case 4:
+        case WIRELESS_STATE_SEARCH_EMPTY:
             MB_CountGameInfoLifetime(EntryCallback, 0);
-            if (gScanConnectWork->mRepeatScan != 0) {
+            if (gScanConnectWork->mRepeatScan != FALSE) {
                 ScanConnectStartScan();
             } else {
                 ScanConnectEndScan();
             }
             break;
         default:
-            ReportScanError(SCAN_ERROR_START, 1);
+            ReportScanError(SCAN_ERROR_START, WIRELESS_RESULT_REFUSED);
             break;
     }
 }
@@ -502,7 +503,7 @@ void ReportScanError(u16 errorCode, u16 resultCode) {
 
 void SetScanBssid(const u8 *bssid) {
     u8 *dest;
-    gScanConnectWork->mUseScanBssid = 1;
+    gScanConnectWork->mUseScanBssid = TRUE;
     dest = gScanConnectWork->mScanParams.mBssid;
     dest[0] = bssid[0];
     dest[1] = bssid[1];
@@ -516,7 +517,7 @@ void SetScanBssid(const u8 *bssid) {
 
 #pragma thumb on
 void ClearUseScanBssid(void) {
-    gScanConnectWork->mUseScanBssid = 0;
+    gScanConnectWork->mUseScanBssid = FALSE;
 }
 #pragma thumb off
 
@@ -546,16 +547,16 @@ u32 PickScanChannel(void) {
     gScanConnectWork->mScanParams.mChannel++;
     do {
         gScanConnectWork->mScanParams.mChannel++;
-        if (gScanConnectWork->mScanParams.mChannel > 0x10) {
-            gScanConnectWork->mScanParams.mChannel = 1;
+        if (gScanConnectWork->mScanParams.mChannel > SCAN_CHANNEL_LAST) {
+            gScanConnectWork->mScanParams.mChannel = SCAN_CHANNEL_FIRST;
         }
     } while ((allowedChannels & (1 << (gScanConnectWork->mScanParams.mChannel - 1))) == 0);
     return 1;
 }
 
 void RequestEndScan(void) {
-    gScanConnectWork->mRepeatScan = 0;
-    gScanConnectWork->mEndScanRequested = 1;
+    gScanConnectWork->mRepeatScan = FALSE;
+    gScanConnectWork->mEndScanRequested = TRUE;
 }
 
 #pragma thumb off
@@ -565,7 +566,7 @@ void RequestEndScan(void) {
 void ScanConnectEndScan(void) {
     u32 wmResult;
     wmResult = WM_EndScan(ScanConnectEndScanCallback);
-    if (wmResult != 2) {
+    if (wmResult != WIRELESS_CALL_QUEUED) {
         ReportScanError(SCAN_ERROR_END, wmResult & 0xffff);
     }
 }
