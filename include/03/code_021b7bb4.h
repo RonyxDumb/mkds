@@ -113,16 +113,6 @@ typedef struct Packet {
     /* 18 */ u8 mPayload[1];
 } Packet;
 
-typedef struct ParsedRecordView {
-    /* 00 */ u8 pad_00[4];
-    /* 04 */ s32 mValueLength;
-    /* 08 */ u8 mString[0x28];
-    /* 30 */ u8 mValue0[0x40];
-    /* 70 */ u8 mValue1[0x40];
-    /* b0 */ u8 mValue2[0x40];
-    /* f0 */ u8 mValue3[0x40];
-} ParsedRecordView;
-
 u16 NextRandomValue(void);
 int GetStringLength(const void *string);
 u16 SwapBytes16(u16 value);

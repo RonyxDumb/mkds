@@ -606,10 +606,10 @@ s32 GetErrorCode(void) {
 
 s32 CheckAndCopyValueRecordsToRequest(ValueRecordsRequest *request) {
     u8 *recordBytes = (u8 *) request + 0x117;
-    ParsedRecordView *fourValueRecord0 = (ParsedRecordView *) &gParsedItems[0].mFourValueRecord0;
-    ParsedRecordView *fourValueRecord1 = (ParsedRecordView *) &gParsedItems[0].mFourValueRecord1;
-    ParsedRecordView *singleValueRecord0 = (ParsedRecordView *) &gParsedItems[0].mSingleValueRecord0;
-    ParsedRecordView *singleValueRecord1 = (ParsedRecordView *) &gParsedItems[0].mSingleValueRecord1;
+    FourValueRecord *fourValueRecord0 = &gParsedItems[0].mFourValueRecord0;
+    FourValueRecord *fourValueRecord1 = &gParsedItems[0].mFourValueRecord1;
+    SingleValueRecord *singleValueRecord0 = &gParsedItems[0].mSingleValueRecord0;
+    SingleValueRecord *singleValueRecord1 = &gParsedItems[0].mSingleValueRecord1;
     if (recordBytes == NULL) {
         return -1;
     }
@@ -636,10 +636,10 @@ s32 CheckAndCopyValueRecordsToRequest(ValueRecordsRequest *request) {
         CopyBytes(recordBytes + 0x71, fourValueRecord1->mString, GetStringLength(fourValueRecord1->mString));
     }
     if (request->mWantedRecordMask & 4) {
-        if (CheckBytesInRange0x20To0x7f(singleValueRecord0->mValue0, singleValueRecord0->mValueLength - 1) != 0) {
+        if (CheckBytesInRange0x20To0x7f(singleValueRecord0->mValue, singleValueRecord0->mValueLength - 1) != 0) {
             goto fail;
         }
-        CopyBytes(recordBytes + 0x92, singleValueRecord0->mValue0, singleValueRecord0->mValueLength);
+        CopyBytes(recordBytes + 0x92, singleValueRecord0->mValue, singleValueRecord0->mValueLength);
         if (CheckBytesInRange0x20To0x7f(singleValueRecord0->mString, GetStringLength(singleValueRecord0->mString)) !=
             0) {
             goto fail;
@@ -647,10 +647,10 @@ s32 CheckAndCopyValueRecordsToRequest(ValueRecordsRequest *request) {
         CopyBytes(recordBytes + 0xd2, singleValueRecord0->mString, GetStringLength(singleValueRecord0->mString));
     }
     if (request->mWantedRecordMask & 8) {
-        if (CheckBytesInRange0x20To0x7f(singleValueRecord1->mValue0, singleValueRecord1->mValueLength - 1) != 0) {
+        if (CheckBytesInRange0x20To0x7f(singleValueRecord1->mValue, singleValueRecord1->mValueLength - 1) != 0) {
             goto fail;
         }
-        CopyBytes(recordBytes + 0xf3, singleValueRecord1->mValue0, singleValueRecord1->mValueLength);
+        CopyBytes(recordBytes + 0xf3, singleValueRecord1->mValue, singleValueRecord1->mValueLength);
         if (CheckBytesInRange0x20To0x7f(singleValueRecord1->mString, GetStringLength(singleValueRecord1->mString)) !=
             0) {
             goto fail;
