@@ -78,20 +78,51 @@ typedef struct RaceNclrNcgr {
     /* 08 */ u8 mUnk_08[8];
 } RaceNclrNcgr;
 
+// Number of cells in each NCER the tables hold (race_m, race_goal_m, race_ta_m, race_battle_m, race_mr_m,
+// race_goal_mr_m, race_s, race_goal_s, race_goal_team_s, race_new_record_ta_s, race_start_battle_m).
+#define RACE_M_NCER_COUNT 0x38
+#define RACE_GOAL_M_NCER_COUNT 0x44
+#define RACE_TA_M_NCER_COUNT 0xf
+#define RACE_BATTLE_M_NCER_COUNT 0xd
+#define RACE_MR_M_NCER_COUNT 0x16
+#define RACE_GOAL_MR_M_NCER_COUNT 8
+#define RACE_S_NCER_COUNT 0xc9
+#define RACE_GOAL_S_NCER_COUNT 0x2c
+#define RACE_GOAL_TEAM_S_NCER_COUNT 0x28
+#define RACE_NEW_RECORD_TA_S_NCER_COUNT 0x21
+#define RACE_START_BATTLE_M_NCER_COUNT 3
+
+// Slots of mNclrNcgrPairs: the palette and characters loaded from the file of that name (race_m_o, race_goal_m_o,
+// race_ta_m_o, ...). The _M files are for the main screen, the _S files for the sub screen.
+typedef enum {
+    RACE_NCER_PAIR_RACE_M,
+    RACE_NCER_PAIR_GOAL_M,
+    RACE_NCER_PAIR_TA_M,
+    RACE_NCER_PAIR_BATTLE_M,
+    RACE_NCER_PAIR_MR_M,
+    RACE_NCER_PAIR_GOAL_MR_M,
+    RACE_NCER_PAIR_RACE_S,
+    RACE_NCER_PAIR_GOAL_S,
+    RACE_NCER_PAIR_GOAL_TEAM_S,
+    RACE_NCER_PAIR_NEW_RECORD_TA_S,
+    RACE_NCER_PAIR_START_BATTLE_M,
+    RACE_NCER_PAIR_COUNT
+} RaceNcerPair;
+
 // 0x88c bytes, allocated by InitRaceNcerNclrNcgrTables; the pointer to it is held in gRaceNcerNclrNcgrTables.
 typedef struct RaceNcerNclrNcgrTables {
-    /* 000 */ NNSG2dCellDataWithBR *mRaceMNcerEntries[0x38];
-    /* 0e0 */ NNSG2dCellDataWithBR *mRaceGoalMNcerEntries[0x44];
-    /* 1f0 */ NNSG2dCellDataWithBR *mRaceTaMNcerEntries[0xf];
-    /* 22c */ NNSG2dCellDataWithBR *mRaceBattleMNcerEntries[0xd];
-    /* 260 */ NNSG2dCellDataWithBR *mRaceMrMNcerEntries[0x16];
-    /* 2b8 */ NNSG2dCellDataWithBR *mRaceGoalMrMNcerEntries[8];
-    /* 2d8 */ NNSG2dCellDataWithBR *mRaceSNcerEntries[0xc9];
-    /* 5fc */ NNSG2dCellDataWithBR *mRaceGoalSNcerEntries[0x2c];
-    /* 6ac */ NNSG2dCellDataWithBR *mRaceGoalTeamSNcerEntries[0x28];
-    /* 74c */ NNSG2dCellDataWithBR *mRaceNewRecordTaSNcerEntries[0x21];
-    /* 7d0 */ NNSG2dCellDataWithBR *mRaceStartBattleMNcerEntries[3];
-    /* 7dc */ RaceNclrNcgr mNclrNcgrPairs[11];
+    /* 000 */ NNSG2dCellDataWithBR *mRaceMNcerEntries[RACE_M_NCER_COUNT];
+    /* 0e0 */ NNSG2dCellDataWithBR *mRaceGoalMNcerEntries[RACE_GOAL_M_NCER_COUNT];
+    /* 1f0 */ NNSG2dCellDataWithBR *mRaceTaMNcerEntries[RACE_TA_M_NCER_COUNT];
+    /* 22c */ NNSG2dCellDataWithBR *mRaceBattleMNcerEntries[RACE_BATTLE_M_NCER_COUNT];
+    /* 260 */ NNSG2dCellDataWithBR *mRaceMrMNcerEntries[RACE_MR_M_NCER_COUNT];
+    /* 2b8 */ NNSG2dCellDataWithBR *mRaceGoalMrMNcerEntries[RACE_GOAL_MR_M_NCER_COUNT];
+    /* 2d8 */ NNSG2dCellDataWithBR *mRaceSNcerEntries[RACE_S_NCER_COUNT];
+    /* 5fc */ NNSG2dCellDataWithBR *mRaceGoalSNcerEntries[RACE_GOAL_S_NCER_COUNT];
+    /* 6ac */ NNSG2dCellDataWithBR *mRaceGoalTeamSNcerEntries[RACE_GOAL_TEAM_S_NCER_COUNT];
+    /* 74c */ NNSG2dCellDataWithBR *mRaceNewRecordTaSNcerEntries[RACE_NEW_RECORD_TA_S_NCER_COUNT];
+    /* 7d0 */ NNSG2dCellDataWithBR *mRaceStartBattleMNcerEntries[RACE_START_BATTLE_M_NCER_COUNT];
+    /* 7dc */ RaceNclrNcgr mNclrNcgrPairs[RACE_NCER_PAIR_COUNT];
 } RaceNcerNclrNcgrTables;
 
 void InitRaceNcerNclrNcgrTables(void);

@@ -146,8 +146,9 @@ void UploadRaceHud(void) {
     if (gRaceHud->mGoalMUploadPending != FALSE) {
         GXS_LoadBG0Char(GetChoisesSBNcgrWithListChars()->mData, 0, 0x3000);
         gRaceHud->mGoalMUploadPending = FALSE;
-        GX_LoadOBJPltt(GetRaceNclrNcgr(1)->mNclr->mData, 0, GetRaceNclrNcgr(1)->mNclr->mDataSize);
-        GX_LoadOBJ(GetRaceNclrNcgr(1)->mNcgr->mData, 0, 0x4000);
+        GX_LoadOBJPltt(GetRaceNclrNcgr(RACE_NCER_PAIR_GOAL_M)->mNclr->mData, 0,
+                       GetRaceNclrNcgr(RACE_NCER_PAIR_GOAL_M)->mNclr->mDataSize);
+        GX_LoadOBJ(GetRaceNclrNcgr(RACE_NCER_PAIR_GOAL_M)->mNcgr->mData, 0, 0x4000);
         gRaceHud->mGoalMUploaded = 1;
         gRaceHud->mGoalMUploadFrames = 1;
         reg_GX_DISPCNT &= ~0xe000;
@@ -212,8 +213,8 @@ void UploadRaceHud(void) {
                                GetRaceGoalSBPaletteAndChars(0)->mPalette->mDataSize);
                 GXS_LoadBG1Char(GetRaceGoalSBPaletteAndChars(0)->mChars->mData, 0,
                                 GetRaceGoalSBPaletteAndChars(0)->mChars->mDataSize);
-                GXS_LoadOBJPltt(GetRaceNclrNcgr(7)->mNclr->mData, 0, 0x80);
-                GXS_LoadOBJ(GetRaceNclrNcgr(7)->mNcgr->mData, 0, 0x4000);
+                GXS_LoadOBJPltt(GetRaceNclrNcgr(RACE_NCER_PAIR_GOAL_S)->mNclr->mData, 0, 0x80);
+                GXS_LoadOBJ(GetRaceNclrNcgr(RACE_NCER_PAIR_GOAL_S)->mNcgr->mData, 0, 0x4000);
                 GXS_LoadBG0Char(GetChoisesSBNcgrWithListChars()->mData, 0, 0x3000);
                 GXS_LoadBG0Scr(GetChoisesSListScreenMapData(), 0, 0x600);
                 break;
@@ -231,7 +232,8 @@ void UploadRaceHud(void) {
         case RACE_HUD_SUB_SCREEN_MAP_FIXED_SCROLL:
         case RACE_HUD_SUB_SCREEN_MAP_VIEW:
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-                GXS_LoadOBJPltt(GetRaceNclrNcgr(6)->mNclr->mData, 0, GetRaceNclrNcgr(6)->mNclr->mDataSize);
+                GXS_LoadOBJPltt(GetRaceNclrNcgr(RACE_NCER_PAIR_RACE_S)->mNclr->mData, 0,
+                                GetRaceNclrNcgr(RACE_NCER_PAIR_RACE_S)->mNclr->mDataSize);
             }
             G2x_SetBGyAffine_(&reg_G2S_DB_BG2PA, &gRaceHud->mSubScreenBgAffines[0].mMatrix0,
                               gRaceHud->mSubScreenBgAffines[0].mCenterX, gRaceHud->mSubScreenBgAffines[0].mCenterY,
@@ -282,9 +284,9 @@ void UploadRaceHud(void) {
                 GXS_LoadBG1Scr(GetRaceGoalSNscr(3)->mData, 0, GetRaceGoalSNscr(3)->mDataSize);
                 GXS_LoadBG2Scr(GetRaceGoalSNscr(4)->mData, 0, GetRaceGoalSNscr(4)->mDataSize);
                 GXS_LoadBG3Scr(GetRaceGoalSNscr(5)->mData, 0, GetRaceGoalSNscr(5)->mDataSize);
-                GXS_LoadOBJPltt(GetRaceNclrNcgr(8)->mNclr->mData, 0, 0x20);
-                GXS_LoadOBJPltt(GetRaceNclrNcgr(8)->mNclr->mData + 0xc0, 0x180, 0x80);
-                GXS_LoadOBJ(GetRaceNclrNcgr(8)->mNcgr->mData, 0, 0x4000);
+                GXS_LoadOBJPltt(GetRaceNclrNcgr(RACE_NCER_PAIR_GOAL_TEAM_S)->mNclr->mData, 0, 0x20);
+                GXS_LoadOBJPltt(GetRaceNclrNcgr(RACE_NCER_PAIR_GOAL_TEAM_S)->mNclr->mData + 0xc0, 0x180, 0x80);
+                GXS_LoadOBJ(GetRaceNclrNcgr(RACE_NCER_PAIR_GOAL_TEAM_S)->mNcgr->mData, 0, 0x4000);
                 gRaceHud->mSubScreenState5LoadPending = FALSE;
             }
             if (value < 0x100) {
@@ -303,9 +305,9 @@ void UploadRaceHud(void) {
                 GXS_LoadBGPltt(gRaceHud->mNclrs[1]->mData, 0, 0x20);
                 GXS_LoadBG1Char(gRaceHud->mNcgrs[1]->mData, 0, gRaceHud->mNcgrs[1]->mDataSize);
                 GXS_LoadBG1Scr(gRaceHud->mNscrs[2]->mData, 0, gRaceHud->mNscrs[2]->mDataSize);
-                GXS_LoadOBJPltt(GetRaceNclrNcgr(9)->mNclr->mData, 0, 0xa0);
-                GXS_LoadOBJPltt(GetRaceNclrNcgr(9)->mNclr->mData + 0xb0, 0x160, 0xa0);
-                GXS_LoadOBJ(GetRaceNclrNcgr(9)->mNcgr->mData, 0, 0x4000);
+                GXS_LoadOBJPltt(GetRaceNclrNcgr(RACE_NCER_PAIR_NEW_RECORD_TA_S)->mNclr->mData, 0, 0xa0);
+                GXS_LoadOBJPltt(GetRaceNclrNcgr(RACE_NCER_PAIR_NEW_RECORD_TA_S)->mNclr->mData + 0xb0, 0x160, 0xa0);
+                GXS_LoadOBJ(GetRaceNclrNcgr(RACE_NCER_PAIR_NEW_RECORD_TA_S)->mNcgr->mData, 0, 0x4000);
                 gRaceHud->mSubScreenState6LoadPending = FALSE;
             }
             break;
@@ -456,20 +458,32 @@ void InitRaceHud(void) {
     }
     G2x_SetBlendAlpha_(&reg_G2S_DB_BLDCNT, 0, 0x3f, 6, 10);
     if (gRaceSetup->mMode == MODE_GRAND_PRIX) {
-        CopyPlayerCharacterToRaceGoalMO(GetRaceNclrNcgr(1)->mNclr->mData, GetRaceNclrNcgr(1)->mNcgr->mData);
-        DC_FlushRange(GetRaceNclrNcgr(1)->mNclr->mData, GetRaceNclrNcgr(1)->mNclr->mDataSize);
-        DC_FlushRange(GetRaceNclrNcgr(1)->mNcgr->mData, GetRaceNclrNcgr(1)->mNcgr->mDataSize);
+        CopyPlayerCharacterToRaceGoalMO(GetRaceNclrNcgr(RACE_NCER_PAIR_GOAL_M)->mNclr->mData,
+                                        GetRaceNclrNcgr(RACE_NCER_PAIR_GOAL_M)->mNcgr->mData);
+        DC_FlushRange(GetRaceNclrNcgr(RACE_NCER_PAIR_GOAL_M)->mNclr->mData,
+                      GetRaceNclrNcgr(RACE_NCER_PAIR_GOAL_M)->mNclr->mDataSize);
+        DC_FlushRange(GetRaceNclrNcgr(RACE_NCER_PAIR_GOAL_M)->mNcgr->mData,
+                      GetRaceNclrNcgr(RACE_NCER_PAIR_GOAL_M)->mNcgr->mDataSize);
     }
-    FillRaceSOPaletteAndChars(GetRaceNclrNcgr(6)->mNclr->mData, GetRaceNclrNcgr(6)->mNcgr->mData);
-    DC_FlushRange(GetRaceNclrNcgr(6)->mNclr->mData, GetRaceNclrNcgr(6)->mNclr->mDataSize);
-    DC_FlushRange(GetRaceNclrNcgr(6)->mNcgr->mData, GetRaceNclrNcgr(6)->mNcgr->mDataSize);
-    CopyCharsBlock(GetRaceNclrNcgr(6)->mNcgr->mData, 0x10, 0, 0x10, 2, GetRaceNclrNcgr(7)->mNcgr->mData, 0x10, 0);
-    DC_FlushRange(GetRaceNclrNcgr(7)->mNcgr->mData, GetRaceNclrNcgr(7)->mNcgr->mDataSize);
-    CopyCharsBlock(GetRaceNclrNcgr(6)->mNcgr->mData, 0x10, 0, 0x10, 2, GetRaceNclrNcgr(8)->mNcgr->mData, 0x10, 0);
-    DC_FlushRange(GetRaceNclrNcgr(8)->mNcgr->mData, GetRaceNclrNcgr(8)->mNcgr->mDataSize);
+    FillRaceSOPaletteAndChars(GetRaceNclrNcgr(RACE_NCER_PAIR_RACE_S)->mNclr->mData,
+                              GetRaceNclrNcgr(RACE_NCER_PAIR_RACE_S)->mNcgr->mData);
+    DC_FlushRange(GetRaceNclrNcgr(RACE_NCER_PAIR_RACE_S)->mNclr->mData,
+                  GetRaceNclrNcgr(RACE_NCER_PAIR_RACE_S)->mNclr->mDataSize);
+    DC_FlushRange(GetRaceNclrNcgr(RACE_NCER_PAIR_RACE_S)->mNcgr->mData,
+                  GetRaceNclrNcgr(RACE_NCER_PAIR_RACE_S)->mNcgr->mDataSize);
+    CopyCharsBlock(GetRaceNclrNcgr(RACE_NCER_PAIR_RACE_S)->mNcgr->mData, 0x10, 0, 0x10, 2,
+                   GetRaceNclrNcgr(RACE_NCER_PAIR_GOAL_S)->mNcgr->mData, 0x10, 0);
+    DC_FlushRange(GetRaceNclrNcgr(RACE_NCER_PAIR_GOAL_S)->mNcgr->mData,
+                  GetRaceNclrNcgr(RACE_NCER_PAIR_GOAL_S)->mNcgr->mDataSize);
+    CopyCharsBlock(GetRaceNclrNcgr(RACE_NCER_PAIR_RACE_S)->mNcgr->mData, 0x10, 0, 0x10, 2,
+                   GetRaceNclrNcgr(RACE_NCER_PAIR_GOAL_TEAM_S)->mNcgr->mData, 0x10, 0);
+    DC_FlushRange(GetRaceNclrNcgr(RACE_NCER_PAIR_GOAL_TEAM_S)->mNcgr->mData,
+                  GetRaceNclrNcgr(RACE_NCER_PAIR_GOAL_TEAM_S)->mNcgr->mDataSize);
     if (gRaceSetup->mMode == MODE_TIME_ATTACK) {
-        CopyCharsBlock(GetRaceNclrNcgr(6)->mNcgr->mData, 0x10, 0, 0x10, 2, GetRaceNclrNcgr(9)->mNcgr->mData, 0x10, 0);
-        DC_FlushRange(GetRaceNclrNcgr(9)->mNcgr->mData, GetRaceNclrNcgr(9)->mNcgr->mDataSize);
+        CopyCharsBlock(GetRaceNclrNcgr(RACE_NCER_PAIR_RACE_S)->mNcgr->mData, 0x10, 0, 0x10, 2,
+                       GetRaceNclrNcgr(RACE_NCER_PAIR_NEW_RECORD_TA_S)->mNcgr->mData, 0x10, 0);
+        DC_FlushRange(GetRaceNclrNcgr(RACE_NCER_PAIR_NEW_RECORD_TA_S)->mNcgr->mData,
+                      GetRaceNclrNcgr(RACE_NCER_PAIR_NEW_RECORD_TA_S)->mNcgr->mDataSize);
     }
     ResetRaceStartSequenceFrames();
     ResetRaceEndFrames();
@@ -647,8 +661,9 @@ void SetupRaceHudScreens(void) {
     GX_LoadBGPltt(gRaceHud->mNclrs[0]->mData, 0, gRaceHud->mNclrs[0]->mDataSize);
     GX_LoadBG2Char(gRaceHud->mNcgrs[0]->mData, 0, gRaceHud->mNcgrs[0]->mDataSize);
     GX_LoadBG2Scr(gRaceHud->mNscrs[0]->mData, 0, gRaceHud->mNscrs[0]->mDataSize);
-    GX_LoadOBJPltt(GetRaceNclrNcgr(0)->mNclr->mData, 0, GetRaceNclrNcgr(0)->mNclr->mDataSize);
-    GX_LoadOBJ(GetRaceNclrNcgr(0)->mNcgr->mData, 0, 0x4000);
+    GX_LoadOBJPltt(GetRaceNclrNcgr(RACE_NCER_PAIR_RACE_M)->mNclr->mData, 0,
+                   GetRaceNclrNcgr(RACE_NCER_PAIR_RACE_M)->mNclr->mDataSize);
+    GX_LoadOBJ(GetRaceNclrNcgr(RACE_NCER_PAIR_RACE_M)->mNcgr->mData, 0, 0x4000);
     reg_GX_DISPCNT = (reg_GX_DISPCNT & ~0xe000) | 0xe000;
     value = reg_G2_WININ;
     reg_G2_WININ = (u32) ((value & ~0x3f) | 0x1f) | 0x20;
@@ -661,8 +676,9 @@ void SetupRaceHudScreens(void) {
     reg_G2_WINOUT = (u32) ((reg_G2_WINOUT & ~0x3f) | 0xf) | 0x20;
     reg_GXS_DB_DISPCNT &= ~0xe000;
     GXS_SetGraphicsMode(GX_BGMODE_5);
-    GXS_LoadOBJPltt(GetRaceNclrNcgr(6)->mNclr->mData, 0, GetRaceNclrNcgr(6)->mNclr->mDataSize);
-    GXS_LoadOBJ(GetRaceNclrNcgr(6)->mNcgr->mData, 0, 0x4000);
+    GXS_LoadOBJPltt(GetRaceNclrNcgr(RACE_NCER_PAIR_RACE_S)->mNclr->mData, 0,
+                    GetRaceNclrNcgr(RACE_NCER_PAIR_RACE_S)->mNclr->mDataSize);
+    GXS_LoadOBJ(GetRaceNclrNcgr(RACE_NCER_PAIR_RACE_S)->mNcgr->mData, 0, 0x4000);
     InitSubScreenGraphicsMode0();
     GXS_LoadBG1Scr(GetRaceGoalSNscr(0)->mData, 0, GetRaceGoalSNscr(0)->mDataSize);
     GXS_LoadBG2Scr(GetRaceGoalSNscr(1)->mData, 0, GetRaceGoalSNscr(1)->mDataSize);

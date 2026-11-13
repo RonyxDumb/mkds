@@ -106,13 +106,14 @@ void UpdateRaceHudSubScreenKurikingCells(void) {
             if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenKurikingCells->mCells[cellCount].mDrawPos,
                                                 var, 1, 1)) {
                 row = GetAbsoluteCounterWrapper((MissionRunMapObject *) object);
-                racePalette = GetRaceNclrNcgr(6)->mNclr->mData;
+                racePalette = GetRaceNclrNcgr(RACE_NCER_PAIR_RACE_S)->mNclr->mData;
                 nclr = NULL;
                 LocateNclr((&nclr), (FindSceneFileWrapper("race_transfer_map_mr_s_o.NCLR")));
                 for (colorIndex = 0; colorIndex < 16; colorIndex++) {
                     racePalette[0x50 + colorIndex] = nclr->mData[(row + 2) * 16 + colorIndex];
                 }
-                DC_FlushRange(GetRaceNclrNcgr(6)->mNclr->mData, GetRaceNclrNcgr(6)->mNclr->mDataSize);
+                DC_FlushRange(GetRaceNclrNcgr(RACE_NCER_PAIR_RACE_S)->mNclr->mData,
+                              GetRaceNclrNcgr(RACE_NCER_PAIR_RACE_S)->mNclr->mDataSize);
                 gRaceHudSubScreenKurikingCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xc5);
                 gRaceHudSubScreenKurikingCells->mCells[cellCount].mPriority =
                     IsPositionOutsideBox(position) ? RACE_HUD_PRIORITY_OUTSIDE_BOX : RACE_HUD_PRIORITY_INSIDE_BOX;
