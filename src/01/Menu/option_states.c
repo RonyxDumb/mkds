@@ -52,9 +52,9 @@ void SetupOptionBackgrounds(void) {
     vu32 secondFillValue;
     void *bg0Screen;
     void *bg1Screen;
-    visiblePlaneBits = (reg_GX_DISPCNT & 0x1f00) >> 8;
+    visiblePlaneBits = (reg_GX_DISPCNT & REG_GX_DISPCNT_DISPLAY_MASK) >> 8;
     visiblePlaneBits |= 1;
-    reg_GX_DISPCNT = (reg_GX_DISPCNT & ~0x1f00) | (visiblePlaneBits << 8);
+    reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | (visiblePlaneBits << 8);
     reg_G2_BG0CNT = (reg_G2_BG0CNT & 0x43) | 0x9000;
     reg_G2_BG0CNT = (reg_G2_BG0CNT & ~3) | 2;
     reg_G2_BG1CNT = (reg_G2_BG1CNT & 0x43) | 0x9204;

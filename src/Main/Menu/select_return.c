@@ -53,9 +53,9 @@ s32 InitSelectReturn(void *heap, s32 subCharOffset) {
         gSelectReturn->mDisplayBitOn = TRUE;
     } else {
         gSelectReturn->mDisplayBitOn = FALSE;
-        subDisplayBits = (reg_GXS_DB_DISPCNT & 0x1f00) >> 8;
+        subDisplayBits = (reg_GXS_DB_DISPCNT & REG_GXS_DB_DISPCNT_DISPLAY_MASK) >> 8;
         subDisplayBits &= ~4;
-        reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | (subDisplayBits << 8);
+        reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | (subDisplayBits << 8);
     }
     gSelectReturn->mEnabled = TRUE;
     gSelectReturn->mState = 0;
@@ -78,8 +78,8 @@ void ClearSelectReturnPointer(void) {
 #pragma thumb on
 void InitSelectReturnDisplay(void) {
     u32 subDisplayBits;
-    subDisplayBits = (reg_GXS_DB_DISPCNT & 0x1f00) >> 8;
-    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | ((subDisplayBits | 4) << 8);
+    subDisplayBits = (reg_GXS_DB_DISPCNT & REG_GXS_DB_DISPCNT_DISPLAY_MASK) >> 8;
+    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | ((subDisplayBits | 4) << 8);
     reg_G2S_DB_BG2CNT = (reg_G2S_DB_BG2CNT & ~3);
     reg_G2S_DB_BG2CNT = (reg_G2S_DB_BG2CNT & 0x43) | 0xe00;
 }
@@ -227,14 +227,16 @@ void WriteSelectReturnRegisters(void) {
     selectReturn = gSelectReturn;
     if (selectReturn->mEnabled != FALSE) {
         if (selectReturn->mDisplayBitOn != FALSE) {
-            if (((reg_GXS_DB_DISPCNT & 0x1f00) >> 8 & 4) == 0) {
-                subDisplayBits = (reg_GXS_DB_DISPCNT & 0x1f00) >> 8;
-                reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | ((subDisplayBits | 4) << 8);
+            if (((reg_GXS_DB_DISPCNT & REG_GXS_DB_DISPCNT_DISPLAY_MASK) >> 8 & 4) == 0) {
+                subDisplayBits = (reg_GXS_DB_DISPCNT & REG_GXS_DB_DISPCNT_DISPLAY_MASK) >> 8;
+                reg_GXS_DB_DISPCNT =
+                    (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | ((subDisplayBits | 4) << 8);
             }
         } else {
-            if (((reg_GXS_DB_DISPCNT & 0x1f00) >> 8 & 4) != 0) {
-                subDisplayBits = (reg_GXS_DB_DISPCNT & 0x1f00) >> 8;
-                reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | ((subDisplayBits & ~4) << 8);
+            if (((reg_GXS_DB_DISPCNT & REG_GXS_DB_DISPCNT_DISPLAY_MASK) >> 8 & 4) != 0) {
+                subDisplayBits = (reg_GXS_DB_DISPCNT & REG_GXS_DB_DISPCNT_DISPLAY_MASK) >> 8;
+                reg_GXS_DB_DISPCNT =
+                    (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | ((subDisplayBits & ~4) << 8);
             }
         }
         reg_G2S_DB_BG2OFS = (gSelectReturn->mBg2Offset << 16) & 0x1ff0000;
@@ -382,9 +384,9 @@ s32 InitSelectChoises(void *heap, void *font, s32 subCharOffset) {
         gSelectChoises->mDisplayBitOn = 1;
     } else {
         gSelectChoises->mDisplayBitOn = 0;
-        subDisplayBits = (reg_GXS_DB_DISPCNT & 0x1f00) >> 8;
+        subDisplayBits = (reg_GXS_DB_DISPCNT & REG_GXS_DB_DISPCNT_DISPLAY_MASK) >> 8;
         subDisplayBits &= ~1;
-        reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | (subDisplayBits << 8);
+        reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | (subDisplayBits << 8);
     }
     for (canvasIndex = 0; canvasIndex < 2; canvasIndex++) {
         gSelectChoises->mCharBuffers[canvasIndex] = HeapAlloc(heap, 0x800);
@@ -755,12 +757,12 @@ void WriteSelectChoisesRegisters(void) {
         reg_G2S_DB_BG0OFS = 0;
         if (gSelectChoises->mState == 0 || gSelectChoises->mDisplayBitOn == 0) {
             G2x_SetBlendBrightnessExt_(&reg_G2S_DB_BLDCNT, 0x1e, 0x1f, 6, 10, 0);
-            subDisplayBits = (reg_GXS_DB_DISPCNT & 0x1f00) >> 8;
-            reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | ((subDisplayBits & ~1) << 8);
+            subDisplayBits = (reg_GXS_DB_DISPCNT & REG_GXS_DB_DISPCNT_DISPLAY_MASK) >> 8;
+            reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | ((subDisplayBits & ~1) << 8);
         } else {
             G2x_SetBlendBrightnessExt_(&reg_G2S_DB_BLDCNT, 0x1e, 0x1f, 6, 10, -10);
-            subDisplayBits = (reg_GXS_DB_DISPCNT & 0x1f00) >> 8;
-            reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | ((subDisplayBits | 1) << 8);
+            subDisplayBits = (reg_GXS_DB_DISPCNT & REG_GXS_DB_DISPCNT_DISPLAY_MASK) >> 8;
+            reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | ((subDisplayBits | 1) << 8);
         }
     }
 }

@@ -136,7 +136,7 @@ void InitStaffRollText(void *heap) {
     gStaffRollText->mCharSpacing = 1;
     gStaffRollText->mTextColor = 1;
     gStaffRollText->mAlignFlags = 0x240;
-    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | 0x100;
+    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x100;
     reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & ~3) | 1;
     reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & 0x43) | 0x1000;
     MemFillWordsByBlock_inline((void *) G2S_GetBG0CharPtr(), 0x8000);

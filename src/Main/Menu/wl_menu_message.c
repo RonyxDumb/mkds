@@ -218,7 +218,7 @@ void ReleaseWLMenuMessage(void) {
 #pragma thumb off
 
 void WLMenuMessageGXS_SetVisiblePlane(int bits) {
-    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | (bits << 8);
+    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | (bits << 8);
 }
 
 void WLMenuMessageG2S_SetBG3Offset(u32 offsetX, int offsetY) {

@@ -71,12 +71,12 @@ void InitBackScreenDisplay(void) {
     u32 mainDisplayBits;
     u32 subDisplayBits;
 
-    mainDisplayBits = (reg_GX_DISPCNT & 0x1f00) >> 8;
-    reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | ((mainDisplayBits | 8) << 8);
+    mainDisplayBits = (reg_GX_DISPCNT & REG_GX_DISPCNT_DISPLAY_MASK) >> 8;
+    reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | ((mainDisplayBits | 8) << 8);
     reg_G2_BG3CNT = (reg_G2_BG3CNT & ~3) | 3;
     reg_G2_BG3CNT = (reg_G2_BG3CNT & 0x43) | 0x1d18;
-    subDisplayBits = (reg_GXS_DB_DISPCNT & 0x1f00) >> 8;
-    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | ((subDisplayBits | 2) << 8);
+    subDisplayBits = (reg_GXS_DB_DISPCNT & REG_GXS_DB_DISPCNT_DISPLAY_MASK) >> 8;
+    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | ((subDisplayBits | 2) << 8);
     reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & ~3) | 3;
     reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & 0x43) | 0xd00;
 }

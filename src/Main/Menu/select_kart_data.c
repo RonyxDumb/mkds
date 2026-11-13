@@ -784,13 +784,13 @@ void ReleaseSelectKart(void) {
 #pragma thumb off
 
 u32 SelectKartGX_SetVisiblePlane(u32 bits) {
-    u32 value = (reg_GX_DISPCNT & ~0x1f00) | (bits << 8);
+    u32 value = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | (bits << 8);
     reg_GX_DISPCNT = value;
     return value;
 }
 
 u32 SelectKartGXS_SetVisiblePlane(u32 bits) {
-    u32 value = (reg_GXS_DB_DISPCNT & ~0x1f00) | (bits << 8);
+    u32 value = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | (bits << 8);
     reg_GXS_DB_DISPCNT = value;
     return value;
 }

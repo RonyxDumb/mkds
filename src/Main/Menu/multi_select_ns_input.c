@@ -201,7 +201,7 @@ void ReleaseMultiSelectNS(void) {
 #pragma thumb off
 
 void MultiSelectNSGXS_SetVisiblePlane(u32 bits) {
-    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | (bits << 8);
+    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | (bits << 8);
 }
 
 void MultiSelectNSWriteSubWinEnableBits(u32 bits) {

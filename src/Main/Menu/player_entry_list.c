@@ -642,7 +642,7 @@ void WritePlayerEntryListRegisters(void) {
     if (gPlayerEntryList->mMode == 2) {
         displayBits |= 2;
     }
-    reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | (displayBits << 8);
+    reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | (displayBits << 8);
     GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, bg0As);
     if (gPlayerEntryList->mScreenKind == PLAYER_ENTRY_LIST_RACE_RULE) {
         reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffff1fff) | 0x6000;

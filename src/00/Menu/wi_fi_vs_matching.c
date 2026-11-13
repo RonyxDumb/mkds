@@ -210,8 +210,8 @@ void InitWiFiVSMatching(void *heap) {
 void ReleaseWiFiVSMatching(void) {
     u32 displayPlanes;
     StopBothSeqHandles();
-    displayPlanes = (reg_GXS_DB_DISPCNT & 0x1f00) >> 8;
-    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | ((displayPlanes & ~8) << 8);
+    displayPlanes = (reg_GXS_DB_DISPCNT & REG_GXS_DB_DISPCNT_DISPLAY_MASK) >> 8;
+    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | ((displayPlanes & ~8) << 8);
     reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & 0x43) | 0xf00;
     gWiFiVSMatching = NULL;
 }
@@ -787,7 +787,7 @@ void WriteWiFiVSMatchingRegisters(void) {
     u32 displayPlanes;
 
     displayPlanes = ((reg_GXS_DB_DISPCNT) & 0x1f00) >> 8;
-    (reg_GXS_DB_DISPCNT) = ((reg_GXS_DB_DISPCNT) & 0xffffe0ff) | ((displayPlanes | 8) << 8);
+    (reg_GXS_DB_DISPCNT) = ((reg_GXS_DB_DISPCNT) & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | ((displayPlanes | 8) << 8);
     bgOffset = -gWiFiVSMatching->mOffset;
     if (bgOffset <= -0x100) {
         bgOffset = -0x100;

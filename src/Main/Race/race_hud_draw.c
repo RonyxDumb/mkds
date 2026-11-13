@@ -89,9 +89,9 @@ u32 GetRaceHudStepHasRun(void) {
 
 void InitSubScreenGraphicsMode5(void) {
     if (IsCourseWithMap2DLocal3() != 0) {
-        reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | 0x1c00;
+        reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x1c00;
     } else {
-        reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | 0x1400;
+        reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x1400;
     }
     GXS_SetGraphicsMode(GX_BGMODE_5);
     reg_G2S_DB_BG2CNT = (reg_G2S_DB_BG2CNT & ~3) | 2;
@@ -104,7 +104,7 @@ void InitSubScreenGraphicsMode5(void) {
 }
 
 void InitSubScreenGraphicsMode0(void) {
-    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | 0x1e00;
+    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x1e00;
     GXS_SetGraphicsMode(GX_BGMODE_0);
     reg_G2S_DB_BG1OFS = 0;
     reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & ~3) | 3;
@@ -156,8 +156,8 @@ void UploadRaceHud(void) {
         if (GetChoisesSOpenDuringRace() == 0) {
             if (gRaceHud->mGoalMUploadFrames++ >= gRaceHud->mGoalMDelayFrameCount) {
                 if (gRaceSetup->mMode == MODE_GRAND_PRIX && gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
-                    value = (reg_GX_DISPCNT & 0x1f00) >> 8;
-                    reg_GX_DISPCNT = (reg_GX_DISPCNT & ~0x1f00) | ((value | 8) << 8);
+                    value = (reg_GX_DISPCNT & REG_GX_DISPCNT_DISPLAY_MASK) >> 8;
+                    reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | ((value | 8) << 8);
                     reg_G2_BG3CNT = (reg_G2_BG3CNT & ~3) | 1;
                     reg_G2_BG3CNT &= ~0x40;
                     reg_G2_BG3CNT = (reg_G2_BG3CNT & 0x43) | 0x500;
@@ -185,7 +185,7 @@ void UploadRaceHud(void) {
     if (gRaceHud->mSubScreenEnabled != FALSE) {
         switch (gRaceHud->mSubScreenState) {
             case RACE_HUD_SUB_SCREEN_KART_ICONS:
-                reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | 0x1c00;
+                reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x1c00;
                 GXS_SetGraphicsMode(GX_BGMODE_0);
                 reg_G2S_DB_BG2OFS = 0;
                 reg_G2S_DB_BG2CNT = (reg_G2S_DB_BG2CNT & ~3) | 2;
@@ -224,7 +224,7 @@ void UploadRaceHud(void) {
     }
     switch (gRaceHud->mSubScreenState) {
         case RACE_HUD_SUB_SCREEN_KART_ICONS:
-            reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | 0x1c00;
+            reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x1c00;
             scrollOffset = gRaceHud->mUpdateFrames / 6;
             reg_G2S_DB_BG3OFS = (scrollOffset & 0x1ff) | (((0x200 - scrollOffset) << 16) & 0x01ff0000);
             break;
@@ -246,16 +246,16 @@ void UploadRaceHud(void) {
             UpdateRaceHudSubScreenBgPalette(&gRaceHudSubScreenPalettes[0x100]);
             if (IsCourseWithMap2DLocal3() != 0) {
                 if (IsFollowedKartOutsideBox() != 0) {
-                    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | 0x1c00;
+                    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x1c00;
                 } else {
-                    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | 0x1800;
+                    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x1800;
                 }
             } else {
-                reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | 0x1400;
+                reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x1400;
             }
             break;
         case RACE_HUD_SUB_SCREEN_GOAL_KARTS:
-            reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | 0x1e00;
+            reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x1e00;
             switch (gRaceSetup->mMode) {
                 case MODE_BATTLE:
                 case MODE_VS:
@@ -272,7 +272,7 @@ void UploadRaceHud(void) {
             }
             break;
         case RACE_HUD_SUB_SCREEN_GOAL_TEAMS:
-            reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | 0x1e00;
+            reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x1e00;
             switch (gRaceSetup->mMode) {
                 case MODE_BATTLE:
                 case MODE_VS:
@@ -296,7 +296,7 @@ void UploadRaceHud(void) {
             break;
         case RACE_HUD_SUB_SCREEN_NEW_RECORD:
             if (gRaceHud->mSubScreenState6LoadPending != FALSE) {
-                reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | 0x1200;
+                reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x1200;
                 GXS_SetGraphicsMode(GX_BGMODE_0);
                 reg_G2S_DB_BG1OFS = 0;
                 reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & ~3) | 3;
@@ -314,19 +314,19 @@ void UploadRaceHud(void) {
     }
     if (IsChoisesSOpen() != 0) {
         if (gRaceProgress->mRaceDone == 0) {
-            value = (reg_GX_DISPCNT & 0x1f00) >> 8;
-            reg_GX_DISPCNT = (reg_GX_DISPCNT & ~0x1f00) | ((value | 4) << 8);
+            value = (reg_GX_DISPCNT & REG_GX_DISPCNT_DISPLAY_MASK) >> 8;
+            reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | ((value | 4) << 8);
             GX_LoadBG2Scr(gRaceHud->mNscrs[0]->mData, 0, 0x600);
         }
         GXS_LoadBG0Scr(GetChoisesSListScreenMapData(), 0, 0x600);
-        value = (reg_GXS_DB_DISPCNT & 0x1f00) >> 8;
-        reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | ((value | 1) << 8);
+        value = (reg_GXS_DB_DISPCNT & REG_GXS_DB_DISPCNT_DISPLAY_MASK) >> 8;
+        reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | ((value | 1) << 8);
         G2x_SetBlendBrightnessExt_(&reg_G2S_DB_BLDCNT, 0x3e, 0x3f, 8, 8, -7);
     } else {
-        value = (reg_GXS_DB_DISPCNT & 0x1f00) >> 8;
-        reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | ((value & ~1) << 8);
-        value = (reg_GX_DISPCNT & 0x1f00) >> 8;
-        reg_GX_DISPCNT = (reg_GX_DISPCNT & ~0x1f00) | ((value & ~4) << 8);
+        value = (reg_GXS_DB_DISPCNT & REG_GXS_DB_DISPCNT_DISPLAY_MASK) >> 8;
+        reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | ((value & ~1) << 8);
+        value = (reg_GX_DISPCNT & REG_GX_DISPCNT_DISPLAY_MASK) >> 8;
+        reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | ((value & ~4) << 8);
         G2x_SetBlendAlpha_(&reg_G2S_DB_BLDCNT, 0, 0x3f, 6, 10);
     }
     for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex++) {
@@ -603,7 +603,7 @@ void InitMap2D(void) {
         }
         DC_StoreAll();
         GXS_SetGraphicsMode(GX_BGMODE_5);
-        reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | 0x1c00;
+        reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x1c00;
         GXS_SetGraphicsMode(GX_BGMODE_0);
         reg_G2S_DB_BG2OFS = 0;
         reg_G2S_DB_BG2CNT = (reg_G2S_DB_BG2CNT & ~3) | 2;

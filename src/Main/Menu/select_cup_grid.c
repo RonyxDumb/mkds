@@ -515,7 +515,7 @@ void InitSelectCupGrid(void *heap, void *mainOam, void *subOam, s32 mode) {
     reg_G2_BG0CNT = (reg_G2_BG0CNT & ~3) | 1;
     reg_G2_BG0CNT = (reg_G2_BG0CNT & 0x43) | 0x9004;
     if (GetPreviousMenuScreenNumber() != 0x18 && GetPreviousMenuScreenNumber() != 0xc) {
-        reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | 0x1800;
+        reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | 0x1800;
     }
     heap = CreateFrmHeapFromMaxFree(heap);
     gSelectCupGrid = HeapAlloc(heap, 0x8c);
@@ -574,7 +574,7 @@ void InitSelectCupGrid(void *heap, void *mainOam, void *subOam, s32 mode) {
 void ReleaseSelectCupGrid(void) {
     if ((gSelectCupGrid->mMode == SELECT_CUP_GRID_MODE_SHOW_RECORDS && gSelectCupGrid->mResult == 1) ||
         gSelectCupGrid->mResult == 2) {
-        reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | 0x1800;
+        reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | 0x1800;
     }
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         ClearSelectCupNameMPointer();

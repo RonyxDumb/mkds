@@ -15,7 +15,7 @@
 #include "registers.h"
 
 void UploadEmblemMainScreen(void) {
-    reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | 0x1700;
+    reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | 0x1700;
     reg_GX_DISPCNT = reg_GX_DISPCNT & 0xffcfffef;
     reg_G2_BG0CNT = (reg_G2_BG0CNT & ~3) | 1;
     reg_G2_BG1CNT = reg_G2_BG1CNT & ~3;
@@ -42,7 +42,7 @@ void UploadEmblemMainScreen(void) {
 
 void UploadEmblemSubScreen(void) {
     GXS_SetGraphicsMode(GX_BGMODE_1);
-    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | 0x1e00;
+    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x1e00;
     reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & ~3) | 1;
     reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & 0x43) | 0x8a10;
     reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & ~3) | 2;
@@ -80,7 +80,7 @@ void UploadEmblemSubScreen(void) {
 
 void UploadEmblemCameraSubScreen(void) {
     GXS_SetGraphicsMode(GX_BGMODE_1);
-    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | 0x1600;
+    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x1600;
     reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & ~3) | 3;
     reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & 0x43) | 0xe10;
     reg_G2S_DB_BG2CNT = (reg_G2S_DB_BG2CNT & ~3) | 3;

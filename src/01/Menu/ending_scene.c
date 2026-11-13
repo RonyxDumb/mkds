@@ -63,8 +63,8 @@ void ClearEndingScenePointer(void) {
 }
 
 void InitEndingSceneDisplay(void) {
-    reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | 0x100;
-    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | 0x100;
+    reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | 0x100;
+    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x100;
     reg_G2_BG0CNT = (reg_G2_BG0CNT & ~3) | 3;
     reg_G2_BG0CNT = (reg_G2_BG0CNT & 0x43) | 0x1f00;
     reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & 0x43) | 0x1000;
@@ -293,8 +293,8 @@ void WriteEndingSceneRegisters(void) {
     u32 displayBits;
 
     if (gEndingScene->mIndex1Queued != FALSE) {
-        displayBits = (reg_GX_DISPCNT & 0x1f00) >> 8;
-        reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | ((displayBits | 0x10) << 8);
+        displayBits = (reg_GX_DISPCNT & REG_GX_DISPCNT_DISPLAY_MASK) >> 8;
+        reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | ((displayBits | 0x10) << 8);
     }
     UploadOamLists(gEndingScene->mMainOam, NULL);
 }

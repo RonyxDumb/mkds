@@ -214,19 +214,19 @@ void OpenMessageScreen(s32 messageKind, s32 inputEnabled) {
         PrintMessageScreenText();
         if (GetCurrentSceneNumber() == 2) {
             if (GetRaceHudStepHasRun() == 0) {
-                reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | 0x200;
-                reg_GXS_DB_DISPCNT = reg_GXS_DB_DISPCNT & 0xffffe0ff;
+                reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | 0x200;
+                reg_GXS_DB_DISPCNT = reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK;
                 *(vu16 *) 0x5000400 = 0;
                 reg_GX_DISPCNT = reg_GX_DISPCNT & 0xffff1fff;
             } else {
-                bits8To12 = (reg_GX_DISPCNT & 0x1f00) >> 8;
+                bits8To12 = (reg_GX_DISPCNT & REG_GX_DISPCNT_DISPLAY_MASK) >> 8;
                 bits8To12 |= 2;
-                reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | (bits8To12 << 8);
+                reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | (bits8To12 << 8);
             }
             G2x_SetBlendBrightnessExt_(&reg_G2_BLDCNT, 0x1d, 0, 8, 8, -11);
         } else {
-            reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | 0x200;
-            reg_GXS_DB_DISPCNT = reg_GXS_DB_DISPCNT & 0xffffe0ff;
+            reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | 0x200;
+            reg_GXS_DB_DISPCNT = reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK;
             *(vu16 *) 0x5000400 = 0;
             reg_GX_DISPCNT = reg_GX_DISPCNT & 0xffff1fff;
             reg_G2_BLDCNT = 0;

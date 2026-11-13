@@ -460,12 +460,12 @@ void UploadRaceStartGpOam(void) {
     powerBit = (reg_GX_POWCNT & 0x8000) >> 15;
     if (powerBit != 0) {
         if (powerBit == 1) {
-            displayBits = (reg_GX_DISPCNT & 0x1f00) >> 8;
-            reg_GX_DISPCNT = (reg_GX_DISPCNT & ~0x1f00) | ((displayBits | 0x10) << 8);
+            displayBits = (reg_GX_DISPCNT & REG_GX_DISPCNT_DISPLAY_MASK) >> 8;
+            reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | ((displayBits | 0x10) << 8);
         }
     } else {
-        displayBits = (reg_GX_DISPCNT & 0x1f00) >> 8;
-        reg_GX_DISPCNT = (reg_GX_DISPCNT & ~0x1f00) | ((displayBits & ~0x10) << 8);
+        displayBits = (reg_GX_DISPCNT & REG_GX_DISPCNT_DISPLAY_MASK) >> 8;
+        reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | ((displayBits & ~0x10) << 8);
     }
 }
 

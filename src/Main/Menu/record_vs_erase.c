@@ -696,9 +696,9 @@ void ReleaseRecordVSErase(void) {
     SetRecordScenePageIndex(gRecordVSErase->mPageIndex);
     SetRecordSceneIndex(gRecordVSErase->mIndex);
     gRecordVSErase = NULL;
-    planeBits = (reg_GXS_DB_DISPCNT & 0x1f00) >> 8;
+    planeBits = (reg_GXS_DB_DISPCNT & REG_GXS_DB_DISPCNT_DISPLAY_MASK) >> 8;
     planeBits &= ~9;
-    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | (planeBits << 8);
+    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | (planeBits << 8);
 }
 
 #pragma thumb off
@@ -1279,8 +1279,8 @@ void WriteRecordVSEraseBgOffsets(void) {
 void WriteRecordVSEraseRegisters(void) {
     u32 planeBits;
 
-    planeBits = (reg_GXS_DB_DISPCNT & 0x1f00) >> 8;
-    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | ((planeBits | 9) << 8);
+    planeBits = (reg_GXS_DB_DISPCNT & REG_GXS_DB_DISPCNT_DISPLAY_MASK) >> 8;
+    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | ((planeBits | 9) << 8);
 }
 
 void RegisterRecordVSEraseCallbacks(void) {

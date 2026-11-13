@@ -149,7 +149,7 @@ void WriteEmblemChoisesScreenMap(void) {
 #pragma thumb off
 
 u32 GetSubDispcntBits(void) {
-    return (reg_GXS_DB_DISPCNT & 0x1f00) >> 8;
+    return (reg_GXS_DB_DISPCNT & REG_GXS_DB_DISPCNT_DISPLAY_MASK) >> 8;
 }
 
 u32 EmblemChoisesGXS_SetVisiblePlane(u32 bits) {

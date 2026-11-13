@@ -503,7 +503,7 @@ void WriteWiFiVSCourseSelectRegisters(void) {
     s32 window0V;
 
     GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
-    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | 0x1a00;
+    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x1a00;
     reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & ~3) | 2;
     reg_G2_BG0OFS = (-GetInterpolatedValue(&gWiFiVSCourseSelect->mInterpolations[1]) << 16) & 0x1ff0000;
     reg_G2S_DB_BG3OFS = (-gWiFiVSCourseSelect->mSubOffsetY << 16) & 0x1ff0000;

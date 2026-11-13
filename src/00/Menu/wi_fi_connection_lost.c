@@ -42,8 +42,8 @@ void AdvanceWiFiConnectionLostState0(void) {
         StartFadeToClear(0x1e);
         reg_G2_BG1CNT = (reg_G2_BG1CNT & 0x43) | 0x1208;
         reg_G2_BG1CNT = reg_G2_BG1CNT & ~3;
-        reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | 0x1f00;
-        reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | 0x1700;
+        reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | 0x1f00;
+        reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x1700;
         reg_GX_DISPCNT = reg_GX_DISPCNT & 0xffff1fff;
         reg_GXS_DB_DISPCNT = reg_GXS_DB_DISPCNT & 0xffff1fff;
         GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_3D);

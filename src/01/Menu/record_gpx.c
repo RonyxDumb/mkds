@@ -165,12 +165,12 @@ void ReleaseRecordGpx(void) {
     ClearKartIconPointer();
     ClearCupMarkPointer();
     gRecordGpx = NULL;
-    displayBits = (reg_GX_DISPCNT & 0x1f00) >> 8;
+    displayBits = (reg_GX_DISPCNT & REG_GX_DISPCNT_DISPLAY_MASK) >> 8;
     displayBits &= ~0x11;
-    reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | (displayBits << 8);
-    displayBits = (reg_GXS_DB_DISPCNT & 0x1f00) >> 8;
+    reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | (displayBits << 8);
+    displayBits = (reg_GXS_DB_DISPCNT & REG_GXS_DB_DISPCNT_DISPLAY_MASK) >> 8;
     displayBits &= ~0x8;
-    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | (displayBits << 8);
+    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | (displayBits << 8);
 }
 
 void AdvanceRecordGpxState0(void) {
@@ -484,14 +484,14 @@ void WriteRecordGpxBgOffsets(void) {
 }
 
 void WriteRecordGpxRegisters(void) {
-    u32 mainDisplayBits = (reg_GX_DISPCNT & 0x1f00) >> 8;
+    u32 mainDisplayBits = (reg_GX_DISPCNT & REG_GX_DISPCNT_DISPLAY_MASK) >> 8;
     u32 subDisplayBits;
 
     mainDisplayBits |= 0x11;
-    reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | (mainDisplayBits << 8);
-    subDisplayBits = (reg_GXS_DB_DISPCNT & 0x1f00) >> 8;
+    reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | (mainDisplayBits << 8);
+    subDisplayBits = (reg_GXS_DB_DISPCNT & REG_GXS_DB_DISPCNT_DISPLAY_MASK) >> 8;
     subDisplayBits |= 0x8;
-    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | (subDisplayBits << 8);
+    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | (subDisplayBits << 8);
 }
 
 void RegisterRecordGpxCallbacks(void) {

@@ -60,11 +60,11 @@ void UpdateSelectGhost(void) {
 #pragma thumb off
 
 void TimeAttackGX_SetVisiblePlane(u32 bits) {
-    reg_GX_DISPCNT = (reg_GX_DISPCNT & ~0x1f00) | (bits << 8);
+    reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | (bits << 8);
 }
 
 void TimeAttackGXS_SetVisiblePlane(u32 bits) {
-    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | (bits << 8);
+    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | (bits << 8);
 }
 
 #pragma thumb on

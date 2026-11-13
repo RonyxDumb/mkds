@@ -151,9 +151,9 @@ void InitWiFiVSSetting(void *heap) {
 void ReleaseWiFiVSSetting(void) {
     u32 displayBits;
 
-    displayBits = (reg_GXS_DB_DISPCNT & 0x1f00) >> 8;
+    displayBits = (reg_GXS_DB_DISPCNT & REG_GXS_DB_DISPCNT_DISPLAY_MASK) >> 8;
     displayBits &= ~8;
-    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | (displayBits << 8);
+    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | (displayBits << 8);
     reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & 0x43) | 0xf00;
     ClearPaletteBlendPointer();
     gWiFiVSSetting = NULL;
@@ -730,12 +730,12 @@ void WriteWiFiVSSettingRegisters(void) {
     u32 subDisplayBits;
     s32 bgOffsetX;
 
-    mainDisplayBits = (reg_GX_DISPCNT & 0x1f00) >> 8;
+    mainDisplayBits = (reg_GX_DISPCNT & REG_GX_DISPCNT_DISPLAY_MASK) >> 8;
     mainDisplayBits |= 4;
-    reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | (mainDisplayBits << 8);
-    subDisplayBits = (reg_GXS_DB_DISPCNT & 0x1f00) >> 8;
+    reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | (mainDisplayBits << 8);
+    subDisplayBits = (reg_GXS_DB_DISPCNT & REG_GXS_DB_DISPCNT_DISPLAY_MASK) >> 8;
     subDisplayBits |= 9;
-    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | (subDisplayBits << 8);
+    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | (subDisplayBits << 8);
     G2x_SetBlendAlpha_(&reg_G2_BLDCNT, 0, 2, 6, 10);
     bgOffsetX = -gWiFiVSSetting->mRowOffsets[1][0];
     if (bgOffsetX <= -256) {

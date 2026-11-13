@@ -382,7 +382,7 @@ void InitMissionRunLVsel(void *parentHeap, void *mainOam, void *subOam) {
 }
 
 void ReleaseMissionRunLVsel(void) {
-    reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | 0x1800;
+    reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | 0x1800;
     switch (gMissionRunLVsel->mResult) {
         case 1:
             if (IsMissionRunLVselLastRecordMissing() != FALSE) {

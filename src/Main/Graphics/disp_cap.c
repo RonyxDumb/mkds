@@ -194,16 +194,16 @@ void ToggleDispCapBanks(void) {
     GX_ResetBankForSubBG();
     GX_ResetBankForSubOBJ();
     if (gDispCap->mFlags & 1) {
-        reg_GX_DISPCNT = (reg_GX_DISPCNT & ~0x1f00) | 0x300;
-        reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | 0x1000;
+        reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | 0x300;
+        reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x1000;
         GX_SetBankForLCDC(4);
         GX_SetBankForSubOBJ(8);
         gDispCap->mFlags &= ~1;
         captureBits = 2;
         powerBit = 1;
     } else {
-        reg_GX_DISPCNT = (reg_GX_DISPCNT & ~0x1f00) | 0x300;
-        reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | 0x400;
+        reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | 0x300;
+        reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x400;
         GX_SetBankForSubBG(4);
         GX_SetBankForLCDC(8);
         gDispCap->mFlags |= 1;

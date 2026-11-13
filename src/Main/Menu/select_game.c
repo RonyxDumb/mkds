@@ -444,7 +444,7 @@ void WriteSelectGameMainRegisters(void) {
         displayBits |= 2;
         bgControlBits = 3;
     }
-    reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | (displayBits << 8);
+    reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | (displayBits << 8);
     reg_G2_BG1CNT = (reg_G2_BG1CNT & ~3) | bgControlBits;
     reg_G2_BG1OFS = (-gSelectGame->mMainOffsetY << 16) & 0x1ff0000;
     if (gSelectGame->mMainOffsetY != 0) {

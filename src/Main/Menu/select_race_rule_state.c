@@ -1726,7 +1726,7 @@ void ReleaseSelectRaceRule(void) {
                                          selectRaceRule->mRowValues[SELECT_RACE_RULE_ROW_COURSE_LIST] == 1)) {
         dispcntBits8To12 = ((reg_GX_DISPCNT) & 0x1f00) >> 8;
         dispcntBits8To12 &= ~3;
-        (reg_GX_DISPCNT) = ((reg_GX_DISPCNT) & 0xffffe0ff) | (dispcntBits8To12 << 8);
+        (reg_GX_DISPCNT) = ((reg_GX_DISPCNT) & ~REG_GX_DISPCNT_DISPLAY_MASK) | (dispcntBits8To12 << 8);
     }
     bg2Control = (reg_G2_BG2CNT);
     bg2Control &= ~3;

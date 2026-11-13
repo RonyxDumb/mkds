@@ -1003,7 +1003,7 @@ void WriteMultiSelectMemberRegisters(void) {
     if (gMultiSelectMember->mUnk_84 == 0 && gMultiSelectMember->mState != MULTI_SELECT_MEMBER_STATE_DONE) {
         displayBits |= 8;
     }
-    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | (displayBits << 8);
+    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | (displayBits << 8);
     reg_G2S_DB_BG3OFS = (-interpolatedValue << 16) & 0x1ff0000;
     if (interpolatedValue != 0) {
         reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffff1fff) | 0x2000;

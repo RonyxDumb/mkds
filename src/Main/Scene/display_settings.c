@@ -647,9 +647,9 @@ void InitDisplayFromSettings(DisplaySettings *settings) {
     }
     gWvrState.mState;
     GX_SetGraphicsMode(settings->mDispMode, settings->mMainBgMode, settings->mBg0As);
-    reg_GX_DISPCNT = (reg_GX_DISPCNT & ~0x1f00) | (settings->mMainDisplayMask << 8);
+    reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | (settings->mMainDisplayMask << 8);
     GXS_SetGraphicsMode(settings->mSubBgMode);
-    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | (settings->mSubDisplayMask << 8);
+    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | (settings->mSubDisplayMask << 8);
     if (settings->mBg0As == GX_BG0_AS_3D) {
         G3X_Init();
         G3X_InitTable();

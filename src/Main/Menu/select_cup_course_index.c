@@ -331,10 +331,10 @@ void ReleaseSelectCupCourse(void) {
     if (gSelectCupCourse->mResult == 1) {
         if (gSelectCupCourse->mMode == 0) {
             if (HasNoSelectableGhost() != FALSE) {
-                reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | 0x1800;
+                reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | 0x1800;
             }
         } else {
-            reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | 0x1800;
+            reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | 0x1800;
         }
     }
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {

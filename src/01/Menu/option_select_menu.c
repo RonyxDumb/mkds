@@ -145,8 +145,8 @@ void ReleaseOptionSelectMenu(void) {
 
     SetOptionSoundRowFromSave();
     ApplyOptionSelectMenuSound();
-    displayBits = (reg_GX_DISPCNT & 0x1f00) >> 8;
-    reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | ((displayBits & ~2) << 8);
+    displayBits = (reg_GX_DISPCNT & REG_GX_DISPCNT_DISPLAY_MASK) >> 8;
+    reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | ((displayBits & ~2) << 8);
     ClearPaletteBlendPointer();
     gOptionSelectMenu = NULL;
 }
@@ -634,13 +634,13 @@ void WriteOptionSelectMenuRegisters(void) {
     u32 plane;
 
     if (gOptionSelectMenu->mBg1Visible != FALSE) {
-        plane = (reg_GX_DISPCNT & 0x1f00) >> 8;
+        plane = (reg_GX_DISPCNT & REG_GX_DISPCNT_DISPLAY_MASK) >> 8;
         plane |= 2;
-        reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | (plane << 8);
+        reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | (plane << 8);
     } else {
-        plane = (reg_GX_DISPCNT & 0x1f00) >> 8;
+        plane = (reg_GX_DISPCNT & REG_GX_DISPCNT_DISPLAY_MASK) >> 8;
         plane &= ~2;
-        reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | (plane << 8);
+        reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | (plane << 8);
     }
     G2x_SetBlendAlpha_(&reg_G2S_DB_BLDCNT, 0, 2, 6, 10);
     reg_G2_BG0OFS = (-gOptionSelectMenu->mBg0Bg1Offset << 16) & 0x1ff0000;

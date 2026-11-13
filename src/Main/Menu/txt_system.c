@@ -152,12 +152,12 @@ void InitTxtSystemDisplay(void) {
     u32 mainDisplayBits;
     u32 subDisplayBits;
 
-    mainDisplayBits = (reg_GX_DISPCNT & 0x1f00) >> 8;
-    reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | ((mainDisplayBits | 4) << 8);
+    mainDisplayBits = (reg_GX_DISPCNT & REG_GX_DISPCNT_DISPLAY_MASK) >> 8;
+    reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | ((mainDisplayBits | 4) << 8);
     reg_G2_BG2CNT &= ~3;
     reg_G2_BG2CNT = (reg_G2_BG2CNT & 0x43) | 0x9e10;
-    subDisplayBits = (reg_GXS_DB_DISPCNT & 0x1f00) >> 8;
-    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | ((subDisplayBits | 1) << 8);
+    subDisplayBits = (reg_GXS_DB_DISPCNT & REG_GXS_DB_DISPCNT_DISPLAY_MASK) >> 8;
+    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | ((subDisplayBits | 1) << 8);
     reg_G2S_DB_BG0CNT &= ~3;
     reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & 0x43) | 0x8b00;
 }

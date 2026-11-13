@@ -423,7 +423,7 @@ void InitSelectGhost(void *parentHeap, u32 mainOam, u32 subOam) {
 
 void ReleaseSelectGhost(void) {
     if (gSelectGhost->mResult == 1) {
-        reg_GX_DISPCNT = (reg_GX_DISPCNT & ~0x1f00) | 0x1800;
+        reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | 0x1800;
     }
     ClearPaletteBlendPointer();
     ClearSelectCupNameMPointer();

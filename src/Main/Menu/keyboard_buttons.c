@@ -461,9 +461,9 @@ void LoadKeyboardFiles(void) {
 void InitKeyboardDisplay(void) {
     u32 subDisplayBits;
     reg_G2S_DB_BLDCNT = 0;
-    subDisplayBits = (reg_GXS_DB_DISPCNT & 0x1f00) >> 8;
+    subDisplayBits = (reg_GXS_DB_DISPCNT & REG_GXS_DB_DISPCNT_DISPLAY_MASK) >> 8;
     subDisplayBits |= 0xc;
-    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | (subDisplayBits << 8);
+    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | (subDisplayBits << 8);
     reg_G2S_DB_BG2CNT = (reg_G2S_DB_BG2CNT & 0x43) | 0x8018;
     reg_G2S_DB_BG2CNT = (reg_G2S_DB_BG2CNT & ~3) | 2;
     reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & 0x43) | 0x9010;

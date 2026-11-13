@@ -930,8 +930,8 @@ void ReleaseRecordVS(void) {
     } else {
         SetRecordScenePageIndex(0);
         SetRecordSceneIndex(0);
-        planeBits = (reg_GX_DISPCNT & 0x1f00) >> 8;
-        reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | ((planeBits & ~0x13) << 8);
+        planeBits = (reg_GX_DISPCNT & REG_GX_DISPCNT_DISPLAY_MASK) >> 8;
+        reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | ((planeBits & ~0x13) << 8);
     }
     gRecordVS = NULL;
 }

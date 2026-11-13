@@ -826,12 +826,12 @@ void WriteRecordTAttRegisters(void) {
     u32 mainDisplayBits;
     u32 subDisplayBits;
 
-    mainDisplayBits = (reg_GX_DISPCNT & 0x1f00) >> 8;
+    mainDisplayBits = (reg_GX_DISPCNT & REG_GX_DISPCNT_DISPLAY_MASK) >> 8;
     mainDisplayBits |= 0x13;
-    reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | (mainDisplayBits << 8);
-    subDisplayBits = (reg_GXS_DB_DISPCNT & 0x1f00) >> 8;
+    reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | (mainDisplayBits << 8);
+    subDisplayBits = (reg_GXS_DB_DISPCNT & REG_GXS_DB_DISPCNT_DISPLAY_MASK) >> 8;
     subDisplayBits |= 9;
-    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | (subDisplayBits << 8);
+    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | (subDisplayBits << 8);
 }
 
 void RegisterRecordTAttCallbacks(void) {
