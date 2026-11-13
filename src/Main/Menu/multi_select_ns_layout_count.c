@@ -91,8 +91,8 @@ void SetupMultiSelectMemberSubTextButton(void) {
 
     bannerMessage = GetBmgEntry(gMultiSelectMember->mBannerMessages, 0xb);
     commonMessage = GetBmgEntry(gMultiSelectMember->mCommonMessages, 4);
-    gMultiSelectMember->mSetupState = 8;
-    gMultiSelectMember->mState = 5;
+    gMultiSelectMember->mSetupState = MULTI_SELECT_MEMBER_SETUP_END_CONNECTION_ERROR;
+    gMultiSelectMember->mState = MULTI_SELECT_MEMBER_STATE_WAIT_ERROR_MESSAGE;
     SetupTxtSystemSubTextButton(bannerMessage, commonMessage);
     RequestSelectReturnState4();
 }
@@ -125,13 +125,13 @@ void PrintMultiSelectMemberNames(void) {
             nameBuffer[11] = 0;
             PrintLabelLayoutTextNoFixedAdvance(1, labelMessageRow->mLabelIndex, subFileSet->mLabelLayout,
                                                &nameBuffer[1], subFileSet->mCellLayout, subFileSet->mCellTable);
-            if (gMultiSelectMember->mRows[participantIndex].mState != 2) {
-                gMultiSelectMember->mRows[participantIndex].mState = 1;
+            if (gMultiSelectMember->mRows[participantIndex].mState != MULTI_SELECT_MEMBER_ROW_SHOWN) {
+                gMultiSelectMember->mRows[participantIndex].mState = MULTI_SELECT_MEMBER_ROW_BLINKING;
             }
         } else {
             ClearAndQueueLabelLayoutText(1, labelMessageRow->mLabelIndex, subFileSet->mLabelLayout,
                                          subFileSet->mCellLayout, subFileSet->mCellTable);
-            gMultiSelectMember->mRows[participantIndex].mState = 0;
+            gMultiSelectMember->mRows[participantIndex].mState = MULTI_SELECT_MEMBER_ROW_EMPTY;
         }
     }
 }
@@ -154,12 +154,12 @@ void PrintMultiSelectConnectionNames(void) {
             if (nameBuffer[1] != 0) {
                 PrintLabelLayoutTextNoFixedAdvance(1, labelMessageRow->mLabelIndex, subFileSet->mLabelLayout,
                                                    &nameBuffer[1], subFileSet->mCellLayout, subFileSet->mCellTable);
-                gMultiSelectMember->mRows[participantIndex].mState = 2;
+                gMultiSelectMember->mRows[participantIndex].mState = MULTI_SELECT_MEMBER_ROW_SHOWN;
                 childCount++;
             } else {
                 ClearAndQueueLabelLayoutText(1, labelMessageRow->mLabelIndex, subFileSet->mLabelLayout,
                                              subFileSet->mCellLayout, subFileSet->mCellTable);
-                gMultiSelectMember->mRows[participantIndex].mState = 0;
+                gMultiSelectMember->mRows[participantIndex].mState = MULTI_SELECT_MEMBER_ROW_EMPTY;
             }
         }
     }
@@ -252,16 +252,16 @@ void UpdateMultiSelectMemberCells(void) {
         for (cellIndex = 0; cellIndex < 8; cellIndex++) {
             row = &gMultiSelectMember->mRows[cellIndex];
             switch (row->mState) {
-                case 0:
+                case MULTI_SELECT_MEMBER_ROW_EMPTY:
                     subFileSet->mCellTable[row->mSecondCellIndex].mVisible = 0;
                     subFileSet->mCellTable[row->mFirstCellIndex].mVisible =
                         subFileSet->mCellTable[row->mSecondCellIndex].mVisible;
                     row->mStateFrames = 0;
                     break;
-                case 1:
+                case MULTI_SELECT_MEMBER_ROW_BLINKING:
                     row->mStateFrames = row->mStateFrames + 1;
-                    if (row->mStateFrames > 0x14) {
-                        row->mState = 2;
+                    if (row->mStateFrames > MULTI_SELECT_MEMBER_BLINK_STEPS) {
+                        row->mState = MULTI_SELECT_MEMBER_ROW_SHOWN;
                     } else {
                         if (row->mStateFrames / 4 % 2 == 0) {
                             visible = TRUE;
@@ -277,7 +277,7 @@ void UpdateMultiSelectMemberCells(void) {
                         subFileSet->mCellTable[row->mSecondCellIndex].mVisible = visible;
                     }
                     break;
-                case 2:
+                case MULTI_SELECT_MEMBER_ROW_SHOWN:
                     subFileSet->mCellTable[row->mSecondCellIndex].mVisible = 1;
                     subFileSet->mCellTable[row->mFirstCellIndex].mVisible =
                         subFileSet->mCellTable[row->mSecondCellIndex].mVisible;
@@ -322,36 +322,36 @@ void UpdateMultiSelectMemberKeySetup(void) {
     s32 backupBusy;
 
     switch (gMultiSelectMember->mSetupState) {
-        case 0:
+        case MULTI_SELECT_MEMBER_SETUP_SETUP:
             if (AdvanceSetupByMultiBoot(1, gStartupWork->mMultiSimple) == 1) {
-                gMultiSelectMember->mSetupState = 1;
+                gMultiSelectMember->mSetupState = MULTI_SELECT_MEMBER_SETUP_WAIT_START;
             }
             break;
-        case 1:
+        case MULTI_SELECT_MEMBER_SETUP_WAIT_START:
             if (gMultiSelectMember->mStartPending != FALSE) {
                 gMultiSelectMember->mStartPending = FALSE;
-                gMultiSelectMember->mSetupState = 3;
+                gMultiSelectMember->mSetupState = MULTI_SELECT_MEMBER_SETUP_START_BOOT;
                 gMultiSelectMember->mTimer = 0x78;
                 SetupTxtSystemSubTextEx(GetBmgEntry(gMultiSelectMember->mCommonMessages, 0x79), 0, 1, 1, 0, 1);
                 SetInterpolationStateIfOpposite(&gMultiSelectMember->mInterpolations[0], 2);
             } else if (gMultiSelectMember->mReturnPending != FALSE) {
                 gMultiSelectMember->mReturnPending = FALSE;
-                gMultiSelectMember->mSetupState = 7;
+                gMultiSelectMember->mSetupState = MULTI_SELECT_MEMBER_SETUP_END_CONNECTION_RETURN;
             } else {
                 AdvanceGameInfoOnChildChange();
             }
             break;
-        case 3:
+        case MULTI_SELECT_MEMBER_SETUP_START_BOOT:
             switch (AdvanceMultiBootParent()) {
                 case 1:
-                    gMultiSelectMember->mSetupState = 4;
+                    gMultiSelectMember->mSetupState = MULTI_SELECT_MEMBER_SETUP_RUN_COMMUNICATION;
                     break;
                 case 2:
                     SetupMultiSelectMemberSubTextButton();
                     break;
             }
             break;
-        case 4:
+        case MULTI_SELECT_MEMBER_SETUP_RUN_COMMUNICATION:
             switch (AdvanceMPStateMachineWithOwnIndex()) {
                 case 1:
                     if (gMultiSelectMember->mTimer == 0) {
@@ -364,7 +364,7 @@ void UpdateMultiSelectMemberKeySetup(void) {
                         StopSeqZeroLoop();
                         StartCopyOtherEmblems(1);
                         gMultiSelectMember->mSeqZeroLoopStartPending = FALSE;
-                        gMultiSelectMember->mSetupState = 6;
+                        gMultiSelectMember->mSetupState = MULTI_SELECT_MEMBER_SETUP_FINISH_BACKUP;
                     }
                     break;
                 case 2:
@@ -372,13 +372,13 @@ void UpdateMultiSelectMemberKeySetup(void) {
                     break;
             }
             break;
-        case 7:
-        case 8:
+        case MULTI_SELECT_MEMBER_SETUP_END_CONNECTION_RETURN:
+        case MULTI_SELECT_MEMBER_SETUP_END_CONNECTION_ERROR:
             if (AdvanceConnectionEndStopOnError() == 1) {
-                gMultiSelectMember->mSetupState = 11;
+                gMultiSelectMember->mSetupState = MULTI_SELECT_MEMBER_SETUP_DONE;
             }
             break;
-        case 6:
+        case MULTI_SELECT_MEMBER_SETUP_FINISH_BACKUP:
             if (gBackupBuffers->mBusy == 0) {
                 if (gBackupAccess->mBackupEnabled != 0) {
                     backupBusy = gBackupAccess->mCommandRunning;
@@ -389,7 +389,7 @@ void UpdateMultiSelectMemberKeySetup(void) {
                 backupBusy = 1;
             }
             if (backupBusy == 0 && gMultiSelectMember->mTimer == 0) {
-                gMultiSelectMember->mSetupState = 11;
+                gMultiSelectMember->mSetupState = MULTI_SELECT_MEMBER_SETUP_DONE;
             }
             break;
     }
@@ -399,10 +399,10 @@ void UpdateMultiSelectMemberNoKeySetup(void) {
     s32 backupBusy;
 
     switch (gMultiSelectMember->mSetupState) {
-        case 2:
+        case MULTI_SELECT_MEMBER_SETUP_CONNECT:
             if (gMultiSelectMember->mReturnPending != FALSE) {
                 gMultiSelectMember->mReturnPending = FALSE;
-                gMultiSelectMember->mSetupState = 7;
+                gMultiSelectMember->mSetupState = MULTI_SELECT_MEMBER_SETUP_END_CONNECTION_RETURN;
                 return;
             }
             switch (AdvanceConnectByMultiBoot(GetWLMenuSceneScanSlotPick()->mSlotIndex)) {
@@ -410,7 +410,7 @@ void UpdateMultiSelectMemberNoKeySetup(void) {
                     if (gStartupWork->mConnectionKind == 2) {
                         SetMultiSimple((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0 ? 1 : 0);
                     }
-                    gMultiSelectMember->mSetupState = 4;
+                    gMultiSelectMember->mSetupState = MULTI_SELECT_MEMBER_SETUP_RUN_COMMUNICATION;
                     if (gMultiSelectMember->mUnk_84 == 0) {
                         gMultiSelectMember->mChildCount = CountMultiSelectChildren();
                         PrintMultiSelectMemberNames();
@@ -422,10 +422,10 @@ void UpdateMultiSelectMemberNoKeySetup(void) {
                     break;
             }
             break;
-        case 4:
+        case MULTI_SELECT_MEMBER_SETUP_RUN_COMMUNICATION:
             if (gMultiSelectMember->mReturnPending != FALSE) {
                 gMultiSelectMember->mReturnPending = FALSE;
-                gMultiSelectMember->mSetupState = 7;
+                gMultiSelectMember->mSetupState = MULTI_SELECT_MEMBER_SETUP_END_CONNECTION_RETURN;
                 return;
             }
             switch (AdvanceMPStateMachineWithOwnIndex()) {
@@ -440,7 +440,7 @@ void UpdateMultiSelectMemberNoKeySetup(void) {
                         StartCopyOtherEmblems(1);
                         gMultiSelectMember->mSeqZeroLoopStartPending = FALSE;
                         gMultiSelectMember->mTimer = 0x78;
-                        gMultiSelectMember->mSetupState = 6;
+                        gMultiSelectMember->mSetupState = MULTI_SELECT_MEMBER_SETUP_FINISH_BACKUP;
                     }
                     break;
                 case 2:
@@ -448,13 +448,13 @@ void UpdateMultiSelectMemberNoKeySetup(void) {
                     break;
             }
             break;
-        case 7:
-        case 8:
+        case MULTI_SELECT_MEMBER_SETUP_END_CONNECTION_RETURN:
+        case MULTI_SELECT_MEMBER_SETUP_END_CONNECTION_ERROR:
             if (AdvanceConnectionEndStopOnError() == 1) {
-                gMultiSelectMember->mSetupState = 11;
+                gMultiSelectMember->mSetupState = MULTI_SELECT_MEMBER_SETUP_DONE;
             }
             break;
-        case 6:
+        case MULTI_SELECT_MEMBER_SETUP_FINISH_BACKUP:
             if (gBackupBuffers->mBusy == 0) {
                 if (gBackupAccess->mBackupEnabled != 0) {
                     backupBusy = gBackupAccess->mCommandRunning;
@@ -465,7 +465,7 @@ void UpdateMultiSelectMemberNoKeySetup(void) {
                 backupBusy = 1;
             }
             if (backupBusy == 0 && gMultiSelectMember->mTimer == 0) {
-                gMultiSelectMember->mSetupState = 11;
+                gMultiSelectMember->mSetupState = MULTI_SELECT_MEMBER_SETUP_DONE;
             }
             break;
     }
@@ -529,7 +529,7 @@ void InitMultiSelectMember(void *parentHeap, void *mainOam, void *subOam) {
     SetupInterpolation(&gMultiSelectMember->mInterpolations[0], 0, 10, -0x40, 0);
     SetupInterpolation(&gMultiSelectMember->mInterpolations[1], 0, 10, 0x40, 0);
     SetupInterpolation(&gMultiSelectMember->mInterpolations[2], 0, 10, -0xc0, 0);
-    gMultiSelectMember->mRows[0].mState = 2;
+    gMultiSelectMember->mRows[0].mState = MULTI_SELECT_MEMBER_ROW_SHOWN;
     for (index = 0; index < 8; index++) {
         gMultiSelectMember->mRows[index].mFirstCellIndex = index * 2;
         gMultiSelectMember->mRows[index].mSecondCellIndex = index * 2 + 1;
@@ -573,7 +573,7 @@ void InitMultiSelectMemberNoKeyStart(void *parentHeap, void *mainOam, void *subO
     InitMultiSelectMember(parentHeap, mainOam, subOam);
     mainFileSet = &gMultiSelectMember->mCellFileSets[0];
     subFileSet = &gMultiSelectMember->mCellFileSets[1];
-    gMultiSelectMember->mSetupState = 2;
+    gMultiSelectMember->mSetupState = MULTI_SELECT_MEMBER_SETUP_CONNECT;
     gMultiSelectMember->mUnk_84 = IsScanSlotMultiBoot(GetWLMenuSceneScanSlotPick()->mSlotIndex);
     nameBuffer[0] = 0;
     MIi_CpuClear16(nameBuffer[0], &nameBuffer[1], 0x16);
@@ -647,7 +647,7 @@ BOOL MultiSelectMemberIsSubSlideOutDone(void) {
 void DrawMultiSelectMember(void) {
     int screenIndex;
     CellFileSet *cellFileSet;
-    if (gMultiSelectMember->mState != 6) {
+    if (gMultiSelectMember->mState != MULTI_SELECT_MEMBER_STATE_DONE) {
         screenIndex = 0;
         do {
             cellFileSet = &gMultiSelectMember->mCellFileSets[screenIndex];
@@ -683,8 +683,11 @@ s32 AdvanceMultiSelectMemberKeyStart(SceneNumbers *sceneNumbers) {
         gMultiSelectMember->mTimer = gMultiSelectMember->mTimer - 1;
     }
     UpdateMultiSelectMemberKeySetup();
-    if (gMultiSelectMember->mState != 0 && gMultiSelectMember->mState != 3 && gMultiSelectMember->mState != 4 &&
-        gMultiSelectMember->mState != 5 && gMultiSelectMember->mState != 6) {
+    if (gMultiSelectMember->mState != MULTI_SELECT_MEMBER_STATE_SLIDE_IN &&
+        gMultiSelectMember->mState != MULTI_SELECT_MEMBER_STATE_WAIT_SETUP_DONE &&
+        gMultiSelectMember->mState != MULTI_SELECT_MEMBER_STATE_SLIDE_OUT &&
+        gMultiSelectMember->mState != MULTI_SELECT_MEMBER_STATE_WAIT_ERROR_MESSAGE &&
+        gMultiSelectMember->mState != MULTI_SELECT_MEMBER_STATE_DONE) {
         if (gConnectionWork == NULL) {
             value = 0;
         } else {
@@ -724,14 +727,14 @@ s32 AdvanceMultiSelectMemberKeyStart(SceneNumbers *sceneNumbers) {
         }
     }
     switch (gMultiSelectMember->mState) {
-        case 0:
+        case MULTI_SELECT_MEMBER_STATE_SLIDE_IN:
             if (MultiSelectMemberIsSubSlideInDone() != 0) {
-                gMultiSelectMember->mState = 1;
+                gMultiSelectMember->mState = MULTI_SELECT_MEMBER_STATE_WAIT_INPUT;
                 subFileSet->mCellTable[0x10].mVisible = 1;
                 SetMultiSelectMemberSubCellVisible(1);
             }
             break;
-        case 1:
+        case MULTI_SELECT_MEMBER_STATE_WAIT_INPUT:
             touchInReturnRect = 0;
             rectIndex = -1;
             pairIsNew = 0;
@@ -759,13 +762,13 @@ s32 AdvanceMultiSelectMemberKeyStart(SceneNumbers *sceneNumbers) {
                     NNS_SndArcSetCurrent(&gFileSndArc);
                     gMultiSelectMember->mStartPending = TRUE;
                     gMultiSelectMember->mSeqZeroLoopStartPending = TRUE;
-                    gMultiSelectMember->mState = 2;
+                    gMultiSelectMember->mState = MULTI_SELECT_MEMBER_STATE_START_PRESSED;
                     break;
                 }
             }
             if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) != 0 || touchInReturnRect != 0) {
                 gMultiSelectMember->mResult = 1;
-                gMultiSelectMember->mState = 3;
+                gMultiSelectMember->mState = MULTI_SELECT_MEMBER_STATE_WAIT_SETUP_DONE;
                 gMultiSelectMember->mReturnPending = TRUE;
                 RequestTxtSystemClose();
                 RequestSelectReturnState3WithSound(0);
@@ -774,45 +777,45 @@ s32 AdvanceMultiSelectMemberKeyStart(SceneNumbers *sceneNumbers) {
                 NNS_SndArcSetCurrent(&gFileSndArc);
             }
             break;
-        case 2:
+        case MULTI_SELECT_MEMBER_STATE_START_PRESSED:
             gMultiSelectMember->mState2Frames = gMultiSelectMember->mState2Frames + 1;
-            if (gMultiSelectMember->mState2Frames >= 5) {
+            if (gMultiSelectMember->mState2Frames >= MULTI_SELECT_MEMBER_START_STEPS) {
                 SetMultiSelectMemberSubCellVisible(1);
-                if (gMultiSelectMember->mSetupState == 11) {
+                if (gMultiSelectMember->mSetupState == MULTI_SELECT_MEMBER_SETUP_DONE) {
                     gMenuShared->mRaceSetupRequested = 1;
                     gMenuShared->mMenuEntryKind = 4;
                     if (sceneNumbers != NULL) {
                         sceneNumbers->mNextScene = 1;
                     }
                     gMultiSelectMember->mState2Frames = 0;
-                    gMultiSelectMember->mState = 7;
+                    gMultiSelectMember->mState = MULTI_SELECT_MEMBER_STATE_SCENE_REQUESTED;
                 }
             }
             break;
-        case 5:
+        case MULTI_SELECT_MEMBER_STATE_WAIT_ERROR_MESSAGE:
             if (IsTxtSystemState2AfterState1() != 0) {
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x15);
             }
             if (GetTxtSystemDone() != 0) {
                 RequestTxtSystemClose();
                 gMultiSelectMember->mResult = 0;
-                gMultiSelectMember->mState = 3;
+                gMultiSelectMember->mState = MULTI_SELECT_MEMBER_STATE_WAIT_SETUP_DONE;
             }
             break;
-        case 3:
-            if (gMultiSelectMember->mSetupState == 11) {
+        case MULTI_SELECT_MEMBER_STATE_WAIT_SETUP_DONE:
+            if (gMultiSelectMember->mSetupState == MULTI_SELECT_MEMBER_SETUP_DONE) {
                 SetInterpolationStateIfOpposite(&gMultiSelectMember->mInterpolations[0], 2);
                 SetInterpolationStateIfOpposite(&gMultiSelectMember->mInterpolations[1], 2);
                 SetInterpolationStateIfOpposite(&gMultiSelectMember->mInterpolations[2], 2);
-                gMultiSelectMember->mState = 4;
+                gMultiSelectMember->mState = MULTI_SELECT_MEMBER_STATE_SLIDE_OUT;
             }
             break;
-        case 4:
+        case MULTI_SELECT_MEMBER_STATE_SLIDE_OUT:
             if (MultiSelectMemberIsSubSlideOutDone() != 0) {
-                gMultiSelectMember->mState = 6;
+                gMultiSelectMember->mState = MULTI_SELECT_MEMBER_STATE_DONE;
             }
             break;
-        case 6:
+        case MULTI_SELECT_MEMBER_STATE_DONE:
             result = gMultiSelectMember->mResult;
             break;
     }
@@ -881,12 +884,12 @@ s32 AdvanceMultiSelectMemberNoKeyStart(SceneNumbers *sceneNumbers) {
         }
     }
     switch (gMultiSelectMember->mState) {
-        case 0:
+        case MULTI_SELECT_MEMBER_STATE_SLIDE_IN:
             if (MultiSelectMemberIsSubSlideInDone() != 0) {
-                gMultiSelectMember->mState = 1;
+                gMultiSelectMember->mState = MULTI_SELECT_MEMBER_STATE_WAIT_INPUT;
             }
             break;
-        case 1:
+        case MULTI_SELECT_MEMBER_STATE_WAIT_INPUT:
             pairIsNew = 0;
             pairRecentlyGone = 0;
             hasPair = gInputSlots[slotIndex].mPair.mHasPair;
@@ -925,17 +928,17 @@ s32 AdvanceMultiSelectMemberNoKeyStart(SceneNumbers *sceneNumbers) {
                     break;
                 }
             }
-            if (gMultiSelectMember->mSetupState == 11) {
+            if (gMultiSelectMember->mSetupState == MULTI_SELECT_MEMBER_SETUP_DONE) {
                 gMenuShared->mRaceSetupRequested = 1;
                 gMenuShared->mMenuEntryKind = 4;
                 if (sceneNumbers != NULL) {
                     sceneNumbers->mNextScene = 1;
                 }
-                gMultiSelectMember->mState = 7;
+                gMultiSelectMember->mState = MULTI_SELECT_MEMBER_STATE_SCENE_REQUESTED;
             } else if (started == 0) {
                 if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) != 0 || touchInReturnRect != 0) {
                     gMultiSelectMember->mResult = 0;
-                    gMultiSelectMember->mState = 3;
+                    gMultiSelectMember->mState = MULTI_SELECT_MEMBER_STATE_WAIT_SETUP_DONE;
                     gMultiSelectMember->mReturnPending = TRUE;
                     RequestTxtSystemClose();
                     RequestSelectReturnState3WithSound(0);
@@ -945,30 +948,30 @@ s32 AdvanceMultiSelectMemberNoKeyStart(SceneNumbers *sceneNumbers) {
                 }
             }
             break;
-        case 5:
+        case MULTI_SELECT_MEMBER_STATE_WAIT_ERROR_MESSAGE:
             if (IsTxtSystemState2AfterState1() != 0) {
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x15);
             }
             if (GetTxtSystemDone() != 0) {
                 gMultiSelectMember->mResult = 0;
-                gMultiSelectMember->mState = 3;
+                gMultiSelectMember->mState = MULTI_SELECT_MEMBER_STATE_WAIT_SETUP_DONE;
                 RequestTxtSystemClose();
             }
             break;
-        case 3:
-            if (gMultiSelectMember->mSetupState == 11) {
+        case MULTI_SELECT_MEMBER_STATE_WAIT_SETUP_DONE:
+            if (gMultiSelectMember->mSetupState == MULTI_SELECT_MEMBER_SETUP_DONE) {
                 SetInterpolationStateIfOpposite(&gMultiSelectMember->mInterpolations[0], 2);
                 SetInterpolationStateIfOpposite(&gMultiSelectMember->mInterpolations[1], 2);
                 SetInterpolationStateIfOpposite(&gMultiSelectMember->mInterpolations[2], 2);
-                gMultiSelectMember->mState = 4;
+                gMultiSelectMember->mState = MULTI_SELECT_MEMBER_STATE_SLIDE_OUT;
             }
             break;
-        case 4:
+        case MULTI_SELECT_MEMBER_STATE_SLIDE_OUT:
             if (MultiSelectMemberIsSubSlideOutDone() != 0) {
-                gMultiSelectMember->mState = 6;
+                gMultiSelectMember->mState = MULTI_SELECT_MEMBER_STATE_DONE;
             }
             break;
-        case 6:
+        case MULTI_SELECT_MEMBER_STATE_DONE:
             result = gMultiSelectMember->mResult;
             break;
     }
@@ -997,7 +1000,7 @@ void WriteMultiSelectMemberRegisters(void) {
 
     displayBits = 0x17;
     interpolatedValue = GetInterpolatedValue(&gMultiSelectMember->mInterpolations[2]);
-    if (gMultiSelectMember->mUnk_84 == 0 && gMultiSelectMember->mState != 6) {
+    if (gMultiSelectMember->mUnk_84 == 0 && gMultiSelectMember->mState != MULTI_SELECT_MEMBER_STATE_DONE) {
         displayBits |= 8;
     }
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | (displayBits << 8);

@@ -11,6 +11,40 @@ unsigned int MultiSelectNSGetLabelLayoutCount(LayoutEntryTable *labelLayout);
 unsigned int MultiSelectNSGetCellLayoutCount(LayoutEntryTable *cellLayout);
 
 // 0xc-byte elements from 0xe0 of MultiSelectMember.
+typedef enum MultiSelectMemberState {
+    MULTI_SELECT_MEMBER_STATE_SLIDE_IN = 0,
+    MULTI_SELECT_MEMBER_STATE_WAIT_INPUT = 1,
+    MULTI_SELECT_MEMBER_STATE_START_PRESSED = 2,
+    MULTI_SELECT_MEMBER_STATE_WAIT_SETUP_DONE = 3,
+    MULTI_SELECT_MEMBER_STATE_SLIDE_OUT = 4,
+    MULTI_SELECT_MEMBER_STATE_WAIT_ERROR_MESSAGE = 5,
+    MULTI_SELECT_MEMBER_STATE_DONE = 6,
+    MULTI_SELECT_MEMBER_STATE_SCENE_REQUESTED = 7,
+} MultiSelectMemberState;
+
+typedef enum MultiSelectMemberSetup {
+    MULTI_SELECT_MEMBER_SETUP_SETUP = 0,
+    MULTI_SELECT_MEMBER_SETUP_WAIT_START = 1,
+    MULTI_SELECT_MEMBER_SETUP_CONNECT = 2,
+    MULTI_SELECT_MEMBER_SETUP_START_BOOT = 3,
+    MULTI_SELECT_MEMBER_SETUP_RUN_COMMUNICATION = 4,
+    MULTI_SELECT_MEMBER_SETUP_FINISH_BACKUP = 6,
+    MULTI_SELECT_MEMBER_SETUP_END_CONNECTION_RETURN = 7,
+    MULTI_SELECT_MEMBER_SETUP_END_CONNECTION_ERROR = 8,
+    MULTI_SELECT_MEMBER_SETUP_DONE = 11,
+} MultiSelectMemberSetup;
+
+typedef enum MultiSelectMemberRowState {
+    MULTI_SELECT_MEMBER_ROW_EMPTY = 0,
+    MULTI_SELECT_MEMBER_ROW_BLINKING = 1,
+    MULTI_SELECT_MEMBER_ROW_SHOWN = 2,
+} MultiSelectMemberRowState;
+
+// Steps a name blinks while its row appears.
+#define MULTI_SELECT_MEMBER_BLINK_STEPS 20
+// Steps state START_PRESSED waits before it checks that the setup is done.
+#define MULTI_SELECT_MEMBER_START_STEPS 5
+
 typedef struct MultiSelectMemberRow {
     /* 00 */ s32 mState;
     /* 04 */ s32 mStateFrames;
