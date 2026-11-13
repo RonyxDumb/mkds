@@ -7,7 +7,7 @@
 #include "Main/MapObjects/ob_pakkun_sf.h"
 #include "Main/MapObjects/attractor.h"
 
-const u8 gPushedObjectState1Flag[1] = {1};
+const u8 gPushedObjectState1Flag[2] = {1, 0};
 
 void EnterPushedObjectState1(MapObject *object) {
     u16 newSlot;

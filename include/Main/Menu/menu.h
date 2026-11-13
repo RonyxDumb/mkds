@@ -43,4 +43,4 @@ void MenuGX_SetOBJVRamModeChar(u32 bits);
 void MenuGXS_SetOBJVRamModeChar(u32 bits);
 
 // Objects whose layout isn't known yet.
-extern const u8 gMenuDisplaySettingsDesc[37];
+extern const u8 gMenuDisplaySettingsDesc[40];

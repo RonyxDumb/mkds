@@ -10,4 +10,4 @@ void UpdatePushedObjectState1(PushedObject *object);
 
 void EnterPushedObjectState1(MapObject *object);
 
-extern const u8 gPushedObjectState1Flag[1];
+extern const u8 gPushedObjectState1Flag[2];

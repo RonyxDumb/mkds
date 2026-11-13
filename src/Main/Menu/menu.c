@@ -111,7 +111,7 @@ ScreenCallbacks gMenuScreenCallbacks[0x1e] = {
 };
 
 struct MenuScene *gMenuScene;
-const u8 gMenuDisplaySettingsDesc[37] = {1, 0, 0x1f, 0, 0x1f, 0, 1, 0, 0, 0, 1, 0, 0, 0, 4, 0, 0x60, 0, 0, 0, 0, 0, 3, 0, 0x10, 0, 0, 0, 0x80, 0, 0, 1, 0, 0, 0, 0, 8};
+const u8 gMenuDisplaySettingsDesc[40] = {1, 0, 0x1f, 0, 0x1f, 0, 1, 0, 0, 0, 1, 0, 0, 0, 4, 0, 0x60, 0, 0, 0, 0, 0, 3, 0, 0x10, 0, 0, 0, 0x80, 0, 0, 1, 0, 0, 0, 0, 8, 0, 0, 0};
 
 // Returns the mission table row, or -1 outside Mission Run.
 s32 GetRaceSetupMissionTableRow(void) {
