@@ -8481,7 +8481,7 @@ gRotaryDrawListData kind:data(any) addr:0x02158ec4
 gRotaryBridgeKindData kind:data(any) addr:0x02158ef0
 gRotaryRoomKindData kind:data(any) addr:0x02158f30
 gRotaryGearTestCylinderKindData kind:data(any) addr:0x02158f70
-data_usa_02158fb0 kind:data(any) addr:0x02158fb0
+gPukupukuKindDescriptor kind:data(any) addr:0x02158fb0
 gPukupukuPushedFlag kind:data(any) addr:0x02158fe4
 gPukupukuState2Flag kind:data(any) addr:0x02158fe8
 gPukupukuState2SecondFlag kind:data(any) addr:0x02158fec

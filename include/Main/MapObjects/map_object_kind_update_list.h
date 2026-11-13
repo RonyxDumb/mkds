@@ -97,7 +97,6 @@ typedef struct MapObjectKindDescriptor {
 MapObjectList *FindMapObjectKindUpdateList(u32 kind);
 void *FindMapObjectKindDrawList0(u32 kind);
 
-extern const MapObjectKindDescriptor data_usa_02158fb0;
 extern const MapObjectKindDescriptor gSecondHandKindDescriptor;
 extern MapObjectKindDescriptor gShineBalloonKindDescriptor;
 extern const MapObjectKindDescriptor gKuriboKindDescriptor;
