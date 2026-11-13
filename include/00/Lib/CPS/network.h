@@ -44,7 +44,7 @@ typedef struct IpHeader {
 typedef struct UdpHeader {
     /* 00 */ u16 mSourcePort;
     /* 02 */ u16 mDestPort;
-    /* 04 */ u16 mUnk_04;
+    /* 04 */ u16 mLength;
     /* 06 */ u16 mChecksum;
 } UdpHeader;
 

@@ -675,26 +675,28 @@ void send_ping(u8 *pattern, u32 length, CPSSoc *socket) {
 void send_udp(u8 *data, u32 length, CPSSoc *socket) {
     u8 *sendBuffer;
     u8 *header;
+    UdpHeader *udp;
     u32 checksum;
     u16 field16;
 
     sendBuffer = socket->mSendBuffer;
     header = sendBuffer + 0x22;
+    udp = (UdpHeader *) header;
     *(u16 *) (header - 0xc) = ((u16) (CPSMyIp >> 16) >> 8) | ((u16) (CPSMyIp >> 16) << 8);
     *(u16 *) (header - 0xa) = ((u16) CPSMyIp >> 8) | ((u16) CPSMyIp << 8);
     *(u16 *) (header - 8) = ((u16) (socket->mRemoteIp >> 16) >> 8) | ((u16) (socket->mRemoteIp >> 16) << 8);
     *(u16 *) (header - 6) = ((u16) socket->mRemoteIp >> 8) | ((u16) socket->mRemoteIp << 8);
     *(u16 *) (header - 4) = 0x1100;
     field16 = length + 8;
-    *OFFSET_PTR(u16, header, 4) = (field16 >> 8) | (field16 << 8);
-    *(u16 *) (header - 2) = *OFFSET_PTR(u16, header, 4);
-    *OFFSET_PTR(u16, header, 2) = (socket->mRemotePort >> 8) | (socket->mRemotePort << 8);
-    *OFFSET_PTR(u16, sendBuffer, 0x22) = (socket->mLocalPort >> 8) | (socket->mLocalPort << 8);
-    *OFFSET_PTR(u16, header, 6) = 0;
+    udp->mLength = (field16 >> 8) | (field16 << 8);
+    *(u16 *) (header - 2) = udp->mLength;
+    udp->mDestPort = (socket->mRemotePort >> 8) | (socket->mRemotePort << 8);
+    udp->mSourcePort = (socket->mLocalPort >> 8) | (socket->mLocalPort << 8);
+    udp->mChecksum = 0;
     checksum = calc_checksum_do(header - 0xc, 0x14, 0);
     checksum = calc_checksum_do(data, length, checksum);
     field16 = invert_checksum(checksum);
-    *OFFSET_PTR(u16, header, 6) = (field16 >> 8) | (field16 << 8);
+    udp->mChecksum = (field16 >> 8) | (field16 << 8);
     send_ip(header, 8, data, length, socket->mRemoteIp, 0x11);
 }
 
