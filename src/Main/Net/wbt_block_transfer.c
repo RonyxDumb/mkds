@@ -541,7 +541,7 @@ s32 WBTi_CheckRequest(BlockTransfer *transfer, u8 *buffer, s32 bufferSize) {
                         return packetSize;
                     }
                 }
-                receiveBitmap = OFFSET_PTR(WBTPacketBitmap, receiveBitmap, 0x68);
+                receiveBitmap = OFFSET_PTR(WBTPacketBitmap, receiveBitmap, sizeof(BlockTransferEntry));
             }
             return packetSize;
         case 10:
@@ -589,7 +589,7 @@ s32 WBTi_SwitchNextCommand(BlockTransfer *transfer, u8 *buffer, s32 bufferSize) 
                                     nodeBitmap->mInlineChunkBitmap,
                                     transfer->mCurrentRequest.mData.mGet.mRecvBuf[entryIndex]);
                 }
-                nodeBitmap = OFFSET_PTR(WBTPacketBitmap, nodeBitmap, 0x68);
+                nodeBitmap = OFFSET_PTR(WBTPacketBitmap, nodeBitmap, sizeof(BlockTransferEntry));
             }
             if (nextRequest->mCommand == 4) {
                 packetSize = WriteBlockDataRequestPacket(buffer, transfer->mCurrentRequest.mTargetBmp,
@@ -610,7 +610,7 @@ s32 WBTi_SwitchNextCommand(BlockTransfer *transfer, u8 *buffer, s32 bufferSize) 
                                     transfer->mCurrentRequest.mData.mGet.mPktBmp[entryIndex],
                                     transfer->mCurrentRequest.mData.mGet.mRecvBuf[entryIndex]);
                 }
-                dataBitmap = OFFSET_PTR(WBTPacketBitmap, dataBitmap, 0x68);
+                dataBitmap = OFFSET_PTR(WBTPacketBitmap, dataBitmap, sizeof(BlockTransferEntry));
             }
             if (nextRequest->mCommand == 4) {
                 packetSize = WriteBlockDataRequestPacket(buffer, transfer->mCurrentRequest.mTargetBmp,
