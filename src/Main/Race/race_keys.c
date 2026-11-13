@@ -60,7 +60,7 @@ void ResetInputSlotsFromParticipants(void) {
     for (slotIndex = 0; slotIndex < 8; slotIndex++) {
         inputSlot = &gInputSlots[slotIndex];
         ResetInputSlot(inputSlot);
-        SetInputSlotRepeat(inputSlot, 0xff3, 0x1e, 0xa);
+        SetInputSlotRepeat(inputSlot, PAD_KEYS_NO_SELECT_OR_START, 0x1e, 0xa);
         inputSlot->mSourceKind = 0;
         inputSlot->mRequestedBits = 0;
         inputSlot->mUnk_44 = 0;
@@ -94,7 +94,7 @@ void ResetInputSlotsFromRaceSetup(void) {
     for (slotIndex = 0; slotIndex < 10; slotIndex++) {
         inputSlot = GetInputSlot(slotIndex);
         ResetInputSlot(inputSlot);
-        SetInputSlotRepeat(inputSlot, 0xff3, 0x1e, 0xa);
+        SetInputSlotRepeat(inputSlot, PAD_KEYS_NO_SELECT_OR_START, 0x1e, 0xa);
         inputSlot->mSourceKind = 0;
         inputSlot->mRequestedBits = 0;
         inputSlot->mUnk_44 = 0;
@@ -110,7 +110,7 @@ void ResetInputSlotsFromRaceSetup(void) {
     for (resetIndex = 0; resetIndex < 10; resetIndex++) {
         ResetInputSlot(inputSlot);
         inputSlot->mRequestedBits = 0;
-        SetInputSlotRepeat(inputSlot, 0xff3, 0x1e, 0xa);
+        SetInputSlotRepeat(inputSlot, PAD_KEYS_NO_SELECT_OR_START, 0x1e, 0xa);
         inputSlot++;
     }
     raceSetup = gRaceSetup;

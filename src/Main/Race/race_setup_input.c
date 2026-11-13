@@ -1031,7 +1031,7 @@ static inline void ResetInputSlotsAndRepeat(void) {
     for (slotIndex = 0; slotIndex < 10; slotIndex++) {
         inputSlot = GetInputSlot(slotIndex);
         ResetInputSlot(inputSlot);
-        SetInputSlotRepeat(inputSlot, 0xff3, 0x1e, 0xa);
+        SetInputSlotRepeat(inputSlot, PAD_KEYS_NO_SELECT_OR_START, 0x1e, 0xa);
         inputSlot->mSourceKind = 0;
         inputSlot->mRequestedBits = 0;
         inputSlot->mUnk_44 = 0;
@@ -1047,7 +1047,7 @@ static inline void ResetInputSlotsAndRepeat(void) {
     for (resetIndex = 0; resetIndex < 10; resetIndex++) {
         ResetInputSlot(slot);
         slot->mRequestedBits = 0;
-        SetInputSlotRepeat(slot, 0xff3, 0x1e, 0xa);
+        SetInputSlotRepeat(slot, PAD_KEYS_NO_SELECT_OR_START, 0x1e, 0xa);
         slot++;
     }
 }
@@ -1238,7 +1238,7 @@ void StartInputSlots(void) {
     for (resetIndex = 0; resetIndex < 10; resetIndex++) {
         ResetInputSlot(inputSlot);
         inputSlot->mRequestedBits = 0;
-        SetInputSlotRepeat(inputSlot, 0xff3, 0x1e, 0xa);
+        SetInputSlotRepeat(inputSlot, PAD_KEYS_NO_SELECT_OR_START, 0x1e, 0xa);
         inputSlot++;
     }
     StartTouchAutoSampling();
@@ -1247,7 +1247,7 @@ void StartInputSlots(void) {
     for (clearIndex = 0; clearIndex < 10; clearIndex++) {
         slot->mHoldLong = 0;
         slot->mUnk_14 = 0;
-        SetInputSlotRepeat(slot, 0xff3, 0x1e, 0xa);
+        SetInputSlotRepeat(slot, PAD_KEYS_NO_SELECT_OR_START, 0x1e, 0xa);
         slot++;
     }
     gInputState->mPadKeys = 0;

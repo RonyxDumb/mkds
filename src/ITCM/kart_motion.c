@@ -291,18 +291,19 @@ void AdvanceKartInputAndTurn(Kart *kart) {
         inputValue = 0;
         if (IsKartNotNormalOrFlagged(kart) != FALSE) {
             entryIndex = kart->mEntryIndex;
-            gInputSlots[entryIndex].mBitMask = 0xe04;
+            gInputSlots[entryIndex].mBitMask = PAD_KEY_Y | PAD_KEY_X | PAD_KEY_L | PAD_KEY_SELECT;
             if (kart->mEffectFlags & KART_EFFECT_KILLER) {
                 entryIndex = kart->mEntryIndex;
-                gInputSlots[entryIndex].mBitMask = 0xe34;
+                gInputSlots[entryIndex].mBitMask =
+                    PAD_KEY_Y | PAD_KEY_X | PAD_KEY_L | PAD_KEY_LEFT | PAD_KEY_RIGHT | PAD_KEY_SELECT;
             }
             if (kart->mDriveFlags & KART_DRIVE_RESPAWN_LANDING) {
                 entryIndex = kart->mEntryIndex;
-                gInputSlots[entryIndex].mBitMask = 0xe05;
+                gInputSlots[entryIndex].mBitMask = PAD_KEY_Y | PAD_KEY_X | PAD_KEY_L | PAD_KEY_SELECT | PAD_KEY_A;
             }
         } else {
             entryIndex = kart->mEntryIndex;
-            gInputSlots[entryIndex].mBitMask = 0xff7;
+            gInputSlots[entryIndex].mBitMask = PAD_KEYS_NO_START;
             SetKartMissionRunInputMask(kart);
         }
         UpdateKartInputFlags(kart);
@@ -388,7 +389,7 @@ void SetKartMissionRunInputMask(Kart *kart) {
         return;
     }
     entryIndex = kart->mEntryIndex;
-    gInputSlots[entryIndex].mBitMask = 0xff6;
+    gInputSlots[entryIndex].mBitMask = PAD_KEYS_NO_START & ~PAD_KEY_A;
 }
 
 void DecayValueToZero(s32 *value) {

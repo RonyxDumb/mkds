@@ -36,6 +36,15 @@
 // Both shoulder keys, Select and Start.
 #define PAD_KEYS_SHOULDER_AND_MENU (PAD_KEY_L | PAD_KEY_R | PAD_KEY_SELECT | PAD_KEY_START)
 
+// All twelve keys.
+#define PAD_KEYS_ALL 0xfff
+
+// Every key except Start.
+#define PAD_KEYS_NO_START (PAD_KEYS_ALL & ~PAD_KEY_START)
+
+// Every key except Select and Start.
+#define PAD_KEYS_NO_SELECT_OR_START (PAD_KEYS_ALL & ~(PAD_KEY_SELECT | PAD_KEY_START))
+
 // The four direction keys together.
 #define PAD_KEY_DIRECTIONS 0xf0
 
