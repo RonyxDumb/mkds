@@ -48,14 +48,14 @@ typedef struct RawEntry RawEntry;
 typedef struct EssidEntry {
     /* 00 */ u32 mEssidLength;
     /* 04 */ u8 mEssid[0x20];
-    /* 24 */ u32 mUnk_24;
+    /* 24 */ u32 mChannel;
     /* 28 */ u8 pad_28[8];
-    /* 30 */ u8 mUnk_30[6];
+    /* 30 */ u8 mAddress[6];
     /* 36 */ u8 pad_36[2];
     /* 38 */ u32 mCodeCount;
     /* 3c */ u8 mCodes[0x10]; // bit 0x80 set when the record's second bit list has the same bit
-    /* 4c */ u32 mUnk_4c;
-    /* 50 */ u32 mUnk_50;
+    /* 4c */ u32 mBeaconPeriod;
+    /* 50 */ u32 mMode;
 } EssidEntry;
 
 typedef struct EssidEntryList {
@@ -91,7 +91,7 @@ typedef struct RetryLimit {
 
 typedef struct WaitTimeout {
     /* 0 */ s32 mSeconds;
-    /* 4 */ s32 mUnk_04;
+    /* 4 */ s32 mMicroseconds;
 } WaitTimeout;
 
 typedef struct PacketTag {

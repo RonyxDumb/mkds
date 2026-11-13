@@ -385,7 +385,7 @@ s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
             ClearPollEntry(&set);
             SetPollEntryForRead(gSocketDescriptor, &set);
             wait.mSeconds = timeout / 1000;
-            wait.mUnk_04 = timeout % 1000 * 1000;
+            wait.mMicroseconds = timeout % 1000 * 1000;
             if (PollSocketWithTimeout(gSocketDescriptor + 1, &set, NULL, NULL, &wait) > 0) {
                 break;
             }
@@ -700,7 +700,7 @@ typedef struct PacketHeaderPrefix {
     /* 0f */ u8 mUnk_0f;
 } PacketHeaderPrefix;
 
-// Returns 0 when exactly one entry with bit 0 of mUnk_50 holds the gEssidAossString bytes, 4 for several, 5 for none.
+// Returns 0 when exactly one entry with bit 0 of mMode holds the gEssidAossString bytes, 4 for several, 5 for none.
 s32 CheckSingleEssidAossEntry(EssidEntryList *entryList) {
     s32 count;
     s32 result;
@@ -716,7 +716,7 @@ s32 CheckSingleEssidAossEntry(EssidEntryList *entryList) {
         count = 0x40;
     }
     for (entryIndex = 0; entryIndex < count; entryIndex++) {
-        if (entryList->mEntries[entryIndex].mUnk_50 & 1) {
+        if (entryList->mEntries[entryIndex].mMode & 1) {
             if (entryList->mEntries[entryIndex].mEssidLength == GetStringLength(gEssidAossString)) {
                 if (CompareBytes(entryList->mEntries[entryIndex].mEssid, gEssidAossString,
                                  GetStringLength(gEssidAossString)) == 0) {
@@ -1696,7 +1696,7 @@ s32 PollSocketWithTimeout(s32 v1, PollEntry *set, void *v3, void *v4, WaitTimeou
     ticks = 0;
     setCopy = *set;
     ticks += timeout->mSeconds * 0x1ff6210 / 0x40;
-    ticks += timeout->mUnk_04 * 0x1ff6210 / 0x40;
+    ticks += timeout->mMicroseconds * 0x1ff6210 / 0x40;
     return SOC_Poll(&setCopy, 1, ticks);
 }
 

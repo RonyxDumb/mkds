@@ -48,8 +48,8 @@ void ConvertRecordToEssidEntry(RawEntry *src, EssidEntry *dst) {
     int mode;
     dst->mEssidLength = src->mSsidLength;
     MIi_CpuCopy16(src->mSsid, dst->mEssid, 0x20);
-    dst->mUnk_24 = src->mChannel;
-    MIi_CpuCopy16(&src->mAddress, dst->mUnk_30, 6);
+    dst->mChannel = src->mChannel;
+    MIi_CpuCopy16(&src->mAddress, dst->mAddress, 6);
     count = 0;
     for (rateIndex = 0; rateIndex < 12; rateIndex++) {
         if (src->mSupportRateSet & gMaskCodeTable[rateIndex].mMask) {
@@ -61,14 +61,14 @@ void ConvertRecordToEssidEntry(RawEntry *src, EssidEntry *dst) {
         }
     }
     dst->mCodeCount = count;
-    dst->mUnk_4c = src->mBeaconPeriod;
+    dst->mBeaconPeriod = src->mBeaconPeriod;
     mode = src->mFlags & 3;
     if (mode == 1) {
-        dst->mUnk_50 = 1;
+        dst->mMode = 1;
     } else if (mode == 2) {
-        dst->mUnk_50 = 2;
+        dst->mMode = 2;
     } else {
-        dst->mUnk_50 = 0;
+        dst->mMode = 0;
     }
 }
 
