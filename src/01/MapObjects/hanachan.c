@@ -727,7 +727,8 @@ void InitHanachan(MapObjectList *mapObjectList) {
             InitMissionRunMapObject(mapObjectList, obj, "hanachan.nsbmd", "hanachan.nsbca", "hanachan.prm");
             LoadMissionRunMapObjectShadow(mapObjectList, obj, "sh_circle.nsbmd");
             LoadMapObjectModelNsbtpAnimation(obj->mNsbmd, "hanachan.nsbtp");
-            SetCollisionOffsetAndExtent(obj, obj->mPrm->mUnk_008, obj->mPrm->mUnk_00c, obj->mPrm->mUnk_00c);
+            SetCollisionOffsetAndExtent(obj, obj->mPrm->mCollisionOffsetY, obj->mPrm->mCollisionExtentXZ,
+                                        obj->mPrm->mCollisionExtentXZ);
             SetShadowOffsetYAndScale(obj, 0x5000, 0xc000);
             SetKartCollisionCallback(obj, HanachanKartHitCallback);
             SetItemCollisionCallback(obj, HanachanItemHitCallback);
@@ -763,7 +764,8 @@ void InitHanachanFollower(MapObjectList *mapObjectList) {
     InitMapObjectModelNsbcaAnimation(obj->mNsbmd, firstNsbca);
     InitMapObjectModelNsbtpAnimation(obj->mNsbmd, firstNsbtp);
     obj->mUnk_0a8 = 1;
-    SetCollisionOffsetAndExtent(obj, obj->mPrm->mUnk_0dc, obj->mPrm->mUnk_00c, sourceObject->mPrm->mUnk_00c);
+    SetCollisionOffsetAndExtent(obj, obj->mPrm->mUnk_0dc, obj->mPrm->mCollisionExtentXZ,
+                                sourceObject->mPrm->mCollisionExtentXZ);
     SetShadowOffsetYAndScale(obj, 0x5000, 0xc000);
     SetKartCollisionCallback(obj, HanachanKartHitCallback);
     SetItemCollisionCallback(obj, HanachanItemHitCallback);
@@ -778,7 +780,8 @@ void InitHanachanFollower(MapObjectList *mapObjectList) {
     InitMapObjectModelNsbcaAnimation(obj->mNsbmd, secondNsbca);
     InitMapObjectModelNsbtpAnimation(obj->mNsbmd, firstNsbtp);
     obj->mUnk_0a8 = 2;
-    SetCollisionOffsetAndExtent(obj, obj->mPrm->mUnk_0e4, obj->mPrm->mUnk_00c, sourceObject->mPrm->mUnk_00c);
+    SetCollisionOffsetAndExtent(obj, obj->mPrm->mUnk_0e4, obj->mPrm->mCollisionExtentXZ,
+                                sourceObject->mPrm->mCollisionExtentXZ);
     SetShadowOffsetYAndScale(obj, 0x5000, 0xd000);
     SetKartCollisionCallback(obj, HanachanKartHitCallback);
     SetItemCollisionCallback(obj, HanachanItemHitCallback);
@@ -793,7 +796,8 @@ void InitHanachanFollower(MapObjectList *mapObjectList) {
     InitMapObjectModelNsbcaAnimation(obj->mNsbmd, firstNsbca);
     InitMapObjectModelNsbtpAnimation(obj->mNsbmd, firstNsbtp);
     obj->mUnk_0a8 = 3;
-    SetCollisionOffsetAndExtent(obj, obj->mPrm->mUnk_0ec, obj->mPrm->mUnk_00c, sourceObject->mPrm->mUnk_00c);
+    SetCollisionOffsetAndExtent(obj, obj->mPrm->mUnk_0ec, obj->mPrm->mCollisionExtentXZ,
+                                sourceObject->mPrm->mCollisionExtentXZ);
     SetShadowOffsetYAndScale(obj, 0x5000, 0xc000);
     SetKartCollisionCallback(obj, HanachanKartHitCallback);
     SetItemCollisionCallback(obj, HanachanItemHitCallback);
@@ -808,7 +812,8 @@ void InitHanachanFollower(MapObjectList *mapObjectList) {
     InitMapObjectModelNsbcaAnimation(obj->mNsbmd, secondNsbca);
     InitMapObjectModelNsbtpAnimation(obj->mNsbmd, firstNsbtp);
     obj->mUnk_0a8 = 4;
-    SetCollisionOffsetAndExtent(obj, obj->mPrm->mUnk_0f4, obj->mPrm->mUnk_00c, sourceObject->mPrm->mUnk_00c);
+    SetCollisionOffsetAndExtent(obj, obj->mPrm->mUnk_0f4, obj->mPrm->mCollisionExtentXZ,
+                                sourceObject->mPrm->mCollisionExtentXZ);
     SetShadowOffsetYAndScale(obj, 0x5000, 0xd000);
     SetKartCollisionCallback(obj, HanachanKartHitCallback);
     SetItemCollisionCallback(obj, HanachanItemHitCallback);

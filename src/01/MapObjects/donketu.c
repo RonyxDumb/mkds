@@ -58,8 +58,28 @@
 #include "Main/Sound/data_0210b000.h"
 #include "Main/MapObjects/data_0217c000.h"
 
-MapObjectKindDescriptor gBossDonketuKindDescriptor = {0, {0, 0}, 0x30c, InitDonketuSoundSource, CreateDonketuKindData, CreateBossDonketuDrawList, NULL, NULL, CreateDonketuUpdateList, NULL, {NULL, NULL, NULL, NULL}};
-MapObjectKindDescriptor gKingIceDonketuKindDescriptor = {0, {0, 0}, 0x30c, InitDonketuSoundSource, CreateDonketuKindData, CreateKingIceDonketuDrawList, NULL, NULL, CreateDonketuUpdateList, NULL, {NULL, NULL, NULL, NULL}};
+MapObjectKindDescriptor gBossDonketuKindDescriptor = {0,
+                                                      {0, 0},
+                                                      0x30c,
+                                                      InitDonketuSoundSource,
+                                                      CreateDonketuKindData,
+                                                      CreateBossDonketuDrawList,
+                                                      NULL,
+                                                      NULL,
+                                                      CreateDonketuUpdateList,
+                                                      NULL,
+                                                      {NULL, NULL, NULL, NULL}};
+MapObjectKindDescriptor gKingIceDonketuKindDescriptor = {0,
+                                                         {0, 0},
+                                                         0x30c,
+                                                         InitDonketuSoundSource,
+                                                         CreateDonketuKindData,
+                                                         CreateKingIceDonketuDrawList,
+                                                         NULL,
+                                                         NULL,
+                                                         CreateDonketuUpdateList,
+                                                         NULL,
+                                                         {NULL, NULL, NULL, NULL}};
 
 void StartBossDonketuStepEffectFirst(MissionRunMapObject *mapObject) {
     StartMapObjectSound(&mapObject->mUnk_000, 0x0000020fu);
@@ -765,7 +785,8 @@ void InitBossDonketu(MapObjectList *list) {
             }
             InitMissionRunMapObject(list, donketu, "boss_donketu.nsbmd", "boss_donketu.nsbca", "boss_donketu.prm");
             LoadMissionRunMapObjectShadow(list, donketu, "sh_circle.nsbmd");
-            SetCollisionOffsetAndExtent(donketu, donketu->mPrm->mUnk_008, donketu->mPrm->mUnk_00c, 0);
+            SetCollisionOffsetAndExtent(donketu, donketu->mPrm->mCollisionOffsetY, donketu->mPrm->mCollisionExtentXZ,
+                                        0);
             SetShadowOffsetYAndScale(donketu, 0, 0x11000);
             SetKartCollisionCallback(donketu, DonketuKartCollisionCallback);
             donketu->mUnk_2b8 = 2;
@@ -786,7 +807,8 @@ void InitKingIceDonketu(MapObjectList *list) {
             InitMissionRunMapObject(list, donketu, "king_ice_donketu.nsbmd", "king_ice_donketu.nsbca",
                                     "king_ice_donketu.prm");
             LoadMissionRunMapObjectShadow(list, donketu, "sh_circle.nsbmd");
-            SetCollisionOffsetAndExtent(donketu, donketu->mPrm->mUnk_008, donketu->mPrm->mUnk_00c, 0);
+            SetCollisionOffsetAndExtent(donketu, donketu->mPrm->mCollisionOffsetY, donketu->mPrm->mCollisionExtentXZ,
+                                        0);
             SetShadowOffsetYAndScale(donketu, 0, 0x21000);
             SetKartCollisionCallback(donketu, DonketuKartCollisionCallback);
         }
@@ -803,8 +825,8 @@ MapObjectKindData *CreateDonketuKindData(void) {
     void *kartCollisionCallback = &CollideKartWithMissionRunMapObject;
     void *itemCollisionCallback = &CollideItemWithMissionRunMapObject;
     void *sphereHitCallback = &ComputeSphereHitOnMissionRunMapObject;
-    return CreateMapObjectKindDataWithSoundIds(kartCollisionCallback, itemCollisionCallback,
-                                               sphereHitCallback, 0x2u, 0x1u, v4, 0x0u);
+    return CreateMapObjectKindDataWithSoundIds(kartCollisionCallback, itemCollisionCallback, sphereHitCallback, 0x2u,
+                                               0x1u, v4, 0x0u);
 }
 
 MapObjectList *CreateBossDonketuDrawList(void) {

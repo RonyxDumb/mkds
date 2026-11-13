@@ -681,7 +681,7 @@ void InitBombKing(MapObjectList *list) {
             InitMissionRunMapObject(list, mapObject, "bomb_king.nsbmd", "bomb_king.nsbca", "bomb_king.prm");
             LoadMissionRunMapObjectShadow(list, mapObject, "sh_circle.nsbmd");
             prm = mapObject->mPrm;
-            SetCollisionOffsetAndExtent(mapObject, prm->mUnk_008, prm->mUnk_00c, prm->mUnk_20c);
+            SetCollisionOffsetAndExtent(mapObject, prm->mCollisionOffsetY, prm->mCollisionExtentXZ, prm->mUnk_20c);
             SetShadowOffsetYAndScale(mapObject, 0, 0x23000);
             SetItemCollisionCallback(mapObject, (UnkFunc *) BombKingItemHitCallback);
         }

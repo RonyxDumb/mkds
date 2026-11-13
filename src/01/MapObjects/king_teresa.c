@@ -451,7 +451,7 @@ void StartKingTeresaHideForNextGroup(MissionRunMapObject *mapObject) {
         gPreviousKingTeresaState = gKingTeresaState;
     }
     gKingTeresaState = 3;
-    mapObject->mCollisionExtentTargetZ = mapObject->mPrm->mUnk_00c;
+    mapObject->mCollisionExtentTargetZ = mapObject->mPrm->mCollisionExtentXZ;
     mapObject->mCollisionExtent.z = mapObject->mCollisionExtentTargetZ;
     mapObject->mCollisionExtentTargetX = mapObject->mCollisionExtent.z;
     mapObject->mCollisionExtent.x = mapObject->mCollisionExtentTargetX;
@@ -491,7 +491,7 @@ void StartKingTeresaShowBossCoins(MissionRunMapObject *mapObject) {
                               ? mapObject->mPrm->mUnk_18c
                               : (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunBossCount() : 0));
     mapObject->mCollisionExtent.x = mapObject->mCollisionExtentTargetX = mapObject->mCollisionExtent.z =
-        mapObject->mCollisionExtentTargetZ = mapObject->mPrm->mUnk_00c / 2;
+        mapObject->mCollisionExtentTargetZ = mapObject->mPrm->mCollisionExtentXZ / 2;
 }
 
 void StartKingTeresaStopForBossCoins(MissionRunMapObject *mapObject) {
@@ -646,9 +646,11 @@ void InitKingTeresaMapObject(MissionRunMapObject *mapObject) {
 }
 
 void KingTeresaParkBossCoinsCallback(MissionRunMapObject *mapObject, Kart *kart) {
-    mapObject->mUnk_000.mPosStep.x = MUL_FIXED12_NO_ROUND(-mapObject->mPrm->mUnk_024, FX_SinIdx(kart->mHeadingAngle));
+    mapObject->mUnk_000.mPosStep.x =
+        MUL_FIXED12_NO_ROUND(-mapObject->mPrm->mKartPushPosStep, FX_SinIdx(kart->mHeadingAngle));
     mapObject->mUnk_000.mPosStep.y = 0;
-    mapObject->mUnk_000.mPosStep.z = MUL_FIXED12_NO_ROUND(-mapObject->mPrm->mUnk_024, FX_CosIdx(kart->mHeadingAngle));
+    mapObject->mUnk_000.mPosStep.z =
+        MUL_FIXED12_NO_ROUND(-mapObject->mPrm->mKartPushPosStep, FX_CosIdx(kart->mHeadingAngle));
     ParkBossCoins(mapObject->mPrm->mUnk_190);
     StartKingTeresaHideForNextGroup(mapObject);
     mapObject->mUnk_2d8 = 0;
@@ -657,7 +659,7 @@ void KingTeresaParkBossCoinsCallback(MissionRunMapObject *mapObject, Kart *kart)
     mapObject->mUnk_0a8 = 0;
     StartMapObjectSound(&mapObject->mUnk_000, 0x22c);
     mapObject->mCollisionExtent.x = mapObject->mCollisionExtentTargetX = mapObject->mCollisionExtent.z =
-        mapObject->mCollisionExtentTargetZ = mapObject->mPrm->mUnk_00c;
+        mapObject->mCollisionExtentTargetZ = mapObject->mPrm->mCollisionExtentXZ;
 }
 
 void KingTeresaHitReactionCallback(MissionRunMapObject *mapObject) {
@@ -813,7 +815,7 @@ void InitKingTeresa(MapObjectList *mapObjectList) {
                                     "king_teresa.prm");
             LoadMissionRunMapObjectShadow(mapObjectList, mapObject, "sh_circle.nsbmd");
             prm = mapObject->mPrm;
-            SetCollisionOffsetAndExtent(mapObject, prm->mUnk_008, prm->mUnk_00c, prm->mUnk_240);
+            SetCollisionOffsetAndExtent(mapObject, prm->mCollisionOffsetY, prm->mCollisionExtentXZ, prm->mUnk_240);
             SetShadowOffsetYAndScale(mapObject, 0, 0x19000);
             SetKartCollisionCallback(mapObject, KingTeresaKartCollisionCallback);
             SetNodePositionSource(mapObject, 0);

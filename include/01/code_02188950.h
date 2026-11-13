@@ -6,19 +6,19 @@
 
 // Object behind StopTurningMoveFollowsAngle and the per-state functions around StartIwanteHandsHitReaction.
 typedef struct MissionRunPrm {
-    /* 000 */ s32 mUnk_000;
+    /* 000 */ s32 mCounterLimit;
     /* 004 */ s32 mScale;
-    /* 008 */ s32 mUnk_008;
-    /* 00c */ s32 mUnk_00c;
-    /* 010 */ s32 mUnk_010;
-    /* 014 */ s32 mUnk_014;
-    /* 018 */ s32 mUnk_018;
+    /* 008 */ s32 mCollisionOffsetY;
+    /* 00c */ s32 mCollisionExtentXZ;
+    /* 010 */ s32 mCourseHitVelocityScale;
+    /* 014 */ s32 mFreeVelocityScale;
+    /* 018 */ s32 mStopSpeedLimit;
     /* 01c */ s32 mGravity;
-    /* 020 */ s32 mUnk_020;
-    /* 024 */ s32 mUnk_024;
-    /* 028 */ s32 mUnk_028;
-    /* 02c */ s32 mUnk_02c;
-    /* 030 */ s32 mUnk_030;
+    /* 020 */ s32 mBounceScale;
+    /* 024 */ s32 mKartPushPosStep;
+    /* 028 */ s32 mKartPushVelocity;
+    /* 02c */ s32 mItemPushVelocity;
+    /* 030 */ s32 mWallPushVelocity;
     /* 034 */ s32 mUnk_034;
     /* 038 */ s32 mUnk_038;
     /* 03c */ s32 mUnk_03c;

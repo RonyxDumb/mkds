@@ -99,8 +99,8 @@ void SetKurikingCollisionAndShadow(MissionRunMapObject *mapObject) {
     s32 *shadowScaleTarget;
     MissionRunPrm *prm;
     prm = mapObject->mPrm;
-    SetCollisionOffsetAndExtent(mapObject, prm->mUnk_008, prm->mUnk_00c, prm->mUnk_214);
-    SetShadowOffsetYAndScale(mapObject, 0, mapObject->mPrm->mUnk_00c);
+    SetCollisionOffsetAndExtent(mapObject, prm->mCollisionOffsetY, prm->mCollisionExtentXZ, prm->mUnk_214);
+    SetShadowOffsetYAndScale(mapObject, 0, mapObject->mPrm->mCollisionExtentXZ);
     shadowScaleTarget = &mapObject->mShadowScaleTargetX;
     *shadowScaleTarget = 0x00011800u;
     mapObject->mShadowScaleX = *shadowScaleTarget;
@@ -116,8 +116,8 @@ void SetDoubledCollisionAndShadowTargets(MissionRunMapObject *mapObject) {
     MissionRunPrm *prm;
     int offsetY;
     prm = mapObject->mPrm;
-    extentXZ = prm->mUnk_00c;
-    offsetY = prm->mUnk_008;
+    extentXZ = prm->mCollisionExtentXZ;
+    offsetY = prm->mCollisionOffsetY;
     offsetPerCall = _s32_div_f(offsetY, 0x14);
     extentPerCall = _s32_div_f(extentXZ, 0x14);
     SetCollisionOffsetAndExtentTarget(mapObject, offsetY << 1, offsetPerCall, extentXZ << 1, prm->mUnk_214 << 1,
@@ -134,8 +134,8 @@ void SetTripledCollisionAndShadowTargets(MissionRunMapObject *mapObject) {
     MissionRunPrm *prm;
     int offsetY;
     prm = mapObject->mPrm;
-    extentXZ = prm->mUnk_00c;
-    offsetY = prm->mUnk_008;
+    extentXZ = prm->mCollisionExtentXZ;
+    offsetY = prm->mCollisionOffsetY;
     offsetPerCall = _s32_div_f(offsetY, 0x14);
     extentPerCall = _s32_div_f(extentXZ, 0x14);
     SetCollisionOffsetAndExtentTarget(mapObject, offsetY * 3, offsetPerCall, extentXZ * 3, prm->mUnk_214 * 3,
