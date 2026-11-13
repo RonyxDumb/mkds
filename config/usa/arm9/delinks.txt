@@ -1901,6 +1901,12 @@ src/Main/Kart/character_animation.c:
     .bss        start:0x0217ad14 end:0x0217ae14
 
 // provisional: file name and boundaries
+src/Main/Kart/kart_ai_gap_limits.c:
+    complete
+    .rodata     start:0x0215557c end:0x0215560c
+    .data       start:0x021658f0 end:0x02165934
+
+// provisional: file name and boundaries
 src/Main/Kart/point_link_cursor.c:
     complete
     .text       start:0x0207b960 end:0x0207ffa4

@@ -57,15 +57,3 @@ typedef struct KartEffectScales {
     /* 00 */ s32 mScales[37];
 } KartEffectScales;
 
-extern u16 data_usa_021658f0;
-
-extern const s32 *data_usa_021658f4;
-
-extern const u16 data_usa_021658f8[3];
-
-extern const u16 data_usa_02165900[3];
-
-extern const u16 data_usa_02165908[3];
-
-extern const s32 *const data_usa_02165910[];
-

@@ -1,4 +1,5 @@
 #include "Main/Kart/point_link_cursor.h"
+#include "Main/Kart/kart_ai_gap_limits.h"
 #include "Main/Kart/code_0207ff5c.h"
 #include "Main/System/wvr_state.h"
 #include "Main/Race/race_hud_sub_screen_projection.h"
@@ -920,14 +921,14 @@ void InitKartAiTables(void) {
             gKartAiRaceStartHeadingSwingRandomLimits = gKartAiRaceStartHeadingSwingRandomLimitsIndex2;
             break;
     }
-    data_usa_021658f0 = 3;
+    gKartAiRankOffset = 3;
     cpuAndGhostKartCount = gRaceSetup->mKartCount - gRaceSetup->mHumanAndPeerKartCount;
     if (cpuAndGhostKartCount > 1) {
         if (cpuAndGhostKartCount <= 3) {
-            data_usa_021658f0 = cpuAndGhostKartCount - 1;
+            gKartAiRankOffset = cpuAndGhostKartCount - 1;
         }
     }
-    gKartAiGapLimitsByRank = data_usa_02165910[cpuAndGhostKartCount];
+    gKartAiGapLimitsByRank = gKartAiGapLimitTables[cpuAndGhostKartCount];
 }
 
 u32 SetupRaceKartAiSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi) {
@@ -1129,7 +1130,7 @@ void AdvanceKartAiSpeedLimitByRank(struct KartAiRaceSpeedLimit *raceSpeedLimit, 
     }
     gap = tableIndices[1];
     if (IsKartEnded(kartIndex) != 0) {
-        limitTable = data_usa_021658f4;
+        limitTable = gKartAiEndedGapLimits;
     } else {
         limitTable = gKartAiGapLimitsByRank;
     }
@@ -1142,7 +1143,7 @@ void AdvanceKartAiSpeedLimitByRank(struct KartAiRaceSpeedLimit *raceSpeedLimit, 
             gap = GetKartRaceProgressScaled(kartAi->mIndex);
             gap -= GetKartRaceProgressScaled((u16) otherKartIndex);
             if (IsKartEnded(kartAi->mIndex) != 0) {
-                limitTable = data_usa_021658f4;
+                limitTable = gKartAiEndedGapLimits;
             } else {
                 limitTable = gKartAiGapLimitsByRank;
             }
@@ -1158,7 +1159,7 @@ void AdvanceKartAiSpeedLimitByRank(struct KartAiRaceSpeedLimit *raceSpeedLimit, 
         raceSpeedLimit->mSpeedLimitReduced = 1;
     } else if (rank == gap) {
         if (rank == 1) {
-            otherKartIndex = GetKind1KartByRankPlusOffset((u16) rank, data_usa_021658f0);
+            otherKartIndex = GetKind1KartByRankPlusOffset((u16) rank, gKartAiRankOffset);
             if (otherKartIndex >= 0) {
                 progress = GetKartRaceProgressScaled(kartIndex);
                 progress -= GetKartRaceProgressScaled((u16) otherKartIndex);
@@ -1216,15 +1217,15 @@ u16 PickKartAiRaceStartBoost(s32 pickLast) {
     s32 choiceIndex;
     RandomState64 *kartAiRandom;
 
-    choices[0] = data_usa_021658f8[0];
-    choices[1] = data_usa_021658f8[1];
-    choices[2] = data_usa_021658f8[2];
-    choices[3] = data_usa_02165908[0];
-    choices[4] = data_usa_02165908[1];
-    choices[5] = data_usa_02165908[2];
-    choices[6] = data_usa_02165900[0];
-    choices[7] = data_usa_02165900[1];
-    choices[8] = data_usa_02165900[2];
+    choices[0] = gKartAiRaceStartBoostEasyChoices[0];
+    choices[1] = gKartAiRaceStartBoostEasyChoices[1];
+    choices[2] = gKartAiRaceStartBoostEasyChoices[2];
+    choices[3] = gKartAiRaceStartBoostNormalChoices[0];
+    choices[4] = gKartAiRaceStartBoostNormalChoices[1];
+    choices[5] = gKartAiRaceStartBoostNormalChoices[2];
+    choices[6] = gKartAiRaceStartBoostHardChoices[0];
+    choices[7] = gKartAiRaceStartBoostHardChoices[1];
+    choices[8] = gKartAiRaceStartBoostHardChoices[2];
     difficultyChoices = &choices[6];
     if (pickLast != 0) {
         choiceIndex = 2;
