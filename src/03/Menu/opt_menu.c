@@ -38,8 +38,10 @@
 #include "03/Menu/menu_pair_objects.h"
 #include "registers.h"
 
-YbBgOption1NclName gYbBgOption1NclName = {{0x63, 0x68, 0x61, 0x72, 0x2f, 0x79, 0x62, 0x42, 0x67, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x31, 0x2e, 0x6e, 0x63, 0x6c, 0x2e, 0x6c, 0}};
-YbBgOptionNclName gYbBgOptionNclName = {{0x63, 0x68, 0x61, 0x72, 0x2f, 0x79, 0x62, 0x42, 0x67, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x6e, 0x63, 0x6c, 0x2e, 0x6c, 0}};
+YbBgOption1NclName gYbBgOption1NclName = {{0x63, 0x68, 0x61, 0x72, 0x2f, 0x79, 0x62, 0x42, 0x67, 0x4f, 0x70, 0x74,
+                                           0x69, 0x6f, 0x6e, 0x31, 0x2e, 0x6e, 0x63, 0x6c, 0x2e, 0x6c, 0}};
+YbBgOptionNclName gYbBgOptionNclName = {{0x63, 0x68, 0x61, 0x72, 0x2f, 0x79, 0x62, 0x42, 0x67, 0x4f, 0x70,
+                                         0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x6e, 0x63, 0x6c, 0x2e, 0x6c, 0}};
 const Rect gOptMenuSelectionRects[3] = {{6, 0x22, 0xea, 0x36}, {6, 0x4e, 0xea, 0x62}, {6, 0x7a, 0xea, 0x8e}};
 const Rect gOptMenuRects[3] = {{8, 0x24, 0xf8, 0x44}, {8, 0x50, 0xf8, 0x70}, {8, 0x7c, 0xf8, 0x9c}};
 const u16 gOptMenuOamEntryPosition[2] = {0xe0, 0x84};
@@ -62,8 +64,9 @@ void SetupOptMenu(void) {
                         ((oamEntry->mAttr01 & 0xfe00ff00) | (gOptMenuOamEntryPosition[1] & 0xff));
     oamEntry = gOptMenuOamEntry;
     oamEntry->mAttr2 = (oamEntry->mAttr2 & 0xfffff3ff) | 0xc00;
-    PlaceSelectionCorners(gOptMenuSelectionRects[gOptMenuSelectedIndex].mX, gOptMenuSelectionRects[gOptMenuSelectedIndex].mUnk_04,
-                          gOptMenuSelectionRects[gOptMenuSelectedIndex].mY, gOptMenuSelectionRects[gOptMenuSelectedIndex].mUnk_06);
+    PlaceSelectionCorners(
+        gOptMenuSelectionRects[gOptMenuSelectedIndex].mX, gOptMenuSelectionRects[gOptMenuSelectedIndex].mUnk_04,
+        gOptMenuSelectionRects[gOptMenuSelectedIndex].mY, gOptMenuSelectionRects[gOptMenuSelectedIndex].mUnk_06);
     SetUpdateFunction(StartOptMenuFadeIn);
 }
 
@@ -74,7 +77,7 @@ void LoadOptMenuFilesAndSetBgCnt(void) {
     DWCWiFiInfo wifiInfo;
     u8 *copyFrom;
     u8 *copyTo;
-    s32 i;
+    s32 index;
     ybBgOptionNclName = gYbBgOptionNclName;
     ybBgOption1NclName = gYbBgOption1NclName;
     LoadFileToVram("char/jbBgOption.ncg.l", GX_LoadBG2Char);
@@ -85,7 +88,7 @@ void LoadOptMenuFilesAndSetBgCnt(void) {
     if (wifiInfo.mAttestedUserId == 0) {
         copyFrom = palette + 0xc0;
         copyTo = palette + 0x40;
-        for (i = 0; i < 2; i++, copyFrom += 0x20, copyTo += 0x20) {
+        for (index = 0; index < 2; index++, copyFrom += 0x20, copyTo += 0x20) {
             MI_CpuCopy8(copyFrom, copyTo, 0x20);
         }
     }
@@ -129,13 +132,15 @@ void UpdateOptMenu(void) {
 }
 
 void UpdateOptMenuInput(void) {
-    u32 i;
-    for (i = 0; i < 3; i++) {
-        if (IsTouchPressedInRect(&gOptMenuRects[i]) != 0) {
+    u32 rectIndex;
+    for (rectIndex = 0; rectIndex < 3; rectIndex++) {
+        if (IsTouchPressedInRect(&gOptMenuRects[rectIndex]) != 0) {
             SetButtonResultIfNone(1);
-            gOptMenuSelectedIndex = i;
-            PlaceSelectionCorners(gOptMenuSelectionRects[gOptMenuSelectedIndex].mX, gOptMenuSelectionRects[gOptMenuSelectedIndex].mUnk_04,
-                                  gOptMenuSelectionRects[gOptMenuSelectedIndex].mY, gOptMenuSelectionRects[gOptMenuSelectedIndex].mUnk_06);
+            gOptMenuSelectedIndex = rectIndex;
+            PlaceSelectionCorners(gOptMenuSelectionRects[gOptMenuSelectedIndex].mX,
+                                  gOptMenuSelectionRects[gOptMenuSelectedIndex].mUnk_04,
+                                  gOptMenuSelectionRects[gOptMenuSelectedIndex].mY,
+                                  gOptMenuSelectionRects[gOptMenuSelectedIndex].mUnk_06);
             return;
         }
     }
@@ -232,8 +237,9 @@ void MoveOptMenuSelection(s32 direction) {
         gOptMenuSelectedIndex = FX_ModS32(gOptMenuSelectedIndex + 1, 3);
     }
     StartSoundSeq(8);
-    PlaceSelectionCorners(gOptMenuSelectionRects[gOptMenuSelectedIndex].mX, gOptMenuSelectionRects[gOptMenuSelectedIndex].mUnk_04,
-                          gOptMenuSelectionRects[gOptMenuSelectedIndex].mY, gOptMenuSelectionRects[gOptMenuSelectedIndex].mUnk_06);
+    PlaceSelectionCorners(
+        gOptMenuSelectionRects[gOptMenuSelectedIndex].mX, gOptMenuSelectionRects[gOptMenuSelectedIndex].mUnk_04,
+        gOptMenuSelectionRects[gOptMenuSelectedIndex].mY, gOptMenuSelectionRects[gOptMenuSelectedIndex].mUnk_06);
 }
 
 void RequestOptMenuPaletteRowCopy(void) {

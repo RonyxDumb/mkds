@@ -139,7 +139,7 @@ void UpdateApScan(void) {
 void UpdateApScanFrames(void) {
     int entryCount;
     int entries;
-    int i;
+    int entryIndex;
     gApScanFrames++;
     if (gApScanFrames >= 0x12c) {
         StopSoundSeq();
@@ -152,12 +152,12 @@ void UpdateApScanFrames(void) {
             SetUpdateFunction(UpdateApScanMessageResult);
             return;
         }
-        for (i = 0; i < entryCount; i++) {
-            if (*(u8 *) (entries + i * 0x2a + 0x28) != 2) {
+        for (entryIndex = 0; entryIndex < entryCount; entryIndex++) {
+            if (*(u8 *) (entries + entryIndex * 0x2a + 0x28) != 2) {
                 break;
             }
         }
-        if (i == entryCount) {
+        if (entryIndex == entryCount) {
             *(u8 *) &gApScanKind = 3;
             CreateMessageBox(0x42, 1, 1, -1, 0);
             StartSoundSeq(0x12);

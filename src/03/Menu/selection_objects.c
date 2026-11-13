@@ -20,15 +20,15 @@ void ReleaseSelectionObjects(void) {
 }
 
 void PlaceSelectionPair(u32 pairIndex, u32 leftX, u32 rightX, u32 yPos) {
-    s32 i;
+    s32 objectIndex;
     const u8 *objectIds;
 
     ReleaseSelectionObjectSlots();
-    i = 0;
+    objectIndex = 0;
     objectIds = gSelectionPairImages + pairIndex * 2;
-    for (; i < 2; i++) {
-        gSelectionObjects[i] = CreateOamRangeFromNceImage(0, *objectIds, 1);
-        SetOamRangePriority(gSelectionObjects[i], -1, 1);
+    for (; objectIndex < 2; objectIndex++) {
+        gSelectionObjects[objectIndex] = CreateOamRangeFromNceImage(0, *objectIds, 1);
+        SetOamRangePriority(gSelectionObjects[objectIndex], -1, 1);
         objectIds++;
     }
     SetOamRangePosition(gSelectionObjects[0], -1, leftX, yPos);

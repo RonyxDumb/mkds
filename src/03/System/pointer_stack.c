@@ -19,10 +19,10 @@ PointerStack *CreatePointerStack(u32 count) {
 PointerStack *CreateFilledPointerStack(s32 count, void *buffer, s32 stride) {
     u8 *entry = buffer;
     PointerStack *list = CreatePointerStack(count);
-    s32 i;
+    s32 index;
 
-    for (i = 0; i < count; i++) {
-        list->mPointers[i] = entry;
+    for (index = 0; index < count; index++) {
+        list->mPointers[index] = entry;
         entry += stride;
     }
     list->mTopIndex = count;

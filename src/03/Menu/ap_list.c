@@ -55,8 +55,16 @@
 
 const u8 gApListRowLeftImageIndices[3] = {0x2e, 0x2d, 0x33};
 const u8 gApListRowRightImageIndices[4] = {0x18, 0x17, 0x16, 0x15};
-const Rect gApListSelectionRects[5] = {{4, 0x2e, 0xdb, 0x3f}, {4, 0x4a, 0xdb, 0x5b}, {4, 0x66, 0xdb, 0x77}, {4, 0x82, 0xdb, 0x93}, {0x82, 0x18, 0xf0, 0x2c}};
-const Rect gApListRowRects[5] = {{7, 0x32, 0xd0, 0x4c}, {7, 0x4e, 0xd0, 0x68}, {7, 0x6a, 0xd0, 0x84}, {7, 0x86, 0xd0, 0xa0}, {0x85, 0x1b, 0xfd, 0x2c}};
+const Rect gApListSelectionRects[5] = {{4, 0x2e, 0xdb, 0x3f},
+                                       {4, 0x4a, 0xdb, 0x5b},
+                                       {4, 0x66, 0xdb, 0x77},
+                                       {4, 0x82, 0xdb, 0x93},
+                                       {0x82, 0x18, 0xf0, 0x2c}};
+const Rect gApListRowRects[5] = {{7, 0x32, 0xd0, 0x4c},
+                                 {7, 0x4e, 0xd0, 0x68},
+                                 {7, 0x6a, 0xd0, 0x84},
+                                 {7, 0x86, 0xd0, 0xa0},
+                                 {0x85, 0x1b, 0xfd, 0x2c}};
 u8 gApListPaletteRow[1] = {2};
 u8 gApListSelectedRow;
 u16 gApListScrollY;
@@ -123,15 +131,15 @@ void SetupApListScroll(void) {
 
 void CreateApListRowObjects(void) {
     int rowCount;
-    int i;
+    int rowIndex;
     u32 imageIndex;
     rowCount = gApList->mEntryCount;
     if (rowCount > 5) {
         rowCount = 5;
     }
-    for (i = 0; i < rowCount; i++) {
-        gApList->mRowLeftOamEntries[i] = CreateOamEntryFromNceImage(0, gApListRowLeftImageIndices[0]);
-        gApList->mRowRightOamEntries[i] = CreateOamEntryFromNceImage(0, gApListRowRightImageIndices[0]);
+    for (rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+        gApList->mRowLeftOamEntries[rowIndex] = CreateOamEntryFromNceImage(0, gApListRowLeftImageIndices[0]);
+        gApList->mRowRightOamEntries[rowIndex] = CreateOamEntryFromNceImage(0, gApListRowRightImageIndices[0]);
     }
     for (imageIndex = 0; imageIndex < 3; imageIndex++) {
         CopyNceImageToOamEntries(0, gApListRowLeftImageIndices[imageIndex], gApList->mRowLeftOamEntries[0]);
@@ -141,11 +149,11 @@ void CreateApListRowObjects(void) {
         CopyNceImageToOamEntries(0, gApListRowRightImageIndices[imageIndex], gApList->mRowRightOamEntries[0]);
         gApList->mRowRightTiles[imageIndex] = gApList->mRowRightOamEntries[0]->mAttr2 & 0x3ff;
     }
-    for (i = 0; i < rowCount; i++) {
+    for (rowIndex = 0; rowIndex < rowCount; rowIndex++) {
         OamEntry *oamEntry;
-        oamEntry = gApList->mRowLeftOamEntries[i];
+        oamEntry = gApList->mRowLeftOamEntries[rowIndex];
         oamEntry->mAttr2 = (oamEntry->mAttr2 & 0xfffff3ff) | 0xc00;
-        oamEntry = gApList->mRowRightOamEntries[i];
+        oamEntry = gApList->mRowRightOamEntries[rowIndex];
         oamEntry->mAttr2 = (oamEntry->mAttr2 & 0xfffff3ff) | 0xc00;
     }
 }
@@ -395,7 +403,7 @@ void UpdateApListFadeOut(void) {
 }
 
 void UpdateApListRelease(void) {
-    int i;
+    int rowIndex;
     ApList *apList;
     if (IsBlendBrightnessFadeSlotBusy(1) != 0) {
         return;
@@ -407,12 +415,12 @@ void UpdateApListRelease(void) {
         return;
     }
     RemoveTaskEntryWrapper(1, gApList->mBgOffsetTask);
-    for (i = 0; i < 5; i++) {
-        if (gApList->mRowLeftOamEntries[i] != NULL) {
-            DeleteOamEntry((u32 *) gApList->mRowLeftOamEntries[i]);
+    for (rowIndex = 0; rowIndex < 5; rowIndex++) {
+        if (gApList->mRowLeftOamEntries[rowIndex] != NULL) {
+            DeleteOamEntry((u32 *) gApList->mRowLeftOamEntries[rowIndex]);
         }
-        if (gApList->mRowRightOamEntries[i] != NULL) {
-            DeleteOamEntry((u32 *) gApList->mRowRightOamEntries[i]);
+        if (gApList->mRowRightOamEntries[rowIndex] != NULL) {
+            DeleteOamEntry((u32 *) gApList->mRowRightOamEntries[rowIndex]);
         }
     }
     ReleaseBgTextCanvas(gApList->mTextCanvas);
@@ -488,7 +496,7 @@ void PrintApListEntryText(int entryIndex, int yPos) {
     u16 lineText[17];
     int textLength;
     int entryOffset;
-    int i;
+    int charIndex;
     int lineLength;
     entryOffset = entryIndex * 0x2a;
     textLength = GetStringLengthWithLimit(gApList->mEntries + entryOffset, 0x20);
@@ -503,15 +511,15 @@ void PrintApListEntryText(int entryIndex, int yPos) {
         } else {
             lineLength = 0x10;
         }
-        for (i = 0; i < lineLength; i++) {
-            lineText[i] = (gApList->mEntries + entryOffset)[i];
+        for (charIndex = 0; charIndex < lineLength; charIndex++) {
+            lineText[charIndex] = (gApList->mEntries + entryOffset)[charIndex];
         }
         DrawCharsCentered(gApList->mTextCanvas, 0xa, yPos, 2, 0xa, lineText, 1);
         if (textLength > 0x10) {
             MI_CpuFill8(lineText, 0, 0x22);
             lineLength = textLength - 0x10;
-            for (i = 0; i < lineLength; i++) {
-                lineText[i] = (gApList->mEntries + entryOffset)[i + 0x10];
+            for (charIndex = 0; charIndex < lineLength; charIndex++) {
+                lineText[charIndex] = (gApList->mEntries + entryOffset)[charIndex + 0x10];
             }
             yPos += 0xc;
             DrawCharsCentered(gApList->mTextCanvas, 0xa, yPos, 2, 0xa, lineText, 1);
@@ -536,17 +544,17 @@ void SetApListRowTiles(int entryIndex, int rowSlot) {
 void RefreshApListRowPositions(void) {
     int yPos;
     int rowCount;
-    int i;
+    int rowIndex;
     yPos = 0x36 - FX_ModS32(*(u16 *) &gApListScrollY, 0x1c);
     rowCount = gApList->mEntryCount;
     if (rowCount > 5) {
         rowCount = 5;
     }
-    for (i = 0; i < rowCount; i++, yPos += 0x1c) {
+    for (rowIndex = 0; rowIndex < rowCount; rowIndex++, yPos += 0x1c) {
         OamEntry *oamEntry;
-        oamEntry = gApList->mRowLeftOamEntries[i];
+        oamEntry = gApList->mRowLeftOamEntries[rowIndex];
         oamEntry->mAttr01 = (oamEntry->mAttr01 & 0xfe00ff00) | ((yPos - 2) & 0xff) | 0xb30000;
-        oamEntry = gApList->mRowRightOamEntries[i];
+        oamEntry = gApList->mRowRightOamEntries[rowIndex];
         oamEntry->mAttr01 = (oamEntry->mAttr01 & 0xfe00ff00) | ((yPos + 1) & 0xff) | 0xd20000;
     }
     gApList->mBgOffsetPending = 1;

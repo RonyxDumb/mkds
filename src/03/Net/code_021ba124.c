@@ -28,7 +28,9 @@
 #include "00/Lib/NitroWiFi/socl_startup.h"
 #include "03/code_021b7ba8.h"
 
-MaskCodeEntry gMaskCodeTable[12] = {{1, 2, 0}, {2, 4, 0}, {4, 0xb, 0}, {8, 0xc, 0}, {0x10, 0x12, 0}, {0x20, 0x16, 0}, {0x40, 0x18, 0}, {0x80, 0x24, 0}, {0x100, 0x30, 0}, {0x200, 0x48, 0}, {0x400, 0x60, 0}, {0x800, 0x6c, 0}};
+MaskCodeEntry gMaskCodeTable[12] = {{1, 2, 0},        {2, 4, 0},        {4, 0xb, 0},      {8, 0xc, 0},
+                                    {0x10, 0x12, 0},  {0x20, 0x16, 0},  {0x40, 0x18, 0},  {0x80, 0x24, 0},
+                                    {0x100, 0x30, 0}, {0x200, 0x48, 0}, {0x400, 0x60, 0}, {0x800, 0x6c, 0}};
 u8 gEssidAossString[11] = "ESSID-AOSS";
 s8 gMelcoString[6] = "MELCO";
 void *(*gEssidAllocFunction)(u32);
@@ -41,7 +43,7 @@ MelcoBlock gMelcoBlock;
 RawEntry gMelcoRecord __attribute__((aligned(32)));
 
 void ConvertRecordToEssidEntry(RawEntry *src, EssidEntry *dst) {
-    int i;
+    int rateIndex;
     int count;
     int mode;
     dst->mEssidLength = src->mSsidLength;
@@ -49,10 +51,10 @@ void ConvertRecordToEssidEntry(RawEntry *src, EssidEntry *dst) {
     dst->mUnk_24 = src->mChannel;
     MIi_CpuCopy16(&src->mAddress, dst->mUnk_30, 6);
     count = 0;
-    for (i = 0; i < 12; i++) {
-        if (src->mSupportRateSet & gMaskCodeTable[i].mMask) {
-            dst->mCodes[count] = gMaskCodeTable[i].mCode;
-            if (src->mBasicRateSet & gMaskCodeTable[i].mMask) {
+    for (rateIndex = 0; rateIndex < 12; rateIndex++) {
+        if (src->mSupportRateSet & gMaskCodeTable[rateIndex].mMask) {
+            dst->mCodes[count] = gMaskCodeTable[rateIndex].mCode;
+            if (src->mBasicRateSet & gMaskCodeTable[rateIndex].mMask) {
                 dst->mCodes[count] |= 0x80;
             }
             count++;
@@ -206,7 +208,7 @@ s32 ScanEssidEntries(EssidEntryList **out) {
     EssidEntryList *list;
     void *msg;
     OSAlarm timer;
-    s32 i;
+    s32 entryIndex;
     if (gEssidAllocFunction == NULL || gEssidFreeFunction == NULL) {
         return -1;
     }
@@ -272,8 +274,8 @@ s32 ScanEssidEntries(EssidEntryList **out) {
         }
         *out = list;
         list->mCount = count;
-        for (i = 0; i < count; i++) {
-            ConvertRecordToEssidEntry(scan, &list->mEntries[i]);
+        for (entryIndex = 0; entryIndex < count; entryIndex++) {
+            ConvertRecordToEssidEntry(scan, &list->mEntries[entryIndex]);
             scan++;
         }
     cleanup:

@@ -28,7 +28,8 @@ const u8 gMessageBoxButtonSlots[6][2] = {{0, 1}, {1, 0}, {0, 1}, {1, 0}, {0, 1},
 const u16 gMessageBoxButtonSizes[5][2] = {{0x6c, 0x10}, {0x6c, 0x10}, {0x78, 0x10}, {0x78, 0x10}, {0x78, 0x10}};
 const u8 gMessageBoxButtonImageIds[6][2] = {{0x1b, 0x19}, {0x57, 0}, {0x23, 0x1d}, {0x59, 0}, {0x23, 0x1d}, {0, 0}};
 Bytes6 gMessageBoxWindowExtraBitFlags = {{1, 1, 0, 0, 1, 1}};
-const u16 gMessageBoxTextSizes[6][2] = {{0xd8, 0x50}, {0xd8, 0x50}, {0xe6, 0x4f}, {0xe6, 0x4f}, {0xe6, 0x48}, {0xda, 0x5c}};
+const u16 gMessageBoxTextSizes[6][2] = {{0xd8, 0x50}, {0xd8, 0x50}, {0xe6, 0x4f},
+                                        {0xe6, 0x4f}, {0xe6, 0x48}, {0xda, 0x5c}};
 const u16 gMessageBoxPositions[6][2] = {{0xb, 0x27}, {0xb, 0x27}, {4, 0x4c}, {4, 0x4c}, {4, 0x54}, {0xb, 0x27}};
 const u16 gMessageBoxSizes[6][2] = {{0xea, 0x72}, {0xea, 0x72}, {0xf8, 0x70}, {0xf8, 0x70}, {0x64, 0x70}, {0xea, 0x72}};
 const u16 gMessageBoxButtonPositions[5][2][2] = {{{0x10, 0x84}, {0x84, 0x84}},
@@ -84,16 +85,16 @@ void AdvanceMessageBoxSlideIn(u32 task) {
 }
 
 void AdvanceMessageBoxInput(void) {
-    s32 i;
-    s32 j;
+    s32 touchIndex;
+    s32 buttonIndex;
     Rect buttonRect;
 
-    for (i = 0; i < gMessageBoxButtonCounts[gMessageBox->mKind]; i++) {
+    for (touchIndex = 0; touchIndex < gMessageBoxButtonCounts[gMessageBox->mKind]; touchIndex++) {
         ComputeRectFromOriginAndSize(
-            gMessageBoxButtonPositions[gMessageBox->mKind][gMessageBoxButtonSlots[gMessageBox->mKind][i]],
+            gMessageBoxButtonPositions[gMessageBox->mKind][gMessageBoxButtonSlots[gMessageBox->mKind][touchIndex]],
             gMessageBoxButtonSizes[gMessageBox->mKind], &buttonRect);
         if (IsTouchPressedInRect(&buttonRect) != 0) {
-            gMessageBox->mResult = i;
+            gMessageBox->mResult = touchIndex;
             break;
         }
     }
@@ -103,9 +104,9 @@ void AdvanceMessageBoxInput(void) {
     if (AreKeysPressed(2) != 0) {
         gMessageBox->mResult = gMessageBoxKeyResults[gMessageBox->mKind][1];
     }
-    for (j = 0; j < gMessageBoxButtonCounts[gMessageBox->mKind]; j++) {
-        if (j == gMessageBox->mResult) {
-            ShowMessageBoxButtonPressed(j);
+    for (buttonIndex = 0; buttonIndex < gMessageBoxButtonCounts[gMessageBox->mKind]; buttonIndex++) {
+        if (buttonIndex == gMessageBox->mResult) {
+            ShowMessageBoxButtonPressed(buttonIndex);
             return;
         }
     }
@@ -122,7 +123,7 @@ void AdvanceMessageBoxTimed(u32 task) {
 }
 
 void PlaceMessageBox(s32 yPos) {
-    s32 i;
+    s32 buttonIndex;
     u8 kind;
     u16 windowRect[4];
     s32 bottom;
@@ -133,13 +134,15 @@ void PlaceMessageBox(s32 yPos) {
                         yPos + gMessageBoxTextOffset[1]);
     ClipOamRangeAboveY(gMessageBox->mBox, yPos);
     ClipOamRangeAboveY(gMessageBox->mText, yPos);
-    for (i = 0; i < gMessageBoxButtonCounts[gMessageBox->mKind]; i++) {
+    for (buttonIndex = 0; buttonIndex < gMessageBoxButtonCounts[gMessageBox->mKind]; buttonIndex++) {
         SetOamRangePosition(
-            gMessageBox->mButtons[i], -1,
-            gMessageBoxButtonPositions[gMessageBox->mKind][gMessageBoxButtonSlots[gMessageBox->mKind][i]][0],
-            yPos + gMessageBoxButtonPositions[gMessageBox->mKind][gMessageBoxButtonSlots[gMessageBox->mKind][i]][1] -
+            gMessageBox->mButtons[buttonIndex], -1,
+            gMessageBoxButtonPositions[gMessageBox->mKind][gMessageBoxButtonSlots[gMessageBox->mKind][buttonIndex]][0],
+            yPos +
+                gMessageBoxButtonPositions[gMessageBox->mKind][gMessageBoxButtonSlots[gMessageBox->mKind][buttonIndex]]
+                                          [1] -
                 gMessageBoxPositions[gMessageBox->mKind][1]);
-        ClipOamRangeAboveY(gMessageBox->mButtons[i], yPos);
+        ClipOamRangeAboveY(gMessageBox->mButtons[buttonIndex], yPos);
     }
     kind = gMessageBox->mKind;
     top = yPos & 0xff;
@@ -159,20 +162,20 @@ void PlaceMessageBox(s32 yPos) {
 
 void ClipOamRangeAboveY(OamRange *range, s32 minY) {
     s32 entryCount;
-    s32 i;
+    s32 entryIndex;
     u32 xPos;
     s32 yPos;
     s32 effect;
 
     entryCount = GetOamRangeEntryCount(range);
-    for (i = 0; i < entryCount; i++) {
-        GetOamRangeEntryPosition(range, i, &xPos, &yPos);
+    for (entryIndex = 0; entryIndex < entryCount; entryIndex++) {
+        GetOamRangeEntryPosition(range, entryIndex, &xPos, &yPos);
         if (yPos >= minY && yPos < 0xc0) {
             effect = 0;
         } else {
             effect = 0x200;
         }
-        SetOamRangeEffect(range, i, effect, 0);
+        SetOamRangeEffect(range, entryIndex, effect, 0);
     }
 }
 
@@ -218,14 +221,14 @@ void AdvanceMessageBoxBrightnessUp(TaskEntry *taskEntry) {
 }
 
 void AdvanceMessageBoxRelease(u32 task) {
-    s32 i;
+    s32 buttonIndex;
 
     reg_GX_DISPCNT = reg_GX_DISPCNT & 0xffff1fff;
     DeleteOamRange(gMessageBox->mBox);
     DeleteOamRange(gMessageBox->mText);
-    for (i = 0; i < gMessageBoxButtonCounts[gMessageBox->mKind]; i++) {
-        if (gMessageBox->mButtons[i] != NULL) {
-            DeleteOamRange(gMessageBox->mButtons[i]);
+    for (buttonIndex = 0; buttonIndex < gMessageBoxButtonCounts[gMessageBox->mKind]; buttonIndex++) {
+        if (gMessageBox->mButtons[buttonIndex] != NULL) {
+            DeleteOamRange(gMessageBox->mButtons[buttonIndex]);
         }
     }
     DeleteObjTextCanvas(gMessageBox->mTextCanvas);

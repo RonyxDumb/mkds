@@ -166,7 +166,7 @@ void SetEditKeyboardRowY(u32 page, s32 row, u32 yPos) {
     u8 keyCounts[5];
     u8 extraKeyCounts[5];
     u8 row4KeyCounts[5];
-    s32 i;
+    s32 rowKeyIndex;
     s32 keyIndex;
     s32 extraKeyIndex;
     OamEntry *key;
@@ -174,7 +174,7 @@ void SetEditKeyboardRowY(u32 page, s32 row, u32 yPos) {
     *(EditKeyboardRowCounts *) extraKeyCounts = *(EditKeyboardRowCounts *) gEditKeyboardExtraKeyCounts;
     *(EditKeyboardRowCounts *) row4KeyCounts = *(EditKeyboardRowCounts *) gEditKeyboardRow4KeyCounts;
     keyIndex = row * 12;
-    for (i = 0; i < keyCounts[(u32) row]; i++, keyIndex++) {
+    for (rowKeyIndex = 0; rowKeyIndex < keyCounts[(u32) row]; rowKeyIndex++, keyIndex++) {
         key = gEditKeyboard->mKeys[keyIndex];
         key->mAttr01 = key->mAttr01 & 0xc1fffcff;
         key = gEditKeyboard->mKeys[keyIndex];
@@ -186,35 +186,36 @@ void SetEditKeyboardRowY(u32 page, s32 row, u32 yPos) {
                                   gEditKeyboard->mRowTextRanges[row], 2);
     }
     extraKeyIndex = FX_ModS32(row + 3, 4);
-    for (i = 0; i < extraKeyCounts[(u32) row]; i++) {
+    for (rowKeyIndex = 0; rowKeyIndex < extraKeyCounts[(u32) row]; rowKeyIndex++) {
         key = gEditKeyboard->mExtraKeys[extraKeyIndex];
         key->mAttr01 = key->mAttr01 & 0xc1fffcff;
         key = gEditKeyboard->mExtraKeys[extraKeyIndex];
         key->mAttr01 = ((gEditKeyboardExtraKeyPositions[extraKeyIndex][0] & 0x1ff) << 16) |
                        ((key->mAttr01 & 0xfe00ff00) | (yPos & 0xff));
     }
-    for (i = 0; i < row4KeyCounts[(u32) row]; i++) {
-        SetOamRangeEffect(gEditKeyboard->mRow4Keys[i], -1, 0, 0);
-        SetOamRangePosition(gEditKeyboard->mRow4Keys[i], -1, gEditKeyboardRow4KeyPositions[i][0], yPos);
+    for (rowKeyIndex = 0; rowKeyIndex < row4KeyCounts[(u32) row]; rowKeyIndex++) {
+        SetOamRangeEffect(gEditKeyboard->mRow4Keys[rowKeyIndex], -1, 0, 0);
+        SetOamRangePosition(gEditKeyboard->mRow4Keys[rowKeyIndex], -1, gEditKeyboardRow4KeyPositions[rowKeyIndex][0],
+                            yPos);
     }
 }
 
 void ChangeEditKeyboardPage(int page) {
     BOOL page2Selected;
     BOOL page1Selected;
-    s32 i;
+    s32 rowIndex;
     s32 firstKeyIndex;
     page2Selected = FALSE;
     page1Selected = FALSE;
     gEditKeyboard->mPage = page;
-    i = 0;
-    if (i < 4) {
+    rowIndex = 0;
+    if (rowIndex < 4) {
         firstKeyIndex = 0;
         do {
-            SetEditKeyboardRowY(page, i, gEditKeyboardKeyPositions[firstKeyIndex][1]);
+            SetEditKeyboardRowY(page, rowIndex, gEditKeyboardKeyPositions[firstKeyIndex][1]);
             firstKeyIndex = (s32) (firstKeyIndex + 12);
-            i++;
-        } while (i < 4);
+            rowIndex++;
+        } while (rowIndex < 4);
     }
     if (page == 2) {
         page2Selected = TRUE;

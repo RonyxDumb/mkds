@@ -32,7 +32,8 @@
 const Rect gJb2MenuRects[2] = {{8, 0x20, 0xac, 0xa0}, {0xb4, 0x20, 0xf8, 0xa0}};
 const Rect gJb2MenuSelectionRects[2] = {{6, 0x1e, 0x9e, 0x92}, {0xb2, 0x1e, 0xea, 0x92}};
 Jb2MenuPaletteRows gJb2MenuPaletteRows = {{1, 2}};
-YbBgStep11NclName gYbBgStep11NclName = {{0x63, 0x68, 0x61, 0x72, 0x2f, 0x79, 0x62, 0x42, 0x67, 0x53, 0x74, 0x65, 0x70, 0x31, 0x31, 0x2e, 0x6e, 0x63, 0x6c, 0x2e, 0x6c, 0}};
+YbBgStep11NclName gYbBgStep11NclName = {{0x63, 0x68, 0x61, 0x72, 0x2f, 0x79, 0x62, 0x42, 0x67, 0x53, 0x74,
+                                         0x65, 0x70, 0x31, 0x31, 0x2e, 0x6e, 0x63, 0x6c, 0x2e, 0x6c, 0}};
 u8 gJb2MenuSelectedIndex;
 void *gYbBgStep11Ncl;
 
@@ -41,8 +42,9 @@ void SetupJb2Menu(void) {
     LoadHlScr(0);
     ShowSubScreenMessage(0x7a, -1, 0);
     LoadMenuPairScreenMap(4);
-    PlaceSelectionCorners(gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mX, gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mUnk_04,
-                          gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mY, gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mUnk_06);
+    PlaceSelectionCorners(
+        gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mX, gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mUnk_04,
+        gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mY, gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mUnk_06);
     SetUpdateFunction(StartJb2MenuFadeIn);
 }
 
@@ -90,13 +92,15 @@ void UpdateJb2Menu(void) {
 }
 
 void UpdateJb2MenuInput(void) {
-    u32 i;
-    for (i = 0; i < 2; i++) {
-        if (IsTouchPressedInRect(&gJb2MenuRects[i]) != 0) {
+    u32 rectIndex;
+    for (rectIndex = 0; rectIndex < 2; rectIndex++) {
+        if (IsTouchPressedInRect(&gJb2MenuRects[rectIndex]) != 0) {
             SetButtonResultIfNone(1);
-            gJb2MenuSelectedIndex = i;
-            PlaceSelectionCorners(gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mX, gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mUnk_04,
-                                  gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mY, gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mUnk_06);
+            gJb2MenuSelectedIndex = rectIndex;
+            PlaceSelectionCorners(gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mX,
+                                  gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mUnk_04,
+                                  gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mY,
+                                  gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mUnk_06);
             return;
         }
     }
@@ -171,8 +175,9 @@ void MoveJb2MenuSelection(s32 direction) {
     if (direction != 1 && direction != 3) {
         gJb2MenuSelectedIndex ^= 1;
         StartSoundSeq(8);
-        PlaceSelectionCorners(gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mX, gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mUnk_04,
-                              gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mY, gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mUnk_06);
+        PlaceSelectionCorners(
+            gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mX, gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mUnk_04,
+            gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mY, gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mUnk_06);
     }
 }
 

@@ -241,15 +241,15 @@ BOOL StartEssidReturnToIdle(void) {
 
 s32 CopyEssidScanRecords(RawEntry *records, s32 maxCount) {
     s32 count;
-    s32 i;
+    s32 recordIndex;
     WCM_LockApList(1);
     count = WCM_CountApList();
     if (count > 0) {
-        for (i = 0; i < count; i++, records++) {
-            if (i >= maxCount) {
+        for (recordIndex = 0; recordIndex < count; recordIndex++, records++) {
+            if (recordIndex >= maxCount) {
                 break;
             }
-            MIi_CpuCopy32(WCM_PointApList(i), records, 0xc0);
+            MIi_CpuCopy32(WCM_PointApList(recordIndex), records, 0xc0);
         }
     }
     WCM_LockApList(0);
@@ -258,11 +258,11 @@ s32 CopyEssidScanRecords(RawEntry *records, s32 maxCount) {
 
 BOOL StartEssidSearch(const u8 *addressBytes, const u8 *essidBytes, s32 essidLength, u32 option) {
     u32 enabled = OS_DisableInterrupts();
-    s32 i;
+    s32 byteIndex;
     gEssidSearchOption = option;
     if (addressBytes != NULL) {
-        for (i = 0; i < 6; i++) {
-            gEssidSearchAddressBytes[i] = *addressBytes++;
+        for (byteIndex = 0; byteIndex < 6; byteIndex++) {
+            gEssidSearchAddressBytes[byteIndex] = *addressBytes++;
         }
         gEssidSearchAddress = gEssidSearchAddressBytes;
     } else {
@@ -270,11 +270,11 @@ BOOL StartEssidSearch(const u8 *addressBytes, const u8 *essidBytes, s32 essidLen
         gEssidSearchAddress = WCM_Bssid_Any;
     }
     if (essidBytes != NULL && essidLength > 0 && essidLength <= 0x20) {
-        for (i = 0; i < essidLength; i++) {
-            gEssidSearchEssidBytes[i] = *essidBytes++;
+        for (byteIndex = 0; byteIndex < essidLength; byteIndex++) {
+            gEssidSearchEssidBytes[byteIndex] = *essidBytes++;
         }
-        for (; i < 0x20; i++) {
-            gEssidSearchEssidBytes[i] = 0;
+        for (; byteIndex < 0x20; byteIndex++) {
+            gEssidSearchEssidBytes[byteIndex] = 0;
         }
         gEssidSearchEssid = gEssidSearchEssidBytes;
     } else {

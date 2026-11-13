@@ -40,7 +40,8 @@
 
 const u8 gEditLineY[2] = {0x20, 0x31};
 const u16 gEditCharSize[2] = {0xe, 0x10};
-const u8 gEditColumnX[16] = {8, 0x17, 0x26, 0x35, 0x44, 0x53, 0x62, 0x71, 0x80, 0x8f, 0x9e, 0xad, 0xbc, 0xcb, 0xda, 0xe9};
+const u8 gEditColumnX[16] = {8,    0x17, 0x26, 0x35, 0x44, 0x53, 0x62, 0x71,
+                             0x80, 0x8f, 0x9e, 0xad, 0xbc, 0xcb, 0xda, 0xe9};
 u8 gEditSubScreenMessages[2] = {0x90, 0x8f};
 struct Edit *gEdit;
 
@@ -365,7 +366,7 @@ BOOL IsEditTextValid(void) {
     s32 secondaryPairFirst;
     s32 secondaryPairSecond;
     int textLength;
-    int i;
+    int charIndex;
     GetSecondaryMenuPair(&secondaryPairFirst, &secondaryPairSecond);
     if (secondaryPairSecond == 1) {
         ShowSubScreenMessage(0x81, -1, 0);
@@ -390,8 +391,8 @@ BOOL IsEditTextValid(void) {
         case 0xa:
         case 0x1a:
         case 0x20:
-            for (i = 0; i < textLength; i++) {
-                u8 charValue = gEdit->mText[i];
+            for (charIndex = 0; charIndex < textLength; charIndex++) {
+                u8 charValue = gEdit->mText[charIndex];
                 if (!((charValue >= '0' && charValue <= '9') || (charValue >= 'A' && charValue <= 'F') ||
                       (charValue >= 'a' && charValue <= 'f'))) {
                     return FALSE;

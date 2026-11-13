@@ -24,7 +24,8 @@ DwcArchive *gDwcArchive;
 const u8 gDwcArchiveName[4] = {0x64, 0x77, 0x63, 0};
 char gLzFileSuffix[3] = ".l";
 u8 gRomDir[5] = {0x72, 0x6f, 0x6d, 0x3a, 0x2f};
-u8 gDwcUtilityBinName[21] = {0x72, 0x6f, 0x6d, 0x3a, 0x2f, 0x64, 0x77, 0x63, 0x2f, 0x75, 0x74, 0x69, 0x6c, 0x69, 0x74, 0x79, 0x2e, 0x62, 0x69, 0x6e, 0};
+u8 gDwcUtilityBinName[21] = {0x72, 0x6f, 0x6d, 0x3a, 0x2f, 0x64, 0x77, 0x63, 0x2f, 0x75, 0x74,
+                             0x69, 0x6c, 0x69, 0x74, 0x79, 0x2e, 0x62, 0x69, 0x6e, 0};
 
 void InitDwcArchive(void) {
     FSFile file;
@@ -106,7 +107,7 @@ s32 DwcArchiveWriteCallback(void) {
 void *LoadFile(const u8 *path, u32 *outSize, s32 alignment) {
     FSFile file;
     void *fileData;
-    u32 c;
+    u32 size;
     s32 readAlignment;
 
     PopPointerStack(gDwcArchive->mUnk_84);
@@ -114,27 +115,27 @@ void *LoadFile(const u8 *path, u32 *outSize, s32 alignment) {
     if (FS_OpenFile(&file, path) == 0) {
         OS_Terminate();
     }
-    c = file.mProp.w.mUnk_08 - file.mProp.w.mUnk_04;
+    size = file.mProp.w.mUnk_08 - file.mProp.w.mUnk_04;
     if (outSize != NULL) {
-        *outSize = c;
+        *outSize = size;
     }
     if (AreStringEndsEqual(path, gLzFileSuffix, 2) != 0) {
         readAlignment = -4;
     } else {
         readAlignment = alignment;
     }
-    fileData = AllocExpHeapBlock(c, readAlignment);
-    FS_ReadFile(&file, fileData, c);
+    fileData = AllocExpHeapBlock(size, readAlignment);
+    FS_ReadFile(&file, fileData, size);
     FS_CloseFile(&file);
     if (readAlignment > 0) {
         return fileData;
     }
-    c = *(u32 *) fileData >> 8;
+    size = *(u32 *) fileData >> 8;
     if (outSize != NULL) {
-        *outSize = c;
+        *outSize = size;
     }
     {
-        void *uncompressed = AllocExpHeapBlock(c, alignment);
+        void *uncompressed = AllocExpHeapBlock(size, alignment);
 
         MI_UncompressLZ8(fileData, uncompressed);
         FreeExpHeapBlockAndClearPointer(&fileData);

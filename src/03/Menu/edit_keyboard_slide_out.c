@@ -59,9 +59,9 @@ void AdvanceEditKeyboardSlideOutRow2(TaskEntry *task) {
 }
 
 void AdvanceEditKeyboardSlideOutRow1(TaskEntry *task) {
-    s32 x;
+    s32 xPos;
     s32 yPos;
-    EditKeyboardOutG2_GetOBJPosition(gEditKeyboard->mKeys[12], (u32 *) &x, (u32 *) &yPos);
+    EditKeyboardOutG2_GetOBJPosition(gEditKeyboard->mKeys[12], (u32 *) &xPos, (u32 *) &yPos);
     yPos += 12;
     SetEditKeyboardRowY(gEditKeyboard->mPage, 1, yPos);
     if (yPos >= 0xc0) {
@@ -81,25 +81,25 @@ void AdvanceEditKeyboardSlideOutRow0(TaskEntry *task) {
 }
 
 void ReleaseEditKeyboard(u32 task) {
-    s32 i;
-    s32 j;
+    s32 index;
+    s32 rowIndex;
     RequestTaskRemoval(0, task);
-    for (i = 0; i < 3; i++) {
-        for (j = 0; j < 4; j++) {
-            DeleteObjTextCanvas(gEditKeyboard->mRowTexts[i][j]);
-            if (i == 0) {
-                DeleteOamRange(gEditKeyboard->mRowTextRanges[j]);
+    for (index = 0; index < 3; index++) {
+        for (rowIndex = 0; rowIndex < 4; rowIndex++) {
+            DeleteObjTextCanvas(gEditKeyboard->mRowTexts[index][rowIndex]);
+            if (index == 0) {
+                DeleteOamRange(gEditKeyboard->mRowTextRanges[rowIndex]);
             }
         }
     }
-    for (i = 0; i < 2; i++) {
-        DeleteOamRange(gEditKeyboard->mRow4Keys[i]);
+    for (index = 0; index < 2; index++) {
+        DeleteOamRange(gEditKeyboard->mRow4Keys[index]);
     }
-    for (i = 0; i < 4; i++) {
-        DeleteOamEntry((u32 *) gEditKeyboard->mExtraKeys[i]);
+    for (index = 0; index < 4; index++) {
+        DeleteOamEntry((u32 *) gEditKeyboard->mExtraKeys[index]);
     }
-    for (i = 0; i < 0x2f; i++) {
-        DeleteOamEntry((u32 *) gEditKeyboard->mKeys[i]);
+    for (index = 0; index < 0x2f; index++) {
+        DeleteOamEntry((u32 *) gEditKeyboard->mKeys[index]);
     }
     FreeExpHeapBlockAndClearPointer(&gEditKeyboard);
 }

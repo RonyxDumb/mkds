@@ -18,7 +18,8 @@
 
 const u8 gUsbScanEmptyBssid[6] = {0, 0, 0, 0, 0, 0};
 const u8 gUsbSsidPrefix[9] = {0x4e, 0x57, 0x43, 0x55, 0x53, 0x42, 0x41, 0x50, 0};
-const Bytes68 gUsbScanParamTemplate = {{0, 0x3fff0400, 0xffff0000, 0xffffffff, 0x200002, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0}};
+const Bytes68 gUsbScanParamTemplate = {
+    {0, 0x3fff0400, 0xffff0000, 0xffffffff, 0x200002, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0}};
 
 UsbScan *gUsbScan;
 
@@ -129,27 +130,27 @@ void UsbScanCallback(Unk021425e8 *message) {
 }
 
 void StoreUsbScanEntries(WMStartScanExCallback *scanResult) {
-    s32 i;
+    s32 descIndex;
 
-    for (i = 0; i < scanResult->mBssDescCount; i++) {
+    for (descIndex = 0; descIndex < scanResult->mBssDescCount; descIndex++) {
         WMBssDesc *bssDesc;
-        s32 j;
+        s32 entryIndex;
         u8 *slotBssid;
         u8 *freeSlotBssid;
-        s32 k;
+        s32 emptyEntryIndex;
         UsbScan *scan;
 
-        bssDesc = scanResult->mBssDesc[i];
+        bssDesc = scanResult->mBssDesc[descIndex];
         DC_InvalidateRange(bssDesc, 0xc0);
         if (memcmp(bssDesc->mSsid, gUsbSsidPrefix, 8) != 0) {
             continue;
         }
-        j = 0;
+        entryIndex = 0;
         scan = gUsbScan;
         slotBssid = scan->mEntries[0].mBssid;
-        for (; j < 16; j++) {
+        for (; entryIndex < 16; entryIndex++) {
             if (memcmp(bssDesc->mBssid, slotBssid, 6) == 0) {
-                if (scan->mEntries[j].mFlag != 0) {
+                if (scan->mEntries[entryIndex].mFlag != 0) {
                     goto next;
                 }
                 if ((bssDesc->mSsid[9] & 1) == 0) {
@@ -162,12 +163,12 @@ void StoreUsbScanEntries(WMStartScanExCallback *scanResult) {
             }
             slotBssid += 7;
         }
-        k = 0;
+        emptyEntryIndex = 0;
         freeSlotBssid = scan->mEntries[0].mBssid;
-        for (; k < 16; k++) {
+        for (; emptyEntryIndex < 16; emptyEntryIndex++) {
             if (memcmp(freeSlotBssid, gUsbScanEmptyBssid, 6) == 0) {
-                MI_CpuCopy8(bssDesc->mBssid, scan->mEntries[k].mBssid, 6);
-                gUsbScan->mEntries[k].mFlag = (bssDesc->mSsid[9] & 1) ? 1 : 0;
+                MI_CpuCopy8(bssDesc->mBssid, scan->mEntries[emptyEntryIndex].mBssid, 6);
+                gUsbScan->mEntries[emptyEntryIndex].mFlag = (bssDesc->mSsid[9] & 1) ? 1 : 0;
                 goto next;
             }
             freeSlotBssid += 7;
@@ -177,8 +178,8 @@ void StoreUsbScanEntries(WMStartScanExCallback *scanResult) {
 }
 
 void CheckUsbScanEntries(WMStartScanExCallback *scanResult) {
-    s32 i;
-    UsbScan *q;
+    s32 descIndex;
+    UsbScan *usbScan;
     s32 resultCount;
     UsbScan *scan;
 
@@ -190,36 +191,36 @@ void CheckUsbScanEntries(WMStartScanExCallback *scanResult) {
         return;
     }
     DC_InvalidateRange(scan->mUnk_0f00, 0x400);
-    i = 0;
+    descIndex = 0;
     resultCount = scanResult->mBssDescCount;
     if (resultCount > 0) {
-        q = gUsbScan;
+        usbScan = gUsbScan;
         do {
-            s32 j;
+            s32 entryIndex;
             u8 *slotBssid;
             WMBssDesc *bssDesc;
 
-            bssDesc = scanResult->mBssDesc[i];
+            bssDesc = scanResult->mBssDesc[descIndex];
             if (memcmp(bssDesc->mSsid, gUsbSsidPrefix, 8) != 0) {
                 continue;
             }
             if ((bssDesc->mSsid[9] & 1) == 0) {
                 continue;
             }
-            for (j = 0, slotBssid = q->mEntries[0].mBssid; j < 16; j++) {
+            for (entryIndex = 0, slotBssid = usbScan->mEntries[0].mBssid; entryIndex < 16; entryIndex++) {
                 if (memcmp(bssDesc->mBssid, slotBssid, 6) == 0) {
-                    if (q->mEntries[j].mFlag != 0) {
+                    if (usbScan->mEntries[entryIndex].mFlag != 0) {
                         break;
                     }
-                    if (q->mResultCallback != NULL) {
-                        q->mResultCallback(1);
+                    if (usbScan->mResultCallback != NULL) {
+                        usbScan->mResultCallback(1);
                         return;
                     }
-                    q->mUnk_1b81 = 1;
+                    usbScan->mUnk_1b81 = 1;
                     return;
                 }
                 slotBssid += 7;
             }
-        } while (++i < resultCount);
+        } while (++descIndex < resultCount);
     }
 }

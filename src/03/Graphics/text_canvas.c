@@ -30,22 +30,22 @@ TextCanvases *gTextCanvases;
 
 void InitTextCanvases(void) {
     TextCanvases *canvases = AllocExpHeapBlock(0x798, 4);
-    u32 *b;
-    s32 i;
+    u32 *outSize;
+    s32 fontIndex;
 
     gTextCanvases = canvases;
     gTextCanvases->mFreeObjCanvases = CreateFilledPointerStack(0x20, canvases->mObjCanvasStorage, 0x38);
-    b = NULL;
-    for (i = 0; i < 2; i++) {
-        gTextCanvases->mFontFiles[i] = LoadFile(gTextCanvasNftrNames[i], b, 4);
-        NNS_G2dFontInitUTF16(&gTextCanvases->mFonts[i], gTextCanvases->mFontFiles[i]);
+    outSize = NULL;
+    for (fontIndex = 0; fontIndex < 2; fontIndex++) {
+        gTextCanvases->mFontFiles[fontIndex] = LoadFile(gTextCanvasNftrNames[fontIndex], outSize, 4);
+        NNS_G2dFontInitUTF16(&gTextCanvases->mFonts[fontIndex], gTextCanvases->mFontFiles[fontIndex]);
     }
 }
 
 void ReleaseTextCanvases(void) {
-    int i;
-    for (i = 0; i < 2; i++) {
-        DeleteLoadedFile(gTextCanvases->mFontFiles[i]);
+    int fontIndex;
+    for (fontIndex = 0; fontIndex < 2; fontIndex++) {
+        DeleteLoadedFile(gTextCanvases->mFontFiles[fontIndex]);
     }
     DeletePointerStack(gTextCanvases->mFreeObjCanvases);
     FreeExpHeapBlockAndClearPointer(&gTextCanvases);
@@ -140,19 +140,19 @@ void AdvanceBgTextCanvasUpload(u32 task, u8 *flag) {
 }
 
 void ReleaseBgTextCanvas(BgTextCanvas *canvas) {
-    volatile u16 a;
-    volatile u16 b;
+    volatile u16 clearValueFirst;
+    volatile u16 clearValueSecond;
     void *charBase;
 
     RemoveTaskEntryWrapper(1, canvas->mUploadTask);
     if (canvas == gTextCanvases->mBgTextCanvases) {
         charBase = (void *) G2_GetBG0CharPtr();
-        a = 0;
-        MIi_CpuClear16(a, charBase, (gBgTextCanvasSizes[0] * gBgTextCanvasSizes[1]) << 5);
+        clearValueFirst = 0;
+        MIi_CpuClear16(clearValueFirst, charBase, (gBgTextCanvasSizes[0] * gBgTextCanvasSizes[1]) << 5);
     } else {
         charBase = (void *) G2_GetBG0CharPtr();
-        b = 0;
-        MIi_CpuClear16(b, charBase, (gBgTextCanvasSizes[2] * gBgTextCanvasSizes[3]) << 5);
+        clearValueSecond = 0;
+        MIi_CpuClear16(clearValueSecond, charBase, (gBgTextCanvasSizes[2] * gBgTextCanvasSizes[3]) << 5);
     }
     FreeExpHeapBlockAndClearPointer(&canvas->mChars);
 }
@@ -205,12 +205,12 @@ void ClearBgTextCanvas(BgTextCanvas *canvas, u32 color) {
     canvas->mCharCanvas.mPClear(&canvas->mCharCanvas, color);
 }
 
-void ArrangeObjTextCanvasRange(ObjTextCanvas *canvas, s32 xPos, s32 yPos, OamRange *range, s32 f) {
+void ArrangeObjTextCanvasRange(ObjTextCanvas *canvas, s32 xPos, s32 yPos, OamRange *range, s32 priority) {
     OamEntry *entries = GetOamRangeEntry(range, 0);
 
     SetOamRangeEffect(range, -1, 0, 0);
     SetOamRangeMode(range, -1, 0, 0xf);
-    SetOamRangePriority(range, -1, f);
+    SetOamRangePriority(range, -1, priority);
     NNS_G2dArrangeOBJ1D(entries, canvas->mAreaWidth, canvas->mAreaHeight, xPos, yPos, 0, canvas->mCharName, 2);
 }
 

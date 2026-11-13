@@ -56,7 +56,7 @@ extern const u16 gBgTextCanvasSizes[4];
 extern void *gTextCanvasNftrNames[2];
 
 void RequestBgTextCanvasUpload(void *canvas);
-void ArrangeObjTextCanvasRange(ObjTextCanvas *canvas, s32 xPos, s32 yPos, OamRange *range, s32 f);
+void ArrangeObjTextCanvasRange(ObjTextCanvas *canvas, s32 xPos, s32 yPos, OamRange *range, s32 priority);
 void ClearBgTextCanvas(BgTextCanvas *canvas, u32 color);
 void DrawCharsCentered(void *canvas, s32 xPos, u32 yPos, u32 color, s32 cellWidth, u16 *text, s32 fontIndex);
 void DrawCanvasChar(void *canvas, u32 xPos, u32 yPos, u32 color, u16 charCode, int fontIndex);

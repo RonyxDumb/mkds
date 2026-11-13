@@ -48,24 +48,24 @@ void UpdateKeyTouchInput(void) {
 void UpdateKeyInput(void) {
     KeyTouchInput *input = gKeyTouchInput;
     u16 keys = ((*(u16 *) 0x4000130 | *(u16 *) 0x27fffa8) ^ 0x2fff) & 0x2fff;
-    s32 i;
+    s32 keyIndex;
     u16 keyBit;
 
     input->mKeysPressed = keys & (keys ^ input->mKeysDown);
     gKeyTouchInput->mKeysReleased = input->mKeysDown & (keys ^ input->mKeysDown);
     gKeyTouchInput->mKeysDown = keys;
     gKeyTouchInput->mKeysPressedOrRepeated = gKeyTouchInput->mKeysPressed;
-    for (i = 0; i < 14; i++) {
-        keyBit = 1 << i;
+    for (keyIndex = 0; keyIndex < 14; keyIndex++) {
+        keyBit = 1 << keyIndex;
         if ((keys & keyBit) == 0) {
-            gKeyRepeatFrames[i] = 0;
+            gKeyRepeatFrames[keyIndex] = 0;
         } else {
-            gKeyRepeatFrames[i]++;
-            if (gKeyRepeatFrames[i] == 0x28) {
+            gKeyRepeatFrames[keyIndex]++;
+            if (gKeyRepeatFrames[keyIndex] == 0x28) {
                 gKeyTouchInput->mKeysPressedOrRepeated |= keyBit;
-            } else if (gKeyRepeatFrames[i] == 0x2f) {
+            } else if (gKeyRepeatFrames[keyIndex] == 0x2f) {
                 gKeyTouchInput->mKeysPressedOrRepeated |= keyBit;
-                gKeyRepeatFrames[i] = 0x28;
+                gKeyRepeatFrames[keyIndex] = 0x28;
             }
         }
     }
@@ -74,8 +74,8 @@ void UpdateKeyInput(void) {
 void UpdateTouchInput(void) {
     u8 found;
     u32 wasDown;
-    u32 c;
-    s32 i;
+    u32 value;
+    s32 sampleCount;
     TPData point;
     KeyTouchInput *input;
 
@@ -85,13 +85,13 @@ void UpdateTouchInput(void) {
         wasDown = 0;
     }
     found = 0;
-    c = TP_GetLatestIndexInAuto();
+    value = TP_GetLatestIndexInAuto();
     input = gKeyTouchInput;
     input->mPrevTouchX = input->mTouchX;
     input->mPrevTouchY = input->mTouchY;
-    i = 0;
+    sampleCount = 0;
     do {
-        TPData *sample = &gKeyTouchInput->mTouchSamples[c];
+        TPData *sample = &gKeyTouchInput->mTouchSamples[value];
 
         if (sample->mTouch == 1 && sample->mValidity == 0) {
             found = 1;
@@ -99,12 +99,12 @@ void UpdateTouchInput(void) {
             SetPosition(point.mX, point.mY, &gKeyTouchInput->mTouchX);
             break;
         }
-        i++;
-        c = FX_ModS32(c + 4, 5);
-    } while (i < 4);
-    c = found ^ wasDown;
-    gKeyTouchInput->mBits.mPressed = found & c;
-    gKeyTouchInput->mBits.mReleased = wasDown & c;
+        sampleCount++;
+        value = FX_ModS32(value + 4, 5);
+    } while (sampleCount < 4);
+    value = found ^ wasDown;
+    gKeyTouchInput->mBits.mPressed = found & value;
+    gKeyTouchInput->mBits.mReleased = wasDown & value;
     gKeyTouchInput->mBits.mDown = found;
     gKeyTouchInput->mBits.mPressedOrRepeated = gKeyTouchInput->mBits.mPressed;
     if (found == 0) {

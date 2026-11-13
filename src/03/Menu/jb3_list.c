@@ -69,22 +69,25 @@ u8 gJb3ListTimerIds[4] = {2, 3, 7, 8};
 const u8 gJb3ListPaletteRows[3] = {6, 8, 7};
 const u8 gJb3ListEntryIndexById[11] = {0, 1, 2, 2, 3, 4, 5, 6, 6, 7, 8};
 const u8 gJb3ListIdByEntryIndex[9] = {0, 1, 0xe, 4, 5, 6, 0xe, 9, 0xa};
-const Rect gJb3ListSelectionRects[6] = {{0xc8, 0x31, 0xe0, 0x4d}, {0xbc, 0x31, 0xe0, 0x4d}, {0x8b, 0x31, 0xaf, 0x4d}, {0x82, 0x18, 0xee, 0x2c}, {0x82, 0xa9, 0xee, 0xbd}, {2, 0xa9, 0x6e, 0xbd}};
+const Rect gJb3ListSelectionRects[6] = {{0xc8, 0x31, 0xe0, 0x4d}, {0xbc, 0x31, 0xe0, 0x4d}, {0x8b, 0x31, 0xaf, 0x4d},
+                                        {0x82, 0x18, 0xee, 0x2c}, {0x82, 0xa9, 0xee, 0xbd}, {2, 0xa9, 0x6e, 0xbd}};
 Jb3ListSelectionRectIndices gJb3ListSelectionRectIndices = {{0, 0, 1, 2, 0, 0, 0, 1, 2, 0, 0, 3, 4, 5}};
 const u8 gJb3ListBg2OffsetByEntry[9] = {0, 5, 2, 7, 4, 1, 6, 3, 0};
 const Rect gJb3ListLeftButtonRect = {0x8f, 0x34, 0x2c, 0x18};
 const Rect gJb3ListRightButtonRect = {0xc0, 0x34, 0x2c, 0x18};
 const Rect gJb3ListCellRect = {0xcc, 0x34, 0x1c, 0x18};
 const Rect gJb3ListFixedRects[3] = {{0x84, 0x1b, 0xfc, 0x2c}, {0x84, 0xac, 0xfc, 0xbd}, {4, 0xac, 0x7c, 0xbd}};
-u16 gDotSeparatedBytesFormat[15] = {0x25, 0x33, 0x64, 0x2e, 0x25, 0x33, 0x64, 0x2e, 0x25, 0x33, 0x64, 0x2e, 0x25, 0x33, 0x64};
-const u8 gJb3ListCellImageIds[5][3] = {{0, 0x29, 0x2c}, {0x52, 0x53, 0x30}, {0, 0x2a, 0x30}, {0x54, 0x55, 0}, {0, 0x2b, 0}};
+u16 gDotSeparatedBytesFormat[15] = {0x25, 0x33, 0x64, 0x2e, 0x25, 0x33, 0x64, 0x2e,
+                                    0x25, 0x33, 0x64, 0x2e, 0x25, 0x33, 0x64};
+const u8 gJb3ListCellImageIds[5][3] = {
+    {0, 0x29, 0x2c}, {0x52, 0x53, 0x30}, {0, 0x2a, 0x30}, {0x54, 0x55, 0}, {0, 0x2b, 0}};
 const u16 gJb3ListBackNscOffsets[9] = {0, 0x60, 0xe0, 0x140, 0x1c0, 0x240, 0x2a0, 0x320, 0x3a0};
 const s8 gJb3ListDigitColumns[6] = {-1, 0x23, 0x27, -1, 0x23, 0x2f};
 
 void CreateJb3List(void) {
-    int a;
+    int unusedValue;
     ApWorkCopy *record;
-    int i;
+    int cellIndex;
     Jb3List *jb3List;
     record = GetApWorkCopy();
     jb3List = AllocZeroedExpHeapBlock(0x48, 4);
@@ -102,8 +105,8 @@ void CreateJb3List(void) {
     LoadHlListScr();
     CreateScrollBar(2, 0x55, 0xf1, 0x41, _s32_div_f(gJb3ListScrollY * 0x37, 0x91));
     gJb3List->mBgTextCanvas = InitBgTextCanvas(0, 1);
-    for (i = 0; i < 7; i++) {
-        gJb3List->mCellOamEntries[i] = CreateOamEntryFromNceImage(0, gJb3ListCellImageIds[0][1]);
+    for (cellIndex = 0; cellIndex < 7; cellIndex++) {
+        gJb3List->mCellOamEntries[cellIndex] = CreateOamEntryFromNceImage(0, gJb3ListCellImageIds[0][1]);
     }
     switch (record->mEntry.mSetType) {
         case 1:
@@ -446,7 +449,7 @@ static inline void Jb3ListG2_GetOBJPosition(OamEntry *oamEntry, u32 *x, u32 *y) 
 }
 
 void UpdateJb3ListRelease(void) {
-    int i;
+    int index;
     u32 chosenId;
     ApWorkCopy *record;
     if (IsBlendBrightnessFadeSlotBusy(1) != 0) {
@@ -457,8 +460,8 @@ void UpdateJb3ListRelease(void) {
     }
     RemoveTaskEntryWrapper(0, gJb3List->mIdTimerTask);
     RemoveTaskEntryWrapper(1, gJb3List->mBgOffsetTask);
-    for (i = 0; i < 7; i++) {
-        DeleteOamEntry((u32 *) gJb3List->mCellOamEntries[i]);
+    for (index = 0; index < 7; index++) {
+        DeleteOamEntry((u32 *) gJb3List->mCellOamEntries[index]);
     }
     if (gJb3List->mSetTypeOamEntry != NULL) {
         DeleteOamEntry((u32 *) gJb3List->mSetTypeOamEntry);
@@ -471,8 +474,8 @@ void UpdateJb3ListRelease(void) {
     }
     ReleaseBg2ScrBuffer();
     DeleteLoadedFile(gJb3List->mJb3ListBackNsc);
-    for (i = 0; i < 2; i++) {
-        DeleteLoadedFile(gJb3List->mYbBgStep2NclFiles[i]);
+    for (index = 0; index < 2; index++) {
+        DeleteLoadedFile(gJb3List->mYbBgStep2NclFiles[index]);
     }
     LoadFileToVram("char/ybObjMain.ncl.l", GX_LoadOBJPltt);
     ClearDispcntBits(1, 1);
@@ -493,12 +496,12 @@ void UpdateJb3ListRelease(void) {
         case 6:
         case 9:
         case 10:
-            i = chosenId - 4;
+            index = chosenId - 4;
             if (chosenId >= 9) {
-                i -= 2;
+                index -= 2;
             }
             SetPrimaryMenuPair(2, 0);
-            SetSecondaryMenuPair(i, 0);
+            SetSecondaryMenuPair(index, 0);
             SetUpdateFunction(CreateEditAddr);
             break;
         case 11:
@@ -537,16 +540,16 @@ void UpdateJb3ListRelease(void) {
 
 void RefreshJb3List(void) {
     int firstEntryIndex;
-    int i;
+    int rowIndex;
     int entryIndex;
     firstEntryIndex = FX_DivS32(gJb3ListScrollY, 0x1d);
     ClearBgTextCanvas(gJb3List->mBgTextCanvas, 0);
-    for (i = 0, entryIndex = firstEntryIndex; i < 5; i++, entryIndex++) {
-        PrintJb3ListEntryText(entryIndex, i);
+    for (rowIndex = 0, entryIndex = firstEntryIndex; rowIndex < 5; rowIndex++, entryIndex++) {
+        PrintJb3ListEntryText(entryIndex, rowIndex);
     }
     CopyBg2ScrBufferRect((s32) (gJb3List->mJb3ListBackNsc + gJb3ListBackNscOffsets[firstEntryIndex]), 0, 0x1e, 0x13);
-    for (i = 0; i < 5; i++, firstEntryIndex++) {
-        SetupJb3ListEntryCells(firstEntryIndex, i);
+    for (rowIndex = 0; rowIndex < 5; rowIndex++, firstEntryIndex++) {
+        SetupJb3ListEntryCells(firstEntryIndex, rowIndex);
     }
     RequestBg2ScrUpload();
     RequestBgTextCanvasUpload(gJb3List->mBgTextCanvas);
@@ -762,7 +765,7 @@ void PrintJb3ListEntryString(const u8 *bytes, int row) {
     int length;
     int shownLength;
     int character;
-    int i;
+    int charIndex;
     int yPosition;
     int secondLineLength;
     MI_CpuFill8(text, 0, 0x22);
@@ -772,12 +775,12 @@ void PrintJb3ListEntryString(const u8 *bytes, int row) {
     } else {
         shownLength = 0x10;
     }
-    for (i = 0; i < shownLength; i++) {
-        character = bytes[i];
+    for (charIndex = 0; charIndex < shownLength; charIndex++) {
+        character = bytes[charIndex];
         if (character == 0x20) {
-            text[i] = 0xe01d;
+            text[charIndex] = 0xe01d;
         } else {
-            text[i] = character;
+            text[charIndex] = character;
         }
     }
     yPosition = row * 0x1d + 2;
@@ -788,12 +791,12 @@ void PrintJb3ListEntryString(const u8 *bytes, int row) {
     if (length > 0x10) {
         MI_CpuFill8(text, 0, 0x22);
         secondLineLength = length - 0x10;
-        for (i = 0; i < secondLineLength; i++) {
-            character = bytes[i + 0x10];
+        for (charIndex = 0; charIndex < secondLineLength; charIndex++) {
+            character = bytes[charIndex + 0x10];
             if (character == 0x20) {
-                text[i] = 0xe01d;
+                text[charIndex] = 0xe01d;
             } else {
-                text[i] = character;
+                text[charIndex] = character;
             }
         }
         DrawCharsCentered(gJb3List->mBgTextCanvas, 0x48, yPosition + 0xc, 2, 8, text, 1);
@@ -811,7 +814,7 @@ void RefreshJb3ListRowPositions(void) {
     int firstRowY;
     OamEntry *oamEntry;
     int rowY;
-    int i;
+    int rowIndex;
     u32 xPosition;
     u32 yPosition;
     firstEntryIndex = FX_DivS32(gJb3ListScrollY, 0x1d);
@@ -825,9 +828,9 @@ void RefreshJb3ListRowPositions(void) {
         gJb3List->mSetTypeOamEntry->mAttr01 =
             ((xPosition & 0x1ff) << 16) | ((gJb3List->mSetTypeOamEntry->mAttr01 & 0xfe00ff00) | (firstRowY & 0xff));
     }
-    for (i = 0, rowY = firstRowY; i < 5; i++, rowY += 0x1d) {
-        Jb3ListG2_GetOBJPosition(gJb3List->mCellOamEntries[i], (u32 *) &xPosition, &yPosition);
-        oamEntry = gJb3List->mCellOamEntries[i];
+    for (rowIndex = 0, rowY = firstRowY; rowIndex < 5; rowIndex++, rowY += 0x1d) {
+        Jb3ListG2_GetOBJPosition(gJb3List->mCellOamEntries[rowIndex], (u32 *) &xPosition, &yPosition);
+        oamEntry = gJb3List->mCellOamEntries[rowIndex];
         oamEntry->mAttr01 = ((xPosition & 0x1ff) << 16) | ((oamEntry->mAttr01 & 0xfe00ff00) | (rowY & 0xff));
     }
     if (firstEntryIndex <= 2) {

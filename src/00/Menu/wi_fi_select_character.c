@@ -12,13 +12,14 @@
 #include "Main/Menu/message_screen.h"
 #include "Main/Menu/menu_shared_clear.h"
 
-WiFiStateCallbacks gSelectCharacterCallbacks = {InitWiFiSelectCharacterState, ReleaseWiFiSelectCharacterState, AdvanceWiFiSelectCharacterState, WriteSelectCharacterRegistersWrapper};
+WiFiStateCallbacks gSelectCharacterCallbacks = {InitWiFiSelectCharacterState, ReleaseWiFiSelectCharacterState,
+                                                AdvanceWiFiSelectCharacterState, WriteSelectCharacterRegistersWrapper};
 WiFiSelectHeapHolder *gWiFiSelectCharacterState;
 
 void InitWiFiSelectCharacterState(void *heap) {
     void *firstOamList;
     void *secondOamList;
-    s32 i;
+    s32 index;
 
     gWiFiSelectCharacterState = HeapAlloc(heap, 4);
     gWiFiSelectCharacterState->mHeap = heap;
@@ -33,8 +34,8 @@ void InitWiFiSelectCharacterState(void *heap) {
     InitSelectCharacter(heap, 2, firstOamList, secondOamList);
     SetLinkLevelIconEnabled(1, 1);
     gMenuShared->mOtherKartCountAdded = FALSE;
-    for (i = 0; i < 4; i++) {
-        gMenuShared->mUnk_5c[i] = 0;
+    for (index = 0; index < 4; index++) {
+        gMenuShared->mUnk_5c[index] = 0;
     }
 }
 

@@ -39,39 +39,39 @@ void ApScanCallback(Unk021425e8 *message) {
 
 void StoreApScanEntries(WMStartScanExCallback *scanResult) {
     ApScanEntry *entries = gApScan->mEntries;
-    s32 i;
-    s32 j;
+    s32 descIndex;
+    s32 entryIndex;
     DC_InvalidateRange(gApScan->mScanBuf, 0x400);
-    for (i = 0; i < scanResult->mBssDescCount; i++) {
-        WMBssDesc *bssDesc = scanResult->mBssDesc[i];
+    for (descIndex = 0; descIndex < scanResult->mBssDescCount; descIndex++) {
+        WMBssDesc *bssDesc = scanResult->mBssDesc[descIndex];
         if (bssDesc->mSsid[0] != 0 && bssDesc->mGameInfoLength == 0) {
             ApScanEntry *cursor;
             ApScanEntry *slot;
-            j = 0;
+            entryIndex = 0;
             cursor = entries;
-            for (; j < 0x14; j++) {
+            for (; entryIndex < 0x14; entryIndex++) {
                 if (memcmp(bssDesc->mBssid, cursor->mBssid, 6) == 0) {
                     break;
                 }
                 cursor++;
             }
-            if (j == 0x14) {
-                j = 0;
+            if (entryIndex == 0x14) {
+                entryIndex = 0;
                 cursor = entries;
-                for (; j < 0x14; j++) {
+                for (; entryIndex < 0x14; entryIndex++) {
                     if (memcmp(cursor->mBssid, gApScanEmptyBssid, 6) == 0) {
                         break;
                     }
                     cursor++;
                 }
-                if (j == 0x14) {
+                if (entryIndex == 0x14) {
                     return;
                 }
             }
-            slot = &entries[j];
+            slot = &entries[entryIndex];
             MI_CpuCopy8(bssDesc->mBssid, slot->mBssid, 6);
             MI_CpuCopy8(bssDesc->mSsid, slot, 0x20);
-            slot->mLinkLevel = scanResult->mLinkLevel[i];
+            slot->mLinkLevel = scanResult->mLinkLevel[descIndex];
             if ((bssDesc->mCapaInfo & 0x10) == 0) {
                 slot->mCapaLevel = 0;
             } else {

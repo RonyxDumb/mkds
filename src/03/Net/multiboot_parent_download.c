@@ -260,7 +260,7 @@ void StartMultiBootEndToIdle(void) {
 
 void MultiBootParentStateCallback(u32 aid, u32 code, Unk021425e8 *event) {
     MultiBootParent *parent;
-    u32 t;
+    u32 value;
     u16 clearMask;
     u8 *childMac;
 
@@ -268,9 +268,9 @@ void MultiBootParentStateCallback(u32 aid, u32 code, Unk021425e8 *event) {
         case 2:
             if (GetMultiBootParentState() == 2) {
                 parent = gMultiBootParent;
-                t = OS_DisableInterrupts();
+                value = OS_DisableInterrupts();
                 parent->mMask |= 1 << aid;
-                OS_RestoreInterrupts(t);
+                OS_RestoreInterrupts(value);
                 childMac = gMultiBootParent->mRecords[aid - 1].mMacAddress;
                 childMac[0] = event->mMacAddress[0];
                 childMac[1] = event->mMacAddress[1];
@@ -284,14 +284,14 @@ void MultiBootParentStateCallback(u32 aid, u32 code, Unk021425e8 *event) {
         case 3:
             if (GetMultiBootChildState(aid) != 6) {
                 clearMask = ~(1 << aid);
-                t = OS_DisableInterrupts();
+                value = OS_DisableInterrupts();
                 gMultiBootParent->mMask &= clearMask;
                 gMultiBootParent->mUnk_04 &= clearMask;
                 gMultiBootParent->mUnk_06 &= clearMask;
                 gMultiBootParent->mUnk_08 &= clearMask;
                 gMultiBootParent->mUnk_0a &= clearMask;
                 gMultiBootParent->mUnk_0c &= clearMask;
-                OS_RestoreInterrupts(t);
+                OS_RestoreInterrupts(value);
             }
             break;
         case 10:
@@ -301,9 +301,9 @@ void MultiBootParentStateCallback(u32 aid, u32 code, Unk021425e8 *event) {
             }
             gMultiBootParent->mUnk_04 |= 1 << aid;
             AcceptMultiBootChildRequest(aid);
-            t = (u32) MB_CommGetChildUser(aid);
-            if (t != 0) {
-                MI_CpuCopy8((void *) t, &gMultiBootParent->mRecords[aid - 1], 0x16);
+            value = (u32) MB_CommGetChildUser(aid);
+            if (value != 0) {
+                MI_CpuCopy8((void *) value, &gMultiBootParent->mRecords[aid - 1], 0x16);
             }
             break;
         case 14:

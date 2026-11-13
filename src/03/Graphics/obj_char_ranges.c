@@ -18,16 +18,16 @@
 struct ObjCharRanges *gObjCharRanges;
 
 void InitObjCharRanges(void) {
-    s32 i;
+    s32 rangeIndex;
 
     gObjCharRanges = AllocZeroedExpHeapBlock(0x340, 4);
-    for (i = 0; i < 2; i++) {
-        gObjCharRanges[i].mFreeRanges = CreateFilledPointerStack(0x20, &gObjCharRanges[i], 0xc);
-        gObjCharRanges[i].mList = CreateNodeList();
-        gObjCharRanges[i].mListStart.mStart = 0x300;
-        gObjCharRanges[i].mListEnd.mStart = 0x400;
-        AddNodeToListFront(gObjCharRanges[i].mList, &gObjCharRanges[i].mListStart);
-        AddNodeToListBack(gObjCharRanges[i].mList, &gObjCharRanges[i].mListEnd);
+    for (rangeIndex = 0; rangeIndex < 2; rangeIndex++) {
+        gObjCharRanges[rangeIndex].mFreeRanges = CreateFilledPointerStack(0x20, &gObjCharRanges[rangeIndex], 0xc);
+        gObjCharRanges[rangeIndex].mList = CreateNodeList();
+        gObjCharRanges[rangeIndex].mListStart.mStart = 0x300;
+        gObjCharRanges[rangeIndex].mListEnd.mStart = 0x400;
+        AddNodeToListFront(gObjCharRanges[rangeIndex].mList, &gObjCharRanges[rangeIndex].mListStart);
+        AddNodeToListBack(gObjCharRanges[rangeIndex].mList, &gObjCharRanges[rangeIndex].mListEnd);
     }
 }
 
@@ -101,13 +101,13 @@ void DeleteObjCharRange(u32 range) {
 void InitOamBuffers(void) {
     OamBuffers *buffers = AllocExpHeapBlock(0x80c, 4);
     vu32 fillValue;
-    s32 i;
+    s32 bufferIndex;
 
     gOamBuffers = buffers;
     fillValue = 0x200;
     MIi_CpuClearFast(fillValue, buffers, 0x800);
-    for (i = 0; i < 2; i++) {
-        gOamBuffers->mFreeEntries[i] = CreateFilledPointerStack(0x40, gOamBuffers->mBuffers[i], 8);
+    for (bufferIndex = 0; bufferIndex < 2; bufferIndex++) {
+        gOamBuffers->mFreeEntries[bufferIndex] = CreateFilledPointerStack(0x40, gOamBuffers->mBuffers[bufferIndex], 8);
     }
     gOamBuffers->mUploadTask = AddTask(1, UploadOamBuffers, NULL, 200);
 }

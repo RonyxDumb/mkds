@@ -18,25 +18,26 @@ const u8 gTaskListCapacities[2] = {0x80, 0x20};
 struct TaskList *gTaskLists;
 
 void InitTasks(void) {
-    s32 i;
+    s32 listIndex;
     const u8 *countPtr;
 
     gTaskLists = AllocExpHeapBlock(0x78, 4);
-    i = 0;
+    listIndex = 0;
     countPtr = gTaskListCapacities;
     do {
-        gTaskLists[i].mCapacity = *countPtr;
-        gTaskLists[i].mEntryStorage = AllocExpHeapBlock(*countPtr * 0x14, 4);
-        gTaskLists[i].mFreeEntries = CreateFilledPointerStack(*countPtr, gTaskLists[i].mEntryStorage, 0x14);
-        gTaskLists[i].mResource = CreatePointerStack(*countPtr);
-        gTaskLists[i].mList = CreateNodeList();
-        gTaskLists[i].mListStart.mPriority = 0;
-        gTaskLists[i].mListEnd.mPriority = 0xff;
-        AddNodeToListFront(gTaskLists[i].mList, &gTaskLists[i].mListStart);
-        AddNodeToListBack(gTaskLists[i].mList, &gTaskLists[i].mListEnd);
+        gTaskLists[listIndex].mCapacity = *countPtr;
+        gTaskLists[listIndex].mEntryStorage = AllocExpHeapBlock(*countPtr * 0x14, 4);
+        gTaskLists[listIndex].mFreeEntries =
+            CreateFilledPointerStack(*countPtr, gTaskLists[listIndex].mEntryStorage, 0x14);
+        gTaskLists[listIndex].mResource = CreatePointerStack(*countPtr);
+        gTaskLists[listIndex].mList = CreateNodeList();
+        gTaskLists[listIndex].mListStart.mPriority = 0;
+        gTaskLists[listIndex].mListEnd.mPriority = 0xff;
+        AddNodeToListFront(gTaskLists[listIndex].mList, &gTaskLists[listIndex].mListStart);
+        AddNodeToListBack(gTaskLists[listIndex].mList, &gTaskLists[listIndex].mListEnd);
         countPtr++;
-        i++;
-    } while (i < 2);
+        listIndex++;
+    } while (listIndex < 2);
 }
 
 void ReleaseTasks(void) {

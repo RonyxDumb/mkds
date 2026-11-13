@@ -12,8 +12,12 @@
 const u16 gEditKeyboardExtraKeySizes[1][2] = {{0x1b, 0x12}};
 const u16 gEditKeyboardPage1KeySize[1][2] = {{0x20, 0x12}};
 const u16 gEditKeyboardLastExtraKeySizes[2][2] = {{0x28, 0x12}, {0x20, 0x12}};
-const u16 gEditKeyboardKeyPositions[16][2] = {{4, 0x51}, {0x16, 0x51}, {0x28, 0x51}, {0x3a, 0x51}, {0x4c, 0x51}, {0x5e, 0x51}, {0x70, 0x51}, {0x82, 0x51}, {0x94, 0x51}, {0xa6, 0x51}, {0xb8, 0x51}, {0xca, 0x51}, {0x20, 0x67}, {0x32, 0x67}, {0x44, 0x67}, {0x56, 0x67}};
-const u16 gEditKeyboardKeyPositionsSecond[16][2] = {{0x68, 0x67}, {0x7a, 0x67}, {0x8c, 0x67}, {0x9e, 0x67}, {0xb0, 0x67}, {0xc2, 0x67}, {0xd4, 0x67}, {0xe6, 0x67}, {0x25, 0x7d}, {0x37, 0x7d}, {0x49, 0x7d}, {0x5b, 0x7d}, {0x6d, 0x7d}, {0x7f, 0x7d}, {0x91, 0x7d}, {0xa3, 0x7d}};
+const u16 gEditKeyboardKeyPositions[16][2] = {
+    {4, 0x51},    {0x16, 0x51}, {0x28, 0x51}, {0x3a, 0x51}, {0x4c, 0x51}, {0x5e, 0x51}, {0x70, 0x51}, {0x82, 0x51},
+    {0x94, 0x51}, {0xa6, 0x51}, {0xb8, 0x51}, {0xca, 0x51}, {0x20, 0x67}, {0x32, 0x67}, {0x44, 0x67}, {0x56, 0x67}};
+const u16 gEditKeyboardKeyPositionsSecond[16][2] = {
+    {0x68, 0x67}, {0x7a, 0x67}, {0x8c, 0x67}, {0x9e, 0x67}, {0xb0, 0x67}, {0xc2, 0x67}, {0xd4, 0x67}, {0xe6, 0x67},
+    {0x25, 0x7d}, {0x37, 0x7d}, {0x49, 0x7d}, {0x5b, 0x7d}, {0x6d, 0x7d}, {0x7f, 0x7d}, {0x91, 0x7d}, {0xa3, 0x7d}};
 
 void AdvanceEditKeyboardInput(void) {
     AdvanceEditKeyboardTouchPressed();
@@ -24,42 +28,44 @@ void AdvanceEditKeyboardInput(void) {
 
 void AdvanceEditKeyboardTouchPressed(void) {
     Rect keyRect;
-    s32 i;
-    s32 j;
+    s32 keyIndex;
+    s32 extraKeyIndex;
     if (IsTouchPressedInRect(&gTouchScreenRect) == 0) {
         return;
     }
-    i = 0;
+    keyIndex = 0;
     gEditKeyboard->mPressedKeyIndex = -1;
-    for (; i < 0x2f; i++) {
-        ComputeRectFromOriginAndSize(gEditKeyboardKeyPositions[i], gEditKeyboardKeySize[0], &keyRect);
+    for (; keyIndex < 0x2f; keyIndex++) {
+        ComputeRectFromOriginAndSize(gEditKeyboardKeyPositions[keyIndex], gEditKeyboardKeySize[0], &keyRect);
         if (IsTouchPressedInRect(&keyRect) != 0) {
             if (gEditKeyboard->mAddCharEnabled == 0) {
                 StartSoundSeq(9);
                 return;
             }
             StartSoundSeq(0);
-            gEditKeyboard->mPressedKeyIndex = i;
+            gEditKeyboard->mPressedKeyIndex = keyIndex;
             return;
         }
     }
-    for (j = 0; j < 4; j++) {
-        ComputeRectFromOriginAndSize(gEditKeyboardExtraKeyPositions[j], gEditKeyboardExtraKeySizes[j], &keyRect);
+    for (extraKeyIndex = 0; extraKeyIndex < 4; extraKeyIndex++) {
+        ComputeRectFromOriginAndSize(gEditKeyboardExtraKeyPositions[extraKeyIndex],
+                                     gEditKeyboardExtraKeySizes[extraKeyIndex], &keyRect);
         if (IsTouchPressedInRect(&keyRect) != 0) {
-            if ((j == 3 && gEditKeyboard->mRemoveCharEnabled == 0) || (j == 2 && gEditKeyboard->mAddCharEnabled == 0)) {
+            if ((extraKeyIndex == 3 && gEditKeyboard->mRemoveCharEnabled == 0) ||
+                (extraKeyIndex == 2 && gEditKeyboard->mAddCharEnabled == 0)) {
                 StartSoundSeq(9);
                 return;
             }
-            StartSoundSeq(gEditKeyboardExtraKeySoundSeqs[j]);
-            gEditKeyboard->mPressedKeyIndex = j + 0x2f;
+            StartSoundSeq(gEditKeyboardExtraKeySoundSeqs[extraKeyIndex]);
+            gEditKeyboard->mPressedKeyIndex = extraKeyIndex + 0x2f;
             return;
         }
     }
-    for (i = 0; i < 2; i++) {
-        ComputeRectFromOriginAndSize(gEditKeyboardRow4KeyPositions[i], gEditKeyboardRow4KeySize[0], &keyRect);
+    for (keyIndex = 0; keyIndex < 2; keyIndex++) {
+        ComputeRectFromOriginAndSize(gEditKeyboardRow4KeyPositions[keyIndex], gEditKeyboardRow4KeySize[0], &keyRect);
         if (IsTouchPressedInRect(&keyRect) != 0) {
             StartSoundSeq(0);
-            gEditKeyboard->mPressedKeyIndex = i + 0x33;
+            gEditKeyboard->mPressedKeyIndex = keyIndex + 0x33;
             return;
         }
     }
@@ -67,7 +73,7 @@ void AdvanceEditKeyboardTouchPressed(void) {
 
 void AdvanceEditKeyboardTouchReleased(void) {
     Rect keyRect;
-    s32 i;
+    s32 keyIndex;
     const u16(*extraKeySizes)[2];
     const u16(*extraKeyOrigins)[2];
     s32 extraKeyIndex;
@@ -75,17 +81,17 @@ void AdvanceEditKeyboardTouchReleased(void) {
     if (IsTouchReleasedInRect(&gTouchScreenRect) == 0) {
         return;
     }
-    for (i = 0; i < 0x2f; i++) {
-        ComputeRectFromOriginAndSize(gEditKeyboardKeyPositions[i], gEditKeyboardKeySize[0], &keyRect);
+    for (keyIndex = 0; keyIndex < 0x2f; keyIndex++) {
+        ComputeRectFromOriginAndSize(gEditKeyboardKeyPositions[keyIndex], gEditKeyboardKeySize[0], &keyRect);
         if (IsTouchReleasedInRect(&keyRect) != 0) {
-            if (gEditKeyboard->mPressedKeyIndex != i) {
+            if (gEditKeyboard->mPressedKeyIndex != keyIndex) {
                 return;
             }
-            gEditKeyboard->mInput = gEditKeyboardPageInputs[gEditKeyboard->mPage][i];
+            gEditKeyboard->mInput = gEditKeyboardPageInputs[gEditKeyboard->mPage][keyIndex];
             if (gEditKeyboard->mPage == 1) {
                 ChangeEditKeyboardPage(0);
             }
-            gEditKeyboard->mCursorKeyIndex = i;
+            gEditKeyboard->mCursorKeyIndex = keyIndex;
             PlaceEditKeyboardCursor();
             return;
         }
@@ -108,14 +114,14 @@ void AdvanceEditKeyboardTouchReleased(void) {
             return;
         }
     }
-    for (i = 0; i < 2; i++) {
-        ComputeRectFromOriginAndSize(gEditKeyboardRow4KeyPositions[i], gEditKeyboardRow4KeySize[0], &keyRect);
+    for (keyIndex = 0; keyIndex < 2; keyIndex++) {
+        ComputeRectFromOriginAndSize(gEditKeyboardRow4KeyPositions[keyIndex], gEditKeyboardRow4KeySize[0], &keyRect);
         if (IsTouchReleasedInRect(&keyRect) != 0) {
-            if (gEditKeyboard->mPressedKeyIndex != i + 0x33) {
+            if (gEditKeyboard->mPressedKeyIndex != keyIndex + 0x33) {
                 return;
             }
-            gEditKeyboard->mInput = gEditKeyboardRow4Inputs[i];
-            gEditKeyboard->mCursorKeyIndex = i + 0x33;
+            gEditKeyboard->mInput = gEditKeyboardRow4Inputs[keyIndex];
+            gEditKeyboard->mCursorKeyIndex = keyIndex + 0x33;
             PlaceEditKeyboardCursor();
             return;
         }
@@ -159,19 +165,19 @@ void ToggleEditKeyboardPage1(void) {
 
 void AdvanceEditKeyboardTouchDown(void) {
     Rect keyRect;
-    s32 i;
+    s32 keyIndex;
     s32 extraKeyIndex;
 
     if (IsTouchDownInRect(&gTouchScreenRect) == 0) {
         goto fail;
     }
-    for (i = 0; i < 0x2f; i++) {
-        ComputeRectFromOriginAndSize(gEditKeyboardKeyPositions[i], gEditKeyboardKeySize[0], &keyRect);
+    for (keyIndex = 0; keyIndex < 0x2f; keyIndex++) {
+        ComputeRectFromOriginAndSize(gEditKeyboardKeyPositions[keyIndex], gEditKeyboardKeySize[0], &keyRect);
         if (IsTouchDownInRect(&keyRect) != 0) {
-            if (gEditKeyboard->mPressedKeyIndex != i) {
+            if (gEditKeyboard->mPressedKeyIndex != keyIndex) {
                 goto fail;
             }
-            ChangeEditKeyboardHighlight(i);
+            ChangeEditKeyboardHighlight(keyIndex);
             goto done;
         }
     }
@@ -199,13 +205,13 @@ void AdvanceEditKeyboardTouchDown(void) {
             return;
         }
     }
-    for (i = 0; i < 2; i++) {
-        ComputeRectFromOriginAndSize(gEditKeyboardRow4KeyPositions[i], gEditKeyboardRow4KeySize[0], &keyRect);
+    for (keyIndex = 0; keyIndex < 2; keyIndex++) {
+        ComputeRectFromOriginAndSize(gEditKeyboardRow4KeyPositions[keyIndex], gEditKeyboardRow4KeySize[0], &keyRect);
         if (IsTouchDownInRect(&keyRect) != 0) {
-            if (gEditKeyboard->mPressedKeyIndex != i + 0x33) {
+            if (gEditKeyboard->mPressedKeyIndex != keyIndex + 0x33) {
                 goto fail;
             }
-            ChangeEditKeyboardHighlight(i + 0x33);
+            ChangeEditKeyboardHighlight(keyIndex + 0x33);
             goto done;
         }
     }

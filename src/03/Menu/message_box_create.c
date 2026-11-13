@@ -26,26 +26,26 @@
 #pragma opt_dead_assignments off
 
 u16 GetRecordValueByMacAddress(u8 *macAddress) {
-    u16 i;
+    u16 aid;
     u16 mask;
     MultiBootParent *records;
 
-    i = 1;
+    aid = 1;
     records = gMultiBootParent;
     mask = records->mMask;
-    for (; i < 2; i++) {
-        if ((mask & (1 << i)) != 0) {
+    for (; aid < 2; aid++) {
+        if ((mask & (1 << aid)) != 0) {
             u8 *firstRecordMac;
             u8 *recordMac;
             s32 byteOffset;
 
-            byteOffset = (i - 1) * 0x1e;
+            byteOffset = (aid - 1) * 0x1e;
             firstRecordMac = records->mRecords[0].mMacAddress;
             recordMac = firstRecordMac + byteOffset;
             if (macAddress[0] == firstRecordMac[byteOffset] && macAddress[1] == recordMac[1] &&
                 macAddress[2] == recordMac[2] && macAddress[3] == recordMac[3] && macAddress[4] == recordMac[4] &&
                 macAddress[5] == recordMac[5]) {
-                return records->mRecords[i - 1].mAid;
+                return records->mRecords[aid - 1].mAid;
             }
         }
     }
@@ -55,7 +55,7 @@ u16 GetRecordValueByMacAddress(u8 *macAddress) {
 void CreateMessageBox(u32 messageIndex, s32 kind, s32 adjustBrightness, u32 column, u32 value) {
     Bytes6 windowExtraBitFlags;
     void *messageText;
-    s32 i;
+    s32 buttonIndex;
     u32 entryCount;
 
     windowExtraBitFlags = gMessageBoxWindowExtraBitFlags;
@@ -68,10 +68,11 @@ void CreateMessageBox(u32 messageIndex, s32 kind, s32 adjustBrightness, u32 colu
     gMessageBox->mBox = CreateOamRangeFromNceImage(0, gMessageBoxImageIds[kind], 0);
     SetOamRangePosition(gMessageBox->mBox, -1, 0x100, 0);
     SetOamRangePriority(gMessageBox->mBox, -1, 0);
-    for (i = 0; i < gMessageBoxButtonCounts[kind]; i++) {
-        gMessageBox->mButtons[i] = CreateOamRangeFromNceImage(0, gMessageBoxButtonImageIds[kind][i], 0);
-        SetOamRangePosition(gMessageBox->mButtons[i], -1, 0x100, 0);
-        SetOamRangePriority(gMessageBox->mButtons[i], -1, 0);
+    for (buttonIndex = 0; buttonIndex < gMessageBoxButtonCounts[kind]; buttonIndex++) {
+        gMessageBox->mButtons[buttonIndex] =
+            CreateOamRangeFromNceImage(0, gMessageBoxButtonImageIds[kind][buttonIndex], 0);
+        SetOamRangePosition(gMessageBox->mButtons[buttonIndex], -1, 0x100, 0);
+        SetOamRangePriority(gMessageBox->mButtons[buttonIndex], -1, 0);
     }
     gMessageBox->mTextCanvas = CreateObjTextCanvas(0, 0x20, 0xc, 1, &entryCount, 0);
     gMessageBox->mText = CreateOamRange(0, entryCount, 0);

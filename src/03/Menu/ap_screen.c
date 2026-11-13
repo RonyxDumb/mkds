@@ -52,14 +52,18 @@
 #include "03/code_021c2a74.h"
 #include "03/code_021cd000.h"
 
-YbBgStep11NclName gYbBgStep11NclName2 = {{0x63, 0x68, 0x61, 0x72, 0x2f, 0x79, 0x62, 0x42, 0x67, 0x53, 0x74, 0x65, 0x70, 0x31, 0x31, 0x2e, 0x6e, 0x63, 0x6c, 0x2e, 0x6c, 0}};
+YbBgStep11NclName gYbBgStep11NclName2 = {{0x63, 0x68, 0x61, 0x72, 0x2f, 0x79, 0x62, 0x42, 0x67, 0x53, 0x74,
+                                          0x65, 0x70, 0x31, 0x31, 0x2e, 0x6e, 0x63, 0x6c, 0x2e, 0x6c, 0}};
 Bytes4 gApEntryIconPalettes = {{0xa, 9, 0xb, 6}};
 Bytes4 gApPaletteRows = {{3, 4, 5, 7}};
-const u8 gApRects[56] = {8, 0, 0x20, 0, 0x54, 0, 0x56, 0, 0x5a, 0, 0x20, 0, 0xa6, 0, 0x56, 0, 0xac, 0, 0x20, 0, 0xf8, 0, 0x56, 0, 8, 0, 0x78, 0, 0xf8, 0, 0xa0, 0, 8, 0, 0x54, 0, 0x54, 0, 0x70, 0, 0x5a, 0, 0x54, 0, 0xa6, 0, 0x70, 0, 0xac, 0, 0x54, 0, 0xf8, 0, 0x70, 0};
-const Rect gApSelectionRects[7] = {{6, 0x1e, 0x46, 0x48},  {0x58, 0x1e, 0x98, 0x48}, {0xaa, 0x1e, 0xea, 0x48},
-                                   {6, 0x76, 0xea, 0x92},  {9, 0x54, 0x43, 0x70},    {0x5b, 0x54, 0x95, 0x70},
+const u8 gApRects[56] = {8,    0, 0x20, 0, 0x54, 0, 0x56, 0, 0x5a, 0, 0x20, 0, 0xa6, 0, 0x56, 0, 0xac, 0, 0x20, 0,
+                         0xf8, 0, 0x56, 0, 8,    0, 0x78, 0, 0xf8, 0, 0xa0, 0, 8,    0, 0x54, 0, 0x54, 0, 0x70, 0,
+                         0x5a, 0, 0x54, 0, 0xa6, 0, 0x70, 0, 0xac, 0, 0x54, 0, 0xf8, 0, 0x70, 0};
+const Rect gApSelectionRects[7] = {{6, 0x1e, 0x46, 0x48},   {0x58, 0x1e, 0x98, 0x48}, {0xaa, 0x1e, 0xea, 0x48},
+                                   {6, 0x76, 0xea, 0x92},   {9, 0x54, 0x43, 0x70},    {0x5b, 0x54, 0x95, 0x70},
                                    {0xad, 0x54, 0xe7, 0x70}};
-const ApObjectPosition gApObjectPositions[6] = {{8, 0x30}, {0x5a, 0x30}, {0xac, 0x30}, {0xc, 0x58}, {0x5e, 0x58}, {0xb0, 0x58}};
+const ApObjectPosition gApObjectPositions[6] = {{8, 0x30},   {0x5a, 0x30}, {0xac, 0x30},
+                                                {0xc, 0x58}, {0x5e, 0x58}, {0xb0, 0x58}};
 const s8 gApMessageDigitColumns[6] = {3, 0x2d, 0x27, 0x1d, 0x32, 0x30};
 const u8 gApEntryImageIndices[4] = {0x13, 0x14, 0x12, 0x56};
 u8 gApSelectedIndex[1];
@@ -93,21 +97,22 @@ void LoadApFilesAndSetBgCnt(void) {
 }
 
 void CreateApEntryObjects(void) {
-    s32 i;
+    s32 entryIndex;
     u32 entryStatus;
-    for (i = 0; i < 3; i++) {
-        entryStatus = GetApEntrySetType(i);
+    for (entryIndex = 0; entryIndex < 3; entryIndex++) {
+        entryStatus = GetApEntrySetType(entryIndex);
         if (entryStatus == 0xff) {
             entryStatus = 3;
         } else {
-            gAp->mResetButtonObjects[i] = CreateOamRangeFromNceImage(0, 0x11, 1);
-            SetOamRangePosition(gAp->mResetButtonObjects[i], -1, gApObjectPositions[i + 3].mX,
-                                gApObjectPositions[i + 3].mY);
-            SetOamRangePriority(gAp->mResetButtonObjects[i], -1, 3);
+            gAp->mResetButtonObjects[entryIndex] = CreateOamRangeFromNceImage(0, 0x11, 1);
+            SetOamRangePosition(gAp->mResetButtonObjects[entryIndex], -1, gApObjectPositions[entryIndex + 3].mX,
+                                gApObjectPositions[entryIndex + 3].mY);
+            SetOamRangePriority(gAp->mResetButtonObjects[entryIndex], -1, 3);
         }
-        gAp->mEntryIconObjects[i] = CreateOamRangeFromNceImage(0, gApEntryImageIndices[entryStatus], 1);
-        SetOamRangePosition(gAp->mEntryIconObjects[i], -1, gApObjectPositions[i].mX, gApObjectPositions[i].mY);
-        SetOamRangePriority(gAp->mEntryIconObjects[i], -1, 3);
+        gAp->mEntryIconObjects[entryIndex] = CreateOamRangeFromNceImage(0, gApEntryImageIndices[entryStatus], 1);
+        SetOamRangePosition(gAp->mEntryIconObjects[entryIndex], -1, gApObjectPositions[entryIndex].mX,
+                            gApObjectPositions[entryIndex].mY);
+        SetOamRangePriority(gAp->mEntryIconObjects[entryIndex], -1, 3);
     }
 }
 
@@ -260,17 +265,17 @@ void UpdateApFadeOut(void) {
 }
 
 void UpdateApRelease(void) {
-    u32 i;
+    u32 entryIndex;
     if (IsBlendBrightnessFadeSlotBusy(1) == 0 && IsBlendBrightnessFadeSlotBusy(0) == 0 &&
         IsMenuPairObjectsNotSlidingOut() != 0 && IsSlideButtonsNotSlidingOut() != 0) {
-        for (i = 0; i < 3; i++) {
-            if (gAp->mEntryIconObjects[i] != NULL) {
-                DeleteOamRange(gAp->mEntryIconObjects[i]);
+        for (entryIndex = 0; entryIndex < 3; entryIndex++) {
+            if (gAp->mEntryIconObjects[entryIndex] != NULL) {
+                DeleteOamRange(gAp->mEntryIconObjects[entryIndex]);
             }
         }
-        for (i = 0; i < 3; i++) {
-            if (gAp->mResetButtonObjects[i] != NULL) {
-                DeleteOamRange(gAp->mResetButtonObjects[i]);
+        for (entryIndex = 0; entryIndex < 3; entryIndex++) {
+            if (gAp->mResetButtonObjects[entryIndex] != NULL) {
+                DeleteOamRange(gAp->mResetButtonObjects[entryIndex]);
             }
         }
         ReleaseSelectionObjectSlots();
@@ -358,9 +363,9 @@ void MoveApSelection(int direction) {
             break;
         case 3: {
             u8 rememberedIndex = gAp->mRememberedEntryIndex;
-            s32 d = rememberedIndex + 4;
+            s32 targetIndex = rememberedIndex + 4;
             if (direction == 1) {
-                gApSelectedIndex[0] = d;
+                gApSelectedIndex[0] = targetIndex;
             } else if (direction == 3) {
                 gApSelectedIndex[0] = rememberedIndex;
             } else {
