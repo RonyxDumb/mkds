@@ -73,16 +73,16 @@ u32 GetLocalIP(void) {
     s32 ownAddr;
     u32 *addressPointer;
     SOCHostEnt *host;
-    s32 offset;
+    s32 index;
 
     ownAddr = 0;
     host = getlocalhost();
     if (host == NULL) {
         return ownAddr;
     }
-    offset = 0;
+    index = 0;
     while (1) {
-        addressPointer = *OFFSET_PTR(u32 *, host->mAddrList, offset);
+        addressPointer = host->mAddrList[index];
         if (addressPointer == NULL) {
             break;
         }
@@ -92,7 +92,7 @@ u32 GetLocalIP(void) {
                 return ownAddr;
             }
         }
-        offset += 4;
+        index++;
     }
     return ownAddr;
 }
