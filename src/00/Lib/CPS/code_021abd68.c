@@ -3,9 +3,10 @@
 #include "00/Lib/CPS/code_021ac3a8.h"
 
 void long_from_char(u32 *words, const u8 *bytes, u32 byteCount) {
-    u32 i;
-    for (i = 0; i < byteCount; i += 4) {
-        *words++ = (bytes[i] << 24) | (bytes[i + 1] << 16) | (bytes[i + 2] << 8) | bytes[i + 3];
+    u32 byteIndex;
+    for (byteIndex = 0; byteIndex < byteCount; byteIndex += 4) {
+        *words++ = (bytes[byteIndex] << 24) | (bytes[byteIndex + 1] << 16) | (bytes[byteIndex + 2] << 8) |
+                   bytes[byteIndex + 3];
     }
 }
 

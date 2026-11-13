@@ -8,7 +8,7 @@ u32 resolve_sub(const char *name, int dnsServer, u32 queryId);
 
 BOOL rawip(const char *name, u32 *address);
 u32 strtol10(const char *text, const char **end);
-s32 resolve_common(const char *a, u32 b, s32 c);
+s32 resolve_common(const char *name, u32 recordType, s32 queryId);
 u8 *dns_skipname(u8 *name);
 void dhcp_release_server(void);
 BOOL dhcp_request_server(u32 *sleep, s32 mode);
@@ -114,7 +114,6 @@ typedef struct ArpRequestFrame {
     /* 28 */ u16 mTargetAddressLow;
 } ArpRequestFrame;
 
-
 extern void (*gDhcpCallback)(void);
 
 // OSThread entry functions (not lifted yet).
@@ -123,7 +122,6 @@ extern void (*gDhcpCallback)(void);
 
 typedef struct CPSFragTable CPSFragTable;
 typedef struct CPSConfig CPSConfig;
-
 
 #include "00/code_021a78a4.h"
 

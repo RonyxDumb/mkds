@@ -11,14 +11,14 @@ u32 SOCL_LinkIsOn(void) {
 }
 
 BOOL WCM_CompareBssID(const u8 *bssidLeft, const u8 *bssidRight) {
-    int i;
+    int byteIndex;
 
-    i = 0;
+    byteIndex = 0;
     do {
-        if (bssidLeft[i] != bssidRight[i]) {
+        if (bssidLeft[byteIndex] != bssidRight[byteIndex]) {
             return 0;
         }
-        i++;
-    } while (i < 6);
+        byteIndex++;
+    } while (byteIndex < 6);
     return 1;
 }

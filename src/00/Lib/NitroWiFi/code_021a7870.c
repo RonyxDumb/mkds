@@ -662,7 +662,7 @@ s32 SOCL_ReadFrom(u32 socketHandle, void *buffer, u32 length, u32 remotePort, u3
     volatile SOCLSocket *volatileSocket;
     SOCLSocket *sockObj = (SOCLSocket *) socketHandle;
     SOCLiSocketRecvCommandPipe *inPipe;
-    s32 i;
+    s32 value;
     volatileSocket = sockObj;
     if (SOCL_SocketIsInvalid(sockObj) != 0) {
         return -0x1c;
@@ -671,12 +671,12 @@ s32 SOCL_ReadFrom(u32 socketHandle, void *buffer, u32 length, u32 remotePort, u3
         if (sockObj->mFlagMode == 4) {
             return -0x1c;
         }
-        i = 0;
+        value = 0;
     } else {
         if (OS_GetProcMode() == 0x12) {
             return -0x1c;
         }
-        i = 1;
+        value = 1;
     }
     if (SOCL_SocketIsCreated(sockObj) == 0) {
         return -0x27;
@@ -687,16 +687,16 @@ s32 SOCL_ReadFrom(u32 socketHandle, void *buffer, u32 length, u32 remotePort, u3
         }
     }
     inPipe = sockObj->mReceiveBlock;
-    if (i == 0) {
+    if (value == 0) {
         if (OS_TryLockMutex(&inPipe->mCommandPipe.mInUse) == 0) {
             return -6;
         }
     } else {
         OS_LockMutex(&inPipe->mCommandPipe.mInUse);
     }
-    i = SOCLi_ReadAndConsumeBuffer(sockObj, buffer, length, (u16 *) remotePort, peerAddr, i, flags);
+    value = SOCLi_ReadAndConsumeBuffer(sockObj, buffer, length, (u16 *) remotePort, peerAddr, value, flags);
     OS_UnlockMutex(&inPipe->mCommandPipe.mInUse);
-    return i;
+    return value;
 }
 
 s32 SOCLi_ReadAndConsumeBuffer(SOCLSocket *socket, void *buffer, s32 length, u16 *remotePort, u32 *peerAddr,
@@ -822,7 +822,7 @@ s32 SOCLi_ReadCallBack(SOCLiCommandPacket *packet) {
     u32 length = command->mBufferLen;
     u16 *remotePort = command->mRemotePort;
     u32 *peerAddr = command->mRemoteIp;
-    s32 h = inPipe->mConsumed;
+    s32 copied = inPipe->mConsumed;
     const u8 *gotData;
     s32 cpsLength;
     BOOL isTcp;
@@ -831,7 +831,7 @@ s32 SOCLi_ReadCallBack(SOCLiCommandPacket *packet) {
         if (gotData == NULL) {
             break;
         }
-        if (cpsLength - h > 0) {
+        if (cpsLength - copied > 0) {
             break;
         }
         isTcp = TRUE;
@@ -856,17 +856,17 @@ s32 SOCLi_ReadCallBack(SOCLiCommandPacket *packet) {
         return length;
     }
     if (gotData != NULL) {
-        h = SOCLi_CopyCPSBuffer(sockObj, buffer, length, remotePort, peerAddr);
+        copied = SOCLi_CopyCPSBuffer(sockObj, buffer, length, remotePort, peerAddr);
     } else {
-        h = 0;
+        copied = 0;
     }
-    if (h <= 0) {
-        return h;
+    if (copied <= 0) {
+        return copied;
     }
     if (inPipe->mConsumed >= inPipe->mConsumedMin) {
         SOCLi_ConsumeCPSBuffer(sockObj);
     }
-    return h;
+    return copied;
 }
 
 static inline s32 ReadUdpSOCL_SocketIsCreated(SOCLSocket *socket) {

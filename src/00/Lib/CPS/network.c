@@ -72,7 +72,7 @@ void reset_network_vars(u32 reason) {
     u32 addressSeen;
     OSThread *thread;
     CPSSoc *socket;
-    s32 i;
+    s32 fragIndex;
     CPSFragTable *fragment;
 
     if (CPSMyIp != 0) {
@@ -105,9 +105,9 @@ void reset_network_vars(u32 reason) {
                 thread = thread->mNext;
             } while (thread != NULL);
         }
-        i = 0;
+        fragIndex = 0;
         fragment = gFragTable;
-        for (; i < 8; i++) {
+        for (; fragIndex < 8; fragIndex++) {
             if (fragment->mFrags != 0) {
                 CPSiFree(fragment->mBuf);
                 fragment->mFrags = 0;
@@ -307,9 +307,9 @@ BOOL ip_isme(u32 address) {
 }
 
 BOOL maccmp(const u16 *first, const u16 *second) {
-    s32 i;
+    s32 wordIndex;
 
-    for (i = 0; i < 3; i++) {
+    for (wordIndex = 0; wordIndex < 3; wordIndex++) {
         if (*first++ != *second++) {
             return TRUE;
         }
@@ -336,7 +336,7 @@ void put_in_buffer(const void *sourceAddress, const void *destAddress, u8 *first
                    void *secondBuffer, u32 secondSize) {
     u8 *ringBuffer;
     u32 ringSize;
-    u32 i;
+    u32 length;
     u16 blockLength;
     u32 putPos;
     u32 endPos;
@@ -350,8 +350,8 @@ void put_in_buffer(const void *sourceAddress, const void *destAddress, u8 *first
     if (ringSize == 0) {
         return;
     }
-    i = firstSize + secondSize;
-    if (i < 8 || i > 0x5e4) {
+    length = firstSize + secondSize;
+    if (length < 8 || length > 0x5e4) {
         return;
     }
     if (firstBuffer[0] != gIpv4LlcSnapHeader[0] || firstBuffer[1] != gIpv4LlcSnapHeader[1] ||
@@ -364,22 +364,22 @@ void put_in_buffer(const void *sourceAddress, const void *destAddress, u8 *first
     if (firstBuffer[7] != 0 && firstBuffer[7] != 6) {
         return;
     }
-    blockLength = (i + 9) & ~1;
+    blockLength = (length + 9) & ~1;
     putPos = gWlanPutPnt;
     endPos = putPos + blockLength;
     newPutPos = endPos;
-    i = gWlanGetPnt;
-    if (putPos < i && i <= endPos) {
+    length = gWlanGetPnt;
+    if (putPos < length && length <= endPos) {
         return;
     }
     if (endPos == ringSize) {
         newPutPos = 0;
-        if (i == 0) {
+        if (length == 0) {
             return;
         }
     } else if (endPos > ringSize) {
         newPutPos = blockLength;
-        if (i <= blockLength) {
+        if (length <= blockLength) {
             return;
         }
     }
@@ -579,16 +579,16 @@ void send_ether(u8 *header, u32 headerLength, void *body, u32 bodyLength, u32 ad
 }
 
 void send_ip_frag(u8 *header, u32 headerLength, void *body, u32 bodyLength, u32 addressTo, u32 offset) {
-    u16 g;
+    u16 field16;
     u32 interruptState;
 
-    g = headerLength + 0x14 + bodyLength;
-    *(u16 *) (header - 0x12) = (g >> 8) | (g << 8);
-    g = offset;
-    *(u16 *) (header - 0xe) = (g >> 8) | (g << 8);
+    field16 = headerLength + 0x14 + bodyLength;
+    *(u16 *) (header - 0x12) = (field16 >> 8) | (field16 << 8);
+    field16 = offset;
+    *(u16 *) (header - 0xe) = (field16 >> 8) | (field16 << 8);
     *(u16 *) (header - 0xa) = 0;
-    g = calc_checksum(header - 0x14, 0x14);
-    *(u16 *) (header - 0xa) = (g >> 8) | (g << 8);
+    field16 = calc_checksum(header - 0x14, 0x14);
+    *(u16 *) (header - 0xa) = (field16 >> 8) | (field16 << 8);
     if (addressTo != 0x7f000001 && addressTo != CPSMyIp) {
         send_ether(header - 0x14, headerLength + 0x14, body, bodyLength, addressTo, 0x800);
     }
@@ -676,7 +676,7 @@ void send_udp(u8 *data, u32 length, CPSSoc *socket) {
     u8 *sendBuffer;
     u8 *header;
     u32 checksum;
-    u16 f;
+    u16 field16;
 
     sendBuffer = socket->mSendBuffer;
     header = sendBuffer + 0x22;
@@ -685,16 +685,16 @@ void send_udp(u8 *data, u32 length, CPSSoc *socket) {
     *(u16 *) (header - 8) = ((u16) (socket->mRemoteIp >> 16) >> 8) | ((u16) (socket->mRemoteIp >> 16) << 8);
     *(u16 *) (header - 6) = ((u16) socket->mRemoteIp >> 8) | ((u16) socket->mRemoteIp << 8);
     *(u16 *) (header - 4) = 0x1100;
-    f = length + 8;
-    *OFFSET_PTR(u16, header, 4) = (f >> 8) | (f << 8);
+    field16 = length + 8;
+    *OFFSET_PTR(u16, header, 4) = (field16 >> 8) | (field16 << 8);
     *(u16 *) (header - 2) = *OFFSET_PTR(u16, header, 4);
     *OFFSET_PTR(u16, header, 2) = (socket->mRemotePort >> 8) | (socket->mRemotePort << 8);
     *OFFSET_PTR(u16, sendBuffer, 0x22) = (socket->mLocalPort >> 8) | (socket->mLocalPort << 8);
     *OFFSET_PTR(u16, header, 6) = 0;
     checksum = calc_checksum_do(header - 0xc, 0x14, 0);
     checksum = calc_checksum_do(data, length, checksum);
-    f = invert_checksum(checksum);
-    *OFFSET_PTR(u16, header, 6) = (f >> 8) | (f << 8);
+    field16 = invert_checksum(checksum);
+    *OFFSET_PTR(u16, header, 6) = (field16 >> 8) | (field16 << 8);
     send_ip(header, 8, data, length, socket->mRemoteIp, 0x11);
 }
 
@@ -1140,7 +1140,7 @@ void dt_synack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
 void dt_ack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
     CPSSoc *socket;
     u32 flags;
-    u32 c;
+    u32 value;
     s32 ackNoLow;
     s32 seqNoLow;
     u32 freeSpace;
@@ -1156,9 +1156,9 @@ void dt_ack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
     socket->mRemoteAckNo = ((u16) ((tcpHeader->mAckNoHigh >> 8) | (tcpHeader->mAckNoHigh << 8)) << 16) |
                            (u16) ((ackNoLow >> 8) | (ackNoLow << 8));
     seqNoLow = tcpHeader->mSeqNoLow;
-    c = ((u16) ((tcpHeader->mSeqNoHigh >> 8) | (tcpHeader->mSeqNoHigh << 8)) << 16) |
-        (u16) ((seqNoLow >> 8) | (seqNoLow << 8));
-    if (socket->mState == 4 && socket->mAckNo != c) {
+    value = ((u16) ((tcpHeader->mSeqNoHigh >> 8) | (tcpHeader->mSeqNoHigh << 8)) << 16) |
+            (u16) ((seqNoLow >> 8) | (seqNoLow << 8));
+    if (socket->mState == 4 && socket->mAckNo != value) {
         tcp_send_ack(socket, (ipHeader->mIdentifierSecondByte << 8) + 0xa);
         return;
     }
@@ -1182,9 +1182,9 @@ void dt_ack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
             freeSpace = socket->mReceiveBufferSize - socket->mReceiveBufferLength;
             if (length > freeSpace) {
                 length = freeSpace;
-                c = 0;
+                value = 0;
             } else {
-                c = 1;
+                value = 1;
             }
             if (length != 0) {
                 interruptState = OS_DisableInterrupts();
@@ -1198,7 +1198,7 @@ void dt_ack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
                     OS_WakeupThreadDirect(socket->mThread);
                 }
             }
-            if (c != 0 && (flags & 1) != 0) {
+            if (value != 0 && (flags & 1) != 0) {
                 socket->mState = 6;
                 socket->mAckNo++;
                 tcp_send_finack(socket, (ipHeader->mIdentifierSecondByte << 8) + 0xb);
@@ -1335,8 +1335,7 @@ void dispatch_udp(IpHeader *ipHeader, UdpHeader *udpHeader, u32 length) {
     OSThread *thread;
     CPSSoc *socket;
 
-    if (udpHeader->mChecksum != 0 &&
-        check_tcpudpsum(udpHeader, length, ipHeader, 0x11) != FALSE) {
+    if (udpHeader->mChecksum != 0 && check_tcpudpsum(udpHeader, length, ipHeader, 0x11) != FALSE) {
         return;
     }
     for (thread = OSi_ThreadInfo.mListHead; thread != NULL; thread = thread->mNext) {
@@ -1387,7 +1386,7 @@ void dispatch_udp(IpHeader *ipHeader, UdpHeader *udpHeader, u32 length) {
 }
 
 IpHeader *check_frag(IpHeader *packet, u32 *fragmented) {
-    u32 a;
+    u32 fragField;
     u32 fragmentBytes;
     u32 fragOffset;
     u32 headerLength;
@@ -1405,8 +1404,8 @@ IpHeader *check_frag(IpHeader *packet, u32 *fragmented) {
     u32 coveredUpTo;
 
     *fragmented = 0;
-    a = (u16) ((packet->mFragOffset >> 8) | (packet->mFragOffset << 8));
-    if ((a & 0x3fff) == 0) {
+    fragField = (u16) ((packet->mFragOffset >> 8) | (packet->mFragOffset << 8));
+    if ((fragField & 0x3fff) == 0) {
         return packet;
     }
     headerLength = (packet->mVersionIhl & 0xf) << 2;
@@ -1424,7 +1423,7 @@ IpHeader *check_frag(IpHeader *packet, u32 *fragmented) {
         }
     }
     fragmentBytes = (u16) ((packet->mTotalLength >> 8) | (packet->mTotalLength << 8)) - headerLength;
-    fragOffset = a & 0x1fff;
+    fragOffset = fragField & 0x1fff;
     byteOffset = fragOffset << 3;
     size = fragmentBytes + byteOffset;
     if (slotIndex == 8) {
@@ -1449,8 +1448,8 @@ IpHeader *check_frag(IpHeader *packet, u32 *fragmented) {
         return NULL;
     }
     fragEnd = fragOffset + ((fragmentBytes + 7) >> 3);
-    a = a & 0x2000;
-    if (a == 0) {
+    fragField = fragField & 0x2000;
+    if (fragField == 0) {
         slot->mSize = size;
         slot->mLast = fragEnd;
     }
@@ -1818,20 +1817,20 @@ u8 *CPS_SocRead(u32 *length) {
 
 void CPSi_SocConsumeRaw(u32 length, CPSSoc *socket) {
     u32 interruptState;
-    u32 d;
+    u32 receiveLength;
     u8 *buffer;
     u8 *source;
 
     interruptState = OS_DisableInterrupts();
-    d = socket->mReceiveBufferLength;
-    if (length >= d) {
+    receiveLength = socket->mReceiveBufferLength;
+    if (length >= receiveLength) {
         socket->mReceiveBufferLength = 0;
     } else {
         buffer = socket->mReceiveBuffer;
         source = buffer;
         source += length;
-        socket->mReceiveBufferLength = (d -= length);
-        memmove(buffer, &(*source), d);
+        socket->mReceiveBufferLength = (receiveLength -= length);
+        memmove(buffer, &(*source), receiveLength);
     }
     OS_RestoreInterrupts(interruptState);
     if (socket->mState != 0xa && socket->mState != 0xb && socket->mReceiveBufferLength == 0) {
@@ -2075,8 +2074,8 @@ void scavenger(void) {
     u32 dhcpPhase;
     u32 now;
     BOOL isFirstPass;
-    s32 e;
-    s32 i;
+    s32 unusedLocal;
+    s32 entryIndex;
     OSThread *thread;
     CPSSoc *socket;
     CPSArpCache *arpEntry;
@@ -2145,9 +2144,9 @@ void scavenger(void) {
             dhcpPhase = 0;
             dhcpDelay = 1;
         }
-        i = 0;
+        entryIndex = 0;
         arpEntry = gArpCache;
-        for (; i < 8; i++) {
+        for (; entryIndex < 8; entryIndex++) {
             if (arpEntry->mIp != 0 && (s16) (now - arpEntry->mWhen) > 0x3bd) {
                 arpEntry->mIp = 0;
             }
@@ -2172,9 +2171,9 @@ void scavenger(void) {
                 thread = thread->mNext;
             } while (thread != NULL);
         }
-        i = 0;
+        entryIndex = 0;
         fragment = gFragTable;
-        for (; i < 8; i++) {
+        for (; entryIndex < 8; entryIndex++) {
             if (fragment->mFrags != 0 && (s32) (now - fragment->mWhen) > 0xef) {
                 CPSiFree(fragment->mBuf);
                 fragment->mFrags = 0;
@@ -2470,7 +2469,7 @@ u8 *dns_skipname(u8 *name) {
     return name;
 }
 
-s32 resolve_common(const char *a, u32 b, s32 c) {
+s32 resolve_common(const char *name, u32 recordType, s32 queryId) {
     struct {
         /* 00 */ u32 mUnk_00;
         /* 04 */ u16 mUnk_04;
@@ -2480,93 +2479,96 @@ s32 resolve_common(const char *a, u32 b, s32 c) {
         /* 0c */ u16 mUnk_0c;
         /* 0e */ u16 mUnk_0e;
         /* 10 */ u8 mUnk_10[0x30];
-    } v;
-    u8 *q;
-    u8 *p;
-    u8 d;
-    u8 *r;
-    s32 e;
-    s32 f;
-    u32 g;
-    u32 h;
-    u16 i;
-    u16 j;
-    u32 k;
+    } query;
+    u8 *labelWrite;
+    u8 *labelStart;
+    u8 character;
+    u8 *readPtr;
+    s32 result;
+    s32 failure;
+    u32 startTick;
+    u32 remaining;
+    u16 questionCount;
+    u16 dataLength;
+    u32 responseCode;
 
-    v.mUnk_04 = (c >> 8) | (c << 8);
-    if (b == 1) {
-        v.mUnk_06 = 1;
+    query.mUnk_04 = (queryId >> 8) | (queryId << 8);
+    if (recordType == 1) {
+        query.mUnk_06 = 1;
     } else {
-        v.mUnk_06 = 0x1001;
+        query.mUnk_06 = 0x1001;
     }
-    v.mUnk_08 = 0x100;
-    v.mUnk_0a = 0;
-    v.mUnk_0c = 0;
-    v.mUnk_0e = 0;
-    p = v.mUnk_10;
-    q = p + 1;
-    v.mUnk_00 = 0;
-    d = *a++;
-    while (d != 0) {
-        if (d != '.') {
-            if (q - (u8 *) &v.mUnk_04 >= 0x3c) {
+    query.mUnk_08 = 0x100;
+    query.mUnk_0a = 0;
+    query.mUnk_0c = 0;
+    query.mUnk_0e = 0;
+    labelStart = query.mUnk_10;
+    labelWrite = labelStart + 1;
+    query.mUnk_00 = 0;
+    character = *name++;
+    while (character != 0) {
+        if (character != '.') {
+            if (labelWrite - (u8 *) &query.mUnk_04 >= 0x3c) {
                 return -1;
             }
-            *q = d;
-            q++;
-            v.mUnk_00++;
+            *labelWrite = character;
+            labelWrite++;
+            query.mUnk_00++;
         } else {
-            *p = v.mUnk_00;
-            p = q;
-            q++;
-            v.mUnk_00 = 0;
+            *labelStart = query.mUnk_00;
+            labelStart = labelWrite;
+            labelWrite++;
+            query.mUnk_00 = 0;
         }
-        d = *a++;
+        character = *name++;
     }
-    *p = v.mUnk_00;
-    q[0] = 0;
-    q[1] = b >> 8;
-    q[2] = b;
-    q[3] = 0;
-    q[4] = 1;
-    CPS_SocWrite((u8 *) &v.mUnk_04, q + 5 - (u8 *) &v.mUnk_04);
-    e = 0;
-    g = OS_GetTick() >> 16;
-    f = -1;
-    while (gLinkIsOn() != 0 && e == 0 && (s32) ((u32) (OS_GetTick() >> 16) - g) < 0xf) {
+    *labelStart = query.mUnk_00;
+    labelWrite[0] = 0;
+    labelWrite[1] = recordType >> 8;
+    labelWrite[2] = recordType;
+    labelWrite[3] = 0;
+    labelWrite[4] = 1;
+    CPS_SocWrite((u8 *) &query.mUnk_04, labelWrite + 5 - (u8 *) &query.mUnk_04);
+    result = 0;
+    startTick = OS_GetTick() >> 16;
+    failure = -1;
+    while (gLinkIsOn() != 0 && result == 0 && (s32) ((u32) (OS_GetTick() >> 16) - startTick) < 0xf) {
         if (CPS_SocGetLength() == 0) {
             yield_thread();
             continue;
         }
-        r = CPS_SocRead(&v.mUnk_00);
-        if (v.mUnk_00 > 0xc && c == (u16) ((*(u16 *) r >> 8) | (*(u16 *) r << 8))) {
-            k = r[3] & 0xf;
-            if (k == 3) {
-                e = f;
-            } else if (k == 0) {
-                p = r + v.mUnk_00;
-                i = r[4] << 8 | r[5];
-                r += 12;
-                h = i;
-                while (h-- != 0) {
-                    r = dns_skipname(r);
-                    r += 4;
+        readPtr = CPS_SocRead(&query.mUnk_00);
+        if (query.mUnk_00 > 0xc && queryId == (u16) ((*(u16 *) readPtr >> 8) | (*(u16 *) readPtr << 8))) {
+            responseCode = readPtr[3] & 0xf;
+            if (responseCode == 3) {
+                result = failure;
+            } else if (responseCode == 0) {
+                labelStart = readPtr + query.mUnk_00;
+                questionCount = readPtr[4] << 8 | readPtr[5];
+                readPtr += 12;
+                remaining = questionCount;
+                while (remaining-- != 0) {
+                    readPtr = dns_skipname(readPtr);
+                    readPtr += 4;
                 }
-                while (r < p) {
-                    r = dns_skipname(r);
-                    j = r[8] << 8 | r[9];
-                    if (b == (u16) (r[0] << 8 | r[1])) {
-                        e = (u16) (((u8 *) (r + 6) + j)[0] << 8 | ((u8 *) (r + 6) + j)[1]) << 16 |
-                            (u16) (((u8 *) (r + 8) + j)[0] << 8 | ((u8 *) (r + 8) + j)[1]);
+                while (readPtr < labelStart) {
+                    readPtr = dns_skipname(readPtr);
+                    dataLength = readPtr[8] << 8 | readPtr[9];
+                    if (recordType == (u16) (readPtr[0] << 8 | readPtr[1])) {
+                        result =
+                            (u16) (((u8 *) (readPtr + 6) + dataLength)[0] << 8 | ((u8 *) (readPtr + 6) + dataLength)[1])
+                                << 16 |
+                            (u16) (((u8 *) (readPtr + 8) + dataLength)[0] << 8 |
+                                   ((u8 *) (readPtr + 8) + dataLength)[1]);
                         break;
                     }
-                    r += j + 10;
+                    readPtr += dataLength + 10;
                 }
             }
         }
-        CPS_SocConsume(v.mUnk_00);
+        CPS_SocConsume(query.mUnk_00);
     }
-    return e;
+    return result;
 }
 
 u32 strtol10(const char *text, const char **end) {

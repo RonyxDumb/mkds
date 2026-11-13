@@ -15,7 +15,7 @@ s32 CPSi_big_sign(const u16 *digits, s32 digitCount) {
 void CPSi_big_add(u16 *sum, const u16 *first, const u16 *second, s32 digitCount) {
     s32 firstDigits;
     s32 secondDigits;
-    s32 i;
+    s32 digitIndex;
     u32 digitSum;
     u32 carry;
 
@@ -28,39 +28,39 @@ void CPSi_big_add(u16 *sum, const u16 *first, const u16 *second, s32 digitCount)
         firstDigits++;
     }
     carry = 0;
-    for (i = 0; i < firstDigits; i++) {
-        digitSum = first[i] + second[i] + carry;
-        sum[i] = digitSum;
+    for (digitIndex = 0; digitIndex < firstDigits; digitIndex++) {
+        digitSum = first[digitIndex] + second[digitIndex] + carry;
+        sum[digitIndex] = digitSum;
         carry = digitSum >> 16;
     }
     if (sum != first && sum != second) {
-        MI_CpuFill8(sum + i, 0, (digitCount - i) * 2);
+        MI_CpuFill8(sum + digitIndex, 0, (digitCount - digitIndex) * 2);
     }
 }
 
 void CPSi_big_add_small(u16 *result, const u16 *value, u32 carry, s32 digitCount) {
-    s32 i;
+    s32 digitIndex;
 
-    for (i = 0; i < digitCount; i++) {
-        carry += value[i];
-        result[i] = carry;
+    for (digitIndex = 0; digitIndex < digitCount; digitIndex++) {
+        carry += value[digitIndex];
+        result[digitIndex] = carry;
         carry >>= 16;
         if (carry == 0) {
             break;
         }
     }
     if (result != value) {
-        for (i++; i < digitCount; i++) {
-            result[i] = value[i];
+        for (digitIndex++; digitIndex < digitCount; digitIndex++) {
+            result[digitIndex] = value[digitIndex];
         }
     }
 }
 
 void CPSi_big_negate(u16 *digits, s32 digitCount) {
-    s32 i;
+    s32 digitIndex;
 
-    for (i = 0; i < digitCount; i++) {
-        digits[i] = ~digits[i];
+    for (digitIndex = 0; digitIndex < digitCount; digitIndex++) {
+        digits[digitIndex] = ~digits[digitIndex];
     }
     CPSi_big_add_small(digits, digits, 1, digitCount);
 }
@@ -68,7 +68,7 @@ void CPSi_big_negate(u16 *digits, s32 digitCount) {
 void CPSi_big_sub(u16 *difference, const u16 *minuend, const u16 *subtrahend, s32 digitCount) {
     s32 minuendDigits;
     s32 subtrahendDigits;
-    s32 i;
+    s32 digitIndex;
     s32 digitDifference;
     s32 borrow;
 
@@ -81,42 +81,42 @@ void CPSi_big_sub(u16 *difference, const u16 *minuend, const u16 *subtrahend, s3
         minuendDigits++;
     }
     borrow = 0;
-    for (i = 0; i < minuendDigits || (i < digitCount && borrow != 0); i++) {
-        digitDifference = minuend[i] - subtrahend[i] + borrow;
-        difference[i] = digitDifference;
+    for (digitIndex = 0; digitIndex < minuendDigits || (digitIndex < digitCount && borrow != 0); digitIndex++) {
+        digitDifference = minuend[digitIndex] - subtrahend[digitIndex] + borrow;
+        difference[digitIndex] = digitDifference;
         borrow = digitDifference >> 16;
     }
     if (difference != minuend && difference != subtrahend) {
-        MI_CpuFill8(difference + i, 0, (digitCount - i) * 2);
+        MI_CpuFill8(difference + digitIndex, 0, (digitCount - digitIndex) * 2);
     }
 }
 
 void CPSi_big_sub_small(u16 *result, const u16 *value, u32 borrow, s32 digitCount) {
-    s32 i;
+    s32 digitIndex;
 
-    for (i = 0; i < digitCount; i++) {
-        borrow = value[i] - borrow;
-        result[i] = borrow;
+    for (digitIndex = 0; digitIndex < digitCount; digitIndex++) {
+        borrow = value[digitIndex] - borrow;
+        result[digitIndex] = borrow;
         borrow = (borrow >> 16) & 1;
         if (borrow == 0) {
             break;
         }
     }
     if (result != value) {
-        for (i++; i < digitCount; i++) {
-            result[i] = value[i];
+        for (digitIndex++; digitIndex < digitCount; digitIndex++) {
+            result[digitIndex] = value[digitIndex];
         }
     }
 }
 
 s32 CPSi_big_compare(const u16 *first, const u16 *second, s32 digitCount) {
-    s32 i;
+    s32 digitIndex;
 
-    for (i = digitCount - 1; i >= 0; i--) {
-        if (first[i] > second[i]) {
+    for (digitIndex = digitCount - 1; digitIndex >= 0; digitIndex--) {
+        if (first[digitIndex] > second[digitIndex]) {
             return 1;
         }
-        if (first[i] < second[i]) {
+        if (first[digitIndex] < second[digitIndex]) {
             return -1;
         }
     }

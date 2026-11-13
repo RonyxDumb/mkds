@@ -30,16 +30,16 @@ u32 WCM_GetLinkLevel(void) {
 u8 WCMi_GetRssiAverage(void) {
     s32 sum = 0;
     u32 count = gWcmRssiIndex;
-    s32 i;
+    s32 rssiIndex;
 
     if (count > 16) {
-        for (i = 0; i < 16; i++) {
-            sum += gWcmRssi[i];
+        for (rssiIndex = 0; rssiIndex < 16; rssiIndex++) {
+            sum += gWcmRssi[rssiIndex];
         }
         sum = sum / 16;
     } else if (count != 0) {
-        for (i = 0; i < (s32) count; i++) {
-            sum += gWcmRssi[i];
+        for (rssiIndex = 0; rssiIndex < (s32) count; rssiIndex++) {
+            sum += gWcmRssi[rssiIndex];
         }
         sum = sum / (s32) count;
     }

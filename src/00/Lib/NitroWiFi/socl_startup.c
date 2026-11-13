@@ -79,7 +79,7 @@ s32 SOCLi_StartupSOCL(void) {
 void SOCLi_StartupCPS(void) {
     CPSConfig *cfgBlock = &SOCLiCPSConfig;
     SOCLConfig *config = SOCLiConfigPtr;
-    s32 c;
+    s32 value;
     s32 rwin;
 
     MI_CpuFill8(cfgBlock, 0, 0x30);
@@ -99,15 +99,15 @@ void SOCLi_StartupCPS(void) {
     } else {
         cfgBlock->mLanBuf = SOCLiConfigPtr->mAlloc(cfgBlock->mLanBufLen);
     }
-    c = config->mMtu;
-    if (c == 0) {
-        c = 0x240;
+    value = config->mMtu;
+    if (value == 0) {
+        value = 0x240;
     }
     rwin = config->mRwin;
     if (rwin == 0) {
         rwin = 0x10c0;
     }
-    cfgBlock->mMyMss = c - 0x28;
+    cfgBlock->mMyMss = value - 0x28;
     SOCLSocketParamTCP.mRcvbufSize = rwin;
     SOCLSocketParamTCP.mRcvbufConsumeMin = rwin / 2;
     CPSMyIp = 0;
@@ -121,11 +121,11 @@ void SOCLi_StartupCPS(void) {
         cfgBlock->mMode = 1;
         cfgBlock->mDhcpCallback = SOCLi_SetMyIP;
     }
-    c = config->mCpsThreadPriority;
-    if (c == 0) {
-        c = 0xb;
+    value = config->mCpsThreadPriority;
+    if (value == 0) {
+        value = 0xb;
     }
-    CPS_SetThreadPriority(c);
+    CPS_SetThreadPriority(value);
     WCM_SetRecvDCFCallback(CPSi_RecvCallbackFunc);
     CPS_SetScavengerCallback(SOCLi_TrashSocket);
     CPS_Startup(cfgBlock);

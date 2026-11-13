@@ -5,11 +5,11 @@
 #include "00/Lib/CPS/code_021a9228.h"
 
 void CPSi_SslPeriodical(s32 now) {
-    s32 i;
+    s32 sessionIndex;
     Unk021a91cc *session;
-    i = 0;
+    sessionIndex = 0;
     session = (Unk021a91cc *) gHttpsEntries;
-    for (; i < 4; i++) {
+    for (; sessionIndex < 4; sessionIndex++) {
         if (session->mUnk_5a != 0 && now - session->mUnk_50 > 0xef) {
             session->mUnk_5a = 0;
         }

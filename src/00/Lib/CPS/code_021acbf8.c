@@ -6,8 +6,8 @@
 void CPSi_big_mult(u16 *result, const u16 *first, const u16 *second, s32 digitCount) {
     s32 firstDigits;
     s32 secondDigits;
-    s32 i;
-    s32 j;
+    s32 secondIndex;
+    s32 firstIndex;
     const u16 *firstCursor;
     const u16 *secondCursor;
 
@@ -15,11 +15,11 @@ void CPSi_big_mult(u16 *result, const u16 *first, const u16 *second, s32 digitCo
     firstDigits = count_digits(first, digitCount);
     secondDigits = count_digits(second, digitCount);
     secondCursor = second;
-    for (i = 0; i < secondDigits; i++) {
-        j = 0;
+    for (secondIndex = 0; secondIndex < secondDigits; secondIndex++) {
+        firstIndex = 0;
         firstCursor = first;
-        for (; j < firstDigits && j < digitCount - i; j++) {
-            CPSi_big_add_part(result, *firstCursor * *secondCursor, i + j, digitCount);
+        for (; firstIndex < firstDigits && firstIndex < digitCount - secondIndex; firstIndex++) {
+            CPSi_big_add_part(result, *firstCursor * *secondCursor, secondIndex + firstIndex, digitCount);
             firstCursor++;
         }
         secondCursor++;

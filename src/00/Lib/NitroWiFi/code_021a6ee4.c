@@ -233,7 +233,7 @@ s32 SOCL_Accept(SOCLSocket *socket, u16 *remotePortOut, u32 *remoteIpOut) {
 s32 SOCL_ListenAccept(SOCLSocket *socket, u16 *remotePortOut, u32 *remoteIpOut) {
     SOCLiCommandPacket *cmdPacket;
     BOOL condition;
-    s32 c;
+    s32 unusedLocal;
 
     if (SOCL_SocketIsInvalid(socket) != 0) {
         return -28;
