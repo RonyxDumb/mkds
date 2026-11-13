@@ -40,6 +40,7 @@
 
 const u16 gTitleDisplaySettingsDesc[20] = {1, 0x1e, 0x1c, 1, 0, 0,     0,    2, 0x60, 0x10,
                                            0, 1,    0,    0, 4, 0x100, 0x80, 0, 8,    0};
+TitleScene *gTitleScene;
 
 void *TitleGetCurrentHeap(void) {
     return GetHeap(GetCurrentHeapCall());

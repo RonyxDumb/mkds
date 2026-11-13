@@ -2497,7 +2497,7 @@ src/Main/MapObjects/shine_balloon.c:
     .text       start:0x020ac524 end:0x020aca08
     .rodata     start:0x02156838 end:0x02156840
     .data       start:0x02167de0 end:0x02167e28
-    .bss        start:0x0217b31c end:0x0217b324
+    .bss        start:0x0217b31c end:0x0217b320
 
 // provisional: file name and boundaries
 src/Main/Menu/title_state6.c:
@@ -2566,6 +2566,7 @@ src/Main/Menu/title_bg.c:
     .text       start:0x020ad2dc end:0x020ada2c
     .rodata     start:0x02156840 end:0x02156868
     .data       start:0x02167e6c end:0x02167fac
+    .bss        start:0x0217b320 end:0x0217b324
 
 // provisional: file name and boundaries
 src/Main/Menu/title_states.c:
