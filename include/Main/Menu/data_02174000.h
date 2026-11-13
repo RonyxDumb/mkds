@@ -125,6 +125,32 @@ typedef struct PlayerEntryRow {
 } PlayerEntryRow;
 
 // Object behind gPlayerEntryList.
+typedef enum SelectCharacterState {
+    SELECT_CHARACTER_STATE_WAIT_FADE = 0,
+    SELECT_CHARACTER_STATE_SCALE_IN = 1,
+    SELECT_CHARACTER_STATE_PICK_FIXED = 2,
+    SELECT_CHARACTER_STATE_CHOOSE = 3,
+    SELECT_CHARACTER_STATE_WAIT_MOVE = 4,
+    SELECT_CHARACTER_STATE_WAIT_PICK = 5,
+    SELECT_CHARACTER_STATE_WAIT_OTHERS = 6,
+    SELECT_CHARACTER_STATE_WAIT_HOLD = 7,
+    SELECT_CHARACTER_STATE_SCALE_OUT = 8,
+    SELECT_CHARACTER_STATE_DONE = 9,
+} SelectCharacterState;
+
+typedef enum SelectCharacterMode {
+    SELECT_CHARACTER_MODE_NO_CONNECTION = 0,
+    SELECT_CHARACTER_MODE_CONNECTION = 1,
+    SELECT_CHARACTER_MODE_WIFI_SESSION = 2,
+} SelectCharacterMode;
+
+// Steps of the scale in and scale out.
+#define SELECT_CHARACTER_SCALE_STEPS 10
+// Steps the moved or picked row settles for before the state moves on.
+#define SELECT_CHARACTER_SETTLE_STEPS 5
+// Steps the picked character is held in state WAIT_HOLD.
+#define SELECT_CHARACTER_HOLD_STEPS 60
+
 // Object behind gSelectCharacter.
 typedef struct SelectCharacter {
     /* 000 */ CellFileSet mGpMParts;

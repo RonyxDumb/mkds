@@ -455,7 +455,7 @@ void StartPlayerEntryListKindIfUsed(s32 kind) {
 void StartSelectCharacterReturn(void) {
     gSelectCharacter->mStateFrames = 0;
     gSelectCharacter->mResult = 2;
-    gSelectCharacter->mState = 8;
+    gSelectCharacter->mState = SELECT_CHARACTER_STATE_SCALE_OUT;
     RequestSelectReturnState3WithSound(0);
     StartPlayerEntryListKindIfUsed(3);
     SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[0], 2);
@@ -614,7 +614,8 @@ void SetupSelectCharacterRow(s32 previousTableIndex) {
 
 u32 IsSelectCharacterModeAndTimerZero(void) {
     int result;
-    if ((gSelectCharacter->mMode != 0) && (result = IsPlayerEntryListTimerZero(), result != 0)) {
+    if ((gSelectCharacter->mMode != SELECT_CHARACTER_MODE_NO_CONNECTION) &&
+        (result = IsPlayerEntryListTimerZero(), result != 0)) {
         return 1;
     }
     return 0;
@@ -670,12 +671,12 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
             SetupInterpolation(&gSelectCharacter->mInterpolations[0], 1, 10, -0x80, 0);
             SetupInterpolation(&gSelectCharacter->mInterpolations[2], 1, 10, 0x60, 0);
             switch (gSelectCharacter->mMode) {
-                case 1:
+                case SELECT_CHARACTER_MODE_CONNECTION:
                     if (gConnectionWork->mState == 8) {
                         gConnectionWork->mDataSharingSendByte = 0xff;
                     }
                     break;
-                case 2:
+                case SELECT_CHARACTER_MODE_WIFI_SESSION:
                     SetWiFiSessionOwnCharacterIndexNone();
                     break;
             }
@@ -684,7 +685,8 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
     SetupInterpolation(&gSelectCharacter->mInterpolations[1], 0, 10, -0x40, 0);
     gSelectCharacter->mMainOam = mainOam;
     gSelectCharacter->mSubOam = subOam;
-    if (gSelectCharacter->mMode != 0 || GetRaceSetupCopy()->mMode == 3 || GetRaceSetupCopy()->mMode == 2) {
+    if (gSelectCharacter->mMode != SELECT_CHARACTER_MODE_NO_CONNECTION || GetRaceSetupCopy()->mMode == 3 ||
+        GetRaceSetupCopy()->mMode == 2) {
         usePlayerEntryList = TRUE;
     } else {
         usePlayerEntryList = FALSE;
@@ -692,13 +694,13 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
     gSelectCharacter->mUsePlayerEntryList = usePlayerEntryList;
     if (gSelectCharacter->mUsePlayerEntryList != FALSE) {
         switch (gSelectCharacter->mMode) {
-            case 0:
+            case SELECT_CHARACTER_MODE_NO_CONNECTION:
                 modeValue = 0;
                 break;
-            case 1:
+            case SELECT_CHARACTER_MODE_CONNECTION:
                 modeValue = 1;
                 break;
-            case 2:
+            case SELECT_CHARACTER_MODE_WIFI_SESSION:
                 modeValue = 2;
                 break;
         }
@@ -706,26 +708,26 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
     }
     selectCharacter = gSelectCharacter;
     switch (selectCharacter->mMode) {
-        case 0:
+        case SELECT_CHARACTER_MODE_NO_CONNECTION:
             selectCharacter->mEntryIndex = 0;
             break;
-        case 1:
+        case SELECT_CHARACTER_MODE_CONNECTION:
             selectCharacter->mEntryIndex =
                 GetParticipantPosByIndex(gConnectionWork->mConnectionMode == 2 ? gConnectionWork->mOwnIndex : 0)
                     ->mEntryIndex;
             break;
-        case 2:
+        case SELECT_CHARACTER_MODE_WIFI_SESSION:
             gSelectCharacter->mEntryIndex = GetRaceSetupCopyEntryIndex();
             break;
     }
     selectCharacter = gSelectCharacter;
     if (selectCharacter->mUsePlayerEntryList == FALSE) {
-        LocateCellFileSet(&selectCharacter->mGpMParts, "select_character_gp_m.nce.ncgr", "select_character_gp_m.nce.ncer",
-                          "select_character_gp_m_o.NCLR", "select_character_gp_m.bncl", NULL, NULL,
-                          FindFileInLoadedArchives);
+        LocateCellFileSet(&selectCharacter->mGpMParts, "select_character_gp_m.nce.ncgr",
+                          "select_character_gp_m.nce.ncer", "select_character_gp_m_o.NCLR",
+                          "select_character_gp_m.bncl", NULL, NULL, FindFileInLoadedArchives);
         SetupCellFileSet(0, gSelectCharacter->mHeap, &selectCharacter->mGpMParts);
-        LocateCellFileSet(&titleParts, "select_character_gp_title_m.nce.ncgr", "select_character_gp_title_m.nce.ncer", NULL,
-                          "select_character_gp_title_m.bncl", NULL, NULL, FindFileInLoadedArchives);
+        LocateCellFileSet(&titleParts, "select_character_gp_title_m.nce.ncgr", "select_character_gp_title_m.nce.ncer",
+                          NULL, "select_character_gp_title_m.bncl", NULL, NULL, FindFileInLoadedArchives);
         QueueCellChars(0, titleParts.mCells, titleParts.mChars, titleParts.mCellLayout, 0, 0,
                        selectCharacter->mGpMParts.mCells, selectCharacter->mGpMParts.mCellLayout);
         LocateCellFileSet(&gSelectCharacter->mGpNameMParts, "select_character_gp_name_m.nce.ncgr",
@@ -740,8 +742,9 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
     }
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         sParts = &gSelectCharacter->mSParts;
-        LocateCellFileSet(sParts, "select_character_s.nce.ncgr", "select_character_s.nce.ncer", "select_character_s_o.NCLR",
-                          "select_character_s.bncl", NULL, "select_character_s.bnbl", FindFileInLoadedArchives);
+        LocateCellFileSet(sParts, "select_character_s.nce.ncgr", "select_character_s.nce.ncer",
+                          "select_character_s_o.NCLR", "select_character_s.bncl", NULL, "select_character_s.bnbl",
+                          FindFileInLoadedArchives);
         SetupCellFileSet(1, gSelectCharacter->mHeap, sParts);
         sParts->mCellTable[24].mVisible = 0;
         for (rowIndex = 0; rowIndex < 12; rowIndex++) {
@@ -864,13 +867,13 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
         MoveSelectCharacterBracketsToRow();
         QueueSelectCharacterNameChars();
     }
-    if (gSelectCharacter->mMode == 0) {
+    if (gSelectCharacter->mMode == SELECT_CHARACTER_MODE_NO_CONNECTION) {
         ClearNonParticipantCharacterIndices();
         SetSelectReturnSoundId(0xe);
         RequestSelectReturnState1();
     }
     if (AreBrightnessFadesClear() != 0) {
-        gSelectCharacter->mState = 1;
+        gSelectCharacter->mState = SELECT_CHARACTER_STATE_SCALE_IN;
     } else {
         StartFadeToClear(10);
         SetSelectCharacterRowCellsVisible(0);
@@ -924,21 +927,22 @@ int AdvanceSelectCharacter(void) {
     selectCharacter = gSelectCharacter;
     sParts = &selectCharacter->mSParts;
     switch (selectCharacter->mState) {
-        case 0:
+        case SELECT_CHARACTER_STATE_WAIT_FADE:
             if (AreBrightnessFadesClear() != 0) {
-                gSelectCharacter->mState = 1;
+                gSelectCharacter->mState = SELECT_CHARACTER_STATE_SCALE_IN;
             }
             break;
-        case 1:
+        case SELECT_CHARACTER_STATE_SCALE_IN:
             if (selectCharacter->mStateFrames == 0) {
                 SetSelectCharacterRowCellsVisible(1);
             }
             gSelectCharacter->mStateFrames++;
             selectCharacterReload = gSelectCharacter;
-            if (selectCharacterReload->mStateFrames < 10) {
-                selectCharacterReload->mScale = TO_FIXED12(selectCharacterReload->mStateFrames) / 10;
+            if (selectCharacterReload->mStateFrames < SELECT_CHARACTER_SCALE_STEPS) {
+                selectCharacterReload->mScale =
+                    TO_FIXED12(selectCharacterReload->mStateFrames) / SELECT_CHARACTER_SCALE_STEPS;
             } else {
-                selectCharacterReload->mScale = 0x1000;
+                selectCharacterReload->mScale = TO_FIXED12(1);
                 gSelectCharacter->mStateFrames = 0;
                 if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
                     nextState = 2;
@@ -949,7 +953,7 @@ int AdvanceSelectCharacter(void) {
             }
             SetSelectCharacterAngleAndScale();
             break;
-        case 2:
+        case SELECT_CHARACTER_STATE_PICK_FIXED:
             selectCharacter->mCharacterIndex = 0xc;
             gSelectCharacter->mKartIndex = 0x24;
             gSelectCharacter->mStateFrames = 0;
@@ -960,16 +964,16 @@ int AdvanceSelectCharacter(void) {
                     gConnectionWork->mDataSharingSendByte = flaggedCharacterIndex;
                 }
                 StartPlayerEntryListKindIfUsed(1);
-                gSelectCharacter->mState = 8;
+                gSelectCharacter->mState = SELECT_CHARACTER_STATE_SCALE_OUT;
             } else if (GetRaceSetupCopy()->mMode == 2) {
                 flaggedCharacterIndex = gSelectCharacter->mCharacterIndex | 0xc0;
                 if (gConnectionWork->mState == 8) {
                     gConnectionWork->mDataSharingSendByte = flaggedCharacterIndex;
                 }
-                gSelectCharacter->mState = 6;
+                gSelectCharacter->mState = SELECT_CHARACTER_STATE_WAIT_OTHERS;
             }
             break;
-        case 3:
+        case SELECT_CHARACTER_STATE_CHOOSE:
             previousTableIndex = selectCharacter->mTableIndex;
             if (SelectCharacterIsPairNewUnlessLost(inputSlot) != 0) {
                 pointX = gInputSlots[inputSlot].mPair.mPairX;
@@ -985,24 +989,24 @@ int AdvanceSelectCharacter(void) {
                     SetupSelectCharacterRow(previousTableIndex);
                     StartSeqPair(GetCharacterSeqPairNo(gSelectCharacter->mCharacterIndex), 0);
                     gSelectCharacter->mStateFrames = 0;
-                    gSelectCharacter->mState = 5;
-                } else if (gSelectCharacter->mMode == 0 &&
+                    gSelectCharacter->mState = SELECT_CHARACTER_STATE_WAIT_PICK;
+                } else if (gSelectCharacter->mMode == SELECT_CHARACTER_MODE_NO_CONNECTION &&
                            IsSelectReturnState2NoState3Or4RequestAndInRect(pointX, pointY) != FALSE) {
                     StartSelectCharacterReturn();
                 }
             } else if (IsSelectCharacterModeAndTimerZero() != 0) {
                 gSelectCharacter->mStateFrames = 0;
                 gSelectCharacter->mResult = 3;
-                gSelectCharacter->mState = 6;
+                gSelectCharacter->mState = SELECT_CHARACTER_STATE_WAIT_OTHERS;
                 StartSeqPair(GetCharacterSeqPairNo(gSelectCharacter->mCharacterIndex), 0);
                 SetKartModelMenuSpinStopped(1);
                 selectCharacterReload = gSelectCharacter;
                 switch (selectCharacterReload->mMode) {
-                    case 2:
+                    case SELECT_CHARACTER_MODE_WIFI_SESSION:
                         SetWiFiSessionOwnCharacterIndex(selectCharacterReload->mCharacterIndex);
                         SetWiFiSessionOwnKartIndex(gSelectCharacter->mKartIndex);
                         break;
-                    case 1:
+                    case SELECT_CHARACTER_MODE_CONNECTION:
                         flaggedCharacterIndex = selectCharacterReload->mCharacterIndex | 0xc0;
                         if (gConnectionWork->mState == 8) {
                             gConnectionWork->mDataSharingSendByte = flaggedCharacterIndex;
@@ -1013,10 +1017,11 @@ int AdvanceSelectCharacter(void) {
                 keyBits = gInputSlots[inputSlot].mPressedBits;
                 if ((u16) (keyBits & PAD_KEY_A) != 0) {
                     gSelectCharacter->mStateFrames = 0;
-                    gSelectCharacter->mState = 5;
+                    gSelectCharacter->mState = SELECT_CHARACTER_STATE_WAIT_PICK;
                     RefreshSelectCharacterRowCells();
                     StartSeqPair(GetCharacterSeqPairNo(gSelectCharacter->mCharacterIndex), 0);
-                } else if (gSelectCharacter->mMode == 0 && (u16) (keyBits & PAD_KEY_B) != 0) {
+                } else if (gSelectCharacter->mMode == SELECT_CHARACTER_MODE_NO_CONNECTION &&
+                           (u16) (keyBits & PAD_KEY_B) != 0) {
                     StartSelectCharacterReturn();
                 } else {
                     if (GetNewOrRepeatBits(inputSlot, PAD_KEY_UP) != 0) {
@@ -1047,29 +1052,29 @@ int AdvanceSelectCharacter(void) {
                     if (gSelectCharacter->mTableIndex != previousTableIndex) {
                         StartCursorMoveSound();
                         SetupSelectCharacterRow(previousTableIndex);
-                        gSelectCharacter->mState = 4;
+                        gSelectCharacter->mState = SELECT_CHARACTER_STATE_WAIT_MOVE;
                     }
                 }
             }
             break;
-        case 4:
+        case SELECT_CHARACTER_STATE_WAIT_MOVE:
             selectCharacter->mStateFrames++;
-            if (gSelectCharacter->mStateFrames > 5) {
+            if (gSelectCharacter->mStateFrames > SELECT_CHARACTER_SETTLE_STEPS) {
                 SetSelectCharacterBracketsResting();
                 gSelectCharacter->mStateFrames = 0;
-                gSelectCharacter->mState = 3;
+                gSelectCharacter->mState = SELECT_CHARACTER_STATE_CHOOSE;
             }
             break;
-        case 5:
+        case SELECT_CHARACTER_STATE_WAIT_PICK:
             selectCharacter->mStateFrames++;
             selectCharacterReload = gSelectCharacter;
-            if (selectCharacterReload->mStateFrames > 5) {
+            if (selectCharacterReload->mStateFrames > SELECT_CHARACTER_SETTLE_STEPS) {
                 selectCharacterReload->mStateFrames = 0;
                 gSelectCharacter->mResult = 1;
                 SetSelectCharacterBracketsResting();
                 selectCharacterReload = gSelectCharacter;
                 switch (selectCharacterReload->mMode) {
-                    case 0:
+                    case SELECT_CHARACTER_MODE_NO_CONNECTION:
                         GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mCharacterIndex =
                             selectCharacterReload->mCharacterIndex;
                         GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mKartIndex =
@@ -1078,17 +1083,17 @@ int AdvanceSelectCharacter(void) {
                         if (GetRaceSetupCopy()->mMode == 2) {
                             GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mKartStored = 1;
                             SetKartModelMenuSpinStopped(1);
-                            gSelectCharacter->mState = 7;
+                            gSelectCharacter->mState = SELECT_CHARACTER_STATE_WAIT_HOLD;
                             ClearNonParticipantKartIndices();
                             SetKartIndicesFromCharacters();
                         } else {
                             StartPlayerEntryListKindIfUsed(1);
                             StartKartModelMenuTimedSpinStop();
-                            gSelectCharacter->mState = 8;
+                            gSelectCharacter->mState = SELECT_CHARACTER_STATE_SCALE_OUT;
                             SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[1], 2);
                         }
                         break;
-                    case 1:
+                    case SELECT_CHARACTER_MODE_CONNECTION:
                         if (GetRaceSetupCopy()->mMode == 3) {
                             flaggedCharacterIndex = gSelectCharacter->mCharacterIndex | 0x40;
                             if (gConnectionWork->mState == 8) {
@@ -1096,7 +1101,7 @@ int AdvanceSelectCharacter(void) {
                             }
                             SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[1], 2);
                             StartPlayerEntryListKindIfUsed(1);
-                            gSelectCharacter->mState = 8;
+                            gSelectCharacter->mState = SELECT_CHARACTER_STATE_SCALE_OUT;
                             StartKartModelMenuTimedSpinStop();
                         } else if (GetRaceSetupCopy()->mMode == 2) {
                             flaggedCharacterIndex = gSelectCharacter->mCharacterIndex | 0xc0;
@@ -1104,39 +1109,39 @@ int AdvanceSelectCharacter(void) {
                                 gConnectionWork->mDataSharingSendByte = flaggedCharacterIndex;
                             }
                             SetKartModelMenuSpinStopped(1);
-                            gSelectCharacter->mState = 6;
+                            gSelectCharacter->mState = SELECT_CHARACTER_STATE_WAIT_OTHERS;
                         }
                         break;
-                    case 2:
+                    case SELECT_CHARACTER_MODE_WIFI_SESSION:
                         SetWiFiSessionOwnCharacterIndex(selectCharacterReload->mCharacterIndex);
                         SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[1], 2);
                         StartPlayerEntryListKindIfUsed(1);
-                        gSelectCharacter->mState = 8;
+                        gSelectCharacter->mState = SELECT_CHARACTER_STATE_SCALE_OUT;
                         StartKartModelMenuTimedSpinStop();
                         break;
                 }
             }
             break;
-        case 6:
-            if ((selectCharacter->mMode == 1 && IsEveryPlayerKartStored() != 0) ||
-                (gSelectCharacter->mMode == 2 && IsWiFiSessionStep7Reached() != 0)) {
-                if (gSelectCharacter->mMode == 2) {
+        case SELECT_CHARACTER_STATE_WAIT_OTHERS:
+            if ((selectCharacter->mMode == SELECT_CHARACTER_MODE_CONNECTION && IsEveryPlayerKartStored() != 0) ||
+                (gSelectCharacter->mMode == SELECT_CHARACTER_MODE_WIFI_SESSION && IsWiFiSessionStep7Reached() != 0)) {
+                if (gSelectCharacter->mMode == SELECT_CHARACTER_MODE_WIFI_SESSION) {
                     WriteWiFiSessionToRaceSetupCopy();
                 }
                 if (GetRaceSetupCopy()->mMode == 2 || IsSelectCharacterModeAndTimerZero() != 0) {
-                    gSelectCharacter->mState = 7;
+                    gSelectCharacter->mState = SELECT_CHARACTER_STATE_WAIT_HOLD;
                 } else {
                     StartPlayerEntryListKindIfUsed(1);
                     SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[1], 2);
-                    gSelectCharacter->mState = 8;
+                    gSelectCharacter->mState = SELECT_CHARACTER_STATE_SCALE_OUT;
                 }
             }
             break;
-        case 7:
+        case SELECT_CHARACTER_STATE_WAIT_HOLD:
             selectCharacter->mStateFrames++;
             selectCharacterReload = gSelectCharacter;
-            if (selectCharacterReload->mStateFrames > 60) {
-                if (selectCharacterReload->mMode == 2) {
+            if (selectCharacterReload->mStateFrames > SELECT_CHARACTER_HOLD_STEPS) {
+                if (selectCharacterReload->mMode == SELECT_CHARACTER_MODE_WIFI_SESSION) {
                     StartPlayerEntryListKindIfUsed(3);
                 } else {
                     StartPlayerEntryListKindIfUsed(2);
@@ -1148,24 +1153,26 @@ int AdvanceSelectCharacter(void) {
                     SlideOutSelectRaceRuleWait();
                 }
                 gSelectCharacter->mStateFrames = 0;
-                gSelectCharacter->mState = 8;
+                gSelectCharacter->mState = SELECT_CHARACTER_STATE_SCALE_OUT;
             }
             break;
-        case 8:
+        case SELECT_CHARACTER_STATE_SCALE_OUT:
             selectCharacter->mStateFrames++;
             selectCharacterReload = gSelectCharacter;
-            if (selectCharacterReload->mStateFrames < 10) {
-                selectCharacterReload->mScale = TO_FIXED12(10 - selectCharacterReload->mStateFrames) / 10;
+            if (selectCharacterReload->mStateFrames < SELECT_CHARACTER_SCALE_STEPS) {
+                selectCharacterReload->mScale =
+                    TO_FIXED12(SELECT_CHARACTER_SCALE_STEPS - selectCharacterReload->mStateFrames) /
+                    SELECT_CHARACTER_SCALE_STEPS;
             } else {
                 GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mCharacterIndex =
                     selectCharacterReload->mCharacterIndex;
                 GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mKartIndex = gSelectCharacter->mKartIndex;
-                gSelectCharacter->mState = 9;
+                gSelectCharacter->mState = SELECT_CHARACTER_STATE_DONE;
             }
             gSelectCharacter->mAngle += 0x1000;
             SetSelectCharacterAngleAndScale();
             break;
-        case 9:
+        case SELECT_CHARACTER_STATE_DONE:
             result = selectCharacter->mResult;
             break;
     }
@@ -1237,7 +1244,7 @@ void WriteSelectCharacterRegisters(void) {
     u32 displayBits = 0x18;
 
     G2x_SetBlendAlpha_(&reg_G2S_DB_BLDCNT, 0, 0x3f, 6, 10);
-    if (!(gSelectCharacter->mState == 9 && gSelectCharacter->mResult == 2)) {
+    if (!(gSelectCharacter->mState == SELECT_CHARACTER_STATE_DONE && gSelectCharacter->mResult == 2)) {
         displayBits |= 1;
     }
     reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | (displayBits << 8);
@@ -1274,10 +1281,20 @@ void SetupInterpolation(Interpolation *interpolation, s32 state, s32 counterLimi
 
 #pragma thumb off
 
-
-const SelectCharacterRowCellIndices gSelectCharacterRowCellIndices[12] = {{0xc, 0x1a, 0, 0}, {0xd, 0x1b, 1, 1}, {0xe, 0x1c, 2, 2}, {0xf, 0x1d, 3, 3}, {0x10, 0x1e, 4, 4}, {0x11, 0x1f, 5, 5}, {0x12, 0x20, 6, 6}, {0x13, 0x21, 7, 7}, {0x14, 0x22, 8, 8}, {0x15, 0x23, 9, 9}, {0x16, 0x24, 0xa, 0xa}, {0x17, 0x25, 0xb, 0xb}};
-const SelectCharacterRow gSelectCharacterRows[12] = {{0, 0}, {7, 1}, {4, 2}, {6, 3}, {2, 4}, {1, 5}, {5, 6}, {3, 7}, {9, 8}, {8, 9}, {0xa, 0xa}, {0xb, 0xb}};
-const SelectCharacterRowPosition gSelectCharacterPositions11Rows[11] = {{0x27, 0x1d}, {0x63, 0x1d}, {0x9f, 0x1d}, {0xdb, 0x1d}, {0x3b, 0x51}, {0x80, 0x51}, {0xc7, 0x51}, {0x27, 0x85}, {0x63, 0x85}, {0x9f, 0x85}, {0xdb, 0x85}};
-const SelectCharacterRowPosition gSelectCharacterPositions10Rows[10] = {{0x3a, 0x1d}, {0x80, 0x1d}, {0xc6, 0x1d}, {0x27, 0x51}, {0x63, 0x51}, {0x9f, 0x51}, {0xdb, 0x51}, {0x3a, 0x85}, {0x80, 0x85}, {0xc6, 0x85}};
-const SelectCharacterRowPosition gSelectCharacterPositions9Rows[9] = {{0x44, 0x1d}, {0x80, 0x1d}, {0xbc, 0x1d}, {0x44, 0x51}, {0x80, 0x51}, {0xbc, 0x51}, {0x44, 0x85}, {0x80, 0x85}, {0xbc, 0x85}};
-const SelectCharacterRowPosition gSelectCharacterPositions8Rows[8] = {{0x30, 0x1d}, {0x80, 0x1d}, {0xd0, 0x1d}, {0x57, 0x51}, {0xa8, 0x51}, {0x30, 0x85}, {0x80, 0x85}, {0xd0, 0x85}};
+const SelectCharacterRowCellIndices gSelectCharacterRowCellIndices[12] = {
+    {0xc, 0x1a, 0, 0},  {0xd, 0x1b, 1, 1},  {0xe, 0x1c, 2, 2},      {0xf, 0x1d, 3, 3},
+    {0x10, 0x1e, 4, 4}, {0x11, 0x1f, 5, 5}, {0x12, 0x20, 6, 6},     {0x13, 0x21, 7, 7},
+    {0x14, 0x22, 8, 8}, {0x15, 0x23, 9, 9}, {0x16, 0x24, 0xa, 0xa}, {0x17, 0x25, 0xb, 0xb}};
+const SelectCharacterRow gSelectCharacterRows[12] = {{0, 0}, {7, 1}, {4, 2}, {6, 3}, {2, 4},     {1, 5},
+                                                     {5, 6}, {3, 7}, {9, 8}, {8, 9}, {0xa, 0xa}, {0xb, 0xb}};
+const SelectCharacterRowPosition gSelectCharacterPositions11Rows[11] = {
+    {0x27, 0x1d}, {0x63, 0x1d}, {0x9f, 0x1d}, {0xdb, 0x1d}, {0x3b, 0x51}, {0x80, 0x51},
+    {0xc7, 0x51}, {0x27, 0x85}, {0x63, 0x85}, {0x9f, 0x85}, {0xdb, 0x85}};
+const SelectCharacterRowPosition gSelectCharacterPositions10Rows[10] = {
+    {0x3a, 0x1d}, {0x80, 0x1d}, {0xc6, 0x1d}, {0x27, 0x51}, {0x63, 0x51},
+    {0x9f, 0x51}, {0xdb, 0x51}, {0x3a, 0x85}, {0x80, 0x85}, {0xc6, 0x85}};
+const SelectCharacterRowPosition gSelectCharacterPositions9Rows[9] = {{0x44, 0x1d}, {0x80, 0x1d}, {0xbc, 0x1d},
+                                                                      {0x44, 0x51}, {0x80, 0x51}, {0xbc, 0x51},
+                                                                      {0x44, 0x85}, {0x80, 0x85}, {0xbc, 0x85}};
+const SelectCharacterRowPosition gSelectCharacterPositions8Rows[8] = {
+    {0x30, 0x1d}, {0x80, 0x1d}, {0xd0, 0x1d}, {0x57, 0x51}, {0xa8, 0x51}, {0x30, 0x85}, {0x80, 0x85}, {0xd0, 0x85}};
