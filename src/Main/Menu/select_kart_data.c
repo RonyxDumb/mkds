@@ -816,7 +816,7 @@ u32 WriteSubWinEnableBits(u32 bits) {
 }
 
 void SelectKartG2S_SetWnd0InsidePlane(u32 lowBits, u32 extraBitFlag) {
-    u32 value = (reg_G2S_DB_WININ & ~0x3f) | lowBits;
+    u32 value = (reg_G2S_DB_WININ & ~REG_G2S_DB_WININ_WIN0IN_MASK) | lowBits;
     if (extraBitFlag != 0) {
         value |= 0x20;
     }
@@ -824,7 +824,7 @@ void SelectKartG2S_SetWnd0InsidePlane(u32 lowBits, u32 extraBitFlag) {
 }
 
 void SelectKartG2S_SetWndOutsidePlane(u32 lowBits, u32 extraBitFlag) {
-    u32 value = (reg_G2S_DB_WINOUT & ~0x3f) | lowBits;
+    u32 value = (reg_G2S_DB_WINOUT & ~REG_G2S_DB_WINOUT_WINOUT_MASK) | lowBits;
     if (extraBitFlag != 0) {
         value |= 0x20;
     }

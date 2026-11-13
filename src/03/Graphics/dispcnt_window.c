@@ -90,13 +90,13 @@ void WriteWinInOutBits(int screen, int selector, u32 bits, int extraBitFlag) {
             break;
         case 1:
             if (screen == 1) {
-                registerValue = (reg_G2S_DB_WININ & 0xffffc0ff) | (bits << 8);
+                registerValue = (reg_G2S_DB_WININ & ~REG_G2S_DB_WININ_WIN1IN_MASK) | (bits << 8);
                 if (extraBitFlag != 0) {
                     registerValue |= 0x2000;
                 }
                 reg_G2S_DB_WININ = registerValue;
             } else {
-                registerValue = (reg_G2_WININ & 0xffffc0ff) | (bits << 8);
+                registerValue = (reg_G2_WININ & ~REG_G2_WININ_WIN1IN_MASK) | (bits << 8);
                 if (extraBitFlag != 0) {
                     registerValue |= 0x2000;
                 }
@@ -105,13 +105,13 @@ void WriteWinInOutBits(int screen, int selector, u32 bits, int extraBitFlag) {
             break;
         case 2:
             if (screen == 1) {
-                registerValue = (reg_G2S_DB_WINOUT & 0xffffc0ff) | (bits << 8);
+                registerValue = (reg_G2S_DB_WINOUT & ~REG_G2S_DB_WINOUT_OBJWININ_MASK) | (bits << 8);
                 if (extraBitFlag != 0) {
                     registerValue |= 0x2000;
                 }
                 reg_G2S_DB_WINOUT = registerValue;
             } else {
-                registerValue = (reg_G2_WINOUT & 0xffffc0ff) | (bits << 8);
+                registerValue = (reg_G2_WINOUT & ~REG_G2_WINOUT_OBJWININ_MASK) | (bits << 8);
                 if (extraBitFlag != 0) {
                     registerValue |= 0x2000;
                 }

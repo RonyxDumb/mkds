@@ -155,17 +155,17 @@ void WriteGhostGetScanRegisters(void) {
             reg_GX_DISPCNT =
                 (reg_GX_DISPCNT & ~(REG_GX_DISPCNT_OW_MASK | REG_GX_DISPCNT_W1_MASK | REG_GX_DISPCNT_W0_MASK)) |
                 REG_GX_DISPCNT_W0_MASK;
-            mainWinInBits = (reg_G2_WININ & ~0x3f) | 0x1f;
+            mainWinInBits = (reg_G2_WININ & ~REG_G2_WININ_WIN0IN_MASK) | 0x1f;
             reg_G2_WININ = mainWinInBits | 0x20;
-            reg_G2_WINOUT = (u32) ((reg_G2_WINOUT & ~0x3f) | 0xe) | 0x20;
+            reg_G2_WINOUT = (u32) ((reg_G2_WINOUT & ~REG_G2_WINOUT_WINOUT_MASK) | 0xe) | 0x20;
             reg_G2_WIN0H = 0xff;
             reg_G2_WIN0V = ((negatedOffset << 8) & 0xff00) | 0xc0;
             reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~(REG_GXS_DB_DISPCNT_OW_MASK | REG_GXS_DB_DISPCNT_W1_MASK |
                                                          REG_GXS_DB_DISPCNT_W0_MASK)) |
                                  REG_GXS_DB_DISPCNT_W0_MASK;
-            subWinInBits = (reg_G2S_DB_WININ & ~0x3f) | 0x1f;
+            subWinInBits = (reg_G2S_DB_WININ & ~REG_G2S_DB_WININ_WIN0IN_MASK) | 0x1f;
             reg_G2S_DB_WININ = subWinInBits | 0x20;
-            subWinOutBits = (reg_G2S_DB_WINOUT & ~0x3f) | 7;
+            subWinOutBits = (reg_G2S_DB_WINOUT & ~REG_G2S_DB_WINOUT_WINOUT_MASK) | 7;
             reg_G2S_DB_WINOUT = subWinOutBits | 0x20;
             reg_G2S_DB_WIN0H = 0xff;
             reg_G2S_DB_WIN0V = (offset + 0xc0) & 0xff;

@@ -648,9 +648,9 @@ void WritePlayerEntryListRegisters(void) {
         reg_GX_DISPCNT =
             (reg_GX_DISPCNT & ~(REG_GX_DISPCNT_OW_MASK | REG_GX_DISPCNT_W1_MASK | REG_GX_DISPCNT_W0_MASK)) |
             (REG_GX_DISPCNT_W1_MASK | REG_GX_DISPCNT_W0_MASK);
-        reg_G2_WININ = (u32) ((reg_G2_WININ & ~0x3f) | 0x1d) | 0x20;
-        reg_G2_WININ = (u32) ((reg_G2_WININ & 0xffffc0ff) | 0x1e00) | 0x2000;
-        reg_G2_WINOUT = (u32) ((reg_G2_WINOUT & ~0x3f) | 0x1c) | 0x20;
+        reg_G2_WININ = (u32) ((reg_G2_WININ & ~REG_G2_WININ_WIN0IN_MASK) | 0x1d) | 0x20;
+        reg_G2_WININ = (u32) ((reg_G2_WININ & ~REG_G2_WININ_WIN1IN_MASK) | 0x1e00) | 0x2000;
+        reg_G2_WINOUT = (u32) ((reg_G2_WINOUT & ~REG_G2_WINOUT_WINOUT_MASK) | 0x1c) | 0x20;
         reg_G2_WIN0H = 0x80;
         reg_G2_WIN0V = 0xc0;
         reg_G2_WIN1H = 0x8000;

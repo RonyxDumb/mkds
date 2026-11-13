@@ -511,8 +511,8 @@ void WriteWiFiVSCourseSelectRegisters(void) {
         reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT &
                               ~(REG_GXS_DB_DISPCNT_OW_MASK | REG_GXS_DB_DISPCNT_W1_MASK | REG_GXS_DB_DISPCNT_W0_MASK)) |
                              REG_GXS_DB_DISPCNT_W0_MASK;
-        reg_G2S_DB_WININ = (u32) ((reg_G2S_DB_WININ & ~0x3f) | 0x1f) | 0x20;
-        reg_G2S_DB_WINOUT = (u32) ((reg_G2S_DB_WINOUT & ~0x3f) | 7) | 0x20;
+        reg_G2S_DB_WININ = (u32) ((reg_G2S_DB_WININ & ~REG_G2S_DB_WININ_WIN0IN_MASK) | 0x1f) | 0x20;
+        reg_G2S_DB_WINOUT = (u32) ((reg_G2S_DB_WINOUT & ~REG_G2S_DB_WINOUT_WINOUT_MASK) | 7) | 0x20;
         window0V = gWiFiVSCourseSelect->mSubOffsetY + 0xc0;
         reg_G2S_DB_WIN0H = 0xff;
         reg_G2S_DB_WIN0V = window0V & 0xff;

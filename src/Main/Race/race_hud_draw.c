@@ -680,11 +680,11 @@ void SetupRaceHudScreens(void) {
     reg_G2_WININ = (u32) ((value & ~0x3f) | 0x1f) | 0x20;
     reg_G2_WIN0H = 0xff;
     reg_G2_WIN0V = 0x60c0;
-    reg_G2_WININ = (u32) ((reg_G2_WININ & ~0x3f00) | 0x1f00) | 0x2000;
+    reg_G2_WININ = (u32) ((reg_G2_WININ & ~REG_G2_WININ_WIN1IN_MASK) | 0x1f00) | 0x2000;
     reg_G2_WIN1H = 0x40ff;
     reg_G2_WIN1V = 0x60;
-    reg_G2_WINOUT = (u32) ((reg_G2_WINOUT & ~0x3f00) | 0x1200) | 0x2000;
-    reg_G2_WINOUT = (u32) ((reg_G2_WINOUT & ~0x3f) | 0xf) | 0x20;
+    reg_G2_WINOUT = (u32) ((reg_G2_WINOUT & ~REG_G2_WINOUT_OBJWININ_MASK) | 0x1200) | 0x2000;
+    reg_G2_WINOUT = (u32) ((reg_G2_WINOUT & ~REG_G2_WINOUT_WINOUT_MASK) | 0xf) | 0x20;
     reg_GXS_DB_DISPCNT &= ~(REG_GXS_DB_DISPCNT_OW_MASK | REG_GXS_DB_DISPCNT_W1_MASK | REG_GXS_DB_DISPCNT_W0_MASK);
     GXS_SetGraphicsMode(GX_BGMODE_5);
     GXS_LoadOBJPltt(GetRaceNclrNcgr(RACE_NCER_PAIR_RACE_S)->mNclr->mData, 0,
