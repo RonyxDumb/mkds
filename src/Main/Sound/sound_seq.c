@@ -483,7 +483,7 @@ void InitSceneSounds(s32 unused) {
     SoundRow buf;
     ScenePlayersSeqInfo scenePlayersSeqInfo;
 
-    if (gBootInfo->mBootType == 2 && GetCurrentSceneNumber() == 6) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT && GetCurrentSceneNumber() == 6) {
         return;
     }
     ClearSurfaceSoundIds();
@@ -786,7 +786,7 @@ void InitSceneSounds(s32 unused) {
             }
             { break; }
         case 1:
-            if (gBootInfo->mBootType != 2) {
+            if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
                 savedHeap = gCurrentSndHeap;
                 if (gLoadedSoundBanks.mLoadMarker == 0xff00 || gLoadedSoundBanks.mBankMask != 0xffff) {
                     NNS_SndHeapClear(gSndHeap);
@@ -832,16 +832,16 @@ void InitSceneSounds(s32 unused) {
     InitKartSoundQueue();
     ResetSoundRequestQueues();
     ResetSeqPlayerControl();
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         LoadSceneSoundSet(buf, 0);
     }
     if (currentSceneNumber != 1) {
         return;
     }
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         NNS_SndArcLoadBank(2, gCurrentSndHeap);
     }
-    if (gBootInfo->mBootType == 2) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         return;
     }
     gSndHeapSavedState[0] = NNS_SndHeapSaveState(gCurrentSndHeap);
@@ -880,7 +880,7 @@ void StartSceneSounds(void) {
     NNSSndSeqPlayer **seqHandle;
     s32 playerId2;
 
-    if (gBootInfo->mBootType == 2) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         if (GetCurrentSceneNumber() == 6) {
             return;
         }
@@ -1472,7 +1472,7 @@ void UpdateSceneSoundState(void) {
             NNS_SndPlayerStopSeq(&gScenePlayers.mSeqPlayer, 0x1b);
         }
     } else if (GetCurrentSceneNumber() == 1 || GetCurrentSceneNumber() == 0xc) {
-        if (gBootInfo->mBootType != 2) {
+        if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
             UpdateSeqQueue();
         }
     } else if (GetCurrentSceneNumber() == 3) {
@@ -1491,7 +1491,7 @@ void StopSceneSounds(void) {
     s32 poolIndex;
     u8 *playerCursor;
 
-    if (gBootInfo->mBootType == 2 && GetCurrentSceneNumber() == 6) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT && GetCurrentSceneNumber() == 6) {
         return;
     }
     gPlayerVolumeFade.mTargetVolumeBeforeRaceStart = 0;
@@ -1518,7 +1518,7 @@ void StopSceneSoundsAtOnce(void) {
     u8 *playerCursor;
     SoundHandlePool *playerTable;
 
-    if (gBootInfo->mBootType == 2 && GetCurrentSceneNumber() == 6) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT && GetCurrentSceneNumber() == 6) {
         return;
     }
     gPlayerVolumeFade.mTargetVolumeBeforeRaceStart = 0;

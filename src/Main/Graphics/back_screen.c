@@ -43,7 +43,7 @@ char gBackScreenMNclr01Name[] = "back_screen_m_b_01.nclr";
 void LoadTxtSystemAndSelectChoisesAndSelectReturnData(void) {
     LoadedPartPointer loadedPartPointer;
 
-    if (gBootInfo->mBootType == 2) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         LoadNcgrData(&loadedPartPointer.mNcgr, FindSceneFile("txt_system_b_00.ncgr"));
         LoadNscrData(&loadedPartPointer.mNscr, FindSceneFile("txt_system_bg_00.nscr"));
         LoadNclrData(&loadedPartPointer.mNclr, FindSceneFile("txt_system_b_00.nclr"));
@@ -105,7 +105,7 @@ s32 LoadBackScreen(s32 subCharOffset) {
     nclrMSize = (0xe - gBackScreenMNclrStarts[indexM]) << 5;
     nclrSOffset = gBackScreenSNclrStarts[indexS] << 5;
     nclrSSize = (0xc - gBackScreenSNclrStarts[indexS]) << 5;
-    if (gBootInfo->mBootType == 2) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         LocateNcgr(&ncgrM, FindSceneFile("common/select_race_rule_s_b.NCGR"));
         LoadNscrData(&nscrM, FindSceneFile("common/select_race_rule_download_bg_m.NSCR"));
         LocateNclr(&nclrM, FindSceneFile("common/select_race_rule_s_b.NCLR"));

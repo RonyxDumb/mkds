@@ -124,7 +124,7 @@ void InitRunScenesKind(void) {
     heap = GetHeap(GetCurrentHeapCall());
     switch (gRunScenesState->mKind) {
         case 0:
-            if (gBootInfo->mBootType == 2) {
+            if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
                 sndHeapsKind = 2;
             } else {
                 sndHeapsKind = 0;
@@ -190,7 +190,7 @@ void RunDWCUtility(void) {
     if (gBackupAccess->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
-    if (gBootInfo->mBootType != 2 && gRunScenesState->mSndHeapsBuffer != NULL) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT && gRunScenesState->mSndHeapsBuffer != NULL) {
         ReleaseSndHeaps();
         HeapFree(heap, gRunScenesState->mSndHeapsBuffer);
         gRunScenesState->mSndHeapsBuffer = NULL;
@@ -248,7 +248,7 @@ s32 RunScenes(s16 *sceneNumber) {
         }
     }
     heap = GetHeap(GetCurrentHeapCall());
-    if (gBootInfo->mBootType != 2 && gRunScenesState->mSndHeapsBuffer != NULL) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT && gRunScenesState->mSndHeapsBuffer != NULL) {
         ReleaseSndHeaps();
         HeapFree(heap, gRunScenesState->mSndHeapsBuffer);
         gRunScenesState->mSndHeapsBuffer = NULL;
@@ -268,7 +268,7 @@ void RunScenesForever(void) {
     HeapCall heapCall;
     gRunScenesState->mSceneNumber = 9;
     gRunScenesState->mKind = 0;
-    if (gBootInfo->mBootType == 2) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         gStartupWork->mConnectionKind = 2;
         gMenuShared->mWLMenuKind = 0;
         gRunScenesState->mSceneNumber = 6;

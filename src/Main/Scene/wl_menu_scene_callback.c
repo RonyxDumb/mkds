@@ -102,7 +102,7 @@ void FillStartupWork(void) {
     gStartupWork->mUnk_1c_3 = 0;
     gStartupWork->mUnk_54 = FALSE;
     gStartupWork->mDemoEndedByInput = 0;
-    if (gBootInfo->mBootType == 2) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         gStartupWork->mMultiSimple = 1;
     } else {
         gStartupWork->mMultiSimple = 0;

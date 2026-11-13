@@ -80,7 +80,7 @@ void SetSelectGameRowCellsVisible(s32 visible) {
     s32 rowIndex;
     CellFileSet *subFileSet;
 
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         subFileSet = &gSelectGame->mCellFileSets[1];
         for (rowIndex = 0; rowIndex < gSelectGame->mTableCount; rowIndex++) {
             subFileSet->mCellTable[gSelectGame->mTable[rowIndex].mCellIndex].mVisible = visible;
@@ -105,7 +105,7 @@ void SetSelectGameCellTableOffsets(void) {
     s32 count;
     SelectGame *selectGame;
 
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         selectGame = gSelectGame;
         mainCellCount = selectGame->mCellFileSets[0].mCellLayout->mCount;
         count = selectGame->mCellFileSets[0].mLabelLayout->mCount;
@@ -170,7 +170,7 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
     gSelectGame->mSubOam = subOam;
     gSelectGame->mSubOffsetX = 0xee;
     gSelectGame->mMainOffsetY = -0xc0;
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         gSelectGame->mMenuMessages = FindSceneFile("menu.bmg");
     }
     switch (gSelectGame->mMode) {
@@ -186,12 +186,12 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
             RefreshParticipantTables();
             break;
     }
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         LocateAndQueueScreenMapFileSet(0, screenMapFileSet, "common/select_game_m_b.NCGR",
                                        "common/select_game_m_b.NCLR", gSelectGameFileNames[gSelectGame->mMode].mUnk_08,
                                        1, FindSceneFile);
     }
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         mainObjSizeLeft = GX_GetSizeOfOBJ();
         selectGame = gSelectGame;
         LocateCellFileSet(selectGame, "common/select_game_m.nce.ncgr", "common/select_game_m.nce.ncer",
@@ -234,7 +234,7 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
                       gSelectGameFileNames[gSelectGame->mMode].mUnk_04, FindSceneFile);
     SetupCellFileSet(1, gSelectGame->mHeap, subFileSet);
     SetSelectGameSubCellsVisible(0);
-    if (gBootInfo->mBootType == 2) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         SetSelectReturnSoundId(-1);
     } else {
         SetSelectReturnSoundId(0xe);
@@ -323,7 +323,7 @@ s32 AdvanceSelectGame(void) {
                 } else {
                     firstChoiceText = " ";
                     secondChoiceText = " ";
-                    if (gBootInfo->mBootType != 2) {
+                    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
                         firstChoiceText = GetBmgEntry(gSelectGame->mMenuMessages, 0x14);
                         secondChoiceText = GetBmgEntry(gSelectGame->mMenuMessages, 0x16);
                     }
@@ -411,7 +411,7 @@ s32 AdvanceSelectGame(void) {
             break;
     }
     if (gSelectGame->mState != 10) {
-        if (gBootInfo->mBootType != 2) {
+        if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
             DrawLayoutTable(selectGame->mCellFileSets[0].mCellLayout, selectGame->mCellFileSets[0].mCells,
                             selectGame->mCellFileSets[0].mLabelLayout, gSelectGame->mMainOam,
                             selectGame->mCellFileSets[0].mCellTable);
@@ -469,7 +469,7 @@ void LoadSelectGameData(void) {
     NNSG2dCellDataBank *cells;
     Nscr *screenMap;
 
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         LoadNcgrData(&chars, FindSceneFile("common/select_game_m_b.NCGR"));
         LoadNcgrData2(&chars, FindSceneFile("common/select_game_m.nce.ncgr"));
         LoadNcerData(&cells, FindSceneFile("common/select_game_m.nce.ncer"));

@@ -89,7 +89,7 @@ void AdvanceSelectCupCourseIndexChange(void) {
         if (gSelectCupCourse->mIndexChangeTimer == 7) {
             gSelectCupCourse->mShownIndex = gSelectCupCourse->mIndex;
             RefreshSelectCupCourseForIndex();
-        } else if (gBootInfo->mBootType != 2) {
+        } else if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
             taOrVsCellCount = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->mCount;
             offsetY = LookupIndexChangeOffset(7 - gSelectCupCourse->mIndexChangeTimer, 1);
             gSelectCupCourse->mSelectCupCourseTaOrVsMTable[taOrVsCellCount].mOffsetY = offsetY;
@@ -109,7 +109,7 @@ void RequestSelectCupCourseState0(void) {
 
     gSelectCupCourse->mNextState = 0;
     gSelectCupCourse->mStateFrames = 0;
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         if (GetPreviousMenuScreenNumber() != SCREEN_SELECT_GHOST) {
             taOrVsCellCount = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->mCount;
             gSelectCupCourse->mBg0Offset = -0xc0;
@@ -172,7 +172,7 @@ void RequestSelectCupCourseState3(void) {
 void RequestSelectCupCourseState4(void) {
     gSelectCupCourse->mNextState = 4;
     gSelectCupCourse->mStateFrames = 0;
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
     }
 }
@@ -194,7 +194,7 @@ void RequestSelectCupCourseState5(void) {
         case 2:
             StartSelectChoises(GetBmgEntry(selectCupCourse->mCommonMessages, 4),
                                GetBmgEntry(selectCupCourse->mCommonMessages, 2), 0);
-            if (gBootInfo->mBootType == 2) {
+            if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
                 FormatMessageWithText(
                     GetBmgEntry(gSelectCupCourse->mGhostMessages,
                                 gCupCourseGhostMessageIndices[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex]),
@@ -231,7 +231,7 @@ void RequestSelectCupCourseState7(void) {
             break;
         case 2:
             RequestSelectChoisesState0();
-            if (gBootInfo->mBootType == 2) {
+            if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
                 RequestTxtSystemClose();
             }
             break;
@@ -277,7 +277,7 @@ void InitSelectCupCourse(void *parentHeap, void *mainOam, void *subOam, s32 mode
     gSelectCupCourse->mResult = 0;
     LocateAndQueueSelectCupCourse();
     gSelectCupCourse->mCommonMessages = FindFileInLoadedArchives("common.bmg");
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         InitLayoutTable(gSelectCupCourse->mHeap, gSelectCupCourse->mSelectCupCourseTaOrVsMBncl,
                         gSelectCupCourse->mSelectCupCourseTaOrVsMBnll, &gSelectCupCourse->mSelectCupCourseTaOrVsMTable);
         InitLayoutTable(gSelectCupCourse->mHeap, gSelectCupCourse->mSelectCupMBncl, gSelectCupCourse->mSelectCupMBnll,
@@ -337,7 +337,7 @@ void ReleaseSelectCupCourse(void) {
             reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | 0x1800;
         }
     }
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         ClearSelectCupNameMPointer();
         ClearCupMarkPointer();
     } else {
@@ -367,7 +367,7 @@ void AdvanceSelectCupCourseState1(void) {
     s32 cellIndex;
 
     gSelectCupCourse->mStateFrames++;
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         InterpolateS16(1, 0x100, 0, gSelectCupCourse->mStateFrames, 10);
         offsetY = InterpolateS16(1, -0xc0, 0, gSelectCupCourse->mStateFrames, 10);
         if (GetPreviousMenuScreenNumber() != SCREEN_SELECT_GHOST) {

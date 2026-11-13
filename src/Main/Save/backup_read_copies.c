@@ -107,7 +107,7 @@ void ClearBackupAccessStatus(void) {
 
 void CreateBackupAccess(void *heap) {
     gBackupAccess = HeapAlloc(heap, 0x70);
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         gBackupAccess->mBuffer = HeapAllocAligned(heap, 0x2c00, 0x20);
         gBackupAccess->mOneByteReadBuffer = HeapAllocAligned(heap, 1, 0x20);
     }
@@ -115,7 +115,7 @@ void CreateBackupAccess(void *heap) {
 }
 
 void InitBackupAccess(void) {
-    if (gBootInfo->mBootType == 2 || OS_IsRunOnEmulator() != 0) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT || OS_IsRunOnEmulator() != 0) {
         gBackupAccess->mBackupEnabled = 0;
         return;
     }

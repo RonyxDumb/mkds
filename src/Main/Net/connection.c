@@ -278,7 +278,7 @@ void StopConnection(void) {
         if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
             allowed = TRUE;
             role = gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode;
-            if (role != 1 && gBootInfo->mBootType != 2) {
+            if (role != 1 && gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
                 allowed = FALSE;
             }
             if (allowed != FALSE) {
@@ -468,7 +468,7 @@ void StartRomArchiveTransfer(void) {
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
         flag = TRUE;
         role = gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode;
-        if (role != 1 && gBootInfo->mBootType != 2) {
+        if (role != 1 && gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
             flag = FALSE;
         }
         if (flag != FALSE) {
@@ -505,7 +505,7 @@ void StartRomArchiveSend(void) {
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
         allowed = TRUE;
         role = gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode;
-        if (role != 1 && gBootInfo->mBootType != 2) {
+        if (role != 1 && gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
             allowed = FALSE;
         }
         if (allowed != FALSE) {
@@ -531,7 +531,7 @@ void StopRomArchiveTransfer(void) {
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
         flag = TRUE;
         role = gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode;
-        if (role != 1 && gBootInfo->mBootType != 2) {
+        if (role != 1 && gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
             flag = FALSE;
         }
         if (flag != FALSE) {

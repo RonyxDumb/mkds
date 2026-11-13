@@ -125,7 +125,7 @@ void FillPlayerRecord(PlayerRecord *a) {
     a->mLanguageIndex = gStartupWork->mLanguageIndex;
     a->mElo = gBackupBuffers->mFirstBlock->mElo;
     a->mLowestGrandPrixRecordValue = GetLowestGrandPrixRecordValue();
-    if (gBootInfo->mBootType == 2) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         MI_CpuFill8(&a->mFriendData, 0, 0xc);
     } else {
         DWC_CreateExchangeToken(&gBackupBuffers->mFirstBlock->mUserData, &a->mFriendData);

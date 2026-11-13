@@ -200,7 +200,7 @@ void FS_StartOverlay(FSOverlayInfo *info) {
     void (**initEnd)(void);
 
     size = FSi_GetOverlayBinarySize(info);
-    if (SYSTEM_WORK->mWmBootBuf.mBootType == 2) {
+    if (SYSTEM_WORK->mWmBootBuf.mBootType == BOOT_TYPE_MULTIBOOT) {
         verified = 0;
         if (info->mUnk_1c.b[3] & 2) {
             if (info->mId < ((u8 *) &arc_list - (u8 *) OverlaySignatures) / 20) {
@@ -398,7 +398,7 @@ void FSi_InitRom(u32 dmaNo) {
     CARD_Init();
     FS_InitArchive(&fsi_arc_rom);
     FS_RegisterArchiveName(&fsi_arc_rom, gRomArchiveLabel, 3);
-    if (SYSTEM_WORK->mWmBootBuf.mBootType == 2) {
+    if (SYSTEM_WORK->mWmBootBuf.mBootType == BOOT_TYPE_MULTIBOOT) {
         fsi_ovt9.mOffset = (u8 *) -1;
         fsi_ovt9.mLength = 0;
         fsi_ovt7.mOffset = (u8 *) -1;

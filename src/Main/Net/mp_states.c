@@ -136,7 +136,7 @@ void UpdateMPState1(void) {
         } else {
             connectionMode = connectionWork->mConnectionMode;
         }
-        if (connectionMode != 1 && gBootInfo->mBootType != 2) {
+        if (connectionMode != 1 && gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
             isModeAllowed = FALSE;
         }
         if (isModeAllowed != FALSE) {
@@ -156,14 +156,14 @@ void UpdateMPState1(void) {
 }
 
 void EnterMPState2(void) {
-    if (gBootInfo->mBootType == 2) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         StartLoadOverlay(2);
     }
 }
 
 void UpdateMPState2(void) {
     if (TryFinishOverlayLoad() != 0) {
-        if (gBootInfo->mBootType == 2) {
+        if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
             CreateOverlayFrmHeap();
             InitArchiveBuffersOnOverlayHeap();
         }
@@ -396,7 +396,7 @@ void EnterMPState10(void) {
 
     WM_SetPortCallback(14, NULL, NULL);
     gConnectionWork->mLanguageIndex = gConnectionWork->mPlayerRecords[0].mLanguageIndex;
-    if (gBootInfo->mBootType == 2) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         gStartupWork->mLanguageIndex = gConnectionWork->mLanguageIndex;
     }
     for (slot = 1; slot < 8; slot++) {

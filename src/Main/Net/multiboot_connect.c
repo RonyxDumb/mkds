@@ -33,12 +33,12 @@ void AllocConnectionBuffers(void *heap, u32 unused, void *bmg) {
     u32 workSize;
     gConnectionWork->mAllocHeap = heap;
     workSize = GetScanConnectWorkSize();
-    if (gBootInfo->mBootType != 2 && workSize < 0xc000) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT && workSize < 0xc000) {
         workSize = 0xc000;
     }
     gConnectionWork->mMultiBootWorkSize = workSize;
     gConnectionWork->mMultiBootWork = HeapAllocAligned(heap, gConnectionWork->mMultiBootWorkSize, 0x20);
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         gConnectionWork->mMultiBootSegmentSize = MB_GetSegmentLength(NULL);
         if (gConnectionWork->mMultiBootSegmentSize > 0x80000) {
             gConnectionWork->mMultiBootSegmentSize = 0x80000;
@@ -313,7 +313,7 @@ s32 AdvanceMultiBootParentSetup(void) {
 s32 AdvanceMultiBootScanSetup(void) {
     BOOL stepDone = FALSE;
     BOOL result = FALSE;
-    if (gBootInfo->mBootType == 2) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         switch (gConnectionWork->mStep) {
             case 0:
                 gConnectionWork->mFlags |= CONNECTION_FLAG_MULTIBOOT_SETUP;

@@ -261,7 +261,7 @@ u32 GetSceneSoundRowIndex(s32 sceneNumber, SoundRow *output) {
             rowIndex = 0x33;
             break;
         case 6:
-            if (gBootInfo->mBootType == 2) {
+            if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
                 rowIndex = 0x33;
             } else {
                 rowIndex = 0x2e;

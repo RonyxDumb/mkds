@@ -77,7 +77,7 @@ void AdvanceSelectCupCourseState3(void) {
          IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[inputIndex].mPair.mPairX,
                                                          gInputSlots[inputIndex].mPair.mPairY) != FALSE)) {
         if (IsSelectCupCourseIndexChangeRunning() == 0) {
-            if (gBootInfo->mBootType == 2) {
+            if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
                 SetSelectReturnSoundId(-1);
             } else {
                 SetSelectReturnSoundId(0xe);
@@ -111,7 +111,7 @@ void AdvanceSelectCupCourseState3(void) {
         if (gSelectCupCourse->mIndex < 0) {
             gSelectCupCourse->mIndex = 3;
         }
-        if (gBootInfo->mBootType != 2) {
+        if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
         }
         return;
@@ -121,7 +121,7 @@ void AdvanceSelectCupCourseState3(void) {
         if (gSelectCupCourse->mIndex >= 4) {
             gSelectCupCourse->mIndex = 0;
         }
-        if (gBootInfo->mBootType != 2) {
+        if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
         }
     }
@@ -177,7 +177,7 @@ void AdvanceSelectCupCourseState6(void) {
 
     if (GetSelectChoisesDone() != 0) {
         RequestSelectCupCourseState7();
-        if (gBootInfo->mBootType == 2) {
+        if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
             choiceIndex = GetSelectChoisesIndex();
             switch (choiceIndex) {
                 case 0:
@@ -224,7 +224,7 @@ void AdvanceSelectCupCourseState7(void) {
                             SetCourseIdFromSelectCupCourse();
                             gSelectCupCourse->mResult = 1;
                             RequestSelectCupCourseState8();
-                            if (gBootInfo->mBootType == 2) {
+                            if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
                                 SlideOutSelectRaceRuleWait();
                             }
                             break;
@@ -246,7 +246,7 @@ void AdvanceSelectCupCourseState8(void) {
     s32 cellIndex;
 
     gSelectCupCourse->mStateFrames++;
-    if (gBootInfo->mBootType == 2) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         return;
     }
     if (gSelectCupCourse->mMode == 0) {
@@ -334,7 +334,7 @@ s32 AdvanceSelectCupCourse(void) {
             break;
     }
     AdvanceSelectCupCourseHighlight();
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         if (gSelectCupCourse->mCupPicturePending != FALSE && IsCupPictureReady() != FALSE) {
             screenMap = GetCupPictureNscrData();
             NNS_GfdRegisterNewVramTransferTask(0x1f, 0, GetCupPictureNclrData(), 0xe0);
@@ -376,7 +376,7 @@ void LoadSelectCupGridData(void) {
     Nscr *selectCupMScreenMap = NULL;
     Nclr *selectCupMBPalette = NULL;
 
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         LoadNcgrData(&selectCupMBChars, FindSceneFile(gSelectCupGridMBNcgrName));
         LoadNclrData(&selectCupMBPalette, FindSceneFile(gSelectCupGridMBNclrName));
         LoadNscrData(&selectCupMScreenMap, FindSceneFile(gSelectCupGridMNscrName));
@@ -402,7 +402,7 @@ void LocateAndQueueSelectCupGrid(void) {
     Nclr *selectCupMBPalette = NULL;
     u16 *paletteData;
 
-    if (gBootInfo->mBootType == 2) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         gSelectCupGrid->mSelectCupSBnbl = FindSceneFile(gSelectCupGridSBnblName);
         return;
     }

@@ -9,6 +9,8 @@
 
 typedef u32 OSIntrMode;
 
+#define BOOT_TYPE_MULTIBOOT 2
+
 // The boot information block in shared memory: the first halfword, then 0x3e bytes the game copies.
 typedef struct BootInfo {
     /* 00 */ u16 mBootType;

@@ -71,7 +71,7 @@ s32 AdvanceNonMultiBootConnect(s32 entryIndex) {
         case 2:
         case 10:
             if (gConnectionWork->mOwnIndex == 0xffff) {
-                if (gBootInfo->mBootType == 2) {
+                if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
                     SetRequestErrorCode(5);
                     return 3;
                 }

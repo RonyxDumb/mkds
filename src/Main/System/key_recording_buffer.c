@@ -14,7 +14,7 @@
 u32 SetMultiSimple(u32 flag) {
     u32 value0 = flag;
     u32 value1;
-    if (gBootInfo->mBootType == 2) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         return value0;
     }
     value0 = (value0) & (1u);

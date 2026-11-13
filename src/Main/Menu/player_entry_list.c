@@ -160,7 +160,7 @@ void AdvancePlayerEntryListOffsets(void) {
     s32 onesCell;
     s32 value;
     s16 offsetX;
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         AdvanceInterpolation(&gPlayerEntryList->mInterpolations[0]);
         fileSet->mCellTable[25].mOffsetY = GetInterpolatedValue(&gPlayerEntryList->mInterpolations[0]);
         AdvanceInterpolation(&gPlayerEntryList->mInterpolations[3]);
@@ -235,7 +235,7 @@ void InitPlayerEntryList(void *parentHeap, void *mainOam) {
     MemFillWordsByBlock_inline(gPlayerEntryList, 0x258);
     gPlayerEntryList->mHeap = heap;
     gPlayerEntryList->mMainOam = mainOam;
-    if (gBootInfo->mBootType == 2) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         gEntryCellIndices = gDownloadEntryCellIndices;
         gEntryLabelTextRows = gDownloadEntryLabelTextRows;
         gCharacterCellIndices = gDownloadCharacterCellIndices;
@@ -248,7 +248,7 @@ void InitPlayerEntryList(void *parentHeap, void *mainOam) {
     }
     objSizeLeft = GX_GetSizeOfOBJ();
     fileSet = &gPlayerEntryList->mParts;
-    if (gBootInfo->mBootType == 2) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         LocateCellFileSet(fileSet, "mb/select_menu_etc_download_m.nce.ncgr", "mb/select_menu_etc_download_m.nce.ncer", "mb/select_menu_etc_download_m_o.NCLR",
                           "mb/select_menu_etc_download_m.bncl", "mb/select_menu_etc_download_m.bnll", NULL, FindSceneFile);
     } else {
@@ -269,7 +269,7 @@ void InitPlayerEntryList(void *parentHeap, void *mainOam) {
     SetupInterpolation(&gPlayerEntryList->mInterpolations[0], 0, 10, -0x40, 0);
     SetupInterpolation(&gPlayerEntryList->mInterpolations[2], 3, 10, 0x60, 0);
     SetupInterpolation(&gPlayerEntryList->mInterpolations[3], 3, 10, 0x40, 0);
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         LocateCellFileSet(&gPlayerEntryList->mTitleParts, "select_menu_etc_title_m.nce.ncgr", "select_menu_etc_title_m.nce.ncer", NULL,
                           "select_menu_etc_title_m.bncl", NULL, NULL, FindFileInLoadedArchives);
     }
@@ -377,7 +377,7 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
         }
         reg_G2_BG0CNT = (reg_G2_BG0CNT & 0x43) | 0xd08;
         reg_G2_BG1CNT = (reg_G2_BG1CNT & 0x43) | 0xc00;
-        if (gBootInfo->mBootType == 2) {
+        if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
             LocateAndQueueScreenMapFileSet(0, screenMapFileSet, "mb/select_menu_etc_download_m_b.NCGR", "mb/select_menu_etc_download_m_b.NCLR", "mb/select_menu_etc_download_m_bg_00.NSCR",
                                            0, FindSceneFile);
             LocateAndQueueScreenMapFileSet(0, screenMapFileSet, "mb/select_menu_etc_download_m_b.NCGR", "mb/select_menu_etc_download_m_b.NCLR", "mb/select_menu_etc_download_m_bg_01.NSCR",
@@ -403,7 +403,7 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
                                        gPlayerEntryList->mParts.mChars->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0xe, 0, fileSet->mPalette->mData, 0x1a0);
     NNS_GfdRegisterNewVramTransferTask(0xe, 0x1c0, (u8 *) fileSet->mPalette->mData + 0x1c0, 0x40);
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         QueueCellChars(gTitleCellIndices[gPlayerEntryList->mScreenKind], titleFileSet->mCells, titleFileSet->mChars,
                        titleFileSet->mCellLayout, 0, 0x19, fileSet->mCells, fileSet->mCellLayout);
         SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[0], 0);
@@ -648,7 +648,7 @@ void LoadPlayerEntryListFiles(void) {
     NNSG2dCellDataBank *cells;
     Nscr *screenMap;
 
-    if (gBootInfo->mBootType == 2) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         LoadNcgrData(&chars, FindSceneFile("mb/select_menu_etc_download_m_b.NCGR"));
         LoadNcgrData2(&chars, FindSceneFile("mb/select_menu_etc_download_m.nce.ncgr"));
         LoadNcerData(&cells, FindSceneFile("mb/select_menu_etc_download_m.nce.ncer"));

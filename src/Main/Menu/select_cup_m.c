@@ -76,7 +76,7 @@ void LocateAndQueueSelectCupM(void) {
     secondBgChars = NULL;
     secondBgScreenMap = NULL;
     secondBgPalette = NULL;
-    if (gBootInfo->mBootType == 2) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         return;
     }
     LocateNcgr(&firstBgChars, FindSceneFile(gSelectCupMBNcgrName3));
@@ -126,7 +126,7 @@ void InitSelectCupMCellsAndRequestCupPicture(void) {
     s32 nextCourseIndex;
     s32 firstCellIndex;
 
-    if (gBootInfo->mBootType == 2) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         return;
     }
     mainCellCount = gSelectCupM->mMainBncl->mCount;
@@ -188,7 +188,7 @@ void StartSelectCupMState0(void) {
 
     gSelectCupM->mNextState = 0;
     gSelectCupM->mStateFrames = 0;
-    if (gBootInfo->mBootType == 2) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         return;
     }
     mainCellCount = gSelectCupM->mMainBncl->mCount;
@@ -228,7 +228,7 @@ void StartSelectCupMState1(void) {
 
     gSelectCupM->mNextState = 1;
     gSelectCupM->mStateFrames = 0;
-    if (gBootInfo->mBootType == 2) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         return;
     }
     mainCellCount = gSelectCupM->mMainBncl->mCount;
@@ -284,7 +284,7 @@ void InitSelectCupM(void *parentHeap, void *mainOamList, void *subOamList) {
     }
     LocateAndQueueSelectCupM();
     gSelectCupM->mCommonMessages = FindFileInLoadedArchives("common.bmg");
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         InitLayoutTable(gSelectCupM->mHeap, gSelectCupM->mMainBncl, gSelectCupM->mMainBnll, &gSelectCupM->mMainTable);
         InitLayoutTable(gSelectCupM->mHeap, gSelectCupM->mSubBncl, gSelectCupM->mSubBnll, &gSelectCupM->mSubTable);
         remainingSize = 0x8000;
@@ -316,7 +316,7 @@ void InitSelectCupM(void *parentHeap, void *mainOamList, void *subOamList) {
 }
 
 void ReleaseSelectCupM(void) {
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         ClearSelectCupNameMPointer();
     } else {
         ClearSelectRaceRuleWaitPointer();
@@ -333,7 +333,7 @@ void AdvanceSelectCupMState0(void) {
     u16 subCellCount;
 
     gSelectCupM->mStateFrames++;
-    if (gBootInfo->mBootType == 2) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         return;
     }
     mainOffset = InterpolateS16(1, 0, 0xc0, gSelectCupM->mStateFrames, 0xa);
@@ -376,7 +376,7 @@ void AdvanceSelectCupMState1(void) {
     u16 subCellCount;
 
     gSelectCupM->mStateFrames++;
-    if (gBootInfo->mBootType == 2) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         return;
     }
     mainOffset = InterpolateS16(1, 0xc0, 0, gSelectCupM->mStateFrames, 0xa);
@@ -427,7 +427,7 @@ s32 AdvanceSelectCupM(void) {
             AdvanceSelectCupMState1();
             break;
     }
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         if (gSelectCupM->mCupPicturePending != FALSE && IsCupPictureReady() != FALSE) {
             cupPictureScreenMap = GetCupPictureNscrData();
             NNS_GfdRegisterNewVramTransferTask(0xf, 0, GetCupPictureNclrData(), 0xe0);

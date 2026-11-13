@@ -113,7 +113,7 @@ void InitSelectCupGridCells(void) {
     const u16 *cellIndices;
     SelectCupGrid *grid;
 
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         mainCellCount = gSelectCupGrid->mSelectCupMBncl->mCount;
         for (index = 0; index < 4; index++) {
             gSelectCupGrid->mSelectCupMTable[gSelectCupGridCourseLabelCells[index]].mVisible = 0;
@@ -146,7 +146,7 @@ void UpdateSelectCupGridCupCells(void) {
     s32 cupIndex;
     BOOL visible;
 
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         visible = FALSE;
         for (cupIndex = 0; cupIndex < 8; cupIndex++) {
             const u16 *cellIndices = gSelectCupGridCupCellIndices[cupIndex];
@@ -174,7 +174,7 @@ void UpdateSelectCupGridCupCells(void) {
 }
 
 void RequestSelectCupGridCupPicture(void) {
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         TrySetCupPictureIndexAndQueueLoads(
             gSelectCupGridCourseIds[gSelectCupGrid->mIndex][gSelectCupGrid->mShownCourseIndex]);
         gSelectCupGrid->mCupPicturePending = TRUE;
@@ -192,7 +192,7 @@ void SetupSelectCupGridIndex(void) {
     u32 engineOrMirrorSlot;
 
     value = 0;
-    if (gBootInfo->mBootType == 2) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         return;
     }
     QueueSelectCupNameM(gSelectCupGrid->mIndex, gSelectCupGrid->mSelectCupMNcer, gSelectCupGrid->mSelectCupMBncl, 0x13,
@@ -279,7 +279,7 @@ void AdvanceSelectCupGridIndexChange(void) {
         if (gSelectCupGrid->mIndexChangeTimer == 7) {
             gSelectCupGrid->mShownIndex = gSelectCupGrid->mIndex;
             SetupSelectCupGridIndex();
-        } else if (gBootInfo->mBootType != 2) {
+        } else if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
             mainCellCount = gSelectCupGrid->mSelectCupMBncl->mCount;
             offsetY = LookupIndexChangeOffset(7 - gSelectCupGrid->mIndexChangeTimer, 1);
             gSelectCupGrid->mBg0Offset = offsetY;
@@ -308,7 +308,7 @@ void AdvanceSelectCupGridIndexChange(void) {
 void UpdateSelectCupGridCourseCells(void) {
     int courseIndex;
 
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         for (courseIndex = 0; courseIndex < 4; courseIndex++) {
             if (gSelectCupGrid->mShownCourseIndex == courseIndex) {
                 gSelectCupGrid->mSelectCupMTable[gSelectCupGridCourseLabelCells[courseIndex]].mVisible = 1;
@@ -351,7 +351,7 @@ void RequestSelectCupGridState0(void) {
 
     gSelectCupGrid->mNextState = SELECT_CUP_GRID_STATE_WAIT_FADE;
     gSelectCupGrid->mStateFrames = 0;
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         mainCellCount = gSelectCupGrid->mSelectCupMBncl->mCount;
         if (GetPreviousMenuScreenNumber() == 0x18 || GetPreviousMenuScreenNumber() == 0xc) {
             offsetY = 0;
@@ -431,7 +431,7 @@ void RequestSelectCupGridState3(void) {
 void RequestSelectCupGridState4(void) {
     gSelectCupGrid->mNextState = SELECT_CUP_GRID_STATE_WAIT_CHOSEN;
     gSelectCupGrid->mStateFrames = 0;
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
     }
 }
@@ -472,7 +472,7 @@ void RequestSelectCupGridState8(void) {
 
     gSelectCupGrid->mNextState = SELECT_CUP_GRID_STATE_WAIT_EXIT_OPEN;
     gSelectCupGrid->mStateFrames = 0;
-    if (gBootInfo->mBootType == 2) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         firstChoiceText = GetBmgEntry(gSelectCupGrid->mCommonMessages, 0x5d);
         StartSelectChoises(firstChoiceText, GetBmgEntry(gSelectCupGrid->mCommonMessages, 0x5f), 0);
     } else {
@@ -537,7 +537,7 @@ void InitSelectCupGrid(void *heap, void *mainOam, void *subOam, s32 mode) {
         ResetOamLists(gSelectCupGrid->mMainOam, gSelectCupGrid->mSubOam);
     }
     gSelectCupGrid->mCommonMessages = FindFileInLoadedArchives("common.bmg");
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         gSelectCupGrid->mMenuMessages = FindSceneFile("menu.bmg");
         InitLayoutTable(gSelectCupGrid->mHeap, gSelectCupGrid->mSelectCupMBncl, gSelectCupGrid->mSelectCupMBnll,
                         &gSelectCupGrid->mSelectCupMTable);
@@ -576,7 +576,7 @@ void ReleaseSelectCupGrid(void) {
         gSelectCupGrid->mResult == 2) {
         reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | 0x1800;
     }
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         ClearSelectCupNameMPointer();
         ClearCupMarkPointer();
         ClearTrophyIconPointer();
@@ -612,7 +612,7 @@ void AdvanceSelectCupGridState1(void) {
     int cellIndex;
 
     gSelectCupGrid->mStateFrames = gSelectCupGrid->mStateFrames + 1;
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         mainCellCount = gSelectCupGrid->mSelectCupMBncl->mCount;
         offsetX = InterpolateS16(1, 0xe0, 0, gSelectCupGrid->mStateFrames, SELECT_CUP_GRID_SLIDE_STEPS);
         offsetY = InterpolateS16(1, -192, 0, gSelectCupGrid->mStateFrames, SELECT_CUP_GRID_SLIDE_STEPS);
@@ -738,7 +738,7 @@ L1:
         case SELECT_CUP_GRID_MODE_MULTI_OTHER:
             if (gMenuShared->mMenuEntryKind == 2 || gMenuShared->mMenuEntryKind == 3) {
                 RequestSelectCupGridState8();
-                if (gBootInfo->mBootType == 2) {
+                if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
                     SetSelectReturnSoundId(-1);
                 }
                 RequestSelectReturnState3WithSound(0);
@@ -748,7 +748,7 @@ L1:
             gSelectCupGrid->mResult = 2;
             if (gSelectCupGrid->mMode != SELECT_CUP_GRID_MODE_NO_CONNECTION) {
                 RequestSelectReturnState3WithSound(1);
-                if (gBootInfo->mBootType == 2) {
+                if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
                     SlideOutSelectRaceRuleWait();
                 }
             } else {
@@ -761,7 +761,7 @@ L2:
     if ((u32) touchedRectIndex <= 7) {
         touchedCupIndex = gSelectCupGridRectCupIndices[touchedRectIndex];
         if (gSelectCupGrid->mCupsEnabled[touchedCupIndex] == 0) {
-            if (gBootInfo->mBootType != 2) {
+            if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x16);
             }
             return;
@@ -786,7 +786,7 @@ L2:
             if (gSelectCupGrid->mCupsEnabled[neighborIndex] != 0) {
                 gSelectCupGrid->mIndex = neighborIndex;
                 ResetSelectCupGridShownCourse();
-                if (gBootInfo->mBootType != 2) {
+                if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
                 }
             }
@@ -799,7 +799,7 @@ L2:
             if (gSelectCupGrid->mCupsEnabled[neighborIndex] != 0) {
                 gSelectCupGrid->mIndex = neighborIndex;
                 ResetSelectCupGridShownCourse();
-                if (gBootInfo->mBootType != 2) {
+                if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
                 }
             }
@@ -812,7 +812,7 @@ L2:
             if (gSelectCupGrid->mCupsEnabled[neighborIndex] != 0) {
                 gSelectCupGrid->mIndex = neighborIndex;
                 ResetSelectCupGridShownCourse();
-                if (gBootInfo->mBootType != 2) {
+                if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
                 }
             }
@@ -825,7 +825,7 @@ L2:
             if (gSelectCupGrid->mCupsEnabled[neighborIndex] != 0) {
                 gSelectCupGrid->mIndex = neighborIndex;
                 ResetSelectCupGridShownCourse();
-                if (gBootInfo->mBootType != 2) {
+                if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
                 }
             }
@@ -921,7 +921,7 @@ void AdvanceSelectCupGridState9(void) {
     AdvanceSelectCupGridShownCourse();
     if (GetSelectChoisesDone() != 0) {
         RequestSelectCupGridState10();
-        if (gBootInfo->mBootType == 2) {
+        if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
             choiceIndex = GetSelectChoisesIndex();
             switch (choiceIndex) {
                 case -1:
@@ -949,7 +949,7 @@ void AdvanceSelectCupGridState10(void) {
             case 1:
                 gSelectCupGrid->mResult = 3;
                 RequestSelectCupGridState11();
-                if (gBootInfo->mBootType == 2) {
+                if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
                     SlideOutSelectRaceRuleWait();
                 }
                 break;
@@ -967,7 +967,7 @@ void AdvanceSelectCupGridState11(void) {
     int labelIndex;
 
     gSelectCupGrid->mStateFrames = gSelectCupGrid->mStateFrames + 1;
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         mainCellCount = gSelectCupGrid->mSelectCupMBncl->mCount;
         offsetX = InterpolateS16(1, 0, 0xe0, gSelectCupGrid->mStateFrames, SELECT_CUP_GRID_SLIDE_STEPS);
         offsetY = InterpolateS16(1, 0, -192, gSelectCupGrid->mStateFrames, SELECT_CUP_GRID_SLIDE_STEPS);
@@ -1055,7 +1055,7 @@ s32 AdvanceSelectCupGrid(void) {
     }
     UpdateSelectCupGridCupCells();
     UpdateSelectCupGridCourseCells();
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         if (gSelectCupGrid->mCupPicturePending != FALSE && IsCupPictureReady() != FALSE) {
             screenMap = GetCupPictureNscrData();
             NNS_GfdRegisterNewVramTransferTask(0xf, 0, GetCupPictureNclrData(), 0xe0);

@@ -217,7 +217,7 @@ BootInfo *VsSelectCupMB_GetMultiBootParam(void) {
 }
 
 BOOL VsSelectCupMB_IsMultiBootChild(void) {
-    return VsSelectCupMB_GetMultiBootParam()->mBootType == 2 ? 1 : 0;
+    return VsSelectCupMB_GetMultiBootParam()->mBootType == BOOT_TYPE_MULTIBOOT ? 1 : 0;
 }
 
 BOOL VsSelectCupMB_IsMultiBootChildWrapper(void) {

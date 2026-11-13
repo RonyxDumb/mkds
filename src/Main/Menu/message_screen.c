@@ -132,7 +132,7 @@ void *GetMessageScreenText(void) {
     void *messages;
     s32 kind;
     messages = NULL;
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         messages = FindFileInLoadedArchives("common.bmg");
     }
     kind = gMessageScreen->mKind;
@@ -155,7 +155,7 @@ void *GetMessageScreenText(void) {
         return GetBmgEntry(messages, 0x85);
     }
     if (kind == 0) {
-        if (gBootInfo->mBootType == 2) {
+        if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
             return GetBmgEntry(GetDownloadScreenFiles()->mUnk_20, 0);
         }
         return GetBmgEntry(messages, 0x82);
@@ -166,7 +166,7 @@ void *GetMessageScreenText(void) {
 void PrintMessageScreenText(void) {
     s32 mapIndex;
     ClearMessageScreenChars();
-    if (gBootInfo->mBootType == 2) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         gMessageScreen->mTextCanvas.mFont = &GetDownloadScreenFiles()->mMBChildFont;
     } else {
         gMessageScreen->mTextCanvas.mFont = GetFontByIndex(0);

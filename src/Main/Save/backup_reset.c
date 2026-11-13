@@ -15,8 +15,8 @@
 #pragma thumb on
 
 void ResetBackupAndStartWrite(void) {
-    ResetBackupFirstBlockAndRecords(gBootInfo->mBootType == 2);
-    if (gBootInfo->mBootType != 2) {
+    ResetBackupFirstBlockAndRecords(gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT);
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         SetBackupBusy();
         QueueThreadFunction(WriteBackupFirstBlockAndRecords);
         gThreadFunctionQueue->mRunRequested = 1;
@@ -133,7 +133,7 @@ void ResetFailedBackupBlocks(void) {
         }
     }
     if (gBackupBuffers->mFailedBlockBits & 1) {
-        ResetBackupFirstBlock(gBootInfo->mBootType == 2);
+        ResetBackupFirstBlock(gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT);
         WriteBackupFirstBlock(gBackupBuffers->mFirstBlock);
         if (gBackupAccess->mBackupEnabled != 0) {
             CARD_WaitBackupAsync();

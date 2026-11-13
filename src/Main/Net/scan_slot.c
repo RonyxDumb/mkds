@@ -33,7 +33,7 @@ u32 TrySelectScanSlot(u32 entryIndex) {
         entryValid = result;
         if (ScanSlotGetConnectionMode() != 2) {
             entryValid = 0;
-        } else if (gBootInfo->mBootType == 2) {
+        } else if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
             entryValid = 0;
         } else if (gConnectionWork->mScanSlots[entryIndex].mInUse != 0) {
             entryValid = 1;

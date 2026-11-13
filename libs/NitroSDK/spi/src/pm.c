@@ -374,7 +374,7 @@ void PM_GoSleepMode(u32 trigger, u32 logic, u32 keyPattern) {
     ime = reg_OS_IME;
     reg_OS_IME = 1;
     if ((trigger & 8) != 0) {
-        if (SYSTEM_WORK->mWmBootBuf.mBootType == 2) {
+        if (SYSTEM_WORK->mWmBootBuf.mBootType == BOOT_TYPE_MULTIBOOT) {
             trigger &= ~8;
         }
     }

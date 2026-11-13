@@ -461,7 +461,7 @@ void LoadArchiveSlot(s32 slotIndex, const char *path, u32 *sourceData, void *dat
     request->mAllocFromHeapEnd = requestValueA;
     request->mUncompressSource = uncompressSource;
     request->mUnk_9c = requestValueB;
-    if (gBootInfo->mBootType == 2) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         if (request->mSourceData != NULL) {
             if (request->mUncompressSource != 0) {
                 bufferIndex = gArchiveSlotInfos[slotIndex].mBufferIndex;
@@ -557,7 +557,7 @@ void ReleaseArchiveSlot(int slotIndex) {
     shouldFree = TRUE;
     if (gArchiveSlots->mSlots[slotIndex].mLoaded != 0 && slotIndex != 0x13) {
         ArchiveUnload(&gArchiveSlots->mSlots[slotIndex].mArchive.mFsArchive);
-        if (gBootInfo->mBootType == 2) {
+        if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
             bufferIndex = gArchiveSlotInfos[slotIndex].mBufferIndex;
             if (bufferIndex != -1 && gArchiveSlots->mBuffers[bufferIndex].mUncompress != 0) {
                 shouldFree = FALSE;
@@ -575,7 +575,7 @@ void ReleaseArchiveSlot(int slotIndex) {
 }
 
 void LoadArchiveSlotsForScene(s32 sceneNumber) {
-    if (gBootInfo->mBootType == 2 && sceneNumber == 6 && gMenuShared->mWLMenuKind == 0) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT && sceneNumber == 6 && gMenuShared->mWLMenuKind == 0) {
     } else {
         LoadArchiveSlotForScene(1, sceneNumber);
     }
@@ -619,13 +619,13 @@ void LoadArchiveSlotsForScene(s32 sceneNumber) {
             LoadArchiveSlotForScene(16, sceneNumber);
             break;
         case 4:
-            if (gBootInfo->mBootType != 2) {
+            if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
                 LoadArchiveSlotForScene(5, sceneNumber);
                 LoadArchiveSlotForScene(16, sceneNumber);
             }
             break;
         case 6:
-            if (gBootInfo->mBootType != 2) {
+            if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
                 LoadArchiveSlotForScene(5, sceneNumber);
                 LoadArchiveSlotForScene(16, sceneNumber);
             }
@@ -1005,7 +1005,7 @@ void ClearArchiveBuffersBit31(void) {
 }
 
 s32 ShouldLoadMap2DData(void) {
-    if (gBootInfo->mBootType == 2) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         return gArchiveSlots->mBuffers[7].mUnk_08 >> 31;
     }
     return 1;

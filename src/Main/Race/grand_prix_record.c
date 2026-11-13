@@ -166,21 +166,21 @@ u32 TrySetMissionRecord(void) {
 }
 
 void InitWLMenuRequestMPState16(void *heap) {
-    if (gBootInfo->mBootType == 2) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         InitBlockEntries(heap, 1);
     }
     RequestMPState16ForNextRace();
 }
 
 void InitWLMenuRequestMPState18(void *heap) {
-    if (gBootInfo->mBootType == 2) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         InitBlockEntries(heap, 1);
     }
     RequestMPState18();
 }
 
 void InitWLMenuRequestMPState21(void *heap) {
-    if (gBootInfo->mBootType == 2) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         InitBlockEntries(heap, 1);
     }
     RequestMPState21();
@@ -190,7 +190,7 @@ void InitWLMenuResetRaceSetup(void *heap) {
     void *bannerFile = NULL;
     s32 connectionKind;
     u32 kindIsOneOrTwo;
-    if (gBootInfo->mBootType == 2) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         InitBlockEntries(heap, 1);
     } else {
         bannerFile = FindSceneFile("/banner.bmg");

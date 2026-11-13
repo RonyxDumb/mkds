@@ -337,7 +337,7 @@ void MoveSelectRaceRuleRowNext(void) {
             gSelectRaceRule->mRow--;
             gSelectRaceRule->mOnButton = value;
             bootInfo = gBootInfo;
-            if (bootInfo->mBootType != 2) {
+            if (bootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
                 ResetPaletteBlendCycle();
             }
         } else if (gSelectRaceRule
@@ -375,7 +375,7 @@ void MoveSelectRaceRuleRowPrevious(void) {
             gSelectRaceRule->mRow++;
             gSelectRaceRule->mOnButton = value;
             bootInfo = gBootInfo;
-            if (bootInfo->mBootType != 2) {
+            if (bootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
                 ResetPaletteBlendCycle();
             }
         } else if (gSelectRaceRule
@@ -1401,7 +1401,7 @@ void RequestSelectRaceRuleState3(void) {
 void RequestSelectRaceRuleState4(void) {
     gSelectRaceRule->mNextState = 4;
     gSelectRaceRule->mStateFrames = 0;
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         StopPaletteBlend();
     }
     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
@@ -1673,7 +1673,7 @@ void InitSelectRaceRule(void *parentHeap, s32 unusedArg1, void *oamList, s32 mod
     ResetSelectRaceRulePositions();
     selectRaceRule = gSelectRaceRule;
     CreateWait(selectRaceRule->mHeap, selectRaceRule->mNcer, selectRaceRule->mBncl, 0x2a, 0xe, 1);
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         InitPaletteBlend(gSelectRaceRule->mHeap, gSelectRaceRule->mNclr, 9);
     }
     FrmHeapShrinkInParent(gSelectRaceRule->mHeap);
@@ -1695,7 +1695,7 @@ void ReleaseSelectRaceRule(void) {
     (reg_G2_BG2CNT) = bg2Control;
     (reg_G2_BG2CNT) = ((reg_G2_BG2CNT) & 0x43) | 0x9e10;
     ClearWaitPointer();
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         ClearPaletteBlendPointer();
     }
     HeapDestroy(gSelectRaceRule->mHeap);

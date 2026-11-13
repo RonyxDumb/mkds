@@ -471,7 +471,7 @@ void SetSelectCharacterRowCellsVisible(s32 visible) {
 
     selectCharacter = gSelectCharacter;
     sParts = &selectCharacter->mSParts;
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         for (rowIndex = 0; rowIndex < gSelectCharacter->mTableRowCount; rowIndex++) {
             sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mUnk_04].mVisible = visible;
             sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mCharacterCellIndex].mVisible =
@@ -488,7 +488,7 @@ void SetSelectCharacterBracketsResting(void) {
     CellFileSet *sParts;
     const SelectCharacterRowCellIndices *tableRow;
 
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         sParts = &gSelectCharacter->mSParts;
         sParts->mCellTable[24].mVisible = 0;
         sParts->mCellTable[25].mVisible = 1;
@@ -504,7 +504,7 @@ void SetSelectCharacterBracketsResting(void) {
 void SetSelectCharacterCellOffsetsY(s16 firstOffsetY, s16 secondOffsetY) {
     SelectCharacter *selectCharacter;
 
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         selectCharacter = gSelectCharacter;
         if (selectCharacter->mUsePlayerEntryList == FALSE) {
             selectCharacter->mGpMParts.mCellTable[0].mOffsetY = firstOffsetY;
@@ -516,7 +516,7 @@ void SetSelectCharacterCellOffsetsY(s16 firstOffsetY, s16 secondOffsetY) {
 void SetSelectCharacterNameOffsetX(s16 offsetX) {
     SelectCharacter *selectCharacter;
 
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         selectCharacter = gSelectCharacter;
         if (selectCharacter->mUsePlayerEntryList == FALSE) {
             selectCharacter->mGpMParts.mCellTable[1].mOffsetX = offsetX;
@@ -628,7 +628,7 @@ void SetSelectCharacterAngleAndScale(void) {
     CellFileSet *sParts = &gSelectCharacter->mSParts;
     s32 cellIndex;
     s32 elementCount;
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         elementCount = sParts->mCellLayout->mCount;
         for (cellIndex = 0; cellIndex < elementCount; cellIndex++) {
             SetLayoutEntryAngleAndScale(&sParts->mCellTable[cellIndex], gSelectCharacter->mAngle,
@@ -662,7 +662,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
         case 0:
             SetupInterpolation(&gSelectCharacter->mInterpolations[0], 0, 10, -0x80, 0);
             SetupInterpolation(&gSelectCharacter->mInterpolations[2], 0, 10, 0x60, 0);
-            if (gBootInfo->mBootType != 2) {
+            if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
                 StartKartModelMenuBg0Increase();
             }
             break;
@@ -738,7 +738,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
         selectCharacter->mGpMParts.mCellTable[5].mVisible = selectCharacter->mGpMParts.mCellTable[6].mVisible;
         selectCharacter->mGpMParts.mCellTable[4].mVisible = selectCharacter->mGpMParts.mCellTable[5].mVisible;
     }
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         sParts = &gSelectCharacter->mSParts;
         LocateCellFileSet(sParts, "select_character_s.nce.ncgr", "select_character_s.nce.ncer", "select_character_s_o.NCLR",
                           "select_character_s.bncl", NULL, "select_character_s.bnbl", FindFileInLoadedArchives);
@@ -807,7 +807,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
     GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mCharacterIndex = -1;
     GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mKartIndex = -1;
     GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mKartStored = 0;
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         sParts = &gSelectCharacter->mSParts;
         SetPlayerCharacterCellFileSet(0, &cellFileSet);
         for (rowIndex = 0; rowIndex < gSelectCharacter->mTableRowCount; rowIndex++) {
@@ -817,7 +817,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
                                           sParts->mCellLayout);
         }
     }
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         positions = NULL;
         sParts = &gSelectCharacter->mSParts;
         switch (gSelectCharacter->mTableRowCount) {
@@ -875,7 +875,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
         StartFadeToClear(10);
         SetSelectCharacterRowCellsVisible(0);
     }
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         SetKartModelMenuSpinStopped(0);
     }
     FrmHeapShrinkInParent(gSelectCharacter->mHeap);
@@ -940,7 +940,7 @@ int AdvanceSelectCharacter(void) {
             } else {
                 selectCharacterReload->mScale = 0x1000;
                 gSelectCharacter->mStateFrames = 0;
-                if (gBootInfo->mBootType == 2) {
+                if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
                     nextState = 2;
                 } else {
                     nextState = 3;
@@ -1142,7 +1142,7 @@ int AdvanceSelectCharacter(void) {
                     StartPlayerEntryListKindIfUsed(2);
                 }
                 SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[1], 2);
-                if (gBootInfo->mBootType != 2) {
+                if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
                     StartKartModelMenuBg0Decrease();
                 } else if (GetRaceSetupCopy()->mMode == 2) {
                     SlideOutSelectRaceRuleWait();
@@ -1176,7 +1176,7 @@ int AdvanceSelectCharacter(void) {
     SetSelectCharacterNameOffsetX(GetInterpolatedValue(&gSelectCharacter->mInterpolations[0]));
     interpolatedValue = GetInterpolatedValue(&gSelectCharacter->mInterpolations[1]);
     SetSelectCharacterCellOffsetsY(interpolatedValue, GetInterpolatedValue(&gSelectCharacter->mInterpolations[2]));
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         selectCharacterReload = gSelectCharacter;
         if (selectCharacterReload->mResult != 2) {
             RequestKartModelMenuCharacter(selectCharacterReload->mCharacterIndex);
@@ -1190,14 +1190,14 @@ int AdvanceSelectCharacter(void) {
         DrawLayoutTable(selectCharacter->mGpMParts.mCellLayout, selectCharacter->mGpMParts.mCells, NULL,
                         gSelectCharacter->mMainOam, selectCharacter->mGpMParts.mCellTable);
     }
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         DrawLayoutTableKeepMatrixCount(sParts->mCellLayout, sParts->mCells, NULL, gSelectCharacter->mSubOam,
                                        sParts->mCellTable);
         IncrementOamMatrixCount(gSelectCharacter->mSubOam);
     } else if (GetRaceSetupCopy()->mMode == 2) {
         AdvanceSelectRaceRuleWait();
     }
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         DrawKartModelMenu();
     }
     switch (result) {
@@ -1209,7 +1209,7 @@ int AdvanceSelectCharacter(void) {
             }
             break;
         case 2:
-            if (gBootInfo->mBootType != 2) {
+            if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
                 RequestKartModelMenuCharacter(-1);
                 RequestKartModelMenuKart(-1);
             }
@@ -1224,7 +1224,7 @@ int AdvanceSelectCharacter(void) {
 #pragma thumb on
 
 void ReleaseSelectCharacter(void) {
-    if (gBootInfo->mBootType == 2) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         if (GetRaceSetupCopy()->mMode == 2) {
             ClearSelectRaceRuleWaitPointer();
         }

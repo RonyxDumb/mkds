@@ -365,7 +365,7 @@ void StartConnect(WMBssDesc *parentBssDesc, void *customUserData, void (*connect
     }
     if (customUserData == NULL) {
         userData[0x14] = 0;
-        if (gBootInfo->mBootType == 2) {
+        if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
             userData[0x14] = userData[0x14] | 1;
         }
     } else {
@@ -413,7 +413,7 @@ void StartConnectCallback(WirelessMessage *event) {
                     gConnectionWork->mRequestPending = 0;
                     break;
                 case 9:
-                    if (gBootInfo->mBootType == 2) {
+                    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
                         shouldReset = TRUE;
                     } else if (gConnectionWork->mDisconnectedCallback != 0) {
                         gConnectionWork->mDisconnectedCallback();

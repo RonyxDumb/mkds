@@ -204,7 +204,7 @@ s32 AdvanceSelectRaceRule(void) {
             break;
     }
     AdvancePlayerEntryList();
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         AdvancePaletteBlend();
     }
     AdvanceSelectRaceRuleHighlight();
@@ -241,7 +241,7 @@ void LoadSelectCupCourseData(void) {
     Ncgr *bgChars = NULL;
     Nscr *screenMap = NULL;
     Nclr *bgPalette = NULL;
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         LoadNcgrData(&bgChars, FindSceneFile(gSelectCupCourseTaMBNcgrName));
         LoadNclrData(&bgPalette, FindSceneFile(gSelectCupCourseTaMBNclrName));
         LoadNscrData(&screenMap, FindSceneFile(gSelectCupCourseTaMNscrName));
@@ -266,7 +266,7 @@ void LocateAndQueueSelectCupCourse(void) {
     Nscr *fixedScreenMap = NULL;
     Nclr *fixedPalette = NULL;
     u16 *courseCellPaletteData;
-    if (gBootInfo->mBootType == 2) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         gSelectCupCourse->mSelectCupMBnbl = FindSceneFile(gSelectCupCourseCupMBnblName);
         return;
     }
@@ -322,7 +322,7 @@ void SetupSelectCupCourseObjects(void) {
     u32 courseEntryCount;
     u32 cupEntryCount;
     SelectCupCourse *selectCupCourse;
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         courseEntryCount = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->mCount;
         cupEntryCount = gSelectCupCourse->mSelectCupMBncl->mCount;
         for (cellIndex = 0; cellIndex < 8; cellIndex++) {
@@ -406,7 +406,7 @@ void SetupSelectCupCourseObjects(void) {
 
 void AdvanceSelectCupCourseHighlight(void) {
     s32 labelIndex;
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         for (labelIndex = 0; labelIndex < 4; labelIndex++) {
             if (gSelectCupCourse->mIndex == labelIndex && gSelectCupCourse->mHighlightShown != FALSE) {
                 gSelectCupCourse->mSelectCupMTable[gSelectCupCourseLabelCells[labelIndex]].mVisible = 1;
@@ -425,7 +425,7 @@ void RefreshSelectCupCourseForIndex(void) {
     SelectCupCourse *selectCupCourse;
     u32 recordTime;
     u8 timeText[0x24];
-    if (gBootInfo->mBootType != 2) {
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         selectCupCourse = gSelectCupCourse;
         PrintLabelLayoutTextNoFixedAdvance(
             0, 0, gSelectCupCourse->mSelectCupCourseTaOrVsMBnll,
