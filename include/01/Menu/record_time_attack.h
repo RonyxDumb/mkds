@@ -23,10 +23,10 @@ typedef struct RecordTAtt {
     /* 1c */ LayoutEntryTable *mRecordTAttSBncl;
     /* 20 */ struct LayoutEntryTable *mRecordTAttSBnbl;
     /* 24 */ LayoutEntryTable *mRecordTAttSBnll;
-    /* 28 */ void *mUnk_28;
-    /* 2c */ struct Unk02021dc8 *mUnk_2c;
-    /* 30 */ Nclr *mUnk_30;
-    /* 34 */ struct LayoutEntryTable *mUnk_34;
+    /* 28 */ void *mPlayerCharacterChars;
+    /* 2c */ struct Unk02021dc8 *mPlayerCharacterCells;
+    /* 30 */ Nclr *mPlayerCharacterPalette;
+    /* 34 */ struct LayoutEntryTable *mPlayerCharacterCellLayout;
     // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable
     /* 38 */ LayoutTableEntry *mRecordTAttMTable;
     // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable
