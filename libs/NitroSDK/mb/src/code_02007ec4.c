@@ -16,6 +16,7 @@ u32 MB_RegisterFile(void *rangeTable, SegmentBuffer *source) {
     u32 entryOffset;
     MB_CommPWork *work;
     MBDownloadFileInfo *record;
+    MBGameRegistry *registry;
     u8 slotIndex;
     entryIndex = 0xff;
     savedInterrupts = OS_DisableInterrupts();
@@ -46,7 +47,8 @@ u32 MB_RegisterFile(void *rangeTable, SegmentBuffer *source) {
     (OFFSET_PTR(MB_CommPWork, mbc, entryOffset))->mGameReg = rangeTable;
     record = (MBDownloadFileInfo *) (mbc->mUnk_1788 + entryOffset);
     MBi_MakeDownloadFileInfo(record, source);
-    MI_CpuCopy8((u8 *) rangeTable + 0x1c, record->mReserved, 0x20);
+    registry = rangeTable;
+    MI_CpuCopy8(registry->mUserParam, record->mReserved, 0x20);
     if (MBi_MakeBlockInfoTable((MB_BlockInfoTable *) (mbc->mBlockInfoTable + entryOffset), record) == 0) {
         OS_RestoreInterrupts(savedInterrupts);
         return 0;

@@ -85,6 +85,8 @@ typedef struct MBGameRegistry {
     /* 10 */ const u8 *mIconPalettePathp;
     /* 14 */ u32 mGgid;
     /* 18 */ u8 mMaxPlayerNum;
+    /* 19 */ u8 mPad[3];
+    /* 1c */ u8 mUserParam[0x20];
 } MBGameRegistry;
 
 extern u32 sSendVolatCallbackTimming;
