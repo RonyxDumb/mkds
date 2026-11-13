@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-extern u32 data_02001e54[0x11ac / 4];
+extern u32 gTextZeroFill[0x11ac / 4];

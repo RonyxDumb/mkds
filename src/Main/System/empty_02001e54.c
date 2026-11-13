@@ -6,7 +6,7 @@
                                  ".text" abs32 RWX
 #pragma section MAIN_TEXT begin
 
-u32 data_02001e54[0x11ac / 4] = {0};
+u32 gTextZeroFill[0x11ac / 4] = {0};
 
 #pragma section MAIN_TEXT end
 #pragma explicit_zero_data off

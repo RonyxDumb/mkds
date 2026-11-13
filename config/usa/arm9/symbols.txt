@@ -57,7 +57,7 @@ WriteLogoSceneRegisters kind:function(arm,size=0x7c) addr:0x02001abc
 ApplySavedSoundMode kind:function(arm,size=0x68) addr:0x02001b38
 InitLogoScene kind:function(arm,size=0x190) addr:0x02001ba0
 LoadBg1FromSceneFiles kind:function(arm,size=0x124) addr:0x02001d30
-data_02001e54 kind:data(any) addr:0x02001e54
+gTextZeroFill kind:data(any) addr:0x02001e54
 main kind:function(arm,size=0x24) addr:0x02003000
 FSi_TranslateCommand kind:function(arm,size=0x17c) addr:0x02003024
 FSi_ReleaseCommand kind:function(arm,size=0x64) addr:0x020031a0

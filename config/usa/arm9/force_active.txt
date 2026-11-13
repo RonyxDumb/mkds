@@ -7,7 +7,7 @@ data_0216fe14
 data_0216fe18
 data_0216fe1c
 FloatFlagsClearXor
-data_02001e54
+gTextZeroFill
 OSi_IdleThreadStack
 gCoinKindDescriptor
 gBossDonketuKindDescriptor
