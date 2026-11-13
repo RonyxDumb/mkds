@@ -33,14 +33,14 @@ typedef struct EthernetHeader {
 
 typedef struct IpHeader {
     /* 00 */ u8 mVersionIhl;
-    /* 01 */ u8 mUnk_01;
+    /* 01 */ u8 mTypeOfService;
     /* 02 */ u16 mTotalLength;
     /* 04 */ u8 mIdentifierFirstByte;
     /* 05 */ u8 mIdentifierSecondByte;
     /* 06 */ u16 mFragOffset;
-    /* 08 */ u8 mUnk_08;
+    /* 08 */ u8 mTimeToLive;
     /* 09 */ u8 mProtocol;
-    /* 0a */ u16 mUnk_0a;
+    /* 0a */ u16 mChecksum;
     /* 0c */ u16 mSourceAddressHigh;
     /* 0e */ u16 mSourceAddressLow;
     /* 10 */ u16 mDestAddressHigh;
