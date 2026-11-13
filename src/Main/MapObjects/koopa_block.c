@@ -46,6 +46,7 @@
 #include "Main/MapObjects/collision_hit_link.h"
 #include "Main/MapObjects/group_item_box.h"
 #include "Main/MapObjects/mkd_ef_bubble.h"
+#include "Main/MapObjects/koopa_block_kind_descriptor.h"
 
 const u16 gMkdEfBubbleState1SecondFlag = 8;
 const u16 gMkdEfBubbleState1Flag = 2;

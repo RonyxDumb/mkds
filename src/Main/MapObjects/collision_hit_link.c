@@ -98,14 +98,14 @@ s32 IsHitLinkOutsideGearRadiusOrFlagged(CollisionHitLink *link) {
     return object->mCollisionMapObject.mCollisionData.mUnk_138;
 }
 
-void *CreateKoopaBlockKindData(void) {
+MapObjectKindData *CreateKoopaBlockKindData(void) {
     MapObjectKindData *kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
 
     *kindData = gKoopaBlockKindData;
     return kindData;
 }
 
-void *CreateKoopaBlockDrawList(void) {
+MapObjectDrawList *CreateKoopaBlockDrawList(void) {
     MapObjectDrawList *drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
 
     gKoopaBlockDrawList = drawList;
@@ -114,7 +114,7 @@ void *CreateKoopaBlockDrawList(void) {
     return gKoopaBlockDrawList;
 }
 
-void *CreateKoopaBlockUpdateList(void) {
+MapObjectList *CreateKoopaBlockUpdateList(void) {
     MapObjectList *updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
 
     gKoopaBlockUpdateList = updateList;

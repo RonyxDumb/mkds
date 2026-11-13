@@ -2,6 +2,8 @@
 
 #include "types.h"
 #include "Main/MapObjects/choropu.h"
+#include "Main/MapObjects/data_02158000.h" // MapObjectDrawList
+#include "Main/MapObjects/attractor.h" // MapObjectKindData, MapObjectList
 
 // Object holding a pointer at 0x0 and two vectors.
 typedef struct CollisionHitLink {
@@ -11,9 +13,9 @@ typedef struct CollisionHitLink {
 } CollisionHitLink;
 
 void UpdateKoopaBlock(void *unused, KoopaBlock *koopaBlock);
-void *CreateKoopaBlockUpdateList(void);
-void *CreateKoopaBlockDrawList(void);
-void *CreateKoopaBlockKindData(void);
+MapObjectList *CreateKoopaBlockUpdateList(void);
+MapObjectDrawList *CreateKoopaBlockDrawList(void);
+MapObjectKindData *CreateKoopaBlockKindData(void);
 s32 IsHitLinkOutsideGearRadiusOrFlagged(CollisionHitLink *link);
 BOOL GetCollisionHitLinkPosAndVelocity(CollisionHitLink *link, Vec3 *outPosition, Vec3 *outVelocity);
 void GetCollisionHitLinkPosition(CollisionHitLink *link, Vec3 *outPosition);
