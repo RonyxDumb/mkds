@@ -720,15 +720,6 @@ typedef struct StaffRollText {
 
 typedef struct SoundParams SoundParams;
 
-// Objects whose layout isn't known yet.
-extern s32 (*data_0217d014)(SoundParams *);
-
-extern u32 (*data_0217d018)(SoundParams *);
-
-extern s32 (*data_0217d01c)(SoundParams *);
-
-extern NNSFndList gSoundSources;
-
 extern u32 sIsThreadCreated;
 
 extern CaptureParam sCapParam;
@@ -746,12 +737,4 @@ extern EffectInfo sEffectInfoBuffer[8];
 extern struct NNSSndArc *sCurrent;
 
 extern SeqQueue gSeqQueue;
-
-extern u32 gSoundSourceUpdatePass[];
-
-extern u32 data_0217d024[];
-
-extern SoundHandlePool gPlayingSoundPool;
-
-extern u32 data_0217d020;
 

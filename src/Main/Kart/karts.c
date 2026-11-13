@@ -100,6 +100,16 @@
 #include "Main/Menu/menu_shared_clear.h"
 #include "Main/Graphics/nsbmd_draw.h"
 
+u16 gKartCount;
+u16 gKillerItemKartIndex;
+struct Kart *gKarts;
+s32 gKartForwardSpeedRatio;
+struct EntryKartCounters *gEntryKartCounters;
+s32 gMinKartDistanceSquaredPresent;
+s32 gMissionRunKind2ShapesPresent;
+s32 gKartSpeedLimitReciprocal;
+u32 gKartKind3ShapeListMask;
+
 void DrawShadowModelIfDrawFlag(ShadowModel *shadowModel, u32 unusedArg1, u32 unusedArg2) {
     if ((shadowModel->mFlags & 1) != 0) {
         SetNsbmdFirstDrawMaterial(&shadowModel->mNsbmd, shadowModel->mAlpha);
@@ -1058,7 +1068,7 @@ void UploadKartModelsEntryPalettes(KartModelsEntry *kartModelsEntry, s32 pNameUs
             materialBlock = mdlBytes + *(s32 *) (mdlBytes + 8);
             dictionary = materialBlock + 4 + *OFFSET_PTR(u16, materialBlock, 0xa);
             material = materialBlock + *(s32 *) (dictionary + *(u16 *) dictionary * materialIndex + 4);
-            data_usa_0217acec = material;
+            gSpecialKartBodyMaterial = material;
             paletteBase = *OFFSET_PTR(u16, material, 0x1c) << 4;
             GX_BeginLoadTexPltt();
             GX_LoadTexPltt(palette, paletteBase, 0x20);

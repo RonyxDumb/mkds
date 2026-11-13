@@ -106,28 +106,47 @@
 #include "ITCM/sphere_collision.h"
 #include "Main/MapObjects/data_0206b000.h"
 #include "Main/Sound/sound_system.h"
+#include "Main/Kart/code_02066ac0.h"
 
 const u32 gKartSurfaceKind1Effects[8] = {0, 0, 0, 4, 0, 0, 0, 0};
-const s32 gKartOffsetCycleY[8] = {0x1000, 0x100e, 0x102d, 0x104c, 0x105b, 0x104c, 0x102d, 0x100e};
-const Vec3 gKartStartPlacementHeadingAxis = {0, 0x1000, 0};
+const u32 gKartSurfaceStopEffects[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+const s16 gKartRaceStartBoostFrameCounts[6] = {8, 0xf, 0x1e, 0x32, 0x64, 0};
+const s32 gKartModelScaleZKind2Table[15] = {0xccd, 0xdfa, 0xf4a, 0x1088, 0x1182, 0x1205, 0x11a9, 0x1093, 0xf61, 0xeb2, 0xea5, 0xede, 0xf3f, 0xfa9, 0x1000};
 const s32 gKartModelScaleYKind1Table[15] = {0xccd, 0xe9f, 0x1072, 0x119a, 0x120c, 0x1239, 0x122d, 0x11f4, 0x119a, 0x10a7, 0xf42, 0xe66, 0xe94, 0xf4a, 0x1000};
 const s32 gKartModelOffsetYKind1Table[15] = {-77, -94, -117, -137, -144, -128, -59, 0x34, 0x9c, 0xcd, 0x3f, -102, -102, -51, 0};
-const s32 gKartModelScaleXKind2Table[15] = {0x1400, 0x12a9, 0x112d, 0xfc3, 0xea5, 0xe0b, 0xe67, 0xf91, 0x10da, 0x1193, 0x119a, 0x1154, 0x10e3, 0x1066, 0x1000};
 const s16 gThunderShrinkTimerByRank[8] = {0x1fe, 0x1c2, 0x186, 0x14a, 0x10e, 0xd2, 0x96, 0x5a};
-const s16 gKartRaceStartBoostFrameCounts[6] = {8, 0xf, 0x1e, 0x32, 0x64, 0};
-const s32 gKartModelScaleYKind0Table[15] = {0xd9a, 0xed1, 0x1008, 0x10cd, 0x1117, 0x112f, 0x1123, 0x10fe, 0x10cd, 0x1053, 0xfa1, 0xf33, 0xf4a, 0xfa5, 0x1000};
-const u32 gKartSurfaceKind3Effects[8] = {1, 5, 3, 2, 6, 7, 0, 0};
-const u32 gKartSurfaceKind2Effects[8] = {2, 4, 7, 1, 0, 0, 0, 0};
-const s32 gKartModelOffsetYKind0And2Table[15] = {-77, -80, -86, -91, -90, -77, -38, 0x15, 0x4c, 0x66, 0x20, -51, -51, -25, 0};
-const s32 gKartOffsetCycleZ[8] = {0x26, 0x20, 0x13, 6, 0, 6, 0x13, 0x20};
-const u32 gKartSurfaceKind5Effects[8] = {1, 5, 3, 2, 8, 0, 0, 0};
-const u32 gKartSurfaceKind17Effects[8] = {4, 4, 4, 0, 0, 0, 0, 0};
-const s32 gKartOffsetCycleX[8] = {0x1052, 0x103d, 0x1015, 0x1000, 0x1009, 0x101d, 0x1035, 0x1049};
-const u32 gKartSurfaceKind20Effects[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+const Vec3 gKartStartPlacementHeadingAxis = {0, 0x1000, 0};
+const s32 gKartModelScaleXKind2Table[15] = {0x1400, 0x12a9, 0x112d, 0xfc3, 0xea5, 0xe0b, 0xe67, 0xf91, 0x10da, 0x1193, 0x119a, 0x1154, 0x10e3, 0x1066, 0x1000};
 const u32 gKartSurfaceKind6Effects[8] = {0, 5, 0, 0, 0, 0, 0, 0};
-const u32 gKartSurfaceStopEffects[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 const u32 gKartSurfaceKind10Effects[8] = {1, 2, 0, 7, 0, 0, 0, 0};
-const s32 gKartModelScaleZKind2Table[15] = {0xccd, 0xdfa, 0xf4a, 0x1088, 0x1182, 0x1205, 0x11a9, 0x1093, 0xf61, 0xeb2, 0xea5, 0xede, 0xf3f, 0xfa9, 0x1000};
+const s32 gKartModelScaleYKind0Table[15] = {0xd9a, 0xed1, 0x1008, 0x10cd, 0x1117, 0x112f, 0x1123, 0x10fe, 0x10cd, 0x1053, 0xfa1, 0xf33, 0xf4a, 0xfa5, 0x1000};
+const s32 gKartOffsetCycleY[8] = {0x1000, 0x100e, 0x102d, 0x104c, 0x105b, 0x104c, 0x102d, 0x100e};
+const s32 gKartOffsetCycleX[8] = {0x1052, 0x103d, 0x1015, 0x1000, 0x1009, 0x101d, 0x1035, 0x1049};
+const u32 gKartSurfaceKind3Effects[8] = {1, 5, 3, 2, 6, 7, 0, 0};
+const u32 gKartSurfaceKind5Effects[8] = {1, 5, 3, 2, 8, 0, 0, 0};
+const u32 gKartSurfaceKind20Effects[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+const u32 gKartSurfaceKind17Effects[8] = {4, 4, 4, 0, 0, 0, 0, 0};
+const u32 gKartSurfaceKind2Effects[8] = {2, 4, 7, 1, 0, 0, 0, 0};
+const s32 gKartOffsetCycleZ[8] = {0x26, 0x20, 0x13, 6, 0, 6, 0x13, 0x20};
+const s32 gKartModelOffsetYKind0And2Table[15] = {-77, -80, -86, -91, -90, -77, -38, 0x15, 0x4c, 0x66, 0x20, -51, -51, -25, 0};
+const s32 gKartRespawnOffsets[8][2] = {{0, 0},       {-0x1000, 0},       {0x1000, 0},        {0, -0x1000},
+                                       {0, 0x1000}, {-0x1000, -0x1000}, {0x1000, -0x1000}, {-0x1000, 0x1000}};
+int (*const gKartSurfaceFunctions[22])(Kart *) = {
+    ApplyKartSurfaceStopEffects, ApplyKartSurfaceKind1,       ApplyKartSurfaceKind2,       ApplyKartSurfaceKind3,
+    ApplyKartSurfaceStopEffects, ApplyKartSurfaceKind5,       ApplyKartSurfaceKind6,       ApplyKartSurfaceKind7,
+    ApplyKartSurfaceStopEffects, ApplyKartSurfaceStopEffects, ApplyKartSurfaceKind10,      ApplyKartSurfaceStopEffects,
+    ApplyKartSurfaceKind12,      ApplyKartSurfaceStopEffects, ApplyKartSurfaceStopEffects, ApplyKartSurfaceKind15,
+    ApplyKartSurfaceStopEffects, ApplyKartSurfaceKind17,      ApplyKartSurfaceKind18,      ApplyKartSurfaceKind19,
+    ApplyKartSurfaceKind20,      ApplyKartSurfaceStopEffects};
+const s32 gKartScaleFactorXTable[25] = {0x800,  0x6d9,  0x68d,  0x7a3,  0x8e6,  0xa4c,  0xbc8,  0xd4f, 0xed4,
+                                        0x104c, 0x11ac, 0x12e7, 0x13f2, 0x14c0, 0x13f0, 0x119e, 0x1000, 0xfdd,
+                                        0x1040, 0x10c6, 0x1109, 0x10ec, 0x10a5, 0x104f, 0x1000};
+const s32 gKartScaleFactorYTable[25] = {0x800,  0x8e2,  0xa56,  0xd61,  0x10ee, 0x1389, 0x1520, 0x168c, 0x17bb,
+                                        0x189d, 0x191e, 0x192e, 0x160a, 0x1213, 0x10c1, 0x1032, 0x1000, 0x1014,
+                                        0x1071, 0x10d8, 0x1109, 0x10ec, 0x10a5, 0x104f, 0x1000};
+const s32 gKartScaleFactorZTable[25] = {0x800,  0x89f,  0x8ff,  0x8db,  0x8c9,  0x94e,  0xa8d,  0xc2c, 0xdf0,
+                                        0xfa0,  0x1101, 0x11d9, 0x11de, 0x112f, 0x1030, 0xf44,  0xed0, 0xf15,
+                                        0xfce,  0x1096, 0x1109, 0x1101, 0x10b8, 0x1056, 0x1000};
 
 void StartKartState2(Kart *kart, int spinCount, int skipSound) {
     int direction = 1;

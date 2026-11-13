@@ -22,6 +22,15 @@
 #include "code_0201750c.h"
 #include "Main/Sound/sound_system.h"
 
+u32 gSoundSourceUpdatePass[1];
+s32 (*gSoundVolumeFunction)(SoundParams *);
+u32 gExpireWhileRequestedSounds;
+u32 gSoundSourceCountThisPass[1];
+u32 (*gSoundDistanceFunction)(SoundParams *);
+s32 (*gSoundPanFunction)(SoundParams *);
+NNSFndList gSoundSources;
+SoundHandlePool gPlayingSoundPool;
+
 void (*gStartSoundSeqArcTable[1])(NNSSndSeqPlayer **handle, u32 seqArcNo, u32 soundId, u32 priority) = {StartSoundSeqArc};
 
 void ItemObjectInitAndRegisterSoundSource(SoundSource *source, Vec3 *positionSource) {
@@ -137,8 +146,8 @@ u32 StartOrUpdateSndHandleSound(u32 seqArcNo, u32 soundId, Vec3 *positionSource,
         startsNewSound = 1;
         runThisCall = startsNewSound;
     } else {
-        countThisPass = data_0217d024[0];
-        data_0217d024[0] = countThisPass + 1;
+        countThisPass = gSoundSourceCountThisPass[0];
+        gSoundSourceCountThisPass[0] = countThisPass + 1;
         if ((countThisPass & 3) == gSoundSourceUpdatePass[0]) {
             runThisCall = 1;
         }
@@ -158,9 +167,9 @@ u32 StartOrUpdateSndHandleSound(u32 seqArcNo, u32 soundId, Vec3 *positionSource,
         params.mVolumeForPriority = 0x7f;
         params.mPan = 0;
     } else {
-        params.mDistance = data_0217d018(&params);
-        params.mVolumeForPriority = params.mVolume = data_0217d014(&params);
-        params.mPan = data_0217d01c(&params);
+        params.mDistance = gSoundDistanceFunction(&params);
+        params.mVolumeForPriority = params.mVolume = gSoundVolumeFunction(&params);
+        params.mPan = gSoundPanFunction(&params);
     }
     if (params.mVolume <= 0) {
         if (*handle == NULL) {

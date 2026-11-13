@@ -22,4 +22,3 @@ void InitLogoScene(void *heap);
 void LoadBg1FromSceneFiles(Bg1Files *files, s32 mainScreen, const char *paletteFileName, const char *charsFileName,
                            const char *screenMapFileName);
 
-extern u8 gLogoSceneDisplaySettingsDesc[];

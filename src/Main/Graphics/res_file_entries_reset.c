@@ -2,6 +2,8 @@
 #include "Main/MapObjects/data_0217a000.h"
 #include "code_0201750c.h"
 
+NNSFndList gResFileEntries;
+
 void ResetResFileEntries(void) {
     NNSFndList *list;
     u32 offset;

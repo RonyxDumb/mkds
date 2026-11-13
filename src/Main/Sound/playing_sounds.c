@@ -151,9 +151,9 @@ u32 SetPlayingSoundsParams(SoundSource *source) {
         params.mVolumeForPriority = 0x7f;
         params.mPan = 0;
     } else {
-        params.mDistance = data_0217d018(&params);
-        params.mVolumeForPriority = params.mVolume = data_0217d014(&params);
-        params.mPan = data_0217d01c(&params);
+        params.mDistance = gSoundDistanceFunction(&params);
+        params.mVolumeForPriority = params.mVolume = gSoundVolumeFunction(&params);
+        params.mPan = gSoundPanFunction(&params);
     }
     if (params.mVolume <= 0) {
         UnlinkSoundSourceSounds(source);

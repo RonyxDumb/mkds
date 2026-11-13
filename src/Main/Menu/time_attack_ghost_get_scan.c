@@ -82,6 +82,12 @@
 #include "Main/Graphics/oam.h"
 #include "Main/Sound/sound_system.h"
 #include "Main/Menu/menu_shared_clear.h"
+#include "Main/Menu/time_attack_ghost_get_names_b.h"
+#include "Main/Menu/time_attack_ghost_get_names_a.h"
+#include "Main/Menu/time_attack_ghost_get_names_d.h"
+#include "Main/Menu/time_attack_ghost_get_names_e.h"
+#include "Main/Menu/time_attack_ghost_get_names_c.h"
+#include "Main/Menu/time_attack_ghost_get_names_f.h"
 
 #pragma thumb on
 
@@ -246,23 +252,23 @@ void InitTimeAttackGhostGetSlot(void *parentHeap, void *mainOam, void *subOam) {
     gTimeAttackGhostGetSlot->mHeap = heap;
     gTimeAttackGhostGetSlot->mOamLists[0] = mainOam;
     gTimeAttackGhostGetSlot->mOamLists[1] = subOam;
-    gTimeAttackGhostGetSlot->mInfoFileSets.mCommonMessages = FindFileInLoadedArchives(data_021644e0);
-    gTimeAttackGhostGetSlot->mGhostMessages = FindSceneFile(data_021644ec);
+    gTimeAttackGhostGetSlot->mInfoFileSets.mCommonMessages = FindFileInLoadedArchives(gTimeAttackGhostGetCommonBmgName);
+    gTimeAttackGhostGetSlot->mGhostMessages = FindSceneFile(gTimeAttackGhostGetGhostBmgName);
     cellFileSet = &gTimeAttackGhostGetSlot->mInfoFileSets.mCellFileSets[0];
     remainingObjSize = GX_GetSizeOfOBJ();
-    LocateCellFileSet(cellFileSet, data_021644f8, data_02164518, data_02164538, data_02164558, data_02164574, NULL,
+    LocateCellFileSet(cellFileSet, gTimeAttackGhostGetMNceNcgrName, gTimeAttackGhostGetMNceNcerName, gTimeAttackGhostGetMONclrName, gTimeAttackGhostGetMBnclName, gTimeAttackGhostGetMBnllName, NULL,
                       FindSceneFile);
     SetupCellFileSet(0, gTimeAttackGhostGetSlot->mHeap, cellFileSet);
     for (entryIndex = 0; entryIndex < cellFileSet->mLabelLayout->mCount; entryIndex++) {
         remainingObjSize -= SetupLabelCanvas(0, gTimeAttackGhostGetSlot->mHeap, cellFileSet,
                                              gTimeAttackGhostGetSlotMLabelTextRows[entryIndex], remainingObjSize);
     }
-    LocateAndQueueScreenMapFileSet(1, gTimeAttackGhostGetSlot, data_02164590, data_021645b0, data_021645d0, 3,
+    LocateAndQueueScreenMapFileSet(1, gTimeAttackGhostGetSlot, gTimeAttackGhostGetSBNcgrName, gTimeAttackGhostGetSBNclrName, gTimeAttackGhostGetSNscrName, 3,
                                    FindSceneFile);
     cellFileSet = &gTimeAttackGhostGetSlot->mInfoFileSets.mCellFileSets[1];
     remainingObjSize = GX_GetSizeOfSubOBJ();
     assignedCount = 0;
-    LocateCellFileSet(cellFileSet, data_021645ec, data_0216460c, data_0216462c, gTimeAttackGhostGetSBnclName,
+    LocateCellFileSet(cellFileSet, gTimeAttackGhostGetSNceNcgrName, gTimeAttackGhostGetSNceNcerName, gTimeAttackGhostGetSONclrName, gTimeAttackGhostGetSBnclName,
                       gTimeAttackGhostGetSBnllName, gTimeAttackGhostGetSBnblName, FindSceneFile);
     SetupCellFileSet(1, gTimeAttackGhostGetSlot->mHeap, cellFileSet);
     cellCount = cellFileSet->mCellLayout->mCount;

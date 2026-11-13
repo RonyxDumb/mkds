@@ -11,32 +11,6 @@
 
 extern s16 gTimeAttackGhostGetSlotSLabelTextRows[][4];
 
-extern const char data_021644e0[];
-
-extern const char data_021644ec[];
-
-extern const char data_021644f8[];
-
-extern const char data_02164518[];
-
-extern const char data_02164538[];
-
-extern const char data_02164558[];
-
-extern const char data_02164574[];
-
-extern const char data_02164590[];
-
-extern const char data_021645b0[];
-
-extern const char data_021645d0[];
-
-extern const char data_021645ec[];
-
-extern const char data_0216460c[];
-
-extern const char data_0216462c[];
-
 extern const char gTimeAttackGhostGetSBnclName[];
 
 extern const char gTimeAttackGhostGetSBnllName[];
@@ -45,9 +19,7 @@ extern const char gTimeAttackGhostGetSBnblName[];
 
 // Objects whose layout isn't known yet.
 
-extern u8 data_usa_02154890[];
 
-extern u8 data_usa_021548b8[];
 
 extern void *gRaceDisplaySettingsDescs[7];
 

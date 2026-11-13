@@ -10,9 +10,9 @@ from:0x01ff8304 kind:arm_call to:0x01ff9048 module:itcm
 from:0x01ff8420 kind:arm_call_thumb to:0x0214d32c module:main
 from:0x01ff85a4 kind:arm_call to:0x01ff9048 module:itcm
 from:0x01ff85c0 kind:load to:0x02152c0c module:main
-from:0x01ff85c4 kind:load to:0x02152c0d module:main
-from:0x01ff85c8 kind:load to:0x02152c0e module:main
-from:0x01ff85cc kind:load to:0x02152c0f module:main
+from:0x01ff85c4 kind:load to:0x02152c0c add:0x1 module:main
+from:0x01ff85c8 kind:load to:0x02152c0c add:0x2 module:main
+from:0x01ff85cc kind:load to:0x02152c0c add:0x3 module:main
 from:0x01ff8644 kind:load to:0x0216188c module:main
 from:0x01ff867c kind:arm_call to:0x01ff9144 module:itcm
 from:0x01ff8734 kind:load to:0x0216187c module:main

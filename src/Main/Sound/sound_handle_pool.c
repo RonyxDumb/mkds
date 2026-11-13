@@ -84,7 +84,7 @@ NNSSndSeqPlayer **GetSndHandles(void) {
 }
 
 NNSSndSeqPlayer **GetSecondSndHandleSlot(void) {
-    return &data_0217c83c;
+    return &gSndHandleSlots[1];
 }
 
 NNSSndSeqPlayer **GetSndHandleSlot(u32 index) {

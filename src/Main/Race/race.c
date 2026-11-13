@@ -93,6 +93,7 @@
 #include "01/Race/mission_run_state.h"
 #include "Main/Race/kart_standing_rank.h"
 #include "Main/Net/wifi_session.h"
+#include "Main/Sound/sound_source_list.h"
 
 s16 gToonTableFramesLimit = 2;
 u16 gFadeFogRemaining = 0x48;
@@ -298,7 +299,7 @@ void Init3dEngine(void) {
 void UpdateRace(void) {
     void *viewMatrix;
 
-    data_0217d020 = 1;
+    gExpireWhileRequestedSounds = 1;
     UpdateCollisionSlotBounds();
     UpdateCourseModels();
     UpdateKarts();

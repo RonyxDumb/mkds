@@ -26,6 +26,8 @@
 
 #pragma opt_rebuildconditionals off
 
+ConnectionWork *gConnectionWork;
+
 static inline u32 ConnectionGetConnectionMode(void) {
     if (gConnectionWork == NULL) {
         return 0;

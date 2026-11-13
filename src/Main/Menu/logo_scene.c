@@ -25,6 +25,7 @@
 #include "code_0200eddc.h"
 #include "g2.h"
 #include "gx_load2d.h"
+#include "Main/Scene/display_settings_descs.h"
 
 void LoadBg1FromSceneFiles(Bg1Files *files, s32 mainScreen, const char *paletteFileName, const char *charsFileName,
                            const char *screenMapFileName) {

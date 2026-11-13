@@ -825,11 +825,11 @@ void CollideKartWithMapObjects(Kart *kart);
 void ApplyKartLanding(Kart *kart, Vec3 *groundNormal);
 
 extern const Vec4 gKartResetHeadingQuaternion;
-extern const Vec4 data_usa_02154f24;
+extern const Vec4 gKartResetSecondQuaternion;
 extern const int gKartCollisionSingleEffectIds[1];
 extern const Vec4 gKartResetRotationQuaternion;
-extern const Vec4 data_usa_02154f34;
-extern const Vec4 data_usa_02154f44;
+extern const Vec4 gKartResetThirdQuaternion;
+extern const Vec4 gKartResetFourthQuaternion;
 
 extern s32 gFirstBaseSpeedLimitReciprocal;
 extern Vec3 gKartPlacementHeadingAxis;

@@ -5,12 +5,4 @@
 extern s16 data_02152ce4[];
 
 
-extern u32 matColorMask_[];
-
-extern u8 pivotUtil_[][4];
-
-extern u8 pivotUtilSecondColumn_[][4];
-
-extern u8 pivotUtilThirdColumn_[][4];
-
-extern u8 pivotUtilFourthColumn_[][4];
+#include "g3d_color_mask_tables.h" // matColorMask_, pivotUtil_

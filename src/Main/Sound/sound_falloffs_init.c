@@ -10,6 +10,7 @@
 #include "Main/Sound/sound_source_list.h"
 
 PlayingSound gPlayingSoundEntries[12];
+SoundFalloff gSoundFalloffs[16];
 
 void InitSoundFalloffsAndPlayingSounds(void) {
     InitSoundFalloffs();

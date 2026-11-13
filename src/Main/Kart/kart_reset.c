@@ -170,8 +170,8 @@ void ResetKartToRespawnPoint(Kart *kart) {
         kartItems->mItemLink.mNextLinksUsed = 1;
     }
     if (gRaceSetup->mMode != MODE_TIME_ATTACK) {
-        value = data_usa_02154d4c[kart->mIndex][0];
-        forwardOffset = data_usa_02154d50[kart->mIndex][0];
+        value = gKartRespawnOffsets[kart->mIndex][0];
+        forwardOffset = ((const s32 (*)[2]) &gKartRespawnOffsets[0][1])[kart->mIndex][0];
         Vec3CrossUnrounded(&gKartVec3UnitY, &respawnForward, &sideDirection);
         VEC_MultAdd(MUL_FIXED12_NO_ROUND(gKartRespawnOffsetScale, value), &sideDirection, &respawnPos, &respawnPos);
         VEC_MultAdd(MUL_FIXED12_NO_ROUND(gKartRespawnOffsetScale, forwardOffset), &respawnForward, &respawnPos, &respawnPos);
@@ -489,9 +489,9 @@ void ResetKart(Kart *kart) {
     kart->mPointMotion = zeroVector;
     kart->mSpeedLimitFactor = 0x1000;
     kart->mUnk_e0_m = gKartResetHeadingQuaternion;
-    kart->mUnk_f0_q = data_usa_02154f24;
-    kart->mUnk_100_q = data_usa_02154f34;
-    kart->mUnk_110_q = data_usa_02154f44;
+    kart->mUnk_f0_q = gKartResetSecondQuaternion;
+    kart->mUnk_100_q = gKartResetThirdQuaternion;
+    kart->mUnk_110_q = gKartResetFourthQuaternion;
     kart->mAirTiltAngle = 0;
     kart->mHeadingAngle = 0;
     kart->mBoostTimer = 0;
@@ -850,13 +850,13 @@ void InitKartSoundParams(Kart *kart) {
     kartSound->mSoundIndex = soundIndex;
     soundRowIndex = GetKartSoundTableRow(kart->mKartModelsEntry->mKartIndex);
     rowOffset = soundRowIndex * 0x1c;
-    firstSoundColumn = *(s32 *) (data_02161ae8 + rowOffset);
-    secondSoundColumn = *(s32 *) (data_02161aec + rowOffset);
-    thirdSoundColumn = *(s32 *) (data_02161af0 + rowOffset);
-    highRatioSoundId = *(s32 *) (data_02161af4 + rowOffset);
-    midRatioSoundId = *(s32 *) (data_02161af8 + rowOffset);
-    lowRatioSoundId = *(s32 *) (data_02161afc + rowOffset);
-    lastSoundColumn = *(s32 *) (data_02161b00 + rowOffset);
+    firstSoundColumn = *(s32 *) ((u8 *) &gKartSoundRowSoundIds[0][0] + rowOffset);
+    secondSoundColumn = *(s32 *) ((u8 *) &gKartSoundRowSoundIds[0][1] + rowOffset);
+    thirdSoundColumn = *(s32 *) ((u8 *) &gKartSoundRowSoundIds[0][2] + rowOffset);
+    highRatioSoundId = *(s32 *) ((u8 *) &gKartSoundRowSoundIds[0][3] + rowOffset);
+    midRatioSoundId = *(s32 *) ((u8 *) &gKartSoundRowSoundIds[0][4] + rowOffset);
+    lowRatioSoundId = *(s32 *) ((u8 *) &gKartSoundRowSoundIds[0][5] + rowOffset);
+    lastSoundColumn = *(s32 *) ((u8 *) &gKartSoundRowSoundIds[0][6] + rowOffset);
     soundRow.mSoundRowIndex = soundRowIndex;
     soundRow.mUnk_04 = firstSoundColumn;
     soundRow.mUnk_08 = secondSoundColumn;

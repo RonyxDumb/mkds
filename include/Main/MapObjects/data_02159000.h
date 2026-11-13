@@ -5,12 +5,6 @@
 
 extern u16 gSecondHandFlag;
 
-extern MapObjectList gObPakkunSfUpdateListData;
-
-extern MapObjectDrawList gObPakkunSfDrawListData;
-
-extern MapObjectKindData gObPakkunSfKindData;
-
 extern const u32 gAttractorDistanceFlag;
 
 extern const u32 gWoodbox1HitFlag;

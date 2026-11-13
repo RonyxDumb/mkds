@@ -71,6 +71,7 @@
 #include "Main/Menu/time_attack_ghost_get_scan.h"
 #include "Main/Sound/sound_system.h"
 #include "Main/Menu/menu_shared_clear.h"
+#include "Main/Scene/display_settings_descs.h"
 
 const u16 gResultsBattleSubLabelCanvasEntries[16][4] = {
     {0, 0x30, 0x10, 0},     {1, 0x30, 0x10, 1},     {2, 0x30, 0x10, 2},     {3, 0x30, 0x10, 3},
@@ -708,7 +709,7 @@ void InitResultsBattle(void *heap, void *mainOam, void *subOam) {
         SetupWiFiSession(3);
     }
     Init3dEngine();
-    displaySettings = CreateDisplaySettings(heap, data_021547f0);
+    displaySettings = CreateDisplaySettings(heap, gResultsDisplaySettingsDesc);
     SetBg0Record(&displaySettings->mMainBgRecords, 3, 0, 0, 0, 0xd, 2, 0);
     SetBg1Record(&displaySettings->mMainBgRecords, 0, 0, 0, 0, 0xc, 0, 0);
     SetBg2RecordParams(&displaySettings->mMainBgRecords, 2, 0, 0, 0, 0x1e, 6);

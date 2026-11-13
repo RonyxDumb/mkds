@@ -37,4 +37,3 @@ void SetStateMachineState(StateMachine *stateMachine, u16 state);
 
 extern SceneCallbacks gSecondMenuSceneCallbacks;
 
-extern u8 gSecondMenuSceneDisplaySettingsDesc[];

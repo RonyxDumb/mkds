@@ -44,6 +44,7 @@
 #include "registers.h"
 #include "Main/Race/race_setup_input.h"
 #include "Main/Menu/menu_shared_clear.h"
+#include "Main/Scene/display_settings_descs.h"
 
 GhostSceneCallbacks *gGhostSceneCallbacks[3] = {&gTimeAttackGhostSendCallbacks, &gTimeAttackGhostGetScanCallbacks, &data_usa_02164460};
 GhostScene *gGhostScene;

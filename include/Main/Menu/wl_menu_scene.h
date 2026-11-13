@@ -49,4 +49,3 @@ void WLMenuGX_SetOBJVRamModeChar(u32 bits);
 extern struct WLMenuCallbacks *gWLMenuCallbacks[8];
 extern struct WLMenuScene *gWLMenuScene;
 
-extern u8 gWLMenuSceneDisplaySettingsDesc[];

@@ -34,20 +34,8 @@ extern u32 (*data_021619f4)(s32 a, s32 b, s32 c);
 
 
 
-// Seven word tables, entries 0x1c bytes apart, indexed by the result of GetKartSoundTableRow.
-extern u8 data_02161ae8[];
-
-extern u8 data_02161aec[];
-
-extern u8 data_02161af0[];
-
-extern u8 data_02161af4[];
-
-extern u8 data_02161af8[];
-
-extern u8 data_02161afc[];
-
-extern u8 data_02161b00[];
+// Three rows of seven sound ids (0x1c bytes each), selected by the result of GetKartSoundTableRow.
+extern s32 gKartSoundRowSoundIds[3][7];
 
 extern u32 NNS_G3dAnmFmtNum;
 

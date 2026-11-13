@@ -29,6 +29,7 @@
 #include "code_020172d0.h"
 #include "Main/Kart/kart_effects.h"
 #include "Main/Graphics/nsbmd_draw.h"
+#include "Main/Graphics/res_file_entries_reset.h"
 
 const Vec3 gKartEffectVec3UnitY = {0, 0x1000, 0};
 const Vec3 gKartEffectVec3Zero = {0, 0, 0};

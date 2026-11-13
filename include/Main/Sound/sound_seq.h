@@ -37,7 +37,7 @@ typedef struct CourseSurfaceSoundEntry {
     /* 04 */ u32 mSurfaceVariant;
 } CourseSurfaceSoundEntry;
 
-extern CourseSurfaceSoundEntry gCourseSurfaceSoundEntries[];
+extern CourseSurfaceSoundEntry gCourseSurfaceSoundEntries[14];
 
 // Object behind gOldLuigiAgbSurfaceSoundSetup.
 typedef struct SurfaceSoundSetup {
@@ -124,8 +124,6 @@ typedef struct SceneSoundState {
 } SceneSoundState;
 
 extern SceneSoundState gSceneSoundState;
-
-extern NNSSndSeqPlayer *gRaceSeqHandle;
 
 // Object gCurrentSoundSetPlayer points to.
 typedef struct SoundSetPlayer {

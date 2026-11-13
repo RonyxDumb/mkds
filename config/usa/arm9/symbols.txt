@@ -7724,9 +7724,6 @@ mbi_seg_header_default kind:data(any) addr:0x02152bcc
 gDefaultScanBssid kind:data(any) addr:0x02152be4
 matColorMask_ kind:data(any) addr:0x02152bec
 pivotUtil_ kind:data(any) addr:0x02152c0c
-pivotUtilSecondColumn_ kind:data(any) addr:0x02152c0d
-pivotUtilThirdColumn_ kind:data(any) addr:0x02152c0e
-pivotUtilFourthColumn_ kind:data(any) addr:0x02152c0f
 gRotPivotIndices kind:data(any) addr:0x02152c30
 transFunc kind:data(any) addr:0x02152c54
 data_02152ce4 kind:data(any) addr:0x02152ce4
@@ -7875,12 +7872,12 @@ gGameRegistry kind:data(any) addr:0x0215472c
 gGhostBlockInfo kind:data(any) addr:0x02154768
 gDefaultParentParameter kind:data(any) addr:0x02154788
 gLogoSceneDisplaySettingsDesc kind:data(any) addr:0x021547c8
-data_021547f0 kind:data(any) addr:0x021547f0
+gResultsDisplaySettingsDesc kind:data(any) addr:0x021547f0
 gWLMenuSceneDisplaySettingsDesc kind:data(any) addr:0x02154818
 gGhostSceneDisplaySettingsDesc kind:data(any) addr:0x02154840
 gSecondMenuSceneDisplaySettingsDesc kind:data(any) addr:0x02154868
-data_usa_02154890 kind:data(any) addr:0x02154890
-data_usa_021548b8 kind:data(any) addr:0x021548b8
+gRaceDisplaySettingsDescBitmap kind:data(any) addr:0x02154890
+gRaceDisplaySettingsDescNormal kind:data(any) addr:0x021548b8
 gEloChangeTable kind:data(any) addr:0x021548e0
 gDWCUtilityLanguageTable kind:data(any) addr:0x02154904
 gSceneFuncs kind:data(any) addr:0x0215490c
@@ -7919,17 +7916,16 @@ gKartModelScaleYKind1Table kind:data(any) addr:0x02154c5c
 gKartModelOffsetYKind1Table kind:data(any) addr:0x02154c98
 gKartModelScaleXKind2Table kind:data(any) addr:0x02154cd4
 gKartModelScaleZKind2Table kind:data(any) addr:0x02154d10
-data_usa_02154d4c kind:data(any) addr:0x02154d4c
-data_usa_02154d50 kind:data(any) addr:0x02154d50
+gKartRespawnOffsets kind:data(any) addr:0x02154d4c
 gKartSurfaceFunctions kind:data(any) addr:0x02154d8c
 gKartScaleFactorXTable kind:data(any) addr:0x02154de4
 gKartScaleFactorYTable kind:data(any) addr:0x02154e48
 gKartScaleFactorZTable kind:data(any) addr:0x02154eac
 gKartCollisionSingleEffectIds kind:data(any) addr:0x02154f10
 gKartResetHeadingQuaternion kind:data(any) addr:0x02154f14
-data_usa_02154f24 kind:data(any) addr:0x02154f24
-data_usa_02154f34 kind:data(any) addr:0x02154f34
-data_usa_02154f44 kind:data(any) addr:0x02154f44
+gKartResetSecondQuaternion kind:data(any) addr:0x02154f24
+gKartResetThirdQuaternion kind:data(any) addr:0x02154f34
+gKartResetFourthQuaternion kind:data(any) addr:0x02154f44
 gKartResetRotationQuaternion kind:data(any) addr:0x02154f54
 gKartOffsetCycleStartAmount kind:data(any) addr:0x02154f64
 gKartVec3UnitZ kind:data(any) addr:0x02154f70
@@ -8003,13 +7999,6 @@ gKartSurfaceEffectFunctions kind:data(any) addr:0x02155830
 gKartStarEffectOffsetByCharacter kind:data(any) addr:0x02155854
 gOtherKartPairs kind:data(any) addr:0x02155888
 gKartSurfaceEffectRows kind:data(any) addr:0x02155908
-gKartSurfaceEffectRow1 kind:data(any) addr:0x02155928
-gKartSurfaceEffectRow2 kind:data(any) addr:0x02155948
-gKartSurfaceEffectRow3 kind:data(any) addr:0x02155968
-gKartSurfaceEffectRow4 kind:data(any) addr:0x02155988
-gKartSurfaceEffectRow5 kind:data(any) addr:0x021559a8
-gKartSurfaceEffectRow6 kind:data(any) addr:0x021559c8
-gKartSurfaceEffectRow7 kind:data(any) addr:0x021559e8
 gKartEffectVec3UnitY kind:data(any) addr:0x02155a08
 gKartEffectVec3Zero kind:data(any) addr:0x02155a14
 gNsbmdDrawFunctions kind:data(any) addr:0x02155a20
@@ -8884,13 +8873,7 @@ gMicSampleAnalysisMode kind:data(any) addr:0x02161ad8
 gPitchRiseAboveLimitDivisor kind:data(any) addr:0x02161adc
 gPitchFallDivisor kind:data(any) addr:0x02161ae0
 gPitchRiseDivisor kind:data(any) addr:0x02161ae4
-data_02161ae8 kind:data(any) addr:0x02161ae8
-data_02161aec kind:data(any) addr:0x02161aec
-data_02161af0 kind:data(any) addr:0x02161af0
-data_02161af4 kind:data(any) addr:0x02161af4
-data_02161af8 kind:data(any) addr:0x02161af8
-data_02161afc kind:data(any) addr:0x02161afc
-data_02161b00 kind:data(any) addr:0x02161b00
+gKartSoundRowSoundIds kind:data(any) addr:0x02161ae8
 @4506 kind:data(any) addr:0x02161b3c local
 @4507 kind:data(any) addr:0x02161b5c local
 @4508 kind:data(any) addr:0x02161b7c local
@@ -9242,19 +9225,19 @@ gTimeAttackGhostGetScanSSelLabelTextRows kind:data(any) addr:0x02164254
 @6273 kind:data(any) addr:0x02164440 local
 data_usa_02164460 kind:data(any) addr:0x02164460
 gTimeAttackGhostGetSlotSLabelTextRows kind:data(any) addr:0x02164470
-data_021644e0 kind:data(any) addr:0x021644e0
-data_021644ec kind:data(any) addr:0x021644ec
-data_021644f8 kind:data(any) addr:0x021644f8
-data_02164518 kind:data(any) addr:0x02164518
-data_02164538 kind:data(any) addr:0x02164538
-data_02164558 kind:data(any) addr:0x02164558
-data_02164574 kind:data(any) addr:0x02164574
-data_02164590 kind:data(any) addr:0x02164590
-data_021645b0 kind:data(any) addr:0x021645b0
-data_021645d0 kind:data(any) addr:0x021645d0
-data_021645ec kind:data(any) addr:0x021645ec
-data_0216460c kind:data(any) addr:0x0216460c
-data_0216462c kind:data(any) addr:0x0216462c
+gTimeAttackGhostGetCommonBmgName kind:data(any) addr:0x021644e0
+gTimeAttackGhostGetGhostBmgName kind:data(any) addr:0x021644ec
+gTimeAttackGhostGetMNceNcgrName kind:data(any) addr:0x021644f8
+gTimeAttackGhostGetMNceNcerName kind:data(any) addr:0x02164518
+gTimeAttackGhostGetMONclrName kind:data(any) addr:0x02164538
+gTimeAttackGhostGetMBnclName kind:data(any) addr:0x02164558
+gTimeAttackGhostGetMBnllName kind:data(any) addr:0x02164574
+gTimeAttackGhostGetSBNcgrName kind:data(any) addr:0x02164590
+gTimeAttackGhostGetSBNclrName kind:data(any) addr:0x021645b0
+gTimeAttackGhostGetSNscrName kind:data(any) addr:0x021645d0
+gTimeAttackGhostGetSNceNcgrName kind:data(any) addr:0x021645ec
+gTimeAttackGhostGetSNceNcerName kind:data(any) addr:0x0216460c
+gTimeAttackGhostGetSONclrName kind:data(any) addr:0x0216462c
 gTimeAttackGhostGetSBnclName kind:data(any) addr:0x0216464c
 gTimeAttackGhostGetSBnllName kind:data(any) addr:0x02164668
 gTimeAttackGhostGetSBnblName kind:data(any) addr:0x02164684
@@ -9466,11 +9449,11 @@ gWLMenuSceneCallbacks kind:data(any) addr:0x021651b0
 gRomArchiveName kind:data(any) addr:0x021651d0
 @3218 kind:data(any) addr:0x021651d4 local
 @3303 kind:data(any) addr:0x021651d8 local
-data_usa_021651dc kind:data(any) addr:0x021651dc
-data_usa_021651e0 kind:data(any) addr:0x021651e0
-data_usa_021651e4 kind:data(any) addr:0x021651e4
-data_usa_021651e8 kind:data(any) addr:0x021651e8
-data_usa_02165208 kind:data(any) addr:0x02165208
+gGameRegistryRomPath kind:data(any) addr:0x021651dc
+gGameRegistryGameName kind:data(any) addr:0x021651e0
+gGameRegistryIntroduction kind:data(any) addr:0x021651e4
+gGameRegistryIconCharPath kind:data(any) addr:0x021651e8
+gGameRegistryIconPalettePath kind:data(any) addr:0x02165208
 gPacketSendTimerFrames kind:data(any) addr:0x02165228
 gPacketPortParams kind:data(any) addr:0x0216522c
 gMPDataToPortParams kind:data(any) addr:0x0216523c
@@ -10429,19 +10412,6 @@ gOldLuigiAgbSurfaceSoundSetup kind:data(any) addr:0x0216c7c0
 gSndBankIdsByBit kind:data(any) addr:0x0216c7d8
 gSndWaveArcIdsByBit kind:data(any) addr:0x0216c80c
 gCourseSurfaceSoundEntries kind:data(any) addr:0x0216c840
-data_usa_0216c848 kind:data(any) addr:0x0216c848
-data_usa_0216c850 kind:data(any) addr:0x0216c850
-data_usa_0216c858 kind:data(any) addr:0x0216c858
-data_usa_0216c860 kind:data(any) addr:0x0216c860
-data_usa_0216c868 kind:data(any) addr:0x0216c868
-data_usa_0216c870 kind:data(any) addr:0x0216c870
-data_usa_0216c878 kind:data(any) addr:0x0216c878
-data_usa_0216c880 kind:data(any) addr:0x0216c880
-data_usa_0216c888 kind:data(any) addr:0x0216c888
-data_usa_0216c890 kind:data(any) addr:0x0216c890
-data_usa_0216c898 kind:data(any) addr:0x0216c898
-data_usa_0216c8a0 kind:data(any) addr:0x0216c8a0
-data_usa_0216c8a8 kind:data(any) addr:0x0216c8a8
 gSoundDataSdatPath kind:data(any) addr:0x0216c8b0
 defaultSettings0$2503 kind:data(any) addr:0x0216c8cc local
 defaultSettings16$2502 kind:data(any) addr:0x0216c8e0 local
@@ -11251,7 +11221,7 @@ gProjectionMatrix kind:bss addr:0x0217aca0
 gKartModels kind:bss addr:0x0217ace0
 gEmblemSBNclr kind:bss addr:0x0217ace4
 gKartModelMenu kind:bss addr:0x0217ace8
-data_usa_0217acec kind:bss addr:0x0217acec
+gSpecialKartBodyMaterial kind:bss addr:0x0217acec
 gKillerItemKartIndex kind:bss addr:0x0217acf0
 gKartCount kind:bss addr:0x0217acf4
 gKarts kind:bss addr:0x0217acf8
@@ -11810,11 +11780,7 @@ gSoundHandlePool kind:bss addr:0x0217c7a4
 gSoundHandlePoolEntries kind:bss addr:0x0217c7b8
 gPlayerVolumeFade kind:bss addr:0x0217c7d0
 gSceneSoundState kind:bss addr:0x0217c7f4
-data_0217c81c kind:bss addr:0x0217c7fc
 gSndHandleSlots kind:bss addr:0x0217c818
-data_0217c83c kind:bss addr:0x0217c81c
-data_0217c840 kind:bss addr:0x0217c820
-gRaceSeqHandle kind:bss addr:0x0217c834
 gOnMemorySndArc kind:bss addr:0x0217c848
 gOtherKartSoundFalloff kind:bss addr:0x0217c8d8
 gPlayingSoundEntries kind:bss addr:0x0217c8fc
@@ -11827,11 +11793,11 @@ gKouraPitchPerWaterDepth kind:bss addr:0x0217cc9c
 gKartSoundQueue kind:bss addr:0x0217cca0
 gSurfaceSoundIds kind:bss addr:0x0217cd10
 gSoundSourceUpdatePass kind:bss addr:0x0217cff0
-data_0217d014 kind:bss addr:0x0217cff4
-data_0217d018 kind:bss addr:0x0217cff8
-data_0217d01c kind:bss addr:0x0217cffc
-data_0217d020 kind:bss addr:0x0217d000
-data_0217d024 kind:bss addr:0x0217d004
+gSoundVolumeFunction kind:bss addr:0x0217cff4
+gSoundDistanceFunction kind:bss addr:0x0217cff8
+gSoundPanFunction kind:bss addr:0x0217cffc
+gExpireWhileRequestedSounds kind:bss addr:0x0217d000
+gSoundSourceCountThisPass kind:bss addr:0x0217d004
 gSoundSources kind:bss addr:0x0217d008
 gPlayingSoundPool kind:bss addr:0x0217d014
 gSoundSourceUpdateLists kind:bss addr:0x0217d028

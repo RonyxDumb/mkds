@@ -15,8 +15,6 @@ typedef struct SOCSockAddrIn SOCSockAddrIn;
 #include "00/unk_021b5000.h"
 #include "00/unk_021b4000.h"
 
-extern SOCLSocketParam SOCLSocketParamUDP;
-
 void SOCLi_SocketUnregisterTrash(SOCLSocket *socket);
 SOCLSocket **SOCLi_SocketGetNextPtr(SOCLSocket **head, SOCLSocket *node);
 void SOCLi_SocketUnregisterList(SOCLSocket **head, SOCLSocket *node);

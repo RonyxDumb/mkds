@@ -46,7 +46,7 @@ void InitPlayingSoundPool(PlayingSound *sounds, s32 count) {
         NNS_FndInitList(&gSoundSourceUpdateLists[index], 0x1c);
     }
     gSoundSourceUpdatePass[0] = 0;
-    data_0217d024[0] = 0;
+    gSoundSourceCountThisPass[0] = 0;
 }
 
 u32 SoundReturnArgument(u32 value) {
@@ -64,11 +64,11 @@ void UpdateSoundSources(void) {
     if (gSoundModeHolder.mSoundsEnabled == 0) {
         return;
     }
-    if (data_0217d020 != 0) {
+    if (gExpireWhileRequestedSounds != 0) {
         for (source = gSoundSources.mHead; source != NULL; source = NNS_FndGetNextListObject(&gSoundSources, source)) {
             ExpireWhileRequestedSounds(source);
         }
-        data_0217d020 = 0;
+        gExpireWhileRequestedSounds = 0;
     }
     IncrementSoundHandleAges(&gPlayingSoundPool);
     updateLists = gSoundSourceUpdateLists;
@@ -81,7 +81,7 @@ void UpdateSoundSources(void) {
     }
     secondUpdateList = &gSoundSourceSecondUpdateList;
     source = secondUpdateList->mHead;
-    countThisPass = data_0217d024[0];
+    countThisPass = gSoundSourceCountThisPass[0];
     if (source != NULL) {
         updateLists = gSoundSourceUpdateLists;
         do {
@@ -106,7 +106,7 @@ void UpdateSoundSources(void) {
     if (gSoundSourceUpdatePass[0] == 4) {
         gSoundSourceUpdatePass[0] = 0;
     }
-    data_0217d024[0] = 0;
+    gSoundSourceCountThisPass[0] = 0;
 }
 
 // Stops every sound of every source, removes the entries from the source and the source from its update list.
@@ -186,15 +186,15 @@ void StartSoundSeqArc(NNSSndSeqPlayer **handle, u32 seqArcNo, u32 soundId, u32 p
 }
 
 void SetSoundPanFunction(s32 (*panFunction)(SoundParams *)) {
-    data_0217d01c = panFunction;
+    gSoundPanFunction = panFunction;
 }
 
 void SetSoundDistanceFunction(u32 (*distanceFunction)(SoundParams *)) {
-    data_0217d018 = distanceFunction;
+    gSoundDistanceFunction = distanceFunction;
 }
 
 void SetSoundVolumeFunction(s32 (*volumeFunction)(SoundParams *)) {
-    data_0217d014 = volumeFunction;
+    gSoundVolumeFunction = volumeFunction;
 }
 
 void ResetPlayingSound(PlayingSound *sound) {

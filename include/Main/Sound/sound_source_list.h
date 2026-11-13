@@ -3,6 +3,7 @@
 #include "types.h"
 #include "player.h"
 #include "code_0212d214.h"
+#include "Main/Sound/sound_seq.h"
 
 // Sound source: the object a sound is started on. Kart, ItemObject and the object behind MapObject.mUnk_94 embed it as
 // their first member. A sound is started on it only while bit 0 of its mUnk_34 member is set.
@@ -59,7 +60,7 @@ typedef struct SoundStartParams {
 } SoundStartParams;
 
 // Held on the stack by StartOrUpdateSndHandleSound and SetPlayingSoundsParams and passed to the three functions
-// data_0217d018, data_0217d014 and data_0217d01c point at.
+// gSoundDistanceFunction, gSoundVolumeFunction and gSoundPanFunction point at.
 typedef struct SoundParams {
     /* 00 */ SoundSource *mSource;
     /* 04 */ Vec3 *mPositionSource;
@@ -83,3 +84,13 @@ void UnlinkSoundSourceSounds(SoundSource *source);
 void ItemObjectInitAndRegisterSoundSource(SoundSource *source, Vec3 *positionSource);
 
 extern void (*gStartSoundSeqArcTable[1])(NNSSndSeqPlayer **handle, u32 seqArcNo, u32 soundId, u32 priority);
+
+extern u32 gSoundSourceUpdatePass[1];
+extern u32 (*gSoundDistanceFunction)(SoundParams *);
+extern u32 gSoundSourceCountThisPass[1];
+// Objects whose layout isn't known yet.
+extern s32 (*gSoundVolumeFunction)(SoundParams *);
+extern s32 (*gSoundPanFunction)(SoundParams *);
+extern u32 gExpireWhileRequestedSounds;
+extern NNSFndList gSoundSources;
+extern SoundHandlePool gPlayingSoundPool;

@@ -48,6 +48,7 @@
 #include "std_string.h"
 #include "00/code_021a8604.h"
 #include "00/code_021a836c.h"
+#include "Main/Net/socl_socket_param_udp.h"
 
 u32 SOCLiResultCodeInConnecting = 0xffffffe6;
 SOCLSocketParam SOCLSocketParamTCP = {0, 1, 0, 0, 0x5ea, 0, 0, 0xbd5, 0, {0x800, 0xc, 8}, {0x800, 0xd, 8}};

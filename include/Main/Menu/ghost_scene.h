@@ -28,4 +28,3 @@ u32 GhostSceneGetCupCourseIdAtIndex(s32 cupCourseIndex);
 extern struct GhostSceneCallbacks *gGhostSceneCallbacks[3];
 extern struct GhostScene *gGhostScene;
 
-extern u8 gGhostSceneDisplaySettingsDesc[];

@@ -43,6 +43,7 @@
 #include "Main/MapObjects/data_02154000.h"
 #include "Main/Sound/sound_system.h"
 #include "Main/Menu/menu_shared_clear.h"
+#include "Main/Scene/display_settings_descs.h"
 
 const u16 gEngineMessageIndexTable[4] = {0x6e, 0x6f, 0x70, 0};
 const u16 gCupNameLeftCharIndices[8] = {0, 1, 2, 3, 4, 5, 6, 7};
@@ -91,7 +92,7 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     }
     gResultsGp->mUnk_44 = gMenuShared->mGrade;
     Init3dEngine();
-    displaySettings = CreateDisplaySettings(heap, data_021547f0);
+    displaySettings = CreateDisplaySettings(heap, gResultsDisplaySettingsDesc);
     SetBg1Record(&displaySettings->mMainBgRecords, 2, 0, 0, 0, 0x10, 6, 0);
     SetBg3RecordParams(&displaySettings->mMainBgRecords, 3, 0, 0, 0, 2, 6);
     SetBg3RecordParams(&displaySettings->mSubBgRecords, 3, 0, 0, 0, 1, 6);

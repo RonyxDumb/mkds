@@ -7,6 +7,7 @@
 #include "code_02012b30.h"
 #include "Main/Kart/karts.h"
 #include "Main/Kart/character_animation.h"
+#include "Main/Graphics/font_and_player_character.h"
 
 // 0x88-byte object built from an entry of the table at CourseMap.mCameras: the entry, two PosCurve and two
 // halfwords.
@@ -63,3 +64,8 @@ extern char gCharMenuParamBinName[20];
 extern char gKartMenuParamBinName[20];
 extern char gKartSelectNsbmdName[28];
 extern char gKartSelectNsbtxName[28];
+
+extern u8 *gSpecialKartBodyMaterial;
+extern struct KartModels *gKartModels;
+extern struct Nclr *gEmblemSBNclr;
+extern KartModelMenuData *gKartModelMenu;

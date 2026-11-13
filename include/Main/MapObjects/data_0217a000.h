@@ -1297,8 +1297,6 @@ typedef struct KartModels {
     /* 10c */ ModelAnimation mKillerItemNsbca;
 } KartModels;
 
-extern KartModels *gKartModels;
-
 typedef struct ModelAnimation ModelAnimation;
 typedef struct KartOffsetData KartOffsetData;
 
@@ -1391,13 +1389,6 @@ typedef struct KartModelMenuData {
     /* 268 */ struct KartAppear *mKartAppear;
 } KartModelMenuData;
 
-extern KartModelMenuData *gKartModelMenu;
-extern u16 gKillerItemKartIndex;
-// 1 when this is a mission run and the course has a shape of kind 2, else 0; set by InitKarts.
-extern s32 gMissionRunKind2ShapesPresent;
-extern u32 gKartKind3ShapeListMask;
-extern s32 gKartSpeedLimitReciprocal;
-extern s32 gKartForwardSpeedRatio;
 struct ParticleEmitter;
 
 // Two objects returned by StartEffect.
@@ -1445,26 +1436,14 @@ typedef struct KartEffects {
     /* 4c */ Vec3s16 mSideDirections[2];
 } KartEffects;
 
-// Per-Kart effect records, allocated for every Kart by InitKartEffects and indexed by Kart.mIndex.
-extern KartEffects *gKartEffects;
 struct PointLinkCursor;
 struct KartAi;
 struct LinkCursor;
 struct Kart;
-extern u16 gKartEffectColor;
-// Written by InitKartEffects; nothing reads it.
-extern u16 gKartEffectsCount;
-extern struct ParticleEmitter **gKartNearRankEffects;
 // Three objects per entry, 0xc bytes each.
 typedef struct KartStarEffects {
     /* 00 */ struct ParticleEmitter *mEffects[3];
 } KartStarEffects;
-
-extern KartStarEffects *gKartStarEffects;
-extern u16 *gKartEffectIdSetIndex;
-extern s32 gOtherKartOddCount;
-extern struct ParticleEmitter **gKartAheadEffects;
-extern s32 gOtherKartFullPairCount;
 
 // Entry of the eight 0xc-byte entries at 0xb0 of KartAiShared: a word, then the links of a list.
 typedef struct KartAiTableIndexEntry {
@@ -1660,10 +1639,7 @@ static inline CourseTeamResults *GetCupCourseTeamResults(u8 course) {
 static inline CourseTeamResult *GetCupCourseTeamResult(CourseTeamResults *courseTeams, u32 team) {
     return &courseTeams->mTeams[team];
 }
-extern struct Kart *gKarts;
-extern NNSFndList gResFileEntries;
 // The event counters of the selected entry's Kart, allocated by InitKarts.
 struct EntryKartCounters;
-extern struct EntryKartCounters *gEntryKartCounters;
 
 extern void *data_usa_0217aa68;

@@ -35,27 +35,13 @@ typedef struct KartEffectIdSet {
 // 0x20 bytes: id sets for the entry kart and the others, a start function and a velocity factor index.
 typedef struct KartSurfaceEffectRow {
     /* 00 */ KartEffectIdSet mEffectIdSets[2];
-    /* 18 */ s32 (*mStartEffects)(KartEffectIdSet *a, s32 b, Kart *p);
+    /* 18 */ s32 (*mStartEffects)(const KartEffectIdSet *a, s32 b, Kart *p);
     /* 1c */ s32 mVelocityFactorIndex;
 } KartSurfaceEffectRow;
 
 #include "Main/MapObjects/data_0217a000.h"
 #include "code_0201c528.h"
 #include "Main/MapObjects/data_02155000.h"
-
-extern KartSurfaceEffectRow gKartSurfaceEffectRows[];
-extern KartSurfaceEffectRow gKartSurfaceEffectRow1;
-extern KartSurfaceEffectRow gKartSurfaceEffectRow2;
-extern KartSurfaceEffectRow gKartSurfaceEffectRow3;
-extern KartSurfaceEffectRow gKartSurfaceEffectRow4;
-extern KartSurfaceEffectRow gKartSurfaceEffectRow5;
-extern KartSurfaceEffectRow gKartSurfaceEffectRow6;
-extern KartSurfaceEffectRow gKartSurfaceEffectRow7;
-extern ParticleEmitter *gFirstCourseCameraEffect;
-extern ParticleEmitter *gKartBoostCameraEffect;
-extern ParticleEmitter *gSecondCourseCameraEffect;
-extern s32 gCourseCameraEffectSpeedReciprocal;
-extern OtherKartPairs gOtherKartPairsCopy;
 
 void PlaceKartKillerEffect(s32 kartIndex, Vec3 *position);
 void StartKartKillerEffect(s32 kartIndex);
@@ -92,10 +78,10 @@ void ReleaseKartSurfaceEffects(Kart *kart);
 void StopKartWaterEffects(Kart *kart);
 void StopKartEffectPairs(Kart *kart, s32 deleteAtOnce);
 void StopKartCurrentEffects(Kart *kart);
-BOOL StartKartWaterEffects(KartEffectIdSet *effectIdSet, s32 velocityFactorIndex, Kart *kart);
-s32 StartKartSideEffectsWithVelocity(KartEffectIdSet *effectIdSet, s32 velocityFactorIndex, Kart *kart);
-s32 StartKartSideEffects(KartEffectIdSet *effectIdSet, s32 unusedVelocityFactorIndex, Kart *kart);
-BOOL StartKartCurrentEffect(KartEffectIdSet *effectIdSet, s32 velocityFactorIndex, Kart *kart);
+BOOL StartKartWaterEffects(const KartEffectIdSet *effectIdSet, s32 velocityFactorIndex, Kart *kart);
+s32 StartKartSideEffectsWithVelocity(const KartEffectIdSet *effectIdSet, s32 velocityFactorIndex, Kart *kart);
+s32 StartKartSideEffects(const KartEffectIdSet *effectIdSet, s32 unusedVelocityFactorIndex, Kart *kart);
+BOOL StartKartCurrentEffect(const KartEffectIdSet *effectIdSet, s32 velocityFactorIndex, Kart *kart);
 void ApplyKartSurfaceEffectRow(s32 rowIndex, Kart *kart);
 void ApplyKartWaterEffects(Kart *kart);
 void ApplyKartSurfaceEffect(s32 functionIndex, Kart *kart);
@@ -141,3 +127,22 @@ extern s32 gKartStarEffectDirectionSpeedMin;
 extern s32 gOldFrappe64FirstCameraEffectHeightOffset;
 extern const OtherKartEffectKind gOtherKartEffectKinds[2];
 extern s32 gKartStarEffectAxisSpeedMax;
+
+// Written by InitKartEffects; nothing reads it.
+extern u16 gKartEffectsCount;
+extern u16 gKartEffectColor;
+extern ParticleEmitter *gKartBoostCameraEffect;
+extern struct ParticleEmitter **gKartAheadEffects;
+extern ParticleEmitter *gFirstCourseCameraEffect;
+extern struct ParticleEmitter **gKartNearRankEffects;
+extern s32 gCourseCameraEffectSpeedReciprocal;
+extern ParticleEmitter *gSecondCourseCameraEffect;
+// Per-Kart effect records, allocated for every Kart by InitKartEffects and indexed by Kart.mIndex.
+extern KartEffects *gKartEffects;
+extern u16 *gKartEffectIdSetIndex;
+extern s32 gOtherKartOddCount;
+extern struct KartStarEffects *gKartStarEffects;
+extern s32 gOtherKartFullPairCount;
+extern OtherKartPairs gOtherKartPairsCopy;
+
+extern const KartSurfaceEffectRow gKartSurfaceEffectRows[8];

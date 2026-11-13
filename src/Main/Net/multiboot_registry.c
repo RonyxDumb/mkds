@@ -5,6 +5,7 @@
 #include "Main/MapObjects/data_02154000.h"
 #include "Main/MapObjects/data_0217a000.h"
 #include "mb_fileinfo.h"
+#include "Main/Net/game_registry_data.h"
 
 #pragma thumb on
 
@@ -30,8 +31,8 @@ void SetGameRegistryTexts(Bmg *bmg) {
     void *secondEntry;
     firstEntry = GetBmgEntry(bmg, 0);
     secondEntry = GetBmgEntry(bmg, 1);
-    table = gGameRegistry;
-    gGameRegistry[1] = firstEntry;
+    table = (void **) gGameRegistry;
+    ((void **) gGameRegistry)[1] = firstEntry;
     table[2] = secondEntry;
 }
 

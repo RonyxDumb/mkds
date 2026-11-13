@@ -552,15 +552,15 @@ void NNSi_G3dFuncSbc_NODEDESC(NNSG3dRS *renderState, u32 option) {
             pivotValue = (*nodeHeader & 0x100) ? -0x1000 : 0x1000;
             jntAnmResult->mRot.a[pivotIndex] = pivotValue;
             jntAnmResult->mRot.a[pivotUtil_[pivotIndex][0]] = firstValue;
-            jntAnmResult->mRot.a[pivotUtilSecondColumn_[pivotIndex][0]] = secondValue;
+            jntAnmResult->mRot.a[((const u8 (*)[4]) &pivotUtil_[0][1])[pivotIndex][0]] = secondValue;
             if (*nodeHeader & 0x200) {
                 secondValue = -secondValue;
             }
-            jntAnmResult->mRot.a[pivotUtilThirdColumn_[pivotIndex][0]] = secondValue;
+            jntAnmResult->mRot.a[((const u8 (*)[4]) &pivotUtil_[0][2])[pivotIndex][0]] = secondValue;
             if (*nodeHeader & 0x400) {
                 firstValue = -firstValue;
             }
-            jntAnmResult->mRot.a[pivotUtilFourthColumn_[pivotIndex][0]] = firstValue;
+            jntAnmResult->mRot.a[((const u8 (*)[4]) &pivotUtil_[0][3])[pivotIndex][0]] = firstValue;
         } else {
             jntAnmResult->mRot.a[0] = ((s16 *) nodeHeader)[1];
             jntAnmResult->mRot.a[1] = ((s16 *) dataPointer)[0];

@@ -36,8 +36,33 @@
 #include "Main/Kart/karts.h"
 #include "Main/Graphics/nsbmd_render_obj.h"
 
+const KartSurfaceEffectRow gKartSurfaceEffectRows[8] = {
+    {{{1, {0xf, 0}}, {1, {0x10, 0}}}, StartKartCurrentEffect, 0},
+    {{{1, {0x1c, 0}}, {1, {0x1d, 0}}}, StartKartCurrentEffect, 0},
+    {{{1, {0x20, 0}}, {1, {0x21, 0}}}, StartKartSideEffectsWithVelocity, 0},
+    {{{1, {0x1e, 0}}, {1, {0x1f, 0}}}, StartKartSideEffectsWithVelocity, 1},
+    {{{1, {0x18, 0}}, {1, {0x19, 0}}}, StartKartSideEffects, 0},
+    {{{1, {0x28, 0}}, {1, {0x28, 0}}}, StartKartSideEffectsWithVelocity, 2},
+    {{{1, {0x26, 0}}, {1, {0x26, 0}}}, StartKartSideEffectsWithVelocity, 0},
+    {{{1, {0x23, 0}}, {1, {0x23, 0}}}, StartKartCurrentEffect, 2}};
+
+u16 gKartEffectColor;
+u16 gKartEffectsCount;
+u16 *gKartEffectIdSetIndex;
+struct ParticleEmitter **gKartAheadEffects;
+ParticleEmitter *gKartBoostCameraEffect;
+struct ParticleEmitter **gKartNearRankEffects;
+s32 gOtherKartOddCount;
+ParticleEmitter *gFirstCourseCameraEffect;
+s32 gCourseCameraEffectSpeedReciprocal;
+KartStarEffects *gKartStarEffects;
+s32 gOtherKartFullPairCount;
+KartEffects *gKartEffects;
+ParticleEmitter *gSecondCourseCameraEffect;
+OtherKartPairs gOtherKartPairsCopy;
+
 Vec3 gOldLuigiAgbFirstChaseEffectDirection = {0, -4096, 0};
-s32 gKartStarEffectDirectionSpeedMax = 0x21;
+s32 gStarEffectEngineScale = 0x1000;
 const s32 gKartSideOffsetsX[2] = {0x1800, -6144};
 s32 gOldFrappe64FirstCameraEffectForwardYScale = 0x4000;
 void (*const gKartSurfaceEffectFunctions[9])(struct Kart *p) = {SurfaceEffectStopKartCurrentEffects,
@@ -49,29 +74,29 @@ void (*const gKartSurfaceEffectFunctions[9])(struct Kart *p) = {SurfaceEffectSto
                                                                 ApplyKartSideEffectsRow5,
                                                                 ApplyKartSideEffectsRow6,
                                                                 ApplyKartCurrentEffectRow7};
-s32 gStarEffectEngineScale = 0x1000;
+s32 gKartStarEffectAxisSpeedMax = 0x148;
 const Vec3 gKartSideDirectionVectors[2] = {{0x733, 0xccd, -1843}, {-1843, 0xccd, -1843}};
 s32 gOldLuigiAgbFirstChaseEffectHeightDrop = 0x3000;
 const s32 gKartStarEffectOffsetByCharacter[13] = {0x6140, 0x8cd0, 0x4cd0, 0xa660, 0x6140, 0x6e10, 0x4cd0,
                                                   0x6140, 0x4cd0, 0x6140, 0x6e10, 0x6e10, 0x4cd0};
 s32 gKartEffectVelocityFactors[3] = {0xb33, 0xccd, 0xe66};
 u32 gKartStarEffectIds[3] = {0x42, 0x43, 0x44};
-s32 gOldLuigiAgbFirstCameraEffectForwardYScale = 0x2000;
-s32 gKartCameraEffectForwardDistance = 0x5800;
-s32 gKartStarEffectAxisSpeedMin = 0x52;
 s32 gOldLuigiAgbFirstCameraEffectHeightOffset = -8192;
+s32 gOldLuigiAgbFirstCameraEffectForwardDistance = 0x5800;
+s32 gOldLuigiAgbFirstCameraEffectForwardYScale = 0x2000;
+s32 gOldFrappe64FirstCameraEffectHeightOffset = -4096;
 const OtherKartPairs gOtherKartPairs[8] = {{{{1, 2}, {3, 4}, {5, 6}, {7, -1}}}, {{{0, 2}, {3, 4}, {5, 6}, {7, -1}}},
                                            {{{0, 1}, {3, 4}, {5, 6}, {7, -1}}}, {{{0, 1}, {2, 4}, {5, 6}, {7, -1}}},
                                            {{{0, 1}, {2, 3}, {5, 6}, {7, -1}}}, {{{0, 1}, {2, 3}, {4, 6}, {7, -1}}},
                                            {{{0, 1}, {2, 3}, {4, 5}, {7, -1}}}, {{{0, 1}, {2, 3}, {4, 5}, {6, -1}}}};
-s32 gOldLuigiAgbFirstChaseEffectBaseDistance = 0x5800;
-s32 gOldLuigiAgbFirstCameraEffectForwardDistance = 0x5800;
-const u32 gKartBoostCameraEffectIds[2] = {6, 7};
+s32 gKartCameraEffectForwardDistance = 0x5800;
 s32 gOldLuigiAgbFirstChaseEffectDistanceSlope = 0x1000;
+const u32 gKartBoostCameraEffectIds[2] = {6, 7};
 s32 gKartStarEffectDirectionSpeedMin = 0x14;
-s32 gOldFrappe64FirstCameraEffectHeightOffset = -4096;
+s32 gKartStarEffectDirectionSpeedMax = 0x21;
+s32 gKartStarEffectAxisSpeedMin = 0x52;
 const OtherKartEffectKind gOtherKartEffectKinds[2] = {{0, AdvanceOtherKartEffect}, {1, AdvanceOtherKartEffect}};
-s32 gKartStarEffectAxisSpeedMax = 0x148;
+s32 gOldLuigiAgbFirstChaseEffectBaseDistance = 0x5800;
 
 KartEffects *GetKartEffects(int kartIndex) {
     return &gKartEffects[kartIndex];
@@ -148,8 +173,8 @@ void ApplyKartCurrentEffectRow0(Kart *kart) {
 }
 
 void ApplyKartCurrentEffectRow1(Kart *kart) {
-    gKartSurfaceEffectRow1.mStartEffects(&gKartSurfaceEffectRow1.mEffectIdSets[gKartEffectIdSetIndex[kart->mIndex]],
-                                         gKartSurfaceEffectRow1.mVelocityFactorIndex, kart);
+    const KartSurfaceEffectRow *row = &gKartSurfaceEffectRows[1];
+    row->mStartEffects(&row->mEffectIdSets[gKartEffectIdSetIndex[kart->mIndex]], row->mVelocityFactorIndex, kart);
     StopKartEffectPairs(kart, 0);
 }
 
@@ -174,8 +199,10 @@ void ApplyKartSideEffectsRow3(Kart *kart) {
         kartEffects->mCurrentEffect = NULL;
         kartEffects->mCurrentEffectId = -1;
     }
-    gKartSurfaceEffectRow3.mStartEffects(&gKartSurfaceEffectRow3.mEffectIdSets[gKartEffectIdSetIndex[kart->mIndex]],
-                                         gKartSurfaceEffectRow3.mVelocityFactorIndex, kart);
+    {
+        const KartSurfaceEffectRow *row = &gKartSurfaceEffectRows[3];
+        row->mStartEffects(&row->mEffectIdSets[gKartEffectIdSetIndex[kart->mIndex]], row->mVelocityFactorIndex, kart);
+    }
 }
 
 void ApplyKartSideEffectsRow4(Kart *kart) {
@@ -187,8 +214,10 @@ void ApplyKartSideEffectsRow4(Kart *kart) {
         kartEffects->mCurrentEffect = NULL;
         kartEffects->mCurrentEffectId = -1;
     }
-    gKartSurfaceEffectRow4.mStartEffects(&gKartSurfaceEffectRow4.mEffectIdSets[gKartEffectIdSetIndex[kart->mIndex]],
-                                         gKartSurfaceEffectRow4.mVelocityFactorIndex, kart);
+    {
+        const KartSurfaceEffectRow *row = &gKartSurfaceEffectRows[4];
+        row->mStartEffects(&row->mEffectIdSets[gKartEffectIdSetIndex[kart->mIndex]], row->mVelocityFactorIndex, kart);
+    }
 }
 
 void ApplyKartSideEffectsRow5(Kart *kart) {
@@ -200,8 +229,10 @@ void ApplyKartSideEffectsRow5(Kart *kart) {
         kartEffects->mCurrentEffect = NULL;
         kartEffects->mCurrentEffectId = -1;
     }
-    gKartSurfaceEffectRow5.mStartEffects(&gKartSurfaceEffectRow5.mEffectIdSets[gKartEffectIdSetIndex[kart->mIndex]],
-                                         gKartSurfaceEffectRow5.mVelocityFactorIndex, kart);
+    {
+        const KartSurfaceEffectRow *row = &gKartSurfaceEffectRows[5];
+        row->mStartEffects(&row->mEffectIdSets[gKartEffectIdSetIndex[kart->mIndex]], row->mVelocityFactorIndex, kart);
+    }
 }
 
 void ApplyKartSideEffectsRow6(Kart *kart) {
@@ -213,13 +244,15 @@ void ApplyKartSideEffectsRow6(Kart *kart) {
         kartEffects->mCurrentEffect = NULL;
         kartEffects->mCurrentEffectId = -1;
     }
-    gKartSurfaceEffectRow6.mStartEffects(&gKartSurfaceEffectRow6.mEffectIdSets[gKartEffectIdSetIndex[kart->mIndex]],
-                                         gKartSurfaceEffectRow6.mVelocityFactorIndex, kart);
+    {
+        const KartSurfaceEffectRow *row = &gKartSurfaceEffectRows[6];
+        row->mStartEffects(&row->mEffectIdSets[gKartEffectIdSetIndex[kart->mIndex]], row->mVelocityFactorIndex, kart);
+    }
 }
 
 void ApplyKartCurrentEffectRow7(Kart *kart) {
-    gKartSurfaceEffectRow7.mStartEffects(&gKartSurfaceEffectRow7.mEffectIdSets[gKartEffectIdSetIndex[kart->mIndex]],
-                                         gKartSurfaceEffectRow7.mVelocityFactorIndex, kart);
+    const KartSurfaceEffectRow *row = &gKartSurfaceEffectRows[7];
+    row->mStartEffects(&row->mEffectIdSets[gKartEffectIdSetIndex[kart->mIndex]], row->mVelocityFactorIndex, kart);
     StopKartEffectPairs(kart, 0);
 }
 
@@ -272,7 +305,7 @@ void ApplyKartWaterEffects(Kart *kart) {
     KartEffects *kartEffects;
 
     if (kart->mEffectFlags & KART_EFFECT_NEAR_PLAYER_RANK) {
-        StartKartWaterEffects(&gKartSurfaceEffectRow3.mEffectIdSets[gKartEffectIdSetIndex[kart->mIndex]], 1, kart);
+        StartKartWaterEffects(&gKartSurfaceEffectRows[3].mEffectIdSets[gKartEffectIdSetIndex[kart->mIndex]], 1, kart);
         return;
     }
     kartEffects = &gKartEffects[kart->mIndex];
@@ -287,8 +320,8 @@ void ApplyKartWaterEffects(Kart *kart) {
 }
 
 void ApplyKartSurfaceEffectRow(s32 rowIndex, Kart *kart) {
-    KartSurfaceEffectRow *row;
-    KartEffectIdSet *effectIdSet;
+    const KartSurfaceEffectRow *row;
+    const KartEffectIdSet *effectIdSet;
     KartEffects *kartEffects;
     u16 pairIndex;
     u16 sideIndex;
@@ -308,7 +341,7 @@ void ApplyKartSurfaceEffectRow(s32 rowIndex, Kart *kart) {
     }
 }
 
-BOOL StartKartCurrentEffect(KartEffectIdSet *effectIdSet, s32 velocityFactorIndex, Kart *kart) {
+BOOL StartKartCurrentEffect(const KartEffectIdSet *effectIdSet, s32 velocityFactorIndex, Kart *kart) {
     KartEffects *kartEffects;
     ParticleEmitter *effect;
 
@@ -329,7 +362,7 @@ BOOL StartKartCurrentEffect(KartEffectIdSet *effectIdSet, s32 velocityFactorInde
 }
 
 // Starts one effect per side of the kart for each id that is not running yet.
-s32 StartKartSideEffects(KartEffectIdSet *effectIdSet, s32 unusedVelocityFactorIndex, Kart *kart) {
+s32 StartKartSideEffects(const KartEffectIdSet *effectIdSet, s32 unusedVelocityFactorIndex, Kart *kart) {
     KartEffects *kartEffects;
     ParticleEmitter *effect;
     s32 started;
@@ -362,7 +395,7 @@ s32 StartKartSideEffects(KartEffectIdSet *effectIdSet, s32 unusedVelocityFactorI
     return started;
 }
 
-s32 StartKartSideEffectsWithVelocity(KartEffectIdSet *effectIdSet, s32 velocityFactorIndex, Kart *kart) {
+s32 StartKartSideEffectsWithVelocity(const KartEffectIdSet *effectIdSet, s32 velocityFactorIndex, Kart *kart) {
     KartEffects *kartEffects;
     ParticleEmitter *effect;
     s32 started;
@@ -396,7 +429,7 @@ s32 StartKartSideEffectsWithVelocity(KartEffectIdSet *effectIdSet, s32 velocityF
     return started;
 }
 
-BOOL StartKartWaterEffects(KartEffectIdSet *effectIdSet, s32 velocityFactorIndex, Kart *kart) {
+BOOL StartKartWaterEffects(const KartEffectIdSet *effectIdSet, s32 velocityFactorIndex, Kart *kart) {
     KartEffects *kartEffects;
     ParticleEmitter *effect;
     u16 sideIndex;

@@ -39,16 +39,21 @@
 
 #pragma thumb on
 
+u8 *gSpecialKartBodyMaterial;
+Nclr *gEmblemSBNclr;
+KartModels *gKartModels;
+KartModelMenuData *gKartModelMenu;
+
 const s32 gCameraDefaultRows[2][3] = {{0x3a000, 0x22000, 0x14000}, {0x62000, 0x37000, 0x22000}};
-u16 gKartModelMenuLightLevel = 0x1f;
 u16 gKartModelMenuTiltAngleOffset = 0xd12;
-u32 gKartModelMenuSpinStep = 0x19a;
-s32 gKartModelMenuMaxScale = 0x14cd;
+u16 gKartModelMenuLightLevel = 0x1f;
 s32 gKartModelMenuLookAtYOffset = 0x10f4;
 s32 gKartModelMenuScaleFactor = 0x18fb;
+s32 gKartModelMenuMaxScale = 0x14cd;
+u32 gKartModelMenuSpinStep = 0x19a;
+Vec3 gKartModelMenuLookAtTarget = {0, -685, 0x4c};
 Vec3 gKartModelMenuCameraPosition = {0, -2665, 0x5000};
 Vec3 gKartModelMenuLightDirection = {-1051, -1565, -1873};
-Vec3 gKartModelMenuLookAtTarget = {0, -685, 0x4c};
 char gEmblemSBNclrName[16] = "emblem_s_b.NCLR";
 char gCharMenuParamBinName[20] = "charmenuparam.bin";
 char gKartMenuParamBinName[20] = "kartmenuparam.bin";

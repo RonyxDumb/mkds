@@ -1,6 +1,7 @@
 #include "Main/Kart/kart_killer_effect.h"
 #include "Main/Graphics/effects.h"
 #include "Main/MapObjects/data_0217a000.h"
+#include "Main/Kart/kart_effects.h"
 
 // Lets the Killer effect end by itself and forgets it.
 void StopKartKillerEffect(u32 kartIndex) {

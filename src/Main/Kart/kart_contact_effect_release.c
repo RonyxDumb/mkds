@@ -7,6 +7,7 @@
 #include "code_0201c528.h"
 #include "Main/Kart/karts.h"
 #include "Main/MapObjects/data_0217a000.h"
+#include "Main/Kart/kart_effects.h"
 
 void SetKartKillerEffectShown(s32 kartIndex, s32 shown) {
     ParticleEmitter *effect = gKartEffects[kartIndex].mKillerEffect;

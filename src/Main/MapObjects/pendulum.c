@@ -41,6 +41,7 @@
 #include "Main/MapObjects/choropu_state.h"
 #include "registers.h"
 #include "Main/Item/item_koura_w.h"
+#include "Main/MapObjects/ob_pakkun_sf_list_data.h"
 
 #pragma thumb on
 

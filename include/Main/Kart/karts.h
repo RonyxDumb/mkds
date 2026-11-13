@@ -31,6 +31,7 @@ void CreateKart(KartModelsEntry *kartModelsEntry, void *heap, s32 pNameUsed);
 void CreateCharacter(KartModelsEntry *kartModelsEntry, void *heap, s32 pNameUsed);
 
 #include "Main/Graphics/nsbmd_render_obj.h" // Nsbmd
+#include "Main/Kart/kart_drift.h"
 
 extern u8 data_usa_02154fe8[];
 extern u32 data_usa_02155008[];
@@ -45,8 +46,6 @@ extern u8 data_usa_021550e8[];
 extern u8 data_usa_02155108[];
 extern u8 data_usa_02155128[];
 extern u8 data_usa_02155148[];
-extern Nclr *gEmblemSBNclr;
-extern u8 *data_usa_0217acec;
 
 void InitLnkVramManagers(void *heap);
 void AdvanceKartModelMenuLoad(void);
@@ -135,7 +134,6 @@ struct KartModelsEntry;
 
 void SetKartModelTireAlpha(struct KartModelsEntry *kartModelsEntry, s32 visible);
 
-extern s32 gMinKartDistanceSquaredPresent;
 extern s32 gMinKartDistanceSquared;
 
 void SetKartModelMaterialColors(NNSG3dResMdl *mdl, u32 colorSet);
@@ -146,7 +144,6 @@ void SetKillerItemKartIndex(unsigned int kartIndex);
 unsigned int GetKillerItemKartIndex(void);
 
 extern s32 gNearPlayerRankKartCount;
-extern u16 gKartCount;
 
 void SetKartNearPlayerRankBits(void);
 BOOL IsKartInRespawnWait(s32 kartIndex);
@@ -171,3 +168,14 @@ unsigned int IsMissionRunWithKind2Shapes(void);
 typedef struct Kart Kart;
 
 void DrawShadowModelIfDrawFlag(ShadowModel *shadowModel, u32 unusedArg1, u32 unusedArg2);
+
+extern u16 gKartCount;
+extern u16 gKillerItemKartIndex;
+extern struct Kart *gKarts;
+extern s32 gKartForwardSpeedRatio;
+extern struct EntryKartCounters *gEntryKartCounters;
+extern s32 gMinKartDistanceSquaredPresent;
+// 1 when this is a mission run and the course has a shape of kind 2, else 0; set by InitKarts.
+extern s32 gMissionRunKind2ShapesPresent;
+extern s32 gKartSpeedLimitReciprocal;
+extern u32 gKartKind3ShapeListMask;

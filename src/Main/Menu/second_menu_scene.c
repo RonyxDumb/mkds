@@ -19,6 +19,7 @@
 #include "tp.h"
 #include "Main/Race/race_setup_input.h"
 #include "Main/System/heap_call.h"
+#include "Main/Scene/display_settings_descs.h"
 
 SceneCallbacks gSecondMenuSceneCallbacks = {InitSecondMenuScene,
                                             (void (*)()) SecondMenuUpdateReturnArgument,
