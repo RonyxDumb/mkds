@@ -17,7 +17,7 @@
 #include "code_02134398.h"
 #include "03/System/string_length.h"
 
-const u8 gSettingNone[1] = {0};
+const u8 gSettingNone[4] = {0, 0, 0, 0};
 char gAddressTextFormat[13] = "%3d%3d%3d%3d";
 struct ApStore *gApStore;
 

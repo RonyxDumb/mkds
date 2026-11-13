@@ -5,6 +5,6 @@
 
 void EssidFreeExpHeapBlockWrapper(void *block);
 
-extern const u8 gNintendoDsItemBytes[11];
+extern const u8 gNintendoDsItemBytes[12];
 extern u8 gValueRecordsRequestSucceeded[1];
 extern struct ValueRecordsRequest *gValueRecordsRequest;

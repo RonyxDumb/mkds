@@ -16,7 +16,7 @@ s32 DwcArchiveProc(FSFile *file, u32 command);
 void ReleaseDwcArchive(void);
 void InitDwcArchive(void);
 
-extern const u8 gDwcArchiveName[3];
+extern const u8 gDwcArchiveName[4];
 // Character data in the overlay's data.
 extern char gLzFileSuffix[3];
 extern u8 gRomDir[5];
