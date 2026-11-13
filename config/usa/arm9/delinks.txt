@@ -3540,15 +3540,16 @@ src/Main/MapObjects/choropu_state.c:
 // provisional: file name and boundaries
 src/Main/MapObjects/bridge.c:
     complete
-    .text       start:0x020e3618 end:0x020e3b08
+    .text       start:0x020e3618 end:0x020e38a0
     .rodata     start:0x02158c7c end:0x02158c88
-    .data       start:0x0216c128 end:0x0216c148
     .bss        start:0x0217b794 end:0x0217b7d0
 
 // provisional: file name and boundaries
 src/Main/MapObjects/bridge_kind_descriptor.c:
     complete
+    .text       start:0x020e38a0 end:0x020e3b08
     .rodata     start:0x02158c88 end:0x02158cc0
+    .data       start:0x0216c128 end:0x0216c148
 
 // provisional: file name and boundaries
 src/Main/MapObjects/bridge_animation_frame.c:
