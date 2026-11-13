@@ -12,6 +12,7 @@
 #include "Main/Sound/sound_seq.h"
 #include "Main/System/result_archive_path.h"
 #include "code_02012b30.h"
+#include "code_0200fe74.h"
 #include "Main/Race/data_021759c0.h"
 #include "tp.h"
 #include "Main/MapObjects/data_0217a000.h"
@@ -336,7 +337,8 @@ void InitModelEffectObjects(void *heap) {
 void SetupModelEffectKind(void *heap, s32 kind, NNSG3dResFileHeader *modelFile, void *nsbcaFile, void *nsbmaFile,
                           void *nsbtaFile) {
     u16 objectIndex;
-    u8 *modelSet;
+    NNSG3dResMdlSet *modelSet;
+    NNSG3dResDictEntryHeader *entries;
     ModelAnimation *animation;
     NNSG3dResMdl *resMdl;
     ModelEffect *modelEffect;
@@ -357,8 +359,9 @@ void SetupModelEffectKind(void *heap, s32 kind, NNSG3dResFileHeader *modelFile, 
     if (kind == 2) {
         gKind2EffectsCreated = 1;
     }
-    modelSet = (u8 *) NNS_G3dGetMdlSet(modelFile);
-    resMdl = OFFSET_PTR(NNSG3dResMdl, modelSet, *OFFSET_PTR(u32, modelSet + *OFFSET_PTR(u16, modelSet, 0xe), 0xc));
+    modelSet = NNS_G3dGetMdlSet(modelFile);
+    entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &modelSet->mDict, modelSet->mDict.mOfsEntry);
+    resMdl = OFFSET_PTR(NNSG3dResMdl, modelSet, *DICT_ENTRY(u32, entries, 0));
     for (objectIndex = 0; objectIndex < kindRow->mObjectCount; objectIndex++) {
         modelEffect = gModelEffects->mObjects[kind][objectIndex];
         InitNsbmdRenderObjWrapper(&modelEffect->mNsbmd, resMdl);
