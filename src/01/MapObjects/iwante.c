@@ -77,9 +77,29 @@
 #include "01/MapObjects/king_teresa.h"
 #include "Main/MapObjects/bound.h"
 
-MapObjectKindDescriptor gIwanteKindDescriptor = {0, {0, 0}, 0x30c, InitIwanteSoundSource, CreateIwanteKindData, CreateIwanteDrawList, NULL, NULL, CreateIwanteUpdateList, NULL, {NULL, NULL, NULL, NULL}};
+MapObjectKindDescriptor gIwanteKindDescriptor = {0,
+                                                 {0, 0},
+                                                 0x30c,
+                                                 InitIwanteSoundSource,
+                                                 CreateIwanteKindData,
+                                                 CreateIwanteDrawList,
+                                                 NULL,
+                                                 NULL,
+                                                 CreateIwanteUpdateList,
+                                                 NULL,
+                                                 {NULL, NULL, NULL, NULL}};
 SoundStartParams gIwanteEndSoundParams = {0x217, NULL, 0xc, 0};
-MapObjectKindDescriptor gIwanteHandsKindDescriptor = {0, {0, 0}, 0x30c, NULL, CreateEmptyMapObjectKindData, NULL, NULL, NULL, CreateIwanteHandsUpdateList, NULL, {NULL, NULL, NULL, NULL}};
+MapObjectKindDescriptor gIwanteHandsKindDescriptor = {0,
+                                                      {0, 0},
+                                                      0x30c,
+                                                      NULL,
+                                                      CreateEmptyMapObjectKindData,
+                                                      NULL,
+                                                      NULL,
+                                                      NULL,
+                                                      CreateIwanteHandsUpdateList,
+                                                      NULL,
+                                                      {NULL, NULL, NULL, NULL}};
 
 void InitIwanteSoundSource(MissionRunMapObject *mapObject) {
     mapObject->mUnk_000.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
@@ -1312,13 +1332,15 @@ void IwanteItemHitCallback(MissionRunMapObject *mapObject, ItemObject *itemObjec
 // IwanteHands: the model-less third Mission Run object (index MissionRunGetCurrentKartCount() + 2) that steers both
 // stone hands.
 void InitIwanteHandsObjects(MapObjectList *mapObjectList) {
-    int i;
+    int objectIndex;
     MissionRunMapObject *obj;
     int zero;
 
     if (mapObjectList != NULL) {
         zero = 0;
-        for (i = 0; i < mapObjectList->mMapObjectCount && (obj = mapObjectList->mMapObjects[i]) != NULL; i++) {
+        for (objectIndex = 0;
+             objectIndex < mapObjectList->mMapObjectCount && (obj = mapObjectList->mMapObjects[objectIndex]) != NULL;
+             objectIndex++) {
             InitMissionRunMapObject((void *) zero, obj, (const char *) zero, (const char *) zero, "iwante_l.prm");
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(obj);
@@ -1345,11 +1367,13 @@ void UpdateIwanteHands(u32 mapObjectList, MissionRunMapObject *mapObject) {
 
 // With chain cameras the hands start moved in y by a prm value and held; otherwise they wait before moving.
 void InitIwanteObjects(MapObjectList *mapObjectList) {
-    int i;
+    int objectIndex;
     MissionRunMapObject *obj;
 
     if (mapObjectList != NULL) {
-        for (i = 0; i < mapObjectList->mMapObjectCount && (obj = mapObjectList->mMapObjects[i]) != NULL; i++) {
+        for (objectIndex = 0;
+             objectIndex < mapObjectList->mMapObjectCount && (obj = mapObjectList->mMapObjects[objectIndex]) != NULL;
+             objectIndex++) {
             if (GetRaceUseChainCameras()) {
                 obj->mUnk_000.mPos.y += obj->mPrm->mUnk_080;
                 StartIwanteChainCameraHold(obj);
@@ -1393,11 +1417,13 @@ void UpdateIwante(u32 mapObjectList, MissionRunMapObject *mapObject) {
 
 // Iwante: the two stone hands of Mission Run.
 void InitIwante(MapObjectList *mapObjectList) {
-    int i;
+    int objectIndex;
     MissionRunMapObject *obj;
 
     if (mapObjectList != NULL) {
-        for (i = 0; i < mapObjectList->mMapObjectCount && (obj = mapObjectList->mMapObjects[i]) != NULL; i++) {
+        for (objectIndex = 0;
+             objectIndex < mapObjectList->mMapObjectCount && (obj = mapObjectList->mMapObjects[objectIndex]) != NULL;
+             objectIndex++) {
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(obj);
             }
@@ -1405,9 +1431,9 @@ void InitIwante(MapObjectList *mapObjectList) {
             LoadMissionRunMapObjectShadow(mapObjectList, obj, "sh_iwante.nsbmd");
             LoadMapObjectModelNsbtpAnimation(obj->mNsbmd, "iwante_l.nsbtp");
             obj->mCollisionShape = 1;
-            if (i == 0) {
+            if (objectIndex == 0) {
                 obj->mUnk_000.mFlags |= gMapObjectMirrorFlag;
-            } else if (i == 1) {
+            } else if (objectIndex == 1) {
                 obj->mUnk_000.mFlags &= 0xfffffbff;
             }
         }

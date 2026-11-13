@@ -43,7 +43,7 @@ void AdvanceEmblemInput(void) {
     InputSlotIndex slotIndex;
     BOOL pairUsable;
     int pairRecentlyLost;
-    u16 v;
+    u16 value;
     u16 bitHeld;
     s32 heldCount;
 
@@ -65,15 +65,16 @@ void AdvanceEmblemInput(void) {
     slotIndex = UNK_02175628_INDEX_8;
     pairUsable = TRUE;
     pairRecentlyLost = 0;
-    v = gInputSlots[slotIndex].mPair.mHasPair;
-    if (v == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
+    value = gInputSlots[slotIndex].mPair.mHasPair;
+    if (value == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
         pairRecentlyLost = pairUsable;
     }
-    if (pairRecentlyLost == 0 && v == 0) {
+    if (pairRecentlyLost == 0 && value == 0) {
         pairUsable = FALSE;
     }
-    if (pairUsable != FALSE && (v = gInputSlot8PairView->mPair.mPairX) != 0 && gInputSlot8PairView->mPair.mPairY != 0) {
-        gEmblemInput->mX = v;
+    if (pairUsable != FALSE && (value = gInputSlot8PairView->mPair.mPairX) != 0 &&
+        gInputSlot8PairView->mPair.mPairY != 0) {
+        gEmblemInput->mX = value;
         gEmblemInput->mY = gInputSlot8PairView->mPair.mPairY;
         gEmblemInput->mDown = 1;
     } else {

@@ -90,7 +90,17 @@
 
 Vec3 gItemKinokoUpNormal = {0, 0x1000, 0};
 Vec3 gItemBombUpNormal = {0, 0x1000, 0};
-MapObjectKindDescriptor gEmptyMapObjectKindDescriptor = {0, {0, 0}, 0xa0, NULL, CreateEmptyMapObjectKindData, NULL, NULL, NULL, CreateEmptyMapObjectUpdateList, NULL, {NULL, NULL, NULL, NULL}};
+MapObjectKindDescriptor gEmptyMapObjectKindDescriptor = {0,
+                                                         {0, 0},
+                                                         0xa0,
+                                                         NULL,
+                                                         CreateEmptyMapObjectKindData,
+                                                         NULL,
+                                                         NULL,
+                                                         NULL,
+                                                         CreateEmptyMapObjectUpdateList,
+                                                         NULL,
+                                                         {NULL, NULL, NULL, NULL}};
 u16 gShadowScaleToggle;
 
 void SetAnimationFrameCallback(MissionRunMapObject *mapObject, s32 frameIndex, UnkFunc *callback) {
@@ -516,15 +526,16 @@ void SetCollisionBoxOffsetAndExtentTarget(MissionRunMapObject *mapObject, int of
 }
 
 void ResetMissionRunMapObjects(void) {
-    u16 i;
+    u16 objectIndex;
     MissionRunMapObject *obj;
     MissionRunMapObject *tableObj;
     MapObjectList *table;
 
     if (!(gRaceSetup->mMode == MODE_MISSION_RUN ? IsKartEliminated((u16) gRaceSetup->mEntryIndex) : 0)) {
-        for (i = gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : (u8) 0;
-             i <= (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunMapObjectLastIndex() : (u16) 0); i++) {
-            obj = gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunMapObject(i) : 0;
+        for (objectIndex = gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : (u8) 0;
+             objectIndex <= (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunMapObjectLastIndex() : (u16) 0);
+             objectIndex++) {
+            obj = gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunMapObject(objectIndex) : 0;
             table = FindMapObjectKindUpdateList(0x1ff);
             StopMapObjectState(obj);
             obj->mGravityEnabled = FALSE;
@@ -537,14 +548,14 @@ void ResetMissionRunMapObjects(void) {
             obj->mVelocity.x = obj->mVelocity.y = obj->mVelocity.z = 0;
             obj->mAlphaLimit = obj->mAlphaLimitTarget = 0x1f000;
             obj->mAlphaLimitPerCall = 0;
-            if (i - (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) <
+            if (objectIndex - (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) <
                 table->mMapObjectCount) {
                 tableObj =
-                    table->mMapObjects[i -
+                    table->mMapObjects[objectIndex -
                                        (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)];
                 obj->mUnk_000.mPos = tableObj->mUnk_000.mCourseMapRow->mPosition;
                 tableObj =
-                    table->mMapObjects[i -
+                    table->mMapObjects[objectIndex -
                                        (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)];
                 obj->mAngle = DEG_TO_ANGLE(tableObj->mUnk_000.mCourseMapRow->mRotationDegrees.y);
             }

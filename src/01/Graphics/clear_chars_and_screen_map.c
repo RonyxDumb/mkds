@@ -10,17 +10,17 @@ TestScene *gTestScene;
 u16 gTestSceneCharText[206];
 
 void ClearChars(u16 *chars) {
-    s32 i;
+    s32 charIndex;
 
-    for (i = 0; i < 0x3000; i++) {
-        chars[i] = 0;
+    for (charIndex = 0; charIndex < 0x3000; charIndex++) {
+        chars[charIndex] = 0;
     }
 }
 
 void FillScreenMapIndices(u16 *screenMap) {
-    u16 i;
+    u16 index;
 
-    for (i = 0; i < 0x300; i++) {
-        screenMap[i] = i;
+    for (index = 0; index < 0x300; index++) {
+        screenMap[index] = index;
     }
 }

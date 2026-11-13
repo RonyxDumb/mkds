@@ -107,25 +107,25 @@ void LocateAndQueueSelectGhost(void) {
 
 void ResetSelectGhost(void) {
     u16 cnt;
-    s32 i;
+    s32 index;
 
     gSelectGhost->mNextState = 0;
     gSelectGhost->mStateFrames = 0;
     gSelectGhost->mBg0Offset = 0;
     gSelectGhost->mBg3Offset = -0xc0;
-    for (i = 0; i < 6; i++) {
-        gSelectGhost->mSelectGhostSTable[gSelectGhostSTableIndices[i]].mOffsetY = -0xc0;
+    for (index = 0; index < 6; index++) {
+        gSelectGhost->mSelectGhostSTable[gSelectGhostSTableIndices[index]].mOffsetY = -0xc0;
     }
     gSelectGhost->mSelectGhostSTable[10].mOffsetY = -0xc0;
     gSelectGhost->mSelectGhostSTable[11].mOffsetY = -0xc0;
     cnt = gSelectGhost->mSelectGhostSBncl->mCount;
-    for (i = 0; i < 5; i++) {
-        gSelectGhost->mSelectGhostSTable[cnt + gSelectGhostSBnllIndices[i]].mOffsetY = -0xc0;
+    for (index = 0; index < 5; index++) {
+        gSelectGhost->mSelectGhostSTable[cnt + gSelectGhostSBnllIndices[index]].mOffsetY = -0xc0;
     }
     gSelectGhost->mSelectGhostSTable[cnt + 5].mOffsetY = -0xc0;
-    for (i = 0; i < 2; i++) {
-        gSelectGhost->mSelectGhostSTable[gSelectGhostTimerZeroSTableIndices[i]].mOffsetY = -0xc0;
-        gSelectGhost->mSelectGhostSTable[gSelectGhostRunningSTableIndices[i]].mOffsetY = -0xc0;
+    for (index = 0; index < 2; index++) {
+        gSelectGhost->mSelectGhostSTable[gSelectGhostTimerZeroSTableIndices[index]].mOffsetY = -0xc0;
+        gSelectGhost->mSelectGhostSTable[gSelectGhostRunningSTableIndices[index]].mOffsetY = -0xc0;
     }
 }
 
@@ -183,19 +183,19 @@ void UpdateSelectGhostCellVisibility(void) {
 
 // Stores both offsets and steps both timers; each timer switches its rows on or off.
 void AdvanceSelectGhostOffsetTimers(void) {
-    s32 i;
+    s32 timerIndex;
     gSelectGhost->mSelectGhostSTable[gSelectGhostRunningSTableIndices[0]].mOffsetX =
         -LookupFrameOffset(6 - gSelectGhost->mOffsetTimers[0]);
     gSelectGhost->mSelectGhostSTable[gSelectGhostRunningSTableIndices[1]].mOffsetX =
         LookupFrameOffset(6 - gSelectGhost->mOffsetTimers[1]);
-    for (i = 0; i < 2; i++) {
-        if (gSelectGhost->mOffsetTimers[i] > 0) {
-            gSelectGhost->mOffsetTimers[i]--;
-            gSelectGhost->mSelectGhostSTable[gSelectGhostTimerZeroSTableIndices[i]].mVisible = 0;
-            gSelectGhost->mSelectGhostSTable[gSelectGhostRunningSTableIndices[i]].mVisible = 1;
+    for (timerIndex = 0; timerIndex < 2; timerIndex++) {
+        if (gSelectGhost->mOffsetTimers[timerIndex] > 0) {
+            gSelectGhost->mOffsetTimers[timerIndex]--;
+            gSelectGhost->mSelectGhostSTable[gSelectGhostTimerZeroSTableIndices[timerIndex]].mVisible = 0;
+            gSelectGhost->mSelectGhostSTable[gSelectGhostRunningSTableIndices[timerIndex]].mVisible = 1;
         } else {
-            gSelectGhost->mSelectGhostSTable[gSelectGhostTimerZeroSTableIndices[i]].mVisible = 1;
-            gSelectGhost->mSelectGhostSTable[gSelectGhostRunningSTableIndices[i]].mVisible = 0;
+            gSelectGhost->mSelectGhostSTable[gSelectGhostTimerZeroSTableIndices[timerIndex]].mVisible = 1;
+            gSelectGhost->mSelectGhostSTable[gSelectGhostRunningSTableIndices[timerIndex]].mVisible = 0;
         }
     }
 }
@@ -305,7 +305,7 @@ void ReadSelectGhostRecords(void) {
 }
 
 void SetupSelectGhostCupCells(void) {
-    u16 n = gSelectGhost->mSelectCupCourseTaMBncl->mCount;
+    u16 layoutCount = gSelectGhost->mSelectCupCourseTaMBncl->mCount;
 
     gSelectGhost->mSelectCupCourseTaMTable[0].mVisible = 1;
     gSelectGhost->mSelectCupCourseTaMTable[2].mVisible = 1;
@@ -313,12 +313,12 @@ void SetupSelectGhostCupCells(void) {
     gSelectGhost->mSelectCupCourseTaMTable[4].mVisible = 1;
     gSelectGhost->mSelectCupCourseTaMTable[3].mVisible = 1;
     gSelectGhost->mSelectCupCourseTaMTable[5].mVisible = 1;
-    gSelectGhost->mSelectCupCourseTaMTable[n].mVisible = 1;
-    gSelectGhost->mSelectCupCourseTaMTable[n + 1].mVisible = 1;
-    gSelectGhost->mSelectCupCourseTaMTable[n + 2].mVisible = 1;
-    gSelectGhost->mSelectCupCourseTaMTable[n + 3].mVisible = 1;
-    gSelectGhost->mSelectCupCourseTaMTable[n + 4].mVisible = 1;
-    gSelectGhost->mSelectCupCourseTaMTable[n + 5].mVisible = 1;
+    gSelectGhost->mSelectCupCourseTaMTable[layoutCount].mVisible = 1;
+    gSelectGhost->mSelectCupCourseTaMTable[layoutCount + 1].mVisible = 1;
+    gSelectGhost->mSelectCupCourseTaMTable[layoutCount + 2].mVisible = 1;
+    gSelectGhost->mSelectCupCourseTaMTable[layoutCount + 3].mVisible = 1;
+    gSelectGhost->mSelectCupCourseTaMTable[layoutCount + 4].mVisible = 1;
+    gSelectGhost->mSelectCupCourseTaMTable[layoutCount + 5].mVisible = 1;
     QueueSelectCupNameM(gSelectGhostCupIndices[GetCupIndex()], gSelectGhost->mSelectCupCourseMNcer,
                         gSelectGhost->mSelectCupCourseTaMBncl, 0, 0);
     QueueCupMark(gSelectGhostCupIndices[GetCupIndex()], gSelectGhost->mSelectCupCourseMNcer,
@@ -343,7 +343,7 @@ void SetupSelectGhostCupCells(void) {
 void InitSelectGhost(void *parentHeap, u32 mainOam, u32 subOam) {
     void *heap;
     s32 rem;
-    s32 i;
+    s32 index;
 
     reg_G2S_DB_BG0CNT = reg_G2S_DB_BG0CNT & ~3;
     reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & ~3) | 1;
@@ -384,9 +384,9 @@ void InitSelectGhost(void *parentHeap, u32 mainOam, u32 subOam) {
                     gSelectGhost->mSelectCupCourseMNcer, gSelectGhost->mSelectCupCourseTaMBncl,
                     gSelectGhost->mSelectCupCourseTaMTable, rem);
     rem = GX_GetSizeOfSubOBJ();
-    for (i = 0; i < 5; i++) {
-        rem -= InitLabelCanvas(gSelectGhost->mHeap, gSelectGhostSBnllIndices[i], gSelectGhost->mSelectGhostSBnll,
-                               gSelectGhostSLabelWidths[i], gSelectGhostSLabelHeights[i], i,
+    for (index = 0; index < 5; index++) {
+        rem -= InitLabelCanvas(gSelectGhost->mHeap, gSelectGhostSBnllIndices[index], gSelectGhost->mSelectGhostSBnll,
+                               gSelectGhostSLabelWidths[index], gSelectGhostSLabelHeights[index], index,
                                gSelectGhost->mSelectGhostSONcer, gSelectGhost->mSelectGhostSBncl,
                                gSelectGhost->mSelectGhostSTable, rem);
     }
@@ -411,9 +411,9 @@ void InitSelectGhost(void *parentHeap, u32 mainOam, u32 subOam) {
     ResetPaletteBlendCycle();
     SetupSelectGhostCupCells();
     ResetSelectGhost();
-    for (i = 3; i >= 0; i--) {
-        if (IsGhostRecordSetKindSelectable(gSelectGhostRecordKinds[i]) != 0) {
-            gSelectGhost->mIndex = i;
+    for (index = 3; index >= 0; index--) {
+        if (IsGhostRecordSetKindSelectable(gSelectGhostRecordKinds[index]) != 0) {
+            gSelectGhost->mIndex = index;
             break;
         }
     }
@@ -436,22 +436,22 @@ void ReleaseSelectGhost(void) {
 void AdvanceSelectGhostState0(void) {
     u16 subLayoutCount;
     s16 offsetY;
-    s32 i;
+    s32 index;
 
     AdvanceSelectGhostOffsetTimers();
     subLayoutCount = gSelectGhost->mSelectGhostSBncl->mCount;
     gSelectGhost->mStateFrames++;
     offsetY = InterpolateS16(1, ~0xbf, 0, gSelectGhost->mStateFrames, 10);
     gSelectGhost->mBg3Offset = offsetY;
-    for (i = 0; i < 6; i++) {
-        gSelectGhost->mSelectGhostSTable[gSelectGhostSTableIndices[i]].mOffsetY = offsetY;
+    for (index = 0; index < 6; index++) {
+        gSelectGhost->mSelectGhostSTable[gSelectGhostSTableIndices[index]].mOffsetY = offsetY;
     }
-    for (i = 0; i < 5; i++) {
-        gSelectGhost->mSelectGhostSTable[subLayoutCount + gSelectGhostSBnllIndices[i]].mOffsetY = offsetY;
+    for (index = 0; index < 5; index++) {
+        gSelectGhost->mSelectGhostSTable[subLayoutCount + gSelectGhostSBnllIndices[index]].mOffsetY = offsetY;
     }
-    for (i = 0; i < 2; i++) {
-        gSelectGhost->mSelectGhostSTable[gSelectGhostTimerZeroSTableIndices[i]].mOffsetY = offsetY;
-        gSelectGhost->mSelectGhostSTable[gSelectGhostRunningSTableIndices[i]].mOffsetY = offsetY;
+    for (index = 0; index < 2; index++) {
+        gSelectGhost->mSelectGhostSTable[gSelectGhostTimerZeroSTableIndices[index]].mOffsetY = offsetY;
+        gSelectGhost->mSelectGhostSTable[gSelectGhostRunningSTableIndices[index]].mOffsetY = offsetY;
     }
     if (gSelectGhost->mStateFrames >= 10) {
         RequestSelectGhostState1();
@@ -597,14 +597,14 @@ void AdvanceSelectGhostState7(void) {
     BOOL resultIsOne;
     s16 offsetY;
     s16 returnOffsetY;
-    u16 n;
-    s32 i;
+    u16 layoutCount;
+    s32 index;
 
     resultIsOne = gSelectGhost->mResult == 1;
     gSelectGhost->mStateFrames++;
     offsetY = InterpolateS16(1, 0, ~0xbf, gSelectGhost->mStateFrames, 10);
     if (resultIsOne) {
-        n = gSelectGhost->mSelectCupCourseTaMBncl->mCount;
+        layoutCount = gSelectGhost->mSelectCupCourseTaMBncl->mCount;
         gSelectGhost->mBg0Offset = offsetY;
         gSelectGhost->mSelectCupCourseTaMTable[0].mOffsetY = offsetY;
         gSelectGhost->mSelectCupCourseTaMTable[2].mOffsetY = offsetY;
@@ -612,29 +612,29 @@ void AdvanceSelectGhostState7(void) {
         gSelectGhost->mSelectCupCourseTaMTable[4].mOffsetY = offsetY;
         gSelectGhost->mSelectCupCourseTaMTable[3].mOffsetY = offsetY;
         gSelectGhost->mSelectCupCourseTaMTable[5].mOffsetY = offsetY;
-        gSelectGhost->mSelectCupCourseTaMTable[n].mOffsetY = offsetY;
-        gSelectGhost->mSelectCupCourseTaMTable[n + 1].mOffsetY = offsetY;
-        gSelectGhost->mSelectCupCourseTaMTable[n + 2].mOffsetY = offsetY;
-        gSelectGhost->mSelectCupCourseTaMTable[n + 3].mOffsetY = offsetY;
-        gSelectGhost->mSelectCupCourseTaMTable[n + 4].mOffsetY = offsetY;
-        gSelectGhost->mSelectCupCourseTaMTable[n + 5].mOffsetY = offsetY;
+        gSelectGhost->mSelectCupCourseTaMTable[layoutCount].mOffsetY = offsetY;
+        gSelectGhost->mSelectCupCourseTaMTable[layoutCount + 1].mOffsetY = offsetY;
+        gSelectGhost->mSelectCupCourseTaMTable[layoutCount + 2].mOffsetY = offsetY;
+        gSelectGhost->mSelectCupCourseTaMTable[layoutCount + 3].mOffsetY = offsetY;
+        gSelectGhost->mSelectCupCourseTaMTable[layoutCount + 4].mOffsetY = offsetY;
+        gSelectGhost->mSelectCupCourseTaMTable[layoutCount + 5].mOffsetY = offsetY;
     }
-    n = gSelectGhost->mSelectGhostSBncl->mCount;
+    layoutCount = gSelectGhost->mSelectGhostSBncl->mCount;
     returnOffsetY = -LookupSelectReturnState4Bg2Offset(gSelectGhost->mStateFrames);
     gSelectGhost->mBg3Offset = offsetY;
-    for (i = 0; i < 6; i++) {
-        gSelectGhost->mSelectGhostSTable[gSelectGhostSTableIndices[i]].mOffsetY = offsetY;
+    for (index = 0; index < 6; index++) {
+        gSelectGhost->mSelectGhostSTable[gSelectGhostSTableIndices[index]].mOffsetY = offsetY;
     }
     gSelectGhost->mSelectGhostSTable[10].mOffsetY = returnOffsetY;
     gSelectGhost->mSelectGhostSTable[11].mOffsetY = returnOffsetY;
-    for (i = 0; i < 5; i++) {
-        gSelectGhost->mSelectGhostSTable[n + gSelectGhostSBnllIndices[i]].mOffsetY = offsetY;
+    for (index = 0; index < 5; index++) {
+        gSelectGhost->mSelectGhostSTable[layoutCount + gSelectGhostSBnllIndices[index]].mOffsetY = offsetY;
     }
-    for (i = 0; i < 2; i++) {
-        gSelectGhost->mSelectGhostSTable[gSelectGhostTimerZeroSTableIndices[i]].mOffsetY = offsetY;
-        gSelectGhost->mSelectGhostSTable[gSelectGhostRunningSTableIndices[i]].mOffsetY = offsetY;
+    for (index = 0; index < 2; index++) {
+        gSelectGhost->mSelectGhostSTable[gSelectGhostTimerZeroSTableIndices[index]].mOffsetY = offsetY;
+        gSelectGhost->mSelectGhostSTable[gSelectGhostRunningSTableIndices[index]].mOffsetY = offsetY;
     }
-    gSelectGhost->mSelectGhostSTable[n + 5].mOffsetY = returnOffsetY;
+    gSelectGhost->mSelectGhostSTable[layoutCount + 5].mOffsetY = returnOffsetY;
 }
 
 int AdvanceSelectGhost(void) {

@@ -30,7 +30,6 @@
 // Defined const in record_time_attack.c; declared non-const here.
 extern s32 gRecordTAttRecordIndices[];
 
-
 void LocateAndQueueRecordTAtt(void) {
     Nclr *recordTAttMONclr = NULL;
     Ncgr *recordTAttMBNcgr = NULL;
@@ -190,7 +189,7 @@ void SetupRecordTAtt(void) {
     u32 time;
     u16 str[16];
     u16 name[10];
-    s32 i;
+    s32 recordIndex;
     s32 result;
     u16 tile;
     u8 *palette;
@@ -201,11 +200,11 @@ void SetupRecordTAtt(void) {
         0, 0, gRecordTAtt->mRecordTAttMBnll,
         GetBmgEntry(recordTAtt->mCommonMessages, gRecordTAttCommonMessageIndices[recordTAtt->mIndex]),
         recordTAtt->mRecordTAttMBncl, recordTAtt->mRecordTAttMTable);
-    for (i = 0; i < 5; i++) {
-        if (IsTimeRecordFilled(gRecordTAttCourseIds[gRecordTAtt->mIndex], gRecordTAttRecordIndices[i])) {
-            SetupRecordTAttRowValues(i);
+    for (recordIndex = 0; recordIndex < 5; recordIndex++) {
+        if (IsTimeRecordFilled(gRecordTAttCourseIds[gRecordTAtt->mIndex], gRecordTAttRecordIndices[recordIndex])) {
+            SetupRecordTAttRowValues(recordIndex);
         } else {
-            SetupRecordTAttRowDashes(i);
+            SetupRecordTAttRowDashes(recordIndex);
         }
     }
     mainLayoutCount = gRecordTAtt->mRecordTAttMBncl->mCount;
@@ -276,8 +275,8 @@ BOOL CheckRecordTAttFirstRecordFormat(void) {
 }
 
 void ResetRecordTAtt(void) {
-    s32 i;
-    s32 j;
+    s32 recordIndex;
+    s32 cellIndex;
     u16 mainLayoutCount;
     u16 subLayoutCount;
 
@@ -308,16 +307,17 @@ void ResetRecordTAtt(void) {
     gRecordTAtt->mRecordTAttSTable[13].mOffsetX = 0x100;
     gRecordTAtt->mRecordTAttSTable[14].mOffsetX = 0x100;
     gRecordTAtt->mRecordTAttSTable[subLayoutCount + 8].mOffsetX = 0x100;
-    for (i = 1; i < 5; i++) {
-        gRecordTAtt->mRecordTAttSTable[gRecordTAttOffsetSTableIndices[i]].mOffsetX = 0x100;
-        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttTimeLabelIndices[i]].mOffsetX = 0x100;
-        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttNameLabelIndices[i]].mOffsetX = 0x100;
-        for (j = 0; j < 2; j++) {
-            gRecordTAtt->mRecordTAttSTable[gRecordTAttCharacterKartCellIndices[i][j]].mOffsetX = 0x100;
+    for (recordIndex = 1; recordIndex < 5; recordIndex++) {
+        gRecordTAtt->mRecordTAttSTable[gRecordTAttOffsetSTableIndices[recordIndex]].mOffsetX = 0x100;
+        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttTimeLabelIndices[recordIndex]].mOffsetX = 0x100;
+        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttNameLabelIndices[recordIndex]].mOffsetX = 0x100;
+        for (cellIndex = 0; cellIndex < 2; cellIndex++) {
+            gRecordTAtt->mRecordTAttSTable[gRecordTAttCharacterKartCellIndices[recordIndex][cellIndex]].mOffsetX =
+                0x100;
         }
     }
-    for (j = 0; j < 2; j++) {
-        gRecordTAtt->mRecordTAttSTable[gRecordTAttRunningSTableIndices[j]].mVisible = 0;
+    for (cellIndex = 0; cellIndex < 2; cellIndex++) {
+        gRecordTAtt->mRecordTAttSTable[gRecordTAttRunningSTableIndices[cellIndex]].mVisible = 0;
     }
     gRecordTAtt->mRecordTAttSTable[13].mVisible = 0;
 }
@@ -382,7 +382,7 @@ void RequestRecordTAttState8(void) {
 void RequestRecordTAttState9(void) {
     u16 buf[0x102];
     RecordTAtt *recordTAtt;
-    void *a;
+    void *text;
     void *secondButtonText;
 
     gRecordTAtt->mNextState = 9;
@@ -390,11 +390,11 @@ void RequestRecordTAttState9(void) {
     buf[0] = 0;
     MIi_CpuClear16(buf[0], &buf[1], 0x200);
     recordTAtt = gRecordTAtt;
-    a = GetBmgEntry(recordTAtt->mGhostMessages, gRecordTAttGhostMessageIndices[recordTAtt->mIndex]);
-    FormatMessageWithText(a, GetBmgEntry(recordTAtt->mRecordMessages, 10), &buf[1], 0x200);
-    a = GetBmgEntry(gRecordTAtt->mCommonMessages, 0);
+    text = GetBmgEntry(recordTAtt->mGhostMessages, gRecordTAttGhostMessageIndices[recordTAtt->mIndex]);
+    FormatMessageWithText(text, GetBmgEntry(recordTAtt->mRecordMessages, 10), &buf[1], 0x200);
+    text = GetBmgEntry(gRecordTAtt->mCommonMessages, 0);
     secondButtonText = GetBmgEntry(gRecordTAtt->mCommonMessages, 1);
-    SetupTxtSystemSubTextTwoButtonsEx(&buf[1], a, secondButtonText, 1, 0, 1, 1, 1);
+    SetupTxtSystemSubTextTwoButtonsEx(&buf[1], text, secondButtonText, 1, 0, 1, 1, 1);
 }
 
 void RequestRecordTAttState10(void) {

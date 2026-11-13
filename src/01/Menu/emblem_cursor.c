@@ -55,16 +55,40 @@ Emblem *gEmblem;
 const s32 gEmblemLPressButtonCursorIndices[4] = {0, 6, 3, 9};
 const s32 gEmblemSubBg3AffineMatrix[4] = {0x400, 0, 0, 0x400};
 const s32 gEmblemButtonLldEntries[12] = {0xe, 0xf, 0x10, 0x14, 0x16, 0x17, 0x11, 0x12, 0x13, 0x15, 0x16, 0x17};
-const s32 gEmblemTemplateScreenColorEntries[16] = {0x1b, 0x1c, 0x1d, 0x1e, 0x1f, 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2a};
+const s32 gEmblemTemplateScreenColorEntries[16] = {0x1b, 0x1c, 0x1d, 0x1e, 0x1f, 0x20, 0x21, 0x22,
+                                                   0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2a};
 const s32 gEmblemRPressButtonCursorIndices[4] = {0, 6, 3, 9};
-const s32 gEmblemColorLldEntries[16] = {0x1b, 0x1c, 0x1d, 0x1e, 0x1f, 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2a};
-const s32 gEmblemTemplateLldEntries[29] = {3, 4, 5, 6, 7, 8, 9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1a, 0x1b, 0x1c, 0x1d, 0x1e, 0x1f};
-const s32 gEmblemButtonCursorHorizontalMoves[3][12] = {{6, 7, 8, 9, 4, 5, 0, 1, 2, 3, 0xa, 0xb}, {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0xa, 0xb}, {6, 7, 8, 9, 4, 5, 0, 1, 2, 3, 0xa, 0xb}};
-const s32 gEmblemButtonCursorVerticalMoves[3][12] = {{5, 0, 1, 2, 3, 4, 0xb, 6, 7, 8, 9, 0xa}, {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0xa, 0xb}, {1, 2, 3, 4, 5, 0, 7, 8, 9, 0xa, 0xb, 6}};
-const s32 gEmblemColorCursorVerticalMoves[3][16] = {{7, 0, 1, 2, 3, 4, 5, 6, 0xf, 8, 9, 0xa, 0xb, 0xc, 0xd, 0xe}, {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf}, {1, 2, 3, 4, 5, 6, 7, 0, 9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf, 8}};
-const s32 gEmblemColorCursorHorizontalMoves[3][16] = {{8, 9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf, 0, 1, 2, 3, 4, 5, 6, 7}, {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf}, {8, 9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf, 0, 1, 2, 3, 4, 5, 6, 7}};
-const s32 gEmblemTemplateCursorHorizontalMoves[3][29] = {{5, 0, 1, 2, 3, 4, 0xb, 6, 7, 8, 9, 0xa, 0x11, 0xc, 0xd, 0xe, 0xf, 0x10, 0x17, 0x12, 0x13, 0x14, 0x15, 0x16, 0x1c, 0x18, 0x19, 0x1a, 0x1b}, {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1a, 0x1b, 0x1c}, {1, 2, 3, 4, 5, 0, 7, 8, 9, 0xa, 0xb, 6, 0xd, 0xe, 0xf, 0x10, 0x11, 0xc, 0x13, 0x14, 0x15, 0x16, 0x17, 0x12, 0x19, 0x1a, 0x1b, 0x1c, 0x18}};
-const s32 gEmblemTemplateCursorVerticalMoves[3][29] = {{0x12, 0x18, 0x19, 0x1a, 0x1b, 0x1c, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf, 0x10, 0x11, 0x13, 0x14, 0x15, 0x16, 0x17}, {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1a, 0x1b, 0x1c}, {6, 7, 8, 9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0, 0x18, 0x19, 0x1a, 0x1b, 0x1c, 1, 2, 3, 4, 5}};
+const s32 gEmblemColorLldEntries[16] = {0x1b, 0x1c, 0x1d, 0x1e, 0x1f, 0x20, 0x21, 0x22,
+                                        0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2a};
+const s32 gEmblemTemplateLldEntries[29] = {3,    4,    5,    6,    7,    8,    9,    0xa,  0xb,  0xc,
+                                           0xd,  0xe,  0xf,  0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16,
+                                           0x17, 0x18, 0x19, 0x1a, 0x1b, 0x1c, 0x1d, 0x1e, 0x1f};
+const s32 gEmblemButtonCursorHorizontalMoves[3][12] = {{6, 7, 8, 9, 4, 5, 0, 1, 2, 3, 0xa, 0xb},
+                                                       {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0xa, 0xb},
+                                                       {6, 7, 8, 9, 4, 5, 0, 1, 2, 3, 0xa, 0xb}};
+const s32 gEmblemButtonCursorVerticalMoves[3][12] = {{5, 0, 1, 2, 3, 4, 0xb, 6, 7, 8, 9, 0xa},
+                                                     {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0xa, 0xb},
+                                                     {1, 2, 3, 4, 5, 0, 7, 8, 9, 0xa, 0xb, 6}};
+const s32 gEmblemColorCursorVerticalMoves[3][16] = {{7, 0, 1, 2, 3, 4, 5, 6, 0xf, 8, 9, 0xa, 0xb, 0xc, 0xd, 0xe},
+                                                    {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf},
+                                                    {1, 2, 3, 4, 5, 6, 7, 0, 9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf, 8}};
+const s32 gEmblemColorCursorHorizontalMoves[3][16] = {{8, 9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf, 0, 1, 2, 3, 4, 5, 6, 7},
+                                                      {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf},
+                                                      {8, 9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf, 0, 1, 2, 3, 4, 5, 6, 7}};
+const s32 gEmblemTemplateCursorHorizontalMoves[3][29] = {
+    {5,   0,   1,    2,    3,    4,    0xb,  6,    7,    8,    9,    0xa,  0x11, 0xc, 0xd,
+     0xe, 0xf, 0x10, 0x17, 0x12, 0x13, 0x14, 0x15, 0x16, 0x1c, 0x18, 0x19, 0x1a, 0x1b},
+    {0,   1,    2,    3,    4,    5,    6,    7,    8,    9,    0xa,  0xb,  0xc,  0xd, 0xe,
+     0xf, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1a, 0x1b, 0x1c},
+    {1,    2,    3,   4,    5,    0,    7,    8,    9,    0xa,  0xb,  6,    0xd,  0xe, 0xf,
+     0x10, 0x11, 0xc, 0x13, 0x14, 0x15, 0x16, 0x17, 0x12, 0x19, 0x1a, 0x1b, 0x1c, 0x18}};
+const s32 gEmblemTemplateCursorVerticalMoves[3][29] = {
+    {0x12, 0x18, 0x19, 0x1a, 0x1b, 0x1c, 0,   1,    2,    3,    4,    5,    6,    7,   8,
+     9,    0xa,  0xb,  0xc,  0xd,  0xe,  0xf, 0x10, 0x11, 0x13, 0x14, 0x15, 0x16, 0x17},
+    {0,   1,    2,    3,    4,    5,    6,    7,    8,    9,    0xa,  0xb,  0xc,  0xd, 0xe,
+     0xf, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1a, 0x1b, 0x1c},
+    {6,    7,    8,    9, 0xa,  0xb,  0xc,  0xd,  0xe,  0xf, 0x10, 0x11, 0x12, 0x13, 0x14,
+     0x15, 0x16, 0x17, 0, 0x18, 0x19, 0x1a, 0x1b, 0x1c, 1,   2,    3,    4,    5}};
 EmblemCursor *gEmblemCursor;
 
 void ClampEmblemCursorCell(void) {
@@ -115,9 +139,9 @@ s32 GetEmblemCursorSizeIndex(void) {
     return gEmblemCursor->mSizeIndex;
 }
 
-void SetEmblemCursorCellFromPoint(s32 x, s32 y) {
-    gEmblemCursor->mCellX = (x - gEmblemCursor->mOriginX) >> gEmblemCursor->mCellShift;
-    gEmblemCursor->mCellY = (y - gEmblemCursor->mOriginY) >> gEmblemCursor->mCellShift;
+void SetEmblemCursorCellFromPoint(s32 pointX, s32 pointY) {
+    gEmblemCursor->mCellX = (pointX - gEmblemCursor->mOriginX) >> gEmblemCursor->mCellShift;
+    gEmblemCursor->mCellY = (pointY - gEmblemCursor->mOriginY) >> gEmblemCursor->mCellShift;
     ClampEmblemCursorCell();
 }
 
@@ -137,9 +161,9 @@ s32 GetEmblemCursorPrevPointY(void) {
     return gEmblemCursor->mOriginY + (gEmblemCursor->mPrevCellY << gEmblemCursor->mCellShift);
 }
 
-BOOL IsEmblemPointInGrid(s32 x, s32 y) {
-    s32 px = (x - gEmblemCursor->mOriginX) >> gEmblemCursor->mCellShift;
-    s32 py = (y - gEmblemCursor->mOriginY) >> gEmblemCursor->mCellShift;
+BOOL IsEmblemPointInGrid(s32 pointX, s32 pointY) {
+    s32 px = (pointX - gEmblemCursor->mOriginX) >> gEmblemCursor->mCellShift;
+    s32 py = (pointY - gEmblemCursor->mOriginY) >> gEmblemCursor->mCellShift;
 
     if (px >= 0 && px < gEmblemCursor->mSide && py >= 0 && py < gEmblemCursor->mSide) {
         return TRUE;
@@ -169,10 +193,10 @@ void CreateEmblemCursorAndGrid(s32 originX, s32 originY, s32 side, s32 scrSide, 
     CreateEmblemGrid(side, scrSide, tableCount);
 }
 
-s32 AdvanceEmblemCursor(s32 down, s32 x, s32 y, s32 d, s32 dx, s32 dy) {
+s32 AdvanceEmblemCursor(s32 down, s32 pointX, s32 pointY, s32 inputBits, s32 dx, s32 dy) {
     s32 result;
-    s32 i;
-    s32 j;
+    s32 offsetX;
+    s32 offsetY;
     u8 writeValue;
     s32 saveX;
     s32 saveY;
@@ -199,9 +223,9 @@ s32 AdvanceEmblemCursor(s32 down, s32 x, s32 y, s32 d, s32 dx, s32 dy) {
     originY = gEmblemCursor->mOriginY;
     prevPointFixedY = TO_FIXED12(gEmblemCursor->mPrevY - originY);
     prevPointFixedY >>= cellShift;
-    pointFixedX = TO_FIXED12(x - originX);
+    pointFixedX = TO_FIXED12(pointX - originX);
     pointFixedX >>= cellShift;
-    pointFixedY = TO_FIXED12(y - originY);
+    pointFixedY = TO_FIXED12(pointY - originY);
     pointFixedY >>= cellShift;
     prevPointCellX = FROM_FIXED12(prevPointFixedX);
     prevPointCellY = FROM_FIXED12(prevPointFixedY);
@@ -241,20 +265,22 @@ s32 AdvanceEmblemCursor(s32 down, s32 x, s32 y, s32 d, s32 dx, s32 dy) {
                             }
                             break;
                         case 1:
-                            for (i = 0; i < 0x2000; i += 0x1000) {
-                                for (j = 0; j < 0x2000; j += 0x1000) {
-                                    if (SetEmblemGridLine(prevPointFixedX + i, prevPointFixedY + j, pointFixedX + i,
-                                                          pointFixedY + j, writeValue) != 0) {
+                            for (offsetX = 0; offsetX < 0x2000; offsetX += 0x1000) {
+                                for (offsetY = 0; offsetY < 0x2000; offsetY += 0x1000) {
+                                    if (SetEmblemGridLine(prevPointFixedX + offsetX, prevPointFixedY + offsetY,
+                                                          pointFixedX + offsetX, pointFixedY + offsetY,
+                                                          writeValue) != 0) {
                                         result = 1;
                                     }
                                 }
                             }
                             break;
                         case 2:
-                            for (i = -0x1000; i < 0x2000; i += 0x1000) {
-                                for (j = -0x1000; j < 0x2000; j += 0x1000) {
-                                    if (SetEmblemGridLine(prevPointFixedX + i, prevPointFixedY + j, pointFixedX + i,
-                                                          pointFixedY + j, writeValue) != 0) {
+                            for (offsetX = -0x1000; offsetX < 0x2000; offsetX += 0x1000) {
+                                for (offsetY = -0x1000; offsetY < 0x2000; offsetY += 0x1000) {
+                                    if (SetEmblemGridLine(prevPointFixedX + offsetX, prevPointFixedY + offsetY,
+                                                          pointFixedX + offsetX, pointFixedY + offsetY,
+                                                          writeValue) != 0) {
                                         result = 1;
                                     }
                                 }
@@ -262,16 +288,16 @@ s32 AdvanceEmblemCursor(s32 down, s32 x, s32 y, s32 d, s32 dx, s32 dy) {
                             break;
                     }
                 }
-                d = result;
+                inputBits = result;
                 break;
             case 2:
             case 3:
-                d = 1;
+                inputBits = 1;
                 break;
         }
     }
     ClampEmblemCursorCell();
-    if (d != 0) {
+    if (inputBits != 0) {
         if (gEmblemCursor->mMode == 1) {
             writeValue = 0;
         } else {
@@ -287,20 +313,20 @@ s32 AdvanceEmblemCursor(s32 down, s32 x, s32 y, s32 d, s32 dx, s32 dy) {
                         }
                         break;
                     case 1:
-                        for (i = 0; i < 2; i++) {
-                            for (j = 0; j < 2; j++) {
-                                if (SetEmblemGridCellValue(gEmblemCursor->mCellX + i, gEmblemCursor->mCellY + j,
-                                                           writeValue) != 0) {
+                        for (offsetX = 0; offsetX < 2; offsetX++) {
+                            for (offsetY = 0; offsetY < 2; offsetY++) {
+                                if (SetEmblemGridCellValue(gEmblemCursor->mCellX + offsetX,
+                                                           gEmblemCursor->mCellY + offsetY, writeValue) != 0) {
                                     result = 1;
                                 }
                             }
                         }
                         break;
                     case 2:
-                        for (i = -1; i < 2; i++) {
-                            for (j = -1; j < 2; j++) {
-                                if (SetEmblemGridCellValue(gEmblemCursor->mCellX + i, gEmblemCursor->mCellY + j,
-                                                           writeValue) != 0) {
+                        for (offsetX = -1; offsetX < 2; offsetX++) {
+                            for (offsetY = -1; offsetY < 2; offsetY++) {
+                                if (SetEmblemGridCellValue(gEmblemCursor->mCellX + offsetX,
+                                                           gEmblemCursor->mCellY + offsetY, writeValue) != 0) {
                                     result = 1;
                                 }
                             }
@@ -317,11 +343,11 @@ s32 AdvanceEmblemCursor(s32 down, s32 x, s32 y, s32 d, s32 dx, s32 dy) {
         }
     }
     gEmblemCursor->mPrevDown = down;
-    gEmblemCursor->mPrevX = x;
-    gEmblemCursor->mPrevY = y;
+    gEmblemCursor->mPrevX = pointX;
+    gEmblemCursor->mPrevY = pointY;
     gEmblemCursor->mPrevCellX = saveX;
     gEmblemCursor->mPrevCellY = saveY;
-    if (down == 0 && d == 0) {
+    if (down == 0 && inputBits == 0) {
         ClearEmblemGridCopied();
     }
     return result;
@@ -540,7 +566,7 @@ void StartEmblemButtonBounceAndToggle(void *lld, s32 index) {
 
 void InitEmblem(void) {
     DisplaySettingsDesc unk;
-    EmblemRecord *p;
+    EmblemRecord *emblemRecord;
 
     gEmblem = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x10c0);
     InitDisplaySettingsDesc(&unk);
@@ -592,9 +618,9 @@ void InitEmblem(void) {
     InitEmblemChoises();
     ResetOamLists(&gEmblem->mMainOam, &gEmblem->mSubOam);
     CreateEmblemCursorAndGrid(0x40, 0x10, 0x20, 0x80, 0x10);
-    p = gBackupBuffers->mEmblemRecord;
-    if (p->mFilled) {
-        MI_CpuCopy8(p->mEmblemData, gEmblem->mRecordBytes, 0x200);
+    emblemRecord = gBackupBuffers->mEmblemRecord;
+    if (emblemRecord->mFilled) {
+        MI_CpuCopy8(emblemRecord->mEmblemData, gEmblem->mRecordBytes, 0x200);
         SplitBytesIntoNibbleTiles(gEmblem->mRecordBytes, gEmblem->mCellNibbles, GetEmblemGridSide());
         SetEmblemGridCells(gEmblem->mCellNibbles);
         SwapEmblemGridCells();
@@ -1415,8 +1441,8 @@ void AdvanceEmblemTemplateScreen(void) {
     s32 verticalStep;
     s32 colorStep;
     s32 sel;
-    s32 u;
-    s32 t;
+    s32 colorIndexHigh;
+    s32 colorIndexLow;
     u32 inputY;
     s32 inputX;
     void *colorEntry;
@@ -1451,16 +1477,16 @@ void AdvanceEmblemTemplateScreen(void) {
     colorStep += (GetNewOrRepeatBits(8, PAD_KEY_L) != 0) ? -1 : 0;
     colorStep += (GetNewOrRepeatBits(8, PAD_KEY_R) != 0) ? 1 : 0;
     gEmblem->mColorCursorIndex = colorStep + (GetEmblemCursorCellValue() - 1);
-    t = gEmblem->mColorCursorIndex;
-    if (t < 0) {
-        t = 0xe;
+    colorIndexLow = gEmblem->mColorCursorIndex;
+    if (colorIndexLow < 0) {
+        colorIndexLow = 0xe;
     }
-    gEmblem->mColorCursorIndex = t;
-    u = gEmblem->mColorCursorIndex;
-    if (u > 0xe) {
-        u = 0;
+    gEmblem->mColorCursorIndex = colorIndexLow;
+    colorIndexHigh = gEmblem->mColorCursorIndex;
+    if (colorIndexHigh > 0xe) {
+        colorIndexHigh = 0;
     }
-    gEmblem->mColorCursorIndex = u;
+    gEmblem->mColorCursorIndex = colorIndexHigh;
     sel = gEmblem->mColorCursorIndex;
     if (sel != GetEmblemCursorCellValue() - 1) {
         colorEntry = GetLldEntry(gEmblem->mEmblemSLld, gEmblemTemplateScreenColorEntries[sel]);
@@ -1541,15 +1567,15 @@ void AdvanceEmblemChoisesScreen(void) {
 }
 
 void AdvanceEmblem(void) {
-    s32 t;
+    s32 scrollPosition;
 
     AdvanceEmblemInput();
     gEmblem->mBgScrollPosition += 0x4cd;
-    t = gEmblem->mBgScrollPosition;
-    if (t >= 0x100000) {
-        t -= 0x100000;
+    scrollPosition = gEmblem->mBgScrollPosition;
+    if (scrollPosition >= 0x100000) {
+        scrollPosition -= 0x100000;
     }
-    gEmblem->mBgScrollPosition = t;
+    gEmblem->mBgScrollPosition = scrollPosition;
     ClearOamListCounts(gEmblem, &gEmblem->mSubOam);
     AdvanceLld(gEmblem->mEmblemMLld, &gEmblem->mMainOam);
     switch (gEmblem->mState) {
@@ -1621,14 +1647,14 @@ void AdvanceEmblem(void) {
             AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mSubOam);
             if (gBackupBuffers->mBusy == 0) {
                 if (gBackupAccess->mBackupEnabled != 0) {
-                    t = gBackupAccess->mCommandRunning;
+                    scrollPosition = gBackupAccess->mCommandRunning;
                 } else {
-                    t = 0;
+                    scrollPosition = 0;
                 }
             } else {
-                t = 1;
+                scrollPosition = 1;
             }
-            if (t == 0) {
+            if (scrollPosition == 0) {
                 gEmblem->mState = 0xc;
             }
             break;

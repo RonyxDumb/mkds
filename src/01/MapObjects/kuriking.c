@@ -82,11 +82,16 @@ const u16 gKurikingJumpFlag = 0x20;
 const u16 gKurikingDisabledFlag = 1;
 const u16 gKurikingSkipListCallbackFlag = 8;
 MapObjectKindDescriptor gKurikingKindDescriptor = {
-    0,    {0, 0},
-    0x30c, InitKurikingMapObject,
-    CreateKurikingKindData, CreateKurikingDrawList,
-    NULL, NULL,
-    CreateKurikingUpdateList, NULL,
+    0,
+    {0, 0},
+    0x30c,
+    InitKurikingMapObject,
+    CreateKurikingKindData,
+    CreateKurikingDrawList,
+    NULL,
+    NULL,
+    CreateKurikingUpdateList,
+    NULL,
     {NULL, NULL, NULL, NULL},
 };
 
@@ -230,7 +235,7 @@ void ThrowBombsAndKinoko(MissionRunMapObject *mapObject) {
     s32 kinokoIndex;
     s32 angle;
     s32 radius;
-    s32 i;
+    s32 throwIndex;
 
     prm = mapObject->mPrm;
     angle = mapObject->mAngle - prm->mUnk_1a4 * (mapObject->mUnk_138 / 2);
@@ -280,7 +285,7 @@ void ThrowBombsAndKinoko(MissionRunMapObject *mapObject) {
         kinokoIndex = -1;
     }
     radius = mapObject->mPrm->mUnk_198;
-    for (i = 0; i < mapObject->mUnk_138; i++) {
+    for (throwIndex = 0; throwIndex < mapObject->mUnk_138; throwIndex++) {
         Vec3 pos;
         Vec3 vel = {0, 0, 0};
 
@@ -290,7 +295,7 @@ void ThrowBombsAndKinoko(MissionRunMapObject *mapObject) {
         vel.x = MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_1a0, FX_SinIdx((u16) angle));
         vel.y = mapObject->mPrm->mUnk_19c;
         vel.z = MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_1a0, FX_CosIdx((u16) angle));
-        if (i == kinokoIndex) {
+        if (throwIndex == kinokoIndex) {
             ThrowItemKinokoFromPosition(StartItemKinokoOrZero(), &pos, &vel, mapObject->mPrm->mUnk_1ac);
         } else {
             ThrowItemBombFromPosition(StartItemBombWithParkedKuribo(), &pos, &vel, mapObject->mPrm->mUnk_1b0);
@@ -553,11 +558,13 @@ void KurikingKartHitCallback(MissionRunMapObject *mapObject, void *kart) {
 }
 
 void InitKurikingObjects(MapObjectList *mapObjectList) {
-    s32 i;
+    s32 objectIndex;
     MissionRunMapObject *obj;
 
     if (mapObjectList != NULL) {
-        for (i = 0; i < mapObjectList->mMapObjectCount && (obj = mapObjectList->mMapObjects[i]) != NULL; i++) {
+        for (objectIndex = 0;
+             objectIndex < mapObjectList->mMapObjectCount && (obj = mapObjectList->mMapObjects[objectIndex]) != NULL;
+             objectIndex++) {
             StartMapObjectModelNsbtaAnimation(obj->mNsbmd, obj->mPrm->mUnk_080, obj->mPrm->mUnk_050, 0);
             if (GetRaceUseChainCameras()) {
                 StartKurikingChainStartupFirst(obj);
@@ -632,11 +639,13 @@ void UpdateKuriking(u32 unused, MissionRunMapObject *mapObject) {
 }
 
 void InitKuriking(MapObjectList *mapObjectList) {
-    s32 i;
+    s32 objectIndex;
     MissionRunMapObject *obj;
 
     if (mapObjectList != NULL) {
-        for (i = 0; i < mapObjectList->mMapObjectCount && (obj = mapObjectList->mMapObjects[i]) != NULL; i++) {
+        for (objectIndex = 0;
+             objectIndex < mapObjectList->mMapObjectCount && (obj = mapObjectList->mMapObjects[objectIndex]) != NULL;
+             objectIndex++) {
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(obj);
             }

@@ -80,7 +80,17 @@
 #include "code_02147cd8.h"
 #include "Main/MapObjects/data_0217a000.h"
 
-MapObjectKindDescriptor gKingTeresaKindDescriptor = {0, {0, 0}, 0x30c, InitKingTeresaMapObject, CreateKingTeresaKindData, CreateKingTeresaDrawList, NULL, NULL, CreateKingTeresaUpdateList, NULL, {NULL, NULL, NULL, NULL}};
+MapObjectKindDescriptor gKingTeresaKindDescriptor = {0,
+                                                     {0, 0},
+                                                     0x30c,
+                                                     InitKingTeresaMapObject,
+                                                     CreateKingTeresaKindData,
+                                                     CreateKingTeresaDrawList,
+                                                     NULL,
+                                                     NULL,
+                                                     CreateKingTeresaUpdateList,
+                                                     NULL,
+                                                     {NULL, NULL, NULL, NULL}};
 
 u16 IsIwanteWalkB(MissionRunMapObject *mapObject) {
     return mapObject->mUnk_0a8 == 2;
@@ -119,7 +129,7 @@ void SetKingTeresaVelocityWithKartTurn(MissionRunMapObject *mapObject) {
     Vec3 kartStep;
     Vec3 offsetFromKart;
     u32 headingChange;
-    s32 i;
+    s32 repeatIndex;
     s32 sine;
     s32 cosine;
     s64 offsetZ;
@@ -134,7 +144,7 @@ void SetKingTeresaVelocityWithKartTurn(MissionRunMapObject *mapObject) {
     headingChange = (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunKartHeadingAngle() : 0) - headingChange;
     VEC_Subtract(&mapObject->mUnk_000.mPos, gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunKartPos() : 0,
                  &offsetFromKart);
-    for (i = 0; i < 1; i++) {
+    for (repeatIndex = 0; repeatIndex < 1; repeatIndex++) {
         cosine = FX_CosIdx((u16) headingChange);
         offsetX = offsetFromKart.x;
         sine = FX_SinIdx((u16) headingChange);
@@ -681,12 +691,14 @@ void KingTeresaBossTransferCallback(MissionRunMapObject *mapObject, Kart *kart) 
 }
 
 void InitKingTeresaObjects(MapObjectList *mapObjectList) {
-    s32 i;
+    s32 objectIndex;
     MissionRunMapObject *mapObject;
     MissionRunPrm *prm;
 
     if (mapObjectList != NULL) {
-        for (i = 0; i < mapObjectList->mMapObjectCount && (mapObject = mapObjectList->mMapObjects[i]) != NULL; i++) {
+        for (objectIndex = 0; objectIndex < mapObjectList->mMapObjectCount &&
+                              (mapObject = mapObjectList->mMapObjects[objectIndex]) != NULL;
+             objectIndex++) {
             if (GetRaceUseChainCameras() != 0) {
                 StartKingTeresaZeroAlphaWait(mapObject);
             } else {
@@ -786,12 +798,14 @@ void UpdateKingTeresa(u32 unused, MissionRunMapObject *mapObject) {
 }
 
 void InitKingTeresa(MapObjectList *mapObjectList) {
-    int i;
+    int objectIndex;
     MissionRunMapObject *mapObject;
     MissionRunPrm *prm;
 
     if (mapObjectList != NULL) {
-        for (i = 0; i < mapObjectList->mMapObjectCount && (mapObject = mapObjectList->mMapObjects[i]) != NULL; i++) {
+        for (objectIndex = 0; objectIndex < mapObjectList->mMapObjectCount &&
+                              (mapObject = mapObjectList->mMapObjects[objectIndex]) != NULL;
+             objectIndex++) {
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(mapObject);
             }

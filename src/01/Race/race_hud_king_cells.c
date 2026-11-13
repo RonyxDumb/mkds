@@ -31,14 +31,14 @@ void ClearRaceHudSubScreenKingIceDonketuCells(void) {
 }
 
 void UpdateRaceHudSubScreenKingIceDonketuCells(void) {
-    s32 i;
+    s32 objectIndex;
     s32 cellCount = 0;
     u32 raceHudSubScreenScale = GetRaceHudSubScreenScale();
     MapObject *object;
     Vec3 *pos;
 
-    for (i = 0; i < gRaceHudSubScreenKingIceDonketuCells->mObjectCount; i++) {
-        object = gRaceHudSubScreenKingIceDonketuCells->mObjects[i];
+    for (objectIndex = 0; objectIndex < gRaceHudSubScreenKingIceDonketuCells->mObjectCount; objectIndex++) {
+        object = gRaceHudSubScreenKingIceDonketuCells->mObjects[objectIndex];
         if (!(object->mFlags & 1)) {
             pos = &object->mPos;
             if (ComputeRaceHudSubScreenPosition(pos, &gRaceHudSubScreenKingIceDonketuCells->mCells[cellCount].mDrawPos,
@@ -68,14 +68,14 @@ void ClearRaceHudSubScreenKingTeresaCells(void) {
 }
 
 void UpdateRaceHudSubScreenKingTeresaCells(void) {
-    s32 i;
+    s32 objectIndex;
     s32 cellCount = 0;
     u32 raceHudSubScreenScale = GetRaceHudSubScreenScale();
     MapObject *object;
     Vec3 *pos;
 
-    for (i = 0; i < gRaceHudSubScreenKingTeresaCells->mObjectCount; i++) {
-        object = gRaceHudSubScreenKingTeresaCells->mObjects[i];
+    for (objectIndex = 0; objectIndex < gRaceHudSubScreenKingTeresaCells->mObjectCount; objectIndex++) {
+        object = gRaceHudSubScreenKingTeresaCells->mObjects[objectIndex];
         if (!(object->mFlags & 1)) {
             pos = &object->mPos;
             if (ComputeRaceHudSubScreenPosition(pos, &gRaceHudSubScreenKingTeresaCells->mCells[cellCount].mDrawPos,

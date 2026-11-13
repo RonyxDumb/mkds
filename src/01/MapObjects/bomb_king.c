@@ -83,7 +83,17 @@ const u16 gBombKingJumpFlag = 0x20;
 const u16 gBombKingDisabledFlag = 1;
 const u16 gBombKingSkipViewTestFlag = 2;
 SoundStartParams gBombKingEndSoundParams = {0x23d, NULL, 0xc, 0};
-MapObjectKindDescriptor gBombKingKindDescriptor = {0, {0, 0}, 0x30c, InitBombKingMapObject, CreateBombKingKindData, CreateBombKingDrawList, NULL, NULL, CreateBombKingUpdateList, NULL, {NULL, NULL, NULL, NULL}};
+MapObjectKindDescriptor gBombKingKindDescriptor = {0,
+                                                   {0, 0},
+                                                   0x30c,
+                                                   InitBombKingMapObject,
+                                                   CreateBombKingKindData,
+                                                   CreateBombKingDrawList,
+                                                   NULL,
+                                                   NULL,
+                                                   CreateBombKingUpdateList,
+                                                   NULL,
+                                                   {NULL, NULL, NULL, NULL}};
 
 u16 GetAbsoluteCounterWrapper(MissionRunMapObject *mapObject) {
     return GetAbsoluteCounter(mapObject);
@@ -120,13 +130,13 @@ void ThrowStoredItemBomb(MissionRunMapObject *mapObject) {
 void ThrowItemBombsInRing(MissionRunMapObject *mapObject) {
     RandomState64 *rng;
     s32 angle;
-    s32 i;
+    s32 bombIndex;
     Vec3 pos;
 
     rng = GetMapObjectRandom();
     rng->mValue = (s64) rng->mMultiplier * (s64) rng->mValue + rng->mIncrement;
     angle = (u16) (((rng->mValue >> 32) << 16) >> 32);
-    for (i = 0; i < 3; i++) {
+    for (bombIndex = 0; bombIndex < 3; bombIndex++) {
         Vec3 vel = {0, 0, 0};
         angle += 0x5555;
         if (GetAbsoluteCounter(mapObject) == 0) {
@@ -142,7 +152,7 @@ void ThrowItemBombsInRing(MissionRunMapObject *mapObject) {
             pos.z =
                 mapObject->mUnk_000.mPos.z + MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_154, COS_OF_ANGLE((u16) angle));
         }
-        if (i == 0) {
+        if (bombIndex == 0) {
             ThrowItemBombFromPosition(StartItemBomb(), &pos, &vel, mapObject->mPrm->mUnk_15c);
         } else {
             ThrowItemBombFromPosition(StartItemBombWithParkedItemBox(9), &pos, &vel, mapObject->mPrm->mUnk_160);
@@ -160,13 +170,13 @@ void StartBombKingEffectAndSound(MissionRunMapObject *mapObject) {
 void ThrowItemBombsInRingAndCenter(MissionRunMapObject *mapObject) {
     RandomState64 *rng;
     s32 angle;
-    s32 i;
+    s32 bombIndex;
     Vec3 pos;
 
     rng = GetMapObjectRandom();
     rng->mValue = (s64) rng->mMultiplier * (s64) rng->mValue + rng->mIncrement;
     angle = (u16) (((rng->mValue >> 32) << 16) >> 32);
-    for (i = 0; i < 3; i++) {
+    for (bombIndex = 0; bombIndex < 3; bombIndex++) {
         Vec3 vel = {0, 0, 0};
         angle += 0x5555;
         pos.x = mapObject->mUnk_000.mPos.x + MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_1e4, SIN_OF_ANGLE((u16) angle));
@@ -552,11 +562,13 @@ void StartBombKingChainStartupFirst(MissionRunMapObject *mapObject) {
 }
 
 void InitBombKingObjects(MapObjectList *list) {
-    int i;
+    int objectIndex;
     MissionRunMapObject *mapObject;
 
     if (list != NULL) {
-        for (i = 0; i < list->mMapObjectCount && (mapObject = list->mMapObjects[i]) != NULL; i++) {
+        for (objectIndex = 0;
+             objectIndex < list->mMapObjectCount && (mapObject = list->mMapObjects[objectIndex]) != NULL;
+             objectIndex++) {
             Vec3 offset = {0, 0, 0};
             offset.x = mapObject->mPrm->mUnk_0fc;
             offset.y = mapObject->mPrm->mUnk_100;
@@ -657,10 +669,12 @@ void BombKingItemHitCallback(MissionRunMapObject *mapObject, ItemObject *itemObj
 void InitBombKing(MapObjectList *list) {
     MissionRunMapObject *mapObject;
     MissionRunPrm *prm;
-    int i;
+    int objectIndex;
 
     if (list != NULL) {
-        for (i = 0; i < list->mMapObjectCount && (mapObject = list->mMapObjects[i]) != NULL; i++) {
+        for (objectIndex = 0;
+             objectIndex < list->mMapObjectCount && (mapObject = list->mMapObjects[objectIndex]) != NULL;
+             objectIndex++) {
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(mapObject);
             }
@@ -684,8 +698,8 @@ MapObjectKindData *CreateBombKingKindData(void) {
     void *kartCollisionCallback = &CollideKartWithMissionRunMapObject;
     void *itemCollisionCallback = &CollideItemWithMissionRunMapObject;
     void *sphereHitCallback = &ComputeSphereHitOnMissionRunMapObject;
-    return CreateMapObjectKindDataWithSoundIds(kartCollisionCallback, itemCollisionCallback,
-                                               sphereHitCallback, 0x2u, 0x1u, soundId, 0x0u);
+    return CreateMapObjectKindDataWithSoundIds(kartCollisionCallback, itemCollisionCallback, sphereHitCallback, 0x2u,
+                                               0x1u, soundId, 0x0u);
 }
 
 MapObjectList *CreateBombKingDrawList(void) {

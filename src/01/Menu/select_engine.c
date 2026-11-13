@@ -426,7 +426,7 @@ void AdvanceSelectEngineState4(void) {
     u32 hasPair;
     u32 hasPairAgain;
     s32 currentIndex;
-    s32 s;
+    s32 value;
     SelectEngine *selectEngine;
 
     AdvanceSelectEngineIndexChange();
@@ -468,11 +468,11 @@ void AdvanceSelectEngineState4(void) {
     return;
 next:
     if (touchedRectIndex <= 3) {
-        s = gSelectEngineRectIndices[touchedRectIndex];
-        if (gSelectEngine->mIndex == s) {
+        value = gSelectEngineRectIndices[touchedRectIndex];
+        if (gSelectEngine->mIndex == value) {
             gSelectEngine->mUnk_38 = FALSE;
         }
-        gSelectEngine->mIndex = s;
+        gSelectEngine->mIndex = value;
         RequestSelectEngineState5();
         return;
     }
@@ -485,56 +485,56 @@ next:
         if (IsBackupFlagSet(0x10) != 0) {
             currentIndex = gSelectEngine->mIndex;
             selectEngine = gSelectEngine;
-            s = gSelectEngineUpStepsFlagSet[currentIndex];
+            value = gSelectEngineUpStepsFlagSet[currentIndex];
         } else {
             currentIndex = gSelectEngine->mIndex;
             selectEngine = gSelectEngine;
-            s = gSelectEngineUpStepsFlagClear[currentIndex];
+            value = gSelectEngineUpStepsFlagClear[currentIndex];
         }
-        if (s != 0) {
-            selectEngine->mIndex = currentIndex + s;
+        if (value != 0) {
+            selectEngine->mIndex = currentIndex + value;
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
         }
     } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
         if (IsBackupFlagSet(0x10) != 0) {
             currentIndex = gSelectEngine->mIndex;
             selectEngine = gSelectEngine;
-            s = gSelectEngineDownStepsFlagSet[currentIndex];
+            value = gSelectEngineDownStepsFlagSet[currentIndex];
         } else {
             currentIndex = gSelectEngine->mIndex;
             selectEngine = gSelectEngine;
-            s = gSelectEngineDownStepsFlagClear[currentIndex];
+            value = gSelectEngineDownStepsFlagClear[currentIndex];
         }
-        if (s != 0) {
-            selectEngine->mIndex = currentIndex + s;
+        if (value != 0) {
+            selectEngine->mIndex = currentIndex + value;
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
         }
     } else if (GetNewOrRepeatBits(8, PAD_KEY_LEFT) != 0) {
         if (IsBackupFlagSet(0x10) != 0) {
             currentIndex = gSelectEngine->mIndex;
             selectEngine = gSelectEngine;
-            s = gSelectEngineLeftStepsFlagSet[currentIndex];
+            value = gSelectEngineLeftStepsFlagSet[currentIndex];
         } else {
             currentIndex = gSelectEngine->mIndex;
             selectEngine = gSelectEngine;
-            s = gSelectEngineLeftStepsFlagClear[currentIndex];
+            value = gSelectEngineLeftStepsFlagClear[currentIndex];
         }
-        if (s != 0) {
-            selectEngine->mIndex = currentIndex + s;
+        if (value != 0) {
+            selectEngine->mIndex = currentIndex + value;
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
         }
     } else if (GetNewOrRepeatBits(8, PAD_KEY_RIGHT) != 0) {
         if (IsBackupFlagSet(0x10) != 0) {
             currentIndex = gSelectEngine->mIndex;
             selectEngine = gSelectEngine;
-            s = gSelectEngineRightStepsFlagSet[currentIndex];
+            value = gSelectEngineRightStepsFlagSet[currentIndex];
         } else {
             currentIndex = gSelectEngine->mIndex;
             selectEngine = gSelectEngine;
-            s = gSelectEngineRightStepsFlagClear[currentIndex];
+            value = gSelectEngineRightStepsFlagClear[currentIndex];
         }
-        if (s != 0) {
-            selectEngine->mIndex = currentIndex + s;
+        if (value != 0) {
+            selectEngine->mIndex = currentIndex + value;
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
         }
     }
