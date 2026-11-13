@@ -58,7 +58,10 @@ typedef struct TcpHeader {
     /* 0c */ u8 mDataOffset;
     /* 0d */ u8 mFlags;
     /* 0e */ u16 mWindow;
-    /* 10 */ u8 pad_10[4];
+    /* 10 */ u16 mChecksum;
+    /* 12 */ u16 mUrgent;
+    /* 14 */ u16 mMssOptionHigh;
+    /* 16 */ u16 mMssOptionLow;
 } TcpHeader;
 
 typedef struct IpHeader IpHeader;

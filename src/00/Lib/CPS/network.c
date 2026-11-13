@@ -702,6 +702,7 @@ void send_udp(u8 *data, u32 length, CPSSoc *socket) {
 
 void send_tcp(u8 *data, u32 length, CPSSoc *socket, u32 flag, u16 urgent) {
     u8 *header;
+    TcpHeader *tcp;
     u32 tcpSize;
     u32 checksum;
     u16 invertedChecksum;
@@ -714,6 +715,7 @@ void send_tcp(u8 *data, u32 length, CPSSoc *socket, u32 flag, u16 urgent) {
     } else {
         header = socket->mSendBuffer + 0x22;
     }
+    tcp = (TcpHeader *) header;
     if (flag & 2) {
         tcpSize = 0x18;
     } else {
@@ -725,27 +727,26 @@ void send_tcp(u8 *data, u32 length, CPSSoc *socket, u32 flag, u16 urgent) {
     *(u16 *) (header - 6) = ((u16) socket->mRemoteIp >> 8) | ((u16) socket->mRemoteIp << 8);
     *(u16 *) (header - 4) = 0x600;
     *(u16 *) (header - 2) = ((u16) (tcpSize + length) >> 8) | ((u16) (tcpSize + length) << 8);
-    *(u16 *) header = (socket->mLocalPort >> 8) | (socket->mLocalPort << 8);
-    *OFFSET_PTR(u16, header, 2) = (socket->mRemotePort >> 8) | (socket->mRemotePort << 8);
-    *OFFSET_PTR(u16, header, 4) = ((u16) (socket->mSeqNo >> 16) >> 8) | ((u16) (socket->mSeqNo >> 16) << 8);
-    *OFFSET_PTR(u16, header, 6) = ((u16) socket->mSeqNo >> 8) | ((u16) socket->mSeqNo << 8);
-    *OFFSET_PTR(u16, header, 8) = ((u16) (socket->mAckNo >> 16) >> 8) | ((u16) (socket->mAckNo >> 16) << 8);
-    *OFFSET_PTR(u16, header, 0xa) = ((u16) socket->mAckNo >> 8) | ((u16) socket->mAckNo << 8);
-    header[0xc] = (tcpSize >> 2) << 4;
-    header[0xd] = flag;
-    *OFFSET_PTR(u16, header, 0xe) = ((u16) (socket->mReceiveBufferSize - socket->mReceiveBufferLength) >> 8) |
-                                    ((u16) (socket->mReceiveBufferSize - socket->mReceiveBufferLength) << 8);
-    *OFFSET_PTR(u16, header, 0x10) = 0;
-    *OFFSET_PTR(u16, header, 0x12) = (urgent >> 8) | (urgent << 8);
+    tcp->mSourcePort = (socket->mLocalPort >> 8) | (socket->mLocalPort << 8);
+    tcp->mDestPort = (socket->mRemotePort >> 8) | (socket->mRemotePort << 8);
+    tcp->mSeqNoHigh = ((u16) (socket->mSeqNo >> 16) >> 8) | ((u16) (socket->mSeqNo >> 16) << 8);
+    tcp->mSeqNoLow = ((u16) socket->mSeqNo >> 8) | ((u16) socket->mSeqNo << 8);
+    tcp->mAckNoHigh = ((u16) (socket->mAckNo >> 16) >> 8) | ((u16) (socket->mAckNo >> 16) << 8);
+    tcp->mAckNoLow = ((u16) socket->mAckNo >> 8) | ((u16) socket->mAckNo << 8);
+    tcp->mDataOffset = (tcpSize >> 2) << 4;
+    tcp->mFlags = flag;
+    tcp->mWindow = ((u16) (socket->mReceiveBufferSize - socket->mReceiveBufferLength) >> 8) |
+                   ((u16) (socket->mReceiveBufferSize - socket->mReceiveBufferLength) << 8);
+    tcp->mChecksum = 0;
+    tcp->mUrgent = (urgent >> 8) | (urgent << 8);
     if (flag & 2) {
-        *OFFSET_PTR(u16, header, 0x14) =
-            ((u16) ((gMyMss + 0x2040000U) >> 16) >> 8) | ((u16) ((gMyMss + 0x2040000U) >> 16) << 8);
-        *OFFSET_PTR(u16, header, 0x16) = ((u16) (gMyMss + 0x2040000U) >> 8) | ((u16) (gMyMss + 0x2040000U) << 8);
+        tcp->mMssOptionHigh = ((u16) ((gMyMss + 0x2040000U) >> 16) >> 8) | ((u16) ((gMyMss + 0x2040000U) >> 16) << 8);
+        tcp->mMssOptionLow = ((u16) (gMyMss + 0x2040000U) >> 8) | ((u16) (gMyMss + 0x2040000U) << 8);
     }
     checksum = calc_checksum_do(header - 0xc, tcpSize + 0xc, 0);
     checksum = calc_checksum_do(data, length, checksum);
     invertedChecksum = invert_checksum(checksum);
-    *OFFSET_PTR(u16, header, 0x10) = (invertedChecksum >> 8) | (invertedChecksum << 8);
+    tcp->mChecksum = (invertedChecksum >> 8) | (invertedChecksum << 8);
     send_ip(header, tcpSize, data, length, socket->mRemoteIp, 6);
     socket->mSeqNo += length;
     flag &= 3;
