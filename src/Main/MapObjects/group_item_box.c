@@ -35,41 +35,12 @@
 const u16 gGroupItemBoxEntryFlag = 0x20;
 const MapObjectList gGroupItemBoxUpdateListData = {NULL, 0, {0, 0}, (void (*)(MapObjectList *)) InitGroupItemBoxObjects, (void (*)(MapObjectList *)) UpdateGroupItemBoxHeightOffset, UpdateGroupItemBox, NULL, 0, NULL, 0, NULL};
 const MapObjectKindData gGroupItemBoxKindData = {(s32 (*)(MapObject *, void *, s32 *, s32 *)) CollideKartWithItemBox, NULL, 1, 0xf000, 0, 0, NULL, 0, 2, 0, 0, 0, 0, 0, 0, 0};
-StateCallbacks gMkdEfBubbleStateTable[2] = {{EnterMkdEfBubbleState0, UpdateMkdEfBubbleState0}, {EnterMkdEfBubbleState1, UpdateMkdEfBubbleState1}};
 u16 gGroupItemBoxHeightAngle;
 MapObjectList *gGroupItemBoxUpdateList;
-s32 gGroupItemBoxShadowScaleWord;
 s32 gGroupItemBoxHeightOffset;
+s32 gGroupItemBoxShadowScaleWord;
 Vec3 gGroupItemBoxShadowScale;
 
-#pragma thumb on
-void CreateMkdEfBubble(void) {
-    void *nsbmd;
-
-    nsbmd = FindCourseMapObjFile("mkd_ef_bubble.nsbmd");
-    CreateNsbmd(&gMkdEfBubble, nsbmd, NULL);
-    SetNsbmdPolygonIdLightEmiAll(gMkdEfBubble, 0x3f, 2, 0x294a);
-    gMkdEfBubbleNsbta = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
-    InitModelAnimationWithEntries(1, gMkdEfBubble, gMkdEfBubbleNsbta, nsbmd,
-                                  FindCourseMapObjFile("mkd_ef_bubble.nsbta"));
-    SetModelAnimationEntryLoopMode(gMkdEfBubbleNsbta, 0, 1);
-}
-
-void InitMkdEfBubble(MkdEfBubbleObject *bubble, CourseMapRow *row) {
-    InitStateMachine(&bubble->mMapObject.mStateMachine, gMkdEfBubbleStateTable, 2, bubble);
-    bubble->mDelayFrameCount = row->mSettings[0];
-    bubble->mInitialY = bubble->mMapObject.mPos.y;
-    bubble->mBottomY = bubble->mMapObject.mPos.y - 0x10000;
-    bubble->mMapObject.mPosStep.x = 0;
-    bubble->mMapObject.mPosStep.y = 0;
-    bubble->mMapObject.mPosStep.z = 0;
-    bubble->mAngleZ = 0;
-    bubble->mMapObject.mStateMachine.mNextState = 0;
-    bubble->mMapObject.mStateMachine.mNextStateRequested = 1;
-    RefreshShadowMatrix(&bubble->mShadowMatrix, &bubble->mMapObject.mPos,
-                        MUL_FIXED12_NO_ROUND(bubble->mMapObject.mScale.x, 0x18000), 0xd);
-    bubble->mMapObject.mFlags |= gMkdEfBubbleInitFlag;
-}
 #pragma thumb off
 
 MapObjectKindData *CreateGroupItemBoxKindData(void) {
