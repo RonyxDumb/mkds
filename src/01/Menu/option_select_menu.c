@@ -26,9 +26,9 @@
 
 const u8 gOptionSelectMenuMLabelIndices[2] = {0, 1};
 const u8 gOptionSelectMenuXluCellIndices[2] = {0, 1};
-const u8 gOptionSelectMenuValueCounts[2] = {3, 2};
-const u8 gOptionSelectMenuOffsetMIndices[1] = {0};
 const u8 gOptionSelectMenuRowSTableIndices[3] = {5, 6, 7};
+const u8 gOptionSelectMenuOffsetMIndices[1] = {0};
+const u8 gOptionSelectMenuValueCounts[3] = {3, 2, 0};
 const u8 gOptionSelectMenuSLabelIndices[3] = {0, 1, 2};
 const u8 gOptionSelectMenuValueSTableIndices[3][3] = {{0x14, 0x15, 0x16}, {0x17, 0x18, 0}, {0, 0, 0}};
 const s32 gOptionSelectMenuGroupSTableCounts[3] = {0xc, 0xb, 2};

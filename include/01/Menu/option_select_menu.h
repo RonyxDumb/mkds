@@ -80,7 +80,7 @@ void InitOptionSelectMenuTexts(void);
 
 extern const u8 gOptionSelectMenuMLabelIndices[2];
 extern const u8 gOptionSelectMenuXluCellIndices[2];
-extern const u8 gOptionSelectMenuValueCounts[2];
+extern const u8 gOptionSelectMenuValueCounts[3];
 // Object behind gBackupBuffers; the byte at 0x31 of the object at its first member holds flags.
 extern const u8 gOptionSelectMenuOffsetMIndices[1];
 extern const u8 gOptionSelectMenuRowSTableIndices[3];

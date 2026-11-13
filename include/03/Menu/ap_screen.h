@@ -37,7 +37,7 @@ void StartApFadeIn(void);
 extern YbBgStep11NclName gYbBgStep11NclName2;
 extern Bytes4 gApEntryIconPalettes;
 extern Bytes4 gApPaletteRows;
-extern const u8 gApRects[55];
+extern const u8 gApRects[56];
 extern const s8 gApMessageDigitColumns[6];
 extern const u8 gApEntryImageIndices[4];
 extern u8 gApSelectedIndex[1];
