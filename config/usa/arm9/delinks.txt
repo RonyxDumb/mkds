@@ -3436,14 +3436,15 @@ src/Main/MapObjects/earthen_pipe.c:
 // provisional: file name and boundaries
 src/Main/MapObjects/earthen_pipe_create.c:
     complete
-    .text       start:0x020de588 end:0x020de9ec
+    .text       start:0x020de588 end:0x020de6a8
     .rodata     start:0x021584d4 end:0x02158568
-    .data       start:0x0216bf84 end:0x0216bfa0
 
 // provisional: file name and boundaries
 src/Main/MapObjects/item_box_kind_descriptor.c:
     complete
+    .text       start:0x020de6a8 end:0x020de9ec
     .rodata     start:0x02158568 end:0x021585a4
+    .data       start:0x0216bf84 end:0x0216bfa0
 
 // provisional: file name and boundaries
 src/Main/MapObjects/item_box.c:
