@@ -91,6 +91,7 @@
 #include "Main/Save/ghost_record_file.h"
 #include "Main/System/init_after_startup.h"
 #include "Main/Menu/time_attack_ghost_get_slot_data.h"
+#include "Main/Menu/time_attack_ghost_get_names_g.h"
 
 #pragma thumb on
 
