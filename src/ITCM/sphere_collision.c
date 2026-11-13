@@ -425,7 +425,7 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *vector, i
                     }
                 } else if (triangleHitBits & 0x214300) {
                     if (triangleHitBits & 0x10000) {
-                        triangleHitBits |= data_02156904;
+                        triangleHitBits |= gSphereHitTriangleBitsFlag;
                         if (offset.x > extraMaxOffset.x) {
                             extraMaxOffset.x = offset.x;
                         } else if (offset.x < extraMinOffset.x) {
@@ -478,7 +478,7 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *vector, i
                     }
                 }
             }
-            hitBits |= data_02156908;
+            hitBits |= gSphereHitBitsFlag;
             hitBits |= triangleHitBits;
             if (gCollisionHitCount == 16) {
                 gCollisionHitCount--;
@@ -514,7 +514,7 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *vector, i
             if (ComputeSphereHitOnCollisionData(foundObject, position, radius, queryFlags, &firstHitRecord,
                                                 &secondHitRecord, lowestOffset != NULL ? &lowestOffsetValue : 0,
                                                 &hitBitIndex, pointMotion, angleChange)) {
-                hitBits |= data_0215690c;
+                hitBits |= gSphereHitObjectBitsFlag;
                 hitBits |= 1 << hitBitIndex;
                 if (gCollisionHitCount == 16) {
                     gCollisionHitCount--;
@@ -564,7 +564,7 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *vector, i
                 if (lowestOffsetValue.y * lowestOffsetValue.y <
                     lowestOffsetValue.x * lowestOffsetValue.x + lowestOffsetValue.z * lowestOffsetValue.z) {
                     offset.y = 0;
-                    hitBits = (hitBits & 0xffe1cb10) | data_02156910;
+                    hitBits = (hitBits & 0xffe1cb10) | gSphereHitBitsMaskedFlag;
                     if (normal != NULL) {
                         normal->x = 0;
                         normal->y = 0;
@@ -575,7 +575,7 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *vector, i
                     goto lo;
                 }
             } else {
-                hitBits = (hitBits & ~0x10000) | data_02156910;
+                hitBits = (hitBits & ~0x10000) | gSphereHitBitsMaskedFlag;
             }
             if (extraMaxOffset.y > offset.y) {
                 offset.y = extraMaxOffset.y;

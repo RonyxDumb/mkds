@@ -3244,6 +3244,7 @@ src/Main/MapObjects/view_frustum.c:
 // provisional: file name and boundaries
 src/Main/MapObjects/sphere_collision_data.c:
     complete
+    .rodata     start:0x021568fc end:0x02156914
     .data       start:0x0216b8a4 end:0x0216b8f4
 
 // provisional: file name and boundaries

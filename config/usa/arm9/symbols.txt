@@ -8137,10 +8137,10 @@ gViewTestDistanceLimitFlag kind:data(any) addr:0x021568f4
 gViewTestMaxDistanceFlag kind:data(any) addr:0x021568f8
 gCollisionSlotDisabledFlag kind:data(any) addr:0x021568fc
 gCollisionSlotRadiusFlag kind:data(any) addr:0x02156900
-data_02156904 kind:data(any) addr:0x02156904
-data_02156908 kind:data(any) addr:0x02156908
-data_0215690c kind:data(any) addr:0x0215690c
-data_02156910 kind:data(any) addr:0x02156910
+gSphereHitTriangleBitsFlag kind:data(any) addr:0x02156904
+gSphereHitBitsFlag kind:data(any) addr:0x02156908
+gSphereHitObjectBitsFlag kind:data(any) addr:0x0215690c
+gSphereHitBitsMaskedFlag kind:data(any) addr:0x02156910
 gRockSecondFlag kind:data(any) addr:0x02156914
 gRockThirdFlag kind:data(any) addr:0x02156918
 gRockFirstFlag kind:data(any) addr:0x0215691c

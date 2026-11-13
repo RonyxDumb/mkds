@@ -2,18 +2,6 @@
 #include "types.h"
 #include "Main/Kart/code_0208fd8c.h" // KartAiItemUseEntry
 
-extern u16 gCollisionSlotDisabledFlag;
-
-extern u16 gCollisionSlotRadiusFlag;
-
-extern const u32 data_02156904;
-
-extern const u32 data_02156908;
-
-extern const u32 data_0215690c;
-
-extern const u32 data_02156910;
-
 extern const Vec3 gRockMatrixRow0;
 
 extern const Vec3 gRockMatrixRow1;
