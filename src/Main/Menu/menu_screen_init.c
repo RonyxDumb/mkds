@@ -61,21 +61,22 @@ void InitCurrentMenuScreen(void) {
                 InitSelectKart(MenuGetCurrentHeap(), variant, menu->mMainOam, menu->mSubOam);
                 break;
             case 7:
-                InitSelectCupGrid(MenuGetCurrentHeap(), menu->mMainOam, menu->mSubOam, 0);
+                InitSelectCupGrid(MenuGetCurrentHeap(), menu->mMainOam, menu->mSubOam,
+                                  SELECT_CUP_GRID_MODE_SHOW_RECORDS);
                 break;
             case 11:
                 if (MenuGetConnectionKind() == 0) {
-                    variant = 2;
+                    variant = SELECT_CUP_GRID_MODE_NO_CONNECTION;
                 } else if (GetMultiSimple() != 0) {
-                    variant = 3;
+                    variant = SELECT_CUP_GRID_MODE_MULTI_SIMPLE;
                 } else {
-                    variant = 4;
+                    variant = SELECT_CUP_GRID_MODE_MULTI_OTHER;
                 }
                 menu = gMenuScene;
                 InitSelectCupGrid(MenuGetCurrentHeap(), menu->mMainOam, menu->mSubOam, variant);
                 break;
             case 23:
-                InitSelectCupGrid(MenuGetCurrentHeap(), menu->mMainOam, menu->mSubOam, 1);
+                InitSelectCupGrid(MenuGetCurrentHeap(), menu->mMainOam, menu->mSubOam, SELECT_CUP_GRID_MODE_NO_RECORDS);
                 break;
             case 13:
                 if (MenuGetConnectionKind() == 0) {

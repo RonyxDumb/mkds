@@ -223,6 +223,34 @@ typedef struct RecordVS {
     /* 90 */ s32 mNextScreen;
 } RecordVS;
 
+typedef enum SelectCupGridState {
+    SELECT_CUP_GRID_STATE_WAIT_FADE = 0,
+    SELECT_CUP_GRID_STATE_SLIDE_IN = 1,
+    SELECT_CUP_GRID_STATE_WAIT_RETURN = 2,
+    SELECT_CUP_GRID_STATE_CHOOSE = 3,
+    SELECT_CUP_GRID_STATE_WAIT_CHOSEN = 4,
+    SELECT_CUP_GRID_STATE_WAIT_CONFIRM_OPEN = 5,
+    SELECT_CUP_GRID_STATE_WAIT_CONFIRM_CHOICES = 6,
+    SELECT_CUP_GRID_STATE_WAIT_CONFIRM_ANSWER = 7,
+    SELECT_CUP_GRID_STATE_WAIT_EXIT_OPEN = 8,
+    SELECT_CUP_GRID_STATE_WAIT_EXIT_CHOICES = 9,
+    SELECT_CUP_GRID_STATE_WAIT_EXIT_ANSWER = 10,
+    SELECT_CUP_GRID_STATE_SLIDE_OUT = 11,
+} SelectCupGridState;
+
+typedef enum SelectCupGridMode {
+    SELECT_CUP_GRID_MODE_SHOW_RECORDS = 0,
+    SELECT_CUP_GRID_MODE_NO_RECORDS = 1,
+    SELECT_CUP_GRID_MODE_NO_CONNECTION = 2,
+    SELECT_CUP_GRID_MODE_MULTI_SIMPLE = 3,
+    SELECT_CUP_GRID_MODE_MULTI_OTHER = 4,
+} SelectCupGridMode;
+
+// Steps of the slide in and out; mStateFrames counts them.
+#define SELECT_CUP_GRID_SLIDE_STEPS 10
+// mStateFrames at which state WAIT_CHOSEN shows the highlight.
+#define SELECT_CUP_GRID_HIGHLIGHT_STEP 5
+
 // Object behind gSelectCupGrid: the screen that picks one of eight cups, laid out as two rows of four (a direction key
 // or a touch moves mIndex to a neighbour cup that is enabled). Choosing stores the cup and the first course of that cup
 // in the record behind gRaceSetupCopy (SetCupFromSelectCupGrid); SelectCupCourse then picks one of the four courses of
