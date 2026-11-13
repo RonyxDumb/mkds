@@ -260,20 +260,22 @@ void InitTimeAttackGhostGetSlot(void *parentHeap, void *mainOam, void *subOam) {
     gTimeAttackGhostGetSlot->mGhostMessages = FindSceneFile(gTimeAttackGhostGetGhostBmgName);
     cellFileSet = &gTimeAttackGhostGetSlot->mInfoFileSets.mCellFileSets[0];
     remainingObjSize = GX_GetSizeOfOBJ();
-    LocateCellFileSet(cellFileSet, gTimeAttackGhostGetMNceNcgrName, gTimeAttackGhostGetMNceNcerName, gTimeAttackGhostGetMONclrName, gTimeAttackGhostGetMBnclName, gTimeAttackGhostGetMBnllName, NULL,
+    LocateCellFileSet(cellFileSet, gTimeAttackGhostGetMNceNcgrName, gTimeAttackGhostGetMNceNcerName,
+                      gTimeAttackGhostGetMONclrName, gTimeAttackGhostGetMBnclName, gTimeAttackGhostGetMBnllName, NULL,
                       FindSceneFile);
     SetupCellFileSet(0, gTimeAttackGhostGetSlot->mHeap, cellFileSet);
     for (entryIndex = 0; entryIndex < cellFileSet->mLabelLayout->mCount; entryIndex++) {
         remainingObjSize -= SetupLabelCanvas(0, gTimeAttackGhostGetSlot->mHeap, cellFileSet,
                                              gTimeAttackGhostGetSlotMLabelTextRows[entryIndex], remainingObjSize);
     }
-    LocateAndQueueScreenMapFileSet(1, gTimeAttackGhostGetSlot, gTimeAttackGhostGetSBNcgrName, gTimeAttackGhostGetSBNclrName, gTimeAttackGhostGetSNscrName, 3,
-                                   FindSceneFile);
+    LocateAndQueueScreenMapFileSet(1, gTimeAttackGhostGetSlot, gTimeAttackGhostGetSBNcgrName,
+                                   gTimeAttackGhostGetSBNclrName, gTimeAttackGhostGetSNscrName, 3, FindSceneFile);
     cellFileSet = &gTimeAttackGhostGetSlot->mInfoFileSets.mCellFileSets[1];
     remainingObjSize = GX_GetSizeOfSubOBJ();
     assignedCount = 0;
-    LocateCellFileSet(cellFileSet, gTimeAttackGhostGetSNceNcgrName, gTimeAttackGhostGetSNceNcerName, gTimeAttackGhostGetSONclrName, gTimeAttackGhostGetSBnclName,
-                      gTimeAttackGhostGetSBnllName, gTimeAttackGhostGetSBnblName, FindSceneFile);
+    LocateCellFileSet(cellFileSet, gTimeAttackGhostGetSNceNcgrName, gTimeAttackGhostGetSNceNcerName,
+                      gTimeAttackGhostGetSONclrName, gTimeAttackGhostGetSBnclName, gTimeAttackGhostGetSBnllName,
+                      gTimeAttackGhostGetSBnblName, FindSceneFile);
     SetupCellFileSet(1, gTimeAttackGhostGetSlot->mHeap, cellFileSet);
     cellCount = cellFileSet->mCellLayout->mCount;
     textRowIndex = 0;
@@ -351,14 +353,14 @@ s32 AdvanceTimeAttackGhostGetSlot(u16 *sceneNumbers) {
     }
     object = gTimeAttackGhostGetSlot;
     switch (object->mState) {
-        case 0:
+        case TIME_ATTACK_GHOST_GET_SLOT_STATE_SLIDE_IN:
             if (object->mInterpolation.mState == 1) {
-                object->mState = 1;
+                object->mState = TIME_ATTACK_GHOST_GET_SLOT_STATE_CHOOSE_SLOT;
             } else {
                 UpdateSlotSlideOffsets();
             }
             break;
-        case 1:
+        case TIME_ATTACK_GHOST_GET_SLOT_STATE_CHOOSE_SLOT:
             if (IsTxtSystemState0NoOpenRequest() != 0) {
                 SetupGhostMainTextEx();
             }
@@ -374,7 +376,7 @@ s32 AdvanceTimeAttackGhostGetSlot(u16 *sceneNumbers) {
             if (IsScrollListPickFinished() != 0) {
                 SetupGhostNameSubTextTwoButtons();
                 RequestSelectReturnState4();
-                gTimeAttackGhostGetSlot->mState = 2;
+                gTimeAttackGhostGetSlot->mState = TIME_ATTACK_GHOST_GET_SLOT_STATE_WAIT_SAVE_ANSWER;
             } else if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) != 0 || touchInReturnRect != 0) {
                 message = GetBmgEntry(gTimeAttackGhostGetSlot->mGhostMessages, 0x54);
                 buttonText = GetBmgEntry(gTimeAttackGhostGetSlot->mInfoFileSets.mCommonMessages, 4);
@@ -382,10 +384,10 @@ s32 AdvanceTimeAttackGhostGetSlot(u16 *sceneNumbers) {
                 SetupTxtSystemSubTextButton(message, buttonText);
                 RequestSelectReturnState3WithSound(1);
                 gTimeAttackGhostGetSlot->mUnk_a0 = FALSE;
-                gTimeAttackGhostGetSlot->mState = 4;
+                gTimeAttackGhostGetSlot->mState = TIME_ATTACK_GHOST_GET_SLOT_STATE_WAIT_MESSAGE_DONE;
             }
             break;
-        case 2:
+        case TIME_ATTACK_GHOST_GET_SLOT_STATE_WAIT_SAVE_ANSWER:
             if (GetTxtSystemInputAccepted() != 0 && GetTxtSystemSelectedIndex() == 0) {
                 NNS_SndArcSetCurrent(&gOnMemorySndArc);
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 10);
@@ -396,31 +398,31 @@ s32 AdvanceTimeAttackGhostGetSlot(u16 *sceneNumbers) {
                     GetSlotGhostBuffer()->mHead.mFilled = 1;
                     WriteSlotGhostRecord((u8) gTimeAttackGhostGetSlot->mInfoFileSets.mSelectedIndex,
                                          GetSlotGhostBuffer());
-                    gTimeAttackGhostGetSlot->mState = 3;
+                    gTimeAttackGhostGetSlot->mState = TIME_ATTACK_GHOST_GET_SLOT_STATE_WAIT_BACKUP;
                 } else {
                     RequestSelectReturnState1();
-                    gTimeAttackGhostGetSlot->mState = 1;
+                    gTimeAttackGhostGetSlot->mState = TIME_ATTACK_GHOST_GET_SLOT_STATE_CHOOSE_SLOT;
                 }
                 RequestTxtSystemClose();
             }
             break;
-        case 3:
+        case TIME_ATTACK_GHOST_GET_SLOT_STATE_WAIT_BACKUP:
             if (GhostGetSlotIsBackupBusy() != 0) {
                 message = GetBmgEntry(object->mGhostMessages, 0x10);
                 buttonText = GetBmgEntry(gTimeAttackGhostGetSlot->mInfoFileSets.mCommonMessages, 4);
                 SetTxtSystemSoundId(0, 5);
                 SetupTxtSystemSubTextButton(message, buttonText);
                 gTimeAttackGhostGetSlot->mUnk_a0 = FALSE;
-                gTimeAttackGhostGetSlot->mState = 4;
+                gTimeAttackGhostGetSlot->mState = TIME_ATTACK_GHOST_GET_SLOT_STATE_WAIT_MESSAGE_DONE;
             }
             break;
-        case 4:
+        case TIME_ATTACK_GHOST_GET_SLOT_STATE_WAIT_MESSAGE_DONE:
             if (GetTxtSystemDone() != 0) {
                 gMenuShared->mMenuEntryKind = 5;
                 if (sceneNumbers != NULL) {
                     sceneNumbers[2] = 1;
                 }
-                gTimeAttackGhostGetSlot->mState = 5;
+                gTimeAttackGhostGetSlot->mState = TIME_ATTACK_GHOST_GET_SLOT_STATE_DONE;
             }
             break;
     }
@@ -479,7 +481,7 @@ void StartTimeAttackGhostGetScanState15(void) {
     SetTxtSystemSoundId(0, 5);
     SetupTxtSystemSubTextButton(message, buttonText);
     gTimeAttackGhostGetScan->mStateFrames = 0;
-    gTimeAttackGhostGetScan->mState = 15;
+    gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_ERROR_MESSAGE;
 }
 
 #pragma thumb off
@@ -903,29 +905,29 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
     subCellFileSet = &gTimeAttackGhostGetScan->mInfoFileSets.mCellFileSets[1];
     AdvanceInterpolation(&gTimeAttackGhostGetScan->mInterpolation);
     switch (gTimeAttackGhostGetScan->mState) {
-        case 0:
+        case TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_FADE:
             if (AreBrightnessFadesClear() == 0) {
                 RequestSelectReturnState1();
                 SetupGhostMainTextShort();
                 SetInterpolationStateIfOpposite(&gTimeAttackGhostGetScan->mInterpolation, 0);
-                gTimeAttackGhostGetScan->mState = 1;
+                gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_SLIDE_IN;
             }
             break;
-        case 1:
+        case TIME_ATTACK_GHOST_GET_SCAN_STATE_SLIDE_IN:
             if (gTimeAttackGhostGetScan->mInterpolation.mState == 1) {
-                gTimeAttackGhostGetScan->mState = 2;
+                gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_SCAN_LIST;
             } else {
                 UpdateScanSlideOffsets();
             }
             break;
-        case 2:
+        case TIME_ATTACK_GHOST_GET_SCAN_STATE_SCAN_LIST:
             switch (AdvanceConnectionSetup(0, NULL)) {
                 case 1:
                     SetupTxtSystemSubText(GetBmgEntry(gTimeAttackGhostGetScan->mGhostMessages, 0xf));
                     NNS_SndArcSetCurrent(&gOnMemorySndArc);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 9);
                     NNS_SndArcSetCurrent(&gFileSndArc);
-                    gTimeAttackGhostGetScan->mState = 5;
+                    gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_REQUEST_BLOCK_COUNT;
                     break;
                 case 0:
                     if (gTimeAttackGhostGetScan->mGhostPicked != FALSE) {
@@ -1002,7 +1004,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
                         RequestSelectReturnState4();
                         gTimeAttackGhostGetScan->mGhostPicked = TRUE;
                         gTimeAttackGhostGetScan->mStateFrames = 0;
-                        gTimeAttackGhostGetScan->mState = 3;
+                        gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_PICK;
                     } else if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_A) != 0 &&
                                gTimeAttackGhostGetScan->mInfoFileSets.mSelectedIndex >= 0) {
                         SetupGhostSubTextTwoButtons();
@@ -1011,9 +1013,9 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
                         RequestSelectReturnState4();
                         gTimeAttackGhostGetScan->mGhostPicked = TRUE;
                         gTimeAttackGhostGetScan->mStateFrames = 0;
-                        gTimeAttackGhostGetScan->mState = 3;
+                        gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_PICK;
                     } else if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) != 0 || touchInReturnRect != 0) {
-                        gTimeAttackGhostGetScan->mState = 12;
+                        gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_END_CONNECTION_LEAVE;
                         RequestSelectReturnState3WithSound(0);
                     } else if (GetNewOrRepeatBits(slotIndex, PAD_KEY_UP)) {
                         if (gTimeAttackGhostGetScan->mFilledCount == 2) {
@@ -1037,15 +1039,15 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
                 RefreshScanEntryPalettes();
             }
             break;
-        case 3:
+        case TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_PICK:
             gTimeAttackGhostGetScan->mStateFrames++;
-            if (gTimeAttackGhostGetScan->mStateFrames > 5) {
+            if (gTimeAttackGhostGetScan->mStateFrames > TIME_ATTACK_GHOST_GET_SCAN_PICK_STEPS) {
                 SetScanSelectedEntryHighlight(1);
                 gTimeAttackGhostGetScan->mStateFrames = 0;
-                gTimeAttackGhostGetScan->mState = 4;
+                gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_PICK_ANSWER;
             }
             break;
-        case 4:
+        case TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_PICK_ANSWER:
             if (GetTxtSystemDone() != 0) {
                 if (GetTxtSystemSelectedIndex() == 0) {
                     SetSelectedScanEntry(gTimeAttackGhostGetScan->mInfoFileSets.mSelectedIndex);
@@ -1054,48 +1056,48 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
                     gTimeAttackGhostGetScan->mGhostPicked = FALSE;
                 }
                 RequestTxtSystemClose();
-                gTimeAttackGhostGetScan->mState = 2;
+                gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_SCAN_LIST;
             }
             break;
-        case 5:
+        case TIME_ATTACK_GHOST_GET_SCAN_STATE_REQUEST_BLOCK_COUNT:
             switch (AdvanceBlockCountRequest()) {
                 case 1:
                     ResetPendingFiles();
                     SetBlockEntryBuffer(0, GetSlotGhostBuffer());
-                    gTimeAttackGhostGetScan->mState = 6;
+                    gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_RECEIVE_BLOCKS;
                     break;
                 case 2:
                     StartTimeAttackGhostGetScanState15();
                     break;
             }
             break;
-        case 6:
+        case TIME_ATTACK_GHOST_GET_SCAN_STATE_RECEIVE_BLOCKS:
             switch (AdvanceBlockReceive()) {
                 case 1:
-                    gTimeAttackGhostGetScan->mState = 7;
+                    gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_END_CONNECTION_AFTER_RECEIVE;
                     break;
                 case 2:
                     StartTimeAttackGhostGetScanState15();
                     break;
             }
             break;
-        case 7:
+        case TIME_ATTACK_GHOST_GET_SCAN_STATE_END_CONNECTION_AFTER_RECEIVE:
             if (AdvanceConnectionEndStopOnError() == 1) {
                 SendLedPatternWireless();
-                gTimeAttackGhostGetScan->mState = 8;
+                gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_CHECK_SLOT;
             }
             break;
-        case 12:
+        case TIME_ATTACK_GHOST_GET_SCAN_STATE_END_CONNECTION_LEAVE:
             if (AdvanceConnectionEndStopOnError() == 1) {
                 SendLedPatternWireless();
                 gMenuShared->mMenuEntryKind = 5;
                 if (sceneNumbers != NULL) {
                     sceneNumbers->mNextScene = 1;
                 }
-                gTimeAttackGhostGetScan->mState = 16;
+                gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_DONE;
             }
             break;
-        case 8:
+        case TIME_ATTACK_GHOST_GET_SCAN_STATE_CHECK_SLOT:
             if (DoesAnySlotGhostMatchCourse(
                     gTimeAttackGhostGetScan->mGhostInfoEntries[gTimeAttackGhostGetScan->mInfoFileSets.mSelectedIndex]
                         .mInfo.mCourseId) != 0) {
@@ -1109,11 +1111,11 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
                                       formattedText, 0x100);
                 SetTxtSystemSoundId(0, -1);
                 SetupTxtSystemSubTextTwoButtonsEx(formattedText, buttonText, secondButtonText, 1, 0, 1, 1, 0);
-                gTimeAttackGhostGetScan->mState = 9;
+                gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_REPLACE_ANSWER;
             } else if (GetSlotGhostCount() == 10) {
                 RequestTxtSystemClose();
                 gTimeAttackGhostGetScan->mNextCallbacksIndex = 2;
-                gTimeAttackGhostGetScan->mState = 13;
+                gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_SLIDE_OUT;
                 SetInterpolationStateIfOpposite(&gTimeAttackGhostGetScan->mInterpolation, 2);
             } else {
                 gTimeAttackGhostGetScan->mGhostSlot = FindUnfilledGhostSlot();
@@ -1122,10 +1124,10 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
                 NNS_SndArcSetCurrent(&gOnMemorySndArc);
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 10);
                 NNS_SndArcSetCurrent(&gFileSndArc);
-                gTimeAttackGhostGetScan->mState = 11;
+                gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_BACKUP;
             }
             break;
-        case 9:
+        case TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_REPLACE_ANSWER:
             if (GetTxtSystemInputAccepted() != 0 && GetTxtSystemSelectedIndex() == 0) {
                 NNS_SndArcSetCurrent(&gOnMemorySndArc);
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 10);
@@ -1140,53 +1142,53 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
                             .mInfo.mCourseId);
                     GetSlotGhostBuffer()->mHead.mFilled = 1;
                     WriteSlotGhostRecord((u8) gTimeAttackGhostGetScan->mGhostSlot, GetSlotGhostBuffer());
-                    gTimeAttackGhostGetScan->mState = 11;
+                    gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_BACKUP;
                 } else {
-                    gTimeAttackGhostGetScan->mState = 10;
+                    gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_MESSAGE_CLOSED;
                 }
             }
             break;
-        case 10:
+        case TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_MESSAGE_CLOSED:
             if (IsTxtSystemState0NoOpenRequest() != 0) {
                 message = GetBmgEntry(gTimeAttackGhostGetScan->mGhostMessages, 0x54);
                 buttonText = GetBmgEntry(gTimeAttackGhostGetScan->mInfoFileSets.mCommonMessages, 4);
                 SetTxtSystemSoundId(0, 5);
                 SetupTxtSystemSubTextButton(message, buttonText);
-                gTimeAttackGhostGetScan->mState = 14;
+                gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_MESSAGE_DONE;
             }
             break;
-        case 11:
+        case TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_BACKUP:
             if (GhostGetScanIsBackupBusy() != 0) {
                 message = GetBmgEntry(gTimeAttackGhostGetScan->mGhostMessages, 0x10);
                 buttonText = GetBmgEntry(gTimeAttackGhostGetScan->mInfoFileSets.mCommonMessages, 4);
                 SetTxtSystemSoundId(0, 5);
                 SetupTxtSystemSubTextButton(message, buttonText);
-                gTimeAttackGhostGetScan->mState = 14;
+                gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_MESSAGE_DONE;
             }
             break;
-        case 15:
+        case TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_ERROR_MESSAGE:
             if (IsTxtSystemState2AfterState1() != 0) {
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x15);
             }
             if (GetTxtSystemDone() != 0) {
                 gTimeAttackGhostGetScan->mStateFrames = 0;
-                gTimeAttackGhostGetScan->mState = 12;
+                gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_END_CONNECTION_LEAVE;
                 RequestTxtSystemClose();
             }
             break;
-        case 14:
+        case TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_MESSAGE_DONE:
             if (GetTxtSystemDone() != 0) {
                 gMenuShared->mMenuEntryKind = 5;
                 if (sceneNumbers != NULL) {
                     sceneNumbers->mNextScene = 1;
                 }
-                gTimeAttackGhostGetScan->mState = 16;
+                gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_DONE;
             }
             break;
-        case 13:
+        case TIME_ATTACK_GHOST_GET_SCAN_STATE_SLIDE_OUT:
             if (gTimeAttackGhostGetScan->mInterpolation.mState == 3) {
                 result = gTimeAttackGhostGetScan->mNextCallbacksIndex;
-                gTimeAttackGhostGetScan->mState = 16;
+                gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_DONE;
             } else {
                 UpdateScanSlideOffsets();
             }
