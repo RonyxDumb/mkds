@@ -8600,8 +8600,8 @@ gItemInfoKouraGThree kind:data(any) addr:0x02159f4c
 gItemInfoFBox kind:data(any) addr:0x02159f68
 gItemKindFBox kind:data(any) addr:0x02159f84
 gItemObjectExcludedUntilCourseHitBit kind:data(any) addr:0x0215a02c
-data_0215a030 kind:data(any) addr:0x0215a030
-data_usa_0215a034 kind:data(any) addr:0x0215a034
+gMissionRunBoxMapObjectFlag kind:data(any) addr:0x0215a030
+gMissionRunBoxKindDescriptor kind:data(any) addr:0x0215a034
 gMissionRunBoxKindData kind:data(any) addr:0x0215a068
 gDramAngleChoiceRows kind:data(any) addr:0x0215a0a8
 gDramKindDescriptor kind:data(any) addr:0x0215a0cc

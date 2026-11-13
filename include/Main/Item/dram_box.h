@@ -46,6 +46,6 @@ void CreateDram(void);
 extern const MapObjectKindData gMissionRunBoxKindData;
 extern StateCallbacks gDramStateTable[6];
 
-extern const u16 data_0215a030;
+extern const u16 gMissionRunBoxMapObjectFlag;
 extern const u16 gItemObjectExcludedUntilCourseHitBit;
-extern const MapObjectKindDescriptor data_usa_0215a034;
+extern const MapObjectKindDescriptor gMissionRunBoxKindDescriptor;

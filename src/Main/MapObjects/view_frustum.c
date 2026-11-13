@@ -101,7 +101,7 @@ MapObjectKindRow gMapObjectKindRows[133] = {
     {209, (MapObjectKindDescriptor *) &gRotaryBridgeKindDescriptor, &gRotaryBridgeKindInfo},
     {210, (MapObjectKindDescriptor *) &gDramKindDescriptor, NULL},
     {204, (MapObjectKindDescriptor *) &gBridgeKindDescriptor, NULL},
-    {11, (MapObjectKindDescriptor *) &data_usa_0215a034, NULL},
+    {11, (MapObjectKindDescriptor *) &gMissionRunBoxKindDescriptor, NULL},
     {413, &gSmanKindDescriptor, NULL},
     {308, &gCowKindDescriptor, NULL},
     {414, &gKanoke64KindDescriptor, NULL},
