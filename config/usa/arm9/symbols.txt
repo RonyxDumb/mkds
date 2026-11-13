@@ -11143,8 +11143,6 @@ data_usa_02175e80 kind:bss(size=0x4) addr:0x02175e80
 gRomArchiveStarted kind:bss(size=0x4) addr:0x02175e84
 data_usa_02175e88 kind:bss(size=0x18) addr:0x02175e88
 gRomArchiveTransfer kind:bss(size=0x4b40) addr:0x02175ea0
-data_usa_021773a0 kind:bss addr:0x021773a0
-data_usa_021773b8 kind:bss addr:0x021773b8
 gConnectionWork kind:bss(size=0x4) addr:0x0217a9e0
 gDispCap kind:bss(size=0x4) addr:0x0217a9e4
 gBackupBuffers kind:bss(size=0x4) addr:0x0217a9e8

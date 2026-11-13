@@ -1,8 +1,8 @@
 #include "types.h"
 #include "unk_02000000.h"
 
-extern u8 data_usa_021773a0[];
-extern u8 data_usa_021773b8[];
+// The two block list words lie inside this object.
+extern u8 gRomArchiveTransfer[];
 extern u8 arc_list[];
 
 // Build information block, kept in .text after NitroStartUp: the addresses the startup code reads
@@ -12,8 +12,8 @@ extern u8 arc_list[];
 #pragma section INIT_TEXT begin
 
 BuildInfoLayout BuildInfo = {
-    {data_usa_021773a0, data_usa_021773b8, arc_list, arc_list, (void *) 0x021804c0, 0, (void *) 0x030028a0,
-     (void *) 0xdec00621, (void *) 0x2106c0de},
+    {gRomArchiveTransfer + 0x1500, gRomArchiveTransfer + 0x1518, arc_list, arc_list, (void *) 0x021804c0, 0,
+     (void *) 0x030028a0, (void *) 0xdec00621, (void *) 0x2106c0de},
     "[SDK+NINTENDO:BACKUP]",
     "[SDK+NINTENDO:DWC20051007-1634_DWC20051007_NOTOUCH]",
     "[SDK+NINTENDO:WiFi1.0.10200.0510061936]",
