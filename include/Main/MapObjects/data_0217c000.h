@@ -66,13 +66,11 @@ extern u16 gOrthoQuadAlpha;
 
 // One byte per row, one bit per column; marked when a quad is placed so later quads avoid the same cells.
 
-extern u32 gBouncingItemBoxTimers[];
+extern u32 gBouncingItemBoxTimers[8];
 
 static inline void SetBouncingItemBoxTimer(u16 kartIndex, u32 timer) {
     gBouncingItemBoxTimers[kartIndex] = timer;
 }
-
-extern u32 gBouncingItemBoxTimerRunning[];
 
 extern s32 gOrthoQuadMoveStartFrameCount;
 

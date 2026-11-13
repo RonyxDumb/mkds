@@ -3965,6 +3965,11 @@ src/Main/Item/bouncing_item_box_kind.c:
     .rodata     start:0x0215a4c0 end:0x0215a584
 
 // provisional: file name and boundaries
+src/Main/Item/bouncing_item_box_timers.c:
+    complete
+    .bss        start:0x0217c6c4 end:0x0217c704
+
+// provisional: file name and boundaries
 src/Main/Item/pooled_item_box.c:
     complete
     .text       start:0x02104a0c end:0x021052f0

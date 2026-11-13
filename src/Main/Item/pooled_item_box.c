@@ -42,6 +42,7 @@
 #include "code_02147cd8.h"
 #include "code_0212df7c.h"
 #include "ITCM/collision_slots.h"
+#include "Main/Item/bouncing_item_box_timers.h"
 
 u32 gPooledMapObjectNextIndex;
 struct MapObject **gPooledMapObjects;

@@ -53,6 +53,7 @@
 #include "registers.h"
 #include "code_02147cd8.h"
 #include "Main/System/init_after_startup.h"
+#include "Main/Item/bouncing_item_box_timers.h"
 
 u16 gOrthoQuadFirstPolygonId;
 u16 gOrthoQuadAlpha;
