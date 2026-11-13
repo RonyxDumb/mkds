@@ -3,8 +3,12 @@
 #include "Main/Course/course_sound_object.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "code_02147cd8.h"
+#include "Main/MapObjects/bound.h"
 
-void *CreateCourseSoundObjectUpdateList(void) {
+MapObjectKindDescriptor gCourseSoundObjectKindDescriptor = {
+    0, {0, 0}, 0xf4, 0, CreateEmptyMapObjectKindData, 0, 0, 0, CreateCourseSoundObjectUpdateList};
+
+MapObjectList *CreateCourseSoundObjectUpdateList(void) {
     return CreateMapObjectUpdateList(InitCourseSoundObjects, UpdateCourseSoundObject, NULL);
 }
 

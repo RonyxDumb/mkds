@@ -9977,7 +9977,7 @@ gShine16KindDescriptor kind:data(any) addr:0x02167898
 gSanboKindDescriptor kind:data(any) addr:0x021678ec
 @5365 kind:data(any) addr:0x02167920 local
 @5366 kind:data(any) addr:0x02167930 local
-data_usa_02167940 kind:data(any) addr:0x02167940
+gCourseSoundObjectKindDescriptor kind:data(any) addr:0x02167940
 gIronBallInitialScale kind:data(any) addr:0x02167974
 gIronBallKindDescriptor kind:data(any) addr:0x02167980
 gIronBallDrawOnlyKindDescriptor kind:data(any) addr:0x021679b4
