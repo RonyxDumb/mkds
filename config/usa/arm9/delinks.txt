@@ -3291,14 +3291,20 @@ src/Main/MapObjects/course_collision_data.c:
 // provisional: file name and boundaries
 src/Main/MapObjects/group_follower.c:
     complete
-    .text       start:0x020d6538 end:0x020d7d80
+    .text       start:0x020d6538 end:0x020d68b0
     .rodata     start:0x021569d8 end:0x02156adc
     .bss        start:0x0217b630 end:0x0217b650
 
 // provisional: file name and boundaries
 src/Main/MapObjects/rock_kind_data.c:
     complete
+    .text       start:0x020d68b0 end:0x020d6910
     .rodata     start:0x02156adc end:0x02156b1c
+
+// provisional: file name and boundaries
+src/Main/MapObjects/code_020d6910.c:
+    complete
+    .text       start:0x020d6910 end:0x020d7d80
 
 // provisional: file name and boundaries
 src/Main/MapObjects/straight_segment_lengths.c:
