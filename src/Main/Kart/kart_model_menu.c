@@ -282,13 +282,13 @@ void SetupCamera(Camera *camera) {
     camera->mPos.x = 0x1e3000;
     camera->mPos.y = 0x4bd000;
     camera->mPos.z = 0xc6b000;
-    initialLookAt = *(volatile Vec3 *) &data_usa_02154fdc;
+    initialLookAt = *(volatile Vec3 *) &gCameraVec3Zero;
     camera->mLookAt = initialLookAt;
     worldUp = *(volatile Vec3 *) &gCameraVec3UnitY;
     camera->mUp = gCameraVec3UnitY;
-    camera->mSide = data_usa_02154fd0;
+    camera->mSide = gCameraVec3UnitX;
     MTX_Identity43_(&camera->mViewMatrix);
-    camera->mForward = data_usa_02154fb8;
+    camera->mForward = gCameraVec3UnitZ;
     camera->mPosGoalYOffset = 0;
     camera->mHalfFovAngleGoal = gDefaultHalfFovAngle;
     camera->mHalfFovAngle = gDefaultHalfFovAngle + 5;
@@ -305,7 +305,7 @@ void SetupCamera(Camera *camera) {
     camera->mFrustumBottom = 0;
     camera->mFrustumLeft = 0;
     camera->mFrustumRight = 0;
-    zero = data_usa_02154fdc;
+    zero = gCameraVec3Zero;
     camera->mViewPos = zero;
     camera->mViewLookAt = zero;
     camera->mBaseUp = worldUp;

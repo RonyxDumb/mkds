@@ -395,7 +395,7 @@ s32 TryQuaternionFromVectors(Vec4 *result, const Vec3 *source, const Vec3 *targe
     BOOL success = TRUE;
     VEC_CrossProduct(source, target, &cross);
     sqrtValue = FX_Sqrt((VEC_DotProduct(source, target) + 0x1000) << 1);
-    *result = data_usa_02155194;
+    *result = gQuaternionIdentity;
     if (sqrtValue <= 0) {
         success = FALSE;
     } else {

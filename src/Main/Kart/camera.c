@@ -240,7 +240,7 @@ void UpdateChaseCamera(Camera *camera, Kart *kart) {
 }
 
 void UpdateChaseCameraCollision(Camera *camera, Kart *kart, Vec3 *forward) {
-    Vec3 pushOut = data_usa_02154fdc;
+    Vec3 pushOut = gCameraVec3Zero;
     Vec3 firstNormal;
     Vec3 secondNormal;
     Vec3 turnedForward;
@@ -971,7 +971,7 @@ void UpdateChaseCameraLookAt(Vec3 *lookAt, Vec3 *lookAtOffset, s32 *lookAtLoweri
     VEC_MultAdd(lookAtHeight, &kart->mUnk_12c, &targetPos, &targetPos);
     lookAtGoal.y = lookAtGoal.y + (lookAtHeight - scaledHopHeight);
     if (!(kart->mDriveFlags & KART_DRIVE_BOOST_SURFACE_HELD)) {
-        offsetGoal = data_usa_02154fdc;
+        offsetGoal = gCameraVec3Zero;
     } else {
         VEC_Subtract(&targetPos, &lookAtGoal, &offsetGoal);
         VEC_MultAdd(0xa000, &kart->mUnk_12c, &offsetGoal, &offsetGoal);
@@ -1048,7 +1048,7 @@ void UpdateChaseCameraPos(Vec3 *pos, Vec3 *posOffset, Camera *camera, Kart *kart
     posGoal = followPos;
     posGoal.y = posGoal.y + camera->mPosGoalYOffset;
     if (!(kart->mDriveFlags & KART_DRIVE_BOOST_SURFACE_HELD)) {
-        offsetGoal = data_usa_02154fdc;
+        offsetGoal = gCameraVec3Zero;
     } else {
         VEC_Subtract(&heightenedPos, &posGoal, &offsetGoal);
         VEC_MultAdd(-0x1e000, &kartUp, &offsetGoal, &offsetGoal);

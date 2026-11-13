@@ -1885,6 +1885,7 @@ src/Main/Kart/kart_model_menu.c:
 src/Main/Kart/karts.c:
     complete
     .text       start:0x02077bc0 end:0x0207adf8
+    .rodata     start:0x02154fb8 end:0x02155188
     .data       start:0x02165798 end:0x021658bc
     .bss        start:0x0217acf0 end:0x0217ad14
 
@@ -1892,6 +1893,7 @@ src/Main/Kart/karts.c:
 src/Main/Kart/shadow_model.c:
     complete
     .text       start:0x0207adf8 end:0x0207ae58
+    .rodata     start:0x02155188 end:0x021551a4
 
 // provisional: file name and boundaries
 src/Main/Kart/character_animation.c:
@@ -1913,6 +1915,11 @@ src/Main/Kart/point_link_cursor.c:
     .text       start:0x0207b960 end:0x0207ffa4
     .rodata     start:0x0215560c end:0x021557bc
     .bss        start:0x0217ae14 end:0x0217ae4c
+
+// provisional: file name and boundaries
+src/Main/Kart/point_link_follow_data.c:
+    complete
+    .rodata     start:0x021557bc end:0x021557ec
 
 // provisional: file name and boundaries
 src/Main/Kart/kart_effects_ahead.c:

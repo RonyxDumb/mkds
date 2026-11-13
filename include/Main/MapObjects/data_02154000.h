@@ -5,8 +5,6 @@ typedef struct Kart Kart;
 
 // Objects whose layout isn't known yet.
 
-extern const u32 data_usa_02154ff8[];
-
 // The 16 scene functions, indexed by scene number; the names are in gSceneNames
 // (data_usa_021541a8).
 extern const u32 gSceneFuncs[16];
@@ -19,11 +17,11 @@ extern const s32 gKartScaleFactorZTable[25];
 
 extern Vec3 gCameraVec3UnitY;
 
-extern Vec3 data_usa_02154fdc;
+extern Vec3 gCameraVec3Zero;
 
-extern const Vec3 data_usa_02154fb8;
+extern const Vec3 gCameraVec3UnitZ;
 
-extern const Vec3 data_usa_02154fd0;
+extern const Vec3 gCameraVec3UnitX;
 
 // Per kart: the side and the forward offset of its respawn position.
 extern const s32 gKartRespawnOffsets[8][2];

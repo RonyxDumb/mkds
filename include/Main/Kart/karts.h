@@ -33,19 +33,26 @@ void CreateCharacter(KartModelsEntry *kartModelsEntry, void *heap, s32 pNameUsed
 #include "Main/Graphics/nsbmd_render_obj.h" // Nsbmd
 #include "Main/Kart/kart_drift.h"
 
-extern u8 data_usa_02154fe8[];
-extern u32 data_usa_02155008[];
-extern u32 data_usa_02155028[];
-extern u32 data_usa_02155038[];
-extern u32 data_usa_02155058[];
-extern u32 data_usa_02155078[];
-extern u32 data_usa_02155088[];
-extern u32 data_usa_021550b8[];
-extern u8 data_usa_021550c8[];
-extern u8 data_usa_021550e8[];
-extern u8 data_usa_02155108[];
-extern u8 data_usa_02155128[];
-extern u8 data_usa_02155148[];
+// Resource names (16 bytes, zero padded) that are looked up in the kart models.
+extern const char gHeyhoPMainMaterialName[16];
+extern const char gSpecialKartBodyMaterialName[16];
+extern const char gKartEmblemMaterialName[16];
+extern const char gCharacterBPMainMaterialName[16];
+extern const char gCharacterBPFaceMaterialName[16];
+extern const char gEmblemTextureName[16];
+extern const char gCharacterBEMainMaterialName[16];
+extern const char gHeyhoEMainMaterialName[16];
+extern const char gCharacterBEFaceMaterialName[16];
+extern const char gKartAPaletteMaterialName[16];
+extern const char gTireModelMaterialName[16];
+extern const char gEmblemPaletteName[16];
+extern const char gKartTireMaterialName[16];
+extern const u16 gCharacterBEFacePalette[8];
+extern const u16 gCharacterBEMainPalette[16];
+extern const u16 gSpecialKartFirstPalette[16];
+extern const u16 gSpecialKartSecondPalette[16];
+extern const u16 gCharacterBPMainPalette[16];
+extern const u16 gCharacterBPFacePalette[32];
 
 void InitLnkVramManagers(void *heap);
 void AdvanceKartModelMenuLoad(void);
