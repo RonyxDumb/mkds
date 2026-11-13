@@ -29,18 +29,17 @@
 #include "Main/MapObjects/data_0217b000.h"
 #include "Main/MapObjects/wanwan_chain.h"
 
-const MapObjectKindDescriptor gWanwanChainKindDescriptor = {
-    0,
-    {0, 0},
-    0xf8,
-    InitWanwanChainObject,
-    CreateWanwanChainKindData,
-    (MapObjectList *(*)(void)) CreateWanwanChainDrawList,
-    NULL,
-    NULL,
-    CreateWanwanChainUpdateList,
-    NULL,
-    {NULL, NULL, NULL, NULL}};
+const MapObjectKindDescriptor gWanwanChainKindDescriptor = {0,
+                                                            {0, 0},
+                                                            0xf8,
+                                                            InitWanwanChainObject,
+                                                            CreateWanwanChainKindData,
+                                                            (MapObjectList * (*) (void) ) CreateWanwanChainDrawList,
+                                                            NULL,
+                                                            NULL,
+                                                            CreateWanwanChainUpdateList,
+                                                            NULL,
+                                                            {NULL, NULL, NULL, NULL}};
 
 u32 CollideKartWithWanwanChain(u32 unused0, u32 unused1, u32 unused2, u32 bytePointer) {
     return (*OFFSET_PTR(const u8, bytePointer, 0));
@@ -50,7 +49,7 @@ u32 CollideItemObjectWithWanwanChain(u32 unused0, u32 unused1, u32 unused2, u32 
     return (*OFFSET_PTR(const u8, bytePointer, 0));
 }
 
-const u16 data_021583d4 = 1;
+const u16 gWanwanChainMapObjectFlag = 1;
 
 void ResetWanwanChainPoints(WanwanChainObject *chainObject) {
     Wanwan *wanwan;
@@ -102,7 +101,7 @@ void InitWanwanChainObject(WanwanChainObject *chainObject, void *unused, Wanwan 
         chainObject->mChain.mPullScale.y += 0x35c;
         chainObject->mChain.mPullScale.z += 0x52;
         chainObject->mChain.mMinY = 0;
-        chainObject->mUnk_02 |= data_021583d4;
+        chainObject->mUnk_02 |= gWanwanChainMapObjectFlag;
     }
     chainObject->mWanwan = wanwan;
     if (chainObject->mHasKui != FALSE) {

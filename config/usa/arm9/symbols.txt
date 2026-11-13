@@ -8400,7 +8400,7 @@ gWanwanUpdateListData kind:data(any) addr:0x02158334
 gWanwanDrawListData kind:data(any) addr:0x0215835c
 gWanwanKindData kind:data(any) addr:0x02158388
 gWanwanChainInitialPullScale kind:data(any) addr:0x021583c8
-data_021583d4 kind:data(any) addr:0x021583d4
+gWanwanChainMapObjectFlag kind:data(any) addr:0x021583d4
 gWanwanChainKindDescriptor kind:data(any) addr:0x021583d8
 gWanwanChainUpdateListData kind:data(any) addr:0x0215840c
 gWanwanChainDrawListData kind:data(any) addr:0x02158434

@@ -23,7 +23,7 @@ typedef struct WanwanChainObject {
     /* f4 */ BOOL mHasKui;
 } WanwanChainObject;
 
-extern const u16 data_021583d4;
+extern const u16 gWanwanChainMapObjectFlag;
 
 void ResetWanwanChainPoints(WanwanChainObject *chainObject);
 void CreateWanwanChainAndWanwanKui(void);
