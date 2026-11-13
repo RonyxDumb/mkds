@@ -427,12 +427,10 @@ void MBi_CheckCompleteGameInfoFlagments(u32 entryIndex, EntryCallbackFunc callba
 void MB_CountGameInfoLifetime(EntryCallbackFunc callback, u32 value) {
     u32 stopFollowing;
     s32 entryIndex;
-    u32 entryOffset;
     stopFollowing = 0;
     entryIndex = 0;
-    entryOffset = 0;
     for (; entryIndex < 0x10; entryIndex++) {
-        MBGameInfoRecvList *entry = OFFSET_PTR(MBGameInfoRecvList, mbrsp->mEntries, entryOffset);
+        MBGameInfoRecvList *entry = &mbrsp->mEntries[entryIndex];
         u16 entryBit = 1 << entryIndex;
         if (mbrsp->mUsedMask & entryBit) {
             entry->mTimer -= mbrsp->mScanCountUnit;
@@ -448,7 +446,6 @@ void MB_CountGameInfoLifetime(EntryCallbackFunc callback, u32 value) {
                 MB_DeleteRecvGameInfo(entryIndex);
             }
         }
-        entryOffset += sizeof(MBGameInfoRecvList);
     }
     if (mbrsp->mNowScanTargetFlag != 0 && mbrsp->mNowLockTimeCount > 0) {
         mbrsp->mNowLockTimeCount -= mbrsp->mScanCountUnit;
