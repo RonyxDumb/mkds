@@ -120,7 +120,7 @@ void InitGraphics(void) {
     p = &reg_GX_DISPCNT;
     *p = *p & 0xffffe0ff;
     GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, 0);
-    reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffcfffef) | 0x200010;
+    reg_GX_DISPCNT = (reg_GX_DISPCNT & ~(REG_GX_DISPCNT_EXOBJ_CH_MASK | REG_GX_DISPCNT_OBJMAP_CH_MASK)) | 0x200010;
     reg_G2_BG0CNT &= ~REG_G2_BG0CNT_MOSAIC_MASK;
     reg_G2_BG1CNT &= ~REG_G2_BG1CNT_MOSAIC_MASK;
     reg_G2_BG2CNT &= ~REG_G2_BG2CNT_MOSAIC_MASK;
@@ -136,7 +136,9 @@ void InitGraphics(void) {
     p = &reg_GXS_DB_DISPCNT;
     *p = *p & 0xffffe0ff;
     GXx_SetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT, 0);
-    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffcfffef) | 0x10;
+    reg_GXS_DB_DISPCNT =
+        (reg_GXS_DB_DISPCNT & ~(REG_GXS_DB_DISPCNT_EXOBJ_CH_MASK | REG_GXS_DB_DISPCNT_OBJMAP_CH_MASK)) |
+        REG_GXS_DB_DISPCNT_OBJMAP_CH_MASK;
     reg_G2S_DB_BG0CNT &= ~REG_G2S_DB_BG0CNT_MOSAIC_MASK;
     reg_G2S_DB_BG1CNT &= ~REG_G2S_DB_BG1CNT_MOSAIC_MASK;
     reg_G2S_DB_BG2CNT &= ~REG_G2S_DB_BG2CNT_MOSAIC_MASK;

@@ -248,11 +248,12 @@ void SetSubBg3RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cn
 }
 
 void MenuGX_SetOBJVRamModeChar(u32 bits) {
-    reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffcfffef) | bits;
+    reg_GX_DISPCNT = (reg_GX_DISPCNT & ~(REG_GX_DISPCNT_EXOBJ_CH_MASK | REG_GX_DISPCNT_OBJMAP_CH_MASK)) | bits;
 }
 
 void MenuGXS_SetOBJVRamModeChar(u32 bits) {
-    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffcfffef) | bits;
+    reg_GXS_DB_DISPCNT =
+        (reg_GXS_DB_DISPCNT & ~(REG_GXS_DB_DISPCNT_EXOBJ_CH_MASK | REG_GXS_DB_DISPCNT_OBJMAP_CH_MASK)) | bits;
 }
 
 u32 MenuWriteMainWinEnableBits(u32 bits) {

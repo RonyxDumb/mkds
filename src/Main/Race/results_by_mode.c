@@ -30,8 +30,11 @@ void InitResultsByMode(void *heap) {
         InitResultsBattle(heap, gResultScene, gResultScene->mSubOam);
     }
     InitLinkLevelIcons(heap, gResultScene);
-    reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffcfffef) | 0x10;
-    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffcfffef) | 0x10;
+    reg_GX_DISPCNT = (reg_GX_DISPCNT & ~(REG_GX_DISPCNT_EXOBJ_CH_MASK | REG_GX_DISPCNT_OBJMAP_CH_MASK)) |
+                     REG_GX_DISPCNT_OBJMAP_CH_MASK;
+    reg_GXS_DB_DISPCNT =
+        (reg_GXS_DB_DISPCNT & ~(REG_GXS_DB_DISPCNT_EXOBJ_CH_MASK | REG_GXS_DB_DISPCNT_OBJMAP_CH_MASK)) |
+        REG_GXS_DB_DISPCNT_OBJMAP_CH_MASK;
     G2x_SetBlendAlpha_(&reg_G2_BLDCNT, 1, 0x3f, 8, 8);
     G2x_SetBlendAlpha_(&reg_G2S_DB_BLDCNT, 0, 0x2f, 8, 8);
     reg_GX_DISPCNT = reg_GX_DISPCNT & ~(REG_GX_DISPCNT_OW_MASK | REG_GX_DISPCNT_W1_MASK | REG_GX_DISPCNT_W0_MASK);

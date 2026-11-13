@@ -71,11 +71,12 @@ void TitleSetSubBg3RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u
 }
 
 void TitleGX_SetOBJVRamModeChar(u32 bits) {
-    reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffcfffef) | bits;
+    reg_GX_DISPCNT = (reg_GX_DISPCNT & ~(REG_GX_DISPCNT_EXOBJ_CH_MASK | REG_GX_DISPCNT_OBJMAP_CH_MASK)) | bits;
 }
 
 void TitleGXS_SetOBJVRamModeChar(u32 bits) {
-    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffcfffef) | bits;
+    reg_GXS_DB_DISPCNT =
+        (reg_GXS_DB_DISPCNT & ~(REG_GXS_DB_DISPCNT_EXOBJ_CH_MASK | REG_GXS_DB_DISPCNT_OBJMAP_CH_MASK)) | bits;
 }
 
 void TitleWriteSubBlendAlpha(u32 plane1, u32 plane2, u32 ev1, u32 ev2) {

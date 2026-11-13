@@ -374,8 +374,11 @@ DisplaySettings *CreateSceneDisplaySettings(void *heap) {
     SetBg1Record(&displaySettings->mMainBgRecords, 0, 0, 0, 0, 0x12, 2, 0);
     SetBg3RecordParams(&displaySettings->mSubBgRecords, 1, 0, 0, 0, 0x10, 4);
     InitDisplayFromSettings(displaySettings);
-    reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffcfffef) | 0x10;
-    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffcfffef) | 0x10;
+    reg_GX_DISPCNT = (reg_GX_DISPCNT & ~(REG_GX_DISPCNT_EXOBJ_CH_MASK | REG_GX_DISPCNT_OBJMAP_CH_MASK)) |
+                     REG_GX_DISPCNT_OBJMAP_CH_MASK;
+    reg_GXS_DB_DISPCNT =
+        (reg_GXS_DB_DISPCNT & ~(REG_GXS_DB_DISPCNT_EXOBJ_CH_MASK | REG_GXS_DB_DISPCNT_OBJMAP_CH_MASK)) |
+        REG_GXS_DB_DISPCNT_OBJMAP_CH_MASK;
     return displaySettings;
 }
 
@@ -387,8 +390,11 @@ DisplaySettings *CreateWiFiStatesDisplaySettings(void *heap) {
     SetBg1Record(&displaySettings->mMainBgRecords, 0, 0, 0, 0, 0x12, 2, 0);
     SetBg3RecordParams(&displaySettings->mSubBgRecords, 1, 0, 0, 0, 0xf, 0);
     InitDisplayFromSettings(displaySettings);
-    reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffcfffef) | 0x10;
-    reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffcfffef) | 0x10;
+    reg_GX_DISPCNT = (reg_GX_DISPCNT & ~(REG_GX_DISPCNT_EXOBJ_CH_MASK | REG_GX_DISPCNT_OBJMAP_CH_MASK)) |
+                     REG_GX_DISPCNT_OBJMAP_CH_MASK;
+    reg_GXS_DB_DISPCNT =
+        (reg_GXS_DB_DISPCNT & ~(REG_GXS_DB_DISPCNT_EXOBJ_CH_MASK | REG_GXS_DB_DISPCNT_OBJMAP_CH_MASK)) |
+        REG_GXS_DB_DISPCNT_OBJMAP_CH_MASK;
     return displaySettings;
 }
 

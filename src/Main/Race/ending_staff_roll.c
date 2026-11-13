@@ -49,7 +49,8 @@ void InitEndingStaffRoll(void) {
                    gEndingStaffRoll->mEndingStaffRollMO00Nclr->mDataSize);
     GX_LoadOBJ(gEndingStaffRoll->mEndingStaffRollM00Ncgr->mData, 0,
                gEndingStaffRoll->mEndingStaffRollM00Ncgr->mDataSize);
-    reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffcfffef) | 0x10;
+    reg_GX_DISPCNT = (reg_GX_DISPCNT & ~(REG_GX_DISPCNT_EXOBJ_CH_MASK | REG_GX_DISPCNT_OBJMAP_CH_MASK)) |
+                     REG_GX_DISPCNT_OBJMAP_CH_MASK;
 }
 
 void ClearEndingStaffRollPointer(void) {
