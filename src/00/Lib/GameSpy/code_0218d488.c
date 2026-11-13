@@ -66,15 +66,15 @@ void GSIStartAvailableCheckA(const char *gamename) {
     }
 }
 
-BOOL HandlePacket(const s8 *packet, s32 len, u8 *address, u32 *disabledservices) {
+BOOL HandlePacket(const s8 *packet, s32 len, SOCSockAddrIn *address, u32 *disabledservices) {
     u32 serviceMask;
     if (len < 7) {
         return TRUE;
     }
-    if (memcmp(address + 4, gGsiAvailableCheck.mAddressIp, 4) != 0) {
+    if (memcmp(&address->mAddr, gGsiAvailableCheck.mAddressIp, 4) != 0) {
         return TRUE;
     }
-    if (*OFFSET_PTR(u16, address, 2) != gGsiAvailableCheck.mPort) {
+    if (address->mPort != gGsiAvailableCheck.mPort) {
         return TRUE;
     }
     if (memcmp((const u8 *) packet, gAvailablePacketHeader, 3) != 0) {
@@ -100,7 +100,7 @@ s32 GSIAvailableCheckThink(void) {
     }
     if (CanReceiveOnSocket(gGsiAvailableCheck.mSocket) != 0 &&
         HandlePacket(replyBuffer, recvfrom(gGsiAvailableCheck.mSocket, replyBuffer, 0x40, 0, (u8 *) &address, &len),
-                     (u8 *) &address, &disabledMask) == FALSE) {
+                     &address, &disabledMask) == FALSE) {
         closesocket(gGsiAvailableCheck.mSocket);
         if ((disabledMask & 1) != 0) {
             gGsiAcResult = 2;
