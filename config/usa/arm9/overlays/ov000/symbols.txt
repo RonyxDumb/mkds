@@ -1444,1095 +1444,1056 @@ default_link_is_on kind:function(thumb,size=0x4) addr:0x021b0498
 empty_func kind:function(thumb,size=0x2) addr:0x021b049c
 yield_thread kind:function(thumb,size=0x24) addr:0x021b04a0
 reset_network_vars kind:function(thumb,size=0xc8) addr:0x021b04c4
-gWiFiTopMenuXluCellIndices kind:data(any) addr:0x021b058c
-gWiFiTopMenuSTableIndices kind:data(any) addr:0x021b0590
-gWiFiTopMenuCellIndices kind:data(any) addr:0x021b0594
-gWiFiTopMenuOffsetCellCounts kind:data(any) addr:0x021b0598
-gWiFiTopMenuOffsetTableIndices kind:data(any) addr:0x021b05a4
-gWiFiVSSettingLabelIndices kind:data(any) addr:0x021b05b4
-gWiFiVSSettingKartTypes kind:data(any) addr:0x021b05b8
-gWiFiVSSettingIndexByKartType kind:data(any) addr:0x021b05bc
-gWiFiVSSettingTimerTableIndices kind:data(any) addr:0x021b05c4
-gWiFiVSSettingOffsetCellCounts kind:data(any) addr:0x021b05cc
-gWiFiVSSettingOffsetTableIndices kind:data(any) addr:0x021b05d8
-gWiFiVSSettingMessageIndices kind:data(any) addr:0x021b05f4
-gWiFiVSMatchingBlendColorOffsets kind:data(any) addr:0x021b0624
-gWiFiVSMatchingOtherCellIndices kind:data(any) addr:0x021b0628
-gWiFiVSMatchingSearchLabelIndices kind:data(any) addr:0x021b062c
-gWiFiVSMatchingNameLabelIndices kind:data(any) addr:0x021b0630
-gWiFiVSMatchingEmblemCellIndices kind:data(any) addr:0x021b0634
-gWiFiVSMatchingNameCellIndices kind:data(any) addr:0x021b0638
-gWiFiVSMatchingTotalLabelIndices kind:data(any) addr:0x021b063c
-gWiFiVSMatchingTotalCellIndices kind:data(any) addr:0x021b0644
-gWiFiVSMatchingResultWaitFrames kind:data(any) addr:0x021b064c
-gWiFiVSMatchingOffsetTableIndices kind:data(any) addr:0x021b0658
-gWiFiVSMatchingNameSlideOffsets kind:data(any) addr:0x021b0668
-gWiFiAikotobaCellIndices kind:data(any) addr:0x021b0688
-gWiFiAikotobaXluCellIndices kind:data(any) addr:0x021b068c
-gWiFiAikotobaSTableIndices kind:data(any) addr:0x021b0690
-gWiFiAikotobaOffsetCellCounts kind:data(any) addr:0x021b0694
-gWiFiAikotobaOffsetTableIndices kind:data(any) addr:0x021b069c
-gWiFiAikotobaCheckOffsetIndices kind:data(any) addr:0x021b06a4
-gWiFiAikotobaCheckDigitLabelIndices kind:data(any) addr:0x021b06a8
-gWayportSsid kind:data(any) addr:0x021b06b4
-gFreespotSsid kind:data(any) addr:0x021b06bc
-gNintendoWfcSsid kind:data(any) addr:0x021b06c4
-gAcSearchChannel kind:data(any) addr:0x021b06d0
-gAcSocConfig kind:data(any) addr:0x021b0704
-gConvByteTable kind:data(any) addr:0x021b075c
-gConv4BitTable kind:data(any) addr:0x021b076c
-gAlternateEncoding kind:data(any) addr:0x021b077c
-gUrlSafeEncodeing kind:data(any) addr:0x021b0780
-gDefaultEncoding kind:data(any) addr:0x021b0784
-WCM_Bssid_Any kind:data(any) addr:0x021b0788
-WCM_Essid_Any kind:data(any) addr:0x021b0790
-OV000_DATA_START kind:data(any) addr:0x021b07c0
-@7 kind:data(any) addr:0x021b07e0 local
-@3567 kind:data(any) addr:0x021b07f0 local
-@3568 kind:data(any) addr:0x021b080c local
-@3569 kind:data(any) addr:0x021b0828 local
-@3570 kind:data(any) addr:0x021b0840 local
-@3571 kind:data(any) addr:0x021b085c local
-@3572 kind:data(any) addr:0x021b0878 local
-@3573 kind:data(any) addr:0x021b0890 local
-@3574 kind:data(any) addr:0x021b08ac local
-@3575 kind:data(any) addr:0x021b08c8 local
-@3576 kind:data(any) addr:0x021b08e0 local
-@3577 kind:data(any) addr:0x021b08fc local
-@3578 kind:data(any) addr:0x021b0918 local
-@3579 kind:data(any) addr:0x021b0934 local
-@3580 kind:data(any) addr:0x021b0950 local
-@3581 kind:data(any) addr:0x021b096c local
-@3582 kind:data(any) addr:0x021b0988 local
-@3583 kind:data(any) addr:0x021b09a4 local
-@3584 kind:data(any) addr:0x021b09c0 local
-@3585 kind:data(any) addr:0x021b09d8 local
-@3586 kind:data(any) addr:0x021b09f8 local
-@3587 kind:data(any) addr:0x021b0a18 local
-@2935 kind:data(any) addr:0x021b0a38 local
-@2967 kind:data(any) addr:0x021b0a3c local
-@2912 kind:data(any) addr:0x021b0a40 local
-@2951 kind:data(any) addr:0x021b0a44 local
-@2852 kind:data(any) addr:0x021b0a4c local
-gWiFiLoginMenuCallbacks kind:data(any) addr:0x021b0a58
-@2854 kind:data(any) addr:0x021b0a68 local
-@1104 kind:data(any) addr:0x021b0a8c local
-@1105 kind:data(any) addr:0x021b0a98 local
-gWiFiTopMenuCallbacks kind:data(any) addr:0x021b0aa4
-@5587 kind:data(any) addr:0x021b0ab4 local
-@5588 kind:data(any) addr:0x021b0acc local
-@5589 kind:data(any) addr:0x021b0ae4 local
-@5590 kind:data(any) addr:0x021b0b00 local
-@5591 kind:data(any) addr:0x021b0b1c local
-@5605 kind:data(any) addr:0x021b0ab4 local
-@5606 kind:data(any) addr:0x021b0acc local
-@5607 kind:data(any) addr:0x021b0ae4 local
-@5608 kind:data(any) addr:0x021b0b00 local
-@5609 kind:data(any) addr:0x021b0b1c local
-@2870 kind:data(any) addr:0x021b0b34 local
-@2871 kind:data(any) addr:0x021b0b40 local
-@3245 kind:data(any) addr:0x021b0b4c local
-@3247 kind:data(any) addr:0x021b0b50 local
-@3249 kind:data(any) addr:0x021b0b54 local
-@3256 kind:data(any) addr:0x021b0b58 local
-gWiFiVSSettingCallbacks kind:data(any) addr:0x021b0b60
-@2794 kind:data(any) addr:0x021b0b70 local
-@2795 kind:data(any) addr:0x021b0b8c local
-@2796 kind:data(any) addr:0x021b0ba4 local
-@2797 kind:data(any) addr:0x021b0bc0 local
-@2798 kind:data(any) addr:0x021b0bd8 local
-@2799 kind:data(any) addr:0x021b0bf0 local
-@2800 kind:data(any) addr:0x021b0c08 local
-@2801 kind:data(any) addr:0x021b0c24 local
-@2802 kind:data(any) addr:0x021b0c40 local
-@4460 kind:data(any) addr:0x021b0c5c local
-@4461 kind:data(any) addr:0x021b0c68 local
-@2702 kind:data(any) addr:0x021b0c74 local
-@2692 kind:data(any) addr:0x021b0c78 local
-@2667 kind:data(any) addr:0x021b0c80 local
-@2678 kind:data(any) addr:0x021b0c88 local
-@3294 kind:data(any) addr:0x021b0c94 local
-gWiFiVSMatchingTotalScalePercents kind:data(any) addr:0x021b0ca4
-gWiFiVSMatchingEmblemScalePercents kind:data(any) addr:0x021b0cc4
-@4010 kind:data(any) addr:0x021b0cec local
-@4011 kind:data(any) addr:0x021b0d08 local
-@4012 kind:data(any) addr:0x021b0d20 local
-@4013 kind:data(any) addr:0x021b0d3c local
-@4014 kind:data(any) addr:0x021b0d54 local
-@4015 kind:data(any) addr:0x021b0d6c local
-@4016 kind:data(any) addr:0x021b0d84 local
-@4017 kind:data(any) addr:0x021b0da0 local
-@4018 kind:data(any) addr:0x021b0dbc local
-@6252 kind:data(any) addr:0x021b0dd8 local
-@6253 kind:data(any) addr:0x021b0de4 local
-gSelectCharacterCallbacks kind:data(any) addr:0x021b0df0
-gSelectKartCallbacks kind:data(any) addr:0x021b0e00
-gWiFiVSCourseSelectCallbacks kind:data(any) addr:0x021b0e10
-gWiFiAikotobaCallbacks kind:data(any) addr:0x021b0e20
-@5469 kind:data(any) addr:0x021b0e30 local
-@5470 kind:data(any) addr:0x021b0e44 local
-@5471 kind:data(any) addr:0x021b0e58 local
-@5472 kind:data(any) addr:0x021b0e74 local
-@5473 kind:data(any) addr:0x021b0e90 local
-@5523 kind:data(any) addr:0x021b0ea8 local
-@5524 kind:data(any) addr:0x021b0eb4 local
-@3622 kind:data(any) addr:0x021b0ec0 local
-@3624 kind:data(any) addr:0x021b0ecc local
-gWiFiAikotobaCheckCallbacks kind:data(any) addr:0x021b0ed8
-@5135 kind:data(any) addr:0x021b0ee8 local
-@5136 kind:data(any) addr:0x021b0f04 local
-@5137 kind:data(any) addr:0x021b0f20 local
-@5138 kind:data(any) addr:0x021b0f40 local
-@5139 kind:data(any) addr:0x021b0f60 local
-@5152 kind:data(any) addr:0x021b0f80 local
-@5153 kind:data(any) addr:0x021b0f8c local
-gWiFiConnectionLostCallbacks kind:data(any) addr:0x021b0f98
-gLangPairValue01 kind:data(any) addr:0x021b0fa8
-gLangPairValue03 kind:data(any) addr:0x021b0fac
-gLangPairValue04 kind:data(any) addr:0x021b0fb0
-gLangPairValue02 kind:data(any) addr:0x021b0fb4
-gLangPairValue05 kind:data(any) addr:0x021b0fb8
-gLangPairValue00 kind:data(any) addr:0x021b0fbc
-gLangPairValue06 kind:data(any) addr:0x021b0fc0
-gLangPairValues kind:data(any) addr:0x021b0fc4
-gNasAuthUrl kind:data(any) addr:0x021b0fe0
-DWCauthhttpparam kind:data(any) addr:0x021b1000
-@5695 kind:data(any) addr:0x021b1020 local
-@5696 kind:data(any) addr:0x021b1028 local
-@5697 kind:data(any) addr:0x021b1034 local
-@5698 kind:data(any) addr:0x021b1050 local
-@5699 kind:data(any) addr:0x021b1058 local
-@5700 kind:data(any) addr:0x021b1064 local
-@5701 kind:data(any) addr:0x021b106c local
-@5702 kind:data(any) addr:0x021b1074 local
-@5703 kind:data(any) addr:0x021b1080 local
-@5704 kind:data(any) addr:0x021b1088 local
-@5705 kind:data(any) addr:0x021b1090 local
-@5706 kind:data(any) addr:0x021b1098 local
-@5707 kind:data(any) addr:0x021b10a0 local
-@5708 kind:data(any) addr:0x021b10a8 local
-@5709 kind:data(any) addr:0x021b10b0 local
-@5710 kind:data(any) addr:0x021b10cc local
-@5711 kind:data(any) addr:0x021b10dc local
-@5712 kind:data(any) addr:0x021b10e4 local
-@5713 kind:data(any) addr:0x021b10ec local
-@5714 kind:data(any) addr:0x021b10f4 local
-@5715 kind:data(any) addr:0x021b10f8 local
-@5716 kind:data(any) addr:0x021b1100 local
-@5717 kind:data(any) addr:0x021b1108 local
-@5718 kind:data(any) addr:0x021b1110 local
-@5719 kind:data(any) addr:0x021b1118 local
-@5720 kind:data(any) addr:0x021b1120 local
-@5721 kind:data(any) addr:0x021b1128 local
-@5722 kind:data(any) addr:0x021b1134 local
-@5723 kind:data(any) addr:0x021b1148 local
-@5724 kind:data(any) addr:0x021b1158 local
-@5771 kind:data(any) addr:0x021b1160 local
-@5772 kind:data(any) addr:0x021b116c local
-@5773 kind:data(any) addr:0x021b1178 local
-@5774 kind:data(any) addr:0x021b1180 local
-@5775 kind:data(any) addr:0x021b1188 local
-@5776 kind:data(any) addr:0x021b1194 local
-@5777 kind:data(any) addr:0x021b11a0 local
-@5819 kind:data(any) addr:0x021b11ac local
-@5966 kind:data(any) addr:0x021b11b4 local
-@6016 kind:data(any) addr:0x021b11bc local
-gCaInfoTable kind:data(any) addr:0x021b11c4
-@5968 kind:data(any) addr:0x021b11f0 local
-@5969 kind:data(any) addr:0x021b11f8 local
-@5970 kind:data(any) addr:0x021b11fc local
-@5971 kind:data(any) addr:0x021b1208 local
-@5972 kind:data(any) addr:0x021b120c local
-@5973 kind:data(any) addr:0x021b1218 local
-@5974 kind:data(any) addr:0x021b121c local
-@5975 kind:data(any) addr:0x021b1220 local
-@5976 kind:data(any) addr:0x021b1224 local
-@6006 kind:data(any) addr:0x021b1228 local
-@6007 kind:data(any) addr:0x021b1230 local
-@6008 kind:data(any) addr:0x021b123c local
-@6024 kind:data(any) addr:0x021b1240 local
-@1484 kind:data(any) addr:0x021b1250 local
-@1511 kind:data(any) addr:0x021b1254 local
-@1512 kind:data(any) addr:0x021b1258 local
-@1531 kind:data(any) addr:0x021b1260 local
-@1547 kind:data(any) addr:0x021b126c local
-@1548 kind:data(any) addr:0x021b12c0 local
-@6130 kind:data(any) addr:0x021b12e0 local
-@6131 kind:data(any) addr:0x021b12f4 local
-@6256 kind:data(any) addr:0x021b1308 local
-@6288 kind:data(any) addr:0x021b131c local
-@6289 kind:data(any) addr:0x021b1328 local
-@6290 kind:data(any) addr:0x021b1330 local
-@6291 kind:data(any) addr:0x021b1334 local
-gConnTestUrl kind:data(any) addr:0x021b1344
-@2470 kind:data(any) addr:0x021b1348 local
-@2706 kind:data(any) addr:0x021b136c local
-@2707 kind:data(any) addr:0x021b1384 local
-@2708 kind:data(any) addr:0x021b1388 local
-@2709 kind:data(any) addr:0x021b1390 local
-@2710 kind:data(any) addr:0x021b1398 local
-@2992 kind:data(any) addr:0x021b13b4 local
-@2993 kind:data(any) addr:0x021b13c0 local
-@2994 kind:data(any) addr:0x021b13e0 local
-@2995 kind:data(any) addr:0x021b13e4 local
-@2996 kind:data(any) addr:0x021b13ec local
-@2997 kind:data(any) addr:0x021b13f4 local
-@2998 kind:data(any) addr:0x021b13fc local
-@2999 kind:data(any) addr:0x021b140c local
-@3000 kind:data(any) addr:0x021b1418 local
-@3001 kind:data(any) addr:0x021b1420 local
-@3002 kind:data(any) addr:0x021b1428 local
-@3085 kind:data(any) addr:0x021b1434 local
-@3086 kind:data(any) addr:0x021b143c local
-gBase64Alphabet kind:data(any) addr:0x021b1448
-@1516 kind:data(any) addr:0x021b144c local
-gGlobalSignRootCaExponent kind:data(any) addr:0x021b1490
-gGlobalSignRootCaInfo kind:data(any) addr:0x021b1494
-@1 kind:data(any) addr:0x021b14a8 local
-gGlobalSignRootCaModulus kind:data(any) addr:0x021b14dc
-gBaltimoreRootCaExponent kind:data(any) addr:0x021b15dc
-gBaltimoreRootCaInfo kind:data(any) addr:0x021b15e0
-@1 kind:data(any) addr:0x021b15f4 local
-gBaltimoreRootCaModulus kind:data(any) addr:0x021b162c
-gGteGlobalRootCaExponent kind:data(any) addr:0x021b172c
-gGteGlobalRootCaInfo kind:data(any) addr:0x021b1730
-@1 kind:data(any) addr:0x021b1744 local
-gGteGlobalRootCaModulus kind:data(any) addr:0x021b1794
-gGteRootCaExponent kind:data(any) addr:0x021b1814
-gGteRootCaInfo kind:data(any) addr:0x021b1818
-@1 kind:data(any) addr:0x021b182c local
-gGteRootCaModulus kind:data(any) addr:0x021b1858
-gNintendoCaExponent kind:data(any) addr:0x021b18d8
-gNintendoCaInfo kind:data(any) addr:0x021b18dc
-@1 kind:data(any) addr:0x021b18f0 local
-gNintendoCaModulus kind:data(any) addr:0x021b1940
-gThawtePremiumServerCaExponent kind:data(any) addr:0x021b19c0
-gThawtePremiumServerCaInfo kind:data(any) addr:0x021b19c4
-gThawtePremiumServerCaModulus kind:data(any) addr:0x021b19d8
-@1 kind:data(any) addr:0x021b1a58 local
-gThawteServerCaExponent kind:data(any) addr:0x021b1ae0
-gThawteServerCaInfo kind:data(any) addr:0x021b1ae4
-@1 kind:data(any) addr:0x021b1af8 local
-gThawteServerCaModulus kind:data(any) addr:0x021b1b78
-gVeriSignClass3G2CaExponent kind:data(any) addr:0x021b1bf8
-gVeriSignClass3G2CaInfo kind:data(any) addr:0x021b1bfc
-gVeriSignClass3G2CaModulus kind:data(any) addr:0x021b1c10
-@1 kind:data(any) addr:0x021b1c90 local
-gVeriSignClass3G3CaExponent kind:data(any) addr:0x021b1d24
-gVeriSignClass3G3CaInfo kind:data(any) addr:0x021b1d28
-@1 kind:data(any) addr:0x021b1d3c local
-gVeriSignClass3G3CaModulus kind:data(any) addr:0x021b1dd8
-gVeriSignClass3CaExponent kind:data(any) addr:0x021b1ed8
-gVeriSignClass3CaInfo kind:data(any) addr:0x021b1edc
-@1 kind:data(any) addr:0x021b1ef0 local
-gVeriSignClass3CaModulus kind:data(any) addr:0x021b1f34
-gRsaSecureServerCaExponent kind:data(any) addr:0x021b1fb4
-gRsaSecureServerCaInfo kind:data(any) addr:0x021b1fb8
-@1 kind:data(any) addr:0x021b1fcc local
-gRsaSecureServerCaModulus kind:data(any) addr:0x021b2010
-data_ov000_021b20d0 kind:data(any) addr:0x021b2090
-@676 kind:data(any) addr:0x021b209c local
-gSsidDecodeSecondXorKey kind:data(any) addr:0x021b20a8
-gUsbWepFirstXorKey kind:data(any) addr:0x021b20ac
-gUsbWepSecondXorKey kind:data(any) addr:0x021b20b0
-gSsidDecodeFirstXorKey kind:data(any) addr:0x021b20b4
-@65 kind:data(any) addr:0x021b20b8 local
-@63 kind:data(any) addr:0x021b20c8 local
-gSsidOrderTable kind:data(any) addr:0x021b20d8
-@64 kind:data(any) addr:0x021b20f0 local
-@66 kind:data(any) addr:0x021b210c local
-gNintendoUsbApSsid kind:data(any) addr:0x021b2128
-gShopSsidPrefix kind:data(any) addr:0x021b2134
-@2290 kind:data(any) addr:0x021b2140 local
-@2371 kind:data(any) addr:0x021b2148 local
-@2372 kind:data(any) addr:0x021b2158 local
-@2687 kind:data(any) addr:0x021b2164 local
-gInvalidKeys kind:data(any) addr:0x021b216c
-@2686 kind:data(any) addr:0x021b2174 local
-@3088 kind:data(any) addr:0x021b217c local
-@3110 kind:data(any) addr:0x021b2184 local
-@3178 kind:data(any) addr:0x021b2188 local
-@3187 kind:data(any) addr:0x021b2190 local
-@3188 kind:data(any) addr:0x021b2198 local
-@3190 kind:data(any) addr:0x021b21a4 local
-@2928 kind:data(any) addr:0x021b21a8 local
-queryErrorPrefix$2886 kind:data(any) addr:0x021b21ac local
-@2887 kind:data(any) addr:0x021b21b0 local
-@3736 kind:data(any) addr:0x021b21c0 local
-@3737 kind:data(any) addr:0x021b21d8 local
-@3958 kind:data(any) addr:0x021b21e8 local
-@3984 kind:data(any) addr:0x021b21f4 local
-@4080 kind:data(any) addr:0x021b21fc local
-@4198 kind:data(any) addr:0x021b2200 local
-@4199 kind:data(any) addr:0x021b2220 local
-@4321 kind:data(any) addr:0x021b2224 local
-@4358 kind:data(any) addr:0x021b2240 local
-@4359 kind:data(any) addr:0x021b2250 local
-@4380 kind:data(any) addr:0x021b2264 local
-gAvailablePacketHeader kind:data(any) addr:0x021b2270
-@2018 kind:data(any) addr:0x021b2274 local
-@432 kind:data(any) addr:0x021b2298 local
-@433 kind:data(any) addr:0x021b229c local
-@469 kind:data(any) addr:0x021b22a8 local
-@488 kind:data(any) addr:0x021b22c8 local
-@499 kind:data(any) addr:0x021b22d4 local
-@507 kind:data(any) addr:0x021b22f4 local
-@542 kind:data(any) addr:0x021b22fc local
-@543 kind:data(any) addr:0x021b2308 local
-@303 kind:data(any) addr:0x021b2314 local
-@304 kind:data(any) addr:0x021b2318 local
-@334 kind:data(any) addr:0x021b2324 local
-@415 kind:data(any) addr:0x021b232c local
-@416 kind:data(any) addr:0x021b2334 local
-@417 kind:data(any) addr:0x021b233c local
-@418 kind:data(any) addr:0x021b2348 local
-@419 kind:data(any) addr:0x021b2354 local
-@188 kind:data(any) addr:0x021b2364 local
-gRandomNum kind:data(any) addr:0x021b236c
-@2197 kind:data(any) addr:0x021b2370 local
-@2198 kind:data(any) addr:0x021b2390 local
-@2269 kind:data(any) addr:0x021b239c local
-@2610 kind:data(any) addr:0x021b23a8 local
-@2611 kind:data(any) addr:0x021b23d8 local
-@2612 kind:data(any) addr:0x021b23e4 local
-@2613 kind:data(any) addr:0x021b23ec local
-@2625 kind:data(any) addr:0x021b23fc local
-@2664 kind:data(any) addr:0x021b2410 local
-@2665 kind:data(any) addr:0x021b2428 local
-@2666 kind:data(any) addr:0x021b2440 local
-@2667 kind:data(any) addr:0x021b244c local
-@2668 kind:data(any) addr:0x021b245c local
-@2734 kind:data(any) addr:0x021b2468 local
-@2735 kind:data(any) addr:0x021b2478 local
-@2736 kind:data(any) addr:0x021b2488 local
-@2737 kind:data(any) addr:0x021b2494 local
-@2796 kind:data(any) addr:0x021b249c local
-@2797 kind:data(any) addr:0x021b24ac local
-@2798 kind:data(any) addr:0x021b24b8 local
-@2799 kind:data(any) addr:0x021b24c8 local
-@2852 kind:data(any) addr:0x021b24d4 local
-@2864 kind:data(any) addr:0x021b24d8 local
-@2427 kind:data(any) addr:0x021b24e8 local
-@2428 kind:data(any) addr:0x021b25e0 local
-@2429 kind:data(any) addr:0x021b25e8 local
-@2512 kind:data(any) addr:0x021b25ec local
-@2513 kind:data(any) addr:0x021b25f0 local
-@2514 kind:data(any) addr:0x021b261c local
-@2515 kind:data(any) addr:0x021b2624 local
-@2517 kind:data(any) addr:0x021b2630 local
-@2518 kind:data(any) addr:0x021b2640 local
-@2519 kind:data(any) addr:0x021b2648 local
-@2520 kind:data(any) addr:0x021b2670 local
-@2521 kind:data(any) addr:0x021b2678 local
-@2522 kind:data(any) addr:0x021b2680 local
-@2523 kind:data(any) addr:0x021b26b0 local
-@1620 kind:data(any) addr:0x021b26d8 local
-@1868 kind:data(any) addr:0x021b26fc local
-@1869 kind:data(any) addr:0x021b2710 local
-@1870 kind:data(any) addr:0x021b271c local
-@1871 kind:data(any) addr:0x021b2728 local
-@1872 kind:data(any) addr:0x021b2738 local
-@1873 kind:data(any) addr:0x021b2740 local
-@1874 kind:data(any) addr:0x021b274c local
-@1876 kind:data(any) addr:0x021b2758 local
-@1947 kind:data(any) addr:0x021b2784 local
-@1948 kind:data(any) addr:0x021b278c local
-@1949 kind:data(any) addr:0x021b2790 local
-@2111 kind:data(any) addr:0x021b2798 local
-@2112 kind:data(any) addr:0x021b27c8 local
-@2113 kind:data(any) addr:0x021b27cc local
-@2114 kind:data(any) addr:0x021b27d4 local
-@2115 kind:data(any) addr:0x021b27e4 local
-@2118 kind:data(any) addr:0x021b27f0 local
-@2119 kind:data(any) addr:0x021b27f4 local
-@2120 kind:data(any) addr:0x021b27fc local
-@2121 kind:data(any) addr:0x021b2804 local
-@2122 kind:data(any) addr:0x021b280c local
-@2123 kind:data(any) addr:0x021b2810 local
-@2124 kind:data(any) addr:0x021b2814 local
-@2090 kind:data(any) addr:0x021b2818 local
-@2091 kind:data(any) addr:0x021b2824 local
-@2092 kind:data(any) addr:0x021b2834 local
-@1683 kind:data(any) addr:0x021b283c local
-@1684 kind:data(any) addr:0x021b2844 local
-@1685 kind:data(any) addr:0x021b2848 local
-@1868 kind:data(any) addr:0x021b2850 local
-@1869 kind:data(any) addr:0x021b2868 local
-@1870 kind:data(any) addr:0x021b2874 local
-@1871 kind:data(any) addr:0x021b2880 local
-@1872 kind:data(any) addr:0x021b288c local
-@1910 kind:data(any) addr:0x021b2898 local
-@1911 kind:data(any) addr:0x021b28b0 local
-@1912 kind:data(any) addr:0x021b28c4 local
-@1913 kind:data(any) addr:0x021b28d8 local
-@1914 kind:data(any) addr:0x021b28ec local
-@1915 kind:data(any) addr:0x021b28fc local
-@1916 kind:data(any) addr:0x021b2928 local
-@1917 kind:data(any) addr:0x021b294c local
-@1923 kind:data(any) addr:0x021b2960 local
-@1962 kind:data(any) addr:0x021b2964 local
-@1963 kind:data(any) addr:0x021b2988 local
-@1993 kind:data(any) addr:0x021b298c local
-@1994 kind:data(any) addr:0x021b29b4 local
-@2018 kind:data(any) addr:0x021b29d8 local
-@2019 kind:data(any) addr:0x021b29e8 local
-@1834 kind:data(any) addr:0x021b29f8 local
-@1835 kind:data(any) addr:0x021b2a18 local
-@1836 kind:data(any) addr:0x021b2a28 local
-@1853 kind:data(any) addr:0x021b2a3c local
-@1869 kind:data(any) addr:0x021b2a4c local
-@1870 kind:data(any) addr:0x021b2a60 local
-@1871 kind:data(any) addr:0x021b2a78 local
-gConnectionManagerName kind:data(any) addr:0x021b2aa8
-@2187 kind:data(any) addr:0x021b2ae8 local
-@2188 kind:data(any) addr:0x021b2afc local
-@2189 kind:data(any) addr:0x021b2b04 local
-@2214 kind:data(any) addr:0x021b2b08 local
-@2215 kind:data(any) addr:0x021b2b30 local
-@2216 kind:data(any) addr:0x021b2b48 local
-@2322 kind:data(any) addr:0x021b2b58 local
-@2323 kind:data(any) addr:0x021b2b60 local
-@2324 kind:data(any) addr:0x021b2b68 local
-@2325 kind:data(any) addr:0x021b2b70 local
-@2326 kind:data(any) addr:0x021b2ba0 local
-@2327 kind:data(any) addr:0x021b2bac local
-@2328 kind:data(any) addr:0x021b2bb4 local
-@2329 kind:data(any) addr:0x021b2bc0 local
-@2330 kind:data(any) addr:0x021b2bf0 local
-@2331 kind:data(any) addr:0x021b2bfc local
-@2332 kind:data(any) addr:0x021b2c04 local
-@2333 kind:data(any) addr:0x021b2c10 local
-@2334 kind:data(any) addr:0x021b2c20 local
-@2335 kind:data(any) addr:0x021b2c28 local
-@2336 kind:data(any) addr:0x021b2c30 local
-@2337 kind:data(any) addr:0x021b2c40 local
-@2338 kind:data(any) addr:0x021b2c74 local
-@2339 kind:data(any) addr:0x021b2c7c local
-@2340 kind:data(any) addr:0x021b2c9c local
-@2372 kind:data(any) addr:0x021b2cac local
-@2373 kind:data(any) addr:0x021b2cb8 local
-@2374 kind:data(any) addr:0x021b2cc0 local
-@2375 kind:data(any) addr:0x021b2cc8 local
-@2376 kind:data(any) addr:0x021b2cd8 local
-@2377 kind:data(any) addr:0x021b2ce4 local
-@2378 kind:data(any) addr:0x021b2cf0 local
-@2379 kind:data(any) addr:0x021b2d00 local
-@2380 kind:data(any) addr:0x021b2d0c local
-@2420 kind:data(any) addr:0x021b2d14 local
-@2421 kind:data(any) addr:0x021b2d1c local
-@2422 kind:data(any) addr:0x021b2d28 local
-@2423 kind:data(any) addr:0x021b2d30 local
-@2424 kind:data(any) addr:0x021b2d34 local
-@2425 kind:data(any) addr:0x021b2d40 local
-@2426 kind:data(any) addr:0x021b2d4c local
-@2468 kind:data(any) addr:0x021b2d54 local
-@2469 kind:data(any) addr:0x021b2d68 local
-@2512 kind:data(any) addr:0x021b2d7c local
-@2513 kind:data(any) addr:0x021b2da4 local
-@2514 kind:data(any) addr:0x021b2dd8 local
-@2515 kind:data(any) addr:0x021b2e00 local
-@2516 kind:data(any) addr:0x021b2e2c local
-@2517 kind:data(any) addr:0x021b2e5c local
-@2518 kind:data(any) addr:0x021b2e90 local
-@2519 kind:data(any) addr:0x021b2eb0 local
-@2529 kind:data(any) addr:0x021b2ed8 local
-@2202 kind:data(any) addr:0x021b2f18 local
-@2205 kind:data(any) addr:0x021b2f28 local
-@2206 kind:data(any) addr:0x021b2f40 local
-@2207 kind:data(any) addr:0x021b2f4c local
-@2208 kind:data(any) addr:0x021b2f54 local
-@2218 kind:data(any) addr:0x021b2f5c local
-@2219 kind:data(any) addr:0x021b2f60 local
-@2220 kind:data(any) addr:0x021b2f70 local
-@2418 kind:data(any) addr:0x021b2f7c local
-@2419 kind:data(any) addr:0x021b2f8c local
-@2420 kind:data(any) addr:0x021b2f94 local
-@2421 kind:data(any) addr:0x021b2fa4 local
-@2422 kind:data(any) addr:0x021b2fac local
-@2423 kind:data(any) addr:0x021b2fb8 local
-@2424 kind:data(any) addr:0x021b2fc4 local
-@2425 kind:data(any) addr:0x021b2fd0 local
-@2426 kind:data(any) addr:0x021b2fdc local
-@2427 kind:data(any) addr:0x021b2fe8 local
-@2428 kind:data(any) addr:0x021b3000 local
-@2429 kind:data(any) addr:0x021b3010 local
-@2430 kind:data(any) addr:0x021b3014 local
-@2431 kind:data(any) addr:0x021b3018 local
-@2432 kind:data(any) addr:0x021b301c local
-@2433 kind:data(any) addr:0x021b3024 local
-@2434 kind:data(any) addr:0x021b3030 local
-@2435 kind:data(any) addr:0x021b3044 local
-@2436 kind:data(any) addr:0x021b3058 local
-@2437 kind:data(any) addr:0x021b3064 local
-@2438 kind:data(any) addr:0x021b306c local
-@2439 kind:data(any) addr:0x021b3074 local
-@2440 kind:data(any) addr:0x021b307c local
-@2441 kind:data(any) addr:0x021b3084 local
-@2442 kind:data(any) addr:0x021b308c local
-@2443 kind:data(any) addr:0x021b3094 local
-@2444 kind:data(any) addr:0x021b309c local
-@2573 kind:data(any) addr:0x021b30a4 local
-@2574 kind:data(any) addr:0x021b30b8 local
-@2575 kind:data(any) addr:0x021b30c8 local
-@2576 kind:data(any) addr:0x021b30d8 local
-@2578 kind:data(any) addr:0x021b30e4 local
-@2580 kind:data(any) addr:0x021b30f0 local
-@2582 kind:data(any) addr:0x021b3100 local
-@2583 kind:data(any) addr:0x021b3110 local
-@2584 kind:data(any) addr:0x021b3120 local
-@2585 kind:data(any) addr:0x021b3134 local
-@2615 kind:data(any) addr:0x021b3144 local
-@2616 kind:data(any) addr:0x021b315c local
-@2784 kind:data(any) addr:0x021b3170 local
-@2785 kind:data(any) addr:0x021b3178 local
-@2786 kind:data(any) addr:0x021b31a8 local
-@2787 kind:data(any) addr:0x021b31b8 local
-@2788 kind:data(any) addr:0x021b31c4 local
-@2790 kind:data(any) addr:0x021b31cc local
-@2792 kind:data(any) addr:0x021b31d4 local
-@2793 kind:data(any) addr:0x021b31dc local
-@2794 kind:data(any) addr:0x021b31e4 local
-@2795 kind:data(any) addr:0x021b31ec local
-@2796 kind:data(any) addr:0x021b31f4 local
-@2851 kind:data(any) addr:0x021b31fc local
-@2852 kind:data(any) addr:0x021b3214 local
-@2221 kind:data(any) addr:0x021b2f18 local
-@2224 kind:data(any) addr:0x021b2f28 local
-@2225 kind:data(any) addr:0x021b2f40 local
-@2226 kind:data(any) addr:0x021b2f4c local
-@2227 kind:data(any) addr:0x021b2f54 local
-@2235 kind:data(any) addr:0x021b2f5c local
-@2246 kind:data(any) addr:0x021b2f60 local
-@2247 kind:data(any) addr:0x021b2f70 local
-@2445 kind:data(any) addr:0x021b2f7c local
-@2446 kind:data(any) addr:0x021b2f8c local
-@2447 kind:data(any) addr:0x021b2f94 local
-@2448 kind:data(any) addr:0x021b2fa4 local
-@2449 kind:data(any) addr:0x021b2fac local
-@2450 kind:data(any) addr:0x021b2fb8 local
-@2451 kind:data(any) addr:0x021b2fc4 local
-@2452 kind:data(any) addr:0x021b2fd0 local
-@2453 kind:data(any) addr:0x021b2fdc local
-@2454 kind:data(any) addr:0x021b2fe8 local
-@2455 kind:data(any) addr:0x021b3000 local
-@2456 kind:data(any) addr:0x021b3010 local
-@2457 kind:data(any) addr:0x021b3014 local
-@2431 kind:data(any) addr:0x021b3018 local
-@2432 kind:data(any) addr:0x021b301c local
-@2433 kind:data(any) addr:0x021b3024 local
-@2434 kind:data(any) addr:0x021b3030 local
-@2435 kind:data(any) addr:0x021b3044 local
-@2436 kind:data(any) addr:0x021b3058 local
-@2437 kind:data(any) addr:0x021b3064 local
-@2438 kind:data(any) addr:0x021b306c local
-@2439 kind:data(any) addr:0x021b3074 local
-@2440 kind:data(any) addr:0x021b307c local
-@2441 kind:data(any) addr:0x021b3084 local
-@2442 kind:data(any) addr:0x021b308c local
-@2443 kind:data(any) addr:0x021b3094 local
-@2444 kind:data(any) addr:0x021b309c local
-@2573 kind:data(any) addr:0x021b30a4 local
-@2574 kind:data(any) addr:0x021b30b8 local
-@2575 kind:data(any) addr:0x021b30c8 local
-@2576 kind:data(any) addr:0x021b30d8 local
-@2578 kind:data(any) addr:0x021b30e4 local
-@2580 kind:data(any) addr:0x021b30f0 local
-@2582 kind:data(any) addr:0x021b3100 local
-@2583 kind:data(any) addr:0x021b3110 local
-@2584 kind:data(any) addr:0x021b3120 local
-@2585 kind:data(any) addr:0x021b3134 local
-@2615 kind:data(any) addr:0x021b3144 local
-@2616 kind:data(any) addr:0x021b315c local
-@2784 kind:data(any) addr:0x021b3170 local
-@2785 kind:data(any) addr:0x021b3178 local
-@2786 kind:data(any) addr:0x021b31a8 local
-@2787 kind:data(any) addr:0x021b31b8 local
-@2788 kind:data(any) addr:0x021b31c4 local
-@2790 kind:data(any) addr:0x021b31cc local
-@2792 kind:data(any) addr:0x021b31d4 local
-@2793 kind:data(any) addr:0x021b31dc local
-@2794 kind:data(any) addr:0x021b31e4 local
-@2795 kind:data(any) addr:0x021b31ec local
-@2796 kind:data(any) addr:0x021b31f4 local
-@2851 kind:data(any) addr:0x021b31fc local
-@2852 kind:data(any) addr:0x021b3214 local
-@1873 kind:data(any) addr:0x021b3224 local
-@1874 kind:data(any) addr:0x021b326c local
-@1875 kind:data(any) addr:0x021b3270 local
-@1920 kind:data(any) addr:0x021b3280 local
-@1932 kind:data(any) addr:0x021b32a0 local
-@1992 kind:data(any) addr:0x021b32b0 local
-@1993 kind:data(any) addr:0x021b32c4 local
-@1994 kind:data(any) addr:0x021b32d8 local
-@2058 kind:data(any) addr:0x021b32ec local
-@2059 kind:data(any) addr:0x021b32fc local
-@2060 kind:data(any) addr:0x021b3308 local
-@2061 kind:data(any) addr:0x021b330c local
-@2066 kind:data(any) addr:0x021b331c local
-@2067 kind:data(any) addr:0x021b3328 local
-@2108 kind:data(any) addr:0x021b333c local
-@2109 kind:data(any) addr:0x021b334c local
-@2110 kind:data(any) addr:0x021b3350 local
-@2111 kind:data(any) addr:0x021b3358 local
-@2139 kind:data(any) addr:0x021b3360 local
-@2140 kind:data(any) addr:0x021b337c local
-@2141 kind:data(any) addr:0x021b33a4 local
-@2142 kind:data(any) addr:0x021b33d8 local
-@2228 kind:data(any) addr:0x021b3400 local
-@2229 kind:data(any) addr:0x021b3404 local
-@2249 kind:data(any) addr:0x021b3428 local
-@2320 kind:data(any) addr:0x021b3450 local
-@2321 kind:data(any) addr:0x021b3454 local
-@2322 kind:data(any) addr:0x021b3464 local
-@2371 kind:data(any) addr:0x021b3468 local
-@2372 kind:data(any) addr:0x021b3488 local
-@2373 kind:data(any) addr:0x021b3490 local
-@2374 kind:data(any) addr:0x021b3498 local
-@2375 kind:data(any) addr:0x021b34a0 local
-@2376 kind:data(any) addr:0x021b34a8 local
-@2377 kind:data(any) addr:0x021b34b0 local
-@2378 kind:data(any) addr:0x021b34b8 local
-@2379 kind:data(any) addr:0x021b34c0 local
-@2456 kind:data(any) addr:0x021b34c8 local
-@2457 kind:data(any) addr:0x021b34ec local
-@1630 kind:data(any) addr:0x021b350c local
-@1631 kind:data(any) addr:0x021b3514 local
-@1652 kind:data(any) addr:0x021b3524 local
-@1653 kind:data(any) addr:0x021b352c local
-@1654 kind:data(any) addr:0x021b355c local
-@1655 kind:data(any) addr:0x021b3568 local
-gSearchManagerName kind:data(any) addr:0x021b3578
-@2759 kind:data(any) addr:0x021b35b8 local
-@2760 kind:data(any) addr:0x021b35c8 local
-@2761 kind:data(any) addr:0x021b35e8 local
-@3325 kind:data(any) addr:0x021b35f4 local
-@3326 kind:data(any) addr:0x021b35f8 local
-@3327 kind:data(any) addr:0x021b3624 local
-@3328 kind:data(any) addr:0x021b3630 local
-@3329 kind:data(any) addr:0x021b363c local
-@3330 kind:data(any) addr:0x021b3648 local
-@3331 kind:data(any) addr:0x021b3658 local
-@3332 kind:data(any) addr:0x021b3660 local
-@3333 kind:data(any) addr:0x021b3670 local
-@3334 kind:data(any) addr:0x021b3678 local
-@3335 kind:data(any) addr:0x021b3684 local
-@3336 kind:data(any) addr:0x021b3690 local
-@3337 kind:data(any) addr:0x021b369c local
-@3338 kind:data(any) addr:0x021b36a4 local
-@3339 kind:data(any) addr:0x021b36ac local
-@3340 kind:data(any) addr:0x021b36b4 local
-@3341 kind:data(any) addr:0x021b36bc local
-@3342 kind:data(any) addr:0x021b36c8 local
-@3343 kind:data(any) addr:0x021b36d4 local
-@3344 kind:data(any) addr:0x021b36dc local
-@3345 kind:data(any) addr:0x021b36e8 local
-@3346 kind:data(any) addr:0x021b36f4 local
-@3347 kind:data(any) addr:0x021b36fc local
-@3348 kind:data(any) addr:0x021b3708 local
-@3349 kind:data(any) addr:0x021b3718 local
-@3350 kind:data(any) addr:0x021b3728 local
-@3351 kind:data(any) addr:0x021b372c local
-@3352 kind:data(any) addr:0x021b3738 local
-@3353 kind:data(any) addr:0x021b3740 local
-@3354 kind:data(any) addr:0x021b376c local
-@3355 kind:data(any) addr:0x021b3774 local
-@3356 kind:data(any) addr:0x021b377c local
-@3357 kind:data(any) addr:0x021b3780 local
-@3358 kind:data(any) addr:0x021b3788 local
-@3359 kind:data(any) addr:0x021b3794 local
-@3360 kind:data(any) addr:0x021b37a0 local
-@3361 kind:data(any) addr:0x021b37ac local
-@3362 kind:data(any) addr:0x021b37b4 local
-@3363 kind:data(any) addr:0x021b37dc local
-@3364 kind:data(any) addr:0x021b37e0 local
-@3366 kind:data(any) addr:0x021b37e4 local
-@3367 kind:data(any) addr:0x021b37ec local
-@3368 kind:data(any) addr:0x021b37f4 local
-@3370 kind:data(any) addr:0x021b37f8 local
-@3371 kind:data(any) addr:0x021b3800 local
-@3372 kind:data(any) addr:0x021b380c local
-@3373 kind:data(any) addr:0x021b3810 local
-@3374 kind:data(any) addr:0x021b3818 local
-@3375 kind:data(any) addr:0x021b381c local
-@3376 kind:data(any) addr:0x021b3824 local
-@3377 kind:data(any) addr:0x021b382c local
-@3379 kind:data(any) addr:0x021b3830 local
-@3380 kind:data(any) addr:0x021b3838 local
-@3381 kind:data(any) addr:0x021b3840 local
-@3382 kind:data(any) addr:0x021b3844 local
-@3383 kind:data(any) addr:0x021b384c local
-@3433 kind:data(any) addr:0x021b386c local
-@3480 kind:data(any) addr:0x021b3880 local
-@3481 kind:data(any) addr:0x021b38a8 local
-@3482 kind:data(any) addr:0x021b38dc local
-@3483 kind:data(any) addr:0x021b390c local
-@3484 kind:data(any) addr:0x021b392c local
-@3492 kind:data(any) addr:0x021b3954 local
-@3493 kind:data(any) addr:0x021b395c local
-@1811 kind:data(any) addr:0x021b3968 local
-@1812 kind:data(any) addr:0x021b396c local
-@1828 kind:data(any) addr:0x021b3984 local
-@1829 kind:data(any) addr:0x021b398c local
-@1830 kind:data(any) addr:0x021b39bc local
-@1484 kind:data(any) addr:0x021b39cc local
-@1485 kind:data(any) addr:0x021b39dc local
-@1486 kind:data(any) addr:0x021b39ec local
-@1487 kind:data(any) addr:0x021b39f8 local
-@1488 kind:data(any) addr:0x021b3a08 local
-@1499 kind:data(any) addr:0x021b3a18 local
-@1500 kind:data(any) addr:0x021b3a2c local
-@1501 kind:data(any) addr:0x021b3a64 local
-@1502 kind:data(any) addr:0x021b3a7c local
-@1525 kind:data(any) addr:0x021b3a94 local
-@1526 kind:data(any) addr:0x021b3aa4 local
-@1552 kind:data(any) addr:0x021b3aac local
-@1553 kind:data(any) addr:0x021b3ab4 local
-@1554 kind:data(any) addr:0x021b3abc local
-@1555 kind:data(any) addr:0x021b3ac8 local
-@1562 kind:data(any) addr:0x021b3ad0 local
-@1563 kind:data(any) addr:0x021b3ae0 local
-gSock kind:data(any) addr:0x021b3aec local
-gEnc kind:data(any) addr:0x021b3af0 local
-gInitTimeout kind:data(any) addr:0x021b3af4 local
-gSessKeyStr kind:data(any) addr:0x021b3af8 local
-gChallengeStr kind:data(any) addr:0x021b3b00 local
-gFinalStr kind:data(any) addr:0x021b3b0c local
-gEnc2 kind:data(any) addr:0x021b3b18 local
-@1755 kind:data(any) addr:0x021b3b28 local
-@1959 kind:data(any) addr:0x021b3b38 local
-gEnc1 kind:data(any) addr:0x021b3b48 local
-gEnc3 kind:data(any) addr:0x021b3b58 local
-gStatsFile kind:data(any) addr:0x021b3b68 local
-@1552 kind:data(any) addr:0x021b3b78 local
-@1602 kind:data(any) addr:0x021b3b9c local
-@1776 kind:data(any) addr:0x021b3bc8 local
-gStatsServerHostname kind:data(any) addr:0x021b3c08
-@1693 kind:data(any) addr:0x021b3c48 local
-@2018 kind:data(any) addr:0x021b3d48 local
-@2019 kind:data(any) addr:0x021b3d54 local
-@2020 kind:data(any) addr:0x021b3d60 local
-@2021 kind:data(any) addr:0x021b3d6c local
-@2034 kind:data(any) addr:0x021b3d78 local
-@2035 kind:data(any) addr:0x021b3d80 local
-@2036 kind:data(any) addr:0x021b3d84 local
-@2037 kind:data(any) addr:0x021b3d88 local
-@2056 kind:data(any) addr:0x021b3d8c local
-@2057 kind:data(any) addr:0x021b3d94 local
-@2058 kind:data(any) addr:0x021b3d9c local
-@2059 kind:data(any) addr:0x021b3da4 local
-@2076 kind:data(any) addr:0x021b3da8 local
-@2094 kind:data(any) addr:0x021b3db0 local
-@2095 kind:data(any) addr:0x021b3db8 local
-@2210 kind:data(any) addr:0x021b3dc0 local
-@2219 kind:data(any) addr:0x021b3dc4 local
-@2291 kind:data(any) addr:0x021b3dcc local
-@2433 kind:data(any) addr:0x021b3dd4 local
-@2434 kind:data(any) addr:0x021b3df4 local
-@2473 kind:data(any) addr:0x021b3e00 local
-@2480 kind:data(any) addr:0x021b3e04 local
-@2481 kind:data(any) addr:0x021b3e24 local
-gGt2ChallengeKey kind:data(any) addr:0x021b3e2c
-@3301 kind:data(any) addr:0x021b3e50 local
-@3302 kind:data(any) addr:0x021b3e58 local
-@3303 kind:data(any) addr:0x021b3e64 local
-@3304 kind:data(any) addr:0x021b3e7c local
-@3305 kind:data(any) addr:0x021b3e88 local
-@3306 kind:data(any) addr:0x021b3eac local
-@183 kind:data(any) addr:0x021b3ed0 local
-@187 kind:data(any) addr:0x021b3ef4 local
-@628 kind:data(any) addr:0x021b3f10 local
-@629 kind:data(any) addr:0x021b3f18 local
-@675 kind:data(any) addr:0x021b3f28 local
-@785 kind:data(any) addr:0x021b3f34 local
-@161 kind:data(any) addr:0x021b3f4c local
-@162 kind:data(any) addr:0x021b3f58 local
-gGti2MagicString kind:data(any) addr:0x021b3f64
-gPingTimeId kind:data(any) addr:0x021b3f68
-@557 kind:data(any) addr:0x021b3f70 local
-@558 kind:data(any) addr:0x021b3f78 local
-@40 kind:data(any) addr:0x021b3f88 local
-@3201 kind:data(any) addr:0x021b3f8c local
-@3202 kind:data(any) addr:0x021b3fac local
-@3203 kind:data(any) addr:0x021b3fbc local
-@3204 kind:data(any) addr:0x021b3fc4 local
-@3205 kind:data(any) addr:0x021b3fc8 local
-NNMagicData kind:data(any) addr:0x021b3fcc
-@3206 kind:data(any) addr:0x021b3fd4 local
-@3207 kind:data(any) addr:0x021b3ff0 local
-@3208 kind:data(any) addr:0x021b400c local
-@2693 kind:data(any) addr:0x021b4014 local
-@2694 kind:data(any) addr:0x021b4018 local
-@2696 kind:data(any) addr:0x021b4020 local
-@2695 kind:data(any) addr:0x021b4024 local
-@1556 kind:data(any) addr:0x021b4028 local
-@2354 kind:data(any) addr:0x021b4038 local
-@1553 kind:data(any) addr:0x021b4070 local
-@1554 kind:data(any) addr:0x021b4074 local
-gUnsignedFormat kind:data(any) addr:0x021b4078
-gMatchingSignature kind:data(any) addr:0x021b407c
-gDwcPidKey kind:data(any) addr:0x021b4084
-gDwcEvalKey kind:data(any) addr:0x021b408c
-@5682 kind:data(any) addr:0x021b4098 local
-@5683 kind:data(any) addr:0x021b40a4 local
-@5705 kind:data(any) addr:0x021b40b0 local
-@5706 kind:data(any) addr:0x021b40bc local
-@5707 kind:data(any) addr:0x021b40c8 local
-@6112 kind:data(any) addr:0x021b40d4 local
-@6618 kind:data(any) addr:0x021b40d8 local
-@6619 kind:data(any) addr:0x021b40dc local
-@6620 kind:data(any) addr:0x021b40e0 local
-@7168 kind:data(any) addr:0x021b40e4 local
-@7169 kind:data(any) addr:0x021b40ec local
-@7170 kind:data(any) addr:0x021b40f4 local
-@7233 kind:data(any) addr:0x021b40f8 local
-@7325 kind:data(any) addr:0x021b40fc local
-@7381 kind:data(any) addr:0x021b4154 local
-@7382 kind:data(any) addr:0x021b4160 local
-@7502 kind:data(any) addr:0x021b4168 local
-@7503 kind:data(any) addr:0x021b416c local
-@7913 kind:data(any) addr:0x021b4170 local
-@7914 kind:data(any) addr:0x021b417c local
-@7915 kind:data(any) addr:0x021b4188 local
-@8232 kind:data(any) addr:0x021b41a0 local
-@8233 kind:data(any) addr:0x021b41a4 local
-@8283 kind:data(any) addr:0x021b41a8 local
-gDwcMagicStrings kind:data(any) addr:0x021b41b0
-@1447 kind:data(any) addr:0x021b41b4 local
-@1800 kind:data(any) addr:0x021b41c0 local
-@1801 kind:data(any) addr:0x021b41e8 local
-@1802 kind:data(any) addr:0x021b420c local
-gCurrentQr2Rec kind:data(any) addr:0x021b422c
-gNatnegMagicBytes kind:data(any) addr:0x021b4230
-gStaticQr2Rec kind:data(any) addr:0x021b4238
-@3001 kind:data(any) addr:0x021b4348 local
-@3002 kind:data(any) addr:0x021b4354 local
-@3003 kind:data(any) addr:0x021b4360 local
-@3004 kind:data(any) addr:0x021b4368 local
-@3005 kind:data(any) addr:0x021b436c local
-@3006 kind:data(any) addr:0x021b4370 local
-@3007 kind:data(any) addr:0x021b4380 local
-@3008 kind:data(any) addr:0x021b438c local
-@3009 kind:data(any) addr:0x021b4398 local
-@3010 kind:data(any) addr:0x021b43a4 local
-@3011 kind:data(any) addr:0x021b43b8 local
-@3012 kind:data(any) addr:0x021b43c0 local
-@3013 kind:data(any) addr:0x021b43c4 local
-@3014 kind:data(any) addr:0x021b43cc local
-@3015 kind:data(any) addr:0x021b43d8 local
-@3016 kind:data(any) addr:0x021b43e8 local
-@3017 kind:data(any) addr:0x021b43ec local
-@3018 kind:data(any) addr:0x021b4424 local
-gQr2KeyReserved kind:data(any) addr:0x021b4444
-gQr2KeyPidPrefix kind:data(any) addr:0x021b4448
-gQr2KeyTeamPrefix kind:data(any) addr:0x021b4450
-gQr2KeyPingPrefix kind:data(any) addr:0x021b4458
-gQr2KeyScorePrefix kind:data(any) addr:0x021b4460
-gQr2KeyTeamTeam kind:data(any) addr:0x021b4468
-gQr2KeySkillPrefix kind:data(any) addr:0x021b4470
-gQr2KeyMapname kind:data(any) addr:0x021b4478
-gQr2KeyDeathsPrefix kind:data(any) addr:0x021b4480
-gQr2KeyGamever kind:data(any) addr:0x021b4488
-gQr2KeyPlayerPrefix kind:data(any) addr:0x021b4490
-gQr2KeyScoreTeam kind:data(any) addr:0x021b4498
-gQr2KeyGroupid kind:data(any) addr:0x021b44a0
-gQr2KeyGamename kind:data(any) addr:0x021b44a8
-gQr2KeyHostport kind:data(any) addr:0x021b44b4
-gQr2KeyPassword kind:data(any) addr:0x021b44c0
-gQr2KeyHostname kind:data(any) addr:0x021b44cc
-gQr2KeyNumteams kind:data(any) addr:0x021b44d8
-gQr2KeyGamemode kind:data(any) addr:0x021b44e4
-gQr2KeyTeamplay kind:data(any) addr:0x021b44f0
-gQr2KeyGametype kind:data(any) addr:0x021b44fc
-gQr2KeyRoundtime kind:data(any) addr:0x021b4508
-gQr2KeyFraglimit kind:data(any) addr:0x021b4514
-gQr2KeyTimelimit kind:data(any) addr:0x021b4520
-gQr2KeyNumplayers kind:data(any) addr:0x021b452c
-gQr2KeyMaxplayers kind:data(any) addr:0x021b4538
-gQr2KeyGamevariant kind:data(any) addr:0x021b4544
-gQr2KeyTimeelapsed kind:data(any) addr:0x021b4550
-gQr2KeyRoundelapsed kind:data(any) addr:0x021b455c
-gQr2KeyTeamfraglimit kind:data(any) addr:0x021b456c
-gQr2RegisteredKeyList kind:data(any) addr:0x021b457c
-SOCLiResultCodeInConnecting kind:data(any) addr:0x021b4974
-SOCLSocketParamTCP kind:data(any) addr:0x021b4978
-SOCLSocketParamUDPSend kind:data(any) addr:0x021b4990
-@2098 kind:data(any) addr:0x021b49a8 local
-gSslLowThreadPriority kind:data(any) addr:0x021b49b4
-sPrefixNone kind:data(any) addr:0x021b49b8 local
-sPrefixCommonName kind:data(any) addr:0x021b49bc local
-gOfferedValues kind:data(any) addr:0x021b49c0
-sPrefixRsaAlgorithm kind:data(any) addr:0x021b49c4 local
-sPrefixRsaEncryption kind:data(any) addr:0x021b49cc local
-sPrefixMd5WithRsa kind:data(any) addr:0x021b49d8 local
-sPrefixSha1WithRsa kind:data(any) addr:0x021b49e4 local
-gTaggedItemPrefixes kind:data(any) addr:0x021b49f0
-@3422 kind:data(any) addr:0x021b4a08 local
-@3423 kind:data(any) addr:0x021b4a10 local
-@3462 kind:data(any) addr:0x021b4a18 local
-@3463 kind:data(any) addr:0x021b4a1c local
-@3464 kind:data(any) addr:0x021b4a20 local
-gMd5WordIndexes kind:data(any) addr:0x021b4a24
-gMd5PaddingBytes kind:data(any) addr:0x021b4a64
-gMd5StepConstants kind:data(any) addr:0x021b4aa4
-gSha1PaddingBytes kind:data(any) addr:0x021b4ba4
-gIcmpEchoReplyEnabled kind:data(any) addr:0x021b4be4
-gHelperThreadsPriority kind:data(any) addr:0x021b4be8
-gMacBroadcast kind:data(any) addr:0x021b4bec
-gDhcpHostname kind:data(any) addr:0x021b4bf4
-gIpv4LlcSnapHeader kind:data(any) addr:0x021b4c00
-gWiFiMenuOamLists kind:bss addr:0x021b4c20
-gWiFiStates kind:bss addr:0x021b4c24
-gWiFiLoginMenu kind:bss addr:0x021b4c28
-gWiFiTopMenu kind:bss addr:0x021b4c2c
-gWiFiVSSetting kind:bss addr:0x021b4c30
-gWiFiVSMatching kind:bss addr:0x021b4c34
-gWiFiSelectCharacterState kind:bss addr:0x021b4c38
-gWiFiSelectKartState kind:bss addr:0x021b4c3c
-gWiFiVSCourseSelectState kind:bss addr:0x021b4c40
-gWiFiAikotoba kind:bss addr:0x021b4c44
-gWiFiAikotobaCheck kind:bss addr:0x021b4c48
-gWiFiConnectionLost kind:bss addr:0x021b4c4c
-gAuth kind:bss addr:0x021b4c50
-gAuthWiFiInfo kind:bss addr:0x021b4c54
-DWChttpignoreca kind:bss addr:0x021b4c68
-gHttp kind:bss addr:0x021b4c6c
-gNetcheck kind:bss addr:0x021b4c70
-gHttpParam kind:bss addr:0x021b4c74
-gAuthParam kind:bss addr:0x021b4c94
-gAcWork kind:bss addr:0x021b4cc0
-gWcmBuffer kind:bss addr:0x021b4cc4
-gSocConfig kind:bss addr:0x021b4cc8
-gNetCheck kind:bss addr:0x021b4ccc
-gAcHold kind:bss addr:0x021b4cd0
-gMytokPosition kind:bss addr:0x021b4cd4
-gSBRefStrList kind:bss addr:0x021b4cd8
-gSBNullServer kind:bss addr:0x021b4cdc
-gSBOverrideMasterServer kind:bss addr:0x021b4ce0
-gSortServerList kind:bss addr:0x021b4ce4
-gGsiAcResult kind:bss addr:0x021b4ce8
-gGsiAcHostname kind:bss addr:0x021b4cec
-gGsiAcGamename kind:bss addr:0x021b4d2c
-gGsiAvailableCheck kind:bss addr:0x021b4d6c
-aliases kind:bss addr:0x021b4dc4 local
-GSINitroErrno kind:bss addr:0x021b4dc8 local
-loopbackEntry$2011 kind:bss addr:0x021b4dcc local
-ips$2006 kind:bss addr:0x021b4ddc local
-addrList$2012 kind:bss addr:0x021b4df0 local
-gInitStart kind:bss addr:0x021b4e08 local
-gConnId kind:bss addr:0x021b4e0c local
-gInternalInit kind:bss addr:0x021b4e10 local
-gRcvLen kind:bss addr:0x021b4e14 local
-gRcvBuffer kind:bss addr:0x021b4e18 local
-gServerReqs kind:bss addr:0x021b4e1c local
-gStatsInitState kind:bss addr:0x021b4e20 local
-gSessKey kind:bss addr:0x021b4e24 local
-gGamePort kind:bss addr:0x021b4e28 local
-gStatsGame kind:bss addr:0x021b4e2c local
-gValueIndex kind:bss addr:0x021b4e30 local
-gRcvMax kind:bss addr:0x021b4e34 local
-challenge$1538 kind:bss addr:0x021b4e38 local
-gcd_gamename kind:bss addr:0x021b4e44
-gcd_secret_key kind:bss addr:0x021b4f44
-gValueForKeyValues$1694 kind:bss addr:0x021b5044 local
-slotIndex$1297 kind:bss addr:0x021b5244 local
-strAddressArray$1289 kind:bss addr:0x021b5248 local
-Matchup2Hostname kind:bss addr:0x021b5274
-Matchup1Hostname kind:bss addr:0x021b5278
-matchup2ip kind:bss addr:0x021b527c
-matchup1ip kind:bss addr:0x021b5280
-negotiateList kind:bss addr:0x021b5284
-receiveBuffer$1577 kind:bss addr:0x021b5288 local
-gWiFiConnection kind:bss addr:0x021b5488
-stLastSocketError kind:bss addr:0x021b548c
-stGt2ConnectionList kind:bss addr:0x021b5490
-stConnectionInfoList kind:bss addr:0x021b5510
-stDwcLastError kind:bss addr:0x021b5610
-stDwcErrorCode kind:bss addr:0x021b5614
-pStRemoteAuthParam kind:bss addr:0x021b5618
-gWiFiLogin kind:bss addr:0x021b561c
-stRemoteAuthCallback kind:bss addr:0x021b5620
-gWiFiBuddySync kind:bss addr:0x021b5624
-gOptSCBlock kind:bss addr:0x021b5628
-gWiFiMatching kind:bss addr:0x021b562c
-gOptMinComp kind:bss addr:0x021b5630
-gMatchingFilterText kind:bss addr:0x021b5634
-gMatchingMaskedParticipantIndices kind:bss addr:0x021b5638
-gMatchingKeys kind:bss addr:0x021b5658
-gWiFiMessageLayer kind:bss addr:0x021b5d90
-gRandContext32 kind:bss addr:0x021b5d94
-gFreeFunc kind:bss addr:0x021b5dac
-gAllocFunc kind:bss addr:0x021b5db0
-gInetControl kind:bss addr:0x021b5db4
-gNumLocalIps kind:bss addr:0x021b5db8
-gLocalIpList kind:bss addr:0x021b5dbc
-gQr2Hostname kind:bss addr:0x021b5dd0
-gQr2Indata kind:bss addr:0x021b5e10
-gWcmWork kind:bss addr:0x021b5f10
-gWcmCpsifWork kind:bss addr:0x021b5f14
-gWcmRssiIndex kind:bss addr:0x021b5f40
-gWcmRssi kind:bss addr:0x021b5f44
-SOCLiConfigPtr kind:bss addr:0x021b5f54
-SOCLiYieldWait kind:bss addr:0x021b5f58
-SOCLiRequestedIP kind:bss addr:0x021b5f5c
-SOCLiDhcpState kind:bss addr:0x021b5f60
-SOCLiUDPSendSocket kind:bss addr:0x021b5f64
-SOCLiCPSConfig kind:bss addr:0x021b5f68
-SOCLiCommandPackets kind:bss addr:0x021b5f98
-SOCLiCommandPacketQueue kind:bss addr:0x021b5f9c
-SOCLi_CheckCount kind:bss addr:0x021b5fbc
-SOCLiSocketList kind:bss addr:0x021b5fc4
-SOCLiSocketListTrash kind:bss addr:0x021b5fc8
-hostip kind:bss addr:0x021b5fcc
-FreeFunc_SOC kind:bss addr:0x021b5fd0
-AllocFunc_SOC kind:bss addr:0x021b5fd4
-hostAddrList kind:bss addr:0x021b5fd8
-hostent kind:bss addr:0x021b5fe0
-sInetNtoABuffer kind:bss addr:0x021b5ff0
-soclConfig kind:bss addr:0x021b6000
-entName kind:bss addr:0x021b6038
-gRandomByteStateMixed kind:bss addr:0x021b613c
-gNewEntryIdCount kind:bss addr:0x021b6140
-gRandomByteState kind:bss addr:0x021b6144
-gUncachedHttpsEntry kind:bss addr:0x021b6158
-gHttpsEntries kind:bss addr:0x021b61b4
-gSendFailed kind:bss addr:0x021b6324
-gIpConflict kind:bss addr:0x021b6328
-gPingSequence kind:bss addr:0x021b632c
-gMyMss kind:bss addr:0x021b6330
-gEport kind:bss addr:0x021b6334
-gIpId kind:bss addr:0x021b6338
-CPSNoIpReason kind:bss addr:0x021b633c
-CPSNetMask kind:bss addr:0x021b6340
-gDhcpCallback kind:bss addr:0x021b6344
-gLinkIsOn kind:bss addr:0x021b6348
-CPSDhcpServerIp kind:bss addr:0x021b634c
-gYieldWait kind:bss addr:0x021b6350
-gWlanPutPnt kind:bss addr:0x021b6354
-gCPSMode kind:bss addr:0x021b6358
-CPSGatewayIp kind:bss addr:0x021b635c
-gSleepSave kind:bss addr:0x021b6360
-CPSiAlloc kind:bss addr:0x021b6364
-gScavengerCallback kind:bss addr:0x021b6368
-CPSiFree kind:bss addr:0x021b636c
-gScavengerForceExit kind:bss addr:0x021b6370
-CPSMyIp kind:bss addr:0x021b6374
-gLeaseTime kind:bss addr:0x021b6378
-gOfferedMyIp kind:bss addr:0x021b637c
-gReceiverThread kind:bss addr:0x021b6380
-gWlanBuf kind:bss addr:0x021b6384
-gWlanBufLen kind:bss addr:0x021b6388
-gWlanGetPnt kind:bss addr:0x021b638c
-CPSMyMac kind:bss addr:0x021b6390
-CPSDnsIp kind:bss addr:0x021b6398
-CPSiRand32ctx kind:bss addr:0x021b63a0
-gTmpBuf kind:bss addr:0x021b63b8
-gArpCache kind:bss addr:0x021b63f4
-gScavengerSoc kind:bss addr:0x021b6454
-gTmpSoc kind:bss addr:0x021b64b8
-gScavengerThread kind:bss addr:0x021b651c
-gTcpipThread kind:bss addr:0x021b65dc
-gScavengerSendBuffer kind:bss addr:0x021b669c
-gScavengerReceiveBuffer kind:bss addr:0x021b681c
-gFragTable kind:bss addr:0x021b699c
-gScavengerStack kind:bss addr:0x021b6b60
-gTcpipStack kind:bss addr:0x021b7360
+gWiFiTopMenuXluCellIndices kind:data(byte[3]) addr:0x021b058c
+gWiFiTopMenuSTableIndices kind:data(byte[3]) addr:0x021b0590
+gWiFiTopMenuCellIndices kind:data(byte[3]) addr:0x021b0594
+gWiFiTopMenuOffsetCellCounts kind:data(byte[12]) addr:0x021b0598
+gWiFiTopMenuOffsetTableIndices kind:data(byte[15]) addr:0x021b05a4
+gWiFiVSSettingLabelIndices kind:data(byte[3]) addr:0x021b05b4
+gWiFiVSSettingKartTypes kind:data(byte[4]) addr:0x021b05b8
+gWiFiVSSettingIndexByKartType kind:data(byte[5]) addr:0x021b05bc
+gWiFiVSSettingTimerTableIndices kind:data(byte[6]) addr:0x021b05c4
+gWiFiVSSettingOffsetCellCounts kind:data(byte[12]) addr:0x021b05cc
+gWiFiVSSettingOffsetTableIndices kind:data(byte[27]) addr:0x021b05d8
+gWiFiVSSettingMessageIndices kind:data(byte[48]) addr:0x021b05f4
+gWiFiVSMatchingBlendColorOffsets kind:data(byte[2]) addr:0x021b0624
+gWiFiVSMatchingOtherCellIndices kind:data(byte[3]) addr:0x021b0628
+gWiFiVSMatchingSearchLabelIndices kind:data(byte[3]) addr:0x021b062c
+gWiFiVSMatchingNameLabelIndices kind:data(byte[3]) addr:0x021b0630
+gWiFiVSMatchingEmblemCellIndices kind:data(byte[3]) addr:0x021b0634
+gWiFiVSMatchingNameCellIndices kind:data(byte[3]) addr:0x021b0638
+gWiFiVSMatchingTotalLabelIndices kind:data(byte[6]) addr:0x021b063c
+gWiFiVSMatchingTotalCellIndices kind:data(byte[6]) addr:0x021b0644
+gWiFiVSMatchingResultWaitFrames kind:data(byte[12]) addr:0x021b064c
+gWiFiVSMatchingOffsetTableIndices kind:data(byte[15]) addr:0x021b0658
+gWiFiVSMatchingNameSlideOffsets kind:data(byte[30]) addr:0x021b0668
+gWiFiAikotobaCellIndices kind:data(byte[2]) addr:0x021b0688
+gWiFiAikotobaXluCellIndices kind:data(byte[2]) addr:0x021b068c
+gWiFiAikotobaSTableIndices kind:data(byte[2]) addr:0x021b0690
+gWiFiAikotobaOffsetCellCounts kind:data(byte[8]) addr:0x021b0694
+gWiFiAikotobaOffsetTableIndices kind:data(byte[8]) addr:0x021b069c
+gWiFiAikotobaCheckOffsetIndices kind:data(byte[2]) addr:0x021b06a4
+gWiFiAikotobaCheckDigitLabelIndices kind:data(byte[12]) addr:0x021b06a8
+gWayportSsid kind:data(byte[8]) addr:0x021b06b4
+gFreespotSsid kind:data(byte[8]) addr:0x021b06bc
+gNintendoWfcSsid kind:data(byte[12]) addr:0x021b06c4
+gAcSearchChannel kind:data(byte[52]) addr:0x021b06d0
+gAcSocConfig kind:data(byte[88]) addr:0x021b0704
+gConvByteTable kind:data(byte[13]) addr:0x021b075c
+gConv4BitTable kind:data(byte[16]) addr:0x021b076c
+gAlternateEncoding kind:data(byte[3]) addr:0x021b077c
+gUrlSafeEncodeing kind:data(byte[3]) addr:0x021b0780
+gDefaultEncoding kind:data(byte[3]) addr:0x021b0784
+WCM_Bssid_Any kind:data(byte[6]) addr:0x021b0788
+WCM_Essid_Any kind:data(byte[32]) addr:0x021b0790
+OV000_DATA_START kind:data(byte[32]) addr:0x021b07c0
+@7 kind:data(byte[16]) addr:0x021b07e0 local
+@3567 kind:data(byte[25]) addr:0x021b07f0 local
+@3568 kind:data(byte[25]) addr:0x021b080c local
+@3569 kind:data(byte[23]) addr:0x021b0828 local
+@3570 kind:data(byte[26]) addr:0x021b0840 local
+@3571 kind:data(byte[26]) addr:0x021b085c local
+@3572 kind:data(byte[24]) addr:0x021b0878 local
+@3573 kind:data(byte[25]) addr:0x021b0890 local
+@3574 kind:data(byte[25]) addr:0x021b08ac local
+@3575 kind:data(byte[23]) addr:0x021b08c8 local
+@3576 kind:data(byte[27]) addr:0x021b08e0 local
+@3577 kind:data(byte[27]) addr:0x021b08fc local
+@3578 kind:data(byte[25]) addr:0x021b0918 local
+@3579 kind:data(byte[28]) addr:0x021b0934 local
+@3580 kind:data(byte[28]) addr:0x021b0950 local
+@3581 kind:data(byte[26]) addr:0x021b096c local
+@3582 kind:data(byte[25]) addr:0x021b0988 local
+@3583 kind:data(byte[25]) addr:0x021b09a4 local
+@3584 kind:data(byte[23]) addr:0x021b09c0 local
+@3585 kind:data(byte[31]) addr:0x021b09d8 local
+@3586 kind:data(byte[31]) addr:0x021b09f8 local
+@3587 kind:data(byte[29]) addr:0x021b0a18 local
+@2935 kind:data(byte[4]) addr:0x021b0a38 local
+@2967 kind:data(byte[4]) addr:0x021b0a3c local
+@2912 kind:data(byte[4]) addr:0x021b0a40 local
+@2951 kind:data(byte[6]) addr:0x021b0a44 local
+@2852 kind:data(byte[9]) addr:0x021b0a4c local
+gWiFiLoginMenuCallbacks kind:data(byte[16]) addr:0x021b0a58
+@2854 kind:data(byte[36]) addr:0x021b0a68 local
+@1104 kind:data(byte[9]) addr:0x021b0a8c local
+@1105 kind:data(byte[11]) addr:0x021b0a98 local
+gWiFiTopMenuCallbacks kind:data(byte[16]) addr:0x021b0aa4
+@5587 kind:data(byte[21]) addr:0x021b0ab4 local
+@5588 kind:data(byte[21]) addr:0x021b0acc local
+@5589 kind:data(byte[25]) addr:0x021b0ae4 local
+@5590 kind:data(byte[25]) addr:0x021b0b00 local
+@5591 kind:data(byte[23]) addr:0x021b0b1c local
+@5605 kind:data(byte[21]) addr:0x021b0ab4 local
+@5606 kind:data(byte[21]) addr:0x021b0acc local
+@5607 kind:data(byte[25]) addr:0x021b0ae4 local
+@5608 kind:data(byte[25]) addr:0x021b0b00 local
+@5609 kind:data(byte[23]) addr:0x021b0b1c local
+@2870 kind:data(byte[9]) addr:0x021b0b34 local
+@2871 kind:data(byte[11]) addr:0x021b0b40 local
+@3245 kind:data(byte[1]) addr:0x021b0b4c local
+@3247 kind:data(byte[2]) addr:0x021b0b50 local
+@3249 kind:data(byte[4]) addr:0x021b0b54 local
+@3256 kind:data(byte[6]) addr:0x021b0b58 local
+gWiFiVSSettingCallbacks kind:data(byte[16]) addr:0x021b0b60
+@2794 kind:data(byte[25]) addr:0x021b0b70 local
+@2795 kind:data(byte[23]) addr:0x021b0b8c local
+@2796 kind:data(byte[25]) addr:0x021b0ba4 local
+@2797 kind:data(byte[21]) addr:0x021b0bc0 local
+@2798 kind:data(byte[21]) addr:0x021b0bd8 local
+@2799 kind:data(byte[21]) addr:0x021b0bf0 local
+@2800 kind:data(byte[27]) addr:0x021b0c08 local
+@2801 kind:data(byte[27]) addr:0x021b0c24 local
+@2802 kind:data(byte[25]) addr:0x021b0c40 local
+@4460 kind:data(byte[9]) addr:0x021b0c5c local
+@4461 kind:data(byte[11]) addr:0x021b0c68 local
+@2702 kind:data(byte[2]) addr:0x021b0c74 local
+@2692 kind:data(byte[6]) addr:0x021b0c78 local
+@2667 kind:data(byte[6]) addr:0x021b0c80 local
+@2678 kind:data(byte[12]) addr:0x021b0c88 local
+@3294 kind:data(byte[16]) addr:0x021b0c94 local
+gWiFiVSMatchingTotalScalePercents kind:data(byte[30]) addr:0x021b0ca4
+gWiFiVSMatchingEmblemScalePercents kind:data(byte[40]) addr:0x021b0cc4
+@4010 kind:data(byte[26]) addr:0x021b0cec local
+@4011 kind:data(byte[24]) addr:0x021b0d08 local
+@4012 kind:data(byte[26]) addr:0x021b0d20 local
+@4013 kind:data(byte[22]) addr:0x021b0d3c local
+@4014 kind:data(byte[22]) addr:0x021b0d54 local
+@4015 kind:data(byte[22]) addr:0x021b0d6c local
+@4016 kind:data(byte[28]) addr:0x021b0d84 local
+@4017 kind:data(byte[28]) addr:0x021b0da0 local
+@4018 kind:data(byte[26]) addr:0x021b0dbc local
+@6252 kind:data(byte[9]) addr:0x021b0dd8 local
+@6253 kind:data(byte[11]) addr:0x021b0de4 local
+gSelectCharacterCallbacks kind:data(byte[16]) addr:0x021b0df0
+gSelectKartCallbacks kind:data(byte[16]) addr:0x021b0e00
+gWiFiVSCourseSelectCallbacks kind:data(byte[16]) addr:0x021b0e10
+gWiFiAikotobaCallbacks kind:data(byte[16]) addr:0x021b0e20
+@5469 kind:data(byte[19]) addr:0x021b0e30 local
+@5470 kind:data(byte[19]) addr:0x021b0e44 local
+@5471 kind:data(byte[25]) addr:0x021b0e58 local
+@5472 kind:data(byte[25]) addr:0x021b0e74 local
+@5473 kind:data(byte[23]) addr:0x021b0e90 local
+@5523 kind:data(byte[9]) addr:0x021b0ea8 local
+@5524 kind:data(byte[11]) addr:0x021b0eb4 local
+@3622 kind:data(byte[12]) addr:0x021b0ec0 local
+@3624 kind:data(byte[12]) addr:0x021b0ecc local
+gWiFiAikotobaCheckCallbacks kind:data(byte[16]) addr:0x021b0ed8
+@5135 kind:data(byte[25]) addr:0x021b0ee8 local
+@5136 kind:data(byte[25]) addr:0x021b0f04 local
+@5137 kind:data(byte[31]) addr:0x021b0f20 local
+@5138 kind:data(byte[31]) addr:0x021b0f40 local
+@5139 kind:data(byte[29]) addr:0x021b0f60 local
+@5152 kind:data(byte[9]) addr:0x021b0f80 local
+@5153 kind:data(byte[11]) addr:0x021b0f8c local
+gWiFiConnectionLostCallbacks kind:data(byte[16]) addr:0x021b0f98
+gLangPairValue01 kind:data(byte[3]) addr:0x021b0fa8
+gLangPairValue03 kind:data(byte[3]) addr:0x021b0fac
+gLangPairValue04 kind:data(byte[3]) addr:0x021b0fb0
+gLangPairValue02 kind:data(byte[3]) addr:0x021b0fb4
+gLangPairValue05 kind:data(byte[3]) addr:0x021b0fb8
+gLangPairValue00 kind:data(byte[3]) addr:0x021b0fbc
+gLangPairValue06 kind:data(byte[3]) addr:0x021b0fc0
+gLangPairValues kind:data(byte[28]) addr:0x021b0fc4
+gNasAuthUrl kind:data(byte[32]) addr:0x021b0fe0
+DWCauthhttpparam kind:data(byte[32]) addr:0x021b1000
+@5695 kind:data(byte[5]) addr:0x021b1020 local
+@5696 kind:data(byte[9]) addr:0x021b1028 local
+@5697 kind:data(byte[25]) addr:0x021b1034 local
+@5698 kind:data(byte[7]) addr:0x021b1050 local
+@5699 kind:data(byte[11]) addr:0x021b1058 local
+@5700 kind:data(byte[6]) addr:0x021b1064 local
+@5701 kind:data(byte[7]) addr:0x021b106c local
+@5702 kind:data(byte[9]) addr:0x021b1074 local
+@5703 kind:data(byte[7]) addr:0x021b1080 local
+@5704 kind:data(byte[7]) addr:0x021b1088 local
+@5705 kind:data(byte[8]) addr:0x021b1090 local
+@5706 kind:data(byte[7]) addr:0x021b1098 local
+@5707 kind:data(byte[5]) addr:0x021b10a0 local
+@5708 kind:data(byte[7]) addr:0x021b10a8 local
+@5709 kind:data(byte[25]) addr:0x021b10b0 local
+@5710 kind:data(byte[16]) addr:0x021b10cc local
+@5711 kind:data(byte[7]) addr:0x021b10dc local
+@5712 kind:data(byte[8]) addr:0x021b10e4 local
+@5713 kind:data(byte[7]) addr:0x021b10ec local
+@5714 kind:data(byte[2]) addr:0x021b10f4 local
+@5715 kind:data(byte[7]) addr:0x021b10f8 local
+@5716 kind:data(byte[5]) addr:0x021b1100 local
+@5717 kind:data(byte[6]) addr:0x021b1108 local
+@5718 kind:data(byte[8]) addr:0x021b1110 local
+@5719 kind:data(byte[6]) addr:0x021b1118 local
+@5720 kind:data(byte[7]) addr:0x021b1120 local
+@5721 kind:data(byte[11]) addr:0x021b1128 local
+@5722 kind:data(byte[19]) addr:0x021b1134 local
+@5723 kind:data(byte[14]) addr:0x021b1148 local
+@5724 kind:data(byte[8]) addr:0x021b1158 local
+@5771 kind:data(byte[11]) addr:0x021b1160 local
+@5772 kind:data(byte[9]) addr:0x021b116c local
+@5773 kind:data(byte[6]) addr:0x021b1178 local
+@5774 kind:data(byte[8]) addr:0x021b1180 local
+@5775 kind:data(byte[10]) addr:0x021b1188 local
+@5776 kind:data(byte[9]) addr:0x021b1194 local
+@5777 kind:data(byte[11]) addr:0x021b11a0 local
+@5819 kind:data(byte[7]) addr:0x021b11ac local
+@5966 kind:data(byte[8]) addr:0x021b11b4 local
+@6016 kind:data(byte[8]) addr:0x021b11bc local
+gCaInfoTable kind:data(byte[44]) addr:0x021b11c4
+@5968 kind:data(byte[5]) addr:0x021b11f0 local
+@5969 kind:data(byte[2]) addr:0x021b11f8 local
+@5970 kind:data(byte[11]) addr:0x021b11fc local
+@5971 kind:data(byte[4]) addr:0x021b1208 local
+@5972 kind:data(byte[9]) addr:0x021b120c local
+@5973 kind:data(byte[3]) addr:0x021b1218 local
+@5974 kind:data(byte[3]) addr:0x021b121c local
+@5975 kind:data(byte[2]) addr:0x021b1220 local
+@5976 kind:data(byte[2]) addr:0x021b1224 local
+@6006 kind:data(byte[8]) addr:0x021b1228 local
+@6007 kind:data(byte[9]) addr:0x021b1230 local
+@6008 kind:data(byte[2]) addr:0x021b123c local
+@6024 kind:data(byte[14]) addr:0x021b1240 local
+@1484 kind:data(byte[3]) addr:0x021b1250 local
+@1511 kind:data(byte[4]) addr:0x021b1254 local
+@1512 kind:data(byte[5]) addr:0x021b1258 local
+@1531 kind:data(byte[9]) addr:0x021b1260 local
+@1547 kind:data(byte[81]) addr:0x021b126c local
+@1548 kind:data(byte[31]) addr:0x021b12c0 local
+@6130 kind:data(byte[17]) addr:0x021b12e0 local
+@6131 kind:data(byte[17]) addr:0x021b12f4 local
+@6256 kind:data(byte[17]) addr:0x021b1308 local
+@6288 kind:data(byte[11]) addr:0x021b131c local
+@6289 kind:data(byte[6]) addr:0x021b1328 local
+@6290 kind:data(byte[3]) addr:0x021b1330 local
+@6291 kind:data(byte[15]) addr:0x021b1334 local
+gConnTestUrl kind:data(byte[4]) addr:0x021b1344
+@2470 kind:data(byte[34]) addr:0x021b1348 local
+@2706 kind:data(byte[22]) addr:0x021b136c local
+@2707 kind:data(byte[4]) addr:0x021b1384 local
+@2708 kind:data(byte[5]) addr:0x021b1388 local
+@2709 kind:data(byte[5]) addr:0x021b1390 local
+@2710 kind:data(byte[26]) addr:0x021b1398 local
+@2992 kind:data(byte[11]) addr:0x021b13b4 local
+@2993 kind:data(byte[32]) addr:0x021b13c0 local
+@2994 kind:data(byte[1]) addr:0x021b13e0 local
+@2995 kind:data(byte[7]) addr:0x021b13e4 local
+@2996 kind:data(byte[8]) addr:0x021b13ec local
+@2997 kind:data(byte[5]) addr:0x021b13f4 local
+@2998 kind:data(byte[16]) addr:0x021b13fc local
+@2999 kind:data(byte[9]) addr:0x021b140c local
+@3000 kind:data(byte[6]) addr:0x021b1418 local
+@3001 kind:data(byte[5]) addr:0x021b1420 local
+@3002 kind:data(byte[9]) addr:0x021b1428 local
+@3085 kind:data(byte[8]) addr:0x021b1434 local
+@3086 kind:data(byte[12]) addr:0x021b143c local
+gBase64Alphabet kind:data(byte[4]) addr:0x021b1448
+@1516 kind:data(byte[65]) addr:0x021b144c local
+gGlobalSignRootCaExponent kind:data(byte[4]) addr:0x021b1490
+gGlobalSignRootCaInfo kind:data(byte[20]) addr:0x021b1494
+@1 kind:data(byte[50]) addr:0x021b14a8 local
+gGlobalSignRootCaModulus kind:data(byte[256]) addr:0x021b14dc
+gBaltimoreRootCaExponent kind:data(byte[4]) addr:0x021b15dc
+gBaltimoreRootCaInfo kind:data(byte[20]) addr:0x021b15e0
+@1 kind:data(byte[53]) addr:0x021b15f4 local
+gBaltimoreRootCaModulus kind:data(byte[256]) addr:0x021b162c
+gGteGlobalRootCaExponent kind:data(byte[4]) addr:0x021b172c
+gGteGlobalRootCaInfo kind:data(byte[20]) addr:0x021b1730
+@1 kind:data(byte[80]) addr:0x021b1744 local
+gGteGlobalRootCaModulus kind:data(byte[128]) addr:0x021b1794
+gGteRootCaExponent kind:data(byte[4]) addr:0x021b1814
+gGteRootCaInfo kind:data(byte[20]) addr:0x021b1818
+@1 kind:data(byte[41]) addr:0x021b182c local
+gGteRootCaModulus kind:data(byte[128]) addr:0x021b1858
+gNintendoCaExponent kind:data(byte[4]) addr:0x021b18d8
+gNintendoCaInfo kind:data(byte[20]) addr:0x021b18dc
+@1 kind:data(byte[79]) addr:0x021b18f0 local
+gNintendoCaModulus kind:data(byte[128]) addr:0x021b1940
+gThawtePremiumServerCaExponent kind:data(byte[4]) addr:0x021b19c0
+gThawtePremiumServerCaInfo kind:data(byte[20]) addr:0x021b19c4
+gThawtePremiumServerCaModulus kind:data(byte[128]) addr:0x021b19d8
+@1 kind:data(byte[136]) addr:0x021b1a58 local
+gThawteServerCaExponent kind:data(byte[4]) addr:0x021b1ae0
+gThawteServerCaInfo kind:data(byte[20]) addr:0x021b1ae4
+@1 kind:data(byte[126]) addr:0x021b1af8 local
+gThawteServerCaModulus kind:data(byte[128]) addr:0x021b1b78
+gVeriSignClass3G2CaExponent kind:data(byte[4]) addr:0x021b1bf8
+gVeriSignClass3G2CaInfo kind:data(byte[20]) addr:0x021b1bfc
+gVeriSignClass3G2CaModulus kind:data(byte[128]) addr:0x021b1c10
+@1 kind:data(byte[147]) addr:0x021b1c90 local
+gVeriSignClass3G3CaExponent kind:data(byte[4]) addr:0x021b1d24
+gVeriSignClass3G3CaInfo kind:data(byte[20]) addr:0x021b1d28
+@1 kind:data(byte[156]) addr:0x021b1d3c local
+gVeriSignClass3G3CaModulus kind:data(byte[256]) addr:0x021b1dd8
+gVeriSignClass3CaExponent kind:data(byte[4]) addr:0x021b1ed8
+gVeriSignClass3CaInfo kind:data(byte[20]) addr:0x021b1edc
+@1 kind:data(byte[67]) addr:0x021b1ef0 local
+gVeriSignClass3CaModulus kind:data(byte[128]) addr:0x021b1f34
+gRsaSecureServerCaExponent kind:data(byte[4]) addr:0x021b1fb4
+gRsaSecureServerCaInfo kind:data(byte[20]) addr:0x021b1fb8
+@1 kind:data(byte[67]) addr:0x021b1fcc local
+gRsaSecureServerCaModulus kind:data(byte[128]) addr:0x021b2010
+data_ov000_021b20d0 kind:data(byte[12]) addr:0x021b2090
+@676 kind:data(byte[12]) addr:0x021b209c local
+gSsidDecodeSecondXorKey kind:data(byte[4]) addr:0x021b20a8
+gUsbWepFirstXorKey kind:data(byte[4]) addr:0x021b20ac
+gUsbWepSecondXorKey kind:data(byte[4]) addr:0x021b20b0
+gSsidDecodeFirstXorKey kind:data(byte[4]) addr:0x021b20b4
+@65 kind:data(byte[14]) addr:0x021b20b8 local
+@63 kind:data(byte[14]) addr:0x021b20c8 local
+gSsidOrderTable kind:data(byte[24]) addr:0x021b20d8
+@64 kind:data(byte[25]) addr:0x021b20f0 local
+@66 kind:data(byte[25]) addr:0x021b210c local
+gNintendoUsbApSsid kind:data(byte[9]) addr:0x021b2128
+gShopSsidPrefix kind:data(byte[9]) addr:0x021b2134
+@2290 kind:data(byte[8]) addr:0x021b2140 local
+@2371 kind:data(byte[14]) addr:0x021b2148 local
+@2372 kind:data(byte[9]) addr:0x021b2158 local
+@2687 kind:data(byte[6]) addr:0x021b2164 local
+gInvalidKeys kind:data(byte[8]) addr:0x021b216c
+@2686 kind:data(byte[8]) addr:0x021b2174 local
+@3088 kind:data(byte[5]) addr:0x021b217c local
+@3110 kind:data(byte[1]) addr:0x021b2184 local
+@3178 kind:data(byte[5]) addr:0x021b2188 local
+@3187 kind:data(byte[7]) addr:0x021b2190 local
+@3188 kind:data(byte[12]) addr:0x021b2198 local
+@3190 kind:data(byte[3]) addr:0x021b21a4 local
+@2928 kind:data(byte[4]) addr:0x021b21a8 local
+queryErrorPrefix$2886 kind:data(byte[4]) addr:0x021b21ac local
+@2887 kind:data(byte[14]) addr:0x021b21b0 local
+@3736 kind:data(byte[24]) addr:0x021b21c0 local
+@3737 kind:data(byte[16]) addr:0x021b21d8 local
+@3958 kind:data(byte[11]) addr:0x021b21e8 local
+@3984 kind:data(byte[5]) addr:0x021b21f4 local
+@4080 kind:data(byte[2]) addr:0x021b21fc local
+@4198 kind:data(byte[32]) addr:0x021b2200 local
+@4199 kind:data(byte[1]) addr:0x021b2220 local
+@4321 kind:data(byte[28]) addr:0x021b2224 local
+@4358 kind:data(byte[14]) addr:0x021b2240 local
+@4359 kind:data(byte[17]) addr:0x021b2250 local
+@4380 kind:data(byte[12]) addr:0x021b2264 local
+gAvailablePacketHeader kind:data(byte[4]) addr:0x021b2270
+@2018 kind:data(byte[33]) addr:0x021b2274 local
+@432 kind:data(byte[3]) addr:0x021b2298 local
+@433 kind:data(byte[9]) addr:0x021b229c local
+@469 kind:data(byte[31]) addr:0x021b22a8 local
+@488 kind:data(byte[11]) addr:0x021b22c8 local
+@499 kind:data(byte[32]) addr:0x021b22d4 local
+@507 kind:data(byte[6]) addr:0x021b22f4 local
+@542 kind:data(byte[9]) addr:0x021b22fc local
+@543 kind:data(byte[12]) addr:0x021b2308 local
+@303 kind:data(byte[3]) addr:0x021b2314 local
+@304 kind:data(byte[12]) addr:0x021b2318 local
+@334 kind:data(byte[6]) addr:0x021b2324 local
+@415 kind:data(byte[7]) addr:0x021b232c local
+@416 kind:data(byte[7]) addr:0x021b2334 local
+@417 kind:data(byte[9]) addr:0x021b233c local
+@418 kind:data(byte[9]) addr:0x021b2348 local
+@419 kind:data(byte[15]) addr:0x021b2354 local
+@188 kind:data(byte[5]) addr:0x021b2364 local
+gRandomNum kind:data(byte[4]) addr:0x021b236c
+@2197 kind:data(byte[29]) addr:0x021b2370 local
+@2198 kind:data(byte[10]) addr:0x021b2390 local
+@2269 kind:data(byte[10]) addr:0x021b239c local
+@2610 kind:data(byte[46]) addr:0x021b23a8 local
+@2611 kind:data(byte[10]) addr:0x021b23d8 local
+@2612 kind:data(byte[8]) addr:0x021b23e4 local
+@2613 kind:data(byte[13]) addr:0x021b23ec local
+@2625 kind:data(byte[17]) addr:0x021b23fc local
+@2664 kind:data(byte[22]) addr:0x021b2410 local
+@2665 kind:data(byte[24]) addr:0x021b2428 local
+@2666 kind:data(byte[9]) addr:0x021b2440 local
+@2667 kind:data(byte[13]) addr:0x021b244c local
+@2668 kind:data(byte[12]) addr:0x021b245c local
+@2734 kind:data(byte[16]) addr:0x021b2468 local
+@2735 kind:data(byte[15]) addr:0x021b2478 local
+@2736 kind:data(byte[12]) addr:0x021b2488 local
+@2737 kind:data(byte[5]) addr:0x021b2494 local
+@2796 kind:data(byte[16]) addr:0x021b249c local
+@2797 kind:data(byte[11]) addr:0x021b24ac local
+@2798 kind:data(byte[15]) addr:0x021b24b8 local
+@2799 kind:data(byte[9]) addr:0x021b24c8 local
+@2852 kind:data(byte[1]) addr:0x021b24d4 local
+@2864 kind:data(byte[14]) addr:0x021b24d8 local
+@2427 kind:data(byte[247]) addr:0x021b24e8 local
+@2428 kind:data(byte[6]) addr:0x021b25e0 local
+@2429 kind:data(byte[2]) addr:0x021b25e8 local
+@2512 kind:data(byte[3]) addr:0x021b25ec local
+@2513 kind:data(byte[44]) addr:0x021b25f0 local
+@2514 kind:data(byte[8]) addr:0x021b261c local
+@2515 kind:data(byte[9]) addr:0x021b2624 local
+@2517 kind:data(byte[15]) addr:0x021b2630 local
+@2518 kind:data(byte[5]) addr:0x021b2640 local
+@2519 kind:data(byte[39]) addr:0x021b2648 local
+@2520 kind:data(byte[5]) addr:0x021b2670 local
+@2521 kind:data(byte[5]) addr:0x021b2678 local
+@2522 kind:data(byte[48]) addr:0x021b2680 local
+@2523 kind:data(byte[38]) addr:0x021b26b0 local
+@1620 kind:data(byte[34]) addr:0x021b26d8 local
+@1868 kind:data(byte[17]) addr:0x021b26fc local
+@1869 kind:data(byte[11]) addr:0x021b2710 local
+@1870 kind:data(byte[10]) addr:0x021b271c local
+@1871 kind:data(byte[15]) addr:0x021b2728 local
+@1872 kind:data(byte[8]) addr:0x021b2738 local
+@1873 kind:data(byte[11]) addr:0x021b2740 local
+@1874 kind:data(byte[11]) addr:0x021b274c local
+@1876 kind:data(byte[41]) addr:0x021b2758 local
+@1947 kind:data(byte[5]) addr:0x021b2784 local
+@1948 kind:data(byte[4]) addr:0x021b278c local
+@1949 kind:data(byte[6]) addr:0x021b2790 local
+@2111 kind:data(byte[46]) addr:0x021b2798 local
+@2112 kind:data(byte[4]) addr:0x021b27c8 local
+@2113 kind:data(byte[7]) addr:0x021b27cc local
+@2114 kind:data(byte[15]) addr:0x021b27d4 local
+@2115 kind:data(byte[9]) addr:0x021b27e4 local
+@2118 kind:data(byte[4]) addr:0x021b27f0 local
+@2119 kind:data(byte[5]) addr:0x021b27f4 local
+@2120 kind:data(byte[5]) addr:0x021b27fc local
+@2121 kind:data(byte[5]) addr:0x021b2804 local
+@2122 kind:data(byte[4]) addr:0x021b280c local
+@2123 kind:data(byte[4]) addr:0x021b2810 local
+@2124 kind:data(byte[2]) addr:0x021b2814 local
+@2090 kind:data(byte[10]) addr:0x021b2818 local
+@2091 kind:data(byte[16]) addr:0x021b2824 local
+@2092 kind:data(byte[6]) addr:0x021b2834 local
+@1683 kind:data(byte[6]) addr:0x021b283c local
+@1684 kind:data(byte[4]) addr:0x021b2844 local
+@1685 kind:data(byte[6]) addr:0x021b2848 local
+@1868 kind:data(byte[21]) addr:0x021b2850 local
+@1869 kind:data(byte[12]) addr:0x021b2868 local
+@1870 kind:data(byte[9]) addr:0x021b2874 local
+@1871 kind:data(byte[9]) addr:0x021b2880 local
+@1872 kind:data(byte[11]) addr:0x021b288c local
+@1910 kind:data(byte[23]) addr:0x021b2898 local
+@1911 kind:data(byte[20]) addr:0x021b28b0 local
+@1912 kind:data(byte[18]) addr:0x021b28c4 local
+@1913 kind:data(byte[19]) addr:0x021b28d8 local
+@1914 kind:data(byte[15]) addr:0x021b28ec local
+@1915 kind:data(byte[42]) addr:0x021b28fc local
+@1916 kind:data(byte[33]) addr:0x021b2928 local
+@1917 kind:data(byte[18]) addr:0x021b294c local
+@1923 kind:data(byte[3]) addr:0x021b2960 local
+@1962 kind:data(byte[34]) addr:0x021b2964 local
+@1963 kind:data(byte[3]) addr:0x021b2988 local
+@1993 kind:data(byte[40]) addr:0x021b298c local
+@1994 kind:data(byte[33]) addr:0x021b29b4 local
+@2018 kind:data(byte[15]) addr:0x021b29d8 local
+@2019 kind:data(byte[15]) addr:0x021b29e8 local
+@1834 kind:data(byte[32]) addr:0x021b29f8 local
+@1835 kind:data(byte[14]) addr:0x021b2a18 local
+@1836 kind:data(byte[18]) addr:0x021b2a28 local
+@1853 kind:data(byte[15]) addr:0x021b2a3c local
+@1869 kind:data(byte[20]) addr:0x021b2a4c local
+@1870 kind:data(byte[22]) addr:0x021b2a60 local
+@1871 kind:data(byte[47]) addr:0x021b2a78 local
+gConnectionManagerName kind:data(byte[64]) addr:0x021b2aa8
+@2187 kind:data(byte[18]) addr:0x021b2ae8 local
+@2188 kind:data(byte[8]) addr:0x021b2afc local
+@2189 kind:data(byte[3]) addr:0x021b2b04 local
+@2214 kind:data(byte[39]) addr:0x021b2b08 local
+@2215 kind:data(byte[23]) addr:0x021b2b30 local
+@2216 kind:data(byte[13]) addr:0x021b2b48 local
+@2322 kind:data(byte[6]) addr:0x021b2b58 local
+@2323 kind:data(byte[8]) addr:0x021b2b60 local
+@2324 kind:data(byte[6]) addr:0x021b2b68 local
+@2325 kind:data(byte[46]) addr:0x021b2b70 local
+@2326 kind:data(byte[12]) addr:0x021b2ba0 local
+@2327 kind:data(byte[6]) addr:0x021b2bac local
+@2328 kind:data(byte[9]) addr:0x021b2bb4 local
+@2329 kind:data(byte[47]) addr:0x021b2bc0 local
+@2330 kind:data(byte[12]) addr:0x021b2bf0 local
+@2331 kind:data(byte[6]) addr:0x021b2bfc local
+@2332 kind:data(byte[10]) addr:0x021b2c04 local
+@2333 kind:data(byte[13]) addr:0x021b2c10 local
+@2334 kind:data(byte[5]) addr:0x021b2c20 local
+@2335 kind:data(byte[6]) addr:0x021b2c28 local
+@2336 kind:data(byte[13]) addr:0x021b2c30 local
+@2337 kind:data(byte[49]) addr:0x021b2c40 local
+@2338 kind:data(byte[8]) addr:0x021b2c74 local
+@2339 kind:data(byte[31]) addr:0x021b2c7c local
+@2340 kind:data(byte[15]) addr:0x021b2c9c local
+@2372 kind:data(byte[10]) addr:0x021b2cac local
+@2373 kind:data(byte[8]) addr:0x021b2cb8 local
+@2374 kind:data(byte[7]) addr:0x021b2cc0 local
+@2375 kind:data(byte[14]) addr:0x021b2cc8 local
+@2376 kind:data(byte[12]) addr:0x021b2cd8 local
+@2377 kind:data(byte[11]) addr:0x021b2ce4 local
+@2378 kind:data(byte[14]) addr:0x021b2cf0 local
+@2379 kind:data(byte[11]) addr:0x021b2d00 local
+@2380 kind:data(byte[6]) addr:0x021b2d0c local
+@2420 kind:data(byte[8]) addr:0x021b2d14 local
+@2421 kind:data(byte[12]) addr:0x021b2d1c local
+@2422 kind:data(byte[7]) addr:0x021b2d28 local
+@2423 kind:data(byte[2]) addr:0x021b2d30 local
+@2424 kind:data(byte[11]) addr:0x021b2d34 local
+@2425 kind:data(byte[12]) addr:0x021b2d40 local
+@2426 kind:data(byte[7]) addr:0x021b2d4c local
+@2468 kind:data(byte[20]) addr:0x021b2d54 local
+@2469 kind:data(byte[18]) addr:0x021b2d68 local
+@2512 kind:data(byte[38]) addr:0x021b2d7c local
+@2513 kind:data(byte[49]) addr:0x021b2da4 local
+@2514 kind:data(byte[37]) addr:0x021b2dd8 local
+@2515 kind:data(byte[42]) addr:0x021b2e00 local
+@2516 kind:data(byte[46]) addr:0x021b2e2c local
+@2517 kind:data(byte[49]) addr:0x021b2e5c local
+@2518 kind:data(byte[29]) addr:0x021b2e90 local
+@2519 kind:data(byte[40]) addr:0x021b2eb0 local
+@2529 kind:data(byte[63]) addr:0x021b2ed8 local
+@2202 kind:data(byte[15]) addr:0x021b2f18 local
+@2205 kind:data(byte[22]) addr:0x021b2f28 local
+@2206 kind:data(byte[12]) addr:0x021b2f40 local
+@2207 kind:data(byte[5]) addr:0x021b2f4c local
+@2208 kind:data(byte[8]) addr:0x021b2f54 local
+@2218 kind:data(byte[3]) addr:0x021b2f5c local
+@2219 kind:data(byte[14]) addr:0x021b2f60 local
+@2220 kind:data(byte[11]) addr:0x021b2f70 local
+@2418 kind:data(byte[15]) addr:0x021b2f7c local
+@2419 kind:data(byte[7]) addr:0x021b2f8c local
+@2420 kind:data(byte[13]) addr:0x021b2f94 local
+@2421 kind:data(byte[8]) addr:0x021b2fa4 local
+@2422 kind:data(byte[11]) addr:0x021b2fac local
+@2423 kind:data(byte[12]) addr:0x021b2fb8 local
+@2424 kind:data(byte[11]) addr:0x021b2fc4 local
+@2425 kind:data(byte[11]) addr:0x021b2fd0 local
+@2426 kind:data(byte[10]) addr:0x021b2fdc local
+@2427 kind:data(byte[21]) addr:0x021b2fe8 local
+@2428 kind:data(byte[14]) addr:0x021b3000 local
+@2429 kind:data(byte[2]) addr:0x021b3010 local
+@2430 kind:data(byte[2]) addr:0x021b3014 local
+@2431 kind:data(byte[2]) addr:0x021b3018 local
+@2432 kind:data(byte[6]) addr:0x021b301c local
+@2433 kind:data(byte[9]) addr:0x021b3024 local
+@2434 kind:data(byte[19]) addr:0x021b3030 local
+@2435 kind:data(byte[19]) addr:0x021b3044 local
+@2436 kind:data(byte[11]) addr:0x021b3058 local
+@2437 kind:data(byte[6]) addr:0x021b3064 local
+@2438 kind:data(byte[6]) addr:0x021b306c local
+@2439 kind:data(byte[6]) addr:0x021b3074 local
+@2440 kind:data(byte[6]) addr:0x021b307c local
+@2441 kind:data(byte[6]) addr:0x021b3084 local
+@2442 kind:data(byte[6]) addr:0x021b308c local
+@2443 kind:data(byte[6]) addr:0x021b3094 local
+@2444 kind:data(byte[5]) addr:0x021b309c local
+@2573 kind:data(byte[17]) addr:0x021b30a4 local
+@2574 kind:data(byte[13]) addr:0x021b30b8 local
+@2575 kind:data(byte[13]) addr:0x021b30c8 local
+@2576 kind:data(byte[11]) addr:0x021b30d8 local
+@2578 kind:data(byte[9]) addr:0x021b30e4 local
+@2580 kind:data(byte[16]) addr:0x021b30f0 local
+@2582 kind:data(byte[16]) addr:0x021b3100 local
+@2583 kind:data(byte[15]) addr:0x021b3110 local
+@2584 kind:data(byte[18]) addr:0x021b3120 local
+@2585 kind:data(byte[13]) addr:0x021b3134 local
+@2615 kind:data(byte[21]) addr:0x021b3144 local
+@2616 kind:data(byte[20]) addr:0x021b315c local
+@2784 kind:data(byte[5]) addr:0x021b3170 local
+@2785 kind:data(byte[46]) addr:0x021b3178 local
+@2786 kind:data(byte[14]) addr:0x021b31a8 local
+@2787 kind:data(byte[10]) addr:0x021b31b8 local
+@2788 kind:data(byte[6]) addr:0x021b31c4 local
+@2790 kind:data(byte[6]) addr:0x021b31cc local
+@2792 kind:data(byte[6]) addr:0x021b31d4 local
+@2793 kind:data(byte[8]) addr:0x021b31dc local
+@2794 kind:data(byte[5]) addr:0x021b31e4 local
+@2795 kind:data(byte[7]) addr:0x021b31ec local
+@2796 kind:data(byte[6]) addr:0x021b31f4 local
+@2851 kind:data(byte[24]) addr:0x021b31fc local
+@2852 kind:data(byte[14]) addr:0x021b3214 local
+@2221 kind:data(byte[15]) addr:0x021b2f18 local
+@2224 kind:data(byte[22]) addr:0x021b2f28 local
+@2225 kind:data(byte[12]) addr:0x021b2f40 local
+@2226 kind:data(byte[5]) addr:0x021b2f4c local
+@2227 kind:data(byte[8]) addr:0x021b2f54 local
+@2235 kind:data(byte[3]) addr:0x021b2f5c local
+@2246 kind:data(byte[14]) addr:0x021b2f60 local
+@2247 kind:data(byte[11]) addr:0x021b2f70 local
+@2445 kind:data(byte[15]) addr:0x021b2f7c local
+@2446 kind:data(byte[7]) addr:0x021b2f8c local
+@2447 kind:data(byte[13]) addr:0x021b2f94 local
+@2448 kind:data(byte[8]) addr:0x021b2fa4 local
+@2449 kind:data(byte[11]) addr:0x021b2fac local
+@2450 kind:data(byte[12]) addr:0x021b2fb8 local
+@2451 kind:data(byte[11]) addr:0x021b2fc4 local
+@2452 kind:data(byte[11]) addr:0x021b2fd0 local
+@2453 kind:data(byte[10]) addr:0x021b2fdc local
+@2454 kind:data(byte[21]) addr:0x021b2fe8 local
+@2455 kind:data(byte[14]) addr:0x021b3000 local
+@2456 kind:data(byte[2]) addr:0x021b3010 local
+@2457 kind:data(byte[2]) addr:0x021b3014 local
+@1873 kind:data(byte[71]) addr:0x021b3224 local
+@1874 kind:data(byte[2]) addr:0x021b326c local
+@1875 kind:data(byte[15]) addr:0x021b3270 local
+@1920 kind:data(byte[30]) addr:0x021b3280 local
+@1932 kind:data(byte[15]) addr:0x021b32a0 local
+@1992 kind:data(byte[19]) addr:0x021b32b0 local
+@1993 kind:data(byte[20]) addr:0x021b32c4 local
+@1994 kind:data(byte[18]) addr:0x021b32d8 local
+@2058 kind:data(byte[13]) addr:0x021b32ec local
+@2059 kind:data(byte[10]) addr:0x021b32fc local
+@2060 kind:data(byte[1]) addr:0x021b3308 local
+@2061 kind:data(byte[14]) addr:0x021b330c local
+@2066 kind:data(byte[11]) addr:0x021b331c local
+@2067 kind:data(byte[20]) addr:0x021b3328 local
+@2108 kind:data(byte[16]) addr:0x021b333c local
+@2109 kind:data(byte[4]) addr:0x021b334c local
+@2110 kind:data(byte[6]) addr:0x021b3350 local
+@2111 kind:data(byte[7]) addr:0x021b3358 local
+@2139 kind:data(byte[28]) addr:0x021b3360 local
+@2140 kind:data(byte[38]) addr:0x021b337c local
+@2141 kind:data(byte[49]) addr:0x021b33a4 local
+@2142 kind:data(byte[40]) addr:0x021b33d8 local
+@2228 kind:data(byte[2]) addr:0x021b3400 local
+@2229 kind:data(byte[34]) addr:0x021b3404 local
+@2249 kind:data(byte[38]) addr:0x021b3428 local
+@2320 kind:data(byte[3]) addr:0x021b3450 local
+@2321 kind:data(byte[15]) addr:0x021b3454 local
+@2322 kind:data(byte[2]) addr:0x021b3464 local
+@2371 kind:data(byte[32]) addr:0x021b3468 local
+@2372 kind:data(byte[8]) addr:0x021b3488 local
+@2373 kind:data(byte[7]) addr:0x021b3490 local
+@2374 kind:data(byte[6]) addr:0x021b3498 local
+@2375 kind:data(byte[7]) addr:0x021b34a0 local
+@2376 kind:data(byte[6]) addr:0x021b34a8 local
+@2377 kind:data(byte[7]) addr:0x021b34b0 local
+@2378 kind:data(byte[8]) addr:0x021b34b8 local
+@2379 kind:data(byte[7]) addr:0x021b34c0 local
+@2456 kind:data(byte[35]) addr:0x021b34c8 local
+@2457 kind:data(byte[29]) addr:0x021b34ec local
+@1630 kind:data(byte[7]) addr:0x021b350c local
+@1631 kind:data(byte[13]) addr:0x021b3514 local
+@1652 kind:data(byte[6]) addr:0x021b3524 local
+@1653 kind:data(byte[46]) addr:0x021b352c local
+@1654 kind:data(byte[12]) addr:0x021b355c local
+@1655 kind:data(byte[15]) addr:0x021b3568 local
+gSearchManagerName kind:data(byte[64]) addr:0x021b3578
+@2759 kind:data(byte[15]) addr:0x021b35b8 local
+@2760 kind:data(byte[31]) addr:0x021b35c8 local
+@2761 kind:data(byte[12]) addr:0x021b35e8 local
+@3325 kind:data(byte[3]) addr:0x021b35f4 local
+@3326 kind:data(byte[41]) addr:0x021b35f8 local
+@3327 kind:data(byte[9]) addr:0x021b3624 local
+@3328 kind:data(byte[10]) addr:0x021b3630 local
+@3329 kind:data(byte[12]) addr:0x021b363c local
+@3330 kind:data(byte[14]) addr:0x021b3648 local
+@3331 kind:data(byte[7]) addr:0x021b3658 local
+@3332 kind:data(byte[13]) addr:0x021b3660 local
+@3333 kind:data(byte[8]) addr:0x021b3670 local
+@3334 kind:data(byte[12]) addr:0x021b3678 local
+@3335 kind:data(byte[11]) addr:0x021b3684 local
+@3336 kind:data(byte[9]) addr:0x021b3690 local
+@3337 kind:data(byte[7]) addr:0x021b369c local
+@3338 kind:data(byte[8]) addr:0x021b36a4 local
+@3339 kind:data(byte[8]) addr:0x021b36ac local
+@3340 kind:data(byte[7]) addr:0x021b36b4 local
+@3341 kind:data(byte[9]) addr:0x021b36bc local
+@3342 kind:data(byte[12]) addr:0x021b36c8 local
+@3343 kind:data(byte[8]) addr:0x021b36d4 local
+@3344 kind:data(byte[10]) addr:0x021b36dc local
+@3345 kind:data(byte[12]) addr:0x021b36e8 local
+@3346 kind:data(byte[8]) addr:0x021b36f4 local
+@3347 kind:data(byte[9]) addr:0x021b36fc local
+@3348 kind:data(byte[15]) addr:0x021b3708 local
+@3349 kind:data(byte[16]) addr:0x021b3718 local
+@3350 kind:data(byte[2]) addr:0x021b3728 local
+@3351 kind:data(byte[11]) addr:0x021b372c local
+@3352 kind:data(byte[8]) addr:0x021b3738 local
+@3353 kind:data(byte[44]) addr:0x021b3740 local
+@3354 kind:data(byte[8]) addr:0x021b376c local
+@3355 kind:data(byte[5]) addr:0x021b3774 local
+@3356 kind:data(byte[4]) addr:0x021b377c local
+@3357 kind:data(byte[5]) addr:0x021b3780 local
+@3358 kind:data(byte[11]) addr:0x021b3788 local
+@3359 kind:data(byte[10]) addr:0x021b3794 local
+@3360 kind:data(byte[9]) addr:0x021b37a0 local
+@3361 kind:data(byte[6]) addr:0x021b37ac local
+@3362 kind:data(byte[38]) addr:0x021b37b4 local
+@3363 kind:data(byte[3]) addr:0x021b37dc local
+@3364 kind:data(byte[3]) addr:0x021b37e0 local
+@3366 kind:data(byte[6]) addr:0x021b37e4 local
+@3367 kind:data(byte[8]) addr:0x021b37ec local
+@3368 kind:data(byte[4]) addr:0x021b37f4 local
+@3370 kind:data(byte[7]) addr:0x021b37f8 local
+@3371 kind:data(byte[11]) addr:0x021b3800 local
+@3372 kind:data(byte[4]) addr:0x021b380c local
+@3373 kind:data(byte[6]) addr:0x021b3810 local
+@3374 kind:data(byte[4]) addr:0x021b3818 local
+@3375 kind:data(byte[7]) addr:0x021b381c local
+@3376 kind:data(byte[6]) addr:0x021b3824 local
+@3377 kind:data(byte[2]) addr:0x021b382c local
+@3379 kind:data(byte[6]) addr:0x021b3830 local
+@3380 kind:data(byte[5]) addr:0x021b3838 local
+@3381 kind:data(byte[3]) addr:0x021b3840 local
+@3382 kind:data(byte[7]) addr:0x021b3844 local
+@3383 kind:data(byte[32]) addr:0x021b384c local
+@3433 kind:data(byte[20]) addr:0x021b386c local
+@3480 kind:data(byte[38]) addr:0x021b3880 local
+@3481 kind:data(byte[49]) addr:0x021b38a8 local
+@3482 kind:data(byte[45]) addr:0x021b38dc local
+@3483 kind:data(byte[29]) addr:0x021b390c local
+@3484 kind:data(byte[40]) addr:0x021b392c local
+@3492 kind:data(byte[7]) addr:0x021b3954 local
+@3493 kind:data(byte[9]) addr:0x021b395c local
+@1811 kind:data(byte[1]) addr:0x021b3968 local
+@1812 kind:data(byte[22]) addr:0x021b396c local
+@1828 kind:data(byte[5]) addr:0x021b3984 local
+@1829 kind:data(byte[46]) addr:0x021b398c local
+@1830 kind:data(byte[15]) addr:0x021b39bc local
+@1484 kind:data(byte[15]) addr:0x021b39cc local
+@1485 kind:data(byte[13]) addr:0x021b39dc local
+@1486 kind:data(byte[12]) addr:0x021b39ec local
+@1487 kind:data(byte[14]) addr:0x021b39f8 local
+@1488 kind:data(byte[13]) addr:0x021b3a08 local
+@1499 kind:data(byte[18]) addr:0x021b3a18 local
+@1500 kind:data(byte[56]) addr:0x021b3a2c local
+@1501 kind:data(byte[21]) addr:0x021b3a64 local
+@1502 kind:data(byte[21]) addr:0x021b3a7c local
+@1525 kind:data(byte[16]) addr:0x021b3a94 local
+@1526 kind:data(byte[8]) addr:0x021b3aa4 local
+@1552 kind:data(byte[8]) addr:0x021b3aac local
+@1553 kind:data(byte[6]) addr:0x021b3ab4 local
+@1554 kind:data(byte[9]) addr:0x021b3abc local
+@1555 kind:data(byte[8]) addr:0x021b3ac8 local
+@1562 kind:data(byte[13]) addr:0x021b3ad0 local
+@1563 kind:data(byte[12]) addr:0x021b3ae0 local
+gSock kind:data(byte[4]) addr:0x021b3aec local
+gEnc kind:data(byte[4]) addr:0x021b3af0 local
+gInitTimeout kind:data(byte[4]) addr:0x021b3af4 local
+gSessKeyStr kind:data(byte[8]) addr:0x021b3af8 local
+gChallengeStr kind:data(byte[10]) addr:0x021b3b00 local
+gFinalStr kind:data(byte[10]) addr:0x021b3b0c local
+gEnc2 kind:data(byte[16]) addr:0x021b3b18 local
+@1755 kind:data(byte[16]) addr:0x021b3b28 local
+@1959 kind:data(byte[16]) addr:0x021b3b38 local
+gEnc1 kind:data(byte[16]) addr:0x021b3b48 local
+gEnc3 kind:data(byte[16]) addr:0x021b3b58 local
+gStatsFile kind:data(byte[16]) addr:0x021b3b68 local
+@1552 kind:data(byte[36]) addr:0x021b3b78 local
+@1602 kind:data(byte[44]) addr:0x021b3b9c local
+@1776 kind:data(byte[63]) addr:0x021b3bc8 local
+gStatsServerHostname kind:data(byte[64]) addr:0x021b3c08
+@1693 kind:data(byte[256]) addr:0x021b3c48 local
+@2018 kind:data(byte[9]) addr:0x021b3d48 local
+@2019 kind:data(byte[10]) addr:0x021b3d54 local
+@2020 kind:data(byte[9]) addr:0x021b3d60 local
+@2021 kind:data(byte[9]) addr:0x021b3d6c local
+@2034 kind:data(byte[7]) addr:0x021b3d78 local
+@2035 kind:data(byte[4]) addr:0x021b3d80 local
+@2036 kind:data(byte[4]) addr:0x021b3d84 local
+@2037 kind:data(byte[4]) addr:0x021b3d88 local
+@2056 kind:data(byte[7]) addr:0x021b3d8c local
+@2057 kind:data(byte[7]) addr:0x021b3d94 local
+@2058 kind:data(byte[7]) addr:0x021b3d9c local
+@2059 kind:data(byte[1]) addr:0x021b3da4 local
+@2076 kind:data(byte[8]) addr:0x021b3da8 local
+@2094 kind:data(byte[7]) addr:0x021b3db0 local
+@2095 kind:data(byte[7]) addr:0x021b3db8 local
+@2210 kind:data(byte[2]) addr:0x021b3dc0 local
+@2219 kind:data(byte[5]) addr:0x021b3dc4 local
+@2291 kind:data(byte[5]) addr:0x021b3dcc local
+@2433 kind:data(byte[32]) addr:0x021b3dd4 local
+@2434 kind:data(byte[9]) addr:0x021b3df4 local
+@2473 kind:data(byte[2]) addr:0x021b3e00 local
+@2480 kind:data(byte[29]) addr:0x021b3e04 local
+@2481 kind:data(byte[5]) addr:0x021b3e24 local
+gGt2ChallengeKey kind:data(byte[33]) addr:0x021b3e2c
+@3301 kind:data(byte[7]) addr:0x021b3e50 local
+@3302 kind:data(byte[10]) addr:0x021b3e58 local
+@3303 kind:data(byte[21]) addr:0x021b3e64 local
+@3304 kind:data(byte[12]) addr:0x021b3e7c local
+@3305 kind:data(byte[35]) addr:0x021b3e88 local
+@3306 kind:data(byte[36]) addr:0x021b3eac local
+@183 kind:data(byte[34]) addr:0x021b3ed0 local
+@187 kind:data(byte[27]) addr:0x021b3ef4 local
+@628 kind:data(byte[7]) addr:0x021b3f10 local
+@629 kind:data(byte[14]) addr:0x021b3f18 local
+@675 kind:data(byte[11]) addr:0x021b3f28 local
+@785 kind:data(byte[21]) addr:0x021b3f34 local
+@161 kind:data(byte[11]) addr:0x021b3f4c local
+@162 kind:data(byte[10]) addr:0x021b3f58 local
+gGti2MagicString kind:data(byte[2]) addr:0x021b3f64
+gPingTimeId kind:data(byte[5]) addr:0x021b3f68
+@557 kind:data(byte[8]) addr:0x021b3f70 local
+@558 kind:data(byte[13]) addr:0x021b3f78 local
+@40 kind:data(byte[1]) addr:0x021b3f88 local
+@3201 kind:data(byte[29]) addr:0x021b3f8c local
+@3202 kind:data(byte[13]) addr:0x021b3fac local
+@3203 kind:data(byte[6]) addr:0x021b3fbc local
+@3204 kind:data(byte[3]) addr:0x021b3fc4 local
+@3205 kind:data(byte[4]) addr:0x021b3fc8 local
+NNMagicData kind:data(byte[6]) addr:0x021b3fcc
+@3206 kind:data(byte[28]) addr:0x021b3fd4 local
+@3207 kind:data(byte[28]) addr:0x021b3ff0 local
+@3208 kind:data(byte[6]) addr:0x021b400c local
+@2693 kind:data(byte[1]) addr:0x021b4014 local
+@2694 kind:data(byte[5]) addr:0x021b4018 local
+@2696 kind:data(byte[4]) addr:0x021b4020 local
+@2695 kind:data(byte[1]) addr:0x021b4024 local
+@1556 kind:data(byte[13]) addr:0x021b4028 local
+@2354 kind:data(byte[54]) addr:0x021b4038 local
+@1553 kind:data(byte[4]) addr:0x021b4070 local
+@1554 kind:data(byte[4]) addr:0x021b4074 local
+gUnsignedFormat kind:data(byte[3]) addr:0x021b4078
+gMatchingSignature kind:data(byte[5]) addr:0x021b407c
+gDwcPidKey kind:data(byte[8]) addr:0x021b4084
+gDwcEvalKey kind:data(byte[9]) addr:0x021b408c
+@5682 kind:data(byte[11]) addr:0x021b4098 local
+@5683 kind:data(byte[11]) addr:0x021b40a4 local
+@5705 kind:data(byte[10]) addr:0x021b40b0 local
+@5706 kind:data(byte[10]) addr:0x021b40bc local
+@5707 kind:data(byte[9]) addr:0x021b40c8 local
+@6112 kind:data(byte[1]) addr:0x021b40d4 local
+@6618 kind:data(byte[4]) addr:0x021b40d8 local
+@6619 kind:data(byte[4]) addr:0x021b40dc local
+@6620 kind:data(byte[4]) addr:0x021b40e0 local
+@7168 kind:data(byte[8]) addr:0x021b40e4 local
+@7169 kind:data(byte[5]) addr:0x021b40ec local
+@7170 kind:data(byte[4]) addr:0x021b40f4 local
+@7233 kind:data(byte[4]) addr:0x021b40f8 local
+@7325 kind:data(byte[86]) addr:0x021b40fc local
+@7381 kind:data(byte[12]) addr:0x021b4154 local
+@7382 kind:data(byte[8]) addr:0x021b4160 local
+@7502 kind:data(byte[4]) addr:0x021b4168 local
+@7503 kind:data(byte[4]) addr:0x021b416c local
+@7913 kind:data(byte[11]) addr:0x021b4170 local
+@7914 kind:data(byte[12]) addr:0x021b417c local
+@7915 kind:data(byte[24]) addr:0x021b4188 local
+@8232 kind:data(byte[2]) addr:0x021b41a0 local
+@8233 kind:data(byte[2]) addr:0x021b41a4 local
+@8283 kind:data(byte[8]) addr:0x021b41a8 local
+gDwcMagicStrings kind:data(byte[3]) addr:0x021b41b0
+@1447 kind:data(byte[9]) addr:0x021b41b4 local
+@1800 kind:data(byte[37]) addr:0x021b41c0 local
+@1801 kind:data(byte[36]) addr:0x021b41e8 local
+@1802 kind:data(byte[32]) addr:0x021b420c local
+gCurrentQr2Rec kind:data(byte[4]) addr:0x021b422c
+gNatnegMagicBytes kind:data(byte[6]) addr:0x021b4230
+gStaticQr2Rec kind:data(byte[272]) addr:0x021b4238
+@3001 kind:data(byte[10]) addr:0x021b4348 local
+@3002 kind:data(byte[10]) addr:0x021b4354 local
+@3003 kind:data(byte[7]) addr:0x021b4360 local
+@3004 kind:data(byte[2]) addr:0x021b4368 local
+@3005 kind:data(byte[2]) addr:0x021b436c local
+@3006 kind:data(byte[13]) addr:0x021b4370 local
+@3007 kind:data(byte[9]) addr:0x021b4380 local
+@3008 kind:data(byte[9]) addr:0x021b438c local
+@3009 kind:data(byte[11]) addr:0x021b4398 local
+@3010 kind:data(byte[19]) addr:0x021b43a4 local
+@3011 kind:data(byte[8]) addr:0x021b43b8 local
+@3012 kind:data(byte[1]) addr:0x021b43c0 local
+@3013 kind:data(byte[5]) addr:0x021b43c4 local
+@3014 kind:data(byte[9]) addr:0x021b43cc local
+@3015 kind:data(byte[16]) addr:0x021b43d8 local
+@3016 kind:data(byte[3]) addr:0x021b43e8 local
+@3017 kind:data(byte[56]) addr:0x021b43ec local
+@3018 kind:data(byte[30]) addr:0x021b4424 local
+gQr2KeyReserved kind:data(byte[1]) addr:0x021b4444
+gQr2KeyPidPrefix kind:data(byte[5]) addr:0x021b4448
+gQr2KeyTeamPrefix kind:data(byte[6]) addr:0x021b4450
+gQr2KeyPingPrefix kind:data(byte[6]) addr:0x021b4458
+gQr2KeyScorePrefix kind:data(byte[7]) addr:0x021b4460
+gQr2KeyTeamTeam kind:data(byte[7]) addr:0x021b4468
+gQr2KeySkillPrefix kind:data(byte[7]) addr:0x021b4470
+gQr2KeyMapname kind:data(byte[8]) addr:0x021b4478
+gQr2KeyDeathsPrefix kind:data(byte[8]) addr:0x021b4480
+gQr2KeyGamever kind:data(byte[8]) addr:0x021b4488
+gQr2KeyPlayerPrefix kind:data(byte[8]) addr:0x021b4490
+gQr2KeyScoreTeam kind:data(byte[8]) addr:0x021b4498
+gQr2KeyGroupid kind:data(byte[8]) addr:0x021b44a0
+gQr2KeyGamename kind:data(byte[9]) addr:0x021b44a8
+gQr2KeyHostport kind:data(byte[9]) addr:0x021b44b4
+gQr2KeyPassword kind:data(byte[9]) addr:0x021b44c0
+gQr2KeyHostname kind:data(byte[9]) addr:0x021b44cc
+gQr2KeyNumteams kind:data(byte[9]) addr:0x021b44d8
+gQr2KeyGamemode kind:data(byte[9]) addr:0x021b44e4
+gQr2KeyTeamplay kind:data(byte[9]) addr:0x021b44f0
+gQr2KeyGametype kind:data(byte[9]) addr:0x021b44fc
+gQr2KeyRoundtime kind:data(byte[10]) addr:0x021b4508
+gQr2KeyFraglimit kind:data(byte[10]) addr:0x021b4514
+gQr2KeyTimelimit kind:data(byte[10]) addr:0x021b4520
+gQr2KeyNumplayers kind:data(byte[11]) addr:0x021b452c
+gQr2KeyMaxplayers kind:data(byte[11]) addr:0x021b4538
+gQr2KeyGamevariant kind:data(byte[12]) addr:0x021b4544
+gQr2KeyTimeelapsed kind:data(byte[12]) addr:0x021b4550
+gQr2KeyRoundelapsed kind:data(byte[13]) addr:0x021b455c
+gQr2KeyTeamfraglimit kind:data(byte[14]) addr:0x021b456c
+gQr2RegisteredKeyList kind:data(byte[1016]) addr:0x021b457c
+SOCLiResultCodeInConnecting kind:data(byte[4]) addr:0x021b4974
+SOCLSocketParamTCP kind:data(byte[24]) addr:0x021b4978
+SOCLSocketParamUDPSend kind:data(byte[24]) addr:0x021b4990
+@2098 kind:data(byte[12]) addr:0x021b49a8 local
+gSslLowThreadPriority kind:data(byte[4]) addr:0x021b49b4
+sPrefixNone kind:data(byte[4]) addr:0x021b49b8 local
+sPrefixCommonName kind:data(byte[4]) addr:0x021b49bc local
+gOfferedValues kind:data(byte[4]) addr:0x021b49c0
+sPrefixRsaAlgorithm kind:data(byte[5]) addr:0x021b49c4 local
+sPrefixRsaEncryption kind:data(byte[10]) addr:0x021b49cc local
+sPrefixMd5WithRsa kind:data(byte[10]) addr:0x021b49d8 local
+sPrefixSha1WithRsa kind:data(byte[10]) addr:0x021b49e4 local
+gTaggedItemPrefixes kind:data(byte[24]) addr:0x021b49f0
+@3422 kind:data(byte[5]) addr:0x021b4a08 local
+@3423 kind:data(byte[5]) addr:0x021b4a10 local
+@3462 kind:data(byte[2]) addr:0x021b4a18 local
+@3463 kind:data(byte[3]) addr:0x021b4a1c local
+@3464 kind:data(byte[4]) addr:0x021b4a20 local
+gMd5WordIndexes kind:data(byte[64]) addr:0x021b4a24
+gMd5PaddingBytes kind:data(byte[64]) addr:0x021b4a64
+gMd5StepConstants kind:data(byte[256]) addr:0x021b4aa4
+gSha1PaddingBytes kind:data(byte[64]) addr:0x021b4ba4
+gIcmpEchoReplyEnabled kind:data(byte[4]) addr:0x021b4be4
+gHelperThreadsPriority kind:data(byte[4]) addr:0x021b4be8
+gMacBroadcast kind:data(byte[6]) addr:0x021b4bec
+gDhcpHostname kind:data(byte[11]) addr:0x021b4bf4
+gIpv4LlcSnapHeader kind:data(byte[12]) addr:0x021b4c00
+gWiFiMenuOamLists kind:bss(size=0x4) addr:0x021b4c20
+gWiFiStates kind:bss(size=0x4) addr:0x021b4c24
+gWiFiLoginMenu kind:bss(size=0x4) addr:0x021b4c28
+gWiFiTopMenu kind:bss(size=0x4) addr:0x021b4c2c
+gWiFiVSSetting kind:bss(size=0x4) addr:0x021b4c30
+gWiFiVSMatching kind:bss(size=0x4) addr:0x021b4c34
+gWiFiSelectCharacterState kind:bss(size=0x4) addr:0x021b4c38
+gWiFiSelectKartState kind:bss(size=0x4) addr:0x021b4c3c
+gWiFiVSCourseSelectState kind:bss(size=0x1) addr:0x021b4c40
+gWiFiAikotoba kind:bss(size=0x4) addr:0x021b4c44
+gWiFiAikotobaCheck kind:bss(size=0x4) addr:0x021b4c48
+gWiFiConnectionLost kind:bss(size=0x4) addr:0x021b4c4c
+gAuth kind:bss(size=0x4) addr:0x021b4c50
+gAuthWiFiInfo kind:bss(size=0x14) addr:0x021b4c54
+DWChttpignoreca kind:bss(size=0x4) addr:0x021b4c68
+gHttp kind:bss(size=0x4) addr:0x021b4c6c
+gNetcheck kind:bss(size=0x4) addr:0x021b4c70
+gHttpParam kind:bss(size=0x20) addr:0x021b4c74
+gAuthParam kind:bss(size=0x2c) addr:0x021b4c94
+gAcWork kind:bss(size=0x4) addr:0x021b4cc0
+gWcmBuffer kind:bss(size=0x4) addr:0x021b4cc4
+gSocConfig kind:bss(size=0x4) addr:0x021b4cc8
+gNetCheck kind:bss(size=0x4) addr:0x021b4ccc
+gAcHold kind:bss(size=0x4) addr:0x021b4cd0
+gMytokPosition kind:bss(size=0x4) addr:0x021b4cd4
+gSBRefStrList kind:bss(size=0x4) addr:0x021b4cd8
+gSBNullServer kind:bss(size=0x4) addr:0x021b4cdc
+gSBOverrideMasterServer kind:bss(size=0x4) addr:0x021b4ce0
+gSortServerList kind:bss(size=0x4) addr:0x021b4ce4
+gGsiAcResult kind:bss(size=0x4) addr:0x021b4ce8
+gGsiAcHostname kind:bss(size=0x40) addr:0x021b4cec
+gGsiAcGamename kind:bss(size=0x40) addr:0x021b4d2c
+gGsiAvailableCheck kind:bss(size=0x58) addr:0x021b4d6c
+aliases kind:bss(size=0x4) addr:0x021b4dc4 local
+GSINitroErrno kind:bss(size=0x4) addr:0x021b4dc8 local
+loopbackEntry$2011 kind:bss(size=0x10) addr:0x021b4dcc local
+ips$2006 kind:bss(size=0x14) addr:0x021b4ddc local
+addrList$2012 kind:bss(size=0x18) addr:0x021b4df0 local
+gInitStart kind:bss(size=0x4) addr:0x021b4e08 local
+gConnId kind:bss(size=0x4) addr:0x021b4e0c local
+gInternalInit kind:bss(size=0x4) addr:0x021b4e10 local
+gRcvLen kind:bss(size=0x4) addr:0x021b4e14 local
+gRcvBuffer kind:bss(size=0x4) addr:0x021b4e18 local
+gServerReqs kind:bss(size=0x4) addr:0x021b4e1c local
+gStatsInitState kind:bss(size=0x4) addr:0x021b4e20 local
+gSessKey kind:bss(size=0x4) addr:0x021b4e24 local
+gGamePort kind:bss(size=0x4) addr:0x021b4e28 local
+gStatsGame kind:bss(size=0x4) addr:0x021b4e2c local
+gValueIndex kind:bss(size=0x4) addr:0x021b4e30 local
+gRcvMax kind:bss(size=0x4) addr:0x021b4e34 local
+challenge$1538 kind:bss(size=0x9) addr:0x021b4e38 local
+gcd_gamename kind:bss(size=0x100) addr:0x021b4e44
+gcd_secret_key kind:bss(size=0x100) addr:0x021b4f44
+gValueForKeyValues$1694 kind:bss(size=0x200) addr:0x021b5044 local
+slotIndex$1297 kind:bss(size=0x4) addr:0x021b5244 local
+strAddressArray$1289 kind:bss(size=0x2c) addr:0x021b5248 local
+Matchup2Hostname kind:bss(size=0x4) addr:0x021b5274
+Matchup1Hostname kind:bss(size=0x4) addr:0x021b5278
+matchup2ip kind:bss(size=0x4) addr:0x021b527c
+matchup1ip kind:bss(size=0x4) addr:0x021b5280
+negotiateList kind:bss(size=0x4) addr:0x021b5284
+receiveBuffer$1577 kind:bss(size=0x200) addr:0x021b5288 local
+gWiFiConnection kind:bss(size=0x4) addr:0x021b5488
+stLastSocketError kind:bss(size=0x4) addr:0x021b548c
+stGt2ConnectionList kind:bss(size=0x80) addr:0x021b5490
+stConnectionInfoList kind:bss(size=0x100) addr:0x021b5510
+stDwcLastError kind:bss(size=0x4) addr:0x021b5610
+stDwcErrorCode kind:bss(size=0x4) addr:0x021b5614
+pStRemoteAuthParam kind:bss(size=0x4) addr:0x021b5618
+gWiFiLogin kind:bss(size=0x4) addr:0x021b561c
+stRemoteAuthCallback kind:bss(size=0x4) addr:0x021b5620
+gWiFiBuddySync kind:bss(size=0x4) addr:0x021b5624
+gOptSCBlock kind:bss(size=0x4) addr:0x021b5628
+gWiFiMatching kind:bss(size=0x4) addr:0x021b562c
+gOptMinComp kind:bss(size=0x4) addr:0x021b5630
+gMatchingFilterText kind:bss(size=0x4) addr:0x021b5634
+gMatchingMaskedParticipantIndices kind:bss(size=0x20) addr:0x021b5638
+gMatchingKeys kind:bss(size=0x738) addr:0x021b5658
+gWiFiMessageLayer kind:bss(size=0x4) addr:0x021b5d90
+gRandContext32 kind:bss(size=0x18) addr:0x021b5d94
+gFreeFunc kind:bss(size=0x4) addr:0x021b5dac
+gAllocFunc kind:bss(size=0x4) addr:0x021b5db0
+gInetControl kind:bss(size=0x4) addr:0x021b5db4
+gNumLocalIps kind:bss(size=0x4) addr:0x021b5db8
+gLocalIpList kind:bss(size=0x14) addr:0x021b5dbc
+gQr2Hostname kind:bss(size=0x40) addr:0x021b5dd0
+gQr2Indata kind:bss(size=0x100) addr:0x021b5e10
+gWcmWork kind:bss(size=0x4) addr:0x021b5f10
+gWcmCpsifWork kind:bss(size=0x2c) addr:0x021b5f14
+gWcmRssiIndex kind:bss(size=0x1) addr:0x021b5f40
+gWcmRssi kind:bss(size=0x10) addr:0x021b5f44
+SOCLiConfigPtr kind:bss(size=0x4) addr:0x021b5f54
+SOCLiYieldWait kind:bss(size=0x4) addr:0x021b5f58
+SOCLiRequestedIP kind:bss(size=0x4) addr:0x021b5f5c
+SOCLiDhcpState kind:bss(size=0x4) addr:0x021b5f60
+SOCLiUDPSendSocket kind:bss(size=0x4) addr:0x021b5f64
+SOCLiCPSConfig kind:bss(size=0x30) addr:0x021b5f68
+SOCLiCommandPackets kind:bss(size=0x4) addr:0x021b5f98
+SOCLiCommandPacketQueue kind:bss(size=0x20) addr:0x021b5f9c
+SOCLi_CheckCount kind:bss(size=0x8) addr:0x021b5fbc
+SOCLiSocketList kind:bss(size=0x4) addr:0x021b5fc4
+SOCLiSocketListTrash kind:bss(size=0x4) addr:0x021b5fc8
+hostip kind:bss(size=0x4) addr:0x021b5fcc
+FreeFunc_SOC kind:bss(size=0x4) addr:0x021b5fd0
+AllocFunc_SOC kind:bss(size=0x4) addr:0x021b5fd4
+hostAddrList kind:bss(size=0x8) addr:0x021b5fd8
+hostent kind:bss(size=0x10) addr:0x021b5fe0
+sInetNtoABuffer kind:bss(size=0x10) addr:0x021b5ff0
+soclConfig kind:bss(size=0x38) addr:0x021b6000
+entName kind:bss(size=0x104) addr:0x021b6038
+gRandomByteStateMixed kind:bss(size=0x1) addr:0x021b613c
+gNewEntryIdCount kind:bss(size=0x4) addr:0x021b6140
+gRandomByteState kind:bss(size=0x14) addr:0x021b6144
+gUncachedHttpsEntry kind:bss(size=0x5c) addr:0x021b6158
+gHttpsEntries kind:bss(size=0x170) addr:0x021b61b4
+gSendFailed kind:bss(size=0x1) addr:0x021b6324
+gIpConflict kind:bss(size=0x1) addr:0x021b6328
+gPingSequence kind:bss(size=0x2) addr:0x021b632c
+gMyMss kind:bss(size=0x2) addr:0x021b6330
+gEport kind:bss(size=0x2) addr:0x021b6334
+gIpId kind:bss(size=0x2) addr:0x021b6338
+CPSNoIpReason kind:bss(size=0x4) addr:0x021b633c
+CPSNetMask kind:bss(size=0x4) addr:0x021b6340
+gDhcpCallback kind:bss(size=0x4) addr:0x021b6344
+gLinkIsOn kind:bss(size=0x4) addr:0x021b6348
+CPSDhcpServerIp kind:bss(size=0x4) addr:0x021b634c
+gYieldWait kind:bss(size=0x4) addr:0x021b6350
+gWlanPutPnt kind:bss(size=0x4) addr:0x021b6354
+gCPSMode kind:bss(size=0x4) addr:0x021b6358
+CPSGatewayIp kind:bss(size=0x4) addr:0x021b635c
+gSleepSave kind:bss(size=0x4) addr:0x021b6360
+CPSiAlloc kind:bss(size=0x4) addr:0x021b6364
+gScavengerCallback kind:bss(size=0x4) addr:0x021b6368
+CPSiFree kind:bss(size=0x4) addr:0x021b636c
+gScavengerForceExit kind:bss(size=0x4) addr:0x021b6370
+CPSMyIp kind:bss(size=0x4) addr:0x021b6374
+gLeaseTime kind:bss(size=0x4) addr:0x021b6378
+gOfferedMyIp kind:bss(size=0x4) addr:0x021b637c
+gReceiverThread kind:bss(size=0x4) addr:0x021b6380
+gWlanBuf kind:bss(size=0x4) addr:0x021b6384
+gWlanBufLen kind:bss(size=0x4) addr:0x021b6388
+gWlanGetPnt kind:bss(size=0x4) addr:0x021b638c
+CPSMyMac kind:bss(size=0x6) addr:0x021b6390
+CPSDnsIp kind:bss(size=0x8) addr:0x021b6398
+CPSiRand32ctx kind:bss(size=0x18) addr:0x021b63a0
+gTmpBuf kind:bss(size=0x3a) addr:0x021b63b8
+gArpCache kind:bss(size=0x60) addr:0x021b63f4
+gScavengerSoc kind:bss(size=0x64) addr:0x021b6454
+gTmpSoc kind:bss(size=0x64) addr:0x021b64b8
+gScavengerThread kind:bss(size=0xc0) addr:0x021b651c
+gTcpipThread kind:bss(size=0xc0) addr:0x021b65dc
+gScavengerSendBuffer kind:bss(size=0x180) addr:0x021b669c
+gScavengerReceiveBuffer kind:bss(size=0x180) addr:0x021b681c
+gFragTable kind:bss(size=0x1c0) addr:0x021b699c
+gScavengerStack kind:bss(size=0x800) addr:0x021b6b60
+gTcpipStack kind:bss(size=0x800) addr:0x021b7360

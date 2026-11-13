@@ -1103,549 +1103,549 @@ AddTask kind:function(thumb,size=0x14) addr:0x021d3504
 RunTasksAndRemoveRequested kind:function(thumb,size=0x68) addr:0x021d3518
 ReleaseTasks kind:function(thumb,size=0x34) addr:0x021d3580
 InitTasks kind:function(thumb,size=0xa0) addr:0x021d35b4
-gKeyRoundConstants kind:data(any) addr:0x021d3654
-gReversedTableByte1 kind:data(any) addr:0x021d367c
-gReversedTableByte0 kind:data(any) addr:0x021d3a7c
-gReversedSubstitutionTable kind:data(any) addr:0x021d3e7c
-gTransformTableByte3 kind:data(any) addr:0x021d427c
-gTransformTableByte2 kind:data(any) addr:0x021d467c
-gTransformTableByte1 kind:data(any) addr:0x021d4a7c
-gTransformTableByte0 kind:data(any) addr:0x021d4e7c
-gSubstitutionTable kind:data(any) addr:0x021d527c
-gReversedTableByte3 kind:data(any) addr:0x021d567c
-gReversedTableByte2 kind:data(any) addr:0x021d5a7c
-gAnimatedIconPalettes kind:data(any) addr:0x021d5e7c
-gAnimatedIconPosition kind:data(any) addr:0x021d5e80
-gSlideButtonsPosition kind:data(any) addr:0x021d5e84
-gSlideButtonSize kind:data(any) addr:0x021d5e88
-gSlideButtonCounts kind:data(any) addr:0x021d5e8c
-gSlideButtonOrigins kind:data(any) addr:0x021d5e94
-gSlideButtonImages kind:data(any) addr:0x021d5e9c
-gSlideButtonPositionIndices kind:data(any) addr:0x021d5eac
-gSubScreenMessageRect kind:data(any) addr:0x021d5ebc
-gLanguagePathLetters kind:data(any) addr:0x021d5ec4
-gPrintMessageRect kind:data(any) addr:0x021d5ecc
-gPrintMessageAndTextRect kind:data(any) addr:0x021d5ed4
-gLanguageTextFlags kind:data(any) addr:0x021d5edc
-gPrintMessageTextXPositions kind:data(any) addr:0x021d5ef4
-gSelectionPairImages kind:data(any) addr:0x021d5f0c
-gLinkLevelPosition kind:data(any) addr:0x021d5f14
-gLinkLevelImages kind:data(any) addr:0x021d5f18
-gEditKeyboardKeyPalettes kind:data(any) addr:0x021d5f20
-gEditKeyboardRow4HighlightValues kind:data(any) addr:0x021d5f24
-gEditKeyboardRow4KeyImages kind:data(any) addr:0x021d5f28
-gEditKeyboardRow4Inputs kind:data(any) addr:0x021d5f2c
-gEditKeyboardExtraKeyImages kind:data(any) addr:0x021d5f30
-gEditKeyboardRowTextAreaSize kind:data(any) addr:0x021d5f34
-gEditKeyboardRow4KeySize kind:data(any) addr:0x021d5f38
-gEditKeyboardKeySize kind:data(any) addr:0x021d5f3c
-gEditKeyboardExtraKeyInputs kind:data(any) addr:0x021d5f40
-gEditKeyboardRow4KeyPositions kind:data(any) addr:0x021d5f48
-gEditKeyboardExtraKeyPositions kind:data(any) addr:0x021d5f50
-gEditKeyboardPage1KeyPosition kind:data(any) addr:0x021d5f54
-gEditKeyboardLastExtraKeyPositions kind:data(any) addr:0x021d5f58
-gEditKeyboardExtraKeySizes kind:data(any) addr:0x021d5f60
-gEditKeyboardPage1KeySize kind:data(any) addr:0x021d5f64
-gEditKeyboardLastExtraKeySizes kind:data(any) addr:0x021d5f68
-gEditKeyboardKeyPositions kind:data(any) addr:0x021d5f70
-gEditKeyboardKeyPositionsSecond kind:data(any) addr:0x021d5fb0
-gEditKeyboardKeyPositionsThird kind:data(any) addr:0x021d5ff0
-gEditKeyboardCursorPositions kind:data(any) addr:0x021d602c
-gEditKeyboardCursorMoves kind:data(any) addr:0x021d6100
-gEditAddrKeyboardRow4HighlightValues kind:data(any) addr:0x021d61d4
-gEditAddrKeyboardExtraKeyImages kind:data(any) addr:0x021d61d8
-gEditAddrKeyboardRow4KeyImages kind:data(any) addr:0x021d61dc
-gEditAddrKeyboardKeyPalettes kind:data(any) addr:0x021d61e0
-gEditAddrKeyboardRow4KeyInputs kind:data(any) addr:0x021d61e4
-gEditAddrKeyboardExtraKeyInputs kind:data(any) addr:0x021d61e8
-gEditAddrKeyboardDigitKeySize kind:data(any) addr:0x021d61ec
-gEditAddrKeyboardRowTextAreaSize kind:data(any) addr:0x021d61f0
-gEditAddrKeyboardExtraKeySize kind:data(any) addr:0x021d61f4
-gEditAddrKeyboardRow4KeySize kind:data(any) addr:0x021d61f8
-gEditAddrKeyboardExtraKeyPositions kind:data(any) addr:0x021d61fc
-gEditAddrKeyboardRow4KeyPositions kind:data(any) addr:0x021d6204
-gEditAddrKeyboardDigitInputs kind:data(any) addr:0x021d620c
-gEditAddrKeyboardKeyTexts kind:data(any) addr:0x021d6218
-gEditAddrKeyboardDigitKeyPositions kind:data(any) addr:0x021d6234
-gEditAddrKeyboardCursorX kind:data(any) addr:0x021d625c
-gEditAddrKeyboardCursorMoves kind:data(any) addr:0x021d6294
-gNintendoDsItemBytes kind:data(any) addr:0x021d62cc
-gJb2MenuRects kind:data(any) addr:0x021d62d8
-gJb2MenuSelectionRects kind:data(any) addr:0x021d62e8
-gJb5InfoMacAddressRect kind:data(any) addr:0x021d62f8
-gJb5InfoUserIdRect kind:data(any) addr:0x021d6300
-gOptMenuPaletteRows kind:data(any) addr:0x021d6308
-gOptMenuOamEntryPosition kind:data(any) addr:0x021d630c
-gOptMenuRects kind:data(any) addr:0x021d6310
-gOptMenuSelectionRects kind:data(any) addr:0x021d6328
-gJb5MoveTextRect kind:data(any) addr:0x021d6340
-gApListRowLeftImageIndices kind:data(any) addr:0x021d6348
-gApListRowRightImageIndices kind:data(any) addr:0x021d634c
-gApListRowRects kind:data(any) addr:0x021d6350
-gApListSelectionRects kind:data(any) addr:0x021d6378
-gEditLineY kind:data(any) addr:0x021d63a0
-gEditCharSize kind:data(any) addr:0x021d63a4
-gEditColumnX kind:data(any) addr:0x021d63a8
-gEditAddrCharSize kind:data(any) addr:0x021d63b8
-gEditAddrCharX kind:data(any) addr:0x021d63bc
-gJb4ErrorFontIndices kind:data(any) addr:0x021d63c8
-gJb4ErrorMessageRect kind:data(any) addr:0x021d63d0
-gJb4ErrorCodePositions kind:data(any) addr:0x021d63d8
-gJb3ListPaletteRows kind:data(any) addr:0x021d63f0
-gJb3ListDigitColumns kind:data(any) addr:0x021d63f4
-gJb3ListCellRect kind:data(any) addr:0x021d63fc
-gJb3ListLeftButtonRect kind:data(any) addr:0x021d6404
-gJb3ListRightButtonRect kind:data(any) addr:0x021d640c
-gJb3ListIdByEntryIndex kind:data(any) addr:0x021d6414
-gJb3ListBg2OffsetByEntry kind:data(any) addr:0x021d6420
-gJb3ListEntryIndexById kind:data(any) addr:0x021d642c
-gJb3ListCellImageIds kind:data(any) addr:0x021d6438
-gJb3ListBackNscOffsets kind:data(any) addr:0x021d6448
-gJb3ListFixedRects kind:data(any) addr:0x021d645c
-gJb3ListSelectionRects kind:data(any) addr:0x021d6474
-gApEntryImageIndices kind:data(any) addr:0x021d64a4
-gApMessageDigitColumns kind:data(any) addr:0x021d64a8
-gApObjectPositions kind:data(any) addr:0x021d64b0
-gApRects kind:data(any) addr:0x021d64c8
-gApSelectionRects kind:data(any) addr:0x021d6500
-gWayMessageDigitColumns kind:data(any) addr:0x021d6538
-gWayMoveTargets kind:data(any) addr:0x021d6540
-gWayRects kind:data(any) addr:0x021d6560
-gWaySelectionRects kind:data(any) addr:0x021d65a0
-gConnectParamsTemplate kind:data(any) addr:0x021d65e0
-gScrollBarImageIds kind:data(any) addr:0x021d65ec
-gScrollBarLengths kind:data(any) addr:0x021d65f0
-gOtherElementPrefix kind:data(any) addr:0x021d65f4
-gApScanEmptyBssid kind:data(any) addr:0x021d65f8
-gApScanParamTemplate kind:data(any) addr:0x021d6600
-gSettingNone kind:data(any) addr:0x021d6644
-gMenuPairObjectImageIds kind:data(any) addr:0x021d6648
-gMenuPairObjectPaletteIds kind:data(any) addr:0x021d6658
-gMenuPairObjectPositions kind:data(any) addr:0x021d6668
-gUsbScanEmptyBssid kind:data(any) addr:0x021d667c
-gUsbSsidPrefix kind:data(any) addr:0x021d6684
-gUsbScanParamTemplate kind:data(any) addr:0x021d6690
-gMessageBoxTextOffset kind:data(any) addr:0x021d66d4
-gMessageBoxImageIds kind:data(any) addr:0x021d66d8
-gMessageBoxButtonCounts kind:data(any) addr:0x021d66e0
-gMessageBoxWindowRect kind:data(any) addr:0x021d66e8
-gMessageBoxButtonSlots kind:data(any) addr:0x021d66f0
-gMessageBoxKeyResults kind:data(any) addr:0x021d66fc
-gMessageBoxButtonImageIds kind:data(any) addr:0x021d6708
-gMessageBoxButtonSizes kind:data(any) addr:0x021d6714
-gMessageBoxTextSizes kind:data(any) addr:0x021d6728
-gMessageBoxPositions kind:data(any) addr:0x021d6740
-gMessageBoxSizes kind:data(any) addr:0x021d6758
-gMessageBoxButtonPositions kind:data(any) addr:0x021d6770
-gDwcArchiveName kind:data(any) addr:0x021d6798
-gBgTextCanvasCharOffsets kind:data(any) addr:0x021d679c
-gBgTextCanvasSizes kind:data(any) addr:0x021d67a0
-gTouchScreenRect kind:data(any) addr:0x021d67a8
-gTaskListCapacities kind:data(any) addr:0x021d67b0
-gItemTypesToFind kind:data(any) addr:0x021d67c0
-gSocketDescriptor kind:data(any) addr:0x021d67c4
-gRetryLimitTemplate kind:data(any) addr:0x021d67c8
-gReportedState kind:data(any) addr:0x021d67cc
-gEssidSocketConfig kind:data(any) addr:0x021d67d0
-gMelcoString kind:data(any) addr:0x021d6828
-gEssidAossString kind:data(any) addr:0x021d6830
-gMaskCodeTable kind:data(any) addr:0x021d683c
-gKind2ItemBuffer kind:data(any) addr:0x021d686c
-gFormatAddressesFlag kind:data(any) addr:0x021d6870
-gThreadStackSize kind:data(any) addr:0x021d6874
-gTimeoutAtMs kind:data(any) addr:0x021d6878
-gStartEntryCount kind:data(any) addr:0x021d687c
-gSixAsterisksString kind:data(any) addr:0x021d6880
-gKind2Item3Bytes kind:data(any) addr:0x021d6888
-@2317 kind:data(any) addr:0x021d6890 local
-gHashPadding kind:data(any) addr:0x021d689c
-gExchangeSocketConfig kind:data(any) addr:0x021d68dc
-@4641 kind:data(any) addr:0x021d6934 local
-gJtNullNscName kind:data(any) addr:0x021d693c
-gJb2HlApNscName kind:data(any) addr:0x021d6950
-gJb4HlIpNscName kind:data(any) addr:0x021d6964
-gJb4HlWepNscName kind:data(any) addr:0x021d6978
-gJb4HlUsbNscName kind:data(any) addr:0x021d698c
-gJb4HlDns1NscName kind:data(any) addr:0x021d69a0
-gJb4HlSsidNscName kind:data(any) addr:0x021d69b8
-gJb5HlMoveNscName kind:data(any) addr:0x021d69d0
-gJb2HlWiFiNscName kind:data(any) addr:0x021d69e8
-gJb5HlInfoNscName kind:data(any) addr:0x021d6a00
-gJb4HlMaskNscName kind:data(any) addr:0x021d6a18
-gJb4HlSet2NscName kind:data(any) addr:0x021d6a30
-gJb4HlDns0NscName kind:data(any) addr:0x021d6a48
-gJb4HlSet3NscName kind:data(any) addr:0x021d6a60
-gJb4HlSet1NscName kind:data(any) addr:0x021d6a78
-gJb3HlList1NscName kind:data(any) addr:0x021d6a90
-gJb3HlList2NscName kind:data(any) addr:0x021d6aa8
-gJb3HlList3NscName kind:data(any) addr:0x021d6ac0
-gJb5HlEraseNscName kind:data(any) addr:0x021d6ad8
-gJb5HlOptionNscName kind:data(any) addr:0x021d6af0
-gJb4HlGatewayNscName kind:data(any) addr:0x021d6b08
-gHlNscNames kind:data(any) addr:0x021d6b20
-@2082 kind:data(any) addr:0x021d6b70 local
-gEditKeyboardRow4KeyCounts kind:data(any) addr:0x021d6b84
-gEditKeyboardKeyCounts kind:data(any) addr:0x021d6b8c
-gEditKeyboardExtraKeyCounts kind:data(any) addr:0x021d6b94
-gEditKeyboardPageInputs kind:data(any) addr:0x021d6b9c
-gEditKeyboardPageKeyTexts kind:data(any) addr:0x021d6ba8
-gEditKeyboardExtraKeySoundSeqs kind:data(any) addr:0x021d6bb4
-gEditKeyboardPage1Inputs kind:data(any) addr:0x021d6bc4
-gEditKeyboardPage2Inputs kind:data(any) addr:0x021d6bf4
-gEditKeyboardPage0Inputs kind:data(any) addr:0x021d6c24
-gEditKeyboardPage0KeyTexts kind:data(any) addr:0x021d6c54
-gEditKeyboardPage1KeyTexts kind:data(any) addr:0x021d6cb8
-gEditKeyboardPage2KeyTexts kind:data(any) addr:0x021d6d1c
-gEditAddrKeyboardRow4KeyCounts kind:data(any) addr:0x021d6d80
-gEditAddrKeyboardDigitKeyCounts kind:data(any) addr:0x021d6d88
-gEditAddrKeyboardExtraKeyCounts kind:data(any) addr:0x021d6d90
-gEditAddrKeyboardTextRectStart kind:data(any) addr:0x021d6d98
-@779 kind:data(any) addr:0x021d6da0 local
-@781 kind:data(any) addr:0x021d6db4 local
-@780 kind:data(any) addr:0x021d6dcc local
-gChildWaitParams kind:data(any) addr:0x021d6de4
-@1779 kind:data(any) addr:0x021d6e00 local
-@1774 kind:data(any) addr:0x021d6e10 local
-@1777 kind:data(any) addr:0x021d6e20 local
-@1776 kind:data(any) addr:0x021d6e30 local
-@1775 kind:data(any) addr:0x021d6e40 local
-@1778 kind:data(any) addr:0x021d6e50 local
-gLanguageBmgNames kind:data(any) addr:0x021d6e60
-@1917 kind:data(any) addr:0x021d6e78 local
-@1918 kind:data(any) addr:0x021d6e88 local
-@1919 kind:data(any) addr:0x021d6e9c local
-@1920 kind:data(any) addr:0x021d6eb0 local
-@1921 kind:data(any) addr:0x021d6ec4 local
-@1922 kind:data(any) addr:0x021d6ed8 local
-@1923 kind:data(any) addr:0x021d6ef0 local
-@1924 kind:data(any) addr:0x021d6f08 local
-@1925 kind:data(any) addr:0x021d6f20 local
-@1926 kind:data(any) addr:0x021d6f38 local
-@1927 kind:data(any) addr:0x021d6f50 local
-@1928 kind:data(any) addr:0x021d6f68 local
-@1929 kind:data(any) addr:0x021d6f7c local
-gJb2MenuPaletteRows kind:data(any) addr:0x021d6f90
-gYbBgStep11NclName kind:data(any) addr:0x021d6f94
-@1292 kind:data(any) addr:0x021d6fac local
-@1293 kind:data(any) addr:0x021d6fc4 local
-@1294 kind:data(any) addr:0x021d6fdc local
-gYb5MultiNscName kind:data(any) addr:0x021d6ff0
-gYb5MultiNscName2 kind:data(any) addr:0x021d7004
-@1011 kind:data(any) addr:0x021d7018 local
-@1017 kind:data(any) addr:0x021d7054 local
-@1018 kind:data(any) addr:0x021d707c local
-@1021 kind:data(any) addr:0x021d70a4 local
-gYbBgOptionNclName kind:data(any) addr:0x021d70b8
-gYbBgOption1NclName kind:data(any) addr:0x021d70d0
-@1462 kind:data(any) addr:0x021d70e8 local
-@1463 kind:data(any) addr:0x021d7100 local
-gYb5MultiNscName3 kind:data(any) addr:0x021d7118
-gYb5MultiNscName4 kind:data(any) addr:0x021d712c
-gYb5MultiNscName5 kind:data(any) addr:0x021d7140
-gYb5MultiNscName6 kind:data(any) addr:0x021d7154
-gJb5MoveNscName kind:data(any) addr:0x021d7168
-gYb5MultiNscName7 kind:data(any) addr:0x021d717c
-@2003 kind:data(any) addr:0x021d7190 local
-@2004 kind:data(any) addr:0x021d71a8 local
-@2005 kind:data(any) addr:0x021d71c0 local
-gXb4MultiNscName2 kind:data(any) addr:0x021d71d4
-gApListPaletteRow kind:data(any) addr:0x021d71e8
-@1367 kind:data(any) addr:0x021d71ec local
-@1365 kind:data(any) addr:0x021d7204 local
-@3358 kind:data(any) addr:0x021d7220 local
-gEditSubScreenMessages kind:data(any) addr:0x021d7238
-@1213 kind:data(any) addr:0x021d723c local
-@1732 kind:data(any) addr:0x021d7244 local
-@2181 kind:data(any) addr:0x021d724c local
-@2262 kind:data(any) addr:0x021d7264 local
-@2263 kind:data(any) addr:0x021d7278 local
-@2264 kind:data(any) addr:0x021d7290 local
-@2265 kind:data(any) addr:0x021d72a8 local
-gEditAddrGroupMax kind:data(any) addr:0x021d72bc
-gEditAddrSubScreenMessageIndices kind:data(any) addr:0x021d72c0
-gEditAddrCharRect kind:data(any) addr:0x021d72c8
-gEditAddrFormatFuncs kind:data(any) addr:0x021d72d0
-gEditAddrStoreFuncs kind:data(any) addr:0x021d72e4
-@1655 kind:data(any) addr:0x021d72f8 local
-@1843 kind:data(any) addr:0x021d7310 local
-@1844 kind:data(any) addr:0x021d7324 local
-@1845 kind:data(any) addr:0x021d733c local
-@1846 kind:data(any) addr:0x021d7354 local
-@1863 kind:data(any) addr:0x021d736c local
-gDecimalFormat kind:data(any) addr:0x021d7370
-@1367 kind:data(any) addr:0x021d7378 local
-gJb3ListTimerIds kind:data(any) addr:0x021d738c
-gJb3ListSelectionRectIndices kind:data(any) addr:0x021d7390
-@2562 kind:data(any) addr:0x021d73a0 local
-@2564 kind:data(any) addr:0x021d73b8 local
-@2560 kind:data(any) addr:0x021d73d0 local
-gDotSeparatedBytesFormat kind:data(any) addr:0x021d73e8
-@3849 kind:data(any) addr:0x021d7408 local
-@4032 kind:data(any) addr:0x021d7420 local
-@4033 kind:data(any) addr:0x021d7434 local
-@4034 kind:data(any) addr:0x021d744c local
-@4035 kind:data(any) addr:0x021d7464 local
-@1102 kind:data(any) addr:0x021d7478 local
-@1103 kind:data(any) addr:0x021d7490 local
-@1104 kind:data(any) addr:0x021d74a8 local
-gXb4MultiNscName3 kind:data(any) addr:0x021d74bc
-gXb4MultiNscName4 kind:data(any) addr:0x021d74d0
-gXb4MultiNscName5 kind:data(any) addr:0x021d74e4
-@1951 kind:data(any) addr:0x021d74f8 local
-@1952 kind:data(any) addr:0x021d7510 local
-@1953 kind:data(any) addr:0x021d7528 local
-@1908 kind:data(any) addr:0x021d753c local
-@1909 kind:data(any) addr:0x021d7554 local
-@1910 kind:data(any) addr:0x021d756c local
-gApPaletteRows kind:data(any) addr:0x021d7580
-gApEntryIconPalettes kind:data(any) addr:0x021d7584
-gYbBgStep11NclName2 kind:data(any) addr:0x021d7588
-@2820 kind:data(any) addr:0x021d75a0 local
-@2941 kind:data(any) addr:0x021d75b8 local
-@2942 kind:data(any) addr:0x021d75cc local
-@2943 kind:data(any) addr:0x021d75e4 local
-@2944 kind:data(any) addr:0x021d75fc local
-gWayPaletteRows kind:data(any) addr:0x021d7610
-gYbBgStep21NclName2 kind:data(any) addr:0x021d7614
-@2600 kind:data(any) addr:0x021d762c local
-@2601 kind:data(any) addr:0x021d7644 local
-@2602 kind:data(any) addr:0x021d765c local
-@2102 kind:data(any) addr:0x021d7670 local
-@2103 kind:data(any) addr:0x021d7688 local
-@2104 kind:data(any) addr:0x021d76a0 local
-gXb4MultiNscName9 kind:data(any) addr:0x021d76b4
-gConnectMessageIds kind:data(any) addr:0x021d76c8
-gXb4NoneNscName2 kind:data(any) addr:0x021d76d4
-gXb4MultiNscName10 kind:data(any) addr:0x021d76e8
-@1223 kind:data(any) addr:0x021d76fc local
-@1224 kind:data(any) addr:0x021d7714 local
-@1225 kind:data(any) addr:0x021d772c local
-@1341 kind:data(any) addr:0x021d7740 local
-@1342 kind:data(any) addr:0x021d7758 local
-@1343 kind:data(any) addr:0x021d7770 local
-gAddressTextFormat kind:data(any) addr:0x021d7784
-gSoundDataSdatName kind:data(any) addr:0x021d7794
-@2087 kind:data(any) addr:0x021d77ac local
-@2083 kind:data(any) addr:0x021d77c0 local
-@2084 kind:data(any) addr:0x021d77d4 local
-@2085 kind:data(any) addr:0x021d77e8 local
-@2086 kind:data(any) addr:0x021d77fc local
-gMenuPairScreenMapPaths kind:data(any) addr:0x021d7810
-gMessageBoxWindowExtraBitFlags kind:data(any) addr:0x021d7824
-gWhStateStopName kind:data(any) addr:0x021d782c
-gWhStateIdleName kind:data(any) addr:0x021d7848
-gWhStateBusyName kind:data(any) addr:0x021d7864
-gWhStateErrorName kind:data(any) addr:0x021d7880
-gWhStateScanningName kind:data(any) addr:0x021d789c
-gWhStateConnectedName kind:data(any) addr:0x021d78bc
-gWhStateKeySharingName kind:data(any) addr:0x021d78dc
-gWhStateDataSharingName kind:data(any) addr:0x021d78fc
-gWhStateConnectFailName kind:data(any) addr:0x021d7920
-gWhStateMeasureChannelName kind:data(any) addr:0x021d7944
-gWhStateNames kind:data(any) addr:0x021d7968
-@1029 kind:data(any) addr:0x021d7990 local
-@1030 kind:data(any) addr:0x021d79b4 local
-@1059 kind:data(any) addr:0x021d79d8 local
-@1060 kind:data(any) addr:0x021d7a08 local
-@1102 kind:data(any) addr:0x021d7a3c local
-@1103 kind:data(any) addr:0x021d7a54 local
-@1104 kind:data(any) addr:0x021d7a6c local
-@1170 kind:data(any) addr:0x021d7a88 local
-@1204 kind:data(any) addr:0x021d7aa0 local
-gWhIndicateStateFormat kind:data(any) addr:0x021d7ab8
-gWhEndParentFailedText kind:data(any) addr:0x021d7ad8
-gWhStartKeySharingFailedText kind:data(any) addr:0x021d7b00
-@1214 kind:data(any) addr:0x021d7b30 local
-@1215 kind:data(any) addr:0x021d7b5c local
-@1278 kind:data(any) addr:0x021d7b88 local
-@1279 kind:data(any) addr:0x021d7b90 local
-gLzFileSuffix kind:data(any) addr:0x021d7b94
-gRomDir kind:data(any) addr:0x021d7b98
-gDwcUtilityBinName kind:data(any) addr:0x021d7ba0
-@1137 kind:data(any) addr:0x021d7bb8 local
-@784 kind:data(any) addr:0x021d7bc0 local
-@782 kind:data(any) addr:0x021d7bc4 local
-@721 kind:data(any) addr:0x021d7bc8 local
-gTextCanvasNftrNames kind:data(any) addr:0x021d7bcc
-@892 kind:data(any) addr:0x021d7bd4 local
-@893 kind:data(any) addr:0x021d7be4 local
-gFlagBit4OfKind1010Packet kind:bss addr:0x021d7c00
-gScannedEssidList kind:bss addr:0x021d7c04
-gRandomSeeded kind:bss addr:0x021d7c08
-gRequestedEssidList kind:bss addr:0x021d7c0c
-gErrorCode kind:bss addr:0x021d7c10
-gRequestPacketBuffer kind:bss addr:0x021d7c14
-gSavedTagBytes kind:bss addr:0x021d7c18
-gRandomState kind:bss addr:0x021d7c20
-gRequestState kind:bss addr:0x021d7c2c
-gKeyStreamKey kind:bss addr:0x021d7c48
-gItemSlots kind:bss addr:0x021d7cac
-gCrcTable kind:bss addr:0x021d7f2c
-gParsedItems kind:bss addr:0x021d832c
-gEssidAllocFunction kind:bss addr:0x021d89cc
-gStateChangeCallback kind:bss addr:0x021d89d0
-gEssidWorkBuffer kind:bss addr:0x021d89d4
-gEssidFreeFunction kind:bss addr:0x021d89d8
-gMessageQueueSlots kind:bss addr:0x021d89dc
-gMessageQueue kind:bss addr:0x021d89ec
-gMelcoBlock kind:bss addr:0x021d8a0c
-gMelcoRecord kind:bss addr:0x021d8a80
-gEssidWcmWork kind:bss addr:0x021d8b40
-gEssidSearchOption kind:bss addr:0x021d8b44
-gEssidWcmConfig kind:bss addr:0x021d8b48
-gEssidConnectOption kind:bss addr:0x021d8b4c
-gEssidSearchAddress kind:bss addr:0x021d8b50
-gEssidSearchEssid kind:bss addr:0x021d8b54
-gEssidWcmState kind:bss addr:0x021d8b58
-gEssidEventCallback kind:bss addr:0x021d8b5c
-gEssidConnectRecord kind:bss addr:0x021d8b60
-gEssidConnectBlock kind:bss addr:0x021d8b64
-gEssidSearchAddressBytes kind:bss addr:0x021d8b68
-gEssidSearchEssidBytes kind:bss addr:0x021d8b70
-gReceivedTextNonEmpty kind:bss addr:0x021d8b90
-gAllocFunction kind:bss addr:0x021d8b94
-gExchangeWcmConfig kind:bss addr:0x021d8b98
-gFreeFunction kind:bss addr:0x021d8b9c
-gStopRequested kind:bss addr:0x021d8ba0
-gPacketLength kind:bss addr:0x021d8ba4
-gSelectedEntryIndex kind:bss addr:0x021d8ba8
-gExchangeState kind:bss addr:0x021d8bac
-gExchangeConnected kind:bss addr:0x021d8bb0
-gSocketsStarted kind:bss addr:0x021d8bb4
-gExchangeConnectBlock kind:bss addr:0x021d8bb8
-gExchangeWcmState kind:bss addr:0x021d8bbc
-gThreadStack kind:bss addr:0x021d8bc0
-gBodyLength kind:bss addr:0x021d8bc4
-gExchangeStatus kind:bss addr:0x021d8bc8
-gExchangeWcmWork kind:bss addr:0x021d8bcc
-gAlignedBuffer kind:bss addr:0x021d8bd0
-gExchangeSearchAddress kind:bss addr:0x021d8bd4
-gExchangeSearchEssid kind:bss addr:0x021d8bd8
-gExchangeConnectRecord kind:bss addr:0x021d8bdc
-gKind1Item5Flag kind:bss addr:0x021d8be0
-gAllocatedBuffer kind:bss addr:0x021d8be4
-gExchangeConnectOption kind:bss addr:0x021d8be8
-gRawEntries kind:bss addr:0x021d8bec
-gExchangeSearchOption kind:bss addr:0x021d8bf0
-gThreadStarted kind:bss addr:0x021d8bf4
-gEventWriteIndex kind:bss addr:0x021d8bf8
-gEventReadIndex kind:bss addr:0x021d8bfc
-gEntryCountMax kind:bss addr:0x021d8c00
-gExchangeWiFiInitCalled kind:bss addr:0x021d8c04
-gExchangeResultCode kind:bss addr:0x021d8c08
-gStatusCallback kind:bss addr:0x021d8c0c
-gExchangeEventCallback kind:bss addr:0x021d8c10
-gMacAddress kind:bss addr:0x021d8c14
-gSelectedEntryAddress kind:bss addr:0x021d8c1c
-gExchangeSearchAddressBytes kind:bss addr:0x021d8c24
-gEvents kind:bss addr:0x021d8c2c
-gFirstKey kind:bss addr:0x021d8c3c
-gAllocMutex kind:bss addr:0x021d8c4c
-gSecondKeyReceivedPart kind:bss addr:0x021d8c64
-gSecondKeyHashedPart kind:bss addr:0x021d8c6c
-gExchangeSearchEssidBytes kind:bss addr:0x021d8c84
-gSelectedEntryName kind:bss addr:0x021d8ca4
-gExchangeThread kind:bss addr:0x021d8cc8
-gExchangeResult kind:bss addr:0x021d8d88
-gExchangeResultItems kind:bss addr:0x021d8e70
-gBodyBuffer kind:bss addr:0x021d90c4
-gPacketBuffer kind:bss addr:0x021d98c4
-gAnimatedIcon kind:bss addr:0x021da0c4
-gSlideButtons kind:bss addr:0x021da0c8
-gSubScreenMessageShown kind:bss addr:0x021da0cc
-gLanguagePathBuffer kind:bss addr:0x021da0d0
-gSelectionObjects kind:bss addr:0x021da110
-gHlScr kind:bss addr:0x021da114
-gLinkLevel kind:bss addr:0x021da118
-gEditKeyboard kind:bss addr:0x021da11c
-gEditAddrKeyboard kind:bss addr:0x021da120
-gValueRecordsRequestSucceeded kind:bss addr:0x021da124
-gValueRecordsRequest kind:bss addr:0x021da128
-gLanguageIndex kind:bss addr:0x021da12c
-gQuitFlag kind:bss addr:0x021da130
-gHeapMemoryBlock kind:bss addr:0x021da134
-gModeAndFlags kind:bss addr:0x021da138
-gUpdateFunction kind:bss addr:0x021da13c
-gMenuPairs kind:bss addr:0x021da140
-gMessagesPool kind:bss addr:0x021da150
-gChildWaitSession kind:bss addr:0x021da154
-gExchangeStatusRecord kind:bss addr:0x021da158
-gMessages kind:bss addr:0x021da15c
-gJb2MenuSelectedIndex kind:bss addr:0x021da160
-gYbBgStep11Ncl kind:bss addr:0x021da164
-gYb5MultiShowNext kind:bss addr:0x021da168
-gOptMenuSelectedIndex kind:bss addr:0x021da16c
-gOptMenuEntryChosen kind:bss addr:0x021da170
-gYbBgOption1Ncl kind:bss addr:0x021da174
-gOptMenuOamEntry kind:bss addr:0x021da178
-gLinkMessageResult kind:bss addr:0x021da17c
-gOptMenuMessageShowNext kind:bss addr:0x021da180
-gTimedMessageFrames kind:bss addr:0x021da184
-gChildWaitMessageSubScreenShown kind:bss addr:0x021da188
-gChildWaitMessageShowNext kind:bss addr:0x021da18c
-gJb5MoveChildWaitEvent kind:bss addr:0x021da190
-gJb5MoveShowNext kind:bss addr:0x021da194
-gChildWaitResult kind:bss addr:0x021da198
-gValueRecordsShowNext kind:bss addr:0x021da19c
-gValueRecordsFrames kind:bss addr:0x021da1a0
-gValueRecordsRequestTask kind:bss addr:0x021da1a4
-gValueRecordsNextFrames kind:bss addr:0x021da1a8
-gApListSelectedRow kind:bss addr:0x021da1ac
-gApListScrollY kind:bss addr:0x021da1b0
-gApList kind:bss addr:0x021da1b4
-gEdit kind:bss addr:0x021da1b8
-gEditAddr kind:bss addr:0x021da1bc
-gJb4ErrorCode kind:bss addr:0x021da1c0
-gJb3ListSelectedId kind:bss addr:0x021da1c4
-gJb3ListMode kind:bss addr:0x021da1c8
-gJb3ListSelectedRow kind:bss addr:0x021da1cc
-gJb3ListScrollY kind:bss addr:0x021da1d0
-gJb3List kind:bss addr:0x021da1d4
-gExchangeEntryShowNext kind:bss addr:0x021da1d8
-gExchangeKeyShowNext kind:bss addr:0x021da1dc
-gExchangeResultFrames kind:bss addr:0x021da1e0
-gExchangeSearchShowNext kind:bss addr:0x021da1e4
-gApScanKind kind:bss addr:0x021da1e8
-gApScanFrames kind:bss addr:0x021da1ec
-gApSelectedIndex kind:bss addr:0x021da1f0
-gAp kind:bss addr:0x021da1f4
-gWaySavedIndex kind:bss addr:0x021da1f8
-gWaySelectedIndex kind:bss addr:0x021da1fc
-gWayChosen kind:bss addr:0x021da200
-gYbBgStep21Ncl kind:bss addr:0x021da204
-gConnectSucceeded kind:bss addr:0x021da208
-gConnectDoneFrames kind:bss addr:0x021da20c
-gUsbNextFrames kind:bss addr:0x021da210
-gXb3MultiChosen kind:bss addr:0x021da214
-gUsbExitKind kind:bss addr:0x021da218
-gBg2ScrBuffer kind:bss addr:0x021da21c
-gBgPaletteCopyRequest kind:bss addr:0x021da220
-gScrollBar kind:bss addr:0x021da228
-gApScan kind:bss addr:0x021da22c
-gApStore kind:bss addr:0x021da230
-gSoundData kind:bss addr:0x021da234
-gMenuPairScreenMap kind:bss addr:0x021da238
-gMenuPairObjects kind:bss addr:0x021da23c
-gUsbScan kind:bss addr:0x021da240
-gMessageBox kind:bss addr:0x021da244
-gMultiBootParent kind:bss addr:0x021da248
-gMultiBootMaskPointers kind:bss addr:0x021da24c
-gWhPrintFunction kind:bss addr:0x021da264
-gWhWork kind:bss addr:0x021da268
-gChildWaitSessionView kind:bss addr:0x021da26c
-gDwcArchive kind:bss addr:0x021da270
-gOamRanges kind:bss addr:0x021da274
-gNceFiles kind:bss addr:0x021da278
-gBlendBrightnessFadeSlots kind:bss addr:0x021da280
-gTextCanvases kind:bss addr:0x021da284
-gExpHeap kind:bss addr:0x021da288
-gLcdOff kind:bss addr:0x021da28c
-gTouchRepeatFrames kind:bss addr:0x021da290
-gKeyTouchInput kind:bss addr:0x021da294
-gKeyRepeatFrames kind:bss addr:0x021da298
-gSavedIrqFunction kind:bss addr:0x021da2a8
-gSavedIrqMask kind:bss addr:0x021da2ac
-gOamBuffers kind:bss addr:0x021da2b0
-gObjCharRanges kind:bss addr:0x021da2b4
-gSavedBankSettings kind:bss addr:0x021da2b8
-gTaskLists kind:bss addr:0x021da2ec
+gKeyRoundConstants kind:data(byte[40]) addr:0x021d3654
+gReversedTableByte1 kind:data(byte[1024]) addr:0x021d367c
+gReversedTableByte0 kind:data(byte[1024]) addr:0x021d3a7c
+gReversedSubstitutionTable kind:data(byte[1024]) addr:0x021d3e7c
+gTransformTableByte3 kind:data(byte[1024]) addr:0x021d427c
+gTransformTableByte2 kind:data(byte[1024]) addr:0x021d467c
+gTransformTableByte1 kind:data(byte[1024]) addr:0x021d4a7c
+gTransformTableByte0 kind:data(byte[1024]) addr:0x021d4e7c
+gSubstitutionTable kind:data(byte[1024]) addr:0x021d527c
+gReversedTableByte3 kind:data(byte[1024]) addr:0x021d567c
+gReversedTableByte2 kind:data(byte[1024]) addr:0x021d5a7c
+gAnimatedIconPalettes kind:data(byte[3]) addr:0x021d5e7c
+gAnimatedIconPosition kind:data(byte[4]) addr:0x021d5e80
+gSlideButtonsPosition kind:data(byte[4]) addr:0x021d5e84
+gSlideButtonSize kind:data(byte[4]) addr:0x021d5e88
+gSlideButtonCounts kind:data(byte[7]) addr:0x021d5e8c
+gSlideButtonOrigins kind:data(byte[8]) addr:0x021d5e94
+gSlideButtonImages kind:data(byte[14]) addr:0x021d5e9c
+gSlideButtonPositionIndices kind:data(byte[14]) addr:0x021d5eac
+gSubScreenMessageRect kind:data(byte[8]) addr:0x021d5ebc
+gLanguagePathLetters kind:data(byte[6]) addr:0x021d5ec4
+gPrintMessageRect kind:data(byte[8]) addr:0x021d5ecc
+gPrintMessageAndTextRect kind:data(byte[8]) addr:0x021d5ed4
+gLanguageTextFlags kind:data(byte[24]) addr:0x021d5edc
+gPrintMessageTextXPositions kind:data(byte[24]) addr:0x021d5ef4
+gSelectionPairImages kind:data(byte[8]) addr:0x021d5f0c
+gLinkLevelPosition kind:data(byte[4]) addr:0x021d5f14
+gLinkLevelImages kind:data(byte[8]) addr:0x021d5f18
+gEditKeyboardKeyPalettes kind:data(byte[2]) addr:0x021d5f20
+gEditKeyboardRow4HighlightValues kind:data(byte[2]) addr:0x021d5f24
+gEditKeyboardRow4KeyImages kind:data(byte[2]) addr:0x021d5f28
+gEditKeyboardRow4Inputs kind:data(byte[2]) addr:0x021d5f2c
+gEditKeyboardExtraKeyImages kind:data(byte[4]) addr:0x021d5f30
+gEditKeyboardRowTextAreaSize kind:data(byte[4]) addr:0x021d5f34
+gEditKeyboardRow4KeySize kind:data(byte[4]) addr:0x021d5f38
+gEditKeyboardKeySize kind:data(byte[4]) addr:0x021d5f3c
+gEditKeyboardExtraKeyInputs kind:data(byte[5]) addr:0x021d5f40
+gEditKeyboardRow4KeyPositions kind:data(byte[8]) addr:0x021d5f48
+gEditKeyboardExtraKeyPositions kind:data(byte[4]) addr:0x021d5f50
+gEditKeyboardPage1KeyPosition kind:data(byte[4]) addr:0x021d5f54
+gEditKeyboardLastExtraKeyPositions kind:data(byte[8]) addr:0x021d5f58
+gEditKeyboardExtraKeySizes kind:data(byte[4]) addr:0x021d5f60
+gEditKeyboardPage1KeySize kind:data(byte[4]) addr:0x021d5f64
+gEditKeyboardLastExtraKeySizes kind:data(byte[8]) addr:0x021d5f68
+gEditKeyboardKeyPositions kind:data(byte[64]) addr:0x021d5f70
+gEditKeyboardKeyPositionsSecond kind:data(byte[64]) addr:0x021d5fb0
+gEditKeyboardKeyPositionsThird kind:data(byte[60]) addr:0x021d5ff0
+gEditKeyboardCursorPositions kind:data(byte[212]) addr:0x021d602c
+gEditKeyboardCursorMoves kind:data(byte[212]) addr:0x021d6100
+gEditAddrKeyboardRow4HighlightValues kind:data(byte[2]) addr:0x021d61d4
+gEditAddrKeyboardExtraKeyImages kind:data(byte[2]) addr:0x021d61d8
+gEditAddrKeyboardRow4KeyImages kind:data(byte[2]) addr:0x021d61dc
+gEditAddrKeyboardKeyPalettes kind:data(byte[2]) addr:0x021d61e0
+gEditAddrKeyboardRow4KeyInputs kind:data(byte[2]) addr:0x021d61e4
+gEditAddrKeyboardExtraKeyInputs kind:data(byte[2]) addr:0x021d61e8
+gEditAddrKeyboardDigitKeySize kind:data(byte[4]) addr:0x021d61ec
+gEditAddrKeyboardRowTextAreaSize kind:data(byte[4]) addr:0x021d61f0
+gEditAddrKeyboardExtraKeySize kind:data(byte[4]) addr:0x021d61f4
+gEditAddrKeyboardRow4KeySize kind:data(byte[4]) addr:0x021d61f8
+gEditAddrKeyboardExtraKeyPositions kind:data(byte[8]) addr:0x021d61fc
+gEditAddrKeyboardRow4KeyPositions kind:data(byte[8]) addr:0x021d6204
+gEditAddrKeyboardDigitInputs kind:data(byte[10]) addr:0x021d620c
+gEditAddrKeyboardKeyTexts kind:data(byte[26]) addr:0x021d6218
+gEditAddrKeyboardDigitKeyPositions kind:data(byte[40]) addr:0x021d6234
+gEditAddrKeyboardCursorX kind:data(byte[56]) addr:0x021d625c
+gEditAddrKeyboardCursorMoves kind:data(byte[56]) addr:0x021d6294
+gNintendoDsItemBytes kind:data(byte[12]) addr:0x021d62cc
+gJb2MenuRects kind:data(byte[16]) addr:0x021d62d8
+gJb2MenuSelectionRects kind:data(byte[16]) addr:0x021d62e8
+gJb5InfoMacAddressRect kind:data(byte[8]) addr:0x021d62f8
+gJb5InfoUserIdRect kind:data(byte[8]) addr:0x021d6300
+gOptMenuPaletteRows kind:data(byte[3]) addr:0x021d6308
+gOptMenuOamEntryPosition kind:data(byte[4]) addr:0x021d630c
+gOptMenuRects kind:data(byte[24]) addr:0x021d6310
+gOptMenuSelectionRects kind:data(byte[24]) addr:0x021d6328
+gJb5MoveTextRect kind:data(byte[8]) addr:0x021d6340
+gApListRowLeftImageIndices kind:data(byte[3]) addr:0x021d6348
+gApListRowRightImageIndices kind:data(byte[4]) addr:0x021d634c
+gApListRowRects kind:data(byte[40]) addr:0x021d6350
+gApListSelectionRects kind:data(byte[40]) addr:0x021d6378
+gEditLineY kind:data(byte[2]) addr:0x021d63a0
+gEditCharSize kind:data(byte[4]) addr:0x021d63a4
+gEditColumnX kind:data(byte[16]) addr:0x021d63a8
+gEditAddrCharSize kind:data(byte[4]) addr:0x021d63b8
+gEditAddrCharX kind:data(byte[12]) addr:0x021d63bc
+gJb4ErrorFontIndices kind:data(byte[6]) addr:0x021d63c8
+gJb4ErrorMessageRect kind:data(byte[8]) addr:0x021d63d0
+gJb4ErrorCodePositions kind:data(byte[24]) addr:0x021d63d8
+gJb3ListPaletteRows kind:data(byte[3]) addr:0x021d63f0
+gJb3ListDigitColumns kind:data(byte[6]) addr:0x021d63f4
+gJb3ListCellRect kind:data(byte[8]) addr:0x021d63fc
+gJb3ListLeftButtonRect kind:data(byte[8]) addr:0x021d6404
+gJb3ListRightButtonRect kind:data(byte[8]) addr:0x021d640c
+gJb3ListIdByEntryIndex kind:data(byte[9]) addr:0x021d6414
+gJb3ListBg2OffsetByEntry kind:data(byte[9]) addr:0x021d6420
+gJb3ListEntryIndexById kind:data(byte[11]) addr:0x021d642c
+gJb3ListCellImageIds kind:data(byte[15]) addr:0x021d6438
+gJb3ListBackNscOffsets kind:data(byte[18]) addr:0x021d6448
+gJb3ListFixedRects kind:data(byte[24]) addr:0x021d645c
+gJb3ListSelectionRects kind:data(byte[48]) addr:0x021d6474
+gApEntryImageIndices kind:data(byte[4]) addr:0x021d64a4
+gApMessageDigitColumns kind:data(byte[6]) addr:0x021d64a8
+gApObjectPositions kind:data(byte[24]) addr:0x021d64b0
+gApRects kind:data(byte[56]) addr:0x021d64c8
+gApSelectionRects kind:data(byte[56]) addr:0x021d6500
+gWayMessageDigitColumns kind:data(byte[6]) addr:0x021d6538
+gWayMoveTargets kind:data(byte[32]) addr:0x021d6540
+gWayRects kind:data(byte[64]) addr:0x021d6560
+gWaySelectionRects kind:data(byte[64]) addr:0x021d65a0
+gConnectParamsTemplate kind:data(byte[12]) addr:0x021d65e0
+gScrollBarImageIds kind:data(byte[3]) addr:0x021d65ec
+gScrollBarLengths kind:data(byte[3]) addr:0x021d65f0
+gOtherElementPrefix kind:data(byte[4]) addr:0x021d65f4
+gApScanEmptyBssid kind:data(byte[6]) addr:0x021d65f8
+gApScanParamTemplate kind:data(byte[68]) addr:0x021d6600
+gSettingNone kind:data(byte[4]) addr:0x021d6644
+gMenuPairObjectImageIds kind:data(byte[15]) addr:0x021d6648
+gMenuPairObjectPaletteIds kind:data(byte[15]) addr:0x021d6658
+gMenuPairObjectPositions kind:data(byte[20]) addr:0x021d6668
+gUsbScanEmptyBssid kind:data(byte[6]) addr:0x021d667c
+gUsbSsidPrefix kind:data(byte[9]) addr:0x021d6684
+gUsbScanParamTemplate kind:data(byte[68]) addr:0x021d6690
+gMessageBoxTextOffset kind:data(byte[4]) addr:0x021d66d4
+gMessageBoxImageIds kind:data(byte[6]) addr:0x021d66d8
+gMessageBoxButtonCounts kind:data(byte[6]) addr:0x021d66e0
+gMessageBoxWindowRect kind:data(byte[8]) addr:0x021d66e8
+gMessageBoxButtonSlots kind:data(byte[12]) addr:0x021d66f0
+gMessageBoxKeyResults kind:data(byte[12]) addr:0x021d66fc
+gMessageBoxButtonImageIds kind:data(byte[12]) addr:0x021d6708
+gMessageBoxButtonSizes kind:data(byte[20]) addr:0x021d6714
+gMessageBoxTextSizes kind:data(byte[24]) addr:0x021d6728
+gMessageBoxPositions kind:data(byte[24]) addr:0x021d6740
+gMessageBoxSizes kind:data(byte[24]) addr:0x021d6758
+gMessageBoxButtonPositions kind:data(byte[40]) addr:0x021d6770
+gDwcArchiveName kind:data(byte[4]) addr:0x021d6798
+gBgTextCanvasCharOffsets kind:data(byte[4]) addr:0x021d679c
+gBgTextCanvasSizes kind:data(byte[8]) addr:0x021d67a0
+gTouchScreenRect kind:data(byte[8]) addr:0x021d67a8
+gTaskListCapacities kind:data(byte[2]) addr:0x021d67b0
+gItemTypesToFind kind:data(byte[2]) addr:0x021d67c0
+gSocketDescriptor kind:data(byte[4]) addr:0x021d67c4
+gRetryLimitTemplate kind:data(byte[4]) addr:0x021d67c8
+gReportedState kind:data(byte[4]) addr:0x021d67cc
+gEssidSocketConfig kind:data(byte[88]) addr:0x021d67d0
+gMelcoString kind:data(byte[6]) addr:0x021d6828
+gEssidAossString kind:data(byte[11]) addr:0x021d6830
+gMaskCodeTable kind:data(byte[48]) addr:0x021d683c
+gKind2ItemBuffer kind:data(byte[4]) addr:0x021d686c
+gFormatAddressesFlag kind:data(byte[4]) addr:0x021d6870
+gThreadStackSize kind:data(byte[4]) addr:0x021d6874
+gTimeoutAtMs kind:data(byte[4]) addr:0x021d6878
+gStartEntryCount kind:data(byte[4]) addr:0x021d687c
+gSixAsterisksString kind:data(byte[7]) addr:0x021d6880
+gKind2Item3Bytes kind:data(byte[7]) addr:0x021d6888
+@2317 kind:data(byte[12]) addr:0x021d6890 local
+gHashPadding kind:data(byte[64]) addr:0x021d689c
+gExchangeSocketConfig kind:data(byte[88]) addr:0x021d68dc
+@4641 kind:data(byte[5]) addr:0x021d6934 local
+gJtNullNscName kind:data(byte[17]) addr:0x021d693c
+gJb2HlApNscName kind:data(byte[19]) addr:0x021d6950
+gJb4HlIpNscName kind:data(byte[19]) addr:0x021d6964
+gJb4HlWepNscName kind:data(byte[20]) addr:0x021d6978
+gJb4HlUsbNscName kind:data(byte[20]) addr:0x021d698c
+gJb4HlDns1NscName kind:data(byte[21]) addr:0x021d69a0
+gJb4HlSsidNscName kind:data(byte[21]) addr:0x021d69b8
+gJb5HlMoveNscName kind:data(byte[21]) addr:0x021d69d0
+gJb2HlWiFiNscName kind:data(byte[21]) addr:0x021d69e8
+gJb5HlInfoNscName kind:data(byte[21]) addr:0x021d6a00
+gJb4HlMaskNscName kind:data(byte[21]) addr:0x021d6a18
+gJb4HlSet2NscName kind:data(byte[21]) addr:0x021d6a30
+gJb4HlDns0NscName kind:data(byte[21]) addr:0x021d6a48
+gJb4HlSet3NscName kind:data(byte[21]) addr:0x021d6a60
+gJb4HlSet1NscName kind:data(byte[21]) addr:0x021d6a78
+gJb3HlList1NscName kind:data(byte[22]) addr:0x021d6a90
+gJb3HlList2NscName kind:data(byte[22]) addr:0x021d6aa8
+gJb3HlList3NscName kind:data(byte[22]) addr:0x021d6ac0
+gJb5HlEraseNscName kind:data(byte[22]) addr:0x021d6ad8
+gJb5HlOptionNscName kind:data(byte[23]) addr:0x021d6af0
+gJb4HlGatewayNscName kind:data(byte[24]) addr:0x021d6b08
+gHlNscNames kind:data(byte[80]) addr:0x021d6b20
+@2082 kind:data(byte[18]) addr:0x021d6b70 local
+gEditKeyboardRow4KeyCounts kind:data(byte[5]) addr:0x021d6b84
+gEditKeyboardKeyCounts kind:data(byte[5]) addr:0x021d6b8c
+gEditKeyboardExtraKeyCounts kind:data(byte[5]) addr:0x021d6b94
+gEditKeyboardPageInputs kind:data(byte[12]) addr:0x021d6b9c
+gEditKeyboardPageKeyTexts kind:data(byte[12]) addr:0x021d6ba8
+gEditKeyboardExtraKeySoundSeqs kind:data(byte[16]) addr:0x021d6bb4
+gEditKeyboardPage1Inputs kind:data(byte[48]) addr:0x021d6bc4
+gEditKeyboardPage2Inputs kind:data(byte[48]) addr:0x021d6bf4
+gEditKeyboardPage0Inputs kind:data(byte[48]) addr:0x021d6c24
+gEditKeyboardPage0KeyTexts kind:data(byte[100]) addr:0x021d6c54
+gEditKeyboardPage1KeyTexts kind:data(byte[100]) addr:0x021d6cb8
+gEditKeyboardPage2KeyTexts kind:data(byte[100]) addr:0x021d6d1c
+gEditAddrKeyboardRow4KeyCounts kind:data(byte[5]) addr:0x021d6d80
+gEditAddrKeyboardDigitKeyCounts kind:data(byte[5]) addr:0x021d6d88
+gEditAddrKeyboardExtraKeyCounts kind:data(byte[5]) addr:0x021d6d90
+gEditAddrKeyboardTextRectStart kind:data(byte[8]) addr:0x021d6d98
+@779 kind:data(byte[20]) addr:0x021d6da0 local
+@781 kind:data(byte[21]) addr:0x021d6db4 local
+@780 kind:data(byte[22]) addr:0x021d6dcc local
+gChildWaitParams kind:data(byte[28]) addr:0x021d6de4
+@1779 kind:data(byte[14]) addr:0x021d6e00 local
+@1774 kind:data(byte[14]) addr:0x021d6e10 local
+@1777 kind:data(byte[14]) addr:0x021d6e20 local
+@1776 kind:data(byte[14]) addr:0x021d6e30 local
+@1775 kind:data(byte[14]) addr:0x021d6e40 local
+@1778 kind:data(byte[14]) addr:0x021d6e50 local
+gLanguageBmgNames kind:data(byte[24]) addr:0x021d6e60
+@1917 kind:data(byte[14]) addr:0x021d6e78 local
+@1918 kind:data(byte[18]) addr:0x021d6e88 local
+@1919 kind:data(byte[18]) addr:0x021d6e9c local
+@1920 kind:data(byte[20]) addr:0x021d6eb0 local
+@1921 kind:data(byte[20]) addr:0x021d6ec4 local
+@1922 kind:data(byte[21]) addr:0x021d6ed8 local
+@1923 kind:data(byte[21]) addr:0x021d6ef0 local
+@1924 kind:data(byte[21]) addr:0x021d6f08 local
+@1925 kind:data(byte[21]) addr:0x021d6f20 local
+@1926 kind:data(byte[21]) addr:0x021d6f38 local
+@1927 kind:data(byte[21]) addr:0x021d6f50 local
+@1928 kind:data(byte[17]) addr:0x021d6f68 local
+@1929 kind:data(byte[19]) addr:0x021d6f7c local
+gJb2MenuPaletteRows kind:data(byte[2]) addr:0x021d6f90
+gYbBgStep11NclName kind:data(byte[22]) addr:0x021d6f94
+@1292 kind:data(byte[21]) addr:0x021d6fac local
+@1293 kind:data(byte[21]) addr:0x021d6fc4 local
+@1294 kind:data(byte[19]) addr:0x021d6fdc local
+gYb5MultiNscName kind:data(byte[19]) addr:0x021d6ff0
+gYb5MultiNscName2 kind:data(byte[19]) addr:0x021d7004
+@1011 kind:data(byte[60]) addr:0x021d7018 local
+@1017 kind:data(byte[40]) addr:0x021d7054 local
+@1018 kind:data(byte[40]) addr:0x021d707c local
+@1021 kind:data(byte[19]) addr:0x021d70a4 local
+gYbBgOptionNclName kind:data(byte[22]) addr:0x021d70b8
+gYbBgOption1NclName kind:data(byte[23]) addr:0x021d70d0
+@1462 kind:data(byte[22]) addr:0x021d70e8 local
+@1463 kind:data(byte[22]) addr:0x021d7100 local
+gYb5MultiNscName3 kind:data(byte[19]) addr:0x021d7118
+gYb5MultiNscName4 kind:data(byte[19]) addr:0x021d712c
+gYb5MultiNscName5 kind:data(byte[19]) addr:0x021d7140
+gYb5MultiNscName6 kind:data(byte[19]) addr:0x021d7154
+gJb5MoveNscName kind:data(byte[18]) addr:0x021d7168
+gYb5MultiNscName7 kind:data(byte[19]) addr:0x021d717c
+@2003 kind:data(byte[21]) addr:0x021d7190 local
+@2004 kind:data(byte[21]) addr:0x021d71a8 local
+@2005 kind:data(byte[20]) addr:0x021d71c0 local
+gXb4MultiNscName2 kind:data(byte[19]) addr:0x021d71d4
+gApListPaletteRow kind:data(byte[1]) addr:0x021d71e8
+@1367 kind:data(byte[22]) addr:0x021d71ec local
+@1365 kind:data(byte[25]) addr:0x021d7204 local
+@3358 kind:data(byte[21]) addr:0x021d7220 local
+gEditSubScreenMessages kind:data(byte[2]) addr:0x021d7238
+@1213 kind:data(byte[8]) addr:0x021d723c local
+@1732 kind:data(byte[8]) addr:0x021d7244 local
+@2181 kind:data(byte[21]) addr:0x021d724c local
+@2262 kind:data(byte[19]) addr:0x021d7264 local
+@2263 kind:data(byte[21]) addr:0x021d7278 local
+@2264 kind:data(byte[21]) addr:0x021d7290 local
+@2265 kind:data(byte[19]) addr:0x021d72a8 local
+gEditAddrGroupMax kind:data(byte[3]) addr:0x021d72bc
+gEditAddrSubScreenMessageIndices kind:data(byte[5]) addr:0x021d72c0
+gEditAddrCharRect kind:data(byte[6]) addr:0x021d72c8
+gEditAddrFormatFuncs kind:data(byte[20]) addr:0x021d72d0
+gEditAddrStoreFuncs kind:data(byte[20]) addr:0x021d72e4
+@1655 kind:data(byte[21]) addr:0x021d72f8 local
+@1843 kind:data(byte[19]) addr:0x021d7310 local
+@1844 kind:data(byte[21]) addr:0x021d7324 local
+@1845 kind:data(byte[21]) addr:0x021d733c local
+@1846 kind:data(byte[23]) addr:0x021d7354 local
+@1863 kind:data(byte[4]) addr:0x021d736c local
+gDecimalFormat kind:data(byte[6]) addr:0x021d7370
+@1367 kind:data(byte[20]) addr:0x021d7378 local
+gJb3ListTimerIds kind:data(byte[4]) addr:0x021d738c
+gJb3ListSelectionRectIndices kind:data(byte[14]) addr:0x021d7390
+@2562 kind:data(byte[21]) addr:0x021d73a0 local
+@2564 kind:data(byte[22]) addr:0x021d73b8 local
+@2560 kind:data(byte[23]) addr:0x021d73d0 local
+gDotSeparatedBytesFormat kind:data(byte[30]) addr:0x021d73e8
+@3849 kind:data(byte[21]) addr:0x021d7408 local
+@4032 kind:data(byte[19]) addr:0x021d7420 local
+@4033 kind:data(byte[21]) addr:0x021d7434 local
+@4034 kind:data(byte[22]) addr:0x021d744c local
+@4035 kind:data(byte[19]) addr:0x021d7464 local
+@1102 kind:data(byte[21]) addr:0x021d7478 local
+@1103 kind:data(byte[21]) addr:0x021d7490 local
+@1104 kind:data(byte[19]) addr:0x021d74a8 local
+gXb4MultiNscName3 kind:data(byte[19]) addr:0x021d74bc
+gXb4MultiNscName4 kind:data(byte[19]) addr:0x021d74d0
+gXb4MultiNscName5 kind:data(byte[19]) addr:0x021d74e4
+@1951 kind:data(byte[21]) addr:0x021d74f8 local
+@1952 kind:data(byte[21]) addr:0x021d7510 local
+@1953 kind:data(byte[20]) addr:0x021d7528 local
+@1908 kind:data(byte[21]) addr:0x021d753c local
+@1909 kind:data(byte[21]) addr:0x021d7554 local
+@1910 kind:data(byte[20]) addr:0x021d756c local
+gApPaletteRows kind:data(byte[4]) addr:0x021d7580
+gApEntryIconPalettes kind:data(byte[4]) addr:0x021d7584
+gYbBgStep11NclName2 kind:data(byte[22]) addr:0x021d7588
+@2820 kind:data(byte[21]) addr:0x021d75a0 local
+@2941 kind:data(byte[20]) addr:0x021d75b8 local
+@2942 kind:data(byte[21]) addr:0x021d75cc local
+@2943 kind:data(byte[21]) addr:0x021d75e4 local
+@2944 kind:data(byte[17]) addr:0x021d75fc local
+gWayPaletteRows kind:data(byte[4]) addr:0x021d7610
+gYbBgStep21NclName2 kind:data(byte[22]) addr:0x021d7614
+@2600 kind:data(byte[21]) addr:0x021d762c local
+@2601 kind:data(byte[21]) addr:0x021d7644 local
+@2602 kind:data(byte[18]) addr:0x021d765c local
+@2102 kind:data(byte[21]) addr:0x021d7670 local
+@2103 kind:data(byte[21]) addr:0x021d7688 local
+@2104 kind:data(byte[20]) addr:0x021d76a0 local
+gXb4MultiNscName9 kind:data(byte[19]) addr:0x021d76b4
+gConnectMessageIds kind:data(byte[12]) addr:0x021d76c8
+gXb4NoneNscName2 kind:data(byte[18]) addr:0x021d76d4
+gXb4MultiNscName10 kind:data(byte[19]) addr:0x021d76e8
+@1223 kind:data(byte[21]) addr:0x021d76fc local
+@1224 kind:data(byte[21]) addr:0x021d7714 local
+@1225 kind:data(byte[20]) addr:0x021d772c local
+@1341 kind:data(byte[21]) addr:0x021d7740 local
+@1342 kind:data(byte[21]) addr:0x021d7758 local
+@1343 kind:data(byte[18]) addr:0x021d7770 local
+gAddressTextFormat kind:data(byte[13]) addr:0x021d7784
+gSoundDataSdatName kind:data(byte[23]) addr:0x021d7794
+@2087 kind:data(byte[17]) addr:0x021d77ac local
+@2083 kind:data(byte[19]) addr:0x021d77c0 local
+@2084 kind:data(byte[19]) addr:0x021d77d4 local
+@2085 kind:data(byte[19]) addr:0x021d77e8 local
+@2086 kind:data(byte[20]) addr:0x021d77fc local
+gMenuPairScreenMapPaths kind:data(byte[20]) addr:0x021d7810
+gMessageBoxWindowExtraBitFlags kind:data(byte[6]) addr:0x021d7824
+gWhStateStopName kind:data(byte[26]) addr:0x021d782c
+gWhStateIdleName kind:data(byte[26]) addr:0x021d7848
+gWhStateBusyName kind:data(byte[26]) addr:0x021d7864
+gWhStateErrorName kind:data(byte[27]) addr:0x021d7880
+gWhStateScanningName kind:data(byte[30]) addr:0x021d789c
+gWhStateConnectedName kind:data(byte[31]) addr:0x021d78bc
+gWhStateKeySharingName kind:data(byte[32]) addr:0x021d78dc
+gWhStateDataSharingName kind:data(byte[33]) addr:0x021d78fc
+gWhStateConnectFailName kind:data(byte[34]) addr:0x021d7920
+gWhStateMeasureChannelName kind:data(byte[36]) addr:0x021d7944
+gWhStateNames kind:data(byte[40]) addr:0x021d7968
+@1029 kind:data(byte[35]) addr:0x021d7990 local
+@1030 kind:data(byte[34]) addr:0x021d79b4 local
+@1059 kind:data(byte[48]) addr:0x021d79d8 local
+@1060 kind:data(byte[50]) addr:0x021d7a08 local
+@1102 kind:data(byte[23]) addr:0x021d7a3c local
+@1103 kind:data(byte[23]) addr:0x021d7a54 local
+@1104 kind:data(byte[25]) addr:0x021d7a6c local
+@1170 kind:data(byte[22]) addr:0x021d7a88 local
+@1204 kind:data(byte[24]) addr:0x021d7aa0 local
+gWhIndicateStateFormat kind:data(byte[30]) addr:0x021d7ab8
+gWhEndParentFailedText kind:data(byte[37]) addr:0x021d7ad8
+gWhStartKeySharingFailedText kind:data(byte[47]) addr:0x021d7b00
+@1214 kind:data(byte[44]) addr:0x021d7b30 local
+@1215 kind:data(byte[43]) addr:0x021d7b5c local
+@1278 kind:data(byte[7]) addr:0x021d7b88 local
+@1279 kind:data(byte[4]) addr:0x021d7b90 local
+gLzFileSuffix kind:data(byte[3]) addr:0x021d7b94
+gRomDir kind:data(byte[5]) addr:0x021d7b98
+gDwcUtilityBinName kind:data(byte[21]) addr:0x021d7ba0
+@1137 kind:data(byte[5]) addr:0x021d7bb8 local
+@784 kind:data(byte[4]) addr:0x021d7bc0 local
+@782 kind:data(byte[4]) addr:0x021d7bc4 local
+@721 kind:data(byte[4]) addr:0x021d7bc8 local
+gTextCanvasNftrNames kind:data(byte[8]) addr:0x021d7bcc
+@892 kind:data(byte[16]) addr:0x021d7bd4 local
+@893 kind:data(byte[16]) addr:0x021d7be4 local
+gFlagBit4OfKind1010Packet kind:bss(size=0x4) addr:0x021d7c00
+gScannedEssidList kind:bss(size=0x4) addr:0x021d7c04
+gRandomSeeded kind:bss(size=0x4) addr:0x021d7c08
+gRequestedEssidList kind:bss(size=0x4) addr:0x021d7c0c
+gErrorCode kind:bss(size=0x4) addr:0x021d7c10
+gRequestPacketBuffer kind:bss(size=0x4) addr:0x021d7c14
+gSavedTagBytes kind:bss(size=0x8) addr:0x021d7c18
+gRandomState kind:bss(size=0xc) addr:0x021d7c20
+gRequestState kind:bss(size=0x1c) addr:0x021d7c2c
+gKeyStreamKey kind:bss(size=0x64) addr:0x021d7c48
+gItemSlots kind:bss(size=0x280) addr:0x021d7cac
+gCrcTable kind:bss(size=0x400) addr:0x021d7f2c
+gParsedItems kind:bss(size=0x6a0) addr:0x021d832c
+gEssidAllocFunction kind:bss(size=0x4) addr:0x021d89cc
+gStateChangeCallback kind:bss(size=0x4) addr:0x021d89d0
+gEssidWorkBuffer kind:bss(size=0x4) addr:0x021d89d4
+gEssidFreeFunction kind:bss(size=0x4) addr:0x021d89d8
+gMessageQueueSlots kind:bss(size=0x10) addr:0x021d89dc
+gMessageQueue kind:bss(size=0x20) addr:0x021d89ec
+gMelcoBlock kind:bss(size=0x60) addr:0x021d8a0c
+gMelcoRecord kind:bss(size=0xc0) addr:0x021d8a80
+gEssidWcmWork kind:bss(size=0x4) addr:0x021d8b40
+gEssidSearchOption kind:bss(size=0x4) addr:0x021d8b44
+gEssidWcmConfig kind:bss(size=0x4) addr:0x021d8b48
+gEssidConnectOption kind:bss(size=0x4) addr:0x021d8b4c
+gEssidSearchAddress kind:bss(size=0x4) addr:0x021d8b50
+gEssidSearchEssid kind:bss(size=0x4) addr:0x021d8b54
+gEssidWcmState kind:bss(size=0x4) addr:0x021d8b58
+gEssidEventCallback kind:bss(size=0x4) addr:0x021d8b5c
+gEssidConnectRecord kind:bss(size=0x4) addr:0x021d8b60
+gEssidConnectBlock kind:bss(size=0x4) addr:0x021d8b64
+gEssidSearchAddressBytes kind:bss(size=0x6) addr:0x021d8b68
+gEssidSearchEssidBytes kind:bss(size=0x20) addr:0x021d8b70
+gReceivedTextNonEmpty kind:bss(size=0x1) addr:0x021d8b90
+gAllocFunction kind:bss(size=0x4) addr:0x021d8b94
+gExchangeWcmConfig kind:bss(size=0x4) addr:0x021d8b98
+gFreeFunction kind:bss(size=0x4) addr:0x021d8b9c
+gStopRequested kind:bss(size=0x4) addr:0x021d8ba0
+gPacketLength kind:bss(size=0x4) addr:0x021d8ba4
+gSelectedEntryIndex kind:bss(size=0x4) addr:0x021d8ba8
+gExchangeState kind:bss(size=0x4) addr:0x021d8bac
+gExchangeConnected kind:bss(size=0x4) addr:0x021d8bb0
+gSocketsStarted kind:bss(size=0x4) addr:0x021d8bb4
+gExchangeConnectBlock kind:bss(size=0x4) addr:0x021d8bb8
+gExchangeWcmState kind:bss(size=0x4) addr:0x021d8bbc
+gThreadStack kind:bss(size=0x4) addr:0x021d8bc0
+gBodyLength kind:bss(size=0x4) addr:0x021d8bc4
+gExchangeStatus kind:bss(size=0x4) addr:0x021d8bc8
+gExchangeWcmWork kind:bss(size=0x4) addr:0x021d8bcc
+gAlignedBuffer kind:bss(size=0x4) addr:0x021d8bd0
+gExchangeSearchAddress kind:bss(size=0x4) addr:0x021d8bd4
+gExchangeSearchEssid kind:bss(size=0x4) addr:0x021d8bd8
+gExchangeConnectRecord kind:bss(size=0x4) addr:0x021d8bdc
+gKind1Item5Flag kind:bss(size=0x4) addr:0x021d8be0
+gAllocatedBuffer kind:bss(size=0x4) addr:0x021d8be4
+gExchangeConnectOption kind:bss(size=0x4) addr:0x021d8be8
+gRawEntries kind:bss(size=0x4) addr:0x021d8bec
+gExchangeSearchOption kind:bss(size=0x4) addr:0x021d8bf0
+gThreadStarted kind:bss(size=0x4) addr:0x021d8bf4
+gEventWriteIndex kind:bss(size=0x4) addr:0x021d8bf8
+gEventReadIndex kind:bss(size=0x4) addr:0x021d8bfc
+gEntryCountMax kind:bss(size=0x4) addr:0x021d8c00
+gExchangeWiFiInitCalled kind:bss(size=0x4) addr:0x021d8c04
+gExchangeResultCode kind:bss(size=0x4) addr:0x021d8c08
+gStatusCallback kind:bss(size=0x4) addr:0x021d8c0c
+gExchangeEventCallback kind:bss(size=0x4) addr:0x021d8c10
+gMacAddress kind:bss(size=0x6) addr:0x021d8c14
+gSelectedEntryAddress kind:bss(size=0x6) addr:0x021d8c1c
+gExchangeSearchAddressBytes kind:bss(size=0x6) addr:0x021d8c24
+gEvents kind:bss(size=0x10) addr:0x021d8c2c
+gFirstKey kind:bss(size=0x10) addr:0x021d8c3c
+gAllocMutex kind:bss(size=0x18) addr:0x021d8c4c
+gSecondKeyReceivedPart kind:bss(size=0x8) addr:0x021d8c64
+gSecondKeyHashedPart kind:bss(size=0x18) addr:0x021d8c6c
+gExchangeSearchEssidBytes kind:bss(size=0x20) addr:0x021d8c84
+gSelectedEntryName kind:bss(size=0x24) addr:0x021d8ca4
+gExchangeThread kind:bss(size=0xc0) addr:0x021d8cc8
+gExchangeResult kind:bss(size=0xe8) addr:0x021d8d88
+gExchangeResultItems kind:bss(size=0x254) addr:0x021d8e70
+gBodyBuffer kind:bss(size=0x800) addr:0x021d90c4
+gPacketBuffer kind:bss(size=0x800) addr:0x021d98c4
+gAnimatedIcon kind:bss(size=0x4) addr:0x021da0c4
+gSlideButtons kind:bss(size=0x4) addr:0x021da0c8
+gSubScreenMessageShown kind:bss(size=0x1) addr:0x021da0cc
+gLanguagePathBuffer kind:bss(size=0x40) addr:0x021da0d0
+gSelectionObjects kind:bss(size=0x4) addr:0x021da110
+gHlScr kind:bss(size=0x4) addr:0x021da114
+gLinkLevel kind:bss(size=0x4) addr:0x021da118
+gEditKeyboard kind:bss(size=0x4) addr:0x021da11c
+gEditAddrKeyboard kind:bss(size=0x4) addr:0x021da120
+gValueRecordsRequestSucceeded kind:bss(size=0x1) addr:0x021da124
+gValueRecordsRequest kind:bss(size=0x4) addr:0x021da128
+gLanguageIndex kind:bss(size=0x4) addr:0x021da12c
+gQuitFlag kind:bss(size=0x4) addr:0x021da130
+gHeapMemoryBlock kind:bss(size=0x4) addr:0x021da134
+gModeAndFlags kind:bss(size=0x4) addr:0x021da138
+gUpdateFunction kind:bss(size=0x4) addr:0x021da13c
+gMenuPairs kind:bss(size=0x10) addr:0x021da140
+gMessagesPool kind:bss(size=0x4) addr:0x021da150
+gChildWaitSession kind:bss(size=0x4) addr:0x021da154
+gExchangeStatusRecord kind:bss(size=0x4) addr:0x021da158
+gMessages kind:bss(size=0x4) addr:0x021da15c
+gJb2MenuSelectedIndex kind:bss(size=0x1) addr:0x021da160
+gYbBgStep11Ncl kind:bss(size=0x4) addr:0x021da164
+gYb5MultiShowNext kind:bss(size=0x1) addr:0x021da168
+gOptMenuSelectedIndex kind:bss(size=0x1) addr:0x021da16c
+gOptMenuEntryChosen kind:bss(size=0x4) addr:0x021da170
+gYbBgOption1Ncl kind:bss(size=0x4) addr:0x021da174
+gOptMenuOamEntry kind:bss(size=0x4) addr:0x021da178
+gLinkMessageResult kind:bss(size=0x1) addr:0x021da17c
+gOptMenuMessageShowNext kind:bss(size=0x1) addr:0x021da180
+gTimedMessageFrames kind:bss(size=0x1) addr:0x021da184
+gChildWaitMessageSubScreenShown kind:bss(size=0x1) addr:0x021da188
+gChildWaitMessageShowNext kind:bss(size=0x1) addr:0x021da18c
+gJb5MoveChildWaitEvent kind:bss(size=0x1) addr:0x021da190
+gJb5MoveShowNext kind:bss(size=0x1) addr:0x021da194
+gChildWaitResult kind:bss(size=0x1) addr:0x021da198
+gValueRecordsShowNext kind:bss(size=0x1) addr:0x021da19c
+gValueRecordsFrames kind:bss(size=0x2) addr:0x021da1a0
+gValueRecordsRequestTask kind:bss(size=0x4) addr:0x021da1a4
+gValueRecordsNextFrames kind:bss(size=0x1) addr:0x021da1a8
+gApListSelectedRow kind:bss(size=0x1) addr:0x021da1ac
+gApListScrollY kind:bss(size=0x2) addr:0x021da1b0
+gApList kind:bss(size=0x4) addr:0x021da1b4
+gEdit kind:bss(size=0x4) addr:0x021da1b8
+gEditAddr kind:bss(size=0x4) addr:0x021da1bc
+gJb4ErrorCode kind:bss(size=0x1) addr:0x021da1c0
+gJb3ListSelectedId kind:bss(size=0x1) addr:0x021da1c4
+gJb3ListMode kind:bss(size=0x1) addr:0x021da1c8
+gJb3ListSelectedRow kind:bss(size=0x1) addr:0x021da1cc
+gJb3ListScrollY kind:bss(size=0x2) addr:0x021da1d0
+gJb3List kind:bss(size=0x4) addr:0x021da1d4
+gExchangeEntryShowNext kind:bss(size=0x1) addr:0x021da1d8
+gExchangeKeyShowNext kind:bss(size=0x1) addr:0x021da1dc
+gExchangeResultFrames kind:bss(size=0x1) addr:0x021da1e0
+gExchangeSearchShowNext kind:bss(size=0x1) addr:0x021da1e4
+gApScanKind kind:bss(size=0x1) addr:0x021da1e8
+gApScanFrames kind:bss(size=0x2) addr:0x021da1ec
+gApSelectedIndex kind:bss(size=0x1) addr:0x021da1f0
+gAp kind:bss(size=0x4) addr:0x021da1f4
+gWaySavedIndex kind:bss(size=0x1) addr:0x021da1f8
+gWaySelectedIndex kind:bss(size=0x1) addr:0x021da1fc
+gWayChosen kind:bss(size=0x1) addr:0x021da200
+gYbBgStep21Ncl kind:bss(size=0x4) addr:0x021da204
+gConnectSucceeded kind:bss(size=0x1) addr:0x021da208
+gConnectDoneFrames kind:bss(size=0x1) addr:0x021da20c
+gUsbNextFrames kind:bss(size=0x1) addr:0x021da210
+gXb3MultiChosen kind:bss(size=0x1) addr:0x021da214
+gUsbExitKind kind:bss(size=0x1) addr:0x021da218
+gBg2ScrBuffer kind:bss(size=0x4) addr:0x021da21c
+gBgPaletteCopyRequest kind:bss(size=0x5) addr:0x021da220
+gScrollBar kind:bss(size=0x4) addr:0x021da228
+gApScan kind:bss(size=0x4) addr:0x021da22c
+gApStore kind:bss(size=0x4) addr:0x021da230
+gSoundData kind:bss(size=0x4) addr:0x021da234
+gMenuPairScreenMap kind:bss(size=0x4) addr:0x021da238
+gMenuPairObjects kind:bss(size=0x4) addr:0x021da23c
+gUsbScan kind:bss(size=0x4) addr:0x021da240
+gMessageBox kind:bss(size=0x4) addr:0x021da244
+gMultiBootParent kind:bss(size=0x4) addr:0x021da248
+gMultiBootMaskPointers kind:bss(size=0x18) addr:0x021da24c
+gWhPrintFunction kind:bss(size=0x4) addr:0x021da264
+gWhWork kind:bss(size=0x4) addr:0x021da268
+gChildWaitSessionView kind:bss(size=0x4) addr:0x021da26c
+gDwcArchive kind:bss(size=0x4) addr:0x021da270
+gOamRanges kind:bss(size=0x4) addr:0x021da274
+gNceFiles kind:bss(size=0x8) addr:0x021da278
+gBlendBrightnessFadeSlots kind:bss(size=0x4) addr:0x021da280
+gTextCanvases kind:bss(size=0x4) addr:0x021da284
+gExpHeap kind:bss(size=0x4) addr:0x021da288
+gLcdOff kind:bss(size=0x1) addr:0x021da28c
+gTouchRepeatFrames kind:bss(size=0x1) addr:0x021da290
+gKeyTouchInput kind:bss(size=0x4) addr:0x021da294
+gKeyRepeatFrames kind:bss(size=0xe) addr:0x021da298
+gSavedIrqFunction kind:bss(size=0x4) addr:0x021da2a8
+gSavedIrqMask kind:bss(size=0x4) addr:0x021da2ac
+gOamBuffers kind:bss(size=0x4) addr:0x021da2b0
+gObjCharRanges kind:bss(size=0x4) addr:0x021da2b4
+gSavedBankSettings kind:bss(size=0x34) addr:0x021da2b8
+gTaskLists kind:bss(size=0x4) addr:0x021da2ec
