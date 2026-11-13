@@ -94,13 +94,6 @@ typedef struct WaitTimeout {
     /* 4 */ s32 mUnk_04;
 } WaitTimeout;
 
-typedef struct ItemContainerView {
-    /* 0 */ u8 mType;
-    /* 1 */ u8 mUnk_01;
-    /* 2 */ u16 mLength;
-    /* 4 */ u32 mFirstWord;
-} ItemContainerView;
-
 typedef struct PacketTag {
     /* 0 */ u8 mBytes[6];
     /* 6 */ u16 mSequence;
@@ -144,6 +137,23 @@ void ConvertRecordToEssidEntry(RawEntry *src, EssidEntry *dst);
 #include "03/unk_021d8000.h"
 #include "03/code_021b7bb4.h"
 #include "03/code_021ba818.h"
+
+// Item whose payload starts with the chain of its sub-items.
+typedef struct ItemContainerView {
+    union {
+        PacketItem mItem;
+        struct {
+            /* 0 */ u8 mType;
+            /* 1 */ u8 mUnk_01;
+            /* 2 */ u16 mLength;
+            union {
+                /* 4 */ u32 mFirstWord;
+                PacketItem mFirstItem;
+            };
+        };
+    };
+} ItemContainerView;
+
 #include "00/Lib/DWC/code_0218a064.h"
 
 extern SOCConfig gEssidSocketConfig;

@@ -817,7 +817,7 @@ s32 AdvanceStepForKind1010(s32 mode, PacketBuffer *buffer, s32 *attempts, Packet
         (*attempts)++;
         return mode;
     }
-    result = ParseItemChain((PacketItem *) &payload->mFirstWord, gItemSlots);
+    result = ParseItemChain(&payload->mFirstItem, gItemSlots);
     if (result < 0) {
         if (result == -2) {
             SetErrorCode(0x16);
@@ -861,7 +861,7 @@ s32 AdvanceStepForKind2010(s32 mode, PacketBuffer *buffer, s32 *attempts, Packet
         return -1;
     }
     FillBytes(gParsedItems, 0, 0x6a0);
-    result = FindItemAndParseSubItems(0, (PacketItem *) payload, SwapBytes16(packet->mPayloadLength), gParsedItems,
+    result = FindItemAndParseSubItems(0, &payload->mItem, SwapBytes16(packet->mPayloadLength), gParsedItems,
                                       gItemSlots);
     if (result < 0) {
         (*attempts)++;
