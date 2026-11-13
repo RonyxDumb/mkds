@@ -58,11 +58,11 @@ u32 SetSoundSeqVolume(u32 volume) {
 }
 
 void SetSoundSeqTrackPitch(u32 tracks, u32 pitch) {
-    NNS_SndPlayerSetTrackPitch(OFFSET_PTR(NNSSndSeqPlayer *, gSoundData, 0x90), tracks, pitch);
+    NNS_SndPlayerSetTrackPitch(&gSoundData->mSeqPlayer, tracks, pitch);
 }
 
 void StopSoundSeq(void) {
-    NNS_SndPlayerStopSeq(OFFSET_PTR(NNSSndSeqPlayer *, gSoundData, 0x90), 0);
+    NNS_SndPlayerStopSeq(&gSoundData->mSeqPlayer, 0);
 }
 
 void UpdateSound(void) {
