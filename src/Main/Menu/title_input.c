@@ -23,5 +23,5 @@ u16 TitleGetNewBits(u32 slotIndex, u32 mask) {
 }
 
 u32 TitleGetPairHasPair(InputSlotPair *pair) {
-    return (*OFFSET_PTR(const u16, pair, 4));
+    return pair->mHasPair;
 }

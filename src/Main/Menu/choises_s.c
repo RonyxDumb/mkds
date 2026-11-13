@@ -425,8 +425,8 @@ u16 ChoisesSGetNewBits(s32 slotIndex, u32 mask) {
     return ChoisesSGetInputSlotNewBits(&gInputSlots[slotIndex], mask);
 }
 
-u32 ChoisesSGetPairHasPair(const void *inputSlotPair) {
-    return (*OFFSET_PTR(const u16, inputSlotPair, 4));
+u32 ChoisesSGetPairHasPair(InputSlotPair *inputSlotPair) {
+    return inputSlotPair->mHasPair;
 }
 
 #pragma optimize_for_size on

@@ -1,5 +1,6 @@
+#include "Main/Menu/data_02175628.h"
 #include "Main/Menu/multi_select_ns_has_pair.h"
 
-u32 MultiSelectNSGetPairHasPair(const void *pair) {
-    return (*OFFSET_PTR(const u16, pair, 4));
+u32 MultiSelectNSGetPairHasPair(InputSlotPair *pair) {
+    return pair->mHasPair;
 }

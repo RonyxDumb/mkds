@@ -88,7 +88,7 @@ u32 ChoisesSIsPairNewUnlessRecentlyLost(InputSlotPair *inputSlotPair);
 u32 ChoisesSIsPairNew(InputSlotPair *inputSlotPair);
 u32 ChoisesSIsPairRecentlyLost(InputSlotPair *inputSlotPair);
 
-unsigned int ChoisesSGetPairHasPair(const void *inputSlotPair);
+unsigned int ChoisesSGetPairHasPair(InputSlotPair *inputSlotPair);
 
 typedef struct InputSlot InputSlot;
 

@@ -2,4 +2,6 @@
 
 #include "types.h"
 
-unsigned int MultiSelectNSGetPairHasPair(const void *pair);
+typedef struct InputSlotPair InputSlotPair;
+
+unsigned int MultiSelectNSGetPairHasPair(InputSlotPair *pair);
