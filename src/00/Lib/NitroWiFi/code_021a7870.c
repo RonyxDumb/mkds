@@ -731,11 +731,11 @@ s32 SOCLi_ReadAndConsumeBuffer(SOCLSocket *socket, void *buffer, s32 length, u16
 s32 SOCLi_ReadBuffer(SOCLSocket *socket, void *buffer, s32 length, u16 *remotePort, u32 *peerAddr, s32 isBlocking) {
     s32 result;
     if (socket->mFlagMode == 4) {
-        return SOCLi_ExecReadCommand(socket, (u32) buffer, length, (u32) remotePort, (u32) peerAddr);
+        return SOCLi_ExecReadCommand(socket, buffer, length, remotePort, peerAddr);
     }
     result = SOCLi_CopyCPSBuffer(socket, buffer, length, remotePort, peerAddr);
     if (result == -6 && isBlocking == 1) {
-        result = SOCLi_ExecReadCommand(socket, (u32) buffer, length, (u32) remotePort, (u32) peerAddr);
+        result = SOCLi_ExecReadCommand(socket, buffer, length, remotePort, peerAddr);
     }
     return result;
 }
@@ -805,22 +805,13 @@ u8 *SOCLi_ReadCPSBuffer(SOCLSocket *socket, s32 *lengthOut, u16 *localPortOut, u
     return cpsSocket->mReceiveBuffer.mStart + used;
 }
 
-s32 SOCLi_ExecReadCommand(SOCLSocket *socket, u32 buffer, u32 length, u32 remotePort, u32 peerAddr) {
-    u32 bufferValue = ((buffer) + (0x0u));
-    u32 lengthValue = ((length) + (0x0u));
-    u32 remotePortValue = ((remotePort) + (0x0u));
-    Unk021a7064Func callback = (Unk021a7064Func) SOCLi_ReadCallBack;
-    u32 commandAddress = ((u32) SOCLi_CreateCommandPacket(callback, socket, 0x1u));
-    u32 packetAddr = ((commandAddress) + (0x0u));
-    u32 remoteIpValue;
-    u32 result;
-    *(u32 *) ((packetAddr) + (16)) = bufferValue;
-    *(u32 *) ((packetAddr) + (20)) = lengthValue;
-    *(u32 *) ((packetAddr) + (24)) = remotePortValue;
-    remoteIpValue = peerAddr;
-    *(u32 *) ((packetAddr) + (28)) = remoteIpValue;
-    result = SOCLi_ExecCommandPacketInRecvPipe(socket, (SOCLiCommandPacket *) packetAddr);
-    return result;
+s32 SOCLi_ExecReadCommand(SOCLSocket *socket, u8 *buffer, s32 length, u16 *remotePort, u32 *peerAddr) {
+    SOCLiCommandRead *packetAddr = (SOCLiCommandRead *) SOCLi_CreateCommandPacket(SOCLi_ReadCallBack, socket, 1);
+    packetAddr->mBuffer = buffer;
+    packetAddr->mBufferLen = length;
+    packetAddr->mRemotePort = remotePort;
+    packetAddr->mRemoteIp = peerAddr;
+    return SOCLi_ExecCommandPacketInRecvPipe(socket, (SOCLiCommandPacket *) packetAddr);
 }
 
 s32 SOCLi_ReadCallBack(SOCLiCommandPacket *packet) {
