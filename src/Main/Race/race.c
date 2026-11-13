@@ -220,7 +220,8 @@ void InitRace(void) {
     InitPosStrips(heap);
     SetHeapGroupId(9);
     *HW_BG_PLTT = 0xff00;
-    reg_G3X_DISP3DCNT = reg_G3X_DISP3DCNT & 0xffffcffd;
+    reg_G3X_DISP3DCNT =
+        reg_G3X_DISP3DCNT & ~(REG_G3X_DISP3DCNT_GO_MASK | REG_G3X_DISP3DCNT_RO_MASK | REG_G3X_DISP3DCNT_THS_MASK);
     G3X_SetToonTable(gToonTable);
     for (index = 0; index < 8; index++) {
         gToonTable[index] = gToonTableFirstColors[index];

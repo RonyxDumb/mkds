@@ -267,11 +267,11 @@ void G3X_Init(void) {
     reg_G3X_DISP3DCNT = 0;
     reg_G3X_GXSTAT = 0;
     reg_G2_BG0OFS = 0;
-    reg_G3X_DISP3DCNT |= 0x2000;
-    reg_G3X_DISP3DCNT |= 0x1000;
-    reg_G3X_DISP3DCNT &= 0xffffcffd;
-    reg_G3X_DISP3DCNT = (reg_G3X_DISP3DCNT & ~0x3000) | 0x10;
-    reg_G3X_DISP3DCNT &= 0xcffb;
+    reg_G3X_DISP3DCNT |= REG_G3X_DISP3DCNT_GO_MASK;
+    reg_G3X_DISP3DCNT |= REG_G3X_DISP3DCNT_RO_MASK;
+    reg_G3X_DISP3DCNT &= ~(REG_G3X_DISP3DCNT_GO_MASK | REG_G3X_DISP3DCNT_RO_MASK | REG_G3X_DISP3DCNT_THS_MASK);
+    reg_G3X_DISP3DCNT = (reg_G3X_DISP3DCNT & ~(REG_G3X_DISP3DCNT_GO_MASK | REG_G3X_DISP3DCNT_RO_MASK)) | 0x10;
+    reg_G3X_DISP3DCNT &= (u16) ~(REG_G3X_DISP3DCNT_GO_MASK | REG_G3X_DISP3DCNT_RO_MASK | REG_G3X_DISP3DCNT_ATE_MASK);
     reg_G3X_GXSTAT |= 0x8000;
     reg_G3X_GXSTAT = (reg_G3X_GXSTAT & ~0xc0000000) | 0x80000000;
     G3X_InitMtxStack();
@@ -293,8 +293,8 @@ void G3X_Reset(void) {
     while (reg_G3X_GXSTAT & 0x8000000) {
     }
     reg_G3X_GXSTAT |= 0x8000;
-    reg_G3X_DISP3DCNT |= 0x2000;
-    reg_G3X_DISP3DCNT |= 0x1000;
+    reg_G3X_DISP3DCNT |= REG_G3X_DISP3DCNT_GO_MASK;
+    reg_G3X_DISP3DCNT |= REG_G3X_DISP3DCNT_RO_MASK;
     G3X_ResetMtxStack();
     reg_G3_POLYGON_ATTR = 0x1f0080;
     reg_G3_TEXIMAGE_PARAM = 0;
@@ -357,9 +357,12 @@ void G3X_ResetMtxStack(void) {
 void G3X_SetFog(s32 enable, u32 fogMode, u32 fogSlope, u32 fogOffset) {
     if (enable != 0) {
         reg_G3X_FOG_OFFSET = fogOffset;
-        reg_G3X_DISP3DCNT = (reg_G3X_DISP3DCNT & ~0x3f40) | ((fogSlope << 8) | (fogMode << 6) | 0x80);
+        reg_G3X_DISP3DCNT = (reg_G3X_DISP3DCNT & ~(REG_G3X_DISP3DCNT_GO_MASK | REG_G3X_DISP3DCNT_RO_MASK |
+                                                   REG_G3X_DISP3DCNT_FOG_SHIFT_MASK | REG_G3X_DISP3DCNT_FMOD_MASK)) |
+                            ((fogSlope << 8) | (fogMode << 6) | 0x80);
     } else {
-        reg_G3X_DISP3DCNT = reg_G3X_DISP3DCNT & 0xcf7f;
+        reg_G3X_DISP3DCNT = reg_G3X_DISP3DCNT &
+                            (u16) ~(REG_G3X_DISP3DCNT_GO_MASK | REG_G3X_DISP3DCNT_RO_MASK | REG_G3X_DISP3DCNT_FME_MASK);
     }
 }
 

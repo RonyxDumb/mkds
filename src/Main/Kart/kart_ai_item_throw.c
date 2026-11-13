@@ -534,7 +534,7 @@ void DrawPosStrips(const MtxFx43 *matrix) {
     }
     do {
         if (isDrawStateSet == FALSE) {
-            reg_G3X_DISP3DCNT = (reg_G3X_DISP3DCNT & ~0x3000) | 8;
+            reg_G3X_DISP3DCNT = (reg_G3X_DISP3DCNT & ~(REG_G3X_DISP3DCNT_GO_MASK | REG_G3X_DISP3DCNT_RO_MASK)) | 8;
             reg_G3_SPE_EMI = 0x7c004210;
             reg_G3_DIF_AMB = 0x42100000;
             reg_G3_MTX_MODE = 3;

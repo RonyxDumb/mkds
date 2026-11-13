@@ -310,7 +310,7 @@ void DrawOrthoQuadsWithModel(OrthoQuadModel *model) {
     if (GetEntryRaceEnded() != 0) {
         return;
     }
-    reg_G3X_DISP3DCNT = (reg_G3X_DISP3DCNT & ~0x3000) | 8;
+    reg_G3X_DISP3DCNT = (reg_G3X_DISP3DCNT & ~(REG_G3X_DISP3DCNT_GO_MASK | REG_G3X_DISP3DCNT_RO_MASK)) | 8;
     reg_G3_TEXIMAGE_PARAM = model->mTeximageParam;
     reg_G3_PLTT_BASE = model->mPlttBase;
     reg_G3_DIF_AMB = model->mDifAmb;

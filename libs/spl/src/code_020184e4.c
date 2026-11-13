@@ -2276,7 +2276,7 @@ void SPLManager_Update(SPLManager *mgr) {
 void SPLManager_Draw(SPLManager *mgr, MtxFx43 *viewMatrix) {
     ParticleEmitter *emtr;
 
-    reg_G3X_DISP3DCNT = (reg_G3X_DISP3DCNT & ~0x3000) | 8;
+    reg_G3X_DISP3DCNT = (reg_G3X_DISP3DCNT & ~(REG_G3X_DISP3DCNT_GO_MASK | REG_G3X_DISP3DCNT_RO_MASK)) | 8;
     mgr->mRenderStateViewMatrix = viewMatrix;
     if (mgr->mPolygonIDDrawOrder == 0) {
         for (emtr = (ParticleEmitter *) mgr->mLists[0].mFront; emtr != 0; emtr = emtr->mNext) {

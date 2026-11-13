@@ -203,9 +203,10 @@ void GX_SetBankForTex(u32 tex) {
     gVramBankGroups[0] = (gVramBankGroups[0] | gVramBankGroups[4]) & ~tex;
     gVramBankGroups[4] = tex;
     if (tex == 0) {
-        reg_G3X_DISP3DCNT &= 0xcffe;
+        reg_G3X_DISP3DCNT &=
+            (u16) ~(REG_G3X_DISP3DCNT_GO_MASK | REG_G3X_DISP3DCNT_RO_MASK | REG_G3X_DISP3DCNT_TME_MASK);
     } else {
-        reg_G3X_DISP3DCNT = (reg_G3X_DISP3DCNT & ~0x3000) | 0x1;
+        reg_G3X_DISP3DCNT = (reg_G3X_DISP3DCNT & ~(REG_G3X_DISP3DCNT_GO_MASK | REG_G3X_DISP3DCNT_RO_MASK)) | 0x1;
         switch (tex) {
             case 5:
                 reg_GX_VRAMCNT_A = 0x83;
@@ -291,24 +292,24 @@ void GX_SetBankForClearImage(u32 clrImg) {
             reg_GX_VRAMCNT_A = 0x93;
         case 2:
             reg_GX_VRAMCNT_B = 0x9b;
-            reg_G3X_DISP3DCNT |= 0x4000;
+            reg_G3X_DISP3DCNT |= REG_G3X_DISP3DCNT_PRI_MASK;
             break;
         case 12:
             reg_GX_VRAMCNT_C = 0x93;
         case 8:
             reg_GX_VRAMCNT_D = 0x9b;
-            reg_G3X_DISP3DCNT |= 0x4000;
+            reg_G3X_DISP3DCNT |= REG_G3X_DISP3DCNT_PRI_MASK;
             break;
         case 0:
-            reg_G3X_DISP3DCNT &= ~0x4000;
+            reg_G3X_DISP3DCNT &= ~REG_G3X_DISP3DCNT_PRI_MASK;
             break;
         case 1:
             reg_GX_VRAMCNT_A = 0x9b;
-            reg_G3X_DISP3DCNT |= 0x4000;
+            reg_G3X_DISP3DCNT |= REG_G3X_DISP3DCNT_PRI_MASK;
             break;
         case 4:
             reg_GX_VRAMCNT_C = 0x9b;
-            reg_G3X_DISP3DCNT |= 0x4000;
+            reg_G3X_DISP3DCNT |= REG_G3X_DISP3DCNT_PRI_MASK;
             break;
     }
     GX_VRAMCNT_SetLCDC_(gVramBankGroups[0]);
