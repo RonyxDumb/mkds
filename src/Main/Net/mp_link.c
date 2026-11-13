@@ -58,7 +58,7 @@ void ScanConnectStartConnect(WMBssDesc *scanBuffer) {
     wmResult = WM_StartConnectEx(ScanConnectStartConnectCallback, (u16 *) scanBuffer, NULL, 1, 0);
     if (wmResult != 2) {
         if (gMPLink->mCallback != NULL) {
-            gMPLink->mCallback(11, 0);
+            gMPLink->mCallback(MP_LINK_EVENT_CONNECT_FAILED, 0);
         }
     }
 }
@@ -66,7 +66,7 @@ void ScanConnectStartConnect(WMBssDesc *scanBuffer) {
 void ScanConnectStartConnectCallback(WirelessMessage *result) {
     if (result->mResultCode != 0) {
         if (gMPLink->mCallback != NULL) {
-            gMPLink->mCallback(11, result);
+            gMPLink->mCallback(MP_LINK_EVENT_CONNECT_FAILED, result);
         }
     } else {
         switch (result->mReplyState) {
@@ -81,12 +81,12 @@ void ScanConnectStartConnectCallback(WirelessMessage *result) {
                 break;
             case 9:
                 if (gMPLink->mCallback != NULL) {
-                    gMPLink->mCallback(10, 0);
+                    gMPLink->mCallback(MP_LINK_EVENT_DISCONNECTED, 0);
                 }
                 break;
             case 7:
                 if (gMPLink->mCallback != NULL) {
-                    gMPLink->mCallback(6, result);
+                    gMPLink->mCallback(MP_LINK_EVENT_CONNECTED, result);
                 }
                 break;
         }
@@ -106,7 +106,7 @@ void SetPortCallbackAndStartMP(void *sendBuffer, u8 *receiveBuffer) {
         if (mpLink->mCallback != NULL) {
             portError.mCommand = 14;
             portError.mResultCode = wmResult;
-            mpLink->mCallback(0xff, &portError);
+            mpLink->mCallback(MP_LINK_EVENT_CALL_FAILED, &portError);
         }
         return;
     }
@@ -118,7 +118,7 @@ void SetPortCallbackAndStartMP(void *sendBuffer, u8 *receiveBuffer) {
         if (mpLink->mCallback != NULL) {
             startError.mCommand = 14;
             startError.mResultCode = wmResult;
-            mpLink->mCallback(0xff, &startError);
+            mpLink->mCallback(MP_LINK_EVENT_CALL_FAILED, &startError);
         }
     }
 }
@@ -136,7 +136,7 @@ void ScanConnectStartMPCallback(WirelessMessage *result) {
             if (mpLink->mCallback != NULL) {
                 errorResult.mCommand = command;
                 errorResult.mResultCode = resultCode;
-                mpLink->mCallback(0x100, &errorResult);
+                mpLink->mCallback(MP_LINK_EVENT_REPLY_FAILED, &errorResult);
             }
         }
     } else {
@@ -146,10 +146,10 @@ void ScanConnectStartMPCallback(WirelessMessage *result) {
                 gMPLink->mDataQueued = 0;
                 gMPLink->mUnk_1e = 0;
                 if (gMPLink->mCallback != NULL) {
-                    gMPLink->mCallback(20, 0);
+                    gMPLink->mCallback(MP_LINK_EVENT_MP_STARTED, 0);
                 }
                 if (gMPLink->mCallback != NULL) {
-                    gMPLink->mCallback(25, 0);
+                    gMPLink->mCallback(MP_LINK_EVENT_SEND_READY, 0);
                 }
                 break;
             case 11:
@@ -159,7 +159,7 @@ void ScanConnectStartMPCallback(WirelessMessage *result) {
                 if (mpLink->mCallback != NULL) {
                     stateResult.mCommand = command;
                     stateResult.mResultCode = 1;
-                    mpLink->mCallback(0x100, &stateResult);
+                    mpLink->mCallback(MP_LINK_EVENT_REPLY_FAILED, &stateResult);
                 }
                 break;
             case 12:
@@ -181,7 +181,7 @@ void StartResetWithFlag(void) {
         if (mpLink->mCallback != NULL) {
             errorResult.mCommand = 1;
             errorResult.mResultCode = wmResult;
-            mpLink->mCallback(0xff, &errorResult);
+            mpLink->mCallback(MP_LINK_EVENT_CALL_FAILED, &errorResult);
         }
     }
 }
@@ -197,11 +197,11 @@ void StartResetWithFlagCallback(WirelessMessage *result) {
         if (mpLink->mCallback != NULL) {
             errorResult.mCommand = command;
             errorResult.mResultCode = resultCode;
-            mpLink->mCallback(0x100, &errorResult);
+            mpLink->mCallback(MP_LINK_EVENT_REPLY_FAILED, &errorResult);
         }
     } else {
         if (gMPLink->mCallback != NULL) {
-            gMPLink->mCallback(15, 0);
+            gMPLink->mCallback(MP_LINK_EVENT_RESET_DONE, 0);
         }
     }
 }
@@ -214,7 +214,7 @@ void StartReset(void) {
         if (mpLink->mCallback != NULL) {
             errorResult.mCommand = 1;
             errorResult.mResultCode = wmResult;
-            mpLink->mCallback(0xff, &errorResult);
+            mpLink->mCallback(MP_LINK_EVENT_CALL_FAILED, &errorResult);
         }
     }
 }
@@ -228,11 +228,11 @@ void StartResetCallback(WirelessMessage *result) {
         if (mpLink->mCallback != NULL) {
             errorResult.mCommand = command;
             errorResult.mResultCode = resultCode;
-            mpLink->mCallback(0x100, &errorResult);
+            mpLink->mCallback(MP_LINK_EVENT_REPLY_FAILED, &errorResult);
         }
     } else {
         if (gMPLink->mCallback != NULL) {
-            gMPLink->mCallback(15, 0);
+            gMPLink->mCallback(MP_LINK_EVENT_RESET_DONE, 0);
         }
     }
 }
@@ -258,7 +258,7 @@ void PortCallback(WirelessMessage *result) {
                 break;
             case 21:
                 if (gMPLink->mCallback != NULL) {
-                    gMPLink->mCallback(9, result);
+                    gMPLink->mCallback(MP_LINK_EVENT_RECEIVED, result);
                 }
                 break;
         }
@@ -284,19 +284,19 @@ void QueueMPDataCallback(WirelessMessage *result) {
     gMPLink->mDataQueued = 0;
     if (result->mResultCode == 0) {
         if (gMPLink->mCallback != NULL) {
-            gMPLink->mCallback(8, result);
+            gMPLink->mCallback(MP_LINK_EVENT_SENT, result);
         }
     } else if (result->mResultCode == 9) {
         if (gMPLink->mCallback != NULL) {
-            gMPLink->mCallback(0x29, result);
+            gMPLink->mCallback(MP_LINK_EVENT_SEND_BUSY, result);
         }
     } else {
         if (gMPLink->mCallback != NULL) {
-            gMPLink->mCallback(0x12, result);
+            gMPLink->mCallback(MP_LINK_EVENT_SEND_FAILED, result);
         }
     }
     if (gMPLink->mCallback != NULL) {
-        gMPLink->mCallback(0x19, 0);
+        gMPLink->mCallback(MP_LINK_EVENT_SEND_READY, 0);
     }
 }
 
@@ -309,7 +309,7 @@ void InitScanConnectWork(ScanConnectWork *work, void *initData) {
         gScanConnectInitialized = 1;
         MI_CpuFill8(work, 0, 0x5f20);
         gScanConnectWork = work;
-        work->mState = 0;
+        work->mState = SCAN_CONNECT_STATE_IDLE;
         MI_CpuCopy8(initData, gScanConnectWork->mUnk_05c4, 0x16);
         MBi_SetBeaconRecvStatusBuffer(gScanConnectWork->mUnk_05e8);
         MB_InitRecvGameInfoStatus();
@@ -321,7 +321,7 @@ void CloseScanConnect(void) {
     if (gScanConnectWork->mEndRequested == 0) {
         gScanConnectWork->mEndRequested = 1;
         switch (gScanConnectWork->mState) {
-            case 0:
+            case SCAN_CONNECT_STATE_IDLE:
                 if (gScanConnectWork->mRepeatScan != 0) {
                     gScanConnectWork->mRepeatScan = 0;
                     return;
@@ -331,25 +331,25 @@ void CloseScanConnect(void) {
                     return;
                 }
                 break;
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 6:
-            case 14:
-            case 19:
+            case SCAN_CONNECT_STATE_CONNECTING:
+            case SCAN_CONNECT_STATE_LINK_UP:
+            case SCAN_CONNECT_STATE_CONNECT_FAILED:
+            case SCAN_CONNECT_STATE_LINK_LOST:
+            case SCAN_CONNECT_STATE_REQUEST_REJECTED:
+            case SCAN_CONNECT_STATE_REQUEST_FAILED:
+            case SCAN_CONNECT_STATE_ERROR:
                 StartReset();
                 break;
-            case 5:
-            case 7:
-            case 8:
-            case 9:
+            case SCAN_CONNECT_STATE_SEND_REQUEST:
+            case SCAN_CONNECT_STATE_ACCEPTED:
+            case SCAN_CONNECT_STATE_WAIT_START:
+            case SCAN_CONNECT_STATE_SEND_START:
                 StartResetWithFlag();
                 break;
-            case 10:
+            case SCAN_CONNECT_STATE_SEND_DONE:
                 break;
-            case 11:
-            case 12:
+            case SCAN_CONNECT_STATE_RESET_DONE:
+            case SCAN_CONNECT_STATE_RESET_ABORTED:
                 FinishScanConnect();
                 break;
             default:
@@ -433,7 +433,7 @@ void ScanConnectStartScan(void) {
         bssid[5] = defaultBssid[5];
         gScanConnectWork->mScanParams.mMaxChannelTime = 10;
         if (PickScanChannel() == 0) {
-            ReportScanError(0x1e, 0);
+            ReportScanError(SCAN_ERROR_NO_CHANNEL, 0);
             return;
         }
     }
@@ -442,13 +442,13 @@ void ScanConnectStartScan(void) {
     }
     wmResult = WM_StartScan(ScanConnectStartScanCallback, &gScanConnectWork->mScanParams);
     if (wmResult != 2) {
-        ReportScanError(0xa, wmResult);
+        ReportScanError(SCAN_ERROR_START, wmResult);
     }
 }
 
 void ScanConnectStartScanCallback(WirelessMessage *result) {
     if (result->mResultCode != 0) {
-        ReportScanError(0xa, result->mResultCode);
+        ReportScanError(SCAN_ERROR_START, result->mResultCode);
         return;
     }
     switch (result->mReplyState) {
@@ -469,7 +469,7 @@ void ScanConnectStartScanCallback(WirelessMessage *result) {
             }
             break;
         default:
-            ReportScanError(0xa, 1);
+            ReportScanError(SCAN_ERROR_START, 1);
             break;
     }
 }
@@ -496,7 +496,7 @@ void ReportScanError(u16 errorCode, u16 resultCode) {
     if (gScanConnectWork->mScanCallback != NULL) {
         args.mErrorCode = errorCode;
         args.mResultCode = resultCode;
-        gScanConnectWork->mScanCallback(2, &args);
+        gScanConnectWork->mScanCallback(SCAN_EVENT_ERROR, &args);
     }
 }
 
@@ -529,10 +529,10 @@ void EntryCallback(u32 event, void *entry, u32 entryIndex) {
         case 4:
             break;
         case 1:
-            CallScanCallbackWithEntry(0, entry, entryIndex);
+            CallScanCallbackWithEntry(SCAN_EVENT_ENTRY_NEW, entry, entryIndex);
             break;
         case 3:
-            CallScanCallbackWithEntry(1, entry, entryIndex);
+            CallScanCallbackWithEntry(SCAN_EVENT_ENTRY_UPDATED, entry, entryIndex);
             break;
     }
 }
@@ -566,7 +566,7 @@ void ScanConnectEndScan(void) {
     u32 wmResult;
     wmResult = WM_EndScan(ScanConnectEndScanCallback);
     if (wmResult != 2) {
-        ReportScanError(0xb, wmResult & 0xffff);
+        ReportScanError(SCAN_ERROR_END, wmResult & 0xffff);
     }
 }
 

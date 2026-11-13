@@ -5,6 +5,25 @@
 
 typedef struct MbRequestPieceBuf MbRequestPieceBuf;
 
+// ParentMessage.mKind.
+typedef enum ParentMessageKind {
+    PARENT_MESSAGE_LISTENING = 1,
+    PARENT_MESSAGE_TURNED_DOWN = 2,
+    PARENT_MESSAGE_WELCOMED = 3,
+    PARENT_MESSAGE_BEGIN_SEND = 4,
+    PARENT_MESSAGE_SEND_FINISHED = 5,
+    PARENT_MESSAGE_GAVE_UP = 6,
+} ParentMessageKind;
+
+// ChildMessage.mKind.
+typedef enum ChildMessageKind {
+    CHILD_MESSAGE_NONE = 0,
+    CHILD_MESSAGE_REQUEST = 7,
+    CHILD_MESSAGE_ACCEPT_ACK = 8,
+    CHILD_MESSAGE_START_ACK = 10,
+    CHILD_MESSAGE_DONE_ACK = 11,
+} ChildMessageKind;
+
 // Six bytes that MBi_SetRecvBufferFromParent fills and MBi_MakeParentSendBuffer writes out.
 typedef struct ParentMessage {
     /* 0 */ u8 mKind;

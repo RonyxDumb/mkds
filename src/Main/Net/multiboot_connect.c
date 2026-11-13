@@ -251,13 +251,13 @@ s32 FindScanEntryIndex(u32 entryIndex) {
 // Codes: 2 is an error, 3 the end of the scan; 0 and 1 carry a table entry and are ignored.
 void RepeatedScanCallback(u32 code) {
     switch (code) {
-        case 0:
-        case 1:
+        case SCAN_EVENT_ENTRY_NEW:
+        case SCAN_EVENT_ENTRY_UPDATED:
             break;
-        case 2:
+        case SCAN_EVENT_ERROR:
             SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
             break;
-        case 3:
+        case SCAN_EVENT_END:
             gConnectionWork->mRequestPending = 0;
             break;
     }
@@ -265,22 +265,22 @@ void RepeatedScanCallback(u32 code) {
 
 void ScanConnectStateCallback(u32 state) {
     switch (state) {
-        case 11:
+        case SCAN_CONNECT_STATE_RESET_DONE:
             gConnectionWork->mRequestPending = 0;
             break;
-        case 20:
+        case SCAN_CONNECT_STATE_FINISHED:
             gConnectionWork->mStepWaitFrames = (OS_GetTick() >> 10) % 40;
             gConnectionWork->mRequestPending = 0;
             break;
-        case 7:
+        case SCAN_CONNECT_STATE_ACCEPTED:
             gConnectionWork->mScanConnected = 1;
             gConnectionWork->mState = CONNECTION_STATE_CONNECTED;
             break;
-        case 4:
+        case SCAN_CONNECT_STATE_LINK_LOST:
             SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
             break;
-        case 3:
-        case 6:
+        case SCAN_CONNECT_STATE_CONNECT_FAILED:
+        case SCAN_CONNECT_STATE_REQUEST_REJECTED:
             gConnectionWork->mScanConnected = 0;
             gConnectionWork->mRequestPending = 0;
             break;

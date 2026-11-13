@@ -10,7 +10,7 @@
 
 void ScanConnectEndScanCallback(WirelessMessage *info) {
     if (info->mResultCode != 0) {
-        ReportScanError(0xb, info->mResultCode);
+        ReportScanError(SCAN_ERROR_END, info->mResultCode);
         return;
     }
     gScanConnectWork->mEndScanRequested = 0;
@@ -18,7 +18,7 @@ void ScanConnectEndScanCallback(WirelessMessage *info) {
         FinishScanConnect();
         return;
     }
-    CallScanCallbackWithEntry(3, NULL, 0);
+    CallScanCallbackWithEntry(SCAN_EVENT_END, NULL, 0);
 }
 
 u32 StartConnectToEntry(u32 entryIndex) {
@@ -31,7 +31,7 @@ u32 StartConnectToEntry(u32 entryIndex) {
     gScanConnectWork->mUnk_5f0c = entry->mFileNo;
     SetupMPLink(&gScanConnectWork->mMPLink);
     SetMPLinkCallback(MPLinkCallback);
-    SetScanConnectStateAndNotify(1, 0);
+    SetScanConnectStateAndNotify(SCAN_CONNECT_STATE_CONNECTING, 0);
     MI_CpuCopy8(entry->mScanBuffer, &gScanConnectWork->mScanBuffer, 0xc0);
     ScanConnectStartConnect(&gScanConnectWork->mScanBuffer);
     return 1;
@@ -42,57 +42,57 @@ void MPLinkCallback(s32 eventKind, WirelessMessage *info) {
     u16 commandCode;
     u16 code;
     switch (eventKind) {
-        case 7:
-        case 8:
+        case MP_LINK_EVENT_UNUSED:
+        case MP_LINK_EVENT_SENT:
             break;
-        case 11:
-            SetScanConnectStateAndNotify(3, 0);
+        case MP_LINK_EVENT_CONNECT_FAILED:
+            SetScanConnectStateAndNotify(SCAN_CONNECT_STATE_CONNECT_FAILED, 0);
             break;
-        case 6:
-            SetScanConnectStateAndNotify(2, info);
+        case MP_LINK_EVENT_CONNECTED:
+            SetScanConnectStateAndNotify(SCAN_CONNECT_STATE_LINK_UP, info);
             SetPortCallbackAndStartMP(gScanConnectWork, gScanConnectWork->mReceiveBuffer);
             break;
-        case 10:
-            SetScanConnectStateAndNotify(4, info);
+        case MP_LINK_EVENT_DISCONNECTED:
+            SetScanConnectStateAndNotify(SCAN_CONNECT_STATE_LINK_LOST, info);
             break;
-        case 25:
+        case MP_LINK_EVENT_SEND_READY:
             QueueStateMessage();
             break;
-        case 9:
+        case MP_LINK_EVENT_RECEIVED:
             ReceivePortMessage(info);
             break;
-        case 15:
-            if (gScanConnectWork->mState == 10) {
-                SetScanConnectStateAndNotify(11, 0);
+        case MP_LINK_EVENT_RESET_DONE:
+            if (gScanConnectWork->mState == SCAN_CONNECT_STATE_SEND_DONE) {
+                SetScanConnectStateAndNotify(SCAN_CONNECT_STATE_RESET_DONE, 0);
             } else {
-                SetScanConnectStateAndNotify(12, 0);
+                SetScanConnectStateAndNotify(SCAN_CONNECT_STATE_RESET_ABORTED, 0);
             }
             if (gScanConnectWork->mEndRequested != 0) {
                 FinishScanConnect();
             }
             break;
-        case 0xff:
+        case MP_LINK_EVENT_CALL_FAILED:
             code = info->mResultCode;
             if (gScanConnectWork->mStateCallback != NULL) {
                 switch (code) {
-                    case 1:
-                    case 4:
-                    case 5:
-                    case 6:
-                    case 8:
-                    case 9:
-                        code = 9;
+                    case WIRELESS_RESULT_REFUSED:
+                    case WIRELESS_RESULT_SWITCHED_OFF:
+                    case WIRELESS_RESULT_NOT_SET_UP:
+                    case WIRELESS_RESULT_BAD_INPUT:
+                    case WIRELESS_RESULT_PIPE_ERROR:
+                    case WIRELESS_RESULT_NO_ANSWER:
+                        code = SCAN_CONNECT_ERROR_WM_REJECTED;
                         break;
-                    case 15:
+                    case WIRELESS_RESULT_TRANSMIT_ERROR:
                     default:
-                        code = 8;
+                        code = SCAN_CONNECT_ERROR_OTHER;
                         break;
                 }
                 resultCode = code;
-                gScanConnectWork->mStateCallback(0x13, &resultCode);
+                gScanConnectWork->mStateCallback(SCAN_CONNECT_STATE_ERROR, &resultCode);
             }
             break;
-        case 0x100:
+        case MP_LINK_EVENT_REPLY_FAILED:
             code = info->mCommand;
             if (gScanConnectWork->mStateCallback != NULL) {
                 switch (code) {
@@ -107,18 +107,18 @@ void MPLinkCallback(s32 eventKind, WirelessMessage *info) {
                     case 21:
                     case 25:
                     case 29:
-                        code = 9;
+                        code = SCAN_CONNECT_ERROR_WM_REJECTED;
                         break;
                     case 1:
                     default:
-                        code = 8;
+                        code = SCAN_CONNECT_ERROR_OTHER;
                         break;
                 }
                 commandCode = code;
-                gScanConnectWork->mStateCallback(0x13, &commandCode);
+                gScanConnectWork->mStateCallback(SCAN_CONNECT_STATE_ERROR, &commandCode);
             }
             break;
-        case 0x29:
+        case MP_LINK_EVENT_SEND_BUSY:
             break;
     }
 }
@@ -127,38 +127,38 @@ void ReceivePortMessage(WirelessMessage *info) {
     ParentMessage parentMessage;
     MBi_SetRecvBufferFromParent(&parentMessage, info->mData);
     switch (parentMessage.mKind) {
-        case 1:
-            if (gScanConnectWork->mState == 2) {
-                SetScanConnectStateAndNotify(5, 0);
+        case PARENT_MESSAGE_LISTENING:
+            if (gScanConnectWork->mState == SCAN_CONNECT_STATE_LINK_UP) {
+                SetScanConnectStateAndNotify(SCAN_CONNECT_STATE_SEND_REQUEST, 0);
             }
             break;
-        case 2:
-            if (gScanConnectWork->mState == 5) {
-                SetScanConnectStateAndNotify(6, 0);
+        case PARENT_MESSAGE_TURNED_DOWN:
+            if (gScanConnectWork->mState == SCAN_CONNECT_STATE_SEND_REQUEST) {
+                SetScanConnectStateAndNotify(SCAN_CONNECT_STATE_REQUEST_REJECTED, 0);
             }
             break;
-        case 6:
-            if (gScanConnectWork->mState == 5) {
-                SetScanConnectStateAndNotify(0xe, 0);
+        case PARENT_MESSAGE_GAVE_UP:
+            if (gScanConnectWork->mState == SCAN_CONNECT_STATE_SEND_REQUEST) {
+                SetScanConnectStateAndNotify(SCAN_CONNECT_STATE_REQUEST_FAILED, 0);
             }
             break;
-        case 3:
-            if (gScanConnectWork->mState == 5) {
-                SetScanConnectStateAndNotify(7, 0);
+        case PARENT_MESSAGE_WELCOMED:
+            if (gScanConnectWork->mState == SCAN_CONNECT_STATE_SEND_REQUEST) {
+                SetScanConnectStateAndNotify(SCAN_CONNECT_STATE_ACCEPTED, 0);
             }
             break;
-        case 4:
-            if (gScanConnectWork->mState == 7) {
-                SetScanConnectStateAndNotify(8, 0);
+        case PARENT_MESSAGE_BEGIN_SEND:
+            if (gScanConnectWork->mState == SCAN_CONNECT_STATE_ACCEPTED) {
+                SetScanConnectStateAndNotify(SCAN_CONNECT_STATE_WAIT_START, 0);
             }
-            if (gScanConnectWork->mState == 8) {
-                SetScanConnectStateAndNotify(9, 0);
+            if (gScanConnectWork->mState == SCAN_CONNECT_STATE_WAIT_START) {
+                SetScanConnectStateAndNotify(SCAN_CONNECT_STATE_SEND_START, 0);
             }
             break;
-        case 5:
-            if (gScanConnectWork->mState == 9) {
-                SetScanConnectStateAndNotify(10, 0);
-            } else if (gScanConnectWork->mState == 10) {
+        case PARENT_MESSAGE_SEND_FINISHED:
+            if (gScanConnectWork->mState == SCAN_CONNECT_STATE_SEND_START) {
+                SetScanConnectStateAndNotify(SCAN_CONNECT_STATE_SEND_DONE, 0);
+            } else if (gScanConnectWork->mState == SCAN_CONNECT_STATE_SEND_DONE) {
                 StartResetWithFlag();
             }
             break;
@@ -170,12 +170,12 @@ void QueueStateMessage(void) {
     MBCommRequestData requestData;
     u8 *payload;
     switch (gScanConnectWork->mState) {
-        case 5:
+        case SCAN_CONNECT_STATE_SEND_REQUEST:
             requestData.mGgid = gScanConnectWork->mUnk_5f08;
             requestData.mVersion = 1;
             requestData.mFileId = gScanConnectWork->mUnk_5f0c;
             MI_CpuCopy8(gScanConnectWork->mUnk_05c4, requestData.mUserInfo, 0x16);
-            childMessage.mKind = 7;
+            childMessage.mKind = CHILD_MESSAGE_REQUEST;
             payload = &childMessage.mKind;
             payload += 3;
             *(u8 *) &childMessage.mPieceRequest = MBi_SendRequestDataPiece(payload, &requestData);
@@ -183,25 +183,25 @@ void QueueStateMessage(void) {
                 QueueMPDataIfReady(8, 0xffff, gScanConnectWork->mMessageBuffer);
             }
             break;
-        case 7:
-            childMessage.mKind = 8;
+        case SCAN_CONNECT_STATE_ACCEPTED:
+            childMessage.mKind = CHILD_MESSAGE_ACCEPT_ACK;
             MBi_MakeChildSendBuffer(&childMessage, gScanConnectWork->mMessageBuffer);
             QueueMPDataIfReady(8, 0xffff, gScanConnectWork->mMessageBuffer);
             break;
-        case 8:
+        case SCAN_CONNECT_STATE_WAIT_START:
             break;
-        case 9:
-            childMessage.mKind = 10;
+        case SCAN_CONNECT_STATE_SEND_START:
+            childMessage.mKind = CHILD_MESSAGE_START_ACK;
             MBi_MakeChildSendBuffer(&childMessage, gScanConnectWork->mMessageBuffer);
             QueueMPDataIfReady(8, 0xffff, gScanConnectWork->mMessageBuffer);
             break;
-        case 10:
-            childMessage.mKind = 11;
+        case SCAN_CONNECT_STATE_SEND_DONE:
+            childMessage.mKind = CHILD_MESSAGE_DONE_ACK;
             MBi_MakeChildSendBuffer(&childMessage, gScanConnectWork->mMessageBuffer);
             QueueMPDataIfReady(8, 0xffff, gScanConnectWork->mMessageBuffer);
             break;
         default:
-            childMessage.mKind = 0;
+            childMessage.mKind = CHILD_MESSAGE_NONE;
             MBi_MakeChildSendBuffer(&childMessage, gScanConnectWork->mMessageBuffer);
             QueueMPDataIfReady(8, 0xffff, gScanConnectWork->mMessageBuffer);
             break;

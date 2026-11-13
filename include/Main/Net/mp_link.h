@@ -20,6 +20,64 @@ typedef struct ScanErrorArgs {
 
 #include "code_02142eac.h"
 
+// ScanConnectWork.mState; the child steps through the parent's messages.
+typedef enum ScanConnectState {
+    SCAN_CONNECT_STATE_IDLE = 0,
+    SCAN_CONNECT_STATE_CONNECTING = 1,
+    SCAN_CONNECT_STATE_LINK_UP = 2,
+    SCAN_CONNECT_STATE_CONNECT_FAILED = 3,
+    SCAN_CONNECT_STATE_LINK_LOST = 4,
+    SCAN_CONNECT_STATE_SEND_REQUEST = 5,
+    SCAN_CONNECT_STATE_REQUEST_REJECTED = 6,
+    SCAN_CONNECT_STATE_ACCEPTED = 7,
+    SCAN_CONNECT_STATE_WAIT_START = 8, // the START message moves ACCEPTED on to SEND_START in the same call
+    SCAN_CONNECT_STATE_SEND_START = 9,
+    SCAN_CONNECT_STATE_SEND_DONE = 10,
+    SCAN_CONNECT_STATE_RESET_DONE = 11,
+    SCAN_CONNECT_STATE_RESET_ABORTED = 12,
+    SCAN_CONNECT_STATE_REQUEST_FAILED = 14,
+    SCAN_CONNECT_STATE_ERROR = 19, // only passed to the state callback with an error kind
+    SCAN_CONNECT_STATE_FINISHED = 20, // the scan connection was closed
+} ScanConnectState;
+
+// Kind that the state callback gets with SCAN_CONNECT_STATE_ERROR.
+typedef enum ScanConnectError {
+    SCAN_CONNECT_ERROR_OTHER = 8,
+    SCAN_CONNECT_ERROR_WM_REJECTED = 9,
+} ScanConnectError;
+
+// First argument of the MPLink callback.
+typedef enum MPLinkEvent {
+    MP_LINK_EVENT_CONNECTED = 6,
+    MP_LINK_EVENT_UNUSED = 7, // never raised
+    MP_LINK_EVENT_SENT = 8,
+    MP_LINK_EVENT_RECEIVED = 9,
+    MP_LINK_EVENT_DISCONNECTED = 10,
+    MP_LINK_EVENT_CONNECT_FAILED = 11,
+    MP_LINK_EVENT_RESET_DONE = 15,
+    MP_LINK_EVENT_SEND_FAILED = 18,
+    MP_LINK_EVENT_MP_STARTED = 20,
+    MP_LINK_EVENT_SEND_READY = 25,
+    MP_LINK_EVENT_SEND_BUSY = 0x29,
+    MP_LINK_EVENT_CALL_FAILED = 0xff, // a WM call failed
+    MP_LINK_EVENT_REPLY_FAILED = 0x100, // a WM reply failed
+} MPLinkEvent;
+
+// First argument of ScanConnectWork.mScanCallback.
+typedef enum ScanEvent {
+    SCAN_EVENT_ENTRY_NEW = 0,
+    SCAN_EVENT_ENTRY_UPDATED = 1,
+    SCAN_EVENT_ERROR = 2,
+    SCAN_EVENT_END = 3,
+} ScanEvent;
+
+// ScanErrorArgs.mErrorCode.
+typedef enum ScanError {
+    SCAN_ERROR_START = 10,
+    SCAN_ERROR_END = 11,
+    SCAN_ERROR_NO_CHANNEL = 30,
+} ScanError;
+
 typedef struct MPLink {
     /* 00 */ UnkFunc *mCallback;
     /* 04 */ void *mSendBuffer;
