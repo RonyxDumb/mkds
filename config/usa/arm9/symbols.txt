@@ -9218,7 +9218,7 @@ gTimeAttackGhostGetScanSSelLabelTextRows kind:data(byte[64]) addr:0x02164254
 @6271 kind:data(byte[32]) addr:0x02164400 local
 @6272 kind:data(byte[32]) addr:0x02164420 local
 @6273 kind:data(byte[32]) addr:0x02164440 local
-data_usa_02164460 kind:data(byte[16]) addr:0x02164460
+gTimeAttackGhostGetSlotCallbacks kind:data(byte[16]) addr:0x02164460
 gTimeAttackGhostGetSlotSLabelTextRows kind:data(byte[112]) addr:0x02164470
 gTimeAttackGhostGetCommonBmgName kind:data(byte[11]) addr:0x021644e0
 gTimeAttackGhostGetGhostBmgName kind:data(byte[10]) addr:0x021644ec

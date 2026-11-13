@@ -3,5 +3,3 @@
 
 typedef struct GhostSceneCallbacks GhostSceneCallbacks;
 
-extern GhostSceneCallbacks data_usa_02164460;
-

@@ -863,6 +863,11 @@ src/Main/Menu/time_attack_ghost_get_scan.c:
     .bss        start:0x02174e44 end:0x02174e50
 
 // provisional: file name and boundaries
+src/Main/Menu/time_attack_ghost_get_slot_data.c:
+    complete
+    .data       start:0x02164460 end:0x021644e0
+
+// provisional: file name and boundaries
 src/Main/Menu/time_attack_ghost_get_names_a.c:
     complete
     .data       start:0x021644e0 end:0x021644ec

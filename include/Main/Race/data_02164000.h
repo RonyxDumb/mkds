@@ -9,8 +9,6 @@
 #include "pm.h"
 #include "Main/Sound/sound_seq.h"
 
-extern s16 gTimeAttackGhostGetSlotSLabelTextRows[][4];
-
 extern const char gTimeAttackGhostGetSBnclName[];
 
 extern const char gTimeAttackGhostGetSBnllName[];
@@ -18,8 +16,6 @@ extern const char gTimeAttackGhostGetSBnllName[];
 extern const char gTimeAttackGhostGetSBnblName[];
 
 // Objects whose layout isn't known yet.
-
-
 
 extern void *gRaceDisplaySettingsDescs[7];
 

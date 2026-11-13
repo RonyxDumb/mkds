@@ -36,6 +36,7 @@
 #include "Main/Menu/txt_system.h"
 #include "Main/Menu/message_screen.h"
 #include "Main/Menu/data_02162c74.h"
+#include "Main/Menu/time_attack_ghost_get_slot_data.h"
 #include "Main/Menu/time_attack_ghost_get_scan.h"
 #include "Main/Menu/ghost_send.h"
 #include "code_0214d018.h"
@@ -46,7 +47,7 @@
 #include "Main/Menu/menu_shared_clear.h"
 #include "Main/Scene/display_settings_descs.h"
 
-GhostSceneCallbacks *gGhostSceneCallbacks[3] = {&gTimeAttackGhostSendCallbacks, &gTimeAttackGhostGetScanCallbacks, &data_usa_02164460};
+GhostSceneCallbacks *gGhostSceneCallbacks[3] = {&gTimeAttackGhostSendCallbacks, &gTimeAttackGhostGetScanCallbacks, &gTimeAttackGhostGetSlotCallbacks};
 GhostScene *gGhostScene;
 
 #pragma thumb on
