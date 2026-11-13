@@ -25,12 +25,6 @@ extern u32 (*gLinkIsOn)(void);
 
 typedef struct OSThread OSThread;
 
-// Frame start: two addresses and a type word.
-typedef struct EthernetHeader {
-    /* 00 */ u8 mUnk_00[0xc];
-    /* 0c */ u16 mEtherType;
-} EthernetHeader;
-
 typedef struct IpHeader {
     /* 00 */ u8 mVersionIhl;
     /* 01 */ u8 mTypeOfService;
@@ -95,6 +89,16 @@ typedef struct ArpPacket {
     /* 18 */ u16 mTargetAddressHigh;
     /* 1a */ u16 mTargetAddressLow;
 } ArpPacket;
+
+// Frame start: two addresses and a type word, then an IP packet or an ARP packet.
+typedef struct EthernetHeader {
+    /* 00 */ u8 mUnk_00[0xc];
+    /* 0c */ u16 mEtherType;
+    union {
+        /* 0e */ IpHeader mIp;
+        /* 0e */ ArpPacket mArp;
+    };
+} EthernetHeader;
 
 typedef struct CPSSoc CPSSoc;
 typedef struct CPSArpCache CPSArpCache;

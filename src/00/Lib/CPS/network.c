@@ -1542,10 +1542,10 @@ void tcpip(void) {
         if (length > 0x22) {
             switch ((u16) ((frame->mEtherType >> 8) | (frame->mEtherType << 8))) {
                 case 0x800:
-                    dispatch_ip(OFFSET_PTR(IpHeader, frame, 0xe), length - 0xe);
+                    dispatch_ip(&frame->mIp, length - 0xe);
                     break;
                 case 0x806:
-                    dispatch_arp(OFFSET_PTR(ArpPacket, frame, 0xe), length - 0xe);
+                    dispatch_arp(&frame->mArp, length - 0xe);
                     break;
             }
         }
