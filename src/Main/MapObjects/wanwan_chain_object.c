@@ -57,9 +57,9 @@ void ResetWanwanChainPoints(WanwanChainObject *chainObject) {
     Vec3 endPoint;
 
     wanwan = chainObject->mWanwan;
-    VEC_MultAdd(-wanwan->mUnk_f0, &wanwan->mMapObject.mMatrix.mRows[2], &wanwan->mMapObject.mPos, &endPoint);
+    VEC_MultAdd(-wanwan->mScaledLength, &wanwan->mMapObject.mMatrix.mRows[2], &wanwan->mMapObject.mPos, &endPoint);
     startPoint = wanwan->mCenterPos;
-    startPoint.y -= wanwan->mUnk_f0 >> 1;
+    startPoint.y -= wanwan->mScaledLength >> 1;
     SetWanwanChainPointsEvenly(&chainObject->mChain, &startPoint, &endPoint);
     if (chainObject->mHasKui != FALSE) {
         return;
@@ -91,7 +91,7 @@ void InitWanwanChainObject(WanwanChainObject *chainObject, void *unused, Wanwan 
     } else {
         distance = 0x55000;
     }
-    InitWanwanChain(&chainObject->mChain, &chainObject->mPos, &chainObject->mPos, distance - wanwan->mUnk_f0,
+    InitWanwanChain(&chainObject->mChain, &chainObject->mPos, &chainObject->mPos, distance - wanwan->mScaledLength,
                     wanwan->mFollowsPath != 0 ? 4 : 7, 0x6000, &chainObject->mUnk_1c);
     if (chainObject->mHasKui == FALSE) {
         ClearWanwanChainFirstLinkFlag(&chainObject->mChain);
@@ -105,11 +105,11 @@ void InitWanwanChainObject(WanwanChainObject *chainObject, void *unused, Wanwan 
     }
     chainObject->mWanwan = wanwan;
     if (chainObject->mHasKui != FALSE) {
-        distance = wanwan->mUnk_f8;
+        distance = wanwan->mRadiusLimit;
     } else {
         distance = 0xc8000;
     }
-    chainObject->mUnk_68 = 1.2f * (distance + wanwan->mUnk_f0);
+    chainObject->mUnk_68 = 1.2f * (distance + wanwan->mScaledLength);
 }
 
 #pragma thumb off

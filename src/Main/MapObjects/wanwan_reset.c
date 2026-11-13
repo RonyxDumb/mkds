@@ -127,20 +127,20 @@ void CreateWanwanAndRockShadow(void) {
 #pragma thumb on
 void InitWanwanOnChain(Wanwan *wanwan, CourseMapRow *row) {
     wanwan->mCenterPos = row->mPosition;
-    wanwan->mUnk_f0 = MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mScale.y, 0x1e000);
-    wanwan->mUnk_f4 = 0xf000 - wanwan->mUnk_f0;
-    wanwan->mUnk_f8 = (row->mSettings[0] * 0x3000) >> 2;
-    wanwan->mUnk_1dc = TO_FIXED12(row->mSettings[1]);
+    wanwan->mScaledLength = MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mScale.y, 0x1e000);
+    wanwan->mProbeOffsetY = 0xf000 - wanwan->mScaledLength;
+    wanwan->mRadiusLimit = (row->mSettings[0] * 0x3000) >> 2;
+    wanwan->mKartDetectRadius = TO_FIXED12(row->mSettings[1]);
     wanwan->mMaxRadius = TO_FIXED12(row->mSettings[0]);
-    wanwan->mUnk_1fc = wanwan->mUnk_f8 - (wanwan->mUnk_f0 << 1);
+    wanwan->mPullBackRadius = wanwan->mRadiusLimit - (wanwan->mScaledLength << 1);
     wanwan->mFollowsPath = 0;
     wanwan->mUsesCourseCollision = 0;
     wanwan->mChainObject = (WanwanChainObject *) CreateMapObjectFromObject(&wanwan->mMapObject, 0x197);
-    wanwan->mUnk_ac = wanwan->mCenterPos.y;
-    wanwan->mCenterPos.y = wanwan->mCenterPos.y + wanwan->mUnk_f0;
+    wanwan->mBaseY = wanwan->mCenterPos.y;
+    wanwan->mCenterPos.y = wanwan->mCenterPos.y + wanwan->mScaledLength;
     InitStateMachine(&wanwan->mMapObject.mStateMachine, gWanwanStateTable, 6, wanwan);
     SetStateMachineState(&wanwan->mMapObject.mStateMachine, 0);
-    wanwan->mUnk_200 = wanwan->mMapObject.mMatrix.mRows[2];
+    wanwan->mForward = wanwan->mMapObject.mMatrix.mRows[2];
     ResetWanwan(wanwan);
     wanwan->mCollisionSlot = CreateCollisionSlot(&wanwan->mMapObject.mPos, wanwan->mMaxRadius, 0x400, wanwan);
     wanwan->mMapObject.mFarDistanceSquared = gSoundFalloffs[4].mFarDistanceSquared;
@@ -150,12 +150,12 @@ void InitWanwanOnChain(Wanwan *wanwan, CourseMapRow *row) {
 #pragma thumb on
 void InitWanwanOnPath(Wanwan *wanwan, CourseMapRow *row) {
     wanwan->mCenterPos = row->mPosition;
-    wanwan->mUnk_f0 = MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mScale.y, 0x1e000);
-    wanwan->mUnk_f4 = 0xf000 - wanwan->mUnk_f0;
+    wanwan->mScaledLength = MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mScale.y, 0x1e000);
+    wanwan->mProbeOffsetY = 0xf000 - wanwan->mScaledLength;
     wanwan->mFollowsPath = 1;
     wanwan->mUsesCourseCollision = row->mSettings[1];
-    wanwan->mUnk_ac = wanwan->mCenterPos.y;
-    wanwan->mCenterPos.y = wanwan->mCenterPos.y + wanwan->mUnk_f0;
+    wanwan->mBaseY = wanwan->mCenterPos.y;
+    wanwan->mCenterPos.y = wanwan->mCenterPos.y + wanwan->mScaledLength;
     InitStateMachine(&wanwan->mMapObject.mStateMachine, gWanwanStateTable, 6, wanwan);
     SetStateMachineState(&wanwan->mMapObject.mStateMachine, 5);
     InitGroupFollowerWithSpeeds(&wanwan->mFollower, row, gGroupFollowerSpeed, row->mSettings[0]);
@@ -177,7 +177,7 @@ void ResetWanwan(Wanwan *wanwan) {
         &wanwan->mYawQuaternion);
     QuaternionMultiplyByYawIgnoreY(&wanwan->mSurfaceOrientation, &wanwan->mYawQuaternion, &wanwan->mOrientation);
     Matrix3x3FromQuaternion(&wanwan->mMapObject.mMatrix.mAxes, &wanwan->mOrientation);
-    wanwan->mUnk_e4 = 0;
+    wanwan->mAngleAroundXOffset = 0;
     if (wanwan->mFollowsPath == 0) {
         ResetWanwanChainPoints(wanwan->mChainObject);
     }
@@ -187,10 +187,10 @@ void ResetWanwan(Wanwan *wanwan) {
         wanwan->mCurvePoints[2] = &wanwan->mCurvePointValues[2];
         wanwan->mCurvePoints[3] = &wanwan->mCurvePointValues[3];
         if (gRaceSetup->mRaceKind == RACE_KIND_START_GP) {
-            VEC_MultAdd(0xf000, &wanwan->mUnk_200, &wanwan->mMapObject.mPos, &wanwan->mMapObject.mPos);
-            wanwan->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(wanwan->mUnk_200.x, 0x400);
-            wanwan->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(wanwan->mUnk_200.y, 0x400);
-            wanwan->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(wanwan->mUnk_200.z, 0x400);
+            VEC_MultAdd(0xf000, &wanwan->mForward, &wanwan->mMapObject.mPos, &wanwan->mMapObject.mPos);
+            wanwan->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(wanwan->mForward.x, 0x400);
+            wanwan->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(wanwan->mForward.y, 0x400);
+            wanwan->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(wanwan->mForward.z, 0x400);
             QuaternionFromAngleAroundY(
                 (u16) ((((s64) FX_Atan2(wanwan->mMapObject.mPosStep.x, wanwan->mMapObject.mPosStep.z) *
                          0x28be60db9391LL) +
