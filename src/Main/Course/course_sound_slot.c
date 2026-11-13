@@ -147,7 +147,7 @@ BOOL StartCourseSoundAtVolume(s32 slotIndex, u32 soundId) {
         trackVolume = 0;
         ok = 0;
     } else {
-        trackVolume = ((CourseSoundVolumesView *) &gCourseSoundSlots[0].mLowVolume)[slotIndex].mVolumes[volumeHandle - 1];
+        trackVolume = gCourseSoundSlots[slotIndex].mVolumes[volumeHandle - 1];
         ok = 1;
     }
     if (ok != 0) {
@@ -185,7 +185,7 @@ BOOL UpdateCourseSound(u32 slotIndex, u32 soundId) {
         trackVolume = 0;
         ok = 0;
     } else {
-        trackVolume = ((CourseSoundVolumesView *) &gCourseSoundSlots[0].mLowVolume)[slotIndex].mVolumes[volumeHandle - 1];
+        trackVolume = gCourseSoundSlots[slotIndex].mVolumes[volumeHandle - 1];
         ok = 1;
     }
     if (ok != 0) {

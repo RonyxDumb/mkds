@@ -19,17 +19,16 @@ typedef struct CourseSoundSlot {
     /* 00 */ u32 mVolumeHandle;
     /* 04 */ u32 mPreviousVolumeHandle;
     /* 08 */ u32 mFirstTableIndex;
-    /* 0c */ u8 mLowVolume;
-    /* 0d */ u8 mMidVolume;
-    /* 0e */ u8 mHighVolume;
-    /* 0f */ u8 mUnk_0f;
+    /* 0c */ union {
+        u8 mVolumes[4];
+        struct {
+            u8 mLowVolume;
+            u8 mMidVolume;
+            u8 mHighVolume;
+            u8 mUnk_0f;
+        };
+    };
 } CourseSoundSlot;
-
-// View of the volume bytes at 0x0c of each gCourseSoundSlots element (0x0217d1ac): sixteen bytes; UpdateCourseSound and
-// StartCourseSoundAtVolume read one byte of the row that the first word of the gCourseSoundSlots element selects.
-typedef struct CourseSoundVolumesView {
-    /* 00 */ u8 mVolumes[0x10];
-} CourseSoundVolumesView;
 
 extern CourseSoundSlot gCourseSoundSlots[2];
 extern u32 gCourseSoundTableIndex;
