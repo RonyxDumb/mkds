@@ -127,7 +127,7 @@ void G3dDrawInternal_(NNSG3dRS *renderState, NNSG3dRenderObj *renderObj) {
         renderState->mC = (u8 *) renderObj->mResMdl + renderObj->mResMdl->mOfsSbc;
     }
     renderState->mRenderObj = renderObj;
-    renderState->mResNodeInfo = OFFSET_PTR(Unk02170500_d4, renderObj->mResMdl, 0x40);
+    renderState->mResNodeInfo = &renderObj->mResMdl->mNodeInfo;
     renderState->mResMat = OFFSET_PTR(NNSG3dResMat, renderObj->mResMdl, renderObj->mResMdl->mOfsMat);
     renderState->mResShp = (u8 *) renderObj->mResMdl + renderObj->mResMdl->mOfsShp;
     renderState->mFuncJntScale = NNS_G3dGetJointScale_FuncArray[renderObj->mResMdl->mInfo.mScalingRule];
@@ -270,7 +270,8 @@ void NNSi_G3dFuncSbc_MTX(NNSG3dRS *renderState, u32 option) {
     renderState->mC += 2;
 }
 
-void NNSi_G3dFuncSbc_MAT_InternalDefault(NNSG3dRS *renderState, u32 option, const u8 *matData, u32 materialIndex) {
+void NNSi_G3dFuncSbc_MAT_InternalDefault(NNSG3dRS *renderState, u32 option, const NNSG3dResMatData *matData,
+                                         u32 materialIndex) {
     u32 callbackTiming;
     u32 cachedBit;
     u32 *texMtxData;
@@ -325,18 +326,18 @@ void NNSi_G3dFuncSbc_MAT_InternalDefault(NNSG3dRS *renderState, u32 option, cons
         0x20) {
         result->mFlag |= 0x20;
     }
-    matFlags = *OFFSET_PTR(u16, matData, 0x1e);
+    matFlags = matData->mFlag;
     mask = ((u32 *) matColorMask_)[(matFlags >> 6) & 7];
-    result->mPrmMatColor0 = (NNS_G3dGlb.mPrmMatColor0 & ~mask) | (*OFFSET_PTR(u32, matData, 4) & mask);
-    secondMask = ((u32 *) matColorMask_)[(*OFFSET_PTR(u16, matData, 0x1e) >> 9) & 7];
-    result->mPrmMatColor1 = (NNS_G3dGlb.mPrmMatColor1 & ~secondMask) | (*OFFSET_PTR(u32, matData, 8) & secondMask);
-    mask = *OFFSET_PTR(u32, matData, 0x10);
-    result->mPrmPolygonAttr = (NNS_G3dGlb.mPrmPolygonAttr & ~mask) | (*OFFSET_PTR(u32, matData, 0xc) & mask);
-    result->mPrmTexImage = *OFFSET_PTR(u32, matData, 0x14);
-    result->mPrmTexPltt = *OFFSET_PTR(u16, matData, 0x1c);
-    matFlags = *OFFSET_PTR(u16, matData, 0x1e);
+    result->mPrmMatColor0 = (NNS_G3dGlb.mPrmMatColor0 & ~mask) | (matData->mDiffAmb & mask);
+    secondMask = ((u32 *) matColorMask_)[(matData->mFlag >> 9) & 7];
+    result->mPrmMatColor1 = (NNS_G3dGlb.mPrmMatColor1 & ~secondMask) | (matData->mSpecEmi & secondMask);
+    mask = matData->mPolyAttrMask;
+    result->mPrmPolygonAttr = (NNS_G3dGlb.mPrmPolygonAttr & ~mask) | (matData->mPolyAttr & mask);
+    result->mPrmTexImage = matData->mTexImageParam;
+    result->mPrmTexPltt = matData->mTexPlttBase;
+    matFlags = matData->mFlag;
     if (matFlags & 1) {
-        texMtxData = OFFSET_PTR(u32, matData, 0x2c);
+        texMtxData = (u32 *) matData->mTexMtxData;
         if (!(matFlags & 2)) {
             result->mScaleST[0] = texMtxData[0];
             result->mScaleST[1] = texMtxData[1];
@@ -344,14 +345,14 @@ void NNSi_G3dFuncSbc_MAT_InternalDefault(NNSG3dRS *renderState, u32 option, cons
         } else {
             result->mFlag |= 1;
         }
-        if (!(*OFFSET_PTR(u16, matData, 0x1e) & 4)) {
+        if (!(matData->mFlag & 4)) {
             result->mSinCosR[0] = ((s16 *) texMtxData)[0];
             result->mSinCosR[1] = ((s16 *) texMtxData)[1];
             texMtxData = (u32 *) ((s16 *) texMtxData + 2);
         } else {
             result->mFlag |= 2;
         }
-        if (!(*OFFSET_PTR(u16, matData, 0x1e) & 8)) {
+        if (!(matData->mFlag & 8)) {
             result->mTransST[0] = texMtxData[0];
             result->mTransST[1] = texMtxData[1];
         } else {
@@ -364,10 +365,10 @@ void NNSi_G3dFuncSbc_MAT_InternalDefault(NNSG3dRS *renderState, u32 option, cons
         renderState->mRenderObj->mFuncBlendMat(result, renderState->mRenderObj->mAnmMat, materialIndex);
     }
     if (result->mFlag & 0x18) {
-        result->mOrigWidth = *OFFSET_PTR(u16, matData, 0x20);
-        result->mOrigHeight = *OFFSET_PTR(u16, matData, 0x22);
-        result->mMagW = *OFFSET_PTR(u32, matData, 0x24);
-        result->mMagH = *OFFSET_PTR(u32, matData, 0x28);
+        result->mOrigWidth = matData->mOrigWidth;
+        result->mOrigHeight = matData->mOrigHeight;
+        result->mMagW = matData->mMagW;
+        result->mMagH = matData->mMagH;
     }
 done:
     renderState->mMatAnmResult = result;

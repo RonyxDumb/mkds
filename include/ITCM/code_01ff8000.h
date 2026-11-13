@@ -4,6 +4,7 @@
 #include "00/Lib/DWC/code_02188720.h"
 
 typedef struct NNSG3dResShpData NNSG3dResShpData;
+typedef struct NNSG3dResMatData NNSG3dResMatData;
 typedef struct NNSG3dRenderObj NNSG3dRenderObj;
 typedef struct NNSG3dRS NNSG3dRS;
 typedef struct NNSG3dAnmObj NNSG3dAnmObj;
@@ -21,7 +22,8 @@ void NNSi_G3dFuncSbc_NODEDESC(NNSG3dRS *renderState, u32 option);
 void NNSi_G3dFuncSbc_SHP(NNSG3dRS *renderState, u32 option);
 void NNSi_G3dFuncSbc_SHP_InternalDefault(NNSG3dRS *renderState, u32 option, NNSG3dResShpData *shpData);
 void NNSi_G3dFuncSbc_MAT(NNSG3dRS *renderState, u32 option);
-void NNSi_G3dFuncSbc_MAT_InternalDefault(NNSG3dRS *renderState, u32 option, const u8 *matData, u32 materialIndex);
+void NNSi_G3dFuncSbc_MAT_InternalDefault(NNSG3dRS *renderState, u32 option, const NNSG3dResMatData *matData,
+                                         u32 materialIndex);
 void NNSi_G3dFuncSbc_MTX(NNSG3dRS *renderState, u32 option);
 void NNSi_G3dFuncSbc_NODE(NNSG3dRS *renderState, u32 option);
 void NNSi_G3dFuncSbc_RET(NNSG3dRS *renderState, u32 option);
