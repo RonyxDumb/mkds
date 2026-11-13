@@ -276,13 +276,13 @@ void CreateFirstChainCamera(void) {
 // Writes the default values of 76 members; re-run by SetupCameraBehindKart when a kart is placed.
 void SetupCamera(Camera *camera) {
     Vec3 worldUp;
-    Vec3 initialLookAt;
+    volatile Vec3 initialLookAt;
     Vec3 zero;
 
     camera->mPos.x = 0x1e3000;
     camera->mPos.y = 0x4bd000;
     camera->mPos.z = 0xc6b000;
-    initialLookAt = *(volatile Vec3 *) &gCameraVec3Zero;
+    initialLookAt = gCameraVec3Zero;
     camera->mLookAt = initialLookAt;
     worldUp = *(volatile Vec3 *) &gCameraVec3UnitY;
     camera->mUp = gCameraVec3UnitY;
