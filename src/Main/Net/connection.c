@@ -69,7 +69,7 @@ void ResetConnection(void) {
         scanExParams->mBssid[index] = 0xff;
     }
     ResetConnectionData();
-    blocks = &gConnectionWork->mUnk_16a0_view;
+    blocks = &gConnectionWork->mBlockTransfer;
     blockEntry = &blocks->mBlockEntries[0];
     for (index = 0; index < 0xc; index++) {
         blockEntry->mPath = 0;
@@ -80,7 +80,7 @@ void ResetConnection(void) {
     blocks->mUnk_660 = 0;
     blocks->mZeroWordReceived = FALSE;
     blocks->mMPSetupActive = FALSE;
-    ResetConnectionBuffers(&gConnectionWork->mUnk_1658_view);
+    ResetConnectionBuffers(&gConnectionWork->mMultiBootState);
     InitMPStateMachine();
     FillParentParameter(1);
 }
@@ -102,7 +102,7 @@ void StepDataSharing(void) {
                                          ? gConnectionWork->mLeftParticipantMask[0]
                                          : 0;
     sendData->mPadKeys = GetPadKeys();
-    sendData->mUnk_06_0 = 0;
+    sendData->mFlags = 0;
     sendData->mUnk_07 = 0;
     role = 0;
     if (gConnectionWork->mState == 9) {
@@ -111,20 +111,20 @@ void StepDataSharing(void) {
         }
         if (role == 1) {
             if (IsDispCapFadeFlagSet() != FALSE) {
-                sendData->mUnk_06_0 |= 4;
+                sendData->mFlags |= 4;
             } else {
-                sendData->mUnk_06_0 &= ~4;
+                sendData->mFlags &= ~4;
             }
         }
     }
     role = gConnectionWork == NULL ? 0 : gConnectionWork->mConnectionMode;
     if (role != 1 || (gConnectionWork->mStatusFlags & CONNECTION_STATUS_SHARING_SYNCED) != 0) {
         if (gConnectionWork->mSyncToggle == 0) {
-            sendData->mUnk_06_0 |= 1;
-            sendData->mUnk_06_0 &= ~2;
+            sendData->mFlags |= 1;
+            sendData->mFlags &= ~2;
         } else {
-            sendData->mUnk_06_0 |= 2;
-            sendData->mUnk_06_0 &= ~1;
+            sendData->mFlags |= 2;
+            sendData->mFlags &= ~1;
         }
     }
     sendData->mMicOverThreshold = gTouchMicInput->mMicOverThreshold;
@@ -150,7 +150,7 @@ BOOL UpdateDataSharing(void) {
     u32 bit;
     u16 entryIndex;
 
-    dataSharing = &gConnectionWork->mUnk_15bc_view;
+    dataSharing = &gConnectionWork->mDataSharing;
     gConnectionWork->mArrivedMemberMask =
         gConnectionWork->mSharingInfo->mDs[gConnectionWork->mSharingInfo->mWriteIndex].mArrivedMembers;
     gConnectionWork->mFlags &= ~CONNECTION_FLAG_SHARING_NOT_UPDATED;

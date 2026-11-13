@@ -334,8 +334,8 @@ void ApplyKartSurfaceEffectRow(s32 rowIndex, Kart *kart) {
     kartEffects = &gKartEffects[kart->mIndex];
     for (pairIndex = 0; pairIndex < effectIdSet->mCount; pairIndex++) {
         for (sideIndex = 0; sideIndex < 2; sideIndex++) {
-            if (kartEffects->mEffectPairs[pairIndex].mUnk_00_a[sideIndex] != 0) {
-                kartEffects->mEffectPairs[pairIndex].mUnk_00_a[sideIndex]->mColor = gKartEffectColor;
+            if (kartEffects->mEffectPairs[pairIndex].mEffects[sideIndex] != 0) {
+                kartEffects->mEffectPairs[pairIndex].mEffects[sideIndex]->mColor = gKartEffectColor;
             }
         }
     }
@@ -383,7 +383,7 @@ s32 StartKartSideEffects(const KartEffectIdSet *effectIdSet, s32 unusedVelocityF
             kartEffects->mEffectIds[pairIndex] = effectIdSet->mEffectIds[pairIndex];
             do {
                 effect = StartEffect(kartEffects->mEffectIds[pairIndex], &gKartEffectVec3Zero);
-                gKartEffects[kart->mIndex].mEffectPairs[pairIndex].mUnk_00_a[sideIndex] = effect;
+                gKartEffects[kart->mIndex].mEffectPairs[pairIndex].mEffects[sideIndex] = effect;
                 effect->mUnk_94 = kart;
                 effect->mUnk_98_24 = sideIndex;
                 sideIndex++;
@@ -416,7 +416,7 @@ s32 StartKartSideEffectsWithVelocity(const KartEffectIdSet *effectIdSet, s32 vel
             kartEffects->mEffectIds[pairIndex] = effectIdSet->mEffectIds[pairIndex];
             do {
                 effect = StartEffect(kartEffects->mEffectIds[pairIndex], &gKartEffectVec3Zero);
-                gKartEffects[kart->mIndex].mEffectPairs[pairIndex].mUnk_00_a[sideIndex] = effect;
+                gKartEffects[kart->mIndex].mEffectPairs[pairIndex].mEffects[sideIndex] = effect;
                 effect->mUnk_94 = kart;
                 effect->mUnk_98_24 = sideIndex;
                 sideIndex++;
@@ -440,7 +440,7 @@ BOOL StartKartWaterEffects(const KartEffectIdSet *effectIdSet, s32 velocityFacto
     }
     for (sideIndex = 0; sideIndex < 2; sideIndex++) {
         effect = StartEffect(effectIdSet->mEffectIds[0], &gKartEffectVec3Zero);
-        gKartEffects[kart->mIndex].mUnk_20_a[sideIndex] = effect;
+        gKartEffects[kart->mIndex].mWaterEffects[sideIndex] = effect;
         effect->mUnk_94 = kart;
         effect->mUnk_98_24 = sideIndex;
         effect->mUnk_98_0 = velocityFactorIndex;

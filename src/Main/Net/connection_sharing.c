@@ -62,7 +62,7 @@ static inline s32 IsConnectionActiveNotEndingWithError(void) {
 
 static inline s32 HasSharingRecordSyncToggleBit(SharingReceiveRecord *receiveRecord) {
     BOOL result = FALSE;
-    u8 toggleBits = receiveRecord->mUnk_06_0;
+    u8 toggleBits = receiveRecord->mFlags;
     if (gConnectionWork->mSyncToggle == 0) {
         if (toggleBits & 1) {
             result = TRUE;
@@ -88,7 +88,7 @@ static inline s32 AreChildSharingRecordsSynced(DataSharing *dataSharing, Sharing
                 childIndex = 8;
             } else {
                 toggleBit = gConnectionWork->mSyncToggle == 0 ? 1 : 2;
-                if ((toggleBit & receiveRecords[childIndex].mUnk_06_0) == 0) {
+                if ((toggleBit & receiveRecords[childIndex].mFlags) == 0) {
                     result = FALSE;
                     childIndex = 8;
                 } else {
@@ -305,7 +305,7 @@ BOOL FinishDataSharingSync(void) {
     DataSharing *dataSharing;
 
     finished = FALSE;
-    dataSharing = &gConnectionWork->mUnk_15bc_view;
+    dataSharing = &gConnectionWork->mDataSharing;
     if (!IsConnectionActive()) {
         return TRUE;
     }
@@ -448,7 +448,7 @@ void ResetDataSharing(DataSharing *dataSharing) {
     dataSharing->mUnk_30 = 0;
     gConnectionWork->mFlags &= ~CONNECTION_FLAG_SHARING_NOT_UPDATED;
     gConnectionWork->mStatusFlags &= ~CONNECTION_STATUS_SHARING_SYNCED;
-    tables = &gConnectionWork->mUnk_1e4c_view;
+    tables = &gConnectionWork->mParticipantTables;
     tables->mLeftParticipantMask = 0;
     tables->mUnk_68 = 0;
     for (index = 0; index < 8; index++) {
@@ -502,7 +502,7 @@ void ResetConnectionData(void) {
     gConnectionWork->mLanguageIndex = 0;
     gConnectionWork->mReceivedNameMask = 0;
     gConnectionWork->mKeepScanning = 0;
-    bytes = gConnectionWork->mUnk_00ac_view.mTargetAddress;
+    bytes = gConnectionWork->mScanState.mTargetAddress;
     for (targetByteIndex = 0; targetByteIndex < 6; targetByteIndex++) {
         bytes[targetByteIndex] = 0;
     }
@@ -511,7 +511,7 @@ void ResetConnectionData(void) {
     gConnectionWork->mWaitToSendCount = 0;
     gConnectionWork->mFlags &= ~CONNECTION_FLAG_SEND_READY;
     ClearParticipantBits();
-    ResetDataSharing(&gConnectionWork->mUnk_15bc_view);
+    ResetDataSharing(&gConnectionWork->mDataSharing);
 }
 
 void InitRaceConnection(void) {
@@ -523,7 +523,7 @@ void InitRaceConnection(void) {
     s32 shiftedValue;
     s32 addedValue;
 
-    tables = &gConnectionWork->mUnk_1e4c_view;
+    tables = &gConnectionWork->mParticipantTables;
     tables->mLeftParticipantMask = 0;
     tables->mUnk_68 = 0;
     for (index = 0; index < 8; index++) {

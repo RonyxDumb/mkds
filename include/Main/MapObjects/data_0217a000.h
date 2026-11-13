@@ -274,7 +274,7 @@ typedef struct SharingSendRecord {
     /* 06 */ union {
         u8 mUnk_06;
         struct {
-            u8 mUnk_06_0 : 7;
+            u8 mFlags : 7;
             u8 mMicOverThreshold : 1;
         };
     };
@@ -443,7 +443,7 @@ typedef struct SharingReceiveRecord {
     /* 06 */ union {
         u8 mUnk_06;
         struct {
-            u8 mUnk_06_0 : 7;
+            u8 mFlags : 7;
             u8 mMicOverThreshold : 1;
         };
     };
@@ -605,7 +605,7 @@ typedef struct ConnectionWork {
             /* 0458 */ u8 mUnk_0458;
             /* 0459 */ u8 mUnk_0459[3];
         };
-        ScanStateView mUnk_00ac_view;
+        ScanStateView mScanState;
     };
     /* 045c */ PlayerRecord mPlayerRecords[8];
     /* 15bc */ union {
@@ -626,7 +626,7 @@ typedef struct ConnectionWork {
             /* 1606 */ u8 mArrivedMemberMask;
             /* 1607 */ u8 mUnk_1607[0x1];
         };
-        DataSharing mUnk_15bc_view;
+        DataSharing mDataSharing;
     };
     /* 1608 */ MPStateMachine mMPStateMachine;
     /* 1624 */ void *mChunkBuffer;
@@ -663,7 +663,7 @@ typedef struct ConnectionWork {
             /* 169b */ u8 mUnk_169b[0x1];
             /* 169c */ s32 mScanConnected;
         };
-        MultiBootStateView mUnk_1658_view;
+        MultiBootStateView mMultiBootState;
     };
     /* 16a0 */ union {
         struct {
@@ -710,7 +710,7 @@ typedef struct ConnectionWork {
                     /* 1eb4 */ u8 mUnk_1eb4[4];
                     /* 1eb8 */ RandomState mRandom;
                 };
-                ParticipantTablesView mUnk_1e4c_view;
+                ParticipantTablesView mParticipantTables;
             };
             /* 1ed0 */ s32 mUnk_1ed0;
             /* 1ed4 */ u16 mUnk_1ed4;
@@ -721,7 +721,7 @@ typedef struct ConnectionWork {
             /* 1ee0 */ u8 mUnk_1ee0[2];
             /* 1ee2 */ u8 mUnk_1ee2[6];
         };
-        BlockTransferView mUnk_16a0_view;
+        BlockTransferView mBlockTransfer;
     };
     /* 1ee8 */ RandomState64 mRandomState;
 } ConnectionWork;
@@ -1393,7 +1393,7 @@ typedef struct KartEffectPair {
             /* 00 */ struct ParticleEmitter *mEffect0;
             /* 04 */ struct ParticleEmitter *mEffect1;
         };
-        struct ParticleEmitter *mUnk_00_a[2];
+        struct ParticleEmitter *mEffects[2];
     };
 } KartEffectPair;
 
@@ -1416,7 +1416,7 @@ typedef struct KartEffects {
             /* 20 */ struct ParticleEmitter *mWaterEffect0;
             /* 24 */ struct ParticleEmitter *mWaterEffect1;
         };
-        struct ParticleEmitter *mUnk_20_a[2];
+        struct ParticleEmitter *mWaterEffects[2];
     };
     /* 28 */ struct ParticleEmitter *mContactEffect;
     /* 2c */ struct ParticleEmitter *mKillerEffect;

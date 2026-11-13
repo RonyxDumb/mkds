@@ -33,7 +33,7 @@ void StartScan(s32 isRepeat, s32 (*resultCallback)(), s32 (*filterCallback)()) {
     u16 allowedChannels;
 
     connection = gConnectionWork;
-    scanState = &connection->mUnk_00ac_view;
+    scanState = &connection->mScanState;
     channel = scanState->mChannel;
     scanParams = connection->mScanParams;
     connection->mConnectionMode = 2;
@@ -225,7 +225,7 @@ void FindOrAddScanSlot(WMBssDesc *scanBuffer, ScanMacAddress *key, UserGameInfo 
     } else if (scanBuffer->mGameInfo.mUserGameInfoLength == 0x1c) {
         FillScanSlot(chosenSlot, scanBuffer, key, gameInfo, slotIndex);
     }
-    scanState = &gConnectionWork->mUnk_00ac_view;
+    scanState = &gConnectionWork->mScanState;
     scanState->mSlotCount = 0;
     for (slotIndex = 0, slot = scanState->mSlots; slotIndex < 4; slotIndex++, slot++) {
         if (slot->mInUse != 0) {
@@ -314,7 +314,7 @@ void StartScanCallback(WirelessMessage *event) {
                     slot->mAge += 1;
                     if (slot->mAge > 0xc8) {
                         slot->mInUse = 0;
-                        scanState = &gConnectionWork->mUnk_00ac_view;
+                        scanState = &gConnectionWork->mScanState;
                         scanState->mSlotCount = 0;
                         for (countedIndex = 0, countedSlot = scanState->mSlots; countedIndex < 4;
                              countedIndex++, countedSlot++) {
@@ -566,7 +566,7 @@ void StartDataSharing(void) {
         gConnectionWork->mRequestPending = 0;
         return;
     }
-    ResetDataSharing(&gConnectionWork->mUnk_15bc_view);
+    ResetDataSharing(&gConnectionWork->mDataSharing);
 }
 
 void SetGameInfo(void) {

@@ -95,7 +95,7 @@ s32 IsAllMPChildSharedDataCopied(void) {
     childMask = gConnectionWork->mChildren.mChildMask;
     for (; childIndex < 8; childIndex++) {
         if ((childMask & (allCopied << childIndex)) &&
-            gConnectionWork->mUnk_15bc_view.mSharedDataCopied[childIndex] == 0) {
+            gConnectionWork->mDataSharing.mSharedDataCopied[childIndex] == 0) {
             allCopied = 0;
             break;
         }

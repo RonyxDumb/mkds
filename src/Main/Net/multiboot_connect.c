@@ -51,11 +51,11 @@ void AllocConnectionBuffers(void *heap, u32 unused, void *bmg) {
         gConnectionWork->mMultiBootSegment = 0;
         gConnectionWork->mMultiBootScratchBuffer = 0;
     }
-    ResetConnectionBuffers(&gConnectionWork->mUnk_1658_view);
+    ResetConnectionBuffers(&gConnectionWork->mMultiBootState);
 }
 
 void ParentStateCallback(u32 index, u32 code, MBUserInfo *childInfo) {
-    gConnectionWork->mUnk_1658_view.mChildStateCodes[index] = code;
+    gConnectionWork->mMultiBootState.mChildStateCodes[index] = code;
     if (gConnectionWork->mStep == 0x1b && code != 0xc) {
         return;
     }
@@ -165,7 +165,7 @@ void StartMultiBootParent(void) {
     MBUserInfo user;
     gConnectionWork->mStep = 0x16;
     gConnectionWork->mRequestPending = 1;
-    ResetConnectionBuffers(&gConnectionWork->mUnk_1658_view);
+    ResetConnectionBuffers(&gConnectionWork->mMultiBootState);
     user.mNameLength = 10;
     user.mFavoriteColor = gStartupWork->mFavoriteColor;
     user.mPlayerNo = 8;

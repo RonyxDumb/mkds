@@ -78,7 +78,7 @@ void ResetPendingFiles(void) {
     u32 clearPendingMask;
     flagBitsMask = (0xe0000000u);
     clearPendingMask = (0xdfffffffu);
-    view = &gConnectionWork->mUnk_16a0_view;
+    view = &gConnectionWork->mBlockTransfer;
     entryIndex = 0;
     entry = view->mBlockEntries;
     do {
@@ -156,7 +156,7 @@ void AllocTransferBuffers(void *heap) {
 }
 
 void InitBlockEntries(void *heap, s32 mode) {
-    BlockTransferView *view = &gConnectionWork->mUnk_16a0_view;
+    BlockTransferView *view = &gConnectionWork->mBlockTransfer;
     s32 entryIndex;
     for (entryIndex = 0; entryIndex < 12; entryIndex++) {
         view->mBlockEntries[entryIndex].mPath = 0;
