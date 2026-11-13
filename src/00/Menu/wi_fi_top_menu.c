@@ -40,13 +40,14 @@ const u8 gWiFiTopMenuCellIndices[3] = {9, 0xa, 0xb};
 const u8 gWiFiTopMenuXluCellIndices[3] = {0, 1, 2};
 const s32 gWiFiTopMenuOffsetCellCounts[3] = {5, 4, 5};
 const u8 gWiFiTopMenuOffsetTableIndices[3][5] = {{0, 3, 6, 9, 0xc}, {1, 4, 7, 0xa, 0}, {2, 5, 8, 0xb, 0xd}};
-WiFiStateCallbacks gWiFiTopMenuCallbacks = {InitWiFiTopMenu, ClearWiFiTopMenuPointer, AdvanceWiFiTopMenu, WriteWiFiTopMenuRegisters};
+WiFiStateCallbacks gWiFiTopMenuCallbacks = {InitWiFiTopMenu, ClearWiFiTopMenuPointer, AdvanceWiFiTopMenu,
+                                            WriteWiFiTopMenuRegisters};
 WiFiTopMenu *gWiFiTopMenu;
 
 void InitWiFiTopMenu(void *heap) {
-    s32 i;
-    s32 j;
-    s32 k;
+    s32 index;
+    s32 rowIndex;
+    s32 cellIndex;
 
     gWiFiTopMenu = HeapAlloc(heap, 0x40);
     gWiFiTopMenu->mHeap = heap;
@@ -70,15 +71,15 @@ void InitWiFiTopMenu(void *heap) {
     gWiFiTopMenu->mWiFiMessages = FindSceneFile("wifi.bmg");
     gWiFiTopMenu->mCommonMessages = FindFileInLoadedArchives("common.bmg");
     LocateAndQueueWiFiTopMenu();
-    for (i = 0; i < 3; i++) {
-        SetCellOamModeXlu(gWiFiTopMenuXluCellIndices[i], 1, gWiFiTopMenu->mWiFiTopMenuSNcer,
+    for (index = 0; index < 3; index++) {
+        SetCellOamModeXlu(gWiFiTopMenuXluCellIndices[index], 1, gWiFiTopMenu->mWiFiTopMenuSNcer,
                           gWiFiTopMenu->mWiFiTopMenuBncl);
     }
     ResetOamLists(GetWiFiMenuMainOamList(), GetWiFiMenuSubOamList());
     InitLayoutTable(heap, gWiFiTopMenu->mWiFiTopMenuBncl, NULL, &gWiFiTopMenu->mWiFiTopMenuTable);
-    for (j = 0; j < 3; j++) {
-        for (k = 0; k < gWiFiTopMenuOffsetCellCounts[j]; k++) {
-            gWiFiTopMenu->mWiFiTopMenuTable[gWiFiTopMenuOffsetTableIndices[j][k]].mOffsetX = 0xdc;
+    for (rowIndex = 0; rowIndex < 3; rowIndex++) {
+        for (cellIndex = 0; cellIndex < gWiFiTopMenuOffsetCellCounts[rowIndex]; cellIndex++) {
+            gWiFiTopMenu->mWiFiTopMenuTable[gWiFiTopMenuOffsetTableIndices[rowIndex][cellIndex]].mOffsetX = 0xdc;
         }
     }
     SetLinkLevelIconEnabled(1, 0);
@@ -122,8 +123,8 @@ void AdvanceWiFiTopMenuState0(void) {
 
 void AdvanceWiFiTopMenuState1(void) {
     s32 offsetX = 0;
-    s32 i;
-    s32 j;
+    s32 rowIndex;
+    s32 cellIndex;
 
     gWiFiTopMenu->mStateFrames = gWiFiTopMenu->mStateFrames + 1;
     if (gWiFiTopMenu->mStateFrames >= 20) {
@@ -135,9 +136,9 @@ void AdvanceWiFiTopMenuState1(void) {
     } else {
         offsetX = InterpolateS16(1, 0xdc, offsetX, gWiFiTopMenu->mStateFrames, 10);
     }
-    for (i = 0; i < 3; i++) {
-        for (j = 0; j < gWiFiTopMenuOffsetCellCounts[i]; j++) {
-            gWiFiTopMenu->mWiFiTopMenuTable[gWiFiTopMenuOffsetTableIndices[i][j]].mOffsetX = offsetX;
+    for (rowIndex = 0; rowIndex < 3; rowIndex++) {
+        for (cellIndex = 0; cellIndex < gWiFiTopMenuOffsetCellCounts[rowIndex]; cellIndex++) {
+            gWiFiTopMenu->mWiFiTopMenuTable[gWiFiTopMenuOffsetTableIndices[rowIndex][cellIndex]].mOffsetX = offsetX;
         }
     }
 }
@@ -249,13 +250,13 @@ next:
 }
 
 void AdvanceWiFiTopMenuState4(void) {
-    s32 i;
+    s32 cellIndex;
     s32 selectedPressOffset;
 
     gWiFiTopMenu->mStateFrames = gWiFiTopMenu->mStateFrames + 1;
     selectedPressOffset = GetSelectedPressOffset(gWiFiTopMenu->mStateFrames);
-    for (i = 0; i < gWiFiTopMenuOffsetCellCounts[gWiFiTopMenu->mIndex]; i++) {
-        gWiFiTopMenu->mWiFiTopMenuTable[gWiFiTopMenuOffsetTableIndices[gWiFiTopMenu->mIndex][i]].mOffsetX =
+    for (cellIndex = 0; cellIndex < gWiFiTopMenuOffsetCellCounts[gWiFiTopMenu->mIndex]; cellIndex++) {
+        gWiFiTopMenu->mWiFiTopMenuTable[gWiFiTopMenuOffsetTableIndices[gWiFiTopMenu->mIndex][cellIndex]].mOffsetX =
             selectedPressOffset;
     }
     if (gWiFiTopMenu->mStateFrames >= 10) {
@@ -270,9 +271,9 @@ void AdvanceWiFiTopMenuState4(void) {
 }
 
 void AdvanceWiFiTopMenuState5(void) {
-    s32 i;
-    s32 j;
-    s32 v;
+    s32 rowIndex;
+    s32 cellIndex;
+    s32 offsetX;
     if (GetWiFiNextScene() == -1) {
         if (gWiFiTopMenu->mPendingWiFiState == 10 && GetWiFiSessionLoginResult() != 1) {
             SetWiFiNextScene(0);
@@ -282,15 +283,15 @@ void AdvanceWiFiTopMenuState5(void) {
         }
     }
     gWiFiTopMenu->mStateFrames++;
-    v = gWiFiTopMenu->mStateFrames;
-    if (v <= 10) {
-        v = InterpolateS16(1, 0xdc, 0, 10 - v, 10);
+    offsetX = gWiFiTopMenu->mStateFrames;
+    if (offsetX <= 10) {
+        offsetX = InterpolateS16(1, 0xdc, 0, 10 - offsetX, 10);
     } else {
-        v = 0xdc;
+        offsetX = 0xdc;
     }
-    for (i = 0; i < 3; i++) {
-        for (j = 0; j < gWiFiTopMenuOffsetCellCounts[i]; j++) {
-            gWiFiTopMenu->mWiFiTopMenuTable[gWiFiTopMenuOffsetTableIndices[i][j]].mOffsetX = v;
+    for (rowIndex = 0; rowIndex < 3; rowIndex++) {
+        for (cellIndex = 0; cellIndex < gWiFiTopMenuOffsetCellCounts[rowIndex]; cellIndex++) {
+            gWiFiTopMenu->mWiFiTopMenuTable[gWiFiTopMenuOffsetTableIndices[rowIndex][cellIndex]].mOffsetX = offsetX;
         }
     }
     if (gWiFiTopMenu->mStateFrames >= 10) {
@@ -374,12 +375,12 @@ void AdvanceWiFiTopMenuState8(void) {
 }
 
 void UpdateWiFiTopMenuHighlight(void) {
-    s32 i = 0;
+    s32 rowIndex = 0;
     BOOL hidden = FALSE;
     const u8 *tableIndexPointer = gWiFiTopMenuSTableIndices;
     const u8 *cellIndexPointer = gWiFiTopMenuCellIndices;
-    for (; i < 3; i++) {
-        if (i == gWiFiTopMenu->mIndex && gWiFiTopMenu->mHighlightVisible != FALSE) {
+    for (; rowIndex < 3; rowIndex++) {
+        if (rowIndex == gWiFiTopMenu->mIndex && gWiFiTopMenu->mHighlightVisible != FALSE) {
             gWiFiTopMenu->mWiFiTopMenuTable[*tableIndexPointer].mVisible = 1;
             SetCellPaletteIndex(*cellIndexPointer, 0xe, gWiFiTopMenu->mWiFiTopMenuSNcer,
                                 gWiFiTopMenu->mWiFiTopMenuBncl);

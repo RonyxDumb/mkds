@@ -70,7 +70,7 @@ void FillBytesWithLoop(void *buffer, s32 value, u32 count);
 void CopyBytesWithLoop(void *destination, const void *source, u32 count);
 void CopyBytesToWordsLittleEndian(u32 *output, const u8 *input, u32 size);
 void CopyWordsToBytesLittleEndian(u8 *output, const u32 *input, u32 size);
-void ProcessHashBlock(HashContext *a, const u8 *b);
+void ProcessHashBlock(HashContext *hashA, const u8 *hashB);
 void FinishHash(u8 *digest, HashContext *context);
 void AddBytesToHash(HashContext *context, const u8 *bytes, u32 count);
 void ResetHashContext(HashContext *context);

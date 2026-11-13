@@ -23,7 +23,13 @@ const s16 gMissionRunLVselTouchLevelIndices[7] = {0, 1, 2, 3, 4, 5, 6};
 const s16 gMissionRunLVselUpIndexOffsets[7] = {0, 0, 0, -3, -3, -3, -2};
 const s16 gMissionRunLVselDownIndexOffsets[7] = {3, 3, 3, 0, 2, 0, 0};
 const s16 gMissionRunLVselLeftIndexOffsets[7] = {0, -1, -1, 0, -1, -1, 0};
-const u16 gMissionRunLVselLevelCellIndices[7][11] = {{0, 7, 0xe, 0x15, 0x1c, 0x23, 0x2a, 0x31, 0x38, 0x39, 0x3a}, {1, 8, 0xf, 0x16, 0x1d, 0x24, 0x2b, 0x32, 0x3b, 0x3c, 0x3d}, {2, 9, 0x10, 0x17, 0x1e, 0x25, 0x2c, 0x33, 0x3e, 0x3f, 0x40}, {3, 0xa, 0x11, 0x18, 0x1f, 0x26, 0x2d, 0x34, 0x41, 0x42, 0x43}, {4, 0xb, 0x12, 0x19, 0x20, 0x27, 0x2e, 0x35, 0x44, 0x45, 0x46}, {5, 0xc, 0x13, 0x1a, 0x21, 0x28, 0x2f, 0x36, 0x47, 0x48, 0x49}, {6, 0xd, 0x14, 0x1b, 0x22, 0x29, 0x30, 0x37, 0x4a, 0x4b, 0x4c}};
+const u16 gMissionRunLVselLevelCellIndices[7][11] = {{0, 7, 0xe, 0x15, 0x1c, 0x23, 0x2a, 0x31, 0x38, 0x39, 0x3a},
+                                                     {1, 8, 0xf, 0x16, 0x1d, 0x24, 0x2b, 0x32, 0x3b, 0x3c, 0x3d},
+                                                     {2, 9, 0x10, 0x17, 0x1e, 0x25, 0x2c, 0x33, 0x3e, 0x3f, 0x40},
+                                                     {3, 0xa, 0x11, 0x18, 0x1f, 0x26, 0x2d, 0x34, 0x41, 0x42, 0x43},
+                                                     {4, 0xb, 0x12, 0x19, 0x20, 0x27, 0x2e, 0x35, 0x44, 0x45, 0x46},
+                                                     {5, 0xc, 0x13, 0x1a, 0x21, 0x28, 0x2f, 0x36, 0x47, 0x48, 0x49},
+                                                     {6, 0xd, 0x14, 0x1b, 0x22, 0x29, 0x30, 0x37, 0x4a, 0x4b, 0x4c}};
 const s16 gMissionRunLVselRightIndexOffsets[7] = {1, 1, 0, 1, 1, 0, 0};
 u16 gMissionRunLVselGradeTextB[2] = {0x42, 0};
 const char *gMissionRunLVselMBNclrName = gMissionRunLVselMBNclrFileName;
@@ -107,17 +113,17 @@ void LocateAndQueueMissionRunLVsel(void) {
 }
 
 s32 GetMissionRunLVselMinRecordValue(s16 levelIndex) {
-    s32 i;
+    s32 columnIndex;
     s32 result;
     s32 recordValue;
     u8 levelNumber;
 
     result = 8;
-    i = 0;
+    columnIndex = 0;
     levelNumber = levelIndex + 1;
 
-    for (; i < 9; i++) {
-        if (GetMissionRecordValue(levelNumber, (u8) (i + 1), &recordValue)) {
+    for (; columnIndex < 9; columnIndex++) {
+        if (GetMissionRecordValue(levelNumber, (u8) (columnIndex + 1), &recordValue)) {
             if (recordValue < result) {
                 result = recordValue;
             }
@@ -136,97 +142,102 @@ u32 IsMissionRunLVselLevelReached(int levelIndex) {
 }
 
 void RefreshMissionRunLVselLevelCells(void) {
-    s32 i;
+    s32 levelIndex;
     u16 layoutCount;
     s32 minRecordValue;
     layoutCount = gMissionRunLVsel->mMissionRunLVselS7Or6Bncl->mCount;
-    for (i = 0; i < 7; i++) {
-        gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[i][0]].mVisible = 0;
-        gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[i][1]].mVisible = 0;
-        gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[i][2]].mVisible = 0;
-        gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[i][3]].mVisible = 0;
-        gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[i][4]].mVisible = 0;
-        gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[i][5]].mVisible = 0;
-        gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[i][6]].mVisible = 0;
-        gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[i][7]].mVisible = 0;
-        gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[i][8]].mVisible = 0;
-        gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[i][9]].mVisible = 0;
-        gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[i][10]].mVisible = 0;
-        gMissionRunLVsel->mMissionRunLVselS7Or6Table[layoutCount + gMissionRunLVselGradeLabelIndices[i]].mVisible = 0;
-        if (IsMissionRunLVselLevelReached((s16) i)) {
-            gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[i][0]].mVisible = 1;
-            gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[i][1]].mVisible = 1;
-            gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[i][5]].mVisible = 1;
-            minRecordValue = GetMissionRunLVselMinRecordValue(i);
+    for (levelIndex = 0; levelIndex < 7; levelIndex++) {
+        gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][0]].mVisible = 0;
+        gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][1]].mVisible = 0;
+        gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][2]].mVisible = 0;
+        gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][3]].mVisible = 0;
+        gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][4]].mVisible = 0;
+        gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][5]].mVisible = 0;
+        gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][6]].mVisible = 0;
+        gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][7]].mVisible = 0;
+        gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][8]].mVisible = 0;
+        gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][9]].mVisible = 0;
+        gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][10]].mVisible = 0;
+        gMissionRunLVsel->mMissionRunLVselS7Or6Table[layoutCount + gMissionRunLVselGradeLabelIndices[levelIndex]]
+            .mVisible = 0;
+        if (IsMissionRunLVselLevelReached((s16) levelIndex)) {
+            gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][0]].mVisible = 1;
+            gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][1]].mVisible = 1;
+            gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][5]].mVisible = 1;
+            minRecordValue = GetMissionRunLVselMinRecordValue(levelIndex);
             if (minRecordValue <= 4) {
-                gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[i][7]].mVisible = 1;
-                gMissionRunLVsel->mMissionRunLVselS7Or6Table[layoutCount + gMissionRunLVselGradeLabelIndices[i]]
+                gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][7]].mVisible =
+                    1;
+                gMissionRunLVsel
+                    ->mMissionRunLVselS7Or6Table[layoutCount + gMissionRunLVselGradeLabelIndices[levelIndex]]
                     .mVisible = 1;
                 PrintLabelLayoutTextNoFixedAdvance(
-                    1, gMissionRunLVselGradeLabelIndices[i], gMissionRunLVsel->mMissionRunLVselS7Or6Bnll,
+                    1, gMissionRunLVselGradeLabelIndices[levelIndex], gMissionRunLVsel->mMissionRunLVselS7Or6Bnll,
                     gMissionRunLVselGradeStrings[minRecordValue], gMissionRunLVsel->mMissionRunLVselS7Or6Bncl,
                     gMissionRunLVsel->mMissionRunLVselS7Or6Table);
             } else if (minRecordValue <= 7) {
-                gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[i][minRecordValue + 3]]
+                gMissionRunLVsel
+                    ->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][minRecordValue + 3]]
                     .mVisible = 1;
             }
-        } else if (i != 6) {
-            gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[i][0]].mVisible = 1;
-            gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[i][4]].mVisible = 1;
-            gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[i][6]].mVisible = 1;
+        } else if (levelIndex != 6) {
+            gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][0]].mVisible = 1;
+            gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][4]].mVisible = 1;
+            gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][6]].mVisible = 1;
         }
-        SetCellOamModeXlu(gMissionRunLVselLevelCellIndices[i][0], 1, gMissionRunLVsel->mMissionRunLVselSNcer,
+        SetCellOamModeXlu(gMissionRunLVselLevelCellIndices[levelIndex][0], 1, gMissionRunLVsel->mMissionRunLVselSNcer,
                           gMissionRunLVsel->mMissionRunLVselS7Or6Bncl);
     }
 }
 
 void UpdateMissionRunLVselHighlight(void) {
-    s32 i;
-    for (i = 0; i < 7; i++) {
-        gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[i][1]].mVisible = 0;
-        gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[i][2]].mVisible = 0;
-        gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[i][3]].mVisible = 0;
-        gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[i][4]].mVisible = 0;
-        if (gMissionRunLVsel->mHighlightTimers[i] > 0) {
-            gMissionRunLVsel->mHighlightTimers[i] = gMissionRunLVsel->mHighlightTimers[i] - 1;
-            gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[i][3]].mVisible = 1;
-            gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[i][3]].mOffsetY =
-                gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[i][2]].mOffsetY + 1;
-        } else if (gMissionRunLVsel->mIndex == i) {
-            gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[i][2]].mVisible = 1;
-        } else if (IsMissionRunLVselLevelReached((s16) i)) {
-            gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[i][1]].mVisible = 1;
-        } else if (i != 6) {
-            gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[i][4]].mVisible = 1;
+    s32 levelIndex;
+    for (levelIndex = 0; levelIndex < 7; levelIndex++) {
+        gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][1]].mVisible = 0;
+        gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][2]].mVisible = 0;
+        gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][3]].mVisible = 0;
+        gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][4]].mVisible = 0;
+        if (gMissionRunLVsel->mHighlightTimers[levelIndex] > 0) {
+            gMissionRunLVsel->mHighlightTimers[levelIndex] = gMissionRunLVsel->mHighlightTimers[levelIndex] - 1;
+            gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][3]].mVisible = 1;
+            gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][3]].mOffsetY =
+                gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][2]].mOffsetY +
+                1;
+        } else if (gMissionRunLVsel->mIndex == levelIndex) {
+            gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][2]].mVisible = 1;
+        } else if (IsMissionRunLVselLevelReached((s16) levelIndex)) {
+            gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][1]].mVisible = 1;
+        } else if (levelIndex != 6) {
+            gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][4]].mVisible = 1;
         }
     }
 }
 
 void RefreshMissionRunLVselReachedLevel(void) {
     BOOL all = TRUE;
-    s32 i = 0;
+    s32 levelIndex = 0;
     s32 ok;
-    s32 j;
+    s32 columnIndex;
     s32 recordValue;
     u8 levelNumber;
     gMissionRunLVsel->mReachedLevel = 0;
-    for (i = 0; i < 7; i++) {
+    for (levelIndex = 0; levelIndex < 7; levelIndex++) {
         ok = 1;
-        j = 0;
-        levelNumber = i + 1;
-        for (; j < 9; j++) {
-            ok &= GetMissionRecordValue(levelNumber, (u8) (j + 1), &recordValue);
+        columnIndex = 0;
+        levelNumber = levelIndex + 1;
+        for (; columnIndex < 9; columnIndex++) {
+            ok &= GetMissionRecordValue(levelNumber, (u8) (columnIndex + 1), &recordValue);
             if (!ok || recordValue < 5) {
                 all = FALSE;
             }
         }
         if (ok) {
-            if (i == 5) {
+            if (levelIndex == 5) {
                 if (all) {
-                    gMissionRunLVsel->mReachedLevel = i + 1;
+                    gMissionRunLVsel->mReachedLevel = levelIndex + 1;
                 }
             } else {
-                gMissionRunLVsel->mReachedLevel = i + 1;
+                gMissionRunLVsel->mReachedLevel = levelIndex + 1;
             }
         }
     }
@@ -238,13 +249,13 @@ void SetMissionTableToSelectedLevel(void) {
 }
 
 BOOL IsMissionRunLVselLastRecordMissing(void) {
-    s32 i;
+    s32 columnIndex;
     s32 ok = 1;
     s32 result;
     s32 recordValue;
 
-    for (i = 0; i < 8; i++) {
-        ok &= GetMissionRecordValue((u8) (gMissionRunLVsel->mIndex + 1), (u8) (i + 1), &recordValue);
+    for (columnIndex = 0; columnIndex < 8; columnIndex++) {
+        ok &= GetMissionRecordValue((u8) (gMissionRunLVsel->mIndex + 1), (u8) (columnIndex + 1), &recordValue);
     }
     result = GetMissionRecordValue((u8) (gMissionRunLVsel->mIndex + 1), 9, &recordValue);
     if (ok != 0 && result == 0) {
@@ -254,21 +265,22 @@ BOOL IsMissionRunLVselLastRecordMissing(void) {
 }
 
 void ResetMissionRunLVsel(void) {
-    s32 i;
-    s32 j;
+    s32 levelIndex;
+    s32 cellIndex;
     s32 layoutCount;
 
     layoutCount = gMissionRunLVsel->mMissionRunLVselS7Or6Bncl->mCount;
-    i = 0;
+    levelIndex = 0;
     gMissionRunLVsel->mNextState = 0;
     gMissionRunLVsel->mStateFrames = 0;
     gMissionRunLVsel->mBg0Offset = -192;
-    for (i = 0; i < 7; i++) {
-        for (j = 0; j < 11; j++) {
-            gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[i][j]].mOffsetX = 0x100;
+    for (levelIndex = 0; levelIndex < 7; levelIndex++) {
+        for (cellIndex = 0; cellIndex < 11; cellIndex++) {
+            gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][cellIndex]]
+                .mOffsetX = 0x100;
         }
-        gMissionRunLVsel->mMissionRunLVselS7Or6Table[layoutCount + gMissionRunLVselGradeLabelIndices[i]].mOffsetX =
-            0x100;
+        gMissionRunLVsel->mMissionRunLVselS7Or6Table[layoutCount + gMissionRunLVselGradeLabelIndices[levelIndex]]
+            .mOffsetX = 0x100;
     }
 }
 
@@ -321,7 +333,7 @@ void RequestMissionRunLVselState5(void) {
 }
 
 void InitMissionRunLVsel(void *parentHeap, void *mainOam, void *subOam) {
-    s32 i;
+    s32 levelIndex;
     s32 remainingSize;
 
     reg_G2_BG0CNT = (reg_G2_BG0CNT & 0x43) | 0x9004;
@@ -335,8 +347,8 @@ void InitMissionRunLVsel(void *parentHeap, void *mainOam, void *subOam) {
     gMissionRunLVsel->mMainOam = mainOam;
     gMissionRunLVsel->mSubOam = subOam;
     gMissionRunLVsel->mResult = 0;
-    for (i = 0; i < 7; i++) {
-        gMissionRunLVsel->mHighlightTimers[i] = 0;
+    for (levelIndex = 0; levelIndex < 7; levelIndex++) {
+        gMissionRunLVsel->mHighlightTimers[levelIndex] = 0;
     }
     if (gMenuShared->mLVselIndex6Requested != 0) {
         gMissionRunLVsel->mIndex = 6;
@@ -356,12 +368,13 @@ void InitMissionRunLVsel(void *parentHeap, void *mainOam, void *subOam) {
     InitLayoutTable(gMissionRunLVsel->mHeap, gMissionRunLVsel->mMissionRunLVselS7Or6Bncl,
                     gMissionRunLVsel->mMissionRunLVselS7Or6Bnll, &gMissionRunLVsel->mMissionRunLVselS7Or6Table);
     remainingSize = GX_GetSizeOfSubOBJ();
-    for (i = 0; i < 7; i++) {
+    for (levelIndex = 0; levelIndex < 7; levelIndex++) {
         remainingSize -= InitLabelCanvas(
-            gMissionRunLVsel->mHeap, gMissionRunLVselGradeLabelIndices[i], gMissionRunLVsel->mMissionRunLVselS7Or6Bnll,
-            gMissionRunLVselGradeLabelWidths[i], gMissionRunLVselGradeLabelHeights[i],
-            gMissionRunLVselLevelCellIndices[i][7], gMissionRunLVsel->mMissionRunLVselSNcer,
-            gMissionRunLVsel->mMissionRunLVselS7Or6Bncl, gMissionRunLVsel->mMissionRunLVselS7Or6Table, remainingSize);
+            gMissionRunLVsel->mHeap, gMissionRunLVselGradeLabelIndices[levelIndex],
+            gMissionRunLVsel->mMissionRunLVselS7Or6Bnll, gMissionRunLVselGradeLabelWidths[levelIndex],
+            gMissionRunLVselGradeLabelHeights[levelIndex], gMissionRunLVselLevelCellIndices[levelIndex][7],
+            gMissionRunLVsel->mMissionRunLVselSNcer, gMissionRunLVsel->mMissionRunLVselS7Or6Bncl,
+            gMissionRunLVsel->mMissionRunLVselS7Or6Table, remainingSize);
     }
     RefreshMissionRunLVselLevelCells();
     ResetMissionRunLVsel();
@@ -396,8 +409,8 @@ void AdvanceMissionRunLVselState0(void) {
 }
 
 void AdvanceMissionRunLVselState1(void) {
-    s32 i;
-    s32 j;
+    s32 levelIndex;
+    s32 cellIndex;
     s32 layoutCount;
     s16 offsetX;
 
@@ -406,12 +419,13 @@ void AdvanceMissionRunLVselState1(void) {
     gMissionRunLVsel->mStateFrames = gMissionRunLVsel->mStateFrames + 1;
     offsetX = InterpolateS16(1, gMissionRunLVsel->mSlideOffsetX, 0, gMissionRunLVsel->mStateFrames, 10);
     gMissionRunLVsel->mBg0Offset = InterpolateS16(1, -192, 0, gMissionRunLVsel->mStateFrames, 10);
-    for (i = 0; i < 7; i++) {
-        for (j = 0; j < 11; j++) {
-            gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[i][j]].mOffsetX = offsetX;
+    for (levelIndex = 0; levelIndex < 7; levelIndex++) {
+        for (cellIndex = 0; cellIndex < 11; cellIndex++) {
+            gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][cellIndex]]
+                .mOffsetX = offsetX;
         }
-        gMissionRunLVsel->mMissionRunLVselS7Or6Table[layoutCount + gMissionRunLVselGradeLabelIndices[i]].mOffsetX =
-            offsetX;
+        gMissionRunLVsel->mMissionRunLVselS7Or6Table[layoutCount + gMissionRunLVselGradeLabelIndices[levelIndex]]
+            .mOffsetX = offsetX;
     }
     if (gMissionRunLVsel->mStateFrames >= 10) {
         RequestMissionRunLVselState2();
@@ -537,8 +551,8 @@ void AdvanceMissionRunLVselState4(void) {
 }
 
 void AdvanceMissionRunLVselState5(void) {
-    s32 i;
-    s32 j;
+    s32 levelIndex;
+    s32 cellIndex;
     s32 layoutCount;
     s16 offsetX;
 
@@ -546,12 +560,13 @@ void AdvanceMissionRunLVselState5(void) {
     gMissionRunLVsel->mStateFrames = gMissionRunLVsel->mStateFrames + 1;
     offsetX = InterpolateS16(1, 0, gMissionRunLVsel->mSlideOffsetX, gMissionRunLVsel->mStateFrames, 10);
     gMissionRunLVsel->mBg0Offset = InterpolateS16(1, 0, -192, gMissionRunLVsel->mStateFrames, 10);
-    for (i = 0; i < 7; i++) {
-        for (j = 0; j < 11; j++) {
-            gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[i][j]].mOffsetX = offsetX;
+    for (levelIndex = 0; levelIndex < 7; levelIndex++) {
+        for (cellIndex = 0; cellIndex < 11; cellIndex++) {
+            gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][cellIndex]]
+                .mOffsetX = offsetX;
         }
-        gMissionRunLVsel->mMissionRunLVselS7Or6Table[layoutCount + gMissionRunLVselGradeLabelIndices[i]].mOffsetX =
-            offsetX;
+        gMissionRunLVsel->mMissionRunLVselS7Or6Table[layoutCount + gMissionRunLVselGradeLabelIndices[levelIndex]]
+            .mOffsetX = offsetX;
     }
 }
 

@@ -16,15 +16,17 @@
 
 const s32 gOptionEmbremSelectCellCounts[2] = {1, 2};
 const s32 gOptionEmbremSelectSTableCounts[2] = {4, 0xb};
-OptionStateCallbackTable gOptionEmbremSelectCallbacks = {{InitOptionEmbremSelect, ReleaseOptionEmbremSelect, AdvanceOptionEmbremSelect, WriteOptionEmbremSelectRegisters}};
-const u8 gOptionEmbremSelectSTableIndices[2][11] = {{0, 8, 2, 0xc, 0, 0, 0, 0, 0, 0, 0}, {1, 9, 3, 4, 5, 6, 7, 0xa, 0xb, 0xd, 0xe}};
+OptionStateCallbackTable gOptionEmbremSelectCallbacks = {
+    {InitOptionEmbremSelect, ReleaseOptionEmbremSelect, AdvanceOptionEmbremSelect, WriteOptionEmbremSelectRegisters}};
+const u8 gOptionEmbremSelectSTableIndices[2][11] = {{0, 8, 2, 0xc, 0, 0, 0, 0, 0, 0, 0},
+                                                    {1, 9, 3, 4, 5, 6, 7, 0xa, 0xb, 0xd, 0xe}};
 const u8 gOptionEmbremSelectTimerCellIndices[3][2] = {{0xa, 0xb}, {6, 7}, {4, 5}};
 const u8 gOptionEmbremSelectCellIndices[2][2] = {{0xc, 0}, {0xd, 0xe}};
 OptionEmbremSelect *gOptionEmbremSelect;
 u8 gOverlayExpHeapBuffer[0x20800];
 
 void InitOptionEmbremSelect(void *heap) {
-    s32 i;
+    s32 rowIndex;
     OptionEmbremSelect *optionEmbremSelect;
     void *bmgEntry;
 
@@ -36,9 +38,9 @@ void InitOptionEmbremSelect(void *heap) {
     gOptionEmbremSelect->mStateFrames = 0;
     gOptionEmbremSelect->mHighlightVisible = TRUE;
     LocateAndQueueOptionEmbremSelect();
-    for (i = 0; i < 2; i++) {
-        SetCellOamModeXlu(gOptionEmbremSelectSTableIndices[i][0], 1, gOptionEmbremSelect->mOptionEmbremSelectSNcer,
-                          gOptionEmbremSelect->mOptionEmbremSelectSBncl);
+    for (rowIndex = 0; rowIndex < 2; rowIndex++) {
+        SetCellOamModeXlu(gOptionEmbremSelectSTableIndices[rowIndex][0], 1,
+                          gOptionEmbremSelect->mOptionEmbremSelectSNcer, gOptionEmbremSelect->mOptionEmbremSelectSBncl);
     }
     ResetOamLists(GetOptionFirstBuffer(), GetOptionSecondBuffer());
     InitLayoutTable(heap, gOptionEmbremSelect->mOptionEmbremSelectSBncl, gOptionEmbremSelect->mOptionEmbremSelectSBnll,
@@ -53,9 +55,9 @@ void InitOptionEmbremSelect(void *heap) {
     PrintLabelLayoutTextNoFixedAdvance(1, 0, gOptionEmbremSelect->mOptionEmbremSelectSBnll, bmgEntry,
                                        optionEmbremSelect->mOptionEmbremSelectSBncl,
                                        optionEmbremSelect->mOptionEmbremSelectSTable);
-    for (i = 0; i < 2; i++) {
-        gOptionEmbremSelect->mCellGroupOffsets[i].mOffsetX = 250;
-        gOptionEmbremSelect->mCellGroupOffsets[i].mOffsetY = 0;
+    for (rowIndex = 0; rowIndex < 2; rowIndex++) {
+        gOptionEmbremSelect->mCellGroupOffsets[rowIndex].mOffsetX = 250;
+        gOptionEmbremSelect->mCellGroupOffsets[rowIndex].mOffsetY = 0;
     }
     gOptionEmbremSelect->mEmblemOffChoice = IsBackupEmblemOff();
     gOptionEmbremSelect->mEmblemOffAtOpen = gOptionEmbremSelect->mEmblemOffChoice;
@@ -112,18 +114,18 @@ void AdvanceOptionEmbremSelectState0(void) {
 }
 
 void AdvanceOptionEmbremSelectState1(void) {
-    s32 i;
-    s32 j;
+    s32 rowIndex;
+    s32 cellIndex;
     s16 offsetX;
 
     gOptionEmbremSelect->mStateFrames++;
     offsetX = InterpolateS16(1, 250, 0, gOptionEmbremSelect->mStateFrames, 10);
-    for (i = 0; i < 2; i++) {
-        for (j = 0; j < gOptionEmbremSelectSTableCounts[i]; j++) {
-            if (i == 1) {
-                gOptionEmbremSelect->mCellGroupOffsets[i].mOffsetX = offsetX;
+    for (rowIndex = 0; rowIndex < 2; rowIndex++) {
+        for (cellIndex = 0; cellIndex < gOptionEmbremSelectSTableCounts[rowIndex]; cellIndex++) {
+            if (rowIndex == 1) {
+                gOptionEmbremSelect->mCellGroupOffsets[rowIndex].mOffsetX = offsetX;
             } else {
-                gOptionEmbremSelect->mCellGroupOffsets[i].mOffsetX = -offsetX;
+                gOptionEmbremSelect->mCellGroupOffsets[rowIndex].mOffsetX = -offsetX;
             }
         }
     }
@@ -257,8 +259,8 @@ void AdvanceOptionEmbremSelectState4(void) {
 }
 
 void AdvanceOptionEmbremSelectState5(void) {
-    s32 i;
-    s32 j;
+    s32 rowIndex;
+    s32 cellIndex;
     s32 offsetX;
 
     if (GetOptionNextScene() == -1 && gOptionEmbremSelect->mNextOptionState == 6) {
@@ -266,12 +268,12 @@ void AdvanceOptionEmbremSelectState5(void) {
     }
     gOptionEmbremSelect->mStateFrames++;
     offsetX = InterpolateS16(1, 0, 250, gOptionEmbremSelect->mStateFrames, 10);
-    for (i = 0; i < 2; i++) {
-        for (j = 0; j < gOptionEmbremSelectSTableCounts[i]; j++) {
-            if (i == 0) {
-                gOptionEmbremSelect->mCellGroupOffsets[i].mOffsetX = -offsetX;
+    for (rowIndex = 0; rowIndex < 2; rowIndex++) {
+        for (cellIndex = 0; cellIndex < gOptionEmbremSelectSTableCounts[rowIndex]; cellIndex++) {
+            if (rowIndex == 0) {
+                gOptionEmbremSelect->mCellGroupOffsets[rowIndex].mOffsetX = -offsetX;
             } else {
-                gOptionEmbremSelect->mCellGroupOffsets[i].mOffsetX = offsetX;
+                gOptionEmbremSelect->mCellGroupOffsets[rowIndex].mOffsetX = offsetX;
             }
         }
     }
@@ -326,70 +328,70 @@ void AdvanceOptionEmbremSelectState6(void) {
 }
 
 void UpdateOptionEmbremSelectCellOffsets(void) {
-    s32 i;
-    s32 j;
+    s32 rowIndex;
+    s32 cellIndex;
     s32 subLayoutCount;
-    s32 k;
+    s32 timerCellIndex;
 
     subLayoutCount = gOptionEmbremSelect->mOptionEmbremSelectSBncl->mCount;
-    for (i = 0; i < 2; i++) {
-        for (j = 0; j < gOptionEmbremSelectSTableCounts[i]; j++) {
-            gOptionEmbremSelect->mOptionEmbremSelectSTable[gOptionEmbremSelectSTableIndices[i][j]].mOffsetX =
-                gOptionEmbremSelect->mCellGroupOffsets[i].mOffsetX;
-            gOptionEmbremSelect->mOptionEmbremSelectSTable[gOptionEmbremSelectSTableIndices[i][j]].mOffsetY =
-                gOptionEmbremSelect->mCellGroupOffsets[i].mOffsetY;
+    for (rowIndex = 0; rowIndex < 2; rowIndex++) {
+        for (cellIndex = 0; cellIndex < gOptionEmbremSelectSTableCounts[rowIndex]; cellIndex++) {
+            gOptionEmbremSelect->mOptionEmbremSelectSTable[gOptionEmbremSelectSTableIndices[rowIndex][cellIndex]]
+                .mOffsetX = gOptionEmbremSelect->mCellGroupOffsets[rowIndex].mOffsetX;
+            gOptionEmbremSelect->mOptionEmbremSelectSTable[gOptionEmbremSelectSTableIndices[rowIndex][cellIndex]]
+                .mOffsetY = gOptionEmbremSelect->mCellGroupOffsets[rowIndex].mOffsetY;
         }
     }
     gOptionEmbremSelect->mOptionEmbremSelectSTable[subLayoutCount].mOffsetX =
         gOptionEmbremSelect->mCellGroupOffsets[1].mOffsetX;
     gOptionEmbremSelect->mOptionEmbremSelectSTable[subLayoutCount].mOffsetY =
         gOptionEmbremSelect->mCellGroupOffsets[1].mOffsetY;
-    for (k = 0; k < 3; k++) {
-        gOptionEmbremSelect->mOptionEmbremSelectSTable[gOptionEmbremSelectTimerCellIndices[k][0]].mOffsetX -=
-            LookupFrameOffset(6 - gOptionEmbremSelect->mOffsetTimers[0]);
-        gOptionEmbremSelect->mOptionEmbremSelectSTable[gOptionEmbremSelectTimerCellIndices[k][1]].mOffsetX +=
-            LookupFrameOffset(6 - gOptionEmbremSelect->mOffsetTimers[1]);
+    for (timerCellIndex = 0; timerCellIndex < 3; timerCellIndex++) {
+        gOptionEmbremSelect->mOptionEmbremSelectSTable[gOptionEmbremSelectTimerCellIndices[timerCellIndex][0]]
+            .mOffsetX -= LookupFrameOffset(6 - gOptionEmbremSelect->mOffsetTimers[0]);
+        gOptionEmbremSelect->mOptionEmbremSelectSTable[gOptionEmbremSelectTimerCellIndices[timerCellIndex][1]]
+            .mOffsetX += LookupFrameOffset(6 - gOptionEmbremSelect->mOffsetTimers[1]);
     }
 }
 
 void UpdateOptionEmbremSelectIndexCells(void) {
-    s32 i;
+    s32 cellIndex;
 
-    for (i = 0; i < gOptionEmbremSelectCellCounts[1]; i++) {
-        if (i == gOptionEmbremSelect->mEmblemOffChoice) {
-            gOptionEmbremSelect->mOptionEmbremSelectSTable[gOptionEmbremSelectCellIndices[1][i]].mVisible = 1;
+    for (cellIndex = 0; cellIndex < gOptionEmbremSelectCellCounts[1]; cellIndex++) {
+        if (cellIndex == gOptionEmbremSelect->mEmblemOffChoice) {
+            gOptionEmbremSelect->mOptionEmbremSelectSTable[gOptionEmbremSelectCellIndices[1][cellIndex]].mVisible = 1;
         } else {
-            gOptionEmbremSelect->mOptionEmbremSelectSTable[gOptionEmbremSelectCellIndices[1][i]].mVisible = 0;
+            gOptionEmbremSelect->mOptionEmbremSelectSTable[gOptionEmbremSelectCellIndices[1][cellIndex]].mVisible = 0;
         }
     }
 }
 
 void UpdateOptionEmbremSelectHighlight(void) {
-    s32 i;
-    s32 j;
+    s32 rowIndex;
+    s32 cellIndex;
 
-    for (i = 0; i < 2; i++) {
-        if (i == gOptionEmbremSelect->mSelectedRow && gOptionEmbremSelect->mHighlightVisible != FALSE) {
-            gOptionEmbremSelect->mOptionEmbremSelectSTable[gOptionEmbremSelectSTableIndices[i][1]].mVisible = 1;
-            if (i == 1) {
+    for (rowIndex = 0; rowIndex < 2; rowIndex++) {
+        if (rowIndex == gOptionEmbremSelect->mSelectedRow && gOptionEmbremSelect->mHighlightVisible != FALSE) {
+            gOptionEmbremSelect->mOptionEmbremSelectSTable[gOptionEmbremSelectSTableIndices[rowIndex][1]].mVisible = 1;
+            if (rowIndex == 1) {
                 SetLabelPaletteIndex(0, 14, gOptionEmbremSelect->mOptionEmbremSelectSBnll,
                                      gOptionEmbremSelect->mOptionEmbremSelectSTable,
                                      gOptionEmbremSelect->mOptionEmbremSelectSBncl);
             }
-            for (j = 0; j < gOptionEmbremSelectCellCounts[i]; j++) {
-                SetCellPaletteIndex(gOptionEmbremSelectCellIndices[i][j], 14,
+            for (cellIndex = 0; cellIndex < gOptionEmbremSelectCellCounts[rowIndex]; cellIndex++) {
+                SetCellPaletteIndex(gOptionEmbremSelectCellIndices[rowIndex][cellIndex], 14,
                                     gOptionEmbremSelect->mOptionEmbremSelectSNcer,
                                     gOptionEmbremSelect->mOptionEmbremSelectSBncl);
             }
         } else {
-            gOptionEmbremSelect->mOptionEmbremSelectSTable[gOptionEmbremSelectSTableIndices[i][1]].mVisible = 0;
-            if (i == 1) {
+            gOptionEmbremSelect->mOptionEmbremSelectSTable[gOptionEmbremSelectSTableIndices[rowIndex][1]].mVisible = 0;
+            if (rowIndex == 1) {
                 SetLabelPaletteIndex(0, 15, gOptionEmbremSelect->mOptionEmbremSelectSBnll,
                                      gOptionEmbremSelect->mOptionEmbremSelectSTable,
                                      gOptionEmbremSelect->mOptionEmbremSelectSBncl);
             }
-            for (j = 0; j < gOptionEmbremSelectCellCounts[i]; j++) {
-                SetCellPaletteIndex(gOptionEmbremSelectCellIndices[i][j], 15,
+            for (cellIndex = 0; cellIndex < gOptionEmbremSelectCellCounts[rowIndex]; cellIndex++) {
+                SetCellPaletteIndex(gOptionEmbremSelectCellIndices[rowIndex][cellIndex], 15,
                                     gOptionEmbremSelect->mOptionEmbremSelectSNcer,
                                     gOptionEmbremSelect->mOptionEmbremSelectSBncl);
             }
@@ -398,21 +400,27 @@ void UpdateOptionEmbremSelectHighlight(void) {
 }
 
 void AdvanceOptionEmbremSelectTimers(void) {
-    s32 i;
+    s32 timerIndex;
 
-    for (i = 0; i < 2; i++) {
+    for (timerIndex = 0; timerIndex < 2; timerIndex++) {
         if (gOptionEmbremSelect->mSelectedRow == 1) {
-            if (gOptionEmbremSelect->mOffsetTimers[i] > 0) {
-                gOptionEmbremSelect->mOptionEmbremSelectSTable[gOptionEmbremSelectTimerCellIndices[0][i]].mVisible = 1;
-                gOptionEmbremSelect->mOptionEmbremSelectSTable[gOptionEmbremSelectTimerCellIndices[1][i]].mVisible = 1;
-                gOptionEmbremSelect->mOffsetTimers[i]--;
+            if (gOptionEmbremSelect->mOffsetTimers[timerIndex] > 0) {
+                gOptionEmbremSelect->mOptionEmbremSelectSTable[gOptionEmbremSelectTimerCellIndices[0][timerIndex]]
+                    .mVisible = 1;
+                gOptionEmbremSelect->mOptionEmbremSelectSTable[gOptionEmbremSelectTimerCellIndices[1][timerIndex]]
+                    .mVisible = 1;
+                gOptionEmbremSelect->mOffsetTimers[timerIndex]--;
             } else {
-                gOptionEmbremSelect->mOptionEmbremSelectSTable[gOptionEmbremSelectTimerCellIndices[0][i]].mVisible = 0;
-                gOptionEmbremSelect->mOptionEmbremSelectSTable[gOptionEmbremSelectTimerCellIndices[1][i]].mVisible = 1;
+                gOptionEmbremSelect->mOptionEmbremSelectSTable[gOptionEmbremSelectTimerCellIndices[0][timerIndex]]
+                    .mVisible = 0;
+                gOptionEmbremSelect->mOptionEmbremSelectSTable[gOptionEmbremSelectTimerCellIndices[1][timerIndex]]
+                    .mVisible = 1;
             }
         } else {
-            gOptionEmbremSelect->mOptionEmbremSelectSTable[gOptionEmbremSelectTimerCellIndices[0][i]].mVisible = 0;
-            gOptionEmbremSelect->mOptionEmbremSelectSTable[gOptionEmbremSelectTimerCellIndices[1][i]].mVisible = 0;
+            gOptionEmbremSelect->mOptionEmbremSelectSTable[gOptionEmbremSelectTimerCellIndices[0][timerIndex]]
+                .mVisible = 0;
+            gOptionEmbremSelect->mOptionEmbremSelectSTable[gOptionEmbremSelectTimerCellIndices[1][timerIndex]]
+                .mVisible = 0;
         }
     }
 }
