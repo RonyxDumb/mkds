@@ -28,8 +28,8 @@ u16 *gMultiBootMaskPointers[6];
 void InitMultiBootParent(u8 *object) {
     gMultiBootParent = (MultiBootParent *) object;
     InitWhWork((WhWork *) (object + 0x1b160));
-    gMultiBootParent->mUnk_1b140 = NULL;
-    gMultiBootParent->mUnk_1b144 = NULL;
+    gMultiBootParent->mCommWorkPointer = NULL;
+    gMultiBootParent->mFileBuffer = NULL;
 }
 
 void InitMultiBootParentComm(u32 ggid, u32 tgid) {
@@ -53,8 +53,8 @@ void InitMultiBootParentComm(u32 ggid, u32 tgid) {
         words[6] = 0;
     }
     *(MultiBootParentHeader *) gMultiBootParent = clearedHeader;
-    gMultiBootParent->mUnk_1b140 = gMultiBootParent->mUnk_10040;
-    if (MB_Init(gMultiBootParent->mUnk_1b140, &userInfo, ggid, tgid, 2) != 0) {
+    gMultiBootParent->mCommWorkPointer = gMultiBootParent->mCommWork;
+    if (MB_Init(gMultiBootParent->mCommWorkPointer, &userInfo, ggid, tgid, 2) != 0) {
         OS_Terminate();
     }
     MB_SetParentCommParam(0x100, 1);
@@ -89,10 +89,10 @@ BOOL RegisterMultiBootFile(MultiBootGameRegistryView *gameRegistry) {
         segmentFile = &openedFile;
     }
     if (MB_GetSegmentLength(segmentFile) != 0) {
-        gMultiBootParent->mUnk_1b144 = (u8 *) gMultiBootParent + 0x2c;
-        if (gMultiBootParent->mUnk_1b144 != NULL) {
-            if (MB_ReadSegment(segmentFile, gMultiBootParent->mUnk_1b144, 0x10000) != 0) {
-                if (MB_RegisterFile(gameRegistry, gMultiBootParent->mUnk_1b144) != 0) {
+        gMultiBootParent->mFileBuffer = (u8 *) gMultiBootParent + 0x2c;
+        if (gMultiBootParent->mFileBuffer != NULL) {
+            if (MB_ReadSegment(segmentFile, gMultiBootParent->mFileBuffer, 0x10000) != 0) {
+                if (MB_RegisterFile(gameRegistry, gMultiBootParent->mFileBuffer) != 0) {
                     registered = 1;
                 }
             }
@@ -112,9 +112,9 @@ void AcceptMultiBootChildRequest(u32 aid) {
         clearMask = ~(1 << aid);
         savedInterrupts = OS_DisableInterrupts();
         gMultiBootParent->mMask &= clearMask;
-        gMultiBootParent->mUnk_04 &= clearMask;
-        gMultiBootParent->mUnk_06 &= clearMask;
-        gMultiBootParent->mUnk_08 &= clearMask;
+        gMultiBootParent->mRequestedMask &= clearMask;
+        gMultiBootParent->mDownloadPendingMask &= clearMask;
+        gMultiBootParent->mDownloadStartedMask &= clearMask;
         gMultiBootParent->mUnk_0a &= clearMask;
         gMultiBootParent->mUnk_0c &= clearMask;
         OS_RestoreInterrupts(savedInterrupts);
@@ -131,9 +131,9 @@ void KickMultiBootChild(u32 aid) {
         clearMask = ~(1 << aid);
         savedInterrupts = OS_DisableInterrupts();
         gMultiBootParent->mMask &= clearMask;
-        gMultiBootParent->mUnk_04 &= clearMask;
-        gMultiBootParent->mUnk_06 &= clearMask;
-        gMultiBootParent->mUnk_08 &= clearMask;
+        gMultiBootParent->mRequestedMask &= clearMask;
+        gMultiBootParent->mDownloadPendingMask &= clearMask;
+        gMultiBootParent->mDownloadStartedMask &= clearMask;
         gMultiBootParent->mUnk_0a &= clearMask;
         gMultiBootParent->mUnk_0c &= clearMask;
         OS_RestoreInterrupts(savedInterrupts);
@@ -141,7 +141,7 @@ void KickMultiBootChild(u32 aid) {
     } else {
         savedInterrupts = OS_DisableInterrupts();
         aidBit = 1 << aid;
-        gMultiBootParent->mUnk_04 &= ~aidBit;
+        gMultiBootParent->mRequestedMask &= ~aidBit;
         gMultiBootParent->mMask &= ~aidBit;
         OS_RestoreInterrupts(savedInterrupts);
     }
@@ -156,9 +156,9 @@ void StartMultiBootChildDownload(u32 aid) {
         clearMask = ~(1 << aid);
         savedInterrupts = OS_DisableInterrupts();
         gMultiBootParent->mMask &= clearMask;
-        gMultiBootParent->mUnk_04 &= clearMask;
-        gMultiBootParent->mUnk_06 &= clearMask;
-        gMultiBootParent->mUnk_08 &= clearMask;
+        gMultiBootParent->mRequestedMask &= clearMask;
+        gMultiBootParent->mDownloadPendingMask &= clearMask;
+        gMultiBootParent->mDownloadStartedMask &= clearMask;
         gMultiBootParent->mUnk_0a &= clearMask;
         gMultiBootParent->mUnk_0c &= clearMask;
         OS_RestoreInterrupts(savedInterrupts);
@@ -166,8 +166,8 @@ void StartMultiBootChildDownload(u32 aid) {
     } else {
         savedInterrupts = OS_DisableInterrupts();
         aidBit = 1 << aid;
-        gMultiBootParent->mUnk_06 &= ~aidBit;
-        gMultiBootParent->mUnk_08 |= aidBit;
+        gMultiBootParent->mDownloadPendingMask &= ~aidBit;
+        gMultiBootParent->mDownloadStartedMask |= aidBit;
         OS_RestoreInterrupts(savedInterrupts);
     }
 }
@@ -182,14 +182,14 @@ void StartMultiBootDownloads(void) {
     for (aid = 1; aid < 16; aid++) {
         aidBit = 1 << aid;
         if ((gMultiBootParent->mMask & aidBit) != 0) {
-            if ((gMultiBootParent->mUnk_04 & aidBit) == 0) {
-                if ((gMultiBootParent->mUnk_06 & aidBit) == 0) {
+            if ((gMultiBootParent->mRequestedMask & aidBit) == 0) {
+                if ((gMultiBootParent->mDownloadPendingMask & aidBit) == 0) {
                     clearMask = ~aidBit;
                     savedInterrupts = OS_DisableInterrupts();
                     gMultiBootParent->mMask &= clearMask;
-                    gMultiBootParent->mUnk_04 &= clearMask;
-                    gMultiBootParent->mUnk_06 &= clearMask;
-                    gMultiBootParent->mUnk_08 &= clearMask;
+                    gMultiBootParent->mRequestedMask &= clearMask;
+                    gMultiBootParent->mDownloadPendingMask &= clearMask;
+                    gMultiBootParent->mDownloadStartedMask &= clearMask;
                     gMultiBootParent->mUnk_0a &= clearMask;
                     gMultiBootParent->mUnk_0c &= clearMask;
                     OS_RestoreInterrupts(savedInterrupts);
@@ -234,9 +234,9 @@ void StartMultiBootBootRequests(void) {
                 clearMask = ~aidBit;
                 savedInterrupts = OS_DisableInterrupts();
                 gMultiBootParent->mMask &= clearMask;
-                gMultiBootParent->mUnk_04 &= clearMask;
-                gMultiBootParent->mUnk_06 &= clearMask;
-                gMultiBootParent->mUnk_08 &= clearMask;
+                gMultiBootParent->mRequestedMask &= clearMask;
+                gMultiBootParent->mDownloadPendingMask &= clearMask;
+                gMultiBootParent->mDownloadStartedMask &= clearMask;
                 gMultiBootParent->mUnk_0a &= clearMask;
                 gMultiBootParent->mUnk_0c &= clearMask;
                 OS_RestoreInterrupts(savedInterrupts);
@@ -286,9 +286,9 @@ void MultiBootParentStateCallback(u32 aid, u32 code, WirelessMessage *event) {
                 clearMask = ~(1 << aid);
                 value = OS_DisableInterrupts();
                 gMultiBootParent->mMask &= clearMask;
-                gMultiBootParent->mUnk_04 &= clearMask;
-                gMultiBootParent->mUnk_06 &= clearMask;
-                gMultiBootParent->mUnk_08 &= clearMask;
+                gMultiBootParent->mRequestedMask &= clearMask;
+                gMultiBootParent->mDownloadPendingMask &= clearMask;
+                gMultiBootParent->mDownloadStartedMask &= clearMask;
                 gMultiBootParent->mUnk_0a &= clearMask;
                 gMultiBootParent->mUnk_0c &= clearMask;
                 OS_RestoreInterrupts(value);
@@ -299,7 +299,7 @@ void MultiBootParentStateCallback(u32 aid, u32 code, WirelessMessage *event) {
                 KickMultiBootChild(aid);
                 break;
             }
-            gMultiBootParent->mUnk_04 |= 1 << aid;
+            gMultiBootParent->mRequestedMask |= 1 << aid;
             AcceptMultiBootChildRequest(aid);
             value = (u32) MB_CommGetChildUser(aid);
             if (value != 0) {
@@ -307,14 +307,14 @@ void MultiBootParentStateCallback(u32 aid, u32 code, WirelessMessage *event) {
             }
             break;
         case 14:
-            gMultiBootParent->mUnk_04 &= ~(1 << aid);
-            gMultiBootParent->mUnk_06 |= 1 << aid;
+            gMultiBootParent->mRequestedMask &= ~(1 << aid);
+            gMultiBootParent->mDownloadPendingMask |= 1 << aid;
             if (GetMultiBootParentState() == 3) {
                 StartMultiBootChildDownload(aid);
             }
             break;
         case 7:
-            gMultiBootParent->mUnk_08 &= ~(1 << aid);
+            gMultiBootParent->mDownloadStartedMask &= ~(1 << aid);
             gMultiBootParent->mUnk_0a |= 1 << aid;
             break;
         case 9:
@@ -330,11 +330,11 @@ void MultiBootParentStateCallback(u32 aid, u32 code, WirelessMessage *event) {
             } else {
                 SetMultiBootParentState(0);
             }
-            if (gMultiBootParent->mUnk_1b144 != NULL) {
-                gMultiBootParent->mUnk_1b144 = NULL;
+            if (gMultiBootParent->mFileBuffer != NULL) {
+                gMultiBootParent->mFileBuffer = NULL;
             }
-            if (gMultiBootParent->mUnk_1b140 != NULL) {
-                gMultiBootParent->mUnk_1b140 = NULL;
+            if (gMultiBootParent->mCommWorkPointer != NULL) {
+                gMultiBootParent->mCommWorkPointer = NULL;
             }
             break;
         case 13:
@@ -374,9 +374,9 @@ u16 GetMultiBootChildMask(u32 maskIndex) {
 
     parent = gMultiBootParent;
     gMultiBootMaskPointers[0] = &parent->mMask;
-    gMultiBootMaskPointers[1] = &parent->mUnk_04;
-    gMultiBootMaskPointers[2] = &parent->mUnk_06;
-    gMultiBootMaskPointers[3] = &parent->mUnk_08;
+    gMultiBootMaskPointers[1] = &parent->mRequestedMask;
+    gMultiBootMaskPointers[2] = &parent->mDownloadPendingMask;
+    gMultiBootMaskPointers[3] = &parent->mDownloadStartedMask;
     gMultiBootMaskPointers[4] = &parent->mUnk_0a;
     gMultiBootMaskPointers[5] = &parent->mUnk_0c;
     return *gMultiBootMaskPointers[maskIndex];

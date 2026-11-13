@@ -10,18 +10,18 @@ typedef struct MultiBootChildRecord {
 } MultiBootChildRecord;
 
 struct MultiBootParent {
-    /* 0000 */ u16 mUnk_00;
+    /* 0000 */ u16 mState;
     /* 0002 */ u16 mMask;
-    /* 0004 */ u16 mUnk_04;
-    /* 0006 */ u16 mUnk_06;
-    /* 0008 */ u16 mUnk_08;
+    /* 0004 */ u16 mRequestedMask;
+    /* 0006 */ u16 mDownloadPendingMask;
+    /* 0008 */ u16 mDownloadStartedMask;
     /* 000a */ u16 mUnk_0a;
     /* 000c */ u16 mUnk_0c;
     /* 000e */ MultiBootChildRecord mRecords[15];
     /* 01d0 */ u8 mUnk_01d0[0xfe70];
-    /* 10040 */ u8 mUnk_10040[0xb100];
-    /* 1b140 */ void *mUnk_1b140;
-    /* 1b144 */ void *mUnk_1b144;
+    /* 10040 */ u8 mCommWork[0xb100];
+    /* 1b140 */ void *mCommWorkPointer;
+    /* 1b144 */ void *mFileBuffer;
 };
 
 #include "03/unk_021da000.h"
