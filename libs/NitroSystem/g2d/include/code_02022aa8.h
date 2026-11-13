@@ -32,7 +32,10 @@ typedef struct FontCodeMap {
     /* 04 */ u16 mMappingMethod;
     /* 06 */ u16 mReserved;
     /* 08 */ struct FontCodeMap *mPNext;
-    /* 0c */ FontCodeMapInfo mMapInfo;
+    union {
+        /* 0c */ u16 mMapInfo[1];
+        /* 0c */ FontCodeMapInfo mPairTable;
+    };
 } FontCodeMap;
 
 // Object behind NNSG2dFontInformation.mUnk_08: a byte at 0x01, a halfword at 0x02 and bytes from 0x08

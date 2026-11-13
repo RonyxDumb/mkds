@@ -186,13 +186,13 @@ u32 GetGlyphIndex(FontCodeMap *pMap, u32 code) {
     index = 0xffff;
     switch (pMap->mMappingMethod) {
         case 0:
-            index = (u16) (pMap->mMapInfo.mUnk_00 + (code - pMap->mCcodeBegin));
+            index = (u16) (pMap->mMapInfo[0] + (code - pMap->mCcodeBegin));
             break;
         case 1:
-            index = (OFFSET_PTR(u16, pMap, 0xc))[code - pMap->mCcodeBegin];
+            index = pMap->mMapInfo[code - pMap->mCcodeBegin];
             break;
         case 2:
-            scan = &pMap->mMapInfo;
+            scan = &pMap->mPairTable;
             first = scan->mScanEntries;
             last = first + (scan->mUnk_00 - 1);
             while (first <= last) {
