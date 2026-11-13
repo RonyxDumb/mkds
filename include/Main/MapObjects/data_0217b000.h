@@ -529,6 +529,20 @@ typedef struct RaceHudSubScreenBgAffine {
     /* 1c */ s32 mY1;
 } RaceHudSubScreenBgAffine;
 
+// Values of RaceHud.mSubScreenState: the pages of the sub screen. The first four show the course from above: the kart
+// icons placed over the whole course, the map turning with the camera or kart heading, the map with north fixed that
+// scrolls, and the map placed by the course map sub screen view. The goal pages list the finished karts or the teams;
+// the last is the new-record page.
+typedef enum {
+    RACE_HUD_SUB_SCREEN_KART_ICONS,
+    RACE_HUD_SUB_SCREEN_MAP_TURNING,
+    RACE_HUD_SUB_SCREEN_MAP_FIXED_SCROLL,
+    RACE_HUD_SUB_SCREEN_MAP_VIEW,
+    RACE_HUD_SUB_SCREEN_GOAL_KARTS,
+    RACE_HUD_SUB_SCREEN_GOAL_TEAMS,
+    RACE_HUD_SUB_SCREEN_NEW_RECORD
+} RaceHudSubScreenState;
+
 // On-screen display of the race, one record behind gRaceHud (0x914 bytes, allocated by InitRaceHud on the scene heap,
 // set NULL by the release slot ReleaseRaceHud, never freed). It holds the two 0x400-byte sprite entry buffers the
 // element draws append to (mUnk_004 for the main screen, mSubOam for the sub screen, copied to 0x07000000 /
@@ -547,10 +561,10 @@ typedef struct RaceHud {
     /* 80c */ struct Nclr *mNclrs[2];
     /* 814 */ struct Ncgr *mNcgrs[2];
     /* 81c */ struct Nscr *mNscrs[3];
-    // Page of the sub screen (reg_GXS_DB_* / reg_G2S_DB_* = sub engine), 0..6, switched on by the step, the draw and
-    // the upload slot; assigned by UpdateRaceHudSubScreen (per mode and race state), RequestRaceHudSubScreenState5 (5,
-    // RaceGoalS) and RequestRaceHudSubScreenState6 (6, RaceNewRecordTa). 4 and 5 run the RaceGoalS page, 6 the
-    // new-record page; what 0 and 1..3 show is not named (the player switches 0 and 1 with sounds 0x18 / 0x17).
+    // RaceHudSubScreenState page of the sub screen (reg_GXS_DB_* / reg_G2S_DB_* = sub engine), switched on by the step,
+    // the draw and the upload slot; assigned by UpdateRaceHudSubScreen (per mode and race state),
+    // RequestRaceHudSubScreenState5 (RaceGoalS teams) and RequestRaceHudSubScreenState6 (RaceNewRecordTa). The player
+    // switches the icons page and the first map page with sounds 0x18 / 0x17.
     /* 828 */ s32 mSubScreenState;
     // Gate of the sub screen's page update and page upload.
     /* 82c */ BOOL mSubScreenEnabled;

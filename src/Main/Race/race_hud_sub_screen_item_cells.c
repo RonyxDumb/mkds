@@ -238,7 +238,7 @@ void UpdateRaceHudSubScreenKarts(void) {
         sortKeys[kartIndex] = GetKartRank(kartIndex & 0xff);
     }
     switch (GetRaceHudSubScreenState()) {
-        case 0:
+        case RACE_HUD_SUB_SCREEN_KART_ICONS:
             for (kartIndex = 0; kartIndex < (u32) gRaceSetup->mKartCount; kartIndex++) {
                 ComputeSubScreenState0KartPosition(kartIndex, &gRaceHudSubScreenKarts->mScreenPos[kartIndex]);
                 screenX = gRaceHudSubScreenKarts->mScreenPos[kartIndex].mFirst;
@@ -264,9 +264,9 @@ void UpdateRaceHudSubScreenKarts(void) {
                 }
             }
             break;
-        case 1:
-        case 2:
-        case 3:
+        case RACE_HUD_SUB_SCREEN_MAP_TURNING:
+        case RACE_HUD_SUB_SCREEN_MAP_FIXED_SCROLL:
+        case RACE_HUD_SUB_SCREEN_MAP_VIEW:
             gRaceHudSubScreenKarts->mCells->mCellCount = 0;
             for (kartIndex = 0; kartIndex < (u32) gRaceSetup->mKartCount; kartIndex++) {
                 GetKartPos(&kartPosition, kartIndex & 0xff);
@@ -453,7 +453,7 @@ void DrawRaceHudSubScreenKarts(RaceHudOamBuffer *oamBuffer) {
     s32 screenY;
 
     switch (GetRaceHudSubScreenState()) {
-        case 0:
+        case RACE_HUD_SUB_SCREEN_KART_ICONS:
             for (drawOrderIndex = 0; drawOrderIndex < gRaceSetup->mKartCount; drawOrderIndex++) {
                 kartIndex = gRaceHudSubScreenKarts->mDrawOrder[drawOrderIndex];
                 if (gRaceHudSubScreenKarts->mVisible[kartIndex] != 0) {
@@ -497,9 +497,9 @@ void DrawRaceHudSubScreenKarts(RaceHudOamBuffer *oamBuffer) {
                 }
             }
             break;
-        case 1:
-        case 2:
-        case 3:
+        case RACE_HUD_SUB_SCREEN_MAP_TURNING:
+        case RACE_HUD_SUB_SCREEN_MAP_FIXED_SCROLL:
+        case RACE_HUD_SUB_SCREEN_MAP_VIEW:
             minDrawValue = GetRaceHudSubScreenMinDrawValue();
             for (drawOrderIndex = 0; drawOrderIndex < gRaceSetup->mKartCount; drawOrderIndex++) {
                 kartIndex = gRaceHudSubScreenKarts->mDrawOrder[drawOrderIndex];

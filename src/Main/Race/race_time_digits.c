@@ -56,7 +56,7 @@ void UpdateRaceTimeDigits(void) {
     s32 kartIndex;
     NNSSndSeqPlayer **entryHandle;
 
-    if (GetRaceHudSubScreenState() == 6) {
+    if (GetRaceHudSubScreenState() == RACE_HUD_SUB_SCREEN_NEW_RECORD) {
         return;
     }
     if (GetShowLapTime() != 0) {
@@ -199,7 +199,7 @@ void DrawRaceTimeDigits(RaceHudOamBuffer *oamBuffer) {
 
     hasLapTime = GetShowLapTime();
     cellOffset = 0;
-    if (GetRaceHudSubScreenState() == 6) {
+    if (GetRaceHudSubScreenState() == RACE_HUD_SUB_SCREEN_NEW_RECORD) {
         return;
     }
     if (gRaceSetup->mRaceKind == RACE_KIND_START_BATTLE) {

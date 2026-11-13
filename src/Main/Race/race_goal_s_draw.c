@@ -4,7 +4,7 @@
 void DrawRaceGoalS(RaceHudOamBuffer *oamBuffer) {
     int state;
     state = GetRaceHudSubScreenState();
-    if (state != 5) {
+    if (state != RACE_HUD_SUB_SCREEN_GOAL_TEAMS) {
         DrawRaceGoalSKarts(oamBuffer);
         return;
     }

@@ -183,7 +183,7 @@ void UploadRaceHud(void) {
     GXS_LoadOAM(&gRaceHud->mSubOam, 0, 0x400);
     if (gRaceHud->mSubScreenEnabled != FALSE) {
         switch (gRaceHud->mSubScreenState) {
-            case 0:
+            case RACE_HUD_SUB_SCREEN_KART_ICONS:
                 reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | 0x1c00;
                 GXS_SetGraphicsMode(GX_BGMODE_0);
                 reg_G2S_DB_BG2OFS = 0;
@@ -195,14 +195,14 @@ void UploadRaceHud(void) {
                 reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & 0x43) | 0x308;
                 GXS_LoadBGPltt(gRaceHudSubScreenPalettes, 0, 0x200);
                 break;
-            case 1:
-            case 2:
-            case 3:
+            case RACE_HUD_SUB_SCREEN_MAP_TURNING:
+            case RACE_HUD_SUB_SCREEN_MAP_FIXED_SCROLL:
+            case RACE_HUD_SUB_SCREEN_MAP_VIEW:
                 InitSubScreenGraphicsMode5();
                 GXS_LoadBGPltt(GetChoisesSBNclr()->mData, 0, 0x200);
                 break;
-            case 4:
-            case 5:
+            case RACE_HUD_SUB_SCREEN_GOAL_KARTS:
+            case RACE_HUD_SUB_SCREEN_GOAL_TEAMS:
                 reg_G2S_DB_BG0OFS = 0;
                 reg_G2S_DB_BG0CNT = reg_G2S_DB_BG0CNT & ~3;
                 reg_G2S_DB_BG0CNT &= ~0x40;
@@ -217,19 +217,19 @@ void UploadRaceHud(void) {
                 GXS_LoadBG0Char(GetChoisesSBNcgrWithListChars()->mData, 0, 0x3000);
                 GXS_LoadBG0Scr(GetChoisesSListScreenMapData(), 0, 0x600);
                 break;
-            case 6:
+            case RACE_HUD_SUB_SCREEN_NEW_RECORD:
                 break;
         }
     }
     switch (gRaceHud->mSubScreenState) {
-        case 0:
+        case RACE_HUD_SUB_SCREEN_KART_ICONS:
             reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | 0x1c00;
             scrollOffset = gRaceHud->mUpdateFrames / 6;
             reg_G2S_DB_BG3OFS = (scrollOffset & 0x1ff) | (((0x200 - scrollOffset) << 16) & 0x01ff0000);
             break;
-        case 1:
-        case 2:
-        case 3:
+        case RACE_HUD_SUB_SCREEN_MAP_TURNING:
+        case RACE_HUD_SUB_SCREEN_MAP_FIXED_SCROLL:
+        case RACE_HUD_SUB_SCREEN_MAP_VIEW:
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 GXS_LoadOBJPltt(GetRaceNclrNcgr(6)->mNclr->mData, 0, GetRaceNclrNcgr(6)->mNclr->mDataSize);
             }
@@ -252,7 +252,7 @@ void UploadRaceHud(void) {
                 reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | 0x1400;
             }
             break;
-        case 4:
+        case RACE_HUD_SUB_SCREEN_GOAL_KARTS:
             reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | 0x1e00;
             switch (gRaceSetup->mMode) {
                 case MODE_BATTLE:
@@ -269,7 +269,7 @@ void UploadRaceHud(void) {
                 GXS_LoadBG3Scr(GetRaceGoalSNscr(2)->mData, 0, 0x600);
             }
             break;
-        case 5:
+        case RACE_HUD_SUB_SCREEN_GOAL_TEAMS:
             reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | 0x1e00;
             switch (gRaceSetup->mMode) {
                 case MODE_BATTLE:
@@ -292,7 +292,7 @@ void UploadRaceHud(void) {
                 reg_G2S_DB_BG3OFS = -value & 0x1ff;
             }
             break;
-        case 6:
+        case RACE_HUD_SUB_SCREEN_NEW_RECORD:
             if (gRaceHud->mSubScreenState6LoadPending != FALSE) {
                 reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | 0x1200;
                 GXS_SetGraphicsMode(GX_BGMODE_0);
@@ -382,7 +382,7 @@ void InitRaceHud(void) {
         gRaceHud->mNclrs[index] = NULL;
         gRaceHud->mNcgrs[index] = NULL;
     }
-    gRaceHud->mSubScreenState = 1;
+    gRaceHud->mSubScreenState = RACE_HUD_SUB_SCREEN_MAP_TURNING;
     gRaceHud->mSubScreenEnabled = FALSE;
     gRaceHud->mSubScreenState5LoadPending = FALSE;
     gRaceHud->mRaceGoalSShown = FALSE;
@@ -783,18 +783,18 @@ void UpdateRaceHud(void) {
     UpdateRaceTimeDigits();
     UpdateRaceRankList();
     switch (gRaceHud->mSubScreenState) {
-        case 0:
-        case 1:
-        case 2:
-        case 3:
+        case RACE_HUD_SUB_SCREEN_KART_ICONS:
+        case RACE_HUD_SUB_SCREEN_MAP_TURNING:
+        case RACE_HUD_SUB_SCREEN_MAP_FIXED_SCROLL:
+        case RACE_HUD_SUB_SCREEN_MAP_VIEW:
             UpdateRaceHudSubScreenCellGroups();
             UpdateRaceTaPositions();
             break;
-        case 4:
-        case 5:
+        case RACE_HUD_SUB_SCREEN_GOAL_KARTS:
+        case RACE_HUD_SUB_SCREEN_GOAL_TEAMS:
             UpdateRaceGoalS();
             break;
-        case 6:
+        case RACE_HUD_SUB_SCREEN_NEW_RECORD:
             break;
     }
     UpdateRaceNewRecordTa();
@@ -827,7 +827,7 @@ void UpdateRaceHudSubScreen(void) {
                         gRaceHud->mSubScreenEnabled = FALSE;
                     } else {
                         gRaceHud->mSubScreenEnabled = TRUE;
-                        gRaceHud->mSubScreenState = 4;
+                        gRaceHud->mSubScreenState = RACE_HUD_SUB_SCREEN_GOAL_KARTS;
                         gRaceHud->mGoalMStarted = TRUE;
                         gRaceHud->mGoalMUploadPending = TRUE;
                         gRaceHud->mGoalMDelayFrameCount = 0xc;
@@ -871,12 +871,12 @@ void UpdateRaceHudSubScreen(void) {
                 if (subScreenEnabled != FALSE) {
                     gRaceHud->mSubScreenEnabled = TRUE;
                     switch (gRaceHud->mSubScreenState) {
-                        case 0:
-                            gRaceHud->mSubScreenState = 1;
+                        case RACE_HUD_SUB_SCREEN_KART_ICONS:
+                            gRaceHud->mSubScreenState = RACE_HUD_SUB_SCREEN_MAP_TURNING;
                             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x18);
                             break;
-                        case 1:
-                            gRaceHud->mSubScreenState = 0;
+                        case RACE_HUD_SUB_SCREEN_MAP_TURNING:
+                            gRaceHud->mSubScreenState = RACE_HUD_SUB_SCREEN_KART_ICONS;
                             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x17);
                             break;
                     }
@@ -927,27 +927,27 @@ void UpdateRaceHudSubScreen(void) {
                     gRaceHud->mSubScreenEnabled = TRUE;
                     if (gRaceSetup->mRaceKind != RACE_KIND_REPLAY) {
                         switch (gRaceHud->mSubScreenState) {
-                            case 0:
-                                gRaceHud->mSubScreenState = 1;
+                            case RACE_HUD_SUB_SCREEN_KART_ICONS:
+                                gRaceHud->mSubScreenState = RACE_HUD_SUB_SCREEN_MAP_TURNING;
                                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x18);
                                 break;
-                            case 1:
-                                gRaceHud->mSubScreenState = 0;
+                            case RACE_HUD_SUB_SCREEN_MAP_TURNING:
+                                gRaceHud->mSubScreenState = RACE_HUD_SUB_SCREEN_KART_ICONS;
                                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x17);
                                 break;
                         }
                     } else {
                         switch (gRaceHud->mSubScreenState) {
-                            case 0:
-                                gRaceHud->mSubScreenState = 1;
+                            case RACE_HUD_SUB_SCREEN_KART_ICONS:
+                                gRaceHud->mSubScreenState = RACE_HUD_SUB_SCREEN_MAP_TURNING;
                                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x18);
                                 break;
-                            case 1:
-                                gRaceHud->mSubScreenState = 2;
+                            case RACE_HUD_SUB_SCREEN_MAP_TURNING:
+                                gRaceHud->mSubScreenState = RACE_HUD_SUB_SCREEN_MAP_FIXED_SCROLL;
                                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x17);
                                 break;
-                            case 2:
-                                gRaceHud->mSubScreenState = 0;
+                            case RACE_HUD_SUB_SCREEN_MAP_FIXED_SCROLL:
+                                gRaceHud->mSubScreenState = RACE_HUD_SUB_SCREEN_KART_ICONS;
                                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x17);
                                 break;
                         }
@@ -963,7 +963,7 @@ void UpdateRaceHudSubScreen(void) {
                     gRaceHud->mSubScreenEnabled = FALSE;
                 } else {
                     gRaceHud->mSubScreenEnabled = TRUE;
-                    gRaceHud->mSubScreenState = 4;
+                    gRaceHud->mSubScreenState = RACE_HUD_SUB_SCREEN_GOAL_KARTS;
                     gRaceHud->mGoalMStarted = TRUE;
                     gRaceHud->mGoalMUploadPending = TRUE;
                     gRaceHud->mGoalMDelayFrameCount = 0x8c;
@@ -1002,12 +1002,12 @@ void UpdateRaceHudSubScreen(void) {
                 if (subScreenEnabled != FALSE) {
                     gRaceHud->mSubScreenEnabled = TRUE;
                     switch (gRaceHud->mSubScreenState) {
-                        case 0:
-                            gRaceHud->mSubScreenState = 1;
+                        case RACE_HUD_SUB_SCREEN_KART_ICONS:
+                            gRaceHud->mSubScreenState = RACE_HUD_SUB_SCREEN_MAP_TURNING;
                             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x18);
                             break;
-                        case 1:
-                            gRaceHud->mSubScreenState = 0;
+                        case RACE_HUD_SUB_SCREEN_MAP_TURNING:
+                            gRaceHud->mSubScreenState = RACE_HUD_SUB_SCREEN_KART_ICONS;
                             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x17);
                             break;
                     }
@@ -1017,11 +1017,11 @@ void UpdateRaceHudSubScreen(void) {
             }
             break;
         case MODE_VS:
-        case 5:
+        case MODE_WIFI:
             if (gRaceProgress->mRaceDone != 0 && gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
                 if (gRaceHud->mRaceGoalSShown == FALSE) {
                     gRaceHud->mSubScreenEnabled = TRUE;
-                    gRaceHud->mSubScreenState = 4;
+                    gRaceHud->mSubScreenState = RACE_HUD_SUB_SCREEN_GOAL_KARTS;
                     gRaceHud->mRaceGoalSShown = TRUE;
                     if (gRaceHud->mGoalMStarted == FALSE) {
                         gRaceHud->mGoalMStarted = TRUE;
@@ -1034,7 +1034,7 @@ void UpdateRaceHudSubScreen(void) {
             } else if (IsKartEnded(GetFollowedKartOrEntryIndex()) != 0 && gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
                 if (gRaceHud->mGoalMStarted == FALSE) {
                     gRaceHud->mSubScreenEnabled = TRUE;
-                    gRaceHud->mSubScreenState = 0;
+                    gRaceHud->mSubScreenState = RACE_HUD_SUB_SCREEN_KART_ICONS;
                     gRaceHud->mGoalMStarted = TRUE;
                     gRaceHud->mGoalMUploadPending = TRUE;
                     gRaceHud->mGoalMDelayFrameCount = 0x8c;
@@ -1072,12 +1072,12 @@ void UpdateRaceHudSubScreen(void) {
                     if (subScreenEnabled != FALSE) {
                         gRaceHud->mSubScreenEnabled = TRUE;
                         switch (gRaceHud->mSubScreenState) {
-                            case 0:
-                                gRaceHud->mSubScreenState = 3;
+                            case RACE_HUD_SUB_SCREEN_KART_ICONS:
+                                gRaceHud->mSubScreenState = RACE_HUD_SUB_SCREEN_MAP_VIEW;
                                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x18);
                                 break;
-                            case 3:
-                                gRaceHud->mSubScreenState = 0;
+                            case RACE_HUD_SUB_SCREEN_MAP_VIEW:
+                                gRaceHud->mSubScreenState = RACE_HUD_SUB_SCREEN_KART_ICONS;
                                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x17);
                                 break;
                         }
@@ -1119,12 +1119,12 @@ void UpdateRaceHudSubScreen(void) {
                 if (subScreenEnabled != FALSE) {
                     gRaceHud->mSubScreenEnabled = TRUE;
                     switch (gRaceHud->mSubScreenState) {
-                        case 0:
-                            gRaceHud->mSubScreenState = 1;
+                        case RACE_HUD_SUB_SCREEN_KART_ICONS:
+                            gRaceHud->mSubScreenState = RACE_HUD_SUB_SCREEN_MAP_TURNING;
                             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x18);
                             break;
-                        case 1:
-                            gRaceHud->mSubScreenState = 0;
+                        case RACE_HUD_SUB_SCREEN_MAP_TURNING:
+                            gRaceHud->mSubScreenState = RACE_HUD_SUB_SCREEN_KART_ICONS;
                             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x17);
                             break;
                     }
@@ -1165,20 +1165,20 @@ void UpdateRaceHudSubScreen(void) {
     }
     if (gRaceHud->mSubScreenEnabled != FALSE) {
         switch (gRaceHud->mSubScreenState) {
-            case 0:
+            case RACE_HUD_SUB_SCREEN_KART_ICONS:
                 UpdateRaceHudSubScreenCellGroups();
                 break;
-            case 1:
-            case 2:
-            case 3:
+            case RACE_HUD_SUB_SCREEN_MAP_TURNING:
+            case RACE_HUD_SUB_SCREEN_MAP_FIXED_SCROLL:
+            case RACE_HUD_SUB_SCREEN_MAP_VIEW:
                 UpdateRaceHudSubScreenCellGroups();
                 UpdateRaceTaPositions();
                 break;
-            case 4:
-            case 5:
+            case RACE_HUD_SUB_SCREEN_GOAL_KARTS:
+            case RACE_HUD_SUB_SCREEN_GOAL_TEAMS:
                 UpdateRaceGoalS();
                 break;
-            case 6:
+            case RACE_HUD_SUB_SCREEN_NEW_RECORD:
                 UpdateRaceNewRecordTa();
                 break;
         }
@@ -1264,7 +1264,7 @@ void DrawRaceHud(void) {
     gRaceHud->mSubOam.mOamCount = 0;
     gRaceHud->mSubOam.mMatrixCount = 0;
     subScreenState = gRaceHud->mSubScreenState;
-    if (subScreenState != 4 && subScreenState != 5) {
+    if (subScreenState != RACE_HUD_SUB_SCREEN_GOAL_KARTS && subScreenState != RACE_HUD_SUB_SCREEN_GOAL_TEAMS) {
         DrawRaceTimeDigits(&gRaceHud->mSubOam);
     }
     DrawRaceRankList(&gRaceHud->mSubOam);
@@ -1272,20 +1272,20 @@ void DrawRaceHud(void) {
     MI_DmaFill32(3, &gRaceHud->mSubOam.mOams[gRaceHud->mSubOam.mOamCount], 0xc0,
                  (0x80 - gRaceHud->mSubOam.mOamCount) << 3);
     switch (gRaceHud->mSubScreenState) {
-        case 0:
+        case RACE_HUD_SUB_SCREEN_KART_ICONS:
             DrawRaceHudSubScreenCellGroups(&gRaceHud->mSubOam);
             break;
-        case 1:
-        case 2:
-        case 3:
+        case RACE_HUD_SUB_SCREEN_MAP_TURNING:
+        case RACE_HUD_SUB_SCREEN_MAP_FIXED_SCROLL:
+        case RACE_HUD_SUB_SCREEN_MAP_VIEW:
             DrawRaceHudSubScreenCellGroups(&gRaceHud->mSubOam);
             DrawRaceTaPositions(&gRaceHud->mSubOam);
             break;
-        case 4:
-        case 5:
+        case RACE_HUD_SUB_SCREEN_GOAL_KARTS:
+        case RACE_HUD_SUB_SCREEN_GOAL_TEAMS:
             DrawRaceGoalS(&gRaceHud->mSubOam);
             break;
-        case 6:
+        case RACE_HUD_SUB_SCREEN_NEW_RECORD:
             DrawRaceNewRecordTa(&gRaceHud->mSubOam);
             break;
     }

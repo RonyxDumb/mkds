@@ -1243,12 +1243,12 @@ void UpdateRaceHudSubScreenCellGroups(void) {
     float productWithHalf;
 
     switch (GetRaceHudSubScreenState()) {
-        case 0:
+        case RACE_HUD_SUB_SCREEN_KART_ICONS:
             UpdateRaceHudSubScreenKarts();
             break;
-        case 1:
-        case 2:
-        case 3:
+        case RACE_HUD_SUB_SCREEN_MAP_TURNING:
+        case RACE_HUD_SUB_SCREEN_MAP_FIXED_SCROLL:
+        case RACE_HUD_SUB_SCREEN_MAP_VIEW:
             if (GetRaceHudSubScreenCourseScale() * 3 > 0) {
                 productWithHalf = 0.5f + (GetRaceHudSubScreenCourseScale() * 0x3000);
             } else {
@@ -1272,12 +1272,12 @@ void DrawRaceHudSubScreenCellGroups(RaceHudOamBuffer *oamBuffer) {
     s32 groupIndex;
 
     switch (GetRaceHudSubScreenState()) {
-        case 0:
+        case RACE_HUD_SUB_SCREEN_KART_ICONS:
             DrawRaceHudSubScreenKarts(oamBuffer);
             break;
-        case 1:
-        case 2:
-        case 3:
+        case RACE_HUD_SUB_SCREEN_MAP_TURNING:
+        case RACE_HUD_SUB_SCREEN_MAP_FIXED_SCROLL:
+        case RACE_HUD_SUB_SCREEN_MAP_VIEW:
             for (groupIndex = 0; groupIndex < gRaceHudSubScreenCellGroups->mGroupCount; groupIndex++) {
                 gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex](oamBuffer);
             }

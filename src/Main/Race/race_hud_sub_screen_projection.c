@@ -129,7 +129,7 @@ u16 GetSubScreenAngleAndClearScrollTimer(void) {
     s32 rawAngle;
 
     switch (GetRaceHudSubScreenState()) {
-        case 1:
+        case RACE_HUD_SUB_SCREEN_MAP_TURNING:
             if (RaceHudSubScreenGetCurrentMode() == MODE_BATTLE) {
                 camera = GetCurrentCamera();
             } else {
@@ -139,10 +139,10 @@ u16 GetSubScreenAngleAndClearScrollTimer(void) {
             angle = (0x14000 - rawAngle) % 0x10000;
             gRaceHudSubScreenProjection->mScrollTimer = 0;
             break;
-        case 2:
+        case RACE_HUD_SUB_SCREEN_MAP_FIXED_SCROLL:
             angle = 0;
             break;
-        case 3:
+        case RACE_HUD_SUB_SCREEN_MAP_VIEW:
             rawAngle = GetFixed12Whole(GetCourseMapSubScreenView()->mAngleDegrees);
             angle = (rawAngle << 16) / 360 + 0x8000;
             break;
@@ -362,7 +362,7 @@ void UpdateRaceHudSubScreenCenter(RaceHudSubScreenBgAffine *out) {
     } else {
         GetKartPosFromPosSourceCopy(&pos, GetFollowedKartOrEntryIndex());
     }
-    if (GetRaceHudSubScreenState() == 3) {
+    if (GetRaceHudSubScreenState() == RACE_HUD_SUB_SCREEN_MAP_VIEW) {
         pos = GetCourseMapSubScreenView()->mPos;
     }
     gRaceHudSubScreenProjection->mCenter.mFirst =
@@ -398,7 +398,7 @@ void UpdateRaceHudSubScreenBg3Center(RaceHudSubScreenBgAffine *out) {
     } else {
         GetKartPosFromPosSourceCopy(&pos, GetFollowedKartOrEntryIndex());
     }
-    if (GetRaceHudSubScreenState() == 3) {
+    if (GetRaceHudSubScreenState() == RACE_HUD_SUB_SCREEN_MAP_VIEW) {
         pos = GetCourseMapSubScreenView()->mPos;
     }
     out->mCenterX = GetFixed12Whole(
@@ -432,7 +432,7 @@ void UpdateRaceHudSubScreenBg3CenterByFrames(RaceHudSubScreenBgAffine *out) {
     } else {
         GetKartPosFromPosSourceCopy(&pos, GetFollowedKartOrEntryIndex());
     }
-    if (GetRaceHudSubScreenState() == 3) {
+    if (GetRaceHudSubScreenState() == RACE_HUD_SUB_SCREEN_MAP_VIEW) {
         pos = GetCourseMapSubScreenView()->mPos;
     }
     spanX = bg3Max.mFirst - bg3Min.mFirst;
@@ -569,7 +569,7 @@ void UpdateRaceHudSubScreenProjectionAndBgAffine(RaceHudSubScreenBgAffine *bgAff
         MulFixed12NoRound(gRaceHudSubScreenProjection->mAnglePairSecond, scale);
     gRaceHudSubScreenProjection->mAnglePairFirstScaled =
         MulFixed12NoRound(gRaceHudSubScreenProjection->mAnglePairFirst, scale);
-    if (GetRaceHudSubScreenState() == 2) {
+    if (GetRaceHudSubScreenState() == RACE_HUD_SUB_SCREEN_MAP_FIXED_SCROLL) {
         UpdateRaceHudSubScreenScroll();
     }
     gRaceHudSubScreenProjection->mHalfSize = GetFixed12Whole(FX_Div(0xb0000, scale));

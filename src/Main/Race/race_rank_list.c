@@ -188,12 +188,12 @@ void DrawRaceRankList(RaceHudOamBuffer *oamBuffer) {
             break;
         case MODE_BATTLE:
             switch (GetRaceHudSubScreenState()) {
-                case 0:
+                case RACE_HUD_SUB_SCREEN_KART_ICONS:
                     DrawRaceRankListBattleState0Rows(oamBuffer);
                     break;
-                case 1:
-                case 2:
-                case 3:
+                case RACE_HUD_SUB_SCREEN_MAP_TURNING:
+                case RACE_HUD_SUB_SCREEN_MAP_FIXED_SCROLL:
+                case RACE_HUD_SUB_SCREEN_MAP_VIEW:
                     DrawRaceRankListBattleState1To3Rows(oamBuffer);
                     break;
             }
@@ -447,13 +447,13 @@ void DrawRaceRankListState1To3Rows(RaceHudOamBuffer *oamBuffer) {
 
 void DrawRaceRankListNonBattleRows(RaceHudOamBuffer *oamBuffer) {
     switch (GetRaceHudSubScreenState()) {
-        case 0:
+        case RACE_HUD_SUB_SCREEN_KART_ICONS:
             DrawRaceRankListRankCells(oamBuffer);
             DrawRaceRankListState0Rows(oamBuffer);
             break;
-        case 1:
-        case 2:
-        case 3:
+        case RACE_HUD_SUB_SCREEN_MAP_TURNING:
+        case RACE_HUD_SUB_SCREEN_MAP_FIXED_SCROLL:
+        case RACE_HUD_SUB_SCREEN_MAP_VIEW:
             DrawRaceRankListRankCells(oamBuffer);
             DrawRaceRankListState1To3Rows(oamBuffer);
             break;
