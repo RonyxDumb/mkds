@@ -891,7 +891,7 @@ void WcmWmcbScanEx(WMStartScanExCallback *callback) {
 
     result = 0x14;
     switch (callback->mErrcode) {
-        case 0:
+        case WIRELESS_RESULT_SUCCEEDED:
             if (gWcmWork->mPhase == 5) {
                 WcmSetPhase(6);
                 WcmNotify(WIFI_REPORT_SUCCEEDED, 0, 0, 0x6f6);
@@ -942,12 +942,12 @@ void WcmWmcbScanEx(WMStartScanExCallback *callback) {
                     WcmNotify(WIFI_REPORT_UNRECOVERABLE, 0, 0, 0x74c);
                     return;
             }
-        case 1:
+        case WIRELESS_RESULT_REFUSED:
             WcmWmReset();
             return;
-        case 2:
-        case 3:
-        case 4:
+        case WIRELESS_RESULT_OCCUPIED:
+        case WIRELESS_RESULT_BAD_PHASE:
+        case WIRELESS_RESULT_SWITCHED_OFF:
         default:
             WcmSetPhase(0xb);
             WcmNotify(WIFI_REPORT_UNRECOVERABLE, 0, 0, 0x75d);
@@ -979,7 +979,7 @@ void WcmWmcbConnect(WMStartScanExCallback *callback) {
     s32 result;
 
     switch (callback->mErrcode) {
-        case 0:
+        case WIRELESS_RESULT_SUCCEEDED:
             switch (callback->mState) {
                 case 8:
                 case 9:
@@ -1033,22 +1033,22 @@ void WcmWmcbConnect(WMStartScanExCallback *callback) {
                     return;
             }
             break;
-        case 1:
+        case WIRELESS_RESULT_REFUSED:
             gWcmWork->mWlStatusOnConnectFail = callback->mBssDescCount;
-        case 6:
-        case 11:
-        case 12:
+        case WIRELESS_RESULT_BAD_INPUT:
+        case WIRELESS_RESULT_NOT_LISTED:
+        case WIRELESS_RESULT_LIST_FULL:
             WcmSetPhase(8);
             WcmWmReset();
             return;
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-        case 7:
-        case 8:
-        case 9:
-        case 10:
+        case WIRELESS_RESULT_OCCUPIED:
+        case WIRELESS_RESULT_BAD_PHASE:
+        case WIRELESS_RESULT_SWITCHED_OFF:
+        case WIRELESS_RESULT_NOT_SET_UP:
+        case WIRELESS_RESULT_NO_REMOTE:
+        case WIRELESS_RESULT_PIPE_ERROR:
+        case WIRELESS_RESULT_NO_ANSWER:
+        case WIRELESS_RESULT_SEND_BACKLOG:
         default:
             WcmSetPhase(0xb);
             WcmNotify(WIFI_REPORT_UNRECOVERABLE, gWcmWork->mBssDesc, 0, 0x804);
