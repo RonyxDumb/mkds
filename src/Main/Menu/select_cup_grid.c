@@ -670,7 +670,7 @@ void AdvanceSelectCupGridState3(void) {
     int pressedFlag;
     int releasedFlag;
     u16 pressedBits;
-    InputSlot *hasPairSlot;
+    InputSlotAtHasPair *hasPairSlot;
     InputSlot *inputSlot;
 
     touchedRectIndex = -1;
@@ -680,17 +680,17 @@ void AdvanceSelectCupGridState3(void) {
     pressedFlag = 0;
     releasedFlag = 0;
     hasPairSlot = &gInputHasPairs[inputIndex];
-    pressedBits = gInputHasPairs[inputIndex].mPressedBits;
-    if (pressedBits == 0 && gInputNoPairCounts[inputIndex].mPressedBits < 5) {
+    pressedBits = gInputHasPairs[inputIndex].mHasPair;
+    if (pressedBits == 0 && gInputNoPairCounts[inputIndex].mNoPairCount < 5) {
         releasedFlag = 1;
     }
-    if (releasedFlag == 0 && gInputPrevHasPairs[inputIndex].mPressedBits == 0 && pressedBits != 0) {
+    if (releasedFlag == 0 && gInputPrevHasPairs[inputIndex].mPrevHasPair == 0 && pressedBits != 0) {
         pressedFlag = 1;
     }
     if (pressedFlag != 0) {
         touchedRectIndex =
-            RectTableFindContaining(gSelectCupGrid->mSelectCupSBnbl, gInputPairXs[inputIndex].mPressedBits,
-                                    gInputPairYs[inputIndex].mPressedBits);
+            RectTableFindContaining(gSelectCupGrid->mSelectCupSBnbl, gInputPairXs[inputIndex].mPairX,
+                                    gInputPairYs[inputIndex].mPairY);
     }
     inputSlot = &gInputSlots[inputIndex];
     if ((u16) (gInputSlots[inputIndex].mPressedBits & PAD_KEY_B) != 0) {
@@ -698,18 +698,18 @@ void AdvanceSelectCupGridState3(void) {
     }
     pressedFlag = 0;
     releasedFlag = 0;
-    pressedBits = hasPairSlot->mPressedBits;
-    if (pressedBits == 0 && gInputNoPairCounts[inputIndex].mPressedBits < 5) {
+    pressedBits = hasPairSlot->mHasPair;
+    if (pressedBits == 0 && gInputNoPairCounts[inputIndex].mNoPairCount < 5) {
         releasedFlag = 1;
     }
-    if (releasedFlag == 0 && gInputPrevHasPairs[inputIndex].mPressedBits == 0 && pressedBits != 0) {
+    if (releasedFlag == 0 && gInputPrevHasPairs[inputIndex].mPrevHasPair == 0 && pressedBits != 0) {
         pressedFlag = 1;
     }
     if (pressedFlag == 0) {
         goto L2;
     }
-    if (IsSelectReturnState2NoState3Or4RequestAndInRect(gInputPairXs[inputIndex].mPressedBits,
-                                                        gInputPairYs[inputIndex].mPressedBits) == FALSE) {
+    if (IsSelectReturnState2NoState3Or4RequestAndInRect(gInputPairXs[inputIndex].mPairX,
+                                                        gInputPairYs[inputIndex].mPairY) == FALSE) {
         goto L2;
     }
 L1:

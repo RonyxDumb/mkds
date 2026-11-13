@@ -52,12 +52,12 @@ void AdvanceEmblemInput(void) {
     gEmblemInput->mPrevPressed = gEmblemInput->mPressed;
     gEmblemInput->mPrevDown = gEmblemInput->mDown;
     gEmblemInput->mPrevReleased = gEmblemInput->mReleased;
-    if (gEmblemInput->mDown == 0 && gInputSlot8PairWords[0x14] != 0 && gInputSlot8PairWords[0x15] != 0) {
+    if (gEmblemInput->mDown == 0 && gInputSlot8PairView->mPair.mPairX != 0 && gInputSlot8PairView->mPair.mPairY != 0) {
         gEmblemInput->mPressed = 1;
     } else {
         gEmblemInput->mPressed = 0;
     }
-    if (gEmblemInput->mDown != 0 && gInputSlot8PairWords[0x14] == 0 && gInputSlot8PairWords[0x15] == 0) {
+    if (gEmblemInput->mDown != 0 && gInputSlot8PairView->mPair.mPairX == 0 && gInputSlot8PairView->mPair.mPairY == 0) {
         gEmblemInput->mReleased = 1;
     } else {
         gEmblemInput->mReleased = 0;
@@ -72,9 +72,9 @@ void AdvanceEmblemInput(void) {
     if (pairRecentlyLost == 0 && v == 0) {
         pairUsable = FALSE;
     }
-    if (pairUsable != FALSE && (v = gInputSlot8PairWords[0x14]) != 0 && gInputSlot8PairWords[0x15] != 0) {
+    if (pairUsable != FALSE && (v = gInputSlot8PairView->mPair.mPairX) != 0 && gInputSlot8PairView->mPair.mPairY != 0) {
         gEmblemInput->mX = v;
-        gEmblemInput->mY = gInputSlot8PairWords[0x15];
+        gEmblemInput->mY = gInputSlot8PairView->mPair.mPairY;
         gEmblemInput->mDown = 1;
     } else {
         gEmblemInput->mDown = 0;
@@ -91,7 +91,7 @@ void AdvanceEmblemInput(void) {
     } else {
         gEmblemInput->mStillCallCount = 0;
     }
-    bitHeld = gEmblemInputSlotWords[0x11] & 0x20;
+    bitHeld = gEmblemInputSlotView->mNextBits & 0x20;
     if (bitHeld == 0) {
         heldCount = 0;
     } else {
@@ -101,7 +101,7 @@ void AdvanceEmblemInput(void) {
         }
     }
     gEmblemInput->mBit5HeldCount = heldCount;
-    bitHeld = gEmblemInputSlotWords[0x11] & 0x10;
+    bitHeld = gEmblemInputSlotView->mNextBits & 0x10;
     if (bitHeld == 0) {
         heldCount = 0;
     } else {
@@ -111,7 +111,7 @@ void AdvanceEmblemInput(void) {
         }
     }
     gEmblemInput->mBit4HeldCount = heldCount;
-    bitHeld = gEmblemInputSlotWords[0x11] & 0x40;
+    bitHeld = gEmblemInputSlotView->mNextBits & 0x40;
     if (bitHeld == 0) {
         heldCount = 0;
     } else {
@@ -121,7 +121,7 @@ void AdvanceEmblemInput(void) {
         }
     }
     gEmblemInput->mBit6HeldCount = heldCount;
-    bitHeld = gEmblemInputSlotWords[0x11] & 0x80;
+    bitHeld = gEmblemInputSlotView->mNextBits & 0x80;
     if (bitHeld == 0) {
         heldCount = 0;
     } else {
@@ -131,7 +131,7 @@ void AdvanceEmblemInput(void) {
         }
     }
     gEmblemInput->mBit7HeldCount = heldCount;
-    bitHeld = gEmblemInputSlotWords[0x11] & 0x1;
+    bitHeld = gEmblemInputSlotView->mNextBits & 0x1;
     if (bitHeld == 0) {
         heldCount = 0;
     } else {
@@ -141,7 +141,7 @@ void AdvanceEmblemInput(void) {
         }
     }
     gEmblemInput->mBit0HeldCount = heldCount;
-    bitHeld = gEmblemInputSlotWords[0x11] & 0x2;
+    bitHeld = gEmblemInputSlotView->mNextBits & 0x2;
     if (bitHeld == 0) {
         heldCount = 0;
     } else {
@@ -151,7 +151,7 @@ void AdvanceEmblemInput(void) {
         }
     }
     gEmblemInput->mBit1HeldCount = heldCount;
-    bitHeld = gEmblemInputSlotWords[0x11] & 0x400;
+    bitHeld = gEmblemInputSlotView->mNextBits & 0x400;
     if (bitHeld == 0) {
         heldCount = 0;
     } else {
@@ -161,7 +161,7 @@ void AdvanceEmblemInput(void) {
         }
     }
     gEmblemInput->mBit10HeldCount = heldCount;
-    bitHeld = gEmblemInputSlotWords[0x11] & 0x800;
+    bitHeld = gEmblemInputSlotView->mNextBits & 0x800;
     if (bitHeld == 0) {
         heldCount = 0;
     } else {
@@ -171,7 +171,7 @@ void AdvanceEmblemInput(void) {
         }
     }
     gEmblemInput->mBit11HeldCount = heldCount;
-    bitHeld = gEmblemInputSlotWords[0x11] & 0x200;
+    bitHeld = gEmblemInputSlotView->mNextBits & 0x200;
     if (bitHeld == 0) {
         heldCount = 0;
     } else {
@@ -181,7 +181,7 @@ void AdvanceEmblemInput(void) {
         }
     }
     gEmblemInput->mBit9HeldCount = heldCount;
-    bitHeld = gEmblemInputSlotWords[0x11] & 0x100;
+    bitHeld = gEmblemInputSlotView->mNextBits & 0x100;
     if (bitHeld == 0) {
         heldCount = 0;
     } else {

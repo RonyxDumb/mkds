@@ -181,7 +181,7 @@ void AdvanceRecordVSState4(void) {
     BOOL pressedFlag;
     BOOL releasedFlag;
     u16 pressedBits;
-    InputSlot *touchSlot;
+    InputSlotAtHasPair *touchSlot;
     InputSlot *keySlot;
     s16 rowIndex;
     downRectIndex = -1;
@@ -192,29 +192,29 @@ void AdvanceRecordVSState4(void) {
     pressedFlag = TRUE;
     releasedFlag = FALSE;
     touchSlot = &gInputHasPairs[inputSlotIndex];
-    pressedBits = gInputHasPairs[inputSlotIndex].mPressedBits;
-    if (pressedBits == 0 && gInputNoPairCounts[inputSlotIndex].mPressedBits < 5) {
+    pressedBits = gInputHasPairs[inputSlotIndex].mHasPair;
+    if (pressedBits == 0 && gInputNoPairCounts[inputSlotIndex].mNoPairCount < 5) {
         releasedFlag = TRUE;
     }
     if (releasedFlag == FALSE && pressedBits == 0) {
         pressedFlag = FALSE;
     }
     if (pressedFlag != FALSE) {
-        downRectIndex = RectTableFindContaining(gRecordVS->mRecordVSSBnbl, gInputPairXs[inputSlotIndex].mPressedBits,
-                                                gInputPairYs[inputSlotIndex].mPressedBits);
+        downRectIndex = RectTableFindContaining(gRecordVS->mRecordVSSBnbl, gInputPairXs[inputSlotIndex].mPairX,
+                                                gInputPairYs[inputSlotIndex].mPairY);
     }
     pressedFlag = FALSE;
     releasedFlag = FALSE;
-    pressedBits = touchSlot->mPressedBits;
-    if (pressedBits == 0 && gInputNoPairCounts[inputSlotIndex].mPressedBits < 5) {
+    pressedBits = touchSlot->mHasPair;
+    if (pressedBits == 0 && gInputNoPairCounts[inputSlotIndex].mNoPairCount < 5) {
         releasedFlag = TRUE;
     }
-    if (releasedFlag == FALSE && gInputPrevHasPairs[inputSlotIndex].mPressedBits == 0 && pressedBits != 0) {
+    if (releasedFlag == FALSE && gInputPrevHasPairs[inputSlotIndex].mPrevHasPair == 0 && pressedBits != 0) {
         pressedFlag = TRUE;
     }
     if (pressedFlag != FALSE) {
-        pressedRectIndex = RectTableFindContaining(gRecordVS->mRecordVSSBnbl, gInputPairXs[inputSlotIndex].mPressedBits,
-                                                   gInputPairYs[inputSlotIndex].mPressedBits);
+        pressedRectIndex = RectTableFindContaining(gRecordVS->mRecordVSSBnbl, gInputPairXs[inputSlotIndex].mPairX,
+                                                   gInputPairYs[inputSlotIndex].mPairY);
     }
     if (downRectIndex != 10) {
         gRecordVS->mPageDecrementRepeat = FALSE;
@@ -226,16 +226,16 @@ void AdvanceRecordVSState4(void) {
     if ((u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_B) == 0) {
         pressedFlag = FALSE;
         releasedFlag = FALSE;
-        pressedBits = touchSlot->mPressedBits;
-        if (pressedBits == 0 && gInputNoPairCounts[inputSlotIndex].mPressedBits < 5) {
+        pressedBits = touchSlot->mHasPair;
+        if (pressedBits == 0 && gInputNoPairCounts[inputSlotIndex].mNoPairCount < 5) {
             releasedFlag = TRUE;
         }
-        if (releasedFlag == FALSE && gInputPrevHasPairs[inputSlotIndex].mPressedBits == 0 && pressedBits != 0) {
+        if (releasedFlag == FALSE && gInputPrevHasPairs[inputSlotIndex].mPrevHasPair == 0 && pressedBits != 0) {
             pressedFlag = TRUE;
         }
         if (pressedFlag == FALSE ||
-            IsSelectReturnState2NoState3Or4RequestAndInRect(gInputPairXs[inputSlotIndex].mPressedBits,
-                                                            gInputPairYs[inputSlotIndex].mPressedBits) == FALSE) {
+            IsSelectReturnState2NoState3Or4RequestAndInRect(gInputPairXs[inputSlotIndex].mPairX,
+                                                            gInputPairYs[inputSlotIndex].mPairY) == FALSE) {
             goto l1;
         }
     }

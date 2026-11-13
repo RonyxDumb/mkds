@@ -1798,8 +1798,9 @@ void AdvanceSelectRaceRuleState2(void) {
 }
 
 void AdvanceSelectRaceRuleState3(void) {
-    InputSlot *hasPairSlot;
-    InputSlot *pairXSlot;
+    InputSlotAtHasPair *hasPairSlot;
+    InputSlotAtPairX *pairXSlot;
+    InputSlotAtPairY *pairYSlot;
     InputSlot *slot;
     u32 hitRectIndex;
     BOOL newPair;
@@ -1814,21 +1815,21 @@ void AdvanceSelectRaceRuleState3(void) {
     newPair = FALSE;
     noPairForFewCalls = FALSE;
     hasPairSlot = &gInputHasPairs[inputIndex];
-    hasPair = gInputHasPairs[inputIndex].mPressedBits;
-    if (hasPair == 0 && gInputNoPairCounts[inputIndex].mPressedBits < 5) {
+    hasPair = gInputHasPairs[inputIndex].mHasPair;
+    if (hasPair == 0 && gInputNoPairCounts[inputIndex].mNoPairCount < 5) {
         noPairForFewCalls = TRUE;
     }
-    if (noPairForFewCalls == FALSE && gInputPrevHasPairs[inputIndex].mPressedBits == 0 && hasPair != 0) {
+    if (noPairForFewCalls == FALSE && gInputPrevHasPairs[inputIndex].mPrevHasPair == 0 && hasPair != 0) {
         newPair = TRUE;
     }
     if (newPair != FALSE) {
-        slot = &gInputPairYs[inputIndex];
+        pairYSlot = &gInputPairYs[inputIndex];
         pairXSlot = &gInputPairXs[inputIndex];
-        hitRectIndex = RectTableFindContaining(gSelectRaceRule->mBnbl, gInputPairXs[inputIndex].mPressedBits,
-                                               gInputPairYs[inputIndex].mPressedBits);
+        hitRectIndex = RectTableFindContaining(gSelectRaceRule->mBnbl, gInputPairXs[inputIndex].mPairX,
+                                               gInputPairYs[inputIndex].mPairY);
         if (hitRectIndex != 0x13) {
-            hitRectIndex = RectTableFindContaining(gSelectRaceRule->mBnbl, pairXSlot->mPressedBits,
-                                                   slot->mPressedBits - gSelectRaceRule->mOffsetY);
+            hitRectIndex = RectTableFindContaining(gSelectRaceRule->mBnbl, pairXSlot->mPairX,
+                                                   pairYSlot->mPairY - gSelectRaceRule->mOffsetY);
             if (hitRectIndex == 0x13) {
                 hitRectIndex = -1;
             }
@@ -1838,16 +1839,16 @@ void AdvanceSelectRaceRuleState3(void) {
     if ((u16) (slot->mPressedBits & PAD_KEY_B) == 0) {
         newPair = FALSE;
         noPairForFewCalls = FALSE;
-        hasPair = hasPairSlot->mPressedBits;
-        if (hasPair == 0 && gInputNoPairCounts[inputIndex].mPressedBits < 5) {
+        hasPair = hasPairSlot->mHasPair;
+        if (hasPair == 0 && gInputNoPairCounts[inputIndex].mNoPairCount < 5) {
             noPairForFewCalls = TRUE;
         }
-        if (noPairForFewCalls == FALSE && gInputPrevHasPairs[inputIndex].mPressedBits == 0 && hasPair != 0) {
+        if (noPairForFewCalls == FALSE && gInputPrevHasPairs[inputIndex].mPrevHasPair == 0 && hasPair != 0) {
             newPair = TRUE;
         }
         if (newPair == FALSE ||
-            IsSelectReturnState2NoState3Or4RequestAndInRect(gInputPairXs[inputIndex].mPressedBits,
-                                                            gInputPairYs[inputIndex].mPressedBits) == 0) {
+            IsSelectReturnState2NoState3Or4RequestAndInRect(gInputPairXs[inputIndex].mPairX,
+                                                            gInputPairYs[inputIndex].mPairY) == 0) {
             goto chain;
         }
     }

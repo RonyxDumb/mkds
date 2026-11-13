@@ -116,16 +116,59 @@ typedef struct InputSlot {
 
 extern InputSlot gInputSlots[10];
 
-// Views of gInputSlots: an array of slots starting at a member of
-// slot 0 (the element stride is still 0x5c), and halfword views into slots 7 and 8.
-#define gInputClearedBitsSlots ((InputSlot *) &gInputSlots[0].mClearedBits)
-#define gInputPairXs ((InputSlot *) &gInputSlots[0].mPair.mPairX)
-#define gInputPairYs ((InputSlot *) &gInputSlots[0].mPair.mPairY)
-#define gInputHasPairs ((InputSlot *) &gInputSlots[0].mPair.mHasPair)
-#define gInputPrevHasPairs ((InputSlot *) &gInputSlots[0].mPair.mPrevHasPair)
-#define gInputNoPairCounts ((InputSlot *) &gInputSlots[0].mPair.mNoPairCount)
-#define gEmblemInputSlotWords ((vu16 *) &gInputSlots[7].mSourceKind)
-#define gInputSlot8PairWords ((vu16 *) &gInputSlots[8].mUnk_20)
+// Views of gInputSlots. The pair, cleared-bits and halfword views
+// are arrays of slots (the element stride is still 0x5c) that start at one member of slot 0, so each view type has that
+// member first; the other two are the bytes of slots 7 and 8 from one member on.
+typedef struct InputSlotAtClearedBits {
+    /* 00 */ u16 mClearedBits;
+    /* 02 */ u8 mRest[0x5a];
+} InputSlotAtClearedBits;
+
+typedef struct InputSlotAtPairX {
+    /* 00 */ u16 mPairX;
+    /* 02 */ u8 mRest[0x5a];
+} InputSlotAtPairX;
+
+typedef struct InputSlotAtPairY {
+    /* 00 */ u16 mPairY;
+    /* 02 */ u8 mRest[0x5a];
+} InputSlotAtPairY;
+
+typedef struct InputSlotAtHasPair {
+    /* 00 */ u16 mHasPair;
+    /* 02 */ u8 mRest[0x5a];
+} InputSlotAtHasPair;
+
+typedef struct InputSlotAtPrevHasPair {
+    /* 00 */ u16 mPrevHasPair;
+    /* 02 */ u8 mRest[0x5a];
+} InputSlotAtPrevHasPair;
+
+typedef struct InputSlotAtNoPairCount {
+    /* 00 */ u16 mNoPairCount;
+    /* 02 */ u8 mRest[0x5a];
+} InputSlotAtNoPairCount;
+
+// Slot 7 from mSourceKind on: mNextBits is the mBits of slot 8.
+typedef struct InputSlot7FromSourceKind {
+    /* 00 */ u8 mUnk_00[0x22];
+    /* 22 */ volatile u16 mNextBits;
+} InputSlot7FromSourceKind;
+
+// Slot 8 from mUnk_20 on.
+typedef struct InputSlot8FromUnk20 {
+    /* 00 */ u8 mUnk_00[0x28];
+    /* 28 */ volatile InputSlotPair mPair;
+} InputSlot8FromUnk20;
+
+#define gInputClearedBitsSlots ((InputSlotAtClearedBits *) &gInputSlots[0].mClearedBits)
+#define gInputPairXs ((InputSlotAtPairX *) &gInputSlots[0].mPair.mPairX)
+#define gInputPairYs ((InputSlotAtPairY *) &gInputSlots[0].mPair.mPairY)
+#define gInputHasPairs ((InputSlotAtHasPair *) &gInputSlots[0].mPair.mHasPair)
+#define gInputPrevHasPairs ((InputSlotAtPrevHasPair *) &gInputSlots[0].mPair.mPrevHasPair)
+#define gInputNoPairCounts ((InputSlotAtNoPairCount *) &gInputSlots[0].mPair.mNoPairCount)
+#define gEmblemInputSlotView ((InputSlot7FromSourceKind *) &gInputSlots[7].mSourceKind)
+#define gInputSlot8PairView ((InputSlot8FromUnk20 *) &gInputSlots[8].mUnk_20)
 
 static inline InputSlot *GetInputSlot(u32 inputSlotIndex) {
     return &gInputSlots[inputSlotIndex];
