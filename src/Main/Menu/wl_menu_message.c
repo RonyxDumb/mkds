@@ -48,7 +48,7 @@ void WLMenuSetMenuEntryKind(u32 value) {
 
 #pragma thumb on
 
-s32 AdvanceWLMenuMBChildMessage(u32 sceneNumbers) {
+s32 AdvanceWLMenuMBChildMessage(SceneNumbers *sceneNumbers) {
     s32 result;
     WLMenuMessage *wlMenuMessage;
 
@@ -99,7 +99,7 @@ s32 AdvanceWLMenuMBChildMessage(u32 sceneNumbers) {
     return -1;
 }
 
-s32 AdvanceWLMenuMessageToRace(u32 sceneNumbers) {
+s32 AdvanceWLMenuMessageToRace(SceneNumbers *sceneNumbers) {
     s32 result;
     WLMenuMessage *wlMenuMessage;
 
@@ -129,7 +129,7 @@ s32 AdvanceWLMenuMessageToRace(u32 sceneNumbers) {
     return -1;
 }
 
-s32 AdvanceWLMenuMessageToResult(u32 sceneNumbers) {
+s32 AdvanceWLMenuMessageToResult(SceneNumbers *sceneNumbers) {
     s32 result;
     WLMenuMessage *wlMenuMessage;
 
@@ -170,13 +170,13 @@ void StopSeqZeroLoopWrapper(void) {
     StopSeqZeroLoop();
 }
 
-void SetNextScene(u32 sceneNumbers, u32 nextScene) {
-    *OFFSET_PTR(u16, sceneNumbers, 4) = nextScene;
+void SetNextScene(SceneNumbers *sceneNumbers, u32 nextScene) {
+    sceneNumbers->mNextScene = nextScene;
 }
 
 #pragma thumb on
 
-s32 AdvanceWLMenuMessageToMenu(u32 sceneNumbers) {
+s32 AdvanceWLMenuMessageToMenu(SceneNumbers *sceneNumbers) {
     s32 result;
     WLMenuMessage *wlMenuMessage;
 

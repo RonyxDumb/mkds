@@ -3,6 +3,7 @@
 #include "types.h"
 #include "Main/Menu/data_02180728.h"
 #include "Main/Menu/wl_menu_scene.h"
+#include "Main/Scene/run_scene_connection.h"
 
 // Object behind gWLMenuMessage, 0x654 bytes: the halfwords from 0x34 are 32 per row.
 typedef struct WLMenuMessage {
@@ -24,13 +25,13 @@ void WriteWLMenuMessageRegisters(void);
 void WLMenuMessageG2S_SetBG3Offset(u32 offsetX, int offsetY);
 void WLMenuMessageGXS_SetVisiblePlane(int bits);
 void ReleaseWLMenuMessage(void);
-s32 AdvanceWLMenuMessageToMenu(u32 sceneNumbers);
-void SetNextScene(unsigned int sceneNumbers, unsigned int nextScene);
+s32 AdvanceWLMenuMessageToMenu(SceneNumbers *sceneNumbers);
+void SetNextScene(SceneNumbers *sceneNumbers, unsigned int nextScene);
 void StopSeqZeroLoopWrapper(void);
 u32 HasGroupSendMask(void);
-s32 AdvanceWLMenuMessageToResult(u32 sceneNumbers);
-s32 AdvanceWLMenuMessageToRace(u32 sceneNumbers);
-s32 AdvanceWLMenuMBChildMessage(u32 sceneNumbers);
+s32 AdvanceWLMenuMessageToResult(SceneNumbers *sceneNumbers);
+s32 AdvanceWLMenuMessageToRace(SceneNumbers *sceneNumbers);
+s32 AdvanceWLMenuMBChildMessage(SceneNumbers *sceneNumbers);
 void WLMenuSetMenuEntryKind(unsigned int value);
 void WLMenuSetRaceSetupRequested(unsigned int value);
 
