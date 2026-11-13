@@ -64,6 +64,14 @@ typedef struct FSFileLink {
     /* 04 */ FSFile *mNext;
 } FSFileLink;
 
+// Command indexes: FSFile.mCommand and the second argument of FSi_TranslateCommand, which picks the archive handler.
+typedef enum ArchiveCommand {
+    ARCHIVE_COMMAND_MOVE_DIR_CURSOR = 2,
+    ARCHIVE_COMMAND_LIST_DIR_ENTRY = 3,
+    ARCHIVE_COMMAND_OPEN_BY_NUMBER = 7,
+    ARCHIVE_COMMAND_UNSET = 14
+} ArchiveCommand;
+
 // 0x48-byte record, set up by FS_InitFile (also used as a local); mArc is the archive it works through.
 typedef struct FSFile {
     // FSi_ReleaseCommand links mLink.mPrev and mLink.mNext to each other, then clears both.

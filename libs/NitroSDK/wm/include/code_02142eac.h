@@ -6,6 +6,39 @@ typedef struct WMDataSharingInfo WMDataSharingInfo;
 
 typedef struct WirelessMessage WirelessMessage;
 
+// Values of WirelessMessage.mCommand: the request the message answers, or one of the messages the other processor sends
+// on its own (the last three). Bit 15 of the member marks a ring message as free (WIRELESS_FREE_FLAG).
+typedef enum WirelessRequest {
+    WIRELESS_REQUEST_POWER_UP_STACK = 0,
+    WIRELESS_REQUEST_RESTART = 1,
+    WIRELESS_REQUEST_CLOSE_STACK = 2,
+    WIRELESS_REQUEST_ACTIVATE = 3,
+    WIRELESS_REQUEST_DEACTIVATE = 4,
+    WIRELESS_REQUEST_RADIO_ON = 5,
+    WIRELESS_REQUEST_RADIO_OFF = 6,
+    WIRELESS_REQUEST_CONFIGURE_HOST = 7,
+    WIRELESS_REQUEST_OPEN_HOST = 8,
+    WIRELESS_REQUEST_BEGIN_SEARCH = 10,
+    WIRELESS_REQUEST_STOP_SEARCH = 11,
+    WIRELESS_REQUEST_ENTER_HOST = 12,
+    WIRELESS_REQUEST_LEAVE = 13,
+    WIRELESS_REQUEST_BEGIN_EXCHANGE = 14,
+    WIRELESS_REQUEST_QUEUE_EXCHANGE_DATA = 15,
+    WIRELESS_REQUEST_BEGIN_FRAME_MODE = 17,
+    WIRELESS_REQUEST_QUEUE_FRAME_DATA = 18,
+    WIRELESS_REQUEST_BEGIN_KEY_SHARE = 21,
+    WIRELESS_REQUEST_STOP_KEY_SHARE = 22,
+    WIRELESS_REQUEST_WATCH_BEACONS = 25,
+    WIRELESS_REQUEST_SET_TIMEOUT = 29,
+    WIRELESS_REQUEST_SET_CIPHER_KEY = 39,
+    WIRELESS_REQUEST_KIND_COUNT = 42,
+    WIRELESS_REQUEST_EVENT_REPORT = 0x80,
+    WIRELESS_REQUEST_PORT_SENT = 0x81,
+    WIRELESS_REQUEST_PORT_DATA = 0x82
+} WirelessRequest;
+
+#define WIRELESS_FREE_FLAG 0x8000
+
 // Values of WirelessMessage.mResultCode, the answer of the other processor to a command.
 typedef enum WirelessResult {
     WIRELESS_RESULT_SUCCEEDED = 0,

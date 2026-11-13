@@ -788,10 +788,10 @@ void WcmWmcbCommon(WirelessMessage *callback) {
     switch (callback->mResultCode) {
         case WIRELESS_RESULT_SUCCEEDED:
             switch (callback->mCommand) {
-                case 3:
+                case WIRELESS_REQUEST_ACTIVATE:
                     result = WM_PowerOn(WcmWmcbCommon);
                     break;
-                case 4:
+                case WIRELESS_REQUEST_DEACTIVATE:
                     switch (WM_Finish()) {
                         case 0:
                             WcmSetPhase(1);
@@ -803,21 +803,21 @@ void WcmWmcbCommon(WirelessMessage *callback) {
                             WcmNotify(WIFI_REPORT_UNRECOVERABLE, NULL, 0, 0x66a);
                             return;
                     }
-                case 5:
+                case WIRELESS_REQUEST_RADIO_ON:
                     WcmSetPhase(3);
                     WcmNotify(WIFI_REPORT_SUCCEEDED, NULL, 0, 0x670);
                     return;
-                case 6:
+                case WIRELESS_REQUEST_RADIO_OFF:
                     result = WM_Disable(WcmWmcbCommon);
                     break;
-                case 0x1d:
+                case WIRELESS_REQUEST_SET_TIMEOUT:
                     result = WM_SetBeaconIndication((Unk021425e8Func) WcmWmcbCommon, 0);
                     break;
-                case 0x19:
+                case WIRELESS_REQUEST_WATCH_BEACONS:
                     work = gWcmWork;
                     result = WM_SetWEPKeyEx(WcmWmcbCommon, work->mWepMode, work->mWepKeyId, work->mWepKey);
                     break;
-                case 0x27: {
+                case WIRELESS_REQUEST_SET_CIPHER_KEY: {
                     u32 option;
                     u16 authMode;
                     u32 powerSave;

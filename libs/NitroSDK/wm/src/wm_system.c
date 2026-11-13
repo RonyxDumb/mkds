@@ -217,8 +217,8 @@ void WmReceiveFifo(u32 tag, WirelessMessage *callback, s32 err) {
     if (callback != wm9buf->mMessageArea) {
         DC_InvalidateRange(callback, 0x100);
     }
-    if (callback->mCommand >= 0x2a) {
-        if (callback->mCommand == 0x80) {
+    if (callback->mCommand >= WIRELESS_REQUEST_KIND_COUNT) {
+        if (callback->mCommand == WIRELESS_REQUEST_EVENT_REPORT) {
             if (callback->mResultCode == WIRELESS_RESULT_STORAGE_ERROR) {
                 OS_Terminate();
             }
@@ -226,28 +226,28 @@ void WmReceiveFifo(u32 tag, WirelessMessage *callback, s32 err) {
             if (handler != 0) {
                 handler(callback);
             }
-        } else if (callback->mCommand == 0x82) {
+        } else if (callback->mCommand == WIRELESS_REQUEST_PORT_DATA) {
             if (wm9buf->mPortCallbacks[callback->mPort] != 0) {
                 callback->mArg = wm9buf->mPortCallbackArgs[callback->mPort];
                 DC_InvalidateRange(callback->mRecvBuf, wm9buf->mStatusArea->mMpRecvBufSize);
                 wm9buf->mPortCallbacks[callback->mPort](callback);
             }
-        } else if (callback->mCommand == 0x81) {
-            callback->mCommand = 0xf;
+        } else if (callback->mCommand == WIRELESS_REQUEST_PORT_SENT) {
+            callback->mCommand = WIRELESS_REQUEST_QUEUE_EXCHANGE_DATA;
             handler = callback->mArg;
             if (handler != 0) {
                 handler(callback);
             }
         }
     } else {
-        if (callback->mCommand == 0xe) {
+        if (callback->mCommand == WIRELESS_REQUEST_BEGIN_EXCHANGE) {
             if ((u16) (callback->mState + 0xfff5) <= 1) {
                 if (callback->mResultCode == WIRELESS_RESULT_SUCCEEDED) {
                     DC_InvalidateRange(callback->mRecvBuf, wm9buf->mStatusArea->mMpRecvBufSize);
                 }
             }
         }
-        if (callback->mCommand == 2 && callback->mResultCode == WIRELESS_RESULT_SUCCEEDED) {
+        if (callback->mCommand == WIRELESS_REQUEST_CLOSE_STACK && callback->mResultCode == WIRELESS_RESULT_SUCCEEDED) {
             handler = wm9buf->mCommandCallbacks[callback->mCommand];
             WM_Finish();
             if (handler == 0) {
@@ -264,8 +264,8 @@ void WmReceiveFifo(u32 tag, WirelessMessage *callback, s32 err) {
             }
         }
         command = callback->mCommand;
-        if (command == 8 || command == 0xc) {
-            if (command == 8) {
+        if (command == WIRELESS_REQUEST_OPEN_HOST || command == WIRELESS_REQUEST_ENTER_HOST) {
+            if (command == WIRELESS_REQUEST_OPEN_HOST) {
                 peerAddress = (u8 *) callback + 0xa;
                 peerName = (u8 *) callback + 0x14;
                 stateCode = *(u16 *) &callback->mRecvBuf;
@@ -279,7 +279,7 @@ void WmReceiveFifo(u32 tag, WirelessMessage *callback, s32 err) {
                 peerAddress = (u8 *) callback + 0xa;
             }
             if (stateCode == 7 || stateCode == 9) {
-                gPortCallbackEvent.mCommand = 0x82;
+                gPortCallbackEvent.mCommand = WIRELESS_REQUEST_PORT_DATA;
                 gPortCallbackEvent.mResultCode = WIRELESS_RESULT_SUCCEEDED;
                 gPortCallbackEvent.mState = stateCode;
                 gPortCallbackEvent.mRecvBuf = 0;
@@ -310,7 +310,7 @@ void WmReceiveFifo(u32 tag, WirelessMessage *callback, s32 err) {
     if (callback == wm9buf->mMessageArea) {
         return;
     }
-    callback->mCommand |= 0x8000;
+    callback->mCommand |= WIRELESS_FREE_FLAG;
     DC_StoreRange(callback, 0x100);
 }
 

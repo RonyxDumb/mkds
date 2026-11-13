@@ -151,7 +151,7 @@ u32 FS_CloseFile(FSFile *file) {
         return 0;
     }
     file->mArc = 0;
-    file->mCommand = 0xe;
+    file->mCommand = ARCHIVE_COMMAND_UNSET;
     file->mStat &= ~0x30;
     return 1;
 }
