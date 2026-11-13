@@ -37,9 +37,10 @@ MapObjectKindDescriptor gShineBalloonKindDescriptor = {0,
                                                        CreateShineBalloonUpdateList,
                                                        NULL,
                                                        {NULL, NULL, NULL, NULL}};
-const u16 gShineBalloonEndSecondFlag = 8;
 const u16 gShineBalloonEndFlag = 2;
+const u16 gShineBalloonEndSecondFlag = 8;
 MapObjectModel *gShineBalloon;
+TitleScene *gTitleScene;
 
 void InitShineBalloon(u32 mapObjectArg) {
     u32 mapObjectCopy = mapObjectArg;
