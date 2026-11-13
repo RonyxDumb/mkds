@@ -3872,6 +3872,11 @@ src/Main/MapObjects/dram.c:
     .bss        start:0x0217c604 end:0x0217c610
 
 // provisional: file name and boundaries
+src/Main/MapObjects/dram_draw_list_initial.c:
+    complete
+    .rodata     start:0x0215a100 end:0x0215a12c
+
+// provisional: file name and boundaries
 src/Main/MapObjects/map_objects_get.c:
     complete
     .text       start:0x02100084 end:0x02100094

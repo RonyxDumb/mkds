@@ -48,8 +48,6 @@ void UpdateDram(u32 unused,
 
 extern MapObjectDrawList *gDramDrawList;
 
-extern MapObjectDrawList data_0215a100;
-
 extern MapObjectList *gDramUpdateList;
 
 extern struct Nsbmd *gDram;

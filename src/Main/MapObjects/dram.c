@@ -19,6 +19,7 @@
 #include "fx_mtx33.h"
 #include "code_02147cd8.h"
 #include "Main/MapObjects/map_objects_get.h"
+#include "Main/MapObjects/dram_draw_list_initial.h"
 
 MapObjectList *gDramUpdateList;
 MapObjectDrawList *gDramDrawList;
@@ -53,7 +54,7 @@ MapObjectDrawList *CreateDramDrawList(void) {
 
     block = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     gDramDrawList = block;
-    *block = data_0215a100;
+    *block = gDramDrawListInitial;
     SetDrawListSlot(&gDramDrawList);
     return gDramDrawList;
 }
