@@ -94,22 +94,22 @@ void InitCurrentMenuScreen(void) {
                 break;
             case 10:
                 if (MenuGetConnectionKind() == 0) {
-                    variant = 0;
+                    variant = SELECT_RACE_RULE_MODE_VS_NO_CONNECTION;
                 } else if (GetMultiSimple() != 0) {
-                    variant = 2;
+                    variant = SELECT_RACE_RULE_MODE_VS_MULTI_SIMPLE;
                 } else {
-                    variant = 4;
+                    variant = SELECT_RACE_RULE_MODE_VS_MULTI;
                 }
                 menu = gMenuScene;
                 InitSelectRaceRule(MenuGetCurrentHeap(), (s32) menu->mMainOam, menu->mSubOam, variant);
                 break;
             case 16:
                 if (MenuGetConnectionKind() == 0) {
-                    variant = 1;
+                    variant = SELECT_RACE_RULE_MODE_BATTLE_NO_CONNECTION;
                 } else if (GetMultiSimple() != 0) {
-                    variant = 3;
+                    variant = SELECT_RACE_RULE_MODE_BATTLE_MULTI_SIMPLE;
                 } else {
-                    variant = 5;
+                    variant = SELECT_RACE_RULE_MODE_BATTLE_MULTI;
                 }
                 menu = gMenuScene;
                 InitSelectRaceRule(MenuGetCurrentHeap(), (s32) menu->mMainOam, menu->mSubOam, variant);

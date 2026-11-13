@@ -359,6 +359,42 @@ typedef struct SelectCupCourse {
 // Option of the rules row with no counter.
 #define SELECT_RACE_RULE_FREE 2
 
+typedef enum SelectRaceRuleState {
+    SELECT_RACE_RULE_STATE_WAIT_FADE = 0,
+    SELECT_RACE_RULE_STATE_SLIDE_IN = 1,
+    SELECT_RACE_RULE_STATE_WAIT_RETURN = 2,
+    SELECT_RACE_RULE_STATE_CHOOSE = 3,
+    SELECT_RACE_RULE_STATE_WAIT_PRESS = 4,
+    SELECT_RACE_RULE_STATE_WAIT_CONFIRM_OPEN = 5,
+    SELECT_RACE_RULE_STATE_WAIT_CONFIRM_CHOICES = 6,
+    SELECT_RACE_RULE_STATE_WAIT_CONFIRM_ANSWER = 7,
+    SELECT_RACE_RULE_STATE_SLIDE_OUT = 8,
+} SelectRaceRuleState;
+
+typedef enum SelectRaceRuleMode {
+    SELECT_RACE_RULE_MODE_VS_NO_CONNECTION = 0,
+    SELECT_RACE_RULE_MODE_BATTLE_NO_CONNECTION = 1,
+    SELECT_RACE_RULE_MODE_VS_MULTI_SIMPLE = 2,
+    SELECT_RACE_RULE_MODE_BATTLE_MULTI_SIMPLE = 3,
+    SELECT_RACE_RULE_MODE_VS_MULTI = 4,
+    SELECT_RACE_RULE_MODE_BATTLE_MULTI = 5,
+} SelectRaceRuleMode;
+
+typedef enum SelectRaceRuleRow {
+    SELECT_RACE_RULE_ROW_ENGINE = 0,
+    SELECT_RACE_RULE_ROW_CPU_DIFFICULTY = 1,
+    SELECT_RACE_RULE_ROW_COURSE_LIST = 2,
+    SELECT_RACE_RULE_ROW_RULE_KIND = 3,
+    SELECT_RACE_RULE_ROW_TEAMS = 4,
+} SelectRaceRuleRow;
+
+// Steps of the slide in and out; mStateFrames counts them.
+#define SELECT_RACE_RULE_SLIDE_STEPS 10
+// Steps state WAIT_PRESS runs after the button was pressed.
+#define SELECT_RACE_RULE_PRESS_STEPS 10
+// mStateFrames at which state WAIT_PRESS shows the pressed button.
+#define SELECT_RACE_RULE_HIGHLIGHT_STEP 5
+
 // Object behind gSelectRaceRule.
 typedef struct SelectRaceRule {
     /* 00 */ struct NNSG2dCellDataBank *mNcer;
@@ -765,4 +801,3 @@ extern EffectInfo sEffectInfoBuffer[8];
 extern struct NNSSndArc *sCurrent;
 
 extern SeqQueue gSeqQueue;
-

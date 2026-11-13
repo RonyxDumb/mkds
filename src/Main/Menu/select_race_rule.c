@@ -89,7 +89,7 @@ void AdvanceSelectRaceRuleState8(void) {
     s32 value;
     gSelectRaceRule->mStateFrames++;
     selectRaceRule = gSelectRaceRule;
-    value = InterpolateS16(1, 0, -192, selectRaceRule->mStateFrames, 10);
+    value = InterpolateS16(1, 0, -192, selectRaceRule->mStateFrames, SELECT_RACE_RULE_SLIDE_STEPS);
     rowsOffsetY = selectRaceRule->mOffsetY + value;
     returnOffsetY = -LookupSelectReturnState4Bg2Offset(selectRaceRule->mStateFrames);
     gSelectRaceRule->mBg3Offset = rowsOffsetY;
@@ -143,12 +143,12 @@ void DrawSelectRaceRuleOffsetLabel(s32 labelIndex) {
 }
 
 void DrawSelectRaceRuleRowOffsetLabels(s32 row) {
-    if (row == 3) {
+    if (row == SELECT_RACE_RULE_ROW_RULE_KIND) {
         if (gStartupWork->mConnectionKind != 2) {
             DrawSelectRaceRuleOffsetLabel(gSelectRaceRuleRowEntries[row].mEntryIndices[1]);
         }
         DrawSelectRaceRuleOffsetLabel(10);
-    } else if (row == 4) {
+    } else if (row == SELECT_RACE_RULE_ROW_TEAMS) {
         DrawSelectRaceRuleOffsetLabel(gSelectRaceRuleRowEntries[row].mEntryIndices[1]);
         DrawSelectRaceRuleOffsetLabel(12);
     } else {
@@ -163,38 +163,38 @@ s32 AdvanceSelectRaceRule(void) {
     gSelectRaceRule->mPrevRow = gSelectRaceRule->mRow;
     gSelectRaceRule->mPrevOnButton = gSelectRaceRule->mOnButton;
     switch (gSelectRaceRule->mState) {
-        case 0:
+        case SELECT_RACE_RULE_STATE_WAIT_FADE:
             AdvanceSelectRaceRuleState0();
             break;
-        case 1:
+        case SELECT_RACE_RULE_STATE_SLIDE_IN:
             AdvanceSelectRaceRuleState1();
             break;
-        case 2:
+        case SELECT_RACE_RULE_STATE_WAIT_RETURN:
             AdvanceSelectRaceRuleState2();
             break;
-        case 3:
+        case SELECT_RACE_RULE_STATE_CHOOSE:
             AdvanceSelectRaceRuleState3();
             break;
-        case 4:
+        case SELECT_RACE_RULE_STATE_WAIT_PRESS:
             AdvanceSelectRaceRuleState4();
             break;
-        case 5:
+        case SELECT_RACE_RULE_STATE_WAIT_CONFIRM_OPEN:
             AdvanceSelectRaceRuleState5();
             break;
-        case 6:
+        case SELECT_RACE_RULE_STATE_WAIT_CONFIRM_CHOICES:
             AdvanceSelectRaceRuleState6();
             break;
-        case 7:
+        case SELECT_RACE_RULE_STATE_WAIT_CONFIRM_ANSWER:
             AdvanceSelectRaceRuleState7();
             break;
-        case 8:
+        case SELECT_RACE_RULE_STATE_SLIDE_OUT:
             AdvanceSelectRaceRuleState8();
             break;
     }
     if (gStartupWork->mConnectionKind == 2) {
         AdvanceWait();
     }
-    switch (gSelectRaceRule->mRowValues[4]) {
+    switch (gSelectRaceRule->mRowValues[SELECT_RACE_RULE_ROW_TEAMS]) {
         case 0:
             SetPlayerEntryListUseTeams(0);
             break;
@@ -217,12 +217,14 @@ s32 AdvanceSelectRaceRule(void) {
         DrawSelectRaceRuleRowOffsetLabels(rowIndex);
     }
     selectRaceRule = gSelectRaceRule;
-    if (selectRaceRule->mState == 8) {
-        if (selectRaceRule->mResult == 1 && (selectRaceRule->mMode == 3 || selectRaceRule->mRowValues[2] == 1)) {
-            if (selectRaceRule->mStateFrames >= 10 && IsSelectReturnState0NoState1Request() != 0) {
+    if (selectRaceRule->mState == SELECT_RACE_RULE_STATE_SLIDE_OUT) {
+        if (selectRaceRule->mResult == 1 && (selectRaceRule->mMode == SELECT_RACE_RULE_MODE_BATTLE_MULTI_SIMPLE ||
+                                             selectRaceRule->mRowValues[SELECT_RACE_RULE_ROW_COURSE_LIST] == 1)) {
+            if (selectRaceRule->mStateFrames >= SELECT_RACE_RULE_SLIDE_STEPS &&
+                IsSelectReturnState0NoState1Request() != 0) {
                 return gSelectRaceRule->mResult;
             }
-        } else if (selectRaceRule->mStateFrames >= 10) {
+        } else if (selectRaceRule->mStateFrames >= SELECT_RACE_RULE_SLIDE_STEPS) {
             return selectRaceRule->mResult;
         }
     }
@@ -466,7 +468,8 @@ void RefreshSelectCupCourseForIndex(void) {
                                             selectCupCourse->mSelectCupCourseTaOrVsMBncl,
                                             selectCupCourse->mSelectCupCourseTaOrVsMTable, 9);
         }
-        TrySetCupPictureIndexAndQueueLoads(gCupRowCourseIds[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex]);
+        TrySetCupPictureIndexAndQueueLoads(
+            gCupRowCourseIds[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex]);
         gSelectCupCourse->mCupPicturePending = TRUE;
     }
 }
