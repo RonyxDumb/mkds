@@ -3594,7 +3594,6 @@ src/Main/MapObjects/pukupuku.c:
 src/Main/Course/course_triangle_flag.c:
     complete
     .text       start:0x020e512c end:0x020e516c
-    .rodata     start:0x021590b0 end:0x021590e8
 
 // provisional: file name and boundaries
 src/Main/MapObjects/send_obj_shadow.c:
@@ -3609,11 +3608,18 @@ src/Main/MapObjects/shadow_position_raised.c:
     .text       start:0x020e5634 end:0x020e5684
 
 // provisional: file name and boundaries
+src/Main/MapObjects/second_hand_kind_descriptor.c:
+    complete
+    .text       start:0x020e5684 end:0x020e576c
+    .rodata     start:0x021590b0 end:0x021590e8
+    .data       start:0x0216c220 end:0x0216c240
+
+// provisional: file name and boundaries
 src/Main/MapObjects/ob_pakkun_sf.c:
     complete
-    .text       start:0x020e5684 end:0x020e5d0c
+    .text       start:0x020e576c end:0x020e5d0c
     .rodata     start:0x021590e8 end:0x02159180
-    .data       start:0x0216c220 end:0x0216c27c
+    .data       start:0x0216c240 end:0x0216c27c
     .bss        start:0x0217b7fc end:0x0217b808
 
 // provisional: file name and boundaries

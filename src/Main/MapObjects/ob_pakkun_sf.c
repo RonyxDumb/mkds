@@ -44,15 +44,15 @@
 #include "Main/MapObjects/choropu_state.h"
 #include "Main/MapObjects/pendulum.h"
 #include "Main/Course/course_triangle_flag.h"
+#include "Main/MapObjects/second_hand_kind_descriptor.h"
 
 const MapObjectList gSecondHandUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, UpdateSecondHand, NULL, 0, NULL, 0, NULL};
 const MapObjectDrawList gSecondHandDrawListData = {{NULL, 0, {0, 0}, (void (*)(MapObjectList *)) CreateSecondHand, NULL, (UnkFunc *) DrawSecondHand, NULL, 1, NULL, 0, NULL}, 0};
 const MapObjectKindData gSecondHandKindData = {(s32 (*)(MapObject *, void *, s32 *, s32 *)) CollideKartWithSecondHand, (s32 (*)(MapObject *, void *, void *, void *)) CollideItemObjectWithSecondHand, 5, 0xf000, 0x4b000, 0x320000, (s32 (*)(MapObject *, Vec3 *, s32, Vec3 *)) ComputeSphereHitOnSecondHand, 0, 0, 0x178, 0, 0, 0, 0, 0, 0};
-StateCallbacks gSecondHandStateTable[4] = {{EnterSecondHandState0, UpdateSecondHandState0}, {(UnkFunc *) SecondHandState1ReturnArgument, UpdateSecondHandState1}, {EnterSecondHandState2, UpdateSecondHandState2}, {(UnkFunc *) SecondHandState3ReturnArgument, UpdateSecondHandState3}};
 const u32 gSecondHandHitFlag = 0x40000000;
+MapObjectList *gSecondHandUpdateList;
 MapObjectDrawList *gSecondHandDrawList;
 struct Nsbmd *gSecondHand;
-MapObjectList *gSecondHandUpdateList;
 
 void DrawObPakkunSf(u32 unused, ObPakkunSf *obPakkunSf, u32 unusedArg, u16 alpha) {
     MtxFx43 *matrix;
@@ -255,30 +255,6 @@ void ComputeSphereHitOnSecondHand(SecondHand *secondHand, Vec3 *sphereCenter, s3
 void CreateSecondHand(void) {
     CreateNsbmd(&gSecondHand, FindCourseMapObjFile("second_hand.nsbmd"), NULL);
     SetNsbmdPolygonIdLightEmiAll(gSecondHand, 0x3f, 2, 0x294a);
-}
-
-void InitSecondHand(SecondHand *secondHand, CourseMapRow *courseRow) {
-    secondHand->mMapObject.mExtent.y = MUL_FIXED12_NO_ROUND(secondHand->mMapObject.mScale.x, 0x4b000);
-    InitStateMachine(&secondHand->mMapObject.mStateMachine, gSecondHandStateTable, 4, secondHand);
-    QuaternionFromVec3Degrees(&courseRow->mRotationDegrees, &secondHand->mRotationQuaternion);
-    secondHand->mInitialRotationQuaternion = secondHand->mRotationQuaternion;
-    secondHand->mRampFrameCount = courseRow->mSettings[2];
-    secondHand->mSteadyFrameCount = courseRow->mSettings[1];
-    secondHand->mPauseFrameCount = courseRow->mSettings[3];
-    secondHand->mAnglePerFrame = (courseRow->mSettings[0] << 7) / 0x64;
-    if (courseRow->mSettings[4] != 0) {
-        secondHand->mAnglePerFrame = -secondHand->mAnglePerFrame;
-    }
-    secondHand->mMapObject.mAngle = 0;
-    if (secondHand->mRampFrameCount != 0) {
-        secondHand->mSpeedFractionPerFrame = 0x1000 / secondHand->mRampFrameCount;
-    } else {
-        secondHand->mSpeedFractionPerFrame = 0;
-    }
-    secondHand->mSpeedFraction = 0;
-    secondHand->mMapObject.mStateMachine.mNextState = 0;
-    secondHand->mMapObject.mStateMachine.mNextStateRequested = 1;
-    secondHand->mMapObject.mFlags |= gSecondHandFlag;
 }
 
 #pragma thumb off

@@ -1,20 +1,5 @@
 #include "Main/Course/course_triangle_flag.h"
 #include "ITCM/sphere_collision.h"
-#include "Main/MapObjects/ob_pakkun_sf.h"
-
-const u16 gSecondHandFlag = 0x200;
-const MapObjectKindDescriptor gSecondHandKindDescriptor = {0,
-                                                           {0, 0},
-                                                           0xd0,
-                                                           (void (*)(void *, CourseMapRow *, void *)) InitSecondHand,
-                                                           CreateSecondHandKindData,
-                                                           (MapObjectList *(*)(void)) CreateSecondHandDrawList,
-                                                           NULL,
-                                                           NULL,
-                                                           CreateSecondHandUpdateList,
-                                                           NULL,
-                                                           {NULL, NULL, NULL, NULL}};
-
 #pragma thumb on
 
 // Whether a course triangle with flag bit 0x2 lies at the position.
