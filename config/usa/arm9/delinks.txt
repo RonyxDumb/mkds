@@ -3765,7 +3765,7 @@ src/Main/Item/item_kinoko.c:
     complete
     .text       start:0x020f49bc end:0x020f4dfc
     .rodata     start:0x02159664 end:0x0215969c
-    .bss        start:0x0217bc2c end:0x0217bc30
+    .bss        start:0x0217bc28 end:0x0217bc30
 
 // provisional: file name and boundaries
 src/Main/Item/code_020f4dfc.c:

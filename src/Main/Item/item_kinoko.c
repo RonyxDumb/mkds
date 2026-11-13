@@ -74,10 +74,11 @@
 #include "Main/Item/item_gesso.h"
 #include "Main/Item/bouncing_item_box_kind.h"
 
+ItemInfo *gItemInfos;
 Vec3 *gItemPushVector;
 
-const ItemInfo gItemInfoKinokoThree = {1, 1, 3, 3, 0, 0, StartItemKinokoBoost};
 const ItemInfo gItemInfoBananaThree = {1, 0, 2, 3, 0, 3, NULL};
+const ItemInfo gItemInfoKinokoThree = {1, 1, 3, 3, 0, 0, StartItemKinokoBoost};
 
 #pragma thumb on
 
