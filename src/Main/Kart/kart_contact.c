@@ -278,8 +278,8 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
                     if ((bits7c & KART_ENTRY_HAS_CHARACTER_ANIMATION) &&
                         kart->mKartModelsEntry->mKartModelHidden == 0) {
                         if ((bits7c & KART_ENTRY_SELECTED) || !(bits7c & KART_ENTRY_TERESA_OR_PARKED)) {
-                            VEC_MultAdd(firstOffsets.mScales[kart->mKartModelsEntry->mKartIndex] << 4, &kart->mUnk_138,
-                                        &kart->mPos, &firstEffectPos);
+                            VEC_MultAdd(firstOffsets.mScales[kart->mKartModelsEntry->mKartIndex] << 4,
+                                        &kart->mRotationRow2, &kart->mPos, &firstEffectPos);
                             StartEffectWithCallback(0x72, &firstEffectPos, kart, PlaceEffectBehindKart);
                             StartEffectWithCallback(0x73, &firstEffectPos, kart, PlaceEffectBehindKart);
                         }
@@ -317,8 +317,8 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
                     if ((bits7c & KART_ENTRY_HAS_CHARACTER_ANIMATION) &&
                         kart->mKartModelsEntry->mKartModelHidden == 0) {
                         if ((bits7c & KART_ENTRY_SELECTED) || !(bits7c & KART_ENTRY_TERESA_OR_PARKED)) {
-                            VEC_MultAdd(secondOffsets.mScales[kart->mKartModelsEntry->mKartIndex] << 4, &kart->mUnk_138,
-                                        &kart->mPos, &secondEffectPos);
+                            VEC_MultAdd(secondOffsets.mScales[kart->mKartModelsEntry->mKartIndex] << 4,
+                                        &kart->mRotationRow2, &kart->mPos, &secondEffectPos);
                             StartEffectWithCallback(0x72, &secondEffectPos, kart, PlaceEffectBehindKart);
                             StartEffectWithCallback(0x73, &secondEffectPos, kart, PlaceEffectBehindKart);
                         }
@@ -492,7 +492,7 @@ s32 ApplyKartContact(Kart *kart, Vec3 *contactNormal, s32 wasTouching, s32 baseS
         kart->mPointMotion = gKartVec3Zero;
     }
     if (wasTouching == 0) {
-        forwardDot = Vec3DotUnrounded(&kart->mUnk_138, contactNormal);
+        forwardDot = Vec3DotUnrounded(&kart->mRotationRow2, contactNormal);
         isFirstContact = TRUE;
         dotValue = VEC_DotProduct(contactNormal, &kart->mVelocity);
         normalVelocity.x = MUL_FIXED12_NO_ROUND(contactNormal->x, dotValue);
@@ -529,8 +529,8 @@ s32 ApplyKartContact(Kart *kart, Vec3 *contactNormal, s32 wasTouching, s32 baseS
                             dotValue = 0x4cd;
                         }
                         VEC_MultAdd(-kart->mRadius, contactNormal, &kart->mPos, &effectPos);
-                        VEC_MultAdd(MUL_FIXED12_ROUNDED(kart->mScale.y, dotValue << 4), &kart->mUnk_12c, &effectPos,
-                                    &effectPos);
+                        VEC_MultAdd(MUL_FIXED12_ROUNDED(kart->mScale.y, dotValue << 4), &kart->mRotationRow1,
+                                    &effectPos, &effectPos);
                         StartEffectWithCallback(0x3b, &effectPos, kart, SetEffectScaleFromKart);
                     }
                 }
@@ -565,7 +565,7 @@ s32 ApplyKartContact(Kart *kart, Vec3 *contactNormal, s32 wasTouching, s32 baseS
             if (kart->mVelocityLength > 0x1800 && factor > 0x19a) {
                 headingAnglePerFrame = FROM_FIXED12(MUL_FIXED12_NO_ROUND(kart->mVelocityLength, factor)) * 30;
                 Vec3CrossUnrounded(&kart->mSignedTurnedForward, contactNormal, &crossVector);
-                if (Vec3DotUnrounded(&crossVector, &kart->mUnk_12c) < 0) {
+                if (Vec3DotUnrounded(&crossVector, &kart->mRotationRow1) < 0) {
                     headingAnglePerFrame = headingAnglePerFrame * -1;
                 }
                 kart->mHeadingAnglePerFrame = headingAnglePerFrame;

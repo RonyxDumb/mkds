@@ -202,13 +202,15 @@ void AdvanceKartOrientation(Kart *kart, Vec3 *direction) {
     kart->mVelocityScaleFactor = 0x1000;
     if (kart->mAirborneFrames > 5) {
         kart->mQuaternionBlendFactor = 0xf6;
-        ComputeKartAirTiltQuaternion(kart, &kart->mUnk_100_q);
+        ComputeKartAirTiltQuaternion(kart, &kart->mAirTiltQuaternion);
     } else {
         AdvanceKartQuaternionFromVector(kart, direction);
     }
-    QuaternionBlend(&kart->mUnk_f0_q, &kart->mUnk_100_q, &kart->mUnk_f0_q, kart->mQuaternionBlendFactor);
-    QuaternionFromAxisAngle(&gKartVec3UnitY, (u16) (kart->mHeadingAngle + kart->mHeadingAngleOffset), &kart->mUnk_e0_m);
-    QuaternionMultiply(&kart->mUnk_f0_q, &kart->mUnk_e0_m, &kart->mUnk_110_q);
+    QuaternionBlend(&kart->mTiltQuaternion, &kart->mAirTiltQuaternion, &kart->mTiltQuaternion,
+                    kart->mQuaternionBlendFactor);
+    QuaternionFromAxisAngle(&gKartVec3UnitY, (u16) (kart->mHeadingAngle + kart->mHeadingAngleOffset),
+                            &kart->mHeadingQuaternion);
+    QuaternionMultiply(&kart->mTiltQuaternion, &kart->mHeadingQuaternion, &kart->mCombinedQuaternion);
     if (kart->mMotionFlags & KART_MOTION_HOPPING) {
         if (kart->mHopSpeed > 0) {
             kart->mHopTiltAngle = 0x9c4 - (u16) MUL_FIXED12_NO_ROUND(kart->mHopHeight, 500);
@@ -219,11 +221,11 @@ void AdvanceKartOrientation(Kart *kart, Vec3 *direction) {
             kart->mHopTiltAngle = 0;
         }
         QuaternionFromAxisAngle(&gKartVec3UnitX, (u16) -kart->mHopTiltAngle, &tiltQuaternion);
-        QuaternionMultiply(&kart->mUnk_110_q, &tiltQuaternion, &kart->mUnk_110_q);
+        QuaternionMultiply(&kart->mCombinedQuaternion, &tiltQuaternion, &kart->mCombinedQuaternion);
     } else {
         kart->mHopTiltAngle = 0;
     }
-    QuaternionNormalize(&kart->mUnk_110_q, &kart->mUnk_110_q);
+    QuaternionNormalize(&kart->mCombinedQuaternion, &kart->mCombinedQuaternion);
 }
 
 // Runs only on a step with a ground hit (non-zero normal).

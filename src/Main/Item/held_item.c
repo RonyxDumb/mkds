@@ -176,8 +176,8 @@ static inline u32 TakeHeldItemObjects_inline(RandomState64 *generator, u32 range
 void TakeHeldItemObjects(HeldItem *rec) {
     Kart *owner = rec->mKartItems->mKart;
     CourseColorBlend *halves = &owner->mKartModelsEntry->mCourseColorBlend;
-    Vec3 *dir = &owner->mUnk_168;
-    Vec3 *axis = &owner->mUnk_150;
+    Vec3 *dir = &owner->mDrawBaseRow2;
+    Vec3 *axis = &owner->mDrawBaseRow0;
     s32 slotIndex;
     s32 count;
     RandomState64 *generator;

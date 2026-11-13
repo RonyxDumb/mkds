@@ -542,7 +542,7 @@ void SetItemKouraSoundTrackParams(Kart *kartArg, PlayingSound *playingSound) {
     pitchOffset = 0;
     volume = playingSound->mVolume;
     if (kartArg->mMotionFlags == 0) {
-        vector = (Vec3 *) &kartArg->mUnk_168.y;
+        vector = (Vec3 *) &kartArg->mDrawBaseRow2.y;
     } else {
         vector = (Vec3 *) &kartArg->mCourseContactNormal.z;
     }

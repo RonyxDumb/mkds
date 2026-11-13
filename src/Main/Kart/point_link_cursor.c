@@ -283,7 +283,7 @@ void AdvanceRaceKartAi(KartAi *kartAi) {
     if (kartAi->mDriftState == 2) {
         kartForward = &kart->mTurnedForward;
     } else {
-        kartForward = &kart->mUnk_138;
+        kartForward = &kart->mRotationRow2;
     }
     requestedLink = linkCursor->mRequestedLink;
     GetKartPos(&kartPos, kartAi->mIndex);
@@ -318,10 +318,10 @@ void AdvanceKartAiAlongLinks(KartAi *kartAi, PointLinkCursor *linkCursor, Kart *
         if (kartAi->mKart->mMotionFlags & KART_MOTION_HIT_VELOCITY) {
             SetKartAiSideOffsetFromKart(kartAi);
         }
-        planeNormal = &kart->mUnk_12c;
+        planeNormal = &kart->mRotationRow1;
         VEC_Subtract(&kartAi->mLinkPosWithSideOffset, &kart->mPos, &toLinkPos);
         normalComponent = VEC_DotProduct(planeNormal, &toLinkPos);
-        toLinkPos.x = toLinkPos.x - MUL_FIXED12_NO_ROUND(kart->mUnk_12c.x, normalComponent);
+        toLinkPos.x = toLinkPos.x - MUL_FIXED12_NO_ROUND(kart->mRotationRow1.x, normalComponent);
         toLinkPos.y = toLinkPos.y - MUL_FIXED12_NO_ROUND(planeNormal->y, normalComponent);
         toLinkPos.z = toLinkPos.z - MUL_FIXED12_NO_ROUND(planeNormal->z, normalComponent);
         Vec3CrossUnrounded(kartForward, &toLinkPos, &crossProduct);
@@ -563,8 +563,8 @@ void AdvanceKartAiDrift(KartAi *kartAi) {
         }
     }
     if (kartAi->mDriftState == 3 && (kart->mMotionFlags & KART_MOTION_ON_GROUND)) {
-        planeNormal = &kart->mUnk_12c;
-        kartForward = &kart->mUnk_138;
+        planeNormal = &kart->mRotationRow1;
+        kartForward = &kart->mRotationRow2;
         VEC_Subtract(&kartAi->mLinkPosWithSideOffset, &kart->mPos, &flatOffsetToLink);
         dotProduct = VEC_DotProduct(planeNormal, &flatOffsetToLink);
         flatOffsetToLink.x -= MUL_FIXED12_NO_ROUND(planeNormal->x, dotProduct);
@@ -596,7 +596,7 @@ void AdvanceKartAiDrift(KartAi *kartAi) {
         offsetOnUpPlane.x = offsetToLink.x - MUL_FIXED12_NO_ROUND(kartUp.x, dotProduct);
         offsetOnUpPlane.y = offsetToLink.y - MUL_FIXED12_NO_ROUND(kartUp.y, dotProduct);
         offsetOnUpPlane.z = offsetToLink.z - MUL_FIXED12_NO_ROUND(kartUp.z, dotProduct);
-        Vec3CrossUnrounded(&aiKart->mUnk_138, &offsetOnUpPlane, &sideCross);
+        Vec3CrossUnrounded(&aiKart->mRotationRow2, &offsetOnUpPlane, &sideCross);
         angle = Vec3DotUnrounded(&kartUp, &sideCross);
         if (angle > 0) {
             angle = 1;
@@ -856,7 +856,7 @@ void AdvanceAwardMissionRunKartAi(struct KartAi *kartAi) {
     if (kartAi->mDriftState == 2) {
         kartForward = &kart->mTurnedForward;
     } else {
-        kartForward = &kart->mUnk_138;
+        kartForward = &kart->mRotationRow2;
     }
     requestedLink = linkCursor->mRequestedLink;
     GetKartPos(&kartPos, kartAi->mIndex);
@@ -892,7 +892,7 @@ void AdvanceStaffRollKartAi(struct KartAi *kartAi) {
     if (kartAi->mDriftState == 2) {
         kartForward = &kart->mTurnedForward;
     } else {
-        kartForward = &kart->mUnk_138;
+        kartForward = &kart->mRotationRow2;
     }
     requestedLink = linkCursor->mRequestedLink;
     GetKartPos(&kartPos, kartAi->mIndex);

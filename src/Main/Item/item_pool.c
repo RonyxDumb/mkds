@@ -784,7 +784,7 @@ void CopyKartPlacementToItemObject(KartItems *kartItems, ItemObject *object) {
 
     kart = kartItems->mKart;
     if ((kart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE) != 0) {
-        axis = &kart->mUnk_15c;
+        axis = &kart->mDrawBaseRow1;
     } else {
         axis = &gKartItemsVec3UnitY;
     }

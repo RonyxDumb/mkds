@@ -1700,8 +1700,8 @@ void FinishKartAtBattleEnd(Kart *kart, s32 isWinner) {
     if ((kart->mEntryFlags & KART_ENTRY_REMOVED) != 0) {
         GetCourseMapKartStartPlacement(&startPos, &startAngles, kart->mIndex);
         kart->mHeadingAngle = (u32) (startAngles.y * 0xb6) >> 12;
-        QuaternionFromAxisAngle(&gKartVec3UnitY, kart->mHeadingAngle, &kart->mUnk_e0_m);
-        Matrix4x3FromQuaternion(&kart->mUnk_120_m, &kart->mUnk_e0_m);
+        QuaternionFromAxisAngle(&gKartVec3UnitY, kart->mHeadingAngle, &kart->mHeadingQuaternion);
+        Matrix4x3FromQuaternion(&kart->mRotationMatrix, &kart->mHeadingQuaternion);
         GetKartForward(kart, &forward);
         ResetKartAndSetPos(kart, &startPos, &forward, NULL);
         collisionCenter = gRaceSetup->mMode == MODE_WIFI ? &kart->mPointAlongUp : &kart->mCollisionCenter;
@@ -2506,7 +2506,7 @@ void AdvanceKartWobble(Kart *kart) {
     angleValue = MUL_FIXED12_ROUNDED(angleAmplitude, kart->mWobbleSine);
     angle = angleValue;
     MTX_RotY43_(&rotationMatrix, FX_SinIdx(angle), FX_CosIdx(angle));
-    MTX_Concat43(&rotationMatrix, &kart->mUnk_150_m, &kart->mWobbleMatrix);
+    MTX_Concat43(&rotationMatrix, &kart->mDrawBaseMatrix, &kart->mWobbleMatrix);
     if ((kart->mWobbleEasedAmplitude > 0 ? kart->mWobbleEasedAmplitude : -kart->mWobbleEasedAmplitude) >= 0x29) {
         return;
     }
@@ -2617,10 +2617,10 @@ static inline void SetSideSignedDirection(Kart *entryKart, Kart *sourceKart, Vec
     Vec3 offset;
     Vec3 crossProduct;
 
-    *direction = sourceKart->mUnk_120;
+    *direction = sourceKart->mRotationRow0;
     VEC_Subtract(&entryKart->mPos, &sourceKart->mPos, &offset);
-    VEC_CrossProduct(&sourceKart->mUnk_138, &offset, &crossProduct);
-    if (VEC_DotProduct(&crossProduct, &sourceKart->mUnk_12c) < 0) {
+    VEC_CrossProduct(&sourceKart->mRotationRow2, &offset, &crossProduct);
+    if (VEC_DotProduct(&crossProduct, &sourceKart->mRotationRow1) < 0) {
         direction->x = -direction->x;
         direction->y = -direction->y;
         direction->z = -direction->z;
@@ -2690,13 +2690,13 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         ResetKartAndSetPos(kart, &newPos, 0, 0);
         kart->mHeadingAngle = value;
         headingAxis = gParticipantRecordHeadingAxis;
-        QuaternionFromAxisAngle(&headingAxis, kart->mHeadingAngle, &kart->mUnk_e0_m);
-        kart->mUnk_110_q = kart->mUnk_e0_m;
+        QuaternionFromAxisAngle(&headingAxis, kart->mHeadingAngle, &kart->mHeadingQuaternion);
+        kart->mCombinedQuaternion = kart->mHeadingQuaternion;
         if (kart->mEntryFlags & KART_ENTRY_WIFI_PEER) {
             stateAgain = kart->mParticipantRecordData;
             stateAgain->mSmoothedPos = kart->mPos;
             stateAgain->mSmoothedDrawPos = stateAgain->mSmoothedPos;
-            stateAgain->mSmoothedRotation = kart->mUnk_110_q;
+            stateAgain->mSmoothedRotation = kart->mCombinedQuaternion;
             stateAgain->mPosOffset = gKartVec3Zero;
             stateAgain->mPosOffsetIndex = 0;
         }
@@ -2707,26 +2707,26 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         0x15f90000000LL) {
         switch (state->mPosOffsetIndex) {
             case 0:
-                axis = &kart->mUnk_138;
+                axis = &kart->mRotationRow2;
                 axisOffset.x = MUL_FIXED12_NO_ROUND(axis->x, -0x7000);
                 axisOffset.y = MUL_FIXED12_NO_ROUND(axis->y, -0x7000);
                 axisOffset.z = MUL_FIXED12_NO_ROUND(axis->z, -0x7000);
                 break;
             case 1:
-                axis = &kart->mUnk_138;
+                axis = &kart->mRotationRow2;
                 axisOffset.x = MUL_FIXED12_NO_ROUND(axis->x, 0x7000);
                 axisOffset.y = MUL_FIXED12_NO_ROUND(axis->y, 0x7000);
                 axisOffset.z = MUL_FIXED12_NO_ROUND(axis->z, 0x7000);
                 break;
             case 2:
-                axis = &kart->mUnk_120;
+                axis = &kart->mRotationRow0;
                 axisOffset.x = MUL_FIXED12_NO_ROUND(axis->x, 0x7000);
                 axisOffset.y = MUL_FIXED12_NO_ROUND(axis->y, 0x7000);
                 axisOffset.z = MUL_FIXED12_NO_ROUND(axis->z, 0x7000);
                 break;
             case 3:
             default:
-                axis = &kart->mUnk_120;
+                axis = &kart->mRotationRow0;
                 axisOffset.x = MUL_FIXED12_NO_ROUND(axis->x, -0x7000);
                 axisOffset.y = MUL_FIXED12_NO_ROUND(axis->y, -0x7000);
                 axisOffset.z = MUL_FIXED12_NO_ROUND(axis->z, -0x7000);
@@ -2757,18 +2757,18 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
                 if (index < 3 && index < stepCount / 2) {
                     AdvanceKartTurnHeading(kart, ApplyKartTurnInput(kart, 0));
                 }
-                QuaternionFromAxisAngle(&gKartVec3UnitY, kart->mHeadingAngle, &kart->mUnk_e0_m);
-                QuaternionMultiply(&kart->mUnk_f0_q, &kart->mUnk_e0_m, &kart->mUnk_110_q);
-                Matrix4x3FromQuaternion(&kart->mUnk_120_m, &kart->mUnk_110_q);
+                QuaternionFromAxisAngle(&gKartVec3UnitY, kart->mHeadingAngle, &kart->mHeadingQuaternion);
+                QuaternionMultiply(&kart->mTiltQuaternion, &kart->mHeadingQuaternion, &kart->mCombinedQuaternion);
+                Matrix4x3FromQuaternion(&kart->mRotationMatrix, &kart->mCombinedQuaternion);
                 stateAgain = kart->mParticipantRecordData;
                 stateAgain->mEasedTurnAngle =
                     stateAgain->mEasedTurnAngle +
                     MUL_FIXED12_ROUNDED(stateAgain->mTargetTurnAngle - stateAgain->mEasedTurnAngle, 0x333);
                 kart->mTurnAngle = stateAgain->mEasedTurnAngle;
-                MTX_RotAxis33(&turnMatrix, &kart->mUnk_12c, FX_SinIdx((u16) kart->mTurnAngle),
+                MTX_RotAxis33(&turnMatrix, &kart->mRotationRow1, FX_SinIdx((u16) kart->mTurnAngle),
                               FX_CosIdx((u16) kart->mTurnAngle));
                 if (kart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE) {
-                    MTX_RotAxis33(&fixedAngleMatrix, &kart->mUnk_120, SIN_OF_ANGLE(0x5d0), COS_OF_ANGLE(0x5d0));
+                    MTX_RotAxis33(&fixedAngleMatrix, &kart->mRotationRow0, SIN_OF_ANGLE(0x5d0), COS_OF_ANGLE(0x5d0));
                     MTX_Concat33(&fixedAngleMatrix, &turnMatrix, &turnMatrix);
                 }
                 MTX_MultVec33(&kart->mForward, &turnMatrix, &kart->mTurnedForward);

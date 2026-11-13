@@ -112,7 +112,7 @@ void ScaleKartVelocityAndSetCappedLengthAndDirection(Kart *kart, s32 scale) {
 void AdvanceKartQuaternionFromVector(Kart *kart, Vec3 *target) {
     Vec4 fromUpQuaternion;
     Vec4 fromGroundQuaternion;
-    Vec4 *kartQuaternion = &kart->mUnk_100_q;
+    Vec4 *kartQuaternion = &kart->mAirTiltQuaternion;
     s32 succeeded;
 
     succeeded = TryQuaternionFromVectors(&fromUpQuaternion, &gKartVec3UnitY, target);

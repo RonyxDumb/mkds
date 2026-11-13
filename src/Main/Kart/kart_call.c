@@ -14,26 +14,26 @@
 const u32 gCourseModelDrawScale[3] = {0x1000, 0x1000, 0x1000};
 const u32 gKillerItemNodeName[4] = {0x6c6c694b, 0x74497265, 0x6d65, 0};
 
-// Copies row 1 of the matrix at 0x120 (mUnk_120_m), the kart's up direction, to the out vector. The camera takes it as
-// its up while KART_DRIVE_BOOST_SURFACE_HELD is set in mDriveFlags and the world up (0, 0x1000, 0) otherwise; the
+// Copies row 1 of the matrix at 0x120 (mRotationMatrix), the kart's up direction, to the out vector. The camera takes
+// it as its up while KART_DRIVE_BOOST_SURFACE_HELD is set in mDriveFlags and the world up (0, 0x1000, 0) otherwise; the
 // steering code removes this component from vectors. The kart has two more matrices (0x150 and 0x184), built from this
 // one for drawing.
 void GetKartUp(const Kart *kart, Vec3 *upDirection) {
     const MtxFx43 *matrix;
 
-    matrix = &kart->mUnk_120_m;
+    matrix = &kart->mRotationMatrix;
     upDirection->x = matrix->mRows[1].x;
     upDirection->y = matrix->mRows[1].y;
     upDirection->z = matrix->mRows[1].z;
 }
 
-// Copies row 2 of the matrix at 0x120 (mUnk_120_m), the kart's forward direction, to the out vector. The camera follows
-// it, and its mSavedKartForward holds a copy taken when the camera is set up. The kart has two more matrices (0x150 and
-// 0x184), built from this one for drawing.
+// Copies row 2 of the matrix at 0x120 (mRotationMatrix), the kart's forward direction, to the out vector. The camera
+// follows it, and its mSavedKartForward holds a copy taken when the camera is set up. The kart has two more matrices
+// (0x150 and 0x184), built from this one for drawing.
 void GetKartForward(const Kart *kart, Vec3 *forward) {
     const MtxFx43 *matrix;
 
-    matrix = &kart->mUnk_120_m;
+    matrix = &kart->mRotationMatrix;
     forward->x = matrix->mRows[2].x;
     forward->y = matrix->mRows[2].y;
     forward->z = matrix->mRows[2].z;

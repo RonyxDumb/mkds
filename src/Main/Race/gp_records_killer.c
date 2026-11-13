@@ -400,7 +400,7 @@ void AdvanceKartKillerAlongPointLinks(KartKillerCursor *kartKillerCursor) {
     kart = GetKart(kartKillerCursor->mKillerKartIndex);
     position = kart->mPos;
     kartKillerCursor->mAngleToLinkDegrees = ComputeAngleToPositionDegrees(
-        kartKillerCursor->mPointLinkCursor.mLink->mPoint, &position, &kart->mUnk_12c, &kart->mUnk_138);
+        kartKillerCursor->mPointLinkCursor.mLink->mPoint, &position, &kart->mRotationRow1, &kart->mRotationRow2);
     if ((kart->mDriveFlags & KART_DRIVE_BOOST_SURFACE_HELD) != 0 && kart->mSurfaceVariant == 1) {
         isPastOrNearLink = IsPastPointLink(&kartKillerCursor->mPointLinkCursor, &position);
     } else {

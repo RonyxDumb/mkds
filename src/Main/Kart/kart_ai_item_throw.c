@@ -584,17 +584,17 @@ void SetPosStripPointFromKart(PosStripPoint *posStripPoint, PosStrip *posStrip) 
 
     kart = GetKart(posStrip->mKartIndex);
     position = kart->mPos;
-    kartVector = &kart->mUnk_120;
+    kartVector = &kart->mRotationRow0;
     stripOffset = posStrip->mOffsetX;
     offsetVectorX.x = MUL_FIXED12_NO_ROUND(kartVector->x, stripOffset);
     offsetVectorX.y = MUL_FIXED12_NO_ROUND(kartVector->y, stripOffset);
     offsetVectorX.z = MUL_FIXED12_NO_ROUND(kartVector->z, stripOffset);
-    kartVector = &kart->mUnk_12c;
+    kartVector = &kart->mRotationRow1;
     stripOffset = posStrip->mOffsetY;
     offsetVectorY.x = MUL_FIXED12_NO_ROUND(kartVector->x, stripOffset);
     offsetVectorY.y = MUL_FIXED12_NO_ROUND(kartVector->y, stripOffset);
     offsetVectorY.z = MUL_FIXED12_NO_ROUND(kartVector->z, stripOffset);
-    kartVector = &kart->mUnk_138;
+    kartVector = &kart->mRotationRow2;
     stripOffset = posStrip->mOffsetZ;
     offsetVectorZ.x = MUL_FIXED12_NO_ROUND(kartVector->x, stripOffset);
     offsetVectorZ.y = MUL_FIXED12_NO_ROUND(kartVector->y, stripOffset);

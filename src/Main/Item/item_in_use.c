@@ -55,7 +55,7 @@ BOOL CopyKartToItemInUse(ItemInUse *itemInUse) {
     s32 scaleUnchanged;
 
     kart = itemInUse->mKart;
-    itemInUse->mKartOrientation = kart->mUnk_150_m.mAxes;
+    itemInUse->mKartOrientation = kart->mDrawBaseMatrix.mAxes;
     itemInUse->mKartDrawMatrixPos = kart->mDrawMatrixPos;
     itemInUse->mKartVelocity = kart->mVelocity;
     itemInUse->mKartVelocityLength = kart->mVelocityLength;

@@ -140,7 +140,7 @@ void AdvanceKartByVelocity(Kart *kart) {
         MTX_RotAxis33(&turnMatrix, &kart->mGroundNormal, FX_SinIdx((u16) kart->mTurnAngle),
                       FX_CosIdx((u16) kart->mTurnAngle));
         if (kart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE) {
-            MTX_RotAxis33(&boostMatrix, &kart->mUnk_120, SIN_OF_ANGLE(0x5d0), COS_OF_ANGLE(0x5d0));
+            MTX_RotAxis33(&boostMatrix, &kart->mRotationRow0, SIN_OF_ANGLE(0x5d0), COS_OF_ANGLE(0x5d0));
             MTX_Concat33(&boostMatrix, &turnMatrix, &turnMatrix);
         }
         MTX_MultVec33(&kart->mForward, &turnMatrix, &kart->mTurnedForward);

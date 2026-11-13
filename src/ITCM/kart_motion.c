@@ -540,7 +540,7 @@ void AdvanceKartTurnHeading(Kart *kart, s32 turnApplied) {
 // Writes base + (mRadius + extra) * up to the out vector, where up is row 1 of the matrix at 0x120 (the vector
 // GetKartUp returns), and nothing else.
 void ComputeKartPointAlongUp(Vec3 *result, const Vec3 *base, s32 extra, Kart *kart) {
-    VEC_MultAdd(kart->mRadius + extra, &kart->mUnk_12c, base, result);
+    VEC_MultAdd(kart->mRadius + extra, &kart->mRotationRow1, base, result);
 }
 
 void ComputeKartCollisionCenter(Vec3 *result, const Vec3 *drawPos, s32 extra, Kart *kart) {
@@ -549,11 +549,11 @@ void ComputeKartCollisionCenter(Vec3 *result, const Vec3 *drawPos, s32 extra, Ka
 
     VEC_Subtract(&kart->mPos, &kart->mPrevPos, &moveDelta);
     VEC_Add(&moveDelta, drawPos, &shiftedPos);
-    VEC_MultAdd(kart->mRadius + extra, &kart->mUnk_15c, &shiftedPos, result);
+    VEC_MultAdd(kart->mRadius + extra, &kart->mDrawBaseRow1, &shiftedPos, result);
 }
 
 void SetKartPrevCollisionCenter(Kart *kart) {
-    VEC_MultAdd(kart->mRadius + 0x400, &kart->mUnk_15c, &kart->mDrawMatrixPos, &kart->mPrevCollisionCenter);
+    VEC_MultAdd(kart->mRadius + 0x400, &kart->mDrawBaseRow1, &kart->mDrawMatrixPos, &kart->mPrevCollisionCenter);
 }
 
 // Called once per step of the driving states (AdvanceKartMotion, AdvancePeerKartMotion); also writes mUnk_dc in five
@@ -609,7 +609,7 @@ void UpdateKartSpeedLimit(Kart *kart) {
 void UpdateKartForwardAndLengthRatio(Kart *kart) {
     FX_DivAsync(kart->mVelocityLength, kart->mSpeedLimit);
     if (kart->mMotionFlags & KART_MOTION_ON_GROUND) {
-        Vec3CrossUnrounded(&kart->mUnk_120, &kart->mGroundNormal, &kart->mForward);
+        Vec3CrossUnrounded(&kart->mRotationRow0, &kart->mGroundNormal, &kart->mForward);
     } else {
         GetKartForward(kart, &kart->mForward);
     }

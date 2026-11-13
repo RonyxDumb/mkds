@@ -70,7 +70,7 @@ void AdvancePeerKartMotion(Kart *kart) {
         return;
     }
     recordState = kart->mParticipantRecordData;
-    Matrix4x3FromQuaternion(&kart->mUnk_120_m, &kart->mUnk_110_q);
+    Matrix4x3FromQuaternion(&kart->mRotationMatrix, &kart->mCombinedQuaternion);
     AdvanceParticipantKartRecords(kart);
     if (kart->mForwardSpeed > 0x3000) {
         recordState->mPosOffset = gKartVec3Zero;
@@ -143,7 +143,7 @@ void AdvancePeerKartCollision(Kart *kart) {
     VEC_Add(&recordState->mSmoothedPos, &posStep, &recordState->mSmoothedPos);
     if ((kart->mParticipantRecordData->mRecordBits & 1) != 0) {
         ComputeKartPointAlongUp(&probePos, &recordState->mSmoothedPos, 0x400, kart);
-        upAxis = &kart->mUnk_12c;
+        upAxis = &kart->mRotationRow1;
         downOffset.x = MUL_FIXED12_NO_ROUND(upAxis->x, -0x7000);
         downOffset.y = MUL_FIXED12_NO_ROUND(upAxis->y, -0x7000);
         downOffset.z = MUL_FIXED12_NO_ROUND(upAxis->z, -0x7000);
@@ -156,7 +156,8 @@ void AdvancePeerKartCollision(Kart *kart) {
     }
     recordState->mSmoothedDrawPos = recordState->mSmoothedPos;
     recordState->mSmoothedDrawPos.y = recordState->mSmoothedDrawPos.y + recordState->mHopHeight;
-    QuaternionBlend(&recordState->mSmoothedRotation, &kart->mUnk_110_q, &recordState->mSmoothedRotation, 0x333);
+    QuaternionBlend(&recordState->mSmoothedRotation, &kart->mCombinedQuaternion, &recordState->mSmoothedRotation,
+                    0x333);
 }
 
 void AdvancePeerKartOrientation(Kart *kart, Vec3 *groundNormal) {
@@ -169,11 +170,12 @@ void AdvancePeerKartOrientation(Kart *kart, Vec3 *groundNormal) {
     kart->mVelocityScaleFactor = 0x1000;
     if (kart->mAirborneFrames > 5 && (kart->mParticipantRecordData->mRecordBits & 1) == 0) {
         kart->mQuaternionBlendFactor = 0xf6;
-        ComputeKartAirTiltQuaternion(kart, &kart->mUnk_100_q);
+        ComputeKartAirTiltQuaternion(kart, &kart->mAirTiltQuaternion);
     } else {
         AdvanceKartQuaternionFromVector(kart, groundNormal);
     }
-    QuaternionBlend(&kart->mUnk_f0_q, &kart->mUnk_100_q, &kart->mUnk_f0_q, kart->mQuaternionBlendFactor);
+    QuaternionBlend(&kart->mTiltQuaternion, &kart->mAirTiltQuaternion, &kart->mTiltQuaternion,
+                    kart->mQuaternionBlendFactor);
     headingDifference = kart->mHeadingAngle - recordState->mSmoothedHeadingAngle;
     if ((headingDifference > 0 ? headingDifference : -headingDifference) > 0x7fff) {
         if (headingDifference > 0) {
@@ -184,8 +186,9 @@ void AdvancePeerKartOrientation(Kart *kart, Vec3 *groundNormal) {
     }
     recordState->mSmoothedHeadingAngle =
         recordState->mSmoothedHeadingAngle + MUL_FIXED12_NO_ROUND(headingDifference, 0x19a);
-    QuaternionFromAxisAngle(&gKartVec3UnitY, (u16) (kart->mHeadingAngle + kart->mHeadingAngleOffset), &kart->mUnk_e0_m);
-    QuaternionMultiply(&kart->mUnk_f0_q, &kart->mUnk_e0_m, &kart->mUnk_110_q);
+    QuaternionFromAxisAngle(&gKartVec3UnitY, (u16) (kart->mHeadingAngle + kart->mHeadingAngleOffset),
+                            &kart->mHeadingQuaternion);
+    QuaternionMultiply(&kart->mTiltQuaternion, &kart->mHeadingQuaternion, &kart->mCombinedQuaternion);
     if ((kart->mMotionFlags & KART_MOTION_HOPPING) != 0) {
         if (kart->mHopSpeed > 0) {
             hopHeightTilt = (u16) MUL_FIXED12_NO_ROUND(kart->mHopHeight, 0x1f4);
@@ -197,11 +200,11 @@ void AdvancePeerKartOrientation(Kart *kart, Vec3 *groundNormal) {
             kart->mHopTiltAngle = 0;
         }
         QuaternionFromAxisAngle(&gKartVec3UnitX, (u16) -kart->mHopTiltAngle, &hopTiltQuaternion);
-        QuaternionMultiply(&kart->mUnk_110_q, &hopTiltQuaternion, &kart->mUnk_110_q);
+        QuaternionMultiply(&kart->mCombinedQuaternion, &hopTiltQuaternion, &kart->mCombinedQuaternion);
     } else {
         kart->mHopTiltAngle = 0;
     }
-    QuaternionNormalize(&kart->mUnk_110_q, &kart->mUnk_110_q);
+    QuaternionNormalize(&kart->mCombinedQuaternion, &kart->mCombinedQuaternion);
 }
 
 void SetKartPrevCollisionCenterFromPrevPos(Kart *kart) {
@@ -251,7 +254,7 @@ void InitKart(Kart *kart, void (**slotFunctions)(Kart *)) {
         kart->mSlotFunctions[1](kart);
     }
     kart->mPosSource = &kart->mPos;
-    kart->mRotationSource = &kart->mUnk_110_q;
+    kart->mRotationSource = &kart->mCombinedQuaternion;
     kart->mCollisionPosSource = &kart->mPos;
     if (kart->mSlotFunctions[0] != 0) {
         kart->mSlotFunctions[0](kart);
@@ -268,12 +271,12 @@ void InitKart(Kart *kart, void (**slotFunctions)(Kart *)) {
             kart->mCollisionPosSource = &kart->mParticipantRecordData->mSmoothedPos;
         } else {
             kart->mPosSource = &kart->mPos;
-            kart->mRotationSource = &kart->mUnk_110_q;
+            kart->mRotationSource = &kart->mCombinedQuaternion;
             kart->mCollisionPosSource = &kart->mPos;
         }
     } else {
         kart->mPosSource = &kart->mPos;
-        kart->mRotationSource = &kart->mUnk_110_q;
+        kart->mRotationSource = &kart->mCombinedQuaternion;
         kart->mCollisionPosSource = &kart->mPos;
     }
     kart->mPosSourceCopy = kart->mPosSource;
@@ -281,10 +284,10 @@ void InitKart(Kart *kart, void (**slotFunctions)(Kart *)) {
     if (GetRaceUseChainCameras() != 0 && gRaceSetup->mRaceKind != RACE_KIND_AWARD) {
         kart->mSlotFunctions[3] = KartChainCameraNop;
         kart->mSlotFunctions[4] = KartChainCameraNop;
-        kart->mDrawMatrixPos = kart->mUnk_174;
-        kart->mUnk_174.x = kart->mUnk_174.x >> 4;
-        kart->mUnk_174.y = kart->mUnk_174.y >> 4;
-        kart->mUnk_174.z = kart->mUnk_174.z >> 4;
+        kart->mDrawMatrixPos = kart->mDrawBaseRow3;
+        kart->mDrawBaseRow3.x = kart->mDrawBaseRow3.x >> 4;
+        kart->mDrawBaseRow3.y = kart->mDrawBaseRow3.y >> 4;
+        kart->mDrawBaseRow3.z = kart->mDrawBaseRow3.z >> 4;
         if ((kart->mEntryFlags & KART_ENTRY_HAS_CHARACTER_ANIMATION) != 0) {
             AdvanceKartCharacterAnimation(kart);
             characterAnimation = kart->mKartModelsEntry->mCharacterAnimation;

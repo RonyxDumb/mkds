@@ -75,8 +75,8 @@ void DrawKart(Kart *kart) {
     }
     SendGxCommandOneValue(0x14, 0x1e);
     if (hasKartFlag != 0) {
-        ShiftVec3RightByFour(&kart->mUnk_144, kart->mPosSource);
-        NNS_G3dGeBufferOP_N(0x19, &kart->mUnk_120, 0xc);
+        ShiftVec3RightByFour(&kart->mRotationRow3, kart->mPosSource);
+        NNS_G3dGeBufferOP_N(0x19, &kart->mRotationRow0, 0xc);
         NNS_G3dGeBufferOP_N(0x1b, &kart->mScale, 3);
         SendGxCommandThreeValues(0x1b, kart->mModelScaleX, kart->mModelScaleY, kart->mModelScaleZ);
         DrawShadowWithoutMatrix(modelsEntry->mShadowModel);
@@ -151,7 +151,7 @@ BOOL DrawKartKillerItem(Kart *kart) {
     if (drawn != FALSE) {
         offsetScale = kart->mRadius + 0x5000;
         matrix = *kart->mDrawMatrix;
-        VEC_MultAdd(offsetScale, &kart->mUnk_12c, kart->mPosSource, &position);
+        VEC_MultAdd(offsetScale, &kart->mRotationRow1, kart->mPosSource, &position);
         matrix.mRows[3].x = position.x >> 4;
         matrix.mRows[3].y = position.y >> 4;
         matrix.mRows[3].z = position.z >> 4;

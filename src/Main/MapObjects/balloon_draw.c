@@ -210,7 +210,7 @@ void FollowBalloonTarget(Balloon *balloon) {
         balloon->mMapObject.mPosStep.y = balloon->mMapObject.mPosStep.y + 0x1800;
     } else {
         kart = GetKart((u16) balloon->mKartIndex);
-        kartVector = &kart->mUnk_12c;
+        kartVector = &kart->mRotationRow1;
         balloon->mMapObject.mPosStep.x = balloon->mMapObject.mPosStep.x + (kartVector->x + (kartVector->x >> 1));
         balloon->mMapObject.mPosStep.y = balloon->mMapObject.mPosStep.y + (kartVector->y + (kartVector->y >> 1));
         balloon->mMapObject.mPosStep.z = balloon->mMapObject.mPosStep.z + (kartVector->z + (kartVector->z >> 1));

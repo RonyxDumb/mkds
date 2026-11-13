@@ -36,14 +36,14 @@ void AdvanceKartDrawState(Kart *kart) {
     CharacterAnimationState *animationState;
     enum { K0 } entryIndex;
 
-    Matrix4x3FromQuaternion(&kart->mUnk_120_m, kart->mRotationSource);
+    Matrix4x3FromQuaternion(&kart->mRotationMatrix, kart->mRotationSource);
     kartBits = kart->mEffectFlags;
     if ((kartBits & KART_EFFECT_TUMBLING) != 0) {
-        drawMatrix = &kart->mUnk_150_m;
+        drawMatrix = &kart->mDrawBaseMatrix;
         MTX_Identity43_(&offsetMatrix);
         negatedOffsetMatrix = offsetMatrix;
         Matrix4x3FromQuaternion(&rotationMatrix, &kart->mRotationQuaternion);
-        source = &kart->mUnk_12c;
+        source = &kart->mRotationRow1;
         pivotOffset.x = MUL_FIXED12_NO_ROUND(source->x, -0x5000);
         pivotOffset.y = MUL_FIXED12_NO_ROUND(source->y, -0x5000);
         pivotOffset.z = MUL_FIXED12_NO_ROUND(source->z, -0x5000);
@@ -52,7 +52,7 @@ void AdvanceKartDrawState(Kart *kart) {
         pivotOffset.y = -pivotOffset.y;
         pivotOffset.z = -pivotOffset.z;
         negatedOffsetMatrix.mRows[3] = pivotOffset;
-        MTX_Concat43(&kart->mUnk_120_m, &offsetMatrix, drawMatrix);
+        MTX_Concat43(&kart->mRotationMatrix, &offsetMatrix, drawMatrix);
         MTX_Concat43(drawMatrix, &rotationMatrix, drawMatrix);
         MTX_Concat43(drawMatrix, &negatedOffsetMatrix, drawMatrix);
         if ((kart->mEffectFlags & KART_EFFECT_Y_SPIN) != 0) {
@@ -65,24 +65,24 @@ void AdvanceKartDrawState(Kart *kart) {
         drawMatrix->mRows[3].z = drawMatrix->mRows[3].z + kart->mPosSource->z;
     } else if ((kartBits & KART_EFFECT_Y_SPIN) != 0) {
         MTX_RotY43_(&yRotationMatrix, SIN_OF_ANGLE(kart->mYRotationAngle), COS_OF_ANGLE(kart->mYRotationAngle));
-        MTX_Concat43(&yRotationMatrix, &kart->mUnk_120_m, &kart->mUnk_150_m);
+        MTX_Concat43(&yRotationMatrix, &kart->mRotationMatrix, &kart->mDrawBaseMatrix);
         source = kart->mPosSource;
-        kart->mUnk_174.x = source->x;
-        kart->mUnk_174.y = source->y;
-        kart->mUnk_174.z = source->z;
+        kart->mDrawBaseRow3.x = source->x;
+        kart->mDrawBaseRow3.y = source->y;
+        kart->mDrawBaseRow3.z = source->z;
     } else {
-        kart->mUnk_150_m = kart->mUnk_120_m;
+        kart->mDrawBaseMatrix = kart->mRotationMatrix;
         source = kart->mPosSource;
-        kart->mUnk_174.x = source->x;
-        kart->mUnk_174.y = source->y;
-        kart->mUnk_174.z = source->z;
+        kart->mDrawBaseRow3.x = source->x;
+        kart->mDrawBaseRow3.y = source->y;
+        kart->mDrawBaseRow3.z = source->z;
     }
-    kart->mDrawMatrixPos = kart->mUnk_174;
-    kart->mUnk_174.x = kart->mUnk_174.x >> 4;
-    kart->mUnk_174.y = kart->mUnk_174.y >> 4;
-    kart->mUnk_174.z = kart->mUnk_174.z >> 4;
+    kart->mDrawMatrixPos = kart->mDrawBaseRow3;
+    kart->mDrawBaseRow3.x = kart->mDrawBaseRow3.x >> 4;
+    kart->mDrawBaseRow3.y = kart->mDrawBaseRow3.y >> 4;
+    kart->mDrawBaseRow3.z = kart->mDrawBaseRow3.z >> 4;
     if ((kart->mEffectFlags & KART_EFFECT_WOBBLE) == 0) {
-        kart->mDrawMatrix = &kart->mUnk_150_m;
+        kart->mDrawMatrix = &kart->mDrawBaseMatrix;
     } else {
         AdvanceKartWobble(kart);
         kart->mDrawMatrix = &kart->mWobbleMatrix;

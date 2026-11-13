@@ -488,29 +488,29 @@ typedef struct Kart {
             s32 mUnk_11c;
         };
         struct {
-            Vec4 mUnk_e0_m;
-            Vec4 mUnk_f0_q;
-            Vec4 mUnk_100_q;
-            Vec4 mUnk_110_q;
+            Vec4 mHeadingQuaternion;
+            Vec4 mTiltQuaternion;
+            Vec4 mAirTiltQuaternion;
+            Vec4 mCombinedQuaternion;
         };
     };
     /* 120 */ union {
         struct {
-            Vec3 mUnk_120;
-            Vec3 mUnk_12c;
-            Vec3 mUnk_138;
-            Vec3 mUnk_144;
+            Vec3 mRotationRow0;
+            Vec3 mRotationRow1;
+            Vec3 mRotationRow2;
+            Vec3 mRotationRow3;
         };
-        MtxFx43 mUnk_120_m;
+        MtxFx43 mRotationMatrix;
     };
     /* 150 */ union {
         struct {
-            Vec3 mUnk_150;
-            Vec3 mUnk_15c;
-            Vec3 mUnk_168;
-            Vec3 mUnk_174;
+            Vec3 mDrawBaseRow0;
+            Vec3 mDrawBaseRow1;
+            Vec3 mDrawBaseRow2;
+            Vec3 mDrawBaseRow3;
         };
-        MtxFx43 mUnk_150_m;
+        MtxFx43 mDrawBaseMatrix;
     };
     /* 180 */ volatile KartState mState;
     /* 184 */ MtxFx43 mWobbleMatrix;

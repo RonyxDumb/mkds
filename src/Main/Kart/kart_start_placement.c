@@ -71,21 +71,21 @@ void PlaceKartAtStartPlacement(Kart *kart, s32 useCourseMapRecord) {
     }
     kart->mPos.y = kart->mPos.y - 0x1000;
     kart->mHeadingAngle = (u32) (startRotation.y * 0xb6) >> 12;
-    QuaternionFromAxisAngle(&gKartStartPlacementHeadingAxis, kart->mHeadingAngle, &kart->mUnk_e0_m);
-    kart->mUnk_110_q = kart->mUnk_e0_m;
-    Matrix4x3FromQuaternion(&kart->mUnk_120_m, &kart->mUnk_110_q);
-    kart->mUnk_150_m = kart->mUnk_120_m;
+    QuaternionFromAxisAngle(&gKartStartPlacementHeadingAxis, kart->mHeadingAngle, &kart->mHeadingQuaternion);
+    kart->mCombinedQuaternion = kart->mHeadingQuaternion;
+    Matrix4x3FromQuaternion(&kart->mRotationMatrix, &kart->mCombinedQuaternion);
+    kart->mDrawBaseMatrix = kart->mRotationMatrix;
     kart->mPrevPos = kart->mPos;
     kart->mDrawMatrixPos = kart->mPrevPos;
-    kart->mUnk_174.x = kart->mDrawMatrixPos.x;
-    kart->mUnk_174.y = kart->mDrawMatrixPos.y;
-    kart->mUnk_174.z = kart->mDrawMatrixPos.z;
-    rotationMatrix = &kart->mUnk_120_m;
+    kart->mDrawBaseRow3.x = kart->mDrawMatrixPos.x;
+    kart->mDrawBaseRow3.y = kart->mDrawMatrixPos.y;
+    kart->mDrawBaseRow3.z = kart->mDrawMatrixPos.z;
+    rotationMatrix = &kart->mRotationMatrix;
     kart->mForward.x = rotationMatrix->mRows[2].x;
     kart->mForward.y = rotationMatrix->mRows[2].y;
     kart->mForward.z = rotationMatrix->mRows[2].z;
     kart->mTurnedForward = kart->mForward;
-    kart->mDrawMatrix = &kart->mUnk_150_m;
+    kart->mDrawMatrix = &kart->mDrawBaseMatrix;
     characterAnimation = kart->mKartModelsEntry->mCharacterAnimation;
     if (characterAnimation == NULL) {
         return;

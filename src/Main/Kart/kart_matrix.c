@@ -5,8 +5,8 @@
 u32 GetKartMatrixRow0(Kart *kart, Vec3 *out) {
     Vec3 *row;
     s32 value0;
-    s32 rowX = kart->mUnk_120.x;
-    row = &kart->mUnk_120;
+    s32 rowX = kart->mRotationRow0.x;
+    row = &kart->mRotationRow0;
     out->x = rowX;
     value0 = row->y;
     out->y = value0;

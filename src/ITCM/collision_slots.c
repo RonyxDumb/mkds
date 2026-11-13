@@ -317,12 +317,12 @@ void AdvanceKartAiHeading(struct KartAi *kartAi, Vec3 *directionA, Vec3 *directi
     steered = FALSE;
     CallKartAiLinkPosAndDirection(&linkPos, &linkDir, kartAi);
     if (kartAi->mContactStage == 1) {
-        surfaceNormal = &kart->mUnk_12c;
+        surfaceNormal = &kart->mRotationRow1;
         dot = VEC_DotProduct(surfaceNormal, &linkDir);
         flatLinkDir.x = linkDir.x - MUL_FIXED12_NO_ROUND(surfaceNormal->x, dot);
         flatLinkDir.y = linkDir.y - MUL_FIXED12_NO_ROUND(surfaceNormal->y, dot);
         flatLinkDir.z = linkDir.z - MUL_FIXED12_NO_ROUND(surfaceNormal->z, dot);
-        if (Vec3DotUnrounded(&kart->mUnk_138, &flatLinkDir) > -0x333) {
+        if (Vec3DotUnrounded(&kart->mRotationRow2, &flatLinkDir) > -0x333) {
             CallKartAiLinkPosAndDirection(&nextLinkPos, &nextLinkDir, kartAi);
             aiKart = kartAi->mKart;
             steered = TRUE;

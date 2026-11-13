@@ -1178,7 +1178,7 @@ typedef struct Camera {
     // The push-out vector of the collision test (CollideSphereWithCourse) scaled by 3 to 8, kept and eased; added to
     // the position goal.
     /* 17c */ Vec3 mPosGoalCollisionOffset;
-    // Kart.mUnk_120 (a row of the Kart's matrix) times mPosGoalKartOffsetScale; added to the position goal.
+    // Kart.mRotationRow0 (a row of the Kart's matrix) times mPosGoalKartOffsetScale; added to the position goal.
     /* 188 */ Vec3 mPosGoalKartOffset;
     /* 194 */ PosCurve mPosCurve;
     /* 1d0 */ PosCurve mReversePosCurve;

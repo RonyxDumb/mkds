@@ -121,8 +121,8 @@ s32 CollideKartWithBound(Bound *bound, Kart *kart, u8 *firstResponse, u8 *respon
             remainder.y -= component.y;
             remainder.z -= component.z;
             if (LENGTH_SQUARED(remainder) < 0x10) {
-                kartVector = &kart->mUnk_120;
-                bound->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(kart->mUnk_120.x, 0xc000);
+                kartVector = &kart->mRotationRow0;
+                bound->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(kart->mRotationRow0.x, 0xc000);
                 bound->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(kartVector->y, 0xc000);
                 bound->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(kartVector->z, 0xc000);
             } else {

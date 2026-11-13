@@ -238,7 +238,7 @@ void SetupBattleKartAi(KartAi *kartAi, Kart *kart) {
     kartAi->mKart = kart;
     kartAi->mIndex = kart->mIndex;
     kartAi->mUnk_06 = kartAi->mIndex % 4;
-    ResetBattlePointLinkCursorNear(&kartAi->mBattleLinkCursor, &kart->mPos, &kart->mUnk_138, kart->mIndex);
+    ResetBattlePointLinkCursorNear(&kartAi->mBattleLinkCursor, &kart->mPos, &kart->mRotationRow2, kart->mIndex);
     kartAi->mLinkPosWithSideOffset = *kartAi->mBattleLinkCursor.mLink->mPoint;
     ResetBattleKartAi(kartAi);
     if (gRaceSetup->mBattleKind == BATTLE_KIND_BALLOON) {
@@ -298,7 +298,7 @@ void AdvanceBattleKartAiAlongPointLinks(KartAi *kartAi) {
 
     kart = kartAi->mKart;
     linkCursor = &kartAi->mBattleLinkCursor;
-    kartForward = &kart->mUnk_138;
+    kartForward = &kart->mRotationRow2;
     requestedLink = linkCursor->mRequestedLink;
     GetKartPos(&kartPos, kartAi->mIndex);
     if (kart->mDriveFlags &
@@ -336,8 +336,8 @@ void AdvanceBattleKartAiAlongPointLinks(KartAi *kartAi) {
             } else {
                 targetKartIndex = -1;
             }
-            AdvanceBattlePointLinkCursor(linkCursor, &kartPos, &kart->mUnk_138, kartAi->mIndex, kartAi->mTargetShine,
-                                         targetKartIndex);
+            AdvanceBattlePointLinkCursor(linkCursor, &kartPos, &kart->mRotationRow2, kartAi->mIndex,
+                                         kartAi->mTargetShine, targetKartIndex);
             kartAi->mLinkSpeedLimit = GetBattlePointLinkSpeedLimit(linkCursor);
             AdvanceBattleKartAiSideOffset(kartAi);
             kartAi->mLinkPosWithSideOffset = *linkCursor->mLink->mPoint;
@@ -482,11 +482,11 @@ void AdvanceBattleKartAiTargetKart(KartAi *kartAi) {
     }
     value = 0;
     VEC_Subtract(&kartAi->mTargetKart->mPos, &kartAi->mKart->mPos, &toTarget);
-    if (VEC_DotProduct(&toTarget, &kartAi->mKart->mUnk_138) > 0) {
+    if (VEC_DotProduct(&toTarget, &kartAi->mKart->mRotationRow2) > 0) {
         if (LENGTH_SQUARED(toTarget) >= 0x10) {
             Vec3NormalizeAndGetLengthUnchecked(&toTarget, &toTarget);
         }
-        kartAi->mTargetForwardDot = VEC_DotProduct(&toTarget, &kartAi->mKart->mUnk_138);
+        kartAi->mTargetForwardDot = VEC_DotProduct(&toTarget, &kartAi->mKart->mRotationRow2);
         value = 1;
     }
     kartAi->mTargetAhead = value != 0;
@@ -612,11 +612,11 @@ void AdvanceBattleKartAiTargetShine(KartAi *kartAi) {
             if (isInRange != FALSE) {
                 isAhead = FALSE;
                 VEC_Subtract(&targetShine->mPos, &kartAi->mKart->mPos, &toShine);
-                if (VEC_DotProduct(&toShine, &kartAi->mKart->mUnk_138) > 0) {
+                if (VEC_DotProduct(&toShine, &kartAi->mKart->mRotationRow2) > 0) {
                     if (LENGTH_SQUARED(toShine) >= 0x10) {
                         Vec3NormalizeAndGetLengthUnchecked(&toShine, &toShine);
                     }
-                    kartAi->mEntryForwardDot = VEC_DotProduct(&toShine, &kartAi->mKart->mUnk_138);
+                    kartAi->mEntryForwardDot = VEC_DotProduct(&toShine, &kartAi->mKart->mRotationRow2);
                     isAhead = TRUE;
                 }
                 if (isAhead != FALSE && kartAi->mEntryForwardDot > 0xb33) {

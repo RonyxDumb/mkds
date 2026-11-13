@@ -257,16 +257,16 @@ void ResetKartAndSetPos(Kart *kart, const Vec3 *position, const Vec3 *forward, P
         recordState = kart->mParticipantRecordData;
         recordState->mSmoothedPos = kart->mPos;
         recordState->mSmoothedDrawPos = recordState->mSmoothedPos;
-        recordState->mSmoothedRotation = kart->mUnk_110_q;
+        recordState->mSmoothedRotation = kart->mCombinedQuaternion;
         recordState->mPosOffset = gKartVec3Zero;
         recordState->mPosOffsetIndex = 0;
     }
     if (forward != NULL) {
         kart->mHeadingAngle = FROM_FIXED12(MUL_FIXED12_NO_ROUND(FX_Atan2(forward->x, forward->z), 0x28be60dLL));
         axis = gKartPlacementHeadingAxis;
-        QuaternionFromAxisAngle(&axis, kart->mHeadingAngle, &kart->mUnk_e0_m);
+        QuaternionFromAxisAngle(&axis, kart->mHeadingAngle, &kart->mHeadingQuaternion);
     }
-    Matrix4x3FromQuaternion(&kart->mUnk_120_m, &kart->mUnk_e0_m);
+    Matrix4x3FromQuaternion(&kart->mRotationMatrix, &kart->mHeadingQuaternion);
     GetKartForward(kart, &kart->mForward);
     kart->mTurnedForward = kart->mForward;
     kart->mEasedTurnedForward = kart->mTurnedForward;
@@ -283,7 +283,7 @@ void ResetKartAndSetPos(Kart *kart, const Vec3 *position, const Vec3 *forward, P
         }
     }
     if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
-        ResetCameraBehind(position, &kart->mUnk_e0_m);
+        ResetCameraBehind(position, &kart->mHeadingQuaternion);
         ReturnArgument(((u32(*)(void)) ResetCameraHalfFovAngle)());
         SetCameraHeightHold(0);
     }
@@ -366,8 +366,8 @@ void ResetKartToStartPlacement(Kart *kart) {
     }
     GetCourseMapKartStartPlacement(&startPos, &startAngles, kart->mIndex);
     kart->mHeadingAngle = (u32) (startAngles.y * 0xb6) >> 12;
-    QuaternionFromAxisAngle(&gKartVec3UnitY, kart->mHeadingAngle, &kart->mUnk_e0_m);
-    Matrix4x3FromQuaternion(&kart->mUnk_120_m, &kart->mUnk_e0_m);
+    QuaternionFromAxisAngle(&gKartVec3UnitY, kart->mHeadingAngle, &kart->mHeadingQuaternion);
+    Matrix4x3FromQuaternion(&kart->mRotationMatrix, &kart->mHeadingQuaternion);
     GetKartForward(kart, &forward);
     ResetKartAndSetPos(kart, &startPos, &forward, NULL);
     if (gRaceSetup->mMode == MODE_WIFI) {
@@ -479,8 +479,8 @@ void ResetKart(Kart *kart) {
     kart->mAheadSpeedLimitFactor = 0x1000;
     kart->mState = KART_STATE_NORMAL;
     ClearKartItemEffectState(&kart->mItemEffectData);
-    MTX_Identity43_(&kart->mUnk_120_m);
-    MTX_Identity43_(&kart->mUnk_150_m);
+    MTX_Identity43_(&kart->mRotationMatrix);
+    MTX_Identity43_(&kart->mDrawBaseMatrix);
     MTX_Identity43_(&kart->mWobbleMatrix);
     kart->mPointAlongUp = zeroVector;
     kart->mPrevPointAlongUp = kart->mPointAlongUp;
@@ -489,10 +489,10 @@ void ResetKart(Kart *kart) {
     kart->mSecondCollisionCenter = zeroVector;
     kart->mPointMotion = zeroVector;
     kart->mSpeedLimitFactor = 0x1000;
-    kart->mUnk_e0_m = gKartResetHeadingQuaternion;
-    kart->mUnk_f0_q = gKartResetSecondQuaternion;
-    kart->mUnk_100_q = gKartResetThirdQuaternion;
-    kart->mUnk_110_q = gKartResetFourthQuaternion;
+    kart->mHeadingQuaternion = gKartResetHeadingQuaternion;
+    kart->mTiltQuaternion = gKartResetSecondQuaternion;
+    kart->mAirTiltQuaternion = gKartResetThirdQuaternion;
+    kart->mCombinedQuaternion = gKartResetFourthQuaternion;
     kart->mAirTiltAngle = 0;
     kart->mHeadingAngle = 0;
     kart->mBoostTimer = 0;
@@ -665,7 +665,7 @@ void ResetParticipantKartRecordPos(Kart *kart) {
     recordState = kart->mParticipantRecordData;
     recordState->mSmoothedPos = kart->mPos;
     recordState->mSmoothedDrawPos = recordState->mSmoothedPos;
-    recordState->mSmoothedRotation = kart->mUnk_110_q;
+    recordState->mSmoothedRotation = kart->mCombinedQuaternion;
     recordState->mPosOffset = gKartVec3Zero;
     recordState->mPosOffsetIndex = 0;
 }
@@ -1340,7 +1340,7 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
         NormalizeLengthOrZero(&flatForward, &flatForward);
         kart->mHeadingAngle = FROM_FIXED12(MUL_FIXED12_NO_ROUND(FX_Atan2(flatForward.x, flatForward.z), 0x28be60d));
         axis = gKartPlacementHeadingAxis;
-        QuaternionFromAxisAngle(&axis, kart->mHeadingAngle, &kart->mUnk_e0_m);
+        QuaternionFromAxisAngle(&axis, kart->mHeadingAngle, &kart->mHeadingQuaternion);
         Vec3CrossUnrounded(&gKartVec3UnitY, &kart->mTurnedForward, &sideVector);
         Vec3CrossUnrounded(&kart->mTurnedForward, &sideVector, &groundNormal);
         if (kart->mAirTiltAngle > -5000) {
@@ -1349,7 +1349,7 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
                 kart->mAirTiltAngle = -5000;
             }
         }
-        MTX_RotAxis33(&placementMatrix.mAxes, &kart->mUnk_120, FX_SinIdx((u16) kart->mAirTiltAngle),
+        MTX_RotAxis33(&placementMatrix.mAxes, &kart->mRotationRow0, FX_SinIdx((u16) kart->mAirTiltAngle),
                       FX_CosIdx((u16) kart->mAirTiltAngle));
         MTX_MultVec33(&groundNormal, &placementMatrix.mAxes, &groundNormal);
         kart->mGroundNormal = groundNormal;
@@ -1408,7 +1408,7 @@ void PlaceKartAtKeyedPlacement(Kart *kart, u32 key) {
     kart->mHeadingAngle =
         FROM_FIXED12(MUL_FIXED12_NO_ROUND(FX_Atan2(placementForward.x, placementForward.z), 0x28be60dLL));
     axis = gKartPlacementHeadingAxis;
-    QuaternionFromAxisAngle(&axis, kart->mHeadingAngle, &kart->mUnk_e0_m);
+    QuaternionFromAxisAngle(&axis, kart->mHeadingAngle, &kart->mHeadingQuaternion);
     if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
         SetupCameraBehindKart();
         if (gRaceSoundKind & 1) {
@@ -1445,7 +1445,7 @@ void ComputeKartAirTiltQuaternion(Kart *kart, Vec4 *quaternion) {
     if (kart->mVelocityLength < 0x1000) {
         return;
     }
-    if (Vec3DotUnrounded(&kart->mUnk_12c, &gKartVec3UnitY) <= 0) {
+    if (Vec3DotUnrounded(&kart->mRotationRow1, &gKartVec3UnitY) <= 0) {
         return;
     }
     kart->mAirTiltAngle = kart->mAirTiltAngle + kart->mAirTiltAngleOffset;
@@ -1465,7 +1465,7 @@ void ComputeKartAirTiltQuaternion(Kart *kart, Vec4 *quaternion) {
     if (kart->mMotionFlags & KART_MOTION_HOPPING) {
         return;
     }
-    dot = Vec3DotUnrounded(&kart->mVelocityDirection, &kart->mUnk_138);
+    dot = Vec3DotUnrounded(&kart->mVelocityDirection, &kart->mRotationRow2);
     if (dot <= 0) {
         dot = -dot;
     }

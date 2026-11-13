@@ -95,8 +95,8 @@ void ApplyKartSideEffectsRow2(Kart *kart);
 void ApplyKartCurrentEffectRow1(Kart *kart);
 void ApplyKartCurrentEffectRow0(Kart *kart);
 void SurfaceEffectStopKartCurrentEffects(Kart *kart);
-// Copies the position source of the Kart into the position of its matrix (Kart.mUnk_174), then computes mSidePositions
-// and mSideDirections of the Kart from the model points 2 and 3 and the Kart matrix.
+// Copies the position source of the Kart into the position of its matrix (Kart.mDrawBaseRow3), then computes
+// mSidePositions and mSideDirections of the Kart from the model points 2 and 3 and the Kart matrix.
 void ComputeKartSidePoints(Kart *kart);
 // Allocates the KartEffects records for a Karts and clears them.
 void InitKartEffects(u32 kartCount);

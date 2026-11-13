@@ -199,7 +199,7 @@ void UpdateChaseCamera(Camera *camera, Kart *kart) {
         }
     }
     UpdateChaseCameraCollision(camera, kart, &forward);
-    kartMatrixRow = &kart->mUnk_120;
+    kartMatrixRow = &kart->mRotationRow0;
     value = 0;
     if (kart->mMotionFlags & KART_MOTION_DRIFTING) {
         value = gChaseCameraDriftOffsetScale;
@@ -720,12 +720,12 @@ void UpdateCameraAngleEntry(Camera *camera) {
         camera->mLookAt.y = camera->mLookAt.y + 0x6000;
     }
     kart = GetKart(camera->mFollowedKartIndex);
-    baseDirection = kart->mUnk_138;
+    baseDirection = kart->mRotationRow2;
     startYaw = DEG_TO_ANGLE_TRUNCATED(courseMapCamera->mLookAtStartOrParams.x);
     startPitch = DEG_TO_ANGLE_TRUNCATED(courseMapCamera->mLookAtStartOrParams.y);
     value = DEG_TO_ANGLE_TRUNCATED(courseMapCamera->mLookAtEndOrParams.x);
     endPitch = DEG_TO_ANGLE_TRUNCATED(courseMapCamera->mLookAtEndOrParams.y);
-    MTX_RotAxis33(&tiltMatrix, &kart->mUnk_120, FX_SinIdx(kart->mHopTiltAngle), FX_CosIdx(kart->mHopTiltAngle));
+    MTX_RotAxis33(&tiltMatrix, &kart->mRotationRow0, FX_SinIdx(kart->mHopTiltAngle), FX_CosIdx(kart->mHopTiltAngle));
     MTX_MultVec33(&baseDirection, &tiltMatrix, &baseDirection);
     directionCopy = baseDirection;
     crossInput = directionCopy;
@@ -758,9 +758,9 @@ void UpdateCameraAngleEntry(Camera *camera) {
         if (CollideSphereWithCourse(&camera->mPos, &camera->mPrevPos, 0, gCameraCollisionRadius >> 1, 2, -2, &pushOut, NULL,
                                     NULL, NULL, NULL, NULL, NULL, NULL) != 0) {
             kart = GetKart(camera->mFollowedKartIndex);
-            axis = &kart->mUnk_120;
+            axis = &kart->mRotationRow0;
             value = VEC_DotProduct(axis, &pushOut);
-            pushOut.x = MUL_FIXED12_NO_ROUND(kart->mUnk_120.x, value);
+            pushOut.x = MUL_FIXED12_NO_ROUND(kart->mRotationRow0.x, value);
             pushOut.y = MUL_FIXED12_NO_ROUND(axis->y, value);
             pushOut.z = MUL_FIXED12_NO_ROUND(axis->z, value);
             VEC_Add(&pushOut, &camera->mPos, &camera->mPos);
@@ -780,10 +780,10 @@ void UpdateStaffRollCameraAndLight(Camera *camera) {
 
     camera->mLookAtOffset = camera->mLookAt;
     newLookAt = kart->mPos;
-    VEC_MultAdd(courseMapCamera->mPosOrParams.z, &kart->mUnk_120, &kart->mPos, &newPos);
+    VEC_MultAdd(courseMapCamera->mPosOrParams.z, &kart->mRotationRow0, &kart->mPos, &newPos);
     newPos.y = 0x1f4000;
     newLookAt.y = 0x1f4000;
-    offset = kart->mUnk_138;
+    offset = kart->mRotationRow2;
     offset.y = 0;
     if (LENGTH_SQUARED(offset) >= 0x10) {
         Vec3NormalizeAndGetLengthUnchecked(&offset, &offset);
@@ -968,13 +968,13 @@ void UpdateChaseCameraLookAt(Vec3 *lookAt, Vec3 *lookAtOffset, s32 *lookAtLoweri
     lookAtGoal = kart->mPos;
     targetPos = kart->mPos;
     targetPos.y = targetPos.y - scaledHopHeight;
-    VEC_MultAdd(lookAtHeight, &kart->mUnk_12c, &targetPos, &targetPos);
+    VEC_MultAdd(lookAtHeight, &kart->mRotationRow1, &targetPos, &targetPos);
     lookAtGoal.y = lookAtGoal.y + (lookAtHeight - scaledHopHeight);
     if (!(kart->mDriveFlags & KART_DRIVE_BOOST_SURFACE_HELD)) {
         offsetGoal = gCameraVec3Zero;
     } else {
         VEC_Subtract(&targetPos, &lookAtGoal, &offsetGoal);
-        VEC_MultAdd(0xa000, &kart->mUnk_12c, &offsetGoal, &offsetGoal);
+        VEC_MultAdd(0xa000, &kart->mRotationRow1, &offsetGoal, &offsetGoal);
     }
     VEC_Subtract(&offsetGoal, lookAtOffset, &offsetStep);
     offsetStep.x = MUL_FIXED12_NO_ROUND(offsetStep.x, 0x266);

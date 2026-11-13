@@ -580,14 +580,14 @@ void UpdateKartBalloons(void *mapObjectList, KartBalloonsObject *kartBalloonsObj
                 Balloon *balloon = kartBalloons->mBalloons[balloonIndex];
                 sideOffset = kartBalloons->mSwing + kartBalloonsObject->mBalloonOffsets[balloonCount - 1][balloonIndex];
                 if (sideOffset != 0) {
-                    kartVector = &kart->mUnk_150;
+                    kartVector = &kart->mDrawBaseRow0;
                     addend.x = MUL_FIXED12_NO_ROUND(kartVector->x, sideOffset);
                     addend.y = MUL_FIXED12_NO_ROUND(kartVector->y, sideOffset);
                     addend.z = MUL_FIXED12_NO_ROUND(kartVector->z, sideOffset);
                     AddBalloonVelocity(balloon, &addend);
                 }
                 if ((balloonIndex & 1) == 1) {
-                    kartVector = &kart->mUnk_168;
+                    kartVector = &kart->mDrawBaseRow2;
                     oddBalloonAddend.x = MUL_FIXED12_NO_ROUND(kartVector->x, -0xcd);
                     oddBalloonAddend.y = MUL_FIXED12_NO_ROUND(kartVector->y, -0xcd);
                     oddBalloonAddend.z = MUL_FIXED12_NO_ROUND(kartVector->z, -0xcd);

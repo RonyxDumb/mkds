@@ -172,7 +172,7 @@ void ApplyKartLanding(Kart *kart, Vec3 *groundNormal) {
     if (kart->mAirborneFrames <= 0x14) {
         return;
     }
-    dotProduct = Vec3DotUnrounded(&kart->mUnk_138, groundNormal);
+    dotProduct = Vec3DotUnrounded(&kart->mRotationRow2, groundNormal);
     if (dotProduct >= 0) {
         return;
     }
@@ -654,10 +654,10 @@ BOOL TryStartKartPushDoubleFlip(Kart *killerKart, Kart *hitKart) {
     started = FALSE;
     canStart = IsKartPushFlipAllowed(hitKart);
     if (canStart != 0) {
-        flipAxis = killerKart->mUnk_120;
+        flipAxis = killerKart->mRotationRow0;
         VEC_Subtract(&hitKart->mPos, &killerKart->mPos, &offsetToHit);
-        VEC_CrossProduct(&killerKart->mUnk_138, &offsetToHit, &crossProduct);
-        if (VEC_DotProduct(&crossProduct, &killerKart->mUnk_12c) < 0) {
+        VEC_CrossProduct(&killerKart->mRotationRow2, &offsetToHit, &crossProduct);
+        if (VEC_DotProduct(&crossProduct, &killerKart->mRotationRow1) < 0) {
             flipAxis.x = -flipAxis.x;
             flipAxis.y = -flipAxis.y;
             flipAxis.z = -flipAxis.z;
@@ -1300,10 +1300,10 @@ recheck:
         int len;
         Vec3 projectedForward;
         Vec3 crossVector;
-        Vec3 *forward = &kart->mUnk_138;
+        Vec3 *forward = &kart->mRotationRow2;
 
         dot = VEC_DotProduct(&kart->mHopStartUp, forward);
-        projectedForward.x = kart->mUnk_138.x - MUL_FIXED12_NO_ROUND(kart->mHopStartUp.x, dot);
+        projectedForward.x = kart->mRotationRow2.x - MUL_FIXED12_NO_ROUND(kart->mHopStartUp.x, dot);
         projectedForward.y = forward->y - MUL_FIXED12_NO_ROUND(kart->mHopStartUp.y, dot);
         projectedForward.z = forward->z - MUL_FIXED12_NO_ROUND(kart->mHopStartUp.z, dot);
         if (LENGTH_SQUARED(projectedForward) >= 16
@@ -1438,7 +1438,7 @@ BOOL TryStartKartCollisionEffects(Kart *kart, const Vec3 *overlapDirection, int 
             effectCount = 4;
         }
         VEC_MultAdd(-kart->mRadius, overlapDirection, &kart->mPos, &contactPoint);
-        VEC_MultAdd(MUL_FIXED12_ROUNDED(kart->mScale.y, 0x8000), &kart->mUnk_12c, &contactPoint, &contactPoint);
+        VEC_MultAdd(MUL_FIXED12_ROUNDED(kart->mScale.y, 0x8000), &kart->mRotationRow1, &contactPoint, &contactPoint);
         for (; effectIndex < effectCount; effectIndex++) {
             StartEffectWithCallback(effectIds[effectIndex], &contactPoint, kart, SetEffectVelocityFromKart);
         }
@@ -1462,14 +1462,14 @@ void PlaceEffectBehindKart(ParticleEmitter *emitter, Kart *kart) {
     Vec3s16 rot;
     Vec3 *forward;
 
-    VEC_MultAdd(MUL_FIXED12_ROUNDED(kart->mRadius, -0x1333), &kart->mUnk_138, &position, &position);
+    VEC_MultAdd(MUL_FIXED12_ROUNDED(kart->mRadius, -0x1333), &kart->mRotationRow2, &position, &position);
     position.x >>= 4;
     position.y >>= 4;
     position.z >>= 4;
     emitter->mPosition.x = emitter->mResource->mHeader->mPositionOffset.x + position.x;
     emitter->mPosition.y = position.y + emitter->mResource->mHeader->mPositionOffset.y;
     emitter->mPosition.z = position.z + emitter->mResource->mHeader->mPositionOffset.z;
-    forward = &kart->mUnk_138;
+    forward = &kart->mRotationRow2;
     rot.x = forward->x;
     rot.y = forward->y;
     rot.z = forward->z;

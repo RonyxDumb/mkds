@@ -134,7 +134,7 @@ void ComputeKartSidePoints(Kart *kart) {
     Vec3 modelPoint;
 
     kartEffects = &gKartEffects[kart->mIndex];
-    kart->mUnk_174 = *kart->mPosSource;
+    kart->mDrawBaseRow3 = *kart->mPosSource;
     for (sideIndex = 0; sideIndex < 2; sideIndex++) {
         modelPoint = kart->mKartModelsEntry->mKartOffsetData->mTireOffsets[sideIndex + 2];
         modelPoint.y = 0;
@@ -142,11 +142,11 @@ void ComputeKartSidePoints(Kart *kart) {
         scaledPoint.x = MUL_FIXED12_NO_ROUND(modelPoint.x, kart->mScale.x);
         scaledPoint.y = MUL_FIXED12_NO_ROUND(modelPoint.y, kart->mScale.y);
         scaledPoint.z = MUL_FIXED12_NO_ROUND(modelPoint.z, kart->mScale.z);
-        MTX_MultVec43(&scaledPoint, &kart->mUnk_150_m, &kartEffects->mSidePositions[sideIndex]);
+        MTX_MultVec43(&scaledPoint, &kart->mDrawBaseMatrix, &kartEffects->mSidePositions[sideIndex]);
         kartEffects->mSidePositions[sideIndex].x = kartEffects->mSidePositions[sideIndex].x >> 4;
         kartEffects->mSidePositions[sideIndex].y = kartEffects->mSidePositions[sideIndex].y >> 4;
         kartEffects->mSidePositions[sideIndex].z = kartEffects->mSidePositions[sideIndex].z >> 4;
-        MTX_MultVec33(&gKartSideDirectionVectors[sideIndex], &kart->mUnk_150_m.mAxes, &sideDirection);
+        MTX_MultVec33(&gKartSideDirectionVectors[sideIndex], &kart->mDrawBaseMatrix.mAxes, &sideDirection);
         kartEffects->mSideDirections[sideIndex].x = sideDirection.x;
         kartEffects->mSideDirections[sideIndex].y = sideDirection.y;
         kartEffects->mSideDirections[sideIndex].z = sideDirection.z;
@@ -580,7 +580,7 @@ void AdvanceKartCurrentEffect(ParticleEmitter *effect, s32 phase) {
         }
     }
     effect->mFlags.mEmissionStopped = (stopsEmission != 0);
-    behindVector = &kart->mUnk_138;
+    behindVector = &kart->mRotationRow2;
     offsetBehind.x = MUL_FIXED12_NO_ROUND(behindVector->x, -0x5000);
     offsetBehind.y = MUL_FIXED12_NO_ROUND(behindVector->y, -0x5000);
     offsetBehind.z = MUL_FIXED12_NO_ROUND(behindVector->z, -0x5000);
@@ -1303,8 +1303,8 @@ void PlaceEffectAheadAndUpOfKart(ParticleEmitter *effect, Kart *kart, s32 upDist
     position.x = kartPos->x >> 4;
     position.y = kartPos->y >> 4;
     position.z = kartPos->z >> 4;
-    VEC_MultAdd(MUL_FIXED12_ROUNDED(kart->mScale.z, aheadDistance), &kart->mUnk_138, &position, &position);
-    VEC_MultAdd(MUL_FIXED12_ROUNDED(kart->mScale.y, upDistance), &kart->mUnk_12c, &position, &position);
+    VEC_MultAdd(MUL_FIXED12_ROUNDED(kart->mScale.z, aheadDistance), &kart->mRotationRow2, &position, &position);
+    VEC_MultAdd(MUL_FIXED12_ROUNDED(kart->mScale.y, upDistance), &kart->mRotationRow1, &position, &position);
     effect->mPosition.x = position.x + effect->mResource->mHeader->mPositionOffset.x;
     effect->mPosition.y = position.y + effect->mResource->mHeader->mPositionOffset.y;
     effect->mPosition.z = position.z + effect->mResource->mHeader->mPositionOffset.z;
@@ -1387,7 +1387,7 @@ void AdvanceKartStarEffects(s32 kartIndex) {
         if (starEffects->mEffects[starIndex] != NULL) {
             VEC_MultAdd(MUL_FIXED12_ROUNDED(kart->mScale.y,
                                             gKartStarEffectOffsetByCharacter[kart->mKartModelsEntry->mCharacterIndex]),
-                        &kart->mUnk_12c, &kart->mPos, &effectPos);
+                        &kart->mRotationRow1, &kart->mPos, &effectPos);
             PlaceEffect(starEffects->mEffects[starIndex], &effectPos);
             velocity.x = MUL_FIXED12_NO_ROUND(kart->mEffectVelocity.x, 0xc00);
             velocity.y = MUL_FIXED12_NO_ROUND(kart->mEffectVelocity.y, 0xc00);
