@@ -168,7 +168,7 @@ void FinishBackupRead(void (*callback)(u32 *, u32)) {
         case 0:
             DC_StoreRange(gBackupAccess->mReadDestination, gBackupAccess->mReadSize);
             if (gBackupAccess->mReadHasPrefix != 0) {
-                readWords = OFFSET_PTR(u32, gBackupAccess->mReadDestination, 8);
+                readWords = gBackupAccess->mReadDestination + 2;
                 xorByteCount = gBackupAccess->mReadSize - 8;
                 if (CheckBackupBlockPrefix((u8 *) gBackupAccess->mReadDestination) == 0) {
                     result = 4;
