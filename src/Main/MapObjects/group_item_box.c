@@ -30,6 +30,7 @@
 #include "code_02147cd8.h"
 #include "Main/MapObjects/koopa_block.h"
 #include "Main/MapObjects/mkd_ef_bubble.h"
+#include "Main/MapObjects/mkd_ef_bubble_kind_descriptor.h"
 
 const u16 gGroupItemBoxEntryFlag = 0x20;
 const MapObjectList gGroupItemBoxUpdateListData = {NULL, 0, {0, 0}, (void (*)(MapObjectList *)) InitGroupItemBoxObjects, (void (*)(MapObjectList *)) UpdateGroupItemBoxHeightOffset, UpdateGroupItemBox, NULL, 0, NULL, 0, NULL};

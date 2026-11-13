@@ -3445,6 +3445,11 @@ src/Main/MapObjects/group_item_box.c:
     .bss        start:0x0217b730 end:0x0217b74c
 
 // provisional: file name and boundaries
+src/Main/MapObjects/mkd_ef_bubble_kind_descriptor.c:
+    complete
+    .rodata     start:0x02158740 end:0x02158778
+
+// provisional: file name and boundaries
 src/Main/MapObjects/mkd_ef_bubble.c:
     complete
     .text       start:0x020df7d0 end:0x020df890

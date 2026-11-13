@@ -46,6 +46,7 @@
 #include "Main/MapObjects/model_animation_entries.h"
 #include "Main/MapObjects/wanwan_chain_object.h"
 #include "Main/MapObjects/item_box_kind_descriptor.h"
+#include "Main/MapObjects/mkd_ef_bubble_kind_descriptor.h"
 #include "Main/MapObjects/group_item_box_kind_descriptor.h"
 #include "Main/MapObjects/vehicle_kind_descriptor.h"
 #include "Main/MapObjects/kart_balloons_kind_descriptor.h"
