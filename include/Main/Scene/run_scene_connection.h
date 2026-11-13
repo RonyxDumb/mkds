@@ -18,7 +18,7 @@
 typedef struct SceneNumbers {
     /* 00 */ s16 mUnk_00;
     // Number of the scene being run: the index of gSceneFuncs and of the scene-name table
-    // gSceneNames (data_usa_021541a8).
+    // gSceneNames.
     /* 02 */ s16 mScene;
     // Scene to run next, -1 until set. Written by the update slots (also through the other typedef
     // views and as a[2]) and by RunScene when the scene ends;
