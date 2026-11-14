@@ -203,25 +203,25 @@ NNSSndArcLoadResult NNSi_SndArcLoadGroup(s32 groupNo, NNSSndHeap *heap) {
     for (itemIndex = 0; itemIndex < info->mCount; itemIndex++) {
         item = &info->mItem[itemIndex];
         switch (item->mType) {
-            case 0:
+            case GROUP_ITEM_SEQUENCE:
                 result = NNSi_SndArcLoadSeq(item->mIndex, item->mLoadFlag, heap, 1, 0);
                 if (result != NNS_SND_ARC_LOAD_SUCESS) {
                     return result;
                 }
                 break;
-            case 3:
+            case GROUP_ITEM_SEQUENCE_SET:
                 result = NNSi_SndArcLoadSeqArc(item->mIndex, item->mLoadFlag, heap, 1, 0);
                 if (result != NNS_SND_ARC_LOAD_SUCESS) {
                     return result;
                 }
                 break;
-            case 1:
+            case GROUP_ITEM_SOUND_BANK:
                 result = NNSi_SndArcLoadBank(item->mIndex, item->mLoadFlag, heap, 1, 0);
                 if (result != NNS_SND_ARC_LOAD_SUCESS) {
                     return result;
                 }
                 break;
-            case 2:
+            case GROUP_ITEM_WAVE_SET:
                 result = NNSi_SndArcLoadWaveArc(item->mIndex, item->mLoadFlag, heap, 1, 0);
                 if (result != NNS_SND_ARC_LOAD_SUCESS) {
                     return result;

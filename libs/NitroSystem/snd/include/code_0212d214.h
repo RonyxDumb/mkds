@@ -112,7 +112,14 @@ typedef struct NNSSndArcPlayerInfo {
     /* 04 */ u32 mHeapSize;
 } NNSSndArcPlayerInfo;
 
-// Item of a group: type (0 sequence, 1 bank, 2 wave archive, 3 sequence archive), load flags and number.
+typedef enum NNSSndArcGroupItemType {
+    GROUP_ITEM_SEQUENCE = 0,
+    GROUP_ITEM_SOUND_BANK = 1,
+    GROUP_ITEM_WAVE_SET = 2,
+    GROUP_ITEM_SEQUENCE_SET = 3,
+} NNSSndArcGroupItemType;
+
+// Item of a group: type (NNSSndArcGroupItemType), load flags and number.
 typedef struct NNSSndArcGroupItem {
     /* 00 */ u8 mType;
     /* 01 */ u8 mLoadFlag;
