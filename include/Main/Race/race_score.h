@@ -12,7 +12,7 @@
 #include "Main/Race/race_hud_sub_screen_projection.h"
 #include "Main/Race/data_020f36d8.h"
 
-// Writes mNextHeader.mUnk_5c; shuffles the respawn slots in mode 2.
+// Writes mNextHeader.mSeed; shuffles the respawn slots in mode 2.
 void InitRaceProgress(void);
 void InitRaceProgressKart(RaceProgressKart *raceProgressKart, s32 kartIndex);
 s16 ComputeRaceProgressKartScore(s32 kartIndex);

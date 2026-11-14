@@ -125,5 +125,5 @@ extern const u16 gKeyTargets12RowsRow3[4];
 extern const u16 gKeyTargets12RowsRow2[4];
 extern const u16 gKeyTargets12RowsRow1[4];
 extern const u16 gNameLayoutEntryIndexByCharacter[12];
-// Tables of four u16, written to mUnk_084 of SelectCharacter.
+// Tables of four u16, written to mTableIndexByKey of SelectCharacter.
 extern const u16 gKeyTargets12RowsRow0[4];

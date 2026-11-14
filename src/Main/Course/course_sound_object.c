@@ -247,7 +247,7 @@ void UpdateCourseSoundObject(void *mapObjectList, CourseSoundObject *courseSound
             PlaceCourseSoundObjectPartSource(&courseSoundObject->mFirstPart, &courseSoundObject->mMapObject.mPos);
             if (gRaceSetup->mRaceKind == RACE_KIND_NORMAL && IsKartOnLastLap(gRaceSetup->mEntryIndex) != FALSE &&
                 courseSoundObject->mFirstPart.mInRangeUpdateCount == 0 &&
-                courseSoundObject->mFirstPart.mUnk_20 != FALSE) {
+                courseSoundObject->mFirstPart.mCameraOnOtherSide != FALSE) {
                 soundId = GetLastLapCourseSoundId();
                 NNS_SndPlayerStopSeq(courseSoundObject->mFirstPart.mSndHandleSlot, 0);
                 courseSoundObject->mFirstPart.mStartParams.mSoundId = soundId;
@@ -259,7 +259,7 @@ void UpdateCourseSoundObject(void *mapObjectList, CourseSoundObject *courseSound
             PlaceCourseSoundObjectPartSource(&courseSoundObject->mFirstPart, &courseSoundObject->mMapObject.mPos);
             if (IsKartEnded((u16) gRaceSetup->mEntryIndex) != 0) {
                 ParkMapObject(&courseSoundObject->mMapObject);
-            } else if (courseSoundObject->mFirstPart.mUnk_20 == FALSE) {
+            } else if (courseSoundObject->mFirstPart.mCameraOnOtherSide == FALSE) {
                 soundId = courseSoundObject->mSecondPart.mStartParams.mSoundId;
                 NNS_SndPlayerStopSeq(courseSoundObject->mFirstPart.mSndHandleSlot, 0);
                 courseSoundObject->mFirstPart.mStartParams.mSoundId = soundId;

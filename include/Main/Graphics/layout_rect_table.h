@@ -4,9 +4,9 @@
 
 // Two bytes: a signed 12-bit number, a 2-bit selector at bit 12, and two more bits.
 typedef struct LayoutAxis {
-    /* 00 */ s16 mUnk_00_0 : 12;
-    /* 00 */ u16 mUnk_00_12 : 2;
-    /* 00 */ u16 mUnk_00_14 : 2;
+    /* 00 */ s16 mPosition : 12;
+    /* 00 */ u16 mAlign : 2;
+    /* 00 */ u16 mLineAlign : 2;
 } LayoutAxis;
 
 // 6-byte entry of the array RectTableGetEntry indexes: two LayoutAxis and the two sizes added to what

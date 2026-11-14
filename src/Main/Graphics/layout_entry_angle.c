@@ -345,7 +345,7 @@ s32 InitLabelCanvas(void *heap, s32 labelIndex, LayoutEntryTable *labelLayout, s
         priority = GetLabelPriority(entryIndex, labelLayout, table, cellLayout);
         isXlu = IsLabelOamModeXlu(entryIndex, labelLayout, table, cellLayout);
     }
-    switch (labelEntry->mAxisX.mUnk_00_12) {
+    switch (labelEntry->mAxisX.mAlign) {
         case 1:
             value = -(widthBlocks << 2);
             break;
@@ -353,7 +353,7 @@ s32 InitLabelCanvas(void *heap, s32 labelIndex, LayoutEntryTable *labelLayout, s
             value = -(widthBlocks << 3);
             break;
     }
-    switch (labelEntry->mAxisY.mUnk_00_12) {
+    switch (labelEntry->mAxisY.mAlign) {
         case 1:
             originY = -(heightBlocks << 2);
             break;
@@ -416,27 +416,27 @@ void PrintLabelLayoutText(s32 queueSelector, s32 labelIndex, LayoutEntryTable *l
     flags = 0;
     offsetX = 0;
     offsetY = 0;
-    if (labelEntry->mAxisX.mUnk_00_12 == 0) {
+    if (labelEntry->mAxisX.mAlign == 0) {
         flags |= 0x200;
-    } else if (labelEntry->mAxisX.mUnk_00_12 == 1) {
+    } else if (labelEntry->mAxisX.mAlign == 1) {
         flags |= 0x400;
         offsetX = (alignedWidth - canvasWidth) >> 1;
-    } else if (labelEntry->mAxisX.mUnk_00_12 == 2) {
+    } else if (labelEntry->mAxisX.mAlign == 2) {
         flags |= 0x800;
         offsetX = alignedWidth - canvasWidth;
     }
-    if (labelEntry->mAxisY.mUnk_00_12 == 0) {
+    if (labelEntry->mAxisY.mAlign == 0) {
         flags |= 0x40;
-    } else if (labelEntry->mAxisY.mUnk_00_12 == 1) {
+    } else if (labelEntry->mAxisY.mAlign == 1) {
         flags |= 0x80;
         offsetY = (alignedHeight - canvasHeight) >> 1;
-    } else if (labelEntry->mAxisY.mUnk_00_12 == 2) {
+    } else if (labelEntry->mAxisY.mAlign == 2) {
         flags |= 0x100;
         offsetY = alignedHeight - canvasHeight;
     }
     canvas->mCharCanvas.mPClear(&canvas->mCharCanvas, 0);
     DrawTextInRectFixedAdvance(&canvas->mTextCanvas, offsetX, offsetY, canvasWidth, canvasHeight, labelEntry->mColor,
-                               flags, labelEntry->mAxisX.mUnk_00_14, text, fixedDigitsOnly, fixedAdvance);
+                               flags, labelEntry->mAxisX.mLineAlign, text, fixedDigitsOnly, fixedAdvance);
     chars = canvas->mTextCanvas.mCharBuffer;
     destOffset = canvas->mTextCanvas.mCharIndex << 5;
     charBytes = canvas->mTextCanvas.mCharBytes;

@@ -145,7 +145,7 @@ void UpdateEmblemScene(SceneNumbers *sceneNumbers) {
 
     emblemDone = AdvanceEmblemAndCheckDone();
     if (sceneNumbers != NULL && emblemDone != 0) {
-        switch (sceneNumbers->mUnk_00) {
+        switch (sceneNumbers->mPreviousScene) {
             case 7:
                 sceneNumbers->mNextScene = 7;
                 break;

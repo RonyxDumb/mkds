@@ -361,7 +361,7 @@ void AddQueuedItemData(void) {
         gItemDataQueueLinks[index][0] = gItemDataQueueFreeHead[0];
         gItemDataQueueFreeHead[0] = index;
         record = &gItemDataQueue[index];
-        AddItemData(record->mKind, record->mUnk_18, record, gItemDataQueueLinks[index][1]);
+        AddItemData(record->mKind, record->mMessageKind, record, gItemDataQueueLinks[index][1]);
         index = nextIndex;
     } while (nextIndex != 0xff);
 }
@@ -394,7 +394,7 @@ void ProcessDelayedItemData(void) {
             record = &gItemDataDelayed[index];
             if (record->mRaceUpdateFramesStamp == 0 || (record->mRaceUpdateFramesStamp + 0x100) >= raceUpdateFrames) {
                 u32 kind = *(vu32 *) &record->mKind;
-                ProcessItemPoolMessage(gItemPools + kind, record->mUnk_18, 0, (u8 *) record,
+                ProcessItemPoolMessage(gItemPools + kind, record->mMessageKind, 0, (u8 *) record,
                                        record->mRaceUpdateFramesStamp);
             }
         } else {
@@ -415,7 +415,7 @@ void QueueItemData(u32 kind, u32 messageKind, void *packet, u8 size) {
     }
     record = &gItemDataQueue[index];
     record->mKind = kind;
-    record->mUnk_18 = messageKind;
+    record->mMessageKind = messageKind;
     MI_CpuCopy8(packet, record, size);
     gItemDataQueueFreeHead[0] = gItemDataQueueLinks[index][0];
     if (gItemDataQueueUsedHead[0] == 0xff) {
@@ -447,7 +447,7 @@ void DelayItemData(u32 kind, u32 messageKind, s32 frameDifference, void *packet,
     }
     record = &gItemDataDelayed[index];
     record->mKind = kind;
-    record->mUnk_18 = messageKind;
+    record->mMessageKind = messageKind;
     record->mRaceUpdateFramesStamp = frameStamp;
     MI_CpuCopy8(packet, record, 0x14);
     gItemDataDelayedFreeHead[0] = gItemDataDelayedLinks[index][0];

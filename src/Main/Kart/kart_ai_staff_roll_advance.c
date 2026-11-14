@@ -181,13 +181,13 @@ void AdvanceKartAiForBattle(KartAi *kartAi) {
 
 void RequestBattleKartAiPointLink(KartAi *kartAi) {
     if (kartAi->mBattleLinkCursor.mRequestedLink != NULL) {
-        if (kartAi->mBattleLinkCursor.mUnk_18 != FALSE) {
+        if (kartAi->mBattleLinkCursor.mRequestPending != FALSE) {
             return;
         }
     }
     kartAi->mBattleLinkCursor.mRequestedLink = FindCourseMapKind4ShapeBattlePointLink(&kartAi->mKart->mPos);
     if (kartAi->mBattleLinkCursor.mRequestedLink != NULL) {
-        kartAi->mBattleLinkCursor.mUnk_18 = TRUE;
+        kartAi->mBattleLinkCursor.mRequestPending = TRUE;
     }
 }
 

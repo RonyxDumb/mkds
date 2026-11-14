@@ -14,7 +14,7 @@ typedef struct CourseSoundObjectPart {
     /* 00 */ SoundStartParams mStartParams;
     /* 10 */ Vec3 mSourcePos;
     /* 1c */ NNSSndSeqPlayer **mSndHandleSlot;
-    /* 20 */ BOOL mUnk_20;
+    /* 20 */ BOOL mCameraOnOtherSide;
     /* 24 */ s32 mInRangeUpdateCount;
 } CourseSoundObjectPart;
 

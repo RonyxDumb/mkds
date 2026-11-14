@@ -16,7 +16,7 @@ typedef struct WanwanChain {
     /* 28 */ s32 mLinkLength;
     /* 2c */ s64 mLinkLengthSquared;
     /* 34 */ Vec3 mModelScale;
-    /* 40 */ s32 mUnk_40;
+    /* 40 */ s32 mMinYOffset;
     /* 44 */ Vec3 *mPoints;
     /* 48 */ Vec3 *mVelocities;
 } WanwanChain;

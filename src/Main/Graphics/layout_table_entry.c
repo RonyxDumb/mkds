@@ -76,8 +76,8 @@ u32 DrawLayoutEntry(s32 index, NNSG2dCellDataBank *cells, LayoutEntryTable *cell
         axisRecords[1] = labelEntry->mAxisY;
         width = cellData->mMaxX - cellData->mMinX;
         height = cellData->mMaxY - cellData->mMinY;
-        position[0] = TO_FIXED12(axisRecords[0].mUnk_00_0);
-        position[1] = TO_FIXED12(axisRecords[1].mUnk_00_0);
+        position[0] = TO_FIXED12(axisRecords[0].mPosition);
+        position[1] = TO_FIXED12(axisRecords[1].mPosition);
     } else {
         cellEntry = GetCellLayoutEntry(cellLayout, index);
         cellData = NNS_G2dGetCellDataByIdx(cells, (u16) cellEntry->mCellIndex);
@@ -94,8 +94,8 @@ u32 DrawLayoutEntry(s32 index, NNSG2dCellDataBank *cells, LayoutEntryTable *cell
             position[0] = TO_FIXED12(entry->mPositionX);
             position[1] = TO_FIXED12(entry->mPositionY);
         } else {
-            position[0] = (entry->mPositionX + (width >> 1) * (1 - axisRecords[0].mUnk_00_12)) << 12;
-            position[1] = (entry->mPositionY + (height >> 1) * (1 - axisRecords[1].mUnk_00_12)) << 12;
+            position[0] = (entry->mPositionX + (width >> 1) * (1 - axisRecords[0].mAlign)) << 12;
+            position[1] = (entry->mPositionY + (height >> 1) * (1 - axisRecords[1].mAlign)) << 12;
         }
     }
     position[0] += TO_FIXED12(entry->mOffsetX);

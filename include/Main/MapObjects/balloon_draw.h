@@ -31,7 +31,7 @@ void SetupDrawBalloon(void *mapObjectList);
 void CreateBalloon(MapObjectList *mapObjectList); /* also sets word +0x1c of the group record to 1 */
 
 void InitBalloon(
-    Balloon *balloon); /* marks the balloon unowned (mUnk_a4 = -1) and parks the pooled object (ParkMapObject) */
+    Balloon *balloon); /* marks the balloon unowned (mKartIndex = -1) and parks the pooled object (ParkMapObject) */
 
 extern const u16 gBalloonDrawRotateZAngles[4][4];
 extern const s32 gBalloonDrawListIndices[4][4];

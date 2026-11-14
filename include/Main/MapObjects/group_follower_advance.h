@@ -11,7 +11,7 @@ typedef struct GroupFollowerWithSpeeds {
     /* 24 */ s32 mSpeedPerEntryUnit;
     /* 28 */ s32 mDefaultSpeed;
     /* 2c */ s32 mFromSpeed;
-    /* 30 */ s32 mUnk_30;
+    /* 30 */ s32 mInitialSpeed;
     /* 34 */ s32 mToSpeed;
 } GroupFollowerWithSpeeds;
 

@@ -205,10 +205,10 @@ void SetupGroupFollowerWithSpeeds(GroupFollowerWithSpeeds *follower, u16 entryIn
     SetupGroupFollowerAtEntry(&follower->mGroupFollower, entryIndex, forward);
     entryValue = follower->mGroupFollower.mFromEntry->mUnk_0e;
     follower->mFromSpeed = entryValue != 0 ? follower->mSpeedPerEntryUnit * entryValue : follower->mDefaultSpeed;
-    follower->mUnk_30 = follower->mFromSpeed;
+    follower->mInitialSpeed = follower->mFromSpeed;
     entryValue = follower->mGroupFollower.mToEntry->mUnk_0e;
     follower->mToSpeed = entryValue != 0 ? follower->mSpeedPerEntryUnit * entryValue : follower->mDefaultSpeed;
-    speed = follower->mUnk_30;
+    speed = follower->mInitialSpeed;
     follower->mGroupFollower.mSpeed = speed;
     follower->mGroupFollower.mProgressStep = MUL_FIXED12_NO_ROUND(
         speed,

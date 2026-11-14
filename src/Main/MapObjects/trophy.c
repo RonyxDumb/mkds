@@ -127,7 +127,7 @@ void SetupTrophy(void) {
         wobble->mAnglePerFrameDelta = 0;
         MTX_Identity43_(&gTrophy->mEffectMatrix);
         if (gTrophy->mRankIndex == 0) {
-            gTrophy->mEffect0->mRadius = gTrophy->mUnk_114;
+            gTrophy->mEffect0->mRadius = gTrophy->mEffectRadius;
             gTrophy->mEffect0->mPosition.x =
                 gTrophy->mEffectOffset.x + gTrophy->mEffect0->mResource->mHeader->mPositionOffset.x;
             gTrophy->mEffect0->mPosition.y =
@@ -141,7 +141,7 @@ void SetupTrophy(void) {
             gTrophy->mEffect5->mPosition.y = gTrophy->mEffect5->mResource->mHeader->mPositionOffset.y - 0xcd;
             gTrophy->mEffect5->mPosition.z = gTrophy->mEffect5->mResource->mHeader->mPositionOffset.z - 0x21ec;
         } else if (gTrophy->mRankIndex == 1) {
-            gTrophy->mEffect0->mRadius = gTrophy->mUnk_114;
+            gTrophy->mEffect0->mRadius = gTrophy->mEffectRadius;
             gTrophy->mEffect0->mPosition.x =
                 gTrophy->mEffectOffset.x + gTrophy->mEffect0->mResource->mHeader->mPositionOffset.x;
             gTrophy->mEffect0->mPosition.y =
@@ -175,7 +175,7 @@ void InitTrophy(s32 modelIndex, u32 rankIndex) {
         gTrophy->mEffectOffset.x = 0;
         gTrophy->mEffectOffset.y = gTrophyModelEffectOffsetY[modelIndex];
         gTrophy->mEffectOffset.z = -0x2000;
-        gTrophy->mUnk_114 = gTrophyModelEffectRadius[modelIndex];
+        gTrophy->mEffectRadius = gTrophyModelEffectRadius[modelIndex];
         InitNsbmd(&gTrophy->mModel, modelFile);
         SetNsbmdLightEnableFlagAll(&gTrophy->mModel, 3);
         if (gRaceSetup->mMirrorMode != 0) {

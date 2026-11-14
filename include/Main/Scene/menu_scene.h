@@ -14,7 +14,7 @@ u32 RunMenuScene(SceneNumbers *sceneNumbers);
 void UpdateMenuScene(void);
 void WriteMenuSceneRegistersCallback(void);
 // Slot mRelease: releases the current screen (ReleaseMenu, clears gMenuScene), clears bit 0 of
-// gStartupWork.mUnk_50 and, in mode 1, resets the CPU entries 1..7 of mNextEntries
+// gStartupWork.mDemoEndedByInput and, in mode 1, resets the CPU entries 1..7 of mNextEntries
 // (ResetTimeAttackNextEntries).
 void ReleaseMenuScene(void);
 // Wrapper of InitMenu, which allocates gMenuScene and loads the single_play_select_mode

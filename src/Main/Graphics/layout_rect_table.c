@@ -3,8 +3,8 @@
 s32 GetLayoutAxisStartX(LayoutAxis axis, s32 size) {
     s32 start;
 
-    start = axis.mUnk_00_0;
-    switch (axis.mUnk_00_12) {
+    start = axis.mPosition;
+    switch (axis.mAlign) {
         case 1:
             start -= (size + 1) / 2;
             break;
@@ -18,8 +18,8 @@ s32 GetLayoutAxisStartX(LayoutAxis axis, s32 size) {
 s32 GetLayoutAxisStartY(LayoutAxis axis, s32 size) {
     s32 start;
 
-    start = axis.mUnk_00_0;
-    switch (axis.mUnk_00_12) {
+    start = axis.mPosition;
+    switch (axis.mAlign) {
         case 1:
             start -= (size + 1) / 2;
             break;

@@ -276,7 +276,7 @@ void ResetBattlePointLinkCursorNear(LinkCursor *linkCursor, Vec3 *position, Vec3
     linkCursor->mPreviousLink = bestLink;
     linkCursor->mDirection = gPointLinkVec3Zero;
     linkCursor->mRequestedLink = NULL;
-    linkCursor->mUnk_18 = FALSE;
+    linkCursor->mRequestPending = FALSE;
 }
 
 void ResetBattlePointLinkCursorTo(LinkCursor *linkCursor, PointLink *pointLink) {
@@ -284,7 +284,7 @@ void ResetBattlePointLinkCursorTo(LinkCursor *linkCursor, PointLink *pointLink) 
     linkCursor->mLink = linkCursor->mPreviousLink;
     linkCursor->mDirection = gPointLinkVec3Zero;
     linkCursor->mRequestedLink = NULL;
-    linkCursor->mUnk_18 = FALSE;
+    linkCursor->mRequestPending = FALSE;
 }
 
 void AdvanceBattlePointLinkCursor(LinkCursor *linkCursor, Vec3 *position, Vec3 *direction, u16 kartIndex,

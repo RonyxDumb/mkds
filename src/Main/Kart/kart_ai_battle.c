@@ -343,7 +343,7 @@ void AdvanceBattleKartAiAlongPointLinks(KartAi *kartAi) {
             kartAi->mLinkPosWithSideOffset = *linkCursor->mLink->mPoint;
             VEC_Add(&kartAi->mLinkPosWithSideOffset, &kartAi->mSideOffset, &kartAi->mLinkPosWithSideOffset);
             linkCursor->mRequestedLink = NULL;
-            linkCursor->mUnk_18 = FALSE;
+            linkCursor->mRequestPending = FALSE;
         }
     }
     if (kart->mState != KART_STATE_NORMAL) {

@@ -366,7 +366,7 @@ void PlaceCourseSoundObjectPartSource(CourseSoundObjectPart *soundPart, Vec3 *po
                 soundPart->mSourcePos.x = position->x + MUL_FIXED12_NO_ROUND(SIN_OF_ANGLE((u16) value), 0x5dc000);
                 soundPart->mSourcePos.y = position->y;
                 soundPart->mSourcePos.z = position->z + MUL_FIXED12_NO_ROUND(COS_OF_ANGLE((u16) value), 0x5dc000);
-                soundPart->mUnk_20 = FALSE;
+                soundPart->mCameraOnOtherSide = FALSE;
             } else if (currentCamera->mPos.z > position->z && currentCamera->mPos.y < position->y - 0x32000) {
                 soundPart->mSourcePos.x = position->x + MUL_FIXED12_NO_ROUND(SIN_OF_ANGLE(0), 0x5dc000);
                 soundPart->mSourcePos.y = position->y;
@@ -377,12 +377,12 @@ void PlaceCourseSoundObjectPartSource(CourseSoundObjectPart *soundPart, Vec3 *po
                     scratch = value;
                 }
                 soundPart->mSourcePos.x = scratch;
-                soundPart->mUnk_20 = TRUE;
+                soundPart->mCameraOnOtherSide = TRUE;
             } else {
                 soundPart->mSourcePos.x = position->x + MUL_FIXED12_NO_ROUND(SIN_OF_ANGLE(0xaaa0), 0x5dc000);
                 soundPart->mSourcePos.y = position->y;
                 soundPart->mSourcePos.z = position->z + MUL_FIXED12_NO_ROUND(COS_OF_ANGLE(0xaaa0), 0x5dc000);
-                soundPart->mUnk_20 = FALSE;
+                soundPart->mCameraOnOtherSide = FALSE;
             }
             break;
         case COURSE_ID_MARIO:
@@ -402,9 +402,9 @@ void PlaceCourseSoundObjectPartSource(CourseSoundObjectPart *soundPart, Vec3 *po
             soundPart->mSourcePos.y = position->y;
             soundPart->mSourcePos.z = position->z;
             if (currentCamera->mPos.x < position->x) {
-                soundPart->mUnk_20 = TRUE;
+                soundPart->mCameraOnOtherSide = TRUE;
             } else {
-                soundPart->mUnk_20 = FALSE;
+                soundPart->mCameraOnOtherSide = FALSE;
             }
             break;
     }

@@ -19,13 +19,13 @@ void InitWanwanChain(WanwanChain *chain, Vec3 *start, Vec3 *end, s32 length, s32
     heap = GetHeap(GetCurrentHeapCall());
     chain->mVelocities = HeapAlloc(heap, pointCount * 12);
     chain->mModelScale = *modelScale;
-    chain->mUnk_40 = MUL_FIXED12_NO_ROUND(value, modelScale->y);
+    chain->mMinYOffset = MUL_FIXED12_NO_ROUND(value, modelScale->y);
     segmentCount = pointCount - 1;
     chain->mStepFraction = 0x1000 / segmentCount;
     chain->mLinkLength = MUL_FIXED12_NO_ROUND(length, 0x119a) / segmentCount;
     chain->mLinkLengthSquared = (s64) chain->mLinkLength * chain->mLinkLength;
     SetWanwanChainPointsEvenly(chain, start, end);
-    chain->mMinY = start->y + chain->mUnk_40;
+    chain->mMinY = start->y + chain->mMinYOffset;
     chain->mDownwardStep = 0x599;
     chain->mDamping = 0x51;
     chain->mPullScale = gWanwanChainInitialPullScale;

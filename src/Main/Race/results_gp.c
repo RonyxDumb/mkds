@@ -98,7 +98,7 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     if (gResultsGp->mCupRankIndex < 0) {
         gResultsGp->mCupRankIndex = 0;
     }
-    gResultsGp->mUnk_44 = gMenuShared->mGrade;
+    gResultsGp->mGrade = gMenuShared->mGrade;
     Init3dEngine();
     displaySettings = CreateDisplaySettings(heap, gResultsDisplaySettingsDesc);
     SetBg1Record(&displaySettings->mMainBgRecords, 2, 0, 0, 0, 0x10, 6, 0);
@@ -143,7 +143,7 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
         mainFileSet->mCellTable[gCupRankCellIndexTable[index]].mVisible = cellFlag;
     }
     for (index = 0; index < 8; index++) {
-        if (index == gResultsGp->mUnk_44) {
+        if (index == gResultsGp->mGrade) {
             cellFlag = 1;
         } else {
             cellFlag = 0;
@@ -221,7 +221,7 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     InitFrmVramManagers();
     InitTrophy(gResultsGp->mCupIndex, (u16) gResultsGp->mCupRankIndex);
     index = -1;
-    switch (gResultsGp->mUnk_44) {
+    switch (gResultsGp->mGrade) {
         case 5:
             index = 0x1e;
             break;

@@ -19,7 +19,7 @@ void InitKoopaBlock(KoopaBlock *koopaBlock, CourseMapRow *courseRow);
 MapObjectKindData *CreateMkdEfBubbleKindData(void);
 MapObjectList *CreateMkdEfBubbleDrawList(void);
 MapObjectList *CreateMkdEfBubbleUpdateList(void);
-/* writes the polygon alpha cap (mUnk_030 of its effect record), read only by draw routines */
+/* writes the polygon alpha cap (mAlphaCap of its mShadowMatrix), read only by draw routines */
 void DrawMkdEfBubble(void *unused0, MkdEfBubbleObject *bubble, void *unused1, s32 alpha);
 void AdvanceMkdEfBubbleAnimation(void);
 void UpdateMkdEfBubble(void *unused,

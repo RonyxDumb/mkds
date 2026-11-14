@@ -59,7 +59,7 @@ void InitFrmVramManagers(void);
 void InitRaceFields(void);
 void InitRace(void);
 unsigned int IsRaceAwardOrStaffRoll(void);
-// Returns Race.mUseChainCameras: 1 for the kinds 3 to 5 of RaceSetup.mUnk_00c, which other code also uses to tell
+// Returns Race.mUseChainCameras: 1 for the kinds 3 to 5 of RaceSetup.mRaceKind, which other code also uses to tell
 // those kinds apart; changes nothing.
 unsigned int GetRaceUseChainCameras(void);
 

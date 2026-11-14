@@ -9,7 +9,7 @@ void RunScenesForever(void);
 // Runs the scenes of one group (gRunScenesState +0, 0 or 1) one after another until the group
 // changes: sets the group up (InitRunScenesKind), keeps gSceneNumbers (previous, current, next), runs
 // gSceneFuncs[number] inside a new heap (RunHeapCall), takes the next number or 9, tears the
-// group down. Reloads overlay 3 for gStartupWork.mUnk_20 == 4.
+// group down. Reloads overlay 3 for gStartupWork.mConnectionKind == 4.
 s32 RunScenes(s16 *sceneNumber);
 void RunDWCUtility(void);
 

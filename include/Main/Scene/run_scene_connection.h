@@ -10,13 +10,13 @@
 #include "pm.h"
 #include "Main/Sound/sound_seq.h"
 
-// The three scene numbers of gSceneNumbers: +0 the previous scene (declared u8[2];
-// read by the scenes' init functions as `*a` / `a[0]` and by UpdateEmblemScene as an s16), mScene the scene
+// The three scene numbers of gSceneNumbers: mPreviousScene the previous scene (the scenes'
+// init functions read it as `*a` / `a[0]`), mScene the scene
 // being run, mNextScene the scene to run next (-1 = none yet). No typed global holds this
 // object; several scene functions take it as s16 * or void *.
 // UpdateTestScene and UpdateTestSceneObject take it typed.
 typedef struct SceneNumbers {
-    /* 00 */ s16 mUnk_00;
+    /* 00 */ s16 mPreviousScene;
     // Number of the scene being run: the index of gSceneFuncs and of the scene-name table
     // gSceneNames.
     /* 02 */ s16 mScene;

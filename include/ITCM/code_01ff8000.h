@@ -9,7 +9,7 @@ typedef struct NNSG3dRenderObj NNSG3dRenderObj;
 typedef struct NNSG3dRS NNSG3dRS;
 typedef struct NNSG3dAnmObj NNSG3dAnmObj;
 
-// Command buffer: the number of words stored from mUnk_04, then the words.
+// Command buffer: the number of words stored from mWords, then the words.
 typedef struct GxCommandBuffer {
     /* 00 */ u32 mWordCount;
     /* 04 */ u32 mWords[1];

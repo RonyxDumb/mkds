@@ -22,7 +22,7 @@ typedef struct Trophy {
     /* 104 */ s16 mLight0Z;
     /* 106 */ s16 mLight1Z;
     /* 108 */ Vec3 mEffectOffset;
-    /* 114 */ s32 mUnk_114;
+    /* 114 */ s32 mEffectRadius;
     /* 118 */ ParticleEmitter *mEffect0;
     /* 11c */ ParticleEmitter *mEffect4;
     /* 120 */ ParticleEmitter *mEffect5;

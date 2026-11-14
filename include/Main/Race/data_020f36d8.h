@@ -253,7 +253,7 @@ typedef struct RaceProgress {
     // Synced random generator; also stepped at each clock update while the clock gate is on, for the jitter that
     // GetRaceClockTime shows.
     /* 47c */ RandomState64 mRandom;
-    // Written once, never read; mNextHeader.mUnk_5c holds the same value.
+    // Written once, never read; mNextHeader.mSeed holds the same value.
     /* 494 */ s32 mSeed;
     // Random generator seeded from three OS_GetTick calls, not from mSeed. Local means this console, not the local
     // player (mFlags bit 1 is the local entry). Mode 1 uses it where the other modes use mRandom.

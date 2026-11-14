@@ -242,7 +242,7 @@ void *GetCellLayoutEntrySwapped(s32 index, LayoutEntryTable *cellLayout) {
 void SetKartMenuParamElementOffset(s32 elementIndex, s32 endCellIndex, s32 paramValue, CellFileSet *parts) {
     LayoutAxis *startCell = GetCellLayoutEntrySwapped(elementIndex, parts->mCellLayout);
     LayoutAxis *endCell = GetCellLayoutEntrySwapped(endCellIndex, parts->mCellLayout);
-    parts->mCellTable[elementIndex].mOffsetX = (100 - paramValue) * (endCell->mUnk_00_0 - startCell->mUnk_00_0) / 100;
+    parts->mCellTable[elementIndex].mOffsetX = (100 - paramValue) * (endCell->mPosition - startCell->mPosition) / 100;
 }
 
 #pragma thumb off
