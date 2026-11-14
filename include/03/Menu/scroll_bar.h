@@ -2,6 +2,22 @@
 
 #include "types.h"
 
+// Parts of the bar that can be touched, as returned by GetPressedScrollBarPart (0 = none).
+enum {
+    SCROLL_BAR_PART_THUMB = 1,
+    SCROLL_BAR_PART_ARROW_UP,
+    SCROLL_BAR_PART_ARROW_DOWN,
+    SCROLL_BAR_PART_TRACK,
+};
+
+// Values of ScrollBar.mState; the two hold states have the value of the arrow part being held.
+enum {
+    SCROLL_BAR_STATE_IDLE,
+    SCROLL_BAR_STATE_DRAG,
+    SCROLL_BAR_STATE_HOLD_ARROW_UP,
+    SCROLL_BAR_STATE_HOLD_ARROW_DOWN,
+};
+
 typedef struct ScrollBar {
     /* 00 */ struct OamRange *mResource;
     /* 04 */ u8 mUnk_04[8];

@@ -60,48 +60,48 @@ void DisableScrollBarInput(void) {
 void AdvanceScrollBar(void) {
     gScrollBar->mEvent = 0;
     switch (gScrollBar->mState) {
-        case 0:
+        case SCROLL_BAR_STATE_IDLE:
             if (gScrollBar->mInputDisabled == 0) {
                 switch (GetPressedScrollBarPart()) {
-                    case 1:
+                    case SCROLL_BAR_PART_THUMB:
                         if (gScrollBar->mSizeIndex != 0) {
                             StartSoundSeq(0x16);
                             SetSoundSeqVolume(0);
                             gScrollBar->mEvent = 1;
                             GetTouchPoint(gScrollBar->mDragStartTouch);
                             gScrollBar->mDragStartOffset = gScrollBar->mOffset;
-                            gScrollBar->mState = 1;
+                            gScrollBar->mState = SCROLL_BAR_STATE_DRAG;
                         }
                         break;
-                    case 2:
-                        StartScrollBarArrowHold(2);
+                    case SCROLL_BAR_PART_ARROW_UP:
+                        StartScrollBarArrowHold(SCROLL_BAR_PART_ARROW_UP);
                         break;
-                    case 3:
-                        StartScrollBarArrowHold(3);
+                    case SCROLL_BAR_PART_ARROW_DOWN:
+                        StartScrollBarArrowHold(SCROLL_BAR_PART_ARROW_DOWN);
                         break;
-                    case 4:
+                    case SCROLL_BAR_PART_TRACK:
                         MoveScrollBarToTouch();
                         break;
                 }
             }
             break;
-        case 1:
+        case SCROLL_BAR_STATE_DRAG:
             AdvanceScrollBarDrag();
             break;
-        case 2:
-            if (GetTouchedScrollBarArrow(2) != 2) {
+        case SCROLL_BAR_STATE_HOLD_ARROW_UP:
+            if (GetTouchedScrollBarArrow(SCROLL_BAR_PART_ARROW_UP) != SCROLL_BAR_PART_ARROW_UP) {
                 gScrollBar->mEvent = 5;
-                gScrollBar->mState = 0;
-            } else if (GetPressedScrollBarPart() == 2) {
-                StartScrollBarArrowHold(2);
+                gScrollBar->mState = SCROLL_BAR_STATE_IDLE;
+            } else if (GetPressedScrollBarPart() == SCROLL_BAR_PART_ARROW_UP) {
+                StartScrollBarArrowHold(SCROLL_BAR_PART_ARROW_UP);
             }
             break;
-        case 3:
-            if (GetTouchedScrollBarArrow(3) != 3) {
+        case SCROLL_BAR_STATE_HOLD_ARROW_DOWN:
+            if (GetTouchedScrollBarArrow(SCROLL_BAR_PART_ARROW_DOWN) != SCROLL_BAR_PART_ARROW_DOWN) {
                 gScrollBar->mEvent = 7;
-                gScrollBar->mState = 0;
-            } else if (GetPressedScrollBarPart() == 3) {
-                StartScrollBarArrowHold(3);
+                gScrollBar->mState = SCROLL_BAR_STATE_IDLE;
+            } else if (GetPressedScrollBarPart() == SCROLL_BAR_PART_ARROW_DOWN) {
+                StartScrollBarArrowHold(SCROLL_BAR_PART_ARROW_DOWN);
             }
             break;
     }
@@ -130,7 +130,7 @@ void AdvanceScrollBarDrag(void) {
         }
     }
     StopSoundSeq();
-    gScrollBar->mState = 0;
+    gScrollBar->mState = SCROLL_BAR_STATE_IDLE;
     gScrollBar->mEvent = 3;
 }
 
@@ -162,7 +162,7 @@ void SetScrollBarDragSound(s32 targetOffset) {
 void StartScrollBarArrowHold(int arrow) {
     u8 resultCode;
     gScrollBar->mState = (s8) arrow;
-    if (arrow == 2) {
+    if (arrow == SCROLL_BAR_PART_ARROW_UP) {
         resultCode = 4;
     } else {
         resultCode = 6;
@@ -194,12 +194,12 @@ int GetPressedScrollBarPart(void) {
     int v1;
     int pressed;
     u8 partRect[8];
-    GetScrollBarPartRect(1, (void *) partRect);
+    GetScrollBarPartRect(SCROLL_BAR_PART_THUMB, (void *) partRect);
     v1 = IsTouchPressedOrRepeatedInRect((const Rect *) (u16 *) (void *) partRect);
     if (v1 != 0) {
-        return 1;
+        return SCROLL_BAR_PART_THUMB;
     }
-    v1 = 2;
+    v1 = SCROLL_BAR_PART_ARROW_UP;
     do {
         GetScrollBarPartRect(v1, (void *) partRect);
         pressed = IsTouchPressedOrRepeatedInRect((const Rect *) (u16 *) (void *) partRect);
@@ -207,11 +207,11 @@ int GetPressedScrollBarPart(void) {
             return v1;
         }
         v1 = v1 + 1;
-    } while (v1 <= 3);
-    GetScrollBarPartRect(4, (void *) partRect);
+    } while (v1 <= SCROLL_BAR_PART_ARROW_DOWN);
+    GetScrollBarPartRect(SCROLL_BAR_PART_TRACK, (void *) partRect);
     v1 = IsTouchPressedInRect((const Rect *) (u16 *) ((u16 *) (void *) partRect));
     if (v1 != 0) {
-        return 4;
+        return SCROLL_BAR_PART_TRACK;
     }
     return 0;
 }
@@ -220,7 +220,7 @@ int GetTouchedScrollBarArrow(int a) {
     int touchDown;
     int part;
     u8 partRect[8];
-    part = 2;
+    part = SCROLL_BAR_PART_ARROW_UP;
     do {
         GetScrollBarPartRect(part, (void *) partRect);
         touchDown = IsTouchDownInRect((const Rect *) (u16 *) (void *) partRect);
@@ -228,7 +228,7 @@ int GetTouchedScrollBarArrow(int a) {
             return part;
         }
         part = part + 1;
-    } while (part <= 3);
+    } while (part <= SCROLL_BAR_PART_ARROW_DOWN);
     return 0;
 }
 
@@ -236,19 +236,19 @@ void GetScrollBarPartRect(s32 part, u16 *rect) {
     rect[0] = gScrollBar->mX;
     rect[2] = rect[0] + 0xc;
     switch (part) {
-        case 1:
+        case SCROLL_BAR_PART_THUMB:
             rect[1] = gScrollBar->mY + gScrollBar->mOffset;
             rect[3] = rect[1] + gScrollBarLengths[gScrollBar->mSizeIndex];
             break;
-        case 2:
+        case SCROLL_BAR_PART_ARROW_UP:
             rect[1] = gScrollBar->mY - 0xd;
             rect[3] = gScrollBar->mY;
             break;
-        case 3:
+        case SCROLL_BAR_PART_ARROW_DOWN:
             rect[1] = gScrollBar->mY + gScrollBar->mTrackLength;
             rect[3] = rect[1] + 0xd;
             break;
-        case 4:
+        case SCROLL_BAR_PART_TRACK:
             rect[1] = gScrollBar->mY;
             rect[3] = rect[1] + gScrollBar->mTrackLength;
             break;
