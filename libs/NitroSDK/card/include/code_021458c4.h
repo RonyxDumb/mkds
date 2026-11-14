@@ -63,9 +63,8 @@ typedef struct CARDRomStat {
 
 // The command block that CARDiCommon.mCmd points to.
 extern CARDiCommandArg gRequestBlock;
-// Added to the offset of every ROM read in CARDi_ReadRom; CARD_Init writes 0 and nothing else writes it.
-extern u32 gRomBaseOffset;
-extern CARDRomStat gRomReadState;
+// The 0x620-byte card state.
+extern CARDiCommon gAccessState;
 
 void CARDi_InitCommon(void);
 void CARDi_UnlockResource(u32 owner, u32 target);
@@ -78,16 +77,3 @@ int CARD_IdentifyBackup(s32 type);
 int CARDi_RequestStreamCommand(u32 src, u32 dst, u32 len, UnkFunc *callback, void *callbackArg, u32 isAsync,
                                u32 reqType, u32 reqRetry, u32 reqMode);
 void CARDi_RequestStreamCommandCore(CARDiCommon *p);
-UnkFunc *CARDi_GetRomAccessor(void);
-int CARD_WaitRomAsync(void);
-void CARD_Init(void);
-void CARDi_ReadRom(u32 dma, u32 src, u32 dst, u32 len, UnkFunc *callback, u32 callbackArg, u32 isAsync);
-void CARDi_ReadRomSyncCore(CARDiCommon *c);
-void CARDi_ReadCard(CARDRomStat *p);
-int CARDi_TryReadCardDma(CARDRomStat *p);
-void CARDi_OnReadCard(void);
-void CARDi_SetCardDma(void);
-void CARDi_SetRomOp(u32 cmd1, u32 cmd2);
-int CARDi_ReadFromCache(CARDRomStat *p);
-int CARDi_Request(CARDiCommon *p, int reqType, int retryCount);
-void CARDi_TaskThread(void *arg);

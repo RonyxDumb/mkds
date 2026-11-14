@@ -30,8 +30,6 @@
 #include "Main/Unknown/code_02122b14.h"
 #include "Main/Unknown/code_02124f4c.h"
 #include "Main/Unknown/code_021258f0.h"
-#include "Main/Unknown/code_02125960.h"
-#include "Main/Unknown/code_02125da0.h"
 #include "Main/Unknown/code_02125de0.h"
 #include "Main/Unknown/code_0212a920.h"
 #include "Main/Unknown/code_0212abd0.h"

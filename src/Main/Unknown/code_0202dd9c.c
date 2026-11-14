@@ -22,8 +22,6 @@
 #include "Main/Unknown/code_02117218.h"
 #include "Main/Unknown/code_021172a8.h"
 #include "Main/Unknown/code_021258f0.h"
-#include "Main/Unknown/code_02125960.h"
-#include "Main/Unknown/code_02125da0.h"
 #include "Main/Unknown/code_02125de0.h"
 #include "Main/Unknown/code_02125f2c.h"
 #include "Main/Unknown/code_0212a920.h"

@@ -53,3 +53,64 @@ void func_020b24cc(TextCanvas *textCanvas, void *charCanvas, void *font, s32 cha
 u32 func_020b24a4(TextCanvas *textCanvas, s32 textX, s32 textY, u32 color, u32 flags, void *text);
 void InitChoisesS(void);
 void ClearChoisesSPointer(void);
+
+unsigned int func_020b24e4(void);
+unsigned int GetCourseNumber(void);
+
+BOOL func_020b250c(void);
+
+unsigned int func_020b252c(void);
+
+void UpdateChoisesS(void);
+
+unsigned int func_020b29b0(void);
+
+u32 func_020b29c4(void);
+
+unsigned int GetRaceDone(void);
+void func_020b2a60(unsigned int p0);
+
+typedef struct InputSlotPair InputSlotPair;
+
+u32 func_020b2a74(s32 slotIndex);
+u32 func_020b2a94(InputSlotPair *inputSlotPair);
+u32 func_020b2ac8(InputSlotPair *inputSlotPair);
+u32 func_020b2aec(InputSlotPair *inputSlotPair);
+
+unsigned int func_020b2b1c(const void *inputSlotPair);
+
+s32 func_020b2c24(void);
+s32 func_020b2bf0(void);
+u32 func_020b2bc8(void);
+u32 func_020b2b70(void);
+
+unsigned int func_020b2c54(void);
+
+s32 GetEntryEndKind(void);
+u32 GetChoisesSListIndex(void);
+void func_020b2c80();
+
+unsigned int GetEntryIndex(void);
+
+void func_020b2e00(u16 *screenMap, s32 column, s32 row);
+void func_020b2da4(void);
+
+int func_020b2e34(void);
+unsigned int GetChoisesSPrevOpenDuringRace(void);
+void func_020b2e64(u32 openFlag);
+
+u32 func_020b2e98(void);
+
+unsigned int GetChoisesSOpenDuringRace(void);
+
+void *GetChoisesSValueMessage(s32 listIndex, s32 value);
+void ClearChoisesSListValueCounts(void);
+void AppendChoisesSListValue(s32 listIndex, s32 value);
+s32 MoveChoisesSSelectedValue(s32 step);
+u32 func_020b302c(void);
+void ResetChoisesSSelection(void);
+void func_020b2f88(s32 openFlag);
+u32 func_020b2f58(void);
+s8 GetMissionRunTableRow(void);
+s8 GetMissionRunTableColumn(void);
+u32 func_020b2ecc(void);

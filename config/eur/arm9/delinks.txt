@@ -3061,96 +3061,9 @@ src/Main/Unknown/code_020b1dbc.c:
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_020b1de4.c:
-    .text       start:0x020b1de4 end:0x020b24e4
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_020b24e4.c:
     complete
-    .text       start:0x020b24e4 end:0x020b250c
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_020b250c.c:
-    complete
-    .text       start:0x020b250c end:0x020b252c
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_020b252c.c:
-    complete
-    .text       start:0x020b252c end:0x020b2574
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_020b2574.c:
-    complete
-    .text       start:0x020b2574 end:0x020b29b0
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_020b29b0.c:
-    complete
-    .text       start:0x020b29b0 end:0x020b29c4
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_020b29c4.c:
-    complete
-    .text       start:0x020b29c4 end:0x020b2a4c
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_020b2a4c.c:
-    complete
-    .text       start:0x020b2a4c end:0x020b2a74
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_020b2a74.c:
-    complete
-    .text       start:0x020b2a74 end:0x020b2b1c
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_020b2b1c.c:
-    complete
-    .text       start:0x020b2b1c end:0x020b2b70
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_020b2b70.c:
-    complete
-    .text       start:0x020b2b70 end:0x020b2c54
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_020b2c54.c:
-    complete
-    .text       start:0x020b2c54 end:0x020b2c80
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_020b2c80.c:
-    complete
-    .text       start:0x020b2c80 end:0x020b2d90
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_020b2d90.c:
-    complete
-    .text       start:0x020b2d90 end:0x020b2da4
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_020b2da4.c:
-    complete
-    .text       start:0x020b2da4 end:0x020b2e34
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_020b2e34.c:
-    complete
-    .text       start:0x020b2e34 end:0x020b2e98
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_020b2e98.c:
-    complete
-    .text       start:0x020b2e98 end:0x020b2ec0
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_020b2ec0.c:
-    complete
-    .text       start:0x020b2ec0 end:0x020b2ecc
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_020b2ecc.c:
-    .text       start:0x020b2ecc end:0x020b3260
+    .text       start:0x020b1de4 end:0x020b3260
+    .data       start:0x02168364 end:0x02168454
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_020b3260.c:
@@ -5065,16 +4978,8 @@ src/Main/Unknown/code_02124f4c.c:
 // provisional: file name and boundaries
 src/Main/Unknown/code_021258f0.c:
     complete
-    .text       start:0x021258f0 end:0x02125960
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_02125960.c:
-    .text       start:0x02125960 end:0x02125da0
-
-// provisional: file name and boundaries
-src/Main/Unknown/code_02125da0.c:
-    complete
-    .text       start:0x02125da0 end:0x02125ebc
+    .text       start:0x021258f0 end:0x02125ebc
+    .data       start:0x0216e37c end:0x0216e6fc
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_02125ebc.c:
@@ -5230,7 +5135,8 @@ libs/mathlib/src/code_021329f8.s:
     .text       start:0x021329f8 end:0x02133048
 
 // provisional: file name and boundaries
-libs/mathlib/src/code_02133048.c:
+libs/mathlib/src/code_02133048.s:
+    complete
     .text       start:0x02133048 end:0x02133274
 
 // provisional: file name and boundaries
@@ -5379,7 +5285,15 @@ libs/NitroSDK/card/src/code_021457ec.c:
 
 // provisional: file name and boundaries
 libs/NitroSDK/card/src/code_021458c4.c:
-    .text       start:0x021458c4 end:0x02146a00
+    complete
+    .text       start:0x021458c4 end:0x0214613c
+    .bss        start:0x0217fa00 end:0x02180060
+
+// provisional: file name and boundaries
+libs/NitroSDK/card/src/code_0214613c.c:
+    complete
+    .text       start:0x0214613c end:0x02146a00
+    .bss        start:0x02180060 end:0x021802a0
 
 // provisional: file name and boundaries
 libs/NitroSDK/card/src/card_request.c:

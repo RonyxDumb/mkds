@@ -220,3 +220,33 @@ linked: `src/00/code_02180608.c` (the function above), and the five units that a
 (`src/Main/Unknown/code_020b1de4.c`, `code_020b2ecc.c`, `code_02125960.c`, `libs/mathlib/src/code_02133048.c`,
 `libs/NitroSDK/card/src/code_021458c4.c`). Calls/pointers, callees, strings, signatures and prototypes report no
 differences, and every unit passes `tools/check_units.py`.
+
+## Remaining European units, 2026-11-14
+
+Checked on a fresh European build with the same ROM and tools; the rebuilt ROM keeps the original SHA-1 and
+`ninja check` passes. The data layout of the original showed where four files had been cut wrongly:
+
+- `src/Main/Unknown/code_020b1de4.c` (ChoisesS) now holds the 19 units from `0x020b1de4` to `0x020b3260`. Its
+  `.data` runs from the names of `InitChoisesS` through the `entryNumbers` initializer of
+  `GetChoisesSValueMessage` back to two strings of `InitChoisesS` and on to the string of
+  `GetChoisesSValueMessage`, an order only one file gives. All of its functions also match with
+  `#pragma optimize_for_size on`. `func_020b2c80` is defined without a prototype, because `func_020b2c68` calls it
+  with no argument. The six screen names are file-scope arrays, marked as placeholders, whose declaration order
+  gives the original order in `.data`.
+- `src/Main/Unknown/code_021258f0.c` holds `code_021258f0`, `code_02125960` and `code_02125da0`, the three units that
+  use `data_0217d3ec`. The back screen file names are file-scope arrays, marked as placeholders, declared in an order
+  that gives the original layout of the names and their tables.
+- The card unit is two files. The original `.bss` holds `gRequestBlock` (0x40) and `gAccessState` (0x620) and then
+  `gRomBaseOffset` (4) and `gRomReadState` (0x220); a smaller object after a bigger one starts a new file.
+  `libs/NitroSDK/card/src/code_021458c4.c` ends at `0x0214613c`, and `code_0214613c.c` holds the ROM read
+  functions, the request and the worker thread. `gRomReadState` is aligned to 32 bytes, as its address in the
+  original shows. `gAccessState` is now defined in `code_021458c4.c`.
+- `_ll_mul` and `_s32_div_f` are an assembly unit, `libs/mathlib/src/code_02133048.s`, so that `_ull_mul` is a
+  global function symbol at the address of `_ll_mul`. A linker alias does not work: the alias has no ARM type,
+  so Thumb callers get `bl` instead of `blx`.
+
+`tools/check_units.py` accepts a function symbol of an assembled unit that `symbols.txt` lists as a label.
+
+Europe now links 1,579 of 1,580 units (99.75% of the code). Only `src/00/code_02180608.c` remains, for
+`LookupWiFiVSSettingMessageIndex` (non-matching). The USA configuration has the same unit list; the merged and
+split units are not marked complete there, and **a USA ROM build was not run**.

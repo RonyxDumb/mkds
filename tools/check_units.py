@@ -74,7 +74,8 @@ def check_module(module):
             if missing := sorted(names - defined - labels):
                 probs.append("in the range but not in the source: " + ", ".join(missing))
             variants = {XTOR.sub(r"\1?\2", n) for n in names}
-            if extra := sorted(n for n in defined - names if XTOR.sub(r"\1?\2", n) not in variants):
+            # a label of symbols.txt may be a function symbol of its own in an assembled unit (`_ull_mul`)
+            if extra := sorted(n for n in defined - names - labels if XTOR.sub(r"\1?\2", n) not in variants):
                 probs.append("in the source but not in the range: " + ", ".join(extra))
         else:
             probs.append("no object (run ninja report)")

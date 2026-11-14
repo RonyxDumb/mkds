@@ -21,8 +21,6 @@
 #include "Main/Unknown/code_020b502c.h"
 #include "Main/Unknown/code_02108e94.h"
 #include "Main/Unknown/code_021258f0.h"
-#include "Main/Unknown/code_02125960.h"
-#include "Main/Unknown/code_02125da0.h"
 #include "Main/Unknown/code_02125de0.h"
 #include "Main/Unknown/unk_02154000.h"
 #include "code_0200eddc.h"
@@ -62,10 +60,8 @@ void InitLogoScene(void *heap) {
     SetBg1Record(displaySettings + 0x28, 1, 0, 0, 0, 0, 1, 0);
     SetBg1Record(displaySettings + 0x70, 1, 0, 0, 0, 0, 2, 0);
     InitDisplayFromSettings(displaySettings);
-    LoadBg1FromSceneFiles(&gLogoScene->mMainBg, 1, data_ov001_021a76ac, data_ov001_021a76c8,
-                          data_ov001_021a76e4);
-    LoadBg1FromSceneFiles(&gLogoScene->mSubBg, 0, data_ov001_021a76fc, data_ov001_021a7718,
-                          data_ov001_021a7734);
+    LoadBg1FromSceneFiles(&gLogoScene->mMainBg, 1, data_ov001_021a76ac, data_ov001_021a76c8, data_ov001_021a76e4);
+    LoadBg1FromSceneFiles(&gLogoScene->mSubBg, 0, data_ov001_021a76fc, data_ov001_021a7718, data_ov001_021a7734);
     InitStateMachine(&gLogoScene->mStateMachine, gLogoStateTable, 12, NULL);
     gLogoScene->mUnk_2c_0 = 0;
     gLogoScene->mState0Frames = 0;

@@ -10145,17 +10145,17 @@ gCupCourseIds kind:data(any) addr:0x02168024
 @4850 kind:data(any) addr:0x0216830c local
 @4851 kind:data(any) addr:0x02168328 local
 @4852 kind:data(any) addr:0x02168344 local
-data_02168364 kind:data(any) addr:0x02168364
-data_02168378 kind:data(any) addr:0x02168378
-data_0216838c kind:data(any) addr:0x0216838c
-data_021683a0 kind:data(any) addr:0x021683a0
-data_021683b4 kind:data(any) addr:0x021683b4
-data_021683c8 kind:data(any) addr:0x021683c8
-data_021683dc kind:data(any) addr:0x021683dc
-data_021683f4 kind:data(any) addr:0x021683f4
-data_02168420 kind:data(any) addr:0x02168420
-data_02168434 kind:data(any) addr:0x02168434
-data_02168448 kind:data(any) addr:0x02168448
+sChoisesSNscrName6 kind:data(any) addr:0x02168364 local
+sChoisesSNscrName3 kind:data(any) addr:0x02168378 local
+sChoisesSNscrName2 kind:data(any) addr:0x0216838c local
+sChoisesSNscrName4 kind:data(any) addr:0x021683a0 local
+sChoisesSNscrName5 kind:data(any) addr:0x021683b4 local
+sChoisesSNscrName1 kind:data(any) addr:0x021683c8 local
+@4596 kind:data(any) addr:0x021683dc local
+@4035 kind:data(any) addr:0x021683f4 local
+@4836 kind:data(any) addr:0x02168420 local
+@4837 kind:data(any) addr:0x02168434 local
+@5512 kind:data(any) addr:0x02168448 local
 @2279 kind:data(any) addr:0x02168454 local
 @2280 kind:data(any) addr:0x02168464 local
 @2281 kind:data(any) addr:0x02168474 local
@@ -10913,38 +10913,38 @@ gBackScreenSNscrNames kind:data(any) addr:0x0216e384
 gBackScreenMNscrNames kind:data(any) addr:0x0216e388
 gBackScreenMNcgrNames kind:data(any) addr:0x0216e390
 gBackScreenMNclrNames kind:data(any) addr:0x0216e398
-data_0216e3a0 kind:data(any) addr:0x0216e3a0
-data_0216e3b8 kind:data(any) addr:0x0216e3b8
-data_0216e3d0 kind:data(any) addr:0x0216e3d0
-data_0216e3e8 kind:data(any) addr:0x0216e3e8
-data_0216e400 kind:data(any) addr:0x0216e400
-data_0216e418 kind:data(any) addr:0x0216e418
-data_0216e430 kind:data(any) addr:0x0216e430
-data_0216e44c kind:data(any) addr:0x0216e44c
-data_0216e468 kind:data(any) addr:0x0216e468
-data_0216e484 kind:data(any) addr:0x0216e484
-data_0216e4a8 kind:data(any) addr:0x0216e4a8
-data_0216e4d4 kind:data(any) addr:0x0216e4d4
-data_0216e4f8 kind:data(any) addr:0x0216e4f8
-data_0216e524 kind:data(any) addr:0x0216e524
-data_0216e53c kind:data(any) addr:0x0216e53c
-data_0216e554 kind:data(any) addr:0x0216e554
-data_0216e56c kind:data(any) addr:0x0216e56c
-data_0216e584 kind:data(any) addr:0x0216e584
-data_0216e59c kind:data(any) addr:0x0216e59c
-data_0216e5b4 kind:data(any) addr:0x0216e5b4
-data_0216e5cc kind:data(any) addr:0x0216e5cc
-data_0216e5e4 kind:data(any) addr:0x0216e5e4
-data_0216e5fc kind:data(any) addr:0x0216e5fc
-data_0216e614 kind:data(any) addr:0x0216e614
-data_0216e62c kind:data(any) addr:0x0216e62c
-data_0216e644 kind:data(any) addr:0x0216e644
-data_0216e65c kind:data(any) addr:0x0216e65c
-data_0216e674 kind:data(any) addr:0x0216e674
-data_0216e690 kind:data(any) addr:0x0216e690
-data_0216e6a8 kind:data(any) addr:0x0216e6a8
-data_0216e6c4 kind:data(any) addr:0x0216e6c4
-data_0216e6e0 kind:data(any) addr:0x0216e6e0
+sBackScreenSB00Nclr kind:data(any) addr:0x0216e3a0 local
+sBackScreenMB00Ncgr kind:data(any) addr:0x0216e3b8 local
+sBackScreenMB00Nclr kind:data(any) addr:0x0216e3d0 local
+sBackScreenMB01Ncgr kind:data(any) addr:0x0216e3e8 local
+sBackScreenMB01Nclr kind:data(any) addr:0x0216e400 local
+sBackScreenSB00Ncgr kind:data(any) addr:0x0216e418 local
+sBackScreenMBg00Nscr kind:data(any) addr:0x0216e430 local
+sBackScreenMBg01Nscr kind:data(any) addr:0x0216e44c local
+sBackScreenSBg00Nscr kind:data(any) addr:0x0216e468 local
+@4002 kind:data(any) addr:0x0216e484 local
+@4003 kind:data(any) addr:0x0216e4a8 local
+@4004 kind:data(any) addr:0x0216e4d4 local
+@4005 kind:data(any) addr:0x0216e4f8 local
+@4031 kind:data(any) addr:0x0216e524 local
+@4032 kind:data(any) addr:0x0216e53c local
+@4033 kind:data(any) addr:0x0216e554 local
+@4034 kind:data(any) addr:0x0216e56c local
+@4035 kind:data(any) addr:0x0216e584 local
+@4036 kind:data(any) addr:0x0216e59c local
+@4037 kind:data(any) addr:0x0216e5b4 local
+@4038 kind:data(any) addr:0x0216e5cc local
+@4039 kind:data(any) addr:0x0216e5e4 local
+@4040 kind:data(any) addr:0x0216e5fc local
+@4041 kind:data(any) addr:0x0216e614 local
+@4042 kind:data(any) addr:0x0216e62c local
+@4043 kind:data(any) addr:0x0216e644 local
+@4044 kind:data(any) addr:0x0216e65c local
+@4045 kind:data(any) addr:0x0216e674 local
+@4046 kind:data(any) addr:0x0216e690 local
+@4047 kind:data(any) addr:0x0216e6a8 local
+@4048 kind:data(any) addr:0x0216e6c4 local
+@4049 kind:data(any) addr:0x0216e6e0 local
 @3091 kind:data(any) addr:0x0216e6fc local
 data_0216e708 kind:data(any) addr:0x0216e708
 data_0216e720 kind:data(any) addr:0x0216e720
