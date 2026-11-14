@@ -47,7 +47,7 @@ void SetApWorkDnsNone(u32 dnsNone) {
 
 void StoreApWorkSsid(const u8 *ssid) {
     MI_CpuCopy8(ssid, gApStore->mWorkCopy.mEntry.mSsid, 0x20);
-    gApStore->mWorkCopy.mEntry.mSetType = 0;
+    gApStore->mWorkCopy.mEntry.mSetType = AP_SET_TYPE_ENTERED;
 }
 
 void StoreApWorkWepKey(const u8 *text) {
@@ -77,18 +77,18 @@ void StoreApWorkWepKey(const u8 *text) {
     }
     switch (textLength) {
         case 0:
-            gApStore->mWorkCopy.mEntry.mWepMode = 0;
+            gApStore->mWorkCopy.mEntry.mWepMode = AP_WEP_MODE_NONE;
             break;
         case 5:
         case 10:
-            gApStore->mWorkCopy.mEntry.mWepMode = 1;
+            gApStore->mWorkCopy.mEntry.mWepMode = AP_WEP_MODE_KEY_5_BYTES;
             break;
         case 13:
         case 26:
-            gApStore->mWorkCopy.mEntry.mWepMode = 2;
+            gApStore->mWorkCopy.mEntry.mWepMode = AP_WEP_MODE_KEY_13_BYTES;
             break;
         default:
-            gApStore->mWorkCopy.mEntry.mWepMode = 3;
+            gApStore->mWorkCopy.mEntry.mWepMode = AP_WEP_MODE_KEY_16_BYTES;
             break;
     }
 }
@@ -220,20 +220,20 @@ void WriteApWorkFromExchangeResult(const ExchangeResult *exchangeResult) {
     MI_CpuFill8(workCopy, 0, 0xef);
     MI_CpuCopy8(exchangeResult, workCopy->mEntry.mSsid, 0x20);
     switch (exchangeResult->mKind) {
-        case 1:
-            workCopy->mEntry.mWepMode = 1;
+        case AP_WEP_MODE_KEY_5_BYTES:
+            workCopy->mEntry.mWepMode = AP_WEP_MODE_KEY_5_BYTES;
             keyLength = 5;
             break;
-        case 2:
-            workCopy->mEntry.mWepMode = 2;
+        case AP_WEP_MODE_KEY_13_BYTES:
+            workCopy->mEntry.mWepMode = AP_WEP_MODE_KEY_13_BYTES;
             keyLength = 0xd;
             break;
-        case 3:
-            workCopy->mEntry.mWepMode = 3;
+        case AP_WEP_MODE_KEY_16_BYTES:
+            workCopy->mEntry.mWepMode = AP_WEP_MODE_KEY_16_BYTES;
             keyLength = 0x10;
             break;
         default:
-            workCopy->mEntry.mWepMode = 0;
+            workCopy->mEntry.mWepMode = AP_WEP_MODE_NONE;
             keyLength = 0;
             break;
     }
@@ -246,7 +246,7 @@ void WriteApWorkFromExchangeResult(const ExchangeResult *exchangeResult) {
         destinationKey += 0x10;
         sourceKey += 0x20;
     }
-    workCopy->mEntry.mSetType = 2;
+    workCopy->mEntry.mSetType = AP_SET_TYPE_EXCHANGED;
     MI_CpuFill8(workCopy->mNetmask, 0, 4);
     workCopy->mIpNone = 1;
     workCopy->mDnsNone = 1;
@@ -370,7 +370,7 @@ void ResetApEntry(int entryIndex) {
     ApEntry *entry;
     entry = &gApStore->mUnk_000[entryIndex].mUnk_00;
     MI_CpuFill8(entry, 0, 0xef);
-    entry->mSetType = 0xff;
+    entry->mSetType = AP_SET_TYPE_EMPTY;
     WriteApEntryToNvram(entryIndex);
 }
 
@@ -381,7 +381,7 @@ void ResetApEntries(void) {
     s32 entryIndex;
     MIi_CpuClear16(zeroValue, gApStore, 0x400);
     for (entryIndex = 0; entryIndex < 3; entryIndex++) {
-        gApStore->mUnk_000[entryIndex].mUnk_00.mSetType = 0xff;
+        gApStore->mUnk_000[entryIndex].mUnk_00.mSetType = AP_SET_TYPE_EMPTY;
     }
     DWCi_AUTH_GetNewWiFiInfo(&wifiInfo);
     packedWifiInfo = DWCi_BACKUPlConvWifiInfo(&wifiInfo);

@@ -254,7 +254,7 @@ void StartApClose(void) {
 void UpdateApFadeOut(void) {
     if (IsBlendBrightnessFadeSlotBusy(1) == 0) {
         if (gAp->mCloseKind == 1) {
-            if (gApSelectedIndex[0] == 3 || GetApWorkCopy()->mEntry.mSetType != 0xff) {
+            if (gApSelectedIndex[0] == 3 || GetApWorkCopy()->mEntry.mSetType != AP_SET_TYPE_EMPTY) {
                 StartSlideButtonsOut();
             }
         }
@@ -293,7 +293,7 @@ void UpdateApRelease(void) {
                 case 1:
                 case 2:
                     SetPrimaryMenuPair(2, 0);
-                    if (GetApWorkCopy()->mEntry.mSetType == 0xff) {
+                    if (GetApWorkCopy()->mEntry.mSetType == AP_SET_TYPE_EMPTY) {
                         SetUpdateFunction(SetupWay);
                     } else {
                         SetSecondaryMenuPair(0, 0);

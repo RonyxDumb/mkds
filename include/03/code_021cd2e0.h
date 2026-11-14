@@ -10,6 +10,13 @@ enum {
     AP_WEP_MODE_KEY_16_BYTES,
 };
 
+// Values of ApEntry.mSetType: ENTERED is stored with the SSID by hand, EXCHANGED by the received settings.
+enum {
+    AP_SET_TYPE_ENTERED,
+    AP_SET_TYPE_EXCHANGED = 2,
+    AP_SET_TYPE_EMPTY = 0xff,
+};
+
 // 0xf0 bytes; the object at gApStore holds four of them at a stride of 0x100.
 typedef struct ApEntry {
     /* 00 */ u8 mUnk_00[0x40];
