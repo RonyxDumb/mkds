@@ -13,15 +13,6 @@ own dump of the game; see [INSTALL.md](INSTALL.md).
 
 Every function is decompiled from the game's own code. Code from other decompilations is not accepted.
 
-## Progress
-Every function of both versions matches. Europe links every unit except the secure area's BIOS call stubs
-(`src/Main/Unknown/code_0200007e.c`), whose surrounding bytes are not in the source yet; the code not covered by any
-function is the same 3,154 bytes in both versions.
-
-Each version's section is recorded from a build of that version (`python3 tools/configure.py <ver>`):
-`ninja report && python3 tools/progress.py update`. The USA section is the point recorded on 2026-11-07; the units
-that were merged or split for Europe afterwards are not yet marked complete for USA, and no USA build has been run
-since.
 
 ### USA
 <!-- progress:usa:start -->
