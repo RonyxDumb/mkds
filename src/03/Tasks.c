@@ -14,6 +14,8 @@
 #include "03/code_021d2ecc.h"
 #include "03/unk_021d6000.h"
 
+struct TaskList *gTaskLists;
+
 void InitTasks(void) {
     s32 i;
     u8 *countPtr;

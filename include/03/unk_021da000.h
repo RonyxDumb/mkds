@@ -248,4 +248,3 @@ struct ObjCharRanges;
 extern struct ObjCharRanges *gObjCharRanges;
 extern u32 gSavedBankSettings[];
 struct TaskList;
-extern struct TaskList *gTaskLists;
