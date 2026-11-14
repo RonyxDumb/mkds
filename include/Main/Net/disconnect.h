@@ -2,6 +2,17 @@
 
 #include "types.h"
 
+// Values of MPMessage.mKind (the first halfword of every message ProcessMPData receives).
+#define MP_MESSAGE_PARTICIPANT_MASK 1
+#define MP_MESSAGE_GROUP_SEND_MASK 2
+#define MP_MESSAGE_SYNC_NOT_DONE 3
+#define MP_MESSAGE_SYNC_DONE 4
+#define MP_MESSAGE_TRANSFER_SYNC_DONE 5
+#define MP_MESSAGE_PLAYER_NAME 6
+#define MP_MESSAGE_REMOVE_CHILDREN 7
+#define MP_MESSAGE_RACE_SEED 8
+#define MP_MESSAGE_PLAYER_BITS 9
+
 // 0x18-byte object whose first halfword selects what ProcessMPData does with the rest.
 typedef struct MPMessage {
     /* 00 */ u16 mKind;

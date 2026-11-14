@@ -403,31 +403,31 @@ void RemoveChild(u32 aid) {
 
 void ProcessMPData(u32 aid, MPMessage *message) {
     switch (message->mKind) {
-        case 3:
+        case MP_MESSAGE_SYNC_NOT_DONE:
             gConnectionWork->mSyncDoneChildMask &= ~(1 << aid);
             break;
-        case 4:
+        case MP_MESSAGE_SYNC_DONE:
             gConnectionWork->mSyncDoneChildMask |= 1 << aid;
             if (gConnectionWork->mSyncDoneChildMask == gConnectionWork->mChildren.mChildMask) {
                 gConnectionWork->mRequestPending = 0;
             }
             break;
-        case 5:
+        case MP_MESSAGE_TRANSFER_SYNC_DONE:
             gConnectionWork->mTransferFlags |= CONNECTION_TRANSFER_SYNC_DONE;
             gConnectionWork->mRequestPending = 0;
             break;
-        case 1:
+        case MP_MESSAGE_PARTICIPANT_MASK:
             gConnectionWork->mParticipantMask = message->mWord;
             RefreshParticipantTables();
             RequestMPState15AfterCombine();
             break;
-        case 2:
+        case MP_MESSAGE_GROUP_SEND_MASK:
             if (DisconnectGetConnectionMode() == CONNECTION_MODE_CHILD) {
                 gConnectionWork->mGroupSendMask = message->mWord;
             }
             MPDataRequestMPState(1);
             break;
-        case 6:
+        case MP_MESSAGE_PLAYER_NAME:
             switch (gConnectionWork->mState) {
                 case CONNECTION_STATE_CONNECTED:
                     StoreReceivedPlayerName(message->mBitsOrName, message->mNamePlayerIndex,
@@ -439,17 +439,17 @@ void ProcessMPData(u32 aid, MPMessage *message) {
                     break;
             }
             break;
-        case 9:
+        case MP_MESSAGE_PLAYER_BITS:
             if ((gConnectionWork->mBitsReceivedMask & (1 << message->mBitsPlayerIndex)) != 0) {
                 return;
             }
             MI_CpuCopy8(message->mBitsOrName, gConnectionWork->mPlayerRecords[message->mBitsPlayerIndex].mBits, 4);
             gConnectionWork->mBitsReceivedMask |= 1 << message->mBitsPlayerIndex;
             break;
-        case 7:
+        case MP_MESSAGE_REMOVE_CHILDREN:
             RemoveChildrenInMask(message->mWord);
             break;
-        case 8:
+        case MP_MESSAGE_RACE_SEED:
             gConnectionWork->mRaceSeed = message->mWord;
             break;
     }
@@ -536,7 +536,7 @@ BOOL QueueMPDataHalfword(s32 kind, u16 destBitmap) {
 BOOL QueueMPDataPlayerName(s32 playerIndex, u16 destBitmap) {
     MPPlayerNameMessage message;
 
-    message.mKind = 6;
+    message.mKind = MP_MESSAGE_PLAYER_NAME;
     MI_CpuCopy8(&gConnectionWork->mPlayerRecords[playerIndex], message.mName, 0x14);
     message.mPlayerIndex = playerIndex;
     if (DisconnectGetConnectionMode() == CONNECTION_MODE_PARENT) {
@@ -559,7 +559,7 @@ BOOL QueueMPDataPlayerName(s32 playerIndex, u16 destBitmap) {
 BOOL QueueMPDataPlayerBits(s32 playerIndex, u16 destBitmap) {
     MPPlayerBitsMessage message;
 
-    message.mKind = 9;
+    message.mKind = MP_MESSAGE_PLAYER_BITS;
     MI_CpuCopy8(gConnectionWork->mPlayerRecords[playerIndex].mBits, message.mBits, 4);
     message.mPlayerIndex = playerIndex;
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_SEND_READY) == 0) {
