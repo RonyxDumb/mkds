@@ -5,7 +5,25 @@
 #include "Main/MapObjects/attractor.h" // MapObject
 #include "Main/MapObjects/code_020e005c.h"
 
-// Object updated by UpdateCoin, one state per value of mUnk_0f8.
+enum {
+    COIN_STATE_RESTING,
+    COIN_STATE_RISE_OVER_KART,
+    COIN_STATE_BOUNCE,
+    COIN_STATE_DROP,
+    COIN_STATE_FADE_OUT_DROP,
+    COIN_STATE_TRANSFER_RISE,
+    COIN_STATE_TRANSFER_FLY,
+    COIN_STATE_TRANSFER_HELD,
+    COIN_STATE_LAUNCH_FADE,
+    COIN_STATE_HIDDEN_WAIT,
+};
+
+// mScaleFactor: scale a coin starts with, its full scale and the per-frame growth between them.
+#define COIN_SCALE_START 0x99a
+#define COIN_SCALE_FULL TO_FIXED12(1)
+#define COIN_SCALE_GROW_STEP 0x29
+
+// Object updated by UpdateCoin, one state per value of mState.
 typedef struct Coin {
     /* 000 */ MapObject mMapObject;
     /* 0a0 */ u16 mModelAlpha;
