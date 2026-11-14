@@ -488,6 +488,16 @@ enum {
     TITLE_ENTRY_RECORD,
 };
 
+// TitleScene.mState, in the order of gTitleStateHandlers.
+#define TITLE_STATE_BLEND_IN 0
+#define TITLE_STATE_SLIDE_IN 1
+#define TITLE_STATE_MENU_INPUT 2
+#define TITLE_STATE_SLIDE_OUT 3
+// The pressed entry moves for 10 frames, then the table slides out.
+#define TITLE_STATE_SELECT_PRESS 4
+#define TITLE_STATE_NOP 5
+#define TITLE_STATE_REQUEST_NICKNAME_SCENE 6
+
 // 0x8bc bytes.
 typedef struct TitleScene {
     /* 000 */ s32 mStateFrames;

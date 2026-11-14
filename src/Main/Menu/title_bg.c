@@ -126,8 +126,9 @@ void CreateTitleScene(void) {
     gTitleScene = HeapAlloc(TitleGetCurrentHeap(), 0x8bc);
     gTitleScene->mStateFrames = 0;
     gTitleScene->mStateChanged = TRUE;
-    gTitleScene->mPrevState = 0;
-    gTitleScene->mState = 0;
+    gTitleScene->mPrevState = TITLE_STATE_BLEND_IN;
+    gTitleScene->mState = TITLE_STATE_BLEND_IN;
+    // Past the end of the 7-entry state table.
     gTitleScene->mNextState = 8;
     gTitleScene->mNoInputFrames = 0;
     gTitleScene->mBlendDone = GetTitleBlendDone() != 0;
