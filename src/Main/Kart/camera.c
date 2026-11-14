@@ -112,7 +112,7 @@ void SetupCameraBehindKart(void) {
         }
     }
     chaseCamera = gChaseCamera;
-    Matrix3x3FromQuaternion(&axes, &kart->mUnk_e0);
+    Matrix3x3FromQuaternion(&axes, &kart->mHeadingQuaternion);
     behindDistance = MUL_FIXED12_ROUNDED(-gDefaultFollowDistance, chaseCamera->mFollowDirectionSign);
     offset.x = MUL_FIXED12_NO_ROUND(axes.mRows[2].x, behindDistance);
     offset.y = MUL_FIXED12_NO_ROUND(axes.mRows[2].y, behindDistance);
