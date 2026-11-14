@@ -29,27 +29,27 @@ void UpdateLogoState1(void) {
         if (v3 == 3) {
             gLogoScene->mUnk_2c_1 = 1;
             stateMachine = &gLogoScene->mStateMachine;
-            stateMachine->mNextState = 2;
+            stateMachine->mNextState = LOGO_STATE_RESET_NOTICE;
             stateMachine->mNextStateRequested = 1;
         } else if (gBackupAccess->mErrorCode == 4) {
             gLogoScene->mUnk_2c_1 = 0;
             stateMachine = &gLogoScene->mStateMachine;
-            stateMachine->mNextState = 6;
+            stateMachine->mNextState = LOGO_STATE_RESET_BACKUP;
             stateMachine->mNextStateRequested = 1;
         } else {
             stateMachine = &gLogoScene->mStateMachine;
-            stateMachine->mNextState = 8;
+            stateMachine->mNextState = LOGO_STATE_CHECK_DWC_INIT;
             stateMachine->mNextStateRequested = 1;
         }
     } else {
         scene = gLogoScene;
         if (scene->mUnk_2c_0 != 0) {
             stateMachine = &scene->mStateMachine;
-            stateMachine->mNextState = 5;
+            stateMachine->mNextState = LOGO_STATE_ASK_RESET_BACKUP;
             stateMachine->mNextStateRequested = 1;
         } else {
             stateMachine = &scene->mStateMachine;
-            stateMachine->mNextState = 8;
+            stateMachine->mNextState = LOGO_STATE_CHECK_DWC_INIT;
             stateMachine->mNextStateRequested = 1;
         }
     }
@@ -71,7 +71,7 @@ void UpdateLogoState2(void) {
         return;
     }
     stateMachine = &gLogoScene->mStateMachine;
-    stateMachine->mNextState = 3;
+    stateMachine->mNextState = LOGO_STATE_RESET_FAILED_BLOCKS;
     stateMachine->mNextStateRequested = 1;
 }
 
@@ -107,7 +107,7 @@ void UpdateLogoState3(void) {
     }
     if (gLogoScene->mSubTextFrames > 90) {
         stateMachine = &gLogoScene->mStateMachine;
-        stateMachine->mNextState = 4;
+        stateMachine->mNextState = LOGO_STATE_RESET_FAILED_BLOCKS_DONE;
         stateMachine->mNextStateRequested = 1;
     }
 }
@@ -130,7 +130,7 @@ void UpdateLogoState4(void) {
         return;
     }
     stateMachine = &gLogoScene->mStateMachine;
-    stateMachine->mNextState = 8;
+    stateMachine->mNextState = LOGO_STATE_CHECK_DWC_INIT;
     stateMachine->mNextStateRequested = 1;
 }
 
@@ -157,12 +157,12 @@ void UpdateLogoState5(void) {
     }
     if (GetTxtSystemSelectedIndex() == 0) {
         stateMachine = &gLogoScene->mStateMachine;
-        stateMachine->mNextState = 6;
+        stateMachine->mNextState = LOGO_STATE_RESET_BACKUP;
         stateMachine->mNextStateRequested = 1;
         return;
     }
     stateMachine = &gLogoScene->mStateMachine;
-    stateMachine->mNextState = 8;
+    stateMachine->mNextState = LOGO_STATE_CHECK_DWC_INIT;
     stateMachine->mNextStateRequested = 1;
 }
 
@@ -204,7 +204,7 @@ void UpdateLogoState6(void) {
         }
         if (gLogoScene->mSubTextFrames > 90) {
             stateMachine = &gLogoScene->mStateMachine;
-            stateMachine->mNextState = 7;
+            stateMachine->mNextState = LOGO_STATE_RESET_BACKUP_DONE;
             stateMachine->mNextStateRequested = 1;
         }
     } else {
@@ -219,7 +219,7 @@ void UpdateLogoState6(void) {
         }
         if (v2 == 0) {
             stateMachine = &scene->mStateMachine;
-            stateMachine->mNextState = 8;
+            stateMachine->mNextState = LOGO_STATE_CHECK_DWC_INIT;
             stateMachine->mNextStateRequested = 1;
         }
     }
@@ -243,6 +243,6 @@ void UpdateLogoState7(void) {
         return;
     }
     stateMachine = &gLogoScene->mStateMachine;
-    stateMachine->mNextState = 8;
+    stateMachine->mNextState = LOGO_STATE_CHECK_DWC_INIT;
     stateMachine->mNextStateRequested = 1;
 }

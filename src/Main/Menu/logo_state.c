@@ -25,12 +25,12 @@ void UpdateLogoState8(void) {
     StateMachine *stateMachine;
     if (gDwcInitResult == 3) {
         stateMachine = &gLogoScene->mStateMachine;
-        stateMachine->mNextState = 9;
+        stateMachine->mNextState = LOGO_STATE_DWC_NOTICE_FIRST;
         stateMachine->mNextStateRequested = 1;
         return;
     }
     stateMachine = &gLogoScene->mStateMachine;
-    stateMachine->mNextState = 11;
+    stateMachine->mNextState = LOGO_STATE_END;
     stateMachine->mNextStateRequested = 1;
 }
 
@@ -50,7 +50,7 @@ void UpdateLogoState9(void) {
         return;
     }
     stateMachine = &gLogoScene->mStateMachine;
-    stateMachine->mNextState = 10;
+    stateMachine->mNextState = LOGO_STATE_DWC_NOTICE_SECOND;
     stateMachine->mNextStateRequested = 1;
 }
 
@@ -70,6 +70,6 @@ void UpdateLogoState10(void) {
         return;
     }
     stateMachine = &gLogoScene->mStateMachine;
-    stateMachine->mNextState = 11;
+    stateMachine->mNextState = LOGO_STATE_END;
     stateMachine->mNextStateRequested = 1;
 }

@@ -2,6 +2,7 @@
 #include "registers.h"
 #include "Main/Net/multiboot_parent_finish.h"
 #include "Main/Menu/logo_state.h"
+#include "Main/Menu/logo_state_2.h"
 #include "Main/System/heap.h"
 #include "Main/Scene/display_settings.h"
 #include "Main/Menu/second_menu_scene.h"
@@ -137,7 +138,7 @@ void UpdateLogoState0(void) {
     gLogoScene->mState0Frames = gLogoScene->mState0Frames + 1;
     if (gLogoScene->mState0Frames > 120) {
         stateMachine = &gLogoScene->mStateMachine;
-        stateMachine->mNextState = 1;
+        stateMachine->mNextState = LOGO_STATE_WAIT_BACKUP_READ;
         stateMachine->mNextStateRequested = 1;
     }
     slotIndex = GetPadInputSlot();
