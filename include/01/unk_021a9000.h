@@ -223,6 +223,23 @@ extern const char *gMissionRunLVselSNcerName;
 extern const char *gMissionRunLVselSONclrName;
 extern s32 gTestSceneCharTableIndex;
 extern u16 gTestSceneCharText[];
+// Values of TimeAttackTopMenu.mIndex: the rows, top to bottom.
+enum {
+    TIME_ATTACK_TOP_ROW_TIME_TRIALS,
+    TIME_ATTACK_TOP_ROW_SEND_GHOST,
+    TIME_ATTACK_TOP_ROW_RECEIVE_GHOST,
+};
+
+// Values of TimeAttackTopMenu.mState and mNextState.
+enum {
+    TIME_ATTACK_TOP_STATE_SLIDE_IN,
+    TIME_ATTACK_TOP_STATE_SETTLE,
+    TIME_ATTACK_TOP_STATE_WAIT_SELECT_RETURN,
+    TIME_ATTACK_TOP_STATE_INPUT,
+    TIME_ATTACK_TOP_STATE_PRESS,
+    TIME_ATTACK_TOP_STATE_SLIDE_OUT,
+};
+
 typedef struct TimeAttackTopMenu {
     /* 00 */ struct NNSG2dCellDataBank *mTimeAttackTopMenuSNcer;
     /* 04 */ struct LayoutEntryTable *mTimeAttackTopMenuSBncl;
