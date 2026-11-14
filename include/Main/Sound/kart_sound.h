@@ -19,6 +19,23 @@ typedef struct KartSoundRow {
     /* 24 */ s32 mKeyALowRatioSoundId;
 } KartSoundRow;
 
+// KartSound.mSoundIndex values (also Kart.mSoundIndex): one voice set per character, set by InitKartSoundParams.
+enum {
+    KART_SOUND_SET_DONKEY,
+    KART_SOUND_SET_KINOPIO,
+    KART_SOUND_SET_KOOPA,
+    KART_SOUND_SET_LUIGI,
+    KART_SOUND_SET_MARIO,
+    KART_SOUND_SET_PEACH,
+    KART_SOUND_SET_WARIO,
+    KART_SOUND_SET_YOSHI,
+    KART_SOUND_SET_DAISY,
+    KART_SOUND_SET_WALUIGI,
+    KART_SOUND_SET_KARON,
+    KART_SOUND_SET_ROBO,
+    KART_SOUND_SET_HEYHO,
+};
+
 // The bytes from 0x450 of an Kart, which UpdateKartSound and AdvanceKartSoundPitch read and write.
 typedef struct KartSound {
     /* 00 */ s32 mSoundId;

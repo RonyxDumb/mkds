@@ -1377,9 +1377,9 @@ void InitKartModelMenuWithKartList(void *heap) {
         InitKartModelMenuFiles(heap, &gKartModelMenu->mFiles[fileIndex]);
     }
     gKartModelMenu->mFiles[gKartModelMenu->mLoadSlotIndex].mLoadRequested = TRUE;
-    gKartModelMenu->mView.mCharacterIndex = 0;
+    gKartModelMenu->mView.mCharacterIndex = CHARACTER_MARIO;
     gKartModelMenu->mView.mKartIndex = 0;
-    gKartModelMenu->mLoadSlot->mCharacterIndex = 0;
+    gKartModelMenu->mLoadSlot->mCharacterIndex = CHARACTER_MARIO;
     gKartModelMenu->mLoadSlot->mKartIndex = 0;
     gKartModelMenu->mLoadSlot->mKartOffsetData = gKartModelMenu->mKartOffsetTable;
     LoadKartAndCharacterFiles();

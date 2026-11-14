@@ -8,6 +8,7 @@
 #include "Main/MapObjects/data_02154000.h"
 #include "Main/MapObjects/data_0217a000.h"
 #include "Main/Menu/select_race_rule_state.h"
+#include "Main/Race/data_021759c0.h"
 
 const u8 gDefaultParentParameter[64] = {0, 0, 0,    0, 0, 0, 0, 0, 0x25, 0, 0,    0, 0, 0, 1, 0, 7, 0, 0, 0, 0, 0,
                                         0, 0, 0xc8, 0, 0, 0, 0, 0, 0,    0, 0,    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -172,7 +173,7 @@ void FillParentParameter(s32 flag) {
     gameInfo = gConnectionWork->mChildren.mGameInfo;
     gameInfo->mGameInfoPart.mHasGhost = 0;
     gameInfo->mGameInfoPart.mKartIndex = 0;
-    gameInfo->mCharacterIndex = 0;
+    gameInfo->mCharacterIndex = CHARACTER_MARIO;
     gameInfo->mCupCourseIndex = 0;
     gameInfo->mMinute = 0;
     gameInfo->mSecond = 0;

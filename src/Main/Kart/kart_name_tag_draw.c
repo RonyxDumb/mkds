@@ -247,7 +247,7 @@ u16 GetKartPaletteColor(int kartIndex) {
     if (gRaceSetup->mUseTeams != 0) {
         return gTeamPaletteColors[gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mTeamIndex];
     }
-    if (GetKartModelsEntry(kartIndex)->mCharacterIndex == 0xc) {
+    if (GetKartModelsEntry(kartIndex)->mCharacterIndex == CHARACTER_HEYHO) {
         return GetHeyhoPalette(kartIndex)->mColor;
     }
     return gKartPaletteColors[kartIndex];

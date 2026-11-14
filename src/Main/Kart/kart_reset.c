@@ -722,44 +722,44 @@ void InitKartSound(Kart *kart) {
     InitKartSoundCallbacks(kart, &kart->mSound);
     InitKartSoundParams(kart);
     switch (kart->mKartModelsEntry->mCharacterIndex) {
-        case 0:
-            kart->mSoundIndex = 4;
+        case CHARACTER_MARIO:
+            kart->mSoundIndex = KART_SOUND_SET_MARIO;
             break;
-        case 1:
-            kart->mSoundIndex = 0;
+        case CHARACTER_DONKEY:
+            kart->mSoundIndex = KART_SOUND_SET_DONKEY;
             break;
-        case 2:
-            kart->mSoundIndex = 1;
+        case CHARACTER_KINOPIO:
+            kart->mSoundIndex = KART_SOUND_SET_KINOPIO;
             break;
-        case 3:
-            kart->mSoundIndex = 2;
+        case CHARACTER_KOOPA:
+            kart->mSoundIndex = KART_SOUND_SET_KOOPA;
             break;
-        case 4:
-            kart->mSoundIndex = 5;
+        case CHARACTER_PEACH:
+            kart->mSoundIndex = KART_SOUND_SET_PEACH;
             break;
-        case 5:
-            kart->mSoundIndex = 6;
+        case CHARACTER_WARIO:
+            kart->mSoundIndex = KART_SOUND_SET_WARIO;
             break;
-        case 6:
-            kart->mSoundIndex = 7;
+        case CHARACTER_YOSHI:
+            kart->mSoundIndex = KART_SOUND_SET_YOSHI;
             break;
-        case 7:
-            kart->mSoundIndex = 3;
+        case CHARACTER_LUIGI:
+            kart->mSoundIndex = KART_SOUND_SET_LUIGI;
             break;
-        case 8:
-            kart->mSoundIndex = 10;
+        case CHARACTER_KARON:
+            kart->mSoundIndex = KART_SOUND_SET_KARON;
             break;
-        case 9:
-            kart->mSoundIndex = 8;
+        case CHARACTER_DAISY:
+            kart->mSoundIndex = KART_SOUND_SET_DAISY;
             break;
-        case 10:
-            kart->mSoundIndex = 9;
+        case CHARACTER_WALUIGI:
+            kart->mSoundIndex = KART_SOUND_SET_WALUIGI;
             break;
-        case 11:
-            kart->mSoundIndex = 11;
+        case CHARACTER_ROBO:
+            kart->mSoundIndex = KART_SOUND_SET_ROBO;
             break;
-        case 12:
-            kart->mSoundIndex = 12;
+        case CHARACTER_HEYHO:
+            kart->mSoundIndex = KART_SOUND_SET_HEYHO;
             break;
     }
     kart->mKartIndexModThree = kart->mKartModelsEntry->mKartIndex % 3;
@@ -812,41 +812,41 @@ void InitKartSoundParams(Kart *kart) {
         case 0:
             soundIndex = 4;
             break;
-        case 1:
-            soundIndex = 0;
+        case CHARACTER_DONKEY:
+            soundIndex = KART_SOUND_SET_DONKEY;
             break;
-        case 2:
-            soundIndex = 1;
+        case CHARACTER_KINOPIO:
+            soundIndex = KART_SOUND_SET_KINOPIO;
             break;
-        case 3:
-            soundIndex = 2;
+        case CHARACTER_KOOPA:
+            soundIndex = KART_SOUND_SET_KOOPA;
             break;
-        case 4:
-            soundIndex = 5;
+        case CHARACTER_PEACH:
+            soundIndex = KART_SOUND_SET_PEACH;
             break;
-        case 5:
-            soundIndex = 6;
+        case CHARACTER_WARIO:
+            soundIndex = KART_SOUND_SET_WARIO;
             break;
-        case 6:
-            soundIndex = 7;
+        case CHARACTER_YOSHI:
+            soundIndex = KART_SOUND_SET_YOSHI;
             break;
-        case 7:
-            soundIndex = 3;
+        case CHARACTER_LUIGI:
+            soundIndex = KART_SOUND_SET_LUIGI;
             break;
-        case 8:
-            soundIndex = 10;
+        case CHARACTER_KARON:
+            soundIndex = KART_SOUND_SET_KARON;
             break;
-        case 9:
-            soundIndex = 8;
+        case CHARACTER_DAISY:
+            soundIndex = KART_SOUND_SET_DAISY;
             break;
-        case 10:
-            soundIndex = 9;
+        case CHARACTER_WALUIGI:
+            soundIndex = KART_SOUND_SET_WALUIGI;
             break;
-        case 11:
-            soundIndex = 11;
+        case CHARACTER_ROBO:
+            soundIndex = KART_SOUND_SET_ROBO;
             break;
-        case 12:
-            soundIndex = 12;
+        case CHARACTER_HEYHO:
+            soundIndex = KART_SOUND_SET_HEYHO;
             break;
     }
     kartSound->mSoundIndex = soundIndex;

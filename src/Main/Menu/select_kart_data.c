@@ -51,6 +51,7 @@
 #include "g2.h"
 #include "Main/Menu/select_race_rule_state.h"
 #include "Main/System/init_after_startup.h"
+#include "Main/Race/data_021759c0.h"
 
 const u16 gKeyTargets12RowsRow0[4] = {0xffff, 4, 1, 0xffff};
 const u16 gKeyTargets8RowsRow7[4] = {4, 0xffff, 0xffff, 6};
@@ -377,7 +378,7 @@ void InitSelectKart(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
     selectKart = gSelectKart;
     selectKart->mKartIndex = GetRaceSetupCopy()->mEntries[selectKart->mEntryIndex].mKartIndex;
     if (gSelectKart->mCharacterIndex == -1) {
-        gSelectKart->mCharacterIndex = 0;
+        gSelectKart->mCharacterIndex = CHARACTER_MARIO;
     }
     if (gSelectKart->mKartIndex == -1) {
         gSelectKart->mKartIndex = 0;

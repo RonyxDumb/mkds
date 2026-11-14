@@ -52,6 +52,7 @@
 #include "code_0214d018.h"
 #include "Main/Menu/select_kart_data.h"
 #include "Main/System/init_after_startup.h"
+#include "Main/Race/data_021759c0.h"
 
 #pragma thumb on
 
@@ -805,7 +806,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
     selectCharacter = gSelectCharacter;
     selectCharacter->mCharacterIndex = GetRaceSetupCopy()->mEntries[selectCharacter->mEntryIndex].mCharacterIndex;
     if (gSelectCharacter->mCharacterIndex == -1) {
-        gSelectCharacter->mCharacterIndex = 0;
+        gSelectCharacter->mCharacterIndex = CHARACTER_MARIO;
     }
     gSelectCharacter->mKartIndex = GetCharacterKartIndexByMode(gSelectCharacter->mCharacterIndex);
     GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mCharacterIndex = -1;
@@ -955,7 +956,7 @@ int AdvanceSelectCharacter(void) {
             SetSelectCharacterAngleAndScale();
             break;
         case SELECT_CHARACTER_STATE_PICK_FIXED:
-            selectCharacter->mCharacterIndex = 0xc;
+            selectCharacter->mCharacterIndex = CHARACTER_HEYHO;
             gSelectCharacter->mKartIndex = 0x24;
             gSelectCharacter->mStateFrames = 0;
             gSelectCharacter->mResult = 1;

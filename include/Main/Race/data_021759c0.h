@@ -43,6 +43,24 @@ typedef struct KartEntryPlayer {
     /* 27 */ u8 mUnk_27;
 } KartEntryPlayer;
 
+// Character index values (KartEntry.mCharacterIndex and the same-named members of the select screens), in the order of
+// gCharacterSubDirNames (the folders of the character models).
+enum {
+    CHARACTER_MARIO,
+    CHARACTER_DONKEY,
+    CHARACTER_KINOPIO,
+    CHARACTER_KOOPA,
+    CHARACTER_PEACH,
+    CHARACTER_WARIO,
+    CHARACTER_YOSHI,
+    CHARACTER_LUIGI,
+    CHARACTER_KARON,
+    CHARACTER_DAISY,
+    CHARACTER_WALUIGI,
+    CHARACTER_ROBO,
+    CHARACTER_HEYHO,
+};
+
 // 0x30-byte entries at 0x68 and 0x250 of the object behind gRaceSetup.
 typedef struct KartEntry {
     /* 00 */ s32 mCharacterIndex;
