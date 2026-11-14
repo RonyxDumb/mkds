@@ -1087,14 +1087,14 @@ void UploadKartModelsEntryPalettes(KartModelsEntry *kartModelsEntry, s32 pNameUs
     s32 secondMaterialIndex;
     s32 materialIndex;
     if (kartModelsEntry->mRegion != 0) {
-        if ((u32) (kartModelsEntry->mKartIndex - 0x22) <= 1) {
+        if ((u32) (kartModelsEntry->mKartIndex - KART_INDEX_SPECIAL_FIRST) <= 1) {
             palette = NULL;
             mdl = kartModelsEntry->mModels[1]->mResMdl;
             switch (kartModelsEntry->mKartIndex) {
-                case 0x22:
+                case KART_INDEX_SPECIAL_FIRST:
                     palette = gSpecialKartFirstPalette;
                     break;
-                case 0x23:
+                case KART_INDEX_SPECIAL_SECOND:
                     palette = gSpecialKartSecondPalette;
                     break;
             }
@@ -1108,7 +1108,7 @@ void UploadKartModelsEntryPalettes(KartModelsEntry *kartModelsEntry, s32 pNameUs
             GX_LoadTexPltt(palette, paletteBase, 0x20);
             GX_EndLoadTexPltt();
         }
-        if (kartModelsEntry->mCharacterIndex == 0xb) {
+        if (kartModelsEntry->mCharacterIndex == CHARACTER_ROBO) {
             mdl = kartModelsEntry->mModels[0]->mResMdl;
             if (pNameUsed != 0) {
                 materialIndex = NNS_G3dGetResDictIdxByName(&OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat)->mDict,
@@ -1283,8 +1283,8 @@ void InitKartModelMenuSlot(void *heap, KartModelMenuSlot *slot) {
 void InitKartModelMenuView(KartModelMenuView *view, int flag) {
     u32 bg0Offset;
     bg0Offset = 0;
-    view->mCharacterIndex = 0xffffffff;
-    view->mKartIndex = 0xffffffff;
+    view->mCharacterIndex = KART_MODEL_MENU_NONE;
+    view->mKartIndex = KART_MODEL_MENU_NONE;
     view->mScale = 0x1000;
     view->mYawAngle = 0xeaab;
     view->mSpinAngle = view->mYawAngle;
@@ -1437,7 +1437,7 @@ void RequestKartModelMenuCharacter(s32 characterIndex) {
     KartModelMenuView *view = &menu->mView;
     KartModelMenuFiles *files = &menu->mFiles[menu->mLoadSlotIndex];
     s32 currentCharacterIndex = view->mCharacterIndex;
-    s32 noCharacter = -1;
+    s32 noCharacter = KART_MODEL_MENU_NONE;
     KartModelMenuSlot *slots;
     KartModelMenuSlot *shownSlot;
     if (characterIndex == noCharacter) {
@@ -1458,7 +1458,7 @@ void RequestKartModelMenuKart(s32 kartIndex) {
     KartModelMenuView *view = &menu->mView;
     KartModelMenuFiles *files = &menu->mFiles[menu->mLoadSlotIndex];
     s32 currentKartIndex = view->mKartIndex;
-    s32 noKart = -1;
+    s32 noKart = KART_MODEL_MENU_NONE;
     KartModelMenuSlot *slots;
     KartModelMenuSlot *shownSlot;
     if (kartIndex == noKart) {
@@ -1594,7 +1594,7 @@ void DrawKartModelMenuSlot(KartModelMenuSlot *slot, KartModelMenuView *view, s32
     NNS_G3dGlb.mFlag &= ~0xa4;
     NNS_G3dGlbSetBaseTrans(&translation);
     NNS_G3dGlbFlushP();
-    if (slot->mCharacterIndex != -1 && slot->mKartIndex != -1) {
+    if (slot->mCharacterIndex != KART_MODEL_MENU_NONE && slot->mKartIndex != KART_MODEL_MENU_NONE) {
         SetFrustumProjection(mirrored);
         if (slot->mShadowModel != NULL) {
             if (mirrored != 0) {
@@ -1831,7 +1831,7 @@ void DrawKartModelMenu(void) {
     if (gKartModelMenu->mShownSlotIndex >= 0) {
         slot = &gKartModelMenu->mSlots[gKartModelMenu->mShownSlotIndex];
         view = &gKartModelMenu->mView;
-        if (view->mCharacterIndex != -1 && view->mKartIndex != -1) {
+        if (view->mCharacterIndex != KART_MODEL_MENU_NONE && view->mKartIndex != KART_MODEL_MENU_NONE) {
             SetupLightFrustumAndLookAt(view->mBg0Offset, gKartModelMenuLookAtYOffset);
             DrawKartModelMenuSlot(slot, &gKartModelMenu->mView, gKartModelMenu->mMirrorMode);
             NNS_G3dGeFlushBuffer();
@@ -1861,7 +1861,7 @@ void SetupHeyhoPalettes(void) {
     if (gKartModels->mHeyhoPalettes != NULL) {
         CopyHeyhoPaletteIndices();
         for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex = (u16) (kartIndex + 1)) {
-            if (gKartModels->mKartModelsEntries[kartIndex].mCharacterIndex == 0xc) {
+            if (gKartModels->mKartModelsEntries[kartIndex].mCharacterIndex == CHARACTER_HEYHO) {
                 UploadHeyhoPalette(kartIndex, &gKartModels->mKartModelsEntries[kartIndex], GetHeyhoPalette(kartIndex));
             }
         }

@@ -15,6 +15,13 @@ typedef struct KartModelMenuSlot KartModelMenuSlot;
 
 typedef struct KartModelMenuView KartModelMenuView;
 
+// Value of the kart and character indexes of a menu slot or view that shows nothing.
+#define KART_MODEL_MENU_NONE (-1)
+
+// Kart indexes whose body palette is replaced by gSpecialKartFirstPalette and gSpecialKartSecondPalette.
+#define KART_INDEX_SPECIAL_FIRST 0x22
+#define KART_INDEX_SPECIAL_SECOND 0x23
+
 typedef struct NNSG3dResFileHeader NNSG3dResFileHeader;
 
 void InitKartModels(void *heap, u32 kartCount);
