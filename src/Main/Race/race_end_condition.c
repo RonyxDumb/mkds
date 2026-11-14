@@ -130,7 +130,8 @@ s32 IsRaceEndConditionMet(void) {
             break;
         case MODE_MISSION_RUN:
             endConditionMet = FALSE;
-            if (raceSetup->mMissionKind == 6 && gRaceProgress->mHeader.mFinishedCount != 0) {
+            if (raceSetup->mMissionKind == MISSION_KIND_LAPS_FIRST_PLACE &&
+                gRaceProgress->mHeader.mFinishedCount != 0) {
                 endConditionMet = TRUE;
             }
             break;

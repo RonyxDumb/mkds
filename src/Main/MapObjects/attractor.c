@@ -74,7 +74,7 @@ void SetJgState4(void) {
     if (raceKind == staffRollKind) {
         return;
     }
-    SetStateMachineState(&gJgStateMachine, 4);
+    SetStateMachineState(&gJgStateMachine, JG_STATE_FOLLOW_KART);
 }
 
 #pragma thumb off
@@ -170,7 +170,10 @@ void InitJg(void) {
 
             enabled = FALSE;
             if ((u8) (gRaceSetup->mMissionKind + 0xfe) <= 8 &&
-                (0x115 & (1 << (u8) (gRaceSetup->mMissionKind + 0xfe))) != 0) {
+                ((1 << 0 | 1 << (MISSION_KIND_LAPS_MINI_TURBO_COUNT - MISSION_KIND_LAPS) |
+                  1 << (MISSION_KIND_LAPS_FIRST_PLACE - MISSION_KIND_LAPS) |
+                  1 << (MISSION_KIND_LAPS_NO_LAP_PROGRESS - MISSION_KIND_LAPS)) &
+                 (1 << (u8) (gRaceSetup->mMissionKind + 0xfe))) != 0) {
                 enabled = TRUE;
             }
             gJgLapAndReverseEnabled = enabled;
@@ -196,7 +199,7 @@ void InitJg(void) {
     gJgSoundStartParams.mPositionSource = &gJgPos;
     gJgSoundStartParams.mFalloffIndex = 1;
     InitStateMachine(&gJgStateMachine, gJgStateTable, 7, NULL);
-    SetStateMachineState(&gJgStateMachine, 0);
+    SetStateMachineState(&gJgStateMachine, JG_STATE_OFF);
 }
 
 void CreateJg(void) {

@@ -220,10 +220,10 @@ void UpdateRaceEnd(void) {
                     playsRaceEndSound = FALSE;
                 } else if (raceSetup->mMode == MODE_MISSION_RUN) {
                     switch (raceSetup->mMissionKind) {
-                        case 2:
-                        case 4:
-                        case 6:
-                        case 10:
+                        case MISSION_KIND_LAPS:
+                        case MISSION_KIND_LAPS_MINI_TURBO_COUNT:
+                        case MISSION_KIND_LAPS_FIRST_PLACE:
+                        case MISSION_KIND_LAPS_NO_LAP_PROGRESS:
                             if ((IsKartEnded((u16) raceSetup->mEntryIndex) ? gRaceProgress->mEntryEndKind : 6) != 0) {
                                 playsRaceEndSound = FALSE;
                             }

@@ -748,11 +748,11 @@ void InitSceneSounds(s32 unused) {
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 MissionSettings *setupView = &gRaceSetup->mUnk_28_view;
                 switch (gRaceSetup->mMissionKind) {
-                    case 1:
+                    case MISSION_KIND_COUNT_PENDING_WITH_SEQ:
                         gMissionRunCountSeqNo[0] = 0x1d7;
                         gMissionRunLimitSeqNo[0] = 0x1d7;
                         break;
-                    case 7:
+                    case MISSION_KIND_COUNT_HITS:
                         gMissionRunCountSeqNo[0] = 0x1e0;
                         gMissionRunLimitSeqNo[0] = 0x1e1;
                         switch (setupView->mMissionTableValue) {
@@ -762,26 +762,26 @@ void InitSceneSounds(s32 unused) {
                                 break;
                         }
                         break;
-                    case 0:
+                    case MISSION_KIND_COUNT_SHAPE_ENTRIES:
                         gMissionRunCountSeqNo[0] = 0x1db;
                         gMissionRunLimitSeqNo[0] = 0x1dc;
                         break;
-                    case 2:
-                    case 6:
+                    case MISSION_KIND_LAPS:
+                    case MISSION_KIND_LAPS_FIRST_PLACE:
                         gMissionRunCountSeqNo[0] = 0xff;
                         gMissionRunLimitSeqNo[0] = 0xff;
                         break;
-                    case 4:
+                    case MISSION_KIND_LAPS_MINI_TURBO_COUNT:
                         gMissionRunCountSeqNo[0] = 0x1dd;
                         gMissionRunLimitSeqNo[0] = 0x1de;
                         break;
-                    case 3:
+                    case MISSION_KIND_COUNT_MAP_OBJECTS:
                         gMissionRunCountSeqNo[0] = 0x1dd;
                         gMissionRunLimitSeqNo[0] = 0x1de;
                         break;
                     case 8:
                     case 9:
-                    case 10:
+                    case MISSION_KIND_LAPS_NO_LAP_PROGRESS:
                         break;
                 }
             }

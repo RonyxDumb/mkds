@@ -284,7 +284,7 @@ void InitRaceProgress(void) {
     gRaceProgress->mTimeLimitFrameCount = 0;
     switch (gRaceSetup->mMode) {
         case MODE_MISSION_RUN:
-            if (gRaceSetup->mMissionKind == 6) {
+            if (gRaceSetup->mMissionKind == MISSION_KIND_LAPS_FIRST_PLACE) {
                 gRaceProgress->mTimeCountsDown = FALSE;
             } else {
                 gRaceProgress->mTimeCountsDown = TRUE;

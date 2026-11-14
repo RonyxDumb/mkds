@@ -271,7 +271,7 @@ typedef struct RaceSetupHeader {
 #define MISSION_KIND_LAPS_FIRST_PLACE 6
 // Counts the hits of the mission map objects.
 #define MISSION_KIND_COUNT_HITS 7
-// Lap race like MISSION_KIND_LAPS.
+// Lap race like MISSION_KIND_LAPS that the lap progress of a kart (race_progress_kart) skips.
 #define MISSION_KIND_LAPS_NO_LAP_PROGRESS 10
 
 // The 0x10 bytes at 0x28 of the object behind gRaceSetup (the same bytes as its mUnk_028 to mUnk_37).
