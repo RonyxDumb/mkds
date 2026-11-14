@@ -2,6 +2,34 @@
 
 #include "types.h"
 
+// Values of WiFiMatching.mState: IDLE means no search; the search states look through the server list (LIST_SEARCH) or
+// send a reservation and wait for the reply (RESERVING); the negotiate and connect states take a reserved peer through
+// address negotiation and the connection (the client is the side that searched); the sync states line the
+// participants up before the result is reported, the cancel states do the same to back out, and MIN_COMPLETE_POLL asks
+// every participant whether the minimum entry timeout has passed.
+enum {
+    WIFI_MATCH_STATE_IDLE = 0,
+    WIFI_MATCH_STATE_CONNECTED = 1,
+    WIFI_MATCH_STATE_LIST_FIRST_UPDATE = 2,
+    WIFI_MATCH_STATE_LIST_SEARCH = 3,
+    WIFI_MATCH_STATE_RESERVING = 4,
+    WIFI_MATCH_STATE_HOST_LOOKUP = 5,
+    WIFI_MATCH_STATE_NEGOTIATE_CLIENT = 6,
+    WIFI_MATCH_STATE_CONNECT_CLIENT = 7,
+    WIFI_MATCH_STATE_CANCEL_CLIENT = 8,
+    WIFI_MATCH_STATE_SYN_CLIENT = 9,
+    WIFI_MATCH_STATE_ACCEPTING = 10,
+    WIFI_MATCH_STATE_NEGOTIATE_SERVER = 11,
+    WIFI_MATCH_STATE_CONNECT_SERVER = 12,
+    WIFI_MATCH_STATE_INFORM_PEERS = 13,
+    WIFI_MATCH_STATE_CANCEL_SERVER = 14,
+    WIFI_MATCH_STATE_CANCEL_SERVER_DELAY = 15,
+    WIFI_MATCH_STATE_SYN_SERVER = 16,
+    WIFI_MATCH_STATE_SYN_SERVER_DELAY = 17,
+    WIFI_MATCH_STATE_RESUME_WAIT = 18,
+    WIFI_MATCH_STATE_MIN_COMPLETE_POLL = 19,
+};
+
 // The matching state embedded in WiFiConnection at 0x33c (0x464 bytes), reached through gWiFiMatching; not
 // WiFiVSMatching, the VS screen.
 typedef struct WiFiMatching {
@@ -45,7 +73,7 @@ typedef struct WiFiMatching {
     /* 184 */ u64 mIncomingWaitStartTime;
     /* 18c */ u8 mNNInfo[8];
     /* 194 */ u32 mNNCookie;
-    // Switched on by DWCi_MatchProcess when its parameter is 1; 0 means no search is running.
+    // WIFI_MATCH_STATE_*; switched on by DWCi_MatchProcess when its parameter is 1; IDLE means no search is running.
     /* 198 */ s32 mState;
     /* 19c */ u8 mPostProcessPos;
     /* 19d */ u8 mBuddyEntryIndexPos;

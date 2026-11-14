@@ -694,7 +694,7 @@ void DWCi_MatchedCallback(u32 error, u32 cancel, u32 self, u32 isServer, u32 ind
     WiFiConnection *wiFiConnection;
 
     if (error == 0 && cancel != 0) {
-        if (gWiFiConnection->mMatching.mState == 0) {
+        if (gWiFiConnection->mMatching.mState == WIFI_MATCH_STATE_IDLE) {
             DWCi_ClearQR2Key();
             DWCi_SetState(3);
         }
