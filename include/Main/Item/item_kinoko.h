@@ -15,6 +15,17 @@ typedef struct ItemKinoko ItemKinoko;
 
 #include "Main/Item/item_link_following.h"
 
+// ItemKouraR.mStateMachine states, in the order of gItemKouraRStateTable.
+typedef enum ItemKouraRState {
+    ITEM_KOURA_R_STATE_STRAIGHT_FLAGGED = 0, // moves straight; set when the object has flag 0x8000000
+    ITEM_KOURA_R_STATE_STRAIGHT = 1, // moves straight; set after a bounce off a wall
+    ITEM_KOURA_R_STATE_SEEK_AFTER_THROW = 2, // moves straight until a kart is in reach
+    ITEM_KOURA_R_STATE_FOLLOW_LINK = 3, // follows the link of the item list toward the kart ahead
+    ITEM_KOURA_R_STATE_HOMING = 4, // steers toward its kart
+    ITEM_KOURA_R_STATE_CLOSE_IN = 5, // steers fast toward the kart and fades out on reaching it
+    ITEM_KOURA_R_STATE_GLIDE_TO_KART_VELOCITY = 6, // moves with the velocity added toward the kart
+} ItemKouraRState;
+
 // Koura: a shell. Object of the red shell (item kind 1), element of gItemPools[1].
 typedef struct ItemKouraR {
     /* 000 */ LinkFollowingItemObject mLinkFollowingItemObject;

@@ -139,7 +139,7 @@ void StartItemKouraRSound(void *kouraParam, s32 unused) {
 void DeflectItemKouraROnHit(ItemKouraR *kouraR, Vec3 *otherVelocity, Vec3 *normal) {
     SetItemObjectDirectionFromVelocity(kouraR);
     DeflectItemObjectOnHit(&kouraR->mLinkFollowingItemObject.mDirectedItemObject, otherVelocity, normal);
-    kouraR->mStateMachine.mNextState = 1;
+    kouraR->mStateMachine.mNextState = ITEM_KOURA_R_STATE_STRAIGHT;
     kouraR->mStateMachine.mNextStateRequested = 1;
 }
 
@@ -157,7 +157,7 @@ s32 InitItemKouraR(ItemInUse *itemInUse, ItemKouraR *kouraR) {
     if (itemInUse->mKartItems->mFlags & KART_ITEMS_DOWN) {
         kouraR->mThrowForward = 0;
         InitItemObjectThrow(kouraR, itemInUse, 0, 0, 0, 0x5000);
-        kouraR->mStateMachine.mNextState = 1;
+        kouraR->mStateMachine.mNextState = ITEM_KOURA_R_STATE_STRAIGHT;
         kouraR->mStateMachine.mNextStateRequested = 1;
         kouraR->mLinkFollowingItemObject.mPreviousLink.mLink = NULL;
         kouraR->mLinkFollowingItemObject.mPreviousLink.mNextLinksUsed = 1;
@@ -180,11 +180,11 @@ s32 InitItemKouraR(ItemInUse *itemInUse, ItemKouraR *kouraR) {
             }
             InitLinkFollowingItemFromInUse(&kouraR->mLinkFollowingItemObject, itemInUse, 0x2d, 0x5b, 1, 0, 1, 0x5000,
                                            targetKartIndex, 0);
-            kouraR->mStateMachine.mNextState = 3;
+            kouraR->mStateMachine.mNextState = ITEM_KOURA_R_STATE_FOLLOW_LINK;
             kouraR->mStateMachine.mNextStateRequested = 1;
         } else {
             InitItemObjectThrow(kouraR, itemInUse, 0, 1, 0, 0x5000);
-            kouraR->mStateMachine.mNextState = 2;
+            kouraR->mStateMachine.mNextState = ITEM_KOURA_R_STATE_SEEK_AFTER_THROW;
             kouraR->mStateMachine.mNextStateRequested = 1;
             kouraR->mLinkFollowingItemObject.mPreviousLink.mLink = NULL;
             kouraR->mLinkFollowingItemObject.mPreviousLink.mNextLinksUsed = 1;
@@ -193,7 +193,7 @@ s32 InitItemKouraR(ItemInUse *itemInUse, ItemKouraR *kouraR) {
     }
     ResetItemKouraRKartItems(kouraR);
     if (kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x8000000) {
-        kouraR->mStateMachine.mNextState = 0;
+        kouraR->mStateMachine.mNextState = ITEM_KOURA_R_STATE_STRAIGHT_FLAGGED;
         kouraR->mStateMachine.mNextStateRequested = 1;
     }
     return kouraR->mThrowForward;
@@ -230,7 +230,7 @@ void RequestItemKouraRState4ForKart(ItemKouraR *kouraR, u32 kartIndex) {
         return;
     }
     SetItemKouraRKartItemsAndClearTowardKartVelocity(kouraR, value);
-    value = 4u;
+    value = ITEM_KOURA_R_STATE_HOMING;
     kouraR->mStateMachine.mNextState = value;
     value = 1u;
     kouraR->mStateMachine.mNextStateRequested = value;
@@ -251,7 +251,7 @@ void UpdateItemKouraRState2(ItemKouraR *kouraR) {
         if (TrySetItemKouraRKartItemsByFrame(kouraR, 0) == 0) {
             return;
         }
-        kouraR->mStateMachine.mNextState = 4;
+        kouraR->mStateMachine.mNextState = ITEM_KOURA_R_STATE_HOMING;
         kouraR->mStateMachine.mNextStateRequested = 1;
         if (!(kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x8000000)) {
             return;
@@ -264,7 +264,7 @@ void UpdateItemKouraRState2(ItemKouraR *kouraR) {
         if (TrySetItemKouraRNearestKartItems(kouraR, 0) == FALSE) {
             return;
         }
-        kouraR->mStateMachine.mNextState = 4;
+        kouraR->mStateMachine.mNextState = ITEM_KOURA_R_STATE_HOMING;
         kouraR->mStateMachine.mNextStateRequested = 1;
         if (!(kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x8000000)) {
             return;
@@ -309,7 +309,7 @@ void UpdateItemKouraRState3(ItemKouraR *kouraR) {
     }
     if (kouraR->mStateMachine.mStateFrames > 0x708) {
         SetItemObjectDirectionFromVelocity(kouraR);
-        kouraR->mStateMachine.mNextState = 1;
+        kouraR->mStateMachine.mNextState = ITEM_KOURA_R_STATE_STRAIGHT;
         kouraR->mStateMachine.mNextStateRequested = 1;
         return;
     }
@@ -317,7 +317,7 @@ void UpdateItemKouraRState3(ItemKouraR *kouraR) {
         if (TrySetItemKouraRKartItemsByFrame(kouraR, 1) == 0) {
             return;
         }
-        kouraR->mStateMachine.mNextState = 4;
+        kouraR->mStateMachine.mNextState = ITEM_KOURA_R_STATE_HOMING;
         kouraR->mStateMachine.mNextStateRequested = 1;
         if (!(kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x8000000)) {
             return;
@@ -330,7 +330,7 @@ void UpdateItemKouraRState3(ItemKouraR *kouraR) {
         if (TrySetItemKouraRNearestKartItems(kouraR, 1) == FALSE) {
             return;
         }
-        kouraR->mStateMachine.mNextState = 4;
+        kouraR->mStateMachine.mNextState = ITEM_KOURA_R_STATE_HOMING;
         kouraR->mStateMachine.mNextStateRequested = 1;
         if (!(kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x8000000)) {
             return;
@@ -365,7 +365,7 @@ void UpdateItemKouraRState4(ItemKouraR *kouraR) {
     }
     if (kartFlagged != FALSE) {
         AddItemKouraRTowardKartToVelocity(kouraR);
-        kouraR->mStateMachine.mNextState = 6;
+        kouraR->mStateMachine.mNextState = ITEM_KOURA_R_STATE_GLIDE_TO_KART_VELOCITY;
         kouraR->mStateMachine.mNextStateRequested = 1;
     } else {
         value = kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags;
@@ -380,7 +380,7 @@ void UpdateItemKouraRState4(ItemKouraR *kouraR) {
         }
         if (value != 0) {
             AddItemKouraRTowardKartToVelocity(kouraR);
-            kouraR->mStateMachine.mNextState = 2;
+            kouraR->mStateMachine.mNextState = ITEM_KOURA_R_STATE_SEEK_AFTER_THROW;
             kouraR->mStateMachine.mNextStateRequested = 1;
             kouraR->mLinkFollowingItemObject.mPreviousLink.mLink = NULL;
             kouraR->mLinkFollowingItemObject.mPreviousLink.mNextLinksUsed = 1;
@@ -523,7 +523,7 @@ void InitItemKouraRFromData(ItemKouraR *kouraR) {
     InitStateMachine(&kouraR->mStateMachine, gItemKouraRStateTable, 7, kouraR);
     if (kouraR->mThrowForward != 0) {
         if (kouraR->mLinkFollowingItemObject.mPreviousLink.mLink != NULL) {
-            kouraR->mStateMachine.mNextState = 3;
+            kouraR->mStateMachine.mNextState = ITEM_KOURA_R_STATE_FOLLOW_LINK;
             kouraR->mStateMachine.mNextStateRequested = 1;
             ownerKartIndex =
                 !(kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mOwnerKartIndexAndFlags & 0x8000)
@@ -543,13 +543,13 @@ void InitItemKouraRFromData(ItemKouraR *kouraR) {
             InitLinkFollowingItem(&kouraR->mLinkFollowingItemObject, 0x2d, 0x5b, 0, 1, kouraR->mReverse,
                                   targetKartIndex, 0);
         } else {
-            kouraR->mStateMachine.mNextState = 2;
+            kouraR->mStateMachine.mNextState = ITEM_KOURA_R_STATE_SEEK_AFTER_THROW;
             kouraR->mStateMachine.mNextStateRequested = 1;
             InitItemObjectMotion(kouraR, 0, kouraR->mReverse, 0);
         }
         kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags |= 0x200000;
     } else {
-        kouraR->mStateMachine.mNextState = 1;
+        kouraR->mStateMachine.mNextState = ITEM_KOURA_R_STATE_STRAIGHT;
         kouraR->mStateMachine.mNextStateRequested = 1;
         InitItemObjectMotion(kouraR, 0, kouraR->mReverse, 0);
     }
@@ -578,7 +578,7 @@ BOOL RequestItemKouraRState5IfFar(void *kouraParam, s32 kartIndex) {
         return TRUE;
     }
     FreeItemObjectCollisionSlot(&kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject);
-    kouraR->mStateMachine.mNextState = 5;
+    kouraR->mStateMachine.mNextState = ITEM_KOURA_R_STATE_CLOSE_IN;
     kouraR->mStateMachine.mNextStateRequested = 1;
     SetItemKouraRKartItems(kouraR, kartIndex);
     return FALSE;
