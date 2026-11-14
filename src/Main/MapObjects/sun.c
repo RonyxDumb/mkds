@@ -85,7 +85,7 @@ void DrawSun(void *mapObjectList, Sun *sun) {
     gxParam = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
     NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&sun->mMapObject.mPos), 0xc);
-    if (sun->mState == 3 || sun->mState == 4) {
+    if (sun->mState == SUN_STATE_SHOOT_FIREBALLS || sun->mState == SUN_STATE_SPIN_DOWN) {
         radius = MUL_FIXED12_NO_ROUND(FX_CosIdx((u16) sun->mDrawOffsetRadiusAngle), -0x14000) + 0x14000;
         angleIndex = (sun->mDrawOffsetAngle >> 4) * 2;
         translation.x = MUL_FIXED12_NO_ROUND(radius, FX_SinCosTable_[angleIndex + 1]) >> 4;
@@ -168,16 +168,16 @@ void UpdateSun(MapObjectList *mapObjectList, Sun *sun) {
     s32 mode;
 
     switch (sun->mState) {
-        case 0:
+        case SUN_STATE_WAIT_TO_MOVE:
             if (sun->mMapObject.mFlags & 0x800) {
                 if (sun->mTimer-- <= 0) {
-                    sun->mState = 1;
+                    sun->mState = SUN_STATE_FOLLOW_PATH;
                 }
             } else if (UpdateSun_inline()) {
-                sun->mState = 1;
+                sun->mState = SUN_STATE_FOLLOW_PATH;
             }
             break;
-        case 1:
+        case SUN_STATE_FOLLOW_PATH:
             sun->mFollower.mSpeed = 0x3c000;
             sun->mFollower.mProgressStep = MUL_FIXED12_NO_ROUND(
                 sun->mFollower.mPath->mSegments[sun->mFollower.mSegmentIndex].mInverseProgressLength, 0x3c000);
@@ -190,26 +190,26 @@ void UpdateSun(MapObjectList *mapObjectList, Sun *sun) {
                         sun->mTimer = sun->mFollower.mFromEntry->mExtraValue;
                     }
                 }
-                sun->mState = 2;
+                sun->mState = SUN_STATE_WAIT_AT_PATH_POINT;
             }
             GetGroupFollowerLinearPosition(&sun->mFollower, &sun->mMapObject.mPos);
             break;
-        case 2:
+        case SUN_STATE_WAIT_AT_PATH_POINT:
             if (sun->mMapObject.mFlags & 0x800) {
                 if (sun->mTimer-- <= 0) {
                     sun->mDrawOffsetAngle = 0;
                     sun->mDrawOffsetRadiusAngle = sun->mDrawOffsetAngle;
                     sun->mTimer = 5;
-                    sun->mState = 3;
+                    sun->mState = SUN_STATE_SHOOT_FIREBALLS;
                 }
             } else if (UpdateSun_inline_b(sun)) {
                 sun->mDrawOffsetAngle = 0;
                 sun->mDrawOffsetRadiusAngle = sun->mDrawOffsetAngle;
                 sun->mTimer = 5;
-                sun->mState = 3;
+                sun->mState = SUN_STATE_SHOOT_FIREBALLS;
             }
             break;
-        case 3:
+        case SUN_STATE_SHOOT_FIREBALLS:
             sun->mDrawOffsetAngle += 0xe39;
             if (sun->mDrawOffsetRadiusAngle < 0x8000) {
                 sun->mDrawOffsetRadiusAngle += 0x222;
@@ -232,24 +232,24 @@ void UpdateSun(MapObjectList *mapObjectList, Sun *sun) {
             sun->mFireballIndex += 1;
             if (sun->mFireballIndex >= 2) {
                 sun->mFireballIndex = 0;
-                sun->mState = 4;
+                sun->mState = SUN_STATE_SPIN_DOWN;
             } else {
                 sun->mTimer = 0x1e;
             }
             break;
-        case 4:
+        case SUN_STATE_SPIN_DOWN:
             sun->mDrawOffsetAngle += 0xe39;
             sun->mDrawOffsetRadiusAngle += 0x222;
             if (sun->mDrawOffsetRadiusAngle > 0x10000) {
                 sun->mTimer = 0x1e;
-                sun->mState = 0;
+                sun->mState = SUN_STATE_WAIT_TO_MOVE;
             }
             break;
     }
     if ((s32) (sun->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f) >= 0x3d0900) {
         return;
     }
-    if (sun->mState == 3) {
+    if (sun->mState == SUN_STATE_SHOOT_FIREBALLS) {
         value = sun->mNsbcaFrameIndexPerFrame + 0x19a;
         if (value >= 0x8000) {
             value = 0x8000;

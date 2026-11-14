@@ -40,8 +40,15 @@ typedef struct Bound {
     /* 120 */ s32 mKartTimers[8];
 } Bound;
 
-// Sun, kind 0x1ad: UpdateSun steps mState 0 to 4 and back; state 3 unparks a MAP_OBJECT_KIND_SUN_FIREBALL object twice
-// per cycle.
+// Sun.mState: waits, follows its path, waits at a path point, then shoots two fireballs while its draw offset swells.
+#define SUN_STATE_WAIT_TO_MOVE 0
+#define SUN_STATE_FOLLOW_PATH 1
+#define SUN_STATE_WAIT_AT_PATH_POINT 2
+#define SUN_STATE_SHOOT_FIREBALLS 3
+#define SUN_STATE_SPIN_DOWN 4
+
+// Sun, kind 0x1ad: UpdateSun steps mState through the SUN_STATE_* values and back; SUN_STATE_SHOOT_FIREBALLS unparks a
+// MAP_OBJECT_KIND_SUN_FIREBALL object twice per cycle.
 typedef struct Sun {
     /* 000 */ MapObject mMapObject;
     /* 0a0 */ u32 mFireballIndex;
@@ -51,7 +58,8 @@ typedef struct Sun {
     /* 0ac */ u32 mDrawOffsetRadiusAngle;
     /* 0b0 */ u16 mDrawOffsetAngle;
     /* 0b2 */ u16 mNsbcaFrameIndex;
-    // 1.12 fixed: mNsbcaFrameIndex grows by this >> 12; rises to 0x8000 in state 3, falls to 0x1000 in the others.
+    // 1.12 fixed: mNsbcaFrameIndex grows by this >> 12; rises to 0x8000 in SUN_STATE_SHOOT_FIREBALLS, falls to 0x1000
+    // in the others.
     /* 0b4 */ s32 mNsbcaFrameIndexPerFrame;
     /* 0b8 */ GroupFollower mFollower;
     /* 0dc */ s32 mState;
