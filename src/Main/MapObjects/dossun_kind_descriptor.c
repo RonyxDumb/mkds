@@ -85,13 +85,13 @@ void UpdateDossun(void *unused, Dossun *dossun) {
     s32 speed;
     s32 followerSpeed;
     s32 sine;
-    dossun->mEnteredState5 = FALSE;
+    dossun->mEnteredWaitBeforeFollow = FALSE;
     follower = &dossun->mFollower;
     if (dossun->mHitState != 0) {
         dossun->mSpinAngle += dossun->mSpinSpeed;
         stateValue = dossun->mSpinSpeed;
         if (stateValue > 0x3e8 || stateValue < -0x3e8) {
-            if (dossun->mState < 4) {
+            if (dossun->mState < DOSSUN_STATE_FOLLOW_ACCELERATING) {
                 dossun->mSpinSpeed = (stateValue * 0xfa00) >> 16;
             } else {
                 dossun->mSpinSpeed = (stateValue * 0xf80c) >> 16;
@@ -108,14 +108,14 @@ void UpdateDossun(void *unused, Dossun *dossun) {
             dossun->mHitState = 0;
             dossun->mKartMask = 0;
             dossun->mTimer = 0x1e;
-            dossun->mState = 0;
+            dossun->mState = DOSSUN_STATE_WAIT_START;
             return;
         }
         if (dossun->mHitState != 1) {
             return;
         }
         speed = follower->mSpeed;
-        if (dossun->mState < 4) {
+        if (dossun->mState < DOSSUN_STATE_FOLLOW_ACCELERATING) {
             if (speed > 0x4000) {
                 followerSpeed = MUL_FIXED12_NO_ROUND(speed, 0xf85);
                 follower->mSpeed = followerSpeed;
@@ -147,7 +147,7 @@ void UpdateDossun(void *unused, Dossun *dossun) {
         return;
     }
     switch (dossun->mState) {
-        case 0:
+        case DOSSUN_STATE_WAIT_START:
             dossun->mTimer--;
             if (dossun->mTimer >= 0) {
                 return;
@@ -158,12 +158,12 @@ void UpdateDossun(void *unused, Dossun *dossun) {
             follower->mProgressStep = MUL_FIXED12_NO_ROUND(
                 followerSpeed, follower->mPath->mSegments[follower->mSegmentIndex].mInverseProgressLength);
             return;
-        case 1:
+        case DOSSUN_STATE_FOLLOW:
             if (dossun->mIsSlowVariant != 0) {
                 StartMapObjectSoundWhileRequested(&dossun->mMapObject, 0x18b);
             }
             break;
-        case 2:
+        case DOSSUN_STATE_HOVER:
             dossun->mTimer--;
             if (dossun->mTimer < 0 && dossun->mSineAngle < 0x1555) {
                 dossun->mState++;
@@ -175,14 +175,14 @@ void UpdateDossun(void *unused, Dossun *dossun) {
             sine = FX_SinIdx(dossun->mSineAngle);
             dossun->mMapObject.mPos.y += MUL_FIXED12_NO_ROUND(sine, dossun->mSineAmplitude);
             return;
-        case 3:
+        case DOSSUN_STATE_DROP:
             dossun->mDownSpeedOrFollowerSpeed += dossun->mDownSpeedStep;
             dossun->mMapObject.mPos.y -= dossun->mDownSpeedOrFollowerSpeed;
             if (dossun->mMapObject.mPos.y < dossun->mSineBaseY) {
                 dossun->mState++;
             }
             return;
-        case 4:
+        case DOSSUN_STATE_FOLLOW_ACCELERATING:
             if (dossun->mDownSpeedOrFollowerSpeed < 0x14000) {
                 dossun->mDownSpeedOrFollowerSpeed += 0x1000;
                 followerSpeed = dossun->mDownSpeedOrFollowerSpeed;
@@ -191,7 +191,7 @@ void UpdateDossun(void *unused, Dossun *dossun) {
                     followerSpeed, follower->mPath->mSegments[follower->mSegmentIndex].mInverseProgressLength);
             }
             break;
-        case 5:
+        case DOSSUN_STATE_WAIT_BEFORE_FOLLOW:
             dossun->mTimer--;
             if (dossun->mTimer >= 0) {
                 return;
@@ -202,30 +202,30 @@ void UpdateDossun(void *unused, Dossun *dossun) {
             follower->mProgressStep = MUL_FIXED12_NO_ROUND(
                 followerSpeed, follower->mPath->mSegments[follower->mSegmentIndex].mInverseProgressLength);
             return;
-        case 6:
+        case DOSSUN_STATE_FOLLOW_AT_SET_SPEED:
             break;
     }
     if (AdvanceGroupFollower(follower) != FALSE) {
         switch (follower->mFromEntry->mExtraValue) {
             case 0:
-                stateValue = 0;
+                stateValue = DOSSUN_STATE_WAIT_START;
                 break;
             case 1:
-                stateValue = 2;
+                stateValue = DOSSUN_STATE_HOVER;
                 break;
             case 2:
-                stateValue = 5;
+                stateValue = DOSSUN_STATE_WAIT_BEFORE_FOLLOW;
                 break;
             default:
-                stateValue = 0;
+                stateValue = DOSSUN_STATE_WAIT_START;
                 break;
         }
         dossun->mState = stateValue;
-        if (dossun->mState == 2) {
+        if (dossun->mState == DOSSUN_STATE_HOVER) {
             dossun->mSineBaseY = dossun->mMapObject.mPos.y;
             dossun->mSineAngle = 0;
         }
-        if (dossun->mState == 5) {
+        if (dossun->mState == DOSSUN_STATE_WAIT_BEFORE_FOLLOW) {
             fromEntry = follower->mFromEntry;
             if (IsMapObjectOutOfRange(&dossun->mMapObject) == FALSE) {
                 if (dossun->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
@@ -246,7 +246,7 @@ void UpdateDossun(void *unused, Dossun *dossun) {
                 StartEffect(0x59, &fromEntry->mPos);
                 StartEffect(0x5a, &fromEntry->mPos);
             }
-            dossun->mEnteredState5 = TRUE;
+            dossun->mEnteredWaitBeforeFollow = TRUE;
         }
         dossun->mTimer = follower->mFromEntry->mValue;
         if (dossun->mTimer != 0) {
@@ -278,7 +278,7 @@ u32 CollideKartWithDossun(Dossun *dossun, Kart *kart, u8 *firstResponsePtr, u8 *
             if (Vec3DotUnrounded(&kartOffset, &toNextEntry) > 0) {
                 ReverseGroupFollower(follower);
             }
-            if (dossun->mState < 4) {
+            if (dossun->mState < DOSSUN_STATE_FOLLOW_ACCELERATING) {
                 speed = 0xa800;
             } else {
                 speed = 0x8000;
@@ -297,7 +297,7 @@ u32 CollideKartWithDossun(Dossun *dossun, Kart *kart, u8 *firstResponsePtr, u8 *
             dossun->mLastHitFrame = GetRaceUpdateFrames();
         }
     }
-    if (dossun->mState == 4 || dossun->mEnteredState5 != FALSE) {
+    if (dossun->mState == DOSSUN_STATE_FOLLOW_ACCELERATING || dossun->mEnteredWaitBeforeFollow != FALSE) {
         VEC_Subtract(&kart->mCollisionCenter, &dossun->mMapObject.mPos, &centerOffset);
         horizontalScaledSquared = (HORIZONTAL_LENGTH_SQUARED(centerOffset)) * 5;
         verticalOffset = centerOffset.y;
@@ -314,7 +314,7 @@ s32 GetDossunMapDotOffset(Dossun *dossun) {
     s32 state;
     progress = GetGroupFollowerProgress(&dossun->mFollower);
     state = dossun->mState;
-    if (state < 4) {
+    if (state < DOSSUN_STATE_FOLLOW_ACCELERATING) {
         if (dossun->mIsSlowVariant != 0) {
             return 0;
         }
@@ -323,13 +323,13 @@ s32 GetDossunMapDotOffset(Dossun *dossun) {
     switch (dossun->mHitState) {
         case 0:
             switch (state) {
-                case 4:
+                case DOSSUN_STATE_FOLLOW_ACCELERATING:
                     progress = 0x1000 - progress;
                     break;
-                case 5:
+                case DOSSUN_STATE_WAIT_BEFORE_FOLLOW:
                     progress = 0;
                     break;
-                case 6:
+                case DOSSUN_STATE_FOLLOW_AT_SET_SPEED:
                     break;
             }
             break;
@@ -350,16 +350,16 @@ void SetupDossunAtStartEntry(Dossun *dossun) {
     dossun->mMapObject.mPos.y += dossun->mHeightOffset;
     switch (follower->mFromEntry->mExtraValue) {
         case 0:
-            state = 0;
+            state = DOSSUN_STATE_WAIT_START;
             break;
         case 1:
-            state = 2;
+            state = DOSSUN_STATE_HOVER;
             break;
         case 2:
-            state = 5;
+            state = DOSSUN_STATE_WAIT_BEFORE_FOLLOW;
             break;
         default:
-            state = 0;
+            state = DOSSUN_STATE_WAIT_START;
             break;
     }
     dossun->mState = state;
@@ -369,7 +369,7 @@ void SetupDossunAtStartEntry(Dossun *dossun) {
     dossun->mSpinSpeed = dossun->mSpinAngle;
     dossun->mKartMask = 0;
     dossun->mSineBaseY = dossun->mMapObject.mPos.y;
-    dossun->mEnteredState5 = FALSE;
+    dossun->mEnteredWaitBeforeFollow = FALSE;
 }
 #pragma thumb off
 

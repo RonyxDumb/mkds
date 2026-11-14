@@ -17,6 +17,18 @@
 #include "Main/Graphics/nsbmd_render_obj.h"
 #include "code_02012b30.h"
 
+// Values of Dossun.mState; the entry extra value of the path picks the starting one (WAIT_START, HOVER or
+// WAIT_BEFORE_FOLLOW). Below FOLLOW_ACCELERATING the object is still the dropping one.
+enum {
+    DOSSUN_STATE_WAIT_START,
+    DOSSUN_STATE_FOLLOW,
+    DOSSUN_STATE_HOVER,
+    DOSSUN_STATE_DROP,
+    DOSSUN_STATE_FOLLOW_ACCELERATING,
+    DOSSUN_STATE_WAIT_BEFORE_FOLLOW,
+    DOSSUN_STATE_FOLLOW_AT_SET_SPEED,
+};
+
 // Object with the GroupFollower base at 0xc8 and its own fields from 0xec.
 typedef struct Dossun {
     /* 00 */ MapObject mMapObject;
@@ -24,7 +36,7 @@ typedef struct Dossun {
     /* a4 */ s32 mTimer;
     /* a8 */ s32 mDownSpeedOrFollowerSpeed;
     /* ac */ s32 mSineBaseY;
-    /* b0 */ BOOL mEnteredState5;
+    /* b0 */ BOOL mEnteredWaitBeforeFollow;
     /* b4 */ s32 mHitState;
     /* b8 */ s16 mSpinSpeed;
     /* ba */ s16 mSpinAngle;
