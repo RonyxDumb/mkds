@@ -5,6 +5,15 @@
 typedef struct Kart Kart;
 typedef struct SoundParams SoundParams;
 
+// Distances and volumes InitSoundFalloffs puts in the first five falloffs in a replay (the wide ones replace the outer
+// and mid distance of one of them).
+#define SOUND_FALLOFF_REPLAY_OUTER_DISTANCE 0x44c
+#define SOUND_FALLOFF_REPLAY_MID_DISTANCE 0x226
+#define SOUND_FALLOFF_REPLAY_WIDE_OUTER_DISTANCE 0x514
+#define SOUND_FALLOFF_REPLAY_WIDE_MID_DISTANCE 0x28a
+#define SOUND_FALLOFF_REPLAY_MID_VOLUME 0x2f
+#define SOUND_FALLOFF_REPLAY_MAX_VOLUME 0x5f
+
 // Five words of constant data used by InitSoundFalloffs.
 typedef struct SoundFalloffSettings {
     /* 00 */ s32 mOuterDistance;

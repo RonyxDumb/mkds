@@ -81,10 +81,10 @@ void InitSoundFalloffs(void) {
     workSettings0 = defaultSettings0;
     if (isReplayScene != FALSE) {
         replaySettings0 = workSettings0;
-        replaySettings0.mOuterDistance = 0x44c;
-        replaySettings0.mMidDistance = 0x226;
-        replaySettings0.mMidVolume = 0x2f;
-        replaySettings0.mMaxVolume = 0x5f;
+        replaySettings0.mOuterDistance = SOUND_FALLOFF_REPLAY_OUTER_DISTANCE;
+        replaySettings0.mMidDistance = SOUND_FALLOFF_REPLAY_MID_DISTANCE;
+        replaySettings0.mMidVolume = SOUND_FALLOFF_REPLAY_MID_VOLUME;
+        replaySettings0.mMaxVolume = SOUND_FALLOFF_REPLAY_MAX_VOLUME;
         workSettings0 = replaySettings0;
     }
     copiedSettings0 = workSettings0;
@@ -104,10 +104,10 @@ void InitSoundFalloffs(void) {
     workSettings1 = defaultSettings1;
     if (isReplayScene != FALSE) {
         replaySettings1 = workSettings1;
-        replaySettings1.mOuterDistance = 0x44c;
-        replaySettings1.mMidDistance = 0x226;
-        replaySettings1.mMidVolume = 0x2f;
-        replaySettings1.mMaxVolume = 0x5f;
+        replaySettings1.mOuterDistance = SOUND_FALLOFF_REPLAY_OUTER_DISTANCE;
+        replaySettings1.mMidDistance = SOUND_FALLOFF_REPLAY_MID_DISTANCE;
+        replaySettings1.mMidVolume = SOUND_FALLOFF_REPLAY_MID_VOLUME;
+        replaySettings1.mMaxVolume = SOUND_FALLOFF_REPLAY_MAX_VOLUME;
         workSettings1 = replaySettings1;
     }
     copiedSettings1 = workSettings1;
@@ -129,10 +129,10 @@ void InitSoundFalloffs(void) {
     workSettings2 = defaultSettings2;
     if (isReplayScene != FALSE) {
         replaySettings2 = workSettings2;
-        replaySettings2.mOuterDistance = 0x514;
-        replaySettings2.mMidDistance = 0x28a;
-        replaySettings2.mMidVolume = 0x2f;
-        replaySettings2.mMaxVolume = 0x5f;
+        replaySettings2.mOuterDistance = SOUND_FALLOFF_REPLAY_WIDE_OUTER_DISTANCE;
+        replaySettings2.mMidDistance = SOUND_FALLOFF_REPLAY_WIDE_MID_DISTANCE;
+        replaySettings2.mMidVolume = SOUND_FALLOFF_REPLAY_MID_VOLUME;
+        replaySettings2.mMaxVolume = SOUND_FALLOFF_REPLAY_MAX_VOLUME;
         workSettings2 = replaySettings2;
     }
     copiedSettings2 = workSettings2;
@@ -152,10 +152,10 @@ void InitSoundFalloffs(void) {
     workSettings3 = defaultSettings3;
     if (isReplayScene != FALSE) {
         replaySettings3 = workSettings3;
-        replaySettings3.mOuterDistance = 0x44c;
-        replaySettings3.mMidDistance = 0x226;
-        replaySettings3.mMidVolume = 0x2f;
-        replaySettings3.mMaxVolume = 0x5f;
+        replaySettings3.mOuterDistance = SOUND_FALLOFF_REPLAY_OUTER_DISTANCE;
+        replaySettings3.mMidDistance = SOUND_FALLOFF_REPLAY_MID_DISTANCE;
+        replaySettings3.mMidVolume = SOUND_FALLOFF_REPLAY_MID_VOLUME;
+        replaySettings3.mMaxVolume = SOUND_FALLOFF_REPLAY_MAX_VOLUME;
         workSettings3 = replaySettings3;
     }
     copiedSettings3 = workSettings3;
@@ -175,10 +175,10 @@ void InitSoundFalloffs(void) {
     workSettings4 = defaultSettings4;
     if (isReplayScene != FALSE) {
         replaySettings4 = workSettings4;
-        replaySettings4.mOuterDistance = 0x44c;
-        replaySettings4.mMidDistance = 0x226;
-        replaySettings4.mMidVolume = 0x2f;
-        replaySettings4.mMaxVolume = 0x5f;
+        replaySettings4.mOuterDistance = SOUND_FALLOFF_REPLAY_OUTER_DISTANCE;
+        replaySettings4.mMidDistance = SOUND_FALLOFF_REPLAY_MID_DISTANCE;
+        replaySettings4.mMidVolume = SOUND_FALLOFF_REPLAY_MID_VOLUME;
+        replaySettings4.mMaxVolume = SOUND_FALLOFF_REPLAY_MAX_VOLUME;
         workSettings4 = replaySettings4;
     }
     copiedSettings4 = workSettings4;
