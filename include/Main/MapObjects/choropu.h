@@ -15,6 +15,17 @@
 #include "Main/Graphics/nsbmd_render_obj.h"
 #include "Main/Kart/shadow_model.h"
 
+enum {
+    CHOROPU_STATE_WAIT_START,
+    CHOROPU_STATE_RISE,
+    CHOROPU_STATE_HOLD_TOP,
+    CHOROPU_STATE_SINK,
+    CHOROPU_STATE_LEAP,
+    CHOROPU_STATE_WAIT_REPEAT,
+    CHOROPU_STATE_LAUNCHED_SPIN,
+    CHOROPU_STATE_FALL_SPIN,
+};
+
 // Vehicle.mHitReactionTimer: set to the first value on a hit, counted down; above the second the vehicle is thrown.
 #define VEHICLE_HIT_TIMER_START 0x14
 #define VEHICLE_HIT_TIMER_AIRBORNE 0xf

@@ -109,7 +109,7 @@ void EnterChoropuState0(Choropu *choropu) {
 
 void UpdateChoropuState0(Choropu *choropu) {
     if (choropu->mMapObject.mStateMachine.mStateFrames >= choropu->mStartDelayFrameCount) {
-        choropu->mMapObject.mStateMachine.mNextState = 1;
+        choropu->mMapObject.mStateMachine.mNextState = CHOROPU_STATE_RISE;
         choropu->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
@@ -126,7 +126,7 @@ void UpdateChoropuState1(Choropu *choropu) {
     choropu->mMapObject.mPos.y = choropu->mMapObject.mPos.y + choropu->mMapObject.mPosStep.y;
     if (choropu->mMapObject.mPos.y > choropu->mBottomY + 0x11199) {
         choropu->mMapObject.mPos.y = choropu->mBottomY + 0x11199;
-        choropu->mMapObject.mStateMachine.mNextState = 2;
+        choropu->mMapObject.mStateMachine.mNextState = CHOROPU_STATE_HOLD_TOP;
         choropu->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
@@ -137,7 +137,7 @@ void EnterChoropuState2(Choropu *choropu) {
 
 void UpdateChoropuState2(Choropu *choropu) {
     if (choropu->mMapObject.mStateMachine.mStateFrames >= 0x14) {
-        choropu->mMapObject.mStateMachine.mNextState = 3;
+        choropu->mMapObject.mStateMachine.mNextState = CHOROPU_STATE_SINK;
         choropu->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
@@ -164,7 +164,7 @@ void UpdateChoropuState3(Choropu *choropu) {
         soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&choropu->mMapObject.mPos);
         StartSoundFromParams(&soundRequest);
     }
-    choropu->mMapObject.mStateMachine.mNextState = 4;
+    choropu->mMapObject.mStateMachine.mNextState = CHOROPU_STATE_LEAP;
     choropu->mMapObject.mStateMachine.mNextStateRequested = 1;
 }
 
@@ -184,7 +184,7 @@ void UpdateChoropuState4(Choropu *choropu) {
     choropu->mMapObject.mPosStep.y -= 0x266;
     choropu->mMapObject.mPos.y = choropu->mMapObject.mPos.y + choropu->mMapObject.mPosStep.y;
     if (choropu->mMapObject.mPos.y < choropu->mLowestY) {
-        choropu->mMapObject.mStateMachine.mNextState = 5;
+        choropu->mMapObject.mStateMachine.mNextState = CHOROPU_STATE_WAIT_REPEAT;
         choropu->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
@@ -199,7 +199,7 @@ void EnterChoropuState5(Choropu *choropu) {
 
 void UpdateChoropuState5(Choropu *choropu) {
     if (choropu->mMapObject.mStateMachine.mStateFrames >= choropu->mRepeatDelayFrameCount) {
-        choropu->mMapObject.mStateMachine.mNextState = 1;
+        choropu->mMapObject.mStateMachine.mNextState = CHOROPU_STATE_RISE;
         choropu->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
@@ -217,7 +217,7 @@ void UpdateChoropuState6(Choropu *choropu) {
     choropu->mMapObject.mPosStep.y -= 0x400;
     choropu->mMapObject.mPos.y = choropu->mMapObject.mPos.y + choropu->mMapObject.mPosStep.y;
     if (choropu->mMapObject.mPos.y < choropu->mLowestY) {
-        choropu->mMapObject.mStateMachine.mNextState = 5;
+        choropu->mMapObject.mStateMachine.mNextState = CHOROPU_STATE_WAIT_REPEAT;
         choropu->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
@@ -232,7 +232,7 @@ void UpdateChoropuState7(Choropu *choropu) {
     if (choropu->mMapObject.mPos.y < choropu->mLowestY) {
         StateMachine *stateMachine = &choropu->mMapObject.mStateMachine;
 
-        stateMachine->mNextState = 5;
+        stateMachine->mNextState = CHOROPU_STATE_WAIT_REPEAT;
         stateMachine->mNextStateRequested = 1;
     }
     if (choropu->mSpinDirection != 0) {
@@ -251,10 +251,10 @@ u8 CollideKartWithChoropu(Choropu *choropu, Kart *kart, u8 *firstResponsePtr, u8
             if (gRaceSetup->mCurrentEntries[kart->mIndex].mPlayer.mKind == PLAYER_KIND_GHOST) {
                 return secondResponsePtr[0];
             }
-            if (choropu->mMapObject.mStateMachine.mState == 7) {
+            if (choropu->mMapObject.mStateMachine.mState == CHOROPU_STATE_FALL_SPIN) {
                 return secondResponsePtr[0];
             }
-            choropu->mMapObject.mStateMachine.mNextState = 7;
+            choropu->mMapObject.mStateMachine.mNextState = CHOROPU_STATE_FALL_SPIN;
             choropu->mMapObject.mStateMachine.mNextStateRequested = 1;
             StartSoundIfKartStarOrKiller(&choropu->mMapObject, kart);
             break;
@@ -266,7 +266,7 @@ u8 CollideKartWithChoropu(Choropu *choropu, Kart *kart, u8 *firstResponsePtr, u8
                 choropu->mSpinDirection = 0;
             }
             choropu->mMapObject.mPosStep.y = 0x4000;
-            choropu->mMapObject.mStateMachine.mNextState = 6;
+            choropu->mMapObject.mStateMachine.mNextState = CHOROPU_STATE_LAUNCHED_SPIN;
             choropu->mMapObject.mStateMachine.mNextStateRequested = 1;
             choropu->mMapObject.mFlags |= gChoropuFlag;
             StartSoundIfKartStarOrKiller(&choropu->mMapObject, kart);
@@ -290,7 +290,7 @@ u8 CollideItemObjectWithChoropu(Choropu *choropu, ItemObject *itemObject, u8 *fi
                 choropu->mSpinDirection = 0;
             }
             choropu->mMapObject.mPosStep.y = 0x4000;
-            choropu->mMapObject.mStateMachine.mNextState = 6;
+            choropu->mMapObject.mStateMachine.mNextState = CHOROPU_STATE_LAUNCHED_SPIN;
             choropu->mMapObject.mStateMachine.mNextStateRequested = 1;
             choropu->mMapObject.mFlags |= gChoropuFlag;
             StartMissionRunKouraEffects(itemObject);
@@ -302,7 +302,7 @@ u8 CollideItemObjectWithChoropu(Choropu *choropu, ItemObject *itemObject, u8 *fi
                 choropu->mSpinDirection = 0;
             }
             choropu->mMapObject.mPosStep.y = 0x4000;
-            choropu->mMapObject.mStateMachine.mNextState = 6;
+            choropu->mMapObject.mStateMachine.mNextState = CHOROPU_STATE_LAUNCHED_SPIN;
             choropu->mMapObject.mStateMachine.mNextStateRequested = 1;
             choropu->mMapObject.mFlags |= gChoropuFlag;
         }
