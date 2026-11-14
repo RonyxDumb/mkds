@@ -127,7 +127,7 @@ u32 SND_GetNextInstData(SNDBankData *bank, SNDInstData *inst, SNDInstPos *pos) {
                 inst->mUnk_0a = simple->mUnk_08;
                 pos->mPrgNo++;
                 return 1;
-            case 0x10:
+            case INSTRUMENT_TYPE_DRUM_SET:
                 drumTable = OFFSET_PTR(InstDrumSet, bank, (entry >> 8));
                 while (pos->mIndex < drumTable->mMax - drumTable->mMin + 1) {
                     *inst = drumTable->mInstOffset[pos->mIndex];
@@ -135,7 +135,7 @@ u32 SND_GetNextInstData(SNDBankData *bank, SNDInstData *inst, SNDInstPos *pos) {
                     return 1;
                 }
                 break;
-            case 0x11:
+            case INSTRUMENT_TYPE_KEY_SPLIT:
                 keyTable = OFFSET_PTR(InstKeySplit, bank, (entry >> 8));
                 while (pos->mIndex < 8) {
                     if (keyTable->mKey[pos->mIndex] == 0) {
