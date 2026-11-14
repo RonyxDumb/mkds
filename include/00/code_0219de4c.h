@@ -136,4 +136,13 @@ typedef struct WiFiMatching {
     /* 460 */ u32 mEvalCallbackArg;
 } WiFiMatching;
 
+// Values of WiFiMatching.mMode: a search by filter, a search among the buddy list, a server that takes in clients and
+// the client of a server.
+enum {
+    WIFI_MATCH_MODE_FILTER_SEARCH = 0,
+    WIFI_MATCH_MODE_BUDDY_LIST = 1,
+    WIFI_MATCH_MODE_SERVER = 2,
+    WIFI_MATCH_MODE_SERVER_CLIENT = 3,
+};
+
 void DWCi_QR2PublicAddrCallback(u32 address, u16 port, void *userData);

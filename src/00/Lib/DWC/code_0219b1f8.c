@@ -83,8 +83,8 @@ void DWC_InitFriendsMatch(void *connectionObject, void *userData, s32 titleNumbe
     gWiFiConnection->mReceiveBufferSize = receiveBufferSize == 0 ? 0x2000 : receiveBufferSize;
     gWiFiConnection->mGpConnection.mGpiConnection = NULL;
     gWiFiConnection->mUnk_20 = userData;
-    gWiFiConnection->mState = 0;
-    gWiFiConnection->mPrevState = 0;
+    gWiFiConnection->mState = WIFI_CONNECTION_IDLE;
+    gWiFiConnection->mPrevState = WIFI_CONNECTION_IDLE;
     gWiFiConnection->mOwnIndex = 0;
     gWiFiConnection->mOwnCloseFlag = 0;
     gWiFiConnection->mUnk_2e = 0;
@@ -182,14 +182,14 @@ void DWC_ProcessFriendsMatch(void) {
     if (gWiFiConnection == NULL) {
         return;
     }
-    if (gWiFiConnection->mState == 0) {
+    if (gWiFiConnection->mState == WIFI_CONNECTION_IDLE) {
         return;
     }
     if (DWCi_IsError() != 0) {
         return;
     }
     switch (gWiFiConnection->mState) {
-        case 1:
+        case WIFI_CONNECTION_GP_SETUP:
             switch (GSIAvailableCheckThink()) {
                 case 1:
                     if (ReportWiFiGpResult(GpInitialize(&gWiFiConnection->mGpConnection,
@@ -216,7 +216,7 @@ void DWC_ProcessFriendsMatch(void) {
                                                          0)) != 0) {
                         return;
                     }
-                    DWCi_SetState(2);
+                    DWCi_SetState(WIFI_CONNECTION_LOGIN);
                     DWCi_LoginAsync();
                     break;
                 case 2:
@@ -227,22 +227,23 @@ void DWC_ProcessFriendsMatch(void) {
                     return;
             }
             break;
-        case 2:
+        case WIFI_CONNECTION_LOGIN:
             DWCi_LoginProcess();
             break;
-        case 3:
-        case 4:
+        case WIFI_CONNECTION_LOGGED_IN:
+        case WIFI_CONNECTION_BUDDY_SYNC:
             DWCi_FriendProcess();
             DWCi_MatchProcess(0);
             break;
-        case 5:
+        case WIFI_CONNECTION_PARTNER_SEARCH:
             DWCi_MatchProcess(1);
             DWCi_FriendProcess();
             break;
-        case 6:
+        case WIFI_CONNECTION_MATCHED:
             DWCi_TransportProcess();
             DWCi_FriendProcess();
-            if (gWiFiConnection->mMatching.mMode == 2 || gWiFiConnection->mMatching.mMode == 3) {
+            if (gWiFiConnection->mMatching.mMode == WIFI_MATCH_MODE_SERVER ||
+                gWiFiConnection->mMatching.mMode == WIFI_MATCH_MODE_SERVER_CLIENT) {
                 DWCi_MatchProcess(1);
             } else if (gWiFiConnection->mSocket != NULL) {
                 DWCi_MatchProcess(0);
@@ -261,7 +262,7 @@ void DWC_ProcessFriendsMatch(void) {
 // Also stores a and b into the login object (mLogin.mUnk_10 / mUnk_14).
 void DWC_LoginAsync(u32 playerName, u32 reserved, void (*callback)(s32 playerName), u32 callbackArg) {
     if (DWCi_IsError() == 0) {
-        if (gWiFiConnection->mState == 0) {
+        if (gWiFiConnection->mState == WIFI_CONNECTION_IDLE) {
             gWiFiConnection->mLoginCallback = callback;
             gWiFiConnection->mLoginCallbackArg = callbackArg;
             gWiFiConnection->mLogin.mUnk_10 = playerName;
@@ -270,21 +271,22 @@ void DWC_LoginAsync(u32 playerName, u32 reserved, void (*callback)(s32 playerNam
                 DWCi_StopLogin(2, -60010);
                 return;
             }
-            DWCi_SetState(1);
+            DWCi_SetState(WIFI_CONNECTION_GP_SETUP);
             GSIStartAvailableCheckA(gWiFiConnection->mGameName);
         }
     }
 }
 
-// The connection-level start (state check, state 4, callbacks); calls StartBuddySync (the two names differ only by
-// WiFi). Refused (FALSE) in states 0 to 2 and 4.
+// The connection-level start (state check, BUDDY_SYNC, callbacks); calls StartBuddySync (the two names differ only by
+// WiFi). Refused (FALSE) in IDLE, GP_SETUP, LOGIN and BUDDY_SYNC.
 BOOL DWC_UpdateServersAsync(const s8 *playerName, void (*updateCallback)(s32, s32), void *updateParam,
                             void (*statusCallback)(u32, u8), void *statusParam, void (*deleteCallback)(u32, u32),
                             void *deleteParam) {
     WiFiConnection *wiFiConnection;
     u32 playerNameLength;
-    if (gWiFiConnection == NULL || DWCi_IsError() != 0 || (wiFiConnection = gWiFiConnection)->mState < 3 ||
-        wiFiConnection->mState == 4) {
+    if (gWiFiConnection == NULL || DWCi_IsError() != 0 ||
+        (wiFiConnection = gWiFiConnection)->mState < WIFI_CONNECTION_LOGGED_IN ||
+        wiFiConnection->mState == WIFI_CONNECTION_BUDDY_SYNC) {
         return FALSE;
     }
     if (playerName == NULL || *playerName == 0) {
@@ -300,7 +302,7 @@ BOOL DWC_UpdateServersAsync(const s8 *playerName, void (*updateCallback)(s32, s3
     gWiFiConnection->mPlayerName[playerNameLength] = 0;
     gWiFiConnection->mBuddySyncCallback = updateCallback;
     gWiFiConnection->mBuddySyncCallbackArg = updateParam;
-    DWCi_SetState(4);
+    DWCi_SetState(WIFI_CONNECTION_BUDDY_SYNC);
     StartBuddySync((s32) gWiFiConnection->mLogin.mAuthToken, gWiFiConnection->mLogin.mPartnerChallenge,
                    (void (*)(s32, u8, void *)) DWCi_UpdateServersCallback, NULL,
                    (void (*)(s32, u8, void *, void *)) statusCallback, statusParam,
@@ -308,23 +310,23 @@ BOOL DWC_UpdateServersAsync(const s8 *playerName, void (*updateCallback)(s32, s3
     return TRUE;
 }
 
-// Connection-level start: only in state 3 and with no error pending; clears the peer tables, stores the callback pair,
-// sets state 5 and calls DWCi_ConnectToAnybodyAsync.
+// Connection-level start: only in LOGGED_IN and with no error pending; clears the peer tables, stores the callback
+// pair, sets PARTNER_SEARCH and calls DWCi_ConnectToAnybodyAsync.
 void DWC_ConnectToAnybodyAsync(u32 numEntry, void *addFilter, void *matchedCallback, void *matchedParam,
                                void *evalCallback, u32 evalParam) {
-    if (DWCi_IsError() == 0 && gWiFiConnection->mState == 3) {
+    if (DWCi_IsError() == 0 && gWiFiConnection->mState == WIFI_CONNECTION_LOGGED_IN) {
         DWCi_ClearGT2ConnectionList();
         gWiFiConnection->mMatchingCallback = (void (*)(u32, u32, void *)) matchedCallback;
         gWiFiConnection->mMatchingCallbackArg = matchedParam;
-        DWCi_SetState(5);
+        DWCi_SetState(WIFI_CONNECTION_PARTNER_SEARCH);
         DWCi_ConnectToAnybodyAsync((u8) (numEntry - 1), addFilter, (u32) DWCi_MatchedCallback, 0, (u32) evalCallback,
                                    evalParam);
     }
 }
 
-// Connection-level start: only in state 3; stores the callback pair, sets state 5 and calls DWCi_ConnectToFriendsAsync
-// with the given list, or with a list of all buddy entries in random order when it is NULL (the one caller passes
-// NULL).
+// Connection-level start: only in LOGGED_IN; stores the callback pair, sets PARTNER_SEARCH and calls
+// DWCi_ConnectToFriendsAsync with the given list, or with a list of all buddy entries in random order when it is
+// NULL (the one caller passes NULL).
 void DWC_ConnectToFriendsAsync(void *friendIdxList, u32 friendIdxListLength, u32 numEntry, u32 distantFriend,
                                void *matchedCallback, void *matchedParam, u32 evalCallback, u32 evalParam) {
     u8 orderedIdxList[0x40];
@@ -332,11 +334,11 @@ void DWC_ConnectToFriendsAsync(void *friendIdxList, u32 friendIdxListLength, u32
     u8 index;
     u8 otherIndex;
     u8 rank;
-    if (DWCi_IsError() == 0 && gWiFiConnection->mState == 3) {
+    if (DWCi_IsError() == 0 && gWiFiConnection->mState == WIFI_CONNECTION_LOGGED_IN) {
         DWCi_ClearGT2ConnectionList();
         gWiFiConnection->mMatchingCallback = (void (*)(u32, u32, void *)) matchedCallback;
         gWiFiConnection->mMatchingCallbackArg = matchedParam;
-        DWCi_SetState(5);
+        DWCi_SetState(WIFI_CONNECTION_PARTNER_SEARCH);
         if (friendIdxList != NULL) {
             DWCi_ConnectToFriendsAsync(friendIdxList, friendIdxListLength, (u8) (numEntry - 1), distantFriend,
                                        DWCi_MatchedCallback, 0, evalCallback, evalParam);
@@ -369,13 +371,14 @@ void DWC_ConnectToFriendsAsync(void *friendIdxList, u32 friendIdxListLength, u32
 s32 DWC_CloseAllConnectionsHard(void) {
     WiFiConnection *wiFiConnection;
     if (gWiFiConnection == NULL || DWCi_IsError() != 0 ||
-        ((wiFiConnection = gWiFiConnection)->mState != 5 && wiFiConnection->mState != 6)) {
+        ((wiFiConnection = gWiFiConnection)->mState != WIFI_CONNECTION_PARTNER_SEARCH &&
+         wiFiConnection->mState != WIFI_CONNECTION_MATCHED)) {
         return -1;
     }
     if (wiFiConnection->mMatching.mLastParticipantPos == 0) {
         DWCi_SetGPStatus(1, "", NULL);
         NNFreeNegotiateList();
-        DWCi_SetState(3);
+        DWCi_SetState(WIFI_CONNECTION_LOGGED_IN);
         return 1;
     }
     wiFiConnection->mOwnCloseFlag = 1;
@@ -387,7 +390,8 @@ s32 DWC_CloseAllConnectionsHard(void) {
 s32 DWC_CloseConnectionHard(s32 aid) {
     void *connection;
     if (gWiFiConnection == NULL || DWCi_IsError() != 0 ||
-        (gWiFiConnection->mState != 5 && gWiFiConnection->mState != 6)) {
+        (gWiFiConnection->mState != WIFI_CONNECTION_PARTNER_SEARCH &&
+         gWiFiConnection->mState != WIFI_CONNECTION_MATCHED)) {
         return -1;
     }
     connection = DWCi_GetGT2Connection(aid);
@@ -402,7 +406,8 @@ s32 DWC_GetNumConnectionHost(void) {
     if (gWiFiConnection == NULL) {
         return 0;
     }
-    if (gWiFiConnection->mMatching.mMode == 2 || gWiFiConnection->mMatching.mMode == 3) {
+    if (gWiFiConnection->mMatching.mMode == WIFI_MATCH_MODE_SERVER ||
+        gWiFiConnection->mMatching.mMode == WIFI_MATCH_MODE_SERVER_CLIENT) {
         return DWCi_GetNumValidConnection() + 1;
     }
     return DWCi_GetNumAllConnection() + 1;
@@ -420,7 +425,8 @@ s32 DWC_GetAIDList(u8 **aidList) {
         return 0;
     }
     *aidList = gWiFiConnection->mMatching.mParticipantIndices;
-    if (gWiFiConnection->mMatching.mMode == 2 || gWiFiConnection->mMatching.mMode == 3) {
+    if (gWiFiConnection->mMatching.mMode == WIFI_MATCH_MODE_SERVER ||
+        gWiFiConnection->mMatching.mMode == WIFI_MATCH_MODE_SERVER_CLIENT) {
         return DWCi_GetValidAIDList((void **) aidList);
     }
     return DWCi_GetAllAIDList((void **) aidList);
@@ -597,19 +603,19 @@ int ReportWiFiGpResult(int result) {
             break;
     }
     switch (gWiFiConnection->mState) {
-        case 1:
+        case WIFI_CONNECTION_GP_SETUP:
             errorCode -= 0xee48;
             DWCi_StopLogin(errorKind, errorCode);
             break;
-        case 2:
+        case WIFI_CONNECTION_LOGIN:
             errorCode -= 0xee48;
             DWCi_StopLogin(errorKind, errorCode);
             break;
-        case 5:
+        case WIFI_CONNECTION_PARTNER_SEARCH:
             errorCode -= 0x13c68;
             DWCi_StopMatching(errorKind, errorCode);
             break;
-        case 4:
+        case WIFI_CONNECTION_BUDDY_SYNC:
             errorCode -= 0x11558;
             break;
         default:
@@ -669,10 +675,10 @@ void DWCi_LoginCallback(int error, u32 profileId) {
     UnkFunc *callback;
     if (error == 0) {
         gWiFiConnection->mProfileId = profileId;
-        DWCi_SetState(3);
+        DWCi_SetState(WIFI_CONNECTION_LOGGED_IN);
         DWCi_InitGPProcessCount();
     } else {
-        DWCi_SetState(0);
+        DWCi_SetState(WIFI_CONNECTION_IDLE);
     }
     callback = gWiFiConnection->mLoginCallback;
     if (callback != NULL) {
@@ -685,8 +691,8 @@ void DWCi_UpdateServersCallback(u32 error, u32 isChanged) {
     gWiFiConnection->mBuddySyncCallback(error, isChanged, gWiFiConnection->mBuddySyncCallbackArg);
 }
 
-// Result callback of both starts (the matching object's mResultCallback): result 0 with flag 0 sets state 6 and finds
-// the own position / mOwnIndex among the participants; result 0 with a flag sets state 3 when no search is running;
+// Result callback of both starts (the matching object's mResultCallback): result 0 with flag 0 sets MATCHED and finds
+// the own position / mOwnIndex among the participants; result 0 with a flag sets LOGGED_IN when no search is running;
 // every result rebuilds mParticipantMask and then calls mMatchingCallback (modes 0 and 1) or the unset mode 2/3
 // callback.
 void DWCi_MatchedCallback(u32 error, u32 cancel, u32 self, u32 isServer, u32 index) {
@@ -696,10 +702,10 @@ void DWCi_MatchedCallback(u32 error, u32 cancel, u32 self, u32 isServer, u32 ind
     if (error == 0 && cancel != 0) {
         if (gWiFiConnection->mMatching.mState == WIFI_MATCH_STATE_IDLE) {
             DWCi_ClearQR2Key();
-            DWCi_SetState(3);
+            DWCi_SetState(WIFI_CONNECTION_LOGGED_IN);
         }
     } else if (error == 0) {
-        DWCi_SetState(6);
+        DWCi_SetState(WIFI_CONNECTION_MATCHED);
         for (participantIndex = 0; participantIndex <= gWiFiConnection->mMatching.mLastParticipantPos;
              participantIndex++) {
             if (gWiFiConnection->mProfileId == gWiFiConnection->mMatching.mParticipantProfileIds[participantIndex]) {
@@ -712,7 +718,8 @@ void DWCi_MatchedCallback(u32 error, u32 cancel, u32 self, u32 isServer, u32 ind
         gWiFiConnection->mMatching.mParticipantIndices, gWiFiConnection->mMatching.mLastParticipantPos + 1);
     DWCi_SetNumValidConnection();
     wiFiConnection = gWiFiConnection;
-    if (wiFiConnection->mMatching.mMode == 2 || wiFiConnection->mMatching.mMode == 3) {
+    if (wiFiConnection->mMatching.mMode == WIFI_MATCH_MODE_SERVER ||
+        wiFiConnection->mMatching.mMode == WIFI_MATCH_MODE_SERVER_CLIENT) {
         wiFiConnection = gWiFiConnection;
         wiFiConnection->mMatchedSCCallback(error, cancel, self, isServer, index, wiFiConnection->mMatchedSCCallbackArg);
     } else {
@@ -750,8 +757,9 @@ void DWCi_GPRecvBuddyMessageCallback(GpConnection *connection, BuddyMessageData 
                     message += versionLength + 1;
                     if (memcmp(message, "MAT", strlen("MAT")) == 0) {
                         wiFiConnection = gWiFiConnection;
-                        if (wiFiConnection->mState == 5 || wiFiConnection->mMatching.mMode == 2 ||
-                            wiFiConnection->mMatching.mMode == 3) {
+                        if (wiFiConnection->mState == WIFI_CONNECTION_PARTNER_SEARCH ||
+                            wiFiConnection->mMatching.mMode == WIFI_MATCH_MODE_SERVER ||
+                            wiFiConnection->mMatching.mMode == WIFI_MATCH_MODE_SERVER_CLIENT) {
                             message += strlen("MAT");
                             DWCi_MatchGPRecvBuddyMsgCallback(connection, arg->mProfile, message);
                         }
@@ -809,8 +817,8 @@ void DWCi_GT2ClosedCallback(Gt2ConnectionView *connection, u32 reason) {
         inMask = (gWiFiConnection->mMatching.mParticipantMask & (1 << aid)) != 0;
         DWCi_ClearTransConnection(aid);
         wiFiConnection = gWiFiConnection;
-        if ((wiFiConnection->mMatching.mMode == 2 && reason == 0) ||
-            (wiFiConnection->mMatching.mMode == 3 && aid == 0)) {
+        if ((wiFiConnection->mMatching.mMode == WIFI_MATCH_MODE_SERVER && reason == 0) ||
+            (wiFiConnection->mMatching.mMode == WIFI_MATCH_MODE_SERVER_CLIENT && aid == 0)) {
             hostSide = TRUE;
         }
         profileId = DWCi_DeleteAID(aid);
@@ -818,8 +826,8 @@ void DWCi_GT2ClosedCallback(Gt2ConnectionView *connection, u32 reason) {
         gWiFiConnection->mMatching.mLastParticipantPos--;
         gWiFiConnection->mMatching.mNNCompletedCount--;
     }
-    if (gWiFiConnection->mOwnCloseFlag == 0 && gWiFiConnection->mState == 6 && inMask == 0) {
-        if (gWiFiConnection->mMatching.mMode == 2 && kind == 0) {
+    if (gWiFiConnection->mOwnCloseFlag == 0 && gWiFiConnection->mState == WIFI_CONNECTION_MATCHED && inMask == 0) {
+        if (gWiFiConnection->mMatching.mMode == WIFI_MATCH_MODE_SERVER && kind == 0) {
             DWCi_GPSetServerStatus();
             DWCi_ProcessMatchSCClosing(profileId);
         }
@@ -832,7 +840,7 @@ void DWCi_GT2ClosedCallback(Gt2ConnectionView *connection, u32 reason) {
         DWCi_SetError(kind, detail);
         return;
     }
-    if (gWiFiConnection->mMatching.mMode == 2) {
+    if (gWiFiConnection->mMatching.mMode == WIFI_MATCH_MODE_SERVER) {
         if (gWiFiConnection->mOwnCloseFlag == 0) {
             DWCi_GPSetServerStatus();
         } else if (gWiFiConnection->mMatching.mLastParticipantPos == 0) {
@@ -841,7 +849,8 @@ void DWCi_GT2ClosedCallback(Gt2ConnectionView *connection, u32 reason) {
     } else if (gWiFiConnection->mMatching.mLastParticipantPos == 0) {
         DWCi_SetGPStatus(1, "", NULL);
     }
-    if (gWiFiConnection->mMatching.mMode == 0 || gWiFiConnection->mMatching.mMode == 1) {
+    if (gWiFiConnection->mMatching.mMode == WIFI_MATCH_MODE_FILTER_SEARCH ||
+        gWiFiConnection->mMatching.mMode == WIFI_MATCH_MODE_BUDDY_LIST) {
         gWiFiConnection->mMatching.mNumEntry = gWiFiConnection->mMatching.mNNCompletedCount;
         qr2_send_statechanged(gWiFiConnection->mMatching.mQr2);
     }
@@ -856,11 +865,11 @@ void DWCi_GT2ClosedCallback(Gt2ConnectionView *connection, u32 reason) {
         closedCallbackArg = &wiFiConnection->mConnectionClosedCallbackArg;
         gWiFiConnection->mConnectionClosedCallback(kind, reason, hostSide, aid, friendListIndex, *closedCallbackArg);
     }
-    if (gWiFiConnection->mOwnCloseFlag != 0 || gWiFiConnection->mMatching.mMode != 2) {
+    if (gWiFiConnection->mOwnCloseFlag != 0 || gWiFiConnection->mMatching.mMode != WIFI_MATCH_MODE_SERVER) {
         if (gWiFiConnection->mMatching.mLastParticipantPos == 0) {
             NNFreeNegotiateList();
             DWCi_ClearQR2Key();
-            DWCi_SetState(3);
+            DWCi_SetState(WIFI_CONNECTION_LOGGED_IN);
         }
     }
 }

@@ -20,6 +20,18 @@ void DWCi_GPRecvBuddyMessageCallback(GpConnection *connection, BuddyMessageData 
 
 extern s32 stLastSocketError;
 
+// Values of WiFiConnection.mState and mPrevState: the GP set-up, the login, the logged-in idle state, the buddy list
+// sync, the partner search and the matched state.
+enum {
+    WIFI_CONNECTION_IDLE = 0,
+    WIFI_CONNECTION_GP_SETUP = 1,
+    WIFI_CONNECTION_LOGIN = 2,
+    WIFI_CONNECTION_LOGGED_IN = 3,
+    WIFI_CONNECTION_BUDDY_SYNC = 4,
+    WIFI_CONNECTION_PARTNER_SEARCH = 5,
+    WIFI_CONNECTION_MATCHED = 6,
+};
+
 typedef struct WiFiConnection {
     // Gt2Socket * (declared void *): created by DWCi_GT2Startup when the login succeeds (called from
     // code_0219c3e4.c), closed by DWC_ShutdownFriendsMatch or by the socket's own callback DWCi_GT2SocketErrorCallback,
@@ -48,8 +60,7 @@ typedef struct WiFiConnection {
     // pointer to it.
     /* 1c */ GpConnection mGpConnection;
     /* 20 */ void *mUnk_20;
-    // 0 idle, 1 GP set-up, 2 login, 3 logged in, 4 buddy sync, 5 partner search, 6 matched. Written by
-    // DWC_InitFriendsMatch (0) and DWCi_SetState only.
+    // WIFI_CONNECTION_*. Written by DWC_InitFriendsMatch (IDLE) and DWCi_SetState only.
     /* 24 */ s32 mState;
     // State before the last DWCi_SetState; DWCi_UpdateServersCallback returns to it when the sync ends.
     /* 28 */ s32 mPrevState;
