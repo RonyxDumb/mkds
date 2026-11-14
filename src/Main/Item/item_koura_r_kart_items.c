@@ -118,7 +118,7 @@ BOOL SteerItemKouraRToKart(ItemKouraR *item, s32 speed, s32 gain, s32 flag) {
             }
         }
         if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCollisionBits & 0x214300) {
-            if (item->mLinkFollowingItemObject.mDirectedItemObject.mUnk_158 == 0 && flag != 0) {
+            if (item->mLinkFollowingItemObject.mDirectedItemObject.mPushOutMode == 0 && flag != 0) {
                 value = VEC_DotProduct(&secondNormal, velocity);
                 offset.x = MUL_FIXED12_NO_ROUND(secondNormal.x, value);
                 offset.y = MUL_FIXED12_NO_ROUND(secondNormal.y, value);

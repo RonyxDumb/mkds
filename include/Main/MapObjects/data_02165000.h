@@ -26,8 +26,8 @@ struct Kart;
 // Three words, three more words and two halfwords; gBattleKartAiParamsHard, gBattleKartAiParamsDefault and
 // gBattleKartAiParamsNormal are one each.
 typedef struct BattleKartAiParams {
-    /* 00 */ s32 mUnk_00[3];
-    /* 0c */ s32 mUnk_0c[3];
+    /* 00 */ s32 mSetupBalloonCountGoalLimits[3];
+    /* 0c */ s32 mPickBalloonCountGoalLimits[3];
     /* 18 */ s16 mInflateWaitFrameCount;
     /* 1a */ s16 mInflateBalloonsLeftLimit;
 } BattleKartAiParams;

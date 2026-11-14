@@ -10,12 +10,12 @@
 // (UpdateTownMonte, InitTownMonteObjects, DrawTownMonte).
 typedef struct TownMonte {
     /* 00 */ MapObject mMapObject;
-// Frame of the .nsbtp animation chosen at random by InitTownMonteObjects; frames 0 and 1 also set mUnk_a2 to 0x1a7
+// Frame of the .nsbtp animation chosen at random by InitTownMonteObjects; frames 0 and 1 also set mSoundId to 0x1a7
 // and 0x1a8.
     /* a0 */ u16 mNsbtpFrameIndex;
     /* a2 */ u16 mSoundId;
-    /* a4 */ s32 mUnk_a4;
-    /* a8 */ s32 mUnk_a8;
+    /* a4 */ s32 mBounceOffset;
+    /* a8 */ s32 mBounceSpeed;
     /* ac */ s32 mMirror;
 } TownMonte;
 

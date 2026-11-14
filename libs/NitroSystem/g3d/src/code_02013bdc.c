@@ -555,7 +555,7 @@ void getMdlTrans_(NNSG3dJntAnmResult *out) {
         out->mFlag |= 4;
         return;
     }
-    src = (const u32 *) node->mUnk_04;
+    src = (const u32 *) node->mTransRotData;
     out->mTrans.x = src[0];
     out->mTrans.y = src[1];
     out->mTrans.z = src[2];
@@ -604,7 +604,7 @@ void getMdlRot_(NNSG3dJntAnmResult *out) {
     nodeInfo = rs->mResNodeInfo;
     table = (u8 *) nodeInfo + nodeInfo->mOfsEntry;
     node = OFFSET_PTR(NNSG3dResNodeData, nodeInfo, *(u32 *) (table + *(u16 *) table * rs->mC[1] + 4));
-    vals = node->mUnk_04;
+    vals = node->mTransRotData;
     if (!(node->mFlag & 1)) {
         vals += 6;
     }
@@ -626,7 +626,7 @@ void getMdlRot_(NNSG3dJntAnmResult *out) {
             }
             out->mRot.a[gRotPivotIndices[pivot][3]] = first;
         } else {
-            out->mRot.a[0] = node->mUnk_02;
+            out->mRot.a[0] = node->mRotFirst;
             out->mRot.a[1] = vals[0];
             out->mRot.a[2] = vals[1];
             out->mRot.a[3] = vals[2];

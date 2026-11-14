@@ -66,8 +66,8 @@ typedef struct MultiSelectMember {
     /* 78 */ BOOL mStartPending;
     /* 7c */ BOOL mReturnPending;
     /* 80 */ BOOL mNameLabelDone;
-    /* 84 */ s32 mUnk_84;
-    /* 88 */ BOOL mUnk_88;
+    /* 84 */ s32 mIsMultiBoot;
+    /* 88 */ BOOL mSkipChildCountSound;
     /* 8c */ BOOL mConnectionNamesDone;
     /* 90 */ s32 mStarted;
     /* 94 */ s32 mState;

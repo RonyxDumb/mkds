@@ -64,7 +64,7 @@ u32 MBi_ReadFromCache(MBiCacheList *table, u32 offset, void *destination, u32 by
             if (offsetInRange >= 0 && offsetInRange + byteCount <= range->mLen) {
                 MI_CpuCopy8(range->mPtr + offsetInRange, destination, byteCount);
                 found = 1;
-                table->mUnk_00 = found;
+                table->mLifetime = found;
                 break;
             }
         }

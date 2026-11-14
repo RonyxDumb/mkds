@@ -1200,7 +1200,7 @@ void SetupKartFollowEffect(KartFollowEffect *effect, u32 kartIndex, u32 countLim
     effect->mCount = 0x0u;
     effect->mCountLimit = countLimit;
     effect->mKartIndex = kartIndex;
-    effect->mUnk_90 = AdvanceKartFollowEffect;
+    effect->mCallback = AdvanceKartFollowEffect;
 }
 
 void AdvanceKartFollowEffect(ParticleEmitter *effect, s32 phase) {
@@ -1238,7 +1238,7 @@ void SetupKartFollowEffectWithVelocity(KartFollowEffect *effect, u32 kartIndex, 
     effect->mCount = 0x0u;
     effect->mCountLimit = countLimit;
     effect->mKartIndex = kartIndex;
-    effect->mUnk_90 = AdvanceKartFollowEffectWithVelocity;
+    effect->mCallback = AdvanceKartFollowEffectWithVelocity;
 }
 
 void AdvanceKartFollowEffectWithVelocity(ParticleEmitter *effect, s32 phase) {

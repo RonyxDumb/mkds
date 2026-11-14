@@ -20,9 +20,9 @@ typedef struct MemberRowCellIndices {
 
 // 8-byte entries of the table at gSelectCharacterRowCellIndices.
 typedef struct SelectCharacterRowCellIndices {
-    /* 00 */ s16 mUnk_00;
+    /* 00 */ s16 mBracketCellIndex;
     /* 02 */ s16 mCharacterCellIndex;
-    /* 04 */ s16 mUnk_04;
+    /* 04 */ s16 mOffsetCellIndex;
     /* 06 */ s16 mRectEntryId;
 } SelectCharacterRowCellIndices;
 
@@ -34,7 +34,10 @@ typedef struct SelectCharacterRow {
 
 // 4-byte entries of the table at gSoundRowTable.
 typedef struct SoundRow {
-    /* 00 */ u8 mUnk_00[4];
+    /* 00 */ u8 mSeqStartProgress;
+    /* 01 */ u8 mSeqId;
+    /* 02 */ u8 mFirstBankId;
+    /* 03 */ u8 mSecondBankId;
 } SoundRow;
 
 // 4-byte entries of the tables at gSelectCharacterPositions8Rows, gSelectCharacterPositions9Rows,

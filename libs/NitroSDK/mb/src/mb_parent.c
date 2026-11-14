@@ -502,7 +502,7 @@ u32 MBi_CommParentSendBlock(void) {
     if (MBi_ReadFromCache(rangeTable, readOffset, sendBlock, blockInfo.mSize) == 0) {
         loadJob = (DataRangeLoadJob *) mbc->mCurTask;
         if (MBi_IsTaskBusy(&loadJob->mTask) == 0) {
-            if (rangeTable->mUnk_00 != 0) {
+            if (rangeTable->mLifetime != 0) {
                 range = rangeTable->mList;
                 lowestRange = NULL;
                 for (rangeIndex = 0; rangeIndex < 4; range++, rangeIndex++) {
@@ -515,7 +515,7 @@ u32 MBi_CommParentSendBlock(void) {
                 if (lowestRange == NULL) {
                     OS_Terminate();
                 }
-                rangeTable->mUnk_00 = 0;
+                rangeTable->mLifetime = 0;
                 lowestRange->mState = 1;
                 lowestRange->mSrc = readOffset & ~0x1f;
                 loadJob->mDataRange = lowestRange;

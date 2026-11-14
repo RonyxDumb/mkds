@@ -10,10 +10,10 @@
 // StartShineBalloon sets.
 typedef struct ShineBalloonObject {
     /* 00 */ MapObject mMapObject;
-    /* a0 */ s32 mUnk_a0;
-    /* a4 */ s32 mUnk_a4;
+    /* a0 */ s32 mPulseScale;
+    /* a4 */ s32 mPulseScaleSpeed;
     /* a8 */ s32 mTimer;
-    /* ac */ Kart *mUnk_ac;
+    /* ac */ Kart *mKart;
     /* b0 */ s32 mState;
 } ShineBalloonObject;
 

@@ -111,9 +111,9 @@ void CreateItemModels(void) {
 #pragma thumb off
 
 void InitLinkFollowingItemFromInUse(LinkFollowingItemObject *follower, ItemInUse *inUse, s32 rampCount,
-                                    s32 rampWeightPerCount, s32 throwForward, s32 d, s32 endsOnFirstHit, s32 baseSpeed,
-                                    u16 targetKartIndex, s32 flag) {
-    InitItemObjectThrow(follower, inUse, (endsOnFirstHit == 0) ? -1 : 0, throwForward, d, baseSpeed);
+                                    s32 rampWeightPerCount, s32 throwForward, s32 pushOutMode, s32 endsOnFirstHit,
+                                    s32 baseSpeed, u16 targetKartIndex, s32 flag) {
+    InitItemObjectThrow(follower, inUse, (endsOnFirstHit == 0) ? -1 : 0, throwForward, pushOutMode, baseSpeed);
     follower->mRampTimer = rampCount;
     follower->mRampWeightPerCount = rampWeightPerCount;
     follower->mPreviousLink = inUse->mKartItems->mItemLink;
@@ -135,7 +135,7 @@ BOOL TryInitLinkFollowingSegments(LinkFollowingItemObject *follower) {
         Vec3NormalizeAndGetLengthUnchecked(&vectors[0], &vectors[1]);
     }
     alignment = Vec3DotUnrounded(direction, &vectors[1]);
-    if (alignment > 0xddb || follower->mDirectedItemObject.mUnk_158 != 0) {
+    if (alignment > 0xddb || follower->mDirectedItemObject.mPushOutMode != 0) {
         vectors[0].x >>= 2;
         vectors[0].y >>= 2;
         vectors[0].z >>= 2;
@@ -163,7 +163,7 @@ void SteerLinkFollowingItemToLink(LinkFollowingItemObject *follower, s32 targetS
     s32 scalar;
 
     AdvanceItemObjectMotion(&follower->mDirectedItemObject, targetSpeed);
-    if (follower->mDirectedItemObject.mUnk_158 != 0 &&
+    if (follower->mDirectedItemObject.mPushOutMode != 0 &&
         (follower->mDirectedItemObject.mItemObject.mFlags & 0x20000) != 0) {
         value = GetKart((u16) (follower->mDirectedItemObject.mItemObject.mOwnerKartIndexAndFlags & ~0xff00))
                     ->mDrawMatrixPos.y +
@@ -175,7 +175,7 @@ void SteerLinkFollowingItemToLink(LinkFollowingItemObject *follower, s32 targetS
     if (follower->mDirectedItemObject.mItemObject.mFlags & 1) {
         return;
     }
-    if (follower->mDirectedItemObject.mUnk_158 == 0) {
+    if (follower->mDirectedItemObject.mPushOutMode == 0) {
         if (follower->mDirectedItemObject.mItemObject.mFlags & 0x20000) {
             return;
         }
@@ -253,7 +253,7 @@ void AdvanceLinkFollowingItemSegments(LinkFollowingItemObject *follower, s32 tar
         prevPos = *pos;
         GetSegmentProgressPoint(segmentPoints, pos);
         velocity->y = 0;
-        if (follower->mDirectedItemObject.mUnk_158 == 0) {
+        if (follower->mDirectedItemObject.mPushOutMode == 0) {
             VEC_Subtract(pos, &prevPos, &prevPos);
             alongNormal = Vec3DotUnrounded(&prevPos, &follower->mDirectedItemObject.mItemObject.mNormal);
             if (alongNormal > 0) {
@@ -261,7 +261,7 @@ void AdvanceLinkFollowingItemSegments(LinkFollowingItemObject *follower, s32 tar
             }
         }
     } else {
-        if (follower->mDirectedItemObject.mUnk_158 != 0 &&
+        if (follower->mDirectedItemObject.mPushOutMode != 0 &&
             (follower->mDirectedItemObject.mItemObject.mFlags & 0x20000) != 0) {
             vector.y = pos->y;
             GetSegmentProgressPointXzLinearY(&segmentPoints->mSegmentProgress, pos);
@@ -278,7 +278,7 @@ void AdvanceLinkFollowingItemSegments(LinkFollowingItemObject *follower, s32 tar
                                 follower->mDirectedItemObject.mItemObject.mCollisionSlotIndex, &vector, &hitNormal,
                                 &wallNormal, &follower->mDirectedItemObject.mItemObject.mCollisionBits, NULL, NULL,
                                 NULL, NULL) != 0) {
-        if (follower->mDirectedItemObject.mUnk_158 != 0) {
+        if (follower->mDirectedItemObject.mPushOutMode != 0) {
             if (vector.y > 0) {
                 pos->y = pos->y + vector.y;
             }
@@ -339,7 +339,7 @@ void AdvanceLinkFollowingItem(LinkFollowingItemObject *follower, s32 targetSpeed
             return;
         }
         if (follower->mDirectedItemObject.mItemObject.mFlags & 0x40020000) {
-            if (follower->mDirectedItemObject.mUnk_158 == 0) {
+            if (follower->mDirectedItemObject.mPushOutMode == 0) {
                 return;
             }
         }
@@ -349,9 +349,9 @@ void AdvanceLinkFollowingItem(LinkFollowingItemObject *follower, s32 targetSpeed
     }
 }
 
-void InitLinkFollowingItem(LinkFollowingItemObject *follower, s32 rampCount, s32 rampWeightPerCount, s32 unused,
+void InitLinkFollowingItem(LinkFollowingItemObject *follower, s32 rampCount, s32 rampWeightPerCount, s32 pushOutMode,
                            s32 endsOnFirstHit, s32 reverse, u16 targetKartIndex, s32 flag) {
-    InitItemObjectMotion(follower, (endsOnFirstHit == 0) ? -1 : 0, reverse, unused);
+    InitItemObjectMotion(follower, (endsOnFirstHit == 0) ? -1 : 0, reverse, pushOutMode);
     follower->mRampTimer = rampCount;
     follower->mRampWeightPerCount = rampWeightPerCount;
     PickNextItemPointLink(&follower->mPreviousLink, &follower->mTargetLink, targetKartIndex, flag);

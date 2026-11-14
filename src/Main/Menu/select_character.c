@@ -473,10 +473,10 @@ void SetSelectCharacterRowCellsVisible(s32 visible) {
     sParts = &selectCharacter->mSParts;
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         for (rowIndex = 0; rowIndex < gSelectCharacter->mTableRowCount; rowIndex++) {
-            sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mUnk_04].mVisible = visible;
+            sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mOffsetCellIndex].mVisible = visible;
             sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mCharacterCellIndex].mVisible =
-                sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mUnk_04].mVisible;
-            sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mUnk_00].mVisible =
+                sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mOffsetCellIndex].mVisible;
+            sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mBracketCellIndex].mVisible =
                 sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mCharacterCellIndex].mVisible;
         }
         sParts->mCellTable[25].mVisible = visible;
@@ -551,8 +551,8 @@ void MoveSelectCharacterBracketsToRow(void) {
     sParts = &selectCharacter->mSParts;
     tableIndex = selectCharacter->mTableIndex;
     tableRow = (SelectCharacterRowCellIndices *) gSelectCharacterRowCellIndices;
-    CopyCellLayoutEntryPosition(0x18, tableRow[tableIndex].mUnk_00, sParts->mCellLayout);
-    CopyCellLayoutEntryPosition(0x19, tableRow[tableIndex].mUnk_00, sParts->mCellLayout);
+    CopyCellLayoutEntryPosition(0x18, tableRow[tableIndex].mBracketCellIndex, sParts->mCellLayout);
+    CopyCellLayoutEntryPosition(0x19, tableRow[tableIndex].mBracketCellIndex, sParts->mCellLayout);
 }
 
 void SetSelectCharacterBracketsMoving(void) {
@@ -749,15 +749,15 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
         SetupCellFileSet(1, gSelectCharacter->mHeap, sParts);
         sParts->mCellTable[24].mVisible = 0;
         for (rowIndex = 0; rowIndex < 12; rowIndex++) {
-            sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mUnk_04].mUseMatrix = 1;
+            sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mOffsetCellIndex].mUseMatrix = 1;
             sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mCharacterCellIndex].mUseMatrix =
-                sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mUnk_04].mUseMatrix;
-            sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mUnk_00].mUseMatrix =
+                sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mOffsetCellIndex].mUseMatrix;
+            sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mBracketCellIndex].mUseMatrix =
                 sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mCharacterCellIndex].mUseMatrix;
-            sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mUnk_04].mDoubleAffine = 0;
+            sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mOffsetCellIndex].mDoubleAffine = 0;
             sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mCharacterCellIndex].mDoubleAffine =
-                sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mUnk_04].mDoubleAffine;
-            sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mUnk_00].mDoubleAffine =
+                sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mOffsetCellIndex].mDoubleAffine;
+            sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mBracketCellIndex].mDoubleAffine =
                 sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mCharacterCellIndex].mDoubleAffine;
         }
         sParts->mCellTable[25].mUseMatrix = 1;
@@ -847,20 +847,20 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
         }
         if (positions != NULL) {
             for (rowIndex = 0; rowIndex < gSelectCharacter->mTableRowCount; rowIndex++) {
-                SetCellLayoutEntryXY(gSelectCharacterRowCellIndices[rowIndex].mUnk_00, positions[rowIndex].mEntryX,
-                                     positions[rowIndex].mEntryY, sParts->mCellLayout);
+                SetCellLayoutEntryXY(gSelectCharacterRowCellIndices[rowIndex].mBracketCellIndex,
+                                     positions[rowIndex].mEntryX, positions[rowIndex].mEntryY, sParts->mCellLayout);
                 SetCellLayoutEntryXY(gSelectCharacterRowCellIndices[rowIndex].mCharacterCellIndex,
                                      positions[rowIndex].mEntryX, positions[rowIndex].mEntryY, sParts->mCellLayout);
                 RectTableSetEntryXY(gSelectCharacterRowCellIndices[rowIndex].mRectEntryId, positions[rowIndex].mEntryX,
                                     positions[rowIndex].mEntryY, sParts->mRects);
-                SetCellLayoutEntryXY(gSelectCharacterRowCellIndices[rowIndex].mUnk_04,
+                SetCellLayoutEntryXY(gSelectCharacterRowCellIndices[rowIndex].mOffsetCellIndex,
                                      (s16) (positions[rowIndex].mEntryX + 3), (s16) (positions[rowIndex].mEntryY + 3),
                                      sParts->mCellLayout);
             }
             for (; rowIndex < 12; rowIndex++) {
-                sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mUnk_00].mVisible = 0;
+                sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mBracketCellIndex].mVisible = 0;
                 sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mCharacterCellIndex].mVisible = 0;
-                sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mUnk_04].mVisible = 0;
+                sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mOffsetCellIndex].mVisible = 0;
                 RectTableSetEntryXY(gSelectCharacterRowCellIndices[rowIndex].mRectEntryId, 0x400, 0x400,
                                     sParts->mRects);
             }

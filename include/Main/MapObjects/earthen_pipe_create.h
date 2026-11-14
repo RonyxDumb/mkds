@@ -23,7 +23,7 @@ typedef struct ItemBox {
     /* 0ac */ s32 mShortSpin;
     /* 0b0 */ s16 mShadowMode;
     /* 0b2 */ u8 mUnk_0b2[2];
-    /* 0b4 */ ShadowMatrix mUnk_0b4;
+    /* 0b4 */ ShadowMatrix mShadowMatrix;
     /* 0e8 */ s32 mBoxAlpha;
     /* 0ec */ s32 mQuestionAlpha;
     /* 0f0 */ u16 mPolygonId;

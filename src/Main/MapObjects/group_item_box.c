@@ -113,7 +113,7 @@ void UpdateGroupItemBox(void *unused, ItemBox *itemBox) {
         itemBox->mMapObject.mPos.y += 0x10000;
     }
     if (itemBox->mShadowMode == 0) {
-        SetShadowPositionXZ(&itemBox->mUnk_0b4, &itemBox->mMapObject.mPos);
+        SetShadowPositionXZ(&itemBox->mShadowMatrix, &itemBox->mMapObject.mPos);
     }
     UpdateItemBox(unused, itemBox);
 }

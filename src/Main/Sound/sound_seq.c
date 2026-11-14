@@ -824,8 +824,8 @@ void InitSceneSounds(s32 unused) {
             break;
     }
     scenePlayersSeqInfo.mUnk_00 = 0xff;
-    scenePlayersSeqInfo.mSeqStartProgress = buf.mUnk_00[0];
-    scenePlayersSeqInfo.mSeqId = buf.mUnk_00[1];
+    scenePlayersSeqInfo.mSeqStartProgress = buf.mSeqStartProgress;
+    scenePlayersSeqInfo.mSeqId = buf.mSeqId;
     InitVolumeFade();
     InitSceneSoundState(sceneSoundRowIndex & 0xff, scenePlayersSeqInfo, &gSceneSoundState);
     InitSoundFalloffsAndPlayingSounds();

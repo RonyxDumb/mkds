@@ -248,7 +248,8 @@ void SetupBattleKartAi(KartAi *kartAi, Kart *kart) {
         kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
         randomValue = (s16) (u16) (kartAiRandom->mValue >> 52);
         for (goalIndex = 0; goalIndex < 3; goalIndex++) {
-            if (kartAiParams->mUnk_00[goalIndex] > 0 && randomValue <= kartAiParams->mUnk_00[goalIndex]) {
+            if (kartAiParams->mSetupBalloonCountGoalLimits[goalIndex] > 0 &&
+                randomValue <= kartAiParams->mSetupBalloonCountGoalLimits[goalIndex]) {
                 balloonCountGoal = goalIndex + 1;
                 break;
             }
@@ -565,7 +566,7 @@ void AdvanceBattleKartAiMicInflate(KartAi *kartAi) {
 }
 
 void PickKartAiBalloonCountGoal(KartAi *kartAi) {
-    s32 *randomLimits = gBattleKartAiParams->mUnk_0c;
+    s32 *randomLimits = gBattleKartAiParams->mPickBalloonCountGoalLimits;
     RandomState64 *kartAiRandom;
     s16 goalIndex;
     s32 randomValue;

@@ -282,9 +282,9 @@ void LoadInitialSndGroup(u32 moveWaveArcs) {
 void LoadSceneSoundSet(SoundRow soundRow, u32 loadExtras) {
     SoundSet soundSet;
 
-    soundSet.mSeqId = soundRow.mUnk_00[1];
-    soundSet.mFirstBankId = soundRow.mUnk_00[2];
-    soundSet.mSecondBankId = soundRow.mUnk_00[3];
+    soundSet.mSeqId = soundRow.mSeqId;
+    soundSet.mFirstBankId = soundRow.mFirstBankId;
+    soundSet.mSecondBankId = soundRow.mSecondBankId;
     LoadSoundSetIfChanged(soundSet, loadExtras);
     if (IsRaceSceneNormalOrReplay() == 0) {
         return;
@@ -364,9 +364,9 @@ u32 LoadCourseSoundSet(u32 raceMode, u32 courseId) {
 
     GetCourseSoundRowIndex(courseId, &row);
     rowCopy = row;
-    soundSet.mSeqId = rowCopy.mUnk_00[1];
-    soundSet.mFirstBankId = rowCopy.mUnk_00[2];
-    soundSet.mSecondBankId = rowCopy.mUnk_00[3];
+    soundSet.mSeqId = rowCopy.mSeqId;
+    soundSet.mFirstBankId = rowCopy.mFirstBankId;
+    soundSet.mSecondBankId = rowCopy.mSecondBankId;
     NNS_SndArcSetCurrent(&gFileSndArc);
     loaded = LoadSoundSetIfChanged(soundSet, 1) != 0;
     if (loaded != 0) {
@@ -380,11 +380,11 @@ u32 LoadResultSceneSoundSet(void) {
     SoundSet soundSet;
 
     row = GetSoundRow(0x29);
-    row.mUnk_00[1] = GetResultSceneSeqId();
+    row.mSeqId = GetResultSceneSeqId();
     rowCopy = row;
-    soundSet.mSeqId = rowCopy.mUnk_00[1];
-    soundSet.mFirstBankId = rowCopy.mUnk_00[2];
-    soundSet.mSecondBankId = rowCopy.mUnk_00[3];
+    soundSet.mSeqId = rowCopy.mSeqId;
+    soundSet.mFirstBankId = rowCopy.mFirstBankId;
+    soundSet.mSecondBankId = rowCopy.mSecondBankId;
     NNS_SndArcSetCurrent(&gFileSndArc);
     return LoadSoundSetIfChanged(soundSet, 1) != 0;
 }

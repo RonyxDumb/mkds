@@ -130,7 +130,7 @@ void InitItemBox(ItemBox *itemBox, CourseMapRow *row) {
             if (itemBox->mUsesGroupShadow != 0) {
                 shadowPos.y += 0x800;
             }
-            if (RefreshShadowMatrix(&itemBox->mUnk_0b4, &shadowPos, 0x14000, 0xd) == 0) {
+            if (RefreshShadowMatrix(&itemBox->mShadowMatrix, &shadowPos, 0x14000, 0xd) == 0) {
                 itemBox->mShadowMode = 2;
             }
         }

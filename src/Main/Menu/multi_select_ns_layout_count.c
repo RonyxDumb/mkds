@@ -248,7 +248,7 @@ void UpdateMultiSelectMemberCells(void) {
     subFileSet->mCellTable[subCellCount].mOffsetY = interpolatedValue;
     subFileSet->mCellTable[0x11].mOffsetY = subFileSet->mCellTable[subCellCount].mOffsetY;
     subFileSet->mCellTable[0x10].mOffsetY = subFileSet->mCellTable[0x11].mOffsetY;
-    if (gMultiSelectMember->mUnk_84 == 0) {
+    if (gMultiSelectMember->mIsMultiBoot == 0) {
         for (cellIndex = 0; cellIndex < 8; cellIndex++) {
             row = &gMultiSelectMember->mRows[cellIndex];
             switch (row->mState) {
@@ -411,10 +411,10 @@ void UpdateMultiSelectMemberNoKeySetup(void) {
                         SetMultiSimple((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0 ? 1 : 0);
                     }
                     gMultiSelectMember->mSetupState = MULTI_SELECT_MEMBER_SETUP_RUN_COMMUNICATION;
-                    if (gMultiSelectMember->mUnk_84 == 0) {
+                    if (gMultiSelectMember->mIsMultiBoot == 0) {
                         gMultiSelectMember->mChildCount = CountMultiSelectChildren();
                         PrintMultiSelectMemberNames();
-                        gMultiSelectMember->mUnk_88 = TRUE;
+                        gMultiSelectMember->mSkipChildCountSound = TRUE;
                     }
                     break;
                 case 2:
@@ -430,7 +430,7 @@ void UpdateMultiSelectMemberNoKeySetup(void) {
             }
             switch (AdvanceMPStateMachineWithOwnIndex()) {
                 case 1:
-                    if (gMultiSelectMember->mUnk_84 == 0 && gMultiSelectMember->mConnectionNamesDone == FALSE) {
+                    if (gMultiSelectMember->mIsMultiBoot == 0 && gMultiSelectMember->mConnectionNamesDone == FALSE) {
                         PrintMultiSelectConnectionNames();
                         SetMultiSelectChildCountCellsVisible();
                     }
@@ -574,10 +574,10 @@ void InitMultiSelectMemberNoKeyStart(void *parentHeap, void *mainOam, void *subO
     mainFileSet = &gMultiSelectMember->mCellFileSets[0];
     subFileSet = &gMultiSelectMember->mCellFileSets[1];
     gMultiSelectMember->mSetupState = MULTI_SELECT_MEMBER_SETUP_CONNECT;
-    gMultiSelectMember->mUnk_84 = IsScanSlotMultiBoot(GetWLMenuSceneScanSlotPick()->mSlotIndex);
+    gMultiSelectMember->mIsMultiBoot = IsScanSlotMultiBoot(GetWLMenuSceneScanSlotPick()->mSlotIndex);
     nameBuffer[0] = 0;
     MIi_CpuClear16(nameBuffer[0], &nameBuffer[1], 0x16);
-    if (gMultiSelectMember->mUnk_84 == 0 &&
+    if (gMultiSelectMember->mIsMultiBoot == 0 &&
         TryGetScanSlotName(GetWLMenuSceneScanSlotPick()->mSlotIndex, &nameBuffer[1]) != 0) {
         nameBuffer[11] = 0;
         PrintLabelLayoutTextNoFixedAdvance(1, gMultiSelectMemberSubLabelRows.mRows[0].mLabelIndex,
@@ -588,12 +588,12 @@ void InitMultiSelectMemberNoKeyStart(void *parentHeap, void *mainOam, void *subO
     subFileSet->mCellTable[0x11].mVisible = 0;
     subFileSet->mCellTable[0x10].mVisible = subFileSet->mCellTable[0x11].mVisible;
     bannerMessage = GetBmgEntry(gMultiSelectMember->mBannerMessages, 10);
-    if (gMultiSelectMember->mUnk_84 != 0) {
+    if (gMultiSelectMember->mIsMultiBoot != 0) {
         SetupTxtSystemSubTextEx(bannerMessage, 0, 0, 1, 0, 1);
     } else {
         SetupTxtSystemMainTextEx(bannerMessage, 0, 0, 1, 0, 0, 0);
     }
-    if (gMultiSelectMember->mUnk_84 != 0) {
+    if (gMultiSelectMember->mIsMultiBoot != 0) {
         count = mainFileSet->mLabelLayout->mCount;
         mainCellCount = mainFileSet->mCellLayout->mCount;
         subLabelCount = subFileSet->mLabelLayout->mCount;
@@ -845,11 +845,11 @@ s32 AdvanceMultiSelectMemberNoKeyStart(SceneNumbers *sceneNumbers) {
     }
     UpdateMultiSelectMemberNoKeySetup();
     previousChildCount = gMultiSelectMember->mChildCount;
-    if (gMultiSelectMember->mUnk_84 == 0 && gMultiSelectMember->mConnectionNamesDone == FALSE) {
+    if (gMultiSelectMember->mIsMultiBoot == 0 && gMultiSelectMember->mConnectionNamesDone == FALSE) {
         gMultiSelectMember->mChildCount = CountMultiSelectChildren();
         if (gMultiSelectMember->mChildCount != previousChildCount) {
             PrintMultiSelectMemberNames();
-            if (gMultiSelectMember->mUnk_88 == FALSE) {
+            if (gMultiSelectMember->mSkipChildCountSound == FALSE) {
                 if (gMultiSelectMember->mChildCount > previousChildCount) {
                     NNS_SndArcSetCurrent(&gOnMemorySndArc);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 2);
@@ -859,12 +859,12 @@ s32 AdvanceMultiSelectMemberNoKeyStart(SceneNumbers *sceneNumbers) {
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 3);
                     NNS_SndArcSetCurrent(&gFileSndArc);
                 }
-                gMultiSelectMember->mUnk_88 = FALSE;
+                gMultiSelectMember->mSkipChildCountSound = FALSE;
             }
         }
         SetMultiSelectChildCountCellsVisible();
     }
-    if (gMultiSelectMember->mUnk_84 == 0 && gMultiSelectMember->mNameLabelDone == FALSE) {
+    if (gMultiSelectMember->mIsMultiBoot == 0 && gMultiSelectMember->mNameLabelDone == FALSE) {
         nameBuffer[0] = 0;
         MIi_CpuClear16(nameBuffer[0], &nameBuffer[1], 0x16);
         if (TryGetScanSlotName(GetWLMenuSceneScanSlotPick()->mSlotIndex, &nameBuffer[1]) != 0) {
@@ -1000,7 +1000,7 @@ void WriteMultiSelectMemberRegisters(void) {
 
     displayBits = 0x17;
     interpolatedValue = GetInterpolatedValue(&gMultiSelectMember->mInterpolations[2]);
-    if (gMultiSelectMember->mUnk_84 == 0 && gMultiSelectMember->mState != MULTI_SELECT_MEMBER_STATE_DONE) {
+    if (gMultiSelectMember->mIsMultiBoot == 0 && gMultiSelectMember->mState != MULTI_SELECT_MEMBER_STATE_DONE) {
         displayBits |= 8;
     }
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | (displayBits << 8);

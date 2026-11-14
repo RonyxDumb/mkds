@@ -17,15 +17,15 @@ typedef struct DirectedItemObject {
     /* 13c */ Vec3 mSurfaceDirection;
     /* 148 */ Vec3 mSideDirection;
     /* 154 */ s32 mHitsRemaining;
-    /* 158 */ s32 mUnk_158;
+    /* 158 */ s32 mPushOutMode;
     /* 15c */ BOOL mHasHitLimit;
-    /* 160 */ BOOL mUnk_160;
-    /* 164 */ u16 mUnk_164;
+    /* 160 */ BOOL mReflectsOnHit;
+    /* 164 */ u16 mCollisionQueryFlags;
     /* 166 */ u8 mUnk_166[2];
 } DirectedItemObject;
 
 void SetItemObjectDirection(void *objectParam, const Vec3 *direction);
-void InitItemObjectMotion(void *objectParam, s32 hitLimit, s32 reverse, s32 unused);
+void InitItemObjectMotion(void *objectParam, s32 hitLimit, s32 reverse, s32 pushOutMode);
 void DeflectItemObjectOnHit(DirectedItemObject *object, Vec3 *otherVelocity, Vec3 *awayDirection);
 void ApplyItemObjectGravityWithGroundPull(ItemObject *object);
 void ApplyItemObjectGravity(void *objectParam);
@@ -34,5 +34,5 @@ void DeflectItemObjectAndStartSound(DirectedItemObject *object, Vec3 *hitNormal,
 void DeflectItemObjectAlongSurfaceAndStartSound(DirectedItemObject *object, Vec3 *hitNormal);
 void SetItemObjectDirectionFromVelocity(ItemKouraR *item);
 void ComputeItemSurfaceDirection(Vec3 *direction, Vec3 *normal, Vec3 *result);
-void InitItemObjectThrow(void *objectParam, ItemInUse *inUseParam, s32 hitLimit, s32 throwForward, s32 unused,
+void InitItemObjectThrow(void *objectParam, ItemInUse *inUseParam, s32 hitLimit, s32 throwForward, s32 pushOutMode,
                          s32 baseSpeed);

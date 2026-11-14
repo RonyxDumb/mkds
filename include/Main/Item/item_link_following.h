@@ -18,7 +18,7 @@ typedef struct LinkFollowingItemObject {
     /* 224 */ s32 mLinkWasBehind;
 } LinkFollowingItemObject;
 
-void InitLinkFollowingItem(LinkFollowingItemObject *follower, s32 rampCount, s32 rampWeightPerCount, s32 unused,
+void InitLinkFollowingItem(LinkFollowingItemObject *follower, s32 rampCount, s32 rampWeightPerCount, s32 pushOutMode,
                            s32 endsOnFirstHit, s32 reverse, u16 targetKartIndex, s32 flag);
 void AdvanceLinkFollowingItem(LinkFollowingItemObject *follower, s32 targetSpeed, s32 speedEase, s32 targetKartIndex,
                               s32 flag);
@@ -27,8 +27,8 @@ void AdvanceLinkFollowingItemSegments(LinkFollowingItemObject *follower, s32 tar
 void SteerLinkFollowingItemToLink(LinkFollowingItemObject *follower, s32 targetSpeed, s32 targetKartIndex, s32 flag);
 BOOL TryInitLinkFollowingSegments(LinkFollowingItemObject *follower);
 void InitLinkFollowingItemFromInUse(LinkFollowingItemObject *follower, ItemInUse *inUse, s32 rampCount,
-                                    s32 rampWeightPerCount, s32 throwForward, s32 d, s32 endsOnFirstHit, s32 baseSpeed,
-                                    u16 targetKartIndex, s32 flag);
+                                    s32 rampWeightPerCount, s32 throwForward, s32 pushOutMode, s32 endsOnFirstHit,
+                                    s32 baseSpeed, u16 targetKartIndex, s32 flag);
 void CreateItemModels(void);
 void *CreateItemNsbmd(char *modelName, char *textureName);
 NsbmdModel *CreateItemModel(char *modelName, char *animationName, char *textureName);

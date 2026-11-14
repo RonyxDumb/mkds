@@ -16,23 +16,23 @@ const AnmFrameCountGetter gAnmFrameCountGetters[5] = {
 u32 gAnmObjSizeRequired;
 
 u32 JointGetAnmObjFrameCount(AnmObjView *anmObj) {
-    return anmObj->mUnk_08->mFrameCount;
+    return anmObj->mResAnm->mFrameCount;
 }
 
 u32 TexSrtGetAnmObjFrameCount(AnmObjView *anmObj) {
-    return anmObj->mUnk_08->mFrameCount;
+    return anmObj->mResAnm->mFrameCount;
 }
 
 u32 TexPatGetAnmObjFrameCount(AnmObjView *anmObj) {
-    return anmObj->mUnk_08->mFrameCount;
+    return anmObj->mResAnm->mFrameCount;
 }
 
 u32 VisGetAnmObjFrameCount(AnmObjView *anmObj) {
-    return anmObj->mUnk_08->mFrameCount;
+    return anmObj->mResAnm->mFrameCount;
 }
 
 u32 MatCGetAnmObjFrameCount(AnmObjView *anmObj) {
-    return anmObj->mUnk_08->mFrameCount;
+    return anmObj->mResAnm->mFrameCount;
 }
 
 void InitModelAnimation(u32 kind, ModelAnimation *modelAnimation, Nsbmd *renderObj, u32 anmObjCount, void *heap,

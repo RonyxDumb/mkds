@@ -193,8 +193,8 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
     }
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         LocateAndQueueScreenMapFileSet(0, screenMapFileSet, "common/select_game_m_b.NCGR",
-                                       "common/select_game_m_b.NCLR", gSelectGameFileNames[gSelectGame->mMode].mUnk_08,
-                                       1, FindSceneFile);
+                                       "common/select_game_m_b.NCLR",
+                                       gSelectGameFileNames[gSelectGame->mMode].mScreenMapName, 1, FindSceneFile);
     }
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         mainObjSizeLeft = GX_GetSizeOfOBJ();
@@ -235,8 +235,8 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
     }
     subFileSet = &gSelectGame->mCellFileSets[1];
     LocateCellFileSet(subFileSet, "common/select_game_s.nce.ncgr", "common/select_game_s.nce.ncer",
-                      "common/select_game_s_o.NCLR", gSelectGameFileNames[gSelectGame->mMode].mUnk_00, NULL,
-                      gSelectGameFileNames[gSelectGame->mMode].mUnk_04, FindSceneFile);
+                      "common/select_game_s_o.NCLR", gSelectGameFileNames[gSelectGame->mMode].mCellLayoutName, NULL,
+                      gSelectGameFileNames[gSelectGame->mMode].mRectsName, FindSceneFile);
     SetupCellFileSet(1, gSelectGame->mHeap, subFileSet);
     SetSelectGameSubCellsVisible(0);
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {

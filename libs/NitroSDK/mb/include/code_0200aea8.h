@@ -11,7 +11,7 @@ typedef struct MBiCacheInfo {
 } MBiCacheInfo;
 
 typedef struct MBiCacheList {
-    /* 00 */ u32 mUnk_00;
+    /* 00 */ u32 mLifetime;
     /* 04 */ u8 mUnk_04[0xc];
     /* 10 */ u8 mArcName[4];
     /* 14 */ s32 mArcNameLen;

@@ -47,8 +47,8 @@ typedef struct RaceGoalM {
     /* 0c */ s32 mPointsGained;
     /* 10 */ u16 mFirstPlaceKartIndex;
     /* 12 */ u8 mUnk_12[2];
-    /* 14 */ s32 mUnk_14;
-    /* 18 */ s32 mUnk_18;
+    /* 14 */ s32 mMissionRecordValue;
+    /* 18 */ s32 mComputedMissionRecordValue;
 } RaceGoalM;
 
 void InitRaceLinkLevel(void);

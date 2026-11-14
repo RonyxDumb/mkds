@@ -68,17 +68,17 @@ void DrawShineBalloon(void *mapObjectList, ShineBalloonObject *shineBalloonObjec
     s32 scale;
     s32 cameraDistance;
 
-    if (shineBalloonObject->mUnk_ac->mVisible == 0) {
+    if (shineBalloonObject->mKart->mVisible == 0) {
         return;
     }
     gxParam = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
     NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&shineBalloonObject->mMapObject.mPos), 0xc);
-    heightOffset.y = GetKartBalloonOrShineHeight(shineBalloonObject->mUnk_ac) >> 4;
+    heightOffset.y = GetKartBalloonOrShineHeight(shineBalloonObject->mKart) >> 4;
     heightOffset.x = 0;
     heightOffset.z = 0;
     NNS_G3dGeBufferOP_N(0x1c, &heightOffset, 3);
-    scale = shineBalloonObject->mUnk_a0;
+    scale = shineBalloonObject->mPulseScale;
     if (scale != 0x1000) {
         pulseScale.x = scale;
         pulseScale.y = scale;
@@ -98,11 +98,11 @@ void DrawShineBalloon(void *mapObjectList, ShineBalloonObject *shineBalloonObjec
 void UpdateShineBalloon(void *mapObjectList, ShineBalloonObject *shineBalloonObject) {
     switch (shineBalloonObject->mState) {
         case 0:
-            if (GetBalloonOrShineCount(shineBalloonObject->mUnk_ac->mIndex) == 0) {
+            if (GetBalloonOrShineCount(shineBalloonObject->mKart->mIndex) == 0) {
                 return;
             }
             shineBalloonObject->mTimer = 0x1e;
-            shineBalloonObject->mUnk_a4 = 0x19;
+            shineBalloonObject->mPulseScaleSpeed = 0x19;
             shineBalloonObject->mState = 1;
             shineBalloonObject->mMapObject.mFlags &= ~2;
             shineBalloonObject->mMapObject.mFlags &= ~8;
@@ -113,39 +113,39 @@ void UpdateShineBalloon(void *mapObjectList, ShineBalloonObject *shineBalloonObj
                 return;
             }
             shineBalloonObject->mTimer = 0;
-            shineBalloonObject->mUnk_a0 += shineBalloonObject->mUnk_a4;
-            shineBalloonObject->mUnk_a4 -= 4;
-            if (shineBalloonObject->mUnk_a4 < 0) {
-                if (shineBalloonObject->mUnk_a0 <= 0x4a) {
-                    shineBalloonObject->mUnk_a0 = 0x4a;
+            shineBalloonObject->mPulseScale += shineBalloonObject->mPulseScaleSpeed;
+            shineBalloonObject->mPulseScaleSpeed -= 4;
+            if (shineBalloonObject->mPulseScaleSpeed < 0) {
+                if (shineBalloonObject->mPulseScale <= 0x4a) {
+                    shineBalloonObject->mPulseScale = 0x4a;
                     shineBalloonObject->mState = 2;
                 }
             }
-            shineBalloonObject->mMapObject.mPos = shineBalloonObject->mUnk_ac->mPos;
+            shineBalloonObject->mMapObject.mPos = shineBalloonObject->mKart->mPos;
             break;
         case 2:
-            if (GetBalloonOrShineCount(shineBalloonObject->mUnk_ac->mIndex) == 0) {
+            if (GetBalloonOrShineCount(shineBalloonObject->mKart->mIndex) == 0) {
                 shineBalloonObject->mTimer = 0x1e;
-                shineBalloonObject->mUnk_a4 = 8;
+                shineBalloonObject->mPulseScaleSpeed = 8;
                 shineBalloonObject->mState = 3;
             }
-            shineBalloonObject->mMapObject.mPos = shineBalloonObject->mUnk_ac->mPos;
+            shineBalloonObject->mMapObject.mPos = shineBalloonObject->mKart->mPos;
             break;
         case 3:
             if (shineBalloonObject->mTimer-- <= 0) {
                 shineBalloonObject->mTimer = 0;
-                shineBalloonObject->mUnk_a0 += shineBalloonObject->mUnk_a4;
-                shineBalloonObject->mUnk_a4 -= 4;
-                if (shineBalloonObject->mUnk_a4 < 0) {
-                    if (shineBalloonObject->mUnk_a0 <= 0) {
-                        shineBalloonObject->mUnk_a0 = 0;
+                shineBalloonObject->mPulseScale += shineBalloonObject->mPulseScaleSpeed;
+                shineBalloonObject->mPulseScaleSpeed -= 4;
+                if (shineBalloonObject->mPulseScaleSpeed < 0) {
+                    if (shineBalloonObject->mPulseScale <= 0) {
+                        shineBalloonObject->mPulseScale = 0;
                         shineBalloonObject->mState = 0;
                         shineBalloonObject->mMapObject.mFlags |= gShineBalloonEndFlag;
                         shineBalloonObject->mMapObject.mFlags |= gShineBalloonEndSecondFlag;
                     }
                 }
             }
-            shineBalloonObject->mMapObject.mPos = shineBalloonObject->mUnk_ac->mPos;
+            shineBalloonObject->mMapObject.mPos = shineBalloonObject->mKart->mPos;
             break;
     }
 }
@@ -175,9 +175,9 @@ void StartShineBalloon(Kart *kart) {
     shineBalloonObject->mMapObject.mPosStep.x = 0;
     shineBalloonObject->mMapObject.mPosStep.y = 0;
     shineBalloonObject->mMapObject.mPosStep.z = 0;
-    shineBalloonObject->mUnk_ac = kart;
-    shineBalloonObject->mUnk_a0 = 0;
-    shineBalloonObject->mUnk_a4 = 0;
+    shineBalloonObject->mKart = kart;
+    shineBalloonObject->mPulseScale = 0;
+    shineBalloonObject->mPulseScaleSpeed = 0;
     shineBalloonObject->mTimer = 0;
     shineBalloonObject->mState = 0;
 }

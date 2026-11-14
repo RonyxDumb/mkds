@@ -318,8 +318,8 @@ void DrawItemBoxShadow(void *unused, ItemBox *itemBox, u32 unusedArg, u32 maxAlp
         return;
     }
     if (itemBox->mShadowMode == 0) {
-        itemBox->mUnk_0b4.mAlphaCap = alphaCap;
-        DrawObjShadowAfterMaterial(&itemBox->mUnk_0b4,
+        itemBox->mShadowMatrix.mAlphaCap = alphaCap;
+        DrawObjShadowAfterMaterial(&itemBox->mShadowMatrix,
                                    itemBox->mUsesGroupShadow != 0 ? &gGroupItemBoxShadowScaleWord : 0, unusedArg,
                                    maxAlpha);
         return;

@@ -6,7 +6,7 @@ struct ParticleEmitter;
 
 typedef struct KartFollowEffect {
     /* 00 */ u8 mUnk_00[0x90];
-    /* 90 */ void (*mUnk_90)(struct ParticleEmitter *p, s32 a);
+    /* 90 */ void (*mCallback)(struct ParticleEmitter *emitter, s32 phase);
     /* 94 */ u8 mUnk_94[0x5];
     /* 99 */ u8 mCountLimit;
     /* 9a */ u8 mCount;

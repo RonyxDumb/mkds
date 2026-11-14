@@ -7,7 +7,7 @@
 #include "Main/Sound/sound_start.h"
 #include "code_02147cd8.h"
 
-void InitItemObjectThrow(void *objectParam, ItemInUse *inUseParam, s32 hitLimit, s32 throwForward, s32 unused,
+void InitItemObjectThrow(void *objectParam, ItemInUse *inUseParam, s32 hitLimit, s32 throwForward, s32 pushOutMode,
                          s32 baseSpeed) {
     DirectedItemObject *object;
     ItemInUse *inUse;
@@ -67,9 +67,9 @@ void InitItemObjectThrow(void *objectParam, ItemInUse *inUseParam, s32 hitLimit,
         object->mHasHitLimit = TRUE;
     }
     object->mItemObject.mBounce = (void (*)(ItemObject *, Vec3 *, Vec3 *)) DeflectItemObjectOnHit;
-    object->mUnk_160 = TRUE;
-    object->mUnk_158 = unused;
-    object->mUnk_164 = 4;
+    object->mReflectsOnHit = TRUE;
+    object->mPushOutMode = pushOutMode;
+    object->mCollisionQueryFlags = 4;
 }
 
 void ComputeItemSurfaceDirection(Vec3 *direction, Vec3 *normal, Vec3 *result) {
@@ -130,7 +130,7 @@ void DeflectItemObjectAlongSurfaceAndStartSound(DirectedItemObject *object, Vec3
     object->mSurfaceDirection.x -= along.x;
     velocityDirection->y -= along.y;
     velocityDirection->z -= along.z;
-    if (object->mUnk_160 != FALSE) {
+    if (object->mReflectsOnHit != FALSE) {
         VEC_Subtract(velocityDirection, &along, velocityDirection);
     }
     if ((s64) velocityDirection->x * velocityDirection->x + (s64) velocityDirection->y * velocityDirection->y +
@@ -164,7 +164,7 @@ void DeflectItemObjectAndStartSound(DirectedItemObject *object, Vec3 *hitNormal,
     object->mDirection.x -= along.x;
     direction->y -= along.y;
     direction->z -= along.z;
-    if (object->mUnk_160 != FALSE) {
+    if (object->mReflectsOnHit != FALSE) {
         VEC_Subtract(direction, &along, direction);
     }
     if (LENGTH_SQUARED(*direction) >= 0x10) {
@@ -193,12 +193,13 @@ void AdvanceItemObjectMotion(DirectedItemObject *object, s32 targetSpeed) {
     velocity = &object->mItemObject.mVelocity;
     direction = &object->mDirection;
     VEC_Add(velocity, pos, pos);
-    value = CollideSphereWithCourse(pos, &object->mItemObject.mPrevPos, 0, object->mItemObject.mCourseRadius,
-                                    object->mUnk_164, object->mItemObject.mCollisionSlotIndex, &pushOut, &hitNormal,
-                                    &unusedOut, &object->mItemObject.mCollisionBits, NULL, NULL, NULL, NULL);
+    value =
+        CollideSphereWithCourse(pos, &object->mItemObject.mPrevPos, 0, object->mItemObject.mCourseRadius,
+                                object->mCollisionQueryFlags, object->mItemObject.mCollisionSlotIndex, &pushOut,
+                                &hitNormal, &unusedOut, &object->mItemObject.mCollisionBits, NULL, NULL, NULL, NULL);
     if (value != 0) {
         flag80000 = object->mItemObject.mCollisionBits & 0x80000;
-        if (object->mUnk_158 != 0) {
+        if (object->mPushOutMode != 0) {
             if (pushOut.y > 0) {
                 pos->y += pushOut.y;
             }
@@ -231,7 +232,7 @@ void AdvanceItemObjectMotion(DirectedItemObject *object, s32 targetSpeed) {
             }
         }
         if (object->mItemObject.mCollisionBits & 0x214300) {
-            if (object->mUnk_158 != 0) {
+            if (object->mPushOutMode != 0) {
                 pos->x += pushOut.x;
                 pos->z += pushOut.z;
             }
@@ -388,7 +389,7 @@ void DeflectItemObjectOnHit(DirectedItemObject *object, Vec3 *otherVelocity, Vec
     object->mItemObject.mVelocity.z = MUL_FIXED12_NO_ROUND(object->mSurfaceDirection.z, speed);
 }
 
-void InitItemObjectMotion(void *objectParam, s32 hitLimit, s32 reverse, s32 unused) {
+void InitItemObjectMotion(void *objectParam, s32 hitLimit, s32 reverse, s32 pushOutMode) {
     DirectedItemObject *object;
     s32 speed;
     s32 negatedZ;
@@ -423,8 +424,8 @@ void InitItemObjectMotion(void *objectParam, s32 hitLimit, s32 reverse, s32 unus
         object->mHasHitLimit = TRUE;
     }
     object->mItemObject.mBounce = (void (*)(ItemObject *, Vec3 *, Vec3 *)) DeflectItemObjectOnHit;
-    object->mUnk_160 = TRUE;
-    object->mUnk_158 = unused;
+    object->mReflectsOnHit = TRUE;
+    object->mPushOutMode = pushOutMode;
 }
 
 void SetItemObjectDirection(void *objectParam, const Vec3 *direction) {

@@ -24,8 +24,8 @@ typedef struct Unk02170500_d4 {
 
 typedef struct NNSG3dResNodeData {
     /* 00 */ u16 mFlag;
-    /* 02 */ s16 mUnk_02;
-    /* 04 */ s16 mUnk_04[8];
+    /* 02 */ s16 mRotFirst;
+    /* 04 */ s16 mTransRotData[8];
 } NNSG3dResNodeData;
 
 void *NNSi_G3dGetBinaryBlockFromFile(const u8 *pFileHead, u32 fileSignature, u32 blockSignature);

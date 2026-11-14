@@ -47,7 +47,7 @@ typedef struct AnmResourceHead {
 
 typedef struct AnmObjView {
     /* 00 */ u8 mUnk_00[8];
-    /* 08 */ AnmResourceHead *mUnk_08;
+    /* 08 */ AnmResourceHead *mResAnm;
 } AnmObjView;
 
 s32 GetModelAnimationFrameCountFixed(ModelAnimation *modelAnimation);

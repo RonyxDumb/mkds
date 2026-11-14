@@ -172,7 +172,7 @@ void InitItemKouraWCommon(ItemKouraW *item) {
     ResetSoundDistanceSquaredChange(&item->mSoundDistanceSquaredChange);
     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mSoundSource.mTrackParamsFunction =
         (void (*)(void *, void *, void *)) SetItemKouraWSoundTrackParams;
-    item->mLinkFollowingItemObject.mDirectedItemObject.mUnk_160 = 0;
+    item->mLinkFollowingItemObject.mDirectedItemObject.mReflectsOnHit = 0;
     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDrawPos =
         item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos;
     FreeItemObjectCollisionSlot(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject);

@@ -3,7 +3,7 @@
 #include "types.h"
 
 typedef struct DWCAccFriendData {
-    /* 00 */ u32 mUnk_00;
+    /* 00 */ u32 mIdData;
     /* 04 */ u32 mUnk_04;
     /* 08 */ u32 mUnk_08;
 } DWCAccFriendData;

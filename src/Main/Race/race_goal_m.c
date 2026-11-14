@@ -87,13 +87,13 @@ void InitRaceGoalM(void) {
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         if (GetMissionRecordValue(gRaceSetup->mMode == MODE_MISSION_RUN ? gRaceSetup->mMissionTableRow : -1,
                                   gRaceSetup->mMode == MODE_MISSION_RUN ? gRaceSetup->mMissionTableColumn : -1,
-                                  &gRaceGoalM->mUnk_14) == 0) {
-            gRaceGoalM->mUnk_14 = 9;
+                                  &gRaceGoalM->mMissionRecordValue) == 0) {
+            gRaceGoalM->mMissionRecordValue = 9;
         }
     } else {
-        gRaceGoalM->mUnk_14 = 9;
+        gRaceGoalM->mMissionRecordValue = 9;
     }
-    gRaceGoalM->mUnk_18 = 9;
+    gRaceGoalM->mComputedMissionRecordValue = 9;
 }
 
 void ClearRaceGoalMPointer(void) {
@@ -160,13 +160,13 @@ void UpdateRaceGoalM(void) {
             break;
         case MODE_MISSION_RUN:
             if (IsKartEnded((u16) gRaceSetup->mEntryIndex) != 0 ? gRaceProgress->mEntryEndKind : 6) {
-                gRaceGoalM->mUnk_18 = 9;
+                gRaceGoalM->mComputedMissionRecordValue = 9;
             } else {
-                gRaceGoalM->mUnk_18 = ComputeMissionRecordValue();
+                gRaceGoalM->mComputedMissionRecordValue = ComputeMissionRecordValue();
             }
             if ((IsKartEnded((u16) gRaceSetup->mEntryIndex) != 0 ? gRaceProgress->mEntryEndKind : 6) == 0) {
                 if (frame == 1) {
-                    switch (gRaceGoalM->mUnk_18) {
+                    switch (gRaceGoalM->mComputedMissionRecordValue) {
                         case 0:
                         case 1:
                         case 2:
@@ -287,7 +287,8 @@ void DrawRaceGoalMMissionRun(RaceHudOamBuffer *oamBuffer) {
 
     frames = gRaceGoalM->mUpdateFrames;
     offsetY = InterpolateS16(1, -0x80, 0, frames, 0x14);
-    if (gRaceGoalM->mUnk_14 != 9 && gRaceGoalM->mUnk_18 > gRaceGoalM->mUnk_14 && frames >= 0x1e) {
+    if (gRaceGoalM->mMissionRecordValue != 9 &&
+        gRaceGoalM->mComputedMissionRecordValue > gRaceGoalM->mMissionRecordValue && frames >= 0x1e) {
         blinkFrame = frames - 10;
         if (blinkFrame < 0x54) {
             frames = blinkFrame % 12;
@@ -296,7 +297,7 @@ void DrawRaceGoalMMissionRun(RaceHudOamBuffer *oamBuffer) {
             }
         }
     }
-    switch (gRaceGoalM->mUnk_18) {
+    switch (gRaceGoalM->mComputedMissionRecordValue) {
         case 0:
             cellIndex = 7;
             break;
@@ -322,7 +323,7 @@ void DrawRaceGoalMMissionRun(RaceHudOamBuffer *oamBuffer) {
             cellIndex = 0;
             break;
     }
-    if (gRaceGoalM->mUnk_18 >= 8) {
+    if (gRaceGoalM->mComputedMissionRecordValue >= 8) {
         return;
     }
     cell = GetRaceGoalMrMNcerEntry(cellIndex);

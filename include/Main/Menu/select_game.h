@@ -49,9 +49,9 @@ extern SelectGame *gSelectGame;
 
 // 12-byte entries of gSelectGameFileNames, one per mode.
 typedef struct SelectGameFileNames {
-    /* 00 */ const char *mUnk_00;
-    /* 04 */ const char *mUnk_04;
-    /* 08 */ const char *mUnk_08;
+    /* 00 */ const char *mCellLayoutName;
+    /* 04 */ const char *mRectsName;
+    /* 08 */ const char *mScreenMapName;
 } SelectGameFileNames;
 
 void WriteSelectGameMainRegisters(void);

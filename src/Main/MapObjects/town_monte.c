@@ -62,13 +62,13 @@ static inline u16 TownMonteMapObjectRandomBelowU16(u32 limit) {
 }
 
 static inline void AdvanceTownMonteBounce(TownMonte *townMonte) {
-    townMonte->mUnk_a4 += townMonte->mUnk_a8;
-    townMonte->mUnk_a8 += 0x4000;
-    if (townMonte->mUnk_a4 == 0) {
-        townMonte->mUnk_a4 += townMonte->mUnk_a8;
-        townMonte->mUnk_a8 += 0x4000;
-    } else if (townMonte->mUnk_a4 >= 0x16c000) {
-        townMonte->mUnk_a8 = 0x4000 - townMonte->mUnk_a8;
+    townMonte->mBounceOffset += townMonte->mBounceSpeed;
+    townMonte->mBounceSpeed += 0x4000;
+    if (townMonte->mBounceOffset == 0) {
+        townMonte->mBounceOffset += townMonte->mBounceSpeed;
+        townMonte->mBounceSpeed += 0x4000;
+    } else if (townMonte->mBounceOffset >= 0x16c000) {
+        townMonte->mBounceSpeed = 0x4000 - townMonte->mBounceSpeed;
         townMonte->mMirror = townMonte->mMirror == 0 ? 1 : 0;
     }
 }
@@ -203,7 +203,7 @@ void DrawTownMonte(void *mapObjectList, TownMonte *townMonte) {
     s32 tilt;
     MtxFx43 *viewMatrix;
 
-    tilt = FROM_FIXED12(0x16c000 - townMonte->mUnk_a4);
+    tilt = FROM_FIXED12(0x16c000 - townMonte->mBounceOffset);
     gxParam = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
     if (townMonte->mMirror != 0) {
@@ -233,8 +233,8 @@ void InitTownMonteObjects(MapObjectList *mapObjectList) {
     for (mapObjectIndex = 0; mapObjectIndex < mapObjectList->mMapObjectCount &&
                              (townMonte = mapObjectList->mMapObjects[mapObjectIndex]) != NULL;
          mapObjectIndex++) {
-        townMonte->mUnk_a4 = 0;
-        townMonte->mUnk_a8 = 0;
+        townMonte->mBounceOffset = 0;
+        townMonte->mBounceSpeed = 0;
         nsbtpFrameCount = GetMapObjectModelNsbtpFrameCount(gTownMonte);
         townMonte->mNsbtpFrameIndex = TownMonteMapObjectRandomBelowU16(nsbtpFrameCount);
         mapObjectRandom = GetMapObjectRandom();
