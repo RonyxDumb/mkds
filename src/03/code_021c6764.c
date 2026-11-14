@@ -35,7 +35,7 @@
 #include "03/code_021d27d8.h"
 #include "03/code_021d2ecc.h"
 #include "03/code_021c6708.h"
-#include "03/code_021c04ec.h"
+#include "03/EditKeyboard.h"
 #include "03/code_021c5724.h"
 #include "03/code_021c7d30.h"
 

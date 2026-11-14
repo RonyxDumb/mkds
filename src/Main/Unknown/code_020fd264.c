@@ -41,7 +41,7 @@
 #include "Main/Unknown/unk_0217d000.h"
 #include "code_0212bcac.h"
 #include "code_0212df7c.h"
-#include "Main/Unknown/code_020ed5c0.h"
+#include "Main/Item/ItemInUse.h"
 #include "Main/Unknown/code_020f49bc.h"
 #include "Main/Unknown/code_020f7000.h"
 #include "Main/Unknown/code_020f8000.h"

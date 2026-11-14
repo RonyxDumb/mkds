@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "Main/Unknown/code_02099020.h"
-#include "Main/Unknown/code_0209bc74.h" // MapObjectModel
+#include "Main/Course/MapObjectModel.h" // MapObjectModel
 #include "Main/Unknown/code_020e005c.h" // GroupFollower
 #include "code_02146d78.h"
 #include "Main/Unknown/code_020e6fd4.h" // MapObject, MapObjectList

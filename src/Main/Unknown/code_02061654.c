@@ -19,7 +19,7 @@
 #include "Main/Unknown/code_0203ca20.h"
 #include "Main/Unknown/code_0207a30c.h"
 #include "Main/Unknown/code_02062ed8.h"
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/Heap.h"
 #include "registers.h"
 #include "Main/Unknown/code_0206bcb0.h"
 #include "Main/Unknown/code_02073eb8.h"

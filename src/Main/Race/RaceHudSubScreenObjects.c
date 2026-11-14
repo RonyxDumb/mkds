@@ -1,4 +1,4 @@
-#include "Main/Unknown/code_020cccd8.h"
+#include "Main/Race/RaceHudSubScreenObjects.h"
 
 #include "Main/Unknown/code_020c06c4.h"
 #include "Main/Unknown/code_020c0b84.h"

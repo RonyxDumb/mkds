@@ -217,7 +217,7 @@ Regional code under `#ifdef version_EUR`, each checked against the European orig
 
 1,593 of 1,599 units are linked, and the rebuilt ROM keeps the original SHA-1; `ninja check` passes. Not
 linked: `src/00/code_02180608.c` (the function above), and the five units that are not complete for USA either
-(`src/Main/Unknown/code_020b1de4.c`, `code_020b2ecc.c`, `code_02125960.c`, `libs/mathlib/src/code_02133048.c`,
+(`src/Main/Ui/ChoisesS.c`, `code_020b2ecc.c`, `code_02125960.c`, `libs/mathlib/src/code_02133048.c`,
 `libs/NitroSDK/card/src/code_021458c4.c`). Calls/pointers, callees, strings, signatures and prototypes report no
 differences, and every unit passes `tools/check_units.py`.
 
@@ -226,14 +226,14 @@ differences, and every unit passes `tools/check_units.py`.
 Checked on a fresh European build with the same ROM and tools; the rebuilt ROM keeps the original SHA-1 and
 `ninja check` passes. The data layout of the original showed where four files had been cut wrongly:
 
-- `src/Main/Unknown/code_020b1de4.c` (ChoisesS) now holds the 19 units from `0x020b1de4` to `0x020b3260`. Its
+- `src/Main/Ui/ChoisesS.c` (ChoisesS) now holds the 19 units from `0x020b1de4` to `0x020b3260`. Its
   `.data` runs from the names of `InitChoisesS` through the `entryNumbers` initializer of
   `GetChoisesSValueMessage` back to two strings of `InitChoisesS` and on to the string of
   `GetChoisesSValueMessage`, an order only one file gives. All of its functions also match with
   `#pragma optimize_for_size on`. `func_020b2c80` is defined without a prototype, because `func_020b2c68` calls it
   with no argument. The six screen names are file-scope arrays, marked as placeholders, whose declaration order
   gives the original order in `.data`.
-- `src/Main/Unknown/code_021258f0.c` holds `code_021258f0`, `code_02125960` and `code_02125da0`, the three units that
+- `src/Main/Ui/BackScreen.c` holds `code_021258f0`, `code_02125960` and `code_02125da0`, the three units that
   use `data_0217d3ec`. The back screen file names are file-scope arrays, marked as placeholders, declared in an order
   that gives the original layout of the names and their tables.
 - The card unit is two files. The original `.bss` holds `gRequestBlock` (0x40) and `gAccessState` (0x620) and then

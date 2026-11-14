@@ -2,7 +2,7 @@
 
 #include "code_02148950.h"
 #include "registers.h"
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/Heap.h"
 #include "Main/Unknown/code_020ade08.h"
 #include "Main/Unknown/code_02125f6c.h"
 #include "Main/Unknown/code_0210895c.h"

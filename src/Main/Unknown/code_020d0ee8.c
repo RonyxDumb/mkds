@@ -4,7 +4,7 @@
 #include "Main/Unknown/code_020d0efc.h"
 #include "Main/Unknown/code_020d0e3c.h"
 #include "Main/Unknown/code_020d0f60.h"
-#include "Main/Unknown/code_020d0f78.h"
+#include "Main/Ui/CupPicture.h"
 #include "Main/Unknown/unk_0216a000.h"
 #include "Main/Unknown/code_02057000.h"
 #include "Main/Unknown/unk_0217b000.h"

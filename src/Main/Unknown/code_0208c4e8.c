@@ -1,5 +1,5 @@
 #include "Main/Unknown/code_0208c4e8.h"
-#include "Main/Unknown/code_0208c534.h"
+#include "Main/Kart/KartTurnEffects.h"
 
 void RequestKartLevel4EffectsRestart(KartTurnEffects *p0) {
     p0->mLevel4RestartFrames = 0x0u;

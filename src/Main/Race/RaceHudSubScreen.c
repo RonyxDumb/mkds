@@ -1,4 +1,4 @@
-#include "Main/Unknown/code_020c7464.h"
+#include "Main/Race/RaceHudSubScreen.h"
 
 #include "Main/Unknown/code_020c06c4.h"
 #include "Main/Unknown/code_020c0ba8.h"
@@ -31,7 +31,7 @@
 #include "Main/Unknown/code_02100094.h"
 #include "code_020222ec.h"
 #include "code_02148538.h"
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/Heap.h"
 #include "Main/Unknown/code_0207a000.h"
 #include "Main/Unknown/code_0203c000.h"
 #include "Main/Unknown/code_020b4dc4.h"

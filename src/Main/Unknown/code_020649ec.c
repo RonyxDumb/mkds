@@ -35,7 +35,7 @@
 #include "Main/Unknown/code_02070398.h"
 #include "Main/Unknown/code_02071000.h"
 #include "Main/Unknown/code_02079bcc.h"
-#include "Main/Unknown/code_020ed5c0.h"
+#include "Main/Item/ItemInUse.h"
 #include "Main/Unknown/code_0207b000.h"
 #include "Main/Unknown/code_02081618.h"
 #include "Main/Unknown/code_0208ab98.h"

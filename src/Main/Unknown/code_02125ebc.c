@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_02125ebc.h"
 #include "registers.h"
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/Heap.h"
 #include "Main/Unknown/code_020ade08.h"
 #include "Main/Unknown/code_02124f4c.h"
 

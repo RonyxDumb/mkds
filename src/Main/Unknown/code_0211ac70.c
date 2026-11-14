@@ -1,7 +1,7 @@
 #include "Main/Unknown/code_0211ac70.h"
 
 #include "Main/Unknown/code_0202bb80.h"
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/Heap.h"
 #include "Main/Unknown/code_02036c5c.h"
 #include "Main/Unknown/code_02116ec0.h"
 #include "Main/Unknown/code_0211ac88.h"
@@ -23,7 +23,7 @@
 #include "Main/Unknown/code_02128244.h"
 #include "code_0212df7c.h"
 #include "Main/Unknown/code_0211b224.h"
-#include "Main/Unknown/code_0211e4e8.h"
+#include "Main/Scene/SelectCupM.h"
 #include "Main/Unknown/unk_0216d000.h"
 #include "Main/Unknown/unk_0217a000.h"
 #include "code_0202056c.h"

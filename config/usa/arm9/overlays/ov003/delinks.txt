@@ -71,12 +71,12 @@ src/03/code_021bf8c0.c:
     .text       start:0x021bf880 end:0x021c04ac
 
 // provisional: file name and boundaries
-src/03/code_021c04ec.c:
+src/03/EditKeyboard.c:
     complete
     .text       start:0x021c04ac end:0x021c0f98
 
 // provisional: file name and boundaries
-src/03/code_021c0fd8.c:
+src/03/EditAddrKeyboard.c:
     complete
     .text       start:0x021c0f98 end:0x021c1ee0
 

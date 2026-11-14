@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_0209bef0.h"
 #include "Main/Unknown/code_020364e0.h"
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/Heap.h"
 
 // The start of MapObjectList; the three creators below fill in mInit, mForEachObject and mBeforeObjects.
 typedef struct Unk0209bef0 {

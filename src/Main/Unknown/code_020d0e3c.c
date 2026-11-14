@@ -3,7 +3,7 @@
 #include "Main/Unknown/code_020c0ba8.h"
 #include "Main/Unknown/code_020c0000.h"
 #include "Main/Unknown/code_020d0ee8.h"
-#include "Main/Unknown/code_020d0f78.h"
+#include "Main/Ui/CupPicture.h"
 #include "Main/Unknown/code_021000d0.h"
 
 #pragma optimize_for_size on

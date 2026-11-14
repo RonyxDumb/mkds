@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_020f49bc.h"
 
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/Heap.h"
 #include "Main/Unknown/code_0208ab98.h"
 #include "Main/Unknown/code_020f73fc.h"
 #include "Main/Unknown/code_02109054.h"
@@ -12,7 +12,7 @@
 #include "Main/Unknown/code_020364e0.h"
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/Unknown/code_0206bcb0.h"
-#include "Main/Unknown/code_020ed5c0.h"
+#include "Main/Item/ItemInUse.h"
 #include "Main/Unknown/code_020ee684.h"
 #include "Main/Unknown/code_020f2dac.h"
 #include "Main/Unknown/code_020f36d8.h"

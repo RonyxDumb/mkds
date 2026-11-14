@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_0203434c.h"
 #include "Main/Unknown/code_020019b0.h" // SceneNumbersView
-#include "Main/Unknown/code_0202d990.h"
+#include "Main/Save/GhostList.h"
 #include "Main/Unknown/code_02034bf4.h"
 #include "Main/Unknown/code_020351c8.h"
 #include "Main/Unknown/code_02036000.h"
@@ -12,7 +12,7 @@
 #include "Main/Unknown/code_0202dd9c.h"
 #include "Main/Unknown/code_02034000.h"
 #include "Main/Unknown/code_02035000.h"
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/Heap.h"
 #include "Main/Unknown/code_02036c5c.h"
 #include "Main/Unknown/code_0204e000.h"
 #include "Main/Unknown/code_0204ece0.h"

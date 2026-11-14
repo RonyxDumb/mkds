@@ -2,7 +2,7 @@
 #include "ITCM/code_01ff8000.h"
 #include "ITCM/code_01ff9000.h"
 #include "Main/Unknown/code_02079b9c.h"
-#include "Main/Unknown/code_020ed5c0.h"
+#include "Main/Item/ItemInUse.h"
 #include "Main/Unknown/code_02079b60.h"
 #include "Main/Unknown/code_02079000.h"
 #include "Main/Unknown/code_0207a000.h"

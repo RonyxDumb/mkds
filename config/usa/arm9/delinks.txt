@@ -981,7 +981,7 @@ src/Main/Unknown/code_0202ccc0.c:
     .text       start:0x0202ccc0 end:0x0202d990
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0202d990.c:
+src/Main/Save/GhostList.c:
     complete
     .text       start:0x0202d990 end:0x0202dd9c
 
@@ -1231,7 +1231,7 @@ src/Main/Unknown/code_020365ac.c:
     .text       start:0x020365ac end:0x02036820
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02036820.c:
+src/Main/System/Heap.c:
     complete
     .text       start:0x02036820 end:0x02036c4c
 
@@ -1928,7 +1928,7 @@ src/Main/Unknown/code_020578fc.c:
     .text       start:0x020578fc end:0x02057a18
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02057a18.c:
+src/Main/Save/BackupBlocks.c:
     complete
     .text       start:0x02057a18 end:0x02057ca4
 
@@ -2241,7 +2241,7 @@ src/Main/Unknown/code_02068eac.c:
     complete
     .text       start:0x02068eac end:0x0206a354
 
-src/Main/Unknown/code_0206a354.c:
+src/Main/Kart/KartStates.c:
     complete
     .text       start:0x0206a354 end:0x0206bcb0
 
@@ -2537,7 +2537,7 @@ src/Main/Unknown/code_0208c4e8.c:
     .text       start:0x0208c4e8 end:0x0208c534
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0208c534.c:
+src/Main/Kart/KartTurnEffects.c:
     complete
     .text       start:0x0208c534 end:0x0208d978
 
@@ -2586,7 +2586,7 @@ src/Main/Unknown/code_02092194.c:
     .text       start:0x02092194 end:0x0209219c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0209219c.c:
+src/Main/Course/Basabasa.c:
     complete
     .text       start:0x0209219c end:0x02092b3c
 
@@ -2601,7 +2601,7 @@ src/Main/Unknown/code_020931ac.c:
     .text       start:0x020931ac end:0x020937c4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020937c4.c:
+src/Main/Course/NsKiller.c:
     complete
     .text       start:0x020937c4 end:0x02093fa4
 
@@ -2685,7 +2685,7 @@ src/Main/Unknown/code_0209bc5c.c:
     .text       start:0x0209bc5c end:0x0209bc74
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0209bc74.c:
+src/Main/Course/MapObjectModel.c:
     complete
     .text       start:0x0209bc74 end:0x0209bef0
 
@@ -3064,7 +3064,7 @@ src/Main/Unknown/code_020b1dbc.c:
     .text       start:0x020b1dbc end:0x020b1de4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020b1de4.c:
+src/Main/Ui/ChoisesS.c:
     .text       start:0x020b1de4 end:0x020b3260
 
 // provisional: file name and boundaries
@@ -3083,7 +3083,7 @@ src/Main/Unknown/code_020b32ec.c:
     .text       start:0x020b32ec end:0x020b33d8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020b33d8.c:
+src/Main/Race/RaceStartSequence.c:
     complete
     .text       start:0x020b33d8 end:0x020b3724
 
@@ -3278,7 +3278,7 @@ src/Main/Unknown/code_020c7450.c:
     .text       start:0x020c7450 end:0x020c7464
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020c7464.c:
+src/Main/Race/RaceHudSubScreen.c:
     complete
     .text       start:0x020c7464 end:0x020ca520
     .data       start:0x021696a8 end:0x02169708
@@ -3547,7 +3547,7 @@ src/Main/Unknown/code_020ccc9c.c:
     .text       start:0x020ccc9c end:0x020cccd8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020cccd8.c:
+src/Main/Race/RaceHudSubScreenObjects.c:
     complete
     .text       start:0x020cccd8 end:0x020ce6a8
 
@@ -3740,7 +3740,7 @@ src/Main/Unknown/code_020d0ee8.c:
     .text       start:0x020d0ee8 end:0x020d0f78
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020d0f78.c:
+src/Main/Ui/CupPicture.c:
     complete
     .text       start:0x020d0f78 end:0x020d1108
     .data       start:0x0216afd0 end:0x0216b01c
@@ -4202,7 +4202,7 @@ src/Main/Unknown/code_020ed578.c:
     .text       start:0x020ed578 end:0x020ed5c0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ed5c0.c:
+src/Main/Item/ItemInUse.c:
     complete
     .text       start:0x020ed5c0 end:0x020ee684
 
@@ -4767,7 +4767,7 @@ src/Main/Unknown/code_02112b48.c:
     .data       start:0x0216d3b8 end:0x0216d3c4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_021145b4.c:
+src/Main/Scene/RecordVSErase.c:
     complete
     .text       start:0x021145b4 end:0x02116084
     .data       start:0x0216d410 end:0x0216d424
@@ -4806,7 +4806,7 @@ src/Main/Unknown/code_02116ec0.c:
     .text       start:0x02116ec0 end:0x021171a0
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_021171a0.c:
+src/Main/Ui/KartIcon.c:
     complete
     .text       start:0x021171a0 end:0x021173e4
 
@@ -4822,7 +4822,7 @@ src/Main/Unknown/code_021189f4.c:
     .text       start:0x021189f4 end:0x0211952c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0211952c.c:
+src/Main/Scene/SelectCupCourse.c:
     complete
     .text       start:0x0211952c end:0x02119e14
     .data       start:0x0216db74 end:0x0216db8c
@@ -4853,7 +4853,7 @@ src/Main/Unknown/code_0211e0c4.c:
     .text       start:0x0211e0c4 end:0x0211e4e8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0211e4e8.c:
+src/Main/Scene/SelectCupM.c:
     complete
     .text       start:0x0211e4e8 end:0x0211f240
 
@@ -4978,7 +4978,7 @@ src/Main/Unknown/code_02124f4c.c:
     .data       start:0x0216e30c end:0x0216e35c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_021258f0.c:
+src/Main/Ui/BackScreen.c:
     .text       start:0x021258f0 end:0x02125ebc
 
 // provisional: file name and boundaries

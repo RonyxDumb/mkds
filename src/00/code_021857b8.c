@@ -13,7 +13,7 @@
 #include "code_0200e77c.h"
 #include "01/code_021956dc.h"
 #include "Main/Unknown/code_02036bec.h"
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/Heap.h"
 
 void func_ov000_0218592c(void *a) {
     data_ov000_021b4c8c = HeapAlloc(a, 8);

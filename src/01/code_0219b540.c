@@ -1,7 +1,7 @@
 #include "01/code_0219b540.h"
 
 #include "01/unk_021a6000.h"
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/Heap.h"
 #include "Main/Unknown/code_0207a000.h"
 #include "Main/Unknown/code_02084000.h"
 #include "Main/Unknown/code_020ea000.h"
@@ -16,7 +16,7 @@
 #include "Main/Unknown/code_0209b000.h"
 #include "Main/Unknown/code_020ae4c0.h"
 #include "Main/Unknown/code_02116a4c.h"
-#include "Main/Unknown/code_021171a0.h"
+#include "Main/Ui/KartIcon.h"
 #include "Main/Unknown/code_0211de00.h"
 #include "Main/Unknown/code_0211de34.h"
 #include "Main/Unknown/code_0211e0c4.h"

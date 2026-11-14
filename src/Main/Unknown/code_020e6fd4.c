@@ -1,7 +1,7 @@
 #include "Main/Unknown/code_020e6fd4.h"
 #include "code_02146d78.h"
 
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/Heap.h"
 #include "Main/Unknown/code_020d4c28.h"
 #include "Main/Unknown/code_0210cf9c.h"
 #include "Main/Unknown/unk_02159000.h"
@@ -44,7 +44,7 @@
 #include "Main/Unknown/code_020ea514.h"
 #include "Main/Unknown/code_020f36d8.h"
 #include "Main/Unknown/code_02108e6c.h"
-#include "Main/Unknown/code_020ed5c0.h"
+#include "Main/Item/ItemInUse.h"
 #include "Main/Unknown/code_02077bc0.h"
 
 void func_020e7a40(void) {

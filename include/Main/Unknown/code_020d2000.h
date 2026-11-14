@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "Main/Unknown/code_021052fc.h"
-#include "Main/Unknown/code_020ed5c0.h"
+#include "Main/Item/ItemInUse.h"
 #include "code_02146d78.h"
 #include "Main/Unknown/code_020e6fd4.h"
 #include "Main/Unknown/code_020f36d8.h"

@@ -2,7 +2,7 @@
 #include "Main/Unknown/code_0207ae58.h"
 #include "code_02012b30.h" // NNSG3dResFileHeader
 
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/Heap.h"
 #include "code_020169a4.h"
 #include "gfd_LinkedListTexVramMan.h"
 #include "gfd_LinkedListPlttVramMan.h"
@@ -25,7 +25,7 @@
 #include "Main/Unknown/unk_0217a000.h"
 #include "gx.h"
 #include "Main/Unknown/code_02076cd0.h"
-#include "Main/Unknown/code_020ed5c0.h"
+#include "Main/Item/ItemInUse.h"
 #include "code_0200eddc.h"
 #include "00/code_02181f98.h"
 #include "01/code_021a2398.h"

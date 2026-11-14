@@ -2,7 +2,7 @@
 #include "Main/Unknown/code_0203be88.h"
 #include "Main/Unknown/code_0200e000.h"
 #include "Main/Unknown/code_0203c000.h"
-#include "Main/Unknown/code_020b33d8.h"
+#include "Main/Race/RaceStartSequence.h"
 #include "Main/Unknown/code_020b3724.h"
 #include "Main/Unknown/code_020b47d8.h"
 #include "Main/Unknown/code_020b9994.h"

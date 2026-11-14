@@ -1,11 +1,11 @@
 #include "Main/Unknown/code_02081618.h"
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/Heap.h"
 #include "Main/Unknown/code_02066ac0.h"
 #include "Main/Unknown/code_02081000.h"
 
 #include "Main/Unknown/code_0208aea8.h"
 #include "Main/Unknown/code_0208b484.h"
-#include "Main/Unknown/code_020ed5c0.h"
+#include "Main/Item/ItemInUse.h"
 #include "Main/Unknown/code_0208b000.h"
 #include "Main/Unknown/unk_02155000.h"
 #include "Main/Unknown/unk_02165000.h"

@@ -1,5 +1,5 @@
 #include "Main/Unknown/code_020487fc.h"
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/Heap.h"
 #include "Main/Unknown/code_02036c5c.h"
 #include "Main/Unknown/code_020431e4.h"
 #include "Main/Unknown/code_020435c4.h"

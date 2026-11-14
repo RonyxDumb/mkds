@@ -1,5 +1,5 @@
 #include "Main/Unknown/code_0208d978.h"
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/Heap.h"
 #include "Main/Unknown/code_0208b484.h"
 #include "Main/Unknown/code_0208b000.h"
 #include "res_struct_accessor.h"

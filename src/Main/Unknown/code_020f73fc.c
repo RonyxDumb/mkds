@@ -7,7 +7,7 @@
 #include "Main/Unknown/unk_027e0000.h"
 #include "Main/Unknown/code_0206bcb0.h"
 #include "Main/Unknown/code_02039860.h"
-#include "Main/Unknown/code_020ed5c0.h"
+#include "Main/Item/ItemInUse.h"
 #include "Main/Unknown/code_020ee684.h"
 #include "Main/Unknown/code_020f49bc.h"
 #include "Main/Unknown/code_020f6be8.h"

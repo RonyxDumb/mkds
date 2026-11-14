@@ -3,7 +3,7 @@
 #include "01/code_0219e000.h"
 #include "01/code_0219f000.h"
 #include "01/unk_021a6000.h"
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/Heap.h"
 #include "Main/Unknown/code_0205ee14.h"
 #include "Main/Unknown/code_020ccc9c.h"
 #include "Main/Unknown/code_02105000.h"

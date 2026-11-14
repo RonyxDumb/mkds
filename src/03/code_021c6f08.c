@@ -17,7 +17,7 @@
 #include "03/code_021d1dd0.h"
 #include "03/unk_021d7000.h"
 #include "code_0214b824.h"
-#include "03/code_021c0fd8.h"
+#include "03/EditAddrKeyboard.h"
 #include "03/code_021ce000.h"
 #include "03/code_021c7000.h"
 #include "03/code_021cd000.h"

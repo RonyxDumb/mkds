@@ -34,7 +34,7 @@
 #include "Main/Unknown/code_0211f6cc.h"
 #include "code_02148950.h"
 #include "registers.h"
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/Heap.h"
 
 BOOL func_ov000_021832f0(void) {
     if (CountEmblemEntries() != 0) {

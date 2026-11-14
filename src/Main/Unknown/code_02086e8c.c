@@ -23,7 +23,7 @@
 #include "Main/Unknown/unk_02165000.h"
 #include "Main/Unknown/unk_0217a000.h"
 #include "Main/Unknown/unk_021759c0.h"
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/Heap.h"
 #include "Main/Unknown/code_02077bc0.h"
 #include "code_0214a748.h"
 #include "Main/Unknown/code_02036000.h"

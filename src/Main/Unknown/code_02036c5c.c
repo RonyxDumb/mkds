@@ -18,7 +18,7 @@
 #include "registers.h"
 #include "code_0214a390.h"
 #include "Main/Unknown/code_02036bec.h"
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/Heap.h"
 
 void UpdateBrightnessFade(BrightnessFade *fade) {
     switch (fade->mState) {

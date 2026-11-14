@@ -7,7 +7,7 @@
 #include "Main/Unknown/code_02036258.h"
 #include "Main/Unknown/code_02036264.h"
 #include "Main/Unknown/code_02036438.h"
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/Heap.h"
 #include "Main/Unknown/code_02047104.h"
 #include "Main/Unknown/code_020b3f7c.h"
 #include "Main/Unknown/code_020b4000.h"

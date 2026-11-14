@@ -20,7 +20,7 @@ typedef struct KartModelMenuView KartModelMenuView;
 
 void InitKartModels(void *heap, u32 kartCount);
 
-#include "Main/Unknown/code_020ed5c0.h" // KartModelsEntry
+#include "Main/Item/ItemInUse.h" // KartModelsEntry
 
 void LoadKartModelMenuFile(void *heap, const void *fileName, void **file);
 void CreateKillerItem(void *heap);

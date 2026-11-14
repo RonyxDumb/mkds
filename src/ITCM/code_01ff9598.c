@@ -8,7 +8,7 @@
 #include "ITCM/code_01ffd000.h"
 #include "Main/Unknown/code_0206bcb0.h"
 #include "Main/Unknown/code_0206d000.h"
-#include "Main/Unknown/code_0208c534.h"
+#include "Main/Kart/KartTurnEffects.h"
 #include "Main/Unknown/code_02081618.h"
 #include "Main/Unknown/code_02040de0.h"
 #include "Main/Unknown/code_02061654.h"

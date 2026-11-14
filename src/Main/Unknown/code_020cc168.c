@@ -12,7 +12,7 @@
 #include "Main/Unknown/code_020ae4c0.h"
 #include "Main/Unknown/code_020ae5e4.h"
 #include "Main/Unknown/code_02077000.h"
-#include "Main/Unknown/code_021258f0.h"
+#include "Main/Ui/BackScreen.h"
 #include "Main/Unknown/code_020cbad0.h"
 #include "Main/Unknown/unk_0216a000.h"
 #include "Main/Unknown/unk_021759c0.h"

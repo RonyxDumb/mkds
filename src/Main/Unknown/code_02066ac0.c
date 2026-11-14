@@ -26,7 +26,7 @@
 #include "Main/Unknown/code_0207b000.h"
 #include "Main/Unknown/code_02081618.h"
 #include "Main/Unknown/code_0208c188.h"
-#include "Main/Unknown/code_0208c534.h"
+#include "Main/Kart/KartTurnEffects.h"
 #include "Main/Unknown/code_020f36d8.h"
 #include "Main/Unknown/code_020ec8bc.h"
 #include "Main/Unknown/code_021031f4.h"

@@ -10,7 +10,7 @@
 #include "Main/Unknown/code_02087d0c.h"
 #include "Main/Unknown/code_02089fa0.h"
 #include "Main/Unknown/code_02089f9c.h"
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/Heap.h"
 #include "ITCM/code_01ff8000.h"
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/Unknown/unk_0217a000.h"

@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_02067f94.h"
 #include "Main/Unknown/code_0206a000.h"
-#include "Main/Unknown/code_0206a354.h"
+#include "Main/Kart/KartStates.h"
 #include "Main/Unknown/code_0206bcb0.h"
 #include "Main/Unknown/code_0207a6b0.h"
 #include "Main/Unknown/code_02077bc0.h"

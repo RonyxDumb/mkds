@@ -1,7 +1,7 @@
 #include "01/code_02180ce8.h"
 
 #include "01/unk_021a9000.h"
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/Heap.h"
 #include "Main/Unknown/code_020b1dbc.h"
 #include "Main/Unknown/code_0207b960.h"
 #include "Main/Unknown/code_020b4e5c.h"

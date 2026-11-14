@@ -50,7 +50,7 @@
 #include "Main/Unknown/code_0210b870.h"
 #include "Main/Unknown/code_021000d0.h"
 #include "Main/Unknown/code_020364e0.h"
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/Heap.h"
 #include "Main/Unknown/code_020a02f8.h"
 #include "Main/Unknown/code_020a6cb4.h"
 #include "code_02146cbc.h"

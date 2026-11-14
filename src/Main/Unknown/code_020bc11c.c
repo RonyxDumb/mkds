@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_020bc11c.h"
 
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/Heap.h"
 #include "Main/Unknown/code_020b19b4.h"
 #include "Main/Unknown/code_020364e0.h"
 #include "Main/Unknown/code_02036bec.h"
@@ -38,7 +38,7 @@
 #include "Main/Unknown/code_020b1cf4.h"
 #include "Main/Unknown/code_020a10f0.h"
 #include "Main/Unknown/code_020ade08.h"
-#include "Main/Unknown/code_020b33d8.h"
+#include "Main/Race/RaceStartSequence.h"
 #include "Main/Unknown/code_020b6e00.h"
 #include "Main/Unknown/code_020b8000.h"
 #include "Main/Unknown/code_020b3000.h"

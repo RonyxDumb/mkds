@@ -1,5 +1,5 @@
 #include "Main/Unknown/code_02061644.h"
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/Heap.h"
 
 u32 CreateCourseGhostRecords(u32 heap) {
     u32 value0 = heap;

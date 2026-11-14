@@ -1,5 +1,5 @@
 #include "Main/Unknown/code_02061418.h"
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/Heap.h"
 
 u32 CreateGhostFileRecords(u32 heap) {
     u32 value0 = heap;

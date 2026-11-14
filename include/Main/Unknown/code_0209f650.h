@@ -3,7 +3,7 @@
 #include "types.h"
 #include "code_02146d78.h"
 #include "Main/Unknown/code_020e6fd4.h" // MapObject, MapObjectKindData
-#include "Main/Unknown/code_0209bc74.h"
+#include "Main/Course/MapObjectModel.h"
 #include "Main/Unknown/code_020a0028.h" // Airship
 
 // Object of kind 0x157 (TownMonte) with the MapObject base: two halfwords at 0xa0 and 0xa2, then three words

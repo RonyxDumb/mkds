@@ -1,7 +1,7 @@
 #include "Main/Unknown/code_0212775c.h"
 #include "registers.h"
 
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/Heap.h"
 #include "Main/Unknown/code_02124f4c.h"
 #include "Main/Unknown/code_021277ac.h"
 #include "Main/Unknown/code_02127a84.h"

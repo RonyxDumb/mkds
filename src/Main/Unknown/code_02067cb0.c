@@ -4,8 +4,8 @@
 #include "Main/Unknown/code_0208b484.h"
 #include "Main/Unknown/code_02081618.h"
 #include "Main/Unknown/code_02081120.h"
-#include "Main/Unknown/code_020ed5c0.h"
-#include "Main/Unknown/code_0206a354.h"
+#include "Main/Item/ItemInUse.h"
+#include "Main/Kart/KartStates.h"
 #include "Main/Unknown/code_02077bc0.h"
 
 int CollideKartWithMapObjectResponse3(Kart *p, s32 *a, MapObject *c) {

@@ -27,7 +27,7 @@
 #include "code_0214b824.h"
 #include "code_0214d018.h"
 #include "registers.h"
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/Heap.h"
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/Unknown/code_02060000.h"
 #include "Main/Unknown/code_02060004.h"

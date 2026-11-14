@@ -14,7 +14,7 @@
 #include "Main/Unknown/code_020d50e0.h"
 #include "Main/Unknown/code_02147000.h"
 #include "Main/Unknown/code_0210cf9c.h"
-#include "Main/Unknown/code_020ed5c0.h"
+#include "Main/Item/ItemInUse.h"
 #include "Main/Unknown/code_02087000.h"
 #include "Main/Unknown/code_02087918.h"
 #include "Main/Unknown/unk_02165000.h"

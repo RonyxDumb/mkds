@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_020e6f9c.h"
 #include "Main/Unknown/code_020364e0.h"
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/Heap.h"
 
 #pragma thumb on
 u32 InitMapObjectUpdateList(MapObjectList *list) {

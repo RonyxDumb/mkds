@@ -1,4 +1,4 @@
-#include "03/code_021c0fd8.h"
+#include "03/EditAddrKeyboard.h"
 
 #include "03/code_021d197c.h"
 #include "03/code_021d27d8.h"
@@ -19,7 +19,7 @@
 #include "03/code_021d250c.h"
 #include "03/code_021d1770.h"
 #include "03/code_021d3488.h"
-#include "03/code_021c04ec.h"
+#include "03/EditKeyboard.h"
 
 void CreateEditAddrKeyboard(void) {
     Unk021c0d2c textArgs;

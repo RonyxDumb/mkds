@@ -6,7 +6,7 @@
 #include "01/code_02185000.h"
 #include "01/code_02192000.h"
 #include "01/code_021a6000.h"
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/Heap.h"
 #include "Main/Unknown/code_02037000.h"
 #include "Main/Unknown/code_02036c5c.h"
 #include "Main/Unknown/code_02038000.h"

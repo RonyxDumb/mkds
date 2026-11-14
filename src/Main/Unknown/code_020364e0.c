@@ -2,7 +2,7 @@
 
 #include "Main/Unknown/code_020365ac.h"
 #include "Main/Unknown/code_02036000.h"
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/Heap.h"
 #include "Main/Unknown/unk_02174000.h"
 
 u32 RunHeapCall(HeapCall *call, u32 argument) {

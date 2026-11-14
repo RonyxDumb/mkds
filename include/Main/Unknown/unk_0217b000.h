@@ -11,7 +11,7 @@
 #include "ITCM/code_01ffdee4.h" // CourseCollision
 #include "code_02146d78.h"
 #include "Main/Unknown/code_020e6fd4.h"
-#include "Main/Unknown/code_0209bc74.h" // MapObjectModel
+#include "Main/Course/MapObjectModel.h" // MapObjectModel
 #include "Main/Unknown/unk_02158000.h"
 #include "Main/Unknown/code_0208fd8c.h"
 #include "Main/Unknown/unk_0217d000.h" // CharCanvas

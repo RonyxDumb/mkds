@@ -37,7 +37,7 @@
 #include "Main/Unknown/code_020aba9c.h"
 #include "code_0200eddc.h"
 #include "code_0214b824.h"
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/Heap.h"
 #include "Main/Unknown/code_020aa810.h"
 #include "Main/Unknown/code_020364e0.h"
 #include "Main/Unknown/code_02036000.h"

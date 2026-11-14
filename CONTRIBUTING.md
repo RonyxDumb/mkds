@@ -4,7 +4,7 @@
 | Path | Contents |
 | --- | --- |
 | `config/<ver>/` | `dsd` configuration: symbols, relocations and file boundaries (`delinks.txt`) |
-| `src/Main/` | Game code from the main ARM9 binary, by subsystem; `Unknown/` for files whose purpose isn't known yet |
+| `src/Main/` | Game code from the main ARM9 binary, by subsystem (`Race/`, `Kart/`, `Item/`, `Course/`, `Save/`, `System/`, `Scene/`, `Ui/`; see [docs/naming.md](docs/naming.md)); `Unknown/` for files whose purpose isn't known yet |
 | `src/ITCM/` | Game code that runs from ITCM |
 | `src/NN/` | Game code from overlay `NN` (`00`, `01` and `03` so far); the folder gets a name (`NN_Name`) once the overlay's purpose is known |
 | `src/00/GameSpy/` | The GameSpy library code of overlay 0, in files named as the overlay's own assertion strings name them (see [docs/naming.md](docs/naming.md)) |

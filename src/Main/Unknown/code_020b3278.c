@@ -1,5 +1,5 @@
 #include "Main/Unknown/code_020b3278.h"
-#include "Main/Unknown/code_020b1de4.h"
+#include "Main/Ui/ChoisesS.h"
 #include "Main/Unknown/code_021059e0.h"
 
 #pragma thumb on

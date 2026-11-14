@@ -9,7 +9,7 @@
 #include "code_02016468.h"
 #include "code_0214d018.h"
 #include "Main/Unknown/code_0212b5d8.h"
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/Heap.h"
 #include "Main/Unknown/unk_0216e000.h"
 #include "Main/Unknown/code_02036bec.h"
 #include "code_0214a2f4.h"

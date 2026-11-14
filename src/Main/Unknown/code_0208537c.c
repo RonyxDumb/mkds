@@ -15,7 +15,7 @@
 #include "Main/Unknown/code_0203c000.h"
 #include "code_02147cd8.h"
 #include "Main/Unknown/code_020364e0.h"
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/Heap.h"
 #include "Main/Unknown/code_02047104.h"
 #include "Main/Unknown/code_0205d0e8.h"
 #include "Main/Unknown/code_0207d814.h"

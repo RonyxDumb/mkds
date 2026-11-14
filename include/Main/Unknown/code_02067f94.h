@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_0206a354.h"
+#include "Main/Kart/KartStates.h"
 
 typedef struct Kart Kart;
 

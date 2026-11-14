@@ -4,7 +4,7 @@
 #include "01/code_02180c88.h"
 #include "01/code_02180cb4.h"
 #include "01/code_021a5140.h"
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/Heap.h"
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/Unknown/code_02037000.h"
 #include "Main/Unknown/code_02036c5c.h"

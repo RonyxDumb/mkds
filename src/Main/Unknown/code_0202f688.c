@@ -4,7 +4,7 @@
 
 #include "Main/Unknown/unk_02174000.h"
 #include "registers.h"
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/Heap.h"
 #include "Main/Unknown/code_0202578c.h"
 #include "Main/Unknown/code_0202f14c.h"
 #include "Main/Unknown/code_02025000.h"

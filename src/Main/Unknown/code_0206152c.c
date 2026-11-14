@@ -1,5 +1,5 @@
 #include "Main/Unknown/code_0206152c.h"
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/Heap.h"
 
 u32 CreateSlotGhostRecords(u32 heap) {
     u32 value0 = heap;

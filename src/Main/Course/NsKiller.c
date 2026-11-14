@@ -1,4 +1,4 @@
-#include "Main/Unknown/code_020937c4.h"
+#include "Main/Course/NsKiller.h"
 #include "ITCM/code_01ff8000.h"
 #include "ITCM/code_01ff9000.h"
 #include "Main/Unknown/code_0207a780.h"

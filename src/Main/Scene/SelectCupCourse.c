@@ -1,5 +1,5 @@
-#include "Main/Unknown/code_0211952c.h"
-#include "Main/Unknown/code_02036820.h"
+#include "Main/Scene/SelectCupCourse.h"
+#include "Main/System/Heap.h"
 #include "Main/Unknown/code_02036c5c.h"
 #include "Main/Unknown/code_020ade08.h"
 

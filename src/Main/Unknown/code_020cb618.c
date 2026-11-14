@@ -25,7 +25,7 @@
 #include "Main/Unknown/code_02117db0.h"
 #include "Main/Unknown/code_021196f4.h"
 #include "Main/Unknown/code_0211b23c.h"
-#include "Main/Unknown/code_0211e4e8.h"
+#include "Main/Scene/SelectCupM.h"
 #include "Main/Unknown/code_02032000.h"
 #include "Main/Unknown/code_02028864.h"
 #include "Main/Unknown/code_020ccc74.h"

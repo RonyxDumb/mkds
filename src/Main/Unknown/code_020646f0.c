@@ -16,7 +16,7 @@
 #include "Main/Unknown/code_020b6a18.h"
 #include "Main/Unknown/code_0207a880.h"
 #include "Main/Unknown/code_020b502c.h"
-#include "Main/Unknown/code_020ed5c0.h"
+#include "Main/Item/ItemInUse.h"
 #include "code_02147cd8.h"
 
 void func_020646f0(Kart *kart, s32 b) {

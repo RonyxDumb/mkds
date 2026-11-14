@@ -2,7 +2,7 @@
 
 #include "Main/Unknown/code_0202f000.h"
 #include "Main/Unknown/code_020ae5e4.h"
-#include "Main/Unknown/code_021258f0.h"
+#include "Main/Ui/BackScreen.h"
 #include "Main/Unknown/code_0212abd0.h"
 #include "Main/Unknown/unk_02174000.h"
 #include "Main/Unknown/code_0212a000.h"
@@ -10,7 +10,7 @@
 #include "Main/Unknown/code_0202f4ac.h"
 #include "Main/Unknown/code_0202f554.h"
 #include "Main/Unknown/code_02036000.h"
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/Heap.h"
 #include "Main/Unknown/code_02037000.h"
 #include "Main/Unknown/code_02036c5c.h"
 #include "Main/Unknown/code_02038000.h"

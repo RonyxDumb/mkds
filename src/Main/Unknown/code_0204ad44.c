@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_0204ad44.h"
 
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/Heap.h"
 #include "Main/Unknown/code_020487fc.h"
 #include "gecom.h"
 #include "Main/Unknown/code_0211d4a8.h"

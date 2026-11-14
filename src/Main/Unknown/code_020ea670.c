@@ -34,7 +34,7 @@
 #include "code_02012b30.h"
 #include "code_02010c84.h"
 #include "code_020109c4.h"
-#include "Main/Unknown/code_02036820.h"
+#include "Main/System/Heap.h"
 #include "Main/Unknown/code_020467d0.h"
 #include "Main/Unknown/code_020e5634.h"
 #include "Main/Unknown/code_020d22c0.h"
