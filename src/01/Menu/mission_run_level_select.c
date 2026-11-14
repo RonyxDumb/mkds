@@ -8,6 +8,7 @@
 #include "Main/Menu/menu_screen_switch.h"
 #include "Main/Sound/sound_seq.h"
 #include "Main/Graphics/layout_rect_table.h"
+#include "Main/Graphics/layout_entry_angle.h"
 #include "code_02148950.h"
 #include "01/unk_021a9000.h"
 #include "01/unk_021ca000.h"
@@ -288,9 +289,9 @@ void RequestMissionRunLVselState1(void) {
     gMissionRunLVsel->mNextState = MISSION_RUN_LVSEL_STATE_SLIDE_IN;
     gMissionRunLVsel->mStateFrames = 0;
     if (GetPreviousMenuScreenNumber() == SCREEN_MISSION_RUN_MSSEL) {
-        gMissionRunLVsel->mSlideOffsetX = -256;
+        gMissionRunLVsel->mSlideOffsetX = -LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
     } else {
-        gMissionRunLVsel->mSlideOffsetX = 0x100;
+        gMissionRunLVsel->mSlideOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
     }
 }
 
@@ -310,7 +311,7 @@ void RequestMissionRunLVselState3(void) {
 void RequestMissionRunLVselState4(void) {
     gMissionRunLVsel->mNextState = MISSION_RUN_LVSEL_STATE_HOLD_CHOSEN;
     gMissionRunLVsel->mStateFrames = 0;
-    gMissionRunLVsel->mSlideOffsetX = 0x100;
+    gMissionRunLVsel->mSlideOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
     SetMissionTableToSelectedLevel();
     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
 }
@@ -319,14 +320,14 @@ void RequestMissionRunLVselState5(void) {
     gMissionRunLVsel->mNextState = MISSION_RUN_LVSEL_STATE_SLIDE_OUT;
     gMissionRunLVsel->mStateFrames = 0;
     switch (gMissionRunLVsel->mResult) {
-        case 1:
+        case MISSION_RUN_LVSEL_RESULT_LEVEL_CHOSEN:
             if (IsMissionRunLVselLastRecordMissing() != FALSE) {
                 StopMissionRunLVselSeqsWithSteps(3, 10);
             } else {
                 StopMissionRunLVselSeqsWithSteps(0, 10);
             }
             break;
-        case 2:
+        case MISSION_RUN_LVSEL_RESULT_BACK:
             StopMissionRunLVselSeqsWithSteps(4, 10);
             break;
     }
@@ -346,7 +347,7 @@ void InitMissionRunLVsel(void *parentHeap, void *mainOam, void *subOam) {
     gMissionRunLVsel->mState = MISSION_RUN_LVSEL_STATE_WAIT_FADE;
     gMissionRunLVsel->mMainOam = mainOam;
     gMissionRunLVsel->mSubOam = subOam;
-    gMissionRunLVsel->mResult = 0;
+    gMissionRunLVsel->mResult = MISSION_RUN_LVSEL_RESULT_NONE;
     for (levelIndex = 0; levelIndex < 7; levelIndex++) {
         gMissionRunLVsel->mHighlightTimers[levelIndex] = 0;
     }
@@ -384,14 +385,14 @@ void InitMissionRunLVsel(void *parentHeap, void *mainOam, void *subOam) {
 void ReleaseMissionRunLVsel(void) {
     reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | 0x1800;
     switch (gMissionRunLVsel->mResult) {
-        case 1:
+        case MISSION_RUN_LVSEL_RESULT_LEVEL_CHOSEN:
             if (IsMissionRunLVselLastRecordMissing() != FALSE) {
                 StopMissionRunLVselSeqsWithSteps(3, 10);
             } else {
                 StopMissionRunLVselSeqsWithSteps(0, 10);
             }
             break;
-        case 2:
+        case MISSION_RUN_LVSEL_RESULT_BACK:
             StartSceneSeqAfterMissionRunLVsel(4);
             break;
     }
@@ -480,8 +481,8 @@ void AdvanceMissionRunLVselState3(void) {
     }
     SetSelectReturnSoundId(0xe);
     RequestMissionRunLVselState5();
-    gMissionRunLVsel->mSlideOffsetX = 0x100;
-    gMissionRunLVsel->mResult = 2;
+    gMissionRunLVsel->mSlideOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
+    gMissionRunLVsel->mResult = MISSION_RUN_LVSEL_RESULT_BACK;
     RequestSelectReturnState3WithSound(0);
     return;
 next:
@@ -545,8 +546,8 @@ void AdvanceMissionRunLVselState4(void) {
     StartSceneSeqIfIdle();
     if (gMissionRunLVsel->mStateFrames >= 5) {
         RequestMissionRunLVselState5();
-        gMissionRunLVsel->mSlideOffsetX = -256;
-        gMissionRunLVsel->mResult = 1;
+        gMissionRunLVsel->mSlideOffsetX = -LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
+        gMissionRunLVsel->mResult = MISSION_RUN_LVSEL_RESULT_LEVEL_CHOSEN;
     }
 }
 

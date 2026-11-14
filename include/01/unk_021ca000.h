@@ -61,6 +61,13 @@ enum {
     MISSION_RUN_LVSEL_STATE_SLIDE_OUT,
 };
 
+// Values of MissionRunLVsel.mResult.
+enum {
+    MISSION_RUN_LVSEL_RESULT_NONE,
+    MISSION_RUN_LVSEL_RESULT_LEVEL_CHOSEN,
+    MISSION_RUN_LVSEL_RESULT_BACK,
+};
+
 // Object behind gMissionRunLVsel.
 typedef struct MissionRunLVsel {
     /* 00 */ struct NNSG2dCellDataBank *mMissionRunLVselSNcer;
@@ -86,7 +93,7 @@ typedef struct MissionRunLVsel {
     /* 4e */ u8 mUnk_4e[0x2];
     /* 50 */ void *mMainOam;
     /* 54 */ void *mSubOam;
-    /* 58 */ s32 mResult; /* 1 = level chosen, 2 = Back; also read by ReleaseMissionRunLVsel for the sound */
+    /* 58 */ s32 mResult; /* also read by ReleaseMissionRunLVsel for the sound */
 } MissionRunLVsel;
 
 // Values of MissionRunMSsel.mState and mNextState.
