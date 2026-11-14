@@ -8,6 +8,18 @@
 
 typedef struct Wanwan Wanwan;
 
+// Wanwan.mMapObject.mStateMachine states, in the order of gWanwanStateTable. ROAM moves on a curve around the center
+// and starts LUNGE when a kart is near; HIT follows a collision; PULL_BACK returns to the center and goes on with
+// ROAM; REST does nothing; FOLLOW_PATH moves along the group path (kind 0x1a5).
+enum {
+    WANWAN_STATE_ROAM,
+    WANWAN_STATE_LUNGE,
+    WANWAN_STATE_HIT,
+    WANWAN_STATE_PULL_BACK,
+    WANWAN_STATE_REST,
+    WANWAN_STATE_FOLLOW_PATH,
+};
+
 // Object of CreateWanwanDrawList: functions at 0x08 and 0x10, a word at 0x18 and the address of the pointer that holds
 // it at 0x28.
 typedef struct WanwanDrawList {

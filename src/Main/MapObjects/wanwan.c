@@ -84,7 +84,7 @@ MapObjectList *CreateWanwanUpdateList(void) {
 void DrawWanwan(void *unused0, Wanwan *wanwan, void *unused1, u32 maxAlpha) {
     MtxFx43 shadowMatrix;
 
-    if (wanwan->mMapObject.mStateMachine.mState == 4) {
+    if (wanwan->mMapObject.mStateMachine.mState == WANWAN_STATE_REST) {
         if (GetChoisesSOpenDuringRace() == 0) {
             wanwan->mMapObject.mPos.x += wanwan->mMapObject.mPosStep.x;
             wanwan->mMapObject.mPos.z += wanwan->mMapObject.mPosStep.z;
@@ -172,7 +172,7 @@ void UpdateWanwan(void *unused, Wanwan *wanwan) {
     }
     if (touchesGround != FALSE) {
         touchesGround = TRUE;
-        if (wanwan->mMapObject.mStateMachine.mState == 2) {
+        if (wanwan->mMapObject.mStateMachine.mState == WANWAN_STATE_HIT) {
             if (wanwan->mMapObject.mStateMachine.mStateFrames < 0x78) {
                 touchesGround = FALSE;
             }
@@ -243,8 +243,8 @@ void UpdateWanwan(void *unused, Wanwan *wanwan) {
 
 u8 CollideKartWithWanwan(Wanwan *wanwan, void *kart, u8 *firstResponsePtr, u8 *secondResponsePtr) {
     if (*firstResponsePtr == 1) {
-        if (wanwan->mMapObject.mStateMachine.mState != 2 || wanwan->mMapObject.mPosStep.y < 0x4000) {
-            wanwan->mMapObject.mStateMachine.mNextState = 2;
+        if (wanwan->mMapObject.mStateMachine.mState != WANWAN_STATE_HIT || wanwan->mMapObject.mPosStep.y < 0x4000) {
+            wanwan->mMapObject.mStateMachine.mNextState = WANWAN_STATE_HIT;
             wanwan->mMapObject.mStateMachine.mNextStateRequested = 1;
             StartSoundIfKartStarOrKiller(&wanwan->mMapObject, kart);
         }
@@ -254,15 +254,15 @@ u8 CollideKartWithWanwan(Wanwan *wanwan, void *kart, u8 *firstResponsePtr, u8 *s
 
 u8 CollideItemObjectWithWanwan(Wanwan *wanwan, void *itemObject, u8 *firstResponsePtr, u8 *secondResponsePtr) {
     if (*firstResponsePtr == 1) {
-        if (wanwan->mMapObject.mStateMachine.mState != 2 || wanwan->mMapObject.mPosStep.y < 0x4000) {
-            wanwan->mMapObject.mStateMachine.mNextState = 2;
+        if (wanwan->mMapObject.mStateMachine.mState != WANWAN_STATE_HIT || wanwan->mMapObject.mPosStep.y < 0x4000) {
+            wanwan->mMapObject.mStateMachine.mNextState = WANWAN_STATE_HIT;
             wanwan->mMapObject.mStateMachine.mNextStateRequested = 1;
         }
     }
     return *secondResponsePtr;
 }
 
-// Kind 0x196 only (kind 0x1a5 never reaches state 0).
+// Kind 0x196 only (kind 0x1a5 never reaches ROAM).
 void EnterWanwanState0(Wanwan *wanwan) {
     Vec3 *savedPoint;
 
@@ -286,7 +286,7 @@ static inline s64 WanwanGetHorizontalLengthSquared(const Vec3 *vector) {
     return HORIZONTAL_LENGTH_SQUARED(*vector);
 }
 
-// Kind 0x196 only (kind 0x1a5 never reaches state 0).
+// Kind 0x196 only (kind 0x1a5 never reaches ROAM).
 void UpdateWanwanState0(Wanwan *wanwan) {
     Vec3 *candidate;
     Vec3 *lastPoint;
@@ -374,7 +374,7 @@ void UpdateWanwanState0(Wanwan *wanwan) {
                 (s64) value * value) {
                 wanwan->mKartPos = &GetKart(kartIndex)->mPos;
                 wanwan->mKartVelocity = &GetKart(kartIndex)->mVelocity;
-                wanwan->mMapObject.mStateMachine.mNextState = 1;
+                wanwan->mMapObject.mStateMachine.mNextState = WANWAN_STATE_LUNGE;
                 wanwan->mMapObject.mStateMachine.mNextStateRequested = 1;
             }
         }
@@ -487,7 +487,7 @@ void UpdateWanwanState1(Wanwan *wanwan) {
         }
     }
     if (wanwan->mMapObject.mStateMachine.mStateFrames >= 0xb4) {
-        wanwan->mMapObject.mStateMachine.mNextState = 3;
+        wanwan->mMapObject.mStateMachine.mNextState = WANWAN_STATE_PULL_BACK;
         wanwan->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
@@ -529,7 +529,7 @@ void UpdateWanwanState2(Wanwan *wanwan) {
             wanwan->mMapObject.mPosStep.y -= 0x266;
         }
         if (wanwan->mAngleAroundX > 0x10555) {
-            wanwan->mMapObject.mStateMachine.mNextState = 5;
+            wanwan->mMapObject.mStateMachine.mNextState = WANWAN_STATE_FOLLOW_PATH;
             wanwan->mMapObject.mStateMachine.mNextStateRequested = 1;
         }
     } else {
@@ -540,7 +540,7 @@ void UpdateWanwanState2(Wanwan *wanwan) {
             wanwan->mAngleAroundX += 0x100;
         }
         if (wanwan->mAngleAroundX > 0x10555) {
-            wanwan->mMapObject.mStateMachine.mNextState = 3;
+            wanwan->mMapObject.mStateMachine.mNextState = WANWAN_STATE_PULL_BACK;
             wanwan->mMapObject.mStateMachine.mNextStateRequested = 1;
         }
     }
@@ -576,7 +576,7 @@ void UpdateWanwanState3(Wanwan *wanwan) {
         wanwan->mMapObject.mPos.z += wanwan->mMapObject.mPosStep.z;
     }
     if (wanwan->mMapObject.mStateMachine.mStateFrames >= 0xb4) {
-        wanwan->mMapObject.mStateMachine.mNextState = 0;
+        wanwan->mMapObject.mStateMachine.mNextState = WANWAN_STATE_ROAM;
         wanwan->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }

@@ -197,10 +197,10 @@ void ResetWanwan(Wanwan *wanwan) {
                         0x80000000000LL) >>
                        44),
                 &wanwan->mYawQuaternion);
-            wanwan->mMapObject.mStateMachine.mNextState = 4;
+            wanwan->mMapObject.mStateMachine.mNextState = WANWAN_STATE_REST;
             wanwan->mMapObject.mStateMachine.mNextStateRequested = 1;
         } else {
-            wanwan->mMapObject.mStateMachine.mNextState = 0;
+            wanwan->mMapObject.mStateMachine.mNextState = WANWAN_STATE_ROAM;
             wanwan->mMapObject.mStateMachine.mNextStateRequested = 1;
         }
     }
