@@ -213,7 +213,7 @@ void SetSelectKartSPartsOffsetY(void) {
 
 u32 IsSelectKartModeAndTimerZero(void) {
     u32 result = 0;
-    if (gSelectKart->mMode != 0 && IsPlayerEntryListTimerZero() != 0) {
+    if (gSelectKart->mMode != SELECT_KART_MODE_NO_CONNECTION && IsPlayerEntryListTimerZero() != 0) {
         result = 1;
     }
     return result;
@@ -338,7 +338,8 @@ void InitSelectKart(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
     SetupInterpolation(&gSelectKart->mInterpolations[4], 0, 10, -0xc0, 0);
     gSelectKart->mMainOam = mainOam;
     gSelectKart->mSubOam = subOam;
-    if (gSelectKart->mMode != 0 || GetRaceSetupCopy()->mMode == 3 || GetRaceSetupCopy()->mMode == 2) {
+    if (gSelectKart->mMode != SELECT_KART_MODE_NO_CONNECTION || GetRaceSetupCopy()->mMode == MODE_VS ||
+        GetRaceSetupCopy()->mMode == MODE_BATTLE) {
         entryListUsed = 1;
     } else {
         entryListUsed = 0;
@@ -346,26 +347,26 @@ void InitSelectKart(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
     gSelectKart->mEntryListUsed = entryListUsed;
     if (gSelectKart->mEntryListUsed != FALSE) {
         switch (gSelectKart->mMode) {
-            case 0:
+            case SELECT_KART_MODE_NO_CONNECTION:
                 listKind = 0;
                 break;
-            case 1:
+            case SELECT_KART_MODE_CONNECTION:
                 listKind = 1;
                 break;
-            case 2:
+            case SELECT_KART_MODE_WIFI_SESSION:
                 listKind = 2;
                 break;
         }
         SetupPlayerEntryList(listKind, PLAYER_ENTRY_LIST_KART);
     }
     switch (gSelectKart->mMode) {
-        case 0:
+        case SELECT_KART_MODE_NO_CONNECTION:
             gSelectKart->mEntryIndex = 0;
             break;
-        case 1:
+        case SELECT_KART_MODE_CONNECTION:
             gSelectKart->mEntryIndex = GetOwnEntryIndex();
             break;
-        case 2:
+        case SELECT_KART_MODE_WIFI_SESSION:
             gSelectKart->mEntryIndex = GetRaceSetupCopyEntryIndex();
             break;
     }
@@ -452,7 +453,7 @@ void InitSelectKart(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
     if (SelectKartGetConnectionKind() == 2) {
         SetSelectReturnDisplayBitOn();
     }
-    if (gSelectKart->mMode == 0) {
+    if (gSelectKart->mMode == SELECT_KART_MODE_NO_CONNECTION) {
         ClearNonParticipantKartIndices();
     }
     FrmHeapShrinkInParent(heap);
@@ -605,7 +606,7 @@ int AdvanceSelectKart(void) {
                 SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[3], 2);
                 SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[4], 2);
                 gSelectKart->mState = 7;
-                if (gSelectKart->mMode != 0) {
+                if (gSelectKart->mMode != SELECT_KART_MODE_NO_CONNECTION) {
                     value = 1;
                 } else {
                     value = 0;
@@ -653,18 +654,18 @@ int AdvanceSelectKart(void) {
             selectKart = gSelectKart;
             if (selectKart->mStateFrames >= 5) {
                 switch (selectKart->mMode) {
-                    case 0:
+                    case SELECT_KART_MODE_NO_CONNECTION:
                         GetRaceSetupCopy()->mEntries[gSelectKart->mEntryIndex].mKartIndex = selectKart->mKartIndex;
                         GetRaceSetupCopy()->mEntries[gSelectKart->mEntryIndex].mKartStored = 1;
                         FillRandomKartIndices();
                         gSelectKart->mState = 6;
                         break;
-                    case 1:
+                    case SELECT_KART_MODE_CONNECTION:
                         RequestSelectReturnState4();
                         SetDataSharingSendByteInState8(gSelectKart->mKartIndex | 0x80);
                         gSelectKart->mState = 5;
                         break;
-                    case 2:
+                    case SELECT_KART_MODE_WIFI_SESSION:
                         RequestSelectReturnState4();
                         SetWiFiSessionOwnKartIndex(gSelectKart->mKartIndex);
                         gSelectKart->mState = 5;
@@ -677,8 +678,8 @@ int AdvanceSelectKart(void) {
             }
             break;
         case 5:
-            if (selectKart->mMode == 1 && IsEveryPlayerKartStored() != 0 ||
-                gSelectKart->mMode == 2 && IsWiFiSessionStep7Reached() != 0) {
+            if (selectKart->mMode == SELECT_KART_MODE_CONNECTION && IsEveryPlayerKartStored() != 0 ||
+                gSelectKart->mMode == SELECT_KART_MODE_WIFI_SESSION && IsWiFiSessionStep7Reached() != 0) {
                 gSelectKart->mStateFrames = 0;
                 gSelectKart->mState = 6;
             }
@@ -691,7 +692,7 @@ int AdvanceSelectKart(void) {
                 SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[2], 2);
                 SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[3], 2);
                 SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[4], 2);
-                if (gSelectKart->mMode == 2) {
+                if (gSelectKart->mMode == SELECT_KART_MODE_WIFI_SESSION) {
                     WriteWiFiSessionToRaceSetupCopy();
                     StartSelectKartEntryListKindIfUsed(3);
                 } else {
