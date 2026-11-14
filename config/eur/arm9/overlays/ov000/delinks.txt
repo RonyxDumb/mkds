@@ -9,6 +9,7 @@ src/00/code_ov000_021804e0.c:
     complete
     .text       start:0x021804e0 end:0x02180600
     .data       start:0x021b0800 end:0x021b0820
+    .bss        start:0x021b4c60 end:0x021b4c64
 
 // provisional: file name and boundaries
 src/00/code_02180600.c:

@@ -12,6 +12,8 @@
 #include "Main/System/Heap.h"
 #include "Main/Unknown/code_02077bc0.h"
 
+u8 *data_ov000_021b4c60;
+
 void InitWiFiMenuScene(s16 *a) {
     void *b;
     b = GetHeap(GetCurrentHeapCall());
