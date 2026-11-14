@@ -34,6 +34,7 @@
 #include "code_0214d018.h"
 #include "Main/Race/race_progress_rank.h"
 #include "Main/Save/ghost_record_file.h"
+#include "Main/Net/mp_link.h"
 
 void ResetConnection(void) {
     ScanParam *scanParams;
@@ -606,7 +607,7 @@ void StartParentCallback(WirelessMessage *event) {
 
     if (event->mResultCode == 0) {
         switch (event->mReplyState) {
-            case 7:
+            case WIRELESS_STATE_LINKED:
                 AddChild(event->mLength, &event->mMacAddress[0], (PlayerRecord *) event->mPeerBytes);
                 break;
             case WIRELESS_STATE_SESSION_START:
@@ -628,7 +629,7 @@ void StartParentCallback(WirelessMessage *event) {
                 randomState->mIncrement = 0x269ec3;
                 gConnectionWork->mRequestPending = 0;
                 break;
-            case 9:
+            case WIRELESS_STATE_UNLINKED:
                 RemoveChild(event->mLength);
                 aid = event->mLength;
                 role = gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode;

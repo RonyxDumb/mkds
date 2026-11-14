@@ -20,6 +20,7 @@
 #include "Main/MapObjects/data_0217a000.h"
 #include "code_0200eddc.h"
 #include "code_0214d018.h"
+#include "Main/Net/mp_link.h"
 
 StateCallbacks gMPStateTable[23] = {{EnterMPState0, UpdateMPState0},
                                     {NULL, UpdateMPState1},
@@ -163,10 +164,10 @@ void MPChunkPortCallback(WirelessMessage *event) {
     if (event->mResultCode == 0 && event->mData != NULL && event->mLength >= 4) {
         DC_StoreRange(event->mData, event->mLength);
         switch (event->mState) {
-            case 7:
-            case 9:
+            case WIRELESS_STATE_LINKED:
+            case WIRELESS_STATE_UNLINKED:
                 break;
-            case 0x15:
+            case WIRELESS_STATE_PORT_DATA_ARRIVED:
                 ProcessMPChunk(event->mData);
                 break;
         }
