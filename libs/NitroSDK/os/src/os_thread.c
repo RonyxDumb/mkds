@@ -157,7 +157,7 @@ void OS_InitThread(void) {
     OSi_CurrentThreadPtr = &OSi_ThreadInfo.mCurrentThread;
     OSi_LauncherThread.mPriority = 0x10;
     OSi_LauncherThread.mId = 0;
-    OSi_LauncherThread.mState = 1;
+    OSi_LauncherThread.mState = THREAD_STATE_RUNNABLE;
     OSi_LauncherThread.mNext = 0;
     OSi_LauncherThread.mProfiler = 0;
     OSi_ThreadInfo.mListHead = &OSi_LauncherThread;
@@ -182,7 +182,7 @@ void OS_InitThread(void) {
     OS_SetSwitchThreadCallback(0);
     OS_CreateThread(&OSi_IdleThread, OSi_IdleThreadProc, 0, (u8 *) &OSi_Initialized, 0xc8, 0x1f);
     OSi_IdleThread.mPriority = 0x20;
-    OSi_IdleThread.mState = 1;
+    OSi_IdleThread.mState = THREAD_STATE_RUNNABLE;
 }
 
 // Sets up thread to run func with arg on the given stack at priority prio, and links it into the thread list.
@@ -196,7 +196,7 @@ void OS_CreateThread(OSThread *thread, void (*func)(void *), void *arg, u8 *stac
     id = OSi_GetUnusedThreadId();
     thread->mPriority = prio;
     thread->mId = id;
-    thread->mState = 0;
+    thread->mState = THREAD_STATE_PARKED;
     thread->mProfiler = 0;
     OSi_InsertThreadToList(thread);
     thread->mStackBottom = stack;
@@ -233,7 +233,7 @@ void OSi_ExitThread_ArgSpecified(OSThread *thread, void *arg) {
         ThreadInitContext(thread, OSi_ExitThread, OSi_StackForDestructor);
         thread->mR0 = arg;
         thread->mCpsr = thread->mCpsr | 0x80;
-        thread->mState = 1;
+        thread->mState = THREAD_STATE_RUNNABLE;
         OS_LoadContext(thread);
     } else {
         OSi_ExitThread(arg);
@@ -264,7 +264,7 @@ void OSi_ExitThread_Destroy(void) {
     OS_DisableScheduler();
     OSi_UnlockAllMutex(current);
     OSi_RemoveThreadFromList(current);
-    current->mState = 2;
+    current->mState = THREAD_STATE_FINISHED;
     OS_WakeupThread(&current->mJoinQueue);
     OS_EnableScheduler();
     OSi_RescheduleThread();
@@ -284,7 +284,7 @@ void OS_DestroyThread(OSThread *thread) {
     OSi_UnlockAllMutex(thread);
     OSi_CancelThreadAlarmForSleep(thread);
     OSi_RemoveThreadFromList(thread);
-    thread->mState = 2;
+    thread->mState = THREAD_STATE_FINISHED;
     OS_WakeupThread(&thread->mJoinQueue);
     OS_EnableScheduler();
     OS_RestoreInterrupts(enabled);
@@ -298,20 +298,20 @@ void OSi_CancelThreadAlarmForSleep(OSThread *thread) {
     }
 }
 
-// Sleeps until thread is terminated.
+// Sleeps until thread is finished.
 void OS_JoinThread(OSThread *thread) {
     u32 enabled;
 
     enabled = OS_DisableInterrupts();
-    if (thread->mState != 2) {
+    if (thread->mState != THREAD_STATE_FINISHED) {
         OS_SleepThread(&thread->mJoinQueue);
     }
     OS_RestoreInterrupts(enabled);
 }
 
-// Returns whether OSThread.mState of thread is terminated.
+// Returns whether OSThread.mState of thread is finished.
 s32 OS_IsThreadTerminated(OSThread *thread) {
-    return thread->mState == 2;
+    return thread->mState == THREAD_STATE_FINISHED;
 }
 
 // Puts the current thread to sleep, on queue when there is one, and switches to another thread.
@@ -325,7 +325,7 @@ void OS_SleepThread(OSThreadQueue *queue) {
         current->mQueue = queue;
         OSi_InsertLinkToQueue(queue, current);
     }
-    current->mState = 0;
+    current->mState = THREAD_STATE_PARKED;
     OSi_RescheduleThread();
     OS_RestoreInterrupts(enabled);
 }
@@ -339,7 +339,7 @@ void OS_WakeupThread(OSThreadQueue *queue) {
     if (queue->mHead != 0) {
         while (queue->mHead != 0) {
             wokenThread = OSi_RemoveLinkFromQueue(queue);
-            wokenThread->mState = 1;
+            wokenThread->mState = THREAD_STATE_RUNNABLE;
             wokenThread->mQueue = 0;
             wokenThread->mLinkNext = 0;
             wokenThread->mLinkPrev = wokenThread->mLinkNext;
@@ -356,7 +356,7 @@ void OS_WakeupThreadDirect(OSThread *thread) {
     u32 enabled;
 
     enabled = OS_DisableInterrupts();
-    thread->mState = 1;
+    thread->mState = THREAD_STATE_RUNNABLE;
     OSi_RescheduleThread();
     OS_RestoreInterrupts(enabled);
 }
@@ -366,7 +366,7 @@ OSThread *OS_SelectThread(void) {
     OSThread *thread;
 
     thread = OSi_ThreadInfo.mListHead;
-    while (thread != 0 && thread->mState != 1) {
+    while (thread != 0 && thread->mState != THREAD_STATE_RUNNABLE) {
         thread = thread->mNext;
     }
     return thread;
@@ -395,7 +395,7 @@ void OSi_RescheduleThread(void) {
     if (next == 0) {
         return;
     }
-    if (current->mState != 2) {
+    if (current->mState != THREAD_STATE_FINISHED) {
         if (OS_SaveContext(current) != 0) {
             return;
         }

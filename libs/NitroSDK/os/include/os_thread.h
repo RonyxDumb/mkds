@@ -7,6 +7,13 @@
 
 // The thread control block. The threads are linked through OSThread.mNext from OSi_ThreadInfo.mListHead in increasing
 // OSThread.mPriority; OS_CreateThread sets one up.
+// Values of OSThread.mState: parked (not run until woken), runnable, finished.
+enum {
+    THREAD_STATE_PARKED,
+    THREAD_STATE_RUNNABLE,
+    THREAD_STATE_FINISHED,
+};
+
 typedef struct OSThread {
     /* 00 */ u32 mCpsr;
     /* 04 */ void *mR0;
@@ -27,7 +34,7 @@ typedef struct OSThread {
     /* 40 */ u32 mPcPlus4;
     /* 44 */ u32 mSpSvc;
     /* 48 */ u8 mCpContext[0x1c]; // its address goes to the functions called by OS_SaveContext and OS_LoadContext
-    /* 64 */ u32 mState; // 0 waiting, 1 ready, 2 terminated
+    /* 64 */ u32 mState;
     /* 68 */ struct OSThread *mNext;
     // The id OSi_GetUnusedThreadId gives (0 for the first thread); the game tests it against 0 and the C library code
     // keeps a copy of the first thread's value in gLockOwnerThreadIds and compares it later.
