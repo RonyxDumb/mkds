@@ -68,7 +68,7 @@ u32 SOCL_GetStatus(SOCLSocket *socket) {
         if ((volatileSocket->mStatusFlags & 0x40) != 0) {
             status |= 0x20;
         }
-        if (socket->mFlagMode == 1 || (volatileSocket->mStatusFlags & 4) != 0) {
+        if (socket->mFlagMode == SOCKET_MODE_DATAGRAM_RECEIVE || (volatileSocket->mStatusFlags & 4) != 0) {
             interruptState = OS_DisableInterrupts();
             if (SOCLi_GetReadBufferOccpiedSize(socket) > 0) {
                 status |= 1;
@@ -79,7 +79,7 @@ u32 SOCL_GetStatus(SOCLSocket *socket) {
             OS_RestoreInterrupts(interruptState);
         }
         isTcp = TRUE;
-        if (socket->mFlagMode != 0 && socket->mFlagMode != 4) {
+        if (socket->mFlagMode != SOCKET_MODE_STREAM && socket->mFlagMode != SOCKET_MODE_STREAM_DIRECT_READ) {
             isTcp = FALSE;
         }
         if (isTcp != FALSE) {
@@ -102,11 +102,11 @@ s32 SOCLi_GetReadBufferOccpiedSize(SOCLSocket *socket) {
     size = 0;
     if (inPipe != NULL) {
         kind = socket->mFlagMode;
-        if (kind == 1) {
+        if (kind == SOCKET_MODE_DATAGRAM_RECEIVE) {
             if (inPipe->mUdpDataOut != NULL) {
                 size = inPipe->mUdpDataOut->mSize;
             }
-        } else if ((kind == 0) || (kind == 4)) {
+        } else if ((kind == SOCKET_MODE_STREAM) || (kind == SOCKET_MODE_STREAM_DIRECT_READ)) {
             size = socket->mReceiveBufferLength - inPipe->mConsumed;
         }
     }
@@ -261,7 +261,7 @@ BOOL SOCL_IsClosed(SOCLSocket *socket) {
 
 static inline s32 SOCL_SocketIsTCP(SOCLSocket *socket) {
     BOOL isTcp = TRUE;
-    if (socket->mFlagMode != 0 && socket->mFlagMode != 4) {
+    if (socket->mFlagMode != SOCKET_MODE_STREAM && socket->mFlagMode != SOCKET_MODE_STREAM_DIRECT_READ) {
         isTcp = FALSE;
     }
     return isTcp;
@@ -316,7 +316,7 @@ s32 SOCLi_CloseCallBack(SOCLiCommandPacket *command) {
     }
     CPS_SocUnRegister();
     sockObj->mStatusFlags &= ~6;
-    if (sockObj->mFlagMode == 2) {
+    if (sockObj->mFlagMode == SOCKET_MODE_DATAGRAM_SEND) {
         block = sockObj->mSendBlock;
     } else {
         block = sockObj->mReceiveBlock;
@@ -339,7 +339,7 @@ void SOCLi_CleanupSocket(SOCLSocket *socket) {
         if (SOCL_SocketIsTCP(socket) != 0) {
             SOCLi_FreeCommandPipe(&socket->mSendBlock->mCommandPipe);
             SOCLi_FreeCommandPipe(&socket->mReceiveBlock->mCommandPipe);
-        } else if (socket->mFlagMode == 1) {
+        } else if (socket->mFlagMode == SOCKET_MODE_DATAGRAM_RECEIVE) {
             datagram = socket->mReceiveBlock->mUdpDataOut;
             while (datagram != NULL) {
                 nextDatagram = datagram->mNext;
@@ -351,7 +351,7 @@ void SOCLi_CleanupSocket(SOCLSocket *socket) {
             socket->mReceiveBlock->mUdpDataOut = NULL;
             OS_WakeupThread(&socket->mReceiveBlock->mUdpDataWaiting);
             SOCLi_FreeCommandPipe(&socket->mReceiveBlock->mCommandPipe);
-        } else if (socket->mFlagMode == 2) {
+        } else if (socket->mFlagMode == SOCKET_MODE_DATAGRAM_SEND) {
             SOCLi_FreeCommandPipe(&socket->mSendBlock->mCommandPipe);
         }
         interruptState = OS_DisableInterrupts();
@@ -467,7 +467,7 @@ s32 SOCLi_WriteBuffer(SOCLSocket *socket, u8 *buffer, s32 length, u16 remotePort
     u32 ringIn;
     copiedLength = 0;
     chunkLimit = socket->mSendBlock->mExeSocket->mSendBuffer.mSize;
-    if (socket->mFlagMode == 1) {
+    if (socket->mFlagMode == SOCKET_MODE_DATAGRAM_RECEIVE) {
         chunkLimit -= 0x2a;
         if (length > chunkLimit) {
             return -0x23;
@@ -571,7 +571,7 @@ s32 SOCLi_ExecWriteCommand(SOCLSocket *socket, u8 *buffer, s32 length, s32 ringI
     MI_CpuCopy8(buffer, writePacket->mBuffer1, writePacket->mBuffer1Len);
     writePacket->mWriteBufferAfter = ringIn;
     outPipe->mBufferIn = writePacket->mWriteBufferAfter;
-    if (socket->mFlagMode == 1) {
+    if (socket->mFlagMode == SOCKET_MODE_DATAGRAM_RECEIVE) {
         if (socket->mLocalPort == 0) {
             socket->mLocalPort = CPS_SocGetEport();
             socket->mCpsLocalPort = socket->mLocalPort;
@@ -668,7 +668,7 @@ s32 SOCL_ReadFrom(u32 socketHandle, void *buffer, u32 length, u32 remotePort, u3
         return -0x1c;
     }
     if ((flags & 4) != 0 || sockObj->mFlagBlock == 0) {
-        if (sockObj->mFlagMode == 4) {
+        if (sockObj->mFlagMode == SOCKET_MODE_STREAM_DIRECT_READ) {
             return -0x1c;
         }
         value = 0;
@@ -714,7 +714,7 @@ s32 SOCLi_ReadAndConsumeBuffer(SOCLSocket *socket, void *buffer, s32 length, u16
         savedNoConsume = inPipe->mNoConsume;
         inPipe->mNoConsume = 1;
     }
-    if (socket->mFlagMode == 1) {
+    if (socket->mFlagMode == SOCKET_MODE_DATAGRAM_RECEIVE) {
         result = SOCLi_ReadUdpBuffer(socket, buffer, length, remotePort, peerAddr, isBlocking);
     } else {
         result = SOCLi_ReadBuffer(socket, buffer, length, remotePort, peerAddr, isBlocking);
@@ -730,7 +730,7 @@ s32 SOCLi_ReadAndConsumeBuffer(SOCLSocket *socket, void *buffer, s32 length, u16
 
 s32 SOCLi_ReadBuffer(SOCLSocket *socket, void *buffer, s32 length, u16 *remotePort, u32 *peerAddr, s32 isBlocking) {
     s32 result;
-    if (socket->mFlagMode == 4) {
+    if (socket->mFlagMode == SOCKET_MODE_STREAM_DIRECT_READ) {
         return SOCLi_ExecReadCommand(socket, buffer, length, remotePort, peerAddr);
     }
     result = SOCLi_CopyCPSBuffer(socket, buffer, length, remotePort, peerAddr);
@@ -835,7 +835,7 @@ s32 SOCLi_ReadCallBack(SOCLiCommandPacket *packet) {
             break;
         }
         isTcp = TRUE;
-        if (sockObj->mFlagMode != 0 && sockObj->mFlagMode != 4) {
+        if (sockObj->mFlagMode != SOCKET_MODE_STREAM && sockObj->mFlagMode != SOCKET_MODE_STREAM_DIRECT_READ) {
             isTcp = FALSE;
         }
         if (isTcp != FALSE && sockObj->mState != 4) {
@@ -844,7 +844,7 @@ s32 SOCLi_ReadCallBack(SOCLiCommandPacket *packet) {
         }
         OS_Sleep(10);
     }
-    if (sockObj->mFlagMode == 4) {
+    if (sockObj->mFlagMode == SOCKET_MODE_STREAM_DIRECT_READ) {
         if (gotData == NULL) {
             return 0;
         }

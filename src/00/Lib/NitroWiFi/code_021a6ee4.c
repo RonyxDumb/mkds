@@ -69,7 +69,7 @@ s32 SOCL_Bind(SOCLSocket *socket, u16 ownPort) {
         return -7;
     }
     socket->mLocalPort = ownPort;
-    if (socket->mFlagMode == 1) {
+    if (socket->mFlagMode == SOCKET_MODE_DATAGRAM_RECEIVE) {
         return SOCLi_ExecBindCommand(socket);
     }
     return 0;
@@ -91,7 +91,7 @@ s32 SOCL_Connect(SOCLSocket *socket, u16 remotePort, u16 *peerAddr) {
         return -39;
     }
     condition = TRUE;
-    if (socket->mFlagMode != 0 && socket->mFlagMode != 4) {
+    if (socket->mFlagMode != SOCKET_MODE_STREAM && socket->mFlagMode != SOCKET_MODE_STREAM_DIRECT_READ) {
         condition = FALSE;
     }
     if (condition != FALSE) {
@@ -145,7 +145,7 @@ s32 SOCLi_BindCallBack(SOCLiCommandPacket *packet) {
     OS_LockMutex(&inPipe->mCommandPipe.mInUse);
     CPS_SocBind(packet->mUnk_10, packet->mUnk_12, (s32) packet->mUnk_14);
     inPipe->mConsumed = 0;
-    if (packet->mFlagMode == 0 || packet->mFlagMode == 4) {
+    if (packet->mFlagMode == SOCKET_MODE_STREAM || packet->mFlagMode == SOCKET_MODE_STREAM_DIRECT_READ) {
         connectResult = CPS_TcpConnect();
     }
     OS_UnlockMutex(&inPipe->mCommandPipe.mInUse);
@@ -175,7 +175,7 @@ s32 SOCL_Listen(s32 socketHandle) {
         return -28;
     }
     condition = TRUE;
-    if (sockObj->mFlagMode != 0 && sockObj->mFlagMode != 4) {
+    if (sockObj->mFlagMode != SOCKET_MODE_STREAM && sockObj->mFlagMode != SOCKET_MODE_STREAM_DIRECT_READ) {
         condition = FALSE;
     }
     if (condition == FALSE) {
@@ -206,7 +206,7 @@ s32 SOCL_Accept(SOCLSocket *socket, u16 *remotePortOut, u32 *remoteIpOut) {
         return -28;
     }
     condition = TRUE;
-    if (socket->mFlagMode != 0 && socket->mFlagMode != 4) {
+    if (socket->mFlagMode != SOCKET_MODE_STREAM && socket->mFlagMode != SOCKET_MODE_STREAM_DIRECT_READ) {
         condition = FALSE;
     }
     if (condition == FALSE) {
@@ -249,7 +249,7 @@ s32 SOCL_ListenAccept(SOCLSocket *socket, u16 *remotePortOut, u32 *remoteIpOut) 
         return -28;
     }
     condition = TRUE;
-    if (socket->mFlagMode != 0 && socket->mFlagMode != 4) {
+    if (socket->mFlagMode != SOCKET_MODE_STREAM && socket->mFlagMode != SOCKET_MODE_STREAM_DIRECT_READ) {
         condition = FALSE;
     }
     if (condition == FALSE) {
@@ -310,20 +310,20 @@ s32 SOCLi_CreateSocketCallBack(SOCLiCommandPacket *command) {
     CPS_SocRegister(sockObj);
     outPipe = &sockObj->mSendBlock->mCommandPipe;
     switch (sockObj->mFlagMode) {
-        case 0:
-        case 4:
+        case SOCKET_MODE_STREAM:
+        case SOCKET_MODE_STREAM_DIRECT_READ:
             CPS_SocDup(&outPipe->mThread);
             CPS_SocUse();
             break;
-        case 1:
+        case SOCKET_MODE_DATAGRAM_RECEIVE:
             CPS_SocUse();
             CPS_SocDatagramMode();
             CPS_SetUdpCallback(SOCLi_UdpRecvCallback);
             break;
-        case 2:
+        case SOCKET_MODE_DATAGRAM_SEND:
             CPS_SocDatagramMode();
             break;
-        case 3:
+        case SOCKET_MODE_REGISTER_ONLY:
             break;
     }
     sockObj->mStatusFlags = 1;

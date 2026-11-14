@@ -54,6 +54,17 @@ typedef struct SOCLiSocketSendCommandPipe {
     /* 110 */ u8 mCommandMessages[4];
 } SOCLiSocketSendCommandPipe;
 
+// Values of SOCLSocket.mFlagMode, also held by SOCLSocketParam and SOCLiCommandPacket: a stream socket, a datagram
+// socket that receives (bound, with the datagram callback), one that only sends, one that is only registered, and a
+// stream socket whose reads go through the read command.
+enum {
+    SOCKET_MODE_STREAM = 0,
+    SOCKET_MODE_DATAGRAM_RECEIVE = 1,
+    SOCKET_MODE_DATAGRAM_SEND = 2,
+    SOCKET_MODE_REGISTER_ONLY = 3,
+    SOCKET_MODE_STREAM_DIRECT_READ = 4,
+};
+
 typedef struct SOCLSocket {
     /* 00 */ u8 mUnk_00[8];
     /* 08 */ u8 mState;
