@@ -41,6 +41,17 @@ typedef struct GpiOperation {
     /* 20 */ struct GpiOperation *mNext;
 } GpiOperation;
 
+// Values of GpiPeer.mState.
+typedef enum GpiPeerState {
+    PROFILE_PEER_STATE_NOT_CONNECTED = 0x64,
+    PROFILE_PEER_STATE_WAIT_PROFILE_INFO = 0x65,
+    PROFILE_PEER_STATE_START_CONNECT = 0x66,
+    PROFILE_PEER_STATE_WAIT_CONNECT = 0x67,
+    PROFILE_PEER_STATE_WAIT_AUTH = 0x68,
+    PROFILE_PEER_STATE_CONNECTED = 0x69,
+    PROFILE_PEER_STATE_CLOSED = 0x6a,
+} GpiPeerState;
+
 typedef struct GpiPeer {
     /* 00 */ s32 mState;
     /* 04 */ u32 mInitiated;

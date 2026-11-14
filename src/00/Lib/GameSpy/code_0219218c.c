@@ -292,11 +292,11 @@ s32 GpiProcessInfoOperation(GpConnection *connection, GpiOperation *operation, c
         saveFlag = gpState->mInfoCaching;
         peerConn = gpState->mPeerList;
         while (peerConn != NULL) {
-            if (peerConn->mProfileId == profileid && peerConn->mState == 0x65) {
+            if (peerConn->mProfileId == profileid && peerConn->mState == PROFILE_PEER_STATE_WAIT_PROFILE_INFO) {
                 if (profileRec == NULL) {
                     profileRec = GpiFindOrAddProfile(connection, profileid);
                 }
-                peerConn->mState = 0x66;
+                peerConn->mState = PROFILE_PEER_STATE_START_CONNECT;
                 saveFlag = 1;
             }
             peerConn = peerConn->mNext;
