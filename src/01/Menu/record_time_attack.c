@@ -107,7 +107,7 @@ void InitRecordTAtt(void *heap) {
         ((reg_G2S_DB_BG3CNT) & (REG_G2S_DB_BG3CNT_PRIORITY_MASK | REG_G2S_DB_BG3CNT_MOSAIC_MASK)) | 0x5810;
     gRecordTAtt = HeapAlloc(heap, 0x94);
     gRecordTAtt->mHeap = heap;
-    gRecordTAtt->mState = 0;
+    gRecordTAtt->mState = RECORD_TATT_STATE_SLIDE_IN_TOP;
     gRecordTAtt->mIndex = 0;
     gRecordTAtt->mIndexMoveDirection = 0;
     gRecordTAtt->mClearChosen = FALSE;
@@ -751,58 +751,58 @@ void AdvanceRecordTAtt(void) {
 
     gRecordTAtt->mState = gRecordTAtt->mNextState;
     switch (gRecordTAtt->mState) {
-        case 0:
+        case RECORD_TATT_STATE_SLIDE_IN_TOP:
             AdvanceRecordTAttState0();
             break;
-        case 1:
+        case RECORD_TATT_STATE_SLIDE_IN_RIGHT:
             AdvanceRecordTAttState1();
             break;
-        case 2:
+        case RECORD_TATT_STATE_WAIT_INPUT:
             AdvanceRecordTAttState2();
             break;
-        case 3:
+        case RECORD_TATT_STATE_SLIDE_OUT_SIDE:
             AdvanceRecordTAttState3();
             break;
-        case 4:
+        case RECORD_TATT_STATE_SLIDE_IN_SIDE:
             AdvanceRecordTAttState4();
             break;
-        case 5:
+        case RECORD_TATT_STATE_SLIDE_OUT_RIGHT:
             AdvanceRecordTAttState5();
             break;
-        case 6:
+        case RECORD_TATT_STATE_SLIDE_OUT_TOP:
             AdvanceRecordTAttState6();
             break;
-        case 7:
+        case RECORD_TATT_STATE_PRESS_BUTTON:
             AdvanceRecordTAttState7();
             break;
-        case 8:
+        case RECORD_TATT_STATE_SLIDE_OUT_FOR_CLEAR_PROMPT:
             AdvanceRecordTAttState8();
             break;
-        case 9:
+        case RECORD_TATT_STATE_WAIT_CLEAR_PROMPT_OPEN:
             AdvanceRecordTAttState9();
             break;
-        case 10:
+        case RECORD_TATT_STATE_WAIT_CLEAR_ANSWER:
             AdvanceRecordTAttState10();
             break;
-        case 11:
+        case RECORD_TATT_STATE_WAIT_CLEAR_PROMPT_CLOSE:
             AdvanceRecordTAttState11();
             break;
-        case 12:
+        case RECORD_TATT_STATE_SLIDE_IN_AFTER_CLEAR_PROMPT:
             AdvanceRecordTAttState12();
             break;
-        case 13:
+        case RECORD_TATT_STATE_SLIDE_OUT_FOR_TIME_TEXT:
             AdvanceRecordTAttState13();
             break;
-        case 14:
+        case RECORD_TATT_STATE_WAIT_TIME_TEXT_OPEN:
             AdvanceRecordTAttState14();
             break;
-        case 15:
+        case RECORD_TATT_STATE_WAIT_TIME_TEXT_INPUT:
             AdvanceRecordTAttState15();
             break;
-        case 16:
+        case RECORD_TATT_STATE_WAIT_TIME_TEXT_CLOSE:
             AdvanceRecordTAttState16();
             break;
-        case 17:
+        case RECORD_TATT_STATE_SLIDE_IN_AFTER_TIME_TEXT:
             AdvanceRecordTAttState17();
             break;
     }
