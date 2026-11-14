@@ -37,7 +37,7 @@ void WCMi_CpsifSendNullPacket(void) {
     WCMWork *work;
 
     work = WCMi_GetSystemWork();
-    if (work != NULL && work->mPhase == 9 && work->mResetting != 1) {
+    if (work != NULL && work->mPhase == WIFI_LINK_PHASE_CONNECTED && work->mResetting != 1) {
         if (WcmCpsifTryLockMutexInIRQ(&gWcmCpsifWork.mSendMutex) != 0) {
             if (WM_SetDCFData((Unk021425e8Func) WcmCpsifKACallback, work->mBssid, work->mSendBuf, 0) != 2) {
                 WcmCpsifUnlockMutexInIRQ(&gWcmCpsifWork.mSendMutex);
@@ -53,7 +53,7 @@ u8 *WCM_GetApMacAddress(void) {
 
     work = WCMi_GetSystemWork();
     enabled = OS_DisableInterrupts();
-    if (work != NULL && work->mPhase == 9 && work->mResetting == 0) {
+    if (work != NULL && work->mPhase == WIFI_LINK_PHASE_CONNECTED && work->mResetting == 0) {
         mac = work->mBssid;
     }
     OS_RestoreInterrupts(enabled);
@@ -68,7 +68,7 @@ u8 *WCM_GetApEssid(u16 *length) {
 
     work = WCMi_GetSystemWork();
     enabled = OS_DisableInterrupts();
-    if (work != NULL && work->mPhase == 9 && work->mResetting == 0) {
+    if (work != NULL && work->mPhase == WIFI_LINK_PHASE_CONNECTED && work->mResetting == 0) {
         ssidBytes = work->mSsid;
         ssidLength = work->mSsidLength;
     }
@@ -108,7 +108,7 @@ s32 WCM_SendDCFData(const void *dstAddr, const void *buf, s32 len) {
         OS_RestoreInterrupts(enabled);
         return -1;
     }
-    if (work->mPhase != 9 || work->mResetting == 1) {
+    if (work->mPhase != WIFI_LINK_PHASE_CONNECTED || work->mResetting == 1) {
         OS_UnlockMutex(&gWcmCpsifWork.mSendMutex);
         OS_RestoreInterrupts(enabled);
         return -4;
