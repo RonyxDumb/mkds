@@ -479,6 +479,15 @@ typedef struct TitleStateHandlers {
 struct LayoutTableEntry;
 struct LayoutEntryTable;
 
+// Entries of the title menu in row order; all but the first are named after the scene each one starts (SCENE_*).
+enum {
+    TITLE_ENTRY_FIRST,
+    TITLE_ENTRY_WL_MENU,
+    TITLE_ENTRY_WIFI_MENU,
+    TITLE_ENTRY_OPTION,
+    TITLE_ENTRY_RECORD,
+};
+
 // 0x8bc bytes.
 typedef struct TitleScene {
     /* 000 */ s32 mStateFrames;

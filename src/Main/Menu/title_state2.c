@@ -15,6 +15,7 @@
 #include "Main/Sound/sound_seq.h"
 #include "Main/MapObjects/data_0217b000.h"
 #include "Main/System/init_after_startup.h"
+#include "Main/System/result_archive_path.h"
 
 u32 TitleGetPairX(InputSlotPair *pair) {
     return pair->mPairX;
@@ -47,13 +48,13 @@ void UpdateTitleState2(SceneNumbers *sceneNumbers) {
             gTitleScene->mStartedOnSelected = TRUE;
         } else if (GetNewOrRepeatBits(slotIndex, (PAD_KEY_LEFT | PAD_KEY_RIGHT)) != 0) {
             switch (gTitleScene->mSelectedIndex) {
-                case 3:
-                    gTitleScene->mSelectedIndex = 4;
+                case TITLE_ENTRY_OPTION:
+                    gTitleScene->mSelectedIndex = TITLE_ENTRY_RECORD;
                     gTitleScene->mPreferEntry4 = TRUE;
                     StartSoundOncePerFrame(0);
                     break;
-                case 4:
-                    gTitleScene->mSelectedIndex = 3;
+                case TITLE_ENTRY_RECORD:
+                    gTitleScene->mSelectedIndex = TITLE_ENTRY_OPTION;
                     gTitleScene->mPreferEntry4 = FALSE;
                     StartSoundOncePerFrame(0);
                     break;
@@ -61,44 +62,44 @@ void UpdateTitleState2(SceneNumbers *sceneNumbers) {
             gTitleScene->mNoInputFrames = 0;
         } else if (GetNewOrRepeatBits(slotIndex, PAD_KEY_UP) != 0) {
             switch (gTitleScene->mSelectedIndex) {
-                case 0:
+                case TITLE_ENTRY_FIRST:
                     if (gTitleScene->mPreferEntry4 != FALSE) {
-                        gTitleScene->mSelectedIndex = 4;
+                        gTitleScene->mSelectedIndex = TITLE_ENTRY_RECORD;
                     } else {
-                        gTitleScene->mSelectedIndex = 3;
+                        gTitleScene->mSelectedIndex = TITLE_ENTRY_OPTION;
                     }
                     break;
-                case 1:
-                    gTitleScene->mSelectedIndex = 0;
+                case TITLE_ENTRY_WL_MENU:
+                    gTitleScene->mSelectedIndex = TITLE_ENTRY_FIRST;
                     break;
-                case 2:
-                    gTitleScene->mSelectedIndex = 1;
+                case TITLE_ENTRY_WIFI_MENU:
+                    gTitleScene->mSelectedIndex = TITLE_ENTRY_WL_MENU;
                     break;
-                case 3:
-                case 4:
-                    gTitleScene->mSelectedIndex = 2;
+                case TITLE_ENTRY_OPTION:
+                case TITLE_ENTRY_RECORD:
+                    gTitleScene->mSelectedIndex = TITLE_ENTRY_WIFI_MENU;
                     break;
             }
             StartSoundOncePerFrame(0);
             gTitleScene->mNoInputFrames = 0;
         } else if (GetNewOrRepeatBits(slotIndex, PAD_KEY_DOWN) != 0) {
             switch (gTitleScene->mSelectedIndex) {
-                case 0:
-                    gTitleScene->mSelectedIndex = 1;
+                case TITLE_ENTRY_FIRST:
+                    gTitleScene->mSelectedIndex = TITLE_ENTRY_WL_MENU;
                     break;
-                case 1:
-                    gTitleScene->mSelectedIndex = 2;
+                case TITLE_ENTRY_WL_MENU:
+                    gTitleScene->mSelectedIndex = TITLE_ENTRY_WIFI_MENU;
                     break;
-                case 2:
+                case TITLE_ENTRY_WIFI_MENU:
                     if (gTitleScene->mPreferEntry4 != FALSE) {
-                        gTitleScene->mSelectedIndex = 4;
+                        gTitleScene->mSelectedIndex = TITLE_ENTRY_RECORD;
                     } else {
-                        gTitleScene->mSelectedIndex = 3;
+                        gTitleScene->mSelectedIndex = TITLE_ENTRY_OPTION;
                     }
                     break;
-                case 3:
-                case 4:
-                    gTitleScene->mSelectedIndex = 0;
+                case TITLE_ENTRY_OPTION:
+                case TITLE_ENTRY_RECORD:
+                    gTitleScene->mSelectedIndex = TITLE_ENTRY_FIRST;
                     break;
             }
             StartSoundOncePerFrame(0);
@@ -121,7 +122,7 @@ void UpdateTitleState2(SceneNumbers *sceneNumbers) {
             gTitleScene->mNoInputFrames++;
             if (gTitleScene->mNoInputFrames > noInputFrameLimit) {
                 if (IsSeqVariableChanged(0) != 0) {
-                    sceneNumbers->mNextScene = 2;
+                    sceneNumbers->mNextScene = SCENE_RACE;
                     SetNextDemoRace(gTitleScene->mCharacterKartPicks);
                 }
             }

@@ -131,7 +131,7 @@ void CreateTitleScene(void) {
     gTitleScene->mNextState = 8;
     gTitleScene->mNoInputFrames = 0;
     gTitleScene->mBlendDone = GetTitleBlendDone() != 0;
-    gTitleScene->mSelectedIndex = 0;
+    gTitleScene->mSelectedIndex = TITLE_ENTRY_FIRST;
     gTitleScene->mStartedOnSelected = FALSE;
     gTitleScene->mPreferEntry4 = TRUE;
     gTitleScene->mSelectedOffset = 0;

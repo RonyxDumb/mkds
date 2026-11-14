@@ -2,18 +2,19 @@
 #include "Main/Menu/title_state4.h"
 #include "Main/Sound/sound_seq.h"
 #include "Main/MapObjects/data_0217b000.h"
+#include "Main/System/result_archive_path.h"
 
 #pragma optimize_for_size on
 #pragma thumb on
 
 void UpdateTitleState5(SceneNumbers *sceneNumbers) {
-    s16 nextScenes[5] = {1, 6, 12, 7, 8};
+    s16 nextScenes[5] = {SCENE_MENU_1, SCENE_WL_MENU, SCENE_WIFI_MENU, SCENE_OPTION, SCENE_RECORD};
 
     if (sceneNumbers != NULL) {
         switch (gTitleScene->mSelectedIndex) {
-            case 0:
-            case 3:
-            case 4:
+            case TITLE_ENTRY_FIRST:
+            case TITLE_ENTRY_OPTION:
+            case TITLE_ENTRY_RECORD:
             default:
                 SetConnectionKind(0);
                 break;

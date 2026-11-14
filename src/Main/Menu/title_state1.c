@@ -41,9 +41,9 @@ void UpdateTitleState1(void) {
 
 void StartTitleSelectedSound(void) {
     switch (gTitleScene->mSelectedIndex) {
-        case 0:
-        case 1:
-        case 2:
+        case TITLE_ENTRY_FIRST:
+        case TITLE_ENTRY_WL_MENU:
+        case TITLE_ENTRY_WIFI_MENU:
             StartSoundOncePerFrame(9);
             break;
         case 3:
