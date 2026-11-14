@@ -185,13 +185,13 @@ u32 GetGlyphIndex(FontCodeMap *pMap, u32 code) {
 
     index = 0xffff;
     switch (pMap->mMappingMethod) {
-        case 0:
+        case FONT_CODE_MAP_OFFSET:
             index = (u16) (pMap->mMapInfo[0] + (code - pMap->mCcodeBegin));
             break;
-        case 1:
+        case FONT_CODE_MAP_TABLE:
             index = pMap->mMapInfo[code - pMap->mCcodeBegin];
             break;
-        case 2:
+        case FONT_CODE_MAP_PAIRS:
             scan = &pMap->mPairTable;
             first = scan->mScanEntries;
             last = first + (scan->mNum - 1);

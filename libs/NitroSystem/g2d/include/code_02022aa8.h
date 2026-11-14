@@ -24,8 +24,15 @@ typedef struct FontCodeMapInfo {
     /* 02 */ UnsignedHalfwordPair mScanEntries[1];
 } FontCodeMapInfo;
 
-// Entry of the chain at 0x10 of an NNSG2dFontInformation: the range mCcodeBegin..mCcodeEnd and a kind (0: base number
-// in mMapInfo[0], 1: halfwords from mMapInfo, 2: mPairTable.mNum pairs).
+// mMappingMethod values.
+typedef enum FontCodeMapMethod {
+    FONT_CODE_MAP_OFFSET = 0,
+    FONT_CODE_MAP_TABLE = 1,
+    FONT_CODE_MAP_PAIRS = 2,
+} FontCodeMapMethod;
+
+// Entry of the chain at 0x10 of an NNSG2dFontInformation: the range mCcodeBegin..mCcodeEnd and a
+// FontCodeMapMethod kind: base number in mMapInfo[0], halfwords from mMapInfo, or mPairTable.mNum pairs.
 typedef struct FontCodeMap {
     /* 00 */ u16 mCcodeBegin;
     /* 02 */ u16 mCcodeEnd;
