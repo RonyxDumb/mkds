@@ -3,6 +3,8 @@
 #include "Main/Unknown/code_0214d000.h"
 #include "Main/Unknown/unk_02153000.h"
 
+const u32 data_02153118[4][4] = {{0, 0x4000, 0x40004000}, {0x8000, 0x40000000, 0x80004000}, {0x40008000, 0x80008000, 0x80000000, 0xc0004000}, {0, 0, 0xc0008000, 0xc0000000}};
+
 u32 OBJSizeToShape(const u8 *pSize) {
     return data_02153118[pSize[1]][pSize[0]];
 }

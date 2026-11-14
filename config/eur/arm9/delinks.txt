@@ -654,6 +654,7 @@ libs/NitroSDK/snd/src/snd_work.c:
 libs/NitroSDK/snd/src/code_020218f4.c:
     complete
     .text       start:0x020218f4 end:0x020219b0
+    .rodata     start:0x02152de4 end:0x021530b8
 
 // provisional: file name and boundaries
 libs/NitroSDK/snd/src/code_020219b0.c:
@@ -739,6 +740,7 @@ libs/NitroSystem/g2d/src/code_02022aa8.c:
 libs/NitroSystem/g2d/src/g2d_CharCanvas.c:
     complete
     .text       start:0x02023374 end:0x02024184
+    .rodata     start:0x02153118 end:0x02153158
 
 // provisional: file name and boundaries
 libs/NitroSystem/g2d/src/code_02024184.c:
@@ -759,6 +761,7 @@ src/Main/Unknown/code_02024974.c:
 src/Main/Unknown/code_0202511c.c:
     complete
     .text       start:0x0202511c end:0x0202578c
+    .rodata     start:0x0215316c end:0x02153240
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_0202578c.c:
@@ -804,6 +807,7 @@ src/Main/Unknown/code_02025e28.c:
 src/Main/Unknown/code_02025eb0.c:
     complete
     .text       start:0x02025eb0 end:0x02025ebc
+    .rodata     start:0x021532a8 end:0x021532dc
 
 // provisional: file name and boundaries
 src/Main/Unknown/code_02025ebc.c:

@@ -64,13 +64,13 @@ extern const char *data_02153f98[][9];
 extern const char *data_02153f9c[][9];
 extern const char *data_02153fa0[][9];
 extern u16 data_02153f00[][4];
-extern SoundRow gSoundRowTable[];
+extern const SoundRow gSoundRowTable[];
 
 // Objects whose layout isn't known yet.
 extern u8 gCourseMessageIndexTable[];
 extern u8 data_02153158[];
 
-extern u8 data_021532a8[];
+extern const u8 data_021532a8[];
 extern u8 gKartMessageIndexTable[];
 extern u32 gKartIndexTable[];
 extern s32 data_02153240[];
@@ -89,7 +89,7 @@ extern s16 data_02153834[];
 extern u16 data_021530b8[4][4];
 extern u16 data_021530d0[4][4];
 extern Unk02022aa8_f *data_021530e8[];
-extern u32 data_02153118[][4];
+extern const u32 data_02153118[][4];
 extern u8 data_021530f8[4][4][2];
 
 extern u16 gMultiSelectNSRowCellIndices[][3];
