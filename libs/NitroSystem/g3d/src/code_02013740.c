@@ -16,7 +16,7 @@ NNSG3dResTexPatAnm *NNS_G3dGetTexPatAnmByIdx(NNSG3dResTexPatAnmSet *pAnmSet, u8 
 }
 
 NNSG3dResTexPatAnmSet *NNS_G3dGetTexPatAnmSet(const u8 *pFileHead) {
-    return NNSi_G3dGetBinaryBlockFromFile(pFileHead, 0x30505442, 0x30544150);
+    return NNSi_G3dGetBinaryBlockFromFile(pFileHead, FILE_SIGNATURE_TEXTURE_PATTERN_ANIM, 0x30544150);
 }
 
 NNSG3dResTexSRTAnm *NNS_G3dGetTexSRTAnmByIdx(NNSG3dResTexSRTAnmSet *pTexSRTSet, u8 idx) {
@@ -29,7 +29,7 @@ NNSG3dResTexSRTAnm *NNS_G3dGetTexSRTAnmByIdx(NNSG3dResTexSRTAnmSet *pTexSRTSet, 
 }
 
 NNSG3dResTexSRTAnmSet *NNS_G3dGetTexSRTAnmSet(const u8 *pFileHead) {
-    return NNSi_G3dGetBinaryBlockFromFile(pFileHead, 0x30415442, 0x30545253);
+    return NNSi_G3dGetBinaryBlockFromFile(pFileHead, FILE_SIGNATURE_TEXTURE_SRT_ANIM, 0x30545253);
 }
 
 NNSG3dResMatCAnm *NNS_G3dGetMatCAnmByIdx(NNSG3dResMatCAnmSet *pAnmSet, u8 idx) {
@@ -42,7 +42,7 @@ NNSG3dResMatCAnm *NNS_G3dGetMatCAnmByIdx(NNSG3dResMatCAnmSet *pAnmSet, u8 idx) {
 }
 
 NNSG3dResMatCAnmSet *NNS_G3dGetMatCAnmSet(const u8 *pFileHead) {
-    return NNSi_G3dGetBinaryBlockFromFile(pFileHead, 0x30414d42, 0x3054414d);
+    return NNSi_G3dGetBinaryBlockFromFile(pFileHead, FILE_SIGNATURE_MATERIAL_COLOR_ANIM, 0x3054414d);
 }
 
 NNSG3dResJntAnm *NNS_G3dGetJntAnmByIdx(NNSG3dResJntAnmSet *pJntAnmSet, int idx) {
@@ -55,7 +55,7 @@ NNSG3dResJntAnm *NNS_G3dGetJntAnmByIdx(NNSG3dResJntAnmSet *pJntAnmSet, int idx) 
 }
 
 NNSG3dResJntAnmSet *NNS_G3dGetJntAnmSet(const u8 *pFileHead) {
-    return NNSi_G3dGetBinaryBlockFromFile(pFileHead, 0x30414342, 0x30544e4a);
+    return NNSi_G3dGetBinaryBlockFromFile(pFileHead, FILE_SIGNATURE_JOINT_ANIM, 0x30544e4a);
 }
 
 // Dictionaries of 16 or more entries are searched through their tree.

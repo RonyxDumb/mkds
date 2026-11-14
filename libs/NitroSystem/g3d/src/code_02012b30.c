@@ -30,7 +30,7 @@ NNSG3dResTex *NNS_G3dGetTex(NNSG3dResFileHeader *file) {
 
     blocks = OFFSET_PTR(u32, file, file->mHeaderSize);
     if (file->mDataBlocks == 1) {
-        if (file->mSigVal == 0x30585442) {
+        if (file->mSigVal == FILE_SIGNATURE_TEXTURE) {
             return OFFSET_PTR(NNSG3dResTex, file, blocks[0]);
         }
         return 0;
@@ -366,8 +366,8 @@ s32 NNS_G3dResDefaultSetup(NNSG3dResFileHeader *file) {
     NNSG3dResMdlSet *modelSet;
 
     switch (file->mSigVal) {
-        case 0x30444d42:
-        case 0x30585442:
+        case FILE_SIGNATURE_MODEL:
+        case FILE_SIGNATURE_TEXTURE:
             texOk = 1;
             tex4x4Ok = 1;
             plttOk = 1;
@@ -411,18 +411,18 @@ s32 NNS_G3dResDefaultSetup(NNSG3dResFileHeader *file) {
                 NNS_G3dTexLoad(tex, 1);
                 NNS_G3dPlttLoad(tex, 1);
             }
-            if (file->mSigVal == 0x30444d42) {
+            if (file->mSigVal == FILE_SIGNATURE_MODEL) {
                 modelSet = NNS_G3dGetMdlSet(file);
                 if (tex != 0) {
                     NNS_G3dBindMdlSet(modelSet, tex);
                 }
             }
             return 1;
-        case 0x30415642:
-        case 0x30414d42:
-        case 0x30414342:
-        case 0x30415442:
-        case 0x30505442:
+        case FILE_SIGNATURE_VISIBILITY_ANIM:
+        case FILE_SIGNATURE_MATERIAL_COLOR_ANIM:
+        case FILE_SIGNATURE_JOINT_ANIM:
+        case FILE_SIGNATURE_TEXTURE_SRT_ANIM:
+        case FILE_SIGNATURE_TEXTURE_PATTERN_ANIM:
             return 1;
         default:
             return 0;
@@ -438,19 +438,19 @@ void NNS_G3dResDefaultRelease(NNSG3dResFileHeader *file) {
     u32 paletteKey;
 
     switch (file->mSigVal) {
-        case 0x30415642:
-        case 0x30414d42:
-        case 0x30414342:
-        case 0x30415442:
-        case 0x30505442:
+        case FILE_SIGNATURE_VISIBILITY_ANIM:
+        case FILE_SIGNATURE_MATERIAL_COLOR_ANIM:
+        case FILE_SIGNATURE_JOINT_ANIM:
+        case FILE_SIGNATURE_TEXTURE_SRT_ANIM:
+        case FILE_SIGNATURE_TEXTURE_PATTERN_ANIM:
             return;
-        case 0x30444d42:
+        case FILE_SIGNATURE_MODEL:
             modelSet = NNS_G3dGetMdlSet(file);
             if (NNS_G3dGetTex(file) != 0) {
                 NNS_G3dReleaseMdlSet(modelSet);
             }
             break;
-        case 0x30585442:
+        case FILE_SIGNATURE_TEXTURE:
             break;
         default:
             return;

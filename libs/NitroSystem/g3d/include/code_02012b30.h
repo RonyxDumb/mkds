@@ -125,6 +125,15 @@ typedef struct NNSG3dResMdl {
 // File file of a model or texture resource: signature, then at headerSize the table of data block offsets.
 typedef struct NNSG3dResTex NNSG3dResTex;
 
+// Values of NNSG3dResFileHeader.mSigVal: the four file name letters plus a version digit, read as one word.
+#define FILE_SIGNATURE_MODEL 0x30444d42
+#define FILE_SIGNATURE_TEXTURE 0x30585442
+#define FILE_SIGNATURE_VISIBILITY_ANIM 0x30415642
+#define FILE_SIGNATURE_MATERIAL_COLOR_ANIM 0x30414d42
+#define FILE_SIGNATURE_JOINT_ANIM 0x30414342
+#define FILE_SIGNATURE_TEXTURE_SRT_ANIM 0x30415442
+#define FILE_SIGNATURE_TEXTURE_PATTERN_ANIM 0x30505442
+
 typedef struct NNSG3dResFileHeader {
     /* 00 */ u32 mSigVal;
     /* 04 */ u16 mByteOrder;
