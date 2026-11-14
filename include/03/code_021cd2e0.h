@@ -2,6 +2,14 @@
 
 #include "types.h"
 
+// Values of ApEntry.mWepMode: none, or the key length in bytes (a key is also written as twice that many hex digits).
+enum {
+    AP_WEP_MODE_NONE,
+    AP_WEP_MODE_KEY_5_BYTES,
+    AP_WEP_MODE_KEY_13_BYTES,
+    AP_WEP_MODE_KEY_16_BYTES,
+};
+
 // 0xf0 bytes; the object at gApStore holds four of them at a stride of 0x100.
 typedef struct ApEntry {
     /* 00 */ u8 mUnk_00[0x40];

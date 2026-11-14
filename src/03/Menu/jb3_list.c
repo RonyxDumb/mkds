@@ -567,15 +567,15 @@ void PrintJb3ListEntryText(u32 entryIndex, int row) {
             return;
         case 1:
             switch (record->mEntry.mWepMode) {
-                case 0:
+                case AP_WEP_MODE_NONE:
                     return;
-                case 1:
+                case AP_WEP_MODE_KEY_5_BYTES:
                     starCount = 10;
                     break;
-                case 2:
+                case AP_WEP_MODE_KEY_13_BYTES:
                     starCount = 0x1a;
                     break;
-                case 3:
+                case AP_WEP_MODE_KEY_16_BYTES:
                     starCount = 0x20;
                     break;
             }
