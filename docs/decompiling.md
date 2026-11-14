@@ -113,6 +113,9 @@ Run these from the repository root after `python3 tools/configure.py` (the ones 
 - `tools/sync_symbols.py`: renames the original symbols to your names once functions match.
 - `tools/rename_unit.py`: renames or moves source units (source, header, includes, every version's delinks.txt,
   per-path settings, docs); `docs/naming.md` records what each name rests on.
+- `tools/file_boundaries.py`: candidates for wrong unit boundaries from the original's data layout (data out of the
+  code's order, objects out of size order, gap objects a run of units shares) and, for each object outside every
+  unit, the units that can hold it (`--kind OWNER`).
 - `tools/unit_info.py`: per unit, the names of its functions, the data it defines and the strings and files it uses,
   to name it (`--unknown` for units still called `code_<address>`).
 - `tools/resolve_undefined.py`: places symbols your unit references that `symbols.txt` doesn't name.
