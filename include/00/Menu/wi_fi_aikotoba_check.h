@@ -7,6 +7,13 @@ struct NNSG2dCellDataBank;
 struct Ncgr;
 struct Nclr;
 
+// States of WiFiAikotobaCheck.mState and mNextState, in the order of the AdvanceWiFiAikotobaCheckStateN calls.
+enum {
+    WIFI_AIKOTOBA_CHECK_STATE_SLIDE_IN,
+    WIFI_AIKOTOBA_CHECK_STATE_WAIT_INPUT,
+    WIFI_AIKOTOBA_CHECK_STATE_SLIDE_OUT,
+};
+
 // Object behind gWiFiAikotobaCheck; LocateAndUploadWiFiAikotobaCheck fills 0x34 to 0x48.
 typedef struct WiFiAikotobaCheck {
     /* 00 */ s32 mState;

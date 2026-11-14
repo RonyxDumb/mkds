@@ -68,8 +68,8 @@ void InitWiFiAikotobaCheck(void *heap) {
 
     gWiFiAikotobaCheck = HeapAlloc(heap, 0x54);
     gWiFiAikotobaCheck->mHeap = heap;
-    gWiFiAikotobaCheck->mState = 0;
-    gWiFiAikotobaCheck->mNextState = 0;
+    gWiFiAikotobaCheck->mState = WIFI_AIKOTOBA_CHECK_STATE_SLIDE_IN;
+    gWiFiAikotobaCheck->mNextState = WIFI_AIKOTOBA_CHECK_STATE_SLIDE_IN;
     gWiFiAikotobaCheck->mPendingWiFiState = WIFI_STATE_NONE;
     gWiFiAikotobaCheck->mStateFrames = 0;
     gWiFiAikotobaCheck->mWiFiMessages = FindSceneFile("wifi.bmg");
@@ -126,7 +126,7 @@ void AdvanceWiFiAikotobaCheckState0(void) {
     gWiFiAikotobaCheck->mStateFrames = gWiFiAikotobaCheck->mStateFrames + 1;
     gWiFiAikotobaCheck->mOffset = InterpolateS16(1, 0x50, 0, gWiFiAikotobaCheck->mStateFrames, 15);
     if (gWiFiAikotobaCheck->mStateFrames >= 15 && IsTxtSystemState2NoCloseRequest() != 0) {
-        gWiFiAikotobaCheck->mNextState = 1;
+        gWiFiAikotobaCheck->mNextState = WIFI_AIKOTOBA_CHECK_STATE_WAIT_INPUT;
         gWiFiAikotobaCheck->mStateFrames = 0;
     }
 }
@@ -153,7 +153,7 @@ void AdvanceWiFiAikotobaCheckState1(void) {
             return;
         }
     }
-    gWiFiAikotobaCheck->mNextState = 2;
+    gWiFiAikotobaCheck->mNextState = WIFI_AIKOTOBA_CHECK_STATE_SLIDE_OUT;
     gWiFiAikotobaCheck->mPendingWiFiState = WIFI_STATE_AIKOTOBA;
     RequestSelectReturnState3WithSound(0);
     RequestTxtSystemClose();
@@ -173,13 +173,13 @@ void AdvanceWiFiAikotobaCheck(void) {
 
     gWiFiAikotobaCheck->mState = gWiFiAikotobaCheck->mNextState;
     switch (gWiFiAikotobaCheck->mState) {
-        case 0:
+        case WIFI_AIKOTOBA_CHECK_STATE_SLIDE_IN:
             AdvanceWiFiAikotobaCheckState0();
             break;
-        case 1:
+        case WIFI_AIKOTOBA_CHECK_STATE_WAIT_INPUT:
             AdvanceWiFiAikotobaCheckState1();
             break;
-        case 2:
+        case WIFI_AIKOTOBA_CHECK_STATE_SLIDE_OUT:
             AdvanceWiFiAikotobaCheckState2();
             break;
     }
