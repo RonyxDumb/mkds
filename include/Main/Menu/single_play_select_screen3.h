@@ -14,6 +14,13 @@ typedef struct ScreenCallbacks {
     /* 4 */ void (*mUpdate)(u32 a);
 } ScreenCallbacks;
 
+// MenuScene.mSinglePlaySelectModeIndex: the entries of the single play menu, in the order they are listed.
+#define SINGLE_PLAY_SELECT_GRAND_PRIX 0
+#define SINGLE_PLAY_SELECT_TIME_ATTACK 1
+#define SINGLE_PLAY_SELECT_VS 2
+#define SINGLE_PLAY_SELECT_BATTLE 3
+#define SINGLE_PLAY_SELECT_MISSION_RUN 4
+
 // Object behind gMenuScene.
 typedef struct MenuScene {
     /* 000 */ s32 mFramesSinceScreenSwitch;

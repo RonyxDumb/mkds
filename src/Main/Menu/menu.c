@@ -476,19 +476,19 @@ void InitMenu(void) {
     switch (GetRaceSetupCopy()->mMode) {
         case 0:
         default:
-            gMenuScene->mSinglePlaySelectModeIndex = 0;
+            gMenuScene->mSinglePlaySelectModeIndex = SINGLE_PLAY_SELECT_GRAND_PRIX;
             break;
         case 1:
-            gMenuScene->mSinglePlaySelectModeIndex = 1;
+            gMenuScene->mSinglePlaySelectModeIndex = SINGLE_PLAY_SELECT_TIME_ATTACK;
             break;
         case 2:
-            gMenuScene->mSinglePlaySelectModeIndex = 3;
+            gMenuScene->mSinglePlaySelectModeIndex = SINGLE_PLAY_SELECT_BATTLE;
             break;
         case 3:
-            gMenuScene->mSinglePlaySelectModeIndex = 2;
+            gMenuScene->mSinglePlaySelectModeIndex = SINGLE_PLAY_SELECT_VS;
             break;
         case 4:
-            gMenuScene->mSinglePlaySelectModeIndex = 4;
+            gMenuScene->mSinglePlaySelectModeIndex = SINGLE_PLAY_SELECT_MISSION_RUN;
             break;
     }
     gMenuScene->mSinglePlaySelectStartedOnSelected = FALSE;
