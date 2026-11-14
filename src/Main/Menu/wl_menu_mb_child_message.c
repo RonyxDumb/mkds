@@ -61,7 +61,7 @@ void SetupWLMenuMBChildMessage(void *heap) {
     u16 entry;
 
     InitWLMenuMessage(heap);
-    gWLMenuMessage->mState = 0;
+    gWLMenuMessage->mState = WL_MENU_MESSAGE_STATE_SETUP_MULTI_BOOT;
     SetMultiSimple(1);
     gWLMenuMessage->mMBChildMessages = GetDownloadScreenFiles()->mMBChildMessages;
     gWLMenuMessage->mFont = (u8 *) GetDownloadScreenFiles() + 0x14;

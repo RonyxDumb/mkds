@@ -5,6 +5,18 @@
 #include "Main/Menu/wl_menu_scene.h"
 #include "Main/Scene/run_scene_connection.h"
 
+// Values of WLMenuMessage.mState; the multiboot child flow runs SETUP_MULTI_BOOT to WAIT_BACKUP, the others run
+// RUN_MP_STATE_MACHINE to SET_NEXT_SCENE.
+enum {
+    WL_MENU_MESSAGE_STATE_SETUP_MULTI_BOOT = 0,
+    WL_MENU_MESSAGE_STATE_CONNECT_MULTI_BOOT = 2,
+    WL_MENU_MESSAGE_STATE_RUN_MP_WITH_OWN_INDEX = 4,
+    WL_MENU_MESSAGE_STATE_WAIT_BACKUP = 6,
+    WL_MENU_MESSAGE_STATE_RUN_MP_STATE_MACHINE = 9,
+    WL_MENU_MESSAGE_STATE_SET_NEXT_SCENE = 10,
+    WL_MENU_MESSAGE_STATE_DONE = 11,
+};
+
 // Object behind gWLMenuMessage, 0x654 bytes: the halfwords from 0x34 are 32 per row.
 typedef struct WLMenuMessage {
     /* 000 */ void *mFont;

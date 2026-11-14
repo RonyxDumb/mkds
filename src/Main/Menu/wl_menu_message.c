@@ -53,23 +53,23 @@ s32 AdvanceWLMenuMBChildMessage(SceneNumbers *sceneNumbers) {
     WLMenuMessage *wlMenuMessage;
 
     switch (gWLMenuMessage->mState) {
-        case 0:
+        case WL_MENU_MESSAGE_STATE_SETUP_MULTI_BOOT:
             if (AdvanceSetupByMultiBoot(0, 1) == 1) {
-                gWLMenuMessage->mState = 2;
+                gWLMenuMessage->mState = WL_MENU_MESSAGE_STATE_CONNECT_MULTI_BOOT;
             }
             break;
-        case 2:
+        case WL_MENU_MESSAGE_STATE_CONNECT_MULTI_BOOT:
             result = AdvanceConnectByMultiBoot(0);
             switch (result) {
                 case 1:
                     SetMultiSimple(WLMenuIsMultiBootSetupStarted());
-                    gWLMenuMessage->mState = 4;
+                    gWLMenuMessage->mState = WL_MENU_MESSAGE_STATE_RUN_MP_WITH_OWN_INDEX;
                     break;
                 case 2:
                     break;
             }
             break;
-        case 4:
+        case WL_MENU_MESSAGE_STATE_RUN_MP_WITH_OWN_INDEX:
             result = AdvanceMPStateMachineWithOwnIndex();
             switch (result) {
                 case 1:
@@ -77,20 +77,20 @@ s32 AdvanceWLMenuMBChildMessage(SceneNumbers *sceneNumbers) {
                         StopSeqZeroLoopWrapper();
                     }
                     StartCopyOtherEmblems(1);
-                    gWLMenuMessage->mState = 6;
+                    gWLMenuMessage->mState = WL_MENU_MESSAGE_STATE_WAIT_BACKUP;
                     break;
                 case 2:
                     break;
             }
             break;
-        case 6:
+        case WL_MENU_MESSAGE_STATE_WAIT_BACKUP:
             if (IsBackupBusy() == 0) {
                 WLMenuSetRaceSetupRequested(1);
                 WLMenuSetMenuEntryKind(4);
                 if (sceneNumbers != 0) {
                     SetNextScene(sceneNumbers, 1);
                 }
-                gWLMenuMessage->mState = 11;
+                gWLMenuMessage->mState = WL_MENU_MESSAGE_STATE_DONE;
             }
             break;
     }
@@ -104,24 +104,24 @@ s32 AdvanceWLMenuMessageToRace(SceneNumbers *sceneNumbers) {
     WLMenuMessage *wlMenuMessage;
 
     switch (gWLMenuMessage->mState) {
-        case 9:
+        case WL_MENU_MESSAGE_STATE_RUN_MP_STATE_MACHINE:
             result = WLMenuToRaceAdvanceMPStateMachineWrapper();
             switch (result) {
                 case 1:
                     if (HasGroupSendMask() != 0) {
                         StopSeqZeroLoopWrapper();
                     }
-                    gWLMenuMessage->mState = 10;
+                    gWLMenuMessage->mState = WL_MENU_MESSAGE_STATE_SET_NEXT_SCENE;
                     break;
                 case 2:
                     break;
             }
             break;
-        case 10:
+        case WL_MENU_MESSAGE_STATE_SET_NEXT_SCENE:
             if (sceneNumbers != 0) {
                 SetNextScene(sceneNumbers, 2);
             }
-            gWLMenuMessage->mState = 11;
+            gWLMenuMessage->mState = WL_MENU_MESSAGE_STATE_DONE;
             break;
     }
     wlMenuMessage = gWLMenuMessage;
@@ -134,24 +134,24 @@ s32 AdvanceWLMenuMessageToResult(SceneNumbers *sceneNumbers) {
     WLMenuMessage *wlMenuMessage;
 
     switch (gWLMenuMessage->mState) {
-        case 9:
+        case WL_MENU_MESSAGE_STATE_RUN_MP_STATE_MACHINE:
             result = WLMenuToResultAdvanceMPStateMachineWrapper();
             switch (result) {
                 case 1:
                     if (HasGroupSendMask() != 0) {
                         StopSeqZeroLoopWrapper();
                     }
-                    gWLMenuMessage->mState = 10;
+                    gWLMenuMessage->mState = WL_MENU_MESSAGE_STATE_SET_NEXT_SCENE;
                     break;
                 case 2:
                     break;
             }
             break;
-        case 10:
+        case WL_MENU_MESSAGE_STATE_SET_NEXT_SCENE:
             if (sceneNumbers != 0) {
                 SetNextScene(sceneNumbers, 10);
             }
-            gWLMenuMessage->mState = 11;
+            gWLMenuMessage->mState = WL_MENU_MESSAGE_STATE_DONE;
             break;
     }
     wlMenuMessage = gWLMenuMessage;
@@ -181,24 +181,24 @@ s32 AdvanceWLMenuMessageToMenu(SceneNumbers *sceneNumbers) {
     WLMenuMessage *wlMenuMessage;
 
     switch (gWLMenuMessage->mState) {
-        case 9:
+        case WL_MENU_MESSAGE_STATE_RUN_MP_STATE_MACHINE:
             result = WLMenuToMenuAdvanceMPStateMachineWrapper();
             switch (result) {
                 case 1:
                     if (HasGroupSendMask() != 0) {
                         StopSeqZeroLoopWrapper();
                     }
-                    gWLMenuMessage->mState = 10;
+                    gWLMenuMessage->mState = WL_MENU_MESSAGE_STATE_SET_NEXT_SCENE;
                     break;
                 case 2:
                     break;
             }
             break;
-        case 10:
+        case WL_MENU_MESSAGE_STATE_SET_NEXT_SCENE:
             if (sceneNumbers != 0) {
                 SetNextScene(sceneNumbers, 1);
             }
-            gWLMenuMessage->mState = 11;
+            gWLMenuMessage->mState = WL_MENU_MESSAGE_STATE_DONE;
             break;
     }
     wlMenuMessage = gWLMenuMessage;
