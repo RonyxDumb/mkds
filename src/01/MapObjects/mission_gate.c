@@ -81,7 +81,7 @@ u32 CollideKartWithMissionGate(MissionGateObject *missionGateObject, Kart *kart,
     }
     if (firstResponse == 1) {
         missionGateObject->mMapObject.mFlags |= gMissionGateMapObjectFlag;
-        missionGateObject->mState = 2;
+        missionGateObject->mState = MISSION_GATE_STATE_PLAY_ANIMATION;
     }
     return response;
 }
@@ -122,10 +122,10 @@ void InitMissionGateObjects(MapObjectList *missionGateList) {
              gateIndex++) {
             if (missionGateObject->mMapObject.mCourseMapRow->mSettings[0] != 0) {
                 missionGateObject->mMapObject.mFlags |= gMissionGateMapObjectFlag;
-                missionGateObject->mState = 0;
+                missionGateObject->mState = MISSION_GATE_STATE_WAIT_COUNT;
             } else {
                 missionGateObject->mMapObject.mFlags &= ~1;
-                missionGateObject->mState = 1;
+                missionGateObject->mState = MISSION_GATE_STATE_DONE;
             }
         }
     }
@@ -135,19 +135,19 @@ void UpdateMissionGate(void *unused, MissionGateObject *missionGateObject) {
     s32 count;
 
     switch (missionGateObject->mState) {
-        case 0:
+        case MISSION_GATE_STATE_WAIT_COUNT:
             count = gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunCount() : 0;
             if (count >= missionGateObject->mMapObject.mCourseMapRow->mSettings[0] - 1) {
                 missionGateObject->mMapObject.mFlags &= ~1;
-                missionGateObject->mState = 1;
+                missionGateObject->mState = MISSION_GATE_STATE_DONE;
             }
             break;
-        case 2:
+        case MISSION_GATE_STATE_PLAY_ANIMATION:
             count = GetMapObjectModelNsbmaFrameCount(gMissionGate);
             missionGateObject->mNsbmaFrameIndex++;
             if (missionGateObject->mNsbmaFrameIndex >= count - 1) {
                 missionGateObject->mNsbmaFrameIndex = GetMapObjectModelNsbmaFrameCount(gMissionGate) - 1;
-                missionGateObject->mState = 1;
+                missionGateObject->mState = MISSION_GATE_STATE_DONE;
             }
             break;
     }

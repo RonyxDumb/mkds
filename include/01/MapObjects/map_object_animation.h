@@ -9,6 +9,14 @@ typedef struct Kart Kart;
 typedef struct ItemObject ItemObject;
 typedef struct Vec3s16 Vec3s16;
 
+// Values of MissionGateObject.mState: the gate waits for the mission count, then is done; a kart hit plays the
+// animation first.
+enum {
+    MISSION_GATE_STATE_WAIT_COUNT,
+    MISSION_GATE_STATE_DONE,
+    MISSION_GATE_STATE_PLAY_ANIMATION,
+};
+
 // Object passed to the per-frame functions UpdateMissionGate and DrawMissionGate.
 typedef struct MissionGateObject {
     /* 000 */ MapObject mMapObject;
