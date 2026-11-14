@@ -94,8 +94,8 @@ void reset_network_vars(u32 reason) {
             do {
                 socket = thread->mSpecific[0];
                 if (socket != NULL && socket->mThread != NULL) {
-                    if (socket->mState != 10 && socket->mState != 11) {
-                        socket->mState = 0;
+                    if (socket->mState != SOCKET_STATE_DATAGRAM && socket->mState != SOCKET_STATE_PING) {
+                        socket->mState = SOCKET_STATE_CLOSED;
                     }
                     if (socket->mBlockType != 0) {
                         socket->mBlockType = 0;
@@ -707,7 +707,7 @@ void send_tcp(u8 *data, u32 length, CPSSoc *socket, u32 flag, u16 urgent) {
     u32 checksum;
     u16 invertedChecksum;
 
-    if (socket->mState == 0) {
+    if (socket->mState == SOCKET_STATE_CLOSED) {
         return;
     }
     if (OSi_ThreadInfo.mCurrentThread == &gTcpipThread) {
@@ -855,7 +855,7 @@ void process_icmp_reply(IpHeader *ipHeader, IcmpHeader *icmp, u32 length) {
 
     for (thread = OSi_ThreadInfo.mListHead; thread != NULL; thread = thread->mNext) {
         socket = thread->mSpecific[0];
-        if (socket == NULL || socket->mThread == NULL || socket->mState != 0xb ||
+        if (socket == NULL || socket->mThread == NULL || socket->mState != SOCKET_STATE_PING ||
             (u16) (u32) socket->mThread != icmp->mIdentifier) {
             continue;
         }
@@ -916,7 +916,7 @@ CPSSoc *check_listener(const IpHeader *ipHeader, const TcpHeader *tcpHeader) {
 
     for (thread = OSi_ThreadInfo.mListHead; thread != NULL; thread = thread->mNext) {
         socket = thread->mSpecific[0];
-        if (socket == NULL || socket->mThread == NULL || socket->mState != 1 ||
+        if (socket == NULL || socket->mThread == NULL || socket->mState != SOCKET_STATE_LISTENING ||
             socket->mLocalPort != (u16) ((tcpHeader->mDestPort >> 8) | (tcpHeader->mDestPort << 8))) {
             continue;
         }
@@ -941,7 +941,7 @@ BOOL check_socket(const IpHeader *ipHeader, const TcpHeader *tcpHeader, const CP
     u32 localPortMatches = 0;
     u32 isStreamSocket = 0;
 
-    if (socket->mState != 0xa && socket->mState != 0xb) {
+    if (socket->mState != SOCKET_STATE_DATAGRAM && socket->mState != SOCKET_STATE_PING) {
         isStreamSocket = 1;
     }
     if (isStreamSocket != 0) {
@@ -1062,7 +1062,7 @@ void tcp_send_rst(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length, u16 urge
 }
 
 void dt_syn_listen(IpHeader *ipHeader, TcpHeader *tcpHeader, CPSSoc *socket) {
-    socket->mState = 3;
+    socket->mState = SOCKET_STATE_SYN_RECEIVED;
     socket->mStateStartTime = OS_GetTick() >> 16;
     socket->mLocalIpReal = ((u16) ((ipHeader->mDestAddressHigh >> 8) | (ipHeader->mDestAddressHigh << 8)) << 16) |
                            (u16) ((ipHeader->mDestAddressLow >> 8) | (ipHeader->mDestAddressLow << 8));
@@ -1081,9 +1081,9 @@ BOOL find_specific_socket(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) 
 
     socket = find_socket(ipHeader, tcpHeader);
     if (socket != NULL) {
-        if (socket->mState == 1) {
+        if (socket->mState == SOCKET_STATE_LISTENING) {
             dt_syn_listen(ipHeader, tcpHeader, socket);
-        } else if (socket->mState == 3 || socket->mState == 4) {
+        } else if (socket->mState == SOCKET_STATE_SYN_RECEIVED || socket->mState == SOCKET_STATE_ESTABLISHED) {
             socket->mSeqNo--;
             dt_syn_listen(ipHeader, tcpHeader, socket);
         } else {
@@ -1120,7 +1120,7 @@ void dt_synack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
     CPSSoc *socket;
 
     socket = find_socket(ipHeader, tcpHeader);
-    if (socket == NULL || socket->mState != 2) {
+    if (socket == NULL || socket->mState != SOCKET_STATE_SYN_SENT) {
         tcp_send_rst(ipHeader, tcpHeader, length, (ipHeader->mIdentifierSecondByte << 8) + 5);
         return;
     }
@@ -1133,7 +1133,7 @@ void dt_synack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
     socket->mRemoteWin = (tcpHeader->mWindow >> 8) | (tcpHeader->mWindow << 8);
     parse_mss(tcpHeader, socket);
     tcp_send_ack(socket, (ipHeader->mIdentifierSecondByte << 8) + 6);
-    socket->mState = 4;
+    socket->mState = SOCKET_STATE_ESTABLISHED;
     if (socket->mBlockType == 1) {
         socket->mBlockType = 0;
         OS_WakeupThreadDirect(socket->mThread);
@@ -1161,18 +1161,18 @@ void dt_ack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
     seqNoLow = tcpHeader->mSeqNoLow;
     value = ((u16) ((tcpHeader->mSeqNoHigh >> 8) | (tcpHeader->mSeqNoHigh << 8)) << 16) |
             (u16) ((seqNoLow >> 8) | (seqNoLow << 8));
-    if (socket->mState == 4 && socket->mAckNo != value) {
+    if (socket->mState == SOCKET_STATE_ESTABLISHED && socket->mAckNo != value) {
         tcp_send_ack(socket, (ipHeader->mIdentifierSecondByte << 8) + 0xa);
         return;
     }
     socket->mRemoteWin = (tcpHeader->mWindow >> 8) | (tcpHeader->mWindow << 8);
     switch (socket->mState) {
-        case 0:
-        case 2:
+        case SOCKET_STATE_CLOSED:
+        case SOCKET_STATE_SYN_SENT:
             tcp_send_rst(ipHeader, tcpHeader, length, (ipHeader->mIdentifierSecondByte << 8) + 0x63);
             break;
-        case 3:
-            socket->mState = 4;
+        case SOCKET_STATE_SYN_RECEIVED:
+            socket->mState = SOCKET_STATE_ESTABLISHED;
             if (socket->mBlockType == 1) {
                 socket->mBlockType = 0;
                 OS_WakeupThreadDirect(socket->mThread);
@@ -1180,7 +1180,7 @@ void dt_ack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
             if (length == 0) {
                 break;
             }
-        case 4:
+        case SOCKET_STATE_ESTABLISHED:
             socket->mAckRcvd++;
             freeSpace = socket->mReceiveBufferSize - socket->mReceiveBufferLength;
             if (length > freeSpace) {
@@ -1202,7 +1202,7 @@ void dt_ack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
                 }
             }
             if (value != 0 && (flags & 1) != 0) {
-                socket->mState = 6;
+                socket->mState = SOCKET_STATE_LAST_ACK;
                 socket->mAckNo++;
                 tcp_send_finack(socket, (ipHeader->mIdentifierSecondByte << 8) + 0xb);
                 if (length == 0 && socket->mBlockType == 2) {
@@ -1215,12 +1215,12 @@ void dt_ack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
                 tcp_send_ack(socket, (ipHeader->mIdentifierSecondByte << 8) + 0xc);
             }
             break;
-        case 7:
-        case 8:
+        case SOCKET_STATE_FIN_SENT:
+        case SOCKET_STATE_FIN_ACKED:
             if ((flags & 1) != 0) {
                 socket->mAckNo = socket->mAckNo + (length + 1);
                 tcp_send_ack(socket, (ipHeader->mIdentifierSecondByte << 8) + 0xd);
-                socket->mState = 0;
+                socket->mState = SOCKET_STATE_CLOSED;
                 if (socket->mBlockType == 2) {
                     socket->mBlockType = 0;
                     OS_WakeupThreadDirect(socket->mThread);
@@ -1231,11 +1231,11 @@ void dt_ack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
                 socket->mAckNo += length;
                 tcp_send_ack(socket, (ipHeader->mIdentifierSecondByte << 8) + 0xe);
             }
-            socket->mState = 8;
+            socket->mState = SOCKET_STATE_FIN_ACKED;
             break;
-        case 6:
-        case 9:
-            socket->mState = 0;
+        case SOCKET_STATE_LAST_ACK:
+        case SOCKET_STATE_CLOSING:
+            socket->mState = SOCKET_STATE_CLOSED;
             if (socket->mBlockType == 2) {
                 socket->mBlockType = 0;
                 OS_WakeupThreadDirect(socket->mThread);
@@ -1259,15 +1259,15 @@ void dt_fin(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
         return;
     }
     switch (socket->mState) {
-        case 7:
+        case SOCKET_STATE_FIN_SENT:
             socket->mAckNo++;
             tcp_send_ack(socket, (ipHeader->mIdentifierSecondByte << 8) + 0x13);
-            socket->mState = 9;
+            socket->mState = SOCKET_STATE_CLOSING;
             return;
         case 8:
             socket->mAckNo++;
             tcp_send_ack(socket, (ipHeader->mIdentifierSecondByte << 8) + 0x14);
-            socket->mState = 0;
+            socket->mState = SOCKET_STATE_CLOSED;
             if (socket->mBlockType == 2) {
                 socket->mBlockType = 0;
                 OS_WakeupThreadDirect(socket->mThread);
@@ -1277,7 +1277,7 @@ void dt_fin(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
         case 4:
             socket->mAckNo++;
             tcp_send_finack(socket, (ipHeader->mIdentifierSecondByte << 8) + 0x15);
-            socket->mState = 6;
+            socket->mState = SOCKET_STATE_LAST_ACK;
             return;
         default:
             tcp_send_rst(ipHeader, tcpHeader, length, (ipHeader->mIdentifierSecondByte << 8) + 0x16);
@@ -1291,7 +1291,7 @@ void dt_rst(const IpHeader *ipHeader, const TcpHeader *tcpHeader) {
     socket = find_socket(ipHeader, tcpHeader);
     if (socket != NULL) {
         OS_YieldThread();
-        socket->mState = 0;
+        socket->mState = SOCKET_STATE_CLOSED;
         if (socket->mBlockType - 1 <= 1) {
             socket->mBlockType = 0;
             OS_WakeupThreadDirect(socket->mThread);
@@ -1343,7 +1343,7 @@ void dispatch_udp(IpHeader *ipHeader, UdpHeader *udpHeader, u32 length) {
     }
     for (thread = OSi_ThreadInfo.mListHead; thread != NULL; thread = thread->mNext) {
         socket = thread->mSpecific[0];
-        if (socket == NULL || socket->mThread == NULL || socket->mState != 0xa ||
+        if (socket == NULL || socket->mThread == NULL || socket->mState != SOCKET_STATE_DATAGRAM ||
             socket->mLocalPort != (u16) ((udpHeader->mDestPort >> 8) | (udpHeader->mDestPort << 8))) {
             continue;
         }
@@ -1600,7 +1600,7 @@ void CPS_SocDatagramMode(void) {
     CPSSoc *socket;
     socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
     if (socket != NULL) {
-        socket->mState = 10;
+        socket->mState = SOCKET_STATE_DATAGRAM;
         socket->mReceiveBufferLength = 0;
     }
 }
@@ -1631,7 +1631,7 @@ void CPS_SocUse(void) {
     socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
     if (socket != NULL) {
         socket->mThread = OSi_ThreadInfo.mCurrentThread;
-        socket->mState = 0;
+        socket->mState = SOCKET_STATE_CLOSED;
         socket->mReceiveBufferLength = 0;
         socket->mOutBufferLength = 0;
         socket->mReceiveCallback = NULL;
@@ -1654,7 +1654,7 @@ void CPSi_TcpListenRaw(CPSSoc *socket) {
     u32 seqNo;
     seqNo = get_seqno();
     socket->mSeqNo = seqNo;
-    socket->mState = 1;
+    socket->mState = SOCKET_STATE_LISTENING;
     socket->mBlockType = 1;
     OS_SleepThread(NULL);
 }
@@ -1688,7 +1688,7 @@ u32 CPSi_TcpConnectRaw(CPSSoc *socket) {
     seqNo = get_seqno();
     for (attempt = 0; attempt < 3; attempt++) {
         socket->mSeqNo = seqNo;
-        socket->mState = 2;
+        socket->mState = SOCKET_STATE_SYN_SENT;
         socket->mStateStartTime = OS_GetTick() >> 16;
         tcp_send_handshake(socket, 2, 24);
         interruptState = OS_DisableInterrupts();
@@ -1697,7 +1697,7 @@ u32 CPSi_TcpConnectRaw(CPSSoc *socket) {
             OS_SleepThread(NULL);
         }
         OS_RestoreInterrupts(interruptState);
-        if (socket->mState == 4) {
+        if (socket->mState == SOCKET_STATE_ESTABLISHED) {
             return 0;
         }
         if (CPSMyIp == 0) {
@@ -1723,7 +1723,8 @@ u32 CPS_TcpConnect(void) {
 u32 CPS_SocWho(u16 *remotePort, u32 *localAddress) {
     CPSSoc *socket;
     socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
-    if ((socket != NULL) && ((socket->mState == 4 || (socket->mState == '\n')))) {
+    if ((socket != NULL) &&
+        ((socket->mState == SOCKET_STATE_ESTABLISHED || (socket->mState == SOCKET_STATE_DATAGRAM)))) {
         if (remotePort != NULL) {
             *remotePort = socket->mRemotePort;
         }
@@ -1737,12 +1738,12 @@ u32 CPS_SocWho(u16 *remotePort, u32 *localAddress) {
 
 void CPSi_TcpShutdownRaw(CPSSoc *socket) {
     OS_YieldThread();
-    if (socket->mState == 3 || socket->mState == 4) {
+    if (socket->mState == SOCKET_STATE_SYN_RECEIVED || socket->mState == SOCKET_STATE_ESTABLISHED) {
         tcp_send_finack(socket, 25);
-        socket->mState = 7;
+        socket->mState = SOCKET_STATE_FIN_SENT;
         return;
     }
-    if (socket->mState != 0) {
+    if (socket->mState != SOCKET_STATE_CLOSED) {
         tcp_send_ack(socket, 26);
     }
 }
@@ -1767,7 +1768,8 @@ void CPS_TcpClose(void) {
     socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
     if (socket != NULL) {
         startTick = OS_GetTick() >> 16;
-        while (gLinkIsOn() != 0 && socket->mState != 0 && (s32) (OS_GetTick() >> 16) - startTick < 0x27) {
+        while (gLinkIsOn() != 0 && socket->mState != SOCKET_STATE_CLOSED &&
+               (s32) (OS_GetTick() >> 16) - startTick < 0x27) {
             yield_thread();
         }
     }
@@ -1786,8 +1788,8 @@ u8 *udp_read_raw(u32 *length, CPSSoc *socket) {
 }
 
 u8 *CPSi_TcpReadRaw(u32 *length, CPSSoc *socket) {
-    if (socket->mReceiveBufferLength == 0 && socket->mState == 4) {
-        while (socket->mReceiveBufferLength == 0 && socket->mState == 4) {
+    if (socket->mReceiveBufferLength == 0 && socket->mState == SOCKET_STATE_ESTABLISHED) {
+        while (socket->mReceiveBufferLength == 0 && socket->mState == SOCKET_STATE_ESTABLISHED) {
             socket->mBlockType = 2;
             OS_SleepThread(NULL);
         }
@@ -1806,7 +1808,7 @@ u8 *CPS_SocRead(u32 *length) {
 
     socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
     if (socket != NULL) {
-        if ((u8) (socket->mState + 0xf6) <= 1) {
+        if ((u8) (socket->mState + (0x100 - SOCKET_STATE_DATAGRAM)) <= 1) {
             return udp_read_raw(length, socket);
         }
         if (socket->mUseHttps != 0) {
@@ -1836,7 +1838,8 @@ void CPSi_SocConsumeRaw(u32 length, CPSSoc *socket) {
         memmove(buffer, &(*source), receiveLength);
     }
     OS_RestoreInterrupts(interruptState);
-    if (socket->mState != 0xa && socket->mState != 0xb && socket->mReceiveBufferLength == 0) {
+    if (socket->mState != SOCKET_STATE_DATAGRAM && socket->mState != SOCKET_STATE_PING &&
+        socket->mReceiveBufferLength == 0) {
         tcp_send_ack(socket, 0x1b);
     }
 }
@@ -1868,7 +1871,7 @@ s32 tcp_write_do(const u8 *buffer, s32 length, CPSSoc *socket, s32 probeFlag) {
     }
     ackCountSaved = socket->mAckRcvd;
     sendBudget = ackCountSaved * 2 + 4;
-    while (length != 0 && socket->mState == 4) {
+    while (length != 0 && socket->mState == SOCKET_STATE_ESTABLISHED) {
         segmentLength = socket->mRemoteMss;
         if (segmentLength >= window) {
             segmentLength = window;
@@ -1921,15 +1924,15 @@ s32 CPSi_TcpWrite2Raw(const u8 *buffer, u32 length, const u8 *secondBuffer, s32 
     socket->mAckRcvd = 0;
     probeFlag = FALSE;
     startTime = OS_GetTick() >> 16;
-    while (gLinkIsOn() != 0 && length != 0 && socket->mState == 4 &&
+    while (gLinkIsOn() != 0 && length != 0 && socket->mState == SOCKET_STATE_ESTABLISHED &&
            (s32) ((u32) (OS_GetTick() >> 16) - startTime) < 0x9f) {
         seqNoBefore = socket->mSeqNo;
         tcp_write_do2(buffer, length, secondBuffer, secondLength, socket, probeFlag);
         retryTime = OS_GetTick() >> 16;
         do {
             yield_thread();
-        } while (gLinkIsOn() != 0 && socket->mState == 4 && socket->mSeqNo != socket->mRemoteAckNo &&
-                 (s32) ((u32) (OS_GetTick() >> 16) - retryTime) < 0xf &&
+        } while (gLinkIsOn() != 0 && socket->mState == SOCKET_STATE_ESTABLISHED &&
+                 socket->mSeqNo != socket->mRemoteAckNo && (s32) ((u32) (OS_GetTick() >> 16) - retryTime) < 0xf &&
                  (probeFlag == FALSE || socket->mRemoteWin == 0));
         ackedLength = socket->mRemoteAckNo - seqNoBefore;
         bytesWritten += ackedLength;
@@ -1937,7 +1940,7 @@ s32 CPSi_TcpWrite2Raw(const u8 *buffer, u32 length, const u8 *secondBuffer, s32 
             startTime = OS_GetTick() >> 16;
         }
         socket->mSeqNo = socket->mRemoteAckNo;
-        if (socket->mState == 4 && socket->mRemoteWin == 0 && ackedLength == 0) {
+        if (socket->mState == SOCKET_STATE_ESTABLISHED && socket->mRemoteWin == 0 && ackedLength == 0) {
             if (probeFlag == FALSE) {
                 retryTime = OS_GetTick() >> 16;
                 while (gLinkIsOn() != 0 && (s32) ((u32) (OS_GetTick() >> 16) - retryTime) < 0xf) {
@@ -1975,7 +1978,7 @@ s32 CPSi_SocWrite2(const u8 *buffer, s32 length, const u8 *secondBuffer, s32 sec
     socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
     if (socket != NULL) {
         state = socket->mState;
-        if (state == 0xa) {
+        if (state == SOCKET_STATE_DATAGRAM) {
             if (length != 0) {
                 send_udp((u8 *) buffer, length, socket);
             }
@@ -1983,7 +1986,7 @@ s32 CPSi_SocWrite2(const u8 *buffer, s32 length, const u8 *secondBuffer, s32 sec
                 send_udp((u8 *) secondBuffer, secondLength, socket);
             }
             bytesWritten = length + secondLength;
-        } else if (state == 0xb) {
+        } else if (state == SOCKET_STATE_PING) {
             if (length != 0) {
                 send_ping((u8 *) buffer, length, socket);
             }
@@ -2036,7 +2039,8 @@ s32 CPS_SocGetLength(void) {
         } else {
             count = socket->mReceiveBufferLength;
         }
-        if (count == 0 && socket->mState != 4 && (u8) (socket->mState + 0xf6) > 1) {
+        if (count == 0 && socket->mState != SOCKET_STATE_ESTABLISHED &&
+            (u8) (socket->mState + (0x100 - SOCKET_STATE_DATAGRAM)) > 1) {
             return -1;
         }
         return count;
@@ -2160,13 +2164,14 @@ void scavenger(void) {
             do {
                 socket = thread->mSpecific[0];
                 if (socket != NULL && socket->mThread != NULL) {
-                    if (socket->mState == 3 && (s32) (now - socket->mStateStartTime) > 0x27) {
-                        socket->mState = 1;
+                    if (socket->mState == SOCKET_STATE_SYN_RECEIVED &&
+                        (s32) (now - socket->mStateStartTime) > 0x27) {
+                        socket->mState = SOCKET_STATE_LISTENING;
                         socket->mRemotePort = socket->mRemotePortBound;
                         socket->mRemoteIp = socket->mRemoteIpBound;
-                    } else if (socket->mState == 2 && (s32) (now - socket->mStateStartTime) > 0x27 &&
-                               socket->mBlockType == 1) {
-                        socket->mState = 0;
+                    } else if (socket->mState == SOCKET_STATE_SYN_SENT &&
+                               (s32) (now - socket->mStateStartTime) > 0x27 && socket->mBlockType == 1) {
+                        socket->mState = SOCKET_STATE_CLOSED;
                         socket->mBlockType = 0;
                         OS_WakeupThreadDirect(socket->mThread);
                     }

@@ -8,10 +8,28 @@ typedef struct HttpsState HttpsState;
 struct CPSSoc;
 typedef s32 (*ConnectionReceiveFn)(void *param_1, u32 param_2, struct CPSSoc *param_3);
 
+// Values of CPSSoc.mState: the TCP connection states, then the two modes that carry single packets (DATAGRAM, PING).
+// Value 5 is never set. LAST_ACK is after the peer closed and the answering FIN went out, FIN_SENT after our own FIN,
+// FIN_ACKED once it was acknowledged, CLOSING when the peer's FIN arrived before that acknowledgement.
+enum {
+    SOCKET_STATE_CLOSED = 0,
+    SOCKET_STATE_LISTENING = 1,
+    SOCKET_STATE_SYN_SENT = 2,
+    SOCKET_STATE_SYN_RECEIVED = 3,
+    SOCKET_STATE_ESTABLISHED = 4,
+    SOCKET_STATE_LAST_ACK = 6,
+    SOCKET_STATE_FIN_SENT = 7,
+    SOCKET_STATE_FIN_ACKED = 8,
+    SOCKET_STATE_CLOSING = 9,
+    SOCKET_STATE_DATAGRAM = 10,
+    SOCKET_STATE_PING = 11,
+};
+
 // One TCP or UDP connection of the network stack, 0x64 bytes; mHttpsState is the https layer's own state.
 typedef struct CPSSoc {
     /* 00 */ struct OSThread *mThread;
     /* 04 */ u32 mBlockType;
+    // TCP_SOCKET_STATE_*
     /* 08 */ u8 mState;
     /* 09 */ u8 mUseHttps;
     /* 0a */ u16 mLocalPort;
