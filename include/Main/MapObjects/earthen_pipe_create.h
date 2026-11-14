@@ -12,6 +12,13 @@
 
 struct ItemFBox;
 
+// Values of ItemBox.mFramesSinceHit, which counts up from the hit: the box fades back in from the fade start and
+// the count stops at the maximum.
+#define ITEM_BOX_HIT_FRAMES_FADE_START 0x40
+#define ITEM_BOX_HIT_FRAMES_FLAG_CLEAR 0x60
+#define ITEM_BOX_HIT_FRAMES_MAX 0x80
+#define ITEM_BOX_FADE_IN_FRAMES 0x40
+
 // Object of 0x108 or more bytes handled by InitItemBox.
 typedef struct ItemBox {
     /* 000 */ MapObject mMapObject;

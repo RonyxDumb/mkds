@@ -98,5 +98,5 @@ void ResetPooledMapObject(ItemBox *pooledObject) {
     pooledObject->mMapObject.mScale.z = 0;
     pooledObject->mBoxRotationIndex = 0;
     pooledObject->mQuestionRotationIndex = 0;
-    pooledObject->mFramesSinceHit = 0x80;
+    pooledObject->mFramesSinceHit = ITEM_BOX_HIT_FRAMES_MAX;
 }

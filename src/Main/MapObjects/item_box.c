@@ -289,8 +289,8 @@ void DrawItemBoxShadow(void *unused, ItemBox *itemBox, u32 unusedArg, u32 maxAlp
     s32 questionAlpha;
     MtxFx43 *matrix;
 
-    alphaCap = itemBox->mFramesSinceHit - 0x40;
-    if (alphaCap >= 0x40) {
+    alphaCap = itemBox->mFramesSinceHit - ITEM_BOX_HIT_FRAMES_FADE_START;
+    if (alphaCap >= ITEM_BOX_FADE_IN_FRAMES) {
         itemBox->mBoxAlpha = 0x1a;
         itemBox->mQuestionAlpha = 0x14;
         alphaCap = 0xd;
@@ -362,11 +362,11 @@ void UpdateItemBox(void *unused, ItemBox *itemBox) {
         itemBox->mQuestionRotationIndex = 0;
     }
     framesSinceHit = itemBox->mFramesSinceHit;
-    if (framesSinceHit >= 0x80) {
+    if (framesSinceHit >= ITEM_BOX_HIT_FRAMES_MAX) {
         return;
     }
     itemBox->mFramesSinceHit = framesSinceHit + 1;
-    if (framesSinceHit > 0x60) {
+    if (framesSinceHit > ITEM_BOX_HIT_FRAMES_FLAG_CLEAR) {
         itemBox->mMapObject.mFlags = itemBox->mMapObject.mFlags & ~1;
     }
 }
@@ -417,7 +417,7 @@ u8 CollideKartWithItemBox(ItemBox *itemBox, Kart *kart, void *firstResponsePtr, 
                             kindInMask != FALSE ? itemBox->mForcedRowHumanGhostPeer : itemBox->mForcedRowCpu,
                             distanceBits, itemBox->mShortSpin);
     if (itemBox->mNoCourseRow != 0 || itemBox->mMapObject.mCourseMapRow->mSettings[5] != 0) {
-        itemBox->mFramesSinceHit = 0x80;
+        itemBox->mFramesSinceHit = ITEM_BOX_HIT_FRAMES_MAX;
         ParkMapObject(&itemBox->mMapObject);
     }
     return *secondResponsePtr;
@@ -434,7 +434,7 @@ u32 GetItemBoxMaxGroupDistance(ItemBox *itemBox) {
 }
 
 void SetItemBoxFramesSinceHitMax(ItemBox *itemBox) {
-    itemBox->mFramesSinceHit = 0x80;
+    itemBox->mFramesSinceHit = ITEM_BOX_HIT_FRAMES_MAX;
 }
 
 const u16 gItemBoxHitFlag = 1;

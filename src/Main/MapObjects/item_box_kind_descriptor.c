@@ -98,7 +98,7 @@ void InitItemBox(ItemBox *itemBox, CourseMapRow *row) {
     random = GetMapObjectRandom();
     random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
     itemBox->mQuestionRotationIndex = ((u64) (u32) (random->mValue >> 32) * 0x82) >> 32;
-    itemBox->mFramesSinceHit = 0x80;
+    itemBox->mFramesSinceHit = ITEM_BOX_HIT_FRAMES_MAX;
     if (row != NULL) {
         if (itemBox->mMapObject.mKind == 0xc9 && row->mGroupIndex >= 0) {
             usesGroupShadow = TRUE;
