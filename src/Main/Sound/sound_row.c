@@ -257,7 +257,7 @@ u32 GetSceneSoundRowIndex(s32 sceneNumber, SoundRow *output) {
                         output->mFirstBankId = courseRow.mFirstBankId;
                     }
                     break;
-                case 4:
+                case RACE_KIND_START_BATTLE:
                     rowIndex = 5;
                     break;
                 case RACE_KIND_STAFF_ROLL:
