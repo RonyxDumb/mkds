@@ -6,12 +6,12 @@
 void SetInterpolationState(Interpolation *interpolation, u32 state) {
     interpolation->mState = state;
     switch (interpolation->mState) {
-        case 0:
-        case 3:
+        case INTERPOLATION_STATE_RISING:
+        case INTERPOLATION_STATE_AT_START:
             interpolation->mCounter = 0;
             return;
-        case 1:
-        case 2:
+        case INTERPOLATION_STATE_AT_END:
+        case INTERPOLATION_STATE_FALLING:
             interpolation->mCounter = interpolation->mCounterLimit;
     }
 }

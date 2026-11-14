@@ -2,6 +2,12 @@
 
 #include "types.h"
 
+// Interpolation.mState: the counter counts up to its limit (rising) and down to 0 (falling) and rests at either end.
+#define INTERPOLATION_STATE_RISING 0
+#define INTERPOLATION_STATE_AT_END 1
+#define INTERPOLATION_STATE_FALLING 2
+#define INTERPOLATION_STATE_AT_START 3
+
 // Eases an s16 from a start to an end value while a counter steps from 0 up to its limit, and back down.
 typedef struct Interpolation {
     /* 00 */ s32 mState;

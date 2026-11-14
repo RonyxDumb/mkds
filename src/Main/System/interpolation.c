@@ -4,20 +4,20 @@
 
 #pragma thumb on
 
-// Takes state 0 only from state 2 or 3 and state 2 only from state 0 or 1; any other state is set at once.
+// Takes rising only from falling or at start and falling only from rising or at end; any other state is set at once.
 void SetInterpolationStateIfOpposite(Interpolation *interpolation, s32 requestedState) {
     switch (requestedState) {
-        case 0:
+        case INTERPOLATION_STATE_RISING:
             switch (interpolation->mState) {
-                case 2:
-                case 3:
+                case INTERPOLATION_STATE_FALLING:
+                case INTERPOLATION_STATE_AT_START:
                     SetInterpolationState(interpolation, requestedState);
             }
             break;
-        case 2:
+        case INTERPOLATION_STATE_FALLING:
             switch (interpolation->mState) {
-                case 0:
-                case 1:
+                case INTERPOLATION_STATE_RISING:
+                case INTERPOLATION_STATE_AT_END:
                     SetInterpolationState(interpolation, requestedState);
             }
             break;
@@ -29,18 +29,18 @@ void SetInterpolationStateIfOpposite(Interpolation *interpolation, s32 requested
 
 void AdvanceInterpolation(Interpolation *interpolation) {
     switch (interpolation->mState) {
-        case 0:
+        case INTERPOLATION_STATE_RISING:
             interpolation->mCounter++;
             if (interpolation->mCounter > interpolation->mCounterLimit) {
                 interpolation->mCounter = interpolation->mCounterLimit;
-                interpolation->mState = 1;
+                interpolation->mState = INTERPOLATION_STATE_AT_END;
             }
             break;
-        case 2:
+        case INTERPOLATION_STATE_FALLING:
             interpolation->mCounter--;
             if (interpolation->mCounter < 0) {
                 interpolation->mCounter = 0;
-                interpolation->mState = 3;
+                interpolation->mState = INTERPOLATION_STATE_AT_START;
             }
             break;
     }
