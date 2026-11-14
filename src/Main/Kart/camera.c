@@ -394,7 +394,8 @@ void SetEntryCameraUpdateHold(s32 hold) {
     if (entryCamera->mCourseMapCamera == NULL) {
         return;
     }
-    if (hold != 0 && entryCamera->mCourseMapCamera->mKind != 5 && entryCamera->mCourseMapCamera->mKind != 6) {
+    if (hold != 0 && entryCamera->mCourseMapCamera->mKind != COURSE_MAP_CAMERA_KIND_ANGLE &&
+        entryCamera->mCourseMapCamera->mKind != COURSE_MAP_CAMERA_KIND_ANGLE_START) {
         return;
     }
     entryCamera->mEntryUpdateHold = hold;
@@ -507,7 +508,7 @@ void UpdateCameraByEntryKind(Camera *camera) {
     CourseMapCamera *courseMapCamera;
     s32 secondOffset;
     switch (camera->mCourseMapCamera->mKind) {
-        case 0:
+        case COURSE_MAP_CAMERA_KIND_STATIC_LOOK_AT_KART:
             camera->mPos = camera->mCourseMapCamera->mPosOrParams;
             if (gRaceSetup->mRaceKind == RACE_KIND_AWARD) {
                 camera->mFollowedKartIndex = FROM_FIXED12(camera->mCourseMapCamera->mLookAtEndOrParams.z) - 1;
@@ -519,19 +520,19 @@ void UpdateCameraByEntryKind(Camera *camera) {
             }
             UpdateCameraView(camera);
             break;
-        case 1:
+        case COURSE_MAP_CAMERA_KIND_CURVE_LOOK_AT_KART:
             UpdateCameraPosCurveLookAtKart(camera);
             break;
-        case 5:
-        case 6:
+        case COURSE_MAP_CAMERA_KIND_ANGLE:
+        case COURSE_MAP_CAMERA_KIND_ANGLE_START:
             UpdateCameraAngleEntry(camera);
             break;
-        case 2:
+        case COURSE_MAP_CAMERA_KIND_STATIC_LOOK_AT_BLEND:
             camera->mPos = camera->mCourseMapCamera->mPosOrParams;
             UpdateCameraLookAtBlend(camera);
             UpdateCameraViewWithWorldUp(camera);
             break;
-        case 3:
+        case COURSE_MAP_CAMERA_KIND_CURVE_LOOK_AT_BLEND:
             UpdateCameraPosCurveLookAtBlend(camera);
             break;
     }
@@ -617,7 +618,7 @@ static inline void SetNextCourseMapCamera(Camera *camera) {
 
 MtxFx43 *UpdateChainCameraPair(void) {
     if (gSecondChainCamera->mCourseMapCamera != NULL) {
-        if (gSecondChainCamera->mCourseMapCamera->mKind == 4) {
+        if (gSecondChainCamera->mCourseMapCamera->mKind == COURSE_MAP_CAMERA_KIND_CHAIN_PAIR) {
             gFirstChainCamera->mFrustumShift = 1;
             gSecondChainCamera->mFrustumShift = 2;
         } else {

@@ -1186,6 +1186,12 @@ struct Kind7CameraEntry;
 #define CAMERA_COLLISION_STATE_LENGTH 1
 // Camera.mCollisionState: the hit is kept as a vector offset.
 #define CAMERA_COLLISION_STATE_OFFSET 0
+// Values of Camera.mKind.
+#define CAMERA_KIND_CHASE 0
+#define CAMERA_KIND_ENTRY 1
+#define CAMERA_KIND_CHAIN 2
+#define CAMERA_KIND_ENTRY_SEQUENCE 3
+
 typedef struct Camera {
     /* 000 */ Vec3 mUp;
     // baseUp x forward, perpendicular to mUp and mForward. Sign not fixed (left or right is not shown); not updated

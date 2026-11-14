@@ -178,7 +178,7 @@ void CreateEntryCamera(u32 followedKartIndex) {
     gEntryCamera->mFollowedKartIndex = followedKartIndex;
     gEntryCamera->mCourseMapCamera = NULL;
     gEntryCamera->mFrustumShift = 0;
-    gEntryCamera->mKind = 1;
+    gEntryCamera->mKind = CAMERA_KIND_ENTRY;
     if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {
         gEntryCamera->mCourseMapCamera = gCourseMap->mCameras;
     }
@@ -188,7 +188,7 @@ void CreateEntryCamera(u32 followedKartIndex) {
             kind7EntryCount = 0;
             nextIndex = -1;
             for (cameraIndex = 0; cameraIndex < gCourseMap->mCameraCount; cameraIndex++) {
-                if (gCourseMap->mCameras[cameraIndex].mKind == 7) {
+                if (gCourseMap->mCameras[cameraIndex].mKind == COURSE_MAP_CAMERA_KIND_SEQUENCE) {
                     kind7EntryCount++;
                 }
             }
@@ -204,7 +204,7 @@ void CreateEntryCamera(u32 followedKartIndex) {
                         break;
                     }
                 }
-                if (courseMapCamera->mKind == 7) {
+                if (courseMapCamera->mKind == COURSE_MAP_CAMERA_KIND_SEQUENCE) {
                     InitKind7CameraEntry(&gEntryCamera->mKind7Entries[listIndex], courseMapCamera);
                     listIndex++;
                     nextIndex = courseMapCamera->mNextIndex;
@@ -212,7 +212,7 @@ void CreateEntryCamera(u32 followedKartIndex) {
             }
             gEntryCamera->mUnk_220 = gEntryCamera->mKind7Entries;
             gEntryCamera->mUnk_224 = 0;
-            gEntryCamera->mKind = 3;
+            gEntryCamera->mKind = CAMERA_KIND_ENTRY_SEQUENCE;
             gCameraEntryChanged = 1;
         }
     }
@@ -241,8 +241,8 @@ void CreateChainCameraPair(void) {
     SetupCamera(gSecondChainCamera);
     gFirstChainCamera->mCourseMapCamera = gCourseMap->mFirstChainStartEntry;
     gSecondChainCamera->mCourseMapCamera = gCourseMap->mSecondChainStartEntry;
-    gFirstChainCamera->mKind = 2;
-    gSecondChainCamera->mKind = 2;
+    gFirstChainCamera->mKind = CAMERA_KIND_CHAIN;
+    gSecondChainCamera->mKind = CAMERA_KIND_CHAIN;
     if (gFirstChainCamera->mCourseMapCamera == NULL) {
         gRaceProgress->mCameraChainEnded = 1;
         return;
@@ -260,7 +260,7 @@ void CreateFirstChainCamera(void) {
     gSecondChainCamera = NULL;
     SetupCamera(gFirstChainCamera);
     gFirstChainCamera->mCourseMapCamera = gCourseMap->mFirstChainStartEntry;
-    gFirstChainCamera->mKind = 2;
+    gFirstChainCamera->mKind = CAMERA_KIND_CHAIN;
     gFirstChainCamera->mFrustumShift = 0;
     if (gFirstChainCamera->mCourseMapCamera == NULL) {
         gRaceProgress->mCameraChainEnded = 1;
@@ -347,7 +347,7 @@ void SetupCamera(Camera *camera) {
     camera->mEntryUpdateDisabled = FALSE;
     camera->mKind8EntryRunning = FALSE;
     camera->mFrustumShift = 0;
-    camera->mKind = 0;
+    camera->mKind = CAMERA_KIND_CHASE;
     camera->mPosGoalKartOffset = zero;
     camera->mPosGoalCollisionOffset = zero;
     camera->mCollisionState = CAMERA_COLLISION_STATE_NONE;

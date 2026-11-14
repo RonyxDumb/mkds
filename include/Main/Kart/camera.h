@@ -9,6 +9,17 @@ typedef struct Camera Camera;
 
 typedef struct Camera Camera;
 
+// Values of CourseMapCamera.mKind.
+#define COURSE_MAP_CAMERA_KIND_STATIC_LOOK_AT_KART 0
+#define COURSE_MAP_CAMERA_KIND_CURVE_LOOK_AT_KART 1
+#define COURSE_MAP_CAMERA_KIND_STATIC_LOOK_AT_BLEND 2
+#define COURSE_MAP_CAMERA_KIND_CURVE_LOOK_AT_BLEND 3
+#define COURSE_MAP_CAMERA_KIND_CHAIN_PAIR 4
+#define COURSE_MAP_CAMERA_KIND_ANGLE 5
+#define COURSE_MAP_CAMERA_KIND_ANGLE_START 6
+#define COURSE_MAP_CAMERA_KIND_SEQUENCE 7
+#define COURSE_MAP_CAMERA_KIND_MISSION_RUN 8 // recorded only in mission run mode
+
 // The 0x4c-byte entries of the table at CourseMap.mCameras: a position at 0x00, two vectors at 0x18 and 0x24 (look-at
 // ends in some kinds, angles or a kart index in others), blend steps, a kind (mKind), a duration (mFrameCount), the
 // next entry (mNextIndex).

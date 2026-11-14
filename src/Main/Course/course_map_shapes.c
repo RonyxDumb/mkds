@@ -809,14 +809,15 @@ s32 LoadCourseMapCamerasData(void *section, ...) {
         if (gCourseMap->mSecondChainStartEntry == NULL && camera->mChainStart == 2) {
             gCourseMap->mSecondChainStartEntry = camera;
         }
-        if (gCourseMap->mFirstKind6Entry == NULL && camera->mKind == 6) {
+        if (gCourseMap->mFirstKind6Entry == NULL && camera->mKind == COURSE_MAP_CAMERA_KIND_ANGLE_START) {
             gCourseMap->mFirstKind6Entry = camera;
         }
-        if (gRaceSetup->mMode == MODE_BATTLE && gCourseMap->mFirstKind7EntryInMode2 == NULL && camera->mKind == 7) {
+        if (gRaceSetup->mMode == MODE_BATTLE && gCourseMap->mFirstKind7EntryInMode2 == NULL &&
+            camera->mKind == COURSE_MAP_CAMERA_KIND_SEQUENCE) {
             gCourseMap->mFirstKind7EntryInMode2 = camera;
         }
         if (gRaceSetup->mMode == MODE_MISSION_RUN && gCourseMap->mFirstKind8EntryInMode4 == NULL &&
-            camera->mKind == 8) {
+            camera->mKind == COURSE_MAP_CAMERA_KIND_MISSION_RUN) {
             gCourseMap->mFirstKind8EntryInMode4 = camera;
         }
     }
