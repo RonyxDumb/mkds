@@ -1550,17 +1550,17 @@ void AdvanceEmblemChoisesScreen(void) {
     choisesResult = GetEmblemChoisesResult();
     switch (choisesResult) {
         case -2:
-        case 0:
+        case EMBLEM_CHOISE_BACK:
             StopEmblemChoises();
             break;
-        case 1:
+        case EMBLEM_CHOISE_SAVE:
             SetEmblemChoisesShownAndReset(0);
             JoinNibbleTilesIntoBytes(GetEmblemGridCells(), gEmblem->mRecordBytes, GetEmblemGridSide());
             SetEmblemRecordAndWriteBackup(gEmblem->mRecordBytes);
             gEmblem->mState = EMBLEM_STATE_SAVING;
             gEmblem->mDisplayState = 1;
             break;
-        case 2:
+        case EMBLEM_CHOISE_DISCARD:
             SetEmblemChoisesShownAndReset(0);
             gEmblem->mState = EMBLEM_STATE_SAVING;
             gEmblem->mDisplayState = 1;

@@ -154,6 +154,10 @@ typedef struct ViewFrustum {
     /* 54 */ BOOL mViewTestRefreshPending;
 } ViewFrustum;
 
+// Values of EmblemChoises.mChoisesIndex and of a picked mResult: the first goes back to editing, the second writes the
+// emblem to the save data and leaves, the third leaves without writing.
+enum { EMBLEM_CHOISE_BACK, EMBLEM_CHOISE_SAVE, EMBLEM_CHOISE_DISCARD };
+
 // Object behind gEmblemChoises, 0x6c bytes (InitEmblemChoises allocates it); DrawEmblemChoises calls the function at
 // 0x0c.
 typedef struct EmblemChoises {

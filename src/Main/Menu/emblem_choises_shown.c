@@ -71,13 +71,13 @@ s32 MoveEmblemChoisesIndexByTouch(void) {
                     gEmblemChoises->mPickStartedOnSelected = TRUE;
                 }
                 switch (gEmblemChoises->mChoisesIndex) {
-                    case 0:
+                    case EMBLEM_CHOISE_BACK:
                         StartEmblemChoisesSound(0x10);
                         break;
-                    case 1:
+                    case EMBLEM_CHOISE_SAVE:
                         StartEmblemChoisesSound(0xb);
                         break;
-                    case 2:
+                    case EMBLEM_CHOISE_DISCARD:
                         StartEmblemChoisesSound(5);
                         break;
                 }
@@ -90,7 +90,7 @@ s32 MoveEmblemChoisesIndexByTouch(void) {
 
 void ResetEmblemChoisesState(void) {
     gEmblemChoises->mResult = -1;
-    gEmblemChoises->mChoisesIndex = 0;
+    gEmblemChoises->mChoisesIndex = EMBLEM_CHOISE_BACK;
     gEmblemChoises->mCycleFrames = 0;
     gEmblemChoises->mPickStartedOnSelected = FALSE;
     gEmblemChoises->mPickFrames = 0;
@@ -238,13 +238,13 @@ void UpdateEmblemChoises(void) {
             gEmblemChoises->mPickFrames = 1;
             gEmblemChoises->mPickStartedOnSelected = TRUE;
             switch (gEmblemChoises->mChoisesIndex) {
-                case 0:
+                case EMBLEM_CHOISE_BACK:
                     StartEmblemChoisesSound(0x10);
                     break;
-                case 1:
+                case EMBLEM_CHOISE_SAVE:
                     StartEmblemChoisesSound(0xb);
                     break;
-                case 2:
+                case EMBLEM_CHOISE_DISCARD:
                     StartEmblemChoisesSound(5);
                     break;
             }
