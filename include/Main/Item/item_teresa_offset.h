@@ -18,6 +18,20 @@ typedef struct ItemTeresa ItemTeresa;
 // Value of ItemTeresa.mTakenItemInfoIndex and mGivenItemInfoIndex while no item has arrived (the count is -1).
 #define ITEM_TERESA_NOT_RECEIVED ITEM_INFO_COUNT
 
+// Values of the ItemTeresa state machine states, which gItemTeresaStateTable follows, and so of
+// ItemTeresa.mReportedState. FINISHED is the value after the last state; NONE means nothing reported yet.
+enum {
+    ITEM_TERESA_STATE_FADE_OUT_AT_OWNER,
+    ITEM_TERESA_STATE_WAIT_PICKED_KART,
+    ITEM_TERESA_STATE_FADE_IN_AT_PICKED,
+    ITEM_TERESA_STATE_TAKE_ITEM,
+    ITEM_TERESA_STATE_WAIT_DELAY,
+    ITEM_TERESA_STATE_FADE_IN_AT_OWNER,
+    ITEM_TERESA_STATE_FADE_OUT_END,
+    ITEM_TERESA_STATE_FINISHED,
+};
+#define ITEM_TERESA_STATE_NONE 0xffffffff
+
 void DrawItemTeresa(ItemTeresa *teresa, s32 unusedValue, NsbmdModel *model);
 void SetItemTeresaFromPacket(ItemTeresa *teresa, u32 sel, s32 value);
 void InitItemTeresaFromData(ItemTeresa *teresa);

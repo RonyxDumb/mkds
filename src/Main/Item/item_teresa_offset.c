@@ -122,7 +122,7 @@ void ResetItemTeresa(ItemTeresa *teresa) {
     teresa->mTakenItemCount = 0xffffffff;
     teresa->mGivenItemInfoIndex = ITEM_TERESA_NOT_RECEIVED;
     teresa->mGivenItemCount = 0xffffffff;
-    teresa->mReportedState = 0xffffffff;
+    teresa->mReportedState = ITEM_TERESA_STATE_NONE;
     teresa->mDelayTimer = 0;
     teresa->mStalled = 0;
     teresa->mStallFrames = 0;
@@ -336,7 +336,7 @@ void InitItemTeresa(ItemInUse *inUse, ItemTeresa *teresa) {
     } else {
         teresa->mPicksAheadFirst = TRUE;
     }
-    SetStateMachineState(&teresa->mStateMachine, 0);
+    SetStateMachineState(&teresa->mStateMachine, ITEM_TERESA_STATE_FADE_OUT_AT_OWNER);
     teresa->mActsLocally = TRUE;
 }
 
@@ -498,7 +498,7 @@ BOOL AdvanceItemTeresaFadeOut(ItemTeresa *teresa, s32 shiftAlongCameraSide, s32 
         fadeStep = GetRaceUpdateFramesMod8() > 2;
         AdvanceItemTeresaPath(teresa);
     } else {
-        if (nextState < 7) {
+        if (nextState < ITEM_TERESA_STATE_FINISHED) {
             teresa->mOffsetVelocityY += 0x133;
             fadeStartFrame = 0x1c;
             fadeStep = 6;
@@ -519,8 +519,8 @@ BOOL AdvanceItemTeresaFadeOut(ItemTeresa *teresa, s32 shiftAlongCameraSide, s32 
             teresa->mItemObject.mAlpha -= fadeStep;
         }
         if (stateFrames >= (teresa->mFollowsPath != FALSE ? 0x37 : 0x28)) {
-            if (nextState < 7) {
-                if (teresa->mStateMachine.mState == 0) {
+            if (nextState < ITEM_TERESA_STATE_FINISHED) {
+                if (teresa->mStateMachine.mState == ITEM_TERESA_STATE_FADE_OUT_AT_OWNER) {
                     teresa->mSavedOffsetY = teresa->mOffsetY;
                     teresa->mSavedOffsetVelocityY = teresa->mOffsetVelocityY;
                 }
@@ -575,7 +575,9 @@ s32 AdvanceItemTeresaFadeIn(ItemTeresa *teresa, s32 shiftAlongCameraSide, s32 ne
 }
 
 void UpdateItemTeresaState0(ItemTeresa *teresa) {
-    AdvanceItemTeresaFadeOut(teresa, 0, (teresa->mItemObject.mFlags & 0x8000000) ? 1 : 2);
+    AdvanceItemTeresaFadeOut(teresa, 0,
+                             (teresa->mItemObject.mFlags & 0x8000000) ? ITEM_TERESA_STATE_WAIT_PICKED_KART
+                                                                      : ITEM_TERESA_STATE_FADE_IN_AT_PICKED);
     if (!(teresa->mItemObject.mFlags & 0x8000000)) {
         return;
     }
@@ -585,12 +587,13 @@ void UpdateItemTeresaState0(ItemTeresa *teresa) {
     if (teresa->mFollowEnded != FALSE) {
         return;
     }
-    if (teresa->mReportedState == 0xffffffff) {
+    if (teresa->mReportedState == ITEM_TERESA_STATE_NONE) {
         return;
     }
-    if (teresa->mReportedState == 0 || teresa->mReportedState == 7) {
+    if (teresa->mReportedState == ITEM_TERESA_STATE_FADE_OUT_AT_OWNER ||
+        teresa->mReportedState == ITEM_TERESA_STATE_FINISHED) {
         teresa->mFollowEnded = TRUE;
-        teresa->mReportedState = -1;
+        teresa->mReportedState = ITEM_TERESA_STATE_NONE;
     }
 }
 
@@ -616,7 +619,7 @@ void UpdateItemTeresaState1(ItemTeresa *teresa) {
     }
     teresa->mDelayTimer = stateFrames - 0x28;
     teresa->mPickedKartIndex = teresa->mPendingPickedKartIndex;
-    teresa->mStateMachine.mNextState = 2;
+    teresa->mStateMachine.mNextState = ITEM_TERESA_STATE_FADE_IN_AT_PICKED;
     teresa->mStateMachine.mNextStateRequested = 1;
 }
 
@@ -717,11 +720,13 @@ void UpdateItemTeresaState2(ItemTeresa *teresa) {
     if (teresa->mPickedKartIndex == 8) {
         if (teresa->mStateMachine.mStateFrames > 0x6e) {
             teresa->mItemObjectKind = ITEM_TERESA_KIND_TOOK_NOTHING;
-            teresa->mStateMachine.mNextState = (teresa->mItemObject.mFlags & 0x8000000) ? 4 : 5;
+            teresa->mStateMachine.mNextState = (teresa->mItemObject.mFlags & 0x8000000)
+                                                   ? ITEM_TERESA_STATE_WAIT_DELAY
+                                                   : ITEM_TERESA_STATE_FADE_IN_AT_OWNER;
             teresa->mStateMachine.mNextStateRequested = 1;
         }
     } else {
-        framesLeft = 0x28 - AdvanceItemTeresaFadeIn(teresa, 1, 3);
+        framesLeft = 0x28 - AdvanceItemTeresaFadeIn(teresa, 1, ITEM_TERESA_STATE_TAKE_ITEM);
         if (teresa->mItemObjectKind == ITEM_TERESA_KIND_EMPTY) {
             if (teresa->mActsLocally != FALSE) {
                 if (framesLeft == 0xa) {
@@ -770,12 +775,13 @@ void UpdateItemTeresaState2(ItemTeresa *teresa) {
     if (teresa->mFollowEnded != FALSE) {
         return;
     }
-    if (teresa->mReportedState == 0xffffffff) {
+    if (teresa->mReportedState == ITEM_TERESA_STATE_NONE) {
         return;
     }
-    if (teresa->mReportedState == 2 || teresa->mReportedState == 7) {
+    if (teresa->mReportedState == ITEM_TERESA_STATE_FADE_IN_AT_PICKED ||
+        teresa->mReportedState == ITEM_TERESA_STATE_FINISHED) {
         teresa->mFollowEnded = TRUE;
-        teresa->mReportedState = -1;
+        teresa->mReportedState = ITEM_TERESA_STATE_NONE;
     }
 }
 
@@ -818,7 +824,9 @@ void UpdateItemTeresaState3(ItemTeresa *teresa) {
     } else {
         teresa->mOffsetX += teresa->mOffsetVelocityX;
         teresa->mOffsetZ += teresa->mOffsetVelocityZ;
-        AdvanceItemTeresaFadeOut(teresa, 1, (teresa->mItemObject.mFlags & 0x8000000) ? 4 : 5);
+        AdvanceItemTeresaFadeOut(teresa, 1,
+                                 (teresa->mItemObject.mFlags & 0x8000000) ? ITEM_TERESA_STATE_WAIT_DELAY
+                                                                          : ITEM_TERESA_STATE_FADE_IN_AT_OWNER);
         if (!(teresa->mItemObject.mFlags & 0x8000000)) {
             return;
         }
@@ -828,12 +836,12 @@ void UpdateItemTeresaState3(ItemTeresa *teresa) {
         if (teresa->mFollowEnded != FALSE) {
             return;
         }
-        if (teresa->mReportedState == 0xffffffff) {
+        if (teresa->mReportedState == ITEM_TERESA_STATE_NONE) {
             return;
         }
-        if (teresa->mReportedState - 2 <= 1) {
+        if (teresa->mReportedState - ITEM_TERESA_STATE_FADE_IN_AT_PICKED <= 1) {
             teresa->mFollowEnded = TRUE;
-            teresa->mReportedState = -1;
+            teresa->mReportedState = ITEM_TERESA_STATE_NONE;
         }
     }
 }
@@ -849,7 +857,7 @@ void UpdateItemTeresaState4(ItemTeresa *teresa) {
         return;
     }
     teresa->mActsLocally = (teresa->mItemObject.mFlags & 0x10000000) == 0;
-    teresa->mStateMachine.mNextState = 5;
+    teresa->mStateMachine.mNextState = ITEM_TERESA_STATE_FADE_IN_AT_OWNER;
     teresa->mStateMachine.mNextStateRequested = 1;
 }
 
@@ -886,7 +894,7 @@ void EnterItemTeresaState5(ItemTeresa *teresa) {
         } else {
             teresa->mFollowEnded = TRUE;
             if (teresa->mItemObject.mFlags & 0x8000000) {
-                AddItemDataItemIdAndBytes(0xb, teresa->mItemObject.mId, 1, 5);
+                AddItemDataItemIdAndBytes(0xb, teresa->mItemObject.mId, 1, ITEM_TERESA_STATE_FADE_IN_AT_OWNER);
             }
             teresa->mOffsetX = 0;
             teresa->mOffsetZ = 0;
@@ -927,10 +935,11 @@ void UpdateItemTeresaState5(ItemTeresa *teresa) {
         teresa->mItemCount != -0x40) {
         teresa->mFollowEnded = TRUE;
         if (teresa->mItemObject.mFlags & 0x8000000) {
-            AddItemDataItemIdAndBytes(0xb, teresa->mItemObject.mId, 1, 5);
+            AddItemDataItemIdAndBytes(0xb, teresa->mItemObject.mId, 1, ITEM_TERESA_STATE_FADE_IN_AT_OWNER);
         }
     } else {
-        framesLeft = 0x28 - AdvanceItemTeresaFadeIn(teresa, teresa->mFollowsPath == FALSE ? 1 : 0, 6);
+        framesLeft = 0x28 - AdvanceItemTeresaFadeIn(teresa, teresa->mFollowsPath == FALSE ? 1 : 0,
+                                                    ITEM_TERESA_STATE_FADE_OUT_END);
         if (framesLeft < 7) {
             if (teresa->mItemModelAlpha > 0) {
                 teresa->mItemModelAlpha -= 5;
@@ -987,10 +996,10 @@ skip:
     if (teresa->mFollowsPath == FALSE && teresa->mFollowEnded != FALSE) {
         startOffsetX = teresa->mOffsetX;
         startOffsetZ = teresa->mOffsetZ;
-        AdvanceItemTeresaFadeIn(teresa, 1, 6);
+        AdvanceItemTeresaFadeIn(teresa, 1, ITEM_TERESA_STATE_FADE_OUT_END);
         teresa->mOffsetVelocityX = teresa->mOffsetX - startOffsetX;
         teresa->mOffsetVelocityZ = teresa->mOffsetZ - startOffsetZ;
-        teresa->mStateMachine.mNextState = 6;
+        teresa->mStateMachine.mNextState = ITEM_TERESA_STATE_FADE_OUT_END;
         teresa->mStateMachine.mNextStateRequested = 1;
         teresa->mStalled = FALSE;
     }
@@ -1003,12 +1012,13 @@ skip:
     if (teresa->mFollowEnded != FALSE) {
         return;
     }
-    if (teresa->mReportedState == 0xffffffff) {
+    if (teresa->mReportedState == ITEM_TERESA_STATE_NONE) {
         return;
     }
-    if (teresa->mReportedState == 5 || teresa->mReportedState == 7) {
+    if (teresa->mReportedState == ITEM_TERESA_STATE_FADE_IN_AT_OWNER ||
+        teresa->mReportedState == ITEM_TERESA_STATE_FINISHED) {
         teresa->mFollowEnded = TRUE;
-        teresa->mReportedState = -1;
+        teresa->mReportedState = ITEM_TERESA_STATE_NONE;
     }
 }
 
@@ -1032,7 +1042,7 @@ void UpdateItemTeresaState6(ItemTeresa *teresa) {
             teresa->mItemModelAlpha += 8;
         }
     }
-    if (AdvanceItemTeresaFadeOut(teresa, teresa->mFollowsPath == FALSE ? 1 : 0, 7) != FALSE) {
+    if (AdvanceItemTeresaFadeOut(teresa, teresa->mFollowsPath == FALSE ? 1 : 0, ITEM_TERESA_STATE_FINISHED) != FALSE) {
         if (hasItem != FALSE) {
             if ((teresa->mItemObject.mOwnerKartIndexAndFlags & 0x8000) == 0) {
                 ownerKartIndex = (u16) (teresa->mItemObject.mOwnerKartIndexAndFlags & ~0xff00);
@@ -1053,12 +1063,12 @@ void UpdateItemTeresaState6(ItemTeresa *teresa) {
     if (teresa->mFollowEnded != FALSE) {
         return;
     }
-    if (teresa->mReportedState == 0xffffffff) {
+    if (teresa->mReportedState == ITEM_TERESA_STATE_NONE) {
         return;
     }
-    if (teresa->mReportedState - 5 <= 1) {
+    if (teresa->mReportedState - ITEM_TERESA_STATE_FADE_IN_AT_OWNER <= 1) {
         teresa->mFollowEnded = TRUE;
-        teresa->mReportedState = -1;
+        teresa->mReportedState = ITEM_TERESA_STATE_NONE;
     }
 }
 
@@ -1096,7 +1106,7 @@ void InitItemTeresaFromData(ItemTeresa *teresa) {
 
     SetupItemObjectFromData(&teresa->mItemObject);
     InitCourseColorBlend(&teresa->mItemObject.mColorBlend, 1);
-    SetStateMachineState(&teresa->mStateMachine, 0);
+    SetStateMachineState(&teresa->mStateMachine, ITEM_TERESA_STATE_FADE_OUT_AT_OWNER);
     if ((teresa->mItemObject.mOwnerKartIndexAndFlags & 0x8000) == 0) {
         ownerKartIndex = (u16) (teresa->mItemObject.mOwnerKartIndexAndFlags & ~0xff00);
     } else {
@@ -1155,7 +1165,8 @@ void DrawItemTeresa(ItemTeresa *teresa, s32 unusedValue, NsbmdModel *model) {
     scale[1] = scaleY;
     scale[2] = scaleZ;
     NNS_G3dGeBufferOP_N(0x1b, scale, 3);
-    if (teresa->mItemObjectKind < ITEM_OBJECT_KIND_COUNT && teresa->mStateMachine.mState >= 3) {
+    if (teresa->mItemObjectKind < ITEM_OBJECT_KIND_COUNT &&
+        teresa->mStateMachine.mState >= ITEM_TERESA_STATE_TAKE_ITEM) {
         itemModel = GetItemModel(teresa->mItemObjectKind);
         itemModelAlpha = teresa->mItemModelAlpha;
         itemCount = teresa->mItemCount;
