@@ -541,7 +541,7 @@ BOOL CompareTextWithWildcard(const s8 *text, const s8 *pattern) {
 }
 
 // Parses and checks each item of the list message in turn, passing the flags to mCheckFlagsCallback; mSetupState
-// becomes 3 when the last result is 0, else 9.
+// becomes HTTPS_SETUP_ITEM_LIST_CHECKED when the last result is 0, else HTTPS_SETUP_FAILED.
 void ParseAndCheckItemListMessage(HttpsState *httpsState, u8 *cursor) {
     s32 itemIndex;
     s32 remainingLength;
@@ -575,7 +575,7 @@ void ParseAndCheckItemListMessage(HttpsState *httpsState, u8 *cursor) {
         httpsState->mItemLength = itemLength;
         if (ParseTaggedItem(httpsState, &cursor, 0, 0, parseMode) != 0 || httpsState->mFirstValueLength < 0x33 ||
             httpsState->mSecondValueLength == 0) {
-            httpsState->mSetupState = 9;
+            httpsState->mSetupState = HTTPS_SETUP_FAILED;
             return;
         }
         flags = ComputeParsedItemCheckFlags(httpsState);
@@ -588,7 +588,7 @@ void ParseAndCheckItemListMessage(HttpsState *httpsState, u8 *cursor) {
             nextItem = cursor + 3;
             httpsState->mCaptureValues = 0;
             if (ParseTaggedItem(httpsState, &nextItem, 0, 0, 2) != 0) {
-                httpsState->mSetupState = 9;
+                httpsState->mSetupState = HTTPS_SETUP_FAILED;
                 return;
             }
             flags = (flags & ~0xff) | CheckTransformedBytesHoldPaddedDigest(httpsState, &httpsState->mItemRecord);
@@ -604,9 +604,9 @@ void ParseAndCheckItemListMessage(HttpsState *httpsState, u8 *cursor) {
         break;
     }
     if (flags == 0) {
-        httpsState->mSetupState = 3;
+        httpsState->mSetupState = HTTPS_SETUP_ITEM_LIST_CHECKED;
     } else {
-        httpsState->mSetupState = 9;
+        httpsState->mSetupState = HTTPS_SETUP_FAILED;
     }
 }
 
@@ -635,7 +635,7 @@ void ParseKind2Message(HttpsState *httpsState, u8 *message) {
     }
     afterId = message + idLength;
     httpsState->mCommonValue = (afterId[0] << 8) + afterId[1];
-    httpsState->mSetupState = 2;
+    httpsState->mSetupState = HTTPS_SETUP_ANSWER_RECEIVED;
 }
 
 BOOL IsBigEndianValueInList(const u8 *list, s32 count, s32 width, u32 value) {
@@ -692,7 +692,7 @@ void ParseKind1MessageWithThreeByteValues(HttpsState *httpsState, u8 *message) {
                 MI_CpuFill8(httpsState->mKind1Block, 0, 0x20 - blockLength);
                 MI_CpuCopy8(message, httpsState->mKind2Block - blockLength, blockLength);
             }
-            httpsState->mSetupState = 1;
+            httpsState->mSetupState = HTTPS_SETUP_OFFER_RECEIVED;
         }
     }
 }
@@ -714,7 +714,7 @@ void ParseKind1Message(HttpsState *httpsState, const u8 *message) {
         offeredValue = FindOfferedValueInList(cursor + 2, ((cursor[0] << 8) + cursor[1]) / 2, 2);
         httpsState->mCommonValue = offeredValue;
         if (offeredValue != 0) {
-            httpsState->mSetupState = 1;
+            httpsState->mSetupState = HTTPS_SETUP_OFFER_RECEIVED;
         }
     }
 }
@@ -865,12 +865,13 @@ void DeriveBytesAndInitKeyStreamStates(HttpsState *httpsState) {
     CPSi_rc4_init(httpsState->mSendKeyStreamState, httpsState->mSendKeyStreamBytes, 0x10);
 }
 
-// Recovers the entry's 0x30 bytes from b, derives the key bytes and sets mSetupState to 5.
+// Recovers the entry's 0x30 bytes from the encrypted secret, derives the key bytes and sets mSetupState to
+// HTTPS_SETUP_KEYS_DERIVED.
 void rcv_client_key_exchange(HttpsState *httpsState, const u8 *encryptedSecret) {
     decrypt_premaster_secret(httpsState->mEntry->mMasterSecret, encryptedSecret, httpsState->mPrivateKey);
     ReplaceEntryBytesWithLabeledDigests(httpsState);
     DeriveBytesAndInitKeyStreamStates(httpsState);
-    httpsState->mSetupState = 5;
+    httpsState->mSetupState = HTTPS_SETUP_KEYS_DERIVED;
 }
 
 void ComputeLabeledMessageDigest16(HttpsState *httpsState, u8 *digest, u32 fromOtherSide) {
@@ -923,7 +924,7 @@ void CheckMessageDigestsAndSetState(HttpsState *httpsState, u8 *receivedDigests)
     MI_CpuCopy8(&httpsState->mScratchHash16, &httpsState->mMessageHash16, 0x58);
     compareResult = memcmp(receivedDigests, ownDigest, 0x10);
     if (compareResult != 0) {
-        httpsState->mSetupState = 9;
+        httpsState->mSetupState = HTTPS_SETUP_FAILED;
         return;
     }
     MI_CpuCopy8(&httpsState->mMessageHash20, &httpsState->mScratchHash20, 0x5c);
@@ -931,10 +932,10 @@ void CheckMessageDigestsAndSetState(HttpsState *httpsState, u8 *receivedDigests)
     MI_CpuCopy8(&httpsState->mScratchHash20, &httpsState->mMessageHash20, 0x5c);
     compareResult = memcmp(receivedDigests + 0x10, ownDigest, 0x14);
     if (compareResult != 0) {
-        httpsState->mSetupState = 9;
+        httpsState->mSetupState = HTTPS_SETUP_FAILED;
         return;
     }
-    httpsState->mSetupState = 6;
+    httpsState->mSetupState = HTTPS_SETUP_DIGESTS_MATCHED;
 }
 
 void IncrementBigEndianBytes(u8 *bytes, s32 count) {
@@ -1014,7 +1015,7 @@ s32 XorReceivedRecordWithKeyStreamAndCheckDigest(HttpsState *httpsState, u8 *rec
             break;
     }
     if (memcmp(record + 5 + payloadLength, computedDigest, digestLength) != 0) {
-        httpsState->mSetupState = 9;
+        httpsState->mSetupState = HTTPS_SETUP_FAILED;
     }
     IncrementBigEndianBytes(httpsState->mReceiveRecordCount, 8);
     return payloadLength + 5;
@@ -1094,8 +1095,8 @@ u32 ReadExactReceivedBytes(u8 *dest, s32 count, CPSSoc *connection) {
     return 0;
 }
 
-// Reads one record, checks and xors it when mSetupState is 7 or 8, runs the handler of its kind and returns
-// mSetupState.
+// Reads one record, checks and xors it when mSetupState is HTTPS_SETUP_CIPHER_RECORD_RECEIVED or
+// HTTPS_SETUP_COMPLETE, runs the handler of its kind and returns mSetupState.
 u8 ReadHttpsRecordAndSetState(CPSSoc *connection) {
     HttpsState *httpsState = connection->mHttpsState;
     u32 length;
@@ -1108,44 +1109,46 @@ u8 ReadHttpsRecordAndSetState(CPSSoc *connection) {
     do {
         header = CPSi_TcpReadRaw(&length, connection);
         if (length == 0) {
-            httpsState->mSetupState = 9;
+            httpsState->mSetupState = HTTPS_SETUP_FAILED;
             return httpsState->mSetupState;
         }
     } while (length < 5);
     recordType = header[0];
     if (recordType == 0x80) {
-        if (httpsState->mReceivesKind1Record != 0 && httpsState->mSetupState == 0) {
+        if (httpsState->mReceivesKind1Record != 0 && httpsState->mSetupState == HTTPS_SETUP_START) {
             length = header[1];
             CPSi_SocConsumeRaw(2, connection);
             record = CPSiAlloc(length);
             if (record == NULL) {
-                httpsState->mSetupState = 9;
+                httpsState->mSetupState = HTTPS_SETUP_FAILED;
                 return httpsState->mSetupState;
             }
             if (ReadExactReceivedBytes(record, length, connection) == 0 && record[0] == 1) {
                 ParseKind1MessageWithThreeByteValues(httpsState, record + 1);
             } else {
-                httpsState->mSetupState = 9;
+                httpsState->mSetupState = HTTPS_SETUP_FAILED;
             }
             CPSi_sha1_calc(&httpsState->mMessageHash20, record, length);
             CPSi_md5_calc(&httpsState->mMessageHash16, record, length);
             CPSiFree(record);
         } else {
-            httpsState->mSetupState = 9;
+            httpsState->mSetupState = HTTPS_SETUP_FAILED;
         }
     } else {
         length = ((header[3] << 8) + header[4]) + 5;
         record = CPSiAlloc(length);
         if (record == NULL) {
-            httpsState->mSetupState = 9;
+            httpsState->mSetupState = HTTPS_SETUP_FAILED;
             return httpsState->mSetupState;
         }
         if (ReadExactReceivedBytes(record, length, connection) != 0) {
             CPSiFree(record);
-            httpsState->mSetupState = 9;
+            httpsState->mSetupState = HTTPS_SETUP_FAILED;
             return httpsState->mSetupState;
         }
-        if (((u8) (httpsState->mSetupState + 0xf9) <= 1 && recordType != 0x15) || (recordType == 0x15 && length > 7)) {
+        if (((u8) (httpsState->mSetupState + (0x100 - HTTPS_SETUP_CIPHER_RECORD_RECEIVED)) <= 1 &&
+             recordType != 0x15) ||
+            (recordType == 0x15 && length > 7)) {
             length = XorReceivedRecordWithKeyStreamAndCheckDigest(httpsState, record);
         }
         body = record + 5;
@@ -1153,11 +1156,11 @@ u8 ReadHttpsRecordAndSetState(CPSSoc *connection) {
         switch (recordType) {
             case 0x14:
                 MI_CpuFill8(httpsState->mReceiveRecordCount, 0, 8);
-                httpsState->mSetupState = 7;
+                httpsState->mSetupState = HTTPS_SETUP_CIPHER_RECORD_RECEIVED;
                 break;
             case 0x15:
                 if (body[0] == 2) {
-                    httpsState->mSetupState = 9;
+                    httpsState->mSetupState = HTTPS_SETUP_FAILED;
                 }
                 break;
             case 0x16:
@@ -1167,7 +1170,7 @@ u8 ReadHttpsRecordAndSetState(CPSSoc *connection) {
                     body += 4;
                     switch (messageType) {
                         case 1:
-                            if (httpsState->mReceivesKind1Record != 0 && httpsState->mSetupState == 0) {
+                            if (httpsState->mReceivesKind1Record != 0 && httpsState->mSetupState == HTTPS_SETUP_START) {
                                 ParseKind1Message(httpsState, body);
                             }
                             break;
@@ -1181,13 +1184,13 @@ u8 ReadHttpsRecordAndSetState(CPSSoc *connection) {
                             ParseAndCheckItemListMessage(httpsState, body);
                             break;
                         case 0xe:
-                            httpsState->mSetupState = 4;
+                            httpsState->mSetupState = HTTPS_SETUP_REPLY_END_RECEIVED;
                             break;
                         case 0x14:
                             CheckMessageDigestsAndSetState(httpsState, body);
                             break;
                         default:
-                            httpsState->mSetupState = 9;
+                            httpsState->mSetupState = HTTPS_SETUP_FAILED;
                             break;
                     }
                     CPSi_sha1_calc(&httpsState->mMessageHash20, body - 4, messageLength + 4);
@@ -1197,7 +1200,7 @@ u8 ReadHttpsRecordAndSetState(CPSSoc *connection) {
                     if (length == 0) {
                         break;
                     }
-                } while (httpsState->mSetupState != 9);
+                } while (httpsState->mSetupState != HTTPS_SETUP_FAILED);
                 break;
             case 0x17:
                 httpsState->mReceivedBlock = record;
@@ -1296,7 +1299,7 @@ u8 SendKind2Record(CPSSoc *connection) {
     FillNonzeroRandomBytes(&httpsState->mKind2Block[4], 0x1c);
     message = CPSiAlloc(itemListLength + 0x9d);
     if (message == NULL) {
-        httpsState->mSetupState = 9;
+        httpsState->mSetupState = HTTPS_SETUP_FAILED;
         return 1;
     }
     cursor = message + 5;
@@ -1371,7 +1374,7 @@ void SendOneByteRecordAndMessageDigests(CPSSoc *connection) {
     httpsState = connection->mHttpsState;
     msg = CPSiAlloc(0x83);
     if (msg == NULL) {
-        httpsState->mSetupState = 9;
+        httpsState->mSetupState = HTTPS_SETUP_FAILED;
         return;
     }
     msg[0] = 0x14;
@@ -1413,7 +1416,7 @@ void SendKind1Record(CPSSoc *connection) {
     u16 *offeredCursor;
     message = CPSiAlloc(0x98);
     if (message == NULL) {
-        httpsState->mSetupState = 9;
+        httpsState->mSetupState = HTTPS_SETUP_FAILED;
         return;
     }
     cursor = message + 9;
@@ -1490,7 +1493,7 @@ void send_client_key_exchange(CPSSoc *connection) {
     digitCount = (modulusLength * 2) / 2;
     paddedSecret = CPSiAlloc(modulusLength);
     if (paddedSecret == NULL) {
-        httpsState->mSetupState = 9;
+        httpsState->mSetupState = HTTPS_SETUP_FAILED;
         return;
     }
     paddedSecret[0] = 0;
@@ -1501,7 +1504,7 @@ void send_client_key_exchange(CPSSoc *connection) {
     result = (u16 *) CPSiAlloc(digitCount * 8);
     if (result == NULL) {
         CPSiFree(paddedSecret);
-        httpsState->mSetupState = 9;
+        httpsState->mSetupState = HTTPS_SETUP_FAILED;
         return;
     }
     base = result + digitCount;
@@ -1523,7 +1526,7 @@ void send_client_key_exchange(CPSSoc *connection) {
     if (record == NULL) {
         CPSiFree(paddedSecret);
         CPSiFree(result);
-        httpsState->mSetupState = 9;
+        httpsState->mSetupState = HTTPS_SETUP_FAILED;
         return;
     }
     record[0] = 0x16;
@@ -1557,18 +1560,18 @@ void send_client_key_exchange(CPSSoc *connection) {
 u32 ReadRecordsExpectingStates7And6(CPSSoc *connection) {
     int state;
     state = ReadHttpsRecordAndSetState(connection);
-    if (state != 7) {
+    if (state != HTTPS_SETUP_CIPHER_RECORD_RECEIVED) {
         return 1;
     }
     state = ReadHttpsRecordAndSetState(connection);
-    if (state != 6) {
+    if (state != HTTPS_SETUP_DIGESTS_MATCHED) {
         return 1;
     }
     return 0;
 }
 
 BOOL RunSetupAfterReadingKind1Record(CPSSoc *connection) {
-    if (ReadHttpsRecordAndSetState(connection) != 1) {
+    if (ReadHttpsRecordAndSetState(connection) != HTTPS_SETUP_OFFER_RECEIVED) {
         return TRUE;
     }
     if (SendKind2Record(connection) != 0) {
@@ -1578,7 +1581,7 @@ BOOL RunSetupAfterReadingKind1Record(CPSSoc *connection) {
             return TRUE;
         }
     } else {
-        if (ReadHttpsRecordAndSetState(connection) != 5) {
+        if (ReadHttpsRecordAndSetState(connection) != HTTPS_SETUP_KEYS_DERIVED) {
             return TRUE;
         }
         if (ReadRecordsExpectingStates7And6(connection) != 0) {
@@ -1593,12 +1596,12 @@ void RunSetupAfterReadingKind1RecordUntilDone(CPSSoc *connection) {
     HttpsState *httpsState = connection->mHttpsState;
     while (1) {
         CPSi_TcpListenRaw(connection);
-        httpsState->mSetupState = 0;
+        httpsState->mSetupState = HTTPS_SETUP_START;
         httpsState->mReceivesKind1Record = 1;
         CPSi_sha1_init(&httpsState->mMessageHash20);
         CPSi_md5_init(&httpsState->mMessageHash16);
         if (RunSetupAfterReadingKind1Record(connection) == 0) {
-            httpsState->mSetupState = 8;
+            httpsState->mSetupState = HTTPS_SETUP_COMPLETE;
             return;
         }
         CPSi_TcpShutdownRaw(connection);
@@ -1613,10 +1616,10 @@ BOOL RunSetupAfterSendingKind1Record(CPSSoc *connection) {
     SendKind1Record(connection);
     while (1) {
         state = ReadHttpsRecordAndSetState(connection);
-        if (state == 9) {
+        if (state == HTTPS_SETUP_FAILED) {
             return TRUE;
         }
-        if (state == 4 || httpsState->mReusedEntry != 0) {
+        if (state == HTTPS_SETUP_REPLY_END_RECEIVED || httpsState->mReusedEntry != 0) {
             break;
         }
     }
@@ -1637,7 +1640,7 @@ BOOL RunSetupAfterSendingKind1Record(CPSSoc *connection) {
             return TRUE;
         }
     }
-    httpsState->mSetupState = 8;
+    httpsState->mSetupState = HTTPS_SETUP_COMPLETE;
     return FALSE;
 }
 
@@ -1646,7 +1649,7 @@ BOOL CPSi_SslConnect(CPSSoc *connection) {
     if (connection->mState != 4 && CPSi_TcpConnectRaw(connection) != 0) {
         return TRUE;
     }
-    httpsState->mSetupState = 0;
+    httpsState->mSetupState = HTTPS_SETUP_START;
     httpsState->mReceivesKind1Record = 0;
     CPSi_sha1_init(&httpsState->mMessageHash20);
     CPSi_md5_init(&httpsState->mMessageHash16);
@@ -1656,7 +1659,7 @@ BOOL CPSi_SslConnect(CPSSoc *connection) {
 u8 *ReadHttpsRecordsUntilBytesReceived(s32 *unreadCount, CPSSoc *connection) {
     HttpsState *httpsState = connection->mHttpsState;
     while (httpsState->mReceivedBlock == NULL) {
-        if (ReadHttpsRecordAndSetState(connection) == 9) {
+        if (ReadHttpsRecordAndSetState(connection) == HTTPS_SETUP_FAILED) {
             *unreadCount = 0;
             return NULL;
         }
@@ -1742,12 +1745,12 @@ s32 SendHttpsBytesInChunks(u8 *firstBytes, u32 firstLength, u8 *secondBytes, u32
     return sentCount;
 }
 
-// When mSetupState is 8 sends the 7-byte record that ends with 1, 0, then runs CPSi_TcpShutdownRaw and clears
-// mSetupState.
+// When mSetupState is HTTPS_SETUP_COMPLETE sends the 7-byte record that ends with 1, 0, then runs
+// CPSi_TcpShutdownRaw and clears mSetupState.
 void CPSi_SslShutdown(CPSSoc *connection) {
     HttpsState *httpsState = connection->mHttpsState;
     u8 alertRecord[0x20];
-    if (httpsState->mSetupState == 8) {
+    if (httpsState->mSetupState == HTTPS_SETUP_COMPLETE) {
         alertRecord[0] = 0x15;
         alertRecord[1] = 3;
         alertRecord[2] = 0;
@@ -1759,5 +1762,5 @@ void CPSi_SslShutdown(CPSSoc *connection) {
                           connection);
     }
     CPSi_TcpShutdownRaw(connection);
-    httpsState->mSetupState = 0;
+    httpsState->mSetupState = HTTPS_SETUP_START;
 }

@@ -22,6 +22,22 @@ typedef struct ItemList {
     /* 4 */ u8 *mBytes;
 } ItemList;
 
+// Values of HttpsState.mSetupState; the record handlers set the ones between START and COMPLETE.
+// OFFER and ANSWER are the handshake records of type 1 and 2; REPLY_END is the record of type 0xe, which has no body
+// and ends the reply.
+typedef enum HttpsSetupState {
+    HTTPS_SETUP_START = 0,
+    HTTPS_SETUP_OFFER_RECEIVED = 1,
+    HTTPS_SETUP_ANSWER_RECEIVED = 2,
+    HTTPS_SETUP_ITEM_LIST_CHECKED = 3,
+    HTTPS_SETUP_REPLY_END_RECEIVED = 4,
+    HTTPS_SETUP_KEYS_DERIVED = 5,
+    HTTPS_SETUP_DIGESTS_MATCHED = 6,
+    HTTPS_SETUP_CIPHER_RECORD_RECEIVED = 7,
+    HTTPS_SETUP_COMPLETE = 8,
+    HTTPS_SETUP_FAILED = 9,
+} HttpsSetupState;
+
 struct HttpsState;
 typedef u32 (*Unk021a998c_Func)(u32 a, struct HttpsState *b, s32 c);
 
@@ -51,7 +67,6 @@ typedef struct HttpsState {
     /* 3d0 */ CPSMd5Ctx mScratchHash16;
     // 1 on the side that receives the kind 1 message, 0 on the side that sends it.
     /* 428 */ u8 mReceivesKind1Record;
-    // 0 at the start, 8 when the setup is complete, 9 after a failure; the record handlers set the values between.
     /* 429 */ u8 mSetupState;
     /* 42c */ s32 mDigestKind;
     // Table position (1 or 2) stored by ParseTaggedItem for the first item of a list; -1 when none was stored, which
