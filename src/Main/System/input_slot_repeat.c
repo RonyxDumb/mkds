@@ -8,7 +8,7 @@ void ResetInputSlot(InputSlot *slot) {
     slot->mBits = 0x0u;
     slot->mClearedBits = 0x0u;
     slot->mRepeatBits = 0x0u;
-    slot->mRepeatState = 0x0u;
+    slot->mRepeatState = INPUT_REPEAT_IDLE;
     slot->mRepeatCallCount = 0x0u;
     slot->mRepeatMask = 0x0u;
     slot->mRepeatDelayLimit = 0x14u;
@@ -25,7 +25,7 @@ void ClearInputSlotBitsAndRepeat(InputSlot *slot) {
     slot->mBits = 0x0u;
     slot->mClearedBits = 0x0u;
     slot->mRepeatBits = 0x0u;
-    slot->mRepeatState = 0x0u;
+    slot->mRepeatState = INPUT_REPEAT_IDLE;
     slot->mRepeatCallCount = 0x0u;
 }
 
@@ -39,26 +39,26 @@ void UpdateInputSlot(u32 keys, InputSlotHead *slot) {
     slot->mBits = keys;
     slot->mRepeatBits = 0;
     switch (slot->mRepeatState) {
-        case 0:
+        case INPUT_REPEAT_IDLE:
             if (keys & slot->mRepeatMask) {
-                slot->mRepeatState = 1;
+                slot->mRepeatState = INPUT_REPEAT_WAIT_DELAY;
                 slot->mRepeatCallCount = 0;
                 slot->mRepeatBits = keys & slot->mRepeatMask;
             }
             break;
-        case 1:
+        case INPUT_REPEAT_WAIT_DELAY:
             if (keys & slot->mRepeatMask) {
                 slot->mRepeatCallCount++;
                 if (slot->mRepeatCallCount >= slot->mRepeatDelayLimit) {
-                    slot->mRepeatState = 2;
+                    slot->mRepeatState = INPUT_REPEAT_WAIT_INTERVAL;
                     slot->mRepeatCallCount = 0;
                     slot->mRepeatBits = keys & slot->mRepeatMask;
                 }
             } else {
-                slot->mRepeatState = 0;
+                slot->mRepeatState = INPUT_REPEAT_IDLE;
             }
             break;
-        case 2:
+        case INPUT_REPEAT_WAIT_INTERVAL:
             if (keys & slot->mRepeatMask) {
                 slot->mRepeatCallCount++;
                 if (slot->mRepeatCallCount >= slot->mRepeatIntervalLimit) {
@@ -66,7 +66,7 @@ void UpdateInputSlot(u32 keys, InputSlotHead *slot) {
                     slot->mRepeatBits = keys & slot->mRepeatMask;
                 }
             } else {
-                slot->mRepeatState = 0;
+                slot->mRepeatState = INPUT_REPEAT_IDLE;
             }
             break;
     }

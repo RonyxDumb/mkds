@@ -81,6 +81,11 @@ typedef struct InputSlotPair {
     /* 12 */ u8 mMicOverThreshold[0x2];
 } InputSlotPair;
 
+// InputSlotHead.mRepeatState: no masked bit held, held until the first repeat, repeating at the interval.
+#define INPUT_REPEAT_IDLE 0
+#define INPUT_REPEAT_WAIT_DELAY 1
+#define INPUT_REPEAT_WAIT_INTERVAL 2
+
 // The first 0x28 bytes of an InputSlot; gKeysInputSlot is only this part.
 typedef struct InputSlotHead {
     /* 00 */ u16 mPressedBits;
