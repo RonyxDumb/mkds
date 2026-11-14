@@ -1,4 +1,5 @@
 #include "Main/Net/disconnect.h"
+#include "Main/Net/mp_link.h"
 
 #include "Main/Net/scan_slot.h"
 #include "os_thread.h"
@@ -472,13 +473,13 @@ void MPDataPortCallback(WirelessMessage *event) {
     }
     DC_InvalidateRange(event->mData, event->mLength);
     MI_CpuCopy8(event->mData, &message, event->mLength);
-    if (event->mState == 7) {
+    if (event->mState == WIRELESS_STATE_LINKED) {
         return;
     }
-    if (event->mState == 9) {
+    if (event->mState == WIRELESS_STATE_UNLINKED) {
         return;
     }
-    if (event->mState != 0x15) {
+    if (event->mState != WIRELESS_STATE_PORT_DATA_ARRIVED) {
         return;
     }
     ProcessMPData(event->mAid, &message);

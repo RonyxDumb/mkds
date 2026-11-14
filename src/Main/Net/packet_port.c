@@ -4,6 +4,7 @@
 #include "Main/Net/wbt_requests.h"
 #include "os_thread.h"
 #include "Main/Net/disconnect.h"
+#include "Main/Net/mp_link.h"
 #include "Main/MapObjects/data_02165000.h"
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/Scene/display_settings.h"
@@ -71,13 +72,13 @@ void PacketPortCallback(WirelessMessage *result) {
     if (result->mResultCode == 0 && result->mData != NULL && result->mLength <= 0x192) {
         DC_InvalidateRange(result->mData, result->mLength);
         MI_CpuCopy8(result->mData, packet, result->mLength);
-        if (result->mState == 7) {
+        if (result->mState == WIRELESS_STATE_LINKED) {
             return;
         }
-        if (result->mState == 9) {
+        if (result->mState == WIRELESS_STATE_UNLINKED) {
             return;
         }
-        if (result->mState == 0x15) {
+        if (result->mState == WIRELESS_STATE_PORT_DATA_ARRIVED) {
             if (gConnectionWork == NULL) {
                 connectionMode = CONNECTION_MODE_NONE;
             } else {
