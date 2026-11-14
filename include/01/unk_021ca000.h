@@ -51,6 +51,16 @@ typedef struct EndingScene {
 } EndingScene;
 
 // Objects whose layout isn't known yet.
+// States of MissionRunLVsel.mState and mNextState, in the order of the AdvanceMissionRunLVselStateN calls.
+enum {
+    MISSION_RUN_LVSEL_STATE_WAIT_FADE,
+    MISSION_RUN_LVSEL_STATE_SLIDE_IN,
+    MISSION_RUN_LVSEL_STATE_WAIT_SELECT_RETURN,
+    MISSION_RUN_LVSEL_STATE_SELECT,
+    MISSION_RUN_LVSEL_STATE_HOLD_CHOSEN,
+    MISSION_RUN_LVSEL_STATE_SLIDE_OUT,
+};
+
 // Object behind gMissionRunLVsel.
 typedef struct MissionRunLVsel {
     /* 00 */ struct NNSG2dCellDataBank *mMissionRunLVselSNcer;

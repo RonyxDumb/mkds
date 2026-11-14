@@ -271,7 +271,7 @@ void ResetMissionRunLVsel(void) {
 
     layoutCount = gMissionRunLVsel->mMissionRunLVselS7Or6Bncl->mCount;
     levelIndex = 0;
-    gMissionRunLVsel->mNextState = 0;
+    gMissionRunLVsel->mNextState = MISSION_RUN_LVSEL_STATE_WAIT_FADE;
     gMissionRunLVsel->mStateFrames = 0;
     gMissionRunLVsel->mBg0Offset = -192;
     for (levelIndex = 0; levelIndex < 7; levelIndex++) {
@@ -285,7 +285,7 @@ void ResetMissionRunLVsel(void) {
 }
 
 void RequestMissionRunLVselState1(void) {
-    gMissionRunLVsel->mNextState = 1;
+    gMissionRunLVsel->mNextState = MISSION_RUN_LVSEL_STATE_SLIDE_IN;
     gMissionRunLVsel->mStateFrames = 0;
     if (GetPreviousMenuScreenNumber() == SCREEN_MISSION_RUN_MSSEL) {
         gMissionRunLVsel->mSlideOffsetX = -256;
@@ -295,20 +295,20 @@ void RequestMissionRunLVselState1(void) {
 }
 
 void RequestMissionRunLVselState2(void) {
-    gMissionRunLVsel->mNextState = 2;
+    gMissionRunLVsel->mNextState = MISSION_RUN_LVSEL_STATE_WAIT_SELECT_RETURN;
     gMissionRunLVsel->mStateFrames = 0;
     RequestSelectReturnState1();
 }
 
-// Requests state 3: stores mNextState = 3 and zeroes mStateFrames; the next AdvanceMissionRunLVsel call copies it to
-// mState and runs AdvanceMissionRunLVselState3.
+// Requests the select state: stores mNextState and zeroes mStateFrames; the next AdvanceMissionRunLVsel call copies
+// it to mState and runs AdvanceMissionRunLVselState3.
 void RequestMissionRunLVselState3(void) {
-    gMissionRunLVsel->mNextState = 3;
+    gMissionRunLVsel->mNextState = MISSION_RUN_LVSEL_STATE_SELECT;
     gMissionRunLVsel->mStateFrames = 0;
 }
 
 void RequestMissionRunLVselState4(void) {
-    gMissionRunLVsel->mNextState = 4;
+    gMissionRunLVsel->mNextState = MISSION_RUN_LVSEL_STATE_HOLD_CHOSEN;
     gMissionRunLVsel->mStateFrames = 0;
     gMissionRunLVsel->mSlideOffsetX = 0x100;
     SetMissionTableToSelectedLevel();
@@ -316,7 +316,7 @@ void RequestMissionRunLVselState4(void) {
 }
 
 void RequestMissionRunLVselState5(void) {
-    gMissionRunLVsel->mNextState = 5;
+    gMissionRunLVsel->mNextState = MISSION_RUN_LVSEL_STATE_SLIDE_OUT;
     gMissionRunLVsel->mStateFrames = 0;
     switch (gMissionRunLVsel->mResult) {
         case 1:
@@ -343,7 +343,7 @@ void InitMissionRunLVsel(void *parentHeap, void *mainOam, void *subOam) {
         gMissionRunLVsel = HeapAlloc(heap, 0x5c);
         gMissionRunLVsel->mHeap = heap;
     }
-    gMissionRunLVsel->mState = 0;
+    gMissionRunLVsel->mState = MISSION_RUN_LVSEL_STATE_WAIT_FADE;
     gMissionRunLVsel->mMainOam = mainOam;
     gMissionRunLVsel->mSubOam = subOam;
     gMissionRunLVsel->mResult = 0;
@@ -573,22 +573,22 @@ void AdvanceMissionRunLVselState5(void) {
 s32 AdvanceMissionRunLVsel(void) {
     gMissionRunLVsel->mState = gMissionRunLVsel->mNextState;
     switch (gMissionRunLVsel->mState) {
-        case 0:
+        case MISSION_RUN_LVSEL_STATE_WAIT_FADE:
             AdvanceMissionRunLVselState0();
             break;
-        case 1:
+        case MISSION_RUN_LVSEL_STATE_SLIDE_IN:
             AdvanceMissionRunLVselState1();
             break;
-        case 2:
+        case MISSION_RUN_LVSEL_STATE_WAIT_SELECT_RETURN:
             AdvanceMissionRunLVselState2();
             break;
-        case 3:
+        case MISSION_RUN_LVSEL_STATE_SELECT:
             AdvanceMissionRunLVselState3();
             break;
-        case 4:
+        case MISSION_RUN_LVSEL_STATE_HOLD_CHOSEN:
             AdvanceMissionRunLVselState4();
             break;
-        case 5:
+        case MISSION_RUN_LVSEL_STATE_SLIDE_OUT:
             AdvanceMissionRunLVselState5();
             break;
     }
@@ -596,7 +596,8 @@ s32 AdvanceMissionRunLVsel(void) {
     DrawLayoutTable(gMissionRunLVsel->mMissionRunLVselS7Or6Bncl, gMissionRunLVsel->mMissionRunLVselSNcer,
                     gMissionRunLVsel->mMissionRunLVselS7Or6Bnll, gMissionRunLVsel->mSubOam,
                     gMissionRunLVsel->mMissionRunLVselS7Or6Table);
-    if (gMissionRunLVsel->mState == 5 && gMissionRunLVsel->mStateFrames >= 10) {
+    if (gMissionRunLVsel->mState == MISSION_RUN_LVSEL_STATE_SLIDE_OUT &&
+        gMissionRunLVsel->mStateFrames >= 10) {
         return gMissionRunLVsel->mResult;
     }
     return 0;
