@@ -148,13 +148,13 @@ s32 CollideKartWithBound(Bound *bound, Kart *kart, u8 *firstResponse, u8 *respon
             bound->mWobbleXAmplitude = 0x400;
             bound->mWobbleXAmplitudePerFrame = -0x29;
             bound->mWobbleXAnglePerFrame = 0x1000;
-            bound->mUnk_0d4 = 0;
+            bound->mWobbleXAnglePerFrameChange = 0;
             bound->mWobbleYAngle = 0;
             bound->mWobbleYMid = 0x1000;
             bound->mWobbleYAmplitude = 0x400;
             bound->mWobbleYAmplitudePerFrame = -0x29;
             bound->mWobbleYAnglePerFrame = 0x1000;
-            bound->mUnk_0f4 = 0;
+            bound->mWobbleYAnglePerFrameChange = 0;
             bound->mWobbling = TRUE;
             switch (bound->mMapObject.mKind) {
                 case MAP_OBJECT_KIND_CREAM:
@@ -202,13 +202,13 @@ u8 CollideItemObjectWithBound(Bound *bound, void *itemObject, u8 *firstResponse,
         bound->mWobbleXAmplitude = 0x200;
         bound->mWobbleXAmplitudePerFrame = -0x14;
         bound->mWobbleXAnglePerFrame = 0x1000;
-        bound->mUnk_0d4 = 0;
+        bound->mWobbleXAnglePerFrameChange = 0;
         bound->mWobbleYAngle = 0;
         bound->mWobbleYMid = 0x1000;
         bound->mWobbleYAmplitude = 0x200;
         bound->mWobbleYAmplitudePerFrame = -0x14;
         bound->mWobbleYAnglePerFrame = 0x1000;
-        bound->mUnk_0f4 = 0;
+        bound->mWobbleYAnglePerFrameChange = 0;
         bound->mWobbling = TRUE;
         bound->mMapObject.mDistanceSquaredAndFlags |= gBoundHitDistanceFlag;
     }
@@ -325,12 +325,12 @@ void InitBoundAndCreamAndBerryObjects(MapObjectList *mapObjectList) {
                              (bound = mapObjectList->mMapObjects[mapObjectIndex]) != NULL;
          mapObjectIndex++) {
         if (bound->mMapObject.mCourseMapRow->mGroupIndex >= 0) {
-            InitGroupFollower(&bound->mUnk_0f8, bound->mMapObject.mCourseMapRow, 0);
-            bound->mUnk_0f8.mSpeed = 0x3000;
-            bound->mUnk_0f8.mProgressStep = MUL_FIXED12_NO_ROUND(
-                bound->mUnk_0f8.mPath->mSegments[bound->mUnk_0f8.mSegmentIndex].mInverseProgressLength, 0x3000);
+            InitGroupFollower(&bound->mFollower, bound->mMapObject.mCourseMapRow, 0);
+            bound->mFollower.mSpeed = 0x3000;
+            bound->mFollower.mProgressStep = MUL_FIXED12_NO_ROUND(
+                bound->mFollower.mPath->mSegments[bound->mFollower.mSegmentIndex].mInverseProgressLength, 0x3000);
         } else {
-            bound->mUnk_0f8.mGroupIndex = 0xffff;
+            bound->mFollower.mGroupIndex = 0xffff;
         }
     }
 }
@@ -349,9 +349,9 @@ void UpdateBoundAndCreamAndBerry(MapObjectList *mapObjectList, Bound *bound) {
     s32 kartIndex;
     s32 kartCount;
 
-    if (bound->mUnk_0f8.mGroupIndex != 0xffff) {
-        AdvanceGroupFollower(&bound->mUnk_0f8);
-        GetGroupFollowerCurvePosStep(&bound->mUnk_0f8, &bound->mMapObject.mPos, &bound->mMapObject.mPosStep);
+    if (bound->mFollower.mGroupIndex != 0xffff) {
+        AdvanceGroupFollower(&bound->mFollower);
+        GetGroupFollowerCurvePosStep(&bound->mFollower, &bound->mMapObject.mPos, &bound->mMapObject.mPosStep);
         nsbtpFrameCount = GetMapObjectModelNsbtpFrameCount(gBound);
         bound->mNsbtpFrameIndex += 1;
         if (bound->mNsbtpFrameIndex >= nsbtpFrameCount) {
@@ -366,8 +366,8 @@ void UpdateBoundAndCreamAndBerry(MapObjectList *mapObjectList, Bound *bound) {
     if (bound->mWobbling == TRUE) {
         bound->mWobbleXAngle += bound->mWobbleXAnglePerFrame;
         value = BoundFX_MulInline(bound->mWobbleXAmplitude, BoundFX_SinIdx(bound->mWobbleXAngle));
-        bound->mUnk_0c0 = bound->mWobbleXMid + value - bound->mWobbleScaleX;
-        bound->mWobbleScaleX += bound->mUnk_0c0;
+        bound->mWobbleScaleXDelta = bound->mWobbleXMid + value - bound->mWobbleScaleX;
+        bound->mWobbleScaleX += bound->mWobbleScaleXDelta;
         if (bound->mWobbleXAmplitude > 0) {
             value = bound->mWobbleXAmplitude + bound->mWobbleXAmplitudePerFrame;
             if (value <= 0) {
@@ -382,13 +382,13 @@ void UpdateBoundAndCreamAndBerry(MapObjectList *mapObjectList, Bound *bound) {
             bound->mWobbleXAmplitude = value;
         }
         if (bound->mWobbleXAnglePerFrame > 0) {
-            value = bound->mWobbleXAnglePerFrame + bound->mUnk_0d4;
+            value = bound->mWobbleXAnglePerFrame + bound->mWobbleXAnglePerFrameChange;
             if (value <= 0) {
                 value = 0;
             }
             bound->mWobbleXAnglePerFrame = value;
         } else if (bound->mWobbleXAnglePerFrame < 0) {
-            value = bound->mWobbleXAnglePerFrame + bound->mUnk_0d4;
+            value = bound->mWobbleXAnglePerFrame + bound->mWobbleXAnglePerFrameChange;
             if (value >= 0) {
                 value = 0;
             }
@@ -396,8 +396,8 @@ void UpdateBoundAndCreamAndBerry(MapObjectList *mapObjectList, Bound *bound) {
         }
         bound->mWobbleYAngle += bound->mWobbleYAnglePerFrame;
         value = BoundFX_MulInline(bound->mWobbleYAmplitude, BoundFX_SinIdx(bound->mWobbleYAngle));
-        bound->mUnk_0e0 = bound->mWobbleYMid + value - bound->mWobbleScaleY;
-        bound->mWobbleScaleY += bound->mUnk_0e0;
+        bound->mWobbleScaleYDelta = bound->mWobbleYMid + value - bound->mWobbleScaleY;
+        bound->mWobbleScaleY += bound->mWobbleScaleYDelta;
         if (bound->mWobbleYAmplitude > 0) {
             value = bound->mWobbleYAmplitude + bound->mWobbleYAmplitudePerFrame;
             if (value <= 0) {
@@ -412,13 +412,13 @@ void UpdateBoundAndCreamAndBerry(MapObjectList *mapObjectList, Bound *bound) {
             bound->mWobbleYAmplitude = value;
         }
         if (bound->mWobbleYAnglePerFrame > 0) {
-            value = bound->mWobbleYAnglePerFrame + bound->mUnk_0f4;
+            value = bound->mWobbleYAnglePerFrame + bound->mWobbleYAnglePerFrameChange;
             if (value <= 0) {
                 value = 0;
             }
             bound->mWobbleYAnglePerFrame = value;
         } else if (bound->mWobbleYAnglePerFrame < 0) {
-            value = bound->mWobbleYAnglePerFrame + bound->mUnk_0f4;
+            value = bound->mWobbleYAnglePerFrame + bound->mWobbleYAnglePerFrameChange;
             if (value >= 0) {
                 value = 0;
             }
@@ -494,13 +494,13 @@ BOOL StartBoundWobble(s32 mapObjectIndex) {
         bound->mWobbleXAmplitude = 0x400;
         bound->mWobbleXAmplitudePerFrame = -0x29;
         bound->mWobbleXAnglePerFrame = 0x1000;
-        bound->mUnk_0d4 = 0;
+        bound->mWobbleXAnglePerFrameChange = 0;
         bound->mWobbleYAngle = 0;
         bound->mWobbleYMid = 0x1000;
         bound->mWobbleYAmplitude = 0x400;
         bound->mWobbleYAmplitudePerFrame = -0x29;
         bound->mWobbleYAnglePerFrame = 0x1000;
-        bound->mUnk_0f4 = 0;
+        bound->mWobbleYAnglePerFrameChange = 0;
         bound->mWobbling = TRUE;
         if ((bound->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
             if (bound->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {

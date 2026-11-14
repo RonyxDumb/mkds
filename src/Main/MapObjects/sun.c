@@ -58,7 +58,7 @@ MapObjectKindDescriptor gSunKindDescriptor = {0,
                                              CreateSunUpdateList};
 
 void InitSun(Sun *sun) {
-    InitGroupFollower(&sun->mUnk_0b8, sun->mMapObject.mCourseMapRow, 0);
+    InitGroupFollower(&sun->mFollower, sun->mMapObject.mCourseMapRow, 0);
     CreateParkedMapObjects(MAP_OBJECT_KIND_SUN_FIREBALL, 0x1e, sun);
     sun->mMapObject.mPosStep.x = 0;
     sun->mMapObject.mPosStep.y = 0;
@@ -86,8 +86,8 @@ void DrawSun(void *mapObjectList, Sun *sun) {
     NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
     NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&sun->mMapObject.mPos), 0xc);
     if (sun->mState == 3 || sun->mState == 4) {
-        radius = MUL_FIXED12_NO_ROUND(FX_CosIdx((u16) sun->mUnk_0ac), -0x14000) + 0x14000;
-        angleIndex = (sun->mUnk_0b0 >> 4) * 2;
+        radius = MUL_FIXED12_NO_ROUND(FX_CosIdx((u16) sun->mDrawOffsetRadiusAngle), -0x14000) + 0x14000;
+        angleIndex = (sun->mDrawOffsetAngle >> 4) * 2;
         translation.x = MUL_FIXED12_NO_ROUND(radius, FX_SinCosTable_[angleIndex + 1]) >> 4;
         translation.y = MUL_FIXED12_NO_ROUND(radius, FX_SinCosTable_[angleIndex]) >> 4;
         translation.z = 0;
@@ -178,69 +178,69 @@ void UpdateSun(MapObjectList *mapObjectList, Sun *sun) {
             }
             break;
         case 1:
-            sun->mUnk_0b8.mSpeed = 0x3c000;
-            sun->mUnk_0b8.mProgressStep = MUL_FIXED12_NO_ROUND(
-                sun->mUnk_0b8.mPath->mSegments[sun->mUnk_0b8.mSegmentIndex].mInverseProgressLength, 0x3c000);
-            if (AdvanceGroupFollower(&sun->mUnk_0b8) != FALSE && (value = sun->mUnk_0b8.mFromEntry->mUnk_0e) != 0) {
+            sun->mFollower.mSpeed = 0x3c000;
+            sun->mFollower.mProgressStep = MUL_FIXED12_NO_ROUND(
+                sun->mFollower.mPath->mSegments[sun->mFollower.mSegmentIndex].mInverseProgressLength, 0x3c000);
+            if (AdvanceGroupFollower(&sun->mFollower) != FALSE && (value = sun->mFollower.mFromEntry->mUnk_0e) != 0) {
                 if (sun->mMapObject.mFlags & 0x800) {
                     mode = gRaceSetup->mMode;
                     if (mode == MODE_TIME_ATTACK) {
                         sun->mTimer = value;
                     } else if (mode == 5) {
-                        sun->mTimer = sun->mUnk_0b8.mFromEntry->mUnk_10;
+                        sun->mTimer = sun->mFollower.mFromEntry->mUnk_10;
                     }
                 }
                 sun->mState = 2;
             }
-            GetGroupFollowerLinearPosition(&sun->mUnk_0b8, &sun->mMapObject.mPos);
+            GetGroupFollowerLinearPosition(&sun->mFollower, &sun->mMapObject.mPos);
             break;
         case 2:
             if (sun->mMapObject.mFlags & 0x800) {
                 if (sun->mTimer-- <= 0) {
-                    sun->mUnk_0b0 = 0;
-                    sun->mUnk_0ac = sun->mUnk_0b0;
+                    sun->mDrawOffsetAngle = 0;
+                    sun->mDrawOffsetRadiusAngle = sun->mDrawOffsetAngle;
                     sun->mTimer = 5;
                     sun->mState = 3;
                 }
             } else if (UpdateSun_inline_b(sun)) {
-                sun->mUnk_0b0 = 0;
-                sun->mUnk_0ac = sun->mUnk_0b0;
+                sun->mDrawOffsetAngle = 0;
+                sun->mDrawOffsetRadiusAngle = sun->mDrawOffsetAngle;
                 sun->mTimer = 5;
                 sun->mState = 3;
             }
             break;
         case 3:
-            sun->mUnk_0b0 += 0xe39;
-            if (sun->mUnk_0ac < 0x8000) {
-                sun->mUnk_0ac += 0x222;
+            sun->mDrawOffsetAngle += 0xe39;
+            if (sun->mDrawOffsetRadiusAngle < 0x8000) {
+                sun->mDrawOffsetRadiusAngle += 0x222;
             }
             if (sun->mTimer-- > 0) {
                 break;
             }
-            if (sun->mUnk_0a0 == 0) {
-                sun->mUnk_0a4 = ((u64) CollideKartWithBound_inline(GetMapObjectRandom()) * 0x10000) >> 32;
+            if (sun->mFireballIndex == 0) {
+                sun->mFireballAngle = ((u64) CollideKartWithBound_inline(GetMapObjectRandom()) * 0x10000) >> 32;
             } else {
-                sun->mUnk_0a4 += 0x8000;
+                sun->mFireballAngle += 0x8000;
             }
             position.x = sun->mMapObject.mPos.x;
             position.y = sun->mMapObject.mPos.y - 0x1e000;
             position.z = sun->mMapObject.mPos.z;
-            direction.x = FX_SinIdx(sun->mUnk_0a4);
+            direction.x = FX_SinIdx(sun->mFireballAngle);
             direction.y = 0;
-            direction.z = FX_CosIdx(sun->mUnk_0a4);
+            direction.z = FX_CosIdx(sun->mFireballAngle);
             StartSunFireball(&position, &direction);
-            sun->mUnk_0a0 += 1;
-            if (sun->mUnk_0a0 >= 2) {
-                sun->mUnk_0a0 = 0;
+            sun->mFireballIndex += 1;
+            if (sun->mFireballIndex >= 2) {
+                sun->mFireballIndex = 0;
                 sun->mState = 4;
             } else {
                 sun->mTimer = 0x1e;
             }
             break;
         case 4:
-            sun->mUnk_0b0 += 0xe39;
-            sun->mUnk_0ac += 0x222;
-            if (sun->mUnk_0ac > 0x10000) {
+            sun->mDrawOffsetAngle += 0xe39;
+            sun->mDrawOffsetRadiusAngle += 0x222;
+            if (sun->mDrawOffsetRadiusAngle > 0x10000) {
                 sun->mTimer = 0x1e;
                 sun->mState = 0;
             }

@@ -62,9 +62,9 @@ void RunFileReadThread(void *unused) {
                 offset += 0x400;
                 chunk += 0x400;
             }
-            node->mUnk_098 = 0;
-            node->mUnk_0a0 = 1;
-            node->mUnk_09c = 2;
+            node->mLastBlockId = 0;
+            node->mLastLoadedBufferIndex = 1;
+            node->mLoadingBufferIndex = 2;
             updateIrqState = OS_DisableInterrupts();
             ActivateRomArchiveNode(&gRomArchiveTransfer.mParentView, node, 1);
             OS_RestoreInterrupts(updateIrqState);

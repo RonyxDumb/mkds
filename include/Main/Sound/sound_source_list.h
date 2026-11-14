@@ -64,8 +64,8 @@ typedef struct SoundStartParams {
 typedef struct SoundParams {
     /* 00 */ SoundSource *mSource;
     /* 04 */ Vec3 *mPositionSource;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
+    /* 08 */ s32 mCameraForwardDistance;
+    /* 0c */ s32 mCameraSideDistance;
     /* 10 */ s32 mDistance;
     /* 14 */ s32 mVolume;
     /* 18 */ u32 mPan;

@@ -26,9 +26,9 @@ typedef struct RomArchiveChildView {
     /* 000 */ RomArchiveNodeBuffer *mNodeBuffers[16];
     /* 040 */ u32 mBlockBuffers[16];
     /* 080 */ void *mChunkBitmaps[16];
-    /* 0c0 */ RomArchiveNodeBuffer mUnk_0c0[16];
-    /* 340 */ u8 mUnk_340[0x184];
-    /* 4c4 */ u16 mUnk_4c4;
+    /* 0c0 */ RomArchiveNodeBuffer mNodeBufferEntries[16];
+    /* 340 */ u8 mWmStatus[0x184];
+    /* 4c4 */ u16 mOwnAid;
     /* 4c6 */ u8 mUnk_4c6[0x636];
     /* afc */ void *mChunkBitmapBuffer;
     /* b00 */ u32 mPositionOffset;
@@ -48,9 +48,9 @@ typedef struct RomArchiveFileNode {
     /* 08c */ s32 mBlockId;
     /* 090 */ s32 mFileStart;
     /* 094 */ u32 mFileLength;
-    /* 098 */ s32 mUnk_098;
-    /* 09c */ s32 mUnk_09c;
-    /* 0a0 */ s32 mUnk_0a0;
+    /* 098 */ s32 mLastBlockId;
+    /* 09c */ s32 mLoadingBufferIndex;
+    /* 0a0 */ s32 mLastLoadedBufferIndex;
     /* 0a4 */ s32 mBufferOffsets[2];
     /* 0ac */ u8 mUnk_0ac[0x14];
     /* 0c0 */ u8 mBuffers[2][0x400];
@@ -59,7 +59,7 @@ typedef struct RomArchiveFileNode {
 // Object that RomArchivePortCallback receives.
 typedef struct RomArchivePortMessage {
     /* 00 */ u8 mUnk_00[4];
-    /* 04 */ u16 mUnk_04;
+    /* 04 */ u16 mKind;
     /* 06 */ u8 mUnk_06[6];
     /* 0c */ const u8 *mData;
     /* 10 */ u16 mDataLength;

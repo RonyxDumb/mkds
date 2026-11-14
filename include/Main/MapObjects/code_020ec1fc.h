@@ -11,22 +11,23 @@ typedef struct ItemObject ItemObject;
 
 // Initialiser stored into the 0x40-byte object CreateWoodbox1KindData allocates.
 typedef struct Woodbox1KindData {
-    /* 00 */ u32 (*mUnk_00)(Woodbox1 *woodbox, Kart *kart, u8 *firstResponse, u8 *response);
-    /* 04 */ u32 (*mUnk_04)(Woodbox1 *woodbox, ItemObject *itemObject, u8 *firstResponse, u8 *response);
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u32 mUnk_0c;
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ u32 mUnk_14;
-    /* 18 */ u32 mUnk_18;
-    /* 1c */ u32 mUnk_1c;
-    /* 20 */ u32 mUnk_20;
-    /* 24 */ u32 mUnk_24;
-    /* 28 */ u32 mUnk_28;
-    /* 2c */ u32 mUnk_2c;
-    /* 30 */ u32 mUnk_30;
-    /* 34 */ u32 mUnk_34;
-    /* 38 */ u32 mUnk_38;
-    /* 3c */ u32 mUnk_3c;
+    /* 00 */ u32 (*mCollideKartCallback)(Woodbox1 *woodbox, Kart *kart, u8 *firstResponse, u8 *response);
+    /* 04 */ u32 (*mCollideItemObjectCallback)(Woodbox1 *woodbox, ItemObject *itemObject, u8 *firstResponse,
+                                               u8 *response);
+    /* 08 */ u32 mShapeKind;
+    /* 0c */ u32 mExtentX;
+    /* 10 */ u32 mExtentY;
+    /* 14 */ u32 mExtentZ;
+    /* 18 */ u32 mSphereHitTest;
+    /* 1c */ u32 mCollidable;
+    /* 20 */ u32 mPosStepMode;
+    /* 24 */ u32 mSoundId;
+    /* 28 */ u32 mCollideItemObjectSoundId;
+    /* 2c */ u32 mViewRadius;
+    /* 30 */ u32 mDrawDistance;
+    /* 34 */ u32 mUseTwoPlaneViewTest;
+    /* 38 */ u32 mHeightRangeMax;
+    /* 3c */ u32 mHeightRangeMin;
 } Woodbox1KindData;
 
 extern const MapObjectList gWoodbox1UpdateListData;

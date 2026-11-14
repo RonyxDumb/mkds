@@ -389,7 +389,7 @@ s32 ComputeSoundVolume(SoundParams *soundParams) {
     } else if (value < falloff->mOuterDistance) {
         volume = FROM_FIXED12(MUL_FIXED12_ROUNDED(falloff->mUnk_18, TO_FIXED12(value - falloff->mOuterDistance)));
     }
-    value = soundParams->mUnk_08;
+    value = soundParams->mCameraForwardDistance;
     if (value < 0x36) {
         if (value > -falloff->mInnerDistance) {
             value = (MUL_FIXED12_ROUNDED(falloff->mUnk_1c, TO_FIXED12(value - 0x36))) + 0x1000;
@@ -412,7 +412,7 @@ s32 ComputeSoundPan(SoundParams *soundParams) {
     u32 angle;
     s32 pan;
 
-    angle = FX_Atan2Idx(TO_FIXED12(soundParams->mUnk_08), -soundParams->mUnk_0c << 12);
+    angle = FX_Atan2Idx(TO_FIXED12(soundParams->mCameraForwardDistance), -soundParams->mCameraSideDistance << 12);
     if (angle > 0x7fff) {
         angle = (u16) (0xffff - angle);
     }
@@ -439,8 +439,8 @@ u32 ComputeSoundDistanceAndOffsets(SoundParams *soundParams) {
     reg_CP_SQRTCNT = 0;
     reg_CP_SQRT_PARAM_LO = distanceSquared;
     positionSource = soundParams->mPositionSource;
-    soundParams->mUnk_08 = FROM_FIXED12(GetCameraForwardDistance(positionSource));
-    soundParams->mUnk_0c = FROM_FIXED12(GetCameraSideDistance(positionSource));
+    soundParams->mCameraForwardDistance = FROM_FIXED12(GetCameraForwardDistance(positionSource));
+    soundParams->mCameraSideDistance = FROM_FIXED12(GetCameraSideDistance(positionSource));
     while (reg_CP_SQRTCNT & REG_CP_SQRTCNT_BUSY_MASK) {
     }
     return reg_CP_SQRT_RESULT;

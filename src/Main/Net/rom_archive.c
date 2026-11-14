@@ -488,7 +488,7 @@ void RomArchivePortCallback(RomArchivePortMessage *message) {
     if (transfer->mState == 0) {
         return;
     }
-    switch (message->mUnk_04) {
+    switch (message->mKind) {
         case 7:
             isParent = transfer->mIsParent;
             if (isParent == 0) {
@@ -654,17 +654,17 @@ void RomArchiveParentCallback(WBTCommand *record) {
                 return;
             }
             ownPacketSize = commandData->mPrepareSendData.mOwnPacketSize;
-            oldValue = node->mUnk_098;
+            oldValue = node->mLastBlockId;
             requestedBlockId = commandData->mUnk_0e.mBlockId;
-            if (node->mUnk_09c != 2) {
+            if (node->mLoadingBufferIndex != 2) {
                 statFlag = (node->mFile.mStat & 1) != 0 ? 1 : 0;
                 if (statFlag == 0) {
-                    node->mUnk_09c = 2;
+                    node->mLoadingBufferIndex = 2;
                 }
             }
             byteOffset = ownPacketSize * oldValue;
-            node->mUnk_098 = requestedBlockId;
-            activeBufferIndex = node->mUnk_09c;
+            node->mLastBlockId = requestedBlockId;
+            activeBufferIndex = node->mLoadingBufferIndex;
             for (value = 0; value < 2; value++) {
                 if (value == activeBufferIndex) {
                     continue;
@@ -680,7 +680,7 @@ void RomArchiveParentCallback(WBTCommand *record) {
                 commandData->mUnk_0e.mUnk_08 = (node->mBuffers[value] + bufferDelta);
                 break;
             }
-            if (node->mUnk_09c != 2) {
+            if (node->mLoadingBufferIndex != 2) {
                 return;
             }
             byteOffset = ownPacketSize * requestedBlockId;
@@ -696,15 +696,15 @@ void RomArchiveParentCallback(WBTCommand *record) {
             if (bufferIndex < 2) {
                 return;
             }
-            newBufferIndex = node->mUnk_0a0;
+            newBufferIndex = node->mLastLoadedBufferIndex;
             do {
                 newBufferIndex++;
                 if (newBufferIndex >= 2) {
                     newBufferIndex = 0;
                 }
             } while (newBufferIndex == value);
-            node->mUnk_0a0 = newBufferIndex;
-            node->mUnk_09c = newBufferIndex;
+            node->mLastLoadedBufferIndex = newBufferIndex;
+            node->mLoadingBufferIndex = newBufferIndex;
             node->mBufferOffsets[newBufferIndex] = byteOffset & -0x200;
             FS_SeekFile(&node->mFile, byteOffset & -0x200, 0);
             FS_ReadFileAsync(&node->mFile, node->mBuffers[newBufferIndex], 0x400);
@@ -957,7 +957,7 @@ void StartRomArchiveChild(u32 port, void (*stateCallback)(s32 port),
     DC_FlushRange(view, 0xb0c);
     DC_WaitWriteBufferEmpty();
     for (index = 0; index < 16; index++) {
-        view->mNodeBuffers[index] = &view->mUnk_0c0[index];
+        view->mNodeBuffers[index] = &view->mNodeBufferEntries[index];
         view->mBlockBuffers[index] = 0;
         view->mChunkBitmaps[index] = NULL;
     }
@@ -998,8 +998,8 @@ void StartRomArchivePacketSend(void) {
     gRomArchiveTransfer.mSendAllowed = TRUE;
     if (gRomArchiveTransfer.mIsParent == 0) {
         childView = (RomArchiveChildView *) &gRomArchiveTransfer.mParentView;
-        WM_ReadStatus(childView->mUnk_340);
-        WBT_SetOwnAid(childView->mUnk_4c4);
+        WM_ReadStatus(childView->mWmStatus);
+        WBT_SetOwnAid(childView->mOwnAid);
         WBT_RequestSync(1, RomArchiveChildCallback);
     } else {
         gRomArchiveTransfer.mState = 2;

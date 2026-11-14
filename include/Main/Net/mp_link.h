@@ -118,8 +118,8 @@ typedef struct MPLink {
     /* 0c */ u32 mUnk_0c;
     /* 10 */ u16 mSendBufferSize;
     /* 12 */ u16 mReceiveBufferSize;
-    /* 14 */ u16 mUnk_14;
-    /* 16 */ u16 mUnk_16;
+    /* 14 */ u16 mParentMaxSize;
+    /* 16 */ u16 mChildMaxSize;
     /* 18 */ u16 mUnk_18;
     /* 1a */ u16 mMPStarted;
     /* 1c */ u16 mResetting;
@@ -134,19 +134,19 @@ typedef struct ScanConnectWork {
     /* 04c0 */ WMBssDesc mScanBuffer;
     /* 0580 */ ScanParam mScanParams;
     /* 05a0 */ MPLink mMPLink;
-    /* 05c4 */ u8 mUnk_05c4[0x18];
+    /* 05c4 */ u8 mUserInfo[0x18];
     /* 05dc */ void (*mScanCallback)(u32, void *);
     /* 05e0 */ void (*mStateCallback)(u32, void *);
-    /* 05e4 */ u32 mUnk_05e4;
-    /* 05e8 */ u8 mUnk_05e8[0x5ee - 0x5e8];
+    /* 05e4 */ u32 mScanGgid;
+    /* 05e8 */ u8 mBeaconRecvStatus[0x5ee - 0x5e8];
     /* 05ee */ u16 mUnk_05ee;
     /* 05f0 */ u8 mUnk_05f0[0x5ef8 - 0x5f0];
     /* 5ef8 */ u32 mRepeatScan;
     /* 5efc */ u32 mEndScanRequested;
     /* 5f00 */ u32 mUseScanBssid;
     /* 5f04 */ u32 mEndRequested;
-    /* 5f08 */ u32 mUnk_5f08;
-    /* 5f0c */ u16 mUnk_5f0c;
+    /* 5f08 */ u32 mGgid;
+    /* 5f0c */ u16 mFileId;
     /* 5f0e */ u16 mState;
 } ScanConnectWork;
 

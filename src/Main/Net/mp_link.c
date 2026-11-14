@@ -51,10 +51,10 @@ void ScanConnectStartConnect(WMBssDesc *scanBuffer) {
     gMPLink->mResetting = FALSE;
     gMPLink->mSendBufferSize = (scanBuffer->mGameInfo.mChildMaxSize + 0x21) & ~0x1f;
     gMPLink->mReceiveBufferSize = ((scanBuffer->mGameInfo.mParentMaxSize + 0x55) & ~0x1f) * 2;
-    gMPLink->mUnk_14 = scanBuffer->mGameInfo.mParentMaxSize;
-    gMPLink->mUnk_16 = scanBuffer->mGameInfo.mChildMaxSize;
-    gMPLink->mUnk_18 = gMPLink->mUnk_14 - 6;
-    MBi_SetChildMPMaxSize(gMPLink->mUnk_16);
+    gMPLink->mParentMaxSize = scanBuffer->mGameInfo.mParentMaxSize;
+    gMPLink->mChildMaxSize = scanBuffer->mGameInfo.mChildMaxSize;
+    gMPLink->mUnk_18 = gMPLink->mParentMaxSize - 6;
+    MBi_SetChildMPMaxSize(gMPLink->mChildMaxSize);
     wmResult = WM_StartConnectEx(ScanConnectStartConnectCallback, (u16 *) scanBuffer, NULL, 1, 0);
     if (wmResult != WIRELESS_CALL_QUEUED) {
         if (gMPLink->mCallback != NULL) {
@@ -311,8 +311,8 @@ void InitScanConnectWork(ScanConnectWork *work, void *initData) {
         MI_CpuFill8(work, 0, SCAN_CONNECT_WORK_SIZE);
         gScanConnectWork = work;
         work->mState = SCAN_CONNECT_STATE_IDLE;
-        MI_CpuCopy8(initData, gScanConnectWork->mUnk_05c4, 0x16);
-        MBi_SetBeaconRecvStatusBuffer(gScanConnectWork->mUnk_05e8);
+        MI_CpuCopy8(initData, gScanConnectWork->mUserInfo, 0x16);
+        MBi_SetBeaconRecvStatusBuffer(gScanConnectWork->mBeaconRecvStatus);
         MB_InitRecvGameInfoStatus();
         MBi_SetScanLockFunc(SetScanBssid, ClearUseScanBssid);
     }
@@ -402,7 +402,7 @@ void SetScanConnectStateAndNotify(u32 state, void *info) {
 
 void StartRepeatedScan(UnkFunc *callback, u32 param) {
     gScanConnectWork->mScanCallback = callback;
-    gScanConnectWork->mUnk_05e4 = param;
+    gScanConnectWork->mScanGgid = param;
     gScanConnectWork->mScanParams.mChannel = 0;
     gScanConnectWork->mScanParams.mScanBuf = &gScanConnectWork->mScanBuffer;
     gScanConnectWork->mRepeatScan = TRUE;
@@ -456,7 +456,7 @@ void ScanConnectStartScanCallback(WirelessMessage *result) {
         case WIRELESS_STATE_SEARCH_NO_ACTION:
             break;
         case WIRELESS_STATE_HOST_SIGHTED:
-            if (result->mGameInfo.mGgid == gScanConnectWork->mUnk_05e4) {
+            if (result->mGameInfo.mGgid == gScanConnectWork->mScanGgid) {
                 DC_InvalidateRange(&gScanConnectWork->mScanBuffer, sizeof(gScanConnectWork->mScanBuffer));
                 MB_RecvGameInfoBeacon(EntryCallback, result->mAid, &gScanConnectWork->mScanBuffer);
                 MB_CountGameInfoLifetime(EntryCallback, 1);

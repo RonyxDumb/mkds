@@ -16,21 +16,21 @@ typedef struct WanwanDrawList {
     /* 0c */ u8 mUnk_0c[4];
     /* 10 */ void (*mForEachObject)(void *, Wanwan *, void *, u32);
     /* 14 */ u8 mUnk_14[4];
-    /* 18 */ s32 mUnk_18;
+    /* 18 */ s32 mPass;
     /* 1c */ u8 mUnk_1c[0xc];
     /* 28 */ struct WanwanDrawList **mListSlot;
 } WanwanDrawList;
 
 // Object of CreateWanwanKindData: two functions and words at 0x08, 0x0c, 0x1c, 0x20 and 0x24.
 typedef struct WanwanKindData {
-    /* 00 */ u8 (*mUnk_00)(Wanwan *, void *, u8 *, u8 *);
-    /* 04 */ u8 (*mUnk_04)(Wanwan *, void *, u8 *, u8 *);
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
+    /* 00 */ u8 (*mCollideKartCallback)(Wanwan *, void *, u8 *, u8 *);
+    /* 04 */ u8 (*mCollideItemObjectCallback)(Wanwan *, void *, u8 *, u8 *);
+    /* 08 */ s32 mShapeKind;
+    /* 0c */ s32 mExtentX;
     /* 10 */ u8 mUnk_10[0xc];
-    /* 1c */ s32 mUnk_1c;
-    /* 20 */ s32 mUnk_20;
-    /* 24 */ s32 mUnk_24;
+    /* 1c */ s32 mCollidable;
+    /* 20 */ s32 mPosStepMode;
+    /* 24 */ s32 mSoundId;
     /* 28 */ u8 mUnk_28[0x18];
 } WanwanKindData;
 
