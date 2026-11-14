@@ -36,15 +36,15 @@ void AdvanceWiFiSelectKartState(void) {
     selectResult = AdvanceSelectKart();
     if (selectResult == 1 || selectResult == 2) {
         if (IsWiFiConnectionLost() != 0) {
-            RequestWiFiState(7);
+            RequestWiFiState(WIFI_STATE_CONNECTION_LOST);
             return;
         }
         if (selectResult == 1) {
-            RequestWiFiState(6);
+            RequestWiFiState(WIFI_STATE_VS_COURSE_SELECT);
             return;
         }
         if (selectResult == 2) {
-            RequestWiFiState(4);
+            RequestWiFiState(WIFI_STATE_SELECT_CHARACTER);
         }
     }
 }

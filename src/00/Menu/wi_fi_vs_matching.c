@@ -152,7 +152,7 @@ void InitWiFiVSMatching(void *heap) {
     gWiFiVSMatching->mHeap = heap;
     gWiFiVSMatching->mState = WIFI_VS_MATCHING_STATE_SLIDE_IN;
     gWiFiVSMatching->mNextState = WIFI_VS_MATCHING_STATE_SLIDE_IN;
-    gWiFiVSMatching->mPendingWiFiState = -1;
+    gWiFiVSMatching->mPendingWiFiState = WIFI_STATE_NONE;
     gWiFiVSMatching->mStateFrames = 0;
     gWiFiVSMatching->mBlinkFrames = 0;
     gWiFiVSMatching->mShownEntryCount = 0;
@@ -350,7 +350,7 @@ void AdvanceWiFiVSMatchingState1(void) {
         StopWiFiSessionMatching();
         RequestSelectReturnState3WithSound(0);
         gWiFiVSMatching->mNextState = WIFI_VS_MATCHING_STATE_SLIDE_OUT;
-        gWiFiVSMatching->mPendingWiFiState = 2;
+        gWiFiVSMatching->mPendingWiFiState = WIFI_STATE_VS_SETTING;
         gWiFiVSMatching->mStateFrames = 0;
         RequestTxtSystemClose();
         StopBothSeqHandles();
@@ -604,7 +604,7 @@ void AdvanceWiFiVSMatchingState8(void) {
     if (gWiFiVSMatching->mStateFrames >= (gWiFiVSMatchingResultWaitFrames - 1)[gWiFiVSMatching->mOtherCount]) {
         if (IsSelectReturnState0NoState1Request() != 0) {
             gWiFiVSMatching->mNextState = WIFI_VS_MATCHING_STATE_WAIT_FADE_OUT;
-            gWiFiVSMatching->mPendingWiFiState = 4;
+            gWiFiVSMatching->mPendingWiFiState = WIFI_STATE_SELECT_CHARACTER;
             gWiFiVSMatching->mStateFrames = 0;
             RequestTxtSystemClose();
             StartFadeToFadedNegative(30);
@@ -642,7 +642,7 @@ void AdvanceWiFiVSMatchingState9(void) {
             }
         }
         gWiFiVSMatching->mNextState = WIFI_VS_MATCHING_STATE_SLIDE_OUT;
-        gWiFiVSMatching->mPendingWiFiState = 2;
+        gWiFiVSMatching->mPendingWiFiState = WIFI_STATE_VS_SETTING;
         RequestSelectReturnState3WithSound(0);
         RequestTxtSystemClose();
     }

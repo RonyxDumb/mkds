@@ -70,7 +70,7 @@ void InitWiFiAikotobaCheck(void *heap) {
     gWiFiAikotobaCheck->mHeap = heap;
     gWiFiAikotobaCheck->mState = 0;
     gWiFiAikotobaCheck->mNextState = 0;
-    gWiFiAikotobaCheck->mPendingWiFiState = -1;
+    gWiFiAikotobaCheck->mPendingWiFiState = WIFI_STATE_NONE;
     gWiFiAikotobaCheck->mStateFrames = 0;
     gWiFiAikotobaCheck->mWiFiMessages = FindSceneFile("wifi.bmg");
     gWiFiAikotobaCheck->mCommonMessages = FindFileInLoadedArchives("common.bmg");
@@ -154,7 +154,7 @@ void AdvanceWiFiAikotobaCheckState1(void) {
         }
     }
     gWiFiAikotobaCheck->mNextState = 2;
-    gWiFiAikotobaCheck->mPendingWiFiState = 8;
+    gWiFiAikotobaCheck->mPendingWiFiState = WIFI_STATE_AIKOTOBA;
     RequestSelectReturnState3WithSound(0);
     RequestTxtSystemClose();
 }

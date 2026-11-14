@@ -2,9 +2,18 @@
 
 #include "types.h"
 
-// States the WiFi screens request with RequestWiFiState; the last two are stored by the top menu for screens that
-// leave the WiFi states instead.
+// Four callbacks of a WiFi state: mInit gets WiFiStates.mStateHeap, mAdvance runs every frame.
+typedef struct WiFiStateCallbacks {
+    /* 00 */ void (*mInit)(void *);
+    /* 04 */ void (*mRelease)(void);
+    /* 08 */ void (*mAdvance)(void);
+    /* 0c */ void (*mWriteRegisters)(void);
+} WiFiStateCallbacks;
+
+// Values of WiFiStates.mState and mNextState: the WiFi screen to run, and the pending state the WiFi screens request
+// with RequestWiFiState.
 enum {
+    WIFI_STATE_NONE = -1,
     WIFI_STATE_LOGIN_MENU,
     WIFI_STATE_TOP_MENU,
     WIFI_STATE_VS_SETTING,
@@ -15,17 +24,13 @@ enum {
     WIFI_STATE_CONNECTION_LOST,
     WIFI_STATE_AIKOTOBA,
     WIFI_STATE_AIKOTOBA_CHECK,
+    // Not screens: the WiFi menu scene is leaving for the named scene (or was entered from it); gSceneNames has the
+    // scene numbers 0, 14, 12 and 8.
     WIFI_STATE_SCENE_TITLE,
+    WIFI_STATE_SCENE_KEYBOARD,
     WIFI_STATE_SCENE_WIFI_MENU = 13,
+    WIFI_STATE_SCENE_RECORD,
 };
-
-// Four callbacks of a WiFi state: mInit gets WiFiStates.mStateHeap, mAdvance runs every frame.
-typedef struct WiFiStateCallbacks {
-    /* 00 */ void (*mInit)(void *);
-    /* 04 */ void (*mRelease)(void);
-    /* 08 */ void (*mAdvance)(void);
-    /* 0c */ void (*mWriteRegisters)(void);
-} WiFiStateCallbacks;
 
 typedef struct WiFiStates {
     /* 00 */ void *mHeap;

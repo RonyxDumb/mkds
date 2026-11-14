@@ -176,7 +176,7 @@ void InitWiFiStates(void *heap, s32 sceneNumber) {
             }
             break;
     }
-    gWiFiStates->mNextState = -1;
+    gWiFiStates->mNextState = WIFI_STATE_NONE;
     gWiFiStates->mCallbacks.mInit(gWiFiStates->mStateHeap);
     gMenuShared->mResultArchiveDl = 1;
 }
@@ -196,46 +196,46 @@ void AdvanceWiFiStates(void) {
     if (gWiFiStates->mCallbacks.mAdvance != NULL) {
         gWiFiStates->mCallbacks.mAdvance();
     }
-    if (gWiFiStates->mNextState != -1) {
+    if (gWiFiStates->mNextState != WIFI_STATE_NONE) {
         gWiFiStates->mCallbacks.mRelease();
         ClearWiFiStateCallbacks();
         HeapDestroy(gWiFiStates->mStateHeap);
         gWiFiStates->mStateHeap = CreateExpHeapFromMaxFree(gWiFiStates->mHeap);
         switch (gWiFiStates->mNextState) {
-            case 0:
+            case WIFI_STATE_LOGIN_MENU:
                 RegisterWiFiLoginMenuCallbacks();
                 break;
-            case 1:
+            case WIFI_STATE_TOP_MENU:
                 RegisterWiFiTopMenuCallbacks();
                 break;
-            case 2:
+            case WIFI_STATE_VS_SETTING:
                 RegisterWiFiVSSettingCallbacks();
                 break;
-            case 3:
+            case WIFI_STATE_VS_MATCHING:
                 RegisterWiFiVSMatchingCallbacks();
                 break;
-            case 4:
+            case WIFI_STATE_SELECT_CHARACTER:
                 RegisterSelectCharacterCallbacks();
                 break;
-            case 5:
+            case WIFI_STATE_SELECT_KART:
                 RegisterSelectKartCallbacks();
                 break;
-            case 6:
+            case WIFI_STATE_VS_COURSE_SELECT:
                 RegisterWiFiVSCourseSelectCallbacks();
                 break;
-            case 7:
+            case WIFI_STATE_CONNECTION_LOST:
                 RegisterWiFiConnectionLostCallbacks();
                 break;
-            case 8:
+            case WIFI_STATE_AIKOTOBA:
                 RegisterWiFiAikotobaCallbacks();
                 break;
-            case 9:
+            case WIFI_STATE_AIKOTOBA_CHECK:
                 RegisterWiFiAikotobaCheckCallbacks();
                 break;
         }
         gWiFiStates->mPrevState = gWiFiStates->mState;
         gWiFiStates->mState = gWiFiStates->mNextState;
-        gWiFiStates->mNextState = -1;
+        gWiFiStates->mNextState = WIFI_STATE_NONE;
         if (gWiFiStates->mCallbacks.mInit != NULL) {
             gWiFiStates->mCallbacks.mInit(gWiFiStates->mStateHeap);
         }

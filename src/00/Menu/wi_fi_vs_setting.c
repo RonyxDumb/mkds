@@ -64,7 +64,7 @@ void InitWiFiVSSetting(void *heap) {
     gWiFiVSSetting->mState = WIFI_VS_SETTING_STATE_WAIT_FADE_IN;
     gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_WAIT_FADE_IN;
     gWiFiVSSetting->mRow = 1;
-    gWiFiVSSetting->mPendingWiFiState = -1;
+    gWiFiVSSetting->mPendingWiFiState = WIFI_STATE_NONE;
     gWiFiVSSetting->mStateFrames = 0;
     gWiFiVSSetting->mHighlightVisible = TRUE;
     SetWiFiVSSettingFlag(0);
@@ -305,7 +305,7 @@ void AdvanceWiFiVSSettingState4(void) {
         }
     }
     gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_SLIDE_OUT;
-    gWiFiVSSetting->mPendingWiFiState = 1;
+    gWiFiVSSetting->mPendingWiFiState = WIFI_STATE_TOP_MENU;
     RequestSelectReturnState3WithSound(1);
     gWiFiVSSetting->mSelectReturnPending = TRUE;
     RequestTxtSystemClose();
@@ -317,7 +317,7 @@ next:
         if (gWiFiVSSetting->mRow == 2) {
             gWiFiVSSetting->mHighlightVisible = FALSE;
         }
-        gWiFiVSSetting->mPendingWiFiState = 3;
+        gWiFiVSSetting->mPendingWiFiState = WIFI_STATE_VS_MATCHING;
         gWiFiVSSetting->mRow = 2;
         gMenuShared->mWiFiVSSettingKartType = gWiFiVSSettingKartTypes[gWiFiVSSetting->mSettingIndex];
         if ((u16) (gInputSlots[slotIndex].mBits & PAD_KEY_R) != 0) {
@@ -330,7 +330,7 @@ next:
         if (gWiFiVSSetting->mRow == 0) {
             gWiFiVSSetting->mHighlightVisible = FALSE;
         }
-        gWiFiVSSetting->mPendingWiFiState = 14;
+        gWiFiVSSetting->mPendingWiFiState = WIFI_STATE_SCENE_RECORD;
         gWiFiVSSetting->mRow = 0;
         gMenuShared->mWiFiScene8StartKind = 0;
         RequestTxtSystemClose();
@@ -400,7 +400,7 @@ void AdvanceWiFiVSSettingState5(void) {
         gWiFiVSSetting->mStateFrames = 0;
         RequestTxtSystemClose();
         if (HasBuddyRecords() != FALSE ||
-            (gWiFiVSSetting->mPendingWiFiState == 3 && gWiFiVSSetting->mSettingIndex != 0)) {
+            (gWiFiVSSetting->mPendingWiFiState == WIFI_STATE_VS_MATCHING && gWiFiVSSetting->mSettingIndex != 0)) {
             RequestSelectReturnState4();
             gWiFiVSSetting->mSelectReturnPending = TRUE;
             return;
@@ -416,7 +416,8 @@ void AdvanceWiFiVSSettingState6(void) {
     s16 rowOffsetY;
     s32 rowIndex;
 
-    if (GetWiFiNextScene() == -1 && gWiFiVSSetting->mPendingWiFiState == 14 && HasBuddyRecords() != FALSE) {
+    if (GetWiFiNextScene() == -1 && gWiFiVSSetting->mPendingWiFiState == WIFI_STATE_SCENE_RECORD &&
+        HasBuddyRecords() != FALSE) {
         SetWiFiNextScene(8);
     }
     gWiFiVSSetting->mStateFrames = gWiFiVSSetting->mStateFrames + 1;
@@ -445,22 +446,22 @@ void AdvanceWiFiVSSettingState6(void) {
         ((gWiFiVSSetting->mSelectReturnPending != FALSE && IsSelectReturnState0NoState1Request() != 0) ||
          IsSelectReturnState2NoState3Or4Request() != 0) &&
         GetWiFiNextScene() == -1) {
-        if (gWiFiVSSetting->mPendingWiFiState == 14 && HasBuddyRecords() == FALSE) {
+        if (gWiFiVSSetting->mPendingWiFiState == WIFI_STATE_SCENE_RECORD && HasBuddyRecords() == FALSE) {
             gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_WAIT_NO_BUDDY_LIST_TEXT;
-            gWiFiVSSetting->mPendingWiFiState = -1;
+            gWiFiVSSetting->mPendingWiFiState = WIFI_STATE_NONE;
             SetupTxtSystemMainText(GetBmgEntry(gWiFiVSSetting->mCommonMessages, 0x76));
             gWiFiVSSetting->mStateFrames = 0;
             return;
         }
-        if (gWiFiVSSetting->mPendingWiFiState == 3 && gWiFiVSSetting->mSettingIndex == 0 &&
+        if (gWiFiVSSetting->mPendingWiFiState == WIFI_STATE_VS_MATCHING && gWiFiVSSetting->mSettingIndex == 0 &&
             HasBuddyRecords() == FALSE) {
             gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_WAIT_NO_BUDDY_SETTING_TEXT;
-            gWiFiVSSetting->mPendingWiFiState = -1;
+            gWiFiVSSetting->mPendingWiFiState = WIFI_STATE_NONE;
             SetupTxtSystemMainText(GetBmgEntry(gWiFiVSSetting->mWiFiMessages, 14));
             gWiFiVSSetting->mStateFrames = 0;
             return;
         }
-        if (gWiFiVSSetting->mPendingWiFiState == 1) {
+        if (gWiFiVSSetting->mPendingWiFiState == WIFI_STATE_TOP_MENU) {
             void *questionText;
             void *yesText;
             void *noText;

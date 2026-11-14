@@ -73,7 +73,7 @@ void AdvanceWiFiConnectionLostState1(void) {
     int fadesClear;
     fadesClear = AreBrightnessFadesClear();
     if (fadesClear != 0) {
-        RequestWiFiState(2);
+        RequestWiFiState(WIFI_STATE_VS_SETTING);
         gMenuShared->mWiFiMenuStartKind = 1;
     }
 }

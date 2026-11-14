@@ -52,14 +52,14 @@ void AdvanceWiFiSelectCharacterState(void) {
     selectResult = AdvanceSelectCharacter();
     if (selectResult == 1 || selectResult == 3) {
         if (IsWiFiConnectionLost() != 0) {
-            RequestWiFiState(7);
+            RequestWiFiState(WIFI_STATE_CONNECTION_LOST);
             return;
         }
         if (selectResult == 1) {
-            RequestWiFiState(5);
+            RequestWiFiState(WIFI_STATE_SELECT_KART);
         }
         if (selectResult == 3) {
-            RequestWiFiState(6);
+            RequestWiFiState(WIFI_STATE_VS_COURSE_SELECT);
         }
     }
 }

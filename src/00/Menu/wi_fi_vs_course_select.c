@@ -57,7 +57,7 @@ void AdvanceWiFiVSCourseSelectState(void) {
     selectResult = AdvanceWiFiVSCourseSelect();
     if (GetWiFiNextScene() == -1 && (selectResult == 1 || selectResult == 2)) {
         if (IsWiFiConnectionLost() != 0) {
-            RequestWiFiState(7);
+            RequestWiFiState(WIFI_STATE_CONNECTION_LOST);
             return;
         }
         kartCount = gWiFiSession->mKartCount;
