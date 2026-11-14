@@ -569,6 +569,11 @@ typedef struct GhostRecordSet {
     /* 10 */ s16 mSlotIndex;
 } GhostRecordSet;
 
+// Y offset of one screen height: the main objects slide down by it and the lower objects start its negative. The lower
+// objects end the slide at SELECT_CUP_M_SUB_END_OFFSET_Y.
+#define SELECT_CUP_M_OFFSCREEN_Y 0xc0
+#define SELECT_CUP_M_SUB_END_OFFSET_Y (-0x20)
+
 typedef struct SelectCupM {
     /* 00 */ struct NNSG2dCellDataBank *mMainNcer;
     /* 04 */ LayoutEntryTable *mMainBncl;

@@ -221,18 +221,18 @@ void StartSelectCupMState0(void) {
         gSelectCupM->mMainTable[gSelectCupMCourseCells[cellIndex]].mOffsetY = 0;
         gSelectCupM->mMainTable[mainCellCount + gSelectCupMCourseLabels[cellIndex]].mOffsetY = 0;
     }
-    gSelectCupM->mBg3Offset = ~0xbf;
-    gSelectCupM->mSubTable[20].mOffsetY = ~0xbf;
-    gSelectCupM->mSubTable[19].mOffsetY = ~0xbf;
-    gSelectCupM->mSubTable[2].mOffsetY = ~0xbf;
-    gSelectCupM->mSubTable[1].mOffsetY = ~0xbf;
-    gSelectCupM->mSubTable[0].mOffsetY = ~0xbf;
+    gSelectCupM->mBg3Offset = -SELECT_CUP_M_OFFSCREEN_Y;
+    gSelectCupM->mSubTable[20].mOffsetY = -SELECT_CUP_M_OFFSCREEN_Y;
+    gSelectCupM->mSubTable[19].mOffsetY = -SELECT_CUP_M_OFFSCREEN_Y;
+    gSelectCupM->mSubTable[2].mOffsetY = -SELECT_CUP_M_OFFSCREEN_Y;
+    gSelectCupM->mSubTable[1].mOffsetY = -SELECT_CUP_M_OFFSCREEN_Y;
+    gSelectCupM->mSubTable[0].mOffsetY = -SELECT_CUP_M_OFFSCREEN_Y;
     for (cellIndex = 0; cellIndex < 8; cellIndex++) {
-        gSelectCupM->mSubTable[gSelectCupMCellSlots[cellIndex]].mOffsetY = ~0xbf;
+        gSelectCupM->mSubTable[gSelectCupMCellSlots[cellIndex]].mOffsetY = -SELECT_CUP_M_OFFSCREEN_Y;
     }
     for (cellIndex = 0; cellIndex < 4; cellIndex++) {
-        gSelectCupM->mSubTable[gSelectCupMCourseCells[cellIndex]].mOffsetY = ~0xbf;
-        gSelectCupM->mSubTable[subCellCount + gSelectCupMCourseLabels[cellIndex]].mOffsetY = ~0xbf;
+        gSelectCupM->mSubTable[gSelectCupMCourseCells[cellIndex]].mOffsetY = -SELECT_CUP_M_OFFSCREEN_Y;
+        gSelectCupM->mSubTable[subCellCount + gSelectCupMCourseLabels[cellIndex]].mOffsetY = -SELECT_CUP_M_OFFSCREEN_Y;
     }
 }
 
@@ -248,31 +248,32 @@ void StartSelectCupMState1(void) {
     }
     mainCellCount = gSelectCupM->mMainBncl->mCount;
     subCellCount = gSelectCupM->mSubBncl->mCount;
-    gSelectCupM->mBg0Offset = 0xc0;
-    gSelectCupM->mMainTable[20].mOffsetY = 0xc0;
-    gSelectCupM->mMainTable[19].mOffsetY = 0xc0;
-    gSelectCupM->mMainTable[2].mOffsetY = 0xc0;
-    gSelectCupM->mMainTable[1].mOffsetY = 0xc0;
-    gSelectCupM->mMainTable[0].mOffsetY = 0xc0;
+    gSelectCupM->mBg0Offset = SELECT_CUP_M_OFFSCREEN_Y;
+    gSelectCupM->mMainTable[20].mOffsetY = SELECT_CUP_M_OFFSCREEN_Y;
+    gSelectCupM->mMainTable[19].mOffsetY = SELECT_CUP_M_OFFSCREEN_Y;
+    gSelectCupM->mMainTable[2].mOffsetY = SELECT_CUP_M_OFFSCREEN_Y;
+    gSelectCupM->mMainTable[1].mOffsetY = SELECT_CUP_M_OFFSCREEN_Y;
+    gSelectCupM->mMainTable[0].mOffsetY = SELECT_CUP_M_OFFSCREEN_Y;
     for (cellIndex = 0; cellIndex < 8; cellIndex++) {
-        gSelectCupM->mMainTable[gSelectCupMCellSlots[cellIndex]].mOffsetY = 0xc0;
+        gSelectCupM->mMainTable[gSelectCupMCellSlots[cellIndex]].mOffsetY = SELECT_CUP_M_OFFSCREEN_Y;
     }
     for (cellIndex = 0; cellIndex < 4; cellIndex++) {
-        gSelectCupM->mMainTable[gSelectCupMCourseCells[cellIndex]].mOffsetY = 0xc0;
-        gSelectCupM->mMainTable[mainCellCount + gSelectCupMCourseLabels[cellIndex]].mOffsetY = 0xc0;
+        gSelectCupM->mMainTable[gSelectCupMCourseCells[cellIndex]].mOffsetY = SELECT_CUP_M_OFFSCREEN_Y;
+        gSelectCupM->mMainTable[mainCellCount + gSelectCupMCourseLabels[cellIndex]].mOffsetY = SELECT_CUP_M_OFFSCREEN_Y;
     }
-    gSelectCupM->mBg3Offset = ~0x1f;
-    gSelectCupM->mSubTable[20].mOffsetY = ~0x1f;
-    gSelectCupM->mSubTable[19].mOffsetY = ~0x1f;
-    gSelectCupM->mSubTable[2].mOffsetY = ~0x1f;
-    gSelectCupM->mSubTable[1].mOffsetY = ~0x1f;
-    gSelectCupM->mSubTable[0].mOffsetY = ~0x1f;
+    gSelectCupM->mBg3Offset = SELECT_CUP_M_SUB_END_OFFSET_Y;
+    gSelectCupM->mSubTable[20].mOffsetY = SELECT_CUP_M_SUB_END_OFFSET_Y;
+    gSelectCupM->mSubTable[19].mOffsetY = SELECT_CUP_M_SUB_END_OFFSET_Y;
+    gSelectCupM->mSubTable[2].mOffsetY = SELECT_CUP_M_SUB_END_OFFSET_Y;
+    gSelectCupM->mSubTable[1].mOffsetY = SELECT_CUP_M_SUB_END_OFFSET_Y;
+    gSelectCupM->mSubTable[0].mOffsetY = SELECT_CUP_M_SUB_END_OFFSET_Y;
     for (cellIndex = 0; cellIndex < 8; cellIndex++) {
-        gSelectCupM->mSubTable[gSelectCupMCellSlots[cellIndex]].mOffsetY = ~0x1f;
+        gSelectCupM->mSubTable[gSelectCupMCellSlots[cellIndex]].mOffsetY = SELECT_CUP_M_SUB_END_OFFSET_Y;
     }
     for (cellIndex = 0; cellIndex < 4; cellIndex++) {
-        gSelectCupM->mSubTable[gSelectCupMCourseCells[cellIndex]].mOffsetY = ~0x1f;
-        gSelectCupM->mSubTable[subCellCount + gSelectCupMCourseLabels[cellIndex]].mOffsetY = ~0x1f;
+        gSelectCupM->mSubTable[gSelectCupMCourseCells[cellIndex]].mOffsetY = SELECT_CUP_M_SUB_END_OFFSET_Y;
+        gSelectCupM->mSubTable[subCellCount + gSelectCupMCourseLabels[cellIndex]].mOffsetY =
+            SELECT_CUP_M_SUB_END_OFFSET_Y;
     }
 }
 
@@ -352,8 +353,9 @@ void AdvanceSelectCupMState0(void) {
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         return;
     }
-    mainOffset = InterpolateS16(1, 0, 0xc0, gSelectCupM->mStateFrames, 0xa);
-    subOffset = InterpolateS16(1, ~0xbf, ~0x1f, gSelectCupM->mStateFrames, 0xa);
+    mainOffset = InterpolateS16(1, 0, SELECT_CUP_M_OFFSCREEN_Y, gSelectCupM->mStateFrames, 0xa);
+    subOffset =
+        InterpolateS16(1, -SELECT_CUP_M_OFFSCREEN_Y, SELECT_CUP_M_SUB_END_OFFSET_Y, gSelectCupM->mStateFrames, 0xa);
     mainCellCount = gSelectCupM->mMainBncl->mCount;
     gSelectCupM->mBg0Offset = mainOffset;
     gSelectCupM->mMainTable[20].mOffsetY = mainOffset;
@@ -395,8 +397,9 @@ void AdvanceSelectCupMState1(void) {
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         return;
     }
-    mainOffset = InterpolateS16(1, 0xc0, 0, gSelectCupM->mStateFrames, 0xa);
-    subOffset = InterpolateS16(1, ~0x1f, ~0xbf, gSelectCupM->mStateFrames, 0xa);
+    mainOffset = InterpolateS16(1, SELECT_CUP_M_OFFSCREEN_Y, 0, gSelectCupM->mStateFrames, 0xa);
+    subOffset =
+        InterpolateS16(1, SELECT_CUP_M_SUB_END_OFFSET_Y, -SELECT_CUP_M_OFFSCREEN_Y, gSelectCupM->mStateFrames, 0xa);
     mainCellCount = gSelectCupM->mMainBncl->mCount;
     gSelectCupM->mBg0Offset = mainOffset;
     gSelectCupM->mMainTable[20].mOffsetY = mainOffset;
