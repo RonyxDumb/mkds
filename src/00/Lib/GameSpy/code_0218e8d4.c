@@ -151,7 +151,7 @@ u32 GpGetInfo(GpConnection *connection, u32 profile, s32 checkCache, u32 blockin
         callback(connection, &arg, param);
         return 0;
     }
-    if (gpState->mConnectState == 4) {
+    if (gpState->mConnectState == PROFILE_CONNECTION_CLOSED) {
         GpiSetErrorMessage(connection, "The connection has already been disconnected.");
         return 2;
     }
@@ -166,7 +166,7 @@ u32 GpSetInfosA(GpConnection *connection, s32 info, const s8 *value) {
     if (gpState->mSimulation != 0) {
         return 0;
     }
-    if (gpState->mConnectState == 4) {
+    if (gpState->mConnectState == PROFILE_CONNECTION_CLOSED) {
         GpiSetErrorMessage(connection, "The connection has already been disconnected.");
         return 2;
     }
@@ -183,7 +183,7 @@ u32 GpWriteAddbuddy(GpConnection *connection, u32 profile, const char *reason) {
     if (gpState->mSimulation != 0) {
         return 0;
     }
-    if (gpState->mConnectState == 4) {
+    if (gpState->mConnectState == PROFILE_CONNECTION_CLOSED) {
         GpiSetErrorMessage(connection, "The connection has already been disconnected.");
         return 2;
     }
@@ -220,7 +220,7 @@ u32 GpAuthBuddyRequest(GpConnection *connection, u32 profile) {
     if (gpState->mSimulation != 0) {
         return 0;
     }
-    if (gpState->mConnectState == 4) {
+    if (gpState->mConnectState == PROFILE_CONNECTION_CLOSED) {
         GpiSetErrorMessage(connection, "The connection has already been disconnected.");
         return 2;
     }
@@ -238,7 +238,7 @@ u32 GpDenyBuddyRequest(GpConnection *connection, int profile) {
     if (gpState->mSimulation != 0) {
         return 0;
     }
-    if (gpState->mConnectState == 4) {
+    if (gpState->mConnectState == PROFILE_CONNECTION_CLOSED) {
         GpiSetErrorMessage(connection, "The connection has already been disconnected.");
         return 2;
     }
@@ -365,7 +365,7 @@ u32 GpDeleteBuddy(GpConnection *connection, u32 profile) {
     if (gpState->mSimulation != 0) {
         return 0;
     }
-    if (gpState->mConnectState == 4) {
+    if (gpState->mConnectState == PROFILE_CONNECTION_CLOSED) {
         GpiSetErrorMessage(connection, "The connection has already been disconnected.");
         return 2;
     }
@@ -387,7 +387,7 @@ u32 GpSetStatus(GpConnection *connection, s32 status, const char *statusString, 
     if (gpState->mSimulation != 0) {
         return 0;
     }
-    if (gpState->mConnectState == 4) {
+    if (gpState->mConnectState == PROFILE_CONNECTION_CLOSED) {
         GpiSetErrorMessage(connection, "The connection has already been disconnected.");
         return 2;
     }
@@ -446,7 +446,7 @@ u32 GpSendMessage(GpConnection *connection, s32 profileRec, const char *message)
     if (gpState->mSimulation != 0) {
         return 0;
     }
-    if (gpState->mConnectState == 4) {
+    if (gpState->mConnectState == PROFILE_CONNECTION_CLOSED) {
         GpiSetErrorMessage(connection, "The connection has already been disconnected.");
         return 2;
     }

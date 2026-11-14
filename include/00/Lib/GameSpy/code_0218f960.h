@@ -14,6 +14,16 @@ typedef struct GPIProfileList {
     /* 04 */ s32 mNum;
 } GPIProfileList;
 
+// Values of GpiConnection.mConnectState: the socket is being connected, then the login handshake runs, then the
+// connection is up; IDLE is the state before the connect; CLOSED follows a close and is left only through a reset.
+enum {
+    PROFILE_CONNECTION_IDLE = 0,
+    PROFILE_CONNECTION_SOCKET_OPENING = 1,
+    PROFILE_CONNECTION_HANDSHAKE = 2,
+    PROFILE_CONNECTION_LOGGED_IN = 3,
+    PROFILE_CONNECTION_CLOSED = 4,
+};
+
 // Object behind GpConnection.mGpiConnection: GpiWriteDelbuddyAndRemoveBuddy passes the address of 0x1f4 to
 // GpiAppendBufferString and GpiAppendBufferNumber, reads 0x198 and decrements 0x430.
 typedef struct GpiConnection {

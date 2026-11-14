@@ -120,7 +120,7 @@ u32 GpiOpenSockets(GpConnection *connection, GpiOperation *operation) {
         }
     }
     operation->mState = 1;
-    gpState->mConnectState = 1;
+    gpState->mConnectState = PROFILE_CONNECTION_SOCKET_OPENING;
     return 0;
 }
 
@@ -133,13 +133,13 @@ u32 GpiStartConnect(GpConnection *connection, const char *nick, const char *uniq
     u32 result;
 
     gpState = connection->mGpiConnection;
-    if (gpState->mConnectState == 4) {
+    if (gpState->mConnectState == PROFILE_CONNECTION_CLOSED) {
         result = GpiResetConnection(connection);
         if (result != 0) {
             return result;
         }
     }
-    if (gpState->mConnectState != 0) {
+    if (gpState->mConnectState != PROFILE_CONNECTION_IDLE) {
         GpiSetErrorMessage(connection, "Invalid connection.");
         return 2;
     }
@@ -463,7 +463,7 @@ u32 GpiProcessConnectOperation(GpConnection *connection, GpiOperation *operation
                 n->mProfileId = gpState->mProfileId;
                 n->mUserId = gpState->mUserId;
             }
-            gpState->mConnectState = 3;
+            gpState->mConnectState = PROFILE_CONNECTION_LOGGED_IN;
             callback = operation->mCallback;
             if (callback.mCallback != NULL) {
                 arg = DWCi_GsMalloc(0x20);
@@ -504,7 +504,7 @@ int gpiCheckConnect(GpConnection *connection) {
         if (state != 3) {
             AssertionFailed("state == GPI_CONNECTED", "gpiConnect.c", NULL, 0x2ef);
         }
-        gpState->mConnectState = 2;
+        gpState->mConnectState = PROFILE_CONNECTION_HANDSHAKE;
         result = 0;
     }
     return result;
@@ -541,11 +541,11 @@ void GpiCloseConnection(GpConnection *connection, s32 tellServer) {
     u32 socketGone;
 
     gpState = connection->mGpiConnection;
-    if (gpState->mConnectState == 4) {
+    if (gpState->mConnectState == PROFILE_CONNECTION_CLOSED) {
         return;
     }
-    if (gpState->mConnectState != 0) {
-        if (tellServer != 0 && gpState->mConnectState == 3) {
+    if (gpState->mConnectState != PROFILE_CONNECTION_IDLE) {
+        if (tellServer != 0 && gpState->mConnectState == PROFILE_CONNECTION_LOGGED_IN) {
             GpiAppendBufferString(connection, &gpState->mOutputBuffer, "\\logout\\\\sesskey\\");
             GpiAppendBufferNumber(connection, &gpState->mOutputBuffer, gpState->mSesskey);
             GpiAppendBufferString(connection, &gpState->mOutputBuffer, "\\final\\");
@@ -562,7 +562,7 @@ void GpiCloseConnection(GpConnection *connection, s32 tellServer) {
             closesocket(gpState->mListenSocket);
             gpState->mListenSocket = -1;
         }
-        gpState->mConnectState = 4;
+        gpState->mConnectState = PROFILE_CONNECTION_CLOSED;
         gpState->mUserId = 0;
         gpState->mProfileId = 0;
     }

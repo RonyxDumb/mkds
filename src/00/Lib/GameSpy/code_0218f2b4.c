@@ -49,7 +49,7 @@ u32 GpiResetConnection(GpConnection *connection) {
     gpState->mUniquenick[0] = 0;
     gpState->mEmail[0] = 0;
     gpState->mConnectSocket = -1;
-    gpState->mConnectState = 0;
+    gpState->mConnectState = PROFILE_CONNECTION_IDLE;
     gpState->mInputBufferLength = 0;
     gpState->mUnk_1e8 = 0;
     gpState->mInputBufferCapacity = 0;
@@ -178,7 +178,7 @@ u32 gpiProcessConnectionManager(GpConnection *connection) {
             found = strstr(gpState->mInputBuffer, "\\final\\");
         }
         if (socketGone != 0) {
-            gpState->mConnectState = 4;
+            gpState->mConnectState = PROFILE_CONNECTION_CLOSED;
             GpiSetError(connection, 7, "The server has closed the connection.");
             GpiQueueErrorCallback(connection, 3, 1);
             return 0;
@@ -202,17 +202,18 @@ int GpiUpdateConnection(void *connectionArgument, int blockingOperationID) {
     connection = connectionArgument;
     gpState = connection->mGpiConnection;
     result = 0;
-    if ((u32) gpState->mConnectState > 4) {
+    if ((u32) gpState->mConnectState > PROFILE_CONNECTION_CLOSED) {
         AssertionFailed("(iconnection->connectState == GPI_NOT_CONNECTED) || (iconnection->connectState == "
                         "GPI_CONNECTING) || (iconnection->connectState == GPI_NEGOTIATING) || "
                         "(iconnection->connectState == GPI_CONNECTED) || (iconnection->connectState == "
                         "GPI_DISCONNECTED)",
                         "gpi.c", NULL, 0x1b5);
     }
-    if (gpState->mConnectState == 1) {
+    if (gpState->mConnectState == PROFILE_CONNECTION_SOCKET_OPENING) {
         do {
             result = gpiCheckConnect(connection);
-            if (result == 0 && blockingOperationID != 0 && gpState->mConnectState == 1) {
+            if (result == 0 && blockingOperationID != 0 &&
+                gpState->mConnectState == PROFILE_CONNECTION_SOCKET_OPENING) {
                 loop = TRUE;
             } else {
                 loop = FALSE;
@@ -229,7 +230,7 @@ int GpiUpdateConnection(void *connectionArgument, int blockingOperationID) {
             }
         }
     }
-    if ((u32) (gpState->mConnectState - 2) <= 1) {
+    if ((u32) (gpState->mConnectState - PROFILE_CONNECTION_HANDSHAKE) <= 1) {
         if (result == 0) {
             result = gpiProcessConnectionManager(connection);
         }
