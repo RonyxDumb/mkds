@@ -30,12 +30,12 @@ s32 CheckDuplicate(void) {
     chosenSsid = work->mBssDesc[0].mBssid;
     connectNo = work->mConnectNo;
     chosenSsid += connectNo * 0xc0;
-    if (work->mConnectApType >= 6) {
+    if (work->mConnectApType >= AUTO_CONNECT_AP_TYPE_NWCUSBAP_SSID) {
         return 1;
     }
     for (index = 0, findListNum = work->mFindListNum; index < findListNum; index++) {
         if (index != connectNo) {
-            if (work->mFindList[index].mApType < 6) {
+            if (work->mFindList[index].mApType < AUTO_CONNECT_AP_TYPE_NWCUSBAP_SSID) {
                 if (strncmp((const char *) chosenSsid, (const char *) work->mBssDesc[index].mBssid,
                             work->mBssDesc[index].mSsidLength) == 0) {
                     return 2;

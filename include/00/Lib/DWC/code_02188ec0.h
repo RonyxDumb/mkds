@@ -4,6 +4,30 @@
 #include "00/Lib/DWC/code_02188de4.h"
 #include "code_02142eac.h"
 
+// Values of ACSL.mApType, ACFL.mApType and ACWORK.mConnectApType: the first three are the saved access point slots by
+// their first SSID, the next three by their second SSID.
+enum {
+    AUTO_CONNECT_AP_TYPE_USER_FIRST_SSID = 0,
+    AUTO_CONNECT_AP_TYPE_USER_SECOND_SSID = 3,
+    AUTO_CONNECT_AP_TYPE_NWCUSBAP_SSID = 6,
+    AUTO_CONNECT_AP_TYPE_NDWCSHAP_SSID_PREFIX,
+    AUTO_CONNECT_AP_TYPE_FREESPOT_SSID,
+    AUTO_CONNECT_AP_TYPE_WAYPORT2_SSID,
+    AUTO_CONNECT_AP_TYPE_NINTENDOWFC_SSID,
+};
+
+// Values of ACWORK.mConnectType, which limits the search to one kind of access point; the three saved access point
+// slots follow AUTO_CONNECT_TYPE_USER_FIRST in order.
+enum {
+    AUTO_CONNECT_TYPE_ANY,
+    AUTO_CONNECT_TYPE_USER_FIRST,
+    AUTO_CONNECT_TYPE_NWCUSBAP_SSID = 4,
+    AUTO_CONNECT_TYPE_NDWCSHAP_SSID_PREFIX,
+    AUTO_CONNECT_TYPE_FREESPOT_SSID,
+    AUTO_CONNECT_TYPE_WAYPORT2_SSID,
+    AUTO_CONNECT_TYPE_NINTENDOWFC_SSID,
+};
+
 // Entries of 0x24 bytes at 0x300 of ACWORK.
 typedef struct ACSL {
     /* 00 */ u8 mUnk_00_lo : 4;

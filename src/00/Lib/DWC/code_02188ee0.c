@@ -75,7 +75,7 @@ u32 ConnectStart(ACWORK *work) {
             work->mFindList[work->mConnectNo].mState = AUTO_CONNECT_FIND_ERROR_51100;
             return 9;
         }
-        if (work->mConnectApType == 6 && bssDesc->mSsid[9] == 0) {
+        if (work->mConnectApType == AUTO_CONNECT_AP_TYPE_NWCUSBAP_SSID && bssDesc->mSsid[9] == 0) {
             work->mFindList[work->mConnectNo].mState = AUTO_CONNECT_FIND_ERROR_51100;
             return 9;
         }

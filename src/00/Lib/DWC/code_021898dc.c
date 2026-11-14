@@ -29,7 +29,7 @@ void CheckSetDNS(ACWORK *work) {
     u32 dns1;
     u32 dns2;
 
-    if (work->mConnectApType < 6) {
+    if (work->mConnectApType < AUTO_CONNECT_AP_TYPE_NWCUSBAP_SSID) {
         info = &work->mUserInfo[DWCi_ConvConnectAPType(work->mConnectApType)];
         dnsSum = info->mDns1[3] + (info->mDns1[2] + (info->mDns1[0] + info->mDns1[1]));
         if (info->mIp[0] == 0 && dnsSum != 0) {

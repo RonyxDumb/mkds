@@ -30,7 +30,7 @@ void MakeSOCConfig(const SocketAllocPair *hold, ACWORK *work, SOCConfig *config)
     MI_CpuCopy8(&gAcSocConfig, config, 0x58);
     config->mAlloc = hold->mAlloc;
     config->mFree = hold->mFree;
-    if (work->mConnectApType < 6) {
+    if (work->mConnectApType < AUTO_CONNECT_AP_TYPE_NWCUSBAP_SSID) {
         info = &work->mUserInfo[DWCi_ConvConnectAPType(work->mConnectApType)];
         if (info->mIp[0] != 0) {
             config->mFlag = 0;

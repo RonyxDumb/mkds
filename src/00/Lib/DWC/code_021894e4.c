@@ -27,10 +27,10 @@ u8 MakeAroundList(ACWORK *work) {
     list = work->mSearchList;
     num = MakeUserList(work);
     list += num;
-    if (work->mConnectType == 0 || work->mConnectType == 6) {
+    if (work->mConnectType == AUTO_CONNECT_TYPE_ANY || work->mConnectType == AUTO_CONNECT_TYPE_FREESPOT_SSID) {
         MI_CpuCopy8(gFreespotSsid, list->mSsid, 8);
         list->mSsidLength = 8;
-        list->mApType = 8;
+        list->mApType = AUTO_CONNECT_AP_TYPE_FREESPOT_SSID;
         num++;
     }
     return num;
@@ -43,24 +43,24 @@ u8 MakeStealthList(ACWORK *work) {
     list = work->mSearchList;
     num = MakeUserList(work);
     list += num;
-    if (work->mConnectType == 0 || work->mConnectType == 4) {
+    if (work->mConnectType == AUTO_CONNECT_TYPE_ANY || work->mConnectType == AUTO_CONNECT_TYPE_NWCUSBAP_SSID) {
         MI_CpuCopy8(gNwcUsbApSsid, list->mSsid, 8);
         list->mSsidLength = 8;
-        list->mApType = 6;
+        list->mApType = AUTO_CONNECT_AP_TYPE_NWCUSBAP_SSID;
         num++;
         list++;
     }
-    if (work->mConnectType == 0 || work->mConnectType == 7) {
+    if (work->mConnectType == AUTO_CONNECT_TYPE_ANY || work->mConnectType == AUTO_CONNECT_TYPE_WAYPORT2_SSID) {
         MI_CpuCopy8(gWayportSsid, list->mSsid, 8);
         list->mSsidLength = 8;
-        list->mApType = 9;
+        list->mApType = AUTO_CONNECT_AP_TYPE_WAYPORT2_SSID;
         num++;
         list++;
     }
-    if (work->mConnectType == 0 || work->mConnectType == 8) {
+    if (work->mConnectType == AUTO_CONNECT_TYPE_ANY || work->mConnectType == AUTO_CONNECT_TYPE_NINTENDOWFC_SSID) {
         MI_CpuCopy8(gNintendoWfcSsid, list->mSsid, 0xb);
         list->mSsidLength = 0xb;
-        list->mApType = 10;
+        list->mApType = AUTO_CONNECT_AP_TYPE_NINTENDOWFC_SSID;
         num++;
     }
     return num;
@@ -78,7 +78,8 @@ u8 MakeUserList(ACWORK *work) {
     info = work->mUserInfo;
     list = work->mSearchList;
     for (apIndex = 0; apIndex < 3; info++, apIndex++) {
-        if (work->mConnectType == 0 || work->mConnectType == apIndex + 1) {
+        if (work->mConnectType == AUTO_CONNECT_TYPE_ANY ||
+            work->mConnectType == AUTO_CONNECT_TYPE_USER_FIRST + apIndex) {
             if (info->mSetType != 0xff) {
                 for (ssidIndex = 0; ssidIndex < 0x20; ssidIndex++) {
                     if (info->mSsid[ssidIndex] == 0) {
@@ -88,7 +89,7 @@ u8 MakeUserList(ACWORK *work) {
                 }
                 if (ssidIndex != 0) {
                     list->mSsidLength = ssidIndex;
-                    list->mApType = apIndex;
+                    list->mApType = AUTO_CONNECT_AP_TYPE_USER_FIRST_SSID + apIndex;
                     hasName = TRUE;
                 } else {
                     hasName = FALSE;
@@ -106,7 +107,7 @@ u8 MakeUserList(ACWORK *work) {
                     }
                     if (ssidIndex != 0) {
                         list->mSsidLength = ssidIndex;
-                        list->mApType = apIndex + 3;
+                        list->mApType = AUTO_CONNECT_AP_TYPE_USER_SECOND_SSID + apIndex;
                         hasName = TRUE;
                     } else {
                         hasName = FALSE;
