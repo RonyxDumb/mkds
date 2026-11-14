@@ -223,6 +223,35 @@ typedef struct ResultsBattleEntry {
     /* 08 */ s32 mOrderIndex;
 } ResultsBattleEntry;
 
+// Values of ResultsBattle.mState: the two data-sharing sync steps, a wait for a frame count, waiting for the confirm
+// key (or the timer), waiting for the choice, waiting for the Wi-Fi continue result, ending the connection, and done
+// (the next scene is set).
+typedef enum {
+    RESULTS_BATTLE_STATE_START_SYNC,
+    RESULTS_BATTLE_STATE_FINISH_SYNC,
+    RESULTS_BATTLE_STATE_WAIT_FRAMES,
+    RESULTS_BATTLE_STATE_WAIT_CONFIRM,
+    RESULTS_BATTLE_STATE_WAIT_CHOICE,
+    RESULTS_BATTLE_STATE_WAIT_WIFI_CONTINUE,
+    RESULTS_BATTLE_STATE_END_CONNECTION,
+    RESULTS_BATTLE_STATE_DONE
+} ResultsBattleState;
+
+// Values of ResultsBattle.mFileSetKind: the row of gResultsBattleVictoryFileNames, named after the files it loads.
+typedef enum {
+    RESULTS_BATTLE_FILES_VICTORY,
+    RESULTS_BATTLE_FILES_LOSE,
+    RESULTS_BATTLE_FILES_DRAW,
+    RESULTS_BATTLE_FILES_VS_BLUE,
+    RESULTS_BATTLE_FILES_VS_RED
+} ResultsBattleFiles;
+
+// ResultsBattle.mTimer counts down from the start value in the Wi-Fi mode. The shown number steps once per
+// RESULTS_BATTLE_TIMER_STEP_FRAMES frames, and the choices open by themselves once the timer is below the choice value.
+#define RESULTS_BATTLE_TIMER_START_FRAMES 0x384
+#define RESULTS_BATTLE_TIMER_CHOICE_FRAMES 0x12c
+#define RESULTS_BATTLE_TIMER_STEP_FRAMES 0x3c
+
 // 0x154 bytes.
 typedef struct ResultsBattle {
     /* 000 */ ScreenMapFileSet mScreenMapFileSets[2];
@@ -239,7 +268,7 @@ typedef struct ResultsBattle {
     /* 0dc */ s32 mFileSetKind;
     /* 0e0 */ s32 mMode;
     /* 0e4 */ ResultsBattleEntry mEntries[8];
-    /* 144 */ s32 mState0To2Frames;
+    /* 144 */ s32 mSyncAndWaitFrames;
     /* 148 */ BOOL mUseTimer;
     /* 14c */ s32 mTimer;
     /* 150 */ s32 mState;

@@ -22,6 +22,7 @@ enum {
 
 // Value of StartupWork.mConnectionKind.
 #define CONNECTION_KIND_NONE 0
+#define CONNECTION_KIND_WIFI_MENU 3 // set by the title entry of the Wi-Fi menu
 
 // Object behind gStartupWork (0x7c bytes); the 0x14 bytes at 0x2a are the source of a block move into
 // gBackupBuffers.

@@ -291,7 +291,7 @@ void FillResultsBattleEntries(void) {
     s32 higherCount;
 
     for (kartIndex = 0; kartIndex < gResultsBattle->mKartCount; kartIndex++) {
-        if (gResultsBattle->mMode == 3 || gRaceSetup->mRuleKind == 2) {
+        if (gResultsBattle->mMode == CONNECTION_KIND_WIFI_MENU || gRaceSetup->mRuleKind == 2) {
             gResultsBattle->mEntries[kartIndex].mScore =
                 ResultsBattleGetKartCourseResult(GetLowByte(kartIndex))->mTotalPoints;
         } else {
@@ -348,11 +348,11 @@ s32 IsResultsBattleTimerRunOut(void) {
     return result;
 }
 
-s32 IsResultsBattleTimerBelow300(void) {
+s32 IsResultsBattleTimerBelowChoiceStart(void) {
     BOOL result;
 
     result = FALSE;
-    if (gResultsBattle->mUseTimer != FALSE && gResultsBattle->mTimer < 0x12c) {
+    if (gResultsBattle->mUseTimer != FALSE && gResultsBattle->mTimer < RESULTS_BATTLE_TIMER_CHOICE_FRAMES) {
         result = TRUE;
     }
     return result;
@@ -640,7 +640,7 @@ void SetupResultsBattleTeamIcons(void *heap) {
     results = gResultsBattle;
     mainCellFileSet = &results->mCellFileSets[0];
     switch (results->mFileSetKind) {
-        case 3:
+        case RESULTS_BATTLE_FILES_VS_BLUE:
             teamIndex = 0;
             break;
         default:
@@ -672,7 +672,7 @@ void SetupResultsBattleTeamIcons(void *heap) {
         } while (shownCellIndex < gResultsBattleTeamFirstCellIndices[gResultsBattle->mIconKartCount - 1] +
                                       gResultsBattle->mIconKartCount * 2);
     }
-    if (gResultsBattle->mFileSetKind == 3) {
+    if (gResultsBattle->mFileSetKind == RESULTS_BATTLE_FILES_VS_BLUE) {
         for (iconCellIndex = gResultsBattleTeamFirstCellIndices[gResultsBattle->mIconKartCount - 1];
              iconCellIndex <
              gResultsBattle->mIconKartCount + gResultsBattleTeamFirstCellIndices[gResultsBattle->mIconKartCount - 1];
@@ -730,7 +730,7 @@ void InitResultsBattle(void *heap, void *mainOam, void *subOam) {
     gResultsBattle->mOamLists[0] = mainOam;
     gResultsBattle->mOamLists[1] = subOam;
     gResultsBattle->mMode = gStartupWork->mConnectionKind;
-    if (gResultsBattle->mMode == 3) {
+    if (gResultsBattle->mMode == CONNECTION_KIND_WIFI_MENU) {
         SetupWiFiSession(WIFI_SESSION_SETUP_CONTINUE_CHOICES);
     }
     Init3dEngine();
@@ -756,10 +756,10 @@ void InitResultsBattle(void *heap, void *mainOam, void *subOam) {
     InitFrmVramManagers();
     gResultsBattle->mCommonMessages = FindFileInLoadedArchives("common.bmg");
     switch (gResultsBattle->mMode) {
-        case 0:
+        case CONNECTION_KIND_NONE:
             gResultsBattle->mOwnEntryIndex = 0;
             gResultsBattle->mKartCount = gRaceSetup->mKartCount;
-            gResultsBattle->mState = 2;
+            gResultsBattle->mState = RESULTS_BATTLE_STATE_WAIT_FRAMES;
             break;
         case 1:
         case 2:
@@ -769,14 +769,14 @@ void InitResultsBattle(void *heap, void *mainOam, void *subOam) {
                     gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD ? gConnectionWork->mOwnIndex : 0)
                     ->mEntryIndex;
             gResultsBattle->mKartCount = gRaceSetup->mKartCount;
-            gResultsBattle->mState = 0;
+            gResultsBattle->mState = RESULTS_BATTLE_STATE_START_SYNC;
             break;
-        case 3:
+        case CONNECTION_KIND_WIFI_MENU:
             gResultsBattle->mOwnEntryIndex = GetPackedIndex(DWC_GetMyAID());
             gResultsBattle->mKartCount = gWiFiSession->mKartCount;
             gResultsBattle->mUseTimer = TRUE;
-            gResultsBattle->mTimer = 0x384;
-            gResultsBattle->mState = 2;
+            gResultsBattle->mTimer = RESULTS_BATTLE_TIMER_START_FRAMES;
+            gResultsBattle->mState = RESULTS_BATTLE_STATE_WAIT_FRAMES;
             break;
     }
     FillResultsBattleEntries();
@@ -795,21 +795,21 @@ void InitResultsBattle(void *heap, void *mainOam, void *subOam) {
         }
         if (firstTeamScore == value) {
             gResultsBattle->mIconKartCount = gResultsBattle->mKartCount;
-            gResultsBattle->mFileSetKind = 2;
+            gResultsBattle->mFileSetKind = RESULTS_BATTLE_FILES_DRAW;
         } else if (firstTeamScore > value) {
             gResultsBattle->mIconKartCount = gRaceSetup->mTeamKartCounts[0];
-            gResultsBattle->mFileSetKind = 3;
+            gResultsBattle->mFileSetKind = RESULTS_BATTLE_FILES_VS_BLUE;
         } else if (value > firstTeamScore) {
             gResultsBattle->mIconKartCount = gRaceSetup->mTeamKartCounts[1];
-            gResultsBattle->mFileSetKind = 4;
+            gResultsBattle->mFileSetKind = RESULTS_BATTLE_FILES_VS_RED;
         }
     } else if (AreResultsBattleRanksAllZero() != 0) {
         gResultsBattle->mIconKartCount = gResultsBattle->mKartCount;
-        gResultsBattle->mFileSetKind = 2;
+        gResultsBattle->mFileSetKind = RESULTS_BATTLE_FILES_DRAW;
     } else if (gResultsBattle->mEntries[gResultsBattle->mOwnEntryIndex].mRank == 0) {
-        gResultsBattle->mFileSetKind = 0;
+        gResultsBattle->mFileSetKind = RESULTS_BATTLE_FILES_VICTORY;
     } else {
-        gResultsBattle->mFileSetKind = 1;
+        gResultsBattle->mFileSetKind = RESULTS_BATTLE_FILES_LOSE;
     }
     SetPlayerCharacterCellFileSet(1, &gResultsBattle->mCellFileSets[2]);
     SetPlayerCharacterCellFileSet(0, &gResultsBattle->mCellFileSets[3]);
@@ -833,17 +833,17 @@ void InitResultsBattle(void *heap, void *mainOam, void *subOam) {
                     gResultsBattleVictoryFileNames[gResultsBattle->mFileSetKind].mBnllName, NULL, FindSceneFile);
     SetupCellFileSet(SCREEN_SIDE_MAIN, heap, mainCellFileSet);
     switch (gResultsBattle->mFileSetKind) {
-        case 0:
+        case RESULTS_BATTLE_FILES_VICTORY:
             SetupResultsBattleOwnEntry(heap);
             break;
-        case 1:
+        case RESULTS_BATTLE_FILES_LOSE:
             SetupResultsBattleRankZeroNames(heap);
             break;
-        case 2:
+        case RESULTS_BATTLE_FILES_DRAW:
             SetupResultsBattleKartIcons(heap);
             break;
-        case 3:
-        case 4:
+        case RESULTS_BATTLE_FILES_VS_BLUE:
+        case RESULTS_BATTLE_FILES_VS_RED:
             SetupResultsBattleTeamIcons(heap);
             break;
     }
@@ -879,7 +879,7 @@ void InitResultsBattle(void *heap, void *mainOam, void *subOam) {
         orderIndex = gResultsBattle->mEntries[entryIndex].mOrderIndex;
         value = gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mKind;
         if ((value == PLAYER_KIND_HUMAN || value == PLAYER_KIND_CPU || value == PLAYER_KIND_PEER) &&
-            (gResultsBattle->mMode != 3 || gResultsBattle->mEntries[entryIndex].mScore != 0)) {
+            (gResultsBattle->mMode != CONNECTION_KIND_WIFI_MENU || gResultsBattle->mEntries[entryIndex].mScore != 0)) {
             QueueResultsBattleCharacterIcon(1, entryIndex, orderIndex + 0x30, 1);
             ResultsBattleMI_CpuClear16(entryName, 0x16);
             CopyKartEntryName(entryIndex, entryName, 0);
@@ -911,21 +911,21 @@ void InitResultsBattle(void *heap, void *mainOam, void *subOam) {
         }
     }
     switch (gResultsBattle->mFileSetKind) {
-        case 3:
+        case RESULTS_BATTLE_FILES_VS_BLUE:
             if (GetCurrentEntry(gResultsBattle->mOwnEntryIndex)->mPlayer.mTeamIndex == 0) {
                 value = 0;
             } else {
                 value = 7;
             }
             break;
-        case 4:
+        case RESULTS_BATTLE_FILES_VS_RED:
             if (GetCurrentEntry(gResultsBattle->mOwnEntryIndex)->mPlayer.mTeamIndex == 1) {
                 value = 0;
             } else {
                 value = 7;
             }
             break;
-        case 0:
+        case RESULTS_BATTLE_FILES_VICTORY:
             value = 0;
             break;
         default:
@@ -957,11 +957,13 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
     if (gResultsBattle->mUseTimer != FALSE) {
         if (gResultsBattle->mTimer != 0) {
             gResultsBattle->mTimer = gResultsBattle->mTimer - 1;
-            shownTimer = (gResultsBattle->mTimer + 0x3c) / 0x3c;
+            shownTimer = (gResultsBattle->mTimer + RESULTS_BATTLE_TIMER_STEP_FRAMES) / RESULTS_BATTLE_TIMER_STEP_FRAMES;
             mainCellFileSet->mCellTable[gResultsBattle->mTimerTensCell].mVisible = shownTimer >= 10 ? 1 : 0;
             if (gResultsBattle->mTimer == 0) {
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x51);
-            } else if ((gResultsBattle->mTimer + 0x3c) % 0x3c == 0 && shownTimer <= 4) {
+            } else if ((gResultsBattle->mTimer + RESULTS_BATTLE_TIMER_STEP_FRAMES) % RESULTS_BATTLE_TIMER_STEP_FRAMES ==
+                           0 &&
+                       shownTimer <= 4) {
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x50);
             }
         } else {
@@ -981,35 +983,35 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
             mainCellFileSet->mCellTable[gResultsBattle->mTimerTensCell + 1].mVisible;
     }
     switch (gResultsBattle->mState) {
-        case 0:
-            gResultsBattle->mState0To2Frames = gResultsBattle->mState0To2Frames + 1;
+        case RESULTS_BATTLE_STATE_START_SYNC:
+            gResultsBattle->mSyncAndWaitFrames = gResultsBattle->mSyncAndWaitFrames + 1;
             if (StartDataSharingSync() == 1) {
-                gResultsBattle->mState = 1;
+                gResultsBattle->mState = RESULTS_BATTLE_STATE_FINISH_SYNC;
             }
             break;
-        case 1:
-            gResultsBattle->mState0To2Frames = gResultsBattle->mState0To2Frames + 1;
+        case RESULTS_BATTLE_STATE_FINISH_SYNC:
+            gResultsBattle->mSyncAndWaitFrames = gResultsBattle->mSyncAndWaitFrames + 1;
             if (FinishDataSharingSync() == 1) {
-                gResultsBattle->mState = 2;
+                gResultsBattle->mState = RESULTS_BATTLE_STATE_WAIT_FRAMES;
             }
             break;
-        case 2:
+        case RESULTS_BATTLE_STATE_WAIT_FRAMES:
             frameLimit = GetResultsBattleFrameLimit();
-            gResultsBattle->mState0To2Frames = gResultsBattle->mState0To2Frames + 1;
-            if (gResultsBattle->mState0To2Frames > frameLimit) {
-                gResultsBattle->mState0To2Frames = 0;
-                gResultsBattle->mState = 3;
+            gResultsBattle->mSyncAndWaitFrames = gResultsBattle->mSyncAndWaitFrames + 1;
+            if (gResultsBattle->mSyncAndWaitFrames > frameLimit) {
+                gResultsBattle->mSyncAndWaitFrames = 0;
+                gResultsBattle->mState = RESULTS_BATTLE_STATE_WAIT_CONFIRM;
             }
             break;
-        case 3:
+        case RESULTS_BATTLE_STATE_WAIT_CONFIRM:
             switch (gResultsBattle->mMode) {
-                case 0:
+                case CONNECTION_KIND_NONE:
                     if ((u16) (gInputSlots[GetPadInputSlot()].mPressedBits & PAD_KEY_A) != 0) {
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
                         if (sceneNumbers != NULL) {
                             sceneNumbers->mNextScene = 1;
                         }
-                        gResultsBattle->mState = 7;
+                        gResultsBattle->mState = RESULTS_BATTLE_STATE_DONE;
                     }
                     break;
                 case 1:
@@ -1017,24 +1019,24 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
                     inputSlotIndex = UNK_02175628_INDEX_8;
                     if ((u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_A) != 0) {
                         StartResultsBattleChoices();
-                        gResultsBattle->mState = 4;
+                        gResultsBattle->mState = RESULTS_BATTLE_STATE_WAIT_CHOICE;
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
                     }
                     break;
-                case 3:
+                case CONNECTION_KIND_WIFI_MENU:
                     if (IsResultsBattleTimerRunOut() != 0) {
                         SetWiFiSessionOwnContinueChoice(1);
-                        gResultsBattle->mState = 5;
+                        gResultsBattle->mState = RESULTS_BATTLE_STATE_WAIT_WIFI_CONTINUE;
                     } else if ((u16) (gInputSlots[GetPadInputSlot()].mPressedBits & PAD_KEY_A) != 0 ||
-                               IsResultsBattleTimerBelow300() != 0) {
+                               IsResultsBattleTimerBelowChoiceStart() != 0) {
                         StartResultsBattleChoices();
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
-                        gResultsBattle->mState = 4;
+                        gResultsBattle->mState = RESULTS_BATTLE_STATE_WAIT_CHOICE;
                     }
                     break;
             }
             break;
-        case 4:
+        case RESULTS_BATTLE_STATE_WAIT_CHOICE:
             switch (gResultsBattle->mMode) {
                 case 1:
                 case 2:
@@ -1053,24 +1055,24 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
                                         sceneNumbers->mNextScene = 1;
                                     }
                                 }
-                                gResultsBattle->mState = 7;
+                                gResultsBattle->mState = RESULTS_BATTLE_STATE_DONE;
                                 break;
                             case 1:
                                 gConnectionWork->mFlags = gConnectionWork->mFlags | CONNECTION_FLAG_ENDING;
-                                gResultsBattle->mState = 6;
+                                gResultsBattle->mState = RESULTS_BATTLE_STATE_END_CONNECTION;
                                 break;
                             case -1:
-                                gResultsBattle->mState = 3;
+                                gResultsBattle->mState = RESULTS_BATTLE_STATE_WAIT_CONFIRM;
                                 break;
                         }
                         RequestSelectChoisesState0();
                     }
                     break;
-                case 3:
+                case CONNECTION_KIND_WIFI_MENU:
                     if (GetSelectChoisesDone() != 0 || IsResultsBattleTimerRunOut() != 0) {
                         switch (GetSelectChoisesIndex()) {
                             case 0:
-                                gResultsBattle->mState = 5;
+                                gResultsBattle->mState = RESULTS_BATTLE_STATE_WAIT_WIFI_CONTINUE;
                                 SetWiFiSessionOwnContinueChoice(1);
                                 break;
                             case 1:
@@ -1079,10 +1081,10 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
                                 if (sceneNumbers != NULL) {
                                     sceneNumbers->mNextScene = 0xc;
                                 }
-                                gResultsBattle->mState = 7;
+                                gResultsBattle->mState = RESULTS_BATTLE_STATE_DONE;
                                 break;
                             case -1:
-                                gResultsBattle->mState = 3;
+                                gResultsBattle->mState = RESULTS_BATTLE_STATE_WAIT_CONFIRM;
                                 break;
                         }
                         RequestSelectChoisesState0();
@@ -1090,7 +1092,7 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
                     break;
             }
             break;
-        case 5:
+        case RESULTS_BATTLE_STATE_WAIT_WIFI_CONTINUE:
             if (GetWiFiSessionContinueResult() != 0) {
                 switch (GetWiFiSessionContinueResult()) {
                     case 1:
@@ -1103,15 +1105,15 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
                 if (sceneNumbers != NULL) {
                     sceneNumbers->mNextScene = 0xc;
                 }
-                gResultsBattle->mState = 7;
+                gResultsBattle->mState = RESULTS_BATTLE_STATE_DONE;
             }
             break;
-        case 6:
+        case RESULTS_BATTLE_STATE_END_CONNECTION:
             if (AdvanceConnectionEndStopOnError() == 1) {
                 if (sceneNumbers != NULL) {
                     sceneNumbers->mNextScene = 0;
                 }
-                gResultsBattle->mState = 7;
+                gResultsBattle->mState = RESULTS_BATTLE_STATE_DONE;
             }
             break;
     }

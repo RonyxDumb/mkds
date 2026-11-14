@@ -21,7 +21,7 @@ void SetResultsBattleEntryCellsVisible(s32 entryIndex);
 
 void StartResultsBattleChoices(void);
 
-s32 IsResultsBattleTimerBelow300(void);
+s32 IsResultsBattleTimerBelowChoiceStart(void);
 s32 IsResultsBattleTimerRunOut(void);
 s32 AreResultsBattleRanksAllZero(void);
 void FillResultsBattleEntries(void);
