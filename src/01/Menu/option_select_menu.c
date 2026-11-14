@@ -90,7 +90,7 @@ void InitOptionSelectMenu(void *heap) {
     gOptionSelectMenu->mHeap = heap;
     gOptionSelectMenu->mState = 0;
     gOptionSelectMenu->mNextState = 0;
-    gOptionSelectMenu->mIndex = 0;
+    gOptionSelectMenu->mIndex = OPTION_SELECT_ROW_SOUND;
     gOptionSelectMenu->mStateFrames = 0;
     gOptionSelectMenu->mHighlightVisible = TRUE;
     LocateAndQueueOptionSelectMenu();
@@ -122,9 +122,9 @@ void InitOptionSelectMenu(void *heap) {
     }
     SetOptionSoundRowFromSave();
     if (gBackupBuffers->mFirstBlock->mLocateFriendOff == 0) {
-        gOptionSelectMenu->mRowValues[1] = 0;
+        gOptionSelectMenu->mRowValues[OPTION_SELECT_ROW_LOCATE_FRIEND] = 0;
     } else {
-        gOptionSelectMenu->mRowValues[1] = 1;
+        gOptionSelectMenu->mRowValues[OPTION_SELECT_ROW_LOCATE_FRIEND] = 1;
     }
     for (index = 0; index < 2; index++) {
         gOptionSelectMenu->mSavedRowValues[index] = gOptionSelectMenu->mRowValues[index];
@@ -184,7 +184,7 @@ void LocateAndQueueOptionSelectMenu(void) {
 }
 
 void ApplyOptionSelectMenuSound(void) {
-    switch (gOptionSelectMenu->mRowValues[0]) {
+    switch (gOptionSelectMenu->mRowValues[OPTION_SELECT_ROW_SOUND]) {
         case SOUND_MODE_STEREO:
             SetSoundOutputEffect(0);
             break;
@@ -198,7 +198,7 @@ void ApplyOptionSelectMenuSound(void) {
 }
 
 void SetSoundModeFromOptionRow(void) {
-    switch (gOptionSelectMenu->mRowValues[0]) {
+    switch (gOptionSelectMenu->mRowValues[OPTION_SELECT_ROW_SOUND]) {
         case SOUND_MODE_STEREO:
             gBackupBuffers->mFirstBlock->mSoundMode = SOUND_MODE_STEREO;
             break;
@@ -214,13 +214,13 @@ void SetSoundModeFromOptionRow(void) {
 void SetOptionSoundRowFromSave(void) {
     switch (gBackupBuffers->mFirstBlock->mSoundMode) {
         case SOUND_MODE_STEREO:
-            gOptionSelectMenu->mRowValues[0] = SOUND_MODE_STEREO;
+            gOptionSelectMenu->mRowValues[OPTION_SELECT_ROW_SOUND] = SOUND_MODE_STEREO;
             break;
         case SOUND_MODE_SURROUND:
-            gOptionSelectMenu->mRowValues[0] = SOUND_MODE_SURROUND;
+            gOptionSelectMenu->mRowValues[OPTION_SELECT_ROW_SOUND] = SOUND_MODE_SURROUND;
             break;
         case SOUND_MODE_HEADPHONES:
-            gOptionSelectMenu->mRowValues[0] = SOUND_MODE_HEADPHONES;
+            gOptionSelectMenu->mRowValues[OPTION_SELECT_ROW_SOUND] = SOUND_MODE_HEADPHONES;
             break;
     }
 }
@@ -308,97 +308,98 @@ void AdvanceOptionSelectMenuState2(void) {
             goto end;
         }
     }
-    if (((u16) (gInputSlots[idx].mPressedBits & PAD_KEY_A) != 0 && gOptionSelectMenu->mIndex == 2) || r5 == 2) {
+    if (((u16) (gInputSlots[idx].mPressedBits & PAD_KEY_A) != 0 && gOptionSelectMenu->mIndex == OPTION_SELECT_ROW_OK) ||
+        r5 == OPTION_SELECT_ROW_OK) {
         SetSoundModeFromOptionRow();
-        if (gOptionSelectMenu->mRowValues[1] == 0) {
+        if (gOptionSelectMenu->mRowValues[OPTION_SELECT_ROW_LOCATE_FRIEND] == 0) {
             gBackupBuffers->mFirstBlock->mUnk_31 &= ~0x10;
         } else {
             gBackupBuffers->mFirstBlock->mUnk_31 |= 0x10;
         }
         WriteBackupFirstBlockWrapper();
-        if (gOptionSelectMenu->mIndex == 2) {
+        if (gOptionSelectMenu->mIndex == OPTION_SELECT_ROW_OK) {
             gOptionSelectMenu->mHighlightVisible = FALSE;
         }
         gOptionSelectMenu->mNextState = 3;
         gOptionSelectMenu->mNextOptionState = 0;
-        gOptionSelectMenu->mIndex = 2;
+        gOptionSelectMenu->mIndex = OPTION_SELECT_ROW_OK;
         gOptionSelectMenu->mOkChosen = TRUE;
         StopPaletteBlend();
         StartSoundOncePerFrame(5);
-    } else if (r5 == 0) {
-        gOptionSelectMenu->mIndex = 0;
+    } else if (r5 == OPTION_SELECT_ROW_SOUND) {
+        gOptionSelectMenu->mIndex = OPTION_SELECT_ROW_SOUND;
         gOptionSelectMenu->mRowValues[gOptionSelectMenu->mIndex]++;
         StartSoundOncePerFrame(10);
-    } else if (r5 == 1) {
-        gOptionSelectMenu->mIndex = 1;
+    } else if (r5 == OPTION_SELECT_ROW_LOCATE_FRIEND) {
+        gOptionSelectMenu->mIndex = OPTION_SELECT_ROW_LOCATE_FRIEND;
         gOptionSelectMenu->mRowValues[gOptionSelectMenu->mIndex]++;
         StartSoundOncePerFrame(1);
     } else if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
         gOptionSelectMenu->mIndex--;
         if (gOptionSelectMenu->mIndex < 0) {
-            gOptionSelectMenu->mIndex = 2;
+            gOptionSelectMenu->mIndex = OPTION_SELECT_ROW_OK;
         }
         StartSoundOncePerFrame(0);
-    } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0 ||
-               (gOptionSelectMenu->mIndex != 2 && (u16) (gInputSlots[idx].mPressedBits & PAD_KEY_A) != 0)) {
+    } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0 || (gOptionSelectMenu->mIndex != OPTION_SELECT_ROW_OK &&
+                                                            (u16) (gInputSlots[idx].mPressedBits & PAD_KEY_A) != 0)) {
         gOptionSelectMenu->mIndex++;
-        if (gOptionSelectMenu->mIndex > 2) {
-            gOptionSelectMenu->mIndex = 0;
+        if (gOptionSelectMenu->mIndex > OPTION_SELECT_ROW_OK) {
+            gOptionSelectMenu->mIndex = OPTION_SELECT_ROW_SOUND;
         }
         StartSoundOncePerFrame(0);
-    } else if (gOptionSelectMenu->mIndex != 2 && GetNewOrRepeatBits(8, PAD_KEY_LEFT) != 0) {
+    } else if (gOptionSelectMenu->mIndex != OPTION_SELECT_ROW_OK && GetNewOrRepeatBits(8, PAD_KEY_LEFT) != 0) {
         gOptionSelectMenu->mRowValues[gOptionSelectMenu->mIndex]--;
         gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][0] = 6;
-        if (gOptionSelectMenu->mIndex == 0) {
+        if (gOptionSelectMenu->mIndex == OPTION_SELECT_ROW_SOUND) {
             StartSoundOncePerFrame(10);
         } else {
             StartSoundOncePerFrame(1);
         }
-    } else if (gOptionSelectMenu->mIndex != 2 && GetNewOrRepeatBits(8, PAD_KEY_RIGHT) != 0) {
+    } else if (gOptionSelectMenu->mIndex != OPTION_SELECT_ROW_OK && GetNewOrRepeatBits(8, PAD_KEY_RIGHT) != 0) {
         gOptionSelectMenu->mRowValues[gOptionSelectMenu->mIndex]++;
         if (GetNewOrRepeatBits(8, PAD_KEY_RIGHT) != 0) {
             gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][1] = 6;
         }
-        if (gOptionSelectMenu->mIndex == 0) {
+        if (gOptionSelectMenu->mIndex == OPTION_SELECT_ROW_SOUND) {
             StartSoundOncePerFrame(10);
         } else {
             StartSoundOncePerFrame(1);
         }
     } else if (r5 == 3) {
-        gOptionSelectMenu->mIndex = 0;
+        gOptionSelectMenu->mIndex = OPTION_SELECT_ROW_SOUND;
         gOptionSelectMenu->mRowValues[gOptionSelectMenu->mIndex]--;
         gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][0] = 6;
         StartSoundOncePerFrame(10);
     } else if (r5 == 4) {
-        gOptionSelectMenu->mIndex = 0;
+        gOptionSelectMenu->mIndex = OPTION_SELECT_ROW_SOUND;
         gOptionSelectMenu->mRowValues[gOptionSelectMenu->mIndex]++;
         gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][1] = 6;
         StartSoundOncePerFrame(10);
     } else if (r5 == 5) {
-        gOptionSelectMenu->mIndex = 1;
+        gOptionSelectMenu->mIndex = OPTION_SELECT_ROW_LOCATE_FRIEND;
         gOptionSelectMenu->mRowValues[gOptionSelectMenu->mIndex]--;
         gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][0] = 6;
         StartSoundOncePerFrame(1);
     } else if (r5 == 6) {
-        gOptionSelectMenu->mIndex = 1;
+        gOptionSelectMenu->mIndex = OPTION_SELECT_ROW_LOCATE_FRIEND;
         gOptionSelectMenu->mRowValues[gOptionSelectMenu->mIndex]++;
         gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][1] = 6;
         StartSoundOncePerFrame(1);
     }
 end:
-    if (gOptionSelectMenu->mRowValues[0] < 0) {
-        gOptionSelectMenu->mRowValues[0] = 2;
+    if (gOptionSelectMenu->mRowValues[OPTION_SELECT_ROW_SOUND] < 0) {
+        gOptionSelectMenu->mRowValues[OPTION_SELECT_ROW_SOUND] = SOUND_MODE_HEADPHONES;
     }
-    if (gOptionSelectMenu->mRowValues[0] > 2) {
-        gOptionSelectMenu->mRowValues[0] = 0;
+    if (gOptionSelectMenu->mRowValues[OPTION_SELECT_ROW_SOUND] > SOUND_MODE_HEADPHONES) {
+        gOptionSelectMenu->mRowValues[OPTION_SELECT_ROW_SOUND] = SOUND_MODE_SURROUND;
     }
-    if (gOptionSelectMenu->mRowValues[1] < 0) {
-        gOptionSelectMenu->mRowValues[1] = 1;
+    if (gOptionSelectMenu->mRowValues[OPTION_SELECT_ROW_LOCATE_FRIEND] < 0) {
+        gOptionSelectMenu->mRowValues[OPTION_SELECT_ROW_LOCATE_FRIEND] = 1;
     }
-    if (gOptionSelectMenu->mRowValues[1] > 1) {
-        gOptionSelectMenu->mRowValues[1] = 0;
+    if (gOptionSelectMenu->mRowValues[OPTION_SELECT_ROW_LOCATE_FRIEND] > 1) {
+        gOptionSelectMenu->mRowValues[OPTION_SELECT_ROW_LOCATE_FRIEND] = 0;
     }
-    if (gOptionSelectMenu->mIndex == 2 && sel != 2) {
+    if (gOptionSelectMenu->mIndex == OPTION_SELECT_ROW_OK && sel != OPTION_SELECT_ROW_OK) {
         ResetPaletteBlendCycle();
     }
     ApplyOptionSelectMenuSound();

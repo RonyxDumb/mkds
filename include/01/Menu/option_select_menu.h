@@ -13,6 +13,13 @@ typedef struct OptionSelectMenuGroupOffset {
     /* 02 */ s16 mOffsetY;
 } OptionSelectMenuGroupOffset;
 
+// Values of OptionSelectMenu.mIndex and the indices of mRowValues: the two setting rows, then the OK entry.
+enum {
+    OPTION_SELECT_ROW_SOUND,
+    OPTION_SELECT_ROW_LOCATE_FRIEND,
+    OPTION_SELECT_ROW_OK,
+};
+
 // Object behind gOptionSelectMenu.
 typedef struct OptionSelectMenu {
     /* 00 */ s32 mState;
