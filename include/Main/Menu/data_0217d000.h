@@ -665,6 +665,14 @@ typedef struct TxtSystem {
     /* 225c */ struct Nscr *mBgNscrs[7];
 } TxtSystem;
 
+// Values of SelectChoises.mState and mNextState: the two choices are hidden, waiting for a choice, or showing the
+// choice made.
+enum {
+    SELECT_CHOISES_STATE_HIDDEN,
+    SELECT_CHOISES_STATE_CHOOSE,
+    SELECT_CHOISES_STATE_CHOSEN,
+};
+
 typedef struct SelectChoises {
     /* 000 */ u32 mEnabled;
     /* 004 */ s32 mState;
@@ -692,6 +700,16 @@ typedef struct SelectChoises {
 } SelectChoises;
 
 // Object behind gSelectReturn: 0x828 bytes allocated by InitSelectReturn.
+// Values of SelectReturn.mState and mNextState: the return button is hidden, slides in, waits, plays its press, or
+// slides out.
+enum {
+    SELECT_RETURN_STATE_HIDDEN,
+    SELECT_RETURN_STATE_SLIDE_IN,
+    SELECT_RETURN_STATE_SHOWN,
+    SELECT_RETURN_STATE_PRESS,
+    SELECT_RETURN_STATE_SLIDE_OUT,
+};
+
 typedef struct SelectReturn {
     /* 000 */ BOOL mEnabled; /* only ever set to 1 by InitSelectReturn; the off path does not run in this build */
     /* 004 */ s32 mState;
