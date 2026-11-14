@@ -851,6 +851,7 @@ src/00/code_021a6934.c:
 src/00/code_021a6c08.c:
     complete
     .text       start:0x021a6c08 end:0x021a6ce4
+    .bss        start:0x021b5f80 end:0x021b5f94
 
 // provisional: file name and boundaries
 src/00/code_021a6ce4.c:
@@ -976,6 +977,7 @@ src/00/code_021acfd8.c:
 src/00/code_021ad018.c:
     complete
     .text       start:0x021ad018 end:0x021ad36c
+    .bss        start:0x021b63a0 end:0x021b63a4
 
 // provisional: file name and boundaries
 src/00/code_021ad36c.c:

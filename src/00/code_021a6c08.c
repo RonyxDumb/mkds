@@ -11,6 +11,9 @@
 #include "code_0200fc8c.h"
 #include "00/code_021a574c.h"
 
+u8 data_ov000_021b5f80;
+u8 data_ov000_021b5f84[16];
+
 u8 func_ov000_021a6c90(void) {
     s32 a = 0;
     u32 b = data_ov000_021b5f80;

@@ -4,6 +4,8 @@
 #include "00/unk_021b6380.h"
 #include "code_0200f5ac.h"
 
+u32 data_ov000_021b63a0;
+
 BOOL func_ov000_021ad2b8(u32 *a, s32 b) {
     s32 c;
     s32 d;
