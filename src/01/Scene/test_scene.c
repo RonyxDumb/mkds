@@ -118,7 +118,7 @@ void DrawTestScene(void) {
         GetDisplaySettings();
         TestSceneMTX_Identity22_(identityMatrix);
         switch (gTestScene->mState) {
-            case 0:
+            case TEST_SCENE_STATE_CHOISES:
                 TestSceneGXS_SetVisiblePlane(1);
                 GXS_SetGraphicsMode(GX_BGMODE_0);
                 WriteSubBg0Offset(0, 0);
@@ -150,7 +150,7 @@ void DrawTestScene(void) {
                 break;
         }
     }
-    if (gTestScene->mState == 0) {
+    if (gTestScene->mState == TEST_SCENE_STATE_CHOISES) {
         DrawEmblemChoises();
     } else if ((u32) (gTestScene->mState - 1) <= 2) {
         u32 slotIndex;
@@ -200,7 +200,8 @@ void DrawTestScene(void) {
                 gTestSceneCharText[textIndex++] = 0xa;
             }
             TestSceneDrawTextOnCanvas(&gTestScene->mTextCanvases[canvasIndex], 0x80, 0x62,
-                                      gTestScene->mState == 3 ? 6 : 7, 0x412, gTestSceneCharText);
+                                      gTestScene->mState == 3 ? 6 : 7, 0x412,
+                                      gTestSceneCharText);
         }
         GXS_LoadBG1Char(gTestScene->mChars, 0, 0x6000);
     }
@@ -309,7 +310,7 @@ void UpdateTestSceneObject(SceneNumbers *sceneNumbers) {
         }
         if (GetInputSlotNewBitsByIndex(slotIndex, PAD_KEY_X) != 0) {
             testScene = gTestScene;
-            testScene->mState = (testScene->mState + 1) % 4;
+            testScene->mState = (testScene->mState + 1) % TEST_SCENE_STATE_COUNT;
             gTestScene->mStateChanged = 1;
             if (gTestScene->mState == 1) {
                 SetEmblemChoisesShownAndReset(0);
@@ -317,7 +318,7 @@ void UpdateTestSceneObject(SceneNumbers *sceneNumbers) {
         }
     }
     switch (gTestScene->mState) {
-        case 0:
+        case TEST_SCENE_STATE_CHOISES:
             UpdateEmblemChoises();
             WriteEmblemChoisesScreenMapWrapper();
             break;
