@@ -1,4 +1,5 @@
 #include "Main/Scene/menu_scene.h"
+#include "Main/System/result_archive_path.h"
 #include "Main/System/heap.h"
 #include "Main/System/wvr_state.h"
 #include "Main/Menu/title_scene.h"
@@ -80,15 +81,15 @@ void UpdateRaceScene(SceneNumbers *sceneNumbers, u32 sceneFrames) {
                             }
                         }
                         if (value != 0) {
-                            sceneNumbers->mNextScene = 0;
+                            sceneNumbers->mNextScene = SCENE_TITLE;
                         }
                         break;
                     case RACE_KIND_START_GP:
-                    case 4:
+                    case RACE_KIND_START_BATTLE:
                         if (IsCameraChainEnded() != 0 ||
                             (sceneFrames > 0x5a && (GetDownBits(GetRaceSceneInputSlot(), 0xc0f) != 0 ||
                                                     RaceSceneIsSlotPairNew(GetRaceSceneInputSlot()) != 0))) {
-                            sceneNumbers->mNextScene = 2;
+                            sceneNumbers->mNextScene = SCENE_RACE;
                             SetNextRaceKind(0);
                         }
                         break;
@@ -97,14 +98,14 @@ void UpdateRaceScene(SceneNumbers *sceneNumbers, u32 sceneFrames) {
                             case MODE_GRAND_PRIX:
                             case MODE_TIME_ATTACK:
                                 if (ShouldEndReplayRace() != 0) {
-                                    sceneNumbers->mNextScene = 2;
+                                    sceneNumbers->mNextScene = SCENE_RACE;
                                 }
                                 break;
                         }
                         break;
                     case RACE_KIND_AWARD:
                         if (ShouldEndAwardRace(sceneFrames) != 0) {
-                            sceneNumbers->mNextScene = 0xa;
+                            sceneNumbers->mNextScene = SCENE_RESULT;
                         }
                         break;
                     case RACE_KIND_STAFF_ROLL:
@@ -113,12 +114,12 @@ void UpdateRaceScene(SceneNumbers *sceneNumbers, u32 sceneFrames) {
                             value = 0x2b02;
                         }
                         if (sceneFrames > value) {
-                            sceneNumbers->mNextScene = 0xf;
+                            sceneNumbers->mNextScene = SCENE_ENDING;
                             break;
                         }
                         if (ShouldEndStaffRoll(sceneFrames) != 0) {
                             SetStaffRollEndedEarly();
-                            sceneNumbers->mNextScene = 0xf;
+                            sceneNumbers->mNextScene = SCENE_ENDING;
                         }
                         break;
                 }
@@ -133,7 +134,7 @@ void UpdateRaceScene(SceneNumbers *sceneNumbers, u32 sceneFrames) {
             case RACE_KIND_NORMAL:
             case RACE_KIND_REPLAY:
             case RACE_KIND_START_GP:
-            case 4:
+            case RACE_KIND_START_BATTLE:
                 UpdateChoisesS();
                 break;
         }
