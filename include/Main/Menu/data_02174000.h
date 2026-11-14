@@ -30,6 +30,13 @@ typedef struct GhostListEntry GhostListEntry;
 
 #define PLAYER_ENTRY_LIST_RACE_RULE 2
 
+// Values of PlayerEntryList.mMode (SetupPlayerEntryList's first argument): the same three sources as SelectKartMode.
+typedef enum PlayerEntryListMode {
+    PLAYER_ENTRY_LIST_MODE_NO_CONNECTION = 0,
+    PLAYER_ENTRY_LIST_MODE_CONNECTION = 1,
+    PLAYER_ENTRY_LIST_MODE_WIFI_SESSION = 2,
+} PlayerEntryListMode;
+
 // One entry of mEntries: character, kart, team and player kind; mUnk_10 is passed on as SetNextRaceEntry's sixth
 // argument. 0x18-byte elements of the table at member 0 of RaceSetupCopy.
 typedef struct RaceSetupCopyEntry {

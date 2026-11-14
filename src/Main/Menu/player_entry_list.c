@@ -308,7 +308,7 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
         gPlayerEntryList->mTimer = 0x708;
         SetupInterpolation(&gPlayerEntryList->mInterpolations[1], 0, 10, 0x40, 0);
         switch (gPlayerEntryList->mMode) {
-            case 0:
+            case PLAYER_ENTRY_LIST_MODE_NO_CONNECTION:
                 gPlayerEntryList->mPlayerCount = 1;
                 gPlayerEntryList->mEntryIndex = 0;
                 gPlayerEntryList->mShowAllEntries = 1;
@@ -316,7 +316,7 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
                               gPlayerEntryList->mEntries[gPlayerEntryList->mEntryIndex].mName, 0x14);
                 SetExtraEntryNames();
                 break;
-            case 1:
+            case PLAYER_ENTRY_LIST_MODE_CONNECTION:
                 stateActive = TRUE;
                 if (gConnectionWork->mState != CONNECTION_STATE_SYNCED &&
                     gConnectionWork->mState != CONNECTION_STATE_SYNCED_RACE) {
@@ -353,7 +353,7 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
                     gPlayerEntryList->mCharacterShown[index] = gPlayerEntryList->mKartShown[index];
                 }
                 break;
-            case 2:
+            case PLAYER_ENTRY_LIST_MODE_WIFI_SESSION:
                 gPlayerEntryList->mPlayerCount = GetSessionKartCount();
                 gPlayerEntryList->mEntryIndex = GetRaceSetupCopyEntryIndex();
                 for (index = 0; index < (count = gPlayerEntryList->mPlayerCount); index++) {
@@ -381,7 +381,7 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
         for (index = 0; index < 8; index++) {
             fileSet->mCellTable[gEntryCellIndices[index].mKartCellIndex].mVisible = 0;
         }
-        if (gPlayerEntryList->mMode == 1) {
+        if (gPlayerEntryList->mMode == PLAYER_ENTRY_LIST_MODE_CONNECTION) {
             for (index = gPlayerEntryList->mPlayerCount; index < 8; index++) {
                 secondIndex = GetRaceSetupCopy()->mEntries[index].mCharacterIndex;
                 CopyCellLayoutEntryCellIndex(gEntryCellIndices[index].mCharacterCellIndex,
@@ -435,7 +435,8 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
     SetupInterpolation(&gPlayerEntryList->mInterpolations[2], 3, 10, 0x60, 0);
     gPlayerEntryList->mUseTeams = 0;
     count = 0;
-    if (gPlayerEntryList->mScreenKind != PLAYER_ENTRY_LIST_RACE_RULE && gPlayerEntryList->mMode != 0) {
+    if (gPlayerEntryList->mScreenKind != PLAYER_ENTRY_LIST_RACE_RULE &&
+        gPlayerEntryList->mMode != PLAYER_ENTRY_LIST_MODE_NO_CONNECTION) {
         count = 1;
     }
     gPlayerEntryList->mTimerEnabled = count;
@@ -483,7 +484,7 @@ void AdvancePlayerEntryList(void) {
     entryList = gPlayerEntryList;
     if (entryList->mScreenKind != PLAYER_ENTRY_LIST_RACE_RULE) {
         switch (entryList->mMode) {
-            case 0: {
+            case PLAYER_ENTRY_LIST_MODE_NO_CONNECTION: {
                 s32 entryCharacter;
                 s32 kartStored;
 
@@ -503,7 +504,7 @@ void AdvancePlayerEntryList(void) {
                     fileSet->mCellTable[gEntryCellIndices[entryIndex].mKartCellIndex].mVisible = kartStored;
                 }
             } break;
-            case 1: {
+            case PLAYER_ENTRY_LIST_MODE_CONNECTION: {
                 s32 sharedCharacter;
 
                 for (entryIndex = 0; entryIndex < gPlayerEntryList->mPlayerCount; entryIndex++) {
@@ -559,7 +560,7 @@ void AdvancePlayerEntryList(void) {
                     }
                 }
             } break;
-            case 2: {
+            case PLAYER_ENTRY_LIST_MODE_WIFI_SESSION: {
                 s32 wifiCharacter;
 
                 for (entryIndex = 0; entryIndex < gPlayerEntryList->mPlayerCount; entryIndex++) {
@@ -642,7 +643,7 @@ void WritePlayerEntryListRegisters(void) {
     } else {
         bg0As = TRUE;
     }
-    if (gPlayerEntryList->mMode == 2) {
+    if (gPlayerEntryList->mMode == PLAYER_ENTRY_LIST_MODE_WIFI_SESSION) {
         displayBits |= 2;
     }
     reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | (displayBits << 8);
