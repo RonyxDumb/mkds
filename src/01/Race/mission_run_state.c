@@ -84,11 +84,11 @@ void AddMissionRunCount(void) {
     missionRunData->mCount = missionRunData->mCount + 1;
     StartMissionRunCountSeq(gMissionRunData->mCount, GetMissionRunCountLimit());
     switch (gRaceSetup->mMissionKind) {
-        case 0:
-        case 1:
-        case 3:
-        case 5:
-        case 7:
+        case MISSION_KIND_COUNT_SHAPE_ENTRIES:
+        case MISSION_KIND_COUNT_PENDING_WITH_SEQ:
+        case MISSION_KIND_COUNT_MAP_OBJECTS:
+        case MISSION_KIND_COUNT_PENDING:
+        case MISSION_KIND_COUNT_HITS:
             countLimit = GetMissionRunCountLimit();
             if (gMissionRunData->mCount >= countLimit) {
                 FinishMissionRunKartWithEndKind0(gRaceSetup->mEntryIndex);
@@ -155,7 +155,7 @@ void UpdateMissionRunData(void) {
     }
     {
         u32 missionKind = gRaceSetup->mMissionKind;
-        if (missionKind == 1 || missionKind == 5) {
+        if (missionKind == MISSION_KIND_COUNT_PENDING_WITH_SEQ || missionKind == MISSION_KIND_COUNT_PENDING) {
             if (GetRaceUpdateFramesMod8() == 0) {
                 missionRunData = gMissionRunData;
                 if (missionRunData->mPendingBossTransfer != 0) {
@@ -233,7 +233,7 @@ s32 GetMissionRunBossCount(void) {
 }
 
 void AddMissionRunCountForKind7(void) {
-    if (gRaceSetup->mMissionKind == '\a') {
+    if (gRaceSetup->mMissionKind == MISSION_KIND_COUNT_HITS) {
         AddMissionRunCount();
     }
 }
@@ -241,7 +241,8 @@ void AddMissionRunCountForKind7(void) {
 void AddMissionRunCountForMapObjectKind(s32 mapObjectKind) {
     RaceSetup *raceSetup = gRaceSetup;
     u32 missionKind = raceSetup->mMissionKind;
-    if (missionKind == 3 || missionKind == 7 || missionKind == 0) {
+    if (missionKind == MISSION_KIND_COUNT_MAP_OBJECTS || missionKind == MISSION_KIND_COUNT_HITS ||
+        missionKind == MISSION_KIND_COUNT_SHAPE_ENTRIES) {
         u32 missionObjectKind0 = raceSetup->mMissionMapObjectKind0;
         if (missionObjectKind0 == 0 && raceSetup->mMissionMapObjectKind1 == 0 &&
             raceSetup->mMissionMapObjectKind2 == 0 && raceSetup->mMissionMapObjectKind3 == 0 && mapObjectKind > 400 &&
@@ -263,13 +264,13 @@ void AddMissionRunPendingDropOnKartHit(void) {
 }
 
 void AddMissionRunCountForKind4(void) {
-    if (gRaceSetup->mMissionKind == 4) {
+    if (gRaceSetup->mMissionKind == MISSION_KIND_LAPS_MINI_TURBO_COUNT) {
         AddMissionRunCount();
     }
 }
 
 void AddMissionRunCountForKind0(void) {
-    if (gRaceSetup->mMissionKind == 0) {
+    if (gRaceSetup->mMissionKind == MISSION_KIND_COUNT_SHAPE_ENTRIES) {
         AddMissionRunCount();
     }
 }
