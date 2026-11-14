@@ -61,8 +61,8 @@ void InitWiFiVSSetting(void *heap) {
 
     gWiFiVSSetting = HeapAlloc(heap, 0x1060);
     gWiFiVSSetting->mHeap = heap;
-    gWiFiVSSetting->mState = 0;
-    gWiFiVSSetting->mNextState = 0;
+    gWiFiVSSetting->mState = WIFI_VS_SETTING_STATE_WAIT_FADE_IN;
+    gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_WAIT_FADE_IN;
     gWiFiVSSetting->mRow = 1;
     gWiFiVSSetting->mPendingWiFiState = -1;
     gWiFiVSSetting->mStateFrames = 0;
@@ -200,13 +200,13 @@ void AdvanceWiFiVSSettingState0(void) {
     }
     if (AreBrightnessFadesClear() != 0) {
         if (IsWiFiConnectionLost() != 0) {
-            gWiFiVSSetting->mNextState = 1;
+            gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_WAIT_CONNECTION_LOST_TEXT;
             SetupTxtSystemMainTextEx(GetBmgEntry(gWiFiVSSetting->mWiFiMessages, 0x1b), 0, 0, 1, 0, 0, 0);
             ResetWiFiConnectionLost();
             WriteChangedWiFiBuddies();
             return;
         }
-        gWiFiVSSetting->mNextState = 2;
+        gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_SLIDE_IN;
         SetupWiFiVSSettingText();
         WriteChangedWiFiBuddies();
     }
@@ -221,7 +221,7 @@ void AdvanceWiFiVSSettingState1(void) {
     }
     v1 = IsTxtSystemState0NoOpenRequest();
     if (v1 != 0) {
-        gWiFiVSSetting->mNextState = 2;
+        gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_SLIDE_IN;
         SetupWiFiVSSettingText();
         gWiFiVSSetting->mStateFrames = 0;
     }
@@ -241,7 +241,7 @@ void AdvanceWiFiVSSettingState2(void) {
         }
     }
     if (gWiFiVSSetting->mStateFrames >= 10) {
-        gWiFiVSSetting->mNextState = 3;
+        gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_SLIDE_IN_RETURN_BUTTON;
         gWiFiVSSetting->mStateFrames = 0;
         RequestSelectReturnState1();
     }
@@ -258,7 +258,7 @@ void AdvanceWiFiVSSettingState3(void) {
     }
     gWiFiVSSetting->mRowOffsets[2][1] = rowOffsetY;
     if (gWiFiVSSetting->mStateFrames >= 10 && gWiFiVSSetting->mStateFrames >= 13) {
-        gWiFiVSSetting->mNextState = 4;
+        gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_WAIT_INPUT;
         gWiFiVSSetting->mStateFrames = 0;
     }
 }
@@ -304,7 +304,7 @@ void AdvanceWiFiVSSettingState4(void) {
             goto next;
         }
     }
-    gWiFiVSSetting->mNextState = 6;
+    gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_SLIDE_OUT;
     gWiFiVSSetting->mPendingWiFiState = 1;
     RequestSelectReturnState3WithSound(1);
     gWiFiVSSetting->mSelectReturnPending = TRUE;
@@ -313,7 +313,7 @@ void AdvanceWiFiVSSettingState4(void) {
 next:
     pressedKeys = inputSlot->mPressedBits & PAD_KEY_A;
     if (((u16) pressedKeys != 0 && gWiFiVSSetting->mRow == 2) || hitIndex == 2) {
-        gWiFiVSSetting->mNextState = 5;
+        gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_PRESS_BUTTON;
         if (gWiFiVSSetting->mRow == 2) {
             gWiFiVSSetting->mHighlightVisible = FALSE;
         }
@@ -326,7 +326,7 @@ next:
         SetWiFiVSSettingIndex(gWiFiVSSetting->mSettingIndex);
         StartSoundOncePerFrame(5);
     } else if (((u16) pressedKeys != 0 && gWiFiVSSetting->mRow == 0) || hitIndex == 0) {
-        gWiFiVSSetting->mNextState = 5;
+        gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_PRESS_BUTTON;
         if (gWiFiVSSetting->mRow == 0) {
             gWiFiVSSetting->mHighlightVisible = FALSE;
         }
@@ -396,7 +396,7 @@ end:
 void AdvanceWiFiVSSettingState5(void) {
     gWiFiVSSetting->mStateFrames = gWiFiVSSetting->mStateFrames + 1;
     if (gWiFiVSSetting->mStateFrames >= 10) {
-        gWiFiVSSetting->mNextState = 6;
+        gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_SLIDE_OUT;
         gWiFiVSSetting->mStateFrames = 0;
         RequestTxtSystemClose();
         if (HasBuddyRecords() != FALSE ||
@@ -446,7 +446,7 @@ void AdvanceWiFiVSSettingState6(void) {
          IsSelectReturnState2NoState3Or4Request() != 0) &&
         GetWiFiNextScene() == -1) {
         if (gWiFiVSSetting->mPendingWiFiState == 14 && HasBuddyRecords() == FALSE) {
-            gWiFiVSSetting->mNextState = 7;
+            gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_WAIT_NO_BUDDY_LIST_TEXT;
             gWiFiVSSetting->mPendingWiFiState = -1;
             SetupTxtSystemMainText(GetBmgEntry(gWiFiVSSetting->mCommonMessages, 0x76));
             gWiFiVSSetting->mStateFrames = 0;
@@ -454,7 +454,7 @@ void AdvanceWiFiVSSettingState6(void) {
         }
         if (gWiFiVSSetting->mPendingWiFiState == 3 && gWiFiVSSetting->mSettingIndex == 0 &&
             HasBuddyRecords() == FALSE) {
-            gWiFiVSSetting->mNextState = 8;
+            gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_WAIT_NO_BUDDY_SETTING_TEXT;
             gWiFiVSSetting->mPendingWiFiState = -1;
             SetupTxtSystemMainText(GetBmgEntry(gWiFiVSSetting->mWiFiMessages, 14));
             gWiFiVSSetting->mStateFrames = 0;
@@ -465,7 +465,7 @@ void AdvanceWiFiVSSettingState6(void) {
             void *yesText;
             void *noText;
 
-            gWiFiVSSetting->mNextState = 9;
+            gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_WAIT_DISCONNECT_ANSWER;
             gWiFiVSSetting->mStateFrames = 0;
             gWiFiVSSetting->mConnectionReleased = FALSE;
             questionText = GetBmgEntry(gWiFiVSSetting->mWiFiMessages, 0x17);
@@ -488,7 +488,7 @@ void AdvanceWiFiVSSettingState7(void) {
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x15);
     }
     if (IsTxtSystemState0NoOpenRequest() != 0 && IsSelectReturnState2NoState3Or4Request() != 0) {
-        gWiFiVSSetting->mNextState = 2;
+        gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_SLIDE_IN;
         SetupWiFiVSSettingText();
         gWiFiVSSetting->mRow = 1;
         return;
@@ -527,7 +527,7 @@ void AdvanceWiFiVSSettingState8(void) {
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x15);
     }
     if (IsTxtSystemState0NoOpenRequest() != 0 && IsSelectReturnState2NoState3Or4Request() != 0) {
-        gWiFiVSSetting->mNextState = 2;
+        gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_SLIDE_IN;
         SetupWiFiVSSettingText();
         gWiFiVSSetting->mRow = 1;
         return;
@@ -563,11 +563,11 @@ void AdvanceWiFiVSSettingState9(void) {
     }
     if (IsTxtSystemState0NoOpenRequest() != 0) {
         if (GetTxtSystemSelectedIndex() == 0) {
-            gWiFiVSSetting->mNextState = 10;
+            gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_WAIT_DISCONNECT_TEXT;
             SetupTxtSystemMainTextEx(GetBmgEntry(gWiFiVSSetting->mWiFiMessages, 0x18), 1, 1, 1, 0, 1, 0);
             return;
         }
-        gWiFiVSSetting->mNextState = 2;
+        gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_SLIDE_IN;
         SetupWiFiVSSettingText();
         gWiFiVSSetting->mRow = 1;
     }
@@ -583,7 +583,7 @@ void AdvanceWiFiVSSettingState10(void) {
         gWiFiVSSetting->mStateFrames > 90 && IsTxtSystemState2NoCloseRequest() != 0) {
         void *bmgEntry;
 
-        gWiFiVSSetting->mNextState = 11;
+        gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_WAIT_DISCONNECTED_TEXT;
         bmgEntry = GetBmgEntry(gWiFiVSSetting->mWiFiMessages, 0x19);
         SetupTxtSystemMainTextButton(bmgEntry, GetBmgEntry(gWiFiVSSetting->mCommonMessages, 4));
         gWiFiVSSetting->mStateFrames = 0;
@@ -681,40 +681,40 @@ void AdvanceWiFiVSSettingIndexTimers(void) {
 void AdvanceWiFiVSSetting(void) {
     gWiFiVSSetting->mState = gWiFiVSSetting->mNextState;
     switch (gWiFiVSSetting->mState) {
-        case 0:
+        case WIFI_VS_SETTING_STATE_WAIT_FADE_IN:
             AdvanceWiFiVSSettingState0();
             break;
-        case 1:
+        case WIFI_VS_SETTING_STATE_WAIT_CONNECTION_LOST_TEXT:
             AdvanceWiFiVSSettingState1();
             break;
-        case 2:
+        case WIFI_VS_SETTING_STATE_SLIDE_IN:
             AdvanceWiFiVSSettingState2();
             break;
-        case 3:
+        case WIFI_VS_SETTING_STATE_SLIDE_IN_RETURN_BUTTON:
             AdvanceWiFiVSSettingState3();
             break;
-        case 4:
+        case WIFI_VS_SETTING_STATE_WAIT_INPUT:
             AdvanceWiFiVSSettingState4();
             break;
-        case 5:
+        case WIFI_VS_SETTING_STATE_PRESS_BUTTON:
             AdvanceWiFiVSSettingState5();
             break;
-        case 6:
+        case WIFI_VS_SETTING_STATE_SLIDE_OUT:
             AdvanceWiFiVSSettingState6();
             break;
-        case 7:
+        case WIFI_VS_SETTING_STATE_WAIT_NO_BUDDY_LIST_TEXT:
             AdvanceWiFiVSSettingState7();
             break;
-        case 8:
+        case WIFI_VS_SETTING_STATE_WAIT_NO_BUDDY_SETTING_TEXT:
             AdvanceWiFiVSSettingState8();
             break;
-        case 9:
+        case WIFI_VS_SETTING_STATE_WAIT_DISCONNECT_ANSWER:
             AdvanceWiFiVSSettingState9();
             break;
-        case 10:
+        case WIFI_VS_SETTING_STATE_WAIT_DISCONNECT_TEXT:
             AdvanceWiFiVSSettingState10();
             break;
-        case 11:
+        case WIFI_VS_SETTING_STATE_WAIT_DISCONNECTED_TEXT:
             AdvanceWiFiVSSettingState11();
             break;
     }
