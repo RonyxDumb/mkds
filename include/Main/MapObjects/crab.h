@@ -8,6 +8,15 @@
 
 typedef struct ItemObject ItemObject;
 
+// Crab.mState values: WAIT waves the hand until the timer ends, WALK follows the path, FLUNG is the flight after a
+// hit, RISE comes back up to the course row's height and goes on with WAIT.
+enum {
+    CRAB_STATE_WAIT,
+    CRAB_STATE_WALK,
+    CRAB_STATE_FLUNG,
+    CRAB_STATE_RISE,
+};
+
 // Object of kind 0x1ac (Crab), one state per value of mState; draws crab and crab_hand.
 typedef struct Crab {
     /* 000 */ MapObject mMapObject;

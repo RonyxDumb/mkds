@@ -95,7 +95,7 @@ void StartCrabLaunch(Crab *crab, Vec3 *sourcePosition, Vec3 *sourceDirection, Ve
     }
     crab->mMapObject.mPosStep.y = 0x4000;
     crab->mTimer = 0x12c;
-    crab->mState = 2;
+    crab->mState = CRAB_STATE_FLUNG;
     crab->mMapObject.mFlags |= gCrabLaunchFlag;
 }
 
@@ -191,7 +191,7 @@ void InitCrabObjects(MapObjectList *mapObjectList) {
         mapObjectRandom = GetMapObjectRandom();
         mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
         crab->mTimer = (u16) ((u16) (((u64) (u32) (mapObjectRandom->mValue >> 32) * 60) >> 32) + 30);
-        crab->mState = 0;
+        crab->mState = CRAB_STATE_WAIT;
     }
 }
 
@@ -243,7 +243,7 @@ void UpdateCrab(void *mapObjectList, Crab *crab) {
     RandomState64 *mapObjectRandom;
 
     switch (crab->mState) {
-        case 0:
+        case CRAB_STATE_WAIT:
             crab->mHandNsbtpFrameIndexFixed12 += 0x200;
             if (crab->mHandNsbtpFrameIndexFixed12 >=
                 (s32) (GetMapObjectModelNsbtpFrameCount(gCrabHand) > 0
@@ -255,10 +255,10 @@ void UpdateCrab(void *mapObjectList, Crab *crab) {
                 return;
             }
             if (crab->mHandNsbtpFrameIndexFixed12 == 0) {
-                crab->mState = 1;
+                crab->mState = CRAB_STATE_WALK;
             }
             break;
-        case 1:
+        case CRAB_STATE_WALK:
             crab->mFollower.mSpeed = 0x800;
             crab->mFollower.mProgressStep = MUL_FIXED12_NO_ROUND(
                 crab->mFollower.mPath->mSegments[crab->mFollower.mSegmentIndex].mInverseProgressLength, 0x800);
@@ -273,7 +273,7 @@ void UpdateCrab(void *mapObjectList, Crab *crab) {
                 mapObjectRandom->mValue =
                     mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
                 crab->mTimer = (u16) ((u16) (((u64) (u32) (mapObjectRandom->mValue >> 32) * 60) >> 32) + 30);
-                crab->mState = 0;
+                crab->mState = CRAB_STATE_WAIT;
             }
             crab->mCrabNsbtpFrameIndexFixed12 += 0x200;
             if (crab->mCrabNsbtpFrameIndexFixed12 >=
@@ -298,7 +298,7 @@ void UpdateCrab(void *mapObjectList, Crab *crab) {
                                                    &crab->mMapObject.mMatrix.mRows[1]);
             }
             break;
-        case 2:
+        case CRAB_STATE_FLUNG:
             if (crab->mTimer-- > 0) {
                 crab->mMapObject.mPosStep.y -= 0x400;
                 VEC_Add(&crab->mMapObject.mPos, &crab->mMapObject.mPosStep, &crab->mMapObject.mPos);
@@ -316,9 +316,9 @@ void UpdateCrab(void *mapObjectList, Crab *crab) {
             crab->mCrabWobble.mAnglePerFrameDelta = 0;
             AdvanceCrabWobble(&crab->mCrabWobble);
             crab->mRotateZAngle = crab->mCrabWobble.mValue;
-            crab->mState = 3;
+            crab->mState = CRAB_STATE_RISE;
             break;
-        case 3:
+        case CRAB_STATE_RISE:
             crab->mHandNsbtpFrameIndexFixed12 += 0x200;
             if (crab->mHandNsbtpFrameIndexFixed12 >=
                 (s32) (GetMapObjectModelNsbtpFrameCount(gCrabHand) > 0
@@ -347,7 +347,7 @@ void UpdateCrab(void *mapObjectList, Crab *crab) {
             mapObjectRandom->mValue =
                 mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
             crab->mTimer = (u16) ((u16) (((u64) (u32) (mapObjectRandom->mValue >> 32) * 60) >> 32) + 30);
-            crab->mState = 0;
+            crab->mState = CRAB_STATE_WAIT;
             crab->mMapObject.mFlags &= ~1;
             break;
     }
