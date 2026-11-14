@@ -137,14 +137,14 @@ const ItemKind gItemKindKouraW = {0x31c,
                                   7,
                                   0};
 Vec3 gKouraWVec3UnitY = {0, 0x1000, 0};
-StateCallbacks gItemKouraWStateTable[8] = {{NULL, UpdateItemKouraWState0},
-                                           {NULL, UpdateItemKouraWState1},
-                                           {NULL, UpdateItemKouraWState2},
-                                           {EnterItemKouraWState3, UpdateItemKouraWState3},
-                                           {EnterItemKouraWState4, UpdateItemKouraWState4},
-                                           {EnterItemKouraWState5, UpdateItemKouraWState5},
-                                           {EnterItemKouraWState6, UpdateItemKouraWState6},
-                                           {EnterItemKouraWState7, UpdateItemKouraWState7}};
+StateCallbacks gItemKouraWStateTable[ITEM_KOURA_W_STATE_COUNT] = {{NULL, UpdateItemKouraWState0},
+                                                                  {NULL, UpdateItemKouraWState1},
+                                                                  {NULL, UpdateItemKouraWState2},
+                                                                  {EnterItemKouraWState3, UpdateItemKouraWState3},
+                                                                  {EnterItemKouraWState4, UpdateItemKouraWState4},
+                                                                  {EnterItemKouraWState5, UpdateItemKouraWState5},
+                                                                  {EnterItemKouraWState6, UpdateItemKouraWState6},
+                                                                  {EnterItemKouraWState7, UpdateItemKouraWState7}};
 Nsbmd *gKouraW;
 s32 gKouraWState7ScaleStep;
 s32 gKouraWState7InverseLimit;
@@ -157,7 +157,7 @@ void MarkItemInUseAsActiveItem(ItemInUse *itemInUse) {
 }
 
 void ResetItemKouraW(ItemKouraW *item) {
-    InitStateMachine(&item->mStateMachine, gItemKouraWStateTable, 8, item);
+    InitStateMachine(&item->mStateMachine, gItemKouraWStateTable, ITEM_KOURA_W_STATE_COUNT, item);
     MTX_Identity43_(&item->mUnk_2b4);
     item->mRank = 1;
     item->mRankKartIndex = gRaceProgress->mKartAtRank[0];
@@ -213,8 +213,8 @@ void SetItemKouraWKartItemsAndStateIfNone(ItemKouraW *item, s32 kartIndex) {
     item->mStateMachine.mNextState =
         ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x40000000) ||
          (kart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE))
-            ? 2
-            : 3;
+            ? ITEM_KOURA_W_STATE_FOLLOW_LINK
+            : ITEM_KOURA_W_STATE_STEER_TO_TARGET;
     item->mStateMachine.mNextStateRequested = 1;
 }
 
@@ -225,15 +225,15 @@ s32 InitItemKouraW(ItemInUse *itemInUse, ItemKouraW *item) {
     if (itemInUse->mKartItems->mItemLink.mLink != NULL) {
         InitLinkFollowingItemFromInUse(&item->mLinkFollowingItemObject, itemInUse, 0x14, 0xcc, 1, 1, 0, 0x6000,
                                        item->mRankKartIndex, 1);
-        SetStateMachineState(&item->mStateMachine, 1);
+        SetStateMachineState(&item->mStateMachine, ITEM_KOURA_W_STATE_PICK_TARGET);
     } else {
         SetItemKouraWKartItems(item, (u16) gRaceProgress->mKartAtRank[0]);
         kart = item->mKartItems->mKart;
         item->mStateMachine.mNextState =
             ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x40000000) ||
              (kart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE))
-                ? 2
-                : 3;
+                ? ITEM_KOURA_W_STATE_FOLLOW_LINK
+                : ITEM_KOURA_W_STATE_STEER_TO_TARGET;
         item->mStateMachine.mNextStateRequested = 1;
         if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x8000000) {
             AddItemDataItemIdAndKart(5, item->mKartItems->mKartIndex,
@@ -244,7 +244,7 @@ s32 InitItemKouraW(ItemInUse *itemInUse, ItemKouraW *item) {
     // one 36-byte copy of the three vectors (three Vec3 assignments give 0x160 bytes against 0x150)
     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mAxes = itemInUse->mKartOrientation;
     if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x8000000) {
-        item->mStateMachine.mNextState = 0;
+        item->mStateMachine.mNextState = ITEM_KOURA_W_STATE_STRAIGHT;
         item->mStateMachine.mNextStateRequested = 1;
     }
     return 1;
@@ -374,7 +374,7 @@ void UpdateItemKouraWState0(ItemKouraW *item) {
 }
 
 static inline Vec3 *GetItemKouraWNormalOrNull(ItemKouraW *item) {
-    if (item->mStateMachine.mState >= 3) {
+    if (item->mStateMachine.mState >= ITEM_KOURA_W_STATE_STEER_TO_TARGET) {
         if (item->mKartItems->mKart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE) {
             return &item->mKartItems->mKart->mGroundNormal;
         }
@@ -452,8 +452,8 @@ void UpdateItemKouraWState1(ItemKouraW *item) {
         kart = item->mKartItems->mKart;
         value = ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x40000000) ||
                  (kart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE))
-                    ? 2
-                    : 3;
+                    ? ITEM_KOURA_W_STATE_FOLLOW_LINK
+                    : ITEM_KOURA_W_STATE_STEER_TO_TARGET;
         item->mStateMachine.mNextState = value;
         item->mStateMachine.mNextStateRequested = 1;
         if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x8000000) {
@@ -468,8 +468,8 @@ void UpdateItemKouraWState1(ItemKouraW *item) {
         kart = item->mKartItems->mKart;
         entry = ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x40000000) ||
                  (kart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE))
-                    ? 2
-                    : 3;
+                    ? ITEM_KOURA_W_STATE_FOLLOW_LINK
+                    : ITEM_KOURA_W_STATE_STEER_TO_TARGET;
         item->mStateMachine.mNextState = entry;
         item->mStateMachine.mNextStateRequested = 1;
         if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x8000000) {
@@ -492,8 +492,8 @@ void UpdateItemKouraWState1(ItemKouraW *item) {
     kart = item->mKartItems->mKart;
     value = ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x40000000) ||
              (kart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE))
-                ? 2
-                : 3;
+                ? ITEM_KOURA_W_STATE_FOLLOW_LINK
+                : ITEM_KOURA_W_STATE_STEER_TO_TARGET;
     item->mStateMachine.mNextState = value;
     item->mStateMachine.mNextStateRequested = 1;
 }
@@ -533,7 +533,7 @@ void UpdateItemKouraWState3(ItemKouraW *item) {
         }
     }
     if (HORIZONTAL_LENGTH_SQUARED(item->mToTarget) < 0x1900000000LL) {
-        item->mStateMachine.mNextState = 4;
+        item->mStateMachine.mNextState = ITEM_KOURA_W_STATE_CIRCLE_TARGET;
         item->mStateMachine.mNextStateRequested = 1;
     }
     UpdateItemKouraWDrawPos(item);
@@ -572,7 +572,7 @@ void UpdateItemKouraWState2(ItemKouraW *item) {
     link = item->mKartItems->mItemLink.mLink;
     for (index = 0; index < 4; index++) {
         if (link == item->mLinkFollowingItemObject.mTargetLink.mLink) {
-            item->mStateMachine.mNextState = 3;
+            item->mStateMachine.mNextState = ITEM_KOURA_W_STATE_STEER_TO_TARGET;
             item->mStateMachine.mNextStateRequested = 1;
         }
         link = link->mNextLinks[0];
@@ -639,7 +639,7 @@ void UpdateItemKouraWState4(ItemKouraW *item) {
         UpdateItemKouraWOrientation(item, &direction, 1, normal);
         return;
     }
-    item->mStateMachine.mNextState = 5;
+    item->mStateMachine.mNextState = ITEM_KOURA_W_STATE_RISE;
     item->mStateMachine.mNextStateRequested = 1;
 }
 
@@ -676,7 +676,7 @@ void UpdateItemKouraWState5(ItemKouraW *item) {
         item->mBobAmplitudeOrGain += 0x52;
     }
     if (item->mLift > 0x2d000) {
-        item->mStateMachine.mNextState = 6;
+        item->mStateMachine.mNextState = ITEM_KOURA_W_STATE_FALL;
         item->mStateMachine.mNextStateRequested = 1;
     }
     item->mSpeed -= 0xa14;
@@ -844,7 +844,7 @@ void InitItemKouraWFromData(ItemKouraW *item) {
     if (item->mLinkFollowingItemObject.mPreviousLink.mLink != NULL) {
         InitLinkFollowingItem(&item->mLinkFollowingItemObject, 0x14, 0xcc, 1, 0, item->mReverse,
                               gRaceProgress->mKartAtRank[0], 1);
-        SetStateMachineState(&item->mStateMachine, 1);
+        SetStateMachineState(&item->mStateMachine, ITEM_KOURA_W_STATE_PICK_TARGET);
     } else if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x8000000) {
         kartIndex = (u16) gRaceProgress->mKartAtRank[0];
         if (item->mKartItems == NULL) {
@@ -852,8 +852,8 @@ void InitItemKouraWFromData(ItemKouraW *item) {
             kart = item->mKartItems->mKart;
             nextState = ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x40000000) ||
                          (kart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE))
-                            ? 2
-                            : 3;
+                            ? ITEM_KOURA_W_STATE_FOLLOW_LINK
+                            : ITEM_KOURA_W_STATE_STEER_TO_TARGET;
             item->mStateMachine.mNextState = nextState;
             item->mStateMachine.mNextStateRequested = 1;
         }
@@ -863,8 +863,8 @@ void InitItemKouraWFromData(ItemKouraW *item) {
         kart = item->mKartItems->mKart;
         nextState = ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x40000000) ||
                      (kart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE))
-                        ? 2
-                        : 3;
+                        ? ITEM_KOURA_W_STATE_FOLLOW_LINK
+                        : ITEM_KOURA_W_STATE_STEER_TO_TARGET;
         item->mStateMachine.mNextState = nextState;
         item->mStateMachine.mNextStateRequested = 1;
         if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x8000000) {
@@ -940,7 +940,7 @@ void DrawItemKouraWModel(ItemKouraW *item, Vec3 *viewAxis, s32 model) {
 void DrawItemKouraW(ItemKouraW *item, Vec3 *viewAxis, s32 model) {
     ModelEffect *effect;
 
-    if (item->mStateMachine.mState != 7) {
+    if (item->mStateMachine.mState != ITEM_KOURA_W_STATE_BURST) {
         DrawItemKouraWModel(item, viewAxis, model);
         return;
     }
@@ -953,9 +953,9 @@ void DrawItemKouraW(ItemKouraW *item, Vec3 *viewAxis, s32 model) {
 
 // Asks for state 7 unless the object is already in it; returns 1.
 s32 RequestItemKouraWState7(ItemKouraW *item) {
-    if (item->mStateMachine.mState != 7) {
-        InitStateMachine(&item->mStateMachine, gItemKouraWStateTable, 8, item);
-        item->mStateMachine.mNextState = 7;
+    if (item->mStateMachine.mState != ITEM_KOURA_W_STATE_BURST) {
+        InitStateMachine(&item->mStateMachine, gItemKouraWStateTable, ITEM_KOURA_W_STATE_COUNT, item);
+        item->mStateMachine.mNextState = ITEM_KOURA_W_STATE_BURST;
         item->mStateMachine.mNextStateRequested = 1;
         if ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x180000) == 0) {
             item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mAdvance =
@@ -970,7 +970,7 @@ s32 RequestItemKouraWState7(ItemKouraW *item) {
 }
 
 BOOL IsItemKouraWState7(ItemKouraW *item) {
-    return item->mStateMachine.mState == 7;
+    return item->mStateMachine.mState == ITEM_KOURA_W_STATE_BURST;
 }
 
 Vec3 *GetItemKouraWState7Info(ItemKouraW *item, s32 *stateFrames, s32 *scaleRatio) {

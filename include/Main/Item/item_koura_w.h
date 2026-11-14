@@ -19,6 +19,19 @@ typedef struct CourseMapRow {
 #include "Main/Race/data_020f36d8.h"
 #include "Main/Sound/data_0210b000.h" // SoundDistanceSquaredChange
 
+// Values of ItemKouraW's state machine states, in the order of gItemKouraWStateTable.
+enum {
+    ITEM_KOURA_W_STATE_STRAIGHT,
+    ITEM_KOURA_W_STATE_PICK_TARGET,
+    ITEM_KOURA_W_STATE_FOLLOW_LINK,
+    ITEM_KOURA_W_STATE_STEER_TO_TARGET,
+    ITEM_KOURA_W_STATE_CIRCLE_TARGET,
+    ITEM_KOURA_W_STATE_RISE,
+    ITEM_KOURA_W_STATE_FALL,
+    ITEM_KOURA_W_STATE_BURST,
+    ITEM_KOURA_W_STATE_COUNT,
+};
+
 // Stack object of InitItemKouraWFromData: the two vectors Vec3NormalizeAndGetLengthUnchecked and
 // QuaternionFromYAxisToVec3 write.
 typedef struct DirectionQuaternion {
