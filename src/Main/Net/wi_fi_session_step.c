@@ -123,7 +123,8 @@ void SetupWiFiSession(u32 mode) {
 }
 
 // One frame of the exchange: counts the frames since each kart last called back, marks silent karts and drops them,
-// then runs the handler of the current mStep (steps 2, 6, 7, 11 and 12 inline). Always returns 0.
+// then runs the handler of the current mStep (WAIT_BACKUP, EXCHANGE_PICK_MASKS, EXCHANGE_COURSE_PICKS, LEAVING and
+// ENDED inline). Always returns 0.
 s32 UpdateWiFiSessionStep(void) {
     u8 toIndex;
     u8 fromIndex;
@@ -513,8 +514,8 @@ void AdvanceWiFiSessionStep9(void) {
     gWiFiSession->mStepFrames = 0;
 }
 
-// Only while 5 <= mStep < 9: ORs into mKartRemoveMask every kart in mKartMask that some stored mask (own included) does
-// not list.
+// Only from EXCHANGE_PICKS up to before VERIFY_RESULT: ORs into mKartRemoveMask every kart in mKartMask that some
+// stored mask (own included) does not list.
 void CombineKartRemoveMask(void) {
     u8 participantIndex;
     u8 commonMask = 0xff;
