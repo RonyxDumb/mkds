@@ -36,7 +36,7 @@ void AddMapObjectToUpdateList(MapObjectList *mapObjectList, MapObject *mapObject
     mapObjectIndex = mapObjectList->mMapObjectCount;
     mapObjectList->mMapObjectCount = mapObjectIndex + 1;
     mapObjectList->mMapObjects[mapObjectIndex] = mapObject;
-    if (mapObjectList->mPassOrPosStepMode == 3) {
+    if (mapObjectList->mPassOrPosStepMode == MAP_OBJECT_LIST_POS_STEP_UNSET) {
         kindData = mapObject->mKindData;
         mapObjectList->mPassOrPosStepMode = kindData->mPosStepMode;
     }

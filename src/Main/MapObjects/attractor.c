@@ -401,7 +401,7 @@ void UpdateMapObjectList(MapObjectList *list) {
         };
         return;
     }
-    if (list->mPassOrPosStepMode == 2) {
+    if (list->mPassOrPosStepMode == MAP_OBJECT_LIST_POS_STEP_MEASURED) {
         s32 objectIndex;
 
         for (objectIndex = 0; objectIndex < count; objectIndex++) {

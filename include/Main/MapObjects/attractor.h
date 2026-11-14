@@ -115,6 +115,13 @@ typedef struct AttractorMapObject {
     /* a2 */ u16 mStrength;
 } AttractorMapObject;
 
+// Values of MapObjectList.mPassOrPosStepMode: the first or second draw pass of a draw list; in an update list the value
+// the kind gives (3 = not set yet), where 2 makes the update loop take each object's position change as its step.
+#define MAP_OBJECT_LIST_PASS_FIRST 1
+#define MAP_OBJECT_LIST_PASS_SECOND 2
+#define MAP_OBJECT_LIST_POS_STEP_MEASURED 2
+#define MAP_OBJECT_LIST_POS_STEP_UNSET 3
+
 // Objects drawn or updated together: mInit runs once when the lists are set up, mBeforeObjects and mAfterObjects run
 // around the loop over the objects, mForEachObject runs for each object.
 typedef struct MapObjectList {

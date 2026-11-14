@@ -497,9 +497,9 @@ void InitMapObjects(void) {
     for (drawListIndex = 0; drawListIndex < count; drawListIndex++) {
         list = gMapObjects->mDrawLists[drawListIndex];
         if (list->mItemFirstResponse != 0) {
-            if (list->mPassOrPosStepMode == 1) {
+            if (list->mPassOrPosStepMode == MAP_OBJECT_LIST_PASS_FIRST) {
                 firstCount++;
-            } else if (list->mPassOrPosStepMode == 2) {
+            } else if (list->mPassOrPosStepMode == MAP_OBJECT_LIST_PASS_SECOND) {
                 secondCount++;
             }
         }
@@ -507,7 +507,7 @@ void InitMapObjects(void) {
     slotIndex = 0;
     for (index = 0; index < count; index++) {
         list = gMapObjects->mDrawLists[index];
-        if (list->mPassOrPosStepMode == 1) {
+        if (list->mPassOrPosStepMode == MAP_OBJECT_LIST_PASS_FIRST) {
             listArray = gMapObjects->mFirstPassDrawLists;
             gMapObjects->mFirstPassDrawListCount++;
             if (list->mItemFirstResponse != 0) {
@@ -515,7 +515,7 @@ void InitMapObjects(void) {
             } else {
                 listIndex = firstCount++;
             }
-        } else if (list->mPassOrPosStepMode == 2) {
+        } else if (list->mPassOrPosStepMode == MAP_OBJECT_LIST_PASS_SECOND) {
             listArray = gMapObjects->mSecondPassDrawLists;
             gMapObjects->mSecondPassDrawListCount++;
             if (list->mItemFirstResponse != 0) {
