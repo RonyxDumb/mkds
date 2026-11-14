@@ -6,6 +6,9 @@
 #include "Main/Graphics/cell_file_set.h"
 #include "code_0212d214.h"
 
+// Id that leaves a SoundSet slot empty: the set loads nothing for it.
+#define SOUND_ID_NONE 0xff
+
 // Three words, at 0, 4 and 8: LoadSoundSet, IsSoundSetLoaded and ReleaseSoundSet take one by value.
 typedef struct SoundSet {
     /* 00 */ u32 mSeqId;

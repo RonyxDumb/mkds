@@ -31,10 +31,10 @@
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
 
-const SoundSet gEmptySoundSet = {0xff, 0xff, 0xff};
+const SoundSet gEmptySoundSet = {SOUND_ID_NONE, SOUND_ID_NONE, SOUND_ID_NONE};
 u8 gSoundSetSdatPath[28] = "/data/Sound/sound_data.sdat";
-const SoundSet gResetEmptySoundSet = {0xff, 0xff, 0xff};
-const SoundSet gReleaseEmptySoundSet = {0xff, 0xff, 0xff};
+const SoundSet gResetEmptySoundSet = {SOUND_ID_NONE, SOUND_ID_NONE, SOUND_ID_NONE};
+const SoundSet gReleaseEmptySoundSet = {SOUND_ID_NONE, SOUND_ID_NONE, SOUND_ID_NONE};
 NNSSndHeap *gCurrentSndHeap;
 SndFileIdList gSndDataFileIdList;
 SndFileIdList gSoundSetFileIdList;
@@ -145,7 +145,8 @@ u32 LoadSoundSetIfChanged(SoundSet soundSet, u32 loadExtras) {
     s32 fileIndex;
     SndFileIdList *list;
 
-    if (soundSet.mSeqId == 0xff && soundSet.mFirstBankId == 0xff && soundSet.mSecondBankId == 0xff) {
+    if (soundSet.mSeqId == SOUND_ID_NONE && soundSet.mFirstBankId == SOUND_ID_NONE &&
+        soundSet.mSecondBankId == SOUND_ID_NONE) {
         return 1;
     }
     if (IsSoundSetLoaded(GetLoadedSoundSet(), soundSet) != 0) {
@@ -424,13 +425,13 @@ u32 IsSoundSetLoaded(LoadedSoundSet *loadedSet, SoundSet soundSet) {
 }
 
 u32 LoadSoundSet(LoadedSoundSet *loadedSet, SoundSet soundSet) {
-    if (soundSet.mSeqId != 0xff && NNS_SndArcLoadSeq(soundSet.mSeqId, gCurrentSndHeap) == 0) {
+    if (soundSet.mSeqId != SOUND_ID_NONE && NNS_SndArcLoadSeq(soundSet.mSeqId, gCurrentSndHeap) == 0) {
         return 0;
     }
-    if (soundSet.mFirstBankId != 0xff && NNS_SndArcLoadBank(soundSet.mFirstBankId, gCurrentSndHeap) == 0) {
+    if (soundSet.mFirstBankId != SOUND_ID_NONE && NNS_SndArcLoadBank(soundSet.mFirstBankId, gCurrentSndHeap) == 0) {
         return 0;
     }
-    if (soundSet.mSecondBankId != 0xff && NNS_SndArcLoadBank(soundSet.mSecondBankId, gCurrentSndHeap) == 0) {
+    if (soundSet.mSecondBankId != SOUND_ID_NONE && NNS_SndArcLoadBank(soundSet.mSecondBankId, gCurrentSndHeap) == 0) {
         return 0;
     }
     loadedSet->mSoundSet = soundSet;
