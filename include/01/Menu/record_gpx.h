@@ -52,6 +52,23 @@ typedef struct OptionTopMenu {
     /* 3c */ struct Bmg *mCommonMessages;
 } OptionTopMenu;
 
+// States of RecordGpx.mState and mNextState, in the order of the AdvanceRecordGpxStateN calls.
+enum {
+    RECORD_GPX_STATE_BG_SLIDE_IN,
+    RECORD_GPX_STATE_CELLS_SLIDE_IN,
+    RECORD_GPX_STATE_SELECT,
+    RECORD_GPX_STATE_PAGE_SLIDE_OUT,
+    RECORD_GPX_STATE_PAGE_SLIDE_IN,
+    RECORD_GPX_STATE_CELLS_SLIDE_OUT,
+    RECORD_GPX_STATE_BG_SLIDE_OUT,
+};
+
+// Values of RecordGpx.mIndexMoveDirection and RecordTAtt.mIndexMoveDirection: which way the index moves.
+enum {
+    RECORD_INDEX_MOVE_NEXT,
+    RECORD_INDEX_MOVE_PREVIOUS,
+};
+
 // Object behind gRecordGpx.
 typedef struct RecordGpx {
     /* 00 */ Ncgr *mRecordGpxMNcgr;

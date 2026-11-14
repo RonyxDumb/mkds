@@ -52,50 +52,50 @@ RecordScreenCallbacks gRecordGpxCallbacks = {InitRecordGpx, ReleaseRecordGpx, Ad
 RecordGpx *gRecordGpx;
 
 void RequestRecordGpxState1AndSetup(void) {
-    gRecordGpx->mNextState = 1;
+    gRecordGpx->mNextState = RECORD_GPX_STATE_CELLS_SLIDE_IN;
     gRecordGpx->mStateFrames = 0;
     SetupRecordGpx();
 }
 
-// Requests state 2: stores mNextState = 2 and zeroes mStateFrames; the next AdvanceRecordGpx call copies it to mState
+// Requests state 2: stores mNextState and zeroes mStateFrames; the next AdvanceRecordGpx call copies it to mState
 // and runs AdvanceRecordGpxState2.
 void RequestRecordGpxState2(void) {
-    gRecordGpx->mNextState = 2;
+    gRecordGpx->mNextState = RECORD_GPX_STATE_SELECT;
     gRecordGpx->mStateFrames = 0;
 }
 
-// Requests state 3: stores mNextState = 3 and zeroes mStateFrames; the next AdvanceRecordGpx call copies it to mState
+// Requests state 3: stores mNextState and zeroes mStateFrames; the next AdvanceRecordGpx call copies it to mState
 // and runs AdvanceRecordGpxState3.
 void RequestRecordGpxState3(void) {
-    gRecordGpx->mNextState = 3;
+    gRecordGpx->mNextState = RECORD_GPX_STATE_PAGE_SLIDE_OUT;
     gRecordGpx->mStateFrames = 0;
 }
 
 void RequestRecordGpxState4AndMoveIndex(void) {
-    gRecordGpx->mNextState = 4;
+    gRecordGpx->mNextState = RECORD_GPX_STATE_PAGE_SLIDE_IN;
     gRecordGpx->mStateFrames = 0;
     switch (gRecordGpx->mIndexMoveDirection) {
-        case 0:
+        case RECORD_INDEX_MOVE_NEXT:
             IncrementRecordGpxIndex();
             break;
-        case 1:
+        case RECORD_INDEX_MOVE_PREVIOUS:
             DecrementRecordGpxIndex();
             break;
     }
     SetupRecordGpx();
 }
 
-// Requests state 5: stores mNextState = 5 and zeroes mStateFrames; the next AdvanceRecordGpx call copies it to mState
+// Requests state 5: stores mNextState and zeroes mStateFrames; the next AdvanceRecordGpx call copies it to mState
 // and runs AdvanceRecordGpxState5.
 void RequestRecordGpxState5(void) {
-    gRecordGpx->mNextState = 5;
+    gRecordGpx->mNextState = RECORD_GPX_STATE_CELLS_SLIDE_OUT;
     gRecordGpx->mStateFrames = 0;
 }
 
-// Requests state 6: stores mNextState = 6 and zeroes mStateFrames; the next AdvanceRecordGpx call copies it to mState
+// Requests state 6: stores mNextState and zeroes mStateFrames; the next AdvanceRecordGpx call copies it to mState
 // and runs AdvanceRecordGpxState6.
 void RequestRecordGpxState6(void) {
-    gRecordGpx->mNextState = 6;
+    gRecordGpx->mNextState = RECORD_GPX_STATE_BG_SLIDE_OUT;
     gRecordGpx->mStateFrames = 0;
 }
 
@@ -115,9 +115,9 @@ void InitRecordGpx(void *heap) {
         (reg_G2S_DB_BG3CNT & (REG_G2S_DB_BG3CNT_PRIORITY_MASK | REG_G2S_DB_BG3CNT_MOSAIC_MASK)) | 0x5810;
     gRecordGpx = HeapAlloc(heap, 0x94);
     gRecordGpx->mHeap = heap;
-    gRecordGpx->mState = 0;
+    gRecordGpx->mState = RECORD_GPX_STATE_BG_SLIDE_IN;
     gRecordGpx->mIndex = 0;
-    gRecordGpx->mIndexMoveDirection = 0;
+    gRecordGpx->mIndexMoveDirection = RECORD_INDEX_MOVE_NEXT;
     gRecordGpx->mLeftRepeat = FALSE;
     gRecordGpx->mRightRepeat = FALSE;
     for (index = 0; index < 2; index++) {
@@ -285,7 +285,7 @@ next:
     if ((touchedRect == 0 && gRecordGpx->mLeftRepeat != FALSE) ||
         (touchBeganRect == 0 && gRecordGpx->mLeftRepeat == FALSE) ||
         (u16) (gInputSlots[slotIndex].mBits & PAD_KEY_LEFT) != 0) {
-        gRecordGpx->mIndexMoveDirection = 1;
+        gRecordGpx->mIndexMoveDirection = RECORD_INDEX_MOVE_PREVIOUS;
         gRecordGpx->mOffsetTimers[0] = 6;
         gRecordGpx->mLeftRepeat = TRUE;
         RequestRecordGpxState3();
@@ -295,7 +295,7 @@ next:
     if ((touchedRect == 1 && gRecordGpx->mRightRepeat != FALSE) ||
         (touchBeganRect == 1 && gRecordGpx->mRightRepeat == FALSE) ||
         (u16) (gInputSlots[slotIndex].mBits & PAD_KEY_RIGHT) != 0) {
-        gRecordGpx->mIndexMoveDirection = 0;
+        gRecordGpx->mIndexMoveDirection = RECORD_INDEX_MOVE_NEXT;
         gRecordGpx->mOffsetTimers[1] = 6;
         gRecordGpx->mRightRepeat = TRUE;
         RequestRecordGpxState3();
@@ -313,10 +313,10 @@ void AdvanceRecordGpxState3(void) {
 
     AdvanceRecordGpxOffsetTimers();
     switch (gRecordGpx->mIndexMoveDirection) {
-        case 0:
+        case RECORD_INDEX_MOVE_NEXT:
             targetOffsetX = -256;
             break;
-        case 1:
+        case RECORD_INDEX_MOVE_PREVIOUS:
             targetOffsetX = 0x100;
             break;
     }
@@ -360,10 +360,10 @@ void AdvanceRecordGpxState4(void) {
 
     AdvanceRecordGpxOffsetTimers();
     switch (gRecordGpx->mIndexMoveDirection) {
-        case 0:
+        case RECORD_INDEX_MOVE_NEXT:
             startOffsetX = 0x100;
             break;
-        case 1:
+        case RECORD_INDEX_MOVE_PREVIOUS:
             startOffsetX = -256;
             break;
     }
@@ -449,25 +449,25 @@ void AdvanceRecordGpx(void) {
 
     gRecordGpx->mState = gRecordGpx->mNextState;
     switch (gRecordGpx->mState) {
-        case 0:
+        case RECORD_GPX_STATE_BG_SLIDE_IN:
             AdvanceRecordGpxState0();
             break;
-        case 1:
+        case RECORD_GPX_STATE_CELLS_SLIDE_IN:
             AdvanceRecordGpxState1();
             break;
-        case 2:
+        case RECORD_GPX_STATE_SELECT:
             AdvanceRecordGpxState2();
             break;
-        case 3:
+        case RECORD_GPX_STATE_PAGE_SLIDE_OUT:
             AdvanceRecordGpxState3();
             break;
-        case 4:
+        case RECORD_GPX_STATE_PAGE_SLIDE_IN:
             AdvanceRecordGpxState4();
             break;
-        case 5:
+        case RECORD_GPX_STATE_CELLS_SLIDE_OUT:
             AdvanceRecordGpxState5();
             break;
-        case 6:
+        case RECORD_GPX_STATE_BG_SLIDE_OUT:
             AdvanceRecordGpxState6();
             break;
     }

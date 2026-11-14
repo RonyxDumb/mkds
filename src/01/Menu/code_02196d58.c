@@ -360,10 +360,10 @@ void RequestRecordTAttState4AndMoveIndex(void) {
     gRecordTAtt->mNextState = RECORD_TATT_STATE_SLIDE_IN_SIDE;
     gRecordTAtt->mStateFrames = 0;
     switch (gRecordTAtt->mIndexMoveDirection) {
-        case 0:
+        case RECORD_INDEX_MOVE_NEXT:
             IncrementRecordTAttIndex();
             break;
-        case 1:
+        case RECORD_INDEX_MOVE_PREVIOUS:
             DecrementRecordTAttIndex();
             break;
     }

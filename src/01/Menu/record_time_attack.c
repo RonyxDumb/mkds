@@ -109,7 +109,7 @@ void InitRecordTAtt(void *heap) {
     gRecordTAtt->mHeap = heap;
     gRecordTAtt->mState = RECORD_TATT_STATE_SLIDE_IN_TOP;
     gRecordTAtt->mIndex = 0;
-    gRecordTAtt->mIndexMoveDirection = 0;
+    gRecordTAtt->mIndexMoveDirection = RECORD_INDEX_MOVE_NEXT;
     gRecordTAtt->mClearChosen = FALSE;
     gRecordTAtt->mLeftRepeat = FALSE;
     gRecordTAtt->mRightRepeat = FALSE;
@@ -300,7 +300,7 @@ other:
     } else if ((touchedRect == 0 && gRecordTAtt->mLeftRepeat != FALSE) ||
                (touchBeganRect == 0 && gRecordTAtt->mLeftRepeat == FALSE) ||
                (u16) (gInputSlots[slotIndex].mBits & PAD_KEY_LEFT) != 0) {
-        gRecordTAtt->mIndexMoveDirection = 1;
+        gRecordTAtt->mIndexMoveDirection = RECORD_INDEX_MOVE_PREVIOUS;
         gRecordTAtt->mOffsetTimers[0] = 6;
         gRecordTAtt->mLeftRepeat = TRUE;
         RequestRecordTAttState3();
@@ -308,7 +308,7 @@ other:
     } else if ((touchedRect == 1 && gRecordTAtt->mRightRepeat != FALSE) ||
                (touchBeganRect == 1 && gRecordTAtt->mRightRepeat == FALSE) ||
                (u16) (gInputSlots[slotIndex].mBits & PAD_KEY_RIGHT) != 0) {
-        gRecordTAtt->mIndexMoveDirection = 0;
+        gRecordTAtt->mIndexMoveDirection = RECORD_INDEX_MOVE_NEXT;
         gRecordTAtt->mOffsetTimers[1] = 6;
         gRecordTAtt->mRightRepeat = TRUE;
         RequestRecordTAttState3();
@@ -333,10 +333,10 @@ void AdvanceRecordTAttState3(void) {
     targetOffsetX = 0;
     AdvanceRecordTAttOffsetTimers();
     switch (gRecordTAtt->mIndexMoveDirection) {
-        case 0:
+        case RECORD_INDEX_MOVE_NEXT:
             targetOffsetX = -0x100;
             break;
-        case 1:
+        case RECORD_INDEX_MOVE_PREVIOUS:
             targetOffsetX = 0x100;
             break;
     }
@@ -383,10 +383,10 @@ void AdvanceRecordTAttState4(void) {
     startOffsetX = 0;
     AdvanceRecordTAttOffsetTimers();
     switch (gRecordTAtt->mIndexMoveDirection) {
-        case 0:
+        case RECORD_INDEX_MOVE_NEXT:
             startOffsetX = 0x100;
             break;
-        case 1:
+        case RECORD_INDEX_MOVE_PREVIOUS:
             startOffsetX = -0x100;
             break;
     }
