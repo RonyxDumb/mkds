@@ -17,6 +17,14 @@ typedef struct NsKiller2 {
     /* a8 */ SoundDistanceSquaredChange *mSoundDistanceSquaredChange;
 } NsKiller2;
 
+// Values of NsKiller1.mState: wait, follow the path, pause at its end, then launch an NsKiller2 and start over.
+enum {
+    NS_KILLER1_STATE_WAIT,
+    NS_KILLER1_STATE_FOLLOW_PATH,
+    NS_KILLER1_STATE_PAUSE,
+    NS_KILLER1_STATE_LAUNCH,
+};
+
 // Object of kind 0x1a1 (NsKiller1), creates 20 NsKiller2 in its Init: after the shared part, a counter at 0xa0, a state
 // at 0xa8 and an GroupFollower at 0xac.
 typedef struct NsKiller1 {

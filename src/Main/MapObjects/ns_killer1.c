@@ -91,7 +91,7 @@ void UpdateNsKiller1(void *mapObjectList, NsKiller1 *nsKiller1) {
     SoundStartParams soundParams;
 
     switch (nsKiller1->mState) {
-        case 0:
+        case NS_KILLER1_STATE_WAIT:
             if (nsKiller1->mStateTimer-- > 0) {
                 return;
             }
@@ -100,16 +100,16 @@ void UpdateNsKiller1(void *mapObjectList, NsKiller1 *nsKiller1) {
                 ((s64) nsKiller1->mFollower.mPath->mSegments[nsKiller1->mFollower.mSegmentIndex].mInverseProgressLength
                  << 13) >>
                 12;
-            nsKiller1->mState = 1;
+            nsKiller1->mState = NS_KILLER1_STATE_FOLLOW_PATH;
             break;
-        case 1:
+        case NS_KILLER1_STATE_FOLLOW_PATH:
             if (AdvanceGroupFollower(&nsKiller1->mFollower) != FALSE) {
                 nsKiller1->mStateTimer = 0x2d;
-                nsKiller1->mState = 2;
+                nsKiller1->mState = NS_KILLER1_STATE_PAUSE;
             }
             GetGroupFollowerLinearXz(&nsKiller1->mFollower, &nsKiller1->mMapObject.mPos);
             break;
-        case 2:
+        case NS_KILLER1_STATE_PAUSE:
             if (nsKiller1->mStateTimer == 0x2d) {
                 if ((nsKiller1->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
                     NNS_SndPlayerStopSeq(GetSndHandleSlot(8), 0);
@@ -120,11 +120,11 @@ void UpdateNsKiller1(void *mapObjectList, NsKiller1 *nsKiller1) {
                 }
             } else if (nsKiller1->mStateTimer <= 0) {
                 nsKiller1->mStateTimer = 0;
-                nsKiller1->mState = 3;
+                nsKiller1->mState = NS_KILLER1_STATE_LAUNCH;
             }
             nsKiller1->mStateTimer--;
             break;
-        case 3:
+        case NS_KILLER1_STATE_LAUNCH:
             StartNsKiller2(&nsKiller1->mMapObject.mPos, &nsKiller1->mMapObject.mMatrix.mRows[2],
                            nsKiller1->mMapObject.mAngle);
             if ((nsKiller1->mMapObject.mFlags & 0x12) == 0) {
@@ -133,7 +133,7 @@ void UpdateNsKiller1(void *mapObjectList, NsKiller1 *nsKiller1) {
                 StartEffect(0x4d, &nsKiller1->mMapObject.mPos);
             }
             nsKiller1->mStateTimer = 0x4b;
-            nsKiller1->mState = 0;
+            nsKiller1->mState = NS_KILLER1_STATE_WAIT;
             break;
     }
 }
