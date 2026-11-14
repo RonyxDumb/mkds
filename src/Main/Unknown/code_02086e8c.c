@@ -17,7 +17,7 @@
 #include "Main/Unknown/code_020b47d8.h"
 #include "Main/Unknown/code_0214d000.h"
 #include "Main/Unknown/code_02087000.h"
-#include "Main/Unknown/code_02088338.h"
+#include "Main/Kart/KartResourcePaths.h"
 #include "Main/Unknown/unk_02155000.h"
 #include "Main/Unknown/unk_02161000.h"
 #include "Main/Unknown/unk_02165000.h"

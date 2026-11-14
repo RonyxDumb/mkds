@@ -29,7 +29,7 @@
 #include "code_020222ec.h"
 #include "Main/Unknown/code_020bc108.h"
 #include "Main/Unknown/code_0203c8dc.h"
-#include "Main/Unknown/code_0203c5f8.h"
+#include "Main/Kart/KartTimes.h"
 
 u32 ClearRaceTimeDigitsPointer(void) {
     u32 address;

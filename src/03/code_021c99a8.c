@@ -1,5 +1,5 @@
 #include "03/code_021c99a8.h"
-#include "03/code_021bf810.h"
+#include "03/HlScr.h"
 #include "03/code_021c2904.h"
 #include "03/code_021be000.h"
 #include "03/code_021bf000.h"
@@ -21,14 +21,14 @@
 #include "code_0214b824.h"
 #include "03/code_021c9cf4.h"
 #include "03/code_021cb000.h"
-#include "03/code_021d2940.h"
+#include "03/Input.h"
 
 #include "03/code_021c2938.h"
 #include "03/code_021c97c0.h"
 #include "03/code_021cd000.h"
 #include "code_0212df7c.h"
 #include "03/code_021cdbd0.h"
-#include "03/code_021d1fd0.h"
+#include "03/TextCanvas.h"
 #include "03/code_021d254c.h"
 #include "os_thread.h"
 

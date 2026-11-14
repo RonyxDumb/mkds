@@ -82,7 +82,7 @@
 #include "Main/Unknown/code_020810e4.h"
 #include "Main/Unknown/code_020815a0.h"
 #include "Main/Unknown/code_0208ae60.h"
-#include "Main/Unknown/code_0208c188.h"
+#include "Main/Kart/KartAiCallbacks.h"
 #include "Main/Unknown/code_0208c4e8.h"
 #include "Main/Unknown/code_02089f9c.h"
 #include "Main/Unknown/code_020ec8bc.h"

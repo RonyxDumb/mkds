@@ -19,7 +19,7 @@
 #include "Main/Unknown/code_02039860.h"
 #include "Main/Unknown/code_020a100c.h"
 #include "Main/Unknown/code_020a126c.h"
-#include "Main/Unknown/code_020ac524.h"
+#include "Main/Course/ShineBalloon.h"
 #include "Main/Unknown/code_020d4c28.h"
 #include "Main/Unknown/code_020fd264.h"
 #include "Main/Unknown/code_02109110.h"

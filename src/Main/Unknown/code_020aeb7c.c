@@ -32,7 +32,7 @@
 #include "Main/Unknown/code_020a1000.h"
 #include "Main/Unknown/code_020be000.h"
 #include "Main/Unknown/code_020c6000.h"
-#include "Main/Unknown/code_0203c5f8.h"
+#include "Main/Kart/KartTimes.h"
 
 void func_020aeb7c(void) {
     BOOL subScreenEnabled;

@@ -1,5 +1,5 @@
 #include "03/code_021d1da8.h"
-#include "03/code_021d3488.h"
+#include "03/Tasks.h"
 
 void AdvanceBlendBrightnessFadeWait(u32 task, BlendBrightnessFadeSlot *state) {
     state->mFrames++;

@@ -233,7 +233,7 @@ src/Main/Unknown/code_0200b200.c:
     .text       start:0x0200b200 end:0x0200b6e8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0200b6e8.c:
+src/Main/Net/ScanConnect.c:
     complete
     .text       start:0x0200b6e8 end:0x0200c0d8
 
@@ -1001,7 +1001,7 @@ src/Main/Unknown/code_0202e43c.c:
     .text       start:0x0202e43c end:0x0202e468
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0202e468.c:
+src/Main/Ui/ScrollList.c:
     complete
     .text       start:0x0202e468 end:0x0202e4b0
 
@@ -1371,7 +1371,7 @@ src/Main/Unknown/code_0203c5e4.c:
     .text       start:0x0203c5e4 end:0x0203c5f8
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0203c5f8.c:
+src/Main/Kart/KartTimes.c:
     complete
     .text       start:0x0203c5f8 end:0x0203c8c0
 
@@ -1419,7 +1419,7 @@ src/Main/Unknown/code_0203f320.c:
     .text       start:0x0203f320 end:0x0203f334
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0203f334.c:
+src/Main/Race/RaceProgress.c:
     complete
     .text       start:0x0203f334 end:0x020401ac
 
@@ -1519,7 +1519,7 @@ src/Main/Unknown/code_02047104.c:
     .text       start:0x02047104 end:0x020483e4
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020483e4.c:
+src/Main/System/ArchiveFiles.c:
     complete
     .text       start:0x020483e4 end:0x020487a0
 
@@ -1798,7 +1798,7 @@ src/Main/Unknown/code_02056444.c:
     .text       start:0x02056444 end:0x02056464
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02056464.c:
+src/Main/Save/GhostTimes.c:
     complete
     .text       start:0x02056464 end:0x020566a8
 
@@ -1873,7 +1873,7 @@ src/Main/Unknown/code_02057294.c:
     .text       start:0x02057294 end:0x02057304
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02057304.c:
+src/Main/Save/GhostBits.c:
     complete
     .text       start:0x02057304 end:0x02057498
 
@@ -1923,7 +1923,7 @@ src/Main/Unknown/code_020578d0.c:
     .text       start:0x020578d0 end:0x020578fc
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020578fc.c:
+src/Main/Save/BackupGhosts.c:
     complete
     .text       start:0x020578fc end:0x02057a18
 
@@ -2450,7 +2450,7 @@ src/Main/Unknown/code_02087d0c.c:
     .text       start:0x02087d0c end:0x02088338
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02088338.c:
+src/Main/Kart/KartResourcePaths.c:
     complete
     .text       start:0x02088338 end:0x020888b4
     .data       start:0x02165f0c end:0x02165fd4
@@ -2527,7 +2527,7 @@ src/Main/Unknown/code_0208c16c.c:
     .text       start:0x0208c16c end:0x0208c188
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_0208c188.c:
+src/Main/Kart/KartAiCallbacks.c:
     complete
     .text       start:0x0208c188 end:0x0208c4e8
 
@@ -2845,7 +2845,7 @@ src/Main/Unknown/code_020ac2fc.c:
     .text       start:0x020ac2fc end:0x020ac524
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020ac524.c:
+src/Main/Course/ShineBalloon.c:
     complete
     .text       start:0x020ac524 end:0x020aca08
     .data       start:0x02167e14 end:0x02167e28
@@ -3093,7 +3093,7 @@ src/Main/Unknown/code_020b3724.c:
     .text       start:0x020b3724 end:0x020b3728
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020b3728.c:
+src/Main/Race/RaceEnd.c:
     complete
     .text       start:0x020b3728 end:0x020b3f7c
 
@@ -3181,7 +3181,7 @@ src/Main/Unknown/code_020b6d98.c:
     .text       start:0x020b6d98 end:0x020b6e00
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020b6e00.c:
+src/Main/Race/RaceCellTables.c:
     complete
     .text       start:0x020b6e00 end:0x020b9994
     .data       start:0x02168ac4 end:0x02169104
@@ -3203,7 +3203,7 @@ src/Main/Unknown/code_020bb5ec.c:
     .data       start:0x02169104 end:0x0216912c
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020bc11c.c:
+src/Main/Race/RaceRankList.c:
     complete
     .text       start:0x020bc11c end:0x020be950
     .data       start:0x0216912c end:0x021691e4
@@ -3942,7 +3942,7 @@ src/Main/Unknown/code_020d9480.c:
     .text       start:0x020d9480 end:0x020d94dc
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_020d94dc.c:
+src/Main/Course/WaterEfct.c:
     complete
     .text       start:0x020d94dc end:0x020da414
     .data       start:0x0216bcac end:0x0216be08
@@ -4442,7 +4442,7 @@ src/Main/Unknown/code_021001ac.c:
     .text       start:0x021001ac end:0x02102674
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02102674.c:
+src/Main/Item/ItemGesso.c:
     complete
     .text       start:0x02102674 end:0x02102e8c
 
@@ -4525,7 +4525,7 @@ src/Main/Unknown/code_02109178.c:
     .text       start:0x02109178 end:0x02109184
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02109184.c:
+src/Main/System/SoundFalloff.c:
     complete
     .text       start:0x02109184 end:0x0210a578
     .data       start:0x0216c8cc end:0x0216ca20
@@ -4947,7 +4947,7 @@ src/Main/Unknown/code_02122ae4.c:
     .text       start:0x02122ae4 end:0x02122b14
 
 // provisional: file name and boundaries
-src/Main/Unknown/code_02122b14.c:
+src/Main/Net/WiFiSession.c:
     complete
     .text       start:0x02122b14 end:0x02124094
 

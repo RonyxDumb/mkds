@@ -34,7 +34,7 @@
 #include "Main/System/Heap.h"
 #include "Main/Unknown/code_020364e0.h"
 #include "Main/Unknown/code_02036bec.h"
-#include "Main/Unknown/code_0203c5f8.h"
+#include "Main/Kart/KartTimes.h"
 #include "Main/Unknown/code_021000d0.h"
 
 void ClearRaceHudSubScreenFireball2Cells(void) {

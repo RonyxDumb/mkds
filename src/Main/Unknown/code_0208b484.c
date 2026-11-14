@@ -4,7 +4,7 @@
 #include "Main/Unknown/code_0206bcb0.h"
 #include "Main/Unknown/code_020f36d8.h"
 #include "Main/System/Heap.h"
-#include "Main/Unknown/code_020483e4.h"
+#include "Main/System/ArchiveFiles.h"
 #include "Main/Unknown/code_02061654.h"
 #include "Main/Unknown/code_02047104.h"
 #include "Main/Unknown/code_0208aea8.h"

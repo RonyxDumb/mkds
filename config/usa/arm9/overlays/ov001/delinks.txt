@@ -458,7 +458,7 @@ src/01/code_0219853c.c:
     .data       start:0x021a8440 end:0x021a844c
     .bss        start:0x021a9bc4 end:0x021a9bc8
 
-src/01/code_02198854.c:
+src/01/OptionSelectMenu.c:
     complete
     .text       start:0x02198834 end:0x02199944
     .data       start:0x021a844c end:0x021a847c

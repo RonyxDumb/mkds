@@ -1,4 +1,4 @@
-#include "03/code_021d1440.h"
+#include "03/DwcArchive.h"
 #include "03/unk_021da000.h"
 #include "03/code_021d1000.h"
 #include "Main/Unknown/code_02146000.h"
@@ -7,7 +7,7 @@
 
 #include "03/code_021d1d4c.h"
 #include "03/code_021d1cd4.h"
-#include "03/code_021d27d8.h"
+#include "03/ExpHeap.h"
 #include "03/unk_021d7bd4.h"
 #include "fs_file.h"
 #include "code_02003be0.h"

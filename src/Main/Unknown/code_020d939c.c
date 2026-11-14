@@ -1,5 +1,5 @@
 #include "Main/Unknown/code_020d939c.h"
-#include "Main/Unknown/code_020d94dc.h"
+#include "Main/Course/WaterEfct.h"
 
 void GetSegmentCurvePosStep(Segment *segment, s32 fraction, s32 scale, Vec3 *firstResult, Vec3 *secondResult) {
     s32 firstWeight0;

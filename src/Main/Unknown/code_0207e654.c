@@ -4,7 +4,7 @@
 #include "Main/Unknown/code_0208537c.h"
 #include "Main/Unknown/code_02080cc0.h"
 #include "Main/Unknown/code_020808d4.h"
-#include "Main/Unknown/code_0208c188.h"
+#include "Main/Kart/KartAiCallbacks.h"
 #include "Main/Unknown/code_0206390c.h"
 #include "Main/Unknown/code_020435c4.h"
 #include "Main/Unknown/code_020738f4.h"

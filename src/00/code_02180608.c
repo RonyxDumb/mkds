@@ -27,7 +27,7 @@
 #include "Main/Unknown/code_020b47d8.h"
 #include "Main/Unknown/code_0211f6cc.h"
 #include "Main/Unknown/code_0212030c.h"
-#include "Main/Unknown/code_02122b14.h"
+#include "Main/Net/WiFiSession.h"
 #include "Main/Unknown/code_02124f4c.h"
 #include "Main/Ui/BackScreen.h"
 #include "Main/Unknown/code_02125de0.h"

@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_0203ca38.h"
 #include "Main/Unknown/code_0203c25c.h"
-#include "Main/Unknown/code_0203c5f8.h"
+#include "Main/Kart/KartTimes.h"
 #include "Main/Unknown/code_0203c8dc.h"
 #include "Main/Unknown/code_0203e000.h"
 #include "Main/Unknown/code_020401ac.h"
@@ -16,7 +16,7 @@
 #include "Main/Unknown/code_020b3f64.h"
 #include "Main/Unknown/code_021108bc.h"
 #include "Main/Unknown/code_0203d568.h"
-#include "Main/Unknown/code_0203f334.h"
+#include "Main/Race/RaceProgress.h"
 #include "Main/Unknown/code_020681f0.h"
 #include "Main/Unknown/code_02077bc0.h"
 

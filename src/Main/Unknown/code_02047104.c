@@ -15,7 +15,7 @@
 #include "code_020182c0.h"
 #include "tp.h"
 #include "Main/Unknown/code_02018000.h"
-#include "Main/Unknown/code_020483e4.h"
+#include "Main/System/ArchiveFiles.h"
 #include "Main/Unknown/unk_0217a000.h"
 #include "Main/Unknown/code_02048000.h"
 #include "Main/Unknown/code_0205e000.h"

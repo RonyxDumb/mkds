@@ -1,5 +1,5 @@
 #include "01/code_02187d14.h"
-#include "Main/Unknown/code_020ac524.h"
+#include "Main/Course/ShineBalloon.h"
 #include "Main/Unknown/code_020da628.h"
 #include "Main/Unknown/code_020f9c6c.h"
 #include "Main/Unknown/code_020fd264.h"

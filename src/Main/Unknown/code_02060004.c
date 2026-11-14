@@ -6,7 +6,7 @@
 #include "Main/Unknown/code_02056a7c.h"
 #include "Main/Unknown/code_02056b30.h"
 #include "Main/Unknown/code_02056c6c.h"
-#include "Main/Unknown/code_02057304.h"
+#include "Main/Save/GhostBits.h"
 #include "Main/Unknown/code_02057624.h"
 #include "Main/Unknown/code_0205edcc.h"
 #include "Main/Unknown/code_0205ee14.h"

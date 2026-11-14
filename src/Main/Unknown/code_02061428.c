@@ -1,5 +1,5 @@
 #include "Main/Unknown/code_02061428.h"
-#include "Main/Unknown/code_02057304.h"
+#include "Main/Save/GhostBits.h"
 #include "Main/Unknown/code_020574c8.h"
 #include "Main/Unknown/code_02057800.h"
 #include "01/code_021956dc.h"

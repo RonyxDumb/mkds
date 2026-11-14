@@ -1,18 +1,18 @@
-#include "03/code_021bf810.h"
+#include "03/HlScr.h"
 #include "03/code_021bf000.h"
 #include "03/code_021b94b8.h"
 #include "03/code_021cd2e0.h"
-#include "03/code_021d1440.h"
+#include "03/DwcArchive.h"
 #include "03/unk_021d5000.h"
 #include "03/code_021bf4dc.h"
 
-#include "03/code_021d3488.h"
+#include "03/Tasks.h"
 #include "Main/Unknown/code_0200e000.h"
 #include "code_0200eddc.h"
 #include "code_0214b824.h"
 #include "03/code_021d1000.h"
 #include "code_0214d018.h"
-#include "03/code_021d27d8.h"
+#include "03/ExpHeap.h"
 #include "03/unk_021d67d8.h"
 
 void ReleaseHlScr(void) {

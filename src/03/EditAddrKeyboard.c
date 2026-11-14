@@ -1,7 +1,7 @@
 #include "03/EditAddrKeyboard.h"
 
-#include "03/code_021d197c.h"
-#include "03/code_021d27d8.h"
+#include "03/OamRanges.h"
+#include "03/ExpHeap.h"
 #include "03/code_021d2ecc.h"
 #include "03/code_021bf8c0.h"
 #include "03/code_021c0000.h"
@@ -12,13 +12,13 @@
 #include "03/code_021d1970.h"
 #include "03/code_021d1c18.h"
 #include "03/unk_021da000.h"
-#include "03/code_021d2940.h"
+#include "03/Input.h"
 #include "03/unk_021d6000.h"
-#include "03/code_021d1fd0.h"
+#include "03/TextCanvas.h"
 #include "03/code_021c1000.h"
 #include "03/code_021d250c.h"
 #include "03/code_021d1770.h"
-#include "03/code_021d3488.h"
+#include "03/Tasks.h"
 #include "03/EditKeyboard.h"
 
 void CreateEditAddrKeyboard(void) {

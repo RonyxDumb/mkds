@@ -3,7 +3,7 @@
 #include "Main/Unknown/code_020467d0.h"
 #include "Main/Unknown/code_0205d0e8.h"
 #include "Main/Unknown/code_0205b0f4.h"
-#include "Main/Unknown/code_02056464.h"
+#include "Main/Save/GhostTimes.h"
 #include "Main/Unknown/code_02055730.h"
 #include "Main/Unknown/code_02120294.h"
 #include "Main/Unknown/code_02120240.h"

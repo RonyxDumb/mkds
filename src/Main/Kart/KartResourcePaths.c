@@ -1,4 +1,4 @@
-#include "Main/Unknown/code_02088338.h"
+#include "Main/Kart/KartResourcePaths.h"
 
 #include "code_02134398.h"
 #include "Main/Unknown/unk_02155000.h"

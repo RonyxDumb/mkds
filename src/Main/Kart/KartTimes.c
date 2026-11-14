@@ -1,4 +1,4 @@
-#include "Main/Unknown/code_0203c5f8.h"
+#include "Main/Kart/KartTimes.h"
 #include "Main/Unknown/code_020b1dbc.h"
 #include "Main/Unknown/code_0207b960.h"
 #include "Main/Unknown/code_020b4e5c.h"

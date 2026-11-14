@@ -4,7 +4,7 @@
 #include "03/code_021b94b8.h"
 #include "03/code_021cd2e0.h"
 #include "03/unk_021da000.h"
-#include "03/code_021d27d8.h"
+#include "03/ExpHeap.h"
 #include "03/code_021c1f20.h"
 #include "03/code_021c1f28.h"
 #include "03/unk_021d6000.h"

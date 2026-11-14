@@ -23,7 +23,7 @@
 #include "Main/Unknown/unk_021759c0.h"
 #include "Main/Unknown/code_02044618.h"
 #include "Main/Unknown/code_0204f240.h"
-#include "Main/Unknown/code_0203c5f8.h"
+#include "Main/Kart/KartTimes.h"
 
 void SumTimes(TimeRecord *firstTime, Unk0217aa1c_144_00 *secondTime, TimeRecord *sum) {
     u16 milliseconds = firstTime->mMillisecond + secondTime->mUnk_00;

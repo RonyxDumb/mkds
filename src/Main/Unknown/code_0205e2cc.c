@@ -8,7 +8,7 @@
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/Unknown/code_02042064.h"
 #include "Main/Unknown/code_020431cc.h"
-#include "Main/Unknown/code_02057304.h"
+#include "Main/Save/GhostBits.h"
 #include "Main/Unknown/code_020574c8.h"
 #include "Main/Unknown/code_02057000.h"
 #include "Main/Unknown/code_02057ca4.h"

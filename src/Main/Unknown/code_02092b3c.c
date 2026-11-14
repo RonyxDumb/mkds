@@ -4,7 +4,7 @@
 
 #include "Main/Course/Basabasa.h"
 #include "Main/Unknown/code_02046000.h"
-#include "Main/Unknown/code_020ac524.h"
+#include "Main/Course/ShineBalloon.h"
 #include "Main/Unknown/unk_0217a000.h"
 #include "Main/Unknown/code_02061654.h"
 #include "Main/Unknown/code_0206bcb0.h"

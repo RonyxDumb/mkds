@@ -4,7 +4,7 @@
 #include "Main/Unknown/code_0203f2b4.h"
 #include "Main/Unknown/code_0203f280.h"
 #include "Main/Unknown/code_0203f320.h"
-#include "Main/Unknown/code_0203f334.h"
+#include "Main/Race/RaceProgress.h"
 #include "Main/Unknown/code_0204a904.h"
 #include "Main/Unknown/code_0204a928.h"
 #include "Main/Unknown/code_020401ac.h"
@@ -16,7 +16,7 @@
 #include "Main/Unknown/unk_0217a000.h"
 #include "00/code_0219b580.h"
 #include "code_02147cd8.h"
-#include "Main/Unknown/code_0203c5f8.h"
+#include "Main/Kart/KartTimes.h"
 #include "Main/Unknown/code_02077bc0.h"
 
 s32 IsRaceEndConditionMet(void) {

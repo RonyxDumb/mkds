@@ -6,10 +6,10 @@
 #include "code_0200eddc.h"
 #include "code_0214b824.h"
 
-#include "03/code_021d1440.h"
+#include "03/DwcArchive.h"
 #include "03/unk_021d5000.h"
 #include "03/code_021bf4dc.h"
-#include "03/code_021d3488.h"
+#include "03/Tasks.h"
 
 void func_ov003_021cdcf0(u32 a) {
     data_ov003_021da278 = LoadFile(BuildFilePathWithLanguage(data_ov003_021d7850[a]), NULL, 4);

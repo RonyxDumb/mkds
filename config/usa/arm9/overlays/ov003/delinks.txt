@@ -56,12 +56,12 @@ src/03/code_021bf4dc.c:
     .text       start:0x021bf49c end:0x021bf658
 
 // provisional: file name and boundaries
-src/03/code_021bf698.c:
+src/03/SelectionObjects.c:
     complete
     .text       start:0x021bf658 end:0x021bf7d0
 
 // provisional: file name and boundaries
-src/03/code_021bf810.c:
+src/03/HlScr.c:
     complete
     .text       start:0x021bf7d0 end:0x021bf880
 
@@ -106,7 +106,7 @@ src/03/code_021c250c.c:
     .text       start:0x021c24cc end:0x021c24f0
 
 // provisional: file name and boundaries
-src/03/code_021c2530.c:
+src/03/Messages.c:
     complete
     .text       start:0x021c24f0 end:0x021c25a0
 
@@ -558,7 +558,7 @@ src/03/code_021d083c.c:
     .text       start:0x021d07fc end:0x021d1400
 
 // provisional: file name and boundaries
-src/03/code_021d1440.c:
+src/03/DwcArchive.c:
     complete
     .text       start:0x021d1400 end:0x021d1730
 
@@ -578,7 +578,7 @@ src/03/code_021d1970.c:
     .text       start:0x021d1930 end:0x021d193c
 
 // provisional: file name and boundaries
-src/03/code_021d197c.c:
+src/03/OamRanges.c:
     complete
     .text       start:0x021d193c end:0x021d1bd8
 
@@ -630,7 +630,7 @@ src/03/code_021d1f70.c:
     .text       start:0x021d1f30 end:0x021d1f90
 
 // provisional: file name and boundaries
-src/03/code_021d1fd0.c:
+src/03/TextCanvas.c:
     complete
     .text       start:0x021d1f90 end:0x021d24cc
 
@@ -645,7 +645,7 @@ src/03/code_021d254c.c:
     .text       start:0x021d250c end:0x021d2798
 
 // provisional: file name and boundaries
-src/03/code_021d27d8.c:
+src/03/ExpHeap.c:
     complete
     .text       start:0x021d2798 end:0x021d28a0
 
@@ -655,7 +655,7 @@ src/03/code_021d28e0.c:
     .text       start:0x021d28a0 end:0x021d2900
 
 // provisional: file name and boundaries
-src/03/code_021d2940.c:
+src/03/Input.c:
     complete
     .text       start:0x021d2900 end:0x021d2d10
 
@@ -710,6 +710,6 @@ src/03/code_021d3298.c:
     .text       start:0x021d3258 end:0x021d3448
 
 // provisional: file name and boundaries
-src/03/code_021d3488.c:
+src/03/Tasks.c:
     complete
     .text       start:0x021d3448 end:0x021d3654

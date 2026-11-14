@@ -1,4 +1,4 @@
-#include "03/code_021d2940.h"
+#include "03/Input.h"
 
 #include "03/unk_021da000.h"
 #include "03/code_021d250c.h"
@@ -6,7 +6,7 @@
 #include "tp.h"
 #include "code_02147cd8.h"
 #include "03/code_021d2c78.h"
-#include "03/code_021d27d8.h"
+#include "03/ExpHeap.h"
 
 void ReleaseKeyTouchInput(void) {
     do {

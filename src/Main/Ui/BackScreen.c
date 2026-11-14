@@ -19,7 +19,7 @@
 #include "Main/Unknown/code_02128058.h"
 #include "Main/Unknown/code_021287c0.h"
 #include "Main/Unknown/code_021287cc.h"
-#include "01/code_02198854.h"
+#include "01/OptionSelectMenu.h"
 
 #pragma thumb on
 

@@ -15,7 +15,7 @@
 #include "01/code_0218c000.h"
 #include "Main/Unknown/code_020a100c.h"
 #include "Main/Unknown/code_020a126c.h"
-#include "Main/Unknown/code_020ac524.h"
+#include "Main/Course/ShineBalloon.h"
 #include "Main/Unknown/code_020d4000.h"
 #include "01/code_02185ef4.h"
 #include "01/code_02187d14.h"

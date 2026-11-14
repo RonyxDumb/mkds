@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "03/code_021d3488.h"
+#include "03/Tasks.h"
 
 // Stack object of CreateEditKeyboard.
 typedef struct Unk021c0d2c {

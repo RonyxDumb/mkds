@@ -1,4 +1,4 @@
-#include "Main/Unknown/code_020b3728.h"
+#include "Main/Race/RaceEnd.h"
 #include "Main/System/Heap.h"
 #include "Main/Unknown/code_0205d0e8.h"
 #include "Main/Unknown/code_0205ee14.h"
@@ -34,7 +34,7 @@
 #include "Main/Unknown/code_020ae000.h"
 #include "Main/Unknown/unk_0217a000.h"
 #include "Main/Unknown/code_020b3f64.h"
-#include "Main/Unknown/code_0203c5f8.h"
+#include "Main/Kart/KartTimes.h"
 #include "Main/Unknown/code_0203c8dc.h"
 #include "Main/Unknown/code_02077bc0.h"
 

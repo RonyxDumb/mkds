@@ -26,7 +26,7 @@
 #include "Main/Unknown/code_0207e64c.h"
 #include "Main/Unknown/code_0207e654.h"
 #include "Main/Unknown/code_0207fe70.h"
-#include "Main/Unknown/code_0203c5f8.h"
+#include "Main/Kart/KartTimes.h"
 #include "Main/Unknown/code_0203c8dc.h"
 
 void func_0207d6a4(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi) {

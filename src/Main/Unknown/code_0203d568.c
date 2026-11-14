@@ -2,7 +2,7 @@
 #include "Main/System/Heap.h"
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/Unknown/code_0203e74c.h"
-#include "Main/Unknown/code_0203f334.h"
+#include "Main/Race/RaceProgress.h"
 #include "Main/Unknown/code_020435c4.h"
 #include "Main/Unknown/code_020431e4.h"
 #include "Main/Unknown/code_02044618.h"

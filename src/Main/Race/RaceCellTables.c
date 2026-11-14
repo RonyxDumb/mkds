@@ -1,4 +1,4 @@
-#include "Main/Unknown/code_020b6e00.h"
+#include "Main/Race/RaceCellTables.h"
 #include "Main/System/Heap.h"
 #include "Main/Unknown/code_020ade08.h"
 

@@ -6,7 +6,7 @@
 #include "Main/Unknown/code_020f8000.h"
 #include "code_02146d78.h"
 #include "code_02147cd8.h"
-#include "Main/Unknown/code_02102674.h"
+#include "Main/Item/ItemGesso.h"
 #include "Main/Unknown/unk_021759c0.h"
 #include "Main/Unknown/code_020f9c40.h"
 #include "Main/Unknown/code_020f8e3c.h"

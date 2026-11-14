@@ -29,7 +29,7 @@
 #include "Main/Unknown/code_02111684.h"
 #include "Main/Unknown/code_021144c0.h"
 #include "Main/Unknown/code_02125000.h"
-#include "01/code_02198854.h"
+#include "01/OptionSelectMenu.h"
 #include "Main/Unknown/code_02111b40.h"
 #include "Main/Unknown/code_02111b94.h"
 #include "Main/Unknown/code_02112b48.h"

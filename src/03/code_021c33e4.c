@@ -2,7 +2,7 @@
 #include "03/code_021cdbd0.h"
 #include "03/code_021d1dd0.h"
 #include "03/code_021d1f70.h"
-#include "03/code_021d2940.h"
+#include "03/Input.h"
 #include "code_0200fc8c.h"
 #include "pm.h"
 

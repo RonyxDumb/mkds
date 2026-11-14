@@ -16,7 +16,7 @@
 #include "Main/Unknown/code_020b837c.h"
 #include "Main/Unknown/code_020c0000.h"
 #include "Main/Unknown/code_020c0d9c.h"
-#include "Main/Unknown/code_0203c5f8.h"
+#include "Main/Kart/KartTimes.h"
 
 void UpdateRaceHudSubScreenItemBoxCells(void) {
     s32 i;

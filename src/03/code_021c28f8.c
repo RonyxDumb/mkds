@@ -1,5 +1,5 @@
 #include "03/code_021c28f8.h"
-#include "03/code_021d27d8.h"
+#include "03/ExpHeap.h"
 
 u32 func_ov003_021c28f8(u32 size) {
     u32 value0 = size;

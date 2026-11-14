@@ -1,5 +1,5 @@
 #include "Main/Unknown/code_020d9340.h"
-#include "Main/Unknown/code_020d94dc.h"
+#include "Main/Course/WaterEfct.h"
 
 void GetCurvePointXz(u32 points, u32 fraction, u32 result) {
     u32 weight0;

@@ -1,6 +1,6 @@
 #include "03/code_021c3758.h"
 #include "03/code_021bf4dc.h"
-#include "03/code_021d1fd0.h"
+#include "03/TextCanvas.h"
 #include "03/unk_021d5000.h"
 #include "03/unk_021da000.h"
 #include "03/code_021bf410.h"

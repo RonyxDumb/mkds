@@ -4,7 +4,7 @@
 #include "code_0201c528.h"
 #include "Main/Unknown/code_02109000.h"
 #include "Main/Unknown/code_02080cd0.h"
-#include "Main/Unknown/code_0208c188.h"
+#include "Main/Kart/KartAiCallbacks.h"
 #include "Main/Kart/KartTurnEffects.h"
 #include "Main/Unknown/code_02109054.h"
 #include "Main/Kart/KartStates.h"

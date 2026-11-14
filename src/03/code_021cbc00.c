@@ -22,7 +22,7 @@
 #include "03/unk_021da000.h"
 #include "03/code_021c209c.h"
 #include "03/code_021c2a74.h"
-#include "03/code_021d1fd0.h"
+#include "03/TextCanvas.h"
 #include "03/code_021d254c.h"
 #include "03/code_021d1f70.h"
 #include "03/code_021cea3c.h"

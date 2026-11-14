@@ -1,6 +1,6 @@
 #include "03/code_021d2d50.h"
-#include "03/code_021d27d8.h"
-#include "03/code_021d2940.h"
+#include "03/ExpHeap.h"
+#include "03/Input.h"
 #include "03/code_021d3000.h"
 #include "03/unk_021da000.h"
 #include "code_0200c914.h"

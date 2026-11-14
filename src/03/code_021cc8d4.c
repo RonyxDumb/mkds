@@ -4,10 +4,10 @@
 #include "code_0200eddc.h"
 #include "code_0214b824.h"
 
-#include "03/code_021d3488.h"
+#include "03/Tasks.h"
 #include "03/unk_021da000.h"
 #include "code_0214cfe4.h"
-#include "03/code_021d27d8.h"
+#include "03/ExpHeap.h"
 #include "code_0214d018.h"
 
 void func_ov003_021cca30(const void *b) {

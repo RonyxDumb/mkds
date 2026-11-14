@@ -7,7 +7,7 @@
 #include "Main/Unknown/code_020b47d8.h"
 #include "Main/Unknown/code_020b9994.h"
 #include "Main/Unknown/code_020bb5ec.h"
-#include "Main/Unknown/code_020bc11c.h"
+#include "Main/Race/RaceRankList.h"
 #include "Main/Unknown/code_020be950.h"
 #include "Main/Unknown/code_020c06c4.h"
 #include "Main/Unknown/code_020c2118.h"
@@ -27,7 +27,7 @@
 #include "Main/Unknown/code_020f36d8.h"
 #include "code_0200eddc.h"
 #include "code_0214c778.h"
-#include "Main/Unknown/code_0203c5f8.h"
+#include "Main/Kart/KartTimes.h"
 
 void func_020ae824(void) {
     u32 v;

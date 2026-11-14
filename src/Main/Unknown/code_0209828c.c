@@ -7,7 +7,7 @@
 #include "Main/Unknown/code_0209b000.h"
 #include "Main/Unknown/code_0209b634.h"
 #include "Main/Unknown/code_0209bef0.h"
-#include "Main/Unknown/code_020ac524.h"
+#include "Main/Course/ShineBalloon.h"
 #include "Main/Unknown/code_020d22c0.h"
 #include "Main/Unknown/code_020d3b10.h"
 #include "Main/Unknown/code_020d49d8.h"

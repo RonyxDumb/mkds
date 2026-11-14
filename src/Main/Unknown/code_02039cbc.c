@@ -25,7 +25,7 @@
 #include "code_0214d93c.h"
 #include "Main/Unknown/code_02044618.h"
 #include "Main/Unknown/code_020467d0.h"
-#include "Main/Unknown/code_020483e4.h"
+#include "Main/System/ArchiveFiles.h"
 #include "Main/Unknown/code_0204984c.h"
 #include "Main/Unknown/code_0204ad44.h"
 #include "Main/Unknown/code_0204b714.h"

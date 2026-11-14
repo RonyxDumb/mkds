@@ -10,7 +10,7 @@
 #include "03/unk_021d7000.h"
 #include "code_0214b824.h"
 
-#include "03/code_021d1fd0.h"
+#include "03/TextCanvas.h"
 #include "03/code_021d254c.h"
 #include "03/code_021c209c.h"
 #include "03/code_021d083c.h"
@@ -20,7 +20,7 @@
 #include "03/code_021cea3c.h"
 #include "03/code_021d1000.h"
 #include "03/code_021d3000.h"
-#include "03/code_021d3488.h"
+#include "03/Tasks.h"
 #include "code_0212df7c.h"
 #include "03/code_021cdbd0.h"
 #include "03/code_021ce000.h"

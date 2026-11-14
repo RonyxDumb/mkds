@@ -1,4 +1,4 @@
-#include "Main/Unknown/code_020bc11c.h"
+#include "Main/Race/RaceRankList.h"
 
 #include "Main/System/Heap.h"
 #include "Main/Unknown/code_020b19b4.h"
@@ -39,7 +39,7 @@
 #include "Main/Unknown/code_020a10f0.h"
 #include "Main/Unknown/code_020ade08.h"
 #include "Main/Race/RaceStartSequence.h"
-#include "Main/Unknown/code_020b6e00.h"
+#include "Main/Race/RaceCellTables.h"
 #include "Main/Unknown/code_020b8000.h"
 #include "Main/Unknown/code_020b3000.h"
 #include "Main/Unknown/code_0203c000.h"
@@ -47,7 +47,7 @@
 #include "Main/Unknown/unk_027e0000.h"
 #include "Main/Unknown/code_020be7fc.h"
 #include "Main/Unknown/code_020be930.h"
-#include "Main/Unknown/code_0203c5f8.h"
+#include "Main/Kart/KartTimes.h"
 #include "Main/Unknown/code_0203c8dc.h"
 #include "Main/Unknown/code_02077bc0.h"
 

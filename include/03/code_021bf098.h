@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "03/code_021d1770.h"
-#include "03/code_021d3488.h"
+#include "03/Tasks.h"
 
 typedef struct SlideButtons {
     /* 00 */ OamRange *mButtons[2];

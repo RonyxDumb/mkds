@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_02102674.h"
+#include "Main/Item/ItemGesso.h"
 
 // The register words and texture sizes DrawOrthoQuadsWithModel uses, filled from one model.
 typedef struct {

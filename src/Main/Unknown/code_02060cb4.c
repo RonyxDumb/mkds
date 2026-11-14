@@ -2,7 +2,7 @@
 #include "Main/Unknown/code_0203b070.h"
 #include "Main/Unknown/code_0203b0a0.h"
 #include "Main/Unknown/code_0203be88.h"
-#include "Main/Unknown/code_020483e4.h"
+#include "Main/System/ArchiveFiles.h"
 #include "Main/Unknown/code_020574c8.h"
 #include "Main/Unknown/code_02057624.h"
 #include "Main/Unknown/code_02057ca4.h"

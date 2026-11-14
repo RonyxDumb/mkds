@@ -18,7 +18,7 @@
 #include "Main/Unknown/code_0202e4b0.h"
 #include "Main/System/Heap.h"
 #include "Main/Unknown/code_0202db04.h"
-#include "Main/Unknown/code_0202e468.h"
+#include "Main/Ui/ScrollList.h"
 #include "Main/Unknown/code_02025b84.h"
 #include "Main/Unknown/code_02025bb4.h"
 #include "Main/Unknown/code_0203434c.h"

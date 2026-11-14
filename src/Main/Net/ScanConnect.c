@@ -1,4 +1,4 @@
-#include "Main/Unknown/code_0200b6e8.h"
+#include "Main/Net/ScanConnect.h"
 
 #include "code_0200fc8c.h"
 #include "Main/Unknown/code_0200b200.h"

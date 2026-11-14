@@ -38,7 +38,7 @@
 #include "code_0214d018.h"
 #include "Main/Unknown/code_020c70d8.h"
 #include "01/code_021956dc.h"
-#include "Main/Unknown/code_0203c5f8.h"
+#include "Main/Kart/KartTimes.h"
 
 u32 GetRaceNewRecordTaBestLapNumber(void) {
     return (gRaceNewRecordTa->mBestLapNumber);

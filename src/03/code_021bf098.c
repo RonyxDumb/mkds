@@ -6,15 +6,15 @@
 #include "03/code_021d1770.h"
 #include "03/code_021d1790.h"
 #include "03/code_021d1970.h"
-#include "03/code_021d197c.h"
+#include "03/OamRanges.h"
 #include "03/code_021d1c18.h"
 #include "03/code_021d250c.h"
-#include "03/code_021d2940.h"
+#include "03/Input.h"
 #include "03/code_021d3000.h"
-#include "03/code_021d3488.h"
+#include "03/Tasks.h"
 #include "03/unk_021d5000.h"
 #include "03/unk_021da000.h"
-#include "03/code_021d27d8.h"
+#include "03/ExpHeap.h"
 
 void CreateSlideButtons(u32 kind) {
     s32 buttonCount;

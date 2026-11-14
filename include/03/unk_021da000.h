@@ -1,7 +1,7 @@
 #pragma once
 
 #include "03/code_021be610.h"
-#include "03/code_021d1fd0.h"
+#include "03/TextCanvas.h"
 #include "03/code_021c209c.h"
 #include "03/code_021c4ad4.h"
 #include "03/code_021cfa68.h"
@@ -11,10 +11,10 @@
 #include "03/code_021d1da8.h"
 #include "code_02003024.h" // FSArchive
 #include "03/code_021bf098.h"
-#include "03/code_021c2530.h"
+#include "03/Messages.h"
 #include "03/code_021c25e0.h"
-#include "03/code_021d27d8.h"
-#include "03/code_021d3488.h"
+#include "03/ExpHeap.h"
+#include "03/Tasks.h"
 #include "03/types_021d299c.h"
 
 typedef struct Jb3List {

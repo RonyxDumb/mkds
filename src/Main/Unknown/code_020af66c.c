@@ -7,7 +7,7 @@
 #include "Main/Unknown/code_020b32ec.h"
 #include "Main/Race/RaceStartSequence.h"
 #include "Main/Unknown/code_020b36c8.h"
-#include "Main/Unknown/code_020b3728.h"
+#include "Main/Race/RaceEnd.h"
 #include "Main/Unknown/code_020b3adc.h"
 #include "Main/Unknown/code_020b47d8.h"
 #include "Main/Unknown/code_020b1dbc.h"
@@ -28,7 +28,7 @@
 #include "Main/Unknown/code_020bb5cc.h"
 #include "Main/Unknown/code_020bb5ec.h"
 #include "Main/Unknown/code_020bc108.h"
-#include "Main/Unknown/code_020bc11c.h"
+#include "Main/Race/RaceRankList.h"
 #include "Main/Unknown/code_020be950.h"
 #include "Main/Unknown/code_020c214c.h"
 #include "Main/Unknown/code_020c31ec.h"
@@ -94,7 +94,7 @@
 #include "Main/Unknown/code_020be7fc.h"
 #include "Main/Unknown/code_020c5ce0.h"
 #include "Main/Unknown/code_0212b1a8.h"
-#include "Main/Unknown/code_0203c5f8.h"
+#include "Main/Kart/KartTimes.h"
 
 void InitSubScreenGraphicsMode5(void) {
     if (IsCourseWithMap2DLocal3() != 0) {

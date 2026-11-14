@@ -6,7 +6,7 @@
 #include "Main/Unknown/code_02120054.h"
 #include "Main/Unknown/code_0211f6cc.h"
 #include "Main/Unknown/code_0211ff74.h"
-#include "Main/Unknown/code_02122b14.h"
+#include "Main/Net/WiFiSession.h"
 #include "Main/Unknown/code_02123000.h"
 #include "Main/Unknown/code_021200a4.h"
 #include "Main/Unknown/code_021200a8.h"

@@ -11,7 +11,7 @@
 #include "Main/Unknown/unk_0217b000.h"
 #include "Main/Unknown/code_020d2000.h"
 #include "Main/Unknown/code_020d2d94.h"
-#include "Main/Unknown/code_020d94dc.h"
+#include "Main/Course/WaterEfct.h"
 
 #pragma thumb on
 

@@ -1,5 +1,5 @@
 #include "03/code_021ca028.h"
-#include "03/code_021bf810.h"
+#include "03/HlScr.h"
 #include "03/code_021bf410.h"
 #include "03/code_021c2000.h"
 #include "03/code_021ca000.h"
@@ -22,10 +22,10 @@
 #include "code_0214b824.h"
 #include "03/code_021c99a8.h"
 #include "03/code_021cd000.h"
-#include "03/code_021d2940.h"
+#include "03/Input.h"
 #include "03/code_021ca20c.h"
 
-#include "03/code_021d1fd0.h"
+#include "03/TextCanvas.h"
 #include "03/code_021d254c.h"
 #include "03/code_021cea3c.h"
 

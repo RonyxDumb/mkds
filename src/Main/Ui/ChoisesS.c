@@ -42,7 +42,7 @@
 #include "Main/Unknown/code_020b41e8.h"
 #include "Main/Unknown/code_020c3000.h"
 #include "Main/Unknown/code_020c3db4.h"
-#include "Main/Unknown/code_0203c5f8.h"
+#include "Main/Kart/KartTimes.h"
 #include "Main/Unknown/code_0205ee14.h"
 #include "Main/Unknown/code_020ade08.h"
 #include "Main/Unknown/code_0205f000.h"

@@ -7,9 +7,9 @@
 #include "03/code_021cdbd0.h"
 #include "03/code_021d1dd0.h"
 #include "03/code_021d1f70.h"
-#include "03/code_021d1fd0.h"
+#include "03/TextCanvas.h"
 #include "03/code_021d254c.h"
-#include "03/code_021d2940.h"
+#include "03/Input.h"
 #include "03/unk_021d7000.h"
 #include "code_0214b824.h"
 

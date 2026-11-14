@@ -1,7 +1,7 @@
 #include "ITCM/code_01ffcf7c.h"
 #include "Main/Unknown/code_0206bcb0.h"
 #include "Main/Unknown/code_020888b4.h"
-#include "Main/Unknown/code_0208c188.h"
+#include "Main/Kart/KartAiCallbacks.h"
 #include "Main/Unknown/code_020d50ec.h"
 #include "Main/Unknown/unk_02155000.h"
 #include "Main/Unknown/unk_02156000.h"

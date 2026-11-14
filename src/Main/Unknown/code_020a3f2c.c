@@ -30,7 +30,7 @@
 #include "Main/Unknown/code_02081618.h"
 #include "Main/Unknown/code_0209b000.h"
 #include "Main/Unknown/code_02024000.h"
-#include "Main/Unknown/code_020ac524.h"
+#include "Main/Course/ShineBalloon.h"
 #include "Main/Unknown/unk_0217a000.h"
 #include "Main/Unknown/code_02061654.h"
 #include "Main/Unknown/code_020a1218.h"

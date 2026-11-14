@@ -9,7 +9,7 @@
 #include "03/code_021cef90.h"
 #include "03/code_021d1dd0.h"
 #include "03/unk_021da000.h"
-#include "03/code_021d2940.h"
+#include "03/Input.h"
 
 #include "03/code_021bf098.h"
 #include "03/code_021c209c.h"
@@ -24,7 +24,7 @@
 #include "03/code_021ca028.h"
 #include "code_0212df7c.h"
 #include "03/code_021cdbd0.h"
-#include "03/code_021d1fd0.h"
+#include "03/TextCanvas.h"
 #include "03/code_021d254c.h"
 #include "os_thread.h"
 #include "03/code_021c2000.h"
@@ -35,7 +35,7 @@
 #include "03/code_021bf410.h"
 #include "03/code_021b94b8.h"
 #include "03/code_021cd2e0.h"
-#include "03/code_021bf810.h"
+#include "03/HlScr.h"
 #include "03/code_021be610.h"
 
 void func_ov003_021ca504(void) {

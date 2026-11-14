@@ -2,7 +2,7 @@
 #include "registers.h"
 
 #include "03/code_021d1da8.h"
-#include "03/code_021d27d8.h"
+#include "03/ExpHeap.h"
 #include "03/unk_021da000.h"
 #include "code_0214a390.h"
 

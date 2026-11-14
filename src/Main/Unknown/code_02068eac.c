@@ -41,7 +41,7 @@
 #include "Main/Unknown/code_02105ec0.h"
 #include "Main/Unknown/code_02108ea0.h"
 #include "Main/Unknown/code_02109054.h"
-#include "Main/Unknown/code_02109184.h"
+#include "Main/System/SoundFalloff.h"
 #include "Main/Unknown/code_0210a664.h"
 #include "Main/Unknown/code_0210ab48.h"
 #include "Main/Unknown/code_0210dc7c.h"
@@ -57,7 +57,7 @@
 #include "code_0212df7c.h"
 #include "Main/Kart/KartStates.h"
 #include "Main/Unknown/code_0206d020.h"
-#include "Main/Unknown/code_0203c5f8.h"
+#include "Main/Kart/KartTimes.h"
 #include "Main/Unknown/code_0203c8dc.h"
 #include "Main/Unknown/code_020681f0.h"
 

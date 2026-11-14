@@ -1,5 +1,5 @@
 #include "Main/Unknown/code_02092178.h"
-#include "Main/Unknown/code_020ac524.h"
+#include "Main/Course/ShineBalloon.h"
 #include "Main/Unknown/code_021000d0.h"
 
 void InitKanoke64(u32 arg0) {

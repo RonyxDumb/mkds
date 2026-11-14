@@ -15,7 +15,7 @@
 #include "code_0201c528.h"
 #include "Main/Unknown/unk_0217a000.h"
 #include "Main/Unknown/code_02061654.h"
-#include "Main/Unknown/code_02102674.h"
+#include "Main/Item/ItemGesso.h"
 #include "Main/Unknown/code_0203c5e4.h"
 #include "Main/Unknown/code_02073eb8.h"
 #include "Main/Unknown/unk_021759c0.h"

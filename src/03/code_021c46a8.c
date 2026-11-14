@@ -19,10 +19,10 @@
 #include "code_0214b824.h"
 #include "03/code_021c4dd4.h"
 
-#include "03/code_021d1fd0.h"
+#include "03/TextCanvas.h"
 #include "03/code_021d254c.h"
 #include "03/code_021d3000.h"
-#include "03/code_021d3488.h"
+#include "03/Tasks.h"
 #include "03/code_021c25e0.h"
 
 void func_ov003_021c4804(void) {

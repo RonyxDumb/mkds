@@ -16,7 +16,7 @@
 #include "Main/Unknown/code_02025bb4.h"
 #include "Main/Save/GhostList.h"
 #include "Main/Unknown/code_0202dd9c.h"
-#include "Main/Unknown/code_0202e468.h"
+#include "Main/Ui/ScrollList.h"
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/Unknown/code_02036c5c.h"
 #include "Main/Unknown/code_02047104.h"

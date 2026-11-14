@@ -53,7 +53,7 @@
 #include "Main/Unknown/code_020b4000.h"
 #include "Main/Unknown/code_020cbad0.h"
 #include "Main/Unknown/code_02122734.h"
-#include "Main/Unknown/code_02122b14.h"
+#include "Main/Net/WiFiSession.h"
 #include "Main/Unknown/code_02125de0.h"
 #include "code_02148950.h"
 #include "Main/Unknown/code_0214d000.h"

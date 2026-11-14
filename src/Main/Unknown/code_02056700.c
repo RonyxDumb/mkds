@@ -8,16 +8,16 @@
 #include "Main/Unknown/code_0203c000.h"
 #include "Main/Unknown/code_02055730.h"
 #include "Main/Unknown/code_02056408.h"
-#include "Main/Unknown/code_02057304.h"
+#include "Main/Save/GhostBits.h"
 #include "Main/Unknown/code_020574a0.h"
-#include "Main/Unknown/code_020578fc.h"
+#include "Main/Save/BackupGhosts.h"
 #include "Main/Unknown/code_0214d000.h"
 #include "Main/Unknown/unk_02175000.h"
 #include "Main/Unknown/unk_02175628.h"
 #include "Main/Unknown/unk_021759c0.h"
 #include "Main/Unknown/unk_0217a000.h"
 #include "code_0214d018.h"
-#include "Main/Unknown/code_0203c5f8.h"
+#include "Main/Kart/KartTimes.h"
 
 #pragma thumb on
 

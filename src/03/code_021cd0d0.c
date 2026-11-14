@@ -8,7 +8,7 @@
 #include "03/code_021cce78.h"
 #include "code_02142eac.h"
 #include "code_0214cfe4.h"
-#include "03/code_021d27d8.h"
+#include "03/ExpHeap.h"
 #include "03/unk_021da000.h"
 
 void func_ov003_021cd2a4(void) {

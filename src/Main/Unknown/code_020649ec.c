@@ -39,7 +39,7 @@
 #include "Main/Unknown/code_0207b000.h"
 #include "Main/Unknown/code_02081618.h"
 #include "Main/Unknown/code_0208ab98.h"
-#include "Main/Unknown/code_0208c188.h"
+#include "Main/Kart/KartAiCallbacks.h"
 #include "code_02147cd8.h"
 #include "Main/Unknown/unk_02154000.h"
 #include "Main/Unknown/code_02063b70.h"

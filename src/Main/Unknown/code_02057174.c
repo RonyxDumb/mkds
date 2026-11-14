@@ -2,7 +2,7 @@
 #include "Main/Unknown/code_02057244.h"
 #include "Main/Unknown/code_02057260.h"
 #include "Main/Unknown/code_02057294.h"
-#include "Main/Unknown/code_02057304.h"
+#include "Main/Save/GhostBits.h"
 #include "Main/Unknown/code_020574c8.h"
 #include "Main/Unknown/code_02057764.h"
 #include "Main/Save/BackupBlocks.h"

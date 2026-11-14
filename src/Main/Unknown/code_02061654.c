@@ -58,7 +58,7 @@
 #include "Main/Unknown/code_0208537c.h"
 #include "Main/Unknown/code_02086058.h"
 #include "Main/Unknown/code_02086e8c.h"
-#include "Main/Unknown/code_02088338.h"
+#include "Main/Kart/KartResourcePaths.h"
 #include "Main/Unknown/code_02089fa0.h"
 #include "Main/Unknown/code_02018000.h"
 #include "Main/Unknown/code_0208b484.h"

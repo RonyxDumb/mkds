@@ -14,7 +14,7 @@
 #include "Main/Unknown/unk_02174000.h"
 #include "Main/Unknown/code_0202bb80.h"
 #include "Main/Unknown/code_0202db04.h"
-#include "Main/Unknown/code_0202e468.h"
+#include "Main/Ui/ScrollList.h"
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/Unknown/code_02036c5c.h"
 #include "Main/Unknown/code_02047104.h"

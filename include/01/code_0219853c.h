@@ -6,7 +6,7 @@
 #include "00/code_02181f98.h"
 #include "01/unk_021a9000.h"
 #include "Main/Ui/BackScreen.h"
-#include "01/code_02198854.h"
+#include "01/OptionSelectMenu.h"
 #include "Main/Unknown/code_02125f88.h"
 #include "Main/Unknown/code_020b3f7c.h"
 #include "Main/Unknown/code_02126000.h"

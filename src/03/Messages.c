@@ -1,13 +1,13 @@
-#include "03/code_021c2530.h"
+#include "03/Messages.h"
 #include "03/code_021c250c.h"
 #include "03/code_021d1cd4.h"
 #include "03/unk_021da000.h"
 
-#include "03/code_021d1440.h"
+#include "03/DwcArchive.h"
 #include "03/unk_021d5000.h"
 #include "03/code_021bf4dc.h"
 #include "03/code_021d1000.h"
-#include "03/code_021d27d8.h"
+#include "03/ExpHeap.h"
 #include "03/code_021d1d60.h"
 
 void InitMessagesPool(void) {
