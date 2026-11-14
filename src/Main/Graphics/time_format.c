@@ -124,7 +124,7 @@ void FormatTwoDigitNumber(u32 number, u16 *text) {
 // Writes the year, month and day as text in the order the region selects.
 void FormatDate(DateBytes *date, u16 *text) {
     switch (gStartupWork->mRegion) {
-        case 0:
+        case REGION_JAPAN:
             FormatTwoDigitNumber(0x14, text);
             FormatTwoDigitNumber(date->mYear, text + 2);
             text[4] = 0x2f;
@@ -133,7 +133,7 @@ void FormatDate(DateBytes *date, u16 *text) {
             FormatTwoDigitNumber(date->mDay, text + 8);
             text[10] = 0;
             break;
-        case 1:
+        case REGION_AMERICA:
             FormatTwoDigitNumber(date->mMonth, text);
             text[2] = 0x2f;
             FormatTwoDigitNumber(date->mDay, text + 3);
@@ -142,8 +142,8 @@ void FormatDate(DateBytes *date, u16 *text) {
             FormatTwoDigitNumber(date->mYear, text + 8);
             text[10] = 0;
             break;
-        case 2:
-            if (gStartupWork->mLanguageIndex == 3) {
+        case REGION_EUROPE:
+            if (gStartupWork->mLanguageIndex == LANGUAGE_GERMAN) {
                 FormatTwoDigitNumber(date->mDay, text);
                 text[2] = 0x2e;
                 FormatTwoDigitNumber(date->mMonth, text + 3);

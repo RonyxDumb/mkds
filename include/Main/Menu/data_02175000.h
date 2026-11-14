@@ -20,6 +20,13 @@ enum {
     LANGUAGE_SPANISH,
 };
 
+// Values of StartupWork.mRegion; FormatDate writes the date in the order of each (year first, month first, day first).
+enum {
+    REGION_JAPAN,
+    REGION_AMERICA,
+    REGION_EUROPE,
+};
+
 // Value of StartupWork.mConnectionKind.
 #define CONNECTION_KIND_NONE 0
 #define CONNECTION_KIND_WIFI_MENU 3 // set by the title entry of the Wi-Fi menu
