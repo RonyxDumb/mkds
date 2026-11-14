@@ -143,17 +143,17 @@ s32 CollideKartWithBound(Bound *bound, Kart *kart, u8 *firstResponse, u8 *respon
             bound->mMapObject.mPosStep.z = 0;
         }
         if (gRaceSetup->mCurrentEntries[kart->mIndex].mPlayer.mKind != PLAYER_KIND_GHOST && bound->mWobbling == FALSE) {
-            bound->mWobbleXAngle = 0x8000;
-            bound->mWobbleXMid = 0x1000;
-            bound->mWobbleXAmplitude = 0x400;
-            bound->mWobbleXAmplitudePerFrame = -0x29;
-            bound->mWobbleXAnglePerFrame = 0x1000;
+            bound->mWobbleXAngle = BOUND_WOBBLE_X_ANGLE_START;
+            bound->mWobbleXMid = BOUND_WOBBLE_MID;
+            bound->mWobbleXAmplitude = BOUND_WOBBLE_AMPLITUDE_LARGE;
+            bound->mWobbleXAmplitudePerFrame = BOUND_WOBBLE_AMPLITUDE_STEP_LARGE;
+            bound->mWobbleXAnglePerFrame = BOUND_WOBBLE_ANGLE_PER_FRAME;
             bound->mWobbleXAnglePerFrameChange = 0;
-            bound->mWobbleYAngle = 0;
-            bound->mWobbleYMid = 0x1000;
-            bound->mWobbleYAmplitude = 0x400;
-            bound->mWobbleYAmplitudePerFrame = -0x29;
-            bound->mWobbleYAnglePerFrame = 0x1000;
+            bound->mWobbleYAngle = BOUND_WOBBLE_Y_ANGLE_START;
+            bound->mWobbleYMid = BOUND_WOBBLE_MID;
+            bound->mWobbleYAmplitude = BOUND_WOBBLE_AMPLITUDE_LARGE;
+            bound->mWobbleYAmplitudePerFrame = BOUND_WOBBLE_AMPLITUDE_STEP_LARGE;
+            bound->mWobbleYAnglePerFrame = BOUND_WOBBLE_ANGLE_PER_FRAME;
             bound->mWobbleYAnglePerFrameChange = 0;
             bound->mWobbling = TRUE;
             switch (bound->mMapObject.mKind) {
@@ -197,17 +197,17 @@ u8 CollideItemObjectWithBound(Bound *bound, void *itemObject, u8 *firstResponse,
 
     responseValue = *response;
     if (*firstResponse == 2 && bound->mWobbling == FALSE) {
-        bound->mWobbleXAngle = 0x8000;
-        bound->mWobbleXMid = 0x1000;
-        bound->mWobbleXAmplitude = 0x200;
-        bound->mWobbleXAmplitudePerFrame = -0x14;
-        bound->mWobbleXAnglePerFrame = 0x1000;
+        bound->mWobbleXAngle = BOUND_WOBBLE_X_ANGLE_START;
+        bound->mWobbleXMid = BOUND_WOBBLE_MID;
+        bound->mWobbleXAmplitude = BOUND_WOBBLE_AMPLITUDE_SMALL;
+        bound->mWobbleXAmplitudePerFrame = BOUND_WOBBLE_AMPLITUDE_STEP_SMALL;
+        bound->mWobbleXAnglePerFrame = BOUND_WOBBLE_ANGLE_PER_FRAME;
         bound->mWobbleXAnglePerFrameChange = 0;
-        bound->mWobbleYAngle = 0;
-        bound->mWobbleYMid = 0x1000;
-        bound->mWobbleYAmplitude = 0x200;
-        bound->mWobbleYAmplitudePerFrame = -0x14;
-        bound->mWobbleYAnglePerFrame = 0x1000;
+        bound->mWobbleYAngle = BOUND_WOBBLE_Y_ANGLE_START;
+        bound->mWobbleYMid = BOUND_WOBBLE_MID;
+        bound->mWobbleYAmplitude = BOUND_WOBBLE_AMPLITUDE_SMALL;
+        bound->mWobbleYAmplitudePerFrame = BOUND_WOBBLE_AMPLITUDE_STEP_SMALL;
+        bound->mWobbleYAnglePerFrame = BOUND_WOBBLE_ANGLE_PER_FRAME;
         bound->mWobbleYAnglePerFrameChange = 0;
         bound->mWobbling = TRUE;
         bound->mMapObject.mDistanceSquaredAndFlags |= gBoundHitDistanceFlag;
@@ -445,7 +445,7 @@ MapObjectKindData *CreateBoundKindData(void) {
     MapObjectKindData *kindData;
 
     kindData = CreateMapObjectKindData(CollideKartWithBound, CollideItemObjectWithBound, ComputeSphereHitOnBound, 1, 1);
-    kindData->mCollideItemObjectSoundId = 0x1cf;
+    kindData->mCollideItemObjectSoundId = BOUND_ITEM_HIT_SOUND_ID;
     return kindData;
 }
 
@@ -453,7 +453,7 @@ MapObjectKindData *CreateCreamKindData(void) {
     MapObjectKindData *kindData;
 
     kindData = CreateMapObjectKindData(CollideKartWithBound, CollideItemObjectWithBound, ComputeSphereHitOnBound, 1, 1);
-    kindData->mCollideItemObjectSoundId = 0x156;
+    kindData->mCollideItemObjectSoundId = CREAM_ITEM_HIT_SOUND_ID;
     return kindData;
 }
 
@@ -461,7 +461,7 @@ MapObjectKindData *CreateBerryKindData(void) {
     MapObjectKindData *kindData;
 
     kindData = CreateMapObjectKindData(CollideKartWithBound, CollideItemObjectWithBound, ComputeSphereHitOnBound, 1, 1);
-    kindData->mCollideItemObjectSoundId = 0x155;
+    kindData->mCollideItemObjectSoundId = BERRY_ITEM_HIT_SOUND_ID;
     return kindData;
 }
 
@@ -489,17 +489,17 @@ BOOL StartBoundWobble(s32 mapObjectIndex) {
 
     bound = GetMapObjectFromList(FindMapObjectKindUpdateList(MAP_OBJECT_KIND_BOUND), mapObjectIndex);
     if (bound->mWobbling == FALSE) {
-        bound->mWobbleXAngle = 0x8000;
-        bound->mWobbleXMid = 0x1000;
-        bound->mWobbleXAmplitude = 0x400;
-        bound->mWobbleXAmplitudePerFrame = -0x29;
-        bound->mWobbleXAnglePerFrame = 0x1000;
+        bound->mWobbleXAngle = BOUND_WOBBLE_X_ANGLE_START;
+        bound->mWobbleXMid = BOUND_WOBBLE_MID;
+        bound->mWobbleXAmplitude = BOUND_WOBBLE_AMPLITUDE_LARGE;
+        bound->mWobbleXAmplitudePerFrame = BOUND_WOBBLE_AMPLITUDE_STEP_LARGE;
+        bound->mWobbleXAnglePerFrame = BOUND_WOBBLE_ANGLE_PER_FRAME;
         bound->mWobbleXAnglePerFrameChange = 0;
-        bound->mWobbleYAngle = 0;
-        bound->mWobbleYMid = 0x1000;
-        bound->mWobbleYAmplitude = 0x400;
-        bound->mWobbleYAmplitudePerFrame = -0x29;
-        bound->mWobbleYAnglePerFrame = 0x1000;
+        bound->mWobbleYAngle = BOUND_WOBBLE_Y_ANGLE_START;
+        bound->mWobbleYMid = BOUND_WOBBLE_MID;
+        bound->mWobbleYAmplitude = BOUND_WOBBLE_AMPLITUDE_LARGE;
+        bound->mWobbleYAmplitudePerFrame = BOUND_WOBBLE_AMPLITUDE_STEP_LARGE;
+        bound->mWobbleYAnglePerFrame = BOUND_WOBBLE_ANGLE_PER_FRAME;
         bound->mWobbleYAnglePerFrameChange = 0;
         bound->mWobbling = TRUE;
         if ((bound->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {

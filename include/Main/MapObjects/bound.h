@@ -6,6 +6,22 @@
 #include "Main/MapObjects/code_020e005c.h" // GroupFollower
 #include "01/MapObjects/data_0209bc74.h"
 
+// Start values of the wobble: the x angle starts half a turn on and both centers are 1.0. A kart hit or an iron ball
+// path entry starts the large amplitude, an item hit the small one; each shrinks by its step per frame.
+#define BOUND_WOBBLE_X_ANGLE_START 0x8000
+#define BOUND_WOBBLE_Y_ANGLE_START 0
+#define BOUND_WOBBLE_MID TO_FIXED12(1)
+#define BOUND_WOBBLE_ANGLE_PER_FRAME 0x1000
+#define BOUND_WOBBLE_AMPLITUDE_LARGE 0x400
+#define BOUND_WOBBLE_AMPLITUDE_STEP_LARGE -0x29
+#define BOUND_WOBBLE_AMPLITUDE_SMALL 0x200
+#define BOUND_WOBBLE_AMPLITUDE_STEP_SMALL -0x14
+
+// Sound ids the Bound, Cream and Berry kinds play when an item object hits them.
+#define BOUND_ITEM_HIT_SOUND_ID 0x1cf
+#define CREAM_ITEM_HIT_SOUND_ID 0x156
+#define BERRY_ITEM_HIT_SOUND_ID 0x155
+
 // Object of kinds 0x1a8, 0x1b4 and 0x1b5 (Bound, Cream, Berry); mWobbling is set while its scale wobbles.
 typedef struct Bound {
     /* 000 */ MapObject mMapObject;
