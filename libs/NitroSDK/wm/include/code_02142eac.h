@@ -179,6 +179,22 @@ typedef struct WMArm9Buf {
     /* 104 */ void *mPortCallbackArgs[16];
 } WMArm9Buf;
 
+// Values of WMStatus.mState, which WMi_CheckStateEx compares: the wireless unit is off, enabled, powered on, scanning,
+// running as a parent or child, and as a parent or child exchanging MP data or (child) DCF data. SCAN_START_EXTRA is
+// only an extra state in which a scan may start.
+enum {
+    WIRELESS_UNIT_STATE_DISABLED = 0,
+    WIRELESS_UNIT_STATE_ENABLED = 1,
+    WIRELESS_UNIT_STATE_POWERED_ON = 2,
+    WIRELESS_UNIT_STATE_SCAN_START_EXTRA = 3,
+    WIRELESS_UNIT_STATE_SCANNING = 5,
+    WIRELESS_UNIT_STATE_PARENT_STARTED = 7,
+    WIRELESS_UNIT_STATE_CHILD_CONNECTED = 8,
+    WIRELESS_UNIT_STATE_PARENT_WITH_MP = 9,
+    WIRELESS_UNIT_STATE_CHILD_WITH_MP = 10,
+    WIRELESS_UNIT_STATE_CHILD_WITH_DCF = 11,
+};
+
 // Wireless status area written by the other processor; WM_ReadStatus copies 0x7bc bytes of it.
 typedef struct WMStatus {
     /* 000 */ u16 mState;

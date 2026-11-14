@@ -48,7 +48,7 @@ BOOL InitApScan(void) {
     }
     do {
         WM_ReadStatus(&gApScan->mStatus);
-    } while (gApScan->mStatus.mState != 2);
+    } while (gApScan->mStatus.mState != WIRELESS_UNIT_STATE_POWERED_ON);
     apScan = gApScan;
     apScan->mScanParam = gApScanParamTemplate;
     apScan->mScanParam.mScanExParam.mScanBuf = apScan->mScanBuf;
@@ -71,13 +71,13 @@ BOOL StartApScan(void) {
 BOOL StopApScan(void) {
     gApScan->mUnk_1e48 = 1;
     WM_ReadStatus(&gApScan->mStatus);
-    if (gApScan->mStatus.mState != 2) {
+    if (gApScan->mStatus.mState != WIRELESS_UNIT_STATE_POWERED_ON) {
         if (WM_Reset(ApScanCallback) != 2) {
             return 0;
         }
         do {
             WM_ReadStatus(&gApScan->mStatus);
-        } while (gApScan->mStatus.mState != 2);
+        } while (gApScan->mStatus.mState != WIRELESS_UNIT_STATE_POWERED_ON);
     }
     if (WM_End(ApScanCallback) != 2) {
         return 0;

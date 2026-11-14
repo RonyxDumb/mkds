@@ -16,7 +16,7 @@ s32 WM_StartDCF(Unk021425e8Func callback, void *recvBuf, u16 recvBufSize) {
     s32 result;
 
     work = WMi_GetSystemWork();
-    result = WMi_CheckStateEx(1, 8);
+    result = WMi_CheckStateEx(1, WIRELESS_UNIT_STATE_CHILD_CONNECTED);
     if (result != 0) {
         return result;
     }
@@ -47,7 +47,7 @@ s32 WM_SetDCFData(Unk021425e8Func callback, const void *destAdr, void *sendData,
     u32 address[2];
 
     work = WMi_GetSystemWork();
-    result = WMi_CheckStateEx(1, 11);
+    result = WMi_CheckStateEx(1, WIRELESS_UNIT_STATE_CHILD_WITH_DCF);
     if (result != 0) {
         return result;
     }
@@ -74,7 +74,7 @@ s32 WM_EndDCF(Unk021425e8Func callback) {
     s32 result;
 
     work = WMi_GetSystemWork();
-    result = WMi_CheckStateEx(1, 11);
+    result = WMi_CheckStateEx(1, WIRELESS_UNIT_STATE_CHILD_WITH_DCF);
     if (result != 0) {
         return result;
     }
@@ -100,7 +100,7 @@ s32 WM_StartMPEx(Unk021425e8Func callback, void *recvBuf, u16 recvBufSize, void 
     s32 sendSize;
 
     work = WMi_GetSystemWork();
-    result = WMi_CheckStateEx(2, 7, 8);
+    result = WMi_CheckStateEx(2, WIRELESS_UNIT_STATE_PARENT_STARTED, WIRELESS_UNIT_STATE_CHILD_CONNECTED);
     if (result != 0) {
         return result;
     }
@@ -142,7 +142,7 @@ s32 WM_SetMPFrequency(Unk021425e8Func callback, u32 mpFreq) {
     s32 result;
 
     WMi_GetSystemWork();
-    result = WMi_CheckStateEx(1, 9);
+    result = WMi_CheckStateEx(1, WIRELESS_UNIT_STATE_PARENT_WITH_MP);
     if (result != 0) {
         return result;
     }
@@ -166,7 +166,7 @@ s32 WM_SetMPDataToPortEx(UnkFunc *callback, void *arg, void *sendData, s32 sendD
 
     children = 1;
     status = WMi_GetSystemWork()->mStatusArea;
-    result = WMi_CheckStateEx(2, 9, 10);
+    result = WMi_CheckStateEx(2, WIRELESS_UNIT_STATE_PARENT_WITH_MP, WIRELESS_UNIT_STATE_CHILD_WITH_MP);
     if (result != 0) {
         return result;
     }
@@ -209,7 +209,7 @@ s32 WM_EndMP(Unk021425e8Func callback) {
     s32 result;
 
     work = WMi_GetSystemWork();
-    result = WMi_CheckStateEx(2, 9, 10);
+    result = WMi_CheckStateEx(2, WIRELESS_UNIT_STATE_PARENT_WITH_MP, WIRELESS_UNIT_STATE_CHILD_WITH_MP);
     if (result != 0) {
         return result;
     }
@@ -230,7 +230,7 @@ s32 WM_Enable(Unk021425e8Func callback) {
     WMArm9Buf *work;
     s32 result;
 
-    result = WMi_CheckStateEx(1, 0);
+    result = WMi_CheckStateEx(1, WIRELESS_UNIT_STATE_DISABLED);
     if (result != 0) {
         return result;
     }
@@ -247,7 +247,7 @@ s32 WM_Enable(Unk021425e8Func callback) {
 s32 WM_Disable(Unk021425e8Func callback) {
     s32 result;
 
-    result = WMi_CheckStateEx(1, 1);
+    result = WMi_CheckStateEx(1, WIRELESS_UNIT_STATE_ENABLED);
     if (result != 0) {
         return result;
     }
@@ -263,7 +263,7 @@ s32 WM_Disable(Unk021425e8Func callback) {
 s32 WM_PowerOn(Unk021425e8Func callback) {
     s32 result;
 
-    result = WMi_CheckStateEx(1, 1);
+    result = WMi_CheckStateEx(1, WIRELESS_UNIT_STATE_ENABLED);
     if (result != 0) {
         return result;
     }
@@ -279,7 +279,7 @@ s32 WM_PowerOn(Unk021425e8Func callback) {
 s32 WM_PowerOff(Unk021425e8Func callback) {
     s32 result;
 
-    result = WMi_CheckStateEx(1, 2);
+    result = WMi_CheckStateEx(1, WIRELESS_UNIT_STATE_POWERED_ON);
     if (result != 0) {
         return result;
     }
@@ -329,7 +329,7 @@ s32 WM_Reset(Unk021425e8Func callback) {
 s32 WM_End(Unk021425e8Func callback) {
     s32 result;
 
-    result = WMi_CheckStateEx(1, 2);
+    result = WMi_CheckStateEx(1, WIRELESS_UNIT_STATE_POWERED_ON);
     if (result != 0) {
         return result;
     }
@@ -345,7 +345,7 @@ s32 WM_End(Unk021425e8Func callback) {
 s32 WM_SetParentParameter(Unk021425e8Func callback, ParentParameter *pparaBuf) {
     s32 result;
 
-    result = WMi_CheckStateEx(1, 2);
+    result = WMi_CheckStateEx(1, WIRELESS_UNIT_STATE_POWERED_ON);
     if (result != 0) {
         return result;
     }
@@ -392,7 +392,7 @@ u32 WmCheckParentParameter(const ParentParameter *param) {
 s32 WMi_StartParentEx(Unk021425e8Func callback, BOOL powerSave) {
     s32 result;
 
-    result = WMi_CheckStateEx(1, 2);
+    result = WMi_CheckStateEx(1, WIRELESS_UNIT_STATE_POWERED_ON);
     if (result != 0) {
         return result;
     }
@@ -413,7 +413,7 @@ s32 WM_StartParent(Unk021425e8Func callback) {
 s32 WM_EndParent(Unk021425e8Func callback) {
     s32 result;
 
-    result = WMi_CheckStateEx(1, 7);
+    result = WMi_CheckStateEx(1, WIRELESS_UNIT_STATE_PARENT_STARTED);
     if (result != 0) {
         return result;
     }
@@ -430,7 +430,8 @@ s32 WM_StartScan(Unk021425e8Func callback, ScanParam *param) {
     StartScanRequest *request;
     s32 result;
 
-    result = WMi_CheckStateEx(3, 2, 3, 5);
+    result = WMi_CheckStateEx(3, WIRELESS_UNIT_STATE_POWERED_ON, WIRELESS_UNIT_STATE_SCAN_START_EXTRA,
+                              WIRELESS_UNIT_STATE_SCANNING);
     if (result != 0) {
         return result;
     }
@@ -468,7 +469,8 @@ s32 WM_StartScanEx(Unk021425e8Func callback, ScanExParam *param) {
     s32 result;
     u16 scanType;
 
-    result = WMi_CheckStateEx(3, 2, 3, 5);
+    result = WMi_CheckStateEx(3, WIRELESS_UNIT_STATE_POWERED_ON, WIRELESS_UNIT_STATE_SCAN_START_EXTRA,
+                              WIRELESS_UNIT_STATE_SCANNING);
     if (result != 0) {
         return result;
     }
@@ -516,7 +518,7 @@ s32 WM_StartScanEx(Unk021425e8Func callback, ScanExParam *param) {
 s32 WM_EndScan(Unk021425e8Func callback) {
     s32 result;
 
-    result = WMi_CheckStateEx(1, 5);
+    result = WMi_CheckStateEx(1, WIRELESS_UNIT_STATE_SCANNING);
     if (result != 0) {
         return result;
     }
@@ -533,7 +535,7 @@ s32 WM_StartConnectEx(Unk021425e8Func callback, u16 *pInfo, void *ssid, BOOL pow
     StartConnectExRequest *request;
     s32 result;
 
-    result = WMi_CheckStateEx(1, 2);
+    result = WMi_CheckStateEx(1, WIRELESS_UNIT_STATE_POWERED_ON);
     if (result != 0) {
         return result;
     }
@@ -565,11 +567,14 @@ s32 WM_Disconnect(Unk021425e8Func callback, u32 aid) {
     s32 result;
 
     work = WMi_GetSystemWork();
-    result = WMi_CheckStateEx(5, 7, 9, 8, 10, 11);
+    result = WMi_CheckStateEx(5, WIRELESS_UNIT_STATE_PARENT_STARTED, WIRELESS_UNIT_STATE_PARENT_WITH_MP,
+                              WIRELESS_UNIT_STATE_CHILD_CONNECTED, WIRELESS_UNIT_STATE_CHILD_WITH_MP,
+                              WIRELESS_UNIT_STATE_CHILD_WITH_DCF);
     if (result != 0) {
         return result;
     }
-    if (work->mStatusArea->mState == 7 || work->mStatusArea->mState == 9) {
+    if (work->mStatusArea->mState == WIRELESS_UNIT_STATE_PARENT_STARTED ||
+        work->mStatusArea->mState == WIRELESS_UNIT_STATE_PARENT_WITH_MP) {
         if (aid < 1 || aid > 0xf) {
             return 6;
         }
@@ -594,7 +599,7 @@ s32 WM_DisconnectChildren(Unk021425e8Func callback, u32 aidBitmap) {
     s32 result;
 
     work = WMi_GetSystemWork();
-    result = WMi_CheckStateEx(2, 7, 9);
+    result = WMi_CheckStateEx(2, WIRELESS_UNIT_STATE_PARENT_STARTED, WIRELESS_UNIT_STATE_PARENT_WITH_MP);
     if (result != 0) {
         return result;
     }
@@ -669,7 +674,7 @@ s32 WM_GetMPSendBufferSize(void) {
     WMArm9Buf *work;
 
     work = WMi_GetSystemWork();
-    if (WMi_CheckStateEx(2, 7, 8) != 0) {
+    if (WMi_CheckStateEx(2, WIRELESS_UNIT_STATE_PARENT_STARTED, WIRELESS_UNIT_STATE_CHILD_CONNECTED) != 0) {
         return 0;
     }
     DC_InvalidateRange(&work->mStatusArea->mMpFlag, 4);
@@ -687,7 +692,7 @@ s32 WM_GetMPReceiveBufferSize(void) {
     u16 maxRecvSize;
 
     work = WMi_GetSystemWork();
-    if (WMi_CheckStateEx(2, 7, 8) != 0) {
+    if (WMi_CheckStateEx(2, WIRELESS_UNIT_STATE_PARENT_STARTED, WIRELESS_UNIT_STATE_CHILD_CONNECTED) != 0) {
         return 0;
     }
     DC_InvalidateRange(&work->mStatusArea->mMpFlag, 4);
@@ -759,13 +764,13 @@ u16 WM_GetLinkLevel(void) {
     }
     DC_InvalidateRange(work->mStatusArea, 2);
     switch (work->mStatusArea->mState) {
-        case 9:
+        case WIRELESS_UNIT_STATE_PARENT_WITH_MP:
             DC_InvalidateRange(&work->mStatusArea->mConnectedChildren, 2);
             if (work->mStatusArea->mConnectedChildren == 0) {
                 return 0;
             }
-        case 10:
-        case 11:
+        case WIRELESS_UNIT_STATE_CHILD_WITH_MP:
+        case WIRELESS_UNIT_STATE_CHILD_WITH_DCF:
             DC_InvalidateRange(&work->mStatusArea->mLinkLevel, 2);
             return work->mStatusArea->mLinkLevel;
         default:

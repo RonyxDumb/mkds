@@ -37,7 +37,7 @@ BOOL InitUsbScan(void (*callback)(u32)) {
     if (WM_Initialize(scan, UsbScanCallback, 3) == 2) {
         do {
             WM_ReadStatus(&gUsbScan->mUnk_13b8);
-        } while (gUsbScan->mUnk_13b8.mState != 2);
+        } while (gUsbScan->mUnk_13b8.mState != WIRELESS_UNIT_STATE_POWERED_ON);
         scan = gUsbScan;
         *(Bytes68 *) &scan->mUnk_1374 = gUsbScanParamTemplate;
         scan->mUnk_1374.mScanBuf = scan->mUnk_0f00;
@@ -69,13 +69,13 @@ BOOL ReleaseUsbScan(void) {
 
     gUsbScan->mUnk_1b80 = 1;
     WM_ReadStatus(&gUsbScan->mUnk_13b8);
-    if (gUsbScan->mUnk_13b8.mState != 2) {
+    if (gUsbScan->mUnk_13b8.mState != WIRELESS_UNIT_STATE_POWERED_ON) {
         if (WM_Reset(UsbScanCallback) != 2) {
             return 0;
         }
         do {
             WM_ReadStatus(&gUsbScan->mUnk_13b8);
-        } while (gUsbScan->mUnk_13b8.mState != 2);
+        } while (gUsbScan->mUnk_13b8.mState != WIRELESS_UNIT_STATE_POWERED_ON);
     }
     if (WM_End(UsbScanCallback) != 2) {
         return 0;
