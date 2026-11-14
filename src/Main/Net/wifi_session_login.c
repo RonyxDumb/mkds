@@ -81,9 +81,9 @@ BOOL UpdateWiFiSessionRelease(void) {
 
 s32 GetWiFiSessionLoginResult(void) {
     switch (gWiFiSession->mLogin.mStep) {
-        case 5:
+        case WIFI_LOGIN_STEP_DONE:
             return 1;
-        case 7:
+        case WIFI_LOGIN_STEP_FAILED:
             return -1;
         default:
             return 0;
@@ -128,7 +128,7 @@ void SetupWiFiSessionLogin(void) {
                          &session->mBuddies[0], 0x3c);
     gWiFiSession->mErrorKind = 0;
     gWiFiSession->mErrorCode = 0;
-    gWiFiSession->mLogin.mStep = 1;
+    gWiFiSession->mLogin.mStep = WIFI_LOGIN_STEP_WAIT_INET;
 }
 
 void AdvanceWiFiSessionLoginStep1(void) {
@@ -139,13 +139,13 @@ void AdvanceWiFiSessionLoginStep1(void) {
     switch (DWC_GetInetStatus()) {
         case 4:
             DWC_LoginAsync(0, 0, WiFiSessionLoginCallback, 0);
-            gWiFiSession->mLogin.mStep = 2;
+            gWiFiSession->mLogin.mStep = WIFI_LOGIN_STEP_WAIT_LOGIN;
             break;
         case 7:
             gWiFiSession->mErrorKind = DWC_GetLastError(&gWiFiSession->mErrorCode);
             DWC_ShutdownFriendsMatch();
             DWC_CleanupInet();
-            gWiFiSession->mLogin.mStep = 7;
+            gWiFiSession->mLogin.mStep = WIFI_LOGIN_STEP_FAILED;
             break;
         case 8:
             break;
@@ -154,10 +154,10 @@ void AdvanceWiFiSessionLoginStep1(void) {
 
 u32 UpdateWiFiSessionLogin(void) {
     switch (gWiFiSession->mLogin.mStep) {
-        case 1:
+        case WIFI_LOGIN_STEP_WAIT_INET:
             AdvanceWiFiSessionLoginStep1();
             break;
-        case 3:
+        case WIFI_LOGIN_STEP_WAIT_BACKUP:
             if (gBackupBuffers->mBusy == 0 ? (gBackupAccess->mBackupEnabled != 0 ? gBackupAccess->mCommandRunning : 0)
                                            : 1) {
                 break;
@@ -165,19 +165,19 @@ u32 UpdateWiFiSessionLogin(void) {
             DWC_ReportUserData(&gWiFiSession->mUserData);
             if (DWC_UpdateServersAsync(NULL, WiFiSessionBuddySyncCallback, NULL, SetBuddyStatus, NULL,
                                        WiFiSessionEntryMergedCallback, NULL) == 0) {
-                gWiFiSession->mLogin.mStep = 7;
+                gWiFiSession->mLogin.mStep = WIFI_LOGIN_STEP_FAILED;
             }
             DWC_SetBuddyFriendCallback((void *) BuddyChangedCallback, NULL);
-            gWiFiSession->mLogin.mStep = 4;
+            gWiFiSession->mLogin.mStep = WIFI_LOGIN_STEP_UPDATE_BUDDIES;
             break;
-        case 6:
+        case WIFI_LOGIN_STEP_LOGIN_FAILED:
             DWC_ShutdownFriendsMatch();
             DWC_CleanupInet();
-            gWiFiSession->mLogin.mStep = 7;
+            gWiFiSession->mLogin.mStep = WIFI_LOGIN_STEP_FAILED;
             break;
-        case 5:
+        case WIFI_LOGIN_STEP_DONE:
             return 1;
-        case 7:
+        case WIFI_LOGIN_STEP_FAILED:
             break;
     }
     return 0;
@@ -190,9 +190,9 @@ void WiFiSessionLoginCallback(s32 result) {
             MI_CpuCopy8(&gWiFiSession->mUserData, &gBackupBuffers->mFirstBlock->mUserData, 0x40);
             WriteBackupFirstBlockWrapper();
         }
-        gWiFiSession->mLogin.mStep = 3;
+        gWiFiSession->mLogin.mStep = WIFI_LOGIN_STEP_WAIT_BACKUP;
     } else {
-        gWiFiSession->mLogin.mStep = 6;
+        gWiFiSession->mLogin.mStep = WIFI_LOGIN_STEP_LOGIN_FAILED;
     }
 }
 
@@ -210,11 +210,11 @@ void WiFiSessionBuddySyncCallback(s32 result, s32 changed) {
                 buddyIndex++;
             } while (buddyIndex < DWC_GetNumFriend(&gWiFiSession->mBuddies[0], 0x3c));
         }
-        gWiFiSession->mLogin.mStep = 5;
+        gWiFiSession->mLogin.mStep = WIFI_LOGIN_STEP_DONE;
     } else {
         DWC_ShutdownFriendsMatch();
         DWC_CleanupInet();
-        gWiFiSession->mLogin.mStep = 7;
+        gWiFiSession->mLogin.mStep = WIFI_LOGIN_STEP_FAILED;
     }
 }
 

@@ -258,6 +258,17 @@ typedef enum WiFiSessionSetup {
 #define WIFI_BUDDY_STATUS_NOT_COUNTED 2
 #define WIFI_BUDDY_STATUS_COUNTED 4
 
+// Values of WiFiSessionLogin.mStep; FAILED and DONE are the end states. LOGIN_FAILED shuts down first.
+enum {
+    WIFI_LOGIN_STEP_WAIT_INET = 1,
+    WIFI_LOGIN_STEP_WAIT_LOGIN = 2,
+    WIFI_LOGIN_STEP_WAIT_BACKUP = 3,
+    WIFI_LOGIN_STEP_UPDATE_BUDDIES = 4,
+    WIFI_LOGIN_STEP_DONE = 5,
+    WIFI_LOGIN_STEP_LOGIN_FAILED = 6,
+    WIFI_LOGIN_STEP_FAILED = 7,
+};
+
 // 0x10-byte object at member 0x1f20 of WiFiSession.
 typedef struct WiFiSessionLogin {
     /* 00 */ u8 mUnk_00[0xc];
