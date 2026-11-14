@@ -544,6 +544,10 @@ typedef struct MultiBootStateView {
 #define CONNECTION_TRANSFER_SEQUENCE_DONE 4
 // ConnectionWork.mTransferFlags: the sync wait is done.
 #define CONNECTION_TRANSFER_SYNC_DONE 2
+// ConnectionWork.mParentTransferStep: the callback waits for the handshake, then for all chunks held twice.
+#define PARENT_TRANSFER_WAIT_HANDSHAKE 0
+#define PARENT_TRANSFER_WAIT_FIRST_CHUNKS 1
+#define PARENT_TRANSFER_WAIT_SECOND_CHUNKS 2
 // ConnectionWork.mStep: the operation in flight, named after the call that starts it.
 typedef enum ConnectionStep {
     CONNECTION_STEP_NOTHING = 0, // nothing in flight

@@ -11,20 +11,20 @@ void ParentBlockTransferCallback(WBTCommand *record) {
         return;
     }
     switch (gConnectionWork->mParentTransferStep) {
-        case 0:
+        case PARENT_TRANSFER_WAIT_HANDSHAKE:
             if (callbackCode == XFER_EVENT_HANDSHAKE_ASKED) {
-                gConnectionWork->mParentTransferStep = 1;
+                gConnectionWork->mParentTransferStep = PARENT_TRANSFER_WAIT_FIRST_CHUNKS;
             }
             break;
-        case 1:
+        case PARENT_TRANSFER_WAIT_FIRST_CHUNKS:
             if (callbackCode == XFER_EVENT_ALL_CHUNKS_HELD) {
-                gConnectionWork->mParentTransferStep = 2;
+                gConnectionWork->mParentTransferStep = PARENT_TRANSFER_WAIT_SECOND_CHUNKS;
             }
             break;
-        case 2:
+        case PARENT_TRANSFER_WAIT_SECOND_CHUNKS:
             if (callbackCode == XFER_EVENT_ALL_CHUNKS_HELD) {
                 gConnectionWork->mTransferFlags |= CONNECTION_TRANSFER_SEQUENCE_DONE;
-                gConnectionWork->mParentTransferStep = 0;
+                gConnectionWork->mParentTransferStep = PARENT_TRANSFER_WAIT_HANDSHAKE;
             }
             break;
     }
