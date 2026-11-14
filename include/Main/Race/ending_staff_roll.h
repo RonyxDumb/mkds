@@ -6,6 +6,15 @@
 #include "Main/Race/race_goal_times.h"
 #include "Main/Graphics/font_and_player_character.h"
 
+// EndingStaffRollObject.mStaffRollFrames values at which something happens: the screen fades, the picture is no
+// longer drawn, the staff text starts and the screen fades back. The frame count stops at the cap.
+#define ENDING_STAFF_ROLL_FRAME_FADE_START 0x1a4
+#define ENDING_STAFF_ROLL_FRAME_PICTURE_END 0x21c
+#define ENDING_STAFF_ROLL_FRAME_TEXT_START 0x30c
+#define ENDING_STAFF_ROLL_FRAME_FADE_END 0x77a
+#define ENDING_STAFF_ROLL_FRAME_CAP 0x7fffffff
+#define ENDING_STAFF_ROLL_FADE_FRAMES 0x78
+
 // Object behind gEndingStaffRoll.
 typedef struct EndingStaffRollObject {
     /* 000 */ s32 mStaffRollFrames;

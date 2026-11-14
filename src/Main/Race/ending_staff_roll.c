@@ -19,14 +19,14 @@ struct EndingStaffRollObject *gEndingStaffRoll;
 void UploadEndingStaffRollOam(void) {
     DC_FlushRange(&gEndingStaffRoll->mOamBuffer, 0x400);
     GX_LoadOAM(&gEndingStaffRoll->mOamBuffer, 0, 0x400);
-    if (gEndingStaffRoll->mStaffRollFrames == 0x1a4) {
-        StartFadeToFadedNegativeOneScreen(0x78, 1);
+    if (gEndingStaffRoll->mStaffRollFrames == ENDING_STAFF_ROLL_FRAME_FADE_START) {
+        StartFadeToFadedNegativeOneScreen(ENDING_STAFF_ROLL_FADE_FRAMES, 1);
         return;
     }
-    if (gEndingStaffRoll->mStaffRollFrames != 0x77a) {
+    if (gEndingStaffRoll->mStaffRollFrames != ENDING_STAFF_ROLL_FRAME_FADE_END) {
         return;
     }
-    StartFadeToClearNegativeOneScreen(0x78, 1);
+    StartFadeToClearNegativeOneScreen(ENDING_STAFF_ROLL_FADE_FRAMES, 1);
 }
 
 void InitEndingStaffRoll(void) {
@@ -58,10 +58,10 @@ void ClearEndingStaffRollPointer(void) {
 }
 
 u16 UpdateEndingStaffRoll(void) {
-    if (gEndingStaffRoll->mStaffRollFrames < 0x7fffffff) {
+    if (gEndingStaffRoll->mStaffRollFrames < ENDING_STAFF_ROLL_FRAME_CAP) {
         gEndingStaffRoll->mStaffRollFrames++;
     }
-    if (gEndingStaffRoll->mStaffRollFrames == 0x30c) {
+    if (gEndingStaffRoll->mStaffRollFrames == ENDING_STAFF_ROLL_FRAME_TEXT_START) {
         StartStaffRollText();
     }
     return reg_GX_POWCNT;
@@ -77,7 +77,7 @@ void DrawEndingStaffRoll(void) {
 
     gEndingStaffRoll->mOamBuffer.mOamCount = 0;
     staffRoll = gEndingStaffRoll;
-    if (staffRoll->mStaffRollFrames < 0x21c) {
+    if (staffRoll->mStaffRollFrames < ENDING_STAFF_ROLL_FRAME_PICTURE_END) {
         oamBuffer = &staffRoll->mOamBuffer;
         oamIndex = oamBuffer->mOamCount;
         cell = staffRoll->mCell;
