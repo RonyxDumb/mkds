@@ -109,7 +109,7 @@ void UploadEmblemCameraSubScreen(void) {
 void StartEmblemChoises(void) {
     RequestEmblemChoisesGraphicsUpload();
     SetEmblemChoisesShownAndReset(1);
-    gEmblem->mState = 10;
+    gEmblem->mState = EMBLEM_STATE_CHOISES;
     gEmblem->mDisplayState = 14;
     ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 1), -3);
     ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 2), -3);
@@ -118,7 +118,7 @@ void StartEmblemChoises(void) {
 
 void StopEmblemChoises(void) {
     SetEmblemChoisesShownAndReset(0);
-    gEmblem->mState = 0;
+    gEmblem->mState = EMBLEM_STATE_GRID;
     gEmblem->mDisplayState = 15;
     gEmblem->mTransitionRunning = FALSE;
     ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 1), -1);
@@ -127,7 +127,7 @@ void StopEmblemChoises(void) {
 }
 
 void StartEmblemTemplateSlideIn(void) {
-    gEmblem->mState = 2;
+    gEmblem->mState = EMBLEM_STATE_TEMPLATE_SLIDE_IN;
     gEmblem->mDisplayState = 2;
     gEmblem->mTemplateSlideOffset = 0;
     gEmblem->mTemplateSlideSpeed = 32;
@@ -142,7 +142,7 @@ void AdvanceEmblemTemplateSlideIn(void) {
     gEmblem->mTemplateSlideSpeed -= 2;
     if (gEmblem->mTemplateSlideOffset >= 0xc0) {
         gEmblem->mTemplateSlideOffset = 0xc0;
-        gEmblem->mState = 1;
+        gEmblem->mState = EMBLEM_STATE_TEMPLATE;
         gEmblem->mDisplayState = 3;
         gEmblem->mTransitionRunning = FALSE;
     }
@@ -150,7 +150,7 @@ void AdvanceEmblemTemplateSlideIn(void) {
 }
 
 void StartEmblemTemplateSlideOut(void) {
-    gEmblem->mState = 3;
+    gEmblem->mState = EMBLEM_STATE_TEMPLATE_SLIDE_OUT;
     gEmblem->mDisplayState = 6;
     gEmblem->mTemplateSlideOffset = 0xc0;
     gEmblem->mTemplateSlideSpeed = -0x20;
@@ -164,7 +164,7 @@ void AdvanceEmblemTemplateSlideOut(void) {
     gEmblem->mTemplateSlideSpeed += 2;
     if (gEmblem->mTemplateSlideOffset <= 0) {
         gEmblem->mTemplateSlideOffset = 0;
-        gEmblem->mState = 0;
+        gEmblem->mState = EMBLEM_STATE_GRID;
         gEmblem->mDisplayState = 7;
         gEmblem->mTransitionRunning = FALSE;
     }
@@ -172,13 +172,13 @@ void AdvanceEmblemTemplateSlideOut(void) {
 }
 
 void StartEmblemFadeOutToCamera(void) {
-    gEmblem->mState = 5;
+    gEmblem->mState = EMBLEM_STATE_FADE_OUT_TO_CAMERA;
     gEmblem->mDisplayState = 13;
     gEmblem->mFadeLevel = 0;
 }
 
 void StartEmblemFadeOutToGrid(void) {
-    gEmblem->mState = 7;
+    gEmblem->mState = EMBLEM_STATE_FADE_OUT_TO_GRID;
     gEmblem->mDisplayState = 10;
     gEmblem->mFadeLevel = 0;
     SetKartModelMenuInputSeqs(2, 0);
@@ -188,7 +188,7 @@ void AdvanceEmblemFadeOutToCamera(void) {
     gEmblem->mFadeLevel += 2;
     if (gEmblem->mFadeLevel > 16) {
         gEmblem->mFadeLevel = 16;
-        gEmblem->mState = 6;
+        gEmblem->mState = EMBLEM_STATE_FADE_IN_AT_CAMERA;
         gEmblem->mDisplayState = 9;
     }
 }
@@ -197,7 +197,7 @@ void AdvanceEmblemFadeInAtCamera(void) {
     gEmblem->mFadeLevel -= 2;
     if (gEmblem->mFadeLevel < 0) {
         gEmblem->mFadeLevel = 0;
-        gEmblem->mState = 4;
+        gEmblem->mState = EMBLEM_STATE_CAMERA;
         gEmblem->mDisplayState = 11;
         gEmblem->mTransitionRunning = FALSE;
     }
@@ -207,7 +207,7 @@ void AdvanceEmblemFadeOutToGrid(void) {
     gEmblem->mFadeLevel += 2;
     if (gEmblem->mFadeLevel > 16) {
         gEmblem->mFadeLevel = 16;
-        gEmblem->mState = 8;
+        gEmblem->mState = EMBLEM_STATE_FADE_IN_AT_GRID;
         gEmblem->mDisplayState = 12;
     }
 }
@@ -216,7 +216,7 @@ void AdvanceEmblemFadeInAtGrid(void) {
     gEmblem->mFadeLevel -= 2;
     if (gEmblem->mFadeLevel < 0) {
         gEmblem->mFadeLevel = 0;
-        gEmblem->mState = 0;
+        gEmblem->mState = EMBLEM_STATE_GRID;
         gEmblem->mDisplayState = 8;
         gEmblem->mTransitionRunning = FALSE;
     }
