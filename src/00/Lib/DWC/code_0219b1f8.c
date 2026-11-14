@@ -267,7 +267,7 @@ void DWC_LoginAsync(u32 playerName, u32 reserved, void (*callback)(s32 playerNam
             gWiFiConnection->mLoginCallbackArg = callbackArg;
             gWiFiConnection->mLogin.mUnk_10 = playerName;
             gWiFiConnection->mLogin.mUnk_14 = reserved;
-            if (DWC_GetInetStatus() != 4) {
+            if (DWC_GetInetStatus() != INET_STATUS_ONLINE) {
                 DWCi_StopLogin(2, -60010);
                 return;
             }

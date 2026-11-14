@@ -4,6 +4,20 @@
 
 u32 DWC_GetLinkLevel(void);
 
+// Values of DWCInetControl.mState, which DWC_GetInetStatus also returns (0 without the object): the connect has not
+// started, the access point connection is being made, it finished, the link is up, the cleanup has started, the link
+// was lost, or the access point connection failed (the code is large or small, as DWC_GetInetStatus sorts it).
+enum {
+    INET_STATUS_INITIALIZED = 1,
+    INET_STATUS_CONNECTING = 2,
+    INET_STATUS_CONNECT_FINISHED = 3,
+    INET_STATUS_ONLINE = 4,
+    INET_STATUS_CLEANING_UP = 5,
+    INET_STATUS_LINK_LOST = 6,
+    INET_STATUS_FAILED_LARGE_CODE = 7,
+    INET_STATUS_FAILED_SMALL_CODE = 8,
+};
+
 typedef struct DWCInetControl {
     /* 00 */ s32 mAcState;
     /* 04 */ u16 mState;

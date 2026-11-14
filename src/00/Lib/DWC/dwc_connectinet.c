@@ -29,7 +29,7 @@ void DWC_InitInetEx(DWCInetControl *inetCntl, u16 dmaNo, u32 powerMode, u32 sslT
         MI_CpuFill8(inetCntl, 0, 12);
         inetCntl->mDmaNo = dmaNo;
         inetCntl->mPowerMode = 1;
-        inetCntl->mState = 1;
+        inetCntl->mState = INET_STATUS_INITIALIZED;
         inetCntl->mOnline = 0;
         gInetControl = inetCntl;
         DWC_SetAuthServer(0);
@@ -58,7 +58,7 @@ void DWC_SetAuthServer(s32 type) {
 void DWC_ConnectInetAsync(void) {
     DWCACConfig config;
     if (gInetControl != NULL) {
-        if (gInetControl->mState != 1) {
+        if (gInetControl->mState != INET_STATUS_INITIALIZED) {
             return;
         }
         MI_CpuFill8(&config, 0, 12);
@@ -66,7 +66,7 @@ void DWC_ConnectInetAsync(void) {
         config.mPowerMode = gInetControl->mPowerMode;
         config.mAlloc = DWC_Alloc;
         config.mFree = DWC_Free;
-        gInetControl->mState = 2;
+        gInetControl->mState = INET_STATUS_CONNECTING;
         if (DWC_AC_Create(&config) != 0) {
             return;
         }
@@ -83,7 +83,7 @@ u32 DWC_CheckInet(void) {
         return 0;
     }
     if (inetCntl->mAcState != 0) {
-        inetCntl->mState = 3;
+        inetCntl->mState = INET_STATUS_CONNECT_FINISHED;
         DWC_GetInetStatus();
         return 1;
     }
@@ -92,11 +92,12 @@ u32 DWC_CheckInet(void) {
 
 void DWC_ProcessInet(void) {
     DWCInetControl *inetCntl = gInetControl;
-    if (inetCntl != NULL && inetCntl->mState == 2) {
+    if (inetCntl != NULL && inetCntl->mState == INET_STATUS_CONNECTING) {
         gInetControl->mAcState = DWC_AC_Process();
-    } else if (inetCntl != NULL && inetCntl->mState == 4 && inetCntl->mOnline != 0 && WCM_GetPhase() != 9) {
+    } else if (inetCntl != NULL && inetCntl->mState == INET_STATUS_ONLINE && inetCntl->mOnline != 0 &&
+               WCM_GetPhase() != 9) {
         gInetControl->mOnline = 0;
-        gInetControl->mState = 6;
+        gInetControl->mState = INET_STATUS_LINK_LOST;
     }
 }
 
@@ -106,21 +107,21 @@ u32 DWC_GetInetStatus(void) {
     if (gInetControl != NULL) {
         state = DWC_AC_GetStatus();
         if (state == 5) {
-            gInetControl->mState = 4;
+            gInetControl->mState = INET_STATUS_ONLINE;
             gInetControl->mOnline = 1;
-            return 4;
+            return INET_STATUS_ONLINE;
         }
         if (state < 0) {
             if (state >= -10) {
                 DWCi_SetError(0xb, state - 0x2bc);
-                gInetControl->mState = 8;
-                return 8;
+                gInetControl->mState = INET_STATUS_FAILED_SMALL_CODE;
+                return INET_STATUS_FAILED_SMALL_CODE;
             }
             DWCi_SetError(5, state);
-            gInetControl->mState = 7;
-            return 7;
+            gInetControl->mState = INET_STATUS_FAILED_LARGE_CODE;
+            return INET_STATUS_FAILED_LARGE_CODE;
         }
-        result = 2;
+        result = INET_STATUS_CONNECTING;
     }
     return result;
 }
@@ -142,9 +143,9 @@ BOOL DWC_CleanupInetAsync(void) {
     if (inetCntl == NULL) {
         return TRUE;
     }
-    if (inetCntl->mState == 4) {
-        inetCntl->mState = 5;
-    } else if (inetCntl->mState != 5) {
+    if (inetCntl->mState == INET_STATUS_ONLINE) {
+        inetCntl->mState = INET_STATUS_CLEANING_UP;
+    } else if (inetCntl->mState != INET_STATUS_CLEANING_UP) {
         return TRUE;
     }
     if (SOCL_CalmDown() != 0) {
@@ -158,7 +159,7 @@ BOOL DWC_CleanupInetAsync(void) {
 }
 
 u32 DWCi_CheckDisconnected(void) {
-    if ((gInetControl != NULL) && (gInetControl->mState == 6)) {
+    if ((gInetControl != NULL) && (gInetControl->mState == INET_STATUS_LINK_LOST)) {
         return 1;
     }
     return 0;
