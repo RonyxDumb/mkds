@@ -6,6 +6,15 @@
 #include "Main/Kart/kart_drift.h" // Kart
 #include "01/MapObjects/data_0209bc74.h"
 
+// Basabasa.mState values: FALL speeds up downward, SLOW_FALL slows the fall until it stops, GLIDE keeps the velocity,
+// CLIMB speeds up upward until the object leaves the course and is parked.
+enum {
+    BASABASA_STATE_FALL,
+    BASABASA_STATE_SLOW_FALL,
+    BASABASA_STATE_GLIDE,
+    BASABASA_STATE_CLIMB,
+};
+
 // Object of kind 0x19f (Basabasa), 0xd8 bytes: the MapObject it starts with, a vector at 0xa0 and words and halfwords
 // up to 0xd4.
 typedef struct Basabasa {

@@ -137,7 +137,7 @@ void UpdateBasabasa(void *mapObjectList, Basabasa *basabasa) {
         basabasa->mRotateZNegated = basabasa->mRotateZNegated == 0;
     }
     switch (basabasa->mState) {
-        case 0:
+        case BASABASA_STATE_FALL:
             if (basabasa->mDelayTimer-- > 0) {
                 break;
             }
@@ -150,26 +150,26 @@ void UpdateBasabasa(void *mapObjectList, Basabasa *basabasa) {
             basabasa->mVelocity.z += MUL_FIXED12_NO_ROUND(basabasa->mMapObject.mMatrix.mRows[2].z, 0x19a);
             VEC_Add(&basabasa->mMapObject.mPos, &basabasa->mVelocity, &basabasa->mMapObject.mPos);
             if (basabasa->mState0Timer-- <= 0) {
-                basabasa->mState = 1;
+                basabasa->mState = BASABASA_STATE_SLOW_FALL;
             }
             break;
-        case 1:
+        case BASABASA_STATE_SLOW_FALL:
             basabasa->mVelocity.x += MUL_FIXED12_NO_ROUND(basabasa->mMapObject.mMatrix.mRows[2].x, 0x19a);
             basabasa->mVelocity.y += 0x19a;
             basabasa->mVelocity.z += MUL_FIXED12_NO_ROUND(basabasa->mMapObject.mMatrix.mRows[2].z, 0x19a);
             VEC_Add(&basabasa->mMapObject.mPos, &basabasa->mVelocity, &basabasa->mMapObject.mPos);
             if (basabasa->mVelocity.y > 0) {
                 basabasa->mVelocity.y = 0;
-                basabasa->mState = 2;
+                basabasa->mState = BASABASA_STATE_GLIDE;
             }
             break;
-        case 2:
+        case BASABASA_STATE_GLIDE:
             VEC_Add(&basabasa->mMapObject.mPos, &basabasa->mVelocity, &basabasa->mMapObject.mPos);
             if (basabasa->mState2Timer-- <= 0) {
-                basabasa->mState = 3;
+                basabasa->mState = BASABASA_STATE_CLIMB;
             }
             break;
-        case 3:
+        case BASABASA_STATE_CLIMB:
             basabasa->mVelocity.x -= MUL_FIXED12_NO_ROUND(basabasa->mMapObject.mMatrix.mRows[2].x, 0xcd);
             basabasa->mVelocity.y += 0x1000;
             basabasa->mVelocity.z -= MUL_FIXED12_NO_ROUND(basabasa->mMapObject.mMatrix.mRows[2].z, 0xcd);
@@ -259,7 +259,7 @@ void StartBasabasa(u32 state2TimerBase, const Vec3 *startPos, const Vec3 *veloci
     basabasa->mState2Timer = state2TimerBase + randomOffset;
     basabasa->mMapObject.mPos = *startPos;
     basabasa->mVelocity = *velocity;
-    basabasa->mState = 0;
+    basabasa->mState = BASABASA_STATE_FALL;
     basabasa->mHitKartMask = 0;
 }
 
