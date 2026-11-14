@@ -6,6 +6,17 @@
 #include "Main/MapObjects/attractor.h"
 #include "Main/MapObjects/data_02158000.h" // MapObjectDrawList
 
+// Dram state machine states, in the order of gDramStateTable.
+#define DRAM_STATE_WAIT_DELAY 0
+#define DRAM_STATE_IDLE 1 // waits until every Dram is idle, then PickDramAngleChoices restarts them
+#define DRAM_STATE_RAMP_UP 2
+#define DRAM_STATE_STEADY 3
+#define DRAM_STATE_RAMP_DOWN 4
+#define DRAM_STATE_ALIGN 5 // turns on to a multiple of DRAM_ALIGN_ANGLE
+
+#define DRAM_ALIGN_ANGLE 0x1999
+#define DRAM_MIN_ANGLE_STEP 0x96
+
 // Object of kind 0xd2 (Dram) and the functions of this file: 0xc0 bytes.
 typedef struct Dram {
     /* 00 */ MapObject mMapObject;

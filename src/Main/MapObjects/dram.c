@@ -84,7 +84,7 @@ void PickDramAngleChoices(MapObjectList *list) {
     dramObjects = list->mMapObjects;
     for (index = 0; index < count; index++) {
         dram = dramObjects[index];
-        if (dram->mMapObject.mStateMachine.mState != 1) {
+        if (dram->mMapObject.mStateMachine.mState != DRAM_STATE_IDLE) {
             return;
         }
     }
@@ -95,7 +95,7 @@ void PickDramAngleChoices(MapObjectList *list) {
         dram = dramObjects[index];
         row = gDramAngleChoiceRows[rowIndex];
         dram->mAnglePerFrame = dram->mAnglePerFrameChoices[row[index]];
-        dram->mMapObject.mStateMachine.mNextState = 0;
+        dram->mMapObject.mStateMachine.mNextState = DRAM_STATE_WAIT_DELAY;
         dram->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
@@ -110,7 +110,7 @@ u32 DramState0ReturnArgument(u32 value) {
 
 void UpdateDramState0(Dram *dram) {
     if (dram->mMapObject.mStateMachine.mStateFrames > dram->mDelayFrameCount) {
-        dram->mMapObject.mStateMachine.mNextState = 2;
+        dram->mMapObject.mStateMachine.mNextState = DRAM_STATE_RAMP_UP;
         dram->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
@@ -123,7 +123,7 @@ void UpdateDramState2(Dram *dram) {
     dram->mRamp += dram->mRampPerFrame;
     dram->mAngleX += (s16) (MUL_FIXED12_NO_ROUND(dram->mRamp, dram->mAnglePerFrame));
     if (dram->mMapObject.mStateMachine.mStateFrames > dram->mRampFrameCount) {
-        dram->mMapObject.mStateMachine.mNextState = 3;
+        dram->mMapObject.mStateMachine.mNextState = DRAM_STATE_STEADY;
         dram->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
@@ -138,7 +138,7 @@ void UpdateDramState3(Dram *dram) {
         return;
     }
     if (dram->mMapObject.mStateMachine.mStateFrames > dram->mSteadyFrameCount) {
-        dram->mMapObject.mStateMachine.mNextState = 4;
+        dram->mMapObject.mStateMachine.mNextState = DRAM_STATE_RAMP_DOWN;
         dram->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
@@ -152,12 +152,12 @@ void UpdateDramState4(Dram *dram) {
 
     dram->mRamp -= dram->mRampPerFrame;
     angleStep = MUL_FIXED12_NO_ROUND(dram->mRamp, dram->mAnglePerFrame);
-    if (angleStep <= 0x96) {
-        angleStep = 0x96;
+    if (angleStep <= DRAM_MIN_ANGLE_STEP) {
+        angleStep = DRAM_MIN_ANGLE_STEP;
     }
     dram->mAngleX += angleStep;
     if (dram->mMapObject.mStateMachine.mStateFrames > dram->mRampFrameCount) {
-        dram->mMapObject.mStateMachine.mNextState = 5;
+        dram->mMapObject.mStateMachine.mNextState = DRAM_STATE_ALIGN;
         dram->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
@@ -166,18 +166,18 @@ void EnterDramState5(Dram *dram) {
     s32 angle;
 
     angle = dram->mAngleX;
-    dram->mAngleRemaining = 0x1999 - angle % 0x1999;
+    dram->mAngleRemaining = DRAM_ALIGN_ANGLE - angle % DRAM_ALIGN_ANGLE;
 }
 
 // Asks for state 1 once mAngleRemaining has run out.
 void UpdateDramState5(Dram *dram) {
-    dram->mAngleX += 0x96;
-    dram->mAngleRemaining -= 0x96;
+    dram->mAngleX += DRAM_MIN_ANGLE_STEP;
+    dram->mAngleRemaining -= DRAM_MIN_ANGLE_STEP;
     if (dram->mAngleRemaining >= 0) {
         return;
     }
     dram->mAngleX += dram->mAngleRemaining;
-    dram->mMapObject.mStateMachine.mNextState = 1;
+    dram->mMapObject.mStateMachine.mNextState = DRAM_STATE_IDLE;
     dram->mMapObject.mStateMachine.mNextStateRequested = 1;
 }
 
