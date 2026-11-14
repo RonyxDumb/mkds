@@ -254,6 +254,26 @@ typedef struct RaceSetupHeader {
     /* 65 */ u8 mUnk_65[0x3];
 } RaceSetupHeader;
 
+// Mission run kinds (MissionSettings.mMissionKind): what finishes the mission and what the count tracks.
+// Counts a kart entering the finish shape of the course map; also counts the map objects of the mission.
+#define MISSION_KIND_COUNT_SHAPE_ENTRIES 0
+// Counts through the pending count-up from the coin and boss transfers; has its own count sound.
+#define MISSION_KIND_COUNT_PENDING_WITH_SEQ 1
+// Lap race without a count.
+#define MISSION_KIND_LAPS 2
+// Counts the map objects hit (the mission map object kinds).
+#define MISSION_KIND_COUNT_MAP_OBJECTS 3
+// Lap race that also counts the mini-turbos of the followed kart against the count limit.
+#define MISSION_KIND_LAPS_MINI_TURBO_COUNT 4
+// Counts through the pending count-up from the coin and boss transfers.
+#define MISSION_KIND_COUNT_PENDING 5
+// Lap race that fails unless the kart finishes in first place.
+#define MISSION_KIND_LAPS_FIRST_PLACE 6
+// Counts the hits of the mission map objects.
+#define MISSION_KIND_COUNT_HITS 7
+// Lap race like MISSION_KIND_LAPS.
+#define MISSION_KIND_LAPS_NO_LAP_PROGRESS 10
+
 // The 0x10 bytes at 0x28 of the object behind gRaceSetup (the same bytes as its mUnk_028 to mUnk_37).
 typedef struct MissionSettings {
     /* 00 */ u16 mMissionTimeLimitFrameCount;

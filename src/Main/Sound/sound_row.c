@@ -187,12 +187,12 @@ u32 GetSceneSoundRowIndex(s32 sceneNumber, SoundRow *output) {
                         }
                         if (overridden == FALSE) {
                             switch (mission->mMissionKind) {
-                                case 1:
+                                case MISSION_KIND_COUNT_PENDING_WITH_SEQ:
                                     output->mSeqId = 0x2c;
                                     break;
-                                case 2:
-                                case 3:
-                                case 10:
+                                case MISSION_KIND_LAPS:
+                                case MISSION_KIND_COUNT_MAP_OBJECTS:
+                                case MISSION_KIND_LAPS_NO_LAP_PROGRESS:
                                     break;
                             }
                         }
