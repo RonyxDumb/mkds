@@ -721,10 +721,10 @@ void UpdateRaceLapNumber(void) {
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         switch (gRaceSetup->mMissionKind) {
-            case 2:
-            case 4:
-            case 6:
-            case 10:
+            case MISSION_KIND_LAPS:
+            case MISSION_KIND_LAPS_MINI_TURBO_COUNT:
+            case MISSION_KIND_LAPS_FIRST_PLACE:
+            case MISSION_KIND_LAPS_NO_LAP_PROGRESS:
                 break;
             default:
                 return;
@@ -789,10 +789,10 @@ void DrawRaceLapAndTimeDifference(RaceHudOamBuffer *oamBuffer) {
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         switch (gRaceSetup->mMissionKind) {
-            case 2:
-            case 4:
-            case 6:
-            case 10:
+            case MISSION_KIND_LAPS:
+            case MISSION_KIND_LAPS_MINI_TURBO_COUNT:
+            case MISSION_KIND_LAPS_FIRST_PLACE:
+            case MISSION_KIND_LAPS_NO_LAP_PROGRESS:
                 if (gRaceLapNumber->mLastLapIndex < 2) {
                     return;
                 }
@@ -935,7 +935,7 @@ void InitRaceTimeDigits(void) {
         }
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        if (gRaceSetup->mMissionKind != 6) {
+        if (gRaceSetup->mMissionKind != MISSION_KIND_LAPS_FIRST_PLACE) {
             gRaceTimeDigits->mUseLastSecondsSound = TRUE;
         }
     }
