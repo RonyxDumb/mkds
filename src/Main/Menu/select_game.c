@@ -51,7 +51,7 @@ const SelectGameFileNames gSelectGameFileNames[2] = {
 void WriteSelectGameRowToRaceSetupCopy(void) {
     BOOL battleKind;
 
-    if (gSelectGame->mMode == 0) {
+    if (gSelectGame->mMode == SELECT_GAME_MODE_NO_CONNECTION) {
         GetRaceSetupCopy()->mMode = 2;
         switch (gSelectGame->mSelectedIndex) {
             case 0:
@@ -179,12 +179,12 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
         gSelectGame->mMenuMessages = FindSceneFile("menu.bmg");
     }
     switch (gSelectGame->mMode) {
-        case 0:
+        case SELECT_GAME_MODE_NO_CONNECTION:
             gSelectGame->mState = SELECT_GAME_STATE_SLIDE_IN;
             gSelectGame->mTableCount = 2;
             gSelectGame->mTable = gSelectGameBattleRows;
             break;
-        case 1:
+        case SELECT_GAME_MODE_CONNECTION:
             gSelectGame->mState = SELECT_GAME_STATE_SLIDE_IN;
             gSelectGame->mTableCount = 3;
             gSelectGame->mTable = gSelectGameMultiRows;
@@ -221,7 +221,7 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
                 labelIndex++;
             } while (labelIndex < mainLabelCount);
         }
-        if (gSelectGame->mMode == 0) {
+        if (gSelectGame->mMode == SELECT_GAME_MODE_NO_CONNECTION) {
             hiddenLabelStart = 4;
             hiddenLabelCount = 6;
         } else {
@@ -245,7 +245,7 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
         SetSelectReturnSoundId(0xe);
     }
     RequestSelectReturnState1();
-    if (gSelectGame->mMode == 1) {
+    if (gSelectGame->mMode == SELECT_GAME_MODE_CONNECTION) {
         SetSelectChoisesSoundId(0, 5);
         SetSelectChoisesSoundId(1, 0xf);
     }
@@ -322,7 +322,7 @@ s32 AdvanceSelectGame(void) {
                     }
                 }
             } else if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) != 0 || touchInReturnRect != 0) {
-                if (gSelectGame->mMode == 0) {
+                if (gSelectGame->mMode == SELECT_GAME_MODE_NO_CONNECTION) {
                     gSelectGame->mResult = 2;
                     gSelectGame->mState = SELECT_GAME_STATE_SLIDE_OUT;
                 } else {
@@ -339,7 +339,7 @@ s32 AdvanceSelectGame(void) {
                 RequestSelectReturnState3WithSound(0);
             } else if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
                 if (gSelectGame->mSelectedIndex == 0) {
-                    if (gSelectGame->mMode == 1) {
+                    if (gSelectGame->mMode == SELECT_GAME_MODE_CONNECTION) {
                         gSelectGame->mSelectedIndex = gSelectGame->mTableCount - 1;
                     }
                 } else {
@@ -347,7 +347,7 @@ s32 AdvanceSelectGame(void) {
                 }
             } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
                 if (gSelectGame->mSelectedIndex == gSelectGame->mTableCount - 1) {
-                    if (gSelectGame->mMode == 1) {
+                    if (gSelectGame->mMode == SELECT_GAME_MODE_CONNECTION) {
                         gSelectGame->mSelectedIndex = 0;
                     }
                 } else {
@@ -393,7 +393,7 @@ s32 AdvanceSelectGame(void) {
             } else {
                 gSelectGame->mStateFrames = value;
                 gSelectGame->mState = SELECT_GAME_STATE_SLIDE_OUT;
-                if (gSelectGame->mMode != 0) {
+                if (gSelectGame->mMode != SELECT_GAME_MODE_NO_CONNECTION) {
                     RequestSelectReturnState4();
                 }
             }
@@ -428,7 +428,7 @@ s32 AdvanceSelectGame(void) {
 }
 
 void ReleaseSelectGame(void) {
-    if (gSelectGame->mMode == 1) {
+    if (gSelectGame->mMode == SELECT_GAME_MODE_CONNECTION) {
         RequestPlayerEntryListSetup();
         if (gStartupWork->mMultiSimple != 0) {
             FillShuffledIndices();
