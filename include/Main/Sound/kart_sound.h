@@ -36,6 +36,12 @@ enum {
     KART_SOUND_SET_HEYHO,
 };
 
+// Values of KartSound.mVolume (volume scale 0 to 0x7f).
+#define KART_SOUND_VOLUME_MAX 0x7f
+#define KART_SOUND_VOLUME_PITCHED_NO_ACCEL 0x46
+#define KART_SOUND_VOLUME_LOW_REV 0x3c
+#define KART_SOUND_VOLUME_COAST 0x32
+
 // The bytes from 0x450 of an Kart, which UpdateKartSound and AdvanceKartSoundPitch read and write.
 typedef struct KartSound {
     /* 00 */ s32 mSoundId;
