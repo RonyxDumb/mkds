@@ -26,7 +26,7 @@ void InitChildWaitSession(ChildWaitSessionView *session, ChildWaitParamsView *pa
     InitMultiBootParent(session->mMultiBootParent);
     gChildWaitSessionView->mTgid = 0;
     gChildWaitSessionView->mChannel = 0;
-    gChildWaitSessionView->mState = 1;
+    gChildWaitSessionView->mState = CHILD_WAIT_STATE_IDLE;
     gChildWaitSessionView->mPrevState = 1;
     gChildWaitSessionView->mEndWaitFrames = 0;
     ClearChildWaitSharedEntries();
@@ -49,26 +49,29 @@ BOOL StopChildWaitSession(void) {
     u8 *statePointer = &session->mState;
     u8 state = *statePointer;
 
-    if (state == 1 || state == 0x14 || state == 0x17 || state == 0x1a || state == 0x1d) {
-        session->mState = 0x22;
-        gChildWaitSessionView->mRequest = 0;
+    if (state == CHILD_WAIT_STATE_IDLE || state == CHILD_WAIT_STATE_END_DONE ||
+        state == CHILD_WAIT_STATE_CLOSE_NO_RESTART_DONE || state == CHILD_WAIT_STATE_CLOSE_RESTARTABLE_DONE ||
+        state == CHILD_WAIT_STATE_ABORT_DONE) {
+        session->mState = CHILD_WAIT_STATE_ENDED;
+        gChildWaitSessionView->mRequest = CHILD_WAIT_REQUEST_NONE;
         return 1;
     }
-    if (state == 4 || state == 5 || state == 6 || state == 0xd) {
-        if (state == 4 && session->mMultiBootInitFrames < 6) {
+    if (state == CHILD_WAIT_STATE_MULTIBOOT_WAIT || state == CHILD_WAIT_STATE_CHILD_JOINED ||
+        state == CHILD_WAIT_STATE_DOWNLOADING || state == CHILD_WAIT_STATE_CHILD_LEFT) {
+        if (state == CHILD_WAIT_STATE_MULTIBOOT_WAIT && session->mMultiBootInitFrames < 6) {
             return 0;
         }
         MB_EndToIdle();
-        gChildWaitSessionView->mState = 0x10;
-        gChildWaitSessionView->mRequest = 2;
+        gChildWaitSessionView->mState = CHILD_WAIT_STATE_STOP_MULTIBOOT;
+        gChildWaitSessionView->mRequest = CHILD_WAIT_REQUEST_STOP;
         return 1;
     }
-    if (state == 9 || state == 10) {
-        *statePointer = 0x20;
+    if (state == CHILD_WAIT_STATE_SHARING_HANDSHAKE_ACKED || state == CHILD_WAIT_STATE_SHARING_BLOCK_ACKED) {
+        *statePointer = CHILD_WAIT_STATE_STOP_FINALIZE;
         return 1;
     }
-    if (state == 0xc) {
-        *statePointer = 0x22;
+    if (state == CHILD_WAIT_STATE_FINAL_REPLY_DONE) {
+        *statePointer = CHILD_WAIT_STATE_ENDED;
         return 1;
     }
     switch (state) {
@@ -81,7 +84,7 @@ BOOL StopChildWaitSession(void) {
 
 void ResetChildWaitSessionState(void) {
     SetWhGgid(gChildWaitSessionView->mGgid);
-    gChildWaitSessionView->mState = 1;
+    gChildWaitSessionView->mState = CHILD_WAIT_STATE_IDLE;
     gChildWaitSessionView->mTgid = WM_GetNextTgid();
     MI_CpuCopy8(gChildWaitSessionView->mUnk_aa0[1], gChildWaitSessionView->mUnk_a50, 0x40);
     gChildWaitSessionView->mHandshakeDone = 0;
@@ -90,19 +93,20 @@ void ResetChildWaitSessionState(void) {
 }
 
 BOOL StartChildWaitSession(void) {
-    if (gChildWaitSessionView->mState == 1 || gChildWaitSessionView->mState == 0x1a ||
-        gChildWaitSessionView->mState == 0x1d) {
+    if (gChildWaitSessionView->mState == CHILD_WAIT_STATE_IDLE ||
+        gChildWaitSessionView->mState == CHILD_WAIT_STATE_CLOSE_RESTARTABLE_DONE ||
+        gChildWaitSessionView->mState == CHILD_WAIT_STATE_ABORT_DONE) {
         ResetChildWaitSessionState();
         ClearWhAndInitialize();
-        gChildWaitSessionView->mState = 2;
+        gChildWaitSessionView->mState = CHILD_WAIT_STATE_WH_START;
         return 1;
     }
     return 0;
 }
 
 BOOL StartChildWaitDownload(void) {
-    if (gChildWaitSessionView->mState == 5) {
-        gChildWaitSessionView->mState = 6;
+    if (gChildWaitSessionView->mState == CHILD_WAIT_STATE_CHILD_JOINED) {
+        gChildWaitSessionView->mState = CHILD_WAIT_STATE_DOWNLOADING;
         StartMultiBootDownloads();
         return 1;
     }
@@ -111,101 +115,101 @@ BOOL StartChildWaitDownload(void) {
 
 void AdvanceChildWaitState(void) {
     switch (gChildWaitSessionView->mState) {
-        case 1:
-            if (gChildWaitSessionView->mRequest == 1) {
-                gChildWaitSessionView->mRequest = 0;
+        case CHILD_WAIT_STATE_IDLE:
+            if (gChildWaitSessionView->mRequest == CHILD_WAIT_REQUEST_START) {
+                gChildWaitSessionView->mRequest = CHILD_WAIT_REQUEST_NONE;
                 StartChildWaitSession();
                 return;
             }
-            if (gChildWaitSessionView->mRequest == 2) {
-                gChildWaitSessionView->mRequest = 0;
-                gChildWaitSessionView->mState = 0x22;
+            if (gChildWaitSessionView->mRequest == CHILD_WAIT_REQUEST_STOP) {
+                gChildWaitSessionView->mRequest = CHILD_WAIT_REQUEST_NONE;
+                gChildWaitSessionView->mState = CHILD_WAIT_STATE_ENDED;
             }
             return;
-        case 2:
+        case CHILD_WAIT_STATE_WH_START:
             AdvanceChildWaitWhStart();
             return;
-        case 3:
+        case CHILD_WAIT_STATE_MULTIBOOT_START:
             InitChildWaitMultiBoot();
-            gChildWaitSessionView->mState = 4;
+            gChildWaitSessionView->mState = CHILD_WAIT_STATE_MULTIBOOT_WAIT;
             return;
-        case 4:
+        case CHILD_WAIT_STATE_MULTIBOOT_WAIT:
             gChildWaitSessionView->mMultiBootInitFrames++;
             AdvanceChildWaitMultiBoot();
             return;
-        case 5:
-        case 6:
+        case CHILD_WAIT_STATE_CHILD_JOINED:
+        case CHILD_WAIT_STATE_DOWNLOADING:
             AdvanceChildWaitMultiBoot();
             return;
-        case 7:
+        case CHILD_WAIT_STATE_DATA_CONNECT:
             StartChildWaitDataConnect();
             return;
-        case 8:
-        case 9:
-        case 10:
+        case CHILD_WAIT_STATE_DATA_SHARING:
+        case CHILD_WAIT_STATE_SHARING_HANDSHAKE_ACKED:
+        case CHILD_WAIT_STATE_SHARING_BLOCK_ACKED:
             AdvanceChildWaitDataSharing();
             return;
-        case 11:
+        case CHILD_WAIT_STATE_FINAL_REPLY:
             AdvanceChildWaitAfterReply();
             return;
-        case 16:
+        case CHILD_WAIT_STATE_STOP_MULTIBOOT:
             gChildWaitSessionView->mEndWaitFrames = 0;
-            gChildWaitSessionView->mState = 0x11;
+            gChildWaitSessionView->mState = CHILD_WAIT_STATE_STOP_MULTIBOOT_WAIT;
             return;
-        case 17:
+        case CHILD_WAIT_STATE_STOP_MULTIBOOT_WAIT:
             if (gChildWaitSessionView->mEndWaitFrames++ > 0x1e) {
                 EndChildWaitWh();
             }
             return;
-        case 18:
+        case CHILD_WAIT_STATE_CHILD_LOST:
             MB_EndToIdle();
             gChildWaitSessionView->mEndWaitFrames = 0;
-            gChildWaitSessionView->mState = 0x16;
+            gChildWaitSessionView->mState = CHILD_WAIT_STATE_CLOSE_NO_RESTART_WAIT;
             return;
-        case 19:
+        case CHILD_WAIT_STATE_END_WAIT:
             if (gChildWaitSessionView->mEndWaitFrames++ > 0x1e) {
                 if (GetWhState() == 1) {
                     EndWh();
-                    gChildWaitSessionView->mState = 0x14;
+                    gChildWaitSessionView->mState = CHILD_WAIT_STATE_END_DONE;
                 }
             }
             return;
-        case 21:
+        case CHILD_WAIT_STATE_CLOSE_NO_RESTART_FINALIZE:
             FinalizeWh();
             gChildWaitSessionView->mEndWaitFrames = 0;
-            gChildWaitSessionView->mState = 0x16;
+            gChildWaitSessionView->mState = CHILD_WAIT_STATE_CLOSE_NO_RESTART_WAIT;
             return;
-        case 22:
+        case CHILD_WAIT_STATE_CLOSE_NO_RESTART_WAIT:
             if (gChildWaitSessionView->mEndWaitFrames++ > 0x1e) {
                 if (GetWhState() == 1) {
                     EndWh();
-                    gChildWaitSessionView->mState = 0x17;
+                    gChildWaitSessionView->mState = CHILD_WAIT_STATE_CLOSE_NO_RESTART_DONE;
                 }
             }
             return;
-        case 24:
+        case CHILD_WAIT_STATE_CLOSE_RESTARTABLE_FINALIZE:
             FinalizeWh();
             gChildWaitSessionView->mEndWaitFrames = 0;
-            gChildWaitSessionView->mState = 0x19;
+            gChildWaitSessionView->mState = CHILD_WAIT_STATE_CLOSE_RESTARTABLE_WAIT;
             return;
-        case 25:
+        case CHILD_WAIT_STATE_CLOSE_RESTARTABLE_WAIT:
             if (gChildWaitSessionView->mEndWaitFrames++ > 0x1e) {
                 if (GetWhState() == 1) {
                     EndWh();
-                    gChildWaitSessionView->mState = 0x1a;
+                    gChildWaitSessionView->mState = CHILD_WAIT_STATE_CLOSE_RESTARTABLE_DONE;
                 }
             }
             return;
-        case 27:
+        case CHILD_WAIT_STATE_ABORT_FINALIZE:
             FinalizeWh();
             gChildWaitSessionView->mEndWaitFrames = 0;
-            gChildWaitSessionView->mState = 0x1c;
+            gChildWaitSessionView->mState = CHILD_WAIT_STATE_ABORT_WAIT;
             return;
-        case 28:
+        case CHILD_WAIT_STATE_ABORT_WAIT:
             if (gChildWaitSessionView->mEndWaitFrames++ > 0x1e) {
                 if (GetWhState() == 1) {
                     EndWh();
-                    gChildWaitSessionView->mState = 0x1d;
+                    gChildWaitSessionView->mState = CHILD_WAIT_STATE_ABORT_DONE;
                     return;
                 } else {
                     u32 stateFrames = gChildWaitSessionView->mEndWaitFrames;
@@ -216,23 +220,23 @@ void AdvanceChildWaitState(void) {
                 }
             }
             return;
-        case 32:
+        case CHILD_WAIT_STATE_STOP_FINALIZE:
             FinalizeWh();
             gChildWaitSessionView->mEndWaitFrames = 0;
-            gChildWaitSessionView->mState = 0x21;
+            gChildWaitSessionView->mState = CHILD_WAIT_STATE_STOP_WAIT;
             return;
-        case 33:
+        case CHILD_WAIT_STATE_STOP_WAIT:
             if (gChildWaitSessionView->mEndWaitFrames++ > 0x1e) {
                 if (GetWhState() == 1) {
                     EndWh();
-                    gChildWaitSessionView->mState = 0x22;
+                    gChildWaitSessionView->mState = CHILD_WAIT_STATE_ENDED;
                 }
             }
             return;
-        case 30:
+        case CHILD_WAIT_STATE_FINALIZE_ONLY:
             FinalizeWh();
             return;
-        case 34:
+        case CHILD_WAIT_STATE_ENDED:
             return;
     }
 }
@@ -259,11 +263,11 @@ void AdvanceChildWaitWhStart(void) {
         case 7:
             gChildWaitSessionView->mChannel = DecideWhChannel();
             gChildWaitSessionView->mMultiBootInitFrames = 0;
-            gChildWaitSessionView->mState = 3;
+            gChildWaitSessionView->mState = CHILD_WAIT_STATE_MULTIBOOT_START;
             return;
         case 0:
             gChildWaitSessionView->mMultiBootInitFrames = 0;
-            gChildWaitSessionView->mState = 3;
+            gChildWaitSessionView->mState = CHILD_WAIT_STATE_MULTIBOOT_START;
             return;
         case 9:
             StartWhResetOrFail();
@@ -288,16 +292,16 @@ void AdvanceChildWaitMultiBoot(void) {
             return;
         case 2:
             if (GetMultiBootChildMask(2) != 0) {
-                gChildWaitSessionView->mState = 5;
+                gChildWaitSessionView->mState = CHILD_WAIT_STATE_CHILD_JOINED;
                 return;
             }
             if (GetMultiBootChildMask(3) != 0 || GetMultiBootChildMask(4) != 0) {
-                gChildWaitSessionView->mState = 6;
+                gChildWaitSessionView->mState = CHILD_WAIT_STATE_DOWNLOADING;
                 return;
             }
-            if (gChildWaitSessionView->mState == 5) {
+            if (gChildWaitSessionView->mState == CHILD_WAIT_STATE_CHILD_JOINED) {
                 if (GetMultiBootChildMask(2) == 0) {
-                    gChildWaitSessionView->mState = 0xd;
+                    gChildWaitSessionView->mState = CHILD_WAIT_STATE_CHILD_LEFT;
                     return;
                 }
             }
@@ -307,19 +311,19 @@ void AdvanceChildWaitMultiBoot(void) {
                 StartMultiBootBootRequests();
                 return;
             }
-            if ((u8) (gChildWaitSessionView->mState + 250) <= 1) {
+            if ((u8) (gChildWaitSessionView->mState + (256 - CHILD_WAIT_STATE_DOWNLOADING)) <= 1) {
                 if (GetMultiBootChildMask(3) == 0) {
-                    gChildWaitSessionView->mState = 0x12;
+                    gChildWaitSessionView->mState = CHILD_WAIT_STATE_CHILD_LOST;
                     return;
                 }
             }
             break;
         case 5:
-            gChildWaitSessionView->mState = 7;
+            gChildWaitSessionView->mState = CHILD_WAIT_STATE_DATA_CONNECT;
             return;
         case 7:
             StartMultiBootEndToIdle();
-            gChildWaitSessionView->mState = 1;
+            gChildWaitSessionView->mState = CHILD_WAIT_STATE_IDLE;
             return;
         case 0:
             switch (GetWhState()) {
@@ -327,12 +331,12 @@ void AdvanceChildWaitMultiBoot(void) {
                     EndWh();
                     return;
                 case 0:
-                    gChildWaitSessionView->mState = 0x1f;
+                    gChildWaitSessionView->mState = CHILD_WAIT_STATE_ERROR;
                     return;
                 case 3:
                     break;
                 default:
-                    gChildWaitSessionView->mState = 0x1f;
+                    gChildWaitSessionView->mState = CHILD_WAIT_STATE_ERROR;
                     break;
             }
             break;
@@ -342,7 +346,7 @@ void AdvanceChildWaitMultiBoot(void) {
 void StartChildWaitDataConnect(void) {
     ClearChildWaitSharedEntries();
     SetWhConnectCallback((u32) &AcceptMatchingWhChild);
-    gChildWaitSessionView->mState = 8;
+    gChildWaitSessionView->mState = CHILD_WAIT_STATE_DATA_SHARING;
 }
 
 void AdvanceChildWaitDataSharing(void) {
@@ -358,32 +362,34 @@ void AdvanceChildWaitDataSharing(void) {
         case 6:
             blockNumber = gChildWaitSessionView->mBlockNumber;
             blockIndex = blockNumber % 16;
-            ExchangeChildWaitSharedEntries(0, blockNumber, gChildWaitSessionView->mUnk_aa0[1] + (blockIndex << 6));
+            ExchangeChildWaitSharedEntries(CHILD_WAIT_CODE_NONE, blockNumber,
+                                           gChildWaitSessionView->mUnk_aa0[1] + (blockIndex << 6));
             ReadChildWaitReply();
-            if (gChildWaitSessionView->mState != 0x1b) {
+            if (gChildWaitSessionView->mState != CHILD_WAIT_STATE_ABORT_FINALIZE) {
                 if (gChildWaitSessionView->mStallCount > 0x1e0) {
-                    gChildWaitSessionView->mState = 0x1b;
+                    gChildWaitSessionView->mState = CHILD_WAIT_STATE_ABORT_FINALIZE;
                     return;
                 }
-                if (GetChildWaitReplyCode() == 0x10 || GetChildWaitReplyCode() == 0x20) {
+                if (GetChildWaitReplyCode() == CHILD_WAIT_CODE_BLOCK_ACK ||
+                    GetChildWaitReplyCode() == CHILD_WAIT_CODE_BLOCK_ACK_END) {
                     GetChildWaitReplyCode();
-                    gChildWaitSessionView->mState = 0xa;
-                } else if (GetChildWaitReplyCode() == 0x40) {
-                    gChildWaitSessionView->mState = 0xb;
+                    gChildWaitSessionView->mState = CHILD_WAIT_STATE_SHARING_BLOCK_ACKED;
+                } else if (GetChildWaitReplyCode() == CHILD_WAIT_CODE_FINAL_REPLY) {
+                    gChildWaitSessionView->mState = CHILD_WAIT_STATE_FINAL_REPLY;
                 } else if (GetChildWaitReplyCode() == 0xff) {
-                    gChildWaitSessionView->mState = 0x1b;
-                } else if (GetChildWaitReplyCode() == 0x50) {
-                    gChildWaitSessionView->mState = 0x15;
-                } else if (GetChildWaitReplyCode() == 0x60) {
-                    gChildWaitSessionView->mState = 0x18;
+                    gChildWaitSessionView->mState = CHILD_WAIT_STATE_ABORT_FINALIZE;
+                } else if (GetChildWaitReplyCode() == CHILD_WAIT_CODE_CLOSE_NO_RESTART) {
+                    gChildWaitSessionView->mState = CHILD_WAIT_STATE_CLOSE_NO_RESTART_FINALIZE;
+                } else if (GetChildWaitReplyCode() == CHILD_WAIT_CODE_CLOSE_RESTARTABLE) {
+                    gChildWaitSessionView->mState = CHILD_WAIT_STATE_CLOSE_RESTARTABLE_FINALIZE;
                 } else if (GetChildWaitReplyCode() == 0x70) {
-                    gChildWaitSessionView->mState = 0x1b;
-                } else if (GetChildWaitReplyCode() == 0) {
-                    gChildWaitSessionView->mState = 8;
-                } else if (GetChildWaitReplyCode() == 0xbd) {
-                    gChildWaitSessionView->mState = 9;
+                    gChildWaitSessionView->mState = CHILD_WAIT_STATE_ABORT_FINALIZE;
+                } else if (GetChildWaitReplyCode() == CHILD_WAIT_CODE_NONE) {
+                    gChildWaitSessionView->mState = CHILD_WAIT_STATE_DATA_SHARING;
+                } else if (GetChildWaitReplyCode() == CHILD_WAIT_CODE_HANDSHAKE_ACK) {
+                    gChildWaitSessionView->mState = CHILD_WAIT_STATE_SHARING_HANDSHAKE_ACKED;
                 } else {
-                    gChildWaitSessionView->mState = 0x1f;
+                    gChildWaitSessionView->mState = CHILD_WAIT_STATE_ERROR;
                 }
             }
             break;
@@ -391,15 +397,15 @@ void AdvanceChildWaitDataSharing(void) {
 }
 
 void AdvanceChildWaitAfterReply(void) {
-    gChildWaitSessionView->mState = 0xc;
+    gChildWaitSessionView->mState = CHILD_WAIT_STATE_FINAL_REPLY_DONE;
 }
 
 BOOL EndChildWaitWh(void) {
     int whState;
     whState = GetWhState();
-    if (whState == 1) {
+    if (whState == CHILD_WAIT_STATE_IDLE) {
         EndWh();
-        gChildWaitSessionView->mState = 1;
+        gChildWaitSessionView->mState = CHILD_WAIT_STATE_IDLE;
         return 1;
     }
     return 0;
@@ -423,16 +429,16 @@ void ClearChildWaitSharedEntries(void) {
 void ExchangeChildWaitSharedEntries(u16 code, u16 value, u8 *payload) {
     u16 aid;
 
-    if (gChildWaitSessionView->mHandshakeDone == 1) {
+    if (gChildWaitSessionView->mHandshakeDone == CHILD_WAIT_STATE_IDLE) {
         gChildWaitSessionView->mSendEntry->mCode = code;
         gChildWaitSessionView->mSendEntry->mValue = value;
         MI_CpuCopy8(payload, gChildWaitSessionView->mSendEntry->mPayload, 0x40);
     } else {
         gChildWaitSessionView->mStallCount = gChildWaitSessionView->mStallCount + 1;
-        gChildWaitSessionView->mSendEntry->mCode = 0xbc;
+        gChildWaitSessionView->mSendEntry->mCode = CHILD_WAIT_CODE_HANDSHAKE_REQUEST;
         gChildWaitSessionView->mSendEntry->mPayload[0] = gChildWaitSessionView->mHandshakeByte;
     }
-    if (GetWhState() == 5) {
+    if (GetWhState() == CHILD_WAIT_STATE_CHILD_JOINED) {
         if (StepWhDataSharing(gChildWaitSessionView) == FALSE) {
             gChildWaitSessionView->mStallCount = gChildWaitSessionView->mStallCount + 4;
             return;
@@ -442,7 +448,7 @@ void ExchangeChildWaitSharedEntries(u16 code, u16 value, u8 *payload) {
         } else {
             gChildWaitSessionView->mStallCount = 0;
             if (GetWhConnectedMask() != 3) {
-                gChildWaitSessionView->mState = 0x1b;
+                gChildWaitSessionView->mState = CHILD_WAIT_STATE_ABORT_FINALIZE;
                 return;
             }
         }
@@ -467,9 +473,9 @@ void ReadChildWaitReply(void) {
         session = gChildWaitSessionView;
         if (session->mEntryPresent[entryIndex] != 0) {
             entry = GetChildWaitSharedEntry(session, entryIndex);
-            if (entryIndex == 1) {
-                if (session->mHandshakeDone == 1) {
-                    if (entry->mCode != 0x10) {
+            if (entryIndex == CHILD_WAIT_STATE_IDLE) {
+                if (session->mHandshakeDone == CHILD_WAIT_STATE_IDLE) {
+                    if (entry->mCode != CHILD_WAIT_CODE_BLOCK_ACK) {
                         return;
                     }
                     session->mReplyCount = session->mReplyCount + 1;
@@ -480,8 +486,8 @@ void ReadChildWaitReply(void) {
                         }
                     }
                 } else {
-                    session->mUnk_202 = 0xbc;
-                    if (entry->mCode == 0xbd) {
+                    session->mUnk_202 = CHILD_WAIT_CODE_HANDSHAKE_REQUEST;
+                    if (entry->mCode == CHILD_WAIT_CODE_HANDSHAKE_ACK) {
                         gChildWaitSessionView->mHandshakeDone = 1;
                         gChildWaitSessionView->mBlockNumber = 0;
                         gChildWaitSessionView->mReplyCount = 0;
