@@ -443,7 +443,7 @@ void ResetDataSharing(DataSharing *dataSharing) {
         dataSharing->mUnk_3c[index] = 0;
     }
     dataSharing->mUnk_4a = 0;
-    dataSharing->mSharingPhase = 5;
+    dataSharing->mSharingPhase = DATA_SHARING_PHASE_AFTER_RESET;
     dataSharing->mUnk_38 = 0;
     dataSharing->mUnk_30 = 0;
     gConnectionWork->mFlags &= ~CONNECTION_FLAG_SHARING_NOT_UPDATED;

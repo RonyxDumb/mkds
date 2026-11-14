@@ -450,6 +450,10 @@ typedef struct SharingReceiveRecord {
     /* 07 */ u8 mUnk_07;
 } SharingReceiveRecord;
 
+// DataSharing.mSharingPhase: the cleared value, and the value ResetDataSharing sets that UpdateDataSharing waits on.
+#define DATA_SHARING_PHASE_INITIAL 0
+#define DATA_SHARING_PHASE_AFTER_RESET 5
+
 // Members 0x15bc to 0x1607 of ConnectionWork as one object.
 typedef struct DataSharing {
     /* 00 */ WMDataSharingInfo *mUnk_00;

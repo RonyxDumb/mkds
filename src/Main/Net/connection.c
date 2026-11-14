@@ -173,13 +173,14 @@ BOOL UpdateDataSharing(void) {
     }
     switch (gConnectionWork->mState) {
         case CONNECTION_STATE_SYNCED:
-            if (dataSharing->mSharingPhase != 0 && dataSharing->mSharingPhase == 5) {
+            if (dataSharing->mSharingPhase != DATA_SHARING_PHASE_INITIAL &&
+                dataSharing->mSharingPhase == DATA_SHARING_PHASE_AFTER_RESET) {
                 return FALSE;
             }
             break;
         case CONNECTION_STATE_SYNCED_RACE:
-            if (dataSharing->mSharingPhase != 0) {
-                if (dataSharing->mSharingPhase == 5) {
+            if (dataSharing->mSharingPhase != DATA_SHARING_PHASE_INITIAL) {
+                if (dataSharing->mSharingPhase == DATA_SHARING_PHASE_AFTER_RESET) {
                     return FALSE;
                 }
             } else {
