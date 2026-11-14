@@ -332,39 +332,45 @@ void ResetRecordGpx(void) {
     gRecordGpx->mBg3OffsetX = ~0xff;
     mainLayoutCount = gRecordGpx->mRecordGpxMBncl->mCount;
     subLayoutCount = gRecordGpx->mRecordGpxSBncl->mCount;
-    gRecordGpx->mRecordGpxMTable[0].mOffsetX = 0x100;
-    gRecordGpx->mRecordGpxMTable[1].mOffsetX = 0x100;
-    gRecordGpx->mRecordGpxMTable[mainLayoutCount].mOffsetX = 0x100;
-    gRecordGpx->mRecordGpxSTable[44].mOffsetX = 0x100;
-    gRecordGpx->mRecordGpxSTable[45].mOffsetX = 0x100;
+    gRecordGpx->mRecordGpxMTable[0].mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
+    gRecordGpx->mRecordGpxMTable[1].mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
+    gRecordGpx->mRecordGpxMTable[mainLayoutCount].mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
+    gRecordGpx->mRecordGpxSTable[44].mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
+    gRecordGpx->mRecordGpxSTable[45].mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
     for (rowIndex = 0; rowIndex < 4; rowIndex++) {
-        gRecordGpx->mRecordGpxSTable[gRecordGpxTrophyCellIndices[rowIndex]].mOffsetX = 0x100;
+        gRecordGpx->mRecordGpxSTable[gRecordGpxTrophyCellIndices[rowIndex]].mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
         gRecordGpx->mRecordGpxSTable[gRecordGpxTrophyCellIndices[rowIndex]].mOffsetY = gRecordGpx->mBg3OffsetY;
-        gRecordGpx->mRecordGpxSTable[gRecordGpxLowSTableIndices[rowIndex]].mOffsetX = 0x100;
+        gRecordGpx->mRecordGpxSTable[gRecordGpxLowSTableIndices[rowIndex]].mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
         gRecordGpx->mRecordGpxSTable[gRecordGpxLowSTableIndices[rowIndex]].mOffsetY = gRecordGpx->mBg3OffsetY;
         for (cellIndex = 0; cellIndex < 3; cellIndex++) {
-            gRecordGpx->mRecordGpxSTable[gRecordGpxTotalPointsCellIndices[rowIndex][cellIndex]].mOffsetX = 0x100;
+            gRecordGpx->mRecordGpxSTable[gRecordGpxTotalPointsCellIndices[rowIndex][cellIndex]].mOffsetX =
+                LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
             gRecordGpx->mRecordGpxSTable[gRecordGpxTotalPointsCellIndices[rowIndex][cellIndex]].mOffsetY =
                 gRecordGpx->mBg3OffsetY;
         }
-        gRecordGpx->mRecordGpxSTable[gRecordGpxHighSTableIndices[rowIndex]].mOffsetX = 0x100;
+        gRecordGpx->mRecordGpxSTable[gRecordGpxHighSTableIndices[rowIndex]].mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
         gRecordGpx->mRecordGpxSTable[gRecordGpxHighSTableIndices[rowIndex]].mOffsetY = gRecordGpx->mBg3OffsetY;
-        gRecordGpx->mRecordGpxSTable[subLayoutCount + gRecordGpxTimeLabelIndices[rowIndex]].mOffsetX = 0x100;
+        gRecordGpx->mRecordGpxSTable[subLayoutCount + gRecordGpxTimeLabelIndices[rowIndex]].mOffsetX =
+            LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
         gRecordGpx->mRecordGpxSTable[subLayoutCount + gRecordGpxTimeLabelIndices[rowIndex]].mOffsetY =
             gRecordGpx->mBg3OffsetY;
-        gRecordGpx->mRecordGpxSTable[subLayoutCount + gRecordGpxTotalPointsLabelIndices[rowIndex]].mOffsetX = 0x100;
+        gRecordGpx->mRecordGpxSTable[subLayoutCount + gRecordGpxTotalPointsLabelIndices[rowIndex]].mOffsetX =
+            LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
         gRecordGpx->mRecordGpxSTable[subLayoutCount + gRecordGpxTotalPointsLabelIndices[rowIndex]].mOffsetY =
             gRecordGpx->mBg3OffsetY;
-        gRecordGpx->mRecordGpxSTable[subLayoutCount + gRecordGpxGradeLabelIndices[rowIndex]].mOffsetX = 0x100;
+        gRecordGpx->mRecordGpxSTable[subLayoutCount + gRecordGpxGradeLabelIndices[rowIndex]].mOffsetX =
+            LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
         gRecordGpx->mRecordGpxSTable[subLayoutCount + gRecordGpxGradeLabelIndices[rowIndex]].mOffsetY =
             gRecordGpx->mBg3OffsetY;
         for (cellIndex = 0; cellIndex < 3; cellIndex++) {
-            gRecordGpx->mRecordGpxSTable[gRecordGpxGradeCellIndices[rowIndex][cellIndex]].mOffsetX = 0x100;
+            gRecordGpx->mRecordGpxSTable[gRecordGpxGradeCellIndices[rowIndex][cellIndex]].mOffsetX =
+                LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
             gRecordGpx->mRecordGpxSTable[gRecordGpxGradeCellIndices[rowIndex][cellIndex]].mOffsetY =
                 gRecordGpx->mBg3OffsetY;
         }
         for (cellIndex = 0; cellIndex < 2; cellIndex++) {
-            gRecordGpx->mRecordGpxSTable[gRecordGpxCharacterKartCellIndices[rowIndex][cellIndex]].mOffsetX = 0x100;
+            gRecordGpx->mRecordGpxSTable[gRecordGpxCharacterKartCellIndices[rowIndex][cellIndex]].mOffsetX =
+                LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
             gRecordGpx->mRecordGpxSTable[gRecordGpxCharacterKartCellIndices[rowIndex][cellIndex]].mOffsetY =
                 gRecordGpx->mBg3OffsetY;
         }
