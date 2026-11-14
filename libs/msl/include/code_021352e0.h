@@ -3,6 +3,20 @@
 #include "types.h"
 #include "code_0213ee6c.h" // DigitRecord
 
+// FormatSpec.mArgKind: the length modifier of a format conversion.
+enum {
+    FORMAT_ARG_DEFAULT,
+    FORMAT_ARG_CHAR,
+    FORMAT_ARG_SHORT,
+    FORMAT_ARG_LONG,
+    FORMAT_ARG_INTMAX,
+    FORMAT_ARG_SIZE,
+    FORMAT_ARG_PTRDIFF,
+    FORMAT_ARG_LONG_LONG,
+    FORMAT_ARG_LONG_DOUBLE,
+    FORMAT_ARG_WIDE
+};
+
 // 16 bytes. Filled by FormatParseSpec; FormatWithPutFunc passes it by value (moved as four words) to
 // FormatDouble, FormatDoubleHex, FormatInt64 and FormatInt32.
 typedef struct FormatSpec {

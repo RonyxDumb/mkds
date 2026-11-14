@@ -40,7 +40,7 @@ const char *FormatParseSpec(const char *format, char **argList, FormatSpec *buf)
     parsed.mSignKind = 0;
     parsed.mHasDot = 0;
     parsed.mHash = 0;
-    parsed.mArgKind = 0;
+    parsed.mArgKind = FORMAT_ARG_DEFAULT;
     parsed.mMinLength = 0;
     parsed.mPrecision = 0;
     cursor = format + 1;
@@ -121,30 +121,30 @@ const char *FormatParseSpec(const char *format, char **argList, FormatSpec *buf)
     matched = 1;
     switch (currentChar) {
         case 'h':
-            parsed.mArgKind = 2;
+            parsed.mArgKind = FORMAT_ARG_SHORT;
             if (cursor[1] == 'h') {
-                parsed.mArgKind = 1;
+                parsed.mArgKind = FORMAT_ARG_CHAR;
                 currentChar = *++cursor;
             }
             break;
         case 'l':
-            parsed.mArgKind = 3;
+            parsed.mArgKind = FORMAT_ARG_LONG;
             if (cursor[1] == 'l') {
-                parsed.mArgKind = 7;
+                parsed.mArgKind = FORMAT_ARG_LONG_LONG;
                 currentChar = *++cursor;
             }
             break;
         case 'L':
-            parsed.mArgKind = 8;
+            parsed.mArgKind = FORMAT_ARG_LONG_DOUBLE;
             break;
         case 'j':
-            parsed.mArgKind = 4;
+            parsed.mArgKind = FORMAT_ARG_INTMAX;
             break;
         case 'z':
-            parsed.mArgKind = 5;
+            parsed.mArgKind = FORMAT_ARG_SIZE;
             break;
         case 't':
-            parsed.mArgKind = 6;
+            parsed.mArgKind = FORMAT_ARG_PTRDIFF;
             break;
         default:
             matched = 0;
@@ -161,7 +161,7 @@ const char *FormatParseSpec(const char *format, char **argList, FormatSpec *buf)
         case 'u':
         case 'x':
         case 'X':
-            if (parsed.mArgKind == 8) {
+            if (parsed.mArgKind == FORMAT_ARG_LONG_DOUBLE) {
                 parsed.mSpecChar = 0xff;
             } else if (parsed.mHasDot == 0) {
                 parsed.mPrecision = 1;
@@ -171,8 +171,9 @@ const char *FormatParseSpec(const char *format, char **argList, FormatSpec *buf)
             break;
         case 'f':
         case 'F':
-            if (parsed.mArgKind == 2 || parsed.mArgKind == 4 || parsed.mArgKind == 5 || parsed.mArgKind == 6 ||
-                parsed.mArgKind == 7) {
+            if (parsed.mArgKind == FORMAT_ARG_SHORT || parsed.mArgKind == FORMAT_ARG_INTMAX ||
+                parsed.mArgKind == FORMAT_ARG_SIZE || parsed.mArgKind == FORMAT_ARG_PTRDIFF ||
+                parsed.mArgKind == FORMAT_ARG_LONG_LONG) {
                 parsed.mSpecChar = 0xff;
             } else if (parsed.mHasDot == 0) {
                 parsed.mPrecision = 6;
@@ -183,8 +184,9 @@ const char *FormatParseSpec(const char *format, char **argList, FormatSpec *buf)
             if (parsed.mHasDot == 0) {
                 parsed.mPrecision = 0xd;
             }
-            if (parsed.mArgKind == 2 || parsed.mArgKind == 4 || parsed.mArgKind == 5 || parsed.mArgKind == 6 ||
-                parsed.mArgKind == 7 || parsed.mArgKind == 1) {
+            if (parsed.mArgKind == FORMAT_ARG_SHORT || parsed.mArgKind == FORMAT_ARG_INTMAX ||
+                parsed.mArgKind == FORMAT_ARG_SIZE || parsed.mArgKind == FORMAT_ARG_PTRDIFF ||
+                parsed.mArgKind == FORMAT_ARG_LONG_LONG || parsed.mArgKind == FORMAT_ARG_CHAR) {
                 parsed.mSpecChar = 0xff;
             }
             break;
@@ -195,8 +197,9 @@ const char *FormatParseSpec(const char *format, char **argList, FormatSpec *buf)
             }
         case 'e':
         case 'E':
-            if (parsed.mArgKind == 2 || parsed.mArgKind == 4 || parsed.mArgKind == 5 || parsed.mArgKind == 6 ||
-                parsed.mArgKind == 7 || parsed.mArgKind == 1) {
+            if (parsed.mArgKind == FORMAT_ARG_SHORT || parsed.mArgKind == FORMAT_ARG_INTMAX ||
+                parsed.mArgKind == FORMAT_ARG_SIZE || parsed.mArgKind == FORMAT_ARG_PTRDIFF ||
+                parsed.mArgKind == FORMAT_ARG_LONG_LONG || parsed.mArgKind == FORMAT_ARG_CHAR) {
                 parsed.mSpecChar = 0xff;
             } else if (parsed.mHasDot == 0) {
                 parsed.mPrecision = 6;
@@ -205,25 +208,25 @@ const char *FormatParseSpec(const char *format, char **argList, FormatSpec *buf)
         case 'p':
             parsed.mSpecChar = 'x';
             parsed.mHash = 1;
-            parsed.mArgKind = 3;
+            parsed.mArgKind = FORMAT_ARG_LONG;
             parsed.mPrecision = 8;
             break;
         case 'c':
-            if (parsed.mArgKind == 3) {
-                parsed.mArgKind = 9;
-            } else if (parsed.mHasDot != 0 || parsed.mArgKind != 0) {
+            if (parsed.mArgKind == FORMAT_ARG_LONG) {
+                parsed.mArgKind = FORMAT_ARG_WIDE;
+            } else if (parsed.mHasDot != 0 || parsed.mArgKind != FORMAT_ARG_DEFAULT) {
                 parsed.mSpecChar = 0xff;
             }
             break;
         case 's':
-            if (parsed.mArgKind == 3) {
-                parsed.mArgKind = 9;
-            } else if (parsed.mArgKind != 0) {
+            if (parsed.mArgKind == FORMAT_ARG_LONG) {
+                parsed.mArgKind = FORMAT_ARG_WIDE;
+            } else if (parsed.mArgKind != FORMAT_ARG_DEFAULT) {
                 parsed.mSpecChar = 0xff;
             }
             break;
         case 'n':
-            if (parsed.mArgKind == 8) {
+            if (parsed.mArgKind == FORMAT_ARG_LONG_DOUBLE) {
                 parsed.mSpecChar = 0xff;
             }
             break;
@@ -495,7 +498,7 @@ char *FormatDoubleHex(double value, char *buf, FormatSpec spec) {
     exponentSpec.mSignKind = 1;
     exponentSpec.mHasDot = 0;
     exponentSpec.mHash = 0;
-    exponentSpec.mArgKind = 0;
+    exponentSpec.mArgKind = FORMAT_ARG_DEFAULT;
     exponentSpec.mPrecision = 1;
     exponentSpec.mMinLength = 0;
     exponentSpec.mSpecChar = 'd';
@@ -856,26 +859,26 @@ int FormatWithPutFunc(void *(*putFunc)(void *, const char *, u32), void *putArg,
         switch (spec.mSpecChar) {
             case 'd':
             case 'i':
-                if (spec.mArgKind == 3) {
+                if (spec.mArgKind == FORMAT_ARG_LONG) {
                     value32 = *(long *) ((argList += 4) - 4);
-                } else if (spec.mArgKind == 7) {
+                } else if (spec.mArgKind == FORMAT_ARG_LONG_LONG) {
                     value64 = *(long long *) ((argList += 8) - 8);
-                } else if (spec.mArgKind == 4) {
+                } else if (spec.mArgKind == FORMAT_ARG_INTMAX) {
                     value32 = *(long long *) ((argList += 8) - 8);
-                } else if (spec.mArgKind == 5) {
+                } else if (spec.mArgKind == FORMAT_ARG_SIZE) {
                     value32 = *(u32 *) ((argList += 4) - 4);
-                } else if (spec.mArgKind == 6) {
+                } else if (spec.mArgKind == FORMAT_ARG_PTRDIFF) {
                     value32 = *(long *) ((argList += 4) - 4);
                 } else {
                     value32 = *(int *) ((argList += 4) - 4);
                 }
-                if (spec.mArgKind == 2) {
+                if (spec.mArgKind == FORMAT_ARG_SHORT) {
                     value32 = (short) value32;
                 }
-                if (spec.mArgKind == 1) {
+                if (spec.mArgKind == FORMAT_ARG_CHAR) {
                     value32 = (s8) value32;
                 }
-                if (spec.mArgKind == 7) {
+                if (spec.mArgKind == FORMAT_ARG_LONG_LONG) {
                     text = FormatInt64(value64, buf + sizeof(buf), spec);
                     if (text == 0) {
                         goto bad;
@@ -892,26 +895,26 @@ int FormatWithPutFunc(void *(*putFunc)(void *, const char *, u32), void *putArg,
             case 'u':
             case 'x':
             case 'X':
-                if (spec.mArgKind == 3) {
+                if (spec.mArgKind == FORMAT_ARG_LONG) {
                     value32 = *(unsigned long *) ((argList += 4) - 4);
-                } else if (spec.mArgKind == 7) {
+                } else if (spec.mArgKind == FORMAT_ARG_LONG_LONG) {
                     value64 = *(unsigned long long *) ((argList += 8) - 8);
-                } else if (spec.mArgKind == 4) {
+                } else if (spec.mArgKind == FORMAT_ARG_INTMAX) {
                     value32 = *(unsigned long long *) ((argList += 8) - 8);
-                } else if (spec.mArgKind == 5) {
+                } else if (spec.mArgKind == FORMAT_ARG_SIZE) {
                     value32 = *(u32 *) ((argList += 4) - 4);
-                } else if (spec.mArgKind == 6) {
+                } else if (spec.mArgKind == FORMAT_ARG_PTRDIFF) {
                     value32 = *(unsigned long *) ((argList += 4) - 4);
                 } else {
                     value32 = *(u32 *) ((argList += 4) - 4);
                 }
-                if (spec.mArgKind == 2) {
+                if (spec.mArgKind == FORMAT_ARG_SHORT) {
                     value32 = (u16) value32;
                 }
-                if (spec.mArgKind == 1) {
+                if (spec.mArgKind == FORMAT_ARG_CHAR) {
                     value32 = (u8) value32;
                 }
-                if (spec.mArgKind == 7) {
+                if (spec.mArgKind == FORMAT_ARG_LONG_LONG) {
                     text = FormatInt64(value64, buf + sizeof(buf), spec);
                     if (text == 0) {
                         goto bad;
@@ -930,7 +933,7 @@ int FormatWithPutFunc(void *(*putFunc)(void *, const char *, u32), void *putArg,
             case 'F':
             case 'g':
             case 'G':
-                if (spec.mArgKind == 8) {
+                if (spec.mArgKind == FORMAT_ARG_LONG_DOUBLE) {
                     doubleValue = *(long double *) ((argList += 8) - 8);
                 } else {
                     doubleValue = *(double *) ((argList += 8) - 8);
@@ -943,7 +946,7 @@ int FormatWithPutFunc(void *(*putFunc)(void *, const char *, u32), void *putArg,
                 break;
             case 'a':
             case 'A':
-                if (spec.mArgKind == 8) {
+                if (spec.mArgKind == FORMAT_ARG_LONG_DOUBLE) {
                     doubleValue = *(long double *) ((argList += 8) - 8);
                 } else {
                     doubleValue = *(double *) ((argList += 8) - 8);
@@ -955,7 +958,7 @@ int FormatWithPutFunc(void *(*putFunc)(void *, const char *, u32), void *putArg,
                 textLength = buf + sizeof(buf) - 1 - text;
                 break;
             case 's':
-                if (spec.mArgKind == 9) {
+                if (spec.mArgKind == FORMAT_ARG_WIDE) {
                     wideText = *(const u16 **) ((argList += 4) - 4);
                     if (wideText == 0) {
                         wideText = L"";
@@ -988,16 +991,16 @@ int FormatWithPutFunc(void *(*putFunc)(void *, const char *, u32), void *putArg,
             case 'n':
                 countPtr = *(void **) ((argList += 4) - 4);
                 switch (spec.mArgKind) {
-                    case 0:
+                    case FORMAT_ARG_DEFAULT:
                         *(int *) countPtr = totalLength;
                         break;
-                    case 2:
+                    case FORMAT_ARG_SHORT:
                         *(short *) countPtr = totalLength;
                         break;
-                    case 3:
+                    case FORMAT_ARG_LONG:
                         *(long *) countPtr = totalLength;
                         break;
-                    case 7:
+                    case FORMAT_ARG_LONG_LONG:
                         *(long long *) countPtr = totalLength;
                         break;
                 }
