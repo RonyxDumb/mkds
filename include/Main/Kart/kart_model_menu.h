@@ -29,12 +29,12 @@ void RefreshCameraProjection(Camera *camera);
 void SetupCamera(Camera *camera);
 // Allocates gFirstChainCamera (0x270 bytes), sets gSecondChainCamera to NULL, runs SetupCamera, sets mKind 2, starts it
 // at CourseMap.mFirstChainStartEntry and sets up its mPosCurve when the entry has a group. With no entry it sets
-// gRaceProgress.mUnk_4d0 to 1 and returns. InitRace calls it when gRaceSetup.mUnk_00c is 4.
+// gRaceProgress.mUnk_4d0 to 1 and returns. InitRace calls it when gRaceSetup.mRaceKind is 4.
 void CreateFirstChainCamera(void);
 // Allocates gFirstChainCamera and gSecondChainCamera (0x270 bytes each), runs SetupCamera on both, sets mKind 2, starts
 // them at CourseMap.mFirstChainStartEntry and mSecondChainStartEntry and sets up their mPosCurve when the entries have
 // a group. With no first entry it sets gRaceProgress.mUnk_4d0 to 1 and returns. InitRace calls it when
-// gRaceSetup.mUnk_00c is 3 or 5.
+// gRaceSetup.mRaceKind is 3 or 5.
 void CreateChainCameraPair(void);
 void InitKind7CameraEntry(Kind7CameraEntry *kind7Entry, CourseMapCamera *courseMapCamera);
 void CreateEntryCamera(u32 followedKartIndex);

@@ -47,8 +47,20 @@ typedef struct PortCallbackMessage {
     /* 14 */ u8 mUnk_14[6];
     /* 1a */ u16 mSeqNo;
     /* 1c */ WMDataSharingInfo *mArg;
-    /* 20 */ WMDataSharingInfo *mUnk_20;
+    /* 20 */ u32 mUnk_20;
 } PortCallbackMessage;
+
+// Message passed to the data sharing send callback (the send layout of PortCallbackMessage).
+typedef struct PortSendCallbackMessage {
+    /* 00 */ u8 mUnk_00[2];
+    /* 02 */ u16 mResultCode;
+    /* 04 */ u8 mUnk_04[6];
+    /* 0a */ u16 mPort;
+    /* 0c */ u8 mUnk_0c[0xe];
+    /* 1a */ u16 mSeqNo;
+    /* 1c */ u8 mUnk_1c[4];
+    /* 20 */ WMDataSharingInfo *mDataSharingInfo;
+} PortSendCallbackMessage;
 
 u8 *WmGetSharedDataAddress(WMDataSharingInfo *dsInfo, u32 aidBitmap, u8 *receiveBuf, u32 aid);
 u8 *WM_GetSharedDataAddress(WMDataSharingInfo *dsInfo, WMDataSet *receiveData, u32 aid);
@@ -56,7 +68,7 @@ void WmDataSharingSendDataSet(WMDataSharingInfo *dsInfo, u32 delayed);
 void WmDataSharingReceiveData(WMDataSharingInfo *dsInfo, u32 aid, const void *data);
 void WmDataSharingReceiveCallback_Child(PortCallbackMessage *callback);
 void WmDataSharingReceiveCallback_Parent(PortCallbackMessage *callback);
-void WmDataSharingSetDataCallback(PortCallbackMessage *callback);
+void WmDataSharingSetDataCallback(PortSendCallbackMessage *callback);
 int WM_StepDataSharing(WMDataSharingInfo *dsInfo, void *sendData, WMDataSet *receiveData);
 int WM_EndDataSharing(WMDataSharingInfo *dsInfo);
 int WM_StartDataSharing(WMDataSharingInfo *dsInfo, u16 port, u16 aidBitmap, u16 dataLength, BOOL doubleMode);

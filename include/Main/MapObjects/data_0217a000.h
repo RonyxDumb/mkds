@@ -1096,11 +1096,11 @@ typedef struct WiFiRaceSync {
 
 // Per-run state of the race scene, one record behind gRace (0x48 bytes, allocated by InitRace on the scene heap and
 // never cleared at the end of the scene): frame counters (mUpdateFrames and three phases derived from it), toon-table
-// cycle, fog/fade switch, kind flags derived from gRaceSetup.mUnk_00c (also live in the demo and credits kinds 3 to
+// cycle, fog/fade switch, kind flags derived from gRaceSetup.mRaceKind (also live in the demo and credits kinds 3 to
 // 6), a light vector. Not the race setup (gRaceSetup), not the karts.
 typedef struct Race {
     // 1 once the race has started, else 0: StartRace sets it when UpdateRaceStartSequence reaches its frame 180, and
-    // InitRace sets it at once for the kinds 5 and 6 of RaceSetup.mUnk_00c, which have no countdown; IsRaceStarted
+    // InitRace sets it at once for the kinds 5 and 6 of RaceSetup.mRaceKind, which have no countdown; IsRaceStarted
     // returns it.
     /* 00 */ s16 mStarted;
     /* 02 */ u8 mUnk_02[2];
@@ -1132,12 +1132,12 @@ typedef struct Race {
     // mFadeFog, then copies mFadeFog here. StartFadeFog sets it to 0 when it is 1 so that the next DrawRace writes the
     // registers again.
     /* 24 */ s32 mDrawnFadeFog;
-    // 1 when RaceSetup.mUnk_00c is 3, 4 or 5, else 0. While it is 1, InitRace creates the chain cameras, UpdateRace
+    // 1 when RaceSetup.mRaceKind is 3, 4 or 5, else 0. While it is 1, InitRace creates the chain cameras, UpdateRace
     // updates them and takes their view, and DrawRace skips the draw call of DrawKartNameTags. The other readers go
     // through GetRaceUseChainCameras and use it to tell these kinds apart (map objects, balloons, effects, kart
     // set-up).
     /* 28 */ s32 mUseChainCameras;
-    // 1 when RaceSetup.mUnk_00c is 4: only the first chain camera is created and updated instead of the pair (read
+    // 1 when RaceSetup.mRaceKind is 4: only the first chain camera is created and updated instead of the pair (read
     // only while mUseChainCameras is non-zero).
     /* 2c */ s32 mUseFirstChainCamera;
     // Mode 5 only: set by UpdateRace when mUpdateFrames reaches 128 while mUpdateFramesUnlimited is FALSE; from then on

@@ -548,7 +548,7 @@ typedef enum {
 // element draws append to (mUnk_004 for the main screen, mSubOam for the sub screen, copied to 0x07000000 /
 // 0x07000400), the loaded graphics, the sub-screen page (mSubScreenState) and the goal-background delay; the elements
 // themselves (time digits, number pair, goal page, new-record page) are separate objects. It does not exist in kinds 3,
-// 5 and 6 of gRaceSetup.mUnk_00c (the scene slots run RaceStartGp / EndingStaffRoll there).
+// 5 and 6 of gRaceSetup.mRaceKind (the scene slots run RaceStartGp / EndingStaffRoll there).
 // Words from 0x828 to 0x910 are read and written by UpdateRaceHudSubScreen. The pointers at 0x80c to 0x824 are written
 // through LoadNclrData, LoadNcgrData and LoadNscrData.
 typedef struct RaceHud {

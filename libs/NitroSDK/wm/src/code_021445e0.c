@@ -247,7 +247,7 @@ int WM_StepDataSharing(WMDataSharingInfo *dsInfo, void *sendData, WMDataSet *rec
 
 // Send result callback of the data sharing sends: records the sequence number on success and the retry or error state
 // otherwise.
-void WmDataSharingSetDataCallback(PortCallbackMessage *callback) {
+void WmDataSharingSetDataCallback(PortSendCallbackMessage *callback) {
     WMArm9Buf *work;
     WMStatus *status;
     WMDataSharingInfo *share;
@@ -257,15 +257,15 @@ void WmDataSharingSetDataCallback(PortCallbackMessage *callback) {
 
     work = WMi_GetSystemWork();
     status = work->mStatusArea;
-    registered = work->mPortCallbacks[callback->mUnk_0a];
-    share = work->mPortCallbackArgs[callback->mUnk_0a];
+    registered = work->mPortCallbacks[callback->mPort];
+    share = work->mPortCallbackArgs[callback->mPort];
     if (registered != WmDataSharingReceiveCallback_Parent && registered != WmDataSharingReceiveCallback_Child) {
         return;
     }
     if (share == 0) {
         return;
     }
-    if (share != callback->mUnk_20) {
+    if (share != callback->mDataSharingInfo) {
         return;
     }
     DC_InvalidateRange(&status->mOwnMemberIndex, 2);

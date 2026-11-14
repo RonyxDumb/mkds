@@ -29,7 +29,7 @@
 KartAiParamRow *gKartAiParamRow;
 KartAiShared *gKartAiShared;
 
-// Picks the row of 'kartAIparam.bin' for the course and the mode; no row in battle and when mUnk_00c is 5 or 6.
+// Picks the row of 'kartAIparam.bin' for the course and mode; none in battle or when RaceSetup.mRaceKind is 5 or 6.
 void SetKartAiParamRow(void) {
     RaceSetup *raceSetup;
     KartAiParamRow *paramRow;

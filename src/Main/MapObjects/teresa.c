@@ -262,13 +262,13 @@ static inline u32 TeresaNextRandomBelow(RandomState64 *randomState64, u32 limit)
 }
 
 static inline void SetTeresaWobble(TeresaWobble *teresaWobble, u16 angle, s32 mid, s32 amplitude, s32 amplitudePerFrame,
-                                   s32 anglePerFrame, s32 value) {
+                                   s32 anglePerFrame, s32 anglePerFrameDelta) {
     teresaWobble->mAngle = angle;
     teresaWobble->mMid = mid;
     teresaWobble->mAmplitude = amplitude;
     teresaWobble->mAmplitudePerFrame = amplitudePerFrame;
     teresaWobble->mAnglePerFrame = anglePerFrame;
-    teresaWobble->mAnglePerFrameDelta = value;
+    teresaWobble->mAnglePerFrameDelta = anglePerFrameDelta;
 }
 
 void StartTeresa(Vec3 *startPos) {
