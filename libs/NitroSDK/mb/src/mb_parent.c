@@ -241,7 +241,7 @@ void MBi_CommParentRecvDataPerChild(WMMpRecvData *childData, u32 child) {
     arrayIndex = child - 1;
     childValue = mbc->mPCommState[arrayIndex];
     switch (message.mKind) {
-        case 7:
+        case CHILD_MESSAGE_REQUEST:
             if (childValue == 2) {
                 if (payload == NULL) {
                     return;
@@ -297,7 +297,7 @@ void MBi_CommParentRecvDataPerChild(WMMpRecvData *childData, u32 child) {
                 }
             }
             break;
-        case 8:
+        case CHILD_MESSAGE_ACCEPT_ACK:
             if (childValue == 5) {
                 MBi_CommChangeParentState(child, 0xe, NULL);
             } else if (childValue == 0xe) {
@@ -310,7 +310,7 @@ void MBi_CommParentRecvDataPerChild(WMMpRecvData *childData, u32 child) {
                 }
             }
             break;
-        case 9:
+        case CHILD_MESSAGE_ACK_WITH_DATA:
             if (childValue == 6) {
                 entryIndex = mbc->mChildEntryIndex[arrayIndex];
                 if (entryIndex != 0xff) {
@@ -319,7 +319,7 @@ void MBi_CommParentRecvDataPerChild(WMMpRecvData *childData, u32 child) {
                 }
             }
             break;
-        case 10:
+        case CHILD_MESSAGE_START_ACK:
             if (childValue == 6) {
                 entryIndex = mbc->mChildEntryIndex[arrayIndex];
                 if (entryIndex != 0xff) {
@@ -333,7 +333,7 @@ void MBi_CommParentRecvDataPerChild(WMMpRecvData *childData, u32 child) {
                 }
             }
             break;
-        case 11:
+        case CHILD_MESSAGE_DONE_ACK:
             break;
     }
 }
@@ -412,7 +412,7 @@ u32 MBi_CommParentSendDLFileInfo(void) {
             childMask |= 1 << aid;
         }
     }
-    message.mKind = 3;
+    message.mKind = PARENT_MESSAGE_WELCOMED;
     message.mFid = candidateFile;
     sendBlock = MBi_MakeParentSendBuffer((u8 *) &message, (u8 *) work);
     if (sendBlock != NULL) {
@@ -487,7 +487,7 @@ u32 MBi_CommParentSendBlock(void) {
                           work->mFileInfo + work->mCurFileid * 0x5d4) == FALSE) {
         return 21;
     }
-    message.mKind = 4;
+    message.mKind = PARENT_MESSAGE_BEGIN_SEND;
     work = mbc;
     message.mFid = work->mCurFileid;
     message.mSeqno = (OFFSET_PTR(MB_CommPWork, work, work->mCurFileid * 0x5d4))->mCurrentb;
