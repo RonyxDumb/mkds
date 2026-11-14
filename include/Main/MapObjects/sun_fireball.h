@@ -6,6 +6,15 @@
 #include "code_0201c528.h" // ParticleEmitter
 #include "Main/MapObjects/attractor.h" // MapObject
 
+// Values of SunFireball.mState: wait, fly in an arc (back to WAIT at each bounce), and after a kart hit rise and then
+// spiral down.
+enum {
+    SUN_FIREBALL_STATE_WAIT,
+    SUN_FIREBALL_STATE_ARC,
+    SUN_FIREBALL_STATE_HIT_RISE,
+    SUN_FIREBALL_STATE_HIT_SPIRAL,
+};
+
 // Object of StartSunFireball: after the shared part, a halfword at 0xa0, a counter at 0xa4, a position at 0xa8, a
 // halfword at 0xb4, a state at 0xb8 and two objects at 0xbc and 0xc0.
 typedef struct SunFireball {
