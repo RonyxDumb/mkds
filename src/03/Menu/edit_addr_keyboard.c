@@ -40,9 +40,10 @@ const s8 gEditAddrKeyboardCursorMoves[56] = {
     2, 0xc, 1, 3, 0, 0xd, 2,   4, 1,   0xd, 0, 5, 5,   0,   4,   6, 3, 1,   5,   7, 4,   2, 3,   8,  8,   3, 7, 9, 6, 4,
     8, 0xa, 7, 5, 6, 0xb, 0xb, 6, 0xa, 0xc, 9, 7, 0xb, 0xd, 0xa, 8, 9, 0xd, 0xd, 9, 0xd, 0, 0xc, -1, 0xc, -2};
 const u8 gEditAddrKeyboardDigitInputs[10] = {0x37, 0x38, 0x39, 0x34, 0x35, 0x36, 0x31, 0x32, 0x33, 0x30};
-const u8 gEditAddrKeyboardExtraKeyInputs[2] = {0x10, 0x11};
+const u8 gEditAddrKeyboardExtraKeyInputs[2] = {EDIT_ADDR_KEYBOARD_INPUT_REMOVE_CHAR,
+                                               EDIT_ADDR_KEYBOARD_INPUT_NEXT_GROUP};
 const u16 gEditAddrKeyboardRow4KeyPositions[2][2] = {{4, 0xaa}, {0x84, 0xaa}};
-const u8 gEditAddrKeyboardRow4KeyInputs[2] = {0x12, 0x13};
+const u8 gEditAddrKeyboardRow4KeyInputs[2] = {EDIT_ADDR_KEYBOARD_INPUT_CANCEL, EDIT_ADDR_KEYBOARD_INPUT_OK};
 const u16 gEditAddrKeyboardRowTextAreaSize[2] = {0xc, 4};
 const u8 gEditAddrKeyboardKeyPalettes[2] = {2, 3};
 const u16 gEditAddrKeyboardRow4KeySize[2] = {0x78, 0x12};
@@ -64,7 +65,7 @@ void CreateEditAddrKeyboard(void) {
     textArgs.mTextRect[3] = gEditAddrKeyboardDigitKeySize[1];
     keyboard = AllocZeroedExpHeapBlock(0x6c, 4);
     gEditAddrKeyboard = keyboard;
-    keyboard->mInput = 0x1f;
+    keyboard->mInput = EDIT_ADDR_KEYBOARD_INPUT_NOT_READY;
     gEditAddrKeyboard->mCursorKeyIndex = 0;
     gEditAddrKeyboard->mRemoveCharEnabled = 1;
     gEditAddrKeyboard->mAddCharEnabled = 1;
@@ -272,7 +273,7 @@ void AdvanceEditAddrKeyboardTouchReleased(void) {
     int secondaryKeyIndex;
     int keyIndex;
     const u16 *keyOrigin;
-    gEditAddrKeyboard->mInput = 0;
+    gEditAddrKeyboard->mInput = EDIT_ADDR_KEYBOARD_INPUT_NONE;
     if (IsTouchReleasedInRect(&gTouchScreenRect) == 0) {
         return;
     }
@@ -353,7 +354,7 @@ void AdvanceEditAddrKeyboardTouchDown(void) {
                     gEditAddrKeyboard->mPressedKeyIndex = -1;
                     return;
                 }
-                gEditAddrKeyboard->mInput = 0x10;
+                gEditAddrKeyboard->mInput = EDIT_ADDR_KEYBOARD_INPUT_REMOVE_CHAR;
                 gEditAddrKeyboard->mRepeatCalls = gEditAddrKeyboard->mRepeatCalls - 7;
                 return;
             }
@@ -433,7 +434,7 @@ void AdvanceEditAddrKeyboardKeys(void) {
                 gEditAddrKeyboard->mRemoveDisabledSoundPlayed = 1;
             }
         } else {
-            gEditAddrKeyboard->mInput = 0x10;
+            gEditAddrKeyboard->mInput = EDIT_ADDR_KEYBOARD_INPUT_REMOVE_CHAR;
         }
     } else if (AreKeysReleased(2) != 0) {
         gEditAddrKeyboard->mRemoveDisabledSoundPlayed = 0;

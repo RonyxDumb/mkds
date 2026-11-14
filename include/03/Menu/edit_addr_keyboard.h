@@ -6,6 +6,17 @@ typedef struct OamEntry OamEntry;
 typedef struct OamRange OamRange;
 typedef struct TaskEntry TaskEntry;
 
+// Values of EditAddrKeyboard.mInput besides the digit characters: NONE when nothing was pressed this frame, NOT_READY
+// until the keyboard has slid in, and the four non-digit keys.
+enum {
+    EDIT_ADDR_KEYBOARD_INPUT_NONE = 0,
+    EDIT_ADDR_KEYBOARD_INPUT_REMOVE_CHAR = 0x10,
+    EDIT_ADDR_KEYBOARD_INPUT_NEXT_GROUP,
+    EDIT_ADDR_KEYBOARD_INPUT_CANCEL,
+    EDIT_ADDR_KEYBOARD_INPUT_OK,
+    EDIT_ADDR_KEYBOARD_INPUT_NOT_READY = 0x1f,
+};
+
 // Object behind gEditAddrKeyboard.
 typedef struct EditAddrKeyboard {
     /* 00 */ void *mRowTexts[4];
