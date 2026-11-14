@@ -4,6 +4,20 @@
 
 typedef struct WiFiStateCallbacks WiFiStateCallbacks;
 
+// Values of WiFiLoginMenu.mState and mNextState: which message sequence runs.
+enum {
+    WIFI_LOGIN_STATE_START,
+    WIFI_LOGIN_STATE_ASK_LOGIN_AFTER_INFO,
+    WIFI_LOGIN_STATE_SETUP_NOTICE,
+    WIFI_LOGIN_STATE_ASK_SETUP,
+    WIFI_LOGIN_STATE_CONFIRM_SETUP,
+    WIFI_LOGIN_STATE_SHOW_LOGGED_IN,
+    WIFI_LOGIN_STATE_ASK_LOGIN,
+    WIFI_LOGIN_STATE_WAIT_LOGIN,
+    WIFI_LOGIN_STATE_ERROR_MESSAGES,
+    WIFI_LOGIN_STATE_ERROR_CODE,
+};
+
 // Object behind gWiFiLoginMenu (0x40 bytes).
 typedef struct WiFiLoginMenu {
     /* 00 */ u32 mState;

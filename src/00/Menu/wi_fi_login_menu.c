@@ -26,9 +26,9 @@
 void InitWiFiLoginMenu(void *heap) {
     gWiFiLoginMenu = HeapAlloc(heap, 0x40);
     gWiFiLoginMenu->mHeap = heap;
-    gWiFiLoginMenu->mState = 0;
-    gWiFiLoginMenu->mNextState = 0;
-    gWiFiLoginMenu->mPendingWiFiState = -1;
+    gWiFiLoginMenu->mState = WIFI_LOGIN_STATE_START;
+    gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_START;
+    gWiFiLoginMenu->mPendingWiFiState = WIFI_STATE_NONE;
     gWiFiLoginMenu->mUnk_08 = 0;
     gWiFiLoginMenu->mWiFiMessages = FindSceneFile("wifi.bmg");
     gWiFiLoginMenu->mCommonMessages = FindFileInLoadedArchives("common.bmg");
@@ -113,20 +113,20 @@ s32 LookupWiFiLoginErrorMessageIndex(s32 errorCode, s32 pageIndex, s32 *pageCoun
 
 void AdvanceWiFiLoginMenuState0(void) {
     if (IsUserDataFriendKeyZero() != FALSE) {
-        gWiFiLoginMenu->mNextState = 1;
+        gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_ASK_LOGIN_AFTER_INFO;
         SetupTxtSystemMainTextButton(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x1c),
                                      GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 6));
         gWiFiLoginMenu->mMessageTableIndex = 0;
         return;
     }
     if (CheckUserDataValidConsoleWrapper() != 0) {
-        gWiFiLoginMenu->mNextState = 6;
+        gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_ASK_LOGIN;
         SetupTxtSystemMainTextTwoButtons(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x13),
                                          GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 0),
                                          GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 1), 0);
         return;
     }
-    gWiFiLoginMenu->mNextState = 2;
+    gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_SETUP_NOTICE;
     SetupTxtSystemMainTextButton(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x20),
                                  GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 6));
 }
@@ -156,14 +156,14 @@ void AdvanceWiFiLoginMenuState1(void) {
             return;
         }
         if (GetTxtSystemSelectedIndex() == 0) {
-            gWiFiLoginMenu->mNextState = 7;
+            gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_WAIT_LOGIN;
             SetupTxtSystemMainTextEx(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x14), 1, 1, 1, 0, 1, 0);
             RequestWiFiSessionLogin();
             gWiFiLoginMenu->mUnk_14 = TRUE;
             StartWiFiSessionLoginSeq();
             return;
         }
-        gWiFiLoginMenu->mPendingWiFiState = 1;
+        gWiFiLoginMenu->mPendingWiFiState = WIFI_STATE_TOP_MENU;
         RequestWiFiState(gWiFiLoginMenu->mPendingWiFiState);
     }
 }
@@ -174,7 +174,7 @@ void AdvanceWiFiLoginMenuState2(void) {
         return;
     }
     if (IsTxtSystemState0NoOpenRequest() != 0) {
-        gWiFiLoginMenu->mNextState = 3;
+        gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_ASK_SETUP;
         SetupTxtSystemMainTextButton(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x21),
                                      GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 6));
         gWiFiLoginMenu->mMessageTableIndex = 0;
@@ -206,13 +206,13 @@ void AdvanceWiFiLoginMenuState3(void) {
             return;
         }
         if (GetTxtSystemSelectedIndex() == 0) {
-            gWiFiLoginMenu->mNextState = 4;
+            gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_CONFIRM_SETUP;
             SetupTxtSystemMainTextButton(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x23),
                                          GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 6));
             gWiFiLoginMenu->mMessageTableIndex = 0;
             return;
         }
-        gWiFiLoginMenu->mPendingWiFiState = 1;
+        gWiFiLoginMenu->mPendingWiFiState = WIFI_STATE_TOP_MENU;
         RequestWiFiState(gWiFiLoginMenu->mPendingWiFiState);
     }
 }
@@ -242,14 +242,14 @@ void AdvanceWiFiLoginMenuState4(void) {
             return;
         }
         if (GetTxtSystemSelectedIndex() == 0) {
-            gWiFiLoginMenu->mNextState = 7;
+            gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_WAIT_LOGIN;
             SetupTxtSystemMainTextEx(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x14), 1, 1, 1, 0, 1, 0);
             RequestWiFiSessionLogin();
             gWiFiLoginMenu->mUnk_14 = TRUE;
             StartWiFiSessionLoginSeq();
             return;
         }
-        gWiFiLoginMenu->mPendingWiFiState = 1;
+        gWiFiLoginMenu->mPendingWiFiState = WIFI_STATE_TOP_MENU;
         RequestWiFiState(gWiFiLoginMenu->mPendingWiFiState);
     }
 }
@@ -279,7 +279,7 @@ void AdvanceWiFiLoginMenuState5(void) {
             return;
         }
         if (WiFiLoginMenuIsBackupBusy() == 0) {
-            gWiFiLoginMenu->mPendingWiFiState = 2;
+            gWiFiLoginMenu->mPendingWiFiState = WIFI_STATE_VS_SETTING;
             RequestWiFiState(gWiFiLoginMenu->mPendingWiFiState);
         }
     }
@@ -292,14 +292,14 @@ void AdvanceWiFiLoginMenuState6(void) {
     }
     if (IsTxtSystemState0NoOpenRequest() != 0) {
         if (GetTxtSystemSelectedIndex() == 0) {
-            gWiFiLoginMenu->mNextState = 7;
+            gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_WAIT_LOGIN;
             SetupTxtSystemMainTextEx(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x14), 1, 1, 1, 0, 1, 0);
             RequestWiFiSessionLogin();
             gWiFiLoginMenu->mUnk_14 = FALSE;
             StartWiFiSessionLoginSeq();
             return;
         }
-        gWiFiLoginMenu->mPendingWiFiState = 1;
+        gWiFiLoginMenu->mPendingWiFiState = WIFI_STATE_TOP_MENU;
         RequestWiFiState(gWiFiLoginMenu->mPendingWiFiState);
     }
 }
@@ -321,7 +321,7 @@ void AdvanceWiFiLoginMenuState7(void) {
                     gWiFiLoginMenu->mErrorCode = -gWiFiLoginMenu->mErrorCode;
                 }
                 messageIndex = LookupWiFiLoginErrorMessageIndex(gWiFiLoginMenu->mErrorCode, 0, &pageCount);
-                gWiFiLoginMenu->mNextState = 8;
+                gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_ERROR_MESSAGES;
                 SetupTxtSystemMainTextButton(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, messageIndex),
                                              GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 6));
                 gWiFiLoginMenu->mMessageTableIndex = 0;
@@ -332,12 +332,12 @@ void AdvanceWiFiLoginMenuState7(void) {
             case 1:
                 if (IsWiFiStatesCounterNotNegative() != 0) {
                     if (gWiFiLoginMenu->mUnk_14 != FALSE) {
-                        gWiFiLoginMenu->mNextState = 5;
+                        gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_SHOW_LOGGED_IN;
                         SetupTxtSystemMainTextButton(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x1e),
                                                      GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 6));
                         gWiFiLoginMenu->mMessageTableIndex = 0;
                     } else {
-                        gWiFiLoginMenu->mPendingWiFiState = 2;
+                        gWiFiLoginMenu->mPendingWiFiState = WIFI_STATE_VS_SETTING;
                         RequestTxtSystemClose();
                     }
                 }
@@ -370,7 +370,7 @@ void AdvanceWiFiLoginMenuState8(void) {
         MIi_CpuClear16(zero, errorCodeText, 0x14);
         FormatAsciiNumber(gWiFiLoginMenu->mErrorCode, errorCodeText);
         FormatMessageWithText(errorCodeText, GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x30), messageText, 0x258);
-        gWiFiLoginMenu->mNextState = 9;
+        gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_ERROR_CODE;
         SetupTxtSystemMainText(messageText);
         RequestSelectReturnState1();
     }
@@ -403,7 +403,7 @@ void AdvanceWiFiLoginMenuState9(void) {
     }
 next:
     if (IsTxtSystemState0NoOpenRequest() != 0 && IsSelectReturnState2NoState3Or4Request() != 0) {
-        gWiFiLoginMenu->mPendingWiFiState = 1;
+        gWiFiLoginMenu->mPendingWiFiState = WIFI_STATE_TOP_MENU;
         RequestWiFiState(gWiFiLoginMenu->mPendingWiFiState);
     }
 }
@@ -411,34 +411,34 @@ next:
 void AdvanceWiFiLoginMenu(void) {
     gWiFiLoginMenu->mState = gWiFiLoginMenu->mNextState;
     switch (gWiFiLoginMenu->mState) {
-        case 0:
+        case WIFI_LOGIN_STATE_START:
             AdvanceWiFiLoginMenuState0();
             break;
-        case 1:
+        case WIFI_LOGIN_STATE_ASK_LOGIN_AFTER_INFO:
             AdvanceWiFiLoginMenuState1();
             break;
-        case 2:
+        case WIFI_LOGIN_STATE_SETUP_NOTICE:
             AdvanceWiFiLoginMenuState2();
             break;
-        case 3:
+        case WIFI_LOGIN_STATE_ASK_SETUP:
             AdvanceWiFiLoginMenuState3();
             break;
-        case 4:
+        case WIFI_LOGIN_STATE_CONFIRM_SETUP:
             AdvanceWiFiLoginMenuState4();
             break;
-        case 5:
+        case WIFI_LOGIN_STATE_SHOW_LOGGED_IN:
             AdvanceWiFiLoginMenuState5();
             break;
-        case 6:
+        case WIFI_LOGIN_STATE_ASK_LOGIN:
             AdvanceWiFiLoginMenuState6();
             break;
-        case 7:
+        case WIFI_LOGIN_STATE_WAIT_LOGIN:
             AdvanceWiFiLoginMenuState7();
             break;
-        case 8:
+        case WIFI_LOGIN_STATE_ERROR_MESSAGES:
             AdvanceWiFiLoginMenuState8();
             break;
-        case 9:
+        case WIFI_LOGIN_STATE_ERROR_CODE:
             AdvanceWiFiLoginMenuState9();
             break;
     }
