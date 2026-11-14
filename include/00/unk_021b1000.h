@@ -13,6 +13,12 @@ typedef struct DWCHttpParam {
     /* 1c */ s32 mTimeoutMillis;
 } DWCHttpParam;
 
+// Receive buffer sizes and timeouts the network check puts into DWCHttpParam.
+#define NETCHECK_HTTP_RECEIVE_BUFFER_SIZE 0x1000
+#define NETCHECK_HTTP_SMALL_RECEIVE_BUFFER_SIZE 0x200
+#define NETCHECK_HTTP_TIMEOUT_MILLIS 20000
+#define NETCHECK_HTTP_LONG_TIMEOUT_MILLIS 40000
+
 // Objects whose layout isn't known yet.
 extern char *gLangPairValues[7];
 extern DWCHttpParam DWCauthhttpparam;

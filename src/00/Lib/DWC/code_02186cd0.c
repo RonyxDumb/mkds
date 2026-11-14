@@ -128,10 +128,10 @@ void DWCi_Netcheck_Thread(void) {
         gHttpParam.mUrl = gConnTestUrl;
         gHttpParam.mAction = TRUE;
         gHttpParam.mReceiveBufferStart = NULL;
-        gHttpParam.mReceiveBufferSize = 0x1000;
+        gHttpParam.mReceiveBufferSize = NETCHECK_HTTP_RECEIVE_BUFFER_SIZE;
         gHttpParam.mAlloc = gNetcheck->mParam.mAlloc;
         gHttpParam.mFree = gNetcheck->mParam.mFree;
-        gHttpParam.mTimeoutMillis = 20000;
+        gHttpParam.mTimeoutMillis = NETCHECK_HTTP_TIMEOUT_MILLIS;
         gNetcheck->mReturnCode = -2;
         if (DWC_Http_Create(gHttp, &gHttpParam) != 0) {
             ReleaseHttp(gHttp);
@@ -177,10 +177,10 @@ void DWCi_Netcheck_Thread(void) {
                     gHttpParam.mUrl = DWCauthhttpparam.mUrl;
                     gHttpParam.mAction = FALSE;
                     gHttpParam.mReceiveBufferStart = NULL;
-                    gHttpParam.mReceiveBufferSize = 0x200;
+                    gHttpParam.mReceiveBufferSize = NETCHECK_HTTP_SMALL_RECEIVE_BUFFER_SIZE;
                     gHttpParam.mAlloc = gNetcheck->mParam.mAlloc;
                     gHttpParam.mFree = gNetcheck->mParam.mFree;
-                    gHttpParam.mTimeoutMillis = 20000;
+                    gHttpParam.mTimeoutMillis = NETCHECK_HTTP_TIMEOUT_MILLIS;
                     if (strcmp(gHttpParam.mUrl, "https://nas.nintendowifi.net/ac") != 0) {
                         gHttpParam.mIgnoreCa = TRUE;
                     }
@@ -295,10 +295,10 @@ void DWCi_Netcheck_Thread(void) {
         gHttpParam.mUrl = DWCauthhttpparam.mUrl;
         gHttpParam.mAction = FALSE;
         gHttpParam.mReceiveBufferStart = NULL;
-        gHttpParam.mReceiveBufferSize = 0x1000;
+        gHttpParam.mReceiveBufferSize = NETCHECK_HTTP_RECEIVE_BUFFER_SIZE;
         gHttpParam.mAlloc = gNetcheck->mParam.mAlloc;
         gHttpParam.mFree = gNetcheck->mParam.mFree;
-        gHttpParam.mTimeoutMillis = 40000;
+        gHttpParam.mTimeoutMillis = NETCHECK_HTTP_LONG_TIMEOUT_MILLIS;
         if (strcmp(gHttpParam.mUrl, "https://nas.nintendowifi.net/ac") != 0) {
             gHttpParam.mIgnoreCa = TRUE;
         }
@@ -463,10 +463,10 @@ void DWCi_Netcheck_Thread(void) {
         gHttpParam.mUrl = urlText;
         gHttpParam.mAction = FALSE;
         gHttpParam.mReceiveBufferStart = NULL;
-        gHttpParam.mReceiveBufferSize = 0x1000;
+        gHttpParam.mReceiveBufferSize = NETCHECK_HTTP_RECEIVE_BUFFER_SIZE;
         gHttpParam.mAlloc = gNetcheck->mParam.mAlloc;
         gHttpParam.mFree = gNetcheck->mParam.mFree;
-        gHttpParam.mTimeoutMillis = 40000;
+        gHttpParam.mTimeoutMillis = NETCHECK_HTTP_LONG_TIMEOUT_MILLIS;
         if (DWC_Http_Create(gHttp, &gHttpParam) != 0) {
             ReleaseHttp(gHttp);
             DWCi_Netcheck_SetError(1);
