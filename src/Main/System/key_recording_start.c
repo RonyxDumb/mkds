@@ -5,14 +5,14 @@ void StartKeyRecording(KeyRecording *record) {
     if (record->mBuffer == NULL) {
         return;
     }
-    if (record->mUnk_0c == FALSE) {
+    if (record->mBufferCleared == FALSE) {
         if (record->mBuffer != NULL) {
             MI_CpuFill8(record->mBuffer, 0, 0xdcc);
         }
-        record->mUnk_0c = TRUE;
+        record->mBufferCleared = TRUE;
     }
-    record->mBuffer->mUnk_00 = 0;
-    record->mUnk_0c = FALSE;
+    record->mBuffer->mPairByteCount = 0;
+    record->mBufferCleared = FALSE;
     record->mPairIndex = 0;
     record->mRepeatCount = 0;
     record->mStatus = 1;

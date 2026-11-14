@@ -66,7 +66,7 @@ void AppendKeysToKeyRecording(KeyRecording *keyRecording, u16 keys) {
             if (status != 1) {
                 return;
             }
-            buffer->mUnk_00 = (u32) pairIndex * 2;
+            buffer->mPairByteCount = (u32) pairIndex * 2;
             keyRecording->mStatus = 3;
             DC_StoreRange(keyRecording->mBuffer, 0xdcc);
             return;
@@ -91,7 +91,7 @@ u16 ReadKeysFromKeyRecording(KeyRecording *keyRecording) {
     }
     buffer = keyRecording->mBuffer;
     pairIndex = keyRecording->mPairIndex;
-    if (pairIndex >= buffer->mUnk_00) {
+    if (pairIndex >= buffer->mPairByteCount) {
         keyRecording->mStatus = 0;
         return 0;
     }

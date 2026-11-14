@@ -21,7 +21,8 @@
 
 #define PAD_KEY_Y 0x800
 
-// Bits of the pad key word (the slots' mUnk_00, mBits, mRepeatBits ... and the keyboard's key word): one bit per key.
+// Bits of the pad key word (the slots' mPressedBits, mBits, mRepeatBits ... and the keyboard's key word): one bit per
+// key.
 #define PAD_KEY_A 0x1
 
 #define PAD_KEY_SELECT 0x4
@@ -52,7 +53,7 @@
 typedef enum InputSlotIndex { UNK_02175628_INDEX_8 = 8 } InputSlotIndex;
 
 typedef struct KeyRecordingBuffer {
-    /* 000 */ u32 mUnk_00;
+    /* 000 */ u32 mPairByteCount;
     /* 004 */ u8 mPairs[0xdc8];
 } KeyRecordingBuffer;
 
@@ -63,7 +64,7 @@ typedef struct KeyRecording {
     /* 06 */ u16 mRepeatCount;
 // 0 idle, 1 recording, 2 playing, 3 buffer full.
     /* 08 */ s32 mStatus;
-    /* 0c */ BOOL mUnk_0c;
+    /* 0c */ BOOL mBufferCleared;
 } KeyRecording;
 
 // The 0x14 bytes at 0x48 of an element of gInputSlots (the same bytes as its mUnk_48 to mUnk_5b).
@@ -96,11 +97,11 @@ typedef struct InputSlotHead {
     /* 0e */ u16 mRepeatDelayLimit;
     /* 10 */ u16 mRepeatIntervalLimit;
     /* 12 */ u16 mHoldLong;
-    /* 14 */ u16 mUnk_14;
+    /* 14 */ u16 mLongHoldEnabled;
     /* 16 */ u8 mUnk_16[0x2];
     /* 18 */ u64 mHoldStartTick;
-    /* 20 */ s32 mUnk_20;
-    /* 24 */ s32 mUnk_24;
+    /* 20 */ s32 mWritesKeyBits;
+    /* 24 */ s32 mReadsKeyBits;
 } InputSlotHead;
 
 // One 0x5c-byte element of the array at gInputSlots.
@@ -119,19 +120,19 @@ typedef struct InputSlot {
             /* 0e */ u16 mRepeatDelayLimit;
             /* 10 */ u16 mRepeatIntervalLimit;
             /* 12 */ u16 mHoldLong;
-            /* 14 */ u16 mUnk_14;
+            /* 14 */ u16 mLongHoldEnabled;
             /* 16 */ u8 mUnk_16[0x2];
             /* 18 */ u64 mHoldStartTick;
-            /* 20 */ s32 mUnk_20;
-            /* 24 */ s32 mUnk_24;
+            /* 20 */ s32 mWritesKeyBits;
+            /* 24 */ s32 mReadsKeyBits;
         };
     };
-    /* 28 */ KeyRecording mUnk_28;
+    /* 28 */ KeyRecording mKeyRecording;
     /* 38 */ u8 mUnk_38[0x4];
     /* 3c */ s32 mSourceKind;
     /* 40 */ u16 mRequestedBits;
     /* 42 */ u16 mBitMask;
-    /* 44 */ s32 mUnk_44;
+    /* 44 */ s32 mIsBlocked;
     /* 48 */ InputSlotPair mPair;
 } InputSlot;
 
@@ -176,7 +177,7 @@ typedef struct InputSlot7FromSourceKind {
     /* 22 */ volatile u16 mNextBits;
 } InputSlot7FromSourceKind;
 
-// Slot 8 from mUnk_20 on.
+// Slot 8 from mWritesKeyBits on.
 typedef struct InputSlot8FromUnk20 {
     /* 00 */ u8 mUnk_00[0x28];
     /* 28 */ volatile InputSlotPair mPair;
@@ -189,7 +190,7 @@ typedef struct InputSlot8FromUnk20 {
 #define gInputPrevHasPairs ((InputSlotAtPrevHasPair *) &gInputSlots[0].mPair.mPrevHasPair)
 #define gInputNoPairCounts ((InputSlotAtNoPairCount *) &gInputSlots[0].mPair.mNoPairCount)
 #define gEmblemInputSlotView ((InputSlot7FromSourceKind *) &gInputSlots[7].mSourceKind)
-#define gInputSlot8PairView ((InputSlot8FromUnk20 *) &gInputSlots[8].mUnk_20)
+#define gInputSlot8PairView ((InputSlot8FromUnk20 *) &gInputSlots[8].mWritesKeyBits)
 
 static inline InputSlot *GetInputSlot(u32 inputSlotIndex) {
     return &gInputSlots[inputSlotIndex];

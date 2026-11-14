@@ -14,10 +14,10 @@ void ResetInputSlot(InputSlot *slot) {
     slot->mRepeatDelayLimit = 0x14u;
     slot->mRepeatIntervalLimit = 0x8u;
     slot->mHoldLong = 0x0u;
-    slot->mUnk_14 = 0x0u;
+    slot->mLongHoldEnabled = 0x0u;
     slot->mHoldStartTick = 0;
-    slot->mUnk_20 = 0x0u;
-    slot->mUnk_24 = 0x0u;
+    slot->mWritesKeyBits = 0x0u;
+    slot->mReadsKeyBits = 0x0u;
 }
 
 void ClearInputSlotBitsAndRepeat(InputSlot *slot) {
@@ -31,7 +31,7 @@ void ClearInputSlotBitsAndRepeat(InputSlot *slot) {
 
 void UpdateInputSlot(u32 keys, InputSlotHead *slot) {
     u16 maskedBits;
-    if (slot->mUnk_20 != 0) {
+    if (slot->mWritesKeyBits != 0) {
         WriteKeyBitsToStream(keys);
     }
     slot->mPressedBits = keys & (keys ^ slot->mBits);
@@ -71,7 +71,7 @@ void UpdateInputSlot(u32 keys, InputSlotHead *slot) {
             break;
     }
     maskedBits = slot->mBits & PAD_KEYS_SHOULDER_AND_MENU;
-    if (slot->mUnk_14 != 0 && maskedBits == PAD_KEYS_SHOULDER_AND_MENU) {
+    if (slot->mLongHoldEnabled != 0 && maskedBits == PAD_KEYS_SHOULDER_AND_MENU) {
         if (slot->mPressedBits & PAD_KEYS_SHOULDER_AND_MENU) {
             slot->mHoldStartTick = OS_GetTick();
             slot->mHoldLong = 0;
@@ -86,7 +86,7 @@ void UpdateInputSlot(u32 keys, InputSlotHead *slot) {
         return;
     }
     if (maskedBits != 0x30c) {
-        slot->mUnk_14 = 1;
+        slot->mLongHoldEnabled = 1;
     }
     slot->mHoldLong = 0;
 }

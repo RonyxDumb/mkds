@@ -64,9 +64,9 @@ void ResetInputSlotsFromParticipants(void) {
         SetInputSlotRepeat(inputSlot, PAD_KEYS_NO_SELECT_OR_START, 0x1e, 0xa);
         inputSlot->mSourceKind = 0;
         inputSlot->mRequestedBits = 0;
-        inputSlot->mUnk_44 = 0;
+        inputSlot->mIsBlocked = 0;
         inputSlot->mBitMask = 0x2fff;
-        ResetKeyRecording(&inputSlot->mUnk_28);
+        ResetKeyRecording(&inputSlot->mKeyRecording);
         ResetInputSlotPair(&inputSlot->mPair);
     }
     connectionWork = gConnectionWork;
@@ -98,9 +98,9 @@ void ResetInputSlotsFromRaceSetup(void) {
         SetInputSlotRepeat(inputSlot, PAD_KEYS_NO_SELECT_OR_START, 0x1e, 0xa);
         inputSlot->mSourceKind = 0;
         inputSlot->mRequestedBits = 0;
-        inputSlot->mUnk_44 = 0;
+        inputSlot->mIsBlocked = 0;
         inputSlot->mBitMask = 0x2fff;
-        ResetKeyRecording(&inputSlot->mUnk_28);
+        ResetKeyRecording(&inputSlot->mKeyRecording);
         ResetInputSlotPair(&inputSlot->mPair);
     }
     gInputSlots[8].mSourceKind = 5;

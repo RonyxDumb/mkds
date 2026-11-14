@@ -67,13 +67,13 @@ void CopyRaceHudSubScreenBgColors(void) {
         }
         case COURSE_ID_TOWN:
             for (rowIndex = 0; rowIndex < 20; rowIndex++) {
-                gRaceHudSubScreenBgColors->mColors.mUnk_00[rowIndex] = HW_DB_BG_PLTT[0x78 + rowIndex];
+                gRaceHudSubScreenBgColors->mColors.mColorList[rowIndex] = HW_DB_BG_PLTT[0x78 + rowIndex];
             }
-            gRaceHudSubScreenBgColors->mColors.mUnk_00[20] = HW_DB_BG_PLTT[0];
+            gRaceHudSubScreenBgColors->mColors.mColorList[20] = HW_DB_BG_PLTT[0];
             break;
         case COURSE_ID_BEACH:
             for (rowIndex = 0; rowIndex < 3; rowIndex++) {
-                gRaceHudSubScreenBgColors->mColors.mUnk_00[rowIndex] = HW_DB_BG_PLTT[0x46 + rowIndex];
+                gRaceHudSubScreenBgColors->mColors.mColorList[rowIndex] = HW_DB_BG_PLTT[0x46 + rowIndex];
             }
             break;
         case COURSE_ID_KOOPA:
@@ -93,7 +93,7 @@ void CopyRaceHudSubScreenBgColors(void) {
             break;
         case COURSE_ID_MINI_STAGE3:
             for (rowIndex = 0; rowIndex < 5; rowIndex++) {
-                gRaceHudSubScreenBgColors->mColors.mUnk_00[rowIndex] = HW_DB_BG_PLTT[0xfb + rowIndex];
+                gRaceHudSubScreenBgColors->mColors.mColorList[rowIndex] = HW_DB_BG_PLTT[0xfb + rowIndex];
             }
             break;
     }
@@ -180,7 +180,7 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
             }
             colorIndexCursor = colorIndexRows[colorIndex];
             for (rowIndex = 0; rowIndex < 20; rowIndex++) {
-                palette[rowIndex + 0x78] = gRaceHudSubScreenBgColors->mColors.mUnk_00[*colorIndexCursor];
+                palette[rowIndex + 0x78] = gRaceHudSubScreenBgColors->mColors.mColorList[*colorIndexCursor];
                 colorIndexCursor++;
             }
             DC_FlushRange(&palette[0x78], 0x28);
@@ -203,13 +203,13 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
                     }
                 }
                 for (colorIndex = 0; colorIndex < offset; colorIndex++) {
-                    palette[colorIndex + 0x50] = gRaceHudSubScreenBgColors->mColors.mUnk_00[0];
+                    palette[colorIndex + 0x50] = gRaceHudSubScreenBgColors->mColors.mColorList[0];
                 }
                 for (colorIndex = offset; colorIndex == offset; colorIndex++) {
-                    palette[colorIndex + 0x50] = gRaceHudSubScreenBgColors->mColors.mUnk_00[1];
+                    palette[colorIndex + 0x50] = gRaceHudSubScreenBgColors->mColors.mColorList[1];
                 }
                 for (colorIndex = offset + 1; colorIndex < 8; colorIndex++) {
-                    palette[colorIndex + 0x50] = gRaceHudSubScreenBgColors->mColors.mUnk_00[2];
+                    palette[colorIndex + 0x50] = gRaceHudSubScreenBgColors->mColors.mColorList[2];
                 }
             }
             DC_FlushRange(&palette[0x50], 0x10);
@@ -288,24 +288,24 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
                 }
                 offset += 2;
                 for (colorIndex = 0; colorIndex < offset - 2; colorIndex++) {
-                    palette[colorIndex + 0xe0] = gRaceHudSubScreenBgColors->mColors.mUnk_00[0];
+                    palette[colorIndex + 0xe0] = gRaceHudSubScreenBgColors->mColors.mColorList[0];
                 }
                 for (colorIndex = offset - 4; colorIndex < offset - 2; colorIndex++) {
                     if (colorIndex >= 0) {
-                        palette[colorIndex + 0xe0] = gRaceHudSubScreenBgColors->mColors.mUnk_00[1];
+                        palette[colorIndex + 0xe0] = gRaceHudSubScreenBgColors->mColors.mColorList[1];
                     }
                 }
                 for (colorIndex = offset - 2; colorIndex <= offset; colorIndex++) {
-                    palette[colorIndex + 0xe0] = gRaceHudSubScreenBgColors->mColors.mUnk_00[2];
+                    palette[colorIndex + 0xe0] = gRaceHudSubScreenBgColors->mColors.mColorList[2];
                 }
                 if (waterAngle >= 0x4000 && waterAngle < 0xc000) {
                     for (colorIndex = offset + 1; colorIndex <= offset + 2 && colorIndex < 0x15; colorIndex++) {
-                        palette[colorIndex + 0xe0] = gRaceHudSubScreenBgColors->mColors.mUnk_00[3];
+                        palette[colorIndex + 0xe0] = gRaceHudSubScreenBgColors->mColors.mColorList[3];
                     }
                     offset += 2;
                 }
                 for (colorIndex = offset + 1; colorIndex < 0x15; colorIndex++) {
-                    palette[colorIndex + 0xe0] = gRaceHudSubScreenBgColors->mColors.mUnk_00[4];
+                    palette[colorIndex + 0xe0] = gRaceHudSubScreenBgColors->mColors.mColorList[4];
                 }
             }
             DC_FlushRange(&palette[0xe0], 0x2c);

@@ -106,7 +106,7 @@ typedef struct RaceHudSubScreenKoopaBgColors {
 // CopyRaceHudSubScreenBgColors index them for gRaceSetup.mCourseId: a run of 0x15 (TOWN, BEACH, MINI_STAGE3), nine
 // rows of three (OLD_NOKO_SFC), five rows of four (CLOCK) and the KOOPA colours.
 typedef union RaceHudSubScreenBgColorSets {
-    u16 mUnk_00[0x15];
+    u16 mColorList[0x15];
     u16 mFrameColors[9][3];
     u16 mGearColors[5][4];
     RaceHudSubScreenKoopaBgColors mKoopaColors;

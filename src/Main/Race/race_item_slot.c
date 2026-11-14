@@ -540,7 +540,7 @@ void DrawRaceModeCount(RaceHudOamBuffer *oamBuffer) {
             if (gInputSlots[0].mSourceKind != 2) {
                 return;
             }
-            if (IsKeyRecordingFull(&gInputSlots[0].mUnk_28) == FALSE) {
+            if (IsKeyRecordingFull(&gInputSlots[0].mKeyRecording) == FALSE) {
                 return;
             }
             gRaceModeCount->mKeyRecordingNotFull = FALSE;

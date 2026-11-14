@@ -305,10 +305,10 @@ void FinishRaceProgressKart(RaceProgressKart *raceProgressKart, s32 finished) {
     }
     switch (gInputSlots[inputSlotIndex].mSourceKind) {
         case 2:
-            FinishKeyRecording(&gInputSlots[inputSlotIndex].mUnk_28);
+            FinishKeyRecording(&gInputSlots[inputSlotIndex].mKeyRecording);
             break;
         case 1:
-            FinishReadingKeyRecording(&gInputSlots[inputSlotIndex].mUnk_28);
+            FinishReadingKeyRecording(&gInputSlots[inputSlotIndex].mKeyRecording);
             break;
     }
     raceProgressKart->mFlags |= RACE_PROGRESS_KART_FLAG_FINISH_JUST_HAPPENED;

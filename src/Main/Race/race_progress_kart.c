@@ -523,6 +523,6 @@ void StopRaceInput(void) {
     }
     for (entryIndex = 0; entryIndex < (u32) gRaceSetup->mKartCount; entryIndex++) {
         inputSlotIndex = gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mIndex;
-        FinishKeyRecording(&gInputSlots[inputSlotIndex].mUnk_28);
+        FinishKeyRecording(&gInputSlots[inputSlotIndex].mKeyRecording);
     }
 }

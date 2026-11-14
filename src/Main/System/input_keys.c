@@ -27,10 +27,10 @@ void StartupResetKeysInputSlot(void) {
     gKeysInputSlot.mRepeatDelayLimit = 0x14;
     gKeysInputSlot.mRepeatIntervalLimit = 8;
     gKeysInputSlot.mHoldLong = 0;
-    gKeysInputSlot.mUnk_14 = 0;
+    gKeysInputSlot.mLongHoldEnabled = 0;
     gKeysInputSlot.mHoldStartTick = 0;
-    gKeysInputSlot.mUnk_20 = 0;
-    gKeysInputSlot.mUnk_24 = 0;
+    gKeysInputSlot.mWritesKeyBits = 0;
+    gKeysInputSlot.mReadsKeyBits = 0;
 }
 
 void ResetKeysInputSlot(void) {
@@ -44,15 +44,15 @@ void ResetKeysInputSlot(void) {
     gKeysInputSlot.mRepeatDelayLimit = 0x14;
     gKeysInputSlot.mRepeatIntervalLimit = 8;
     gKeysInputSlot.mHoldLong = 0;
-    gKeysInputSlot.mUnk_14 = 0;
+    gKeysInputSlot.mLongHoldEnabled = 0;
     gKeysInputSlot.mHoldStartTick = 0;
-    gKeysInputSlot.mUnk_20 = 0;
-    gKeysInputSlot.mUnk_24 = 0;
+    gKeysInputSlot.mWritesKeyBits = 0;
+    gKeysInputSlot.mReadsKeyBits = 0;
 }
 
 void ReadKeysIntoInputSlot(void) {
     u32 keys;
-    if (gKeysInputSlot.mUnk_24 != 0) {
+    if (gKeysInputSlot.mReadsKeyBits != 0) {
         keys = ReadKeyBitsFromStream();
     } else {
         keys = (u16) (((reg_PAD_KEYINPUT | SYSTEM_WORK->mButtonXY) ^ 0x2fff) & 0x2fff);

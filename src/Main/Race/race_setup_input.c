@@ -748,7 +748,7 @@ BOOL SetNextEntryFromCourseGhost(s32 courseId, s32 entryIndex) {
         SetNextRaceEntry(entryIndex, ghostRecord->mHead.mCharacterIndex, ghostRecord->mHead.mKartIndex,
                          PLAYER_KIND_GHOST, -1, 3);
         gRaceSetup->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex = result;
-        MI_CpuCopy8(ghostRecord->mKeyRecordingBuffer, gInputSlots[entryIndex].mUnk_28.mBuffer, 0xdcc);
+        MI_CpuCopy8(ghostRecord->mKeyRecordingBuffer, gInputSlots[entryIndex].mKeyRecording.mBuffer, 0xdcc);
         result = TRUE;
         GetGhostFinishTimeByIndex(0, &gRaceSetup->mGhostTime);
         for (lapIndex = 1; lapIndex <= 5; lapIndex++) {
@@ -772,7 +772,7 @@ BOOL SetNextEntryFromFirstSlotGhost(s32 courseId, s32 entryIndex) {
         SetNextRaceEntry(entryIndex, ghostRecord->mHead.mCharacterIndex, ghostRecord->mHead.mKartIndex,
                          PLAYER_KIND_GHOST, -1, 3);
         gRaceSetup->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex = 1;
-        MI_CpuCopy8(ghostRecord->mKeyRecordingBuffer, gInputSlots[entryIndex].mUnk_28.mBuffer, 0xdcc);
+        MI_CpuCopy8(ghostRecord->mKeyRecordingBuffer, gInputSlots[entryIndex].mKeyRecording.mBuffer, 0xdcc);
         GetGhostFinishTimeByIndex(1, &gRaceSetup->mGhostTime);
         for (lapIndex = 1; lapIndex <= 5; lapIndex++) {
             GetGhostLapTimeByIndex(1, lapIndex, &gRaceSetup->mGhostLapTimes[lapIndex - 1]);
@@ -795,7 +795,7 @@ BOOL SetNextEntryFromSecondSlotGhost(s32 courseId, s32 entryIndex) {
         SetNextRaceEntry(entryIndex, ghostRecord->mHead.mCharacterIndex, ghostRecord->mHead.mKartIndex,
                          PLAYER_KIND_GHOST, -1, 3);
         gRaceSetup->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex = 2;
-        MI_CpuCopy8(ghostRecord->mKeyRecordingBuffer, gInputSlots[entryIndex].mUnk_28.mBuffer, 0xdcc);
+        MI_CpuCopy8(ghostRecord->mKeyRecordingBuffer, gInputSlots[entryIndex].mKeyRecording.mBuffer, 0xdcc);
         GetGhostFinishTime(&ghostRecord->mHead, &gRaceSetup->mGhostTime);
         for (lapIndex = 1; lapIndex <= 5; lapIndex++) {
             GetGhostLapTime(&ghostRecord->mHead, lapIndex, &gRaceSetup->mGhostLapTimes[lapIndex - 1]);
@@ -1042,9 +1042,9 @@ static inline void ResetInputSlotsAndRepeat(void) {
         SetInputSlotRepeat(inputSlot, PAD_KEYS_NO_SELECT_OR_START, 0x1e, 0xa);
         inputSlot->mSourceKind = 0;
         inputSlot->mRequestedBits = 0;
-        inputSlot->mUnk_44 = 0;
+        inputSlot->mIsBlocked = 0;
         inputSlot->mBitMask = 0x2fff;
-        ResetKeyRecording(&inputSlot->mUnk_28);
+        ResetKeyRecording(&inputSlot->mKeyRecording);
         ResetInputSlotPair(&inputSlot->mPair);
     }
     gInputSlots[8].mSourceKind = 5;
@@ -1221,10 +1221,10 @@ void InitInputSlotsAndTouchMic(void *heap) {
     InitTouchPanelAndSetCalibration();
     InitTouchMicInput(heap);
     for (slotIndex = 0; slotIndex <= 1; slotIndex++) {
-        InitKeyRecordingBuffer(&gInputSlots[slotIndex].mUnk_28, heap);
+        InitKeyRecordingBuffer(&gInputSlots[slotIndex].mKeyRecording, heap);
     }
     for (; slotIndex < 10; slotIndex++) {
-        ClearKeyRecordingBufferPointer(&gInputSlots[slotIndex].mUnk_28);
+        ClearKeyRecordingBufferPointer(&gInputSlots[slotIndex].mKeyRecording);
     }
     gInputState = HeapAlloc(heap, 0x10);
     ResetInputSlotsAndRepeat();
@@ -1254,7 +1254,7 @@ void StartInputSlots(void) {
     slot = gInputSlots;
     for (clearIndex = 0; clearIndex < 10; clearIndex++) {
         slot->mHoldLong = 0;
-        slot->mUnk_14 = 0;
+        slot->mLongHoldEnabled = 0;
         SetInputSlotRepeat(slot, PAD_KEYS_NO_SELECT_OR_START, 0x1e, 0xa);
         slot++;
     }
@@ -1353,13 +1353,13 @@ void UpdateInputSlots(void) {
         if (!(flags & INPUT_STATE_NO_KEYS)) {
             sourceKind = inputSlot->mSourceKind;
             if (isBlocked == 0) {
-                isBlocked = inputSlot->mUnk_44;
+                isBlocked = inputSlot->mIsBlocked;
             }
             switch (sourceKind) {
                 case 1:
                     if (isBlocked == 0) {
                         if (canReadKeys != 0) {
-                            slotKeys = ReadKeysFromKeyRecording(&inputSlot->mUnk_28);
+                            slotKeys = ReadKeysFromKeyRecording(&inputSlot->mKeyRecording);
                         }
                     } else {
                         skipUpdate = TRUE;
@@ -1380,7 +1380,7 @@ void UpdateInputSlots(void) {
                                     slotKeys |= PAD_KEY_LEFT;
                                 }
                             }
-                            AppendKeysToKeyRecording(&inputSlot->mUnk_28, slotKeys);
+                            AppendKeysToKeyRecording(&inputSlot->mKeyRecording, slotKeys);
                         }
                     } else {
                         skipUpdate = TRUE;
