@@ -101,7 +101,7 @@ void UpdateEditKeyboardPad(void) {
     }
     if (AreKeysPressed(1) != 0) {
         cursorKeyIndex = gEditKeyboard->mCursorKeyIndex;
-        if (cursorKeyIndex < 0x2f) {
+        if (cursorKeyIndex < EDIT_KEY_MAIN_COUNT) {
             if (gEditKeyboard->mAddCharEnabled == 0) {
                 StartSoundSeq(9);
                 return;
@@ -112,8 +112,8 @@ void UpdateEditKeyboardPad(void) {
             }
             return;
         }
-        if (cursorKeyIndex - 0x2f < 4) {
-            switch (cursorKeyIndex - 0x2f) {
+        if (cursorKeyIndex - EDIT_KEY_MAIN_COUNT < 4) {
+            switch (cursorKeyIndex - EDIT_KEY_MAIN_COUNT) {
                 case 0:
                     ToggleEditKeyboardPage2();
                     return;
@@ -136,10 +136,10 @@ void UpdateEditKeyboardPad(void) {
             if (gEditKeyboard->mPage == 1) {
                 ChangeEditKeyboardPage(0);
             }
-            gEditKeyboard->mInput = gEditKeyboardExtraKeyInputs[cursorKeyIndex - 0x2f];
+            gEditKeyboard->mInput = gEditKeyboardExtraKeyInputs[cursorKeyIndex - EDIT_KEY_MAIN_COUNT];
             return;
         }
-        gEditKeyboard->mInput = gEditKeyboardRow4Inputs[cursorKeyIndex - 0x33];
+        gEditKeyboard->mInput = gEditKeyboardRow4Inputs[cursorKeyIndex - EDIT_KEY_BOTTOM_LEFT];
     }
     if (AreKeysPressedOrRepeated(2) != 0) {
         if (gEditKeyboard->mRemoveCharEnabled == 0) {
@@ -222,8 +222,8 @@ void ChangeEditKeyboardPage(int page) {
     } else if (page == 1) {
         page1Selected = TRUE;
     }
-    SetEditKeyboardKeyHighlight(0x2f, page2Selected);
-    SetEditKeyboardKeyHighlight(0x30, page1Selected);
+    SetEditKeyboardKeyHighlight(EDIT_KEY_PAGE2_TOGGLE, page2Selected);
+    SetEditKeyboardKeyHighlight(EDIT_KEY_PAGE1_TOGGLE, page1Selected);
 }
 
 void SetEditKeyboardKeyHighlight(int keyIndex, int highlight) {
@@ -232,39 +232,40 @@ void SetEditKeyboardKeyHighlight(int keyIndex, int highlight) {
     if (keyIndex < 0) {
         return;
     }
-    if (keyIndex < 0x2f) {
+    if (keyIndex < EDIT_KEY_MAIN_COUNT) {
         key = gEditKeyboard->mKeys[keyIndex];
         key->mAttr01 = key->mAttr01 & 0xfffff3ff;
         key->mAttr2 = (key->mAttr2 & 0xffff0fff) | (gEditKeyboardKeyPalettes[highlight] << 12);
         return;
     }
-    extraKeyIndex = keyIndex - 0x2f;
+    extraKeyIndex = keyIndex - EDIT_KEY_MAIN_COUNT;
     if (extraKeyIndex < 4) {
         key = gEditKeyboard->mExtraKeys[extraKeyIndex];
         key->mAttr01 = key->mAttr01 & 0xfffff3ff;
         key->mAttr2 = (key->mAttr2 & 0xffff0fff) | (gEditKeyboardKeyPalettes[highlight] << 12);
         return;
     }
-    SetOamRangeMode(gEditKeyboard->mRow4Keys[keyIndex - 0x33], -1, 0, gEditKeyboardRow4HighlightValues[highlight]);
+    SetOamRangeMode(gEditKeyboard->mRow4Keys[keyIndex - EDIT_KEY_BOTTOM_LEFT], -1, 0,
+                    gEditKeyboardRow4HighlightValues[highlight]);
 }
 
 void PlaceEditKeyboardCursor(void) {
     u32 imageIndex;
     switch (gEditKeyboard->mCursorKeyIndex) {
-        case 0x2f:
+        case EDIT_KEY_PAGE2_TOGGLE:
             imageIndex = 0x42;
             break;
-        case 0x30:
+        case EDIT_KEY_PAGE1_TOGGLE:
             imageIndex = 0x41;
             break;
-        case 0x31:
+        case EDIT_KEY_SPACE:
             imageIndex = 0x43;
             break;
-        case 0x32:
+        case EDIT_KEY_REMOVE:
             imageIndex = 0x41;
             break;
-        case 0x33:
-        case 0x34:
+        case EDIT_KEY_BOTTOM_LEFT:
+        case EDIT_KEY_BOTTOM_RIGHT:
             imageIndex = 0x45;
             break;
         default:
@@ -281,128 +282,129 @@ void MoveEditKeyboardCursor(int direction) {
     s8 previousKeyIndex;
     previousKeyIndex = gEditKeyboard->mCursorKeyIndex;
     gEditKeyboard->mCursorKeyIndex = gEditKeyboardCursorMoves[previousKeyIndex][direction];
-    if (gEditKeyboard->mCursorKeyIndex == 0x2e && direction == 3) {
+    if (gEditKeyboard->mCursorKeyIndex == EDIT_KEY(3, 10) && direction == 3) {
         gEditKeyboard->mPreviousKeyIndex = previousKeyIndex;
-    } else if (gEditKeyboard->mCursorKeyIndex == 0x33 && (direction == 1 || direction == 3)) {
+    } else if (gEditKeyboard->mCursorKeyIndex == EDIT_KEY_BOTTOM_LEFT && (direction == 1 || direction == 3)) {
         gEditKeyboard->mPreviousKeyIndex = previousKeyIndex;
-    } else if (gEditKeyboard->mCursorKeyIndex == 0x34 && (direction == 1 || direction == 3)) {
-        if (previousKeyIndex != 0x2e) {
+    } else if (gEditKeyboard->mCursorKeyIndex == EDIT_KEY_BOTTOM_RIGHT && (direction == 1 || direction == 3)) {
+        if (previousKeyIndex != EDIT_KEY(3, 10)) {
             gEditKeyboard->mPreviousKeyIndex = previousKeyIndex;
         }
-    } else if (gEditKeyboard->mCursorKeyIndex == -1) {
-        if (gEditKeyboard->mPreviousKeyIndex == 0x23 || gEditKeyboard->mPreviousKeyIndex == 0x32) {
-            gEditKeyboard->mCursorKeyIndex = 0x23;
+    } else if (gEditKeyboard->mCursorKeyIndex == EDIT_KEY_UP_FROM_LAST_GRID_KEY) {
+        if (gEditKeyboard->mPreviousKeyIndex == EDIT_KEY(2, 11) ||
+            gEditKeyboard->mPreviousKeyIndex == EDIT_KEY_REMOVE) {
+            gEditKeyboard->mCursorKeyIndex = EDIT_KEY(2, 11);
         } else {
-            gEditKeyboard->mCursorKeyIndex = 0x22;
+            gEditKeyboard->mCursorKeyIndex = EDIT_KEY(2, 10);
         }
-    } else if (gEditKeyboard->mCursorKeyIndex == -2) {
+    } else if (gEditKeyboard->mCursorKeyIndex == EDIT_KEY_UP_FROM_BOTTOM_LEFT) {
         switch (gEditKeyboard->mPreviousKeyIndex) {
-            case 0:
-            case 0x31:
-                gEditKeyboard->mCursorKeyIndex = 0x31;
+            case EDIT_KEY(0, 0):
+            case EDIT_KEY_SPACE:
+                gEditKeyboard->mCursorKeyIndex = EDIT_KEY_SPACE;
                 break;
-            case 1:
-            case 0x24:
-                gEditKeyboard->mCursorKeyIndex = 0x24;
+            case EDIT_KEY(0, 1):
+            case EDIT_KEY(3, 0):
+                gEditKeyboard->mCursorKeyIndex = EDIT_KEY(3, 0);
                 break;
-            case 3:
-            case 0x26:
-                gEditKeyboard->mCursorKeyIndex = 0x26;
+            case EDIT_KEY(0, 3):
+            case EDIT_KEY(3, 2):
+                gEditKeyboard->mCursorKeyIndex = EDIT_KEY(3, 2);
                 break;
-            case 4:
-            case 0x27:
-                gEditKeyboard->mCursorKeyIndex = 0x27;
+            case EDIT_KEY(0, 4):
+            case EDIT_KEY(3, 3):
+                gEditKeyboard->mCursorKeyIndex = EDIT_KEY(3, 3);
                 break;
-            case 5:
-            case 0x28:
-                gEditKeyboard->mCursorKeyIndex = 0x28;
+            case EDIT_KEY(0, 5):
+            case EDIT_KEY(3, 4):
+                gEditKeyboard->mCursorKeyIndex = EDIT_KEY(3, 4);
                 break;
             default:
-                gEditKeyboard->mCursorKeyIndex = 0x25;
+                gEditKeyboard->mCursorKeyIndex = EDIT_KEY(3, 1);
                 break;
         }
-    } else if (gEditKeyboard->mCursorKeyIndex == -3) {
+    } else if (gEditKeyboard->mCursorKeyIndex == EDIT_KEY_UP_FROM_BOTTOM_RIGHT) {
         switch (gEditKeyboard->mPreviousKeyIndex) {
-            case 6:
-            case 0x29:
-                gEditKeyboard->mCursorKeyIndex = 0x29;
+            case EDIT_KEY(0, 6):
+            case EDIT_KEY(3, 5):
+                gEditKeyboard->mCursorKeyIndex = EDIT_KEY(3, 5);
                 break;
-            case 7:
-            case 0x2a:
-                gEditKeyboard->mCursorKeyIndex = 0x2a;
+            case EDIT_KEY(0, 7):
+            case EDIT_KEY(3, 6):
+                gEditKeyboard->mCursorKeyIndex = EDIT_KEY(3, 6);
                 break;
-            case 9:
-            case 0x2c:
-                gEditKeyboard->mCursorKeyIndex = 0x2c;
+            case EDIT_KEY(0, 9):
+            case EDIT_KEY(3, 8):
+                gEditKeyboard->mCursorKeyIndex = EDIT_KEY(3, 8);
                 break;
-            case 10:
-            case 0x2d:
-                gEditKeyboard->mCursorKeyIndex = 0x2d;
+            case EDIT_KEY(0, 10):
+            case EDIT_KEY(3, 9):
+                gEditKeyboard->mCursorKeyIndex = EDIT_KEY(3, 9);
                 break;
-            case 11:
-            case 0x22:
-            case 0x23:
-            case 0x32:
-                gEditKeyboard->mCursorKeyIndex = 0x2e;
+            case EDIT_KEY(0, 11):
+            case EDIT_KEY(2, 10):
+            case EDIT_KEY(2, 11):
+            case EDIT_KEY_REMOVE:
+                gEditKeyboard->mCursorKeyIndex = EDIT_KEY(3, 10);
                 break;
             default:
-                gEditKeyboard->mCursorKeyIndex = 0x2b;
+                gEditKeyboard->mCursorKeyIndex = EDIT_KEY(3, 7);
                 break;
         }
-    } else if (gEditKeyboard->mCursorKeyIndex == -4) {
+    } else if (gEditKeyboard->mCursorKeyIndex == EDIT_KEY_DOWN_FROM_BOTTOM_LEFT) {
         switch (gEditKeyboard->mPreviousKeyIndex) {
-            case 0:
-            case 0x31:
-                gEditKeyboard->mCursorKeyIndex = 0;
+            case EDIT_KEY(0, 0):
+            case EDIT_KEY_SPACE:
+                gEditKeyboard->mCursorKeyIndex = EDIT_KEY(0, 0);
                 break;
-            case 1:
-            case 0x24:
-                gEditKeyboard->mCursorKeyIndex = 1;
+            case EDIT_KEY(0, 1):
+            case EDIT_KEY(3, 0):
+                gEditKeyboard->mCursorKeyIndex = EDIT_KEY(0, 1);
                 break;
-            case 3:
-            case 0x26:
-                gEditKeyboard->mCursorKeyIndex = 3;
+            case EDIT_KEY(0, 3):
+            case EDIT_KEY(3, 2):
+                gEditKeyboard->mCursorKeyIndex = EDIT_KEY(0, 3);
                 break;
-            case 4:
-            case 0x27:
-                gEditKeyboard->mCursorKeyIndex = 4;
+            case EDIT_KEY(0, 4):
+            case EDIT_KEY(3, 3):
+                gEditKeyboard->mCursorKeyIndex = EDIT_KEY(0, 4);
                 break;
-            case 5:
-            case 0x28:
-                gEditKeyboard->mCursorKeyIndex = 5;
+            case EDIT_KEY(0, 5):
+            case EDIT_KEY(3, 4):
+                gEditKeyboard->mCursorKeyIndex = EDIT_KEY(0, 5);
                 break;
             default:
-                gEditKeyboard->mCursorKeyIndex = 2;
+                gEditKeyboard->mCursorKeyIndex = EDIT_KEY(0, 2);
                 break;
         }
-    } else if (gEditKeyboard->mCursorKeyIndex == -5) {
+    } else if (gEditKeyboard->mCursorKeyIndex == EDIT_KEY_DOWN_FROM_BOTTOM_RIGHT) {
         switch (gEditKeyboard->mPreviousKeyIndex) {
-            case 6:
-            case 0x29:
-                gEditKeyboard->mCursorKeyIndex = 6;
+            case EDIT_KEY(0, 6):
+            case EDIT_KEY(3, 5):
+                gEditKeyboard->mCursorKeyIndex = EDIT_KEY(0, 6);
                 break;
-            case 7:
-            case 0x2a:
-                gEditKeyboard->mCursorKeyIndex = 7;
+            case EDIT_KEY(0, 7):
+            case EDIT_KEY(3, 6):
+                gEditKeyboard->mCursorKeyIndex = EDIT_KEY(0, 7);
                 break;
-            case 9:
-            case 0x2c:
-                gEditKeyboard->mCursorKeyIndex = 9;
+            case EDIT_KEY(0, 9):
+            case EDIT_KEY(3, 8):
+                gEditKeyboard->mCursorKeyIndex = EDIT_KEY(0, 9);
                 break;
-            case 10:
-            case 0x2d:
-                gEditKeyboard->mCursorKeyIndex = 10;
+            case EDIT_KEY(0, 10):
+            case EDIT_KEY(3, 9):
+                gEditKeyboard->mCursorKeyIndex = EDIT_KEY(0, 10);
                 break;
-            case 11:
-            case 0x22:
-                gEditKeyboard->mCursorKeyIndex = 11;
+            case EDIT_KEY(0, 11):
+            case EDIT_KEY(2, 10):
+                gEditKeyboard->mCursorKeyIndex = EDIT_KEY(0, 11);
                 break;
-            case 0x23:
-            case 0x32:
-                gEditKeyboard->mCursorKeyIndex = 0x32;
+            case EDIT_KEY(2, 11):
+            case EDIT_KEY_REMOVE:
+                gEditKeyboard->mCursorKeyIndex = EDIT_KEY_REMOVE;
                 break;
             default:
-                gEditKeyboard->mCursorKeyIndex = 8;
+                gEditKeyboard->mCursorKeyIndex = EDIT_KEY(0, 8);
                 break;
         }
     }

@@ -48,6 +48,27 @@ typedef struct LinkLevel {
 } LinkLevel;
 
 // The on-screen keys of the Edit screen.
+// Key index of the grid key in a row (12 per row) and column.
+#define EDIT_KEY(row, col) ((row) * 12 + (col))
+#define EDIT_KEY_MAIN_COUNT 0x2f
+// Keys after the grid: four extra keys, then the two bottom keys.
+enum {
+    EDIT_KEY_PAGE2_TOGGLE = EDIT_KEY_MAIN_COUNT,
+    EDIT_KEY_PAGE1_TOGGLE,
+    EDIT_KEY_SPACE,
+    EDIT_KEY_REMOVE,
+    EDIT_KEY_BOTTOM_LEFT,
+    EDIT_KEY_BOTTOM_RIGHT,
+};
+// Values the cursor move table holds in place of a key index.
+enum {
+    EDIT_KEY_UP_FROM_LAST_GRID_KEY = -1,
+    EDIT_KEY_UP_FROM_BOTTOM_LEFT = -2,
+    EDIT_KEY_UP_FROM_BOTTOM_RIGHT = -3,
+    EDIT_KEY_DOWN_FROM_BOTTOM_LEFT = -4,
+    EDIT_KEY_DOWN_FROM_BOTTOM_RIGHT = -5,
+};
+
 typedef struct EditKeyboard {
     /* 000 */ void *mRowTexts[3][4];
     /* 030 */ OamEntry *mKeys[0x2f];
