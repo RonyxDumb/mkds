@@ -30,15 +30,15 @@ void InitOptionHensyuMenu(void *heap) {
     void *optionFirstBuffer;
     gOptionHensyuMenu = HeapAlloc(heap, 0x34);
     gOptionHensyuMenu->mHeap = heap;
-    gOptionHensyuMenu->mState = 0;
-    gOptionHensyuMenu->mNextState = 0;
+    gOptionHensyuMenu->mState = OPTION_HENSYU_MENU_STATE_WAIT_FADE;
+    gOptionHensyuMenu->mNextState = OPTION_HENSYU_MENU_STATE_WAIT_FADE;
     switch (GetOptionPrevState()) {
-        case 0:
-        case 5:
+        case OPTION_STATE_TOP_MENU:
+        case OPTION_STATE_SCENE_KEYBOARD:
             gOptionHensyuMenu->mIndex = 0;
             break;
-        case 3:
-        case 6:
+        case OPTION_STATE_EMBREM_SELECT:
+        case OPTION_STATE_SCENE_EMBLEM:
             gOptionHensyuMenu->mIndex = 1;
             break;
     }
@@ -96,7 +96,7 @@ void AdvanceOptionHensyuMenuState0(void) {
     int fadesClear;
     fadesClear = AreBrightnessFadesClear();
     if (fadesClear != 0) {
-        gOptionHensyuMenu->mNextState = 1;
+        gOptionHensyuMenu->mNextState = OPTION_HENSYU_MENU_STATE_SLIDE_IN;
     }
 }
 
@@ -118,7 +118,7 @@ void AdvanceOptionHensyuMenuState1(void) {
         }
     }
     if (gOptionHensyuMenu->mStateFrames >= 10) {
-        gOptionHensyuMenu->mNextState = 2;
+        gOptionHensyuMenu->mNextState = OPTION_HENSYU_MENU_STATE_WAIT_SELECT_RETURN;
         gOptionHensyuMenu->mStateFrames = 0;
         RequestSelectReturnState1();
     }
@@ -128,7 +128,7 @@ void AdvanceOptionHensyuMenuState2(void) {
     int returnState2NoRequest;
     returnState2NoRequest = IsSelectReturnState2NoState3Or4Request();
     if (returnState2NoRequest != 0) {
-        gOptionHensyuMenu->mNextState = 3;
+        gOptionHensyuMenu->mNextState = OPTION_HENSYU_MENU_STATE_SELECT;
     }
 }
 
@@ -173,8 +173,8 @@ void AdvanceOptionHensyuMenuState3(void) {
         }
     } else {
     leave:
-        gOptionHensyuMenu->mNextState = 5;
-        gOptionHensyuMenu->mNextOptionState = 0;
+        gOptionHensyuMenu->mNextState = OPTION_HENSYU_MENU_STATE_SLIDE_OUT;
+        gOptionHensyuMenu->mNextOptionState = OPTION_STATE_TOP_MENU;
         RequestSelectReturnState3WithSound(0);
         return;
     }
@@ -191,17 +191,17 @@ void AdvanceOptionHensyuMenuState3(void) {
                     break;
             }
         }
-        gOptionHensyuMenu->mNextState = 4;
+        gOptionHensyuMenu->mNextState = OPTION_HENSYU_MENU_STATE_HOLD_CHOSEN;
         optionHensyuMenu = gOptionHensyuMenu;
         switch (optionHensyuMenu->mIndex) {
             case 0:
-                optionHensyuMenu->mNextOptionState = 5;
+                optionHensyuMenu->mNextOptionState = OPTION_STATE_SCENE_KEYBOARD;
                 break;
             case 1:
                 if (gBackupBuffers->mEmblemRecord->mFilled != 0) {
-                    optionHensyuMenu->mNextOptionState = 3;
+                    optionHensyuMenu->mNextOptionState = OPTION_STATE_EMBREM_SELECT;
                 } else {
-                    optionHensyuMenu->mNextOptionState = 6;
+                    optionHensyuMenu->mNextOptionState = OPTION_STATE_SCENE_EMBLEM;
                     gMenuShared->mOptionReturnsToEmbremSelect = FALSE;
                 }
                 break;
@@ -230,9 +230,9 @@ void AdvanceOptionHensyuMenuState3(void) {
 void AdvanceOptionHensyuMenuState4(void) {
     gOptionHensyuMenu->mStateFrames++;
     if (gOptionHensyuMenu->mStateFrames >= 10) {
-        gOptionHensyuMenu->mNextState = 5;
+        gOptionHensyuMenu->mNextState = OPTION_HENSYU_MENU_STATE_SLIDE_OUT;
         gOptionHensyuMenu->mStateFrames = 0;
-        if (gOptionHensyuMenu->mNextOptionState == 5) {
+        if (gOptionHensyuMenu->mNextOptionState == OPTION_STATE_SCENE_KEYBOARD) {
             RequestSelectReturnState4();
         }
     } else if (gOptionHensyuMenu->mStateFrames >= 5) {
@@ -245,9 +245,9 @@ void AdvanceOptionHensyuMenuState5(void) {
     s32 cellIndex;
     s32 offsetX;
     if (GetOptionNextScene() == -1) {
-        if (gOptionHensyuMenu->mNextOptionState == 5) {
+        if (gOptionHensyuMenu->mNextOptionState == OPTION_STATE_SCENE_KEYBOARD) {
             RequestOptionNextScene(0xe);
-        } else if (gOptionHensyuMenu->mNextOptionState == 6) {
+        } else if (gOptionHensyuMenu->mNextOptionState == OPTION_STATE_SCENE_EMBLEM) {
             RequestOptionNextScene(3);
         }
     }
@@ -269,7 +269,8 @@ void AdvanceOptionHensyuMenuState5(void) {
         }
     }
     if (gOptionHensyuMenu->mStateFrames >= 10) {
-        if (gOptionHensyuMenu->mNextOptionState == 0 || gOptionHensyuMenu->mNextOptionState == 3 ||
+        if (gOptionHensyuMenu->mNextOptionState == OPTION_STATE_TOP_MENU ||
+            gOptionHensyuMenu->mNextOptionState == OPTION_STATE_EMBREM_SELECT ||
             IsSelectReturnState0NoState1Request() != 0) {
             if (GetOptionNextScene() == -1) {
                 RequestOptionState(gOptionHensyuMenu->mNextOptionState);
@@ -297,22 +298,22 @@ void AdvanceOptionHensyuMenu(void) {
     OptionHensyuMenu *optionHensyuMenu;
     gOptionHensyuMenu->mState = gOptionHensyuMenu->mNextState;
     switch (gOptionHensyuMenu->mState) {
-        case 0:
+        case OPTION_HENSYU_MENU_STATE_WAIT_FADE:
             AdvanceOptionHensyuMenuState0();
             break;
-        case 1:
+        case OPTION_HENSYU_MENU_STATE_SLIDE_IN:
             AdvanceOptionHensyuMenuState1();
             break;
-        case 2:
+        case OPTION_HENSYU_MENU_STATE_WAIT_SELECT_RETURN:
             AdvanceOptionHensyuMenuState2();
             break;
-        case 3:
+        case OPTION_HENSYU_MENU_STATE_SELECT:
             AdvanceOptionHensyuMenuState3();
             break;
-        case 4:
+        case OPTION_HENSYU_MENU_STATE_HOLD_CHOSEN:
             AdvanceOptionHensyuMenuState4();
             break;
-        case 5:
+        case OPTION_HENSYU_MENU_STATE_SLIDE_OUT:
             AdvanceOptionHensyuMenuState5();
             break;
     }

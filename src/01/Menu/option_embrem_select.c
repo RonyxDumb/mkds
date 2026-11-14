@@ -32,8 +32,8 @@ void InitOptionEmbremSelect(void *heap) {
 
     gOptionEmbremSelect = HeapAlloc(heap, 0x58);
     gOptionEmbremSelect->mUnk_30 = heap;
-    gOptionEmbremSelect->mState = 0;
-    gOptionEmbremSelect->mNextState = 0;
+    gOptionEmbremSelect->mState = OPTION_EMBREM_SELECT_STATE_WAIT_FADE;
+    gOptionEmbremSelect->mNextState = OPTION_EMBREM_SELECT_STATE_WAIT_FADE;
     gOptionEmbremSelect->mSelectedRow = 0;
     gOptionEmbremSelect->mStateFrames = 0;
     gOptionEmbremSelect->mHighlightVisible = TRUE;
@@ -109,7 +109,7 @@ void AdvanceOptionEmbremSelectState0(void) {
     int fadesClear;
     fadesClear = AreBrightnessFadesClear();
     if (fadesClear != 0) {
-        gOptionEmbremSelect->mNextState = 1;
+        gOptionEmbremSelect->mNextState = OPTION_EMBREM_SELECT_STATE_SLIDE_IN;
     }
 }
 
@@ -130,7 +130,7 @@ void AdvanceOptionEmbremSelectState1(void) {
         }
     }
     if (gOptionEmbremSelect->mStateFrames >= 10) {
-        gOptionEmbremSelect->mNextState = 2;
+        gOptionEmbremSelect->mNextState = OPTION_EMBREM_SELECT_STATE_WAIT_SELECT_RETURN;
         gOptionEmbremSelect->mStateFrames = 0;
         RequestSelectReturnState1();
     }
@@ -140,7 +140,7 @@ void AdvanceOptionEmbremSelectState2(void) {
     int returnState2NoRequest;
     returnState2NoRequest = IsSelectReturnState2NoState3Or4Request();
     if (returnState2NoRequest != 0) {
-        gOptionEmbremSelect->mNextState = 3;
+        gOptionEmbremSelect->mNextState = OPTION_EMBREM_SELECT_STATE_SELECT;
     }
 }
 
@@ -179,8 +179,8 @@ void AdvanceOptionEmbremSelectState3(void) {
     if (touchBegan != FALSE && IsSelectReturnState2NoState3Or4RequestAndInRect(
                                    gInputSlots[slotIndex].mPair.mPairX, gInputSlots[slotIndex].mPair.mPairY) != FALSE) {
     next:
-        gOptionEmbremSelect->mNextState = 5;
-        gOptionEmbremSelect->mNextOptionState = 2;
+        gOptionEmbremSelect->mNextState = OPTION_EMBREM_SELECT_STATE_SLIDE_OUT;
+        gOptionEmbremSelect->mNextOptionState = OPTION_STATE_HENSYU_MENU;
         if (gOptionEmbremSelect->mEmblemOffChoice != gOptionEmbremSelect->mEmblemOffAtOpen) {
             RequestSelectReturnState3WithSound(1);
         } else {
@@ -198,8 +198,8 @@ void AdvanceOptionEmbremSelectState3(void) {
             if (gOptionEmbremSelect->mSelectedRow == 0) {
                 gOptionEmbremSelect->mHighlightVisible = FALSE;
             }
-            gOptionEmbremSelect->mNextState = 4;
-            gOptionEmbremSelect->mNextOptionState = 6;
+            gOptionEmbremSelect->mNextState = OPTION_EMBREM_SELECT_STATE_HOLD_CHOSEN;
+            gOptionEmbremSelect->mNextOptionState = OPTION_STATE_SCENE_EMBLEM;
             gOptionEmbremSelect->mSelectedRow = 0;
             gMenuShared->mOptionReturnsToEmbremSelect = TRUE;
             StartSoundOncePerFrame(5);
@@ -248,7 +248,7 @@ void AdvanceOptionEmbremSelectState4(void) {
     gOptionEmbremSelect->mStateFrames = gOptionEmbremSelect->mStateFrames + 1;
     optionEmbremSelect = gOptionEmbremSelect;
     if (10 <= optionEmbremSelect->mStateFrames) {
-        optionEmbremSelect->mNextState = 5;
+        optionEmbremSelect->mNextState = OPTION_EMBREM_SELECT_STATE_SLIDE_OUT;
         gOptionEmbremSelect->mStateFrames = 0;
         RequestSelectReturnState4();
         return;
@@ -263,7 +263,7 @@ void AdvanceOptionEmbremSelectState5(void) {
     s32 cellIndex;
     s32 offsetX;
 
-    if (GetOptionNextScene() == -1 && gOptionEmbremSelect->mNextOptionState == 6) {
+    if (GetOptionNextScene() == -1 && gOptionEmbremSelect->mNextOptionState == OPTION_STATE_SCENE_EMBLEM) {
         RequestOptionNextScene(3);
     }
     gOptionEmbremSelect->mStateFrames++;
@@ -293,7 +293,7 @@ void AdvanceOptionEmbremSelectState5(void) {
                 if (obj->mEmblemOffChoice == 1) {
                     arg = 10;
                 }
-                obj->mNextState = 6;
+                obj->mNextState = OPTION_EMBREM_SELECT_STATE_WAIT_MESSAGE;
                 SetTxtSystemOpenSoundId(0x21);
                 first = GetBmgEntry(gOptionEmbremSelect->mOptionMessages, arg);
                 SetupTxtSystemSubTextButton(first, GetBmgEntry(gOptionEmbremSelect->mCommonMessages, 4));
@@ -428,25 +428,25 @@ void AdvanceOptionEmbremSelectTimers(void) {
 void AdvanceOptionEmbremSelect(void) {
     gOptionEmbremSelect->mState = gOptionEmbremSelect->mNextState;
     switch (gOptionEmbremSelect->mState) {
-        case 0:
+        case OPTION_EMBREM_SELECT_STATE_WAIT_FADE:
             AdvanceOptionEmbremSelectState0();
             break;
-        case 1:
+        case OPTION_EMBREM_SELECT_STATE_SLIDE_IN:
             AdvanceOptionEmbremSelectState1();
             break;
-        case 2:
+        case OPTION_EMBREM_SELECT_STATE_WAIT_SELECT_RETURN:
             AdvanceOptionEmbremSelectState2();
             break;
-        case 3:
+        case OPTION_EMBREM_SELECT_STATE_SELECT:
             AdvanceOptionEmbremSelectState3();
             break;
-        case 4:
+        case OPTION_EMBREM_SELECT_STATE_HOLD_CHOSEN:
             AdvanceOptionEmbremSelectState4();
             break;
-        case 5:
+        case OPTION_EMBREM_SELECT_STATE_SLIDE_OUT:
             AdvanceOptionEmbremSelectState5();
             break;
-        case 6:
+        case OPTION_EMBREM_SELECT_STATE_WAIT_MESSAGE:
             AdvanceOptionEmbremSelectState6();
             break;
     }
