@@ -30,8 +30,9 @@ enum {
 // Value of StartupWork.mConnectionKind.
 #define CONNECTION_KIND_NONE 0
 #define CONNECTION_KIND_MEMBER_SELECT 1 // set by the member select screen
-#define CONNECTION_KIND_WL_MENU 2 // set by the member group screen
+#define CONNECTION_KIND_WL_MENU 2 // set by the title entry of the WL menu and by the member group screen
 #define CONNECTION_KIND_WIFI_MENU 3 // set by the title entry of the Wi-Fi menu
+#define CONNECTION_KIND_WIFI_TOP_MENU 4 // set by the Wi-Fi top menu before it starts the next scene
 
 // Object behind gStartupWork (0x7c bytes); the 0x14 bytes at 0x2a are the source of a block move into
 // gBackupBuffers.

@@ -46,8 +46,8 @@ void StartTitleSelectedSound(void) {
         case TITLE_ENTRY_WIFI_MENU:
             StartSoundOncePerFrame(9);
             break;
-        case 3:
-        case 4:
+        case TITLE_ENTRY_OPTION:
+        case TITLE_ENTRY_RECORD:
             StartSoundOncePerFrame(8);
             break;
         default:

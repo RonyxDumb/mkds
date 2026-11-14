@@ -151,7 +151,7 @@ void CopyCurrentToRaceSetupCopy(void) {
     GetRaceSetupCopy()->mCupIndex = GetCurrentCupIndex();
     GetRaceSetupCopy()->mCpuDifficulty = GetCurrentCpuDifficulty();
     GetRaceSetupCopy()->mKartCount = GetCurrentKartCount();
-    if (MenuGetConnectionKind() != 0) {
+    if (MenuGetConnectionKind() != CONNECTION_KIND_NONE) {
         u32 currentMode;
 
         currentMode = GetCurrentMode();
@@ -405,7 +405,7 @@ void InitMenu(void) {
     config.mBackScreenKind = 0;
     LoadTxtSystemAndSelectChoisesAndSelectReturnData();
     InitSceneText(MenuGetCurrentHeap(), &config);
-    if (MenuGetConnectionKind() == 2) {
+    if (MenuGetConnectionKind() == CONNECTION_KIND_WL_MENU) {
         ClearSelectReturnDisplayBitOn();
     }
     InitLinkLevelIcons(MenuGetCurrentHeap(), gMenuScene->mMainOam);

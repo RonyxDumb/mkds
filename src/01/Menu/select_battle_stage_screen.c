@@ -303,7 +303,7 @@ void AdvanceSelectBattleStageState2(void) {
     }
     gSelectBattleStage->mNextState = 6;
     gSelectBattleStage->mPendingResult = -3;
-    if (gStartupWork->mConnectionKind == 0) {
+    if (gStartupWork->mConnectionKind == CONNECTION_KIND_NONE) {
         RequestSelectReturnState3WithSound(0);
         gSelectBattleStage->mUnk_2c = FALSE;
         return;

@@ -279,7 +279,7 @@ void RunScene(SceneNumbers *sceneNumbers, const SceneCallbacks *callbacks) {
     if ((exitValue != 0 || GetNextSceneNumber() == 0) && gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         RunMessageScreenOfKind(0);
     }
-    if (gStartupWork->mConnectionKind == 4) {
+    if (gStartupWork->mConnectionKind == CONNECTION_KIND_WIFI_TOP_MENU) {
         StartFadeToFadedPositive(callbacks->mFadeToFadedFrameCount);
     } else {
         StartFadeToFadedNegative(callbacks->mFadeToFadedFrameCount);
@@ -309,7 +309,7 @@ end:
     SetNoKeysAndUpdateInputSlots();
     if (RunSceneIsWiFiSessionStateZero() && (exitValue != 0 || GetNextSceneNumber() == 0)) {
         gSceneRunState->mRunStep = SCENE_RUN_STEP_CARD_PULLED_OUT;
-        gStartupWork->mConnectionKind = 0;
+        gStartupWork->mConnectionKind = CONNECTION_KIND_NONE;
         isDone = FALSE;
         SendLedPatternNone();
         do {

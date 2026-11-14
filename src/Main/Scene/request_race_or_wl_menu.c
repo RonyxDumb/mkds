@@ -8,7 +8,7 @@
 #pragma optimize_for_size on
 void RequestRaceOrWLMenuScene(SceneNumbers *sceneNumbers) {
     if (sceneNumbers != NULL) {
-        if (MenuGetConnectionKind() != 0 && GetMultiSimple() != 0) {
+        if (MenuGetConnectionKind() != CONNECTION_KIND_NONE && GetMultiSimple() != 0) {
             sceneNumbers->mNextScene = 6;
             SetWLMenuKind(1);
         } else {

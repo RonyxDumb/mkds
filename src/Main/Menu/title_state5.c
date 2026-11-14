@@ -16,14 +16,14 @@ void UpdateTitleState5(SceneNumbers *sceneNumbers) {
             case TITLE_ENTRY_OPTION:
             case TITLE_ENTRY_RECORD:
             default:
-                SetConnectionKind(0);
+                SetConnectionKind(CONNECTION_KIND_NONE);
                 break;
-            case 1:
-                SetConnectionKind(2);
+            case TITLE_ENTRY_WL_MENU:
+                SetConnectionKind(CONNECTION_KIND_WL_MENU);
                 TitleSetWLMenuKind(0);
                 break;
-            case 2:
-                SetConnectionKind(3);
+            case TITLE_ENTRY_WIFI_MENU:
+                SetConnectionKind(CONNECTION_KIND_WIFI_MENU);
                 break;
         }
         sceneNumbers->mNextScene = nextScenes[gTitleScene->mSelectedIndex];

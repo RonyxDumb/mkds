@@ -232,7 +232,7 @@ BOOL TryXorBackupWordsAtFoundIndex(u32 *cursor, u32 byteCount, u32 expectedFirst
 #pragma thumb off
 
 void InitWLMenuSceneCallback(void) {
-    if (gStartupWork->mConnectionKind == 3) {
+    if (gStartupWork->mConnectionKind == CONNECTION_KIND_WIFI_MENU) {
         ReleaseCurrentOverlay();
         StartLoadOverlay(0);
         FinishOverlayLoad();
