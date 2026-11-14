@@ -29,7 +29,7 @@ const u16 *FormatWideParseSpec(const u16 *format, char **argList, FormatWideSpec
     parsed.mSignKind = 0;
     parsed.mHasDot = 0;
     parsed.mHash = 0;
-    parsed.mArgKind = 0;
+    parsed.mArgKind = FORMAT_WIDE_ARG_DEFAULT;
     parsed.mMinLength = 0;
     parsed.mPrecision = 0;
     cursor = format + 1;
@@ -109,21 +109,21 @@ const u16 *FormatWideParseSpec(const u16 *format, char **argList, FormatWideSpec
     matched = 1;
     switch (ch) {
         case 'h':
-            parsed.mArgKind = 2;
+            parsed.mArgKind = FORMAT_WIDE_ARG_SHORT;
             if (cursor[1] == 'h') {
-                parsed.mArgKind = 1;
+                parsed.mArgKind = FORMAT_WIDE_ARG_CHAR;
                 ch = *++cursor;
             }
             break;
         case 'l':
-            parsed.mArgKind = 3;
+            parsed.mArgKind = FORMAT_WIDE_ARG_LONG;
             if (cursor[1] == 'l') {
-                parsed.mArgKind = 4;
+                parsed.mArgKind = FORMAT_WIDE_ARG_LONG_LONG;
                 ch = *++cursor;
             }
             break;
         case 'L':
-            parsed.mArgKind = 5;
+            parsed.mArgKind = FORMAT_WIDE_ARG_LONG_DOUBLE;
             break;
         default:
             matched = 0;
@@ -140,8 +140,8 @@ const u16 *FormatWideParseSpec(const u16 *format, char **argList, FormatWideSpec
         case 'u':
         case 'x':
         case 'X':
-            if (parsed.mArgKind == 5) {
-                parsed.mArgKind = 4;
+            if (parsed.mArgKind == FORMAT_WIDE_ARG_LONG_DOUBLE) {
+                parsed.mArgKind = FORMAT_WIDE_ARG_LONG_LONG;
             }
             if (parsed.mHasDot == 0) {
                 parsed.mPrecision = 1;
@@ -151,7 +151,7 @@ const u16 *FormatWideParseSpec(const u16 *format, char **argList, FormatWideSpec
             break;
         case 'f':
         case 'F':
-            if (parsed.mArgKind == 2 || parsed.mArgKind == 4) {
+            if (parsed.mArgKind == FORMAT_WIDE_ARG_SHORT || parsed.mArgKind == FORMAT_WIDE_ARG_LONG_LONG) {
                 parsed.mSpecChar = 0xffff;
             } else if (parsed.mHasDot == 0) {
                 parsed.mPrecision = 6;
@@ -164,35 +164,36 @@ const u16 *FormatWideParseSpec(const u16 *format, char **argList, FormatWideSpec
             }
         case 'e':
         case 'E':
-            if (parsed.mArgKind == 2 || parsed.mArgKind == 4 || parsed.mArgKind == 1) {
+            if (parsed.mArgKind == FORMAT_WIDE_ARG_SHORT || parsed.mArgKind == FORMAT_WIDE_ARG_LONG_LONG ||
+                parsed.mArgKind == FORMAT_WIDE_ARG_CHAR) {
                 parsed.mSpecChar = 0xffff;
             } else if (parsed.mHasDot == 0) {
                 parsed.mPrecision = 6;
             }
             break;
         case 'p':
-            parsed.mArgKind = 3;
+            parsed.mArgKind = FORMAT_WIDE_ARG_LONG;
             parsed.mHash = 1;
             parsed.mSpecChar = 'x';
             parsed.mPrecision = 8;
             break;
         case 'c':
-            if (parsed.mArgKind == 3) {
-                parsed.mArgKind = 6;
-            } else if (parsed.mHasDot != 0 || parsed.mArgKind != 0) {
+            if (parsed.mArgKind == FORMAT_WIDE_ARG_LONG) {
+                parsed.mArgKind = FORMAT_WIDE_ARG_WIDE;
+            } else if (parsed.mHasDot != 0 || parsed.mArgKind != FORMAT_WIDE_ARG_DEFAULT) {
                 parsed.mSpecChar = 0xffff;
             }
             break;
         case 's':
-            if (parsed.mArgKind == 3) {
-                parsed.mArgKind = 6;
-            } else if (parsed.mArgKind != 0) {
+            if (parsed.mArgKind == FORMAT_WIDE_ARG_LONG) {
+                parsed.mArgKind = FORMAT_WIDE_ARG_WIDE;
+            } else if (parsed.mArgKind != FORMAT_WIDE_ARG_DEFAULT) {
                 parsed.mSpecChar = 0xffff;
             }
             break;
         case 'n':
-            if (parsed.mArgKind == 5) {
-                parsed.mArgKind = 4;
+            if (parsed.mArgKind == FORMAT_WIDE_ARG_LONG_DOUBLE) {
+                parsed.mArgKind = FORMAT_WIDE_ARG_LONG_LONG;
             }
             break;
         default:
@@ -686,20 +687,20 @@ int FormatWideWithPutFunc(void *(*putFunc)(void *, const u16 *, u32), void *putA
         switch (spec.mSpecChar) {
             case 'd':
             case 'i':
-                if (spec.mArgKind == 3) {
+                if (spec.mArgKind == FORMAT_WIDE_ARG_LONG) {
                     argList += 4;
                     value32 = *(long *) (argList - 4);
-                } else if (spec.mArgKind == 4) {
+                } else if (spec.mArgKind == FORMAT_WIDE_ARG_LONG_LONG) {
                     argList += 8;
                     value64 = *(u64 *) (argList - 8);
                 } else {
                     argList += 4;
                     value32 = *(int *) (argList - 4);
                 }
-                if (spec.mArgKind == 2) {
+                if (spec.mArgKind == FORMAT_WIDE_ARG_SHORT) {
                     value32 = (short) value32;
                 }
-                if (spec.mArgKind == 4) {
+                if (spec.mArgKind == FORMAT_WIDE_ARG_LONG_LONG) {
                     text = FormatWideInt64(value64, buf + 512, spec);
                     if (text == 0) {
                         goto bad;
@@ -716,20 +717,20 @@ int FormatWideWithPutFunc(void *(*putFunc)(void *, const u16 *, u32), void *putA
             case 'u':
             case 'x':
             case 'X':
-                if (spec.mArgKind == 3) {
+                if (spec.mArgKind == FORMAT_WIDE_ARG_LONG) {
                     argList += 4;
                     value32 = *(long *) (argList - 4);
-                } else if (spec.mArgKind == 4) {
+                } else if (spec.mArgKind == FORMAT_WIDE_ARG_LONG_LONG) {
                     argList += 8;
                     value64 = *(u64 *) (argList - 8);
                 } else {
                     argList += 4;
                     value32 = *(int *) (argList - 4);
                 }
-                if (spec.mArgKind == 2) {
+                if (spec.mArgKind == FORMAT_WIDE_ARG_SHORT) {
                     value32 = (u16) value32;
                 }
-                if (spec.mArgKind == 4) {
+                if (spec.mArgKind == FORMAT_WIDE_ARG_LONG_LONG) {
                     text = FormatWideInt64(value64, buf + 512, spec);
                     if (text == 0) {
                         goto bad;
@@ -748,7 +749,7 @@ int FormatWideWithPutFunc(void *(*putFunc)(void *, const u16 *, u32), void *putA
             case 'E':
             case 'F':
             case 'G':
-                if (spec.mArgKind == 5) {
+                if (spec.mArgKind == FORMAT_WIDE_ARG_LONG_DOUBLE) {
                     argList += 8;
                     doubleValue = *(long double *) (argList - 8);
                 } else {
@@ -762,7 +763,7 @@ int FormatWideWithPutFunc(void *(*putFunc)(void *, const u16 *, u32), void *putA
                 textLength = buf + 511 - text;
                 break;
             case 's':
-                if (spec.mArgKind == 6) {
+                if (spec.mArgKind == FORMAT_WIDE_ARG_WIDE) {
                     argList += 4;
                     text = *(u16 **) (argList - 4);
                     if (text == 0) {
@@ -814,23 +815,23 @@ int FormatWideWithPutFunc(void *(*putFunc)(void *, const u16 *, u32), void *putA
                 argList += 4;
                 text = *(u16 **) (argList - 4);
                 switch (spec.mArgKind) {
-                    case 0:
+                    case FORMAT_WIDE_ARG_DEFAULT:
                         *(int *) text = totalLength;
                         break;
-                    case 2:
+                    case FORMAT_WIDE_ARG_SHORT:
                         *(short *) text = totalLength;
                         break;
-                    case 3:
+                    case FORMAT_WIDE_ARG_LONG:
                         *(long *) text = totalLength;
                         break;
-                    case 4:
+                    case FORMAT_WIDE_ARG_LONG_LONG:
                         *(long long *) text = totalLength;
                         break;
                 }
                 continue;
             case 'c':
                 text = buf;
-                if (spec.mArgKind == 6) {
+                if (spec.mArgKind == FORMAT_WIDE_ARG_WIDE) {
                     argList += 4;
                     textLength = 1;
                     *text = *(int *) (argList - 4);

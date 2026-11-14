@@ -4,6 +4,17 @@
 
 typedef struct DigitRecord DigitRecord;
 
+// FormatWideSpec.mArgKind: the length modifier of a format conversion.
+enum {
+    FORMAT_WIDE_ARG_DEFAULT,
+    FORMAT_WIDE_ARG_CHAR,
+    FORMAT_WIDE_ARG_SHORT,
+    FORMAT_WIDE_ARG_LONG,
+    FORMAT_WIDE_ARG_LONG_LONG,
+    FORMAT_WIDE_ARG_LONG_DOUBLE,
+    FORMAT_WIDE_ARG_WIDE
+};
+
 // 16 bytes. Filled by FormatWideParseSpec from the text after a '%', read by FormatWideWithPutFunc and passed by value
 // (one word in r3, three on the stack) to FormatWideDouble, FormatWideInt64 and FormatWideInt32. Byte 0x05 is never
 // accessed.
