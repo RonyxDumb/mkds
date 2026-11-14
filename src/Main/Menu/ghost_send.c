@@ -130,7 +130,7 @@ void SetupGhostSendState8Text(void) {
     void *buttonText;
     text = GetBmgEntry(gTimeAttackGhostSend->mGhostMessages, 0xd);
     buttonText = GetBmgEntry(gTimeAttackGhostSend->mInfoFileSets.mCommonMessages, 4);
-    gTimeAttackGhostSend->mState = 8;
+    gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_WAIT_TEXT_END_CONNECTION;
     SetupTxtSystemSubTextButton(text, buttonText);
 }
 
@@ -335,7 +335,7 @@ void InitTimeAttackGhostSend(void *parentHeap, void *mainOam, void *subOam) {
     SetupInterpolation(&gTimeAttackGhostSend->mInterpolation, 3, 10, -0xc0, 0);
     SetSelectReturnSoundId(0xf);
     SendLedPatternWireless();
-    gTimeAttackGhostSend->mState = 1;
+    gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_WAIT_FADE;
     FrmHeapShrinkInParent(gTimeAttackGhostSend->mHeap);
 }
 
@@ -366,39 +366,39 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *advanceArg) {
                                                                         gInputSlots[slotIndex].mPair.mPairY);
     }
     switch (gTimeAttackGhostSend->mState) {
-        case 0:
+        case TIME_ATTACK_GHOST_SEND_STATE_WAIT_NO_GHOST_TEXT:
             if (GetTxtSystemDone() != 0) {
                 gMenuShared->mMenuEntryKind = 5;
                 if (advanceArg != NULL) {
                     advanceArg->mNextScene = 1;
                 }
-                gTimeAttackGhostSend->mState = 0xe;
+                gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_LEAVE;
             }
             break;
-        case 1:
+        case TIME_ATTACK_GHOST_SEND_STATE_WAIT_FADE:
             if (AreBrightnessFadesClear() == 0) {
                 if (GetGhostCount() == 0) {
                     SetupTxtSystemSubTextButton(GetBmgEntry(gTimeAttackGhostSend->mGhostMessages, 0x53),
                                                 GetBmgEntry(gTimeAttackGhostSend->mInfoFileSets.mCommonMessages, 4));
-                    gTimeAttackGhostSend->mState = 0;
+                    gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_WAIT_NO_GHOST_TEXT;
                 } else {
                     PrintSelectedGhostSendRecord();
                     SetupGhostSendMainText();
                     RequestSelectReturnState1();
                     SetInterpolationStateIfOpposite(&gTimeAttackGhostSend->mInterpolation, 0);
-                    gTimeAttackGhostSend->mState = 2;
+                    gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_SLIDE_IN;
                 }
             }
             break;
-        case 2:
+        case TIME_ATTACK_GHOST_SEND_STATE_SLIDE_IN:
             if (gTimeAttackGhostSend->mInterpolation.mState == 1) {
                 gTimeAttackGhostSend->mUnk_0b4 = 0;
-                gTimeAttackGhostSend->mState = 3;
+                gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_PICK_GHOST;
             } else {
                 SetGhostSendCellsOffsetY();
             }
             break;
-        case 3:
+        case TIME_ATTACK_GHOST_SEND_STATE_PICK_GHOST:
             if (IsTxtSystemState2NoCloseRequest() != 0) {
                 AdvanceScrollList();
                 value = GetScrollListSelectedRow();
@@ -414,7 +414,7 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *advanceArg) {
                 if (IsScrollListPickFinished() != 0) {
                     StartReadSelectedGhost();
                     StartTimeAttackGhostSendSeq();
-                    gTimeAttackGhostSend->mState = 4;
+                    gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_WAIT_GHOST_READ;
                 } else {
                     keyB = gInputSlots[slotIndex].mPressedBits & PAD_KEY_B;
                     if (keyB != 0 || returnTouched != 0) {
@@ -422,13 +422,13 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *advanceArg) {
                         if (advanceArg != NULL) {
                             advanceArg->mNextScene = 1;
                         }
-                        gTimeAttackGhostSend->mState = 0xe;
+                        gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_LEAVE;
                         RequestSelectReturnState3WithSound(0);
                     }
                 }
             }
             break;
-        case 4:
+        case TIME_ATTACK_GHOST_SEND_STATE_WAIT_GHOST_READ:
             backupAccess = gBackupAccess;
             if (backupAccess->mBackupEnabled != 0) {
                 value = backupAccess->mCommandRunning;
@@ -439,29 +439,29 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *advanceArg) {
                 if (IsSlotGhostIndex(gTimeAttackGhostSend->mInfoFileSets.mSelectedIndex) == 0) {
                     CopyCourseGhostToSlotGhost(GetCourseGhostBuffer(), GetSlotGhostBuffer());
                 }
-                gTimeAttackGhostSend->mState = 5;
+                gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_SETUP_CONNECTION;
             }
             break;
-        case 5:
+        case TIME_ATTACK_GHOST_SEND_STATE_SETUP_CONNECTION:
             value = AdvanceConnectionSetup(1, GetSlotGhostBuffer());
             switch (value) {
                 case 1:
                     ResetPendingFiles();
                     AddGhostDataBlockWrapper(GetSlotGhostBuffer(), 0x1000);
                     RequestSelectReturnState1();
-                    gTimeAttackGhostSend->mState = 6;
+                    gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_WAIT_CHILD;
                     break;
                 case 2:
                     break;
             }
             break;
-        case 6:
+        case TIME_ATTACK_GHOST_SEND_STATE_WAIT_CHILD:
             keyB = gInputSlots[slotIndex].mPressedBits & PAD_KEY_B;
             if (keyB != 0 || returnTouched != 0) {
                 RequestSelectReturnState3WithSound(0);
                 SetSelectReturnSoundId(0xf);
                 StopTimeAttackGhostSendSeq();
-                gTimeAttackGhostSend->mState = 0xb;
+                gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_END_CONNECTION_BACK_TO_LIST;
             } else if (CopySingleChildName(gTimeAttackGhostSend->mChildName) != 0) {
                 RequestSelectReturnState4();
                 StopTimeAttackGhostSendSeq();
@@ -469,62 +469,62 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *advanceArg) {
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 9);
                 NNS_SndArcSetCurrent(&gFileSndArc);
                 SetupGhostSendSubTextWithName(0xb, 0);
-                gTimeAttackGhostSend->mState = 7;
+                gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_WAIT_RESULT;
             }
             break;
-        case 7:
+        case TIME_ATTACK_GHOST_SEND_STATE_WAIT_RESULT:
             value = GetZeroWordResult();
             switch (value) {
                 case 1:
                     NNS_SndArcSetCurrent(&gOnMemorySndArc);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0xa);
                     NNS_SndArcSetCurrent(&gFileSndArc);
-                    gTimeAttackGhostSend->mState = 0xa;
+                    gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_END_CONNECTION_SHOW_NAME;
                     break;
                 case 2:
                     SetupGhostSendState8Text();
                     break;
             }
             break;
-        case 8:
+        case TIME_ATTACK_GHOST_SEND_STATE_WAIT_TEXT_END_CONNECTION:
             if (IsTxtSystemState2AfterState1() != 0) {
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x15);
             }
             if (GetTxtSystemDone() != 0) {
-                gTimeAttackGhostSend->mState = 9;
+                gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_END_CONNECTION_LEAVE;
             }
             break;
-        case 9:
+        case TIME_ATTACK_GHOST_SEND_STATE_END_CONNECTION_LEAVE:
             if (AdvanceConnectionEndStopOnError() == 1) {
                 SendLedPatternWireless();
                 gMenuShared->mMenuEntryKind = 5;
                 if (advanceArg != NULL) {
                     advanceArg->mNextScene = 1;
                 }
-                gTimeAttackGhostSend->mState = 0xe;
+                gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_LEAVE;
             }
             break;
-        case 10:
+        case TIME_ATTACK_GHOST_SEND_STATE_END_CONNECTION_SHOW_NAME:
             if (AdvanceConnectionEndStopOnError() == 1) {
                 SendLedPatternWireless();
                 SetupGhostSendSubTextWithName(0xc, 1);
-                gTimeAttackGhostSend->mState = 0xd;
+                gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_WAIT_NAME_TEXT_LEAVE;
             }
             break;
-        case 11:
+        case TIME_ATTACK_GHOST_SEND_STATE_END_CONNECTION_BACK_TO_LIST:
             if (AdvanceConnectionEndStopOnError() == 1) {
                 SendLedPatternWireless();
                 SetupGhostSendMainText();
-                gTimeAttackGhostSend->mState = 3;
+                gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_PICK_GHOST;
             }
             break;
-        case 13:
+        case TIME_ATTACK_GHOST_SEND_STATE_WAIT_NAME_TEXT_LEAVE:
             if (GetTxtSystemDone() != 0) {
                 gMenuShared->mMenuEntryKind = 5;
                 if (advanceArg != NULL) {
                     advanceArg->mNextScene = 1;
                 }
-                gTimeAttackGhostSend->mState = 0xe;
+                gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_LEAVE;
             }
             break;
     }
