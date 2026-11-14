@@ -37,7 +37,7 @@ void DWCi_GPProfileSearchCallback(GpConnection *connection, ProfileSearchReply *
                 if (DWCi_RefreshFriendListForth(gWiFiBuddySync->mBuddies, friendIdx,
                                                 arg->mMatches[matchSlot].mProfile) != FALSE) {
                     gWiFiBuddySync->mSyncIndex++;
-                    gWiFiBuddySync->mBuddyUpdateState = 1;
+                    gWiFiBuddySync->mBuddyUpdateState = BUDDY_UPDATE_STATE_SYNC_ENTRIES;
                     arg->mMore = 0x601;
                     return;
                 }
@@ -52,14 +52,14 @@ void DWCi_GPProfileSearchCallback(GpConnection *connection, ProfileSearchReply *
                     DWCi_SetBuddyFriendData(&gWiFiBuddySync->mBuddies[friendIdx]);
                     DWCi_CallBuddyFriendCallback(friendIdx);
                     gWiFiBuddySync->mSyncIndex++;
-                    gWiFiBuddySync->mBuddyUpdateState = 1;
+                    gWiFiBuddySync->mBuddyUpdateState = BUDDY_UPDATE_STATE_SYNC_ENTRIES;
                     arg->mMore = 0x601;
                     return;
                 }
             }
             if (arg->mMore != 0x600) {
                 gWiFiBuddySync->mSyncIndex++;
-                gWiFiBuddySync->mBuddyUpdateState = 1;
+                gWiFiBuddySync->mBuddyUpdateState = BUDDY_UPDATE_STATE_SYNC_ENTRIES;
             }
         }
     } else {
@@ -69,7 +69,7 @@ void DWCi_GPProfileSearchCallback(GpConnection *connection, ProfileSearchReply *
             }
         } else if (gWiFiBuddySync->mState == 1 || GetFriendDataType(&gWiFiBuddySync->mBuddies[friendIdx]) == 0) {
             gWiFiBuddySync->mSyncIndex++;
-            gWiFiBuddySync->mBuddyUpdateState = 1;
+            gWiFiBuddySync->mBuddyUpdateState = BUDDY_UPDATE_STATE_SYNC_ENTRIES;
         }
     }
 }

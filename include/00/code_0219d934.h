@@ -6,6 +6,15 @@ typedef struct DWCAccFriendData DWCAccFriendData;
 
 struct GpConnection;
 
+// Values of WiFiBuddySync.mBuddyUpdateState: the list step starts, then goes through the entries, waits for a profile
+// search reply, and is done when every entry has been passed.
+enum {
+    BUDDY_UPDATE_STATE_START,
+    BUDDY_UPDATE_STATE_SYNC_ENTRIES,
+    BUDDY_UPDATE_STATE_WAIT_PROFILE_SEARCH,
+    BUDDY_UPDATE_STATE_DONE,
+};
+
 // Buddy layer of the online link, embedded in WiFiConnection at 0x2e8 (gWiFiBuddySync). Given the GP connection and
 // the saved list (mBuddies, mBuddyEntryCount entries of 12 bytes), it makes the GP buddy list and the saved list
 // agree: GP buddies the list lacks are deleted, list entries GP lacks are added (DWCi_GPSendBuddyRequest), entries that
