@@ -161,10 +161,10 @@ void *StartEffect(u32 effectId, const Vec3 *position) {
     emitterPosition.z = position->z >> 4;
     emitter = SPLManager_CreateEmitter(splManager, resourceId, &emitterPosition);
     if (emitter != NULL) {
-        if (emitter->mResource->mHeader->mUpdateCycleBits & 0x80) {
-            emitter->mUpdateCycle = 1;
-        } else if (emitter->mResource->mHeader->mUpdateCycleBits & 0x40) {
-            emitter->mUpdateCycle = 2;
+        if (emitter->mResource->mHeader->mUpdateCycleBits & PARTICLE_UPDATE_CYCLE_BIT_FIRST) {
+            emitter->mUpdateCycle = PARTICLE_UPDATE_CYCLE_FIRST;
+        } else if (emitter->mResource->mHeader->mUpdateCycleBits & PARTICLE_UPDATE_CYCLE_BIT_SECOND) {
+            emitter->mUpdateCycle = PARTICLE_UPDATE_CYCLE_SECOND;
         }
     }
     return emitter;
@@ -210,10 +210,10 @@ ParticleEmitter *StartRaceFogOffEffect(s32 resourceId, const Vec3 *position) {
     emitterPosition.z = position->z >> 4;
     emitter = SPLManager_CreateEmitter(gRaceEffectFogOffSPLManager, resourceId, &emitterPosition);
     if (emitter != NULL) {
-        if (emitter->mResource->mHeader->mUpdateCycleBits & 0x80) {
-            emitter->mUpdateCycle = 1;
-        } else if (emitter->mResource->mHeader->mUpdateCycleBits & 0x40) {
-            emitter->mUpdateCycle = 2;
+        if (emitter->mResource->mHeader->mUpdateCycleBits & PARTICLE_UPDATE_CYCLE_BIT_FIRST) {
+            emitter->mUpdateCycle = PARTICLE_UPDATE_CYCLE_FIRST;
+        } else if (emitter->mResource->mHeader->mUpdateCycleBits & PARTICLE_UPDATE_CYCLE_BIT_SECOND) {
+            emitter->mUpdateCycle = PARTICLE_UPDATE_CYCLE_SECOND;
         }
     }
     return emitter;
@@ -240,10 +240,10 @@ void *StartEffectWithKartVelocity(u32 effectId, Vec3 *position, u32 kartIndex, s
     emitterPosition.z = position->z >> 4;
     emitter = SPLManager_CreateEmitter(splManager, resourceId, &emitterPosition);
     if (emitter != NULL) {
-        if (emitter->mResource->mHeader->mUpdateCycleBits & 0x80) {
-            emitter->mUpdateCycle = 1;
-        } else if (emitter->mResource->mHeader->mUpdateCycleBits & 0x40) {
-            emitter->mUpdateCycle = 2;
+        if (emitter->mResource->mHeader->mUpdateCycleBits & PARTICLE_UPDATE_CYCLE_BIT_FIRST) {
+            emitter->mUpdateCycle = PARTICLE_UPDATE_CYCLE_FIRST;
+        } else if (emitter->mResource->mHeader->mUpdateCycleBits & PARTICLE_UPDATE_CYCLE_BIT_SECOND) {
+            emitter->mUpdateCycle = PARTICLE_UPDATE_CYCLE_SECOND;
         }
     }
     if (emitter != NULL) {

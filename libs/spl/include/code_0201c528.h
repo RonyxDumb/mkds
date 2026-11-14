@@ -79,6 +79,14 @@ typedef struct ParticleResourceDrawParams {
     /* 00 */ u32 mForwardFromOffset : 1;
 } ParticleResourceDrawParams;
 
+// ParticleResourceHeader.mUpdateCycleBits: bits that pick the update cycle an emitter gets, and the values stored in
+// ParticleEmitter.mUpdateCycle (0 updates on every cycle, n on the manager's cycle n - 1).
+#define PARTICLE_UPDATE_CYCLE_BIT_FIRST 0x80
+#define PARTICLE_UPDATE_CYCLE_BIT_SECOND 0x40
+#define PARTICLE_UPDATE_CYCLE_ALL 0
+#define PARTICLE_UPDATE_CYCLE_FIRST 1
+#define PARTICLE_UPDATE_CYCLE_SECOND 2
+
 typedef struct ParticleResourceHeader {
     /* 00 */ ParticleResourceFlags mFlags;
     /* 04 */ Vec3 mPositionOffset;

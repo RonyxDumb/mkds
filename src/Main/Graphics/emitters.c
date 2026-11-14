@@ -118,10 +118,10 @@ void AdvanceStadiumEmitters(void) {
         position.z = tablePosition->z >> 4;
         emitter = SPLManager_CreateEmitter(manager, effectIndex, &position);
         if (emitter != NULL) {
-            if (emitter->mResource->mHeader->mUpdateCycleBits & 0x80) {
-                emitter->mUpdateCycle = 1;
-            } else if (emitter->mResource->mHeader->mUpdateCycleBits & 0x40) {
-                emitter->mUpdateCycle = 2;
+            if (emitter->mResource->mHeader->mUpdateCycleBits & PARTICLE_UPDATE_CYCLE_BIT_FIRST) {
+                emitter->mUpdateCycle = PARTICLE_UPDATE_CYCLE_FIRST;
+            } else if (emitter->mResource->mHeader->mUpdateCycleBits & PARTICLE_UPDATE_CYCLE_BIT_SECOND) {
+                emitter->mUpdateCycle = PARTICLE_UPDATE_CYCLE_SECOND;
             }
         }
         gStadiumEmitters->mEmitters[emitterIndex] = emitter;
@@ -151,10 +151,10 @@ void CreateAwardEmitters(void) {
         position.z = emitZ;
         emitter = SPLManager_CreateEmitter(manager, effectIndex, &position);
         if (emitter != NULL) {
-            if (emitter->mResource->mHeader->mUpdateCycleBits & 0x80) {
-                emitter->mUpdateCycle = 1;
-            } else if (emitter->mResource->mHeader->mUpdateCycleBits & 0x40) {
-                emitter->mUpdateCycle = 2;
+            if (emitter->mResource->mHeader->mUpdateCycleBits & PARTICLE_UPDATE_CYCLE_BIT_FIRST) {
+                emitter->mUpdateCycle = PARTICLE_UPDATE_CYCLE_FIRST;
+            } else if (emitter->mResource->mHeader->mUpdateCycleBits & PARTICLE_UPDATE_CYCLE_BIT_SECOND) {
+                emitter->mUpdateCycle = PARTICLE_UPDATE_CYCLE_SECOND;
             }
         }
     }
@@ -168,10 +168,10 @@ void CreateAwardEmitters(void) {
         position.z = emitZ;
         emitter = SPLManager_CreateEmitter(manager, effectIndex, &position);
         if (emitter != NULL) {
-            if (emitter->mResource->mHeader->mUpdateCycleBits & 0x80) {
-                emitter->mUpdateCycle = 1;
-            } else if (emitter->mResource->mHeader->mUpdateCycleBits & 0x40) {
-                emitter->mUpdateCycle = 2;
+            if (emitter->mResource->mHeader->mUpdateCycleBits & PARTICLE_UPDATE_CYCLE_BIT_FIRST) {
+                emitter->mUpdateCycle = PARTICLE_UPDATE_CYCLE_FIRST;
+            } else if (emitter->mResource->mHeader->mUpdateCycleBits & PARTICLE_UPDATE_CYCLE_BIT_SECOND) {
+                emitter->mUpdateCycle = PARTICLE_UPDATE_CYCLE_SECOND;
             }
         }
     }
