@@ -60,6 +60,7 @@ typedef struct MissionRunLVsel {
     /* 58 */ s32 mResult; /* 1 = level chosen, 2 = Back; also read by ReleaseMissionRunLVsel for the sound */
 } MissionRunLVsel;
 
+
 // Object behind gMissionRunMSsel.
 typedef struct MissionRunMSsel {
     /* 00 */ struct NNSG2dCellDataBank *mMissionRunMSselMNcer;

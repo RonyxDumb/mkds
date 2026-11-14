@@ -491,31 +491,34 @@ void ResetMissionRunMSselOffsets(void) {
     subLayoutCellCount = gMissionRunMSsel->mMissionRunMSselSBncl->mCount;
     gMissionRunMSsel->mNextState = 0;
     gMissionRunMSsel->mStateFrames = 0;
-    gMissionRunMSsel->mBg0OffsetX = 0x100;
+    gMissionRunMSsel->mBg0OffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
     gMissionRunMSsel->mBg0OffsetY = 0;
     gMissionRunMSsel->mBg1Offset = -192;
-    gMissionRunMSsel->mMissionRunMSselMTable[0].mOffsetX = 0x100;
-    gMissionRunMSsel->mMissionRunMSselMTable[1].mOffsetX = 0x100;
-    gMissionRunMSsel->mMissionRunMSselMTable[9].mOffsetX = 0x100;
-    gMissionRunMSsel->mMissionRunMSselMTable[18].mOffsetX = 0x100;
+    gMissionRunMSsel->mMissionRunMSselMTable[0].mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
+    gMissionRunMSsel->mMissionRunMSselMTable[1].mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
+    gMissionRunMSsel->mMissionRunMSselMTable[9].mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
+    gMissionRunMSsel->mMissionRunMSselMTable[18].mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
     for (slotIndex = 0; slotIndex < 7; slotIndex++) {
-        gMissionRunMSsel->mMissionRunMSselMTable[gMissionRunMSselRowMTableIndices[slotIndex]].mOffsetX = 0x100;
+        gMissionRunMSsel->mMissionRunMSselMTable[gMissionRunMSselRowMTableIndices[slotIndex]].mOffsetX =
+            LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
     }
-    gMissionRunMSsel->mMissionRunMSselSTable[45].mOffsetX = 0x100;
+    gMissionRunMSsel->mMissionRunMSselSTable[45].mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
     for (slotIndex = 0; slotIndex < 6; slotIndex++) {
-        gMissionRunMSsel->mMissionRunMSselMTable[gMissionRunMSselValueMTableIndices[slotIndex]].mOffsetX = 0x100;
+        gMissionRunMSsel->mMissionRunMSselMTable[gMissionRunMSselValueMTableIndices[slotIndex]].mOffsetX =
+            LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
     }
-    gMissionRunMSsel->mMissionRunMSselMTable[mainLayoutCellCount].mOffsetX = 0x100;
+    gMissionRunMSsel->mMissionRunMSselMTable[mainLayoutCellCount].mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
     for (slotIndex = 0; slotIndex < 9; slotIndex++) {
-        gMissionRunMSsel->mMissionRunMSselMTable[gMissionRunMSselIndexMTableIndices[slotIndex]].mOffsetX = 0x100;
+        gMissionRunMSsel->mMissionRunMSselMTable[gMissionRunMSselIndexMTableIndices[slotIndex]].mOffsetX =
+            LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
         for (cellSlot = 0; cellSlot < 9; cellSlot++) {
             gMissionRunMSsel->mMissionRunMSselSTable[gMissionRunMSselIndexSTableIndices[slotIndex][cellSlot]].mOffsetX =
-                0x100;
+                LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
         }
         for (cellSlot = 0; cellSlot < 2; cellSlot++) {
             gMissionRunMSsel
                 ->mMissionRunMSselSTable[subLayoutCellCount + gMissionRunMSselLabelSTableIndices[slotIndex][cellSlot]]
-                .mOffsetX = 0x100;
+                .mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
         }
     }
 }
@@ -681,7 +684,7 @@ void AdvanceMissionRunMSselState1(void) {
     mainLayoutCellCount = gMissionRunMSsel->mMissionRunMSselMBncl->mCount;
     subLayoutCellCount = gMissionRunMSsel->mMissionRunMSselSBncl->mCount;
     gMissionRunMSsel->mStateFrames = gMissionRunMSsel->mStateFrames + 1;
-    offsetX = InterpolateS16(1, 0x100, 0, gMissionRunMSsel->mStateFrames, 10);
+    offsetX = InterpolateS16(1, LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH, 0, gMissionRunMSsel->mStateFrames, 10);
     bg1Offset = InterpolateS16(1, -192, 0, gMissionRunMSsel->mStateFrames, 10);
     gMissionRunMSsel->mBg0OffsetX = offsetX;
     gMissionRunMSsel->mBg1Offset = bg1Offset;
@@ -765,7 +768,7 @@ void AdvanceMissionRunMSselState3(void) {
         return;
     }
     SetSelectReturnSoundId(0xe);
-    gMissionRunMSsel->mExitOffsetX = 0x100;
+    gMissionRunMSsel->mExitOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
     gMissionRunMSsel->mResult = 2;
     RequestMissionRunMSselState8();
     RequestSelectReturnState3WithSound(0);
@@ -887,7 +890,7 @@ void AdvanceMissionRunMSselState7(void) {
             case 0:
                 SetMissionFromMissionRunMSsel();
                 gMissionRunMSsel->mResult = 1;
-                gMissionRunMSsel->mExitOffsetX = -0x100;
+                gMissionRunMSsel->mExitOffsetX = -LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
                 RequestMissionRunMSselState8();
                 break;
             case -1:
