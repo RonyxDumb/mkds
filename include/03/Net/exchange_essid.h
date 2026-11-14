@@ -32,6 +32,8 @@ typedef struct Bytes16 {
 #include "03/unk_021d6000.h"
 #include "os_thread.h"
 
+#define SOCKET_FAMILY_IPV4 2
+
 // Eight bytes passed by address.
 typedef struct SocketAddress {
     /* 0 */ u8 mLength;

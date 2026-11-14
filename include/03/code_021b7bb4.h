@@ -62,6 +62,59 @@ typedef struct PacketFieldValues {
     /* 06 */ u8 mTag[8];
 } PacketFieldValues;
 
+// Values of ItemContainerView.mType, the type of the first item of a packet payload.
+enum {
+    PAYLOAD_ITEM_CHAIN = 1,
+    PAYLOAD_ITEM_WANTED_MASK = 2,
+    PAYLOAD_ITEM_STATUS = 7,
+};
+
+// Values of PacketItem.mType in the chain read by ParseItemChain. SLOT0 to SLOT2 copy the value to the 0x80-byte slot
+// of that index; 3 and 4 are counts, handled alike (bare).
+enum {
+    CHAIN_ITEM_SLOT0,
+    CHAIN_ITEM_SLOT1,
+    CHAIN_ITEM_SLOT2,
+    CHAIN_ITEM_DESTINATION_ADDRESS = 5,
+    CHAIN_ITEM_ADDRESS_MASK,
+};
+
+// Type of the second item BuildTwoItemChain writes.
+#define PACKET_ITEM_TRAILER 0x60
+
+// Values of PacketItem.mType in the top-level items FindItemAndParseSubItems looks for.
+enum {
+    PACKET_GROUP_ITEM_SECOND = 8,
+    PACKET_GROUP_ITEM_FIRST,
+};
+
+// Values of PacketItem.mType inside a group item.
+enum {
+    GROUP_SUB_ITEM_FOUR_VALUE_RECORD0 = 3,
+    GROUP_SUB_ITEM_FOUR_VALUE_RECORD1,
+    GROUP_SUB_ITEM_SINGLE_VALUE_RECORD0,
+    GROUP_SUB_ITEM_SINGLE_VALUE_RECORD1,
+    GROUP_SUB_ITEM_SLOT_BYTES = 10,
+};
+
+// Values of PacketItem.mType inside a record item. SHORT and LONG hold the same value with a different length limit.
+// Types 0x30 and 0x40 (strings 0x35 and 0x45) are handled alike and stay bare in ParseSingleValueItems.
+enum {
+    RECORD_ITEM_FOUR_VALUE_SHORT0 = 0x10,
+    RECORD_ITEM_FOUR_VALUE_SHORT1,
+    RECORD_ITEM_FOUR_VALUE_SHORT2,
+    RECORD_ITEM_FOUR_VALUE_SHORT3,
+    RECORD_ITEM_FOUR_VALUE_SHORT_STRING = 0x15,
+    RECORD_ITEM_FOUR_VALUE_LONG0 = 0x20,
+    RECORD_ITEM_FOUR_VALUE_LONG1,
+    RECORD_ITEM_FOUR_VALUE_LONG2,
+    RECORD_ITEM_FOUR_VALUE_LONG3,
+    RECORD_ITEM_FOUR_VALUE_LONG_STRING = 0x25,
+};
+
+// Type of the item CopyFirstItemValueIfType0x70 copies.
+#define SLOT_BYTES_ITEM 0x70
+
 typedef struct PacketItem {
     /* 00 */ u8 mType;
     /* 01 */ u8 pad_01;

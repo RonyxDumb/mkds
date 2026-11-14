@@ -15,6 +15,18 @@ typedef struct PollEntry {
 
 void SetPollEntryForRead(s32 value, PollEntry *object);
 
+// Values of ValueRecordsRequest.mResultCode. 7 and 8 are set from the status words -2 and -3 and read nowhere.
+enum {
+    VALUE_RECORDS_RESULT_OK,
+    VALUE_RECORDS_RESULT_NO_ENTRY_FOUND,
+    VALUE_RECORDS_RESULT_ENTRY_REJECTED,
+    VALUE_RECORDS_RESULT_TIMEOUT_STEP0,
+    VALUE_RECORDS_RESULT_TIMEOUT_STEP1,
+    VALUE_RECORDS_RESULT_TIMEOUT_STEP2,
+    VALUE_RECORDS_RESULT_BAD_RECORDS,
+    VALUE_RECORDS_RESULT_FAILED = 0xf,
+};
+
 typedef struct ValueRecordsRequest {
     /* 000 */ u16 mWantedRecordMask; // input mask; on return, the wanted records that were found
     /* 002 */ u8 mItemType;
