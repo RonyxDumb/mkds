@@ -14,6 +14,19 @@
 #include "g2d_CellTransferManager.h"
 #include "Main/MapObjects/map_object_park.h"
 
+// Values of WiFiVSCourseSelect.mState, in the order they run: the screen slides in, the own course is picked, the
+// other players' picks arrive, then the picks are held and faded out, the chosen course is held and faded back in.
+enum {
+    WIFI_VS_COURSE_SELECT_STATE_WAIT_SLIDE_IN = 0,
+    WIFI_VS_COURSE_SELECT_STATE_PICK_COURSE = 1,
+    WIFI_VS_COURSE_SELECT_STATE_WAIT_OTHER_PICKS = 2,
+    WIFI_VS_COURSE_SELECT_STATE_HOLD_PICKS = 3,
+    WIFI_VS_COURSE_SELECT_STATE_FADE_OUT_ROWS = 4,
+    WIFI_VS_COURSE_SELECT_STATE_HOLD_COURSE = 5,
+    WIFI_VS_COURSE_SELECT_STATE_FADE_IN = 6,
+    WIFI_VS_COURSE_SELECT_STATE_DONE = 7,
+};
+
 // Object behind gWiFiVSCourseSelect, 0x158 bytes (InitWiFiVSCourseSelect allocates it).
 typedef struct WiFiVSCourseSelect {
     /* 000 */ ScreenMapFileSet mWiFiVSCourseSelectMBAndSBParts[2];

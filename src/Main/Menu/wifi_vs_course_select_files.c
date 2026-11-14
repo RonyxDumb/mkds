@@ -195,9 +195,9 @@ void AdvancePickedCourseRows(void) {
             pickedCourseId = 0;
         }
         switch (gWiFiVSCourseSelect->mState) {
-            case 0:
-            case 1:
-            case 2:
+            case WIFI_VS_COURSE_SELECT_STATE_WAIT_SLIDE_IN:
+            case WIFI_VS_COURSE_SELECT_STATE_PICK_COURSE:
+            case WIFI_VS_COURSE_SELECT_STATE_WAIT_OTHER_PICKS:
                 if (pickedCourseId != 0 && pickedCourseId != gWiFiVSCourseSelect->mShownCourseIds[rowIndex]) {
                     text = GetBmgEntry(gWiFiVSCourseSelect->mCommonMessages, GetCourseMessageIndex(pickedCourseId));
                     PrintLabelLayoutTextNoFixedAdvance(0, gWiFiVSCourseSelectMLabelTextRows[rowIndex].mLabelIndex,
@@ -230,9 +230,9 @@ void AdvanceWiFiVSCourseSelectTimer(void) {
     fileSet->mCellTable[16].mOffsetX = GetInterpolatedValue(&gWiFiVSCourseSelect->mInterpolations[2]);
     fileSet->mCellTable[15].mOffsetX = fileSet->mCellTable[16].mOffsetX;
     switch (gWiFiVSCourseSelect->mState) {
-        case 0:
-        case 1:
-        case 2:
+        case WIFI_VS_COURSE_SELECT_STATE_WAIT_SLIDE_IN:
+        case WIFI_VS_COURSE_SELECT_STATE_PICK_COURSE:
+        case WIFI_VS_COURSE_SELECT_STATE_WAIT_OTHER_PICKS:
             if (gWiFiVSCourseSelect->mTimer != 0) {
                 gWiFiVSCourseSelect->mTimer--;
                 seconds = (gWiFiVSCourseSelect->mTimer + 0x3c) / 0x3c;
@@ -402,16 +402,16 @@ s32 AdvanceWiFiVSCourseSelect(void) {
     AdvanceScrollList();
     AdvancePickedCourseRows();
     switch (gWiFiVSCourseSelect->mState) {
-        case 0:
+        case WIFI_VS_COURSE_SELECT_STATE_WAIT_SLIDE_IN:
             if (AreBrightnessFadesClear() == 0) {
                 break;
             }
             if (gWiFiVSCourseSelect->mInterpolations[0].mState == 1) {
-                gWiFiVSCourseSelect->mState = 1;
+                gWiFiVSCourseSelect->mState = WIFI_VS_COURSE_SELECT_STATE_PICK_COURSE;
             }
             AdvanceSubCellsOffsetY();
             break;
-        case 1:
+        case WIFI_VS_COURSE_SELECT_STATE_PICK_COURSE:
             if (IsScrollListPickStarted() != 0) {
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x208);
             }
@@ -425,52 +425,52 @@ s32 AdvanceWiFiVSCourseSelect(void) {
                 value--;
             }
             SetWiFiSessionOwnPickedCourseId(gCourseIdTable[value]);
-            gWiFiVSCourseSelect->mState = 2;
+            gWiFiVSCourseSelect->mState = WIFI_VS_COURSE_SELECT_STATE_WAIT_OTHER_PICKS;
             gWiFiVSCourseSelect->mSelectResult = 1;
             SetScrollListEnabled(0);
             break;
-        case 2:
+        case WIFI_VS_COURSE_SELECT_STATE_WAIT_OTHER_PICKS:
             if (IsWiFiSessionStep10Reached() != 0) {
-                gWiFiVSCourseSelect->mState = 3;
+                gWiFiVSCourseSelect->mState = WIFI_VS_COURSE_SELECT_STATE_HOLD_PICKS;
                 SetInterpolationStateIfOpposite(&gWiFiVSCourseSelect->mInterpolations[2], 2);
             }
             break;
-        case 3:
+        case WIFI_VS_COURSE_SELECT_STATE_HOLD_PICKS:
             gWiFiVSCourseSelect->mStateFrames++;
             if (gWiFiVSCourseSelect->mStateFrames > 0x3c) {
                 StartFadeToFadedPositiveOneScreen(0x3c, 1);
-                gWiFiVSCourseSelect->mState = 4;
+                gWiFiVSCourseSelect->mState = WIFI_VS_COURSE_SELECT_STATE_FADE_OUT_ROWS;
                 gWiFiVSCourseSelect->mStateFrames = 0;
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x209);
             }
             break;
-        case 4:
+        case WIFI_VS_COURSE_SELECT_STATE_FADE_OUT_ROWS:
             gWiFiVSCourseSelect->mStateFrames++;
             if (gWiFiVSCourseSelect->mStateFrames <= 0x3c) {
                 SetWiFiVSCourseSelectRowsOffsetY();
             } else {
                 StartFadeToClearOneScreen(10, 1);
-                gWiFiVSCourseSelect->mState = 5;
+                gWiFiVSCourseSelect->mState = WIFI_VS_COURSE_SELECT_STATE_HOLD_COURSE;
                 gWiFiVSCourseSelect->mStateFrames = 0;
                 ShowWiFiSessionCourse();
             }
             break;
-        case 5:
+        case WIFI_VS_COURSE_SELECT_STATE_HOLD_COURSE:
             gWiFiVSCourseSelect->mStateFrames++;
             if (gWiFiVSCourseSelect->mStateFrames > 0x3c) {
                 StartFadeToFadedNegative(10);
-                gWiFiVSCourseSelect->mState = 6;
+                gWiFiVSCourseSelect->mState = WIFI_VS_COURSE_SELECT_STATE_FADE_IN;
                 gWiFiVSCourseSelect->mStateFrames = 0;
             }
             break;
-        case 6:
+        case WIFI_VS_COURSE_SELECT_STATE_FADE_IN:
             gWiFiVSCourseSelect->mStateFrames++;
             if (gWiFiVSCourseSelect->mStateFrames > 10) {
-                gWiFiVSCourseSelect->mState = 7;
+                gWiFiVSCourseSelect->mState = WIFI_VS_COURSE_SELECT_STATE_DONE;
                 gWiFiVSCourseSelect->mStateFrames = 0;
             }
             break;
-        case 7:
+        case WIFI_VS_COURSE_SELECT_STATE_DONE:
             result = gWiFiVSCourseSelect->mSelectResult;
             break;
     }
