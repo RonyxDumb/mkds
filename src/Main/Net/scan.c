@@ -3,6 +3,7 @@
 #include "code_0200eddc.h"
 #include "Main/Net/scan_game_info.h"
 #include "Main/Net/multiboot_connect.h"
+#include "Main/Net/mp_link.h"
 #include "Main/Net/packet_port.h"
 #include "Main/MapObjects/data_0217a000.h"
 #include "Main/Net/block.h"
@@ -250,9 +251,9 @@ void StartScanCallback(WirelessMessage *event) {
     if (gConnectionWork->mStep != CONNECTION_STEP_SEARCHING) {
         return;
     }
-    if (event->mResultCode == 0) {
+    if (event->mResultCode == WIRELESS_RESULT_SUCCEEDED) {
         switch (event->mReplyState) {
-            case 5:
+            case WIRELESS_STATE_HOST_SIGHTED:
                 DC_InvalidateRange(gConnectionWork->mScanBssDescBuffer, 0xc0);
                 MI_CpuCopy8(gConnectionWork->mScanBssDescBuffer, &scanBuffer, 0xc0);
                 DC_StoreRange(&scanBuffer, 0xc0);
@@ -302,7 +303,7 @@ void StartScanCallback(WirelessMessage *event) {
                     }
                 }
                 break;
-            case 4:
+            case WIRELESS_STATE_SEARCH_EMPTY:
                 if (gConnectionWork->mRememberedScanKeyHeld == 0) {
                     gConnectionWork->mUnk_0439 += 1;
                 }
@@ -350,7 +351,7 @@ void EndScan(void) {
 
 void EndScanCallback(WirelessMessage *event) {
     gConnectionWork->mRequestPending = 0;
-    if (event->mResultCode == 0) {
+    if (event->mResultCode == WIRELESS_RESULT_SUCCEEDED) {
         return;
     }
     StopConnection();
@@ -391,9 +392,9 @@ void StartConnectCallback(WirelessMessage *event) {
 
     shouldReset = FALSE;
     switch (event->mResultCode) {
-        case 0:
+        case WIRELESS_RESULT_SUCCEEDED:
             switch (event->mReplyState) {
-                case 7:
+                case WIRELESS_STATE_LINKED:
                     gConnectionWork->mOwnIndex = event->mUnk_08_2;
                     gConnectionWork->mExpectedRecordMask = shouldReset;
                     seed = shouldReset;
@@ -414,7 +415,7 @@ void StartConnectCallback(WirelessMessage *event) {
                     }
                     gConnectionWork->mRequestPending = 0;
                     break;
-                case 9:
+                case WIRELESS_STATE_UNLINKED:
                     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
                         shouldReset = TRUE;
                     } else if (gConnectionWork->mDisconnectedCallback != 0) {
@@ -440,17 +441,17 @@ void StartConnectCallback(WirelessMessage *event) {
                         }
                     }
                     break;
-                case 6:
-                case 8:
+                case WIRELESS_STATE_CHILD_SESSION_START:
+                case WIRELESS_STATE_CHILD_NO_ACTION:
                     break;
                 default:
                     shouldReset = TRUE;
                     break;
             }
             break;
-        case 1:
-        case 0xb:
-        case 0xc:
+        case WIRELESS_RESULT_REFUSED:
+        case WIRELESS_RESULT_NOT_LISTED:
+        case WIRELESS_RESULT_LIST_FULL:
             if (gConnectionWork->mConnectFailedCallback == 0) {
                 shouldReset = TRUE;
             } else {
@@ -484,21 +485,21 @@ void StartMP(void) {
 
 void StartMPCallback(WirelessMessage *event) {
     switch (event->mResultCode) {
-        case 0:
+        case WIRELESS_RESULT_SUCCEEDED:
             switch (event->mState) {
-                case 0xa:
+                case WIRELESS_STATE_EXCHANGE_BEGUN:
                     gConnectionWork->mFlags |= CONNECTION_FLAG_SEND_READY;
                     gConnectionWork->mSyncDoneChildMask = 0;
                     gConnectionWork->mRequestPending = 0;
                     break;
-                case 0xb:
-                case 0xc:
+                case WIRELESS_STATE_EXCHANGE_PASS_RECV_BUFFER:
+                case WIRELESS_STATE_EXCHANGE_IGNORED_FIRST:
                     break;
             }
             break;
-        case 9:
-        case 0xd:
-        case 0xf:
+        case WIRELESS_RESULT_NO_ANSWER:
+        case WIRELESS_RESULT_EMPTY_STATION_MASK:
+        case WIRELESS_RESULT_TRANSMIT_ERROR:
             break;
         default:
             gConnectionWork->mFlags |= CONNECTION_FLAG_SEND_READY;
@@ -527,7 +528,7 @@ void SetMPFrequency(u32 mpFreq) {
 
 void SetMPFrequencyCallback(WirelessMessage *event) {
     gConnectionWork->mRequestPending = 0;
-    if (event->mResultCode != 0) {
+    if (event->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
         gConnectionWork->mErrorCode = CONNECTION_ERROR_MP_FAILED;
         gConnectionWork->mRequestPending = 0;
     }
@@ -550,7 +551,7 @@ void SetEntry(s32 enabled) {
 
 void SetEntryCallback(WirelessMessage *event) {
     gConnectionWork->mRequestPending = 0;
-    if (event->mResultCode == 0) {
+    if (event->mResultCode == WIRELESS_RESULT_SUCCEEDED) {
         return;
     }
     StopConnection();
