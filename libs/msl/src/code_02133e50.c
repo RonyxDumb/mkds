@@ -12,9 +12,9 @@
 #include "stream.h"
 #include "code_0212d214.h"
 
-void (*data_0217e984)(void);
+void (*gExitTailCallback)(void);
 int gExitFunctionCount;
-void (*data_0217e988)(void);
+void (*gExitCallback)(void);
 void (*gExitFunctions[64])(void);
 int gAborted;
 
@@ -27,9 +27,9 @@ void abort(void) {
 void exit(int status) {
     if (gAborted == 0) {
         RunListNodeCallbacks();
-        if (data_0217e988 != 0) {
-            data_0217e988();
-            data_0217e988 = 0;
+        if (gExitCallback != 0) {
+            gExitCallback();
+            gExitCallback = 0;
         }
     }
     ExitTail(status);
@@ -52,9 +52,9 @@ void ExitTail(int status) {
     if (--gLockHoldCounts[0] == 0) {
         OS_UnlockMutex((OSMutex *) gLockMutexes[0]);
     }
-    if (data_0217e984 != 0) {
-        data_0217e984();
-        data_0217e984 = 0;
+    if (gExitTailCallback != 0) {
+        gExitTailCallback();
+        gExitTailCallback = 0;
     }
     fflush(0);
     ExitViaSwi();

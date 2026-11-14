@@ -76,7 +76,7 @@ extern u8 *gKartNameTagMaskedTexBuffer;
 extern struct KartNameTags *gKartNameTags;
 extern u16 *gKartEmblemPlltBuffer;
 extern const Vec3 *gKartDistanceLimitsSquared;
-extern s32 data_0217aedc;
+extern s32 gKartNameTagsUnusedWord;
 extern MtxFx44 gKartNameTagProjection;
 
 extern const u16 gKartNameTagColorQuadPalette[4];

@@ -148,7 +148,7 @@ void ReleaseItemPoolObject(ItemPool *tab, ItemObject *object);
 void TakeItemPoolObjects(ItemPool *pool, s32 count, ItemObject **out, u16 kartIndex, Vec3 *pos);
 
 extern const u16 gItemInUseDownBit;
-extern const u16 data_usa_021595d4;
+extern const u16 gKartItemsStartAllowedBit;
 extern const u16 gKartItemsKeyReleasedBit;
 extern const u16 gKartItemsKeyDownBit;
 extern const u16 gKartItemsDownBit;

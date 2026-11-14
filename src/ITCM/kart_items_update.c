@@ -56,7 +56,7 @@ void UpdateKartItems(KartItems *kartItems) {
         kartItems->mItemUseFlagsBlocked = TRUE;
     } else {
         AddKartItemUseFlags(kartItems);
-        kartItems->mFlags |= data_usa_021595d4;
+        kartItems->mFlags |= gKartItemsStartAllowedBit;
     }
     if (itemInUse->mObjectKind != ITEM_OBJECT_KIND_NONE) {
         AdvanceItemInUse(itemInUse);

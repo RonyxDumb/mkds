@@ -3,9 +3,9 @@
 # share; dsd resolves that pointer to ov000, so -dead would strip them.
 WriteSelectKartScreenRegisters
 WriteTimeAttackCupCourseRegisters
-data_0216fe14
-data_0216fe18
-data_0216fe1c
+gCartridgeUnusedWord0
+gCartridgeUnusedWord1
+gCartridgeUnusedWord2
 FloatFlagsClearXor
 gTextZeroFill
 OSi_IdleThreadStack
@@ -26,7 +26,7 @@ sDayOfYear
 sMonthStartDay
 data_usa_ov001_021b0fdc
 data_usa_ov001_021bf024
-data_usa_02175e88
+gRomArchiveUnusedPad
 gLogoScene
 gTcpipStack
 gKartNameTagColorQuadPalette

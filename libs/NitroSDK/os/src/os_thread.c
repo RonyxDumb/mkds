@@ -162,13 +162,13 @@ void OS_InitThread(void) {
     OSi_LauncherThread.mProfiler = 0;
     OSi_ThreadInfo.mListHead = &OSi_LauncherThread;
     OSi_ThreadInfo.mCurrentThread = &OSi_LauncherThread;
-    stackSize = (s32) data_00002800;
+    stackSize = (s32) SDK_SYS_STACKSIZE;
     if (stackSize <= 0) {
         stackTop = (u8 *) 0x27e00e0 - stackSize;
     } else {
-        stackTop = (u8 *) &OSi_IrqThreadQueue + 0x3f80 - (u32) data_00000c00 - stackSize;
+        stackTop = (u8 *) &OSi_IrqThreadQueue + 0x3f80 - (u32) SDK_IRQ_STACKSIZE - stackSize;
     }
-    stackBottom = (u8 *) &OSi_IrqThreadQueue + 0x3f80 - (u32) data_00000c00;
+    stackBottom = (u8 *) &OSi_IrqThreadQueue + 0x3f80 - (u32) SDK_IRQ_STACKSIZE;
     OSi_LauncherThread.mStackBottom = stackBottom;
     OSi_LauncherThread.mStackTop = stackTop;
     OSi_LauncherThread.mStackWarningOffset = 0;

@@ -262,7 +262,7 @@ void UploadKartNameTagTextures(void) {
     TexPlttEntry *fourthTexPltt;
     heap = GetHeap(GetCurrentHeapCall());
     UploadKartEmblems();
-    data_0217aedc = 0;
+    gKartNameTagsUnusedWord = 0;
     gKartEmblemPlltBuffer = HeapAllocAligned(heap, 0x20, -4);
     gKartEntryNameTexBuffer = HeapAllocAligned(heap, 0x100, -4);
     gKartEntryNamePlltBuffer = HeapAllocAligned(heap, 8, -4);

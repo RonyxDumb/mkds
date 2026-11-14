@@ -134,7 +134,7 @@ void OS_SetIrqStackChecker(void) {
 
     base = (u32) &OSi_IrqThreadQueue;
     *OFFSET_PTR(u32, base, 0x3f7c) = 0xfddb597d;
-    *(u32 *) (base + 0x3f80 - (u32) data_00000c00) = 0x7bf9dd5b;
+    *(u32 *) (base + 0x3f80 - (u32) SDK_IRQ_STACKSIZE) = 0x7bf9dd5b;
 }
 
 void OS_IrqDummy(void) {}

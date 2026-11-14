@@ -1,5 +1,5 @@
-data_00000c00 kind:data(any) addr:0x00000c00
-data_00002800 kind:data(any) addr:0x00002800
+SDK_IRQ_STACKSIZE kind:data(any) addr:0x00000c00
+SDK_SYS_STACKSIZE kind:data(any) addr:0x00002800
 RLUnCompReadByCallbackWrite16bit kind:function(thumb,size=0x4) addr:0x0200007e
 SoftReset kind:function(thumb,size=0x4) addr:0x020000d0
 VBlankIntrWait kind:function(thumb,size=0x6) addr:0x02000142
@@ -8544,7 +8544,7 @@ gKartItemsThrowForwardBit kind:data(byte[2]) addr:0x021595c4
 gKartItemsDownBit kind:data(byte[2]) addr:0x021595c8
 gKartItemsKeyDownBit kind:data(byte[2]) addr:0x021595cc
 gKartItemsKeyReleasedBit kind:data(byte[2]) addr:0x021595d0
-data_usa_021595d4 kind:data(byte[2]) addr:0x021595d4
+gKartItemsStartAllowedBit kind:data(byte[2]) addr:0x021595d4
 gKartItemsVec3UnitY kind:data(byte[12]) addr:0x021595d8
 gItemCollisionBitOrder kind:data(byte[52]) addr:0x021595e4
 gItemObjectPendingUpdateBit kind:data(byte[2]) addr:0x02159618
@@ -11139,9 +11139,9 @@ gSceneRunState kind:bss(size=0x4) addr:0x021759ac
 gStartupWork kind:bss(size=0x4) addr:0x021759b0
 gBackupAccess kind:bss(size=0x4) addr:0x021759b4
 gFileReadThread kind:bss(size=0x4c8) addr:0x021759b8
-data_usa_02175e80 kind:bss(size=0x4) addr:0x02175e80
+gRomArchiveUnusedWord kind:bss(size=0x4) addr:0x02175e80
 gRomArchiveStarted kind:bss(size=0x4) addr:0x02175e84
-data_usa_02175e88 kind:bss(size=0x18) addr:0x02175e88
+gRomArchiveUnusedPad kind:bss(size=0x18) addr:0x02175e88
 gRomArchiveTransfer kind:bss(size=0x4b40) addr:0x02175ea0
 gConnectionWork kind:bss(size=0x4) addr:0x0217a9e0
 gDispCap kind:bss(size=0x4) addr:0x0217a9e4
@@ -11191,7 +11191,7 @@ gKind7EntryCount kind:bss(size=0x2) addr:0x0217ac70
 gChaseCamera kind:bss(size=0x4) addr:0x0217ac74
 gDefaultLookAtHeight kind:bss(size=0x4) addr:0x0217ac78
 gFollowHeight kind:bss(size=0x4) addr:0x0217ac7c
-data_usa_0217ac80 kind:bss(size=0x4) addr:0x0217ac80
+gChaseCameraUnusedWord kind:bss(size=0x4) addr:0x0217ac80
 gSecondChainCamera kind:bss(size=0x4) addr:0x0217ac84
 gCameraEntryChanged kind:bss(size=0x4) addr:0x0217ac88
 gEntryCameraUpdateRan kind:bss(size=0x4) addr:0x0217ac8c
@@ -11251,7 +11251,7 @@ gKartNameTagMaskedTexBuffer kind:bss(size=0x4) addr:0x0217aeac
 gKartNameTags kind:bss(size=0x4) addr:0x0217aeb0
 gKartEmblemPlltBuffer kind:bss(size=0x4) addr:0x0217aeb4
 gKartDistanceLimitsSquared kind:bss(size=0x4) addr:0x0217aeb8
-data_0217aedc kind:bss(size=0x4) addr:0x0217aebc
+gKartNameTagsUnusedWord kind:bss(size=0x4) addr:0x0217aebc
 gKartNameTagProjection kind:bss(size=0x40) addr:0x0217aec0
 gAnmObjSizeRequired kind:bss(size=0x4) addr:0x0217af00
 gKartModelPathPrefix kind:bss(size=0x4) addr:0x0217af04
@@ -11879,8 +11879,8 @@ sWaveArcHeader kind:bss(size=0x3c) addr:0x0217dea8
 sPrepareThread kind:bss(size=0x4) addr:0x0217dee4
 sFreeCommandList kind:bss(size=0xc) addr:0x0217dee8
 sStrmPlayer kind:bss(size=0x580) addr:0x0217e3e4
-data_0217e984 kind:bss(size=0x4) addr:0x0217e964
-data_0217e988 kind:bss(size=0x4) addr:0x0217e968
+gExitTailCallback kind:bss(size=0x4) addr:0x0217e964
+gExitCallback kind:bss(size=0x4) addr:0x0217e968
 gExitFunctionCount kind:bss(size=0x4) addr:0x0217e96c
 gAborted kind:bss(size=0x4) addr:0x0217e970
 gExitFunctions kind:bss(size=0x100) addr:0x0217e974
@@ -11951,4 +11951,4 @@ nv_cb_occurred kind:bss(size=0x4) addr:0x02180478
 gNvramEntriesOffset kind:bss(size=0x4) addr:0x0218047c
 gPackedWiFiInfo kind:bss(size=0x20) addr:0x02180480
 Work kind:bss(size=0x20) addr:0x021804a0
-data_02400000 kind:data(any) addr:0x02400000
+SDK_SECTION_ARENA_EX_START kind:data(any) addr:0x02400000

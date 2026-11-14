@@ -133,7 +133,7 @@ void StartEntryCameraKind6Entry(void);
 void UpdateChaseCameraPosGoalYOffset(Camera *camera, Kart *kart, Vec3 *forward);
 // Tests the camera's path from mPrevPos to mPos against the course collision. On a hit it sets mPosGoalCollisionOffset
 // and mCollisionOffsetLengthGoal or moves mPos out directly; it always eases mCollisionOffsetLength toward its goal.
-// Also sets mUnk_254, mUnk_258 and mUnk_25c and clears data_usa_0217ac80.
+// Also sets mUnk_254, mUnk_258 and mUnk_25c and clears gChaseCameraUnusedWord.
 void UpdateChaseCameraCollision(Camera *camera, Kart *kart, Vec3 *forward);
 // One frame of the chase camera (gChaseCamera) following Kart b: eases the field of view, the look-at, the position
 // goal and the position toward the Kart, then runs the collision test and the wobble. With KART_ENTRY_REMOVED set in
@@ -153,7 +153,7 @@ extern Camera *gEntryCamera;
 extern struct Camera *gChaseCamera;
 extern s32 gDefaultLookAtHeight;
 extern s32 gFollowHeight;
-extern s32 data_usa_0217ac80;
+extern s32 gChaseCameraUnusedWord;
 // The Camera (mKind 2) that starts at CourseMap.mSecondChainStartEntry; NULL when only the first chain camera exists.
 // While its entry is of kind 4 it is not stepped itself: it copies the field of view, mPos and mLookAt of
 // gFirstChainCamera, and its entry advances together with the first one's. Its view is the one used on odd frames.

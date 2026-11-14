@@ -18,9 +18,9 @@ s32 gCartridgeInitStarted;
 s32 gHeaderCopyStarted;
 CartridgeHeaderCopy gCartridgeHeaderCopy;
 s32 (*gCartridgeRemovalCallback)(void);
-s32 data_0216fe14;
-s32 data_0216fe18;
-s32 data_0216fe1c;
+s32 gCartridgeUnusedWord0;
+s32 gCartridgeUnusedWord1;
+s32 gCartridgeUnusedWord2;
 
 void CTRDG_Init(void) {
     if (gCartridgeInitStarted == 0) {

@@ -83,8 +83,8 @@ void *OS_GetInitArenaHi(OSArenaId id) {
             return (void *) 0x2000000;
         case OS_ARENA_DTCM:
             dtcmStart = (u32) &OSi_IrqThreadQueue;
-            irqStackBottom = dtcmStart + 0x3f80 - (u32) data_00000c00;
-            sysStackSize = (s32) data_00002800;
+            irqStackBottom = dtcmStart + 0x3f80 - (u32) SDK_IRQ_STACKSIZE;
+            sysStackSize = (s32) SDK_SYS_STACKSIZE;
             if (sysStackSize == 0) {
                 return (void *) (dtcmStart < 0x27e00e0 ? 0x27e00e0 : dtcmStart);
             }
@@ -109,7 +109,7 @@ void *OS_GetInitArenaLo(OSArenaId id) {
             if (gArena2Enabled == 0 || (OS_GetConsoleType() & 3) == 1) {
                 return NULL;
             }
-            return data_02400000;
+            return SDK_SECTION_ARENA_EX_START;
         case OS_ARENA_ITCM:
             return (void *) 0x1ffffa0;
         case OS_ARENA_DTCM:

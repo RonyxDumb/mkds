@@ -27,9 +27,9 @@
 #include "Main/Kart/kart_name_tags.h"
 #include "code_021458c4.h"
 
-s32 data_usa_02175e80;
+s32 gRomArchiveUnusedWord;
 s32 gRomArchiveStarted;
-u8 data_usa_02175e88[0x18];
+u8 gRomArchiveUnusedPad[0x18];
 RomArchiveTransfer gRomArchiveTransfer;
 
 const u8 gEmptyBlockInfo[32] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -870,7 +870,7 @@ void InitRomArchive(u32 port, void (*stateCallback)(s32 port),
     transfer->mArchiveBlock = NULL;
     transfer->mParentPacketSize = 0;
     transfer->mChildPacketSize = 0xe;
-    data_usa_02175e80 = 0;
+    gRomArchiveUnusedWord = 0;
     if (WM_SetPortCallback(narrowedPort, RomArchivePortCallback, NULL) != 0) {
         OS_Terminate();
     }

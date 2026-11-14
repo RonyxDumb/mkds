@@ -45,7 +45,7 @@ s32 gDefaultLookAtHeight;
 struct Camera *gChaseCamera;
 Camera *gSecondChainCamera;
 s32 gFollowHeight;
-s32 data_usa_0217ac80;
+s32 gChaseCameraUnusedWord;
 Camera *gEntryCamera;
 s32 gCameraEntryChanged;
 s32 gEntryCameraUpdateRan;
@@ -251,7 +251,7 @@ void UpdateChaseCameraCollision(Camera *camera, Kart *kart, Vec3 *forward) {
     s32 value;
     s32 collisionState;
 
-    data_usa_0217ac80 = 0;
+    gChaseCameraUnusedWord = 0;
     camera->mCollisionActive = FALSE;
     if (CollideSphereWithCourse(&camera->mPos, &camera->mPrevPos, 0, gCameraCollisionRadius, 2, -2, &pushOut,
                                 &firstNormal, &secondNormal, &flags, NULL, NULL, NULL, NULL) != 0 &&

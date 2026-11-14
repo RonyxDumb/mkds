@@ -69,7 +69,7 @@ u16 *gKartEmblemPlltBuffer;
 u16 *gKartEntryNamePlltBuffer;
 KartNameTags *gKartNameTags;
 const Vec3 *gKartDistanceLimitsSquared;
-s32 data_0217aedc;
+s32 gKartNameTagsUnusedWord;
 MtxFx44 gKartNameTagProjection;
 
 void UpdateKartViewDistancesAndOutOfView(void) {
