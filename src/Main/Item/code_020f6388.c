@@ -660,7 +660,7 @@ void AdvanceRestingItemObject(ItemObject *item) {
     u32 collisionHitLink;
 
     if (item->mCollisionHitLink->mObject != NULL) {
-        if (GetCollisionHitLinkPosAndVelocity(item->mCollisionHitLink, &item->mCoursePointOrParams, &item->mNormal) !=
+        if (GetCollisionHitLinkPosAndNormal(item->mCollisionHitLink, &item->mCoursePointOrParams, &item->mNormal) !=
             FALSE) {
             StartFallingItemObject(item);
         }

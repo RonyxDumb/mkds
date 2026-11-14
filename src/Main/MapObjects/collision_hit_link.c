@@ -34,7 +34,7 @@ const MapObjectKindData gKoopaBlockKindData = {NULL, NULL, 5, 0x190000, 0x64000,
 MapObjectDrawList *gKoopaBlockDrawList;
 struct MapObjectList *gKoopaBlockUpdateList;
 
-void SetCollisionHitLink(CollisionMapObject *object, Vec3 *position, Vec3 *velocity, CollisionHitLink *link) {
+void SetCollisionHitLink(CollisionMapObject *object, Vec3 *position, Vec3 *normal, CollisionHitLink *link) {
     Vec3 offset;
     s32 localZ;
     s32 localY;
@@ -45,16 +45,16 @@ void SetCollisionHitLink(CollisionMapObject *object, Vec3 *position, Vec3 *veloc
     link->mLocalPosition.x = Vec3DotUnrounded(&offset, &object->mMapObject.mMatrix.mRows[0]);
     link->mLocalPosition.y = localY;
     link->mLocalPosition.z = localZ;
-    if (velocity != NULL && object->mCollisionData.mTracksNormal != FALSE) {
-        localZ = Vec3DotUnrounded(velocity, &object->mMapObject.mMatrix.mRows[2]);
-        localY = Vec3DotUnrounded(velocity, &object->mMapObject.mMatrix.mRows[1]);
-        link->mLocalVelocity.x = Vec3DotUnrounded(velocity, &object->mMapObject.mMatrix.mRows[0]);
-        link->mLocalVelocity.y = localY;
-        link->mLocalVelocity.z = localZ;
+    if (normal != NULL && object->mCollisionData.mTracksNormal != FALSE) {
+        localZ = Vec3DotUnrounded(normal, &object->mMapObject.mMatrix.mRows[2]);
+        localY = Vec3DotUnrounded(normal, &object->mMapObject.mMatrix.mRows[1]);
+        link->mLocalNormal.x = Vec3DotUnrounded(normal, &object->mMapObject.mMatrix.mRows[0]);
+        link->mLocalNormal.y = localY;
+        link->mLocalNormal.z = localZ;
     } else {
-        link->mLocalVelocity.x = 0;
-        link->mLocalVelocity.y = 0;
-        link->mLocalVelocity.z = 0;
+        link->mLocalNormal.x = 0;
+        link->mLocalNormal.y = 0;
+        link->mLocalNormal.z = 0;
     }
     link->mObject = object;
 }
@@ -69,15 +69,15 @@ void GetCollisionHitLinkPosition(CollisionHitLink *link, Vec3 *outPosition) {
     VEC_Add(&object->mMapObject.mPos, outPosition, outPosition);
 }
 
-BOOL GetCollisionHitLinkPosAndVelocity(CollisionHitLink *link, Vec3 *outPosition, Vec3 *outVelocity) {
+BOOL GetCollisionHitLinkPosAndNormal(CollisionHitLink *link, Vec3 *outPosition, Vec3 *outNormal) {
     CollisionMapObject *object = link->mObject;
 
     if (object != NULL) {
         MTX_MultVec33(&link->mLocalPosition, &object->mMapObject.mMatrix.mAxes, outPosition);
         VEC_Add(&object->mMapObject.mPos, outPosition, outPosition);
         if (object->mCollisionData.mTracksNormal != FALSE) {
-            MTX_MultVec33(&link->mLocalVelocity, &object->mMapObject.mMatrix.mAxes, outVelocity);
-            if (outVelocity->y < object->mCollisionData.mFloorThreshold) {
+            MTX_MultVec33(&link->mLocalNormal, &object->mMapObject.mMatrix.mAxes, outNormal);
+            if (outNormal->y < object->mCollisionData.mFloorThreshold) {
                 return TRUE;
             }
         }

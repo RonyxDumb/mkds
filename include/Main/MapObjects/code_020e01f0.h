@@ -9,7 +9,7 @@
 typedef struct CollisionHitLink {
     /* 00 */ CollisionMapObject *mObject;
     /* 04 */ Vec3 mLocalPosition;
-    /* 10 */ Vec3 mLocalVelocity;
+    /* 10 */ Vec3 mLocalNormal;
 } CollisionHitLink;
 
 void UpdateKoopaBlock(void *unused, KoopaBlock *koopaBlock);
@@ -17,6 +17,6 @@ MapObjectList *CreateKoopaBlockUpdateList(void);
 MapObjectList *CreateKoopaBlockDrawList(void);
 MapObjectKindData *CreateKoopaBlockKindData(void);
 s32 IsHitLinkOutsideGearRadiusOrFlagged(CollisionHitLink *link);
-BOOL GetCollisionHitLinkPosAndVelocity(CollisionHitLink *link, Vec3 *outPosition, Vec3 *outVelocity);
+BOOL GetCollisionHitLinkPosAndNormal(CollisionHitLink *link, Vec3 *outPosition, Vec3 *outNormal);
 void GetCollisionHitLinkPosition(CollisionHitLink *link, Vec3 *outPosition);
-void SetCollisionHitLink(CollisionMapObject *object, Vec3 *position, Vec3 *velocity, CollisionHitLink *link);
+void SetCollisionHitLink(CollisionMapObject *object, Vec3 *position, Vec3 *normal, CollisionHitLink *link);
