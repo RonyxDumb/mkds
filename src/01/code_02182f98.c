@@ -12,6 +12,8 @@
 #include "ITCM/code_01ff8000.h"
 #include "code_02146cbc.h"
 
+const u16 data_ov001_021a656c[4] = {0, 0xe38, 0x1c71};
+
 void func_ov001_021830a8(void) {
     data_ov001_021a9b94 = 0;
 }

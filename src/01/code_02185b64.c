@@ -23,6 +23,8 @@
 #include "code_02147cd8.h"
 #include "ITCM/code_01ff8000.h"
 
+const u16 data_ov001_021a6580 = 1;
+
 Unk0219b250 *gMissionGate;
 
 void InitMissionGate(MissionGateObject *missionGateObject) {

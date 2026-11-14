@@ -32,6 +32,8 @@
 #include "Main/Unknown/code_020d275c.h"
 #include "Main/Unknown/code_021000d0.h"
 
+const u32 data_ov001_021a657c = 0x40000000;
+
 void func_ov001_02184874(Unk02188950 *donketu, Kart *kart) {
     s32 scale;
 

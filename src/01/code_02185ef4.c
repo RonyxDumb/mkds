@@ -68,6 +68,11 @@
 #include "Main/Unknown/unk_0217a000.h"
 #include "Main/Unknown/code_02061654.h"
 
+const u32 data_ov001_021a6584 = 0x800;
+Vec3 data_ov001_021a7a64 = {0, 4096, 0};
+Vec3 data_ov001_021a7a70 = {0, 4096, 0};
+u16 gShadowScaleToggle;
+
 void ThrowItemBombFromPosition(void *bomb, Vec3 *position, Vec3 *velocity, s32 timer) {
     Vec3 upNormal;
     Vec3 zeroVelocity;

@@ -7,6 +7,8 @@
 #include "00/unk_021b0000.h"
 #include "code_0214d018.h"
 
+const u32 data_ov000_021b0704[13] = {0x8002, 0x8004, 0x8008, 0x8010, 0x8020, 0x8040, 0x8080, 0x8100, 0x8200, 0x8400, 0x8800, 0x9000, 0xa000};
+
 void func_ov000_02189868(const u8 *a, const u8 *b, s32 c, u32 d) {
     if (c > 12) {
         c = 12;

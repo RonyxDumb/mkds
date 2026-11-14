@@ -2,6 +2,8 @@
 
 #include "00/GameSpy/nonport.h"
 
+u32 data_ov000_021b23ac = 1;
+
 s32 func_ov000_0218e2c0(void) {
     data_ov000_021b23ac = func_ov000_0218e2dc(data_ov000_021b23ac);
     return data_ov000_021b23ac;

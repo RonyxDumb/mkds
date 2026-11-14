@@ -1377,9 +1377,9 @@ data_ov003_021d7180 kind:data(any) addr:0x021d7180
 data_ov003_021d7194 kind:data(any) addr:0x021d7194
 gJb5MoveNscName kind:data(any) addr:0x021d71a8
 data_ov003_021d71bc kind:data(any) addr:0x021d71bc
-data_ov003_021d71d0 kind:data(any) addr:0x021d71d0
-data_ov003_021d71e8 kind:data(any) addr:0x021d71e8
-data_ov003_021d7200 kind:data(any) addr:0x021d7200
+@1879 kind:data(any) addr:0x021d71d0 local
+@1880 kind:data(any) addr:0x021d71e8 local
+@1881 kind:data(any) addr:0x021d7200 local
 data_ov003_021d7214 kind:data(any) addr:0x021d7214
 data_ov003_021d7228 kind:data(any) addr:0x021d7228
 @1895 kind:data(any) addr:0x021d722c local
@@ -1417,15 +1417,15 @@ gYbObjKbNclName3 kind:data(any) addr:0x021d7460
 gJbBgStep2NcgName kind:data(any) addr:0x021d7474
 gJbBgStep21NcgName kind:data(any) addr:0x021d748c
 gJb3ListNscName kind:data(any) addr:0x021d74a4
-gJbBgStep3NcgName4 kind:data(any) addr:0x021d74b8
-gYbBgStep3NclName4 kind:data(any) addr:0x021d74d0
-gXb4NoneNscName kind:data(any) addr:0x021d74e8
+@1045 kind:data(any) addr:0x021d74b8 local
+@1046 kind:data(any) addr:0x021d74d0 local
+@1047 kind:data(any) addr:0x021d74e8 local
 gXb4MultiNscName3 kind:data(any) addr:0x021d74fc
 gXb4MultiNscName4 kind:data(any) addr:0x021d7510
 gXb4MultiNscName5 kind:data(any) addr:0x021d7524
-gJbBgStep3NcgName5 kind:data(any) addr:0x021d7538
-gYbBgStep3NclName5 kind:data(any) addr:0x021d7550
-gXb4MultiNscName6 kind:data(any) addr:0x021d7568
+@1827 kind:data(any) addr:0x021d7538 local
+@1828 kind:data(any) addr:0x021d7550 local
+@1829 kind:data(any) addr:0x021d7568 local
 gJbBgStep3NcgName6 kind:data(any) addr:0x021d757c
 gYbBgStep3NclName6 kind:data(any) addr:0x021d7594
 gXb4MultiNscName7 kind:data(any) addr:0x021d75ac
@@ -1449,12 +1449,12 @@ gXb4MultiNscName9 kind:data(any) addr:0x021d76f4
 data_ov003_021d7708 kind:data(any) addr:0x021d7708
 gXb4NoneNscName2 kind:data(any) addr:0x021d7714
 gXb4MultiNscName10 kind:data(any) addr:0x021d7728
-gJbBgStep2NcgName3 kind:data(any) addr:0x021d773c
-gYbBgStep2NclName3 kind:data(any) addr:0x021d7754
-gXb3MultiNscName kind:data(any) addr:0x021d776c
-gJbBgStep3NcgName8 kind:data(any) addr:0x021d7780
-gYbBgStep3NclName8 kind:data(any) addr:0x021d7798
-gJb4UsbNscName kind:data(any) addr:0x021d77b0
+@1166 kind:data(any) addr:0x021d773c local
+@1167 kind:data(any) addr:0x021d7754 local
+@1168 kind:data(any) addr:0x021d776c local
+@1285 kind:data(any) addr:0x021d7780 local
+@1286 kind:data(any) addr:0x021d7798 local
+@1287 kind:data(any) addr:0x021d77b0 local
 data_ov003_021d77c4 kind:data(any) addr:0x021d77c4
 gSoundDataSdatName kind:data(any) addr:0x021d77d4
 data_ov003_021d77ec kind:data(any) addr:0x021d77ec

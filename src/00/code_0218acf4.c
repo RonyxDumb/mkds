@@ -34,10 +34,10 @@ void func_ov000_0218ad44(Unk0218a9bc *p, SbServer *e) {
                 c = 10;
             }
         } else if ((e->mUnk_14 & 4) != 0) {
-            __memcpy(b, &data_ov000_021b2188, 13);
+            __memcpy(b, &"\\basic\\\\info\\", 13);
             c = 13;
         } else {
-            __memcpy(b, &data_ov000_021b2198, 8);
+            __memcpy(b, &"\\status\\", 8);
             c = 8;
         }
         if (e->mUnk_00 == p->mUnk_28 && (e->mUnk_15 & 2) != 0) {

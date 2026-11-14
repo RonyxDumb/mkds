@@ -27,15 +27,15 @@ u32 func_ov000_02190618(GpConnection *a, GpiBuffer *b, s32 *c, s32 *d, s32 *e) {
     }
     p = (u8 *) strchr((const char *) b->mBuffer, 10);
     if (p != NULL) {
-        if (strncmp((const char *) (p - 5), data_ov000_021b287c, 5) != 0) {
+        if (strncmp((const char *) (p - 5), "\\msg\\", 5) != 0) {
             return 3;
         }
         *p = 0;
-        if (GpiGetValue((const char *) b->mBuffer, data_ov000_021b2884, f, 0x10) == FALSE) {
+        if (GpiGetValue((const char *) b->mBuffer, "\\m\\", f, 0x10) == FALSE) {
             return 3;
         }
         *d = StrtolBase10(f);
-        if (GpiGetValue((const char *) b->mBuffer, data_ov000_021b2888, f, 0x10) == FALSE) {
+        if (GpiGetValue((const char *) b->mBuffer, "\\len\\", f, 0x10) == FALSE) {
             return 3;
         }
         n = StrtolBase10(f);
@@ -71,12 +71,12 @@ u32 func_ov000_021905d4(GpConnection *a, GpiBuffer *b) {
 u32 func_ov000_02190548(GpConnection *a, GpiProfile *b) {
     GpiConnection *o;
     o = a->mGpiConnection;
-    GpiAppendBufferString(a, &o->mOutputBuffer, data_ov000_021b2858);
+    GpiAppendBufferString(a, &o->mOutputBuffer, "\\authadd\\");
     GpiAppendBufferString(a, &o->mOutputBuffer, data_ov000_021b275c);
     GpiAppendBufferNumber(a, &o->mOutputBuffer, o->mSesskey);
-    GpiAppendBufferString(a, &o->mOutputBuffer, data_ov000_021b2864);
+    GpiAppendBufferString(a, &o->mOutputBuffer, "\\fromprofileid\\");
     GpiAppendBufferNumber(a, &o->mOutputBuffer, b->mProfileId);
-    GpiAppendBufferString(a, &o->mOutputBuffer, data_ov000_021b2874);
+    GpiAppendBufferString(a, &o->mOutputBuffer, "\\sig\\");
     GpiAppendBufferString(a, &o->mOutputBuffer, b->mUnk_10);
     GpiAppendBufferString(a, &o->mOutputBuffer, data_ov000_021b2778);
     return 0;

@@ -1582,17 +1582,17 @@ data_ov001_021a88fc kind:data(any) addr:0x021a88fc
 @5068 kind:data(any) addr:0x021a8b1c local
 @5152 kind:data(any) addr:0x021a8b3c local
 @5153 kind:data(any) addr:0x021a8b48 local
-data_ov001_021a8b54 kind:data(any) addr:0x021a8b54
-data_ov001_021a8b74 kind:data(any) addr:0x021a8b74
-data_ov001_021a8b98 kind:data(any) addr:0x021a8b98
-data_ov001_021a8bbc kind:data(any) addr:0x021a8bbc
-data_ov001_021a8be0 kind:data(any) addr:0x021a8be0
-data_ov001_021a8c00 kind:data(any) addr:0x021a8c00
-data_ov001_021a8c24 kind:data(any) addr:0x021a8c24
-data_ov001_021a8c48 kind:data(any) addr:0x021a8c48
-data_ov001_021a8c68 kind:data(any) addr:0x021a8c68
-data_ov001_021a8c8c kind:data(any) addr:0x021a8c8c
-data_ov001_021a8cb0 kind:data(any) addr:0x021a8cb0
+@2259 kind:data(any) addr:0x021a8b54 local
+@2260 kind:data(any) addr:0x021a8b74 local
+@2261 kind:data(any) addr:0x021a8b98 local
+@2262 kind:data(any) addr:0x021a8bbc local
+@2263 kind:data(any) addr:0x021a8be0 local
+@2264 kind:data(any) addr:0x021a8c00 local
+@2265 kind:data(any) addr:0x021a8c24 local
+@2266 kind:data(any) addr:0x021a8c48 local
+@2267 kind:data(any) addr:0x021a8c68 local
+@2268 kind:data(any) addr:0x021a8c8c local
+@2269 kind:data(any) addr:0x021a8cb0 local
 gOptionEmbremSelectCallbacks kind:data(any) addr:0x021a8cd0
 gOptionTopMenuMBNcgrName kind:data(any) addr:0x021a8ce0
 gOptionTopMenuMNscrName kind:data(any) addr:0x021a8cfc

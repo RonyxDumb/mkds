@@ -26,6 +26,8 @@
 #include "03/unk_021d5000.h"
 #include "03/code_021bf410.h"
 
+u8 data_ov003_021da254;
+
 void SetupXb3Multi(void) {
     data_ov003_021da254 = 0;
     LoadXb3MultiFilesAndSetBgCnt();
@@ -37,13 +39,13 @@ void SetupXb3Multi(void) {
 }
 
 void LoadXb3MultiFilesAndSetBgCnt(void) {
-    void *v2 = &gJbBgStep2NcgName3;
+    void *v2 = &"char/jbBgStep2.ncg.l";
     void *v3 = &GX_LoadBG2Char;
     u32 v4 = LoadFileToVram(v2, v3);
-    void *v5 = &gYbBgStep2NclName3;
+    void *v5 = &"char/ybBgStep2.ncl.l";
     void *v6 = &GX_LoadBGPltt;
     u32 v7 = LoadFileToVram(v5, v6);
-    void *v8 = &gXb3MultiNscName;
+    void *v8 = &"char/xb3Multi.nsc.l";
     void *v9 = &GX_LoadBG2Scr;
     u32 v10 = LoadFileToVram(v8, v9);
     u32 v11 = 0x4001008u;

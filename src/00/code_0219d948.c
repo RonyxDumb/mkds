@@ -20,14 +20,14 @@ u8 func_ov000_0219d9ec(void *a, u8 *b, u8 *c, char *d) {
     if (func_ov000_0219d094(a, &f) != 0) {
         if (f.mUnk_004 == 6) {
             if (b != NULL) {
-                if (func_ov000_021a3530(data_ov000_021b40b0, e, f.mUnk_008, 0x2f) > 0) {
+                if (func_ov000_021a3530("SCM", e, f.mUnk_008, 0x2f) > 0) {
                     *b = strtoul(e, NULL, 10);
                 } else {
                     *b = 0;
                 }
             }
             if (c != NULL) {
-                if (func_ov000_021a3530(data_ov000_021b40b4, e, f.mUnk_008, 0x2f) > 0) {
+                if (func_ov000_021a3530("SCN", e, f.mUnk_008, 0x2f) > 0) {
                     *c = strtoul(e, NULL, 10);
                 } else {
                     *c = 0;

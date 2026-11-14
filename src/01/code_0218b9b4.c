@@ -35,6 +35,8 @@
 #include "Main/Unknown/code_020b4000.h"
 #include "Main/Unknown/code_020f9c6c.h"
 
+const u16 data_ov001_021a65a8 = 0x20;
+
 void func_ov001_0218bee4(Unk02188950 *mapObject) {
     Kart *kart;
 

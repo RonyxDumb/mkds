@@ -8,6 +8,8 @@
 #include "code_02134398.h"
 #include "code_0214d018.h"
 
+u8 data_ov000_021b2174[9] = "NDWCSHAP";
+
 void func_ov000_0218a6f4(u8 *a, u8 *b, int c) {
     u8 v1;
     int v2;

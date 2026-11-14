@@ -16,7 +16,6 @@ typedef struct Unk021990f8Entry {
 typedef struct Gt2Socket Gt2Socket;
 typedef struct Gt2Connection Gt2Connection;
 
-extern const u8 data_ov000_021b3fa8[];
 
 BOOL func_ov000_0219903c(Gt2Connection *a, u32 b, int c, int *d);
 u32 func_ov000_021990f8(Gt2Connection *a, u16 b, s32 c);

@@ -63,7 +63,7 @@ void func_ov000_0218ab90(Unk0218a9bc *p, SbServer *e, s8 *v1, s32 n) {
 
 void func_ov000_0218ab18(Unk0218a9bc *p, SbServer *e, s8 *v1, s32 n) {
     BOOL a;
-    if (strstr((const char *) v1, data_ov000_021b2180) != NULL) {
+    if (strstr((const char *) v1, "\\final\\") != NULL) {
         a = TRUE;
     } else {
         a = FALSE;

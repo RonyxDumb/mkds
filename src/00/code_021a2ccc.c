@@ -20,6 +20,8 @@
 #include "string.h"
 #include "code_02134398.h"
 
+char data_ov000_021b41f0[3] = "DT";
+
 void func_ov000_021a3250(u32 (*arg0)(void)) {
     u32 value0 = (u32) arg0;
     u32 value1;

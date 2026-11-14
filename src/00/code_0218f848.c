@@ -12,6 +12,8 @@
 #include "string.h"
 #include "code_02134398.h"
 
+char data_ov000_021b2718[36] = {10, 10, 10, 10, 10, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 10, 103, 112, 105, 73, 110, 105, 116, 105, 97, 108, 105, 122, 101, 10};
+
 u32 GpiInitialize(GpConnection *a, s32 b, s32 c) {
     GpConnection p;
     u32 r;

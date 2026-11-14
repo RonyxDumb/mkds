@@ -17,6 +17,8 @@
 #include "code_0214d018.h"
 #include "code_0200eddc.h"
 
+const u8 data_ov003_021d6634[4] = {0, 0x50, 0xf2, 1};
+
 void func_ov003_021cd080(Unk021425e8 *a) {
     if (a->mResultCode == 0 && *((u8 *) data_ov003_021da26c + 0x1e48) == 0 && a->mCommand == 0x26) {
         switch (a->mUnk_08_0) {

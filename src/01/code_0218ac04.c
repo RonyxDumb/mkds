@@ -15,6 +15,8 @@
 #include "01/unk_021a7000.h"
 #include "Main/Unknown/code_020fd000.h"
 
+const u16 data_ov001_021a6594 = 0x20;
+
 void func_ov001_0218acb4(Unk02188950 *mapObject) {
     Vec3 velocity = {0, 0, 0};
 

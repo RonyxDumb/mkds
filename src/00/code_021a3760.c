@@ -22,6 +22,8 @@
 #include "string.h"
 #include "code_02134398.h"
 
+Unk021b5df4 *data_ov000_021b5df4;
+
 void func_ov000_021a39d8(Unk021b5df4 *a, u16 b, u32 c, u32 d) {
     if (data_ov000_021b5df4 == NULL) {
         MI_CpuFill8(a, 0, 12);
@@ -42,13 +44,13 @@ void func_ov000_021a39c4(void *a) {
 void func_ov000_021a397c(s32 a) {
     switch (a) {
         case 0:
-            func_ov000_02186628(data_ov000_021b4200);
+            func_ov000_02186628("https://nas.test.nintendowifi.net/ac");
             break;
         case 1:
-            func_ov000_02186628(data_ov000_021b4228);
+            func_ov000_02186628("https://nas.dev.nintendowifi.net/ac");
             break;
         case 2:
-            func_ov000_02186628(data_ov000_021b424c);
+            func_ov000_02186628("https://nas.nintendowifi.net/ac");
             break;
     }
 }

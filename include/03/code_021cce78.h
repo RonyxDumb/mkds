@@ -26,7 +26,7 @@ typedef struct Unk021ccf30 {
 } Unk021ccf30;
 
 extern u8 data_ov003_021d662c[];
-extern u8 data_ov003_021d6634[];
+extern const u8 data_ov003_021d6634[];
 
 void func_ov003_021cce78(void);
 void func_ov003_021ccea4(u32 a, u32 b, u16 c, u16 d, u32 e);

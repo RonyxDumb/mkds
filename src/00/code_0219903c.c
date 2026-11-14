@@ -59,7 +59,7 @@ u32 func_ov000_0219958c(Gt2Connection *a, u8 *b, s32 c) {
     if (c != 8) {
         return 1;
     }
-    if (memcmp(b, data_ov000_021b3fa8, 4) != 0) {
+    if (memcmp(b, "time", 4) != 0) {
         return 1;
     }
     t = (u8 *) &d;

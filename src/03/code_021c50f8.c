@@ -42,6 +42,10 @@
 #include "code_0212df7c.h"
 #include "registers.h"
 
+u8 data_ov003_021da1dc;
+u16 data_ov003_021da1e0;
+u32 data_ov003_021da1e4;
+
 void func_ov003_021c54dc(void) {
     data_ov003_021da1e0 = 0;
     func_ov003_021c5458();
@@ -56,9 +60,9 @@ void func_ov003_021c54dc(void) {
 }
 
 void func_ov003_021c5458(void) {
-    LoadFileToVram(data_ov003_021d71d0, GX_LoadBG2Char);
-    LoadFileToVram(data_ov003_021d71e8, GX_LoadBGPltt);
-    LoadFileToVram(data_ov003_021d7200, GX_LoadBG2Scr);
+    LoadFileToVram("char/jbBgStep3.ncg.l", GX_LoadBG2Char);
+    LoadFileToVram("char/ybBgStep3.ncl.l", GX_LoadBGPltt);
+    LoadFileToVram("char/xb4Multi.nsc.l", GX_LoadBG2Scr);
     reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & ~3) | 3;
     reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & ~3) | 3;
     reg_G2_BG0CNT = (reg_G2_BG0CNT & ~3) | 3;

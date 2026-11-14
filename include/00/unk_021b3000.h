@@ -58,8 +58,6 @@ extern char data_ov000_021b3d94[];
 extern char data_ov000_021b3da0[];
 extern char data_ov000_021b3dac[];
 extern char data_ov000_021b3ebc[];
-extern char data_ov000_021b3f10[];
-extern char data_ov000_021b3f34[];
 extern char data_ov000_021b3f74[];
 extern u8 data_ov000_021b3fa4[];
 extern char data_ov000_021b3f8c[];

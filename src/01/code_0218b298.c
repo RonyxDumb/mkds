@@ -7,6 +7,8 @@
 #include "Main/Unknown/code_0209bef0.h"
 #include "Main/Unknown/code_020d275c.h"
 
+const u32 data_ov001_021a6598 = 0x40000000;
+
 u16 func_ov001_0218b2d4(Unk02188950 *mapObject) {
     return func_ov001_02188220(mapObject);
 }

@@ -22,6 +22,9 @@
 #include "Main/Unknown/code_0209b000.h"
 #include "Main/Unknown/code_020ea514.h"
 
+const Vec3 data_ov001_021a6b20 = {4096, 4096, 4096};
+const Vec3 data_ov001_021a6b2c = {4096, 4096, 4096};
+
 void *func_ov001_0219b510(void *p0, void *p1, void *p2, u32 p3, u16 p4, u16 p5, u16 p6) {
     MapObjectKindData *r = CreateMapObjectKindData(p0, p1, p2, p3, p4);
     r->mUnk_24 = p5;

@@ -59,6 +59,7 @@ src/01/code_02181bd0.c:
 src/01/code_02182f98.c:
     complete
     .text       start:0x02182f98 end:0x021830b4
+    .rodata     start:0x021a656c end:0x021a6574
 
 // provisional: file name and boundaries
 src/01/code_021830b4.c:
@@ -90,6 +91,7 @@ src/01/code_02184390.c:
 src/01/code_021843b0.c:
     complete
     .text       start:0x021843b0 end:0x02184cc8
+    .rodata     start:0x021a657c end:0x021a6580
 
 // provisional: file name and boundaries
 src/01/code_02184cc8.c:
@@ -140,6 +142,7 @@ src/01/code_021857a4.c:
 src/01/code_02185b64.c:
     complete
     .text       start:0x02185b64 end:0x02185ef4
+    .rodata     start:0x021a6580 end:0x021a6584
     .data       start:0x021a7a28 end:0x021a7a64
     .bss        start:0x021a9b9c end:0x021a9ba0
 
@@ -147,6 +150,9 @@ src/01/code_02185b64.c:
 src/01/code_02185ef4.c:
     complete
     .text       start:0x02185ef4 end:0x02187bfc
+    .rodata     start:0x021a6584 end:0x021a6588
+    .data       start:0x021a7a64 end:0x021a7a7c
+    .bss        start:0x021a9ba0 end:0x021a9ba4
 
 // provisional: file name and boundaries
 src/01/code_02187bfc.c:
@@ -285,6 +291,7 @@ src/01/code_0218a568.c:
 src/01/code_0218ac04.c:
     complete
     .text       start:0x0218ac04 end:0x0218ad68
+    .rodata     start:0x021a6594 end:0x021a6598
 
 // provisional: file name and boundaries
 src/01/code_0218ad68.c:
@@ -315,6 +322,7 @@ src/01/code_0218b278.c:
 src/01/code_0218b298.c:
     complete
     .text       start:0x0218b298 end:0x0218b2dc
+    .rodata     start:0x021a6598 end:0x021a659c
 
 // provisional: file name and boundaries
 src/01/code_0218b2dc.c:
@@ -326,6 +334,7 @@ src/01/code_0218b2dc.c:
 src/01/code_0218b9b4.c:
     complete
     .text       start:0x0218b9b4 end:0x0218bfc8
+    .rodata     start:0x021a65a8 end:0x021a65ac
 
 // provisional: file name and boundaries
 src/01/code_0218bfc8.c:
@@ -491,6 +500,7 @@ src/01/code_0219b240.c:
 src/01/code_0219b250.c:
     complete
     .text       start:0x0219b250 end:0x0219b540
+    .rodata     start:0x021a6b20 end:0x021a6b38
     .data       start:0x021a877c end:0x021a8790
 
 // provisional: file name and boundaries
@@ -512,6 +522,7 @@ src/01/code_0219c784.c:
 src/01/code_0219d50c.c:
     complete
     .text       start:0x0219d50c end:0x0219d5dc
+    .data       start:0x021a8b54 end:0x021a8cd0
 
 src/01/code_0219d5dc.c:
     complete
@@ -522,6 +533,7 @@ src/01/code_0219d5dc.c:
 src/01/code_0219e0a8.c:
     complete
     .text       start:0x0219e0a8 end:0x0219e824
+    .rodata     start:0x021a6c50 end:0x021a6c60
     .data       start:0x021a8dfc end:0x021a9044
     .bss        start:0x021ca400 end:0x021ca404
 

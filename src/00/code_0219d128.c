@@ -166,7 +166,7 @@ void WiFiGpBuddyRequestCallback(GpConnection *a, u32 *b) {
 
 u32 func_ov000_0219d6c4(GpConnection *a, u32 *b, u32 c) {
     int v1;
-    v1 = strcmp((const char *) (b[2]), data_ov000_021b4078);
+    v1 = strcmp((const char *) (b[2]), "I have authorized your request to add me to your list");
     if (v1 == 0) {
         func_ov000_0218eff8(a, *b, 0, 0, (Unk0218eff8Cb) func_ov000_0219cc94, 0);
         return 1;

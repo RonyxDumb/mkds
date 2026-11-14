@@ -40,13 +40,13 @@ void func_ov003_021c9944(void) {
 }
 
 void func_ov003_021c98d0(void) {
-    void *v2 = &gJbBgStep3NcgName4;
+    void *v2 = &"char/jbBgStep3.ncg.l";
     void *v3 = &GX_LoadBG2Char;
     u32 v4 = LoadFileToVram(v2, v3);
-    void *v5 = &gYbBgStep3NclName4;
+    void *v5 = &"char/ybBgStep3.ncl.l";
     void *v6 = &GX_LoadBGPltt;
     u32 v7 = LoadFileToVram(v5, v6);
-    void *v8 = &gXb4NoneNscName;
+    void *v8 = &"char/xb4None.nsc.l";
     void *v9 = &GX_LoadBG2Scr;
     u32 v10 = LoadFileToVram(v8, v9);
     u32 v11 = 0x4001008u;
