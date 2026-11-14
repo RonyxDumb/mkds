@@ -490,6 +490,13 @@ typedef struct TrophyIcon {
     /* 0c */ void *mBncl;
 } TrophyIcon;
 
+// SelectRaceRuleWait.mState and mNextState values: moving up into view, resting, moving down out of view.
+typedef enum SelectRaceRuleWaitState {
+    SELECT_RACE_RULE_WAIT_SLIDE_IN = 0,
+    SELECT_RACE_RULE_WAIT_REST = 1,
+    SELECT_RACE_RULE_WAIT_SLIDE_OUT = 2,
+} SelectRaceRuleWaitState;
+
 // Object behind gSelectRaceRuleWait (0x28 bytes), allocated by InitSelectRaceRuleWait.
 typedef struct SelectRaceRuleWait {
     /* 00 */ struct NNSG2dCellDataBank *mNcer;

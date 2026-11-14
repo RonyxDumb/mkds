@@ -59,7 +59,7 @@ void LocateAndQueueSelectRaceRuleWait(void) {
 void RequestSelectRaceRuleWaitState0(void) {
     u16 cellEntryCount;
 
-    gSelectRaceRuleWait->mNextState = 0;
+    gSelectRaceRuleWait->mNextState = SELECT_RACE_RULE_WAIT_SLIDE_IN;
     gSelectRaceRuleWait->mStateFrames = 0;
     cellEntryCount = gSelectRaceRuleWait->mBncl->mCount;
     gSelectRaceRuleWait->mTable[0x2a].mOffsetY = 0xc0;
@@ -67,14 +67,14 @@ void RequestSelectRaceRuleWaitState0(void) {
 }
 
 void RequestSelectRaceRuleWaitState1(void) {
-    gSelectRaceRuleWait->mNextState = 1;
+    gSelectRaceRuleWait->mNextState = SELECT_RACE_RULE_WAIT_REST;
     gSelectRaceRuleWait->mStateFrames = 0;
 }
 
 void RequestSelectRaceRuleWaitState2(void) {
     u16 cellEntryCount;
 
-    gSelectRaceRuleWait->mNextState = 2;
+    gSelectRaceRuleWait->mNextState = SELECT_RACE_RULE_WAIT_SLIDE_OUT;
     gSelectRaceRuleWait->mStateFrames = 0;
     cellEntryCount = gSelectRaceRuleWait->mBncl->mCount;
     gSelectRaceRuleWait->mTable[0x2a].mOffsetY = 0;
@@ -88,7 +88,7 @@ void InitSelectRaceRuleWait(void *heap, void *oamList) {
     u32 subObjSize;
 
     gSelectRaceRuleWait = HeapAlloc(heap, 0x28);
-    gSelectRaceRuleWait->mState = 1;
+    gSelectRaceRuleWait->mState = SELECT_RACE_RULE_WAIT_REST;
     gSelectRaceRuleWait->mOamList = oamList;
     LocateAndQueueSelectRaceRuleWait();
     InitLayoutTable(heap, gSelectRaceRuleWait->mBncl, gSelectRaceRuleWait->mBnll, &gSelectRaceRuleWait->mTable);
@@ -156,12 +156,12 @@ void AdvanceSelectRaceRuleWaitState2(void) {
 void AdvanceSelectRaceRuleWait(void) {
     gSelectRaceRuleWait->mState = gSelectRaceRuleWait->mNextState;
     switch (gSelectRaceRuleWait->mState) {
-        case 0:
+        case SELECT_RACE_RULE_WAIT_SLIDE_IN:
             AdvanceSelectRaceRuleWaitState0();
             break;
-        case 1:
+        case SELECT_RACE_RULE_WAIT_REST:
             break;
-        case 2:
+        case SELECT_RACE_RULE_WAIT_SLIDE_OUT:
             AdvanceSelectRaceRuleWaitState2();
             break;
     }
