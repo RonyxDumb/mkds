@@ -111,6 +111,8 @@ Run these from the repository root after `python3 tools/configure.py` (the ones 
 - `tools/check_units.py`: each unit's `.text` range against the original functions and the compiled object.
 - `tools/unmatched.py`: functions that don't match yet. `tools/clean_notes.py`: drops stale `// non-matching:` notes.
 - `tools/sync_symbols.py`: renames the original symbols to your names once functions match.
+- `tools/rename_unit.py`: renames or moves source units (source, header, includes, every version's delinks.txt,
+  per-path settings, docs); `docs/naming.md` records what each name rests on.
 - `tools/resolve_undefined.py`: places symbols your unit references that `symbols.txt` doesn't name.
 - `tools/add_relocs.py`: adds relocations a decompiled unit shows but `relocs.txt` lacks.
 - `tools/link_check.py`, `data_ranges.py`, `reorder_functions.py`, `mark_complete.py`, `sync_linked_symbols.py`:
