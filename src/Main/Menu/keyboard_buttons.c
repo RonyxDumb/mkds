@@ -128,12 +128,12 @@ void PrintKeyboardButtonTexts(void) {
     for (kindIndex = 0; kindIndex < 2; kindIndex++) {
         Keyboard *keyboard = gKeyboard;
         PrintLabelLayoutTextNoFixedAdvance(1, gKeyboardButtonLabelIndices[kindIndex][0], gKeyboard->mBnlls[kindIndex],
-                                           GetBmgEntry(keyboard->mCommonMessages, 4), keyboard->mBncls[kindIndex],
-                                           keyboard->mTables[kindIndex][1]);
+                                           GetBmgEntry(keyboard->mCommonMessages, KEYBOARD_MESSAGE_OK),
+                                           keyboard->mBncls[kindIndex], keyboard->mTables[kindIndex][1]);
         keyboard = gKeyboard;
         PrintLabelLayoutTextNoFixedAdvance(1, gKeyboardButtonLabelIndices[kindIndex][1], gKeyboard->mBnlls[kindIndex],
-                                           GetBmgEntry(keyboard->mCommonMessages, 5), keyboard->mBncls[kindIndex],
-                                           keyboard->mTables[kindIndex][1]);
+                                           GetBmgEntry(keyboard->mCommonMessages, KEYBOARD_MESSAGE_CANCEL),
+                                           keyboard->mBncls[kindIndex], keyboard->mTables[kindIndex][1]);
     }
 }
 
@@ -212,9 +212,9 @@ void SetKeyboardTextFromPlayerName(void) {
 
 void CopyKeyboardTextAsBytes(void) {
     s32 charIndex;
-    MI_CpuFill8(&gKeyboard->mRecords[2], 0, 0xd);
+    MI_CpuFill8(&gKeyboard->mRecords[KEYBOARD_RECORD_STATUS], 0, 0xd);
     for (charIndex = 0; charIndex < 12; charIndex++) {
-        ((u8 *) &gKeyboard->mRecords[2])[charIndex] = gKeyboard->mRecords[0].mChars[charIndex];
+        ((u8 *) &gKeyboard->mRecords[KEYBOARD_RECORD_STATUS])[charIndex] = gKeyboard->mRecords[0].mChars[charIndex];
     }
 }
 
@@ -236,7 +236,7 @@ void InitKeyboard(void *heap, s32 mode) {
     config.mSelectChoisesFont = NULL;
     config.mUseSelectReturn = 0;
     config.mUseBackScreen = 1;
-    if (mode == 0xc) {
+    if (mode == SCENE_WIFI_MENU) {
         config.mBackScreenKind = 1;
     } else {
         config.mBackScreenKind = 0;
@@ -250,44 +250,44 @@ void InitKeyboard(void *heap, s32 mode) {
     SetKeyboardOffset(0, 0x28);
     SetKeyboardButtonCorners();
     SetKeyboardScreenMapTopBitsWrapper(0);
-    gKeyboard->mRecords[2].mMode = mode;
-    gKeyboard->mRecords[2].mNextScene = -1;
-    if (mode == 0xc) {
-        gKeyboard->mKind = 0;
-        gKeyboard->mState = 0;
-        gKeyboard->mButtonEnabled[0] = 0;
-        gKeyboard->mButtonEnabled[1] = 1;
+    gKeyboard->mRecords[KEYBOARD_RECORD_STATUS].mMode = mode;
+    gKeyboard->mRecords[KEYBOARD_RECORD_STATUS].mNextScene = KEYBOARD_NEXT_SCENE_NONE;
+    if (mode == SCENE_WIFI_MENU) {
+        gKeyboard->mKind = KEYBOARD_KIND_FRIEND_KEY;
+        gKeyboard->mState = KEYBOARD_STATE_WAIT_FADE_FRIEND_KEY;
+        gKeyboard->mButtonEnabled[0] = FALSE;
+        gKeyboard->mButtonEnabled[1] = TRUE;
     } else {
-        gKeyboard->mKind = 1;
-        gKeyboard->mState = 5;
-        gKeyboard->mButtonEnabled[0] = 1;
-        if (mode == 0xb) {
-            gKeyboard->mButtonEnabled[1] = 0;
+        gKeyboard->mKind = KEYBOARD_KIND_NAME;
+        gKeyboard->mState = KEYBOARD_STATE_WAIT_FADE_NAME;
+        gKeyboard->mButtonEnabled[0] = TRUE;
+        if (mode == SCENE_NICKNAME) {
+            gKeyboard->mButtonEnabled[1] = FALSE;
         } else {
-            gKeyboard->mButtonEnabled[1] = 1;
+            gKeyboard->mButtonEnabled[1] = TRUE;
         }
         SetKeyboardTextFromPlayerName();
     }
-    if (gKeyboard->mKind == 0) {
-        gKeyboard->mLayout = 0;
-        SetKeyboardTextLimit(gKeyboardTextLimits[0]);
+    if (gKeyboard->mKind == KEYBOARD_KIND_FRIEND_KEY) {
+        gKeyboard->mLayout = KEYBOARD_LAYOUT_DIGITS;
+        SetKeyboardTextLimit(gKeyboardTextLimits[KEYBOARD_KIND_FRIEND_KEY]);
     } else {
         if (gStartupWork->mRegion == 0) {
-            gKeyboard->mLayout = 1;
+            gKeyboard->mLayout = KEYBOARD_LAYOUT_KANA;
         } else {
-            gKeyboard->mLayout = 2;
+            gKeyboard->mLayout = KEYBOARD_LAYOUT_ASCII;
         }
-        SetKeyboardTextLimit(gKeyboardTextLimits[1]);
+        SetKeyboardTextLimit(gKeyboardTextLimits[KEYBOARD_KIND_NAME]);
     }
     SelectKeyboardLayout(gKeyboard->mLayout);
     QueueKeyboardScreenMap();
     for (index = 0; index < 2; index++) {
-        gKeyboard->mCursorOnButton[index] = 0;
+        gKeyboard->mCursorOnButton[index] = FALSE;
     }
     gKeyboard->mTextEntryEnabled = FALSE;
     gKeyboard->mNextState = gKeyboard->mState;
     gKeyboard->mStateFrames = 0;
-    gKeyboard->mOffsetY = 0xc0;
+    gKeyboard->mOffsetY = KEYBOARD_OFFSET_HIDDEN;
     for (index = 0; index < 2; index++) {
         for (screenIndex = 0; screenIndex < 2; screenIndex++) {
             gKeyboard->mTextOffsetY[index][screenIndex] = gKeyboardTextOffsetYInitial[index][screenIndex];
@@ -338,8 +338,8 @@ void WriteKeyboardObjectOffsets(void) {
     for (kindIndex = 0; kindIndex < 2; kindIndex++) {
         cellCounts[kindIndex] = gKeyboard->mBncls[kindIndex]->mCount;
         for (screenIndex = 0; screenIndex < 2; screenIndex++) {
-            offsetY = -500;
-            if (kindIndex == 1 || gKeyboard->mRecords[2].mMode == 0xc) {
+            offsetY = KEYBOARD_OBJECT_HIDDEN_OFFSET;
+            if (kindIndex == 1 || gKeyboard->mRecords[KEYBOARD_RECORD_STATUS].mMode == SCENE_WIFI_MENU) {
                 offsetY = gKeyboard->mTextOffsetY[kindIndex][screenIndex];
             }
             for (entryIndex = 0; entryIndex < gKeyboardKindEntryCounts[kindIndex]; entryIndex++) {
@@ -386,15 +386,15 @@ void WriteKeyboardObjectOffsets(void) {
         }
     }
     for (kindIndex = 0; kindIndex < 2; kindIndex++) {
-        offsetY = -500;
-        if (gKeyboard->mKind == 1 && kindIndex == 1) {
+        offsetY = KEYBOARD_OBJECT_HIDDEN_OFFSET;
+        if (gKeyboard->mKind == KEYBOARD_KIND_NAME && kindIndex == 1) {
             offsetY = gKeyboard->mOffsetY;
         }
         for (entryIndex = 0; entryIndex < 10; entryIndex++) {
             gKeyboard->mTables[1][kindIndex][gKeyboardTextSlotEntryIndices[entryIndex]].mOffsetY = offsetY;
         }
-        offsetY = -500;
-        if (gKeyboard->mKind == 1) {
+        offsetY = KEYBOARD_OBJECT_HIDDEN_OFFSET;
+        if (gKeyboard->mKind == KEYBOARD_KIND_NAME) {
             offsetY = gKeyboard->mTextOffsetY[1][kindIndex];
         }
         for (entryIndex = 0; entryIndex < 6; entryIndex++) {
@@ -476,41 +476,43 @@ void InitKeyboardDisplay(void) {
 
 void AdvanceKeyboardState0(void) {
     if (AreBrightnessFadesClear() != 0) {
-        gKeyboard->mNextState = 1;
-        SetupTxtSystemMainTextEx(GetBmgEntry(gKeyboard->mCommonMessages, 7), 0, 0, 0, 0, 0, 0);
+        gKeyboard->mNextState = KEYBOARD_STATE_SLIDE_IN_FRIEND_KEY;
+        SetupTxtSystemMainTextEx(GetBmgEntry(gKeyboard->mCommonMessages, KEYBOARD_MESSAGE_ENTER_FRIEND_CODE), 0, 0, 0,
+                                 0, 0, 0);
     }
 }
 
 void UpdateKeyboardFriendKeyButtons(void) {
     s32 lastCharIndex;
-    lastCharIndex = gKeyboardTextLimits[0] - 1;
+    lastCharIndex = gKeyboardTextLimits[KEYBOARD_KIND_FRIEND_KEY] - 1;
     if (lastCharIndex == GetKeyboardTextIndex() && gKeyboard->mRecords[gKeyboard->mKind].mChars[lastCharIndex] != 0) {
-        gKeyboard->mButtonEnabled[0] = 1;
+        gKeyboard->mButtonEnabled[0] = TRUE;
     } else {
-        gKeyboard->mButtonEnabled[0] = 0;
+        gKeyboard->mButtonEnabled[0] = FALSE;
     }
-    if (GetKeyboardCursorValueWrapper() == 1) {
-        gKeyboard->mCursorOnButton[0] = 1;
+    if (GetKeyboardCursorValueWrapper() == KEYBOARD_VALUE_FIRST_BUTTON) {
+        gKeyboard->mCursorOnButton[0] = TRUE;
     } else {
-        gKeyboard->mCursorOnButton[0] = 0;
+        gKeyboard->mCursorOnButton[0] = FALSE;
     }
-    if (GetKeyboardCursorValueWrapper() == 2) {
-        gKeyboard->mCursorOnButton[1] = 1;
+    if (GetKeyboardCursorValueWrapper() == KEYBOARD_VALUE_SECOND_BUTTON) {
+        gKeyboard->mCursorOnButton[1] = TRUE;
     } else {
-        gKeyboard->mCursorOnButton[1] = 0;
+        gKeyboard->mCursorOnButton[1] = FALSE;
     }
 }
 
 void AdvanceKeyboardState1(void) {
     gKeyboard->mStateFrames++;
-    gKeyboard->mOffsetY = InterpolateS16(1, 0xc0, 0, gKeyboard->mStateFrames, 0xf);
-    gKeyboard->mTextOffsetY[0][1] = InterpolateS16(1, gKeyboardTextOffsetYInitial[0][1],
-                                                   gKeyboardTextOffsetYTarget[0][1], gKeyboard->mStateFrames, 0xf);
-    if (gKeyboard->mStateFrames >= 0xf) {
-        gKeyboard->mStateFrames = 0xf;
+    gKeyboard->mOffsetY = InterpolateS16(1, KEYBOARD_OFFSET_HIDDEN, 0, gKeyboard->mStateFrames, KEYBOARD_SLIDE_FRAMES);
+    gKeyboard->mTextOffsetY[0][1] =
+        InterpolateS16(1, gKeyboardTextOffsetYInitial[0][1], gKeyboardTextOffsetYTarget[0][1], gKeyboard->mStateFrames,
+                       KEYBOARD_SLIDE_FRAMES);
+    if (gKeyboard->mStateFrames >= KEYBOARD_SLIDE_FRAMES) {
+        gKeyboard->mStateFrames = KEYBOARD_SLIDE_FRAMES;
     }
-    if (gKeyboard->mStateFrames >= 0xf && IsTxtSystemState2NoCloseRequest() != 0) {
-        gKeyboard->mNextState = 2;
+    if (gKeyboard->mStateFrames >= KEYBOARD_SLIDE_FRAMES && IsTxtSystemState2NoCloseRequest() != 0) {
+        gKeyboard->mNextState = KEYBOARD_STATE_ENTER_FRIEND_KEY;
         gKeyboard->mTextEntryEnabled = TRUE;
         gKeyboard->mStateFrames = 0;
     }
@@ -545,25 +547,27 @@ void AdvanceKeyboardState2(void) {
     text = GetKeyboardText();
     MIi_CpuCopy16(text, textRecord, 0x18);
     UpdateKeyboardFriendKeyButtons();
-    if (touchedRectIndex == 1 ||
-        (GetKeyboardCursorValueWrapper() == 1 && (u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_A) != 0)) {
+    if (touchedRectIndex == KEYBOARD_FRIEND_KEY_RECT_FIRST_BUTTON ||
+        (GetKeyboardCursorValueWrapper() == KEYBOARD_VALUE_FIRST_BUTTON &&
+         (u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_A) != 0)) {
         keyboard = gKeyboard;
         if (keyboard->mButtonEnabled[0] != 0) {
-            keyboard->mNextState = 3;
-            gKeyboard->mRecords[2].mFirstButtonChosen = 1;
+            keyboard->mNextState = KEYBOARD_STATE_SLIDE_OUT_FRIEND_KEY;
+            gKeyboard->mRecords[KEYBOARD_RECORD_STATUS].mFirstButtonChosen = 1;
             RequestTxtSystemClose();
-            MoveKeyboardCursorToValueWrapper(1);
+            MoveKeyboardCursorToValueWrapper(KEYBOARD_VALUE_FIRST_BUTTON);
             gKeyboard->mTextEntryEnabled = FALSE;
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 4);
         } else {
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x16);
         }
-    } else if (touchedRectIndex == 0 || (GetKeyboardCursorValueWrapper() == 2 &&
-                                         (u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_A) != 0)) {
-        gKeyboard->mNextState = 3;
-        gKeyboard->mRecords[2].mFirstButtonChosen = 0;
+    } else if (touchedRectIndex == KEYBOARD_FRIEND_KEY_RECT_SECOND_BUTTON ||
+               (GetKeyboardCursorValueWrapper() == KEYBOARD_VALUE_SECOND_BUTTON &&
+                (u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_A) != 0)) {
+        gKeyboard->mNextState = KEYBOARD_STATE_SLIDE_OUT_FRIEND_KEY;
+        gKeyboard->mRecords[KEYBOARD_RECORD_STATUS].mFirstButtonChosen = 0;
         RequestTxtSystemClose();
-        MoveKeyboardCursorToValueWrapper(2);
+        MoveKeyboardCursorToValueWrapper(KEYBOARD_VALUE_SECOND_BUTTON);
         gKeyboard->mTextEntryEnabled = FALSE;
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0xe);
     }
@@ -572,46 +576,51 @@ void AdvanceKeyboardState2(void) {
 void AdvanceKeyboardState3(void) {
     Keyboard *keyboard;
     gKeyboard->mStateFrames++;
-    gKeyboard->mOffsetY = InterpolateS16(1, 0, 0xc0, gKeyboard->mStateFrames, 0xf);
-    gKeyboard->mTextOffsetY[0][1] = InterpolateS16(1, gKeyboardTextOffsetYTarget[0][1],
-                                                   gKeyboardTextOffsetYInitial[0][1], gKeyboard->mStateFrames, 0xf);
-    if (gKeyboard->mStateFrames >= 0xf) {
-        gKeyboard->mStateFrames = 0xf;
+    gKeyboard->mOffsetY = InterpolateS16(1, 0, KEYBOARD_OFFSET_HIDDEN, gKeyboard->mStateFrames, KEYBOARD_SLIDE_FRAMES);
+    gKeyboard->mTextOffsetY[0][1] =
+        InterpolateS16(1, gKeyboardTextOffsetYTarget[0][1], gKeyboardTextOffsetYInitial[0][1], gKeyboard->mStateFrames,
+                       KEYBOARD_SLIDE_FRAMES);
+    if (gKeyboard->mStateFrames >= KEYBOARD_SLIDE_FRAMES) {
+        gKeyboard->mStateFrames = KEYBOARD_SLIDE_FRAMES;
     }
-    if (gKeyboard->mStateFrames >= 0xf && IsTxtSystemState0NoOpenRequest() != 0) {
+    if (gKeyboard->mStateFrames >= KEYBOARD_SLIDE_FRAMES && IsTxtSystemState0NoOpenRequest() != 0) {
         keyboard = gKeyboard;
-        if (keyboard->mRecords[2].mFirstButtonChosen != 0) {
+        if (keyboard->mRecords[KEYBOARD_RECORD_STATUS].mFirstButtonChosen != 0) {
             CopyKeyboardTextAsBytes();
-            switch (CheckFriendKeyString(&gKeyboard->mRecords[2])) {
+            switch (CheckFriendKeyString(&gKeyboard->mRecords[KEYBOARD_RECORD_STATUS])) {
                 case 1:
-                    gKeyboard->mNextState = 4;
-                    SetupTxtSystemSubText(GetBmgEntry(gKeyboard->mCommonMessages, 0xa));
+                    gKeyboard->mNextState = KEYBOARD_STATE_SHOW_FRIEND_KEY_ERROR;
+                    SetupTxtSystemSubText(
+                        GetBmgEntry(gKeyboard->mCommonMessages, KEYBOARD_MESSAGE_FRIEND_CODE_INCORRECT));
                     gKeyboard->mStateFrames = 0;
                     return;
                 case 2:
-                    gKeyboard->mNextState = 4;
-                    SetupTxtSystemSubText(GetBmgEntry(gKeyboard->mCommonMessages, 0xb));
+                    gKeyboard->mNextState = KEYBOARD_STATE_SHOW_FRIEND_KEY_ERROR;
+                    SetupTxtSystemSubText(
+                        GetBmgEntry(gKeyboard->mCommonMessages, KEYBOARD_MESSAGE_FRIEND_CODE_ALREADY_REGISTERED));
                     gKeyboard->mStateFrames = 0;
                     return;
                 default:
-                    gKeyboard->mNextState = 6;
-                    SetupTxtSystemMainTextEx(GetBmgEntry(gKeyboard->mCommonMessages, 8), 0, 0, 0, 0, 0, 0);
+                    gKeyboard->mNextState = KEYBOARD_STATE_SLIDE_IN_NAME;
+                    SetupTxtSystemMainTextEx(
+                        GetBmgEntry(gKeyboard->mCommonMessages, KEYBOARD_MESSAGE_ENTER_TEMPORARY_NAME), 0, 0, 0, 0, 0,
+                        0);
                     gKeyboard->mStateFrames = 0;
-                    gKeyboard->mKind = 1;
+                    gKeyboard->mKind = KEYBOARD_KIND_NAME;
                     if (gStartupWork->mRegion == 0) {
-                        gKeyboard->mLayout = 1;
+                        gKeyboard->mLayout = KEYBOARD_LAYOUT_KANA;
                     } else {
-                        gKeyboard->mLayout = 2;
+                        gKeyboard->mLayout = KEYBOARD_LAYOUT_ASCII;
                     }
                     SelectKeyboardLayout(gKeyboard->mLayout);
-                    SetKeyboardTextLimit(gKeyboardTextLimits[1]);
+                    SetKeyboardTextLimit(gKeyboardTextLimits[KEYBOARD_KIND_NAME]);
                     SetKeyboardTextFromName();
                     QueueKeyboardScreenMap();
                     ShowKeyboardLayoutObject();
                     return;
             }
         } else {
-            keyboard->mRecords[2].mNextScene = 0xc;
+            keyboard->mRecords[KEYBOARD_RECORD_STATUS].mNextScene = SCENE_WIFI_MENU;
         }
     }
 }
@@ -623,18 +632,20 @@ void AdvanceKeyboardState4(void) {
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x15);
     }
     keyboard = gKeyboard;
-    if (keyboard->mStateFrames >= 0x78) {
-        keyboard->mNextState = 1;
-        SetupTxtSystemMainTextEx(GetBmgEntry(gKeyboard->mCommonMessages, 7), 0, 0, 0, 0, 0, 0);
+    if (keyboard->mStateFrames >= KEYBOARD_ERROR_FRAMES) {
+        keyboard->mNextState = KEYBOARD_STATE_SLIDE_IN_FRIEND_KEY;
+        SetupTxtSystemMainTextEx(GetBmgEntry(gKeyboard->mCommonMessages, KEYBOARD_MESSAGE_ENTER_FRIEND_CODE), 0, 0, 0,
+                                 0, 0, 0);
         gKeyboard->mStateFrames = 0;
     }
 }
 
 void AdvanceKeyboardState5(void) {
     if (AreBrightnessFadesClear() != 0) {
-        gKeyboard->mNextState = 6;
-        SetupTxtSystemMainTextEx(GetBmgEntry(gKeyboard->mCommonMessages, 0xf), 0, 0, 0, 0, 0, 0);
-        gKeyboard->mRecords[2].mFirstButtonChosen = 1;
+        gKeyboard->mNextState = KEYBOARD_STATE_SLIDE_IN_NAME;
+        SetupTxtSystemMainTextEx(GetBmgEntry(gKeyboard->mCommonMessages, KEYBOARD_MESSAGE_ENTER_NICKNAME), 0, 0, 0, 0,
+                                 0, 0);
+        gKeyboard->mRecords[KEYBOARD_RECORD_STATUS].mFirstButtonChosen = 1;
     }
 }
 #pragma thumb off
@@ -645,29 +656,29 @@ void UpdateKeyboardNameButtons(void) {
     s32 charIndex;
     u8 textLimit;
     charIndex = 0;
-    gKeyboard->mButtonEnabled[0] = 0;
+    gKeyboard->mButtonEnabled[0] = FALSE;
     for (; charIndex < GetKeyboardTextIndex(); charIndex++) {
         if (GetKeyboardText()[charIndex] != 0x20 && GetKeyboardText()[charIndex] != 0x3000) {
-            gKeyboard->mButtonEnabled[0] = 1;
+            gKeyboard->mButtonEnabled[0] = TRUE;
         }
     }
-    textLimit = gKeyboardTextLimits[1];
+    textLimit = gKeyboardTextLimits[KEYBOARD_KIND_NAME];
     if (textLimit - 1 == GetKeyboardTextIndex()) {
         if ((GetKeyboardText() + textLimit)[-1] != 0x20 && (GetKeyboardText() + textLimit)[-1] != 0x3000 &&
             (GetKeyboardText() + textLimit)[-1] != 0) {
-            gKeyboard->mButtonEnabled[0] = 1;
+            gKeyboard->mButtonEnabled[0] = TRUE;
         }
     }
-    if (GetKeyboardCursorValueWrapper() == 1) {
-        gKeyboard->mCursorOnButton[0] = 1;
+    if (GetKeyboardCursorValueWrapper() == KEYBOARD_VALUE_FIRST_BUTTON) {
+        gKeyboard->mCursorOnButton[0] = TRUE;
     } else {
-        gKeyboard->mCursorOnButton[0] = 0;
+        gKeyboard->mCursorOnButton[0] = FALSE;
     }
-    if (GetKeyboardCursorValueWrapper() == 2) {
-        gKeyboard->mCursorOnButton[1] = 1;
+    if (GetKeyboardCursorValueWrapper() == KEYBOARD_VALUE_SECOND_BUTTON) {
+        gKeyboard->mCursorOnButton[1] = TRUE;
         return;
     }
-    gKeyboard->mCursorOnButton[1] = 0;
+    gKeyboard->mCursorOnButton[1] = FALSE;
 }
 
 #pragma thumb off
@@ -676,19 +687,21 @@ void UpdateKeyboardNameButtons(void) {
 void AdvanceKeyboardState6(void) {
     Keyboard *keyboard;
     gKeyboard->mStateFrames++;
-    gKeyboard->mOffsetY = InterpolateS16(1, 0xc0, 0, gKeyboard->mStateFrames, 0xf);
-    gKeyboard->mTextOffsetY[1][1] = InterpolateS16(1, gKeyboardTextOffsetYInitial[1][1],
-                                                   gKeyboardTextOffsetYTarget[1][1], gKeyboard->mStateFrames, 0xf);
+    gKeyboard->mOffsetY = InterpolateS16(1, KEYBOARD_OFFSET_HIDDEN, 0, gKeyboard->mStateFrames, KEYBOARD_SLIDE_FRAMES);
+    gKeyboard->mTextOffsetY[1][1] =
+        InterpolateS16(1, gKeyboardTextOffsetYInitial[1][1], gKeyboardTextOffsetYTarget[1][1], gKeyboard->mStateFrames,
+                       KEYBOARD_SLIDE_FRAMES);
     keyboard = gKeyboard;
-    if (keyboard->mRecords[2].mFirstButtonChosen != 0) {
-        gKeyboard->mTextOffsetY[0][0] = InterpolateS16(1, gKeyboardTextOffsetYInitial[0][0],
-                                                       gKeyboardTextOffsetYTarget[0][0], keyboard->mStateFrames, 0xf);
+    if (keyboard->mRecords[KEYBOARD_RECORD_STATUS].mFirstButtonChosen != 0) {
+        gKeyboard->mTextOffsetY[0][0] =
+            InterpolateS16(1, gKeyboardTextOffsetYInitial[0][0], gKeyboardTextOffsetYTarget[0][0],
+                           keyboard->mStateFrames, KEYBOARD_SLIDE_FRAMES);
     }
-    if (gKeyboard->mStateFrames >= 0xf) {
-        gKeyboard->mStateFrames = 0xf;
+    if (gKeyboard->mStateFrames >= KEYBOARD_SLIDE_FRAMES) {
+        gKeyboard->mStateFrames = KEYBOARD_SLIDE_FRAMES;
     }
-    if (gKeyboard->mStateFrames >= 0xf && IsTxtSystemState2NoCloseRequest() != 0) {
-        gKeyboard->mNextState = 7;
+    if (gKeyboard->mStateFrames >= KEYBOARD_SLIDE_FRAMES && IsTxtSystemState2NoCloseRequest() != 0) {
+        gKeyboard->mNextState = KEYBOARD_STATE_ENTER_NAME;
         gKeyboard->mTextEntryEnabled = TRUE;
         gKeyboard->mStateFrames = 0;
     }
@@ -725,27 +738,29 @@ void AdvanceKeyboardState7(void) {
     text = GetKeyboardText();
     MIi_CpuCopy16(text, textRecord, 0x18);
     UpdateKeyboardNameButtons();
-    if (touchedRectIndex == 5 ||
-        (GetKeyboardCursorValueWrapper() == 1 && (u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_A) != 0)) {
+    if (touchedRectIndex == KEYBOARD_NAME_RECT_FIRST_BUTTON ||
+        (GetKeyboardCursorValueWrapper() == KEYBOARD_VALUE_FIRST_BUTTON &&
+         (u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_A) != 0)) {
         keyboard = gKeyboard;
         if (keyboard->mButtonEnabled[0] != 0) {
-            keyboard->mNextState = 8;
-            gKeyboard->mRecords[2].mFirstButtonChosen = 1;
+            keyboard->mNextState = KEYBOARD_STATE_SLIDE_OUT_NAME;
+            gKeyboard->mRecords[KEYBOARD_RECORD_STATUS].mFirstButtonChosen = 1;
             RequestTxtSystemClose();
-            MoveKeyboardCursorToValueWrapper(1);
+            MoveKeyboardCursorToValueWrapper(KEYBOARD_VALUE_FIRST_BUTTON);
             gKeyboard->mTextEntryEnabled = FALSE;
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 4);
         } else {
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x16);
         }
-    } else if (touchedRectIndex == 6 || (GetKeyboardCursorValueWrapper() == 2 &&
-                                         (u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_A) != 0)) {
+    } else if (touchedRectIndex == KEYBOARD_NAME_RECT_SECOND_BUTTON ||
+               (GetKeyboardCursorValueWrapper() == KEYBOARD_VALUE_SECOND_BUTTON &&
+                (u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_A) != 0)) {
         keyboard = gKeyboard;
         if (keyboard->mButtonEnabled[1] != 0) {
-            keyboard->mNextState = 8;
-            gKeyboard->mRecords[2].mFirstButtonChosen = 0;
+            keyboard->mNextState = KEYBOARD_STATE_SLIDE_OUT_NAME;
+            gKeyboard->mRecords[KEYBOARD_RECORD_STATUS].mFirstButtonChosen = 0;
             RequestTxtSystemClose();
-            MoveKeyboardCursorToValueWrapper(2);
+            MoveKeyboardCursorToValueWrapper(KEYBOARD_VALUE_SECOND_BUTTON);
             gKeyboard->mTextEntryEnabled = FALSE;
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0xe);
         } else {
@@ -765,27 +780,27 @@ void AdvanceKeyboardState7(void) {
         touched = FALSE;
         switch (touchedRectIndex) {
             case 0:
-                keyboard->mLayout = 1;
+                keyboard->mLayout = KEYBOARD_LAYOUT_KANA;
                 SelectKeyboardLayout(gKeyboard->mLayout);
                 touched = TRUE;
                 break;
             case 1:
-                keyboard->mLayout = 2;
+                keyboard->mLayout = KEYBOARD_LAYOUT_ASCII;
                 SelectKeyboardLayout(gKeyboard->mLayout);
                 touched = TRUE;
                 break;
             case 2:
-                keyboard->mLayout = 3;
+                keyboard->mLayout = KEYBOARD_LAYOUT_EURO;
                 SelectKeyboardLayout(gKeyboard->mLayout);
                 touched = TRUE;
                 break;
             case 3:
-                keyboard->mLayout = 4;
+                keyboard->mLayout = KEYBOARD_LAYOUT_PICTOGRAMS;
                 SelectKeyboardLayout(gKeyboard->mLayout);
                 touched = TRUE;
                 break;
             case 4:
-                keyboard->mLayout = 5;
+                keyboard->mLayout = KEYBOARD_LAYOUT_PICTOGRAMS_EXTRA;
                 SelectKeyboardLayout(gKeyboard->mLayout);
                 touched = TRUE;
                 break;
@@ -810,48 +825,51 @@ void AdvanceKeyboardState8(void) {
     void *buttonText;
     void *secondButtonText;
     gKeyboard->mStateFrames++;
-    gKeyboard->mOffsetY = InterpolateS16(1, 0, 0xc0, gKeyboard->mStateFrames, 0xf);
-    gKeyboard->mTextOffsetY[1][1] = InterpolateS16(1, gKeyboardTextOffsetYTarget[1][1],
-                                                   gKeyboardTextOffsetYInitial[1][1], gKeyboard->mStateFrames, 0xf);
+    gKeyboard->mOffsetY = InterpolateS16(1, 0, KEYBOARD_OFFSET_HIDDEN, gKeyboard->mStateFrames, KEYBOARD_SLIDE_FRAMES);
+    gKeyboard->mTextOffsetY[1][1] =
+        InterpolateS16(1, gKeyboardTextOffsetYTarget[1][1], gKeyboardTextOffsetYInitial[1][1], gKeyboard->mStateFrames,
+                       KEYBOARD_SLIDE_FRAMES);
     keyboard = gKeyboard;
-    if (keyboard->mRecords[2].mFirstButtonChosen == 0) {
-        gKeyboard->mTextOffsetY[0][0] = InterpolateS16(1, gKeyboardTextOffsetYTarget[0][0],
-                                                       gKeyboardTextOffsetYInitial[0][0], keyboard->mStateFrames, 0xf);
+    if (keyboard->mRecords[KEYBOARD_RECORD_STATUS].mFirstButtonChosen == 0) {
+        gKeyboard->mTextOffsetY[0][0] =
+            InterpolateS16(1, gKeyboardTextOffsetYTarget[0][0], gKeyboardTextOffsetYInitial[0][0],
+                           keyboard->mStateFrames, KEYBOARD_SLIDE_FRAMES);
     }
-    if (gKeyboard->mStateFrames >= 0xf) {
-        gKeyboard->mStateFrames = 0xf;
+    if (gKeyboard->mStateFrames >= KEYBOARD_SLIDE_FRAMES) {
+        gKeyboard->mStateFrames = KEYBOARD_SLIDE_FRAMES;
     }
-    if (gKeyboard->mStateFrames >= 0xf && IsTxtSystemState0NoOpenRequest() != 0) {
+    if (gKeyboard->mStateFrames >= KEYBOARD_SLIDE_FRAMES && IsTxtSystemState0NoOpenRequest() != 0) {
         keyboard = gKeyboard;
-        if (keyboard->mRecords[2].mFirstButtonChosen != 0) {
-            if (keyboard->mRecords[2].mMode == 0xc) {
-                message = GetBmgEntry(keyboard->mCommonMessages, 0x11);
-                buttonText = GetBmgEntry(gKeyboard->mCommonMessages, 0);
-                secondButtonText = GetBmgEntry(keyboard->mCommonMessages, 1);
+        if (keyboard->mRecords[KEYBOARD_RECORD_STATUS].mFirstButtonChosen != 0) {
+            if (keyboard->mRecords[KEYBOARD_RECORD_STATUS].mMode == SCENE_WIFI_MENU) {
+                message = GetBmgEntry(keyboard->mCommonMessages, KEYBOARD_MESSAGE_CONFIRM_FRIEND_CODE);
+                buttonText = GetBmgEntry(gKeyboard->mCommonMessages, KEYBOARD_MESSAGE_YES);
+                secondButtonText = GetBmgEntry(keyboard->mCommonMessages, KEYBOARD_MESSAGE_NO);
                 SetupTxtSystemSubTextTwoButtonsEx(message, buttonText, secondButtonText, 0, 0, 1, 1, 0);
             } else {
-                message = GetBmgEntry(keyboard->mCommonMessages, 0xe);
+                message = GetBmgEntry(keyboard->mCommonMessages, KEYBOARD_MESSAGE_CONFIRM_NAME);
                 charCount = CopyTextWithinWidth(gKeyboard->mRecords[1].mChars, nameChars);
                 nameChars[charCount] = 0;
                 FormatMessageWithText(nameChars, message, &formattedText[1], 0x1f4);
-                buttonText = GetBmgEntry(gKeyboard->mCommonMessages, 0);
-                secondButtonText = GetBmgEntry(gKeyboard->mCommonMessages, 1);
+                buttonText = GetBmgEntry(gKeyboard->mCommonMessages, KEYBOARD_MESSAGE_YES);
+                secondButtonText = GetBmgEntry(gKeyboard->mCommonMessages, KEYBOARD_MESSAGE_NO);
                 SetupTxtSystemSubTextTwoButtonsEx(&formattedText[1], buttonText, secondButtonText, 0, 0, 1, 1, 0);
             }
-            gKeyboard->mNextState = 9;
+            gKeyboard->mNextState = KEYBOARD_STATE_SLIDE_IN_CONFIRM;
             gKeyboard->mStateFrames = 0;
-        } else if (keyboard->mRecords[2].mMode == 0xc) {
-            keyboard->mKind = 0;
-            gKeyboard->mLayout = 0;
+        } else if (keyboard->mRecords[KEYBOARD_RECORD_STATUS].mMode == SCENE_WIFI_MENU) {
+            keyboard->mKind = KEYBOARD_KIND_FRIEND_KEY;
+            gKeyboard->mLayout = KEYBOARD_LAYOUT_DIGITS;
             SelectKeyboardLayout(gKeyboard->mLayout);
-            SetKeyboardTextLimit(gKeyboardTextLimits[0]);
+            SetKeyboardTextLimit(gKeyboardTextLimits[KEYBOARD_KIND_FRIEND_KEY]);
             QueueKeyboardScreenMap();
             SetKeyboardTextFromFriendKey();
-            gKeyboard->mNextState = 1;
+            gKeyboard->mNextState = KEYBOARD_STATE_SLIDE_IN_FRIEND_KEY;
             gKeyboard->mStateFrames = 0;
-            SetupTxtSystemMainTextEx(GetBmgEntry(gKeyboard->mCommonMessages, 7), 0, 0, 0, 0, 0, 0);
+            SetupTxtSystemMainTextEx(GetBmgEntry(gKeyboard->mCommonMessages, KEYBOARD_MESSAGE_ENTER_FRIEND_CODE), 0, 0,
+                                     0, 0, 0, 0);
         } else {
-            keyboard->mRecords[2].mNextScene = 7;
+            keyboard->mRecords[KEYBOARD_RECORD_STATUS].mNextScene = SCENE_OPTION;
         }
     }
 }
@@ -861,16 +879,17 @@ void AdvanceKeyboardState9(void) {
     gKeyboard->mStateFrames++;
     targetOffsetY = gKeyboardTextOffsetYTarget[1][0];
     gKeyboard->mTextOffsetY[0][0] =
-        InterpolateS16(1, gKeyboardTextOffsetYTarget[0][0], gKeyboardTextOffsetYTarget[0][0] - (0xc0 - targetOffsetY),
-                       gKeyboard->mStateFrames, 0xf);
-    gKeyboard->mTextOffsetY[1][0] =
-        InterpolateS16(1, gKeyboardTextOffsetYInitial[1][0], targetOffsetY, gKeyboard->mStateFrames, 0xf);
-    if (gKeyboard->mStateFrames >= 0xf) {
-        gKeyboard->mStateFrames = 0xf;
+        InterpolateS16(1, gKeyboardTextOffsetYTarget[0][0],
+                       gKeyboardTextOffsetYTarget[0][0] - (KEYBOARD_OFFSET_HIDDEN - targetOffsetY),
+                       gKeyboard->mStateFrames, KEYBOARD_SLIDE_FRAMES);
+    gKeyboard->mTextOffsetY[1][0] = InterpolateS16(1, gKeyboardTextOffsetYInitial[1][0], targetOffsetY,
+                                                   gKeyboard->mStateFrames, KEYBOARD_SLIDE_FRAMES);
+    if (gKeyboard->mStateFrames >= KEYBOARD_SLIDE_FRAMES) {
+        gKeyboard->mStateFrames = KEYBOARD_SLIDE_FRAMES;
     }
-    if (gKeyboard->mStateFrames >= 0xf) {
+    if (gKeyboard->mStateFrames >= KEYBOARD_SLIDE_FRAMES) {
         if (IsTxtSystemState2NoCloseRequest() != 0) {
-            gKeyboard->mNextState = 0xa;
+            gKeyboard->mNextState = KEYBOARD_STATE_ANSWER_CONFIRM;
             gKeyboard->mStateFrames = 0;
         }
     }
@@ -881,42 +900,44 @@ void AdvanceKeyboardState10(void) {
     s16 targetOffsetY;
     void *message;
     void *buttonText;
-    if (gKeyboard->mStateFrames >= 0xf) {
-        gKeyboard->mStateFrames = 0xf;
+    if (gKeyboard->mStateFrames >= KEYBOARD_SLIDE_FRAMES) {
+        gKeyboard->mStateFrames = KEYBOARD_SLIDE_FRAMES;
     }
     if (GetTxtSystemDone() != 0 && GetTxtSystemSelectedIndex() == 1) {
         targetOffsetY = gKeyboardTextOffsetYTarget[1][0];
-        gKeyboard->mTextOffsetY[1][0] =
-            InterpolateS16(1, targetOffsetY, gKeyboardTextOffsetYInitial[1][0], gKeyboard->mStateFrames, 0xf);
-        gKeyboard->mTextOffsetY[0][0] = InterpolateS16(1, gKeyboardTextOffsetYTarget[0][0] - (0xc0 - targetOffsetY),
-                                                       gKeyboardTextOffsetYTarget[0][0], gKeyboard->mStateFrames, 0xf);
+        gKeyboard->mTextOffsetY[1][0] = InterpolateS16(1, targetOffsetY, gKeyboardTextOffsetYInitial[1][0],
+                                                       gKeyboard->mStateFrames, KEYBOARD_SLIDE_FRAMES);
+        gKeyboard->mTextOffsetY[0][0] =
+            InterpolateS16(1, gKeyboardTextOffsetYTarget[0][0] - (KEYBOARD_OFFSET_HIDDEN - targetOffsetY),
+                           gKeyboardTextOffsetYTarget[0][0], gKeyboard->mStateFrames, KEYBOARD_SLIDE_FRAMES);
     }
-    if (IsTxtSystemState0NoOpenRequest() != 0 && gKeyboard->mStateFrames >= 0xf) {
+    if (IsTxtSystemState0NoOpenRequest() != 0 && gKeyboard->mStateFrames >= KEYBOARD_SLIDE_FRAMES) {
         if (GetTxtSystemSelectedIndex() == 0) {
             keyboard = gKeyboard;
-            if (keyboard->mRecords[2].mMode == 0xc) {
-                AddBuddyFromFriendKey(&keyboard->mRecords[2], &keyboard->mRecords[1]);
+            if (keyboard->mRecords[KEYBOARD_RECORD_STATUS].mMode == SCENE_WIFI_MENU) {
+                AddBuddyFromFriendKey(&keyboard->mRecords[KEYBOARD_RECORD_STATUS], &keyboard->mRecords[1]);
                 WriteBackupBuddyRecords();
-                message = GetBmgEntry(gKeyboard->mCommonMessages, 0x81);
+                message = GetBmgEntry(gKeyboard->mCommonMessages, KEYBOARD_MESSAGE_SAVING);
                 SetupTxtSystemSubTextEx(message, 0, 1, 1, 0, 1);
-                gKeyboard->mNextState = 0xb;
+                gKeyboard->mNextState = KEYBOARD_STATE_SHOW_SAVING;
             } else {
                 gBackupBuffers->mFirstBlock->mHasPlayerName = 1;
                 MI_CpuFill8(gBackupBuffers->mFirstBlock->mPlayerName, 0, 0x14);
                 MI_CpuCopy8(&keyboard->mRecords[1], gBackupBuffers->mFirstBlock->mPlayerName, 0x14);
                 WriteBackupFirstBlockWrapper();
                 SetTxtSystemOpenSoundId(0x21);
-                message = GetBmgEntry(gKeyboard->mCommonMessages, 0x10);
-                buttonText = GetBmgEntry(gKeyboard->mCommonMessages, 4);
+                message = GetBmgEntry(gKeyboard->mCommonMessages, KEYBOARD_MESSAGE_NICKNAME_REGISTERED);
+                buttonText = GetBmgEntry(gKeyboard->mCommonMessages, KEYBOARD_MESSAGE_OK);
                 SetupTxtSystemSubTextButtonEx(message, buttonText, 0, 1, 1, 0);
-                gKeyboard->mNextState = 0xc;
+                gKeyboard->mNextState = KEYBOARD_STATE_WAIT_BACKUP;
             }
             gKeyboard->mStateFrames = 0;
         } else {
-            gKeyboard->mNextState = 6;
-            gKeyboard->mRecords[2].mFirstButtonChosen = 0;
+            gKeyboard->mNextState = KEYBOARD_STATE_SLIDE_IN_NAME;
+            gKeyboard->mRecords[KEYBOARD_RECORD_STATUS].mFirstButtonChosen = 0;
             gKeyboard->mStateFrames = 0;
-            SetupTxtSystemMainTextEx(GetBmgEntry(gKeyboard->mCommonMessages, 0xf), 0, 0, 0, 0, 0, 0);
+            SetupTxtSystemMainTextEx(GetBmgEntry(gKeyboard->mCommonMessages, KEYBOARD_MESSAGE_ENTER_NICKNAME), 0, 0, 0,
+                                     0, 0, 0);
         }
     } else {
         if (GetTxtSystemDone() != 0 || IsTxtSystemState0NoOpenRequest() != 0) {
@@ -937,16 +958,16 @@ void AdvanceKeyboardState11(void) {
     gKeyboard->mStateFrames++;
     if (IsTxtSystemState2NoCloseRequest() != 0) {
         keyboard = gKeyboard;
-        if (keyboard->mStateFrames > 0x5a) {
+        if (keyboard->mStateFrames > KEYBOARD_SAVING_FRAMES) {
             backupBusy = (gBackupBuffers->mBusy == 0)
                              ? (gBackupAccess->mBackupEnabled != 0 ? gBackupAccess->mCommandRunning : 0)
                              : 1;
             if (backupBusy == 0) {
-                keyboard->mNextState = 0xc;
+                keyboard->mNextState = KEYBOARD_STATE_WAIT_BACKUP;
                 gKeyboard->mStateFrames = 0;
                 SetTxtSystemOpenSoundId(0x21);
-                message = GetBmgEntry(gKeyboard->mCommonMessages, 9);
-                buttonText = GetBmgEntry(gKeyboard->mCommonMessages, 4);
+                message = GetBmgEntry(gKeyboard->mCommonMessages, KEYBOARD_MESSAGE_FRIEND_CODE_REGISTERED);
+                buttonText = GetBmgEntry(gKeyboard->mCommonMessages, KEYBOARD_MESSAGE_OK);
                 SetupTxtSystemSubTextButtonEx(message, buttonText, 0, 1, 1, 0);
             }
         }
@@ -968,17 +989,17 @@ void AdvanceKeyboardState12(void) {
                          : 1;
         if (backupBusy == 0) {
             SetTxtSystemOpenSoundId(0x23);
-            mode = gKeyboard->mRecords[2].mMode;
-            if (mode == 0xc || mode == 7) {
-                gKeyboard->mRecords[2].mNextScene = mode;
+            mode = gKeyboard->mRecords[KEYBOARD_RECORD_STATUS].mMode;
+            if (mode == SCENE_WIFI_MENU || mode == SCENE_OPTION) {
+                gKeyboard->mRecords[KEYBOARD_RECORD_STATUS].mNextScene = mode;
                 return;
             }
-            if (mode == 0xb) {
-                gKeyboard->mNextState = 0xd;
+            if (mode == SCENE_NICKNAME) {
+                gKeyboard->mNextState = KEYBOARD_STATE_ASK_EMBLEM;
                 gKeyboard->mStateFrames = 0;
-                message = GetBmgEntry(gKeyboard->mCommonMessages, 0x13);
-                buttonText = GetBmgEntry(gKeyboard->mCommonMessages, 0);
-                secondButtonText = GetBmgEntry(gKeyboard->mCommonMessages, 1);
+                message = GetBmgEntry(gKeyboard->mCommonMessages, KEYBOARD_MESSAGE_CREATE_EMBLEM);
+                buttonText = GetBmgEntry(gKeyboard->mCommonMessages, KEYBOARD_MESSAGE_YES);
+                secondButtonText = GetBmgEntry(gKeyboard->mCommonMessages, KEYBOARD_MESSAGE_NO);
                 SetupTxtSystemSubTextTwoButtonsEx(message, buttonText, secondButtonText, 0, 0, 1, 1, 0);
             }
         }
@@ -988,9 +1009,9 @@ void AdvanceKeyboardState12(void) {
 void AdvanceKeyboardState13(void) {
     if (IsTxtSystemState0NoOpenRequest() != 0) {
         if (GetTxtSystemSelectedIndex() == 0) {
-            gKeyboard->mRecords[2].mNextScene = 3;
+            gKeyboard->mRecords[KEYBOARD_RECORD_STATUS].mNextScene = SCENE_EMBLEM;
         } else {
-            gKeyboard->mRecords[2].mNextScene = 0;
+            gKeyboard->mRecords[KEYBOARD_RECORD_STATUS].mNextScene = SCENE_TITLE;
         }
     } else {
         if (GetTxtSystemDone() != 0) {
@@ -1064,7 +1085,7 @@ void ShowKeyboardRemainingCharObjects(void) {
     s32 slotIndex;
     s32 screenIndex;
     const u8 *entryIndexPointer;
-    if (gKeyboard->mKind == 1) {
+    if (gKeyboard->mKind == KEYBOARD_KIND_NAME) {
         charCount = CopyTextWithinWidth(gKeyboard->mRecords[1].mChars, nameChars);
         remaining = 6;
         if (charCount > 4) {
@@ -1075,7 +1096,7 @@ void ShowKeyboardRemainingCharObjects(void) {
         firstShown = 6 - remaining;
         for (; slotIndex < 6; slotIndex++) {
             for (screenIndex = 0; screenIndex < 2; screenIndex++) {
-                if (slotIndex >= firstShown && gKeyboard->mRecords[2].mMode != 0xc) {
+                if (slotIndex >= firstShown && gKeyboard->mRecords[KEYBOARD_RECORD_STATUS].mMode != SCENE_WIFI_MENU) {
                     gKeyboard->mTables[1][screenIndex][*entryIndexPointer].mVisible = 1;
                 } else {
                     gKeyboard->mTables[1][screenIndex][*entryIndexPointer].mVisible = 0;
@@ -1114,46 +1135,46 @@ void AdvanceKeyboard(void) {
         AdvanceKeyboardTextEntry();
     }
     switch (gKeyboard->mState) {
-        case 0:
+        case KEYBOARD_STATE_WAIT_FADE_FRIEND_KEY:
             AdvanceKeyboardState0();
             break;
-        case 1:
+        case KEYBOARD_STATE_SLIDE_IN_FRIEND_KEY:
             AdvanceKeyboardState1();
             break;
-        case 2:
+        case KEYBOARD_STATE_ENTER_FRIEND_KEY:
             AdvanceKeyboardState2();
             break;
-        case 3:
+        case KEYBOARD_STATE_SLIDE_OUT_FRIEND_KEY:
             AdvanceKeyboardState3();
             break;
-        case 4:
+        case KEYBOARD_STATE_SHOW_FRIEND_KEY_ERROR:
             AdvanceKeyboardState4();
             break;
-        case 5:
+        case KEYBOARD_STATE_WAIT_FADE_NAME:
             AdvanceKeyboardState5();
             break;
-        case 6:
+        case KEYBOARD_STATE_SLIDE_IN_NAME:
             AdvanceKeyboardState6();
             break;
-        case 7:
+        case KEYBOARD_STATE_ENTER_NAME:
             AdvanceKeyboardState7();
             break;
-        case 8:
+        case KEYBOARD_STATE_SLIDE_OUT_NAME:
             AdvanceKeyboardState8();
             break;
-        case 9:
+        case KEYBOARD_STATE_SLIDE_IN_CONFIRM:
             AdvanceKeyboardState9();
             break;
-        case 10:
+        case KEYBOARD_STATE_ANSWER_CONFIRM:
             AdvanceKeyboardState10();
             break;
-        case 11:
+        case KEYBOARD_STATE_SHOW_SAVING:
             AdvanceKeyboardState11();
             break;
-        case 12:
+        case KEYBOARD_STATE_WAIT_BACKUP:
             AdvanceKeyboardState12();
             break;
-        case 13:
+        case KEYBOARD_STATE_ASK_EMBLEM:
             AdvanceKeyboardState13();
             break;
     }
@@ -1183,6 +1204,6 @@ void WriteKeyboardRegisters(void) {
 
 #pragma thumb on
 u32 GetKeyboardNextScene(void) {
-    return gKeyboard->mRecords[2].mNextScene;
+    return gKeyboard->mRecords[KEYBOARD_RECORD_STATUS].mNextScene;
 }
 #pragma thumb off

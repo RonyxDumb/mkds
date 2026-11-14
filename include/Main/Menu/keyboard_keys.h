@@ -5,6 +5,20 @@
 #include "Main/MapObjects/data_0217b000.h"
 #include "code_02022aa8.h"
 
+// Layout numbers of SelectKeyboardLayout and Keyboard.mLayout, named after the files each layout loads.
+typedef enum KeyboardLayoutId {
+    KEYBOARD_LAYOUT_DIGITS = 0,
+    KEYBOARD_LAYOUT_KANA = 1,
+    KEYBOARD_LAYOUT_ASCII = 2,
+    KEYBOARD_LAYOUT_EURO = 3,
+    KEYBOARD_LAYOUT_PICTOGRAMS = 4,
+    KEYBOARD_LAYOUT_PICTOGRAMS_EXTRA = 5,
+} KeyboardLayoutId;
+
+// Values of the cursor and rect value functions for the two buttons below the keys.
+#define KEYBOARD_VALUE_FIRST_BUTTON 1
+#define KEYBOARD_VALUE_SECOND_BUTTON 2
+
 void SetKeyboardButton1Rect(u32 left, u32 top, u32 right, u32 bottom);
 void SetKeyboardButton0Rect(u32 left, u32 top, u32 right, u32 bottom);
 

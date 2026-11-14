@@ -700,6 +700,48 @@ typedef struct KeyboardRecord {
     };
 } KeyboardRecord;
 
+// Values of Keyboard.mState and mNextState. The friend code states come first, the name states from
+// KEYBOARD_STATE_WAIT_FADE_NAME on. The screen starts at the first friend code state when it asks for a friend code
+// and at KEYBOARD_STATE_WAIT_FADE_NAME otherwise.
+typedef enum KeyboardState {
+    KEYBOARD_STATE_WAIT_FADE_FRIEND_KEY = 0,
+    KEYBOARD_STATE_SLIDE_IN_FRIEND_KEY = 1,
+    KEYBOARD_STATE_ENTER_FRIEND_KEY = 2,
+    KEYBOARD_STATE_SLIDE_OUT_FRIEND_KEY = 3,
+    KEYBOARD_STATE_SHOW_FRIEND_KEY_ERROR = 4,
+    KEYBOARD_STATE_WAIT_FADE_NAME = 5,
+    KEYBOARD_STATE_SLIDE_IN_NAME = 6,
+    KEYBOARD_STATE_ENTER_NAME = 7,
+    KEYBOARD_STATE_SLIDE_OUT_NAME = 8,
+    KEYBOARD_STATE_SLIDE_IN_CONFIRM = 9,
+    KEYBOARD_STATE_ANSWER_CONFIRM = 10,
+    KEYBOARD_STATE_SHOW_SAVING = 11,
+    KEYBOARD_STATE_WAIT_BACKUP = 12,
+    KEYBOARD_STATE_ASK_EMBLEM = 13,
+} KeyboardState;
+
+// Values of Keyboard.mKind: what the text being entered is.
+typedef enum KeyboardKind {
+    KEYBOARD_KIND_FRIEND_KEY = 0,
+    KEYBOARD_KIND_NAME = 1,
+} KeyboardKind;
+
+// Elements of Keyboard.mRecords: the text of each kind, then the record that holds the screen's mode, chosen button and
+// next scene.
+#define KEYBOARD_RECORD_STATUS 2
+
+// Value of KeyboardRecord.mNextScene while the screen has no scene to run yet.
+#define KEYBOARD_NEXT_SCENE_NONE (-1)
+
+// Frames the slide in and slide out states take, and the offset in lines of the screen slid out of view.
+#define KEYBOARD_SLIDE_FRAMES 0xf
+#define KEYBOARD_OFFSET_HIDDEN 0xc0
+// Offset that moves an object far off the screen.
+#define KEYBOARD_OBJECT_HIDDEN_OFFSET (-500)
+// Frames the friend code error message stays, and the shortest time the saving message stays.
+#define KEYBOARD_ERROR_FRAMES 0x78
+#define KEYBOARD_SAVING_FRAMES 0x5a
+
 // Object behind gKeyboard: 0xc4 bytes allocated by InitKeyboard.
 typedef struct Keyboard {
     // Heap the screen's objects are allocated from.
@@ -710,9 +752,9 @@ typedef struct Keyboard {
     /* 08 */ s32 mLayout;
     /* 0c */ s32 mState;
     /* 10 */ s32 mNextState;
-    /* 14 */ s32 mCursorOnButton[2];
+    /* 14 */ BOOL mCursorOnButton[2];
     // Per button: non-zero while the button accepts its input; button 0 needs text entered.
-    /* 1c */ s32 mButtonEnabled[2];
+    /* 1c */ BOOL mButtonEnabled[2];
     /* 24 */ BOOL mTextEntryEnabled;
     // Calls spent in the current state: counted up by the handlers of states 1, 3, 4, 6, 8, 9 and 11, and by state 10
     // only while GetTxtSystemDone or IsTxtSystemState0NoOpenRequest returns non-zero; zeroed by the handler that

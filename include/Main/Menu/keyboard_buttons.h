@@ -4,6 +4,32 @@
 #include "Main/Graphics/scene_text_init.h"
 #include "Main/Menu/data_0217d000.h"
 
+// Entries of common.bmg that the Keyboard screen shows, named after their text.
+typedef enum KeyboardMessage {
+    KEYBOARD_MESSAGE_YES = 0,
+    KEYBOARD_MESSAGE_NO = 1,
+    KEYBOARD_MESSAGE_OK = 4,
+    KEYBOARD_MESSAGE_CANCEL = 5,
+    KEYBOARD_MESSAGE_ENTER_FRIEND_CODE = 7,
+    KEYBOARD_MESSAGE_ENTER_TEMPORARY_NAME = 8,
+    KEYBOARD_MESSAGE_FRIEND_CODE_REGISTERED = 9,
+    KEYBOARD_MESSAGE_FRIEND_CODE_INCORRECT = 0xa,
+    KEYBOARD_MESSAGE_FRIEND_CODE_ALREADY_REGISTERED = 0xb,
+    KEYBOARD_MESSAGE_CONFIRM_NAME = 0xe,
+    KEYBOARD_MESSAGE_ENTER_NICKNAME = 0xf,
+    KEYBOARD_MESSAGE_NICKNAME_REGISTERED = 0x10,
+    KEYBOARD_MESSAGE_CONFIRM_FRIEND_CODE = 0x11,
+    KEYBOARD_MESSAGE_CREATE_EMBLEM = 0x13,
+    KEYBOARD_MESSAGE_SAVING = 0x81,
+} KeyboardMessage;
+
+// Rect indices the touch lookup returns on the friend code screen (the first button, the second button) and on the
+// name screen (the five layout tabs come first, then the two buttons).
+#define KEYBOARD_FRIEND_KEY_RECT_FIRST_BUTTON 1
+#define KEYBOARD_FRIEND_KEY_RECT_SECOND_BUTTON 0
+#define KEYBOARD_NAME_RECT_FIRST_BUTTON 5
+#define KEYBOARD_NAME_RECT_SECOND_BUTTON 6
+
 // Returns the scene number the Keyboard screen asks for (-1 = none yet); UpdateKeyboardScene copies it into
 // SceneNumbers.mNextScene when it is not -1.
 u32 GetKeyboardNextScene(void);
