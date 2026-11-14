@@ -149,7 +149,7 @@ void SetIwanteHandsApproachPoint(void) {
         mapObject = NULL;
     }
     kart = GetKart((u16) gRaceSetup->mEntryIndex);
-    if (mapObject->mUnk_0a8 == 4) {
+    if (mapObject->mUnk_0a8 == IWANTE_HAND_SECOND) {
         prm = mapObject->mPrm;
         angle = FX_Atan2Idx(kart->mPos.z - mapObject->mUnk_000.mPos.z, kart->mPos.x - mapObject->mUnk_000.mPos.x) -
                 prm->mUnk_26c;
@@ -207,7 +207,7 @@ void SetIwanteHandsPoints(void) {
 }
 
 void SetIwanteNoneCollision(MissionRunMapObject *mapObject) {
-    mapObject->mUnk_0a8 = 0;
+    mapObject->mUnk_0a8 = IWANTE_HAND_SHAPE_NONE;
     SetItemCollisionCallback(mapObject, (UnkFunc *) &IwanteItemResponse2Callback);
     SetCollisionBoxOffsetAndExtent(mapObject, 0, 0, 0, 0, 0, 0);
     SetShadowOffsetAndScale(mapObject, 0x0002a000u, 0, 0x00007000u, 0x00026000u, 0x00001000u, 0x00022000u);
@@ -834,7 +834,7 @@ s32 AdvanceIwanteHandsRepeatVertical(MissionRunMapObject *mapObject) {
     SetAnglePointAndMoveAnglePoint(mapObject, &GetKart((u16) gRaceSetup->mEntryIndex)->mPos);
     SetIwanteHandsPoints();
     if (IsStateNumberBelow(firstHand, 3) && IsStateNumberBelow(secondHand, 3)) {
-        mapObject->mUnk_0a8 = mapObject->mUnk_0a8 == 4 ? 5 : 4;
+        mapObject->mUnk_0a8 = mapObject->mUnk_0a8 == IWANTE_HAND_SECOND ? IWANTE_HAND_FIRST : IWANTE_HAND_SECOND;
         StartIwanteHandsMoveVertical(mapObject);
     }
     return 0;
@@ -862,7 +862,7 @@ void StartIwanteHandsMoveVertical(MissionRunMapObject *mapObject) {
         } else {
             secondHand = NULL;
         }
-        if (mapObject->mUnk_0a8 == 4) {
+        if (mapObject->mUnk_0a8 == IWANTE_HAND_SECOND) {
             StartIwanteHandMoveVertical(firstHand);
             StartIwanteHandWalkWithEffects(secondHand);
         } else {
@@ -966,9 +966,9 @@ int AdvanceIwanteHandsToggleState(MissionRunMapObject *mapObject) {
     } else {
         secondHand = NULL;
     }
-    if (mapObject->mUnk_0a8 == 4) {
+    if (mapObject->mUnk_0a8 == IWANTE_HAND_SECOND) {
         if (IsStateNumberBelow(firstHand, 3)) {
-            mapObject->mUnk_0a8 = 5;
+            mapObject->mUnk_0a8 = IWANTE_HAND_FIRST;
             StartMapObjectState(mapObject, 3, AdvanceIwanteHandsApproachUntilIdle);
             TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mUnk_2c4, 0x270f000);
             SetAnglePointAndMoveAnglePoint(mapObject, &kart->mPos);
@@ -976,7 +976,7 @@ int AdvanceIwanteHandsToggleState(MissionRunMapObject *mapObject) {
             StartIwanteHandChangeToWalkBWalk(secondHand);
         }
     } else if (IsStateNumberBelow(secondHand, 3)) {
-        mapObject->mUnk_0a8 = 4;
+        mapObject->mUnk_0a8 = IWANTE_HAND_SECOND;
         StartMapObjectState(mapObject, 3, AdvanceIwanteHandsApproachUntilIdle);
         TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mUnk_2c4, 0x270f000);
         SetAnglePointAndMoveAnglePoint(mapObject, &kart->mPos);
@@ -1004,7 +1004,7 @@ void StartIwanteHandsTurnToKart(MissionRunMapObject *mapObject) {
     } else {
         secondHand = NULL;
     }
-    if (mapObject->mUnk_0a8 == 4) {
+    if (mapObject->mUnk_0a8 == IWANTE_HAND_SECOND) {
         StartIwanteHandTurnToKart(firstHand);
         StartIwanteHandWalkAHold(secondHand);
     } else {
@@ -1060,7 +1060,7 @@ void StartIwanteHandsApproachKart(MissionRunMapObject *mapObject) {
     } else {
         secondHand = NULL;
     }
-    if (mapObject->mUnk_0a8 == 4) {
+    if (mapObject->mUnk_0a8 == IWANTE_HAND_SECOND) {
         StartIwanteHandWalk(firstHand);
         StartIwanteHandWalkWithEffects(secondHand);
     } else {
@@ -1099,7 +1099,7 @@ void StartIwanteHandsToggleState(MissionRunMapObject *mapObject) {
     GetKart((u16) gRaceSetup->mEntryIndex);
     StartMapObjectState(mapObject, 3, AdvanceIwanteHandsStopAfterToggle);
     StopTurningMoveFollowsAngle(mapObject);
-    mapObject->mUnk_0a8 = (mapObject->mUnk_0a8 == 5) ? 4 : 5;
+    mapObject->mUnk_0a8 = (mapObject->mUnk_0a8 == IWANTE_HAND_FIRST) ? IWANTE_HAND_SECOND : IWANTE_HAND_FIRST;
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         firstHand = GetMissionRunMapObject(
             (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
@@ -1112,7 +1112,7 @@ void StartIwanteHandsToggleState(MissionRunMapObject *mapObject) {
     } else {
         secondHand = NULL;
     }
-    if (mapObject->mUnk_0a8 == 4) {
+    if (mapObject->mUnk_0a8 == IWANTE_HAND_SECOND) {
         StartIwanteHandChangeToWalkB(firstHand);
         StartIwanteHandWalkAHold(secondHand);
     } else {
@@ -1128,7 +1128,8 @@ void StartIwanteHandsToggleStateHold(MissionRunMapObject *mapObject) {
     GetKart((u16) gRaceSetup->mEntryIndex);
     StartMapObjectState(mapObject, 3, AdvanceIwanteHandsStopAfterToggle);
     StopTurningMoveFollowsAngle(mapObject);
-    mapObject->mUnk_0a8 = (mapObject->mUnk_0a8 == 5) ? 4 : 5;
+    mapObject->mUnk_0a8 =
+        (mapObject->mUnk_0a8 == IWANTE_HAND_FIRST) ? IWANTE_HAND_SECOND : IWANTE_HAND_FIRST;
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         firstHand = GetMissionRunMapObject(
             (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
@@ -1141,7 +1142,7 @@ void StartIwanteHandsToggleStateHold(MissionRunMapObject *mapObject) {
     } else {
         secondHand = NULL;
     }
-    if (mapObject->mUnk_0a8 == 4) {
+    if (mapObject->mUnk_0a8 == IWANTE_HAND_SECOND) {
         StartIwanteHandWalkBHold(firstHand);
         StartIwanteHandChangeToWalkA(secondHand);
     } else {

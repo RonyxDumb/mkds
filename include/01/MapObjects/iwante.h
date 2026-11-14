@@ -3,6 +3,15 @@
 #include "types.h"
 #include "01/code_02188950.h"
 
+// Values of mUnk_0a8. On a hand: 0 to 3 are the collision shapes set by SetIwanteNoneCollision to
+// SetIwanteHitReactionCollision (1 to 3 stay bare).
+// On the object the hands follow: 4 and 5 name the hand that is currently the first or second one.
+enum {
+    IWANTE_HAND_SHAPE_NONE,
+    IWANTE_HAND_SECOND = 4,
+    IWANTE_HAND_FIRST,
+};
+
 typedef struct MapObjectList MapObjectList;
 typedef struct ItemObject ItemObject;
 
