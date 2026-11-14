@@ -22,13 +22,13 @@ void CreateEndingScene(void *heap) {
     gEndingScene->mHeap = heap;
     gEndingScene->mUnk_01c = CreateSceneDisplaySettings(heap);
     gEndingScene->mNextScene = -1;
-    gEndingScene->mState = 0;
+    gEndingScene->mState = ENDING_SCENE_STATE_WAIT_FADE_IN;
     gEndingScene->mNextState = gEndingScene->mState;
     gEndingScene->mStateFrames = 0;
     if (gRaceSetup->mCourseId == COURSE_ID_STAFFROLLTRUE) {
-        gEndingScene->mKind = 1;
+        gEndingScene->mKind = ENDING_KIND_STAFFROLL_TRUE;
     } else {
-        gEndingScene->mKind = 0;
+        gEndingScene->mKind = ENDING_KIND_STAFFROLL;
     }
     gEndingScene->mIndex1Queued = FALSE;
     gEndingScene->mCommonMessages = FindFileInLoadedArchives("common.bmg");
@@ -43,10 +43,10 @@ void CreateEndingScene(void *heap) {
         u16 table[2][2] = {{200, 24}, {200, 24}};
 
         switch (gEndingScene->mKind) {
-            case 0:
+            case ENDING_KIND_STAFFROLL:
                 bmgEntry = GetBmgEntry(gEndingScene->mCommonMessages, 0x77);
                 break;
-            case 1:
+            case ENDING_KIND_STAFFROLL_TRUE:
                 bmgEntry = GetBmgEntry(gEndingScene->mCommonMessages, 0x78);
                 break;
         }
@@ -112,7 +112,7 @@ void LoadAndQueueEndingSceneData(void) {
     LoadNclrData(&gEndingScene->mLogoEndMarioKartMBAndThanksYouMBNclrs[0],
                  FindSceneFile("logo_end_marioKart_m_b.nclr"));
     switch (gEndingScene->mKind) {
-        case 0:
+        case ENDING_KIND_STAFFROLL:
             LoadNcgrData(&gEndingScene->mLogoEndMarioKartMBAndThanksYouMBNcgrs[1],
                          FindSceneFile("thanksYou_m_b_00.ncgr"));
             LoadNscrData(&gEndingScene->mLogoEndMarioKartMBgAndThanksYouMBgNscrs[1],
@@ -120,7 +120,7 @@ void LoadAndQueueEndingSceneData(void) {
             LoadNclrData(&gEndingScene->mLogoEndMarioKartMBAndThanksYouMBNclrs[1],
                          FindSceneFile("thanksYou_m_b_00.nclr"));
             break;
-        case 1:
+        case ENDING_KIND_STAFFROLL_TRUE:
             LoadNcgrData(&gEndingScene->mLogoEndMarioKartMBAndThanksYouMBNcgrs[1],
                          FindSceneFile("thanksYou_m_b_01_2.ncgr"));
             LoadNscrData(&gEndingScene->mLogoEndMarioKartMBgAndThanksYouMBgNscrs[1],
@@ -144,11 +144,11 @@ void LoadAndQueueEndingSceneData(void) {
     LoadNcerData(&gEndingScene->mThanksYouMNcer, FindSceneFile("thanksYou_m.nce.ncer"));
     LoadNclrData(&gEndingScene->mThanksYouMO00Nclr, FindSceneFile("thanksYou_m_o_00.nclr"));
     switch (gEndingScene->mKind) {
-        case 0:
+        case ENDING_KIND_STAFFROLL:
             gEndingScene->mEndingThanksBncl = FindSceneFile("ending_thanks_00.bncl");
             gEndingScene->mEndingThanksBnll = FindSceneFile("ending_thanks_00.bnll");
             break;
-        case 1:
+        case ENDING_KIND_STAFFROLL_TRUE:
             gEndingScene->mEndingThanksBncl = FindSceneFile("ending_thanks_01.bncl");
             gEndingScene->mEndingThanksBnll = FindSceneFile("ending_thanks_01.bnll");
             break;
@@ -165,20 +165,20 @@ void LoadAndQueueEndingSceneData(void) {
 void AdvanceEndingSceneState0(void) {
     if (AreBrightnessFadesClear() != 0) {
         if (gMenuShared->mStaffRollEndedEarly != 0) {
-            gEndingScene->mNextState = 5;
+            gEndingScene->mNextState = ENDING_SCENE_STATE_WAIT_INPUT;
             gMenuShared->mStaffRollEndedEarly = 0;
             return;
         }
-        gEndingScene->mNextState = 1;
+        gEndingScene->mNextState = ENDING_SCENE_STATE_SHOW_LOGO;
     }
 }
 
 void AdvanceEndingSceneState1(void) {
     gEndingScene->mStateFrames++;
     if (gEndingScene->mStateFrames > gEndingSceneStateTable[gEndingScene->mState]) {
-        gEndingScene->mNextState = 2;
+        gEndingScene->mNextState = ENDING_SCENE_STATE_FADE_OUT;
         gEndingScene->mStateFrames = 0;
-        StartFadeToFadedNegative(gEndingSceneStateTable[2]);
+        StartFadeToFadedNegative(gEndingSceneStateTable[ENDING_SCENE_STATE_FADE_OUT]);
     }
 }
 
@@ -186,7 +186,7 @@ void AdvanceEndingSceneState2(void) {
     int fadesFaded;
     fadesFaded = AreBrightnessFadesFaded();
     if (fadesFaded != 0) {
-        gEndingScene->mNextState = 3;
+        gEndingScene->mNextState = ENDING_SCENE_STATE_HOLD_FADED;
     }
 }
 
@@ -195,10 +195,10 @@ void AdvanceEndingSceneState3(void) {
 
     gEndingScene->mStateFrames++;
     endingScene = gEndingScene;
-    if (endingScene->mStateFrames > gEndingSceneStateTable[3]) {
-        endingScene->mNextState = 4;
+    if (endingScene->mStateFrames > gEndingSceneStateTable[ENDING_SCENE_STATE_HOLD_FADED]) {
+        endingScene->mNextState = ENDING_SCENE_STATE_FADE_IN;
         gEndingScene->mStateFrames = 0;
-        StartFadeToClearNegative(gEndingSceneStateTable[4]);
+        StartFadeToClearNegative(gEndingSceneStateTable[ENDING_SCENE_STATE_FADE_IN]);
         QueueEndingSceneIndex1Data();
     }
 }
@@ -207,7 +207,7 @@ void AdvanceEndingSceneState4(void) {
     int fadesClear;
     fadesClear = AreBrightnessFadesClear();
     if (fadesClear != 0) {
-        gEndingScene->mNextState = 5;
+        gEndingScene->mNextState = ENDING_SCENE_STATE_WAIT_INPUT;
     }
 }
 
@@ -236,22 +236,22 @@ void AdvanceEndingSceneState5(void) {
                 return;
             }
         }
-        gEndingScene->mNextState = 6;
+        gEndingScene->mNextState = ENDING_SCENE_STATE_FADE_OUT_TO_LEAVE;
         gEndingScene->mStateFrames = 0;
-        StartFadeToFadedNegative(gEndingSceneStateTable[6]);
+        StartFadeToFadedNegative(gEndingSceneStateTable[ENDING_SCENE_STATE_FADE_OUT_TO_LEAVE]);
     }
 }
 
 void AdvanceEndingSceneState6(void) {
     if (AreBrightnessFadesFaded() != 0) {
-        gEndingScene->mNextState = 7;
+        gEndingScene->mNextState = ENDING_SCENE_STATE_HOLD_THEN_LEAVE;
         gEndingScene->mStateFrames = 0;
     }
 }
 
 void AdvanceEndingSceneState7(void) {
     gEndingScene->mStateFrames++;
-    if (gEndingScene->mStateFrames > gEndingSceneStateTable[7]) {
+    if (gEndingScene->mStateFrames > gEndingSceneStateTable[ENDING_SCENE_STATE_HOLD_THEN_LEAVE]) {
         gEndingScene->mNextScene = 0;
     }
 }
@@ -260,28 +260,28 @@ void AdvanceEndingScene(void) {
     gEndingScene->mState = gEndingScene->mNextState;
     ClearOamListCounts(gEndingScene->mMainOam, NULL);
     switch (gEndingScene->mState) {
-        case 0:
+        case ENDING_SCENE_STATE_WAIT_FADE_IN:
             AdvanceEndingSceneState0();
             break;
-        case 1:
+        case ENDING_SCENE_STATE_SHOW_LOGO:
             AdvanceEndingSceneState1();
             break;
-        case 2:
+        case ENDING_SCENE_STATE_FADE_OUT:
             AdvanceEndingSceneState2();
             break;
-        case 3:
+        case ENDING_SCENE_STATE_HOLD_FADED:
             AdvanceEndingSceneState3();
             break;
-        case 4:
+        case ENDING_SCENE_STATE_FADE_IN:
             AdvanceEndingSceneState4();
             break;
-        case 5:
+        case ENDING_SCENE_STATE_WAIT_INPUT:
             AdvanceEndingSceneState5();
             break;
-        case 6:
+        case ENDING_SCENE_STATE_FADE_OUT_TO_LEAVE:
             AdvanceEndingSceneState6();
             break;
-        case 7:
+        case ENDING_SCENE_STATE_HOLD_THEN_LEAVE:
             AdvanceEndingSceneState7();
             break;
     }

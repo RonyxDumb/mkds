@@ -5,6 +5,25 @@
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Race/data_02029930.h" // MissionFileRow
 
+// Values of EndingScene.mKind: which staff roll the scene follows (course ids COURSE_ID_STAFFROLL and
+// COURSE_ID_STAFFROLLTRUE).
+enum {
+    ENDING_KIND_STAFFROLL,
+    ENDING_KIND_STAFFROLL_TRUE,
+};
+
+// Values of EndingScene.mState and mNextState; gEndingSceneStateTable holds how long each lasts.
+enum {
+    ENDING_SCENE_STATE_WAIT_FADE_IN,
+    ENDING_SCENE_STATE_SHOW_LOGO,
+    ENDING_SCENE_STATE_FADE_OUT,
+    ENDING_SCENE_STATE_HOLD_FADED,
+    ENDING_SCENE_STATE_FADE_IN,
+    ENDING_SCENE_STATE_WAIT_INPUT,
+    ENDING_SCENE_STATE_FADE_OUT_TO_LEAVE,
+    ENDING_SCENE_STATE_HOLD_THEN_LEAVE,
+};
+
 typedef struct EndingScene {
     /* 000 */ s32 mState;
     /* 004 */ s32 mNextState;
