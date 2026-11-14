@@ -622,6 +622,16 @@ typedef struct SceneText {
     /* 810 */ s32 mSubCharOffset;
 } SceneText;
 
+// Values of TxtSystem.mState, mNextState and mPrevState: the box is closed, slides in, takes input, shows a pressed
+// button, or slides out.
+enum {
+    TXT_SYSTEM_STATE_CLOSED,
+    TXT_SYSTEM_STATE_OPENING,
+    TXT_SYSTEM_STATE_OPEN,
+    TXT_SYSTEM_STATE_BUTTON_PRESSED,
+    TXT_SYSTEM_STATE_CLOSING,
+};
+
 // Object behind gTxtSystem: 0x2278 bytes allocated by InitTxtSystem.
 typedef struct TxtSystem {
     /* 0000 */ u32 mState;

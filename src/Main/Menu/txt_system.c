@@ -111,9 +111,9 @@ s32 InitTxtSystem(void *heap, TxtSystemArgs *args) {
         }
     }
     ClearTxtSystemCanvasInUse();
-    gTxtSystem->mState = 0;
-    gTxtSystem->mNextState = 0;
-    gTxtSystem->mPrevState = 0;
+    gTxtSystem->mState = TXT_SYSTEM_STATE_CLOSED;
+    gTxtSystem->mNextState = TXT_SYSTEM_STATE_CLOSED;
+    gTxtSystem->mPrevState = TXT_SYSTEM_STATE_CLOSED;
     gTxtSystem->mStateFrames = 0;
     gTxtSystem->mAnimFrameIndexFrames = 0;
     gTxtSystem->mAnimFrameIndex = 0;
@@ -364,7 +364,7 @@ void AdvanceTxtSystemState0(void) {
         RefreshTxtSystemScreenBuffers(drawFlags);
         NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG2_MAP, 0, gTxtSystem->mMainScreenBuffer, 0x1000);
         NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG0_MAP, 0, &gTxtSystem->mSubScreenBuffer, 0x1000);
-        gTxtSystem->mNextState = 1;
+        gTxtSystem->mNextState = TXT_SYSTEM_STATE_OPENING;
         gTxtSystem->mStateFrames = 0;
         for (index = 0; index < 2; index++) {
             gTxtSystem->mBgOffsetAtOpen[index] = gTxtSystem->mBgOffsetRequested[index];
@@ -412,7 +412,7 @@ void AdvanceTxtSystemState1(void) {
         if (gTxtSystem->mCloseRequested == 0) {
             gTxtSystem->mOpenRequested = 0;
         }
-        gTxtSystem->mNextState = 2;
+        gTxtSystem->mNextState = TXT_SYSTEM_STATE_OPEN;
         gTxtSystem->mStateFrames = 0;
     }
 }
@@ -468,7 +468,7 @@ void AdvanceTxtSystemState2(void) {
     }
     clampedTouchY = offsetTouchY;
     if (txtSystem->mCloseRequested != 0) {
-        txtSystem->mNextState = 4;
+        txtSystem->mNextState = TXT_SYSTEM_STATE_CLOSING;
         return;
     }
     buttonCount = txtSystem->mExtraCanvasCount;
@@ -508,7 +508,7 @@ void AdvanceTxtSystemState2(void) {
             QueueTxtSystemButtonColors();
         }
     }
-    gTxtSystem->mNextState = 3;
+    gTxtSystem->mNextState = TXT_SYSTEM_STATE_BUTTON_PRESSED;
     if (gTxtSystem->mExtraCanvasCount == 2 && gTxtSystem->mSelectedIndex == 1) {
         if (gTxtSystem->mSecondInputSoundId != -1) {
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, (u16) gTxtSystem->mSecondInputSoundId);
@@ -542,7 +542,7 @@ void AdvanceTxtSystemState3(void) {
     gTxtSystem->mInputAccepted = 0;
     if (gTxtSystem->mStateFrames >= 10) {
         gTxtSystem->mDone = 1;
-        gTxtSystem->mNextState = 2;
+        gTxtSystem->mNextState = TXT_SYSTEM_STATE_OPEN;
         gTxtSystem->mStateFrames = 0;
     } else if (gTxtSystem->mStateFrames >= 5) {
         QueueTxtSystemButtonColors();
@@ -566,7 +566,7 @@ void AdvanceTxtSystemState4(void) {
         for (screenIndex = 0; screenIndex < 2; screenIndex++) {
             gTxtSystem->mBgOffset[screenIndex] = -192;
         }
-        gTxtSystem->mNextState = 0;
+        gTxtSystem->mNextState = TXT_SYSTEM_STATE_CLOSED;
         ResetTxtSystemButtonColors();
         gTxtSystem->mStateFrames = 0;
         gTxtSystem->mCloseRequested = 0;
@@ -581,19 +581,19 @@ void AdvanceTxtSystem(void) {
         gTxtSystem->mPrevState = gTxtSystem->mState;
         gTxtSystem->mState = gTxtSystem->mNextState;
         switch (gTxtSystem->mState) {
-            case 0:
+            case TXT_SYSTEM_STATE_CLOSED:
                 AdvanceTxtSystemState0();
                 break;
-            case 1:
+            case TXT_SYSTEM_STATE_OPENING:
                 AdvanceTxtSystemState1();
                 break;
-            case 2:
+            case TXT_SYSTEM_STATE_OPEN:
                 AdvanceTxtSystemState2();
                 break;
-            case 3:
+            case TXT_SYSTEM_STATE_BUTTON_PRESSED:
                 AdvanceTxtSystemState3();
                 break;
-            case 4:
+            case TXT_SYSTEM_STATE_CLOSING:
                 AdvanceTxtSystemState4();
                 break;
         }
@@ -637,8 +637,8 @@ void WriteTxtSystemRegisters(void) {
 }
 
 void RequestTxtSystemOpen(void) {
-    if ((gTxtSystem->mState == 0 && gTxtSystem->mOpenRequested != 0) || gTxtSystem->mState == 1 ||
-        gTxtSystem->mState == 2) {
+    if ((gTxtSystem->mState == TXT_SYSTEM_STATE_CLOSED && gTxtSystem->mOpenRequested != 0) ||
+        gTxtSystem->mState == TXT_SYSTEM_STATE_OPENING || gTxtSystem->mState == TXT_SYSTEM_STATE_OPEN) {
         gTxtSystem->mCloseRequested = 1;
     } else {
         gTxtSystem->mCloseRequested = 0;
@@ -893,7 +893,7 @@ BOOL IsTxtSystemState2NoCloseRequest(void) {
     BOOL result;
 
     result = FALSE;
-    if (gTxtSystem->mState == 2 && gTxtSystem->mCloseRequested == 0) {
+    if (gTxtSystem->mState == TXT_SYSTEM_STATE_OPEN && gTxtSystem->mCloseRequested == 0) {
         result = TRUE;
     }
     return result;
@@ -903,7 +903,7 @@ BOOL IsTxtSystemState0NoOpenRequest(void) {
     BOOL result;
 
     result = FALSE;
-    if (gTxtSystem->mState == 0 && gTxtSystem->mOpenRequested == 0) {
+    if (gTxtSystem->mState == TXT_SYSTEM_STATE_CLOSED && gTxtSystem->mOpenRequested == 0) {
         result = TRUE;
     }
     return result;
@@ -913,7 +913,7 @@ BOOL IsTxtSystemState2AfterState1(void) {
     BOOL result;
 
     result = FALSE;
-    if (gTxtSystem->mPrevState == 1 && gTxtSystem->mState == 2) {
+    if (gTxtSystem->mPrevState == TXT_SYSTEM_STATE_OPENING && gTxtSystem->mState == TXT_SYSTEM_STATE_OPEN) {
         result = TRUE;
     }
     return result;
