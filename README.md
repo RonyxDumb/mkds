@@ -14,8 +14,14 @@ own dump of the game; see [INSTALL.md](INSTALL.md).
 Every function is decompiled from the game's own code. Code from other decompilations is not accepted.
 
 ## Progress
+Every function of both versions matches. Europe links every unit except the secure area's BIOS call stubs
+(`src/Main/Unknown/code_0200007e.c`), whose surrounding bytes are not in the source yet; the code not covered by any
+function is the same 3,154 bytes in both versions.
+
 Each version's section is recorded from a build of that version (`python3 tools/configure.py <ver>`):
-`ninja report && python3 tools/progress.py update`.
+`ninja report && python3 tools/progress.py update`. The USA section is the point recorded on 2026-11-07; the units
+that were merged or split for Europe afterwards are not yet marked complete for USA, and no USA build has been run
+since.
 
 ### USA
 <!-- progress:usa:start -->
@@ -50,7 +56,7 @@ _Last updated 2026-11-14. Over time: [graph](progress/eur/progress.svg), [`progr
 - [CONTRIBUTING.md](CONTRIBUTING.md): repository layout, naming and workflow
 - [docs/compiler.md](docs/compiler.md): how the compiler and flags were identified
 - [docs/decompiling.md](docs/decompiling.md): source patterns that matter for matching
-- [docs/versions.md](docs/versions.md): shared-source validation on Europe
+- [docs/versions.md](docs/versions.md): the shared source on Europe: regional code, configuration and file boundaries
 
 Built with [ds-decomp](https://github.com/AetiasHax/ds-decomp), Metrowerks CodeWarrior for DS run through
 [wibo](https://github.com/decompals/wibo), and [objdiff](https://github.com/encounter/objdiff).
