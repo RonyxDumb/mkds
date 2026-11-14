@@ -141,10 +141,10 @@ void UpdateSman(void *mapObjectList, Sman *sman) {
     SoundStartParams soundRequest;
     s32 falloffIndex;
     switch (sman->mState) {
-        case 0:
+        case SMAN_STATE_REST:
             sman->mAngleZEnabled = 1;
             break;
-        case 1:
+        case SMAN_STATE_TOP_FLIGHT:
             sman->mTopHeight = sman->mTopHeight + sman->mTopHeightPerFrame;
             sman->mTopHeightPerFrame = sman->mTopHeightPerFrame - 0x400;
             if (sman->mTopHeightPerFrame < -0x6000) {
@@ -157,7 +157,7 @@ void UpdateSman(void *mapObjectList, Sman *sman) {
             } else if (sman->mTopHeight < sman->mTopLowHeight) {
                 sman->mTopHeight = sman->mTopLowHeight;
                 sman->mTopHeightPerFrame = 0;
-                sman->mState = 2;
+                sman->mState = SMAN_STATE_WAIT_LOW;
                 falloffIndex = 2;
                 if ((sman->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
                     if (sman->mMapObject.mFarDistanceSquared != gSoundFalloffs[2].mFarDistanceSquared) {
@@ -176,16 +176,16 @@ void UpdateSman(void *mapObjectList, Sman *sman) {
             }
             sman->mAngleZEnabled = 0;
             break;
-        case 2:
+        case SMAN_STATE_WAIT_LOW:
             sman->mStateFrames = sman->mStateFrames + 1;
             if (sman->mStateFrames >= 0x12b) {
                 sman->mStateFrames = 0;
                 sman->mTopHeightPerFrame = ((sman->mTopStartHeight - sman->mTopLowHeight) * 0x40) / 0x1000;
-                sman->mState = 3;
+                sman->mState = SMAN_STATE_COME_BACK;
             }
             sman->mAngleZEnabled = 0;
             break;
-        case 3:
+        case SMAN_STATE_COME_BACK:
             if (sman->mTopRiseProgress >= 0x1000) {
                 sman->mTopRiseProgress = 0x1000;
                 sman->mTopHeight = sman->mTopStartHeight;
@@ -200,7 +200,7 @@ void UpdateSman(void *mapObjectList, Sman *sman) {
                     sman->mStateFrames = 0;
                     sman->mBottomScale = 0x1000;
                     sman->mMapObject.mFlags = sman->mMapObject.mFlags & ~1;
-                    sman->mState = 0;
+                    sman->mState = SMAN_STATE_REST;
                 }
             }
             sman->mAngleZEnabled = 1;

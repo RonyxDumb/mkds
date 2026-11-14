@@ -9,6 +9,14 @@
 #include "Main/Kart/code_0208fd8c.h"
 #include "Main/MapObjects/map_object_kind_update_list.h" // MapObjectList, MapObjectKindData
 
+// Values of Sman.mState: at rest, the top part goes up and down, wait with the top low, both parts come back.
+enum {
+    SMAN_STATE_REST,
+    SMAN_STATE_TOP_FLIGHT,
+    SMAN_STATE_WAIT_LOW,
+    SMAN_STATE_COME_BACK,
+};
+
 // Sman: a map object of kind 0x19d in two parts (top and bottom models); state 1 sends the top up and down while the
 // bottom part's scale drops to 0, and later both parts come back.
 typedef struct Sman {

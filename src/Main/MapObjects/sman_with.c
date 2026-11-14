@@ -18,7 +18,7 @@ u8 CollideKartWithSman(Sman *sman, Kart *kart, u8 *firstResponse, u8 *secondResp
         sman->mTopRiseProgress = 0;
         sman->mBottomScale = 0;
         sman->mMapObject.mFlags = sman->mMapObject.mFlags | gSmanHitFlag;
-        sman->mState = 1;
+        sman->mState = SMAN_STATE_TOP_FLIGHT;
         StartSoundIfKartStarOrKiller(&sman->mMapObject, kart);
     }
     return response;
@@ -33,7 +33,7 @@ u8 CollideItemObjectWithSman(Sman *sman, ItemObject *itemObject, u8 *firstRespon
         sman->mTopRiseProgress = 0;
         sman->mBottomScale = 0;
         sman->mMapObject.mFlags = sman->mMapObject.mFlags | gSmanHitFlag;
-        sman->mState = 1;
+        sman->mState = SMAN_STATE_TOP_FLIGHT;
     }
     return response;
 }
