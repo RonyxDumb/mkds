@@ -76,6 +76,9 @@ enum {
     BACKUP_ERROR_BAD_PREFIX,
 };
 
+// Values of BackupAccess.mCopyPass: one copy, or the first or second of the two copies of a block.
+enum { BACKUP_COPY_PASS_SINGLE, BACKUP_COPY_PASS_FIRST, BACKUP_COPY_PASS_SECOND };
+
 // Object behind gBackupAccess.
 typedef struct BackupAccess {
     /* 00 */ s32 mStatus;

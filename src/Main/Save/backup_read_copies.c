@@ -127,7 +127,7 @@ void InitBackupAccess(void) {
     gBackupAccess->mErrorCode = BACKUP_ERROR_NONE;
     gBackupAccess->mLockId = -3;
     gBackupAccess->mCommandRunning = 0;
-    gBackupAccess->mCopyPass = 0;
+    gBackupAccess->mCopyPass = BACKUP_COPY_PASS_SINGLE;
     gBackupAccess->mReadDestination = NULL;
     gBackupAccess->mReadSize = 0;
     gBackupAccess->mWriteSource = NULL;
@@ -204,22 +204,23 @@ void FinishBackupRead(void (*callback)(u32 *, u32)) {
     readWords = gBackupAccess->mReadDestination;
     tailHalfword = *(u16 *) ((u8 *) readWords + gBackupAccess->mReadSize - 4);
     switch (gBackupAccess->mCopyPass) {
-        case 0:
+        case BACKUP_COPY_PASS_SINGLE:
             break;
-        case 1:
+        case BACKUP_COPY_PASS_FIRST:
             if (result != 2) {
                 gBackupAccess->mFirstPassResult = result;
                 gBackupAccess->mFirstPassBuffer = gBackupAccess->mReadDestination;
                 gBackupAccess->mFirstPassTailHalfword = tailHalfword;
                 readWords = OFFSET_PTR(u32, gBackupAccess->mReadDestination, gBackupAccess->mReadSize);
-                StartBackupRead(gBackupAccess->mSecondPassAddress, readWords, gBackupAccess->mReadSize, callback, 2,
-                                gBackupAccess->mExpectedFirstWord, gBackupAccess->mReadHasPrefix);
+                StartBackupRead(gBackupAccess->mSecondPassAddress, readWords, gBackupAccess->mReadSize, callback,
+                                BACKUP_COPY_PASS_SECOND, gBackupAccess->mExpectedFirstWord,
+                                gBackupAccess->mReadHasPrefix);
                 finished = FALSE;
             } else {
                 finished = TRUE;
             }
             break;
-        case 2:
+        case BACKUP_COPY_PASS_SECOND:
             if (result == 0) {
                 if (gBackupAccess->mFirstPassResult == 0) {
                     firstPassTailHalfword = gBackupAccess->mFirstPassTailHalfword;
@@ -289,13 +290,14 @@ u32 StartBackupRead(u32 address, u32 *destination, u32 byteCount, void (*callbac
 void StartBackupReadOneCopy(u32 address, void *destination, u32 byteCount, void (*callback)(u32 *, u32),
                             u32 expectedFirstWord) {
     u32 v4 = expectedFirstWord;
-    u32 started = StartBackupRead(address, destination, byteCount, callback, 0x0u, v4, 0x0u);
+    u32 started = StartBackupRead(address, destination, byteCount, callback, BACKUP_COPY_PASS_SINGLE, v4, 0x0u);
 }
 
 void StartBackupReadTwoCopies(u32 firstAddress, u32 secondAddress, u32 *destination, u32 byteCount,
                               void (*callback)(u32 *, u32), u32 expectedFirstWord, s32 hasPrefix) {
     gBackupAccess->mSecondPassAddress = secondAddress;
-    StartBackupRead(firstAddress, destination, byteCount, callback, 1, expectedFirstWord, hasPrefix);
+    StartBackupRead(firstAddress, destination, byteCount, callback, BACKUP_COPY_PASS_FIRST, expectedFirstWord,
+                    hasPrefix);
 }
 
 #pragma thumb off

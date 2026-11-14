@@ -41,18 +41,18 @@ void FinishBackupWrite(void (*callback)(u32 *, u32)) {
     buffer = gBackupAccess->mWriteSource;
     byteCount = gBackupAccess->mWriteSize;
     switch (gBackupAccess->mCopyPass) {
-        case 0:
+        case BACKUP_COPY_PASS_SINGLE:
             finished = TRUE;
             break;
-        case 1:
+        case BACKUP_COPY_PASS_FIRST:
             gBackupAccess->mFirstPassResult = result;
             gBackupAccess->mFirstPassBuffer = gBackupAccess->mWriteSource;
             gBackupAccess->mFirstPassTailHalfword = 0;
             StartBackupWrite(gBackupAccess->mSecondPassAddress, gBackupAccess->mWriteSource, gBackupAccess->mWriteSize,
-                             callback, 2, gBackupAccess->mWriteHasPrefix);
+                             callback, BACKUP_COPY_PASS_SECOND, gBackupAccess->mWriteHasPrefix);
             finished = FALSE;
             break;
-        case 2:
+        case BACKUP_COPY_PASS_SECOND:
             if (result != 0) {
                 if (gBackupAccess->mFirstPassResult == 0) {
                     buffer = gBackupAccess->mFirstPassBuffer;
@@ -128,7 +128,7 @@ u32 StartBackupWrite(u32 address, u32 *source, u32 byteCount, void (*callback)(u
     gBackupAccess->mWriteHasPrefix = hasPrefix;
     gBackupAccess->mWriteCallback = callback;
     gBackupAccess->mCopyPass = copyPass;
-    if (copyPass != 2) {
+    if (copyPass != BACKUP_COPY_PASS_SECOND) {
         if (hasPrefix != 0) {
             xorStart = source + 2;
             xorByteCount = byteCount - 8;
@@ -152,11 +152,11 @@ u32 StartBackupWrite(u32 address, u32 *source, u32 byteCount, void (*callback)(u
 void StartBackupWriteTwoCopies(u32 firstAddress, u32 secondAddress, u32 *source, u32 byteCount,
                                void (*callback)(u32 *, u32), s32 hasPrefix) {
     gBackupAccess->mSecondPassAddress = secondAddress;
-    StartBackupWrite(firstAddress, source, byteCount, callback, 1, hasPrefix);
+    StartBackupWrite(firstAddress, source, byteCount, callback, BACKUP_COPY_PASS_FIRST, hasPrefix);
 }
 
 void StartBackupWriteOneCopy(u32 address, void *source, u32 byteCount, void (*callback)(u32 *, u32)) {
-    u32 started = StartBackupWrite(address, source, byteCount, callback, 0x0u, 0x0u);
+    u32 started = StartBackupWrite(address, source, byteCount, callback, BACKUP_COPY_PASS_SINGLE, 0x0u);
 }
 
 #pragma thumb off
