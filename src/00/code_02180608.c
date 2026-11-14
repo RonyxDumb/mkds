@@ -47,6 +47,8 @@
 #include "Main/Unknown/code_02047104.h"
 #include "Main/Unknown/code_02025f80.h"
 
+WiFiStates *gWiFiStates;
+
 void ClearWiFiStateCallbacks(void) {
     gWiFiStates->mCallbacks.mInit = NULL;
     gWiFiStates->mCallbacks.mRelease = NULL;
