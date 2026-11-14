@@ -118,7 +118,7 @@ void SetNextDemoRace(CharacterKartPicks *picks) {
     random.mIncrement = 0x269ec3;
     gRaceSetup->mNextHeader.mMode = MODE_GRAND_PRIX;
     gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_DEMO;
-    gRaceSetup->mNextHeader.mEngineIndex = 2;
+    gRaceSetup->mNextHeader.mEngineIndex = ENGINE_CLASS_FAST;
     gRaceSetup->mNextHeader.mUseTeams = 0;
     gRaceSetup->mNextHeader.mRuleKind = 0;
     gRaceSetup->mNextHeader.mCourseListMode = 0;

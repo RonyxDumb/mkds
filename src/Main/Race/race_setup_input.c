@@ -417,7 +417,7 @@ void SetupStaffRollRace(s32 useTrueStaffRoll) {
         gRaceSetup->mNextHeader.mCourseId = COURSE_ID_STAFFROLL;
     }
     gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_STAFF_ROLL;
-    gRaceSetup->mNextHeader.mEngineIndex = 1;
+    gRaceSetup->mNextHeader.mEngineIndex = ENGINE_CLASS_MEDIUM;
     gRaceSetup->mNextHeader.mFollowedKartIndex = 0;
     for (index = 0; index < 8; index++) {
         for (searchIndex = 0; searchIndex < gRaceSetup->mKartCount; searchIndex++) {
@@ -541,7 +541,7 @@ void ResetRaceSetup(void) {
     gRaceSetup->mNextHeader.mCupIndex = 0;
     gRaceSetup->mNextHeader.mMode = MODE_GRAND_PRIX;
     gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_NORMAL;
-    gRaceSetup->mNextHeader.mEngineIndex = 0;
+    gRaceSetup->mNextHeader.mEngineIndex = ENGINE_CLASS_SLOW;
     gRaceSetup->mNextHeader.mCpuDifficulty = 0;
     gRaceSetup->mNextHeader.mBattleKind = 0;
     gRaceSetup->mNextHeader.mRuleKind = 0;
@@ -932,7 +932,7 @@ void SetNextRaceByMode(void) {
                 gRaceSetup->mNextHeader.mFollowedKartIndex = 0;
             } else if ((u32) (gRaceSetup->mNextHeader.mCourseId - 0x35) <= 1) {
                 gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_STAFF_ROLL;
-                gRaceSetup->mNextHeader.mEngineIndex = 1;
+                gRaceSetup->mNextHeader.mEngineIndex = ENGINE_CLASS_MEDIUM;
                 for (rankIndex = 0; rankIndex < 8; rankIndex++) {
                     s8 rankKartIndex;
                     for (rankKartIndex = 0; rankKartIndex < gRaceSetup->mKartCount; rankKartIndex++) {

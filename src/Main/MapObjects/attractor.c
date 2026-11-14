@@ -184,13 +184,13 @@ void InitJg(void) {
             break;
     }
     switch (gRaceSetup->mEngineIndex) {
-        case 0:
+        case ENGINE_CLASS_SLOW:
             gJgState2FrameCount = 0x50;
             break;
-        case 1:
+        case ENGINE_CLASS_MEDIUM:
             gJgState2FrameCount = 0x3c;
             break;
-        case 2:
+        case ENGINE_CLASS_FAST:
         default:
             gJgState2FrameCount = 0x2d;
             break;
@@ -326,13 +326,13 @@ void BuildAttractorTables(void) {
 void InitAttractorMapObject(AttractorMapObject *object, struct CourseMapRow *courseRow) {
     object->mTableIndex = courseRow->mSettings[0];
     switch (gRaceSetup->mEngineIndex) {
-        case 0:
+        case ENGINE_CLASS_SLOW:
             object->mStrength = courseRow->mSettings[1];
             break;
-        case 1:
+        case ENGINE_CLASS_MEDIUM:
             object->mStrength = courseRow->mSettings[2];
             break;
-        case 2:
+        case ENGINE_CLASS_FAST:
             object->mStrength = courseRow->mSettings[3];
             break;
     }
