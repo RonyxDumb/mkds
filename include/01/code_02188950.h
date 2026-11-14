@@ -191,6 +191,18 @@ typedef struct MissionRunMapObjectEffect {
     /* 14 */ void *mEffect;
 } MissionRunMapObjectEffect;
 
+enum {
+    MAP_OBJECT_ANGLE_NONE,
+    MAP_OBJECT_ANGLE_FOLLOW_MOVE_ANGLE,
+    MAP_OBJECT_ANGLE_TURN_TO_POINT,
+    MAP_OBJECT_ANGLE_TURN_FROM_POINT,
+    MAP_OBJECT_ANGLE_TURN_SIDEWAYS,
+    MAP_OBJECT_ANGLE_SPIN,
+    MAP_OBJECT_ANGLE_SPIN_CHOOSE_DIRECTION,
+    MAP_OBJECT_ANGLE_SPIN_NEGATIVE,
+    MAP_OBJECT_ANGLE_SPIN_POSITIVE,
+};
+
 // Layout provisional: functions on objects that share this prefix use different types at 0xa0 and 0xa8.
 typedef struct MissionRunMapObject {
     /* 000 */ MapObject mUnk_000;
