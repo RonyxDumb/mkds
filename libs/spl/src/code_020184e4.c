@@ -887,10 +887,10 @@ void SPLDraw_Billboard(SPLManager *mgr, ParticleInstance *ptcl) {
     }
     height = ptcl->mSize;
     width = MUL_FIXED12_ROUNDED(height, baseScale);
-    if (scaleMode == 0) {
+    if (scaleMode == PARTICLE_SCALE_BOTH) {
         width = MUL_FIXED12_ROUNDED(width, particleScale);
         height = MUL_FIXED12_ROUNDED(height, particleScale);
-    } else if (scaleMode == 1) {
+    } else if (scaleMode == PARTICLE_SCALE_WIDTH) {
         width = MUL_FIXED12_ROUNDED(width, particleScale);
     } else {
         height = MUL_FIXED12_ROUNDED(height, particleScale);
@@ -982,14 +982,14 @@ void SPLDraw_Child_Billboard(SPLManager *mgr, ParticleInstance *ptcl) {
     height = ptcl->mSize;
     width = MUL_FIXED12_ROUNDED(height, baseScale);
     switch (mgr->mRenderStateEmitter->mResource->mHeader->mDrawParams.mScaleMode) {
-        case 0:
+        case PARTICLE_SCALE_BOTH:
             width = MUL_FIXED12_ROUNDED(width, ptcl->mScale);
             height = MUL_FIXED12_ROUNDED(height, ptcl->mScale);
             break;
-        case 1:
+        case PARTICLE_SCALE_WIDTH:
             width = MUL_FIXED12_ROUNDED(width, ptcl->mScale);
             break;
-        case 2:
+        case PARTICLE_SCALE_HEIGHT:
             height = MUL_FIXED12_ROUNDED(height, ptcl->mScale);
             break;
     }
@@ -1085,14 +1085,14 @@ void SPLDraw_DirectionalBillboard(SPLManager *mgr, ParticleInstance *ptcl) {
     width = ptcl->mSize;
     height = MUL_FIXED12_ROUNDED(width, baseScale);
     switch (mgr->mRenderStateEmitter->mResource->mHeader->mDrawParams.mScaleMode) {
-        case 0:
+        case PARTICLE_SCALE_BOTH:
             height = MUL_FIXED12_ROUNDED(height, ptcl->mScale);
             width = MUL_FIXED12_ROUNDED(width, ptcl->mScale);
             break;
-        case 1:
+        case PARTICLE_SCALE_WIDTH:
             height = MUL_FIXED12_ROUNDED(height, ptcl->mScale);
             break;
-        case 2:
+        case PARTICLE_SCALE_HEIGHT:
             width = MUL_FIXED12_ROUNDED(width, ptcl->mScale);
             break;
     }
@@ -1230,14 +1230,14 @@ void SPLDraw_Child_DirectionalBillboard(SPLManager *mgr, ParticleInstance *ptcl)
     width = ptcl->mSize;
     height = MUL_FIXED12_ROUNDED(width, baseScale);
     switch (mgr->mRenderStateEmitter->mResource->mHeader->mDrawParams.mScaleMode) {
-        case 0:
+        case PARTICLE_SCALE_BOTH:
             height = MUL_FIXED12_ROUNDED(height, ptcl->mScale);
             width = MUL_FIXED12_ROUNDED(width, ptcl->mScale);
             break;
-        case 1:
+        case PARTICLE_SCALE_WIDTH:
             height = MUL_FIXED12_ROUNDED(height, ptcl->mScale);
             break;
-        case 2:
+        case PARTICLE_SCALE_HEIGHT:
             width = MUL_FIXED12_ROUNDED(width, ptcl->mScale);
             break;
     }
@@ -1365,14 +1365,14 @@ void SPLDraw_Polygon(SPLManager *mgr, ParticleInstance *ptcl) {
     height = ptcl->mSize;
     width = MUL_FIXED12_ROUNDED(height, mgr->mRenderStateEmitter->mResource->mHeader->mBaseScale);
     switch (mgr->mRenderStateEmitter->mResource->mHeader->mDrawParams.mScaleMode) {
-        case 0:
+        case PARTICLE_SCALE_BOTH:
             width = MUL_FIXED12_ROUNDED(width, ptcl->mScale);
             height = MUL_FIXED12_ROUNDED(height, ptcl->mScale);
             break;
-        case 1:
+        case PARTICLE_SCALE_WIDTH:
             width = MUL_FIXED12_ROUNDED(width, ptcl->mScale);
             break;
-        case 2:
+        case PARTICLE_SCALE_HEIGHT:
             height = MUL_FIXED12_ROUNDED(height, ptcl->mScale);
             break;
     }
@@ -1436,14 +1436,14 @@ void SPLDraw_Child_Polygon(SPLManager *mgr, ParticleInstance *ptcl) {
     height = ptcl->mSize;
     width = MUL_FIXED12_ROUNDED(height, mgr->mRenderStateEmitter->mResource->mHeader->mBaseScale);
     switch (mgr->mRenderStateEmitter->mResource->mHeader->mDrawParams.mScaleMode) {
-        case 0:
+        case PARTICLE_SCALE_BOTH:
             width = MUL_FIXED12_ROUNDED(width, ptcl->mScale);
             height = MUL_FIXED12_ROUNDED(height, ptcl->mScale);
             break;
-        case 1:
+        case PARTICLE_SCALE_WIDTH:
             width = MUL_FIXED12_ROUNDED(width, ptcl->mScale);
             break;
-        case 2:
+        case PARTICLE_SCALE_HEIGHT:
             height = MUL_FIXED12_ROUNDED(height, ptcl->mScale);
             break;
     }
@@ -1541,14 +1541,14 @@ void SPLDraw_DirectionalPolygon(SPLManager *mgr, ParticleInstance *ptcl) {
     height = ptcl->mSize;
     width = MUL_FIXED12_ROUNDED(height, mgr->mRenderStateEmitter->mResource->mHeader->mBaseScale);
     switch (mgr->mRenderStateEmitter->mResource->mHeader->mDrawParams.mScaleMode) {
-        case 0:
+        case PARTICLE_SCALE_BOTH:
             width = MUL_FIXED12_ROUNDED(width, ptcl->mScale);
             height = MUL_FIXED12_ROUNDED(height, ptcl->mScale);
             break;
-        case 1:
+        case PARTICLE_SCALE_WIDTH:
             width = MUL_FIXED12_ROUNDED(width, ptcl->mScale);
             break;
-        case 2:
+        case PARTICLE_SCALE_HEIGHT:
             height = MUL_FIXED12_ROUNDED(height, ptcl->mScale);
             break;
     }
@@ -1648,14 +1648,14 @@ void SPLDraw_Child_DirectionalPolygon(SPLManager *mgr, ParticleInstance *ptcl) {
     height = ptcl->mSize;
     width = MUL_FIXED12_ROUNDED(height, mgr->mRenderStateEmitter->mResource->mHeader->mBaseScale);
     switch (mgr->mRenderStateEmitter->mResource->mHeader->mDrawParams.mScaleMode) {
-        case 0:
+        case PARTICLE_SCALE_BOTH:
             width = MUL_FIXED12_ROUNDED(width, ptcl->mScale);
             height = MUL_FIXED12_ROUNDED(height, ptcl->mScale);
             break;
-        case 1:
+        case PARTICLE_SCALE_WIDTH:
             width = MUL_FIXED12_ROUNDED(width, ptcl->mScale);
             break;
-        case 2:
+        case PARTICLE_SCALE_HEIGHT:
             height = MUL_FIXED12_ROUNDED(height, ptcl->mScale);
             break;
     }

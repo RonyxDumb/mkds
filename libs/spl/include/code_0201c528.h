@@ -63,6 +63,13 @@ typedef struct ParticleResourceFlags {
     /* 00 */ u32 mFixedChildPolygonId : 1;
 } ParticleResourceFlags;
 
+// ParticleResourceDrawParams.mScaleMode: which sides of the particle the per-particle scale multiplies.
+enum {
+    PARTICLE_SCALE_BOTH,
+    PARTICLE_SCALE_WIDTH,
+    PARTICLE_SCALE_HEIGHT
+};
+
 typedef struct ParticleResourceDrawParams {
     /* 00 */ u32 mSecondTimeLength : 8;
     /* 00 */ u32 mStretchFactor : 16;
