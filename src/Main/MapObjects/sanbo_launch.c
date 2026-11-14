@@ -36,5 +36,5 @@ void StartSanboLaunch(Sanbo *sanbo) {
         sanbo->mPieces[pieceIndex].mRotateZAnglePerFrame = (randomBit != 0 ? 1 : -1) * 0xaab;
     }
     sanbo->mState2Timer = 300;
-    sanbo->mState = 2;
+    sanbo->mState = SANBO_STATE_SCATTERED;
 }

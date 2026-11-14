@@ -124,8 +124,8 @@ void DrawSanbo(void *mapObjectList, Sanbo *sanbo) {
     gxParam = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
     switch (sanbo->mState) {
-        case 0:
-        case 1:
+        case SANBO_STATE_STANDING:
+        case SANBO_STATE_STANDING_UNUSED:
             NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&sanbo->mMapObject.mPos), 12);
             startTranslation[0] = 0;
             startTranslation[1] = 0xa00;
@@ -152,7 +152,7 @@ void DrawSanbo(void *mapObjectList, Sanbo *sanbo) {
                 }
             }
             break;
-        case 2:
+        case SANBO_STATE_SCATTERED:
             for (pieceIndex = 0; pieceIndex < sanbo->mPieceCount; pieceIndex++) {
                 secondGxParam = 0x1e;
                 NNS_G3dGeBufferOP_N(0x14, &secondGxParam, 1);
@@ -182,7 +182,7 @@ void DrawSanbo(void *mapObjectList, Sanbo *sanbo) {
                 }
             }
             break;
-        case 3:
+        case SANBO_STATE_REGROWING:
             for (pieceIndex = 0; pieceIndex < sanbo->mPieceCount; pieceIndex++) {
                 thirdGxParam = 0x1e;
                 NNS_G3dGeBufferOP_N(0x14, &thirdGxParam, 1);
@@ -277,7 +277,7 @@ void UpdateSanbo(void *mapObjectList, Sanbo *sanbo) {
         sanbo->mMapObject.mPosStep.z = 0;
     }
     switch (sanbo->mState) {
-        case 0:
+        case SANBO_STATE_STANDING:
             if ((sanbo->mMapObject.mFlags & 0x12) != 0) {
                 return;
             }
@@ -353,7 +353,7 @@ void UpdateSanbo(void *mapObjectList, Sanbo *sanbo) {
             StartSoundFromParams(&soundStartParams);
             sanbo->mSoundTimer = 0x14;
             break;
-        case 2:
+        case SANBO_STATE_SCATTERED:
             for (fallPieceIndex = 0; fallPieceIndex < sanbo->mPieceCount; fallPieceIndex++) {
                 if (sanbo->mPieces[fallPieceIndex].mPos.y > 0) {
                     sanbo->mPieces[fallPieceIndex].mPos.x =
@@ -385,11 +385,11 @@ void UpdateSanbo(void *mapObjectList, Sanbo *sanbo) {
                 sanbo->mPieces[resetPieceIndex].mWobbleDelayTimer = resetPieceIndex * 0x14;
             }
             sanbo->mPieceCount = 1;
-            sanbo->mState = 3;
+            sanbo->mState = SANBO_STATE_REGROWING;
             sanbo->mMapObject.mFlags = sanbo->mMapObject.mFlags & ~1;
             sanbo->mMapObject.mFlags = sanbo->mMapObject.mFlags & ~8;
             break;
-        case 3:
+        case SANBO_STATE_REGROWING:
             sanbo->mPieces[sanbo->mPieceCount - 1].mDrawScale =
                 sanbo->mPieces[sanbo->mPieceCount - 1].mDrawScale + 0xcd;
             if (sanbo->mPieces[sanbo->mPieceCount - 1].mDrawScale < 0x1000) {
@@ -399,7 +399,7 @@ void UpdateSanbo(void *mapObjectList, Sanbo *sanbo) {
             sanbo->mPieceCount = sanbo->mPieceCount + 1;
             if (sanbo->mPieceCount > 4) {
                 sanbo->mPieceCount = 4;
-                sanbo->mState = 0;
+                sanbo->mState = SANBO_STATE_STANDING;
             }
             break;
     }

@@ -25,6 +25,13 @@ typedef struct SanboPiece {
     /* 44 */ s32 mWobbleDelayTimer;
 } SanboPiece;
 
+// Sanbo.mState: standing and wobbling, the pieces flying apart after a launch, the pieces growing back one by one.
+// SANBO_STATE_STANDING_UNUSED is drawn like SANBO_STATE_STANDING and never written.
+#define SANBO_STATE_STANDING 0
+#define SANBO_STATE_STANDING_UNUSED 1
+#define SANBO_STATE_SCATTERED 2
+#define SANBO_STATE_REGROWING 3
+
 // Object of kind 0x1b2 (Sanbo: sanbo_h and sanbo_b models in one object). Object passed to CollideItemObjectWithSanbo
 // and CollideKartWithSanbo as their first argument and on to StartSanboLaunch: the shared MapObject part, words at 0xa0
 // to 0xac, four 0x48-byte entries with their count at 0x1d0, a word at 0x1d4, an GroupFollower at 0x1d8 and a word at
