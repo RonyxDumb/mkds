@@ -18,17 +18,17 @@ int fwide(FILE *stream, int mode) {
         return 0;
     }
     switch (stream->mWideMode) {
-        case 0:
+        case FILE_WIDE_MODE_UNSET:
             if (mode > 0) {
-                stream->mWideMode = 2;
+                stream->mWideMode = FILE_WIDE_MODE_POSITIVE;
             } else if (mode < 0) {
-                stream->mWideMode = 1;
+                stream->mWideMode = FILE_WIDE_MODE_NEGATIVE;
             }
             break;
-        case 1:
+        case FILE_WIDE_MODE_NEGATIVE:
             mode = -1;
             break;
-        case 2:
+        case FILE_WIDE_MODE_POSITIVE:
             mode = 1;
             break;
     }

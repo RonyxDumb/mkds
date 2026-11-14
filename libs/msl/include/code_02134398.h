@@ -9,6 +9,13 @@ u32 Abs(u32 value);
 
 typedef int (*Unk0213c94cFunc)(u32 a, u8 *b, u32 *c, u32 d);
 
+// mWideMode values: not set yet, set by a negative fwide mode, set by a positive fwide mode.
+typedef enum FileWideMode {
+    FILE_WIDE_MODE_UNSET = 0,
+    FILE_WIDE_MODE_NEGATIVE = 1,
+    FILE_WIDE_MODE_POSITIVE = 2,
+} FileWideMode;
+
 // 0x4c bytes. Bit fields of the words at 0x04 and 0x08 are read and written by fwide, FwriteBody and
 // fflush; FileFlushBuffer calls mWriteFunc with mWriteFuncFirstArg, mBuffer, &mBufferRemaining and mWriteFuncLastArg.
 typedef struct FILE {
