@@ -445,17 +445,23 @@ void RequestRecordVSEraseState0(void) {
     gRecordVSErase->mStateFrames = 0;
     gRecordVSErase->mBg3Offset = ~0xbf;
     eraseCellCount = gRecordVSErase->mRecordVSSEraseBncl->mCount;
-    gRecordVSErase->mRecordVSSEraseTable[30].mOffsetX = 0x100;
-    gRecordVSErase->mRecordVSSEraseTable[31].mOffsetX = 0x100;
+    gRecordVSErase->mRecordVSSEraseTable[30].mOffsetX = RECORD_VS_OFFSCREEN_X;
+    gRecordVSErase->mRecordVSSEraseTable[31].mOffsetX = RECORD_VS_OFFSCREEN_X;
     gRecordVSErase->mRecordVSSEraseTable[eraseCellCount + 5].mOffsetY = ~0xbf;
     for (; rowIndex < 5; rowIndex++) {
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnhighlightedIndices[rowIndex]].mOffsetX = 0x100;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseHighlightIndices[rowIndex]].mOffsetX = 0x100;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedRowIndices[rowIndex]].mOffsetX = 0x100;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedHighlightIndices[rowIndex]].mOffsetX = 0x100;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnflaggedObjectIndices[rowIndex]].mOffsetX = 0x100;
-        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedObjectIndices[rowIndex]].mOffsetX = 0x100;
-        gRecordVSErase->mRecordVSSEraseTable[eraseCellCount + gRecordVSEraseRowLabelIndices[rowIndex]].mOffsetX = 0x100;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnhighlightedIndices[rowIndex]].mOffsetX =
+            RECORD_VS_OFFSCREEN_X;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseHighlightIndices[rowIndex]].mOffsetX = RECORD_VS_OFFSCREEN_X;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedRowIndices[rowIndex]].mOffsetX =
+            RECORD_VS_OFFSCREEN_X;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedHighlightIndices[rowIndex]].mOffsetX =
+            RECORD_VS_OFFSCREEN_X;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseUnflaggedObjectIndices[rowIndex]].mOffsetX =
+            RECORD_VS_OFFSCREEN_X;
+        gRecordVSErase->mRecordVSSEraseTable[gRecordVSEraseFlaggedObjectIndices[rowIndex]].mOffsetX =
+            RECORD_VS_OFFSCREEN_X;
+        gRecordVSErase->mRecordVSSEraseTable[eraseCellCount + gRecordVSEraseRowLabelIndices[rowIndex]].mOffsetX =
+            RECORD_VS_OFFSCREEN_X;
     }
     PrintRecordVSEraseShownRecord();
     SetupTxtSystemSubTextButtonEx(GetBmgEntry(gRecordVSErase->mRecordMessages, 4),
@@ -745,7 +751,7 @@ void AdvanceRecordVSEraseState3(void) {
 
     AdvanceRecordVSEraseOffsetTimers();
     gRecordVSErase->mStateFrames++;
-    offsetX = InterpolateS16(1, 0x100, 0, gRecordVSErase->mStateFrames, 0xa);
+    offsetX = InterpolateS16(1, RECORD_VS_OFFSCREEN_X, 0, gRecordVSErase->mStateFrames, 0xa);
     offsetY = InterpolateS16(1, ~0xbf, 0, gRecordVSErase->mStateFrames, 0xa);
     eraseCellCount = gRecordVSErase->mRecordVSSEraseBncl->mCount;
     gRecordVSErase->mBg3Offset = offsetY;
@@ -905,10 +911,10 @@ void AdvanceRecordVSEraseState5(void) {
     AdvanceRecordVSEraseOffsetTimers();
     switch (gRecordVSErase->mPageDecrement) {
         case 0:
-            targetOffsetX = ~0xff;
+            targetOffsetX = -RECORD_VS_OFFSCREEN_X;
             break;
         case 1:
-            targetOffsetX = 0x100;
+            targetOffsetX = RECORD_VS_OFFSCREEN_X;
             break;
     }
     gRecordVSErase->mStateFrames++;
@@ -966,10 +972,10 @@ void AdvanceRecordVSEraseState6(void) {
     AdvanceRecordVSEraseOffsetTimers();
     switch (gRecordVSErase->mPageDecrement) {
         case 0:
-            startOffsetX = 0x100;
+            startOffsetX = RECORD_VS_OFFSCREEN_X;
             break;
         case 1:
-            startOffsetX = ~0xff;
+            startOffsetX = -RECORD_VS_OFFSCREEN_X;
             break;
     }
     gRecordVSErase->mStateFrames++;
@@ -1021,7 +1027,7 @@ void AdvanceRecordVSEraseState7(void) {
     s32 rowIndex;
 
     gRecordVSErase->mStateFrames++;
-    offsetX = InterpolateS16(1, 0, 0x100, gRecordVSErase->mStateFrames, 0xa);
+    offsetX = InterpolateS16(1, 0, RECORD_VS_OFFSCREEN_X, gRecordVSErase->mStateFrames, 0xa);
     offsetY = InterpolateS16(1, 0, ~0xbf, gRecordVSErase->mStateFrames, 0xa);
     eraseCellCount = gRecordVSErase->mRecordVSSEraseBncl->mCount;
     gRecordVSErase->mBg3Offset = offsetY;
@@ -1085,7 +1091,7 @@ void AdvanceRecordVSEraseState10(void) {
     u16 firstRecordIndex;
 
     gRecordVSErase->mStateFrames++;
-    offsetX = InterpolateS16(1, 0, -0x100, gRecordVSErase->mStateFrames, 10);
+    offsetX = InterpolateS16(1, 0, -RECORD_VS_OFFSCREEN_X, gRecordVSErase->mStateFrames, 10);
     mainCellCount = gRecordVSErase->mRecordVSMBncl->mCount;
     transientCellCount = gRecordVSErase->mRecordVSMTransientBncl->mCount;
     if (GetRecordCount() != 0 && gRecordVSErase->mErased != 0) {
@@ -1136,7 +1142,7 @@ void AdvanceRecordVSEraseState11(void) {
     u16 eraseCellCount;
 
     gRecordVSErase->mStateFrames++;
-    offsetX = InterpolateS16(1, 0x100, 0, gRecordVSErase->mStateFrames, 10);
+    offsetX = InterpolateS16(1, RECORD_VS_OFFSCREEN_X, 0, gRecordVSErase->mStateFrames, 10);
     offsetY = InterpolateS16(1, -0xc0, 0, gRecordVSErase->mStateFrames, 10);
     mainCellCount = gRecordVSErase->mRecordVSMBncl->mCount;
     transientCellCount = gRecordVSErase->mRecordVSMTransientBncl->mCount;
@@ -1192,7 +1198,7 @@ void AdvanceRecordVSEraseState12(void) {
     u16 eraseCellCount;
 
     gRecordVSErase->mStateFrames++;
-    offsetX = InterpolateS16(1, 0, 0x100, gRecordVSErase->mStateFrames, 10);
+    offsetX = InterpolateS16(1, 0, RECORD_VS_OFFSCREEN_X, gRecordVSErase->mStateFrames, 10);
     offsetY = InterpolateS16(1, 0, -0xc0, gRecordVSErase->mStateFrames, 10);
     eraseCellCount = gRecordVSErase->mRecordVSSEraseBncl->mCount;
     gRecordVSErase->mBg3Offset = offsetY;
