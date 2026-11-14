@@ -269,8 +269,8 @@ void InitPlayerEntryList(void *parentHeap, void *mainOam) {
     }
     InitLayoutTable(gPlayerEntryList->mHeap, fileSet->mCellLayout, fileSet->mLabelLayout, &fileSet->mCellTable);
     for (entryIndex = 0; entryIndex < 8; entryIndex++) {
-        objSizeLeft -=
-            SetupLabelCanvas(0, gPlayerEntryList->mHeap, fileSet, &gEntryLabelTextRows[entryIndex], objSizeLeft);
+        objSizeLeft -= SetupLabelCanvas(SCREEN_SIDE_MAIN, gPlayerEntryList->mHeap, fileSet,
+                                        &gEntryLabelTextRows[entryIndex], objSizeLeft);
     }
     for (entryIndex = 0; entryIndex < 8; entryIndex++) {
         fileSet->mCellTable[gEntryCellIndices[entryIndex].mKartCellIndex].mVisible = 0;
@@ -392,17 +392,19 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
         reg_G2_BG0CNT = (reg_G2_BG0CNT & (REG_G2_BG0CNT_PRIORITY_MASK | REG_G2_BG0CNT_MOSAIC_MASK)) | 0xd08;
         reg_G2_BG1CNT = (reg_G2_BG1CNT & (REG_G2_BG1CNT_PRIORITY_MASK | REG_G2_BG1CNT_MOSAIC_MASK)) | 0xc00;
         if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
-            LocateAndQueueScreenMapFileSet(0, screenMapFileSet, "mb/select_menu_etc_download_m_b.NCGR",
+            LocateAndQueueScreenMapFileSet(SCREEN_SIDE_MAIN, screenMapFileSet, "mb/select_menu_etc_download_m_b.NCGR",
                                            "mb/select_menu_etc_download_m_b.NCLR",
                                            "mb/select_menu_etc_download_m_bg_00.NSCR", 0, FindSceneFile);
-            LocateAndQueueScreenMapFileSet(0, screenMapFileSet, "mb/select_menu_etc_download_m_b.NCGR",
+            LocateAndQueueScreenMapFileSet(SCREEN_SIDE_MAIN, screenMapFileSet, "mb/select_menu_etc_download_m_b.NCGR",
                                            "mb/select_menu_etc_download_m_b.NCLR",
                                            "mb/select_menu_etc_download_m_bg_01.NSCR", 1, FindSceneFile);
         } else {
-            LocateAndQueueScreenMapFileSet(0, screenMapFileSet, "select_menu_etc_m_b.NCGR", "select_menu_etc_m_b.NCLR",
-                                           "select_menu_etc_m_bg_00.NSCR", 0, FindFileInLoadedArchives);
-            LocateAndQueueScreenMapFileSet(0, screenMapFileSet, "select_menu_etc_m_b.NCGR", "select_menu_etc_m_b.NCLR",
-                                           "select_menu_etc_m_bg_01.NSCR", 1, FindFileInLoadedArchives);
+            LocateAndQueueScreenMapFileSet(SCREEN_SIDE_MAIN, screenMapFileSet, "select_menu_etc_m_b.NCGR",
+                                           "select_menu_etc_m_b.NCLR", "select_menu_etc_m_bg_00.NSCR", 0,
+                                           FindFileInLoadedArchives);
+            LocateAndQueueScreenMapFileSet(SCREEN_SIDE_MAIN, screenMapFileSet, "select_menu_etc_m_b.NCGR",
+                                           "select_menu_etc_m_b.NCLR", "select_menu_etc_m_bg_01.NSCR", 1,
+                                           FindFileInLoadedArchives);
         }
     } else if (gPlayerEntryList->mScreenKind == PLAYER_ENTRY_LIST_KART) {
         SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[3], 0);
@@ -415,10 +417,11 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
         }
         gPlayerEntryList->mMoveInnerPending = FALSE;
     }
-    NNS_GfdRegisterNewVramTransferTask(0x13, 0, gPlayerEntryList->mParts.mChars->mData,
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_TILES, 0, gPlayerEntryList->mParts.mChars->mData,
                                        gPlayerEntryList->mParts.mChars->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0xe, 0, fileSet->mPalette->mData, 0x1a0);
-    NNS_GfdRegisterNewVramTransferTask(0xe, 0x1c0, (u8 *) fileSet->mPalette->mData + 0x1c0, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_PALETTE, 0, fileSet->mPalette->mData, 0x1a0);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_PALETTE, 0x1c0,
+                                       (u8 *) fileSet->mPalette->mData + 0x1c0, 0x40);
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         QueueCellChars(gTitleCellIndices[gPlayerEntryList->mScreenKind], titleFileSet->mCells, titleFileSet->mChars,
                        titleFileSet->mCellLayout, 0, 0x19, fileSet->mCells, fileSet->mCellLayout);

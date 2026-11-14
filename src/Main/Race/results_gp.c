@@ -117,16 +117,16 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     config.mBackScreenKind = 0;
     LoadTxtSystemAndSelectChoisesAndSelectReturnData();
     InitSceneText(heap, &config);
-    LoadAndQueueScreenMapFileSet(0, &mainScreenMapFileSet, "results_gp_m_b.NCGR", "results_gp_m_b.NCLR",
+    LoadAndQueueScreenMapFileSet(SCREEN_SIDE_MAIN, &mainScreenMapFileSet, "results_gp_m_b.NCGR", "results_gp_m_b.NCLR",
                                  "results_gp_m1.NSCR", 1, FindSceneFile);
     LoadNscrData(&mainScreenMapFileSet.mScreenMaps[3], FindSceneFile("results_gp_m2.NSCR"));
-    NNS_GfdRegisterNewVramTransferTask(0xb, 0, &mainScreenMapFileSet.mScreenMaps[3]->mData,
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG3_MAP, 0, &mainScreenMapFileSet.mScreenMaps[3]->mData,
                                        mainScreenMapFileSet.mScreenMaps[3]->mDataSize);
     mainObjSize = GX_GetSizeOfOBJ();
     mainFileSet = &gResultsGp->mCellFileSets[0];
     LoadCellFileSet(mainFileSet, "results_gp_m.nce.ncgr", "results_gp_m.nce.ncer", "results_gp_m_o.NCLR",
                     "results_gp_m.bncl", "results_gp_m.bnll", NULL, FindSceneFile);
-    SetupCellFileSet(0, heap, mainFileSet);
+    SetupCellFileSet(SCREEN_SIDE_MAIN, heap, mainFileSet);
     MIi_CpuCopy16(&gBackupBuffers->mFirstBlock->mPlayerName, playerName, 0x14);
     playerName[10] = 0;
     InitLabelCanvas(heap, 0, mainFileSet->mLabelLayout, 0x82, 0xd, 0x14, mainFileSet->mCells, mainFileSet->mCellLayout,
@@ -164,17 +164,17 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     SetPlayerCharacterCellFileSet(1, &cellFileSet);
     QueueCellCharsAndFirstPalette(characterIndex, cellFileSet.mCells, cellFileSet.mChars, cellFileSet.mPalette,
                                   cellFileSet.mCellLayout, 0, 0x14, mainFileSet->mCells, mainFileSet->mCellLayout);
-    LoadAndQueueScreenMapFileSet(1, &subScreenMapFileSet, "results_gp_s_b.NCGR", "results_gp_s_b.NCLR",
+    LoadAndQueueScreenMapFileSet(SCREEN_SIDE_SUB, &subScreenMapFileSet, "results_gp_s_b.NCGR", "results_gp_s_b.NCLR",
                                  "results_gp_s.NSCR", 3, FindSceneFile);
     subObjSizeLeft = GX_GetSizeOfSubOBJ();
     subFileSet = &gResultsGp->mCellFileSets[1];
     LoadCellFileSet(subFileSet, "results_gp_s.nce.ncgr", "results_gp_s.nce.ncer", "results_gp_s_o.NCLR",
                     "results_gp_s.bncl", "results_gp_s.bnll", NULL, FindSceneFile);
-    SetupCellFileSet(1, heap, subFileSet);
+    SetupCellFileSet(SCREEN_SIDE_SUB, heap, subFileSet);
     loopIndex = 0;
     tableEntry = (LabelCanvasEntry *) gResultsGpSubLabelCanvasEntries;
     for (; loopIndex < 16; loopIndex++) {
-        subObjSizeLeft -= SetupLabelCanvas(1, heap, subFileSet, tableEntry, subObjSizeLeft);
+        subObjSizeLeft -= SetupLabelCanvas(SCREEN_SIDE_SUB, heap, subFileSet, tableEntry, subObjSizeLeft);
         tableEntry++;
     }
     message = GetBmgEntry(gResultsGp->mCommonMessages, gEngineMessageIndexTable[gMenuShared->mEngineIndex]);

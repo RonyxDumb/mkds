@@ -47,8 +47,9 @@ void LocateAndQueueSelectRaceRuleWait(void) {
     gSelectRaceRuleWait->mBncl = sceneFile;
     sceneFile = FindSceneFile(gSelectRaceRuleWaitBnllName);
     gSelectRaceRuleWait->mBnll = sceneFile;
-    NNS_GfdRegisterNewVramTransferTask(0x23, 0, cellChars->mData, cellChars->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, cellPalette[0]->mData, cellPalette[0]->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_SPRITE_TILES, 0, cellChars->mData, cellChars->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_SPRITE_PALETTE, 0, cellPalette[0]->mData,
+                                       cellPalette[0]->mDataSize);
 }
 
 #pragma thumb off

@@ -132,19 +132,22 @@ s32 LoadBackScreen(s32 subCharOffset) {
             LoadNclrData(&nclrS, FindSceneFile(gBackScreenSNclrNames[indexS]));
         }
     }
-    NNS_GfdRegisterNewVramTransferTask(7, 0, ncgrM->mData, ncgrM->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0xb, 0, nscrM->mData, nscrM->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0xf, nclrMOffset, OFFSET_PTR(void, nclrM->mData, nclrMOffset), nclrMSize);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG3_TILES, 0, ncgrM->mData, ncgrM->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG3_MAP, 0, nscrM->mData, nscrM->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG_PALETTE, nclrMOffset,
+                                       OFFSET_PTR(void, nclrM->mData, nclrMOffset), nclrMSize);
     subCharOffset -= ncgrS->mDataSize;
-    NNS_GfdRegisterNewVramTransferTask(0x15, subCharOffset, ncgrS->mData, ncgrS->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG1_TILES, subCharOffset, ncgrS->mData, ncgrS->mDataSize);
     for (rowIndex = 0; rowIndex < 0x20; rowIndex++) {
         for (columnIndex = 0; columnIndex < 0x20; columnIndex++) {
             *(gSceneText->mBackScreenSNscrCopy + rowIndex * 0x20 + columnIndex) =
                 (subCharOffset >> 5) + *((u16 *) nscrS->mData + rowIndex * 0x20 + columnIndex);
         }
     }
-    NNS_GfdRegisterNewVramTransferTask(0x19, 0, gSceneText->mBackScreenSNscrCopy, nscrS->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0x1f, nclrSOffset, OFFSET_PTR(void, nclrS->mData, nclrSOffset), nclrSSize);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG1_MAP, 0, gSceneText->mBackScreenSNscrCopy,
+                                       nscrS->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG_PALETTE, nclrSOffset,
+                                       OFFSET_PTR(void, nclrS->mData, nclrSOffset), nclrSSize);
     return subCharOffset;
 }
 

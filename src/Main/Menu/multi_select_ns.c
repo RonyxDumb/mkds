@@ -137,8 +137,10 @@ void InitMultiSelectNS(void *parentHeap, void *scene, void *oamList) {
                                            GetBmgEntry(gMultiSelectNS->mBannerMessages, labelMessageRow->mMessageIndex),
                                            multiSelectNS->mBncl, multiSelectNS->mCellTable);
     }
-    NNS_GfdRegisterNewVramTransferTask(0x23, 0, multiSelectNS->mNcgr->mData, multiSelectNS->mNcgr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, multiSelectNS->mNclr->mData, multiSelectNS->mNclr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_SPRITE_TILES, 0, multiSelectNS->mNcgr->mData,
+                                       multiSelectNS->mNcgr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_SPRITE_PALETTE, 0, multiSelectNS->mNclr->mData,
+                                       multiSelectNS->mNclr->mDataSize);
     RefreshMultiSelectNS(1);
     SetSelectReturnSoundId(0xe);
     SendLedPatternWireless();

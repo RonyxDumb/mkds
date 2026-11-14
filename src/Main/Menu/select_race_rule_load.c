@@ -98,12 +98,15 @@ void LocateAndQueueSelectRaceRule(void) {
     LocateNcer(&gSelectRaceRule->mNcer, sceneFile);
     sceneFile = FindSceneFile(gSelectRaceRuleSONclrName);
     LocateNclr(&gSelectRaceRule->mNclr, sceneFile);
-    NNS_GfdRegisterNewVramTransferTask(0x14, 0, bgChars->mData, bgChars->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0x1b, 0, gSelectRaceRule->mNscr->mData, gSelectRaceRule->mNscr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0x1b, (0x00000800u), gSelectRaceRule->mSecondScreenMapBuffer, (0x00000800u));
-    NNS_GfdRegisterNewVramTransferTask(0x1f, 0, bgPalette->mData, 0x80);
-    NNS_GfdRegisterNewVramTransferTask(0x23, 0, cellChars->mData, cellChars->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, gSelectRaceRule->mNclr->mData, gSelectRaceRule->mNclr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG0_TILES, 0, bgChars->mData, bgChars->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG3_MAP, 0, gSelectRaceRule->mNscr->mData,
+                                       gSelectRaceRule->mNscr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG3_MAP, (0x00000800u),
+                                       gSelectRaceRule->mSecondScreenMapBuffer, (0x00000800u));
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG_PALETTE, 0, bgPalette->mData, 0x80);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_SPRITE_TILES, 0, cellChars->mData, cellChars->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_SPRITE_PALETTE, 0, gSelectRaceRule->mNclr->mData,
+                                       gSelectRaceRule->mNclr->mDataSize);
 }
 
 #pragma thumb off

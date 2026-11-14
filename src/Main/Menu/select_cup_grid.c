@@ -1058,11 +1058,12 @@ s32 AdvanceSelectCupGrid(void) {
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         if (gSelectCupGrid->mCupPicturePending != FALSE && IsCupPictureReady() != FALSE) {
             screenMap = GetCupPictureNscrData();
-            NNS_GfdRegisterNewVramTransferTask(0xf, 0, GetCupPictureNclrData(), 0xe0);
-            NNS_GfdRegisterNewVramTransferTask(4, 0x20, GetCupPictureNcgrData(), 0xdc0);
+            NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG_PALETTE, 0, GetCupPictureNclrData(), 0xe0);
+            NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG0_TILES, 0x20, GetCupPictureNcgrData(), 0xdc0);
             for (rowIndex = 0; rowIndex < 11; rowIndex++) {
                 screenMapIndex = (rowIndex + 8) * 0x20 + 0x16;
-                NNS_GfdRegisterNewVramTransferTask(8, screenMapIndex * 2, screenMap + screenMapIndex, 0x14);
+                NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG0_MAP, screenMapIndex * 2,
+                                                   screenMap + screenMapIndex, 0x14);
             }
             gSelectCupGrid->mCupPicturePending = FALSE;
         }

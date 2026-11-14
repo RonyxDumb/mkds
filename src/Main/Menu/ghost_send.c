@@ -269,33 +269,34 @@ void InitTimeAttackGhostSend(void *parentHeap, void *mainOam, void *subOam) {
     gTimeAttackGhostSend->mInfoFileSets.mCommonMessages = FindFileInLoadedArchives("common.bmg");
     gTimeAttackGhostSend->mGhostMessages = FindSceneFile("ghost.bmg");
     InitBlockEntries(gTimeAttackGhostSend->mHeap, 2);
-    LocateAndQueueScreenMapFileSet(0, gTimeAttackGhostSend, "TimeAttack_ghost_send_m_b.NCGR",
+    LocateAndQueueScreenMapFileSet(SCREEN_SIDE_MAIN, gTimeAttackGhostSend, "TimeAttack_ghost_send_m_b.NCGR",
                                    "TimeAttack_ghost_send_m_b.NCLR", "TimeAttack_ghost_send_m.NSCR", 0, FindSceneFile);
     mainFileSet = &gTimeAttackGhostSend->mInfoFileSets.mCellFileSets[0];
     objSizeLeft = GX_GetSizeOfOBJ();
     LocateCellFileSet(mainFileSet, "TimeAttack_ghost_send_m.nce.ncgr", "TimeAttack_ghost_send_m.nce.ncer",
                       "TimeAttack_ghost_send_m_o.NCLR", "TimeAttack_ghost_send_m.bncl", "TimeAttack_ghost_send_m.bnll",
                       NULL, FindSceneFile);
-    SetupCellFileSet(0, gTimeAttackGhostSend->mHeap, mainFileSet);
+    SetupCellFileSet(SCREEN_SIDE_MAIN, gTimeAttackGhostSend->mHeap, mainFileSet);
     for (entryIndex = 0; entryIndex < mainFileSet->mLabelLayout->mCount; entryIndex++) {
-        objSizeLeft -= SetupLabelCanvas(0, gTimeAttackGhostSend->mHeap, mainFileSet,
+        objSizeLeft -= SetupLabelCanvas(SCREEN_SIDE_MAIN, gTimeAttackGhostSend->mHeap, mainFileSet,
                                         gTimeAttackGhostSendMLabelTextRows[entryIndex], objSizeLeft);
     }
-    LocateAndQueueScreenMapFileSet(1, &gTimeAttackGhostSend->mScreenMapFileSets[1], "TimeAttack_ghost_send_s_b.NCGR",
-                                   "TimeAttack_ghost_send_s_b.NCLR", "TimeAttack_ghost_send_s.NSCR", 3, FindSceneFile);
+    LocateAndQueueScreenMapFileSet(SCREEN_SIDE_SUB, &gTimeAttackGhostSend->mScreenMapFileSets[1],
+                                   "TimeAttack_ghost_send_s_b.NCGR", "TimeAttack_ghost_send_s_b.NCLR",
+                                   "TimeAttack_ghost_send_s.NSCR", 3, FindSceneFile);
     subFileSet = &gTimeAttackGhostSend->mInfoFileSets.mCellFileSets[1];
     objSizeLeft = GX_GetSizeOfSubOBJ();
     assignedCount = 0;
     LocateCellFileSet(subFileSet, "TimeAttack_ghost_send_s.nce.ncgr", "TimeAttack_ghost_send_s.nce.ncer",
                       "TimeAttack_ghost_send_s_o.NCLR", "TimeAttack_ghost_send_s.bncl", "TimeAttack_ghost_send_s.bnll",
                       "TimeAttack_ghost_send_s.bnbl", FindSceneFile);
-    SetupCellFileSet(1, gTimeAttackGhostSend->mHeap, subFileSet);
+    SetupCellFileSet(SCREEN_SIDE_SUB, gTimeAttackGhostSend->mHeap, subFileSet);
     subCellCount = subFileSet->mCellLayout->mCount;
     for (entryIndex = 0; entryIndex < subFileSet->mLabelLayout->mCount; entryIndex++) {
         if (gTimeAttackGhostSendSLabelTextRows[entryIndex][3] < 0) {
             gTimeAttackGhostSendSLabelTextRows[entryIndex][3] = subCellCount + assignedCount++;
         }
-        objSizeLeft -= SetupLabelCanvas(1, gTimeAttackGhostSend->mHeap, subFileSet,
+        objSizeLeft -= SetupLabelCanvas(SCREEN_SIDE_SUB, gTimeAttackGhostSend->mHeap, subFileSet,
                                         (s16(*)[4]) gTimeAttackGhostSendSLabelTextRows + entryIndex, objSizeLeft);
     }
     PrintGhostSendCounts();

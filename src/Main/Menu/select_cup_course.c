@@ -337,10 +337,10 @@ s32 AdvanceSelectCupCourse(void) {
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         if (gSelectCupCourse->mCupPicturePending != FALSE && IsCupPictureReady() != FALSE) {
             screenMap = GetCupPictureNscrData();
-            NNS_GfdRegisterNewVramTransferTask(0x1f, 0, GetCupPictureNclrData(), 0xe0);
-            NNS_GfdRegisterNewVramTransferTask(0x17, 0x20, GetCupPictureNcgrData(), 0xdc0);
+            NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG_PALETTE, 0, GetCupPictureNclrData(), 0xe0);
+            NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG3_TILES, 0x20, GetCupPictureNcgrData(), 0xdc0);
             for (rowIndex = 0; rowIndex < 11; rowIndex++) {
-                NNS_GfdRegisterNewVramTransferTask(0x1b, ((rowIndex + 8) * 0x20 + 0x16) * 2,
+                NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG3_MAP, ((rowIndex + 8) * 0x20 + 0x16) * 2,
                                                    screenMap + ((rowIndex + 8) * 0x20 + 0x16), 0x14);
             }
             gSelectCupCourse->mCupPicturePending = FALSE;
@@ -422,16 +422,22 @@ void LocateAndQueueSelectCupGrid(void) {
     LocateNclr(&selectCupSOPalette, FindSceneFile(gSelectCupGridSONclrName));
     paletteData = selectCupMOPalette->mData;
     if (GetPreviousMenuScreenNumber() != 0x18 && GetPreviousMenuScreenNumber() != 0xc) {
-        NNS_GfdRegisterNewVramTransferTask(4, 0, selectCupMBChars->mData, selectCupMBChars->mDataSize);
-        NNS_GfdRegisterNewVramTransferTask(0xf, 0, selectCupMBPalette->mData, 0x100);
-        NNS_GfdRegisterNewVramTransferTask(8, 0, &selectCupMScreenMap->mData, selectCupMScreenMap->mDataSize);
-        NNS_GfdRegisterNewVramTransferTask(8, 0x800, gSelectCupGrid->mSecondScreenMapBuffer, 0x800);
+        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG0_TILES, 0, selectCupMBChars->mData,
+                                           selectCupMBChars->mDataSize);
+        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG_PALETTE, 0, selectCupMBPalette->mData, 0x100);
+        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG0_MAP, 0, &selectCupMScreenMap->mData,
+                                           selectCupMScreenMap->mDataSize);
+        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG0_MAP, 0x800, gSelectCupGrid->mSecondScreenMapBuffer,
+                                           0x800);
     }
-    NNS_GfdRegisterNewVramTransferTask(0x13, 0, selectCupMChars->mData, selectCupMChars->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0xe, 0, selectCupMOPalette->mData, 0x1a0);
-    NNS_GfdRegisterNewVramTransferTask(0xe, 0x1c0, paletteData + 0xe0, 0x40);
-    NNS_GfdRegisterNewVramTransferTask(0x23, 0, selectCupSChars->mData, selectCupSChars->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, selectCupSOPalette->mData, selectCupSOPalette->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_TILES, 0, selectCupMChars->mData,
+                                       selectCupMChars->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_PALETTE, 0, selectCupMOPalette->mData, 0x1a0);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_PALETTE, 0x1c0, paletteData + 0xe0, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_SPRITE_TILES, 0, selectCupSChars->mData,
+                                       selectCupSChars->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_SPRITE_PALETTE, 0, selectCupSOPalette->mData,
+                                       selectCupSOPalette->mDataSize);
 }
 
 u32 GetSelectCupGridCupEnabled(u32 cupIndex) {

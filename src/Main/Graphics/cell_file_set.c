@@ -66,13 +66,15 @@ void LoadCellFileSet(void *fileSetPointer, const char *charsName, const char *ce
 void SetupCellFileSet(u32 screen, void *heap, CellFileSet *fileSet) {
     u32 charsCode;
     InitLayoutTable(heap, fileSet->mCellLayout, fileSet->mLabelLayout, &fileSet->mCellTable);
-    if (screen == 0) {
-        charsCode = 0x13;
-        NNS_GfdRegisterNewVramTransferTask(0xe, 0, fileSet->mPalette->mData, 0x1a0);
-        NNS_GfdRegisterNewVramTransferTask(0xe, 0x1c0, (u8 *) fileSet->mPalette->mData + 0x1c0, 0x40);
+    if (screen == SCREEN_SIDE_MAIN) {
+        charsCode = VRAM_TARGET_ENGINE_A_SPRITE_TILES;
+        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_PALETTE, 0, fileSet->mPalette->mData, 0x1a0);
+        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_PALETTE, 0x1c0,
+                                           (u8 *) fileSet->mPalette->mData + 0x1c0, 0x40);
     } else {
-        charsCode = 0x23;
-        NNS_GfdRegisterNewVramTransferTask(0x1e, 0, fileSet->mPalette->mData, fileSet->mPalette->mDataSize);
+        charsCode = VRAM_TARGET_ENGINE_B_SPRITE_TILES;
+        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_SPRITE_PALETTE, 0, fileSet->mPalette->mData,
+                                           fileSet->mPalette->mDataSize);
     }
     NNS_GfdRegisterNewVramTransferTask(charsCode, 0, fileSet->mChars->mData, fileSet->mChars->mDataSize);
 }
@@ -93,44 +95,44 @@ void QueueScreenMapFileSet(u32 screen, void *fileSetPointer, u32 index) {
     u32 charsCode;
     u32 screenMapCode;
     u32 paletteCode;
-    if (screen == 0) {
-        paletteCode = 0xf;
+    if (screen == SCREEN_SIDE_MAIN) {
+        paletteCode = VRAM_TARGET_ENGINE_A_BG_PALETTE;
         switch (index) {
             case 0:
-                charsCode = 4;
-                screenMapCode = 8;
+                charsCode = VRAM_TARGET_ENGINE_A_BG0_TILES;
+                screenMapCode = VRAM_TARGET_ENGINE_A_BG0_MAP;
                 break;
             case 1:
-                charsCode = 5;
-                screenMapCode = 9;
+                charsCode = VRAM_TARGET_ENGINE_A_BG1_TILES;
+                screenMapCode = VRAM_TARGET_ENGINE_A_BG1_MAP;
                 break;
             case 2:
-                charsCode = 6;
-                screenMapCode = 10;
+                charsCode = VRAM_TARGET_ENGINE_A_BG2_TILES;
+                screenMapCode = VRAM_TARGET_ENGINE_A_BG2_MAP;
                 break;
             case 3:
-                charsCode = 7;
-                screenMapCode = 11;
+                charsCode = VRAM_TARGET_ENGINE_A_BG3_TILES;
+                screenMapCode = VRAM_TARGET_ENGINE_A_BG3_MAP;
                 break;
         }
     } else {
-        paletteCode = 0x1f;
+        paletteCode = VRAM_TARGET_ENGINE_B_BG_PALETTE;
         switch (index) {
             case 0:
-                charsCode = 0x14;
-                screenMapCode = 0x18;
+                charsCode = VRAM_TARGET_ENGINE_B_BG0_TILES;
+                screenMapCode = VRAM_TARGET_ENGINE_B_BG0_MAP;
                 break;
             case 1:
-                charsCode = 0x15;
-                screenMapCode = 0x19;
+                charsCode = VRAM_TARGET_ENGINE_B_BG1_TILES;
+                screenMapCode = VRAM_TARGET_ENGINE_B_BG1_MAP;
                 break;
             case 2:
-                charsCode = 0x16;
-                screenMapCode = 0x1a;
+                charsCode = VRAM_TARGET_ENGINE_B_BG2_TILES;
+                screenMapCode = VRAM_TARGET_ENGINE_B_BG2_MAP;
                 break;
             case 3:
-                charsCode = 0x17;
-                screenMapCode = 0x1b;
+                charsCode = VRAM_TARGET_ENGINE_B_BG3_TILES;
+                screenMapCode = VRAM_TARGET_ENGINE_B_BG3_MAP;
                 break;
         }
     }
@@ -183,7 +185,7 @@ void LoadAndQueueScreenMapFileSet(u32 screen, void *fileSetPointer, const char *
 #pragma thumb off
 
 u32 GetKartSoundTableRow(u32 kartIndex) {
-    u32 result = 3;
+    u32 result = KART_SOUND_TABLE_ROW_FALLBACK;
     switch (kartIndex) {
         case 0:
         case 3:
@@ -198,7 +200,7 @@ u32 GetKartSoundTableRow(u32 kartIndex) {
         case 30:
         case 33:
         case 36:
-            result = 0;
+            result = KART_SOUND_TABLE_ROW_FIRST;
             break;
         case 2:
         case 8:
@@ -209,7 +211,7 @@ u32 GetKartSoundTableRow(u32 kartIndex) {
         case 25:
         case 28:
         case 31:
-            result = 0;
+            result = KART_SOUND_TABLE_ROW_FIRST;
             break;
         case 1:
         case 7:
@@ -220,7 +222,7 @@ u32 GetKartSoundTableRow(u32 kartIndex) {
         case 32:
         case 34:
         case 35:
-            result = 1;
+            result = KART_SOUND_TABLE_ROW_SECOND;
             break;
         case 4:
         case 5:
@@ -228,7 +230,7 @@ u32 GetKartSoundTableRow(u32 kartIndex) {
         case 11:
         case 16:
         case 17:
-            result = 2;
+            result = KART_SOUND_TABLE_ROW_THIRD;
             break;
     }
     return result;

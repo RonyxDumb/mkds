@@ -235,7 +235,7 @@ void SetScrollListRightColumnHighBits(s32 highBits) {
     }
     gScrollList->mRightColumnHighBitsTimer = 5;
     gScrollList->mRightColumnHighBits = highBits;
-    NNS_GfdRegisterNewVramTransferTask(0x1b, 0, gScrollList->mScreenMap, 0x600);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG3_MAP, 0, gScrollList->mScreenMap, 0x600);
 }
 
 void AdvanceScrollListRightColumnTimer(void) {

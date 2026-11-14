@@ -79,7 +79,8 @@ void BlendPaletteColors(s32 weight) {
               << 5));
     }
     if (gPaletteBlend->mFirstBlend == FALSE) {
-        NNS_GfdRegisterNewVramTransferTask(0x1e, gPaletteBlend->mPaletteIndex << 5, gPaletteBlend->mPalette, 0x20);
+        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_SPRITE_PALETTE, gPaletteBlend->mPaletteIndex << 5,
+                                           gPaletteBlend->mPalette, 0x20);
     } else {
         gPaletteBlend->mFirstBlend = FALSE;
     }
@@ -145,7 +146,7 @@ void InitStaffRollText(void *heap) {
         ((u16 *) G2S_GetBG0ScrPtr())[screenEntryIndex] = screenEntryIndex | 0xf000;
     }
     LoadNclrData(&nclr, FindSceneFile("ending_staffRoll_b_00.nclr"));
-    NNS_GfdRegisterNewVramTransferTask(0x1f, 0x1e0, nclr->mData + 0xf0, 0x20);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG_PALETTE, 0x1e0, nclr->mData + 0xf0, 0x20);
     NNS_G2dCharCanvasInitForBG(gStaffRollText->mCharCanvas, gStaffRollText->mCharBuffer, 0x20, 2, 4);
     charSpacing = gStaffRollText->mCharSpacing;
     font = GetFontByIndex(2);
@@ -276,12 +277,13 @@ void AdvanceStaffRollTextState1(void) {
         bgPositionY -= 0x100;
     }
     if (bgPositionY + 0x10 > 0x100) {
-        NNS_GfdRegisterNewVramTransferTask(0x14, bgPositionY << 7, staffRollText->mCharBuffer,
+        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG0_TILES, bgPositionY << 7, staffRollText->mCharBuffer,
                                            (0x100 - bgPositionY) << 7);
-        NNS_GfdRegisterNewVramTransferTask(0x14, 0, &gStaffRollText->mCharBuffer[bgPositionY << 7],
-                                           (bgPositionY - 0xf0) << 7);
+        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG0_TILES, 0,
+                                           &gStaffRollText->mCharBuffer[bgPositionY << 7], (bgPositionY - 0xf0) << 7);
     } else {
-        NNS_GfdRegisterNewVramTransferTask(0x14, bgPositionY << 7, staffRollText->mCharBuffer, 0x800);
+        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG0_TILES, bgPositionY << 7, staffRollText->mCharBuffer,
+                                           0x800);
     }
 }
 

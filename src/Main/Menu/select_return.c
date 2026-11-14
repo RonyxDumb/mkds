@@ -122,7 +122,8 @@ void SetSelectReturnPaletteBits(s32 paletteKind) {
         gSelectReturn->mScreenMapCopy[tileIndex] |= paletteBits;
     }
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
-        NNS_GfdRegisterNewVramTransferTask(0x1a, 0x4c0, &gSelectReturn->mScreenMapCopy[0x260], 0x200);
+        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG2_MAP, 0x4c0, &gSelectReturn->mScreenMapCopy[0x260],
+                                           0x200);
     }
 }
 
@@ -557,7 +558,7 @@ void RefreshAndQueueSelectChoises(void) {
     RefreshSelectChoisesPaletteBits();
     RefreshSelectChoisesNscrCopy();
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
-        NNS_GfdRegisterNewVramTransferTask(0x18, 0, gSelectChoises->mNscrCopy, 0x800);
+        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG0_MAP, 0, gSelectChoises->mNscrCopy, 0x800);
     }
 }
 
@@ -571,7 +572,7 @@ void RefreshSelectChoisesPaletteNoIndex(void) {
     gSelectChoises->mToggleFrames = 0;
     gSelectChoises->mToggleOn = 1;
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
-        NNS_GfdRegisterNewVramTransferTask(0x18, 0, gSelectChoises->mNscrCopy, 0x800);
+        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG0_MAP, 0, gSelectChoises->mNscrCopy, 0x800);
     }
 }
 
@@ -744,7 +745,7 @@ void AdvanceSelectChoises(void) {
             gSelectChoises->mToggleFrames = 0;
             RefreshSelectChoisesNscrCopy();
             if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
-                NNS_GfdRegisterNewVramTransferTask(0x18, 0, gSelectChoises->mNscrCopy, 0x800);
+                NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG0_MAP, 0, gSelectChoises->mNscrCopy, 0x800);
             }
         }
     }

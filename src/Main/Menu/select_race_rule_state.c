@@ -170,7 +170,7 @@ void AdvanceSelectRaceRuleHighlight(void) {
         SetScreenMapBlockTopBits(gSelectRaceRule->mNscr->mData, nscrRect.mFirstColumn, nscrRect.mFirstRow,
                                  nscrRect.mColumnCount, nscrRect.mRowCount, nscrRect.mHighlightedTopBits);
     }
-    NNS_GfdRegisterNewVramTransferTask(0x1b, 0, gSelectRaceRule->mNscr->mData, 0x600);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG3_MAP, 0, gSelectRaceRule->mNscr->mData, 0x600);
 }
 
 // Stores the count, kept from 1 to 10, and draws it.

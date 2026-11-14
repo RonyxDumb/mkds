@@ -295,17 +295,18 @@ void LocateAndQueueRecordVS(void) {
     file = FindSceneFile(gRecordVSMBNclrName);
     LocateNclr(&mbPalette, file);
     moPaletteData = moPalette->mData;
-    NNS_GfdRegisterNewVramTransferTask(0x13, 0, (gRecordVS->mRecordVSMNcgr->mData),
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_TILES, 0, (gRecordVS->mRecordVSMNcgr->mData),
                                        gRecordVS->mRecordVSMNcgr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0xe, 0, moPalette->mData, (0x000001a0u));
-    NNS_GfdRegisterNewVramTransferTask(0xe, 0x1c0, moPaletteData + 0xe0, 0x40);
-    NNS_GfdRegisterNewVramTransferTask(0x23, 0, (gRecordVS->mRecordVSSNcgr->mData),
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_PALETTE, 0, moPalette->mData, (0x000001a0u));
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_PALETTE, 0x1c0, moPaletteData + 0xe0, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_SPRITE_TILES, 0, (gRecordVS->mRecordVSSNcgr->mData),
                                        gRecordVS->mRecordVSSNcgr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, soPalette->mData, soPalette->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(4, 0, mbChars->mData, mbChars->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(8, 0, mainScreenMap->mData, mainScreenMap->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0xf, 0, mbPalette->mData, 0x40);
-    NNS_GfdRegisterNewVramTransferTask(0xe, 0x40, emblemPalette->mData, 0x20);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_SPRITE_PALETTE, 0, soPalette->mData, soPalette->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG0_TILES, 0, mbChars->mData, mbChars->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG0_MAP, 0, mainScreenMap->mData,
+                                       mainScreenMap->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG_PALETTE, 0, mbPalette->mData, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_PALETTE, 0x40, emblemPalette->mData, 0x20);
 }
 
 #pragma thumb off
@@ -383,11 +384,11 @@ void PrintRecordVSShownRecord(void) {
     firstIndex = GetRecordVSFirstRecordIndex();
     if (GetRecordFriendKeyText(firstIndex + gRecordVS->mShownIndex, friendKey)) {
         gRecordVS->mShowsFriendKey = 1;
-        NNS_GfdRegisterNewVramTransferTask(9, 0, &gRecordVS->mRecordVSM03Nscr->mData,
+        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG1_MAP, 0, &gRecordVS->mRecordVSM03Nscr->mData,
                                            gRecordVS->mRecordVSM03Nscr->mDataSize);
     } else {
         gRecordVS->mShowsFriendKey = 0;
-        NNS_GfdRegisterNewVramTransferTask(9, 0, &gRecordVS->mRecordVSM02Nscr->mData,
+        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG1_MAP, 0, &gRecordVS->mRecordVSM02Nscr->mData,
                                            gRecordVS->mRecordVSM02Nscr->mDataSize);
     }
     switch (gRecordVS->mShowsFriendKey) {

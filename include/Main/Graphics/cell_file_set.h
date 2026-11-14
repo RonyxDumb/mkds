@@ -13,6 +13,20 @@ typedef struct LabelCanvasEntry {
     /* 08 */ s32 mMessageIndex;
 } LabelCanvasEntry;
 
+// Which screen a file set goes to.
+typedef enum ScreenSide {
+    SCREEN_SIDE_MAIN = 0,
+    SCREEN_SIDE_SUB = 1,
+} ScreenSide;
+
+// Result of GetKartSoundTableRow; FALLBACK is for a kart index that no list names.
+typedef enum KartSoundTableRow {
+    KART_SOUND_TABLE_ROW_FIRST = 0,
+    KART_SOUND_TABLE_ROW_SECOND = 1,
+    KART_SOUND_TABLE_ROW_THIRD = 2,
+    KART_SOUND_TABLE_ROW_FALLBACK = 3,
+} KartSoundTableRow;
+
 u32 GetKartSoundTableRow(u32 kartIndex);
 void LoadAndQueueScreenMapFileSet(u32 screen, void *fileSetPointer, const char *charsName, const char *paletteName,
                                   const char *screenMapName, s32 index, void *(*findFile)(const char *) );

@@ -330,20 +330,20 @@ void InitWiFiVSCourseSelect(void *parentHeap, void *mainOam, void *subOam) {
     SetupInterpolation(&gWiFiVSCourseSelect->mInterpolations[0], 0, 10, -0xc0, 0);
     SetupInterpolation(&gWiFiVSCourseSelect->mInterpolations[2], 0, 10, 0x40, 0);
     reg_G2_BG0CNT = (reg_G2_BG0CNT & (REG_G2_BG0CNT_PRIORITY_MASK | REG_G2_BG0CNT_MOSAIC_MASK)) | 0xc00;
-    LocateAndQueueScreenMapFileSet(0, gWiFiVSCourseSelect, "WiFi_VS_course_select_m_b.NCGR",
+    LocateAndQueueScreenMapFileSet(SCREEN_SIDE_MAIN, gWiFiVSCourseSelect, "WiFi_VS_course_select_m_b.NCGR",
                                    "WiFi_VS_course_select_m_b.NCLR", "WiFi_VS_course_select_m.NSCR", 0, FindSceneFile);
     mainFileSet = &gWiFiVSCourseSelect->mWiFiVSCourseSelectMParts;
     objSizeLeft = GX_GetSizeOfOBJ();
     LocateCellFileSet(mainFileSet, "WiFi_VS_course_select_m.nce.ncgr", "WiFi_VS_course_select_m.nce.ncer",
                       "WiFi_VS_course_select_m_o.NCLR", "WiFi_VS_course_select_m.bncl", "WiFi_VS_course_select_m.bnll",
                       NULL, FindSceneFile);
-    SetupCellFileSet(0, gWiFiVSCourseSelect->mHeap, mainFileSet);
+    SetupCellFileSet(SCREEN_SIDE_MAIN, gWiFiVSCourseSelect->mHeap, mainFileSet);
     value = mainFileSet->mCellLayout->mCount;
     for (index = 0; index < value; index++) {
         SetCellPriority(index, 1, mainFileSet->mCells, mainFileSet->mCellLayout);
     }
     for (index = 0; index < mainFileSet->mLabelLayout->mCount; index++) {
-        objSizeLeft -= SetupLabelCanvas(0, gWiFiVSCourseSelect->mHeap, mainFileSet,
+        objSizeLeft -= SetupLabelCanvas(SCREEN_SIDE_MAIN, gWiFiVSCourseSelect->mHeap, mainFileSet,
                                         &gWiFiVSCourseSelectMLabelTextRows[index], objSizeLeft);
     }
     for (index = gWiFiVSCourseSelect->mPlayerCount; index < 4; index++) {
@@ -356,7 +356,7 @@ void InitWiFiVSCourseSelect(void *parentHeap, void *mainOam, void *subOam) {
     mainFileSet->mCellTable[4].mOffsetY =
         0x60 - (((s16 *) GetCellLayoutEntry(mainFileSet->mCellLayout, 4))[1] << 20 >> 20);
     mainFileSet->mCellTable[4].mVisible = 0;
-    LocateAndQueueScreenMapFileSet(1, &gWiFiVSCourseSelect->mWiFiVSCourseSelectMBAndSBParts[1],
+    LocateAndQueueScreenMapFileSet(SCREEN_SIDE_SUB, &gWiFiVSCourseSelect->mWiFiVSCourseSelectMBAndSBParts[1],
                                    "WIFI_VS_COURSE_SELECT_S_B.NCGR", "WIFI_VS_COURSE_SELECT_S_B.NCLR",
                                    "WIFI_VS_COURSE_SELECT_S.NSCR", 3, FindSceneFile);
     subFileSet = &gWiFiVSCourseSelect->mWiFiVSCourseSelectSParts;
@@ -364,13 +364,13 @@ void InitWiFiVSCourseSelect(void *parentHeap, void *mainOam, void *subOam) {
     LocateCellFileSet(subFileSet, "WiFi_VS_course_select_s.nce.ncgr", "WiFi_VS_course_select_s.nce.ncer",
                       "WiFi_VS_course_select_s_o.NCLR", "WiFi_VS_course_select_s.bncl", "WiFi_VS_course_select_s.bnll",
                       "WiFi_VS_course_select_s.bnbl", FindSceneFile);
-    SetupCellFileSet(1, gWiFiVSCourseSelect->mHeap, subFileSet);
+    SetupCellFileSet(SCREEN_SIDE_SUB, gWiFiVSCourseSelect->mHeap, subFileSet);
     subCellCount = subFileSet->mCellLayout->mCount;
     for (subIndex = 0; subIndex < subCellCount; subIndex++) {
         SetCellPriority(subIndex, 1, subFileSet->mCells, subFileSet->mCellLayout);
     }
     for (subIndex = 0; subIndex < subFileSet->mLabelLayout->mCount; subIndex++) {
-        objSizeLeft -= SetupLabelCanvas(1, gWiFiVSCourseSelect->mHeap, subFileSet,
+        objSizeLeft -= SetupLabelCanvas(SCREEN_SIDE_SUB, gWiFiVSCourseSelect->mHeap, subFileSet,
                                         &gWiFiVSCourseSelectSLabelTextRows[subIndex], objSizeLeft);
     }
     for (subIndex = 0; subIndex < subCellCount; subIndex++) {

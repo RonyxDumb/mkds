@@ -302,21 +302,28 @@ void LocateAndQueueSelectCupCourse(void) {
     LocateNcer(&gSelectCupCourse->mSelectCupMNcer, FindSceneFile(gSelectCupMNcerName));
     LocateNclr(&cupCellPalette, FindSceneFile(gSelectCupMONclrName));
     courseCellPaletteData = courseCellPalette->mData;
-    NNS_GfdRegisterNewVramTransferTask(4, 0, modeChars->mData, modeChars->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0xf, 0, modePalette->mData, 0x140);
-    NNS_GfdRegisterNewVramTransferTask(8, 0, modeScreenMap->mData, modeScreenMap->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(8, 0x800, gSelectCupCourse->mSecondScreenMapBuffer, 0x800);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG0_TILES, 0, modeChars->mData, modeChars->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG_PALETTE, 0, modePalette->mData, 0x140);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG0_MAP, 0, modeScreenMap->mData,
+                                       modeScreenMap->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG0_MAP, 0x800, gSelectCupCourse->mSecondScreenMapBuffer,
+                                       0x800);
     if (GetPreviousMenuScreenNumber() != 0x18 && GetPreviousMenuScreenNumber() != 0xc) {
-        NNS_GfdRegisterNewVramTransferTask(0x17, 0, fixedChars->mData, fixedChars->mDataSize);
-        NNS_GfdRegisterNewVramTransferTask(0x1f, 0, fixedPalette->mData, 0x140);
-        NNS_GfdRegisterNewVramTransferTask(0x1b, 0, fixedScreenMap->mData, fixedScreenMap->mDataSize);
-        NNS_GfdRegisterNewVramTransferTask(0x1b, 0x800, gSelectCupCourse->mSecondScreenMapBuffer, 0x800);
+        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG3_TILES, 0, fixedChars->mData, fixedChars->mDataSize);
+        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG_PALETTE, 0, fixedPalette->mData, 0x140);
+        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG3_MAP, 0, fixedScreenMap->mData,
+                                           fixedScreenMap->mDataSize);
+        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG3_MAP, 0x800,
+                                           gSelectCupCourse->mSecondScreenMapBuffer, 0x800);
     }
-    NNS_GfdRegisterNewVramTransferTask(0x13, 0, courseCellChars->mData, courseCellChars->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0xe, 0, courseCellPalette->mData, 0x1a0);
-    NNS_GfdRegisterNewVramTransferTask(0xe, 0x1c0, courseCellPaletteData + 0xe0, 0x40);
-    NNS_GfdRegisterNewVramTransferTask(0x23, 0, cupCellChars->mData, cupCellChars->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, cupCellPalette->mData, cupCellPalette->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_TILES, 0, courseCellChars->mData,
+                                       courseCellChars->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_PALETTE, 0, courseCellPalette->mData, 0x1a0);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_PALETTE, 0x1c0, courseCellPaletteData + 0xe0, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_SPRITE_TILES, 0, cupCellChars->mData,
+                                       cupCellChars->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_SPRITE_PALETTE, 0, cupCellPalette->mData,
+                                       cupCellPalette->mDataSize);
 }
 
 void SetupSelectCupCourseObjects(void) {

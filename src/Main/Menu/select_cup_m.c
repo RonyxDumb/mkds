@@ -102,22 +102,31 @@ void LocateAndQueueSelectCupM(void) {
     LocateNclr(&subCellPalette, FindSceneFile(gSelectCupMONclrName3));
     mainCellPaletteData = mainCellPalette->mData;
     if (!(GetPreviousMenuScreenNumber() == 0x17 || GetPreviousMenuScreenNumber() == 0xb)) {
-        NNS_GfdRegisterNewVramTransferTask(4, 0, firstBgChars->mData, firstBgChars->mDataSize);
-        NNS_GfdRegisterNewVramTransferTask(0xf, 0, firstBgPalette->mData, 0x140);
-        NNS_GfdRegisterNewVramTransferTask(8, 0, firstBgScreenMap->mData, firstBgScreenMap->mDataSize);
-        NNS_GfdRegisterNewVramTransferTask(8, 0x800, gSelectCupM->mSecondScreenMapBuffer, 0x800);
+        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG0_TILES, 0, firstBgChars->mData,
+                                           firstBgChars->mDataSize);
+        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG_PALETTE, 0, firstBgPalette->mData, 0x140);
+        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG0_MAP, 0, firstBgScreenMap->mData,
+                                           firstBgScreenMap->mDataSize);
+        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG0_MAP, 0x800, gSelectCupM->mSecondScreenMapBuffer,
+                                           0x800);
     }
     if (!(GetPreviousMenuScreenNumber() == 0x19 || GetPreviousMenuScreenNumber() == 0xd)) {
-        NNS_GfdRegisterNewVramTransferTask(0x17, 0, secondBgChars->mData, secondBgChars->mDataSize);
-        NNS_GfdRegisterNewVramTransferTask(0x1f, 0, secondBgPalette->mData, 0x140);
-        NNS_GfdRegisterNewVramTransferTask(0x1b, 0, secondBgScreenMap->mData, secondBgScreenMap->mDataSize);
-        NNS_GfdRegisterNewVramTransferTask(0x1b, 0x800, gSelectCupM->mSecondScreenMapBuffer, 0x800);
+        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG3_TILES, 0, secondBgChars->mData,
+                                           secondBgChars->mDataSize);
+        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG_PALETTE, 0, secondBgPalette->mData, 0x140);
+        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG3_MAP, 0, secondBgScreenMap->mData,
+                                           secondBgScreenMap->mDataSize);
+        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG3_MAP, 0x800, gSelectCupM->mSecondScreenMapBuffer,
+                                           0x800);
     }
-    NNS_GfdRegisterNewVramTransferTask(0x13, 0, mainCellChars->mData, mainCellChars->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0xe, 0, mainCellPalette->mData, 0x1a0);
-    NNS_GfdRegisterNewVramTransferTask(0xe, 0x1c0, mainCellPaletteData + 0xe0, 0x40);
-    NNS_GfdRegisterNewVramTransferTask(0x23, 0, subCellChars->mData, subCellChars->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, subCellPalette->mData, subCellPalette->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_TILES, 0, mainCellChars->mData,
+                                       mainCellChars->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_PALETTE, 0, mainCellPalette->mData, 0x1a0);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_PALETTE, 0x1c0, mainCellPaletteData + 0xe0, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_SPRITE_TILES, 0, subCellChars->mData,
+                                       subCellChars->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_SPRITE_PALETTE, 0, subCellPalette->mData,
+                                       subCellPalette->mDataSize);
 }
 
 void InitSelectCupMCellsAndRequestCupPicture(void) {
@@ -437,8 +446,8 @@ s32 AdvanceSelectCupM(void) {
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         if (gSelectCupM->mCupPicturePending != FALSE && IsCupPictureReady() != FALSE) {
             cupPictureScreenMap = GetCupPictureNscrData();
-            NNS_GfdRegisterNewVramTransferTask(0xf, 0, GetCupPictureNclrData(), 0xe0);
-            NNS_GfdRegisterNewVramTransferTask(4, 0x20, GetCupPictureNcgrData(), 0xdc0);
+            NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG_PALETTE, 0, GetCupPictureNclrData(), 0xe0);
+            NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG0_TILES, 0x20, GetCupPictureNcgrData(), 0xdc0);
             transferKind = 8;
             transferSize = 0x14;
             for (index = 0; index < 0xb; index++) {
@@ -446,8 +455,8 @@ s32 AdvanceSelectCupM(void) {
                 NNS_GfdRegisterNewVramTransferTask(transferKind, screenMapIndex << 1,
                                                    cupPictureScreenMap + screenMapIndex, transferSize);
             }
-            NNS_GfdRegisterNewVramTransferTask(0x1f, 0, GetCupPictureNclrData(), 0xe0);
-            NNS_GfdRegisterNewVramTransferTask(0x17, 0x20, GetCupPictureNcgrData(), 0xdc0);
+            NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG_PALETTE, 0, GetCupPictureNclrData(), 0xe0);
+            NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG3_TILES, 0x20, GetCupPictureNcgrData(), 0xdc0);
             transferKind = 0x1b;
             for (index = 0; index < 0xb; index++) {
                 screenMapIndex = ((index + 8) << 5) + 0x16;

@@ -175,9 +175,11 @@ void QueueCellCharsAndCopyPalettes(u32 index, NNSG2dCellDataBank *cells, Ncgr *c
         charsSource = (u8 *) chars->mData + ((sourceAttr2 & 0x3ff) << 5);
         DC_FlushRange(charsSource, charBytes);
         if (queueSelector == 0) {
-            NNS_GfdRegisterNewVramTransferTask(0x13, destCharOffset, charsSource, charBytes);
+            NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_TILES, destCharOffset, charsSource,
+                                               charBytes);
         } else {
-            NNS_GfdRegisterNewVramTransferTask(0x23, destCharOffset, charsSource, charBytes);
+            NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_SPRITE_TILES, destCharOffset, charsSource,
+                                               charBytes);
         }
         paletteIndex = (sourceAttr2 & 0xf000) >> 12;
         usedPalettes[paletteIndex] = 1;
@@ -194,9 +196,11 @@ void QueueCellCharsAndCopyPalettes(u32 index, NNSG2dCellDataBank *cells, Ncgr *c
             paletteSource = (u8 *) palette->mData + runStart;
             runBytes = runLength << 5;
             if (queueSelector == 0) {
-                NNS_GfdRegisterNewVramTransferTask(0xe, runStart, paletteSource, runBytes);
+                NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_PALETTE, runStart, paletteSource,
+                                                   runBytes);
             } else {
-                NNS_GfdRegisterNewVramTransferTask(0x1e, runStart, paletteSource, runBytes);
+                NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_SPRITE_PALETTE, runStart, paletteSource,
+                                                   runBytes);
             }
             runStart = paletteRow + 1;
             runLength = 0;
@@ -237,9 +241,11 @@ void QueueCellChars(u32 index, NNSG2dCellDataBank *cells, Ncgr *chars, LayoutEnt
         charsSource = (u8 *) chars->mData + ((oamEntry->mAttr2 & 0x3ff) << 5);
         DC_FlushRange(charsSource, charBytes);
         if (queueSelector == 0) {
-            NNS_GfdRegisterNewVramTransferTask(0x13, destCharOffset, charsSource, charBytes);
+            NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_TILES, destCharOffset, charsSource,
+                                               charBytes);
         } else {
-            NNS_GfdRegisterNewVramTransferTask(0x23, destCharOffset, charsSource, charBytes);
+            NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_SPRITE_TILES, destCharOffset, charsSource,
+                                               charBytes);
         }
     }
 }
@@ -279,9 +285,11 @@ void QueueCellCharsAndFirstPalette(u32 index, NNSG2dCellDataBank *cells, Ncgr *c
         charsSource = (u8 *) chars->mData + ((oamEntry->mAttr2 & 0x3ff) << 5);
         DC_FlushRange(charsSource, charBytes);
         if (queueSelector == 0) {
-            NNS_GfdRegisterNewVramTransferTask(0x13, destCharOffset, charsSource, charBytes);
+            NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_TILES, destCharOffset, charsSource,
+                                               charBytes);
         } else {
-            NNS_GfdRegisterNewVramTransferTask(0x23, destCharOffset, charsSource, charBytes);
+            NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_SPRITE_TILES, destCharOffset, charsSource,
+                                               charBytes);
         }
     }
     destPaletteOffset = (((u32) destCellData->mPOamAttrArray->mAttr2 & 0xf000) >> 12) << 5;
@@ -442,9 +450,9 @@ void PrintLabelLayoutText(s32 queueSelector, s32 labelIndex, LayoutEntryTable *l
     charBytes = canvas->mTextCanvas.mCharBytes;
     DC_FlushRange(chars, charBytes);
     if (queueSelector == 0) {
-        NNS_GfdRegisterNewVramTransferTask(0x13, destOffset, chars, charBytes);
+        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_TILES, destOffset, chars, charBytes);
     } else {
-        NNS_GfdRegisterNewVramTransferTask(0x23, destOffset, chars, charBytes);
+        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_SPRITE_TILES, destOffset, chars, charBytes);
     }
 }
 
@@ -478,9 +486,9 @@ void ClearAndQueueLabelLayoutText(s32 queueSelector, s32 labelIndex, LayoutEntry
     charBytes = canvas->mTextCanvas.mCharBytes;
     DC_FlushRange(chars, charBytes);
     if (queueSelector == 0) {
-        NNS_GfdRegisterNewVramTransferTask(0x13, destOffset, chars, charBytes);
+        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_TILES, destOffset, chars, charBytes);
     } else {
-        NNS_GfdRegisterNewVramTransferTask(0x23, destOffset, chars, charBytes);
+        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_SPRITE_TILES, destOffset, chars, charBytes);
     }
 }
 

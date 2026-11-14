@@ -727,7 +727,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
         LocateCellFileSet(&selectCharacter->mGpMParts, "select_character_gp_m.nce.ncgr",
                           "select_character_gp_m.nce.ncer", "select_character_gp_m_o.NCLR",
                           "select_character_gp_m.bncl", NULL, NULL, FindFileInLoadedArchives);
-        SetupCellFileSet(0, gSelectCharacter->mHeap, &selectCharacter->mGpMParts);
+        SetupCellFileSet(SCREEN_SIDE_MAIN, gSelectCharacter->mHeap, &selectCharacter->mGpMParts);
         LocateCellFileSet(&titleParts, "select_character_gp_title_m.nce.ncgr", "select_character_gp_title_m.nce.ncer",
                           NULL, "select_character_gp_title_m.bncl", NULL, NULL, FindFileInLoadedArchives);
         QueueCellChars(0, titleParts.mCells, titleParts.mChars, titleParts.mCellLayout, 0, 0,
@@ -747,7 +747,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
         LocateCellFileSet(sParts, "select_character_s.nce.ncgr", "select_character_s.nce.ncer",
                           "select_character_s_o.NCLR", "select_character_s.bncl", NULL, "select_character_s.bnbl",
                           FindFileInLoadedArchives);
-        SetupCellFileSet(1, gSelectCharacter->mHeap, sParts);
+        SetupCellFileSet(SCREEN_SIDE_SUB, gSelectCharacter->mHeap, sParts);
         sParts->mCellTable[24].mVisible = 0;
         for (rowIndex = 0; rowIndex < 12; rowIndex++) {
             sParts->mCellTable[gSelectCharacterRowCellIndices[rowIndex].mOffsetCellIndex].mUseMatrix = 1;

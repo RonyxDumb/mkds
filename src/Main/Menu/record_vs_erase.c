@@ -107,11 +107,13 @@ void LocateAndQueueRecordVSErase(void) {
     sceneFile = FindSceneFile(gRecordVSM03NscrName);
     LocateNscr(&gRecordVSErase->mRecordVSM03Nscr, sceneFile);
     emblemPalette = GetEmblemSBNclr();
-    NNS_GfdRegisterNewVramTransferTask(0x17, 0, sbChars->mData, sbChars->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0x1b, 0, eraseScreenMap[0]->mData, eraseScreenMap[0]->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0x1b, (0x00000800u), gRecordVSErase->mSecondScreenMapBuffer, (0x00000800u));
-    NNS_GfdRegisterNewVramTransferTask(0x1f, 0, sbPalette->mData, 0x40);
-    NNS_GfdRegisterNewVramTransferTask(0xe, 0x40, emblemPalette->mData, 0x20);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG3_TILES, 0, sbChars->mData, sbChars->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG3_MAP, 0, eraseScreenMap[0]->mData,
+                                       eraseScreenMap[0]->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG3_MAP, (0x00000800u),
+                                       gRecordVSErase->mSecondScreenMapBuffer, (0x00000800u));
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG_PALETTE, 0, sbPalette->mData, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_PALETTE, 0x40, emblemPalette->mData, 0x20);
 }
 
 #pragma thumb off
@@ -207,11 +209,11 @@ void PrintRecordVSEraseShownRecord(void) {
     firstRecordIndex = GetRecordVSEraseFirstRecordIndex();
     if (GetRecordFriendKeyText(firstRecordIndex + gRecordVSErase->mShownIndex, friendKeyText)) {
         gRecordVSErase->mTransientDrawn = 1;
-        NNS_GfdRegisterNewVramTransferTask(9, 0, gRecordVSErase->mRecordVSM03Nscr->mData,
+        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG1_MAP, 0, gRecordVSErase->mRecordVSM03Nscr->mData,
                                            gRecordVSErase->mRecordVSM03Nscr->mDataSize);
     } else {
         gRecordVSErase->mTransientDrawn = 0;
-        NNS_GfdRegisterNewVramTransferTask(9, 0, gRecordVSErase->mRecordVSM02Nscr->mData,
+        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG1_MAP, 0, gRecordVSErase->mRecordVSM02Nscr->mData,
                                            gRecordVSErase->mRecordVSM02Nscr->mDataSize);
     }
     switch (gRecordVSErase->mTransientDrawn) {

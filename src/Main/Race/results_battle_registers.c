@@ -507,9 +507,11 @@ void QueueResultsBattleCharacterIcon(s32 cellFileSetIndex, s32 entryIndex, s32 c
         shuffledIndex = gMenuShared->mShuffledIndices[entryIndex];
         paletteBlock = shuffledIndex * 0x20 + (u8 *) palette->mData;
         if (cellFileSetIndex == 0) {
-            NNS_GfdRegisterNewVramTransferTask(0xe, cellPaletteIndex << 5, paletteBlock, 0x20);
+            NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_PALETTE, cellPaletteIndex << 5, paletteBlock,
+                                               0x20);
         } else {
-            NNS_GfdRegisterNewVramTransferTask(0x1e, cellPaletteIndex << 5, paletteBlock, 0x20);
+            NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_SPRITE_PALETTE, cellPaletteIndex << 5, paletteBlock,
+                                               0x20);
         }
     }
 }
@@ -529,7 +531,7 @@ void SetupResultsBattleOwnEntry(void *heap) {
     if ((s32) mainCellFileSet->mLabelLayout->mCount > 0) {
         labelEntry = (u8 *) gResultsBattleOwnEntryLabelTextRows;
         do {
-            remainingObjSize -= SetupLabelCanvas(0, heap, mainCellFileSet, labelEntry, remainingObjSize);
+            remainingObjSize -= SetupLabelCanvas(SCREEN_SIDE_MAIN, heap, mainCellFileSet, labelEntry, remainingObjSize);
             labelEntry += 8;
             index++;
         } while (index < mainCellFileSet->mLabelLayout->mCount);
@@ -829,7 +831,7 @@ void InitResultsBattle(void *heap, void *mainOam, void *subOam) {
                     gResultsBattleVictoryFileNames[gResultsBattle->mFileSetKind].mONclrName,
                     gResultsBattleVictoryFileNames[gResultsBattle->mFileSetKind].mBnclName,
                     gResultsBattleVictoryFileNames[gResultsBattle->mFileSetKind].mBnllName, NULL, FindSceneFile);
-    SetupCellFileSet(0, heap, mainCellFileSet);
+    SetupCellFileSet(SCREEN_SIDE_MAIN, heap, mainCellFileSet);
     switch (gResultsBattle->mFileSetKind) {
         case 0:
             SetupResultsBattleOwnEntry(heap);
@@ -864,8 +866,8 @@ void InitResultsBattle(void *heap, void *mainOam, void *subOam) {
     GXS_LoadOBJ(results->mCellFileSets[1].mChars->mData, 0, results->mCellFileSets[1].mChars->mDataSize);
     GXS_LoadOBJPltt(subCellFileSet->mPalette->mData, 0, subCellFileSet->mPalette->mDataSize);
     for (itemIndex = 0; itemIndex < subCellFileSet->mLabelLayout->mCount; itemIndex++) {
-        remainingObjSize -=
-            SetupLabelCanvas(1, heap, subCellFileSet, gResultsBattleSubLabelCanvasEntries[itemIndex], remainingObjSize);
+        remainingObjSize -= SetupLabelCanvas(SCREEN_SIDE_SUB, heap, subCellFileSet,
+                                             gResultsBattleSubLabelCanvasEntries[itemIndex], remainingObjSize);
     }
     for (itemIndex = 0; itemIndex < subCellFileSet->mCellLayout->mCount; itemIndex++) {
         SetCellPriority(itemIndex, 2, subCellFileSet->mCells, subCellFileSet->mCellLayout);

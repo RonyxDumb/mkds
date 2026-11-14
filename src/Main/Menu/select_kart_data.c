@@ -393,7 +393,7 @@ void InitSelectKart(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
             LocateCellFileSet(cellFileSet, "select_character_gp_m.nce.ncgr", "select_character_gp_m.nce.ncer",
                               "select_character_gp_m_o.NCLR", "select_character_gp_m.bncl", NULL, NULL,
                               FindFileInLoadedArchives);
-            SetupCellFileSet(0, gSelectKart->mHeap, cellFileSet);
+            SetupCellFileSet(SCREEN_SIDE_MAIN, gSelectKart->mHeap, cellFileSet);
             LocateCellFileSet(&titleFileSet, "select_character_gp_title_m.nce.ncgr",
                               "select_character_gp_title_m.nce.ncer", NULL, "select_character_gp_title_m.bncl", NULL,
                               NULL, FindFileInLoadedArchives);
@@ -411,7 +411,7 @@ void InitSelectKart(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
         }
     }
     if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
-        LocateAndQueueScreenMapFileSet(1, &gSelectKart->mSelectKartSBParts, "select_kart_s_b.NCGR",
+        LocateAndQueueScreenMapFileSet(SCREEN_SIDE_SUB, &gSelectKart->mSelectKartSBParts, "select_kart_s_b.NCGR",
                                        "select_kart_s_b.NCLR", "select_kart_s.NSCR", 3, FindFileInLoadedArchives);
     }
     if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
@@ -419,10 +419,10 @@ void InitSelectKart(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
         cellFileSet = &gSelectKart->mSelectKartSParts;
         LocateCellFileSet(cellFileSet, "select_kart_s.nce.ncgr", "select_kart_s.nce.ncer", "select_kart_s_o.NCLR",
                           "select_kart_s.bncl", "select_kart_s.bnll", "select_kart_s.bnbl", FindFileInLoadedArchives);
-        SetupCellFileSet(1, gSelectKart->mHeap, cellFileSet);
+        SetupCellFileSet(SCREEN_SIDE_SUB, gSelectKart->mHeap, cellFileSet);
         for (index = 0; index < 9; index++) {
-            value -=
-                SetupLabelCanvas(1, gSelectKart->mHeap, cellFileSet, &gSelectKartSLabelCanvasEntries[index], value);
+            value -= SetupLabelCanvas(SCREEN_SIDE_SUB, gSelectKart->mHeap, cellFileSet,
+                                      &gSelectKartSLabelCanvasEntries[index], value);
         }
         for (index = 0; index < 6; index++) {
             text = GetBmgEntry(gSelectKart->mKartSelectMessages, gSelectKartSLabelCanvasEntries[index].mMessageIndex);

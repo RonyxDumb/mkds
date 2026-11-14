@@ -497,12 +497,13 @@ void InitMultiSelectMember(void *parentHeap, void *mainOam, void *subOam) {
     LocateCellFileSet(mainFileSet, "multi_select_member_m.nce.ncgr", "multi_select_member_m.nce.ncer",
                       "multi_select_member_m_o.NCLR", "multi_select_member_m.bncl", "multi_select_member_m.bnll", NULL,
                       FindSceneFile);
-    SetupCellFileSet(0, gMultiSelectMember->mHeap, mainFileSet);
+    SetupCellFileSet(SCREEN_SIDE_MAIN, gMultiSelectMember->mHeap, mainFileSet);
     index = 0;
     canvasRow = gMultiSelectMemberMainLabelRows;
     printRow = canvasRow;
     for (; index < 2; index++) {
-        mainObjSizeLeft -= SetupLabelCanvas(0, gMultiSelectMember->mHeap, mainFileSet, canvasRow, mainObjSizeLeft);
+        mainObjSizeLeft -=
+            SetupLabelCanvas(SCREEN_SIDE_MAIN, gMultiSelectMember->mHeap, mainFileSet, canvasRow, mainObjSizeLeft);
         PrintLabelLayoutTextNoFixedAdvance(0, printRow->mLabelIndex, mainFileSet->mLabelLayout,
                                            GetBmgEntry(gMultiSelectMember->mBannerMessages, printRow->mMessageIndex),
                                            mainFileSet->mCellLayout, mainFileSet->mCellTable);
@@ -510,7 +511,7 @@ void InitMultiSelectMember(void *parentHeap, void *mainOam, void *subOam) {
         printRow++;
     }
     SetMultiSelectChildCountCellsVisible();
-    LocateAndQueueScreenMapFileSet(1, gMultiSelectMember, "multi_select_member_s_b.NCGR",
+    LocateAndQueueScreenMapFileSet(SCREEN_SIDE_SUB, gMultiSelectMember, "multi_select_member_s_b.NCGR",
                                    "multi_select_member_s_b.NCLR", "multi_select_member_s_register.NSCR", 3,
                                    FindSceneFile);
     subObjSizeLeft = GX_GetSizeOfSubOBJ();
@@ -518,9 +519,9 @@ void InitMultiSelectMember(void *parentHeap, void *mainOam, void *subOam) {
     LocateCellFileSet(subFileSet, "multi_select_member_register_s.nce.ncgr", "multi_select_member_register_s.nce.ncer",
                       "multi_select_member_register_s_o.NCLR", "multi_select_member_s_register.bncl",
                       "multi_select_member_s_register.bnll", "multi_select_member_s_register.bnbl", FindSceneFile);
-    SetupCellFileSet(1, gMultiSelectMember->mHeap, subFileSet);
+    SetupCellFileSet(SCREEN_SIDE_SUB, gMultiSelectMember->mHeap, subFileSet);
     for (index = 0; index < 9; index++) {
-        subObjSizeLeft -= SetupLabelCanvas(1, gMultiSelectMember->mHeap, subFileSet,
+        subObjSizeLeft -= SetupLabelCanvas(SCREEN_SIDE_SUB, gMultiSelectMember->mHeap, subFileSet,
                                            &gMultiSelectMemberSubLabelRows.mRows[index], subObjSizeLeft);
     }
     SetupInterpolation(&gMultiSelectMember->mInterpolations[3], 3, 10, 0x40, 0);

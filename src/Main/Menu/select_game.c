@@ -192,7 +192,7 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
             break;
     }
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
-        LocateAndQueueScreenMapFileSet(0, screenMapFileSet, "common/select_game_m_b.NCGR",
+        LocateAndQueueScreenMapFileSet(SCREEN_SIDE_MAIN, screenMapFileSet, "common/select_game_m_b.NCGR",
                                        "common/select_game_m_b.NCLR",
                                        gSelectGameFileNames[gSelectGame->mMode].mScreenMapName, 1, FindSceneFile);
     }
@@ -202,7 +202,7 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
         LocateCellFileSet(selectGame, "common/select_game_m.nce.ncgr", "common/select_game_m.nce.ncer",
                           "common/select_game_m_o.NCLR", "common/select_game_m.bncl", "common/select_game_m.bnll", NULL,
                           FindSceneFile);
-        SetupCellFileSet(0, gSelectGame->mHeap, selectGame->mCellFileSets);
+        SetupCellFileSet(SCREEN_SIDE_MAIN, gSelectGame->mHeap, selectGame->mCellFileSets);
         mainCellCount = selectGame->mCellFileSets[0].mCellLayout->mCount;
         mainLabelCount = selectGame->mCellFileSets[0].mLabelLayout->mCount;
         labelIndex = 0;
@@ -210,8 +210,8 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
             canvasRow = gSelectGameLabelMessageRows;
             printRow = canvasRow;
             do {
-                mainObjSizeLeft -=
-                    SetupLabelCanvas(0, gSelectGame->mHeap, selectGame->mCellFileSets, canvasRow, mainObjSizeLeft);
+                mainObjSizeLeft -= SetupLabelCanvas(SCREEN_SIDE_MAIN, gSelectGame->mHeap, selectGame->mCellFileSets,
+                                                    canvasRow, mainObjSizeLeft);
                 PrintLabelLayoutTextNoFixedAdvance(0, printRow->mLabelIndex, selectGame->mCellFileSets[0].mLabelLayout,
                                                    GetBmgEntry(gSelectGame->mMenuMessages, printRow->mMessageIndex),
                                                    selectGame->mCellFileSets[0].mCellLayout,
@@ -237,7 +237,7 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
     LocateCellFileSet(subFileSet, "common/select_game_s.nce.ncgr", "common/select_game_s.nce.ncer",
                       "common/select_game_s_o.NCLR", gSelectGameFileNames[gSelectGame->mMode].mCellLayoutName, NULL,
                       gSelectGameFileNames[gSelectGame->mMode].mRectsName, FindSceneFile);
-    SetupCellFileSet(1, gSelectGame->mHeap, subFileSet);
+    SetupCellFileSet(SCREEN_SIDE_SUB, gSelectGame->mHeap, subFileSet);
     SetSelectGameSubCellsVisible(0);
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         SetSelectReturnSoundId(-1);

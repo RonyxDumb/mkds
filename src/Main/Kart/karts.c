@@ -1320,8 +1320,9 @@ void QueueKartEmblemTexture(void *emblemData, void *emblemPalette) {
         entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &matBlock->mDict, matBlock->mDict.mOfsEntry);
         material = OFFSET_PTR(NNSG3dResMatData, matBlock, *DICT_ENTRY(u32, entries, materialIndex));
         paletteBase = material->mTexPlttBase << 4;
-        NNS_GfdRegisterNewVramTransferTask(0, (material->mTexImageParam & 0xffff) << 3, emblemData, 0x200);
-        NNS_GfdRegisterNewVramTransferTask(1, paletteBase, emblemPalette, 0x20);
+        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_TEXTURE_IMAGE, (material->mTexImageParam & 0xffff) << 3,
+                                           emblemData, 0x200);
+        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_TEXTURE_PALETTE, paletteBase, emblemPalette, 0x20);
     }
 }
 
