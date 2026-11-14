@@ -5,6 +5,14 @@
 #include "Main/MapObjects/attractor.h" // MapObject
 #include "01/MapObjects/data_0209bc74.h"
 
+// Values of Picture.mState: IDLE does nothing, WAIT counts mState1Timer down, PLAY steps the animation and plays its
+// sounds.
+enum {
+    PICTURE_STATE_IDLE,
+    PICTURE_STATE_WAIT,
+    PICTURE_STATE_PLAY,
+};
+
 // Object of UpdatePicture: after the shared part, a halfword at 0xa0, the phase at 0xa4, a counter at 0xa8 and the
 // state at 0xac.
 typedef struct Picture {

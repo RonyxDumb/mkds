@@ -75,7 +75,7 @@ void DrawPicture(void *mapObjectList, Picture *picture) {
     }
 }
 
-// mState stays 0: nothing in the code sets state 1.
+// mState stays IDLE: nothing in the code sets WAIT.
 void UpdatePicture(void *mapObjectList, Picture *picture) {
     SoundStartParams firstSoundParams;
     SoundStartParams secondSoundParams;
@@ -86,12 +86,12 @@ void UpdatePicture(void *mapObjectList, Picture *picture) {
     s32 falloffIndex;
 
     switch (picture->mState) {
-        case 1:
+        case PICTURE_STATE_WAIT:
             if (picture->mState1Timer-- <= 0) {
-                picture->mState = 2;
+                picture->mState = PICTURE_STATE_PLAY;
             }
             break;
-        case 2:
+        case PICTURE_STATE_PLAY:
             if (picture->mPictureIndex == 0) {
                 nextFrameIndex = picture->mNsbcaFrameIndex + 1;
                 if (nextFrameIndex >= GetMapObjectModelNsbcaFrameCount(gPicture1)) {
@@ -180,7 +180,7 @@ void UpdatePicture(void *mapObjectList, Picture *picture) {
             randomState64 = &gRaceProgress->mLocalRandom;
             randomState64->mValue = randomState64->mMultiplier * randomState64->mValue + randomState64->mIncrement;
             picture->mState1Timer = (u16) (((randomState64->mValue >> 32) * 0x78) >> 32) + 0x3c;
-            picture->mState = 1;
+            picture->mState = PICTURE_STATE_WAIT;
             break;
     }
 }
