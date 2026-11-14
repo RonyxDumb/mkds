@@ -106,14 +106,14 @@ void WaitIrqAndTurnOnDisplays(void) {
 
 void InitDisplayBgRecords(DisplayBgRecords *records, u32 bgMode) {
     u32 bgCntMode;
-    records->mBg0.mBgCntLow2 = 0;
+    records->mBg0.mBgCntLow2 = DISPLAY_BG0_DEFAULT_PRIORITY;
     records->mBg0.mBgCntBit6 = 0;
     records->mBg0.mBgCntVal14 = 0;
     records->mBg0.mBgCntVal7 = 0;
     records->mBg0.mBgCntVal8 = 0;
     records->mBg0.mBgCntVal2 = 0;
     records->mBg0.mBgCntVal13 = 0;
-    records->mBg1.mBgCntLow2 = 1;
+    records->mBg1.mBgCntLow2 = DISPLAY_BG1_DEFAULT_PRIORITY;
     records->mBg1.mBgCntVal14 = 0;
     records->mBg1.mBgCntVal7 = 0;
     records->mBg1.mBgCntBit6 = 0;
@@ -140,7 +140,7 @@ void InitDisplayBgRecords(DisplayBgRecords *records, u32 bgMode) {
     records->mBg2.mMode = bgCntMode;
     switch (bgCntMode) {
         case BG23_MODE_TEXT:
-            records->mBg2.mFields.mBgCntLow2 = 2;
+            records->mBg2.mFields.mBgCntLow2 = DISPLAY_BG23_DEFAULT_PRIORITY;
             records->mBg2.mFields.mBgCntVal14 = 0;
             records->mBg2.mFields.mBgCntVal7Or13 = 0;
             records->mBg2.mFields.mBgCntBit6 = 0;
@@ -148,7 +148,7 @@ void InitDisplayBgRecords(DisplayBgRecords *records, u32 bgMode) {
             records->mBg2.mFields.mBgCntVal2 = 0;
             break;
         case BG23_MODE_AFFINE:
-            records->mBg2.mFields.mBgCntLow2 = 2;
+            records->mBg2.mFields.mBgCntLow2 = DISPLAY_BG23_DEFAULT_PRIORITY;
             records->mBg2.mFields.mBgCntVal14 = 0;
             records->mBg2.mFields.mBgCntBit6 = 0;
             records->mBg2.mFields.mBgCntVal7Or13 = 0;
@@ -156,7 +156,7 @@ void InitDisplayBgRecords(DisplayBgRecords *records, u32 bgMode) {
             records->mBg2.mFields.mBgCntVal2 = 0;
             break;
         case BG23_MODE_AFFINE_NO_CHAR_BASE:
-            records->mBg2.mFields.mBgCntLow2 = 2;
+            records->mBg2.mFields.mBgCntLow2 = DISPLAY_BG23_DEFAULT_PRIORITY;
             records->mBg2.mFields.mBgCntBit6 = 0;
             records->mBg2.mFields.mBgCntVal14 = 0;
             records->mBg2.mFields.mBgCntVal7Or13 = 0;
@@ -183,7 +183,7 @@ void InitDisplayBgRecords(DisplayBgRecords *records, u32 bgMode) {
     records->mBg3.mMode = bgCntMode;
     switch (bgCntMode) {
         case BG23_MODE_TEXT:
-            records->mBg3.mFields.mBgCntLow2 = 2;
+            records->mBg3.mFields.mBgCntLow2 = DISPLAY_BG23_DEFAULT_PRIORITY;
             records->mBg3.mFields.mBgCntVal14 = 0;
             records->mBg3.mFields.mBgCntVal7Or13 = 0;
             records->mBg3.mFields.mBgCntBit6 = 0;
@@ -191,7 +191,7 @@ void InitDisplayBgRecords(DisplayBgRecords *records, u32 bgMode) {
             records->mBg3.mFields.mBgCntVal2 = 0;
             break;
         case BG23_MODE_AFFINE:
-            records->mBg3.mFields.mBgCntLow2 = 2;
+            records->mBg3.mFields.mBgCntLow2 = DISPLAY_BG23_DEFAULT_PRIORITY;
             records->mBg3.mFields.mBgCntVal14 = 0;
             records->mBg3.mFields.mBgCntBit6 = 0;
             records->mBg3.mFields.mBgCntVal7Or13 = 0;
@@ -199,7 +199,7 @@ void InitDisplayBgRecords(DisplayBgRecords *records, u32 bgMode) {
             records->mBg3.mFields.mBgCntVal2 = 0;
             break;
         case BG23_MODE_AFFINE_NO_CHAR_BASE:
-            records->mBg3.mFields.mBgCntLow2 = 2;
+            records->mBg3.mFields.mBgCntLow2 = DISPLAY_BG23_DEFAULT_PRIORITY;
             records->mBg3.mFields.mBgCntBit6 = 0;
             records->mBg3.mFields.mBgCntVal14 = 0;
             records->mBg3.mFields.mBgCntVal7Or13 = 0;

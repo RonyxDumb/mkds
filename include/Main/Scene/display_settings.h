@@ -14,6 +14,11 @@ typedef enum {
     BG23_MODE_NONE
 } Bg23Mode;
 
+// Background priority (the low two bits of the control halfword) InitDisplayBgRecords starts each background with.
+#define DISPLAY_BG0_DEFAULT_PRIORITY 0
+#define DISPLAY_BG1_DEFAULT_PRIORITY 1
+#define DISPLAY_BG23_DEFAULT_PRIORITY 2
+
 // Halfwords of Bg23Cnt after the mode.
 typedef struct Bg23CntFields {
     /* 00 */ u16 mBgCntLow2;
