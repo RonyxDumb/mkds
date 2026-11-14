@@ -4,6 +4,14 @@
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject
 
+// Values of Balloon.mState: the scale changes with the kart's balloon count and the balloon swings, the scale settles
+// to full size, and full size.
+enum {
+    BALLOON_STATE_SWING,
+    BALLOON_STATE_SETTLE,
+    BALLOON_STATE_FULL,
+};
+
 // Object of kind 0x6c (Balloon, the battle balloons), also held by the kind 0x69 controller (UpdateKartBalloons,
 // code_020a3fa8.h) and by src/01/Race/mission_run_state.c. Object of the list FindMapObjectKindUpdateList(0x6c), set up
 // by StartBalloon: the shared MapObject part, then the value passed to StartBalloon at 0xa8, two Vec3s at 0xb0 and

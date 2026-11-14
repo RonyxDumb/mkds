@@ -298,7 +298,7 @@ void UpdateBalloon(void *mapObjectList, Balloon *balloon) {
 
     if (balloon->mKartIndex >= 0) {
         switch (balloon->mState) {
-            case 0:
+            case BALLOON_STATE_SWING:
                 balloon->mScaleSwing = balloon->mScaleSwing + balloon->mScaleSwingPerFrame;
                 if (balloon->mScaleSwing >= 0) {
                     if (balloon->mScaleSwingPerFrame < 0) {
@@ -335,7 +335,7 @@ void UpdateBalloon(void *mapObjectList, Balloon *balloon) {
                     balloon->mMapObject.mPos.z = balloon->mTargetPos.z;
                 }
                 break;
-            case 1:
+            case BALLOON_STATE_SETTLE:
                 balloon->mScaleSwing = 0;
                 balloon->mScaleFactor = balloon->mScaleFactor + balloon->mScaleFactorPerFrame;
                 if (balloon->mScaleFactor >= 0x1000) {
@@ -344,7 +344,7 @@ void UpdateBalloon(void *mapObjectList, Balloon *balloon) {
                 if (balloon->mScaleFactorPerFrame < 0) {
                     if (balloon->mScaleFactor <= 0x1000) {
                         balloon->mScaleFactor = 0x1000;
-                        balloon->mState = 2;
+                        balloon->mState = BALLOON_STATE_FULL;
                     }
                 }
                 if (balloon->mDrawCount == 1 && balloon->mDrawList == NULL) {
@@ -362,7 +362,7 @@ void UpdateBalloon(void *mapObjectList, Balloon *balloon) {
                     balloon->mMapObject.mPos.z = balloon->mTargetPos.z;
                 }
                 break;
-            case 2:
+            case BALLOON_STATE_FULL:
                 balloon->mScaleSwing = 0;
                 balloon->mScaleFactor = 0x1000;
                 if (balloon->mDrawCount == 1 && balloon->mDrawList == NULL) {
@@ -445,7 +445,7 @@ void ResetBalloons(void) {
             balloon->mScaleFactorPerFrame = 0;
             balloon->mScaleSwing = 0;
             balloon->mScaleSwingPerFrame = 0;
-            balloon->mState = 2;
+            balloon->mState = BALLOON_STATE_FULL;
         } else if ((balloon->mMapObject.mFlags & 0x100) == 0) {
             ParkMapObject(&balloon->mMapObject);
         }
@@ -467,7 +467,7 @@ Balloon *StartBalloon(u16 nsbtpFrameIndex, Vec3 *targetPos) {
     balloon->mScaleSwingPerFrame = 0;
     balloon->mHorizontalPullEnabled = 0;
     balloon->mNsbtpFrameIndex = nsbtpFrameIndex;
-    balloon->mState = 0;
+    balloon->mState = BALLOON_STATE_SWING;
     return balloon;
 }
 
@@ -477,11 +477,11 @@ void UpdateBalloonInflating(Balloon *balloon, u16 kartIndex, s32 scaleStep) {
     balloon->mScaleFactor = balloon->mScaleFactor + balloon->mScaleFactorPerFrame;
     balloon->mScaleSwing = 0;
     balloon->mScaleSwingPerFrame = 0;
-    balloon->mState = 0;
+    balloon->mState = BALLOON_STATE_SWING;
     if (balloon->mScaleFactor >= 0x1000) {
         balloon->mScaleSwing = 0;
         balloon->mScaleFactorPerFrame = 0x258;
-        balloon->mState = 1;
+        balloon->mState = BALLOON_STATE_SETTLE;
     }
 }
 
@@ -489,7 +489,7 @@ void UpdateBalloonShrinking(Balloon *balloon, u16 kartIndex, s32 scaleStep) {
     balloon->mKartIndex = kartIndex;
     balloon->mScaleFactorPerFrame = -scaleStep;
     balloon->mScaleFactor = balloon->mScaleFactor + balloon->mScaleFactorPerFrame;
-    balloon->mState = 0;
+    balloon->mState = BALLOON_STATE_SWING;
     if (balloon->mScaleFactor > 0) {
         return;
     }
