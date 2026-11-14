@@ -2,7 +2,7 @@
 #include "00/code_021985ec.h"
 #include "00/code_021988e8.h"
 #include "00/code_02198a8c.h"
-#include "00/code_02197e58.h"
+#include "00/GameSpy/gt2Callback.h"
 
 u32 func_ov000_02199fb0(Gt2Connection *a, u32 d, u32 e) {
     s32 b = a->mUnk_0c;

@@ -40,7 +40,7 @@
 #include "00/code_021b026c.h"
 #include "00/types_021a8ab8.h"
 #include "00/code_021a8a80.h"
-#include "00/code_0218e2dc.h"
+#include "00/GameSpy/nonport.h"
 #include "00/code_021a3a18.h"
 #include "os_printf.h"
 #include "00/code_021a87bc.h"

@@ -2,7 +2,7 @@
 #include "00/code_0218a9bc.h"
 #include "00/code_0218ae5c.h"
 #include "00/code_0218aea4.h"
-#include "00/code_0218e2dc.h"
+#include "00/GameSpy/nonport.h"
 #include "00/unk_021b4000.h"
 
 void func_ov000_0218ad44(Unk0218a9bc *p, SbServer *e) {

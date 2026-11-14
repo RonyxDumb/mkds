@@ -58,8 +58,8 @@ typedef struct Unk0219338c {
     /* 200 */ s32 mUnk_200;
 } Unk0219338c;
 
-#include "00/code_021906e4.h"
-#include "00/code_0218f960.h"
+#include "00/GameSpy/gpiBuffer.h"
+#include "00/GameSpy/gpiBuddy.h"
 
 u32 GpiWriteUpdateBuffers(GpConnection *a, GpiBuffer *b);
 s32 GpiProcessInfoOperation(GpConnection *r, GpiOperation *s, const char *t);

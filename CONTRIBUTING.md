@@ -7,6 +7,7 @@
 | `src/Main/` | Game code from the main ARM9 binary, by subsystem; `Unknown/` for files whose purpose isn't known yet |
 | `src/ITCM/` | Game code that runs from ITCM |
 | `src/NN/` | Game code from overlay `NN` (`00`, `01` and `03` so far); the folder gets a name (`NN_Name`) once the overlay's purpose is known |
+| `src/00/GameSpy/` | The GameSpy library code of overlay 0, in files named as the overlay's own assertion strings name them (see [docs/naming.md](docs/naming.md)) |
 | `include/` | Game headers, by subsystem |
 | `libs/<name>/` | Library code, each with `src/` and `include/` (an SDK has one folder per module: `libs/NitroSDK/os/`). The C runtime is in `libs/msl/` (the C library) and `libs/mathlib/` (the arithmetic routines the compiler calls: soft float and division); the rest is in `libs/Unknown/` until each library is identified, then NitroSDK goes in `libs/nds/` and NitroSystem in `libs/nns/`. A library can use a different compiler (`PATH_COMPILERS` in `tools/project.py`) |
 | `tools/` | Build scripts and analysis tools; `tools/project.py` has the game's settings |
@@ -31,6 +32,7 @@
   `m...FrameCount` is a fixed length, `m...Handle` holds index + 1 (0 = none), `m...Visible` / `m...Enabled` are 1
   when drawn / active, `Update<X>` runs every frame, `Load<X>` reads a file, `Init<X>` runs once, `Setup<X>` can run
   again. Add to the list as new words come up.
+- Files are renamed with `tools/rename_unit.py`, and [docs/naming.md](docs/naming.md) records what each file name rests on.
 - Every name comes from this repository: what the code does, the game's strings and file paths, the SDK headers, and
   names already given. Never from memory of other code. Names don't include addresses; `symbols.txt` has those.
 - Anything not understood yet keeps a placeholder: `func_<addr>` / `func_ov0NN_<addr>` for functions, `data_<addr>` /

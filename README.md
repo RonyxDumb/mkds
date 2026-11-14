@@ -56,6 +56,7 @@ _Last updated 2026-11-14. Over time: [graph](progress/eur/progress.svg), [`progr
 - [CONTRIBUTING.md](CONTRIBUTING.md): repository layout, naming and workflow
 - [docs/compiler.md](docs/compiler.md): how the compiler and flags were identified
 - [docs/decompiling.md](docs/decompiling.md): source patterns that matter for matching
+- [docs/naming.md](docs/naming.md): where each file name comes from
 - [docs/versions.md](docs/versions.md): the shared source on Europe: regional code, configuration and file boundaries
 
 Built with [ds-decomp](https://github.com/AetiasHax/ds-decomp), Metrowerks CodeWarrior for DS run through

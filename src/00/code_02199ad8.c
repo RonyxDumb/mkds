@@ -1,5 +1,5 @@
 #include "00/code_02199ad8.h"
-#include "00/code_0218d818.h"
+#include "00/GameSpy/darray.h"
 #include "00/code_0219903c.h"
 #include "00/code_0218d000.h"
 #include "00/code_021a3000.h"
@@ -11,17 +11,17 @@
 #include "00/code_02197b08.h"
 #include "00/code_02197b34.h"
 #include "00/code_02197ddc.h"
-#include "00/code_02197e58.h"
+#include "00/GameSpy/gt2Callback.h"
 #include "00/code_021985ec.h"
 #include "00/code_021988e8.h"
 #include "00/code_02198a8c.h"
-#include "00/code_02198d04.h"
+#include "00/GameSpy/gt2Message.h"
 #include "00/code_02199fa4.h"
 #include "00/code_02199fb0.h"
 #include "00/code_0219a014.h"
 #include "00/code_021a3668.h"
 #include "code_021382a8.h"
-#include "00/code_0218e2dc.h"
+#include "00/GameSpy/nonport.h"
 
 enum { K0, K1 };
 

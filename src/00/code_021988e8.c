@@ -5,15 +5,15 @@
 #include "code_02134398.h"
 #include "00/code_021a3678.h"
 #include "00/code_021a3690.h"
-#include "00/code_0218dd8c.h"
+#include "00/GameSpy/hashtable.h"
 #include "00/code_0218d000.h"
 #include "00/code_021a3000.h"
-#include "00/code_0218d818.h"
+#include "00/GameSpy/darray.h"
 #include "03/code_021b94b8.h"
-#include "00/code_0218e2dc.h"
+#include "00/GameSpy/nonport.h"
 #include "00/code_02198748.h"
 #include "00/code_02198a8c.h"
-#include "00/code_0219a654.h"
+#include "00/GameSpy/gt2Utility.h"
 
 int func_ov000_02198a7c(Gt2Connection *a, Gt2ConnectionCallbacks *b) {
     return func_ov000_02198778(a, b);

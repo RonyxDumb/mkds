@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "00/code_0218f960.h"
+#include "00/GameSpy/gpiBuddy.h"
 #include "00/unk_021b4000.h"
 #include "00/code_021965a0.h"
 

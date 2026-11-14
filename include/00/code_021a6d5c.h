@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "00/code_0218e2dc.h" // Unk021a8f84
+#include "00/GameSpy/nonport.h" // Unk021a8f84
 
 extern u32 data_ov000_021b5fa0;
 

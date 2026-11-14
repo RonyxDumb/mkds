@@ -1,9 +1,9 @@
 #pragma once
 
 #include "types.h"
-#include "00/code_0218f960.h"
+#include "00/GameSpy/gpiBuddy.h"
 #include "00/code_02194000.h"
-#include "00/code_0218e8d4.h"
+#include "00/GameSpy/gp.h"
 
 // Argument of the callbacks func_ov000_0219c400, WiFiLoginGpConnectCallback, func_ov000_0219cc94 and
 // func_ov000_0219cd74.

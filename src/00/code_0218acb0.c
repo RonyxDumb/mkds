@@ -5,7 +5,7 @@
 #include "00/code_0218c000.h"
 #include "00/code_021a3000.h"
 #include "00/code_0218aea4.h"
-#include "00/code_0218e2dc.h"
+#include "00/GameSpy/nonport.h"
 
 void func_ov000_0218acf0(MatchingServerList *a, u32 b) {
     a->mUnk_000.mUnk_28 = b;

@@ -12,7 +12,7 @@
 #include "00/code_0218c000.h"
 #include "00/code_021a3000.h"
 #include "00/code_0218aea4.h"
-#include "00/code_0219887c.h"
+#include "00/GameSpy/gt2Main.h"
 #include "00/code_0219a000.h"
 #include "00/code_0219b580.h"
 #include "00/code_0219c384.h"
@@ -29,7 +29,7 @@
 #include "00/code_021a4000.h"
 #include "00/unk_021b4000.h"
 #include "00/code_021a3a18.h"
-#include "00/code_0218e2dc.h"
+#include "00/GameSpy/nonport.h"
 
 // Address and byte-swapped port built by WiFiUnmatchedDataCallback and handed on with the data.
 typedef struct UnmatchedDataAddress {

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "00/code_0219887c.h" // Unk0219887c
+#include "00/GameSpy/gt2Main.h" // Unk0219887c
 #include "00/code_0219b1d4.h" // Unk0219b1d4
 
 typedef struct GpConnection GpConnection;

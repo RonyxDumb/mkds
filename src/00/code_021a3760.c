@@ -14,7 +14,7 @@
 #include "00/code_021a369c.h"
 #include "00/unk_021b4000.h"
 #include "code_0214d018.h"
-#include "00/code_0218e2dc.h"
+#include "00/GameSpy/nonport.h"
 #include "00/code_021a3a18.h"
 #include "00/code_021a4000.h"
 #include "00/code_021a88a8.h"

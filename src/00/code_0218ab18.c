@@ -5,7 +5,7 @@
 #include "00/code_0218aea4.h"
 #include "00/code_021a4b84.h"
 #include "code_02139f70.h"
-#include "00/code_0218e2dc.h"
+#include "00/GameSpy/nonport.h"
 
 void func_ov000_0218ac54(Unk0218a9bc *p, SbServer *e, s32 a, s32 b) {
     u8 *c;

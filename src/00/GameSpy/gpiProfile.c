@@ -1,10 +1,10 @@
-#include "00/code_021948f8.h"
-#include "00/code_02193634.h"
+#include "00/GameSpy/gpiProfile.h"
+#include "00/GameSpy/gpiOperation.h"
 #include "00/code_02190000.h"
 #include "code_02139f70.h"
-#include "00/code_021906e4.h"
+#include "00/GameSpy/gpiBuffer.h"
 #include "00/code_021965a0.h"
-#include "00/code_02196594.h"
+#include "00/GameSpy/gpiUtility.h"
 #include "00/code_02194b9c.h"
 #include "00/code_02194ba4.h"
 #include "code_0213a460.h"
@@ -14,9 +14,9 @@
 #include "00/code_02196000.h"
 #include "00/code_0218d000.h"
 #include "00/unk_021b2000.h"
-#include "00/code_0218dd8c.h"
+#include "00/GameSpy/hashtable.h"
 #include "00/code_021a3668.h"
-#include "00/code_02190cd4.h"
+#include "00/GameSpy/gpiCallback.h"
 
 void GpiReleaseProfile(GpiProfile *a) {
     if (a->mBuddyStatus != NULL) {

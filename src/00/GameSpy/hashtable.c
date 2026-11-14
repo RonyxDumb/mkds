@@ -1,4 +1,4 @@
-#include "00/code_0218dd8c.h"
+#include "00/GameSpy/hashtable.h"
 #include "00/code_0218d000.h"
 #include "00/unk_021b2000.h"
 #include "string.h"
@@ -7,7 +7,7 @@
 #include "00/code_021a3678.h"
 #include "00/code_021a3690.h"
 #include "00/code_021a3000.h"
-#include "00/code_0218d818.h"
+#include "00/GameSpy/darray.h"
 #include "code_021382a8.h"
 #include "00/code_021a3668.h"
 

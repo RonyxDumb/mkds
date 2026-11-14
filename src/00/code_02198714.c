@@ -1,5 +1,5 @@
 #include "00/code_02198714.h"
-#include "00/code_0218e2dc.h"
+#include "00/GameSpy/nonport.h"
 #include "00/code_0219a0d0.h"
 
 u32 SendConnectionBytes(Gt2Connection *a, u8 *b, u32 c) {

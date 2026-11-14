@@ -1,7 +1,7 @@
 #include "00/code_02198a8c.h"
 
 #include "00/code_02198714.h"
-#include "00/code_02198d04.h"
+#include "00/GameSpy/gt2Message.h"
 #include "00/code_0219903c.h"
 #include "00/code_0219a000.h"
 #include "00/code_0219a01c.h"
@@ -13,7 +13,7 @@
 #include "00/code_0219a430.h"
 #include "00/unk_021b3000.h"
 #include "00/code_02197b34.h"
-#include "00/code_02197e58.h"
+#include "00/GameSpy/gt2Callback.h"
 #include "00/code_02197000.h"
 #include "00/code_02197ddc.h"
 #include "string.h"

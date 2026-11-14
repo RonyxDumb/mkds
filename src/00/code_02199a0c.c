@@ -1,6 +1,6 @@
 #include "00/code_02199a0c.h"
 #include "00/code_02199ad8.h"
-#include "00/code_02197e58.h"
+#include "00/GameSpy/gt2Callback.h"
 
 u32 func_ov000_02199a0c(Gt2Connection *a, int b, const u8 *c, u32 d) {
     int v1;

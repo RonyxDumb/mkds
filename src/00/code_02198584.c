@@ -1,5 +1,5 @@
 #include "00/code_02198584.h"
-#include "00/code_02197e58.h"
+#include "00/GameSpy/gt2Callback.h"
 #include "00/code_021985ec.h"
 
 u32 func_ov000_02198584(Gt2Connection *a, u32 b) {

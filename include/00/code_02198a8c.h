@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "00/code_02197e58.h"
+#include "00/GameSpy/gt2Callback.h"
 
 void func_ov000_02198a8c(Gt2Socket *a);
 void func_ov000_02198ab0(Gt2Socket *a);

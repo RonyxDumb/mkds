@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "00/code_0218f960.h"
+#include "00/GameSpy/gpiBuddy.h"
 
 // Payload at 0x04 of a GpiOperation whose 0x00 is 3.
 typedef struct Unk02193858 {
@@ -60,8 +60,8 @@ u32 GpiCreateOperation(GpConnection *param_1, int param_2, int param_3, int *par
                        int param_7);
 
 #include "00/code_021965a0.h"
-#include "00/code_02196594.h"
-#include "00/code_0218e2dc.h"
+#include "00/GameSpy/gpiUtility.h"
+#include "00/GameSpy/nonport.h"
 
 // Entry of the list behind GpiPeer.mQueuedMessages.
 typedef struct Unk0219405c {

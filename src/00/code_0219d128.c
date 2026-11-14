@@ -1,15 +1,15 @@
 #include "00/code_0219d128.h"
 
-#include "00/code_0218f960.h"
+#include "00/GameSpy/gpiBuddy.h"
 #include "00/code_02194000.h"
-#include "00/code_0218e8d4.h"
+#include "00/GameSpy/gp.h"
 #include "00/code_0219cb00.h"
 #include "00/code_0219d000.h"
 #include "00/unk_021b4000.h"
 #include "00/unk_021b5000.h"
 #include "00/code_0219c93c.h"
 #include "00/code_0219cc00.h"
-#include "00/code_0218f15c.h"
+#include "00/GameSpy/gpi.h"
 #include "code_02139f70.h"
 #include "00/code_0219d934.h"
 #include "Main/Unknown/code_02152000.h"
@@ -27,7 +27,7 @@
 #include "00/code_0219c000.h"
 #include "00/code_0219c384.h"
 #include "00/code_0219caac.h"
-#include "00/code_0219742c.h"
+#include "00/GameSpy/gstats.h"
 #include "code_02152a24.h"
 
 // Stores the callback and its argument in mBuddyChangedCallback / mBuddyChangedCallbackArg of gWiFiBuddySync when the

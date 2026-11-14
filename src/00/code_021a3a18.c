@@ -1,6 +1,6 @@
 #include "00/code_021a3a18.h"
 
-#include "00/code_0218e2dc.h"
+#include "00/GameSpy/nonport.h"
 #include "00/code_021a3000.h"
 #include "00/code_021a3760.h"
 #include "00/code_021a4000.h"

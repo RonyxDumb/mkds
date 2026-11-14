@@ -1,9 +1,9 @@
-#include "00/code_02196594.h"
+#include "00/GameSpy/gpiUtility.h"
 
-#include "00/code_02190cd4.h"
-#include "00/code_0218f960.h"
+#include "00/GameSpy/gpiCallback.h"
+#include "00/GameSpy/gpiBuddy.h"
 #include "00/code_02194000.h"
-#include "00/code_0218e8d4.h"
+#include "00/GameSpy/gp.h"
 #include "00/code_02196000.h"
 #include "00/code_021965a0.h"
 #include "code_02134398.h"

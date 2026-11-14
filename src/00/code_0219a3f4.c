@@ -1,8 +1,8 @@
 #include "00/code_0219a3f4.h"
-#include "00/code_0218d818.h"
-#include "00/code_0218dd8c.h"
-#include "00/code_02197e58.h"
-#include "00/code_0218e2dc.h"
+#include "00/GameSpy/darray.h"
+#include "00/GameSpy/hashtable.h"
+#include "00/GameSpy/gt2Callback.h"
+#include "00/GameSpy/nonport.h"
 #include "00/code_021a3668.h"
 
 void DeleteSocket(Gt2Socket *a) {

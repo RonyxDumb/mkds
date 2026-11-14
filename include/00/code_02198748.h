@@ -1,6 +1,6 @@
 #pragma once
 
-#include "00/code_02197e58.h"
+#include "00/GameSpy/gt2Callback.h"
 #include "types.h"
 
 void func_ov000_02198748(Gt2Connection *a, void *b, u32 c, ...);

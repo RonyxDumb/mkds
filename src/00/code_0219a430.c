@@ -4,13 +4,13 @@
 #include "00/code_0218d000.h"
 #include "00/code_021a3000.h"
 #include "00/unk_021b2000.h"
-#include "00/code_0218d818.h"
+#include "00/GameSpy/darray.h"
 #include "00/code_021a3678.h"
 #include "00/code_021a3690.h"
-#include "00/code_0218dd8c.h"
+#include "00/GameSpy/hashtable.h"
 #include "00/unk_021b4000.h"
-#include "00/code_0218e2dc.h"
-#include "00/code_02197e58.h"
+#include "00/GameSpy/nonport.h"
+#include "00/GameSpy/gt2Callback.h"
 #include "00/code_021985ec.h"
 #include "00/code_021988e8.h"
 #include "00/code_02198a8c.h"
@@ -19,7 +19,7 @@
 #include "00/code_0219a5e8.h"
 #include "00/code_0219a604.h"
 #include "00/code_021a3668.h"
-#include "00/code_0219a654.h"
+#include "00/GameSpy/gt2Utility.h"
 
 typedef struct Unk0219a430Addr {
     /* 0 */ u8 mUnk_00;

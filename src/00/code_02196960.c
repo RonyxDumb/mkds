@@ -1,6 +1,6 @@
 #include "00/code_02196960.h"
 
-#include "00/code_0218d818.h"
+#include "00/GameSpy/darray.h"
 #include "00/code_0218d000.h"
 #include "00/code_021a3000.h"
 #include "00/unk_021b2000.h"
@@ -10,14 +10,14 @@
 #include "00/unk_021b3000.h"
 #include "code_02139f70.h"
 #include "code_0213a460.h"
-#include "00/code_0218e2dc.h"
+#include "00/GameSpy/nonport.h"
 #include "00/code_021a3a18.h"
 #include "00/code_021a3668.h"
 #include "00/code_021a3678.h"
 #include "00/code_021a3690.h"
 #include "code_021382a8.h"
 #include "00/code_0218e0fc.h"
-#include "00/code_0219742c.h"
+#include "00/GameSpy/gstats.h"
 #include "00/code_021a6d5c.h"
 
 s32 func_ov000_0219735c(const s8 *a, u32 b) {

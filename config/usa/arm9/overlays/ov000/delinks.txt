@@ -298,12 +298,12 @@ src/00/code_0218d488.c:
     .text       start:0x0218d454 end:0x0218d7e4
 
 // provisional: file name and boundaries
-src/00/code_0218d818.c:
+src/00/GameSpy/darray.c:
     complete
     .text       start:0x0218d7e4 end:0x0218dd58
 
 // provisional: file name and boundaries
-src/00/code_0218dd8c.c:
+src/00/GameSpy/hashtable.c:
     complete
     .text       start:0x0218dd58 end:0x0218e0ac
 
@@ -323,17 +323,17 @@ src/00/code_0218e2a4.c:
     .text       start:0x0218e270 end:0x0218e2a8
 
 // provisional: file name and boundaries
-src/00/code_0218e2dc.c:
+src/00/GameSpy/nonport.c:
     complete
     .text       start:0x0218e2a8 end:0x0218e8d4
 
 // provisional: file name and boundaries
-src/00/code_0218e8d4.c:
+src/00/GameSpy/gp.c:
     complete
     .text       start:0x0218e8d4 end:0x0218f128
 
 // provisional: file name and boundaries
-src/00/code_0218f15c.c:
+src/00/GameSpy/gpi.c:
     complete
     .text       start:0x0218f128 end:0x0218f7c4
 
@@ -353,7 +353,7 @@ src/00/code_0218f848.c:
     .text       start:0x0218f814 end:0x0218f92c
 
 // provisional: file name and boundaries
-src/00/code_0218f960.c:
+src/00/GameSpy/gpiBuddy.c:
     complete
     .text       start:0x0218f92c end:0x02190514
 
@@ -363,17 +363,17 @@ src/00/code_02190548.c:
     .text       start:0x02190514 end:0x021906b0
 
 // provisional: file name and boundaries
-src/00/code_021906e4.c:
+src/00/GameSpy/gpiBuffer.c:
     complete
     .text       start:0x021906b0 end:0x02190ca0
 
 // provisional: file name and boundaries
-src/00/code_02190cd4.c:
+src/00/GameSpy/gpiCallback.c:
     complete
     .text       start:0x02190ca0 end:0x02190fc4
 
 // provisional: file name and boundaries
-src/00/code_02190ff8.c:
+src/00/GameSpy/gpiConnect.c:
     complete
     .text       start:0x02190fc4 end:0x021920d8
 
@@ -383,17 +383,17 @@ src/00/code_0219210c.c:
     .text       start:0x021920d8 end:0x02192158
 
 // provisional: file name and boundaries
-src/00/code_0219218c.c:
+src/00/GameSpy/gpiInfo.c:
     complete
     .text       start:0x02192158 end:0x02193600
 
 // provisional: file name and boundaries
-src/00/code_02193634.c:
+src/00/GameSpy/gpiOperation.c:
     complete
     .text       start:0x02193600 end:0x02193b54
 
 // provisional: file name and boundaries
-src/00/code_02193b88.c:
+src/00/GameSpy/gpiPeer.c:
     complete
     .text       start:0x02193b54 end:0x021947b0
 
@@ -433,7 +433,7 @@ src/00/code_021948bc.c:
     .text       start:0x02194888 end:0x021948c4
 
 // provisional: file name and boundaries
-src/00/code_021948f8.c:
+src/00/GameSpy/gpiProfile.c:
     complete
     .text       start:0x021948c4 end:0x02194b68
 
@@ -448,7 +448,7 @@ src/00/code_02194ba4.c:
     .text       start:0x02194b70 end:0x02194b84
 
 // provisional: file name and boundaries
-src/00/code_02194bb8.c:
+src/00/GameSpy/gpiSearch.c:
     complete
     .text       start:0x02194b84 end:0x0219644c
 
@@ -468,7 +468,7 @@ src/00/code_021965a0.c:
     .text       start:0x0219656c end:0x02196594
 
 // provisional: file name and boundaries
-src/00/code_02196594.c:
+src/00/GameSpy/gpiUtility.c:
     complete
     .text       start:0x02196594 end:0x0219692c
 
@@ -478,7 +478,7 @@ src/00/code_02196960.c:
     .text       start:0x0219692c end:0x021973f8
 
 // provisional: file name and boundaries
-src/00/code_0219742c.c:
+src/00/GameSpy/gstats.c:
     complete
     .text       start:0x021973f8 end:0x02197ad4
 
@@ -498,7 +498,7 @@ src/00/code_02197ddc.c:
     .text       start:0x02197da8 end:0x02197e58
 
 // provisional: file name and boundaries
-src/00/code_02197e58.c:
+src/00/GameSpy/gt2Callback.c:
     complete
     .text       start:0x02197e58 end:0x02198550
 
@@ -523,7 +523,7 @@ src/00/code_02198748.c:
     .text       start:0x02198714 end:0x02198848
 
 // provisional: file name and boundaries
-src/00/code_0219887c.c:
+src/00/GameSpy/gt2Main.c:
     complete
     .text       start:0x02198848 end:0x021988b4
 
@@ -543,7 +543,7 @@ src/00/code_02198a8c.c:
     .text       start:0x02198a58 end:0x02198cd0
 
 // provisional: file name and boundaries
-src/00/code_02198d04.c:
+src/00/GameSpy/gt2Message.c:
     complete
     .text       start:0x02198cd0 end:0x02199008
 
@@ -662,7 +662,7 @@ src/00/code_0219a61c.c:
     complete
     .text       start:0x0219a5e8 end:0x0219a620
 
-src/00/code_0219a654.c:
+src/00/GameSpy/gt2Utility.c:
     complete
     .text       start:0x0219a620 end:0x0219b1a0
 

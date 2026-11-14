@@ -10,9 +10,9 @@ typedef struct Unk021962d4Addr {
     /* 04 */ u32 mUnk_04;
 } Unk021962d4Addr;
 
-#include "00/code_0218f960.h"
+#include "00/GameSpy/gpiBuddy.h"
 #include "00/code_02194000.h"
-#include "00/code_0218e8d4.h"
+#include "00/GameSpy/gp.h"
 #include "00/code_02190000.h"
 #include "00/code_02193000.h"
 
