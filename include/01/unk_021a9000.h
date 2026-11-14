@@ -97,6 +97,17 @@ typedef enum SelectBattleStageVariant {
     SELECT_BATTLE_STAGE_VARIANT_BALLOON = 1,
 } SelectBattleStageVariant;
 
+// Values of SelectBattleStage.mState and mNextState.
+enum {
+    SELECT_BATTLE_STAGE_STATE_SLIDE_IN,
+    SELECT_BATTLE_STAGE_STATE_WAIT_SELECT_RETURN,
+    SELECT_BATTLE_STAGE_STATE_INPUT,
+    SELECT_BATTLE_STAGE_STATE_PRESS_STAGE,
+    SELECT_BATTLE_STAGE_STATE_WAIT_SELECT_RETURN_THEN_CHOISES,
+    SELECT_BATTLE_STAGE_STATE_CHOISES,
+    SELECT_BATTLE_STAGE_STATE_SLIDE_OUT,
+};
+
 // Allocated by InitSelectBattleStage and held in gSelectBattleStage.
 typedef struct SelectBattleStage {
     /* 0000 */ s32 mState;

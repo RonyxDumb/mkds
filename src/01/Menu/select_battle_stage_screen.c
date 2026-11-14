@@ -67,8 +67,8 @@ void InitSelectBattleStage(void *parentHeap, s32 variant, void *mainOam, void *s
     heap = CreateExpHeapFromMaxFree(parentHeap);
     gSelectBattleStage = HeapAlloc(heap, 0x1088);
     gSelectBattleStage->mHeap = heap;
-    gSelectBattleStage->mState = 0;
-    gSelectBattleStage->mNextState = 0;
+    gSelectBattleStage->mState = SELECT_BATTLE_STAGE_STATE_SLIDE_IN;
+    gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_SLIDE_IN;
     gSelectBattleStage->mIndex = 0;
     gSelectBattleStage->mStateFrames = 0;
     gSelectBattleStage->mOffsetTimer = 0;
@@ -221,9 +221,9 @@ void AdvanceSelectBattleStageState0(void) {
 
     gSelectBattleStage->mStateFrames++;
     if (gSelectBattleStage->mStateFrames > 20) {
-        gSelectBattleStage->mNextState = 1;
+        gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_WAIT_SELECT_RETURN;
         gSelectBattleStage->mStateFrames = 0;
-        gSelectBattleStage->mNextState = 1;
+        gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_WAIT_SELECT_RETURN;
         RequestSelectReturnState1();
     } else if (gSelectBattleStage->mStateFrames > 10) {
         for (stageIndex = 0; stageIndex < 6; stageIndex++) {
@@ -248,7 +248,7 @@ void AdvanceSelectBattleStageState1(void) {
     int returnState2NoRequest;
     returnState2NoRequest = IsSelectReturnState2NoState3Or4Request();
     if (returnState2NoRequest != 0) {
-        gSelectBattleStage->mNextState = 2;
+        gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_INPUT;
     }
 }
 
@@ -296,12 +296,12 @@ void AdvanceSelectBattleStageState2(void) {
         }
     }
     if (gMenuShared->mMenuEntryKind == 2) {
-        gSelectBattleStage->mNextState = 4;
+        gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_WAIT_SELECT_RETURN_THEN_CHOISES;
         RequestSelectReturnState3WithSound(0);
         gSelectBattleStage->mUnk_2c = FALSE;
         return;
     }
-    gSelectBattleStage->mNextState = 6;
+    gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_SLIDE_OUT;
     gSelectBattleStage->mPendingResult = -3;
     if (gStartupWork->mConnectionKind == CONNECTION_KIND_NONE) {
         RequestSelectReturnState3WithSound(0);
@@ -321,7 +321,7 @@ next:
             gSelectBattleStage->mHighlightVisible = FALSE;
         }
         gSelectBattleStage->mPendingResult = gSelectBattleStage->mIndex;
-        gSelectBattleStage->mNextState = 3;
+        gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_PRESS_STAGE;
         gSelectBattleStage->mOffsetTimer = 6;
         StartSoundOncePerFrame(5);
         return;
@@ -357,7 +357,7 @@ void AdvanceSelectBattleStageState3(void) {
             .mOffsetX = offsetX;
     }
     if (gSelectBattleStage->mStateFrames >= 10) {
-        gSelectBattleStage->mNextState = 5;
+        gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_CHOISES;
         gSelectBattleStage->mStateFrames = 0;
         StartSelectChoises(GetBmgEntry(gSelectBattleStage->mCommonMessages, 4),
                            GetBmgEntry(gSelectBattleStage->mCommonMessages, 2), 0);
@@ -375,7 +375,7 @@ void AdvanceSelectBattleStageState4(void) {
                            GetBmgEntry(gSelectBattleStage->mMenuMessages, 0x15), 0);
         SetSelectChoisesSoundId(0, 5);
         SetSelectChoisesSoundId(1, 0xc);
-        gSelectBattleStage->mNextState = 5;
+        gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_CHOISES;
     }
 }
 
@@ -383,17 +383,17 @@ void AdvanceSelectBattleStageState5(void) {
     if (GetSelectChoisesDone() != 0) {
         if (gSelectBattleStage->mPendingResult == -2 || gSelectBattleStage->mPendingResult == -1) {
             if (GetSelectChoisesIndex() == 1) {
-                gSelectBattleStage->mNextState = 6;
+                gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_SLIDE_OUT;
             } else {
-                gSelectBattleStage->mNextState = 2;
+                gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_INPUT;
             }
         } else {
             if (GetSelectChoisesIndex() == 0) {
-                gSelectBattleStage->mNextState = 6;
+                gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_SLIDE_OUT;
                 RequestSelectReturnState4();
                 gSelectBattleStage->mUnk_2c = TRUE;
             } else {
-                gSelectBattleStage->mNextState = 2;
+                gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_INPUT;
             }
         }
         RequestSelectChoisesState0();
@@ -456,25 +456,25 @@ s32 AdvanceSelectBattleStage(void) {
 
     gSelectBattleStage->mState = gSelectBattleStage->mNextState;
     switch (gSelectBattleStage->mState) {
-        case 0:
+        case SELECT_BATTLE_STAGE_STATE_SLIDE_IN:
             AdvanceSelectBattleStageState0();
             break;
-        case 1:
+        case SELECT_BATTLE_STAGE_STATE_WAIT_SELECT_RETURN:
             AdvanceSelectBattleStageState1();
             break;
-        case 2:
+        case SELECT_BATTLE_STAGE_STATE_INPUT:
             AdvanceSelectBattleStageState2();
             break;
-        case 3:
+        case SELECT_BATTLE_STAGE_STATE_PRESS_STAGE:
             AdvanceSelectBattleStageState3();
             break;
-        case 4:
+        case SELECT_BATTLE_STAGE_STATE_WAIT_SELECT_RETURN_THEN_CHOISES:
             AdvanceSelectBattleStageState4();
             break;
-        case 5:
+        case SELECT_BATTLE_STAGE_STATE_CHOISES:
             AdvanceSelectBattleStageState5();
             break;
-        case 6:
+        case SELECT_BATTLE_STAGE_STATE_SLIDE_OUT:
             AdvanceSelectBattleStageState6();
             break;
     }
