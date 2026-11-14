@@ -302,31 +302,34 @@ void ResetRecordTAtt(void) {
     mainLayoutCount = gRecordTAtt->mRecordTAttMBncl->mCount;
     subLayoutCount = gRecordTAtt->mRecordTAttSBncl->mCount;
     gRecordTAtt->mRecordTAttMTable[0].mOffsetY = -192;
-    gRecordTAtt->mRecordTAttMTable[0].mOffsetX = 0x100;
-    gRecordTAtt->mRecordTAttMTable[1].mOffsetX = 0x100;
-    gRecordTAtt->mRecordTAttMTable[2].mOffsetX = 0x100;
-    gRecordTAtt->mRecordTAttMTable[3].mOffsetX = 0x100;
-    gRecordTAtt->mRecordTAttMTable[4].mOffsetX = 0x100;
-    gRecordTAtt->mRecordTAttMTable[5].mOffsetX = 0x100;
-    gRecordTAtt->mRecordTAttMTable[6].mOffsetX = 0x100;
-    gRecordTAtt->mRecordTAttMTable[mainLayoutCount].mOffsetX = 0x100;
-    gRecordTAtt->mRecordTAttMTable[mainLayoutCount + 1].mOffsetX = 0x100;
-    gRecordTAtt->mRecordTAttMTable[mainLayoutCount + 2].mOffsetX = 0x100;
-    gRecordTAtt->mRecordTAttMTable[mainLayoutCount + 3].mOffsetX = 0x100;
-    gRecordTAtt->mRecordTAttMTable[mainLayoutCount + 4].mOffsetX = 0x100;
-    gRecordTAtt->mRecordTAttSTable[15].mOffsetX = 0x100;
-    gRecordTAtt->mRecordTAttSTable[16].mOffsetX = 0x100;
-    gRecordTAtt->mRecordTAttSTable[12].mOffsetX = 0x100;
-    gRecordTAtt->mRecordTAttSTable[13].mOffsetX = 0x100;
-    gRecordTAtt->mRecordTAttSTable[14].mOffsetX = 0x100;
-    gRecordTAtt->mRecordTAttSTable[subLayoutCount + 8].mOffsetX = 0x100;
+    gRecordTAtt->mRecordTAttMTable[0].mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
+    gRecordTAtt->mRecordTAttMTable[1].mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
+    gRecordTAtt->mRecordTAttMTable[2].mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
+    gRecordTAtt->mRecordTAttMTable[3].mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
+    gRecordTAtt->mRecordTAttMTable[4].mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
+    gRecordTAtt->mRecordTAttMTable[5].mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
+    gRecordTAtt->mRecordTAttMTable[6].mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
+    gRecordTAtt->mRecordTAttMTable[mainLayoutCount].mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
+    gRecordTAtt->mRecordTAttMTable[mainLayoutCount + 1].mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
+    gRecordTAtt->mRecordTAttMTable[mainLayoutCount + 2].mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
+    gRecordTAtt->mRecordTAttMTable[mainLayoutCount + 3].mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
+    gRecordTAtt->mRecordTAttMTable[mainLayoutCount + 4].mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
+    gRecordTAtt->mRecordTAttSTable[15].mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
+    gRecordTAtt->mRecordTAttSTable[16].mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
+    gRecordTAtt->mRecordTAttSTable[12].mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
+    gRecordTAtt->mRecordTAttSTable[13].mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
+    gRecordTAtt->mRecordTAttSTable[14].mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
+    gRecordTAtt->mRecordTAttSTable[subLayoutCount + 8].mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
     for (recordIndex = 1; recordIndex < 5; recordIndex++) {
-        gRecordTAtt->mRecordTAttSTable[gRecordTAttOffsetSTableIndices[recordIndex]].mOffsetX = 0x100;
-        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttTimeLabelIndices[recordIndex]].mOffsetX = 0x100;
-        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttNameLabelIndices[recordIndex]].mOffsetX = 0x100;
+        gRecordTAtt->mRecordTAttSTable[gRecordTAttOffsetSTableIndices[recordIndex]].mOffsetX =
+            LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
+        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttTimeLabelIndices[recordIndex]].mOffsetX =
+            LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
+        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttNameLabelIndices[recordIndex]].mOffsetX =
+            LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
         for (cellIndex = 0; cellIndex < 2; cellIndex++) {
             gRecordTAtt->mRecordTAttSTable[gRecordTAttCharacterKartCellIndices[recordIndex][cellIndex]].mOffsetX =
-                0x100;
+                LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
         }
     }
     for (cellIndex = 0; cellIndex < 2; cellIndex++) {

@@ -42,6 +42,9 @@ typedef struct LabelCanvas {
     /* 44 */ NNSG2dCellDataWithBR *mCellData;
 } LabelCanvas;
 
+// mOffsetX that moves an entry one screen width (256 pixels) to the right.
+#define LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH 0x100
+
 // 0x40-byte element of the tables InitLayoutTable allocates and InitLayoutTableEntries sets up: behind
 // WiFiVSMatching.mUnk_10d4, members 0x14, 0x24 and 0x3c of RecordVSErase, and the tables of the objects behind
 // gRecordVS to gSelectRaceRuleWait and of several overlay globals.
