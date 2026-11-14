@@ -2,6 +2,17 @@
 
 #include "types.h"
 
+// Values of NatTraversalEntry.mState: sending the init packets until the acks arrive, waiting for the connect packet of
+// the other side, pinging it until it answers, the ping answered (the entry is cancelled after a delay), and cancelled
+// (removed by the next think). The progress callback is called with WAIT_CONNECT and PING.
+enum {
+    NAT_NEGOTIATION_SEND_INIT = 0,
+    NAT_NEGOTIATION_WAIT_CONNECT = 1,
+    NAT_NEGOTIATION_PING = 2,
+    NAT_NEGOTIATION_PINGED = 3,
+    NAT_NEGOTIATION_CANCELED = 4,
+};
+
 // Entry of the list at negotiateList, 0x40 bytes.
 typedef struct NatTraversalEntry {
     /* 00 */ s32 mDescriptor;

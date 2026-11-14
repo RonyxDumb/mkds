@@ -6,5 +6,5 @@ void NegotiatorFree(NatTraversalEntry *negotiator) {
         closesocket(negotiator->mDescriptor);
     }
     negotiator->mDescriptor = -1;
-    negotiator->mState = 4;
+    negotiator->mState = NAT_NEGOTIATION_CANCELED;
 }

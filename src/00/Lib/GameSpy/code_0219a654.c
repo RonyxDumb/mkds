@@ -194,7 +194,7 @@ void SendPingPacket(NatTraversalEntry *negotiator) {
     *(u32 *) packet.mRemoteIp = negotiator->mGuessedIP;
     *(u16 *) packet.mRemotePort = negotiator->mGuessedPort >> 8 & 0xff | negotiator->mGuessedPort << 8 & 0xff00;
     packet.mGotYourData = negotiator->mGotRemoteData;
-    packet.mFinished = negotiator->mState != 2;
+    packet.mFinished = negotiator->mState != NAT_NEGOTIATION_PING;
     sock = negotiator->mGameSock;
     if (sock == -1) {
         sock = negotiator->mDescriptor;
@@ -290,7 +290,7 @@ void NNCancel(u32 cookie) {
             closesocket(negotiator->mDescriptor);
         }
         negotiator->mDescriptor = -1;
-        negotiator->mState = 4;
+        negotiator->mState = NAT_NEGOTIATION_CANCELED;
     }
 }
 
@@ -302,7 +302,7 @@ void NegotiateThink(NatTraversalEntry *negotiator) {
     static u8 receiveBuffer[512];
 
     senderAddressLength = 8;
-    if (negotiator->mState == 4) {
+    if (negotiator->mState == NAT_NEGOTIATION_CANCELED) {
         RemoveNegotiator(negotiator);
         return;
     }
@@ -317,19 +317,19 @@ void NegotiateThink(NatTraversalEntry *negotiator) {
                 break;
             }
             NNProcessData(receiveBuffer, receivedLength, &senderAddress);
-            if (negotiator->mState == 4) {
+            if (negotiator->mState == NAT_NEGOTIATION_CANCELED) {
                 break;
             }
         } while (negotiator->mDescriptor != -1);
     }
-    if (negotiator->mState == 0 || negotiator->mState == 2) {
+    if (negotiator->mState == NAT_NEGOTIATION_SEND_INIT || negotiator->mState == NAT_NEGOTIATION_PING) {
         if (GetElapsedMilliseconds() > negotiator->mRetryTime) {
             if (negotiator->mRetryCount > negotiator->mMaxRetryCount) {
                 negotiator->mCompletedCallback(2, -1, NULL, negotiator->mUserdata);
                 NNCancel(negotiator->mCookie);
             } else {
                 negotiator->mRetryCount = negotiator->mRetryCount + 1;
-                if (negotiator->mState == 0) {
+                if (negotiator->mState == NAT_NEGOTIATION_SEND_INIT) {
                     SendInitPackets(negotiator);
                 } else {
                     SendPingPacket(negotiator);
@@ -337,7 +337,7 @@ void NegotiateThink(NatTraversalEntry *negotiator) {
             }
         }
     }
-    if (negotiator->mState == 3) {
+    if (negotiator->mState == NAT_NEGOTIATION_PINGED) {
         if (GetElapsedMilliseconds() > negotiator->mRetryTime) {
             if (negotiator->mGameSock == -1) {
                 resultAddress.mFamily = 2;
@@ -349,7 +349,7 @@ void NegotiateThink(NatTraversalEntry *negotiator) {
             NNCancel(negotiator->mCookie);
         }
     }
-    if (negotiator->mState == 1) {
+    if (negotiator->mState == NAT_NEGOTIATION_WAIT_CONNECT) {
         if (GetElapsedMilliseconds() > negotiator->mRetryTime) {
             negotiator->mCompletedCallback(1, -1, NULL, negotiator->mUserdata);
             NNCancel(negotiator->mCookie);
@@ -388,7 +388,7 @@ void ProcessConnectPacket(NatTraversalEntry *negotiator, ConnectPacket *packet, 
     if (packet->mFinished == 0) {
         SendConnectAck(negotiator, fromAddress);
     }
-    if (negotiator->mState < 2) {
+    if (negotiator->mState < NAT_NEGOTIATION_PING) {
         if (packet->mFinished != 0) {
             result = 3;
             if (packet->mFinished == 1) {
@@ -403,7 +403,7 @@ void ProcessConnectPacket(NatTraversalEntry *negotiator, ConnectPacket *packet, 
             negotiator->mGuessedPort =
                 *(u16 *) packet->mRemotePort >> 8 & 0xff | *(u16 *) packet->mRemotePort << 8 & 0xff00;
             negotiator->mRetryCount = 0;
-            negotiator->mState = 2;
+            negotiator->mState = NAT_NEGOTIATION_PING;
             negotiator->mProgressCallback(negotiator->mState, negotiator->mUserdata);
             SendPingPacket(negotiator);
         }
@@ -411,7 +411,7 @@ void ProcessConnectPacket(NatTraversalEntry *negotiator, ConnectPacket *packet, 
 }
 
 void ProcessPingPacket(NatTraversalEntry *negotiator, ConnectPacket *packet, SOCSockAddrIn *fromAddress) {
-    if (negotiator->mState >= 2) {
+    if (negotiator->mState >= NAT_NEGOTIATION_PING) {
         negotiator->mGuessedIP = fromAddress->mAddr;
         negotiator->mGuessedPort = fromAddress->mPort >> 8 & 0xff | fromAddress->mPort << 8 & 0xff00;
         negotiator->mGotRemoteData = 1;
@@ -419,11 +419,11 @@ void ProcessPingPacket(NatTraversalEntry *negotiator, ConnectPacket *packet, SOC
             SendPingPacket(negotiator);
             return;
         }
-        if (negotiator->mState == 2) {
+        if (negotiator->mState == NAT_NEGOTIATION_PING) {
             if (negotiator->mSendGotRemoteData == 0) {
                 SendPingPacket(negotiator);
             }
-            negotiator->mState = 3;
+            negotiator->mState = NAT_NEGOTIATION_PINGED;
             negotiator->mRetryTime = GetElapsedMilliseconds() + 5000;
             if (negotiator->mGameSock != -1) {
                 negotiator->mCompletedCallback(0, negotiator->mGameSock, fromAddress, negotiator->mUserdata);
@@ -442,9 +442,10 @@ void ProcessInitPacket(NatTraversalEntry *negotiator, InitPacket *packet, SOCSoc
             portKind = packet->mPortType;
             if (portKind <= 2) {
                 negotiator->mInitAckRecv[portKind] = 1;
-                if (negotiator->mState == 0 && negotiator->mInitAckRecv[1] != 0 && negotiator->mInitAckRecv[2] != 0 &&
+                if (negotiator->mState == NAT_NEGOTIATION_SEND_INIT && negotiator->mInitAckRecv[1] != 0 &&
+                    negotiator->mInitAckRecv[2] != 0 &&
                     (negotiator->mGameSock == -1 || negotiator->mInitAckRecv[0] != 0)) {
-                    negotiator->mState = 1;
+                    negotiator->mState = NAT_NEGOTIATION_WAIT_CONNECT;
                     negotiator->mRetryTime = GetElapsedMilliseconds() + 10000;
                     negotiator->mProgressCallback(negotiator->mState, negotiator->mUserdata);
                 }
