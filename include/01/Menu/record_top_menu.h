@@ -3,6 +3,22 @@
 #include "types.h"
 #include "Main/Graphics/layout_entry_angle.h" // LayoutTableEntry, LayoutEntryTable
 
+// Values of RecordTopMenu.mState and mNextState.
+enum {
+    RECORD_TOP_MENU_STATE_WAIT_FADE,
+    RECORD_TOP_MENU_STATE_SLIDE_IN,
+    RECORD_TOP_MENU_STATE_ROWS_SETTLE,
+    RECORD_TOP_MENU_STATE_WAIT_SELECT_RETURN,
+    RECORD_TOP_MENU_STATE_INPUT,
+    RECORD_TOP_MENU_STATE_ROW_PRESS,
+    RECORD_TOP_MENU_STATE_SLIDE_OUT,
+    RECORD_TOP_MENU_STATE_ROWS_SLIDE_OUT,
+    RECORD_TOP_MENU_STATE_WAIT_MESSAGE_OPEN,
+    RECORD_TOP_MENU_STATE_MESSAGE_INPUT,
+    RECORD_TOP_MENU_STATE_WAIT_MESSAGE_CLOSE,
+    RECORD_TOP_MENU_STATE_ROWS_SLIDE_IN,
+};
+
 typedef struct RecordTopMenu {
     /* 0x00 */ struct NNSG2dCellDataBank *mRecordTopMenuMNcer;
     /* 0x04 */ LayoutEntryTable *mRecordTopMenuMBncl;

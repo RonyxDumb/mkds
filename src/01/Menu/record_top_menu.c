@@ -102,7 +102,7 @@ void ResetRecordTopMenu(void) {
     const u16 *labelRow;
     s32 mainLayoutCount;
 
-    gRecordTopMenu->mNextState = 0;
+    gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_WAIT_FADE;
     gRecordTopMenu->mStateFrames = 0;
     gRecordTopMenu->mBg0Offset = ~0xbf;
     mainLayoutCount = gRecordTopMenu->mRecordTopMenuMBncl->mCount;
@@ -129,67 +129,67 @@ void ResetRecordTopMenu(void) {
 
 // Requests state 1 for the next update.
 void RequestRecordTopMenuState1(void) {
-    gRecordTopMenu->mNextState = 1;
+    gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_SLIDE_IN;
     gRecordTopMenu->mStateFrames = 0;
 }
 
 // Requests state 2 for the next update.
 void RequestRecordTopMenuState2(void) {
-    gRecordTopMenu->mNextState = 2;
+    gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_ROWS_SETTLE;
     gRecordTopMenu->mStateFrames = 0;
 }
 
 void RequestRecordTopMenuState3(void) {
-    gRecordTopMenu->mNextState = 3;
+    gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_WAIT_SELECT_RETURN;
     gRecordTopMenu->mStateFrames = 0;
     RequestSelectReturnState1();
 }
 
 // Requests state 4 for the next update.
 void RequestRecordTopMenuState4(void) {
-    gRecordTopMenu->mNextState = 4;
+    gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_INPUT;
     gRecordTopMenu->mStateFrames = 0;
 }
 
 void RequestRecordTopMenuState5(void) {
-    gRecordTopMenu->mNextState = 5;
+    gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_ROW_PRESS;
     gRecordTopMenu->mStateFrames = 0;
     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
 }
 
 // Requests state 6 for the next update.
 void RequestRecordTopMenuState6(void) {
-    gRecordTopMenu->mNextState = 6;
+    gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_SLIDE_OUT;
     gRecordTopMenu->mStateFrames = 0;
 }
 
 // Requests state 7 for the next update.
 void RequestRecordTopMenuState7(void) {
-    gRecordTopMenu->mNextState = 7;
+    gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_ROWS_SLIDE_OUT;
     gRecordTopMenu->mStateFrames = 0;
 }
 
 void RequestRecordTopMenuState8(void) {
-    gRecordTopMenu->mNextState = 8;
+    gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_WAIT_MESSAGE_OPEN;
     gRecordTopMenu->mStateFrames = 0;
     SetupTxtSystemSubText(GetBmgEntry(gRecordTopMenu->mUnk_20, 0x76));
 }
 
 void RequestRecordTopMenuState9(void) {
-    gRecordTopMenu->mNextState = 9;
+    gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_MESSAGE_INPUT;
     gRecordTopMenu->mStateFrames = 0;
     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x15);
 }
 
 void RequestRecordTopMenuState10(void) {
-    gRecordTopMenu->mNextState = 10;
+    gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_WAIT_MESSAGE_CLOSE;
     gRecordTopMenu->mStateFrames = 0;
     RequestTxtSystemClose();
 }
 
 // Requests state 11 for the next update.
 void RequestRecordTopMenuState11(void) {
-    gRecordTopMenu->mNextState = 11;
+    gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_ROWS_SLIDE_IN;
     gRecordTopMenu->mStateFrames = 0;
 }
 
@@ -250,7 +250,7 @@ void InitRecordTopMenu(void *heap) {
         (reg_G2S_DB_BG1CNT & (REG_G2S_DB_BG1CNT_PRIORITY_MASK | REG_G2S_DB_BG1CNT_MOSAIC_MASK)) | 0x1018;
     gRecordTopMenu = HeapAlloc(heap, 0x48);
     gRecordTopMenu->mHeap = heap;
-    gRecordTopMenu->mState = 0;
+    gRecordTopMenu->mState = RECORD_TOP_MENU_STATE_WAIT_FADE;
     switch (GetRecordPrevScreen()) {
         case 1:
         case 5:
@@ -630,40 +630,40 @@ void AdvanceRecordTopMenu(void) {
     RecordTopMenu *recordTopMenu;
     gRecordTopMenu->mState = gRecordTopMenu->mNextState;
     switch (gRecordTopMenu->mState) {
-        case 0:
+        case RECORD_TOP_MENU_STATE_WAIT_FADE:
             AdvanceRecordTopMenuState0();
             break;
-        case 1:
+        case RECORD_TOP_MENU_STATE_SLIDE_IN:
             AdvanceRecordTopMenuState1();
             break;
-        case 2:
+        case RECORD_TOP_MENU_STATE_ROWS_SETTLE:
             AdvanceRecordTopMenuState2();
             break;
-        case 3:
+        case RECORD_TOP_MENU_STATE_WAIT_SELECT_RETURN:
             AdvanceRecordTopMenuState3();
             break;
-        case 4:
+        case RECORD_TOP_MENU_STATE_INPUT:
             AdvanceRecordTopMenuState4();
             break;
-        case 5:
+        case RECORD_TOP_MENU_STATE_ROW_PRESS:
             AdvanceRecordTopMenuState5();
             break;
-        case 6:
+        case RECORD_TOP_MENU_STATE_SLIDE_OUT:
             AdvanceRecordTopMenuState6();
             break;
-        case 7:
+        case RECORD_TOP_MENU_STATE_ROWS_SLIDE_OUT:
             AdvanceRecordTopMenuState7();
             break;
-        case 8:
+        case RECORD_TOP_MENU_STATE_WAIT_MESSAGE_OPEN:
             AdvanceRecordTopMenuState8();
             break;
-        case 9:
+        case RECORD_TOP_MENU_STATE_MESSAGE_INPUT:
             AdvanceRecordTopMenuState9();
             break;
-        case 10:
+        case RECORD_TOP_MENU_STATE_WAIT_MESSAGE_CLOSE:
             AdvanceRecordTopMenuState10();
             break;
-        case 11:
+        case RECORD_TOP_MENU_STATE_ROWS_SLIDE_IN:
             AdvanceRecordTopMenuState11();
             break;
     }
