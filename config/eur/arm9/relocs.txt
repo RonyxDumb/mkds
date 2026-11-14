@@ -1376,7 +1376,6 @@ from:0x0200c854 kind:load to:0x0216fe10 module:main
 from:0x0200c8a0 kind:arm_call to:0x0200fca0 module:main
 from:0x0200c8c4 kind:arm_call to:0x0200fcb4 module:main
 from:0x0200c8f0 kind:arm_call to:0x0200e01c module:main
-from:0x0200c908 kind:load to:0x027e0000 module:dtcm
 from:0x0200c910 kind:load to:0x027e0000 module:dtcm
 from:0x0200c920 kind:load to:0x0200c994 module:main
 from:0x0200c930 kind:load to:0x0200c994 module:main

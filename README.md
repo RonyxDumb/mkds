@@ -37,10 +37,10 @@ _Last updated 2026-11-07. Over time: [graph](progress/usa/progress.svg), [`progr
 
 | Measure | Progress |
 |---|---|
-| Matched code | 99.29% (1,872,690 / 1,886,120 bytes) |
+| Matched code | 99.83% (1,882,834 / 1,886,120 bytes) |
 | Linked code (complete units) | 99.28% (1,872,594 bytes) |
 | Overall accuracy (fuzzy) | 99.83% |
-| Matched functions | 11,475 / 11,498 |
+| Matched functions | 11,479 / 11,498 |
 
 _Last updated 2026-11-14. Over time: [graph](progress/eur/progress.svg), [`progress/eur/history.csv`](progress/eur/history.csv)._
 <!-- progress:eur:end -->
