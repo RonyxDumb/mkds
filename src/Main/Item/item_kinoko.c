@@ -156,8 +156,9 @@ void StartNextHeldItemObject(HeldItem *heldItem) {
         return;
     }
     heldItem->mObjectStartFramesLeft--;
-    if (heldItem->mObjectStartFramesLeft != 7 && heldItem->mObjectStartFramesLeft != 5 &&
-        heldItem->mObjectStartFramesLeft != 3) {
+    if (heldItem->mObjectStartFramesLeft != HELD_ITEM_FIRST_LAUNCH_FRAME &&
+        heldItem->mObjectStartFramesLeft != HELD_ITEM_SECOND_LAUNCH_FRAME &&
+        heldItem->mObjectStartFramesLeft != HELD_ITEM_THIRD_LAUNCH_FRAME) {
         return;
     }
     kart = heldItem->mKartItems->mKart;

@@ -120,6 +120,12 @@ typedef struct KartModelsEntry {
 #define ITEM_IN_USE_OBJECT_HEIGHT_BOUNCING_ITEM_BOX 0xb400
 #define ITEM_IN_USE_OBJECT_HEIGHT 0x4333
 
+// ItemInUse.mObjectStartFramesLeft: set to the start value and counted down; one object leaves on each launch frame.
+#define ITEM_IN_USE_OBJECT_START_FRAMES 10
+#define ITEM_IN_USE_FIRST_LAUNCH_FRAME 8
+#define ITEM_IN_USE_SECOND_LAUNCH_FRAME 4
+#define ITEM_IN_USE_THIRD_LAUNCH_FRAME 0
+
 // Object at 0x58 of a KartItems (that KartItems at 0x0c), passed first to the function pointers in the
 // gItemKinds entries: three ItemObject pointers at 0x14, vectors from 0x2c to 0x0e4.
 typedef struct ItemInUse {

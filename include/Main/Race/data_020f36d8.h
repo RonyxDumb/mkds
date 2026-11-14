@@ -485,6 +485,11 @@ typedef enum {
 } ItemObjectKind;
 
 // The item a kart holds: its item index, how many are left and the objects it holds.
+// HeldItem.mObjectStartFramesLeft counts down from 10; one held object leaves on each launch frame.
+#define HELD_ITEM_FIRST_LAUNCH_FRAME 7
+#define HELD_ITEM_SECOND_LAUNCH_FRAME 5
+#define HELD_ITEM_THIRD_LAUNCH_FRAME 3
+
 typedef struct HeldItem {
     /* 00 */ s32 mItemInfoIndex;
     /* 04 */ struct KartItems *mKartItems;

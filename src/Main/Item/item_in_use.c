@@ -295,8 +295,9 @@ void AdvanceItemInUse(ItemInUse *itemInUse) {
         return;
     }
     itemInUse->mObjectStartFramesLeft = itemInUse->mObjectStartFramesLeft - 1;
-    if (itemInUse->mObjectStartFramesLeft != 8 && itemInUse->mObjectStartFramesLeft != 4 &&
-        itemInUse->mObjectStartFramesLeft != 0) {
+    if (itemInUse->mObjectStartFramesLeft != ITEM_IN_USE_FIRST_LAUNCH_FRAME &&
+        itemInUse->mObjectStartFramesLeft != ITEM_IN_USE_SECOND_LAUNCH_FRAME &&
+        itemInUse->mObjectStartFramesLeft != ITEM_IN_USE_THIRD_LAUNCH_FRAME) {
         return;
     }
     itemInUse->mObjectCount = itemInUse->mObjectCount - 1;
@@ -393,7 +394,7 @@ void ReleaseItemInUse(ItemInUse *itemInUse) {
 }
 
 void StartItemInUseObjectCountdown(ItemInUse *itemInUse) {
-    itemInUse->mObjectStartFramesLeft = 0xa;
+    itemInUse->mObjectStartFramesLeft = ITEM_IN_USE_OBJECT_START_FRAMES;
     if (itemInUse->mIsActiveItem != FALSE) {
         itemInUse->mKartItems->mActiveItem = ITEM_INFO_NONE;
         itemInUse->mIsActiveItem = FALSE;
