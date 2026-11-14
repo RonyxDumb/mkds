@@ -4,6 +4,27 @@
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Menu/record_vs.h" // RecordScreenCallbacks
 
+// Values of OptionTopMenu.mState and mNextState.
+enum {
+    OPTION_TOP_STATE_WAIT_FADE,
+    OPTION_TOP_STATE_SLIDE_IN,
+    OPTION_TOP_STATE_WAIT_SELECT_RETURN,
+    OPTION_TOP_STATE_INPUT,
+    OPTION_TOP_STATE_PRESS,
+    OPTION_TOP_STATE_SLIDE_OUT,
+    OPTION_TOP_STATE_ASK_RESET,
+    OPTION_TOP_STATE_ASK_RESET_AGAIN,
+    OPTION_TOP_STATE_WAIT_RESET_WRITE,
+    OPTION_TOP_STATE_RESET_DONE,
+};
+
+// Values of OptionTopMenu.mIndex: the rows, top to bottom.
+enum {
+    OPTION_TOP_ROW_SETTINGS,
+    OPTION_TOP_ROW_EDIT,
+    OPTION_TOP_ROW_ERASE_DATA,
+};
+
 // Object behind gOptionTopMenu.
 typedef struct OptionTopMenu {
     /* 00 */ s32 mState;

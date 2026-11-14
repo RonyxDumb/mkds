@@ -32,15 +32,15 @@ void InitOptionTopMenu(void *heap) {
 
     gOptionTopMenu = HeapAlloc(heap, 0x40);
     gOptionTopMenu->mHeap = heap;
-    gOptionTopMenu->mState = 0;
-    gOptionTopMenu->mNextState = 0;
+    gOptionTopMenu->mState = OPTION_TOP_STATE_WAIT_FADE;
+    gOptionTopMenu->mNextState = OPTION_TOP_STATE_WAIT_FADE;
     switch (GetOptionPrevState()) {
         case 1:
         case 4:
-            gOptionTopMenu->mIndex = 0;
+            gOptionTopMenu->mIndex = OPTION_TOP_ROW_SETTINGS;
             break;
         case 2:
-            gOptionTopMenu->mIndex = 1;
+            gOptionTopMenu->mIndex = OPTION_TOP_ROW_EDIT;
             break;
     }
     gOptionTopMenu->mStateFrames = 0;
@@ -102,7 +102,7 @@ void AdvanceOptionTopMenuState0(void) {
     int fadesClear;
     fadesClear = AreBrightnessFadesClear();
     if (fadesClear != 0) {
-        gOptionTopMenu->mNextState = 1;
+        gOptionTopMenu->mNextState = OPTION_TOP_STATE_SLIDE_IN;
     }
 }
 
@@ -124,11 +124,11 @@ void AdvanceOptionTopMenuState1(void) {
             }
         }
     }
-    if (GetOptionPrevState() == 1 && gOptionTopMenu->mIndex != 2) {
+    if (GetOptionPrevState() == 1 && gOptionTopMenu->mIndex != OPTION_TOP_ROW_ERASE_DATA) {
         gOptionTopMenu->mBg0Offset = InterpolateS16(1, 50, 0, gOptionTopMenu->mStateFrames, 10);
     }
     if (gOptionTopMenu->mStateFrames >= 10) {
-        gOptionTopMenu->mNextState = 2;
+        gOptionTopMenu->mNextState = OPTION_TOP_STATE_WAIT_SELECT_RETURN;
         gOptionTopMenu->mStateFrames = 0;
         RequestSelectReturnState1();
     }
@@ -138,7 +138,7 @@ void AdvanceOptionTopMenuState2(void) {
     int returnState2NoRequest;
     returnState2NoRequest = IsSelectReturnState2NoState3Or4Request();
     if (returnState2NoRequest != 0) {
-        gOptionTopMenu->mNextState = 3;
+        gOptionTopMenu->mNextState = OPTION_TOP_STATE_INPUT;
     }
 }
 
@@ -180,7 +180,7 @@ void AdvanceOptionTopMenuState3(void) {
         }
     } else {
     leave:
-        gOptionTopMenu->mNextState = 5;
+        gOptionTopMenu->mNextState = OPTION_TOP_STATE_SLIDE_OUT;
         gOptionTopMenu->mNextOptionState = 4;
         RequestSelectReturnState3WithSound(1);
         return;
@@ -190,26 +190,26 @@ void AdvanceOptionTopMenuState3(void) {
         previousIndex = gOptionTopMenu->mIndex;
         if ((u16) keyAPressed == 0) {
             switch (touchedRect) {
-                case 0:
-                    gOptionTopMenu->mIndex = 0;
+                case OPTION_TOP_ROW_SETTINGS:
+                    gOptionTopMenu->mIndex = OPTION_TOP_ROW_SETTINGS;
                     break;
-                case 1:
-                    gOptionTopMenu->mIndex = 1;
+                case OPTION_TOP_ROW_EDIT:
+                    gOptionTopMenu->mIndex = OPTION_TOP_ROW_EDIT;
                     break;
-                case 2:
-                    gOptionTopMenu->mIndex = 2;
+                case OPTION_TOP_ROW_ERASE_DATA:
+                    gOptionTopMenu->mIndex = OPTION_TOP_ROW_ERASE_DATA;
                     break;
             }
         }
-        gOptionTopMenu->mNextState = 4;
+        gOptionTopMenu->mNextState = OPTION_TOP_STATE_PRESS;
         switch (gOptionTopMenu->mIndex) {
-            case 0:
+            case OPTION_TOP_ROW_SETTINGS:
                 gOptionTopMenu->mNextOptionState = 1;
                 break;
-            case 1:
+            case OPTION_TOP_ROW_EDIT:
                 gOptionTopMenu->mNextOptionState = 2;
                 break;
-            case 2:
+            case OPTION_TOP_ROW_ERASE_DATA:
                 break;
         }
         if (gOptionTopMenu->mIndex == previousIndex) {
@@ -219,13 +219,13 @@ void AdvanceOptionTopMenuState3(void) {
     } else if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
         gOptionTopMenu->mIndex--;
         if (gOptionTopMenu->mIndex < 0) {
-            gOptionTopMenu->mIndex = 2;
+            gOptionTopMenu->mIndex = OPTION_TOP_ROW_ERASE_DATA;
         }
         StartSoundOncePerFrame(0);
     } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
         gOptionTopMenu->mIndex++;
-        if (gOptionTopMenu->mIndex > 2) {
-            gOptionTopMenu->mIndex = 0;
+        if (gOptionTopMenu->mIndex > OPTION_TOP_ROW_ERASE_DATA) {
+            gOptionTopMenu->mIndex = OPTION_TOP_ROW_SETTINGS;
         }
         StartSoundOncePerFrame(0);
     }
@@ -234,9 +234,9 @@ void AdvanceOptionTopMenuState3(void) {
 void AdvanceOptionTopMenuState4(void) {
     gOptionTopMenu->mStateFrames++;
     if (gOptionTopMenu->mStateFrames >= 10) {
-        gOptionTopMenu->mNextState = 5;
+        gOptionTopMenu->mNextState = OPTION_TOP_STATE_SLIDE_OUT;
         gOptionTopMenu->mStateFrames = 0;
-        if (gOptionTopMenu->mIndex == 2) {
+        if (gOptionTopMenu->mIndex == OPTION_TOP_ROW_ERASE_DATA) {
             RequestSelectReturnState4();
         }
     } else if (gOptionTopMenu->mStateFrames >= 5) {
@@ -273,9 +273,10 @@ void AdvanceOptionTopMenuState5(void) {
         gOptionTopMenu->mBg0Offset = InterpolateS16(1, 0, 50, gOptionTopMenu->mStateFrames, 10);
     }
     if (gOptionTopMenu->mStateFrames >= 10 &&
-        (gOptionTopMenu->mIndex != 2 || IsSelectReturnState0NoState1Request() != 0) && GetOptionNextScene() == -1) {
-        if (gOptionTopMenu->mIndex == 2) {
-            gOptionTopMenu->mNextState = 6;
+        (gOptionTopMenu->mIndex != OPTION_TOP_ROW_ERASE_DATA || IsSelectReturnState0NoState1Request() != 0) &&
+        GetOptionNextScene() == -1) {
+        if (gOptionTopMenu->mIndex == OPTION_TOP_ROW_ERASE_DATA) {
+            gOptionTopMenu->mNextState = OPTION_TOP_STATE_ASK_RESET;
             gOptionTopMenu->mStateFrames = 0;
             SetupTxtSystemSubTextTwoButtons(GetBmgEntry(gOptionTopMenu->mOptionMessages, 3),
                                             GetBmgEntry(gOptionTopMenu->mCommonMessages, 0),
@@ -296,9 +297,9 @@ void AdvanceOptionTopMenuState6(void) {
             SetupTxtSystemSubTextTwoButtons(GetBmgEntry(gOptionTopMenu->mOptionMessages, 4),
                                             GetBmgEntry(gOptionTopMenu->mCommonMessages, 0),
                                             GetBmgEntry(gOptionTopMenu->mCommonMessages, 1), 1);
-            gOptionTopMenu->mNextState = 7;
+            gOptionTopMenu->mNextState = OPTION_TOP_STATE_ASK_RESET_AGAIN;
         } else {
-            gOptionTopMenu->mNextState = 1;
+            gOptionTopMenu->mNextState = OPTION_TOP_STATE_SLIDE_IN;
         }
     }
 }
@@ -311,10 +312,10 @@ void AdvanceOptionTopMenuState7(void) {
     if (IsTxtSystemState0NoOpenRequest() != 0) {
         if (GetTxtSystemSelectedIndex() == 0) {
             ResetBackupAndStartWrite();
-            gOptionTopMenu->mNextState = 8;
+            gOptionTopMenu->mNextState = OPTION_TOP_STATE_WAIT_RESET_WRITE;
             SetupTxtSystemSubTextEx(GetBmgEntry(gOptionTopMenu->mOptionMessages, 5), 1, 1, 1, 0, 1);
         } else {
-            gOptionTopMenu->mNextState = 1;
+            gOptionTopMenu->mNextState = OPTION_TOP_STATE_SLIDE_IN;
         }
     }
 }
@@ -335,7 +336,7 @@ void AdvanceOptionTopMenuState8(void) {
         flag = 1;
     }
     if (flag == 0 && IsTxtSystemState2NoCloseRequest() != 0) {
-        gOptionTopMenu->mNextState = 9;
+        gOptionTopMenu->mNextState = OPTION_TOP_STATE_RESET_DONE;
         SetTxtSystemOpenSoundId(0x21);
         SetupTxtSystemSubTextButton(GetBmgEntry(gOptionTopMenu->mOptionMessages, 6),
                                     GetBmgEntry(gOptionTopMenu->mCommonMessages, 4));
@@ -378,34 +379,34 @@ void AdvanceOptionTopMenu(void) {
 
     gOptionTopMenu->mState = gOptionTopMenu->mNextState;
     switch (gOptionTopMenu->mState) {
-        case 0:
+        case OPTION_TOP_STATE_WAIT_FADE:
             AdvanceOptionTopMenuState0();
             break;
-        case 1:
+        case OPTION_TOP_STATE_SLIDE_IN:
             AdvanceOptionTopMenuState1();
             break;
-        case 2:
+        case OPTION_TOP_STATE_WAIT_SELECT_RETURN:
             AdvanceOptionTopMenuState2();
             break;
-        case 3:
+        case OPTION_TOP_STATE_INPUT:
             AdvanceOptionTopMenuState3();
             break;
-        case 4:
+        case OPTION_TOP_STATE_PRESS:
             AdvanceOptionTopMenuState4();
             break;
-        case 5:
+        case OPTION_TOP_STATE_SLIDE_OUT:
             AdvanceOptionTopMenuState5();
             break;
-        case 6:
+        case OPTION_TOP_STATE_ASK_RESET:
             AdvanceOptionTopMenuState6();
             break;
-        case 7:
+        case OPTION_TOP_STATE_ASK_RESET_AGAIN:
             AdvanceOptionTopMenuState7();
             break;
-        case 8:
+        case OPTION_TOP_STATE_WAIT_RESET_WRITE:
             AdvanceOptionTopMenuState8();
             break;
-        case 9:
+        case OPTION_TOP_STATE_RESET_DONE:
             AdvanceOptionTopMenuState9();
             break;
     }
