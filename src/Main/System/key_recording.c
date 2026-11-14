@@ -19,7 +19,15 @@
 #include "Main/System/heap_call.h"
 #include "code_0200eddc.h"
 
-SceneCallbacks gEmblemSceneCallbacks = {InitEmblemScene, UpdateEmblemScene, (void (*)()) EmblemSceneReturnArgument,WriteEmblemSceneRegistersCallback, NULL, NULL, 0xa, 0xa, 0};
+SceneCallbacks gEmblemSceneCallbacks = {InitEmblemScene,
+                                        UpdateEmblemScene,
+                                        (void (*)()) EmblemSceneReturnArgument,
+                                        WriteEmblemSceneRegistersCallback,
+                                        NULL,
+                                        NULL,
+                                        0xa,
+                                        0xa,
+                                        0};
 
 void AppendKeysToKeyRecording(KeyRecording *keyRecording, u16 keys) {
     BOOL startsNewPair;

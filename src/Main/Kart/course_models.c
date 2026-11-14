@@ -41,7 +41,8 @@ const u32 gCourseModelFalls02MaterialName[4] = {0x6c6c6166, 0x32305f73, 0, 0};
 const u32 gCourseModelYoganMaterialName[4] = {0x61676f79, 0x6e, 0, 0};
 const u32 gCourseModelShdwOffMaterialName[4] = {0x77646853, 0x66664f, 0, 0};
 char gCourseModelNsbtaName[20] = "/course_model.nsbta";
-Vec3 gKartAwardStartPositions[3] = {{-5795840, 0x305000, 0}, {-6082560, 0x305000, -286720}, {-6082560, 0x305000, 0x46000}};
+Vec3 gKartAwardStartPositions[3] = {
+    {-5795840, 0x305000, 0}, {-6082560, 0x305000, -286720}, {-6082560, 0x305000, 0x46000}};
 const u32 gCourseModelFalls01MaterialName[4] = {0x6c6c6166, 0x31305f73, 0, 0};
 char gCourseModelVNsbtaName[22] = "/course_model_V.nsbta";
 const u32 gCourseModelShdwOff5MaterialName[4] = {0x77646853, 0x3566664f, 0, 0};
@@ -142,18 +143,21 @@ void InitCourseModels(void *heap) {
     NNS_G3dMdlSetMdlXLDepthUpdateAll(resMdl, 1);
     switch (gRaceSetup->mCourseId) {
         case COURSE_ID_OLD_KOOPA_AGB:
-            materialIndex = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, gCourseModelYoganMaterialName);
+            materialIndex =
+                NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, gCourseModelYoganMaterialName);
             if (materialIndex >= 0) {
                 NNS_G3dMdlSetMdlAlpha(resMdl, materialIndex, 0x1e);
                 NNS_G3dMdlSetMdlXLDepthUpdate(resMdl, materialIndex, 0);
             }
             break;
         case COURSE_ID_BANK:
-            materialIndex = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, gCourseModelFalls01MaterialName);
+            materialIndex =
+                NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, gCourseModelFalls01MaterialName);
             if (materialIndex >= 0) {
                 NNS_G3dMdlSetMdlXLDepthUpdate(resMdl, materialIndex, 0);
             }
-            materialIndex = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, gCourseModelFalls02MaterialName);
+            materialIndex =
+                NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, gCourseModelFalls02MaterialName);
             if (materialIndex >= 0) {
                 NNS_G3dMdlSetMdlXLDepthUpdate(resMdl, materialIndex, 0);
             }
@@ -170,12 +174,18 @@ void InitCourseModels(void *heap) {
         InitModelAnimationFromFile(1, &gCourseModels.mVNsbtaAnimation, gCourseModels.mVNsbmd, heap, nsbmdFile,
                                    animationFile, &gCourseModels.mVNsbtaAnimation.mAnmObjCount);
     }
-    shdwOffMaterialIndices[0] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, gCourseModelShdwOffMaterialName);
-    shdwOffMaterialIndices[1] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, gCourseModelShdwOff1MaterialName);
-    shdwOffMaterialIndices[2] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, gCourseModelShdwOff2MaterialName);
-    shdwOffMaterialIndices[3] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, gCourseModelShdwOff3MaterialName);
-    shdwOffMaterialIndices[4] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, gCourseModelShdwOff4MaterialName);
-    shdwOffMaterialIndices[5] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, gCourseModelShdwOff5MaterialName);
+    shdwOffMaterialIndices[0] =
+        NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, gCourseModelShdwOffMaterialName);
+    shdwOffMaterialIndices[1] =
+        NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, gCourseModelShdwOff1MaterialName);
+    shdwOffMaterialIndices[2] =
+        NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, gCourseModelShdwOff2MaterialName);
+    shdwOffMaterialIndices[3] =
+        NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, gCourseModelShdwOff3MaterialName);
+    shdwOffMaterialIndices[4] =
+        NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, gCourseModelShdwOff4MaterialName);
+    shdwOffMaterialIndices[5] =
+        NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, gCourseModelShdwOff5MaterialName);
     for (slotIndex = 0; slotIndex < 6; slotIndex++) {
         if (shdwOffMaterialIndices[slotIndex] >= 0) {
             NNS_G3dMdlSetMdlPolygonID(resMdl, shdwOffMaterialIndices[slotIndex], 7);

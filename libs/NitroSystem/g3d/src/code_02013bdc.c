@@ -10,7 +10,38 @@
 #include "ITCM/code_01ff8000.h"
 #include "code_02010c84.h"
 
-void (*NNS_G3dFuncSbcTable[32])(NNSG3dRS *, u32) = {NNSi_G3dFuncSbc_NOP, NNSi_G3dFuncSbc_RET, NNSi_G3dFuncSbc_NODE, NNSi_G3dFuncSbc_MTX, NNSi_G3dFuncSbc_MAT, NNSi_G3dFuncSbc_SHP, NNSi_G3dFuncSbc_NODEDESC, NNSi_G3dFuncSbc_BB, NNSi_G3dFuncSbc_BBY, (void (*)(NNSG3dRS *, u32)) NNSi_G3dFuncSbc_NODEMIX, (void (*)(NNSG3dRS *, u32)) NNSi_G3dFuncSbc_CALLDL, NNSi_G3dFuncSbc_POSSCALE, (void (*)(NNSG3dRS *, u32)) NNSi_G3dFuncSbc_ENVMAP, (void (*)(NNSG3dRS *, u32)) NNSi_G3dFuncSbc_PRJMAP, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
+void (*NNS_G3dFuncSbcTable[32])(NNSG3dRS *, u32) = {NNSi_G3dFuncSbc_NOP,
+                                                    NNSi_G3dFuncSbc_RET,
+                                                    NNSi_G3dFuncSbc_NODE,
+                                                    NNSi_G3dFuncSbc_MTX,
+                                                    NNSi_G3dFuncSbc_MAT,
+                                                    NNSi_G3dFuncSbc_SHP,
+                                                    NNSi_G3dFuncSbc_NODEDESC,
+                                                    NNSi_G3dFuncSbc_BB,
+                                                    NNSi_G3dFuncSbc_BBY,
+                                                    (void (*)(NNSG3dRS *, u32)) NNSi_G3dFuncSbc_NODEMIX,
+                                                    (void (*)(NNSG3dRS *, u32)) NNSi_G3dFuncSbc_CALLDL,
+                                                    NNSi_G3dFuncSbc_POSSCALE,
+                                                    (void (*)(NNSG3dRS *, u32)) NNSi_G3dFuncSbc_ENVMAP,
+                                                    (void (*)(NNSG3dRS *, u32)) NNSi_G3dFuncSbc_PRJMAP,
+                                                    NULL,
+                                                    NULL,
+                                                    NULL,
+                                                    NULL,
+                                                    NULL,
+                                                    NULL,
+                                                    NULL,
+                                                    NULL,
+                                                    NULL,
+                                                    NULL,
+                                                    NULL,
+                                                    NULL,
+                                                    NULL,
+                                                    NULL,
+                                                    NULL,
+                                                    NULL,
+                                                    NULL,
+                                                    NULL};
 #pragma explicit_zero_data on
 Vec3 gSbcBillboardYScale = {0, 0, 0};
 Vec3 gSbcBillboardYPosition = {0, 0, 0};

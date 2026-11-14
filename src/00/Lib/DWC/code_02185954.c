@@ -399,8 +399,8 @@ u32 DWCi_Auth_Prepare_FirstPost(Http *http, const char *gsbrcd, const char *inga
         ownerInfo.mLanguage = 1;
     }
     OS_SNPrintf(postData.mBirthday, 5, "%02x%02x", ownerInfo.mBirthdayMonth, ownerInfo.mBirthdayDay);
-    OS_SNPrintf(deviceTimeText, 0xd, "%02d%02d%02d%02d%02d%02d", date.mYear, date.mMonth, date.mDay, time.mHour, time.mMinute,
-                time.mSecond);
+    OS_SNPrintf(deviceTimeText, 0xd, "%02d%02d%02d%02d%02d%02d", date.mYear, date.mMonth, date.mDay, time.mHour,
+                time.mMinute, time.mSecond);
     MI_CpuCopy8(ownerInfo.mNickName, deviceName, 0x14);
     deviceName[0x14] = 0;
     MI_CpuFill8(&results, 0, 0xc);

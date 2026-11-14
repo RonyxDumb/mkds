@@ -24,7 +24,15 @@
 #include "Main/Sound/scene_sound_set.h"
 #include "Main/Save/backup_access.h"
 
-SceneCallbacks gWLMenuSceneCallbacks = {InitWLMenuSceneCallback, UpdateWLMenuSceneCallback, ReleaseWLMenuSceneCallback, WriteWLMenuSceneRegistersCallback, NULL, NULL, 0xa, 0xa, 0};
+SceneCallbacks gWLMenuSceneCallbacks = {InitWLMenuSceneCallback,
+                                        UpdateWLMenuSceneCallback,
+                                        ReleaseWLMenuSceneCallback,
+                                        WriteWLMenuSceneRegistersCallback,
+                                        NULL,
+                                        NULL,
+                                        0xa,
+                                        0xa,
+                                        0};
 
 void ReleaseWLMenuSceneCallback(void) {
     u32 unused;

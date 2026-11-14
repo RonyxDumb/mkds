@@ -8,7 +8,10 @@
 #include "Main/Save/ghost_record_file.h"
 
 s32 gCupPictureNitroOrRetroTable[1] = {2};
-s32 gCupPictureNumberTable[81] = {0, 1, 0x10, 2, 0, 2, 0, 2, 0, 2, 0, 2, 0, 2, 0, 2, 0, 1, 8, 1, 1, 1, 2, 1, 7, 1, 3, 1, 4, 1, 9, 1, 6, 0, 0xa, 0, 4, 0, 0xc, 0, 1, 2, 0, 0, 2, 1, 0xe, 0, 8, 0, 0xb, 0, 0xe, 0, 5, 0, 6, 0, 0x10, 0, 9, 0, 3, 0, 0xf, 0, 7, 0, 0xd, 1, 5, 1, 0xa, 1, 0xb, 1, 0xc, 1, 0xd, 1, 0xf};
+s32 gCupPictureNumberTable[81] = {0, 1, 0x10, 2, 0, 2, 0,   2, 0,   2, 0,   2, 0,   2, 0,    2, 0,   1, 8, 1, 1,   1,
+                                  2, 1, 7,    1, 3, 1, 4,   1, 9,   1, 6,   0, 0xa, 0, 4,    0, 0xc, 0, 1, 2, 0,   0,
+                                  2, 1, 0xe,  0, 8, 0, 0xb, 0, 0xe, 0, 5,   0, 6,   0, 0x10, 0, 9,   0, 3, 0, 0xf, 0,
+                                  7, 0, 0xd,  1, 5, 1, 0xa, 1, 0xb, 1, 0xc, 1, 0xd, 1, 0xf};
 
 void RequestThreadFunctionQueueRun(void) {
     gThreadFunctionQueue->mRunRequested = 1;

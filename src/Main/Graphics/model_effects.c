@@ -30,9 +30,23 @@ char gMissionEffectSpaName[35] = "/data/MissionRun/MissionEffect.spa";
 ModelEffectKind gModelEffectKinds[5] = {
     {3, 1, 1, 1, StartModelEffectBombcore, UpdateModelEffectBombcore, 0xb8, {NULL, NULL, NULL, NULL}},
     {1, 1, 1, 1, StartModelEffectBombcore2, UpdateModelEffectBombcore2, 0xb8, {NULL, NULL, NULL, NULL}},
-    {0, 1, 0, 0, (void (*)(ModelEffect *, s32)) StartWaterEfctKind2, UpdateWaterEfctKinds, 0xb8, {NULL, NULL, NULL, NULL}},
+    {0,
+     1,
+     0,
+     0,
+     (void (*)(ModelEffect *, s32)) StartWaterEfctKind2,
+     UpdateWaterEfctKinds,
+     0xb8,
+     {NULL, NULL, NULL, NULL}},
     {0, 1, 0, 0, StartModelEffectBkWave, UpdateModelEffectBkWave, 0xb8, {NULL, NULL, NULL, NULL}},
-    {0, 1, 0, 0, (void (*)(ModelEffect *, s32)) StartWaterEfctKind4, UpdateWaterEfctKinds, 0xb8, {NULL, NULL, NULL, NULL}}};
+    {0,
+     1,
+     0,
+     0,
+     (void (*)(ModelEffect *, s32)) StartWaterEfctKind4,
+     UpdateWaterEfctKinds,
+     0xb8,
+     {NULL, NULL, NULL, NULL}}};
 s32 gKind2EffectsCreated;
 ModelEffects *gModelEffects;
 s32 gKind2EffectIds[2];

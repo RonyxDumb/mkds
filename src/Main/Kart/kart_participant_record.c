@@ -113,15 +113,20 @@
 const u32 gKartSurfaceKind1Effects[8] = {0, 0, 0, 4, 0, 0, 0, 0};
 const u32 gKartSurfaceStopEffects[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 const s16 gKartRaceStartBoostFrameCounts[6] = {8, 0xf, 0x1e, 0x32, 0x64, 0};
-const s32 gKartModelScaleZKind2Table[15] = {0xccd, 0xdfa, 0xf4a, 0x1088, 0x1182, 0x1205, 0x11a9, 0x1093, 0xf61, 0xeb2, 0xea5, 0xede, 0xf3f, 0xfa9, 0x1000};
-const s32 gKartModelScaleYKind1Table[15] = {0xccd, 0xe9f, 0x1072, 0x119a, 0x120c, 0x1239, 0x122d, 0x11f4, 0x119a, 0x10a7, 0xf42, 0xe66, 0xe94, 0xf4a, 0x1000};
-const s32 gKartModelOffsetYKind1Table[15] = {-77, -94, -117, -137, -144, -128, -59, 0x34, 0x9c, 0xcd, 0x3f, -102, -102, -51, 0};
+const s32 gKartModelScaleZKind2Table[15] = {0xccd, 0xdfa, 0xf4a, 0x1088, 0x1182, 0x1205, 0x11a9, 0x1093,
+                                            0xf61, 0xeb2, 0xea5, 0xede,  0xf3f,  0xfa9,  0x1000};
+const s32 gKartModelScaleYKind1Table[15] = {0xccd,  0xe9f,  0x1072, 0x119a, 0x120c, 0x1239, 0x122d, 0x11f4,
+                                            0x119a, 0x10a7, 0xf42,  0xe66,  0xe94,  0xf4a,  0x1000};
+const s32 gKartModelOffsetYKind1Table[15] = {-77,  -94,  -117, -137, -144, -128, -59, 0x34,
+                                             0x9c, 0xcd, 0x3f, -102, -102, -51,  0};
 const s16 gThunderShrinkTimerByRank[8] = {0x1fe, 0x1c2, 0x186, 0x14a, 0x10e, 0xd2, 0x96, 0x5a};
 const Vec3 gKartStartPlacementHeadingAxis = {0, 0x1000, 0};
-const s32 gKartModelScaleXKind2Table[15] = {0x1400, 0x12a9, 0x112d, 0xfc3, 0xea5, 0xe0b, 0xe67, 0xf91, 0x10da, 0x1193, 0x119a, 0x1154, 0x10e3, 0x1066, 0x1000};
+const s32 gKartModelScaleXKind2Table[15] = {0x1400, 0x12a9, 0x112d, 0xfc3,  0xea5,  0xe0b,  0xe67, 0xf91,
+                                            0x10da, 0x1193, 0x119a, 0x1154, 0x10e3, 0x1066, 0x1000};
 const u32 gKartSurfaceKind6Effects[8] = {0, 5, 0, 0, 0, 0, 0, 0};
 const u32 gKartSurfaceKind10Effects[8] = {1, 2, 0, 7, 0, 0, 0, 0};
-const s32 gKartModelScaleYKind0Table[15] = {0xd9a, 0xed1, 0x1008, 0x10cd, 0x1117, 0x112f, 0x1123, 0x10fe, 0x10cd, 0x1053, 0xfa1, 0xf33, 0xf4a, 0xfa5, 0x1000};
+const s32 gKartModelScaleYKind0Table[15] = {0xd9a,  0xed1,  0x1008, 0x10cd, 0x1117, 0x112f, 0x1123, 0x10fe,
+                                            0x10cd, 0x1053, 0xfa1,  0xf33,  0xf4a,  0xfa5,  0x1000};
 const s32 gKartOffsetCycleY[8] = {0x1000, 0x100e, 0x102d, 0x104c, 0x105b, 0x104c, 0x102d, 0x100e};
 const s32 gKartOffsetCycleX[8] = {0x1052, 0x103d, 0x1015, 0x1000, 0x1009, 0x101d, 0x1035, 0x1049};
 const u32 gKartSurfaceKind3Effects[8] = {1, 5, 3, 2, 6, 7, 0, 0};
@@ -130,7 +135,8 @@ const u32 gKartSurfaceKind20Effects[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 const u32 gKartSurfaceKind17Effects[8] = {4, 4, 4, 0, 0, 0, 0, 0};
 const u32 gKartSurfaceKind2Effects[8] = {2, 4, 7, 1, 0, 0, 0, 0};
 const s32 gKartOffsetCycleZ[8] = {0x26, 0x20, 0x13, 6, 0, 6, 0x13, 0x20};
-const s32 gKartModelOffsetYKind0And2Table[15] = {-77, -80, -86, -91, -90, -77, -38, 0x15, 0x4c, 0x66, 0x20, -51, -51, -25, 0};
+const s32 gKartModelOffsetYKind0And2Table[15] = {-77,  -80,  -86,  -91, -90, -77, -38, 0x15,
+                                                 0x4c, 0x66, 0x20, -51, -51, -25, 0};
 const s32 gKartRespawnOffsets[8][2] = {{0, 0},       {-0x1000, 0},       {0x1000, 0},        {0, -0x1000},
                                        {0, 0x1000}, {-0x1000, -0x1000}, {0x1000, -0x1000}, {-0x1000, 0x1000}};
 int (*const gKartSurfaceFunctions[22])(Kart *) = {
@@ -581,7 +587,8 @@ void AdvanceKartState4(Kart *kart) {
             kart->mRotationAngle = kart->mRotationAngle + kart->mRotationAnglePerFrame;
         }
         kart->mRotationAnglePerFrame =
-            kart->mRotationAnglePerFrame - (kart->mRotationAnglePerFrame > 0 ? gKartPushFlipAngleDecay : -gKartPushFlipAngleDecay);
+            kart->mRotationAnglePerFrame -
+            (kart->mRotationAnglePerFrame > 0 ? gKartPushFlipAngleDecay : -gKartPushFlipAngleDecay);
         QuaternionFromAxisAngle(&kart->mRotationAxis, kart->mRotationAngle, &kart->mRotationQuaternion);
         QuaternionNormalize(&kart->mRotationQuaternion, &kart->mRotationQuaternion);
         return;
@@ -697,7 +704,8 @@ void AdvanceKartState5(Kart *kart) {
             kart->mRotationAngle = kart->mRotationAngle + kart->mRotationAnglePerFrame;
         }
         kart->mRotationAnglePerFrame =
-            kart->mRotationAnglePerFrame - (kart->mRotationAnglePerFrame > 0 ? gKartPushFlipAngleDecay : -gKartPushFlipAngleDecay);
+            kart->mRotationAnglePerFrame -
+            (kart->mRotationAnglePerFrame > 0 ? gKartPushFlipAngleDecay : -gKartPushFlipAngleDecay);
         QuaternionFromAxisAngle(&kart->mRotationAxis, kart->mRotationAngle, &kart->mRotationQuaternion);
         QuaternionNormalize(&kart->mRotationQuaternion, &kart->mRotationQuaternion);
         return;

@@ -11,7 +11,17 @@
 #include "03/System/exp_heap.h"
 #include "03/unk_021da000.h"
 
-const ScanParamBlock gApScanParamTemplate = {{NULL, 0x400, 0x3fff, 0, {0xff, 0xff, 0xff, 0xff, 0xff, 0xff}, 0, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+const ScanParamBlock gApScanParamTemplate = {
+    {NULL,
+     0x400,
+     0x3fff,
+     0,
+     {0xff, 0xff, 0xff, 0xff, 0xff, 0xff},
+     0,
+     0,
+     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+     0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
 
 struct ApScan *gApScan;
 

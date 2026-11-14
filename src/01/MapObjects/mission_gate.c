@@ -28,7 +28,17 @@
 #include "code_02147cd8.h"
 #include "ITCM/code_01ff8000.h"
 
-MapObjectKindDescriptor gMissionGateKindDescriptor = {0, {0, 0}, 0xcc, InitMissionGate, CreateMissionGateKindData, CreateMissionGateDrawList, NULL, NULL, CreateMissionGateUpdateList, NULL, {NULL, NULL, NULL, NULL}};
+MapObjectKindDescriptor gMissionGateKindDescriptor = {0,
+                                                      {0, 0},
+                                                      0xcc,
+                                                      InitMissionGate,
+                                                      CreateMissionGateKindData,
+                                                      CreateMissionGateDrawList,
+                                                      NULL,
+                                                      NULL,
+                                                      CreateMissionGateUpdateList,
+                                                      NULL,
+                                                      {NULL, NULL, NULL, NULL}};
 MapObjectModel *gMissionGate;
 
 void InitMissionGate(MissionGateObject *missionGateObject) {

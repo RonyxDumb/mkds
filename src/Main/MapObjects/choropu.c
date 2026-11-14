@@ -115,7 +115,8 @@ const MapObjectKindData gCarAKindData = {(s32 (*)(MapObject *, void *, s32 *, s3
                                          0,
                                          0};
 Quaternion gIdentityQuaternion = {{0, 0, 0, 0x1000}};
-const MapObjectList gVehicleUpdateListData = {NULL, 0, {0, 0}, InitVehicleUpdateList, NULL, UpdateVehicle, NULL, 0, NULL, 0, NULL};
+const MapObjectList gVehicleUpdateListData = {NULL, 0, {0, 0}, InitVehicleUpdateList, NULL, UpdateVehicle, NULL, 0,
+                                              NULL, 0, NULL};
 const VehicleDrawList gVehicleDrawListData = {{NULL,
                                         0,
                                         {0, 0},

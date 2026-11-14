@@ -226,7 +226,8 @@ void OS_ExitThread(void) {
     OSi_ExitThread_ArgSpecified(OSi_ThreadInfo.mCurrentThread, 0);
 }
 
-// When OSi_StackForDestructor is set, restarts thread on that stack in OSi_ExitThread with arg; otherwise calls OSi_ExitThread.
+// When OSi_StackForDestructor is set, restarts thread on that stack in OSi_ExitThread with arg; otherwise calls
+// OSi_ExitThread.
 void OSi_ExitThread_ArgSpecified(OSThread *thread, void *arg) {
     if (OSi_StackForDestructor != 0) {
         ThreadInitContext(thread, OSi_ExitThread, OSi_StackForDestructor);

@@ -16,7 +16,8 @@
 #include "code_0200fc8c.h"
 #include "03/Menu/main_menu.h"
 
-ChildWaitParams gChildWaitParams = {"dwc:/move/child.srl", NULL, NULL, "dwc:/move/banner.char", "dwc:/move/banner.plt", 0x159, 0, {0, 0, 0}};
+ChildWaitParams gChildWaitParams = {"dwc:/move/child.srl",  NULL,  NULL, "dwc:/move/banner.char",
+                                    "dwc:/move/banner.plt", 0x159, 0,    {0, 0, 0}};
 ChildWaitSession *gChildWaitSession;
 
 void CreateChildWaitSession(u32 callback) {

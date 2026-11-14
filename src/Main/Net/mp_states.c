@@ -85,7 +85,8 @@ void UpdateMPState5(void) {
 void UpdateMPState6(void) {
     MPStateMachine *stateMachine;
 
-    if (MPStatesGetConnectionMode() == CONNECTION_MODE_PARENT && (gConnectionWork->mFlags & CONNECTION_FLAG_SEND_READY)) {
+    if (MPStatesGetConnectionMode() == CONNECTION_MODE_PARENT &&
+        (gConnectionWork->mFlags & CONNECTION_FLAG_SEND_READY)) {
         if (QueueMPDataHalfwordAndWord(2, gConnectionWork->mChildren.mChildMask, gConnectionWork->mGroupSendMask) !=
             FALSE) {
             stateMachine = &gConnectionWork->mMPStateMachine;

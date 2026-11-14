@@ -24,7 +24,9 @@
 #include "Main/Race/race_setup_input.h"
 #include "Main/Menu/menu_shared_clear.h"
 
-WiFiStateCallbacks gWiFiVSCourseSelectCallbacks = {(void (*)(void *)) InitWiFiVSCourseSelectState, ReleaseWiFiVSCourseSelectState, AdvanceWiFiVSCourseSelectState, WriteWiFiVSCourseSelectRegistersWrapper};
+WiFiStateCallbacks gWiFiVSCourseSelectCallbacks = {(void (*)(void *)) InitWiFiVSCourseSelectState,
+                                                   ReleaseWiFiVSCourseSelectState, AdvanceWiFiVSCourseSelectState,
+                                                   WriteWiFiVSCourseSelectRegistersWrapper};
 u8 gWiFiVSCourseSelectState[1];
 
 void InitWiFiVSCourseSelectState(u32 heap) {

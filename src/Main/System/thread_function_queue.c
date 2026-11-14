@@ -19,7 +19,15 @@
 #include "Main/MapObjects/data_0217a000.h"
 #include "Main/Save/ghost_record_file.h"
 
-SceneCallbacks gLogoSceneCallbacks = {InitLogoSceneCallback, UpdateLogoSceneCallback, ApplySavedSoundModeCallback, WriteLogoSceneRegistersCallback, NULL, NULL, 0x1e, 1, 0};
+SceneCallbacks gLogoSceneCallbacks = {InitLogoSceneCallback,
+                                      UpdateLogoSceneCallback,
+                                      ApplySavedSoundModeCallback,
+                                      WriteLogoSceneRegistersCallback,
+                                      NULL,
+                                      NULL,
+                                      0x1e,
+                                      1,
+                                      0};
 
 void RunQueuedThreadFunctions(void *threadArgument) {
     for (;;) {

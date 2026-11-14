@@ -36,7 +36,8 @@ copyp_loop:
     bx lr
 }
 
-// Fills size bytes at destp (whole words) with the word data: 32 bytes per store while a full block remains, then a word at a
+// Fills size bytes at destp (whole words) with the word data: 32 bytes per store while a full block remains, then a
+// word at a
 // time.
 // Hand-written asm: saves r4-r9 without lr and stores with conditional `stmlt r1!` lists.
 asm void MIi_CpuClearFast(u32 data, void *destp, u32 size) {
@@ -64,7 +65,8 @@ fillb_word_loop:
     bx lr
 }
 
-// Copies size bytes (whole words) from srcp to destp: 32 bytes per step while a full block remains, then a word at a time.
+// Copies size bytes (whole words) from srcp to destp: 32 bytes per step while a full block remains, then a word at a
+// time.
 // Hand-written asm: saves r4-r10 without lr and a padding word, and copies with conditional `ldmlt` / `stmlt` lists.
 asm void MIi_CpuCopyFast(const void *srcp, void *destp, u32 size) {
     stmfd sp!, {r4, r5, r6, r7, r8, r9, r10}
@@ -140,7 +142,8 @@ asm void MI_Copy64B(const void *pSrc, void *pDest) {
     bx lr
 }
 
-// Fills size bytes at dstp with the byte data using only halfword and word stores (an odd first or last byte is merged with its
+// Fills size bytes at dstp with the byte data using only halfword and word stores (an odd first or last byte is merged
+// with its
 // neighbour through a halfword read).
 // Hand-written asm: tests bits with tst.
 asm void MI_CpuFill8(void *dstp, u8 data, u32 size) {
@@ -192,8 +195,10 @@ fillh_last_byte:
     bx lr
 }
 
-// Copies size bytes from srcp to dstp using only halfword and word accesses: an odd first or last destination byte is merged
-// with its neighbour through a halfword read; when srcp and dstp differ in alignment the bytes are reassembled from halfword
+// Copies size bytes from srcp to dstp using only halfword and word accesses: an odd first or last destination byte is
+// merged
+// with its neighbour through a halfword read; when srcp and dstp differ in alignment the bytes are reassembled from
+// halfword
 // reads.
 // Hand-written asm: tests bits with tst.
 asm void MI_CpuCopy8(const void *srcp, void *dstp, u32 size) {
@@ -313,7 +318,8 @@ asm u32 MI_SwapWord(u32 setData, volatile u32 *destp) {
     bx lr
 }
 
-// Expands compressed data from srcp into destp. The first word holds the expanded size in its upper 24 bits. Then each flag
+// Expands compressed data from srcp into destp. The first word holds the expanded size in its upper 24 bits. Then each
+// flag
 // byte covers the next eight items, its top bit first: a clear bit is one literal byte; a set bit is a two-byte
 // back copy: copy (top nibble + 3) bytes from (low 12 bits + 1) bytes back in the output. Every output byte is written
 // with swpb.

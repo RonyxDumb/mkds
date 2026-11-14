@@ -43,7 +43,17 @@
 
 u16 gCoinShadowRotationIndex;
 
-MapObjectKindDescriptor gCoinKindDescriptor = {0, {0, 0}, 0x104, SetMissionRunCoinCallbacks, CreateCoinKindData, CreateCoinDrawList, CreateCoinShadowDrawList, NULL, CreateCoinUpdateList, NULL, {NULL, NULL, NULL, NULL}};
+MapObjectKindDescriptor gCoinKindDescriptor = {0,
+                                               {0, 0},
+                                               0x104,
+                                               SetMissionRunCoinCallbacks,
+                                               CreateCoinKindData,
+                                               CreateCoinDrawList,
+                                               CreateCoinShadowDrawList,
+                                               NULL,
+                                               CreateCoinUpdateList,
+                                               NULL,
+                                               {NULL, NULL, NULL, NULL}};
 const u16 gCoinShadowRotationAngles[3] = {0, 0xe38, 0x1c71};
 MapObjectModel *gCoinModel;
 

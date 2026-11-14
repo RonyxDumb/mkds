@@ -226,8 +226,8 @@ void PrintSelectKartMessage(void) {
         message = GetBmgEntry(gSelectKart->mKartSelectMessages, GetKartMessageIndex(gSelectKart->mKartIndex));
         parts = &gSelectKart->mSelectKartSParts;
         for (labelIndex = 8; labelIndex >= 7; labelIndex--) {
-            PrintLabelLayoutTextNoFixedAdvance(1, gSelectKartSLabelCanvasEntries[labelIndex].mLabelIndex, parts->mLabelLayout,
-                                               message, parts->mCellLayout, parts->mCellTable);
+            PrintLabelLayoutTextNoFixedAdvance(1, gSelectKartSLabelCanvasEntries[labelIndex].mLabelIndex,
+                                               parts->mLabelLayout, message, parts->mCellLayout, parts->mCellTable);
         }
     }
 }
@@ -393,16 +393,20 @@ void InitSelectKart(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
                               "select_character_gp_m_o.NCLR", "select_character_gp_m.bncl", NULL, NULL,
                               FindFileInLoadedArchives);
             SetupCellFileSet(0, gSelectKart->mHeap, cellFileSet);
-            LocateCellFileSet(&titleFileSet, "select_character_gp_title_m.nce.ncgr", "select_character_gp_title_m.nce.ncer", NULL,
-                              "select_character_gp_title_m.bncl", NULL, NULL, FindFileInLoadedArchives);
+            LocateCellFileSet(&titleFileSet, "select_character_gp_title_m.nce.ncgr",
+                              "select_character_gp_title_m.nce.ncer", NULL, "select_character_gp_title_m.bncl", NULL,
+                              NULL, FindFileInLoadedArchives);
             QueueCellChars(1, titleFileSet.mCells, titleFileSet.mChars, titleFileSet.mCellLayout, 0, 0,
                            cellFileSet->mCells, cellFileSet->mCellLayout);
-            LocateCellFileSet(&nameFileSet, "select_character_gp_name_m.nce.ncgr", "select_character_gp_name_m.nce.ncer", NULL,
-                              "select_character_gp_name_m.bncl", NULL, NULL, FindFileInLoadedArchives);
-            QueueCellChars(gNameLayoutEntryIndexByCharacter[gSelectKart->mCharacterIndex], nameFileSet.mCells, nameFileSet.mChars,
-                           nameFileSet.mCellLayout, 0, 2, cellFileSet->mCells, cellFileSet->mCellLayout);
-            QueueCellChars(gNameLayoutEntryIndexByCharacter[gSelectKart->mCharacterIndex], nameFileSet.mCells, nameFileSet.mChars,
-                           nameFileSet.mCellLayout, 0, 1, cellFileSet->mCells, cellFileSet->mCellLayout);
+            LocateCellFileSet(&nameFileSet, "select_character_gp_name_m.nce.ncgr",
+                              "select_character_gp_name_m.nce.ncer", NULL, "select_character_gp_name_m.bncl", NULL,
+                              NULL, FindFileInLoadedArchives);
+            QueueCellChars(gNameLayoutEntryIndexByCharacter[gSelectKart->mCharacterIndex], nameFileSet.mCells,
+                           nameFileSet.mChars, nameFileSet.mCellLayout, 0, 2, cellFileSet->mCells,
+                           cellFileSet->mCellLayout);
+            QueueCellChars(gNameLayoutEntryIndexByCharacter[gSelectKart->mCharacterIndex], nameFileSet.mCells,
+                           nameFileSet.mChars, nameFileSet.mCellLayout, 0, 1, cellFileSet->mCells,
+                           cellFileSet->mCellLayout);
         }
     }
     if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
@@ -416,7 +420,8 @@ void InitSelectKart(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
                           "select_kart_s.bncl", "select_kart_s.bnll", "select_kart_s.bnbl", FindFileInLoadedArchives);
         SetupCellFileSet(1, gSelectKart->mHeap, cellFileSet);
         for (index = 0; index < 9; index++) {
-            value -= SetupLabelCanvas(1, gSelectKart->mHeap, cellFileSet, &gSelectKartSLabelCanvasEntries[index], value);
+            value -=
+                SetupLabelCanvas(1, gSelectKart->mHeap, cellFileSet, &gSelectKartSLabelCanvasEntries[index], value);
         }
         for (index = 0; index < 6; index++) {
             text = GetBmgEntry(gSelectKart->mKartSelectMessages, gSelectKartSLabelCanvasEntries[index].mMessageIndex);

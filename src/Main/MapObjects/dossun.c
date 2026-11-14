@@ -58,8 +58,25 @@
 
 const u16 gKuriboFlag = 1;
 const MapObjectList gKuriboUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, UpdateKuribo, NULL, 0, NULL, 0, NULL};
-const struct KuriboDrawList gKuriboDrawListData = {{0, 0, 0, 0, 0, 0, 0, 0}, CreateKuribo, SetupDrawKuribo, DrawKuribo, {0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
-const MapObjectKindData gKuriboKindData = {(s32 (*)(MapObject *, void *, s32 *, s32 *)) CollideKartWithKuribo, (s32 (*)(MapObject *, void *, void *, void *)) CollideItemObjectWithKuribo, 2, 0x8000, 0xa000, 0, NULL, 1, 1, 0x184, 0x185, 0, 0, 0, 0, 0};
+const struct KuriboDrawList gKuriboDrawListData = {
+    {0, 0, 0, 0, 0, 0, 0, 0}, CreateKuribo, SetupDrawKuribo, DrawKuribo, {0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0,
+                                                                          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+const MapObjectKindData gKuriboKindData = {(s32(*)(MapObject *, void *, s32 *, s32 *)) CollideKartWithKuribo,
+                                           (s32(*)(MapObject *, void *, void *, void *)) CollideItemObjectWithKuribo,
+                                           2,
+                                           0x8000,
+                                           0xa000,
+                                           0,
+                                           NULL,
+                                           1,
+                                           1,
+                                           0x184,
+                                           0x185,
+                                           0,
+                                           0,
+                                           0,
+                                           0,
+                                           0};
 struct ShadowModel *gDossunShadow;
 MapObjectList *gKuriboUpdateList;
 struct KuriboDrawList *gKuriboDrawList;

@@ -31,7 +31,8 @@ s32 (*gSoundPanFunction)(SoundParams *);
 NNSFndList gSoundSources;
 SoundHandlePool gPlayingSoundPool;
 
-void (*gStartSoundSeqArcTable[1])(NNSSndSeqPlayer **handle, u32 seqArcNo, u32 soundId, u32 priority) = {StartSoundSeqArc};
+void (*gStartSoundSeqArcTable[1])(NNSSndSeqPlayer **handle, u32 seqArcNo, u32 soundId,
+                                  u32 priority) = {StartSoundSeqArc};
 
 void ItemObjectInitAndRegisterSoundSource(SoundSource *source, Vec3 *positionSource) {
     void *startFunction;

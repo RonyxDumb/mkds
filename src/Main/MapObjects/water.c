@@ -327,7 +327,8 @@ void InitWaterModels(Water *water) {
         NNS_G3dMdlSetMdlPolygonID(modelResMdl, materialIndex, 2);
     }
     modelCResMdl = water->mModelC.mResMdl;
-    alphaMaterialIndex = NNS_G3dGetResDictIdxByName((u8 *) modelCResMdl + modelCResMdl->mOfsMat + 4, gWaterCMaterialName);
+    alphaMaterialIndex =
+        NNS_G3dGetResDictIdxByName((u8 *) modelCResMdl + modelCResMdl->mOfsMat + 4, gWaterCMaterialName);
     if (water->mModelAFile != NULL) {
         modelAAlpha = water->mModelAAlpha;
         materialIndex = 0;

@@ -1,8 +1,8 @@
 #include "code_02003024.h"
 
 // Kept in .text after DWC_Init.
-#pragma define_section ARCHIVE_TEXT ".text"                                                                                 \
-                               ".bss" abs32 RWX
+#pragma define_section ARCHIVE_TEXT ".text"                                                                            \
+                                    ".bss" abs32 RWX
 #pragma section ARCHIVE_TEXT begin
 
 // The File functions in the order the command numbers index them.

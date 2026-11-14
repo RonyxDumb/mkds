@@ -41,7 +41,8 @@
 #include "01/Menu/ending_scene.h"
 #include "code_020176c0.h"
 
-SceneCallbacks gMenuSceneCallbacks = {InitMenuScene, UpdateMenuScene, ReleaseMenuScene, WriteMenuSceneRegistersCallback, NULL, NULL, 0xa, 0xa, 0};
+SceneCallbacks gMenuSceneCallbacks = {
+    InitMenuScene, UpdateMenuScene, ReleaseMenuScene, WriteMenuSceneRegistersCallback, NULL, NULL, 0xa, 0xa, 0};
 
 void UpdateRaceScene(SceneNumbers *sceneNumbers, u32 sceneFrames) {
     RaceSetup *raceSetup;

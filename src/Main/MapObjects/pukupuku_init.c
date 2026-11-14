@@ -26,8 +26,10 @@ const MapObjectDrawList gRotaryDrawListData = {
 const MapObjectKindData gRotaryRoomKindData = {NULL, NULL, 5, 0x1d8000, 0x19000, 0, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0};
 const MapObjectKindData gRotaryBridgeKindData = {NULL, NULL, 5, 0x50000, 0x866000, 0, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0};
 const MapObjectList gRotaryUpdateListData = {
-    NULL, 0, {0, 0}, (void (*)(MapObjectList *)) InitRotaryObjects, NULL, (UnkFunc *) UpdateRotary, NULL, 0, NULL, 0, NULL};
-const MapObjectKindData gRotaryGearTestCylinderKindData = {NULL, NULL, 5, 0x12c000, 0x32000, 0, NULL, 1, 0, 0, 0, 0, 0, 0, 0, 0};
+    NULL, 0, {0, 0}, (void (*)(MapObjectList *)) InitRotaryObjects, NULL, (UnkFunc *) UpdateRotary, NULL, 0,
+    NULL, 0, NULL};
+const MapObjectKindData gRotaryGearTestCylinderKindData = {NULL, NULL, 5, 0x12c000, 0x32000, 0, NULL, 1,
+                                                           0,    0,    0, 0,        0,       0, 0,    0};
 #pragma thumb off
 
 MapObjectKindData *CreateRotaryGearTestCylinderKindData(void) {

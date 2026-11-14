@@ -29,7 +29,8 @@ void DWCi_GPProfileSearchCallback(GpConnection *connection, ProfileSearchReply *
     s32 matchSlot;
     s32 zero;
     s32 buddyIndex;
-    if (arg->mResult == GP_REQUEST_OK && arg->mNumMatches != 0 && GetFriendDataType(&gWiFiBuddySync->mBuddies[friendIdx]) != 0) {
+    if (arg->mResult == GP_REQUEST_OK && arg->mNumMatches != 0 &&
+        GetFriendDataType(&gWiFiBuddySync->mBuddies[friendIdx]) != 0) {
         if (gWiFiBuddySync->mState == 1) {
             gWiFiBuddySync->mBuddiesChanged = 1;
             for (matchSlot = 0; matchSlot < arg->mNumMatches; matchSlot++) {

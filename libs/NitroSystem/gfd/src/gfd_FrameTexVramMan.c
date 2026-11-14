@@ -13,8 +13,8 @@ NNSGfdFrmTexRegionState vramRegions_[5] = {
     {0xffffffff, 0xffffffff, 0, 0, 3, 0xffff, 0x40000},
     {0xffffffff, 0xffffffff, 0, 0, 4, 0xffff, 0x60000},
 };
-NNSGfdFrmTexRegionState *texNrmSearchArray_[5] = {&vramRegions_[4], &vramRegions_[3], &vramRegions_[0], &vramRegions_[2],
-                                             &vramRegions_[1]};
+NNSGfdFrmTexRegionState *texNrmSearchArray_[5] = {&vramRegions_[4], &vramRegions_[3], &vramRegions_[0],
+                                                  &vramRegions_[2], &vramRegions_[1]};
 NNSGfdFrmTexRegionState *tex4x4SearchArray_[2] = {&vramRegions_[0], &vramRegions_[3]};
 u16 frmExVramMan_;
 

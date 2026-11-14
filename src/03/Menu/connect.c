@@ -33,7 +33,8 @@
 #include "03/Graphics/hl_scr.h"
 #include "03/Menu/link_level.h"
 
-const DWCACConfig gConnectParamsTemplate = {(void *(*)()) ConnectAllocExpHeapBlockWrapper, ConnectFreeExpHeapBlockWrapper, 3, 1, 0, 0};
+const DWCACConfig gConnectParamsTemplate = {
+    (void *(*) ()) ConnectAllocExpHeapBlockWrapper, ConnectFreeExpHeapBlockWrapper, 3, 1, 0, 0};
 u8 gConnectSucceeded;
 
 void SetupConnect(void) {

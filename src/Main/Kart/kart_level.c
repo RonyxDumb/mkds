@@ -77,7 +77,8 @@ void StartKartTurnStartEffects(KartTurnEffects *turnEffects) {
     }
     turnEffects->mTurnStartPresent = 0;
     for (sideIndex = 0; sideIndex < 2; sideIndex++) {
-        turnEffects->mTurnStartEffects[sideIndex] = StartEffect(turnEffects->mTurnStartEffectId, &gKartTurnEffectsStartPosition);
+        turnEffects->mTurnStartEffects[sideIndex] =
+            StartEffect(turnEffects->mTurnStartEffectId, &gKartTurnEffectsStartPosition);
         turnEffects->mTurnStartEffects[sideIndex]->mColor = 0x7fff;
         turnEffects->mTurnStartEffects[sideIndex]->mAlpha = 0x1c;
         turnEffects->mTurnStartEffects[sideIndex]->mSizeScale = 0x1000;
@@ -135,8 +136,10 @@ void StartKartLevel4EffectsWithSecond(KartTurnEffects *turnEffects) {
     u16 sideIndex;
 
     for (sideIndex = 0; sideIndex < 2; sideIndex++) {
-        turnEffects->mLevel4FirstEffects[sideIndex] = StartEffect(turnEffects->mLevel4FirstEffectId, &gKartTurnEffectsStartPosition);
-        turnEffects->mLevel4SecondEffects[sideIndex] = StartEffect(turnEffects->mLevel4SecondEffectId, &gKartTurnEffectsStartPosition);
+        turnEffects->mLevel4FirstEffects[sideIndex] =
+            StartEffect(turnEffects->mLevel4FirstEffectId, &gKartTurnEffectsStartPosition);
+        turnEffects->mLevel4SecondEffects[sideIndex] =
+            StartEffect(turnEffects->mLevel4SecondEffectId, &gKartTurnEffectsStartPosition);
     }
 }
 
@@ -144,7 +147,8 @@ void StartKartLevel4EffectsFirstOnly(KartTurnEffects *turnEffects) {
     u16 sideIndex;
 
     for (sideIndex = 0; sideIndex < 2; sideIndex++) {
-        turnEffects->mLevel4FirstEffects[sideIndex] = StartEffect(turnEffects->mLevel4FirstEffectId, &gKartTurnEffectsStartPosition);
+        turnEffects->mLevel4FirstEffects[sideIndex] =
+            StartEffect(turnEffects->mLevel4FirstEffectId, &gKartTurnEffectsStartPosition);
     }
 }
 
@@ -436,8 +440,10 @@ void StartKartLevel3Effects(KartTurnEffects *turnEffects, int enable) {
     turnEffects->mLevel3Present = 0;
     turnEffects->mLevel3Frames = 0;
     for (sideIndex = 0; sideIndex < 2; sideIndex++) {
-        turnEffects->mLevel3FirstEffects[sideIndex] = StartEffect(turnEffects->mLevel3FirstEffectId, &gKartTurnEffectsStartPosition);
-        turnEffects->mLevel3SecondEffects[sideIndex] = StartEffect(turnEffects->mLevel3SecondEffectId, &gKartTurnEffectsStartPosition);
+        turnEffects->mLevel3FirstEffects[sideIndex] =
+            StartEffect(turnEffects->mLevel3FirstEffectId, &gKartTurnEffectsStartPosition);
+        turnEffects->mLevel3SecondEffects[sideIndex] =
+            StartEffect(turnEffects->mLevel3SecondEffectId, &gKartTurnEffectsStartPosition);
     }
     turnEffects->mLevel3Present = 1;
 }

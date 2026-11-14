@@ -17,7 +17,8 @@ void NNS_G2dSetCellAnimationSpeed(NNSG2dCellAnimation *pCellAnim, s32 speed);
 void NNS_G2dSetCellAnimationCurrentFrame(NNSG2dCellAnimation *pCellAnim, u16 frameIndex);
 void NNS_G2dTickCellAnimation(NNSG2dCellAnimation *pCellAnim, s32 frames);
 void NNS_G2dSetCellAnimationSequence(NNSG2dCellAnimation *pCellAnim, NNSG2dAnimSequenceData *pAnimSeq);
-void NNS_G2dInitCellAnimation(NNSG2dCellAnimation *pCellAnim, NNSG2dAnimSequenceData *pAnimSeq, NNSG2dCellDataBank *pCellDataBank);
+void NNS_G2dInitCellAnimation(NNSG2dCellAnimation *pCellAnim, NNSG2dAnimSequenceData *pAnimSeq,
+                              NNSG2dCellDataBank *pCellDataBank);
 void ApplyCurrentAnimResult_(NNSG2dCellAnimation *pCellAnim);
 
 extern const u16 gObjShapeHeight[3][4];

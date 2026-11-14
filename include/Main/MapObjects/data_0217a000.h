@@ -1121,8 +1121,8 @@ typedef struct Race {
     // Start index (0 to 7) of the 32 entries of gToonTable that UpdateRace gives to G3X_SetToonTable on each call;
     // it advances by 1 each time mToonTableFrames passes gToonTableFramesLimit and wraps back to 0 after 7.
     /* 18 */ s32 mToonTableOffset;
-    // Counts calls of UpdateRace since mToonTableOffset last changed; when it exceeds gToonTableFramesLimit (2) it restarts at
-    // 0 and mToonTableOffset advances (every third call).
+    // Counts calls of UpdateRace since mToonTableOffset last changed; when it exceeds gToonTableFramesLimit (2) it
+    // restarts at 0 and mToonTableOffset advances (every third call).
     /* 1c */ s32 mToonTableFrames;
     // 1 from the start of a fog fade (StartFadeFog) until UpdateRace ends it, else 0: while it is 1 DrawRace writes
     // the fade fog into the fog registers instead of the course fog. UpdateRace holds it for 72 calls, then steps

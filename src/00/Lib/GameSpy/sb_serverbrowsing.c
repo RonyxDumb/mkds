@@ -196,7 +196,8 @@ s32 ServerBrowserSendMessageToServerA(MatchingServerList *matchingServerList, u3
                                  data, dataLength);
 }
 
-s32 ServerBrowserSendNatNegotiateCookieToServerA(MatchingServerList *matchingServerList, u32 ipText, s32 port, u32 cookie) {
+s32 ServerBrowserSendNatNegotiateCookieToServerA(MatchingServerList *matchingServerList, u32 ipText, s32 port,
+                                                 u32 cookie) {
     u32 publicIp = inet_addr(ipText);
     return SBSendNatNegotiateCookieToServer(&matchingServerList->mList, publicIp,
                                             ((port >> 8) & 0xff) | ((port << 8) & 0xff00), cookie);

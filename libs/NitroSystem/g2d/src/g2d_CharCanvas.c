@@ -548,8 +548,8 @@ void ClearArea1D(NNSG2dCharCanvas *pCanvas, u32 cl, s32 areaX, s32 areaY, s32 ar
 
 void InitCharCanvas(NNSG2dCharCanvas *pCanvas, void *charBase, s32 areaWidth, s32 areaHeight, u32 bpp,
                     void (*drawGlyph)(NNSG2dCharCanvas *, NNSG2dFont *, s32, s32, u32, NNSG2dGlyph *),
-                    void (*clearAll)(NNSG2dCharCanvas *, u32), void (*clearArea)(NNSG2dCharCanvas *, u32, s32, s32, s32, s32),
-                    u32 stride) {
+                    void (*clearAll)(NNSG2dCharCanvas *, u32),
+                    void (*clearArea)(NNSG2dCharCanvas *, u32, s32, s32, s32, s32), u32 stride) {
     pCanvas->mAreaWidth = areaWidth;
     pCanvas->mAreaHeight = areaHeight;
     pCanvas->mDstBpp = bpp;

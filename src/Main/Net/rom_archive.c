@@ -32,7 +32,8 @@ s32 gRomArchiveStarted;
 u8 data_usa_02175e88[0x18];
 RomArchiveTransfer gRomArchiveTransfer;
 
-const u8 gEmptyBlockInfo[32] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+const u8 gEmptyBlockInfo[32] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 s32 RomArchiveWriteCallback(FSArchive *archive, const void *src, u32 dst, u32 length) {
     return 1;

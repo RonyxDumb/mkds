@@ -56,8 +56,10 @@ asm void OSi_SetExContext(u32 exinfo) {
     bx lr
 }
 
-// Calls the user exception handler. Does nothing while OSi_UserExceptionHandler is zero; otherwise switches to mode 0x9f with the current sp, sets bit 0 of
-// coprocessor 15 register c1, calls the function in OSi_UserExceptionHandler with OSi_ExContext and the word OSi_UserExceptionHandlerArg, and
+// Calls the user exception handler. Does nothing while OSi_UserExceptionHandler is zero; otherwise switches to mode
+// 0x9f with the current sp, sets bit 0 of
+// coprocessor 15 register c1, calls the function in OSi_UserExceptionHandler with OSi_ExContext and the word
+// OSi_UserExceptionHandlerArg, and
 // clears the bit again.
 // Not compiled code: it switches the processor mode with msr, which C has no way to do.
 asm void OSi_DisplayExContext(void) {

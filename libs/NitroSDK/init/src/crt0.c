@@ -80,8 +80,8 @@ loop:
     bx lr
 }
 
-// Unpacks the compressed block that ends at compressedEnd, working backwards from its end: the two words before it give the
-// packed and unpacked extents; each flag byte selects, per bit from the top, a literal byte or a copy of 3 to 18
+// Unpacks the compressed block that ends at compressedEnd, working backwards from its end: the two words before it give
+// the packed and unpacked extents; each flag byte selects, per bit from the top, a literal byte or a copy of 3 to 18
 // earlier bytes. Then cleans and invalidates the cache lines of the unpacked range.
 // Hand-written asm: it reads the two words with `ldmdb`, writes coprocessor 15 (mcr) and tests with `tst`.
 asm void MIi_UncompressBackward(void *compressedEnd) {

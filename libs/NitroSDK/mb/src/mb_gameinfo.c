@@ -402,8 +402,8 @@ void MBi_CheckCompleteGameInfoFlagments(u32 entryIndex, EntryCallbackFunc callba
     MBGameInfoRecvList *entry;
     u32 entryBit;
     entry = &mbrsp->mEntries[entryIndex];
-    if (entry->mGetFlagmentFlag == entry->mAllFlagmentFlag && entry->mGetFlagmentFlag != 0 && entry->mNowPlayerFlag != 0 &&
-        entry->mGetPlayerFlag == entry->mNowPlayerFlag) {
+    if (entry->mGetFlagmentFlag == entry->mAllFlagmentFlag && entry->mGetFlagmentFlag != 0 &&
+        entry->mNowPlayerFlag != 0 && entry->mGetPlayerFlag == entry->mNowPlayerFlag) {
         entryBit = 1 << entryIndex;
         if ((mbrsp->mValidGameInfoFlag & entryBit) == 0) {
             mbrsp->mValidGameInfoFlag |= entryBit;

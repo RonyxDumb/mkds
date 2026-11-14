@@ -18,10 +18,15 @@ char gLocaleDateFormat[] = "%m/%d/%y";
 CharConversion gCharConversion = {gLocaleTimeStrings, gLocaleCharInfo, &gCharConversionFunctions};
 char gLocaleDateTimeFormat[] = "%a %b %e %T %Y";
 char gLocaleDayNames[] = "Sun|Sunday|Mon|Monday|Tue|Tuesday|Wed|Wednesday|Thu|Thursday|Fri|Friday|Sat|Saturday";
-char gLocaleMonthNames[] = "Jan|January|Feb|February|Mar|March|Apr|April|May|May|Jun|June|Jul|July|Aug|August|Sep|September|Oct|October|Nov|November|Dec|December";
-u16 gLocaleNameOffsets[58] = {2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 0, 0, 0, 0, 0, 0, 1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35, 37, 39, 41, 43, 45, 47, 49, 51};
+char gLocaleMonthNames[] = "Jan|January|Feb|February|Mar|March|Apr|April|May|May|Jun|June|Jul|July|Aug|August|Sep|"
+                           "September|Oct|October|Nov|November|Dec|December";
+u16 gLocaleNameOffsets[58] = {2,  4,  6,  8,  10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40,
+                              42, 44, 46, 48, 50, 52, 0,  0,  0,  0,  0,  0,  1,  3,  5,  7,  9,  11, 13, 15,
+                              17, 19, 21, 23, 25, 27, 29, 31, 33, 35, 37, 39, 41, 43, 45, 47, 49, 51};
 void *gLocaleCharInfo[4] = {(void *) 0x41, (void *) 0x3a, NULL, gLocaleNameOffsets};
-const char *gLocaleTimeStrings[8] = {gLocaleAmPmNames, gLocaleDateTimeFormat, gLocaleTime12Format, gLocaleDateFormat, gLocaleTimeFormatHMS, gLocaleDayNames, gLocaleMonthNames, gLocaleEmptyString};
+const char *gLocaleTimeStrings[8] = {gLocaleAmPmNames,  gLocaleDateTimeFormat, gLocaleTime12Format,
+                                     gLocaleDateFormat, gLocaleTimeFormatHMS,  gLocaleDayNames,
+                                     gLocaleMonthNames, gLocaleEmptyString};
 char gLocaleTime12Format[] = "%I:%M:%S %p";
 
 const char *FormatParseSpec(const char *format, char **argList, FormatSpec *buf) {

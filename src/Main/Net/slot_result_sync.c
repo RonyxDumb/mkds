@@ -17,7 +17,8 @@
 #include "frameheap.h"
 #include "Main/Save/ghost_record_file.h"
 
-SceneCallbacks gResultSceneCallbacks = {InitResultScene, UpdateResultScene, ReleaseResultScene, WriteResultSceneRegistersCallback, NULL, NULL, 0xa, 0xa, 0};
+SceneCallbacks gResultSceneCallbacks = {
+    InitResultScene, UpdateResultScene, ReleaseResultScene, WriteResultSceneRegistersCallback, NULL, NULL, 0xa, 0xa, 0};
 
 static inline void SetOverlayLoaderEntry(s32 entryIndex, s32 overlayId, u32 startAddress, u32 endAddress) {
     OverlayLoaderEntry *entry;

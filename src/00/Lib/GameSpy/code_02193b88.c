@@ -240,7 +240,8 @@ s32 gpiProcessPeerConnected(GpConnection *connection, GpiPeer *peerConn) {
 
     gpState = connection->mGpiConnection;
     if (peerConn->mOutputBuffer.mLength != 0) {
-        result = GpiSendBuffer(connection, peerConn->mSocket, &peerConn->mOutputBuffer, &socketGone, 1, (const s8 *) "PR");
+        result =
+            GpiSendBuffer(connection, peerConn->mSocket, &peerConn->mOutputBuffer, &socketGone, 1, (const s8 *) "PR");
         if (socketGone != 0 || result != 0) {
             peerConn->mState = 0x6a;
             return 0;

@@ -105,8 +105,8 @@ void ClearCupMarkPointer(void) {
 
 #pragma thumb on
 
-void QueueCupMark(u32 cupMarkIndex, NNSG2dCellDataBank *cells, LayoutEntryTable *cellLayout, u32 destIndex, u16 paletteSlot,
-                  s32 queueSelector) {
+void QueueCupMark(u32 cupMarkIndex, NNSG2dCellDataBank *cells, LayoutEntryTable *cellLayout, u32 destIndex,
+                  u16 paletteSlot, s32 queueSelector) {
     CupMark *cupMark;
     u8 *dst;
     u32 transferKind = 14;

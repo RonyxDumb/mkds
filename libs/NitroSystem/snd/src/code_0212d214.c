@@ -83,8 +83,8 @@ BOOL NNS_SndArcPlayerStartSeqArc(NNSSndSeqPlayer **handle, u32 seqArcNo, u32 ind
     if (seqEntry == 0) {
         return 0;
     }
-    return StartSeqArc(handle, seqEntry->mParam.mPlayerNo, seqEntry->mParam.mBankNo, seqEntry->mParam.mPlayerPrio, seqEntry, seqArcData,
-                       seqArcNo, index);
+    return StartSeqArc(handle, seqEntry->mParam.mPlayerNo, seqEntry->mParam.mBankNo, seqEntry->mParam.mPlayerPrio,
+                       seqEntry, seqArcData, seqArcNo, index);
 }
 
 // A negative player, bank or priority takes the value from the entry.
@@ -313,7 +313,8 @@ NNSSndArcLoadResult NNSi_SndArcLoadBank(s32 bankNo, u32 loadFlag, NNSSndHeap *he
             if (waveEntry == 0) {
                 return NNS_SND_ARC_LOAD_ERROR_INVALID_WAVEARC_NO;
             }
-            result = NNSi_SndArcLoadWaveArc(bankEntry->mWaveArcNo[waveArcIndex], loadFlag, heap, bSetAddr, &loadedWaveArc);
+            result =
+                NNSi_SndArcLoadWaveArc(bankEntry->mWaveArcNo[waveArcIndex], loadFlag, heap, bSetAddr, &loadedWaveArc);
             if (result != NNS_SND_ARC_LOAD_SUCESS) {
                 return result;
             }
@@ -452,8 +453,8 @@ SNDWaveArc *LoadWaveArcTable(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr) {
         if (heap == 0) {
             return 0;
         }
-        tableArc = NNS_SndHeapAlloc(heap, len + 0x20, WaveArcTableDisposeCallback, bSetAddr ? NNS_SndArcGetCurrent() : 0,
-                                   fileId);
+        tableArc = NNS_SndHeapAlloc(heap, len + 0x20, WaveArcTableDisposeCallback,
+                                    bSetAddr ? NNS_SndArcGetCurrent() : 0, fileId);
         if (tableArc == 0) {
             return 0;
         }

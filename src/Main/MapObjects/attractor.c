@@ -45,7 +45,10 @@ char gJgFlagNsbcaName[] = "jg_flag.nsbca";
 char gJgFlagNsbmdName[] = "jg_flag.nsbmd";
 char gJgReverseNsbmdName[] = "jg_reverse.nsbmd";
 char gJgReverseNsbmaName[] = "jg_reverse.nsbma";
-JgKindFileNames gJgKindFileNames[4] = {{NULL, NULL, NULL}, {NULL, NULL, NULL}, {gJgReverseNsbmdName, NULL, gJgReverseNsbmaName}, {gJgFlagNsbmdName, gJgFlagNsbcaName, NULL}};
+JgKindFileNames gJgKindFileNames[4] = {{NULL, NULL, NULL},
+                                       {NULL, NULL, NULL},
+                                       {gJgReverseNsbmdName, NULL, gJgReverseNsbmaName},
+                                       {gJgFlagNsbmdName, gJgFlagNsbcaName, NULL}};
 StateCallbacks gJgStateTable[7] = {{(UnkFunc *) EnterJgState0, (UnkFunc *) JgState0ReturnArgument},
                                    {EnterJgState1, UpdateJgState1},
                                    {EnterJgState2, UpdateJgState2},

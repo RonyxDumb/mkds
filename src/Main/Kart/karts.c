@@ -1026,8 +1026,8 @@ void CreateKart(KartModelsEntry *kartModelsEntry, void *heap, s32 pNameUsed) {
     SetNsbmdPolygonIdAll(kartModelsEntry->mModels[1], 3);
     SetKartModelMaterialColors(mdl, 0);
     if (pNameUsed != 0) {
-        tireMaterialIndex =
-            NNS_G3dGetResDictIdxByName(&OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat)->mDict, (const u32 *) gKartTireMaterialName);
+        tireMaterialIndex = NNS_G3dGetResDictIdxByName(&OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat)->mDict,
+                                                       (const u32 *) gKartTireMaterialName);
         NNS_G3dMdlSetMdlAlpha(mdl, tireMaterialIndex, 0);
         gKartModels->mKartTireMaterialIndex = tireMaterialIndex;
     }
@@ -1059,8 +1059,8 @@ void UploadKartAPaletteSlice(Nsbmd *nsbmd, s32 kartIndex, void *kartAPalette) {
         mdl = nsbmd->mResMdl;
         paletteSlice = (u8 *) kartAPalette + kartIndex / 3 * 0x20;
         DC_FlushRange(paletteSlice, 0x10);
-        materialIndex =
-            NNS_G3dGetResDictIdxByName(&OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat)->mDict, (const u32 *) gKartAPaletteMaterialName);
+        materialIndex = NNS_G3dGetResDictIdxByName(&OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat)->mDict,
+                                                   (const u32 *) gKartAPaletteMaterialName);
         matBlock = OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat);
         entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &matBlock->mDict, matBlock->mDict.mOfsEntry);
         paletteBase = OFFSET_PTR(NNSG3dResMatData, matBlock, *DICT_ENTRY(u32, entries, materialIndex))->mTexPlttBase
@@ -1229,7 +1229,8 @@ void CreateKartModelMenuKart(Nsbmd *nsbmd, NNSG3dResFileHeader *modelFile, NNSG3
     mdl = InitNsbmdWithTextureFile(nsbmd, modelFile, textureFile);
     SetNsbmdPolygonIdAll(nsbmd, 3);
     SetKartModelMaterialColors(mdl, 1);
-    tireMaterialIndex = NNS_G3dGetResDictIdxByName(&OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat)->mDict, (const u32 *) gTireModelMaterialName);
+    tireMaterialIndex = NNS_G3dGetResDictIdxByName(&OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat)->mDict,
+                                                   (const u32 *) gTireModelMaterialName);
     NNS_G3dMdlSetMdlAlpha(mdl, tireMaterialIndex, 0);
 }
 
@@ -1313,8 +1314,8 @@ void QueueKartEmblemTexture(void *emblemData, void *emblemPalette) {
     s16 shownSlotIndex = menu->mShownSlotIndex;
     if (shownSlotIndex >= 0 && files->mLoadRequested == FALSE) {
         mdl = menu->mSlots[shownSlotIndex].mKartNsbmd->mResMdl;
-        materialIndex =
-            NNS_G3dGetResDictIdxByName(&OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat)->mDict, (const u32 *) gKartEmblemMaterialName);
+        materialIndex = NNS_G3dGetResDictIdxByName(&OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat)->mDict,
+                                                   (const u32 *) gKartEmblemMaterialName);
         matBlock = OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat);
         entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &matBlock->mDict, matBlock->mDict.mOfsEntry);
         material = OFFSET_PTR(NNSG3dResMatData, matBlock, *DICT_ENTRY(u32, entries, materialIndex));
@@ -1533,7 +1534,8 @@ void SetupLightFrustumAndLookAt(s32 unusedArg1, s32 yOffset) {
         Vec3NormalizeAndGetLengthUnchecked(&lightDirection, &lightDirection);
     }
     NNS_G3dGlbLightVector(0, (s16) lightDirection.x, (s16) lightDirection.y, (s16) lightDirection.z);
-    NNS_G3dGlbLightColor(0, (u16) (gKartModelMenuLightLevel | (gKartModelMenuLightLevel << 5) | (gKartModelMenuLightLevel << 10)));
+    NNS_G3dGlbLightColor(
+        0, (u16) (gKartModelMenuLightLevel | (gKartModelMenuLightLevel << 5) | (gKartModelMenuLightLevel << 10)));
     SetFrustumProjection(0);
     referenceAxis = gKartModelMenuReferenceAxis;
     target = gKartModelMenuLookAtTarget;
@@ -1874,11 +1876,11 @@ void UploadHeyhoPalette(int kartIndex, struct KartModelsEntry *kartModelsEntry, 
     mdl = kartModelsEntry->mModels[0]->mResMdl;
     DC_FlushRange(palette, 0x20);
     if (IsCharacterPNameUsed(kartIndex) != 0) {
-        materialIndex =
-            NNS_G3dGetResDictIdxByName(&OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat)->mDict, (const u32 *) gHeyhoPMainMaterialName);
+        materialIndex = NNS_G3dGetResDictIdxByName(&OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat)->mDict,
+                                                   (const u32 *) gHeyhoPMainMaterialName);
     } else {
-        materialIndex =
-            NNS_G3dGetResDictIdxByName(&OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat)->mDict, (const u32 *) gHeyhoEMainMaterialName);
+        materialIndex = NNS_G3dGetResDictIdxByName(&OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat)->mDict,
+                                                   (const u32 *) gHeyhoEMainMaterialName);
     }
     matBlock = OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat);
     entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &matBlock->mDict, matBlock->mDict.mOfsEntry);

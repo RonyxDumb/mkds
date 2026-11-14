@@ -138,7 +138,8 @@ void InitStaffRollText(void *heap) {
     gStaffRollText->mAlignFlags = 0x240;
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x100;
     reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & ~REG_G2S_DB_BG0CNT_PRIORITY_MASK) | 1;
-    reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & (REG_G2S_DB_BG0CNT_PRIORITY_MASK | REG_G2S_DB_BG0CNT_MOSAIC_MASK)) | 0x1000;
+    reg_G2S_DB_BG0CNT =
+        (reg_G2S_DB_BG0CNT & (REG_G2S_DB_BG0CNT_PRIORITY_MASK | REG_G2S_DB_BG0CNT_MOSAIC_MASK)) | 0x1000;
     MemFillWordsByBlock_inline((void *) G2S_GetBG0CharPtr(), 0x8000);
     for (screenEntryIndex = 0; screenEntryIndex < 0x400; screenEntryIndex++) {
         ((u16 *) G2S_GetBG0ScrPtr())[screenEntryIndex] = screenEntryIndex | 0xf000;

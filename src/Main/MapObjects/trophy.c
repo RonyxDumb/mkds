@@ -57,7 +57,9 @@ char gTrophyTBanaNsbtp[] = "T_bana.nsbtp";
 char gTrophyTKonoNsbmd[] = "T_kono.nsbmd";
 char gTrophyTrophyNsbmd[] = "trophy.nsbmd";
 char gTrophyTKonoNsbtp[] = "T_kono.nsbtp";
-char *gTKinoNsbmdName[9] = {gTrophyTKinoNsbmd, gTrophyTFlowNsbmd, gTrophyTStarNsbmd, gTrophyTSpecNsbmd, gTrophyTKoraNsbmd, gTrophyTBanaNsbmd, gTrophyTKonoNsbmd, gTrophyTThunNsbmd, gTrophyTrophyNsbmd};
+char *gTKinoNsbmdName[9] = {gTrophyTKinoNsbmd, gTrophyTFlowNsbmd, gTrophyTStarNsbmd,
+                            gTrophyTSpecNsbmd, gTrophyTKoraNsbmd, gTrophyTBanaNsbmd,
+                            gTrophyTKonoNsbmd, gTrophyTThunNsbmd, gTrophyTrophyNsbmd};
 char gTrophyTFlowNsbtp[] = "T_flow.nsbtp";
 char gTrophyTStarNsbtp[] = "T_star.nsbtp";
 char gTrophyTrophyNsbtp[] = "trophy.nsbtp";
@@ -67,7 +69,9 @@ char gTrophyTThunNsbtp[] = "T_thun.nsbtp";
 char gTrophyTSpecNsbtp[] = "T_spec.nsbtp";
 char gTrophyTKinoNsbmd[] = "T_kino.nsbmd";
 char gTrophyTThunNsbmd[] = "T_thun.nsbmd";
-char *gTKinoNsbtpName[9] = {gTrophyTKinoNsbtp, gTrophyTFlowNsbtp, gTrophyTStarNsbtp, gTrophyTSpecNsbtp, gTrophyTKoraNsbtp, gTrophyTBanaNsbtp, gTrophyTKonoNsbtp, gTrophyTThunNsbtp, gTrophyTrophyNsbtp};
+char *gTKinoNsbtpName[9] = {gTrophyTKinoNsbtp, gTrophyTFlowNsbtp, gTrophyTStarNsbtp,
+                            gTrophyTSpecNsbtp, gTrophyTKoraNsbtp, gTrophyTBanaNsbtp,
+                            gTrophyTKonoNsbtp, gTrophyTThunNsbtp, gTrophyTrophyNsbtp};
 Trophy *gTrophy;
 
 void SetupTrophy(void) {

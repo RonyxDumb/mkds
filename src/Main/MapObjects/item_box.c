@@ -37,10 +37,49 @@
 #include "Main/MapObjects/vehicle_kind_descriptor.h"
 
 const MapObjectList gItemBoxUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, UpdateItemBox, NULL, 0, 0, 0, NULL};
-const MapObjectDrawList gBoxDrawListData = {{NULL, 0, {0, 0}, (void (*)(MapObjectList *)) CreateBoxAndQuestion, (void (*)(MapObjectList *)) SetupDrawBox, (UnkFunc *) DrawBox, NULL, 2, (s32 (*)(MapObject *, void *, void *, void *)) 1, 0, NULL}, 0};
-const MapObjectDrawList gItemBoxShadowDrawListData = {{NULL, 0, {0, 0}, NULL, (void (*)(MapObjectList *)) SetupDrawItemBoxShadow, DrawItemBoxShadow, NULL, 1, 0, 1, NULL}, 0};
-const MapObjectDrawList gQuestionDrawListData = {{NULL, 0, {0, 0}, NULL, (void (*)(MapObjectList *)) SetupDrawQuestion, (UnkFunc *) DrawQuestion, NULL, 2, 0, 0, NULL}, 0};
-const MapObjectKindData gItemBoxKindData = {(s32 (*)(MapObject *, void *, s32 *, s32 *)) CollideKartWithItemBox, NULL, 1, 0xa000, 0, 0, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+const MapObjectDrawList gBoxDrawListData = {{NULL,
+                                             0,
+                                             {0, 0},
+                                             (void (*)(MapObjectList *)) CreateBoxAndQuestion,
+                                             (void (*)(MapObjectList *)) SetupDrawBox,
+                                             (UnkFunc *) DrawBox,
+                                             NULL,
+                                             2,
+                                             (s32(*)(MapObject *, void *, void *, void *)) 1,
+                                             0,
+                                             NULL},
+                                            0};
+const MapObjectDrawList gItemBoxShadowDrawListData = {
+    {NULL, 0, {0, 0}, NULL, (void (*)(MapObjectList *)) SetupDrawItemBoxShadow, DrawItemBoxShadow, NULL, 1, 0, 1, NULL},
+    0};
+const MapObjectDrawList gQuestionDrawListData = {{NULL,
+                                                  0,
+                                                  {0, 0},
+                                                  NULL,
+                                                  (void (*)(MapObjectList *)) SetupDrawQuestion,
+                                                  (UnkFunc *) DrawQuestion,
+                                                  NULL,
+                                                  2,
+                                                  0,
+                                                  0,
+                                                  NULL},
+                                                 0};
+const MapObjectKindData gItemBoxKindData = {(s32(*)(MapObject *, void *, s32 *, s32 *)) CollideKartWithItemBox,
+                                            NULL,
+                                            1,
+                                            0xa000,
+                                            0,
+                                            0,
+                                            NULL,
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                            0};
 u16 gItemBoxShadowAngle;
 BoxRotation *gBoxRotations;
 MapObjectDrawList *gQuestionDrawList;

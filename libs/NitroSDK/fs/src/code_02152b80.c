@@ -1,8 +1,8 @@
 #include "code_02004dc0.h"
 
 // Kept in .text after the file command table.
-#pragma define_section ARCHIVE_TEXT ".text"                                                                                 \
-                               ".bss" abs32 RWX
+#pragma define_section ARCHIVE_TEXT ".text"                                                                            \
+                                    ".bss" abs32 RWX
 #pragma section ARCHIVE_TEXT begin
 
 u32 fsi_def_digest_key[16] = {

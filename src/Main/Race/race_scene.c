@@ -54,8 +54,19 @@
 #include "Main/Scene/display_settings_descs.h"
 #include "Main/System/init_after_startup.h"
 
-void *gRaceDisplaySettingsDescs[7] = {(void *) gRaceDisplaySettingsDescNormal, (void *) gRaceDisplaySettingsDescNormal, (void *) gRaceDisplaySettingsDescNormal, (void *) gRaceDisplaySettingsDescBitmap, (void *) gRaceDisplaySettingsDescNormal, (void *) gRaceDisplaySettingsDescBitmap, (void *) gRaceDisplaySettingsDescNormal};
-SceneCallbacks gRaceSceneCallbacks = {InitRaceScene, UpdateRaceScene, ReleaseRaceScene, AdvanceDispCapAndUploadRaceHud, PreSleepRaceScene, PostSleepRaceScene, 0x1e, 0x1e, 0};
+void *gRaceDisplaySettingsDescs[7] = {(void *) gRaceDisplaySettingsDescNormal, (void *) gRaceDisplaySettingsDescNormal,
+                                      (void *) gRaceDisplaySettingsDescNormal, (void *) gRaceDisplaySettingsDescBitmap,
+                                      (void *) gRaceDisplaySettingsDescNormal, (void *) gRaceDisplaySettingsDescBitmap,
+                                      (void *) gRaceDisplaySettingsDescNormal};
+SceneCallbacks gRaceSceneCallbacks = {InitRaceScene,
+                                      UpdateRaceScene,
+                                      ReleaseRaceScene,
+                                      AdvanceDispCapAndUploadRaceHud,
+                                      PreSleepRaceScene,
+                                      PostSleepRaceScene,
+                                      0x1e,
+                                      0x1e,
+                                      0};
 
 static inline u32 IsSlot8PairPresentOrRecentlyLost(void) {
     InputSlotIndex slotIndex = UNK_02175628_INDEX_8;

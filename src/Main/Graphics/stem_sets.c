@@ -37,7 +37,9 @@
 #include "Main/Graphics/emitters.h"
 #include "Main/Graphics/stem_names.h"
 
-const StemSetParams gCountStartStems[3] = {{1, 1, 1, 2, {gStemNameCount, gStemNameCountD}}, {1, 1, 1, 0, {gStemNameStart, NULL}}, {0, 0, 0, 0, {gStemNameEmpty, NULL}}};
+const StemSetParams gCountStartStems[3] = {{1, 1, 1, 2, {gStemNameCount, gStemNameCountD}},
+                                           {1, 1, 1, 0, {gStemNameStart, NULL}},
+                                           {0, 0, 0, 0, {gStemNameEmpty, NULL}}};
 
 const u16 gTimedQuadVertices[12] = {0xf000, 0x1000, 0, 0xf000, 0xf000, 0, 0x1000, 0xf000, 0, 0x1000, 0x1000, 0};
 void (*const gTimedQuadUpdateFunctions[1])(TimedQuad *a) = {UpdateTimedQuad};

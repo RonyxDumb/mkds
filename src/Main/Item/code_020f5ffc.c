@@ -69,10 +69,48 @@
 const ItemInfo gItemInfoKouraG = {1, 1, 0, 1, 0, 1, NULL};
 const ItemInfo gItemInfoKouraRThree = {1, 0, 1, 3, 0, 4, NULL};
 
-const ItemKind gItemKindKouraG = {
-    0x188, 8, 0x20, -1, -1, {0}, NULL, NULL, NULL, (s32 (*)(void *, void *)) InitItemKouraG, (void (*)(ItemObject *)) AdvanceItemKouraG, NULL, ComputeViewTest, NULL, NULL, NULL,
-    0, 0, (void *(*)(void *, void *, s32)) CopyItemKouraGData, 0, (void (*)(void *)) InitItemKouraGFromData, 0, 0, 0x4b0000, 2, 0x319a, 0x6000, 0x2e66, 0x1000, 0x1ccd, 0x29, 0xa4,
-    1, 1, 1, {0}, 3, 0xd6, 0xd9, 1, 1, 0};
+const ItemKind gItemKindKouraG = {0x188,
+                                  8,
+                                  0x20,
+                                  -1,
+                                  -1,
+                                  {0},
+                                  NULL,
+                                  NULL,
+                                  NULL,
+                                  (s32(*)(void *, void *)) InitItemKouraG,
+                                  (void (*)(ItemObject *)) AdvanceItemKouraG,
+                                  NULL,
+                                  ComputeViewTest,
+                                  NULL,
+                                  NULL,
+                                  NULL,
+                                  0,
+                                  0,
+                                  (void *(*) (void *, void *, s32)) CopyItemKouraGData,
+                                  0,
+                                  (void (*)(void *)) InitItemKouraGFromData,
+                                  0,
+                                  0,
+                                  0x4b0000,
+                                  2,
+                                  0x319a,
+                                  0x6000,
+                                  0x2e66,
+                                  0x1000,
+                                  0x1ccd,
+                                  0x29,
+                                  0xa4,
+                                  1,
+                                  1,
+                                  1,
+                                  {0},
+                                  3,
+                                  0xd6,
+                                  0xd9,
+                                  1,
+                                  1,
+                                  0};
 
 void StartItemKouraGSound(void *kouraParam, s32 unused) {
     ItemKouraG *koura;

@@ -4,7 +4,8 @@
 
 typedef struct SOCHostEnt SOCHostEnt;
 
-// Entry of the list behind gServerReqs, appended by AddRequestCallback; the function at 0x18 takes the arguments of the entry's type.
+// Entry of the list behind gServerReqs, appended by AddRequestCallback; the function at 0x18 takes the arguments of the
+// entry's type.
 typedef union ServerReqCallback {
     void (*mAuthCallback)(u32 a, u32 b, s32 c, const u8 *d, u32 e);
     void (*mDataCallback)(u32 a, u32 b, u32 c, u32 d, s32 e, s32 f, const u8 *g, s32 h, u32 i);

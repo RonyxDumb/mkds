@@ -5,7 +5,24 @@
 #include "00/unk_021b0000.h"
 #include "code_0214d018.h"
 
-const SOCConfig gAcSocConfig = {{0, 0, 0, 1}, NULL, NULL, 1, 0, 0, 0, 0, 0, 0x1000, 0x1000, 0, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, "NINTENDO-DS", 4, 0, 0};
+const SOCConfig gAcSocConfig = {{0, 0, 0, 1},
+                                NULL,
+                                NULL,
+                                1,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0x1000,
+                                0x1000,
+                                0,
+                                0,
+                                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                "NINTENDO-DS",
+                                4,
+                                0,
+                                0};
 
 void MakeSOCConfig(const SocketAllocPair *hold, ACWORK *work, SOCConfig *config) {
     DWCMemPage *info;

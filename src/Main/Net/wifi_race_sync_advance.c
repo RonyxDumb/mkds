@@ -53,8 +53,14 @@
 #include "Main/Save/ghost_record_file.h"
 #include "Main/System/init_after_startup.h"
 
-const EloChangeRow gEloChangeTable[9] = {{0x3e8, 8, 0}, {0x1f4, 7, -1}, {0xfa, 6, -2}, {0x64, 5, -3}, {-100, 4, -4}, {-250, 3, -5}, {-500, 2, -6}, {-1000, 1, -7}, {-30000, 0, -8}};
-StateCallbacks gWiFiRaceSyncStateTable[6] = {{NULL, NULL}, {EnterWiFiRaceSyncState1, UpdateWiFiRaceSyncState1}, {EnterWiFiRaceSyncState2, UpdateWiFiRaceSyncState2}, {EnterWiFiRaceSyncState3, UpdateWiFiRaceSyncState3}, {EnterWiFiRaceSyncState4, UpdateWiFiRaceSyncState4}, {EnterWiFiRaceSyncState5, UpdateWiFiRaceSyncState5}};
+const EloChangeRow gEloChangeTable[9] = {{0x3e8, 8, 0}, {0x1f4, 7, -1}, {0xfa, 6, -2},  {0x64, 5, -3},  {-100, 4, -4},
+                                         {-250, 3, -5}, {-500, 2, -6},  {-1000, 1, -7}, {-30000, 0, -8}};
+StateCallbacks gWiFiRaceSyncStateTable[6] = {{NULL, NULL},
+                                             {EnterWiFiRaceSyncState1, UpdateWiFiRaceSyncState1},
+                                             {EnterWiFiRaceSyncState2, UpdateWiFiRaceSyncState2},
+                                             {EnterWiFiRaceSyncState3, UpdateWiFiRaceSyncState3},
+                                             {EnterWiFiRaceSyncState4, UpdateWiFiRaceSyncState4},
+                                             {EnterWiFiRaceSyncState5, UpdateWiFiRaceSyncState5}};
 
 void ResetParticipantKartMap(void) {
     s32 index;

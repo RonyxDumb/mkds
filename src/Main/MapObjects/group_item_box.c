@@ -33,8 +33,33 @@
 #include "Main/MapObjects/mkd_ef_bubble_kind_descriptor.h"
 
 const u16 gGroupItemBoxEntryFlag = 0x20;
-const MapObjectList gGroupItemBoxUpdateListData = {NULL, 0, {0, 0}, (void (*)(MapObjectList *)) InitGroupItemBoxObjects, (void (*)(MapObjectList *)) UpdateGroupItemBoxHeightOffset, UpdateGroupItemBox, NULL, 0, NULL, 0, NULL};
-const MapObjectKindData gGroupItemBoxKindData = {(s32 (*)(MapObject *, void *, s32 *, s32 *)) CollideKartWithItemBox, NULL, 1, 0xf000, 0, 0, NULL, 0, 2, 0, 0, 0, 0, 0, 0, 0};
+const MapObjectList gGroupItemBoxUpdateListData = {NULL,
+                                                   0,
+                                                   {0, 0},
+                                                   (void (*)(MapObjectList *)) InitGroupItemBoxObjects,
+                                                   (void (*)(MapObjectList *)) UpdateGroupItemBoxHeightOffset,
+                                                   UpdateGroupItemBox,
+                                                   NULL,
+                                                   0,
+                                                   NULL,
+                                                   0,
+                                                   NULL};
+const MapObjectKindData gGroupItemBoxKindData = {(s32(*)(MapObject *, void *, s32 *, s32 *)) CollideKartWithItemBox,
+                                                 NULL,
+                                                 1,
+                                                 0xf000,
+                                                 0,
+                                                 0,
+                                                 NULL,
+                                                 0,
+                                                 2,
+                                                 0,
+                                                 0,
+                                                 0,
+                                                 0,
+                                                 0,
+                                                 0,
+                                                 0};
 u16 gGroupItemBoxHeightAngle;
 MapObjectList *gGroupItemBoxUpdateList;
 s32 gGroupItemBoxHeightOffset;

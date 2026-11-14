@@ -10,9 +10,9 @@ typedef struct NNSGfdVramTransferTask {
     /* 0c */ u32 mSzByte;
 } NNSGfdVramTransferTask;
 
-// Object at s_VramTransferManager: a pointer to an array of NNSGfdVramTransferTask, its length at 04, two indices at 08 and 0a
-// that GetNextIndex_ advances modulo the length, and a count at 0c (IsVramTransferTaskQueueFull_ compares it with the
-// length, IsVramTransferTaskQueueEmpty_ tests it for zero).
+// Object at s_VramTransferManager: a pointer to an array of NNSGfdVramTransferTask, its length at 04, two indices at 08
+// and 0a that GetNextIndex_ advances modulo the length, and a count at 0c (IsVramTransferTaskQueueFull_ compares it
+// with the length, IsVramTransferTaskQueueEmpty_ tests it for zero).
 typedef struct NNSGfdVramTransferTaskQueue {
     /* 00 */ NNSGfdVramTransferTask *mPTaskArray;
     /* 04 */ u32 mLengthOfArray;

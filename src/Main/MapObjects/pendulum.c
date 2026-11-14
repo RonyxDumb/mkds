@@ -45,9 +45,22 @@
 
 #pragma thumb on
 
-const MapObjectDrawList gPendulumDrawListData = {{NULL, 0, {0, 0}, (void (*)(MapObjectList *)) CreatePendulumAndPendulumShadow, NULL, DrawPendulum, NULL, 1, NULL, 0, NULL}, 0};
+const MapObjectDrawList gPendulumDrawListData = {{NULL,
+                                                  0,
+                                                  {0, 0},
+                                                  (void (*)(MapObjectList *)) CreatePendulumAndPendulumShadow,
+                                                  NULL,
+                                                  DrawPendulum,
+                                                  NULL,
+                                                  1,
+                                                  NULL,
+                                                  0,
+                                                  NULL},
+                                                 0};
 const MapObjectList gPendulumUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, UpdatePendulum, NULL, 0, NULL, 0, NULL};
-const MapObjectKindData gPendulumKindData = {NULL, NULL, 5, 0x70000, 0, 0, (s32 (*)(MapObject *, Vec3 *, s32, Vec3 *)) ComputeSphereHitOnPendulum, 1, 1, 0x174, 0, 0, 0, 0, 0, 0};
+const MapObjectKindData gPendulumKindData = {
+    NULL, NULL, 5, 0x70000, 0, 0, (s32(*)(MapObject *, Vec3 *, s32, Vec3 *)) ComputeSphereHitOnPendulum, 1, 1, 0x174,
+    0,    0,    0, 0,       0, 0};
 MapObjectList *gPendulumUpdateList;
 MapObjectList *gObPakkunSfUpdateList;
 MapObjectDrawList *gObPakkunSfDrawList;
@@ -270,7 +283,8 @@ void CreatePendulumAndPendulumShadow(void) {
 void InitPendulum(PendulumObject *pendulum, CourseMapRow *courseRow) {
     s32 amplitudeSetting;
 
-    pendulum->mMapObject.mExtent.y = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mKindData->mExtentY, courseRow->mScale.z);
+    pendulum->mMapObject.mExtent.y =
+        MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mKindData->mExtentY, courseRow->mScale.z);
     QuaternionFromVec3Degrees(&courseRow->mRotationDegrees, &pendulum->mRotationQuaternion);
     pendulum->mShadowMatrix = pendulum->mMapObject.mMatrix.mAxes;
     pendulum->mCourseRowDistance = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mScale.y, 0x1f4000);

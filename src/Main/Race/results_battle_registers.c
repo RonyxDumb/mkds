@@ -129,7 +129,22 @@ char gResultsBattleVsRedNcgrName[] = "results_battle_VS_m.nce.ncgr";
 char gResultsBattleLoseBNcgrName[] = "results_battle_lose_m_b.NCGR";
 char gResultsBattleVsBlueONclrName[] = "results_battle_VS_m_o.NCLR";
 char gResultsBattleVsBlueBnclName[] = "Results_battle_VS_m.bncl";
-const ResultsBattleVictoryFileNames gResultsBattleVictoryFileNames[5] = {{gResultsBattleVictoryBNcgrName, gResultsBattleVictoryBNclrName, gResultsBattleVictoryUpperNscrName, gResultsBattleVictoryLowerNscrName, gResultsBattleVictoryNcgrName, gResultsBattleVictoryNcerName, gResultsBattleVictoryONclrName, gResultsBattleVictoryBnclName, gResultsBattleVictoryBnllName}, {gResultsBattleLoseBNcgrName, gResultsBattleLoseBNclrName, gResultsBattleLoseUpperNscrName, gResultsBattleLoseLowerNscrName, gResultsBattleLoseNcgrName, gResultsBattleLoseNcerName, gResultsBattleLoseONclrName, gResultsBattleLoseBnclName, gResultsBattleLoseBnllName}, {gResultsBattleDrawBNcgrName, gResultsBattleDrawBNclrName, gResultsBattleDrawUpperNscrName, gResultsBattleDrawLowerNscrName, gResultsBattleDrawNcgrName, gResultsBattleDrawNcerName, gResultsBattleDrawONclrName, gResultsBattleDrawBnclName, NULL}, {gResultsBattleVsBlueBNcgrName, gResultsBattleVsBlueBNclrName, gResultsBattleVsBlueUpperNscrName, gResultsBattleVsBlueLowerNscrName, gResultsBattleVsBlueNcgrName, gResultsBattleVsBlueNcerName, gResultsBattleVsBlueONclrName, gResultsBattleVsBlueBnclName, NULL}, {gResultsBattleVsRedBNcgrName, gResultsBattleVsRedBNclrName, gResultsBattleVsRedUpperNscrName, gResultsBattleVsRedLowerNscrName, gResultsBattleVsRedNcgrName, gResultsBattleVsRedNcerName, gResultsBattleVsRedONclrName, gResultsBattleVsRedBnclName, NULL}};
+const ResultsBattleVictoryFileNames gResultsBattleVictoryFileNames[5] = {
+    {gResultsBattleVictoryBNcgrName, gResultsBattleVictoryBNclrName, gResultsBattleVictoryUpperNscrName,
+     gResultsBattleVictoryLowerNscrName, gResultsBattleVictoryNcgrName, gResultsBattleVictoryNcerName,
+     gResultsBattleVictoryONclrName, gResultsBattleVictoryBnclName, gResultsBattleVictoryBnllName},
+    {gResultsBattleLoseBNcgrName, gResultsBattleLoseBNclrName, gResultsBattleLoseUpperNscrName,
+     gResultsBattleLoseLowerNscrName, gResultsBattleLoseNcgrName, gResultsBattleLoseNcerName,
+     gResultsBattleLoseONclrName, gResultsBattleLoseBnclName, gResultsBattleLoseBnllName},
+    {gResultsBattleDrawBNcgrName, gResultsBattleDrawBNclrName, gResultsBattleDrawUpperNscrName,
+     gResultsBattleDrawLowerNscrName, gResultsBattleDrawNcgrName, gResultsBattleDrawNcerName,
+     gResultsBattleDrawONclrName, gResultsBattleDrawBnclName, NULL},
+    {gResultsBattleVsBlueBNcgrName, gResultsBattleVsBlueBNclrName, gResultsBattleVsBlueUpperNscrName,
+     gResultsBattleVsBlueLowerNscrName, gResultsBattleVsBlueNcgrName, gResultsBattleVsBlueNcerName,
+     gResultsBattleVsBlueONclrName, gResultsBattleVsBlueBnclName, NULL},
+    {gResultsBattleVsRedBNcgrName, gResultsBattleVsRedBNclrName, gResultsBattleVsRedUpperNscrName,
+     gResultsBattleVsRedLowerNscrName, gResultsBattleVsRedNcgrName, gResultsBattleVsRedNcerName,
+     gResultsBattleVsRedONclrName, gResultsBattleVsRedBnclName, NULL}};
 ResultsBattle *gResultsBattle;
 
 // Reads the table of gCupRecords, a row chosen by one call and a column by another.

@@ -46,11 +46,20 @@
 #include "Main/Sound/sound_system.h"
 #include "Main/System/init_after_startup.h"
 
-const u8 gTxtSystemCanvasSizes[8][2] = {{0x16, 0xb}, {0x16, 7}, {0x16, 0xb}, {0x16, 7}, {0x16, 2}, {9, 2}, {9, 2}, {0, 0}};
+const u8 gTxtSystemCanvasSizes[8][2] = {{0x16, 0xb}, {0x16, 7}, {0x16, 0xb}, {0x16, 7},
+                                        {0x16, 2},   {9, 2},    {9, 2},      {0, 0}};
 const s16 gTxtSystemBgOffsets[2] = {0xa0, -176};
 const u16 gTxtSystemCanvasCharOffsets[8] = {4, 4, 4, 4, 9, 9, 0x1b, 0};
-const ByteRect gTxtSystemNscrRects[7] = {{3, 0x1c, 2, 0xe}, {3, 0x1c, 4, 0xc}, {4, 0x1b, 0x10, 0x13}, {3, 0x1c, 0x10, 0x13}, {0x17, 0x1b, 0x10, 0x13}, {0x17, 0x1b, 0x10, 0x13}, {0x17, 0x1b, 0x10, 0x13}};
-const ByteRect gTxtSystemHitRects[7] = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0x20, 0xe0, 0x80, 0xa0}, {0x18, 0x70, 0x80, 0xa0}, {0x90, 0xe8, 0x80, 0xa0}};
+const ByteRect gTxtSystemNscrRects[7] = {{3, 0x1c, 2, 0xe},       {3, 0x1c, 4, 0xc},        {4, 0x1b, 0x10, 0x13},
+                                         {3, 0x1c, 0x10, 0x13},   {0x17, 0x1b, 0x10, 0x13}, {0x17, 0x1b, 0x10, 0x13},
+                                         {0x17, 0x1b, 0x10, 0x13}};
+const ByteRect gTxtSystemHitRects[7] = {{0, 0, 0, 0},
+                                        {0, 0, 0, 0},
+                                        {0, 0, 0, 0},
+                                        {0, 0, 0, 0},
+                                        {0x20, 0xe0, 0x80, 0xa0},
+                                        {0x18, 0x70, 0x80, 0xa0},
+                                        {0x90, 0xe8, 0x80, 0xa0}};
 TxtSystem *gTxtSystem;
 
 #pragma thumb on
@@ -159,7 +168,8 @@ void InitTxtSystemDisplay(void) {
     subDisplayBits = (reg_GXS_DB_DISPCNT & REG_GXS_DB_DISPCNT_DISPLAY_MASK) >> 8;
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | ((subDisplayBits | 1) << 8);
     reg_G2S_DB_BG0CNT &= ~REG_G2S_DB_BG0CNT_PRIORITY_MASK;
-    reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & (REG_G2S_DB_BG0CNT_PRIORITY_MASK | REG_G2S_DB_BG0CNT_MOSAIC_MASK)) | 0x8b00;
+    reg_G2S_DB_BG0CNT =
+        (reg_G2S_DB_BG0CNT & (REG_G2S_DB_BG0CNT_PRIORITY_MASK | REG_G2S_DB_BG0CNT_MOSAIC_MASK)) | 0x8b00;
 }
 
 static inline void FillScreenBuffer(void *dst, u16 value) {

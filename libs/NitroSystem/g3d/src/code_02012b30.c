@@ -18,8 +18,10 @@
 
 u32 gPrjMapTexImageParamCommand[2] = {0x2a, 0};
 u32 gEnvMapTexImageParamCommand[2] = {0x2a, 0};
-void (*NNS_G3dFuncSbcMatTable[4])(NNSG3dRS *, u32, void *, u32) = {(void (*)(NNSG3dRS *, u32, void *, u32)) NNSi_G3dFuncSbc_MAT_InternalDefault, NULL, NULL, NULL};
-void (*NNS_G3dFuncSbcShpTable[4])(NNSG3dRS *, u32, void *, u32) = {(void (*)(NNSG3dRS *, u32, void *, u32)) NNSi_G3dFuncSbc_SHP_InternalDefault, NULL, NULL, NULL};
+void (*NNS_G3dFuncSbcMatTable[4])(NNSG3dRS *, u32, void *, u32) = {
+    (void (*)(NNSG3dRS *, u32, void *, u32)) NNSi_G3dFuncSbc_MAT_InternalDefault, NULL, NULL, NULL};
+void (*NNS_G3dFuncSbcShpTable[4])(NNSG3dRS *, u32, void *, u32) = {
+    (void (*)(NNSG3dRS *, u32, void *, u32)) NNSi_G3dFuncSbc_SHP_InternalDefault, NULL, NULL, NULL};
 s32 gPrjMapTextureMtx[16] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x10000, 0, 0, 0, 0, 0x10000};
 
 // Returns the texture block of a model or texture file, or NULL when the file has none.

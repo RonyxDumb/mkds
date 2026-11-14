@@ -47,7 +47,8 @@
 #include "Main/Menu/menu_shared_clear.h"
 #include "Main/Scene/display_settings_descs.h"
 
-GhostSceneCallbacks *gGhostSceneCallbacks[3] = {&gTimeAttackGhostSendCallbacks, &gTimeAttackGhostGetScanCallbacks, &gTimeAttackGhostGetSlotCallbacks};
+GhostSceneCallbacks *gGhostSceneCallbacks[3] = {&gTimeAttackGhostSendCallbacks, &gTimeAttackGhostGetScanCallbacks,
+                                                &gTimeAttackGhostGetSlotCallbacks};
 GhostScene *gGhostScene;
 
 #pragma thumb on

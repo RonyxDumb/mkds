@@ -40,7 +40,8 @@
 #include "tp.h"
 #include "Main/Scene/scene_run_forever.h"
 
-SceneCallbacks gRecordSceneCallbacks = {InitRecordScene, UpdateRecordScene, ReleaseRecordScene, WriteRecordSceneRegistersCallback, NULL, NULL, 0xa, 0xa, 0};
+SceneCallbacks gRecordSceneCallbacks = {
+    InitRecordScene, UpdateRecordScene, ReleaseRecordScene, WriteRecordSceneRegistersCallback, NULL, NULL, 0xa, 0xa, 0};
 DispCap *gDispCap;
 
 #pragma thumb on

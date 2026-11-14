@@ -11,8 +11,8 @@ void QueueSelectCupNameM(u32 nameIndex, NNSG2dCellDataBank *cells, LayoutEntryTa
                          u32 queueSelector);
 void CreateSelectCupNameM(void *heap);
 void LoadSelectCupNameMData(void);
-void QueueCupMark(u32 cupMarkIndex, NNSG2dCellDataBank *cells, LayoutEntryTable *cellLayout, u32 destIndex, u16 paletteSlot,
-                  s32 queueSelector);
+void QueueCupMark(u32 cupMarkIndex, NNSG2dCellDataBank *cells, LayoutEntryTable *cellLayout, u32 destIndex,
+                  u16 paletteSlot, s32 queueSelector);
 void ClearCupMarkPointer(void);
 
 void ClearSelectCupNameMPointer(void);

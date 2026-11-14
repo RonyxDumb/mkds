@@ -161,7 +161,8 @@ char gArchiveSlotPathDataMain2DCarc[] = "/data/Main2D.carc";
 char gArchiveSlotPathDataMainRaceCarc[] = "/data/MainRace.carc";
 char gArchiveSlotPathDataMainEffectCarc[] = "/data/MainEffect.carc";
 char gArchiveSlotPathDataGeneralMenuCarc[] = "/data/GeneralMenu.carc";
-const char *gModeArchiveNames[6] = {gModeArchiveNameGp, gModeArchiveNameTa, gModeArchiveNameMg, gModeArchiveNameVs, gModeArchiveNameMr, gModeArchiveNameNt};
+const char *gModeArchiveNames[6] = {gModeArchiveNameGp, gModeArchiveNameTa, gModeArchiveNameMg,
+                                    gModeArchiveNameVs, gModeArchiveNameMr, gModeArchiveNameNt};
 char gArchiveSlotPathDataKartModelMenuCarc[] = "/data/KartModelMenu.carc";
 char gArchiveSlotPathDataCharacterKartSelect[] = "/data/CharacterKartSelect";
 char gArchiveSlotPathDataKartModelMainACarc[] = "/data/KartModelMainA.carc";
@@ -276,8 +277,12 @@ const ArchiveSlotInfo gArchiveSlotInfos[21] = {
 };
 
 char gArchiveSlotPathDataKartModelSubCarc[] = "/data/KartModelSub.carc";
-const char *gLanguageCodes[7] = {gLanguageCodeJa, gLanguageCodeUs1, gLanguageCodeFr, gLanguageCodeGe, gLanguageCodeIt, gLanguageCodeEs, gLanguageCodeUs6};
-const char *gArchiveNames[20] = {gArchiveNameMAR, gArchiveNameMA2, gArchiveNameM2L, gArchiveNameCRS, gArchiveNameSND, gArchiveNameK2D, gArchiveNameKM1, gArchiveNameKM2, gArchiveNameKSB, gArchiveNameLOC, gArchiveNameKME, gArchiveNameR2D, gArchiveNameR2L, gArchiveNameCST, gArchiveNameCKS, gArchiveNameCKL, gArchiveNameGE2, gArchiveNameG2L, gArchiveNameEFT, gArchiveNameS2D};
+const char *gLanguageCodes[7] = {gLanguageCodeJa, gLanguageCodeUs1, gLanguageCodeFr, gLanguageCodeGe,
+                                 gLanguageCodeIt, gLanguageCodeEs,  gLanguageCodeUs6};
+const char *gArchiveNames[20] = {gArchiveNameMAR, gArchiveNameMA2, gArchiveNameM2L, gArchiveNameCRS, gArchiveNameSND,
+                                 gArchiveNameK2D, gArchiveNameKM1, gArchiveNameKM2, gArchiveNameKSB, gArchiveNameLOC,
+                                 gArchiveNameKME, gArchiveNameR2D, gArchiveNameR2L, gArchiveNameCST, gArchiveNameCKS,
+                                 gArchiveNameCKL, gArchiveNameGE2, gArchiveNameG2L, gArchiveNameEFT, gArchiveNameS2D};
 
 #pragma thumb on
 

@@ -141,6 +141,7 @@ void NNS_GfdResetLnkTexVramState(void) {
         NNSi_GfdAddNewFreeBlock(&gTexVramManager.mMgrNrm, &gTexVramManager.mBlockList, 0x60000, banks[3].mSzNrm);
     }
     if (banks[1].mSzNrm != 0) {
-        NNSi_GfdAddNewFreeBlock(&gTexVramManager.mMgrNrm, &gTexVramManager.mBlockList, indexSize + 0x20000, banks[1].mSzNrm);
+        NNSi_GfdAddNewFreeBlock(&gTexVramManager.mMgrNrm, &gTexVramManager.mBlockList, indexSize + 0x20000,
+                                banks[1].mSzNrm);
     }
 }

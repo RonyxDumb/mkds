@@ -34,7 +34,10 @@
 #include "Main/Menu/select_race_rule_state.h"
 #include "Main/Scene/display_settings_descs.h"
 
-struct WLMenuCallbacks *gWLMenuCallbacks[8] = {&gMultiSelectMemberGroupCallbacks, &gMultiSelectNSCallbacks, &gMemberKeyStartCallbacks, &gMemberNoKeyStartCallbacks, &gWLMenuMBChildMessageCallbacks, &gWLMenuMessageToRaceCallbacks, &gWLMenuMessageToResultCallbacks, &gWLMenuMessageToMenuCallbacks};
+struct WLMenuCallbacks *gWLMenuCallbacks[8] = {&gMultiSelectMemberGroupCallbacks, &gMultiSelectNSCallbacks,
+                                               &gMemberKeyStartCallbacks,         &gMemberNoKeyStartCallbacks,
+                                               &gWLMenuMBChildMessageCallbacks,   &gWLMenuMessageToRaceCallbacks,
+                                               &gWLMenuMessageToResultCallbacks,  &gWLMenuMessageToMenuCallbacks};
 struct WLMenuScene *gWLMenuScene;
 
 void WLMenuGX_SetOBJVRamModeChar(u32 bits) {

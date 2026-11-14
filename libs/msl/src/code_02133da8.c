@@ -4,7 +4,8 @@
 #include "code_021423e4.h"
 
 // clang-format off
-// Clears the floating-point status word (GetFloatStatus) and the five words from offset 4 of the block GetFloatTrapTable
+// Clears the floating-point status word (GetFloatStatus) and the five words from offset 4 of the block
+// GetFloatTrapTable
 // returns.
 // Hand-written asm: it saves lr alone with `stmdb sp!, {lr}`, a 4-byte frame with no padding word.
 asm void _fp_init(void) {
@@ -23,7 +24,8 @@ asm void _fp_init(void) {
     bx lr
 }
 
-// Updates the floating-point status word: clears the bits in clearMask, then flips the bits in xorMask; returns the old value.
+// Updates the floating-point status word: clears the bits in clearMask, then flips the bits in xorMask; returns the old
+// value.
 // Hand-written asm: it saves r0-r2, ip and lr around its call, inside the body (a 20-byte frame).
 asm u32 FloatStatusClearXor(u32 clearMask, u32 xorMask) {
     stmfd sp!, {r0, r1, r2, ip, lr}
@@ -38,7 +40,8 @@ asm u32 FloatStatusClearXor(u32 clearMask, u32 xorMask) {
     bx lr
 }
 
-// Like FloatStatusClearXor, for the flag bits only: clearFlags and xorFlags hold flags in bits 0-4 and trap enables in bits 16-20, which are
+// Like FloatStatusClearXor, for the flag bits only: clearFlags and xorFlags hold flags in bits 0-4 and trap enables in
+// bits 16-20, which are
 // moved down to bits 8-12 first. Returns the old flags (bits 0-4), the old trap enables moved up to bits 16-20, and bit
 // 30 set.
 // Hand-written asm: it saves r0-r2, ip and lr around its call, inside the body.

@@ -135,7 +135,8 @@ s8 *gti2GetResponse(s8 *buffer, const s8 *challenge) {
             challengeIndex =
                 (gGt2ChallengeKey[(index + (u8) challenge[index]) % secretLen] + index * (u8) challenge[index]) % 0x20;
             buffer[index] =
-                (s32) Abs((u8) challenge[challengeIndex] ^ gGt2ChallengeKey[(prevByte * scaledIndex) % secretLen]) % 0x5d +
+                (s32) Abs((u8) challenge[challengeIndex] ^ gGt2ChallengeKey[(prevByte * scaledIndex) % secretLen]) %
+                    0x5d +
                 0x21;
         }
         scaledIndex += 0x4647;

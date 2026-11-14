@@ -29,8 +29,8 @@ void LoadWaitData(void) {
     LoadNclrData(palette, sceneFile);
 }
 
-void CreateWait(void *heap, NNSG2dCellDataBank *destinationNcer, LayoutEntryTable *destinationBncl, u32 destinationBnclIndex,
-                u16 paletteIndex, u32 queueSelector) {
+void CreateWait(void *heap, NNSG2dCellDataBank *destinationNcer, LayoutEntryTable *destinationBncl,
+                u32 destinationBnclIndex, u16 paletteIndex, u32 queueSelector) {
     Wait *wait;
     Wait *newWait;
     void *sceneFile;

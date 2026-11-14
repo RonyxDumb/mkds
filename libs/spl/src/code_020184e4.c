@@ -103,7 +103,8 @@ void SPLBehavior_ApplyGravity(const Vec3s16 *gravity, ParticleInstance *ptcl, Ve
     acc->z = acc->z + gravity->z;
 }
 
-void SPLBehavior_ApplyRandom(const ParticleBehaviorRandom *rng, ParticleInstance *ptcl, Vec3 *acc, ParticleEmitter *emtr) {
+void SPLBehavior_ApplyRandom(const ParticleBehaviorRandom *rng, ParticleInstance *ptcl, Vec3 *acc,
+                             ParticleEmitter *emtr) {
     if (ptcl->mAge % rng->mInterval != 0) {
         return;
     }
@@ -118,7 +119,8 @@ void SPLBehavior_ApplyRandom(const ParticleBehaviorRandom *rng, ParticleInstance
                        8);
 }
 
-void SPLBehavior_ApplyMagnet(const ParticleBehaviorPoint *magnet, ParticleInstance *ptcl, Vec3 *acc, ParticleEmitter *emtr) {
+void SPLBehavior_ApplyMagnet(const ParticleBehaviorPoint *magnet, ParticleInstance *ptcl, Vec3 *acc,
+                             ParticleEmitter *emtr) {
     acc->x = acc->x + ((magnet->mFactor * (magnet->mPoint.x - ptcl->mOffset.x - ptcl->mVelocity.x)) >> 12);
     acc->y = acc->y + ((magnet->mFactor * (magnet->mPoint.y - ptcl->mOffset.y - ptcl->mVelocity.y)) >> 12);
     acc->z = acc->z + ((magnet->mFactor * (magnet->mPoint.z - ptcl->mOffset.z - ptcl->mVelocity.z)) >> 12);
@@ -180,7 +182,8 @@ void SPLBehavior_ApplyCollisionPlane(const ParticleBehaviorCollisionPlane *plane
     }
 }
 
-void SPLBehavior_ApplyConvergence(const ParticleBehaviorPoint *conv, ParticleInstance *ptcl, Vec3 *acc, ParticleEmitter *emtr) {
+void SPLBehavior_ApplyConvergence(const ParticleBehaviorPoint *conv, ParticleInstance *ptcl, Vec3 *acc,
+                                  ParticleEmitter *emtr) {
     ptcl->mOffset.x = ptcl->mOffset.x + MUL_FIXED12_ROUNDED(conv->mFactor, conv->mPoint.x - ptcl->mOffset.x);
     ptcl->mOffset.y = ptcl->mOffset.y + MUL_FIXED12_ROUNDED(conv->mFactor, conv->mPoint.y - ptcl->mOffset.y);
     ptcl->mOffset.z = ptcl->mOffset.z + MUL_FIXED12_ROUNDED(conv->mFactor, conv->mPoint.z - ptcl->mOffset.z);
@@ -612,12 +615,12 @@ void SPLEmitter_EmitParticles(ParticleEmitter *emtr, ParticleList *list) {
                                                          MUL_FIXED12_ROUNDED(emtr->mDirection.z, axisSpeed));
             particle->mEmitterPosition = emtr->mPosition;
 
-            particle->mSize =
-                ((header->mSizeRandom + 0xff -
-                  ((header->mSizeRandom * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 24)) >>
-                   7)) *
-                 emtr->mSizeScale) >>
-                8;
+            particle->mSize = ((header->mSizeRandom + 0xff -
+                                ((header->mSizeRandom *
+                                  (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 24)) >>
+                                 7)) *
+                               emtr->mSizeScale) >>
+                              8;
             particle->mScale = 0x1000;
 
             if (header->mFlags.mHasColorAnim && resource->mColorAnim->mRandomColor) {
@@ -717,21 +720,21 @@ void SPLEmitter_EmitChildren(ParticleInstance *ptcl, ParticleEmitter *emtr, Part
             SPLList_PushFront(&emtr->mChildParticles, child);
             childVec = &child->mEmitterPosition;
             child->mOffset = ptcl->mOffset;
-            child->mVelocity.x =
-                GetScaledParticleX(velocityScale, ptcl) +
-                ((childAnim->mVelocityRandom * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) -
-                  (childAnim->mVelocityRandom << 8)) >>
-                 8);
-            child->mVelocity.y =
-                GetScaledParticleY(velocityScale, ptcl) +
-                ((childAnim->mVelocityRandom * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) -
-                  (childAnim->mVelocityRandom << 8)) >>
-                 8);
-            child->mVelocity.z =
-                GetScaledParticleZ(velocityScale, ptcl) +
-                ((childAnim->mVelocityRandom * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) -
-                  (childAnim->mVelocityRandom << 8)) >>
-                 8);
+            child->mVelocity.x = GetScaledParticleX(velocityScale, ptcl) +
+                                 ((childAnim->mVelocityRandom *
+                                       (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) -
+                                   (childAnim->mVelocityRandom << 8)) >>
+                                  8);
+            child->mVelocity.y = GetScaledParticleY(velocityScale, ptcl) +
+                                 ((childAnim->mVelocityRandom *
+                                       (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) -
+                                   (childAnim->mVelocityRandom << 8)) >>
+                                  8);
+            child->mVelocity.z = GetScaledParticleZ(velocityScale, ptcl) +
+                                 ((childAnim->mVelocityRandom *
+                                       (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) -
+                                   (childAnim->mVelocityRandom << 8)) >>
+                                  8);
             *childVec = ptcl->mEmitterPosition;
             child->mSize = (((ptcl->mSize * ptcl->mScale) >> 12) * AddOneToChildValue(childAnim)) >> 6;
             child->mScale = 0x1000;
@@ -914,9 +917,12 @@ void SPLDraw_Billboard(SPLManager *mgr, ParticleInstance *ptcl) {
         reg_G3_MTX_IDENTITY = 0;
         G3_MultMtx43(&billboardMtx);
     } else {
-        viewPos.x = ptcl->mOffset.x + ptcl->mEmitterPosition.x - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.x;
-        viewPos.y = ptcl->mOffset.y + ptcl->mEmitterPosition.y - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.y;
-        viewPos.z = ptcl->mOffset.z + ptcl->mEmitterPosition.z - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.z;
+        viewPos.x = ptcl->mOffset.x + ptcl->mEmitterPosition.x -
+                    mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.x;
+        viewPos.y = ptcl->mOffset.y + ptcl->mEmitterPosition.y -
+                    mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.y;
+        viewPos.z = ptcl->mOffset.z + ptcl->mEmitterPosition.z -
+                    mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.z;
         MTX_MultVec43(&viewPos, viewMtx, &viewPos);
         sinAngle = FX_SinIdx(ptcl->mAngle);
         cosAngle = FX_CosIdx(ptcl->mAngle);
@@ -1009,9 +1015,12 @@ void SPLDraw_Child_Billboard(SPLManager *mgr, ParticleInstance *ptcl) {
         reg_G3_MTX_IDENTITY = 0;
         G3_MultMtx43(&billboardMtx);
     } else {
-        viewPos.x = ptcl->mOffset.x + ptcl->mEmitterPosition.x - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.x;
-        viewPos.y = ptcl->mOffset.y + ptcl->mEmitterPosition.y - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.y;
-        viewPos.z = ptcl->mOffset.z + ptcl->mEmitterPosition.z - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.z;
+        viewPos.x = ptcl->mOffset.x + ptcl->mEmitterPosition.x -
+                    mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.x;
+        viewPos.y = ptcl->mOffset.y + ptcl->mEmitterPosition.y -
+                    mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.y;
+        viewPos.z = ptcl->mOffset.z + ptcl->mEmitterPosition.z -
+                    mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.z;
         MTX_MultVec43(&viewPos, viewMtx, &viewPos);
         sinAngle = FX_SinIdx(ptcl->mAngle);
         cosAngle = FX_CosIdx(ptcl->mAngle);
@@ -1129,9 +1138,12 @@ void SPLDraw_DirectionalBillboard(SPLManager *mgr, ParticleInstance *ptcl) {
         reg_G3_MTX_IDENTITY = 0;
         G3_MultMtx43(&buf);
     } else {
-        pos.x = ptcl->mOffset.x + ptcl->mEmitterPosition.x - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.x;
-        pos.y = ptcl->mOffset.y + ptcl->mEmitterPosition.y - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.y;
-        pos.z = ptcl->mOffset.z + ptcl->mEmitterPosition.z - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.z;
+        pos.x = ptcl->mOffset.x + ptcl->mEmitterPosition.x -
+                mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.x;
+        pos.y = ptcl->mOffset.y + ptcl->mEmitterPosition.y -
+                mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.y;
+        pos.z = ptcl->mOffset.z + ptcl->mEmitterPosition.z -
+                mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.z;
         sideVec = ptcl->mVelocity;
         viewForward.x = viewMtx->mRows[0].z;
         viewForward.y = viewMtx->mRows[1].z;
@@ -1271,9 +1283,12 @@ void SPLDraw_Child_DirectionalBillboard(SPLManager *mgr, ParticleInstance *ptcl)
         reg_G3_MTX_IDENTITY = 0;
         G3_MultMtx43(&buf);
     } else {
-        pos.x = ptcl->mOffset.x + ptcl->mEmitterPosition.x - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.x;
-        pos.y = ptcl->mOffset.y + ptcl->mEmitterPosition.y - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.y;
-        pos.z = ptcl->mOffset.z + ptcl->mEmitterPosition.z - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.z;
+        pos.x = ptcl->mOffset.x + ptcl->mEmitterPosition.x -
+                mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.x;
+        pos.y = ptcl->mOffset.y + ptcl->mEmitterPosition.y -
+                mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.y;
+        pos.z = ptcl->mOffset.z + ptcl->mEmitterPosition.z -
+                mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.z;
         sideVec = ptcl->mVelocity;
         viewForward.x = viewMtx->mRows[0].z;
         viewForward.y = viewMtx->mRows[1].z;
@@ -1370,12 +1385,12 @@ void SPLDraw_Polygon(SPLManager *mgr, ParticleInstance *ptcl) {
         G3_LoadMtx43(mgr->mRenderStateViewMatrix);
         G3_MultMtx43(&worldMtx);
     } else {
-        worldMtx.mRows[3].x =
-            ptcl->mOffset.x + ptcl->mEmitterPosition.x - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.x;
-        worldMtx.mRows[3].y =
-            ptcl->mOffset.y + ptcl->mEmitterPosition.y - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.y;
-        worldMtx.mRows[3].z =
-            ptcl->mOffset.z + ptcl->mEmitterPosition.z - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.z;
+        worldMtx.mRows[3].x = ptcl->mOffset.x + ptcl->mEmitterPosition.x -
+                              mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.x;
+        worldMtx.mRows[3].y = ptcl->mOffset.y + ptcl->mEmitterPosition.y -
+                              mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.y;
+        worldMtx.mRows[3].z = ptcl->mOffset.z + ptcl->mEmitterPosition.z -
+                              mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.z;
         reg_G3_MTX_IDENTITY = 0;
         originZ = mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.z;
         originY = mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.y;
@@ -1393,7 +1408,8 @@ void SPLDraw_Polygon(SPLManager *mgr, ParticleInstance *ptcl) {
                           ((((particleColor & 0x7c00) * (emitterColor & 0x7c00)) >> 25) << 10));
     gSplPlaneDrawFunctions[mgr->mRenderStateEmitter->mResource->mHeader->mFlags.mPlaneKind](
         mgr->mRenderStateEmitter->mTexCoordU, mgr->mRenderStateEmitter->mTexCoordV,
-        mgr->mRenderStateEmitter->mResource->mHeader->mPlaneCenterX, mgr->mRenderStateEmitter->mResource->mHeader->mPlaneCenterY);
+        mgr->mRenderStateEmitter->mResource->mHeader->mPlaneCenterX,
+        mgr->mRenderStateEmitter->mResource->mHeader->mPlaneCenterY);
 }
 
 void SPLDraw_Child_Polygon(SPLManager *mgr, ParticleInstance *ptcl) {
@@ -1440,12 +1456,12 @@ void SPLDraw_Child_Polygon(SPLManager *mgr, ParticleInstance *ptcl) {
         G3_LoadMtx43(mgr->mRenderStateViewMatrix);
         G3_MultMtx43(&worldMtx);
     } else {
-        worldMtx.mRows[3].x =
-            ptcl->mOffset.x + ptcl->mEmitterPosition.x - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.x;
-        worldMtx.mRows[3].y =
-            ptcl->mOffset.y + ptcl->mEmitterPosition.y - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.y;
-        worldMtx.mRows[3].z =
-            ptcl->mOffset.z + ptcl->mEmitterPosition.z - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.z;
+        worldMtx.mRows[3].x = ptcl->mOffset.x + ptcl->mEmitterPosition.x -
+                              mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.x;
+        worldMtx.mRows[3].y = ptcl->mOffset.y + ptcl->mEmitterPosition.y -
+                              mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.y;
+        worldMtx.mRows[3].z = ptcl->mOffset.z + ptcl->mEmitterPosition.z -
+                              mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.z;
         reg_G3_MTX_IDENTITY = 0;
         originZ = mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.z;
         originY = mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.y;
@@ -1545,12 +1561,12 @@ void SPLDraw_DirectionalPolygon(SPLManager *mgr, ParticleInstance *ptcl) {
         G3_LoadMtx43(mgr->mRenderStateViewMatrix);
         G3_MultMtx43(&worldMtx);
     } else {
-        worldMtx.mRows[3].x =
-            ptcl->mOffset.x + ptcl->mEmitterPosition.x - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.x;
-        worldMtx.mRows[3].y =
-            ptcl->mOffset.y + ptcl->mEmitterPosition.y - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.y;
-        worldMtx.mRows[3].z =
-            ptcl->mOffset.z + ptcl->mEmitterPosition.z - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.z;
+        worldMtx.mRows[3].x = ptcl->mOffset.x + ptcl->mEmitterPosition.x -
+                              mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.x;
+        worldMtx.mRows[3].y = ptcl->mOffset.y + ptcl->mEmitterPosition.y -
+                              mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.y;
+        worldMtx.mRows[3].z = ptcl->mOffset.z + ptcl->mEmitterPosition.z -
+                              mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.z;
         reg_G3_MTX_IDENTITY = 0;
         originZ = mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.z;
         originY = mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.y;
@@ -1568,7 +1584,8 @@ void SPLDraw_DirectionalPolygon(SPLManager *mgr, ParticleInstance *ptcl) {
                           ((((particleColor & 0x7c00) * (emitterColor & 0x7c00)) >> 25) << 10));
     gSplPlaneDrawFunctions[mgr->mRenderStateEmitter->mResource->mHeader->mFlags.mPlaneKind](
         mgr->mRenderStateEmitter->mTexCoordU, mgr->mRenderStateEmitter->mTexCoordV,
-        mgr->mRenderStateEmitter->mResource->mHeader->mPlaneCenterX, mgr->mRenderStateEmitter->mResource->mHeader->mPlaneCenterY);
+        mgr->mRenderStateEmitter->mResource->mHeader->mPlaneCenterX,
+        mgr->mRenderStateEmitter->mResource->mHeader->mPlaneCenterY);
 }
 
 void SPLDraw_Child_DirectionalPolygon(SPLManager *mgr, ParticleInstance *ptcl) {
@@ -1651,12 +1668,12 @@ void SPLDraw_Child_DirectionalPolygon(SPLManager *mgr, ParticleInstance *ptcl) {
         G3_LoadMtx43(mgr->mRenderStateViewMatrix);
         G3_MultMtx43(&worldMtx);
     } else {
-        worldMtx.mRows[3].x =
-            ptcl->mOffset.x + ptcl->mEmitterPosition.x - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.x;
-        worldMtx.mRows[3].y =
-            ptcl->mOffset.y + ptcl->mEmitterPosition.y - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.y;
-        worldMtx.mRows[3].z =
-            ptcl->mOffset.z + ptcl->mEmitterPosition.z - mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.z;
+        worldMtx.mRows[3].x = ptcl->mOffset.x + ptcl->mEmitterPosition.x -
+                              mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.x;
+        worldMtx.mRows[3].y = ptcl->mOffset.y + ptcl->mEmitterPosition.y -
+                              mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.y;
+        worldMtx.mRows[3].z = ptcl->mOffset.z + ptcl->mEmitterPosition.z -
+                              mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.z;
         reg_G3_MTX_IDENTITY = 0;
         originZ = mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.z;
         originY = mgr->mRenderStateEmitter->mResource->mHeader->mPositionOffset.y;

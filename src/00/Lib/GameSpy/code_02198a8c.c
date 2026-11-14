@@ -530,7 +530,8 @@ u32 gti2HandleNack(Gt2Connection *connection, const u8 *message, s32 len) {
     num = DarrayGetCount(connection->mOutgoingBufferMessages);
     for (index = 0; index < num; index++) {
         sentEntry = DarrayGetElement(connection->mOutgoingBufferMessages, index);
-        if (gti2SNDiff(sentEntry->mSerialNumber, firstNumber) >= 0 && gti2SNDiff(sentEntry->mSerialNumber, lastNumber) <= 0) {
+        if (gti2SNDiff(sentEntry->mSerialNumber, firstNumber) >= 0 &&
+            gti2SNDiff(sentEntry->mSerialNumber, lastNumber) <= 0) {
             if (gti2ResendMessage(connection, sentEntry) == FALSE) {
                 return 0;
             }

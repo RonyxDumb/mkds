@@ -42,7 +42,8 @@ static inline const StemSetParams *GetCountStartStem(u32 setIndex) {
     return &gCountStartStems[setIndex];
 }
 
-// 12-byte entries of gCharacterNsbcaStems (mUnk_00 counts the rows): the animation file stem and whether the animation loops.
+// 12-byte entries of gCharacterNsbcaStems (mUnk_00 counts the rows): the animation file stem and whether the animation
+// loops.
 typedef struct CharacterAnimationRow {
     /* 00 */ s32 mUnk_00;
     /* 04 */ const char *mStem;

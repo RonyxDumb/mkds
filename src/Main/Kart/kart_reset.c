@@ -175,7 +175,8 @@ void ResetKartToRespawnPoint(Kart *kart) {
         forwardOffset = ((const s32 (*)[2]) &gKartRespawnOffsets[0][1])[kart->mIndex][0];
         Vec3CrossUnrounded(&gKartVec3UnitY, &respawnForward, &sideDirection);
         VEC_MultAdd(MUL_FIXED12_NO_ROUND(gKartRespawnOffsetScale, value), &sideDirection, &respawnPos, &respawnPos);
-        VEC_MultAdd(MUL_FIXED12_NO_ROUND(gKartRespawnOffsetScale, forwardOffset), &respawnForward, &respawnPos, &respawnPos);
+        VEC_MultAdd(MUL_FIXED12_NO_ROUND(gKartRespawnOffsetScale, forwardOffset), &respawnForward, &respawnPos,
+                    &respawnPos);
         if (respawnAngles.x != 0 && forwardOffset != 0) {
             sinValue = SIN_OF_ANGLE(DEG_TO_ANGLE_TRUNCATED(respawnAngles.x));
             index = (sinValue * -forwardOffset + 0x800) >> 12;
@@ -928,8 +929,8 @@ void RequestKartSound(void *kart, int soundId) {
     int sortKeyBase;
 
     sortKeyBase = GetKartCameraDistanceSquared(((Kart *) kart)->mIndex);
-    AddSoundRequest(&gSoundRequestQueues[3], sortKeyBase + GetKartSoundRequestSortOffset(), StartKartSoundWhileRequested, kart,
-                    soundId);
+    AddSoundRequest(&gSoundRequestQueues[3], sortKeyBase + GetKartSoundRequestSortOffset(),
+                    StartKartSoundWhileRequested, kart, soundId);
 }
 
 void StartKartSeqArcSoundOffset7(Kart *kart) {

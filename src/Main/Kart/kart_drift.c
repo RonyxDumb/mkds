@@ -80,9 +80,24 @@ s16 gKartState3EndFrameCount = 0x1e;
 s32 gKartWobbleEaseFactor = 0x4cd;
 s16 gTurnHeadingReductionAtSpeedLimit = 0x96;
 s32 gSpeedReductionAtFullTurnRatio = 0x1ec;
-void (*gKartDefaultSlotFunctions[9])(Kart *a) = {InitKartResources, ResetKart, NULL, NULL, NULL, NULL, ResetKartToRespawnPoint, ResetKartToStartPlacement, (void (*)(Kart *a)) KartSlot8ReturnArgument};
+void (*gKartDefaultSlotFunctions[9])(Kart *a) = {InitKartResources,
+                                                 ResetKart,
+                                                 NULL,
+                                                 NULL,
+                                                 NULL,
+                                                 NULL,
+                                                 ResetKartToRespawnPoint,
+                                                 ResetKartToStartPlacement,
+                                                 (void (*)(Kart *a)) KartSlot8ReturnArgument};
 Vec3 gParticipantRecordHeadingAxis = {0, 0x1000, 0};
-void (*gKartStateFunctions[8])(struct Kart *) = {(void (*)(struct Kart *)) KartState0ReturnArgument, AdvanceKartState1And2, AdvanceKartState1And2, AdvanceKartState3, AdvanceKartState4, AdvanceKartState5, AdvanceKartState6, NULL};
+void (*gKartStateFunctions[8])(struct Kart *) = {(void (*)(struct Kart *)) KartState0ReturnArgument,
+                                                 AdvanceKartState1And2,
+                                                 AdvanceKartState1And2,
+                                                 AdvanceKartState3,
+                                                 AdvanceKartState4,
+                                                 AdvanceKartState5,
+                                                 AdvanceKartState6,
+                                                 NULL};
 s32 gKartPushFlipAngleDecay = 5;
 s32 gKartWobbleAmplitudeDecay = 0xfae;
 s32 gKartPushFlipStartVerticalSpeed = 0x3000;
@@ -97,7 +112,10 @@ s32 gFirstBaseSpeedLimitReciprocal = 0x6000;
 Vec3 gKartPlacementHeadingAxis = {0, 0x1000, 0};
 s32 gKartState4StartAnglePerFrame = 0x708;
 s32 gKartState5LandVerticalSpeed = 0x2000;
-KartEffectScales gKartRaceStartEffectOffsets = {{-2458, -2458, -3482, -2458, -2253, -5325, -2458, -1843, -3482, -2458, -3277, -3277, -2458, -2048, -3891, -2458, -3891, -3686, -2458, -2662, -5530, -2458, -2458, -4301, -2458, -3482, -3277, -2458, -2048, -2867, -2458, -3277, -5530, -2458, -2458, -2867, -2458}};
+KartEffectScales gKartRaceStartEffectOffsets = {{-2458, -2458, -3482, -2458, -2253, -5325, -2458, -1843, -3482, -2458,
+                                                 -3277, -3277, -2458, -2048, -3891, -2458, -3891, -3686, -2458, -2662,
+                                                 -5530, -2458, -2458, -4301, -2458, -3482, -3277, -2458, -2048, -2867,
+                                                 -2458, -3277, -5530, -2458, -2458, -2867, -2458}};
 s32 gTurnHeadingEaseFactor = 0x666;
 KartFollowEffectIds gKartFollowEffectIds = {{0x61, 0x60, 0x62}};
 KartSurfaceSoundIds gKartSurfaceSoundIds = {{0x1b8, 0x1c9, 0x1c8}};
@@ -294,8 +312,9 @@ void CollideKartWithMapObjects(Kart *kart) {
                     if (flagBits != 0) {
                         value = 0x1000;
                     } else {
-                        value = MUL_FIXED12_NO_ROUND(0x1000 - factor,
-                                                     MUL_FIXED12_NO_ROUND(kart->mVelocityLength, gFirstBaseSpeedLimitReciprocal));
+                        value =
+                            MUL_FIXED12_NO_ROUND(0x1000 - factor, MUL_FIXED12_NO_ROUND(kart->mVelocityLength,
+                                                                                       gFirstBaseSpeedLimitReciprocal));
                     }
                     if (kart->mVelocityLength > 0x2000 || flagBits != 0) {
                         if (touchedCount < 2) {
@@ -1343,8 +1362,8 @@ recheck:
     }
     if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
         distanceSquared = GetKartCameraDistanceSquared(kart->mIndex);
-        AddSoundRequest(&gSoundRequestQueues[3], distanceSquared + GetKartFullVolumeSoundSortOffset(), KartStartSoundFullVolume,
-                        kart, 0xcf);
+        AddSoundRequest(&gSoundRequestQueues[3], distanceSquared + GetKartFullVolumeSoundSortOffset(),
+                        KartStartSoundFullVolume, kart, 0xcf);
     }
     kart->mMotionFlags |= KART_MOTION_HOPPING | KART_MOTION_HOP_ACTIVE | KART_MOTION_HOP_STEER;
     kart->mMotionFlags &= ~(KART_MOTION_DRIFTING | KART_MOTION_DRIFT_ENDED_IN_AIR);

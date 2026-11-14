@@ -9,7 +9,9 @@
 #include "Main/MapObjects/data_0217a000.h"
 #include "Main/Menu/select_race_rule_state.h"
 
-const u8 gDefaultParentParameter[64] = {0, 0, 0, 0, 0, 0, 0, 0, 0x25, 0, 0, 0, 0, 0, 1, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0xc8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xbc, 1, 0x36, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+const u8 gDefaultParentParameter[64] = {0, 0, 0,    0, 0, 0, 0, 0, 0x25, 0, 0,    0, 0, 0, 1, 0, 7, 0, 0, 0, 0, 0,
+                                        0, 0, 0xc8, 0, 0, 0, 0, 0, 0,    0, 0,    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                        0, 0, 0,    0, 0, 0, 0, 0, 0xbc, 1, 0x36, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 #pragma opt_rebuildconditionals off
 

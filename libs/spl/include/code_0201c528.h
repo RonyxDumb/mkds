@@ -314,12 +314,15 @@ void SPLAnim_Texture(ParticleInstance *ptcl, ParticleResource *res, s32 lifeRate
 void SPLAnim_Alpha(ParticleInstance *ptcl, ParticleResource *res, s32 lifeRate);
 void SPLAnim_Color(ParticleInstance *ptcl, ParticleResource *res, s32 lifeRate);
 void SPLAnim_Scale(ParticleInstance *ptcl, ParticleResource *res, s32 lifeRate);
-void SPLBehavior_ApplyConvergence(const ParticleBehaviorPoint *conv, ParticleInstance *ptcl, Vec3 *acc, ParticleEmitter *emtr);
+void SPLBehavior_ApplyConvergence(const ParticleBehaviorPoint *conv, ParticleInstance *ptcl, Vec3 *acc,
+                                  ParticleEmitter *emtr);
 void SPLBehavior_ApplyCollisionPlane(const ParticleBehaviorCollisionPlane *plane, ParticleInstance *ptcl, Vec3 *acc,
                                      ParticleEmitter *emtr);
 void SPLBehavior_ApplySpin(const ParticleBehaviorSpin *spin, ParticleInstance *ptcl, Vec3 *acc, ParticleEmitter *emtr);
-void SPLBehavior_ApplyMagnet(const ParticleBehaviorPoint *magnet, ParticleInstance *ptcl, Vec3 *acc, ParticleEmitter *emtr);
-void SPLBehavior_ApplyRandom(const ParticleBehaviorRandom *rng, ParticleInstance *ptcl, Vec3 *acc, ParticleEmitter *emtr);
+void SPLBehavior_ApplyMagnet(const ParticleBehaviorPoint *magnet, ParticleInstance *ptcl, Vec3 *acc,
+                             ParticleEmitter *emtr);
+void SPLBehavior_ApplyRandom(const ParticleBehaviorRandom *rng, ParticleInstance *ptcl, Vec3 *acc,
+                             ParticleEmitter *emtr);
 void SPLBehavior_ApplyGravity(const Vec3s16 *gravity, ParticleInstance *ptcl, Vec3 *acc, ParticleEmitter *emtr);
 ParticleInstance *SPLList_Erase(ParticleList *list, ParticleInstance *node);
 ParticleInstance *SPLList_PopFront(ParticleList *list);

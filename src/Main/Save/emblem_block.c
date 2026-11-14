@@ -35,7 +35,15 @@
 #include "Main/Save/ghost_record_file.h"
 #include "Main/System/init_after_startup.h"
 
-SceneCallbacks gRunGhostSceneCallbacks = {InitGhostSceneCallback, UpdateGhostSceneCallback, ReleaseGhostSceneCallback, WriteGhostSceneRegistersCallback, NULL, NULL, 0xa, 0xa, 0};
+SceneCallbacks gRunGhostSceneCallbacks = {InitGhostSceneCallback,
+                                          UpdateGhostSceneCallback,
+                                          ReleaseGhostSceneCallback,
+                                          WriteGhostSceneRegistersCallback,
+                                          NULL,
+                                          NULL,
+                                          0xa,
+                                          0xa,
+                                          0};
 
 #pragma opt_rebuildconditionals off
 

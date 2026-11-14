@@ -468,7 +468,8 @@ void UploadTextureAndPalette(TexPlttEntry *texPlttEntry) {
     GX_EndLoadTex();
     texPlttEntry->mTexImageParam = texPlttEntry->mTexImageParam | (texOffset >> 3 & 0xffff);
     if (texPlttEntry->mPlttByteCount != 0) {
-        texPlttEntry->mPlttOffset = (NNS_GfdDefaultFuncAllocPlttVram(texPlttEntry->mPlttByteCount, texFormatBits == 2, 0) & 0xffff) << 3;
+        texPlttEntry->mPlttOffset =
+            (NNS_GfdDefaultFuncAllocPlttVram(texPlttEntry->mPlttByteCount, texFormatBits == 2, 0) & 0xffff) << 3;
         GX_BeginLoadTexPltt();
         GX_LoadTexPltt(texPlttEntry->mPlttData, texPlttEntry->mPlttOffset, texPlttEntry->mPlttByteCount);
         GX_EndLoadTexPltt();

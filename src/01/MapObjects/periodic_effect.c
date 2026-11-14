@@ -14,8 +14,28 @@
 #include "Main/MapObjects/bound.h"
 #include "Main/System/init_after_startup.h"
 
-MapObjectKindDescriptor gCameraEffectKindDescriptor = {0, {0, 0}, 0xa8, NULL, CreateEmptyMapObjectKindData, NULL, NULL, NULL, CreateCameraEffectUpdateList, NULL, {NULL, NULL, NULL, NULL}};
-MapObjectKindDescriptor gPeriodicEffectKindDescriptor = {0, {0, 0}, 0xa0, NULL, CreateEmptyMapObjectKindData, NULL, NULL, NULL, CreatePeriodicEffectUpdateList, NULL, {NULL, NULL, NULL, NULL}};
+MapObjectKindDescriptor gCameraEffectKindDescriptor = {0,
+                                                       {0, 0},
+                                                       0xa8,
+                                                       NULL,
+                                                       CreateEmptyMapObjectKindData,
+                                                       NULL,
+                                                       NULL,
+                                                       NULL,
+                                                       CreateCameraEffectUpdateList,
+                                                       NULL,
+                                                       {NULL, NULL, NULL, NULL}};
+MapObjectKindDescriptor gPeriodicEffectKindDescriptor = {0,
+                                                         {0, 0},
+                                                         0xa0,
+                                                         NULL,
+                                                         CreateEmptyMapObjectKindData,
+                                                         NULL,
+                                                         NULL,
+                                                         NULL,
+                                                         CreatePeriodicEffectUpdateList,
+                                                         NULL,
+                                                         {NULL, NULL, NULL, NULL}};
 
 void InitPeriodicEffectObjects(MapObjectList *objectList) {
     s32 objectIndex;

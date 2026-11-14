@@ -220,8 +220,8 @@ u32 GpiWriteLogin(GpConnection *connection, GPIConnectData *data) {
         sprintf(loginNameBuf, "%s@%s", gpState->mNick, gpState->mEmail);
         loginName = (s8 *) loginNameBuf;
     }
-    sprintf(buffer, "%s%s%s%s%s%s", data->mPasswordHash, "                                                ", loginName, data->mUserChallenge, data,
-            data->mPasswordHash);
+    sprintf(buffer, "%s%s%s%s%s%s", data->mPasswordHash, "                                                ", loginName,
+            data->mUserChallenge, data, data->mPasswordHash);
     MD5Digest(buffer, strlen(buffer), response);
     if (gpState->mInfoCaching != 0) {
         gpiFindProfileByUser(connection, gpState->mNick, gpState->mEmail, (void **) &profileRec);
@@ -445,8 +445,8 @@ u32 GpiProcessConnectOperation(GpConnection *connection, GpiOperation *operation
                 sprintf(loginNameBuf, "%s@%s", gpState->mNick, gpState->mEmail);
                 loginTarget = loginNameBuf;
             }
-            sprintf(buffer, "%s%s%s%s%s%s", data->mPasswordHash, "                                                ", loginTarget, data, data->mUserChallenge,
-                    data->mPasswordHash);
+            sprintf(buffer, "%s%s%s%s%s%s", data->mPasswordHash, "                                                ",
+                    loginTarget, data, data->mUserChallenge, data->mPasswordHash);
             MD5Digest(buffer, strlen(buffer), digestHex);
             if (GpiGetValue(input, "\\proof\\", buffer, 0x200) == FALSE) {
                 GpiSetError(connection, 1, "Unexepected data was received from the server.");

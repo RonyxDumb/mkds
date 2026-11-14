@@ -42,8 +42,14 @@ const u8 gEditAddrCharX[12] = {0x31, 0x3d, 0x49, 0x5a, 0x66, 0x72, 0x83, 0x8f, 0
 u8 gEditAddrGroupMax[3] = {0x32, 0x35, 0x35};
 u8 gEditAddrSubScreenMessageIndices[5] = {0x91, 0x92, 0x93, 0x94, 0x95};
 u16 gEditAddrCharRect[3] = {0, 0x29, 0};
-EditAddrTextFuncs gEditAddrFormatFuncs = {{(void (*)(u8 *)) FormatApWorkIpText, (void (*)(u8 *)) FormatApWorkNetmaskText, (void (*)(u8 *)) FormatApWorkGatewayText, (void (*)(u8 *)) FormatApWorkDnsFirstText, (void (*)(u8 *)) FormatApWorkDnsSecondText}};
-EditAddrTextFuncs gEditAddrStoreFuncs = {{(void (*)(u8 *)) StoreApWorkIpText, (void (*)(u8 *)) StoreApWorkNetmaskText, (void (*)(u8 *)) StoreApWorkGatewayText, (void (*)(u8 *)) StoreApWorkDnsFirstText, (void (*)(u8 *)) StoreApWorkDnsSecondText}};
+EditAddrTextFuncs gEditAddrFormatFuncs = {
+    {(void (*)(u8 *)) FormatApWorkIpText, (void (*)(u8 *)) FormatApWorkNetmaskText,
+     (void (*)(u8 *)) FormatApWorkGatewayText, (void (*)(u8 *)) FormatApWorkDnsFirstText,
+     (void (*)(u8 *)) FormatApWorkDnsSecondText}};
+EditAddrTextFuncs gEditAddrStoreFuncs = {{(void (*)(u8 *)) StoreApWorkIpText, (void (*)(u8 *)) StoreApWorkNetmaskText,
+                                          (void (*)(u8 *)) StoreApWorkGatewayText,
+                                          (void (*)(u8 *)) StoreApWorkDnsFirstText,
+                                          (void (*)(u8 *)) StoreApWorkDnsSecondText}};
 struct EditAddr *gEditAddr;
 
 void CreateEditAddr(void) {

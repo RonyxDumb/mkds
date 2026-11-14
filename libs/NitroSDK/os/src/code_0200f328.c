@@ -44,7 +44,8 @@ asm void OS_SetProtectionRegion2(u32 param) {
     bx lr
 }
 
-// Exception vector handler: calls the debugger handler in OSi_DebuggerHandler when it is set, saves r0-r3, sp and lr just
+// Exception vector handler: calls the debugger handler in OSi_DebuggerHandler when it is set, saves r0-r3, sp and lr
+// just
 // below main memory and switches the stack there. In mode 0x17 or 0x1b it calls OSi_GetAndDisplayContext, then waits
 // for OSi_DebuggerHandler to be set.
 // Not compiled code: it reads the status register (mrs), saves registers with `stmdb ip!` in the middle of

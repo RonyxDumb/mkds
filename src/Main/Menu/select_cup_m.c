@@ -32,7 +32,9 @@
 #include "Main/Sound/sound_seq.h"
 #include "gfd_VramTransferManager.h"
 
-const u32 gSelectCupMCourseIds[8][4] = {{0x14, 0x16, 0x1f, 0x12}, {0x1b, 0x1c, 0x21, 0x18}, {0x1e, 0x11, 0x19, 0x13}, {0x22, 0x1a, 0x20, 0x1d}, {0xa, 0xb, 0xd, 0xe}, {0x23, 0x10, 0xc, 9}, {0xf, 0x24, 0x25, 0x26}, {0x27, 0x17, 0x28, 1}};
+const u32 gSelectCupMCourseIds[8][4] = {{0x14, 0x16, 0x1f, 0x12}, {0x1b, 0x1c, 0x21, 0x18}, {0x1e, 0x11, 0x19, 0x13},
+                                        {0x22, 0x1a, 0x20, 0x1d}, {0xa, 0xb, 0xd, 0xe},     {0x23, 0x10, 0xc, 9},
+                                        {0xf, 0x24, 0x25, 0x26},  {0x27, 0x17, 0x28, 1}};
 char *gSelectCupMBNclrName3 = "common/select_cup_m_b.nclr";
 const u16 gSelectCupMLabelWidths[4] = {0xa3, 0xa3, 0xa3, 0xa3};
 char *gSelectCupMNcgrName3 = "common/select_cup_m.nce.ncgr";
@@ -40,7 +42,9 @@ const u16 gSelectCupMTrophyCells[4] = {3, 4, 5, 6};
 const u16 gSelectCupMCourseCells[4] = {0x12, 0x11, 0x10, 0xf};
 const u16 gSelectCupMCourseLabels[4] = {3, 2, 1, 0};
 const u32 gSelectCupMCupIndices[8] = {0, 1, 2, 3, 4, 5, 6, 7};
-const u16 gSelectCupMCupMessageIndices[8][4] = {{0x2d, 0x2e, 0x2f, 0x30}, {0x31, 0x32, 0x33, 0x34}, {0x35, 0x36, 0x37, 0x38}, {0x39, 0x3a, 0x3b, 0x3c}, {0x3d, 0x3e, 0x3f, 0x40}, {0x41, 0x42, 0x43, 0x44}, {0x45, 0x46, 0x47, 0x48}, {0x49, 0x4a, 0x4b, 0x4c}};
+const u16 gSelectCupMCupMessageIndices[8][4] = {
+    {0x2d, 0x2e, 0x2f, 0x30}, {0x31, 0x32, 0x33, 0x34}, {0x35, 0x36, 0x37, 0x38}, {0x39, 0x3a, 0x3b, 0x3c},
+    {0x3d, 0x3e, 0x3f, 0x40}, {0x41, 0x42, 0x43, 0x44}, {0x45, 0x46, 0x47, 0x48}, {0x49, 0x4a, 0x4b, 0x4c}};
 char *gSelectCupMBNcgrName3 = "common/select_cup_m_b.ncgr";
 char *gSelectCupMBnclName3 = "common/select_cup_m.bncl";
 char *gSelectCupMNcerName3 = "common/select_cup_m.nce.ncer";
@@ -156,11 +160,13 @@ void InitSelectCupMCellsAndRequestCupPicture(void) {
     for (courseIndex = 0; courseIndex < 4; courseIndex++) {
         PrintLabelLayoutTextNoFixedAdvance(
             screenId, gSelectCupMCourseLabels[courseIndex], gSelectCupM->mMainBnll,
-            GetBmgEntry(gSelectCupM->mCommonMessages, gSelectCupMCupMessageIndices[gSelectCupMCupIndices[GetCupIndex()]][courseIndex]),
+            GetBmgEntry(gSelectCupM->mCommonMessages,
+                        gSelectCupMCupMessageIndices[gSelectCupMCupIndices[GetCupIndex()]][courseIndex]),
             gSelectCupM->mMainBncl, gSelectCupM->mMainTable);
         PrintLabelLayoutTextNoFixedAdvance(
             1, gSelectCupMCourseLabels[courseIndex], gSelectCupM->mSubBnll,
-            GetBmgEntry(gSelectCupM->mCommonMessages, gSelectCupMCupMessageIndices[gSelectCupMCupIndices[GetCupIndex()]][courseIndex]),
+            GetBmgEntry(gSelectCupM->mCommonMessages,
+                        gSelectCupMCupMessageIndices[gSelectCupMCupIndices[GetCupIndex()]][courseIndex]),
             gSelectCupM->mSubBncl, gSelectCupM->mSubTable);
     }
     firstCellIndex = gSelectCupMCourseCells[0];
@@ -290,10 +296,10 @@ void InitSelectCupM(void *parentHeap, void *mainOamList, void *subOamList) {
         InitLayoutTable(gSelectCupM->mHeap, gSelectCupM->mSubBncl, gSelectCupM->mSubBnll, &gSelectCupM->mSubTable);
         remainingSize = 0x8000;
         for (index = 0; index < 4; index++) {
-            remainingSize -=
-                InitLabelCanvas(gSelectCupM->mHeap, gSelectCupMCourseLabels[index], gSelectCupM->mMainBnll,
-                                gSelectCupMLabelWidths[index], gSelectCupMLabelHeights[index], gSelectCupMCourseCells[index],
-                                gSelectCupM->mMainNcer, gSelectCupM->mMainBncl, gSelectCupM->mMainTable, remainingSize);
+            remainingSize -= InitLabelCanvas(gSelectCupM->mHeap, gSelectCupMCourseLabels[index], gSelectCupM->mMainBnll,
+                                             gSelectCupMLabelWidths[index], gSelectCupMLabelHeights[index],
+                                             gSelectCupMCourseCells[index], gSelectCupM->mMainNcer,
+                                             gSelectCupM->mMainBncl, gSelectCupM->mMainTable, remainingSize);
         }
         index = GX_GetSizeOfSubOBJ();
         for (remainingSize = 0; remainingSize < 4; remainingSize++) {

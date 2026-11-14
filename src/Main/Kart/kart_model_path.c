@@ -201,7 +201,11 @@ const KartNames gKartNames[37] = {
     {gKartNameMRA36, gKartShadowNameMRA36},
 };
 char gCharacterSubDirDonkey[] = "donkey/";
-const char *gCharacterSubDirNames[13] = {gCharacterSubDirMario, gCharacterSubDirDonkey, gCharacterSubDirKinopio, gCharacterSubDirKoopa, gCharacterSubDirPeach, gCharacterSubDirWario, gCharacterSubDirYoshi, gCharacterSubDirLuigi, gCharacterSubDirKaron, gCharacterSubDirDaisy, gCharacterSubDirWaluigi, gCharacterSubDirRobo, gCharacterSubDirHeyho};
+const char *gCharacterSubDirNames[13] = {gCharacterSubDirMario, gCharacterSubDirDonkey,  gCharacterSubDirKinopio,
+                                         gCharacterSubDirKoopa, gCharacterSubDirPeach,   gCharacterSubDirWario,
+                                         gCharacterSubDirYoshi, gCharacterSubDirLuigi,   gCharacterSubDirKaron,
+                                         gCharacterSubDirDaisy, gCharacterSubDirWaluigi, gCharacterSubDirRobo,
+                                         gCharacterSubDirHeyho};
 const char *gKartDirName = gKartDirKart;
 const char *gCharacterDirName = gCharacterDirCharacter;
 

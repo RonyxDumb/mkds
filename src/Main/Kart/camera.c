@@ -253,8 +253,8 @@ void UpdateChaseCameraCollision(Camera *camera, Kart *kart, Vec3 *forward) {
 
     data_usa_0217ac80 = 0;
     camera->mCollisionActive = FALSE;
-    if (CollideSphereWithCourse(&camera->mPos, &camera->mPrevPos, 0, gCameraCollisionRadius, 2, -2, &pushOut, &firstNormal,
-                                &secondNormal, &flags, NULL, NULL, NULL, NULL) != 0 &&
+    if (CollideSphereWithCourse(&camera->mPos, &camera->mPrevPos, 0, gCameraCollisionRadius, 2, -2, &pushOut,
+                                &firstNormal, &secondNormal, &flags, NULL, NULL, NULL, NULL) != 0 &&
         (flags & 0xc00) == 0) {
         if (flags & 0x214300) {
             turnedForward = kart->mTurnedForward;
@@ -755,8 +755,8 @@ void UpdateCameraAngleEntry(Camera *camera) {
     camera->mLookAt.y = camera->mLookAt.y - kart->mHopHeight;
     camera->mPos.y = camera->mPos.y - kart->mHopHeight;
     if (gRaceSetup->mMode != MODE_MISSION_RUN && gRaceSetup->mMode != MODE_BATTLE) {
-        if (CollideSphereWithCourse(&camera->mPos, &camera->mPrevPos, 0, gCameraCollisionRadius >> 1, 2, -2, &pushOut, NULL,
-                                    NULL, NULL, NULL, NULL, NULL, NULL) != 0) {
+        if (CollideSphereWithCourse(&camera->mPos, &camera->mPrevPos, 0, gCameraCollisionRadius >> 1, 2, -2, &pushOut,
+                                    NULL, NULL, NULL, NULL, NULL, NULL, NULL) != 0) {
             kart = GetKart(camera->mFollowedKartIndex);
             axis = &kart->mRotationRow0;
             value = VEC_DotProduct(axis, &pushOut);
@@ -810,7 +810,8 @@ void UpdateStaffRollCameraAndLight(Camera *camera) {
         0x10) {
         Vec3NormalizeAndGetLengthUnchecked(&lightDirection, &lightDirection);
     }
-    MTX_RotAxis33(&rotation, &gCameraVec3UnitY, FX_SinIdx(gStaffRollLightRotationAngle), FX_CosIdx(gStaffRollLightRotationAngle));
+    MTX_RotAxis33(&rotation, &gCameraVec3UnitY, FX_SinIdx(gStaffRollLightRotationAngle),
+                  FX_CosIdx(gStaffRollLightRotationAngle));
     MTX_MultVec33(&lightDirection, &rotation, &lightDirection);
     lightDirection.x = MUL_FIXED12_NO_ROUND(lightDirection.x, 0xfae);
     lightDirection.y = MUL_FIXED12_NO_ROUND(lightDirection.y, 0xfae);

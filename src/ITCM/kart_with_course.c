@@ -158,7 +158,8 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
                 kart->mMotionFlags |= KART_MOTION_ON_GROUND;
                 if (kart->mForwardSpeed != 0 || TryHoldKartStill(kart, collisionFlags, &hitObjects) == FALSE) {
                     StopKartStillHold(kart);
-                    if (((s32(*)(Kart *, u32, Vec3 *)) gLowestOffsetFarCheck)(kart, collisionFlags, &lowestOffset) != 0) {
+                    if (((s32(*)(Kart *, u32, Vec3 *)) gLowestOffsetFarCheck)(kart, collisionFlags, &lowestOffset) !=
+                        0) {
                         lowestOffsetLength = 0;
                         if (LENGTH_SQUARED(lowestOffset) >= 0x10) {
                             lowestOffsetLength = Vec3NormalizeAndGetLengthUnchecked(&lowestOffset, &landingPushVector);

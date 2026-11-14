@@ -37,7 +37,8 @@
 
 MessageFile *gMessages;
 
-void *gLanguageBmgNames[6] = {"msg/jap.bmg.l", "msg/eng.bmg.l", "msg/fre.bmg.l", "msg/ger.bmg.l", "msg/ita.bmg.l", "msg/spa.bmg.l"};
+void *gLanguageBmgNames[6] = {"msg/jap.bmg.l", "msg/eng.bmg.l", "msg/fre.bmg.l",
+                              "msg/ger.bmg.l", "msg/ita.bmg.l", "msg/spa.bmg.l"};
 
 void LoadMainFilesAndSetBgCnt(void) {
     CreateApStore();

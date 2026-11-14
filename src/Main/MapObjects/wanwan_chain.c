@@ -10,9 +10,37 @@
 #include "code_02147cd8.h"
 #include "Main/MapObjects/data_0217b000.h"
 
-const MapObjectList gWanwanChainUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, UpdateWanwanChain, NULL, 0, NULL, 0, NULL};
-const MapObjectDrawList gWanwanChainDrawListData = {{NULL, 0, {0, 0}, (void (*)(MapObjectList *)) CreateWanwanChainAndWanwanKui, NULL, (UnkFunc *) DrawWanwanChain, NULL, 2, NULL, 0, NULL}, 0};
-const MapObjectKindData gWanwanChainKindData = {(s32 (*)(MapObject *, void *, s32 *, s32 *)) CollideKartWithWanwanChain, (s32 (*)(MapObject *, void *, void *, void *)) CollideItemObjectWithWanwanChain, 2, 0x5000, 0xa000, 0, NULL, 1, 0, 0x12f, 0, 0, 0, 0, 0, 0};
+const MapObjectList gWanwanChainUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, UpdateWanwanChain,
+                                                  NULL, 0, NULL,   0,    NULL};
+const MapObjectDrawList gWanwanChainDrawListData = {{NULL,
+                                                     0,
+                                                     {0, 0},
+                                                     (void (*)(MapObjectList *)) CreateWanwanChainAndWanwanKui,
+                                                     NULL,
+                                                     (UnkFunc *) DrawWanwanChain,
+                                                     NULL,
+                                                     2,
+                                                     NULL,
+                                                     0,
+                                                     NULL},
+                                                    0};
+const MapObjectKindData gWanwanChainKindData = {
+    (s32(*)(MapObject *, void *, s32 *, s32 *)) CollideKartWithWanwanChain,
+    (s32(*)(MapObject *, void *, void *, void *)) CollideItemObjectWithWanwanChain,
+    2,
+    0x5000,
+    0xa000,
+    0,
+    NULL,
+    1,
+    0,
+    0x12f,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0};
 MapObjectDrawList *gWanwanChainDrawList;
 NsbmdModel *gWanwanChain;
 MapObjectList *gWanwanChainUpdateList;

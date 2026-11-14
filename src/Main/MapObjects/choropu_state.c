@@ -36,7 +36,8 @@
 #include "Main/Item/item_koura_w.h"
 #include "Main/MapObjects/bridge.h"
 
-const MapObjectList gChoropuUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, (UnkFunc *) UpdateChoropu, NULL, 0, NULL, 0, NULL};
+const MapObjectList gChoropuUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, (UnkFunc *) UpdateChoropu,
+                                              NULL, 0, NULL,   0,    NULL};
 const MapObjectDrawList gChoropuShadowDrawListData = {{NULL,
                                           0,
                                           {0, 0},

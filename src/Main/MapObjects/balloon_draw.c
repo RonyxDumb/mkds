@@ -27,7 +27,8 @@
 #include "Main/Kart/karts.h"
 #include "Main/MapObjects/bound.h"
 
-const u16 gBalloonDrawRotateZAngles[4][4] = {{0x4000, 0, 0, 0}, {0x499a, 0x3666, 0, 0}, {0x527d, 0x4000, 0x2d83, 0}, {0, 0, 0, 0}};
+const u16 gBalloonDrawRotateZAngles[4][4] = {
+    {0x4000, 0, 0, 0}, {0x499a, 0x3666, 0, 0}, {0x527d, 0x4000, 0x2d83, 0}, {0, 0, 0, 0}};
 const s32 gBalloonDrawListIndices[4][4] = {{0, 0, 0, 0}, {1, 0, 0, 0}, {0, 2, 1, 0}, {0, 0, 0, 0}};
 MapObjectModel *gBalloon;
 Vec3 gBalloonCameraPosEighth;

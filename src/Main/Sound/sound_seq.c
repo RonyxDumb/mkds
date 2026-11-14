@@ -723,7 +723,8 @@ void InitSceneSounds(s32 unused) {
                                                   &gCourseSurfaceSoundEntries[12]);
                     break;
                 case COURSE_ID_OLD_LUIGI_AGB:
-                    SetSurfaceSoundIds(gOldLuigiAgbSurfaceSoundSetup.mRowIndex, gOldLuigiAgbSurfaceSoundSetup.mColumnIndex, &gOldLuigiAgbSurfaceSoundSetup);
+                    SetSurfaceSoundIds(gOldLuigiAgbSurfaceSoundSetup.mRowIndex,
+                                       gOldLuigiAgbSurfaceSoundSetup.mColumnIndex, &gOldLuigiAgbSurfaceSoundSetup);
                     break;
                 case COURSE_ID_MR_STAGE3:
                     CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[13].mSurfaceVariant,

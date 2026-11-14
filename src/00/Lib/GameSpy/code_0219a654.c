@@ -378,8 +378,8 @@ void SendConnectAck(NatTraversalEntry *negotiator, SOCSockAddrIn *toaddr) {
     cookie = negotiator->mCookie;
     *(u32 *) packet.mCookie =
         (cookie << 24 & 0xff000000) | ((cookie << 8 & 0xff0000) | ((cookie >> 24 & 0xff) | (cookie >> 8 & 0xff00)));
-    SendNegotiatorPacket(negotiator->mDescriptor, toaddr->mAddr, toaddr->mPort >> 8 & 0xff | toaddr->mPort << 8 & 0xff00,
-                     &packet, 0x15);
+    SendNegotiatorPacket(negotiator->mDescriptor, toaddr->mAddr,
+                         toaddr->mPort >> 8 & 0xff | toaddr->mPort << 8 & 0xff00, &packet, 0x15);
 }
 
 void ProcessConnectPacket(NatTraversalEntry *negotiator, ConnectPacket *packet, SOCSockAddrIn *fromAddress) {

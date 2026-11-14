@@ -63,7 +63,8 @@ typedef struct RawEntry {
 } RawEntry;
 
 // The items of a kind 5 packet, 0x254 bytes. The words below the record are only cleared with the rest; the values are
-// four 0x28-byte slots (0x20 characters, then two words that items 0x203 and 0x204 store) addressed from the byte array.
+// four 0x28-byte slots (0x20 characters, then two words that items 0x203 and 0x204 store) addressed from the byte
+// array.
 typedef struct Kind5Items {
     /* 000 */ u32 mWords[0x40];
     /* 100 */ Kind5Record mRecord;

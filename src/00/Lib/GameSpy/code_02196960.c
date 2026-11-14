@@ -49,7 +49,8 @@ static s32 gStatsInitState = 0;
 static u32 gInitTimeout = 20000;
 char gStatsServerHostname[64] = "gamestats.gs.nintendowifi.net";
 static u32 gInternalInit = 0;
-static void *gUnusedOrderPointers9[3][3] = {{&gSock, &gSock, &gSock}, {&gSock, &gSock, &gSock}, {&gSock, &gSock, &gSock}};
+static void *gUnusedOrderPointers9[3][3] = {
+    {&gSock, &gSock, &gSock}, {&gSock, &gSock, &gSock}, {&gSock, &gSock, &gSock}};
 static u8 gEnc3[16] = {'\0', 'r', 'o', 'j', 'e', 'c', 't', 'A', 'p', 'h', 'e', 'x', '\0'};
 static void *gUnusedOrderPointers7[7] = {&gSock, &gSock, &gSock, &gSock, &gSock, &gSock, &gSock};
 
@@ -253,7 +254,8 @@ static char gUnusedOrderPad41[41] = {1};
 static char gUnusedOrderPad56[56] = {1};
 
 void PreAuthenticatePlayerPartner(s32 ownId, s32 tokenText, s32 responseText, UnkFunc *callback, s32 instance) {
-    char replyFormat[] = "\xC\x13\x1A\x1E\xD\x13\x28\x1D\x11\x1D\x11\x10\x24\x1D\x04\x0F\x0B\x3F\x51\x32\x2C\x1A\x00\x0B\x20\x2E\x4A\x19\x39\x0F\x1D\x25\x2C\x4D\x01";
+    char replyFormat[] = "\xC\x13\x1A\x1E\xD\x13\x28\x1D\x11\x1D\x11\x10\x24\x1D\x04\x0F\x0B\x3F\x51\x32\x2C\x1A\x00"
+                         "\x0B\x20\x2E\x4A\x19\x39\x0F\x1D\x25\x2C\x4D\x01";
     s8 data[0x100];
     s32 len;
     gEnc = gEnc3;
@@ -269,8 +271,8 @@ static char gUnusedOrderPad49[49] = {1};
 static char gUnusedOrderPad8[8] = {1};
 
 void SetPersistDataValuesA(u32 ownId, u32 profileId, u32 type, u32 index, u32 valueString, u32 callback, u32 instance) {
-    SetPersistDataHelper(ownId, profileId, type, index, (const u8 *) valueString, strlen((const char *) valueString) + 1,
-                         (UnkFunc *) callback, instance, 1);
+    SetPersistDataHelper(ownId, profileId, type, index, (const u8 *) valueString,
+                         strlen((const char *) valueString) + 1, (UnkFunc *) callback, instance, 1);
 }
 
 BOOL PersistThink(void) {
@@ -325,7 +327,8 @@ void InternalInit(void) {
 
 s32 SendChallengeResponse(const s8 *indata, u32 gameport) {
     char md5Text[0x21];
-    char replyFormat[] = "\xC\x13\x1A\x1E\xD\x3F\x28\x26\x11\x5\x0\x16\x31\x1F\xA\x36\x40\x10\x28\x33\x15\x1B\x15\x17\x3E\x1\xA\x36\x40\x10\x28\x31\x1F\x1A\x11\x24\x75\x16\x33\x3\x1\x3F\x45";
+    char replyFormat[] = "\xC\x13\x1A\x1E\xD\x3F\x28\x26\x11\x5\x0\x16\x31\x1F\xA\x36\x40\x10\x28\x33\x15\x1B\x15\x17"
+                         "\x3E\x1\xA\x36\x40\x10\x28\x31\x1F\x1A\x11\x24\x75\x16\x33\x3\x1\x3F\x45";
     const s8 *challengeText;
     s32 len;
     s8 replyBuf[0x80];
@@ -533,7 +536,9 @@ void SendPlayerAuthRequest(s8 *data, s32 len, s32 ownId, UnkFunc *callback, s32 
 
 void SetPersistDataHelper(s32 ownId, s32 profileId, s32 type, s32 index, const u8 *data, s32 len, UnkFunc *callback,
                           s32 instance, s32 kvset) {
-    char replyFormat[] = "\xC\x1\xA\x1E\x15\x7\x28\x1D\x0\x1\x1\x24\x75\x16\x33\x1A\x11\x1A\x4\x24\x2C\x4D\x1\x24\x34\x1B\x1\xE\x0\x1B\x28\x64\x14\x34\xE\xE\xC\x57\xB\x36\x9\xA\x10\x1D\x55\xC\x39\x14\x35\x1C\x8\x1E\xD\x3F\x51\x25\x2C\xC\x4\xC\x31\x2E";
+    char replyFormat[] = "\xC\x1\xA\x1E\x15\x7\x28\x1D\x0\x1\x1\x24\x75\x16\x33\x1A\x11\x1A\x4\x24\x2C\x4D\x1\x24\x34"
+                         "\x1B\x1\xE\x0\x1B\x28\x64\x14\x34\xE\xE\xC\x57\xB\x36\x9\xA\x10\x1D\x55\xC\x39\x14\x35\x1C\x8"
+                         "\x1E\xD\x3F\x51\x25\x2C\xC\x4\xC\x31\x2E";
     s8 packetBuf[0x200];
     s32 headLen;
     s8 *packetData;

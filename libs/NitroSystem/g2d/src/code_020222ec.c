@@ -54,7 +54,8 @@ void ApplyCurrentAnimResult_(NNSG2dCellAnimation *pCellAnim) {
                                          pTransferData->mSzByte);
 }
 
-void NNS_G2dInitCellAnimation(NNSG2dCellAnimation *pCellAnim, NNSG2dAnimSequenceData *pAnimSeq, NNSG2dCellDataBank *pCellDataBank) {
+void NNS_G2dInitCellAnimation(NNSG2dCellAnimation *pCellAnim, NNSG2dAnimSequenceData *pAnimSeq,
+                              NNSG2dCellDataBank *pCellDataBank) {
     pCellAnim->mPCellDataBank = pCellDataBank;
     pCellAnim->mCellTransferStateHandle = -1;
     NNSi_G2dSrtcInitControl(&pCellAnim->mSrtCtrl, 1);

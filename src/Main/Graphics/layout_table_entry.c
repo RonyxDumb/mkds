@@ -121,16 +121,16 @@ u32 DrawLayoutEntry(s32 index, NNSG2dCellDataBank *cells, LayoutEntryTable *cell
                                                 groupIndex, entry->mDoubleAffine);
 }
 
-void DrawLayoutTable(LayoutEntryTable *cellLayout, NNSG2dCellDataBank *cells, LayoutEntryTable *labelLayout, void *oamList,
-                     LayoutTableEntry *table) {
+void DrawLayoutTable(LayoutEntryTable *cellLayout, NNSG2dCellDataBank *cells, LayoutEntryTable *labelLayout,
+                     void *oamList, LayoutTableEntry *table) {
     s32 entryIndex;
     for (entryIndex = cellLayout->mCount - 1; entryIndex >= 0; entryIndex--) {
         DrawLayoutEntry(entryIndex, cells, cellLayout, labelLayout, oamList, table + entryIndex, 1);
     }
 }
 
-void DrawLayoutTableKeepMatrixCount(LayoutEntryTable *cellLayout, NNSG2dCellDataBank *cells, LayoutEntryTable *labelLayout,
-                                    void *oamList, LayoutTableEntry *table) {
+void DrawLayoutTableKeepMatrixCount(LayoutEntryTable *cellLayout, NNSG2dCellDataBank *cells,
+                                    LayoutEntryTable *labelLayout, void *oamList, LayoutTableEntry *table) {
     s32 entryIndex;
     for (entryIndex = cellLayout->mCount - 1; entryIndex >= 0; entryIndex--) {
         DrawLayoutEntry(entryIndex, cells, cellLayout, labelLayout, oamList, table + entryIndex, 0);
@@ -141,8 +141,8 @@ void DrawLayoutTableKeepMatrixCount(LayoutEntryTable *cellLayout, NNSG2dCellData
 
 #pragma thumb on
 
-void DrawLayoutTableEntry(s32 index, LayoutEntryTable *cellLayout, NNSG2dCellDataBank *cells, LayoutEntryTable *labelLayout,
-                          void *oamList, LayoutTableEntry *table) {
+void DrawLayoutTableEntry(s32 index, LayoutEntryTable *cellLayout, NNSG2dCellDataBank *cells,
+                          LayoutEntryTable *labelLayout, void *oamList, LayoutTableEntry *table) {
     DrawLayoutEntry(index, cells, cellLayout, labelLayout, oamList, &table[index], 1);
 }
 

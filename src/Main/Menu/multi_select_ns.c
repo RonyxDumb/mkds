@@ -29,7 +29,8 @@
 const u16 gMultiSelectNSRowCellIndices[2][3] = {{4, 2, 0}, {5, 3, 1}};
 const MultiSelectNSLabelMessageRow gMultiSelectNSLabelMessageRows[2] = {{0, 0xdc, 0x25, 4, 3}, {1, 0xdc, 0x25, 5, 4}};
 u32 gMultiSelectNSLabelValues[2] = {1, 0};
-struct WLMenuCallbacks gMultiSelectNSCallbacks = {InitMultiSelectNS, AdvanceMultiSelectNS, ReleaseMultiSelectNS, WriteMultiSelectNSRegisters};
+struct WLMenuCallbacks gMultiSelectNSCallbacks = {InitMultiSelectNS, AdvanceMultiSelectNS, ReleaseMultiSelectNS,
+                                                  WriteMultiSelectNSRegisters};
 struct MultiSelectNS *gMultiSelectNS;
 
 #pragma optimize_for_size on

@@ -65,7 +65,8 @@ const Vec3 gJgLapBaseOffsetRaceEnded = {0x18000, 0x2e000, -237568};
 const Vec3 gJgKind2EndScale = {0x1800, 0x1800, 0};
 const Vec3 gJgKind2StartScale = {0x1000, 0x1000, 0};
 const Vec3 gJgLapBaseOffsetNotEnded = {0x1e000, 0x19000, -167936};
-const Vec3 gJgSourcePoints[7] = {{-8192, -8192, 0}, {-12288, -4096, 0}, {-8192, 0x1000, 0}, {0, -8192, 0}, {0x2000, 0, 0}, {0x3000, -4096, 0}, {0x2000, -8192, 0}};
+const Vec3 gJgSourcePoints[7] = {{-8192, -8192, 0}, {-12288, -4096, 0}, {-8192, 0x1000, 0}, {0, -8192, 0},
+                                 {0x2000, 0, 0},    {0x3000, -4096, 0}, {0x2000, -8192, 0}};
 const Vec3 gJgKind4BaseOffset = {0, 0x4000, -20480};
 u16 gJgState2FrameCount;
 u16 gJgKartIndex;

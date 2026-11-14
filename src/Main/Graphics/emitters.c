@@ -25,7 +25,9 @@ const StemSetParams gLoseStems = {1, 1, 0, 0, {gStemNameLose, NULL}};
 const StemSetParams gCompleteStems = {1, 1, 1, 0, {gStemNameComplete, NULL}};
 
 const s32 gStadiumEmitterEffectIds[12] = {0x6f, 0x6e, 0x6d, 0x64, 0x6b, 0x6a, 0x69, 0x68, 0x67, 0x66, 0x65, 0x6c};
-const Vec3 gStadiumEmitterPositions[6] = {{0xba000, 0x67000, 0x2e000}, {0x34000, 0x67000, 0x119000}, {-909312, 0x67000, 0x119000}, {-1466368, 0x67000, 0x2e000}, {-909312, 0x67000, -774144}, {0x34000, 0x67000, -774144}};
+const Vec3 gStadiumEmitterPositions[6] = {{0xba000, 0x67000, 0x2e000},  {0x34000, 0x67000, 0x119000},
+                                          {-909312, 0x67000, 0x119000}, {-1466368, 0x67000, 0x2e000},
+                                          {-909312, 0x67000, -774144},  {0x34000, 0x67000, -774144}};
 
 KartPhysicalParamTable *gKartPhysicalParamTable;
 
