@@ -260,12 +260,14 @@ typedef struct FileReadThread {
 extern FileReadThread gFileReadThread;
 
 // Object at gWvrState: a word and a function pointer.
-// Values of WvrState.mState (3 is also tested and never named here).
+// Values of WvrState.mState.
 #define BANK_SHARE_ACTIVE 0 // after WVR_StartUpAsync finished
 
 #define BANK_SHARE_INACTIVE 1 // initial value; after WVR_TerminateAsync finished
 
 #define BANK_SHARE_CHANGING 2 // set while an async start or terminate is running
+
+#define BANK_SHARE_INACTIVE_UNUSED 3 // handled like INACTIVE; nothing writes it
 
 typedef struct WvrState {
     /* 00 */ volatile s32 mState;
