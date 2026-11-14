@@ -40,11 +40,11 @@ u32 GetResultSceneSeqKind(void) {
         return 1;
     }
     switch (gStartupWork->mConnectionKind) {
-        case 0:
+        case CONNECTION_KIND_NONE:
             ownEntryIndex = 0;
             break;
-        case 1:
-        case 2:
+        case CONNECTION_KIND_MEMBER_SELECT:
+        case CONNECTION_KIND_WL_MENU:
             if (gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD) {
                 ownIndex = gConnectionWork->mOwnIndex;
             } else {
@@ -52,7 +52,7 @@ u32 GetResultSceneSeqKind(void) {
             }
             ownEntryIndex = GetParticipantPosByIndex(ownIndex)->mEntryIndex;
             break;
-        case 3:
+        case CONNECTION_KIND_WIFI_MENU:
             ownEntryIndex = (u16) GetPackedIndex(DWC_GetMyAID());
             break;
     }
@@ -86,7 +86,7 @@ u32 GetResultSceneSeqKind(void) {
     maxScore = -1;
     allEqual = 1;
     for (; scoreIndex < kartCount; scoreIndex++) {
-        if (gStartupWork->mConnectionKind == 3 || gRaceSetup->mRuleKind == 2) {
+        if (gStartupWork->mConnectionKind == CONNECTION_KIND_WIFI_MENU || gRaceSetup->mRuleKind == 2) {
             kartIndex = GetLowByte((u16) scoreIndex);
             courseIndex = GetCourseIndexInCup();
             record = &gCupRecords->mKartResults[courseIndex][GetLowByte(kartIndex)];
