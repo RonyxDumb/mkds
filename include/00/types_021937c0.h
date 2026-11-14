@@ -3,6 +3,19 @@
 #include "types.h"
 #include "00/types_021906e4.h"
 
+// Values of GPISearchData.mKind: the request each kind sends is named by the first key of its message (search,
+// valid, nicks, pmatch, check, newuser, others, uniquesearch).
+enum {
+    PROFILE_SEARCH_KIND_PROFILES = 1,
+    PROFILE_SEARCH_KIND_VALID_EMAIL = 2,
+    PROFILE_SEARCH_KIND_NICKS = 3,
+    PROFILE_SEARCH_KIND_PLAYER_MATCH = 4,
+    PROFILE_SEARCH_KIND_CHECK_NICK = 5,
+    PROFILE_SEARCH_KIND_NEW_USER = 6,
+    PROFILE_SEARCH_KIND_OTHERS = 7,
+    PROFILE_SEARCH_KIND_UNIQUE_NICK = 8,
+};
+
 // Object behind GpiOperation.mUnk_04: GpiCreateSearch clears and fills it, GpiOpenSearchSocket sets the
 // word at 0x04 and gives it the buffer at 0x08 of 0x0c bytes.
 typedef struct GPISearchData {

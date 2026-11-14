@@ -155,7 +155,7 @@ int gpiProfileSearch(GpConnection *connection, s8 *nick, s8 *uniquenick, s8 *ema
         GpiSetErrorMessage((u32 *) connection, "No search criteria.");
         return 2;
     }
-    result = GpiCreateSearch(connection, &data, 1);
+    result = GpiCreateSearch(connection, &data, PROFILE_SEARCH_KIND_PROFILES);
     if (result == 0) {
         if (nick == NULL) {
             data->mNick[0] = 0;
@@ -259,7 +259,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                 return 4;
             }
             if (state == 3) {
-                if (data->mKind == 1) {
+                if (data->mKind == PROFILE_SEARCH_KIND_PROFILES) {
                     GpiAppendBufferString(connection, &data->mOutputBuffer, "\\search\\");
                     GpiAppendBufferString(connection, &data->mOutputBuffer, "\\sesskey\\");
                     GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mSesskey);
@@ -295,11 +295,11 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         GpiAppendBufferString(connection, &data->mOutputBuffer, "\\skip\\");
                         GpiAppendBufferNumber(connection, &data->mOutputBuffer, data->mSkip);
                     }
-                } else if (data->mKind == 2) {
+                } else if (data->mKind == PROFILE_SEARCH_KIND_VALID_EMAIL) {
                     GpiAppendBufferString(connection, &data->mOutputBuffer, "\\valid\\");
                     GpiAppendBufferString(connection, &data->mOutputBuffer, "\\email\\");
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data->mEmail);
-                } else if (data->mKind == 3) {
+                } else if (data->mKind == PROFILE_SEARCH_KIND_NICKS) {
                     GpiAppendBufferString(connection, &data->mOutputBuffer, "\\nicks\\");
                     GpiAppendBufferString(connection, &data->mOutputBuffer, "\\email\\");
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data->mEmail);
@@ -307,7 +307,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data->mPassword);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, "\\namespaceid\\");
                     GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mNamespaceId);
-                } else if (data->mKind == 4) {
+                } else if (data->mKind == PROFILE_SEARCH_KIND_PLAYER_MATCH) {
                     GpiAppendBufferString(connection, &data->mOutputBuffer, "\\pmatch\\");
                     GpiAppendBufferString(connection, &data->mOutputBuffer, "\\sesskey\\");
                     GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mSesskey);
@@ -315,7 +315,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                     GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mProfileId);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, "\\productid\\");
                     GpiAppendBufferNumber(connection, &data->mOutputBuffer, data->mProductId);
-                } else if (data->mKind == 5) {
+                } else if (data->mKind == PROFILE_SEARCH_KIND_CHECK_NICK) {
                     GpiAppendBufferString(connection, &data->mOutputBuffer, "\\check\\");
                     GpiAppendBufferString(connection, &data->mOutputBuffer, "\\nick\\");
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data->mNick);
@@ -323,7 +323,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data->mEmail);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, "\\pass\\");
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data->mPassword);
-                } else if (data->mKind == 6) {
+                } else if (data->mKind == PROFILE_SEARCH_KIND_NEW_USER) {
                     GpiAppendBufferString(connection, &data->mOutputBuffer, "\\newuser\\");
                     GpiAppendBufferString(connection, &data->mOutputBuffer, "\\nick\\");
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data->mNick);
@@ -341,7 +341,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         GpiAppendBufferString(connection, &data->mOutputBuffer, "\\cdkey\\");
                         GpiAppendBufferString(connection, &data->mOutputBuffer, data->mCdkey);
                     }
-                } else if (data->mKind == 7) {
+                } else if (data->mKind == PROFILE_SEARCH_KIND_OTHERS) {
                     GpiAppendBufferString(connection, &data->mOutputBuffer, "\\others\\");
                     GpiAppendBufferString(connection, &data->mOutputBuffer, "\\sesskey\\");
                     GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mSesskey);
@@ -349,7 +349,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                     GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mProfileId);
                     GpiAppendBufferString(connection, &data->mOutputBuffer, "\\namespaceid\\");
                     GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mNamespaceId);
-                } else if (data->mKind == 8) {
+                } else if (data->mKind == PROFILE_SEARCH_KIND_UNIQUE_NICK) {
                     GpiAppendBufferString(connection, &data->mOutputBuffer, "\\uniquesearch\\");
                     GpiAppendBufferString(connection, &data->mOutputBuffer, "\\preferrednick\\");
                     GpiAppendBufferString(connection, &data->mOutputBuffer, data->mUniquenick);
@@ -381,7 +381,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                     data->mRemove = TRUE;
                     return 4;
                 }
-                if (data->mKind == 1) {
+                if (data->mKind == PROFILE_SEARCH_KIND_PROFILES) {
                     isDone = FALSE;
                     response.mResult = GP_REQUEST_OK;
                     response.mNumMatches = 0;
@@ -458,7 +458,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                     }
                     DWCi_GsFree(response.mMatches);
                     response.mMatches = NULL;
-                } else if (data->mKind == 2) {
+                } else if (data->mKind == PROFILE_SEARCH_KIND_VALID_EMAIL) {
                     c2 = operation->mCallback;
                     if (c2.mCallback != NULL) {
                         result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, (s8 *) key, (s8 *) value);
@@ -487,7 +487,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             return result;
                         }
                     }
-                } else if (data->mKind == 3) {
+                } else if (data->mKind == PROFILE_SEARCH_KIND_NICKS) {
                     c3 = operation->mCallback;
                     if (c3.mCallback != NULL) {
                         u3 = DWCi_GsMalloc(0x44);
@@ -560,7 +560,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             return result;
                         }
                     }
-                } else if (data->mKind == 4) {
+                } else if (data->mKind == PROFILE_SEARCH_KIND_PLAYER_MATCH) {
                     c4 = operation->mCallback;
                     if (c4.mCallback != NULL) {
                         u4 = DWCi_GsMalloc(0x10);
@@ -625,7 +625,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             return result;
                         }
                     }
-                } else if (data->mKind == 5) {
+                } else if (data->mKind == PROFILE_SEARCH_KIND_CHECK_NICK) {
                     c5 = operation->mCallback;
                     if (c5.mCallback != NULL) {
                         result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, (s8 *) key, (s8 *) value);
@@ -661,7 +661,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             return result;
                         }
                     }
-                } else if (data->mKind == 6) {
+                } else if (data->mKind == PROFILE_SEARCH_KIND_NEW_USER) {
                     c6 = operation->mCallback;
                     if (c6.mCallback != NULL) {
                         result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, (s8 *) key, (s8 *) value);
@@ -699,7 +699,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             return result;
                         }
                     }
-                } else if (data->mKind == 7) {
+                } else if (data->mKind == PROFILE_SEARCH_KIND_OTHERS) {
                     c7 = operation->mCallback;
                     if (c7.mCallback != NULL) {
                         u7 = DWCi_GsMalloc(0xc);
@@ -775,7 +775,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             return result;
                         }
                     }
-                } else if (data->mKind == 8) {
+                } else if (data->mKind == PROFILE_SEARCH_KIND_UNIQUE_NICK) {
                     c8 = operation->mCallback;
                     if (c8.mCallback != NULL) {
                         matchIndex = 0;
