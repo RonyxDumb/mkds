@@ -102,7 +102,7 @@ void StopFileReadThread(void) {
 #pragma thumb on
 
 void ClearBackupAccessStatus(void) {
-    gBackupAccess->mStatus = 0;
+    gBackupAccess->mStatus = BACKUP_STATUS_IDLE;
 }
 
 void CreateBackupAccess(void *heap) {
@@ -123,8 +123,8 @@ void InitBackupAccess(void) {
     TryLockBackup();
     CARD_IdentifyBackup(0x1202);
     UnlockBackup();
-    gBackupAccess->mStatus = 0;
-    gBackupAccess->mErrorCode = 0;
+    gBackupAccess->mStatus = BACKUP_STATUS_IDLE;
+    gBackupAccess->mErrorCode = BACKUP_ERROR_NONE;
     gBackupAccess->mLockId = -3;
     gBackupAccess->mCommandRunning = 0;
     gBackupAccess->mCopyPass = 0;
@@ -269,9 +269,9 @@ u32 StartBackupRead(u32 address, u32 *destination, u32 byteCount, void (*callbac
     if (TryLockBackup() == 0) {
         return 0;
     }
-    gBackupAccess->mErrorCode = 0;
+    gBackupAccess->mErrorCode = BACKUP_ERROR_NONE;
     gBackupAccess->mCommandRunning = 1;
-    gBackupAccess->mStatus = 3;
+    gBackupAccess->mStatus = BACKUP_STATUS_READING;
     gBackupAccess->mReadAddress = address;
     gBackupAccess->mReadDestination = destination;
     gBackupAccess->mReadSize = byteCount;

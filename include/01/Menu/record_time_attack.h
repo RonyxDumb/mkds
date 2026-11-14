@@ -57,6 +57,25 @@ typedef struct RecordTAtt {
     /* 90 */ s32 mNextScreen;
 } RecordTAtt;
 
+// Values of BackupAccess.mStatus. No code sets the second writing value; EndBackupAccessWithError treats it as writing.
+enum {
+    BACKUP_STATUS_IDLE,
+    BACKUP_STATUS_WRITING,
+    BACKUP_STATUS_WRITING_UNUSED,
+    BACKUP_STATUS_READING,
+    BACKUP_STATUS_FAILED,
+};
+
+// Values of BackupAccess.mErrorCode: a failed card command, a card that is not there (which switches the backup off),
+// data that fails the xor or crc check, and a block prefix that does not match.
+enum {
+    BACKUP_ERROR_NONE,
+    BACKUP_ERROR_ACCESS_FAILED,
+    BACKUP_ERROR_UNAVAILABLE,
+    BACKUP_ERROR_BAD_DATA,
+    BACKUP_ERROR_BAD_PREFIX,
+};
+
 // Object behind gBackupAccess.
 typedef struct BackupAccess {
     /* 00 */ s32 mStatus;

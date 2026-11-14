@@ -52,25 +52,25 @@ void EndBackupAccessWithError(s32 errorCode) {
     BOOL notWriteStatus;
     notWriteStatus = TRUE;
     switch (gBackupAccess->mStatus) {
-        case 1:
-        case 2:
+        case BACKUP_STATUS_WRITING:
+        case BACKUP_STATUS_WRITING_UNUSED:
             notWriteStatus = FALSE;
     }
-    gBackupAccess->mStatus = 4;
+    gBackupAccess->mStatus = BACKUP_STATUS_FAILED;
     gBackupAccess->mErrorCode = errorCode;
     switch (gBackupAccess->mErrorCode) {
-        case 0:
+        case BACKUP_ERROR_NONE:
             break;
-        case 1:
-        case 2:
+        case BACKUP_ERROR_ACCESS_FAILED:
+        case BACKUP_ERROR_UNAVAILABLE:
             if (notWriteStatus != FALSE) {
                 RunMessageScreenOfKindWrapper(1);
             } else {
                 RunMessageScreenOfKindWrapper(2);
             }
             break;
-        case 3:
-        case 4:
+        case BACKUP_ERROR_BAD_DATA:
+        case BACKUP_ERROR_BAD_PREFIX:
             break;
     }
 }

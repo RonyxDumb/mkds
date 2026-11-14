@@ -119,9 +119,9 @@ u32 StartBackupWrite(u32 address, u32 *source, u32 byteCount, void (*callback)(u
     if (gBackupAccess->mBackupEnabled == 0 || CARD_TryWaitBackupAsync() == 0) {
         return 0;
     }
-    gBackupAccess->mErrorCode = 0;
+    gBackupAccess->mErrorCode = BACKUP_ERROR_NONE;
     gBackupAccess->mCommandRunning = 1;
-    gBackupAccess->mStatus = 1;
+    gBackupAccess->mStatus = BACKUP_STATUS_WRITING;
     gBackupAccess->mWriteAddress = address;
     gBackupAccess->mWriteSource = source;
     gBackupAccess->mWriteSize = byteCount;
