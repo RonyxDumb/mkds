@@ -13,7 +13,8 @@ sync_linked_symbols.py --write and `ninja check`. On a failure every file is put
 
 --plan reads lines `<unit source> <symbol> [<symbol> ...]`. Each unit is first checked on its own without a ROM build
 (compile, data layout); the ones that pass move in groups of N units (default 16) with one build per group, and a group
-that fails is halved until the unit that fails is found. Results go to stdout, one line per unit.
+that fails is halved until the unit that fails is found. With --commit each group that moves is committed (and
+pushed to the refspecs given). Results go to stdout, one line per unit.
 Run `ninja` first so the objects are current.
 """
 import argparse
@@ -375,7 +376,7 @@ def move_group(items):
         return str(e)
 
 
-def move_plan(items, group):
+def move_plan(items, group, commit=()):
     """Prechecks every item, then moves the ones that pass in groups, halving a group that fails."""
     ok = []
     for unit, symbols in items:
@@ -391,6 +392,11 @@ def move_plan(items, group):
         if why is None:
             for unit, symbols in batch:
                 print(f"MOVED {unit} {' '.join(symbols)}", flush=True)
+            if commit:
+                run("git", "add", "-A", "src", "include", "libs", "config")
+                run("git", "commit", "-q", "-m", f"Define the data of {len(batch)} unit(s) in their sources")
+                for ref in commit:
+                    run("git", "push", "-q", "origin", ref)
         elif len(batch) == 1:
             print(f"FAILED {batch[0][0]}: {why}", flush=True)
         else:
@@ -410,6 +416,8 @@ def main():
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--plan")
     ap.add_argument("--group", type=int, default=16)
+    ap.add_argument("--commit", nargs="*", metavar="REFSPEC",
+                    help="commit after each group that moves, and push these refspecs (e.g. HEAD:main)")
     a = ap.parse_args()
     if a.plan:
         items = []
@@ -417,7 +425,7 @@ def main():
             if line.strip() and not line.startswith("#"):
                 unit, *symbols = line.split()
                 items.append((unit, symbols))
-        move_plan(items, a.group)
+        move_plan(items, a.group, a.commit or ())
         return
     types = dict(x.split("=", 1) for x in a.type)
     sizes = dict(x.split("=", 1) for x in a.size)
