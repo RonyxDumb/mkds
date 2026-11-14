@@ -39,7 +39,7 @@ void AppendKeysToKeyRecording(KeyRecording *keyRecording, u16 keys) {
     KeyRecordingBuffer *buffer;
 
     status = keyRecording->mStatus;
-    if (status != 1) {
+    if (status != KEY_RECORDING_RECORDING) {
         return;
     }
     buffer = keyRecording->mBuffer;
@@ -63,11 +63,11 @@ void AppendKeysToKeyRecording(KeyRecording *keyRecording, u16 keys) {
     }
     if (startsNewPair != FALSE) {
         if (pairIndex >= 0x6e4) {
-            if (status != 1) {
+            if (status != KEY_RECORDING_RECORDING) {
                 return;
             }
             buffer->mPairByteCount = (u32) pairIndex * 2;
-            keyRecording->mStatus = 3;
+            keyRecording->mStatus = KEY_RECORDING_FULL;
             DC_StoreRange(keyRecording->mBuffer, 0xdcc);
             return;
         }
@@ -86,13 +86,13 @@ u16 ReadKeysFromKeyRecording(KeyRecording *keyRecording) {
     u16 keys;
     u8 packedKeys;
 
-    if (keyRecording->mStatus != 2) {
+    if (keyRecording->mStatus != KEY_RECORDING_PLAYING) {
         return 0;
     }
     buffer = keyRecording->mBuffer;
     pairIndex = keyRecording->mPairIndex;
     if (pairIndex >= buffer->mPairByteCount) {
-        keyRecording->mStatus = 0;
+        keyRecording->mStatus = KEY_RECORDING_IDLE;
         return 0;
     }
     pair = &buffer->mPairs[pairIndex * 2];
@@ -115,11 +115,11 @@ u16 ReadKeysFromKeyRecording(KeyRecording *keyRecording) {
 }
 
 BOOL IsKeyRecordingFull(KeyRecording *keyRecording) {
-    return keyRecording->mStatus == 3;
+    return keyRecording->mStatus == KEY_RECORDING_FULL;
 }
 
 BOOL IsKeyRecordingPlaybackNearBufferEnd(KeyRecording *keyRecording) {
-    if (keyRecording->mStatus != 2) {
+    if (keyRecording->mStatus != KEY_RECORDING_PLAYING) {
         return FALSE;
     }
     return ((u32) keyRecording->mPairIndex << 1) > 0xd1b;

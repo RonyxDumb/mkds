@@ -10,10 +10,10 @@
 #include "code_0200eddc.h"
 
 void FinishKeyRecording(KeyRecording *keyRecording) {
-    if (keyRecording->mStatus != 1) {
+    if (keyRecording->mStatus != KEY_RECORDING_RECORDING) {
         return;
     }
     keyRecording->mBuffer->mPairByteCount = keyRecording->mPairIndex << 1;
-    keyRecording->mStatus = 0;
+    keyRecording->mStatus = KEY_RECORDING_IDLE;
     DC_StoreRange(keyRecording->mBuffer, 0xdcc);
 }

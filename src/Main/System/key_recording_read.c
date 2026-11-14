@@ -3,9 +3,9 @@
 void StartReadingKeyRecording(KeyRecording *record) {
     record->mPairIndex = 0x0u;
     record->mRepeatCount = 0x0u;
-    record->mStatus = 0x2u;
+    record->mStatus = KEY_RECORDING_PLAYING;
 }
 
 void FinishReadingKeyRecording(KeyRecording *record) {
-    record->mStatus = 0x0u;
+    record->mStatus = KEY_RECORDING_IDLE;
 }

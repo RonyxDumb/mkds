@@ -57,12 +57,17 @@ typedef struct KeyRecordingBuffer {
     /* 004 */ u8 mPairs[0xdc8];
 } KeyRecordingBuffer;
 
+// KeyRecording.mStatus: idle, recording, playing back, recording stopped because the buffer is full.
+#define KEY_RECORDING_IDLE 0
+#define KEY_RECORDING_RECORDING 1
+#define KEY_RECORDING_PLAYING 2
+#define KEY_RECORDING_FULL 3
+
 // Pad key bits recorded as (bits, repeat count) byte pairs, and played back from them.
 typedef struct KeyRecording {
     /* 00 */ KeyRecordingBuffer *mBuffer;
     /* 04 */ u16 mPairIndex;
     /* 06 */ u16 mRepeatCount;
-// 0 idle, 1 recording, 2 playing, 3 buffer full.
     /* 08 */ s32 mStatus;
     /* 0c */ BOOL mBufferCleared;
 } KeyRecording;

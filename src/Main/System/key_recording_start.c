@@ -15,5 +15,5 @@ void StartKeyRecording(KeyRecording *record) {
     record->mBufferCleared = FALSE;
     record->mPairIndex = 0;
     record->mRepeatCount = 0;
-    record->mStatus = 1;
+    record->mStatus = KEY_RECORDING_RECORDING;
 }

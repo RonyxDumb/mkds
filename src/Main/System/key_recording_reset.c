@@ -7,5 +7,5 @@ void ClearKeyRecordingBufferPointer(KeyRecording *record) {
 void ResetKeyRecording(KeyRecording *record) {
     record->mPairIndex = 0x0u;
     record->mRepeatCount = 0x0u;
-    record->mStatus = 0x0u;
+    record->mStatus = KEY_RECORDING_IDLE;
 }
