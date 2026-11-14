@@ -8,6 +8,17 @@
 #include "Main/MapObjects/attractor.h" // MapObject, MapObjectList
 #include "Main/MapObjects/map_object_kind_update_list.h"
 
+// Values of Pakkun.mState: turn to a follower, lean back, grow the head, spit, lean forward.
+enum {
+    PAKKUN_STATE_PICK_TARGET,
+    PAKKUN_STATE_TURN_HEAD,
+    PAKKUN_STATE_WAIT_BODY_SETTLE,
+    PAKKUN_STATE_LEAN_BACK,
+    PAKKUN_STATE_GROW_HEAD,
+    PAKKUN_STATE_SPIT,
+    PAKKUN_STATE_LEAN_FORWARD,
+};
+
 // Object up to 0x200 bytes: the shared part, a counter at 0xa4 that cycles between 0xac and 0xb0, a state at 0xb4,
 // seven GroupFollower from 0xb8, then a count and an index at 0x1b8 and 0x1ba and seven values at 0x1bc.
 typedef struct Pakkun {

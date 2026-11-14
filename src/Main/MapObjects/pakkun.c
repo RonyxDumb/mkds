@@ -293,13 +293,13 @@ void UpdatePakkun(void *mapObjectList, Pakkun *pakkun) {
     s32 secondOffset;
     SoundStartParams soundParams;
     switch (pakkun->mState) {
-        case 0:
+        case PAKKUN_STATE_PICK_TARGET:
             pakkun->mFollowerIndex += PakkunMapObjectRandomBelowU16((u16) (pakkun->mFollowerCount - 1)) + 1;
             if (pakkun->mFollowerIndex >= pakkun->mFollowerCount) {
                 pakkun->mFollowerIndex -= pakkun->mFollowerCount;
             }
-            pakkun->mState = 1;
-        case 1:
+            pakkun->mState = PAKKUN_STATE_TURN_HEAD;
+        case PAKKUN_STATE_TURN_HEAD:
             flag = FALSE;
             if (pakkun->mHeadYaw < pakkun->mFollowerYawOffsets[pakkun->mFollowerIndex]) {
                 pakkun->mHeadYaw = pakkun->mHeadYaw + 0x6d;
@@ -314,41 +314,41 @@ void UpdatePakkun(void *mapObjectList, Pakkun *pakkun) {
             }
             if (flag != FALSE) {
                 if (PakkunMapObjectRandomBelowU16(2) == 0) {
-                    pakkun->mState = 2;
+                    pakkun->mState = PAKKUN_STATE_WAIT_BODY_SETTLE;
                 } else {
-                    pakkun->mState = 0;
+                    pakkun->mState = PAKKUN_STATE_PICK_TARGET;
                 }
             }
             break;
-        case 2:
+        case PAKKUN_STATE_WAIT_BODY_SETTLE:
             if (pakkun->mBodyStretchSpeed >= -4 && pakkun->mBodyStretchSpeed <= 4) {
                 pakkun->mTimer = 0x1e;
-                pakkun->mState = 3;
+                pakkun->mState = PAKKUN_STATE_LEAN_BACK;
             }
             break;
-        case 3:
+        case PAKKUN_STATE_LEAN_BACK:
             if (pakkun->mTimer-- <= 0) {
                 pakkun->mTimer = 0;
                 if (pakkun->mBodyStretch >= 0xffc) {
                     pakkun->mBodyStretch = 0x1000;
                     pakkun->mBodyStretchActive = FALSE;
                     pakkun->mHeadScaleSpeed = 0x7b;
-                    pakkun->mState = 4;
+                    pakkun->mState = PAKKUN_STATE_GROW_HEAD;
                 }
             } else {
                 pakkun->mHeadPitch = pakkun->mHeadPitch + 0xa4;
             }
             break;
-        case 4:
+        case PAKKUN_STATE_GROW_HEAD:
             pakkun->mHeadScale = pakkun->mHeadScale + pakkun->mHeadScaleSpeed;
             pakkun->mHeadScaleSpeed = pakkun->mHeadScaleSpeed - 8;
             if (pakkun->mHeadScaleSpeed <= 0) {
                 if (pakkun->mHeadScale <= 0x119a) {
-                    pakkun->mState = 5;
+                    pakkun->mState = PAKKUN_STATE_SPIT;
                 }
             }
             break;
-        case 5:
+        case PAKKUN_STATE_SPIT:
             pakkun->mHeadScale = pakkun->mHeadScale + pakkun->mHeadScaleSpeed;
             pakkun->mHeadScaleSpeed = pakkun->mHeadScaleSpeed - 8;
             if (pakkun->mHeadScale <= 0x1000) {
@@ -378,13 +378,13 @@ void UpdatePakkun(void *mapObjectList, Pakkun *pakkun) {
                 }
             } else if (pakkun->mMouthFrame == 0) {
                 pakkun->mTimer = 0x1e;
-                pakkun->mState = 6;
+                pakkun->mState = PAKKUN_STATE_LEAN_FORWARD;
             }
             break;
-        case 6:
+        case PAKKUN_STATE_LEAN_FORWARD:
             if (pakkun->mTimer-- <= 0) {
                 pakkun->mTimer = 0;
-                pakkun->mState = 0;
+                pakkun->mState = PAKKUN_STATE_PICK_TARGET;
             } else {
                 pakkun->mHeadPitch = pakkun->mHeadPitch - 0xa4;
             }
