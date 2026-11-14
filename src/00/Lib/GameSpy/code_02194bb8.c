@@ -866,7 +866,8 @@ BOOL GpiUpdateSearches(GpConnection *connection) {
             return TRUE;
         }
         for (pendingOp = gpState->mOperationList; pendingOp != NULL; pendingOp = pendingOp->mNext) {
-            if (pendingOp->mType == 3 && pendingOp->mState != 5 && pendingOp->mData->mProcessing == 0) {
+            if (pendingOp->mType == PROFILE_OPERATION_SEARCH && pendingOp->mState != 5 &&
+                pendingOp->mData->mProcessing == 0) {
                 if (count >= gpState->mSearchCount) {
                     AssertionFailed("num < iconnection->numSearches", "gpiSearch.c", NULL, 0x563);
                 }

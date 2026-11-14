@@ -54,7 +54,7 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
     callback = operation->mCallback;
     if (callback.mCallback != NULL) {
         switch (operation->mType) {
-            case 0:
+            case PROFILE_OPERATION_CONNECT:
                 arg = DWCi_GsMalloc(0x20);
                 if (arg == NULL) {
                     GpiSetErrorMessage(connection, "Out of memory.");
@@ -71,7 +71,7 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
                     return result;
                 }
                 break;
-            case 1:
+            case PROFILE_OPERATION_NEW_PROFILE:
                 newProfileArg = DWCi_GsMalloc(8);
                 if (newProfileArg == NULL) {
                     GpiSetErrorMessage(connection, "Out of memory.");
@@ -84,7 +84,7 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
                     return result;
                 }
                 break;
-            case 2:
+            case PROFILE_OPERATION_INFO:
                 arg = DWCi_GsMalloc(0x204);
                 if (arg == NULL) {
                     GpiSetErrorMessage(connection, "Out of memory.");
@@ -97,7 +97,7 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
                     return result;
                 }
                 break;
-            case 3:
+            case PROFILE_OPERATION_SEARCH:
                 searchArg = DWCi_GsMalloc(0x10);
                 if (searchArg == NULL) {
                     GpiSetErrorMessage(connection, "Out of memory.");
@@ -111,7 +111,7 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
                     return result;
                 }
                 break;
-            case 4:
+            case PROFILE_OPERATION_REGISTER_UNIQUE_NICK:
                 uniquenickArg = DWCi_GsMalloc(4);
                 if (uniquenickArg == NULL) {
                     GpiSetErrorMessage(connection, "Out of memory.");
@@ -145,7 +145,7 @@ u32 GpiCreateOperation(GpConnection *connection, int type, int data, int *operat
     pendingOp->mData = (void *) data;
     pendingOp->mBlocking = blocking;
     pendingOp->mState = 0;
-    if (type == 0) {
+    if (type == PROFILE_OPERATION_CONNECT) {
         pendingOp->mId = 1;
     } else {
         pendingOp->mId = gpState->mNextOperationId++;
@@ -166,7 +166,7 @@ void GpiDeleteOperation(GpConnection *connection, GpiOperation *operation) {
     GpiConnection *gpState = connection->mGpiConnection;
     GPISearchData *searchData;
 
-    if (operation->mType == 3) {
+    if (operation->mType == PROFILE_OPERATION_SEARCH) {
         searchData = operation->mData;
         gpState->mSearchCount--;
         if (gpState->mSearchCount < 0) {
@@ -224,7 +224,7 @@ BOOL GpiFindOperation(GpConnection *object, GpiOperation **output, u32 key) {
 BOOL gpiOperationsAreBlocking(GpConnection *object) {
     GpiOperation *node = object->mGpiConnection->mOperationList;
     while (node != NULL) {
-        if (node->mBlocking != 0 && node->mType != 3) {
+        if (node->mBlocking != 0 && node->mType != PROFILE_OPERATION_SEARCH) {
             return TRUE;
         }
         node = node->mNext;
@@ -237,16 +237,16 @@ s32 GpiProcessOperation(GpConnection *connection, GpiOperation *operation, const
     u32 type = operation->mType;
 
     switch (type) {
-        case 0:
+        case PROFILE_OPERATION_CONNECT:
             result = GpiProcessConnectOperation(connection, operation, input);
             break;
-        case 1:
+        case PROFILE_OPERATION_NEW_PROFILE:
             result = gpiProcessNewProfile(connection, operation, input);
             break;
-        case 2:
+        case PROFILE_OPERATION_INFO:
             result = GpiProcessInfoOperation(connection, operation, input);
             break;
-        case 4:
+        case PROFILE_OPERATION_REGISTER_UNIQUE_NICK:
             result = gpiProcessRegisterUniqueNick(connection, operation, input);
             break;
         default:

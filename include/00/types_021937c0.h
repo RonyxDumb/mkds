@@ -43,6 +43,15 @@ typedef struct GPISearchData {
     /* 140 */ s32 mRemove;
 } GPISearchData;
 
+// Values of GpiOperation.mType.
+enum {
+    PROFILE_OPERATION_CONNECT,
+    PROFILE_OPERATION_NEW_PROFILE,
+    PROFILE_OPERATION_INFO,
+    PROFILE_OPERATION_SEARCH,
+    PROFILE_OPERATION_REGISTER_UNIQUE_NICK,
+};
+
 typedef struct GpiOperation {
     /* 00 */ u32 mType;
     /* 04 */ GPISearchData *mData;
