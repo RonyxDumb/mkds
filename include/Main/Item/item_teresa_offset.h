@@ -71,7 +71,7 @@ typedef struct ItemTeresa {
     /* 1a0 */ s32 mStartOffsetVelocityY;
     /* 1a4 */ SegmentPoints mPathSegmentPoints;
     /* 248 */ s32 mPointIndex;
-    /* 24c */ BOOL mUnk_24c;
+    /* 24c */ BOOL mActsLocally;
     /* 250 */ s32 mPendingPickedKartIndex;
     /* 254 */ s32 mTakenItemInfoIndex;
     /* 258 */ s32 mTakenItemCount;

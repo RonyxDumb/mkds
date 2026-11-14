@@ -336,11 +336,12 @@ void DrawOrthoQuadsWithModel(OrthoQuadModel *model) {
         reg_G3_TEXCOORD = 0;
         reg_G3_VTX_16 = *(u32 *) &quad->mCorners[0];
         reg_G3_VTX_16 = 0;
-        reg_G3_TEXCOORD = (u16) ((s32) (model->mUnk_1c << 8) >> 16) << 16;
+        reg_G3_TEXCOORD = (u16) ((s32) (model->mTexSizeS << 8) >> 16) << 16;
         reg_G3_VTX_DIFF = *(u32 *) &quad->mCorners[1];
-        reg_G3_TEXCOORD = (u16) ((s32) (model->mUnk_18 << 8) >> 16) | ((u16) ((s32) (model->mUnk_1c << 8) >> 16) << 16);
+        reg_G3_TEXCOORD =
+            (u16) ((s32) (model->mTexSizeT << 8) >> 16) | ((u16) ((s32) (model->mTexSizeS << 8) >> 16) << 16);
         reg_G3_VTX_DIFF = *(u32 *) &quad->mCorners[2];
-        reg_G3_TEXCOORD = (u16) ((s32) (model->mUnk_18 << 8) >> 16);
+        reg_G3_TEXCOORD = (u16) ((s32) (model->mTexSizeT << 8) >> 16);
         reg_G3_VTX_DIFF = *(u32 *) &quad->mCorners[3];
         reg_G3_END_VTXS = 0;
         quadIndex++;
@@ -467,34 +468,34 @@ void StartOrthoQuads(s32 kartIndex, s32 count, s32 useCreamEffect) {
     for (cellIndex = 0, placedCount = 0; cellIndex < 0x10 && placedCount < count; cellIndex++) {
         if (gOrthoQuadUseCreamEffect != 0) {
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-            startPair.mHalf.mUnk_00 = (s16) (((u64) (u32) (random->mValue >> 32) * 0x1000) >> 32) * 2;
+            startPair.mHalf.mX = (s16) (((u64) (u32) (random->mValue >> 32) * 0x1000) >> 32) * 2;
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-            startPair.mHalf.mUnk_02 = (s16) (((u64) (u32) (random->mValue >> 32) * 0xc00) >> 32) * 2;
+            startPair.mHalf.mY = (s16) (((u64) (u32) (random->mValue >> 32) * 0xc00) >> 32) * 2;
         } else if (gOrthoQuadCount == 0) {
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-            startPair.mHalf.mUnk_00 = ((u64) (u32) (random->mValue >> 32) * 0x1000) >> 32;
+            startPair.mHalf.mX = ((u64) (u32) (random->mValue >> 32) * 0x1000) >> 32;
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-            startPair.mHalf.mUnk_00 =
-                startPair.mHalf.mUnk_00 + (s16) (((u64) (u32) (random->mValue >> 32) * 0x1000) >> 32);
+            startPair.mHalf.mX =
+                startPair.mHalf.mX + (s16) (((u64) (u32) (random->mValue >> 32) * 0x1000) >> 32);
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-            startPair.mHalf.mUnk_02 = ((u64) (u32) (random->mValue >> 32) * 0xc00) >> 32;
+            startPair.mHalf.mY = ((u64) (u32) (random->mValue >> 32) * 0xc00) >> 32;
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-            startPair.mHalf.mUnk_02 =
-                startPair.mHalf.mUnk_02 + (s16) (((u64) (u32) (random->mValue >> 32) * 0xc00) >> 32);
+            startPair.mHalf.mY =
+                startPair.mHalf.mY + (s16) (((u64) (u32) (random->mValue >> 32) * 0xc00) >> 32);
         } else {
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-            startPair.mHalf.mUnk_00 = ((u64) (u32) (random->mValue >> 32) * 0x2000) >> 32;
+            startPair.mHalf.mX = ((u64) (u32) (random->mValue >> 32) * 0x2000) >> 32;
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-            startPair.mHalf.mUnk_02 = ((u64) (u32) (random->mValue >> 32) * 0x1800) >> 32;
+            startPair.mHalf.mY = ((u64) (u32) (random->mValue >> 32) * 0x1800) >> 32;
         }
-        column = startPair.mHalf.mUnk_00 >> 10;
-        row = startPair.mHalf.mUnk_02 >> 10;
+        column = startPair.mHalf.mX >> 10;
+        row = startPair.mHalf.mY >> 10;
         if (row >= 3 || column < 3 || column > 4) {
             if ((gOrthoQuadCells[row] & (cellBit << column)) == 0) {
                 s32 overlap = MarkOrthoQuadCellsAndGetOverlap(column, row);
 
-                startPair.mHalf.mUnk_00 -= 0x1000;
-                startPair.mHalf.mUnk_02 -= 0x600;
+                startPair.mHalf.mX -= 0x1000;
+                startPair.mHalf.mY -= 0x600;
                 SetupOrthoQuad(placedCount, startPair, overlap);
                 placedCount++;
             }
@@ -690,8 +691,8 @@ void SetupOrthoQuadModel(OrthoQuadModel *quadModel, NsbmdModel *model) {
     quadModel->mDifAmb = model->mDiffAmb;
     quadModel->mSpeEmi = model->mSpecEmi;
     teximageParam = quadModel->mTeximageParam;
-    quadModel->mUnk_18 = 1 << (((teximageParam & 0x3800000) >> 0x17) + 0xf);
-    quadModel->mUnk_1c = 1 << (((teximageParam & 0x700000) >> 0x14) + 0xf);
+    quadModel->mTexSizeT = 1 << (((teximageParam & 0x3800000) >> 0x17) + 0xf);
+    quadModel->mTexSizeS = 1 << (((teximageParam & 0x700000) >> 0x14) + 0xf);
 }
 #pragma thumb off
 

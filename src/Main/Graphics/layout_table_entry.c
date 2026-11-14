@@ -108,10 +108,10 @@ u32 DrawLayoutEntry(s32 index, NNSG2dCellDataBank *cells, LayoutEntryTable *cell
     if (entry->mUseMatrix != 0) {
         matrix = &entry->mMatrix;
         group = &oamList->mMatrices[groupIndex];
-        group->mPA = entry->mInverseScaleMatrix.mUnk_00[0] >> 4;
-        group->mPB = entry->mInverseScaleMatrix.mUnk_00[1] >> 4;
-        group->mPC = entry->mInverseScaleMatrix.mUnk_00[2] >> 4;
-        group->mPD = entry->mInverseScaleMatrix.mUnk_00[3] >> 4;
+        group->mPA = entry->mInverseScaleMatrix.a[0] >> 4;
+        group->mPB = entry->mInverseScaleMatrix.a[1] >> 4;
+        group->mPC = entry->mInverseScaleMatrix.a[2] >> 4;
+        group->mPD = entry->mInverseScaleMatrix.a[3] >> 4;
         if (incrementFlag != 0) {
             IncrementOamMatrixCount(oamList);
         }

@@ -43,31 +43,31 @@ void Matrix2x2ReciprocalScale(MtxFx22 *matrix, s32 scale) {
     } else {
         reciprocal = 0x1000;
     }
-    matrix->mUnk_00[3] = reciprocal;
-    matrix->mUnk_00[0] = matrix->mUnk_00[3];
-    matrix->mUnk_00[2] = 0;
-    matrix->mUnk_00[1] = matrix->mUnk_00[2];
+    matrix->a[3] = reciprocal;
+    matrix->a[0] = matrix->a[3];
+    matrix->a[2] = 0;
+    matrix->a[1] = matrix->a[2];
 }
 
 void Matrix2x2Rotation(MtxFx22 *matrix, s32 angle) {
     s32 anglePairFirst = FX_SinIdx(angle);
     s32 anglePairSecond = FX_CosIdx(angle);
 
-    matrix->mUnk_00[0] = anglePairSecond;
-    matrix->mUnk_00[1] = anglePairFirst;
-    matrix->mUnk_00[2] = -anglePairFirst;
-    matrix->mUnk_00[3] = anglePairSecond;
+    matrix->a[0] = anglePairSecond;
+    matrix->a[1] = anglePairFirst;
+    matrix->a[2] = -anglePairFirst;
+    matrix->a[3] = anglePairSecond;
 }
 
 void Matrix2x2ReflectedRotation(MtxFx22 *matrix, s32 angle) {
     s32 anglePairSecond = FX_CosIdx(angle);
     s32 anglePairFirst;
 
-    matrix->mUnk_00[0] = -anglePairSecond;
+    matrix->a[0] = -anglePairSecond;
     anglePairFirst = FX_SinIdx(angle);
-    matrix->mUnk_00[1] = anglePairFirst;
-    matrix->mUnk_00[2] = anglePairFirst;
-    matrix->mUnk_00[3] = anglePairSecond;
+    matrix->a[1] = anglePairFirst;
+    matrix->a[2] = anglePairFirst;
+    matrix->a[3] = anglePairSecond;
 }
 
 void Matrix2x2RotationReciprocalScale(MtxFx22 *matrix, s32 scale, s32 angle) {
@@ -80,10 +80,10 @@ void Matrix2x2RotationReciprocalScale(MtxFx22 *matrix, s32 scale, s32 angle) {
     } else {
         reciprocal = 0x1000;
     }
-    matrix->mUnk_00[0] = MUL_FIXED12_NO_ROUND(anglePairSecond, reciprocal);
-    matrix->mUnk_00[1] = MUL_FIXED12_NO_ROUND(anglePairFirst, reciprocal);
-    matrix->mUnk_00[2] = -matrix->mUnk_00[1];
-    matrix->mUnk_00[3] = matrix->mUnk_00[0];
+    matrix->a[0] = MUL_FIXED12_NO_ROUND(anglePairSecond, reciprocal);
+    matrix->a[1] = MUL_FIXED12_NO_ROUND(anglePairFirst, reciprocal);
+    matrix->a[2] = -matrix->a[1];
+    matrix->a[3] = matrix->a[0];
 }
 
 // TRUE when the points word is plural for this number; one language counts 0 as singular.

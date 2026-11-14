@@ -518,7 +518,7 @@ void NNSi_G3dAnmObjInitNsBca(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dR
     pAnmObj->mNumMapData = pResMdl->mInfo.mNumNode;
     zero = 0;
     MIi_CpuClear16(zero, pAnmObj->mMapData, pAnmObj->mNumMapData * 2);
-    tagOffsets = anim->mUnk_14;
+    tagOffsets = anim->mTagOffsets;
     for (nodeIndex = 0; nodeIndex < anim->mNumNode; nodeIndex++) {
         pAnmObj->mMapData[nodeIndex] = (*OFFSET_PTR(u32, anim, tagOffsets[nodeIndex]) >> 24) | 0x100;
     }
@@ -655,7 +655,7 @@ void getJntSRTAnmResult_(const NNSG3dResJntAnm *jntAnm, int node, s32 frame, NNS
     s32 row1Y;
     s32 row1Z;
 
-    tag = OFFSET_PTR(const u32, jntAnm, jntAnm->mUnk_14[node]);
+    tag = OFFSET_PTR(const u32, jntAnm, jntAnm->mTagOffsets[node]);
     flags = tag[0];
     if (flags & 1) {
         out->mFlag = 7;

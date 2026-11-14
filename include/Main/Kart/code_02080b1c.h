@@ -10,9 +10,9 @@ typedef struct PointLinkCursor {
     /* 04 */ RacePointLink *mPreviousLink;
     /* 08 */ Vec3 mDirection;
     /* 14 */ RacePointLink *mRequestedLink;
-    /* 18 */ BOOL mUnk_18;
+    /* 18 */ BOOL mRequestedLinkFound;
     /* 1c */ u16 mKartIndex;
-    /* 1e */ u8 mUnk_1e;
+    /* 1e */ u8 mBranchChoiceCount;
 } PointLinkCursor;
 
 // Object of 0x2a bytes: an PointLinkCursor at 0x00, a word at 0x20, the halfword at 0x24 given to GetKart and

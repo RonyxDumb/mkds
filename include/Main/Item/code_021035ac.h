@@ -6,8 +6,8 @@
 typedef union {
     u32 mWord;
     struct {
-        /* 00 */ s16 mUnk_00;
-        /* 02 */ s16 mUnk_02;
+        /* 00 */ s16 mX;
+        /* 02 */ s16 mY;
     } mHalf;
 } HalfwordPair;
 

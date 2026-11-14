@@ -7,7 +7,7 @@ typedef struct NNSiFndHeapHead NNSiFndHeapHead;
 // 8-byte entries of two words: a string and a number.
 typedef struct CourseNameEntry {
     /* 00 */ const char *mName;
-    /* 04 */ u8 mUnk_04;
+    /* 04 */ u8 mMultibootVariant;
     /* 05 */ u8 mUnk_05[0x3];
 } CourseNameEntry;
 

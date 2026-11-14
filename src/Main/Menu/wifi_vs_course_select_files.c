@@ -426,7 +426,7 @@ s32 AdvanceWiFiVSCourseSelect(void) {
             }
             SetWiFiSessionOwnPickedCourseId(gCourseIdTable[value]);
             gWiFiVSCourseSelect->mState = 2;
-            gWiFiVSCourseSelect->mUnk_0b0 = 1;
+            gWiFiVSCourseSelect->mSelectResult = 1;
             SetScrollListEnabled(0);
             break;
         case 2:
@@ -471,7 +471,7 @@ s32 AdvanceWiFiVSCourseSelect(void) {
             }
             break;
         case 7:
-            result = gWiFiVSCourseSelect->mUnk_0b0;
+            result = gWiFiVSCourseSelect->mSelectResult;
             break;
     }
     AdvanceWiFiVSCourseSelectTimer();

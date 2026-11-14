@@ -12,8 +12,8 @@ typedef struct {
     /* 10 */ u32 mDifAmb;
     /* 14 */ u32 mSpeEmi;
     // Texture size values computed from mTeximageParam; they go into the texture coordinates of the quads.
-    /* 18 */ u32 mUnk_18;
-    /* 1c */ u32 mUnk_1c;
+    /* 18 */ u32 mTexSizeT;
+    /* 1c */ u32 mTexSizeS;
 } OrthoQuadModel;
 
 #include "Main/Item/code_021035ac.h"

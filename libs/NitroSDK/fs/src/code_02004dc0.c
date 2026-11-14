@@ -31,8 +31,8 @@ u32 fsi_digest_key_len = 0x40;
 
 // Returns the size of the overlay image: the compressed size when the compressed flag is set, else the image size.
 s32 FSi_GetOverlayBinarySize(FSOverlayInfo *info) {
-    if (info->mUnk_1c.b[3] & 1) {
-        return info->mUnk_1c.f.mUnk_00_0;
+    if (info->mCompressedSizeAndFlags.b[3] & 1) {
+        return info->mCompressedSizeAndFlags.f.mCompressedSize;
     }
     return info->mRamSize;
 }
@@ -202,7 +202,7 @@ void FS_StartOverlay(FSOverlayInfo *info) {
     size = FSi_GetOverlayBinarySize(info);
     if (SYSTEM_WORK->mWmBootBuf.mBootType == BOOT_TYPE_MULTIBOOT) {
         verified = 0;
-        if (info->mUnk_1c.b[3] & 2) {
+        if (info->mCompressedSizeAndFlags.b[3] & 2) {
             if (info->mId < ((u8 *) &arc_list - (u8 *) OverlaySignatures) / 20) {
                 verified = FSi_CompareDigest(OverlaySignatures[info->mId], info->mRamAddress, size);
             }
@@ -213,7 +213,7 @@ void FS_StartOverlay(FSOverlayInfo *info) {
             return;
         }
     }
-    if (info->mUnk_1c.b[3] & 1) {
+    if (info->mCompressedSizeAndFlags.b[3] & 1) {
         MIi_UncompressBackward(info->mRamAddress + size);
     }
     DC_FlushRange(info->mRamAddress, info->mRamSize);

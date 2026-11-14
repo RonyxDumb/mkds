@@ -197,7 +197,7 @@ void AdvancePlayerEntryListOffsets(void) {
             fileSet->mCellTable[cellCount + gEntryLabelTextRows[entryIndex].mLabelIndex].mOffsetX;
         fileSet->mCellTable[gEntryCellIndices[entryIndex].mCharacterCellIndex].mOffsetX =
             fileSet->mCellTable[gEntryCellIndices[entryIndex].mKartCellIndex].mOffsetX;
-        fileSet->mCellTable[gEntryCellIndices[entryIndex].mUnk_00].mOffsetX =
+        fileSet->mCellTable[gEntryCellIndices[entryIndex].mEntryCellIndex].mOffsetX =
             fileSet->mCellTable[gEntryCellIndices[entryIndex].mCharacterCellIndex].mOffsetX;
         if (entryIndex == gPlayerEntryList->mEntryIndex) {
             fileSet->mCellTable[GetOwnEntryPositionCopyCellIndex()].mOffsetX = offsetX;
@@ -425,7 +425,7 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
         SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[0], 0);
     }
     CopyCellLayoutEntryPosition(GetOwnEntryPositionCopyCellIndex(),
-                                gEntryCellIndices[gPlayerEntryList->mEntryIndex].mUnk_00, fileSet->mCellLayout);
+                                gEntryCellIndices[gPlayerEntryList->mEntryIndex].mEntryCellIndex, fileSet->mCellLayout);
     for (index = 0; index < 8; index++) {
         PrintEntryName(index, gPlayerEntryList->mEntries[index].mName);
     }

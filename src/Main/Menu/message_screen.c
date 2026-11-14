@@ -157,7 +157,7 @@ void *GetMessageScreenText(void) {
     }
     if (kind == 0) {
         if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
-            return GetBmgEntry(GetDownloadScreenFiles()->mUnk_20, 0);
+            return GetBmgEntry(GetDownloadScreenFiles()->mMBChildMessages, 0);
         }
         return GetBmgEntry(messages, 0x82);
     }

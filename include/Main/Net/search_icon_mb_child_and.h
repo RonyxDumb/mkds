@@ -15,7 +15,7 @@ typedef struct DownloadScreenFiles {
     /* 10 */ Nclr *mSearchIconPalette;
     /* 14 */ void *mMBChildFont;
     /* 18 */ u8 mUnk_18[8];
-    /* 20 */ struct Bmg *mUnk_20;
+    /* 20 */ struct Bmg *mMBChildMessages;
     /* 24 */ Ncgr *mMultiDownloadChars;
     /* 28 */ Nclr *mMultiDownloadPalette;
 } DownloadScreenFiles;

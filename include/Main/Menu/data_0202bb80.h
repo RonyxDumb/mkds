@@ -8,7 +8,7 @@ typedef struct PlayerEntryList PlayerEntryList;
 // 6-byte elements of the table behind gEntryCellIndices: three indices into the arrays at member 0x18 of
 // CellFileSet.
 typedef struct EntryCellIndices {
-    /* 00 */ u16 mUnk_00;
+    /* 00 */ u16 mEntryCellIndex;
     /* 02 */ u16 mCharacterCellIndex;
     /* 04 */ u16 mKartCellIndex;
 } EntryCellIndices;

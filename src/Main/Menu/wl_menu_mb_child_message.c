@@ -63,7 +63,7 @@ void SetupWLMenuMBChildMessage(void *heap) {
     InitWLMenuMessage(heap);
     gWLMenuMessage->mState = 0;
     SetMultiSimple(1);
-    gWLMenuMessage->mMBChildMessages = GetDownloadScreenFiles()->mUnk_20;
+    gWLMenuMessage->mMBChildMessages = GetDownloadScreenFiles()->mMBChildMessages;
     gWLMenuMessage->mFont = (u8 *) GetDownloadScreenFiles() + 0x14;
     charBase = G2S_GetBG1CharPtr();
     text = GetBmgEntry(gWLMenuMessage->mMBChildMessages, 1);

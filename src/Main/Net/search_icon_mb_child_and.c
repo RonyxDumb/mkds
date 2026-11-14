@@ -43,19 +43,19 @@ void CreateSearchIconMBChildAndMultiDownload(void *heap) {
     }
     switch (gStartupWork->mLanguageIndex) {
         default:
-            gDownloadScreenFiles->mUnk_20 = FindFileInLoadedArchives("MBChild_us.bmg");
+            gDownloadScreenFiles->mMBChildMessages = FindFileInLoadedArchives("MBChild_us.bmg");
             break;
         case 2:
-            gDownloadScreenFiles->mUnk_20 = FindFileInLoadedArchives("MBChild_fr.bmg");
+            gDownloadScreenFiles->mMBChildMessages = FindFileInLoadedArchives("MBChild_fr.bmg");
             break;
         case 3:
-            gDownloadScreenFiles->mUnk_20 = FindFileInLoadedArchives("MBChild_ge.bmg");
+            gDownloadScreenFiles->mMBChildMessages = FindFileInLoadedArchives("MBChild_ge.bmg");
             break;
         case 4:
-            gDownloadScreenFiles->mUnk_20 = FindFileInLoadedArchives("MBChild_it.bmg");
+            gDownloadScreenFiles->mMBChildMessages = FindFileInLoadedArchives("MBChild_it.bmg");
             break;
         case 5:
-            gDownloadScreenFiles->mUnk_20 = FindFileInLoadedArchives("MBChild_es.bmg");
+            gDownloadScreenFiles->mMBChildMessages = FindFileInLoadedArchives("MBChild_es.bmg");
             break;
     }
     LoadNcgrData(&gDownloadScreenFiles->mMultiDownloadChars, FindFileInLoadedArchives("multi_download_00_b.NCGR"));

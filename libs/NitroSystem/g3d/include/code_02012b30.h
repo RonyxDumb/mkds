@@ -5,7 +5,7 @@
 
 // Four words of a 2x2 matrix.
 typedef struct MtxFx22 {
-    /* 00 */ s32 mUnk_00[4];
+    /* 00 */ s32 a[4];
 } MtxFx22;
 
 // Three rows of three words.

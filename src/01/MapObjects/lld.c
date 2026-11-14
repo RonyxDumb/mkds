@@ -103,14 +103,14 @@ void AdvanceLld(Lld *lld, OamBuffer *oamBuffer) {
                     u16 idx = AllocOamMatrixIndex(oamBuffer);
                     MtxFx22 mtx = {{0, 0, 0, 0}};
 
-                    mtx.mUnk_00[0] = FX_Div(0x1000, entry->mScale);
-                    mtx.mUnk_00[3] = FX_Div(0x1000, entry->mScale);
-                    ((OamBuffer_000 *) oamBuffer->mOams)[idx].mPA = mtx.mUnk_00[0] >> 4;
-                    ((OamBuffer_000 *) oamBuffer->mOams)[idx].mPB = mtx.mUnk_00[1] >> 4;
-                    ((OamBuffer_000 *) oamBuffer->mOams)[idx].mPC = mtx.mUnk_00[2] >> 4;
-                    ((OamBuffer_000 *) oamBuffer->mOams)[idx].mPD = mtx.mUnk_00[3] >> 4;
-                    mtx.mUnk_00[0] = entry->mScale;
-                    mtx.mUnk_00[3] = entry->mScale;
+                    mtx.a[0] = FX_Div(0x1000, entry->mScale);
+                    mtx.a[3] = FX_Div(0x1000, entry->mScale);
+                    ((OamBuffer_000 *) oamBuffer->mOams)[idx].mPA = mtx.a[0] >> 4;
+                    ((OamBuffer_000 *) oamBuffer->mOams)[idx].mPB = mtx.a[1] >> 4;
+                    ((OamBuffer_000 *) oamBuffer->mOams)[idx].mPC = mtx.a[2] >> 4;
+                    ((OamBuffer_000 *) oamBuffer->mOams)[idx].mPD = mtx.a[3] >> 4;
+                    mtx.a[0] = entry->mScale;
+                    mtx.a[3] = entry->mScale;
                     cell = entry->mCellAnim.mPCurrentCell;
                     scaledPos[0] = TO_FIXED12(screenX);
                     scaledPos[1] = TO_FIXED12(screenY);

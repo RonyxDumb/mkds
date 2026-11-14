@@ -129,13 +129,13 @@ void AdvanceKartAiForRace(KartAi *kartAi) {
 
 void RequestKartAiPointLink(KartAi *kartAi) {
     if (kartAi->mPointLinkCursor.mRequestedLink != NULL) {
-        if (kartAi->mPointLinkCursor.mUnk_18 != FALSE) {
+        if (kartAi->mPointLinkCursor.mRequestedLinkFound != FALSE) {
             return;
         }
     }
     kartAi->mPointLinkCursor.mRequestedLink = FindCourseMapKind4ShapeRacePointLink(&kartAi->mKart->mPos);
     if (kartAi->mPointLinkCursor.mRequestedLink != NULL) {
-        kartAi->mPointLinkCursor.mUnk_18 = TRUE;
+        kartAi->mPointLinkCursor.mRequestedLinkFound = TRUE;
     }
 }
 

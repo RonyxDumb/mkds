@@ -161,7 +161,7 @@ void BuildCourseArchivePath(char *path, s32 courseId, s32 useTexture) {
     const char *dSuffix;
 
     useDSuffix = FALSE;
-    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT && gCourseArchiveNames[courseId].mUnk_04 == 1) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT && gCourseArchiveNames[courseId].mMultibootVariant == 1) {
         useDSuffix = TRUE;
     }
     if (useTexture != 0) {

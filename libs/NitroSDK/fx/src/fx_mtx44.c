@@ -17,66 +17,66 @@ void MTX_Concat44(const MtxFx44 *lhs, const MtxFx44 *rhs, MtxFx44 *product) {
     if (result == rhs) {
         result = &scratch;
     }
-    lhsRow0 = lhs->mUnk_00[0].x;
-    lhsRow1 = lhs->mUnk_00[0].y;
-    lhsRow2 = lhs->mUnk_00[0].z;
-    lhsRow3 = lhs->mUnk_00[0].w;
-    result->mUnk_00[0].x = DOT4_FIXED12(lhsRow0, rhs->mUnk_00[0].x, lhsRow1, rhs->mUnk_00[1].x, lhsRow2,
-                                        rhs->mUnk_00[2].x, lhsRow3, rhs->mUnk_00[3].x);
-    result->mUnk_00[0].y = DOT4_FIXED12(lhsRow0, rhs->mUnk_00[0].y, lhsRow1, rhs->mUnk_00[1].y, lhsRow2,
-                                        rhs->mUnk_00[2].y, lhsRow3, rhs->mUnk_00[3].y);
-    result->mUnk_00[0].w = DOT4_FIXED12(lhsRow0, rhs->mUnk_00[0].w, lhsRow1, rhs->mUnk_00[1].w, lhsRow2,
-                                        rhs->mUnk_00[2].w, lhsRow3, rhs->mUnk_00[3].w);
-    rhsColumn0 = rhs->mUnk_00[0].z;
-    rhsColumn1 = rhs->mUnk_00[1].z;
-    rhsColumn2 = rhs->mUnk_00[2].z;
-    rhsColumn3 = rhs->mUnk_00[3].z;
-    result->mUnk_00[0].z =
+    lhsRow0 = lhs->mRows[0].x;
+    lhsRow1 = lhs->mRows[0].y;
+    lhsRow2 = lhs->mRows[0].z;
+    lhsRow3 = lhs->mRows[0].w;
+    result->mRows[0].x = DOT4_FIXED12(lhsRow0, rhs->mRows[0].x, lhsRow1, rhs->mRows[1].x, lhsRow2, rhs->mRows[2].x,
+                                      lhsRow3, rhs->mRows[3].x);
+    result->mRows[0].y = DOT4_FIXED12(lhsRow0, rhs->mRows[0].y, lhsRow1, rhs->mRows[1].y, lhsRow2, rhs->mRows[2].y,
+                                      lhsRow3, rhs->mRows[3].y);
+    result->mRows[0].w = DOT4_FIXED12(lhsRow0, rhs->mRows[0].w, lhsRow1, rhs->mRows[1].w, lhsRow2, rhs->mRows[2].w,
+                                      lhsRow3, rhs->mRows[3].w);
+    rhsColumn0 = rhs->mRows[0].z;
+    rhsColumn1 = rhs->mRows[1].z;
+    rhsColumn2 = rhs->mRows[2].z;
+    rhsColumn3 = rhs->mRows[3].z;
+    result->mRows[0].z =
         DOT4_FIXED12(lhsRow0, rhsColumn0, lhsRow1, rhsColumn1, lhsRow2, rhsColumn2, lhsRow3, rhsColumn3);
-    lhsRow0 = lhs->mUnk_00[1].x;
-    lhsRow1 = lhs->mUnk_00[1].y;
-    lhsRow2 = lhs->mUnk_00[1].z;
-    lhsRow3 = lhs->mUnk_00[1].w;
-    result->mUnk_00[1].z =
+    lhsRow0 = lhs->mRows[1].x;
+    lhsRow1 = lhs->mRows[1].y;
+    lhsRow2 = lhs->mRows[1].z;
+    lhsRow3 = lhs->mRows[1].w;
+    result->mRows[1].z =
         DOT4_FIXED12(lhsRow0, rhsColumn0, lhsRow1, rhsColumn1, lhsRow2, rhsColumn2, lhsRow3, rhsColumn3);
-    result->mUnk_00[1].y = DOT4_FIXED12(lhsRow0, rhs->mUnk_00[0].y, lhsRow1, rhs->mUnk_00[1].y, lhsRow2,
-                                        rhs->mUnk_00[2].y, lhsRow3, rhs->mUnk_00[3].y);
-    result->mUnk_00[1].w = DOT4_FIXED12(lhsRow0, rhs->mUnk_00[0].w, lhsRow1, rhs->mUnk_00[1].w, lhsRow2,
-                                        rhs->mUnk_00[2].w, lhsRow3, rhs->mUnk_00[3].w);
-    rhsColumn0 = rhs->mUnk_00[0].x;
-    rhsColumn1 = rhs->mUnk_00[1].x;
-    rhsColumn2 = rhs->mUnk_00[2].x;
-    rhsColumn3 = rhs->mUnk_00[3].x;
-    result->mUnk_00[1].x =
+    result->mRows[1].y = DOT4_FIXED12(lhsRow0, rhs->mRows[0].y, lhsRow1, rhs->mRows[1].y, lhsRow2, rhs->mRows[2].y,
+                                      lhsRow3, rhs->mRows[3].y);
+    result->mRows[1].w = DOT4_FIXED12(lhsRow0, rhs->mRows[0].w, lhsRow1, rhs->mRows[1].w, lhsRow2, rhs->mRows[2].w,
+                                      lhsRow3, rhs->mRows[3].w);
+    rhsColumn0 = rhs->mRows[0].x;
+    rhsColumn1 = rhs->mRows[1].x;
+    rhsColumn2 = rhs->mRows[2].x;
+    rhsColumn3 = rhs->mRows[3].x;
+    result->mRows[1].x =
         DOT4_FIXED12(lhsRow0, rhsColumn0, lhsRow1, rhsColumn1, lhsRow2, rhsColumn2, lhsRow3, rhsColumn3);
-    lhsRow0 = lhs->mUnk_00[2].x;
-    lhsRow1 = lhs->mUnk_00[2].y;
-    lhsRow2 = lhs->mUnk_00[2].z;
-    lhsRow3 = lhs->mUnk_00[2].w;
-    result->mUnk_00[2].x =
+    lhsRow0 = lhs->mRows[2].x;
+    lhsRow1 = lhs->mRows[2].y;
+    lhsRow2 = lhs->mRows[2].z;
+    lhsRow3 = lhs->mRows[2].w;
+    result->mRows[2].x =
         DOT4_FIXED12(lhsRow0, rhsColumn0, lhsRow1, rhsColumn1, lhsRow2, rhsColumn2, lhsRow3, rhsColumn3);
-    result->mUnk_00[2].y = DOT4_FIXED12(lhsRow0, rhs->mUnk_00[0].y, lhsRow1, rhs->mUnk_00[1].y, lhsRow2,
-                                        rhs->mUnk_00[2].y, lhsRow3, rhs->mUnk_00[3].y);
-    result->mUnk_00[2].w = DOT4_FIXED12(lhsRow0, rhs->mUnk_00[0].w, lhsRow1, rhs->mUnk_00[1].w, lhsRow2,
-                                        rhs->mUnk_00[2].w, lhsRow3, rhs->mUnk_00[3].w);
-    rhsColumn0 = rhs->mUnk_00[0].z;
-    rhsColumn1 = rhs->mUnk_00[1].z;
-    rhsColumn2 = rhs->mUnk_00[2].z;
-    rhsColumn3 = rhs->mUnk_00[3].z;
-    result->mUnk_00[2].z =
+    result->mRows[2].y = DOT4_FIXED12(lhsRow0, rhs->mRows[0].y, lhsRow1, rhs->mRows[1].y, lhsRow2, rhs->mRows[2].y,
+                                      lhsRow3, rhs->mRows[3].y);
+    result->mRows[2].w = DOT4_FIXED12(lhsRow0, rhs->mRows[0].w, lhsRow1, rhs->mRows[1].w, lhsRow2, rhs->mRows[2].w,
+                                      lhsRow3, rhs->mRows[3].w);
+    rhsColumn0 = rhs->mRows[0].z;
+    rhsColumn1 = rhs->mRows[1].z;
+    rhsColumn2 = rhs->mRows[2].z;
+    rhsColumn3 = rhs->mRows[3].z;
+    result->mRows[2].z =
         DOT4_FIXED12(lhsRow0, rhsColumn0, lhsRow1, rhsColumn1, lhsRow2, rhsColumn2, lhsRow3, rhsColumn3);
-    lhsRow0 = lhs->mUnk_00[3].x;
-    lhsRow1 = lhs->mUnk_00[3].y;
-    lhsRow2 = lhs->mUnk_00[3].z;
-    lhsRow3 = lhs->mUnk_00[3].w;
-    result->mUnk_00[3].z =
+    lhsRow0 = lhs->mRows[3].x;
+    lhsRow1 = lhs->mRows[3].y;
+    lhsRow2 = lhs->mRows[3].z;
+    lhsRow3 = lhs->mRows[3].w;
+    result->mRows[3].z =
         DOT4_FIXED12(lhsRow0, rhsColumn0, lhsRow1, rhsColumn1, lhsRow2, rhsColumn2, lhsRow3, rhsColumn3);
-    result->mUnk_00[3].y = DOT4_FIXED12(lhsRow0, rhs->mUnk_00[0].y, lhsRow1, rhs->mUnk_00[1].y, lhsRow2,
-                                        rhs->mUnk_00[2].y, lhsRow3, rhs->mUnk_00[3].y);
-    result->mUnk_00[3].x = DOT4_FIXED12(lhsRow0, rhs->mUnk_00[0].x, lhsRow1, rhs->mUnk_00[1].x, lhsRow2,
-                                        rhs->mUnk_00[2].x, lhsRow3, rhs->mUnk_00[3].x);
-    result->mUnk_00[3].w = DOT4_FIXED12(lhsRow0, rhs->mUnk_00[0].w, lhsRow1, rhs->mUnk_00[1].w, lhsRow2,
-                                        rhs->mUnk_00[2].w, lhsRow3, rhs->mUnk_00[3].w);
+    result->mRows[3].y = DOT4_FIXED12(lhsRow0, rhs->mRows[0].y, lhsRow1, rhs->mRows[1].y, lhsRow2, rhs->mRows[2].y,
+                                      lhsRow3, rhs->mRows[3].y);
+    result->mRows[3].x = DOT4_FIXED12(lhsRow0, rhs->mRows[0].x, lhsRow1, rhs->mRows[1].x, lhsRow2, rhs->mRows[2].x,
+                                      lhsRow3, rhs->mRows[3].x);
+    result->mRows[3].w = DOT4_FIXED12(lhsRow0, rhs->mRows[0].w, lhsRow1, rhs->mRows[1].w, lhsRow2, rhs->mRows[2].w,
+                                      lhsRow3, rhs->mRows[3].w);
     if (result == &scratch) {
         *product = scratch;
     }

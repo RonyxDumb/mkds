@@ -68,9 +68,9 @@ BOOL CopyEmblemFromBlock(EmblemBlock *emblemBlock, u8 buddyIndex, EmblemData *em
     if (buddyRecord.mFilled == 0 || buddyRecord.mHasEmblem == 0) {
         return FALSE;
     }
-    emblemData->mHasPixels = (emblemBlock->mUnk_04.mFilledBits & (1 << slotIndex)) != 0;
+    emblemData->mHasPixels = (emblemBlock->mBlockData.mFilledBits & (1 << slotIndex)) != 0;
     if (emblemData->mHasPixels != 0) {
-        MI_CpuCopy8(emblemBlock->mUnk_04.mEmblems[slotIndex], emblemData, 0x200);
+        MI_CpuCopy8(emblemBlock->mBlockData.mEmblems[slotIndex], emblemData, 0x200);
     }
     return TRUE;
 }
@@ -84,7 +84,7 @@ void SetupEmblemBlock(EmblemBlock *emblemBlock, u8 buddyIndex) {
     if (blockIndex == emblemBlock->mBlockIndex) {
         return;
     }
-    ReadBackupEmblemBlock(&emblemBlock->mUnk_04, blockIndex);
+    ReadBackupEmblemBlock(&emblemBlock->mBlockData, blockIndex);
     emblemBlock->mBlockIndex = blockIndex;
 }
 

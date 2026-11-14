@@ -44,7 +44,7 @@ BOOL NNS_SndPlayerCreateHeap(int index, NNSSndHeap *heap, u32 size) {
     block->mPlayer = 0;
     block->mPlayerNo = index;
     block->mHandle = 0;
-    inner = NNS_SndHeapCreate(block->mUnk_14, size);
+    inner = NNS_SndHeapCreate(block->mHeapStorage, size);
     if (inner == 0) {
         return 0;
     }

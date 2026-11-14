@@ -15,7 +15,7 @@ typedef struct NNSiG2dBitReader {
 // start of the NNSG2dBinaryFileHeader, relocated by NNSi_G2dUnpackNFT.
 typedef struct FontBlockData {
     /* 00 */ u8 mUnk_00[4];
-    /* 04 */ u32 mUnk_04[4];
+    /* 04 */ u32 mFileOffsets[4];
 } FontBlockData;
 
 void NNSi_G2dUnpackNFT(NNSG2dBinaryFileHeader *file);

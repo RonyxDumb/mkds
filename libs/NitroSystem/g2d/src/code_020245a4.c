@@ -132,24 +132,24 @@ void NNSi_G2dUnpackNFT(NNSG2dBinaryFileHeader *file) {
         switch (block->mKind) {
             case 0x46494e46:
                 blockData = (FontBlockData *) (block + 1);
-                blockData->mUnk_04[1] += (u32) file;
-                if (blockData->mUnk_04[2] != 0) {
-                    blockData->mUnk_04[2] += (u32) file;
+                blockData->mFileOffsets[1] += (u32) file;
+                if (blockData->mFileOffsets[2] != 0) {
+                    blockData->mFileOffsets[2] += (u32) file;
                 }
-                if (blockData->mUnk_04[3] != 0) {
-                    blockData->mUnk_04[3] += (u32) file;
+                if (blockData->mFileOffsets[3] != 0) {
+                    blockData->mFileOffsets[3] += (u32) file;
                 }
                 break;
             case 0x43574448:
                 blockData = (FontBlockData *) (block + 1);
-                if (blockData->mUnk_04[0] != 0) {
-                    blockData->mUnk_04[0] += (u32) file;
+                if (blockData->mFileOffsets[0] != 0) {
+                    blockData->mFileOffsets[0] += (u32) file;
                 }
                 break;
             case 0x434d4150:
                 blockData = (FontBlockData *) (block + 1);
-                if (blockData->mUnk_04[1] != 0) {
-                    blockData->mUnk_04[1] += (u32) file;
+                if (blockData->mFileOffsets[1] != 0) {
+                    blockData->mFileOffsets[1] += (u32) file;
                 }
                 break;
             case 0x43474c50:

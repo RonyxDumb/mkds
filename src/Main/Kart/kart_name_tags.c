@@ -359,9 +359,9 @@ void DrawKartNameTags(MtxFx43 *viewMatrix) {
         } else {
             projectionMatrix = GetProjectionMatrix();
             screenX =
-                DOT2_FIXED12(viewPos.x, projectionMatrix->mUnk_00[0].x, viewPos.z, projectionMatrix->mUnk_00[2].x);
+                DOT2_FIXED12(viewPos.x, projectionMatrix->mRows[0].x, viewPos.z, projectionMatrix->mRows[2].x);
             screenY =
-                DOT2_FIXED12(viewPos.y, projectionMatrix->mUnk_00[1].y, viewPos.z, projectionMatrix->mUnk_00[2].y);
+                DOT2_FIXED12(viewPos.y, projectionMatrix->mRows[1].y, viewPos.z, projectionMatrix->mRows[2].y);
             depth = -((const Vec3 *) &viewPos)->z;
             screenX = FX_Div(screenX, depth);
             screenY = FX_Div(screenY, depth);

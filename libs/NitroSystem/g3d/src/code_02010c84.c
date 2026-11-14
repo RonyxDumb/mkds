@@ -176,12 +176,12 @@ void NNSi_G3dFuncSbc_BB(NNSG3dRS *state, u32 mode) {
             MTX_Copy43To44_(&NNS_G3dGlb.mCameraMtx, &camMtx);
             MTX_Concat44(&clipMtx, &camMtx, &clipMtx);
         }
-        pos->x = clipMtx.mUnk_00[3].x;
-        pos->y = clipMtx.mUnk_00[3].y;
-        pos->z = clipMtx.mUnk_00[3].z;
-        scaleVec->x = VEC_Mag((Vec3 *) &clipMtx.mUnk_00[0]);
-        scaleVec->y = VEC_Mag((Vec3 *) &clipMtx.mUnk_00[1]);
-        scaleVec->z = VEC_Mag((Vec3 *) &clipMtx.mUnk_00[2]);
+        pos->x = clipMtx.mRows[3].x;
+        pos->y = clipMtx.mRows[3].y;
+        pos->z = clipMtx.mRows[3].z;
+        scaleVec->x = VEC_Mag((Vec3 *) &clipMtx.mRows[0]);
+        scaleVec->y = VEC_Mag((Vec3 *) &clipMtx.mRows[1]);
+        scaleVec->z = VEC_Mag((Vec3 *) &clipMtx.mRows[2]);
         if (NNS_G3dGlb.mFlag & 1) {
             reg_G3X_GXFIFO = 0x171012;
             MIi_CpuSend32(gSbcBillboardOpArgs, &reg_G3X_GXFIFO, 8);
@@ -268,18 +268,18 @@ void NNSi_G3dFuncSbc_BBY(NNSG3dRS *state, u32 mode) {
             MTX_Copy43To44_(&NNS_G3dGlb.mCameraMtx, &camMtx);
             MTX_Concat44(&clipMtx, &camMtx, &clipMtx);
         }
-        pos->x = clipMtx.mUnk_00[3].x;
-        pos->y = clipMtx.mUnk_00[3].y;
-        pos->z = clipMtx.mUnk_00[3].z;
-        scaleVec->x = VEC_Mag((Vec3 *) &clipMtx.mUnk_00[0]);
-        scaleVec->y = VEC_Mag((Vec3 *) &clipMtx.mUnk_00[1]);
-        scaleVec->z = VEC_Mag((Vec3 *) &clipMtx.mUnk_00[2]);
-        if (clipMtx.mUnk_00[1].y != 0 || clipMtx.mUnk_00[1].z != 0) {
-            VEC_Normalize((Vec3 *) &clipMtx.mUnk_00[1], &axes[1]);
+        pos->x = clipMtx.mRows[3].x;
+        pos->y = clipMtx.mRows[3].y;
+        pos->z = clipMtx.mRows[3].z;
+        scaleVec->x = VEC_Mag((Vec3 *) &clipMtx.mRows[0]);
+        scaleVec->y = VEC_Mag((Vec3 *) &clipMtx.mRows[1]);
+        scaleVec->z = VEC_Mag((Vec3 *) &clipMtx.mRows[2]);
+        if (clipMtx.mRows[1].y != 0 || clipMtx.mRows[1].z != 0) {
+            VEC_Normalize((Vec3 *) &clipMtx.mRows[1], &axes[1]);
             axes[2].y = -axes[1].z;
             axes[2].z = axes[1].y;
         } else {
-            VEC_Normalize((Vec3 *) &clipMtx.mUnk_00[2], &axes[2]);
+            VEC_Normalize((Vec3 *) &clipMtx.mRows[2], &axes[2]);
             axes[1].z = -axes[2].y;
             axes[1].y = axes[2].z;
         }
@@ -602,8 +602,8 @@ void NNSi_G3dFuncSbc_PRJMAP(NNSG3dRS *state) {
             reg_G3_MTX_POP = 1;
             reg_G3_MTX_MODE = 3;
             NNS_G3dGeBufferOP_N(0x16, &texMtx, 0x10);
-            transX = texMtx.mUnk_00[3].x >> 4;
-            transY = texMtx.mUnk_00[3].y >> 4;
+            transX = texMtx.mRows[3].x >> 4;
+            transY = texMtx.mRows[3].y >> 4;
             texCoord = (u16) (s16) (transX >> 8) | ((u16) (s16) (transY >> 8) << 16);
             NNS_G3dGeBufferOP_N(0x22, &texCoord, 1);
         }

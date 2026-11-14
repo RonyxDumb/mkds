@@ -602,10 +602,10 @@ void InitRaceTaPositions(void) {
     for (index = 0; index < 16; index++) {
         s32 pairFirst = SIN_OF_ANGLE((u16) (index * 0x10000 / 16));
         s32 pairSecond = COS_OF_ANGLE((u16) (index * 0x10000 / 16));
-        gRaceTaPositions->mRotations[index].mUnk_00[0] = pairSecond;
-        gRaceTaPositions->mRotations[index].mUnk_00[1] = pairFirst;
-        gRaceTaPositions->mRotations[index].mUnk_00[2] = -pairFirst;
-        gRaceTaPositions->mRotations[index].mUnk_00[3] = pairSecond;
+        gRaceTaPositions->mRotations[index].a[0] = pairSecond;
+        gRaceTaPositions->mRotations[index].a[1] = pairFirst;
+        gRaceTaPositions->mRotations[index].a[2] = -pairFirst;
+        gRaceTaPositions->mRotations[index].a[3] = pairSecond;
     }
 }
 
@@ -791,9 +791,9 @@ void DrawRaceTaPositions(RaceHudOamBuffer *oamBuffer) {
     }
     for (index = 0; index < 16; index++) {
         MtxFx22 *rotation = &gRaceTaPositions->mRotations[index];
-        (oamBuffer->mMatrices + firstRotationSlot)[index].mPA = rotation->mUnk_00[0] >> 4;
-        (oamBuffer->mMatrices + firstRotationSlot)[index].mPB = rotation->mUnk_00[1] >> 4;
-        (oamBuffer->mMatrices + firstRotationSlot)[index].mPC = rotation->mUnk_00[2] >> 4;
-        (oamBuffer->mMatrices + firstRotationSlot)[index].mPD = rotation->mUnk_00[3] >> 4;
+        (oamBuffer->mMatrices + firstRotationSlot)[index].mPA = rotation->a[0] >> 4;
+        (oamBuffer->mMatrices + firstRotationSlot)[index].mPB = rotation->a[1] >> 4;
+        (oamBuffer->mMatrices + firstRotationSlot)[index].mPC = rotation->a[2] >> 4;
+        (oamBuffer->mMatrices + firstRotationSlot)[index].mPD = rotation->a[3] >> 4;
     }
 }

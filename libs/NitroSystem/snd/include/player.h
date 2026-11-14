@@ -30,14 +30,14 @@ typedef struct NNSSndSeqPlayer {
 
 #include "code_0212d214.h"
 
-// Memory NNS_SndPlayerCreateHeap gets from NNS_SndHeapAlloc: mHandle is the NNSSndHeap it sets up on mUnk_14, mPlayerNo
-// the index of the sPlayer element whose heap list receives it.
+// Memory NNS_SndPlayerCreateHeap gets from NNS_SndHeapAlloc: mHandle is the NNSSndHeap it sets up on mHeapStorage,
+// mPlayerNo the index of the sPlayer element whose heap list receives it.
 typedef struct NNSSndPlayerHeap {
     /* 00 */ u8 mLink[8];
     /* 08 */ NNSSndHeap *mHandle;
     /* 0c */ NNSSndSeqPlayer *mPlayer;
     /* 10 */ u32 mPlayerNo;
-    /* 14 */ u8 mUnk_14[1];
+    /* 14 */ u8 mHeapStorage[1];
 } NNSSndPlayerHeap;
 
 #include "code_0212c7a0.h" // NNSSndPlayer

@@ -99,8 +99,8 @@ static inline void MulMtx22(const MtxFx22 *mtx, const s32 *pSrc, s32 *pDst) {
     if (pSrc == pDst) {
         result = buffer;
     }
-    result[0] = ((s64) mtx->mUnk_00[2] * pSrc[1] + 0x1000 + (s64) mtx->mUnk_00[0] * pSrc[0]) >> 12;
-    result[1] = ((s64) mtx->mUnk_00[3] * pSrc[1] + 0x1000 + (s64) mtx->mUnk_00[1] * pSrc[0]) >> 12;
+    result[0] = ((s64) mtx->a[2] * pSrc[1] + 0x1000 + (s64) mtx->a[0] * pSrc[0]) >> 12;
+    result[1] = ((s64) mtx->a[3] * pSrc[1] + 0x1000 + (s64) mtx->a[1] * pSrc[0]) >> 12;
     if (result == buffer) {
         pDst[0] = buffer[0];
         pDst[1] = buffer[1];
@@ -171,9 +171,9 @@ u16 NNS_G2dMakeCellToOams(GXOamAttr *pDstOams, u16 numDstOam, NNSG2dCellDataWith
                 halfWidth = gObjShapeWidth[shape][size] >> 1;
                 halfHeight = gObjShapeHeight[shape][size] >> 1;
                 oamOffset[0] +=
-                    pMtxSR->mUnk_00[0] * halfWidth + (s32) -TO_FIXED12(halfWidth) + pMtxSR->mUnk_00[2] * halfHeight;
+                    pMtxSR->a[0] * halfWidth + (s32) -TO_FIXED12(halfWidth) + pMtxSR->a[2] * halfHeight;
                 oamOffset[1] +=
-                    pMtxSR->mUnk_00[1] * halfWidth + (s32) -TO_FIXED12(halfHeight) + pMtxSR->mUnk_00[3] * halfHeight;
+                    pMtxSR->a[1] * halfWidth + (s32) -TO_FIXED12(halfHeight) + pMtxSR->a[3] * halfHeight;
                 if (shouldAdjust != 0) {
                     oamOffset[0] -= TO_FIXED12(halfWidth);
                     oamOffset[1] -= TO_FIXED12(halfHeight);

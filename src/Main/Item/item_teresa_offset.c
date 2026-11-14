@@ -116,7 +116,7 @@ void ResetItemTeresa(ItemTeresa *teresa) {
     teresa->mPickedKartIndex = 8;
     teresa->mFollowEnded = 0;
     FreeItemObjectCollisionSlot(&teresa->mItemObject);
-    teresa->mUnk_24c = 0;
+    teresa->mActsLocally = 0;
     teresa->mPendingPickedKartIndex = 0xffffffff;
     teresa->mTakenItemInfoIndex = ITEM_TERESA_NOT_RECEIVED;
     teresa->mTakenItemCount = 0xffffffff;
@@ -337,7 +337,7 @@ void InitItemTeresa(ItemInUse *inUse, ItemTeresa *teresa) {
         teresa->mPicksAheadFirst = TRUE;
     }
     SetStateMachineState(&teresa->mStateMachine, 0);
-    teresa->mUnk_24c = TRUE;
+    teresa->mActsLocally = TRUE;
 }
 
 void AdvanceItemTeresa(ItemTeresa *teresa) {
@@ -384,7 +384,8 @@ void PlaceItemTeresaAtKart(ItemTeresa *teresa, s32 shiftAlongCameraSide) {
         isTarget = FALSE;
     }
     if (isTarget != FALSE) {
-        if (teresa->mFollowEnded == FALSE && (teresa->mItemObject.mFlags & 0x8000000) && teresa->mUnk_24c != FALSE) {
+        if (teresa->mFollowEnded == FALSE && (teresa->mItemObject.mFlags & 0x8000000) &&
+            teresa->mActsLocally != FALSE) {
             teresa->mFollowEnded = TRUE;
             AddItemDataItemIdAndBytes(0xb, teresa->mItemObject.mId, 1, teresa->mStateMachine.mState & 0xff);
         } else {
@@ -578,7 +579,7 @@ void UpdateItemTeresaState0(ItemTeresa *teresa) {
     if (!(teresa->mItemObject.mFlags & 0x8000000)) {
         return;
     }
-    if (teresa->mUnk_24c != FALSE) {
+    if (teresa->mActsLocally != FALSE) {
         return;
     }
     if (teresa->mFollowEnded != FALSE) {
@@ -594,13 +595,13 @@ void UpdateItemTeresaState0(ItemTeresa *teresa) {
 }
 
 void EnterItemTeresaState1(ItemTeresa *teresa) {
-    if (teresa->mUnk_24c == FALSE) {
+    if (teresa->mActsLocally == FALSE) {
         return;
     }
     PickItemTeresaKartByRank(teresa, -1);
     AddItemDataItemIdAndBytes(0xb, teresa->mItemObject.mId, 0, teresa->mPickedKartIndex & 0xff);
     teresa->mPendingPickedKartIndex = teresa->mPickedKartIndex;
-    teresa->mUnk_24c = FALSE;
+    teresa->mActsLocally = FALSE;
 }
 
 void UpdateItemTeresaState1(ItemTeresa *teresa) {
@@ -610,7 +611,7 @@ void UpdateItemTeresaState1(ItemTeresa *teresa) {
         return;
     }
     stateFrames = teresa->mStateMachine.mStateFrames;
-    if (teresa->mUnk_24c == FALSE && stateFrames < 0x28) {
+    if (teresa->mActsLocally == FALSE && stateFrames < 0x28) {
         return;
     }
     teresa->mDelayTimer = stateFrames - 0x28;
@@ -722,7 +723,7 @@ void UpdateItemTeresaState2(ItemTeresa *teresa) {
     } else {
         framesLeft = 0x28 - AdvanceItemTeresaFadeIn(teresa, 1, 3);
         if (teresa->mItemObjectKind == ITEM_TERESA_KIND_EMPTY) {
-            if (teresa->mUnk_24c != FALSE) {
+            if (teresa->mActsLocally != FALSE) {
                 if (framesLeft == 0xa) {
                     teresa->mItemObjectKind = RemoveItemTeresaPickedKartItem(teresa);
                     teresa->mItemModelAlpha = 0;
@@ -763,7 +764,7 @@ void UpdateItemTeresaState2(ItemTeresa *teresa) {
     if (!(teresa->mItemObject.mFlags & 0x8000000)) {
         return;
     }
-    if (teresa->mUnk_24c != FALSE) {
+    if (teresa->mActsLocally != FALSE) {
         return;
     }
     if (teresa->mFollowEnded != FALSE) {
@@ -821,7 +822,7 @@ void UpdateItemTeresaState3(ItemTeresa *teresa) {
         if (!(teresa->mItemObject.mFlags & 0x8000000)) {
             return;
         }
-        if (teresa->mUnk_24c != FALSE) {
+        if (teresa->mActsLocally != FALSE) {
             return;
         }
         if (teresa->mFollowEnded != FALSE) {
@@ -839,7 +840,7 @@ void UpdateItemTeresaState3(ItemTeresa *teresa) {
 
 void EnterItemTeresaState4(ItemTeresa *teresa) {
     teresa->mDelayTimer = ((teresa->mItemObject.mFlags & 0x10000000) ? 0xf : 0) - teresa->mDelayTimer;
-    teresa->mUnk_24c = FALSE;
+    teresa->mActsLocally = FALSE;
 }
 
 void UpdateItemTeresaState4(ItemTeresa *teresa) {
@@ -847,7 +848,7 @@ void UpdateItemTeresaState4(ItemTeresa *teresa) {
     if (teresa->mDelayTimer >= 0) {
         return;
     }
-    teresa->mUnk_24c = (teresa->mItemObject.mFlags & 0x10000000) == 0;
+    teresa->mActsLocally = (teresa->mItemObject.mFlags & 0x10000000) == 0;
     teresa->mStateMachine.mNextState = 5;
     teresa->mStateMachine.mNextStateRequested = 1;
 }
@@ -876,7 +877,7 @@ void EnterItemTeresaState5(ItemTeresa *teresa) {
     ownerKartItems = GetKartItems(ownerKartIndex);
     teresa->mKart = ownerKartItems->mKart;
     teresa->mFollowEnded = FALSE;
-    if (teresa->mUnk_24c != FALSE) {
+    if (teresa->mActsLocally != FALSE) {
         if (ownerKartItems->mActiveItem == ITEM_INFO_TERESA) {
             teresa->mKartDrawMatrixPos = teresa->mKart->mDrawMatrixPos;
             teresa->mKartVelocity = teresa->mKart->mVelocity;
@@ -922,7 +923,8 @@ void UpdateItemTeresaState5(ItemTeresa *teresa) {
         ownerKartIndex = 8;
     }
     ownerKartItems = GetKartItems(ownerKartIndex);
-    if (teresa->mUnk_24c != FALSE && ownerKartItems->mActiveItem != ITEM_INFO_TERESA && teresa->mItemCount != -0x40) {
+    if (teresa->mActsLocally != FALSE && ownerKartItems->mActiveItem != ITEM_INFO_TERESA &&
+        teresa->mItemCount != -0x40) {
         teresa->mFollowEnded = TRUE;
         if (teresa->mItemObject.mFlags & 0x8000000) {
             AddItemDataItemIdAndBytes(0xb, teresa->mItemObject.mId, 1, 5);
@@ -934,7 +936,7 @@ void UpdateItemTeresaState5(ItemTeresa *teresa) {
                 teresa->mItemModelAlpha -= 5;
             }
             if (framesLeft == 1) {
-                if (teresa->mUnk_24c == FALSE) {
+                if (teresa->mActsLocally == FALSE) {
                     if (teresa->mGivenItemCount == -1) {
                         receivedItem = FALSE;
                     } else {
@@ -958,7 +960,7 @@ void UpdateItemTeresaState5(ItemTeresa *teresa) {
                 }
                 ownerKartItems->mActiveItem = ITEM_INFO_NONE;
                 if (teresa->mItemInfoIndex != ITEM_INFO_NONE) {
-                    if (teresa->mUnk_24c == FALSE) {
+                    if (teresa->mActsLocally == FALSE) {
                         SetParticipantHeldItem(((u8 *) gParticipantKartMap)[ownerKartItems->mKartIndex & 0xff],
                                                teresa->mItemInfoIndex, teresa->mItemCount);
                     } else {
@@ -972,7 +974,7 @@ void UpdateItemTeresaState5(ItemTeresa *teresa) {
                     teresa->mItemCount = -0x40;
                     teresa->mItemObjectKind = ITEM_TERESA_KIND_EMPTY;
                 }
-                if ((teresa->mItemObject.mFlags & 0x8000000) && teresa->mUnk_24c != FALSE) {
+                if ((teresa->mItemObject.mFlags & 0x8000000) && teresa->mActsLocally != FALSE) {
                     AddItemDataItemIdAndBytes(
                         0xb, teresa->mItemObject.mId, 3,
                         ((ownerKartItems->mHeldItem.mItemInfoIndex << 2) | ownerKartItems->mHeldItem.mObjectCount) &
@@ -995,7 +997,7 @@ skip:
     if (!(teresa->mItemObject.mFlags & 0x8000000)) {
         return;
     }
-    if (teresa->mUnk_24c != FALSE) {
+    if (teresa->mActsLocally != FALSE) {
         return;
     }
     if (teresa->mFollowEnded != FALSE) {
@@ -1045,7 +1047,7 @@ void UpdateItemTeresaState6(ItemTeresa *teresa) {
     if (!(teresa->mItemObject.mFlags & 0x8000000)) {
         return;
     }
-    if (teresa->mUnk_24c != FALSE) {
+    if (teresa->mActsLocally != FALSE) {
         return;
     }
     if (teresa->mFollowEnded != FALSE) {
@@ -1109,7 +1111,7 @@ void SetItemTeresaFromPacket(ItemTeresa *teresa, u32 sel, s32 value) {
         case 0:
             teresa->mPendingPickedKartIndex = value;
             if (teresa->mPendingPickedKartIndex == gRaceSetup->mEntryIndex) {
-                teresa->mUnk_24c = TRUE;
+                teresa->mActsLocally = TRUE;
             }
             break;
         case 1:

@@ -152,13 +152,13 @@ void AdvanceStaffRollPointLinkCursor(PointLinkCursor *pointLinkCursor) {
     u16 nextLinkIndex;
     s32 animation;
 
-    if (pointLinkCursor->mLink->mNextCount > 1 && pointLinkCursor->mUnk_1e < 2) {
-        if (pointLinkCursor->mUnk_1e == 0) {
+    if (pointLinkCursor->mLink->mNextCount > 1 && pointLinkCursor->mBranchChoiceCount < 2) {
+        if (pointLinkCursor->mBranchChoiceCount == 0) {
             nextLinkIndex = pointLinkCursor->mKartIndex / 3;
         } else {
             nextLinkIndex = pointLinkCursor->mKartIndex % 3;
         }
-        pointLinkCursor->mUnk_1e++;
+        pointLinkCursor->mBranchChoiceCount++;
     } else {
         nextLinkIndex = 0;
     }
@@ -345,7 +345,7 @@ void AdvanceKartAiAlongLinks(KartAi *kartAi, PointLinkCursor *linkCursor, Kart *
     gAdvanceKartAiPointLinkCursor(linkCursor);
     gSetKartAiLinkPos(kartAi, linkCursor, kart);
     linkCursor->mRequestedLink = NULL;
-    linkCursor->mUnk_18 = FALSE;
+    linkCursor->mRequestedLinkFound = FALSE;
 }
 
 void SetKartAiLinkPosAndAddSideOffset(KartAi *kartAi, PointLinkCursor *linkCursor, Kart *kart) {

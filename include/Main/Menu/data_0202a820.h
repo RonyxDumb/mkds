@@ -26,7 +26,7 @@ typedef struct WiFiVSCourseSelect {
     /* 090 */ void *mHeap;
     /* 094 */ RandomState64 mRandom;
     /* 0ac */ s32 mState;
-    /* 0b0 */ s32 mUnk_0b0;
+    /* 0b0 */ s32 mSelectResult;
     /* 0b4 */ s32 mEntryIndex;
     /* 0b8 */ s32 mPlayerCount;
     /* 0bc */ s32 mShownCourseIds[4];

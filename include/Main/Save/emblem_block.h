@@ -10,7 +10,7 @@
 typedef struct EmblemBlock {
     /* 00 */ s8 mBlockIndex;
     /* 01 */ u8 mUnk_01[3];
-    /* 04 */ EmblemBlockData mUnk_04;
+    /* 04 */ EmblemBlockData mBlockData;
 } EmblemBlock;
 
 void CreateShapeMapObjectCountList(void *heap);
