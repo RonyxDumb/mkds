@@ -9,6 +9,33 @@
 
 typedef struct MapObject MapObject;
 
+enum {
+    KART_AI_DRIFT_NONE,
+    KART_AI_DRIFT_HOP_PENDING,
+    KART_AI_DRIFT_HOLDING,
+    KART_AI_DRIFT_RELEASE_PENDING,
+    KART_AI_DRIFT_COUNTER_STEER,
+};
+
+enum {
+    KART_AI_TURN_NONE,
+    KART_AI_TURN_LEFT,
+    KART_AI_TURN_RIGHT,
+};
+
+enum {
+    KART_AI_CONTACT_NONE,
+    KART_AI_CONTACT_STEER_FLAT,
+    KART_AI_CONTACT_SLOW,
+    KART_AI_CONTACT_REQUEST_LINK,
+    KART_AI_CONTACT_KART_CALLED,
+};
+
+#define KART_AI_CONTACT_FRAMES_NONE 0x14
+#define KART_AI_CONTACT_FRAMES_STEER_FLAT 0x78
+#define KART_AI_CONTACT_FRAMES_SLOW 0xb4
+#define KART_AI_CONTACT_FRAMES_REQUEST_LINK 0xb4
+
 // Object of 0x34 bytes at 0xe8 of the object KartAi starts: PickBattleKartAiRaceStart writes the words at 0x28 and 0x2c
 // and the halfword at 0x30.
 typedef struct KartAiRaceSpeedLimit {

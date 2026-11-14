@@ -318,7 +318,7 @@ void AdvanceKartAiHeading(struct KartAi *kartAi, Vec3 *directionA, Vec3 *directi
     }
     steered = FALSE;
     CallKartAiLinkPosAndDirection(&linkPos, &linkDir, kartAi);
-    if (kartAi->mContactStage == 1) {
+    if (kartAi->mContactStage == KART_AI_CONTACT_STEER_FLAT) {
         surfaceNormal = &kart->mRotationRow1;
         dot = VEC_DotProduct(surfaceNormal, &linkDir);
         flatLinkDir.x = linkDir.x - MUL_FIXED12_NO_ROUND(surfaceNormal->x, dot);
@@ -362,7 +362,7 @@ void AdvanceKartAiHeading(struct KartAi *kartAi, Vec3 *directionA, Vec3 *directi
     if ((kart->mEffectFlags & KART_EFFECT_GESSO) && kartAi->mTurnAngleDegrees < 0x46000 &&
         (kart->mMotionFlags & KART_MOTION_ON_GROUND) &&
         !(kart->mDriveFlags & (KART_DRIVE_BOOST | KART_DRIVE_RACE_START_BOOST)) && kart->mVelocityLength > 0x3000 &&
-        kartAi->mDriftState != 2 && kartAi->mContactStage == 0) {
+        kartAi->mDriftState != KART_AI_DRIFT_HOLDING && kartAi->mContactStage == KART_AI_CONTACT_NONE) {
         kartAi->mHeadingSwingPhase += 0x44c;
         kartAi->mHeadingSwingOffset = MUL_FIXED12_ROUNDED(FX_SinIdx(kartAi->mHeadingSwingPhase), 0xfa);
         kart->mHeadingAngle += (s16) kartAi->mHeadingSwingOffset * kartAi->mHeadingSwingSign;

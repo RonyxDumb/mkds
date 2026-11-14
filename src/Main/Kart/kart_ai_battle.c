@@ -209,7 +209,7 @@ void ResetBattleKartAi(KartAi *kartAi) {
     kartAi->mContactStageFrames = 0;
     kartAi->mContactStageFrameLimit = 0;
     kartAi->mLinkSpeedLimit = 0;
-    kartAi->mContactStage = 0;
+    kartAi->mContactStage = KART_AI_CONTACT_NONE;
     kartAi->mContactTimer = 0;
     kartAi->mTargetKart = NULL;
     kartAi->mTargetAhead = 0;
