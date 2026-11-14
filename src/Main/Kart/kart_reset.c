@@ -860,7 +860,7 @@ void InitKartSoundParams(Kart *kart) {
     lowRatioSoundId = *(s32 *) ((u8 *) &gKartSoundRowSoundIds[0][5] + rowOffset);
     lastSoundColumn = *(s32 *) ((u8 *) &gKartSoundRowSoundIds[0][6] + rowOffset);
     soundRow.mSoundRowIndex = soundRowIndex;
-    soundRow.mUnk_04 = firstSoundColumn;
+    soundRow.mPitchedSoundId = firstSoundColumn;
     soundRow.mUnk_08 = secondSoundColumn;
     soundRow.mUnk_0c = thirdSoundColumn;
     soundRow.mHighRatioSoundId = highRatioSoundId;

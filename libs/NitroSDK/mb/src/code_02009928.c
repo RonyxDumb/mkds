@@ -607,7 +607,7 @@ s32 MB_Init(void *buffer, MBUserInfo *user, u32 ggid, u32 tgid, u32 dmaNo) {
     wirelessWork->mSendBufferSize = 0;
     wirelessWork->mReceiveBufferSize = 0;
     wirelessWork->mContSend = 1;
-    wirelessWork->mReceiveBuffer = parentWork->mUnk_0000 + 0x400;
+    wirelessWork->mReceiveBuffer = parentWork->mRecvBuffer;
     wirelessWork->mEntryFlag = 1;
     wirelessWork->mMultiBootFlag = 0;
     wirelessWork->mCsFlag = 1;
@@ -708,7 +708,7 @@ s32 MBi_StartParentCore(u16 channel) {
     }
     mbc->mEntryCount = 0;
     clearValues[1] = 0;
-    MIi_CpuClear16(clearValues[1], mbc->mUnk_1788, 0x5d40);
+    MIi_CpuClear16(clearValues[1], mbc->mFileInfo, 0x5d40);
     MI_CpuFill8(mbc->mReq2child, 0, 0x1e);
     gWirelessWork->mMode = 1;
     gWirelessWork->mCallback = MBi_CommParentCallback;

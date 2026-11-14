@@ -16,7 +16,7 @@ typedef struct ArchiveSlotInfo {
     /* 08 */ s8 mBufferIndex;
     /* 09 */ u8 mUnk_09[0x3];
     /* 0c */ s32 mUncompressSource;
-    /* 10 */ s32 mUnk_10;
+    /* 10 */ s32 mAllocFromHeapEnd;
     /* 14 */ s32 mUnk_14;
 } ArchiveSlotInfo;
 

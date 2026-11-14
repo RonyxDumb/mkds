@@ -38,10 +38,10 @@ void InitMultiBootParentComm(u32 ggid, u32 tgid) {
     MultiBootParentHeader clearedHeader;
 
     OS_GetOwnerInfo(&ownerInfo);
-    userInfo.mUnk_00 = (userInfo.mUnk_00 & ~0xf) | (ownerInfo.mFavoriteColor & 0xf);
+    userInfo.mColorAndPlayerNo = (userInfo.mColorAndPlayerNo & ~0xf) | (ownerInfo.mFavoriteColor & 0xf);
     userInfo.mNameLength = ownerInfo.mNickNameLength;
     MI_CpuCopy8(ownerInfo.mNickName, userInfo.mName, ownerInfo.mNickNameLength * 2);
-    userInfo.mUnk_00 &= ~0xf0;
+    userInfo.mColorAndPlayerNo &= ~0xf0;
     {
         u16 *words = (u16 *) &clearedHeader;
         words[0] = 0;

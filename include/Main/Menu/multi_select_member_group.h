@@ -34,8 +34,8 @@ typedef struct MultiSelectMemberGroup {
     /* 4c */ s32 mState;
     /* 50 */ s32 mUpdateState;
     /* 54 */ s32 mNextCallbacksIndex;
-    /* 58 */ ScanSlotMemberRow mUnk_58[4];
-    /* 88 */ BOOL mUnk_88;
+    /* 58 */ ScanSlotMemberRow mMemberRows[4];
+    /* 88 */ BOOL mRowPressed;
     /* 8c */ s32 mBg3OffsetFrames;
     /* 90 */ s32 mBg3Offset;
     /* 94 */ s32 mEntriesClearFrames;

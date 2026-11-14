@@ -98,13 +98,13 @@ void UpdateGroupItemBoxHeightOffset(void) {
 void UpdateGroupItemBox(void *unused, ItemBox *itemBox) {
     if (itemBox->mFollower.mGroupFollower.mGroupIndex != 0xffff) {
         if (AdvanceGroupFollowerWithSpeeds(&itemBox->mFollower) != 0) {
-            if (itemBox->mFollower.mGroupFollower.mFromEntry->mUnk_10 != 0) {
+            if (itemBox->mFollower.mGroupFollower.mFromEntry->mExtraValue != 0) {
                 SetupGroupFollowerWithSpeeds(&itemBox->mFollower, 0, 1);
             }
         }
         GetGroupFollowerCurvePosition(&itemBox->mFollower.mGroupFollower, &itemBox->mMapObject.mPos);
-        if (itemBox->mFollower.mGroupFollower.mFromEntry->mUnk_0d != 0 &&
-            itemBox->mFollower.mGroupFollower.mToEntry->mUnk_0d != 0) {
+        if (itemBox->mFollower.mGroupFollower.mFromEntry->mFlagBitOn != 0 &&
+            itemBox->mFollower.mGroupFollower.mToEntry->mFlagBitOn != 0) {
             itemBox->mMapObject.mFlags |= gGroupItemBoxEntryFlag;
         } else {
             itemBox->mMapObject.mFlags &= ~0x20;

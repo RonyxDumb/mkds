@@ -110,11 +110,11 @@ void WriteKartToParticipantRecord(Kart *kart) {
     record->mPosZ = kart->mPos.z >> 10;
     record->mForwardSpeed = kart->mForwardSpeed >> 2;
     record->mHeadingAngle = kart->mHeadingAngle;
-    record->mUnk_10 = kart->mMotionFlags;
-    record->mUnk_10 = record->mUnk_10 | (((recordState->mPushDirection.x >> 6) & 0xff) << 24 |
+    record->mMotionFlagsAndPush = kart->mMotionFlags;
+    record->mMotionFlagsAndPush = record->mMotionFlagsAndPush | (((recordState->mPushDirection.x >> 6) & 0xff) << 24 |
                                          ((recordState->mPushDirection.y >> 6) & 0xff) << 16 |
                                          ((recordState->mPushDirection.z >> 6) & 0xff) << 8);
-    record->mUnk_14 = kart->mDriveFlags;
+    record->mDriveFlags = kart->mDriveFlags;
     record->mFlags = recordState->mEventToggleFlags;
     record->mTurnAngle = kart->mTurnAngle;
 }

@@ -407,7 +407,7 @@ void DrawKartNameTagTexture(TexPlttEntry *texPlttEntry, KartNameTag *kartObject,
     quadMatrix.mRows[3] = kartObject->mPos;
     MTX_Concat43(&quadMatrix, viewMatrix, &quadMatrix);
     quadMatrix.mRows[3].x = screenX;
-    if (kartObject->mUnk_10 == TRUE) {
+    if (kartObject->mApplyXOffset == TRUE) {
         quadMatrix.mRows[3].x = screenX + (MUL_FIXED12_ROUNDED(xOffset, scaleX) + 0x1e000);
     }
     quadMatrix.mRows[3].y = 0x5000 + screenY + MUL_FIXED12_ROUNDED(yOffset, scaleY);

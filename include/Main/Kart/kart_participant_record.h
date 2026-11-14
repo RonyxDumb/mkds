@@ -13,8 +13,8 @@ typedef struct ParticipantKartRecord {
     /* 08 */ s16 mTurnAngle;
     /* 0a */ u16 mHeadingAngle;
     /* 0c */ u32 mFlags;
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ u32 mUnk_14;
+    /* 10 */ u32 mMotionFlagsAndPush;
+    /* 14 */ u32 mDriveFlags;
 } ParticipantKartRecord;
 
 void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 stepCount);
@@ -54,14 +54,16 @@ int CollideKartWithMapObjectResponse6(Kart *kart, s32 *result, MapObject *mapObj
 // Collision response 4 of gCollideKartWithMapObjectResponses (indexed by the value CollideKartWithMapObject returns for
 // the kart and the map object): when mVelocityLength of the kart is above 0x3000 or flag 0x200 of mFlags of the object
 // is set it runs TrySpinKart with 2 and, when that succeeds, calls StartEffect with 0xc, 0xd and 0xe at mPos unless the
-// mUnk_058 member of mKartModelsEntry is non-zero and, for the selected kart, increments the counter of the record
-// GetEntryKartCounters returns; it then stores 4 through the second parameter. Otherwise it stores 2. Returns 0xb.
+// mKartModelHidden member of mKartModelsEntry is non-zero and, for the selected kart, increments the counter of the
+// record GetEntryKartCounters returns; it then stores 4 through the second parameter. Otherwise it stores 2. Returns
+// 0xb.
 int CollideKartWithMapObjectResponse4(Kart *kart, s32 *result, MapObject *mapObject);
 // Collision response 3 of gCollideKartWithMapObjectResponses (indexed by the value CollideKartWithMapObject returns for
 // the kart and the map object): when mVelocityLength of the kart is above 0x3000 or flag 0x200 of mFlags of the object
 // is set it runs TrySpinKart with 1 and, when that succeeds, calls StartEffect with 0xc, 0xd and 0xe at mPos unless the
-// mUnk_058 member of mKartModelsEntry is non-zero and, for the selected kart, increments the counter of the record
-// GetEntryKartCounters returns; it then stores 3 through the second parameter. Otherwise it stores 2. Returns 0xb.
+// mKartModelHidden member of mKartModelsEntry is non-zero and, for the selected kart, increments the counter of the
+// record GetEntryKartCounters returns; it then stores 3 through the second parameter. Otherwise it stores 2. Returns
+// 0xb.
 int CollideKartWithMapObjectResponse3(Kart *kart, s32 *result, MapObject *mapObject);
 
 // Collision response 2 of gCollideKartWithMapObjectResponses (indexed by the value CollideKartWithMapObject returns for

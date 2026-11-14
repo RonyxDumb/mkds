@@ -40,9 +40,9 @@ void AddMapObjectToUpdateList(MapObjectList *mapObjectList, MapObject *mapObject
         kindData = mapObject->mKindData;
         mapObjectList->mPassOrPosStepMode = kindData->mPosStepMode;
     }
-    if (mapObjectList->mUnk_1c == NULL) {
+    if (mapObjectList->mCollideItemObjectCallback == NULL) {
         kindData = mapObject->mKindData;
-        mapObjectList->mUnk_1c = kindData->mCollideItemObjectCallback;
+        mapObjectList->mCollideItemObjectCallback = kindData->mCollideItemObjectCallback;
     }
     if (mapObjectList->mItemFirstResponse == 3) {
         mapObjectList->mItemFirstResponse = GetItemObjectFirstResponse(6, mapObject);

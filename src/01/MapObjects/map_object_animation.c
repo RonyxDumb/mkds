@@ -695,14 +695,14 @@ CourseMapGroupEntry *GetCurrentGroupEntry(MissionRunMapObject *mapObject) {
 
 s32 GetCurrentGroupEntryValue(MissionRunMapObject *mapObject) {
     if (mapObject->mEntryGroupIndex < gCourseMap->mEntryGroupCount) {
-        return GetCourseMapGroupEntry(mapObject->mEntryGroupIndex, mapObject->mEntryIndex)->mUnk_0e;
+        return GetCourseMapGroupEntry(mapObject->mEntryGroupIndex, mapObject->mEntryIndex)->mValue;
     }
     return 0;
 }
 
 s32 GetCurrentGroupEntryPercent(MissionRunMapObject *mapObject) {
     if (mapObject->mEntryGroupIndex < gCourseMap->mEntryGroupCount) {
-        return GetCourseMapGroupEntry(mapObject->mEntryGroupIndex, mapObject->mEntryIndex)->mUnk_10;
+        return GetCourseMapGroupEntry(mapObject->mEntryGroupIndex, mapObject->mEntryIndex)->mExtraValue;
     }
     return 0;
 }

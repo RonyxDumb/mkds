@@ -203,10 +203,10 @@ void SetupGroupFollowerWithSpeeds(GroupFollowerWithSpeeds *follower, u16 entryIn
     s32 entryValue;
     s32 speed;
     SetupGroupFollowerAtEntry(&follower->mGroupFollower, entryIndex, forward);
-    entryValue = follower->mGroupFollower.mFromEntry->mUnk_0e;
+    entryValue = follower->mGroupFollower.mFromEntry->mValue;
     follower->mFromSpeed = entryValue != 0 ? follower->mSpeedPerEntryUnit * entryValue : follower->mDefaultSpeed;
     follower->mInitialSpeed = follower->mFromSpeed;
-    entryValue = follower->mGroupFollower.mToEntry->mUnk_0e;
+    entryValue = follower->mGroupFollower.mToEntry->mValue;
     follower->mToSpeed = entryValue != 0 ? follower->mSpeedPerEntryUnit * entryValue : follower->mDefaultSpeed;
     speed = follower->mInitialSpeed;
     follower->mGroupFollower.mSpeed = speed;
@@ -223,7 +223,7 @@ s32 AdvanceGroupFollowerWithSpeeds(GroupFollowerWithSpeeds *follower) {
     crossedEnd = AdvanceGroupFollower(&follower->mGroupFollower);
     if (crossedEnd != 0) {
         follower->mFromSpeed = follower->mToSpeed;
-        entryValue = follower->mGroupFollower.mToEntry->mUnk_0e;
+        entryValue = follower->mGroupFollower.mToEntry->mValue;
         follower->mToSpeed = entryValue != 0 ? follower->mSpeedPerEntryUnit * entryValue : follower->mDefaultSpeed;
     }
     if (follower->mFromSpeed != follower->mToSpeed) {

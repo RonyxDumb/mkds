@@ -565,24 +565,24 @@ void StartEmblemButtonBounceAndToggle(void *lld, s32 index) {
 }
 
 void InitEmblem(void) {
-    DisplaySettingsDesc unk;
+    DisplaySettingsDesc displaySettingsDesc;
     EmblemRecord *emblemRecord;
 
     gEmblem = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x10c0);
-    InitDisplaySettingsDesc(&unk);
-    unk.mUnk_00[3] = 1;
-    unk.mMainBgMode = GX_BGMODE_0;
-    unk.mUnk_0a = 1;
-    unk.mUnk_00[1] = 0x11;
-    unk.mUnk_0e[4] = 3;
-    unk.mUnk_0e[5] = 0x10;
-    unk.mUnk_0e[0] = 0x20;
-    unk.mUnk_0e[1] = 0x40;
-    unk.mSubBgMode = GX_BGMODE_1;
-    unk.mUnk_00[2] = 0x10;
-    unk.mUnk_0e[7] = 4;
-    unk.mUnk_0e[8] = 8;
-    InitDisplayFromSettings(CreateDisplaySettings(GetHeap(GetCurrentHeapCall()), &unk));
+    InitDisplaySettingsDesc(&displaySettingsDesc);
+    displaySettingsDesc.mDispMode = 1;
+    displaySettingsDesc.mMainBgMode = GX_BGMODE_0;
+    displaySettingsDesc.mBg0As = 1;
+    displaySettingsDesc.mMainDisplayMask = 0x11;
+    displaySettingsDesc.mBankForTex = 3;
+    displaySettingsDesc.mBankForTexPltt = 0x10;
+    displaySettingsDesc.mBankForBG = 0x20;
+    displaySettingsDesc.mBankForOBJ = 0x40;
+    displaySettingsDesc.mSubBgMode = GX_BGMODE_1;
+    displaySettingsDesc.mSubDisplayMask = 0x10;
+    displaySettingsDesc.mBankForSubBG = 4;
+    displaySettingsDesc.mBankForSubOBJ = 8;
+    InitDisplayFromSettings(CreateDisplaySettings(GetHeap(GetCurrentHeapCall()), &displaySettingsDesc));
     LoadNclrData(&gEmblem->mEmblemMONclr, (FindSceneFile("emblem_m_o.NCLR")));
     LoadNcgrData2(&gEmblem->mEmblemMONcgr, (FindSceneFile("emblem_m_o.NCGR")));
     LoadNcerData(&gEmblem->mEmblemMNcer, FindSceneFile("emblem_m.NCER"));

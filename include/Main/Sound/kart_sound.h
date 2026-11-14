@@ -8,7 +8,7 @@ typedef struct SoundSource SoundSource;
 // Ten words at 0x40 of a KartSound, built on the stack by InitKartSoundParams.
 typedef struct KartSoundRow {
     /* 00 */ s32 mSoundRowIndex;
-    /* 04 */ s32 mUnk_04;
+    /* 04 */ s32 mPitchedSoundId;
     /* 08 */ s32 mUnk_08;
     /* 0c */ s32 mUnk_0c;
     /* 10 */ s32 mHighRatioSoundId;

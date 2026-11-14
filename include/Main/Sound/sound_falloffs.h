@@ -8,17 +8,17 @@ typedef struct SoundParams SoundParams;
 // Five words of constant data used by InitSoundFalloffs.
 typedef struct SoundFalloffSettings {
     /* 00 */ s32 mOuterDistance;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
+    /* 04 */ s32 mMidDistance;
+    /* 08 */ s32 mMidVolume;
     /* 0c */ s32 mInnerDistance;
     /* 10 */ s32 mMaxVolume;
 } SoundFalloffSettings;
 
 void StopKartSoundWhileRequested(Kart *kart);
 void InitSoundFalloffs(void);
-// Returns the volume of a source from the distance in the mUnk_10 member of p and the forward distance in its mUnk_08
-// member, by the SoundFalloff of the source: the maximum up to the inner distance, falling to 0 at the outer distance.
-// Writes nothing.
+// Returns the volume of a source from the distance in the mDistance member of soundParams and the forward distance in
+// its mUnk_08 member, by the SoundFalloff of the source: the maximum up to the inner distance, falling to 0 at the
+// outer distance. Writes nothing.
 s32 ComputeSoundVolume(SoundParams *soundParams);
 s32 ComputeSoundPan(SoundParams *soundParams);
 u32 ComputeSoundDistanceAndOffsets(SoundParams *soundParams);

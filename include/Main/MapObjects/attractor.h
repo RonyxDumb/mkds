@@ -10,7 +10,7 @@
 struct MapObject;
 struct CourseMapRow;
 
-// Object behind MapObject.mUnk_94, passed to SetSoundSourceFlagBit (which reads its halfword at 0x34).
+// Object behind MapObject.mSound, passed to SetSoundSourceFlagBit (which reads its halfword at 0x34).
 typedef struct MapObjectSound {
     // Sound source of the map object (the sounds started on it).
     /* 00 */ SoundSource mSoundSource;
@@ -67,7 +67,7 @@ typedef struct MapObject {
     /* 68 */ s32 mViewRadius;
     // Horizontal distance from the camera, plus mViewRadius, beyond which the view test sets mDistanceSquaredAndFlags
     // bit 0 (the object fades out). The kind's value, capped by the course settings, and 0x270f000 when the game
-    // record's mUnk_00c is 3.
+    // record's mRaceKind is 3.
     /* 6c */ s32 mDrawDistance;
     // Squared horizontal distance from the camera beyond which the view test sets mDistanceSquaredAndFlags bit 2.
     // Copied from the word at 0x20 of a volume curve of gSoundFalloffs (curve 2 at creation); the kinds compare it with
@@ -122,7 +122,7 @@ typedef struct MapObjectList {
     // A callback in the update lists (CallMapObjectListCallback); the draw lists test it for non-zero
     // (InitMapObjectDrawOrder, the draw loop) and the kinds' creators set it to 1.
     /* 1c */ union {
-        s32 (*mUnk_1c)(MapObject *e, void *a, void *b, void *c);
+        s32 (*mCollideItemObjectCallback)(MapObject *e, void *a, void *b, void *c);
         s32 mSortByDistance;
     };
     /* 20 */ s32 mItemFirstResponse;

@@ -1094,7 +1094,7 @@ void SetNextRaceFromMissionRow(MissionFileRow *missionFileRow, u32 tableRow, u32
     gRaceSetup->mNextHeader.mMissionTableColumn = tableColumn;
     gRaceSetup->mNextHeader.mMode = MODE_MISSION_RUN;
     gRaceSetup->mNextHeader.mCourseId = missionFileRow->mCourseId;
-    gRaceSetup->mNextHeader.mMirrorMode = (missionFileRow->mUnk_1c & 0x10) != 0 ? 1 : 0;
+    gRaceSetup->mNextHeader.mMirrorMode = (missionFileRow->mFlags & 0x10) != 0 ? 1 : 0;
     gRaceSetup->mNextHeader.mUseTeams = 0;
     gRaceSetup->mNextHeader.mRuleKind = 0;
     gRaceSetup->mNextHeader.mCourseListMode = 0;

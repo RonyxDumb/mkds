@@ -26,27 +26,27 @@ void (*gFrameCallback)(s32);
 BrightnessFade gMainBrightnessFade;
 BrightnessFade gSubBrightnessFade;
 
-void InitDisplaySettingsDesc(DisplaySettingsDesc *p0) {
-    p0->mUnk_00[0] = 0x1u;
-    p0->mUnk_00[1] = 0x0u;
-    p0->mUnk_00[2] = 0x0u;
-    p0->mUnk_00[3] = 0x1u;
-    p0->mMainBgMode = GX_BGMODE_0;
-    p0->mUnk_0a = 0x0u;
-    p0->mSubBgMode = GX_BGMODE_0;
-    p0->mUnk_0e[0] = 0x0u;
-    p0->mUnk_0e[1] = 0x0u;
-    p0->mUnk_0e[2] = 0x0u;
-    p0->mUnk_0e[3] = 0x0u;
-    p0->mUnk_0e[4] = 0x0u;
-    p0->mUnk_0e[5] = 0x0u;
-    p0->mUnk_0e[6] = 0x0u;
-    p0->mUnk_0e[7] = 0x0u;
-    p0->mUnk_0e[8] = 0x0u;
-    p0->mUnk_0e[9] = 0x0u;
-    p0->mUnk_0e[10] = 0x0u;
-    p0->mUnk_0e[11] = 0x0u;
-    p0->mUnk_0e[12] = 0x0u;
+void InitDisplaySettingsDesc(DisplaySettingsDesc *displaySettingsDesc) {
+    displaySettingsDesc->mWaitIrqCount = 0x1u;
+    displaySettingsDesc->mMainDisplayMask = 0x0u;
+    displaySettingsDesc->mSubDisplayMask = 0x0u;
+    displaySettingsDesc->mDispMode = 0x1u;
+    displaySettingsDesc->mMainBgMode = GX_BGMODE_0;
+    displaySettingsDesc->mBg0As = 0x0u;
+    displaySettingsDesc->mSubBgMode = GX_BGMODE_0;
+    displaySettingsDesc->mBankForBG = 0x0u;
+    displaySettingsDesc->mBankForOBJ = 0x0u;
+    displaySettingsDesc->mBankForBGExtPltt = 0x0u;
+    displaySettingsDesc->mBankForOBJExtPltt = 0x0u;
+    displaySettingsDesc->mBankForTex = 0x0u;
+    displaySettingsDesc->mBankForTexPltt = 0x0u;
+    displaySettingsDesc->mBankForClearImage = 0x0u;
+    displaySettingsDesc->mBankForSubBG = 0x0u;
+    displaySettingsDesc->mBankForSubOBJ = 0x0u;
+    displaySettingsDesc->mBankForSubBGExtPltt = 0x0u;
+    displaySettingsDesc->mBankForSubOBJExtPltt = 0x0u;
+    displaySettingsDesc->mBankForARM7 = 0x0u;
+    displaySettingsDesc->mBankForLCDC = 0x0u;
 }
 
 void UpdateBrightnessFade(BrightnessFade *fade) {

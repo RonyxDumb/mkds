@@ -17,8 +17,8 @@ typedef struct SunFireball {
     /* b4 */ u16 mMoveAngle;
     /* b6 */ u8 mUnk_b6[2];
     /* b8 */ u32 mState;
-    /* bc */ ParticleEmitter *mUnk_bc;
-    /* c0 */ ParticleEmitter *mUnk_c0;
+    /* bc */ ParticleEmitter *mEmitterA;
+    /* c0 */ ParticleEmitter *mEmitterB;
 } SunFireball;
 
 void StartSunFireball(Vec3 *startPos, Vec3 *direction);

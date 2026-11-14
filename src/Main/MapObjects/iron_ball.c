@@ -173,8 +173,8 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
     if (AdvanceGroupFollower(&ironBall->mFollower) != FALSE) {
         fromEntry = ironBall->mFollower.mFromEntry;
         if (ironBall->mFollower.mForward == 0) {
-            if (fromEntry->mUnk_10 >= 0) {
-                SetupGroupFollowerAtEntry(&ironBall->mFollower, fromEntry->mUnk_10, 1);
+            if (fromEntry->mExtraValue >= 0) {
+                SetupGroupFollowerAtEntry(&ironBall->mFollower, fromEntry->mExtraValue, 1);
                 fromEntry = ironBall->mFollower.mFromEntry;
             } else if (ironBall->mMapObject.mCourseMapRow->mSettings[2] != 0) {
                 SetupGroupFollowerAtEntry(&ironBall->mFollower, 0, 1);
@@ -187,17 +187,17 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
                 ParkMapObject(&ironBall->mMapObject);
                 return;
             }
-        } else if (fromEntry->mUnk_10 >= 0) {
+        } else if (fromEntry->mExtraValue >= 0) {
             mapObjectRandom = GetMapObjectRandom();
             mapObjectRandom->mValue =
                 mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
             randomNumber = ((u64) (u32) (mapObjectRandom->mValue >> 32) * 5) >> 32;
             if (randomNumber != 0) {
-                SetupGroupFollowerAtEntry(&ironBall->mFollower, fromEntry->mUnk_10, 1);
+                SetupGroupFollowerAtEntry(&ironBall->mFollower, fromEntry->mExtraValue, 1);
                 fromEntry = ironBall->mFollower.mFromEntry;
             }
         }
-        value = fromEntry->mUnk_0e;
+        value = fromEntry->mValue;
         if ((u16) value <= 1) {
             ironBall->mPathSpeed = ironBall->mNormalPathSpeed;
             ironBall->mShadowStage = 0;
@@ -227,14 +227,14 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
             ironBall->mMapObject.mPosStep.x = 0;
             ironBall->mMapObject.mPosStep.y = 0;
             ironBall->mMapObject.mPosStep.z = 0;
-            settingValue = fromEntry->mUnk_0e;
+            settingValue = fromEntry->mValue;
             if (settingValue < 200) {
                 StartBoundWobble(settingValue - 100);
                 ironBall->mPathSpeed = 0xf000;
                 ironBall->mShadowStage = 1;
             } else if (settingValue < 300) {
                 flipperIndex = settingValue - 200;
-                if (settingValue != ironBall->mFollower.mToEntry->mUnk_0e) {
+                if (settingValue != ironBall->mFollower.mToEntry->mValue) {
                     ironBall->mPathSpeed = 0x1e000;
                 } else {
                     SetFlipperState4TimerByIndex(flipperIndex);
@@ -243,7 +243,7 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
             }
         }
     }
-    if (ironBall->mFollower.mFromEntry->mUnk_0d != 0 && ironBall->mFollower.mToEntry->mUnk_0d != 0) {
+    if (ironBall->mFollower.mFromEntry->mFlagBitOn != 0 && ironBall->mFollower.mToEntry->mFlagBitOn != 0) {
         ironBall->mMapObject.mFlags |= gIronBallPathEntryFlag;
     } else {
         ironBall->mMapObject.mFlags &= ~0x20;
@@ -262,7 +262,7 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
             ironBall->mHeightOffset = ironBall->mHeightSpeed;
         }
     }
-    value = ironBall->mFollower.mFromEntry->mUnk_0e;
+    value = ironBall->mFollower.mFromEntry->mValue;
     if (value >= 100) {
         GetGroupFollowerLinearPosStep(&ironBall->mFollower, &ironBall->mPathPos, &ironBall->mMapObject.mPosStep);
         ironBall->mPathPos.y += 0x1000;

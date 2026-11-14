@@ -10,7 +10,7 @@ void AdvanceKartForwardSpeedAndAngles(Kart *kart);
 void UpdateKartForwardAndLengthRatio(Kart *kart);
 void UpdateKartSpeedLimit(Kart *kart);
 void UpdateKartSpeedLimitGoal(Kart *kart);
-// Stores the previous collision center: the point mRadius plus 0x400 along the up vector from mUnk_98. Slot 5 of
+// Stores the previous collision center: the point mRadius plus 0x400 along the up vector from mDrawMatrixPos. Slot 5 of
 // Kart.mSlotFunctions for every Kart except the remote Karts of mode 5; also called once from
 // ApplyParticipantKartRecord.
 void SetKartPrevCollisionCenter(Kart *kart);
@@ -35,12 +35,12 @@ void UpdateKartSoundWrapper(Kart *kart);
 s32 AdvanceKartRank(Kart *kart);
 void AddKartSurfaceSoundRequest(Kart *kart, s32 entryIndex);
 void ResetKartTurnAndRadius(Kart *kart);
-// First step of UpdateKarts for one Kart: copies the near-Kart mask, the position, mUnk_1d8, mUnk_2e4 and mUnk_2d8 into
-// their previous values, clears mTestedKartMask, mNearKartMask and some bits of mMotionFlags and mEffectFlags, then
-// runs slot 5 of Kart.mSlotFunctions.
+// First step of UpdateKarts for one Kart: copies the near-Kart mask, the position, mPointAlongUp, mPrevHitVelocity and
+// mHitVelocity into their previous values, clears mTestedKartMask, mNearKartMask and some bits of mMotionFlags and
+// mEffectFlags, then runs slot 5 of Kart.mSlotFunctions.
 void UpdateKartPrevValuesAndClearFlags(Kart *kart);
 // Slot 4 step of one Kart: moves Kart.mCollisionCenter, sweeps it against the course from Kart.mPrevCollisionCenter,
-// counts the step and calls the function in mUnk_230.
+// counts the step and calls the function in mAdvanceOffsetCycle.
 void AdvanceKartCollision(Kart *kart);
 // Slot 3 step of one Kart: speed limits from the physical parameters, the Kart state function, gravity and the velocity
 // added to mPos. Does not test collisions.

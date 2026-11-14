@@ -18,15 +18,15 @@ typedef struct NNSSndHeap NNSSndHeap;
 typedef struct SoundFalloff {
     // Distance beyond which the sound is silent.
     /* 00 */ s32 mOuterDistance;
-    /* 04 */ s32 mUnk_04;
+    /* 04 */ s32 mMidDistance;
     /* 08 */ s32 mUnk_08;
     // Distance up to which the sound has its maximum volume.
     /* 0c */ s32 mInnerDistance;
     // Highest volume of the curve.
     /* 10 */ s32 mMaxVolume;
-    /* 14 */ s32 mUnk_14;
-    /* 18 */ s32 mUnk_18;
-    /* 1c */ s32 mUnk_1c;
+    /* 14 */ s32 mInnerToMidSlope;
+    /* 18 */ s32 mMidToOuterSlope;
+    /* 1c */ s32 mForwardDistanceSlope;
     /* 20 */ s32 mFarDistanceSquared;
 } SoundFalloff;
 

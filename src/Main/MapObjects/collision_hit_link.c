@@ -162,7 +162,7 @@ void UpdateKoopaBlock(void *unused, KoopaBlock *koopaBlock) {
             koopaBlock->mCollisionMapObject.mMapObject.mStateMachine.mNextState = 0;
             koopaBlock->mCollisionMapObject.mMapObject.mStateMachine.mNextStateRequested = 1;
         }
-        koopaBlock->mPauseTimer = follower->mFromEntry->mUnk_0e;
+        koopaBlock->mPauseTimer = follower->mFromEntry->mValue;
     }
     koopaBlock->mCollisionMapObject.mCollisionData.mPreviousPos = koopaBlock->mCollisionMapObject.mMapObject.mPos;
     GetGroupFollowerLinearPosition(follower, &koopaBlock->mCollisionMapObject.mMapObject.mPos);
@@ -211,7 +211,7 @@ void EnterKoopaBlockState1(KoopaBlock *koopaBlock) {
 void UpdateKoopaBlockState1(KoopaBlock *koopaBlock) {
     GroupFollower *follower = &koopaBlock->mFollower;
 
-    if (follower->mToEntry->mUnk_0e == 0) {
+    if (follower->mToEntry->mValue == 0) {
         GroupPath *path = follower->mPath;
         BOOL onEndSegment;
         BOOL onEndSegmentOfOpenPath = FALSE;

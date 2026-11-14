@@ -37,7 +37,8 @@ typedef enum MBCommPState {
 // Object behind mbc. The members from 0x1788 on are reached from a pointer advanced in steps of 0x5d4
 // bytes, so their offsets here include the 0x1788.
 typedef struct MB_CommPWork {
-    /* 0000 */ u8 mUnk_0000[0x1300];
+    /* 0000 */ u8 mSendBuffer[0x400];
+    /* 0400 */ u8 mRecvBuffer[0x1300 - 0x400];
     /* 1300 */ MBUserInfo mUser;
     /* 1316 */ u16 mIsMbInitialized;
     /* 1318 */ s32 mBlockSizeMax;
@@ -57,7 +58,7 @@ typedef struct MB_CommPWork {
     /* 1538 */ MbRequestPieceBuf mReqDataBuf;
     /* 1754 */ u16 mReq2child[15];
     /* 1772 */ u8 mChildUserBuf[0x16];
-    /* 1788 */ u8 mUnk_1788[0x1d1f - 0x1788];
+    /* 1788 */ u8 mFileInfo[0x1d1f - 0x1788];
     /* 1d1f */ u8 mSeqNoFixed;
     /* 1d20 */ u8 mSeqNoVolat;
     /* 1d21 */ u8 mFileNo;

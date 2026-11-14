@@ -45,7 +45,7 @@ u32 MB_RegisterFile(void *rangeTable, SegmentBuffer *source) {
     }
     entryOffset = entryIndex * 0x5d4;
     (OFFSET_PTR(MB_CommPWork, mbc, entryOffset))->mGameReg = rangeTable;
-    record = (MBDownloadFileInfo *) (mbc->mUnk_1788 + entryOffset);
+    record = (MBDownloadFileInfo *) (mbc->mFileInfo + entryOffset);
     MBi_MakeDownloadFileInfo(record, source);
     registry = rangeTable;
     MI_CpuCopy8(registry->mUserParam, record->mReserved, 0x20);
@@ -53,9 +53,9 @@ u32 MB_RegisterFile(void *rangeTable, SegmentBuffer *source) {
         OS_RestoreInterrupts(savedInterrupts);
         return 0;
     }
-    MBi_MakeGameInfo((GameInfoEntry *) (mbc->mUnk_1788 + 0xe4 + entryOffset), rangeTable, (const u8 *) &mbc->mUser);
+    MBi_MakeGameInfo((GameInfoEntry *) (mbc->mFileInfo + 0xe4 + entryOffset), rangeTable, (const u8 *) &mbc->mUser);
     (OFFSET_PTR(MB_CommPWork, mbc, entryOffset))->mFileNo = entryIndex;
-    MB_AddGameInfo((GameInfoEntry *) (mbc->mUnk_1788 + 0xe4 + entryOffset));
+    MB_AddGameInfo((GameInfoEntry *) (mbc->mFileInfo + 0xe4 + entryOffset));
     (OFFSET_PTR(MB_CommPWork, mbc, entryOffset))->mSeqNoFixed = gNextSeqNoFixed++;
     (OFFSET_PTR(MB_CommPWork, mbc, entryOffset))->mGameinfoChildBmp = 1;
     (OFFSET_PTR(MB_CommPWork, mbc, entryOffset))->mSrcAdr = source;

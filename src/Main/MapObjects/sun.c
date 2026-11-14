@@ -181,13 +181,13 @@ void UpdateSun(MapObjectList *mapObjectList, Sun *sun) {
             sun->mFollower.mSpeed = 0x3c000;
             sun->mFollower.mProgressStep = MUL_FIXED12_NO_ROUND(
                 sun->mFollower.mPath->mSegments[sun->mFollower.mSegmentIndex].mInverseProgressLength, 0x3c000);
-            if (AdvanceGroupFollower(&sun->mFollower) != FALSE && (value = sun->mFollower.mFromEntry->mUnk_0e) != 0) {
+            if (AdvanceGroupFollower(&sun->mFollower) != FALSE && (value = sun->mFollower.mFromEntry->mValue) != 0) {
                 if (sun->mMapObject.mFlags & 0x800) {
                     mode = gRaceSetup->mMode;
                     if (mode == MODE_TIME_ATTACK) {
                         sun->mTimer = value;
                     } else if (mode == 5) {
-                        sun->mTimer = sun->mFollower.mFromEntry->mUnk_10;
+                        sun->mTimer = sun->mFollower.mFromEntry->mExtraValue;
                     }
                 }
                 sun->mState = 2;

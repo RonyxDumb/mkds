@@ -217,7 +217,7 @@ void DrawVehicle(VehicleDrawList *drawList, Vehicle *vehicle, u32 unusedArg, u32
     if (drawList->mLinkCullActive != FALSE) {
         dotAxis2 = Vec3DotUnrounded(&vehicle->mMapObject.mMatrix.mRows[2], &drawList->mEntryKartLinkDirection);
         directionFlag = vehicle->mMapObject.mCourseMapRow->mSettings[3];
-        dotLimit = vehicle->mFollower.mFromEntry->mUnk_12;
+        dotLimit = vehicle->mFollower.mFromEntry->mCullDotLimit;
         if (directionFlag == 0) {
             dotAxis2 = -dotAxis2;
         }
@@ -488,7 +488,7 @@ void InitVehicleUpdateList(MapObjectList *updateList) {
             seenGroupMask |= 1 << groupIndex;
             for (entryIndex = 0; entryIndex < entryCount; entryIndex++) {
                 entry = GetCourseMapGroupEntry(groupIndex, entryIndex);
-                angleDegrees = entry->mUnk_0e;
+                angleDegrees = entry->mValue;
                 if (angleDegrees != 0) {
                     if (angleDegrees > 0) {
                         scaledDegrees = 0.5f + TO_FIXED12(angleDegrees);
@@ -499,8 +499,8 @@ void InitVehicleUpdateList(MapObjectList *updateList) {
                 } else {
                     dotLimit = 0x2000;
                 }
-                entry->mUnk_12 = dotLimit;
-                entry->mUnk_0e = zero;
+                entry->mCullDotLimit = dotLimit;
+                entry->mValue = zero;
             }
         }
         vehicleCursor++;

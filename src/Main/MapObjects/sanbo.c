@@ -260,7 +260,7 @@ void UpdateSanbo(void *mapObjectList, Sanbo *sanbo) {
         sanbo->mFollower.mProgressStep = MUL_FIXED12_NO_ROUND(
             value, sanbo->mFollower.mPath->mSegments[sanbo->mFollower.mSegmentIndex].mInverseProgressLength);
         if (AdvanceGroupFollower(&sanbo->mFollower) != FALSE) {
-            sanbo->mPathWaitTimer = (u16) sanbo->mFollower.mFromEntry->mUnk_0e;
+            sanbo->mPathWaitTimer = (u16) sanbo->mFollower.mFromEntry->mValue;
         } else {
             sanbo->mPathWaitTimer = 0;
         }

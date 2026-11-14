@@ -422,7 +422,7 @@ void RefreshMissionRunMSselMCells(void) {
                         ->mMissionFileRows[GetMissionTableValue(gMissionRunMSsel->mMissionTableMtbl,
                                                                 GetMissionTableRow(), missionRunMSsel->mIndex + 1) -
                                            1]
-                        .mUnk_0c),
+                        .mMessageIndex),
         missionRunMSsel->mMissionRunMSselMBncl, missionRunMSsel->mMissionRunMSselMTable);
 }
 

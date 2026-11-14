@@ -161,7 +161,7 @@ void MBi_CommParentCallback(s32 eventCode, WirelessMessage *eventData) {
                 value = slotIndex * 0x5d4;
                 if ((OFFSET_PTR(MB_CommPWork, work, value))->mEntryUsed != 0 &&
                     (OFFSET_PTR(MB_CommPWork, work, value))->mGameinfoChangedBmp != 0) {
-                    MB_UpdateGameInfoMember((GameInfoEntry *) (work->mUnk_1788 + 0xe4 + value), work->mChildUser,
+                    MB_UpdateGameInfoMember((GameInfoEntry *) (work->mFileInfo + 0xe4 + value), work->mChildUser,
                                             (OFFSET_PTR(MB_CommPWork, work, value))->mGameinfoChildBmp,
                                             (OFFSET_PTR(MB_CommPWork, work, value))->mGameinfoChangedBmp);
                     (OFFSET_PTR(MB_CommPWork, mbc, value))->mGameinfoChangedBmp = childBit;
@@ -381,7 +381,7 @@ u32 MBi_CommParentSendDLFileInfo(void) {
     u16 childMask;
     u8 fid;
     MB_CommPWork *work;
-    u8 v8;
+    u8 searchCount;
     u8 *sendBlock;
     childMask = 0;
     candidateFile = -1;
@@ -394,15 +394,15 @@ u32 MBi_CommParentSendDLFileInfo(void) {
         }
     }
     fid = prev_fid;
-    v8 = 0;
+    searchCount = 0;
     do {
         fid = (fid + 1) % 16;
         if ((OFFSET_PTR(MB_CommPWork, work, fid * 0x5d4))->mEntryUsed != 0 && requestCounts[fid] != 0) {
             candidateFile = (s8) fid;
             break;
         }
-        v8++;
-    } while (v8 < 16);
+        searchCount++;
+    } while (searchCount < 16);
     if (candidateFile == -1) {
         return 21;
     }
@@ -416,7 +416,7 @@ u32 MBi_CommParentSendDLFileInfo(void) {
     message.mFid = candidateFile;
     sendBlock = MBi_MakeParentSendBuffer((u8 *) &message, (u8 *) work);
     if (sendBlock != NULL) {
-        MI_CpuCopy8(mbc->mUnk_1788 + candidateFile * 0x5d4, sendBlock, 0xe4);
+        MI_CpuCopy8(mbc->mFileInfo + candidateFile * 0x5d4, sendBlock, 0xe4);
     }
     return MBi_BlockHeaderEnd(0xea, childMask, *(u32 *) &mbc);
 }
@@ -484,7 +484,7 @@ u32 MBi_CommParentSendBlock(void) {
     work = mbc;
     childEntry = OFFSET_PTR(MB_CommPWork, work, work->mCurFileid * 0x5d4);
     if (MBi_get_blockinfo(&blockInfo, work->mBlockInfoTable + work->mCurFileid * 0x5d4, childEntry->mCurrentb,
-                          work->mUnk_1788 + work->mCurFileid * 0x5d4) == FALSE) {
+                          work->mFileInfo + work->mCurFileid * 0x5d4) == FALSE) {
         return 21;
     }
     message.mKind = 4;

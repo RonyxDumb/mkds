@@ -2667,8 +2667,8 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
     newPos.z = record->mPosZ << 10;
     kart->mForwardSpeed = record->mForwardSpeed << 2;
     kart->mHeadingAngle = record->mHeadingAngle;
-    state->mRecordBits = record->mUnk_14;
-    state->mRecordKartBits = record->mUnk_10;
+    state->mRecordBits = record->mDriveFlags;
+    state->mRecordKartBits = record->mMotionFlagsAndPush;
     byte = state->mRecordKartBits >> 24;
     state->mPushDirection.x = (s16) (((byte & 0x80) ? 0xc000 : 0) | (byte << 6));
     byte = state->mRecordKartBits >> 16;

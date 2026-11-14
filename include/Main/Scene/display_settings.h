@@ -56,11 +56,26 @@ typedef struct DisplayBgRecords {
 
 // The 0x28 bytes InitDisplaySettings copies to the start of an DisplaySettings.
 typedef struct DisplaySettingsDesc {
-    /* 00 */ u16 mUnk_00[4];
+    /* 00 */ u16 mWaitIrqCount;
+    /* 02 */ u16 mMainDisplayMask;
+    /* 04 */ u16 mSubDisplayMask;
+    /* 06 */ u16 mDispMode;
     /* 08 */ u16 mMainBgMode;
-    /* 0a */ u16 mUnk_0a;
+    /* 0a */ u16 mBg0As;
     /* 0c */ u16 mSubBgMode;
-    /* 0e */ u16 mUnk_0e[13];
+    /* 0e */ u16 mBankForBG;
+    /* 10 */ u16 mBankForOBJ;
+    /* 12 */ u16 mBankForBGExtPltt;
+    /* 14 */ u16 mBankForOBJExtPltt;
+    /* 16 */ u16 mBankForTex;
+    /* 18 */ u16 mBankForTexPltt;
+    /* 1a */ u16 mBankForClearImage;
+    /* 1c */ u16 mBankForSubBG;
+    /* 1e */ u16 mBankForSubOBJ;
+    /* 20 */ u16 mBankForSubBGExtPltt;
+    /* 22 */ u16 mBankForSubOBJExtPltt;
+    /* 24 */ u16 mBankForARM7;
+    /* 26 */ u16 mBankForLCDC;
 } DisplaySettingsDesc;
 
 // Values of BrightnessFade.mState: fully faded and still, fading toward clear, clear, fading toward faded.
@@ -116,7 +131,7 @@ void WaitIrqAndTurnOnDisplays(void);
 void InitBrightnessFades(void);
 void UpdateBrightnessFade(BrightnessFade *fade);
 
-void InitDisplaySettingsDesc(DisplaySettingsDesc *p0);
+void InitDisplaySettingsDesc(DisplaySettingsDesc *displaySettingsDesc);
 
 extern BrightnessFade gMainBrightnessFade;
 extern BrightnessFade gSubBrightnessFade;

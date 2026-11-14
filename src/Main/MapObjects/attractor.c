@@ -438,7 +438,7 @@ void CallMapObjectListCallback(MapObjectList *list) {
     s32 (*callback)(MapObject *, void *, void *, void *);
 
     count = list->mMapObjectCount;
-    callback = list->mUnk_1c;
+    callback = list->mCollideItemObjectCallback;
     objects = list->mMapObjects;
     callbackArgs[0] = list->mItemFirstResponse;
     callbackArgs[1] = 0;

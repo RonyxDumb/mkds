@@ -50,7 +50,7 @@ typedef struct MbBeaconRecvStatus {
 // Element of the array at 0x10 in MbBeacon.
 typedef struct MBUserInfo {
     /* 00 */ union {
-        u8 mUnk_00;
+        u8 mColorAndPlayerNo;
         struct {
             u8 mFavoriteColor : 4;
             u8 mPlayerNo : 4;

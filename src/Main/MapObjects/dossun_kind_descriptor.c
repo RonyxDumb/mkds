@@ -206,7 +206,7 @@ void UpdateDossun(void *unused, Dossun *dossun) {
             break;
     }
     if (AdvanceGroupFollower(follower) != FALSE) {
-        switch (follower->mFromEntry->mUnk_10) {
+        switch (follower->mFromEntry->mExtraValue) {
             case 0:
                 stateValue = 0;
                 break;
@@ -248,7 +248,7 @@ void UpdateDossun(void *unused, Dossun *dossun) {
             }
             dossun->mEnteredState5 = TRUE;
         }
-        dossun->mTimer = follower->mFromEntry->mUnk_0e;
+        dossun->mTimer = follower->mFromEntry->mValue;
         if (dossun->mTimer != 0) {
             dossun->mMapObject.mPos = follower->mPath->mSegments[follower->mSegmentIndex].mPoints[0];
             dossun->mMapObject.mPos.y += dossun->mHeightOffset;
@@ -348,7 +348,7 @@ void SetupDossunAtStartEntry(Dossun *dossun) {
     SetupGroupFollowerAtEntry(follower, dossun->mStartEntryIndex, 1);
     GetGroupFollowerLinearPosition(follower, &dossun->mMapObject.mPos);
     dossun->mMapObject.mPos.y += dossun->mHeightOffset;
-    switch (follower->mFromEntry->mUnk_10) {
+    switch (follower->mFromEntry->mExtraValue) {
         case 0:
             state = 0;
             break;
@@ -363,7 +363,7 @@ void SetupDossunAtStartEntry(Dossun *dossun) {
             break;
     }
     dossun->mState = state;
-    dossun->mTimer = follower->mFromEntry->mUnk_0e;
+    dossun->mTimer = follower->mFromEntry->mValue;
     dossun->mHitState = 0;
     dossun->mSpinAngle = 0;
     dossun->mSpinSpeed = dossun->mSpinAngle;

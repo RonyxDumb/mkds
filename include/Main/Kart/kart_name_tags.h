@@ -30,7 +30,7 @@ typedef struct KartNameTag {
     /* 00 */ Vec3 mPos;
     /* 0c */ u16 mKartIndex;
     /* 0e */ u8 mUnk_0e[2];
-    /* 10 */ BOOL mUnk_10;
+    /* 10 */ BOOL mApplyXOffset;
     /* 14 */ s32 mUnk_14;
     /* 18 */ BOOL mFadeStopped;
     /* 1c */ KartNameTagTexPlttEntries *mTexPlttEntries;
