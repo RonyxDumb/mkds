@@ -122,25 +122,25 @@ BOOL SetupNextItemGessoStep(ItemGesso *gesso) {
     stepIndex = gesso->mStepIndex;
     if (stepIndex != 0xc && stepIndex != 0xd) {
         if (gesso->mTargetVelocityY > 0) {
-            gesso->mTargetScaleX = 0xe66;
-            gesso->mTargetScaleY = 0x1266;
+            gesso->mTargetScaleX = ITEM_GESSO_TALL_SCALE_X;
+            gesso->mTargetScaleY = ITEM_GESSO_TALL_SCALE_Y;
             gesso->mScaleYAndApproachRate.z = 0x4cd;
         } else if (stepIndex == 4) {
-            gesso->mTargetScaleX = 0x1000;
-            gesso->mTargetScaleY = 0x1000;
+            gesso->mTargetScaleX = TO_FIXED12(1);
+            gesso->mTargetScaleY = TO_FIXED12(1);
             gesso->mScaleYAndApproachRate.z = 0x1000;
         } else {
-            gesso->mTargetScaleX = 0x1333;
-            gesso->mTargetScaleY = 0xc29;
+            gesso->mTargetScaleX = ITEM_GESSO_SQUAT_SCALE_X;
+            gesso->mTargetScaleY = ITEM_GESSO_SQUAT_SCALE_Y;
             gesso->mScaleYAndApproachRate.z = 0x28f;
         }
     } else if (stepIndex == 0xc) {
-        gesso->mTargetScaleX = 0x199a;
-        gesso->mTargetScaleY = 0x119a;
+        gesso->mTargetScaleX = ITEM_GESSO_SPREAD_SCALE_X;
+        gesso->mTargetScaleY = ITEM_GESSO_SPREAD_SCALE_Y;
         gesso->mScaleYAndApproachRate.z = 0x800;
     } else {
-        gesso->mTargetScaleX = 0x800;
-        gesso->mTargetScaleY = 0x800;
+        gesso->mTargetScaleX = ITEM_GESSO_HALF_SCALE;
+        gesso->mTargetScaleY = ITEM_GESSO_HALF_SCALE;
         gesso->mScaleYAndApproachRate.z = 0x99a;
     }
     stepIndex = gesso->mStepIndex;

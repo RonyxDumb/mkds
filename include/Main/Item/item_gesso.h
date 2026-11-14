@@ -5,6 +5,16 @@
 #include "Main/MapObjects/pendulum.h"
 #include "Main/Race/data_020f36d8.h"
 
+// Target scales (1.12 fixed point) of an ItemGesso step: taller than wide when the target velocity Y is above 0, wider
+// than tall otherwise, a larger spread and a half size at two steps near the end.
+#define ITEM_GESSO_TALL_SCALE_X 0xe66
+#define ITEM_GESSO_TALL_SCALE_Y 0x1266
+#define ITEM_GESSO_SQUAT_SCALE_X 0x1333
+#define ITEM_GESSO_SQUAT_SCALE_Y 0xc29
+#define ITEM_GESSO_SPREAD_SCALE_X 0x199a
+#define ITEM_GESSO_SPREAD_SCALE_Y 0x119a
+#define ITEM_GESSO_HALF_SCALE 0x800
+
 // Object of item kind 10, element of gItemPools[10].
 typedef struct ItemGesso {
     /* 000 */ ItemObject mItemObject;
