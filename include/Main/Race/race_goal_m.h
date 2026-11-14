@@ -37,6 +37,10 @@ void ClearRaceStartGpPointer(void);
 
 typedef struct RaceHudOamBuffer RaceHudOamBuffer;
 
+// RaceGoalM.mMissionRecordValue and mComputedMissionRecordValue when there is no value (no record saved, or the entry
+// kart did not finish).
+#define MISSION_RECORD_VALUE_NONE 9
+
 // Object behind gRaceGoalM, 0x1c bytes allocated by InitRaceGoalM.
 typedef struct RaceGoalM {
 // 0 once the followed kart has status 1 or the race is done, until mUpdateFrames passes 0x14 (0x1e or 0x4b by the

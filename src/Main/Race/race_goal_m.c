@@ -88,12 +88,12 @@ void InitRaceGoalM(void) {
         if (GetMissionRecordValue(gRaceSetup->mMode == MODE_MISSION_RUN ? gRaceSetup->mMissionTableRow : -1,
                                   gRaceSetup->mMode == MODE_MISSION_RUN ? gRaceSetup->mMissionTableColumn : -1,
                                   &gRaceGoalM->mMissionRecordValue) == 0) {
-            gRaceGoalM->mMissionRecordValue = 9;
+            gRaceGoalM->mMissionRecordValue = MISSION_RECORD_VALUE_NONE;
         }
     } else {
-        gRaceGoalM->mMissionRecordValue = 9;
+        gRaceGoalM->mMissionRecordValue = MISSION_RECORD_VALUE_NONE;
     }
-    gRaceGoalM->mComputedMissionRecordValue = 9;
+    gRaceGoalM->mComputedMissionRecordValue = MISSION_RECORD_VALUE_NONE;
 }
 
 void ClearRaceGoalMPointer(void) {
@@ -160,7 +160,7 @@ void UpdateRaceGoalM(void) {
             break;
         case MODE_MISSION_RUN:
             if (IsKartEnded((u16) gRaceSetup->mEntryIndex) != 0 ? gRaceProgress->mEntryEndKind : 6) {
-                gRaceGoalM->mComputedMissionRecordValue = 9;
+                gRaceGoalM->mComputedMissionRecordValue = MISSION_RECORD_VALUE_NONE;
             } else {
                 gRaceGoalM->mComputedMissionRecordValue = ComputeMissionRecordValue();
             }
@@ -287,7 +287,7 @@ void DrawRaceGoalMMissionRun(RaceHudOamBuffer *oamBuffer) {
 
     frames = gRaceGoalM->mUpdateFrames;
     offsetY = InterpolateS16(1, -0x80, 0, frames, 0x14);
-    if (gRaceGoalM->mMissionRecordValue != 9 &&
+    if (gRaceGoalM->mMissionRecordValue != MISSION_RECORD_VALUE_NONE &&
         gRaceGoalM->mComputedMissionRecordValue > gRaceGoalM->mMissionRecordValue && frames >= 0x1e) {
         blinkFrame = frames - 10;
         if (blinkFrame < 0x54) {
