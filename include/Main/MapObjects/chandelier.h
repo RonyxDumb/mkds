@@ -6,12 +6,16 @@
 #include "01/MapObjects/data_0209bc74.h"
 #include "Main/MapObjects/airship_draw.h" // Airship
 
+// Values of TownMonte.mSoundId that InitTownMonteObjects picks from the animation frame.
+#define TOWN_MONTE_SOUND_FIRST 0x1a7
+#define TOWN_MONTE_SOUND_SECOND 0x1a8
+
 // Object of kind 0x157 (TownMonte) with the MapObject base: two halfwords at 0xa0 and 0xa2, then three words
 // (UpdateTownMonte, InitTownMonteObjects, DrawTownMonte).
 typedef struct TownMonte {
     /* 00 */ MapObject mMapObject;
-// Frame of the .nsbtp animation chosen at random by InitTownMonteObjects; frames 0 and 1 also set mSoundId to 0x1a7
-// and 0x1a8.
+// Frame of the .nsbtp animation chosen at random by InitTownMonteObjects; frames 0 and 1 also set mSoundId to the first
+// and the second sound.
     /* a0 */ u16 mNsbtpFrameIndex;
     /* a2 */ u16 mSoundId;
     /* a4 */ s32 mBounceOffset;

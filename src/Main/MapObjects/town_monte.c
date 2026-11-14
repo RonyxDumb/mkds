@@ -245,14 +245,16 @@ void InitTownMonteObjects(MapObjectList *mapObjectList) {
         }
         if (townMonte->mMapObject.mCourseMapRow->mSettings[0] != 0) {
             if (townMonte->mNsbtpFrameIndex == 0) {
-                townMonte->mSoundId = 0x1a7;
+                townMonte->mSoundId = TOWN_MONTE_SOUND_FIRST;
             } else if (townMonte->mNsbtpFrameIndex == 1) {
-                townMonte->mSoundId = 0x1a8;
+                townMonte->mSoundId = TOWN_MONTE_SOUND_SECOND;
             } else if (townMonte->mNsbtpFrameIndex == 2) {
                 mapObjectRandom = GetMapObjectRandom();
                 mapObjectRandom->mValue =
                     mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-                townMonte->mSoundId = (u16) (((mapObjectRandom->mValue >> 32) * 2) >> 32) != 0 ? 0x1a7 : 0x1a8;
+                townMonte->mSoundId = (u16) (((mapObjectRandom->mValue >> 32) * 2) >> 32) != 0
+                                          ? TOWN_MONTE_SOUND_FIRST
+                                          : TOWN_MONTE_SOUND_SECOND;
             }
         }
     }
