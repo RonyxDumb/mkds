@@ -26,6 +26,8 @@
 #include "code_0200f790.h"
 #include "00/unk_021b0000.h"
 
+Unk021b5f50 *data_ov000_021b5f50;
+
 Unk021b5f50_2270_0c *func_ov000_021a6614(const u8 *a) {
     Unk021b5f50 *g;
     Unk021b5f50_2270 *l;

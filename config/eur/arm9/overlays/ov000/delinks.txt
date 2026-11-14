@@ -825,6 +825,7 @@ src/00/code_021a4b84.c:
 src/00/code_021a4b98.c:
     complete
     .text       start:0x021a4b98 end:0x021a666c
+    .bss        start:0x021b5f50 end:0x021b5f54
 
 // provisional: file name and boundaries
 src/00/code_021a666c.c:
