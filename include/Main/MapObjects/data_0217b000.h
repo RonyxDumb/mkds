@@ -772,6 +772,12 @@ typedef struct RaceTimeDigits {
     /* 20 */ s32 mLastSecondsReached[6];
 } RaceTimeDigits;
 
+// Values of RaceTaPositionSample.mKind: which cell the trail sample draws.
+#define RACE_TA_SAMPLE_KIND_NONE 0
+#define RACE_TA_SAMPLE_KIND_PLAIN 1
+#define RACE_TA_SAMPLE_KIND_HOPPING_OR_DRIFTING 2
+#define RACE_TA_SAMPLE_KIND_BOOSTING 3
+
 // 0x18-byte elements of the tables at member 0x10 of RaceTaPositions.
 typedef struct RaceTaPositionSample {
     /* 00 */ Vec3 mPos;

@@ -554,7 +554,7 @@ void ResetRaceTaKartPositions(s32 kartIndex) {
         return;
     }
     for (sampleIndex = 0; sampleIndex < 0x28; sampleIndex++) {
-        gRaceTaPositions->mSamples[kartIndex][sampleIndex].mKind = 0;
+        gRaceTaPositions->mSamples[kartIndex][sampleIndex].mKind = RACE_TA_SAMPLE_KIND_NONE;
     }
     for (pointIndex = 0; pointIndex < gRaceTaPositions->mKinokoBoostPoints[kartIndex].mPointCount; pointIndex++) {
         gRaceTaPositions->mKinokoBoostPoints[kartIndex].mAgeSamples[pointIndex] = 0x28;
@@ -582,7 +582,7 @@ void InitRaceTaPositions(void) {
         for (sampleIndex = 0; sampleIndex < 0x28; sampleIndex++) {
             gRaceTaPositions->mSamples[index][sampleIndex].mPos = position;
             gRaceTaPositions->mSamples[index][sampleIndex].mAngle = angle;
-            gRaceTaPositions->mSamples[index][sampleIndex].mKind = 0;
+            gRaceTaPositions->mSamples[index][sampleIndex].mKind = RACE_TA_SAMPLE_KIND_NONE;
             gRaceTaPositions->mSamples[index][sampleIndex].mPriority = 3;
         }
     }
@@ -667,14 +667,14 @@ void UpdateRaceTaPositions(void) {
                     : RACE_HUD_PRIORITY_INSIDE_BOX;
             gRaceTaPositions->mSamples[kartIndex][0].mAngle = GetRaceHudSubScreenKartAngle(kartIndex);
             if ((kart->mMotionFlags & (KART_MOTION_HOPPING | KART_MOTION_DRIFTING)) != 0) {
-                gRaceTaPositions->mSamples[kartIndex][0].mKind = 2;
+                gRaceTaPositions->mSamples[kartIndex][0].mKind = RACE_TA_SAMPLE_KIND_HOPPING_OR_DRIFTING;
             } else if ((kart->mDriveFlags & (KART_DRIVE_BOOST | KART_DRIVE_MINI_TURBO)) != 0) {
-                gRaceTaPositions->mSamples[kartIndex][0].mKind = 3;
+                gRaceTaPositions->mSamples[kartIndex][0].mKind = RACE_TA_SAMPLE_KIND_BOOSTING;
             } else {
-                gRaceTaPositions->mSamples[kartIndex][0].mKind = 1;
+                gRaceTaPositions->mSamples[kartIndex][0].mKind = RACE_TA_SAMPLE_KIND_PLAIN;
             }
             if (gRaceProgress->mRaceDone != 0) {
-                gRaceTaPositions->mSamples[kartIndex][0].mKind = 0;
+                gRaceTaPositions->mSamples[kartIndex][0].mKind = RACE_TA_SAMPLE_KIND_NONE;
                 gRaceTaPositions->mKartVisible[kartIndex] = 0;
             }
         }
@@ -753,16 +753,16 @@ void DrawRaceTaPositions(RaceHudOamBuffer *oamBuffer) {
                 if (ComputeRaceHudSubScreenPosition(&gRaceTaPositions->mSamples[index][sampleIndex].mPos,
                                                     &samplePosition, scale, 1, 1) != FALSE) {
                     switch (gRaceTaPositions->mSamples[index][sampleIndex].mKind) {
-                        case 0:
+                        case RACE_TA_SAMPLE_KIND_NONE:
                             sampleCell = NULL;
                             break;
-                        case 1:
+                        case RACE_TA_SAMPLE_KIND_PLAIN:
                             sampleCell = GetRaceSNcerEntry(0x51);
                             break;
-                        case 2:
+                        case RACE_TA_SAMPLE_KIND_HOPPING_OR_DRIFTING:
                             sampleCell = GetRaceSNcerEntry(0x52);
                             break;
-                        case 3:
+                        case RACE_TA_SAMPLE_KIND_BOOSTING:
                             sampleCell = GetRaceSNcerEntry(0x53);
                             break;
                     }
