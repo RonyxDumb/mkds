@@ -317,7 +317,8 @@ void MoveKartTowardFirstRank(u16 kartIndex) {
         ownStanding = &gStandings->mKarts[kartIndex];
         if (ownRankIndex > otherRankIndex) {
             if (ownStanding->mBalloonOrShineCount > otherStanding->mBalloonOrShineCount ||
-                (ownStanding->mEliminationStatus == 0 && otherStanding->mEliminationStatus != 0)) {
+                (ownStanding->mEliminationStatus == KART_STANDING_IN_PLAY &&
+                 otherStanding->mEliminationStatus != KART_STANDING_IN_PLAY)) {
                 otherStanding->mRankIndex = ownRankIndex;
                 gStandings->mKarts[kartIndex].mRankIndex = otherRankIndex;
             }
@@ -354,7 +355,8 @@ void MoveKartTowardLastRank(u16 kartIndex) {
         ownStanding = &gStandings->mKarts[kartIndex];
         if (ownRankIndex < otherRankIndex) {
             if (ownStanding->mBalloonOrShineCount < otherStanding->mBalloonOrShineCount ||
-                (ownStanding->mEliminationStatus != 0 && otherStanding->mEliminationStatus == 0)) {
+                (ownStanding->mEliminationStatus != KART_STANDING_IN_PLAY &&
+                 otherStanding->mEliminationStatus == KART_STANDING_IN_PLAY)) {
                 otherStanding->mRankIndex = ownRankIndex;
                 gStandings->mKarts[kartIndex].mRankIndex = otherRankIndex;
             }
@@ -383,7 +385,7 @@ void EliminateKart(u16 kartIndex) {
     if (gStandings->mKartEliminatedCallback != NULL) {
         gStandings->mKartEliminatedCallback(kartIndex);
     }
-    gStandings->mKarts[kartIndex].mEliminationStatus = 1;
+    gStandings->mKarts[kartIndex].mEliminationStatus = KART_STANDING_JUST_ELIMINATED;
     if (gRaceSetup->mMode == MODE_BATTLE) {
         gStandings->mKarts[kartIndex].mBalloonOrShineCount = -1;
         gStandings->mKarts[kartIndex].mBalloonsLeftToMake = 0;
@@ -426,7 +428,7 @@ found:
     teamId = standings->mKarts[firstRankKartIndex].mTeamId;
     kartStanding = standings->mKarts;
     for (standingIndex = 0; standingIndex < 8; standingIndex++, kartStanding++) {
-        if (kartStanding->mEliminationStatus == 0) {
+        if (kartStanding->mEliminationStatus == KART_STANDING_IN_PLAY) {
             if (teamId != kartStanding->mTeamId) {
                 return;
             }
@@ -465,7 +467,7 @@ void CallKartHitCallbackForSelf(u16 kartIndex) {
 }
 
 void ClearStandingEliminationStatus(int kartIndex) {
-    gStandings->mKarts[kartIndex].mEliminationStatus = 0;
+    gStandings->mKarts[kartIndex].mEliminationStatus = KART_STANDING_IN_PLAY;
 }
 
 static inline u16 FindKartIndexByRankIndex(s32 rankIndex) {
@@ -483,7 +485,7 @@ void EliminateKartAndCheckWinner(u16 kartIndex) {
     if (gStandings->mWinnerTeamId >= 0) {
         return;
     }
-    if (gStandings->mKarts[kartIndex].mEliminationStatus != 0) {
+    if (gStandings->mKarts[kartIndex].mEliminationStatus != KART_STANDING_IN_PLAY) {
         return;
     }
     EliminateKart(kartIndex);
@@ -572,18 +574,18 @@ void EliminateKartsUntilWinnerDecided(void) {
                     }
                 }
                 kartIndex = randomKartIndex;
-                if (gStandings->mKarts[kartIndex].mEliminationStatus == 0) {
+                if (gStandings->mKarts[kartIndex].mEliminationStatus == KART_STANDING_IN_PLAY) {
                     EliminateKartAndCheckWinner(kartIndex);
-                    gStandings->mKarts[kartIndex].mEliminationStatus = 2;
+                    gStandings->mKarts[kartIndex].mEliminationStatus = KART_STANDING_ELIMINATED;
                 }
             } while (gStandings->mWinnerTeamId < 0);
         } else if (gRaceSetup->mBattleKind == BATTLE_KIND_SHINE) {
             for (rankIndex = kartCount - 1; rankIndex >= 0; rankIndex--) {
                 if (gStandings->mWinnerTeamId < 0) {
                     kartIndex = FindKartIndexByRankIndex(rankIndex);
-                    if (gStandings->mKarts[kartIndex].mEliminationStatus == 0) {
+                    if (gStandings->mKarts[kartIndex].mEliminationStatus == KART_STANDING_IN_PLAY) {
                         EliminateKartAndCheckWinner(kartIndex);
-                        gStandings->mKarts[kartIndex].mEliminationStatus = 2;
+                        gStandings->mKarts[kartIndex].mEliminationStatus = KART_STANDING_ELIMINATED;
                     }
                 }
             }
@@ -686,7 +688,7 @@ void AddBalloonsLeftToMake(u16 kartIndex, s32 amount) {
 
 // TRUE when the kart's elimination status is not 0.
 BOOL IsKartEliminated(int kartIndex) {
-    if (gStandings->mKarts[kartIndex].mEliminationStatus != 0) {
+    if (gStandings->mKarts[kartIndex].mEliminationStatus != KART_STANDING_IN_PLAY) {
         return TRUE;
     }
     return FALSE;
@@ -769,11 +771,11 @@ void InitStandings(void) {
                     kartStanding->mTeamId = kartIndex;
                     break;
             }
-            kartStanding->mEliminationStatus = 0;
+            kartStanding->mEliminationStatus = KART_STANDING_IN_PLAY;
             kartStanding->mBalloonOrShineCount = 0;
             kartStanding->mBalloonsLeftToMake = 0;
         } else {
-            kartStanding->mEliminationStatus = 2;
+            kartStanding->mEliminationStatus = KART_STANDING_ELIMINATED;
             kartStanding->mBalloonOrShineCount = -1;
             kartStanding->mBalloonsLeftToMake = 0;
             kartStanding->mTeamId = gRaceSetup->mKartCount;
@@ -811,20 +813,20 @@ void UpdateStandings(void) {
             }
         }
         for (kartIndex = 0; kartIndex < kartCount; kartIndex++) {
-            if (gStandings->mKarts[kartIndex].mEliminationStatus == 1) {
+            if (gStandings->mKarts[kartIndex].mEliminationStatus == KART_STANDING_JUST_ELIMINATED) {
                 if (kartIndex != gRaceSetup->mEntryIndex) {
                     QueueKartOwnSoundIndex(GetKart((u16) kartIndex));
                 }
-                gStandings->mKarts[kartIndex].mEliminationStatus = 2;
+                gStandings->mKarts[kartIndex].mEliminationStatus = KART_STANDING_ELIMINATED;
             }
         }
         return;
     }
     for (kartIndex = kartCount - 1; kartIndex >= 0; kartIndex--) {
         kartStanding = &gStandings->mKarts[kartIndex];
-        if (kartStanding->mEliminationStatus == 1) {
+        if (kartStanding->mEliminationStatus == KART_STANDING_JUST_ELIMINATED) {
             QueueKartOwnSoundIndex(GetKart((u16) kartIndex));
-            gStandings->mKarts[kartIndex].mEliminationStatus = 2;
+            gStandings->mKarts[kartIndex].mEliminationStatus = KART_STANDING_ELIMINATED;
         } else if (gStandings->mWinnerTeamId < 0 && kartStanding->mBalloonOrShineCount > 0) {
             kart = GetKart((u16) kartIndex);
             kartStanding = &gStandings->mKarts[kartIndex];

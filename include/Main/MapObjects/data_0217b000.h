@@ -254,6 +254,11 @@ typedef struct StemSets {
     /* 798 */ void (*mUpdateFunction)(TimedQuad *);
 } StemSets;
 
+// Values of KartStanding.mEliminationStatus.
+#define KART_STANDING_IN_PLAY 0
+#define KART_STANDING_JUST_ELIMINATED 1
+#define KART_STANDING_ELIMINATED 2
+
 // Value of KartStanding.mNotNormalEndPending and mObjectsSkipEndPending when no hit end is waiting (s32).
 #define KART_STANDING_HIT_END_NONE -2
 // One kart's entry of Standings (0x70 bytes, indexed by kart index): its count, rank, side id, elimination status and
