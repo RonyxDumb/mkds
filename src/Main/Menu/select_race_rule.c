@@ -272,7 +272,7 @@ void LocateAndQueueSelectCupCourse(void) {
         gSelectCupCourse->mSelectCupMBnbl = FindSceneFile(gSelectCupCourseCupMBnblName);
         return;
     }
-    if (gSelectCupCourse->mMode == 0) {
+    if (gSelectCupCourse->mMode == SELECT_CUP_COURSE_MODE_WITH_GHOSTS) {
         LocateNcgr(&modeChars, FindSceneFile(gSelectCupCourseTaMBNcgrName));
         LocateNclr(&modePalette, FindSceneFile(gSelectCupCourseTaMBNclrName));
         LocateNscr(&modeScreenMap, FindSceneFile(gSelectCupCourseTaMNscrName));
@@ -285,7 +285,7 @@ void LocateAndQueueSelectCupCourse(void) {
     LocateNclr(&fixedPalette, FindSceneFile(gSelectCupMBNclrName));
     LocateNscr(&fixedScreenMap, FindSceneFile(gSelectCupMNscrName));
     gSelectCupCourse->mSecondScreenMapBuffer = HeapAlloc(gSelectCupCourse->mHeap, 0x800);
-    if (gSelectCupCourse->mMode == 0) {
+    if (gSelectCupCourse->mMode == SELECT_CUP_COURSE_MODE_WITH_GHOSTS) {
         gSelectCupCourse->mSelectCupCourseTaOrVsMBncl = FindSceneFile(gSelectCupCourseTaMBnclName2);
         gSelectCupCourse->mSelectCupCourseTaOrVsMBnll = FindSceneFile(gSelectCupCourseTaMBnllName2);
     } else {
@@ -401,9 +401,9 @@ void SetupSelectCupCourseObjects(void) {
                            gSelectCupCourse->mSelectCupCourseTaOrVsMBncl);
         selectCupCourse = gSelectCupCourse;
         switch (selectCupCourse->mMode) {
-            case 1:
-            case 2:
-            case 3:
+            case SELECT_CUP_COURSE_MODE_NO_CONNECTION:
+            case SELECT_CUP_COURSE_MODE_MULTI_SIMPLE:
+            case SELECT_CUP_COURSE_MODE_MULTI_OTHER:
                 selectCupCourse->mSelectCupCourseTaOrVsMTable[courseEntryCount + 2].mVisible = 0;
                 gSelectCupCourse->mSelectCupCourseTaOrVsMTable[courseEntryCount + 3].mVisible = 0;
                 gSelectCupCourse->mSelectCupCourseTaOrVsMTable[courseEntryCount + 4].mVisible = 0;
