@@ -166,6 +166,23 @@ typedef struct SeqRowState {
     /* 0c */ u32 mFinishResult;
 } SeqRowState;
 
+// Values of RecordVS.mState: the main screen slides in, the lower screen rows slide in, the page is browsed, and the
+// reverse on leaving. SLIDE_OUT states move the objects off screen, SLIDE_IN states move them back.
+enum {
+    RECORD_VS_STATE_WAIT_FADE,
+    RECORD_VS_STATE_SLIDE_IN_MAIN,
+    RECORD_VS_STATE_SLIDE_IN_SUB,
+    RECORD_VS_STATE_WAIT_RETURN_BUTTON,
+    RECORD_VS_STATE_BROWSE,
+    RECORD_VS_STATE_PAGE_SLIDE_OUT,
+    RECORD_VS_STATE_PAGE_SLIDE_IN,
+    RECORD_VS_STATE_SUB_SLIDE_OUT,
+    RECORD_VS_STATE_MAIN_SLIDE_OUT,
+    RECORD_VS_STATE_PRESS_BUTTON,
+    RECORD_VS_STATE_SUB_SLIDE_OUT_REQUEST_SCREEN,
+    RECORD_VS_STATE_SUB_SLIDE_IN,
+};
+
 // Object behind gRecordVS.
 typedef struct RecordVS {
     /* 00 */ struct Ncgr *mRecordVSMNcgr;
@@ -321,12 +338,10 @@ typedef struct SelectCupCourse {
     /* 14 */ LayoutEntryTable *mSelectCupMBnbl;
     /* 18 */ struct LayoutEntryTable *mSelectCupMBnll;
     // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable; assigned only when
-    // *(vu16
-    // *) 0x027ffc40 != 2
+    // the halfword at 0x027ffc40 is not 2
     /* 1c */ LayoutTableEntry *mSelectCupCourseTaOrVsMTable;
     // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable; assigned only when
-    // *(vu16
-    // *) 0x027ffc40 != 2
+    // the halfword at 0x027ffc40 is not 2
     /* 20 */ LayoutTableEntry *mSelectCupMTable;
     /* 24 */ void *mSecondScreenMapBuffer;
     /* 28 */ struct Bmg *mCommonMessages;

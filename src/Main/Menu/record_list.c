@@ -903,10 +903,10 @@ void InitRecordVS(void *heap) {
     gRecordVS->mEmblemConverted = HeapAlloc(heap, 0x200);
     if (GetRecordPrevScreen() == 4) {
         if (GetRecordCount() != 0) {
-            gRecordVS->mState = 11;
+            gRecordVS->mState = RECORD_VS_STATE_SUB_SLIDE_IN;
             RequestRecordVSState11AndRefreshPage();
         } else {
-            gRecordVS->mState = 8;
+            gRecordVS->mState = RECORD_VS_STATE_MAIN_SLIDE_OUT;
             RequestRecordVSState8();
             if (GetRecordPrevScene() == 12) {
                 gRecordVS->mNextScreen = 6;
@@ -915,7 +915,7 @@ void InitRecordVS(void *heap) {
             }
         }
     } else {
-        gRecordVS->mState = 0;
+        gRecordVS->mState = RECORD_VS_STATE_WAIT_FADE;
         RequestRecordVSState0();
         ResetOamLists(GetRecordMainOam(), GetRecordSubOam());
     }

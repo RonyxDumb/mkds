@@ -589,40 +589,40 @@ void AdvanceRecordVS(void) {
     RecordVS *recordVS;
     gRecordVS->mState = gRecordVS->mNextState;
     switch (gRecordVS->mState) {
-        case 0:
+        case RECORD_VS_STATE_WAIT_FADE:
             AdvanceRecordVSState0();
             break;
-        case 1:
+        case RECORD_VS_STATE_SLIDE_IN_MAIN:
             AdvanceRecordVSState1();
             break;
-        case 2:
+        case RECORD_VS_STATE_SLIDE_IN_SUB:
             AdvanceRecordVSState2();
             break;
-        case 3:
+        case RECORD_VS_STATE_WAIT_RETURN_BUTTON:
             AdvanceRecordVSState3();
             break;
-        case 4:
+        case RECORD_VS_STATE_BROWSE:
             AdvanceRecordVSState4();
             break;
-        case 5:
+        case RECORD_VS_STATE_PAGE_SLIDE_OUT:
             AdvanceRecordVSState5();
             break;
-        case 6:
+        case RECORD_VS_STATE_PAGE_SLIDE_IN:
             AdvanceRecordVSState6();
             break;
-        case 7:
+        case RECORD_VS_STATE_SUB_SLIDE_OUT:
             AdvanceRecordVSState7();
             break;
-        case 8:
+        case RECORD_VS_STATE_MAIN_SLIDE_OUT:
             AdvanceRecordVSState8();
             break;
-        case 9:
+        case RECORD_VS_STATE_PRESS_BUTTON:
             AdvanceRecordVSState9();
             break;
-        case 10:
+        case RECORD_VS_STATE_SUB_SLIDE_OUT_REQUEST_SCREEN:
             AdvanceRecordVSState10();
             break;
-        case 11:
+        case RECORD_VS_STATE_SUB_SLIDE_IN:
             AdvanceRecordVSState11();
             break;
     }
