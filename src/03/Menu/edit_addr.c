@@ -219,16 +219,16 @@ void UpdateEditAddrInput(void) {
             SetEditAddrKeyboardNextGroupEnabled(0);
             break;
         case 0x12:
-            gEditAddr->mResult = 0;
+            gEditAddr->mResult = EDIT_RESULT_CANCELED;
             StartSoundSeq(7);
             SetUpdateFunction(StartEditAddrClose);
             return;
         case 0x13:
             if (IsEditAddrTextValid() != FALSE) {
                 StartSoundSeq(6);
-                gEditAddr->mResult = 1;
+                gEditAddr->mResult = EDIT_RESULT_CONFIRMED;
             } else {
-                gEditAddr->mResult = 2;
+                gEditAddr->mResult = EDIT_RESULT_INVALID;
                 StartSoundSeq(9);
             }
             gEditAddr->mGroupIndex = 3;
@@ -332,11 +332,11 @@ void UpdateEditAddrResult(void) {
     u8 result;
     if (HasEditAddrKeyboard() == 0) {
         result = gEditAddr->mResult;
-        if (result == 0) {
+        if (result == EDIT_RESULT_CANCELED) {
             SetUpdateFunction(ReleaseEditAddr);
             return;
         }
-        if (result == 2) {
+        if (result == EDIT_RESULT_INVALID) {
             CreateMessageBox(0x2f, 3, 1, -1, 0);
             SetUpdateFunction(UpdateEditAddrInvalidMessageResult);
             return;
@@ -411,10 +411,10 @@ void PlaceEditAddrGroupOam(void) {
 void UpdateEditAddrMessageResult(void) {
     gEditAddr->mResult = GetMessageBoxResult();
     switch (gEditAddr->mResult) {
-        case 0:
+        case EDIT_RESULT_CANCELED:
             StartSoundSeq(7);
             break;
-        case 1:
+        case EDIT_RESULT_CONFIRMED:
             StartSoundSeq(0xe);
             break;
         default:
@@ -429,7 +429,7 @@ void UpdateEditAddrMessageClose(void) {
     s32 secondaryPairFirst;
     storeFuncs = gEditAddrStoreFuncs;
     if (IsMessageBoxOpen() == 0) {
-        if (gEditAddr->mResult == 0) {
+        if (gEditAddr->mResult == EDIT_RESULT_CANCELED) {
             gEditAddr->mOamEntry->mAttr01 = gEditAddr->mOamEntry->mAttr01 & 0xc1fffcff;
             SetUpdateFunction(UpdateEditAddrFadeIn);
             return;

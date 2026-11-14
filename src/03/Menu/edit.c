@@ -185,15 +185,15 @@ void UpdateEditInput(void) {
             break;
         case 0x82:
             StartSoundSeq(7);
-            gEdit->mResult = 0;
+            gEdit->mResult = EDIT_RESULT_CANCELED;
             SetUpdateFunction(StartEditClose);
             return;
         case 0x83:
             if (IsEditTextValid() != FALSE) {
                 StartSoundSeq(6);
-                gEdit->mResult = 1;
+                gEdit->mResult = EDIT_RESULT_CONFIRMED;
             } else {
-                gEdit->mResult = 2;
+                gEdit->mResult = EDIT_RESULT_INVALID;
                 StartSoundSeq(9);
             }
             gEdit->mOamEntry->mAttr01 = (gEdit->mOamEntry->mAttr01 & 0xc1fffcff) | 0x200;
@@ -242,9 +242,9 @@ void UpdateEditKeyboardOut(void) {
     s32 messageIds[2] = {0x9b, 0x9c};
     s32 secondaryPairSecond;
     if (HasEditKeyboard() == 0) {
-        if (gEdit->mResult == 0) {
+        if (gEdit->mResult == EDIT_RESULT_CANCELED) {
             SetUpdateFunction(UpdateEditRelease);
-        } else if (gEdit->mResult == 2) {
+        } else if (gEdit->mResult == EDIT_RESULT_INVALID) {
             CreateMessageBox(0x2f, 3, 1, -1, 0);
             SetUpdateFunction(UpdateEditInvalidMessageResult);
         } else {
@@ -269,7 +269,7 @@ void UpdateEditRelease(void) {
         SetPrimaryMenuPair(2, 1);
         SetSecondaryMenuPair(0, secondaryPairFirst);
         SetUpdateFunction(CreateJb3List);
-    } else if (gEdit->mResult == 0) {
+    } else if (gEdit->mResult == EDIT_RESULT_CANCELED) {
         SetPrimaryMenuPair(0, 1);
         SetSecondaryMenuPair(1, 0);
         SetUpdateFunction(CreateApList);
@@ -334,10 +334,10 @@ void PlaceEditTextCursor(void) {
 void UpdateEditMessageResult(void) {
     gEdit->mResult = GetMessageBoxResult();
     switch (gEdit->mResult) {
-        case 0:
+        case EDIT_RESULT_CANCELED:
             StartSoundSeq(7);
             break;
-        case 1:
+        case EDIT_RESULT_CONFIRMED:
             StartSoundSeq(0xe);
             break;
         default:
@@ -351,7 +351,7 @@ void UpdateEditMessageClose(void) {
     void (*storeFuncs[2])(const u8 *) = {StoreApWorkSsid, StoreApWorkWepKey};
     s32 secondaryPairFirst;
     if (IsMessageBoxOpen() == 0) {
-        if (gEdit->mResult == 0) {
+        if (gEdit->mResult == EDIT_RESULT_CANCELED) {
             gEdit->mOamEntry->mAttr01 = gEdit->mOamEntry->mAttr01 & 0xc1fffcff;
             SetUpdateFunction(UpdateEditFadeIn);
             return;

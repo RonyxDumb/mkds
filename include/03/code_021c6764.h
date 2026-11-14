@@ -5,6 +5,14 @@
 typedef struct BgTextCanvas BgTextCanvas;
 typedef struct OamEntry OamEntry;
 
+// Values of Edit.mResult and EditAddr.mResult: what the keyboard closed with, then which button of the confirm message
+// box was picked.
+enum {
+    EDIT_RESULT_CANCELED,
+    EDIT_RESULT_CONFIRMED,
+    EDIT_RESULT_INVALID,
+};
+
 typedef struct Edit {
     /* 00 */ BgTextCanvas *mBgTextCanvas;
     /* 04 */ OamEntry *mOamEntry;
