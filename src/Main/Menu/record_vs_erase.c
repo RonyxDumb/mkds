@@ -503,10 +503,10 @@ void RequestRecordVSEraseState6(void) {
     gRecordVSErase->mNextState = RECORD_VS_ERASE_STATE_PAGE_SLIDE_IN;
     gRecordVSErase->mStateFrames = 0;
     switch (gRecordVSErase->mPageDecrement) {
-        case 0:
+        case RECORD_VS_ERASE_PAGE_INCREMENT:
             IncrementRecordVSErasePageIndex();
             break;
-        case 1:
+        case RECORD_VS_ERASE_PAGE_DECREMENT:
             DecrementRecordVSErasePageIndex();
             break;
     }
@@ -583,7 +583,7 @@ void InitRecordVSErase(void *heap) {
     gRecordVSErase->mState = RECORD_VS_ERASE_STATE_SLIDE_IN_SUB;
     gRecordVSErase->mPageIndex = GetRecordScenePageIndex();
     gRecordVSErase->mIndex = GetRecordSceneIndex();
-    gRecordVSErase->mPageDecrement = 0;
+    gRecordVSErase->mPageDecrement = RECORD_VS_ERASE_PAGE_INCREMENT;
     gRecordVSErase->mIndexChangeTimer = 0;
     gRecordVSErase->mShownIndex = gRecordVSErase->mIndex;
     gRecordVSErase->mTransientDrawn = 0;
@@ -834,7 +834,7 @@ void AdvanceRecordVSEraseState4(void) {
         if (gRecordVSErase->mRecordVSSEraseTable[30].mVisible == 0) {
             return;
         }
-        gRecordVSErase->mPageDecrement = 1;
+        gRecordVSErase->mPageDecrement = RECORD_VS_ERASE_PAGE_DECREMENT;
         gRecordVSErase->mOffsetTimers[0] = 6;
         gRecordVSErase->mPageDecrementRepeat = TRUE;
         RequestRecordVSEraseState5();
@@ -850,7 +850,7 @@ void AdvanceRecordVSEraseState4(void) {
         if (gRecordVSErase->mRecordVSSEraseTable[31].mVisible == 0) {
             return;
         }
-        gRecordVSErase->mPageDecrement = 0;
+        gRecordVSErase->mPageDecrement = RECORD_VS_ERASE_PAGE_INCREMENT;
         gRecordVSErase->mOffsetTimers[1] = 6;
         gRecordVSErase->mPageIncrementRepeat = TRUE;
         RequestRecordVSEraseState5();
@@ -910,10 +910,10 @@ void AdvanceRecordVSEraseState5(void) {
     targetOffsetX = 0;
     AdvanceRecordVSEraseOffsetTimers();
     switch (gRecordVSErase->mPageDecrement) {
-        case 0:
+        case RECORD_VS_ERASE_PAGE_INCREMENT:
             targetOffsetX = -RECORD_VS_OFFSCREEN_X;
             break;
-        case 1:
+        case RECORD_VS_ERASE_PAGE_DECREMENT:
             targetOffsetX = RECORD_VS_OFFSCREEN_X;
             break;
     }
@@ -971,10 +971,10 @@ void AdvanceRecordVSEraseState6(void) {
     startOffsetX = 0;
     AdvanceRecordVSEraseOffsetTimers();
     switch (gRecordVSErase->mPageDecrement) {
-        case 0:
+        case RECORD_VS_ERASE_PAGE_INCREMENT:
             startOffsetX = RECORD_VS_OFFSCREEN_X;
             break;
-        case 1:
+        case RECORD_VS_ERASE_PAGE_DECREMENT:
             startOffsetX = -RECORD_VS_OFFSCREEN_X;
             break;
     }

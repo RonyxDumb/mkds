@@ -94,6 +94,12 @@ enum {
     RECORD_VS_ERASE_STATE_SUB_SLIDE_OUT_TO_SCREEN,
 };
 
+// Values of RecordVSErase.mPageDecrement: which way the page change goes.
+enum {
+    RECORD_VS_ERASE_PAGE_INCREMENT,
+    RECORD_VS_ERASE_PAGE_DECREMENT,
+};
+
 typedef struct RecordVSErase {
     /* 00 */ struct Ncgr *mRecordVSMNcgr;
     /* 04 */ struct NNSG2dCellDataBank *mRecordVSMNcer;
