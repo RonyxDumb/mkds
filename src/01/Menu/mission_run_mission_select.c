@@ -489,7 +489,7 @@ void ResetMissionRunMSselOffsets(void) {
 
     mainLayoutCellCount = gMissionRunMSsel->mMissionRunMSselMBncl->mCount;
     subLayoutCellCount = gMissionRunMSsel->mMissionRunMSselSBncl->mCount;
-    gMissionRunMSsel->mNextState = 0;
+    gMissionRunMSsel->mNextState = MSSEL_STATE_WAIT_FADE;
     gMissionRunMSsel->mStateFrames = 0;
     gMissionRunMSsel->mBg0OffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
     gMissionRunMSsel->mBg0OffsetY = 0;
@@ -526,12 +526,12 @@ void ResetMissionRunMSselOffsets(void) {
 // Requests state 1: stores mNextState = 1 and zeroes mStateFrames; the next AdvanceMissionRunMSsel call copies it to
 // mState and runs AdvanceMissionRunMSselState1.
 void RequestMissionRunMSselState1(void) {
-    gMissionRunMSsel->mNextState = 1;
+    gMissionRunMSsel->mNextState = MSSEL_STATE_SLIDE_IN;
     gMissionRunMSsel->mStateFrames = 0;
 }
 
 void RequestMissionRunMSselState2(void) {
-    gMissionRunMSsel->mNextState = 2;
+    gMissionRunMSsel->mNextState = MSSEL_STATE_WAIT_SELECT_RETURN;
     gMissionRunMSsel->mStateFrames = 0;
     RequestSelectReturnState1();
 }
@@ -539,12 +539,12 @@ void RequestMissionRunMSselState2(void) {
 // Requests state 3: stores mNextState = 3 and zeroes mStateFrames; the next AdvanceMissionRunMSsel call copies it to
 // mState and runs AdvanceMissionRunMSselState3.
 void RequestMissionRunMSselState3(void) {
-    gMissionRunMSsel->mNextState = 3;
+    gMissionRunMSsel->mNextState = MSSEL_STATE_INPUT;
     gMissionRunMSsel->mStateFrames = 0;
 }
 
 s32 RequestMissionRunMSselState4(void) {
-    gMissionRunMSsel->mNextState = 4;
+    gMissionRunMSsel->mNextState = MSSEL_STATE_PRESS_MISSION;
     gMissionRunMSsel->mStateFrames = 0;
     return NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
 }
@@ -553,7 +553,7 @@ void RequestMissionRunMSselState5(void) {
     s32 missionIndex;
     void *firstText;
 
-    gMissionRunMSsel->mNextState = 5;
+    gMissionRunMSsel->mNextState = MSSEL_STATE_CHOISES_OPEN;
     gMissionRunMSsel->mStateFrames = 0;
     firstText = GetBmgEntry(gMissionRunMSsel->mCommonMessages, 4);
     StartSelectChoises(firstText, GetBmgEntry(gMissionRunMSsel->mCommonMessages, 2), 0);
@@ -565,18 +565,18 @@ void RequestMissionRunMSselState5(void) {
 // Requests state 6: stores mNextState = 6 and zeroes mStateFrames; the next AdvanceMissionRunMSsel call copies it to
 // mState and runs AdvanceMissionRunMSselState6.
 void RequestMissionRunMSselState6(void) {
-    gMissionRunMSsel->mNextState = 6;
+    gMissionRunMSsel->mNextState = MSSEL_STATE_CHOISES_INPUT;
     gMissionRunMSsel->mStateFrames = 0;
 }
 
 void RequestMissionRunMSselState7(void) {
-    gMissionRunMSsel->mNextState = 7;
+    gMissionRunMSsel->mNextState = MSSEL_STATE_CHOISES_CLOSE;
     gMissionRunMSsel->mStateFrames = 0;
     RequestSelectChoisesState0();
 }
 
 void RequestMissionRunMSselState8(void) {
-    gMissionRunMSsel->mNextState = 8;
+    gMissionRunMSsel->mNextState = MSSEL_STATE_SLIDE_OUT;
     gMissionRunMSsel->mStateFrames = 0;
     RequestSelectReturnState4();
     switch (gMissionRunMSsel->mResult) {
@@ -602,7 +602,7 @@ void InitMissionRunMSsel(void *parentHeap, void *mainOamList, void *subOamList) 
     heap = CreateFrmHeapFromMaxFree(parentHeap);
     gMissionRunMSsel = HeapAlloc(heap, 0xc0);
     gMissionRunMSsel->mHeap = heap;
-    gMissionRunMSsel->mState = 0;
+    gMissionRunMSsel->mState = MSSEL_STATE_WAIT_FADE;
     gMissionRunMSsel->mIndex = GetMissionTableColumn() - 1;
     gMissionRunMSsel->mExitOffsetX = 0;
     gMissionRunMSsel->mIndexChangeTimer = 0;
@@ -951,31 +951,31 @@ void AdvanceMissionRunMSselState8(void) {
 s32 AdvanceMissionRunMSsel(void) {
     gMissionRunMSsel->mState = gMissionRunMSsel->mNextState;
     switch (gMissionRunMSsel->mState) {
-        case 0:
+        case MSSEL_STATE_WAIT_FADE:
             AdvanceMissionRunMSselState0();
             break;
-        case 1:
+        case MSSEL_STATE_SLIDE_IN:
             AdvanceMissionRunMSselState1();
             break;
-        case 2:
+        case MSSEL_STATE_WAIT_SELECT_RETURN:
             AdvanceMissionRunMSselState2();
             break;
-        case 3:
+        case MSSEL_STATE_INPUT:
             AdvanceMissionRunMSselState3();
             break;
-        case 4:
+        case MSSEL_STATE_PRESS_MISSION:
             AdvanceMissionRunMSselState4();
             break;
-        case 5:
+        case MSSEL_STATE_CHOISES_OPEN:
             AdvanceMissionRunMSselState5();
             break;
-        case 6:
+        case MSSEL_STATE_CHOISES_INPUT:
             AdvanceMissionRunMSselState6();
             break;
-        case 7:
+        case MSSEL_STATE_CHOISES_CLOSE:
             AdvanceMissionRunMSselState7();
             break;
-        case 8:
+        case MSSEL_STATE_SLIDE_OUT:
             AdvanceMissionRunMSselState8();
             break;
     }
@@ -987,7 +987,7 @@ s32 AdvanceMissionRunMSsel(void) {
     DrawLayoutTable(gMissionRunMSsel->mMissionRunMSselSBncl, gMissionRunMSsel->mMissionRunMSselSNcer,
                     gMissionRunMSsel->mMissionRunMSselSBnll, gMissionRunMSsel->mSubOamList,
                     gMissionRunMSsel->mMissionRunMSselSTable);
-    if (gMissionRunMSsel->mState == 8 && gMissionRunMSsel->mStateFrames >= 10) {
+    if (gMissionRunMSsel->mState == MSSEL_STATE_SLIDE_OUT && gMissionRunMSsel->mStateFrames >= 10) {
         return gMissionRunMSsel->mResult;
     }
     return 0;

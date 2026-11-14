@@ -60,6 +60,18 @@ typedef struct MissionRunLVsel {
     /* 58 */ s32 mResult; /* 1 = level chosen, 2 = Back; also read by ReleaseMissionRunLVsel for the sound */
 } MissionRunLVsel;
 
+// Values of MissionRunMSsel.mState and mNextState.
+enum {
+    MSSEL_STATE_WAIT_FADE,
+    MSSEL_STATE_SLIDE_IN,
+    MSSEL_STATE_WAIT_SELECT_RETURN,
+    MSSEL_STATE_INPUT,
+    MSSEL_STATE_PRESS_MISSION,
+    MSSEL_STATE_CHOISES_OPEN,
+    MSSEL_STATE_CHOISES_INPUT,
+    MSSEL_STATE_CHOISES_CLOSE,
+    MSSEL_STATE_SLIDE_OUT,
+};
 
 // Object behind gMissionRunMSsel.
 typedef struct MissionRunMSsel {
