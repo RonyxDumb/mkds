@@ -131,7 +131,7 @@ void SetModelAnimation(ModelAnimation *modelAnimation, s32 entryIndex) {
     modelAnimation->mCurrentIndex = entryIndex;
     NNS_G3dRenderObjAddAnmObj(&modelAnimation->mRenderObj->mRenderObj,
                               modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]);
-    modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mRatio = 0x1000;
+    modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mRatio = TO_FIXED12(1);
     frameCountFixed = TO_FIXED12(
         gAnmFrameCountGetters[modelAnimation->mKind](modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]));
     ResetModelAnimationWithLoopFlag(&modelAnimation->mHead, frameCountFixed,
@@ -154,7 +154,7 @@ void StartModelAnimationBlend(ModelAnimation *modelAnimation, u16 entryIndex) {
         modelAnimation->mPreviousAnmObj = NULL;
     }
     modelAnimation->mPreviousAnmObj = modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex];
-    modelAnimation->mPreviousAnmObj->mRatio = 0x1000;
+    modelAnimation->mPreviousAnmObj->mRatio = TO_FIXED12(1);
     modelAnimation->mCurrentIndex = entryIndex;
     NNS_G3dRenderObjAddAnmObj(&modelAnimation->mRenderObj->mRenderObj,
                               modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]);
@@ -170,9 +170,9 @@ void AdvanceModelAnimation(ModelAnimation *modelAnimation) {
     if (modelAnimation->mBlending != FALSE) {
         modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mRatio += modelAnimation->mBlendRatioStep;
         modelAnimation->mPreviousAnmObj->mRatio -= modelAnimation->mBlendRatioStep;
-        if (modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mRatio >= 0x1000) {
+        if (modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mRatio >= TO_FIXED12(1)) {
             modelAnimation->mBlending = FALSE;
-            modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mRatio = 0x1000;
+            modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mRatio = TO_FIXED12(1);
             NNS_G3dRenderObjRemoveAnmObj(&modelAnimation->mRenderObj->mRenderObj, modelAnimation->mPreviousAnmObj);
             modelAnimation->mPreviousAnmObj = NULL;
         }
@@ -188,9 +188,9 @@ void AdvanceModelAnimationBlend(ModelAnimation *modelAnimation) {
     }
     modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mRatio += modelAnimation->mBlendRatioStep;
     modelAnimation->mPreviousAnmObj->mRatio -= modelAnimation->mBlendRatioStep;
-    if (modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mRatio >= 0x1000) {
+    if (modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mRatio >= TO_FIXED12(1)) {
         modelAnimation->mBlending = FALSE;
-        modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mRatio = 0x1000;
+        modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]->mRatio = TO_FIXED12(1);
         NNS_G3dRenderObjRemoveAnmObj(&modelAnimation->mRenderObj->mRenderObj, modelAnimation->mPreviousAnmObj);
         modelAnimation->mPreviousAnmObj = NULL;
     }
