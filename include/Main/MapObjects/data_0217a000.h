@@ -1645,6 +1645,12 @@ typedef struct DispCap {
     /* 0c */ s32 mBlendFactor;
 } DispCap;
 
+// Values of RunScenesState.mKind and mNextKind: the group of scenes that is running (it decides which buffers and
+// overlay stay loaded); NONE in mNextKind means no other group was asked for.
+#define RUN_SCENES_KIND_CONNECTION 0
+#define RUN_SCENES_KIND_WIFI_SESSION 1
+#define RUN_SCENES_KIND_NONE 3
+
 // Object behind gRunScenesState, 0x10 bytes.
 typedef struct RunScenesState {
     /* 00 */ s32 mKind;

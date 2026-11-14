@@ -113,8 +113,8 @@ s32 UpdateShapeMapObjectCounts(void) {
 
 void CreateRunScenesState(void *heap) {
     gRunScenesState = HeapAlloc(heap, 0x10);
-    gRunScenesState->mKind = 0;
-    gRunScenesState->mNextKind = 3;
+    gRunScenesState->mKind = RUN_SCENES_KIND_CONNECTION;
+    gRunScenesState->mNextKind = RUN_SCENES_KIND_NONE;
     gRunScenesState->mSndHeapsBuffer = NULL;
 }
 
@@ -123,7 +123,7 @@ void InitRunScenesKind(void) {
     s32 sndHeapsKind;
     heap = GetHeap(GetCurrentHeapCall());
     switch (gRunScenesState->mKind) {
-        case 0:
+        case RUN_SCENES_KIND_CONNECTION:
             if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
                 sndHeapsKind = 2;
             } else {
@@ -133,7 +133,7 @@ void InitRunScenesKind(void) {
             }
             InitConnectionBuffers(heap);
             break;
-        case 1:
+        case RUN_SCENES_KIND_WIFI_SESSION:
             sndHeapsKind = 1;
             StartLoadOverlay(0);
             FinishOverlayLoad();
@@ -210,7 +210,7 @@ void RunDWCUtility(void) {
 }
 
 static inline BOOL IsRunScenesNextKindSameOrKindThree(void) {
-    if (gRunScenesState->mNextKind == 3 || gRunScenesState->mNextKind == gRunScenesState->mKind) {
+    if (gRunScenesState->mNextKind == RUN_SCENES_KIND_NONE || gRunScenesState->mNextKind == gRunScenesState->mKind) {
         return TRUE;
     }
     return FALSE;
@@ -221,7 +221,7 @@ s32 RunScenes(s16 *sceneNumber) {
     void *heap;
     InitRunScenesKind();
     while (IsRunScenesNextKindSameOrKindThree()) {
-        gRunScenesState->mNextKind = 3;
+        gRunScenesState->mNextKind = RUN_SCENES_KIND_NONE;
         gSceneNumbers[0] = gSceneNumbers[1];
         gSceneNumbers[1] = *sceneNumber;
         gSceneNumbers[2] = -1;
@@ -236,10 +236,10 @@ s32 RunScenes(s16 *sceneNumber) {
             case 0:
             case 1:
             case 2:
-                gRunScenesState->mNextKind = 0;
+                gRunScenesState->mNextKind = RUN_SCENES_KIND_CONNECTION;
                 break;
             case 3:
-                gRunScenesState->mNextKind = 1;
+                gRunScenesState->mNextKind = RUN_SCENES_KIND_WIFI_SESSION;
                 break;
             case 4:
                 RunDWCUtility();
@@ -254,10 +254,10 @@ s32 RunScenes(s16 *sceneNumber) {
         gRunScenesState->mSndHeapsBuffer = NULL;
     }
     switch (gRunScenesState->mKind) {
-        case 0:
+        case RUN_SCENES_KIND_CONNECTION:
             FinishConnectionEnd();
             break;
-        case 1:
+        case RUN_SCENES_KIND_WIFI_SESSION:
             DeleteWiFiSessionHeap();
             break;
     }
@@ -267,14 +267,14 @@ s32 RunScenes(s16 *sceneNumber) {
 void RunScenesForever(void) {
     HeapCall heapCall;
     gRunScenesState->mSceneNumber = 9;
-    gRunScenesState->mKind = 0;
+    gRunScenesState->mKind = RUN_SCENES_KIND_CONNECTION;
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         gStartupWork->mConnectionKind = 2;
         gMenuShared->mWLMenuKind = 0;
         gRunScenesState->mSceneNumber = 6;
     }
     do {
-        gRunScenesState->mNextKind = 3;
+        gRunScenesState->mNextKind = RUN_SCENES_KIND_NONE;
         InitHeapCall(&heapCall, (u32) RunScenes);
         RunHeapCall(&heapCall, (u32) &gRunScenesState->mSceneNumber);
         gRunScenesState->mKind = gRunScenesState->mNextKind;
