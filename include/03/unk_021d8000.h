@@ -31,6 +31,13 @@ typedef struct ExchangeResult {
     /* a8 */ Words16 mItem20aWords;
 } ExchangeResult;
 
+// Values of Kind5Record.mItem202Value: what the record carries. 2 and 3 (bare) carry words and set the result kind to 4
+// and 5.
+enum {
+    KIND5_ITEM202_NONE,
+    KIND5_ITEM202_VALUE_TEXTS,
+};
+
 // 0x60 bytes.
 typedef struct Kind5Record {
     /* 00 */ char mText[0x2c];

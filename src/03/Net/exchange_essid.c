@@ -1679,10 +1679,10 @@ s32 FillExchangeResultFromKind5Data(void) {
     result = 1;
     strcpy(gExchangeResult.mText, gExchangeResultItems.mRecord.mText);
     switch (gExchangeResultItems.mRecord.mItem202Value) {
-        case 0:
+        case KIND5_ITEM202_NONE:
             gExchangeResult.mKind = 0;
             break;
-        case 1:
+        case KIND5_ITEM202_VALUE_TEXTS:
             if (gExchangeResultItems.mRecord.mItem205Value == 0) {
                 result = -7;
                 break;
