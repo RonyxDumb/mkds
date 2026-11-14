@@ -4,6 +4,16 @@
 #include "dwc_account.h"
 #include "00/Lib/GameSpy/code_0218f960.h"
 
+// Values of WiFiLogin.mState; see the comment of the struct.
+enum {
+    WIFI_LOGIN_IDLE = 0,
+    WIFI_LOGIN_WAIT_AUTH_REPLY = 1,
+    WIFI_LOGIN_CONNECT_KNOWN_ID = 2,
+    WIFI_LOGIN_CONNECT_NEW_ID = 3,
+    WIFI_LOGIN_CHECK_NEW_ID_NAME = 4,
+    WIFI_LOGIN_DONE = 5,
+};
+
 // Login machine, embedded in WiFiConnection at 0x84 (0x264 bytes = the MI_CpuFill8 of InitWiFiLogin), reached through
 // gWiFiLogin and stepped by DWCi_LoginProcess in connection state 2. mState 1 waits for the HTTP reply that holds the
 // auth token and a second string; 2 to 4 run the GP connect with them (state 2: check the saved record's profile id,

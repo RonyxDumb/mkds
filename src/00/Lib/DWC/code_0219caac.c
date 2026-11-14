@@ -15,7 +15,7 @@ void InitWiFiLogin(WiFiLogin *a, DWCAccUserData *b, GpConnection *c, u32 d, u32 
     gWiFiLogin = a;
     MI_CpuFill8(a, 0, 0x264);
     gWiFiLogin->mGpConnection = c;
-    gWiFiLogin->mState = 0;
+    gWiFiLogin->mState = WIFI_LOGIN_IDLE;
     gWiFiLogin->mProductId = d;
     gWiFiLogin->mGamecode = e;
     gWiFiLogin->mResultCallback = f;

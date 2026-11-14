@@ -43,7 +43,7 @@ WiFiLogin *gWiFiLogin;
 
 void DWCi_LoginAsync(void) {
     DWCi_RemoteLogin(DWCi_RemoteAuthCallback, NULL);
-    gWiFiLogin->mState = 1;
+    gWiFiLogin->mState = WIFI_LOGIN_WAIT_AUTH_REPLY;
     gWiFiLogin->mConnectPending = FALSE;
 }
 
@@ -56,12 +56,12 @@ void DWCi_LoginProcess(void) {
     }
     wiFiLogin = gWiFiLogin;
     switch (wiFiLogin->mState) {
-        case 1:
+        case WIFI_LOGIN_WAIT_AUTH_REPLY:
             DWCi_RemoteLoginProcess();
             break;
-        case 2:
-        case 3:
-        case 4:
+        case WIFI_LOGIN_CONNECT_KNOWN_ID:
+        case WIFI_LOGIN_CONNECT_NEW_ID:
+        case WIFI_LOGIN_CHECK_NEW_ID_NAME:
             if (wiFiLogin->mGpConnection != NULL && wiFiLogin->mGpConnection->mGpiConnection != NULL) {
                 GpUpdate(wiFiLogin->mGpConnection);
             }
@@ -72,7 +72,7 @@ void DWCi_LoginProcess(void) {
                 }
             }
             break;
-        case 5:
+        case WIFI_LOGIN_DONE:
             break;
     }
 }
@@ -113,7 +113,7 @@ void DWCi_ShutdownLogin(void) {
 // DWCi_StopLogin. Keeps the Http and the strings (DWCi_ShutdownLogin frees the Http).
 void DWCi_CloseLogin(void) {
     if (gWiFiLogin != NULL) {
-        gWiFiLogin->mState = 0;
+        gWiFiLogin->mState = WIFI_LOGIN_IDLE;
         gWiFiLogin->mConnectPending = FALSE;
     }
 }
@@ -156,18 +156,18 @@ s32 ReportWiFiLoginGpResult(s32 result) {
 void DWCi_GPConnectCallback(GpConnection *connection, ConnectReply *arg, u32 param) {
     gWiFiLogin->mConnectPending = FALSE;
     if (arg->mResult == GP_REQUEST_OK) {
-        if (gWiFiLogin->mState == 2) {
+        if (gWiFiLogin->mState == WIFI_LOGIN_CONNECT_KNOWN_ID) {
             if (ReportWiFiLoginGpResult(DWCi_SetGPStatus(1, "", NULL)) == 0) {
                 if (gWiFiLogin->mUserData->mGsProfileId == arg->mProfile) {
                     if (DWCi_GT2Startup() == 0 && DWCi_QR2Startup(arg->mProfile) == 0) {
-                        gWiFiLogin->mState = 5;
+                        gWiFiLogin->mState = WIFI_LOGIN_DONE;
                         gWiFiLogin->mResultCallback(0, arg->mProfile, gWiFiLogin->mResultCallbackArg);
                     }
                 } else {
                     DWCi_StopLogin(6, -60000);
                 }
             }
-        } else if (gWiFiLogin->mState == 3) {
+        } else if (gWiFiLogin->mState == WIFI_LOGIN_CONNECT_NEW_ID) {
             if (ReportWiFiLoginGpResult(GpGetInfo(connection, arg->mProfile, 0, 0, DWCi_GPGetInfoCallback, 0)) != 0) {
                 return;
             }
@@ -181,7 +181,7 @@ void DWCi_GPConnectCallback(GpConnection *connection, ConnectReply *arg, u32 par
 // string, arg) when the reply is in hand and after the profile check; ignores arg and
 // starts the GP connect with state 2 (DWCi_GPConnect with DWCi_GPConnectCallback).
 void DWCi_RemoteAuthCallback(char *authToken, char *partnerChallenge) {
-    DWCi_GPConnect(authToken, partnerChallenge, DWCi_GPConnectCallback, 2);
+    DWCi_GPConnect(authToken, partnerChallenge, DWCi_GPConnectCallback, WIFI_LOGIN_CONNECT_KNOWN_ID);
 }
 
 // Copies the token and the second string, sets mConnectStartTime and mConnectPending, starts the GP connect
@@ -261,7 +261,8 @@ void DWCi_RemoteLoginProcess(void) {
         if (DWCi_Acc_IsAuthentic(gWiFiLogin->mUserData) != 0) {
             stRemoteAuthCallback(gWiFiLogin->mAuthToken, gWiFiLogin->mPartnerChallenge, pStRemoteAuthParam);
         } else {
-            DWCi_GPConnect(gWiFiLogin->mAuthToken, gWiFiLogin->mPartnerChallenge, DWCi_GPConnectCallback, 3);
+            DWCi_GPConnect(gWiFiLogin->mAuthToken, gWiFiLogin->mPartnerChallenge, DWCi_GPConnectCallback,
+                           WIFI_LOGIN_CONNECT_NEW_ID);
         }
     } else if (DWC_Auth_GetError() != 0) {
         if ((((u64) OS_GetTick() - gWiFiLogin->mRequestStartTime) << 6) / 0x82ea > 0x2710) {
@@ -290,11 +291,11 @@ void DWCi_GPGetInfoCallback(GpConnection *connection, GetInfoReply *arg, u32 par
         return;
     }
     wiFiLogin = gWiFiLogin;
-    if (wiFiLogin->mState == 3) {
+    if (wiFiLogin->mState == WIFI_LOGIN_CONNECT_NEW_ID) {
         if ((s8) arg->mLastname[0] == 0) {
             DWCi_Acc_LoginIdToUserName(&wiFiLogin->mUserData->mPseudo, wiFiLogin->mGamecode, lastNameToSet);
             if (ReportWiFiLoginGpResult(GpSetInfosA(connection, 0x705, (const s8 *) lastNameToSet)) == 0) {
-                gWiFiLogin->mState = 4;
+                gWiFiLogin->mState = WIFI_LOGIN_CHECK_NEW_ID_NAME;
                 if (ReportWiFiLoginGpResult(GpGetInfo(connection, arg->mProfile, 0, 0, DWCi_GPGetInfoCallback, 0)) !=
                     0) {
                     return;
@@ -303,9 +304,9 @@ void DWCi_GPGetInfoCallback(GpConnection *connection, GetInfoReply *arg, u32 par
         } else {
             GpDisconnect(connection);
             DWCi_RemoteLogin(DWCi_RemoteAuthCallback, NULL);
-            gWiFiLogin->mState = 1;
+            gWiFiLogin->mState = WIFI_LOGIN_WAIT_AUTH_REPLY;
         }
-    } else if (wiFiLogin->mState == 4) {
+    } else if (wiFiLogin->mState == WIFI_LOGIN_CHECK_NEW_ID_NAME) {
         DWCi_Acc_LoginIdToUserName(&wiFiLogin->mUserData->mPseudo, wiFiLogin->mGamecode, accountName);
         if (strcmp(arg->mLastname, accountName) == 0) {
             DWCi_Acc_LoginIdToUserName(&gWiFiLogin->mTempLoginId, gWiFiLogin->mGamecode, tempUserName);
@@ -323,7 +324,7 @@ void DWCi_GPGetInfoCallback(GpConnection *connection, GetInfoReply *arg, u32 par
 // 1 only in mState 5 (set on success by DWCi_GPConnectCallback), 0 when the object is NULL; the buddy sync gates on
 // it and DWC_DeleteBuddyFriendData tests it.
 u32 DWCi_CheckLogin(void) {
-    if ((gWiFiLogin != NULL) && (gWiFiLogin->mState == 5)) {
+    if ((gWiFiLogin != NULL) && (gWiFiLogin->mState == WIFI_LOGIN_DONE)) {
         return 1;
     }
     return 0;
