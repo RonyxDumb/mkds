@@ -140,14 +140,14 @@ void InitMkdEfBurnerObjects(MapObjectList *mapObjectList) {
         if (mkdEfBurner->mMapObject.mCourseMapRow->mSettings[0] == 0 &&
             mkdEfBurner->mMapObject.mCourseMapRow->mSettings[1] == 0 &&
             mkdEfBurner->mMapObject.mCourseMapRow->mSettings[2] == 0) {
-            mkdEfBurner->mScaleFixed12 = 0x1000;
-            mkdEfBurner->mState = 4;
+            mkdEfBurner->mScaleFixed12 = TO_FIXED12(1);
+            mkdEfBurner->mState = MKD_EF_BURNER_STATE_STEADY;
             mkdEfBurner->mMapObject.mFlags &= ~1;
         } else {
             mkdEfBurner->mStateFrames++;
             if (mkdEfBurner->mStateFrames >= mkdEfBurner->mMapObject.mCourseMapRow->mSettings[2]) {
                 mkdEfBurner->mStateFrames = 0;
-                mkdEfBurner->mState = 1;
+                mkdEfBurner->mState = MKD_EF_BURNER_STATE_GROW;
                 mkdEfBurner->mMapObject.mFlags |= mapObjectFlag;
                 mkdEfBurner->mMapObject.mExtent.y = 0;
             }
@@ -161,42 +161,42 @@ void UpdateMkdEfBurner(void *mapObjectList, MkdEfBurner *mkdEfBurner) {
     u8 kartCount;
 
     switch (mkdEfBurner->mState) {
-        case 0:
+        case MKD_EF_BURNER_STATE_OFF:
             mkdEfBurner->mStateFrames++;
             if (mkdEfBurner->mStateFrames >= mkdEfBurner->mMapObject.mCourseMapRow->mSettings[1]) {
                 mkdEfBurner->mStateFrames = 0;
-                mkdEfBurner->mState = 1;
+                mkdEfBurner->mState = MKD_EF_BURNER_STATE_GROW;
                 mkdEfBurner->mMapObject.mFlags &= ~1;
             }
             break;
-        case 1:
-            mkdEfBurner->mScaleFixed12 += 0x7b;
-            if (mkdEfBurner->mScaleFixed12 >= 0x1000) {
-                mkdEfBurner->mScaleFixed12 = 0x1000;
-                mkdEfBurner->mState = 2;
+        case MKD_EF_BURNER_STATE_GROW:
+            mkdEfBurner->mScaleFixed12 += MKD_EF_BURNER_GROW_STEP;
+            if (mkdEfBurner->mScaleFixed12 >= TO_FIXED12(1)) {
+                mkdEfBurner->mScaleFixed12 = TO_FIXED12(1);
+                mkdEfBurner->mState = MKD_EF_BURNER_STATE_FULL;
             }
             mkdEfBurner->mMapObject.mExtent.y =
                 MUL_FIXED12_NO_ROUND(mkdEfBurner->mMapObject.mKindData->mExtentY, mkdEfBurner->mScaleFixed12);
             break;
-        case 2:
+        case MKD_EF_BURNER_STATE_FULL:
             mkdEfBurner->mStateFrames++;
             if (mkdEfBurner->mStateFrames >= mkdEfBurner->mMapObject.mCourseMapRow->mSettings[0]) {
                 mkdEfBurner->mStateFrames = 0;
-                mkdEfBurner->mState = 3;
+                mkdEfBurner->mState = MKD_EF_BURNER_STATE_SHRINK;
             }
             StartMapObjectSoundWhileRequested(&mkdEfBurner->mMapObject, 0x170);
             break;
-        case 3:
-            mkdEfBurner->mScaleFixed12 -= 0x29;
+        case MKD_EF_BURNER_STATE_SHRINK:
+            mkdEfBurner->mScaleFixed12 -= MKD_EF_BURNER_SHRINK_STEP;
             if (mkdEfBurner->mScaleFixed12 <= 0) {
                 mkdEfBurner->mScaleFixed12 = 0;
-                mkdEfBurner->mState = 0;
+                mkdEfBurner->mState = MKD_EF_BURNER_STATE_OFF;
                 mkdEfBurner->mMapObject.mFlags |= gMkdEfBurnerDisabledFlag;
             }
             mkdEfBurner->mMapObject.mExtent.y =
                 MUL_FIXED12_NO_ROUND(mkdEfBurner->mMapObject.mKindData->mExtentY, mkdEfBurner->mScaleFixed12);
             break;
-        case 4:
+        case MKD_EF_BURNER_STATE_STEADY:
             StartMapObjectSoundWhileRequested(&mkdEfBurner->mMapObject, 0x170);
             break;
     }
@@ -234,7 +234,7 @@ MapObjectList *CreateMkdEfBurnerUpdateList(void) {
 }
 
 u16 CountMkdEfBurnerScaleThresholds(MkdEfBurner *burner) {
-    if (burner->mScaleFixed12 >= 0x1000) {
+    if (burner->mScaleFixed12 >= TO_FIXED12(1)) {
         return 3;
     }
     if (burner->mScaleFixed12 >= 0x99a) {

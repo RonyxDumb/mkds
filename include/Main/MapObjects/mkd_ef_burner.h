@@ -7,6 +7,20 @@
 #include "01/MapObjects/data_0209bc74.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 
+// MkdEfBurner.mState values: the scale (mScaleFixed12) is 0 in OFF, grows in GROW, stays at 1.0 in FULL, shrinks in
+// SHRINK; STEADY keeps it at 1.0 for good (all three settings of the course row are 0).
+enum {
+    MKD_EF_BURNER_STATE_OFF,
+    MKD_EF_BURNER_STATE_GROW,
+    MKD_EF_BURNER_STATE_FULL,
+    MKD_EF_BURNER_STATE_SHRINK,
+    MKD_EF_BURNER_STATE_STEADY,
+};
+
+// MkdEfBurner.mScaleFixed12 change per frame in the GROW and SHRINK states.
+#define MKD_EF_BURNER_GROW_STEP 0x7b
+#define MKD_EF_BURNER_SHRINK_STEP 0x29
+
 // Object of kind 0x1a4 (MkdEfBurner); the draw group record (word +0x1c) is not part of this
 // object. After the shared part, a counter at 0xa0, a halfword at 0xa4, a value at 0xa8, a
 // state at 0xac, a GroupFollower at 0xb0 and a table of countdowns at 0xd4.
