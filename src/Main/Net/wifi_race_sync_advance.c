@@ -55,12 +55,13 @@
 
 const EloChangeRow gEloChangeTable[9] = {{0x3e8, 8, 0}, {0x1f4, 7, -1}, {0xfa, 6, -2},  {0x64, 5, -3},  {-100, 4, -4},
                                          {-250, 3, -5}, {-500, 2, -6},  {-1000, 1, -7}, {-30000, 0, -8}};
-StateCallbacks gWiFiRaceSyncStateTable[6] = {{NULL, NULL},
-                                             {EnterWiFiRaceSyncState1, UpdateWiFiRaceSyncState1},
-                                             {EnterWiFiRaceSyncState2, UpdateWiFiRaceSyncState2},
-                                             {EnterWiFiRaceSyncState3, UpdateWiFiRaceSyncState3},
-                                             {EnterWiFiRaceSyncState4, UpdateWiFiRaceSyncState4},
-                                             {EnterWiFiRaceSyncState5, UpdateWiFiRaceSyncState5}};
+StateCallbacks gWiFiRaceSyncStateTable[WIFI_RACE_SYNC_STATE_COUNT] = {
+    {NULL, NULL},
+    {EnterWiFiRaceSyncState1, UpdateWiFiRaceSyncState1},
+    {EnterWiFiRaceSyncState2, UpdateWiFiRaceSyncState2},
+    {EnterWiFiRaceSyncState3, UpdateWiFiRaceSyncState3},
+    {EnterWiFiRaceSyncState4, UpdateWiFiRaceSyncState4},
+    {EnterWiFiRaceSyncState5, UpdateWiFiRaceSyncState5}};
 
 void ResetParticipantKartMap(void) {
     s32 index;
@@ -152,7 +153,7 @@ void InitWiFiRaceSync(void *heap) {
     gWiFiRaceSync->mFlags |= 1;
     gWiFiRaceSync->mFlags |= 0x40;
     sync = gWiFiRaceSync;
-    sync->mStateMachine.mNextState = 0;
+    sync->mStateMachine.mNextState = WIFI_RACE_SYNC_STATE_IDLE;
     sync->mStateMachine.mNextStateRequested = 1;
     gWiFiRaceSync->mSharedState = 0;
     for (participant = 0; participant < WIFI_RACE_SYNC_PARTICIPANT_COUNT; participant++) {
@@ -164,7 +165,7 @@ void InitWiFiRaceSync(void *heap) {
             gWiFiRaceSync->mEntries[participant].mRank = 0;
         }
     }
-    InitStateMachine(&gWiFiRaceSync->mStateMachine, gWiFiRaceSyncStateTable, 6, NULL);
+    InitStateMachine(&gWiFiRaceSync->mStateMachine, gWiFiRaceSyncStateTable, WIFI_RACE_SYNC_STATE_COUNT, NULL);
 }
 
 void AdvanceWiFiRaceSyncFrames(void) {
@@ -175,8 +176,8 @@ void AdvanceWiFiRaceSyncFrames(void) {
         return;
     }
     switch (sync->mStateMachine.mState) {
-        case 4:
-        case 5:
+        case WIFI_RACE_SYNC_STATE_RACE:
+        case WIFI_RACE_SYNC_STATE_AFTER_CHOICE:
             sync->mSyncFrames++;
             break;
     }
@@ -235,7 +236,7 @@ void UpdateWiFiRaceSyncState1(void) {
     if (sync->mParticipantMask == (sync->mParticipantMask & mask)) {
         sync->mSampledMask = mask;
         sync = gWiFiRaceSync;
-        sync->mStateMachine.mNextState = 2;
+        sync->mStateMachine.mNextState = WIFI_RACE_SYNC_STATE_READY;
         sync->mStateMachine.mNextStateRequested = 1;
     }
     if (ReplyToWiFiRaceSyncProbe() != FALSE) {
@@ -352,7 +353,7 @@ void UpdateWiFiRaceSyncState2(void) {
     }
     sync = gWiFiRaceSync;
     if (sync->mParticipantMask == (sync->mParticipantMask & sync->mReadyMask)) {
-        sync->mStateMachine.mNextState = 3;
+        sync->mStateMachine.mNextState = WIFI_RACE_SYNC_STATE_COUNTDOWN;
         sync->mStateMachine.mNextStateRequested = 1;
         return;
     }
@@ -384,7 +385,7 @@ void UpdateWiFiRaceSyncState3(void) {
     if (gWiFiRaceSync->mCountdownTimer <= 0) {
         gWiFiRaceSync->mCountdownTimer = -1;
         sync = gWiFiRaceSync;
-        sync->mStateMachine.mNextState = 4;
+        sync->mStateMachine.mNextState = WIFI_RACE_SYNC_STATE_RACE;
         sync->mStateMachine.mNextStateRequested = 1;
         return;
     }
@@ -676,13 +677,13 @@ void UpdateWiFiRaceSyncState4(void) {
             case 7:
                 gWiFiRaceSync->mSharedState = 4;
                 sync = gWiFiRaceSync;
-                sync->mStateMachine.mNextState = 5;
+                sync->mStateMachine.mNextState = WIFI_RACE_SYNC_STATE_AFTER_CHOICE;
                 sync->mStateMachine.mNextStateRequested = 1;
                 break;
             case 9:
                 gWiFiRaceSync->mSharedState = 3;
                 sync = gWiFiRaceSync;
-                sync->mStateMachine.mNextState = 5;
+                sync->mStateMachine.mNextState = WIFI_RACE_SYNC_STATE_AFTER_CHOICE;
                 sync->mStateMachine.mNextStateRequested = 1;
                 break;
         }
@@ -847,7 +848,8 @@ void ReceiveWiFiRaceSyncRecord(u32 fromIndex, WiFiRaceSyncPacket *packet, u32 si
     entryFrames = sync->mEntries[participant].mSyncFrames;
     entry = &sync->mEntries[participant];
     recordSize = bodyBytes[3];
-    if (sync->mStateMachine.mState != 4 && sync->mStateMachine.mState != 5) {
+    if (sync->mStateMachine.mState != WIFI_RACE_SYNC_STATE_RACE &&
+        sync->mStateMachine.mState != WIFI_RACE_SYNC_STATE_AFTER_CHOICE) {
         return;
     }
     if (entryFrames != 0 && entryFrames >= packetFrames) {
@@ -870,7 +872,7 @@ void ReceiveWiFiRaceSyncCountdown(u32 fromIndex, WiFiRaceSyncPacket *packet, u32
     senderCountdown = packet->mBody.mCountdown;
     sync = gWiFiRaceSync;
     ownCountdown = sync->mCountdownTimer;
-    if (sync->mStateMachine.mState == 2) {
+    if (sync->mStateMachine.mState == WIFI_RACE_SYNC_STATE_READY) {
         participantBit = 1 << packet->mSender;
         if ((sync->mReadyMask & participantBit) == 0) {
             sync->mReadyMask |= participantBit;

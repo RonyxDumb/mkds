@@ -8,6 +8,17 @@ void AdvanceWiFiRaceSync(void);
 
 typedef struct WiFiRaceSyncEntry WiFiRaceSyncEntry;
 
+// Values of WiFiRaceSync.mStateMachine.mState, in the order of gWiFiRaceSyncStateTable.
+typedef enum {
+    WIFI_RACE_SYNC_STATE_IDLE,
+    WIFI_RACE_SYNC_STATE_PROBE,
+    WIFI_RACE_SYNC_STATE_READY,
+    WIFI_RACE_SYNC_STATE_COUNTDOWN,
+    WIFI_RACE_SYNC_STATE_RACE,
+    WIFI_RACE_SYNC_STATE_AFTER_CHOICE,
+    WIFI_RACE_SYNC_STATE_COUNT
+} WiFiRaceSyncState;
+
 // Values of WiFiRaceSyncPacket.mKind.
 typedef enum {
     WIFI_RACE_SYNC_PACKET_PROBE,
@@ -83,4 +94,4 @@ void SetParticipantKartMapFromMask(u32 participantMask);
 void ResetParticipantKartMap(void);
 
 extern const EloChangeRow gEloChangeTable[9];
-extern StateCallbacks gWiFiRaceSyncStateTable[6];
+extern StateCallbacks gWiFiRaceSyncStateTable[WIFI_RACE_SYNC_STATE_COUNT];
