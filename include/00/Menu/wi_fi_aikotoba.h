@@ -8,6 +8,18 @@ struct NNSG2dCellDataBank;
 struct Ncgr;
 struct Nclr;
 
+// Values of WiFiAikotoba.mState and mNextState.
+enum {
+    WIFI_AIKOTOBA_STATE_WAIT_FADE,
+    WIFI_AIKOTOBA_STATE_SLIDE_IN,
+    WIFI_AIKOTOBA_STATE_WAIT_SELECT_RETURN,
+    WIFI_AIKOTOBA_STATE_INPUT,
+    WIFI_AIKOTOBA_STATE_PRESS,
+    WIFI_AIKOTOBA_STATE_SLIDE_OUT,
+    WIFI_AIKOTOBA_STATE_BUDDY_FULL_NOTICE,
+    WIFI_AIKOTOBA_STATE_BUDDY_FULL_ASK,
+};
+
 // Object behind gWiFiAikotoba; LocateAndUploadWiFiAikotoba fills 0x20 to 0x30.
 typedef struct WiFiAikotoba {
     /* 00 */ s32 mState;
