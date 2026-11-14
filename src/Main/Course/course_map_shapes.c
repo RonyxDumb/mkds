@@ -1025,10 +1025,10 @@ s32 IsPosInCourseMapShape(Vec3 *pos, CourseMapShape *shape) {
     s32 radius;
 
     switch (shape->mShapeKind) {
-        case 0:
+        case COURSE_MAP_SHAPE_FORM_BOX:
             inside = IsPosInCourseMapShapeBox(pos, shape);
             break;
-        case 1:
+        case COURSE_MAP_SHAPE_FORM_CYLINDER:
             VEC_Subtract(pos, &shape->mPos, &offset);
             if (VEC_DotProduct(&offset, &shape->mAxisY) > MUL_FIXED12_ROUNDED(shape->mScale.y, 0x32000)) {
                 inside = 0;
@@ -1059,10 +1059,10 @@ s32 IsPosInCourseMapKind2Shape(Vec3 *pos, s32 *outFlag) {
         if (shape->mKind == COURSE_MAP_SHAPE_KIND_2) {
             inside = 0;
             switch (shape->mShapeKind) {
-                case 0:
+                case COURSE_MAP_SHAPE_FORM_BOX:
                     inside = IsPosInCourseMapShapeBox(pos, shape);
                     break;
-                case 1:
+                case COURSE_MAP_SHAPE_FORM_CYLINDER:
                     VEC_Subtract(pos, &shape->mPos, &offset);
                     if (VEC_DotProduct(&offset, &shape->mAxisY) <= MUL_FIXED12_ROUNDED(shape->mScale.y, 0x32000)) {
                         distanceX = VEC_DotProduct(&offset, &shape->mAxisX) >> 4;
@@ -1107,10 +1107,10 @@ void *FindCourseMapKind4ShapeRacePointLink(Vec3 *pos) {
         if (shape->mKind == COURSE_MAP_SHAPE_KIND_POINT_LINK) {
             inside = 0;
             switch (shape->mShapeKind) {
-                case 0:
+                case COURSE_MAP_SHAPE_FORM_BOX:
                     inside = IsPosInCourseMapShapeBox(pos, shape);
                     break;
-                case 1:
+                case COURSE_MAP_SHAPE_FORM_CYLINDER:
                     VEC_Subtract(pos, &shape->mPos, &offset);
                     if (VEC_DotProduct(&offset, &shape->mAxisY) <= MUL_FIXED12_ROUNDED(shape->mScale.y, 0x32000)) {
                         distanceX = VEC_DotProduct(&offset, &shape->mAxisX) >> 4;
@@ -1150,10 +1150,10 @@ PointLink *FindCourseMapKind4ShapeBattlePointLink(Vec3 *pos) {
         if (shape->mKind == COURSE_MAP_SHAPE_KIND_POINT_LINK) {
             inside = 0;
             switch (shape->mShapeKind) {
-                case 0:
+                case COURSE_MAP_SHAPE_FORM_BOX:
                     inside = IsPosInCourseMapShapeBox(pos, shape);
                     break;
-                case 1:
+                case COURSE_MAP_SHAPE_FORM_CYLINDER:
                     VEC_Subtract(pos, &shape->mPos, &offset);
                     if (VEC_DotProduct(&offset, &shape->mAxisY) <= MUL_FIXED12_ROUNDED(shape->mScale.y, 0x32000)) {
                         distanceX = VEC_DotProduct(&offset, &shape->mAxisX) >> 4;
@@ -1190,10 +1190,10 @@ s32 GetCourseMapCameraIndexAtPos(Vec3 *pos) {
         if (shape->mKind == COURSE_MAP_SHAPE_KIND_CAMERA) {
             inside = 0;
             switch (shape->mShapeKind) {
-                case 0:
+                case COURSE_MAP_SHAPE_FORM_BOX:
                     inside = IsPosInCourseMapShapeBox(pos, shape);
                     break;
-                case 1:
+                case COURSE_MAP_SHAPE_FORM_CYLINDER:
                     VEC_Subtract(pos, &shape->mPos, &offset);
                     if (VEC_DotProduct(&offset, &shape->mAxisY) > MUL_FIXED12_ROUNDED(shape->mScale.y, 0x32000)) {
                         inside = 0;
@@ -1330,10 +1330,10 @@ s32 IsKartInCourseMapKind3ShapeList(s32 kartIndex, u32 listIndex) {
         shape = node->mShape;
         inside = 0;
         switch (shape->mShapeKind) {
-            case 0:
+            case COURSE_MAP_SHAPE_FORM_BOX:
                 inside = IsPosInCourseMapShapeBox(&kartPos, shape);
                 break;
-            case 1:
+            case COURSE_MAP_SHAPE_FORM_CYLINDER:
                 VEC_Subtract(&kartPos, &shape->mPos, &offset);
                 if (VEC_DotProduct(&offset, &shape->mAxisY) <= MUL_FIXED12_ROUNDED(shape->mScale.y, 0x32000)) {
                     distanceX = VEC_DotProduct(&offset, &shape->mAxisX) >> 4;

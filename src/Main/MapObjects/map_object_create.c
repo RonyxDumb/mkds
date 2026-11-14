@@ -181,7 +181,7 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
                     descriptor->mKindData->mDrawDistance =
                         tableValue != 0 ? TO_FIXED12(tableValue) + 0.5f : TO_FIXED12(tableValue) - 0.5f;
                 }
-                if (grpconfRow->mShapeKind != 0) {
+                if (grpconfRow->mShapeKind != MAP_OBJECT_SHAPE_NONE) {
                     descriptor->mKindData->mShapeKind = grpconfRow->mShapeKind;
                     tableValue = grpconfRow->mExtentX;
                     descriptor->mKindData->mExtentX =
@@ -256,7 +256,7 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
             }
             SetMapObjectDrawDistance(object, kindData->mDrawDistance);
             object->mUseTwoPlaneViewTest = kindData->mUseTwoPlaneViewTest;
-            if (kindData->mShapeKind != 0) {
+            if (kindData->mShapeKind != MAP_OBJECT_SHAPE_NONE) {
                 object->mFlags &= ~1;
             } else {
                 object->mFlags |= gMapObjectNoShapeFlag;
@@ -299,7 +299,7 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
                     descriptor->mInitObject(object, NULL, source);
                 }
             }
-            if (kindData->mShapeKind != 0) {
+            if (kindData->mShapeKind != MAP_OBJECT_SHAPE_NONE) {
                 slotFlags = 0x2000;
                 if (kindData->mPosStepMode == 0) {
                     slotFlags |= gCollisionSlotPosStepFlag;

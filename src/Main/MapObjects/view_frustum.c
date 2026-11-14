@@ -827,7 +827,7 @@ BOOL IsSphereHittingMapObject(Vec3 *position, s32 radius, MapObject *mapObject, 
         return FALSE;
     }
     switch (mapObject->mKindData->mShapeKind) {
-        case 1:
+        case MAP_OBJECT_SHAPE_SPHERE:
             combinedRadius = radius + mapObject->mExtent.x;
             negatedRadius = -combinedRadius;
             dz = position->z - mapObject->mPos.z;
@@ -851,7 +851,7 @@ BOOL IsSphereHittingMapObject(Vec3 *position, s32 radius, MapObject *mapObject, 
             }
             ComputeSphereOverlapOffset(position, &mapObject->mPos, combinedRadius, overlapOffset);
             return TRUE;
-        case 2:
+        case MAP_OBJECT_SHAPE_CYLINDER:
             combinedRadius = radius + mapObject->mExtent.x;
             combinedHeight = radius + mapObject->mExtent.y;
             negatedRadius = -combinedRadius;
@@ -876,16 +876,16 @@ BOOL IsSphereHittingMapObject(Vec3 *position, s32 radius, MapObject *mapObject, 
             }
             ComputeCylinderOverlapOffset(position, &mapObject->mPos, combinedRadius, combinedHeight, overlapOffset);
             return TRUE;
-        case 3:
+        case MAP_OBJECT_SHAPE_ROTATED_CYLINDER:
             return ComputeSphereHitOnRotatedCylinder(position, &mapObject->mPos, &mapObject->mMatrix.mRows[0],
                                                      mapObject->mExtent.x, mapObject->mExtent.y, mapObject->mExtent.y,
                                                      radius, overlapOffset) != 0;
-        case 4:
+        case MAP_OBJECT_SHAPE_ROTATED_BOX:
             return ComputeSphereHitOnRotatedBox(position, &mapObject->mPos, &mapObject->mMatrix.mRows[0],
                                                 &mapObject->mExtent, &mapObject->mExtent, radius, overlapOffset) != 0;
-        case 0:
+        case MAP_OBJECT_SHAPE_NONE:
             return FALSE;
-        case 5:
+        case MAP_OBJECT_SHAPE_CUSTOM_HIT_TEST:
             if (mapObject->mKindData->mSphereHitTest != NULL) {
                 return mapObject->mKindData->mSphereHitTest(mapObject, position, radius, overlapOffset) != 0;
             }

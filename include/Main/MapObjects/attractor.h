@@ -18,6 +18,14 @@ typedef struct MapObjectSound {
     /* 54 */ u8 mUnk_54[0xc];
 } MapObjectSound;
 
+// Values of MapObjectKindData.mShapeKind: the body that kart and item hits are tested against.
+#define MAP_OBJECT_SHAPE_NONE 0
+#define MAP_OBJECT_SHAPE_SPHERE 1
+#define MAP_OBJECT_SHAPE_CYLINDER 2
+#define MAP_OBJECT_SHAPE_ROTATED_CYLINDER 3
+#define MAP_OBJECT_SHAPE_ROTATED_BOX 4
+#define MAP_OBJECT_SHAPE_CUSTOM_HIT_TEST 5
+
 // Object behind MapObject.mKindData; kinds whose rows point at the same record share it.
 typedef struct MapObjectKindData {
     /* 00 */ s32 (*mCollideKartCallback)(struct MapObject *e, void *a, s32 *b, s32 *c);

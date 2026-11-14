@@ -17,6 +17,10 @@
 #define COURSE_MAP_SHAPE_KIND_POINT_LINK 4
 #define COURSE_MAP_SHAPE_KIND_5 5
 
+// Values of CourseMapShape.mShapeKind.
+#define COURSE_MAP_SHAPE_FORM_BOX 0
+#define COURSE_MAP_SHAPE_FORM_CYLINDER 1
+
 // No route in a slot of CourseMapRoute.mNextRoutes and mPreviousRoutes, or of the battle route point lists; the second
 // spelling is the same byte read as an s8.
 #define COURSE_MAP_ROUTE_NONE 0xff

@@ -23,14 +23,14 @@ void SetMapObjectScale(MapObject *mapObject, const Vec3 *scale) {
     mapObject->mExtent.x = MUL_FIXED12_NO_ROUND(mapObject->mKindData->mExtentX, mapObject->mScale.x);
     if (mapObject->mCollisionSlotIndex >= 0) {
         switch (mapObject->mKindData->mShapeKind) {
-            case 3:
-            case 4:
-            case 5:
+            case MAP_OBJECT_SHAPE_ROTATED_CYLINDER:
+            case MAP_OBJECT_SHAPE_ROTATED_BOX:
+            case MAP_OBJECT_SHAPE_CUSTOM_HIT_TEST:
                 value = VEC_Mag(&mapObject->mExtent);
                 break;
-            case 0:
-            case 1:
-            case 2:
+            case MAP_OBJECT_SHAPE_NONE:
+            case MAP_OBJECT_SHAPE_SPHERE:
+            case MAP_OBJECT_SHAPE_CYLINDER:
             default:
                 value = mapObject->mExtent.x;
                 break;
@@ -40,14 +40,14 @@ void SetMapObjectScale(MapObject *mapObject, const Vec3 *scale) {
     mapObject->mExtent.y = MUL_FIXED12_NO_ROUND(mapObject->mKindData->mExtentY, mapObject->mScale.y);
     if (mapObject->mCollisionSlotIndex >= 0) {
         switch (mapObject->mKindData->mShapeKind) {
-            case 3:
-            case 4:
-            case 5:
+            case MAP_OBJECT_SHAPE_ROTATED_CYLINDER:
+            case MAP_OBJECT_SHAPE_ROTATED_BOX:
+            case MAP_OBJECT_SHAPE_CUSTOM_HIT_TEST:
                 value = VEC_Mag(&mapObject->mExtent);
                 break;
-            case 0:
-            case 1:
-            case 2:
+            case MAP_OBJECT_SHAPE_NONE:
+            case MAP_OBJECT_SHAPE_SPHERE:
+            case MAP_OBJECT_SHAPE_CYLINDER:
             default:
                 value = mapObject->mExtent.x;
                 break;
@@ -57,14 +57,14 @@ void SetMapObjectScale(MapObject *mapObject, const Vec3 *scale) {
     mapObject->mExtent.z = MUL_FIXED12_NO_ROUND(mapObject->mKindData->mExtentZ, mapObject->mScale.z);
     if (mapObject->mCollisionSlotIndex >= 0) {
         switch (mapObject->mKindData->mShapeKind) {
-            case 3:
-            case 4:
-            case 5:
+            case MAP_OBJECT_SHAPE_ROTATED_CYLINDER:
+            case MAP_OBJECT_SHAPE_ROTATED_BOX:
+            case MAP_OBJECT_SHAPE_CUSTOM_HIT_TEST:
                 value = VEC_Mag(&mapObject->mExtent);
                 break;
-            case 0:
-            case 1:
-            case 2:
+            case MAP_OBJECT_SHAPE_NONE:
+            case MAP_OBJECT_SHAPE_SPHERE:
+            case MAP_OBJECT_SHAPE_CYLINDER:
             default:
                 value = mapObject->mExtent.x;
                 break;
@@ -90,14 +90,14 @@ void SetMapObjectExtentX(MapObject *mapObject, s32 baseSize) {
         return;
     }
     switch (mapObject->mKindData->mShapeKind) {
-        case 3:
-        case 4:
-        case 5:
+        case MAP_OBJECT_SHAPE_ROTATED_CYLINDER:
+        case MAP_OBJECT_SHAPE_ROTATED_BOX:
+        case MAP_OBJECT_SHAPE_CUSTOM_HIT_TEST:
             radius = VEC_Mag(&mapObject->mExtent);
             break;
-        case 0:
-        case 1:
-        case 2:
+        case MAP_OBJECT_SHAPE_NONE:
+        case MAP_OBJECT_SHAPE_SPHERE:
+        case MAP_OBJECT_SHAPE_CYLINDER:
         default:
             radius = mapObject->mExtent.x;
             break;

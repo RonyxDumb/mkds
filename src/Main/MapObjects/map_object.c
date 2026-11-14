@@ -61,14 +61,14 @@ void SetMapObjectExtentY(MapObject *mapObject, s32 baseSize) {
         return;
     }
     switch (mapObject->mKindData->mShapeKind) {
-        case 3:
-        case 4:
-        case 5:
+        case MAP_OBJECT_SHAPE_ROTATED_CYLINDER:
+        case MAP_OBJECT_SHAPE_ROTATED_BOX:
+        case MAP_OBJECT_SHAPE_CUSTOM_HIT_TEST:
             radius = VEC_Mag(&mapObject->mExtent);
             break;
-        case 0:
-        case 1:
-        case 2:
+        case MAP_OBJECT_SHAPE_NONE:
+        case MAP_OBJECT_SHAPE_SPHERE:
+        case MAP_OBJECT_SHAPE_CYLINDER:
         default:
             radius = mapObject->mExtent.x;
             break;
@@ -78,13 +78,13 @@ void SetMapObjectExtentY(MapObject *mapObject, s32 baseSize) {
 
 s32 GetMapObjectCollisionRadius(MapObject *mapObject) {
     switch (mapObject->mKindData->mShapeKind) {
-        case 3:
-        case 4:
-        case 5:
+        case MAP_OBJECT_SHAPE_ROTATED_CYLINDER:
+        case MAP_OBJECT_SHAPE_ROTATED_BOX:
+        case MAP_OBJECT_SHAPE_CUSTOM_HIT_TEST:
             return VEC_Mag(&mapObject->mExtent);
-        case 0:
-        case 1:
-        case 2:
+        case MAP_OBJECT_SHAPE_NONE:
+        case MAP_OBJECT_SHAPE_SPHERE:
+        case MAP_OBJECT_SHAPE_CYLINDER:
         default:
             return mapObject->mExtent.x;
     }
