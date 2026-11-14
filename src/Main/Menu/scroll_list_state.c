@@ -281,7 +281,7 @@ u16 ScrollListGetDownBits(u32 slotIndex, u32 mask) {
 
 #pragma thumb on
 
-// State 0: starts a pick, a selection move or a scroll from the keys and the touch.
+// Idle state: starts a pick, a selection move or a scroll from the keys and the touch.
 void AdvanceScrollListState0(void) {
     u32 slotIndex = GetPadInputSlot();
     BOOL rowChanged;
@@ -290,7 +290,7 @@ void AdvanceScrollListState0(void) {
     }
     gScrollList->mScrollFrameCount = gScrollList->mHeldMoveCount > 2 ? 5 : 0xf;
     if (ScrollListGetNewBits(slotIndex, PAD_KEY_A) != 0) {
-        gScrollList->mState = 5;
+        gScrollList->mState = SCROLL_LIST_STATE_PICK;
         gScrollList->mPickedVisibleRow = gScrollList->mSelectedVisibleRow;
         gScrollList->mEntries[gScrollList->mCursorEntry].mVisible = 0;
         gScrollList->mTimer = 10;
@@ -304,7 +304,7 @@ void AdvanceScrollListState0(void) {
     if (gScrollList->mFirstRowRectIndex <= gScrollList->mPressedRectIndex &&
         gScrollList->mPressedRectIndex < gScrollList->mFirstRowRectIndex + 5 &&
         gScrollList->mPressedRectIndex - gScrollList->mFirstRowRectIndex < gScrollList->mRowCount) {
-        gScrollList->mState = 5;
+        gScrollList->mState = SCROLL_LIST_STATE_PICK;
         gScrollList->mPickedVisibleRow = gScrollList->mPressedRectIndex - gScrollList->mFirstRowRectIndex;
         rowChanged = gScrollList->mPickedVisibleRow != gScrollList->mSelectedVisibleRow;
         gScrollList->mEntries[gScrollList->mCursorEntry].mVisible = rowChanged;
@@ -326,13 +326,13 @@ void AdvanceScrollListState0(void) {
         if (gScrollList->mSelectedVisibleRow == 0) {
             gScrollList->mTimer = gScrollList->mScrollFrameCount;
             gScrollList->mEntries[gScrollList->mCursorEntry].mVisible = 0;
-            gScrollList->mState = 3;
+            gScrollList->mState = SCROLL_LIST_STATE_SCROLL_UP;
             SetScrollListSlotVisible(gScrollList->mHiddenTopSlot, 1);
             CallScrollListCallback(0, -1, -1, -1);
             CallScrollListCallback(2, gScrollList->mHiddenTopSlot,
                                    gScrollList->mSelectedRow - gScrollList->mSelectedVisibleRow - 1, -1);
         } else {
-            gScrollList->mState = 1;
+            gScrollList->mState = SCROLL_LIST_STATE_SELECT_UP;
         }
         gScrollList->mUpHeldFrames = 0;
         gScrollList->mHeldMoveCount = gScrollList->mHeldMoveCount + 1;
@@ -349,7 +349,7 @@ void AdvanceScrollListState0(void) {
         if (gScrollList->mSelectedVisibleRow == 4) {
             gScrollList->mTimer = gScrollList->mScrollFrameCount;
             gScrollList->mEntries[gScrollList->mCursorEntry].mVisible = 0;
-            gScrollList->mState = 4;
+            gScrollList->mState = SCROLL_LIST_STATE_SCROLL_DOWN;
             SetScrollListSlotVisible(GetScrollListHiddenBottomSlot(), 1);
             CallScrollListCallback(0, -1, -1, -1);
             {
@@ -358,7 +358,7 @@ void AdvanceScrollListState0(void) {
                                        list->mSelectedRow - list->mSelectedVisibleRow + 5, -1);
             }
         } else {
-            gScrollList->mState = 2;
+            gScrollList->mState = SCROLL_LIST_STATE_SELECT_DOWN;
         }
         gScrollList->mDownHeldFrames = 0;
         gScrollList->mHeldMoveCount = gScrollList->mHeldMoveCount + 1;
@@ -380,7 +380,7 @@ void AdvanceScrollListSelectUp(void) {
     gScrollList->mSelectedRow = gScrollList->mSelectedRow - 1;
     PlaceScrollListCursor();
     CallScrollListCallback(0, -1, -1, GetScrollListSelectedSlot());
-    gScrollList->mState = 0;
+    gScrollList->mState = SCROLL_LIST_STATE_IDLE;
 }
 
 void AdvanceScrollListSelectDown(void) {
@@ -388,7 +388,7 @@ void AdvanceScrollListSelectDown(void) {
     gScrollList->mSelectedRow = gScrollList->mSelectedRow + 1;
     PlaceScrollListCursor();
     CallScrollListCallback(0, -1, -1, GetScrollListSelectedSlot());
-    gScrollList->mState = 0;
+    gScrollList->mState = SCROLL_LIST_STATE_IDLE;
 }
 
 void AdvanceScrollListScrollUp(void) {
@@ -429,7 +429,7 @@ void AdvanceScrollListScrollUp(void) {
             ScrollList *list = gScrollList;
             CallScrollListCallback(0, list->mHiddenTopSlot, list->mSelectedRow - 1, GetScrollListSelectedSlot());
         }
-        gScrollList->mState = 0;
+        gScrollList->mState = SCROLL_LIST_STATE_IDLE;
         SetScrollListSlotVisible(gScrollList->mHiddenTopSlot, 0);
     }
 }
@@ -474,7 +474,7 @@ void AdvanceScrollListScrollDown(void) {
             ScrollList *list = gScrollList;
             CallScrollListCallback(0, list->mHiddenTopSlot, list->mSelectedRow - 1, GetScrollListSelectedSlot());
         }
-        gScrollList->mState = 0;
+        gScrollList->mState = SCROLL_LIST_STATE_IDLE;
         SetScrollListSlotVisible(GetScrollListHiddenBottomSlot(), 0);
     }
 }
@@ -487,7 +487,7 @@ void AdvanceScrollListPick(void) {
     if (gScrollList->mTimer == 0) {
         CallScrollListCallback(0, -1, -1, GetScrollListSelectedSlot());
         gScrollList->mEntries[gScrollList->mCursorEntry].mVisible = 1;
-        gScrollList->mState = 0;
+        gScrollList->mState = SCROLL_LIST_STATE_IDLE;
         gScrollList->mPickFinished = 1;
     }
 }
@@ -559,22 +559,22 @@ void AdvanceScrollList(void) {
     AdvanceScrollListInput();
     AdvanceScrollListRightColumnTimer();
     switch (gScrollList->mState) {
-        case 0:
+        case SCROLL_LIST_STATE_IDLE:
             AdvanceScrollListState0();
             break;
-        case 1:
+        case SCROLL_LIST_STATE_SELECT_UP:
             AdvanceScrollListSelectUp();
             break;
-        case 2:
+        case SCROLL_LIST_STATE_SELECT_DOWN:
             AdvanceScrollListSelectDown();
             break;
-        case 3:
+        case SCROLL_LIST_STATE_SCROLL_UP:
             AdvanceScrollListScrollUp();
             break;
-        case 4:
+        case SCROLL_LIST_STATE_SCROLL_DOWN:
             AdvanceScrollListScrollDown();
             break;
-        case 5:
+        case SCROLL_LIST_STATE_PICK:
             AdvanceScrollListPick();
             break;
     }

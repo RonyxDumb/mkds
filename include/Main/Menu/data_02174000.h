@@ -409,6 +409,17 @@ typedef struct GhostScene {
 
 extern GhostScene *gGhostScene;
 
+// Values of ScrollList.mState: waiting for input, the selection moves one row, the list scrolls one row, or a row is
+// picked.
+enum {
+    SCROLL_LIST_STATE_IDLE,
+    SCROLL_LIST_STATE_SELECT_UP,
+    SCROLL_LIST_STATE_SELECT_DOWN,
+    SCROLL_LIST_STATE_SCROLL_UP,
+    SCROLL_LIST_STATE_SCROLL_DOWN,
+    SCROLL_LIST_STATE_PICK,
+};
+
 typedef struct ScrollList {
     /* 000 */ s32 mGroupCount;
     /* 004 */ u16 *mGroupFirstEntries;
