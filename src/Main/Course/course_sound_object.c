@@ -55,7 +55,7 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
         if (GetRaceUseChainCameras() != 0) {
             switch (gRaceSetup->mCourseId) {
                 case COURSE_ID_CROSS:
-                    courseSoundObject->mState = 4;
+                    courseSoundObject->mState = COURSE_SOUND_STATE_CHAIN_TWO_PARTS;
                     courseMapRow = courseSoundObject->mMapObject.mCourseMapRow;
                     crossFirstZ = courseMapRow->mPosition.z + (-0x4a6000);
                     crossFirstY = courseMapRow->mPosition.y;
@@ -82,7 +82,7 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
                     courseSoundObject->mSecondPart.mSourcePos.z = crossSecondZ;
                     break;
                 case COURSE_ID_BANK:
-                    courseSoundObject->mState = 5;
+                    courseSoundObject->mState = COURSE_SOUND_STATE_CHAIN_ONE_PART;
                     courseMapRow = courseSoundObject->mMapObject.mCourseMapRow;
                     bankChainZ = courseMapRow->mPosition.z;
                     bankChainY = courseMapRow->mPosition.y;
@@ -115,7 +115,7 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
         } else {
             switch (gRaceSetup->mCourseId) {
                 case COURSE_ID_CROSS:
-                    courseSoundObject->mState = 1;
+                    courseSoundObject->mState = COURSE_SOUND_STATE_WAIT_RACE_START;
                     courseSoundObject->mFirstPart.mStartParams.mSoundId = 0x108;
                     courseSoundObject->mFirstPart.mStartParams.mFalloffIndex = 8;
                     courseSoundObject->mFirstPart.mStartParams.mPositionSource =
@@ -136,7 +136,7 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
                                                      &courseSoundObject->mMapObject.mPos);
                     break;
                 case COURSE_ID_MARIO:
-                    courseSoundObject->mState = 1;
+                    courseSoundObject->mState = COURSE_SOUND_STATE_WAIT_RACE_START;
                     courseSoundObject->mFirstPart.mStartParams.mSoundId = 0x1a0;
                     courseSoundObject->mFirstPart.mStartParams.mFalloffIndex = 8;
                     courseSoundObject->mFirstPart.mStartParams.mPositionSource =
@@ -157,7 +157,7 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
                                                      &courseSoundObject->mMapObject.mPos);
                     break;
                 case COURSE_ID_BANK:
-                    courseSoundObject->mState = 6;
+                    courseSoundObject->mState = COURSE_SOUND_STATE_TWO_PARTS;
                     courseMapRow = courseSoundObject->mMapObject.mCourseMapRow;
                     bankFirstZ = courseMapRow->mPosition.z;
                     bankFirstY = courseMapRow->mPosition.y;
@@ -234,16 +234,16 @@ void UpdateCourseSoundObject(void *mapObjectList, CourseSoundObject *courseSound
     s32 soundId;
 
     switch (courseSoundObject->mState) {
-        case 1:
+        case COURSE_SOUND_STATE_WAIT_RACE_START:
             if (IsRaceStarted() == 1) {
                 soundId = courseSoundObject->mSecondPart.mStartParams.mSoundId;
                 NNS_SndPlayerStopSeq(courseSoundObject->mFirstPart.mSndHandleSlot, 0);
                 courseSoundObject->mFirstPart.mStartParams.mSoundId = soundId;
-                courseSoundObject->mState = 2;
+                courseSoundObject->mState = COURSE_SOUND_STATE_RACE;
             }
             StartCourseSoundPartIfInRange(&courseSoundObject->mFirstPart);
             break;
-        case 2:
+        case COURSE_SOUND_STATE_RACE:
             PlaceCourseSoundObjectPartSource(&courseSoundObject->mFirstPart, &courseSoundObject->mMapObject.mPos);
             if (gRaceSetup->mRaceKind == RACE_KIND_NORMAL && IsKartOnLastLap(gRaceSetup->mEntryIndex) != FALSE &&
                 courseSoundObject->mFirstPart.mInRangeUpdateCount == 0 &&
@@ -251,11 +251,11 @@ void UpdateCourseSoundObject(void *mapObjectList, CourseSoundObject *courseSound
                 soundId = GetLastLapCourseSoundId();
                 NNS_SndPlayerStopSeq(courseSoundObject->mFirstPart.mSndHandleSlot, 0);
                 courseSoundObject->mFirstPart.mStartParams.mSoundId = soundId;
-                courseSoundObject->mState = 3;
+                courseSoundObject->mState = COURSE_SOUND_STATE_LAST_LAP;
             }
             StartCourseSoundPartIfInRange(&courseSoundObject->mFirstPart);
             break;
-        case 3:
+        case COURSE_SOUND_STATE_LAST_LAP:
             PlaceCourseSoundObjectPartSource(&courseSoundObject->mFirstPart, &courseSoundObject->mMapObject.mPos);
             if (IsKartEnded((u16) gRaceSetup->mEntryIndex) != 0) {
                 ParkMapObject(&courseSoundObject->mMapObject);
@@ -263,18 +263,18 @@ void UpdateCourseSoundObject(void *mapObjectList, CourseSoundObject *courseSound
                 soundId = courseSoundObject->mSecondPart.mStartParams.mSoundId;
                 NNS_SndPlayerStopSeq(courseSoundObject->mFirstPart.mSndHandleSlot, 0);
                 courseSoundObject->mFirstPart.mStartParams.mSoundId = soundId;
-                courseSoundObject->mState = 2;
+                courseSoundObject->mState = COURSE_SOUND_STATE_RACE;
             }
             StartCourseSoundPartIfInRange(&courseSoundObject->mFirstPart);
             break;
-        case 4:
+        case COURSE_SOUND_STATE_CHAIN_TWO_PARTS:
             StartCourseSoundPartIfInRange(&courseSoundObject->mFirstPart);
             StartCourseSoundPartIfInRange(&courseSoundObject->mSecondPart);
             break;
-        case 5:
+        case COURSE_SOUND_STATE_CHAIN_ONE_PART:
             StartCourseSoundPartIfInRange(&courseSoundObject->mFirstPart);
             break;
-        case 6:
+        case COURSE_SOUND_STATE_TWO_PARTS:
             StartCourseSoundPartIfInRange(&courseSoundObject->mFirstPart);
             StartCourseSoundPartIfInRange(&courseSoundObject->mSecondPart);
             break;

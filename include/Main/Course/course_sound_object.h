@@ -18,7 +18,18 @@ typedef struct CourseSoundObjectPart {
     /* 24 */ s32 mInRangeUpdateCount;
 } CourseSoundObjectPart;
 
-// Object of UpdateCourseSoundObject: the shared MapObject part, two CourseSoundObjectPart and a value at 0xf0 (0 to 6)
+// CourseSoundObject.mState values (0 is not used). WAIT_RACE_START to LAST_LAP swap the first part's sound as the race
+// starts and on the last lap; the CHAIN states are set while GetRaceUseChainCameras is nonzero.
+enum {
+    COURSE_SOUND_STATE_WAIT_RACE_START = 1,
+    COURSE_SOUND_STATE_RACE,
+    COURSE_SOUND_STATE_LAST_LAP,
+    COURSE_SOUND_STATE_CHAIN_TWO_PARTS,
+    COURSE_SOUND_STATE_CHAIN_ONE_PART,
+    COURSE_SOUND_STATE_TWO_PARTS,
+};
+
+// Object of UpdateCourseSoundObject: the shared MapObject part, two CourseSoundObjectPart and a state at 0xf0
 // that selects what UpdateCourseSoundObject does.
 typedef struct CourseSoundObject {
     /* 000 */ MapObject mMapObject;
