@@ -608,7 +608,7 @@ void StartParentCallback(WirelessMessage *event) {
             case 7:
                 AddChild(event->mLength, &event->mMacAddress[0], (PlayerRecord *) event->mPeerBytes);
                 break;
-            case 0:
+            case WIRELESS_STATE_SESSION_START:
                 MI_CpuCopy8(&gBackupBuffers->mFirstBlock->mPlayerName, &gConnectionWork->mPlayerRecords[0], 0x14);
                 MI_CpuCopy8(&gBackupBuffers->mFirstBlock->mFlags, &gConnectionWork->mPlayerRecords[0].mBits, 4);
                 seed = 0;

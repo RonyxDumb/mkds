@@ -211,6 +211,32 @@ typedef struct WMStatus {
     /* 192 */ u8 mUnk_192[0x62a];
 } WMStatus;
 
+// Values of WirelessMessage.mReplyState / mState that the scan, connect, MP and multiboot callbacks tell apart.
+typedef enum WirelessState {
+    WIRELESS_STATE_SESSION_START = 0x0,
+    WIRELESS_STATE_NEVER_HANDLED = 0x1,
+    WIRELESS_STATE_FORWARD_UNLESS_RESETTING = 0x2,
+    WIRELESS_STATE_SEARCH_NO_ACTION = 0x3,
+    WIRELESS_STATE_SEARCH_EMPTY = 0x4,
+    WIRELESS_STATE_HOST_SIGHTED = 0x5,
+    WIRELESS_STATE_CHILD_SESSION_START = 0x6,
+    WIRELESS_STATE_LINKED = 0x7,
+    WIRELESS_STATE_CHILD_NO_ACTION = 0x8,
+    WIRELESS_STATE_UNLINKED = 0x9,
+    WIRELESS_STATE_EXCHANGE_BEGUN = 0xa,
+    WIRELESS_STATE_EXCHANGE_PASS_RECV_BUFFER = 0xb,
+    WIRELESS_STATE_EXCHANGE_IGNORED_FIRST = 0xc,
+    WIRELESS_STATE_EXCHANGE_IGNORED_SECOND = 0xd,
+    // Event report states the multiboot parent passes on as callback kinds 0x1d, 0x1f, 0x20 and 0x21.
+    WIRELESS_STATE_EVENT_FORWARD_FIRST = 0x10,
+    WIRELESS_STATE_EVENT_FORWARD_SECOND = 0x11,
+    WIRELESS_STATE_EVENT_FORWARD_THIRD = 0x12,
+    WIRELESS_STATE_EVENT_FORWARD_FOURTH = 0x13,
+    WIRELESS_STATE_PORT_DATA_ARRIVED = 0x15,
+    WIRELESS_STATE_EVENT_FATAL = 0x16, // the multiboot callbacks end the program
+    WIRELESS_STATE_EVENT_IGNORED = 0x17,
+} WirelessState;
+
 // Message the other processor passes to WmReceiveFifo and to the callbacks. Several layouts overlay it: port and
 // indication messages hold the state at 0x04, command replies at 0x08 (mReplyState); names with Or cover both.
 struct WirelessMessage {

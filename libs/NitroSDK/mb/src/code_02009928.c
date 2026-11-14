@@ -39,7 +39,7 @@ void MBi_AttachCacheBuffer(MBiCacheList *table, u32 offset, u32 size, u8 *data, 
         if (range >= table->mList + 4) {
             OS_Terminate();
         }
-        if (range->mState == 0) {
+        if (range->mState == MULTIBOOT_CACHE_EMPTY) {
             range->mSrc = offset;
             range->mLen = size;
             range->mPtr = data;
@@ -59,7 +59,7 @@ u32 MBi_ReadFromCache(MBiCacheList *table, u32 offset, void *destination, u32 by
     found = 0;
     savedInterrupts = OS_DisableInterrupts();
     for (range = table->mList; range < table->mList + 4; range++) {
-        if (range->mState >= 2) {
+        if (range->mState >= MULTIBOOT_CACHE_LOADED) {
             offsetInRange = offset - range->mSrc;
             if (offsetInRange >= 0 && offsetInRange + byteCount <= range->mLen) {
                 MI_CpuCopy8(range->mPtr + offsetInRange, destination, byteCount);
@@ -179,11 +179,11 @@ void MBi_ParentCallback(WirelessMessage *result) {
                 return;
             }
             switch (result->mReplyState) {
-                case 0:
+                case WIRELESS_STATE_SESSION_START:
                     gWirelessWork->mConnectedAids = 0;
                     gWirelessWork->mMPStarted = 0;
                     return;
-                case 7:
+                case WIRELESS_STATE_LINKED:
                     if (gWirelessWork->mResetting == 1) {
                         return;
                     }
@@ -206,11 +206,11 @@ void MBi_ParentCallback(WirelessMessage *result) {
                     }
                     gWirelessWork->mCallback(0x19, NULL);
                     return;
-                case 9:
+                case WIRELESS_STATE_UNLINKED:
                     gWirelessWork->mConnectedAids &= ~(1 << result->mLength);
                     gWirelessWork->mCallback(1, result);
                     return;
-                case 2:
+                case WIRELESS_STATE_FORWARD_UNLESS_RESETTING:
                     if (gWirelessWork->mResetting == 1) {
                         return;
                     }
@@ -223,11 +223,11 @@ void MBi_ParentCallback(WirelessMessage *result) {
         case WIRELESS_REQUEST_BEGIN_EXCHANGE:
             mbc->mStartMpBusy = 0;
             switch (result->mState) {
-                case 10:
+                case WIRELESS_STATE_EXCHANGE_BEGUN:
                     gWirelessWork->mMPStarted = 1;
                     gWirelessWork->mCallback(0x19, NULL);
                     return;
-                case 11:
+                case WIRELESS_STATE_EXCHANGE_PASS_RECV_BUFFER:
                     gWirelessWork->mCallback(3, result->mRecvBuf);
                     return;
                 default:
@@ -294,22 +294,22 @@ void MBi_ParentCallback(WirelessMessage *result) {
             return;
         case WIRELESS_REQUEST_EVENT_REPORT:
             switch (result->mState) {
-                case 0x10:
+                case WIRELESS_STATE_EVENT_FORWARD_FIRST:
                     gWirelessWork->mCallback(0x1d, result);
                     return;
-                case 0x11:
+                case WIRELESS_STATE_EVENT_FORWARD_SECOND:
                     gWirelessWork->mCallback(0x1f, result);
                     return;
-                case 0x12:
+                case WIRELESS_STATE_EVENT_FORWARD_THIRD:
                     gWirelessWork->mCallback(0x20, result);
                     return;
-                case 0x13:
+                case WIRELESS_STATE_EVENT_FORWARD_FOURTH:
                     gWirelessWork->mCallback(0x21, result);
                     return;
-                case 0x16:
+                case WIRELESS_STATE_EVENT_FATAL:
                     OS_Terminate();
                     break;
-                case 0x17:
+                case WIRELESS_STATE_EVENT_IGNORED:
                     break;
             }
             break;
@@ -321,9 +321,9 @@ void MBi_ParentCallback(WirelessMessage *result) {
 
 void MBi_ChildPortCallback(WirelessMessage *result) {
     if (result->mResultCode == WIRELESS_RESULT_SUCCEEDED) {
-        if (result->mState == 7) {
-        } else if (result->mState == 9) {
-        } else if (result->mState == 0x15) {
+        if (result->mState == WIRELESS_STATE_LINKED) {
+        } else if (result->mState == WIRELESS_STATE_UNLINKED) {
+        } else if (result->mState == WIRELESS_STATE_PORT_DATA_ARRIVED) {
             gWirelessWork->mCallback(9, result);
         }
     }
@@ -376,9 +376,9 @@ void MBi_ChildCallback(WirelessMessage *result) {
                 return;
             }
             switch (result->mReplyState) {
-                case 3:
+                case WIRELESS_STATE_SEARCH_NO_ACTION:
                     return;
-                case 5:
+                case WIRELESS_STATE_HOST_SIGHTED:
                     entries = work->mScanEntries;
                     entryIndex = 0;
                     entryCount = work->mScanEntryCount;
@@ -423,7 +423,7 @@ void MBi_ChildCallback(WirelessMessage *result) {
                     }
                     MBi_CheckWmErrcode(WIRELESS_REQUEST_BEGIN_SEARCH, WM_StartScan(MBi_ChildCallback, &gScanParams));
                     return;
-                case 4:
+                case WIRELESS_STATE_SEARCH_EMPTY:
                     work->mCallback(5, result);
                     if (work->mRepeatScan == 0) {
                         return;
@@ -454,11 +454,11 @@ void MBi_ChildCallback(WirelessMessage *result) {
                 return;
             }
             switch (result->mReplyState) {
-                case 6:
+                case WIRELESS_STATE_CHILD_SESSION_START:
                     work->mConnectedAids = 0;
                     work->mMPStarted = 1;
                     return;
-                case 7:
+                case WIRELESS_STATE_LINKED:
                     work->mMyAid = result->mUnk_08_2;
                     work->mCallback(6, result);
                     work->mConnectedAids = 1;
@@ -470,7 +470,7 @@ void MBi_ChildCallback(WirelessMessage *result) {
                                                     work->mSendBuffer, work->mSendBufferSize,
                                                     work->mContSend == 0 ? 1 : 0, 0, 0, 0, 1, 1));
                     return;
-                case 9:
+                case WIRELESS_STATE_UNLINKED:
                     work->mCallback(10, result);
                     work->mConnectedAids = 0;
                     work->mMPStarted = 0;
@@ -481,15 +481,15 @@ void MBi_ChildCallback(WirelessMessage *result) {
             }
         case WIRELESS_REQUEST_BEGIN_EXCHANGE:
             switch (result->mState) {
-                case 10:
+                case WIRELESS_STATE_EXCHANGE_BEGUN:
                     work->mMPStarted = 1;
                     if (MBi_IsSendEnabled() == 0) {
                         return;
                     }
                     work->mCallback(0x19, NULL);
                     return;
-                case 12:
-                case 13:
+                case WIRELESS_STATE_EXCHANGE_IGNORED_FIRST:
+                case WIRELESS_STATE_EXCHANGE_IGNORED_SECOND:
                     return;
                 default:
                     work->mCallback(0x100, result);
@@ -534,10 +534,10 @@ void MBi_ChildCallback(WirelessMessage *result) {
             return;
         case WIRELESS_REQUEST_EVENT_REPORT:
             switch (result->mState) {
-                case 0x16:
+                case WIRELESS_STATE_EVENT_FATAL:
                     OS_Terminate();
                     break;
-                case 0x17:
+                case WIRELESS_STATE_EVENT_IGNORED:
                     break;
             }
             return;

@@ -2,6 +2,14 @@
 
 #include "types.h"
 
+// Values of MBiCacheInfo.mState.
+enum {
+    MULTIBOOT_CACHE_EMPTY,
+    MULTIBOOT_CACHE_LOADING,
+    MULTIBOOT_CACHE_LOADED, // dropped when a block outside the cache is read
+    MULTIBOOT_CACHE_FIXED
+};
+
 // 0x10-byte entries from 0x30 of MBiCacheList.
 typedef struct MBiCacheInfo {
     /* 00 */ u32 mSrc;

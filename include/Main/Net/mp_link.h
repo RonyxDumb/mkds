@@ -46,25 +46,6 @@ typedef enum ScanConnectError {
     SCAN_CONNECT_ERROR_WM_REJECTED = 9,
 } ScanConnectError;
 
-// Values of WirelessMessage.mReplyState / mState that the scan, connect and MP callbacks tell apart.
-typedef enum WirelessState {
-    WIRELESS_STATE_SESSION_START = 0,
-    WIRELESS_STATE_NEVER_HANDLED = 1,
-    WIRELESS_STATE_FORWARD_UNLESS_RESETTING = 2,
-    WIRELESS_STATE_SEARCH_NO_ACTION = 3,
-    WIRELESS_STATE_SEARCH_EMPTY = 4,
-    WIRELESS_STATE_HOST_SIGHTED = 5,
-    WIRELESS_STATE_CHILD_SESSION_START = 6,
-    WIRELESS_STATE_LINKED = 7,
-    WIRELESS_STATE_CHILD_NO_ACTION = 8,
-    WIRELESS_STATE_UNLINKED = 9,
-    WIRELESS_STATE_EXCHANGE_BEGUN = 10,
-    WIRELESS_STATE_EXCHANGE_PASS_RECV_BUFFER = 11,
-    WIRELESS_STATE_EXCHANGE_IGNORED_FIRST = 12,
-    WIRELESS_STATE_EXCHANGE_IGNORED_SECOND = 13,
-    WIRELESS_STATE_PORT_DATA_ARRIVED = 21,
-} WirelessState;
-
 // Port of the MP link, and the result QueueMPDataIfReady returns when no data was queued.
 #define MP_LINK_PORT 1
 #define MP_LINK_QUEUE_NOT_READY 1
