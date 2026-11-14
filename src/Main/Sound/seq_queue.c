@@ -457,12 +457,12 @@ void UpdateSeqPlayerControl(SeqPlayerControl *control, NNSSndSeqPlayer **handle)
     slotVolume = pitch;
     value = 0x7f;
     slotSeqIndex = -1;
-    if (control->mVolumeOverride > 0) {
+    if (control->mVolumeOverride > SEQ_VOLUME_OVERRIDE_NONE) {
         switch (control->mVolumeOverride) {
-            case 1:
+            case SEQ_VOLUME_OVERRIDE_ZERO:
                 value = pitch;
                 break;
-            case 2:
+            case SEQ_VOLUME_OVERRIDE_FULL:
                 break;
         }
         StepSeqPlayerVolumeFade(handle, 0x7f, 0, value);
@@ -551,7 +551,7 @@ SeqPlayerControl *ResetSeqPlayerControl(void) {
     gSeqPlayerControl.mPitchAngle = zero;
     gSeqPlayerControl.mFlags = zero;
     gSeqPlayerControl.mKartNear = zero;
-    gSeqPlayerControl.mVolumeOverride = zero;
+    gSeqPlayerControl.mVolumeOverride = SEQ_VOLUME_OVERRIDE_NONE;
     return control;
 }
 
@@ -559,7 +559,7 @@ SeqPlayerControl *FadeSeqVolumeToZeroAfterKartRemoval(void) {
     SeqPlayerControl *control;
     u32 overrideValue;
     control = &gSeqPlayerControl;
-    overrideValue = 1u;
+    overrideValue = SEQ_VOLUME_OVERRIDE_ZERO;
     gSeqPlayerControl.mVolumeOverride = overrideValue;
     return control;
 }
@@ -567,7 +567,7 @@ SeqPlayerControl *FadeSeqVolumeToZeroAfterKartRemoval(void) {
 void StartKartRemovalSeqEffect(void) {
     NNSSndSeqPlayer **handle;
     handle = &gScenePlayers.mSeqPlayer;
-    gSeqPlayerControl.mVolumeOverride = 2;
+    gSeqPlayerControl.mVolumeOverride = SEQ_VOLUME_OVERRIDE_FULL;
     NNS_SndPlayerSetTrackMuteEx(handle, 1, 1);
     NNS_SndPlayerSetTempoRatio(&gScenePlayers.mSeqPlayer, 0xd9);
 }

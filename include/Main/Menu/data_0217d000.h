@@ -511,9 +511,13 @@ typedef struct SelectRaceRuleWait {
     /* 24 */ s32 mStateFrames;
 } SelectRaceRuleWait;
 
+// Values of SeqPlayerControl.mVolumeOverride: normal volume, volume target 0, volume target full.
+#define SEQ_VOLUME_OVERRIDE_NONE 0
+#define SEQ_VOLUME_OVERRIDE_ZERO 1
+#define SEQ_VOLUME_OVERRIDE_FULL 2
+
 // Object at gSeqPlayerControl (0x10 bytes).
 typedef struct SeqPlayerControl {
-    // 0: normal; 1: volume target 0; 2: volume target full.
     /* 00 */ s32 mVolumeOverride;
     /* 04 */ s32 mPitchAngle;
     // Mask 2 is set while the selected Kart is small from the Thunder item (SetThunderShrinkSoundFlag); mask 4 while a
