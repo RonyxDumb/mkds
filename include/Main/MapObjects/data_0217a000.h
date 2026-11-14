@@ -859,6 +859,19 @@ typedef struct OverlayLoaderEntry {
 
 struct NNSiFndHeapHead;
 
+// OverlayLoader.mCurrentOverlay: the index of the entry in mEntries, or none (past the three entries).
+#define OVERLAY_SLOT_OV000 0
+#define OVERLAY_SLOT_OV001 1
+#define OVERLAY_SLOT_OV002 2
+#define OVERLAY_SLOT_NONE 4
+
+// OverlayLoader.mLoadState: nothing loaded, the image is being read, the overlay is started. Nothing sets the last,
+// which the loader handles like the second.
+#define OVERLAY_LOAD_IDLE 0
+#define OVERLAY_LOAD_READING 1
+#define OVERLAY_LOAD_STARTED 2
+#define OVERLAY_LOAD_UNUSED 3
+
 // Object behind gOverlayLoader; UpdateWiFiSession reads the word at 0. The objects at 0x2c and 0x58 are passed to
 // FS_StartOverlay and FS_InitFile, the pointer at 0xa4 to NNS_FndDestroyExpHeap.
 typedef struct OverlayLoader {
