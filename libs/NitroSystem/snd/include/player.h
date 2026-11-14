@@ -3,6 +3,13 @@
 #include "types.h"
 #include "code_0212f788.h" // NNSSndFader
 
+// mStatus values: unused, set up and started, fading out before the stop.
+typedef enum NNSSndSeqPlayerStatus {
+    SEQ_PLAYER_FREE = 0,
+    SEQ_PLAYER_ACTIVE = 1,
+    SEQ_PLAYER_FADING_OUT = 2,
+} NNSSndSeqPlayerStatus;
+
 // 0x44 bytes; sixteen of them in sSeqPlayer. Most functions take a pointer to a pointer to one (the sound handle).
 typedef struct NNSSndSeqPlayer {
     /* 00 */ struct NNSSndSeqPlayer **mHandle;

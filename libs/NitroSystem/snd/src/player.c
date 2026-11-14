@@ -64,7 +64,7 @@ void NNS_SndPlayerStopSeqAll(u32 fadeSteps) {
     NNSSndSeqPlayer *seq;
 
     for (playerNo = 0, seq = sSeqPlayer; playerNo < 16; playerNo++) {
-        if (seq->mStatus != 0) {
+        if (seq->mStatus != SEQ_PLAYER_FREE) {
             NNSi_SndPlayerStopSeq(seq, fadeSteps);
         }
         seq++;
@@ -110,7 +110,7 @@ void NNS_SndPlayerMoveVolume(NNSSndSeqPlayer **handle, int target, int steps) {
     if (seq == 0) {
         return;
     }
-    if (seq->mStatus == 2) {
+    if (seq->mStatus == SEQ_PLAYER_FADING_OUT) {
         return;
     }
     NNSi_SndFaderSet(&seq->mFader, target << 8, steps);
@@ -254,7 +254,7 @@ void NNSi_SndPlayerInit(void) {
     NNS_FndInitList(&sPrioList, 0x14);
     NNS_FndInitList(&sFreeList, 0x14);
     for (index = 0, seq = sSeqPlayer; index < 16; index++, seq++) {
-        seq->mStatus = 0;
+        seq->mStatus = SEQ_PLAYER_FREE;
         seq->mPlayerNo = index;
         NNS_FndAppendListObject(&sFreeList, seq);
     }
@@ -303,7 +303,7 @@ void NNSi_SndPlayerMain(void) {
             SND_SetPlayerVolume(seq->mPlayerNo, volume);
             seq->mVolume = volume;
         }
-        if (seq->mStatus == 2 && NNSi_SndFaderIsFinished(&seq->mFader) != 0) {
+        if (seq->mStatus == SEQ_PLAYER_FADING_OUT && NNSi_SndFaderIsFinished(&seq->mFader) != 0) {
             ForceStopSeq(seq);
         }
         if (seq->mPrepareFlag != 0) {
@@ -360,7 +360,7 @@ void NNSi_SndPlayerStartSeq(NNSSndSeqPlayer *seq, void *data, u32 offset, SNDBan
     InitPlayer(seq);
     seq->mCommandTag = SND_GetCurrentCommandTag();
     seq->mPrepareFlag = 1;
-    seq->mStatus = 1;
+    seq->mStatus = SEQ_PLAYER_ACTIVE;
 }
 
 // Stops a playing sequence player at once for a fade of 0; otherwise starts the fade out and lowers its priority.
@@ -368,7 +368,7 @@ void NNSi_SndPlayerStopSeq(NNSSndSeqPlayer *seq, int fadeSteps) {
     if (seq == 0) {
         return;
     }
-    if (seq->mStatus == 0) {
+    if (seq->mStatus == SEQ_PLAYER_FREE) {
         return;
     }
     if (fadeSteps == 0) {
@@ -377,7 +377,7 @@ void NNSi_SndPlayerStopSeq(NNSSndSeqPlayer *seq, int fadeSteps) {
     }
     NNSi_SndFaderSet(&seq->mFader, 0, fadeSteps);
     SetPlayerPriority(seq, 0);
-    seq->mStatus = 2;
+    seq->mStatus = SEQ_PLAYER_FADING_OUT;
 }
 
 // Takes a free player heap of index for seq, empties it and returns its heap.
@@ -437,7 +437,7 @@ void InsertPrioList(NNSSndSeqPlayer *seq) {
 
 // Stops the sequence of seq at once and shuts the player down.
 void ForceStopSeq(NNSSndSeqPlayer *seq) {
-    if (seq->mStatus == 2) {
+    if (seq->mStatus == SEQ_PLAYER_FADING_OUT) {
         SND_SetPlayerVolume(seq->mPlayerNo, -723);
     }
     SND_StopSeq(seq->mPlayerNo);
@@ -480,7 +480,7 @@ void ShutdownPlayer(NNSSndSeqPlayer *seq) {
     }
     NNS_FndRemoveListObject(&sPrioList, seq);
     NNS_FndAppendListObject(&sFreeList, seq);
-    seq->mStatus = 0;
+    seq->mStatus = SEQ_PLAYER_FREE;
 }
 
 // Frees the heap of a player heap, and unlinks the player heap from the sequence player or from the heap list.
