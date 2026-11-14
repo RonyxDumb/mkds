@@ -52,17 +52,18 @@ void UpdateChandelier(void *mapObjectList, Chandelier *chandelier) {
     s32 nextFrameIndex;
 
     switch (chandelier->mState) {
-        case 0:
+        case CHANDELIER_STATE_WAIT:
             if (chandelier->mTimer-- <= 0) {
-                chandelier->mState = 1;
+                chandelier->mState = CHANDELIER_STATE_ANIMATE;
             }
             return;
-        case 1:
+        case CHANDELIER_STATE_ANIMATE:
             break;
         default:
             return;
     }
-    if (chandelier->mFrameIndex == 0 || chandelier->mFrameIndex == 0x7d) {
+    if (chandelier->mFrameIndex == CHANDELIER_FIRST_SOUND_EARLY_FRAME ||
+        chandelier->mFrameIndex == CHANDELIER_FIRST_SOUND_LATE_FRAME) {
         if ((chandelier->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
             if (chandelier->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
                 falloffIndex = 2;
@@ -71,13 +72,14 @@ void UpdateChandelier(void *mapObjectList, Chandelier *chandelier) {
             } else {
                 falloffIndex = 4;
             }
-            firstSoundParams.mSoundId = 0x11a;
+            firstSoundParams.mSoundId = CHANDELIER_FIRST_SOUND_ID;
             firstSoundParams.mPositionSource = &chandelier->mMapObject.mPos;
             firstSoundParams.mFalloffIndex = falloffIndex;
             firstSoundParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&chandelier->mMapObject.mPos);
             StartSoundFromParams(&firstSoundParams);
         }
-    } else if (chandelier->mFrameIndex == 0x46 || chandelier->mFrameIndex == 0xaf) {
+    } else if (chandelier->mFrameIndex == CHANDELIER_SECOND_SOUND_EARLY_FRAME ||
+               chandelier->mFrameIndex == CHANDELIER_SECOND_SOUND_LATE_FRAME) {
         if ((chandelier->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
             if (chandelier->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
                 falloffIndex = 2;
@@ -86,13 +88,13 @@ void UpdateChandelier(void *mapObjectList, Chandelier *chandelier) {
             } else {
                 falloffIndex = 4;
             }
-            secondSoundParams.mSoundId = 0x11b;
+            secondSoundParams.mSoundId = CHANDELIER_SECOND_SOUND_ID;
             secondSoundParams.mPositionSource = &chandelier->mMapObject.mPos;
             secondSoundParams.mFalloffIndex = falloffIndex;
             secondSoundParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&chandelier->mMapObject.mPos);
             StartSoundFromParams(&secondSoundParams);
         }
-    } else if (chandelier->mFrameIndex == 0xfa) {
+    } else if (chandelier->mFrameIndex == CHANDELIER_THIRD_SOUND_FRAME) {
         if ((chandelier->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
             if (chandelier->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
                 falloffIndex = 2;
@@ -101,7 +103,7 @@ void UpdateChandelier(void *mapObjectList, Chandelier *chandelier) {
             } else {
                 falloffIndex = 4;
             }
-            thirdSoundParams.mSoundId = 0x119;
+            thirdSoundParams.mSoundId = CHANDELIER_THIRD_SOUND_ID;
             thirdSoundParams.mPositionSource = &chandelier->mMapObject.mPos;
             thirdSoundParams.mFalloffIndex = falloffIndex;
             thirdSoundParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&chandelier->mMapObject.mPos);
@@ -114,7 +116,7 @@ void UpdateChandelier(void *mapObjectList, Chandelier *chandelier) {
     }
     chandelier->mFrameIndex = nextFrameIndex;
     if (chandelier->mFrameIndex == 0) {
-        chandelier->mState = 0;
+        chandelier->mState = CHANDELIER_STATE_WAIT;
     }
 }
 

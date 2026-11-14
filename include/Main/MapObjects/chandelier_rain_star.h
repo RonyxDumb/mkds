@@ -5,6 +5,20 @@
 #include "Main/MapObjects/attractor.h" // MapObject
 #include "01/MapObjects/data_0209bc74.h"
 
+// Chandelier.mState: waiting out mTimer, then playing the animation once.
+#define CHANDELIER_STATE_WAIT 0
+#define CHANDELIER_STATE_ANIMATE 1
+
+// Chandelier.mFrameIndex values at which a sound starts, and the sound ids (each pair of frames shares one sound).
+#define CHANDELIER_FIRST_SOUND_EARLY_FRAME 0
+#define CHANDELIER_FIRST_SOUND_LATE_FRAME 0x7d
+#define CHANDELIER_SECOND_SOUND_EARLY_FRAME 0x46
+#define CHANDELIER_SECOND_SOUND_LATE_FRAME 0xaf
+#define CHANDELIER_THIRD_SOUND_FRAME 0xfa
+#define CHANDELIER_FIRST_SOUND_ID 0x11a
+#define CHANDELIER_SECOND_SOUND_ID 0x11b
+#define CHANDELIER_THIRD_SOUND_ID 0x119
+
 // Object with the MapObject base: two halfwords at 0xa0 and 0xa2, then two words (UpdateChandelier,
 // InitChandelierObjects, DrawChandelier).
 typedef struct Chandelier {
