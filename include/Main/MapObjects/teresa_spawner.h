@@ -5,6 +5,11 @@
 #include "Main/MapObjects/attractor.h"
 
 // Object of 0xb0 bytes: the MapObject it starts with, then four words.
+// TeresaSpawner.mState: the first spawn, waiting for the entry kart to come near, and spawning on the timer.
+#define TERESA_SPAWNER_STATE_FIRST_SPAWN 0
+#define TERESA_SPAWNER_STATE_WAIT_KART_NEAR 1
+#define TERESA_SPAWNER_STATE_SPAWN_ON_TIMER 2
+
 typedef struct TeresaSpawner {
     /* 00 */ MapObject mMapObject;
     /* a0 */ s32 mNearCheckTimer;

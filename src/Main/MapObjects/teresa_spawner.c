@@ -168,7 +168,7 @@ void UpdateTeresaSpawner(void *mapObjectList, TeresaSpawner *spawner) {
         }
     }
     switch (spawner->mState) {
-        case 0:
+        case TERESA_SPAWNER_STATE_FIRST_SPAWN:
             randomRange = FALSE;
             if (GetCurrentCameraKind() == 2) {
                 for (spawnIndex = 0; spawnIndex < spawner->mMapObject.mCourseMapRow->mSettings[1]; spawnIndex++) {
@@ -188,8 +188,8 @@ void UpdateTeresaSpawner(void *mapObjectList, TeresaSpawner *spawner) {
                     StartTeresa(&position);
                 }
             }
-            spawner->mState = 1;
-        case 1:
+            spawner->mState = TERESA_SPAWNER_STATE_WAIT_KART_NEAR;
+        case TERESA_SPAWNER_STATE_WAIT_KART_NEAR:
             if (GetCurrentCameraKind() == 2) {
                 break;
             }
@@ -201,9 +201,9 @@ void UpdateTeresaSpawner(void *mapObjectList, TeresaSpawner *spawner) {
             } else {
                 StartTeresasAtRandomPositions(spawner, 6, 4, 0xa, 0x14);
             }
-            spawner->mState = 2;
+            spawner->mState = TERESA_SPAWNER_STATE_SPAWN_ON_TIMER;
             break;
-        case 2:
+        case TERESA_SPAWNER_STATE_SPAWN_ON_TIMER:
             timer = spawner->mSpawnTimer;
             spawner->mSpawnTimer = timer - 1;
             if (timer > 0) {
@@ -217,7 +217,7 @@ void UpdateTeresaSpawner(void *mapObjectList, TeresaSpawner *spawner) {
                 }
             } else {
                 ClearTeresaTimers();
-                spawner->mState = 1;
+                spawner->mState = TERESA_SPAWNER_STATE_WAIT_KART_NEAR;
             }
             break;
     }
