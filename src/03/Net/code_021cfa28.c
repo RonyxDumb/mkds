@@ -295,7 +295,7 @@ void FinalizeWh(void) {
     }
     SetWhState(3);
     switch (gWhWork->mConnectMode) {
-        case 3:
+        case WIRELESS_CONNECT_MODE_ACTIVE_KEY_SHARING:
             if (EndActiveWhKeySharing() == FALSE) {
                 StartWhResetOrFail();
             }
@@ -306,13 +306,13 @@ void FinalizeWh(void) {
                 StartWhResetOrFail();
             }
             break;
-        case 2:
+        case WIRELESS_CONNECT_MODE_KEY_SHARING:
             if (EndWhKeySharing() == FALSE) {
                 StartWhResetOrFail();
             }
             break;
-        case 0:
-        case 4:
+        case WIRELESS_CONNECT_MODE_MP:
+        case WIRELESS_CONNECT_MODE_DATA_SHARING:
             if (EndWhMP() == FALSE) {
                 StartWhResetOrFail();
             }

@@ -182,7 +182,7 @@ void StartWhMPCallback(WirelessMessage *event) {
     }
     switch (event->mState) {
         case 0xa:
-            if (gWhWork->mConnectMode == 2) {
+            if (gWhWork->mConnectMode == WIRELESS_CONNECT_MODE_KEY_SHARING) {
                 if (gWhWork->mState == 4) {
                     if (StartWhKeySharing() != FALSE) {
                         return;
@@ -196,7 +196,7 @@ void StartWhMPCallback(WirelessMessage *event) {
                 if (gWhWork->mState == 6) {
                     return;
                 }
-            } else if (gWhWork->mConnectMode == 4) {
+            } else if (gWhWork->mConnectMode == WIRELESS_CONNECT_MODE_DATA_SHARING) {
                 result = WM_StartDataSharing(&gWhWork->mDataSharingInfo, 0xd, 7, 0x44, 1);
                 if (result != 0) {
                     SetWhErrorCode(result);

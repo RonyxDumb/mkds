@@ -4,6 +4,17 @@
 #include "code_02142eac.h"
 #include "code_021445e0.h"
 
+// Values of WhWork.mConnectMode, given to StartWhParentConnect: what runs on the link once it is up and what is closed
+// first on the way down. MP is plain MP communication, KEY_SHARING and ACTIVE_KEY_SHARING share keys, DATA_SHARING
+// starts the data sharing; values 1 and 5 also end MP before the
+// disconnect; no caller passes them (bare case labels).
+enum {
+    WIRELESS_CONNECT_MODE_MP = 0,
+    WIRELESS_CONNECT_MODE_KEY_SHARING = 2,
+    WIRELESS_CONNECT_MODE_ACTIVE_KEY_SHARING = 3,
+    WIRELESS_CONNECT_MODE_DATA_SHARING = 4,
+};
+
 typedef struct WhWork {
     /* 0000 */ void *mUserGameInfo;
     /* 0004 */ u16 mUserGameInfoLength;

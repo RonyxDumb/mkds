@@ -355,7 +355,8 @@ void AdvanceChildWaitDataSharing(void) {
 
     switch (GetWhState()) {
         case 1:
-            StartWhParentConnect(4, gChildWaitSessionView->mTgid + 1, gChildWaitSessionView->mChannel);
+            StartWhParentConnect(WIRELESS_CONNECT_MODE_DATA_SHARING, gChildWaitSessionView->mTgid + 1,
+                                 gChildWaitSessionView->mChannel);
             break;
         case 4:
         case 5:
