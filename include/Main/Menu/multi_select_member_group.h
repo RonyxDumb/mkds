@@ -35,6 +35,16 @@ enum {
     MULTI_SELECT_MEMBER_GROUP_STATE_DONE,
 };
 
+// Values of MultiSelectMemberGroup.mUpdateState: wait for the multiboot setup, poll the scan slots, wait for the
+// connection to end, then done. The other numbers are never used.
+enum {
+    MULTI_SELECT_MEMBER_GROUP_UPDATE_WAIT_SETUP = 0,
+    MULTI_SELECT_MEMBER_GROUP_UPDATE_POLL_SLOTS = 1,
+    MULTI_SELECT_MEMBER_GROUP_UPDATE_WAIT_CONNECTION_END_ON_LEAVE = 5,
+    MULTI_SELECT_MEMBER_GROUP_UPDATE_WAIT_CONNECTION_END_ALT = 8,
+    MULTI_SELECT_MEMBER_GROUP_UPDATE_DONE = 11,
+};
+
 // 0xa8 bytes.
 typedef struct MultiSelectMemberGroup {
     /* 00 */ u8 mUnk_00[0x24];

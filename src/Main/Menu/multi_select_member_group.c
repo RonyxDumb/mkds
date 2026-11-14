@@ -244,12 +244,12 @@ void UpdateMemberRowsFromScanSlots(void) {
     cellFileSet = &gMultiSelectMemberGroup->mGroupSParts;
     changed = 0;
     switch (gMultiSelectMemberGroup->mUpdateState) {
-        case 0:
+        case MULTI_SELECT_MEMBER_GROUP_UPDATE_WAIT_SETUP:
             if (AdvanceSetupByMultiBoot(0, 0) == 1) {
-                gMultiSelectMemberGroup->mUpdateState = 1;
+                gMultiSelectMemberGroup->mUpdateState = MULTI_SELECT_MEMBER_GROUP_UPDATE_POLL_SLOTS;
             }
             return;
-        case 1:
+        case MULTI_SELECT_MEMBER_GROUP_UPDATE_POLL_SLOTS:
             if (gMultiSelectMemberGroup->mRowPressed != FALSE) {
                 if (gMultiSelectMemberGroup->mSelectedIndex < 4) {
                     for (slotIndex = 0; slotIndex < 4; slotIndex++) {
@@ -262,14 +262,14 @@ void UpdateMemberRowsFromScanSlots(void) {
                     if (TryGetScanSlotName(gMultiSelectMemberGroup->mSelectedIndex, NULL) != 0) {
                         GetWLMenuSceneScanSlotPick()->mSlotIndex = gMultiSelectMemberGroup->mSelectedIndex;
                         gMultiSelectMemberGroup->mNextCallbacksIndex = 3;
-                        gMultiSelectMemberGroup->mUpdateState = 0xb;
+                        gMultiSelectMemberGroup->mUpdateState = MULTI_SELECT_MEMBER_GROUP_UPDATE_DONE;
                         return;
                     }
                     gMultiSelectMemberGroup->mMemberRows[gMultiSelectMemberGroup->mSelectedIndex].mHasText = 0;
                     return;
                 }
                 gMultiSelectMemberGroup->mNextCallbacksIndex = 1;
-                gMultiSelectMemberGroup->mUpdateState = 5;
+                gMultiSelectMemberGroup->mUpdateState = MULTI_SELECT_MEMBER_GROUP_UPDATE_WAIT_CONNECTION_END_ON_LEAVE;
                 return;
             }
             if (gMultiSelectMemberGroup->mState != MULTI_SELECT_MEMBER_GROUP_STATE_CHOOSE) {
@@ -322,10 +322,10 @@ void UpdateMemberRowsFromScanSlots(void) {
                 RefreshMultiSelectMemberGroup(1);
             }
             return;
-        case 5:
-        case 8:
+        case MULTI_SELECT_MEMBER_GROUP_UPDATE_WAIT_CONNECTION_END_ON_LEAVE:
+        case MULTI_SELECT_MEMBER_GROUP_UPDATE_WAIT_CONNECTION_END_ALT:
             if (AdvanceConnectionEndStopOnError() == 1) {
-                gMultiSelectMemberGroup->mUpdateState = 0xb;
+                gMultiSelectMemberGroup->mUpdateState = MULTI_SELECT_MEMBER_GROUP_UPDATE_DONE;
             }
             return;
     }
@@ -539,7 +539,7 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
             SetMemberGroupCellTableOffsetY();
             break;
         case MULTI_SELECT_MEMBER_GROUP_STATE_DONE:
-            if (gMultiSelectMemberGroup->mUpdateState == 0xb) {
+            if (gMultiSelectMemberGroup->mUpdateState == MULTI_SELECT_MEMBER_GROUP_UPDATE_DONE) {
                 result = gMultiSelectMemberGroup->mNextCallbacksIndex;
             }
             break;
