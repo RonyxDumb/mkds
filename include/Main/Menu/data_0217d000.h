@@ -76,6 +76,24 @@ typedef struct Wait {
     /* 28 */ s32 mFrameIndexFrames;
 } Wait;
 
+// Values of RecordVSErase.mState and mNextState: intro text, the lower screen slides in, the page is browsed, a row is
+// picked and the confirm text answered, then the objects slide back or the screen is left.
+enum {
+    RECORD_VS_ERASE_STATE_OPEN_INTRO_TEXT,
+    RECORD_VS_ERASE_STATE_WAIT_INTRO_TEXT,
+    RECORD_VS_ERASE_STATE_CLOSE_INTRO_TEXT,
+    RECORD_VS_ERASE_STATE_SLIDE_IN_SUB,
+    RECORD_VS_ERASE_STATE_BROWSE,
+    RECORD_VS_ERASE_STATE_PAGE_SLIDE_OUT,
+    RECORD_VS_ERASE_STATE_PAGE_SLIDE_IN,
+    RECORD_VS_ERASE_STATE_SUB_SLIDE_OUT,
+    RECORD_VS_ERASE_STATE_OPEN_CONFIRM_TEXT,
+    RECORD_VS_ERASE_STATE_WAIT_CONFIRM_ANSWER,
+    RECORD_VS_ERASE_STATE_CLOSE_CONFIRM_SLIDE_OUT_MAIN,
+    RECORD_VS_ERASE_STATE_SLIDE_IN_AFTER_CONFIRM,
+    RECORD_VS_ERASE_STATE_SUB_SLIDE_OUT_TO_SCREEN,
+};
+
 typedef struct RecordVSErase {
     /* 00 */ struct Ncgr *mRecordVSMNcgr;
     /* 04 */ struct NNSG2dCellDataBank *mRecordVSMNcer;

@@ -441,7 +441,7 @@ void RequestRecordVSEraseState0(void) {
     u16 eraseCellCount;
 
     rowIndex = 0;
-    gRecordVSErase->mNextState = 0;
+    gRecordVSErase->mNextState = RECORD_VS_ERASE_STATE_OPEN_INTRO_TEXT;
     gRecordVSErase->mStateFrames = 0;
     gRecordVSErase->mBg3Offset = ~0xbf;
     eraseCellCount = gRecordVSErase->mRecordVSSEraseBncl->mCount;
@@ -466,35 +466,35 @@ void RequestRecordVSEraseState0(void) {
 }
 
 void RequestRecordVSEraseState1(void) {
-    gRecordVSErase->mNextState = 1;
+    gRecordVSErase->mNextState = RECORD_VS_ERASE_STATE_WAIT_INTRO_TEXT;
     gRecordVSErase->mStateFrames = 0;
 }
 
 void RequestRecordVSEraseState2(void) {
-    gRecordVSErase->mNextState = 2;
+    gRecordVSErase->mNextState = RECORD_VS_ERASE_STATE_CLOSE_INTRO_TEXT;
     gRecordVSErase->mStateFrames = 0;
     RequestTxtSystemClose();
 }
 
 void RequestRecordVSEraseState3(void) {
-    gRecordVSErase->mNextState = 3;
+    gRecordVSErase->mNextState = RECORD_VS_ERASE_STATE_SLIDE_IN_SUB;
     gRecordVSErase->mStateFrames = 0;
     RequestSelectReturnState1();
     RefreshRecordVSErasePage();
 }
 
 void RequestRecordVSEraseState4(void) {
-    gRecordVSErase->mNextState = 4;
+    gRecordVSErase->mNextState = RECORD_VS_ERASE_STATE_BROWSE;
     gRecordVSErase->mStateFrames = 0;
 }
 
 void RequestRecordVSEraseState5(void) {
-    gRecordVSErase->mNextState = 5;
+    gRecordVSErase->mNextState = RECORD_VS_ERASE_STATE_PAGE_SLIDE_OUT;
     gRecordVSErase->mStateFrames = 0;
 }
 
 void RequestRecordVSEraseState6(void) {
-    gRecordVSErase->mNextState = 6;
+    gRecordVSErase->mNextState = RECORD_VS_ERASE_STATE_PAGE_SLIDE_IN;
     gRecordVSErase->mStateFrames = 0;
     switch (gRecordVSErase->mPageDecrement) {
         case 0:
@@ -508,7 +508,7 @@ void RequestRecordVSEraseState6(void) {
 }
 
 void RequestRecordVSEraseState7(void) {
-    gRecordVSErase->mNextState = 7;
+    gRecordVSErase->mNextState = RECORD_VS_ERASE_STATE_SUB_SLIDE_OUT;
     gRecordVSErase->mStateFrames = 0;
     RequestSelectReturnState4();
     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
@@ -519,7 +519,7 @@ void RequestRecordVSEraseState8(void) {
     u16 messageText[0x100];
     u16 firstRecordIndex;
 
-    gRecordVSErase->mNextState = 8;
+    gRecordVSErase->mNextState = RECORD_VS_ERASE_STATE_OPEN_CONFIRM_TEXT;
     gRecordVSErase->mStateFrames = 0;
     firstRecordIndex = GetRecordVSEraseFirstRecordIndex();
     CopyRecordText(firstRecordIndex + gRecordVSErase->mIndex, recordName, 0x20);
@@ -529,27 +529,27 @@ void RequestRecordVSEraseState8(void) {
 }
 
 void RequestRecordVSEraseState9(void) {
-    gRecordVSErase->mNextState = 9;
+    gRecordVSErase->mNextState = RECORD_VS_ERASE_STATE_WAIT_CONFIRM_ANSWER;
     gRecordVSErase->mStateFrames = 0;
     SetTxtSystemSoundId(0, 0xb);
 }
 
 void RequestRecordVSEraseState10(void) {
-    gRecordVSErase->mNextState = 0xa;
+    gRecordVSErase->mNextState = RECORD_VS_ERASE_STATE_CLOSE_CONFIRM_SLIDE_OUT_MAIN;
     gRecordVSErase->mStateFrames = 0;
     RequestTxtSystemClose();
     SetTxtSystemSoundId(0, 5);
 }
 
 void RequestRecordVSEraseState11(void) {
-    gRecordVSErase->mNextState = 0xb;
+    gRecordVSErase->mNextState = RECORD_VS_ERASE_STATE_SLIDE_IN_AFTER_CONFIRM;
     gRecordVSErase->mStateFrames = 0;
     RequestSelectReturnState1();
     RefreshRecordVSErasePage();
 }
 
 void RequestRecordVSEraseState12(void) {
-    gRecordVSErase->mNextState = 0xc;
+    gRecordVSErase->mNextState = RECORD_VS_ERASE_STATE_SUB_SLIDE_OUT_TO_SCREEN;
     gRecordVSErase->mStateFrames = 0;
 }
 
@@ -574,7 +574,7 @@ void InitRecordVSErase(void *heap) {
         (reg_G2S_DB_BG3CNT & (REG_G2S_DB_BG3CNT_PRIORITY_MASK | REG_G2S_DB_BG3CNT_MOSAIC_MASK)) | 0x9810;
     gRecordVSErase = HeapAlloc(heap, 0xa4);
     gRecordVSErase->mHeap = heap;
-    gRecordVSErase->mState = 3;
+    gRecordVSErase->mState = RECORD_VS_ERASE_STATE_SLIDE_IN_SUB;
     gRecordVSErase->mPageIndex = GetRecordScenePageIndex();
     gRecordVSErase->mIndex = GetRecordSceneIndex();
     gRecordVSErase->mPageDecrement = 0;
@@ -1217,43 +1217,43 @@ void AdvanceRecordVSEraseState12(void) {
 void AdvanceRecordVSErase(void) {
     gRecordVSErase->mState = gRecordVSErase->mNextState;
     switch (gRecordVSErase->mState) {
-        case 0:
+        case RECORD_VS_ERASE_STATE_OPEN_INTRO_TEXT:
             AdvanceRecordVSEraseState0();
             break;
-        case 1:
+        case RECORD_VS_ERASE_STATE_WAIT_INTRO_TEXT:
             AdvanceRecordVSEraseState1();
             break;
-        case 2:
+        case RECORD_VS_ERASE_STATE_CLOSE_INTRO_TEXT:
             AdvanceRecordVSEraseState2();
             break;
-        case 3:
+        case RECORD_VS_ERASE_STATE_SLIDE_IN_SUB:
             AdvanceRecordVSEraseState3();
             break;
-        case 4:
+        case RECORD_VS_ERASE_STATE_BROWSE:
             AdvanceRecordVSEraseState4();
             break;
-        case 5:
+        case RECORD_VS_ERASE_STATE_PAGE_SLIDE_OUT:
             AdvanceRecordVSEraseState5();
             break;
-        case 6:
+        case RECORD_VS_ERASE_STATE_PAGE_SLIDE_IN:
             AdvanceRecordVSEraseState6();
             break;
-        case 7:
+        case RECORD_VS_ERASE_STATE_SUB_SLIDE_OUT:
             AdvanceRecordVSEraseState7();
             break;
-        case 8:
+        case RECORD_VS_ERASE_STATE_OPEN_CONFIRM_TEXT:
             AdvanceRecordVSEraseState8();
             break;
-        case 9:
+        case RECORD_VS_ERASE_STATE_WAIT_CONFIRM_ANSWER:
             AdvanceRecordVSEraseState9();
             break;
-        case 10:
+        case RECORD_VS_ERASE_STATE_CLOSE_CONFIRM_SLIDE_OUT_MAIN:
             AdvanceRecordVSEraseState10();
             break;
-        case 11:
+        case RECORD_VS_ERASE_STATE_SLIDE_IN_AFTER_CONFIRM:
             AdvanceRecordVSEraseState11();
             break;
-        case 12:
+        case RECORD_VS_ERASE_STATE_SUB_SLIDE_OUT_TO_SCREEN:
             AdvanceRecordVSEraseState12();
             break;
     }
