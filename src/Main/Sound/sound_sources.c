@@ -74,9 +74,9 @@ void UpdateSoundSources(void) {
     updateLists = gSoundSourceUpdateLists;
     for (source = updateLists->mHead; source != NULL; source = updateLists->mHead) {
         SetPlayingSoundsParams(source);
-        if (source->mUpdateListIndex != 3) {
+        if (source->mUpdateListIndex != SOUND_SOURCE_LIST_NONE) {
             RemoveListObject(&updateLists[source->mUpdateListIndex], source);
-            source->mUpdateListIndex = 3;
+            source->mUpdateListIndex = SOUND_SOURCE_LIST_NONE;
         }
     }
     secondUpdateList = &gSoundSourceSecondUpdateList;
@@ -95,9 +95,9 @@ void UpdateSoundSources(void) {
                     }
                 }
             }
-            if (source->mUpdateListIndex != 3) {
+            if (source->mUpdateListIndex != SOUND_SOURCE_LIST_NONE) {
                 RemoveListObject(&updateLists[source->mUpdateListIndex], source);
-                source->mUpdateListIndex = 3;
+                source->mUpdateListIndex = SOUND_SOURCE_LIST_NONE;
             }
             source = secondUpdateList->mHead;
         } while (source != NULL);
@@ -130,9 +130,9 @@ void StopSoundsOnAllSources(u32 fadeSteps) {
                 sound = source->mPlayingSounds.mHead;
             } while (sound != NULL);
         }
-        if (source->mUpdateListIndex != 3) {
+        if (source->mUpdateListIndex != SOUND_SOURCE_LIST_NONE) {
             RemoveListObject(&gSoundSourceUpdateLists[source->mUpdateListIndex], source);
-            source->mUpdateListIndex = 3;
+            source->mUpdateListIndex = SOUND_SOURCE_LIST_NONE;
         }
         source = NNS_FndGetNextListObject(&gSoundSources, source);
     } while (source != NULL);
@@ -236,7 +236,7 @@ void InitAndRegisterSoundSource(SoundSource *source, Vec3 *positionSource) {
     source->mTrackParamsFunction = trackParamsFunction;
     source->mSourceFlags = 0;
     source->mOwnerPosSource = positionSource;
-    source->mUpdateListIndex = 3;
+    source->mUpdateListIndex = SOUND_SOURCE_LIST_NONE;
     ClearThreeWords(source->mUnk_1c);
     ClearThreeWords((u32 *) source);
     TryAppendListObject(&gSoundSources, source);

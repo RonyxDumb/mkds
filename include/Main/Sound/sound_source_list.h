@@ -5,6 +5,12 @@
 #include "code_0212d214.h"
 #include "Main/Sound/sound_seq.h"
 
+// Update lists of a SoundSource (SoundSource.mUpdateListIndex): list 0 is walked every call of the sound pass, list 1
+// in turns over four calls; a source with no sound that needs updating is on neither.
+#define SOUND_SOURCE_LIST_EVERY_CALL 0
+#define SOUND_SOURCE_LIST_IN_TURNS 1
+#define SOUND_SOURCE_LIST_NONE 3
+
 // Sound source: the object a sound is started on. Kart, ItemObject and the object behind MapObject.mUnk_94 embed it as
 // their first member. A sound is started on it only while bit 0 of its mUnk_34 member is set.
 typedef struct SoundSource {

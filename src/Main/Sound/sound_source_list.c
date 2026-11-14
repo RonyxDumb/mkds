@@ -45,7 +45,7 @@ void ItemObjectInitAndRegisterSoundSource(SoundSource *source, Vec3 *positionSou
     source->mTrackParamsFunction = trackParamsFunction;
     source->mSourceFlags = 0;
     source->mOwnerPosSource = positionSource;
-    source->mUpdateListIndex = 3;
+    source->mUpdateListIndex = SOUND_SOURCE_LIST_NONE;
     ClearThreeWords((u32 *) source->mUnk_1c);
     ClearThreeWords((u32 *) source);
     TryAppendListObject(&gSoundSources, source);
@@ -58,9 +58,9 @@ void UnlinkSoundSourceSounds(SoundSource *source) {
     for (sound = source->mPlayingSounds.mHead; sound != NULL; sound = source->mPlayingSounds.mHead) {
         RemoveListObject(&source->mPlayingSounds, (u8 *) sound);
     }
-    if (source->mUpdateListIndex != 3) {
+    if (source->mUpdateListIndex != SOUND_SOURCE_LIST_NONE) {
         RemoveListObject(&gSoundSourceUpdateLists[source->mUpdateListIndex], (u8 *) source);
-        source->mUpdateListIndex = 3;
+        source->mUpdateListIndex = SOUND_SOURCE_LIST_NONE;
     }
 }
 
@@ -89,9 +89,9 @@ void RefreshSoundSourceUpdateList(SoundSource *source) {
         }
     }
     if (source->mUpdateListIndex != updateListIndex) {
-        if (source->mUpdateListIndex != 3) {
+        if (source->mUpdateListIndex != SOUND_SOURCE_LIST_NONE) {
             RemoveListObject(&gSoundSourceUpdateLists[source->mUpdateListIndex], (u8 *) source);
-            source->mUpdateListIndex = 3;
+            source->mUpdateListIndex = SOUND_SOURCE_LIST_NONE;
         }
         if (updateListIndex != 3) {
             TryAppendListObject(&gSoundSourceUpdateLists[updateListIndex], source);

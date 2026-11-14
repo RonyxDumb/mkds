@@ -77,9 +77,9 @@ void ExpireWhileRequestedSounds(SoundSource *source) {
                     continue;
                 }
             } else if (sound->mFlags & 1) {
-                if (source->mUpdateListIndex == 3) {
+                if (source->mUpdateListIndex == SOUND_SOURCE_LIST_NONE) {
                     TryAppendListObject(&gSoundSourceSecondUpdateList, source);
-                    source->mUpdateListIndex = 1;
+                    source->mUpdateListIndex = SOUND_SOURCE_LIST_IN_TURNS;
                 }
             }
         } else if ((sound->mFlags & 2) == 0) {
@@ -98,23 +98,23 @@ void ExpireWhileRequestedSounds(SoundSource *source) {
     if (value == 0) {
         return;
     }
-    value = 3;
+    value = SOUND_SOURCE_LIST_NONE;
     for (sound = source->mPlayingSounds.mHead; sound != NULL;
          sound = NNS_FndGetNextListObject(&source->mPlayingSounds, sound)) {
         if (sound->mFlags & 2) {
-            value = 0;
+            value = SOUND_SOURCE_LIST_EVERY_CALL;
             break;
         }
         if (sound->mFlags & 8 || sound->mFlags & 1) {
-            value = 1;
+            value = SOUND_SOURCE_LIST_IN_TURNS;
         }
     }
     if (source->mUpdateListIndex != value) {
-        if (source->mUpdateListIndex != 3) {
+        if (source->mUpdateListIndex != SOUND_SOURCE_LIST_NONE) {
             RemoveListObject(&gSoundSourceUpdateLists[source->mUpdateListIndex], source);
-            source->mUpdateListIndex = 3;
+            source->mUpdateListIndex = SOUND_SOURCE_LIST_NONE;
         }
-        if (value != 3) {
+        if (value != SOUND_SOURCE_LIST_NONE) {
             TryAppendListObject(&gSoundSourceUpdateLists[value], source);
             source->mUpdateListIndex = value;
         }
@@ -232,13 +232,13 @@ PlayingSound *StartSoundEx(SoundSource *source, u32 seqArcNo, u32 soundId, u32 v
     sound->mVolume = volume;
     sound->mPitch = pitch;
     TryAppendListObject(&source->mPlayingSounds, sound);
-    if (source->mUpdateListIndex != 0) {
-        if (source->mUpdateListIndex != 3) {
+    if (source->mUpdateListIndex != SOUND_SOURCE_LIST_EVERY_CALL) {
+        if (source->mUpdateListIndex != SOUND_SOURCE_LIST_NONE) {
             RemoveListObject(&gSoundSourceUpdateLists[source->mUpdateListIndex], source);
-            source->mUpdateListIndex = 3;
+            source->mUpdateListIndex = SOUND_SOURCE_LIST_NONE;
         }
         TryAppendListObject(gSoundSourceUpdateLists, source);
-        source->mUpdateListIndex = 0;
+        source->mUpdateListIndex = SOUND_SOURCE_LIST_EVERY_CALL;
     }
     return sound;
 }
@@ -265,9 +265,9 @@ PlayingSound *StartSoundWhileRequestedEx(SoundSource *source, u32 seqArcNo, u32 
                     candidate->mFlags |= 8;
                     candidate->mVolume = volume;
                     candidate->mPitch = pitch;
-                    if (source->mUpdateListIndex == 3) {
+                    if (source->mUpdateListIndex == SOUND_SOURCE_LIST_NONE) {
                         TryAppendListObject(&gSoundSourceSecondUpdateList, source);
-                        source->mUpdateListIndex = 1;
+                        source->mUpdateListIndex = SOUND_SOURCE_LIST_IN_TURNS;
                     }
                     return candidate;
                 }
@@ -309,13 +309,13 @@ PlayingSound *StartSoundWhileRequestedEx(SoundSource *source, u32 seqArcNo, u32 
     sound->mFlags |= 4;
     sound->mFlags |= 8;
     TryAppendListObject(&source->mPlayingSounds, sound);
-    if (source->mUpdateListIndex != 0) {
-        if (source->mUpdateListIndex != 3) {
+    if (source->mUpdateListIndex != SOUND_SOURCE_LIST_EVERY_CALL) {
+        if (source->mUpdateListIndex != SOUND_SOURCE_LIST_NONE) {
             RemoveListObject(&gSoundSourceUpdateLists[source->mUpdateListIndex], source);
-            source->mUpdateListIndex = 3;
+            source->mUpdateListIndex = SOUND_SOURCE_LIST_NONE;
         }
         TryAppendListObject(gSoundSourceUpdateLists, source);
-        source->mUpdateListIndex = 0;
+        source->mUpdateListIndex = SOUND_SOURCE_LIST_EVERY_CALL;
     }
     return sound;
 }
@@ -353,24 +353,24 @@ void StopPlayingSound(SoundSource *source, PlayingSound *sound, u32 fadeSteps) {
     sound->mFlags &= ~8;
     sound->mFlags &= ~2;
     RemoveListObject(&source->mPlayingSounds, sound);
-    updateListIndex = 3;
+    updateListIndex = SOUND_SOURCE_LIST_NONE;
     for (entry = source->mPlayingSounds.mHead; entry != NULL;
          entry = NNS_FndGetNextListObject(&source->mPlayingSounds, entry)) {
         soundFlags = entry->mFlags;
         if (soundFlags & 2) {
-            updateListIndex = 0;
+            updateListIndex = SOUND_SOURCE_LIST_EVERY_CALL;
             break;
         }
         if (soundFlags & 8 || soundFlags & 1) {
-            updateListIndex = 1;
+            updateListIndex = SOUND_SOURCE_LIST_IN_TURNS;
         }
     }
     if (source->mUpdateListIndex != updateListIndex) {
-        if (source->mUpdateListIndex != 3) {
+        if (source->mUpdateListIndex != SOUND_SOURCE_LIST_NONE) {
             RemoveListObject(&gSoundSourceUpdateLists[source->mUpdateListIndex], source);
-            source->mUpdateListIndex = 3;
+            source->mUpdateListIndex = SOUND_SOURCE_LIST_NONE;
         }
-        if (updateListIndex != 3) {
+        if (updateListIndex != SOUND_SOURCE_LIST_NONE) {
             TryAppendListObject(&gSoundSourceUpdateLists[updateListIndex], source);
             source->mUpdateListIndex = updateListIndex;
         }
@@ -387,9 +387,9 @@ void StopAllSoundsAndReleaseSoundSource(SoundSource *source) {
         sound->mFlags &= ~2;
         RemoveListObject(&source->mPlayingSounds, sound);
     }
-    if (source->mUpdateListIndex != 3) {
+    if (source->mUpdateListIndex != SOUND_SOURCE_LIST_NONE) {
         RemoveListObject(&gSoundSourceUpdateLists[source->mUpdateListIndex], source);
-        source->mUpdateListIndex = 3;
+        source->mUpdateListIndex = SOUND_SOURCE_LIST_NONE;
     }
     ReleaseSoundSource(source);
 }
@@ -419,24 +419,24 @@ void StopSoundsStartedWhileRequested(SoundSource *source, u32 fadeSteps) {
     if (value == 0) {
         return;
     }
-    value = 3;
+    value = SOUND_SOURCE_LIST_NONE;
     for (sound = source->mPlayingSounds.mHead; sound != NULL;
          sound = NNS_FndGetNextListObject(&source->mPlayingSounds, sound)) {
         soundFlags = sound->mFlags;
         if (soundFlags & 2) {
-            value = 0;
+            value = SOUND_SOURCE_LIST_EVERY_CALL;
             break;
         }
         if (soundFlags & 8 || soundFlags & 1) {
-            value = 1;
+            value = SOUND_SOURCE_LIST_IN_TURNS;
         }
     }
     if (source->mUpdateListIndex != value) {
-        if (source->mUpdateListIndex != 3) {
+        if (source->mUpdateListIndex != SOUND_SOURCE_LIST_NONE) {
             RemoveListObject(&gSoundSourceUpdateLists[source->mUpdateListIndex], source);
-            source->mUpdateListIndex = 3;
+            source->mUpdateListIndex = SOUND_SOURCE_LIST_NONE;
         }
-        if (value != 3) {
+        if (value != SOUND_SOURCE_LIST_NONE) {
             TryAppendListObject(&gSoundSourceUpdateLists[value], source);
             source->mUpdateListIndex = value;
         }
@@ -450,9 +450,9 @@ void ReleaseSoundSource(SoundSource *source) {
     for (sound = source->mPlayingSounds.mHead; sound != NULL; sound = source->mPlayingSounds.mHead) {
         RemoveListObject(&source->mPlayingSounds, sound);
     }
-    if (source->mUpdateListIndex != 3) {
+    if (source->mUpdateListIndex != SOUND_SOURCE_LIST_NONE) {
         RemoveListObject(&gSoundSourceUpdateLists[source->mUpdateListIndex], source);
-        source->mUpdateListIndex = 3;
+        source->mUpdateListIndex = SOUND_SOURCE_LIST_NONE;
     }
     RemoveListObject(&gSoundSources, source);
     source->mRegistered = 0;
