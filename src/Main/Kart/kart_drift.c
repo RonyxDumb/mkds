@@ -922,12 +922,12 @@ void ApplyItemObjectHitToKart(Kart *kart) {
     itemObject = GetCollidedItemObject(0);
     hitResult = 0;
     switch (itemObject->mKind) {
-        case 0:
-        case 1:
-        case 7:
+        case ITEM_OBJECT_KIND_KOURA_G:
+        case ITEM_OBJECT_KIND_KOURA_R:
+        case ITEM_OBJECT_KIND_F_BOX:
             hitResult = TryStartKartState3(kart);
             break;
-        case 2:
+        case ITEM_OBJECT_KIND_BANANA:
             hitResult = TrySpinKart(kart, 1, hitResult);
             if (hitResult != 0 && kart->mKartModelsEntry->mKartModelHidden == 0) {
                 StartEffect(0xc, &kart->mPos);
@@ -935,7 +935,7 @@ void ApplyItemObjectHitToKart(Kart *kart) {
                 StartEffect(0xe, &kart->mPos);
             }
             break;
-        case 3:
+        case ITEM_OBJECT_KIND_KINOKO:
             // r is still 0 here, KART_BOOST_ITEM_OR_SURFACE.
             StartKartBoost(kart, hitResult, 0x5a);
             kart->mDriveFlags |= KART_DRIVE_KINOKO_BOOST;
@@ -944,24 +944,24 @@ void ApplyItemObjectHitToKart(Kart *kart) {
                 ClearStandingsHitSeenFromKart(kart->mIndex);
             }
             break;
-        case 4:
+        case ITEM_OBJECT_KIND_STAR:
             StartKartStar(kart);
             break;
-        case 5:
+        case ITEM_OBJECT_KIND_KOURA_W:
             if (((ItemKouraW *) itemObject)->mHitSpinsKart != 0) {
                 hitResult = TrySpinKart(kart, 2, hitResult);
             } else {
                 hitResult = TryStartKartState6(kart);
             }
             break;
-        case 9:
+        case ITEM_OBJECT_KIND_BOMB:
             if (((ItemBomb *) itemObject)->mHitSpinsKart != 0) {
                 hitResult = TrySpinKart(kart, 2, hitResult);
             } else {
                 hitResult = TryStartKartState6(kart);
             }
             break;
-        case 6:
+        case ITEM_OBJECT_KIND_THUNDER:
             kartIndex = hitResult;
             StartFadeFog();
             StartEffectsAtOtherKarts(kart->mIndex);
@@ -979,7 +979,7 @@ void ApplyItemObjectHitToKart(Kart *kart) {
                 }
             }
             break;
-        case 8:
+        case ITEM_OBJECT_KIND_BOUNCING_ITEM_BOX:
             CollideKartWithBouncingItemBox((BouncingItemBox *) itemObject, kart);
             break;
     }
