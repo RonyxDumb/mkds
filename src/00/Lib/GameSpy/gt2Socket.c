@@ -206,7 +206,7 @@ void gti2FreeSocketConnection(Gt2Connection *connection) {
     s32 closedCount;
     s32 index;
     if (connection->mFreeAtAcceptReject == FALSE && connection->mCallbackLevel == 0) {
-        if (connection->mState == 7) {
+        if (connection->mState == GT2_CONNECTION_CLOSED) {
             closedCount = DarrayGetCount(connection->mSocket->mConnectionsToFree);
             for (index = 0; index < closedCount; index++) {
                 if (connection ==
@@ -259,10 +259,11 @@ u32 gti2SocketSend(u32 *socketPointer, u32 address, int port, u32 message, u32 l
 u32 gti2SocketConnectionsThinkMap(Gt2Connection **element, u32 *clientData) {
     Gt2Connection *connection = *element;
     u32 now = *clientData;
-    if (connection->mState != 7 && gti2ConnectionThink(connection, now) == 0) {
+    if (connection->mState != GT2_CONNECTION_CLOSED && gti2ConnectionThink(connection, now) == 0) {
         return 0;
     }
-    if (connection->mState == 7 && connection->mFreeAtAcceptReject == FALSE && connection->mCallbackLevel == 0) {
+    if (connection->mState == GT2_CONNECTION_CLOSED && connection->mFreeAtAcceptReject == FALSE &&
+        connection->mCallbackLevel == 0) {
         gti2FreeSocketConnection(connection);
     }
     return 1;

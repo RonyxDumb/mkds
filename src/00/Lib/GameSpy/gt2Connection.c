@@ -18,7 +18,7 @@ int gti2NewOutgoingConnection(void *socket, Gt2Connection **connection, int addr
     if (result != 0) {
         return result;
     }
-    (*connection)->mState = 0;
+    (*connection)->mState = GT2_CONNECTION_OFFER_SENT;
     (*connection)->mInitiated = TRUE;
     return 0;
 }
@@ -28,7 +28,7 @@ int gti2NewIncomingConnection(void *socket, Gt2Connection **connection, int addr
     if (result != 0) {
         return result;
     }
-    (*connection)->mState = 2;
+    (*connection)->mState = GT2_CONNECTION_AWAIT_OFFER;
     (*connection)->mInitiated = FALSE;
     return 0;
 }
@@ -50,7 +50,7 @@ BOOL gti2StartConnectionAttempt(Gt2Connection *connection, void *message, int le
     gti2GetChallenge(challengeBytes);
     gti2GetResponse((s8 *) connection->mResponse, challengeBytes);
     gti2SendClientChallenge(connection, challengeBytes);
-    connection->mState = 0;
+    connection->mState = GT2_CONNECTION_OFFER_SENT;
     return FALSE;
 }
 
@@ -60,11 +60,11 @@ BOOL gti2AcceptConnection(Gt2Connection *connection, Gt2ConnectionCallbacks *cal
         return FALSE;
     }
     connection->mFreeAtAcceptReject = FALSE;
-    if (connection->mState != 4) {
+    if (connection->mState != GT2_CONNECTION_AWAIT_DECISION) {
         return FALSE;
     }
     gti2SendAccept(connection);
-    connection->mState = 5;
+    connection->mState = GT2_CONNECTION_CONNECTED;
     if (callbacks != NULL) {
         connection->mCallbacks = *callbacks;
     }
@@ -73,10 +73,10 @@ BOOL gti2AcceptConnection(Gt2Connection *connection, Gt2ConnectionCallbacks *cal
 
 void gti2RejectConnection(Gt2Connection *connection, void *message, u32 len, ...) {
     connection->mFreeAtAcceptReject = FALSE;
-    if (connection->mState == 4) {
+    if (connection->mState == GT2_CONNECTION_AWAIT_DECISION) {
         gti2MessageCheck((const char **) &message, (s32 *) &len);
         gti2SendReject(connection, message, len);
-        connection->mState = 6;
+        connection->mState = GT2_CONNECTION_CLOSING;
     }
 }
 
@@ -93,14 +93,14 @@ u32 SendConnectionBytes(Gt2Connection *a, u8 *b, u32 c) {
 }
 
 BOOL gti2CheckTimeout(Gt2Connection *connection, u32 now) {
-    if (connection->mState < 5) {
+    if (connection->mState < GT2_CONNECTION_CONNECTED) {
         BOOL hasExpired = FALSE;
         if (connection->mInitiated != FALSE) {
             if (connection->mTimeSinceCreateLimit != 0 &&
                 now - connection->mCreateTime > connection->mTimeSinceCreateLimit) {
                 hasExpired = TRUE;
             }
-        } else if (connection->mState < 4) {
+        } else if (connection->mState < GT2_CONNECTION_AWAIT_DECISION) {
             if (now - connection->mCreateTime > 60000) {
                 hasExpired = TRUE;
             }

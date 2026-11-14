@@ -13,21 +13,21 @@
 
 void gti2CloseConnection(Gt2Connection *connection, int hard) {
     if (hard != 0) {
-        if (connection->mState < 7) {
+        if (connection->mState < GT2_CONNECTION_CLOSED) {
             gti2ConnectionClosed(connection);
             gti2SendClosed(connection);
             gti2ClosedCallback(connection, NULL);
             gti2FreeSocketConnection(connection);
         }
     } else {
-        connection->mState = 6;
+        connection->mState = GT2_CONNECTION_CLOSING;
         gti2SendClose(connection);
     }
 }
 
 void gti2ConnectionClosed(Gt2Connection *connection, ...) {
-    if (connection->mState != 7) {
-        connection->mState = 7;
+    if (connection->mState != GT2_CONNECTION_CLOSED) {
+        connection->mState = GT2_CONNECTION_CLOSED;
         HashtableRemove(connection->mSocket->mConnections, &connection);
         DarrayAppend(connection->mSocket->mConnectionsToFree, &connection);
     }
