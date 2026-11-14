@@ -758,7 +758,7 @@ void NNS_G3dGlbInit(void) {
     NNS_G3dGlb.mPrmMatColor0 = 0x4210c210;
     NNS_G3dGlb.mPrmMatColor1 = 0x4210c210;
     NNS_G3dGlb.mPrmPolygonAttr = 0x1f008f;
-    NNS_G3dGlb.mPrmViewPort = 0xbfff0000;
+    NNS_G3dGlb.mPrmViewPort = VIEWPORT_WHOLE_SCREEN;
     NNS_G3dGlb.mLightColor[0] = 0x7fff;
     NNS_G3dGlb.mLightColor[1] = 0x4000001f;
     NNS_G3dGlb.mLightColor[2] = 0x800003e0;

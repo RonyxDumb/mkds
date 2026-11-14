@@ -144,6 +144,9 @@ typedef struct NNSG3dResAnmHeader {
     /* 02 */ u16 mCategory1;
 } NNSG3dResAnmHeader;
 
+// Packed viewport value of mPrmViewPort that covers the whole screen.
+#define VIEWPORT_WHOLE_SCREEN 0xbfff0000
+
 // Global state of the G3D library; the leading part is sent to the geometry engine as one command block.
 typedef struct NNSG3dGlb {
     /* 000 */ u32 mCmd0;

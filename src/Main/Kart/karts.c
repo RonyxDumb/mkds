@@ -1563,7 +1563,7 @@ void DrawKartModelMenuSlot(KartModelMenuSlot *slot, KartModelMenuView *view, s32
     s32 scaleValue;
     u16 tireIndex;
 
-    NNS_G3dGlb.mPrmViewPort = 0xbfff0000;
+    NNS_G3dGlb.mPrmViewPort = VIEWPORT_WHOLE_SCREEN;
     translation.x = gKartModelMenuLookAtTarget.x;
     translation.y = gKartModelMenuLookAtTarget.y;
     translation.z = gKartModelMenuLookAtTarget.z;

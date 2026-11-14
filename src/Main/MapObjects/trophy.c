@@ -110,7 +110,7 @@ void SetupTrophy(void) {
         G3i_LookAt_(&cameraPos, &cameraUp, &cameraTarget, 0, &NNS_G3dGlb.mCameraMtx);
         NNS_G3dGlb.mFlag &= ~0xe8;
         SetG3xSwapBits(gDisplaySettings, 1, 1);
-        NNS_G3dGlb.mPrmViewPort = 0xbfff0000;
+        NNS_G3dGlb.mPrmViewPort = VIEWPORT_WHOLE_SCREEN;
         NNS_G3dGlbFlushP();
         if (gTrophy->mRankIndex >= 3) {
             return;
