@@ -26,6 +26,9 @@
 #include "03/unk_021d5000.h"
 #include "03/code_021bf410.h"
 
+u8 data_ov003_021d716c[20] = "char/yb5Multi.nsc.l";
+u8 data_ov003_021da1c0;
+
 void func_ov003_021c4670(void) {
     data_ov003_021da1c0 = 0;
     func_ov003_021c460c();

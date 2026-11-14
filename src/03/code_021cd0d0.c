@@ -11,6 +11,8 @@
 #include "03/ExpHeap.h"
 #include "03/unk_021da000.h"
 
+const Unk021da26c_1648 data_ov003_021d6640 = {{NULL, 0x400, 0x3fff, 0, {0xff, 0xff, 0xff, 0xff, 0xff, 0xff}, 0, 0, {0}, 0}, {0}};
+
 void func_ov003_021cd2a4(void) {
     if (data_ov003_021da26c == NULL) {
         data_ov003_021da26c = AllocZeroedExpHeapBlock(0x1e60, 32);

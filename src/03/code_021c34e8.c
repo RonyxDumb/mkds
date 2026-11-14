@@ -13,6 +13,8 @@
 #include "03/unk_021d7000.h"
 #include "code_0214b824.h"
 
+u8 gYb5MultiNscName2[20] = "char/yb5Multi.nsc.l";
+
 void UpdateJb5InfoInput(void) {
     int v1;
     v1 = AreKeysPressed(2);

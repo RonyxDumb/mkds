@@ -21,6 +21,8 @@
 #include "code_02142eac.h"
 #include "Main/Unknown/code_02151718.h"
 
+Unk021da2ac *data_ov003_021da2ac;
+
 void func_ov003_021d1358(Unk021da2ac *a, Unk021d1358 *b) {
     data_ov003_021da2ac = a;
     func_ov003_021cfa30(a->mUnk_b00);

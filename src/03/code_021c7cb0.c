@@ -5,6 +5,8 @@
 #include "03/unk_021d7000.h"
 #include "code_0214b824.h"
 
+u8 gJb4ErrorNscName[20] = "char/jb4Error.nsc.l";
+
 void SetupJb4Error(void) {
     LoadJb4ErrorFileAndSetBgCnt();
     PrintJb4Error();

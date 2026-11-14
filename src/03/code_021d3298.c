@@ -5,6 +5,8 @@
 #include "code_02148950.h"
 #include "registers.h"
 
+u32 gSavedBankSettings[13];
+
 void SaveBankSettingsAndClearVram(void) {
     gSavedBankSettings[0] = GX_DisableBankForBG();
     gSavedBankSettings[1] = GX_DisableBankForOBJ();

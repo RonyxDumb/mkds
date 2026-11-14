@@ -32,6 +32,9 @@
 #include "03/code_021d254c.h"
 #include "os_thread.h"
 
+u8 gXb4MultiNscName3[20] = "char/xb4Multi.nsc.l";
+u8 data_ov003_021da218;
+
 void func_ov003_021c9c5c(void) {
     *(u8 *) &data_ov003_021da218 = 0;
     func_ov003_021c9bf8();

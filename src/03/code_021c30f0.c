@@ -27,6 +27,9 @@
 #include "03/unk_021d5000.h"
 #include "03/code_021bf410.h"
 
+u8 gYb5MultiNscName[20] = "char/yb5Multi.nsc.l";
+u8 data_ov003_021da1a8;
+
 void SetupYb5Multi(void) {
     data_ov003_021da1a8 = 0;
     LoadYb5MultiFileAndSetBgCnt();

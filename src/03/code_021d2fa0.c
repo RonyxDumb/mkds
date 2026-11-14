@@ -15,6 +15,8 @@
 #include "code_0214b824.h"
 #include "code_0214d018.h"
 
+struct ObjCharRanges *gObjCharRanges;
+
 void InitObjCharRanges(void) {
     s32 i;
 

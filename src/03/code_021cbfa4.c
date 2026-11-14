@@ -21,6 +21,9 @@
 #include "03/code_021d254c.h"
 #include "03/code_021d1f70.h"
 
+u8 gXb4MultiNscName10[20] = "char/xb4Multi.nsc.l";
+u8 data_ov003_021da250;
+
 void func_ov003_021cc110(void) {
     data_ov003_021da250 = 0;
     func_ov003_021cc0ac();

@@ -27,6 +27,9 @@
 #include "03/code_021d1f70.h"
 #include "03/code_021cea3c.h"
 
+u8 data_ov003_021d7214[20] = "char/xb4Multi.nsc.l";
+u8 data_ov003_021da1e8[4];
+
 void func_ov003_021c56fc(void) {
     int v1;
     v1 = func_ov003_021cef80();

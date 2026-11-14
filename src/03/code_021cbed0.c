@@ -6,6 +6,8 @@
 #include "03/unk_021d7000.h"
 #include "code_0214b824.h"
 
+u8 gXb4NoneNscName2[19] = "char/xb4None.nsc.l";
+
 void func_ov003_021cbf0c(void) {
     void *v2 = &gXb4NoneNscName2;
     void *v3 = &GX_LoadBG2Scr;

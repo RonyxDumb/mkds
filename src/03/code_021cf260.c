@@ -24,6 +24,8 @@
 #include "03/code_021cfa68.h"
 #include "Main/Unknown/code_02008570.h"
 
+u16 *data_ov003_021da28c[6];
+
 void func_ov003_021cfa30(u8 *a) {
     data_ov003_021da288 = (Unk021cf260 *) a;
     func_ov003_021d0810((Unk021da2a8 *) (a + 0x1b160));

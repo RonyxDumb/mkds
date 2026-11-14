@@ -13,6 +13,9 @@
 #include "code_0212d214.h"
 #include "code_0212df7c.h"
 
+u8 gSoundDataSdatName[24] = "sound/sound_data.sdat.l";
+struct SoundData *gSoundData;
+
 void CreateSoundData(void) {
     u32 a;
     gSoundData = AllocExpHeapBlock(0x9c, 4);

@@ -10,6 +10,8 @@
 #include "03/TextCanvas.h"
 #include "03/code_021d254c.h"
 
+u8 data_ov003_021da1bc[4];
+
 void func_ov003_021c3f8c(void) {
     func_ov003_021c3f88();
     func_ov003_021c3f84();

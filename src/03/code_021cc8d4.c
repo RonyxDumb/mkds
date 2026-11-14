@@ -10,6 +10,9 @@
 #include "03/ExpHeap.h"
 #include "code_0214d018.h"
 
+struct Unk021da25c *data_ov003_021da25c;
+u8 data_ov003_021da260[8];
+
 void func_ov003_021cca30(const void *b) {
     Unk021da25c *a = AllocZeroedExpHeapBlock(0x608, 4);
     data_ov003_021da25c = a;

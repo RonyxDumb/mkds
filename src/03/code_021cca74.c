@@ -11,6 +11,8 @@
 #include "code_02147cd8.h"
 #include "code_0212bcac.h"
 
+const u8 data_ov003_021d6630[4] = {0x55, 0x36, 0x1e};
+
 u8 func_ov003_021cce6c(void) {
     return data_ov003_021da268->mOffset;
 }

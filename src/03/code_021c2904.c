@@ -20,6 +20,8 @@
 #include "os_thread.h"
 #include "code_0200fc8c.h"
 
+ExchangeStatus *gExchangeStatusRecord;
+
 void func_ov003_021c2a28(void) {
     if (IsBlendBrightnessFadeSlotBusy(1) == 0 && IsBlendBrightnessFadeSlotBusy(0) == 0) {
         FreeNceFile(1);

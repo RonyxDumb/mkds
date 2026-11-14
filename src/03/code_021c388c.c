@@ -3,6 +3,8 @@
 #include "03/unk_021d7000.h"
 #include "code_0214b824.h"
 
+u8 gJb5InfoNscName[19] = "char/jb5Info.nsc.l";
+
 void LoadJb5InfoFileAndSetBgCnt(void) {
     void *v2 = &gJb5InfoNscName;
     void *v3 = &GX_LoadBG2Scr;

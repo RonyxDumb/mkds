@@ -25,6 +25,9 @@
 #include "03/Tasks.h"
 #include "03/code_021c25e0.h"
 
+u8 data_ov003_021d7180[20] = "char/yb5Multi.nsc.l";
+u8 data_ov003_021da1c4;
+
 void func_ov003_021c4804(void) {
     data_ov003_021da1c4 = 0;
     func_ov003_021c47b0();

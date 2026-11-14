@@ -15,6 +15,9 @@
 #include "registers.h"
 #include "03/code_021ce110.h"
 
+const u8 data_ov003_021d66c4[9] = "NWCUSBAP";
+const Unk021d66d0 data_ov003_021d66d0 = {{0, 0x3fff0400, 0xffff0000, 0xffffffff, 0x200002, 0, 0, 0, 0, 0, 0, 0, 0, 8}};
+
 u32 func_ov003_021ce920(void (*a)(u32)) {
     Unk021da280 *d;
     Unk0200fddc s;

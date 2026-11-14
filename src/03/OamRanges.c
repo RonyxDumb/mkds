@@ -13,6 +13,8 @@
 #include "code_0200c914.h"
 #include "code_0200fc8c.h"
 
+OamRanges *gOamRanges;
+
 OamRange *CreateOamRangeFromNceImage(u32 screen, u32 imageIndex, s32 fromFront) {
     OamRange *range = CreateOamRange(screen, gNceFiles[screen][imageIndex].mEntryCount, fromFront);
 

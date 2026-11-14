@@ -12,6 +12,8 @@
 #include "code_0214b824.h"
 #include "pm.h"
 
+u8 data_ov003_021d7158[20] = "char/yb5Multi.nsc.l";
+
 void func_ov003_021c4130(void) {
     int allKeysPressed;
     allKeysPressed = AreKeysPressed(1);

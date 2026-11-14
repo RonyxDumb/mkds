@@ -12,6 +12,8 @@
 #include "code_0214b824.h"
 #include "03/code_021cbc00.h"
 
+Unk021d7708 data_ov003_021d7708 = {{0x75, 0x75, 0x9d}};
+
 void func_ov003_021cbe78(void) {
     Unk021d7708 a = data_ov003_021d7708;
     s32 b;

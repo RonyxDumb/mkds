@@ -9,6 +9,10 @@
 #include "code_0214b824.h"
 #include "registers.h"
 
+const u16 data_ov003_021d5efc[4] = {0x14, 0, 0xd8, 0x40};
+u8 data_ov003_021d697c[18] = "char/jtNull.nsc.l";
+u8 data_ov003_021da10c;
+
 void func_ov003_021bf4d0(void) {
     *(u8 *) &data_ov003_021da10c = 0;
 }
