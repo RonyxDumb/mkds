@@ -134,11 +134,11 @@ void DWC_Auth_GetResult(s32 *result) {
     MI_CpuCopy8(&gAuth->mReturncode, result, 0x1c4);
     returnCode = *result;
     if (returnCode >= 0) {
-        if (returnCode < 0x4e20 || returnCode >= 0x7530) {
-            *result = -0x5206;
+        if (returnCode < AUTH_RETURN_SERVER_BASE || returnCode >= AUTH_RETURN_SERVER_LIMIT) {
+            *result = -AUTH_RETURN_OUT_OF_RANGE;
         }
-    } else if (returnCode > -0x4e20 || returnCode <= -0x7530) {
-        *result = -0x5206;
+    } else if (returnCode > -AUTH_RETURN_SERVER_BASE || returnCode <= -AUTH_RETURN_SERVER_LIMIT) {
+        *result = -AUTH_RETURN_OUT_OF_RANGE;
     }
 }
 
@@ -180,7 +180,7 @@ void DWCi_Auth_Thread(void *authAddress) {
             OS_JoinThread(&auth->mHttp->mThread);
         }
         if (gAuth->mHttp->mResult != HTTP_RESULT_DONE) {
-            gAuth->mReturncode = -0x4e84;
+            gAuth->mReturncode = -AUTH_RETURN_FAILED;
             if (gAuth->mHttp->mResult == HTTP_RESULT_ABORTED) {
                 DWCi_Auth_SetError(0x13);
                 return;
@@ -226,7 +226,7 @@ void DWCi_Auth_Thread(void *authAddress) {
         while (elapsedMillis < 5000) {
             OS_LockMutex(&gAuth->mMutex);
             if (gAuth->mAbort == TRUE) {
-                gAuth->mReturncode = -0x4e84;
+                gAuth->mReturncode = -AUTH_RETURN_FAILED;
                 OS_UnlockMutex(&gAuth->mMutex);
                 DWCi_Auth_SetError(0x13);
                 return;
@@ -239,7 +239,7 @@ void DWCi_Auth_Thread(void *authAddress) {
         OS_LockMutex(&gAuth->mMutex);
         gAuth->mError = DWCi_Auth_Start(getWiFiInfoFromFlash);
         if (gAuth->mError != 0) {
-            gAuth->mReturncode = -0x4e84;
+            gAuth->mReturncode = -AUTH_RETURN_FAILED;
             OS_UnlockMutex(&gAuth->mMutex);
             return;
         }
@@ -252,24 +252,24 @@ s32 ParseAuthHttpResult(void) {
     const char *bmworkName;
     void *bmworkBlock;
     if (DWC_Http_ParseResult(gAuth->mHttpLabelvalue, 0x20, 0, gAuth->mHttp->mReceiveBuffer.mStart) != TRUE) {
-        gAuth->mReturncode = 0x4e84;
+        gAuth->mReturncode = AUTH_RETURN_FAILED;
         return 0xd;
     }
     if (DWCi_Auth_FillResult() != 0) {
         return 0xd;
     }
     auth = gAuth;
-    if (auth->mReturncode < 0x4e84) {
-        if (auth->mReturncode == 0x4e22) {
+    if (auth->mReturncode < AUTH_RETURN_FAILED) {
+        if (auth->mReturncode == AUTH_RETURN_UPDATE_ID) {
             bmworkName = "bmwork";
             bmworkBlock = auth->mCreateParams.mAlloc(bmworkName, 0x71f);
             if (bmworkBlock == NULL) {
-                gAuth->mReturncode = 0x4e84;
+                gAuth->mReturncode = AUTH_RETURN_FAILED;
                 return 2;
             }
             if (DWCi_AUTH_UpDateWiFiID(&gAuthWiFiInfo, (u8 *) (((u32) bmworkBlock + 0x1f) & ~0x1f)) != 1) {
                 gAuth->mCreateParams.mFree(bmworkName, bmworkBlock, 0);
-                gAuth->mReturncode = 0x4e84;
+                gAuth->mReturncode = AUTH_RETURN_FAILED;
                 return 0xe;
             }
             gAuth->mCreateParams.mFree(bmworkName, bmworkBlock, 0);
@@ -277,27 +277,27 @@ s32 ParseAuthHttpResult(void) {
         return 0x14;
     }
     switch (auth->mReturncode) {
-        case 0x4e88:
+        case AUTH_RETURN_REMAKE_ID:
             if (DWCi_AUTH_RemakeWiFiID(&gAuthWiFiInfo) == 0) {
-                gAuth->mReturncode = 0x4e88;
+                gAuth->mReturncode = AUTH_RETURN_REMAKE_ID;
                 return 0xe;
             }
-            gAuth->mReturncode = 0x4e88;
+            gAuth->mReturncode = AUTH_RETURN_REMAKE_ID;
             return 0xf;
-        case 0x4e8c:
+        case AUTH_RETURN_WRITE_NEW_ID:
             bmworkName = "bmwork";
             bmworkBlock = auth->mCreateParams.mAlloc(bmworkName, 0x71f);
             if (bmworkBlock == NULL) {
-                gAuth->mReturncode = 0x4e8c;
+                gAuth->mReturncode = AUTH_RETURN_WRITE_NEW_ID;
                 return 2;
             }
             if (WriteNewWiFiInfoToNvram(((u32) bmworkBlock + 0x1f) & ~0x1f) != 1) {
                 gAuth->mCreateParams.mFree(bmworkName, bmworkBlock, 0);
-                gAuth->mReturncode = 0x4e8c;
+                gAuth->mReturncode = AUTH_RETURN_WRITE_NEW_ID;
                 return 0xe;
             }
             gAuth->mCreateParams.mFree(bmworkName, bmworkBlock, 0);
-            gAuth->mReturncode = 0x4e8c;
+            gAuth->mReturncode = AUTH_RETURN_WRITE_NEW_ID;
             return 0x10;
     }
     return 0x11;
@@ -310,25 +310,25 @@ s32 DWCi_Auth_FillResult(void) {
     endPointer = NULL;
     returnCode = StrtolBase10(DWC_Http_GetResult(gAuth->mHttpLabelvalue, 0x20, "httpresult"));
     if (gLibErrorCode == 0x22) {
-        gAuth->mReturncode = 0x4e85;
+        gAuth->mReturncode = AUTH_RETURN_BAD_RESPONSE;
         return 0xb;
     }
     if (returnCode != 200) {
-        gAuth->mReturncode = returnCode + 0x59d8;
+        gAuth->mReturncode = returnCode + AUTH_RETURN_HTTP_STATUS_BASE;
         return 0x11;
     }
     auth = gAuth;
     if (DWC_Http_GetBase64DecodedResult(auth->mHttpLabelvalue, 0x20, "returncd", auth->mRetcode, 4) <= 0) {
-        gAuth->mReturncode = 0x4e85;
+        gAuth->mReturncode = AUTH_RETURN_BAD_RESPONSE;
         return 0xd;
     }
     returnCode = strtol(gAuth->mRetcode, &endPointer, 10);
     auth = gAuth;
     if (endPointer != auth->mRetcode + strlen(auth->mRetcode)) {
-        auth->mReturncode = 0x4e85;
+        auth->mReturncode = AUTH_RETURN_BAD_RESPONSE;
         return 0xb;
     }
-    auth->mReturncode = returnCode + 0x4e20;
+    auth->mReturncode = returnCode + AUTH_RETURN_SERVER_BASE;
     if (returnCode < 100) {
         gAuth->mToken[0] = 0;
         gAuth->mLocator[0] = 0;

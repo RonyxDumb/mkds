@@ -103,6 +103,22 @@ typedef struct AuthCreateParams {
     /* 28 */ void (*mFree)(const void *, void *, u32);
 } AuthCreateParams;
 
+// Values of DWCAuth.mReturncode: the server's result code plus SERVER_BASE (UPDATE_ID is its code 2), the HTTP status
+// plus HTTP_STATUS_BASE when the status is not 200, or one of the local results below. The code is negated once the
+// retries have run out, and starts at -1. DWC_Auth_GetResult reports OUT_OF_RANGE (negated) for a code outside
+// SERVER_BASE up to SERVER_LIMIT.
+enum {
+    AUTH_RETURN_SERVER_BASE = 0x4e20,
+    AUTH_RETURN_SERVER_LIMIT = 0x7530,
+    AUTH_RETURN_OUT_OF_RANGE = 0x5206,
+    AUTH_RETURN_UPDATE_ID = 0x4e22,
+    AUTH_RETURN_FAILED = 0x4e84,
+    AUTH_RETURN_BAD_RESPONSE = 0x4e85,
+    AUTH_RETURN_REMAKE_ID = 0x4e88,
+    AUTH_RETURN_WRITE_NEW_ID = 0x4e8c,
+    AUTH_RETURN_HTTP_STATUS_BASE = 0x59d8,
+};
+
 // 0x13e0 bytes, held in gAuth; the stack of its thread is the last 0x1000 bytes.
 typedef struct DWCAuth {
     /* 000 */ u32 mUnk_000;
