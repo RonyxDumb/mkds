@@ -115,7 +115,7 @@ void RequestSelectCupCourseState0(void) {
     s32 cellIndex;
     s32 selectCupMCellCount;
 
-    gSelectCupCourse->mNextState = 0;
+    gSelectCupCourse->mNextState = SELECT_CUP_COURSE_STATE_WAIT_FADE;
     gSelectCupCourse->mStateFrames = 0;
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         if (GetPreviousMenuScreenNumber() != SCREEN_SELECT_GHOST) {
@@ -160,12 +160,12 @@ void RequestSelectCupCourseState0(void) {
 // Requests state 1: stores mNextState = 1 and zeroes mStateFrames; the next AdvanceSelectCupCourse call copies it to
 // mState and runs AdvanceSelectCupCourseState1.
 void RequestSelectCupCourseState1(void) {
-    gSelectCupCourse->mNextState = 1;
+    gSelectCupCourse->mNextState = SELECT_CUP_COURSE_STATE_SLIDE_IN;
     gSelectCupCourse->mStateFrames = 0;
 }
 
 void RequestSelectCupCourseState2(void) {
-    gSelectCupCourse->mNextState = 2;
+    gSelectCupCourse->mNextState = SELECT_CUP_COURSE_STATE_WAIT_RETURN;
     gSelectCupCourse->mStateFrames = 0;
     RequestSelectReturnState1();
 }
@@ -173,12 +173,12 @@ void RequestSelectCupCourseState2(void) {
 // Requests state 3: stores mNextState = 3 and zeroes mStateFrames; the next AdvanceSelectCupCourse call copies it to
 // mState and runs AdvanceSelectCupCourseState3.
 void RequestSelectCupCourseState3(void) {
-    gSelectCupCourse->mNextState = 3;
+    gSelectCupCourse->mNextState = SELECT_CUP_COURSE_STATE_PICK_COURSE;
     gSelectCupCourse->mStateFrames = 0;
 }
 
 void RequestSelectCupCourseState4(void) {
-    gSelectCupCourse->mNextState = 4;
+    gSelectCupCourse->mNextState = SELECT_CUP_COURSE_STATE_CONFIRM_PICK;
     gSelectCupCourse->mStateFrames = 0;
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
@@ -189,17 +189,17 @@ void RequestSelectCupCourseState5(void) {
     u16 messageText[0x100];
     SelectCupCourse *selectCupCourse;
 
-    gSelectCupCourse->mNextState = 5;
+    gSelectCupCourse->mNextState = SELECT_CUP_COURSE_STATE_WAIT_CHOICES;
     gSelectCupCourse->mStateFrames = 0;
     selectCupCourse = gSelectCupCourse;
     switch (selectCupCourse->mMode) {
-        case 0:
-        case 1:
-        case 3:
+        case SELECT_CUP_COURSE_MODE_WITH_GHOSTS:
+        case SELECT_CUP_COURSE_MODE_NO_CONNECTION:
+        case SELECT_CUP_COURSE_MODE_MULTI_OTHER:
             StartSelectChoises(GetBmgEntry(selectCupCourse->mCommonMessages, 4),
                                GetBmgEntry(selectCupCourse->mCommonMessages, 2), 0);
             break;
-        case 2:
+        case SELECT_CUP_COURSE_MODE_MULTI_SIMPLE:
             StartSelectChoises(GetBmgEntry(selectCupCourse->mCommonMessages, 4),
                                GetBmgEntry(selectCupCourse->mCommonMessages, 2), 0);
             if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
@@ -219,7 +219,7 @@ void RequestSelectCupCourseState5(void) {
 #pragma thumb on
 
 void RequestSelectCupCourseState6(void) {
-    gSelectCupCourse->mNextState = 6;
+    gSelectCupCourse->mNextState = SELECT_CUP_COURSE_STATE_CHOOSE;
     gSelectCupCourse->mStateFrames = 0;
     SetSelectChoisesSoundId(0, 7);
     SetSelectChoisesSoundId(1, 0x10);
@@ -230,15 +230,15 @@ void RequestSelectCupCourseState6(void) {
 
 #pragma thumb on
 void RequestSelectCupCourseState7(void) {
-    gSelectCupCourse->mNextState = 7;
+    gSelectCupCourse->mNextState = SELECT_CUP_COURSE_STATE_CLOSE_CHOICES;
     gSelectCupCourse->mStateFrames = 0;
     switch (gSelectCupCourse->mMode) {
-        case 0:
-        case 1:
-        case 3:
+        case SELECT_CUP_COURSE_MODE_WITH_GHOSTS:
+        case SELECT_CUP_COURSE_MODE_NO_CONNECTION:
+        case SELECT_CUP_COURSE_MODE_MULTI_OTHER:
             RequestSelectChoisesState0();
             break;
-        case 2:
+        case SELECT_CUP_COURSE_MODE_MULTI_SIMPLE:
             RequestSelectChoisesState0();
             if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
                 RequestTxtSystemClose();
@@ -248,9 +248,9 @@ void RequestSelectCupCourseState7(void) {
 }
 
 void RequestSelectCupCourseState8(void) {
-    gSelectCupCourse->mNextState = 8;
+    gSelectCupCourse->mNextState = SELECT_CUP_COURSE_STATE_SLIDE_OUT;
     gSelectCupCourse->mStateFrames = 0;
-    if (gSelectCupCourse->mMode == 0) {
+    if (gSelectCupCourse->mMode == SELECT_CUP_COURSE_MODE_WITH_GHOSTS) {
         if (gSelectCupCourse->mResult == 1) {
             if (HasNoSelectableGhost() != FALSE) {
                 RequestSelectReturnState4();
@@ -275,7 +275,7 @@ void InitSelectCupCourse(void *parentHeap, void *mainOam, void *subOam, s32 mode
     heap = CreateFrmHeapFromMaxFree(parentHeap);
     gSelectCupCourse = HeapAlloc(heap, 0x70);
     gSelectCupCourse->mHeap = heap;
-    gSelectCupCourse->mState = 0;
+    gSelectCupCourse->mState = SELECT_CUP_COURSE_STATE_WAIT_FADE;
     gSelectCupCourse->mIndex = gCupCourseIndicesByCourse[GetCourseId()];
     gSelectCupCourse->mHighlightShown = TRUE;
     gSelectCupCourse->mIndexChangeTimer = 0;
@@ -339,7 +339,7 @@ void InitSelectCupCourse(void *parentHeap, void *mainOam, void *subOam, s32 mode
 
 void ReleaseSelectCupCourse(void) {
     if (gSelectCupCourse->mResult == 1) {
-        if (gSelectCupCourse->mMode == 0) {
+        if (gSelectCupCourse->mMode == SELECT_CUP_COURSE_MODE_WITH_GHOSTS) {
             if (HasNoSelectableGhost() != FALSE) {
                 reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | 0x1800;
             }
