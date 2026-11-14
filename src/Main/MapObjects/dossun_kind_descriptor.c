@@ -165,27 +165,27 @@ void UpdateDossun(void *unused, Dossun *dossun) {
             break;
         case 2:
             dossun->mTimer--;
-            if (dossun->mTimer < 0 && dossun->mUnk_c2 < 0x1555) {
+            if (dossun->mTimer < 0 && dossun->mSineAngle < 0x1555) {
                 dossun->mState++;
-                dossun->mUnk_a8 = -dossun->mUnk_100;
+                dossun->mDownSpeedOrFollowerSpeed = -dossun->mInitialUpSpeed;
                 return;
             }
-            dossun->mUnk_c2 += 0x1555;
-            dossun->mMapObject.mPos.y = dossun->mUnk_ac;
-            sine = FX_SinIdx(dossun->mUnk_c2);
-            dossun->mMapObject.mPos.y += MUL_FIXED12_NO_ROUND(sine, dossun->mUnk_c4);
+            dossun->mSineAngle += 0x1555;
+            dossun->mMapObject.mPos.y = dossun->mSineBaseY;
+            sine = FX_SinIdx(dossun->mSineAngle);
+            dossun->mMapObject.mPos.y += MUL_FIXED12_NO_ROUND(sine, dossun->mSineAmplitude);
             return;
         case 3:
-            dossun->mUnk_a8 += dossun->mUnk_104;
-            dossun->mMapObject.mPos.y -= dossun->mUnk_a8;
-            if (dossun->mMapObject.mPos.y < dossun->mUnk_ac) {
+            dossun->mDownSpeedOrFollowerSpeed += dossun->mDownSpeedStep;
+            dossun->mMapObject.mPos.y -= dossun->mDownSpeedOrFollowerSpeed;
+            if (dossun->mMapObject.mPos.y < dossun->mSineBaseY) {
                 dossun->mState++;
             }
             return;
         case 4:
-            if (dossun->mUnk_a8 < 0x14000) {
-                dossun->mUnk_a8 += 0x1000;
-                followerSpeed = dossun->mUnk_a8;
+            if (dossun->mDownSpeedOrFollowerSpeed < 0x14000) {
+                dossun->mDownSpeedOrFollowerSpeed += 0x1000;
+                followerSpeed = dossun->mDownSpeedOrFollowerSpeed;
                 follower->mSpeed = followerSpeed;
                 follower->mProgressStep = MUL_FIXED12_NO_ROUND(
                     followerSpeed, follower->mPath->mSegments[follower->mSegmentIndex].mInverseProgressLength);
@@ -197,7 +197,7 @@ void UpdateDossun(void *unused, Dossun *dossun) {
                 return;
             }
             dossun->mState++;
-            followerSpeed = dossun->mUnk_108;
+            followerSpeed = dossun->mState5FollowerSpeed;
             follower->mSpeed = followerSpeed;
             follower->mProgressStep = MUL_FIXED12_NO_ROUND(
                 followerSpeed, follower->mPath->mSegments[follower->mSegmentIndex].mInverseProgressLength);
@@ -222,8 +222,8 @@ void UpdateDossun(void *unused, Dossun *dossun) {
         }
         dossun->mState = stateValue;
         if (dossun->mState == 2) {
-            dossun->mUnk_ac = dossun->mMapObject.mPos.y;
-            dossun->mUnk_c2 = 0;
+            dossun->mSineBaseY = dossun->mMapObject.mPos.y;
+            dossun->mSineAngle = 0;
         }
         if (dossun->mState == 5) {
             fromEntry = follower->mFromEntry;
@@ -368,7 +368,7 @@ void SetupDossunAtStartEntry(Dossun *dossun) {
     dossun->mSpinAngle = 0;
     dossun->mSpinSpeed = dossun->mSpinAngle;
     dossun->mKartMask = 0;
-    dossun->mUnk_ac = dossun->mMapObject.mPos.y;
+    dossun->mSineBaseY = dossun->mMapObject.mPos.y;
     dossun->mEnteredState5 = FALSE;
 }
 #pragma thumb off
@@ -389,10 +389,10 @@ void InitDossun(Dossun *dossun, CourseMapRow *row) {
     dossun->mUnk_f4 = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.x, 0x28000);
     dossun->mHeightOffset = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.y, 0x2d000);
     dossun->mUnk_fc = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.z, 0x1e000);
-    dossun->mUnk_100 = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.y, 0xf000);
-    dossun->mUnk_104 = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.y, 0x1000);
-    dossun->mUnk_108 = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.y, 0x2000);
-    dossun->mUnk_c4 = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.y, 0x3000);
+    dossun->mInitialUpSpeed = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.y, 0xf000);
+    dossun->mDownSpeedStep = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.y, 0x1000);
+    dossun->mState5FollowerSpeed = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.y, 0x2000);
+    dossun->mSineAmplitude = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.y, 0x3000);
     SetupDossunAtStartEntry(dossun);
     if (dossun->mIsSlowVariant != 0) {
         CreateMapObjectSoundSourceFalloff3(&dossun->mMapObject);

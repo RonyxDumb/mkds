@@ -65,17 +65,17 @@ void UpdateCollisionSlotBounds(void) {
             otherEndB = &lowEnds[previousEnd->mOtherEndIndex];
             otherEndA->mOtherEndIndex++;
             otherEndB->mOtherEndIndex--;
-            gCollisionSlots[otherEndA->mUnk_01].mHighEndIndex++;
-            gCollisionSlots[otherEndB->mUnk_01].mHighEndIndex--;
-            if (currentEnd->mUnk_01 == previousEnd->mOtherEndIndex) {
-                scanIndex = currentEnd->mUnk_01;
+            gCollisionSlots[otherEndA->mSlotIndexOrScanLimit].mHighEndIndex++;
+            gCollisionSlots[otherEndB->mSlotIndexOrScanLimit].mHighEndIndex--;
+            if (currentEnd->mSlotIndexOrScanLimit == previousEnd->mOtherEndIndex) {
+                scanIndex = currentEnd->mSlotIndexOrScanLimit;
                 do {
                     scanIndex++;
                 } while (gCollisionSlotLowEnds[scanIndex].mOtherEndIndex < activeCount);
-                currentEnd->mUnk_01 = scanIndex;
+                currentEnd->mSlotIndexOrScanLimit = scanIndex;
             }
-            if (previousEnd->mUnk_01 > currentEnd->mOtherEndIndex) {
-                previousEnd->mUnk_01 = currentEnd->mOtherEndIndex;
+            if (previousEnd->mSlotIndexOrScanLimit > currentEnd->mOtherEndIndex) {
+                previousEnd->mSlotIndexOrScanLimit = currentEnd->mOtherEndIndex;
             }
             activeCount--;
         }
@@ -90,19 +90,20 @@ void UpdateCollisionSlotBounds(void) {
             *(u32 *) previousEnd = swapTemp;
             gCollisionSlotHighEnds[currentEnd->mOtherEndIndex].mOtherEndIndex++;
             gCollisionSlotHighEnds[previousEnd->mOtherEndIndex].mOtherEndIndex--;
-            gCollisionSlots[currentEnd->mUnk_01].mLowEndIndex++;
-            gCollisionSlots[previousEnd->mUnk_01].mLowEndIndex--;
+            gCollisionSlots[currentEnd->mSlotIndexOrScanLimit].mLowEndIndex++;
+            gCollisionSlots[previousEnd->mSlotIndexOrScanLimit].mLowEndIndex--;
             if (currentEnd->mOtherEndIndex > previousEnd->mOtherEndIndex) {
-                for (endIndex = currentEnd->mOtherEndIndex; endIndex > previousEnd->mOtherEndIndex &&
-                                                            gCollisionSlotHighEnds[endIndex].mUnk_01 == activeCount - 1;
+                for (endIndex = currentEnd->mOtherEndIndex;
+                     endIndex > previousEnd->mOtherEndIndex &&
+                     gCollisionSlotHighEnds[endIndex].mSlotIndexOrScanLimit == activeCount - 1;
                      endIndex--) {
-                    gCollisionSlotHighEnds[endIndex].mUnk_01++;
+                    gCollisionSlotHighEnds[endIndex].mSlotIndexOrScanLimit++;
                 }
             } else {
                 endIndex = previousEnd->mOtherEndIndex;
                 while (endIndex > currentEnd->mOtherEndIndex &&
-                       gCollisionSlotHighEnds[endIndex].mUnk_01 == activeCount) {
-                    gCollisionSlotHighEnds[endIndex--].mUnk_01--;
+                       gCollisionSlotHighEnds[endIndex].mSlotIndexOrScanLimit == activeCount) {
+                    gCollisionSlotHighEnds[endIndex--].mSlotIndexOrScanLimit--;
                 }
             }
             activeCount--;
@@ -161,20 +162,21 @@ void FindCollisionSlotsOverlappingSlot(s32 slotId, s32 flagMask) {
         lowScan++;
     }
     scanIndex = (s16) lowScan;
-    firstIndex = highEnds[highScan].mUnk_01;
+    firstIndex = highEnds[highScan].mSlotIndexOrScanLimit;
     minIndex = firstIndex;
     if (scanIndex < minIndex) {
         return;
     }
     for (;;) {
         if (gCollisionSlotLowEnds[scanIndex].mOtherEndIndex >= highScan && scanIndex != lowEndIndex) {
-            otherSlot = &gCollisionSlots[gCollisionSlotLowEnds[scanIndex].mUnk_01];
+            otherSlot = &gCollisionSlots[gCollisionSlotLowEnds[scanIndex].mSlotIndexOrScanLimit];
             otherFlags = otherSlot->mFlags;
             if (otherSlot->mHighZ < lowZ || otherSlot->mLowZ > highZ || !(otherFlags & flagMask) ||
                 (otherFlags & 0x200)) {
                 goto next;
             }
-            gFoundCollisionSlotIndices[gFoundCollisionSlotCount] = gCollisionSlotLowEnds[scanIndex].mUnk_01;
+            gFoundCollisionSlotIndices[gFoundCollisionSlotCount] =
+                gCollisionSlotLowEnds[scanIndex].mSlotIndexOrScanLimit;
             gFoundCollisionSlotFlags[gFoundCollisionSlotCount] = otherFlags;
             gFoundCollisionSlotObjects[gFoundCollisionSlotCount] = otherSlot->mObject;
             gFoundCollisionSlotCount++;

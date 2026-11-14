@@ -22,16 +22,16 @@ typedef struct Dossun {
     /* 00 */ MapObject mMapObject;
     /* a0 */ s32 mState;
     /* a4 */ s32 mTimer;
-    /* a8 */ s32 mUnk_a8;
-    /* ac */ s32 mUnk_ac;
+    /* a8 */ s32 mDownSpeedOrFollowerSpeed;
+    /* ac */ s32 mSineBaseY;
     /* b0 */ BOOL mEnteredState5;
     /* b4 */ s32 mHitState;
     /* b8 */ s16 mSpinSpeed;
     /* ba */ s16 mSpinAngle;
     /* bc */ u32 mLastHitFrame;
     /* c0 */ u16 mKartMask;
-    /* c2 */ u16 mUnk_c2;
-    /* c4 */ s32 mUnk_c4;
+    /* c2 */ u16 mSineAngle;
+    /* c4 */ s32 mSineAmplitude;
     /* c8 */ GroupFollower mFollower;
     /* ec */ u16 mStartEntryIndex;
     /* ee */ u8 mUnk_ee[2];
@@ -39,9 +39,9 @@ typedef struct Dossun {
     /* f4 */ s32 mUnk_f4;
     /* f8 */ s32 mHeightOffset;
     /* fc */ s32 mUnk_fc;
-    /* 100 */ s32 mUnk_100;
-    /* 104 */ s32 mUnk_104;
-    /* 108 */ s32 mUnk_108;
+    /* 100 */ s32 mInitialUpSpeed;
+    /* 104 */ s32 mDownSpeedStep;
+    /* 108 */ s32 mState5FollowerSpeed;
 } Dossun;
 
 // 0x2c bytes: three functions at 0x08, 0x0c and 0x10.

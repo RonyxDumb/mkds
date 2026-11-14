@@ -132,8 +132,8 @@ void DrawRock(void *unused0, RockObject *rock, void *unused1, s32 alpha) {
 }
 
 void CopyEmitterParams(ParticleEmitter *emitter, EmitterParams *params) {
-    emitter->mRadius = params->mUnk_00;
-    emitter->mDirectionSpeed = params->mUnk_04;
-    emitter->mAxisSpeed = params->mUnk_06;
-    emitter->mSizeScale = params->mUnk_08;
+    emitter->mRadius = params->mRadius;
+    emitter->mDirectionSpeed = params->mDirectionSpeed;
+    emitter->mAxisSpeed = params->mAxisSpeed;
+    emitter->mSizeScale = params->mSizeScale;
 }

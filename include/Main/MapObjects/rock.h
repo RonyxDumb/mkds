@@ -30,7 +30,7 @@ static inline CollisionSlot *GetCollisionSlot(s16 slotId) {
 typedef struct CollisionSlotEnd {
     /* 00 */ u32 mOtherEndIndex : 8;
 // Low-end list: the slot index. High-end list: the lowest low-end index the search scans down to.
-    /* 01 */ u32 mUnk_01 : 8;
+    /* 01 */ u32 mSlotIndexOrScanLimit : 8;
     /* 02 */ s32 mEndX : 16;
 } CollisionSlotEnd;
 
@@ -39,17 +39,17 @@ s32 CreateCollisionSlot(Vec3 *centerPos, s32 radius, s32 flags, void *object);
 // Object behind the pointer IsCollisionHitLinkOutdated and UpdateCollisionHitLink read: a pointer at 0x00 and a word at
 // 0x04.
 typedef struct CollisionFirstHit {
-    /* 00 */ CollisionMapObject *mUnk_00;
-    /* 04 */ s32 mUnk_04;
+    /* 00 */ CollisionMapObject *mObject;
+    /* 04 */ s32 mLinkBlocked;
 } CollisionFirstHit;
 
 // Element object of InitRock: MapObject and the words and halfword used after it.
 typedef struct RockObject {
     /* 000 */ MapObject mMapObject;
     /* 0a0 */ s32 mStartY;
-    /* 0a4 */ GroupFollowerWithSpeeds mUnk_0a4;
-    /* 0dc */ s32 mUnk_0dc;
-    /* 0e0 */ s32 mUnk_0e0;
+    /* 0a4 */ GroupFollowerWithSpeeds mFollower;
+    /* 0dc */ s32 mDelayFrames;
+    /* 0e0 */ s32 mDelayFramesLeft;
     /* 0e4 */ Vec3 mBasePos;
     /* 0f0 */ Vec3 *mSideVectors;
     /* 0f4 */ BOOL mBounceSide;
@@ -69,10 +69,10 @@ typedef struct RockObject {
 
 // Twelve bytes ResetRockWithEffects fills: a word and three halfwords.
 typedef struct EmitterParams {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s16 mUnk_04;
-    /* 06 */ s16 mUnk_06;
-    /* 08 */ s16 mUnk_08;
+    /* 00 */ s32 mRadius;
+    /* 04 */ s16 mDirectionSpeed;
+    /* 06 */ s16 mAxisSpeed;
+    /* 08 */ s16 mSizeScale;
     /* 0a */ u8 mUnk_0a[2];
 } EmitterParams;
 

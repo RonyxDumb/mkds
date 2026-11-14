@@ -185,7 +185,7 @@ void DrawCharsCentered(void *canvas, s32 xPos, u32 yPos, u32 color, s32 cellWidt
             glyphIndex = font->mPRes->mAlterCharIndex;
         }
         widths = NNS_G2dFontGetCharWidthsFromIndex(font, glyphIndex);
-        if (font->mUnk_08 != 0) {
+        if (font->mFileVersionIndex != 0) {
             charWidth = widths->mLeft + widths->mGlyphWidth;
         } else {
             charWidth = widths->mCharWidth;

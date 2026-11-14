@@ -194,7 +194,7 @@ u32 GetGlyphIndex(FontCodeMap *pMap, u32 code) {
         case 2:
             scan = &pMap->mPairTable;
             first = scan->mScanEntries;
-            last = first + (scan->mUnk_00 - 1);
+            last = first + (scan->mNum - 1);
             while (first <= last) {
                 middle = first + (last - first) / 2;
                 if (middle->mUnk_00 < code) {
@@ -217,14 +217,14 @@ void NNS_G2dFontInitAuto(NNSG2dFont *pFont, NNSG2dBinaryFileHeader *pNftrFile) {
 
     result = NNSi_G2dGetUnpackedFont(pNftrFile, &pFont->mPRes);
     encodingId = pFont->mPRes->mEncoding;
-    pFont->mUnk_08 = result - 1;
-    pFont->mUnk_0a = pFont->mUnk_08 != 0 ? 2 : 3;
+    pFont->mFileVersionIndex = result - 1;
+    pFont->mWidthEntrySize = pFont->mFileVersionIndex != 0 ? 2 : 3;
     pFont->mCbCharSpliter = spliterTable[encodingId];
 }
 
 void NNS_G2dFontInitUTF16(NNSG2dFont *pFont, NNSG2dBinaryFileHeader *pNftrFile) {
-    pFont->mUnk_08 = NNSi_G2dGetUnpackedFont(pNftrFile, &pFont->mPRes) - 1;
-    pFont->mUnk_0a = pFont->mUnk_08 != 0 ? 2 : 3;
+    pFont->mFileVersionIndex = NNSi_G2dGetUnpackedFont(pNftrFile, &pFont->mPRes) - 1;
+    pFont->mWidthEntrySize = pFont->mFileVersionIndex != 0 ? 2 : 3;
     pFont->mCbCharSpliter = NNSi_G2dSplitCharUTF16;
 }
 
@@ -249,7 +249,7 @@ NNSG2dCharWidths *NNS_G2dFontGetCharWidthsFromIndex(NNSG2dFont *pFont, u32 idx) 
     pRange = pRes->mPWidth;
     while (pRange != 0) {
         if (pRange->mIndexBegin <= idx && idx <= pRange->mIndexEnd) {
-            return (NNSG2dCharWidths *) ((u8 *) pRange + 8 + pFont->mUnk_0a * (idx - pRange->mIndexBegin));
+            return (NNSG2dCharWidths *) ((u8 *) pRange + 8 + pFont->mWidthEntrySize * (idx - pRange->mIndexBegin));
         }
         pRange = pRange->mPNext;
     }
@@ -277,7 +277,7 @@ s32 NNSi_G2dFontGetStringWidth(NNSG2dFont *pFont, s32 hSpace, u8 *str, u8 **pPos
             glyph = pFont->mPRes->mAlterCharIndex;
         }
         pWidths = NNS_G2dFontGetCharWidthsFromIndex(pFont, glyph);
-        if (pFont->mUnk_08 != 0) {
+        if (pFont->mFileVersionIndex != 0) {
             charWidth = pWidths->mLeft + pWidths->mGlyphWidth;
         } else {
             charWidth = pWidths->mCharWidth;

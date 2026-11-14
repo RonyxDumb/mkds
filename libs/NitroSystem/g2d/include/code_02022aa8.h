@@ -10,8 +10,8 @@ typedef struct NNSG2dCharWidths {
     /* 02 */ s8 mCharWidth;
 } NNSG2dCharWidths;
 
-// Entry of the chain at 0x0c of an NNSG2dFontInformation: a range of mUnk_00..mUnk_02 with 8 bytes of header, then
-// entries of mUnk_0a (of the object) bytes.
+// Entry of the chain at 0x0c of an NNSG2dFontInformation: the range mIndexBegin..mIndexEnd with 8 bytes of header, then
+// entries of NNSG2dFont.mWidthEntrySize bytes.
 typedef struct NNSG2dFontWidth {
     /* 00 */ u16 mIndexBegin;
     /* 02 */ u16 mIndexEnd;
@@ -20,12 +20,12 @@ typedef struct NNSG2dFontWidth {
 
 // Halfword number, then pairs of halfwords.
 typedef struct FontCodeMapInfo {
-    /* 00 */ u16 mUnk_00;
+    /* 00 */ u16 mNum;
     /* 02 */ UnsignedHalfwordPair mScanEntries[1];
 } FontCodeMapInfo;
 
-// Entry of the chain at 0x10 of an NNSG2dFontInformation: a range of mUnk_00..mUnk_02 and a kind (0: base number in
-// mUnk_0c, 1: halfwords from 0x0c, 2: mUnk_0c pairs from 0x0e).
+// Entry of the chain at 0x10 of an NNSG2dFontInformation: the range mCcodeBegin..mCcodeEnd and a kind (0: base number
+// in mMapInfo[0], 1: halfwords from mMapInfo, 2: mPairTable.mNum pairs).
 typedef struct FontCodeMap {
     /* 00 */ u16 mCcodeBegin;
     /* 02 */ u16 mCcodeEnd;
@@ -38,13 +38,16 @@ typedef struct FontCodeMap {
     };
 } FontCodeMap;
 
-// Object behind NNSG2dFontInformation.mUnk_08: a byte at 0x01, a halfword at 0x02 and bytes from 0x08
+// Object behind NNSG2dFontInformation.mPGlyph: a byte at 0x01, a halfword at 0x02 and bytes from 0x08
 // (DrawKeyboardGlyphs).
 typedef struct FontGlyph {
     /* 00 */ u8 mCellWidth;
     /* 01 */ u8 mCellHeight;
     /* 02 */ u16 mCellSize;
-    /* 04 */ u8 mUnk_04[4];
+    /* 04 */ s8 mBaselinePos;
+    /* 05 */ u8 mMaxCharWidth;
+    /* 06 */ u8 mBpp;
+    /* 07 */ u8 mFlags;
     /* 08 */ u8 mGlyphTable[1];
 } FontGlyph;
 
@@ -65,8 +68,8 @@ typedef u16 SplitCharFunc();
 typedef struct NNSG2dFont {
     /* 00 */ NNSG2dFontInformation *mPRes;
     /* 04 */ SplitCharFunc *mCbCharSpliter;
-    /* 08 */ u16 mUnk_08;
-    /* 0a */ u16 mUnk_0a;
+    /* 08 */ u16 mFileVersionIndex;
+    /* 0a */ u16 mWidthEntrySize;
 } NNSG2dFont;
 
 // Width and height written by NNSi_G2dFontGetTextRect.

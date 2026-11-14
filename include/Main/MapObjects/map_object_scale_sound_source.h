@@ -6,16 +6,13 @@
 
 void SetMapObjectScale(MapObject *mapObject, const Vec3 *scale);
 void SetMapObjectExtentX(MapObject *mapObject, s32 baseSize);
-// Allocates the sound source object of the map object (mUnk_94, 0x44 bytes) with volume curve 2
-// (SoundSource.mFalloffIndex) and copies the curve's mUnk_20 into mUnk_70. Then it calls SetSoundSourceEnabled and,
-// when bit 0 of the source's mUnk_34 is set, SetSoundSourceFlagBit.
+// Allocates mSound (0x44 bytes) with volume curve 2 and copies the curve's mFarDistanceSquared into the map object.
+// Then it calls SetSoundSourceEnabled and, when bit 0 of mSourceFlags is set, SetSoundSourceFlagBit.
 void CreateMapObjectSoundSourceFalloff2(MapObject *mapObject);
 SoundDistanceSquaredChange *CreateVehicleSoundSource(MapObject *mapObject);
-// Allocates the sound source object of the map object (mUnk_94, 0x44 bytes) with volume curve 3
-// (SoundSource.mFalloffIndex) and copies the curve's mUnk_20 into mUnk_70. Then it calls SetSoundSourceEnabled and,
-// when bit 0 of the source's mUnk_34 is set, SetSoundSourceFlagBit.
+// Allocates mSound (0x44 bytes) with volume curve 3 and copies the curve's mFarDistanceSquared into the map object.
+// Then it calls SetSoundSourceEnabled and, when bit 0 of mSourceFlags is set, SetSoundSourceFlagBit.
 void CreateMapObjectSoundSourceFalloff3(MapObject *mapObject);
-// Allocates the sound source object of the map object (mUnk_94, 0x44 bytes) with volume curve 4
-// (SoundSource.mFalloffIndex) and copies the curve's mUnk_20 into mUnk_70. Then it calls SetSoundSourceEnabled and,
-// when bit 0 of the source's mUnk_34 is set, SetSoundSourceFlagBit.
+// Allocates mSound (0x44 bytes) with volume curve 4 and copies the curve's mFarDistanceSquared into the map object.
+// Then it calls SetSoundSourceEnabled and, when bit 0 of mSourceFlags is set, SetSoundSourceFlagBit.
 void CreateMapObjectSoundSourceFalloff4(MapObject *mapObject);

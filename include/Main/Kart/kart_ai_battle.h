@@ -21,7 +21,7 @@ typedef struct KartAiRaceSpeedLimit {
     /* 18 */ s32 mSpeedLimitReduced;
     /* 1c */ s32 mTableIndex;
     /* 20 */ s32 mUnk_20;
-    /* 24 */ s32 mUnk_24;
+    /* 24 */ s32 mProgressGapLimit;
     /* 28 */ s32 mHeadingSwingAtRaceStart;
     /* 2c */ s32 mBoostsAtRaceStart;
     /* 30 */ u16 mRaceStartBoostChoice;

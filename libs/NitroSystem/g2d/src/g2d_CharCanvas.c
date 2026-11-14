@@ -262,7 +262,7 @@ void DrawGlyphLine(NNSG2dCharCanvas *pCanvas, NNSG2dFont *pFont, s32 drawX, s32 
     info.mCl = cl - 1;
     info.mHeight = glyphHeight;
     limitX = drawX - numX * 8;
-    info.mSrcBpp = pFont->mPRes->mPGlyph->mUnk_04[2];
+    info.mSrcBpp = pFont->mPRes->mPGlyph->mBpp;
     info.mDstBpp = pCanvas->mDstBpp;
     info.mDsrc = info.mSrcBpp * pFont->mPRes->mPGlyph->mCellWidth;
     for (curY = drawY; curY > limitY; curY -= 8) {
@@ -358,7 +358,7 @@ void DrawGlyph1D(NNSG2dCharCanvas *pCanvas, NNSG2dFont *pFont, s32 drawX, s32 dr
     info.mCl = cl - 1;
     info.mHeight = glyphHeight;
     info.mWidth = inkWidth;
-    info.mSrcBpp = pFont->mPRes->mPGlyph->mUnk_04[2];
+    info.mSrcBpp = pFont->mPRes->mPGlyph->mBpp;
     info.mDstBpp = pCanvas->mDstBpp;
     info.mDsrc = info.mSrcBpp * pFont->mPRes->mPGlyph->mCellWidth;
     objSizeWord = pCanvas->mParam;
@@ -573,7 +573,7 @@ s32 NNS_G2dCharCanvasDrawChar(NNSG2dCharCanvas *pCanvas, NNSG2dFont *pFont, s32 
     pRes = pFont->mPRes->mPGlyph;
     glyphInfo.mImage = &pRes->mGlyphTable[glyphIdx * pRes->mCellSize];
     pCanvas->mPDrawGlyph(pCanvas, pFont, drawX + glyphInfo.mPWidths->mLeft, drawY, cl, &glyphInfo);
-    if (pFont->mUnk_08 != 0) {
+    if (pFont->mFileVersionIndex != 0) {
         return glyphInfo.mPWidths->mLeft + glyphInfo.mPWidths->mGlyphWidth;
     }
     return glyphInfo.mPWidths->mCharWidth;

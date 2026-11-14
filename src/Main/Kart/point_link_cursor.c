@@ -939,7 +939,7 @@ u32 SetupRaceKartAiSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, struc
     raceSpeedLimit->mSpeedLimitBeforeTurn = raceSpeedLimit->mBaseSpeedLimit;
     raceSpeedLimit->mTableIndex = GetKartAiTableIndex(kartAi->mIndex);
     raceSpeedLimit->mUnk_20 = raceSpeedLimit->mTableIndex;
-    raceSpeedLimit->mUnk_24 = 0;
+    raceSpeedLimit->mProgressGapLimit = 0;
     raceSpeedLimit->mSpeedLimit = raceSpeedLimit->mBaseSpeedLimit;
     raceSpeedLimit->mSpeedLimitAddition = 0;
     raceSpeedLimit->mTurnSpeedLimit = 0;
@@ -1166,7 +1166,7 @@ void AdvanceKartAiSpeedLimitByRank(struct KartAiRaceSpeedLimit *raceSpeedLimit, 
             if (otherKartIndex >= 0) {
                 progress = GetKartRaceProgressScaled(kartIndex);
                 progress -= GetKartRaceProgressScaled((u16) otherKartIndex);
-                if (progress > GetKart(otherKartIndex)->mAi->mRaceSpeedLimit.mUnk_24) {
+                if (progress > GetKart(otherKartIndex)->mAi->mRaceSpeedLimit.mProgressGapLimit) {
                     raceSpeedLimit->mSpeedLimitBeforeTurn =
                         MUL_FIXED12_NO_ROUND(raceSpeedLimit->mSpeedLimitBeforeTurn, 0xf85);
                     raceSpeedLimit->mSpeedLimitReduced = 1;

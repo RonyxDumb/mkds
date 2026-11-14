@@ -53,7 +53,7 @@ typedef struct RomHeaderStart {
 // application.
 typedef struct CARDRomHeader {
     /* 00 */ RomHeaderStart mHead;
-    /* 60 */ u32 mUnk_60;
+    /* 60 */ u32 mRomCtrl;
     /* 64 */ u8 mUnk_64[0x1c];
     /* 80 */ u32 mRomSize;
     /* 84 */ u8 mUnk_84[0xdc];

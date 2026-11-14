@@ -209,7 +209,7 @@ int CARDi_TryReadCardDma(CARDRomStat *romStat) {
     if (aligned != 0 && len != 0) {
         isAsync = 1;
     }
-    romStat->mCtrl = (SYSTEM_WORK->mRomHeader.mUnk_60 & ~0x07000000) | 0xa1000000;
+    romStat->mCtrl = (SYSTEM_WORK->mRomHeader.mRomCtrl & ~0x07000000) | 0xa1000000;
     if (isAsync != 0) {
         enabled = OS_DisableInterrupts();
         IC_InvalidateRange((void *) dst, len);

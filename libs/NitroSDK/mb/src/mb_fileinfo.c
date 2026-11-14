@@ -26,18 +26,20 @@ static inline u32 GetRomSizeOrDefault(CARDRomHeader *header) {
 int MB_ReadSegment(FSFile *file, void *buffer, u32 bufferSize) {
     FSFile *activeFile;
     CARDRomHeader *header;
-    u8 *v3;
+    u8 *writePos;
     FSFile openedFile;
     BOOL result;
     BOOL openedHere;
     u32 remaining;
     u32 basePosition;
     MBiCacheList *rangeTable;
-    u32 *v6;
-    s32 v8;
+    u32 *offsetTable;
+    s32 segmentSize;
+    s32 mainOffset;
     u32 seekOffset;
-    s32 v10;
-    u32 v14[4];
+    s32 nameLength;
+    s32 fileBase;
+    u32 segmentParams[4];
     s8 *arcBytes;
     activeFile = file;
     header = buffer;
@@ -45,10 +47,10 @@ int MB_ReadSegment(FSFile *file, void *buffer, u32 bufferSize) {
     if (bufferSize >= 0x164) {
         openedHere = FALSE;
         remaining = bufferSize;
-        v3 = (u8 *) header;
+        writePos = (u8 *) header;
         rangeTable = NULL;
-        v6 = NULL;
-        v3 += 0x160;
+        offsetTable = NULL;
+        writePos += 0x160;
         remaining -= 0x160;
         if (activeFile != NULL) {
             basePosition = activeFile->mUnk_2c - activeFile->mProp.w.mUnk_04;
@@ -64,84 +66,84 @@ int MB_ReadSegment(FSFile *file, void *buffer, u32 bufferSize) {
             activeFile = &openedFile;
             basePosition = openedFile.mUnk_2c - openedFile.mProp.w.mUnk_04;
             MI_CpuCopy8(&SYSTEM_WORK->mRomHeader, header, 0x160);
-            header->mUnk_60 |= 0x00406000;
+            header->mRomCtrl |= 0x00406000;
         }
         if (remaining >= 0x88) {
             FS_SeekFile(activeFile, basePosition + seekOffset, 0);
-            FS_ReadFile(activeFile, v3, 0x88);
-            v3 += 0x88;
+            FS_ReadFile(activeFile, writePos, 0x88);
+            writePos += 0x88;
             remaining -= 0x88;
         } else {
             remaining = 0;
         }
         if (remaining >= 0x70) {
-            rangeTable = (MBiCacheList *) v3;
-            MBi_InitCache((u32) v3);
-            v3 += 0x70;
+            rangeTable = (MBiCacheList *) writePos;
+            MBi_InitCache((u32) writePos);
+            writePos += 0x70;
             remaining -= 0x70;
             MBi_AttachCacheBuffer(rangeTable, 0, 0x160, (u8 *) header, 3);
             arcBytes = (s8 *) activeFile->mArc;
-            v10 = 0;
-            while (v10 < 3 && arcBytes[v10] != 0) {
-                v10++;
+            nameLength = 0;
+            while (nameLength < 3 && arcBytes[nameLength] != 0) {
+                nameLength++;
             }
-            MI_CpuCopy8(arcBytes, rangeTable->mArcName, v10);
-            rangeTable->mArcNameLen = v10;
+            MI_CpuCopy8(arcBytes, rangeTable->mArcName, nameLength);
+            rangeTable->mArcNameLen = nameLength;
         } else {
             remaining = 0;
         }
         if (remaining >= 0x10) {
-            v6 = (u32 *) v3;
-            v6[0] = 0;
-            v6[1] = header->mHead.mMainRomOffset + (basePosition + activeFile->mProp.w.mUnk_04);
-            v6[2] = header->mHead.mSubRomOffset + (basePosition + activeFile->mProp.w.mUnk_04);
-            v3 += 0x10;
+            offsetTable = (u32 *) writePos;
+            offsetTable[0] = 0;
+            offsetTable[1] = header->mHead.mMainRomOffset + (basePosition + activeFile->mProp.w.mUnk_04);
+            offsetTable[2] = header->mHead.mSubRomOffset + (basePosition + activeFile->mProp.w.mUnk_04);
+            writePos += 0x10;
             remaining -= 0x10;
         } else {
             remaining = 0;
         }
-        v8 = header->mHead.mMainSize + header->mHead.mSubSize;
-        if (remaining >= v8) {
-            v10 = activeFile->mProp.w.mUnk_04;
-            FS_SeekFile(activeFile, v6[1] - v10, 0);
-            FS_ReadFile(activeFile, v3, header->mHead.mMainSize);
-            MBi_AttachCacheBuffer(rangeTable, v6[1], header->mHead.mMainSize, v3, 3);
-            v3 += header->mHead.mMainSize;
-            FS_SeekFile(activeFile, v6[2] - v10, 0);
-            FS_ReadFile(activeFile, v3, header->mHead.mSubSize);
-            MBi_AttachCacheBuffer(rangeTable, v6[2], header->mHead.mSubSize, v3, 3);
+        segmentSize = header->mHead.mMainSize + header->mHead.mSubSize;
+        if (remaining >= segmentSize) {
+            fileBase = activeFile->mProp.w.mUnk_04;
+            FS_SeekFile(activeFile, offsetTable[1] - fileBase, 0);
+            FS_ReadFile(activeFile, writePos, header->mHead.mMainSize);
+            MBi_AttachCacheBuffer(rangeTable, offsetTable[1], header->mHead.mMainSize, writePos, 3);
+            writePos += header->mHead.mMainSize;
+            FS_SeekFile(activeFile, offsetTable[2] - fileBase, 0);
+            FS_ReadFile(activeFile, writePos, header->mHead.mSubSize);
+            MBi_AttachCacheBuffer(rangeTable, offsetTable[2], header->mHead.mSubSize, writePos, 3);
             result = TRUE;
         } else if (remaining >= 0xcc00) {
-            v10 = activeFile->mProp.w.mUnk_04;
-            v8 = v6[1];
-            FS_SeekFile(activeFile, v8 - v10, 0);
-            FS_ReadFile(activeFile, v3, 0x4400);
-            MBi_AttachCacheBuffer(rangeTable, v8, 0x4400, v3, 3);
-            FS_SeekFile(activeFile, v8 + 0x4400 - v10, 0);
-            FS_ReadFile(activeFile, v3 + 0x4400, 0x4400);
-            MBi_AttachCacheBuffer(rangeTable, v8 + 0x4400, 0x4400, (v3 + 0x4400), 2);
-            FS_SeekFile(activeFile, v8 + 0x8800 - v10, 0);
-            FS_ReadFile(activeFile, v3 + 0x8800, 0x4400);
-            MBi_AttachCacheBuffer(rangeTable, v8 + 0x8800, 0x4400, (v3 + 0x8800), 2);
+            fileBase = activeFile->mProp.w.mUnk_04;
+            mainOffset = offsetTable[1];
+            FS_SeekFile(activeFile, mainOffset - fileBase, 0);
+            FS_ReadFile(activeFile, writePos, 0x4400);
+            MBi_AttachCacheBuffer(rangeTable, mainOffset, 0x4400, writePos, 3);
+            FS_SeekFile(activeFile, mainOffset + 0x4400 - fileBase, 0);
+            FS_ReadFile(activeFile, writePos + 0x4400, 0x4400);
+            MBi_AttachCacheBuffer(rangeTable, mainOffset + 0x4400, 0x4400, (writePos + 0x4400), 2);
+            FS_SeekFile(activeFile, mainOffset + 0x8800 - fileBase, 0);
+            FS_ReadFile(activeFile, writePos + 0x8800, 0x4400);
+            MBi_AttachCacheBuffer(rangeTable, mainOffset + 0x8800, 0x4400, (writePos + 0x8800), 2);
             result = TRUE;
         }
         FS_SeekFile(activeFile, basePosition, 0);
         if (openedHere != FALSE) {
             FS_CloseFile(&openedFile);
             if (result != FALSE) {
-                v6 = mbi_seg_header;
-                v14[0] = header->mHead.mMainRomOffset;
-                v14[1] = header->mHead.mMainRamAddress - header->mHead.mMainRomOffset;
-                v14[2] = (u32) rangeTable->mList[1].mPtr - header->mHead.mMainRomOffset;
-                v14[3] = bufferSize;
-                MBi_ReadSegmentHeader(v14, 0x4000, 0x8000, 1);
-                while (((s32 *) v6)[1] != 0) {
-                    MBi_ReadSegmentHeader(v14, v6[0], v6[0] + v6[1], 0);
-                    v6 += 2;
+                offsetTable = mbi_seg_header;
+                segmentParams[0] = header->mHead.mMainRomOffset;
+                segmentParams[1] = header->mHead.mMainRamAddress - header->mHead.mMainRomOffset;
+                segmentParams[2] = (u32) rangeTable->mList[1].mPtr - header->mHead.mMainRomOffset;
+                segmentParams[3] = bufferSize;
+                MBi_ReadSegmentHeader(segmentParams, 0x4000, 0x8000, 1);
+                while (((s32 *) offsetTable)[1] != 0) {
+                    MBi_ReadSegmentHeader(segmentParams, offsetTable[0], offsetTable[0] + offsetTable[1], 0);
+                    offsetTable += 2;
                 }
-                v3 = rangeTable->mList[1].mPtr;
-                v3 += (u32) AutoloadCallback - header->mHead.mMainRamAddress;
-                *(u32 *) v3 = 0xe12fff1e;
+                writePos = rangeTable->mList[1].mPtr;
+                writePos += (u32) AutoloadCallback - header->mHead.mMainRamAddress;
+                *(u32 *) writePos = 0xe12fff1e;
             }
         }
         if (result != FALSE) {
