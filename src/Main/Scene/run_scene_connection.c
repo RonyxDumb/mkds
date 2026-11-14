@@ -90,7 +90,7 @@ static inline void RunSceneUpdateInputAndLcdPower(void) {
         if (SceneRunPAD_DetectFold() == 1) {
             PM_ForceToPowerOff();
         }
-        RunMessageScreenOfKind(3);
+        RunMessageScreenOfKind(MESSAGE_KIND_CARD_PULLED_OUT);
     }
     UpdatePadKeysAndTouchMic();
     if (!IsDataSharingIncomplete()) {
@@ -187,7 +187,7 @@ void RunScene(SceneNumbers *sceneNumbers, const SceneCallbacks *callbacks) {
     gSceneRunState->mSceneCallbacks = *callbacks;
     gSceneRunState->mRunStep = SCENE_RUN_STEP_IDLE;
     gSceneRunState->mNextScene = 0;
-    gSceneRunState->mMessageKind = -1;
+    gSceneRunState->mMessageKind = MESSAGE_KIND_NONE;
     gSceneRunState->mMessageInputEnabled = 0;
     interruptState = OS_DisableInterrupts();
     if (PM_GetLCDPower() == 1) {

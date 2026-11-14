@@ -241,11 +241,11 @@ void RunMessageScreenThread(void *unused) {
         }
         if (sessionHeapCreated != FALSE) {
             switch (gSceneRunState->mMessageKind) {
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                case 5:
+                case MESSAGE_KIND_BACKUP_ERROR_OTHER_STATUS:
+                case MESSAGE_KIND_BACKUP_ERROR_WHILE_WRITING:
+                case MESSAGE_KIND_CARD_PULLED_OUT:
+                case MESSAGE_KIND_WIFI_ERROR:
+                case MESSAGE_KIND_WIFI_NO_INPUT:
                     ReleaseWiFiSession();
                     break;
             }
@@ -322,11 +322,11 @@ void RunMessageScreen(void) {
     PM_SetLCDPower(1);
     if (sessionHeapCreated != FALSE) {
         switch (gSceneRunState->mMessageKind) {
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
+            case MESSAGE_KIND_BACKUP_ERROR_OTHER_STATUS:
+            case MESSAGE_KIND_BACKUP_ERROR_WHILE_WRITING:
+            case MESSAGE_KIND_CARD_PULLED_OUT:
+            case MESSAGE_KIND_WIFI_ERROR:
+            case MESSAGE_KIND_WIFI_NO_INPUT:
                 ReleaseWiFiSession();
                 break;
         }
@@ -371,21 +371,21 @@ void RunMessageScreenOfKind(s32 kind) {
     inputEnabled = FALSE;
     hasDisplaySettings = gDisplaySettings != NULL;
     switch (kind) {
-        case 0:
+        case MESSAGE_KIND_CONNECTION_ERROR:
             if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
                 inputEnabled = TRUE;
             }
             break;
-        case 1:
-        case 2:
+        case MESSAGE_KIND_BACKUP_ERROR_OTHER_STATUS:
+        case MESSAGE_KIND_BACKUP_ERROR_WHILE_WRITING:
             inputEnabled = FALSE;
             break;
-        case 4:
-        case 5:
-        case 6:
+        case MESSAGE_KIND_WIFI_ERROR:
+        case MESSAGE_KIND_WIFI_NO_INPUT:
+        case MESSAGE_KIND_WIFI_OPPONENT_LEFT:
             inputEnabled = TRUE;
             break;
-        case 3:
+        case MESSAGE_KIND_CARD_PULLED_OUT:
             inputEnabled = FALSE;
             break;
     }
@@ -443,7 +443,7 @@ void InitSceneRunState(void *heap) {
     gSceneRunState->mThreadStack = HeapAllocAligned(heap, 0x400, 0x20);
     gSceneRunState->mRunStep = SCENE_RUN_STEP_IDLE;
     gSceneRunState->mLcdOff = FALSE;
-    gSceneRunState->mMessageKind = -1;
+    gSceneRunState->mMessageKind = MESSAGE_KIND_NONE;
     gSceneRunState->mMessageInputEnabled = 0;
     SceneOS_InitThreadQueue(&gSceneRunState->mThreadQueue);
     OS_CreateThread(&gSceneRunState->mThread, RunMessageScreenThread, NULL, (u8 *) gSceneRunState->mThreadStack + 0x400,
@@ -512,21 +512,21 @@ s32 RunMessageScreenOnDisconnect(SceneNumbers *sceneNumbers, s32 flag) {
         if (flag != 0 && value != WIFI_DISCONNECT_NONE) {
             switch (value) {
                 case WIFI_DISCONNECT_NO_INPUT:
-                    value = 5;
+                    value = MESSAGE_KIND_WIFI_NO_INPUT;
                     break;
                 case WIFI_DISCONNECT_OPPONENT_LEFT:
-                    value = 6;
+                    value = MESSAGE_KIND_WIFI_OPPONENT_LEFT;
                     break;
                 case WIFI_DISCONNECT_ERROR:
                 default:
-                    value = 4;
+                    value = MESSAGE_KIND_WIFI_ERROR;
                     break;
             }
             RunMessageScreenOfKind(value);
             result = TRUE;
         }
     } else if (flag != 0 && SceneIsConnectionActiveNotEndingWithError()) {
-        RunMessageScreenOfKind(0);
+        RunMessageScreenOfKind(MESSAGE_KIND_CONNECTION_ERROR);
         result = TRUE;
         gConnectionWork->mErrorCode = CONNECTION_ERROR_NONE;
     } else {

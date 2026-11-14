@@ -99,6 +99,16 @@ typedef struct SceneCallbacks {
 
 #define SCENE_RUN_STEP_IDLE 6
 
+// Values of SceneRunState.mMessageKind (the text the message screen shows); NONE is no message screen requested.
+#define MESSAGE_KIND_NONE (-1)
+#define MESSAGE_KIND_CONNECTION_ERROR 0
+#define MESSAGE_KIND_BACKUP_ERROR_OTHER_STATUS 1
+#define MESSAGE_KIND_BACKUP_ERROR_WHILE_WRITING 2
+#define MESSAGE_KIND_CARD_PULLED_OUT 3
+#define MESSAGE_KIND_WIFI_ERROR 4
+#define MESSAGE_KIND_WIFI_NO_INPUT 5
+#define MESSAGE_KIND_WIFI_OPPONENT_LEFT 6
+
 // Object behind gSceneRunState.
 typedef struct SceneRunState {
     /* 000 */ void *mThreadStack;
