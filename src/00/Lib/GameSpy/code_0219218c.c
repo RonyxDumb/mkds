@@ -223,13 +223,13 @@ s32 GpiProcessInfoOperation(GpConnection *connection, GpiOperation *operation, c
             }
         }
         if (GpiGetValue(input, "\\sex\\", buffer, 0x40) == FALSE) {
-            infoRecord.mSex = 0x502;
+            infoRecord.mSex = PROFILE_SEX_CODE_DEFAULT;
         } else if ((s8) buffer[0] == 0x30) {
             infoRecord.mSex = 0x500;
         } else if ((s8) buffer[0] == 0x31) {
             infoRecord.mSex = 0x501;
         } else {
-            infoRecord.mSex = 0x502;
+            infoRecord.mSex = PROFILE_SEX_CODE_DEFAULT;
         }
         if (GpiGetValue(input, "\\pmask\\", buffer, 0x40) == FALSE) {
             infoRecord.mPmask = -1;
@@ -414,7 +414,7 @@ u32 gpiSetInfoi(GpConnection *connection, s32 info, s32 value) {
                         return result;
                     }
                     break;
-                case 0x502:
+                case PROFILE_SEX_CODE_DEFAULT:
                     result = gpiSendLocalInfo(connection, "\\sex\\", "2");
                     if (result != 0) {
                         return result;

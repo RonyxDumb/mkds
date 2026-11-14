@@ -2,6 +2,12 @@
 
 #include "types.h"
 
+// Values of the sex members; the profile text carries the sex as the characters 0 and 1 (stored as 0x500 and 0x501,
+// bare in the code); anything else reads as PROFILE_SEX_CODE_DEFAULT (0x502).
+enum {
+    PROFILE_SEX_CODE_DEFAULT = 0x502,
+};
+
 // Values read from the text, as built by GpiProcessInfoOperation on its stack. The pointers at 0x00 to 0x14 point to
 // buffers of its own; 0x1c, 0x27 and 0x34 are arrays inside.
 typedef struct GPIInfoCache {
