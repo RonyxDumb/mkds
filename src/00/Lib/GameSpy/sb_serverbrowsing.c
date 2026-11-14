@@ -56,7 +56,8 @@ void ListCallback(SbServerList *browserList, s32 reason, SbServer *server, Match
                 (server->mStateFlags & 0x2c) == 0 && matchingServerList->mDontUpdate == 0) {
                 s32 queryType;
                 if (server->mFlags & 1) {
-                    if (matchingServerList->mList.mState == 0 || matchingServerList->mEngine.mNumServerKeys == 0) {
+                    if (matchingServerList->mList.mState == SERVER_LIST_STATE_LOCAL_SCAN ||
+                        matchingServerList->mEngine.mNumServerKeys == 0) {
                         queryType = 1;
                     } else {
                         queryType = 0;
@@ -170,7 +171,7 @@ s32 ServerBrowserBeginUpdate2(MatchingServerList *matchingServerList, s32 async,
     error = SBServerListConnectAndQuery(&matchingServerList->mList, keyNames, serverFilter, updateOptions, maxServers);
     if (error == 0 && async == 0) {
         listLength = 10;
-        while (matchingServerList->mList.mState == 3 ||
+        while (matchingServerList->mList.mState == SERVER_LIST_STATE_RECEIVING_LIST ||
                (matchingServerList->mEngine.mQueryList.mCount > 0 && error == 0)) {
             msleep(listLength);
             error = ServerBrowserThink(matchingServerList);

@@ -279,7 +279,7 @@ void SbServerListInit(SbServerList *slist, const char *targetName, const char *s
         AssertionFailed("slist != NULL", "sb_serverlist.c", NULL, 0x11c);
     }
     if (lanBrowse != 0 || gGsiAcResult == 1) {
-        slist->mState = 1;
+        slist->mState = SERVER_LIST_STATE_NO_SOCKET;
         SBAllocateServerList((u32) slist);
         SBRefStrHash(slist);
         strcpy(slist->mQueryForGameName, targetName);
@@ -484,7 +484,7 @@ s32 SBServerListConnectAndQuery(SbServerList *serverList, const char *fieldList,
     u8 *requestCursor;
     u8 *requestStart;
     s32 error;
-    if (serverList->mState != 1) {
+    if (serverList->mState != SERVER_LIST_STATE_NO_SOCKET) {
         AssertionFailed("slist->state == sl_disconnected", "sb_serverlist.c", NULL, 0x20a);
     }
     if (fieldList == NULL) {
@@ -533,8 +533,8 @@ s32 SBServerListConnectAndQuery(SbServerList *serverList, const char *fieldList,
         SBServerListDisconnect(serverList);
         return 3;
     }
-    serverList->mState = 3;
-    serverList->mParseState = 0;
+    serverList->mState = SERVER_LIST_STATE_RECEIVING_LIST;
+    serverList->mParseState = SERVER_LIST_PARSE_CIPHER_KEY;
     if (serverList->mInBuffer == NULL) {
         serverList->mInBuffer = DWCi_GsMalloc(0x1000);
         if (serverList->mInBuffer == NULL) {
@@ -574,7 +574,7 @@ void SBServerListDisconnect(SbServerList *serverList) {
         closesocket(serverList->mSocket);
     }
     serverList->mSocket = -1;
-    serverList->mState = 1;
+    serverList->mState = SERVER_LIST_STATE_NO_SOCKET;
     FreeKeyList(serverList);
     serverList->mExpectedElements = -1;
     FreePopularValues(serverList);
@@ -891,7 +891,7 @@ s32 ProcessMainListData(SbServerList *serverList) {
     data = serverList->mInBuffer;
     length = serverList->mInBufferLength;
     switch (serverList->mParseState) {
-        case 0:
+        case SERVER_LIST_PARSE_CIPHER_KEY:
             if (length < 1) {
                 break;
             }
@@ -905,11 +905,11 @@ s32 ProcessMainListData(SbServerList *serverList) {
                 break;
             }
             InitCryptKey(serverList, (s8 *) (data + cryptHeaderLength), keyLength);
-            serverList->mParseState = 1;
+            serverList->mParseState = SERVER_LIST_PARSE_ADDRESS;
             data += headerEnd;
             length -= headerEnd;
             GOADecrypt(serverList->mCryptKey, data, length);
-        case 1:
+        case SERVER_LIST_PARSE_ADDRESS:
             if (length < 6) {
                 break;
             }
@@ -936,13 +936,13 @@ s32 ProcessMainListData(SbServerList *serverList) {
             data += 6;
             length -= 6;
             if ((serverList->mQueryOptions & 2) != 0 || serverList->mDefaultPort == 0xffff) {
-                serverList->mParseState = 5;
-                serverList->mState = 2;
+                serverList->mParseState = SERVER_LIST_PARSE_DONE;
+                serverList->mState = SERVER_LIST_STATE_AD_HOC;
                 break;
             }
-            serverList->mParseState = 2;
+            serverList->mParseState = SERVER_LIST_PARSE_FIELD_NAMES;
             serverList->mExpectedElements = -1;
-        case 2:
+        case SERVER_LIST_PARSE_FIELD_NAMES:
             if (serverList->mExpectedElements == -1) {
                 if (length < 1) {
                     break;
@@ -973,9 +973,9 @@ s32 ProcessMainListData(SbServerList *serverList) {
             if (serverList->mExpectedElements > DarrayGetCount(serverList->mKeyList)) {
                 break;
             }
-            serverList->mParseState = 3;
+            serverList->mParseState = SERVER_LIST_PARSE_POPULAR_VALUES;
             serverList->mExpectedElements = -1;
-        case 3:
+        case SERVER_LIST_PARSE_POPULAR_VALUES:
             if (serverList->mExpectedElements == -1) {
                 if (length < 1) {
                     break;
@@ -997,8 +997,8 @@ s32 ProcessMainListData(SbServerList *serverList) {
             if (serverList->mExpectedElements > serverList->mNumPopularValues) {
                 break;
             }
-            serverList->mParseState = 4;
-        case 4:
+            serverList->mParseState = SERVER_LIST_PARSE_ENTRIES;
+        case SERVER_LIST_PARSE_ENTRIES:
             if (length < 5) {
                 break;
             }
@@ -1010,8 +1010,8 @@ s32 ProcessMainListData(SbServerList *serverList) {
                 if (consumed == -1) {
                     length -= 5;
                     data += 5;
-                    serverList->mParseState = 5;
-                    serverList->mState = 2;
+                    serverList->mParseState = SERVER_LIST_PARSE_DONE;
+                    serverList->mState = SERVER_LIST_STATE_AD_HOC;
                     serverList->mCallback(serverList, 3, gSBNullServer, serverList->mInstance);
                     break;
                 }
@@ -1332,16 +1332,17 @@ s32 ProcessIncomingData(SbServerList *serverList) {
     }
     serverList->mInBufferLength += received;
     error = 0;
-    if (serverList->mState == 2 || serverList->mParseState > 0) {
+    if (serverList->mState == SERVER_LIST_STATE_AD_HOC ||
+        serverList->mParseState > SERVER_LIST_PARSE_CIPHER_KEY) {
         GOADecrypt(serverList->mCryptKey, serverList->mInBuffer + oldLength, serverList->mInBufferLength - oldLength);
     }
-    if (serverList->mState == 3) {
+    if (serverList->mState == SERVER_LIST_STATE_RECEIVING_LIST) {
         error = ProcessMainListData(serverList);
     }
     if (error != 0) {
         return error;
     }
-    if (serverList->mState == 2 && serverList->mInBufferLength > 0) {
+    if (serverList->mState == SERVER_LIST_STATE_AD_HOC && serverList->mInBufferLength > 0) {
         return ProcessAdHocData(serverList);
     }
     return 0;
@@ -1353,10 +1354,10 @@ s32 SBSendMessageToServer(SbServerList *serverList, u32 publicIp, u16 port, u8 *
     u8 *destination;
     u8 *source;
     s32 error;
-    if (serverList->mState == 1) {
+    if (serverList->mState == SERVER_LIST_STATE_NO_SOCKET) {
         SBServerListConnectAndQuery(serverList, NULL, NULL, 2, 0);
     }
-    if (serverList->mState == 1) {
+    if (serverList->mState == SERVER_LIST_STATE_NO_SOCKET) {
         return 3;
     }
     messageLength = dataLength + 9;
@@ -1428,7 +1429,7 @@ s32 ProcessLanData(SbServerList *serverList) {
     if (GetElapsedMilliseconds() - serverList->mLanStartTime > 0x7d0) {
         closesocket(serverList->mSocket);
         serverList->mSocket = -1;
-        serverList->mState = 1;
+        serverList->mState = SERVER_LIST_STATE_NO_SOCKET;
         serverList->mCallback(serverList, 3, gSBNullServer, serverList->mInstance);
     }
     return 0;
@@ -1437,12 +1438,12 @@ s32 ProcessLanData(SbServerList *serverList) {
 s32 SBListThink(SbServerList *serverList) {
     SBFreeDeadList(serverList);
     switch (serverList->mState) {
-        case 2:
-        case 3:
+        case SERVER_LIST_STATE_AD_HOC:
+        case SERVER_LIST_STATE_RECEIVING_LIST:
             return ProcessIncomingData(serverList);
-        case 0:
+        case SERVER_LIST_STATE_LOCAL_SCAN:
             return ProcessLanData(serverList);
-        case 1:
+        case SERVER_LIST_STATE_NO_SOCKET:
         default:
             return 0;
     }

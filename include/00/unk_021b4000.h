@@ -43,6 +43,26 @@ typedef struct WiFiSelectHeapHolder {
 } WiFiSelectHeapHolder;
 
 // Object behind gSortServerList; the 0x5d8 bytes at offset 0x4c of a MatchingServerList.
+// Values of SbServerList.mState: browsing the local network, not connected, taking in the data that follows the list
+// (ad hoc), and receiving the main list.
+enum {
+    SERVER_LIST_STATE_LOCAL_SCAN = 0,
+    SERVER_LIST_STATE_NO_SOCKET = 1,
+    SERVER_LIST_STATE_AD_HOC = 2,
+    SERVER_LIST_STATE_RECEIVING_LIST = 3,
+};
+
+// Values of SbServerList.mParseState, the parts of the main list in the order they arrive: the cipher key, the own
+// address, the field names, the popular values, the entries; DONE once the list is complete.
+enum {
+    SERVER_LIST_PARSE_CIPHER_KEY = 0,
+    SERVER_LIST_PARSE_ADDRESS = 1,
+    SERVER_LIST_PARSE_FIELD_NAMES = 2,
+    SERVER_LIST_PARSE_POPULAR_VALUES = 3,
+    SERVER_LIST_PARSE_ENTRIES = 4,
+    SERVER_LIST_PARSE_DONE = 5,
+};
+
 typedef struct SbServerList {
     /* 000 */ s32 mState;
     /* 004 */ struct Darray *mServers;
