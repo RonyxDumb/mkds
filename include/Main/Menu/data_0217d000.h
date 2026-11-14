@@ -183,6 +183,9 @@ enum {
     RECORD_VS_STATE_SUB_SLIDE_IN,
 };
 
+// X offset of one screen width: an object moved by it (or its negative) is off screen.
+#define RECORD_VS_OFFSCREEN_X 0x100
+
 // Object behind gRecordVS.
 typedef struct RecordVS {
     /* 00 */ struct Ncgr *mRecordVSMNcgr;
