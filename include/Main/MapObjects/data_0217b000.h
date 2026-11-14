@@ -656,6 +656,23 @@ typedef struct RaceHudSubScreenCellGroups {
     /* 198 */ void (*mDrawFunctions[49])(RaceHudOamBuffer *);
 } RaceHudSubScreenCellGroups;
 
+// Values of RaceGoalS.mOffsetState: the panel offset slides in (ENTER), stays (HOLD) and slides out (LEAVE); FIRST,
+// SECOND and LAST are the three stages, each drawn with its own cell (LAST blinks); LAST is also reached directly from
+// LEAVE_FIRST when the wifi pick is locked. LEAVE_END is the slide out before HIDDEN.
+enum {
+    RACE_GOAL_S_OFFSET_START,
+    RACE_GOAL_S_OFFSET_ENTER_FIRST,
+    RACE_GOAL_S_OFFSET_HOLD_FIRST,
+    RACE_GOAL_S_OFFSET_LEAVE_FIRST,
+    RACE_GOAL_S_OFFSET_ENTER_SECOND,
+    RACE_GOAL_S_OFFSET_HOLD_SECOND,
+    RACE_GOAL_S_OFFSET_LEAVE_SECOND,
+    RACE_GOAL_S_OFFSET_ENTER_LAST,
+    RACE_GOAL_S_OFFSET_HOLD_LAST,
+    RACE_GOAL_S_OFFSET_LEAVE_END,
+    RACE_GOAL_S_OFFSET_HIDDEN,
+};
+
 // Object behind gRaceGoalS, 0x20e4 bytes, allocated by InitRaceGoalS.
 typedef struct RaceGoalS {
     /* 0000 */ s32 mRowVisible[8];

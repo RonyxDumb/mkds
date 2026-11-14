@@ -82,64 +82,64 @@ void UpdateRaceGoalSOffset(void) {
     frame = gRaceGoalS->mOffsetStateFrames;
     gRaceGoalS->mOffsetStateFrames = frame + 1;
     switch (gRaceGoalS->mOffsetState) {
-        case 0:
+        case RACE_GOAL_S_OFFSET_START:
             gRaceGoalS->mOffset = -0x20;
             if (gRaceGoalS->mUpdate == SlideInRaceGoalS) {
-                gRaceGoalS->mOffsetState = 1;
+                gRaceGoalS->mOffsetState = RACE_GOAL_S_OFFSET_ENTER_FIRST;
                 gRaceGoalS->mOffsetStateFrames = 0;
             } else {
-                gRaceGoalS->mOffsetState = 10;
+                gRaceGoalS->mOffsetState = RACE_GOAL_S_OFFSET_HIDDEN;
                 gRaceGoalS->mOffsetStateFrames = 0;
             }
             break;
-        case 1:
+        case RACE_GOAL_S_OFFSET_ENTER_FIRST:
             if (frame < 0x14) {
                 gRaceGoalS->mOffset = InterpolateS16(1, -0x20, 0, frame, 0x14);
             } else {
                 gRaceGoalS->mOffset = 0;
-                gRaceGoalS->mOffsetState = 2;
+                gRaceGoalS->mOffsetState = RACE_GOAL_S_OFFSET_HOLD_FIRST;
                 gRaceGoalS->mOffsetStateFrames = 0;
             }
             break;
-        case 2:
+        case RACE_GOAL_S_OFFSET_HOLD_FIRST:
             gRaceGoalS->mOffset = 0;
             if (gRaceSetup->mMode == MODE_WIFI && IsChoisesSPickLocked() != 0) {
-                gRaceGoalS->mOffsetState = 3;
+                gRaceGoalS->mOffsetState = RACE_GOAL_S_OFFSET_LEAVE_FIRST;
                 gRaceGoalS->mOffsetStateFrames = 0;
                 return;
             }
             if (HideRaceGoalSRows == gRaceGoalS->mUpdate) {
-                gRaceGoalS->mOffsetState = 3;
+                gRaceGoalS->mOffsetState = RACE_GOAL_S_OFFSET_LEAVE_FIRST;
                 gRaceGoalS->mOffsetStateFrames = 0;
             } else if (SlideOutRaceGoalS == gRaceGoalS->mUpdate) {
-                gRaceGoalS->mOffsetState = 9;
+                gRaceGoalS->mOffsetState = RACE_GOAL_S_OFFSET_LEAVE_END;
                 gRaceGoalS->mOffsetStateFrames = 0;
             }
             break;
-        case 3:
+        case RACE_GOAL_S_OFFSET_LEAVE_FIRST:
             if (frame < 0x14) {
                 gRaceGoalS->mOffset = InterpolateS16(1, 0, -0x20, frame, 0x14);
             } else {
                 gRaceGoalS->mOffset = -0x20;
                 if (gRaceSetup->mMode == MODE_WIFI && IsChoisesSPickLocked() != 0) {
-                    gRaceGoalS->mOffsetState = 7;
+                    gRaceGoalS->mOffsetState = RACE_GOAL_S_OFFSET_ENTER_LAST;
                     gRaceGoalS->mOffsetStateFrames = 0;
                 } else {
-                    gRaceGoalS->mOffsetState = 4;
+                    gRaceGoalS->mOffsetState = RACE_GOAL_S_OFFSET_ENTER_SECOND;
                     gRaceGoalS->mOffsetStateFrames = 0;
                 }
             }
             break;
-        case 4:
+        case RACE_GOAL_S_OFFSET_ENTER_SECOND:
             if (frame < 0x14) {
                 gRaceGoalS->mOffset = InterpolateS16(1, -0x20, 0, frame, 0x14);
             } else {
                 gRaceGoalS->mOffset = 0;
-                gRaceGoalS->mOffsetState = 5;
+                gRaceGoalS->mOffsetState = RACE_GOAL_S_OFFSET_HOLD_SECOND;
                 gRaceGoalS->mOffsetStateFrames = 0;
             }
             break;
-        case 5:
+        case RACE_GOAL_S_OFFSET_HOLD_SECOND:
             gRaceGoalS->mOffset = 0;
             if (gRaceSetup->mMode != MODE_WIFI) {
                 return;
@@ -147,37 +147,37 @@ void UpdateRaceGoalSOffset(void) {
             if (IsChoisesSPickLocked() == 0) {
                 return;
             }
-            gRaceGoalS->mOffsetState = 6;
+            gRaceGoalS->mOffsetState = RACE_GOAL_S_OFFSET_LEAVE_SECOND;
             gRaceGoalS->mOffsetStateFrames = 0;
             break;
-        case 6:
+        case RACE_GOAL_S_OFFSET_LEAVE_SECOND:
             if (frame < 0x14) {
                 gRaceGoalS->mOffset = InterpolateS16(1, 0, -0x20, frame, 0x14);
             } else {
                 gRaceGoalS->mOffset = -0x20;
-                gRaceGoalS->mOffsetState = 7;
+                gRaceGoalS->mOffsetState = RACE_GOAL_S_OFFSET_ENTER_LAST;
                 gRaceGoalS->mOffsetStateFrames = 0;
             }
             break;
-        case 7:
+        case RACE_GOAL_S_OFFSET_ENTER_LAST:
             if (frame < 0x14) {
                 gRaceGoalS->mOffset = InterpolateS16(1, -0x20, 0, frame, 0x14);
             } else {
                 gRaceGoalS->mOffset = 0;
-                gRaceGoalS->mOffsetState = 8;
+                gRaceGoalS->mOffsetState = RACE_GOAL_S_OFFSET_HOLD_LAST;
                 gRaceGoalS->mOffsetStateFrames = 0;
             }
             break;
-        case 8:
-        case 10:
+        case RACE_GOAL_S_OFFSET_HOLD_LAST:
+        case RACE_GOAL_S_OFFSET_HIDDEN:
             gRaceGoalS->mOffset = 0;
             break;
-        case 9:
+        case RACE_GOAL_S_OFFSET_LEAVE_END:
             if (frame < 0x14) {
                 gRaceGoalS->mOffset = InterpolateS16(1, 0, -0x20, frame, 0x14);
             } else {
                 gRaceGoalS->mOffset = 0;
-                gRaceGoalS->mOffsetState = 10;
+                gRaceGoalS->mOffsetState = RACE_GOAL_S_OFFSET_HIDDEN;
                 gRaceGoalS->mOffsetStateFrames = 0;
             }
             break;
@@ -240,7 +240,7 @@ void InitRaceGoalS(void) {
     for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex = (u16) (kartIndex + 1)) {
         gRaceGoalS->mPreviousRowKartIndex[kartIndex] = gRaceGoalS->mRowKartIndex[kartIndex];
     }
-    gRaceGoalS->mOffsetState = 0;
+    gRaceGoalS->mOffsetState = RACE_GOAL_S_OFFSET_START;
     gRaceGoalS->mOffsetStateFrames = 0;
     gRaceGoalS->mOffset = -0x20;
     LoadNclrData(&gRaceGoalS->mRaceGoalSBNclr, FindSceneFileWrapper("race_goal_s_b.NCLR"));
@@ -296,10 +296,10 @@ void DrawRaceGoalSKarts(RaceHudOamBuffer *oamBuffer) {
     s32 rowYs[8] = {0x22, 0x37, 0x4c, 0x61, 0x76, 0x8b, 0xa0, 0xb5};
 
     switch (goal->mOffsetState) {
-        case 1:
-        case 2:
-        case 3:
-        case 9:
+        case RACE_GOAL_S_OFFSET_ENTER_FIRST:
+        case RACE_GOAL_S_OFFSET_HOLD_FIRST:
+        case RACE_GOAL_S_OFFSET_LEAVE_FIRST:
+        case RACE_GOAL_S_OFFSET_LEAVE_END:
             cell = GetRaceGoalSNcerEntry(0x21);
             oamIndex = oamBuffer->mOamCount;
             cell21Position[1] = TO_FIXED12(gRaceGoalS->mOffset + 0xb);
@@ -311,9 +311,9 @@ void DrawRaceGoalSKarts(RaceHudOamBuffer *oamBuffer) {
                 oam->mPriority = 1;
             }
             break;
-        case 4:
-        case 5:
-        case 6:
+        case RACE_GOAL_S_OFFSET_ENTER_SECOND:
+        case RACE_GOAL_S_OFFSET_HOLD_SECOND:
+        case RACE_GOAL_S_OFFSET_LEAVE_SECOND:
             cell = GetRaceGoalSNcerEntry(0x22);
             oamIndex = oamBuffer->mOamCount;
             cell22Position[1] = TO_FIXED12(gRaceGoalS->mOffset + 0xb);
@@ -325,8 +325,8 @@ void DrawRaceGoalSKarts(RaceHudOamBuffer *oamBuffer) {
                 oam->mPriority = 1;
             }
             break;
-        case 7:
-        case 8:
+        case RACE_GOAL_S_OFFSET_ENTER_LAST:
+        case RACE_GOAL_S_OFFSET_HOLD_LAST:
             cycleFrame = gRaceGoalS->mOffsetStateFrames % 40;
             if (cycleFrame < 0x20) {
                 cell = GetRaceGoalSNcerEntry(0x2b);
