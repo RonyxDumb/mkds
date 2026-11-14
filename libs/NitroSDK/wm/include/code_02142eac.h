@@ -243,9 +243,7 @@ struct WirelessMessage {
     /* 22 */ u8 mUnk_22[2];
     /* 24 */ u8 mSsid[0x12];
     /* 36 */ u16 mGameInfoLength;
-    /* 38 */ struct {
-        u32 mUnk_00[0x20];
-    } mUnk_38;
+    /* 38 */ WMGameInfo mGameInfo;
 };
 
 // 0x40 bytes. The port callback message WmReceiveFifo builds for gPortCallbackEvent: the first 0x3c bytes have the

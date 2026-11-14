@@ -390,20 +390,20 @@ int fflush(FILE *stream) {
     if (stream == 0) {
         return FflushAll();
     }
-    if (stream->mFailed != 0 || stream->mUnk_04_7 == 0) {
+    if (stream->mFailed != 0 || stream->mKind == 0) {
         return -1;
     }
-    if (stream->mUnk_04_2 == 1) {
+    if (stream->mWriteMode == 1) {
         return 0;
     }
-    if (stream->mUnk_08_0 >= 3) {
-        stream->mUnk_08_0 = 2;
+    if (stream->mWriteState >= 3) {
+        stream->mWriteState = 2;
     }
-    if (stream->mUnk_08_0 == 2) {
+    if (stream->mWriteState == 2) {
         stream->mBufferRemaining = 0;
     }
-    if (stream->mUnk_08_0 != 1) {
-        stream->mUnk_08_0 = 0;
+    if (stream->mWriteState != 1) {
+        stream->mWriteState = 0;
         return 0;
     }
     if (FileFlushBuffer(stream, 0) != 0) {
@@ -411,8 +411,8 @@ int fflush(FILE *stream) {
         stream->mBufferRemaining = 0;
         return -1;
     }
-    stream->mUnk_08_0 = 0;
-    stream->mUnk_18 = 0;
+    stream->mWriteState = 0;
+    stream->mPosition = 0;
     stream->mBufferRemaining = 0;
     return 0;
 }
@@ -470,23 +470,23 @@ u32 FwriteBody(const char *data, u32 itemSize, u32 itemCount, FILE *stream) {
         fwide(stream, -1);
     }
     remaining = itemSize * itemCount;
-    if (remaining == 0 || stream->mFailed != 0 || stream->mUnk_04_7 == 0) {
+    if (remaining == 0 || stream->mFailed != 0 || stream->mKind == 0) {
         return 0;
     }
-    if (stream->mUnk_04_7 == 2) {
+    if (stream->mKind == 2) {
         NopWriteHook();
     }
     bufferedMode = 1;
-    if (stream->mUnk_04_12 != 0) {
-        if (stream->mUnk_04_5 != 2 && stream->mUnk_04_5 != 1) {
+    if (stream->mNoNewlineConversion != 0) {
+        if (stream->mBufferMode != 2 && stream->mBufferMode != 1) {
             bufferedMode = 0;
         }
     }
-    if (stream->mUnk_08_0 == 0 && (stream->mUnk_04_2 & 2) != 0) {
-        stream->mUnk_08_0 = 1;
+    if (stream->mWriteState == 0 && (stream->mWriteMode & 2) != 0) {
+        stream->mWriteState = 1;
         FileResetBuffer(stream);
     }
-    if (stream->mUnk_08_0 != 1) {
+    if (stream->mWriteState != 1) {
         stream->mFailed = 1;
         stream->mBufferRemaining = 0;
         return 0;
@@ -501,7 +501,7 @@ u32 FwriteBody(const char *data, u32 itemSize, u32 itemCount, FILE *stream) {
             if (chunk > remaining) {
                 chunk = remaining;
             }
-            if (stream->mUnk_04_5 == 1 && chunk != 0) {
+            if (stream->mBufferMode == 1 && chunk != 0) {
                 newlinePos = MemChrBackward(data, newlineChar, chunk);
                 if (newlinePos != 0) {
                     chunk = newlinePos + 1 - data;
@@ -514,7 +514,7 @@ u32 FwriteBody(const char *data, u32 itemSize, u32 itemCount, FILE *stream) {
                 stream->mBufferNext += chunk;
                 stream->mBufferRemaining -= chunk;
             }
-            if (stream->mBufferRemaining == 0 || newlinePos != 0 || stream->mUnk_04_5 == 0) {
+            if (stream->mBufferRemaining == 0 || newlinePos != 0 || stream->mBufferMode == 0) {
                 if (FileFlushBuffer(stream, 0) != 0) {
                     stream->mFailed = 1;
                     remaining = 0;
@@ -542,7 +542,7 @@ u32 FwriteBody(const char *data, u32 itemSize, u32 itemCount, FILE *stream) {
         FileResetBuffer(stream);
         stream->mBufferRemaining = 0;
     }
-    if (stream->mUnk_04_5 != 2) {
+    if (stream->mBufferMode != 2) {
         stream->mBufferRemaining = 0;
     }
     return written / itemSize;
@@ -553,8 +553,8 @@ void ConvertTextNewlinesNop(u8 *buffer, u32 *length) {}
 void FileResetBuffer(FILE *stream) {
     stream->mBufferNext = stream->mBuffer;
     stream->mBufferRemaining = stream->mBufferSize;
-    stream->mBufferRemaining = stream->mBufferRemaining - (stream->mUnk_18 & stream->mUnk_2c);
-    stream->mUnk_34 = stream->mUnk_18;
+    stream->mBufferRemaining = stream->mBufferRemaining - (stream->mPosition & stream->mPositionMask);
+    stream->mUnk_34 = stream->mPosition;
 }
 
 int FileFlushBuffer(FILE *stream, u32 *writtenOut) {
@@ -564,17 +564,18 @@ int FileFlushBuffer(FILE *stream, u32 *writtenOut) {
     pending = stream->mBufferNext - stream->mBuffer;
     if (pending != 0) {
         stream->mBufferRemaining = pending;
-        if (stream->mUnk_04_12 == 0) {
+        if (stream->mNoNewlineConversion == 0) {
             ConvertTextNewlinesNop(stream->mBuffer, &stream->mBufferRemaining);
         }
-        result = stream->mWriteFunc(stream->mUnk_00, stream->mBuffer, &stream->mBufferRemaining, stream->mUnk_48);
+        result = stream->mWriteFunc(stream->mWriteFuncFirstArg, stream->mBuffer, &stream->mBufferRemaining,
+                                    stream->mWriteFuncLastArg);
         if (writtenOut != 0) {
             *writtenOut = stream->mBufferRemaining;
         }
         if (result != 0) {
             return result;
         }
-        stream->mUnk_18 = stream->mUnk_18 + stream->mBufferRemaining;
+        stream->mPosition = stream->mPosition + stream->mBufferRemaining;
     }
     FileResetBuffer(stream);
     return 0;
@@ -609,7 +610,7 @@ int FflushAll(void) {
     index = 1;
     stream = gStdioFiles;
     do {
-        if (stream->mUnk_04_7 != 0) {
+        if (stream->mKind != 0) {
             if (fflush(stream) != 0) {
                 result = -1;
             }

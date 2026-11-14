@@ -393,7 +393,7 @@ void MBi_ChildCallback(WirelessMessage *result) {
                                 result->mMacAddress[4] == entry->mMessage.mMacAddress[4] &&
                                 result->mMacAddress[5] == entry->mMessage.mMacAddress[5]) {
                                 entries[entryIndex].mMessage.mGameInfoLength = result->mGameInfoLength;
-                                entries[entryIndex].mMessage.mUnk_38 = result->mUnk_38;
+                                entries[entryIndex].mMessage.mGameInfo = result->mGameInfo;
                                 DC_InvalidateRange(&work->mScanEntries[entryIndex], 0xc0);
                                 MI_DmaCopy16(gWirelessDmaNo, work->mScanBuffer, &work->mScanEntries[entryIndex], 0xc0);
                                 work->mLastScanEntry = entryIndex;

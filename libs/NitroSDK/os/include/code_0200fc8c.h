@@ -14,7 +14,7 @@ typedef u32 OSIntrMode;
 // The boot information block in shared memory: the first halfword, then 0x3e bytes the game copies.
 typedef struct BootInfo {
     /* 00 */ u16 mBootType;
-    /* 02 */ u8 mUnk_02[0x3e];
+    /* 02 */ u8 mParentBssDesc[0x3e];
 } BootInfo;
 
 // The user settings the system leaves in shared memory at 0x027ffc80: the owner data and the touch panel calibration
@@ -39,7 +39,7 @@ typedef struct NvramUserInfo {
     /* 60 */ u16 mRawY2;
     /* 62 */ u8 mDx2;
     /* 63 */ u8 mDy2;
-    /* 64 */ u16 mUnk_64;
+    /* 64 */ u16 mOption;
     /* 66 */ u8 mUnk_66[0xe];
     // The 6 bytes OS_GetMacAddress copies.
     /* 74 */ u8 mMacAddress[6];

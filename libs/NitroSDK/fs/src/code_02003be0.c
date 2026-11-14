@@ -17,10 +17,10 @@ u32 FSi_FindPath(FSFile *dir, const u8 *path, void *fileID, void *dirPos) {
     s32 loaded;
 
     if (path[0] == '/' || path[0] == '\\') {
-        pos.h.mUnk_00 = current_dir_pos.h.mUnk_00;
-        pos.h.mUnk_04 = 0;
-        pos.h.mUnk_08 = 0;
-        pos.h.mUnk_06 = 0;
+        pos.h.mArc = current_dir_pos.h.mArc;
+        pos.h.mOwnId = 0;
+        pos.h.mPos = 0;
+        pos.h.mIndex = 0;
         path++;
     } else {
         pos = current_dir_pos;
@@ -41,10 +41,10 @@ u32 FSi_FindPath(FSFile *dir, const u8 *path, void *fileID, void *dirPos) {
                 if (loaded == 0) {
                     return 0;
                 }
-                pos.h.mUnk_00 = archive;
-                pos.h.mUnk_08 = 0;
-                pos.h.mUnk_06 = 0;
-                pos.h.mUnk_04 = 0;
+                pos.h.mArc = archive;
+                pos.h.mPos = 0;
+                pos.h.mIndex = 0;
+                pos.h.mOwnId = 0;
                 path += charIndex + 1;
                 if (*path == '/' || *path == '\\') {
                     path++;
@@ -53,7 +53,7 @@ u32 FSi_FindPath(FSFile *dir, const u8 *path, void *fileID, void *dirPos) {
             }
         }
     }
-    dir->mArc = pos.h.mUnk_00;
+    dir->mArc = pos.h.mArc;
     dir->mPath = path;
     dir->mArg = pos;
     if (dirPos != 0) {
@@ -124,7 +124,7 @@ u32 FS_OpenFileFast(FSFile *file, FSFileID fileID) {
         return 0;
     }
     file->mArc = fileID.mArc;
-    file->mArg.d.mUnk_00 = fileID;
+    file->mArg.d.mId = fileID;
     if (FSi_SendCommand(file, 6) == 0) {
         return 0;
     }
@@ -483,10 +483,10 @@ u32 FS_RegisterArchiveName(FSArchive *archive, const u8 *name, s32 nameLen) {
     if (FS_FindArchive(name, nameLen) == 0) {
         if (arc_list == 0) {
             arc_list = archive;
-            current_dir_pos.h.mUnk_00 = archive;
-            current_dir_pos.h.mUnk_08 = 0;
-            current_dir_pos.h.mUnk_06 = 0;
-            current_dir_pos.h.mUnk_04 = 0;
+            current_dir_pos.h.mArc = archive;
+            current_dir_pos.h.mPos = 0;
+            current_dir_pos.h.mIndex = 0;
+            current_dir_pos.h.mOwnId = 0;
         } else {
             tail = arc_list;
             while (tail->mNext != 0) {
@@ -521,11 +521,11 @@ void FS_ReleaseArchiveName(FSArchive *archive) {
     archive->mPrev = 0;
     archive->mNext = archive->mPrev;
     archive->mFlag &= ~1;
-    if (current_dir_pos.h.mUnk_00 == archive) {
-        current_dir_pos.h.mUnk_08 = 0;
-        current_dir_pos.h.mUnk_06 = 0;
-        current_dir_pos.h.mUnk_00 = arc_list;
-        current_dir_pos.h.mUnk_04 = 0;
+    if (current_dir_pos.h.mArc == archive) {
+        current_dir_pos.h.mPos = 0;
+        current_dir_pos.h.mIndex = 0;
+        current_dir_pos.h.mArc = arc_list;
+        current_dir_pos.h.mOwnId = 0;
     }
     OS_RestoreInterrupts(enabled);
 }

@@ -10,34 +10,34 @@ u32 Abs(u32 value);
 typedef int (*Unk0213c94cFunc)(u32 a, u8 *b, u32 *c, u32 d);
 
 // 0x4c bytes. Bit fields of the words at 0x04 and 0x08 are read and written by fwide, FwriteBody and
-// fflush; FileFlushBuffer calls mWriteFunc with mUnk_00, mBuffer, &mBufferRemaining and mUnk_48.
+// fflush; FileFlushBuffer calls mWriteFunc with mWriteFuncFirstArg, mBuffer, &mBufferRemaining and mWriteFuncLastArg.
 typedef struct FILE {
-    /* 00 */ u32 mUnk_00;
+    /* 00 */ u32 mWriteFuncFirstArg;
     /* 04 */ u32 mUnk_04_0 : 2;
-    /* 04 */ u32 mUnk_04_2 : 3;
-    /* 04 */ u32 mUnk_04_5 : 2;
-    /* 04 */ u32 mUnk_04_7 : 3;
-    /* 04 */ u32 mUnk_04_10 : 2;
-    /* 04 */ u32 mUnk_04_12 : 1;
+    /* 04 */ u32 mWriteMode : 3;
+    /* 04 */ u32 mBufferMode : 2;
+    /* 04 */ u32 mKind : 3;
+    /* 04 */ u32 mWideMode : 2;
+    /* 04 */ u32 mNoNewlineConversion : 1;
     /* 04 */ u32 mUnk_04_13 : 19;
-    /* 08 */ u32 mUnk_08_0 : 3;
+    /* 08 */ u32 mWriteState : 3;
     /* 08 */ u32 mUnk_08_3 : 29;
     /* 0c */ u8 mUnk_0c;
     /* 0d */ u8 mFailed;
     /* 0e */ u8 mUnk_0e[10];
-    /* 18 */ u32 mUnk_18;
+    /* 18 */ u32 mPosition;
     /* 1c */ u8 *mBuffer;
     /* 20 */ u32 mBufferSize;
     /* 24 */ u8 *mBufferNext;
     /* 28 */ u32 mBufferRemaining;
-    /* 2c */ u32 mUnk_2c;
+    /* 2c */ u32 mPositionMask;
     /* 30 */ u32 mUnk_30;
     /* 34 */ u32 mUnk_34;
     /* 38 */ u32 mUnk_38;
     /* 3c */ Unk0213c94cFunc mUnk_3c;
     /* 40 */ Unk0213c94cFunc mWriteFunc;
     /* 44 */ Unk0213c94cFunc mUnk_44;
-    /* 48 */ u32 mUnk_48;
+    /* 48 */ u32 mWriteFuncLastArg;
 } FILE;
 
 void AssertionFailed(const char *expression, const char *fileName, const char *functionName, int lineNumber);

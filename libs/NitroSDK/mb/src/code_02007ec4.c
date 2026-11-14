@@ -284,7 +284,7 @@ void MB_ReadMultiBootParentBssDesc(WMBssDesc *bssDesc, u16 parentMaxSize, u16 ch
     u32 csAttribute;
     u32 ksAttribute;
     BootInfo *bootInfo = gBootInfo;
-    MI_CpuCopy8(bootInfo->mBootType == BOOT_TYPE_MULTIBOOT ? bootInfo->mUnk_02 : NULL, bssDesc, 0x3c);
+    MI_CpuCopy8(bootInfo->mBootType == BOOT_TYPE_MULTIBOOT ? bootInfo->mParentBssDesc : NULL, bssDesc, 0x3c);
     bssDesc->mGameInfoLength = 0x10;
     bssDesc->mGameInfo.mGgid = bssDesc->mSsidHalfwords[0] | (bssDesc->mSsidHalfwords[1] << 16);
     bssDesc->mGameInfo.mTgid = bssDesc->mSsidHalfwords[2];

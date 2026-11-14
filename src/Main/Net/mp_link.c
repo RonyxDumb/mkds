@@ -456,7 +456,7 @@ void ScanConnectStartScanCallback(WirelessMessage *result) {
         case WIRELESS_STATE_SEARCH_NO_ACTION:
             break;
         case WIRELESS_STATE_HOST_SIGHTED:
-            if (result->mUnk_38.mUnk_00[1] == gScanConnectWork->mUnk_05e4) {
+            if (result->mGameInfo.mGgid == gScanConnectWork->mUnk_05e4) {
                 DC_InvalidateRange(&gScanConnectWork->mScanBuffer, sizeof(gScanConnectWork->mScanBuffer));
                 MB_RecvGameInfoBeacon(EntryCallback, result->mAid, &gScanConnectWork->mScanBuffer);
                 MB_CountGameInfoLifetime(EntryCallback, 1);

@@ -32,25 +32,25 @@ typedef union Unk02003024U {
         /* 08 */ u32 mUnk_08;
     } w;
     struct {
-        /* 00 */ FSFileID mUnk_00;
+        /* 00 */ FSFileID mId;
         /* 08 */ u32 mUnk_08;
     } d;
     struct {
-        /* 00 */ FSArchive *mUnk_00;
-        /* 04 */ u16 mUnk_04;
-        /* 06 */ u16 mUnk_06;
-        /* 08 */ u32 mUnk_08;
+        /* 00 */ FSArchive *mArc;
+        /* 04 */ u16 mOwnId;
+        /* 06 */ u16 mIndex;
+        /* 08 */ u32 mPos;
     } h;
     struct {
-        /* 00 */ struct FSDirEntry *mUnk_00;
-        /* 04 */ u32 mUnk_04;
+        /* 00 */ struct FSDirEntry *mEntry;
+        /* 04 */ u32 mSkipString;
         /* 08 */ u32 mUnk_08;
     } e;
     struct {
-        /* 00 */ u8 *mUnk_00;
-        /* 04 */ u32 mUnk_04;
-        /* 08 */ u16 mUnk_08;
-        /* 0a */ u16 mUnk_0a;
+        /* 00 */ u8 *mBuf;
+        /* 04 */ u32 mBufLen;
+        /* 08 */ u16 mTotalLen;
+        /* 0a */ u16 mDirId;
     } b;
     struct {
         /* 00 */ void *mUnk_00;
@@ -130,7 +130,7 @@ typedef struct FSArchiveFAT {
     /* 04 */ u32 mBottom;
 } FSArchiveFAT;
 
-// FSi_ReadTable passes mUnk_04 to FSArchive.mTable of mUnk_00 and adds the count to it.
+// FSi_ReadTable passes mPos to FSArchive.mTable of mArc and adds the count to it.
 typedef struct FSiSyncReadParam {
     /* 00 */ FSArchive *mArc;
     /* 04 */ u32 mPos;
@@ -146,7 +146,7 @@ typedef struct FSArchiveFNT {
 // Entry read by FSi_FindPathCommand, FSi_ReadDirCommand and FSi_GetPathCommand: a Unk02003024U, then a flag, a length
 // and the bytes.
 typedef struct FSDirEntry {
-    /* 00 */ Unk02003024U mUnk_00;
+    /* 00 */ Unk02003024U mId;
     /* 0c */ u32 mIsDirectory;
     /* 10 */ u32 mNameLength;
     /* 14 */ u8 mName[0x80];

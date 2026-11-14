@@ -17,7 +17,7 @@ void OS_GetOwnerInfo(OwnerInfo *info) {
     NvramUserInfo *source;
 
     source = &SYSTEM_WORK->mNvramUserInfo;
-    info->mLanguage = (u32) (source->mUnk_64 << 29) >> 29;
+    info->mLanguage = (u32) (source->mOption << 29) >> 29;
     info->mFavoriteColor = (u32) (source->mFavoriteColor << 28) >> 28;
     info->mBirthdayMonth = source->mBirthdayMonth;
     info->mBirthdayDay = source->mBirthdayDay;
