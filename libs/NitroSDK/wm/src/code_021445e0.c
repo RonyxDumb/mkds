@@ -73,7 +73,7 @@ int WM_StartDataSharing(WMDataSharingInfo *dsInfo, u16 port, u16 aidBitmap, u16 
         return 6;
     }
     dsInfo->mDataSetLength += 4;
-    dsInfo->mStatus = 1;
+    dsInfo->mStatus = DATA_SHARING_STATUS_RUNNING;
     if (ownIndex == 0) {
         for (index = 0; index < 4; index++) {
             dsInfo->mDs[index].mAidBitmap = dsInfo->mMemberMask & (readyMembers | 1);
@@ -88,7 +88,7 @@ int WM_StartDataSharing(WMDataSharingInfo *dsInfo, u16 port, u16 aidBitmap, u16 
                 dsInfo->mSeqNum[index] = 0xffff;
                 dsInfo->mSendIndex = (dsInfo->mSendIndex + 1) & 3;
             } else if (result != 0 && result != 2) {
-                dsInfo->mStatus = 5;
+                dsInfo->mStatus = DATA_SHARING_STATUS_FAILED;
                 return 1;
             }
         }
@@ -120,7 +120,7 @@ int WM_EndDataSharing(WMDataSharingInfo *dsInfo) {
     }
     WM_SetPortCallback(dsInfo->mPort, 0, 0);
     dsInfo->mMemberMask = 0;
-    dsInfo->mStatus = 0;
+    dsInfo->mStatus = DATA_SHARING_STATUS_STOPPED;
     return 0;
 }
 
@@ -164,11 +164,11 @@ int WM_StepDataSharing(WMDataSharingInfo *dsInfo, void *sendData, WMDataSet *rec
         readyMembers = status->mMpReadyBitmap;
     }
     mode = dsInfo->mStatus;
-    if (mode == 5) {
+    if (mode == DATA_SHARING_STATUS_FAILED) {
         return 1;
     }
-    if (mode != 1) {
-        if (mode != 4) {
+    if (mode != DATA_SHARING_STATUS_RUNNING) {
+        if (mode != DATA_SHARING_STATUS_RETRY_SEND) {
             return 3;
         }
     }
@@ -176,8 +176,8 @@ int WM_StepDataSharing(WMDataSharingInfo *dsInfo, void *sendData, WMDataSet *rec
     if (ownIndex == 0) {
         delivered = 0;
         late = 0;
-        if (mode == 4) {
-            dsInfo->mStatus = 1;
+        if (mode == DATA_SHARING_STATUS_RETRY_SEND) {
+            dsInfo->mStatus = DATA_SHARING_STATUS_RUNNING;
             previous = (dsInfo->mWriteIndex + 3) & 3;
             sendResult =
                 WM_SetMPDataToPortEx(WmDataSharingSetDataCallback, dsInfo, &dsInfo->mDs[previous],
@@ -214,8 +214,8 @@ int WM_StepDataSharing(WMDataSharingInfo *dsInfo, void *sendData, WMDataSet *rec
         }
     } else {
         sendOwn = 0;
-        if (mode == 4) {
-            dsInfo->mStatus = 1;
+        if (mode == DATA_SHARING_STATUS_RETRY_SEND) {
+            dsInfo->mStatus = DATA_SHARING_STATUS_RUNNING;
             sendOwn = 1;
         } else if (dsInfo->mReadIndex != dsInfo->mWriteIndex) {
             if ((dsInfo->mDs[dsInfo->mReadIndex].mAidBitmap & 1) == 0) {
@@ -236,7 +236,7 @@ int WM_StepDataSharing(WMDataSharingInfo *dsInfo, void *sendData, WMDataSet *rec
             dsInfo->mSendIndex = (dsInfo->mSendIndex + 1) & 3;
             if (sendResult != 2) {
                 if (sendResult != 0) {
-                    dsInfo->mStatus = 5;
+                    dsInfo->mStatus = DATA_SHARING_STATUS_FAILED;
                     result = 1;
                 }
             }
@@ -283,10 +283,10 @@ void WmDataSharingSetDataCallback(PortSendCallbackMessage *callback) {
         if (ownIndex != 0) {
             share->mSendIndex = (share->mSendIndex + 3) & 3;
         }
-        share->mStatus = 4;
+        share->mStatus = DATA_SHARING_STATUS_RETRY_SEND;
         return;
     }
-    share->mStatus = 5;
+    share->mStatus = DATA_SHARING_STATUS_FAILED;
 }
 
 // Port callback of a parent: sends the next data set when the previous send finished (7), a child's data arrived (0x15)
@@ -332,7 +332,7 @@ void WmDataSharingReceiveCallback_Parent(PortCallbackMessage *callback) {
                 return;
         }
     } else {
-        share->mStatus = 5;
+        share->mStatus = DATA_SHARING_STATUS_FAILED;
     }
 }
 
@@ -380,7 +380,7 @@ void WmDataSharingReceiveCallback_Child(PortCallbackMessage *callback) {
         share->mSeqNum[share->mWriteIndex] = callback->mSeqNo >> 1;
         share->mWriteIndex = (share->mWriteIndex + 1) & 3;
     } else {
-        share->mStatus = 5;
+        share->mStatus = DATA_SHARING_STATUS_FAILED;
     }
 }
 
@@ -458,7 +458,7 @@ void WmDataSharingSendDataSet(WMDataSharingInfo *dsInfo, u32 delayed) {
             dsInfo->mSendIndex = (dsInfo->mSendIndex + 1) & 3;
         } else if (result != 0) {
             if (result != 2) {
-                dsInfo->mStatus = 5;
+                dsInfo->mStatus = DATA_SHARING_STATUS_FAILED;
             }
         }
     } else {

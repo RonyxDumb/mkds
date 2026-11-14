@@ -12,6 +12,14 @@ typedef struct WMDataSet {
 } WMDataSet;
 
 // Work area of one data sharing, 0x820 bytes: four data sets, then the sequence numbers and the state.
+// Values of WMDataSharingInfo.mStatus: not running, running, a send must be retried, or an error happened.
+enum {
+    DATA_SHARING_STATUS_STOPPED = 0,
+    DATA_SHARING_STATUS_RUNNING = 1,
+    DATA_SHARING_STATUS_RETRY_SEND = 4,
+    DATA_SHARING_STATUS_FAILED = 5,
+};
+
 typedef struct WMDataSharingInfo {
     /* 000 */ WMDataSet mDs[4];
     /* 800 */ u16 mSeqNum[4];
@@ -28,7 +36,6 @@ typedef struct WMDataSharingInfo {
     /* 816 */ u16 mPort;
     /* 818 */ u16 mDoubleMode;
     /* 81a */ u16 mCurrentSeqNum;
-    // 0 not running, 1 running, 4 send must be retried, 5 error.
     /* 81c */ u16 mStatus;
     /* 81e */ u16 mReserved;
 } WMDataSharingInfo;
