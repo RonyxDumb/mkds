@@ -143,6 +143,9 @@ typedef struct NNSG3dResFileHeader {
     /* 0e */ u16 mDataBlocks;
 } NNSG3dResFileHeader;
 
+// Value of the mSignature of a model data block: the ASCII tag "MDL0".
+#define RES_BLOCK_SIGNATURE_MODEL_SET 0x304c444d
+
 // Header of a data block of a resource file.
 typedef struct NNSG3dResDataBlockHeader {
     /* 00 */ u32 mSignature;

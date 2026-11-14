@@ -57,7 +57,7 @@ void AddResFileEntry(ResFileEntry *entry, NNSG3dResFileHeader *modelFile, NNSG3d
     texture->mPlttInfo.mVramKey = 0;
     UploadResTexture(texture);
     entry->mTexture = texture;
-    if (modelSet->mHeader.mSignature == 0x304c444d) {
+    if (modelSet->mHeader.mSignature == RES_BLOCK_SIGNATURE_MODEL_SET) {
         NNS_G3dBindMdlSet(modelSet, texture);
     }
 }
@@ -190,7 +190,7 @@ NNSG3dResMdl *InitNsbmd(Nsbmd *nsbmd, NNSG3dResFileHeader *file) {
         texture->mPlttInfo.mVramKey = 0;
         UploadResTexture(texture);
         nsbmd->mResFileEntry.mTexture = texture;
-        if (modelSet->mHeader.mSignature == 0x304c444d) {
+        if (modelSet->mHeader.mSignature == RES_BLOCK_SIGNATURE_MODEL_SET) {
             NNS_G3dBindMdlSet(modelSet, texture);
         }
     }
@@ -222,7 +222,7 @@ NNSG3dResMdl *InitNsbmdWithTextureFile(Nsbmd *nsbmd, NNSG3dResFileHeader *modelF
         texture->mPlttInfo.mVramKey = 0;
         UploadResTexture(texture);
         nsbmdAlias->mResFileEntry.mTexture = texture;
-        if (modelSet->mHeader.mSignature == 0x304c444d) {
+        if (modelSet->mHeader.mSignature == RES_BLOCK_SIGNATURE_MODEL_SET) {
             NNS_G3dBindMdlSet(modelSet, texture);
         }
     }
@@ -252,7 +252,7 @@ NNSG3dResMdl *InitNsbmdWithoutCullSwap(Nsbmd *nsbmd, NNSG3dResFileHeader *file) 
         texture->mPlttInfo.mVramKey = 0;
         UploadResTexture(texture);
         nsbmd->mResFileEntry.mTexture = texture;
-        if (modelSet->mHeader.mSignature == 0x304c444d) {
+        if (modelSet->mHeader.mSignature == RES_BLOCK_SIGNATURE_MODEL_SET) {
             NNS_G3dBindMdlSet(modelSet, texture);
         }
     }
@@ -288,7 +288,7 @@ NNSG3dResMdl *InitNsbmdWithTextureInfoCopy(void *heap, Nsbmd *nsbmd, NNSG3dResFi
         texture->mPlttInfo.mVramKey = 0;
         UploadResTexture(texture);
         nsbmd->mResFileEntry.mTexture = texture;
-        if (modelSet->mHeader.mSignature == 0x304c444d) {
+        if (modelSet->mHeader.mSignature == RES_BLOCK_SIGNATURE_MODEL_SET) {
             NNS_G3dBindMdlSet(modelSet, texture);
         }
     }
