@@ -150,7 +150,7 @@ void DWCi_ClearTransConnection(int aid) {
         gWiFiMessageLayer->mPeers[aid].mSendSize = 0;
         gWiFiMessageLayer->mPeers[aid].mReceiveSize = 0;
         gWiFiMessageLayer->mPeers[aid].mSendState = 0;
-        gWiFiMessageLayer->mPeers[aid].mMessageKind = 0;
+        gWiFiMessageLayer->mPeers[aid].mMessageKind = WIFI_MESSAGE_KIND_NONE;
     }
 }
 
@@ -179,24 +179,24 @@ void DWCs_Send(u32 aid, void *buffer, u32 size, u32 reliable) {
 void DWCs_HandleReliableMessage(Gt2ConnectionView *connection, void *message, s32 size) {
     u8 aid = DWCi_GetConnectionAID(connection);
     switch (DWCs_GetRecvState(aid)) {
-        case 0: {
+        case WIFI_PEER_RECEIVE_STATE_INITIAL: {
             u16 headerType = DWCs_DecodeHeader(message);
             if (headerType >= 2 && headerType <= 4) {
                 DWCs_RecvDataHeader(aid, message, size);
             }
             break;
         }
-        case 1:
+        case WIFI_PEER_RECEIVE_STATE_EXPECT_HEADER:
             DWCs_RecvDataHeader(aid, message, size);
             break;
-        case 2:
+        case WIFI_PEER_RECEIVE_STATE_DATA_BODY:
             DWCs_RecvDataBody(aid, message, size);
             break;
-        case 3:
+        case WIFI_PEER_RECEIVE_STATE_CONTROL_BODY:
             DWCs_RecvSystemDataBody(aid, message, size);
             break;
-        case 4:
-            gWiFiMessageLayer->mPeers[aid].mReceiveState = 1;
+        case WIFI_PEER_RECEIVE_STATE_DROP_BODY:
+            gWiFiMessageLayer->mPeers[aid].mReceiveState = WIFI_PEER_RECEIVE_STATE_EXPECT_HEADER;
             gWiFiMessageLayer->mPeers[aid].mReceivedSize = 0;
             gWiFiMessageLayer->mPeers[aid].mReceiveSize = 0;
             break;
@@ -231,7 +231,7 @@ void DWCs_RecvDataHeader(int aid, void *message, s32 size) {
     connection->mLastReceiveState = DWCs_GetRecvState(aid);
     type = DWCs_DecodeHeader(message);
     switch (type) {
-        case 1:
+        case WIFI_MESSAGE_KIND_DATA:
             if (size != 8) {
                 return;
             }
@@ -239,15 +239,15 @@ void DWCs_RecvDataHeader(int aid, void *message, s32 size) {
             connection->mReceiveSize = headerWords[0];
             connection->mReceivedSize = 0;
             if (connection->mReceiveBuffer != NULL && connection->mReceiveBufferSize >= connection->mReceiveSize) {
-                connection->mReceiveState = 2;
+                connection->mReceiveState = WIFI_PEER_RECEIVE_STATE_DATA_BODY;
             } else {
-                connection->mReceiveState = 4;
+                connection->mReceiveState = WIFI_PEER_RECEIVE_STATE_DROP_BODY;
             }
             break;
         case 2:
         case 3:
         case 4:
-            connection->mReceiveState = 3;
+            connection->mReceiveState = WIFI_PEER_RECEIVE_STATE_CONTROL_BODY;
             break;
     }
     connection->mMessageKind = type;
@@ -256,7 +256,7 @@ void DWCs_RecvDataHeader(int aid, void *message, s32 size) {
 void DWCs_RecvDataBody(int aid, void *message, s32 size) {
     WiFiPeerMessage *connection = &gWiFiMessageLayer->mPeers[aid];
     s32 expected;
-    if (DWCs_GetRecvState(aid) == 2) {
+    if (DWCs_GetRecvState(aid) == WIFI_PEER_RECEIVE_STATE_DATA_BODY) {
         if (connection->mReceivedSize + size > connection->mReceiveBufferSize) {
             OS_Terminate();
         }
@@ -265,7 +265,7 @@ void DWCs_RecvDataBody(int aid, void *message, s32 size) {
     connection->mReceivedSize += size;
     expected = connection->mReceiveSize;
     if (connection->mReceivedSize == expected) {
-        connection->mReceiveState = 1;
+        connection->mReceiveState = WIFI_PEER_RECEIVE_STATE_EXPECT_HEADER;
         connection->mReceivedSize = 0;
         connection->mReceiveSize = 0;
         if (gWiFiMessageLayer->mReceiveCallback != NULL) {

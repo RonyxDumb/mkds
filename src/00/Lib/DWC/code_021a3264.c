@@ -170,7 +170,7 @@ BOOL DWC_SetRecvBuffer(u32 aid, void *recvBuffer, s32 size) {
     }
     connection->mReceiveBuffer = recvBuffer;
     connection->mReceiveBufferSize = size;
-    connection->mReceiveState = 1;
+    connection->mReceiveState = WIFI_PEER_RECEIVE_STATE_EXPECT_HEADER;
     connection->mReceivedSize = 0;
     connection->mReceiveSize = 0;
     return TRUE;

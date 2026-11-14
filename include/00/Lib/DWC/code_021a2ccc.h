@@ -5,6 +5,21 @@
 typedef struct WiFiPeerMessage WiFiPeerMessage;
 typedef struct Gt2ConnectionView Gt2ConnectionView;
 
+// Values of WiFiPeerMessage.mReceiveState; see the member.
+enum {
+    WIFI_PEER_RECEIVE_STATE_INITIAL,
+    WIFI_PEER_RECEIVE_STATE_EXPECT_HEADER,
+    WIFI_PEER_RECEIVE_STATE_DATA_BODY,
+    WIFI_PEER_RECEIVE_STATE_CONTROL_BODY,
+    WIFI_PEER_RECEIVE_STATE_DROP_BODY,
+};
+
+// Values of WiFiPeerMessage.mMessageKind, the kind in the message header. 2 to 4 are control messages (bare).
+enum {
+    WIFI_MESSAGE_KIND_NONE,
+    WIFI_MESSAGE_KIND_DATA,
+};
+
 // State of the message being sent to, and the one being received from, one peer (index into WiFiMessageLayer.mPeers),
 // 0x30 bytes: send side buffer / total size / sent size, receive side buffer / capacity / total size / received size /
 // mReceiveState, plus the kind of the message being received.
