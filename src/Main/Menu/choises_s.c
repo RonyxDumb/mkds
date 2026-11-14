@@ -161,7 +161,7 @@ u32 MoveChoisesSSelectedValueByTouch(void) {
 void ResetChoisesSSelection(void) {
     ChoisesS *choisesS;
 
-    gChoisesS->mPickedValue = 0;
+    gChoisesS->mPickedValue = CHOISES_S_PICK_NONE;
     choisesS = gChoisesS;
     choisesS->mSelectedValue = choisesS->mLists[GetChoisesSListIndex()].mValues[0];
 }
@@ -188,7 +188,7 @@ void SetChoisesSOpen(s32 openFlag) {
             return;
         }
     }
-    if (gChoisesS->mPickedValue != 0) {
+    if (gChoisesS->mPickedValue != CHOISES_S_PICK_NONE) {
         gChoisesS->mPickLocked = 1;
     }
 }
@@ -278,8 +278,9 @@ int GetChoisesSPickedValue(void) {
     int courseCountReached;
     int pickedValue;
     pickedValue = gChoisesS->mPickedValue;
-    if ((pickedValue == 2) && (courseCountReached = IsRaceGoalSRuleCourseCountReached(), courseCountReached != 0)) {
-        pickedValue = 7;
+    if ((pickedValue == CHOISES_S_PICK_NEXT) &&
+        (courseCountReached = IsRaceGoalSRuleCourseCountReached(), courseCountReached != 0)) {
+        pickedValue = CHOISES_S_PICK_NEXT_LAST;
     }
     return pickedValue;
 }
@@ -525,7 +526,7 @@ void UpdateChoisesS(void) {
                     IsMissionRunTableRow6Or7Column9() != 0) {
                     if (ChoisesSGetNewBits(GetChoisesSInputSlot(), PAD_KEY_A) != 0 ||
                         ChoisesSIsSlotPairNew(GetChoisesSInputSlot()) != 0) {
-                        gChoisesS->mPickedValue = 10;
+                        gChoisesS->mPickedValue = CHOISES_S_PICK_STAFF_CREDITS;
                         gChoisesS->mSelectedValue = gChoisesS->mPickedValue;
                         gChoisesS->mPickLocked = 1;
                         StartChoisesSSelectedValueSeq();
@@ -533,7 +534,7 @@ void UpdateChoisesS(void) {
                 } else if (ChoisesSGetCurrentMode() == MODE_MISSION_RUN && IsAllMissionRecords5To7AtEndKind0() != 0) {
                     if (ChoisesSGetNewBits(GetChoisesSInputSlot(), PAD_KEY_A) != 0 ||
                         ChoisesSIsSlotPairNew(GetChoisesSInputSlot()) != 0) {
-                        gChoisesS->mPickedValue = 6;
+                        gChoisesS->mPickedValue = CHOISES_S_PICK_SELECT_MISSION;
                         gChoisesS->mSelectedValue = gChoisesS->mPickedValue;
                         gChoisesS->mPickLocked = 1;
                         StartChoisesSSelectedValueSeq();
@@ -542,7 +543,7 @@ void UpdateChoisesS(void) {
                 } else if (ChoisesSGetCurrentMode() == MODE_MISSION_RUN && ChoisesSGetUnfilledNotEliminated() != 0) {
                     if (ChoisesSGetNewBits(GetChoisesSInputSlot(), PAD_KEY_A) != 0 ||
                         ChoisesSIsSlotPairNew(GetChoisesSInputSlot()) != 0) {
-                        gChoisesS->mPickedValue = 6;
+                        gChoisesS->mPickedValue = CHOISES_S_PICK_SELECT_MISSION;
                         gChoisesS->mSelectedValue = gChoisesS->mPickedValue;
                         gChoisesS->mPickLocked = 1;
                         StartChoisesSSelectedValueSeq();
@@ -652,7 +653,7 @@ void UpdateChoisesS(void) {
     if (ChoisesSGetConnectionKind() != 0 && ChoisesSGetCurrentMode() == 5 && IsRaceDoneOrReplayPastStartFrames() != 0) {
         gChoisesS->mAutoPickFrames = gChoisesS->mAutoPickFrames + 1;
         if (gChoisesS->mAutoPickFrames > 0x384) {
-            gChoisesS->mPickedValue = GetCourseNumber() != 4 ? 2 : 7;
+            gChoisesS->mPickedValue = GetCourseNumber() != 4 ? CHOISES_S_PICK_NEXT : CHOISES_S_PICK_NEXT_LAST;
         }
     }
     if (GetChoisesSOpenDuringRace() != 0) {

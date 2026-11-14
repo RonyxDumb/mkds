@@ -5,6 +5,22 @@
 #include "Main/Graphics/font_and_player_character.h"
 #include "Main/Menu/data_02180728.h"
 
+// Values of ChoisesS.mPickedValue and of the list entries: the entry's label on the screen, in the order of the
+// message table in GetChoisesSValueMessage. 0 as a pick means nothing was picked; CHOISES_S_PICK_NEXT_LAST is the
+// next entry once the course count is reached.
+#define CHOISES_S_PICK_NONE 0
+#define CHOISES_S_PICK_CONTINUE 0
+#define CHOISES_S_PICK_RETRY 1
+#define CHOISES_S_PICK_NEXT 2
+#define CHOISES_S_PICK_RESTART 3
+#define CHOISES_S_PICK_CHANGE_COURSE 4
+#define CHOISES_S_PICK_CHANGE_CHARACTERS 5
+#define CHOISES_S_PICK_SELECT_MISSION 6
+#define CHOISES_S_PICK_NEXT_LAST 7
+#define CHOISES_S_PICK_REPLAY 8
+#define CHOISES_S_PICK_QUIT 9
+#define CHOISES_S_PICK_STAFF_CREDITS 10
+
 typedef struct ChoisesSList {
     /* 00 */ s32 mValues[6];
     /* 18 */ s32 mValueCount;
