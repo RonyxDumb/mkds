@@ -47,17 +47,17 @@ u8 *MBi_MakeParentSendBuffer(u8 *input, u8 *output) {
     cursor = output;
     *cursor++ = message->mKind;
     switch (message->mKind) {
-        case 4:
+        case PARENT_MESSAGE_BEGIN_SEND:
             *cursor++ = message->mFid;
             *cursor++ = (message->mFid & 0xff00) >> 8;
             *cursor++ = message->mSeqno;
             *cursor++ = (message->mSeqno & 0xff00) >> 8;
             break;
-        case 1:
-        case 2:
-        case 3:
-        case 5:
-        case 6:
+        case PARENT_MESSAGE_LISTENING:
+        case PARENT_MESSAGE_TURNED_DOWN:
+        case PARENT_MESSAGE_WELCOMED:
+        case PARENT_MESSAGE_SEND_FINISHED:
+        case PARENT_MESSAGE_GAVE_UP:
             break;
         default:
             return NULL;
@@ -69,7 +69,7 @@ u8 *MBi_SetRecvBufferFromChild(u8 *bytes, ChildMessage *message, u32 child) {
     u8 *result;
     message->mKind = bytes[0];
     switch (message->mKind) {
-        case 7:
+        case CHILD_MESSAGE_REQUEST:
             if (IsGetAllRequestData(child) != 0) {
                 return &gPieceBuffer->mDataBuf[(child - 1) * 0x20];
             }
@@ -80,12 +80,12 @@ u8 *MBi_SetRecvBufferFromChild(u8 *bytes, ChildMessage *message, u32 child) {
             MI_CpuCopy8(bytes + 2, (u8 *) message + 3, gPieceSizes.mPieceSize);
             result = MBi_ReceiveRequestDataPiece(message, child);
             break;
-        case 8:
+        case CHILD_MESSAGE_ACCEPT_ACK:
             message->mPieceRequest = bytes[1] & 0xff;
             result = bytes + 3;
             message->mPieceRequest |= (bytes[2] << 8) & 0xff00;
             break;
-        case 9:
+        case CHILD_MESSAGE_ACK_WITH_DATA:
             message->mPieceRequest = bytes[1] & 0xff;
             result = bytes + 3;
             message->mPieceRequest |= (bytes[2] << 8) & 0xff00;
@@ -145,7 +145,7 @@ u8 *MBi_MakeChildSendBuffer(ChildMessage *message, u8 *buffer) {
     cursor = buffer;
     *cursor++ = message->mKind;
     switch (message->mKind) {
-        case 7:
+        case CHILD_MESSAGE_REQUEST:
             *cursor++ = *(u8 *) &message->mPieceRequest;
             if (*(u8 *) &message->mPieceRequest > gPieceSizes.mPieceCount) {
                 return NULL;
@@ -153,15 +153,15 @@ u8 *MBi_MakeChildSendBuffer(ChildMessage *message, u8 *buffer) {
             MI_CpuCopy8((u8 *) message + 3, cursor, gPieceSizes.mPieceSize);
             cursor += gPieceSizes.mPieceSize;
             break;
-        case 9:
+        case CHILD_MESSAGE_ACK_WITH_DATA:
             *cursor++ = message->mPieceRequest;
             *cursor++ = (message->mPieceRequest & 0xff00) >> 8;
             MI_CpuCopy8(message->mData, cursor, gPieceSizes.mPieceSize);
             cursor += gPieceSizes.mPieceSize;
             break;
-        case 8:
-        case 10:
-        case 11:
+        case CHILD_MESSAGE_ACCEPT_ACK:
+        case CHILD_MESSAGE_START_ACK:
+        case CHILD_MESSAGE_DONE_ACK:
             break;
         default:
             return NULL;
@@ -179,7 +179,7 @@ u8 *MBi_SetRecvBufferFromParent(ParentMessage *message, u8 *buffer) {
     u8 *highByte;
     message->mKind = *buffer++;
     switch (message->mKind) {
-        case 4:
+        case PARENT_MESSAGE_BEGIN_SEND:
             message->mFid = buffer[0];
             message->mFid |= buffer[1] << 8;
             message->mSeqno = buffer[2];
@@ -187,11 +187,11 @@ u8 *MBi_SetRecvBufferFromParent(ParentMessage *message, u8 *buffer) {
             buffer += 4;
             message->mSeqno |= *highByte << 8;
             break;
-        case 1:
-        case 2:
-        case 3:
-        case 5:
-        case 6:
+        case PARENT_MESSAGE_LISTENING:
+        case PARENT_MESSAGE_TURNED_DOWN:
+        case PARENT_MESSAGE_WELCOMED:
+        case PARENT_MESSAGE_SEND_FINISHED:
+        case PARENT_MESSAGE_GAVE_UP:
             break;
         default:
             return NULL;
