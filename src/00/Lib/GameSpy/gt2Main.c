@@ -64,20 +64,20 @@ int gt2Connect(void *socket, Gt2Connection **connection, u32 remoteAddress, void
     pendingConn->mCallbackLevel++;
     do {
         gt2Think(socket);
-        result = pendingConn->mState >= 5 ? 1 : 0;
+        result = pendingConn->mState >= GT2_CONNECTION_CONNECTED ? 1 : 0;
         if (result == 0) {
             msleep(1);
         }
     } while (result == 0);
     pendingConn->mCallbackLevel--;
-    if (pendingConn->mState == 5) {
+    if (pendingConn->mState == GT2_CONNECTION_CONNECTED) {
         *connection = pendingConn;
     }
     return pendingConn->mResult;
 }
 
 void gt2Send(Gt2Connection *connection, u8 *message, int len, int reliable) {
-    if (connection->mState == 5) {
+    if (connection->mState == GT2_CONNECTION_CONNECTED) {
         gti2MessageCheck((const char **) &message, &len);
         if (DarrayGetCount((u32 *) connection->mSendFilters) != 0) {
             gti2SendFilterCallback(connection, 0, (s32) message, (void *) len, reliable);

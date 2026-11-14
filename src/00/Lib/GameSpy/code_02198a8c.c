@@ -58,19 +58,19 @@ int gti2SNDiff(int serialNumber1, int serialNumber2) {
 
 u32 gti2ConnectionError(Gt2Connection *connection, u32 result, u32 reason) {
     s32 state = connection->mState;
-    if (state < 5) {
+    if (state < GT2_CONNECTION_CONNECTED) {
         if (connection->mInitiated != FALSE) {
             gti2ConnectionClosed(connection);
             if (Gt2SetResultAndCallResultCallback(connection, result, NULL, 0) == FALSE) {
                 return 0;
             }
         } else {
-            if (state == 4) {
+            if (state == GT2_CONNECTION_AWAIT_DECISION) {
                 connection->mFreeAtAcceptReject = TRUE;
             }
             gti2ConnectionClosed(connection);
         }
-    } else if (state != 7) {
+    } else if (state != GT2_CONNECTION_CLOSED) {
         gti2ConnectionClosed(connection);
         if (gti2ClosedCallback(connection, (void *) reason) == FALSE) {
             return 0;
@@ -141,7 +141,7 @@ u32 gti2HandleESN(Gt2Connection *connection, u32 esn) {
 }
 
 u32 gti2HandleAppUnreliable(Gt2Connection *connection, const u8 *message, s32 length) {
-    if (connection->mState != 5 && connection->mState != 6) {
+    if (connection->mState != GT2_CONNECTION_CONNECTED && connection->mState != GT2_CONNECTION_CLOSING) {
         return 1;
     }
     if (DarrayGetCount(connection->mReceiveFilters) != 0) {
@@ -157,7 +157,7 @@ u32 gti2HandleAppUnreliable(Gt2Connection *connection, const u8 *message, s32 le
 }
 
 u32 gti2HandleAppReliable(Gt2Connection *connection, const u8 *message, u32 length) {
-    if (connection->mState != 5 && connection->mState != 6) {
+    if (connection->mState != GT2_CONNECTION_CONNECTED && connection->mState != GT2_CONNECTION_CLOSING) {
         if (gti2ConnectionCommunicationError(connection) == 0) {
             return 0;
         }
@@ -178,7 +178,7 @@ u32 gti2HandleAppReliable(Gt2Connection *connection, const u8 *message, u32 leng
 u32 gti2HandleClientChallenge(Gt2Connection *connection, const u8 *message, int length) {
     s8 peerAnswer[0x20];
     s8 ownChallenge[0x20];
-    if (connection->mState != 2) {
+    if (connection->mState != GT2_CONNECTION_AWAIT_OFFER) {
         if (gti2ConnectionCommunicationError(connection) != 0) {
             return 1;
         }
@@ -196,13 +196,13 @@ u32 gti2HandleClientChallenge(Gt2Connection *connection, const u8 *message, int 
     if (gti2SendServerChallenge(connection, (const u8 *) peerAnswer, (const u8 *) ownChallenge) == 0) {
         return 0;
     }
-    connection->mState = 3;
+    connection->mState = GT2_CONNECTION_CHALLENGE_SENT;
     return 1;
 }
 
 u32 gti2HandleServerChallenge(Gt2Connection *connection, const u8 *message, int length) {
     s8 clientAnswer[0x20];
-    if (connection->mState != 0) {
+    if (connection->mState != GT2_CONNECTION_OFFER_SENT) {
         if (gti2ConnectionCommunicationError(connection) != 0) {
             return 1;
         }
@@ -229,12 +229,12 @@ u32 gti2HandleServerChallenge(Gt2Connection *connection, const u8 *message, int 
         DWCi_GsFree(connection->mInitialMessage.mData);
         connection->mInitialMessage.mData = NULL;
     }
-    connection->mState = 1;
+    connection->mState = GT2_CONNECTION_REPLY_SENT;
     return 1;
 }
 
 u32 gti2HandleClientResponse(Gt2Connection *connection, const u8 *message, int length) {
-    if (connection->mState != 3) {
+    if (connection->mState != GT2_CONNECTION_CHALLENGE_SENT) {
         if (gti2ConnectionCommunicationError(connection) != 0) {
             return 1;
         }
@@ -259,7 +259,7 @@ u32 gti2HandleClientResponse(Gt2Connection *connection, const u8 *message, int l
         gti2ConnectionClosed(connection);
         return 1;
     }
-    connection->mState = 4;
+    connection->mState = GT2_CONNECTION_AWAIT_DECISION;
     if (CallIncomingConnectionCallback(connection->mSocket, connection, connection->mAddress, connection->mPort,
                                        GetElapsedMilliseconds() - connection->mChallengeTime, message + 0x20,
                                        length - 0x20) != FALSE) {
@@ -269,13 +269,13 @@ u32 gti2HandleClientResponse(Gt2Connection *connection, const u8 *message, int l
 }
 
 u32 gti2HandleAccept(Gt2Connection *connection) {
-    if (connection->mState != 1) {
+    if (connection->mState != GT2_CONNECTION_REPLY_SENT) {
         if (gti2ConnectionCommunicationError(connection) != 0) {
             return 1;
         }
         return 0;
     }
-    connection->mState = 5;
+    connection->mState = GT2_CONNECTION_CONNECTED;
     if (Gt2SetResultAndCallResultCallback(connection, 0, NULL, 0) != 0) {
         return 1;
     }
@@ -283,7 +283,7 @@ u32 gti2HandleAccept(Gt2Connection *connection) {
 }
 
 u32 gti2HandleReject(Gt2Connection *connection, void *message, u32 length) {
-    if (connection->mState != 1) {
+    if (connection->mState != GT2_CONNECTION_REPLY_SENT) {
         if (gti2ConnectionCommunicationError(connection) != 0) {
             return 1;
         }
@@ -303,7 +303,7 @@ u32 gti2HandleClose(Gt2Connection *connection) {
     if (gti2SendClosed(connection) == 0) {
         return 0;
     }
-    if (gti2ConnectionError(connection, 2, connection->mState == 6 ? K0 : K1) == 0) {
+    if (gti2ConnectionError(connection, 2, connection->mState == GT2_CONNECTION_CLOSING ? K0 : K1) == 0) {
         return 0;
     }
     return 1;
@@ -576,10 +576,10 @@ u32 gti2HandlePong(Gt2Connection *connection, u8 *message, s32 len) {
 }
 
 u32 gti2HandleClosed(Gt2Connection *connection) {
-    if (connection->mState == 7) {
+    if (connection->mState == GT2_CONNECTION_CLOSED) {
         return 1;
     }
-    if (gti2ConnectionError(connection, 2, connection->mState == 6 ? K0 : K1) == 0) {
+    if (gti2ConnectionError(connection, 2, connection->mState == GT2_CONNECTION_CLOSING ? K0 : K1) == 0) {
         return 0;
     }
     return 1;
@@ -657,7 +657,7 @@ u32 gti2HandleMessage(Gt2Socket *socket, u8 *message, s32 len, u32 address, u32 
         }
     }
     activeConnection = connection;
-    if (activeConnection->mState == 7) {
+    if (activeConnection->mState == GT2_CONNECTION_CLOSED) {
         if (hasMagic == FALSE || message[2] != 0x68) {
             if (gti2SendClosed(activeConnection) == 0) {
                 return 0;
@@ -708,7 +708,7 @@ u32 gti2HandleConnectionReset(Gt2Socket *socket, u32 address, u32 port) {
     if (connection == NULL) {
         return 1;
     }
-    if (connection->mState == 0) {
+    if (connection->mState == GT2_CONNECTION_OFFER_SENT) {
         if ((connection->mTimeSinceCreateLimit == 0) ||
             (v2 = GetElapsedMilliseconds(), (v2 - connection->mCreateTime) < connection->mTimeSinceCreateLimit)) {
             return 1;

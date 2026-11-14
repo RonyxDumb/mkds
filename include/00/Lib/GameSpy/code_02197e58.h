@@ -45,6 +45,21 @@ typedef struct Gt2Buffer {
     /* 8 */ s32 mLength;
 } Gt2Buffer;
 
+// Values of Gt2Connection.mState. A connection that started the exchange has sent its offer (OFFER_SENT) and then its
+// reply (REPLY_SENT); one that received an offer waits for it (AWAIT_OFFER), sends its challenge (CHALLENGE_SENT) and
+// waits for the answer of the incoming connection callback (AWAIT_DECISION). CLOSING follows a close request or a
+// reject; CLOSED connections are freed later.
+enum {
+    GT2_CONNECTION_OFFER_SENT = 0,
+    GT2_CONNECTION_REPLY_SENT = 1,
+    GT2_CONNECTION_AWAIT_OFFER = 2,
+    GT2_CONNECTION_CHALLENGE_SENT = 3,
+    GT2_CONNECTION_AWAIT_DECISION = 4,
+    GT2_CONNECTION_CONNECTED = 5,
+    GT2_CONNECTION_CLOSING = 6,
+    GT2_CONNECTION_CLOSED = 7,
+};
+
 typedef struct Gt2Connection {
     /* 00 */ u32 mAddress;
     /* 04 */ u16 mPort;
