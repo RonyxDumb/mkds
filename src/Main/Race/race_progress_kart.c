@@ -169,9 +169,9 @@ void CompleteRaceProgressKartLap(RaceProgressKart *kart) {
         flag = TRUE;
     } else {
         switch (gRaceSetup->mMissionKind) {
-            case 2:
-            case 4:
-            case 6:
+            case MISSION_KIND_LAPS:
+            case MISSION_KIND_LAPS_MINI_TURBO_COUNT:
+            case MISSION_KIND_LAPS_FIRST_PLACE:
                 flag = TRUE;
                 break;
         }
@@ -188,12 +188,12 @@ void CompleteRaceProgressKartLap(RaceProgressKart *kart) {
         missionTestPassed = TRUE;
         entryKartCounters = GetEntryKartCounters();
         switch (missionSettings->mMissionKind) {
-            case 4:
+            case MISSION_KIND_LAPS_MINI_TURBO_COUNT:
                 if (missionSettings->mMissionRunCountLimit > (u32) entryKartCounters->mMiniTurboCount) {
                     missionTestPassed = FALSE;
                 }
                 break;
-            case 6:
+            case MISSION_KIND_LAPS_FIRST_PLACE:
                 if (kart->mRank != 1) {
                     missionTestPassed = FALSE;
                 }
