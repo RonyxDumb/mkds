@@ -769,7 +769,7 @@ void UploadEmblemCameraSubScreen(void) {
 void StartEmblemChoises(void) {
     RequestEmblemChoisesGraphicsUpload();
     SetEmblemChoisesShownAndReset(1);
-    gEmblem->mState = 10;
+    gEmblem->mState = EMBLEM_STATE_CHOISES;
     gEmblem->mDisplayState = 14;
     ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 1), -3);
     ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 2), -3);
@@ -778,7 +778,7 @@ void StartEmblemChoises(void) {
 
 void StopEmblemChoises(void) {
     SetEmblemChoisesShownAndReset(0);
-    gEmblem->mState = 0;
+    gEmblem->mState = EMBLEM_STATE_GRID;
     gEmblem->mDisplayState = 15;
     gEmblem->mTransitionRunning = FALSE;
     ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 1), -1);
@@ -787,7 +787,7 @@ void StopEmblemChoises(void) {
 }
 
 void StartEmblemTemplateSlideIn(void) {
-    gEmblem->mState = 2;
+    gEmblem->mState = EMBLEM_STATE_TEMPLATE_SLIDE_IN;
     gEmblem->mDisplayState = 2;
     gEmblem->mTemplateSlideOffset = 0;
     gEmblem->mTemplateSlideSpeed = 32;
@@ -802,7 +802,7 @@ void AdvanceEmblemTemplateSlideIn(void) {
     gEmblem->mTemplateSlideSpeed -= 2;
     if (gEmblem->mTemplateSlideOffset >= 0xc0) {
         gEmblem->mTemplateSlideOffset = 0xc0;
-        gEmblem->mState = 1;
+        gEmblem->mState = EMBLEM_STATE_TEMPLATE;
         gEmblem->mDisplayState = 3;
         gEmblem->mTransitionRunning = FALSE;
     }
@@ -810,7 +810,7 @@ void AdvanceEmblemTemplateSlideIn(void) {
 }
 
 void StartEmblemTemplateSlideOut(void) {
-    gEmblem->mState = 3;
+    gEmblem->mState = EMBLEM_STATE_TEMPLATE_SLIDE_OUT;
     gEmblem->mDisplayState = 6;
     gEmblem->mTemplateSlideOffset = 0xc0;
     gEmblem->mTemplateSlideSpeed = -0x20;
@@ -824,7 +824,7 @@ void AdvanceEmblemTemplateSlideOut(void) {
     gEmblem->mTemplateSlideSpeed += 2;
     if (gEmblem->mTemplateSlideOffset <= 0) {
         gEmblem->mTemplateSlideOffset = 0;
-        gEmblem->mState = 0;
+        gEmblem->mState = EMBLEM_STATE_GRID;
         gEmblem->mDisplayState = 7;
         gEmblem->mTransitionRunning = FALSE;
     }
@@ -832,13 +832,13 @@ void AdvanceEmblemTemplateSlideOut(void) {
 }
 
 void StartEmblemFadeOutToCamera(void) {
-    gEmblem->mState = 5;
+    gEmblem->mState = EMBLEM_STATE_FADE_OUT_TO_CAMERA;
     gEmblem->mDisplayState = 13;
     gEmblem->mFadeLevel = 0;
 }
 
 void StartEmblemFadeOutToGrid(void) {
-    gEmblem->mState = 7;
+    gEmblem->mState = EMBLEM_STATE_FADE_OUT_TO_GRID;
     gEmblem->mDisplayState = 10;
     gEmblem->mFadeLevel = 0;
     SetKartModelMenuInputSeqs(2, 0);
@@ -848,7 +848,7 @@ void AdvanceEmblemFadeOutToCamera(void) {
     gEmblem->mFadeLevel += 2;
     if (gEmblem->mFadeLevel > 16) {
         gEmblem->mFadeLevel = 16;
-        gEmblem->mState = 6;
+        gEmblem->mState = EMBLEM_STATE_FADE_IN_AT_CAMERA;
         gEmblem->mDisplayState = 9;
     }
 }
@@ -857,7 +857,7 @@ void AdvanceEmblemFadeInAtCamera(void) {
     gEmblem->mFadeLevel -= 2;
     if (gEmblem->mFadeLevel < 0) {
         gEmblem->mFadeLevel = 0;
-        gEmblem->mState = 4;
+        gEmblem->mState = EMBLEM_STATE_CAMERA;
         gEmblem->mDisplayState = 11;
         gEmblem->mTransitionRunning = FALSE;
     }
@@ -867,7 +867,7 @@ void AdvanceEmblemFadeOutToGrid(void) {
     gEmblem->mFadeLevel += 2;
     if (gEmblem->mFadeLevel > 16) {
         gEmblem->mFadeLevel = 16;
-        gEmblem->mState = 8;
+        gEmblem->mState = EMBLEM_STATE_FADE_IN_AT_GRID;
         gEmblem->mDisplayState = 12;
     }
 }
@@ -876,7 +876,7 @@ void AdvanceEmblemFadeInAtGrid(void) {
     gEmblem->mFadeLevel -= 2;
     if (gEmblem->mFadeLevel < 0) {
         gEmblem->mFadeLevel = 0;
-        gEmblem->mState = 0;
+        gEmblem->mState = EMBLEM_STATE_GRID;
         gEmblem->mDisplayState = 8;
         gEmblem->mTransitionRunning = FALSE;
     }
@@ -888,7 +888,7 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
     u16 templateCellValues[16];
 
     switch (gEmblem->mState) {
-        case 0:
+        case EMBLEM_STATE_GRID:
             switch (entryIndex) {
                 case 0x1b:
                 case 0x1c:
@@ -1010,7 +1010,7 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
                     return;
             }
             break;
-        case 1:
+        case EMBLEM_STATE_TEMPLATE:
             switch (entryIndex) {
                 case 0:
                     if (gEmblem->mPendingTransitionFunc == NULL) {
@@ -1069,7 +1069,7 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
                     return;
             }
             break;
-        case 4:
+        case EMBLEM_STATE_CAMERA:
             if (entryIndex == 1) {
                 if (gEmblem->mPendingTransitionFunc == NULL) {
                     gEmblem->mPendingTransitionFunc = StartEmblemFadeOutToGrid;
@@ -1557,12 +1557,12 @@ void AdvanceEmblemChoisesScreen(void) {
             SetEmblemChoisesShownAndReset(0);
             JoinNibbleTilesIntoBytes(GetEmblemGridCells(), gEmblem->mRecordBytes, GetEmblemGridSide());
             SetEmblemRecordAndWriteBackup(gEmblem->mRecordBytes);
-            gEmblem->mState = 0xb;
+            gEmblem->mState = EMBLEM_STATE_SAVING;
             gEmblem->mDisplayState = 1;
             break;
         case 2:
             SetEmblemChoisesShownAndReset(0);
-            gEmblem->mState = 0xb;
+            gEmblem->mState = EMBLEM_STATE_SAVING;
             gEmblem->mDisplayState = 1;
             break;
     }
@@ -1583,30 +1583,30 @@ void AdvanceEmblem(void) {
     ClearOamListCounts(gEmblem, &gEmblem->mSubOam);
     AdvanceLld(gEmblem->mEmblemMLld, &gEmblem->mMainOam);
     switch (gEmblem->mState) {
-        case 0:
+        case EMBLEM_STATE_GRID:
             if (gEmblem->mTransitionRunning == FALSE) {
                 AdvanceEmblemGridScreen();
             }
             AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mSubOam);
             break;
-        case 1:
+        case EMBLEM_STATE_TEMPLATE:
             if (gEmblem->mTransitionRunning == FALSE) {
                 AdvanceEmblemTemplateScreen();
             }
             AdvanceLld(gEmblem->mEmblemTemplateSLld, &gEmblem->mSubOam);
             AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mSubOam);
             break;
-        case 2:
+        case EMBLEM_STATE_TEMPLATE_SLIDE_IN:
             AdvanceEmblemTemplateSlideIn();
             AdvanceLld(gEmblem->mEmblemTemplateSLld, &gEmblem->mSubOam);
             AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mSubOam);
             break;
-        case 3:
+        case EMBLEM_STATE_TEMPLATE_SLIDE_OUT:
             AdvanceEmblemTemplateSlideOut();
             AdvanceLld(gEmblem->mEmblemTemplateSLld, &gEmblem->mSubOam);
             AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mSubOam);
             break;
-        case 4:
+        case EMBLEM_STATE_CAMERA:
             if (gEmblem->mKartListSkipped == FALSE) {
                 AdvanceEmblemKartList();
             }
@@ -1615,39 +1615,39 @@ void AdvanceEmblem(void) {
             }
             AdvanceLld(gEmblem->mEmblemCameraSLld, &gEmblem->mSubOam);
             break;
-        case 5:
+        case EMBLEM_STATE_FADE_OUT_TO_CAMERA:
             if (gEmblem->mKartListSkipped == FALSE) {
                 AdvanceEmblemKartList();
             }
             AdvanceEmblemFadeOutToCamera();
             AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mSubOam);
             break;
-        case 6:
+        case EMBLEM_STATE_FADE_IN_AT_CAMERA:
             if (gEmblem->mKartListSkipped == FALSE) {
                 AdvanceEmblemKartList();
             }
             AdvanceEmblemFadeInAtCamera();
             AdvanceLld(gEmblem->mEmblemCameraSLld, &gEmblem->mSubOam);
             break;
-        case 7:
+        case EMBLEM_STATE_FADE_OUT_TO_GRID:
             if (gEmblem->mTransitionRunning == FALSE) {
                 AdvanceEmblemGridScreen();
             }
             AdvanceEmblemFadeOutToGrid();
             AdvanceLld(gEmblem->mEmblemCameraSLld, &gEmblem->mSubOam);
             break;
-        case 8:
+        case EMBLEM_STATE_FADE_IN_AT_GRID:
             if (gEmblem->mTransitionRunning == FALSE) {
                 AdvanceEmblemGridScreen();
             }
             AdvanceEmblemFadeInAtGrid();
             AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mSubOam);
             break;
-        case 10:
+        case EMBLEM_STATE_CHOISES:
             AdvanceEmblemChoisesScreen();
             AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mSubOam);
             break;
-        case 11:
+        case EMBLEM_STATE_SAVING:
             AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mSubOam);
             if (gBackupBuffers->mBusy == 0) {
                 if (gBackupAccess->mBackupEnabled != 0) {
@@ -1659,10 +1659,10 @@ void AdvanceEmblem(void) {
                 scrollPosition = 1;
             }
             if (scrollPosition == 0) {
-                gEmblem->mState = 0xc;
+                gEmblem->mState = EMBLEM_STATE_DONE;
             }
             break;
-        case 12:
+        case EMBLEM_STATE_DONE:
             AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mSubOam);
             break;
     }
@@ -1839,7 +1839,7 @@ void InitEmblemAndAdvanceKartList(void) {
 
 BOOL AdvanceEmblemAndCheckDone(void) {
     AdvanceEmblem();
-    if (gEmblem->mState == 0xc) {
+    if (gEmblem->mState == EMBLEM_STATE_DONE) {
         return TRUE;
     }
     return FALSE;

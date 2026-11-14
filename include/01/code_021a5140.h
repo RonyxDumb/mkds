@@ -24,6 +24,22 @@ typedef struct Lld {
     /* 14 */ s32 mOffsetY;
 } Lld;
 
+// Values of Emblem.mState.
+enum {
+    EMBLEM_STATE_GRID,
+    EMBLEM_STATE_TEMPLATE,
+    EMBLEM_STATE_TEMPLATE_SLIDE_IN,
+    EMBLEM_STATE_TEMPLATE_SLIDE_OUT,
+    EMBLEM_STATE_CAMERA,
+    EMBLEM_STATE_FADE_OUT_TO_CAMERA,
+    EMBLEM_STATE_FADE_IN_AT_CAMERA,
+    EMBLEM_STATE_FADE_OUT_TO_GRID,
+    EMBLEM_STATE_FADE_IN_AT_GRID,
+    EMBLEM_STATE_CHOISES = 10,
+    EMBLEM_STATE_SAVING,
+    EMBLEM_STATE_DONE,
+};
+
 // Object behind gEmblem, allocated by InitEmblem.
 typedef struct Emblem {
     /* 0000 */ OamBuffer mMainOam;
