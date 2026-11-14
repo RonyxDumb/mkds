@@ -9,6 +9,17 @@
 #include "01/MapObjects/data_0209bc74.h"
 #include "Main/MapObjects/map_object_kind_update_list.h" // MapObjectKindDescriptor
 
+// Values of Flipper.mState; the ALT states are the same cycle at double step after mState4Timer was set.
+enum {
+    FLIPPER_STATE_START,
+    FLIPPER_STATE_WAIT,
+    FLIPPER_STATE_SWING_OUT,
+    FLIPPER_STATE_SWING_BACK,
+    FLIPPER_STATE_ALT_WAIT,
+    FLIPPER_STATE_ALT_SWING_OUT,
+    FLIPPER_STATE_ALT_SWING_BACK,
+};
+
 // Object of kind 0x1a9 (Flipper), up to 0xed4 bytes plus a table of words from 0xed4.
 typedef struct Flipper {
     /* 000 */ MapObject mMapObject;

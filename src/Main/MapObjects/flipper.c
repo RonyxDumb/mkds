@@ -73,10 +73,12 @@ u32 CollideKartWithFlipper(Flipper *flipper, Kart *kart, void *firstResponse, u8
     Vec3 *pushDirection;
 
     responseValue = *response;
-    pushing = (flipper->mState == 2 || flipper->mState == 5) && flipper->mHitSide > 0;
+    pushing = (flipper->mState == FLIPPER_STATE_SWING_OUT || flipper->mState == FLIPPER_STATE_ALT_SWING_OUT) &&
+              flipper->mHitSide > 0;
     if (pushing) {
         pushScale = -0x19a;
-    } else if ((flipper->mState == 3 || flipper->mState == 6) && flipper->mHitSide < 0) {
+    } else if ((flipper->mState == FLIPPER_STATE_SWING_BACK || flipper->mState == FLIPPER_STATE_ALT_SWING_BACK) &&
+               flipper->mHitSide < 0) {
         pushScale = 0x19a;
     } else {
         pushScale = 0;
@@ -122,9 +124,9 @@ BOOL ComputeSphereHitOnFlipper(Flipper *flipper, Vec3 *sphereCenter, s32 sphereR
             sphereCenter, &flipper->mMapObject.mPos, &flipper->mSwingMatrices[flipper->mSwingStep].mRows[0],
             &gFlipperSecondBoxHalfSizesPositive[flipper->mMirror],
             &gFlipperSecondBoxHalfSizesNegative[flipper->mMirror], sphereRadius, pushOut);
-        if (hitResult == 4 || flipper->mState == 2) {
+        if (hitResult == 4 || flipper->mState == FLIPPER_STATE_SWING_OUT) {
             flipper->mHitSide = 1;
-        } else if (flipper->mState == 3) {
+        } else if (flipper->mState == FLIPPER_STATE_SWING_BACK) {
             flipper->mHitSide = -1;
         }
     } else {
@@ -136,9 +138,9 @@ BOOL ComputeSphereHitOnFlipper(Flipper *flipper, Vec3 *sphereCenter, s32 sphereR
                 sphereCenter, &flipper->mMapObject.mPos, &flipper->mTiltedSwingMatrices[flipper->mSwingStep].mRows[0],
                 &gFlipperFourthBoxHalfSizesPositive[flipper->mMirror],
                 &gFlipperFourthBoxHalfSizesNegative[flipper->mMirror], sphereRadius, pushOut);
-            if (hitResult == 4 || flipper->mState == 3) {
+            if (hitResult == 4 || flipper->mState == FLIPPER_STATE_SWING_BACK) {
                 flipper->mHitSide = -1;
-            } else if (flipper->mState == 2) {
+            } else if (flipper->mState == FLIPPER_STATE_SWING_OUT) {
                 flipper->mHitSide = 1;
             }
         } else {
@@ -262,32 +264,32 @@ void UpdateFlipper(void *mapObjectList, Flipper *flipper) {
 
     flipper->mState4Timer = flipper->mState4Timer - (flipper->mState4Timer > 0);
     switch (flipper->mState) {
-        case 0:
+        case FLIPPER_STATE_START:
             flipper->mEmitter = StartEffect(0x5f, &flipper->mMapObject.mPos);
-            flipper->mState = 1;
+            flipper->mState = FLIPPER_STATE_WAIT;
             break;
-        case 1:
+        case FLIPPER_STATE_WAIT:
             if (flipper->mState4Timer != 0) {
-                flipper->mState = 4;
+                flipper->mState = FLIPPER_STATE_ALT_WAIT;
             } else {
                 flipper->mState1Timer = flipper->mState1Timer - 1;
                 if (flipper->mState1Timer <= 0) {
                     flipper->mSwingStep = 0;
-                    flipper->mState = 2;
+                    flipper->mState = FLIPPER_STATE_SWING_OUT;
                 }
             }
             flipper->mIsAnimating = 0;
             break;
-        case 2:
+        case FLIPPER_STATE_SWING_OUT:
             flipper->mMapObject.mAngle -= 0x16c;
             flipper->mSwingStep = flipper->mSwingStep + 1;
             if (flipper->mSwingStep >= 0x1d) {
                 flipper->mSwingStep = 0x1d;
-                flipper->mState = 3;
+                flipper->mState = FLIPPER_STATE_SWING_BACK;
             }
             flipper->mIsAnimating = 1;
             break;
-        case 3:
+        case FLIPPER_STATE_SWING_BACK:
             flipper->mMapObject.mAngle += 0x16c;
             if (flipper->mSwingStep >= 0xf) {
                 flipper->mIsAnimating = 1;
@@ -302,26 +304,26 @@ void UpdateFlipper(void *mapObjectList, Flipper *flipper) {
                     (s64) mapObjectRandom->mMultiplier * (s64) mapObjectRandom->mValue + mapObjectRandom->mIncrement;
                 randomValue = ((u64) (u32) (mapObjectRandom->mValue >> 32) * 12) >> 32;
                 flipper->mState1Timer = (u16) ((u16) randomValue * 0x14);
-                flipper->mState = 1;
+                flipper->mState = FLIPPER_STATE_WAIT;
             }
             break;
-        case 4:
+        case FLIPPER_STATE_ALT_WAIT:
             if (flipper->mState4Timer <= 0) {
                 flipper->mSwingStep = 0;
-                flipper->mState = 5;
+                flipper->mState = FLIPPER_STATE_ALT_SWING_OUT;
             }
             flipper->mIsAnimating = 0;
             break;
-        case 5:
+        case FLIPPER_STATE_ALT_SWING_OUT:
             flipper->mMapObject.mAngle -= 0x2d8;
             flipper->mSwingStep = flipper->mSwingStep + 2;
             if (flipper->mSwingStep >= 0x1c) {
                 flipper->mSwingStep = 0x1c;
-                flipper->mState = 6;
+                flipper->mState = FLIPPER_STATE_ALT_SWING_BACK;
             }
             flipper->mIsAnimating = 1;
             break;
-        case 6:
+        case FLIPPER_STATE_ALT_SWING_BACK:
             flipper->mMapObject.mAngle += 0x2d8;
             if (flipper->mSwingStep >= 0xf) {
                 flipper->mIsAnimating = 1;
@@ -336,7 +338,7 @@ void UpdateFlipper(void *mapObjectList, Flipper *flipper) {
                     (s64) mapObjectRandom->mMultiplier * (s64) mapObjectRandom->mValue + mapObjectRandom->mIncrement;
                 randomValue = ((u64) (u32) (mapObjectRandom->mValue >> 32) * 12) >> 32;
                 flipper->mState1Timer = (u16) ((u16) randomValue * 0x14);
-                flipper->mState = 1;
+                flipper->mState = FLIPPER_STATE_WAIT;
             }
             break;
     }
