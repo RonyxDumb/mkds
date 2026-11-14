@@ -3,6 +3,14 @@
 #include "types.h"
 #include "Main/Kart/kart_drift.h"
 
+// KartSoundQueue.mVolume: the first sound of a run starts at the start volume; each next one that starts exactly the
+// gap frames after the one before is quieter by the step, down to the minimum. After a run the queue waits the delay.
+#define KART_SOUND_QUEUE_VOLUME_START 0x5f
+#define KART_SOUND_QUEUE_VOLUME_STEP 0xf
+#define KART_SOUND_QUEUE_VOLUME_MIN 0x1e
+#define KART_SOUND_QUEUE_GAP_FRAMES 0x14
+#define KART_SOUND_QUEUE_DELAY_FRAMES 0x19
+
 // Object behind gKartSoundQueue: eight objects, a value for each of them, eight words, then four words.
 typedef struct KartSoundQueue {
     /* 00 */ Kart *mKarts[8];

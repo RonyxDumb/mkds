@@ -320,7 +320,7 @@ void InitKartSoundQueue(void) {
         queue->mKarts[slotIndex] = NULL;
         queue->mFramesSinceStart[slotIndex] = 0;
     }
-    queue->mVolume = 0x5f;
+    queue->mVolume = KART_SOUND_QUEUE_VOLUME_START;
     queue->mDelayFrames = -1;
 }
 
@@ -333,7 +333,7 @@ void UpdateKartSoundQueue(void) {
     }
     if (queue->mDelayFrames != -1) {
         queue->mDelayFrames++;
-        if (queue->mDelayFrames >= 0x19) {
+        if (queue->mDelayFrames >= KART_SOUND_QUEUE_DELAY_FRAMES) {
             queue->mDelayFrames = -1;
         }
         return;
@@ -343,16 +343,16 @@ void UpdateKartSoundQueue(void) {
             continue;
         }
         if (queue->mFramesSinceStart[slotIndex] == 0) {
-            if (slotIndex != 0 && queue->mFramesSinceStart[slotIndex - 1] < 0x14) {
+            if (slotIndex != 0 && queue->mFramesSinceStart[slotIndex - 1] < KART_SOUND_QUEUE_GAP_FRAMES) {
                 continue;
             }
-            if (slotIndex != 0 && queue->mFramesSinceStart[slotIndex - 1] == 0x14) {
-                queue->mVolume -= 0xf;
+            if (slotIndex != 0 && queue->mFramesSinceStart[slotIndex - 1] == KART_SOUND_QUEUE_GAP_FRAMES) {
+                queue->mVolume -= KART_SOUND_QUEUE_VOLUME_STEP;
             } else {
-                queue->mVolume = 0x5f;
+                queue->mVolume = KART_SOUND_QUEUE_VOLUME_START;
             }
-            if (queue->mVolume < 0x1e) {
-                queue->mVolume = 0x1e;
+            if (queue->mVolume < KART_SOUND_QUEUE_VOLUME_MIN) {
+                queue->mVolume = KART_SOUND_QUEUE_VOLUME_MIN;
             }
             StartQueuedKartSound(queue->mKarts[slotIndex], queue->mSoundIndices[slotIndex], 0, queue->mVolume);
             queue->mFramesSinceStart[slotIndex]++;
