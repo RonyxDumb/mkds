@@ -173,7 +173,7 @@ void RtcCommonCallback(u32 tag, u32 data, BOOL err) {
             case RTC_SEQ_GET_ALARM1_STATUS:
                 alarmStatus = gClockRequest.mBuffer[0];
                 switch (SYSTEM_WORK->mRealTimeClock.mStatus2.mValue.mIntrMode) {
-                    case 4:
+                    case CLOCK_ALARM_INTR_MODE_ALARM1:
                         alarmStatus[0] = RTC_ALARM_STATUS_ON;
                         break;
                     default:
@@ -208,18 +208,18 @@ void RtcCommonCallback(u32 tag, u32 data, BOOL err) {
             case RTC_SEQ_SET_ALARM1_STATUS:
                 if (gClockRequest.mIndex == 0) {
                     if (*(RTCAlarmStatus *) gClockRequest.mBuffer[0] == RTC_ALARM_STATUS_ON) {
-                        if (SYSTEM_WORK->mRealTimeClock.mStatus2.mValue.mIntrMode != 4) {
+                        if (SYSTEM_WORK->mRealTimeClock.mStatus2.mValue.mIntrMode != CLOCK_ALARM_INTR_MODE_ALARM1) {
                             gClockRequest.mIndex++;
-                            SYSTEM_WORK->mRealTimeClock.mStatus2.mValue.mIntrMode = 4;
+                            SYSTEM_WORK->mRealTimeClock.mStatus2.mValue.mIntrMode = CLOCK_ALARM_INTR_MODE_ALARM1;
                             if (RTCi_WriteRawStatus2Async() == 0) {
                                 result = RTC_RESULT_SEND_ERROR;
                                 gClockRequest.mIndex = 0;
                             }
                         }
                     } else {
-                        if (SYSTEM_WORK->mRealTimeClock.mStatus2.mValue.mIntrMode != 0) {
+                        if (SYSTEM_WORK->mRealTimeClock.mStatus2.mValue.mIntrMode != CLOCK_ALARM_INTR_MODE_NONE) {
                             gClockRequest.mIndex++;
-                            SYSTEM_WORK->mRealTimeClock.mStatus2.mValue.mIntrMode = 0;
+                            SYSTEM_WORK->mRealTimeClock.mStatus2.mValue.mIntrMode = CLOCK_ALARM_INTR_MODE_NONE;
                             if (RTCi_WriteRawStatus2Async() == 0) {
                                 result = RTC_RESULT_SEND_ERROR;
                                 gClockRequest.mIndex = 0;

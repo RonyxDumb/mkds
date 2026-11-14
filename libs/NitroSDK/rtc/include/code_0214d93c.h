@@ -95,6 +95,10 @@ typedef struct RTCRawTime {
     /* 00 */ u32 : 9;
 } RTCRawTime;
 
+// mIntrMode values this code uses: no alarm 1 interrupt, alarm 1 interrupt.
+#define CLOCK_ALARM_INTR_MODE_NONE 0
+#define CLOCK_ALARM_INTR_MODE_ALARM1 4
+
 // Status register 2 as the other processor leaves it at 0x027ffdea.
 typedef struct RTCRawStatus2 {
     /* 00 */ u16 mIntrMode : 4;
