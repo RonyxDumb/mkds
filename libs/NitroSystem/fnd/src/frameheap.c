@@ -9,7 +9,7 @@ NNSiFndHeapHead *InitFrameHeap(void *startAddress, void *endAddress, u16 optFlag
 
     heap = startAddress;
     frmHeap = FRAME_HEAP_HEAD(heap);
-    NNSi_FndInitHeapHead(heap, 0x46524d48, frmHeap + 1, endAddress, optFlag);
+    NNSi_FndInitHeapHead(heap, HEAP_SIGNATURE_FRAME_HEAP, frmHeap + 1, endAddress, optFlag);
     frmHeap->mHeadAllocator = heap->mHeapStart;
     frmHeap->mTailAllocator = heap->mHeapEnd;
     frmHeap->mState = 0;

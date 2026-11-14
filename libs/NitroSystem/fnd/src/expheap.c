@@ -72,7 +72,7 @@ NNSiFndHeapHead *InitExpHeap(void *startAddress, void *endAddress, u16 optFlag) 
 
     heap = startAddress;
     expHeap = EXP_HEAP_HEAD(heap);
-    NNSi_FndInitHeapHead(heap, 0x45585048, expHeap + 1, endAddress, optFlag);
+    NNSi_FndInitHeapHead(heap, HEAP_SIGNATURE_EXP_HEAP, expHeap + 1, endAddress, optFlag);
     expHeap->mGroupID = 0;
     expHeap->mFeature = 0;
     expHeap->mFeature &= ~1;

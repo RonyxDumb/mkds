@@ -3,6 +3,10 @@
 #include "types.h"
 #include "code_0212d214.h"
 
+// NNSiFndHeapHead.mSignature values, the ASCII tags "EXPH" and "FRMH" of the two heap types.
+#define HEAP_SIGNATURE_EXP_HEAP 0x45585048
+#define HEAP_SIGNATURE_FRAME_HEAP 0x46524d48
+
 // Header at the start of every heap: mSignature tells the heap type, mLink puts the heap in the child list of the heap
 // that contains it, and the heap's own children hang off mChildList (link offset 4). The memory the heap hands out lies
 // between mHeapStart and mHeapEnd. The low byte of mAttribute holds the heap's option optFlag.
