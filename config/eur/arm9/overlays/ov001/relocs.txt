@@ -5777,8 +5777,8 @@ from:0x0219cf5c kind:load to:0x021a6bc8 module:overlay(1)
 from:0x0219d010 kind:thumb_call_arm to:0x02016468 module:main
 from:0x0219d01c kind:load to:0x021a9bf8 module:overlay(1)
 from:0x0219d020 kind:load to:0x021a6be0 module:overlay(1)
-from:0x0219d024 kind:load to:0x021a6c07 module:overlay(1)
-from:0x0219d028 kind:load to:0x021a6c06 module:overlay(1)
+from:0x0219d024 kind:load to:0x021a6c04 add:0x3 module:overlay(1)
+from:0x0219d028 kind:load to:0x021a6c04 add:0x2 module:overlay(1)
 from:0x0219d02c kind:load to:0x021a6bcc module:overlay(1)
 from:0x0219d030 kind:load to:0x021a6c04 module:overlay(1)
 from:0x0219d042 kind:thumb_call to:0x0204799c module:main

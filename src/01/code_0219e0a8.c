@@ -95,8 +95,10 @@ void func_ov001_0219e5a0(void) {
 
 void LoadAndQueueEndingSceneData(void) {
 #ifdef version_EUR
-    LoadNcgrData(&gEndingScene->mUnk_038[0], FindSceneFile("logo_end_marioKart_m_b_02.ncgr"));
-    LoadNscrData(&gEndingScene->mUnk_040[0], FindSceneFile("logo_end_marioKart_m_bg_02.nscr"));
+    LoadNcgrData(&gEndingScene->mLogoEndMarioKartMBAndThanksYouMBNcgrs[0],
+                 FindSceneFile("logo_end_marioKart_m_b_02.ncgr"));
+    LoadNscrData(&gEndingScene->mLogoEndMarioKartMBgAndThanksYouMBgNscrs[0],
+                 FindSceneFile("logo_end_marioKart_m_bg_02.nscr"));
 #else
     LoadNcgrData(&gEndingScene->mLogoEndMarioKartMBAndThanksYouMBNcgrs[0],
                  FindSceneFile("logo_end_marioKart_m_b_01.ncgr"));

@@ -288,10 +288,25 @@ u32 func_ov000_021806a0(void) {
     return FALSE;
 }
 
+#ifdef version_EUR
+// non-matching: 5 words differ from +0x18; the original copies the language index (adds r1, r1, #0) before
+// `cmp r1, #1`, which this form does not
+u32 LookupWiFiVSSettingMessageIndex(u32 settingIndex) {
+    u32 messageIndices[4] = {2, 3, 4, 5};
+    u32 r = messageIndices[settingIndex];
+    if (settingIndex == 2) {
+        if ((u32) data_021759d0->mLanguageIndex <= 1) {
+            r = 6;
+        }
+    }
+    return r;
+}
+#else
 u32 LookupWiFiVSSettingMessageIndex(u32 settingIndex) {
     u32 messageIndices[4] = {2, 3, 4, 5};
     return messageIndices[settingIndex];
 }
+#endif
 
 u32 GetWiFiVSSettingIndex(void) {
     return gWiFiStates->mWiFiVSSettingIndex;

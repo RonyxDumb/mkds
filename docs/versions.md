@@ -178,3 +178,45 @@ are **not added to the verified matching totals**. The recorded European progres
 verified point: 10,822 of 11,499 functions and 1,576,764 matching bytes (83.60%). Rebuild and run the checks
 listed above before updating those totals or marking additional units complete. Declaration/signature
 consistency and unchanged USA symbol addresses were checked for this checkpoint.
+
+## USA source tree on Europe, 2026-11-14
+
+Checked on a fresh European build with the ROM with SHA-1 `ce97d9b43f0d3ca0d48b781983e8a16f6393378f`, wibo
+`1.2.0-8-g420a75b` and CodeWarrior `1.2/base`. The source tree, the USA configuration and the USA progress
+record are now the ones of the completed USA decompilation (11,498 of 11,498 functions recorded on 2026-11-07).
+**A USA ROM build was not run for this checkpoint**; the USA numbers in the README are that recorded point.
+
+The European configuration was regenerated for this tree:
+
+- Symbol names: European symbols take the USA name of the same object (matched through the previous USA and
+  European names), then `tools/sync_symbols.py` names the rest from every compiled unit.
+- Units: the USA unit list, with `.text` ranges moved by the offset of the European symbols they contain (the
+  main module's code has the same addresses in both versions after the secure area, and the USA function
+  boundaries there are used as they are). Data ranges were found from European relocation sites by
+  `tools/data_ranges.py`; a few units take the USA range directly, checked by the ROM rebuild.
+- Shared placeholders tagged `usa` that have a European address now use the reference name
+  (`data_<EUR address>`) in the source and in both configurations; USA addresses are unchanged.
+- `BuildInfo` writes the end of the cleared range as `ARM9_BSS_END`, the linker's main `.bss` end, instead of the
+  USA value `0x021804c0` (Europe: `0x021804e0`).
+- Linker aliases that no source uses any more were removed.
+
+Regional code under `#ifdef version_EUR`, each checked against the European original:
+
+| Function | Europe |
+| --- | --- |
+| `OS_GetInitArenaLo` | main arena starts at `0x021da340` (USA `0x021da300`) |
+| `func_0204ad44` | stores 2 in `mUnk_00` (USA 1) |
+| `func_0205dee0` (its inline) | passes 0 as the third argument of `func_ov003_021c2494` (USA `0x20`) |
+| `LoadAndQueueEndingSceneData` | loads the `_02` logo graphics |
+| `LookupWiFiVSSettingMessageIndex` | returns 6 for setting 2 in language 0 or 1; **non-matching** (5 words differ) |
+
+| European measurement | Before | After |
+| --- | ---: | ---: |
+| Matching functions | 10,837 / 11,502 | 11,475 / 11,498 |
+| Linked source code | 74,048 bytes (3.93%) | 1,872,594 bytes (99.28%) |
+
+1,593 of 1,599 units are linked, and the rebuilt ROM keeps the original SHA-1; `ninja check` passes. Not
+linked: `src/00/code_02180608.c` (the function above), and the five units that are not complete for USA either
+(`src/Main/Unknown/code_020b1de4.c`, `code_020b2ecc.c`, `code_02125960.c`, `libs/mathlib/src/code_02133048.c`,
+`libs/NitroSDK/card/src/code_021458c4.c`). Calls/pointers, callees, strings, signatures and prototypes report no
+differences, and every unit passes `tools/check_units.py`.
