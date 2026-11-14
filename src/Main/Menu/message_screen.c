@@ -323,8 +323,8 @@ void SetupLinkLevelIcons(void) {
     }
     for (iconIndex = 0; iconIndex < 2; iconIndex++) {
         cellEntry = GetCellLayoutEntry(cellLayout, gLinkLevelIconSlotCellEntryIndices[iconIndex]);
-        gLinkLevelIcons->mIconPositions[iconIndex].mX = GetLayoutAxisStartX(cellEntry->mUnk_00_0, 0x10);
-        gLinkLevelIcons->mIconPositions[iconIndex].mY = GetLayoutAxisStartY(cellEntry->mUnk_00_2, 0x10);
+        gLinkLevelIcons->mIconPositions[iconIndex].mX = GetLayoutAxisStartX(cellEntry->mAxisX, 0x10);
+        gLinkLevelIcons->mIconPositions[iconIndex].mY = GetLayoutAxisStartY(cellEntry->mAxisY, 0x10);
     }
     for (iconIndex = 0; iconIndex < 2; iconIndex++) {
         NNS_GfdRegisterNewVramTransferTask(0x13, (0x400 - (iconIndex + 1) * 4) << 5, gLinkLevelIcons->mZeroChars, 0x80);

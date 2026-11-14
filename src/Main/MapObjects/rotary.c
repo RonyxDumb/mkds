@@ -214,7 +214,7 @@ void InitRotary(Rotary *object, struct CourseMapRow *courseRow, RotaryKindInfo *
     object->mCollisionMapObject.mCollisionData.mAngleChangeVector.x = 0;
     object->mCollisionMapObject.mCollisionData.mAngleChangeVector.y = 0;
     object->mCollisionMapObject.mCollisionData.mAngleChangeVector.z = 0;
-    object->mCollisionMapObject.mCollisionData.mTracksNormal = kindInfo->mUnk_00 != 0 ? 0 : 1;
+    object->mCollisionMapObject.mCollisionData.mTracksNormal = kindInfo->mUsesAxis1 != 0 ? 0 : 1;
     object->mRampFrameCount = courseRow->mSettings[2];
     object->mSteadyFrameCount = courseRow->mSettings[1];
     object->mPauseFrameCount = courseRow->mSettings[3];
@@ -233,7 +233,7 @@ void InitRotary(Rotary *object, struct CourseMapRow *courseRow, RotaryKindInfo *
         MUL_FIXED12_NO_ROUND(kindInfo->mRadius, object->mCollisionMapObject.mMapObject.mScale.x);
     object->mCollisionMapObject.mCollisionData.mHalfSizeY =
         MUL_FIXED12_NO_ROUND(kindInfo->mHeight, object->mCollisionMapObject.mMapObject.mScale.y) >> 1;
-    if (kindInfo->mUnk_00 != 0) {
+    if (kindInfo->mUsesAxis1 != 0) {
         object->mCollisionMapObject.mCollisionData.mAxis0Flag = FALSE;
         object->mCollisionMapObject.mCollisionData.mHitFlagWords.x = 1;
     } else {
@@ -241,7 +241,7 @@ void InitRotary(Rotary *object, struct CourseMapRow *courseRow, RotaryKindInfo *
         object->mCollisionMapObject.mCollisionData.mHitFlagWords.x = 0;
     }
     object->mCollisionMapObject.mCollisionData.mHitFlagWords.z = 0;
-    object->mCollisionMapObject.mCollisionData.mFloorThreshold = kindInfo->mUnk_10;
+    object->mCollisionMapObject.mCollisionData.mFloorThreshold = kindInfo->mSignedNormalYLimit;
     object->mCollisionMapObject.mCollisionData.mShape = COLLISION_SHAPE_CYLINDER;
     object->mCollisionMapObject.mCollisionData.mCollisionFlag = kindInfo->mCollisionFlag;
     object->mCollisionMapObject.mMapObject.mFlags |= gRotaryFlag;

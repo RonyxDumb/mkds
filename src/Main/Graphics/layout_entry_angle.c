@@ -372,21 +372,21 @@ s32 InitLabelCanvas(void *heap, s32 labelIndex, LayoutEntryTable *labelLayout, s
     cellData->mMinX = -widthBlocks << 2;
     cellData->mMinY = -heightBlocks << 2;
     for (oamIndex = 0; oamIndex < oamCount; oamIndex++) {
-        oamBuffer[oamIndex].mUnk_04 = (oamBuffer[oamIndex].mUnk_04 & ~0xc00) | (priority * 0x400);
+        oamBuffer[oamIndex].mAttr2 = (oamBuffer[oamIndex].mAttr2 & ~0xc00) | (priority * 0x400);
         if (isXlu != 0) {
             value = labelEntry->mPaletteIndex;
-            oamBuffer[oamIndex].mUnk_00 = (oamBuffer[oamIndex].mUnk_00 & ~0xc00) | 0x400;
-            oamBuffer[oamIndex].mUnk_04 = (oamBuffer[oamIndex].mUnk_04 & ~0xf000) | (value * 0x1000);
+            oamBuffer[oamIndex].mAttr01 = (oamBuffer[oamIndex].mAttr01 & ~0xc00) | 0x400;
+            oamBuffer[oamIndex].mAttr2 = (oamBuffer[oamIndex].mAttr2 & ~0xf000) | (value * 0x1000);
         } else {
             value = labelEntry->mPaletteIndex;
-            oamBuffer[oamIndex].mUnk_00 &= ~0xc00;
-            oamBuffer[oamIndex].mUnk_04 = (oamBuffer[oamIndex].mUnk_04 & ~0xf000) | (value * 0x1000);
+            oamBuffer[oamIndex].mAttr01 &= ~0xc00;
+            oamBuffer[oamIndex].mAttr2 = (oamBuffer[oamIndex].mAttr2 & ~0xf000) | (value * 0x1000);
         }
-        oamBuffer[oamIndex].mUnk_00 &= ~0x1000;
-        oamBuffer[oamIndex].mUnk_00 &= 0xc1fffcff;
-        cellData->mPOamAttrArray[oamIndex].mAttr0 = oamBuffer[oamIndex].mUnk_00_0;
-        cellData->mPOamAttrArray[oamIndex].mAttr1 = oamBuffer[oamIndex].mUnk_00_2;
-        cellData->mPOamAttrArray[oamIndex].mAttr2 = oamBuffer[oamIndex].mUnk_04;
+        oamBuffer[oamIndex].mAttr01 &= ~0x1000;
+        oamBuffer[oamIndex].mAttr01 &= 0xc1fffcff;
+        cellData->mPOamAttrArray[oamIndex].mAttr0 = oamBuffer[oamIndex].mAttr0;
+        cellData->mPOamAttrArray[oamIndex].mAttr1 = oamBuffer[oamIndex].mAttr1;
+        cellData->mPOamAttrArray[oamIndex].mAttr2 = oamBuffer[oamIndex].mAttr2;
     }
     canvas->mCellData = cellData;
     return canvas->mTextCanvas.mCharBytes;

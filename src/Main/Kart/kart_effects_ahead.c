@@ -40,7 +40,7 @@ void StartKartAheadEffectIfSelectedEntry(Kart *kart) {
     gKartAheadEffects[kart->mIndex] = StartEffect(0x80, &gKartEffectVec3Zero);
     effect = gKartAheadEffects[kart->mIndex];
     effect->mUnk_98_24 = kart->mIndex;
-    effect->mUnk_94 = 0;
+    effect->mCallbackData = 0;
     effect->mCallback = AdvanceKartAheadEffect;
 }
 
@@ -50,7 +50,7 @@ void StopKartAheadEffect(Kart *kart) {
     if (effect == NULL) {
         return;
     }
-    effect->mUnk_98_16 = 0;
+    effect->mStepCount = 0;
     effect->mUnk_98_8 = 3;
     effect->mCallback = AdvanceKartAheadEffectWithLimit;
     gKartAheadEffects[kart->mIndex] = NULL;
@@ -73,7 +73,7 @@ void StartKartNearRankEffect(Kart *kart) {
     gKartNearRankEffects[kart->mIndex] = StartEffect(0x7f, &gKartEffectVec3Zero);
     effect = gKartNearRankEffects[kart->mIndex];
     effect->mUnk_98_24 = kart->mIndex;
-    effect->mUnk_94 = (void *) 1;
+    effect->mCallbackData = (void *) 1;
     effect->mCallback = AdvanceKartAheadEffect;
 }
 
@@ -83,7 +83,7 @@ void StopKartNearRankEffect(Kart *kart) {
     if (effect == NULL) {
         return;
     }
-    effect->mUnk_98_16 = 0;
+    effect->mStepCount = 0;
     effect->mUnk_98_8 = 5;
     effect->mCallback = AdvanceKartAheadEffectWithLimit;
     gKartNearRankEffects[kart->mIndex] = NULL;

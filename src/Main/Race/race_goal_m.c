@@ -418,8 +418,8 @@ void DrawRaceLinkLevel(RaceHudOamBuffer *oamBuffer) {
         oamBuffer->mOamCount +=
             NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, levelCell, NULL, firstPosition, 0, 1);
         for (; oamIndex < oamBuffer->mOamCount; oamIndex++, oam++) {
-            oam->mUnk_0a = 2;
-            oam->mUnk_0e = 1;
+            oam->mObjMode = 2;
+            oam->mPriority = 1;
         }
         secondPosition[0] = 0xf8000;
         secondPosition[1] = 0xb8000;
@@ -440,8 +440,8 @@ void DrawRaceLinkLevel(RaceHudOamBuffer *oamBuffer) {
         oamBuffer->mOamCount +=
             NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, extraCell, NULL, firstPosition, 0, 1);
         for (; oamIndex < oamBuffer->mOamCount; oamIndex++, oam++) {
-            oam->mUnk_0a = 2;
-            oam->mUnk_0e = 1;
+            oam->mObjMode = 2;
+            oam->mPriority = 1;
         }
         secondPosition[0] = 0xf8000;
         secondPosition[1] = 0xa7000;
@@ -480,7 +480,7 @@ void InitRaceStartGp(void) {
     gRaceStartGp = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x41c);
     for (index = 0; index < 0x80; index++) {
         RaceHudOamBits *oamBits = &gRaceStartGp->mMainOam.mOamBits[index];
-        oamBits->mUnk_0a = 3;
+        oamBits->mObjMode = 3;
     }
     gRaceStartGp->mUpdateFrames = 0;
     LoadNclrData(&gRaceStartGp->mRaceStartGpMONclr, FindSceneFileWrapper("race_start_gp_m_o.NCLR"));
@@ -737,7 +737,7 @@ void DrawRaceTaPositions(RaceHudOamBuffer *oamBuffer) {
                                                       NULL, trailCellPosition, 0, 1);
                             for (; trailOamIndex < oamBuffer->mOamCount; trailOamIndex++, trailOam++) {
                                 if (trailPriority != -1) {
-                                    trailOam->mUnk_0e = trailPriority;
+                                    trailOam->mPriority = trailPriority;
                                 }
                             }
                         }
@@ -777,10 +777,10 @@ void DrawRaceTaPositions(RaceHudOamBuffer *oamBuffer) {
                                                   rotationIndex + firstRotationSlot, 1);
                         for (; sampleOamIndex < oamBuffer->mOamCount; sampleOamIndex++, sampleOam++) {
                             if ((index != 0 ? 1 : -1) != -1) {
-                                sampleOam->mUnk_0a = index != 0 ? 1 : -1;
+                                sampleOam->mObjMode = index != 0 ? 1 : -1;
                             }
                             if (priority != -1) {
-                                sampleOam->mUnk_0e = priority;
+                                sampleOam->mPriority = priority;
                             }
                         }
                     }

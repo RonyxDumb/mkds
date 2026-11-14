@@ -24,10 +24,10 @@ typedef struct RaceHudSubScreenCells RaceHudSubScreenCells;
 // Second view of an OAM entry: two words, each with a two-bit part at bit 10.
 typedef struct RaceHudOamBits {
     /* 0 */ u32 mUnk_00 : 10;
-    /* 0 */ u32 mUnk_0a : 2;
+    /* 0 */ u32 mObjMode : 2;
     /* 0 */ u32 mUnk_0c : 20;
     /* 4 */ u32 mUnk_04 : 10;
-    /* 4 */ u32 mUnk_0e : 2;
+    /* 4 */ u32 mPriority : 2;
     /* 4 */ u32 mUnk_10 : 20;
 } RaceHudOamBits;
 

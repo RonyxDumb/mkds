@@ -1028,8 +1028,8 @@ void FillKeyboardBg2Scr(KeyboardKeys *keyboardKeys) {
     s32 column;
     volatile u16 clearValue;
 
-    columnCount = keyboardKeys->mCurrentLayout->mNcgr->mUnk_02;
-    rowCount = keyboardKeys->mCurrentLayout->mNcgr->mUnk_00;
+    columnCount = keyboardKeys->mCurrentLayout->mNcgr->mColumnCount;
+    rowCount = keyboardKeys->mCurrentLayout->mNcgr->mRowCount;
     clearValue = columnCount * rowCount;
     MIi_CpuClear16(clearValue, gKeyboardCanvas.mBg2Scr,
                    gKeyboardCanvas.mScreenMapHeight * (gKeyboardCanvas.mScreenMapWidth * 2));
@@ -1119,8 +1119,8 @@ void DrawKeyboardGlyphs(KeyboardKeys *keyboardKeys) {
     glyphHeight = font->mPRes->mPGlyph->mCellHeight;
     layout = keyboardKeys->mCurrentLayout;
     MIi_CpuCopyFast(layout->mNcgr->mData, gKeyboardCanvas.mBg2Char, layout->mNcgr->mDataSize);
-    NNS_G2dCharCanvasInitForBG(&charCanvas, gKeyboardCanvas.mBg2Char, layout->mNcgr->mUnk_02, layout->mNcgr->mUnk_00,
-                               4);
+    NNS_G2dCharCanvasInitForBG(&charCanvas, gKeyboardCanvas.mBg2Char, layout->mNcgr->mColumnCount,
+                               layout->mNcgr->mRowCount, 4);
     rectIndex = FindFirstCharRectIndex(layout);
     drawnCount = 0;
     if (layout->mRectCount - rectIndex > 0) {
@@ -1162,9 +1162,9 @@ void MarkKeyboardRects(KeyboardKeys *keyboardKeys) {
         startRect = layout->mRects + (keyboardKeys->mChosenKeyId - 1);
         ringRect = startRect;
         do {
-            AddToNonzeroNibblesInRect(gKeyboardCanvas.mMarkedBg2Char, gKeyboardKeys.mCurrentLayout->mNcgr->mUnk_02 << 3,
-                                      8, ringRect->mX, ringRect->mY, ringRect->mX + ringRect->mWidth,
-                                      ringRect->mY + ringRect->mHeight);
+            AddToNonzeroNibblesInRect(gKeyboardCanvas.mMarkedBg2Char,
+                                      gKeyboardKeys.mCurrentLayout->mNcgr->mColumnCount << 3, 8, ringRect->mX,
+                                      ringRect->mY, ringRect->mX + ringRect->mWidth, ringRect->mY + ringRect->mHeight);
             ringRect += ringRect->mNextRectOffset;
         } while (ringRect != startRect);
     }
@@ -1172,9 +1172,9 @@ void MarkKeyboardRects(KeyboardKeys *keyboardKeys) {
         startRect = layout->mRects + (keyboardKeys->mToggledKeyId - 1);
         ringRect = startRect;
         do {
-            AddToNonzeroNibblesInRect(gKeyboardCanvas.mMarkedBg2Char, gKeyboardKeys.mCurrentLayout->mNcgr->mUnk_02 << 3,
-                                      8, ringRect->mX, ringRect->mY, ringRect->mX + ringRect->mWidth,
-                                      ringRect->mY + ringRect->mHeight);
+            AddToNonzeroNibblesInRect(gKeyboardCanvas.mMarkedBg2Char,
+                                      gKeyboardKeys.mCurrentLayout->mNcgr->mColumnCount << 3, 8, ringRect->mX,
+                                      ringRect->mY, ringRect->mX + ringRect->mWidth, ringRect->mY + ringRect->mHeight);
             ringRect += ringRect->mNextRectOffset;
         } while (ringRect != startRect);
     }
@@ -1185,7 +1185,7 @@ void MarkKeyboardRects(KeyboardKeys *keyboardKeys) {
         ringRect = startRect;
         do {
             AddToNonzeroNibblesOnRectEdge(
-                gKeyboardCanvas.mMarkedBg2Char, gKeyboardKeys.mCurrentLayout->mNcgr->mUnk_02 << 3, 8, ringRect->mX,
+                gKeyboardCanvas.mMarkedBg2Char, gKeyboardKeys.mCurrentLayout->mNcgr->mColumnCount << 3, 8, ringRect->mX,
                 ringRect->mY, ringRect->mX + ringRect->mWidth, ringRect->mY + ringRect->mHeight);
             ringRect += ringRect->mNextRectOffset;
         } while (ringRect != startRect);
@@ -1195,9 +1195,9 @@ void MarkKeyboardRects(KeyboardKeys *keyboardKeys) {
         startRect->mKeyId != gKeyboardKeys.mToggledKeyId && startRect->mKeyId != gKeyboardKeys.mChosenKeyId) {
         ringRect = startRect;
         do {
-            AddToNonzeroNibblesInRect(gKeyboardCanvas.mMarkedBg2Char, gKeyboardKeys.mCurrentLayout->mNcgr->mUnk_02 << 3,
-                                      8, ringRect->mX, ringRect->mY, ringRect->mX + ringRect->mWidth,
-                                      ringRect->mY + ringRect->mHeight);
+            AddToNonzeroNibblesInRect(gKeyboardCanvas.mMarkedBg2Char,
+                                      gKeyboardKeys.mCurrentLayout->mNcgr->mColumnCount << 3, 8, ringRect->mX,
+                                      ringRect->mY, ringRect->mX + ringRect->mWidth, ringRect->mY + ringRect->mHeight);
             ringRect += ringRect->mNextRectOffset;
         } while (ringRect != startRect);
     }
@@ -1209,8 +1209,8 @@ void MarkKeyboardRects(KeyboardKeys *keyboardKeys) {
             ringRect = startRect;
             do {
                 AddToNonzeroNibblesInRect(
-                    gKeyboardCanvas.mMarkedBg2Char, gKeyboardKeys.mCurrentLayout->mNcgr->mUnk_02 << 3, 8, ringRect->mX,
-                    ringRect->mY, ringRect->mX + ringRect->mWidth, ringRect->mY + ringRect->mHeight);
+                    gKeyboardCanvas.mMarkedBg2Char, gKeyboardKeys.mCurrentLayout->mNcgr->mColumnCount << 3, 8,
+                    ringRect->mX, ringRect->mY, ringRect->mX + ringRect->mWidth, ringRect->mY + ringRect->mHeight);
                 ringRect += ringRect->mNextRectOffset;
             } while (ringRect != startRect);
             return;
@@ -1218,7 +1218,7 @@ void MarkKeyboardRects(KeyboardKeys *keyboardKeys) {
         ringRect = startRect;
         do {
             AddToNonzeroNibblesOnRectEdge(
-                gKeyboardCanvas.mMarkedBg2Char, gKeyboardKeys.mCurrentLayout->mNcgr->mUnk_02 << 3, 8, ringRect->mX,
+                gKeyboardCanvas.mMarkedBg2Char, gKeyboardKeys.mCurrentLayout->mNcgr->mColumnCount << 3, 8, ringRect->mX,
                 ringRect->mY, ringRect->mX + ringRect->mWidth, ringRect->mY + ringRect->mHeight);
             ringRect += ringRect->mNextRectOffset;
         } while (ringRect != startRect);
@@ -1694,8 +1694,8 @@ KeyboardRect *FindKeyboardRectInDirection(u32 direction, KeyboardRect *rect, Key
                 wrappedX = scanX;
                 wrappedY = startY;
                 ncgr = gKeyboardKeys.mCurrentLayout->mNcgr;
-                spanX = ncgr->mUnk_02 << 3;
-                spanY = ncgr->mUnk_00 << 3;
+                spanX = ncgr->mColumnCount << 3;
+                spanY = ncgr->mRowCount << 3;
                 localX = scanX - offsetX;
                 margin = gKeyboardWrapMargin;
                 negMargin = -margin;

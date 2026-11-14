@@ -80,7 +80,7 @@ void MBi_MakeDownloadFileInfo(MBDownloadFileInfo *record, SegmentBuffer *source)
     MbSegmentInfo *range;
     s32 rangeIndex;
     nextAddress = 0x022c0000;
-    headerTail = source->mUnk_160;
+    headerTail = source->mAuthCode;
     record->mArm9EntryAddr = source->mMainEntryAddress;
     record->mArm7EntryAddr = source->mSubEntryAddress;
     range = record->mSeg;

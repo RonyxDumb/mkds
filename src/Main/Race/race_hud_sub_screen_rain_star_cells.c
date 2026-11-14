@@ -695,7 +695,7 @@ void DrawRaceHudSubScreenFlipperCells(RaceHudOamBuffer *oamBuffer) {
                                                           &matrix, position, matrixIndex, 1);
             for (; oamIndex < oamBuffer->mOamCount; oamIndex++) {
                 if (priority != -1) {
-                    oamBuffer->mOamBits[oamIndex].mUnk_0e = priority;
+                    oamBuffer->mOamBits[oamIndex].mPriority = priority;
                 }
             }
         }

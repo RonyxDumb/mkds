@@ -397,10 +397,10 @@ static inline void AddRaceHudSubScreenCellOams(RaceHudOamBuffer *oamBuffer, NNSG
         NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, matrix, position, matrixIndex, 1);
     for (; oamIndex < oamBuffer->mOamCount; oamIndex++) {
         if (xlu != -1) {
-            oam->mUnk_0a = xlu;
+            oam->mObjMode = xlu;
         }
         if (priority != -1) {
-            oam->mUnk_0e = priority;
+            oam->mPriority = priority;
         }
         oam++;
     }

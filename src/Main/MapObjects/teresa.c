@@ -203,7 +203,7 @@ void UpdateTeresa(void *mapObjectList, Teresa *teresa) {
     teresa->mAngleWobble.mValueDelta = teresa->mAngleWobble.mMid + wobbleOffset - teresa->mAngleWobble.mValue;
     teresa->mAngleWobble.mValue = teresa->mAngleWobble.mValue + teresa->mAngleWobble.mValueDelta;
     AdvanceTeresaValueStoppingAtZero(&teresa->mAngleWobble.mAmplitude, &teresa->mAngleWobble.mAmplitudePerFrame);
-    AdvanceTeresaValueStoppingAtZero(&teresa->mAngleWobble.mAnglePerFrame, &teresa->mAngleWobble.mUnk_1c);
+    AdvanceTeresaValueStoppingAtZero(&teresa->mAngleWobble.mAnglePerFrame, &teresa->mAngleWobble.mAnglePerFrameDelta);
     angleWobbleValue = teresa->mAngleWobble.mValue;
     teresa->mYWobble.mAngle = teresa->mYWobble.mAngle + teresa->mYWobble.mAnglePerFrame;
     anglePairSecond = TeresaFX_CosIdx(teresa->mYWobble.mAngle);
@@ -211,9 +211,9 @@ void UpdateTeresa(void *mapObjectList, Teresa *teresa) {
     teresa->mYWobble.mValueDelta = teresa->mYWobble.mMid + wobbleOffset - teresa->mYWobble.mValue;
     teresa->mYWobble.mValue = teresa->mYWobble.mValue + teresa->mYWobble.mValueDelta;
     AdvanceTeresaValueStoppingAtZero(&teresa->mYWobble.mAmplitude, &teresa->mYWobble.mAmplitudePerFrame);
-    AdvanceTeresaValueStoppingAtZero(&teresa->mYWobble.mAnglePerFrame, &teresa->mYWobble.mUnk_1c);
+    AdvanceTeresaValueStoppingAtZero(&teresa->mYWobble.mAnglePerFrame, &teresa->mYWobble.mAnglePerFrameDelta);
     yWobbleValue = teresa->mYWobble.mValue;
-    radius = teresa->mUnk_10c;
+    radius = teresa->mRadius;
     if (GetCurrentCameraKind() == 2) {
         teresa->mMapObject.mPos.x = teresa->mStartPos.x + MUL_FIXED12_NO_ROUND(radius, FX_CosIdx(angleWobbleValue));
         teresa->mMapObject.mPos.y = teresa->mStartPos.y + yWobbleValue;
@@ -268,7 +268,7 @@ static inline void SetTeresaWobble(TeresaWobble *teresaWobble, u16 angle, s32 mi
     teresaWobble->mAmplitude = amplitude;
     teresaWobble->mAmplitudePerFrame = amplitudePerFrame;
     teresaWobble->mAnglePerFrame = anglePerFrame;
-    teresaWobble->mUnk_1c = value;
+    teresaWobble->mAnglePerFrameDelta = value;
 }
 
 void StartTeresa(Vec3 *startPos) {
@@ -310,7 +310,7 @@ void StartTeresa(Vec3 *startPos) {
     yMidRandom = TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0xa000);
     SetTeresaWobble(&teresa->mYWobble, 0, TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x19000) + 0x19000,
                     yMidRandom + 0xa000, 0, ySpeedRandom + 0x100, 0);
-    teresa->mUnk_10c = TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x3c000) + 0x3c000;
+    teresa->mRadius = TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x3c000) + 0x3c000;
     alphaFixed12Max = TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0xc000) + 0xe000;
     alphaFixed12PerFrame = TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x200) + 0x400;
     teresa->mAlphaFixed12 = 0;

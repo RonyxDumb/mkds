@@ -268,8 +268,8 @@ void StartKartBoostCameraEffect(u32 effectIdIndex, Kart *kart) {
         gKartBoostCameraEffect->mFlags.mEnding = 1;
     }
     effect = StartEffect(gKartBoostCameraEffectIds[effectIdIndex], &gKartEffectVec3Zero);
-    effect->mUnk_98 = 0;
-    effect->mUnk_94 = kart;
+    effect->mCallbackState = 0;
+    effect->mCallbackData = kart;
     effect->mCallback = AdvanceKartBoostCameraEffect;
     gKartBoostCameraEffect = effect;
 }
@@ -355,8 +355,8 @@ BOOL StartKartCurrentEffect(const KartEffectIdSet *effectIdSet, s32 velocityFact
     effect = StartEffect(effectIdSet->mEffectIds[0], &gKartEffectVec3Zero);
     kartEffects->mCurrentEffect = effect;
     kartEffects->mCurrentEffectId = effectIdSet->mEffectIds[0];
-    effect->mUnk_94 = kart;
-    effect->mUnk_98_0 = velocityFactorIndex;
+    effect->mCallbackData = kart;
+    effect->mVelocityFactorIndex = velocityFactorIndex;
     effect->mCallback = AdvanceKartCurrentEffect;
     return TRUE;
 }
@@ -384,7 +384,7 @@ s32 StartKartSideEffects(const KartEffectIdSet *effectIdSet, s32 unusedVelocityF
             do {
                 effect = StartEffect(kartEffects->mEffectIds[pairIndex], &gKartEffectVec3Zero);
                 gKartEffects[kart->mIndex].mEffectPairs[pairIndex].mEffects[sideIndex] = effect;
-                effect->mUnk_94 = kart;
+                effect->mCallbackData = kart;
                 effect->mUnk_98_24 = sideIndex;
                 sideIndex++;
                 effect->mCallback = AdvanceKartSideEffect;
@@ -417,10 +417,10 @@ s32 StartKartSideEffectsWithVelocity(const KartEffectIdSet *effectIdSet, s32 vel
             do {
                 effect = StartEffect(kartEffects->mEffectIds[pairIndex], &gKartEffectVec3Zero);
                 gKartEffects[kart->mIndex].mEffectPairs[pairIndex].mEffects[sideIndex] = effect;
-                effect->mUnk_94 = kart;
+                effect->mCallbackData = kart;
                 effect->mUnk_98_24 = sideIndex;
                 sideIndex++;
-                effect->mUnk_98_0 = velocityFactorIndex;
+                effect->mVelocityFactorIndex = velocityFactorIndex;
                 effect->mCallback = AdvanceKartSideEffectWithVelocity;
             } while (sideIndex < 2);
             started = 1;
@@ -441,9 +441,9 @@ BOOL StartKartWaterEffects(const KartEffectIdSet *effectIdSet, s32 velocityFacto
     for (sideIndex = 0; sideIndex < 2; sideIndex++) {
         effect = StartEffect(effectIdSet->mEffectIds[0], &gKartEffectVec3Zero);
         gKartEffects[kart->mIndex].mWaterEffects[sideIndex] = effect;
-        effect->mUnk_94 = kart;
+        effect->mCallbackData = kart;
         effect->mUnk_98_24 = sideIndex;
-        effect->mUnk_98_0 = velocityFactorIndex;
+        effect->mVelocityFactorIndex = velocityFactorIndex;
         effect->mCallback = AdvanceKartWaterEffect;
     }
     return TRUE;
@@ -530,9 +530,10 @@ void AdvanceKartBoostCameraEffect(ParticleEmitter *effect, s32 phase) {
         return;
     }
     chaseCamera = GetChaseCamera();
-    kart = effect->mUnk_94;
+    kart = effect->mCallbackData;
     if (GetCurrentCameraKind() != 0 ||
-        (effect->mFlags.mEmissionStopped != 0 && (effect->mUnk_98 = effect->mUnk_98 + 1, effect->mUnk_98 > 5))) {
+        (effect->mFlags.mEmissionStopped != 0 &&
+         (effect->mCallbackState = effect->mCallbackState + 1, effect->mCallbackState > 5))) {
         effect->mFlags.mEnding = 1;
         gKartBoostCameraEffect = NULL;
         return;
@@ -568,11 +569,11 @@ void AdvanceKartCurrentEffect(ParticleEmitter *effect, s32 phase) {
     if (phase != 0) {
         return;
     }
-    kart = effect->mUnk_94;
+    kart = effect->mCallbackData;
     velocity = kart->mEffectVelocity;
-    velocityFactor = gKartEffectVelocityFactors[effect->mUnk_98_b.mVelocityFactorIndex];
-    stepCount = effect->mUnk_98_b.mStepCount;
-    counting = effect->mUnk_98_b.mCounting;
+    velocityFactor = gKartEffectVelocityFactors[effect->mCallbackBytes.mVelocityFactorIndex];
+    stepCount = effect->mCallbackBytes.mStepCount;
+    counting = effect->mCallbackBytes.mCounting;
     stopsEmission = 1;
     if (IsKartTurnEffectsActive(kart) == 0) {
         if (kart->mVelocityLength >= 0x119a) {
@@ -590,7 +591,7 @@ void AdvanceKartCurrentEffect(ParticleEmitter *effect, s32 phase) {
             effect->mFlags.mEnding = 1;
         }
     }
-    effect->mUnk_98_b.mStepCount = stepCount;
+    effect->mCallbackBytes.mStepCount = stepCount;
     VEC_Add(kart->mPosSource, &offsetBehind, &effectPos);
     effectPos.x = effectPos.x >> 4;
     effectPos.y = effectPos.y >> 4;
@@ -616,11 +617,11 @@ void AdvanceKartSideEffect(ParticleEmitter *effect, s32 phase) {
     if (phase != 0) {
         return;
     }
-    kart = effect->mUnk_94;
+    kart = effect->mCallbackData;
     kartEffects = &gKartEffects[kart->mIndex];
-    stepCount = effect->mUnk_98_b.mStepCount;
-    counting = effect->mUnk_98_b.mCounting;
-    sideIndex = effect->mUnk_98_b.mSideIndex;
+    stepCount = effect->mCallbackBytes.mStepCount;
+    counting = effect->mCallbackBytes.mCounting;
+    sideIndex = effect->mCallbackBytes.mSideIndex;
     stopsEmission = 1;
     if (IsKartTurnEffectsActive(kart) == 0) {
         if (kart->mVelocityLength >= 0x119a) {
@@ -634,7 +635,7 @@ void AdvanceKartSideEffect(ParticleEmitter *effect, s32 phase) {
             effect->mFlags.mEnding = 1;
         }
     }
-    effect->mUnk_98_b.mStepCount = stepCount;
+    effect->mCallbackBytes.mStepCount = stepCount;
     effect->mDirection = kartEffects->mSideDirections[sideIndex];
     sideCoordinate = kartEffects->mSidePositions[sideIndex].x;
     effect->mPosition.x = sideCoordinate + effect->mResource->mHeader->mPositionOffset.x;
@@ -658,13 +659,13 @@ void AdvanceKartSideEffectWithVelocity(ParticleEmitter *effect, s32 phase) {
     if (phase != 0) {
         return;
     }
-    kart = effect->mUnk_94;
+    kart = effect->mCallbackData;
     kartEffects = &gKartEffects[kart->mIndex];
     velocity = kart->mEffectVelocity;
-    stepCount = effect->mUnk_98_b.mStepCount;
-    counting = effect->mUnk_98_b.mCounting;
-    sideIndex = effect->mUnk_98_b.mSideIndex;
-    velocityFactor = gKartEffectVelocityFactors[effect->mUnk_98_b.mVelocityFactorIndex];
+    stepCount = effect->mCallbackBytes.mStepCount;
+    counting = effect->mCallbackBytes.mCounting;
+    sideIndex = effect->mCallbackBytes.mSideIndex;
+    velocityFactor = gKartEffectVelocityFactors[effect->mCallbackBytes.mVelocityFactorIndex];
     stopsEmission = 1;
     if (IsKartTurnEffectsActive(kart) == 0) {
         if (kart->mVelocityLength >= 0x119a) {
@@ -678,7 +679,7 @@ void AdvanceKartSideEffectWithVelocity(ParticleEmitter *effect, s32 phase) {
             effect->mFlags.mEnding = 1;
         }
     }
-    effect->mUnk_98_b.mStepCount = stepCount;
+    effect->mCallbackBytes.mStepCount = stepCount;
     effect->mDirection = kartEffects->mSideDirections[sideIndex];
     sideCoordinate = kartEffects->mSidePositions[sideIndex].x;
     effect->mPosition.x = sideCoordinate + effect->mResource->mHeader->mPositionOffset.x;
@@ -708,15 +709,15 @@ void AdvanceKartWaterEffect(ParticleEmitter *effect, s32 phase) {
     if (phase != 0) {
         return;
     }
-    kart = effect->mUnk_94;
+    kart = effect->mCallbackData;
     kartEffects = &gKartEffects[kart->mIndex];
     velocity = kart->mEffectVelocity;
     stopsEmission = 1;
     isSlowOrTurning = 1;
-    stepCount = effect->mUnk_98_b.mStepCount;
-    counting = effect->mUnk_98_b.mCounting;
-    sideIndex = effect->mUnk_98_b.mSideIndex;
-    velocityFactor = gKartEffectVelocityFactors[effect->mUnk_98_b.mVelocityFactorIndex];
+    stepCount = effect->mCallbackBytes.mStepCount;
+    counting = effect->mCallbackBytes.mCounting;
+    sideIndex = effect->mCallbackBytes.mSideIndex;
+    velocityFactor = gKartEffectVelocityFactors[effect->mCallbackBytes.mVelocityFactorIndex];
     if (IsKartTurnEffectsActive(kart) == 0) {
         if (kart->mVelocityLength >= 0x119a) {
             isSlowOrTurning = 0;
@@ -734,7 +735,7 @@ void AdvanceKartWaterEffect(ParticleEmitter *effect, s32 phase) {
             effect->mFlags.mEnding = 1;
         }
     }
-    effect->mUnk_98_b.mStepCount = stepCount;
+    effect->mCallbackBytes.mStepCount = stepCount;
     effect->mDirection = kartEffects->mSideDirections[sideIndex];
     sideCoordinate = kartEffects->mSidePositions[sideIndex].x;
     effect->mPosition.x = sideCoordinate + effect->mResource->mHeader->mPositionOffset.x;
@@ -756,7 +757,7 @@ void AdvanceOtherKartEffect(ParticleEmitter *effect, s32 phase) {
     PlaceOtherKartEffect(effect, phase);
     effect->mUnk_98_24 = effect->mUnk_98_24 + 1;
     if (effect->mUnk_98_24 >= 2) {
-        effect->mUnk_98_16 = (effect->mUnk_98_16 == 0);
+        effect->mStepCount = (effect->mStepCount == 0);
         effect->mUnk_98_24 = 0;
     }
 }
@@ -798,10 +799,10 @@ void StartEffectsAtOtherKarts(s32 pairSetIndex) {
             effect = StartRaceFogOffEffect(effectKind->mEffectId, &gKartEffectVec3Zero);
             startedCount++;
             effect->mCallback = effectKind->mAdvance;
-            effect->mUnk_98_0 = pair->mFirst;
+            effect->mVelocityFactorIndex = pair->mFirst;
             effect->mUnk_98_8 = (pair->mSecond < 0) ? 0xff : (u8) pair->mSecond;
             pair++;
-            effect->mUnk_98_16 = initialToggle;
+            effect->mStepCount = initialToggle;
             effect->mUnk_98_24 = 0;
             effect->mUnk_94_u = 0;
         } while (startedCount < 4);
@@ -820,7 +821,7 @@ void PlaceOtherKartEffect(ParticleEmitter *effect, s32 phase) {
     s32 pointY;
     s32 pointZ;
 
-    state = &effect->mUnk_98_b;
+    state = &effect->mCallbackBytes;
     kartIndex = state->mStepCount;
     stepCount = effect->mUnk_94_u;
     kartIndex = (kartIndex == 0) ? state->mVelocityFactorIndex : state->mCounting;
@@ -1215,7 +1216,7 @@ void AdvanceKartFollowEffect(ParticleEmitter *effect, s32 phase) {
         return;
     }
     kartIndex = effect->mUnk_98_24;
-    stepCount = effect->mUnk_98_16;
+    stepCount = effect->mStepCount;
     kart = GetKart(kartIndex);
     kartPos = kart->mPosSource;
     posX = kartPos->x;
@@ -1229,7 +1230,7 @@ void AdvanceKartFollowEffect(ParticleEmitter *effect, s32 phase) {
             effect->mFlags.mEnding = 1;
         }
     } else {
-        effect->mUnk_98_16 = stepCount + 1;
+        effect->mStepCount = stepCount + 1;
     }
 }
 
@@ -1253,7 +1254,7 @@ void AdvanceKartFollowEffectWithVelocity(ParticleEmitter *effect, s32 phase) {
         return;
     }
     kartIndex = effect->mUnk_98_24;
-    stepCount = effect->mUnk_98_16;
+    stepCount = effect->mStepCount;
     kart = GetKart(kartIndex);
     kartPos = kart->mPosSource;
     posX = kartPos->x;
@@ -1268,7 +1269,7 @@ void AdvanceKartFollowEffectWithVelocity(ParticleEmitter *effect, s32 phase) {
             effect->mFlags.mEnding = 1;
         }
     } else {
-        effect->mUnk_98_16 = stepCount + 1;
+        effect->mStepCount = stepCount + 1;
     }
 }
 
@@ -1322,7 +1323,7 @@ void AdvanceKartAheadEffect(ParticleEmitter *effect, s32 phase) {
     if (phase != 0) {
         return;
     }
-    PlaceKartAheadEffect(effect, GetKart(effect->mUnk_98_24), effect->mUnk_94);
+    PlaceKartAheadEffect(effect, GetKart(effect->mUnk_98_24), effect->mCallbackData);
 }
 
 void AdvanceKartAheadEffectWithLimit(ParticleEmitter *effect, s32 phase) {
@@ -1333,14 +1334,14 @@ void AdvanceKartAheadEffectWithLimit(ParticleEmitter *effect, s32 phase) {
         return;
     }
     kartIndex = effect->mUnk_98_24;
-    stepCount = effect->mUnk_98_16;
-    PlaceKartAheadEffect(effect, GetKart(kartIndex), effect->mUnk_94);
+    stepCount = effect->mStepCount;
+    PlaceKartAheadEffect(effect, GetKart(kartIndex), effect->mCallbackData);
     if (stepCount >= effect->mUnk_98_8) {
         if (stepCount == effect->mUnk_98_8) {
             effect->mFlags.mEnding = 1;
         }
     } else {
-        effect->mUnk_98_16 = stepCount + 1;
+        effect->mStepCount = stepCount + 1;
     }
 }
 

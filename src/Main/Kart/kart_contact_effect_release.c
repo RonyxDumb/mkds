@@ -29,7 +29,7 @@ void StartAndPlaceKartContactEffect(s32 kartIndex, Vec3 *direction) {
     if ((kart->mEffectFlags & KART_EFFECT_NEAR_PLAYER_RANK) && kartEffects->mContactEffect == NULL &&
         kart->mVelocityLength > 0x1000) {
         effect = StartEffect(0x53, kart->mPosSource);
-        effect->mUnk_94 = kart;
+        effect->mCallbackData = kart;
         effect->mCallback = AdvanceKartContactEffect;
         kartEffects->mContactEffect = effect;
     }
@@ -56,7 +56,7 @@ void AdvanceKartContactEffect(ParticleEmitter *effect, s32 flag) {
     if (flag != 0) {
         return;
     }
-    kart = effect->mUnk_94;
+    kart = effect->mCallbackData;
     if ((kart->mDriveFlags & KART_DRIVE_CONTACT_EFFECT) && (kart->mMotionFlags & KART_MOTION_COURSE_CONTACT)) {
         if (kart->mVelocityLength >= 0x1333) {
             return;

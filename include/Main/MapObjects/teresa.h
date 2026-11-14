@@ -6,8 +6,8 @@
 #include "01/MapObjects/data_0209bc74.h"
 
 // 0x20-byte wobble of Teresa at 0xbc and 0xdc (written by StartTeresa), of Crab at 0xb0 and 0xd0 and of the trophy
-// at 0x08. For Teresa and the trophy, mAmplitudePerFrame and mUnk_1c are always 0 in this build; Crab's body wobble
-// sets mAmplitudePerFrame.
+// at 0x08. For Teresa and the trophy, mAmplitudePerFrame and mAnglePerFrameDelta are always 0 in this build; Crab's
+// body wobble sets mAmplitudePerFrame.
 typedef struct TeresaWobble {
     /* 00 */ u16 mAngle;
     /* 02 */ u8 mUnk_02[2];
@@ -17,7 +17,7 @@ typedef struct TeresaWobble {
     /* 10 */ s32 mAmplitude;
     /* 14 */ s32 mAmplitudePerFrame;
     /* 18 */ s32 mAnglePerFrame;
-    /* 1c */ s32 mUnk_1c;
+    /* 1c */ s32 mAnglePerFrameDelta;
 } TeresaWobble;
 
 // Object of kind 0x13b (Teresa), returned by UnparkFirstParkedMapObject for FindMapObjectKindUpdateList(0x13b), filled
@@ -37,7 +37,7 @@ typedef struct Teresa {
     /* 100 */ s32 mAlphaFixed12PerFrame;
     /* 104 */ s32 mAlphaFixed12Min;
     /* 108 */ s32 mAlphaFixed12Max;
-    /* 10c */ s32 mUnk_10c;
+    /* 10c */ s32 mRadius;
     /* State number of this kind's own per-frame switch in UpdateTeresa; this object does not use
        MapObject.mUnk_80's state machine */
     /* 110 */ s32 mState;

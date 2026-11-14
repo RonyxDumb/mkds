@@ -10,8 +10,8 @@
 // AnimBank by LoadNanrData, NNSG2dCellDataBank by LocateNcer and LoadNcerData (LoadNanrData passes it to
 // NNS_G2dUnpackNAN, LoadNcerData to NNS_G2dUnpackNCE; LocateNcer looks up the same block tag as LoadNcerData).
 typedef struct Ncgr {
-    /* 0000 */ u16 mUnk_00;
-    /* 0002 */ u16 mUnk_02;
+    /* 0000 */ u16 mRowCount;
+    /* 0002 */ u16 mColumnCount;
     /* 0004 */ u8 mUnk_04[0xc];
     /* 0010 */ u32 mDataSize;
     /* 0014 */ u16 *mData;

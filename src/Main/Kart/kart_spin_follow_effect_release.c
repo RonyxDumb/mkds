@@ -19,7 +19,7 @@ void StartKartSpinSideEffects(s32 kartIndex) {
     effectIndex = 0;
     do {
         effect = StartEffect(0x58, &gKartEffectVec3Zero);
-        effect->mUnk_94 = kart;
+        effect->mCallbackData = kart;
         effect->mUnk_98_24 = effectIndex;
         effectIndex = effectIndex + 1;
         effect->mCallback = AdvanceKartSpinSideEffect;
@@ -31,10 +31,10 @@ void AdvanceKartSpinSideEffect(ParticleEmitter *effect, s32 phase) {
         return;
     }
     AdvanceKartSideEffect(effect, phase);
-    if (effect->mUnk_98_0 >= 7) {
+    if (effect->mVelocityFactorIndex >= 7) {
         effect->mUnk_98_8 = 1;
     } else {
-        effect->mUnk_98_0 = effect->mUnk_98_0 + 1;
+        effect->mVelocityFactorIndex = effect->mVelocityFactorIndex + 1;
     }
 }
 
@@ -47,7 +47,7 @@ void StartKartSpinFollowEffect(u32 kartIndex) {
     }
     kartEffects->mSpinFollowEffect = StartEffect(0x5e, &gKartEffectVec3Zero);
     effect = kartEffects->mSpinFollowEffect;
-    effect->mUnk_98_16 = 0;
+    effect->mStepCount = 0;
     effect->mUnk_98_8 = 0x78;
     effect->mUnk_98_24 = kartIndex;
     effect->mCallback = AdvanceKartSpinFollowEffect;
@@ -66,7 +66,7 @@ void AdvanceKartSpinFollowEffect(ParticleEmitter *effect, s32 phase) {
         return;
     }
     kartIndex = effect->mUnk_98_24;
-    elapsedFrames = effect->mUnk_98_16;
+    elapsedFrames = effect->mStepCount;
     ended = 0;
     kartPosition = GetKart(kartIndex)->mPosSource;
     kartX = kartPosition->x;
@@ -81,7 +81,7 @@ void AdvanceKartSpinFollowEffect(ParticleEmitter *effect, s32 phase) {
             effect->mFlags.mEnding = 1;
         }
     } else {
-        effect->mUnk_98_16 = elapsedFrames + 1;
+        effect->mStepCount = elapsedFrames + 1;
     }
     if (ended != 0) {
         gKartEffects[kartIndex].mSpinFollowEffect = NULL;

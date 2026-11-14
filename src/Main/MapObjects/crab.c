@@ -187,7 +187,7 @@ void InitCrabObjects(MapObjectList *mapObjectList) {
         crab->mHandWobble.mAmplitude = 0x1c7;
         crab->mHandWobble.mAmplitudePerFrame = 0;
         crab->mHandWobble.mAnglePerFrame = 0xe39;
-        crab->mHandWobble.mUnk_1c = 0;
+        crab->mHandWobble.mAnglePerFrameDelta = 0;
         mapObjectRandom = GetMapObjectRandom();
         mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
         crab->mTimer = (u16) ((u16) (((u64) (u32) (mapObjectRandom->mValue >> 32) * 60) >> 32) + 30);
@@ -224,13 +224,13 @@ static inline void AdvanceCrabWobble(TeresaWobble *wobble) {
         wobble->mAmplitude = nextValue;
     }
     if (wobble->mAnglePerFrame > 0) {
-        nextValue = wobble->mAnglePerFrame + wobble->mUnk_1c;
+        nextValue = wobble->mAnglePerFrame + wobble->mAnglePerFrameDelta;
         if (nextValue <= 0) {
             nextValue = 0;
         }
         wobble->mAnglePerFrame = nextValue;
     } else if (wobble->mAnglePerFrame < 0) {
-        nextValue = wobble->mAnglePerFrame + wobble->mUnk_1c;
+        nextValue = wobble->mAnglePerFrame + wobble->mAnglePerFrameDelta;
         if (nextValue >= 0) {
             nextValue = 0;
         }
@@ -268,7 +268,7 @@ void UpdateCrab(void *mapObjectList, Crab *crab) {
                 crab->mHandWobble.mAmplitude = 0x1c7;
                 crab->mHandWobble.mAmplitudePerFrame = 0;
                 crab->mHandWobble.mAnglePerFrame = 0xe39;
-                crab->mHandWobble.mUnk_1c = 0;
+                crab->mHandWobble.mAnglePerFrameDelta = 0;
                 mapObjectRandom = GetMapObjectRandom();
                 mapObjectRandom->mValue =
                     mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
@@ -313,7 +313,7 @@ void UpdateCrab(void *mapObjectList, Crab *crab) {
             crab->mCrabWobble.mAmplitude = 0x2aab;
             crab->mCrabWobble.mAmplitudePerFrame = -0xb6;
             crab->mCrabWobble.mAnglePerFrame = 0x71c;
-            crab->mCrabWobble.mUnk_1c = 0;
+            crab->mCrabWobble.mAnglePerFrameDelta = 0;
             AdvanceCrabWobble(&crab->mCrabWobble);
             crab->mRotateZAngle = crab->mCrabWobble.mValue;
             crab->mState = 3;
@@ -342,7 +342,7 @@ void UpdateCrab(void *mapObjectList, Crab *crab) {
             crab->mHandWobble.mAmplitude = 0x1c7;
             crab->mHandWobble.mAmplitudePerFrame = 0;
             crab->mHandWobble.mAnglePerFrame = 0xe39;
-            crab->mHandWobble.mUnk_1c = 0;
+            crab->mHandWobble.mAnglePerFrameDelta = 0;
             mapObjectRandom = GetMapObjectRandom();
             mapObjectRandom->mValue =
                 mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;

@@ -1775,8 +1775,8 @@ void SPLEmitter_Init(ParticleEmitter *emtr, ParticleResource *res, Vec3 *pos) {
     emtr->mParticles.mFront = emtr->mChildParticles.mFront = 0;
     emtr->mParticles.mCount = emtr->mChildParticles.mCount = 0;
     emtr->mCallback = 0;
-    emtr->mUnk_94 = 0;
-    emtr->mUnk_98 = 0;
+    emtr->mCallbackData = 0;
+    emtr->mCallbackState = 0;
 }
 
 void SPLEmitter_Update(SPLManager *mgr, ParticleEmitter *emtr) {

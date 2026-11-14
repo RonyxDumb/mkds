@@ -81,13 +81,13 @@ u32 DrawLayoutEntry(s32 index, NNSG2dCellDataBank *cells, LayoutEntryTable *cell
     } else {
         cellEntry = GetCellLayoutEntry(cellLayout, index);
         cellData = NNS_G2dGetCellDataByIdx(cells, (u16) cellEntry->mCellIndex);
-        axisRecords[2] = cellEntry->mUnk_00_0;
+        axisRecords[2] = cellEntry->mAxisX;
         axisRecords[0] = axisRecords[2];
-        axisRecords[1] = cellEntry->mUnk_00_2;
+        axisRecords[1] = cellEntry->mAxisY;
         width = cellData->mMaxX - cellData->mMinX;
         height = cellData->mMaxY - cellData->mMinY;
         position[0] = TO_FIXED12((width >> 1) + GetLayoutAxisStartX(axisRecords[2], width));
-        position[1] = TO_FIXED12((height >> 1) + GetLayoutAxisStartY(cellEntry->mUnk_00_2, height));
+        position[1] = TO_FIXED12((height >> 1) + GetLayoutAxisStartY(cellEntry->mAxisY, height));
     }
     if (entry->mUsePosition != FALSE) {
         if (index >= cellLayout->mCount) {

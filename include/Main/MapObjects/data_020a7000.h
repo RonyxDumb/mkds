@@ -6,7 +6,7 @@
 #include "Main/MapObjects/attractor.h" // MapObject
 #include "Main/MapObjects/code_020e005c.h" // GroupFollower
 
-// 0x48-byte entries from 0xb0 of Sanbo; StartSanboLaunch writes the first mUnk_1d0 of them.
+// 0x48-byte entries from 0xb0 of Sanbo; StartSanboLaunch writes the first mPieceCount of them.
 typedef struct SanboPiece {
     /* 00 */ Vec3 mPos;
     /* 0c */ Vec3 mVelocity;
@@ -14,12 +14,12 @@ typedef struct SanboPiece {
     /* 1c */ u16 mWobbleAngle;
     /* 1e */ u8 mUnk_1e[2];
     /* 20 */ s32 mWobbleValue;
-    /* 24 */ s32 mUnk_24;
+    /* 24 */ s32 mWobbleValueDelta;
     /* 28 */ s32 mWobbleMid;
     /* 2c */ s32 mWobbleAmplitude;
     /* 30 */ s32 mWobbleAmplitudePerFrame;
     /* 34 */ s32 mWobbleAnglePerFrame;
-    /* 38 */ s32 mUnk_38;
+    /* 38 */ s32 mWobbleAnglePerFrameDelta;
     /* 3c */ s32 mRotateZAngle;
     /* 40 */ s32 mRotateZAnglePerFrame;
     /* 44 */ s32 mWobbleDelayTimer;

@@ -270,10 +270,10 @@ void DrawRaceHudSubScreenCells(RaceHudOamBuffer *oamBuffer, RaceHudSubScreenCell
             oam = &oamBuffer->mOamBits[oamIndex];
             for (; oamIndex < oamBuffer->mOamCount; oamIndex++, oam++) {
                 if ((flag != 0 ? 1 : -1) != -1) {
-                    oam->mUnk_0a = flag != 0 ? 1 : -1;
+                    oam->mObjMode = flag != 0 ? 1 : -1;
                 }
                 if (priority != -1) {
-                    oam->mUnk_0e = priority;
+                    oam->mPriority = priority;
                 }
             }
         }
@@ -332,10 +332,10 @@ void DrawRaceHudSubScreenCellsScaled(RaceHudOamBuffer *oamBuffer, RaceHudSubScre
             oam = &oamBuffer->mOamBits[oamIndex];
             for (; oamIndex < oamBuffer->mOamCount; oamIndex++, oam++) {
                 if ((flag != 0 ? 1 : -1) != -1) {
-                    oam->mUnk_0a = flag != 0 ? 1 : -1;
+                    oam->mObjMode = flag != 0 ? 1 : -1;
                 }
                 if (priority != -1) {
-                    oam->mUnk_0e = priority;
+                    oam->mPriority = priority;
                 }
             }
         }

@@ -124,7 +124,7 @@ void SetupTrophy(void) {
         wobble->mAmplitude = 0xaab;
         wobble->mAmplitudePerFrame = 0;
         wobble->mAnglePerFrame = 0x36;
-        wobble->mUnk_1c = 0;
+        wobble->mAnglePerFrameDelta = 0;
         MTX_Identity43_(&gTrophy->mEffectMatrix);
         if (gTrophy->mRankIndex == 0) {
             gTrophy->mEffect0->mRadius = gTrophy->mUnk_114;
@@ -259,13 +259,13 @@ void AdvanceTrophy(void) {
         wobble->mAmplitude = value;
     }
     if (wobble->mAnglePerFrame > 0) {
-        value = wobble->mAnglePerFrame + wobble->mUnk_1c;
+        value = wobble->mAnglePerFrame + wobble->mAnglePerFrameDelta;
         if (value <= 0) {
             value = 0;
         }
         wobble->mAnglePerFrame = value;
     } else if (wobble->mAnglePerFrame < 0) {
-        value = wobble->mAnglePerFrame + wobble->mUnk_1c;
+        value = wobble->mAnglePerFrame + wobble->mAnglePerFrameDelta;
         if (value >= 0) {
             value = 0;
         }

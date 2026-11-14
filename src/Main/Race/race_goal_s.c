@@ -308,7 +308,7 @@ void DrawRaceGoalSKarts(RaceHudOamBuffer *oamBuffer) {
             oamBuffer->mOamCount +=
                 NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, cell21Position, 0, 1);
             for (; oamIndex < oamBuffer->mOamCount; oamIndex++, oam++) {
-                oam->mUnk_0e = 1;
+                oam->mPriority = 1;
             }
             break;
         case 4:
@@ -322,7 +322,7 @@ void DrawRaceGoalSKarts(RaceHudOamBuffer *oamBuffer) {
             oamBuffer->mOamCount +=
                 NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, cell22Position, 0, 1);
             for (; oamIndex < oamBuffer->mOamCount; oamIndex++, oam++) {
-                oam->mUnk_0e = 1;
+                oam->mPriority = 1;
             }
             break;
         case 7:
@@ -338,7 +338,7 @@ void DrawRaceGoalSKarts(RaceHudOamBuffer *oamBuffer) {
                 oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL,
                                                               cell2bPosition, 0, 1);
                 for (; oamIndex < oamBuffer->mOamCount; oamIndex++, oam++) {
-                    oam->mUnk_0e = 1;
+                    oam->mPriority = 1;
                 }
             }
             break;

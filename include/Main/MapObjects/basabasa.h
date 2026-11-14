@@ -19,8 +19,8 @@ typedef struct Basabasa {
     /* bc */ s32 mSoundRequested;
     /* c0 */ u16 mRaceHudSubScreenCellKind;
     /* c2 */ u8 mUnk_c2[2];
-    /* c4 */ s32 mUnk_c4;
-    /* c8 */ s32 mUnk_c8;
+    /* c4 */ s32 mDrawAngleOffset;
+    /* c8 */ s32 mDrawAngleOffsetPerFrame;
     /* cc */ s32 mRotateZNegated;
     /* d0 */ u8 mHitKartMask;
     /* d1 */ u8 mUnk_d1[3];

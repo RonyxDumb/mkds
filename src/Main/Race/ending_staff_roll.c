@@ -37,7 +37,7 @@ void InitEndingStaffRoll(void) {
     gEndingStaffRoll = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x414);
     for (oamIndex = 0; oamIndex < 0x80; oamIndex++) {
         oamBits = &gEndingStaffRoll->mOamBuffer.mOamBits[oamIndex];
-        oamBits->mUnk_0a = 3;
+        oamBits->mObjMode = 3;
     }
     gEndingStaffRoll->mStaffRollFrames = 0;
     LoadNclrData(&gEndingStaffRoll->mEndingStaffRollMO00Nclr, FindSceneFileWrapper("ending_staffRoll_m_o_00.NCLR"));
@@ -87,8 +87,8 @@ void DrawEndingStaffRoll(void) {
         oamBuffer->mOamCount +=
             NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, position, 0, 1);
         for (; oamIndex < oamBuffer->mOamCount; oamIndex++) {
-            oamBits->mUnk_0a = 1;
-            oamBits->mUnk_0e = 1;
+            oamBits->mObjMode = 1;
+            oamBits->mPriority = 1;
             oamBits++;
         }
     }

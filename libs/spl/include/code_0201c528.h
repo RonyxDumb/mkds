@@ -258,16 +258,16 @@ struct ParticleEmitter {
     /* 8a */ Vec3s16 mAxisY;
     /* 90 */ void (*mCallback)(ParticleEmitter *p, s32 a);
     /* 94 */ union {
-        void *mUnk_94;
+        void *mCallbackData;
         u32 mUnk_94_u;
     };
     /* 98 */ union {
-        u32 mUnk_98;
-        Unk0201ca6c_98 mUnk_98_b;
+        u32 mCallbackState;
+        Unk0201ca6c_98 mCallbackBytes;
         struct {
-            u8 mUnk_98_0;
+            u8 mVelocityFactorIndex;
             u8 mUnk_98_8;
-            u8 mUnk_98_16;
+            u8 mStepCount;
             u8 mUnk_98_24;
         };
     };

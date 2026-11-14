@@ -229,7 +229,7 @@ void InitSanboObjects(MapObjectList *mapObjectList) {
             sanbo->mPieces[pieceIndex].mWobbleAmplitude = 0x71c;
             sanbo->mPieces[pieceIndex].mWobbleAmplitudePerFrame = 0;
             sanbo->mPieces[pieceIndex].mWobbleAnglePerFrame = 0x2d8;
-            sanbo->mPieces[pieceIndex].mUnk_38 = 0;
+            sanbo->mPieces[pieceIndex].mWobbleAnglePerFrameDelta = 0;
             sanbo->mPieces[pieceIndex].mDrawScale = 0x1000;
             sanbo->mPieces[pieceIndex].mRotateZAngle = 0;
             sanbo->mPieces[pieceIndex].mWobbleDelayTimer = pieceIndex * 0x14;
@@ -294,13 +294,13 @@ void UpdateSanbo(void *mapObjectList, Sanbo *sanbo) {
                     sanbo->mPieces[pieceIndex].mWobbleDelayTimer = 0;
                     sanbo->mPieces[pieceIndex].mWobbleAngle =
                         sanbo->mPieces[pieceIndex].mWobbleAngle + sanbo->mPieces[pieceIndex].mWobbleAnglePerFrame;
-                    sanbo->mPieces[pieceIndex].mUnk_24 =
+                    sanbo->mPieces[pieceIndex].mWobbleValueDelta =
                         sanbo->mPieces[pieceIndex].mWobbleMid +
                         SanboFX_MulInline(sanbo->mPieces[pieceIndex].mWobbleAmplitude,
                                           SanboFX_SinIdx(sanbo->mPieces[pieceIndex].mWobbleAngle)) -
                         sanbo->mPieces[pieceIndex].mWobbleValue;
                     sanbo->mPieces[pieceIndex].mWobbleValue =
-                        sanbo->mPieces[pieceIndex].mWobbleValue + sanbo->mPieces[pieceIndex].mUnk_24;
+                        sanbo->mPieces[pieceIndex].mWobbleValue + sanbo->mPieces[pieceIndex].mWobbleValueDelta;
                     value = sanbo->mPieces[pieceIndex].mWobbleAmplitude;
                     if (value > 0) {
                         newValue = value + sanbo->mPieces[pieceIndex].mWobbleAmplitudePerFrame;
@@ -317,13 +317,13 @@ void UpdateSanbo(void *mapObjectList, Sanbo *sanbo) {
                     }
                     value = sanbo->mPieces[pieceIndex].mWobbleAnglePerFrame;
                     if (value > 0) {
-                        newValue = value + sanbo->mPieces[pieceIndex].mUnk_38;
+                        newValue = value + sanbo->mPieces[pieceIndex].mWobbleAnglePerFrameDelta;
                         if (newValue <= 0) {
                             newValue = 0;
                         }
                         sanbo->mPieces[pieceIndex].mWobbleAnglePerFrame = newValue;
                     } else if (value < 0) {
-                        newValue = value + sanbo->mPieces[pieceIndex].mUnk_38;
+                        newValue = value + sanbo->mPieces[pieceIndex].mWobbleAnglePerFrameDelta;
                         if (newValue >= 0) {
                             newValue = 0;
                         }

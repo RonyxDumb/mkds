@@ -142,11 +142,11 @@ typedef struct KoopaBlock {
 
 // Kind record InitRotary reads: the course map rows of the rotary kinds point at it.
 typedef struct RotaryKindInfo {
-    /* 00 */ s32 mUnk_00;
+    /* 00 */ s32 mUsesAxis1;
     /* 04 */ s32 mRadius;
     /* 08 */ s32 mHeight;
     /* 0c */ s32 mModelIndex;
-    /* 10 */ s32 mUnk_10;
+    /* 10 */ s32 mSignedNormalYLimit;
     /* 14 */ s32 mCollisionFlag;
     /* 18 */ s32 mSoundId;
 } RotaryKindInfo;

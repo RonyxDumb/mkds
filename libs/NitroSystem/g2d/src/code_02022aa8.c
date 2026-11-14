@@ -143,11 +143,11 @@ s32 NNS_G2dArrangeOBJ1D(void *oam, s32 areaWidth, s32 areaHeight, s32 originX, s
         objY = originY + (oy << heightShift) * 8;
         for (colIdx = 0; colIdx < numX; colIdx++) {
             objX = (originX + (colIdx << widthShift) * 8) & 0x1ff;
-            pObj->mUnk_00 = (pObj->mUnk_00 & 0xfe00ff00) | (objY & 0xff) | (objX << 16);
-            pObj->mUnk_00 = (pObj->mUnk_00 & 0x3fff3fff) | objShape;
-            pObj->mUnk_04 = (pObj->mUnk_04 & -0x400) | charName;
+            pObj->mAttr01 = (pObj->mAttr01 & 0xfe00ff00) | (objY & 0xff) | (objX << 16);
+            pObj->mAttr01 = (pObj->mAttr01 & 0x3fff3fff) | objShape;
+            pObj->mAttr2 = (pObj->mAttr2 & -0x400) | charName;
             charName += charNameStep;
-            pObj->mUnk_00 = (pObj->mUnk_00 & ~0x2000) | (color << 13);
+            pObj->mAttr01 = (pObj->mAttr01 & ~0x2000) | (color << 13);
             pObj++;
         }
     }

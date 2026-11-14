@@ -15,8 +15,8 @@ typedef struct CellLayoutEntry {
     /* 00 */ union {
         u32 mUnk_00;
         struct {
-            LayoutAxis mUnk_00_0;
-            LayoutAxis mUnk_00_2;
+            LayoutAxis mAxisX;
+            LayoutAxis mAxisY;
         };
     };
     /* 04 */ u32 mCellIndex;
@@ -63,13 +63,13 @@ typedef struct LayoutTableEntry {
 // 8-byte elements InitLabelCanvas fills and copies into NNSG2dCellOAMAttrData elements.
 typedef struct OamAttrEntry {
     /* 00 */ union {
-        u32 mUnk_00;
+        u32 mAttr01;
         struct {
-            u16 mUnk_00_0;
-            u16 mUnk_00_2;
+            u16 mAttr0;
+            u16 mAttr1;
         };
     };
-    /* 04 */ u16 mUnk_04;
+    /* 04 */ u16 mAttr2;
     /* 06 */ u16 mUnk_06;
 } OamAttrEntry;
 

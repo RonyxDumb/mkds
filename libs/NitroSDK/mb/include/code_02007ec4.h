@@ -51,7 +51,7 @@ typedef struct SegmentBuffer {
     /* 034 */ u32 mSubEntryAddress;
     /* 038 */ u32 mSubRamRange[2];
     /* 040 */ u8 mUnk_040[0x120];
-    /* 160 */ u8 mUnk_160[0x88];
+    /* 160 */ u8 mAuthCode[0x88];
     /* 1e8 */ MBiCacheList mCacheList;
     /* 258 */ u32 mCardMapping[1];
 } SegmentBuffer;
