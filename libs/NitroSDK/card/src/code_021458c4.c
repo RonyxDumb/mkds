@@ -542,19 +542,19 @@ void CARDi_IdentifyBackupCore(s32 type) {
     if (typeLow == 1) {
         switch (size) {
             case 0x200:
-                commandArg->mPageSize = 0x10;
+                commandArg->mPageSize = BACKUP_DEVICE_512B_PAGE_SIZE;
                 commandArg->mAddrWidth = 1;
-                commandArg->mProgramPage = 0x4f;
+                commandArg->mProgramPage = BACKUP_DEVICE_PROGRAM_PAGE_COMMON;
                 break;
             case 0x2000:
-                commandArg->mPageSize = 0x20;
+                commandArg->mPageSize = BACKUP_DEVICE_8KB_PAGE_SIZE;
                 commandArg->mAddrWidth = 2;
-                commandArg->mProgramPage = 0x4f;
+                commandArg->mProgramPage = BACKUP_DEVICE_PROGRAM_PAGE_COMMON;
                 break;
             case 0x10000:
-                commandArg->mPageSize = 0x80;
+                commandArg->mPageSize = BACKUP_DEVICE_64KB_PAGE_SIZE;
                 commandArg->mAddrWidth = 2;
-                commandArg->mProgramPage = 0x9e;
+                commandArg->mProgramPage = BACKUP_DEVICE_64KB_PROGRAM_PAGE;
                 break;
             default:
                 goto fail;
@@ -579,9 +579,9 @@ void CARDi_IdentifyBackupCore(s32 type) {
                 goto fail;
         }
         commandArg->mSectSize = 0x10000;
-        commandArg->mPageSize = 0x100;
+        commandArg->mPageSize = BACKUP_DEVICE_LARGE_PAGE_SIZE;
         commandArg->mAddrWidth = 3;
-        commandArg->mProgramPage = 0x4f;
+        commandArg->mProgramPage = BACKUP_DEVICE_PROGRAM_PAGE_COMMON;
     } else if (typeLow == 3 && (size == 0x2000 || size == 0x8000)) {
         commandArg->mPageSize = size;
         commandArg->mAddrWidth = 2;

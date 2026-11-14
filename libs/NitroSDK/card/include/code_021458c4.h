@@ -70,6 +70,22 @@ typedef enum RomAccessResult {
     ROM_ACCESS_CALLED_OFF = 7
 } RomAccessResult;
 
+// Values written to CARDiCommandArg.mPageSize: the page size of the backup devices of 512 bytes, 8 KB and 64 KB, and of
+// the large devices. Smaller devices use smaller pages.
+enum {
+    BACKUP_DEVICE_512B_PAGE_SIZE = 0x10,
+    BACKUP_DEVICE_8KB_PAGE_SIZE = 0x20,
+    BACKUP_DEVICE_64KB_PAGE_SIZE = 0x80,
+    BACKUP_DEVICE_LARGE_PAGE_SIZE = 0x100,
+};
+
+// Values written to CARDiCommandArg.mProgramPage: the 64 KB devices use their own value, every other device with one
+// the common value.
+enum {
+    BACKUP_DEVICE_PROGRAM_PAGE_COMMON = 0x4f,
+    BACKUP_DEVICE_64KB_PROGRAM_PAGE = 0x9e,
+};
+
 // The command block: mResult is the result of the last request.
 typedef struct CARDiCommandArg {
     /* 00 */ u32 mResult;
@@ -81,7 +97,7 @@ typedef struct CARDiCommandArg {
     /* 18 */ u32 mTotalSize;
     /* 1c */ u32 mSectSize;
     /* 20 */ u32 mPageSize;
-    /* 24 */ u32 mAddrWidth;
+    /* 24 */ u32 mAddrWidth; // address bytes of the device: 1, 2 or 3
     /* 28 */ u32 mProgramPage;
     /* 2c */ u32 mWritePage;
     /* 30 */ u32 mWritePageTotal;
