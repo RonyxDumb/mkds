@@ -222,7 +222,7 @@ void UpdateJg(void) {
     if (gJgKart == NULL) {
         return;
     }
-    if (gJgStateMachine.mState != 0) {
+    if (gJgStateMachine.mState != JG_STATE_OFF) {
         gJgTableIndex++;
         if (gJgTableIndex >= 0x3c) {
             gJgTableIndex = 0;
@@ -238,7 +238,8 @@ void UpdateJg(void) {
                 }
             }
         }
-        if (gJgStateMachine.mState != 4 && (gJgStateMachine.mState != 5 || gJgKind != 4)) {
+        if (gJgStateMachine.mState != JG_STATE_FOLLOW_KART &&
+            (gJgStateMachine.mState != JG_STATE_LEAVE || gJgKind != 4)) {
             gJgKartPos = gJgKart->mPos;
             gJgKartPos.y -= gJgKart->mHopHeight;
         }
@@ -246,7 +247,7 @@ void UpdateJg(void) {
         UpdateJgPosition();
     }
     AdvanceStateMachine(&gJgStateMachine);
-    if (gJgStateMachine.mState != 0) {
+    if (gJgStateMachine.mState != JG_STATE_OFF) {
         return;
     }
     if (gRaceSetup->mMode == MODE_BATTLE) {
@@ -270,7 +271,7 @@ void UpdateJg(void) {
                 gJgSnapUntilPushFlip = 1;
             }
         }
-        SetStateMachineState(&gJgStateMachine, 6);
+        SetStateMachineState(&gJgStateMachine, JG_STATE_ARRIVE);
         return;
     }
     if (IsKartEnded(gJgKartIndex) != 0) {
@@ -295,7 +296,7 @@ void UpdateJg(void) {
                         gJgSnapUntilPushFlip = 1;
                     }
                 }
-                SetStateMachineState(&gJgStateMachine, 6);
+                SetStateMachineState(&gJgStateMachine, JG_STATE_ARRIVE);
                 return;
             }
             gJgKind = 0;
@@ -305,7 +306,7 @@ void UpdateJg(void) {
                     gJgSnapUntilPushFlip = 1;
                 }
             }
-            SetStateMachineState(&gJgStateMachine, 6);
+            SetStateMachineState(&gJgStateMachine, JG_STATE_ARRIVE);
             return;
         }
     }
@@ -325,7 +326,7 @@ void UpdateJg(void) {
         gJgKartPos = gJgKart->mPos;
         gJgKartPos.y -= gJgKart->mHopHeight;
         ComputeJgMatrixAndInverse();
-        SetStateMachineState(&gJgStateMachine, 1);
+        SetStateMachineState(&gJgStateMachine, JG_STATE_REVERSE);
         return;
     }
     gJgAgainstCheckpointFrames = 0;
@@ -520,7 +521,7 @@ void UpdateJgPosition(void) {
     s32 deltaZ;
     s32 deltaX;
 
-    if (gJgStateMachine.mState == 4 || gJgVisible == 0) {
+    if (gJgStateMachine.mState == JG_STATE_FOLLOW_KART || gJgVisible == 0) {
         gJgProbeCenter = gJgTargetPos;
         gJgPreviousCollisionCenter = gJgProbeCenter;
         gJgCollisionCenter = gJgPreviousCollisionCenter;
@@ -556,7 +557,7 @@ void UpdateJgPosition(void) {
 
         pushMin = (Vec3){0, 0, 0};
         pushMax = (Vec3){0, 0, 0};
-        if (gJgStateMachine.mState == 6 || gJgStateMachine.mState == 2) {
+        if (gJgStateMachine.mState == JG_STATE_ARRIVE || gJgStateMachine.mState == JG_STATE_LAP) {
             previousPos = NULL;
         } else {
             previousPos = &gJgPreviousCollisionCenter;
@@ -607,7 +608,7 @@ void UpdateJgPosition(void) {
             }
             offsetVec = pushMin;
             VEC_Add(&offsetVec, &pushMax, &offsetVec);
-            if (offsetVec.y < 0 && gJgStateMachine.mState == 5) {
+            if (offsetVec.y < 0 && gJgStateMachine.mState == JG_STATE_LEAVE) {
                 offsetVec.y = 0;
             }
             VEC_Add(&gJgPos, &offsetVec, &gJgPos);
@@ -837,7 +838,7 @@ void UpdateJgState1(void) {
         gJgState1AngleActive = 0;
         AdvanceJgPointsAndSetTarget(&gJgKind2Offset, &gJgKind2EndScale, &gJgKind2StartScale);
         if (gJgInView == 0 && gJgNearKart == 0) {
-            SetStateMachineState(&gJgStateMachine, 1);
+            SetStateMachineState(&gJgStateMachine, JG_STATE_REVERSE);
         }
     }
     if (frame == 0xa || frame == 0x28) {
@@ -847,12 +848,12 @@ void UpdateJgState1(void) {
         StartSndHandleSound(&gJgSoundStartParams, seqPlayer);
     }
     if (IsKartEnded(gJgKartIndex) != 0 || (gJgKart->mDriveFlags & KART_DRIVE_RESPAWN_WAIT) != 0) {
-        SetStateMachineState(&gJgStateMachine, 5);
+        SetStateMachineState(&gJgStateMachine, JG_STATE_LEAVE);
         return;
     }
     if ((gRaceProgress->mKarts[gJgKartIndex].mFlags & RACE_PROGRESS_KART_FLAG_AGAINST_CHECKPOINT) == 0) {
         if (++gJgAgainstCheckpointFrames > 0x3c) {
-            SetStateMachineState(&gJgStateMachine, 5);
+            SetStateMachineState(&gJgStateMachine, JG_STATE_LEAVE);
             return;
         }
     } else {
@@ -861,7 +862,7 @@ void UpdateJgState1(void) {
     if ((gJgKart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE) == 0) {
         return;
     }
-    SetStateMachineState(&gJgStateMachine, 5);
+    SetStateMachineState(&gJgStateMachine, JG_STATE_LEAVE);
 }
 
 void EnterJgState2(void) {
@@ -883,7 +884,7 @@ void UpdateJgState2(void) {
     targetOffset.x += gJgShiftX;
     MTX_MultVec43(&targetOffset, &gJgMatrix, &gJgTargetPos);
     if (++gJgStateCounter > gJgState2FrameCount || (gJgKart->mDriveFlags & KART_DRIVE_RESPAWN_WAIT) != 0) {
-        SetStateMachineState(&gJgStateMachine, 5);
+        SetStateMachineState(&gJgStateMachine, JG_STATE_LEAVE);
     }
 }
 
@@ -902,7 +903,7 @@ void UpdateJgState3(void) {
     if ((gJgKart->mDriveFlags & KART_DRIVE_RESPAWN_WAIT) == 0) {
         return;
     }
-    SetStateMachineState(&gJgStateMachine, 5);
+    SetStateMachineState(&gJgStateMachine, JG_STATE_LEAVE);
 }
 
 void EnterJgState4(void) {
@@ -983,7 +984,7 @@ void UpdateJgState4(void) {
         gJgKartPos = gJgKart->mPos;
     } else if (--gJgStateCounter <= 0) {
         gJgMain.mFrameIndex = 0;
-        SetStateMachineState(&gJgStateMachine, 5);
+        SetStateMachineState(&gJgStateMachine, JG_STATE_LEAVE);
     }
     if (GetEntryRaceEnded() != 0) {
         matrix = GetViewRotatedMatrix();
@@ -1026,7 +1027,7 @@ void UpdateJgState5(void) {
         return;
     }
     NNS_SndPlayerStopSeq(GetSndHandleSlot(4), 1);
-    SetStateMachineState(&gJgStateMachine, 0);
+    SetStateMachineState(&gJgStateMachine, JG_STATE_OFF);
 }
 
 void EnterJgState6(void) {
@@ -1081,7 +1082,7 @@ void EnterJgState6(void) {
     gJgState1AngleActive = 0;
 }
 
-// Lowers the target from above; when the height reaches 0 it picks state 2 (kinds 0, 1), 3 (kind 3) or 5.
+// Lowers the target from above; when the height reaches 0 it picks LAP (kinds 0, 1), FLAG (kind 3) or LEAVE.
 void UpdateJgState6(void) {
     s32 clampedStep;
     s32 heightOffset;
@@ -1099,13 +1100,13 @@ void UpdateJgState6(void) {
         switch (gJgKind) {
             case 0:
             case 1:
-                SetStateMachineState(&gJgStateMachine, 2);
+                SetStateMachineState(&gJgStateMachine, JG_STATE_LAP);
                 break;
             case 3:
-                SetStateMachineState(&gJgStateMachine, 3);
+                SetStateMachineState(&gJgStateMachine, JG_STATE_FLAG);
                 break;
             default:
-                SetStateMachineState(&gJgStateMachine, 5);
+                SetStateMachineState(&gJgStateMachine, JG_STATE_LEAVE);
                 break;
         }
     }

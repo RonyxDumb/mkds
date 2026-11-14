@@ -866,6 +866,19 @@ extern s32 gJgAgainstCheckpointFrames;
 extern s32 gJgVisible;
 extern s32 gJgSnapActive;
 
+// gJgStateMachine.mState values, in the order of gJgStateTable. OFF is the idle state; REVERSE, LAP and FLAG follow
+// the kart with the model of that kind (the jg_reverse and jg_flag files, the lap model); FOLLOW_KART waits at the
+// kart; LEAVE rises out of view and ends in OFF; ARRIVE lowers in from above and picks LAP, FLAG or LEAVE by kind.
+enum {
+    JG_STATE_OFF,
+    JG_STATE_REVERSE,
+    JG_STATE_LAP,
+    JG_STATE_FLAG,
+    JG_STATE_FOLLOW_KART,
+    JG_STATE_LEAVE,
+    JG_STATE_ARRIVE,
+};
+
 extern StateMachine gJgStateMachine;
 extern void **gFoundCollisionSlotObjects;
 extern s16 gFoundCollisionSlotCount;
