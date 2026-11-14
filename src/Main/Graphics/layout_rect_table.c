@@ -5,10 +5,10 @@ s32 GetLayoutAxisStartX(LayoutAxis axis, s32 size) {
 
     start = axis.mPosition;
     switch (axis.mAlign) {
-        case 1:
+        case LAYOUT_ALIGN_CENTER:
             start -= (size + 1) / 2;
             break;
-        case 2:
+        case LAYOUT_ALIGN_END:
             start -= size;
             break;
     }
@@ -20,10 +20,10 @@ s32 GetLayoutAxisStartY(LayoutAxis axis, s32 size) {
 
     start = axis.mPosition;
     switch (axis.mAlign) {
-        case 1:
+        case LAYOUT_ALIGN_CENTER:
             start -= (size + 1) / 2;
             break;
-        case 2:
+        case LAYOUT_ALIGN_END:
             start -= size;
             break;
     }

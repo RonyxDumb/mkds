@@ -2,6 +2,13 @@
 
 #include "types.h"
 
+// Values of LayoutAxis.mAlign: the position is the start edge, the middle, or the end edge of the extent.
+enum {
+    LAYOUT_ALIGN_START,
+    LAYOUT_ALIGN_CENTER,
+    LAYOUT_ALIGN_END,
+};
+
 // Two bytes: a signed 12-bit number, a 2-bit selector at bit 12, and two more bits.
 typedef struct LayoutAxis {
     /* 00 */ s16 mPosition : 12;
