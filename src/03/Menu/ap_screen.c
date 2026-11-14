@@ -72,7 +72,7 @@ struct Ap *gAp;
 void CreateAp(void) {
     Ap *apObject = AllocZeroedExpHeapBlock(0x20, 4);
     gAp = apObject;
-    apObject->mCloseKind = 0;
+    apObject->mCloseKind = AP_CLOSE_KIND_NONE;
     LoadApFilesAndSetBgCnt();
     LoadHlScr(1);
     ShowSubScreenMessage(0x7b, -1, 0);
@@ -205,7 +205,7 @@ void UpdateApResult(void) {
             switch (GetMode()) {
                 case 0:
                     StartSoundSeq(7);
-                    gAp->mCloseKind = 2;
+                    gAp->mCloseKind = AP_CLOSE_KIND_BACK;
                     break;
                 case 1:
                     DisableButtonTouch();
@@ -214,7 +214,7 @@ void UpdateApResult(void) {
             }
             break;
         case 1:
-            gAp->mCloseKind = 1;
+            gAp->mCloseKind = AP_CLOSE_KIND_SELECTED;
             selectedIndex = gApSelectedIndex[0];
             if (selectedIndex >= 4) {
                 entryIndex = selectedIndex - 4;
@@ -243,7 +243,7 @@ void UpdateApResult(void) {
 }
 
 void StartApClose(void) {
-    if (gAp->mCloseKind == 2) {
+    if (gAp->mCloseKind == AP_CLOSE_KIND_BACK) {
         StartMenuPairObjectsSlideOut();
     }
     DisableButtonTouch();
@@ -253,7 +253,7 @@ void StartApClose(void) {
 
 void UpdateApFadeOut(void) {
     if (IsBlendBrightnessFadeSlotBusy(1) == 0) {
-        if (gAp->mCloseKind == 1) {
+        if (gAp->mCloseKind == AP_CLOSE_KIND_SELECTED) {
             if (gApSelectedIndex[0] == 3 || GetApWorkCopy()->mEntry.mSetType != AP_SET_TYPE_EMPTY) {
                 StartSlideButtonsOut();
             }
@@ -284,7 +284,7 @@ void UpdateApRelease(void) {
         LoadFileToVram("char/ybObjMain.ncl.l", GX_LoadOBJPltt);
         ClearDispcntBits(1, 1);
         ClearDispcntBits(0, 0x14);
-        if (gAp->mCloseKind == 2) {
+        if (gAp->mCloseKind == AP_CLOSE_KIND_BACK) {
             SetPrimaryMenuPair(0, 0);
             SetUpdateFunction(SetupJb2Menu);
         } else {

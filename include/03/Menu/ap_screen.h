@@ -9,6 +9,13 @@
 extern const ApObjectPosition gApObjectPositions[6];
 extern const Rect gApSelectionRects[7];
 
+// Values of Ap.mCloseKind: how the screen was left; BACK also slides the menu pair objects out.
+enum {
+    AP_CLOSE_KIND_NONE,
+    AP_CLOSE_KIND_SELECTED,
+    AP_CLOSE_KIND_BACK,
+};
+
 typedef struct Ap {
     /* 00 */ void *mYbBgStep11Ncl;
     /* 04 */ OamRange *mEntryIconObjects[3];
