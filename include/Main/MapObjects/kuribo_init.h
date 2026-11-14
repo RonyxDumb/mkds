@@ -7,6 +7,14 @@
 
 typedef struct CourseMapRow CourseMapRow;
 
+// Kuribo.mMapObject.mStateMachine states, in the order of gKuriboStateTable.
+#define KURIBO_STATE_WALK_PATH 0
+#define KURIBO_STATE_FALL_TO_SURFACE 1 // objects created without a path start here
+#define KURIBO_STATE_STRETCH 2 // after a hit: the height scale grows to 0x1800
+#define KURIBO_STATE_SHRINK 3
+#define KURIBO_STATE_FLAT_WAIT 4 // waits 300 frames to return, else fades out
+#define KURIBO_STATE_SPRING_BACK 5 // the height scale springs back to 0x1000
+
 // Object of kind 0x191 (Kuribo), at least 0x108 bytes; also created in pools by ov001.
 typedef struct Kuribo {
     /* 00 */ MapObject mMapObject;

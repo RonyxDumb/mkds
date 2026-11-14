@@ -101,7 +101,7 @@ void InitKuribo(Kuribo *kuribo, CourseMapRow *row) {
             Quaternion identityB = {0, 0, 0, 0x1000};
             kuribo->mTargetOrientation = identityB;
         }
-        SetStateMachineState(&kuribo->mMapObject.mStateMachine, 1);
+        SetStateMachineState(&kuribo->mMapObject.mStateMachine, KURIBO_STATE_FALL_TO_SURFACE);
         kuribo->mMapObject.mPosStep.x = 0;
         kuribo->mMapObject.mPosStep.y = 0;
         kuribo->mMapObject.mPosStep.z = 0;

@@ -120,7 +120,7 @@ void EnterKuriboState2(Kuribo *kuribo) {
 void UpdateKuriboState2(Kuribo *kuribo) {
     kuribo->mScaleFactorY = MUL_FIXED12_NO_ROUND(kuribo->mScaleFactorY, 0x1266);
     if (kuribo->mScaleFactorY > 0x1800) {
-        kuribo->mMapObject.mStateMachine.mNextState = 3;
+        kuribo->mMapObject.mStateMachine.mNextState = KURIBO_STATE_SHRINK;
         kuribo->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
@@ -132,7 +132,7 @@ u32 EnterKuriboState3(u32 value) {
 void UpdateKuriboState3(Kuribo *kuribo) {
     kuribo->mScaleFactorY = MUL_FIXED12_NO_ROUND(kuribo->mScaleFactorY, 0xd99);
     if (kuribo->mScaleFactorY < 0x333) {
-        kuribo->mMapObject.mStateMachine.mNextState = 4;
+        kuribo->mMapObject.mStateMachine.mNextState = KURIBO_STATE_FLAT_WAIT;
         kuribo->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
@@ -144,7 +144,7 @@ u32 EnterKuriboState4(u32 value) {
 void UpdateKuriboState4(Kuribo *kuribo) {
     if (kuribo->mReturnsAfterWait != 0) {
         if (kuribo->mMapObject.mStateMachine.mStateFrames > 0x12c) {
-            kuribo->mMapObject.mStateMachine.mNextState = 5;
+            kuribo->mMapObject.mStateMachine.mNextState = KURIBO_STATE_SPRING_BACK;
             kuribo->mMapObject.mStateMachine.mNextStateRequested = 1;
         }
         return;
@@ -181,7 +181,7 @@ void UpdateKuriboState5(Kuribo *kuribo) {
     kuribo->mScaleFactorYSpeed = MUL_FIXED12_NO_ROUND(kuribo->mScaleFactorYSpeed, 0xd99);
     kuribo->mScaleFactorY += kuribo->mScaleFactorYSpeed;
     if (kuribo->mMapObject.mStateMachine.mStateFrames > 0x3c) {
-        kuribo->mMapObject.mStateMachine.mNextState = 0;
+        kuribo->mMapObject.mStateMachine.mNextState = KURIBO_STATE_WALK_PATH;
         kuribo->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
@@ -239,9 +239,10 @@ u32 CollideKartWithKuribo(Kuribo *kuribo, Kart *kart, u8 *firstResponsePtr, u8 *
             }
             break;
         case 1:
-            if (kuribo->mMapObject.mStateMachine.mState == 0 || kuribo->mMapObject.mStateMachine.mState == 5 ||
-                kuribo->mMapObject.mStateMachine.mState == 1) {
-                kuribo->mMapObject.mStateMachine.mNextState = 2;
+            if (kuribo->mMapObject.mStateMachine.mState == KURIBO_STATE_WALK_PATH ||
+                kuribo->mMapObject.mStateMachine.mState == KURIBO_STATE_SPRING_BACK ||
+                kuribo->mMapObject.mStateMachine.mState == KURIBO_STATE_FALL_TO_SURFACE) {
+                kuribo->mMapObject.mStateMachine.mNextState = KURIBO_STATE_STRETCH;
                 kuribo->mMapObject.mStateMachine.mNextStateRequested = 1;
                 StartSoundFullVolumeWrapper(&kart->mSoundSource, 0x185);
                 StartSoundIfKartStarOrKiller(&kuribo->mMapObject, kart);
@@ -263,9 +264,10 @@ u32 CollideItemObjectWithKuribo(Kuribo *kuribo, ItemObject *itemObject, u8 *firs
             }
             break;
         case 1:
-            if (kuribo->mMapObject.mStateMachine.mState == 0 || kuribo->mMapObject.mStateMachine.mState == 5 ||
-                kuribo->mMapObject.mStateMachine.mState == 1) {
-                kuribo->mMapObject.mStateMachine.mNextState = 2;
+            if (kuribo->mMapObject.mStateMachine.mState == KURIBO_STATE_WALK_PATH ||
+                kuribo->mMapObject.mStateMachine.mState == KURIBO_STATE_SPRING_BACK ||
+                kuribo->mMapObject.mStateMachine.mState == KURIBO_STATE_FALL_TO_SURFACE) {
+                kuribo->mMapObject.mStateMachine.mNextState = KURIBO_STATE_STRETCH;
                 kuribo->mMapObject.mStateMachine.mNextStateRequested = 1;
                 StartMissionRunKouraEffects(itemObject);
                 if (itemObject != NULL) {
@@ -282,7 +284,7 @@ void ResetKuriboForItemBomb(Kuribo *kuribo) {
     kuribo->mOrientationBlendAmount = 0x1000;
     kuribo->mOrientation = gKuriboBombResetOrientation;
     kuribo->mTargetOrientation = gKuriboBombResetTargetOrientation;
-    SetStateMachineState(&kuribo->mMapObject.mStateMachine, 1);
+    SetStateMachineState(&kuribo->mMapObject.mStateMachine, KURIBO_STATE_FALL_TO_SURFACE);
     kuribo->mMapObject.mPosStep.x = 0;
     kuribo->mMapObject.mPosStep.y = 0;
     kuribo->mMapObject.mPosStep.z = 0;
