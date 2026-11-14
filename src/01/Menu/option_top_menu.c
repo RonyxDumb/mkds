@@ -181,7 +181,7 @@ void AdvanceOptionTopMenuState3(void) {
     } else {
     leave:
         gOptionTopMenu->mNextState = OPTION_TOP_STATE_SLIDE_OUT;
-        gOptionTopMenu->mNextOptionState = 4;
+        gOptionTopMenu->mNextOptionState = OPTION_STATE_SCENE_TITLE;
         RequestSelectReturnState3WithSound(1);
         return;
     }
@@ -204,10 +204,10 @@ void AdvanceOptionTopMenuState3(void) {
         gOptionTopMenu->mNextState = OPTION_TOP_STATE_PRESS;
         switch (gOptionTopMenu->mIndex) {
             case OPTION_TOP_ROW_SETTINGS:
-                gOptionTopMenu->mNextOptionState = 1;
+                gOptionTopMenu->mNextOptionState = OPTION_STATE_SELECT_MENU;
                 break;
             case OPTION_TOP_ROW_EDIT:
-                gOptionTopMenu->mNextOptionState = 2;
+                gOptionTopMenu->mNextOptionState = OPTION_STATE_HENSYU_MENU;
                 break;
             case OPTION_TOP_ROW_ERASE_DATA:
                 break;
@@ -249,7 +249,7 @@ void AdvanceOptionTopMenuState5(void) {
     s32 rowIndex;
     s32 cellIndex;
 
-    if (GetOptionNextScene() == -1 && gOptionTopMenu->mNextOptionState == 4) {
+    if (GetOptionNextScene() == -1 && gOptionTopMenu->mNextOptionState == OPTION_STATE_SCENE_TITLE) {
         RequestOptionNextScene(0);
     }
     gOptionTopMenu->mStateFrames++;
@@ -269,7 +269,7 @@ void AdvanceOptionTopMenuState5(void) {
             }
         }
     }
-    if (gOptionTopMenu->mNextOptionState == 1) {
+    if (gOptionTopMenu->mNextOptionState == OPTION_STATE_SELECT_MENU) {
         gOptionTopMenu->mBg0Offset = InterpolateS16(1, 0, 50, gOptionTopMenu->mStateFrames, 10);
     }
     if (gOptionTopMenu->mStateFrames >= 10 &&
@@ -346,14 +346,14 @@ void AdvanceOptionTopMenuState8(void) {
 void AdvanceOptionTopMenuState9(void) {
     int v1;
     v1 = GetOptionNextScene();
-    if ((v1 == -1) && (gOptionTopMenu->mNextOptionState == 4)) {
+    if ((v1 == -1) && (gOptionTopMenu->mNextOptionState == OPTION_STATE_SCENE_TITLE)) {
         RequestOptionNextScene(0);
     }
     v1 = GetTxtSystemDone();
     if (v1 != 0) {
         SetTxtSystemOpenSoundId(0x23);
         RequestTxtSystemClose();
-        gOptionTopMenu->mNextOptionState = 4;
+        gOptionTopMenu->mNextOptionState = OPTION_STATE_SCENE_TITLE;
     }
 }
 

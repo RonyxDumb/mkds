@@ -300,7 +300,7 @@ void AdvanceOptionSelectMenuState2(void) {
                                        gInputSlots[idx].mPair.mPairX, gInputSlots[idx].mPair.mPairY) != FALSE) {
         L1:
             gOptionSelectMenu->mNextState = 4;
-            gOptionSelectMenu->mNextOptionState = 0;
+            gOptionSelectMenu->mNextOptionState = OPTION_STATE_TOP_MENU;
             for (rowIndex = 0; rowIndex < 2; rowIndex++) {
                 gOptionSelectMenu->mRowValues[rowIndex] = gOptionSelectMenu->mSavedRowValues[rowIndex];
             }
@@ -321,7 +321,7 @@ void AdvanceOptionSelectMenuState2(void) {
             gOptionSelectMenu->mHighlightVisible = FALSE;
         }
         gOptionSelectMenu->mNextState = 3;
-        gOptionSelectMenu->mNextOptionState = 0;
+        gOptionSelectMenu->mNextOptionState = OPTION_STATE_TOP_MENU;
         gOptionSelectMenu->mIndex = OPTION_SELECT_ROW_OK;
         gOptionSelectMenu->mOkChosen = TRUE;
         StopPaletteBlend();

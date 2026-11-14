@@ -92,27 +92,27 @@ void InitOptionStates(void *heap, s16 a) {
     gOptionStates->mNextScene = -1;
     switch (a) {
         case 0:
-            gOptionStates->mPrevState = 4;
-            gOptionStates->mState = 0;
+            gOptionStates->mPrevState = OPTION_STATE_SCENE_TITLE;
+            gOptionStates->mState = OPTION_STATE_TOP_MENU;
             RegisterOptionTopMenuCallbacks();
             break;
         case 14:
-            gOptionStates->mPrevState = 5;
-            gOptionStates->mState = 2;
+            gOptionStates->mPrevState = OPTION_STATE_SCENE_KEYBOARD;
+            gOptionStates->mState = OPTION_STATE_HENSYU_MENU;
             RegisterOptionHensyuMenuCallbacks();
             break;
         case 3:
-            gOptionStates->mPrevState = 6;
+            gOptionStates->mPrevState = OPTION_STATE_SCENE_EMBLEM;
             if (gMenuShared->mOptionReturnsToEmbremSelect == FALSE) {
-                gOptionStates->mState = 2;
+                gOptionStates->mState = OPTION_STATE_HENSYU_MENU;
                 RegisterOptionHensyuMenuCallbacks();
             } else {
-                gOptionStates->mState = 3;
+                gOptionStates->mState = OPTION_STATE_EMBREM_SELECT;
                 RegisterOptionEmbremSelectCallbacks();
             }
             break;
     }
-    gOptionStates->mNextState = -1;
+    gOptionStates->mNextState = OPTION_STATE_NONE;
     gOptionStates->mCallbacks.mInit(gOptionStates->mStateHeap);
 }
 
@@ -130,28 +130,28 @@ void AdvanceOptionStates(void) {
     if (gOptionStates->mCallbacks.mAdvance != NULL) {
         gOptionStates->mCallbacks.mAdvance();
     }
-    if (gOptionStates->mNextState != -1) {
+    if (gOptionStates->mNextState != OPTION_STATE_NONE) {
         gOptionStates->mCallbacks.mRelease();
         ClearOptionStateCallbacks();
         HeapDestroy(gOptionStates->mStateHeap);
         gOptionStates->mStateHeap = CreateExpHeapFromMaxFree(gOptionStates->mHeap);
         switch (gOptionStates->mNextState) {
-            case 0:
+            case OPTION_STATE_TOP_MENU:
                 RegisterOptionTopMenuCallbacks();
                 break;
-            case 1:
+            case OPTION_STATE_SELECT_MENU:
                 RegisterOptionSelectMenuCallbacks();
                 break;
-            case 2:
+            case OPTION_STATE_HENSYU_MENU:
                 RegisterOptionHensyuMenuCallbacks();
                 break;
-            case 3:
+            case OPTION_STATE_EMBREM_SELECT:
                 RegisterOptionEmbremSelectCallbacks();
                 break;
         }
         gOptionStates->mPrevState = gOptionStates->mState;
         gOptionStates->mState = gOptionStates->mNextState;
-        gOptionStates->mNextState = -1;
+        gOptionStates->mNextState = OPTION_STATE_NONE;
         if (gOptionStates->mCallbacks.mInit != NULL) {
             gOptionStates->mCallbacks.mInit(gOptionStates->mStateHeap);
         }
