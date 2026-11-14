@@ -135,7 +135,7 @@ void AdvanceSelectCupCourseState4(void) {
     gSelectCupCourse->mStateFrames++;
     if (gSelectCupCourse->mStateFrames >= 10) {
         if (IsSelectCupCourseIndexChangeRunning() == 0) {
-            if (gSelectCupCourse->mMode == 0) {
+            if (gSelectCupCourse->mMode == SELECT_CUP_COURSE_MODE_WITH_GHOSTS) {
                 SetupGhostRecordSetForCupCourse();
                 if (HasNoSelectableGhost() != FALSE) {
                     ReadGhostRecordsForKind(0);
@@ -154,14 +154,14 @@ void AdvanceSelectCupCourseState4(void) {
 
 void AdvanceSelectCupCourseState5(void) {
     switch (gSelectCupCourse->mMode) {
-        case 0:
-        case 1:
-        case 3:
+        case SELECT_CUP_COURSE_MODE_WITH_GHOSTS:
+        case SELECT_CUP_COURSE_MODE_NO_CONNECTION:
+        case SELECT_CUP_COURSE_MODE_MULTI_OTHER:
             if (IsSelectChoisesState1NoState0Request() != 0) {
                 RequestSelectCupCourseState6();
             }
             break;
-        case 2:
+        case SELECT_CUP_COURSE_MODE_MULTI_SIMPLE:
             gSelectCupCourse->mStateFrames++;
             if (gSelectCupCourse->mStateFrames >= 0xf) {
                 if (IsSelectChoisesState1NoState0Request() != 0 || GetSelectChoisesDone() != 0) {
@@ -196,9 +196,9 @@ void AdvanceSelectCupCourseState7(void) {
     s32 choiceIndex;
 
     switch (gSelectCupCourse->mMode) {
-        case 0:
-        case 1:
-        case 3:
+        case SELECT_CUP_COURSE_MODE_WITH_GHOSTS:
+        case SELECT_CUP_COURSE_MODE_NO_CONNECTION:
+        case SELECT_CUP_COURSE_MODE_MULTI_OTHER:
             if (IsSelectChoisesState0NoState1Request() != 0) {
                 choiceIndex = GetSelectChoisesIndex();
                 switch (choiceIndex) {
@@ -214,7 +214,7 @@ void AdvanceSelectCupCourseState7(void) {
                 }
             }
             break;
-        case 2:
+        case SELECT_CUP_COURSE_MODE_MULTI_SIMPLE:
             gSelectCupCourse->mStateFrames++;
             if (gSelectCupCourse->mStateFrames >= 0xf) {
                 if (IsSelectChoisesState0NoState1Request() != 0) {
@@ -249,7 +249,7 @@ void AdvanceSelectCupCourseState8(void) {
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         return;
     }
-    if (gSelectCupCourse->mMode == 0) {
+    if (gSelectCupCourse->mMode == SELECT_CUP_COURSE_MODE_WITH_GHOSTS) {
         if (gSelectCupCourse->mResult == 1) {
             if (HasNoSelectableGhost() != FALSE) {
                 movesTaOrVsCells = TRUE;
@@ -446,8 +446,8 @@ u32 GetSelectCupGridCupEnabled(u32 cupIndex) {
 
     enabled = 0;
     switch (gSelectCupGrid->mMode) {
-        case 0:
-        case 2:
+        case SELECT_CUP_GRID_MODE_SHOW_RECORDS:
+        case SELECT_CUP_GRID_MODE_NO_CONNECTION:
             switch (cupIndex) {
                 case 0:
                 case 1:
@@ -465,7 +465,7 @@ u32 GetSelectCupGridCupEnabled(u32 cupIndex) {
                     break;
             }
             break;
-        case 1:
+        case SELECT_CUP_GRID_MODE_NO_RECORDS:
             switch (cupIndex) {
                 case 0:
                 case 1:
@@ -485,12 +485,12 @@ u32 GetSelectCupGridCupEnabled(u32 cupIndex) {
                     break;
             }
             break;
-        case 3:
+        case SELECT_CUP_GRID_MODE_MULTI_SIMPLE:
             if (cupIndex == 0 || cupIndex == 4) {
                 enabled = 1;
             }
             break;
-        case 4:
+        case SELECT_CUP_GRID_MODE_MULTI_OTHER:
             switch (cupIndex) {
                 case 0:
                 case 1:
