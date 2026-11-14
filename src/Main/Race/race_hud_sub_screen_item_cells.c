@@ -309,31 +309,31 @@ void UpdateRaceHudSubScreenKarts(void) {
                                     &cellPosition, &gRaceHudSubScreenKarts->mCells->mCells[cellCount].mDrawPos,
                                     objectScale, 0, 1) != FALSE) {
                                 switch (object->mKind) {
-                                    case 0:
+                                    case ITEM_OBJECT_KIND_KOURA_G:
                                         gRaceHudSubScreenKarts->mCells->mCells[cellCount].mCell =
                                             GetRaceSNcerEntry(0x4c);
                                         break;
-                                    case 1:
+                                    case ITEM_OBJECT_KIND_KOURA_R:
                                         gRaceHudSubScreenKarts->mCells->mCells[cellCount].mCell =
                                             GetRaceSNcerEntry(0x4d);
                                         break;
-                                    case 2:
+                                    case ITEM_OBJECT_KIND_BANANA:
                                         gRaceHudSubScreenKarts->mCells->mCells[cellCount].mCell =
                                             GetRaceSNcerEntry(0x4b);
                                         break;
-                                    case 5:
+                                    case ITEM_OBJECT_KIND_KOURA_W:
                                         gRaceHudSubScreenKarts->mCells->mCells[cellCount].mCell =
                                             GetRaceSNcerEntry(0x56);
                                         break;
-                                    case 9:
+                                    case ITEM_OBJECT_KIND_BOMB:
                                         gRaceHudSubScreenKarts->mCells->mCells[cellCount].mCell =
                                             GetRaceSNcerEntry(0x55);
                                         break;
-                                    case 7:
+                                    case ITEM_OBJECT_KIND_F_BOX:
                                         gRaceHudSubScreenKarts->mCells->mCells[cellCount].mCell =
                                             GetRaceSNcerEntry(0x54);
                                         break;
-                                    case 8:
+                                    case ITEM_OBJECT_KIND_BOUNCING_ITEM_BOX:
                                         gRaceHudSubScreenKarts->mCells->mCells[cellCount].mCell =
                                             GetRaceSNcerEntry(0x4e);
                                         break;
