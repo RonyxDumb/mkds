@@ -1363,9 +1363,9 @@ gJbBgStep1NclName2 kind:data(any) addr:0x021d7004
 gJb2MenuNscName kind:data(any) addr:0x021d701c
 gYb5MultiNscName kind:data(any) addr:0x021d7030
 gYb5MultiNscName2 kind:data(any) addr:0x021d7044
-gMacAddressFormat kind:data(any) addr:0x021d7058
-gDashSeparatedNumbersFormat kind:data(any) addr:0x021d7094
-gDashesFormat kind:data(any) addr:0x021d70bc
+@800 kind:data(any) addr:0x021d7058 local
+@806 kind:data(any) addr:0x021d7094 local
+@807 kind:data(any) addr:0x021d70bc local
 gJb5InfoNscName kind:data(any) addr:0x021d70e4
 gYbBgOptionNclName kind:data(any) addr:0x021d70f8
 gYbBgOption1NclName kind:data(any) addr:0x021d7110
