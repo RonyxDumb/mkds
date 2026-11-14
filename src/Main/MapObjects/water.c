@@ -97,22 +97,22 @@ void UpdateWater(Water *water) {
         }
     }
     switch (water->mState) {
-        case 0:
+        case WATER_STATE_RISING:
             water->mHeightFactor = FX_SinIdx(water->mHeightAngle);
             water->mHeight = water->mMidHeight + MUL_FIXED12_NO_ROUND(water->mHeightAmplitude, water->mHeightFactor);
             water->mModelCY = water->mHeight;
             water->mHeightAngle = water->mHeightAngle + water->mHeightAnglePerFrame;
             water->mUnk_3a = water->mUnk_3a + water->mHeightAnglePerFrame;
             if (water->mHeightAngle > 0x3fff && water->mHeightAngle < 0x7fff) {
-                water->mState = 1;
+                water->mState = WATER_STATE_HOLD_TOP;
                 water->mHoldFrames = 0;
                 water->mHoldAngleStep = water->mHeightAnglePerFrame;
             }
             break;
-        case 1:
+        case WATER_STATE_HOLD_TOP:
             water->mHoldFrames = water->mHoldFrames + 1;
             if (water->mHoldFrames > water->mHighHoldFrameCount) {
-                water->mState = 2;
+                water->mState = WATER_STATE_FALLING;
                 if (water->mIsHeightUsed != 0 && volume >= 0) {
                     highSoundRequest.mSoundId = 0x114;
                     highSoundRequest.mPositionSource = NULL;
@@ -128,22 +128,22 @@ void UpdateWater(Water *water) {
                 water->mUnk_3a = water->mUnk_3a + water->mHoldAngleStep;
             }
             break;
-        case 2:
+        case WATER_STATE_FALLING:
             water->mHeightFactor = FX_SinIdx(water->mHeightAngle);
             water->mHeight = water->mMidHeight + MUL_FIXED12_NO_ROUND(water->mHeightAmplitude, water->mHeightFactor);
             water->mModelCY = water->mHeight;
             water->mHeightAngle = water->mHeightAngle + water->mHeightAnglePerFrame;
             water->mUnk_3a = water->mUnk_3a + water->mHeightAnglePerFrame;
             if (water->mHeightAngle > 0xbfff) {
-                water->mState = 3;
+                water->mState = WATER_STATE_HOLD_BOTTOM;
                 water->mHoldFrames = 0;
                 water->mHoldAngleStep = water->mHeightAnglePerFrame;
             }
             break;
-        case 3:
+        case WATER_STATE_HOLD_BOTTOM:
             water->mHoldFrames = water->mHoldFrames + 1;
             if (water->mHoldFrames > water->mLowHoldFrameCount) {
-                water->mState = 0;
+                water->mState = WATER_STATE_RISING;
                 if (water->mIsHeightUsed != 0 && volume >= 0) {
                     lowSoundRequest.mSoundId = 0x113;
                     lowSoundRequest.mPositionSource = NULL;
@@ -233,7 +233,7 @@ void InitWaterFields(s32 highHeight, s32 lowHeight, s32 modelARadius, s32 modelC
     gWater->mUnk_52 = unk52Value;
     gWater->mHeightAnglePerFrame = 0x10000 / framesPerCycle;
     gWater->mCircleAnglePerFrame = (u32) gWater->mHeightAnglePerFrame >> 2;
-    gWater->mState = 0;
+    gWater->mState = WATER_STATE_RISING;
     gWater->mHighHoldFrameCount = highHoldFrameCount;
     gWater->mLowHoldFrameCount = lowHoldFrameCount;
     gWater->mHeightFactor = 0;

@@ -35,6 +35,13 @@ typedef struct WaterEfct {
     /* 0c */ void *mNsbmaFile;
 } WaterEfct;
 
+// Water.mState: the height angle advances towards the top, holds at the top, advances towards the bottom, holds at the
+// bottom.
+#define WATER_STATE_RISING 0
+#define WATER_STATE_HOLD_TOP 1
+#define WATER_STATE_FALLING 2
+#define WATER_STATE_HOLD_BOTTOM 3
+
 // The course water: two models (the files ..._waterA and ..._waterC, Yoshi has no A) circling a map object's x/z while
 // the surface height swings between two heights the creator gives; 0x180 bytes, built by the five Create...Water
 // functions into gWater and published as gCourseWater.
@@ -62,30 +69,29 @@ typedef struct Water {
     /* 1c */ s32 mMidHeight;
     // z of the water map object; both models circle around it.
     /* 20 */ s32 mCenterZ;
-    // UpdateWater switches on it: 0 the angle advances towards the top, 1 hold at the top, 2 the angle advances towards
-    // the bottom, 3 hold at the bottom; only UpdateWater writes it.
+    // UpdateWater switches on it; only UpdateWater writes it.
     /* 24 */ s32 mState;
     // (a - b) / 2 of the two heights the creator gives; mHeight is mMidHeight plus this times mHeightFactor (both
     // creators with different heights pass the larger first).
     /* 28 */ s32 mHeightAmplitude;
-    // 0x10000 per turn, index (angle >> 4) * 2 into FX_SinCosTable_; advances only in states 0 and 2; 0x4000 is the top
-    // (pair value +1.0), 0xc000 the bottom; GetWaterHeightAngle returns it.
+    // 0x10000 per turn, index (angle >> 4) * 2 into FX_SinCosTable_; advances only while rising or falling; 0x4000 is
+    // the top (pair value +1.0), 0xc000 the bottom; GetWaterHeightAngle returns it.
     /* 2c */ u16 mHeightAngle;
-    // 0x10000 / the cycle length (in UpdateWater calls) the creator gives; added to mHeightAngle per call in states 0
-    // and 2.
+    // 0x10000 / the cycle length (in UpdateWater calls) the creator gives; added to mHeightAngle per call while rising
+    // or falling.
     /* 2e */ u16 mHeightAnglePerFrame;
     // 1.12 fixed (0x1000 = 1.0), the first value of the FX_SinCosTable_ pair for mHeightAngle (-1.0 .. +1.0), refreshed
-    // in states 0 and 2; mHeight = mMidHeight + mHeightAmplitude * this; the HUD gauge reads it.
+    // while rising or falling; mHeight = mMidHeight + mHeightAmplitude * this; the HUD gauge reads it.
     /* 30 */ s32 mHeightFactor;
-    // How many UpdateWater calls state 1 holds (mHoldFrames must exceed it; the height and angle stay, the models keep
-    // circling); state 1 starts at angle 0x4000 where the pair value is +1.0 = the top, because the two creators with
-    // different heights pass the larger first (0xe8000 > 0xc5000, 0x78000 > 0x62000).
+    // How many UpdateWater calls the top hold lasts (mHoldFrames must exceed it; the height and angle stay, the models
+    // keep circling); the hold starts at angle 0x4000 where the pair value is +1.0 = the top, because the two creators
+    // with different heights pass the larger first (0xe8000 > 0xc5000, 0x78000 > 0x62000).
     /* 34 */ u16 mHighHoldFrameCount;
-    // How many UpdateWater calls state 3 holds, at angle 0xc000 (pair value -1.0 = the bottom); see
+    // How many UpdateWater calls the bottom hold lasts, at angle 0xc000 (pair value -1.0 = the bottom); see
     // mHighHoldFrameCount.
     /* 36 */ u16 mLowHoldFrameCount;
-    // Counts up one per UpdateWater call in states 1 and 3, zeroed when the state is entered, compared with
-    // mHighHoldFrameCount / mLowHoldFrameCount.
+    // Counts up one per UpdateWater call while holding at the top or bottom, zeroed when the state is entered,
+    // compared with mHighHoldFrameCount / mLowHoldFrameCount.
     /* 38 */ u16 mHoldFrames;
     /* 3a */ u16 mUnk_3a;
     // 0x10000 per turn: the angle of the circle model A moves on (model C uses it minus mModelCAngleOffset); advances
