@@ -55,7 +55,7 @@ void GpiQueueErrorCallback(GpConnection *connection, s32 result, s32 fatal) {
             errorArg->mErrorCode = iconnection->mErrorNumber;
             errorArg->mErrorString = iconnection;
         }
-        GpiQueueCallback(connection, errorCallback, errorArg, NULL, 1);
+        GpiQueueCallback(connection, errorCallback, errorArg, NULL, PROFILE_CALLBACK_TYPE_ERROR);
     }
 }
 
@@ -100,12 +100,12 @@ void GpiCallAndFreeCallback(GpConnection *connection, GpiQueuedCallback *data) {
         AssertionFailed("data->arg != NULL", "gpiCallback.c", NULL, 0x6f);
     }
     data->mCallback.mCallback(connection, data->mArg, data->mCallback.mParam);
-    if (data->mType == 2) {
+    if (data->mType == PROFILE_CALLBACK_TYPE_FREE_MESSAGE_TEXT) {
         callbackArg = data->mArg;
         DWCi_GsFree(callbackArg->mUnk_08);
         callbackArg = data->mArg;
         callbackArg->mUnk_08 = NULL;
-    } else if (data->mType == 3) {
+    } else if (data->mType == PROFILE_CALLBACK_TYPE_FREE_NICK_LISTS) {
         listArg = data->mArg;
         for (entryIndex = 0; entryIndex < listArg->mUnk_38; entryIndex++) {
             DWCi_GsFree(listArg->mUnk_3c[entryIndex]);
@@ -117,7 +117,7 @@ void GpiCallAndFreeCallback(GpConnection *connection, GpiQueuedCallback *data) {
         listArg->mUnk_3c = NULL;
         DWCi_GsFree(listArg->mUnk_40);
         listArg->mUnk_40 = NULL;
-    } else if (data->mType == 4) {
+    } else if (data->mType == PROFILE_CALLBACK_TYPE_FREE_MATCH_LIST) {
         callbackArg = data->mArg;
         DWCi_GsFree(callbackArg->mUnk_0c);
         callbackArg->mUnk_0c = NULL;
@@ -127,13 +127,13 @@ void GpiCallAndFreeCallback(GpConnection *connection, GpiQueuedCallback *data) {
             DWCi_GsFree(callbackArg->mUnk_10);
             callbackArg->mUnk_10 = NULL;
         }
-    } else if (data->mType == 8) {
+    } else if (data->mType == PROFILE_CALLBACK_TYPE_FREE_OTHERS_PROFILES_IF_SET) {
         callbackArg = data->mArg;
         if (callbackArg->mUnk_08 != NULL) {
             DWCi_GsFree(callbackArg->mUnk_08);
             callbackArg->mUnk_08 = NULL;
         }
-    } else if (data->mType == 9) {
+    } else if (data->mType == PROFILE_CALLBACK_TYPE_FREE_SUGGESTED_NICKS) {
         CallbackArgData *arrayArg = data->mArg;
         for (entryIndex = 0; entryIndex < arrayArg->mUnk_04; entryIndex++) {
             DWCi_GsFree(arrayArg->mUnk_08[entryIndex]);
@@ -165,7 +165,7 @@ u32 GpiCallQueuedCallbacks(GpConnection *connection, s32 operationId) {
         if (current != NULL) {
             do {
                 GpiQueuedCallback *next = current->mNext;
-                if (current->mOperationId == operationId || current->mType == 1) {
+                if (current->mOperationId == operationId || current->mType == PROFILE_CALLBACK_TYPE_ERROR) {
                     if (previousKept != NULL) {
                         previousKept->mNext = next;
                     } else {

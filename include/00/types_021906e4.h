@@ -36,6 +36,21 @@ typedef struct CallbackArgData {
     /* 40 */ void **mUnk_40;
 } CallbackArgData;
 
+// Values of GpiQueuedCallback.mType; the ones that free members say which CallbackArgData members
+// GpiCallAndFreeCallback frees after the call. The errors are delivered with every callback queue run. STATUS and
+// REQUEST are queued with the status and buddy request callbacks; 7 is not queued anywhere and stays bare.
+enum {
+    PROFILE_CALLBACK_TYPE_PLAIN,
+    PROFILE_CALLBACK_TYPE_ERROR,
+    PROFILE_CALLBACK_TYPE_FREE_MESSAGE_TEXT,
+    PROFILE_CALLBACK_TYPE_FREE_NICK_LISTS,
+    PROFILE_CALLBACK_TYPE_FREE_MATCH_LIST,
+    PROFILE_CALLBACK_TYPE_STATUS = 5,
+    PROFILE_CALLBACK_TYPE_REQUEST,
+    PROFILE_CALLBACK_TYPE_FREE_OTHERS_PROFILES_IF_SET = 8,
+    PROFILE_CALLBACK_TYPE_FREE_SUGGESTED_NICKS,
+};
+
 // Entry of the list whose head and tail are at 0x438 and 0x43c of the object.
 typedef struct GpiQueuedCallback {
     /* 00 */ GpiCallback mCallback;
