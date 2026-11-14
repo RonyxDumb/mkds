@@ -28,8 +28,22 @@ char gRaceEffectSpaName[15] = "RaceEffect.spa";
 char gRaceEffectFogOffSpaName[29] = "/effect/RaceEffectFogOff.spa";
 char gMissionEffectSpaName[35] = "/data/MissionRun/MissionEffect.spa";
 ModelEffectKind gModelEffectKinds[5] = {
-    {3, 1, 1, 1, StartModelEffectBombcore, UpdateModelEffectBombcore, 0xb8, {NULL, NULL, NULL, NULL}},
-    {1, 1, 1, 1, StartModelEffectBombcore2, UpdateModelEffectBombcore2, 0xb8, {NULL, NULL, NULL, NULL}},
+    {BOMBCORE_OBJECT_COUNT,
+     1,
+     1,
+     1,
+     StartModelEffectBombcore,
+     UpdateModelEffectBombcore,
+     0xb8,
+     {NULL, NULL, NULL, NULL}},
+    {BOMBCORE2_OBJECT_COUNT,
+     1,
+     1,
+     1,
+     StartModelEffectBombcore2,
+     UpdateModelEffectBombcore2,
+     0xb8,
+     {NULL, NULL, NULL, NULL}},
     {0,
      1,
      0,
@@ -149,17 +163,17 @@ void InitModelEffects(void *heap) {
     firstKind = gModelEffectKinds;
     secondKind = &gModelEffectKinds[1];
     if (gRaceSetup->mMode == MODE_WIFI) {
-        firstKind->mObjectCount = 6;
-        secondKind->mObjectCount = 4;
+        firstKind->mObjectCount = BOMBCORE_OBJECT_COUNT_WIFI;
+        secondKind->mObjectCount = BOMBCORE2_OBJECT_COUNT_WIFI;
     } else {
-        firstKind->mObjectCount = 3;
-        secondKind->mObjectCount = 1;
+        firstKind->mObjectCount = BOMBCORE_OBJECT_COUNT;
+        secondKind->mObjectCount = BOMBCORE2_OBJECT_COUNT;
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        firstKind->mObjectCount = 0x14;
+        firstKind->mObjectCount = BOMBCORE_OBJECT_COUNT_MISSION_RUN;
     }
-    SetupWaterEfctKindRow(&gModelEffectKinds[2], 1);
-    SetupWaterEfctKindRow(&gModelEffectKinds[4], 2);
+    SetupWaterEfctKindRow(&gModelEffectKinds[2], WATER_EFCT_KIND2_OBJECT_COUNT);
+    SetupWaterEfctKindRow(&gModelEffectKinds[4], WATER_EFCT_KIND4_OBJECT_COUNT);
     SetupBkWaveKind();
     InitModelEffectObjects(heap);
     modelFile = FindMainRaceOrMainEffectFile("/effect/bombcore/bombcore.nsbmd");
@@ -284,7 +298,7 @@ void SetupBkWaveKind(void) {
     if (GetWaterEfctNsbmdFile() != 0) {
         bkWaveNsbcaFile = FindCourseFile("/MapObj/bk_wave.nsbca");
         bkWaveNsbmaFile = FindCourseFile("/MapObj/bk_wave.nsbma");
-        kindRow->mObjectCount = 1;
+        kindRow->mObjectCount = BK_WAVE_OBJECT_COUNT;
         if (bkWaveNsbcaFile != NULL) {
             kindRow->mUseNsbca = TRUE;
         } else {
