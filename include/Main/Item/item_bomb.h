@@ -11,6 +11,15 @@
 typedef struct ItemObject ItemObject;
 typedef struct ItemBomb ItemBomb;
 
+// ItemBomb.mStateMachine states, in the order of gItemBombStateTable: BOUNCE bounces after being thrown or dropped,
+// REST lies still, EXPLODE grows the scale and ends in release, PARKED has no callbacks.
+enum {
+    ITEM_BOMB_STATE_BOUNCE,
+    ITEM_BOMB_STATE_REST,
+    ITEM_BOMB_STATE_EXPLODE,
+    ITEM_BOMB_STATE_PARKED,
+};
+
 ItemBomb *GetRestingItemBomb(int index);
 void ParkItemBomb(void *object);
 void PlaceItemBomb(void *object, Vec3 *normal, Vec3 *position);
