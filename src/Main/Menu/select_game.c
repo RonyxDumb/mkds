@@ -77,7 +77,7 @@ void WriteSelectGameRowToRaceSetupCopy(void) {
         GetRaceSetupCopy()->mBattleKind = battleKind;
     }
     gSelectGame->mResult = 1;
-    gSelectGame->mState = 5;
+    gSelectGame->mState = SELECT_GAME_STATE_WAIT_PRESS;
     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
 }
 
@@ -180,12 +180,12 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
     }
     switch (gSelectGame->mMode) {
         case 0:
-            gSelectGame->mState = 3;
+            gSelectGame->mState = SELECT_GAME_STATE_SLIDE_IN;
             gSelectGame->mTableCount = 2;
             gSelectGame->mTable = gSelectGameBattleRows;
             break;
         case 1:
-            gSelectGame->mState = 3;
+            gSelectGame->mState = SELECT_GAME_STATE_SLIDE_IN;
             gSelectGame->mTableCount = 3;
             gSelectGame->mTable = gSelectGameMultiRows;
             RefreshParticipantTables();
@@ -275,7 +275,7 @@ s32 AdvanceSelectGame(void) {
     selectGame = gSelectGame;
     subFileSet = &selectGame->mCellFileSets[1];
     switch (selectGame->mState) {
-        case 3:
+        case SELECT_GAME_STATE_SLIDE_IN:
             SetSelectGameSubCellsVisible(1);
             SetSelectGameSelectedRowVisible(1);
             gSelectGame->mStateFrames = gSelectGame->mStateFrames + 1;
@@ -286,11 +286,11 @@ s32 AdvanceSelectGame(void) {
                 gSelectGame->mStateFrames = value;
                 gSelectGame->mSubOffsetX = value;
                 gSelectGame->mMainOffsetY = value;
-                gSelectGame->mState = 4;
+                gSelectGame->mState = SELECT_GAME_STATE_CHOOSE_ROW;
             }
             SetSelectGameCellTableOffsets();
             break;
-        case 4:
+        case SELECT_GAME_STATE_CHOOSE_ROW:
             previousSelectedIndex = selectGame->mSelectedIndex;
             touchValue = ~value;
             touchInReturnRect = 0;
@@ -324,7 +324,7 @@ s32 AdvanceSelectGame(void) {
             } else if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) != 0 || touchInReturnRect != 0) {
                 if (gSelectGame->mMode == 0) {
                     gSelectGame->mResult = 2;
-                    gSelectGame->mState = 9;
+                    gSelectGame->mState = SELECT_GAME_STATE_SLIDE_OUT;
                 } else {
                     firstChoiceText = " ";
                     secondChoiceText = " ";
@@ -333,7 +333,7 @@ s32 AdvanceSelectGame(void) {
                         secondChoiceText = GetBmgEntry(gSelectGame->mMenuMessages, 0x16);
                     }
                     StartSelectChoises(firstChoiceText, secondChoiceText, 0);
-                    gSelectGame->mState = 7;
+                    gSelectGame->mState = SELECT_GAME_STATE_ASK_LEAVE;
                     SetSelectGameRowCellsVisible(0);
                 }
                 RequestSelectReturnState3WithSound(0);
@@ -359,47 +359,47 @@ s32 AdvanceSelectGame(void) {
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
             }
             break;
-        case 7:
+        case SELECT_GAME_STATE_ASK_LEAVE:
             if (GetSelectChoisesDone() != 0) {
                 if (GetSelectChoisesIndex() == 0 || GetSelectChoisesIndex() == ~value) {
-                    gSelectGame->mState = 4;
+                    gSelectGame->mState = SELECT_GAME_STATE_CHOOSE_ROW;
                 } else {
                     gConnectionWork->mFlags |= CONNECTION_FLAG_ENDING;
                     gSelectGame->mResult = 3;
-                    gSelectGame->mState = 8;
+                    gSelectGame->mState = SELECT_GAME_STATE_WAIT_CONNECTION_END;
                 }
                 SetSelectGameRowCellsVisible(1);
                 RequestSelectChoisesState0();
             }
             break;
-        case 8:
+        case SELECT_GAME_STATE_WAIT_CONNECTION_END:
             if (AdvanceConnectionEndStopOnError() == 1) {
                 value = gSelectGame->mResult;
-                gSelectGame->mState = 11;
+                gSelectGame->mState = SELECT_GAME_STATE_RESULT_RETURNED;
             }
             break;
-        case 5:
+        case SELECT_GAME_STATE_WAIT_PRESS:
             selectGame->mStateFrames = selectGame->mStateFrames + 1;
             if (gSelectGame->mStateFrames >= 5) {
                 gSelectGame->mStateFrames = value;
-                gSelectGame->mState = 6;
+                gSelectGame->mState = SELECT_GAME_STATE_PRESS_ANIMATION;
                 SetSelectGameSelectedRowVisible(1);
             }
             break;
-        case 6:
+        case SELECT_GAME_STATE_PRESS_ANIMATION:
             selectGame->mStateFrames = selectGame->mStateFrames + 1;
             if (gSelectGame->mStateFrames < 10) {
                 gSelectGame->mSubOffsetX = GetSelectedPressOffset(gSelectGame->mStateFrames);
             } else {
                 gSelectGame->mStateFrames = value;
-                gSelectGame->mState = 9;
+                gSelectGame->mState = SELECT_GAME_STATE_SLIDE_OUT;
                 if (gSelectGame->mMode != 0) {
                     RequestSelectReturnState4();
                 }
             }
             SetSelectGameRowOffsetX();
             break;
-        case 9:
+        case SELECT_GAME_STATE_SLIDE_OUT:
             selectGame->mStateFrames = selectGame->mStateFrames + 1;
             if (gSelectGame->mStateFrames < 10) {
                 gSelectGame->mSubOffsetX = InterpolateS16(1, value, 0xee, gSelectGame->mStateFrames, 10);
@@ -407,15 +407,15 @@ s32 AdvanceSelectGame(void) {
             } else {
                 gSelectGame->mSubOffsetX = value;
                 gSelectGame->mMainOffsetY = value;
-                gSelectGame->mState = 10;
+                gSelectGame->mState = SELECT_GAME_STATE_DONE;
             }
             SetSelectGameCellTableOffsets();
             break;
-        case 10:
+        case SELECT_GAME_STATE_DONE:
             value = selectGame->mResult;
             break;
     }
-    if (gSelectGame->mState != 10) {
+    if (gSelectGame->mState != SELECT_GAME_STATE_DONE) {
         if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
             DrawLayoutTable(selectGame->mCellFileSets[0].mCellLayout, selectGame->mCellFileSets[0].mCells,
                             selectGame->mCellFileSets[0].mLabelLayout, gSelectGame->mMainOam,
@@ -445,7 +445,7 @@ void WriteSelectGameMainRegisters(void) {
 
     displayBits = 0x18;
     bgControlBits = 0;
-    if (gSelectGame->mState != 10) {
+    if (gSelectGame->mState != SELECT_GAME_STATE_DONE) {
         displayBits |= 2;
         bgControlBits = 3;
     }

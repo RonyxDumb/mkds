@@ -27,6 +27,20 @@ typedef enum SelectGameMode {
     SELECT_GAME_MODE_CONNECTION = 1,
 } SelectGameMode;
 
+// Values of SelectGame.mState (numbers start at 3): the screen slides in, a row is chosen and pressed, then the
+// screen slides out and the result is handed back.
+typedef enum SelectGameState {
+    SELECT_GAME_STATE_SLIDE_IN = 3,
+    SELECT_GAME_STATE_CHOOSE_ROW = 4,
+    SELECT_GAME_STATE_WAIT_PRESS = 5,
+    SELECT_GAME_STATE_PRESS_ANIMATION = 6,
+    SELECT_GAME_STATE_ASK_LEAVE = 7,
+    SELECT_GAME_STATE_WAIT_CONNECTION_END = 8,
+    SELECT_GAME_STATE_SLIDE_OUT = 9,
+    SELECT_GAME_STATE_DONE = 10,
+    SELECT_GAME_STATE_RESULT_RETURNED = 11,
+} SelectGameState;
+
 // 0x6c bytes.
 typedef struct SelectGame {
     /* 00 */ CellFileSet mCellFileSets[2];
