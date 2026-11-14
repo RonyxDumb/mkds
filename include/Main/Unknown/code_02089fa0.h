@@ -1,23 +1,21 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020846c0.h" // Unk02084b2c
-#include "Main/Unknown/code_02087d0c.h" // Unk02087d0c
-#include "Main/Unknown/unk_02155000.h" // Unk02155ee8
+#include "Main/Unknown/code_020846c0.h" // Nsbmd
+#include "Main/Unknown/code_02087d0c.h" // ModelAnimation
+#include "Main/Unknown/unk_02155000.h" // StemSetParams
 
 // 0x14 bytes: a table of 0x6c-byte objects at 0x00, three tables of 0x38-byte objects at 0x04, 0x08 and 0x0c, and the
 // number of entries of the first table at 0x10.
-typedef struct Unk0208a69c {
-    /* 00 */ Unk02084b2c *mUnk_00;
-    /* 04 */ Unk02087d0c *mUnk_04;
-    /* 08 */ Unk02087d0c *mUnk_08;
-    /* 0c */ Unk02087d0c *mUnk_0c;
-    /* 10 */ u16 mUnk_10;
-} Unk0208a69c;
+typedef struct StemSet {
+    /* 00 */ Nsbmd *mNsbmds;
+    /* 04 */ ModelAnimation *mNsbcaNsbmaNsbtp[3];
+    /* 10 */ u16 mNsbmdCount;
+} StemSet;
 
-void func_02089fa0(void);
-void func_0208a218(void);
-void func_0208a31c(s32 a);
-void func_0208a460(void *a);
-void func_0208a69c(void *a, Unk0208a69c *b, const Unk02155ee8 *c, u16 d);
-void func_0208aa30(void *a);
+void DrawStemSets(void);
+void UpdateStemSets(void);
+void StartStemSet(s32 setIndex);
+void InitStemSetArray(void *heap);
+void InitNsbmdNsbcaNsbmaNsbtp(void *heap, StemSet *stemSet, const StemSetParams *stemSetParams, u16 setIndex);
+void InitStemSets(void *heap);

@@ -1,14 +1,15 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_02029000.h"
-#include "Main/Unknown/code_02032000.h"
-#include "Main/Unknown/code_02049000.h"
-#include "Main/Unknown/code_020ae000.h"
-#include "Main/Unknown/code_020ae5e4.h"
-#include "Main/Unknown/code_0212a000.h"
-#include "Main/Unknown/unk_02174000.h"
+
+// Object behind gResultScene, 0x80c bytes (InitResultsByMode allocates it).
+typedef struct ResultScene {
+    /* 000 */ u8 mMainOam[0x404];
+    /* 404 */ u8 mSubOam[0x404];
+    /* 808 */ s32 mMode;
+} ResultScene;
 
 void func_0202a5a0(void);
 void func_0202a5d8(void);
-void func_0202a604(u32 param_1);
+void AdvanceResultsByMode(u32 sceneNumbers);
+void InitResultsByMode(void *heap);

@@ -1,13 +1,14 @@
 #include "Main/Unknown/code_02122734.h"
+#include "00/code_021832d8.h"
 
-s32 func_02122778(s32 param_1) {
-    return data_0217d384->mUnk_1f4e[param_1];
+s32 GetPackedIndex(s32 index) {
+    return gWiFiSession->mPackedIndices[index];
 }
 
-s32 func_02122734(s32 param_1) {
+s32 GetIndexOfPackedIndex(u8 packedIndex) {
     s8 i;
     for (i = 0; i < 4; i++) {
-        if (param_1 == data_0217d384->mUnk_1f4e[i]) {
+        if (packedIndex == gWiFiSession->mPackedIndices[i]) {
             return i;
         }
     }

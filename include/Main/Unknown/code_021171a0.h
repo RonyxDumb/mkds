@@ -2,4 +2,9 @@
 
 #include "types.h"
 
-void func_021171a0(s32 a, void *b, void *c, u32 d, u16 e, s32 f);
+typedef struct Unk02021dc8 Unk02021dc8;
+
+typedef struct Unk0201ea30 Unk0201ea30;
+
+void QueueKartIcon(s32 iconIndex, Unk02021dc8 *destinationNcer, Unk0201ea30 *destinationBncl, u32 destinationBnclIndex,
+                   u16 paletteIndex, s32 f);

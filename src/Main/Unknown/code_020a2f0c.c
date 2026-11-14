@@ -1,9 +1,10 @@
 #include "Main/Unknown/code_020a2f0c.h"
-#include "Main/Unknown/code_020d22e0.h"
+#include "Main/Unknown/code_020d22c0.h"
 
-void func_020a2f0c(Unk020a2fe4 *p, u16 a) {
-    p->mUnk_a4 = -1;
-    p->mUnk_f4 = 1;
-    p->mUnk_f8 = 0;
-    func_020d2398(&p->mUnk_00);
+// Takes the balloon off its kart and parks it.
+void ParkBalloon(Balloon *balloon, u16 kartIndex) {
+    balloon->mKartIndex = -1;
+    balloon->mDrawCount = 1;
+    balloon->mDrawList = NULL;
+    ParkMapObject(&balloon->mUnk_00);
 }

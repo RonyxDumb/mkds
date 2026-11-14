@@ -1,26 +1,27 @@
 #include "Main/Unknown/code_020ceb88.h"
-#include "Main/Unknown/code_02029930.h"
+#include "Main/Unknown/code_02029890.h"
 #include "Main/Unknown/code_020ccc74.h"
 #include "Main/Unknown/code_02119e14.h"
 #include "Main/Unknown/code_020cebe4.h"
+#include "Main/Unknown/unk_021759c0.h"
 
 #pragma optimize_for_size on
 #pragma thumb on
-void func_020ceb88(void) {
-    switch (func_0211a7bc()) {
+void UpdateBattleSelectRaceRule(void) {
+    switch (AdvanceSelectRaceRule()) {
         case 1:
             if (func_020cebe4() != 0) {
-                func_02029930()->mUnk_f0 = 2;
+                GetRaceSetupCopy()->mCourseListMode = 2;
             }
-            if (func_02029930()->mUnk_f0 == 2) {
-                func_02029930()->mUnk_d0 = 0x2c;
-                func_020ccc74(0x1d, 0x1f);
+            if (GetRaceSetupCopy()->mCourseListMode == 2) {
+                GetRaceSetupCopy()->mCourseId = COURSE_ID_MINI_STAGE1;
+                SwitchMenuScreen(0x1d, 0x1f);
             } else {
-                func_020ccc74(0x11, 0x1f);
+                SwitchMenuScreen(SCREEN_SELECT_BATTLE_STAGE, 0x1f);
             }
             break;
         case 2:
-            func_020ccc74(0xf, 0x1f);
+            SwitchMenuScreen(0xf, 0x1f);
             break;
     }
 }

@@ -1,99 +1,112 @@
 #include "Main/Unknown/code_0203c5f8.h"
+#include "Main/Unknown/code_020b1dbc.h"
+#include "Main/Unknown/code_0207b960.h"
+#include "Main/Unknown/code_020b4e5c.h"
+#include "Main/Unknown/code_02039860.h"
+#include "Main/Unknown/code_02147000.h"
+#include "Main/Unknown/unk_0215d000.h"
+#include "Main/Unknown/unk_021759c0.h"
+#include "Main/Unknown/code_020b47d8.h"
+#include "Main/Unknown/code_020b6a18.h"
+#include "Main/Unknown/code_0207a880.h"
 #include "Main/Unknown/code_020b502c.h"
+#include "Main/Unknown/code_020f36d8.h"
 #include "code_0214d018.h"
 
-// non-matching: the original (0x178 bytes, 0x1c stack bytes) keeps the address of the local pair in r5, the constants 0 and 4 in r6 and r4 and spills the entry offset and the constant 1 to stack offsets 0xc and 0x10; ours is 0x154 bytes with 0x14 stack bytes and forms the address in the loop
-u16 func_0203c5f8(u16 a, u8 *b, u8 *c, u16 *d) {
-    u16 r = 1;
-    s32 f = 1;
-    u16 i = 1;
-    u32 v1 = a * 0x8c;
-    Unk0217aa1c_144_00 v2;
-    Unk0217aa1c_144_00 *p = &v2;
-    if (data_02175620->mUnk_018->mUnk_02 >= 1) {
-        do {
-            Unk0217aa1c_144_00 *q =
-                (Unk0217aa1c_144_00 *) ((u8 *) &data_0217561c->mUnk_14[0].mUnk_0c[0] + v1) + (i - 1);
-            if (f != 0) {
-                f = 0;
-                r = i;
-                v2 = *q;
-            } else {
-                s32 k = 0;
-                if ((q->mUnk_02 * 60 + q->mUnk_03) * 1000 + q->mUnk_00 <=
-                    (v2.mUnk_02 * 60 + v2.mUnk_03) * 1000 + v2.mUnk_00) {
-                    k = 1;
-                    if (q != p) {
-                        func_0214d1fc(q, p, 4);
-                    }
-                } else {
-                    if (p != &v2) {
-                        func_0214d1fc(q, p, 4);
-                    }
-                }
-                if (k != 0) {
-                    r = i;
-                    v2 = *q;
-                }
-            }
-            i++;
-        } while (i <= data_02175620->mUnk_018->mUnk_02);
-    }
-    *b = v2.mUnk_02;
-    *c = v2.mUnk_03;
-    *d = v2.mUnk_00;
-    return r;
-}
-
-// non-matching: same instructions and order; registers differ (b - 1 in r4, the entry base in r5 and the element in lr where the original has lr, r4 and r5)
-void func_0203c778(s32 a, u16 b, u8 *c, u8 *d, u16 *e) {
-    s32 k = b - 1;
-    Unk0217aa1c_144_00 *p =
-        (Unk0217aa1c_144_00 *) ((u8 *) &data_0217561c->mUnk_14[0].mUnk_0c[0] + a * 0x8c);
-    Unk0217aa1c_144_00 *q = &p[k];
-    *c = q->mUnk_02;
-    *d = q->mUnk_03;
-    *e = p[k].mUnk_00;
-}
-
-void func_0203c7cc(s32 a, u8 *b, u8 *c, u16 *d) {
-    Unk0217561c_14 *p = (Unk0217561c_14 *) ((u8 *) &data_0217561c->mUnk_14[0] + a * 0x8c);
-    s32 g = 1;
-    if (data_021759c0->mUnk_08 == 2) {
-        if (data_021759c0->mUnk_18 == 1) {
-            g = 0;
-        }
-    }
-    if (g != 0) {
-        s32 h = 0;
-        switch (p->mUnk_00) {
-            case 1:
-            case 2:
-            case 3:
-                h = 1;
-                break;
-        }
-        if (h != 0) {
-            Unk0217aa1c_144_00 *t = &p->mUnk_0c[5];
-            *b = t->mUnk_02;
-            *c = t->mUnk_03;
-            *d = t->mUnk_00;
-            return;
-        }
-    }
-    *b = 0;
-    *c = 0;
-    *d = 0;
-}
-
-s32 func_0203c880(u32 param_1) {
-    s32 f = 0;
-    switch (data_0217561c->mUnk_000[param_1].mUnk_14) {
+s32 IsKartEnded(u32 kartIndex) {
+    BOOL ended = FALSE;
+    switch (gRaceProgress->mUnk_000[kartIndex].mStatus) {
         case 1:
         case 2:
         case 3:
-            f = 1;
+            ended = TRUE;
             break;
     }
-    return f;
+    return ended;
+}
+
+void GetKartFinishTime(s32 kartIndex, u8 *outMinute, u8 *outSecond, u16 *outMillisecond) {
+    RaceProgressKart *kart = OFFSET_PTR(RaceProgressKart, &gRaceProgress->mKarts[0], kartIndex * 0x8c);
+    BOOL g = TRUE;
+    if (gRaceSetup->mMode == MODE_BATTLE) {
+        if (gRaceSetup->mBattleKind == BATTLE_KIND_SHINE) {
+            g = FALSE;
+        }
+    }
+    if (g != FALSE) {
+        BOOL ended = FALSE;
+        switch (kart->mStatus) {
+            case 1:
+            case 2:
+            case 3:
+                ended = TRUE;
+                break;
+        }
+        if (ended != FALSE) {
+            Unk0217aa1c_144_00 *finishTime = &kart->mLapTimes[5];
+            *outMinute = finishTime->mUnk_02;
+            *outSecond = finishTime->mUnk_03;
+            *outMillisecond = finishTime->mUnk_00;
+            return;
+        }
+    }
+    *outMinute = 0;
+    *outSecond = 0;
+    *outMillisecond = 0;
+}
+
+void GetKartLapTime(s32 kartIndex, u16 lap, u8 *outMinute, u8 *outSecond, u16 *outMillisecond) {
+    s32 lapSlot = lap - 1;
+    Unk0217aa1c_144_00 *kartLapTimes =
+        OFFSET_PTR(Unk0217aa1c_144_00, &gRaceProgress->mKarts[0].mLapTimes[0], kartIndex * 0x8c);
+    Unk0217aa1c_144_00 *lapTime = &kartLapTimes[lapSlot];
+    *outMinute = lapTime->mUnk_02;
+    *outSecond = lapTime->mUnk_03;
+    *outMillisecond = lapTime->mUnk_00;
+}
+
+u16 GetKartBestLapTime(u16 kartIndex, u8 *outMinute, u8 *outSecond, u16 *outMillisecond) {
+    u16 bestLap = 1;
+    u16 lap;
+    BOOL first = TRUE;
+    u32 kartOffset;
+    Unk0217aa1c_144_00 bestTime;
+    Unk0217aa1c_144_00 *lapTime;
+    BOOL isBest;
+    Unk0217aa1c_144_00 *bestTimeRef;
+    lap = 1;
+    if (gCourseMap->mSettings->mLapCountOrBattleSeconds >= 1) {
+        kartOffset = kartIndex * 0x8c;
+        do {
+            lapTime = OFFSET_PTR(Unk0217aa1c_144_00, &gRaceProgress->mKarts[0].mLapTimes[0], kartOffset) + (lap - 1);
+            if (first != FALSE) {
+                first = FALSE;
+                bestLap = lap;
+                bestTime = *lapTime;
+            } else {
+                bestTimeRef = &bestTime;
+                isBest = FALSE;
+                if (((lapTime->mUnk_02 * 60 + lapTime->mUnk_03) * 1000 + lapTime->mUnk_00) <=
+                    (u32) ((bestTime.mUnk_02 * 60 + bestTime.mUnk_03) * 1000 + bestTime.mUnk_00)) {
+                    isBest = TRUE;
+                    if (lapTime != bestTimeRef) {
+                        MI_CpuCopy8(lapTime, bestTimeRef, 4);
+                    }
+                } else {
+                    if (bestTimeRef != &bestTime) {
+                        MI_CpuCopy8(lapTime, bestTimeRef, 4);
+                    }
+                }
+                if (isBest != FALSE) {
+                    bestLap = lap;
+                    bestTime = *lapTime;
+                }
+            }
+            lap++;
+        } while (lap <= gCourseMap->mSettings->mLapCountOrBattleSeconds);
+    }
+    *outMinute = bestTime.mUnk_02;
+    *outSecond = bestTime.mUnk_03;
+    *outMillisecond = bestTime.mUnk_00;
+    return bestLap;
 }

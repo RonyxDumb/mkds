@@ -1,76 +1,55 @@
 #include "03/code_021d1dd0.h"
+#include "registers.h"
 #include "03/code_021d1da8.h"
-#include "03/code_021d34c8.h"
-#include "03/code_021d3544.h"
+#include "03/code_021d3488.h"
 #include "code_02147cd8.h"
 #include "code_0214a348.h"
 #include "code_0214a390.h"
 
-u32 func_ov003_021d1dd0(u16 param_1) {
-    Unk021d1da8 *a = data_ov003_021da2c0;
+// placeholder: two objects of the original file that are not known yet; they only set the order of the tables below
+u8 data_ov003_021d1e14_pad1[1];
+u8 data_ov003_021d1e14_pad2[8];
 
-    if (a->mEnabled != 0) {
-        return 0;
-    }
-    a->mUnk_00 = func_ov003_021d3544(1, (u32) func_ov003_021d1da8, (u32) a, 200);
-    a->mFrames = 0;
-    a->mFrameCount = param_1;
-    a->mEnabled = 1;
-    return 1;
-}
+void AdvanceBlendBrightnessFade(u32 task, BlendBrightnessFadeSlot *slot) {
+    u8 bitsByKind[4] = {0x11, 0x10, 0x01, 0x00};
+    s8 finalLevels[4] = {0x00, -0x10, 0x00, 0x10};
+    s32 level;
+    u8 bits;
 
-void func_ov003_021d1e14(u32 param_1, Unk021d1da8 *param_2) {
-    u8 a[4] = {0x11, 0x10, 0x01, 0x00};
-    s8 b[4] = {0x00, -0x10, 0x00, 0x10};
-    s32 c;
-    u8 d;
-
-    param_2->mFrames++;
-    c = func_02147d30(param_2->mFrames << 4, param_2->mFrameCount);
-    d = a[param_2->mUnk_08];
-    if (d & 1) {
-        c = 0x10 - c;
+    slot->mFrames++;
+    level = FX_DivS32(slot->mFrames << 4, slot->mFrameCount);
+    bits = bitsByKind[slot->mKind];
+    if (bits & 1) {
+        level = 0x10 - level;
     }
-    if (d & 0x10) {
-        c = -c;
+    if (bits & 0x10) {
+        level = -level;
     }
-    if (param_2 == data_ov003_021da2c0) {
-        func_0214a348((u16 *) 0x4001050, c);
+    if (slot == gBlendBrightnessFadeSlots) {
+        G2x_ChangeBlendBrightness_(&reg_G2S_DB_BLDCNT, level);
     } else {
-        func_0214a348((u16 *) 0x4000050, c);
+        G2x_ChangeBlendBrightness_(&reg_G2_BLDCNT, level);
     }
-    if (param_2->mFrames >= param_2->mFrameCount) {
-        if (param_2 == data_ov003_021da2c0) {
-            func_0214a348((u16 *) 0x4001050, b[param_2->mUnk_08]);
+    if (slot->mFrames >= slot->mFrameCount) {
+        if (slot == gBlendBrightnessFadeSlots) {
+            G2x_ChangeBlendBrightness_(&reg_G2S_DB_BLDCNT, finalLevels[slot->mKind]);
         } else {
-            func_0214a348((u16 *) 0x4000050, b[param_2->mUnk_08]);
+            G2x_ChangeBlendBrightness_(&reg_G2_BLDCNT, finalLevels[slot->mKind]);
         }
-        param_2->mEnabled = 0;
-        func_ov003_021d34c8(1, param_1);
+        slot->mEnabled = 0;
+        RequestTaskRemoval(1, task);
     }
 }
 
-u32 func_ov003_021d1ee0(s32 param_1, s32 param_2, u32 param_3, u16 param_4) {
-    s8 a[4] = {-0x10, 0x00, 0x10, 0x00};
-    Unk021d1da8 *b;
+u32 StartBlendBrightnessFadeWait(u16 frameCount) {
+    BlendBrightnessFadeSlot *slot = gBlendBrightnessFadeSlots;
 
-    if (param_2 == 1) {
-        b = data_ov003_021da2c0;
-    } else {
-        b = data_ov003_021da2c0 + 1;
-    }
-    if (b->mEnabled != 0) {
+    if (slot->mEnabled != 0) {
         return 0;
     }
-    if (param_2 == 1) {
-        func_0214a3e8((u16 *) 0x4001050, param_3, a[param_1]);
-    } else {
-        func_0214a3e8((u16 *) 0x4000050, param_3, a[param_1]);
-    }
-    b->mUnk_00 = func_ov003_021d3544(1, (u32) func_ov003_021d1e14, (u32) b, 200);
-    b->mFrames = 0;
-    b->mUnk_08 = param_1;
-    b->mFrameCount = param_4;
-    b->mEnabled = 1;
+    slot->mTask = AddTask(1, AdvanceBlendBrightnessFadeWait, slot, 200);
+    slot->mFrames = 0;
+    slot->mFrameCount = frameCount;
+    slot->mEnabled = 1;
     return 1;
 }

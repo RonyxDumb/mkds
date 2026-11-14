@@ -1,9 +1,15 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020b502c.h"
-#include "Main/Unknown/code_020d7000.h"
-#include "Main/Unknown/code_020d9000.h"
+
+typedef struct Segment Segment;
+typedef struct CourseMapEntryGroup CourseMapEntryGroup;
+
 #include "Main/Unknown/unk_0217b000.h"
 
-void func_020d7db4(int *param_1, u16 param_2, int param_3);
+void InitGroupFollowerForGroup(GroupFollower *follower, u16 groupIndex, int speed);
+void InitGroupPaths(void);
+void BuildGroupPath(u32 groupIndex, CourseMapEntryGroup *entryGroup);
+void BuildSegment(Segment *segment, s32 useStraightLength, s32 computeUp, Vec3 *previousPoint, Vec3 *startPoint,
+                  Vec3 *endPoint, Vec3 *nextPoint);
+void GetSegmentProgressPointXzLinearY(void *segmentProgressPointer, Vec3 *position);

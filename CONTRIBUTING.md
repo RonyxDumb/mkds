@@ -8,7 +8,7 @@
 | `src/ITCM/` | Game code that runs from ITCM |
 | `src/NN/` | Game code from overlay `NN` (`00`, `01` and `03` so far); the folder gets a name (`NN_Name`) once the overlay's purpose is known |
 | `include/` | Game headers, by subsystem |
-| `libs/<name>/` | Library code, each with `src/` and `include/`. All of it is in `libs/Unknown/` until each library is identified; then NitroSDK goes in `libs/nds/`, NitroSystem in `libs/nns/`, the C runtime in `libs/msl/`. A library can use a different compiler (`PATH_COMPILERS` in `tools/project.py`) |
+| `libs/<name>/` | Library code, each with `src/` and `include/` (an SDK has one folder per module: `libs/NitroSDK/os/`). The C runtime is in `libs/msl/` (the C library) and `libs/mathlib/` (the arithmetic routines the compiler calls: soft float and division); the rest is in `libs/Unknown/` until each library is identified, then NitroSDK goes in `libs/nds/` and NitroSystem in `libs/nns/`. A library can use a different compiler (`PATH_COMPILERS` in `tools/project.py`) |
 | `tools/` | Build scripts and analysis tools; `tools/project.py` has the game's settings |
 | `docs/` | Notes on the compiler, decompiling and the game |
 | `extract/`, `build/` | Your ROM, its extracted files and the build output (never committed) |
@@ -58,6 +58,8 @@
 - Each source file has a header with the same path and name: `src/01/code_0218254c.c` →
   `include/01/code_0218254c.h`. It declares every function and global the file defines (not its statics), and the
   structs they use.
+- A header that uses a struct only through a pointer declares it (`typedef struct Unk0206bcb0 Unk0206bcb0;`) instead of
+  including the struct's header. A file that reads a struct's members includes that struct's header itself.
 - Give parameters and return values the types the code shows:
   - a pointer whose fields the code reads or writes: a pointer to a struct (`Unk<addr>` until it has a name);
   - a pointer the code only passes on: `void *`;

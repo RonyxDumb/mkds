@@ -1,8 +1,12 @@
 #include "Main/Unknown/code_020641d4.h"
 #include "ITCM/code_01ff9000.h"
+#include "ITCM/code_01ff9598.h"
+#include "ITCM/code_01ffba68.h"
 #include "ITCM/code_01ffc000.h"
+#include "Main/Unknown/code_02066ac0.h"
 #include "Main/Unknown/code_020ed5c0.h"
-#include "Main/Unknown/code_02061fec.h"
+#include "Main/Unknown/unk_0217a000.h"
+#include "Main/Unknown/code_02061654.h"
 #include "Main/Unknown/code_02066000.h"
 #include "Main/Unknown/code_0203c000.h"
 #include "Main/Unknown/code_020738f4.h"
@@ -12,132 +16,134 @@
 #include "Main/Unknown/code_02147000.h"
 #include "code_02147288.h"
 #include "Main/Unknown/unk_0215d000.h"
+#include "Main/Unknown/code_0203c5f8.h"
+#include "code_021471bc.h"
 
-void func_020641d4(Unk0206bcb0 *a) {
-    func_01ffcb58(a);
-    func_020641f0(a);
-}
-
-// non-matching: 3 words at +0x378: for data_0217562a[a->mUnk_78] the original loads the index into r2 and
-// multiplies into r1; ours has the two the other way round.
-void func_020641f0(Unk0206bcb0 *a) {
-    Unk0206bcb0_590 *b;
-    Unk0206bcb0_590_08 *c;
+void func_020641f0(Kart *kart) {
+    KartModelsEntry *modelsEntry;
+    KartModelAnimationView *characterAnimation;
     Vec3 m;
-    Unk02012f58 d;
-    Unk02012f58 e;
-    Unk02012f58 f;
-    Unk02012f58 g;
-    Unk02012f58 h;
-    s32 i;
+    MtxFx43 d;
+    MtxFx43 e;
+    MtxFx43 rotationMatrix;
+    MtxFx43 g;
+    MtxFx43 h;
+    s32 pairIndex;
     s32 j;
     s32 k;
     u16 l;
     u32 n;
-    Unk02012f58 *p;
+    MtxFx43 *drawMatrix;
     Vec3 *q;
     Vec4 *r;
+    enum { K0 } o;
 
-    func_01ffcd84(&a->mUnk_120, a->mUnk_50c);
-    n = a->mUnk_4c;
+    Matrix4x3FromQuaternion(&kart->mUnk_120, kart->mUnk_50c);
+    n = kart->mUnk_4c;
     if ((n & 0x10) != 0) {
-        p = &a->mUnk_150_m;
-        func_021471bc(&d);
+        drawMatrix = &kart->mUnk_150_m;
+        MTX_Identity43_(&d);
         e = d;
-        func_01ffcd84(&f, &a->mUnk_34c);
-        q = &a->mUnk_12c;
+        Matrix4x3FromQuaternion(&rotationMatrix, &kart->mRotationQuaternion);
+        q = &kart->mUnk_12c;
         m.x = (s64) q->x * -0x5000 >> 12;
         m.y = (s64) q->y * -0x5000 >> 12;
         m.z = (s64) q->z * -0x5000 >> 12;
-        d.mUnk_24 = m;
+        d.mUnk_00[3] = m;
         m.x = -m.x;
         m.y = -m.y;
         m.z = -m.z;
-        e.mUnk_24 = m;
-        func_0214733c(&a->mUnk_120_m, &d, p);
-        func_0214733c(p, &f, p);
-        func_0214733c(p, &e, p);
-        if ((a->mUnk_4c & 0x20) != 0) {
-            i = (a->mUnk_364 >> 4) * 2;
-            func_02147250(&g, data_0215d4b4[i], data_0215d4b4[i + 1]);
-            func_0214733c(p, &g, p);
+        e.mUnk_00[3] = m;
+        MTX_Concat43(&kart->mUnk_120_m, &d, drawMatrix);
+        MTX_Concat43(drawMatrix, &rotationMatrix, drawMatrix);
+        MTX_Concat43(drawMatrix, &e, drawMatrix);
+        if ((kart->mUnk_4c & 0x20) != 0) {
+            pairIndex = (kart->mYRotationAngle >> 4) * 2;
+            MTX_RotY43_(&g, gPairsByAngle[pairIndex], gPairsByAngle[pairIndex + 1]);
+            MTX_Concat43(drawMatrix, &g, drawMatrix);
         }
-        p->mUnk_24.x = p->mUnk_24.x + a->mUnk_508->x;
-        p->mUnk_24.y = p->mUnk_24.y + a->mUnk_508->y;
-        p->mUnk_24.z = p->mUnk_24.z + a->mUnk_508->z;
+        drawMatrix->mUnk_00[3].x = drawMatrix->mUnk_00[3].x + kart->mPosSource->x;
+        drawMatrix->mUnk_00[3].y = drawMatrix->mUnk_00[3].y + kart->mPosSource->y;
+        drawMatrix->mUnk_00[3].z = drawMatrix->mUnk_00[3].z + kart->mPosSource->z;
     } else if ((n & 0x20) != 0) {
-        i = (a->mUnk_364 >> 4) * 2;
-        func_02147250(&h, data_0215d4b4[i], data_0215d4b4[i + 1]);
-        func_0214733c(&h, &a->mUnk_120_m, &a->mUnk_150_m);
-        q = a->mUnk_508;
-        a->mUnk_174.x = q->x;
-        a->mUnk_174.y = q->y;
-        a->mUnk_174.z = q->z;
+        pairIndex = (kart->mYRotationAngle >> 4) * 2;
+        MTX_RotY43_(&h, gPairsByAngle[pairIndex], gPairsByAngle[pairIndex + 1]);
+        MTX_Concat43(&h, &kart->mUnk_120_m, &kart->mUnk_150_m);
+        q = kart->mPosSource;
+        kart->mUnk_174.x = q->x;
+        kart->mUnk_174.y = q->y;
+        kart->mUnk_174.z = q->z;
     } else {
-        a->mUnk_150_m = a->mUnk_120_m;
-        q = a->mUnk_508;
-        a->mUnk_174.x = q->x;
-        a->mUnk_174.y = q->y;
-        a->mUnk_174.z = q->z;
+        kart->mUnk_150_m = kart->mUnk_120_m;
+        q = kart->mPosSource;
+        kart->mUnk_174.x = q->x;
+        kart->mUnk_174.y = q->y;
+        kart->mUnk_174.z = q->z;
     }
-    a->mUnk_98 = a->mUnk_174;
-    a->mUnk_174.x = a->mUnk_174.x >> 4;
-    a->mUnk_174.y = a->mUnk_174.y >> 4;
-    a->mUnk_174.z = a->mUnk_174.z >> 4;
-    if ((a->mUnk_4c & 0x2000000) == 0) {
-        a->mUnk_1b4 = &a->mUnk_150_m;
+    kart->mDrawMatrixPos = kart->mUnk_174;
+    kart->mUnk_174.x = kart->mUnk_174.x >> 4;
+    kart->mUnk_174.y = kart->mUnk_174.y >> 4;
+    kart->mUnk_174.z = kart->mUnk_174.z >> 4;
+    if ((kart->mUnk_4c & 0x2000000) == 0) {
+        kart->mDrawMatrix = &kart->mUnk_150_m;
     } else {
-        func_02066de8(a);
-        a->mUnk_1b4 = &a->mUnk_184_m;
+        AdvanceKartWobble(kart);
+        kart->mDrawMatrix = &kart->mWobbleMatrix;
     }
-    b = (Unk0206bcb0_590 *) a->mUnk_590;
-    if (b->mUnk_018 != 0) {
-        r = (Vec4 *) &b->mUnk_024;
+    modelsEntry = kart->mKartModelsEntry;
+    if (modelsEntry->mModels[2] != NULL) {
+        r = (Vec4 *) &modelsEntry->mTurnFrameOffset;
         j = (s64) r->w * r->x >> 12;
         l = (s64) j * 0xce4 >> 12;
-        k = a->mUnk_2a0;
-        if (a->mUnk_4d4 > k) {
-            a->mUnk_3a4 = a->mUnk_3a4 + (u16) ((s64) a->mUnk_4d4 * 0x7d0 >> 12);
+        k = kart->mVelocityLengthRatio;
+        if (kart->mUnk_4d4 > k) {
+            kart->mTireSpinAngle = kart->mTireSpinAngle + (u16) ((s64) kart->mUnk_4d4 * 0x7d0 >> 12);
         } else {
             k = (s64) k * 0xfa0 >> 12;
-            if (func_020738f8(func_0207a7ec()) < 0x29) {
+            if (GetAbsoluteValue(GetKartForwardSpeedRatio()) < 0x29) {
                 k = 0;
-                if ((u16) (data_0217562a[a->mUnk_78].mUnk_00 & 3) != 0 && func_02061fec() == 1) {
+                if ((u16) (data_0217562a[o = kart->mEntryIndex].mBits & (PAD_KEY_A | PAD_KEY_B)) != 0 &&
+                    IsRaceStarted() == 1) {
                     k = k + 0x190;
                 }
-            } else if ((a->mUnk_44 & 0x100) != 0) {
+            } else if ((kart->mUnk_44 & 0x100) != 0) {
                 k *= -1;
             }
             if (k > 0xfa0) {
                 k = 0xfa0;
             }
-            a->mUnk_3a4 = a->mUnk_3a4 + (u16) k;
+            kart->mTireSpinAngle = kart->mTireSpinAngle + (u16) k;
         }
-        a->mUnk_4cc = l;
+        kart->mUnk_4cc = l;
     }
-    c = ((Unk0206bcb0_590 *) a->mUnk_590)->mUnk_008;
-    if (c != 0 && c->mUnk_18 != 0) {
-        func_0207b734(a);
-        if (func_0203c880(a->mUnk_74) != 0) {
-            func_0207b354(a);
+    characterAnimation = kart->mKartModelsEntry->mCharacterAnimation;
+    if (characterAnimation != NULL && characterAnimation->mUnk_18 != 0) {
+        AdvanceKartCharacterAnimation(kart);
+        if (IsKartEnded(kart->mIndex) != 0) {
+            AdvanceKartAnimationChangeTimer(kart);
         }
-        c = ((Unk0206bcb0_590 *) a->mUnk_590)->mUnk_008;
-        *c->mUnk_1c[c->mUnk_1a] = c->mUnk_0c;
+        characterAnimation = kart->mKartModelsEntry->mCharacterAnimation;
+        *characterAnimation->mUnk_1c[characterAnimation->mUnk_1a] = characterAnimation->mUnk_0c;
     }
-    if ((a->mUnk_4c & 0x400000) != 0) {
-        a->mUnk_504 = a->mUnk_504 + 1;
-        a->mUnk_506 = a->mUnk_506 + 1;
-        if (a->mUnk_506 > 8) {
-            a->mUnk_506 = 0;
+    if ((kart->mUnk_4c & 0x400000) != 0) {
+        kart->mUnk_504 = kart->mUnk_504 + 1;
+        kart->mUnk_506 = kart->mUnk_506 + 1;
+        if (kart->mUnk_506 > 8) {
+            kart->mUnk_506 = 0;
         }
-        if (a->mUnk_506 >= 4) {
-            a->mUnk_4c = a->mUnk_4c | 0x1000000;
+        if (kart->mUnk_506 >= 4) {
+            kart->mUnk_4c = kart->mUnk_4c | 0x1000000;
         } else {
-            a->mUnk_4c = a->mUnk_4c & ~0x1000000;
+            kart->mUnk_4c = kart->mUnk_4c & ~0x1000000;
         }
-        if (a->mUnk_504 > 0x5a) {
-            a->mUnk_4c = a->mUnk_4c & ~0x1400000;
+        if (kart->mUnk_504 > 0x5a) {
+            kart->mUnk_4c = kart->mUnk_4c & ~0x1400000;
         }
     }
-    func_01ff9b70(a);
+    AdvanceKartEffects(kart);
+}
+
+void func_020641d4(Kart *kart) {
+    AdvanceKartCollision(kart);
+    func_020641f0(kart);
 }

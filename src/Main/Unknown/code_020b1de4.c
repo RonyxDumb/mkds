@@ -1,8 +1,12 @@
 #include "Main/Unknown/code_020b1de4.h"
+#include "Main/Unknown/code_02036820.h"
+#include "Main/Unknown/code_020adb04.h"
 #include "Main/Unknown/code_02023000.h"
+#include "Main/Unknown/code_020b250c.h"
 #include "Main/Unknown/code_020b252c.h"
 #include "Main/Unknown/code_020b24e4.h"
 #include "Main/Unknown/code_020b2540.h"
+#include "Main/Unknown/code_020b2ecc.h"
 #include "Main/Unknown/code_020b3260.h"
 #include "Main/Unknown/code_020b32ec.h"
 #include "Main/Unknown/code_020b3f7c.h"
@@ -11,218 +15,219 @@
 #include "Main/Unknown/code_020ad000.h"
 #include "Main/Unknown/code_020b2000.h"
 #include "Main/Unknown/code_020b3000.h"
+#include "g2d_CharCanvas.h"
 
-void func_020b24cc(Unk02180728 *a, void *b, void *c, s32 d, s32 e) {
-    a->mUnk_00 = b;
-    a->mUnk_04 = c;
-    a->mUnk_08 = d;
-    a->mUnk_0c = e;
+void func_020b24cc(TextCanvas *textCanvas, void *charCanvas, void *font, s32 charSpacing, s32 lineSpacing) {
+    textCanvas->mCharCanvas = charCanvas;
+    textCanvas->mFont = font;
+    textCanvas->mCharSpacing = charSpacing;
+    textCanvas->mLineSpacing = lineSpacing;
 }
 
-u32 func_020b24a4(Unk02180728 *a, s32 b, s32 c, u32 d, u32 e, void *f) {
-    return func_02024340(a, b, c, d, e, f);
+u32 func_020b24a4(TextCanvas *textCanvas, s32 textX, s32 textY, u32 color, u32 flags, void *text) {
+    return NNSi_G2dTextCanvasDrawText(textCanvas, textX, textY, color, flags, text);
 }
 
 #pragma thumb on
 #pragma optimize_for_size on
 
-void func_020b1df0(void) {
-    Unk0217b354 *p;
-    u32 n;
+void InitChoisesS(void) {
+    ChoisesS *choisesS;
+    u32 charCount;
     s32 i;
 
-    data_0217b354 = func_02036bec(func_020b2540(), 0x1a4);
-    data_0217b354->mUnk_000 = 0;
-    data_0217b354->mUnk_004 = 0;
-    data_0217b354->mUnk_008 = 0;
-    data_0217b354->mUnk_00c = 0;
-    data_0217b354->mUnk_014 = 0;
-    data_0217b354->mUnk_010 = 0;
-    data_0217b354->mUnk_01c = 0;
-    if (func_020b252c() == 4) {
-        data_0217b354->mUnk_020 = func_020adb34();
+    gChoisesS = HeapAlloc(func_020b2540(), 0x1a4);
+    gChoisesS->mOpenDuringRace = 0;
+    gChoisesS->mPrevOpenDuringRace = 0;
+    gChoisesS->mUnk_008 = 0;
+    gChoisesS->mPickLocked = 0;
+    gChoisesS->mPickFrames = 0;
+    gChoisesS->mUnk_010 = FALSE;
+    gChoisesS->mAutoPickFrames = 0;
+    if (func_020b252c() == MODE_MISSION_RUN) {
+        gChoisesS->mUnk_020 = func_020adb34();
     } else {
-        data_0217b354->mUnk_020 = 0;
+        gChoisesS->mUnk_020 = FALSE;
     }
-    data_0217b354->mUnk_02c = 0;
-    data_0217b354->mUnk_030 = 0;
-    func_020b3008();
-    func_020b31e4();
+    gChoisesS->mUnk_02c = 0;
+    gChoisesS->mUnk_030 = 0;
+    ResetChoisesSSelection();
+    ClearChoisesSListValueCounts();
     switch (func_020b252c()) {
-        case 0:
-            func_020b31b8(0, 0);
-            func_020b31b8(0, 9);
-            if (func_020b250c() != 0) {
-                func_020b31b8(1, 7);
-                func_020b31b8(1, 8);
+        case MODE_GRAND_PRIX:
+            AppendChoisesSListValue(0, 0);
+            AppendChoisesSListValue(0, 9);
+            if (func_020b250c() != FALSE) {
+                AppendChoisesSListValue(1, 7);
+                AppendChoisesSListValue(1, 8);
             } else {
-                func_020b31b8(1, 2);
-                func_020b31b8(1, 8);
-                func_020b31b8(1, 9);
+                AppendChoisesSListValue(1, 2);
+                AppendChoisesSListValue(1, 8);
+                AppendChoisesSListValue(1, 9);
             }
-            if (func_020b250c() != 0) {
-                func_020b31b8(3, 0);
-                func_020b31b8(3, 7);
-                func_020b31b8(3, 8);
+            if (func_020b250c() != FALSE) {
+                AppendChoisesSListValue(3, 0);
+                AppendChoisesSListValue(3, 7);
+                AppendChoisesSListValue(3, 8);
             } else {
-                func_020b31b8(3, 0);
-                func_020b31b8(3, 2);
-                func_020b31b8(3, 8);
-                func_020b31b8(3, 9);
+                AppendChoisesSListValue(3, 0);
+                AppendChoisesSListValue(3, 2);
+                AppendChoisesSListValue(3, 8);
+                AppendChoisesSListValue(3, 9);
             }
             break;
-        case 1:
-            func_020b31b8(0, 0);
-            func_020b31b8(0, 3);
-            func_020b31b8(0, 4);
-            func_020b31b8(0, 5);
-            func_020b31b8(0, 9);
-            func_020b31b8(1, 1);
-            func_020b31b8(1, 4);
-            func_020b31b8(1, 5);
-            func_020b31b8(1, 8);
-            func_020b31b8(1, 9);
-            func_020b31b8(3, 0);
-            func_020b31b8(3, 1);
-            func_020b31b8(3, 4);
-            func_020b31b8(3, 5);
-            func_020b31b8(3, 8);
-            func_020b31b8(3, 9);
+        case MODE_TIME_ATTACK:
+            AppendChoisesSListValue(0, 0);
+            AppendChoisesSListValue(0, 3);
+            AppendChoisesSListValue(0, 4);
+            AppendChoisesSListValue(0, 5);
+            AppendChoisesSListValue(0, 9);
+            AppendChoisesSListValue(1, 1);
+            AppendChoisesSListValue(1, 4);
+            AppendChoisesSListValue(1, 5);
+            AppendChoisesSListValue(1, 8);
+            AppendChoisesSListValue(1, 9);
+            AppendChoisesSListValue(3, 0);
+            AppendChoisesSListValue(3, 1);
+            AppendChoisesSListValue(3, 4);
+            AppendChoisesSListValue(3, 5);
+            AppendChoisesSListValue(3, 8);
+            AppendChoisesSListValue(3, 9);
             break;
-        case 2:
-            func_020b31b8(0, 0);
-            func_020b31b8(0, 9);
-            func_020b31b8(1, 2);
-            func_020b31b8(1, 9);
-            func_020b31b8(2, 7);
+        case MODE_BATTLE:
+            AppendChoisesSListValue(0, 0);
+            AppendChoisesSListValue(0, 9);
+            AppendChoisesSListValue(1, 2);
+            AppendChoisesSListValue(1, 9);
+            AppendChoisesSListValue(2, 7);
             break;
-        case 3:
-            func_020b31b8(0, 0);
-            func_020b31b8(0, 9);
-            func_020b31b8(1, 2);
-            func_020b31b8(1, 9);
-            func_020b31b8(2, 7);
+        case MODE_VS:
+            AppendChoisesSListValue(0, 0);
+            AppendChoisesSListValue(0, 9);
+            AppendChoisesSListValue(1, 2);
+            AppendChoisesSListValue(1, 9);
+            AppendChoisesSListValue(2, 7);
             break;
-        case 4:
-            func_020b31b8(0, 0);
-            func_020b31b8(0, 3);
-            func_020b31b8(0, 6);
-            func_020b31b8(0, 9);
+        case MODE_MISSION_RUN:
+            AppendChoisesSListValue(0, 0);
+            AppendChoisesSListValue(0, 3);
+            AppendChoisesSListValue(0, 6);
+            AppendChoisesSListValue(0, 9);
             if (func_020b2f58() != 0) {
-                if (func_020adc04() != 0) {
-                    func_020b31b8(1, 1);
-                    func_020b31b8(1, 6);
-                    func_020b31b8(1, 9);
-                    func_020b31b8(2, 6);
-                    func_020b31b8(2, 1);
-                    func_020b31b8(2, 10);
-                    func_020b31b8(2, 9);
+                if (IsMissionRunRecordFilled() != 0) {
+                    AppendChoisesSListValue(1, 1);
+                    AppendChoisesSListValue(1, 6);
+                    AppendChoisesSListValue(1, 9);
+                    AppendChoisesSListValue(2, 6);
+                    AppendChoisesSListValue(2, 1);
+                    AppendChoisesSListValue(2, 10);
+                    AppendChoisesSListValue(2, 9);
                 } else {
-                    func_020b31b8(1, 1);
-                    func_020b31b8(1, 6);
-                    func_020b31b8(1, 9);
-                    func_020b31b8(2, 6);
-                    func_020b31b8(2, 1);
-                    func_020b31b8(2, 9);
+                    AppendChoisesSListValue(1, 1);
+                    AppendChoisesSListValue(1, 6);
+                    AppendChoisesSListValue(1, 9);
+                    AppendChoisesSListValue(2, 6);
+                    AppendChoisesSListValue(2, 1);
+                    AppendChoisesSListValue(2, 9);
                 }
             } else {
-                func_020b31b8(1, 1);
-                func_020b31b8(1, 6);
-                func_020b31b8(1, 9);
-                func_020b31b8(2, 6);
-                func_020b31b8(2, 1);
-                func_020b31b8(2, 9);
+                AppendChoisesSListValue(1, 1);
+                AppendChoisesSListValue(1, 6);
+                AppendChoisesSListValue(1, 9);
+                AppendChoisesSListValue(2, 6);
+                AppendChoisesSListValue(2, 1);
+                AppendChoisesSListValue(2, 9);
             }
             break;
         case 5:
-            func_020b31b8(0, 0);
-            if (func_020b24f8() != 4) {
-                func_020b31b8(1, 2);
+            AppendChoisesSListValue(0, 0);
+            if (GetCourseNumber() != 4) {
+                AppendChoisesSListValue(1, 2);
             } else {
-                func_020b31b8(1, 7);
+                AppendChoisesSListValue(1, 7);
             }
             break;
     }
-    if (func_020b24e4() != 3 && func_020b24e4() != 6) {
-        const char *t[6] = {
+    if (func_020b24e4() != RACE_KIND_START_GP && func_020b24e4() != RACE_KIND_STAFF_ROLL) {
+        const char *nscrNames[6] = {
             "choises_s_1.NSCR", "choises_s_2.NSCR", "choises_s_3.NSCR",
             "choises_s_4.NSCR", "choises_s_5.NSCR", "choises_s_6.NSCR",
         };
 
-        func_020b4a7c(&data_0217b354->mUnk_16c, func_020b47c0("choises_s_b.NCLR"));
-        func_020b496c(&data_0217b354->mUnk_170, func_020b47c0("choises_s_b.NCGR"));
+        LoadNclrData(&gChoisesS->mChoisesSBNclr, FindSceneFileWrapper("choises_s_b.NCLR"));
+        LoadNcgrData(&gChoisesS->mChoisesSBNcgr, FindSceneFileWrapper("choises_s_b.NCGR"));
         for (i = 0; i < 6; i++) {
-            func_020b4810(&data_0217b354->mUnk_18c[i], func_020b47c0(t[i]));
+            LoadNscrData(&gChoisesS->mChoisesSNscrs[i], FindSceneFileWrapper(nscrNames[i]));
         }
-        data_0217b354->mUnk_17c = data_0217b354->mUnk_18c[data_0217b354->mUnk_038[0].mUnk_18 - 1];
-        data_0217b354->mUnk_180 = data_0217b354->mUnk_18c[data_0217b354->mUnk_038[1].mUnk_18 - 1];
-        data_0217b354->mUnk_184 = data_0217b354->mUnk_18c[data_0217b354->mUnk_038[2].mUnk_18 - 1];
-        data_0217b354->mUnk_188 = data_0217b354->mUnk_18c[data_0217b354->mUnk_038[3].mUnk_18 - 1];
-        data_0217b354->mUnk_174 = func_02036bec(func_020b2540(), func_020b3260(data_0217b354->mUnk_038[1].mUnk_18));
+        gChoisesS->mList0Nscr = gChoisesS->mChoisesSNscrs[gChoisesS->mLists[0].mValueCount - 1];
+        gChoisesS->mList1Nscr = gChoisesS->mChoisesSNscrs[gChoisesS->mLists[1].mValueCount - 1];
+        gChoisesS->mList2Nscr = gChoisesS->mChoisesSNscrs[gChoisesS->mLists[2].mValueCount - 1];
+        gChoisesS->mList3Nscr = gChoisesS->mChoisesSNscrs[gChoisesS->mLists[3].mValueCount - 1];
+        gChoisesS->mList1Chars = HeapAlloc(func_020b2540(), GetChoisesSListCharsSize(gChoisesS->mLists[1].mValueCount));
         switch (func_020b252c()) {
-            case 2:
-            case 3:
-            case 4:
-                data_0217b354->mUnk_178 =
-                    func_02036bec(func_020b2540(), func_020b3260(data_0217b354->mUnk_038[2].mUnk_18));
+            case MODE_BATTLE:
+            case MODE_VS:
+            case MODE_MISSION_RUN:
+                gChoisesS->mList2Chars =
+                    HeapAlloc(func_020b2540(), GetChoisesSListCharsSize(gChoisesS->mLists[2].mValueCount));
                 break;
         }
-        data_0217b354->mUnk_0a8 = func_020b403c(2);
-        func_02023408(data_0217b354->mUnk_0ac[0], func_020b3374()->mUnk_14, 0x20, 0xc, 4);
-        p = data_0217b354;
-        func_020b24cc(&p->mUnk_12c[0], p->mUnk_0ac[0], p->mUnk_0a8, func_020b4acc(), 0);
-        func_02023408(data_0217b354->mUnk_0ac[1], data_0217b354->mUnk_174, 0x20, 0xc, 4);
-        p = data_0217b354;
-        func_020b24cc(&p->mUnk_12c[1], p->mUnk_0ac[1], p->mUnk_0a8, func_020b4acc(), 0);
-        n = func_020b3260(data_0217b354->mUnk_038[1].mUnk_18) >> 1;
-        for (i = 0; i < n; i++) {
-            data_0217b354->mUnk_174[i] = func_020b3374()->mUnk_14[i];
+        gChoisesS->mFont = GetFontByIndex(2);
+        NNS_G2dCharCanvasInitForBG(gChoisesS->mCharCanvases[0], GetChoisesSBNcgrWithListChars()->mData, 0x20, 0xc, 4);
+        choisesS = gChoisesS;
+        func_020b24cc(&choisesS->mTextCanvases[0], choisesS->mCharCanvases[0], choisesS->mFont, IsLanguageJa(), 0);
+        NNS_G2dCharCanvasInitForBG(gChoisesS->mCharCanvases[1], gChoisesS->mList1Chars, 0x20, 0xc, 4);
+        choisesS = gChoisesS;
+        func_020b24cc(&choisesS->mTextCanvases[1], choisesS->mCharCanvases[1], choisesS->mFont, IsLanguageJa(), 0);
+        charCount = GetChoisesSListCharsSize(gChoisesS->mLists[1].mValueCount) >> 1;
+        for (i = 0; i < charCount; i++) {
+            gChoisesS->mList1Chars[i] = GetChoisesSBNcgrWithListChars()->mData[i];
         }
-        if (data_0217b354->mUnk_178 != 0) {
-            func_02023408(data_0217b354->mUnk_0ac[2], data_0217b354->mUnk_178, 0x20, 0xc, 4);
-            p = data_0217b354;
-            func_020b24cc(&p->mUnk_12c[2], p->mUnk_0ac[2], p->mUnk_0a8, func_020b4acc(), 0);
-            n = func_020b3260(data_0217b354->mUnk_038[2].mUnk_18) >> 1;
-            for (i = 0; i < n; i++) {
-                data_0217b354->mUnk_178[i] = func_020b3374()->mUnk_14[i];
+        if (gChoisesS->mList2Chars != NULL) {
+            NNS_G2dCharCanvasInitForBG(gChoisesS->mCharCanvases[2], gChoisesS->mList2Chars, 0x20, 0xc, 4);
+            choisesS = gChoisesS;
+            func_020b24cc(&choisesS->mTextCanvases[2], choisesS->mCharCanvases[2], choisesS->mFont, IsLanguageJa(), 0);
+            charCount = GetChoisesSListCharsSize(gChoisesS->mLists[2].mValueCount) >> 1;
+            for (i = 0; i < charCount; i++) {
+                gChoisesS->mList2Chars[i] = GetChoisesSBNcgrWithListChars()->mData[i];
             }
         }
-        func_02023408(data_0217b354->mUnk_0ac[3], func_020b3374()->mUnk_14, 0x20, 0xc, 4);
-        p = data_0217b354;
-        func_020b24cc(&p->mUnk_12c[3], p->mUnk_0ac[3], p->mUnk_0a8, func_020b4acc(), 0);
+        NNS_G2dCharCanvasInitForBG(gChoisesS->mCharCanvases[3], GetChoisesSBNcgrWithListChars()->mData, 0x20, 0xc, 4);
+        choisesS = gChoisesS;
+        func_020b24cc(&choisesS->mTextCanvases[3], choisesS->mCharCanvases[3], choisesS->mFont, IsLanguageJa(), 0);
         if (func_020b24e4() != 2) {
-            for (i = 0; i < data_0217b354->mUnk_038[0].mUnk_18; i++) {
-                func_020b24a4(&data_0217b354->mUnk_12c[0], 0x90, i * 16 + 9, 0xc, 0x412,
-                              func_020b320c(0, data_0217b354->mUnk_038[0].mUnk_00[i]));
+            for (i = 0; i < gChoisesS->mLists[0].mValueCount; i++) {
+                func_020b24a4(&gChoisesS->mTextCanvases[0], 0x90, i * 16 + 9, 0xc, 0x412,
+                              GetChoisesSValueMessage(0, gChoisesS->mLists[0].mValues[i]));
             }
         } else {
-            for (i = 0; i < data_0217b354->mUnk_038[3].mUnk_18; i++) {
-                func_020b24a4(&data_0217b354->mUnk_12c[3], 0x90, i * 16 + 9, 0xc, 0x412,
-                              func_020b320c(3, data_0217b354->mUnk_038[3].mUnk_00[i]));
+            for (i = 0; i < gChoisesS->mLists[3].mValueCount; i++) {
+                func_020b24a4(&gChoisesS->mTextCanvases[3], 0x90, i * 16 + 9, 0xc, 0x412,
+                              GetChoisesSValueMessage(3, gChoisesS->mLists[3].mValues[i]));
             }
         }
-        for (i = 0; i < data_0217b354->mUnk_038[1].mUnk_18; i++) {
-            func_020b24a4(&data_0217b354->mUnk_12c[1], 0x90, i * 16 + 9, 0xc, 0x412,
-                          func_020b320c(1, data_0217b354->mUnk_038[1].mUnk_00[i]));
+        for (i = 0; i < gChoisesS->mLists[1].mValueCount; i++) {
+            func_020b24a4(&gChoisesS->mTextCanvases[1], 0x90, i * 16 + 9, 0xc, 0x412,
+                          GetChoisesSValueMessage(1, gChoisesS->mLists[1].mValues[i]));
         }
-        for (i = 0; i < data_0217b354->mUnk_038[2].mUnk_18; i++) {
-            func_020b24a4(&data_0217b354->mUnk_12c[2], 0x90, i * 16 + 9, 0xc, 0x412,
-                          func_020b320c(2, data_0217b354->mUnk_038[2].mUnk_00[i]));
+        for (i = 0; i < gChoisesS->mLists[2].mValueCount; i++) {
+            func_020b24a4(&gChoisesS->mTextCanvases[2], 0x90, i * 16 + 9, 0xc, 0x412,
+                          GetChoisesSValueMessage(2, gChoisesS->mLists[2].mValues[i]));
         }
     } else {
-        data_0217b354->mUnk_16c = 0;
-        data_0217b354->mUnk_170 = 0;
-        data_0217b354->mUnk_174 = 0;
-        data_0217b354->mUnk_178 = 0;
-        data_0217b354->mUnk_17c = 0;
-        data_0217b354->mUnk_180 = 0;
-        data_0217b354->mUnk_184 = 0;
-        data_0217b354->mUnk_188 = 0;
+        gChoisesS->mChoisesSBNclr = NULL;
+        gChoisesS->mChoisesSBNcgr = NULL;
+        gChoisesS->mList1Chars = NULL;
+        gChoisesS->mList2Chars = NULL;
+        gChoisesS->mList0Nscr = NULL;
+        gChoisesS->mList1Nscr = NULL;
+        gChoisesS->mList2Nscr = NULL;
+        gChoisesS->mList3Nscr = NULL;
     }
 }
 
-void func_020b1de4(void) {
-    data_0217b354 = 0;
+void ClearChoisesSPointer(void) {
+    gChoisesS = NULL;
 }
 
 #pragma thumb off

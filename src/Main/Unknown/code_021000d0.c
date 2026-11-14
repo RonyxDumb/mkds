@@ -2,26 +2,26 @@
 
 #include "Main/Unknown/code_020d2b78.h"
 
-void *func_02100138(u32 param_1) {
-    s32 n = func_020d2c20();
+void *FindMapObjectKindUpdateList(u32 a) {
+    s32 n = GetMapObjectKindCount();
     s32 i;
 
     for (i = 0; i < n; i++) {
-        if (data_0216b288[i].mUnk_00 == param_1) {
-            return data_0216b288[i].mUnk_04->mUnk_30;
+        if (data_0216b288[i].mKind == a) {
+            return data_0216b288[i].mUnk_04->mLists[3];
         }
     }
-    return 0;
+    return NULL;
 }
 
-void *func_021000d0(u32 param_1) {
-    s32 n = func_020d2c20();
+void *FindMapObjectKindDrawList0(u32 a) {
+    s32 n = GetMapObjectKindCount();
     s32 i;
 
     for (i = 0; i < n; i++) {
-        if (data_0216b288[i].mUnk_00 == param_1) {
-            return data_0216b288[i].mUnk_04->mUnk_24;
+        if (data_0216b288[i].mKind == a) {
+            return data_0216b288[i].mUnk_04->mLists[0];
         }
     }
-    return 0;
+    return NULL;
 }

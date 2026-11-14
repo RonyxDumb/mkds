@@ -1,5 +1,6 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_02087d0c.h"
 
-void func_02087cd0(void *p0, unsigned int p1);
+void ResetModelAnimationLooping(ModelAnimation *animation, unsigned int frameCountFixed);

@@ -1,90 +1,58 @@
 #include "Main/Unknown/code_020cc994.h"
+#include "00/code_02181f98.h"
 
-void func_020cca9c(u32 p0) {
-    *(u32 *) ((u8 *) (u32) (((u32) *(
-                           const u32 *) ((u8 *) (u32) (((u32) (&data_021759c0))) + 0))) +
-                       508) = p0;
+void SetNextCpuDifficulty(u32 cpuDifficulty) {
+    gRaceSetup->mNextHeader.mCpuDifficulty = cpuDifficulty;
 }
 
-void func_020cca88(u32 p0) {
-    *(u32 *) ((u8 *) (u32) (((u32) *(
-                           const u32 *) ((u8 *) (u32) (((u32) (&data_021759c0))) + 0))) +
-                       496) = p0;
+void SetNextMode(u32 mode) {
+    gRaceSetup->mNextHeader.mMode = mode;
 }
 
-void func_020cca74(u32 p0) {
-    *(u32 *) ((u8 *) (u32) (((u32) *(
-                           const u32 *) ((u8 *) (u32) (((u32) (&data_021759c0))) + 0))) +
-                       492) = p0;
+void SetNextCupIndex(u32 cupIndex) {
+    gRaceSetup->mNextHeader.mCupIndex = cupIndex;
 }
 
-void func_020cca60(u32 p0) {
-    *(u32 *) ((u8 *) (u32) (((u32) *(
-                           const u32 *) ((u8 *) (u32) (((u32) (&data_021759c0))) + 0))) +
-                       488) = p0;
+void SetNextCourseId(u32 courseId) {
+    gRaceSetup->mNextHeader.mCourseId = courseId;
 }
 
-void func_020cca4c(u32 p0) {
-    *(u32 *) ((u8 *) (u32) (((u32) *(
-                           const u32 *) ((u8 *) (u32) (((u32) (&data_021759c0))) + 0))) +
-                       504) = p0;
+void SetNextEngineIndex(u32 engineIndex) {
+    gRaceSetup->mNextHeader.mEngineIndex = engineIndex;
 }
 
-void func_020cca38(u32 p0) {
-    *(u8 *) ((u8 *) (u32) (((u32) *(
-                            const u32 *) ((u8 *) (u32) (((u32) (&data_021759c0))) + 0))) +
-                        575) = (u8) p0;
+void SetNextMirrorMode(u32 mirrorMode) {
+    gRaceSetup->mNextHeader.mMirrorMode = (u8) mirrorMode;
 }
 
 void func_020cca24(u32 p0) {
-    *(u32 *) ((u8 *) (u32) (((u32) *(
-                           const u32 *) ((u8 *) (u32) (((u32) (&data_021759c0))) + 0))) +
-                       524) = p0;
+    gRaceSetup->mNextHeader.mGhostRecordIndex = p0;
 }
 
-void func_020cca10(u32 p0) {
-    *(u32 *) ((u8 *) (u32) (((u32) *(
-                           const u32 *) ((u8 *) (u32) (((u32) (&data_021759c0))) + 0))) +
-                       512) = p0;
+void SetNextBattleKind(u32 battleKind) {
+    gRaceSetup->mNextHeader.mBattleKind = battleKind;
 }
 
-void func_020cc9fc(u32 p0) {
-    *(u8 *) ((u8 *) (u32) (((u32) *(
-                            const u32 *) ((u8 *) (u32) (((u32) (&data_021759c0))) + 0))) +
-                        576) = (u8) p0;
+void SetNextUseTeams(u32 useTeams) {
+    gRaceSetup->mNextHeader.mUseTeams = useTeams;
 }
 
-void func_020cc9e4(u32 p0) {
-    *(u16 *) ((u8 *) (u32) ((
-                             (((u32) *(
-                                 const u32 *) ((u8 *) (u32) (((u32) (&data_021759c0))) +
-                                                        0))) +
-                             (0x300u))) +
-                         216) = (u16) p0;
+void SetCourseCount(u32 courseCount) {
+    gRaceSetup->mCourseCount = courseCount;
 }
 
-void func_020cc9d0(u32 p0) {
-    *(u32 *) ((u8 *) (u32) (((u32) *(
-                           const u32 *) ((u8 *) (u32) (((u32) (&data_021759c0))) + 0))) +
-                       516) = p0;
+void SetNextRuleKind(u32 ruleKind) {
+    gRaceSetup->mNextHeader.mRuleKind = ruleKind;
 }
 
-void func_020cc9bc(u32 p0) {
-    *(u32 *) ((u8 *) (u32) (((u32) *(
-                           const u32 *) ((u8 *) (u32) (((u32) (&data_021759c0))) + 0))) +
-                       520) = p0;
+void SetNextCourseListMode(u32 courseListMode) {
+    gRaceSetup->mNextHeader.mCourseListMode = courseListMode;
 }
 
 void func_020cc9a8(u32 p0) {
-    *(u32 *) ((u8 *) (u32) (((u32) *(
-                           const u32 *) ((u8 *) (u32) (((u32) (&data_0217b488))) + 0))) +
-                       120) = p0;
+    data_0217b488->mUnk_78 = p0;
 }
 
 u32 func_020cc994(void) {
-    return ((u32) *(
-        const u32 *) ((u8 *) (u32) (((u32) *(
-                                   const u32 *) ((u8 *) (u32) (((u32) (&data_0217b488))) +
-                                                          0))) +
-                               4));
+    return (data_0217b488->mUnk_04);
 }

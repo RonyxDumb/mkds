@@ -1,10 +1,9 @@
 #pragma once
 
 #include "types.h"
-#include "00/code_02182fdc.h"
 
-u32 func_02122794(s32 a);
-u32 func_021227f8(u32 a);
-void func_02122818(void);
-void func_02122960(void);
+u32 GetKartMaskBitOfPackedIndex(u8 packedIndex);
+u32 GetKartMaskBit(u32 index);
+void UpdateWiFiSessionKartTimeouts(void);
+void RemoveWiFiSessionKarts(void);
 void func_02122ab0(void);

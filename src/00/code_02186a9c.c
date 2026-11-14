@@ -1,110 +1,114 @@
 #include "00/code_02186a9c.h"
-#include "00/code_02186998.h"
-#include "00/code_02186a38.h"
-#include "code_0200d118.h"
-#include "code_02134d30.h"
+#include "03/code_021b94b8.h"
+#include "00/code_02188008.h"
+#include "00/unk_021b1000.h"
+#include "00/code_02185954.h"
+#include "os_printf.h"
+#include "string.h"
+#include "code_02134398.h"
 #include "code_02139f70.h"
 
-s32 func_ov000_02186a9c(Unk021868d0 *a, const u8 *b) {
+#pragma opt_lifetimes off
+
+BOOL DWCi_Http_WriteBasicHeader(Http *a) {
+    HttpBuffer *b = &a->mSendBuffer;
+    char *c;
     s32 d;
-    Unk02186998 *c;
     s32 e;
     s32 f;
-    c = &a->mUnk_928;
-    d = func_0213a434(b);
-    e = c->mUnk_08 - c->mUnk_04;
-    if (d > e) {
-        if (func_ov000_02186998(a, c, d - e + 1) == 0) {
-            return 1;
-        }
-        e = c->mUnk_08 - c->mUnk_04;
-    }
-    f = func_0200d9e0(c->mUnk_04, e, data_ov000_021b1290, b);
-    if (f != d) {
-        return 1;
-    }
-    c->mUnk_04 = c->mUnk_04 + f;
-    return 0;
-}
-
-s32 func_ov000_02186b0c(Unk021868d0 *a, const u8 *b, const void *c, s32 d) {
-    Unk02186998 *e = &a->mUnk_928;
-    char *f;
-    s32 g;
-    s32 h;
-    s32 i;
-    s32 j;
-    if (a->mUnk_924 == 0) {
-        f = data_ov000_021b1294;
+    if (a->mUnk_04.mUnk_04 == 0) {
+        c = data_ov000_021b12ac;
     } else {
-        f = data_ov000_021b1298;
+        c = data_ov000_021b1300;
     }
-    a->mUnk_924 = a->mUnk_924 + 1;
-    g = func_ov000_021882f8(c, d, 0, 0);
-    h = func_0213a434((const u8 *) f);
-    i = g + (h - 2 + func_0213a434(b));
-    j = e->mUnk_08 - e->mUnk_04;
-    if (i > j) {
-        if (func_ov000_02186998(a, e, i - j + 1) == 0) {
-            return 1;
-        }
-        j = e->mUnk_08 - e->mUnk_04;
+    d = strlen(a->mHost);
+    e = strlen(c);
+    f = d + (e - 4 + strlen(a->mPath));
+    if (InitHttpBuffer(a, &a->mSendBuffer, f + 0x400) != 1) {
+        return TRUE;
     }
-    e->mUnk_04 = e->mUnk_04 + func_0200d9e0(e->mUnk_04, j, f, b);
-    if (func_ov000_021882f8(c, d, (s8 *) e->mUnk_04, e->mUnk_08 - e->mUnk_04 - 1) < 0) {
-        return 1;
-    }
-    e->mUnk_04 = e->mUnk_04 + g;
-    *e->mUnk_04 = 0;
-    return 0;
+    b->mCursor = b->mCursor + OS_SNPrintf(b->mCursor, b->mSize, c, a->mPath, a->mHost);
+    return FALSE;
 }
 
-// non-matching: buf pointer in r5 and the length of c in r4 (original: r4 and r5), 11 words differ only by that
-s32 func_ov000_02186bd4(Unk021868d0 *a, const u8 *b, const u8 *c) {
+BOOL DWC_Http_Add_HeaderItem(Http *a, const char *b, const char *c) {
     s32 e;
-    Unk02186998 *d;
+    HttpBuffer *d;
     s32 f;
     char *g;
     s8 *p;
     s8 h;
     s32 i;
-    d = &a->mUnk_928;
-    e = func_0213a434(c);
-    f = func_0213a434((const u8 *) data_ov000_021b12a0);
-    e = e + (f - 4 + func_0213a434(b));
-    i = d->mUnk_08 - d->mUnk_04;
+    d = &a->mSendBuffer;
+    e = strlen(c);
+    f = strlen(data_ov000_021b12a0);
+    e = e + (f - 4 + strlen(b));
+    i = d->mEnd - d->mCursor;
     if (e + 1 > i) {
-        if (func_ov000_02186998(a, d, e - i + 1) == 0) {
-            return 1;
+        if (GrowHttpBuffer(a, d, e - i + 1) == 0) {
+            return TRUE;
         }
     }
-    p = (s8 *) func_02139f70((const u8 *) d->mUnk_00, data_ov000_021b1230);
+    p = (s8 *) strstr(d->mStart, data_ov000_021b1230);
     g = (char *) p + 2;
     h = p[2];
-    func_02134df8(g + e, g, func_0213a434((const u8 *) g) + 1);
-    i = func_0200d9e0(g, e + 1, data_ov000_021b12a0, b, c);
+    memmove(g + e, g, strlen(g) + 1);
+    i = OS_SNPrintf(g, e + 1, data_ov000_021b12a0, b, c);
     g[i] = h;
-    d->mUnk_04 = d->mUnk_04 + e;
-    return 0;
+    d->mCursor = d->mCursor + e;
+    return FALSE;
 }
 
-s32 func_ov000_02186c74(Unk021868d0 *a) {
-    Unk02186998 *b = &a->mUnk_928;
-    char *c;
+BOOL DWC_Http_Add_PostBase64Item(Http *a, const char *b, const void *c, s32 d) {
+    HttpBuffer *e = &a->mSendBuffer;
+    char *f;
+    s32 g;
+    s32 h;
+    s32 i;
+    s32 j;
+    if (a->mPairCount == 0) {
+        f = data_ov000_021b1294;
+    } else {
+        f = data_ov000_021b1298;
+    }
+    a->mPairCount = a->mPairCount + 1;
+    g = DWC_Auth_Base64Encode(c, d, NULL, 0);
+    h = strlen(f);
+    i = g + (h - 2 + strlen(b));
+    j = e->mEnd - e->mCursor;
+    if (i > j) {
+        if (GrowHttpBuffer(a, e, i - j + 1) == 0) {
+            return TRUE;
+        }
+        j = e->mEnd - e->mCursor;
+    }
+    e->mCursor = e->mCursor + OS_SNPrintf(e->mCursor, j, f, b);
+    if (DWC_Auth_Base64Encode(c, d, e->mCursor, e->mEnd - e->mCursor - 1) < 0) {
+        return TRUE;
+    }
+    e->mCursor = e->mCursor + g;
+    *e->mCursor = 0;
+    return FALSE;
+}
+
+BOOL DWC_Http_Add_Body(Http *a, const char *b) {
     s32 d;
+    HttpBuffer *c;
     s32 e;
     s32 f;
-    if (a->mUnk_008 == 0) {
-        c = data_ov000_021b12ac;
-    } else {
-        c = data_ov000_021b1300;
+    c = &a->mSendBuffer;
+    d = strlen(b);
+    e = c->mEnd - c->mCursor;
+    if (d > e) {
+        if (GrowHttpBuffer(a, c, d - e + 1) == 0) {
+            return TRUE;
+        }
+        e = c->mEnd - c->mCursor;
     }
-    d = func_0213a434(a->mUnk_0a8);
-    e = func_0213a434((const u8 *) c);
-    f = d + (e - 4 + func_0213a434(a->mUnk_0ac));
-    if (func_ov000_02186a38(a, &a->mUnk_928, f + 0x400) != 1) {
-        return 1;
+    f = OS_SNPrintf(c->mCursor, e, data_ov000_021b1290, b);
+    if (f != d) {
+        return TRUE;
     }
-    b->mUnk_04 = b->mUnk_04 + func_0200d9e0(b->mUnk_04, b->mUnk_0c, c, a->mUnk_0ac, a->mUnk_0a8);
-    return 0;
+    c->mCursor = c->mCursor + f;
+    return FALSE;
 }

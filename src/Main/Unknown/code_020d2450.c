@@ -1,15 +1,17 @@
 #include "Main/Unknown/code_020d2450.h"
+#include "Main/Unknown/code_020d6dc0.h"
+#include "ITCM/code_01ffba68.h"
+#include "ITCM/code_01ffdee4.h"
 
-void func_020d2450(void *param_1) {
-    int iVar1;
-    u8 auStack_28[12];
-    u8 auStack_1c[20];
-    iVar1 = func_01ffdee4((int *) ((int *) ((u32) param_1 + 4)), (u32 *) 0, (u32) 0, 0xa000, (u32) 8,
-                          (short) 0xfffffffe, (int *) 0, (int *) ((int *) (void *) auStack_28), (int *) 0,
-                          (u32 *) 0, (u32 *) 0, (int *) 0, (u16 *) 0, (u32 *) 0);
-    if (iVar1 != 0) {
-        func_020d7b88((Vec3 *) ((u32) auStack_28), (u32 *) ((u32 *) (void *) auStack_1c));
-        func_01ffccd0((int *) ((int *) ((u32) param_1 + 0x28)), (void *) ((u32) auStack_1c));
+void RefreshMapObjectMatrixFromHitNormal(void *mapObject) {
+    int hit;
+    u8 normal[12];
+    u8 quaternion[20];
+    hit = func_01ffdee4(((s32 *) (mapObject + 4)), NULL, 0, 0xa000, 8, 0xfffffffe, NULL, (normal), NULL, NULL, NULL,
+                        NULL, NULL, NULL);
+    if (hit != 0) {
+        QuaternionFromYAxisToVec3((Vec3 *) normal, ((u32 *) (void *) quaternion));
+        Matrix3x3FromQuaternion(((s32 *) (mapObject + 0x28)), quaternion);
         return;
     }
 }

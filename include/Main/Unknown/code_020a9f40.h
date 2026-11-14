@@ -1,11 +1,11 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020a9ff4.h"
-#include "Main/Unknown/code_020ab000.h"
-#include "Main/Unknown/unk_0217b000.h"
+#include "Main/Unknown/code_020b4000.h"
 
-void func_020a9f40(Unk0217b278_10 *param_1, struct Unk020b4934 *param_2, u32 param_3);
-void func_020a9f6c(Unk0217b278_10 *param_1, struct Unk020b4934 *param_2, u32 param_3);
-void func_020a9f98(Unk0217b278_10 *param_1, struct Unk020b4934 *param_2, u32 param_3);
-void func_020a9fc4(Unk0217b278_10 *param_1, struct Unk020b4934 *param_2, u32 param_3);
+typedef struct KeyboardRect KeyboardRect;
+
+void SetupKeyboardLayoutOther3(KeyboardRect *a, struct Ncgr *b, u32 c);
+void SetupKeyboardLayoutOther2(KeyboardRect *a, struct Ncgr *b, u32 c);
+void SetupKeyboardLayoutOther1(KeyboardRect *a, struct Ncgr *b, u32 c);
+void SetupKeyboardLayoutAscii(KeyboardRect *a, struct Ncgr *b, u32 c);

@@ -1,61 +1,54 @@
 #include "00/code_021988e8.h"
-#include "00/code_0218dddc.h"
-#include "00/code_0218dc44.h"
-#include "00/code_0218e8b4.h"
+#include "00/code_0219a0d0.h"
+#include "00/code_0219a61c.h"
+#include "00/unk_021b2000.h"
+#include "code_02134398.h"
+#include "00/code_021a3678.h"
+#include "00/code_021a3690.h"
+#include "00/code_0218dd8c.h"
+#include "00/code_0218d000.h"
+#include "00/code_021a3000.h"
+#include "00/code_0218d818.h"
+#include "03/code_021b94b8.h"
+#include "00/code_0218e2dc.h"
 #include "00/code_02198748.h"
 #include "00/code_02198a8c.h"
-#include "00/code_0218e8bc.h"
+#include "00/code_0219a654.h"
 
-void func_ov000_021988e8(Unk02197e8c *a) {
-    func_ov000_0218dddc(a->mUnk_0c, (void (*)(void *, void *)) func_ov000_021988fc, 0);
+int func_ov000_02198a7c(Gt2Connection *a, Gt2ConnectionCallbacks *b) {
+    return func_ov000_02198778(a, b);
 }
 
-void func_ov000_021988fc(Unk02197fe8 **a) {
-    func_ov000_02198908(*a);
+void func_ov000_02198a74(Gt2Connection *a, void *b, u32 c) {
+    func_ov000_02198748(a, b, c);
 }
 
-void func_ov000_02198908(Unk02197fe8 *a) {
-    func_ov000_02198548(a, 1);
-}
-
-void func_ov000_02198914(Unk02197fe8 *a, u8 *b, int c, int d) {
-    if (a->mUnk_0c == 5) {
-        func_ov000_0219a61c((const u8 **) &b, &c);
-        if (func_ov000_0218dc44((u32 *) a->mUnk_98) != 0) {
-            func_ov000_02198098(a, 0, (s32) b, (void *) c, d);
-            return;
-        }
-        func_ov000_02198ad8(a, b, c, d);
-    }
-}
-
-// non-matching: the original keeps the first out value at sp+0x10 in r2 (not r4), spills the second one to sp+4 and
-// puts the u16 at sp+8; ours keeps them in r4/r6 with the u16 at sp+4 (same size apart from that, 0xfc bytes either way)
-int func_ov000_02198968(void *a, Unk02197fe8 **b, u32 c, void *d, int e, u32 f, int g, int h) {
+int func_ov000_02198968(void *a, Gt2Connection **b, u32 c, void *d, int e, u32 f, Gt2ConnectionCallbacks *g, int h) {
+    Gt2Connection *m;
     u32 i;
     u16 j;
     u32 k;
     int l;
-    Unk02197fe8 *m;
     int n;
-    if (func_ov000_0219a654((const u8 *) c, &i, &j) == 0 || i == 0 || (k = j) == 0) {
+    if (Gt2ParseAddress((const char *) c, &i, &j) == FALSE || i == 0 || (k = j) == 0) {
         return 4;
     }
-    if (((((i << 24) & 0xff000000) | (((i << 8) & 0xff0000) | (((i >> 24) & 0xff) | ((i >> 8) & 0xff00)))) & 0xe0000000) == 0xe0000000) {
+    if (((((i << 24) & 0xff000000) | (((i << 8) & 0xff0000) | (((i >> 24) & 0xff) | ((i >> 8) & 0xff00)))) &
+         0xe0000000) == 0xe0000000) {
         return 4;
     }
-    l = func_ov000_0219885c(a, &m, 0, k);
+    l = func_ov000_0219885c(a, &m, i, k);
     if (l != 0) {
         return l;
     }
-    m->mUnk_20 = f;
-    n = func_ov000_021987c8(m, d, e, (Unk02198778 *) g);
+    m->mTimeSinceCreateLimit = f;
+    n = func_ov000_021987c8(m, d, e, g);
     if (n != 0) {
         func_ov000_0219a220(m);
         return n;
     }
     if (h == 0) {
-        if (b != 0) {
+        if (b != NULL) {
             *b = m;
         }
         return 0;
@@ -72,13 +65,28 @@ int func_ov000_02198968(void *a, Unk02197fe8 **b, u32 c, void *d, int e, u32 f, 
     if (m->mUnk_0c == 5) {
         *b = m;
     }
-    return m->mUnk_18;
+    return m->mResult;
 }
 
-void func_ov000_02198a74(Unk02197fe8 *a, void *b, u32 c) {
-    func_ov000_02198748(a, b, c);
+void func_ov000_02198914(Gt2Connection *a, u8 *b, int c, int d) {
+    if (a->mUnk_0c == 5) {
+        func_ov000_0219a61c((const char **) &b, &c);
+        if (DarrayGetCount((u32 *) a->mUnk_98) != 0) {
+            func_ov000_02198098(a, 0, (s32) b, (void *) c, d);
+            return;
+        }
+        func_ov000_02198ad8(a, b, c, d);
+    }
 }
 
-int func_ov000_02198a7c(Unk02197fe8 *a, Unk02198778 *b) {
-    return func_ov000_02198778(a, b);
+void func_ov000_02198908(Gt2Connection *a) {
+    func_ov000_02198548(a, 1);
+}
+
+void func_ov000_021988fc(Gt2Connection **a) {
+    func_ov000_02198908(*a);
+}
+
+void func_ov000_021988e8(Gt2Socket *a) {
+    HashtableForEach(a->mConnections, (void (*)(void *, void *)) func_ov000_021988fc, NULL);
 }

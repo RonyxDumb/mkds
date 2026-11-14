@@ -6,14 +6,14 @@
 #pragma optimize_for_size on
 #pragma thumb on
 
-void func_020ada2c(s32 a) {
+void AdvanceTitleStates(s32 a) {
     enum { K0 } i;
-    func_020ae6ac(&data_0217b340->mUnk_b0, &data_0217b340->mUnk_4b4);
-    i = data_0217b340->mUnk_0c;
-    data_0217b340->mUnk_14[i].mUnk_04(a);
-    func_020ada7c((int *) data_0217b340);
+    ClearOamListCounts(&gTitleScene->mMainOam, &gTitleScene->mSubOam);
+    i = gTitleScene->mState;
+    gTitleScene->mStateHandlers[i].mUpdate(a);
+    IncrementCounterSaturating((s32 *) gTitleScene);
     func_02125928();
-    func_020ae630(&data_0217b340->mUnk_b0, &data_0217b340->mUnk_4b4);
+    func_020ae630(&gTitleScene->mMainOam, &gTitleScene->mSubOam);
 }
 
 #pragma thumb off

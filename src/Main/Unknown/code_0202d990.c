@@ -1,131 +1,135 @@
 #include "Main/Unknown/code_0202d990.h"
+#include "Main/Unknown/code_0202dd9c.h"
+#include "Main/Unknown/code_0202e43c.h"
+#include "Main/Unknown/code_020467d0.h"
+#include "Main/Unknown/code_020578fc.h"
+#include "Main/Unknown/code_02061654.h"
+#include "Main/Unknown/unk_02174000.h"
+
+#pragma opt_arithtransformation off
 
 #pragma thumb on
 
-s32 func_0202dd80(s32 a) {
-    // placeholder: the enum result preserves the original branch and result-move order.
-    enum { ZERO, ONE } r;
-    if (a < data_02174e44->mUnk_80c) {
-        r = 0;
+// Returns 1 when the list position is a slot ghost, 0 for a course ghost.
+s32 IsSlotGhostIndex(s32 index) {
+    return index < gGhostScene->mCourseGhostCount ? 0 : 1;
+}
+
+void GetListedGhostTime(u32 index, void *time) {
+    u32 courseId;
+    u8 *courseRecords;
+    s32 cupCourseIndex;
+    if (IsSlotGhostIndex(index) == 0) {
+        courseId = func_0202e43c(gGhostScene->mCupCourseIndices[index]);
+        courseRecords = gGhostScene->mCourseGhostRecords;
+        cupCourseIndex = FindCupCourseIndex(courseId);
+        GetGhostRecordTime(courseRecords + cupCourseIndex * 0x30, time);
     } else {
-        r = 1;
+        index -= gGhostScene->mCourseGhostCount;
+        GetGhostRecordTime((u8) gGhostScene->mSlotIndices[index] * 0x230 + gGhostScene->mSlotGhostRecords, time);
     }
-    return r;
 }
 
-void func_0202dcf4(u32 a, void *b) {
-    u32 e;
-    u8 *p;
-    s32 n;
-    if (func_0202dd80(a) == 0) {
-        e = func_0202e43c(data_02174e44->mUnk_814[a]);
-        p = data_02174e44->mUnk_8bc;
-        n = func_0204684c(e);
-        func_02061704(p + n * 0x30, b);
+void GetListedGhostName(u32 index, void *name) {
+    u32 courseId;
+    u8 *courseRecords;
+    s32 cupCourseIndex;
+    if (IsSlotGhostIndex(index) == 0) {
+        courseId = func_0202e43c(gGhostScene->mCupCourseIndices[index]);
+        courseRecords = gGhostScene->mCourseGhostRecords;
+        cupCourseIndex = FindCupCourseIndex(courseId);
+        GetGhostRecordName(courseRecords + cupCourseIndex * 0x30, name);
     } else {
-        a -= data_02174e44->mUnk_80c;
-        func_02061704((u8) data_02174e44->mUnk_894[a] * 0x230 + data_02174e44->mUnk_8c0, b);
+        index -= gGhostScene->mCourseGhostCount;
+        GetGhostRecordName((u8) gGhostScene->mSlotIndices[index] * 0x230 + gGhostScene->mSlotGhostRecords, name);
     }
 }
 
-void func_0202dc68(u32 a, void *b) {
-    u32 e;
-    u8 *p;
-    s32 n;
-    if (func_0202dd80(a) == 0) {
-        e = func_0202e43c(data_02174e44->mUnk_814[a]);
-        p = data_02174e44->mUnk_8bc;
-        n = func_0204684c(e);
-        func_020616c0(p + n * 0x30, b);
+u32 GetListedGhostCharacterIndex(u32 index) {
+    u32 courseId;
+    u8 *courseRecords;
+    s32 cupCourseIndex;
+    if (IsSlotGhostIndex(index) == 0) {
+        courseId = func_0202e43c(gGhostScene->mCupCourseIndices[index]);
+        courseRecords = gGhostScene->mCourseGhostRecords;
+        cupCourseIndex = FindCupCourseIndex(courseId);
+        return GetGhostRecordCharacterIndex(courseRecords + cupCourseIndex * 0x30);
+    }
+    index -= gGhostScene->mCourseGhostCount;
+    return GetGhostRecordCharacterIndex((u8) gGhostScene->mSlotIndices[index] * 0x230 + gGhostScene->mSlotGhostRecords);
+}
+
+u32 GetListedGhostKartIndex(u32 index) {
+    u32 courseId;
+    u8 *courseRecords;
+    s32 cupCourseIndex;
+    if (IsSlotGhostIndex(index) == 0) {
+        courseId = func_0202e43c(gGhostScene->mCupCourseIndices[index]);
+        courseRecords = gGhostScene->mCourseGhostRecords;
+        cupCourseIndex = FindCupCourseIndex(courseId);
+        return GetGhostRecordKartIndex(courseRecords + cupCourseIndex * 0x30);
+    }
+    index -= gGhostScene->mCourseGhostCount;
+    return GetGhostRecordKartIndex((u8) gGhostScene->mSlotIndices[index] * 0x230 + gGhostScene->mSlotGhostRecords);
+}
+
+u32 GetListedGhostCourseId(u32 index) {
+    u8 *slotRecords;
+    if (IsSlotGhostIndex(index) == 0) {
+        return func_0202e43c(gGhostScene->mCupCourseIndices[index]);
+    }
+    index -= gGhostScene->mCourseGhostCount;
+    slotRecords = gGhostScene->mSlotGhostRecords;
+    return GetGhostRecordCourseId(slotRecords + (u8) gGhostScene->mSlotIndices[index] * 0x230);
+}
+
+void StartReadListedGhost(s32 index) {
+    s32 recordIndex;
+    if (IsSlotGhostIndex(index) == 0) {
+        recordIndex = gGhostScene->mCupCourseIndices[index];
+        ReadBackupCourseGhost(recordIndex, GetCourseGhostBuffer());
     } else {
-        a -= data_02174e44->mUnk_80c;
-        func_020616c0((u8) data_02174e44->mUnk_894[a] * 0x230 + data_02174e44->mUnk_8c0, b);
+        recordIndex = gGhostScene->mSlotIndices[index - GetCourseGhostCount()];
+        ReadBackupSlotGhost((u8) recordIndex, (GhostRecord *) GetSlotGhostBuffer());
     }
 }
 
-u32 func_0202dbe8(u32 a) {
-    u32 e;
-    u8 *p;
-    s32 n;
-    if (func_0202dd80(a) == 0) {
-        e = func_0202e43c(data_02174e44->mUnk_814[a]);
-        p = data_02174e44->mUnk_8bc;
-        n = func_0204684c(e);
-        return func_0206169c(p + n * 0x30);
-    }
-    a -= data_02174e44->mUnk_80c;
-    return func_0206169c((u8) data_02174e44->mUnk_894[a] * 0x230 + data_02174e44->mUnk_8c0);
-}
-
-u32 func_0202db68(u32 a) {
-    u32 e;
-    u8 *p;
-    s32 n;
-    if (func_0202dd80(a) == 0) {
-        e = func_0202e43c(data_02174e44->mUnk_814[a]);
-        p = data_02174e44->mUnk_8bc;
-        n = func_0204684c(e);
-        return func_02061678(p + n * 0x30);
-    }
-    a -= data_02174e44->mUnk_80c;
-    return func_02061678((u8) data_02174e44->mUnk_894[a] * 0x230 + data_02174e44->mUnk_8c0);
-}
-
-u32 func_0202db04(u32 a) {
-    u8 *p;
-    if (func_0202dd80(a) == 0) {
-        return func_0202e43c(data_02174e44->mUnk_814[a]);
-    }
-    a -= data_02174e44->mUnk_80c;
-    p = data_02174e44->mUnk_8c0;
-    return func_02061654(p + (u8) data_02174e44->mUnk_894[a] * 0x230);
-}
-
-void func_0202daa4(s32 a) {
-    s32 x;
-    if (func_0202dd80(a) == 0) {
-        x = data_02174e44->mUnk_814[a];
-        func_0205798c(x, (Unk0217aa08_14 *) func_0202ddec());
-    } else {
-        x = data_02174e44->mUnk_894[a - func_0202ddb0()];
-        func_020578fc((u8) x, (Unk0217aa08_14 *) func_0202ddd8());
-    }
-}
-
-s32 func_0202da44(s32 a) {
+s32 DoesAnySlotGhostMatchCourse(s32 courseId) {
     s32 i;
-    s32 r;
-    r = 0;
-    for (i = 0; i < (s32) func_0202dd9c(); i++) {
-        if (a == func_02061654((u8) data_02174e44->mUnk_894[i] * 0x230 + data_02174e44->mUnk_8c0)) {
-            r = 1;
+    BOOL found;
+    found = FALSE;
+    for (i = 0; i < (s32) GetSlotGhostCount(); i++) {
+        if (courseId ==
+            GetGhostRecordCourseId((u8) gGhostScene->mSlotIndices[i] * 0x230 + gGhostScene->mSlotGhostRecords)) {
+            found = TRUE;
             break;
         }
     }
-    return r;
+    return found;
 }
 
-s32 func_0202d9fc(void) {
-    s32 i;
-    for (i = 0; i < 10; i++) {
-        if (func_0206174c(data_02174e44->mUnk_8c0 + (u8) i * 0x230) == 0) {
-            return i;
+s32 FindUnfilledGhostSlot(void) {
+    s32 slot;
+    for (slot = 0; slot < 10; slot++) {
+        if (IsGhostRecordFilled(gGhostScene->mSlotGhostRecords + (u8) slot * 0x230) == FALSE) {
+            return slot;
         }
     }
     return -1;
 }
 
-s32 func_0202d990(s32 a) {
+s32 FindSlotGhostForCourse(s32 courseId) {
     s32 i;
-    s32 r;
-    r = -1;
-    for (i = 0; i < (s32) func_0202dd9c(); i++) {
-        if (a == func_02061654((u8) data_02174e44->mUnk_894[i] * 0x230 + data_02174e44->mUnk_8c0)) {
-            r = data_02174e44->mUnk_894[i];
+    s32 slot;
+    slot = -1;
+    for (i = 0; i < (s32) GetSlotGhostCount(); i++) {
+        if (courseId ==
+            GetGhostRecordCourseId((u8) gGhostScene->mSlotIndices[i] * 0x230 + gGhostScene->mSlotGhostRecords)) {
+            slot = gGhostScene->mSlotIndices[i];
             break;
         }
     }
-    return r;
+    return slot;
 }
 
 #pragma thumb off

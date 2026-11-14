@@ -1,7 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_0210bcf4.h"
 
-void func_0210cfbc(Unk0210bfbc *p, s32 b, s32 c);
-void func_0210cf9c(Unk0210bfbc *p, s32 b);
+typedef struct SoundSource SoundSource;
+
+void SetSoundSourceFlagBit(SoundSource *source, s32 bit, s32 value);
+void SetSoundSourceEnabled(SoundSource *source, s32 enabled);

@@ -1,77 +1,49 @@
 #include "Main/Unknown/code_0209bef0.h"
+#include "Main/Unknown/code_020364e0.h"
+#include "Main/Unknown/code_02036820.h"
+
+// The start of MapObjectList; the three creators below fill in mInit, mForEachObject and mBeforeObjects.
+typedef struct Unk0209bef0 {
+    /* 00 */ u8 mUnk_00[8];
+    /* 08 */ void *mInit;
+    /* 0c */ void *mBeforeObjects;
+    /* 10 */ void *mForEachObject;
+    /* 14 */ u32 mAfterObjects;
+    /* 18 */ u32 mUnk_18;
+} Unk0209bef0;
 
 #pragma thumb on
-u32 func_0209bf48(u32 arg0, u32 arg1, u32 arg2) {
-    u32 value0 = arg0;
-    u32 value1 = arg1;
-    u32 value2 = arg2;
-    u32 value4;
-    u32 value5;
-    u32 value6;
-    value5 = (value0) + (0u);
-    value4 = (value1) + (0u);
-    value6 = (value2) + (0u);
-    value0 = (u32) func_020364e8();
-    value0 = (u32) func_020364e0((void *) value0);
-    value1 = 40u;
-    value0 = (u32) func_02036bec((void *) value0, value1);
-    *(u32 *) ((value0) + 8u) = value5;
-    *(u32 *) ((value0) + 12u) = value6;
-    *(u32 *) ((value0) + 16u) = value4;
-    value1 = 0u;
-    *(u32 *) ((value0) + 20u) = value1;
-    return value0;
+void *CreateMapObjectUpdateList(void *arg0, void *arg1, void *arg2) {
+    Unk0209bef0 *p = HeapAlloc(GetHeap(GetCurrentHeapCall()), 40);
+    p->mInit = arg0;
+    p->mBeforeObjects = arg2;
+    p->mForEachObject = arg1;
+    p->mAfterObjects = 0;
+    return p;
 }
 #pragma thumb off
 
 #pragma thumb on
-u32 func_0209bf1c(u32 arg0, u32 arg1, u32 arg2) {
-    u32 value0 = arg0;
-    u32 value1 = arg1;
-    u32 value2 = arg2;
-    u32 value4;
-    u32 value5;
-    u32 value6;
-    value5 = (value0) + (0u);
-    value4 = (value1) + (0u);
-    value6 = (value2) + (0u);
-    value0 = (u32) func_020364e8();
-    value0 = (u32) func_020364e0((void *) value0);
-    value1 = 44u;
-    value0 = (u32) func_02036bec((void *) value0, value1);
-    value1 = 1u;
-    *(u32 *) ((value0) + 24u) = value1;
-    *(u32 *) ((value0) + 8u) = value5;
-    *(u32 *) ((value0) + 12u) = value6;
-    *(u32 *) ((value0) + 16u) = value4;
-    value1 = 0u;
-    *(u32 *) ((value0) + 20u) = value1;
-    return value0;
+// The 1 in the name is the value stored at +0x18, not a slot of the kind row.
+void *CreateMapObjectDrawList1(void *arg0, void *arg1, void *arg2) {
+    Unk0209bef0 *p = HeapAlloc(GetHeap(GetCurrentHeapCall()), 44);
+    p->mUnk_18 = 1;
+    p->mInit = arg0;
+    p->mBeforeObjects = arg2;
+    p->mForEachObject = arg1;
+    p->mAfterObjects = 0;
+    return p;
 }
 #pragma thumb off
 
 #pragma thumb on
-u32 func_0209bef0(u32 arg0, u32 arg1, u32 arg2) {
-    u32 value0 = arg0;
-    u32 value1 = arg1;
-    u32 value2 = arg2;
-    u32 value4;
-    u32 value5;
-    u32 value6;
-    value5 = (value0) + (0u);
-    value4 = (value1) + (0u);
-    value6 = (value2) + (0u);
-    value0 = (u32) func_020364e8();
-    value0 = (u32) func_020364e0((void *) value0);
-    value1 = 44u;
-    value0 = (u32) func_02036bec((void *) value0, value1);
-    value1 = 2u;
-    *(u32 *) ((value0) + 24u) = value1;
-    *(u32 *) ((value0) + 8u) = value5;
-    *(u32 *) ((value0) + 12u) = value6;
-    *(u32 *) ((value0) + 16u) = value4;
-    value1 = 0u;
-    *(u32 *) ((value0) + 20u) = value1;
-    return value0;
+void *CreateMapObjectDrawList2(void *arg0, void *arg1, void *arg2) {
+    Unk0209bef0 *p = HeapAlloc(GetHeap(GetCurrentHeapCall()), 44);
+    p->mUnk_18 = 2;
+    p->mInit = arg0;
+    p->mBeforeObjects = arg2;
+    p->mForEachObject = arg1;
+    p->mAfterObjects = 0;
+    return p;
 }
 #pragma thumb off

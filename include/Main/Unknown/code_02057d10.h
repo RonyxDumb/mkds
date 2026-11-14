@@ -1,14 +1,16 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020487fc.h"
-#include "Main/Unknown/unk_0217a000.h"
 
-s32 func_02057d10(Unk020487fc *a);
-void func_02057d58(void *a);
-void func_02057d64(void);
-void func_02057d70(void);
-void func_02057d7c(void);
-void func_02057d9c(void);
-u32 func_02057df0(void (*a)(void));
-void func_02057e8c(void *a);
+typedef struct SceneNumbers SceneNumbers;
+
+// Scene function of gSceneFuncs[9] (scene 'Logo' in gSceneNames): copies the callbacks and calls
+// RunScene. Returns 0.
+s32 RunLogoScene(SceneNumbers *sceneNumbers);
+void UpdateLogoSceneCallback(void *sceneNumbers);
+void WriteLogoSceneRegistersCallback(void);
+void ApplySavedSoundModeCallback(void);
+void InitLogoSceneCallback(void);
+void WaitThreadFunctionsDone(void);
+u32 QueueThreadFunction(void (*function)(void));
+void RunQueuedThreadFunctions(void *threadArgument);

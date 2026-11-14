@@ -1,11 +1,26 @@
 #include "Main/Unknown/code_020aeb7c.h"
+#include "Main/Unknown/code_0203be88.h"
+#include "Main/Unknown/code_020a100c.h"
+#include "Main/Unknown/code_020b2e98.h"
+#include "Main/Unknown/code_020be950.h"
+#include "Main/Unknown/code_020c5e30.h"
 #include "Main/Unknown/unk_021759c0.h"
 #include "Main/Unknown/unk_0217b000.h"
 #include "Main/Unknown/unk_02175628.h"
 #include "Main/Unknown/unk_0217d068.h"
 #include "Main/Unknown/code_020f36d8.h"
-#include "00/code_02182fdc.h"
-#include "Main/Unknown/code_020c4bec.h"
+#include "00/code_02181f98.h"
+#include "code_02022030.h"
+#include "Main/Unknown/code_020c476c.h"
+#include "Main/Unknown/code_020b1dbc.h"
+#include "Main/Unknown/code_0207b960.h"
+#include "Main/Unknown/code_020b4e5c.h"
+#include "Main/Unknown/code_02039860.h"
+#include "Main/Unknown/code_02147000.h"
+#include "Main/Unknown/unk_0215d000.h"
+#include "Main/Unknown/code_020b47d8.h"
+#include "Main/Unknown/code_020b6a18.h"
+#include "Main/Unknown/code_0207a880.h"
 #include "Main/Unknown/code_020b502c.h"
 #include "Main/Unknown/code_0203c000.h"
 #include "Main/Unknown/code_020b32ec.h"
@@ -13,418 +28,419 @@
 #include "code_0212df7c.h"
 #include "Main/Unknown/code_020a128c.h"
 #include "Main/Unknown/code_020c3e44.h"
-#include "Main/Unknown/code_020c31c0.h"
+#include "Main/Unknown/code_020c214c.h"
 #include "Main/Unknown/code_020a1000.h"
 #include "Main/Unknown/code_020be000.h"
 #include "Main/Unknown/code_020c6000.h"
+#include "Main/Unknown/code_0203c5f8.h"
 
 void func_020aeb7c(void) {
-    s32 a;
-    s32 d;
-    s32 b;
-    s32 c;
-    s32 e;
+    BOOL subScreenEnabled;
+    BOOL d;
+    BOOL b;
+    BOOL c;
+    BOOL e;
     s32 v;
 
-    func_020c525c();
-    if (data_021759c0->mUnk_00c - 3 <= 3) {
+    UpdateRaceLinkLevel();
+    if (gRaceSetup->mRaceKind - 3 <= 3) {
         return;
     }
-    if (data_0217b350->mUnk_898 == 0) {
+    if (gRaceHud->mEnabled == FALSE) {
         return;
     }
-    switch (data_021759c0->mUnk_08) {
-        case 0:
-            if (func_0203c880(func_020b4d9c()) != 0 && data_0217b350->mUnk_8dc == 0) {
-                if (data_021759c0->mUnk_00c == 0) {
-                    if (data_0217b350->mUnk_83c != 0) {
-                        data_0217b350->mUnk_82c = 0;
+    switch (gRaceSetup->mMode) {
+        case MODE_GRAND_PRIX:
+            if (IsKartEnded(GetFollowedKartOrEntryIndex()) != 0 && gRaceHud->mShowLapTime == 0) {
+                if (gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
+                    if (gRaceHud->mUnk_83c != FALSE) {
+                        gRaceHud->mSubScreenEnabled = FALSE;
                     } else {
-                        data_0217b350->mUnk_82c = 1;
-                        data_0217b350->mUnk_828 = 4;
-                        data_0217b350->mUnk_83c = 1;
-                        data_0217b350->mUnk_840 = 1;
-                        data_0217b350->mUnk_850 = 0xc;
+                        gRaceHud->mSubScreenEnabled = TRUE;
+                        gRaceHud->mSubScreenState = 4;
+                        gRaceHud->mUnk_83c = TRUE;
+                        gRaceHud->mUnk_840 = TRUE;
+                        gRaceHud->mUnk_850 = 0xc;
                     }
-                } else if (data_0217b350->mUnk_83c == 0) {
-                    data_0217b350->mUnk_83c = 1;
-                    data_0217b350->mUnk_840 = 1;
-                    data_0217b350->mUnk_850 = 0xc;
+                } else if (gRaceHud->mUnk_83c == FALSE) {
+                    gRaceHud->mUnk_83c = TRUE;
+                    gRaceHud->mUnk_840 = TRUE;
+                    gRaceHud->mUnk_850 = 0xc;
                 }
             } else {
-                a = 0;
-                b = 0;
-                c = 0;
-                if (data_021759c0->mUnk_00c != 1 && data_021759c0->mUnk_00c != 4) {
-                    c = 1;
+                subScreenEnabled = FALSE;
+                b = FALSE;
+                c = FALSE;
+                if (gRaceSetup->mRaceKind != RACE_KIND_DEMO && gRaceSetup->mRaceKind != 4) {
+                    c = TRUE;
                 }
-                if (c != 0) {
-                    if (func_020b32ec() == 0) {
-                        b = 1;
+                if (c != FALSE) {
+                    if (IsChoisesSPickLocked() == 0) {
+                        b = TRUE;
                     }
                 }
-                if (b != 0) {
-                    d = 1;
-                    if ((u16) (data_0217562c[func_020435bc()].mUnk_00 & 0x800) == 0) {
-                        e = 0;
+                if (b != FALSE) {
+                    d = TRUE;
+                    if ((u16) (data_0217562c[func_020435bc()].mPressedBits & 0x800) == 0) {
+                        e = FALSE;
                         if (func_020b2e98() == 0) {
-                            if (data_02175680[func_020435bc()].mUnk_00 == 5) {
-                                e = 1;
+                            if (data_02175680[func_020435bc()].mPressedBits == 5) {
+                                e = TRUE;
                             }
                         } else {
-                            e = 0;
+                            e = FALSE;
                         }
-                        if (e == 0) {
-                            d = 0;
+                        if (e == FALSE) {
+                            d = FALSE;
                         }
                     }
-                    if (d != 0) {
-                        a = 1;
+                    if (d != FALSE) {
+                        subScreenEnabled = TRUE;
                     }
                 }
-                if (a != 0) {
-                    data_0217b350->mUnk_82c = 1;
-                    switch (data_0217b350->mUnk_828) {
+                if (subScreenEnabled != FALSE) {
+                    gRaceHud->mSubScreenEnabled = TRUE;
+                    switch (gRaceHud->mSubScreenState) {
                         case 0:
-                            data_0217b350->mUnk_828 = 1;
-                            func_0212ecc0(&data_0217d068, 0, 0x18);
+                            gRaceHud->mSubScreenState = 1;
+                            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x18);
                             break;
                         case 1:
-                            data_0217b350->mUnk_828 = 0;
-                            func_0212ecc0(&data_0217d068, 0, 0x17);
+                            gRaceHud->mSubScreenState = 0;
+                            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x17);
                             break;
                     }
                 } else {
-                    data_0217b350->mUnk_82c = 0;
+                    gRaceHud->mSubScreenEnabled = FALSE;
                 }
             }
             break;
-        case 1:
-            if (data_0217561c->mUnk_4cc != 0 && data_0217b350->mUnk_8dc == 0) {
-                if (data_0217b350->mUnk_83c == 0) {
-                    data_0217b350->mUnk_83c = 1;
-                    data_0217b350->mUnk_840 = 1;
-                    data_0217b350->mUnk_850 = 0xc;
+        case MODE_TIME_ATTACK:
+            if (gRaceProgress->mRaceDone != 0 && gRaceHud->mShowLapTime == 0) {
+                if (gRaceHud->mUnk_83c == FALSE) {
+                    gRaceHud->mUnk_83c = TRUE;
+                    gRaceHud->mUnk_840 = TRUE;
+                    gRaceHud->mUnk_850 = 0xc;
                 }
             } else {
-                a = 0;
-                b = 0;
-                c = 0;
-                if (data_021759c0->mUnk_00c != 1 && data_021759c0->mUnk_00c != 4) {
-                    c = 1;
+                subScreenEnabled = FALSE;
+                b = FALSE;
+                c = FALSE;
+                if (gRaceSetup->mRaceKind != RACE_KIND_DEMO && gRaceSetup->mRaceKind != 4) {
+                    c = TRUE;
                 }
-                if (c != 0) {
-                    if (func_020b32ec() == 0) {
-                        b = 1;
+                if (c != FALSE) {
+                    if (IsChoisesSPickLocked() == 0) {
+                        b = TRUE;
                     }
                 }
-                if (b != 0) {
-                    d = 1;
-                    if ((u16) (data_0217562c[func_020435bc()].mUnk_00 & 0x800) == 0) {
-                        e = 0;
+                if (b != FALSE) {
+                    d = TRUE;
+                    if ((u16) (data_0217562c[func_020435bc()].mPressedBits & 0x800) == 0) {
+                        e = FALSE;
                         if (func_020b2e98() == 0) {
-                            if (data_02175680[func_020435bc()].mUnk_00 == 5) {
-                                e = 1;
+                            if (data_02175680[func_020435bc()].mPressedBits == 5) {
+                                e = TRUE;
                             }
                         } else {
-                            e = 0;
+                            e = FALSE;
                         }
-                        if (e == 0) {
-                            d = 0;
+                        if (e == FALSE) {
+                            d = FALSE;
                         }
                     }
-                    if (d != 0) {
-                        a = 1;
+                    if (d != FALSE) {
+                        subScreenEnabled = TRUE;
                     }
                 }
-                if (a != 0) {
-                    data_0217b350->mUnk_82c = 1;
-                    if (data_021759c0->mUnk_00c != 2) {
-                        switch (data_0217b350->mUnk_828) {
+                if (subScreenEnabled != FALSE) {
+                    gRaceHud->mSubScreenEnabled = TRUE;
+                    if (gRaceSetup->mRaceKind != 2) {
+                        switch (gRaceHud->mSubScreenState) {
                             case 0:
-                                data_0217b350->mUnk_828 = 1;
-                                func_0212ecc0(&data_0217d068, 0, 0x18);
+                                gRaceHud->mSubScreenState = 1;
+                                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x18);
                                 break;
                             case 1:
-                                data_0217b350->mUnk_828 = 0;
-                                func_0212ecc0(&data_0217d068, 0, 0x17);
+                                gRaceHud->mSubScreenState = 0;
+                                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x17);
                                 break;
                         }
                     } else {
-                        switch (data_0217b350->mUnk_828) {
+                        switch (gRaceHud->mSubScreenState) {
                             case 0:
-                                data_0217b350->mUnk_828 = 1;
-                                func_0212ecc0(&data_0217d068, 0, 0x18);
+                                gRaceHud->mSubScreenState = 1;
+                                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x18);
                                 break;
                             case 1:
-                                data_0217b350->mUnk_828 = 2;
-                                func_0212ecc0(&data_0217d068, 0, 0x17);
+                                gRaceHud->mSubScreenState = 2;
+                                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x17);
                                 break;
                             case 2:
-                                data_0217b350->mUnk_828 = 0;
-                                func_0212ecc0(&data_0217d068, 0, 0x17);
+                                gRaceHud->mSubScreenState = 0;
+                                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x17);
                                 break;
                         }
                     }
                 } else {
-                    data_0217b350->mUnk_82c = 0;
+                    gRaceHud->mSubScreenEnabled = FALSE;
                 }
             }
             break;
-        case 2:
-            if (func_020a128c() != 0) {
-                if (data_0217b350->mUnk_83c != 0) {
-                    data_0217b350->mUnk_82c = 0;
+        case MODE_BATTLE:
+            if (IsWinnerDecidedAndEndReached() != 0) {
+                if (gRaceHud->mUnk_83c != FALSE) {
+                    gRaceHud->mSubScreenEnabled = FALSE;
                 } else {
-                    data_0217b350->mUnk_82c = 1;
-                    data_0217b350->mUnk_828 = 4;
-                    data_0217b350->mUnk_83c = 1;
-                    data_0217b350->mUnk_840 = 1;
-                    data_0217b350->mUnk_850 = 0x8c;
+                    gRaceHud->mSubScreenEnabled = TRUE;
+                    gRaceHud->mSubScreenState = 4;
+                    gRaceHud->mUnk_83c = TRUE;
+                    gRaceHud->mUnk_840 = TRUE;
+                    gRaceHud->mUnk_850 = 0x8c;
                 }
             } else {
-                a = 0;
-                b = 0;
-                c = 0;
-                if (data_021759c0->mUnk_00c != 1 && data_021759c0->mUnk_00c != 4) {
-                    c = 1;
+                subScreenEnabled = FALSE;
+                b = FALSE;
+                c = FALSE;
+                if (gRaceSetup->mRaceKind != RACE_KIND_DEMO && gRaceSetup->mRaceKind != 4) {
+                    c = TRUE;
                 }
-                if (c != 0) {
-                    if (func_020b32ec() == 0) {
-                        b = 1;
+                if (c != FALSE) {
+                    if (IsChoisesSPickLocked() == 0) {
+                        b = TRUE;
                     }
                 }
-                if (b != 0) {
-                    d = 1;
-                    if ((u16) (data_0217562c[func_020435bc()].mUnk_00 & 0x800) == 0) {
-                        e = 0;
+                if (b != FALSE) {
+                    d = TRUE;
+                    if ((u16) (data_0217562c[func_020435bc()].mPressedBits & 0x800) == 0) {
+                        e = FALSE;
                         if (func_020b2e98() == 0) {
-                            if (data_02175680[func_020435bc()].mUnk_00 == 5) {
-                                e = 1;
+                            if (data_02175680[func_020435bc()].mPressedBits == 5) {
+                                e = TRUE;
                             }
                         } else {
-                            e = 0;
+                            e = FALSE;
                         }
-                        if (e == 0) {
-                            d = 0;
+                        if (e == FALSE) {
+                            d = FALSE;
                         }
                     }
-                    if (d != 0) {
-                        a = 1;
+                    if (d != FALSE) {
+                        subScreenEnabled = TRUE;
                     }
                 }
-                if (a != 0) {
-                    data_0217b350->mUnk_82c = 1;
-                    switch (data_0217b350->mUnk_828) {
+                if (subScreenEnabled != FALSE) {
+                    gRaceHud->mSubScreenEnabled = TRUE;
+                    switch (gRaceHud->mSubScreenState) {
                         case 0:
-                            data_0217b350->mUnk_828 = 1;
-                            func_0212ecc0(&data_0217d068, 0, 0x18);
+                            gRaceHud->mSubScreenState = 1;
+                            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x18);
                             break;
                         case 1:
-                            data_0217b350->mUnk_828 = 0;
-                            func_0212ecc0(&data_0217d068, 0, 0x17);
+                            gRaceHud->mSubScreenState = 0;
+                            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x17);
                             break;
                     }
                 } else {
-                    data_0217b350->mUnk_82c = 0;
+                    gRaceHud->mSubScreenEnabled = FALSE;
                 }
             }
             break;
-        case 3:
+        case MODE_VS:
         case 5:
-            if (data_0217561c->mUnk_4cc != 0 && data_021759c0->mUnk_00c == 0) {
-                if (data_0217b350->mUnk_838 == 0) {
-                    data_0217b350->mUnk_82c = 1;
-                    data_0217b350->mUnk_828 = 4;
-                    data_0217b350->mUnk_838 = 1;
-                    if (data_0217b350->mUnk_83c == 0) {
-                        data_0217b350->mUnk_83c = 1;
-                        data_0217b350->mUnk_840 = 1;
-                        data_0217b350->mUnk_850 = 0x8c;
+            if (gRaceProgress->mRaceDone != 0 && gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
+                if (gRaceHud->mUnk_838 == FALSE) {
+                    gRaceHud->mSubScreenEnabled = TRUE;
+                    gRaceHud->mSubScreenState = 4;
+                    gRaceHud->mUnk_838 = TRUE;
+                    if (gRaceHud->mUnk_83c == FALSE) {
+                        gRaceHud->mUnk_83c = TRUE;
+                        gRaceHud->mUnk_840 = TRUE;
+                        gRaceHud->mUnk_850 = 0x8c;
                     }
                 } else {
-                    data_0217b350->mUnk_82c = 0;
+                    gRaceHud->mSubScreenEnabled = FALSE;
                 }
-            } else if (func_0203c880(func_020b4d9c()) != 0 && data_021759c0->mUnk_00c == 0) {
-                if (data_0217b350->mUnk_83c == 0) {
-                    data_0217b350->mUnk_82c = 1;
-                    data_0217b350->mUnk_828 = 0;
-                    data_0217b350->mUnk_83c = 1;
-                    data_0217b350->mUnk_840 = 1;
-                    data_0217b350->mUnk_850 = 0x8c;
+            } else if (IsKartEnded(GetFollowedKartOrEntryIndex()) != 0 && gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
+                if (gRaceHud->mUnk_83c == FALSE) {
+                    gRaceHud->mSubScreenEnabled = TRUE;
+                    gRaceHud->mSubScreenState = 0;
+                    gRaceHud->mUnk_83c = TRUE;
+                    gRaceHud->mUnk_840 = TRUE;
+                    gRaceHud->mUnk_850 = 0x8c;
                 } else {
-                    a = 0;
-                    b = 0;
-                    c = 0;
-                    if (data_021759c0->mUnk_00c != 1 && data_021759c0->mUnk_00c != 4) {
-                        c = 1;
+                    subScreenEnabled = FALSE;
+                    b = FALSE;
+                    c = FALSE;
+                    if (gRaceSetup->mRaceKind != RACE_KIND_DEMO && gRaceSetup->mRaceKind != 4) {
+                        c = TRUE;
                     }
-                    if (c != 0) {
-                        if (func_020b32ec() == 0) {
-                            b = 1;
+                    if (c != FALSE) {
+                        if (IsChoisesSPickLocked() == 0) {
+                            b = TRUE;
                         }
                     }
-                    if (b != 0) {
-                        d = 1;
-                        if ((u16) (data_0217562c[func_020435bc()].mUnk_00 & 0x800) == 0) {
-                            e = 0;
+                    if (b != FALSE) {
+                        d = TRUE;
+                        if ((u16) (data_0217562c[func_020435bc()].mPressedBits & 0x800) == 0) {
+                            e = FALSE;
                             if (func_020b2e98() == 0) {
-                                if (data_02175680[func_020435bc()].mUnk_00 == 5) {
-                                    e = 1;
+                                if (data_02175680[func_020435bc()].mPressedBits == 5) {
+                                    e = TRUE;
                                 }
                             } else {
-                                e = 0;
+                                e = FALSE;
                             }
-                            if (e == 0) {
-                                d = 0;
+                            if (e == FALSE) {
+                                d = FALSE;
                             }
                         }
-                        if (d != 0) {
-                            a = 1;
+                        if (d != FALSE) {
+                            subScreenEnabled = TRUE;
                         }
                     }
-                    if (a != 0) {
-                        data_0217b350->mUnk_82c = 1;
-                        switch (data_0217b350->mUnk_828) {
+                    if (subScreenEnabled != FALSE) {
+                        gRaceHud->mSubScreenEnabled = TRUE;
+                        switch (gRaceHud->mSubScreenState) {
                             case 0:
-                                data_0217b350->mUnk_828 = 3;
-                                func_0212ecc0(&data_0217d068, 0, 0x18);
+                                gRaceHud->mSubScreenState = 3;
+                                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x18);
                                 break;
                             case 3:
-                                data_0217b350->mUnk_828 = 0;
-                                func_0212ecc0(&data_0217d068, 0, 0x17);
+                                gRaceHud->mSubScreenState = 0;
+                                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x17);
                                 break;
                         }
                     } else {
-                        data_0217b350->mUnk_82c = 0;
+                        gRaceHud->mSubScreenEnabled = FALSE;
                     }
                 }
             } else {
-                a = 0;
-                b = 0;
-                c = 0;
-                if (data_021759c0->mUnk_00c != 1 && data_021759c0->mUnk_00c != 4) {
-                    c = 1;
+                subScreenEnabled = FALSE;
+                b = FALSE;
+                c = FALSE;
+                if (gRaceSetup->mRaceKind != RACE_KIND_DEMO && gRaceSetup->mRaceKind != 4) {
+                    c = TRUE;
                 }
-                if (c != 0) {
-                    if (func_020b32ec() == 0) {
-                        b = 1;
+                if (c != FALSE) {
+                    if (IsChoisesSPickLocked() == 0) {
+                        b = TRUE;
                     }
                 }
-                if (b != 0) {
-                    d = 1;
-                    if ((u16) (data_0217562c[func_020435bc()].mUnk_00 & 0x800) == 0) {
-                        e = 0;
+                if (b != FALSE) {
+                    d = TRUE;
+                    if ((u16) (data_0217562c[func_020435bc()].mPressedBits & 0x800) == 0) {
+                        e = FALSE;
                         if (func_020b2e98() == 0) {
-                            if (data_02175680[func_020435bc()].mUnk_00 == 5) {
-                                e = 1;
+                            if (data_02175680[func_020435bc()].mPressedBits == 5) {
+                                e = TRUE;
                             }
                         } else {
-                            e = 0;
+                            e = FALSE;
                         }
-                        if (e == 0) {
-                            d = 0;
+                        if (e == FALSE) {
+                            d = FALSE;
                         }
                     }
-                    if (d != 0) {
-                        a = 1;
+                    if (d != FALSE) {
+                        subScreenEnabled = TRUE;
                     }
                 }
-                if (a != 0) {
-                    data_0217b350->mUnk_82c = 1;
-                    switch (data_0217b350->mUnk_828) {
+                if (subScreenEnabled != FALSE) {
+                    gRaceHud->mSubScreenEnabled = TRUE;
+                    switch (gRaceHud->mSubScreenState) {
                         case 0:
-                            data_0217b350->mUnk_828 = 1;
-                            func_0212ecc0(&data_0217d068, 0, 0x18);
+                            gRaceHud->mSubScreenState = 1;
+                            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x18);
                             break;
                         case 1:
-                            data_0217b350->mUnk_828 = 0;
-                            func_0212ecc0(&data_0217d068, 0, 0x17);
+                            gRaceHud->mSubScreenState = 0;
+                            NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x17);
                             break;
                     }
                 } else {
-                    data_0217b350->mUnk_82c = 0;
+                    gRaceHud->mSubScreenEnabled = FALSE;
                 }
             }
             break;
-        case 4:
-            if (func_0203c174() != 0) {
-                if (data_0217b350->mUnk_83c == 0) {
-                    data_0217b350->mUnk_83c = 1;
-                    data_0217b350->mUnk_840 = 1;
-                    if (func_0203c880((u16) data_021759c0->mUnk_62) != 0) {
-                        v = data_0217561c->mUnk_4e0;
+        case MODE_MISSION_RUN:
+            if (IsFramesSinceFinishPastWait() != FALSE) {
+                if (gRaceHud->mUnk_83c == FALSE) {
+                    gRaceHud->mUnk_83c = TRUE;
+                    gRaceHud->mUnk_840 = TRUE;
+                    if (IsKartEnded((u16) gRaceSetup->mEntryIndex) != 0) {
+                        v = gRaceProgress->mEntryEndKind;
                     } else {
                         v = 6;
                     }
                     if (v == 0) {
-                        data_0217b350->mUnk_850 = 0xaf;
+                        gRaceHud->mUnk_850 = 0xaf;
                     }
                 }
-            } else if (data_0217561c->mUnk_4cc != 0) {
-                if (func_0203c880((u16) data_021759c0->mUnk_62) != 0) {
-                    v = data_0217561c->mUnk_4e0;
+            } else if (gRaceProgress->mRaceDone != 0) {
+                if (IsKartEnded((u16) gRaceSetup->mEntryIndex) != 0) {
+                    v = gRaceProgress->mEntryEndKind;
                 } else {
                     v = 6;
                 }
                 if (v != 0) {
-                    data_0217b350->mUnk_84c = 1;
+                    gRaceHud->mUnk_84c = 1;
                 }
             }
-            if ((u16) (data_0217562c[func_020435bc()].mUnk_00 & 0x800) != 0) {
-                func_0212ecc0(&data_0217d068, 0, 0x19);
+            if ((u16) (data_0217562c[func_020435bc()].mPressedBits & 0x800) != 0) {
+                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x19);
             }
-            data_0217b350->mUnk_82c = 0;
+            gRaceHud->mSubScreenEnabled = FALSE;
             break;
     }
-    if (data_0217b350->mUnk_82c != 0) {
-        switch (data_0217b350->mUnk_828) {
+    if (gRaceHud->mSubScreenEnabled != FALSE) {
+        switch (gRaceHud->mSubScreenState) {
             case 0:
-                func_020be9d4();
+                UpdateRaceHudSubScreenCellGroups();
                 break;
             case 1:
             case 2:
             case 3:
-                func_020be9d4();
-                func_020c43c4();
+                UpdateRaceHudSubScreenCellGroups();
+                UpdateRaceTaPositions();
                 break;
             case 4:
             case 5:
-                func_020c31c0();
+                UpdateRaceGoalS();
                 break;
             case 6:
-                func_020c6f14();
+                UpdateRaceNewRecordTa();
                 break;
         }
     }
-    if (data_0217b350->mUnk_90c != 0) {
+    if (gRaceHud->mUnk_90c != FALSE) {
         return;
     }
-    if (data_021759c0->mUnk_08 == 4) {
-        v = (data_021759c0->mUnk_08 == 4 ? data_021759c0->mUnk_55 : -1) == 9;
+    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+        v = (gRaceSetup->mMode == MODE_MISSION_RUN ? gRaceSetup->mMissionTableColumn : -1) == 9;
     } else {
         v = 0;
     }
     if (v == 0) {
         return;
     }
-    if (data_021759c0->mUnk_08 != 4) {
+    if (gRaceSetup->mMode != MODE_MISSION_RUN) {
         v = 0;
     } else {
-        v = func_020a128c();
+        v = IsWinnerDecidedAndEndReached();
     }
     if (v == 0) {
         return;
     }
-    if (data_021759c0->mUnk_08 != 4) {
+    if (gRaceSetup->mMode != MODE_MISSION_RUN) {
         v = 0;
     } else {
-        v = func_020a1084(func_020b4d9c());
+        v = IsKartEliminated(GetFollowedKartOrEntryIndex());
     }
     if (v != 0) {
         data_0217b488->mUnk_10 = 0;
     } else {
-        data_0217b488->mUnk_10 = data_0217b350->mUnk_910 == 0;
+        data_0217b488->mUnk_10 = gRaceHud->mUnk_910 == 0;
     }
-    data_0217b350->mUnk_90c = 1;
+    gRaceHud->mUnk_90c = TRUE;
 }

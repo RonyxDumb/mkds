@@ -4,55 +4,55 @@
 #include "Main/Unknown/unk_027e0000.h"
 #include "Main/Unknown/unk_0217b000.h"
 
-void func_020901a0(Unk0208fd8c *a, Unk020888b4 *b) {
-    if (func_0207c078(a) == 0) {
-        return;
-    }
-    if (b->mUnk_70 >= 0xa000) {
-        return;
-    }
-    func_0207c614(a, b);
+void AdvanceBattleItemBitRequests(KartAiItemUse *itemUse, KartAi *kartAi) {
+    AdvanceItemBitRequests(itemUse, kartAi);
 }
 
-void func_020901f0(Unk0208fd8c *a, Unk020888b4 *b) {
-    if (func_0207c078(a) == 0 && b->mUnk_b0 == 0) {
-        return;
-    }
-    if (b->mUnk_70 >= 0xa000) {
-        return;
-    }
-    func_0207c614(a, b);
+void SetupBattleHeldItemEntry(KartAiItemUse *itemUse, KartAi *kartAi) {
+    enum { K0 } heldItemIndex;
+
+    heldItemIndex = *(s32 *) &gKartItems[kartAi->mIndex].mHeldItem;
+    itemUse->mHeldItemEntry = gBattleHeldItemEntries + heldItemIndex;
+    ResetHeldItemTimer(itemUse);
 }
 
-void func_0209024c(Unk0208fd8c *a, Unk020888b4 *b) {
-    if (func_0207c078(a) == 0) {
+void UseItemWhenHasTarget(KartAiItemUse *itemUse, KartAi *kartAi) {
+    if (kartAi->mTargetKart == NULL) {
         return;
     }
-    func_0207c614(a, b);
+    UseItemAndResetInUseTimer(itemUse, kartAi);
 }
 
-void func_02090288(Unk0208fd8c *a, Unk020888b4 *b) {
-    if (func_0207c078(a) == 0 && b->mUnk_b0 == 0) {
+void UseItemAfterHeldOrOnTarget(KartAiItemUse *itemUse, KartAi *kartAi) {
+    if (DecrementHeldItemTimer(itemUse) == 0 && kartAi->mTargetKart == NULL) {
         return;
     }
-    func_0207c614(a, b);
+    UseItemAndResetInUseTimer(itemUse, kartAi);
 }
 
-void func_020902d0(Unk0208fd8c *a, Unk020888b4 *b) {
-    if (b->mUnk_b0 == 0) {
+void func_0209024c(KartAiItemUse *itemUse, KartAi *kartAi) {
+    if (DecrementHeldItemTimer(itemUse) == 0) {
         return;
     }
-    func_0207c614(a, b);
+    UseItemAndResetInUseTimer(itemUse, kartAi);
 }
 
-void func_020902fc(Unk0208fd8c *a, Unk020888b4 *b) {
-    enum { K0 } i;
-
-    i = *(s32 *) &data_027e00c8[b->mUnk_04].mUnk_030;
-    a->mUnk_04 = (Unk0208fd8c_08 *) data_usa_0217b07c + i;
-    func_0207c0a0(a);
+void func_020901f0(KartAiItemUse *itemUse, KartAi *kartAi) {
+    if (DecrementHeldItemTimer(itemUse) == 0 && kartAi->mTargetKart == NULL) {
+        return;
+    }
+    if (kartAi->mTurnAngleDegrees >= 0xa000) {
+        return;
+    }
+    UseItemAndResetInUseTimer(itemUse, kartAi);
 }
 
-void func_0209033c(Unk0208fd8c *a, Unk020888b4 *b) {
-    func_0207c2ec(a, b);
+void UseItemAfterHeldIfTurnUnder10(KartAiItemUse *itemUse, KartAi *kartAi) {
+    if (DecrementHeldItemTimer(itemUse) == 0) {
+        return;
+    }
+    if (kartAi->mTurnAngleDegrees >= 0xa000) {
+        return;
+    }
+    UseItemAndResetInUseTimer(itemUse, kartAi);
 }

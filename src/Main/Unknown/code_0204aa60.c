@@ -3,102 +3,103 @@
 #include "Main/Unknown/code_0210dc7c.h"
 #include "Main/Unknown/code_0210d960.h"
 #include "Main/Unknown/code_0210f868.h"
+#include "Main/Unknown/unk_0216c000.h"
 #include "Main/Unknown/unk_0217a000.h"
-#include "code_0214f4a4.h"
+#include "pm.h"
 
-void *func_0204aa60(void) {
-    void *r = 0;
+void InitSceneSoundSetPlayer(s32 seqId) {
+    if (data_021759d0->mSoundSetPlayerInitialized) {
+        return;
+    }
+    data_021759d0->mSoundSetPlayerInitialized = 1;
+    func_0210f8b0(&data_021759d0->mSoundSetPlayer, seqId, 0xff);
+}
+
+void StartSceneSoundSetSeq(void) {
+    if (!data_021759d0->mSoundSetPlayerInitialized) {
+        return;
+    }
+    if (data_021759d0->mSoundSetSeqPlaying) {
+        return;
+    }
+    data_021759d0->mSoundSetSeqPlaying = 1;
+    StartSoundSetSeq(&data_021759d0->mSoundSetPlayer, data_0216cb28);
+}
+
+void StopSceneSoundSetSeq(void) {
+    Unk021759d0 *p = data_021759d0;
+
+    if (!p->mSoundSetSeqPlaying) {
+        return;
+    }
+    StopSoundSetSeq(&p->mSoundSetPlayer, GetSoundFadeSteps());
+    data_021759d0->mSoundSetSeqPlaying = 0;
+}
+
+void ReleaseSceneSoundSetPlayer(void) {
+    if (data_021759d0->mSoundSetSeqPlaying) {
+        return;
+    }
+    if (!data_021759d0->mSoundSetPlayerInitialized) {
+        return;
+    }
+    ReleaseSoundSetPlayer(&data_021759d0->mSoundSetPlayer);
+    data_021759d0->mSoundSetPlayerInitialized = 0;
+}
+
+void StopSceneSoundSetSeqWithSteps(u32 fadeSteps) {
+    if (!data_021759d0->mSoundSetSeqPlaying) {
+        return;
+    }
+    StopSoundSetSeq(&data_021759d0->mSoundSetPlayer, fadeSteps);
+}
+
+BOOL TrySetBackLights(s32 firstRequest, s32 secondRequest) {
+    Unk021759d0 *p = data_021759d0;
+    s32 firstBackLightOn = p->mFirstBackLightOn;
+    s32 secondBackLightOn = p->mSecondBackLightOn;
+    BOOL allSet = TRUE;
+
+    if (firstRequest == 0) {
+        firstBackLightOn = 1;
+    } else if (firstRequest == 1) {
+        firstBackLightOn = 0;
+    }
+    if (secondRequest == 0) {
+        secondBackLightOn = 1;
+    } else if (secondRequest == 1) {
+        secondBackLightOn = 0;
+    }
+    if (firstBackLightOn != p->mFirstBackLightOn) {
+        if (PM_SetBackLight(0, firstBackLightOn) == 0) {
+            data_021759d0->mFirstBackLightOn = firstBackLightOn;
+        } else {
+            allSet = FALSE;
+        }
+    }
+    if (secondBackLightOn != data_021759d0->mSecondBackLightOn) {
+        if (PM_SetBackLight(1, secondBackLightOn) == 0) {
+            data_021759d0->mSecondBackLightOn = secondBackLightOn;
+        } else {
+            allSet = FALSE;
+        }
+    }
+    return allSet;
+}
+
+RandomState64 *GetRandomState(void) {
+    void *random = NULL;
     Unk021759d0 *p = data_021759d0;
 
     switch (p->mUnk_20) {
         case 0:
         case 3:
-            r = &p->mUnk_60;
+            random = &p->mRandom;
             break;
         case 1:
         case 2:
-            r = &data_0217aa00->mUnk_1ee8;
+            random = &data_0217aa00->mUnk_1ee8;
             break;
     }
-    return r;
-}
-
-s32 func_0204aab4(s32 a, s32 b) {
-    Unk021759d0 *p = data_021759d0;
-    s32 c = p->mUnk_48;
-    s32 d = p->mUnk_4c;
-    s32 r = 1;
-
-    if (a == 0) {
-        c = 1;
-    } else if (a == 1) {
-        c = 0;
-    }
-    if (b == 0) {
-        d = 1;
-    } else if (b == 1) {
-        d = 0;
-    }
-    if (c != p->mUnk_48) {
-        if (func_0214fba8(0, c) == 0) {
-            data_021759d0->mUnk_48 = c;
-        } else {
-            r = 0;
-        }
-    }
-    if (d != data_021759d0->mUnk_4c) {
-        if (func_0214fba8(1, d) == 0) {
-            data_021759d0->mUnk_4c = d;
-        } else {
-            r = 0;
-        }
-    }
-    return r;
-}
-
-void func_0204ab64(u32 a) {
-    if (!data_021759d0->mUnk_1c_0) {
-        return;
-    }
-    func_0210dca8(&data_021759d0->mUnk_08, a);
-}
-
-void func_0204aba8(void) {
-    if (data_021759d0->mUnk_1c_0) {
-        return;
-    }
-    if (!data_021759d0->mUnk_1c_1) {
-        return;
-    }
-    func_0210dc7c(&data_021759d0->mUnk_08);
-    data_021759d0->mUnk_1c_1 = 0;
-}
-
-void func_0204ac10(void) {
-    Unk021759d0 *p = data_021759d0;
-
-    if (!p->mUnk_1c_0) {
-        return;
-    }
-    func_0210dca8(&p->mUnk_08, func_0210d960());
-    data_021759d0->mUnk_1c_0 = 0;
-}
-
-void func_0204ac60(void) {
-    if (!data_021759d0->mUnk_1c_1) {
-        return;
-    }
-    if (data_021759d0->mUnk_1c_0) {
-        return;
-    }
-    data_021759d0->mUnk_1c_0 = 1;
-    func_0210dcb8(&data_021759d0->mUnk_08, data_0216cb28);
-}
-
-void func_0204acd0(s32 a) {
-    if (data_021759d0->mUnk_1c_1) {
-        return;
-    }
-    data_021759d0->mUnk_1c_1 = 1;
-    func_0210f8b0(&data_021759d0->mUnk_08, a, 0xff);
+    return random;
 }

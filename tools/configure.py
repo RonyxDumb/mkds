@@ -109,7 +109,7 @@ delinks = json.loads(subprocess.run([DSD, "json", "delinks", "-c", str(dsd_confi
                                     check=True, capture_output=True, text=True).stdout)
 
 dsd_config_files = sorted(str(p) for p in config_dir.rglob("*") if p.suffix in (".txt", ".yaml"))
-include_dirs = ["include"] + sorted(str(p) for p in Path("libs").glob("*/include"))
+include_dirs = ["include"] + sorted(str(p) for p in Path("libs").rglob("include") if p.is_dir())
 sources = sorted(p for d in ("src", "libs") for p in Path(d).rglob("*") if p.suffix in (".c", ".cpp", ".s"))
 
 lines: list[str] = []
@@ -139,11 +139,11 @@ w("")
 # ---- rules ----
 w(f"rule download_tool\n  command = {PY} tools/download_tool.py $tool $tag --path $path --outputs $out\n  description = DOWNLOAD $tool\n")
 w(f"rule extract\n  command = {DSD} rom extract --rom $in --output-path $outdir {bios_flag}\n  description = EXTRACT $in\n")
-w(f"rule delink\n  command = {DSD} delink -c $config && {PY} tools/delink_multidef.py @{build_dir}/delink_multidef.rsp\n"
+w(f"rule delink\n  command = {DSD} delink -c $config && {PY} tools/mark_data.py @{build_dir}/delink_multidef.rsp && {PY} tools/delink_multidef.py @{build_dir}/delink_multidef.rsp\n"
   f"  rspfile = {build_dir}/delink_multidef.rsp\n  rspfile_content = $out\n  description = DELINK\n")
 w(f"rule lcf\n  command = {DSD} lcf -c $config && {PY} tools/lcf_force_active.py $lcf_raw $lcf_final --config-dir {config_dir}\n  description = LCF\n")
 w(f"rule mwcc\n  command = {WINE} $cc $base_flags $cc_flags {' '.join('-i ' + d for d in include_dirs)} "
-  f"-d version_{ver.upper()} -MD -c $in -o $outdir && {PY} tools/transform_dep.py $basefile.d $basefile.d && {PY} tools/demote_multidef.py $out\n"
+  f"-d version_{ver.upper()} -MD -c $in -o $outdir && {PY} tools/transform_dep.py $basefile.d $basefile.d && {PY} tools/demote_multidef.py $out && {PY} tools/mark_data.py $out\n"
   f"  depfile = $basefile.d\n  deps = gcc\n  description = MWCC $in\n")
 # The same compile with -requireprotos, writing the calls that have no declaration in scope (tools/check_protos.py).
 # tools/protos_prefix.h declares the compiler intrinsics; -prefix looks it up from the first include directory.
@@ -163,7 +163,7 @@ scratch = (f"--scratch --compiler {DECOMP_ME_COMPILER} --c-flags {shlex.quote(' 
            if DECOMP_ME_COMPILER else "")
 w(f"rule objdiff_config\n  command = {DSD} objdiff -c $config -o . {scratch}--custom-make ninja "
   f"&& {PY} tools/objdiff_place.py objdiff.json $edits\n  description = OBJDIFF CONFIG\n")
-w(f"rule objdiff_report\n  command = {OBJDIFF} report generate -o $out\n  description = REPORT\n")
+w(f"rule objdiff_report\n  command = {OBJDIFF} report generate -c combineTextSections=false -o $out\n  description = REPORT\n")
 w(f"rule check_symbols\n  command = {DSD} check symbols -c $config --elf-path $in --fail --max-lines 20 && touch $out\n  description = CHECK SYMBOLS\n")
 w(f"rule configure\n  command = {PY} tools/configure.py {' '.join(shlex.quote(a) for a in sys.argv[1:])}\n  generator = 1\n  description = CONFIGURE\n")
 
@@ -215,7 +215,7 @@ for src in sources:
         continue
     version, flags = source_flags(src)
     cc = str(MWCC_ROOT / version / "mwccarm.exe") if version else CC
-    build(str(obj), "mwcc", [str(src)], implicit=[cc, "tools/demote_multidef.py"] + tool_outputs, variables={
+    build(str(obj), "mwcc", [str(src)], implicit=[cc, "tools/demote_multidef.py", "tools/mark_data.py"] + tool_outputs, variables={
         "cc": cc,
         "base_flags": " ".join(flags[:-1]),
         "cc_flags": flags[-1],

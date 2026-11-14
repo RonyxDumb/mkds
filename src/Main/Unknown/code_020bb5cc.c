@@ -1,8 +1,9 @@
 #include "Main/Unknown/code_020bb5cc.h"
-#include "code_0212c6ac.h"
+#include "Main/Unknown/code_02108e6c.h"
+#include "code_0212bcac.h"
 
-void func_020bb5cc(void) {
-    u32 uVar1;
-    uVar1 = ((u32) func_02108e88());
-    func_0212c6f0((Unk0212c400 **) uVar1, 0);
+void StopRaceItemSlotSound(void) {
+    NNSSndSeqPlayer **seqPlayer;
+    seqPlayer = GetSndHandles();
+    NNS_SndPlayerStopSeq(seqPlayer, 0);
 }

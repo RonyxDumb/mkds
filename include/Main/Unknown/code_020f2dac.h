@@ -4,15 +4,16 @@
 #include "Main/Unknown/code_0206bcb0.h"
 #include "Main/Unknown/code_020f1d70.h"
 
-// Element of data_027e00cc[2], [3], [7], [8] and [9] up to 0x130: the word at 0x12c that func_020f2df0,
-// func_020f30ec and func_020f3150 use after the shared part.
-typedef struct Unk020f2df0 {
-    /* 000 */ Unk020f41c4_A mUnk_000;
-    /* 12c */ s32 mUnk_12c;
-} Unk020f2df0;
+// Element of gItemPools[2], [3], [7], [8] and [9] up to 0x130: the word at 0x12c that AdvanceBouncingItem,
+// InitBouncingItem and ThrowBouncingItem use after the shared part.
+typedef struct BouncingItemObject {
+    /* 000 */ ItemObject mItemObject;
+    /* 12c */ s32 mBouncesRemaining;
+} BouncingItemObject;
 
-void func_020f2dac(Unk020f41c4_A *a, Vec3 *b, Vec3 *c);
-void func_020f2df0(Unk020f2df0 *a, s32 b, s32 c, s32 d, u32 *e);
-void func_020f30ec(Unk020f2df0 *a, s32 b, Vec3 *c);
-void func_020f3150(Unk020f2df0 *p, Unk020eda5c *a, s32 b, s32 c, s32 d, s32 e, s32 f);
-void func_020f357c(void);
+void BounceItemObject(ItemObject *item, Vec3 *b, Vec3 *awayDirection);
+void AdvanceBouncingItem(BouncingItemObject *item, s32 gravity, s32 velocityFactor, s32 reflectFactor, u32 *e);
+void InitBouncingItem(BouncingItemObject *item, s32 bounceCount, Vec3 *velocity);
+void ThrowBouncingItem(BouncingItemObject *item, ItemInUse *itemInUse, s32 bounceCount, s32 throwForward,
+                       s32 forwardSpeed, s32 forwardUpSpeed, s32 backwardUpSpeed);
+void InitItemPointLinkDirections(void);

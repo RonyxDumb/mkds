@@ -2,37 +2,19 @@
 
 #include "types.h"
 
-typedef struct Unk021d6fd0 {
-    /* 0 */ u8 mUnk_00[2];
-} Unk021d6fd0;
-
-extern u8 data_ov003_021da1a0;
-extern void *data_ov003_021da1a4;
-extern void *data_ov003_021d6ea0[];
-extern u8 data_ov003_021d6eb8[];
-extern u8 data_ov003_021d6ec8[];
-extern u8 data_ov003_021d6edc[];
-extern u8 data_ov003_021d6ef0[];
-extern u8 data_ov003_021d6f04[];
-extern u8 data_ov003_021d6f18[];
-extern u8 data_ov003_021d6f30[];
-extern u8 data_ov003_021d6f48[];
-extern u8 data_ov003_021d6f60[];
-extern u8 data_ov003_021d6f78[];
-extern u8 data_ov003_021d6f90[];
-extern u8 data_ov003_021d6fa8[];
-extern u8 data_ov003_021d6fbc[];
-extern Unk021d6fd0 data_ov003_021d6fd0;
-extern u16 data_ov003_021d6328[];
-extern u16 data_ov003_021d632a[];
-extern u16 data_ov003_021d632c[];
-extern u16 data_ov003_021d632e[];
+extern void *gLanguageBmgNames[];
+extern u8 gUsaBmgName[];
+extern u8 gJtMainNceName[];
+extern u8 gJbMainNceName[];
+extern u8 gJtBgMainNcgName[];
+extern u8 gJtBgMainNclName[];
+extern u8 gJtObjMainNcgName[];
+extern u8 gXtObjMainNclName[];
+extern u8 gJbBgStep1NcgName[];
+extern u8 gJbBgStep1NclName[];
+extern u8 gJbObjMainNcgName[];
+extern u8 gYbObjMainNclName[];
+extern u8 gJtTopNscName[];
+extern u8 gJtStep1NscName[];
 
 void func_ov003_021c2b28(void);
-void func_ov003_021c2c94(void);
-void func_ov003_021c2cc8(s32 a);
-void func_ov003_021c2d18(void);
-
-// Not decompiled yet.
-void func_ov003_021bf8c0(void);
-void func_ov003_021cc948(u8 *param_1, u32 param_2, u32 param_3);

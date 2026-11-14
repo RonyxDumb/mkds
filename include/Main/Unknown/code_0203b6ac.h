@@ -1,8 +1,9 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020d22c0.h"
 
-void func_0203b6ac(u8 *a);
-u32 func_0203b8e4(Unk020f41c4_B *a);
-s32 func_0203b96c(s32 a);
+typedef struct RandomState64 RandomState64;
+
+void SetNextDemoRace(u8 *picks);
+u32 func_0203b8e4(RandomState64 *random);
+BOOL func_0203b96c(s32 cupIndex);

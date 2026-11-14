@@ -1,4 +1,6 @@
 #include "Main/Unknown/code_02102eb8.h"
+#include "Main/Unknown/code_0208ab98.h"
+#include "Main/Unknown/code_020f81c0.h"
 
 #include "Main/Unknown/code_0208a000.h"
 #include "Main/Unknown/code_020f8000.h"
@@ -10,112 +12,118 @@
 #include "Main/Unknown/code_020f8e3c.h"
 #include "Main/Unknown/code_020f36d8.h"
 #include "Main/Unknown/code_0203c5e4.h"
-#include "Main/Unknown/code_02074874.h"
+#include "Main/Unknown/code_02073eb8.h"
+#include "03/code_021b7000.h"
+#include "03/unk_021d8000.h"
+#include "Main/Unknown/code_02133000.h"
+#include "03/code_021b7bb4.h"
+#include "Main/Unknown/code_02077bc0.h"
 
-void func_021031ac(Unk02102674 *p) {
+void ResetItemGesso(ItemGesso *gesso) {
     s32 i;
 
-    p->mUnk_12c = 0;
+    gesso->mKart = NULL;
     for (i = 0; i < 8; i++) {
-        p->mUnk_130[i] = 0;
+        gesso->mOrthoQuadCounts[i] = 0;
     }
-    p->mUnk_138 = -1;
-    p->mUnk_000.mUnk_d8 = 0x1f;
-    p->mUnk_19c = 0;
-    p->mUnk_160 = 0;
+    gesso->mStepIndex = -1;
+    gesso->mUnk_000.mAlpha = 0x1f;
+    gesso->mUnk_19c = 0;
+    gesso->mUnk_160 = FALSE;
 }
 
-s32 func_0210300c(Unk02102674 *p) {
-    Unk0215a3b0 *e;
-    s32 i;
-    s32 f;
+BOOL SetupNextItemGessoStep(ItemGesso *gesso) {
+    ItemGessoStep *step;
+    s32 stepIndex;
+    BOOL f;
 
-    p->mUnk_138 = p->mUnk_138 + 1;
-    if (p->mUnk_138 >= 0x11) {
+    gesso->mStepIndex = gesso->mStepIndex + 1;
+    if (gesso->mStepIndex >= 0x11) {
         goto done;
     }
-    e = &data_0215a3b0[p->mUnk_138];
-    p->mUnk_154 = e->mUnk_00;
-    p->mUnk_158 = e->mUnk_02;
-    p->mUnk_164 = e->mUnk_04;
-    p->mUnk_168 = e->mUnk_06;
-    p->mUnk_16c = e->mUnk_08;
-    p->mUnk_170 = e->mUnk_0a;
-    i = p->mUnk_138;
-    if (i != 0xc && i != 0xd) {
-        if (p->mUnk_158 > 0) {
-            p->mUnk_174 = 0xe66;
-            p->mUnk_178 = 0x1266;
-            p->mUnk_184.z = 0x4cd;
-        } else if (i == 4) {
-            p->mUnk_174 = 0x1000;
-            p->mUnk_178 = 0x1000;
-            p->mUnk_184.z = 0x1000;
+    step = &gItemGessoSteps[gesso->mStepIndex];
+    gesso->mTargetVelocityX = step->mTargetVelocityX;
+    gesso->mTargetVelocityY = step->mTargetVelocityY;
+    gesso->mApproachRate = step->mApproachRate;
+    gesso->mDamping = step->mDamping;
+    gesso->mStepTimer = step->mUnk_08;
+    gesso->mUnk_170 = step->mUnk_0a;
+    stepIndex = gesso->mStepIndex;
+    if (stepIndex != 0xc && stepIndex != 0xd) {
+        if (gesso->mTargetVelocityY > 0) {
+            gesso->mUnk_174 = 0xe66;
+            gesso->mUnk_178 = 0x1266;
+            gesso->mUnk_184.z = 0x4cd;
+        } else if (stepIndex == 4) {
+            gesso->mUnk_174 = 0x1000;
+            gesso->mUnk_178 = 0x1000;
+            gesso->mUnk_184.z = 0x1000;
         } else {
-            p->mUnk_174 = 0x1333;
-            p->mUnk_178 = 0xc29;
-            p->mUnk_184.z = 0x28f;
+            gesso->mUnk_174 = 0x1333;
+            gesso->mUnk_178 = 0xc29;
+            gesso->mUnk_184.z = 0x28f;
         }
-    } else if (i == 0xc) {
-        p->mUnk_174 = 0x199a;
-        p->mUnk_178 = 0x119a;
-        p->mUnk_184.z = 0x800;
+    } else if (stepIndex == 0xc) {
+        gesso->mUnk_174 = 0x199a;
+        gesso->mUnk_178 = 0x119a;
+        gesso->mUnk_184.z = 0x800;
     } else {
-        p->mUnk_174 = 0x800;
-        p->mUnk_178 = 0x800;
-        p->mUnk_184.z = 0x99a;
+        gesso->mUnk_174 = 0x800;
+        gesso->mUnk_178 = 0x800;
+        gesso->mUnk_184.z = 0x99a;
     }
-    i = p->mUnk_138;
-    f = 1;
-    if (i != 2 && i != 0x10) {
-        f = 0;
+    stepIndex = gesso->mStepIndex;
+    f = TRUE;
+    if (stepIndex != 2 && stepIndex != 0x10) {
+        f = FALSE;
     }
-    p->mUnk_194 = f;
-    if (e->mUnk_02 > 0 && p->mUnk_138 != 0 && p->mUnk_138 != 0xe && p->mUnk_198 != 0) {
-        func_020f8e3c((u32) p->mUnk_12c, 0xf1);
+    gesso->mUnk_194 = f;
+    if (step->mTargetVelocityY > 0 && gesso->mStepIndex != 0 && gesso->mStepIndex != 0xe && gesso->mVisible != FALSE) {
+        func_020f8e3c((u32) gesso->mKart, 0xf1);
     }
-    return 0;
+    return FALSE;
 done:
-    return 1;
+    return TRUE;
 }
 
-u32 func_02102eb8(Unk02102674 *p, s32 param_1) {
-    Unk020748a8 *s;
-    s32 a;
-    s32 b2;
+u32 SetupItemGesso(ItemGesso *gesso, s32 fromData) {
+    Camera *camera;
+    s32 entryIndex;
+    s32 kartIndex;
 
-    a = data_021759c0->mUnk_62;
-    s = (Unk020748a8 *) func_020748a8();
+    entryIndex = gRaceSetup->mEntryIndex;
+    camera = GetChaseCamera();
     func_020f82a4(0);
-    if (a < 0) {
-        b2 = (u16) (p->mUnk_000.mUnk_78 & ~0xff00);
+    if (entryIndex < 0) {
+        kartIndex = (u16) (gesso->mUnk_000.mUnk_78 & ~0xff00);
     } else {
-        b2 = a;
+        kartIndex = entryIndex;
     }
-    p->mUnk_12c = func_0207a974(b2);
-    p->mUnk_000.mUnk_50 = p->mUnk_12c->mUnk_98;
-    func_02147fd8(0x5800, &s->mUnk_00, &p->mUnk_000.mUnk_50, &p->mUnk_000.mUnk_50);
-    func_02147fd8(func_0203c5e4() != 0 ? 0x5800 : 0xa800, &s->mUnk_15c, &p->mUnk_000.mUnk_50, &p->mUnk_000.mUnk_50);
-    func_021484d0(&p->mUnk_000.mUnk_50, &s->mUnk_24, &p->mUnk_13c);
-    func_02146d78(&p->mUnk_13c, s->mUnk_030, &p->mUnk_13c);
-    if (param_1 != 0) {
-        if (p->mUnk_000.mUnk_74 & 0x10000000) {
-            func_0210300c(p);
-            p->mUnk_16c = p->mUnk_16c - 1;
+    gesso->mKart = GetKart(kartIndex);
+    gesso->mUnk_000.mPos = gesso->mKart->mDrawMatrixPos;
+    VEC_MultAdd(0x5800, &camera->mUp, &gesso->mUnk_000.mPos, &gesso->mUnk_000.mPos);
+    VEC_MultAdd(func_0203c5e4() != 0 ? 0x5800 : 0xa800, &camera->mForward, &gesso->mUnk_000.mPos,
+                &gesso->mUnk_000.mPos);
+    VEC_Subtract(&gesso->mUnk_000.mPos, &camera->mPos, &gesso->mViewOffset);
+    MTX_MultVec33(&gesso->mViewOffset, &camera->mViewMatrix.mUnk_00[0].x, &gesso->mViewOffset);
+    if (fromData != 0) {
+        if (gesso->mUnk_000.mFlags & 0x10000000) {
+            SetupNextItemGessoStep(gesso);
+            gesso->mStepTimer = gesso->mStepTimer - 1;
         }
     } else {
-        func_0210300c(p);
+        SetupNextItemGessoStep(gesso);
     }
-    p->mUnk_148 = p->mUnk_154;
-    p->mUnk_14c = p->mUnk_158;
-    p->mUnk_180 = p->mUnk_174;
-    p->mUnk_184.x = p->mUnk_178;
-    if ((p->mUnk_000.mUnk_78 & 0x8000) == 0) {
-        b2 = (u16) (p->mUnk_000.mUnk_78 & ~0xff00);
+    gesso->mVelocityX = gesso->mTargetVelocityX;
+    gesso->mVelocityY = gesso->mTargetVelocityY;
+    gesso->mUnk_180 = gesso->mUnk_174;
+    gesso->mUnk_184.x = gesso->mUnk_178;
+    if ((gesso->mUnk_000.mUnk_78 & 0x8000) == 0) {
+        kartIndex = (u16) (gesso->mUnk_000.mUnk_78 & ~0xff00);
     } else {
-        b2 = 8;
+        kartIndex = 8;
     }
-    p->mUnk_198 = a == (u16) b2;
-    func_020f9c40((int) p);
-    return (u32) func_0208adc8(&p->mUnk_000.mUnk_7c, 1);
+    gesso->mVisible = entryIndex == (u16) kartIndex;
+    FreeItemObjectCollisionSlot((s32) gesso);
+    return (u32) InitCourseColorBlend(&gesso->mUnk_000.mColorBlend, 1);
 }

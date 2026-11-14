@@ -1,11 +1,12 @@
 #include "Main/Unknown/code_021526a0.h"
+#include "code_02152a24.h"
 
 #pragma thumb on
 
-u32 func_021526a0(const void *a) {
-    int iVar1;
-    iVar1 = func_02152a58(a);
-    if (iVar1 != 0) {
+u32 IsFriendDataTypeNonZero(const void *friendData) {
+    int dataType;
+    dataType = DWCi_Acc_GetFlag_DataType(friendData);
+    if (dataType != 0) {
         return 1;
     }
     return 0;

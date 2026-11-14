@@ -1,6 +1,6 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_0210b000.h" // Unk0210b7ec
+#include "Main/Unknown/code_0210b000.h" // SoundDistanceSquaredChange
 
-void func_0210b850(Unk0210b7ec *p);
+void ResetSoundDistanceSquaredChange(SoundDistanceSquaredChange *tracker);

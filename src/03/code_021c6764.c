@@ -1,21 +1,361 @@
 #include "03/code_021c6764.h"
-#include "03/types_021d299c.h"
-#include "03/code_021bf43c.h"
-#include "03/code_021c20dc.h"
-#include "03/code_021c2120.h"
-#include "03/code_021c6a18.h"
-#include "03/code_021c6d0c.h"
-#include "03/code_021cdb14.h"
-#include "03/code_021cdc10.h"
-#include "03/code_021ce000.h"
-#include "03/code_021cef6c.h"
-#include "03/code_021cef80.h"
-#include "03/code_021d1fd0.h"
-#include "03/code_021d2060.h"
-#include "03/code_021d3254.h"
-#include "03/unk_021da000.h"
 
-int func_ov003_021c6764(void) {
+#include "03/code_021cef90.h"
+#include "03/types_021d299c.h"
+#include "03/code_021bf4dc.h"
+#include "03/code_021d1fd0.h"
+#include "03/unk_021d5000.h"
+#include "03/unk_021da000.h"
+#include "03/code_021bf410.h"
+#include "03/code_021c209c.h"
+#include "03/code_021b94b8.h"
+#include "03/code_021cd2e0.h"
+#include "code_0212df7c.h"
+#include "03/code_021cdbd0.h"
+#include "03/code_021ce000.h"
+#include "03/code_021cea3c.h"
+#include "03/code_021d3254.h"
+#include "03/code_021bf000.h"
+#include "03/code_021c2000.h"
+#include "03/code_021c6000.h"
+#include "03/code_021c9000.h"
+#include "03/code_021cb000.h"
+#include "03/code_021cbf60.h"
+#include "03/code_021d1dd0.h"
+#include "03/unk_021d7000.h"
+#include "code_0214b824.h"
+#include "03/code_021cd000.h"
+#include "03/code_021d1000.h"
+#include "03/code_021d1f70.h"
+#include "03/code_021c0000.h"
+#include "03/code_021d1440.h"
+#include "03/code_021bf810.h"
+#include "03/code_021d1c18.h"
+#include "03/code_021d254c.h"
+#include "03/code_021d27d8.h"
+#include "03/code_021d2ecc.h"
+#include "03/code_021c6708.h"
+#include "03/code_021c04ec.h"
+#include "03/code_021c5724.h"
+#include "03/code_021c7d30.h"
+
+void CreateEdit(void) {
+    u8 a[2];
+    s32 b;
+    s32 c;
+    a[0] = data_ov003_021d7278[0];
+    a[1] = data_ov003_021d7278[1];
+    gEdit = AllocZeroedExpHeapBlock(0x2c, 4);
+    func_ov003_021c20dc(&b, &c);
+    if (b == 0) {
+        func_ov003_021cd948((u8 *) gEdit + 8);
+        gEdit->mCharCount = GetStringLengthWithLimit((u8 *) gEdit + 8, 0x20);
+    }
+    LoadEditFilesAndSetBgCnt();
+    LoadHlScr(b + 9);
+    if (c == 1) {
+        func_ov003_021bf43c(0x81, -1, 0);
+    } else {
+        func_ov003_021bf43c(a[b], -1, 0);
+    }
+    func_ov003_021bf5ec(2);
+    gEdit->mUnk_00 = InitBgTextCanvas(0, 0);
+    gEdit->mUnk_04 = CreateOamEntryFromNceImage(0, 0x3e);
+    gEdit->mUnk_04->mUnk_04 = (gEdit->mUnk_04->mUnk_04 & 0xfffff3ff) | 0xc00;
+    func_ov003_021c6914();
+    PrintEditText();
+    SetUpdateFunction(func_ov003_021c6d68);
+}
+
+void LoadEditFilesAndSetBgCnt(void) {
+    void *v2 = &gYbObjKbNclName;
+    void *v3 = &GX_LoadOBJPltt;
+    u32 v4 = LoadFileToVram(v2, v3);
+    void *v5 = &gJbBgStep3NcgName2;
+    void *v6 = &GX_LoadBG2Char;
+    u32 v7 = LoadFileToVram(v5, v6);
+    void *v8 = &gYbBgStep3NclName2;
+    void *v9 = &GX_LoadBGPltt;
+    u32 v10 = LoadFileToVram(v8, v9);
+    void *v11 = &gXb4EditNscName;
+    void *v12 = &GX_LoadBG2Scr;
+    u32 v13 = LoadFileToVram(v11, v12);
+    u32 v14 = 0x4001008u;
+    u32 v15 = (*(u16 *) ((v14) + (0)));
+    u32 v17 = ((v15) & ~(0x3u));
+    u32 v18 = ((v17) | (0x3u));
+    u32 v20;
+    u32 v21;
+    u32 v22;
+    u32 v23;
+    u32 v25;
+    u32 v26;
+    u32 v27;
+    u32 v29;
+    u32 v31;
+    u32 v32;
+    u32 v33;
+    u32 v34;
+    u32 v36;
+    u32 v37;
+    u32 v38;
+    u32 v39;
+    *(u16 *) ((v14) + (0)) = v18;
+    v20 = 0x400100au;
+    v21 = (*(u16 *) ((v20) + (0)));
+    v22 = ((v21) & ~(0x3u));
+    v23 = ((v22) | (0x3u));
+    *(u16 *) ((v20) + (0)) = v23;
+    v25 = 0x4000008u;
+    v26 = (*(u16 *) ((v25) + (0)));
+    v27 = ((v26) & ~(0x3u));
+    v29 = ((v27) | (0x2u));
+    *(u16 *) ((v25) + (0)) = v29;
+    v31 = 0x400000au;
+    v32 = (*(u16 *) ((v31) + (0)));
+    v33 = ((v32) & ~(0x3u));
+    v34 = ((v33) | (0x3u));
+    *(u16 *) ((v31) + (0)) = v34;
+    v36 = 0x400000cu;
+    v37 = (*(u16 *) ((v36) + (0)));
+    v38 = ((v37) & ~(0x3u));
+    v39 = ((v38) | (0x3u));
+    *(u16 *) ((v36) + (0)) = v39;
+}
+
+void func_ov003_021c6d68(void) {
+    StartBlendBrightnessFade(2, 1, 1, 8);
+    StartBlendBrightnessFade(2, 0, 0x15, 8);
+    CombineDispcntBits(1, 1);
+    CombineDispcntBits(0, 0x15);
+    SetUpdateFunction(func_ov003_021c6d0c);
+}
+
+void func_ov003_021c6d0c(void) {
+    int v1;
+    v1 = IsBlendBrightnessFadeSlotBusy(1);
+    if ((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) {
+        CreateEditKeyboard();
+        StartSoundSeq(0x14);
+        if (gEdit->mCharCount == 0) {
+            SetEditKeyboardRemoveCharEnabled(0);
+        }
+        if (gEdit->mCharCount == ' ') {
+            SetEditKeyboardAddCharEnabled(0);
+        }
+        SetUpdateFunction(func_ov003_021c6cf0);
+    }
+}
+
+void func_ov003_021c6cf0(void) {
+    if (GetEditKeyboardInput() != 255) {
+        SetUpdateFunction(UpdateEdit);
+    }
+}
+
+void UpdateEdit(void) {
+    UpdateEditInput();
+    func_ov003_021c6b9c();
+}
+
+void UpdateEditInput(void) {
+    int a;
+    Edit *b;
+    a = GetEditKeyboardInput();
+    switch (a) {
+        case 0x80:
+            b = gEdit;
+            if (b->mCharCount != 0) {
+                StartSoundSeq(3);
+                b = gEdit;
+                b->mCharCount = b->mCharCount - 1;
+                b = gEdit;
+                b->mText[b->mCharCount] = 0;
+                if (gEdit->mCharCount == 0) {
+                    SetEditKeyboardRemoveCharEnabled(0);
+                }
+                SetEditKeyboardAddCharEnabled(1);
+            }
+            break;
+        case 0x82:
+            StartSoundSeq(7);
+            gEdit->mUnk_2a = 0;
+            SetUpdateFunction(func_ov003_021c6b80);
+            return;
+        case 0x83:
+            if (func_ov003_021c6764() != FALSE) {
+                StartSoundSeq(6);
+                gEdit->mUnk_2a = 1;
+            } else {
+                gEdit->mUnk_2a = 2;
+                StartSoundSeq(9);
+            }
+            gEdit->mUnk_04->mUnk_00 = (gEdit->mUnk_04->mUnk_00 & 0xc1fffcff) | 0x200;
+            SetUpdateFunction(func_ov003_021c6b80);
+            return;
+        case 0:
+            break;
+        case 0xe01d:
+        default:
+            b = gEdit;
+            if (b->mCharCount != 0x20) {
+                StartSoundSeq(1);
+                b = gEdit;
+                b->mText[b->mCharCount] = a;
+                b = gEdit;
+                b->mCharCount = b->mCharCount + 1;
+                SetEditKeyboardRemoveCharEnabled(1);
+                if (gEdit->mCharCount == 0x20) {
+                    SetEditKeyboardAddCharEnabled(0);
+                }
+            }
+            break;
+    }
+    PrintEditText();
+    func_ov003_021c6914();
+}
+
+void func_ov003_021c6b9c(void) {}
+
+void func_ov003_021c6b80(void) {
+    StartBlendBrightnessFadeWait(8);
+    SetUpdateFunction(func_ov003_021c6b58);
+}
+
+void func_ov003_021c6b58(void) {
+    int v1;
+    v1 = IsBlendBrightnessFadeSlotBusy(1);
+    if (v1 == 0) {
+        StartEditKeyboardSlideOut();
+        StartSoundSeq(0x15);
+        SetUpdateFunction(func_ov003_021c6acc);
+    }
+}
+
+void func_ov003_021c6acc(void) {
+    s32 a[2] = {0x9b, 0x9c};
+    s32 b;
+    if (HasEditKeyboard() == 0) {
+        if (gEdit->mUnk_2a == 0) {
+            SetUpdateFunction(func_ov003_021c6a18);
+        } else if (gEdit->mUnk_2a == 2) {
+            func_ov003_021cefc0(0x2f, 3, 1, -1, 0);
+            SetUpdateFunction(func_ov003_021c673c);
+        } else {
+            func_ov003_021c20dc(NULL, &b);
+            func_ov003_021cefc0(a[b], 2, 1, -1, 0);
+            SetUpdateFunction(func_ov003_021c68c8);
+        }
+    }
+}
+
+void func_ov003_021c6a18(void) {
+    s32 v1;
+    int v2[1];
+    func_ov003_021bf410();
+    DeleteOamEntry((u32 *) (u32) gEdit->mUnk_04);
+    ReleaseBgTextCanvasOfScreen(0);
+    LoadFileToVram(&gYbObjMainNclName2, &GX_LoadOBJPltt);
+    ClearDispcntBits(1, 1);
+    ClearDispcntBits(0, 0x15);
+    func_ov003_021c20dc(&v1, v2);
+    if (v2[0] == 0) {
+        func_ov003_021c2120(2, 1);
+        func_ov003_021c20f8(0, v1);
+        SetUpdateFunction(CreateJb3List);
+    } else if (gEdit->mUnk_2a == 0) {
+        func_ov003_021c2120(0, 1);
+        func_ov003_021c20f8(1, 0);
+        SetUpdateFunction(CreateApList);
+    } else {
+        func_ov003_021c2120(0, 0);
+        func_ov003_021c20f8(0, 1);
+        SetUpdateFunction(func_ov003_021cbf60);
+    }
+    FreeExpHeapBlockAndClearPointer(&gEdit);
+}
+
+void PrintEditText(void) {
+    Rect b = {0, 0, 0, 0};
+    u16 c[2];
+    int k;
+    int i;
+    u8 t;
+    b.mUnk_02 = gEditLineY[0];
+    b.mUnk_04 = data_ov003_021d63e4[0];
+    b.mUnk_06 = data_ov003_021d63e4[1];
+    ClearBgTextCanvas(gEdit->mUnk_00, 0);
+    c[1] = 0;
+    i = 0;
+    k = i;
+    t = gEditLineY[1];
+    for (; i < 0x20; i++, k++) {
+        Edit *s;
+        if (i == 0x10) {
+            b.mUnk_02 = t;
+            k = 0;
+        }
+        s = gEdit;
+        if (s->mText[i] == 0x20) {
+            c[0] = 0xe01d;
+        } else {
+            c[0] = s->mText[i];
+        }
+        b.mUnk_00 = gEditColumnX[k];
+        DrawCanvasTextRect(s->mUnk_00, b.mUnk_00, b.mUnk_02, b.mUnk_04, b.mUnk_06, 2, 0x480, c);
+    }
+    RequestBgTextCanvasUpload(gEdit->mUnk_00);
+}
+
+void func_ov003_021c6914(void) {
+    int v1;
+    int v2;
+    u8 a;
+    Edit *s;
+    s = gEdit;
+    a = s->mCharCount;
+    v1 = a & 0xf;
+    v2 = a >> 4;
+    if (a >= 0x20u) {
+        v1 = 0xf;
+        v2 = 1;
+    }
+    s->mUnk_04->mUnk_00 =
+        ((gEditColumnX[v1] & 0x1ff) << 16) | ((s->mUnk_04->mUnk_00 & 0xfe00ff00) | (gEditLineY[v2] & 0xff));
+}
+
+void func_ov003_021c68c8(void) {
+    gEdit->mUnk_2a = func_ov003_021cef80();
+    switch (gEdit->mUnk_2a) {
+        case 0:
+            StartSoundSeq(7);
+            break;
+        case 1:
+            StartSoundSeq(0xe);
+            break;
+        default:
+            return;
+    }
+    func_ov003_021cef90();
+    SetUpdateFunction(func_ov003_021c6854);
+}
+
+void func_ov003_021c6854(void) {
+    void (*a[2])(const u8 *) = {func_ov003_021cdb14, func_ov003_021cd9dc};
+    s32 b;
+    if (func_ov003_021cef6c() == 0) {
+        if (gEdit->mUnk_2a == 0) {
+            gEdit->mUnk_04->mUnk_00 = gEdit->mUnk_04->mUnk_00 & 0xc1fffcff;
+            SetUpdateFunction(func_ov003_021c6d0c);
+            return;
+        }
+        func_ov003_021c20dc(&b, NULL);
+        a[b](gEdit->mText);
+        SetUpdateFunction(func_ov003_021c6a18);
+    }
+}
+
+BOOL func_ov003_021c6764(void) {
     s32 a;
     s32 b;
     int v1;
@@ -26,113 +366,32 @@ int func_ov003_021c6764(void) {
     }
     func_ov003_021c20dc(&a, &b);
     if (a == 0) {
-        if (data_ov003_021da1f8->mUnk_08[0] != 0) {
-            return 1;
+        if (gEdit->mText[0] != 0) {
+            return TRUE;
         }
-        return 0;
+        return FALSE;
     }
-    if (b == 1 && data_ov003_021da1f8->mUnk_08[0] == 0) {
-        return 0;
+    if (b == 1 && gEdit->mText[0] == 0) {
+        return FALSE;
     }
-    v1 = func_ov003_021d3254(data_ov003_021da1f8->mUnk_08, 0x20);
+    v1 = GetStringLengthWithLimit(gEdit->mText, 0x20);
     switch (v1) {
         case 0:
         case 5:
         case 0xd:
         case 0x10:
-            return 1;
+            return TRUE;
         case 0xa:
         case 0x1a:
         case 0x20:
             for (i = 0; i < v1; i++) {
-                u8 c = data_ov003_021da1f8->mUnk_08[i];
+                u8 c = gEdit->mText[i];
                 if (!((c >= '0' && c <= '9') || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f'))) {
-                    return 0;
+                    return FALSE;
                 }
             }
-            return 1;
+            return TRUE;
         default:
-            return 0;
+            return FALSE;
     }
-}
-
-void func_ov003_021c6854(void) {
-    void (*a[2])(const u8 *) = {func_ov003_021cdb14, func_ov003_021cd9dc};
-    s32 b;
-    if (func_ov003_021cef6c() == 0) {
-        if (data_ov003_021da1f8->mUnk_2a == 0) {
-            data_ov003_021da1f8->mUnk_04->mUnk_00 =
-                data_ov003_021da1f8->mUnk_04->mUnk_00 & 0xc1fffcff;
-            func_ov003_021c212c(func_ov003_021c6d0c);
-            return;
-        }
-        func_ov003_021c20dc(&b, 0);
-        a[b](data_ov003_021da1f8->mUnk_08);
-        func_ov003_021c212c(func_ov003_021c6a18);
-    }
-}
-
-void func_ov003_021c68c8(void) {
-    data_ov003_021da1f8->mUnk_2a = func_ov003_021cef80();
-    switch (data_ov003_021da1f8->mUnk_2a) {
-        case 0:
-            func_ov003_021cdc10(7);
-            break;
-        case 1:
-            func_ov003_021cdc10(0xe);
-            break;
-        default:
-            return;
-    }
-    func_ov003_021cef90();
-    func_ov003_021c212c(func_ov003_021c6854);
-}
-
-void func_ov003_021c6914(void) {
-    int v1;
-    int v2;
-    u8 a;
-    Unk021da1f8 *s;
-    s = data_ov003_021da1f8;
-    a = s->mUnk_29;
-    v1 = a & 0xf;
-    v2 = a >> 4;
-    if (a >= 0x20u) {
-        v1 = 0xf;
-        v2 = 1;
-    }
-    s->mUnk_04->mUnk_00 = ((data_ov003_021d63e8[v1] & 0x1ff) << 16) |
-                          ((s->mUnk_04->mUnk_00 & 0xfe00ff00) | (data_ov003_021d63e0[v2] & 0xff));
-}
-
-void func_ov003_021c696c(void) {
-    Unk021d299c b = {0, 0, 0, 0};
-    u16 c[2];
-    int k;
-    int i;
-    u8 t;
-    b.mUnk_02 = data_ov003_021d63e0[0];
-    b.mUnk_04 = data_ov003_021d63e4[0];
-    b.mUnk_06 = data_ov003_021d63e4[1];
-    func_ov003_021d2060(data_ov003_021da1f8->mUnk_00, 0);
-    c[1] = 0;
-    i = 0;
-    k = i;
-    t = data_ov003_021d63e0[1];
-    for (; i < 0x20; i++, k++) {
-        Unk021da1f8 *s;
-        if (i == 0x10) {
-            b.mUnk_02 = t;
-            k = 0;
-        }
-        s = data_ov003_021da1f8;
-        if (s->mUnk_08[i] == 0x20) {
-            c[0] = 0xe01d;
-        } else {
-            c[0] = s->mUnk_08[i];
-        }
-        b.mUnk_00 = data_ov003_021d63e8[k];
-        func_ov003_021d2070(s->mUnk_00, b.mUnk_00, b.mUnk_02, b.mUnk_04, b.mUnk_06, 2, 0x480, c);
-    }
-    func_ov003_021d1fd0(data_ov003_021da1f8->mUnk_00);
 }

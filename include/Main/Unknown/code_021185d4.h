@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/unk_0217d000.h"
 
-u32 func_021185d4(void);
+// Returns 1 while the cell slide that follows a change of mIndex is running (mIndexChangeTimer is non-zero), else 0;
+// changes nothing.
+u32 IsSelectCupGridIndexChangeRunning(void);

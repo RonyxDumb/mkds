@@ -3,24 +3,24 @@
 #include "types.h"
 #include "code_02142eac.h" // Unk021425e8, Unk021425e8Func
 
-void func_020529b8(Unk021425e8 *a);
-void func_02052b60(Unk021425e8Func a);
-void func_02052bb8(Unk021425e8 *a);
-void func_02052bf8(void);
+void StartParentCallback(Unk021425e8 *event);
+void StartParent(Unk021425e8Func callback);
+void func_02052bb8(Unk021425e8 *event);
+void SetParentParameter(void);
 u16 func_02052c5c(u32 a);
-void func_02052cf4(void);
+void StopRomArchiveTransfer(void);
 void func_02052da4(void);
-void func_02052e64(void);
-void func_02052ecc(void);
-void *func_02052fa4(u32 a, u32 b, void *c);
-void func_02053020(Unk021425e8 *a);
-void func_02053094(u16 a);
-void func_0205329c(Unk021425e8 *a);
-void func_020532dc(s32 a);
-void func_02053348(Unk021425e8 *a);
+void RomArchiveStateCallback(s32 a);
+void StartRomArchiveTransfer(void);
+void *RomArchiveAllocFunc(s32 a, u32 size, void *block);
+void MeasureChannelCallback(Unk021425e8 *event);
+void MeasureChannel(u16 measuredChannel);
+void func_0205329c(Unk021425e8 *event);
+void SetLifeTime(s32 camLifeTime);
+void ResetCallback(Unk021425e8 *event);
 void func_020533a0(void);
-void func_02053664(Unk021425e8 *a);
-void func_020536e0(void);
-s32 func_0205373c(void);
-void func_02053ab0(void);
+void InitializeCallback(Unk021425e8 *event);
+void Initialize(void);
+BOOL UpdateDataSharing(void);
+void StepDataSharing(void);
 void func_02053d00(void);

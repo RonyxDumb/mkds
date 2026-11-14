@@ -1,6 +1,9 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_0206bcb0.h"
 
-void func_020641b8(Unk0206bcb0 *a);
+typedef struct Kart Kart;
+
+// Slot 2 of the selected entry's Kart when RaceSetup.mUnk_00c is not 2: stores the Kart's squared distance in its
+// sound source. The value is the one the previous distance pass left in the array at +0x124 of data_0217aed0.
+void SetKartSoundDistanceSquared(Kart *a);

@@ -1,11 +1,12 @@
 #include "Main/Unknown/code_0205a50c.h"
+#include "Main/Unknown/unk_0217a000.h"
 
-s32 func_0205a50c(s32 a) {
-    s32 r;
+s32 func_0205a50c(s32 bitIndex) {
+    BOOL isSet;
 
-    r = 1;
-    if (!(data_0217aa14->mUnk_749 & (1 << a))) {
-        r = 0;
+    isSet = TRUE;
+    if (!(data_0217aa14->mUnk_749 & (1 << bitIndex))) {
+        isSet = FALSE;
     }
-    return r;
+    return isSet;
 }

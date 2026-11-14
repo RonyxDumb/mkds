@@ -1,10 +1,11 @@
 #include "Main/Unknown/code_0200692c.h"
+#include "Main/Unknown/code_02006954.h"
 
 #pragma thumb on
 
-void func_0200692c(const u8 *param_1, int param_2, u32 param_3) {
-    if (((param_1 != 0) && (param_2 != 0)) && (param_2 != 0xffff)) {
-        func_02006c0c(param_3, param_1, param_2);
+void ReceivePacketFromIndexChecked(const u8 *data, int size, u32 fromIndex) {
+    if (((data != NULL) && (size != 0)) && (size != 0xffff)) {
+        ReceivePacketFromIndex(fromIndex, data, size);
     }
 }
 

@@ -1,55 +1,59 @@
 #include "Main/Unknown/code_020d0f78.h"
+#include "Main/Unknown/code_020483e4.h"
+#include "Main/Unknown/code_020b47d8.h"
 #include "Main/Unknown/code_02048000.h"
-#include "code_02135014.h"
+#include "code_02134398.h"
 #include "Main/Unknown/unk_0216a000.h"
 
+#pragma opt_propagation off
+
 #pragma thumb on
-void func_020d10fc(void) {
-    data_0217b4a4 = 0;
+void ClearCupPicturePointer(void) {
+    gCupPicture = NULL;
 }
 
-void func_020d1080(void) {
+void LoadCupPictureNclr(void) {
     char buf[0x100];
-    s32 i;
-    // placeholder: the enum flag preserves the original table-load order and register assignment.
-    enum { K0 } a;
-    s32 b;
+    s32 pictureIndex;
+    s32 nitroOrRetro;
+    s32 pictureNumber;
 
-    i = data_0217b4a4->mUnk_0c;
-    a = data_0216aea8[i * 2];
-    b = data_0216aeac[i * 2];
-    func_02135048(buf, 0x100, "%s%s%02d%s", data_0216ae88, a == 0 ? data_0216ae78 : data_0216ae80, b, "_m_b.NCLR");
-    func_02048684(buf, data_0217b4a4->mUnk_10, 0x228);
-    func_020b4a7c(&data_0217b4a4->mUnk_00, data_0217b4a4->mUnk_10);
+    pictureIndex = gCupPicture->mCupPictureIndex;
+    nitroOrRetro = data_0216aea8[pictureIndex * 2];
+    pictureNumber = data_0216aeac[pictureIndex * 2];
+    snprintf(buf, 0x100, "%s%s%02d%s", gCupPicturePrefix, nitroOrRetro == 0 ? gCupPictureNitro : gCupPictureRetro,
+             pictureNumber, "_m_b.NCLR");
+    ReadWholeFile(buf, gCupPicture->mCupPictureNclrFile, 0x228);
+    LoadNclrData(&gCupPicture->mCupPictureNclr, gCupPicture->mCupPictureNclrFile);
 }
 
-void func_020d0ffc(void) {
+void LoadCupPictureNcgr(void) {
     char buf[0x100];
-    s32 i;
-    // placeholder: the enum flag preserves the original table-load order and register assignment.
-    enum { K0 } a;
-    s32 b;
+    s32 pictureIndex;
+    s32 nitroOrRetro;
+    s32 pictureNumber;
 
-    i = data_0217b4a4->mUnk_0c;
-    a = data_0216aea8[i * 2];
-    b = data_0216aeac[i * 2];
-    func_02135048(buf, 0x100, "%s%s%02d%s", data_0216ae88, a == 0 ? data_0216ae78 : data_0216ae80, b, "_m_b.NCGR");
-    func_02048684(buf, data_0217b4a4->mUnk_238, 0xe00);
-    func_020b496c(&data_0217b4a4->mUnk_04, data_0217b4a4->mUnk_238);
+    pictureIndex = gCupPicture->mCupPictureIndex;
+    nitroOrRetro = data_0216aea8[pictureIndex * 2];
+    pictureNumber = data_0216aeac[pictureIndex * 2];
+    snprintf(buf, 0x100, "%s%s%02d%s", gCupPicturePrefix, nitroOrRetro == 0 ? gCupPictureNitro : gCupPictureRetro,
+             pictureNumber, "_m_b.NCGR");
+    ReadWholeFile(buf, gCupPicture->mCupPictureNcgrFile, 0xe00);
+    LoadNcgrData(&gCupPicture->mCupPictureNcgr, gCupPicture->mCupPictureNcgrFile);
 }
 
-void func_020d0f78(void) {
+void LoadCupPictureNscr(void) {
     char buf[0x100];
-    s32 i;
-    // placeholder: the enum flag preserves the original table-load order and register assignment.
-    enum { K0 } a;
-    s32 b;
+    s32 pictureIndex;
+    s32 nitroOrRetro;
+    s32 pictureNumber;
 
-    i = data_0217b4a4->mUnk_0c;
-    a = data_0216aea8[i * 2];
-    b = data_0216aeac[i * 2];
-    func_02135048(buf, 0x100, "%s%s%02d%s", data_0216ae88, a == 0 ? data_0216ae78 : data_0216ae80, b, "_m_picture.NSCR");
-    func_02048684(buf, data_0217b4a4->mUnk_1038, 0x824);
-    func_020b4810(&data_0217b4a4->mUnk_08, data_0217b4a4->mUnk_1038);
+    pictureIndex = gCupPicture->mCupPictureIndex;
+    nitroOrRetro = data_0216aea8[pictureIndex * 2];
+    pictureNumber = data_0216aeac[pictureIndex * 2];
+    snprintf(buf, 0x100, "%s%s%02d%s", gCupPicturePrefix, nitroOrRetro == 0 ? gCupPictureNitro : gCupPictureRetro,
+             pictureNumber, "_m_picture.NSCR");
+    ReadWholeFile(buf, gCupPicture->mCupPictureNscrFile, 0x824);
+    LoadNscrData(&gCupPicture->mCupPictureNscr, gCupPicture->mCupPictureNscrFile);
 }
 #pragma thumb off

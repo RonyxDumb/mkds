@@ -1,11 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_0202041c.h"
-#include "Main/Unknown/code_02151000.h"
-#include "Main/Unknown/unk_02180000.h"
 
-u32 func_02151718(int param_1);
-u32 func_02151794(int param_1, int *param_2, u32 param_3);
-u32 func_02151804(u32 param_1);
-u32 func_02151830(u16 *param_1);
+u32 WriteNvramEntriesWithCrc16(int data);
+u32 WriteFlaggedNvramEntries(int data, int *flags, void *verifyBuffer);
+u32 ReadNvramEntries(void *buffer);
+u32 ReadNvramEntriesOffset(u16 *buffer);

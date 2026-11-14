@@ -2,24 +2,24 @@
 
 #include "types.h"
 #include "Main/Unknown/code_0206bcb0.h"
-#include "Main/Unknown/code_0207adf8.h" // Unk0207adf8
+#include "Main/Unknown/code_0207adf8.h" // ShadowModel
 
-struct Unk0206bcb0_590;
+struct KartModelsEntry;
 
-void func_0207ae58(Unk0207adf8 *a);
-void func_0207aec8(void *a, const void *b, Vec3 *c);
-Unk0201290c *func_0207afa8(void *a, Unk020136f0 *b, u32 c);
-void func_0207b000(Unk02084b2c *a, void *b, u32 c);
-void func_0207b054(Unk0206bcb0 *p, s32 a, s32 b);
-void func_0207b0d0(Unk0206bcb0 *p);
-void func_0207b13c(Unk0206bcb0 *p);
-void func_0207b1a8(Unk0206bcb0 *p);
-void func_0207b284(Unk0206bcb0 *p);
-void func_0207b354(Unk0206bcb0 *p);
-void func_0207b44c(Unk0206bcb0 *p);
-void func_0207b6c0(struct Unk0206bcb0_590 *a, s32 b, s32 c);
-void func_0207b708(struct Unk0206bcb0_590 *a, s32 b);
-void func_0207b734(Unk0206bcb0 *p);
-void func_0207b8c4(struct Unk0206bcb0_590 *a);
-u32 func_0207b8dc(int a);
-char *func_0207b8f4(u16 a, s32 b);
+void func_0207ae58(ShadowModel *shadowModel);
+void DrawShadowWithMatrix(void *shadowModel, const void *matrix, Vec3 *extraVector);
+NNSG3dResMdl *InitShadowModel(void *shadowModel, NNSG3dResFileHeader *resFileHeader, u32 polygonId);
+void InitShadowModelFromResMdl(Nsbmd *nsbmd, void *resFile, u32 polygonId);
+void StartKartCharacterAnimationOnce(Kart *kart, s32 animationIndex, s32 nextAnimationIndex);
+void func_0207b0d0(Kart *kart);
+void func_0207b13c(Kart *kart);
+void StopKartStarModels(Kart *kart);
+void StartKartStarModels(Kart *kart);
+void AdvanceKartAnimationChangeTimer(Kart *kart);
+void StartKartWinOrLoseAnimation(Kart *p);
+void SetCharacterAnimation(struct KartModelsEntry *kartModelsEntry, s32 animationIndex, s32 useBlend);
+void SetCharacterFaceFrameIndex(struct KartModelsEntry *kartModelsEntry, s32 faceFrameIndex);
+void AdvanceKartCharacterAnimation(Kart *animationState);
+void ClearCharacterTurnAndNextAnimation(struct KartModelsEntry *kartModelsEntry);
+u32 GetCharacterAnimationLoopFlag(int animationIndex);
+char *BuildCharacterNsbcaPath(u16 characterIndex, s32 animationIndex);

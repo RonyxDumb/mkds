@@ -1,11 +1,16 @@
 #include "00/code_021a9200.h"
+#include "00/code_021a9228.h"
+#include "Main/Unknown/code_02000b44.h"
+#include "Main/Unknown/unk_02000000.h"
+#include "Main/Unknown/unk_0216f000.h"
 
-// non-matching: 4 instructions differ; first at +0x6: original nothing, ours `add r0, #0x98`
+#pragma opt_unpromotetypes on
+
 void func_ov000_021a9200(u8 param_1) {
-    int iVar1;
-    func_02000b44((u32) (((u32) ((u32) ((u8 *) &BuildInfo + 0x98)))));
-    iVar1 = *(int *) (*(int *) (((int) (u32) ((u8 *) &data_0216ff5c)) + 4) + 0xa4);
-    if (iVar1 != 0) {
-        *(u8 *) (iVar1 + 9) = param_1;
+    Unk021a998c *v1;
+    func_02000b44((u32) ((u8 *) &BuildInfo + 0x98));
+    v1 = data_0216ff5c.mCurrentThread->mUnk_a4[0];
+    if (v1 != NULL) {
+        v1->mUseHttps = param_1;
     }
 }

@@ -9,64 +9,262 @@
 #include "Main/Unknown/unk_0217a000.h"
 #include "Main/Unknown/unk_0217b000.h"
 #include "code_02147cd8.h"
+#include "registers.h"
 
-void func_01ffcf7c(const Vec4 *a, Vec4 *b) {
-    s64 w;
+void UpdateCollisionSlotBounds(void) {
+    s32 i = 0;
+    s32 k = 0;
+    s32 n;
+    s32 t;
+    CollisionSlot *e;
+    Vec3 *v;
     s32 r;
-    s64 q;
-    s64 t;
-    w = (s64) a->x * a->x;
-    w += (s64) a->y * a->y;
-    w += (s64) a->z * a->z;
-    w += (s64) a->w * a->w;
-    *(vu16 *) 0x4000280 = 2;
-    *(vu64 *) 0x4000290 = 0x1000000000000LL << 8;
-    *(vu64 *) 0x4000298 = w;
-    *(vu16 *) 0x40002b0 = 1;
-    *(vu64 *) 0x40002b8 = w << 2;
-    while (*(vu16 *) 0x40002b0 & 0x8000) {
+    u16 f;
+    CollisionSlotEnd *x;
+    CollisionSlotEnd *y;
+    u32 w;
+    CollisionSlotEnd *v1;
+    CollisionSlotEnd *pa;
+    CollisionSlotEnd *pb;
+    if (gCollisionSlotCount > 0) {
+        do {
+            e = &gCollisionSlots[i];
+            v = e->mCenterPos;
+            r = e->mRadius;
+            if (v != NULL) {
+                f = e->mFlags;
+                if (f & 0x600) {
+                    if (f & 0x100) {
+                        e->mFlags = f & ~0x100;
+                    } else {
+                        k++;
+                        goto next;
+                    }
+                }
+                k++;
+                e->mHighZ = v->z + r;
+                e->mLowZ = v->z - r;
+                gCollisionSlotHighEnds[e->mHighEndIndex].mEndX = (v->x + r) >> 11;
+                gCollisionSlotLowEnds[e->mLowEndIndex].mEndX = (v->x - r) >> 11;
+            }
+        next:
+            i++;
+        } while (k < gCollisionSlotCount);
     }
-    r = *(vu32 *) 0x40002b4;
-    while (*(vu16 *) 0x4000280 & 0x8000) {
+    for (i = 1; i < gCollisionSlotCount; i++) {
+        k = i;
+        while ((x = &gCollisionSlotHighEnds[k], y = &gCollisionSlotHighEnds[k - 1], y->mEndX > x->mEndX) && k >= 1) {
+            w = *(u32 *) x;
+            *(u32 *) x = *(u32 *) y;
+            *(u32 *) y = w;
+            v1 = gCollisionSlotLowEnds;
+            pa = &v1[x->mOtherEndIndex];
+            pb = &v1[y->mOtherEndIndex];
+            pa->mOtherEndIndex++;
+            pb->mOtherEndIndex--;
+            gCollisionSlots[pa->mUnk_01].mHighEndIndex++;
+            gCollisionSlots[pb->mUnk_01].mHighEndIndex--;
+            if (x->mUnk_01 == y->mOtherEndIndex) {
+                t = x->mUnk_01;
+                do {
+                    t++;
+                } while (gCollisionSlotLowEnds[t].mOtherEndIndex < k);
+                x->mUnk_01 = t;
+            }
+            if (y->mUnk_01 > x->mOtherEndIndex) {
+                y->mUnk_01 = x->mOtherEndIndex;
+            }
+            k--;
+        }
     }
-    q = *(vu64 *) 0x40002a0;
-    t = q * r;
-    b->x = (s32) ((t * a->x + 0x100000000000LL) >> 45);
-    b->y = (s32) ((t * a->y + 0x100000000000LL) >> 45);
-    b->z = (s32) ((t * a->z + 0x100000000000LL) >> 45);
-    b->w = (s32) ((t * a->w + 0x100000000000LL) >> 45);
+    for (i = 1; i < gCollisionSlotCount; i++) {
+        k = i;
+        while ((x = &gCollisionSlotLowEnds[k], y = &gCollisionSlotLowEnds[k - 1], y->mEndX > x->mEndX) && k >= 1) {
+            w = *(u32 *) x;
+            *(u32 *) x = *(u32 *) y;
+            *(u32 *) y = w;
+            gCollisionSlotHighEnds[x->mOtherEndIndex].mOtherEndIndex++;
+            gCollisionSlotHighEnds[y->mOtherEndIndex].mOtherEndIndex--;
+            gCollisionSlots[x->mUnk_01].mLowEndIndex++;
+            gCollisionSlots[y->mUnk_01].mLowEndIndex--;
+            if (x->mOtherEndIndex > y->mOtherEndIndex) {
+                for (n = x->mOtherEndIndex; n > y->mOtherEndIndex && gCollisionSlotHighEnds[n].mUnk_01 == k - 1; n--) {
+                    gCollisionSlotHighEnds[n].mUnk_01++;
+                }
+            } else {
+                n = y->mOtherEndIndex;
+                while (n > x->mOtherEndIndex && gCollisionSlotHighEnds[n].mUnk_01 == k) {
+                    gCollisionSlotHighEnds[n--].mUnk_01--;
+                }
+            }
+            k--;
+        }
+    }
 }
 
-s32 func_01ffd0e8(Vec4 *a, const Vec3 *b, const Vec3 *c) {
+void FindCollisionSlotsOverlappingSlot(s32 a, s32 b) {
+    CollisionSlot *e;
+    s32 c;
+    s32 t;
+    s32 q;
+    s32 u;
+    s32 s;
+    s32 d;
+    s32 f;
+    CollisionSlotEnd *y;
+    s32 p;
+    CollisionSlotEnd *x;
+    s32 m;
+    s32 h;
+    s16 l;
+    u32 i;
+    CollisionSlot *o;
+    u16 g;
+    if (a < 0 || a >= 0x100) {
+        return;
+    }
+    e = &gCollisionSlots[(s16) a];
+    p = e->mHighEndIndex;
+    u = e->mLowEndIndex;
+    q = u;
+    x = gCollisionSlotHighEnds;
+    y = gCollisionSlotLowEnds;
+    s = gCollisionSlotCount - 1;
+    c = x[p].mEndX;
+    t = y[u].mEndX;
+    d = e->mHighZ;
+    f = e->mLowZ;
+    if (e->mCenterPos == NULL) {
+        gFoundCollisionSlotCount = 0;
+        return;
+    }
+    gFoundCollisionSlotCount = 0;
+    while (p > 7 && x[p - 8].mEndX >= t) {
+        p -= 8;
+    }
+    while (p > 0 && x[p - 1].mEndX >= t) {
+        p--;
+    }
+    m = s - 7;
+    while (q < m && y[q + 8].mEndX <= c) {
+        q += 8;
+    }
+    while (q < s && y[q + 1].mEndX <= c) {
+        q++;
+    }
+    h = (s16) q;
+    i = x[p].mUnk_01;
+    l = i;
+    if (h < l) {
+        return;
+    }
+    for (;;) {
+        if (gCollisionSlotLowEnds[h].mOtherEndIndex >= p && h != u) {
+            o = &gCollisionSlots[gCollisionSlotLowEnds[h].mUnk_01];
+            g = o->mFlags;
+            if (o->mHighZ < f || o->mLowZ > d || !(g & b) || (g & 0x200)) {
+                goto next;
+            }
+            gFoundCollisionSlotIndices[gFoundCollisionSlotCount] = gCollisionSlotLowEnds[h].mUnk_01;
+            gFoundCollisionSlotFlags[gFoundCollisionSlotCount] = g;
+            gFoundCollisionSlotObjects[gFoundCollisionSlotCount] = o->mObject;
+            gFoundCollisionSlotCount++;
+            if (gFoundCollisionSlotCount == 0x80) {
+                return;
+            }
+        }
+        if (h == 0) {
+            return;
+        }
+    next:
+        h--;
+        if (h < l) {
+            break;
+        }
+    }
+}
+
+s32 ComputeViewTest(Vec3 *a, s32 b, s32 c, s32 d, u16 e) {
+    s32 r;
+    s32 x;
+    s32 y;
+    s32 z;
+    s32 q;
+    s32 f;
+    s32 g;
+    c = (c + b) >> 12;
+    z = (a->z - gViewFrustum.mCameraPos.z) >> 12;
+    x = (a->x - gViewFrustum.mCameraPos.x) >> 12;
+    f = x * x;
+    q = z * z + f;
+    r = q & ~0xc000001f;
+    if (q > d) {
+        r |= data_021568f4;
+    }
+    if (q > c * c) {
+        if (e <= 1) {
+            return r | 3;
+        }
+        r |= data_021568f8;
+    }
+    y = (a->y - gViewFrustum.mCameraPos.y) >> 12;
+    if (x * gViewFrustum.mViewDirection.x + y * gViewFrustum.mViewDirection.y + z * gViewFrustum.mViewDirection.z <
+        gViewFrustum.mNear - b) {
+        return r | 2;
+    }
+    if (x * gViewFrustum.mUnk_20.x + y * gViewFrustum.mUnk_20.y + z * gViewFrustum.mUnk_20.z > b) {
+        return r | 2;
+    }
+    if (x * gViewFrustum.mUnk_2c.x + y * gViewFrustum.mUnk_2c.y + z * gViewFrustum.mUnk_2c.z > b) {
+        return r | 2;
+    }
+    if (x * gViewFrustum.mUnk_38.x + y * gViewFrustum.mUnk_38.y + z * gViewFrustum.mUnk_38.z > b) {
+        return r | 2;
+    }
+    g = x * gViewFrustum.mUnk_44.x;
+    if (z * gViewFrustum.mUnk_44.z + (y * gViewFrustum.mUnk_44.y + g) > b) {
+        r |= 2;
+    }
+    return r;
+}
+
+static inline s32 func_01ffd648_inline(ViewFrustum *g) {
+    return g->mUnk_20.y;
+}
+
+s32 ComputeTwoPlaneViewTest(Vec3 *a, s32 b, s32 c, s32 d, u16 e) {
     Vec3 v;
     s32 r;
-    s32 k = 1;
-    func_021483a0(b, c, &v);
-    r = func_02147e8c((func_0214848c(b, c) + 0x1000) << 1);
-    *a = data_02155194;
-    if (r <= 0) {
-        k = 0;
-    } else {
-        a->x = func_02147f34(v.x, r);
-        a->y = func_02147f34(v.y, r);
-        a->z = func_02147f34(v.z, r);
-        a->w = r >> 1;
+    s32 q;
+    s32 h;
+    c = (c + b) >> 12;
+    VEC_Subtract(a, &gViewFrustum.mCameraPos, &v);
+    v.x = (a->x - gViewFrustum.mCameraPos.x) >> 12;
+    v.z = (a->z - gViewFrustum.mCameraPos.z) >> 12;
+    q = v.x * v.x + v.z * v.z;
+    r = q & ~0xc000001f;
+    if (q > d) {
+        r |= data_021568f4;
     }
-    return k;
+    if (q > c * c) {
+        if (e <= 1) {
+            return r | 3;
+        }
+        r |= data_021568f8;
+    }
+    v.y = (a->y - gViewFrustum.mCameraPos.y) >> 12;
+    h = ((const Vec3 *) &v)->x;
+    if (v.y * func_01ffd648_inline(&gViewFrustum) + v.x * gViewFrustum.mUnk_20.x + v.z * gViewFrustum.mUnk_20.z > b) {
+        return r | 2;
+    }
+    if (h * gViewFrustum.mUnk_2c.x + v.y * gViewFrustum.mUnk_2c.y + v.z * gViewFrustum.mUnk_2c.z > b) {
+        r |= 2;
+    }
+    return r;
 }
 
-void func_01ffd190(const Vec3 *a, s32 b, Vec4 *c) {
-    s32 i = (s32) ((u32) (b << 15) >> 16) >> 4;
-    s32 s = data_0215d4b4[i * 2];
-    c->x = ((s64) a->x * s + 0x800) >> 12;
-    c->y = ((s64) a->y * s + 0x800) >> 12;
-    c->z = ((s64) a->z * s + 0x800) >> 12;
-    c->w = data_0215d4b4[i * 2 + 1];
-}
-
-// non-matching: mla operand order at +0x2f4 (mla r0, r5, r0, r1 against mla r1, r0, r5, r1), same size
-void func_01ffd224(struct Unk020888b4 *p, Vec3 *a, Vec3 *b) {
-    Unk0206bcb0 *q = p->mUnk_00;
+void AdvanceKartAiHeading(struct KartAi *p, Vec3 *a, Vec3 *b) {
+    Kart *q = p->mKart;
     Vec3 v0;
     Vec3 v1;
     Vec3 v2;
@@ -83,12 +281,10 @@ void func_01ffd224(struct Unk020888b4 *p, Vec3 *a, Vec3 *b) {
     s32 e;
     s32 f;
     s32 g;
-    s32 r;
+    BOOL r;
     Vec3 *u;
-    s32 s;
-    s32 t;
-    Unk0206bcb0 *o;
-    if (q->mUnk_180 != 0) {
+    Kart *o;
+    if (q->mState != KART_STATE_NORMAL) {
         return;
     }
     if (q->mUnk_44 & 2) {
@@ -97,312 +293,121 @@ void func_01ffd224(struct Unk020888b4 *p, Vec3 *a, Vec3 *b) {
     if (q->mUnk_4c & 0x10000000) {
         return;
     }
-    r = 0;
-    func_0208c1d0(&v0, &v1, p);
+    r = FALSE;
+    CallKartAiLinkPosAndDirection(&v0, &v1, p);
     if (p->mUnk_a8 == 1) {
         u = &q->mUnk_12c;
-        d = func_0214848c(u, &v1);
+        d = VEC_DotProduct(u, &v1);
         v5.x = v1.x - (s32) (((s64) u->x * d) >> 12);
         v5.y = v1.y - (s32) (((s64) u->y * d) >> 12);
         v5.z = v1.z - (s32) (((s64) u->z * d) >> 12);
-        if (func_02039828(&q->mUnk_138, &v5) > -0x333) {
-            func_0208c1d0(&v2, &v3, p);
-            o = p->mUnk_00;
-            r = 1;
-            func_021484d0(&o->mUnk_80, &v2, &v9);
+        if (Vec3DotUnrounded(&q->mUnk_138, &v5) > -0x333) {
+            CallKartAiLinkPosAndDirection(&v2, &v3, p);
+            o = p->mKart;
+            r = TRUE;
+            VEC_Subtract(&o->mPos, &v2, &v9);
             v9.y = 0;
-            func_02063b30(o, &v8);
-            d = func_0214848c(&v8, &v3);
+            GetKartUp(o, &v8);
+            d = VEC_DotProduct(&v8, &v3);
             v10.x = v3.x - (s32) (((s64) v8.x * d) >> 12);
             v10.y = v3.y - (s32) (((s64) v8.y * d) >> 12);
             v10.z = v3.z - (s32) (((s64) v8.z * d) >> 12);
-            func_020397a8(&v9, &v10, &v11);
-            g = func_02039828(&v8, &v11) > 0 ? 1 : -1;
-            q->mUnk_236 += g * 200;
+            Vec3CrossUnrounded(&v9, &v10, &v11);
+            g = Vec3DotUnrounded(&v8, &v11) > 0 ? 1 : -1;
+            q->mHeadingAngle += g * 200;
             goto end;
         }
     }
-    if (p->mUnk_70 > 0x2000) {
-        e = ((s64) q->mUnk_2a4 * *data_usa_0217ae40) >> 12;
+    if (p->mTurnAngleDegrees > 0x2000) {
+        e = ((s64) q->mVelocityLength * *data_0217ae60) >> 12;
         if (e > 0x1000) {
             e = 0x1000;
         }
-        func_02063b30(q, &v6);
-        d = func_0214848c(&v6, a);
+        GetKartUp(q, &v6);
+        d = VEC_DotProduct(&v6, a);
         v7.x = a->x - (s32) (((s64) v6.x * d) >> 12);
         v7.y = a->y - (s32) (((s64) v6.y * d) >> 12);
         v7.z = a->z - (s32) (((s64) v6.z * d) >> 12);
-        func_020397a8(b, &v7, &v4);
-        g = func_02039828(&v6, &v4) > 0 ? 1 : -1;
-        s = (s32) (((s64) p->mUnk_70 * 0xB60B60B60BLL + 0x80000000LL) >> 32);
-        t = (s32) (((s64) e * 0xa4) >> 12);
-        q->mUnk_236 += g * ((s32) (((s64) s * t) >> 12) >> 12);
-        r = 1;
+        Vec3CrossUnrounded(b, &v7, &v4);
+        q->mHeadingAngle +=
+            (g = Vec3DotUnrounded(&v6, &v4) > 0 ? 1 : -1) *
+            ((s32) (((s64) ((s32) (((s64) p->mTurnAngleDegrees * 0xB60B60B60BLL + 0x80000000LL) >> 32)) *
+                     (s32) (((s64) e * 0xa4) >> 12)) >>
+                    12) >>
+             12);
+        r = TRUE;
     }
-    if ((q->mUnk_4c & 0x8000000) && p->mUnk_70 < 0x46000 && (q->mUnk_44 & 0x10) && !(q->mUnk_48 & 0x8020) &&
-        q->mUnk_2a4 > 0x3000 && p->mUnk_90 != 2 && p->mUnk_a8 == 0) {
+    if ((q->mUnk_4c & 0x8000000) && p->mTurnAngleDegrees < 0x46000 && (q->mUnk_44 & KART_44_ON_GROUND) &&
+        !(q->mUnk_48 & 0x8020) && q->mVelocityLength > 0x3000 && p->mUnk_90 != 2 && p->mUnk_a8 == 0) {
         p->mUnk_c8 += 0x44c;
-        p->mUnk_ca = ((s64) data_0215d4b4[(p->mUnk_c8 >> 4) * 2] * 0xfa + 0x800) >> 12;
-        q->mUnk_236 += (s16) p->mUnk_ca * p->mUnk_cc;
-        r = 1;
+        p->mUnk_ca = ((s64) gPairsByAngle[(p->mUnk_c8 >> 4) * 2] * 0xfa + 0x800) >> 12;
+        q->mHeadingAngle += (s16) p->mUnk_ca * p->mUnk_cc;
+        r = TRUE;
     } else {
         p->mUnk_ca = 0;
         p->mUnk_c8 = 0;
     }
 end:
-    if (r == 0) {
+    if (r == FALSE) {
         return;
     }
     if (g > 0) {
-        q->mUnk_48 |= 8;
+        q->mUnk_48 |= KART_48_TURN_LEFT;
     } else {
-        q->mUnk_48 |= 0x10;
+        q->mUnk_48 |= KART_48_TURN_RIGHT;
     }
 }
 
-// non-matching: second half reloads the data_0217b4f8 base per use (ldr r4 base, y computed in r3) where the original keeps one base in r3 and y in r2; size 0x12c against 0x130
-s32 func_01ffd648(Vec3 *a, s32 b, s32 c, s32 d, u16 e) {
+void QuaternionFromAxisAngle(const Vec3 *a, s32 b, Vec4 *c) {
+    s32 i = (s32) ((u32) (b << 15) >> 16) >> 4;
+    s32 s = gPairsByAngle[i * 2];
+    c->x = ((s64) a->x * s + 0x800) >> 12;
+    c->y = ((s64) a->y * s + 0x800) >> 12;
+    c->z = ((s64) a->z * s + 0x800) >> 12;
+    c->w = gPairsByAngle[i * 2 + 1];
+}
+
+s32 TryQuaternionFromVectors(Vec4 *a, const Vec3 *b, const Vec3 *c) {
     Vec3 v;
     s32 r;
-    s32 q;
-    c = (c + b) >> 12;
-    func_021484d0(a, &data_0217b4f8.mUnk_08, &v);
-    v.x = (a->x - data_0217b4f8.mUnk_08.x) >> 12;
-    v.z = (a->z - data_0217b4f8.mUnk_08.z) >> 12;
-    q = v.x * v.x + v.z * v.z;
-    r = q & ~0xc000001f;
-    if (q > d) {
-        r |= data_021568f4;
+    BOOL k = TRUE;
+    VEC_CrossProduct(b, c, &v);
+    r = FX_Sqrt((VEC_DotProduct(b, c) + 0x1000) << 1);
+    *a = data_02155194;
+    if (r <= 0) {
+        k = FALSE;
+    } else {
+        a->x = FX_Div(v.x, r);
+        a->y = FX_Div(v.y, r);
+        a->z = FX_Div(v.z, r);
+        a->w = r >> 1;
     }
-    if (q > c * c) {
-        if (e <= 1) {
-            return r | 3;
-        }
-        r |= data_usa_021568f8;
-    }
-    v.y = (a->y - data_0217b4f8.mUnk_08.y) >> 12;
-    if (v.y * data_0217b4f8.mUnk_20.y + v.x * data_0217b4f8.mUnk_20.x + v.z * data_0217b4f8.mUnk_20.z > b) {
-        return r | 2;
-    }
-    if (v.y * data_0217b4f8.mUnk_2c.y + v.x * data_0217b4f8.mUnk_2c.x + v.z * data_0217b4f8.mUnk_2c.z > b) {
-        r |= 2;
-    }
-    return r;
+    return k;
 }
 
-// non-matching: original has a 4-byte stack local and r7 (push r4-r7, sub sp 4), loads a->z and a->x up front; ours push r4-r6, no stack local, size 0x16c against 0x188
-s32 func_01ffd778(Vec3 *a, s32 b, s32 c, s32 d, u16 e) {
+void QuaternionNormalize(const Vec4 *a, Vec4 *b) {
+    s64 w;
     s32 r;
-    s32 x;
-    s32 y;
-    s32 z;
-    s32 q;
-    c = (c + b) >> 12;
-    z = (a->z - data_0217b4f8.mUnk_08.z) >> 12;
-    x = (a->x - data_0217b4f8.mUnk_08.x) >> 12;
-    q = z * z + x * x;
-    r = q & ~0xc000001f;
-    if (q > d) {
-        r |= data_021568f4;
+    s64 q;
+    s64 t;
+    w = (s64) a->x * a->x;
+    w += (s64) a->y * a->y;
+    w += (s64) a->z * a->z;
+    w += (s64) a->w * a->w;
+    reg_CP_DIVCNT = 2;
+    reg_CP_DIV_NUMER = 0x1000000000000LL << 8;
+    reg_CP_DIV_DENOM = w;
+    reg_CP_SQRTCNT = 1;
+    reg_CP_SQRT_PARAM = w << 2;
+    while (reg_CP_SQRTCNT & 0x8000) {
     }
-    if (q > c * c) {
-        if (e <= 1) {
-            return r | 3;
-        }
-        r |= data_usa_021568f8;
+    r = reg_CP_SQRT_RESULT;
+    while (reg_CP_DIVCNT & 0x8000) {
     }
-    y = (a->y - data_0217b4f8.mUnk_08.y) >> 12;
-    if (y * data_0217b4f8.mUnk_14.y + x * data_0217b4f8.mUnk_14.x + z * data_0217b4f8.mUnk_14.z < data_0217b4f8.mUnk_00 - b) {
-        return r | 2;
-    }
-    if (y * data_0217b4f8.mUnk_20.y + x * data_0217b4f8.mUnk_20.x + z * data_0217b4f8.mUnk_20.z > b) {
-        return r | 2;
-    }
-    if (y * data_0217b4f8.mUnk_2c.y + x * data_0217b4f8.mUnk_2c.x + z * data_0217b4f8.mUnk_2c.z > b) {
-        return r | 2;
-    }
-    if (y * data_0217b4f8.mUnk_38.y + x * data_0217b4f8.mUnk_38.x + z * data_0217b4f8.mUnk_38.z > b) {
-        return r | 2;
-    }
-    if (y * data_0217b4f8.mUnk_44.y + x * data_0217b4f8.mUnk_44.x + z * data_0217b4f8.mUnk_44.z > b) {
-        r |= 2;
-    }
-    return r;
-}
-
-// non-matching: register assignment differs throughout (original keeps the index in r0, the two tables in r4 and r5, the upper bounds in r8 and r9; ours uses r4 to r9 in another order), size 0x26c against 0x270
-void func_01ffd900(s32 a, s32 b) {
-    Unk0217b5b8 *e;
-    Unk0217b5b4 *x;
-    Unk0217b5b4 *y;
-    s32 p;
-    s32 q;
-    s32 u;
-    s32 s;
-    s32 t;
-    s32 c;
-    s32 d;
-    s32 f;
-    s16 h;
-    s16 l;
-    Unk0217b5b8 *o;
-    if (a < 0 || a >= 0x100) {
-        return;
-    }
-    e = &data_0217b5b8[(s16) a];
-    p = e->mUnk_00;
-    u = e->mUnk_02;
-    q = u;
-    x = data_0217b5b4;
-    y = data_0217b5c0;
-    s = data_0217b5b0 - 1;
-    t = y[u].mUnk_02;
-    c = x[p].mUnk_02;
-    d = e->mUnk_04;
-    f = e->mUnk_08;
-    if (e->mUnk_0c == 0) {
-        data_0217b5a8 = 0;
-        return;
-    }
-    data_0217b5a8 = 0;
-    while (p > 7 && x[p - 8].mUnk_02 >= t) {
-        p -= 8;
-    }
-    while (p > 0 && x[p - 1].mUnk_02 >= t) {
-        p--;
-    }
-    while (q < s - 7 && y[q + 8].mUnk_02 <= c) {
-        q += 8;
-    }
-    while (q < s && y[q + 1].mUnk_02 <= c) {
-        q++;
-    }
-    h = q;
-    l = x[p].mUnk_01;
-    if (h < l) {
-        return;
-    }
-    for (;;) {
-        if (y[h].mUnk_00 >= p && h != u) {
-            o = &data_0217b5b8[y[h].mUnk_01];
-            if (o->mUnk_04 < f || o->mUnk_08 > d || !(o->mUnk_14 & b) || (o->mUnk_14 & 0x200)) {
-                goto next;
-            }
-            data_0217b5cc[data_0217b5a8] = y[h].mUnk_01;
-            data_0217b5bc[data_0217b5a8] = o->mUnk_14;
-            data_0217b5c4[data_0217b5a8] = o->mUnk_18;
-            data_0217b5a8++;
-            if (data_0217b5a8 == 0x80) {
-                return;
-            }
-        }
-        if (h == 0) {
-            return;
-        }
-    next:
-        h--;
-        if (h < l) {
-            break;
-        }
-    }
-}
-
-// non-matching: original spills the outer loop counter of the first sort to the stack (sub sp, 4; str/ldr [sp]) and keeps it in r3 in the second, with another register order; size 0x360 against 0x374
-void func_01ffdb70(void) {
-    s32 i = 0;
-    s32 k = 0;
-    s32 m;
-    s32 n;
-    s32 t;
-    Unk0217b5b8 *e;
-    Vec3 *v;
-    s32 r;
-    u16 f;
-    Unk0217b5b4 *x;
-    Unk0217b5b4 *y;
-    u32 w;
-    Unk0217b5b4 *v1;
-    Unk0217b5b4 *v2;
-    if (data_0217b5b0 > 0) {
-        do {
-            e = &data_0217b5b8[i];
-            v = e->mUnk_0c;
-            r = e->mUnk_10;
-            if (v != 0) {
-                f = e->mUnk_14;
-                if (f & 0x600) {
-                    if (f & 0x100) {
-                        e->mUnk_14 = f & ~0x100;
-                    } else {
-                        k++;
-                        goto next;
-                    }
-                }
-                k++;
-                e->mUnk_04 = v->z + r;
-                e->mUnk_08 = v->z - r;
-                data_0217b5b4[e->mUnk_00].mUnk_02 = (v->x + r) >> 11;
-                data_0217b5c0[e->mUnk_02].mUnk_02 = (v->x - r) >> 11;
-            }
-        next:
-            i++;
-        } while (k < data_0217b5b0);
-    }
-    for (i = 1; i < data_0217b5b0; i++) {
-        m = i;
-        while (1) {
-            x = &data_0217b5b4[m];
-            y = &data_0217b5b4[m - 1];
-            if (!(y->mUnk_02 > x->mUnk_02 && m >= 1)) {
-                break;
-            }
-            w = *(u32 *) x;
-            *(u32 *) x = *(u32 *) y;
-            *(u32 *) y = w;
-            v1 = data_0217b5c0;
-            v1[x->mUnk_00].mUnk_00++;
-            v1[y->mUnk_00].mUnk_00--;
-            data_0217b5b8[v1[x->mUnk_00].mUnk_01].mUnk_00++;
-            data_0217b5b8[v1[y->mUnk_00].mUnk_01].mUnk_00--;
-            if (x->mUnk_01 == y->mUnk_00) {
-                t = x->mUnk_01;
-                do {
-                    t++;
-                } while (data_0217b5c0[t].mUnk_00 < m);
-                x->mUnk_01 = t;
-            }
-            if (y->mUnk_01 > x->mUnk_00) {
-                y->mUnk_01 = x->mUnk_00;
-            }
-            m--;
-        }
-    }
-    for (i = 1; i < data_0217b5b0; i++) {
-        m = i;
-        while (1) {
-            x = &data_0217b5c0[m];
-            y = &data_0217b5c0[m - 1];
-            if (!(y->mUnk_02 > x->mUnk_02 && m >= 1)) {
-                break;
-            }
-            w = *(u32 *) x;
-            *(u32 *) x = *(u32 *) y;
-            *(u32 *) y = w;
-            v2 = data_0217b5b4;
-            v2[x->mUnk_00].mUnk_00++;
-            v2[y->mUnk_00].mUnk_00--;
-            data_0217b5b8[x->mUnk_01].mUnk_02++;
-            data_0217b5b8[y->mUnk_01].mUnk_02--;
-            if (x->mUnk_00 > y->mUnk_00) {
-                for (n = x->mUnk_00; n > y->mUnk_00 && data_0217b5b4[n].mUnk_01 == m - 1; n--) {
-                    data_0217b5b4[n].mUnk_01++;
-                }
-            } else {
-                for (n = y->mUnk_00; n > x->mUnk_00 && data_0217b5b4[n].mUnk_01 == m; n--) {
-                    data_0217b5b4[n].mUnk_01--;
-                }
-            }
-            m--;
-        }
-    }
+    q = reg_CP_DIV_RESULT;
+    t = q * r;
+    b->x = (t * a->x + 0x100000000000LL) >> 45;
+    b->y = (t * a->y + 0x100000000000LL) >> 45;
+    b->z = (t * a->z + 0x100000000000LL) >> 45;
+    b->w = (t * a->w + 0x100000000000LL) >> 45;
 }

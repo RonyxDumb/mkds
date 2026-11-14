@@ -3,40 +3,40 @@
 #include "types.h"
 
 // Four bytes: two column bounds, then two row bounds (inclusive).
-typedef struct Unk0215d064 {
+typedef struct ByteRect {
     /* 00 */ u8 mUnk_00;
     /* 01 */ u8 mUnk_01;
     /* 02 */ u8 mUnk_02;
     /* 03 */ u8 mUnk_03;
-} Unk0215d064;
+} ByteRect;
 
-extern s16 data_0215d040[];
-extern u8 data_0215d044[][2];
-extern u16 data_0215d054[];
-extern Unk0215d064 data_0215d064[];
-extern Unk0215d064 data_0215d080[];
-extern u8 data_0215d09c[][2];
-extern Unk0215d064 data_0215d0a0;
-extern Unk0215d064 data_0215d0a4[];
-extern Unk0215d064 data_0215d0ac[];
+extern s16 gTxtSystemBgOffsets[];
+extern u8 gTxtSystemCanvasSizes[][2];
+extern u16 gTxtSystemCanvasCharOffsets[];
+extern ByteRect gTxtSystemHitRects[];
+extern ByteRect gTxtSystemNscrRects[];
+extern u8 gSelectChoisesNscrOrigins[][2];
+extern ByteRect gSelectChoisesTileRect;
+extern ByteRect gSelectChoisesHitRects[];
+extern ByteRect gSelectChoisesPaletteRects[];
 
 // Objects whose layout isn't known yet.
-extern const s16 data_0215d4b4[];
+extern const s16 gPairsByAngle[];
 extern s16 data_0215d6b4[];
 
-extern u8 data_0215d00c[];
-extern u8 data_0215d014[];
+extern u16 gTrophyIconNclrStarts[];
+extern u16 gTrophyIconBnclIndices[];
 extern u8 data_0215d024[];
-extern u8 data_0215d030[];
-extern u8 data_0215d034[];
+extern u8 gBackScreenSNclrStarts[];
+extern u8 gBackScreenMNclrStarts[];
 extern u8 data_0215d038[];
-extern u8 data_0215d03c[];
-extern u8 data_0215d03d[];
-extern u8 data_0215d0c0[];
-extern u8 data_0215d0cc[];
+extern u8 gBackScreenKindMIndices[];
+extern u8 gBackScreenKindSIndices[];
+extern s8 data_0215d0c0[];
+extern s8 data_0215d0cc[];
 extern u8 data_0215d0d8[];
 extern u8 data_0215d0dc[][1];
-extern u8 data_0215d0e0[];
+extern u8 gKeyboardTextLimits[];
 extern u8 data_0215d0e4[][2];
 extern s8 data_0215d0b4[];
 extern u8 data_0215d0e8[];

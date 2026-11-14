@@ -1,301 +1,308 @@
 #include "Main/Unknown/code_0202511c.h"
 
-static inline void copy_entry(u8 *dst, s32 i) {
-    u8 *t = data_0215316c[i].mUnk_00;
-    dst[0] = t[0];
-    dst[1] = t[1];
-    dst[2] = t[2];
-    dst[3] = t[3];
+#include "Main/Unknown/code_021053e4.h"
+#include "Main/Unknown/code_02105ec0.h"
+#include "Main/Unknown/code_0211127c.h"
+#include "Main/Unknown/unk_02153000.h"
+#include "Main/Unknown/unk_021759c0.h"
+
+SoundRow GetSoundRow(u32 rowIndex) {
+    return gSoundRowTable[rowIndex];
 }
 
-// non-matching: 75.2%; same case bodies, the table-entry byte copies and the register use around them differ
-u32 func_0202511c(s32 a, void *c) {
-    u8 *b = (u8 *) c;
-    s32 r;
-    s32 f;
-    s32 q;
-    s32 s;
-    s32 t;
-    u8 v1[4];
+u32 GetCourseSoundRowIndex(u32 courseId, void *outputPointer) {
+    SoundRow *output = outputPointer;
+    u32 rowIndex;
 
-    r = 0x36;
-    f = 0;
-    switch (a) {
-    case 0:
-        r = 0x33;
-        break;
-    case 1:
-        r = 0x32;
-        break;
-    case 2:
-        switch (data_021759c0->mUnk_00c) {
-        case 0:
+    rowIndex = 0x36;
+    switch (courseId) {
+        case COURSE_ID_CROSS:
+            rowIndex = 7;
+            break;
+        case COURSE_ID_MARIO:
+            rowIndex = 34;
+            break;
+        case COURSE_ID_OLD_LUIGI_GC:
+            rowIndex = 8;
+            break;
+        case COURSE_ID_OLD_YOSHI_GC:
+            rowIndex = 9;
+            break;
+        case COURSE_ID_BEACH:
+            rowIndex = 10;
+            break;
+        case COURSE_ID_BANK:
+            rowIndex = 11;
+            break;
+        case COURSE_ID_OLD_BABY_GC:
+            rowIndex = 12;
+            break;
+        case COURSE_ID_OLD_MOMO_64:
+            rowIndex = 13;
+            break;
+        case COURSE_ID_OLD_FRAPPE_64:
+            rowIndex = 14;
+            break;
+        case COURSE_ID_TOWN:
+            rowIndex = 15;
+            break;
+        case COURSE_ID_AIRSHIP:
+            rowIndex = 16;
+            break;
+        case COURSE_ID_STADIUM:
+            rowIndex = 17;
+            break;
+        case COURSE_ID_PINBALL:
+            rowIndex = 32;
+            break;
+        case COURSE_ID_OLD_KINOKO_GC:
+            rowIndex = 18;
+            break;
+        case COURSE_ID_GARDEN:
+            rowIndex = 19;
+            break;
+        case COURSE_ID_MANSION:
+            rowIndex = 20;
+            break;
+        case COURSE_ID_OLD_MARIO_SFC:
+            rowIndex = 21;
+            break;
+        case COURSE_ID_OLD_NOKO_SFC:
+            rowIndex = 22;
+            break;
+        case COURSE_ID_OLD_DONUT_SFC:
+            rowIndex = 23;
+            break;
+        case COURSE_ID_OLD_CHOCO_SFC:
+            rowIndex = 24;
+            break;
+        case COURSE_ID_OLD_PEACH_AGB:
+            rowIndex = 25;
+            break;
+        case COURSE_ID_OLD_LUIGI_AGB:
+            rowIndex = 26;
+            break;
+        case COURSE_ID_RIDGE:
+            rowIndex = 27;
+            break;
+        case COURSE_ID_OLD_HYUDORO_64:
+            rowIndex = 29;
+            break;
+        case COURSE_ID_OLD_CHOCO_64:
+            rowIndex = 28;
+            break;
+        case COURSE_ID_SNOW:
+            rowIndex = 30;
+            break;
+        case COURSE_ID_DESERT:
+            rowIndex = 31;
+            break;
+        case COURSE_ID_CLOCK:
+            rowIndex = 33;
+            break;
+        case COURSE_ID_KOOPA:
+            rowIndex = 37;
+            break;
+        case COURSE_ID_RAINBOW:
+            rowIndex = 35;
+            break;
+        case COURSE_ID_OLD_KOOPA_AGB:
+            rowIndex = 36;
+            break;
+        case COURSE_ID_OLD_SKY_AGB:
+            rowIndex = 38;
+            break;
+        case COURSE_ID_MINI_BLOCK:
+        case COURSE_ID_MINI_BLOCK_64:
+        case COURSE_ID_MINI_DOKAN_GC:
+        case COURSE_ID_MINI_STAGE1:
+        case COURSE_ID_MINI_STAGE2:
+        case COURSE_ID_MINI_STAGE3:
+        case COURSE_ID_MINI_STAGE4:
+            rowIndex = 39;
+            break;
+        case COURSE_ID_MR_STAGE1:
+        case COURSE_ID_MR_STAGE2:
+        case COURSE_ID_MR_STAGE3:
+        case COURSE_ID_MR_STAGE4:
+            rowIndex = 40;
+            break;
+        case COURSE_ID_AWARD:
+            rowIndex = 42;
+            break;
+        case COURSE_ID_STAFFROLL:
+            rowIndex = 51;
+            break;
+    }
+    if (output != NULL) {
+        *output = gSoundRowTable[rowIndex];
+    }
+    return rowIndex;
+}
+
+u32 GetSceneSoundRowIndex(s32 sceneNumber, void *outputPointer) {
+    SoundRow *output = outputPointer;
+    enum { K0 } rowIndex;
+    BOOL rowWritten;
+    s32 raceMode;
+    BOOL s;
+    BOOL t;
+    SoundRow courseRow;
+    Unk021759c0_28 *mission;
+
+    rowIndex = 0x36;
+    rowWritten = FALSE;
+    switch (sceneNumber) {
         case 2:
-            q = data_021759c0->mUnk_08;
-            r = func_0202553c(data_021759c0->mUnk_00, b);
-            f = 1;
-            if (q == 4) {
-                s = 0;
-                if (data_021759c0->mUnk_2e == 4) {
-                    b[1] = 0x2a;
-                    s = 1;
-                }
-                if (s == 0) {
-                    switch (data_021759c0->mUnk_2f) {
-                    case 1:
-                        b[1] = 0x2c;
-                        break;
-                    case 10:
-                        break;
+            switch (gRaceSetup->mRaceKind) {
+                case RACE_KIND_NORMAL:
+                case 2:
+                    raceMode = gRaceSetup->mMode;
+                    rowIndex = GetCourseSoundRowIndex(gRaceSetup->mCourseId, output);
+                    rowWritten = TRUE;
+                    if (raceMode == MODE_MISSION_RUN) {
+                        mission = &gRaceSetup->mUnk_28_view;
+                        s = FALSE;
+                        if (mission->mMissionTableValue == 4) {
+                            output->mUnk_00[1] = 0x2a;
+                            s = TRUE;
+                        }
+                        if (s == FALSE) {
+                            switch (mission->mMissionKind) {
+                                case 1:
+                                    output->mUnk_00[1] = 0x2c;
+                                    break;
+                                case 2:
+                                case 3:
+                                case 10:
+                                    break;
+                            }
+                        }
+                        t = TRUE;
+                        switch (mission->mMissionTableValue) {
+                            case 9:
+                            case 10:
+                                output->mUnk_00[2] = 0x25;
+                                break;
+                            case 0x32:
+                                output->mUnk_00[2] = 0x26;
+                                break;
+                            case 0x15:
+                                output->mUnk_00[2] = 0x27;
+                                break;
+                            case 0x33:
+                                output->mUnk_00[2] = 0x28;
+                                break;
+                            case 0x11:
+                                output->mUnk_00[2] = 0x29;
+                                break;
+                            case 0x31:
+                                break;
+                            default:
+                                t = FALSE;
+                                break;
+                        }
+                        if (t != FALSE) {
+                            output->mUnk_00[3] = 0x22;
+                        }
                     }
-                }
-                t = 1;
-                switch (data_021759c0->mUnk_2e) {
-                case 9:
-                case 10:
-                    b[2] = 0x25;
                     break;
-                case 0x32:
-                    b[2] = 0x26;
+                case RACE_KIND_AWARD:
+                    rowIndex = 0x2a;
                     break;
-                case 0x15:
-                    b[2] = 0x27;
+                case RACE_KIND_DEMO:
+                    rowIndex = 0x33;
                     break;
-                case 0x33:
-                    b[2] = 0x28;
+                case RACE_KIND_START_GP:
+                    switch (gRaceSetup->mCourseId) {
+                        case COURSE_ID_OLD_LUIGI_GC:
+                        case COURSE_ID_CROSS:
+                        case COURSE_ID_MARIO:
+                            rowIndex = 2;
+                            break;
+                        case COURSE_ID_STADIUM:
+                            rowIndex = 3;
+                            break;
+                        case COURSE_ID_PINBALL:
+                            rowIndex = 4;
+                            break;
+                        default:
+                            rowIndex = 1;
+                            break;
+                    }
+                    if (func_021054d0() != 0) {
+                        rowIndex = 6;
+                    } else {
+                        *output = gSoundRowTable[rowIndex];
+                        rowWritten = TRUE;
+                        GetCourseSoundRowIndex(gRaceSetup->mCourseId, &courseRow);
+                        output->mUnk_00[2] = courseRow.mUnk_00[2];
+                    }
                     break;
-                case 0x11:
-                    b[2] = 0x29;
+                case 4:
+                    rowIndex = 5;
                     break;
-                case 0x31:
+                case RACE_KIND_STAFF_ROLL:
+                    rowIndex = 0x33;
                     break;
-                default:
-                    t = 0;
-                    break;
-                }
-                if (t != 0) {
-                    b[3] = 0x22;
-                }
+            }
+            break;
+        case 12:
+            rowIndex = 0x2d;
+            break;
+        case 4:
+            rowIndex = 0x33;
+            break;
+        case 5:
+            rowIndex = 0x33;
+            break;
+        case 6:
+            if (*(u16 *) 0x027ffc40 == 2) {
+                rowIndex = 0x33;
+            } else {
+                rowIndex = 0x2e;
             }
             break;
         case 1:
-            r = 0x33;
+            rowIndex = 0x32;
+            break;
+        case 10:
+            rowIndex = 0x29;
+            *output = gSoundRowTable[rowIndex];
+            rowWritten = TRUE;
+            output->mUnk_00[1] = func_0211127c();
+            break;
+        case 8:
+            rowIndex = 0x2f;
+            break;
+        case 13:
+            rowIndex = 0x2e;
+            break;
+        case 9:
+            rowIndex = 0x31;
+            break;
+        case 0:
+            rowIndex = 0x33;
             break;
         case 3:
-            switch (data_021759c0->mUnk_00) {
-            case 0xe:
-            case 0x14:
-            case 0x19:
-                r = 2;
-                break;
-            case 0x22:
-                r = 3;
-                break;
-            case 0x21:
-                r = 4;
-                break;
-            default:
-                r = 1;
-                break;
-            }
-            if (func_021054d0() != 0) {
-                r = 6;
-            } else {
-                copy_entry(b, r);
-                f = 1;
-                func_0202553c(data_021759c0->mUnk_00, v1);
-                b[2] = v1[2];
+        case 7:
+        case 11:
+        case 14:
+            rowIndex = 0x30;
+            *output = gSoundRowTable[rowIndex];
+            rowWritten = TRUE;
+            if (data_0217d060 != NULL) {
+                output->mUnk_00[1] = 0xff;
+                output->mUnk_00[2] = 0xff;
+                output->mUnk_00[3] = 0xff;
             }
             break;
-        case 4:
-            r = 5;
+        case 15:
+            rowIndex = 0x33;
             break;
-        case 5:
-            r = 0x2a;
-            break;
-        case 6:
-            r = 0x33;
-            break;
-        }
-        break;
-    case 4:
-    case 5:
-        r = 0x33;
-        break;
-    case 6:
-        if (*(u16 *) 0x027ffc40 == 2) {
-            r = 0x33;
-        } else {
-            r = 0x2e;
-        }
-        break;
-    case 8:
-        r = 0x2f;
-        break;
-    case 9:
-        r = 0x31;
-        break;
-    case 10:
-        r = 0x29;
-        copy_entry(b, r);
-        f = 1;
-        b[1] = func_0211127c();
-        break;
-    case 12:
-        r = 0x2d;
-        break;
-    case 13:
-        r = 0x2e;
-        break;
-    case 3:
-    case 7:
-    case 11:
-    case 14:
-        r = 0x30;
-        copy_entry(b, r);
-        f = 1;
-        if (data_0217d060 != 0) {
-            b[1] = 0xff;
-            b[2] = 0xff;
-            b[3] = 0xff;
-        }
-        break;
-    case 15:
-        r = 0x33;
-        break;
     }
-    if (f == 0 && b != 0) {
-        copy_entry(b, r);
+    if (rowWritten == FALSE && output != NULL) {
+        *output = gSoundRowTable[rowIndex];
     }
-    return r;
-}
-
-u32 func_0202553c(u32 a, void *c) {
-    Unk0215316c *b = (Unk0215316c *) c;
-    u32 r;
-
-    r = 0x36;
-    switch (a) {
-    case 20:
-        r = 7;
-        break;
-    case 25:
-        r = 34;
-        break;
-    case 14:
-        r = 8;
-        break;
-    case 1:
-        r = 9;
-        break;
-    case 31:
-        r = 10;
-        break;
-    case 22:
-        r = 11;
-        break;
-    case 9:
-        r = 12;
-        break;
-    case 11:
-        r = 13;
-        break;
-    case 16:
-        r = 14;
-        break;
-    case 28:
-        r = 15;
-        break;
-    case 19:
-        r = 16;
-        break;
-    case 34:
-        r = 17;
-        break;
-    case 33:
-        r = 32;
-        break;
-    case 38:
-        r = 18;
-        break;
-    case 26:
-        r = 19;
-        break;
-    case 18:
-        r = 20;
-        break;
-    case 10:
-        r = 21;
-        break;
-    case 15:
-        r = 22;
-        break;
-    case 35:
-        r = 23;
-        break;
-    case 39:
-        r = 24;
-        break;
-    case 13:
-        r = 25;
-        break;
-    case 37:
-        r = 26;
-        break;
-    case 24:
-        r = 27;
-        break;
-    case 23:
-        r = 29;
-        break;
-    case 36:
-        r = 28;
-        break;
-    case 30:
-        r = 30;
-        break;
-    case 27:
-        r = 31;
-        break;
-    case 17:
-        r = 33;
-        break;
-    case 32:
-        r = 37;
-        break;
-    case 29:
-        r = 35;
-        break;
-    case 12:
-        r = 36;
-        break;
-    case 40:
-        r = 38;
-        break;
-    case 41:
-    case 42:
-    case 43:
-    case 44:
-    case 45:
-    case 46:
-    case 47:
-        r = 39;
-        break;
-    case 48:
-    case 49:
-    case 50:
-    case 51:
-        r = 40;
-        break;
-    case 52:
-        r = 42;
-        break;
-    case 53:
-        r = 51;
-        break;
-    }
-    if (b != 0) {
-        *b = data_0215316c[r];
-    }
-    return r;
+    return rowIndex;
 }

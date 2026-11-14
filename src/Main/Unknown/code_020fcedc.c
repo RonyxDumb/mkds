@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_020fcedc.h"
+#include "Main/Unknown/code_020fcf10.h"
 
-void func_020fcedc(u32 param_1, u32 param_2, u32 param_3, u32 param_4) {
-    func_020fcf10((Unk020fc2e8 *) param_1, param_3, 0, (int) param_4, (int) param_2, 7,
-                  (u32) 3);
+void SteerItemKouraWAtAngleZero(ItemKouraW *item, u32 gain, u32 maxStep, u32 radius) {
+    SteerItemKouraWToAnglePoint(item, maxStep, 0, radius, gain, 7, 3);
 }

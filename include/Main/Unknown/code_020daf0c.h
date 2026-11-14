@@ -2,4 +2,6 @@
 
 #include "types.h"
 
-void func_020daf0c(unsigned int p0);
+typedef struct Kuribo Kuribo;
+
+void EnterKuriboState0(Kuribo *kuribo);

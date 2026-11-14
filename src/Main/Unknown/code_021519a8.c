@@ -1,11 +1,13 @@
 #include "Main/Unknown/code_021519a8.h"
+#include "Main/Unknown/unk_02180000.h"
+#include "code_021510a4.h"
 
 #pragma thumb on
 
-u32 func_021519a8(u32 param_1) {
-    int iVar1;
-    iVar1 = func_0215122c((u32) ((*(u32 *) &data_0218049c)), (u32) (((u32) 0x00000300u)), (void *) param_1);
-    if (iVar1 != 0) {
+u32 ReadNvramFirstThreeEntries(void *buffer) {
+    int readResult;
+    readResult = readNvram((*(u32 *) &gNvramEntriesOffset), (0x00000300u), buffer);
+    if (readResult != 0) {
         return 1;
     }
     return 0;

@@ -1,9 +1,9 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_0206bcb0.h" // UnkVec16
+#include "code_02147cd8.h" // Vec3s16
 
-// Sixteen bytes; data_0217b614.mUnk_08 points to an array of these, which func_01ffdee4 indexes by halfwords.
+// Sixteen bytes; gCourseCollision.mUnk_08 points to an array of these, which func_01ffdee4 indexes by halfwords.
 typedef struct Unk0217b614_08 {
     /* 00 */ s32 mUnk_00;
     /* 04 */ u16 mUnk_04;
@@ -14,11 +14,11 @@ typedef struct Unk0217b614_08 {
     /* 0e */ u16 mUnk_0e;
 } Unk0217b614_08;
 
-// Object at data_0217b614 (0x3c bytes): three tables, a tree of word offsets, three words, three masks and three
+// Object at gCourseCollision (0x3c bytes): three tables, a tree of word offsets, three words, three masks and three
 // shift counts.
-typedef struct Unk0217b614 {
+typedef struct CourseCollision {
     /* 00 */ Vec3 *mUnk_00;
-    /* 04 */ UnkVec16 *mUnk_04;
+    /* 04 */ Vec3s16 *mUnk_04;
     /* 08 */ Unk0217b614_08 *mUnk_08;
     /* 0c */ u8 *mUnk_0c;
     /* 10 */ u8 mUnk_10[4];
@@ -32,8 +32,8 @@ typedef struct Unk0217b614 {
     /* 30 */ u32 mUnk_30;
     /* 34 */ u32 mUnk_34;
     /* 38 */ u8 mUnk_38[4];
-} Unk0217b614;
+} CourseCollision;
 
-int func_01ffdee4(void *param_1, u32 *param_2, u32 param_3, int param_4, u32 param_5, short param_6, void *param_7,
-                  void *param_8, int *param_9, u32 *param_10, u32 *param_11, int *param_12, u16 *param_13,
-                  u32 *param_14);
+BOOL func_01ffdee4(void *param_1, void *param_2, Vec3 *param_3, int param_4, u16 param_5, short param_6, void *param_7,
+                   void *param_8, void *param_9, u32 *param_10, u32 *param_11, int *param_12, u16 *param_13,
+                   u32 *param_14);

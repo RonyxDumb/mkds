@@ -1,18 +1,61 @@
 #include "Main/Unknown/code_0200c0d8.h"
 
+#include "Main/Unknown/unk_0216f000.h"
+#include "code_0214d018.h"
+#include "03/code_021b94b8.h"
+
 #pragma thumb on
 
-u8 *func_0200c0d8(Unk0200c0d8 *a, u8 *b) {
-    u8 *v1;
-    a->mUnk_00 = *b++;
-    switch (a->mUnk_00) {
+void SetupPieceSizes(s32 packetSize) {
+    gPieceSizes.mPieceSize = packetSize - 2;
+    gPieceSizes.mPieceCount = 0x1e / gPieceSizes.mPieceSize;
+    gPieceSizes.mUnk_08 = 0x1e;
+}
+
+#pragma thumb off
+
+#pragma thumb on
+void SetupPieceBuffer(u32 buffer) {
+    u32 address = buffer;
+    u32 value1;
+    u32 byteCount;
+    u32 value3;
+    value1 = (u32) &gPieceBuffer;
+    *(u32 *) ((value1) + 0u) = address;
+    value1 = 0u;
+    byteCount = 0x21cu;
+    MI_CpuFill8((void *) address, value1, byteCount);
+}
+#pragma thumb off
+
+#pragma thumb on
+
+void ClearChildPieces(s32 child) {
+    s32 i;
+
+    if (gPieceBuffer != NULL) {
+        i = child - 1;
+        MI_CpuFill8(&gPieceBuffer->mSlots[i * 0x20], 0, 0x1e);
+        gPieceBuffer->mReceivedPieceMasks[i] = 0;
+    }
+}
+
+#pragma thumb off
+
+#pragma thumb on
+
+u8 *WriteParentMessage(u8 *input, u8 *output) {
+    ParentMessage *message;
+    u8 *cursor;
+    message = (ParentMessage *) input;
+    cursor = output;
+    *cursor++ = message->mKind;
+    switch (message->mKind) {
         case 4:
-            a->mUnk_02 = b[0];
-            a->mUnk_02 |= b[1] << 8;
-            a->mUnk_04 = b[2];
-            v1 = b + 3;
-            b += 4;
-            a->mUnk_04 |= *v1 << 8;
+            *cursor++ = message->mUnk_02;
+            *cursor++ = (message->mUnk_02 & 0xff00) >> 8;
+            *cursor++ = message->mUnk_04;
+            *cursor++ = (message->mUnk_04 & 0xff00) >> 8;
             break;
         case 1:
         case 2:
@@ -21,132 +64,132 @@ u8 *func_0200c0d8(Unk0200c0d8 *a, u8 *b) {
         case 6:
             break;
         default:
-            return 0;
+            return NULL;
     }
-    return b;
+    return cursor;
 }
 
-u8 func_0200c12c(void *a, void *b) {
-    data_0216fdf0 = (data_0216fdf0 + 1) % data_0216fdf8.mUnk_04;
-    func_0214d1fc((u8 *) b + data_0216fdf0 * data_0216fdf8.mUnk_00, a, data_0216fdf8.mUnk_00);
-    return data_0216fdf0;
-}
-
-u8 *func_0200c16c(Unk0200c16c *a, u8 *b) {
+u8 *ReadChildMessage(u8 *bytes, ChildMessage *message, u32 child) {
     u8 *v1;
-    v1 = b;
-    *v1++ = a->mUnk_00;
-    switch (a->mUnk_00) {
+    message->mKind = bytes[0];
+    switch (message->mKind) {
         case 7:
-            *v1++ = *(u8 *) &a->mUnk_02;
-            if (*(u8 *) &a->mUnk_02 > data_0216fdf8.mUnk_04) {
-                return 0;
+            if (AreAllPiecesReceived(child) != 0) {
+                return (u8 *) gPieceBuffer + (child - 1) * 0x20;
             }
-            func_0214d1fc((u8 *) a + 3, v1, data_0216fdf8.mUnk_00);
-            v1 += data_0216fdf8.mUnk_00;
+            *(u8 *) &message->mUnk_02 = bytes[1];
+            if (*(u8 *) &message->mUnk_02 > gPieceSizes.mPieceCount) {
+                return NULL;
+            }
+            MI_CpuCopy8(bytes + 2, (u8 *) message + 3, gPieceSizes.mPieceSize);
+            v1 = StorePiece(message, child);
+            break;
+        case 8:
+            message->mUnk_02 = bytes[1] & 0xff;
+            v1 = bytes + 3;
+            message->mUnk_02 |= (bytes[2] << 8) & 0xff00;
             break;
         case 9:
-            *v1++ = a->mUnk_02;
-            *v1++ = (a->mUnk_02 & 0xff00) >> 8;
-            func_0214d1fc(a->mUnk_04, v1, data_0216fdf8.mUnk_00);
-            v1 += data_0216fdf8.mUnk_00;
+            message->mUnk_02 = bytes[1] & 0xff;
+            v1 = bytes + 3;
+            message->mUnk_02 |= (bytes[2] << 8) & 0xff00;
+            MI_CpuCopy8(v1, message->mUnk_04, gPieceSizes.mPieceSize);
+            v1 += gPieceSizes.mPieceSize;
+            break;
+        default:
+            return NULL;
+    }
+    return v1;
+}
+
+u8 *StorePiece(ChildMessage *message, u32 child) {
+    PieceBuffer *pieceBuffer;
+    u8 pieceIndex;
+    u32 slotOffset;
+    u32 slotIndex;
+    pieceBuffer = gPieceBuffer;
+    if (pieceBuffer == NULL) {
+        return NULL;
+    }
+    pieceIndex = *(u8 *) &message->mUnk_02;
+    if (pieceIndex > gPieceSizes.mPieceCount) {
+        return NULL;
+    }
+    slotIndex = child - 1;
+    slotOffset = slotIndex << 5;
+    MI_CpuCopy8((u8 *) message + 3, (u8 *) pieceBuffer + slotOffset + pieceIndex * gPieceSizes.mPieceSize,
+                gPieceSizes.mPieceSize);
+    gPieceBuffer->mReceivedPieceMasks[slotIndex] |= 1 << pieceIndex;
+    if (AreAllPiecesReceived(child) != 0) {
+        return (u8 *) gPieceBuffer + slotOffset;
+    }
+    return NULL;
+}
+
+u32 AreAllPiecesReceived(u32 child) {
+    u16 i;
+    s32 pieceCount;
+    u32 receivedMask;
+    i = 0;
+    pieceCount = gPieceSizes.mPieceCount;
+    if (pieceCount > 0) {
+        receivedMask = gPieceBuffer->mReceivedPieceMasks[child - 1];
+        do {
+            if (((1 << i) & receivedMask) == 0) {
+                return 0;
+            }
+            i++;
+        } while (i < pieceCount);
+    }
+    return 1;
+}
+
+u8 *WriteChildMessage(ChildMessage *message, u8 *buffer) {
+    u8 *cursor;
+    cursor = buffer;
+    *cursor++ = message->mKind;
+    switch (message->mKind) {
+        case 7:
+            *cursor++ = *(u8 *) &message->mUnk_02;
+            if (*(u8 *) &message->mUnk_02 > gPieceSizes.mPieceCount) {
+                return NULL;
+            }
+            MI_CpuCopy8((u8 *) message + 3, cursor, gPieceSizes.mPieceSize);
+            cursor += gPieceSizes.mPieceSize;
+            break;
+        case 9:
+            *cursor++ = message->mUnk_02;
+            *cursor++ = (message->mUnk_02 & 0xff00) >> 8;
+            MI_CpuCopy8(message->mUnk_04, cursor, gPieceSizes.mPieceSize);
+            cursor += gPieceSizes.mPieceSize;
             break;
         case 8:
         case 10:
         case 11:
             break;
         default:
-            return 0;
+            return NULL;
     }
-    return v1;
+    return cursor;
 }
 
-u32 func_0200c20c(u32 a) {
-    u16 i;
-    s32 v1;
-    u32 v2;
-    i = 0;
-    v1 = data_0216fdf8.mUnk_04;
-    if (v1 > 0) {
-        v2 = data_0216fdf4->mUnk_1e0[a - 1];
-        do {
-            if (((1 << i) & v2) == 0) {
-                return 0;
-            }
-            i++;
-        } while (i < v1);
-    }
-    return 1;
+u8 CopyNextPiece(void *output, void *pieces) {
+    gLastPieceIndex = (gLastPieceIndex + 1) % gPieceSizes.mPieceCount;
+    MI_CpuCopy8((u8 *) pieces + gLastPieceIndex * gPieceSizes.mPieceSize, output, gPieceSizes.mPieceSize);
+    return gLastPieceIndex;
 }
 
-u8 *func_0200c25c(Unk0200c16c *a, u32 b) {
-    Unk0216fdf4 *v1;
-    u8 v2;
-    u32 v3;
-    u32 v4;
-    v1 = data_0216fdf4;
-    if (v1 == 0) {
-        return 0;
-    }
-    v2 = *(u8 *) &a->mUnk_02;
-    if (v2 > data_0216fdf8.mUnk_04) {
-        return 0;
-    }
-    v4 = b - 1;
-    v3 = v4 << 5;
-    func_0214d1fc((u8 *) a + 3, (u8 *) v1 + v3 + v2 * data_0216fdf8.mUnk_00, data_0216fdf8.mUnk_00);
-    data_0216fdf4->mUnk_1e0[v4] |= 1 << v2;
-    if (func_0200c20c(b) != 0) {
-        return (u8 *) data_0216fdf4 + v3;
-    }
-    return 0;
-}
-
-u8 *func_0200c2e0(u8 *a, Unk0200c16c *b, u32 c) {
+u8 *ReadParentMessage(ParentMessage *message, u8 *buffer) {
     u8 *v1;
-    b->mUnk_00 = a[0];
-    switch (b->mUnk_00) {
-        case 7:
-            if (func_0200c20c(c) != 0) {
-                return (u8 *) data_0216fdf4 + (c - 1) * 0x20;
-            }
-            *(u8 *) &b->mUnk_02 = a[1];
-            if (*(u8 *) &b->mUnk_02 > data_0216fdf8.mUnk_04) {
-                return 0;
-            }
-            func_0214d1fc(a + 2, (u8 *) b + 3, data_0216fdf8.mUnk_00);
-            v1 = func_0200c25c(b, c);
-            break;
-        case 8:
-            b->mUnk_02 = a[1] & 0xff;
-            v1 = a + 3;
-            b->mUnk_02 |= (a[2] << 8) & 0xff00;
-            break;
-        case 9:
-            b->mUnk_02 = a[1] & 0xff;
-            v1 = a + 3;
-            b->mUnk_02 |= (a[2] << 8) & 0xff00;
-            func_0214d1fc(v1, b->mUnk_04, data_0216fdf8.mUnk_00);
-            v1 += data_0216fdf8.mUnk_00;
-            break;
-        default:
-            return 0;
-    }
-    return v1;
-}
-
-u8 *func_0200c3a4(u8 *param_1, u8 *param_2) {
-    Unk0200c0d8 *v1;
-    u8 *v2;
-    v1 = (Unk0200c0d8 *) param_1;
-    v2 = param_2;
-    *v2++ = v1->mUnk_00;
-    switch (v1->mUnk_00) {
+    message->mKind = *buffer++;
+    switch (message->mKind) {
         case 4:
-            *v2++ = v1->mUnk_02;
-            *v2++ = (v1->mUnk_02 & 0xff00) >> 8;
-            *v2++ = v1->mUnk_04;
-            *v2++ = (v1->mUnk_04 & 0xff00) >> 8;
+            message->mUnk_02 = buffer[0];
+            message->mUnk_02 |= buffer[1] << 8;
+            message->mUnk_04 = buffer[2];
+            v1 = buffer + 3;
+            buffer += 4;
+            message->mUnk_04 |= *v1 << 8;
             break;
         case 1:
         case 2:
@@ -155,9 +198,9 @@ u8 *func_0200c3a4(u8 *param_1, u8 *param_2) {
         case 6:
             break;
         default:
-            return 0;
+            return NULL;
     }
-    return v2;
+    return buffer;
 }
 
 #pragma thumb off

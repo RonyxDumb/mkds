@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/unk_02158000.h"
 
-void func_020e4ab4(unsigned int p0);
+typedef struct Unk020e43a8 Unk020e43a8;
+
+void EnterPukupukuState1(Unk020e43a8 *pukupuku);

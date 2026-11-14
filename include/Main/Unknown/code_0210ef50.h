@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/unk_0217d000.h"
+#include "Main/Unknown/code_0210e33c.h"
 
-unsigned int func_0210ef50(void);
-unsigned int func_0210ef5c(void);
+SndFileIdList *func_0210ef50(void);
+SndFileIdList *func_0210ef5c(void);

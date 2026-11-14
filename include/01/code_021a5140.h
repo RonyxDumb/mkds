@@ -1,53 +1,62 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/unk_0217a000.h"
-#include "Main/Unknown/code_020b4000.h"
 
-// Object behind the pointer at 0x85c of Unk021ca41c.
-typedef struct Unk021ca41c_085c {
-    /* 00 */ u16 mUnk_00;
+typedef struct Ncgr Ncgr;
+typedef struct Nscr Nscr;
+typedef struct Nclr Nclr;
+
+// Argument of AdvanceLld.
+typedef struct OamBuffer {
+    /* 000 */ u8 mOams[0x400];
+    /* 400 */ u16 mOamCount;
+    /* 402 */ u16 mUnk_402;
+} OamBuffer;
+
+// Object behind the pointer at 0x85c of Emblem.
+typedef struct Lld {
+    /* 00 */ u16 mEntryCount;
     /* 02 */ u8 mUnk_02[0x2];
-    /* 04 */ struct Unk021a5a58 *mUnk_04;
-    /* 08 */ void *mUnk_08;
-    /* 0c */ void *mUnk_0c;
-    /* 10 */ s32 mUnk_10;
-    /* 14 */ s32 mUnk_14;
-} Unk021ca41c_085c;
+    /* 04 */ struct LldEntry *mEntries;
+    /* 08 */ void *mCells;
+    /* 0c */ void *mCellAnims;
+    /* 10 */ s32 mOffsetX;
+    /* 14 */ s32 mOffsetY;
+} Lld;
 
-// Object behind data_ov001_021ca41c, allocated by func_ov001_021a5140.
-typedef struct Unk021ca41c {
-    /* 0000 */ u8 mUnk_0000[0x404];
-    /* 0404 */ u8 mUnk_0404[0x404];
-    /* 0808 */ Unk020b4a44 *mUnk_0808;
-    /* 080c */ Unk020b4a44 *mUnk_080c;
-    /* 0810 */ Unk020b4934 *mUnk_0810;
-    /* 0814 */ Unk020b4934 *mUnk_0814;
-    /* 0818 */ Unk020b47d8 *mUnk_0818;
-    /* 081c */ Unk020b47d8 *mUnk_081c;
-    /* 0820 */ struct Unk02021dc8 *mUnk_0820;
-    /* 0824 */ struct Unk02021dc8 *mUnk_0824;
-    /* 0828 */ void *mUnk_0828;
-    /* 082c */ Unk020b4a44 *mUnk_082c;
-    /* 0830 */ Unk020b4a44 *mUnk_0830;
-    /* 0834 */ Unk020b4934 *mUnk_0834;
-    /* 0838 */ Unk020b4934 *mUnk_0838;
-    /* 083c */ Unk020b4934 *mUnk_083c;
-    /* 0840 */ Unk020b47d8 *mUnk_0840;
-    /* 0844 */ Unk020b47d8 *mUnk_0844;
-    /* 0848 */ Unk020b47d8 *mUnk_0848;
-    /* 084c */ Unk020b47d8 *mUnk_084c;
-    /* 0850 */ struct Unk02021dc8 *mUnk_0850;
-    /* 0854 */ struct Unk02021dc8 *mUnk_0854;
-    /* 0858 */ void *mUnk_0858;
-    /* 085c */ Unk021ca41c_085c *mUnk_085c;
-    /* 0860 */ Unk020b4934 *mUnk_0860;
-    /* 0864 */ Unk020b4934 *mUnk_0864;
-    /* 0868 */ Unk020b47d8 *mUnk_0868;
-    /* 086c */ Unk020b47d8 *mUnk_086c;
-    /* 0870 */ struct Unk02021dc8 *mUnk_0870;
-    /* 0874 */ struct Unk02021dc8 *mUnk_0874;
-    /* 0878 */ void *mUnk_0878;
+// Object behind gEmblem, allocated by InitEmblem.
+typedef struct Emblem {
+    /* 0000 */ OamBuffer mUnk_0000;
+    /* 0404 */ OamBuffer mUnk_0404;
+    /* 0808 */ Nclr *mEmblemMONclr;
+    /* 080c */ Nclr *mEmblemMBNclr;
+    /* 0810 */ Ncgr *mEmblemMONcgr;
+    /* 0814 */ Ncgr *mEmblemMBNcgr;
+    /* 0818 */ Nscr *mEmblemMNscr;
+    /* 081c */ Nscr *mEmblemMBgNscr;
+    /* 0820 */ struct Unk02021dc8 *mEmblemMNcer;
+    /* 0824 */ struct Unk02021dc8 *mEmblemMNanr;
+    /* 0828 */ struct Lld *mEmblemMLld;
+    /* 082c */ Nclr *mEmblemSONclr;
+    /* 0830 */ Nclr *mEmblemSBNclr;
+    /* 0834 */ Ncgr *mEmblemSONcgr;
+    /* 0838 */ Ncgr *mEmblemSBNcgr;
+    /* 083c */ Ncgr *mEmblemTemplateBNcgr;
+    /* 0840 */ Nscr *mEmblemSToolNscr;
+    /* 0844 */ Nscr *mEmblemSBgNscr;
+    /* 0848 */ Nscr *mEmblemSTemplateFrameNscr;
+    /* 084c */ Nscr *mEmblemSTemplateDarkNscr;
+    /* 0850 */ struct Unk02021dc8 *mEmblemSNcer;
+    /* 0854 */ struct Unk02021dc8 *mEmblemSNanr;
+    /* 0858 */ struct Lld *mEmblemSLld;
+    /* 085c */ Lld *mEmblemTemplateSLld;
+    /* 0860 */ Ncgr *mEmblemCameraSONcgr;
+    /* 0864 */ Ncgr *mEmblemCameraSBNcgr;
+    /* 0868 */ Nscr *mEmblemCameraSDSNscr;
+    /* 086c */ Nscr *mEmblemCameraSBgNscr;
+    /* 0870 */ struct Unk02021dc8 *mEmblemCameraSNcer;
+    /* 0874 */ struct Unk02021dc8 *mEmblemCameraSNanr;
+    /* 0878 */ struct Lld *mEmblemCameraSLld;
     /* 087c */ u8 mUnk_087c[0x200];
     /* 0a7c */ u8 mUnk_0a7c[0x200];
     /* 0c7c */ u8 mUnk_0c7c[0x400];
@@ -63,37 +72,13 @@ typedef struct Unk021ca41c {
     /* 10a0 */ s32 mUnk_10a0;
     /* 10a4 */ s32 mUnk_10a4;
     /* 10a8 */ s32 mUnk_10a8;
-    /* 10ac */ s32 mUnk_10ac;
-    /* 10b0 */ s32 mUnk_10b0;
+    /* 10ac */ BOOL mUnk_10ac;
+    /* 10b0 */ BOOL mUnk_10b0;
     /* 10b4 */ s32 mUnk_10b4;
-    /* 10b8 */ s32 mUnk_10b8;
+    /* 10b8 */ BOOL mUnk_10b8;
     /* 10bc */ s32 mUnk_10bc;
-} Unk021ca41c;
+} Emblem;
 
-// Block of 20 halfwords that func_020391d4 fills with defaults and func_02038d88 reads.
-typedef struct Unk020391d4 {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
-    /* 08 */ u16 mUnk_08;
-    /* 0a */ u16 mUnk_0a;
-    /* 0c */ u16 mUnk_0c;
-    /* 0e */ u16 mUnk_0e;
-    /* 10 */ u16 mUnk_10;
-    /* 12 */ u16 mUnk_12;
-    /* 14 */ u16 mUnk_14;
-    /* 16 */ u16 mUnk_16;
-    /* 18 */ u16 mUnk_18;
-    /* 1a */ u16 mUnk_1a;
-    /* 1c */ u16 mUnk_1c;
-    /* 1e */ u16 mUnk_1e;
-    /* 20 */ u16 mUnk_20;
-    /* 22 */ u16 mUnk_22;
-    /* 24 */ u16 mUnk_24;
-    /* 26 */ u16 mUnk_26;
-} Unk020391d4;
+extern Emblem *gEmblem;
 
-extern Unk021ca41c *data_ov001_021ca41c;
-
-void func_ov001_021a5140(void);
+void InitEmblem(void);

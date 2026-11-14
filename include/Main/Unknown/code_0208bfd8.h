@@ -1,13 +1,14 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020888b4.h"
 
-void func_0208bfd8(Unk020888b4 *p);
-void func_0208bfec(Unk020888b4 *p);
-void func_0208c000(Vec3 *a, Vec3 *b, Unk020888b4 *p);
-s32 func_0208c03c(Unk020888b4 *p);
-void func_0208c050(Unk020888b4 *p);
-void func_0208c09c(Unk020888b4 *p);
-void func_0208c0c8(Unk020888b4 *p);
-void func_0208c0f0(Unk020888b4 *p, s32 a);
+typedef struct KartAi KartAi;
+
+void func_0208bfd8(KartAi *kartAi);
+void func_0208bfec(KartAi *kartAi);
+void CopyKartAiLinkPosAndDirection(Vec3 *position, Vec3 *direction, KartAi *kartAi);
+BOOL IsKartAiLinkRequested(KartAi *kartAi);
+void RequestKartAiPointLink(KartAi *kartAi);
+void AdvanceKartAiForRace(KartAi *kartAi);
+void ResetKartAiForRace(KartAi *kartAi);
+void SetupKartAiForRace(KartAi *kartAi, s32 kartIndex);

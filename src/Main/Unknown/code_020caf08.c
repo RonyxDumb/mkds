@@ -1,35 +1,38 @@
 #include "Main/Unknown/code_020caf08.h"
+#include "Main/Unknown/code_020ade08.h"
 #include "Main/Unknown/code_020cae8c.h"
 #include "Main/Unknown/code_020ae4c0.h"
 #include "Main/Unknown/code_020cb2d4.h"
 #include "Main/Unknown/code_020cc000.h"
+#include "Main/Unknown/code_020ccc74.h"
 #include "Main/Unknown/code_020ccc9c.h"
+#include "Main/Unknown/unk_0217b000.h"
 
 #pragma thumb on
 #pragma optimize_for_size on
-void func_020caf08(void) {
-    s32 n;
-    Unk02124b1c *a;
-    Unk02124b1c *b;
+void UpdateSinglePlaySelectMenuScreen2(void) {
+    s32 frame;
+    LayoutTableEntry *mainCells;
+    LayoutTableEntry *subCells;
     s32 i;
-    s16 v;
+    s16 offset;
 
-    n = func_020ccccc();
-    a = data_0217b43c->mUnk_93c;
-    b = data_0217b43c->mUnk_948;
-    if (n < 10) {
-        a->mUnk_06 = func_020ae4c0(1, 0, -0x28, n, 10);
-        v = func_020ae4c0(1, 0, 0xf0, n, 10);
+    frame = GetFramesSinceMenuScreenSwitch();
+    mainCells = data_0217b43c->mSinglePlaySelectModeMLayoutTable;
+    subCells = data_0217b43c->mSinglePlaySelectModeSLayoutTable;
+    if (frame < 10) {
+        mainCells->mOffsetY = InterpolateS16(1, 0, -0x28, frame, 10);
+        offset = InterpolateS16(1, 0, 0xf0, frame, 10);
         for (i = 0; i <= 14; i++) {
-            b[i].mUnk_04 = v;
+            subCells[i].mOffsetX = offset;
         }
     } else {
-        a->mUnk_06 = -0x28;
+        mainCells->mOffsetY = -0x28;
         for (i = 0; i <= 14; i++) {
-            b[i].mUnk_04 = 0xf0;
+            subCells[i].mOffsetX = 0xf0;
         }
-        func_020ccc74(func_020ccc9c(), 0x1f);
+        SwitchMenuScreen(GetNextMenuScreenNumber(), 0x1f);
     }
-    func_020cb2d4();
+    DrawSinglePlaySelectCells();
 }
 #pragma thumb off

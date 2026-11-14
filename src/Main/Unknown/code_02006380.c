@@ -1,82 +1,249 @@
 #include "Main/Unknown/code_02006380.h"
 #include "Main/Unknown/code_02006954.h"
-#include "Main/Unknown/code_02006bec.h"
-#include "Main/Unknown/code_02006f14.h"
-#include "Main/Unknown/code_02007014.h"
-#include "Main/Unknown/code_02007034.h"
-#include "Main/Unknown/code_020070b0.h"
 #include "Main/Unknown/unk_02161000.h"
 #include "Main/Unknown/code_0214d000.h"
 #include "Main/Unknown/code_02133000.h"
+#include "code_0214d018.h"
 
 #pragma thumb on
 
 static inline u8 *func_0214d1fc_inline(const void *v1, u8 *v2, u32 n) {
-    func_0214d1fc(v1, v2, n);
+    MI_CpuCopy8(v1, v2, n);
     return v2 + n;
 }
 
-s32 func_02006380(Unk0200628c *a, s32 b) {
-    u32 v1;
-    v1 = a->mUnk_14[b >> 5];
-    if ((v1 & (1 << (b & 0x1f))) != 0) {
-        return 1;
+u32 BuildChildPacket(u8 *buffer, s32 bufferSize) {
+    if (bufferSize > 0 && buffer != NULL) {
+        BuildChildPacketUnchecked(buffer, bufferSize);
     }
-    return 0;
 }
 
-void func_0200639c(Unk0200628c *a, s32 b, void *c, u32 d) {
-    s32 v1;
-    v1 = func_020070e4();
-    a->mUnk_00 = b;
-    a->mUnk_08 = 0;
-    a->mUnk_0c = 0;
-    a->mUnk_10 = 0;
-    a->mUnk_04 = b / v1 + ((b % v1) != 0 ? 1 : 0);
-    a->mUnk_14 = c;
-    a->mUnk_18 = (u8 *) d;
-    func_0214d168(c, 0, func_02006f98(b));
+void ReceiveParentPacketChecked(const u8 *packet, u32 size) {
+    if (packet != NULL && size != 0 && size != 0xffff) {
+        ReceiveParentPacket(packet, size);
+    }
 }
 
-u32 func_020063f4(u32 a, u32 b) {
-    Unk02007014 *v1;
-    u32 i;
-    v1 = func_02007040();
-    if (a < 1000) {
-        for (i = 0;; i++, v1 = v1->mUnk_28) {
-            if (v1 == 0) {
-                break;
-            }
-            if (i == a) {
-                return (u32) v1 + b * func_020070d8();
-            }
-        }
-        return 0;
-    }
-    for (; v1 != 0; v1 = v1->mUnk_28) {
-        if (v1->mUnk_00 == a) {
-            v1 = (Unk02007014 *) v1->mUnk_2c;
-            return (u32) v1 + b * func_020070d8();
-        }
-    }
-    return 0;
+// Packet kind 1: the header and one byte, sent when nothing else is waiting.
+s32 WriteEmptyPacket(u8 *buffer, u16 indexMask, u8 requestId) {
+    struct {
+        u8 m0;
+        u16 m2;
+    } header;
+    u8 *cursor;
+    cursor = buffer;
+    header.m2 = indexMask;
+    header.m0 = 1;
+    cursor = func_0214d1fc_inline(&header, cursor, 1);
+    cursor = func_0214d1fc_inline(&header.m2, cursor, 2);
+    MI_CpuCopy8(&requestId, cursor, 1);
+    return cursor + 1 - buffer;
 }
 
-s32 func_02006458(u32 a, s32 b) {
-    Unk02007014 *v1;
+// Packet kind 2: asks for the block count and carries both chunk sizes.
+s32 WriteBlockCountRequestPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 sendChunkSize, u32 receiveChunkSize) {
+    struct {
+        u8 m0;
+        u16 m2;
+    } header;
+    u8 *cursor;
+    cursor = buffer;
+    header.m2 = indexMask;
+    header.m0 = 2;
+    cursor = func_0214d1fc_inline(&header, cursor, 1);
+    cursor = func_0214d1fc_inline(&header.m2, cursor, 2);
+    cursor = func_0214d1fc_inline(&requestId, cursor, 1);
+    cursor = func_0214d1fc_inline(&sendChunkSize, cursor, 2);
+    MI_CpuCopy8(&receiveChunkSize, cursor, 2);
+    return cursor + 2 - buffer;
+}
+
+// Packet kind 3: answers kind 2 with the block count and both chunk sizes.
+s32 WriteBlockCountReplyPacket(u8 *buffer, u16 indexMask, u8 requestId, s16 blockCount, u32 sendChunkSize,
+                               u32 receiveChunkSize) {
+    struct {
+        u8 m0;
+        u16 m2;
+    } header;
+    u8 *cursor;
+    cursor = buffer;
+    header.m2 = indexMask;
+    header.m0 = 3;
+    cursor = func_0214d1fc_inline(&header, cursor, 1);
+    cursor = func_0214d1fc_inline(&header.m2, cursor, 2);
+    cursor = func_0214d1fc_inline(&requestId, cursor, 1);
+    cursor = func_0214d1fc_inline(&blockCount, cursor, 2);
+    cursor = func_0214d1fc_inline(&sendChunkSize, cursor, 2);
+    MI_CpuCopy8(&receiveChunkSize, cursor, 2);
+    return cursor + 2 - buffer;
+}
+
+// Packet kind 4: asks for one chunk of the block with this id.
+s32 WriteBlockDataRequestPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 blockId, u32 chunkIndex) {
+    struct {
+        u8 m0;
+        u16 m2;
+    } header;
+    u8 *cursor;
+    cursor = buffer;
+    header.m2 = indexMask;
+    header.m0 = 4;
+    cursor = func_0214d1fc_inline(&header, cursor, 1);
+    cursor = func_0214d1fc_inline(&header.m2, cursor, 2);
+    cursor = func_0214d1fc_inline(&requestId, cursor, 1);
+    cursor = func_0214d1fc_inline(&blockId, cursor, 4);
+    MI_CpuCopy8(&chunkIndex, cursor, 4);
+    return cursor + 4 - buffer;
+}
+
+// Packet kind 5: one chunk of a block (zeros when no data pointer is given).
+s32 WriteBlockDataPacket(u8 *buffer, u32 indexMask, u8 requestId, u32 blockId, u32 chunkIndex, u32 data, s32 dataSize) {
+    struct {
+        u8 m0;
+        u16 m2;
+    } header;
+    u8 *cursor;
+    cursor = buffer;
+    header.m2 = indexMask;
+    header.m0 = 5;
+    cursor = func_0214d1fc_inline(&header, cursor, 1);
+    cursor = func_0214d1fc_inline(&header.m2, cursor, 2);
+    cursor = func_0214d1fc_inline(&requestId, cursor, 1);
+    cursor = func_0214d1fc_inline(&blockId, cursor, 4);
+    cursor = func_0214d1fc_inline(&chunkIndex, cursor, 4);
+    if (data == 0) {
+        MI_CpuFill8(cursor, 0, dataSize);
+    } else {
+        MI_CpuCopy8((void *) data, cursor, dataSize);
+    }
+    return cursor + dataSize - buffer;
+}
+
+// Packet kind 6: asks for one chunk of a block node by id.
+s32 WriteBlockNodeRequestPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 blockId, u32 chunkIndex) {
+    struct {
+        u8 m0;
+        u16 m2;
+    } header;
+    u8 *cursor;
+    cursor = buffer;
+    header.m2 = indexMask;
+    header.m0 = 6;
+    cursor = func_0214d1fc_inline(&header, cursor, 1);
+    cursor = func_0214d1fc_inline(&header.m2, cursor, 2);
+    cursor = func_0214d1fc_inline(&requestId, cursor, 1);
+    cursor = func_0214d1fc_inline(&blockId, cursor, 4);
+    MI_CpuCopy8(&chunkIndex, cursor, 4);
+    return cursor + 4 - buffer;
+}
+
+// Packet kind 7: one chunk of a block node (zeros when no data pointer is given).
+s32 WriteBlockNodePacket(u8 *buffer, u32 indexMask, u8 requestId, u32 blockId, u32 chunkIndex, u32 data, u32 dataSize) {
+    struct {
+        u8 m0;
+        u16 m2;
+    } header;
+    u8 *cursor;
+    cursor = buffer;
+    header.m2 = indexMask;
+    header.m0 = 7;
+    cursor = func_0214d1fc_inline(&header, cursor, 1);
+    cursor = func_0214d1fc_inline(&header.m2, cursor, 2);
+    cursor = func_0214d1fc_inline(&requestId, cursor, 1);
+    cursor = func_0214d1fc_inline(&blockId, cursor, 4);
+    cursor = func_0214d1fc_inline(&chunkIndex, cursor, 4);
+    if (data == 0) {
+        MI_CpuFill8(cursor, 0, dataSize);
+    } else {
+        MI_CpuCopy8((void *) data, cursor, dataSize);
+    }
+    return cursor + dataSize - buffer;
+}
+
+// Packet kind 8: carries the block id; sent instead of a chunk request when no chunk of the block is missing.
+s32 WriteNoMissingChunkPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 blockId) {
+    struct {
+        u8 m0;
+        u16 m2;
+    } header;
+    u8 *cursor;
+    cursor = buffer;
+    header.m2 = indexMask;
+    header.m0 = 8;
+    cursor = func_0214d1fc_inline(&header, cursor, 1);
+    cursor = func_0214d1fc_inline(&header.m2, cursor, 2);
+    cursor = func_0214d1fc_inline(&requestId, cursor, 1);
+    MI_CpuCopy8(&blockId, cursor, 4);
+    return cursor + 4 - buffer;
+}
+
+// Packet kind 9: answers kind 8 with the block id.
+s32 WriteNoMissingChunkReplyPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 blockId) {
+    struct {
+        u8 m0;
+        u16 m2;
+    } header;
+    u8 *cursor;
+    cursor = buffer;
+    header.m2 = indexMask;
+    header.m0 = 9;
+    cursor = func_0214d1fc_inline(&header, cursor, 1);
+    cursor = func_0214d1fc_inline(&header.m2, cursor, 2);
+    cursor = func_0214d1fc_inline(&requestId, cursor, 1);
+    MI_CpuCopy8(&blockId, cursor, 4);
+    return cursor + 4 - buffer;
+}
+
+// Packet kind 10: up to 9 raw bytes and their length.
+s32 WriteBytesPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 *bytes, u32 byteCount) {
+    struct {
+        u8 m0;
+        u16 m2;
+    } header;
+    u8 *cursor;
+    cursor = buffer;
+    header.m2 = indexMask;
+    header.m0 = 0xa;
+    cursor = func_0214d1fc_inline(&header, cursor, 1);
+    cursor = func_0214d1fc_inline(&header.m2, cursor, 2);
+    cursor = func_0214d1fc_inline(&requestId, cursor, 1);
+    cursor = func_0214d1fc_inline(&byteCount, cursor, 1);
+    MI_CpuCopy8(bytes, cursor, 9);
+    return cursor + 9 - buffer;
+}
+
+// Packet kind 11: answers kind 10.
+s32 WriteBytesReplyPacket(u8 *buffer, u16 indexMask, u8 requestId) {
+    struct {
+        u8 m0;
+        u16 m2;
+    } header;
+    u8 *cursor;
+    cursor = buffer;
+    header.m2 = indexMask;
+    header.m0 = 0xb;
+    cursor = func_0214d1fc_inline(&header, cursor, 1);
+    cursor = func_0214d1fc_inline(&header.m2, cursor, 2);
+    MI_CpuCopy8(&requestId, cursor, 1);
+    return cursor + 1 - buffer;
+}
+
+// Picks the chunk to send next: skips the last two indexes sent for this block; -1 for an unknown id.
+s32 PickSendChunkIndex(u32 blockId, s32 chunkIndex) {
+    BlockListNode *node;
     s32 i;
-    v1 = func_02007040();
-    if (a < 1000) {
-        return b;
+    node = GetBlockListHead();
+    if (blockId < 1000) {
+        return chunkIndex;
     }
-    for (; v1 != 0; v1 = v1->mUnk_28) {
-        if (v1->mUnk_00 == a) {
-            if (a == data_02161774) {
+    for (; node != NULL; node = node->mNext) {
+        if (node->mId == blockId) {
+            if (blockId == gLastSentBlockId) {
                 i = 0;
-                while (b == data_02161770 || b == data_02161778) {
-                    b++;
-                    if (b > (v1->mUnk_04 + (s32) func_020070d8() - 1) / (s32) func_020070d8() - 1) {
-                        b = 0;
+                while (chunkIndex == gLastSentChunkIndex || chunkIndex == gPrevSentChunkIndex) {
+                    chunkIndex++;
+                    if (chunkIndex > (node->mSize + (s32) GetSendChunkSize() - 1) / (s32) GetSendChunkSize() - 1) {
+                        chunkIndex = 0;
                     }
                     i++;
                     if (i > 2) {
@@ -84,217 +251,60 @@ s32 func_02006458(u32 a, s32 b) {
                     }
                 }
             }
-            data_02161774 = a;
-            data_02161778 = data_02161770;
-            data_02161770 = b;
-            return b;
+            gLastSentBlockId = blockId;
+            gPrevSentChunkIndex = gLastSentChunkIndex;
+            gLastSentChunkIndex = chunkIndex;
+            return chunkIndex;
         }
     }
     return -1;
 }
 
-s32 func_02006508(s32 a, u16 b, u8 c) {
-    struct {
-        u8 m0;
-        u16 m2;
-    } v;
-    u8 *v1;
-    v1 = (u8 *) a;
-    v.m2 = b;
-    v.m0 = 0xb;
-    v1 = func_0214d1fc_inline(&v, v1, 1);
-    v1 = func_0214d1fc_inline(&v.m2, v1, 2);
-    func_0214d1fc(&c, v1, 1);
-    return (s32) v1 + 1 - a;
-}
-
-s32 func_0200654c(s32 a, u16 b, u8 c, u32 *d, u32 e) {
-    struct {
-        u8 m0;
-        u16 m2;
-    } v;
-    u8 *v1;
-    v1 = (u8 *) a;
-    v.m2 = b;
-    v.m0 = 0xa;
-    v1 = func_0214d1fc_inline(&v, v1, 1);
-    v1 = func_0214d1fc_inline(&v.m2, v1, 2);
-    v1 = func_0214d1fc_inline(&c, v1, 1);
-    v1 = func_0214d1fc_inline(&e, v1, 1);
-    func_0214d1fc(d, v1, 9);
-    return (s32) v1 + 9 - a;
-}
-
-s32 func_020065a8(s32 a, u16 b, u8 c, u32 d) {
-    struct {
-        u8 m0;
-        u16 m2;
-    } v;
-    u8 *v1;
-    v1 = (u8 *) a;
-    v.m2 = b;
-    v.m0 = 9;
-    v1 = func_0214d1fc_inline(&v, v1, 1);
-    v1 = func_0214d1fc_inline(&v.m2, v1, 2);
-    v1 = func_0214d1fc_inline(&c, v1, 1);
-    func_0214d1fc(&d, v1, 4);
-    return (s32) v1 + 4 - a;
-}
-
-s32 func_020065f8(s32 a, u16 b, u8 c, u32 d) {
-    struct {
-        u8 m0;
-        u16 m2;
-    } v;
-    u8 *v1;
-    v1 = (u8 *) a;
-    v.m2 = b;
-    v.m0 = 8;
-    v1 = func_0214d1fc_inline(&v, v1, 1);
-    v1 = func_0214d1fc_inline(&v.m2, v1, 2);
-    v1 = func_0214d1fc_inline(&c, v1, 1);
-    func_0214d1fc(&d, v1, 4);
-    return (s32) v1 + 4 - a;
-}
-
-s32 func_02006648(s32 a, u32 b, u8 c, u32 d, u32 e, u32 f, u32 g) {
-    struct {
-        u8 m0;
-        u16 m2;
-    } v;
-    u8 *v1;
-    v1 = (u8 *) a;
-    v.m2 = b;
-    v.m0 = 7;
-    v1 = func_0214d1fc_inline(&v, v1, 1);
-    v1 = func_0214d1fc_inline(&v.m2, v1, 2);
-    v1 = func_0214d1fc_inline(&c, v1, 1);
-    v1 = func_0214d1fc_inline(&d, v1, 4);
-    v1 = func_0214d1fc_inline(&e, v1, 4);
-    if (f == 0) {
-        func_0214d168(v1, 0, g);
-    } else {
-        func_0214d1fc((void *) f, v1, g);
+// Address of one chunk; ids under 1000 count positions in the block list, higher ids are block ids.
+u32 GetBlockChunkAddress(u32 blockIdOrPosition, u32 chunkIndex) {
+    BlockListNode *v1;
+    u32 i;
+    v1 = GetBlockListHead();
+    if (blockIdOrPosition < 1000) {
+        for (i = 0;; i++, v1 = v1->mNext) {
+            if (v1 == NULL) {
+                break;
+            }
+            if (i == blockIdOrPosition) {
+                return (u32) v1 + chunkIndex * GetSendChunkSize();
+            }
+        }
+        return 0;
     }
-    return (s32) v1 + g - a;
-}
-
-s32 func_020066c0(s32 a, u16 b, u8 c, u32 d, u32 e) {
-    struct {
-        u8 m0;
-        u16 m2;
-    } v;
-    u8 *v1;
-    v1 = (u8 *) a;
-    v.m2 = b;
-    v.m0 = 6;
-    v1 = func_0214d1fc_inline(&v, v1, 1);
-    v1 = func_0214d1fc_inline(&v.m2, v1, 2);
-    v1 = func_0214d1fc_inline(&c, v1, 1);
-    v1 = func_0214d1fc_inline(&d, v1, 4);
-    func_0214d1fc(&e, v1, 4);
-    return (s32) v1 + 4 - a;
-}
-
-s32 func_0200671c(s32 a, u32 b, u8 c, u32 d, u32 e, u32 f, s32 g) {
-    struct {
-        u8 m0;
-        u16 m2;
-    } v;
-    u8 *v1;
-    v1 = (u8 *) a;
-    v.m2 = b;
-    v.m0 = 5;
-    v1 = func_0214d1fc_inline(&v, v1, 1);
-    v1 = func_0214d1fc_inline(&v.m2, v1, 2);
-    v1 = func_0214d1fc_inline(&c, v1, 1);
-    v1 = func_0214d1fc_inline(&d, v1, 4);
-    v1 = func_0214d1fc_inline(&e, v1, 4);
-    if (f == 0) {
-        func_0214d168(v1, 0, g);
-    } else {
-        func_0214d1fc((void *) f, v1, g);
+    for (; v1 != NULL; v1 = v1->mNext) {
+        if (v1->mId == blockIdOrPosition) {
+            v1 = (BlockListNode *) v1->mData;
+            return (u32) v1 + chunkIndex * GetSendChunkSize();
+        }
     }
-    return (s32) v1 + g - a;
+    return 0;
 }
 
-s32 func_02006794(s32 a, u16 b, u8 c, u32 d, u32 e) {
-    struct {
-        u8 m0;
-        u16 m2;
-    } v;
-    u8 *v1;
-    v1 = (u8 *) a;
-    v.m2 = b;
-    v.m0 = 4;
-    v1 = func_0214d1fc_inline(&v, v1, 1);
-    v1 = func_0214d1fc_inline(&v.m2, v1, 2);
-    v1 = func_0214d1fc_inline(&c, v1, 1);
-    v1 = func_0214d1fc_inline(&d, v1, 4);
-    func_0214d1fc(&e, v1, 4);
-    return (s32) v1 + 4 - a;
+void SetupChunkReceiveState(ChunkReceiveState *state, s32 size, void *chunkBitmap, u32 buffer) {
+    s32 chunkSize;
+    chunkSize = GetReceiveChunkSize();
+    state->mSize = size;
+    state->mPickedChunkIndex = 0;
+    state->mLastReceivedChunkIndex = 0;
+    state->mReceivedChunkCount = 0;
+    state->mChunkCount = size / chunkSize + ((size % chunkSize) != 0 ? 1 : 0);
+    state->mChunkBitmap = chunkBitmap;
+    state->mBuffer = (u8 *) buffer;
+    MI_CpuFill8(chunkBitmap, 0, GetChunkBitmapSize(size));
 }
 
-s32 func_020067f0(s32 a, u16 b, u8 c, s16 d, u32 e, u32 f) {
-    struct {
-        u8 m0;
-        u16 m2;
-    } v;
-    u8 *v1;
-    v1 = (u8 *) a;
-    v.m2 = b;
-    v.m0 = 3;
-    v1 = func_0214d1fc_inline(&v, v1, 1);
-    v1 = func_0214d1fc_inline(&v.m2, v1, 2);
-    v1 = func_0214d1fc_inline(&c, v1, 1);
-    v1 = func_0214d1fc_inline(&d, v1, 2);
-    v1 = func_0214d1fc_inline(&e, v1, 2);
-    func_0214d1fc(&f, v1, 2);
-    return (s32) v1 + 2 - a;
-}
-
-s32 func_02006858(s32 a, u16 b, u8 c, u32 d, u32 e) {
-    struct {
-        u8 m0;
-        u16 m2;
-    } v;
-    u8 *v1;
-    v1 = (u8 *) a;
-    v.m2 = b;
-    v.m0 = 2;
-    v1 = func_0214d1fc_inline(&v, v1, 1);
-    v1 = func_0214d1fc_inline(&v.m2, v1, 2);
-    v1 = func_0214d1fc_inline(&c, v1, 1);
-    v1 = func_0214d1fc_inline(&d, v1, 2);
-    func_0214d1fc(&e, v1, 2);
-    return (s32) v1 + 2 - a;
-}
-
-s32 func_020068b4(s32 a, u16 b, u8 c) {
-    struct {
-        u8 m0;
-        u16 m2;
-    } v;
-    u8 *v1;
-    v1 = (u8 *) a;
-    v.m2 = b;
-    v.m0 = 1;
-    v1 = func_0214d1fc_inline(&v, v1, 1);
-    v1 = func_0214d1fc_inline(&v.m2, v1, 2);
-    func_0214d1fc(&c, v1, 1);
-    return (s32) v1 + 1 - a;
-}
-
-void func_020068f4(const u8 *a, u32 b) {
-    if (a != 0 && b != 0 && b != 0xffff) {
-        func_02006bec(a, b);
+BOOL IsChunkReceived(ChunkReceiveState *state, s32 chunkIndex) {
+    u32 bitmapWord;
+    bitmapWord = state->mChunkBitmap[chunkIndex >> 5];
+    if ((bitmapWord & (1 << (chunkIndex & 0x1f))) != 0) {
+        return TRUE;
     }
-}
-
-u32 func_02006914(s32 a, s32 b) {
-    if (b > 0 && a != 0) {
-        func_02006b50(a, b);
-    }
+    return FALSE;
 }
 
 #pragma thumb off

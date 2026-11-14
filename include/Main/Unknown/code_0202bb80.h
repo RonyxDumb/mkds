@@ -1,75 +1,81 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/unk_02174000.h"
 
-// 6-byte elements of the table behind data_usa_02174e0c: three indices into the arrays at member 0x18 of
-// Unk02174e14_00.
-typedef struct Unk02174e0c {
+typedef struct CellFileSet CellFileSet;
+typedef struct PlayerEntryList PlayerEntryList;
+
+// 6-byte elements of the table behind gEntryCellIndices: three indices into the arrays at member 0x18 of
+// CellFileSet.
+typedef struct EntryCellIndices {
     /* 00 */ u16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u16 mUnk_04;
-} Unk02174e0c;
+    /* 02 */ u16 mCharacterCellIndex;
+    /* 04 */ u16 mKartCellIndex;
+} EntryCellIndices;
 
-// 8-byte elements of the table behind data_usa_02174e14.
-typedef struct Unk02174e14_8 {
+// 8-byte elements of the table behind gEntryLabelTextRows.
+typedef struct EntryLabelTextRow {
     /* 00 */ s16 mUnk_00;
     /* 02 */ u8 mUnk_02[6];
-} Unk02174e14_8;
+} EntryLabelTextRow;
 
-// What the first member of Unk02174e3c points to.
+// What the first member of PlayerEntryList points to.
 typedef struct Unk02174e3c_00 {
     /* 00 */ u8 mUnk_00[0x10];
     /* 10 */ u32 mUnk_10;
     /* 14 */ void *mUnk_14;
 } Unk02174e3c_00;
 
-extern Unk02174e0c *data_usa_02174e0c;
-extern u16 *data_usa_02174e10;
-extern Unk02174e14_8 *data_usa_02174e14;
-extern u16 *data_usa_02174e18;
-
-extern Unk02174e0c data_02153b3c[];
-extern Unk02174e0c data_02153b0c[];
-extern Unk02174e14_8 data_02153bac[];
-extern Unk02174e14_8 data_02153b6c[];
-extern u16 data_02153ad4[];
-extern u16 data_02153af0[];
-extern u16 data_02153ac0[];
-extern u16 data_02153aac[];
-extern u16 data_usa_02153a9c[];
-extern s16 data_02153aa4[];
-
-extern const char data_02162c58[];
-extern const char data_usa_02162904[];
-extern const char data_usa_0216292c[];
-extern const char data_usa_02162954[];
-extern const char data_usa_02162980[];
-extern const char data_usa_021629a8[];
-extern const char data_usa_021629d0[];
-extern const char data_usa_021629fc[];
-extern const char data_usa_02162a18[];
-extern const char data_usa_02162a34[];
-extern const char data_usa_02162a54[];
-extern const char data_usa_02162a70[];
-extern const char data_usa_02162a8c[];
+extern u16 gTitleCellIndices[];
+extern s16 gEntrySlotOffsetsX[];
+extern u16 gNormalTimerDigitCellIndices[];
+extern u16 gDownloadTimerDigitCellIndices[];
+extern u16 gDownloadCharacterCellIndices[];
+extern u16 gNormalCharacterCellIndices[];
+extern EntryCellIndices gNormalEntryCellIndices[];
+extern EntryCellIndices gDownloadEntryCellIndices[];
+extern EntryLabelTextRow gNormalEntryLabelTextRows[];
+extern EntryLabelTextRow gDownloadEntryLabelTextRows[];
+extern const char data_02162904[];
+extern const char data_0216292c[];
+extern const char data_02162954[];
+extern const char data_02162980[];
+extern const char data_021629a8[];
+extern const char data_021629d0[];
+extern const char data_021629fc[];
+extern const char data_02162a18[];
+extern const char data_02162a34[];
+extern const char data_02162a54[];
+extern const char data_02162a70[];
+extern const char data_02162a8c[];
 extern const char data_02162aac[];
 extern const char data_02162ad4[];
 extern const char data_02162afc[];
-extern const char data_02162b24[];
-extern const char data_02162b48[];
+extern const char gSelectMenuEtcDownloadMBnclName[];
+extern const char gSelectMenuEtcDownloadMBnllName[];
 extern const char data_02162b6c[];
 extern const char data_02162b88[];
 extern const char data_02162ba4[];
-extern const char data_02162bc0[];
-extern const char data_02162bd8[];
+extern const char gSelectMenuEtcMBnclName[];
+extern const char gSelectMenuEtcMBnllName[];
 extern const char data_02162bf0[];
 extern const char data_02162c14[];
-extern const char data_02162c38[];
+extern const char gSelectMenuEtcTitleMBnclName[];
+extern const char data_02162c58[];
+extern EntryCellIndices *gEntryCellIndices;
+extern u16 *gCharacterCellIndices;
+extern EntryLabelTextRow *gEntryLabelTextRows;
+extern u16 *gTimerDigitCellIndices;
 
-void func_0202bb80(void);
-void func_0202c0d4(s32 a, s32 b);
-void func_0202c65c(void *a, void *b);
-void func_0202c884(s32 a, u16 *b);
+void AdvancePlayerEntryList(void);
+void SetupPlayerEntryList(s32 mode, s32 screenKind);
+void InitPlayerEntryList(void *parentHeap, void *mainOam);
+void PrintEntryName(s32 entryIndex, u16 *name);
 void func_0202c8dc(void);
-void func_0202c960(void);
+void AdvancePlayerEntryListOffsets(void);
+void func_0202cb2c(s32 entryIndex);
+void func_0202cb68(s32 entryIndex);
+void AdvanceEntrySlots(void);
+void ResetEntrySlots(void);
+void SetEntryTargetSlot(s32 entryIndex, s32 slot);
+void SetEntrySlot(s32 entryIndex, s32 slot);

@@ -1,52 +1,51 @@
 #include "03/code_021c33e4.h"
+#include "03/code_021cdbd0.h"
+#include "03/code_021d1dd0.h"
+#include "03/code_021d1f70.h"
+#include "03/code_021d2940.h"
+#include "code_0200fc8c.h"
+#include "pm.h"
 
 void func_ov003_021c3490(void) {
-    int iVar1;
-    iVar1 = func_ov003_021d2b04((u32) (1));
-    if (iVar1 != 0) {
-        func_ov003_021bf31c((u8) (0));
+    int v1;
+    v1 = AreKeysPressed(1);
+    if (v1 != 0) {
+        SetButtonResultIfNone((u8) 0);
     }
-    return;
 }
 
-void func_ov003_021c348c(void) {
-    return;
-}
+void func_ov003_021c348c(void) {}
 
 void func_ov003_021c3468(void) {
-    int iVar1;
-    iVar1 = func_ov003_021bf334();
-    if (iVar1 == 0) {
-        func_ov003_021cdc10((u32) (6));
-        func_ov003_021c212c(func_ov003_021c3448);
+    int buttonResult;
+    buttonResult = GetButtonResult();
+    if (buttonResult == 0) {
+        StartSoundSeq(6);
+        SetUpdateFunction(func_ov003_021c3448);
     }
-    return;
 }
 
 void func_ov003_021c3448(void) {
-    func_ov003_021bf2d0();
-    func_ov003_021d1dd0((u16) (8));
-    func_ov003_021c212c(func_ov003_021c3410);
-    return;
+    DisableButtonTouch();
+    StartBlendBrightnessFadeWait(8);
+    SetUpdateFunction(func_ov003_021c3410);
 }
 
 void func_ov003_021c3410(void) {
-    int iVar1;
-    iVar1 = func_ov003_021d1f70(1);
-    if (iVar1 == 0) {
-        func_ov003_021d1ee0(3, 1, (u32) (0x3f), (u16) (0x40));
-        func_ov003_021d1ee0(3, 0, (u32) (0x3f), (u16) (0x40));
-        func_ov003_021c212c(func_ov003_021c33e4);
+    int v1;
+    v1 = IsBlendBrightnessFadeSlotBusy(1);
+    if (v1 == 0) {
+        StartBlendBrightnessFade(3, 1, 0x3f, 0x40);
+        StartBlendBrightnessFade(3, 0, 0x3f, 0x40);
+        SetUpdateFunction(func_ov003_021c33e4);
     }
-    return;
 }
 
 void func_ov003_021c33e4(void) {
-    int iVar1;
-    iVar1 = func_ov003_021d1f70(1);
-    if ((iVar1 == 0) && (iVar1 = func_ov003_021d1f70(0), iVar1 == 0)) {
-        func_0200fd10((u32) (((u32) 0x01000000u)));
-        func_0214fb54();
+    int v1;
+    v1 = IsBlendBrightnessFadeSlotBusy(1);
+    if ((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) {
+        OS_SpinWait((0x01000000u));
+        PM_ForceToPowerOff();
     }
-    return;
 }

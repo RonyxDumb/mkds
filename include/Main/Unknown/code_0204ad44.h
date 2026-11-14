@@ -1,10 +1,14 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020487fc.h"
-#include "Main/Unknown/unk_02175000.h"
+
+typedef struct SceneNumbers SceneNumbers;
 
 void func_0204ad44(void);
-void func_0204af70(void *a);
-s32 func_0204afd0(Unk020487fc *a);
-void func_0204b018(void *a);
+void func_0204af70(void *heap);
+// Scene function of gSceneFuncs[6] (scene 'WLMenu' in gSceneNames): copies the callbacks and calls
+// RunScene. Returns 0.
+s32 RunWLMenuScene(SceneNumbers *sceneNumbers);
+void UpdateWLMenuSceneCallback(void *sceneNumbers);
+void func_0204b024(void);
+void ReleaseWLMenuSceneCallback(void);

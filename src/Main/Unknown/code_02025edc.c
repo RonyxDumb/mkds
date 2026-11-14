@@ -1,45 +1,46 @@
 #include "Main/Unknown/code_02025edc.h"
+#include "Main/Unknown/code_02025ebc.h"
 #include "Main/Unknown/code_02025f54.h"
 
 #pragma thumb on
 
-void func_02025edc(Unk02025ebc *a) {
-    switch (a->mUnk_00) {
+void func_02025f14(Interpolation *interpolation, s32 requestedState) {
+    switch (requestedState) {
         case 0:
-            a->mUnk_04++;
-            if (a->mUnk_04 > a->mUnk_08) {
-                a->mUnk_04 = a->mUnk_08;
-                a->mUnk_00 = 1;
+            switch (interpolation->mState) {
+                case 2:
+                case 3:
+                    SetInterpolationState(interpolation, requestedState);
             }
             break;
         case 2:
-            a->mUnk_04--;
-            if (a->mUnk_04 < 0) {
-                a->mUnk_04 = 0;
-                a->mUnk_00 = 3;
+            switch (interpolation->mState) {
+                case 0:
+                case 1:
+                    SetInterpolationState(interpolation, requestedState);
             }
+            break;
+        default:
+            SetInterpolationState(interpolation, requestedState);
             break;
     }
 }
 
-void func_02025f14(Unk02025ebc *a, s32 b) {
-    switch (b) {
+void AdvanceInterpolation(Interpolation *interpolation) {
+    switch (interpolation->mState) {
         case 0:
-            switch (a->mUnk_00) {
-                case 2:
-                case 3:
-                    func_02025f54(a, b);
+            interpolation->mCounter++;
+            if (interpolation->mCounter > interpolation->mCounterLimit) {
+                interpolation->mCounter = interpolation->mCounterLimit;
+                interpolation->mState = 1;
             }
             break;
         case 2:
-            switch (a->mUnk_00) {
-                case 0:
-                case 1:
-                    func_02025f54(a, b);
+            interpolation->mCounter--;
+            if (interpolation->mCounter < 0) {
+                interpolation->mCounter = 0;
+                interpolation->mState = 3;
             }
-            break;
-        default:
-            func_02025f54(a, b);
             break;
     }
 }

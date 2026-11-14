@@ -4,46 +4,60 @@
 #include "Main/Unknown/code_020d2000.h"
 #include "Main/Unknown/code_020ea55c.h"
 #include "Main/Unknown/code_020ea588.h"
+#include "ITCM/code_01ff8000.h"
 #include "ITCM/code_01ff9000.h"
+#include "ITCM/code_01ffba68.h"
 #include "ITCM/code_01ffc000.h"
 #include "ITCM/code_01ffd000.h"
-#include "Main/Unknown/code_0204799c.h"
+#include "Main/Unknown/code_02047104.h"
 #include "Main/Unknown/code_0207a000.h"
 #include "Main/Unknown/code_02084000.h"
 #include "Main/Unknown/code_020d7000.h"
 #include "Main/Unknown/code_02146000.h"
 #include "Main/Unknown/unk_021759c0.h"
 #include "Main/Unknown/unk_0217b000.h"
+#include "Main/Unknown/code_020e55b4.h"
+#include "code_02146cbc.h"
 
-void func_020e54e4(void *param_1, void *param_2, u32 param_3, u32 param_4) {
-    u32 a;
+void func_020e55b4(void) {
+    u32 value;
+    value = data_0217b814->mUnk_01c;
+    func_01ff9048(0x2b, &value, 1);
+    func_01ff9048(0x2a, &data_0217b814->mUnk_014, 1);
+    func_01ff9048(0x30, &data_0217b814->mUnk_004, 1);
+    func_01ff9048(0x31, &data_0217b814->mUnk_008, 1);
+}
+
+void func_020e54e4(void *shadowData, void *wordPointer, u32 unused, u32 alpha) {
+    u32 word;
     u32 b;
-    u32 c[3];
+    u32 threeWords[3];
+    ShadowMatrix *shadow = shadowData;
 
     b = 0x1e;
     func_01ff9048(0x14, &b, 1);
-    func_01ff9048(0x19, param_1, 0xc);
-    if (param_2 != 0) {
-        u32 w;
-        w = *(u32 *) param_2;
-        c[0] = w;
-        c[1] = w;
-        c[2] = w;
-        func_01ff9048(0x1b, c, 3);
+    func_01ff9048(0x19, shadowData, 0xc);
+    if (wordPointer != NULL) {
+        u32 firstWord;
+        firstWord = *(u32 *) wordPointer;
+        threeWords[0] = firstWord;
+        threeWords[1] = firstWord;
+        threeWords[2] = firstWord;
+        func_01ff9048(0x1b, threeWords, 3);
     }
-    a = data_0217b814->mUnk_00c;
-    param_4 = param_4 < ((Unk020e516c *) param_1)->mUnk_030 ? param_4 : ((Unk020e516c *) param_1)->mUnk_030;
-    a = a & ~0x1f0000;
-    a = a | (param_4 << 16);
-    func_01ff9048(0x29, &a, 1);
+    word = data_0217b814->mUnk_00c;
+    alpha = alpha < shadow->mUnk_030 ? alpha : shadow->mUnk_030;
+    word = word & ~0x1f0000;
+    word = word | (alpha << 16);
+    func_01ff9048(0x29, &word, 1);
     func_01ff9144(&data_0217b818->mUnk_000[data_0217b818->mUnk_008], data_0217b818->mUnk_00c);
 }
 
-void func_020e53ac(Unk020e516c *p, void *param_2, u32 param_3, u32 param_4) {
+void func_020e53ac(ShadowMatrix *shadow, void *wordPointer, u32 unused, u32 alpha) {
     u32 x;
-    u32 a;
+    u32 word;
     u32 b;
-    u32 c[3];
+    u32 threeWords[3];
 
     x = data_0217b814->mUnk_01c;
     func_01ff9048(0x2b, &x, 1);
@@ -52,86 +66,88 @@ void func_020e53ac(Unk020e516c *p, void *param_2, u32 param_3, u32 param_4) {
     func_01ff9048(0x31, &data_0217b814->mUnk_008, 1);
     b = 0x1e;
     func_01ff9048(0x14, &b, 1);
-    func_01ff9048(0x19, p, 0xc);
-    if (param_2 != 0) {
-        u32 w;
-        w = *(u32 *) param_2;
-        c[0] = w;
-        c[1] = w;
-        c[2] = w;
-        func_01ff9048(0x1b, c, 3);
+    func_01ff9048(0x19, shadow, 0xc);
+    if (wordPointer != NULL) {
+        u32 wordCopy;
+        wordCopy = *(u32 *) wordPointer;
+        threeWords[0] = wordCopy;
+        threeWords[1] = wordCopy;
+        threeWords[2] = wordCopy;
+        func_01ff9048(0x1b, threeWords, 3);
     }
-    a = data_0217b814->mUnk_00c;
-    param_4 = param_4 < p->mUnk_030 ? param_4 : p->mUnk_030;
-    a = a & ~0x1f0000;
-    a = a | (param_4 << 16);
-    func_01ff9048(0x29, &a, 1);
+    word = data_0217b814->mUnk_00c;
+    alpha = alpha < shadow->mUnk_030 ? alpha : shadow->mUnk_030;
+    word = word & ~0x1f0000;
+    word = word | (alpha << 16);
+    func_01ff9048(0x29, &word, 1);
     func_01ff9144(&data_0217b818->mUnk_000[data_0217b818->mUnk_008], data_0217b818->mUnk_00c);
 }
 
-void func_020e5370(void *param_1, void *param_2, u32 param_3, u32 param_4) {
-    data_0217b810->mUnk_06e = param_3 < param_4 ? param_3 : param_4;
-    func_0207aec8(data_0217b810, param_2, param_1);
+void DrawJgShadowWithMatrix(Vec3 *scale, MtxFx43 *matrix, u32 c, u32 d) {
+    gJgShadow->mUnk_06e = c < d ? c : d;
+    DrawShadowWithMatrix(gJgShadow, matrix, scale);
 }
 
-void func_020e5348(u32 param_1, u32 param_2) {
-    data_0217b810->mUnk_06e = param_1 < param_2 ? param_1 : param_2;
-    func_0207ad88(data_0217b810);
+void func_020e5348(u32 a, u32 b) {
+    gJgShadow->mUnk_06e = a < b ? a : b;
+    func_0207ad88(gJgShadow);
 }
 
 #pragma thumb on
 
-void func_020e52bc(void) {
+void CreateObjShadowAndJgShadow(void) {
     Unk020e52bc_4 *a;
     Unk020e52bc_8 *b;
     Unk020e52bc_c *c;
 
-    func_020ea588((void **) &data_0217b80c, (void *) func_020d2210((const char *) data_0216c21c), 0);
-    func_020849c0(data_0217b80c, 0x3f);
-    func_020849b0(data_0217b80c, 0);
-    a = data_0217b80c->mUnk_004;
+    CreateNsbmd((void **) &gObjShadow, FindMainRaceOrMainEffectMapObjFile(gObjShadowNsbmdName), NULL);
+    SetNsbmdPolygonIdAll(gObjShadow, 0x3f);
+    SetNsbmdLightEnableFlagAll(gObjShadow, 0);
+    a = gObjShadow->mUnk_004;
     b = (Unk020e52bc_8 *) &a->mUnk_000[a->mUnk_008];
     data_0217b814 = (Unk020e53ac *) &b->mUnk_000[((u32 *) &b->mUnk_000[b->mUnk_00a])[2]];
-    a = data_0217b80c->mUnk_004;
+    a = gObjShadow->mUnk_004;
     c = (Unk020e52bc_c *) &a->mUnk_000[a->mUnk_00c];
     data_0217b818 = (Unk020e54e4 *) &c->mUnk_000[((u32 *) &c->mUnk_000[c->mUnk_006])[1]];
-    if (data_021759c0->mUnk_00c != 6) {
-        func_020ea55c((void **) &data_0217b810, (void *) func_0204799c((const char *) data_0216c230), 0x3f);
+    if (gRaceSetup->mRaceKind != RACE_KIND_STAFF_ROLL) {
+        CreateShadowModel((void **) &gJgShadow, FindSceneFile(gJgShadowNsbmdName), 0x3f);
     }
 }
 
-s32 func_020e516c(void *param_1, Vec3 *v, s32 param_3, u32 param_4) {
-    Unk020d7b88 buf2;
-    Vec3 buf1;
-    Vec3 s;
-    s32 d;
-    s32 r;
+s32 RefreshShadowMatrix(void *shadow, Vec3 *position, s32 scale, u32 alphaCap) {
+    Quaternion rotation;
+    Vec3 direction;
+    Vec3 raisedPosition;
+    s32 scaleTenth;
+    BOOL hit;
+    ShadowMatrix *shadowCopy = shadow;
 
-    s = *v;
-    r = 0;
-    s.y = s.y + 0x1999;
-    if (func_01ffdee4((int *) &s, 0, 0, 0xa000, 8, -2, 0, (int *) &buf1, 0, 0, 0, 0, 0, 0) != 0) {
-        r = 1;
-        func_020d7b88((Vec3 *) &buf1, &buf2);
-        func_01ffccd0((int *) param_1, &buf2);
-        d = param_3 / 10;
-        ((Unk020e516c *) param_1)->mUnk_000 = (s32) (((s64) ((Unk020e516c *) param_1)->mUnk_000 * d) >> 12);
-        ((Unk020e516c *) param_1)->mUnk_004 = (s32) (((s64) ((Unk020e516c *) param_1)->mUnk_004 * d) >> 12);
-        ((Unk020e516c *) param_1)->mUnk_008 = (s32) (((s64) ((Unk020e516c *) param_1)->mUnk_008 * d) >> 12);
-        ((Unk020e516c *) param_1)->mUnk_00c = (s32) (((s64) ((Unk020e516c *) param_1)->mUnk_00c * d) >> 12);
-        ((Unk020e516c *) param_1)->mUnk_010 = (s32) (((s64) ((Unk020e516c *) param_1)->mUnk_010 * d) >> 12);
-        ((Unk020e516c *) param_1)->mUnk_014 = (s32) (((s64) ((Unk020e516c *) param_1)->mUnk_014 * d) >> 12);
-        ((Unk020e516c *) param_1)->mUnk_018 = (s32) (((s64) ((Unk020e516c *) param_1)->mUnk_018 * d) >> 12);
-        ((Unk020e516c *) param_1)->mUnk_01c = (s32) (((s64) ((Unk020e516c *) param_1)->mUnk_01c * d) >> 12);
-        ((Unk020e516c *) param_1)->mUnk_020 = (s32) (((s64) ((Unk020e516c *) param_1)->mUnk_020 * d) >> 12);
+    raisedPosition = *position;
+    hit = FALSE;
+    raisedPosition.y = raisedPosition.y + 0x1999;
+    if (func_01ffdee4(&raisedPosition, NULL, 0, 0xa000, 8, -2, NULL, &direction, NULL, NULL, NULL, NULL, NULL, NULL) !=
+        0) {
+        hit = TRUE;
+        QuaternionFromYAxisToVec3(&direction, &rotation);
+        Matrix3x3FromQuaternion(shadow, &rotation);
+        scaleTenth = scale / 10;
+        shadowCopy->mUnk_000[0] = ((s64) shadowCopy->mUnk_000[0] * scaleTenth) >> 12;
+        shadowCopy->mUnk_000[1] = ((s64) shadowCopy->mUnk_000[1] * scaleTenth) >> 12;
+        shadowCopy->mUnk_000[2] = ((s64) shadowCopy->mUnk_000[2] * scaleTenth) >> 12;
+        shadowCopy->mUnk_000[3] = ((s64) shadowCopy->mUnk_000[3] * scaleTenth) >> 12;
+        shadowCopy->mUnk_000[4] = ((s64) shadowCopy->mUnk_000[4] * scaleTenth) >> 12;
+        shadowCopy->mUnk_000[5] = ((s64) shadowCopy->mUnk_000[5] * scaleTenth) >> 12;
+        shadowCopy->mUnk_000[6] = ((s64) shadowCopy->mUnk_000[6] * scaleTenth) >> 12;
+        shadowCopy->mUnk_000[7] = ((s64) shadowCopy->mUnk_000[7] * scaleTenth) >> 12;
+        shadowCopy->mUnk_000[8] = ((s64) shadowCopy->mUnk_000[8] * scaleTenth) >> 12;
     } else {
-        func_02146cbc((Unk02012f58 *) param_1);
+        MTX_Identity33_(shadow);
     }
-    ((Unk020e516c *) param_1)->mUnk_024 = s.x >> 4;
-    ((Unk020e516c *) param_1)->mUnk_028 = s.y >> 4;
-    ((Unk020e516c *) param_1)->mUnk_02c = s.z >> 4;
-    ((Unk020e516c *) param_1)->mUnk_030 = param_4;
-    return r;
+    shadowCopy->mUnk_000[9] = raisedPosition.x >> 4;
+    shadowCopy->mUnk_000[10] = raisedPosition.y >> 4;
+    shadowCopy->mUnk_000[11] = raisedPosition.z >> 4;
+    shadowCopy->mUnk_030 = alphaCap;
+    return hit;
 }
 
 #pragma thumb off

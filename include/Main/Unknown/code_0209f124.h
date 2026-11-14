@@ -2,5 +2,7 @@
 
 #include "types.h"
 
-void func_0209f124(unsigned int p0);
-void func_0209f130(unsigned int p0);
+typedef struct Picture Picture;
+
+void InitPicture2(Picture *p0);
+void InitPicture1(Picture *p0);

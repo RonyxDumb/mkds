@@ -1,44 +1,46 @@
 #include "Main/Unknown/code_02008880.h"
+#include "code_02003024.h"
+#include "code_02003be0.h"
 
 #pragma thumb on
 
-u32 func_02008880(Unk02003024 *a) {
-    Unk02008880 v1;
-    Unk02008880 *v2;
-    u32 v3;
-    s32 v4;
-    v2 = 0;
-    v3 = 0;
-    if (a != 0) {
-        v4 = a->mUnk_2c - a->mUnk_20.w.mUnk_04;
-        if ((u32) func_020048ac(a, &v1, 0x60) >= 0x60) {
-            v2 = &v1;
-        }
-        func_02004840(a, v4, 0);
-    } else {
-        v2 = (Unk02008880 *) 0x027ffe00;
+u16 ComputeU16Checksum(const u16 *data, s32 byteCount) {
+    u32 sum;
+    u32 folded;
+    s32 halfwordCount;
+    halfwordCount = byteCount >> 1;
+    sum = 0;
+    while (halfwordCount > 0) {
+        sum += *data++;
+        halfwordCount--;
     }
-    if (v2 != 0) {
-        v3 = v2->mUnk_2c + 0x268 + v2->mUnk_3c;
-        if (v3 < 0x10000) {
-            v3 = 0x10000;
-        }
-    }
-    return v3;
+    folded = (sum >> 16) + (sum & 0xffff);
+    return (folded + (folded >> 16)) ^ 0xffff;
 }
 
-u16 func_020088dc(const u16 *a, s32 b) {
-    u32 v1;
-    u32 v2;
-    s32 v3;
-    v3 = b >> 1;
-    v1 = 0;
-    while (v3 > 0) {
-        v1 += *a++;
-        v3--;
+u32 func_02008880(FSFile *a) {
+    Unk02008880 header;
+    Unk02008880 *headerPtr;
+    u32 size;
+    s32 v4;
+    headerPtr = NULL;
+    size = 0;
+    if (a != NULL) {
+        v4 = a->mUnk_2c - a->mProp.w.mUnk_04;
+        if ((u32) FS_ReadFile(a, &header, 0x60) >= 0x60) {
+            headerPtr = &header;
+        }
+        FS_SeekFile(a, v4, 0);
+    } else {
+        headerPtr = (Unk02008880 *) 0x027ffe00;
     }
-    v2 = (v1 >> 16) + (v1 & 0xffff);
-    return (u16) ((v2 + (v2 >> 16)) ^ 0xffff);
+    if (headerPtr != NULL) {
+        size = headerPtr->mUnk_2c + 0x268 + headerPtr->mUnk_3c;
+        if (size < 0x10000) {
+            size = 0x10000;
+        }
+    }
+    return size;
 }
 
 #pragma thumb off

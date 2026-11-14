@@ -1,23 +1,24 @@
 #pragma once
 
 #include "types.h"
-#include "ITCM/code_01ff8000.h"
-#include "code_020162b0.h"
-#include "code_02016844.h"
-#include "code_02016d34.h"
+#include "gfd_LinkedListPlttVramMan.h"
 #include "code_0201ec30.h" // Unk02173290
+
+typedef struct Unk01ff9048 Unk01ff9048;
+typedef struct NNSGfdFrmPlttVramManager NNSGfdFrmPlttVramManager;
+typedef struct CallQueue CallQueue;
 
 extern u32 data_02173274;
 
-extern u8 data_0217320c[];
+extern BOOL data_0217320c;
 
-extern Unk02016468 data_02173220;
-extern Unk020162b0 data_02173214;
-extern Unk02016d34 data_02173234;
-extern Unk020169a4 *data_02173238;
-extern Unk020169a4 *data_0217323c;
-extern Unk020170e4 data_02173250;
-extern Unk020169a4 *data_02173254;
+extern CallQueue data_02173220;
+extern NNSGfdFrmPlttVramManager data_02173214;
+extern NNS_GfdLnkTexVramManager data_02173234;
+extern RangeEntry *data_02173238;
+extern RangeEntry *data_0217323c;
+extern NNS_GfdLnkPlttVramManager data_02173250;
+extern RangeEntry *data_02173254;
 
 extern vu16 data_02173278;
 extern vu16 data_0217327c;
@@ -34,5 +35,7 @@ extern u8 data_021732a0[4];
 extern s32 data_021732a4;
 extern s32 data_021732a8;
 
-extern Unk01ff9048 *data_usa_021731e4;
-extern vu32 data_usa_021731e8;
+extern Unk01ff9048 *data_02173204;
+extern vu32 data_02173208;
+
+#include "gfd_LinkedListTexVramMan.h"

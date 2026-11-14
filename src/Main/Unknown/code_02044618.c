@@ -1,492 +1,511 @@
 #include "Main/Unknown/code_02044618.h"
 #include "Main/Unknown/code_02046000.h"
+#include "Main/Unknown/code_020467d0.h"
 #include "Main/Unknown/code_0205d0e8.h"
-#include "Main/Unknown/code_0205c800.h"
+#include "Main/Unknown/code_0205b0f4.h"
 #include "Main/Unknown/code_02056464.h"
-#include "Main/Unknown/code_02056158.h"
+#include "Main/Unknown/code_02055730.h"
 #include "Main/Unknown/code_02120294.h"
 #include "Main/Unknown/code_02120240.h"
 #include "Main/Unknown/code_021201e4.h"
 #include "Main/Unknown/code_021202f0.h"
 #include "Main/Unknown/code_0211d4a8.h"
+#include "Main/Unknown/code_020b1dbc.h"
+#include "Main/Unknown/code_0207b960.h"
+#include "Main/Unknown/code_020b4e5c.h"
+#include "Main/Unknown/code_02039860.h"
+#include "Main/Unknown/code_02147000.h"
+#include "Main/Unknown/unk_0215d000.h"
+#include "Main/Unknown/unk_021759c0.h"
+#include "Main/Unknown/code_020b47d8.h"
+#include "Main/Unknown/code_020b6a18.h"
+#include "Main/Unknown/code_0207a880.h"
 #include "Main/Unknown/code_020b502c.h"
 #include "Main/Unknown/unk_02154000.h"
 #include "Main/Unknown/unk_02175000.h"
 #include "Main/Unknown/unk_0217a000.h"
 #include "code_0214d018.h"
 
-u16 func_02044618(void) {
-    Unk021759c0 *p;
-    u16 r;
-
-    r = 1;
-    p = data_021759c0;
-    if (p->mUnk_08 != 2) {
-        if (p->mUnk_064 <= 0) {
-            r = data_02175620->mUnk_018->mUnk_02;
-        } else {
-            r = (u16) p->mUnk_064;
-        }
-    }
-    return r;
+static inline void func_020446e0_inline(s32 f, u32 teamIndex, s32 playerKind, u32 kartIndex, u32 characterIndex,
+                                        s32 entryIndex) {
+    SetNextRaceEntry(entryIndex, characterIndex, kartIndex, playerKind, teamIndex, f);
 }
 
-void func_0204465c(void) {
+static inline Unk0217aa00_45c *func_02045084_inline(ConnectionWork *q, s32 entryIndex) {
+    u16 participantIndex;
+
+    participantIndex = q->mUnk_1e8c[entryIndex];
+    return participantIndex == 0xffff ? 0 : &q->mUnk_045c[participantIndex];
+}
+
+static inline BOOL func_02045084_inline2(void) {
+    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+        return TRUE;
+    }
+    return FALSE;
+}
+
+void ResetRaceSetup(void) {
     u16 i;
+    MinuteSecondMillisecondTime *time;
 
-    if (data_021759c0->mUnk_1e8.mUnk_08 != 1) {
-        return;
+    gRaceSetup->mNextHeader.mCourseId = COURSE_ID_CROSS;
+    gRaceSetup->mNextHeader.mCupIndex = 0;
+    gRaceSetup->mNextHeader.mMode = MODE_GRAND_PRIX;
+    gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_NORMAL;
+    gRaceSetup->mNextHeader.mEngineIndex = 0;
+    gRaceSetup->mNextHeader.mCpuDifficulty = 0;
+    gRaceSetup->mNextHeader.mBattleKind = 0;
+    gRaceSetup->mNextHeader.mRuleKind = 0;
+    gRaceSetup->mNextHeader.mCourseListMode = 0;
+    gRaceSetup->mNextHeader.mGhostRecordIndex = 0;
+    MI_CpuFill8(&gRaceSetup->mNextHeader.mMissionFileRow, 0, 0x2c);
+    gRaceSetup->mNextHeader.mMissionTableRow = -1;
+    gRaceSetup->mNextHeader.mMissionTableColumn = -1;
+    gRaceSetup->mNextHeader.mUnk_56[0] = 0;
+    gRaceSetup->mNextHeader.mMirrorMode = 0;
+    gRaceSetup->mNextHeader.mUseTeams = 0;
+    gRaceSetup->mNextHeader.mUnk_5c = 0;
+    gRaceSetup->mNextHeader.mCourseNumber = 1;
+    gRaceSetup->mNextHeader.mEntryIndex = -1;
+    gRaceSetup->mNextHeader.mFollowedKartIndex = 0;
+    gRaceSetup->mNextHeader.mLapCount = -1;
+    for (i = 0; i < 8; i++) {
+        gRaceSetup->mNextEntries[i].mCharacterIndex = i;
+        gRaceSetup->mNextEntries[i].mKartIndex = i * 3;
+        gRaceSetup->mNextEntries[i].mPlayer.mKind = i == 0 ? PLAYER_KIND_HUMAN : PLAYER_KIND_CPU;
+        gRaceSetup->mNextEntries[i].mPlayer.mTeamIndex = -1;
+        gRaceSetup->mNextEntries[i].mPlayer.mUnk_08 = 3;
+        gRaceSetup->mNextEntries[i].mPlayer.mIndex = i;
+        gRaceSetup->mNextEntries[i].mPlayer.mGhostRecordIndex = 3;
+        gRaceSetup->mNextEntries[i].mPlayer.mUnk_14 = 0;
+        gRaceSetup->mNextEntries[i].mPlayer.mName = NULL;
+        gRaceSetup->mNextEntries[i].mPlayer.mUnk_24 = 0;
+        gRaceSetup->mNextEntries[i].mPlayer.mUnk_25 = data_021759d0->mUnk_00;
+        gRaceSetup->mNextEntries[i].mPlayer.mEmblemData = NULL;
+        gRaceSetup->mNextEntries[i].mPlayer.mUnk_20 = 0;
     }
-    data_021759c0->mUnk_1e8.mUnk_0c = 0;
-    for (i = 1; i < 8; i++) {
-        data_021759c0->mUnk_250[i].mUnk_00 = i;
-        data_021759c0->mUnk_250[i].mUnk_04 = i;
-        data_021759c0->mUnk_250[i].mUnk_08.mUnk_00 = 4;
-        data_021759c0->mUnk_250[i].mUnk_08.mUnk_0c = i;
-    }
-}
-
-// non-matching: 0x25c bytes, original 0x260; the original keeps the object pointer in r1 and the switch value in r0 (here r0 and r1 the other way round), counts the loops in r10/r9/r8 (here sl/r8/r9) and reloads the address constant once more before the last stores.
-void func_020446e0(void) {
-    u8 i;
-    s8 j;
-    u32 k;
-    u8 m;
-    u8 n;
-
-    switch (data_021759c0->mUnk_1e8.mUnk_08) {
-    case 0:
-        if (data_021759c0->mUnk_1e8.mUnk_00 == 0x34) {
-            data_021759c0->mUnk_1e8.mUnk_00 = 0x34;
-            data_021759c0->mUnk_1e8.mUnk_0c = 5;
-            for (i = 3; i < 8; i++) {
-                func_020468b0(i, i, i * 3, 4, -1, 3);
-            }
-            data_021759c0->mUnk_1e8.mUnk_63 = 0;
-        } else if ((u32) (data_021759c0->mUnk_1e8.mUnk_00 - 0x35) <= 1) {
-            data_021759c0->mUnk_1e8.mUnk_0c = 6;
-            data_021759c0->mUnk_1e8.mUnk_10 = 1;
-            for (i = 0; i < 8; i++) {
-                for (j = 0; j < data_021759c0->mUnk_3d0; j++) {
-                    if (i + 1 == func_0205d4e8((u16) j)) {
-                        break;
-                    }
-                }
-                if (data_021759c0->mUnk_1e8.mUnk_00 != 0x36) {
-                    func_020468b0(i, i, i * 3, 1, -1, 3);
-                }
-            }
-            data_021759c0->mUnk_1e8.mUnk_63 = 0;
-        } else {
-            for (k = 0; k < 32; k++) {
-                m = (s32) k / 4;
-                n = (s32) k % 4;
-                if (data_021759c0->mUnk_1e8.mUnk_00 == data_02154128[m][n]) {
-                    break;
-                }
-                if (k == 31) {
-                    m = 0;
-                    n = 3;
-                }
-            }
-            data_021759c0->mUnk_1e8.mUnk_60 = n + 1;
-            data_021759c0->mUnk_1e8.mUnk_0c = 3;
-            data_021759c0->mUnk_1e8.mUnk_04 = m;
-        }
-        break;
-    case 2:
-        if (data_021759d0->mUnk_1c_2 != 0) {
-            data_021759c0->mUnk_1e8.mUnk_0c = 0;
-        } else {
-            data_021759c0->mUnk_1e8.mUnk_0c = 4;
-        }
-        break;
-    case 4:
-        break;
-    default:
-        data_021759c0->mUnk_1e8.mUnk_0c = 0;
-        break;
-    }
-}
-
-void func_02044940(void) {
-    s16 h;
-    Unk0217aa08_14 *e;
-    Unk0217aa00 *q;
-    u16 n;
-    u16 r;
-    u8 i;
-    s32 f;
-
-    r = 0;
-    switch (data_021759c0->mUnk_1e8.mUnk_08) {
-    case 0:
-    case 2:
-    case 3:
-        r = 8;
-        break;
-    case 5:
-        r = 4;
-        break;
-    case 1:
-        n = 1;
-        e = data_0217aa08->mUnk_14;
-        if (e->mUnk_08_0 == 1) {
-            data_021759c0->mUnk_3e6 = 1;
-            data_021759c0->mUnk_3e4 = e->mUnk_08_8;
-            data_021759c0->mUnk_3e5 = e->mUnk_08_15;
-            data_021759c0->mUnk_3e2 = e->mUnk_08_22;
-        } else {
-            data_021759c0->mUnk_3e6 = 0;
-            data_021759c0->mUnk_3e4 = 0;
-            data_021759c0->mUnk_3e5 = 0;
-            data_021759c0->mUnk_3e2 = 0;
-        }
-        switch (data_021759c0->mUnk_1e8.mUnk_24) {
-        case 0:
-            if (func_02044e9c(data_021759c0->mUnk_1e8.mUnk_00, 1) != 0) {
-                n++;
-            }
-            break;
-        case 1:
-            if (func_02044d4c(data_021759c0->mUnk_1e8.mUnk_00, 1) != 0) {
-                n++;
-            }
-            break;
-        case 2:
-            if (func_02044bf8(data_021759c0->mUnk_1e8.mUnk_00, 1) != 0) {
-                n++;
-            }
-            break;
-        case 3:
-            break;
-        }
-        r = n;
-        break;
-    case 4:
-        r = 2;
-        break;
-    }
-    switch (data_021759c0->mUnk_1e8.mUnk_0c) {
-    case 1:
-    case 5:
-        data_021759c0->mUnk_1e8.mUnk_62 = data_021759c0->mUnk_1e8.mUnk_63;
-        break;
-    case 6:
-        data_021759c0->mUnk_1e8.mUnk_62 = data_021759c0->mUnk_1e8.mUnk_63;
-        r = 8;
-        break;
-    case 0:
-    case 2:
-    case 3:
-    case 4:
-        h = 0;
-        for (i = 0; i < 8; i++) {
-            if (data_021759c0->mUnk_250[i].mUnk_08.mUnk_00 == 0) {
-                h = i;
-                break;
-            }
-        }
-        q = data_0217aa00;
-        f = 0;
-        if ((q == 0 ? 0 : q->mUnk_0000) != 0 && q->mUnk_0004 != 13) {
-            f = 1;
-        }
-        if (f != 0) {
-            h = (s16) q->mUnk_1e52[(u16) (q->mUnk_0000 == 2 ? q->mUnk_0432 : 0)].mUnk_00;
-        }
-        data_021759c0->mUnk_1e8.mUnk_62 = h;
-        data_021759c0->mUnk_1e8.mUnk_63 = h;
-        break;
-    }
-    *(Unk02044940_block *) data_021759c0 = *(Unk02044940_block *) &data_021759c0->mUnk_1e8;
-    func_02046968(r);
-    func_02044fc0();
-    for (n = 0; n < 8; n++) {
-        func_02045084(n);
-    }
-}
-
-s32 func_02044bf8(s32 a, s32 b) {
-    Unk0217aa08_14 *p;
-    u8 i;
-
-    if (data_021759c0->mUnk_1e8.mUnk_0c == 2) {
-        return 1;
-    }
-    p = data_0217aa08->mUnk_1c;
-    if (p != 0 && p->mUnk_08_0 == 1) {
-        func_020468b0(b, p->mUnk_04_0, p->mUnk_04_4, 2, -1, 3);
-        data_021759c0->mUnk_250[b].mUnk_08.mUnk_10 = 2;
-        func_0214d1fc(&p->mUnk_30[0x200], data_02175650[b].mUnk_00, 0xdcc);
-        func_020565e4(p, &data_021759c0->mUnk_3e8);
-        for (i = 1; i <= 5; i++) {
-            func_0205660c(p, i, &data_021759c0->mUnk_3ec[i - 1]);
-        }
-        return 1;
-    }
-    func_020468b0(b, 0, 0, 4, -1, 3);
-    return 0;
-}
-
-s32 func_02044d4c(s32 a, s32 b) {
-    Unk0217aa08_14 *p;
-    s32 r;
-    u8 i;
-
-    if (data_021759c0->mUnk_1e8.mUnk_0c == 2) {
-        return 1;
-    }
-    p = data_0217aa08->mUnk_18;
-    r = p->mUnk_08_0 == 1 ? 1 : 0;
-    if (r != 0) {
-        func_020468b0(b, p->mUnk_04_0, p->mUnk_04_4, 2, -1, 3);
-        data_021759c0->mUnk_250[b].mUnk_08.mUnk_10 = 1;
-        func_0214d1fc(&p->mUnk_30[0x200], data_02175650[b].mUnk_00, 0xdcc);
-        func_02056574(1, &data_021759c0->mUnk_3e8);
-        for (i = 1; i <= 5; i++) {
-            func_020565ac(1, i, &data_021759c0->mUnk_3ec[i - 1]);
-        }
-    } else {
-        func_020468b0(b, 0, 0, 4, -1, 3);
-    }
-    return r;
-}
-
-s32 func_02044e9c(s32 a, s32 b) {
-    u8 i;
-    s32 r;
-    Unk0217aa08_14 *p;
-
-    r = 0;
-    if (data_021759c0->mUnk_1e8.mUnk_0c == 2) {
-        return 1;
-    }
-    p = data_0217aa08->mUnk_14;
-    if (p->mUnk_08_0 == 1) {
-        func_020468b0(b, p->mUnk_04_0, p->mUnk_04_4, 2, -1, 3);
-        data_021759c0->mUnk_250[b].mUnk_08.mUnk_10 = r;
-        func_0214d1fc(p->mUnk_30, data_02175650[b].mUnk_00, 0xdcc);
-        r = 1;
-        func_02056574(0, &data_021759c0->mUnk_3e8);
-        for (i = 1; i <= 5; i++) {
-            func_020565ac(0, i, &data_021759c0->mUnk_3ec[i - 1]);
-        }
-    }
-    return r;
-}
-
-// non-matching: same size; the original keeps the second loop index in r0, the 0x30-step offset in r1 and the counter in r2 (here the offset in r0, the index in r1) and holds the global's address in r1 (here r2).
-void func_02044fc0(void) {
-    s8 i;
-    u8 n;
-    s8 j;
-
-    n = 0;
+    gRaceSetup->mNextEntries[7].mPlayer.mUnk_08 = 0;
+    gRaceSetup->mNextEntries[6].mPlayer.mUnk_08 = 1;
+    gRaceSetup->mKartCount = 0;
+    gRaceSetup->mHumanAndPeerKartCount = 0;
     for (i = 0; i < 2; i++) {
-        data_021759c0->mUnk_3d5[i] = -1;
+        gRaceSetup->mTeamKartCounts[i] = 0;
     }
-    for (j = 0; j < data_021759c0->mUnk_3d0; j++) {
-        if ((data_021759c0->mUnk_68[(u16) j].mUnk_08.mUnk_14 & 1) != 0) {
-            n++;
-            data_021759c0->mUnk_3d5[(u8) data_021759c0->mUnk_68[j].mUnk_08.mUnk_08] = j;
-        }
+    gRaceSetup->mUnk_3d4 = 0;
+    for (i = 0; i < 2; i++) {
+        gRaceSetup->mUnk_3d5[i] = -1;
     }
-    data_021759c0->mUnk_3d4 = n;
+    gRaceSetup->mCourseCount = 0;
+    for (i = 0; i < 0x21; i++) {
+        gRaceSetup->mCourseList[i] = 0;
+    }
+    gRaceSetup->mCourseListIndex = 0;
+    time = &gRaceSetup->mGhostTime;
+    time->mMinute = 0;
+    time->mSecond = 0;
+    time->mMillisecond = 0;
+    for (i = 0; i < 5; i++) {
+        time = &gRaceSetup->mGhostLapTimes[i];
+        time->mMinute = 0;
+        time->mSecond = 0;
+        time->mMillisecond = 0;
+    }
+    ResetCupRecords();
+    ResetParticipantKartMap();
+    SetCurrentRaceFromNext();
 }
 
-static inline Unk0217aa00_45c *func_02045084_inline(Unk0217aa00 *q, s32 a) {
-    u16 e;
-
-    e = q->mUnk_1e8c[a];
-    return e == 0xffff ? 0 : &q->mUnk_045c[e];
-}
-
-// non-matching: 0x500 bytes, original 0x50c; the original keeps the first flag in r3 (reused as the zero constant after its compare) and makes two conditional-move copies of it (r1 and r3), here the flag lives in sl and one copy is left out.
-void func_02045084(s32 a) {
+void SetCurrentEntryPlayer(s32 entryIndex) {
     Unk0217aa08 *p;
-    Unk0217aa00 *q;
-    void **b0;
-    void **b1;
+    ConnectionWork *q;
+    void **nameSlot;
+    void **emblemDataSlot;
     u8 *b2;
     u8 *b3;
     u8 *b4;
     s32 *b5;
-    s32 f;
-    s32 g;
-    s32 t;
+    BOOL f;
+    BOOL g;
+    BOOL t;
     s8 x;
     u8 v;
 
     p = data_0217aa08;
-    b0 = &data_021759c0->mUnk_68[a].mUnk_08.mUnk_18;
-    b1 = &data_021759c0->mUnk_68[a].mUnk_08.mUnk_1c;
-    b2 = &data_021759c0->mUnk_68[a].mUnk_08.mUnk_24;
-    b3 = &data_021759c0->mUnk_68[a].mUnk_08.mUnk_25;
-    b4 = &data_021759c0->mUnk_68[a].mUnk_08.mUnk_26;
-    b5 = &data_021759c0->mUnk_68[a].mUnk_08.mUnk_20;
-    f = 0;
-    if (p->mUnk_04->mUnk_004 != 0 && p->mUnk_00->mUnk_31_3 == 0) {
-        f = 1;
+    nameSlot = &gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mName;
+    emblemDataSlot = &gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mEmblemData;
+    b2 = &gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mUnk_24;
+    b3 = &gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mUnk_25;
+    b4 = &gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mUnk_26;
+    b5 = &gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mUnk_20;
+    f = FALSE;
+    if (p->mEmblemRecord->mFilled != 0) {
+        f = p->mFirstBlock->mUnk_31_3 == 0;
     }
-    *b0 = 0;
-    *b1 = 0;
+    if (f != FALSE) {
+        g = TRUE;
+    } else {
+        g = FALSE;
+    }
+    *nameSlot = NULL;
+    *emblemDataSlot = NULL;
     *b2 = 0;
     *b5 = 0;
     *b3 = data_021759d0->mUnk_00;
     *b4 = 0;
-    if (f != 0) {
-        g = 1;
-    } else {
-        g = 0;
-    }
-    if (a == data_021759c0->mUnk_62) {
-        *b0 = &data_0217aa08->mUnk_00->mUnk_0c;
-        *b1 = &data_0217aa08->mUnk_04->mUnk_008;
-        *b2 = g != 0 ? 1 : 0;
+    if (entryIndex == gRaceSetup->mEntryIndex) {
+        *nameSlot = &data_0217aa08->mFirstBlock->mPlayerName;
+        *emblemDataSlot = &data_0217aa08->mEmblemRecord->mEmblemData;
+        *b2 = g != FALSE ? 1 : 0;
         *b3 = data_021759d0->mUnk_00;
         *b4 = func_02056208();
         return;
     }
-    switch (data_021759c0->mUnk_68[a].mUnk_08.mUnk_00) {
-    case 0:
-        q = data_0217aa00;
-        t = 0;
-        if ((q == 0 ? 0 : q->mUnk_0000) != 0 && q->mUnk_0004 != 13) {
-            t = 1;
-        }
-        if (t == 0) {
-            return;
-        }
-        if (func_02045084_inline(data_0217aa00, a) == 0) {
-            return;
-        }
-        *b0 = func_02045084_inline(data_0217aa00, a);
-        *b1 = &func_02045084_inline(data_0217aa00, a)->mUnk_014;
-        *b2 = func_02045084_inline(data_0217aa00, a)->mUnk_214;
-        *b3 = func_02045084_inline(data_0217aa00, a)->mUnk_228_0;
-        q = data_0217aa00;
-        if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2 || (q->mUnk_0457 & (1 << q->mUnk_1e8c[a])) != 0) {
-            *b5 = 0;
-        } else {
-            *b5 = (s32) &func_02045084_inline(data_0217aa00, a)->mUnk_218;
-        }
-        *b4 = func_02045084_inline(data_0217aa00, a)->mUnk_229;
-        break;
-    case 2:
-        switch (data_021759c0->mUnk_68[a].mUnk_08.mUnk_10) {
-        case 0:
-            *b0 = &data_0217aa08->mUnk_14->mUnk_0c;
-            *b1 = &data_0217aa08->mUnk_04->mUnk_008;
-            *b2 = g != 0 ? 1 : 0;
-            *b3 = data_0217aa08->mUnk_14->mUnk_08_2;
-            *b4 = 0;
+    switch (gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mKind) {
+        case PLAYER_KIND_HUMAN:
+            q = data_0217aa00;
+            t = FALSE;
+            if ((q == NULL ? 0 : q->mUnk_0000) != 0 && q->mUnk_0004 != 13) {
+                t = TRUE;
+            }
+            if (t == FALSE) {
+                return;
+            }
+            if (func_02045084_inline(q, entryIndex) == NULL) {
+                return;
+            }
+            *nameSlot = func_02045084_inline(q, entryIndex);
+            *emblemDataSlot = &func_02045084_inline(data_0217aa00, entryIndex)->mUnk_014;
+            *b2 = func_02045084_inline(data_0217aa00, entryIndex)->mUnk_214;
+            *b3 = func_02045084_inline(data_0217aa00, entryIndex)->mUnk_228_0;
+            *b5 =
+                func_02045084_inline2() || (data_0217aa00->mUnk_0457 & (1 << data_0217aa00->mUnk_1e8c[entryIndex])) != 0
+                    ? 0
+                    : (s32) &func_02045084_inline(data_0217aa00, entryIndex)->mUnk_218;
+            *b4 = func_02045084_inline(data_0217aa00, entryIndex)->mUnk_229;
             break;
-        case 1:
-            *b0 = &data_0217aa08->mUnk_18->mUnk_0c;
-            *b1 = &data_0217aa08->mUnk_18->mUnk_30;
-            *b2 = data_0217aa08->mUnk_18->mUnk_08_1;
-            *b3 = data_0217aa08->mUnk_18->mUnk_08_2;
-            *b4 = data_0217aa08->mUnk_18->mUnk_2f_0;
+        case PLAYER_KIND_GHOST:
+            switch (gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mGhostRecordIndex) {
+                case 0:
+                    *nameSlot = &data_0217aa08->mGhostRecords[0]->mName;
+                    *emblemDataSlot = &data_0217aa08->mEmblemRecord->mEmblemData;
+                    *b2 = g != FALSE ? 1 : 0;
+                    *b3 = data_0217aa08->mGhostRecords[0]->mUnk_08_2;
+                    *b4 = 0;
+                    break;
+                case 1:
+                    *nameSlot = &data_0217aa08->mGhostRecords[1]->mName;
+                    *emblemDataSlot = &data_0217aa08->mGhostRecords[1]->mUnk_30;
+                    *b2 = data_0217aa08->mGhostRecords[1]->mUnk_08_1;
+                    *b3 = data_0217aa08->mGhostRecords[1]->mUnk_08_2;
+                    *b4 = data_0217aa08->mGhostRecords[1]->mUnk_2f_0;
+                    break;
+                case 2:
+                    *nameSlot = &data_0217aa08->mGhostRecords[2]->mName;
+                    *emblemDataSlot = &data_0217aa08->mGhostRecords[2]->mUnk_30;
+                    *b2 = 1;
+                    *b3 = data_0217aa08->mGhostRecords[2]->mUnk_08_2;
+                    *b4 = 1;
+                    break;
+            }
             break;
-        case 2:
-            *b0 = &data_0217aa08->mUnk_1c->mUnk_0c;
-            *b1 = &data_0217aa08->mUnk_1c->mUnk_30;
-            *b2 = 1;
-            *b3 = data_0217aa08->mUnk_1c->mUnk_08_2;
-            *b4 = 1;
+        case PLAYER_KIND_PEER:
+            x = gParticipantKartMap->mParticipantOfKart[(u8) entryIndex];
+            if (x < 0) {
+                return;
+            }
+            v = x;
+            *nameSlot = GetPlayerRecordName(v);
+            *emblemDataSlot = GetPlayerRecordEmblem(v);
+            *b2 = func_02120278(v);
+            *b3 = GetPlayerRecordRegion(v);
+            *b5 = func_021202f0(v);
+            *b4 = func_021201e4(v);
             break;
-        }
-        break;
-    case 3:
-        x = data_0217aa18->mUnk_00[(u8) a];
-        if (x < 0) {
-            return;
-        }
-        v = x;
-        *b0 = func_021202b0(v);
-        *b1 = func_02120294(v);
-        *b2 = func_02120278(v);
-        *b3 = func_021202cc(v);
-        *b5 = func_021202f0(v);
-        *b4 = func_021201e4(v);
-        break;
     }
 }
 
-// non-matching: same size; in the loop the original keeps the zero constants in r3/r4 and the 0x30 offset in r5 (here zero in r5/ip, offset in r4), and orders the moveq/movne pair of the (i == 0) select the other way.
-void func_02045590(void) {
-    u16 i;
-    u16 j;
-    u16 k;
-    Unk020565e4 *e;
-    Unk021759c0 *q;
+void func_02044fc0(void) {
+    u8 n;
+    s8 j;
 
-    data_021759c0->mUnk_1e8.mUnk_00 = 0x14;
-    data_021759c0->mUnk_1e8.mUnk_04 = 0;
-    data_021759c0->mUnk_1e8.mUnk_08 = 0;
-    data_021759c0->mUnk_1e8.mUnk_0c = 0;
-    data_021759c0->mUnk_1e8.mUnk_10 = 0;
-    data_021759c0->mUnk_1e8.mUnk_14 = 0;
-    data_021759c0->mUnk_1e8.mUnk_18 = 0;
-    data_021759c0->mUnk_1e8.mUnk_1c = 0;
-    data_021759c0->mUnk_1e8.mUnk_20 = 0;
-    data_021759c0->mUnk_1e8.mUnk_24 = 0;
-    func_0214d168(&data_021759c0->mUnk_1e8.mUnk_28, 0, 0x2c);
-    data_021759c0->mUnk_1e8.mUnk_54 = -1;
-    data_021759c0->mUnk_1e8.mUnk_55 = -1;
-    data_021759c0->mUnk_1e8.mUnk_56[0] = 0;
-    data_021759c0->mUnk_1e8.mUnk_57 = 0;
-    data_021759c0->mUnk_1e8.mUnk_58 = 0;
-    data_021759c0->mUnk_1e8.mUnk_5c = 0;
-    data_021759c0->mUnk_1e8.mUnk_60 = 1;
-    data_021759c0->mUnk_1e8.mUnk_62 = -1;
-    data_021759c0->mUnk_1e8.mUnk_63 = 0;
-    data_021759c0->mUnk_1e8.mUnk_64 = -1;
-    for (i = 0; i < 8; i++) {
-        data_021759c0->mUnk_250[i].mUnk_00 = i;
-        data_021759c0->mUnk_250[i].mUnk_04 = i * 3;
-        data_021759c0->mUnk_250[i].mUnk_08.mUnk_00 = i != 0 ? 1 : 0;
-        data_021759c0->mUnk_250[i].mUnk_08.mUnk_04 = -1;
-        data_021759c0->mUnk_250[i].mUnk_08.mUnk_08 = 3;
-        data_021759c0->mUnk_250[i].mUnk_08.mUnk_0c = i;
-        data_021759c0->mUnk_250[i].mUnk_08.mUnk_10 = 3;
-        data_021759c0->mUnk_250[i].mUnk_08.mUnk_14 = 0;
-        data_021759c0->mUnk_250[i].mUnk_08.mUnk_18 = 0;
-        data_021759c0->mUnk_250[i].mUnk_08.mUnk_24 = 0;
-        data_021759c0->mUnk_250[i].mUnk_08.mUnk_25 = data_021759d0->mUnk_00;
-        data_021759c0->mUnk_250[i].mUnk_08.mUnk_1c = 0;
-        data_021759c0->mUnk_250[i].mUnk_08.mUnk_20 = 0;
-    }
-    data_021759c0->mUnk_250[7].mUnk_08.mUnk_08 = 0;
-    data_021759c0->mUnk_250[6].mUnk_08.mUnk_08 = 1;
-    data_021759c0->mUnk_3d0 = 0;
-    data_021759c0->mUnk_3d1 = 0;
+    n = 0;
     for (j = 0; j < 2; j++) {
-        data_021759c0->mUnk_3d2[j] = 0;
+        gRaceSetup->mUnk_3d5[j] = -1;
     }
-    data_021759c0->mUnk_3d4 = 0;
-    for (j = 0; j < 2; j++) {
-        data_021759c0->mUnk_3d5[j] = -1;
+    for (j = 0; j < gRaceSetup->mKartCount; j++) {
+        if ((gRaceSetup->mCurrentEntries[(u16) j].mPlayer.mUnk_14 & 1) != 0) {
+            gRaceSetup->mUnk_3d5[(u8) gRaceSetup->mCurrentEntries[j].mPlayer.mUnk_08] = j;
+            n++;
+        }
     }
-    data_021759c0->mUnk_3d8 = 0;
-    for (k = 0; k < 0x21; k++) {
-        data_021759c0->mUnk_3dc[k] = 0;
+    gRaceSetup->mUnk_3d4 = n;
+}
+
+BOOL func_02044e9c(s32 courseId, s32 entryIndex) {
+    u8 i;
+    BOOL result;
+    GhostRecord *ghostRecord;
+
+    result = FALSE;
+    if (gRaceSetup->mNextHeader.mRaceKind == 2) {
+        return TRUE;
     }
-    data_021759c0->mUnk_3e0 = 0;
-    q = data_021759c0;
-    e = &q->mUnk_3e8;
-    e->mUnk_02 = 0;
-    e->mUnk_03 = 0;
-    q->mUnk_3e8.mUnk_00 = 0;
-    for (i = 0; i < 5; i++) {
-        q = data_021759c0;
-        e = q->mUnk_3ec;
-        e[i].mUnk_02 = 0;
-        e[i].mUnk_03 = 0;
-        e[i].mUnk_00 = 0;
+    ghostRecord = data_0217aa08->mGhostRecords[0];
+    if (ghostRecord->mFilled == 1) {
+        SetNextRaceEntry(entryIndex, ghostRecord->mCharacterIndex, ghostRecord->mKartIndex, PLAYER_KIND_GHOST, -1, 3);
+        gRaceSetup->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex = result;
+        MI_CpuCopy8(ghostRecord->mUnk_30, data_02175650[entryIndex].mBuffer, 0xdcc);
+        result = TRUE;
+        GetGhostFinishTimeByIndex(0, &gRaceSetup->mGhostTime);
+        for (i = 1; i <= 5; i++) {
+            GetGhostLapTimeByIndex(0, i, &gRaceSetup->mGhostLapTimes[i - 1]);
+        }
     }
-    func_0205db50();
-    func_0205d07c();
-    func_02044940();
+    return result;
+}
+
+s32 func_02044d4c(s32 courseId, s32 entryIndex) {
+    GhostRecord *ghostRecord;
+    s32 filled;
+    u8 i;
+
+    if (gRaceSetup->mNextHeader.mRaceKind == 2) {
+        return 1;
+    }
+    ghostRecord = data_0217aa08->mGhostRecords[1];
+    filled = ghostRecord->mFilled == 1 ? 1 : 0;
+    if (filled != 0) {
+        SetNextRaceEntry(entryIndex, ghostRecord->mCharacterIndex, ghostRecord->mKartIndex, PLAYER_KIND_GHOST, -1, 3);
+        gRaceSetup->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex = 1;
+        MI_CpuCopy8(&ghostRecord->mUnk_30[0x200], data_02175650[entryIndex].mBuffer, 0xdcc);
+        GetGhostFinishTimeByIndex(1, &gRaceSetup->mGhostTime);
+        for (i = 1; i <= 5; i++) {
+            GetGhostLapTimeByIndex(1, i, &gRaceSetup->mGhostLapTimes[i - 1]);
+        }
+    } else {
+        SetNextRaceEntry(entryIndex, 0, 0, PLAYER_KIND_NONE, -1, 3);
+    }
+    return filled;
+}
+
+BOOL func_02044bf8(s32 courseId, s32 entryIndex) {
+    GhostRecord *ghostRecord;
+    u8 i;
+
+    if (gRaceSetup->mNextHeader.mRaceKind == 2) {
+        return TRUE;
+    }
+    ghostRecord = data_0217aa08->mGhostRecords[2];
+    if (ghostRecord != NULL && ghostRecord->mFilled == 1) {
+        SetNextRaceEntry(entryIndex, ghostRecord->mCharacterIndex, ghostRecord->mKartIndex, PLAYER_KIND_GHOST, -1, 3);
+        gRaceSetup->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex = 2;
+        MI_CpuCopy8(&ghostRecord->mUnk_30[0x200], data_02175650[entryIndex].mBuffer, 0xdcc);
+        GetGhostFinishTime(ghostRecord, &gRaceSetup->mGhostTime);
+        for (i = 1; i <= 5; i++) {
+            GetGhostLapTime(ghostRecord, i, &gRaceSetup->mGhostLapTimes[i - 1]);
+        }
+        return TRUE;
+    }
+    SetNextRaceEntry(entryIndex, 0, 0, PLAYER_KIND_NONE, -1, 3);
+    return FALSE;
+}
+
+void SetCurrentRaceFromNext(void) {
+    s16 entryIndex;
+    GhostRecord *ghostRecord;
+    ConnectionWork *q;
+    u16 n;
+    u16 entryCount;
+    u8 i;
+    BOOL f;
+
+    entryCount = 0;
+    switch (gRaceSetup->mNextHeader.mMode) {
+        case MODE_GRAND_PRIX:
+        case MODE_BATTLE:
+        case MODE_VS:
+            entryCount = 8;
+            break;
+        case 5:
+            entryCount = 4;
+            break;
+        case MODE_TIME_ATTACK:
+            n = 1;
+            ghostRecord = data_0217aa08->mGhostRecords[0];
+            if (ghostRecord->mFilled == 1) {
+                gRaceSetup->mFirstGhostRecordFilled = 1;
+                gRaceSetup->mFirstGhostRecordMinute = ghostRecord->mMinute;
+                gRaceSetup->mFirstGhostRecordSecond = ghostRecord->mSecond;
+                gRaceSetup->mFirstGhostRecordMillisecond = ghostRecord->mMillisecond;
+            } else {
+                gRaceSetup->mFirstGhostRecordFilled = 0;
+                gRaceSetup->mFirstGhostRecordMinute = 0;
+                gRaceSetup->mFirstGhostRecordSecond = 0;
+                gRaceSetup->mFirstGhostRecordMillisecond = 0;
+            }
+            switch (gRaceSetup->mNextHeader.mGhostRecordIndex) {
+                case 0:
+                    if (func_02044e9c(gRaceSetup->mNextHeader.mCourseId, 1) != 0) {
+                        n++;
+                    }
+                    break;
+                case 1:
+                    if (func_02044d4c(gRaceSetup->mNextHeader.mCourseId, 1) != 0) {
+                        n++;
+                    }
+                    break;
+                case 2:
+                    if (func_02044bf8(gRaceSetup->mNextHeader.mCourseId, 1) != FALSE) {
+                        n++;
+                    }
+                    break;
+                case 3:
+                    break;
+            }
+            entryCount = n;
+            break;
+        case MODE_MISSION_RUN:
+            entryCount = 2;
+            break;
+    }
+    switch (gRaceSetup->mNextHeader.mRaceKind) {
+        case RACE_KIND_DEMO:
+        case RACE_KIND_AWARD:
+            gRaceSetup->mNextHeader.mEntryIndex = gRaceSetup->mNextHeader.mFollowedKartIndex;
+            break;
+        case RACE_KIND_STAFF_ROLL:
+            gRaceSetup->mNextHeader.mEntryIndex = gRaceSetup->mNextHeader.mFollowedKartIndex;
+            entryCount = 8;
+            break;
+        case RACE_KIND_NORMAL:
+        case 2:
+        case RACE_KIND_START_GP:
+        case 4:
+            entryIndex = 0;
+            for (i = 0; i < 8; i++) {
+                if (gRaceSetup->mNextEntries[i].mPlayer.mKind == PLAYER_KIND_HUMAN) {
+                    entryIndex = i;
+                    break;
+                }
+            }
+            q = data_0217aa00;
+            f = FALSE;
+            if ((q == NULL ? 0 : q->mUnk_0000) != 0 && q->mUnk_0004 != 13) {
+                f = TRUE;
+            }
+            if (f != FALSE) {
+                entryIndex = q->mUnk_1e52[(u16) (q->mUnk_0000 == 2 ? q->mOwnIndex : 0)].mEntryIndex;
+            }
+            gRaceSetup->mNextHeader.mEntryIndex = entryIndex;
+            gRaceSetup->mNextHeader.mFollowedKartIndex = entryIndex;
+            break;
+    }
+    *(RaceSetupBlock *) gRaceSetup = *(RaceSetupBlock *) &gRaceSetup->mNextHeader;
+    RefreshRaceSetupKartCounts(entryCount);
+    func_02044fc0();
+    for (n = 0; n < 8; n++) {
+        SetCurrentEntryPlayer(n);
+    }
+}
+
+void func_020446e0(void) {
+    u8 i;
+    u32 tableIndex;
+    u8 cupIndex;
+    u8 courseIndexInCup;
+    RaceSetupHeader *a;
+    s32 cupCourseId;
+    u8 rankIndex;
+    s32 kartIndex;
+
+    switch (gRaceSetup->mNextHeader.mMode) {
+        case MODE_GRAND_PRIX:
+            if (gRaceSetup->mNextHeader.mCourseId == COURSE_ID_AWARD) {
+                gRaceSetup->mNextHeader.mCourseId = COURSE_ID_AWARD;
+                gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_AWARD;
+                for (i = 3; i < 8; i++) {
+                    SetNextRaceEntry(i, i, i * 3, PLAYER_KIND_NONE, -1, 3);
+                }
+                gRaceSetup->mNextHeader.mFollowedKartIndex = 0;
+            } else if ((u32) (gRaceSetup->mNextHeader.mCourseId - 0x35) <= 1) {
+                gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_STAFF_ROLL;
+                gRaceSetup->mNextHeader.mEngineIndex = 1;
+                for (rankIndex = 0; rankIndex < 8; rankIndex++) {
+                    s8 j;
+                    for (j = 0; j < gRaceSetup->mKartCount; j++) {
+                        if (rankIndex + 1 == GetKartCupRank((u16) j)) {
+                            break;
+                        }
+                    }
+                    kartIndex = rankIndex * 3;
+                    if (gRaceSetup->mNextHeader.mCourseId != COURSE_ID_STAFFROLLTRUE) {
+                        func_020446e0_inline(3, -1, 1, kartIndex, rankIndex, rankIndex);
+                    }
+                }
+                gRaceSetup->mNextHeader.mFollowedKartIndex = 0;
+            } else {
+                for (tableIndex = 0; tableIndex < 32; tableIndex++) {
+                    cupIndex = (s32) tableIndex / 4;
+                    courseIndexInCup = (s32) tableIndex % 4;
+                    cupCourseId = gCupCourseIdTable[cupIndex][courseIndexInCup];
+                    if (gRaceSetup->mNextHeader.mCourseId == cupCourseId) {
+                        break;
+                    }
+                    if (tableIndex == 31) {
+                        cupIndex = 0;
+                        courseIndexInCup = 3;
+                    }
+                }
+                gRaceSetup->mNextHeader.mCourseNumber = (u8) (courseIndexInCup + 1);
+                a = &gRaceSetup->mNextHeader;
+                gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_START_GP;
+                gRaceSetup->mNextHeader.mCupIndex = cupIndex;
+            }
+            break;
+        case MODE_BATTLE:
+            if (data_021759d0->mUnk_1c_2 != 0) {
+                gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_NORMAL;
+            } else {
+                gRaceSetup->mNextHeader.mRaceKind = 4;
+            }
+            break;
+        case MODE_MISSION_RUN:
+            break;
+        default:
+            gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_NORMAL;
+            break;
+    }
+}
+
+void ResetTimeAttackNextEntries(void) {
+    u16 i;
+
+    if (gRaceSetup->mNextHeader.mMode != MODE_TIME_ATTACK) {
+        return;
+    }
+    gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_NORMAL;
+    for (i = 1; i < 8; i++) {
+        gRaceSetup->mNextEntries[i].mCharacterIndex = i;
+        gRaceSetup->mNextEntries[i].mKartIndex = i;
+        gRaceSetup->mNextEntries[i].mPlayer.mKind = PLAYER_KIND_NONE;
+        gRaceSetup->mNextEntries[i].mPlayer.mIndex = i;
+    }
+}
+
+// In battle there is one lap.
+u16 GetLapCount(void) {
+    RaceSetup *raceSetup;
+    u16 lapCount;
+
+    lapCount = 1;
+    raceSetup = gRaceSetup;
+    if (raceSetup->mMode != MODE_BATTLE) {
+        if (raceSetup->mLapCount <= 0) {
+            lapCount = gCourseMap->mSettings->mLapCountOrBattleSeconds;
+        } else {
+            lapCount = raceSetup->mLapCount;
+        }
+    }
+    return lapCount;
 }

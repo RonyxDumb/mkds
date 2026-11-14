@@ -1,55 +1,61 @@
 #include "Main/Unknown/code_020d849c.h"
 #include "Main/Unknown/code_020d8cac.h"
 
-void func_020d8620(Unk020e0144 *p) {
-    Unk02042044 *a = p->mUnk_1c;
-    p->mUnk_1c = p->mUnk_20;
-    p->mUnk_20 = a;
-    p->mUnk_18 = p->mUnk_18 == 0;
+void ReverseGroupFollower(GroupFollower *follower) {
+    CourseMapGroupEntry *savedEntry = follower->mFromEntry;
+    follower->mFromEntry = follower->mToEntry;
+    follower->mToEntry = savedEntry;
+    follower->mForward = follower->mForward == 0;
 }
 
-void func_020d859c(Unk020d84e4 *p, u16 b, s32 c) {
-    s32 a;
-    s32 d;
-    func_020d90a8(&p->mUnk_00, b, c);
-    a = p->mUnk_00.mUnk_1c->mUnk_0e;
-    p->mUnk_2c = a != 0 ? p->mUnk_24 * a : p->mUnk_28;
-    p->mUnk_30 = p->mUnk_2c;
-    a = p->mUnk_00.mUnk_20->mUnk_0e;
-    p->mUnk_34 = a != 0 ? p->mUnk_24 * a : p->mUnk_28;
-    d = p->mUnk_30;
-    p->mUnk_00.mUnk_04 = d;
-    p->mUnk_00.mUnk_10 = (s32)(((s64)d * p->mUnk_00.mUnk_00->mUnk_00[p->mUnk_00.mUnk_0c].mUnk_34) >> 12);
+void SetupGroupFollowerWithSpeeds(GroupFollowerWithSpeeds *follower, u16 entryIndex, s32 forward) {
+    s32 entryValue;
+    s32 speed;
+    SetupGroupFollowerAtEntry(&follower->mUnk_00, entryIndex, forward);
+    entryValue = follower->mUnk_00.mFromEntry->mUnk_0e;
+    follower->mFromSpeed = entryValue != 0 ? follower->mSpeedPerEntryUnit * entryValue : follower->mDefaultSpeed;
+    follower->mUnk_30 = follower->mFromSpeed;
+    entryValue = follower->mUnk_00.mToEntry->mUnk_0e;
+    follower->mToSpeed = entryValue != 0 ? follower->mSpeedPerEntryUnit * entryValue : follower->mDefaultSpeed;
+    speed = follower->mUnk_30;
+    follower->mUnk_00.mSpeed = speed;
+    follower->mUnk_00.mProgressStep =
+        ((s64) speed * follower->mUnk_00.mPath->mSegments[follower->mUnk_00.mSegmentIndex].mInverseProgressLength) >>
+        12;
 }
 
-s32 func_020d84e4(Unk020d84e4 *p) {
-    s32 r;
-    s32 a;
-    s32 b;
-    s32 c;
-    r = func_020d8cc8(&p->mUnk_00);
-    if (r != 0) {
-        p->mUnk_2c = p->mUnk_34;
-        a = p->mUnk_00.mUnk_20->mUnk_0e;
-        p->mUnk_34 = a != 0 ? p->mUnk_24 * a : p->mUnk_28;
+s32 AdvanceGroupFollowerWithSpeeds(GroupFollowerWithSpeeds *follower) {
+    s32 crossedEnd;
+    s32 entryValue;
+    s32 blend;
+    s32 speed;
+    crossedEnd = AdvanceGroupFollower(&follower->mUnk_00);
+    if (crossedEnd != 0) {
+        follower->mFromSpeed = follower->mToSpeed;
+        entryValue = follower->mUnk_00.mToEntry->mUnk_0e;
+        follower->mToSpeed = entryValue != 0 ? follower->mSpeedPerEntryUnit * entryValue : follower->mDefaultSpeed;
     }
-    if (p->mUnk_2c != p->mUnk_34) {
-        b = func_020d8cac(&p->mUnk_00);
-        c = (s32)(((s64)p->mUnk_2c * (0x1000 - b)) >> 12) + (s32)(((s64)p->mUnk_34 * b) >> 12);
-        p->mUnk_00.mUnk_04 = c;
-        p->mUnk_00.mUnk_10 = (s32)(((s64)c * p->mUnk_00.mUnk_00->mUnk_00[p->mUnk_00.mUnk_0c].mUnk_34) >> 12);
+    if (follower->mFromSpeed != follower->mToSpeed) {
+        blend = GetGroupFollowerProgress(&follower->mUnk_00);
+        speed = (s32) (((s64) follower->mFromSpeed * (0x1000 - blend)) >> 12) +
+                (s32) (((s64) follower->mToSpeed * blend) >> 12);
+        follower->mUnk_00.mSpeed = speed;
+        follower->mUnk_00.mProgressStep =
+            ((s64) speed *
+             follower->mUnk_00.mPath->mSegments[follower->mUnk_00.mSegmentIndex].mInverseProgressLength) >>
+            12;
     }
-    return r;
+    return crossedEnd;
 }
 
-void func_020d84c0(Unk020d849c *p, s32 a) {
-    s32 t = p->mUnk_00.mUnk_34;
-    p->mUnk_54 = a;
-    a = t != 0 ? (s32)(((s64)a * t) >> 12) : 0x1000000;
-    p->mUnk_58 = a;
+void SetSegmentProgressRate(SegmentProgress *segmentProgress, s32 a) {
+    s32 inverseLength = segmentProgress->mUnk_00.mInverseProgressLength;
+    segmentProgress->mUnk_54 = a;
+    a = inverseLength != 0 ? (s32) (((s64) a * inverseLength) >> 12) : 0x1000000;
+    segmentProgress->mUnk_58 = a;
 }
 
-s32 func_020d849c(Unk020d849c *p) {
-    p->mUnk_5c = p->mUnk_5c + p->mUnk_58;
-    return p->mUnk_5c >= 0x1000000;
+BOOL AdvanceSegmentProgress(SegmentProgress *segmentProgress) {
+    segmentProgress->mUnk_5c = segmentProgress->mUnk_5c + segmentProgress->mUnk_58;
+    return segmentProgress->mUnk_5c >= 0x1000000;
 }

@@ -1,45 +1,27 @@
 #include "Main/Unknown/code_020ccc9c.h"
+#include "Main/Unknown/code_020cae8c.h"
+#include "Main/Unknown/unk_0217b000.h"
 
 #pragma thumb on
 
-s32 func_020ccccc(void) {
-    return ((s32) *(
-        const u32 *) ((u8 *) (u32) (((u32) *(
-                                   const u32 *) ((u8 *) (u32) (((u32) (&data_0217b43c))) +
-                                                          0))) +
-                               0));
+s32 GetFramesSinceMenuScreenSwitch(void) {
+    return data_0217b43c->mFramesSinceScreenSwitch;
 }
 
 u32 func_020cccc0(void) {
-    return ((u32) *(
-        const u32 *) ((u8 *) (u32) (((u32) *(
-                                   const u32 *) ((u8 *) (u32) (((u32) (&data_0217b43c))) +
-                                                          0))) +
-                               4));
+    return (data_0217b43c->mUnk_004);
 }
 
-u32 func_020cccb4(void) {
-    return ((u32) *(
-        const u32 *) ((u8 *) (u32) (((u32) *(
-                                   const u32 *) ((u8 *) (u32) (((u32) (&data_0217b43c))) +
-                                                          0))) +
-                               8));
+u32 GetPreviousMenuScreenNumber(void) {
+    return (data_0217b43c->mPreviousScreenNumber);
 }
 
-u32 func_020ccca8(void) {
-    return ((u32) *(
-        const u32 *) ((u8 *) (u32) (((u32) *(
-                                   const u32 *) ((u8 *) (u32) (((u32) (&data_0217b43c))) +
-                                                          0))) +
-                               12));
+u32 GetMenuScreenNumber(void) {
+    return (data_0217b43c->mScreenNumber);
 }
 
-u32 func_020ccc9c(void) {
-    return ((u32) *(
-        const u32 *) ((u8 *) (u32) (((u32) *(
-                                   const u32 *) ((u8 *) (u32) (((u32) (&data_0217b43c))) +
-                                                          0))) +
-                               16));
+u32 GetNextMenuScreenNumber(void) {
+    return (data_0217b43c->mNextScreenNumber);
 }
 
 #pragma thumb off

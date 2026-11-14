@@ -1,19 +1,20 @@
 #include "Main/Unknown/code_0203f2b4.h"
+#include "Main/Unknown/code_020f36d8.h"
 
-s32 func_0203f2b4(u32 a) {
-    return data_0217561c->mUnk_000[a].mUnk_14 == 4;
+BOOL IsKartNonCpu(u32 a) {
+    BOOL f;
+    s32 s;
+    f = FALSE;
+    s = gRaceSetup->mCurrentEntries[a].mPlayer.mKind;
+    if ((u32) s <= 3 && ((1 << s) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) != 0) {
+        f = TRUE;
+    }
+    if (f != FALSE) {
+        return TRUE;
+    }
+    return FALSE;
 }
 
-s32 func_0203f2dc(u32 a) {
-    s32 f;
-    s32 s;
-    f = 0;
-    s = data_021759c0->mUnk_68[a].mUnk_08.mUnk_00;
-    if ((u32) s <= 3 && ((1 << s) & 0xd) != 0) {
-        f = 1;
-    }
-    if (f != 0) {
-        return 1;
-    }
-    return 0;
+BOOL IsRaceProgressKartRemoved(u32 a) {
+    return gRaceProgress->mUnk_000[a].mStatus == 4;
 }

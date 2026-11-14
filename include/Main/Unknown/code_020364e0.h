@@ -1,7 +1,9 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/unk_02174000.h"
 
-void *func_020364e0(void *param_1);
-void *func_020364e8(void);
+typedef struct HeapCall HeapCall;
+
+void *GetHeap(HeapCall *call);
+void *GetCurrentHeapCall(void);
+u32 RunHeapCall(HeapCall *call, u32 argument);

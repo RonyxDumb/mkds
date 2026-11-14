@@ -1,174 +1,183 @@
 #include "Main/Unknown/code_0208aea8.h"
+#include "Main/Unknown/code_02036820.h"
 #include "Main/Unknown/code_02036bec.h"
-#include "Main/Unknown/code_020478bc.h"
-#include "Main/Unknown/code_02061808.h"
-#include "Main/Unknown/code_02062eb0.h"
+#include "Main/Unknown/code_02047000.h"
+#include "Main/Unknown/code_0205e000.h"
+#include "Main/Unknown/unk_02164000.h"
+#include "Main/Unknown/code_02047104.h"
+#include "Main/Unknown/unk_0217a000.h"
+#include "Main/Unknown/code_02061654.h"
 #include "Main/Unknown/code_0214d000.h"
 #include "Main/Unknown/code_020f36d8.h"
 #include "Main/Unknown/unk_021759c0.h"
+#include "code_0214d018.h"
 
-static inline u32 func_0208b190_inline(Unk020f41c4_B *b, u32 n) {
-    b->mUnk_00 = b->mUnk_08 * b->mUnk_00 + b->mUnk_10;
+static inline u32 func_0208b190_inline(RandomState64 *b, u32 n) {
+    b->mValue = b->mMultiplier * b->mValue + b->mIncrement;
     if (n == 0) {
-        return (u32) (b->mUnk_00 >> 32);
+        return b->mValue >> 32;
     }
-    return (u32) (((b->mUnk_00 >> 32) * n) >> 32);
+    return ((b->mValue >> 32) * n) >> 32;
 }
 
-void func_0208aea8(u32 a, u32 b, u32 c) {
-    u8 *p = data_0217b038->mUnk_0c;
-    u8 *q = data_0217b038->mUnk_10;
-    if (func_02062eb0() != 0) {
-        c = 0;
-        b = c;
-    } else if (data_021759c0->mUnk_08 == 2) {
-        b = (u16) (c + 0x25);
+// Ids from 1000 up belong to the second manager (Mission Run); the id inside the manager goes to *a.
+SPLManager *GetSPLManagerForEffectId(s32 *outIndex, s32 effectId) {
+    if (effectId >= 0x3e8) {
+        effectId -= 0x3e8;
+        *outIndex = effectId;
+        return gMissionRunSPLManager;
     }
-    func_0214d1fc(p + b * 0x98, data_0217b038->mUnk_00 + a * 0x98, 0x98);
-    func_0214d1fc(q + c * 8, data_0217b038->mUnk_04 + a * 8, 8);
+    *outIndex = effectId;
+    return data_0217b044;
 }
 
-void func_0208af40(void *a, u32 b) {
-    data_0217b038 = func_02036bec(a, 0x14);
-    data_0217b038->mUnk_00 = func_02036bec(a, b * 0x98);
-    data_0217b038->mUnk_04 = func_02036bec(a, b * 8);
-    data_0217b038->mUnk_0c = (u8 *) func_020478bc((u32) data_021660c8);
-    data_0217b038->mUnk_10 = (u8 *) func_020478bc((u32) data_021660e0);
-    data_0217b038->mUnk_08 = *(s32 *) (data_0217b038->mUnk_0c + 0x10);
-}
+void AdvanceStadiumEmitters(void) {
+    s16 i;
+    s32 bestIndex;
+    Vec3 cameraForward;
+    s32 effectIds[6];
+    s32 emitterDirectionIndices[6];
+    s32 bestDot;
+    s32 previousIndex;
+    s32 nextIndex;
+    s32 emitterIndex;
+    s32 randomDraw;
+    Unk0217b050Func *getManager;
+    Camera *camera;
 
-// non-matching: 0x198 bytes, original 0x1ac; stack frame 0x5c in the original, 0x54 here; the loop locals and the saved x differ
-void func_0208afe4(void) {
-    Unk02166108 a = data_usa_02166108;
-    Unk021660f8 b = data_usa_021660f8;
-    s32 x = data_usa_02155fc0.x;
-    s32 y = data_usa_02155fc0.y;
-    s32 z = data_usa_02155fc0.z;
-    u16 i;
-    u16 j;
-    Unk0217b050Func *f = *(Unk0217b050Func **) &data_0217b050;
-
-    for (i = 0; i < 2; i++) {
-        s32 e;
-        Vec3 v;
-        Unk0201ca6c *q;
-        Unk020184e4 *p = f(&e, b.mUnk_00[i]);
-        v.x = x >> 4;
-        v.y = y >> 4;
-        v.z = z >> 4;
-        q = func_02018600(p, e, &v);
-        if (q != 0) {
-            if (q->mUnk_20->mUnk_00->mUnk_54 & 0x80) {
-                q->mUnk_80_16 = 1;
-            } else if (q->mUnk_20->mUnk_00->mUnk_54 & 0x40) {
-                q->mUnk_80_16 = 2;
-            }
-        }
-    }
-    for (j = 0; j < 0x18; j++) {
-        s32 e;
-        Vec3 v;
-        Unk0201ca6c *q;
-        Unk020184e4 *p = f(&e, a.mUnk_00[j]);
-        v.x = x >> 4;
-        v.y = y >> 4;
-        v.z = z >> 4;
-        q = func_02018600(p, e, &v);
-        if (q != 0) {
-            if (q->mUnk_20->mUnk_00->mUnk_54 & 0x80) {
-                q->mUnk_80_16 = 1;
-            } else if (q->mUnk_20->mUnk_00->mUnk_54 & 0x40) {
-                q->mUnk_80_16 = 2;
-            }
-        }
-    }
-}
-
-// non-matching: 0x2b4 bytes, original 0x2c8; literal order and registers differ from the first load of data_0217b048
-void func_0208b190(void) {
-    s32 v1 = -0x1000;
-    s32 v2 = -1;
-    Vec3 v3;
-    s32 w[6];
-    s32 u[6];
-    s32 i;
-    s32 j;
-    s32 k;
-    s32 m;
-    s32 n;
-    Unk0217b050Func *f;
-
-    data_0217b048->mUnk_60--;
-    if (data_0217b048->mUnk_60 > 0) {
+    data_0217b048->mEmitterTimer--;
+    if (data_0217b048->mEmitterTimer > 0) {
         return;
     }
-    v3 = *(Vec3 *) ((u8 *) func_02061808() + 0x15c);
+    bestDot = -0x1000;
+    bestIndex = -1;
+    camera = GetCurrentCamera();
+    cameraForward = camera->mForward;
     for (i = 0; i < 6; i++) {
-        if (data_0217b048->mUnk_48[i] != 0) {
-            s32 e;
-            f = *(Unk0217b050Func **) &data_0217b050;
-            func_020184e4(f(&e, 0), data_0217b048->mUnk_48[i]);
-            data_0217b048->mUnk_48[i] = 0;
+        StadiumEmitters *stadiumEmitters = data_0217b048;
+        if (stadiumEmitters->mEmitters[i] != NULL) {
+            s32 effectIndex;
+            Unk0201ca6c **emitterSlot = &stadiumEmitters->mEmitters[i];
+            SPLManager_DeleteEmitter(gGetSPLManagerFunction(&effectIndex, 0), *emitterSlot);
+            *emitterSlot = NULL;
         }
     }
     for (i = 0; i < 6; i++) {
-        s32 d = func_0214848c(&v3, &data_0217b048->mUnk_00[i]);
-        if (d >= v1) {
-            v1 = d;
-            v2 = i;
+        s32 dot = VEC_DotProduct(&cameraForward, &data_0217b048->mDirections[i]);
+        if (dot >= bestDot) {
+            bestDot = dot;
+            bestIndex = i;
         }
     }
-    j = v2 - 1;
-    if (j < 0) {
-        j = 5;
+    previousIndex = bestIndex - 1;
+    if (previousIndex < 0) {
+        previousIndex = 5;
     }
-    k = v2 + 1;
-    if (k >= 6) {
-        k = 0;
+    nextIndex = bestIndex + 1;
+    if (nextIndex >= 6) {
+        nextIndex = 0;
     }
-    u[0] = data_usa_02155f48[j * 2];
-    u[1] = data_usa_02155f48[j * 2 + 1];
-    u[2] = data_usa_02155f48[v2 * 2];
-    u[3] = data_usa_02155f48[v2 * 2 + 1];
-    u[4] = data_usa_02155f48[k * 2];
-    u[5] = data_usa_02155f48[k * 2 + 1];
-    w[0] = j;
-    w[1] = j;
-    w[2] = v2;
-    w[3] = v2;
-    w[4] = k;
-    w[5] = k;
-    for (m = 0; m < 6; m++) {
-        s32 e;
-        Vec3 v;
-        Unk0201ca6c *q;
-        Unk020184e4 *p;
-        Vec3 *t = &data_02155f78[w[m]];
-        f = *(Unk0217b050Func **) &data_0217b050;
-        p = f(&e, u[m]);
-        v.x = t->x >> 4;
-        v.y = t->y >> 4;
-        v.z = t->z >> 4;
-        q = func_02018600(p, e, &v);
-        if (q != 0) {
-            if (q->mUnk_20->mUnk_00->mUnk_54 & 0x80) {
-                q->mUnk_80_16 = 1;
-            } else if (q->mUnk_20->mUnk_00->mUnk_54 & 0x40) {
-                q->mUnk_80_16 = 2;
+    effectIds[0] = data_02155f48[previousIndex * 2];
+    effectIds[1] = data_02155f48[previousIndex * 2 + 1];
+    effectIds[2] = data_02155f48[bestIndex * 2];
+    effectIds[3] = data_02155f48[bestIndex * 2 + 1];
+    effectIds[4] = data_02155f48[nextIndex * 2];
+    effectIds[5] = data_02155f48[nextIndex * 2 + 1];
+    emitterDirectionIndices[0] = emitterDirectionIndices[1] = previousIndex;
+    emitterDirectionIndices[2] = emitterDirectionIndices[3] = bestIndex;
+    emitterDirectionIndices[4] = emitterDirectionIndices[5] = nextIndex;
+    for (emitterIndex = 0; emitterIndex < 6; emitterIndex++) {
+        s32 effectIndex;
+        Vec3 position;
+        Unk0201ca6c *emitter;
+        SPLManager *manager;
+        Vec3 *tablePosition = &data_02155f78[emitterDirectionIndices[emitterIndex]];
+        getManager = gGetSPLManagerFunction;
+        manager = getManager(&effectIndex, effectIds[emitterIndex]);
+        position.x = tablePosition->x >> 4;
+        position.y = tablePosition->y >> 4;
+        position.z = tablePosition->z >> 4;
+        emitter = SPLManager_CreateEmitter(manager, effectIndex, &position);
+        if (emitter != NULL) {
+            if (emitter->mUnk_20->mUnk_00->mUnk_54 & 0x80) {
+                emitter->mUnk_80_16 = 1;
+            } else if (emitter->mUnk_20->mUnk_00->mUnk_54 & 0x40) {
+                emitter->mUnk_80_16 = 2;
             }
         }
-        data_0217b048->mUnk_48[m] = q;
+        data_0217b048->mEmitters[emitterIndex] = emitter;
     }
-    n = func_0208b190_inline(&data_0217561c->mUnk_498, 0x19);
-    data_0217b048->mUnk_60 = (u16) n + 0x14;
+    randomDraw = func_0208b190_inline(&gRaceProgress->mLocalRandom, 0x19);
+    data_0217b048->mEmitterTimer = (u16) randomDraw + 0x14;
 }
 
-Unk020184e4 *func_0208b458(s32 *a, s32 b) {
-    if (b >= 0x3e8) {
-        b -= 0x3e8;
-        *a = b;
-        return data_0217b03c;
+void CreateAwardEmitters(void) {
+    Unk02166108 secondEffectIds = data_02166108;
+    Unk021660f8 firstEffectIds = data_021660f8;
+    s32 baseX = data_02155fc0.x;
+    s32 baseY = data_02155fc0.y;
+    s32 baseZ = data_02155fc0.z;
+    u16 emitterIndex;
+    s32 emitX = baseX >> 4;
+    s32 emitY = baseY >> 4;
+    s32 emitZ = baseZ >> 4;
+
+    for (emitterIndex = 0; emitterIndex < 2; emitterIndex++) {
+        s32 effectIndex;
+        Vec3 position;
+        Unk0201ca6c *emitter;
+        SPLManager *manager = gGetSPLManagerFunction(&effectIndex, firstEffectIds.mUnk_00[emitterIndex]);
+        position.x = emitX;
+        position.y = emitY;
+        position.z = emitZ;
+        emitter = SPLManager_CreateEmitter(manager, effectIndex, &position);
+        if (emitter != NULL) {
+            if (emitter->mUnk_20->mUnk_00->mUnk_54 & 0x80) {
+                emitter->mUnk_80_16 = 1;
+            } else if (emitter->mUnk_20->mUnk_00->mUnk_54 & 0x40) {
+                emitter->mUnk_80_16 = 2;
+            }
+        }
     }
-    *a = b;
-    return data_0217b044;
+    for (emitterIndex = 0; emitterIndex < 0x18; emitterIndex++) {
+        s32 effectIndex;
+        Vec3 position;
+        Unk0201ca6c *emitter;
+        SPLManager *manager = gGetSPLManagerFunction(&effectIndex, secondEffectIds.mUnk_00[emitterIndex]);
+        position.x = baseX >> 4;
+        position.y = emitY;
+        position.z = emitZ;
+        emitter = SPLManager_CreateEmitter(manager, effectIndex, &position);
+        if (emitter != NULL) {
+            if (emitter->mUnk_20->mUnk_00->mUnk_54 & 0x80) {
+                emitter->mUnk_80_16 = 1;
+            } else if (emitter->mUnk_20->mUnk_00->mUnk_54 & 0x40) {
+                emitter->mUnk_80_16 = 2;
+            }
+        }
+    }
+}
+
+void CreateKartPhysicalParamTable(void *heap, u32 entryCount) {
+    gKartPhysicalParamTable = HeapAlloc(heap, 0x14);
+    gKartPhysicalParamTable->mKartParams = HeapAlloc(heap, entryCount * 0x98);
+    gKartPhysicalParamTable->mCharParams = HeapAlloc(heap, entryCount * 8);
+    gKartPhysicalParamTable->mKartParamFile = FindKartModelFile(data_021660c8);
+    gKartPhysicalParamTable->mCharParamFile = FindKartModelFile(data_021660e0);
+    gKartPhysicalParamTable->mFirstBaseSpeedLimit = *OFFSET_PTR(s32, gKartPhysicalParamTable->mKartParamFile, 0x10);
+}
+
+// Copies the kart row and the character row of the files to the slot after choosing the rows (rows 0 when
+// IsRaceAwardOrStaffRoll() != 0; character + 0x25 in mode 2).
+void CopyKartPhysicalParams(u32 slot, u32 kartRow, u32 characterRow) {
+    u8 *kartParamFile = gKartPhysicalParamTable->mKartParamFile;
+    u8 *characterParamFile = gKartPhysicalParamTable->mCharParamFile;
+    if (IsRaceAwardOrStaffRoll() != 0) {
+        characterRow = 0;
+        kartRow = characterRow;
+    } else if (gRaceSetup->mMode == MODE_BATTLE) {
+        kartRow = (u16) (characterRow + 0x25);
+    }
+    MI_CpuCopy8(kartParamFile + kartRow * 0x98, gKartPhysicalParamTable->mKartParams + slot * 0x98, 0x98);
+    MI_CpuCopy8(characterParamFile + characterRow * 8, gKartPhysicalParamTable->mCharParams + slot * 8, 8);
 }

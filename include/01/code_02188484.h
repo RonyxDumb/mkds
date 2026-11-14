@@ -1,15 +1,20 @@
 #pragma once
 
 #include "types.h"
-#include "01/code_02188950.h"
 
-void func_ov001_02188484(int param_1, int param_2, u32 param_3, u32 param_4, u32 param_5, u32 param_6, u32 param_7,
-                         u32 param_8, u32 param_9);
-void func_ov001_021884f0(int param_1, int param_2, int param_3, int param_4, u32 param_5, u32 param_6, u32 param_7);
-void func_ov001_021885d4(int param_1, int param_2, u32 param_3, u32 param_4, u32 param_5, u32 param_6, u32 param_7,
-                         u32 param_8, u32 param_9);
-void func_ov001_02188644(int param_1, int param_2, u32 param_3, u32 param_4, u32 param_5, u32 param_6, u32 param_7);
-void func_ov001_021886f8(int param_1, u32 param_2, u32 param_3, u32 param_4, int param_5, u32 param_6);
-void func_ov001_0218875c(Unk02188950 *param_1, s32 param_2, s32 param_3, s32 param_4);
-void func_ov001_0218883c(int param_1, int param_2, u32 param_3, u32 param_4, u32 param_5);
-void func_ov001_021888a4(Unk02188950 *param_1, s32 param_2, s32 param_3);
+typedef struct Unk02188950 Unk02188950;
+
+void SetCollisionBoxOffsetAndExtentTarget(Unk02188950 *mapObject, int offsetX, u32 offsetY, u32 offsetZ,
+                                          u32 offsetPerCall, u32 extentX, u32 extentY, u32 extentZ, u32 extentPerCall);
+void SetCollisionBoxOffsetAndExtent(Unk02188950 *mapObject, int offsetX, int offsetY, int offsetZ, u32 extentX,
+                                    u32 extentY, u32 extentZ);
+void SetShadowOffsetAndScaleTarget(Unk02188950 *mapObject, int offsetX, u32 offsetY, u32 offsetZ, u32 offsetPerCall,
+                                   u32 scaleX, u32 g, u32 scaleZ, u32 scalePerCall);
+void SetShadowOffsetAndScale(Unk02188950 *mapObject, int offsetX, u32 offsetY, u32 offsetZ, u32 scaleX, u32 f,
+                             u32 scaleZ);
+void SetCollisionOffsetAndExtentTarget(Unk02188950 *mapObject, u32 offsetY, u32 offsetPerCall, u32 extentXZ,
+                                       int extentY, u32 extentPerCall);
+void SetCollisionOffsetAndExtent(Unk02188950 *mapObject, s32 offsetY, s32 extentXZ, s32 extentY);
+void SetShadowOffsetYAndScaleTarget(Unk02188950 *mapObject, int offsetY, u32 offsetPerCall, u32 scaleXZ,
+                                    u32 scalePerCall);
+void SetShadowOffsetYAndScale(Unk02188950 *mapObject, s32 offsetY, s32 scaleXZ);

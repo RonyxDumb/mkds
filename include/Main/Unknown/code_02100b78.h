@@ -2,4 +2,6 @@
 
 #include "types.h"
 
-void func_02100b78(unsigned int p0);
+typedef struct ItemTeresa ItemTeresa;
+
+void SetItemTeresaPosPointerToDrawPos(ItemTeresa *teresa);

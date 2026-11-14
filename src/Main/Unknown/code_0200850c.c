@@ -1,29 +1,29 @@
 #include "Main/Unknown/code_0200850c.h"
+#include "code_0214d018.h"
 
 #pragma thumb on
 
-void func_0200850c(u32 *param_1, u32 param_2, u32 param_3, int param_4) {
-    u32 uVar1;
-    if (param_2 < ((u32) 0x00004000u)) {
-        param_2 = ((u32) 0x00004000u);
+void CopyOrClearRange(u32 *a, u32 b, u32 c, int d) {
+    u32 rangeStart;
+    if (b < (0x00004000u)) {
+        b = (0x00004000u);
     }
-    if (((u32) 0x00008000u) < param_3) {
-        param_3 = ((u32) 0x00008000u);
+    if ((0x00008000u) < c) {
+        c = (0x00008000u);
     }
-    uVar1 = *param_1;
-    if (param_2 < uVar1) {
-        param_2 = uVar1;
+    rangeStart = *a;
+    if (b < rangeStart) {
+        b = rangeStart;
     }
-    if (param_3 > uVar1 + param_1[3]) {
-        param_3 = uVar1 + param_1[3];
+    if (c > rangeStart + a[3]) {
+        c = rangeStart + a[3];
     }
-    if (param_2 < param_3) {
-        if (param_4 != 0) {
-            func_0214d168((void *) ((u32 *) (u32) (param_1[2] + param_2)), (u8) 0, (u32) (param_3 - param_2));
+    if (b < c) {
+        if (d != 0) {
+            MI_CpuFill8(((u32 *) (u32) (a[2] + b)), 0, c - b);
             return;
         }
-        func_0214d1fc((const void *) ((u16 *) (u32) (param_1[1] + param_2)),
-                      (void *) ((u32 *) (u32) (param_1[2] + param_2)), (u32) (param_3 - param_2));
+        MI_CpuCopy8(((u16 *) (u32) (a[1] + b)), ((u32 *) (u32) (a[2] + b)), c - b);
     }
 }
 

@@ -1,21 +1,24 @@
 #include "Main/Unknown/code_020e6f58.h"
+#include "Main/Unknown/code_020ea670.h"
+#include "Main/Unknown/code_020d6538.h"
 
 #include "Main/Unknown/code_020d6000.h"
 
 #pragma thumb on
-void func_020e6f58(Unk020e6fd4 *p, Unk020e71a0 *q) {
+// While still unset, also fills the list's words 0x18 to 0x20.
+void AddMapObjectToUpdateList(MapObjectList *p, MapObject *q) {
     u16 n;
-    Unk020e71a0_98 *t;
+    MapObjectKindData *t;
 
-    n = p->mUnk_04;
-    p->mUnk_04 = n + 1;
-    p->mUnk_00[n] = q;
+    n = p->mMapObjectCount;
+    p->mMapObjectCount = n + 1;
+    p->mMapObjects[n] = q;
     if (p->mUnk_18 == 3) {
-        t = q->mUnk_98;
+        t = q->mKindData;
         p->mUnk_18 = t->mUnk_20;
     }
-    if (p->mUnk_1c == 0) {
-        t = q->mUnk_98;
+    if (p->mUnk_1c == NULL) {
+        t = q->mKindData;
         p->mUnk_1c = t->mUnk_04;
     }
     if (p->mUnk_20 == 3) {

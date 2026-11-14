@@ -1,12 +1,11 @@
 #include "Main/Unknown/code_0210e328.h"
-#include "Main/Unknown/code_0212c6a0.h"
+#include "code_0212bcac.h"
 
-void func_0210e328(Unk0210bf24 *arg0) {
-    u32 value0 = (u32) arg0;
-    u32 value1;
-    u32 value12;
-    value12 = (u32) &func_0212c6a0;
-    value1 = 0u;
-    *(u32 *) ((value0) + (4)) = value1;
-    func_0212c6a0((Unk0212c400 **) value0);
+void ResetPlayingSoundHandle(PlayingSound *sound) {
+    u32 soundAddress = (u32) sound;
+    u32 zero;
+    u32 unused;
+    zero = 0u;
+    *(u32 *) ((soundAddress) + (4)) = zero;
+    NNS_SndHandleInit((NNSSndSeqPlayer **) soundAddress);
 }

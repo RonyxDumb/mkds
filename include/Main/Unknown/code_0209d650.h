@@ -1,7 +1,5 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020ac000.h"
-#include "Main/Unknown/code_020d7da8.h"
 
-void func_0209d650(u32 arg0);
+void InitSun(u32 sun); /* creates 30 MAP_OBJECT_KIND_SUN_FIREBALL pool objects */

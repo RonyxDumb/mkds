@@ -1,6 +1,7 @@
 #include "00/code_0218a1bc.h"
 #include "00/code_021898dc.h"
-#include "00/code_021a8e78.h"
+#include "00/code_021a8878.h"
+#include "00/code_021a8aa8.h"
 #include "code_0200f5ac.h"
 
 u32 func_ov000_0218a1bc(Unk02188ec0 *v1) {
@@ -11,7 +12,7 @@ u32 func_ov000_0218a1bc(Unk02188ec0 *v1) {
         }
         return 0xd;
     }
-    if ((func_0200f5ac() - v1->mUnk_cb0) * 64 / 0x1ff6210 >= 10) {
+    if ((OS_GetTick() - v1->mUnk_cb0) * 64 / 0x1ff6210 >= 10) {
         v1->mUnk_444[v1->mUnk_d13].mUnk_00 = 1;
         return 0xb;
     }

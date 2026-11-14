@@ -1,11 +1,12 @@
 #include "Main/Unknown/code_02087cd0.h"
+#include "Main/Unknown/code_02087d0c.h"
 
-void func_02087cd0(void *p0, u32 p1) {
-    *(u16 *) ((u8 *) (u32) p0 + 0) = (u16) 0x1u;
-    *(u16 *) ((u8 *) (u32) p0 + 2) = (u16) 0x0u;
-    *(u32 *) ((u8 *) (u32) p0 + 8) = (u32) 0x1000u;
-    *(u32 *) ((u8 *) (u32) p0 + 4) = p1;
-    *(u32 *) ((u8 *) (u32) p0 + 12) = (u32) 0x0u;
-    *(u16 *) ((u8 *) (u32) p0 + 16) = (u16) 0x0u;
-    *(u16 *) ((u8 *) (u32) p0 + 18) = (u16) 0x0u;
+void ResetModelAnimationLooping(ModelAnimation *animation, u32 frameCountFixed) {
+    animation->mLoopMode = 1;
+    animation->mDone = 0;
+    animation->mFrameStep = 0x1000;
+    animation->mFrameCountFixed = frameCountFixed;
+    animation->mFrameIndex = 0;
+    animation->mLoopsDone = 0;
+    animation->mLoopCount = 0;
 }

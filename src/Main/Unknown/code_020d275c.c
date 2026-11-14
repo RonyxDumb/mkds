@@ -1,27 +1,26 @@
 #include "Main/Unknown/code_020d275c.h"
+#include "Main/Unknown/code_02109054.h"
 
-void func_020d2774(Unk020e71a0 *arg0, u32 arg1) {
-    u32 value0 = (u32) arg0;
-    u32 value1 = arg1;
-    u32 value2;
+void StartMapObjectSound(MapObject *mapObject, u32 soundId) {
+    u32 value0 = (u32) mapObject;
+    u32 soundIdCopy = soundId;
+    u32 volume;
     u32 value3;
-    u32 value12;
-    value12 = (u32) &func_021090c4;
-    value0 = (u32) * (const u32 *) ((value0) + (148));
-    value2 = 0x7fu;
+    u32 unused;
+    value0 = *(const u32 *) ((value0) + (148));
+    volume = 0x7fu;
     value3 = 0u;
-    value0 = (u32) func_021090c4((void *) value0, (int) value1, (int) value2, (int) value3);
+    value0 = (u32) StartSound((void *) value0, soundIdCopy, volume, value3);
 }
 
-void func_020d275c(Unk020e71a0 *arg0, u32 arg1) {
-    u32 value0 = (u32) arg0;
-    u32 value1 = arg1;
-    u32 value2;
+void StartMapObjectSoundWhileRequested(MapObject *mapObject, u32 soundId) {
+    u32 value0 = (u32) mapObject;
+    u32 soundIdCopy = soundId;
+    u32 volume;
     u32 value3;
-    u32 value12;
-    value12 = (u32) &func_02109078;
-    value0 = (u32) * (const u32 *) ((value0) + (148));
-    value2 = 0x7fu;
+    u32 unused;
+    value0 = *(const u32 *) ((value0) + (148));
+    volume = 0x7fu;
     value3 = 0u;
-    func_02109078((Unk0210bfbc *) value0, (int) value1, (int) value2, (int) value3);
+    StartSoundWhileRequested((SoundSource *) value0, soundIdCopy, volume, value3);
 }

@@ -1,42 +1,43 @@
 #include "00/code_02197ddc.h"
+#include "00/code_02197e58.h"
 #include "00/code_021a3690.h"
+#include "00/unk_021b3000.h"
+#include "code_02134398.h"
 
-u32 func_ov000_02197e60(int *param_1, int param_2) {
-    int iVar1;
-    iVar1 = (int) func_ov000_021a3690((u32) (param_2));
-    *param_1 = iVar1;
-    if (*param_1 == 0) {
+u32 InitBuffer(Gt2Buffer *a, int b) {
+    u8 *v1;
+    v1 = func_ov000_021a3690(b);
+    a->mData = v1;
+    if (a->mData == 0) {
         return 0;
     }
-    param_1[1] = param_2;
+    a->mSize = b;
     return 1;
 }
 
-int func_ov000_02197e58(int param_1) {
-    return *(int *) (param_1 + 4) - *(int *) (param_1 + 8);
+int GetBufferUnusedSize(Gt2Buffer *a) {
+    return a->mSize - a->mLength;
 }
 
-void func_ov000_02197e20(int *param_1, u8 param_2) {
-    int iVar1;
-    if (param_1[2] >= param_1[1]) {
-        func_0213442c(data_ov000_021b3f34, data_ov000_021b3ebc, 0, 0x23);
+void AppendBufferByte(Gt2Buffer *buffer, u8 b) {
+    int v1;
+    if (buffer->mLength >= buffer->mSize) {
+        AssertionFailed(data_ov000_021b3f34, data_ov000_021b3ebc, NULL, 0x23);
     }
-    iVar1 = param_1[2];
-    param_1[2] = iVar1 + 1;
-    *(u8 *) (*param_1 + iVar1) = param_2;
-    return;
+    v1 = buffer->mLength;
+    buffer->mLength = v1 + 1;
+    buffer->mData[v1] = b;
 }
 
-void func_ov000_02197ddc(int *param_1, u32 param_2) {
-    int iVar1;
-    if (param_1[2] + 2 > param_1[1]) {
-        func_0213442c(data_ov000_021b3f10, data_ov000_021b3ebc, 0, 0x2e);
+void AppendBufferU16(Gt2Buffer *buffer, s32 b) {
+    int v1;
+    if (buffer->mLength + 2 > buffer->mSize) {
+        AssertionFailed(data_ov000_021b3f10, data_ov000_021b3ebc, NULL, 0x2e);
     }
-    iVar1 = param_1[2];
-    param_1[2] = iVar1 + 1;
-    *(s8 *) (*param_1 + iVar1) = (s8) ((int) param_2 >> 8);
-    iVar1 = param_1[2];
-    param_1[2] = iVar1 + 1;
-    *(s8 *) (*param_1 + iVar1) = (s8) param_2;
-    return;
+    v1 = buffer->mLength;
+    buffer->mLength = v1 + 1;
+    buffer->mData[v1] = b >> 8;
+    v1 = buffer->mLength;
+    buffer->mLength = v1 + 1;
+    buffer->mData[v1] = (s8) b;
 }

@@ -1,5 +1,15 @@
 #include "Main/Unknown/code_0202e68c.h"
-#include "Main/Unknown/code_020ae428.h"
+#include "Main/Unknown/code_020ade08.h"
+#include "Main/Unknown/code_020b1dbc.h"
+#include "Main/Unknown/code_0207b960.h"
+#include "Main/Unknown/code_020b4e5c.h"
+#include "Main/Unknown/code_02039860.h"
+#include "Main/Unknown/code_02147000.h"
+#include "Main/Unknown/unk_0215d000.h"
+#include "Main/Unknown/unk_021759c0.h"
+#include "Main/Unknown/code_020b47d8.h"
+#include "Main/Unknown/code_020b6a18.h"
+#include "Main/Unknown/code_0207a880.h"
 #include "Main/Unknown/code_020b502c.h"
 #include "Main/Unknown/code_0202ecac.h"
 #include "Main/Unknown/code_0202ecd4.h"
@@ -7,226 +17,237 @@
 #include "Main/Unknown/code_0202ee3c.h"
 #include "Main/Unknown/code_0202ee68.h"
 #include "Main/Unknown/code_0202f0a8.h"
+#include "Main/Unknown/unk_02174000.h"
 #include "code_0214d018.h"
 
 #pragma optimize_for_size on
 
-void func_0202e68c(void *a, u32 b) {
-    func_0202e6a0(a, 0, b);
+u16 func_0202ec98(InputSlot *slot, u32 mask) {
+    return slot->mBits & mask;
 }
 
-void func_0202e6a0(void *a, u32 b, u32 c) {
-    volatile u32 v = b;
-    func_0214d05c(v, a, c);
+u16 func_0202ec7c(u32 slotIndex, u32 mask) {
+    return func_0202ec98(&data_02175628[slotIndex], mask);
 }
 
 #pragma thumb on
 
-void func_0202e6c4(void) {
-    if (data_02174e48->mUnk_038 == 10) {
-        data_02174e48->mUnk_668 = 1;
-    }
-    data_02174e48->mUnk_038 = data_02174e48->mUnk_038 - 1;
-    if (data_02174e48->mUnk_038 == 0) {
-        func_0202f120(0, -1, -1, func_0202edfc());
-        data_02174e48->mUnk_008[data_02174e48->mUnk_02c].mUnk_00 = 1;
-        data_02174e48->mUnk_670 = 0;
-        data_02174e48->mUnk_664 = 1;
-    }
-}
-
-void func_0202e72c(void) {
-    s32 i;
-    s32 j;
-    s32 k;
-    s32 a;
-    Unk02124b1c *p;
-    s32 z = 0;
-    data_02174e48->mUnk_038 = data_02174e48->mUnk_038 - 1;
-    for (i = 0; i < data_02174e48->mUnk_000; i++) {
-        for (j = z; j < 7; j++) {
-            k = data_02174e48->mUnk_004[i];
-            a = func_0202ee20(j + k, (j + 6) % 7 + k);
-            p = &data_02174e48->mUnk_008[j + k];
-            if (j == data_02174e48->mUnk_03c) {
-                p->mUnk_06 = a;
-            } else {
-                p->mUnk_06 = func_020ae4c0(1, (s16) a, z, data_02174e48->mUnk_038, data_02174e48->mUnk_048);
-            }
-        }
-    }
-    if (data_02174e48->mUnk_038 == 0) {
-        for (i = 0; i < data_02174e48->mUnk_000; i++) {
-            for (j = z; j < 7; j++) {
-                p = &data_02174e48->mUnk_008[j + data_02174e48->mUnk_004[i]];
-                p->mUnk_0e = p->mUnk_0e + p->mUnk_06;
-                p->mUnk_06 = 0;
-            }
-        }
-        data_02174e48->mUnk_008[data_02174e48->mUnk_02c].mUnk_00 = 1;
-        data_02174e48->mUnk_040 = data_02174e48->mUnk_040 + 1;
-        func_0202f120(1, data_02174e48->mUnk_03c, data_02174e48->mUnk_040 + 1, -1);
-        {
-            Unk02174e48 *q = data_02174e48;
-            q->mUnk_03c = (q->mUnk_03c + 1) % 7;
-        }
-        {
-            Unk02174e48 *q = data_02174e48;
-            func_0202f120(0, q->mUnk_03c, q->mUnk_040 - 1, func_0202edfc());
-        }
-        data_02174e48->mUnk_670 = 0;
-        func_0202ee3c(func_0202ee68(), 0);
-    }
-}
-
-void func_0202e84c(void) {
-    s32 i;
-    s32 j;
-    s32 k;
-    s32 a;
-    Unk02124b1c *p;
-    s32 z = 0;
-    s32 t = func_0202ee68();
-    data_02174e48->mUnk_038 = data_02174e48->mUnk_038 - 1;
-    for (i = 0; i < data_02174e48->mUnk_000; i++) {
-        for (j = z; j < 7; j++) {
-            k = data_02174e48->mUnk_004[i];
-            a = func_0202ee20(j + k, (j + 1) % 7 + k);
-            p = &data_02174e48->mUnk_008[j + k];
-            if (j == t) {
-                p->mUnk_06 = a;
-            } else {
-                p->mUnk_06 = func_020ae4c0(1, (s16) a, z, data_02174e48->mUnk_038, data_02174e48->mUnk_048);
-            }
-        }
-    }
-    if (data_02174e48->mUnk_038 == 0) {
-        for (i = 0; i < data_02174e48->mUnk_000; i++) {
-            for (j = z; j < 7; j++) {
-                p = &data_02174e48->mUnk_008[j + data_02174e48->mUnk_004[i]];
-                p->mUnk_0e = p->mUnk_0e + p->mUnk_06;
-                p->mUnk_06 = 0;
-            }
-        }
-        data_02174e48->mUnk_008[data_02174e48->mUnk_02c].mUnk_00 = 1;
-        data_02174e48->mUnk_040 = data_02174e48->mUnk_040 - 1;
-        data_02174e48->mUnk_03c = t;
-        func_0202f120(1, data_02174e48->mUnk_03c, data_02174e48->mUnk_040 - 1, -1);
-        {
-            Unk02174e48 *q = data_02174e48;
-            func_0202f120(0, q->mUnk_03c, q->mUnk_040 - 1, func_0202edfc());
-        }
-        data_02174e48->mUnk_670 = 0;
-        func_0202ee3c(data_02174e48->mUnk_03c, 0);
-    }
-}
-
-void func_0202e968(void) {
-    data_02174e48->mUnk_044 = data_02174e48->mUnk_044 + 1;
-    data_02174e48->mUnk_040 = data_02174e48->mUnk_040 + 1;
-    func_0202edd0();
-    func_0202f120(0, -1, -1, func_0202edfc());
-    data_02174e48->mUnk_670 = 0;
-}
-
-void func_0202e9ac(void) {
-    data_02174e48->mUnk_044 = data_02174e48->mUnk_044 - 1;
-    data_02174e48->mUnk_040 = data_02174e48->mUnk_040 - 1;
-    func_0202edd0();
-    func_0202f120(0, -1, -1, func_0202edfc());
-    data_02174e48->mUnk_670 = 0;
-}
-
-void func_0202e9f0(void) {
-    u32 a = func_020435bc();
-    s32 f;
-    if (data_02174e48->mUnk_660 == 0) {
+// State 0: starts a pick, a selection move or a scroll from the keys and the touch.
+void AdvanceScrollListState0(void) {
+    u32 slotIndex = func_020435bc();
+    BOOL rowChanged;
+    if (gScrollList->mEnabled == 0) {
         return;
     }
-    data_02174e48->mUnk_048 = data_02174e48->mUnk_04c > 2 ? 5 : 0xf;
-    if (func_0202ecd4(a, 1) != 0) {
-        data_02174e48->mUnk_670 = 5;
-        data_02174e48->mUnk_024 = data_02174e48->mUnk_044;
-        data_02174e48->mUnk_008[data_02174e48->mUnk_02c].mUnk_00 = 0;
-        data_02174e48->mUnk_038 = 10;
-        data_02174e48->mUnk_054 = 0;
-        data_02174e48->mUnk_050 = data_02174e48->mUnk_054;
-        data_02174e48->mUnk_04c = 0;
-        func_0202edd0();
-        func_0202f120(0, -1, -1, -1);
+    gScrollList->mScrollFrameCount = gScrollList->mHeldMoveCount > 2 ? 5 : 0xf;
+    if (func_0202ecd4(slotIndex, PAD_KEY_A) != 0) {
+        gScrollList->mState = 5;
+        gScrollList->mPickedVisibleRow = gScrollList->mSelectedVisibleRow;
+        gScrollList->mEntries[gScrollList->mCursorEntry].mVisible = 0;
+        gScrollList->mTimer = 10;
+        gScrollList->mDownHeldFrames = 0;
+        gScrollList->mUpHeldFrames = gScrollList->mDownHeldFrames;
+        gScrollList->mHeldMoveCount = 0;
+        PlaceScrollListCursor();
+        CallScrollListCallback(0, -1, -1, -1);
         return;
     }
-    if (data_02174e48->mUnk_018 <= data_02174e48->mUnk_020 && data_02174e48->mUnk_020 < data_02174e48->mUnk_018 + 5
-        && data_02174e48->mUnk_020 - data_02174e48->mUnk_018 < data_02174e48->mUnk_034) {
-        data_02174e48->mUnk_670 = 5;
-        data_02174e48->mUnk_024 = data_02174e48->mUnk_020 - data_02174e48->mUnk_018;
-        f = data_02174e48->mUnk_024 != data_02174e48->mUnk_044;
-        data_02174e48->mUnk_008[data_02174e48->mUnk_02c].mUnk_00 = f;
-        data_02174e48->mUnk_038 = 10;
-        data_02174e48->mUnk_054 = 0;
-        data_02174e48->mUnk_050 = data_02174e48->mUnk_054;
-        data_02174e48->mUnk_04c = 0;
-        data_02174e48->mUnk_040 = data_02174e48->mUnk_040 + (data_02174e48->mUnk_024 - data_02174e48->mUnk_044);
-        data_02174e48->mUnk_044 = data_02174e48->mUnk_024;
-        func_0202edd0();
-        func_0202f120(0, -1, -1, f != 0 ? func_0202edfc() : -1);
+    if (gScrollList->mFirstRowRectIndex <= gScrollList->mPressedRectIndex &&
+        gScrollList->mPressedRectIndex < gScrollList->mFirstRowRectIndex + 5 &&
+        gScrollList->mPressedRectIndex - gScrollList->mFirstRowRectIndex < gScrollList->mRowCount) {
+        gScrollList->mState = 5;
+        gScrollList->mPickedVisibleRow = gScrollList->mPressedRectIndex - gScrollList->mFirstRowRectIndex;
+        rowChanged = gScrollList->mPickedVisibleRow != gScrollList->mSelectedVisibleRow;
+        gScrollList->mEntries[gScrollList->mCursorEntry].mVisible = rowChanged;
+        gScrollList->mTimer = 10;
+        gScrollList->mDownHeldFrames = 0;
+        gScrollList->mUpHeldFrames = gScrollList->mDownHeldFrames;
+        gScrollList->mHeldMoveCount = 0;
+        gScrollList->mSelectedRow =
+            gScrollList->mSelectedRow + (gScrollList->mPickedVisibleRow - gScrollList->mSelectedVisibleRow);
+        gScrollList->mSelectedVisibleRow = gScrollList->mPickedVisibleRow;
+        PlaceScrollListCursor();
+        CallScrollListCallback(0, -1, -1, rowChanged != FALSE ? GetScrollListSelectedSlot() : -1);
         return;
     }
-    if ((func_0202ecd4(a, 0x40) != 0 || data_02174e48->mUnk_020 == data_02174e48->mUnk_010 || data_02174e48->mUnk_050 > data_02174e48->mUnk_048)
-        && data_02174e48->mUnk_040 > 0) {
-        if (data_02174e48->mUnk_044 == 0) {
-            data_02174e48->mUnk_038 = data_02174e48->mUnk_048;
-            data_02174e48->mUnk_008[data_02174e48->mUnk_02c].mUnk_00 = 0;
-            data_02174e48->mUnk_670 = 3;
-            func_0202ee3c(data_02174e48->mUnk_03c, 1);
-            func_0202f120(0, -1, -1, -1);
-            func_0202f120(2, data_02174e48->mUnk_03c, data_02174e48->mUnk_040 - data_02174e48->mUnk_044 - 1, -1);
+    if ((func_0202ecd4(slotIndex, PAD_KEY_UP) != 0 || gScrollList->mPressedRectIndex == gScrollList->mUpRectIndex ||
+         gScrollList->mUpHeldFrames > gScrollList->mScrollFrameCount) &&
+        gScrollList->mSelectedRow > 0) {
+        if (gScrollList->mSelectedVisibleRow == 0) {
+            gScrollList->mTimer = gScrollList->mScrollFrameCount;
+            gScrollList->mEntries[gScrollList->mCursorEntry].mVisible = 0;
+            gScrollList->mState = 3;
+            SetScrollListSlotVisible(gScrollList->mHiddenTopSlot, 1);
+            CallScrollListCallback(0, -1, -1, -1);
+            CallScrollListCallback(2, gScrollList->mHiddenTopSlot,
+                                   gScrollList->mSelectedRow - gScrollList->mSelectedVisibleRow - 1, -1);
         } else {
-            data_02174e48->mUnk_670 = 1;
+            gScrollList->mState = 1;
         }
-        data_02174e48->mUnk_050 = 0;
-        data_02174e48->mUnk_04c = data_02174e48->mUnk_04c + 1;
-        if (data_02174e48->mUnk_01c == data_02174e48->mUnk_010) {
-            func_0202ed50(1);
+        gScrollList->mUpHeldFrames = 0;
+        gScrollList->mHeldMoveCount = gScrollList->mHeldMoveCount + 1;
+        if (gScrollList->mTouchRectIndex == gScrollList->mUpRectIndex) {
+            SetScrollListRightColumnHighBits(1);
         }
         func_0202ecac(3);
         return;
     }
-    if ((func_0202ecd4(a, 0x80) != 0 || data_02174e48->mUnk_020 == data_02174e48->mUnk_014 || data_02174e48->mUnk_054 > data_02174e48->mUnk_048)
-        && data_02174e48->mUnk_040 < data_02174e48->mUnk_034 - 1) {
-        if (data_02174e48->mUnk_044 == 4) {
-            data_02174e48->mUnk_038 = data_02174e48->mUnk_048;
-            data_02174e48->mUnk_008[data_02174e48->mUnk_02c].mUnk_00 = 0;
-            data_02174e48->mUnk_670 = 4;
-            func_0202ee3c(func_0202ee68(), 1);
-            func_0202f120(0, -1, -1, -1);
+    if ((func_0202ecd4(slotIndex, PAD_KEY_DOWN) != 0 || gScrollList->mPressedRectIndex == gScrollList->mDownRectIndex ||
+         gScrollList->mDownHeldFrames > gScrollList->mScrollFrameCount) &&
+        gScrollList->mSelectedRow < gScrollList->mRowCount - 1) {
+        if (gScrollList->mSelectedVisibleRow == 4) {
+            gScrollList->mTimer = gScrollList->mScrollFrameCount;
+            gScrollList->mEntries[gScrollList->mCursorEntry].mVisible = 0;
+            gScrollList->mState = 4;
+            SetScrollListSlotVisible(GetScrollListHiddenBottomSlot(), 1);
+            CallScrollListCallback(0, -1, -1, -1);
             {
-                Unk02174e48 *q = data_02174e48;
-                func_0202f120(2, func_0202ee68(), q->mUnk_040 - q->mUnk_044 + 5, -1);
+                ScrollList *list = gScrollList;
+                CallScrollListCallback(2, GetScrollListHiddenBottomSlot(),
+                                       list->mSelectedRow - list->mSelectedVisibleRow + 5, -1);
             }
         } else {
-            data_02174e48->mUnk_670 = 2;
+            gScrollList->mState = 2;
         }
-        data_02174e48->mUnk_054 = 0;
-        data_02174e48->mUnk_04c = data_02174e48->mUnk_04c + 1;
-        if (data_02174e48->mUnk_01c == data_02174e48->mUnk_014) {
-            func_0202ed50(2);
+        gScrollList->mDownHeldFrames = 0;
+        gScrollList->mHeldMoveCount = gScrollList->mHeldMoveCount + 1;
+        if (gScrollList->mTouchRectIndex == gScrollList->mDownRectIndex) {
+            SetScrollListRightColumnHighBits(2);
         }
         func_0202ecac(3);
         return;
     }
-    if (func_0202ec7c(a, 0xc0) == 0 && data_02174e48->mUnk_01c != data_02174e48->mUnk_010
-        && data_02174e48->mUnk_01c != data_02174e48->mUnk_014) {
-        data_02174e48->mUnk_04c = 0;
+    if (func_0202ec7c(slotIndex, PAD_KEY_UP | PAD_KEY_DOWN) == 0 &&
+        gScrollList->mTouchRectIndex != gScrollList->mUpRectIndex &&
+        gScrollList->mTouchRectIndex != gScrollList->mDownRectIndex) {
+        gScrollList->mHeldMoveCount = 0;
+    }
+}
+
+void AdvanceScrollListSelectUp(void) {
+    gScrollList->mSelectedVisibleRow = gScrollList->mSelectedVisibleRow - 1;
+    gScrollList->mSelectedRow = gScrollList->mSelectedRow - 1;
+    PlaceScrollListCursor();
+    CallScrollListCallback(0, -1, -1, GetScrollListSelectedSlot());
+    gScrollList->mState = 0;
+}
+
+void AdvanceScrollListSelectDown(void) {
+    gScrollList->mSelectedVisibleRow = gScrollList->mSelectedVisibleRow + 1;
+    gScrollList->mSelectedRow = gScrollList->mSelectedRow + 1;
+    PlaceScrollListCursor();
+    CallScrollListCallback(0, -1, -1, GetScrollListSelectedSlot());
+    gScrollList->mState = 0;
+}
+
+void AdvanceScrollListScrollUp(void) {
+    s32 groupIndex;
+    s32 slotIndex;
+    s32 firstEntry;
+    s32 distance;
+    LayoutTableEntry *entry;
+    BOOL zero = FALSE;
+    s32 hiddenBottomSlot = GetScrollListHiddenBottomSlot();
+    gScrollList->mTimer = gScrollList->mTimer - 1;
+    for (groupIndex = 0; groupIndex < gScrollList->mGroupCount; groupIndex++) {
+        for (slotIndex = zero; slotIndex < 7; slotIndex++) {
+            firstEntry = gScrollList->mGroupFirstEntries[groupIndex];
+            distance = GetScrollListPositionYDifference(slotIndex + firstEntry, (slotIndex + 1) % 7 + firstEntry);
+            entry = &gScrollList->mEntries[slotIndex + firstEntry];
+            if (slotIndex == hiddenBottomSlot) {
+                entry->mOffsetY = distance;
+            } else {
+                entry->mOffsetY =
+                    InterpolateS16(1, distance, zero, gScrollList->mTimer, gScrollList->mScrollFrameCount);
+            }
+        }
+    }
+    if (gScrollList->mTimer == 0) {
+        for (groupIndex = 0; groupIndex < gScrollList->mGroupCount; groupIndex++) {
+            for (slotIndex = zero; slotIndex < 7; slotIndex++) {
+                entry = &gScrollList->mEntries[slotIndex + gScrollList->mGroupFirstEntries[groupIndex]];
+                entry->mPositionY = entry->mPositionY + entry->mOffsetY;
+                entry->mOffsetY = 0;
+            }
+        }
+        gScrollList->mEntries[gScrollList->mCursorEntry].mVisible = 1;
+        gScrollList->mSelectedRow = gScrollList->mSelectedRow - 1;
+        gScrollList->mHiddenTopSlot = hiddenBottomSlot;
+        CallScrollListCallback(1, gScrollList->mHiddenTopSlot, gScrollList->mSelectedRow - 1, -1);
+        {
+            ScrollList *list = gScrollList;
+            CallScrollListCallback(0, list->mHiddenTopSlot, list->mSelectedRow - 1, GetScrollListSelectedSlot());
+        }
+        gScrollList->mState = 0;
+        SetScrollListSlotVisible(gScrollList->mHiddenTopSlot, 0);
+    }
+}
+
+void AdvanceScrollListScrollDown(void) {
+    s32 groupIndex;
+    s32 slotIndex;
+    s32 firstEntry;
+    s32 distance;
+    LayoutTableEntry *entry;
+    BOOL zero = FALSE;
+    gScrollList->mTimer = gScrollList->mTimer - 1;
+    for (groupIndex = 0; groupIndex < gScrollList->mGroupCount; groupIndex++) {
+        for (slotIndex = zero; slotIndex < 7; slotIndex++) {
+            firstEntry = gScrollList->mGroupFirstEntries[groupIndex];
+            distance = GetScrollListPositionYDifference(slotIndex + firstEntry, (slotIndex + 6) % 7 + firstEntry);
+            entry = &gScrollList->mEntries[slotIndex + firstEntry];
+            if (slotIndex == gScrollList->mHiddenTopSlot) {
+                entry->mOffsetY = distance;
+            } else {
+                entry->mOffsetY =
+                    InterpolateS16(1, distance, zero, gScrollList->mTimer, gScrollList->mScrollFrameCount);
+            }
+        }
+    }
+    if (gScrollList->mTimer == 0) {
+        for (groupIndex = 0; groupIndex < gScrollList->mGroupCount; groupIndex++) {
+            for (slotIndex = zero; slotIndex < 7; slotIndex++) {
+                entry = &gScrollList->mEntries[slotIndex + gScrollList->mGroupFirstEntries[groupIndex]];
+                entry->mPositionY = entry->mPositionY + entry->mOffsetY;
+                entry->mOffsetY = 0;
+            }
+        }
+        gScrollList->mEntries[gScrollList->mCursorEntry].mVisible = 1;
+        gScrollList->mSelectedRow = gScrollList->mSelectedRow + 1;
+        CallScrollListCallback(1, gScrollList->mHiddenTopSlot, gScrollList->mSelectedRow + 1, -1);
+        {
+            ScrollList *list = gScrollList;
+            list->mHiddenTopSlot = (list->mHiddenTopSlot + 1) % 7;
+        }
+        {
+            ScrollList *list = gScrollList;
+            CallScrollListCallback(0, list->mHiddenTopSlot, list->mSelectedRow - 1, GetScrollListSelectedSlot());
+        }
+        gScrollList->mState = 0;
+        SetScrollListSlotVisible(GetScrollListHiddenBottomSlot(), 0);
+    }
+}
+
+void AdvanceScrollListPick(void) {
+    if (gScrollList->mTimer == 10) {
+        gScrollList->mPickStarted = 1;
+    }
+    gScrollList->mTimer = gScrollList->mTimer - 1;
+    if (gScrollList->mTimer == 0) {
+        CallScrollListCallback(0, -1, -1, GetScrollListSelectedSlot());
+        gScrollList->mEntries[gScrollList->mCursorEntry].mVisible = 1;
+        gScrollList->mState = 0;
+        gScrollList->mPickFinished = 1;
     }
 }
 
 #pragma thumb off
 
-u16 func_0202ec7c(u32 a, u32 b) {
-    return func_0202ec98(&data_02175628[a], b);
+void func_0202e6a0(void *dest, u32 value, u32 size) {
+    volatile u32 valueCopy = value;
+    MIi_CpuClearFast(valueCopy, dest, size);
 }
 
-u16 func_0202ec98(Unk02175628 *a, u32 b) {
-    return a->mUnk_02 & b;
+void func_0202e68c(void *dest, u32 size) {
+    func_0202e6a0(dest, 0, size);
 }

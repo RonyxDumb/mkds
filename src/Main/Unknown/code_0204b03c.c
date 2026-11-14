@@ -1,184 +1,53 @@
 #include "Main/Unknown/code_0204b03c.h"
-
-void func_0204b03c(void) {
-    if (data_021759d0->mUnk_20 == 3) {
-        func_02059c34();
-        func_02059ea4(0);
-        func_02059e1c();
-    }
-    func_0202f2b4(func_020364e0(func_020364e8()));
-}
+#include "Main/Unknown/code_0202f14c.h"
+#include "Main/Unknown/code_020364e0.h"
+#include "Main/Unknown/code_02059bc0.h"
+#include "Main/Unknown/unk_02154000.h"
+#include "code_0200cd1c.h"
+#include "code_0200f5ac.h"
+#include "code_0214578c.h"
+#include "01/code_021956dc.h"
+#include "Main/Unknown/code_0204984c.h"
 
 #pragma thumb on
 
-u32 func_0204b084(u32 *p, u32 n, u32 a) {
-    u16 i;
-    u16 j;
-    u16 k;
-    u16 l;
-    s32 s;
-    u32 *e;
-    j = 0;
-    l = 0;
-    k = 0;
-    s = func_0204b20c(*p, a);
-    if (s == -1) {
+void UnlockBackup(void) {
+    s32 lockId;
+    lockId = gBackupAccess->mLockId;
+    if (lockId != -3) {
+        CARD_UnlockBackup(lockId);
+        OS_ReleaseLockID(gBackupAccess->mLockId);
+        gBackupAccess->mLockId = -3;
+    }
+}
+
+BOOL TryLockBackup(void) {
+    s32 lockId;
+    gBackupAccess->mLockId = OS_GetLockID();
+    lockId = gBackupAccess->mLockId;
+    if (lockId == -3) {
         return 0;
     }
-    i = s;
-    e = (u32 *) ((u8 *) p + n);
-    do {
-        *p ^= data_02154694[i] + (data_02154648[j] + (data_021545d8[k] + data_02154604[l]));
-        p++;
-        k++;
-        if (k >= 0xb) {
-            k = 0;
-            l++;
-            if (l >= 0x11) {
-                l = 0;
-                j++;
-                if (j >= 0x13) {
-                    j = 0;
-                    i++;
-                    if (i >= 0x1d) {
-                        i = 0;
-                    }
-                }
-            }
-        }
-    } while (p < e);
+    CARD_LockBackup(lockId);
     return 1;
 }
 
-// non-matching: ours keeps the first word in [sp, #8] and loads the four table words in another order (the original
-// loads the word into r1 right after the modulo and spills the second table word); size 0xcc against 0xd4
-void func_0204b138(u32 *p, u32 n) {
-    u16 i;
-    u16 j;
-    u16 k;
-    u16 l;
-    u32 *e;
-    j = 0;
-    l = 0;
-    k = 0;
-    i = (func_0200f5ac() >> 16) % 0x1d;
-    i = func_0204b20c((data_02154694[i] + (data_02154648[0] + (data_021545d8[0] + data_02154604[0]))) ^ *p, *p);
-    e = (u32 *) ((u8 *) p + n);
-    do {
-        *p ^= data_02154694[i] + (data_02154648[j] + (data_021545d8[k] + data_02154604[l]));
-        p++;
-        k++;
-        if (k >= 0xb) {
-            k = 0;
-            l++;
-            if (l >= 0x11) {
-                l = 0;
-                j++;
-                if (j >= 0x13) {
-                    j = 0;
-                    i++;
-                    if (i >= 0x1d) {
-                        i = 0;
-                    }
-                }
-            }
-        }
-    } while (p < e);
-}
-
-s32 func_0204b20c(u32 a, u32 b) {
-    u16 i;
-    s32 r;
-    i = 0;
-    r = -1;
-    for (; i < 0x1d; i++) {
-        if (b == (a ^ (data_02154694[i] + (data_02154648[0] + (data_021545d8[0] + data_02154604[0]))))) {
-            r = i;
-            break;
-        }
-    }
-    return r;
-}
-
-u32 func_0204b258(u8 *p, u32 n, u32 a) {
-    u8 *e;
-    e = p + n - 4;
-    if (a == 0) {
-        e[0] = 0;
-        e[1] = 0;
-    }
-    if (func_0204b2cc(p, n) == 0) {
-        return 1;
-    }
-    return 0;
-}
-
-void func_0204b284(u8 *p, u32 n, u32 a) {
-    u8 *e;
-    u16 c;
-    e = p + n - 4;
-    if (a == 0) {
-        e[0] = 0;
-        e[1] = 0;
-    }
-    e[2] = 0;
-    e[3] = 0;
-    c = func_0204b2cc(p, n);
-    if (a == 0) {
-        e[0] = (func_0200f5ac() >> 16) & 0xff;
-        e[1] = (func_0200f5ac() >> 32) & 0xff;
-    }
-    e[2] = c >> 8;
-    e[3] = c;
-}
-
-// non-matching: original has an extra movs r1, r3 before storing the inner counter's zero at [sp, #12] (+2 bytes)
-u16 func_0204b2cc(u8 *p, u32 n) {
-    u16 v1;
-    u16 i;
-    u16 v2;
-    u8 b;
-    s32 k;
-    i = 0;
-    v1 = 0;
-    if (i < n) {
-        do {
-            b = *p;
-            for (k = 0; k < 8; k++) {
-                if (v1 & 0x8000) {
-                    v1 <<= 1;
-                    v1 ^= data_usa_02154708;
-                } else {
-                    v1 <<= 1;
-                }
-                if (b & 0x80) {
-                    v1 ^= 1;
-                }
-                b = b << 1;
-            }
-            p++;
-            i++;
-        } while (i < n);
-    }
-    return v1;
-}
-
-void func_0204b344(s32 a) {
-    s32 f;
-    f = 1;
-    switch (data_021759d4->mUnk_00) {
+void func_0204b344(s32 errorCode) {
+    BOOL f;
+    f = TRUE;
+    switch (gBackupAccess->mUnk_00) {
         case 1:
         case 2:
-            f = 0;
+            f = FALSE;
     }
-    data_021759d4->mUnk_00 = 4;
-    data_021759d4->mUnk_04 = (void *) a;
-    switch ((s32) data_021759d4->mUnk_04) {
+    gBackupAccess->mUnk_00 = 4;
+    gBackupAccess->mErrorCode = errorCode;
+    switch (gBackupAccess->mErrorCode) {
         case 0:
             break;
         case 1:
         case 2:
-            if (f != 0) {
+            if (f != FALSE) {
                 func_02049980(1);
             } else {
                 func_02049980(2);
@@ -190,25 +59,165 @@ void func_0204b344(s32 a) {
     }
 }
 
-u32 func_0204b3a4(void) {
-    s32 r;
-    data_021759d4->mUnk_08 = func_0200cd28();
-    r = data_021759d4->mUnk_08;
-    if (r == -3) {
+u16 ComputeBytesCrc(u8 *cursor, u32 byteCount) {
+    u16 crc;
+    u16 byteIndex;
+    u16 unused;
+    u8 byte;
+    s32 bitIndex;
+    byteIndex = 0;
+    crc = 0;
+    if (byteIndex < byteCount) {
+        do {
+            byte = *cursor;
+            for (bitIndex = 0; bitIndex < 8; bitIndex++) {
+                if (crc & 0x8000) {
+                    crc <<= 1;
+                    crc ^= gCrcXorValue;
+                } else {
+                    crc <<= 1;
+                }
+                if (byte & 0x80) {
+                    crc ^= 1;
+                }
+                byte = byte << 1;
+            }
+            cursor++;
+            byteIndex++;
+        } while (byteIndex < byteCount);
+    }
+    return crc;
+}
+
+void WriteBlockTail(u8 *bytes, u32 byteCount, u32 skipTickBytes) {
+    u8 *tail;
+    u16 crc;
+    tail = bytes + byteCount - 4;
+    if (skipTickBytes == 0) {
+        tail[0] = 0;
+        tail[1] = 0;
+    }
+    tail[2] = 0;
+    tail[3] = 0;
+    crc = ComputeBytesCrc(bytes, byteCount);
+    if (skipTickBytes == 0) {
+        tail[0] = (OS_GetTick() >> 16) & 0xff;
+        tail[1] = (OS_GetTick() >> 32) & 0xff;
+    }
+    tail[2] = crc >> 8;
+    tail[3] = crc;
+}
+
+BOOL ClearTickBytesAndCheckBlockCrc(u8 *bytes, u32 byteCount, u32 skipTickBytes) {
+    u8 *tail;
+    tail = bytes + byteCount - 4;
+    if (skipTickBytes == 0) {
+        tail[0] = 0;
+        tail[1] = 0;
+    }
+    if (ComputeBytesCrc(bytes, byteCount) == 0) {
+        return 1;
+    }
+    return 0;
+}
+
+s32 FindBackupXorIndex(u32 value, u32 expected) {
+    u16 index;
+    s32 foundIndex;
+    index = 0;
+    foundIndex = -1;
+    for (; index < 0x1d; index++) {
+        if (expected == (value ^ (data_02154694[index] +
+                                  (data_02154648[0] + (data_021545d8[0] + data_02154604[0]))))) {
+            foundIndex = index;
+            break;
+        }
+    }
+    return foundIndex;
+}
+
+void XorBackupWordsAtTickIndex(u32 *cursor, u32 byteCount) {
+    u16 i;
+    u16 j;
+    u16 k;
+    u16 l;
+    u32 *end;
+    u32 tableSum;
+    j = 0;
+    l = 0;
+    k = 0;
+    i = (OS_GetTick() >> 16) % 0x1d;
+    tableSum = data_02154694[i] + (data_02154648[0] + (data_021545d8[0] + data_02154604[0]));
+    i = FindBackupXorIndex(tableSum ^ *cursor, *cursor);
+    end = OFFSET_PTR(u32, cursor, byteCount);
+    do {
+        *cursor ^= data_02154694[i] + (data_02154648[j] + (data_021545d8[k] + data_02154604[l]));
+        cursor++;
+        k++;
+        if (k >= 0xb) {
+            k = 0;
+            l++;
+            if (l >= 0x11) {
+                l = 0;
+                j++;
+                if (j >= 0x13) {
+                    j = 0;
+                    i++;
+                    if (i >= 0x1d) {
+                        i = 0;
+                    }
+                }
+            }
+        }
+    } while (cursor < end);
+}
+
+BOOL TryXorBackupWordsAtFoundIndex(u32 *cursor, u32 byteCount, u32 expectedFirstWord) {
+    u16 i;
+    u16 j;
+    u16 k;
+    u16 l;
+    s32 foundIndex;
+    u32 *end;
+    j = 0;
+    l = 0;
+    k = 0;
+    foundIndex = FindBackupXorIndex(*cursor, expectedFirstWord);
+    if (foundIndex == -1) {
         return 0;
     }
-    func_0214579c(r);
+    i = foundIndex;
+    end = OFFSET_PTR(u32, cursor, byteCount);
+    do {
+        *cursor ^= data_02154694[i] + (data_02154648[j] + (data_021545d8[k] + data_02154604[l]));
+        cursor++;
+        k++;
+        if (k >= 0xb) {
+            k = 0;
+            l++;
+            if (l >= 0x11) {
+                l = 0;
+                j++;
+                if (j >= 0x13) {
+                    j = 0;
+                    i++;
+                    if (i >= 0x1d) {
+                        i = 0;
+                    }
+                }
+            }
+        }
+    } while (cursor < end);
     return 1;
 }
 
-void func_0204b3dc(void) {
-    s32 r;
-    r = data_021759d4->mUnk_08;
-    if (r != -3) {
-        func_0214578c(r);
-        func_0200cd80((u16) data_021759d4->mUnk_08);
-        data_021759d4->mUnk_08 = -3;
-    }
-}
-
 #pragma thumb off
+
+void InitWLMenuSceneCallback(void) {
+    if (data_021759d0->mUnk_20 == 3) {
+        ReleaseCurrentOverlay();
+        StartLoadOverlay(0);
+        FinishOverlayLoad();
+    }
+    InitWLMenuScene(GetHeap(GetCurrentHeapCall()));
+}

@@ -2,9 +2,9 @@
 
 #include "types.h"
 #include "00/code_02190000.h"
-#include "00/code_021965a0.h"
-#include "00/code_02196714.h"
-#include "00/unk_021b2000.h"
-#include "code_0213442c.h"
+#include "00/code_0218f960.h"
 
-int func_ov000_02191200(int *param_1);
+int func_ov000_02191200(GpConnection *a);
+u32 GpiProcessConnectOperation(GpConnection *a, GpiOperation *b, const char *c);
+u32 GpiWriteNewuser(GpConnection *a, Unk02191284Data *b);
+// Declared here until the code that defines them is decompiled.

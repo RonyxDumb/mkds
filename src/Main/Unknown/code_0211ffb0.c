@@ -1,25 +1,28 @@
 #include "Main/Unknown/code_0211ffb0.h"
+#include "Main/Unknown/code_02036820.h"
 #include "Main/Unknown/code_0200f000.h"
 #include "Main/Unknown/code_02036000.h"
-#include "00/code_02182fdc.h"
+#include "00/code_021832d8.h"
+#include "code_0200fc8c.h"
 
-void *func_0211fffc(u32 a, u32 b, s32 c) {
+// Allocator registered with the net layer; the first argument is unused; interrupts off.
+void *WiFiSessionHeapAlloc(u32 a, u32 b, s32 c) {
     u32 v;
     void *p;
 
-    v = func_0200fca0();
-    p = func_02036b74(data_0217d384->mUnk_0000, b, c);
-    func_0200fcb4(v);
+    v = OS_DisableInterrupts();
+    p = HeapAllocAligned(gWiFiSession->mHeap, b, c);
+    OS_RestoreInterrupts(v);
     return p;
 }
 
-void func_0211ffb0(u32 a, void *b) {
+void WiFiSessionHeapFree(u32 a, void *b) {
     u32 v;
 
-    if (b == 0) {
+    if (b == NULL) {
         return;
     }
-    v = func_0200fca0();
-    func_02036b30(data_0217d384->mUnk_0000, b);
-    func_0200fcb4(v);
+    v = OS_DisableInterrupts();
+    HeapFree(gWiFiSession->mHeap, b);
+    OS_RestoreInterrupts(v);
 }

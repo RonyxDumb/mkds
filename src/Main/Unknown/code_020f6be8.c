@@ -1,5 +1,6 @@
 #include "Main/Unknown/code_020f6be8.h"
 
+#include "Main/Unknown/code_020fe4b4.h"
 #include "Main/Unknown/unk_02159000.h"
 #include "Main/Unknown/code_020fe000.h"
 #include "Main/Unknown/code_020f36d8.h"
@@ -13,34 +14,33 @@
 #include "Main/Unknown/code_020f9c40.h"
 #include "code_02147cd8.h"
 
-s32 func_020f7184(Unk020f41c4_A *param_1, s32 param_2, s32 param_3) {
-    Vec3 *v = &param_1->mUnk_5c;
-    Unk0217bc34 *e;
+s32 func_020f7184(ItemObject *item, s32 b, s32 c) {
+    Vec3 *velocity = &item->mVelocity;
+    ItemKind *kindInfo;
     s32 r;
-    enum { K0 } k;
+    enum { K0 } kind;
 
-    if (param_1->mUnk_74 & 0x80000) {
+    if (item->mFlags & 0x80000) {
         return 2;
     }
-    if (param_3 == 0 && (param_1->mUnk_74 & 0x8000000) && !(param_1->mUnk_74 & 0x10000000) &&
-        !(param_1->mUnk_74 & 0x20000000)) {
-        if (param_1->mUnk_78 & 0xf00) {
+    if (c == 0 && (item->mFlags & 0x8000000) && !(item->mFlags & 0x10000000) && !(item->mFlags & 0x20000000)) {
+        if (item->mUnk_78 & 0xf00) {
             return 2;
         }
-        if (param_2 == 0) {
-            param_1->mUnk_78 |= data_02159b6c;
+        if (b == 0) {
+            item->mUnk_78 |= data_02159b6c;
         } else {
-            param_1->mUnk_78 |= data_02159b68;
-            func_020f9c40((int) param_1);
+            item->mUnk_78 |= data_02159b68;
+            FreeItemObjectCollisionSlot((s32) item);
         }
-        param_1->mUnk_120 = 0;
+        item->mAdvance = NULL;
         return 1;
     }
-    if (param_2 == 0) {
-        k = param_1->mUnk_44;
-        e = &data_0217bc34[k];
-        if (e->mUnk_34 != 0) {
-            r = e->mUnk_34(param_1);
+    if (b == 0) {
+        kind = item->mKind;
+        kindInfo = &gItemKinds[kind];
+        if (kindInfo->mUnk_34 != NULL) {
+            r = kindInfo->mUnk_34(item);
             if (r == 0) {
                 return 2;
             }
@@ -49,182 +49,182 @@ s32 func_020f7184(Unk020f41c4_A *param_1, s32 param_2, s32 param_3) {
             }
         }
     }
-    if (param_2 != 0) {
-        param_1->mUnk_108.y = 0x266;
+    if (b != 0) {
+        item->mUnk_108.y = 0x266;
     } else {
-        param_1->mUnk_108.y = 0x333;
-        if (!(param_1->mUnk_74 & 0x8000)) {
-            param_1->mUnk_108.y += (s32) (((s64) func_021482cc(v) * 0x15c) >> 12);
-            if (param_1->mUnk_108.y > 0x5c3) {
-                param_1->mUnk_108.y = 0x5c3;
+        item->mUnk_108.y = 0x333;
+        if (!(item->mFlags & 0x8000)) {
+            item->mUnk_108.y += (s32) (((s64) VEC_Mag(velocity) * 0x15c) >> 12);
+            if (item->mUnk_108.y > 0x5c3) {
+                item->mUnk_108.y = 0x5c3;
             }
         }
     }
-    k = param_1->mUnk_44;
-    e = &data_0217bc34[k];
-    if (e->mUnk_40 == 0) {
-        param_1->mUnk_120 = func_020f6e58;
+    kind = item->mKind;
+    kindInfo = &gItemKinds[kind];
+    if (kindInfo->mUnk_40 == 0) {
+        item->mAdvance = func_020f6e58;
     }
-    param_1->mUnk_124 = (void (*)(Unk020f41c4_A *, Vec3 *, Vec3 *)) func_020f6be4;
-    if (param_1->mUnk_f0.y != 0) {
-        Vec3 *w = &param_1->mUnk_f0;
+    item->mBounce = (void (*)(ItemObject *, Vec3 *, Vec3 *)) func_020f6be4;
+    if (item->mNormal.y != 0) {
+        Vec3 *normal = &item->mNormal;
 
-        r = func_02039828(v, w);
+        r = Vec3DotUnrounded(velocity, normal);
         if (r < 0x3000) {
-            func_02147fd8(0x3000 - r, w, v, v);
+            VEC_MultAdd(0x3000 - r, normal, velocity, velocity);
         }
     }
-    param_1->mUnk_74 |= 0x80001;
-    func_020f9c40((int) param_1);
-    r = func_02039828(v, (Vec3 *) func_020e6b28());
+    item->mFlags |= 0x80001;
+    FreeItemObjectCollisionSlot((s32) item);
+    r = Vec3DotUnrounded(velocity, func_020e6b28());
     if (r > 1) {
-        param_1->mUnk_108.x = 1;
+        item->mUnk_108.x = 1;
     } else {
-        param_1->mUnk_108.x = 0;
+        item->mUnk_108.x = 0;
     }
     return 0;
 }
 
-void func_020f7104(Unk020f41c4_A *param_1, s32 param_2) {
-    s32 r;
+void func_020f7104(ItemObject *item, s32 b) {
+    s32 result;
 
-    if (!(param_1->mUnk_74 & 0x8000000)) {
-        func_020f7184(param_1, 0, 0);
+    if (!(item->mFlags & 0x8000000)) {
+        func_020f7184(item, 0, 0);
         return;
     }
-    r = func_020f7184(param_1, 0, 0);
-    if (r != 0) {
+    result = func_020f7184(item, 0, 0);
+    if (result != 0) {
         return;
     }
-    if (param_2 == 0) {
+    if (b == 0) {
         return;
     }
-    func_020fe7a0(param_1->mUnk_44, 0, 8, param_1->mUnk_4e);
+    func_020fe7a0(item->mKind, 0, 8, item->mId);
 }
 
-void func_020f70f0(Unk020f41c4_A *param_1) {
-    func_020f7184(param_1, 0, 1);
+void func_020f70f0(ItemObject *item) {
+    func_020f7184(item, 0, 1);
 }
 
-void func_020f7070(void *param_1, s32 param_2) {
-    Unk020f41c4_A *p = param_1;
-    s32 r;
+void func_020f7070(void *objectParam, s32 b) {
+    ItemObject *item = objectParam;
+    s32 result;
 
-    if (!(p->mUnk_74 & 0x8000000)) {
-        func_020f7184(p, 1, 0);
+    if (!(item->mFlags & 0x8000000)) {
+        func_020f7184(item, 1, 0);
         return;
     }
-    r = func_020f7184(p, 1, 0);
-    if (r != 0) {
+    result = func_020f7184(item, 1, 0);
+    if (result != 0) {
         return;
     }
-    if (param_2 == 0) {
+    if (b == 0) {
         return;
     }
-    func_020fe7a0(p->mUnk_44, 1, 8, p->mUnk_4e);
+    func_020fe7a0(item->mKind, 1, 8, item->mId);
 }
 
-void func_020f705c(Unk020f41c4_A *param_1) {
-    func_020f7184(param_1, 1, 1);
+void func_020f705c(ItemObject *item) {
+    func_020f7184(item, 1, 1);
 }
 
-void func_020f6fc4(void *param_1, s32 param_2) {
-    Unk020f41c4_A *p = param_1;
-    s32 r;
-    enum { K0 } k;
+void func_020f6fc4(void *objectParam, s32 b) {
+    ItemObject *item = objectParam;
+    s32 result;
+    enum { K0 } kind;
 
-    r = func_020f7184(p, 0, 0);
-    if (r <= 1) {
-        k = p->mUnk_44;
-        func_020f91fc(p, data_0217bc34[k].mUnk_94);
+    result = func_020f7184(item, 0, 0);
+    if (result <= 1) {
+        kind = item->mKind;
+        func_020f91fc(item, gItemKinds[kind].mUnk_94);
     }
-    if (r != 0) {
+    if (result != 0) {
         return;
     }
-    if (!(p->mUnk_74 & 0x8000000)) {
+    if (!(item->mFlags & 0x8000000)) {
         return;
     }
-    if (param_2 == 0) {
+    if (b == 0) {
         return;
     }
-    if (p->mUnk_44 == 5) {
+    if (item->mKind == 5) {
         return;
     }
-    func_020fe7a0(p->mUnk_44, 2, 8, p->mUnk_4e);
+    func_020fe7a0(item->mKind, 2, 8, item->mId);
 }
 
-void func_020f6f10(Unk020f41c4_A *param_1, s32 param_2, s32 param_3) {
-    s32 r;
-    enum { K0 } k;
+void func_020f6f10(ItemObject *item, s32 b, s32 c) {
+    s32 result;
+    enum { K0 } kind;
 
-    r = func_020f7184(param_1, 0, 0);
-    if (r <= 1) {
-        k = param_1->mUnk_44;
-        func_020f91fc(param_1, data_0217bc34[k].mUnk_98);
+    result = func_020f7184(item, 0, 0);
+    if (result <= 1) {
+        kind = item->mKind;
+        func_020f91fc(item, gItemKinds[kind].mUnk_98);
     }
-    if (r != 0) {
+    if (result != 0) {
         return;
     }
-    if (!(param_1->mUnk_74 & 0x8000000)) {
+    if (!(item->mFlags & 0x8000000)) {
         return;
     }
-    if (param_2 == 0) {
+    if (b == 0) {
         return;
     }
-    if (param_1->mUnk_44 == 5) {
+    if (item->mKind == 5) {
         return;
     }
-    func_020fe7a0(param_1->mUnk_44, 3, param_3, param_1->mUnk_4e);
+    func_020fe7a0(item->mKind, 3, c, item->mId);
 }
 
-void func_020f6e58(Unk020f41c4_A *param_1) {
-    Vec3 v;
+void func_020f6e58(ItemObject *item) {
+    Vec3 direction;
 
-    func_020397a8(&param_1->mUnk_f0, (Vec3 *) func_020e6b14(), &v);
-    func_02147fd8(param_1->mUnk_108.x != 0 ? param_1->mUnk_108.y : -param_1->mUnk_108.y, &v, &param_1->mUnk_f0,
-                  &param_1->mUnk_f0);
-    param_1->mUnk_74 |= 0x80;
-    param_1->mUnk_5c.y -= 0x400;
-    func_02148504(&param_1->mUnk_50, &param_1->mUnk_5c, &param_1->mUnk_50);
-    param_1->mUnk_d8--;
-    if (param_1->mUnk_d8 > 0) {
+    Vec3CrossUnrounded(&item->mNormal, GetViewTransposeMatrixAxis2(), &direction);
+    VEC_MultAdd(item->mUnk_108.x != 0 ? item->mUnk_108.y : -item->mUnk_108.y, &direction, &item->mNormal,
+                &item->mNormal);
+    item->mFlags |= 0x80;
+    item->mVelocity.y -= 0x400;
+    VEC_Add(&item->mPos, &item->mVelocity, &item->mPos);
+    item->mAlpha--;
+    if (item->mAlpha > 0) {
         return;
     }
-    func_020f0f70(&data_027e00cc[param_1->mUnk_44], param_1);
+    ReleaseItemPoolObject(&gItemPools[item->mKind], item);
 }
 
-void func_020f6be8(Unk020f41c4_A *param_1, Vec3 *param_2, Vec3 *param_3, Vec3 *param_4) {
-    Vec3 v;
-    Vec3 a;
-    Vec3 *q;
+void func_020f6be8(ItemObject *item, Vec3 *otherPos, Vec3 *otherVelocity, Vec3 *normal) {
+    Vec3 away;
+    Vec3 relativeVelocity;
+    Vec3 *push;
     s32 dot;
-    s64 d;
+    s64 lengthSquared;
 
-    func_021484d0(param_3, &param_1->mUnk_5c, &a);
-    func_021484d0(&param_1->mUnk_50, param_2, &v);
-    dot = func_0214848c(param_4, &v);
-    v.x -= (s32) (((s64) param_4->x * dot) >> 12);
-    v.y -= (s32) (((s64) param_4->y * dot) >> 12);
-    v.z -= (s32) (((s64) param_4->z * dot) >> 12);
-    d = (s64) v.x * v.x + (s64) v.y * v.y + (s64) v.z * v.z;
-    if (d >= 0x10) {
-        func_02039860(&v, &v);
+    VEC_Subtract(otherVelocity, &item->mVelocity, &relativeVelocity);
+    VEC_Subtract(&item->mPos, otherPos, &away);
+    dot = VEC_DotProduct(normal, &away);
+    away.x -= (s32) (((s64) normal->x * dot) >> 12);
+    away.y -= (s32) (((s64) normal->y * dot) >> 12);
+    away.z -= (s32) (((s64) normal->z * dot) >> 12);
+    lengthSquared = (s64) away.x * away.x + (s64) away.y * away.y + (s64) away.z * away.z;
+    if (lengthSquared >= 0x10) {
+        Vec3NormalizeAndGetLengthUnchecked(&away, &away);
     }
-    if (param_1->mUnk_74 & 0x8000) {
-        func_02147fd8(0x666, &a, &param_1->mUnk_5c, &param_1->mUnk_5c);
-        q = data_0217bc4c;
-        q->x = (s32) (((s64) v.x * 0xccd) >> 12);
-        q->y = (s32) (((s64) v.y * 0xccd) >> 12);
-        q->z = (s32) (((s64) v.z * 0xccd) >> 12);
-        func_02148504(&param_1->mUnk_5c, data_0217bc4c, &param_1->mUnk_5c);
+    if (item->mFlags & 0x8000) {
+        VEC_MultAdd(0x666, &relativeVelocity, &item->mVelocity, &item->mVelocity);
+        push = gItemPushVector;
+        push->x = ((s64) away.x * 0xccd) >> 12;
+        push->y = ((s64) away.y * 0xccd) >> 12;
+        push->z = ((s64) away.z * 0xccd) >> 12;
+        VEC_Add(&item->mVelocity, gItemPushVector, &item->mVelocity);
     } else {
-        param_1->mUnk_5c.x = (s32) (((s64) param_3->x * 0x8cd) >> 12);
-        param_1->mUnk_5c.y = (s32) (((s64) param_3->y * 0x8cd) >> 12);
-        param_1->mUnk_5c.z = (s32) (((s64) param_3->z * 0x8cd) >> 12);
-        q = data_0217bc4c;
-        q->x = (s32) (((s64) v.x * 0x1800) >> 12);
-        q->y = (s32) (((s64) v.y * 0x1800) >> 12);
-        q->z = (s32) (((s64) v.z * 0x1800) >> 12);
-        func_02148504(&param_1->mUnk_5c, data_0217bc4c, &param_1->mUnk_5c);
+        item->mVelocity.x = ((s64) otherVelocity->x * 0x8cd) >> 12;
+        item->mVelocity.y = ((s64) otherVelocity->y * 0x8cd) >> 12;
+        item->mVelocity.z = ((s64) otherVelocity->z * 0x8cd) >> 12;
+        push = gItemPushVector;
+        push->x = ((s64) away.x * 0x1800) >> 12;
+        push->y = ((s64) away.y * 0x1800) >> 12;
+        push->z = ((s64) away.z * 0x1800) >> 12;
+        VEC_Add(&item->mVelocity, gItemPushVector, &item->mVelocity);
     }
 }

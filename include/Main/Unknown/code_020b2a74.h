@@ -2,17 +2,9 @@
 
 #include "types.h"
 
-// Object at 0x48 in an element of data_02175628.
-typedef struct Unk020b2a94 {
-    /* 00 */ u8 pad_00[4];
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u8 pad_06[6];
-    /* 0c */ u16 mUnk_0c;
-    /* 0e */ u8 pad_0e[2];
-    /* 10 */ u16 mUnk_10;
-} Unk020b2a94;
+typedef struct InputSlotPair InputSlotPair;
 
-u32 func_020b2a74(s32 a);
-u32 func_020b2a94(Unk020b2a94 *p);
-u32 func_020b2ac8(Unk020b2a94 *p);
-u32 func_020b2aec(Unk020b2a94 *p);
+u32 func_020b2a74(s32 slotIndex);
+u32 func_020b2a94(InputSlotPair *inputSlotPair);
+u32 func_020b2ac8(InputSlotPair *inputSlotPair);
+u32 func_020b2aec(InputSlotPair *inputSlotPair);

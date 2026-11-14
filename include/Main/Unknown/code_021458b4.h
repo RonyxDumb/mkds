@@ -1,6 +1,6 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/unk_0217f000.h"
 
-u32 func_021458b4(void);
+// Returns the enable flag.
+u32 CARD_IsEnabled(void);

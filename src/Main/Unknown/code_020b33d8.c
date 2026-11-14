@@ -1,124 +1,150 @@
 #include "Main/Unknown/code_020b33d8.h"
+#include "Main/Unknown/code_02036820.h"
+#include "Main/Unknown/code_02053e74.h"
+#include "Main/Unknown/code_02061654.h"
+#include "Main/Unknown/code_02089ef4.h"
+
 #include "Main/Unknown/code_0203c000.h"
 #include "Main/Unknown/code_02061000.h"
 #include "Main/Unknown/code_02054000.h"
 #include "Main/Unknown/code_02089000.h"
-#include "Main/Unknown/code_020617d8.h"
+#include "Main/Unknown/unk_0217a000.h"
 #include "Main/Unknown/code_02105ec0.h"
 #include "Main/Unknown/code_02108ea0.h"
 #include "Main/Unknown/code_0210dc7c.h"
 #include "Main/Unknown/code_020d3c7c.h"
-#include "Main/Unknown/unk_0217a000.h"
 #include "Main/Unknown/code_020b1de4.h"
 #include "Main/Unknown/unk_0217c000.h"
 #include "Main/Unknown/unk_0217d000.h"
 #include "Main/Unknown/unk_021759c0.h"
-#include "code_0212c6ac.h"
+#include "code_0212bcac.h"
 #include "code_0212df7c.h"
+#include "Main/Unknown/code_020b36c8.h"
+#include "Main/Unknown/code_020b36dc.h"
+#include "Main/Unknown/code_020364e0.h"
+#include "Main/Unknown/code_02036bec.h"
+#include "Main/Unknown/code_0203c8dc.h"
 
-void func_020b36a4(void) {
-    data_0217b358->mUnk_00 = 0;
-    data_0217b358->mUnk_08 = -0x78;
+void InitRaceStartSequence(void) {
+    gRaceStartSequence = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0xc);
+    gRaceStartSequence->mCounting = FALSE;
+    gRaceStartSequence->mDone = 0;
+    gRaceStartSequence->mSequenceFrames = 0;
 }
 
-void func_020b3584(void) {
-    Unk0217b358 *p = data_0217b358;
-    s32 a;
-    s32 *q;
+u32 ClearRaceStartSequencePointer(void) {
+    u32 pointerAddress;
+    u32 nullValue;
+    pointerAddress = (u32) &gRaceStartSequence;
+    nullValue = 0u;
+    *(u32 *) ((pointerAddress) + (0)) = nullValue;
+    return pointerAddress;
+}
 
-    if (p->mUnk_00 != 0) {
-        a = p->mUnk_08;
-        if (a < 200) {
-            p->mUnk_08 = a + 1;
-            if (a == -1) {
-                func_0203c98c();
+void ResetRaceStartSequenceFrames(void) {
+    gRaceStartSequence->mCounting = FALSE;
+    gRaceStartSequence->mSequenceFrames = -0x78;
+}
+
+// Per-frame step from func_020af66c: no sounds (they are in the draw, UpdateRaceStartSequenceSounds).
+void UpdateRaceStartSequence(void) {
+    RaceStartSequence *sequence = gRaceStartSequence;
+    s32 frames;
+    s32 *framesAddress;
+
+    if (sequence->mCounting != FALSE) {
+        frames = sequence->mSequenceFrames;
+        if (frames < 200) {
+            sequence->mSequenceFrames = frames + 1;
+            if (frames == -1) {
+                StartRaceInput();
                 return;
             }
-            if (a != 180) {
+            if (frames != 180) {
                 return;
             }
-            func_02106efc();
-            func_02061fcc();
-            data_0217b358->mUnk_04 = 1;
+            StartRaceSounds();
+            StartRace();
+            gRaceStartSequence->mDone = 1;
             return;
         }
-        q = &p->mUnk_08;
-        if (a < 0x7fffffff) {
-            *q = a + 1;
+        framesAddress = &sequence->mSequenceFrames;
+        if (frames < 0x7fffffff) {
+            *framesAddress = frames + 1;
         }
         return;
     }
-    if (data_021759c0->mUnk_08 == 5) {
+    if (gRaceSetup->mMode == 5) {
         if ((data_0217aa14->mUnk_75c & 2) == 0) {
             return;
         }
-        p->mUnk_00 = 1;
-        func_020617f0();
-        func_020d3c7c();
+        sequence->mCounting = TRUE;
+        SetRaceUpdateFramesUnlimited();
+        SetMapObjectsRunUpdateLists();
         return;
     }
-    if (func_02054754() == 1) {
-        data_0217b358->mUnk_00 = 1;
+    if (FinishDataSharingSync() == 1) {
+        gRaceStartSequence->mCounting = TRUE;
     }
 }
 
-void func_020b3410(void) {
-    Unk0212c400 **p;
-    s32 a = data_0217b358->mUnk_08;
+void UpdateRaceStartSequenceSounds(void) {
+    NNSSndSeqPlayer **seqPlayer;
+    s32 frames = gRaceStartSequence->mSequenceFrames;
 
-    if (a < -21) {
+    if (frames < -21) {
         return;
     }
-    if (a >= 200) {
+    if (frames >= 200) {
         return;
     }
-    if (a == 0 || a == 60 || a == 120) {
+    if (frames == 0 || frames == 60 || frames == 120) {
         if (data_0217c780 & 1) {
-            p = (Unk0212c400 **) func_0210e128((void *) func_02108ea0(0));
+            seqPlayer = TakeSoundHandleEntry(GetSoundHandlePool(0));
             if (data_0217d084.mUnk_0c != 0) {
-                if (*p != 0) {
-                    func_0212c6f0(p, 0);
+                if (*seqPlayer != NULL) {
+                    NNS_SndPlayerStopSeq(seqPlayer, 0);
                 }
-                if (*p != 0) {
-                    func_0212c6f0(p, 0);
+                if (*seqPlayer != NULL) {
+                    NNS_SndPlayerStopSeq(seqPlayer, 0);
                 }
-                func_0212ecc0(p, 0, 0x27);
+                NNS_SndArcPlayerStartSeqArc(seqPlayer, 0, 0x27);
             }
         }
     }
-    if (a == 175) {
+    if (frames == 175) {
         if (data_0217c780 & 1) {
-            p = (Unk0212c400 **) func_0210e128((void *) func_02108ea0(0));
+            seqPlayer = TakeSoundHandleEntry(GetSoundHandlePool(0));
             if (data_0217d084.mUnk_0c != 0) {
-                if (*p != 0) {
-                    func_0212c6f0(p, 0);
+                if (*seqPlayer != NULL) {
+                    NNS_SndPlayerStopSeq(seqPlayer, 0);
                 }
-                if (*p != 0) {
-                    func_0212c6f0(p, 0);
+                if (*seqPlayer != NULL) {
+                    NNS_SndPlayerStopSeq(seqPlayer, 0);
                 }
-                func_0212ecc0(p, 0, 0x28);
+                NNS_SndArcPlayerStartSeqArc(seqPlayer, 0, 0x28);
             }
         }
     }
-    if (a == -21) {
-        func_02089ef4(0);
+    if (frames == -21) {
+        SetStemSet(0);
     }
-    if (a != 180) {
+    if (frames != 180) {
         return;
     }
-    func_02089ef4(1);
+    SetStemSet(1);
 }
 
-s32 func_020b33f4(void) {
-    if (data_0217b358 != 0) {
-        return data_0217b358->mUnk_08;
+s32 GetRaceStartSequenceFrames(void) {
+    if (gRaceStartSequence != NULL) {
+        return gRaceStartSequence->mSequenceFrames;
     }
     return -0x78;
 }
 
-s32 func_020b33d8(void) {
-    if (data_0217b358 != 0) {
-        return data_0217b358->mUnk_04;
+s32 IsRaceStartSequenceDone(void) {
+    if (gRaceStartSequence != NULL) {
+        return gRaceStartSequence->mDone;
     }
     return 0;
 }

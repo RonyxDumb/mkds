@@ -1,31 +1,32 @@
-#include "Main/Unknown/code_020f36d8.h"
 #include "Main/Unknown/code_020f73a4.h"
+#include "Main/Unknown/code_020364e0.h"
+#include "Main/Unknown/code_02036820.h"
+#include "Main/Unknown/code_020f36d8.h"
 #include "Main/Unknown/code_020ee684.h"
 
-void func_020f73d4(u32 arg0) {
-    u32 value0 = arg0;
-    u32 value1;
+void ReleaseItemObjectToItsPool(u32 item) {
+    u32 value0 = item;
+    u32 itemAddress;
     u32 value2;
-    u32 value3;
+    u32 poolsBase;
     u32 value12;
-    value2 = ((u32) &data_027e00cc);
-    value1 = value0;
-    value3 = (u32) * (const u32 *) ((value2) + (0));
-    value2 = (u32) * (const u32 *) ((value1) + (68));
+    value2 = ((u32) &gItemPools);
+    itemAddress = value0;
+    poolsBase = *(const u32 *) ((value2) + (0));
+    value2 = *(const u32 *) ((itemAddress) + (68));
     value0 = 0x44u;
-    value0 = (value2) * (value0) + (value3);
-    value12 = (u32) &func_020f0f70;
-    func_020f0f70((Unk027e00cc *) value0, (Unk020f41c4_A *) value1);
+    value0 = (value2) * (value0) + (poolsBase);
+    ReleaseItemPoolObject((ItemPool *) value0, (ItemObject *) itemAddress);
 }
 
-u32 func_020f73a4(void) {
+u32 CreateItemPushVector(void) {
     u32 value0;
     u32 value1;
-    value0 = (u32) func_020364e8();
-    value0 = (u32) func_020364e0((void *) value0);
+    value0 = (u32) GetCurrentHeapCall();
+    value0 = (u32) GetHeap((void *) value0);
     value1 = 0xcu;
-    value0 = (u32) func_02036bec((void *) value0, value1);
-    value1 = (u32) &data_0217bc4c;
+    value0 = (u32) HeapAlloc((void *) value0, value1);
+    value1 = (u32) &gItemPushVector;
     *(u32 *) ((value1) + (0)) = value0;
     return value0;
 }

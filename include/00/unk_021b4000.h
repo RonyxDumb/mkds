@@ -1,19 +1,16 @@
 #pragma once
 
-#include "00/code_021806ec.h"
-#include "00/code_02186d7c.h"
-#include "00/code_02187490.h"
+#include "00/code_02180608.h"
+#include "00/code_021acef8.h"
+#include "00/code_021ad734.h"
+#include "00/code_02186d04.h"
+#include "00/code_02187484.h"
 #include "00/code_02188008.h"
-#include "00/code_021884e4.h"
-#include "00/code_02181e8c.h"
-#include "00/code_02185230.h"
-#include "00/code_021855f8.h"
-#include "00/code_0218e56c.h"
-#include "00/code_021a4a08.h"
+#include "00/code_021884d8.h"
+#include "00/code_0218e2dc.h"
+#include "00/code_021a3a18.h"
 
 #include "types.h"
-#include "00/code_021a39d8.h"
-#include "00/code_021a3eb0.h"
 #include "00/code_021a6fa8.h"
 
 // Settings func_ov000_021a72c4 reads and func_ov000_021a71c0 applies.
@@ -35,100 +32,97 @@ typedef struct Unk021b49b8 {
 extern u32 data_ov000_021b49b4;
 extern Unk021b49b8 data_ov000_021b49b8;
 extern Unk021b49b8 data_ov000_021b49d0;
-extern u8 data_ov000_021b4078[];
-extern u8 data_ov000_021b40b0[];
-extern u8 data_ov000_021b40b4[];
-extern u8 data_ov000_021b40bc[];
-extern char data_ov000_021b40b8[];
-extern u8 data_ov000_021b40c4[];
-extern u8 data_ov000_021b40cc[];
-extern u8 data_ov000_021b40f0[];
-extern u8 data_ov000_021b40fc[];
-extern u8 data_ov000_021b4108[];
-extern u8 data_ov000_021b4118[];
-extern u8 data_ov000_021b41a8[];
-extern u8 data_ov000_021b41ac[];
-extern u8 data_ov000_021b41f0[];
+extern char data_ov000_021b4078[];
+extern char data_ov000_021b40b0[];
+extern char data_ov000_021b40b4[];
+extern char gMatchingSignature[];
+extern char gUnsignedFormat[];
+extern char gDwcPidKey[];
+extern char gDwcEvalKey[];
+extern char gDwcMtypeKey[];
+extern char gDwcMresvKey[];
+extern char gDwcMverKey[];
+extern char gVerKey[];
+extern u8 gScmKey[];
+extern u8 gScnKey[];
+extern char data_ov000_021b41f0[];
 extern u8 data_ov000_021b4200[];
 extern u8 data_ov000_021b4228[];
 extern u8 data_ov000_021b424c[];
 extern u32 data_ov000_021b49f4;
-extern u8 data_ov000_021b4388[];
-extern u8 data_ov000_021b4394[];
-extern u8 data_ov000_021b43a0[];
-extern u8 data_ov000_021b43a8[];
-extern u8 data_ov000_021b43ac[];
-extern u8 data_ov000_021b43b0[];
-extern u8 data_ov000_021b43c0[];
-extern u8 data_ov000_021b43cc[];
-extern u8 data_ov000_021b43d8[];
+extern char data_ov000_021b4388[];
+extern char data_ov000_021b4394[];
+extern char data_ov000_021b43a0[];
+extern char data_ov000_021b43a8[];
+extern char data_ov000_021b43ac[];
+extern char data_ov000_021b43b0[];
+extern char data_ov000_021b43c0[];
+extern char data_ov000_021b43cc[];
+extern char data_ov000_021b43d8[];
 extern char data_ov000_021b41f4[];
 extern Unk021a3eb0 data_ov000_021b4270;
 extern Unk021a4a08 *data_ov000_021b426c;
-extern u8 data_ov000_021b43f8[];
-extern u8 data_ov000_021b4400[];
-extern u8 data_ov000_021b4404[];
-extern u8 data_ov000_021b440c[];
-extern u8 data_ov000_021b4418[];
-extern u8 data_ov000_021b4428[];
+extern char data_ov000_021b43f8[];
+extern char data_ov000_021b4400[];
+extern char data_ov000_021b4404[];
+extern char data_ov000_021b440c[];
+extern char data_ov000_021b4418[];
+extern char data_ov000_021b4428[];
 extern u8 data_ov000_021b442c[];
-extern u8 data_ov000_021b4464[];
-extern u8 data_ov000_021b43e4[];
-extern u8 data_ov000_021b4a48[];
-extern u8 data_ov000_021b4a50[];
-extern u16 data_ov000_021b4a00[];
-extern const u8 *data_ov000_021b4a30[];
-extern u8 data_ov000_021b4a58[];
-extern u8 data_ov000_021b4a5c[];
-extern u8 data_ov000_021b4a60[];
-extern u8 data_ov000_021b4a64[];
-extern u8 data_ov000_021b4aa4[];
-extern u32 data_ov000_021b4ae4[];
+extern char data_ov000_021b4464[];
+extern char data_ov000_021b43e4[];
+extern u8 gSrvrText[];
+extern u8 gClntText[];
+extern u16 gOfferedValues[2];
+extern const char *data_ov000_021b4a30[];
+extern u8 gLabelAText[];
+extern u8 gLabelBBText[];
+extern u8 gLabelCCCText[];
 extern u8 data_ov000_021b4be4[];
 extern u8 data_ov000_021b4be5[];
-extern u8 data_ov000_021b4c80[];
-extern Unk02186d7c *data_ov000_021b4cac;
-extern Unk02187490 *data_ov000_021b4cb0;
+extern u8 gWiFiVSCourseSelectState[];
+extern Http *gHttp;
+extern DWCNetcheck *gNetcheck;
 extern Unk02188408 *data_ov000_021b4d00;
 extern void *data_ov000_021b4d04;
 extern void *data_ov000_021b4d08;
 extern Unk02188114 *data_ov000_021b4d0c;
 extern Unk021884e4 *data_ov000_021b4d10;
-extern struct Unk0218e004 *data_ov000_021b4d18;
-extern u8 data_ov000_021b4d1c[];
-// Objects behind data_ov000_021b4c78 and data_ov000_021b4c7c.
-typedef struct Unk021b4c78 {
-    /* 0 */ void *mUnk_00;
-} Unk021b4c78;
+extern struct Hashtable *data_ov000_021b4d18;
+extern struct SbServer *data_ov000_021b4d1c;
+// Objects behind gWiFiSelectCharacterState and gWiFiSelectKartState.
+typedef struct WiFiSelectHeapHolder {
+    /* 0 */ void *mHeap;
+} WiFiSelectHeapHolder;
 
-extern Unk021b4c78 *data_ov000_021b4c78;
-extern Unk021b4c78 *data_ov000_021b4c7c;
+extern WiFiSelectHeapHolder *gWiFiSelectCharacterState;
+extern WiFiSelectHeapHolder *gWiFiSelectKartState;
 
-// Object behind data_ov000_021b4d24; the 0x5d8 bytes at offset 0x4c of a Unk0218b668.
-typedef struct Unk021b4d24 {
-    /* 000 */ s32 mUnk_000;
-    /* 004 */ struct Unk0218dc94 *mUnk_004;
-    /* 008 */ struct Unk0218dc94 *mUnk_008;
-    /* 00c */ u8 mUnk_00c[0x24];
-    /* 030 */ u8 mUnk_030[0x24];
-    /* 054 */ u8 mUnk_054[0x20];
+// Object behind data_ov000_021b4d24; the 0x5d8 bytes at offset 0x4c of a MatchingServerList.
+typedef struct SbServerList {
+    /* 000 */ s32 mState;
+    /* 004 */ struct Darray *mUnk_004;
+    /* 008 */ struct Darray *mUnk_008;
+    /* 00c */ char mUnk_00c[0x24];
+    /* 030 */ char mUnk_030[0x24];
+    /* 054 */ char mUnk_054[0x20];
     /* 074 */ s8 mUnk_074[8];
-    /* 07c */ u8 *mUnk_07c;
-    /* 080 */ s32 mUnk_080;
-    /* 084 */ u8 *mUnk_084[0xff];
+    /* 07c */ u8 *mInBuffer;
+    /* 080 */ s32 mInBufferLength;
+    /* 084 */ char *mUnk_084[0xff];
     /* 480 */ s32 mUnk_480;
     /* 484 */ s32 mUnk_484;
-    /* 488 */ UnkFunc *mUnk_488;
+    /* 488 */ UnkFunc *mCallback;
     /* 48c */ UnkFunc *mUnk_48c;
     /* 490 */ UnkFunc *mUnk_490;
     /* 494 */ void *mUnk_494;
-    /* 498 */ u32 mUnk_498;
+    /* 498 */ const char *mUnk_498;
     /* 49c */ s32 mUnk_49c;
     /* 4a0 */ s32 mUnk_4a0;
     /* 4a4 */ u32 mUnk_4a4;
     /* 4a8 */ u16 mUnk_4a8;
     /* 4aa */ u8 mUnk_4aa[2];
-    /* 4ac */ u8 *mUnk_4ac;
+    /* 4ac */ char *mUnk_4ac;
     /* 4b0 */ s32 mUnk_4b0;
     /* 4b4 */ u32 mUnk_4b4;
     /* 4b8 */ u32 mUnk_4b8;
@@ -137,12 +131,12 @@ typedef struct Unk021b4d24 {
     /* 5c8 */ s32 mUnk_5c8;
     /* 5cc */ s32 mUnk_5cc;
     /* 5d0 */ int mUnk_5d0;
-} Unk021b4d24;
+} SbServerList;
 
-extern Unk021b4d24 *data_ov000_021b4d24;
+extern SbServerList *data_ov000_021b4d24;
 extern s32 data_ov000_021b4d28;
-extern const u8 *data_ov000_021b4d20;
-extern s8 data_ov000_021b4d2c[];
+extern const char *data_ov000_021b4d20;
+extern char data_ov000_021b4d2c[];
 
 // Object behind data_ov000_021b4dac.
 typedef struct Unk021b4dac {
@@ -162,36 +156,38 @@ extern u8 data_ov000_021b4db0[];
 extern u8 data_ov000_021b4db4[];
 extern u8 data_ov000_021b4db8[];
 extern u8 data_ov000_021b4dbd[];
-extern u8 data_ov000_021b4d6c[];
+extern char data_ov000_021b4d6c[];
 extern u8 data_ov000_021b4e50[];
 extern u8 data_ov000_021b400c[];
-extern u8 data_ov000_021b4114[];
-extern u8 data_ov000_021b411c[];
-extern u8 data_ov000_021b4120[];
-extern u8 data_ov000_021b41b0[];
-extern u8 data_ov000_021b41bc[];
-extern u8 data_ov000_021b41c8[];
-extern u8 data_ov000_021b41e0[];
-extern u8 data_ov000_021b41e4[];
-extern u8 data_ov000_021b41e8[];
-extern u8 data_ov000_021b3fcc[];
-extern u8 data_ov000_021b3fec[];
-extern u8 data_ov000_021b3ffc[];
-extern u8 data_ov000_021b4004[];
-extern u8 data_ov000_021b4008[];
-extern u8 data_ov000_021b4014[];
-extern u8 data_ov000_021b4030[];
+extern u8 gEmptyString[];
+extern char gFmeKey[];
+extern char gMdfKey[];
+extern u8 gInitStateString[];
+extern u8 gServerFullString[];
+extern u8 gUnexpectedConnectAttemptString[];
+extern u8 gYString[];
+extern u8 gNString[];
+extern char gAndEmptyParensString[];
+extern char data_ov000_021b3fcc[];
+extern char data_ov000_021b3fec[];
+extern char data_ov000_021b3ffc[];
+extern char data_ov000_021b4004[];
+extern char data_ov000_021b4008[];
+extern char data_ov000_021b4014[];
+extern char data_ov000_021b4030[];
 extern char data_ov000_021b404c[];
-extern u8 data_ov000_021b4054[];
-extern u8 data_ov000_021b4058[];
-extern u8 data_ov000_021b4060[];
+extern char data_ov000_021b4054[];
+extern char data_ov000_021b4058[];
+extern char data_ov000_021b4060[];
 extern u8 data_ov000_021b4064[];
 extern char data_ov000_021b4068[];
 
-extern char data_ov000_021b4124[];
-extern char data_ov000_021b412c[];
-extern char data_ov000_021b4134[];
-extern char data_ov000_021b4138[];
-extern char data_ov000_021b413c[];
-extern char data_ov000_021b4194[];
-extern char data_ov000_021b41a0[];
+extern char gGpMessagePrefixFormat[];
+extern char gGpcmPrefix[];
+extern char gMatTag[];
+extern char gSlashUnsignedFormat[];
+extern char gMatchingFilterFormat[];
+extern char gAndParenFormat[];
+extern char gKeyEqualsUnsignedFormat[];
+
+#include "00/code_021a3760.h"

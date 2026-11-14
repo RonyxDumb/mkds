@@ -1,81 +1,91 @@
 #include "Main/Unknown/code_020b1a34.h"
 #include "Main/Unknown/code_0203c000.h"
 #include "Main/Unknown/code_0214d000.h"
-#include "Main/Unknown/code_020b502c.h"
+#include "Main/Unknown/code_020b1dbc.h"
+#include "Main/Unknown/code_0207b960.h"
+#include "Main/Unknown/code_020b4e5c.h"
+#include "Main/Unknown/code_02039860.h"
+#include "Main/Unknown/code_02147000.h"
+#include "Main/Unknown/unk_0215d000.h"
 #include "Main/Unknown/unk_021759c0.h"
+#include "Main/Unknown/code_020b47d8.h"
+#include "Main/Unknown/code_020b6a18.h"
+#include "Main/Unknown/code_0207a880.h"
+#include "Main/Unknown/code_020b502c.h"
 #include "Main/Unknown/code_020b4000.h"
+#include "code_0214d018.h"
+#include "Main/Unknown/code_0203c5f8.h"
 
-s32 func_020b1bf8(Unk020b1bf8 *a, Unk020b1bf8 *b, Unk020b1a34_0c *c) {
-    s32 x;
-    s32 y;
-    s32 d;
-    s32 r;
-    s32 m;
-    s32 s;
-    s32 n;
+#pragma opt_arithtransformation off
 
-    x = (a->mUnk_00 * 60 + a->mUnk_04) * 1000 + a->mUnk_08;
-    y = (b->mUnk_00 * 60 + b->mUnk_04) * 1000 + b->mUnk_08;
-    r = x >= y;
-    if (r != 0) {
-        d = x - y;
+// Absolute difference of two times (minutes, seconds, milliseconds) written to the out record (minutes capped to
+// 99:59.999 from 100 minutes); returns non-zero when first >= second.
+s32 ComputeTimeDifference(MinuteSecondMillisecondTotal *first, MinuteSecondMillisecondTotal *second,
+                          MinuteSecondMillisecondTime *difference) {
+    s32 firstMs;
+    s32 secondMs;
+    s32 differenceMs;
+    BOOL firstNotLess;
+    s32 minutes;
+    s32 seconds;
+    s32 milliseconds;
+
+    firstMs = (first->mMinutes * 60 + first->mSeconds) * 1000 + first->mMilliseconds;
+    secondMs = (second->mMinutes * 60 + second->mSeconds) * 1000 + second->mMilliseconds;
+    firstNotLess = firstMs >= secondMs;
+    if (firstNotLess != FALSE) {
+        differenceMs = firstMs - secondMs;
     } else {
-        d = y - x;
+        differenceMs = secondMs - firstMs;
     }
-    m = d / 60000;
-    s = (d - m * 60000) / 1000;
-    n = d % 1000;
-    if (m < 100) {
-        c->mUnk_02 = m;
-        c->mUnk_03 = s;
-        c->mUnk_00 = n;
+    minutes = differenceMs / 60000;
+    seconds = (differenceMs - minutes * 60000) / 1000;
+    milliseconds = differenceMs % 1000;
+    if (minutes < 100) {
+        difference->mMinute = minutes;
+        difference->mSecond = seconds;
+        difference->mMillisecond = milliseconds;
     } else {
-        c->mUnk_02 = 99;
-        c->mUnk_03 = 59;
-        c->mUnk_00 = 999;
+        difference->mMinute = 99;
+        difference->mSecond = 59;
+        difference->mMillisecond = 999;
     }
-    return r;
+    return firstNotLess;
 }
 
-// non-matching: the original has `add r0, r0, #0` between the load of member 0x08 and the `cmp r0, #1` (4 bytes more);
-// everything else is identical
 void func_020b1a34(void) {
-    Unk020b1a34_0c a;
-    Unk020b1a34_0c b;
-    Unk020b1a34_0c c;
-    Unk020b1bf8 t[2];
-    Unk020ae7c4 w;
-    u8 i;
-    u8 j;
+    MinuteSecondMillisecondTime referenceLap;
+    MinuteSecondMillisecondTime kartLap;
+    MinuteSecondMillisecondTime difference;
+    MinuteSecondMillisecondTotal totals[2];
+    TimeDigits digits;
+    u8 totalsIndex;
+    u8 lap;
 
-    if ((u32) data_021759c0->mUnk_08 <= 1) {
-        data_0217b350->mUnk_8dc = 1;
+    if (gRaceSetup->mMode == MODE_GRAND_PRIX || gRaceSetup->mMode == MODE_TIME_ATTACK) {
+        gRaceHud->mShowLapTime = 1;
     }
-    if (data_0217b350->mUnk_8e4 == 0) {
+    if (gRaceHud->mUseTimeDifference == 0) {
         return;
     }
-    for (i = 0; i < 2; i++) {
-        t[i].mUnk_00 = 0;
-        t[i].mUnk_04 = 0;
-        t[i].mUnk_08 = 0;
+    for (totalsIndex = 0; totalsIndex < 2; totalsIndex++) {
+        totals[totalsIndex].mMinutes = 0;
+        totals[totalsIndex].mSeconds = 0;
+        totals[totalsIndex].mMilliseconds = 0;
     }
-    j = 1;
-    if (func_020b4d2c() >= 1) {
-        do {
-            if (data_021759c0->mUnk_08 == 1) {
-                func_0214d1fc(&data_021759c0->mUnk_3ec[j - 1], &a, 4);
-            }
-            t[0].mUnk_00 += a.mUnk_02;
-            t[0].mUnk_04 += a.mUnk_03;
-            t[0].mUnk_08 += a.mUnk_00;
-            func_0203c778(func_020b4d9c(), j, &b.mUnk_02, &b.mUnk_03, &b.mUnk_00);
-            j++;
-            t[1].mUnk_00 += b.mUnk_02;
-            t[1].mUnk_04 += b.mUnk_03;
-            t[1].mUnk_08 += b.mUnk_00;
-        } while (j <= func_020b4d2c());
+    for (lap = 1; lap <= GetFollowedKartLastEndedLap(); lap++) {
+        if (gRaceSetup->mMode == MODE_TIME_ATTACK) {
+            MI_CpuCopy8(&gRaceSetup->mGhostLapTimes[lap - 1], &referenceLap, 4);
+        }
+        totals[0].mMinutes += referenceLap.mMinute;
+        totals[0].mSeconds += referenceLap.mSecond;
+        totals[0].mMilliseconds += referenceLap.mMillisecond;
+        GetKartLapTime(GetFollowedKartOrEntryIndex(), lap, &kartLap.mMinute, &kartLap.mSecond, &kartLap.mMillisecond);
+        totals[1].mMinutes += kartLap.mMinute;
+        totals[1].mSeconds += kartLap.mSecond;
+        totals[1].mMilliseconds += kartLap.mMillisecond;
     }
-    data_0217b350->mUnk_8e8 = func_020b1bf8(&t[1], &t[0], &c);
-    func_020ae7c4(c.mUnk_02, c.mUnk_03, c.mUnk_00, &w);
-    data_0217b350->mUnk_8ec = w;
+    gRaceHud->mTimeDifferenceSign = ComputeTimeDifference(&totals[1], &totals[0], &difference);
+    SplitTimeDigits(difference.mMinute, difference.mSecond, difference.mMillisecond, &digits);
+    gRaceHud->mTimeDifferenceDigits = digits;
 }

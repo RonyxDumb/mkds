@@ -2,34 +2,25 @@
 
 #include "types.h"
 #include "Main/Unknown/code_0206bcb0.h"
-#include "Main/Unknown/code_020846c0.h" // Unk02084b2c
-#include "Main/Unknown/code_0207adf8.h" // Unk0207adf8
+#include "Main/Unknown/code_020846c0.h" // Nsbmd
+#include "Main/Unknown/code_0207adf8.h" // ShadowModel
 #include "Main/Unknown/code_020e5d0c.h"
 #include "Main/Unknown/code_020f36d8.h"
 #include "Main/Unknown/code_02087d0c.h"
 
-// Object with an array of Unk020f41c4_A pointers at 0x04 and a word at 0x10.
-typedef struct Unk020ed718 {
-    /* 000 */ s32 mUnk_000;
-    /* 004 */ Unk020f41c4_A **mUnk_004;
-    /* 008 */ u8 mUnk_008[8];
-    /* 010 */ s32 mUnk_010;
-    /* 014 */ s32 mUnk_014;
-} Unk020ed718;
-
-// The object behind the word at 0x20 of a Unk0206bcb0_590: the vectors from 0x48.
-typedef struct Unk0206bcb0_590_20 {
+// The object behind the word at 0x20 of a KartModelsEntry: the vectors from 0x48.
+typedef struct KartOffsetData {
     /* 00 */ char mUnk_00[0x10];
     /* 10 */ s32 mUnk_10;
     /* 14 */ Vec3 mUnk_14[4];
     /* 44 */ u8 mUnk_44[4];
     /* 48 */ Vec3 mUnk_48[1];
-} Unk0206bcb0_590_20;
+} KartOffsetData;
 
-// The object behind the word at 0x590 of a Unk0206bcb0 from its first byte:
+// The object behind the word at 0x590 of a Kart from its first byte:
 // the halfword at 0x40.
-// The object behind the word at 0x08 of a Unk0206bcb0_590: the halfword at 0x1a.
-typedef struct Unk0206bcb0_590_08 {
+// The object behind the word at 0x08 of a KartModelsEntry: the halfword at 0x1a.
+typedef struct KartModelAnimationView {
     /* 00 */ u8 mUnk_00[2];
     /* 02 */ u16 mUnk_02;
     /* 04 */ u8 mUnk_04[8];
@@ -38,9 +29,9 @@ typedef struct Unk0206bcb0_590_08 {
     /* 18 */ u16 mUnk_18;
     /* 1a */ u16 mUnk_1a;
     /* 1c */ s32 **mUnk_1c;
-} Unk0206bcb0_590_08;
+} KartModelAnimationView;
 
-// The object behind the word at 0x54 of a Unk0206bcb0_590.
+// The object behind the word at 0x54 of a KartModelsEntry.
 typedef struct Unk0206bcb0_590_54 {
     union {
         Vec3 mUnk_v[4];
@@ -56,12 +47,12 @@ typedef struct Unk0206bcb0_590_54 {
     };
 } Unk0206bcb0_590_54;
 
-// Halfwords at 0x6a of a Unk0206bcb0_590: three packed colours (0x00, 0x02, 0x04), per-channel start values and
+// Halfwords at 0x6a of a KartModelsEntry: three packed colours (0x00, 0x02, 0x04), per-channel start values and
 // differences, and a step at 0x2a.
-typedef struct Unk0206bcb0_590_6a {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u16 mUnk_04;
+typedef struct KartModelColorBlend {
+    /* 00 */ u16 mDiffColor;
+    /* 02 */ u16 mEmiColor;
+    /* 04 */ u16 mAmbColor;
     /* 06 */ s16 mUnk_06;
     /* 08 */ s16 mUnk_08;
     /* 0a */ s16 mUnk_0a;
@@ -80,87 +71,89 @@ typedef struct Unk0206bcb0_590_6a {
     /* 24 */ s16 mUnk_24;
     /* 26 */ s16 mUnk_26;
     /* 28 */ s16 mUnk_28;
-    /* 2a */ s16 mUnk_2a;
-} Unk0206bcb0_590_6a;
+    /* 2a */ s16 mBlendProgress;
+} KartModelColorBlend;
 
-// Words and halfwords from 0x24 of a Unk0206bcb0_590.
-typedef struct Unk0206bcb0_590_24 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
+// Words and halfwords from 0x24 of a KartModelsEntry.
+typedef struct CharacterAnimationState {
+    /* 00 */ s32 mTurnFrameOffset;
+    /* 04 */ BOOL mAnimationChangeTimerSet;
+    /* 08 */ s32 mMiddleFrame;
     /* 0c */ u8 mUnk_0c[4];
-    /* 10 */ s16 mUnk_10;
+    /* 10 */ s16 mAnimationChangeTimer;
     /* 12 */ u8 mUnk_12[2];
-    /* 14 */ s32 mUnk_14;
-    /* 18 */ s16 mUnk_18;
-} Unk0206bcb0_590_24;
+    /* 14 */ BOOL mNextAnimationPending;
+    /* 18 */ s16 mNextAnimationIndex;
+} CharacterAnimationState;
 
-struct Unk02084b2c;
+struct Nsbmd;
 
-typedef struct Unk0206bcb0_590 {
-    /* 000 */ s32 mUnk_000;
-    /* 004 */ s32 mUnk_004;
-    /* 008 */ Unk0206bcb0_590_08 *mUnk_008;
-    /* 00c */ Unk0206bcb0_590_08 *mUnk_00c;
-    /* 010 */ Unk02084b2c *mUnk_010;
-    /* 014 */ Unk02084b2c *mUnk_014;
-    /* 018 */ Unk02084b2c *mUnk_018;
-    /* 01c */ Unk0207adf8 *mUnk_01c;
-    /* 020 */ Unk0206bcb0_590_20 *mUnk_020;
-    /* 024 */ s32 mUnk_024;
+typedef struct KartModelsEntry {
+    /* 000 */ s32 mCharacterIndex;
+    /* 004 */ s32 mKartIndex;
+    /* 008 */ KartModelAnimationView *mCharacterAnimation;
+    /* 00c */ KartModelAnimationView *mFaceAnimation;
+    /* 10 */ Nsbmd *mModels[3];
+    /* 01c */ ShadowModel *mShadowModel;
+    /* 020 */ KartOffsetData *mKartOffsetData;
+    /* 024 */ s32 mTurnFrameOffset;
     /* 028 */ u8 mUnk_028[4];
-    /* 02c */ s32 mUnk_02c;
-    /* 030 */ s32 mUnk_030;
+    /* 02c */ s32 mMiddleFrame;
+    /* 030 */ s32 mMiddleFrameReciprocal;
     /* 034 */ u8 mUnk_034[0xc];
     /* 040 */ u16 mUnk_040;
     /* 042 */ u8 mUnk_042[0x12];
     /* 054 */ Unk0206bcb0_590_54 *mUnk_054;
     /* 058 */ s32 mUnk_058;
     /* 05c */ s32 mUnk_05c;
-    /* 060 */ s32 mUnk_060;
-    /* 064 */ s32 mUnk_064;
-    /* 068 */ u8 mUnk_068[2];
-    /* 06a */ Unk0206bcb0_590_6a mUnk_06a;
+    /* 060 */ BOOL mUnk_060;
+    /* 064 */ BOOL mStarModelsSet;
+    /* 068 */ u16 mVariant;
+    /* 06a */ KartModelColorBlend mColorBlend;
     /* 096 */ u8 mUnk_096[2];
     /* 098 */ u8 mUnk_098[0xc];
     /* 0a4 */ s32 mUnk_0a4;
     /* 0a8 */ u8 mUnk_0a8[4];
-    /* 0ac */ s32 mUnk_0ac;
+    /* 0ac */ BOOL mFaceAnimationRemoved;
     /* 0b0 */ s32 mUnk_0b0;
-} Unk0206bcb0_590;
+} KartModelsEntry;
 
 // Three vectors at 0x00, 0x0c and 0x18.
 typedef struct {
     /* 00 */ Vec3 mUnk_00;
     /* 0c */ Vec3 mUnk_0c;
     /* 18 */ Vec3 mUnk_18;
-} Unk020eda5c_02c;
+} KartOrientation;
+// The item a kart is using: its objects and how they are carried. (replaces the two-line comment above the struct)
 
-// Object at 0x58 of a Unk020ee684 (that Unk020ee684 at 0x0c), passed first to the function pointers in the data_0217bc34 entries:
-// three Unk020f41c4_A pointers at 0x14, vectors from 0x2c to 0x0e4.
-typedef struct Unk020eda5c {
-    /* 000 */ s32 mUnk_000;
-    /* 004 */ s32 mUnk_004;
-    /* 008 */ s32 mUnk_008;
-    /* 00c */ struct Unk020ee684 *mUnk_00c;
-    /* 010 */ Unk0206bcb0 *mUnk_010;
-    /* 014 */ Unk020f41c4_A *mUnk_014[3];
-    /* 020 */ s32 mUnk_020;
-    /* 024 */ s32 mUnk_024;
-    /* 028 */ u16 mUnk_028;
+// Object at 0x58 of a KartItems (that KartItems at 0x0c), passed first to the function pointers in the
+// gItemKinds entries: three ItemObject pointers at 0x14, vectors from 0x2c to 0x0e4.
+typedef struct ItemInUse {
+    /* 000 */ s32 mObjectKind;
+    /* 004 */ s32 mItemInfoIndex;
+    // ItemUseKind; 5 when nothing is in use. (above mUseKind)
+    /* 008 */ s32 mUseKind;
+    /* 00c */ struct KartItems *mKartItems;
+    /* 010 */ Kart *mKart;
+    /* 014 */ ItemObject *mObjects[3];
+    // Counts down as objects leave the record. (above mObjectCount)
+    /* 020 */ s32 mObjectCount;
+    // Set to 10 to start the objects one by one at 8, 4 and 0. (above mObjectStartFramesLeft)
+    /* 024 */ s32 mObjectStartFramesLeft;
+    /* 028 */ u16 mKartIndex;
     /* 02a */ u8 mUnk_02a[2];
-    /* 02c */ Unk020eda5c_02c mUnk_02c;
-    /* 050 */ Vec3 mUnk_050;
-    /* 05c */ Vec3 mUnk_05c;
-    /* 068 */ s32 mUnk_068;
-    /* 06c */ Vec3 mUnk_06c;
+    /* 02c */ KartOrientation mKartOrientation;
+    /* 050 */ Vec3 mKartDrawMatrixPos;
+    /* 05c */ Vec3 mKartVelocity;
+    /* 068 */ s32 mKartVelocityLength;
+    /* 06c */ Vec3 mKartMovement;
     /* 078 */ s32 mUnk_078;
-    /* 07c */ s32 mUnk_07c;
-    /* 080 */ s32 mUnk_080;
-    /* 084 */ Vec3 mUnk_084;
+    /* 07c */ s32 mKartHopHeight;
+    /* 080 */ s32 mMovingForward;
+    /* 084 */ Vec3 mKartScaleFactorTimesBase;
     /* 090 */ Vec3 mUnk_090;
-    /* 09c */ Vec3 mUnk_09c;
-    /* 0a8 */ Vec3 mUnk_0a8;
+    /* 09c */ Vec3 mBehindDirection;
+    /* 0a8 */ Vec3 mBehindPos;
     /* 0b4 */ Vec3 mUnk_0b4;
     /* 0c0 */ Vec3 mUnk_0c0;
     /* 0cc */ s32 mUnk_0cc[3];
@@ -170,26 +163,28 @@ typedef struct Unk020eda5c {
     /* 0ec */ s32 mUnk_0ec[2][16];
     /* 16c */ s32 mUnk_16c;
     /* 170 */ void *mUnk_170;
-    /* 174 */ u16 mUnk_174;
-    /* 176 */ u16 mUnk_176;
-    /* 178 */ s32 mUnk_178;
+    /* 174 */ u16 mCircleAngle;
+    /* 176 */ u16 mCircleAngleSpeed;
+    /* 178 */ s32 mCircleRadius;
     /* 17c */ s32 mUnk_17c;
-    /* 180 */ Vec3 mUnk_180;
-    /* 18c */ u16 mUnk_18c[3];
-} Unk020eda5c;
+    /* 180 */ Vec3 mCircleCenter;
+    // Which of three places around the circle each object takes. (above mCircleSlots)
+    /* 18c */ u16 mCircleSlots[3];
+} ItemInUse;
 
-void func_020ed5c0(Unk020f41c4_A *p, Unk020e6488 *q, Vec3 *v);
-void func_020ed718(Unk020ed718 *p, void *a, void (*cb)(void *, void *, void *));
-void func_020ed79c(Unk020ed718 *p, Vec3 *v);
-void *func_020ed98c(Unk020f41c4_A *p, Vec3 *v);
-void func_020eda5c(Unk020eda5c *p, Unk020f41c4_A *q);
-void func_020edad8(Unk020eda5c *p);
-void func_020edb00(Unk020eda5c *p);
-s32 func_020edb8c(Unk020eda5c *p, s32 a, s32 b, s32 c, Vec3 *d);
-s32 func_020edc9c(Unk020eda5c *p, s32 a, s32 b, s32 c, Vec3 *d);
-void func_020eddb4(Unk020eda5c *p);
-void func_020ee2e4(Unk020eda5c *a, Unk020f40dc *b);
-s32 func_020ee528(Unk020eda5c *a);
-void func_020edf10(Unk020eda5c *p);
-void func_020ee160(Unk020f41c4_A *a, Unk020f41c4_A *b);
-s32 func_020ee284(Unk020f41c4_A *p, Vec3 *v, s32 d);
+void DrawItemObjectModel(ItemObject *object, NsbmdModel *model, Vec3 *viewAxis);
+void DrawItemPoolWithCallback(ItemPool *pool, void *callbackArg, void (*drawCallback)(void *, void *, void *));
+void DrawItemPoolModels(ItemPool *pool, Vec3 *viewAxis);
+void *BuildItemObjectMatrix(ItemObject *object, Vec3 *viewAxis);
+void RemoveItemInUseObject(ItemInUse *itemInUse, ItemObject *object);
+void StartItemInUseObjectCountdown(ItemInUse *itemInUse);
+void ReleaseItemInUse(ItemInUse *itemInUse);
+s32 ComputeItemThrowBackward(ItemInUse *itemInUse, s32 speed, s32 speedFactor, s32 forwardWeight, Vec3 *outDirection);
+s32 ComputeItemThrowForward(ItemInUse *itemInUse, s32 baseSpeed, s32 speedFactor, s32 forwardWeight,
+                            Vec3 *outDirection);
+void AdvanceItemInUse(ItemInUse *itemInUse);
+void StartItemInUse(ItemInUse *itemInUse, HeldItem *heldItem);
+BOOL CopyKartToItemInUse(ItemInUse *itemInUse);
+void UpdateItemInUseObjects(ItemInUse *itemInUse);
+void CollideItemObjects(ItemObject *object, ItemObject *other);
+BOOL IsItemObjectNearPoint(ItemObject *object, Vec3 *point, s32 radius);

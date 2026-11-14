@@ -8,32 +8,30 @@
 #include "Main/Unknown/code_02009928.h"
 #include "Main/Unknown/code_02009adc.h"
 #include "Main/Unknown/code_0200ad00.h"
-#include "Main/Unknown/code_0200ad4c.h"
-#include "Main/Unknown/code_0200c430.h"
-#include "Main/Unknown/code_0200c448.h"
-#include "Main/Unknown/code_0200e000.h"
+#include "03/code_021b94b8.h"
 #include "Main/Unknown/unk_0216f000.h"
+#include "Main/Unknown/code_0200c0d8.h"
+#include "Main/Unknown/code_0200e000.h"
 #include "Main/Unknown/unk_02161000.h"
-#include "code_021453ec.h"
+#include "wm_etc.h"
 #include "code_0214c778.h"
 #include "code_0214cfe4.h"
 #include "code_0214d018.h"
 #include "code_0200fc8c.h"
-#include "code_0200fd1c.h"
 #include "code_02142eac.h"
 
-extern u16 data_usa_0216fd80;
-extern void *data_usa_0216fd84;
+extern u16 gWirelessDmaNo;
+extern void *gWMSysBuf;
 extern u16 *data_021617a0;
-extern u32 data_usa_021617a4;
+extern u32 data_021617a4;
 
-s32 func_02009cc8(u16 a);
-s32 func_02009ce4(u16 a);
-s32 func_02009e70(void);
-u32 func_02009f38(u32 a, u32 b);
-u32 func_02009fac(u32 a, u32 b, u32 c);
-s32 func_02009ff4(void *a, Unk02009ff4 *b, u32 c, u32 d, u32 e);
-u32 func_0200a184(void);
-void func_0200a1bc(Unk021425e8 *a);
-void func_0200a77c(Unk021425e8 *a);
-void func_0200a7b0(Unk021425e8 *a);
+s32 func_02009cc8(u16 channel);
+s32 StartParentOnChannel(u16 channel);
+s32 StartWirelessInitialize(void);
+u32 SetMPLimits(u32 sendDataSize, u32 maxChildren);
+u32 IsMPSizeValid(u32 sendDataSize, u32 receiveDataSize, u32 maxChildren);
+s32 InitWirelessWork(void *buffer, Unk02009ff4 *b, u32 ggid, u32 tgid, u32 dmaNo);
+u32 GetBeaconDispersion(void);
+void ChildCallback(Unk021425e8 *result);
+void ChildPortCallback(Unk021425e8 *result);
+void ParentCallback(Unk021425e8 *result);

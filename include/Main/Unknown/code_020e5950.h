@@ -2,4 +2,6 @@
 
 #include "types.h"
 
-void func_020e5950(unsigned int p0);
+typedef struct Unk020e58b8 Unk020e58b8;
+
+void EnterSecondHandState0(Unk020e58b8 *secondHand);

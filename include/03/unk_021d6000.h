@@ -3,10 +3,12 @@
 #include "types.h"
 #include "03/types_021d299c.h"
 
+typedef struct Rect Rect;
+
 // Seven bytes moved as one value.
-typedef struct Unk021d68c8 {
-    /* 0 */ u8 mUnk_00[7];
-} Unk021d68c8;
+typedef struct Bytes7 {
+    /* 0 */ u8 mBytes[7];
+} Bytes7;
 
 // Entry of data_ov003_021d64f0, two halfwords.
 typedef struct Unk021d64f0 {
@@ -26,22 +28,22 @@ typedef struct Unk021d66d0 {
 
 // Objects whose layout isn't known yet.
 extern s8 data_ov003_021d6434[];
-extern Unk021d299c data_ov003_021d643c;
-extern Unk021d299c data_ov003_021d6444;
-extern Unk021d299c data_ov003_021d644c;
-extern u8 data_ov003_021d6454[];
-extern u8 data_ov003_021d6478[][3];
-extern u8 data_ov003_021d646c[];
+extern Rect gJb3ListCellRect;
+extern Rect data_ov003_021d6444;
+extern Rect data_ov003_021d644c;
+extern u8 gJb3ListIdByEntryIndex[];
+extern const u8 data_ov003_021d6478[][3];
+extern u8 gJb3ListEntryIndexById[];
 extern u16 data_ov003_021d6488[];
 extern u8 data_ov003_021d64e4[];
 extern s8 data_ov003_021d64e8[];
 extern Unk021d64f0 data_ov003_021d64f0[];
-extern u8 data_ov003_021d6508[];
-extern Unk021d299c data_ov003_021d6540[];
+extern u8 gApRects[];
+extern Rect data_ov003_021d6540[];
 extern s8 data_ov003_021d6578[];
-extern s8 data_ov003_021d6580[][4][4];
-extern Unk021d299c data_ov003_021d65a0[][4];
-extern Unk021d299c data_ov003_021d65e0[][4];
+extern s8 gWayMoveTargets[][4][4];
+extern Rect gWayRects[][4];
+extern Rect data_ov003_021d65e0[][4];
 extern u8 data_ov003_021d6620[];
 extern u8 data_ov003_021d6630[];
 extern u8 data_ov003_021d6638[];
@@ -60,13 +62,13 @@ extern u16 data_ov003_021d6768[][2];
 extern u16 data_ov003_021d6780[][2];
 extern u16 data_ov003_021d6798[][2];
 extern u16 data_ov003_021d67b0[][2][2];
-extern u32 data_ov003_021d68b4;
-extern s32 data_ov003_021d68b8;
+extern u32 gThreadStackSize;
+extern s32 gTimeoutAtMs;
 extern s32 data_ov003_021d68bc;
 extern u8 *data_ov003_021d68ac;
 extern u32 data_ov003_021d68b0;
-extern u8 data_ov003_021d68c0[];
-extern Unk021d68c8 data_ov003_021d68c8;
+extern char gSixAsterisksString[];
+extern Bytes7 gKind2Item3Bytes;
 extern Unk021d6974 data_ov003_021d6974;
 extern u8 data_ov003_021d691c[];
 extern u8 data_ov003_021d697c[];
@@ -75,24 +77,24 @@ extern u8 data_ov003_021d6214[];
 extern u8 data_ov003_021d6218[];
 extern u8 data_ov003_021d621c[];
 extern u8 data_ov003_021d6220[];
-extern u8 data_ov003_021d6224[];
-extern u8 data_ov003_021d6228[];
-extern u16 data_ov003_021d622c[];
-extern u16 data_ov003_021d6230[];
-extern u16 data_ov003_021d6234[];
-extern u16 data_ov003_021d6238[];
-extern u16 data_ov003_021d623c[];
-extern u16 data_ov003_021d6244[];
-extern u8 data_ov003_021d624c[];
-extern u16 data_ov003_021d6258[];
-extern u16 data_ov003_021d6274[];
-extern u16 data_ov003_021d629c[];
-extern u16 data_ov003_021d629e[];
-extern s8 data_ov003_021d62d4[];
-extern u8 data_ov003_021d630c[];
-extern Unk021d299c data_ov003_021d67e8;
+extern u8 gEditAddrKeyboardRow4KeyInputs[];
+extern u8 gEditAddrKeyboardExtraKeyInputs[];
+extern u16 gEditAddrKeyboardDigitKeySize[];
+extern const u16 data_ov003_021d6230[];
+extern u16 gEditAddrKeyboardExtraKeySize[];
+extern u16 gEditAddrKeyboardRow4KeySize[];
+extern u16 gEditAddrKeyboardExtraKeyPositions[][2];
+extern u16 gEditAddrKeyboardRow4KeyPositions[][2];
+extern u8 gEditAddrKeyboardDigitInputs[];
+extern u16 gEditAddrKeyboardKeyTexts[];
+extern u16 gEditAddrKeyboardDigitKeyPositions[][2];
+extern u16 gEditAddrKeyboardCursorX[];
+extern u16 gEditAddrKeyboardCursorY[];
+extern s8 gEditAddrKeyboardCursorMoves[];
+extern u8 gNintendoDsItemBytes[];
+extern Rect data_ov003_021d67e8;
 extern u16 *data_ov003_021d6be8[3];
-extern u8 data_ov003_021d6dc0[];
-extern u8 data_ov003_021d6dc8[];
-extern u8 data_ov003_021d6dd0[];
+extern u8 gEditAddrKeyboardRow4KeyCounts[];
+extern u8 gEditAddrKeyboardDigitKeyCounts[];
+extern u8 gEditAddrKeyboardExtraKeyCounts[];
 extern u16 data_ov003_021d6dd8[];

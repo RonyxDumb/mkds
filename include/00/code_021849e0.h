@@ -2,8 +2,13 @@
 
 #include "types.h"
 
-#include "00/code_021806ec.h"
+typedef struct WiFiStateCallbacks WiFiStateCallbacks;
 
-extern Unk021b0cd4 data_ov000_021b0e40;
+extern WiFiStateCallbacks gSelectKartCallbacks;
 
-void func_ov000_021849e0(void);
+void RegisterSelectKartCallbacks(void);
+void func_ov000_02184a04(void);
+void AdvanceWiFiSelectKartState(void);
+void func_ov000_02184a50(void);
+void ReleaseWiFiSelectKartState(void);
+void InitWiFiSelectKartState(void *a);

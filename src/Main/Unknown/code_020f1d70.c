@@ -2,453 +2,463 @@
 
 #include "Main/Unknown/code_02039860.h"
 #include "Main/Unknown/code_020f6000.h"
+#include "Main/Unknown/code_020f6be8.h"
 #include "Main/Unknown/code_020f7000.h"
 #include "ITCM/code_01ffd000.h"
 #include "Main/Unknown/code_0206bcb0.h"
 #include "Main/Unknown/code_020ed5c0.h"
 #include "Main/Unknown/code_02109000.h"
+#include "Main/Unknown/code_02109054.h"
 #include "code_02147cd8.h"
 
-// non-matching: 25 words differ from +0xf8 (push, frame and the stack arguments now as in the original): in the
-// three products after func_0214848c the original multiplies x and y first and loads z into the register y's
-// operand used (r8), and forms &a->mUnk_000.mUnk_5c after the three subtractions instead of before them
-void func_020f2b94(void *a0, void *b0, s32 c, s32 d, s32 e, s32 f) {
-    Unk020f1d70 *a;
-    Unk020eda5c *b;
-    s32 n;
-    s32 t;
-    s32 u;
+void InitItemObjectThrow(void *objectParam, ItemInUse *inUseParam, s32 hitLimit, s32 throwForward, s32 e,
+                         s32 baseSpeed) {
+    DirectedItemObject *object;
+    ItemInUse *inUse;
+    s32 dot;
+    s32 negatedZ;
+    s32 directionX;
 
-    a = a0;
-    b = b0;
-    if (d != 0) {
-        a->mUnk_12c = func_020edc9c(b, f, 0x1000, 0x3800, &a->mUnk_130);
+    object = objectParam;
+    inUse = inUseParam;
+    if (throwForward != 0) {
+        object->mSpeed = ComputeItemThrowForward(inUse, baseSpeed, 0x1000, 0x3800, &object->mDirection);
     } else {
-        Vec3 *p = &a->mUnk_130;
-        a->mUnk_12c = func_020edb8c(b, 0x3000, 0x1000, 0x4000, p);
+        Vec3 *direction = &object->mDirection;
+        object->mSpeed = ComputeItemThrowBackward(inUse, 0x3000, 0x1000, 0x4000, direction);
     }
-    a->mUnk_13c = a->mUnk_130;
-    t = -a->mUnk_130.z;
-    u = a->mUnk_130.x;
-    a->mUnk_148.z = u;
-    a->mUnk_148.x = t;
-    a->mUnk_148.y = 0;
-    a->mUnk_000.mUnk_5c.x = (s32) (((s64) a->mUnk_130.x * a->mUnk_12c) >> 12);
-    a->mUnk_000.mUnk_5c.z = (s32) (((s64) a->mUnk_130.z * a->mUnk_12c) >> 12);
-    if (d == 0) {
-        func_02148504(&a->mUnk_000.mUnk_5c, &b->mUnk_010->mUnk_1fc, &a->mUnk_000.mUnk_5c);
+    object->mSurfaceDirection = object->mDirection;
+    negatedZ = -object->mDirection.z;
+    directionX = object->mDirection.x;
+    object->mSideDirection.z = directionX;
+    object->mSideDirection.x = negatedZ;
+    object->mSideDirection.y = 0;
+    object->mUnk_000.mVelocity.x = ((s64) object->mDirection.x * object->mSpeed) >> 12;
+    object->mUnk_000.mVelocity.z = ((s64) object->mDirection.z * object->mSpeed) >> 12;
+    if (throwForward == 0) {
+        VEC_Add(&object->mUnk_000.mVelocity, &inUse->mKart->mUnk_1fc, &object->mUnk_000.mVelocity);
     }
-    if (b->mUnk_010->mUnk_48 & 1) {
-        n = func_0214848c((const Vec3 *) &b->mUnk_02c.mUnk_0c, &a->mUnk_000.mUnk_5c);
+    if (inUse->mKart->mUnk_48 & 1) {
+        dot = VEC_DotProduct(&inUse->mKartOrientation.mUnk_0c, &object->mUnk_000.mVelocity);
         {
-            s32 x, y, z;
+            s32 alongX, alongY, alongZ;
 
-            x = (s32) (((s64) b->mUnk_02c.mUnk_0c.x * n) >> 12);
-            z = (s32) (((s64) b->mUnk_02c.mUnk_0c.z * n) >> 12);
-            y = (s32) (((s64) b->mUnk_02c.mUnk_0c.y * n) >> 12);
-            a->mUnk_000.mUnk_5c.x -= x;
-            a->mUnk_000.mUnk_5c.y -= y;
-            a->mUnk_000.mUnk_5c.z -= z;
+            alongX = ((s64) inUse->mKartOrientation.mUnk_0c.x * dot) >> 12;
+            alongY = ((s64) inUse->mKartOrientation.mUnk_0c.y * dot) >> 12;
+            alongZ = ((s64) inUse->mKartOrientation.mUnk_0c.z * dot) >> 12;
+            object->mUnk_000.mVelocity.x = (s32) (object->mUnk_000.mVelocity.x - alongX);
+            object->mUnk_000.mVelocity.y -= alongY;
+            object->mUnk_000.mVelocity.z -= alongZ;
         }
-        func_02147fd8(-0x1000, (const Vec3 *) &b->mUnk_02c.mUnk_0c, &a->mUnk_000.mUnk_5c, &a->mUnk_000.mUnk_5c);
+        VEC_MultAdd(-0x1000, &inUse->mKartOrientation.mUnk_0c, &object->mUnk_000.mVelocity,
+                    &object->mUnk_000.mVelocity);
     }
-    if (a->mUnk_000.mUnk_68.z < 0xccd) {
-        a->mUnk_000.mUnk_68.x = 0xccd;
-        a->mUnk_000.mUnk_68.y = 0xccd;
-        a->mUnk_000.mUnk_68.z = 0xccd;
-        if (d != 0) {
-            a->mUnk_000.mUnk_50 = b->mUnk_010->mUnk_1b8;
-            func_02147fd8(a->mUnk_000.mUnk_68.z * 10, (const Vec3 *) &b->mUnk_02c.mUnk_18, &a->mUnk_000.mUnk_50,
-                          &a->mUnk_000.mUnk_50);
+    if (object->mUnk_000.mScale.z < 0xccd) {
+        object->mUnk_000.mScale.x = 0xccd;
+        object->mUnk_000.mScale.y = 0xccd;
+        object->mUnk_000.mScale.z = 0xccd;
+        if (throwForward != 0) {
+            object->mUnk_000.mPos = inUse->mKart->mCollisionCenter;
+            VEC_MultAdd(object->mUnk_000.mScale.z * 10, &inUse->mKartOrientation.mUnk_18, &object->mUnk_000.mPos,
+                        &object->mUnk_000.mPos);
         }
     }
-    if (c < 0) {
-        a->mUnk_154 = 0;
-        a->mUnk_15c = 0;
+    if (hitLimit < 0) {
+        object->mHitsRemaining = 0;
+        object->mHasHitLimit = FALSE;
     } else {
-        a->mUnk_154 = c;
-        a->mUnk_15c = 1;
+        object->mHitsRemaining = hitLimit;
+        object->mHasHitLimit = TRUE;
     }
-    a->mUnk_000.mUnk_124 = (void (*)(Unk020f41c4_A *, Vec3 *, Vec3 *)) func_020f1f98;
-    a->mUnk_160 = 1;
-    a->mUnk_158 = e;
-    a->mUnk_164 = 4;
+    object->mUnk_000.mBounce = (void (*)(ItemObject *, Vec3 *, Vec3 *)) DeflectItemObjectOnHit;
+    object->mUnk_160 = TRUE;
+    object->mUnk_158 = e;
+    object->mUnk_164 = 4;
 }
 
-void func_020f2a6c(Vec3 *a, Vec3 *b, Vec3 *c) {
+void func_020f2a6c(Vec3 *direction, Vec3 *normal, Vec3 *result) {
     s32 n;
 
-    n = b->y * b->y;
+    n = normal->y * normal->y;
     if (n < 0x10) {
-        c->x = -a->x;
-        c->y = -a->y;
-        c->z = -a->z;
+        result->x = -direction->x;
+        result->y = -direction->y;
+        result->z = -direction->z;
         return;
     }
-    c->x = b->x >> 2;
-    c->y = b->y >> 2;
-    c->z = b->z >> 2;
-    c->x = a->x - c->x;
-    c->z = a->z - c->z;
-    n = (s32) (((s64) a->x * b->x) >> 12) + (s32) (((s64) a->z * b->z) >> 12);
-    c->y = -(n + c->y);
-    c->y = func_02147f34(c->y, b->y);
-    if ((s64) c->x * c->x + (s64) c->y * c->y + (s64) c->z * c->z >= 0x10) {
-        func_02039860((const Vec3 *) c, c);
+    result->x = normal->x >> 2;
+    result->y = normal->y >> 2;
+    result->z = normal->z >> 2;
+    result->x = direction->x - result->x;
+    result->z = direction->z - result->z;
+    n = (s32) (((s64) direction->x * normal->x) >> 12) + (s32) (((s64) direction->z * normal->z) >> 12);
+    result->y = -(n + result->y);
+    result->y = FX_Div(result->y, normal->y);
+    if ((s64) result->x * result->x + (s64) result->y * result->y + (s64) result->z * result->z >= 0x10) {
+        Vec3NormalizeAndGetLengthUnchecked(result, result);
     }
 }
 
-void func_020f29e8(u32 a) {
-    Unk020f1d70 *b;
-    Vec3 *p;
-    s32 n;
+void func_020f29e8(ItemKouraR *item) {
+    DirectedItemObject *object;
+    Vec3 *normal;
+    s32 speed;
 
-    b = (Unk020f1d70 *) a;
-    n = 0;
-    p = &b->mUnk_000.mUnk_f0;
-    if ((s64) b->mUnk_000.mUnk_5c.x * b->mUnk_000.mUnk_5c.x + (s64) b->mUnk_000.mUnk_5c.y * b->mUnk_000.mUnk_5c.y +
-            (s64) b->mUnk_000.mUnk_5c.z * b->mUnk_000.mUnk_5c.z >=
+    object = (DirectedItemObject *) item;
+    speed = 0;
+    normal = &object->mUnk_000.mNormal;
+    if ((s64) object->mUnk_000.mVelocity.x * object->mUnk_000.mVelocity.x +
+            (s64) object->mUnk_000.mVelocity.y * object->mUnk_000.mVelocity.y +
+            (s64) object->mUnk_000.mVelocity.z * object->mUnk_000.mVelocity.z >=
         0x10) {
-        n = func_02039860(&b->mUnk_000.mUnk_5c, &b->mUnk_130);
+        speed = Vec3NormalizeAndGetLengthUnchecked(&object->mUnk_000.mVelocity, &object->mDirection);
     }
-    b->mUnk_12c = n;
-    func_020f2a6c(&b->mUnk_130, p, &b->mUnk_13c);
-    func_020397a8(&b->mUnk_13c, p, &b->mUnk_148);
-    b->mUnk_000.mUnk_124 = (void (*)(Unk020f41c4_A *, Vec3 *, Vec3 *)) func_020f1f98;
+    object->mSpeed = speed;
+    func_020f2a6c(&object->mDirection, normal, &object->mSurfaceDirection);
+    Vec3CrossUnrounded(&object->mSurfaceDirection, normal, &object->mSideDirection);
+    object->mUnk_000.mBounce = (void (*)(ItemObject *, Vec3 *, Vec3 *)) DeflectItemObjectOnHit;
 }
 
-void func_020f288c(Unk020f1d70 *a, Vec3 *b) {
-    Vec3 v;
-    Vec3 *p;
-    Vec3 *q;
+void func_020f288c(DirectedItemObject *object, Vec3 *hitNormal) {
+    Vec3 along;
+    Vec3 *velocityDirection;
+    Vec3 *flatDirection;
     s32 n;
 
-    p = &a->mUnk_13c;
-    q = &a->mUnk_130;
-    n = func_0214848c(b, p);
-    v.x = (s32) (((s64) b->x * n) >> 12);
-    v.y = (s32) (((s64) b->y * n) >> 12);
-    v.z = (s32) (((s64) b->z * n) >> 12);
-    a->mUnk_13c.x -= v.x;
-    p->y -= v.y;
-    p->z -= v.z;
-    if (a->mUnk_160 != 0) {
-        func_021484d0((const Vec3 *) p, &v, p);
+    velocityDirection = &object->mSurfaceDirection;
+    flatDirection = &object->mDirection;
+    n = VEC_DotProduct(hitNormal, velocityDirection);
+    along.x = ((s64) hitNormal->x * n) >> 12;
+    along.y = ((s64) hitNormal->y * n) >> 12;
+    along.z = ((s64) hitNormal->z * n) >> 12;
+    object->mSurfaceDirection.x -= along.x;
+    velocityDirection->y -= along.y;
+    velocityDirection->z -= along.z;
+    if (object->mUnk_160 != FALSE) {
+        VEC_Subtract(velocityDirection, &along, velocityDirection);
     }
-    if ((s64) p->x * p->x + (s64) p->y * p->y + (s64) p->z * p->z >= 0x10) {
-        func_02039860((const Vec3 *) p, p);
+    if ((s64) velocityDirection->x * velocityDirection->x + (s64) velocityDirection->y * velocityDirection->y +
+            (s64) velocityDirection->z * velocityDirection->z >=
+        0x10) {
+        Vec3NormalizeAndGetLengthUnchecked(velocityDirection, velocityDirection);
     }
-    n = p->z;
-    q->x = p->x;
-    q->y = 0;
-    q->z = n;
-    if ((s64) q->x * q->x + (s64) q->y * q->y + (s64) q->z * q->z >= 0x10) {
-        func_02039860((const Vec3 *) q, q);
+    n = velocityDirection->z;
+    flatDirection->x = velocityDirection->x;
+    flatDirection->y = 0;
+    flatDirection->z = n;
+    if ((s64) flatDirection->x * flatDirection->x + (s64) flatDirection->y * flatDirection->y +
+            (s64) flatDirection->z * flatDirection->z >=
+        0x10) {
+        Vec3NormalizeAndGetLengthUnchecked(flatDirection, flatDirection);
     }
-    func_020397a8((const Vec3 *) q, &a->mUnk_000.mUnk_f0, &a->mUnk_148);
-    func_021090c4(&a->mUnk_000.mUnk_00, 0xd5, 0x7f, 0);
+    Vec3CrossUnrounded(flatDirection, &object->mUnk_000.mNormal, &object->mSideDirection);
+    StartSound(&object->mUnk_000.mSoundSource, 0xd5, 0x7f, 0);
 }
 
-void func_020f2768(Unk020f1d70 *a, Vec3 *b, Vec3 *c) {
-    Vec3 v;
-    Vec3 *p;
+void DeflectItemObjectAndStartSound(DirectedItemObject *object, Vec3 *hitNormal, Vec3 *c) {
+    Vec3 along;
+    Vec3 *direction;
     s32 n;
 
-    p = &a->mUnk_130;
-    n = func_0214848c(b, p);
-    v.x = (s32) (((s64) b->x * n) >> 12);
-    v.y = (s32) (((s64) b->y * n) >> 12);
-    v.z = (s32) (((s64) b->z * n) >> 12);
-    a->mUnk_130.x -= v.x;
-    p->y -= v.y;
-    p->z -= v.z;
-    if (a->mUnk_160 != 0) {
-        func_021484d0((const Vec3 *) p, &v, p);
+    direction = &object->mDirection;
+    n = VEC_DotProduct(hitNormal, direction);
+    along.x = ((s64) hitNormal->x * n) >> 12;
+    along.y = ((s64) hitNormal->y * n) >> 12;
+    along.z = ((s64) hitNormal->z * n) >> 12;
+    object->mDirection.x -= along.x;
+    direction->y -= along.y;
+    direction->z -= along.z;
+    if (object->mUnk_160 != FALSE) {
+        VEC_Subtract(direction, &along, direction);
     }
-    if ((s64) p->x * p->x + (s64) p->y * p->y + (s64) p->z * p->z >= 0x10) {
-        func_02039860((const Vec3 *) p, p);
+    if ((s64) direction->x * direction->x + (s64) direction->y * direction->y + (s64) direction->z * direction->z >=
+        0x10) {
+        Vec3NormalizeAndGetLengthUnchecked(direction, direction);
     }
-    a->mUnk_13c = *p;
-    func_020397a8((const Vec3 *) p, &a->mUnk_000.mUnk_f0, &a->mUnk_148);
-    a->mUnk_000.mUnk_f0.y += 1;
-    func_021090c4(&a->mUnk_000.mUnk_00, 0xd5, 0x7f, 0);
+    object->mSurfaceDirection = *direction;
+    Vec3CrossUnrounded(direction, &object->mUnk_000.mNormal, &object->mSideDirection);
+    object->mUnk_000.mNormal.y += 1;
+    StartSound(&object->mUnk_000.mSoundSource, 0xd5, 0x7f, 0);
 }
 
-// non-matching: 8 instructions differ; first at +0x1a4: the 64-bit dot-product accumulator uses r1/r2
-// (low/high) where the original uses r2/r1, which also swaps the two registers of the following comparison
-// and the two argument registers of func_02039860
-void func_020f2228(Unk020f1d70 *a, s32 b) {
+void AdvanceItemObjectMotion(DirectedItemObject *object, s32 targetSpeed) {
     Vec3 v1;
-    Vec3 v2;
+    Vec3 hitNormal;
     Vec3 v3;
-    Vec3 v;
-    Vec3 *q;
-    Vec3 *p;
-    Vec3 *r;
-    s32 f;
+    Vec3 normalPart;
+    Vec3 *pos;
+    Vec3 *velocity;
+    Vec3 *direction;
+    s32 flag80000;
     s32 n;
-    s32 t;
-    Vec3 *w;
+    BOOL sameNormal;
+    Vec3 *velocityAlias;
 
-    q = &a->mUnk_000.mUnk_50;
-    p = &a->mUnk_000.mUnk_5c;
-    r = &a->mUnk_130;
-    func_02148504((const Vec3 *) p, q, q);
-    n = func_01ffdee4((int *) q, (u32 *) &a->mUnk_000.mUnk_0e4, 0, a->mUnk_000.mUnk_dc, a->mUnk_164,
-                      a->mUnk_000.mUnk_da, (int *) &v1, (int *) &v2, (int *) &v3, &a->mUnk_000.mUnk_fc, 0, 0, 0, 0);
+    pos = &object->mUnk_000.mPos;
+    velocity = &object->mUnk_000.mVelocity;
+    direction = &object->mDirection;
+    VEC_Add(velocity, pos, pos);
+    n = func_01ffdee4(pos, &object->mUnk_000.mPrevPos, 0, object->mUnk_000.mUnk_dc, object->mUnk_164,
+                      object->mUnk_000.mCollisionSlotIndex, &v1, &hitNormal, (s32 *) &v3,
+                      &object->mUnk_000.mCollisionBits, NULL, NULL, NULL, NULL);
     if (n != 0) {
-        f = a->mUnk_000.mUnk_fc & 0x80000;
-        if (a->mUnk_158 != 0) {
+        flag80000 = object->mUnk_000.mCollisionBits & 0x80000;
+        if (object->mUnk_158 != 0) {
             if (v1.y > 0) {
-                q->y += v1.y;
+                pos->y += v1.y;
             }
         } else {
-            func_02148504((const Vec3 *) &v1, q, q);
+            VEC_Add(&v1, pos, pos);
         }
-        if (a->mUnk_000.mUnk_fc & 0x1e34ef) {
-            t = v2.x == a->mUnk_000.mUnk_f0.x && v2.y == a->mUnk_000.mUnk_f0.y && v2.z == a->mUnk_000.mUnk_f0.z;
-            if (t == 0) {
-                a->mUnk_000.mUnk_f0 = v2;
-                a->mUnk_000.mUnk_74 |= 0x100;
-                if (f != 0) {
-                    n = func_0214848c(&v2, &a->mUnk_13c);
-                    a->mUnk_13c.x -= (s32) (((s64) v2.x * n) >> 12);
-                    a->mUnk_13c.y -= (s32) (((s64) v2.y * n) >> 12);
-                    a->mUnk_13c.z -= (s32) (((s64) v2.z * n) >> 12);
-                    if ((s64) a->mUnk_13c.x * a->mUnk_13c.x + (s64) a->mUnk_13c.y * a->mUnk_13c.y +
-                            (s64) a->mUnk_13c.z * a->mUnk_13c.z >=
+        if (object->mUnk_000.mCollisionBits & 0x1e34ef) {
+            sameNormal = hitNormal.x == object->mUnk_000.mNormal.x && hitNormal.y == object->mUnk_000.mNormal.y &&
+                         hitNormal.z == object->mUnk_000.mNormal.z;
+            if (sameNormal == FALSE) {
+                object->mUnk_000.mNormal = hitNormal;
+                object->mUnk_000.mFlags |= 0x100;
+                if (flag80000 != 0) {
+                    n = VEC_DotProduct(&hitNormal, &object->mSurfaceDirection);
+                    object->mSurfaceDirection.x =
+                        (s32) (object->mSurfaceDirection.x - (s32) (((s64) hitNormal.x * n) >> 12));
+                    object->mSurfaceDirection.y -= (s32) (((s64) hitNormal.y * n) >> 12);
+                    object->mSurfaceDirection.z -= (s32) (((s64) hitNormal.z * n) >> 12);
+                    if ((s64) object->mSurfaceDirection.x * object->mSurfaceDirection.x +
+                            (s64) object->mSurfaceDirection.y * object->mSurfaceDirection.y +
+                            (s64) object->mSurfaceDirection.z * object->mSurfaceDirection.z >=
                         0x10) {
-                        func_02039860(&a->mUnk_13c, &a->mUnk_13c);
+                        Vec3NormalizeAndGetLengthUnchecked(&object->mSurfaceDirection, &object->mSurfaceDirection);
                     }
-                    *r = a->mUnk_13c;
+                    *direction = object->mSurfaceDirection;
                 } else {
-                    func_020f2a6c(r, &v2, &a->mUnk_13c);
+                    func_020f2a6c(direction, &hitNormal, &object->mSurfaceDirection);
                 }
-                func_020397a8(&a->mUnk_13c, &v2, &a->mUnk_148);
+                Vec3CrossUnrounded(&object->mSurfaceDirection, &hitNormal, &object->mSideDirection);
             }
         }
-        if (a->mUnk_000.mUnk_fc & 0x214300) {
-            if (a->mUnk_158 != 0) {
-                q->x += v1.x;
-                q->z += v1.z;
+        if (object->mUnk_000.mCollisionBits & 0x214300) {
+            if (object->mUnk_158 != 0) {
+                pos->x += v1.x;
+                pos->z += v1.z;
             }
-            if (f != 0) {
-                func_021484d0(&v3, &a->mUnk_000.mUnk_f0, &v3);
-                func_020f288c(a, &v3);
+            if (flag80000 != 0) {
+                VEC_Subtract(&v3, &object->mUnk_000.mNormal, &v3);
+                func_020f288c(object, &v3);
             } else {
                 v3.y = 0;
-                func_020f2768(a, &v3, 0);
+                DeflectItemObjectAndStartSound(object, &v3, NULL);
             }
-            a->mUnk_000.mUnk_78 &= ~0x4000;
-            if (a->mUnk_15c != 0) {
-                a->mUnk_000.mUnk_74 |= 0x20;
-                a->mUnk_154 -= 1;
+            object->mUnk_000.mUnk_78 &= ~0x4000;
+            if (object->mHasHitLimit != FALSE) {
+                object->mUnk_000.mFlags |= 0x20;
+                object->mHitsRemaining -= 1;
             }
         }
-        n = a->mUnk_12c;
-        p->x = (s32) (((s64) a->mUnk_13c.x * n) >> 12);
-        p->y = (s32) (((s64) a->mUnk_13c.y * n) >> 12);
-        p->z = (s32) (((s64) a->mUnk_13c.z * n) >> 12);
-        if (a->mUnk_000.mUnk_fc & 0x1e34ef) {
-            v1.y = q->y - a->mUnk_000.mUnk_0e4.y;
-            if (v1.y > 0x5000 && f == 0) {
+        n = object->mSpeed;
+        velocity->x = ((s64) object->mSurfaceDirection.x * n) >> 12;
+        velocity->y = ((s64) object->mSurfaceDirection.y * n) >> 12;
+        velocity->z = ((s64) object->mSurfaceDirection.z * n) >> 12;
+        if (object->mUnk_000.mCollisionBits & 0x1e34ef) {
+            v1.y = pos->y - object->mUnk_000.mPrevPos.y;
+            if (v1.y > 0x5000 && flag80000 == 0) {
                 v1.y = 0x5000;
             }
-            if (v1.y > p->y) {
-                p->y = v1.y;
+            if (v1.y > velocity->y) {
+                velocity->y = v1.y;
             }
         }
-        if (a->mUnk_154 < 0) {
-            p->x = (s32) (((s64) p->x * 0x23d) >> 12);
-            p->y = (s32) (((s64) p->y * 0x23d) >> 12);
-            p->z = (s32) (((s64) p->z * 0x23d) >> 12);
-            func_020f6fc4(a, 1);
+        if (object->mHitsRemaining < 0) {
+            velocity->x = ((s64) velocity->x * 0x23d) >> 12;
+            velocity->y = ((s64) velocity->y * 0x23d) >> 12;
+            velocity->z = ((s64) velocity->z * 0x23d) >> 12;
+            func_020f6fc4(object, 1);
             return;
         }
-        if ((a->mUnk_000.mUnk_fc & 0x8000) && a->mUnk_000.mUnk_44 != 5) {
-            func_020f7070(a, 1);
+        if ((object->mUnk_000.mCollisionBits & 0x8000) && object->mUnk_000.mKind != 5) {
+            func_020f7070(object, 1);
             return;
         }
     }
-    a->mUnk_12c += (s32) (((s64) (b - a->mUnk_12c) * 0x29) >> 12);
-    w = &a->mUnk_000.mUnk_5c;
-    if (a->mUnk_000.mUnk_fc & 0x1e34ef) {
-        v.x = a->mUnk_000.mUnk_f0.x >> 2;
-        v.y = a->mUnk_000.mUnk_f0.y >> 2;
-        v.z = a->mUnk_000.mUnk_f0.z >> 2;
-        func_021484d0((const Vec3 *) w, &v, w);
+    object->mSpeed += (s32) (((s64) (targetSpeed - object->mSpeed) * 0x29) >> 12);
+    velocityAlias = &object->mUnk_000.mVelocity;
+    if (object->mUnk_000.mCollisionBits & 0x1e34ef) {
+        normalPart.x = object->mUnk_000.mNormal.x >> 2;
+        normalPart.y = object->mUnk_000.mNormal.y >> 2;
+        normalPart.z = object->mUnk_000.mNormal.z >> 2;
+        VEC_Subtract(velocityAlias, &normalPart, velocityAlias);
         return;
     }
-    n = w->y;
+    n = velocityAlias->y;
     if (n > 0) {
-        w->y -= 0x6b8;
-        if (!(a->mUnk_000.mUnk_74 & 0x20000)) {
+        velocityAlias->y -= 0x6b8;
+        if (!(object->mUnk_000.mFlags & 0x20000)) {
             return;
         }
-        n = w->y;
+        n = velocityAlias->y;
         if (n > 0xa000) {
-            w->y = w->y >> 3;
+            velocityAlias->y = velocityAlias->y >> 3;
             return;
         }
-        w->y = (s32) (((s64) n * 0xe66) >> 12);
+        velocityAlias->y = ((s64) n * 0xe66) >> 12;
     } else {
-        w->y -= 0x333;
-        if (w->y >= -0xa000) {
+        velocityAlias->y -= 0x333;
+        if (velocityAlias->y >= -0xa000) {
             return;
         }
-        if (a->mUnk_000.mUnk_74 & 0x20000) {
-            w->y = -0xa000;
+        if (object->mUnk_000.mFlags & 0x20000) {
+            velocityAlias->y = -0xa000;
         }
     }
 }
 
-void func_020f2150(void *a0) {
-    Unk020f41c4_A *a;
-    Vec3 *p;
-    s32 n;
+void ApplyItemObjectGravity(void *objectParam) {
+    ItemObject *object;
+    Vec3 *velocity;
+    s32 verticalSpeed;
 
-    a = a0;
-    p = &a->mUnk_5c;
-    n = p->y;
-    if (n > 0) {
-        p->y -= 0x6b8;
-        if (!(a->mUnk_74 & 0x20000)) {
+    object = objectParam;
+    velocity = &object->mVelocity;
+    verticalSpeed = velocity->y;
+    if (verticalSpeed > 0) {
+        velocity->y -= 0x6b8;
+        if (!(object->mFlags & 0x20000)) {
             return;
         }
-        n = p->y;
-        if (n > 0xa000) {
-            p->y = p->y >> 3;
+        verticalSpeed = velocity->y;
+        if (verticalSpeed > 0xa000) {
+            velocity->y = velocity->y >> 3;
             return;
         }
-        p->y = (s32) (((s64) n * 0xe66) >> 12);
+        velocity->y = ((s64) verticalSpeed * 0xe66) >> 12;
     } else {
-        p->y -= 0x333;
-        if (p->y >= -0xa000) {
+        velocity->y -= 0x333;
+        if (velocity->y >= -0xa000) {
             return;
         }
-        if (a->mUnk_74 & 0x20000) {
-            p->y = -0xa000;
+        if (object->mFlags & 0x20000) {
+            velocity->y = -0xa000;
         }
     }
 }
 
-void func_020f2028(Unk020f41c4_A *a) {
-    Vec3 *p;
-    Vec3 v;
-    s32 n;
+void func_020f2028(ItemObject *object) {
+    Vec3 *velocity;
+    Vec3 normalPart;
+    s32 verticalSpeed;
 
-    p = &a->mUnk_5c;
-    if (a->mUnk_fc & 0x1e34ef) {
-        v.x = a->mUnk_f0.x >> 2;
-        v.y = a->mUnk_f0.y >> 2;
-        v.z = a->mUnk_f0.z >> 2;
-        func_021484d0(p, &v, p);
+    velocity = &object->mVelocity;
+    if (object->mCollisionBits & 0x1e34ef) {
+        normalPart.x = object->mNormal.x >> 2;
+        normalPart.y = object->mNormal.y >> 2;
+        normalPart.z = object->mNormal.z >> 2;
+        VEC_Subtract(velocity, &normalPart, velocity);
         return;
     }
-    n = p->y;
-    if (n > 0) {
-        p->y -= 0x6b8;
-        if (!(a->mUnk_74 & 0x20000)) {
+    verticalSpeed = velocity->y;
+    if (verticalSpeed > 0) {
+        velocity->y -= 0x6b8;
+        if (!(object->mFlags & 0x20000)) {
             return;
         }
-        n = p->y;
-        if (n > 0xa000) {
-            p->y = p->y >> 3;
+        verticalSpeed = velocity->y;
+        if (verticalSpeed > 0xa000) {
+            velocity->y = velocity->y >> 3;
             return;
         }
-        p->y = (s32) (((s64) n * 0xe66) >> 12);
+        velocity->y = ((s64) verticalSpeed * 0xe66) >> 12;
     } else {
-        p->y -= 0x333;
-        if (p->y >= -0xa000) {
+        velocity->y -= 0x333;
+        if (velocity->y >= -0xa000) {
             return;
         }
-        if (a->mUnk_74 & 0x20000) {
-            p->y = -0xa000;
+        if (object->mFlags & 0x20000) {
+            velocity->y = -0xa000;
         }
     }
 }
 
-void func_020f1f98(Unk020f1d70 *a, Vec3 *b, Vec3 *c) {
-    Vec3 v;
-    s32 n;
+void DeflectItemObjectOnHit(DirectedItemObject *object, Vec3 *otherVelocity, Vec3 *awayDirection) {
+    Vec3 flatDirection;
+    s32 speed;
 
-    if (c->y > 0) {
-        func_020f2768(a, c, c);
+    if (awayDirection->y > 0) {
+        DeflectItemObjectAndStartSound(object, awayDirection, awayDirection);
     } else {
-        v = *c;
-        v.y = 0;
-        func_020f2768(a, &v, 0);
+        flatDirection = *awayDirection;
+        flatDirection.y = 0;
+        DeflectItemObjectAndStartSound(object, &flatDirection, NULL);
     }
-    n = a->mUnk_12c;
-    a->mUnk_000.mUnk_5c.x = (s32) (((s64) a->mUnk_13c.x * n) >> 12);
-    a->mUnk_000.mUnk_5c.y = (s32) (((s64) a->mUnk_13c.y * n) >> 12);
-    a->mUnk_000.mUnk_5c.z = (s32) (((s64) a->mUnk_13c.z * n) >> 12);
+    speed = object->mSpeed;
+    object->mUnk_000.mVelocity.x = ((s64) object->mSurfaceDirection.x * speed) >> 12;
+    object->mUnk_000.mVelocity.y = ((s64) object->mSurfaceDirection.y * speed) >> 12;
+    object->mUnk_000.mVelocity.z = ((s64) object->mSurfaceDirection.z * speed) >> 12;
 }
 
-void func_020f1ea4(void *a0, s32 b, s32 c, s32 d) {
-    Unk020f1d70 *a;
-    s32 n;
-    s32 t;
-    s32 u;
+void InitItemObjectMotion(void *objectParam, s32 hitLimit, s32 reverse, s32 d) {
+    DirectedItemObject *object;
+    s32 speed;
+    s32 negatedZ;
+    s32 directionX;
 
-    a = a0;
-    n = 0;
-    if ((s64) a->mUnk_000.mUnk_5c.x * a->mUnk_000.mUnk_5c.x + (s64) a->mUnk_000.mUnk_5c.y * a->mUnk_000.mUnk_5c.y +
-            (s64) a->mUnk_000.mUnk_5c.z * a->mUnk_000.mUnk_5c.z >=
+    object = objectParam;
+    speed = 0;
+    if ((s64) object->mUnk_000.mVelocity.x * object->mUnk_000.mVelocity.x +
+            (s64) object->mUnk_000.mVelocity.y * object->mUnk_000.mVelocity.y +
+            (s64) object->mUnk_000.mVelocity.z * object->mUnk_000.mVelocity.z >=
         0x10) {
-        n = func_02039860(&a->mUnk_000.mUnk_5c, &a->mUnk_130);
+        speed = Vec3NormalizeAndGetLengthUnchecked(&object->mUnk_000.mVelocity, &object->mDirection);
     }
-    a->mUnk_12c = n;
-    if (c != 0) {
-        a->mUnk_12c = -a->mUnk_12c;
-        a->mUnk_130.x = -a->mUnk_130.x;
-        a->mUnk_130.y = -a->mUnk_130.y;
-        a->mUnk_130.z = -a->mUnk_130.z;
+    object->mSpeed = speed;
+    if (reverse != 0) {
+        object->mSpeed = -object->mSpeed;
+        object->mDirection.x = -object->mDirection.x;
+        object->mDirection.y = -object->mDirection.y;
+        object->mDirection.z = -object->mDirection.z;
     }
-    a->mUnk_13c = a->mUnk_130;
-    t = -a->mUnk_130.z;
-    u = a->mUnk_130.x;
-    a->mUnk_148.z = u;
-    a->mUnk_148.x = t;
-    a->mUnk_148.y = 0;
-    if (b < 0) {
-        a->mUnk_154 = 0;
-        a->mUnk_15c = 0;
+    object->mSurfaceDirection = object->mDirection;
+    negatedZ = -object->mDirection.z;
+    directionX = object->mDirection.x;
+    object->mSideDirection.z = directionX;
+    object->mSideDirection.x = negatedZ;
+    object->mSideDirection.y = 0;
+    if (hitLimit < 0) {
+        object->mHitsRemaining = 0;
+        object->mHasHitLimit = FALSE;
     } else {
-        a->mUnk_154 = b;
-        a->mUnk_15c = 1;
+        object->mHitsRemaining = hitLimit;
+        object->mHasHitLimit = TRUE;
     }
-    a->mUnk_000.mUnk_124 = (void (*)(Unk020f41c4_A *, Vec3 *, Vec3 *)) func_020f1f98;
-    a->mUnk_160 = 1;
-    a->mUnk_158 = d;
+    object->mUnk_000.mBounce = (void (*)(ItemObject *, Vec3 *, Vec3 *)) DeflectItemObjectOnHit;
+    object->mUnk_160 = TRUE;
+    object->mUnk_158 = d;
 }
 
-void func_020f1d70(void *a0, const Vec3 *b) {
-    Unk020f1d70 *a;
-    Vec3 *p;
-    Vec3 v;
-    s32 t;
-    s32 s;
+void SetItemObjectDirection(void *objectParam, const Vec3 *direction) {
+    DirectedItemObject *object;
+    Vec3 *normal;
+    Vec3 projected;
+    s32 dot;
+    s32 speed;
 
-    a = a0;
-    a->mUnk_130.x = b->x;
-    a->mUnk_130.z = b->z;
-    p = &a->mUnk_000.mUnk_f0;
-    t = func_0214848c(p, b);
-    v.x = b->x - (s32) (((s64) p->x * t) >> 12);
-    v.y = b->y - (s32) (((s64) p->y * t) >> 12);
-    v.z = b->z - (s32) (((s64) p->z * t) >> 12);
-    a->mUnk_13c.x = p->x >> 2;
-    a->mUnk_13c.y = p->y >> 2;
-    a->mUnk_13c.z = p->z >> 2;
-    func_021484d0(&v, &a->mUnk_13c, &a->mUnk_13c);
-    if ((s64) a->mUnk_13c.x * a->mUnk_13c.x + (s64) a->mUnk_13c.y * a->mUnk_13c.y +
-            (s64) a->mUnk_13c.z * a->mUnk_13c.z >=
+    object = objectParam;
+    object->mDirection.x = direction->x;
+    object->mDirection.z = direction->z;
+    normal = &object->mUnk_000.mNormal;
+    dot = VEC_DotProduct(normal, direction);
+    projected.x = direction->x - (s32) (((s64) normal->x * dot) >> 12);
+    projected.y = direction->y - (s32) (((s64) normal->y * dot) >> 12);
+    projected.z = direction->z - (s32) (((s64) normal->z * dot) >> 12);
+    object->mSurfaceDirection.x = normal->x >> 2;
+    object->mSurfaceDirection.y = normal->y >> 2;
+    object->mSurfaceDirection.z = normal->z >> 2;
+    VEC_Subtract(&projected, &object->mSurfaceDirection, &object->mSurfaceDirection);
+    if ((s64) object->mSurfaceDirection.x * object->mSurfaceDirection.x +
+            (s64) object->mSurfaceDirection.y * object->mSurfaceDirection.y +
+            (s64) object->mSurfaceDirection.z * object->mSurfaceDirection.z >=
         0x10) {
-        func_02039860(&a->mUnk_13c, &a->mUnk_13c);
+        Vec3NormalizeAndGetLengthUnchecked(&object->mSurfaceDirection, &object->mSurfaceDirection);
     }
-    s = a->mUnk_12c;
-    a->mUnk_000.mUnk_5c.x = (s32) (((s64) a->mUnk_13c.x * s) >> 12);
-    a->mUnk_000.mUnk_5c.z = (s32) (((s64) a->mUnk_13c.z * s) >> 12);
-    func_020397a8(b, p, &a->mUnk_148);
+    speed = object->mSpeed;
+    object->mUnk_000.mVelocity.x = ((s64) object->mSurfaceDirection.x * speed) >> 12;
+    object->mUnk_000.mVelocity.z = ((s64) object->mSurfaceDirection.z * speed) >> 12;
+    Vec3CrossUnrounded(direction, normal, &object->mSideDirection);
 }

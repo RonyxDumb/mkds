@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/unk_02158000.h"
 
-void func_020e3300(unsigned int p0);
+typedef struct Unk020e1e98 Unk020e1e98;
+
+void EnterChoropuState6(Unk020e1e98 *choropu);

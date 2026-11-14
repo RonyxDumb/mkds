@@ -1,17 +1,23 @@
 #include "00/code_0219caac.h"
+#include "code_0214d018.h"
 
-u32 func_ov000_0219caf4(void) {
-    return data_ov000_021b5664->mUnk_20;
+// Returns mPendingStatsRequestCount of gWiFiBuddySync (no NULL test); UpdateBuddySync reports an error when requests
+// are pending but the stats link is gone (code_0219d128.c:84).
+u32 GetPendingStatsRequestCount(void) {
+    return gWiFiBuddySync->mPendingStatsRequestCount;
 }
 
-void func_ov000_0219caac(Unk021b565c *a, Unk02152500 *b, Unk0218f960 *c, u32 d, u32 e, void (*f)(), void *g) {
-    data_ov000_021b565c = a;
-    func_0214d168(a, 0, 0x264);
-    data_ov000_021b565c->mUnk_00 = c;
-    data_ov000_021b565c->mUnk_04 = 0;
-    data_ov000_021b565c->mUnk_08 = d;
-    data_ov000_021b565c->mUnk_0c = e;
-    data_ov000_021b565c->mUnk_18 = f;
-    data_ov000_021b565c->mUnk_1c = g;
-    data_ov000_021b565c->mUnk_20 = b;
+// Per login (called by InitWiFiConnection after the caller zeroed the connection; not once at boot): stores gWiFiLogin,
+// zeroes the 0x264 bytes and stores the GP connection, product id, saved record and the callback pair. Pair of
+// ReleaseWiFiLogin.
+void InitWiFiLogin(WiFiLogin *a, DWCAccUserData *b, GpConnection *c, u32 d, u32 e, void (*f)(), void *g) {
+    gWiFiLogin = a;
+    MI_CpuFill8(a, 0, 0x264);
+    gWiFiLogin->mGpConnection = c;
+    gWiFiLogin->mState = 0;
+    gWiFiLogin->mProductId = d;
+    gWiFiLogin->mUnk_0c = e;
+    gWiFiLogin->mResultCallback = f;
+    gWiFiLogin->mResultCallbackArg = g;
+    gWiFiLogin->mUnk_20 = b;
 }

@@ -10,29 +10,29 @@
 
 #pragma thumb on
 #pragma optimize_for_size on
-void func_020ca9e4(void) {
-    if (data_0217b438->mUnk_08 != 0) {
-        func_0214c0f8(data_0217b438->mUnk_60->mUnk_0c + 0xe0, 0x1c0, 0x40);
-        func_0214ba94(data_0217b438->mUnk_64->mUnk_14, 0, 0x3000);
-        data_0217b438->mUnk_08 = 0;
+void DrawEmblemChoises(void) {
+    if (gEmblemChoises->mGraphicsUploadRequested != FALSE) {
+        GXS_LoadBGPltt(gEmblemChoises->mChoisesSBNclr->mData + 0xe0, 0x1c0, 0x40);
+        GXS_LoadBG0Char(gEmblemChoises->mChoisesSBNcgr->mData, 0, 0x3000);
+        gEmblemChoises->mGraphicsUploadRequested = FALSE;
     }
-    if (data_0217b438->mUnk_00 != 0) {
-        func_0214bdd4(data_0217b438->mUnk_68->mUnk_0c, 0, 0x600);
+    if (gEmblemChoises->mShown != 0) {
+        GXS_LoadBG0Scr(gEmblemChoises->mChoisesS3Nscr->mData, 0, 0x600);
     }
-    if (data_0217b438->mUnk_00 != data_0217b438->mUnk_04) {
-        if (data_0217b438->mUnk_00 != 0) {
+    if (gEmblemChoises->mShown != gEmblemChoises->mUnk_04) {
+        if (gEmblemChoises->mShown != 0) {
             func_020cab58(func_020cab74() | 1);
             func_020cab2c(0, 0);
             func_020caae8(0x3e, 0x3f, 8, 8, -7);
         } else {
             func_020cab58(func_020cab74() & ~1);
-            if (data_0217b438->mUnk_0c != 0) {
-                data_0217b438->mUnk_0c();
+            if (gEmblemChoises->mUnk_0c != NULL) {
+                gEmblemChoises->mUnk_0c();
             } else {
                 func_020caaac(0, 0, 6, 10);
             }
         }
     }
-    data_0217b438->mUnk_04 = data_0217b438->mUnk_00;
+    gEmblemChoises->mUnk_04 = gEmblemChoises->mShown;
 }
 #pragma thumb off

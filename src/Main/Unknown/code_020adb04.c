@@ -1,4 +1,5 @@
 #include "Main/Unknown/code_020adb04.h"
+#include "Main/Unknown/code_0205ee14.h"
 #include "Main/Unknown/code_020add18.h"
 #include "Main/Unknown/code_020add90.h"
 #include "Main/Unknown/code_0205f000.h"
@@ -6,131 +7,132 @@
 #include "Main/Unknown/unk_02156000.h"
 #include "Main/Unknown/unk_021759c0.h"
 #include "Main/Unknown/unk_0217b000.h"
+#include "code_02022aa8.h"
 
 #pragma optimize_for_size on
 
-void func_020adce0(u32 *a, Unk02022aa8 *b, u32 c) {
-    func_020add18(a, (u32) b, func_020add90(b, c));
+void GetFontGlyphOfChar(u32 *glyph, Unk02022aa8 *font, u32 code) {
+    GetFontGlyph(glyph, font, GetFontGlyphIndex(font, code));
 }
 
 #pragma thumb on
 
-s32 func_020adc7c(const u16 *a, u16 *b) {
+s32 CopyTextWithinWidth(const u16 *source, u16 *destination) {
     s32 i;
-    s32 v1;
-    s32 t;
-    u32 v[2];
-    void *p;
+    s32 widthSum;
+    s32 charWidth;
+    u32 glyph[2];
+    void *font;
 
-    v1 = 0;
-    p = func_020b403c(0);
-    func_020addb8(b, 0, 0x14);
+    widthSum = 0;
+    font = GetFontByIndex(0);
+    FillHalfwords(destination, 0, 0x14);
     for (i = 0; i < 10; i++) {
-        if (a[i] == 0) {
+        if (source[i] == 0) {
             return i;
         }
-        func_020adce0(v, p, a[i]);
-        t = ((Unk02022c80 *) v[0])->mUnk_02;
-        if (v1 + t > 0x30) {
+        GetFontGlyphOfChar(glyph, font, source[i]);
+        charWidth = ((NNSG2dCharWidths *) glyph[0])->mCharWidth;
+        if (widthSum + charWidth > 0x30) {
             return i;
         }
-        v1 += t + 1;
-        b[i] = a[i];
+        widthSum += charWidth + 1;
+        destination[i] = source[i];
     }
     return 10;
 }
 
-s16 func_020adc64(s32 a) {
-    if (a < 0) {
-        a = 0;
+s16 func_020adc64(s32 index) {
+    if (index < 0) {
+        index = 0;
     }
-    if (a >= 6) {
-        a = 5;
+    if (index >= 6) {
+        index = 5;
     }
-    return data_02156868[a];
+    return data_02156868[index];
 }
 
-s32 func_020adc24(Unk020adc24 *a, Unk020adc24 *b) {
-    s32 x;
-    s32 y;
+BOOL IsTimeLessThan(MinuteSecondMillisecondTime *firstTime, MinuteSecondMillisecondTime *secondTime) {
+    s32 firstMilliseconds;
+    s32 secondMilliseconds;
 
-    x = a->mUnk_00 + (a->mUnk_03 * 1000 + a->mUnk_02 * 60000);
-    y = b->mUnk_00 + (b->mUnk_03 * 1000 + b->mUnk_02 * 60000);
-    if (x < y) {
-        return 1;
+    firstMilliseconds = firstTime->mMillisecond + (firstTime->mSecond * 1000 + firstTime->mMinute * 60000);
+    secondMilliseconds = secondTime->mMillisecond + (secondTime->mSecond * 1000 + secondTime->mMinute * 60000);
+    if (firstMilliseconds < secondMilliseconds) {
+        return TRUE;
     }
-    return 0;
+    return FALSE;
 }
 
-s32 func_020adc04(void) {
-    s32 v;
-    s32 a;
-    s32 b;
+BOOL IsMissionRunRecordFilled(void) {
+    s32 value;
+    s32 row;
+    s32 column;
 
-    a = func_020adbe4();
-    b = func_020adbc4();
-    return func_0205fd78(a, b, &v);
+    row = func_020adbe4();
+    column = func_020adbc4();
+    return GetMissionRecordValue(row, column, &value);
 }
 
 #pragma thumb off
 
 s32 func_020adbe4(void) {
-    if (data_021759c0->mUnk_08 == 4) {
-        return data_021759c0->mUnk_54;
+    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+        return gRaceSetup->mMissionTableRow;
     }
     return -1;
 }
 
 s32 func_020adbc4(void) {
-    if (data_021759c0->mUnk_08 == 4) {
-        return data_021759c0->mUnk_55;
+    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+        return gRaceSetup->mMissionTableColumn;
     }
     return -1;
 }
 
 #pragma thumb on
 
-s32 func_020adb34(void) {
-    s32 i;
-    s32 j;
-    s32 r;
-    s32 v;
+BOOL func_020adb34(void) {
+    s32 row;
+    s32 column;
+    s32 isFilled;
+    s32 value;
 
     if (func_020adbe4() < 1 || func_020adbe4() > 6 || func_020adbc4() < 1 || func_020adbc4() > 9) {
-        return 0;
+        return FALSE;
     }
-    for (i = 1; i <= 6; i++) {
-        for (j = 1; j <= 9; j++) {
-            r = func_0205fd78(i, j, &v);
-            if (i == func_020adbe4() && j == func_020adbc4()) {
-                if (r != 0 && (u32) (v - 5) <= 2) {
-                    return 0;
+    for (row = 1; row <= 6; row++) {
+        for (column = 1; column <= 9; column++) {
+            isFilled = GetMissionRecordValue(row, column, &value);
+            if (row == func_020adbe4() && column == func_020adbc4()) {
+                if (isFilled != 0 && (u32) (value - 5) <= 2) {
+                    return FALSE;
                 }
             } else {
-                if (r != 0) {
-                    switch (v) {
+                if (isFilled != 0) {
+                    switch (value) {
                         case 5:
                         case 6:
                         case 7:
                             break;
                         default:
-                            return 0;
+                            return FALSE;
                     }
                 } else {
-                    return 0;
+                    return FALSE;
                 }
             }
         }
     }
-    return 1;
+    return TRUE;
 }
 
-void func_020adb04(void) {
+void InitTitleStateHandlers(void) {
     s32 i;
 
     for (i = 0; i < 7; i++) {
-        data_0217b340->mUnk_14[i].mUnk_00 = data_02167e34[i].mUnk_00;
-        data_0217b340->mUnk_14[i].mUnk_04 = data_02167e34[i].mUnk_04;
+        gTitleScene->mStateHandlers[i].mUnk_00 = gTitleStateHandlers[i].mUnk_00;
+        gTitleScene->mStateHandlers[i].mUpdate = gTitleStateHandlers[i].mUpdate;
     }
 }
 

@@ -1,8 +1,9 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_0200ad4c.h"
-#include "Main/Unknown/unk_0216f000.h"
-#include "code_02142eac.h"
 
-void func_02009928(u16 a, s32 b);
+void ReportCommandError(u16 command, s32 resultCode);
+u32 func_02009958(void);
+u8 GetGameInfoAttr(void);
+u16 GetTgid(void);
+unsigned int GetGgid(void);

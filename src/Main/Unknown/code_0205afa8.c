@@ -3,36 +3,39 @@
 #include "Main/Unknown/code_0203c240.h"
 #include "Main/Unknown/code_0203c8c0.h"
 #include "Main/Unknown/code_0205d000.h"
+#include "Main/Unknown/code_0205d0e8.h"
 #include "Main/Unknown/code_020f36d8.h"
 #include "Main/Unknown/unk_0217a000.h"
-#include "00/code_0219bb50.h"
+#include "00/code_0219b580.h"
+#include "Main/Unknown/code_0203c5f8.h"
 
 s32 func_0205afa8(void) {
     u32 c;
-    s32 b;
-    u16 a;
+    s32 kartStartRank;
+    u16 kartIndex;
     s32 d;
-    s32 e;
+    s32 lapBits;
 
-    a = data_0217aa18->mUnk_06[func_ov000_0219bb50()];
-    b = func_0205d27c(a);
-    c = func_0203c240(a) & 0x7ffff;
-    if (func_0203c880(a) != 0 && data_0217561c->mUnk_000[a].mUnk_14 != 1 && data_0217aa14->mUnk_72c == 0) {
+    kartIndex = gParticipantKartMap->mKartOfParticipant[func_ov000_0219bb50()];
+    kartStartRank = GetKartStartRank(kartIndex);
+    c = GetKartFinishTimeMs(kartIndex) & 0x7ffff;
+    if (IsKartEnded(kartIndex) != 0 && gRaceProgress->mUnk_000[kartIndex].mStatus != 1 &&
+        data_0217aa14->mUnk_72c == FALSE) {
         c = 0x7ffff;
     }
     if (c == 0) {
-        c = b - 1;
+        c = kartStartRank - 1;
     }
-    if (data_0217561c->mUnk_000[a].mUnk_14 == 1) {
+    if (gRaceProgress->mUnk_000[kartIndex].mStatus == 1) {
         d = 0;
     } else {
-        d = 6 - func_0203c8c0(a);
+        d = 6 - GetKartHighestLap(kartIndex);
     }
-    e = (d << 19) & 0x380000;
-    if (func_0203c880(a) == 0 && data_0217aa14->mUnk_72c == 0) {
+    lapBits = (d << 19) & 0x380000;
+    if (IsKartEnded(kartIndex) == 0 && data_0217aa14->mUnk_72c == FALSE) {
         d = 1;
     } else {
         d = 0;
     }
-    return c | (((d << 22) & 0x400000) | e);
+    return c | (((d << 22) & 0x400000) | lapBits);
 }

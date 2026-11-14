@@ -1,92 +1,85 @@
 #pragma once
 
 #include "03/code_021be610.h"
-#include "03/code_021d2060.h"
-#include "03/code_021c20c0.h"
-#include "03/code_021c20dc.h"
+#include "03/code_021d1fd0.h"
+#include "03/code_021c209c.h"
 #include "03/code_021c4ad4.h"
-#include "03/code_021d079c.h"
+#include "03/code_021cfa68.h"
 #include "types.h"
-#include "03/code_021d1770.h" // Unk021d1770
+#include "03/code_021d1770.h" // OamRange
 #include "03/code_021d1d88.h"
 #include "03/code_021d1da8.h"
-#include "code_02003024.h" // Unk02003a6c
-#include "03/code_021bf31c.h"
-#include "03/code_021c25b4.h"
+#include "code_02003024.h" // FSArchive
+#include "03/code_021bf098.h"
+#include "03/code_021c2530.h"
 #include "03/code_021c25e0.h"
-#include "03/code_021d28b0.h"
-#include "03/code_021d34e0.h"
+#include "03/code_021d27d8.h"
+#include "03/code_021d3488.h"
+#include "03/types_021d299c.h"
 
-// Object behind data_ov003_021da214.
-typedef struct Unk021da214 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u8 mUnk_04[4];
-    /* 08 */ u16 *mUnk_08;
-    /* 0c */ void *mUnk_0c[2];
-    /* 14 */ Unk021d2188 *mUnk_14;
-    /* 18 */ Unk021da104_04 *mUnk_18[7];
-    /* 34 */ Unk021da104_04 *mUnk_34;
-    /* 38 */ u32 mUnk_38;
-    /* 3c */ u32 mUnk_3c;
+typedef struct Jb3List {
+    /* 00 */ u32 mIdTimerTask;
+    /* 04 */ u8 mIdTimer[4];
+    /* 08 */ u16 *mJb3ListBackNsc;
+    /* 0c */ void *mYbBgStep2NclFiles[2];
+    /* 14 */ BgTextCanvas *mUnk_14;
+    /* 18 */ OamEntry *mUnk_18[7];
+    /* 34 */ OamEntry *mUnk_34;
+    /* 38 */ u32 mScrollTask;
+    /* 3c */ u32 mBgOffsetTask;
     /* 40 */ u8 mUnk_40;
-    /* 41 */ u8 mUnk_41;
-    /* 42 */ u8 mUnk_42;
+    /* 41 */ u8 mScrollTimer;
+    /* 42 */ u8 mReturnId;
     /* 43 */ u8 mUnk_43;
-    /* 44 */ u8 mUnk_44;
+    /* 44 */ u8 mBgOffsetPending;
     /* 45 */ u8 mUnk_45;
     /* 46 */ u8 mUnk_46;
     /* 47 */ u8 mUnk_47;
-} Unk021da214;
+} Jb3List;
 
 // Objects whose layout isn't known yet.
 typedef struct Unk021da280 Unk021da280;
 typedef struct Unk021cf260 Unk021cf260;
-extern Unk021da108 *data_ov003_021da108;
+extern SlideButtons *data_ov003_021da108;
 extern u8 data_ov003_021da10c;
-extern u8 data_ov003_021da150[];
-// 8-byte object returned by func_ov003_021d1c18: bits 0-7 and bits 16-24 of the word at 0x00 are two coordinates.
-typedef struct Unk021bf920 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u16 mUnk_04;
-} Unk021bf920;
-
-// Object behind data_ov003_021da158.
-typedef struct Unk021da158 {
-    /* 00 */ Unk021bf920 *mUnk_00;
-    /* 04 */ u32 mUnk_04;
+extern OamRange **gSelectionObjects;
+// Object behind gLinkLevel.
+typedef struct LinkLevel {
+    /* 00 */ OamEntry *mUnk_00;
+    /* 04 */ u32 mTask;
     /* 08 */ s8 mUnk_08;
-} Unk021da158;
+} LinkLevel;
 
-extern Unk021da158 *data_ov003_021da158;
+extern LinkLevel *gLinkLevel;
 
-// Object behind data_ov003_021da15c.
-typedef struct Unk021da15c {
-    /* 000 */ void *mUnk_000[3][4];
-    /* 030 */ Unk021bf920 *mUnk_030[0x2f];
-    /* 0ec */ Unk021bf920 *mUnk_0ec[4];
-    /* 0fc */ Unk021d1770 *mUnk_0fc[2];
+// The on-screen keys of the Edit screen.
+typedef struct EditKeyboard {
+    /* 000 */ void *mRowTexts[3][4];
+    /* 030 */ OamEntry *mKeys[0x2f];
+    /* 0ec */ OamEntry *mExtraKeys[4];
+    /* 0fc */ OamRange *mRow4Keys[2];
     /* 104 */ void *mUnk_104[4];
-    /* 114 */ Unk021d1770 *mUnk_114;
-    /* 118 */ Unk021d34e0 *mUnk_118;
-    /* 11c */ u8 mUnk_11c;
-    /* 11d */ u8 mUnk_11d;
-    /* 11e */ s8 mUnk_11e;
-    /* 11f */ s8 mUnk_11f;
+    /* 114 */ OamRange *mCursor;
+    /* 118 */ TaskEntry *mStepTask;
+    /* 11c */ u8 mInput;
+    /* 11d */ u8 mPage;
+    /* 11e */ s8 mPressedKeyIndex;
+    /* 11f */ s8 mHighlightedKeyIndex;
     /* 120 */ s8 mUnk_120;
-    /* 121 */ s8 mUnk_121;
-    /* 122 */ u8 mUnk_122;
-    /* 123 */ u8 mUnk_123;
-    /* 124 */ u8 mUnk_124;
-    /* 125 */ u8 mUnk_125;
-} Unk021da15c;
+    /* 121 */ s8 mCursorKeyIndex;
+    /* 122 */ u8 mRepeatCalls;
+    /* 123 */ u8 mRemoveCharEnabled;
+    /* 124 */ u8 mAddCharEnabled;
+    /* 125 */ u8 mRemoveDisabledSoundPlayed;
+} EditKeyboard;
 
-extern Unk021da15c *data_ov003_021da15c;
-struct Unk021da160;
-extern struct Unk021da160 *data_ov003_021da160;
-extern u8 data_ov003_021da164[];
-struct Unk021b94c4;
-extern struct Unk021b94c4 *data_ov003_021da168;
-extern u8 data_ov003_021da16c[];
+extern EditKeyboard *gEditKeyboard;
+struct EditAddrKeyboard;
+extern struct EditAddrKeyboard *gEditAddrKeyboard;
+extern u8 gValueRecordsRequestSucceeded[];
+struct ValueRecordsRequest;
+extern struct ValueRecordsRequest *gValueRecordsRequest;
+extern u8 gLanguageIndex[];
 extern u8 data_ov003_021da170[];
 extern void *data_ov003_021da174;
 extern u8 data_ov003_021da1a8;
@@ -100,32 +93,32 @@ extern u8 data_ov003_021da1d4;
 extern u8 data_ov003_021da1d8;
 extern u8 data_ov003_021da1dc;
 extern u8 data_ov003_021da1e8[];
-extern u8 data_ov003_021da1f0[];
-struct Unk021c5c68State;
-extern struct Unk021c5c68State *data_ov003_021da1f4;
-struct Unk021da1f8;
-extern struct Unk021da1f8 *data_ov003_021da1f8;
-struct Unk021da1fc;
-extern struct Unk021da1fc *data_ov003_021da1fc;
-extern u8 data_ov003_021da200[];
-extern u8 data_ov003_021da204[];
-extern u8 data_ov003_021da208[];
-extern u8 data_ov003_021da20c[];
-extern u8 data_ov003_021da210[];
-extern Unk021da214 *data_ov003_021da214;
+extern u8 gApListScrollY[];
+struct ApList;
+extern struct ApList *gApList;
+struct Edit;
+extern struct Edit *gEdit;
+struct EditAddr;
+extern struct EditAddr *gEditAddr;
+extern u8 gJb4ErrorCode[];
+extern u8 gJb3ListSelectedId;
+extern u8 gJb3ListMode;
+extern u8 gJb3ListSelectedRow;
+extern u16 gJb3ListScrollY;
+extern Jb3List *gJb3List;
 extern u8 data_ov003_021da218;
 extern u8 data_ov003_021da21c;
 extern u8 data_ov003_021da220[];
 extern u8 data_ov003_021da224;
 extern u8 data_ov003_021da228[];
 extern u16 data_ov003_021da22c;
-extern u8 data_ov003_021da230[];
-struct Unk021da234;
-extern struct Unk021da234 *data_ov003_021da234;
-extern s8 data_ov003_021da238;
-extern s8 data_ov003_021da23c;
+extern u8 gApSelectedIndex[];
+struct Ap;
+extern struct Ap *gAp;
+extern s8 gWaySavedIndex;
+extern s8 gWaySelectedIndex;
 extern u8 data_ov003_021da240[];
-extern u8 *data_ov003_021da244;
+extern u8 *gYbBgStep21Ncl;
 extern u8 data_ov003_021da248;
 extern u8 data_ov003_021da24c[];
 extern u8 data_ov003_021da250;
@@ -140,18 +133,18 @@ struct Unk021da26c;
 extern struct Unk021da26c *data_ov003_021da26c;
 struct Unk021cd5e0;
 extern struct Unk021cd5e0 *data_ov003_021da270;
-struct Unk021cdc4c;
-extern struct Unk021cdc4c *data_ov003_021da274;
-extern u8 data_ov003_021da278[];
+struct SoundData;
+extern struct SoundData *gSoundData;
+extern void *data_ov003_021da278;
 struct Unk021ce0f0;
 extern struct Unk021ce0f0 *data_ov003_021da27c;
 extern Unk021da280 *data_ov003_021da280;
-// Object behind data_ov003_021da284: func_ov003_021ceaf8 passes 0x00 to func_ov003_021d1770 and reads the byte at
+// Object behind data_ov003_021da284: func_ov003_021ceaf8 passes 0x00 to GetOamRangeEntryPosition and reads the byte at
 // 0x1e; func_ov003_021cef80 reads the byte at 0x1b.
 typedef struct Unk021da284 {
-    /* 00 */ Unk021d1770 *mUnk_00;
-    /* 04 */ Unk021d1770 *mUnk_04;
-    /* 08 */ Unk021d1770 *mUnk_08[2];
+    /* 00 */ OamRange *mUnk_00;
+    /* 04 */ OamRange *mUnk_04;
+    /* 08 */ OamRange *mUnk_08[2];
     /* 10 */ void *mUnk_10;
     /* 14 */ u32 mUnk_14;
     /* 18 */ u16 mUnk_18;
@@ -165,7 +158,7 @@ typedef struct Unk021da284 {
 extern Unk021da284 *data_ov003_021da284;
 extern Unk021cf260 *data_ov003_021da288;
 extern u16 *data_ov003_021da28c[];
-extern u8 data_ov003_021da2a4[];
+extern UnkFunc *data_ov003_021da2a4;
 typedef struct Unk021da2ac_100 {
     /* 00 */ u16 mUnk_00;
     /* 02 */ u16 mUnk_02;
@@ -210,49 +203,49 @@ typedef struct Unk021da2ac {
 } Unk021da2ac;
 
 extern Unk021da2ac *data_ov003_021da2ac;
-// Object of 0xe8 bytes: a pointer at 0x00, 32 pointers from 0x04, the list of them at 0x84, an Unk02003a6c at 0x88
+// Object of 0xe8 bytes: a pointer at 0x00, 32 pointers from 0x04, the list of them at 0x84, an FSArchive at 0x88
 // and a halfword at 0xe4.
-typedef struct Unk021da2b0 {
-    /* 00 */ void *mUnk_00;
+typedef struct DwcArchive {
+    /* 00 */ void *mTables;
     /* 04 */ void *mUnk_04[0x20];
-    /* 84 */ Unk021d1d88 *mUnk_84;
-    /* 88 */ Unk02003a6c mUnk_88;
-    /* e4 */ u16 mUnk_e4;
+    /* 84 */ PointerStack *mUnk_84;
+    /* 88 */ FSArchive mArchive;
+    /* e4 */ u16 mLockId;
     /* e6 */ u8 mUnk_e6[2];
-} Unk021da2b0;
+} DwcArchive;
 
-extern Unk021da2b0 *data_ov003_021da2b0;
+extern DwcArchive *gDwcArchive;
 // Two objects of 0x228 bytes: 32 objects from 0x000, two list heads at 0x200 and 0x210, a pointer at 0x220 and the
 // list of the free objects at 0x224.
-typedef struct Unk021da2b4 {
-    /* 000 */ Unk021d1770 mUnk_000[0x20];
-    /* 200 */ Unk021d1770 mUnk_200;
-    /* 210 */ Unk021d1770 mUnk_210;
+typedef struct OamRanges {
+    /* 000 */ OamRange mRanges[0x20];
+    /* 200 */ OamRange mListStart;
+    /* 210 */ OamRange mListEnd;
     /* 220 */ void *mUnk_220;
-    /* 224 */ Unk021d1d88 *mUnk_224;
-} Unk021da2b4;
+    /* 224 */ PointerStack *mFreeRanges;
+} OamRanges;
 
-extern Unk021da2b4 *data_ov003_021da2b4;
+extern OamRanges *gOamRanges;
 // Eight-byte records at the start of a resource: a number at 0x00 and the offset of a table at 0x04.
-typedef struct Unk021da2b8 {
-    /* 00 */ u16 mUnk_00;
+typedef struct NceImage {
+    /* 00 */ u16 mEntryCount;
     /* 02 */ u16 mUnk_02;
-    /* 04 */ u32 mUnk_04;
-} Unk021da2b8;
+    /* 04 */ u32 mEntriesOffset;
+} NceImage;
 
-extern Unk021da2b8 *data_ov003_021da2b8[];
-extern Unk021d1da8 *data_ov003_021da2c0;
-extern u8 data_ov003_021da2c4[];
-extern u8 data_ov003_021da2cc;
-extern u8 data_ov003_021da2d0;
-extern u8 data_ov003_021da2d4[];
-extern u8 data_ov003_021da2d8[];
-extern UnkFunc *data_ov003_021da2e8;
-extern u32 data_ov003_021da2ec;
-struct Unk021d2fa0;
-extern struct Unk021d2fa0 *data_ov003_021da2f0;
-struct Unk021d31b0;
-extern struct Unk021d31b0 *data_ov003_021da2f4;
-extern u32 data_ov003_021da2f8[];
-struct Unk021d34c8;
-extern struct Unk021d34c8 *data_ov003_021da32c;
+extern NceImage *gNceFiles[];
+extern BlendBrightnessFadeSlot *gBlendBrightnessFadeSlots;
+extern TextCanvases *gTextCanvases;
+extern u8 gLcdOff;
+extern u8 gTouchRepeatFrames;
+extern KeyTouchInput *gKeyTouchInput;
+extern u8 gKeyRepeatFrames[];
+extern UnkFunc *gSavedIrqFunction;
+extern u32 gSavedIrqMask;
+struct OamBuffers;
+extern struct OamBuffers *gOamBuffers;
+struct ObjCharRanges;
+extern struct ObjCharRanges *gObjCharRanges;
+extern u32 gSavedBankSettings[];
+struct TaskList;
+extern struct TaskList *gTaskLists;

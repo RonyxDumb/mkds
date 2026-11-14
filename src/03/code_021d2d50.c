@@ -1,54 +1,52 @@
 #include "03/code_021d2d50.h"
 #include "03/code_021d27d8.h"
-#include "03/code_021d2b3c.h"
-#include "03/code_021d2d14.h"
+#include "03/code_021d2940.h"
 #include "03/code_021d3000.h"
 #include "03/unk_021da000.h"
 #include "code_0200c914.h"
 #include "code_0200fc8c.h"
-#include "code_0200fd1c.h"
-#include "code_0214e308.h"
-#include "code_0214e6e4.h"
+#include "tp.h"
+#include "registers.h"
 
-void func_ov003_021d2d50(void) {
-    Unk0214e334 a;
+void func_ov003_021d2dfc(void) {
+    u16 previousIme;
 
-    *(void **) data_ov003_021da2d4 = func_ov003_021d283c(0x3a, 4);
-    if (func_0214eadc(&a) == 0) {
-        func_0200fd1c();
-    }
-    func_0214e994(&a);
-    func_0214e788(0, 4, *(Unk0214e788 **) data_ov003_021da2d4, 5);
-    func_0214e31c(2);
-    if (func_0214e308(2) != 0) {
-        func_0200fd1c();
-    }
-    func_ov003_021d2d14();
-}
-
-void func_ov003_021d2da4(void) {
-    func_ov003_021d3558(1);
-    *(u32 *) ((u8 *) &data_027e0000 + 0x3ff8) |= 1;
+    gSavedIrqMask = reg_OS_IE;
+    OS_SetIrqMask(0x40018);
+    OS_EnableIrqMask(1);
+    gSavedIrqFunction = OS_GetIrqFunction(1);
+    OS_SetIrqFunction(1, func_ov003_021d2da4);
+    previousIme = reg_OS_IME;
+    reg_OS_IME = 1;
+    OS_EnableInterrupts();
 }
 
 void func_ov003_021d2dcc(void) {
-    u16 a;
+    u16 previousIme;
 
-    a = *(vu16 *) 0x4000208;
-    *(vu16 *) 0x4000208 = 0;
-    func_0200cb1c(data_ov003_021da2ec);
-    func_0200cc74(1, data_ov003_021da2e8);
+    previousIme = reg_OS_IME;
+    reg_OS_IME = 0;
+    OS_SetIrqMask(gSavedIrqMask);
+    OS_SetIrqFunction(1, gSavedIrqFunction);
 }
 
-void func_ov003_021d2dfc(void) {
-    u16 a;
+void func_ov003_021d2da4(void) {
+    RunTasksAndRemoveRequested(1);
+    *OFFSET_PTR(u32, &data_027e0000, 0x3ff8) |= 1;
+}
 
-    data_ov003_021da2ec = *(vu32 *) 0x4000210;
-    func_0200cb1c(0x40018);
-    func_0200cae4(1);
-    data_ov003_021da2e8 = func_0200cbe8(1);
-    func_0200cc74(1, func_ov003_021d2da4);
-    a = *(vu16 *) 0x4000208;
-    *(vu16 *) 0x4000208 = 1;
-    func_0200fc8c();
+void InitKeyTouchInput(void) {
+    TPCalibrateParam calibration;
+
+    gKeyTouchInput = AllocZeroedExpHeapBlock(0x3a, 4);
+    if (TP_GetUserInfo(&calibration) == 0) {
+        OS_Terminate();
+    }
+    TP_SetCalibrateParam(&calibration);
+    TP_RequestAutoSamplingStartAsync(0, 4, gKeyTouchInput->mTouchSamples, 5);
+    TP_WaitBusy(2);
+    if (TP_CheckError(2) != 0) {
+        OS_Terminate();
+    }
+    UpdateKeyTouchInput();
 }

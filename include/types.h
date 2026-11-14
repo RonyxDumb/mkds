@@ -19,6 +19,18 @@ typedef volatile s16 vs16;
 typedef volatile s32 vs32;
 typedef volatile s64 vs64;
 
+#ifndef NULL
+    #define NULL ((void *) 0)
+#endif
+
+// A 0/1 flag; the same as s32 here, so only code already typed s32 uses it.
+typedef s32 BOOL;
+#define TRUE 1
+#define FALSE 0
+
+// Pointer to the T that starts OFFSET bytes after BASE (offsets read from file data and headers).
+#define OFFSET_PTR(T, base, offset) ((T *) ((u8 *) (base) + (offset)))
+
 // Three fixed-point components (12 fractional bits).
 typedef struct Vec3 {
     /* 0 */ s32 x;

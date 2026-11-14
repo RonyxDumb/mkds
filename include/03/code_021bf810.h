@@ -1,6 +1,11 @@
 #pragma once
 
 #include "types.h"
-#include "03/code_021bf8b0.h"
 
-void func_ov003_021bf810(u32 param_0);
+extern void *gHlScr;
+
+void UploadHlScr(u32 a);
+void LoadHlListScr(void);
+void LoadHlSetScr(void);
+void LoadHlScr(int b);
+void ReleaseHlScr(void);

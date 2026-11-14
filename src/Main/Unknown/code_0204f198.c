@@ -2,7 +2,6 @@
 
 #pragma thumb on
 
-void func_0204f198(Unk0216f3dc_9c *a) {
-}
+void ChildBlockTransferCallback(BlockTransferRecord *record) {}
 
 #pragma thumb off

@@ -1,8 +1,26 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_0202a5a0.h"
 
-void func_02059bc0(u32 arg0);
+typedef struct Unk0217aa14_104_68 Unk0217aa14_104_68;
+
+struct MapObjectKindDescriptor;
+
+void UpdateResultScene(u32 arg0);
 void func_02059bcc(void);
-void func_02059bd8(void);
+void ReleaseResultScene(void);
+void InitResultScene(void);
+u32 IsInOverlayRange(struct MapObjectKindDescriptor *address);
+void ReleaseCurrentOverlay(void);
+s32 TryFinishOverlayLoad(void);
+void FreeOverlayExpHeap(void);
+void CreateOverlayExpHeap(void);
+void FinishOverlayLoad(void);
+void StartLoadOverlay(s32 overlay);
+void ResetCurrentOverlay(void);
+void CreateOverlayFrmHeap(void);
+void InitOverlayTable(void *heap);
+s32 func_0205a2ac(s32 a);
+s32 func_0205a310(s32 a);
+void func_0205a350(void);
+void func_0205a4b0(Unk0217aa14_104_68 *a, s32 b);

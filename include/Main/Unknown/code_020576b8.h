@@ -1,10 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "01/code_02195a6c.h"
-#include "Main/Unknown/code_0204b418.h"
-#include "Main/Unknown/code_0204b6cc.h"
-#include "Main/Unknown/code_0214d000.h"
 
-void func_020576b8(void *a, s32 b);
-void func_02057710(void *a, s32 b);
+typedef struct EmblemBlockData EmblemBlockData;
+
+void ReadBackupEmblemBlock(EmblemBlockData *blockData, s32 blockIndex);
+void WriteBackupEmblemBlock(EmblemBlockData *blockData, s32 blockIndex);

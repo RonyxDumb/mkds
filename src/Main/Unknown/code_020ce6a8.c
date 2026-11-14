@@ -6,18 +6,18 @@
 
 #pragma optimize_for_size on
 #pragma thumb on
-void func_020ce6c0(void) {
-    switch (func_0211e51c()) {
+void UpdateVsSelectCupM(void) {
+    switch (AdvanceSelectCupM()) {
         case 1:
-            func_020ccc74(0xd, 0x1f);
+            SwitchMenuScreen(0xd, 0x1f);
             break;
         case 2:
-            func_020ccc74(0xb, 0x1f);
+            SwitchMenuScreen(0xb, 0x1f);
             break;
     }
 }
 #pragma thumb off
 
-s32 func_020ce6a8(void) {
-    return func_020c0c2c(&data_0217b480, 0x154);
+s32 CreateRaceHudSubScreenRainStarCells(void) {
+    return CreateRaceHudSubScreenCells(&gRaceHudSubScreenRainStarCells, 0x154);
 }

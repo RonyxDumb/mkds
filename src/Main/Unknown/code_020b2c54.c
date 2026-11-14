@@ -1,9 +1,21 @@
 #include "Main/Unknown/code_020b2c54.h"
 
+#include "Main/Unknown/code_020b2c68.h"
+#include "Main/Unknown/code_020b2c80.h"
+#include "Main/Unknown/code_020b2da4.h"
+#include "Main/Unknown/code_020b2ecc.h"
+#include "01/code_021956dc.h"
+
+#pragma thumb on
+
+void func_020b2c68(void) {
+    func_020b2da4();
+    MoveChoisesSSelectedValue(0);
+    func_020b2c80();
+}
+
+#pragma thumb off
+
 u32 func_020b2c54(void) {
-    return ((u32) *(
-        const u32 *) ((u8 *) (u32) (((u32) *(
-                                   const u32 *) ((u8 *) (u32) (((u32) (&data_021759d4))) +
-                                                          0))) +
-                               12));
+    return (gBackupAccess->mBackupEnabled);
 }

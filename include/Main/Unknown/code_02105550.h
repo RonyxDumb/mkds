@@ -1,8 +1,9 @@
 #pragma once
 
 #include "types.h"
-#include "code_0212c478.h"
-#include "Main/Unknown/unk_0217c000.h"
+
+extern const Vec3 data_0215a6c0;
+extern const Vec3 data_0215a6cc;
 
 void func_02105550();
 void func_02105584();

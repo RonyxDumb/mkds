@@ -1,19 +1,51 @@
 #include "03/code_021d2ecc.h"
-#include "03/code_021d27d8.h"
+#include "03/code_021d1cd4.h"
+#include "Main/Unknown/code_0214d000.h"
 
-int func_ov003_021d2eec(int param_1, int param_2) {
-    return (int) data_ov003_021da2f0 + param_1 * 0x400 + param_2 * 8;
+#include "03/code_021d2fa0.h"
+#include "03/code_021d27d8.h"
+#include "03/code_021d1000.h"
+#include "03/unk_021da000.h"
+#include "03/code_021d3488.h"
+#include "code_0214d018.h"
+
+void ReleaseOamBuffers(void) {
+    RemoveTaskEntryWrapper(1, gOamBuffers->mUploadTask);
+    FreeExpHeapBlockAndClearPointer(&gOamBuffers);
 }
 
-void *func_ov003_021d2ecc(void) {
-    u32 v4 = ((u32) func_ov003_021d285c((u32) 0x10u, (u32) 0x4u));
-    u32 v7;
-    u32 v8;
-    *(u32 *) ((v4) + (0)) = (u32) 0x0u;
-    v7 = ((v4) + (0x0u));
-    v8 = ((v7) + (0x8u));
-    *(u32 *) ((v4) + (4)) = v8;
-    *(u32 *) ((v4) + (8)) = v4;
-    *(u32 *) ((v4) + (12)) = (u32) 0x0u;
-    return (void *) v4;
+OamEntry *CreateOamEntry(int screen, u8 *source) {
+    OamEntry *entry;
+    entry = PopPointerStack(gOamBuffers->mFreeEntries[screen]);
+    MIi_CpuCopy32(source, entry, 8);
+    return entry;
+}
+
+void DeleteOamEntry(u32 *entry) {
+    OamBuffers *buffers;
+    s32 screen = 0;
+
+    *entry = (*entry & 0xc1fffcff) | 0x200;
+    buffers = gOamBuffers;
+    if ((u32) entry >= (u32) buffers + 0x400) {
+        screen = 1;
+    }
+    PushPointerStack(buffers->mFreeEntries[screen], entry);
+}
+
+OamEntry *GetOamBufferEntry(int screen, int index) {
+    return (OamEntry *) (&gOamBuffers->mBuffers[screen][index * 8]);
+}
+
+void *CreateNodeList(void) {
+    u32 header = ((u32) AllocExpHeapBlock(0x10u, 0x4u));
+    u32 firstEndNode;
+    u32 lastEndNode;
+    *(u32 *) ((header) + (0)) = 0x0u;
+    firstEndNode = ((header) + (0x0u));
+    lastEndNode = ((firstEndNode) + (0x8u));
+    *(u32 *) ((header) + (4)) = lastEndNode;
+    *(u32 *) ((header) + (8)) = header;
+    *(u32 *) ((header) + (12)) = 0x0u;
+    return (void *) header;
 }

@@ -21,51 +21,51 @@ typedef struct {
     int mUnk_3e8;
 } Obj021759a8;
 
-extern Names02164e04 data_02164e04;
+extern Names02164e04 gArchiveNames;
 extern Obj021759a8 *data_021759a8;
-int func_0205e0a0(void);
-int func_0200d9e0(char *dst, int len, const char *fmt, ...);
+int GetCurrentSceneNumber(void);
+int OS_SNPrintf(char *dst, int len, const char *fmt, ...);
 int func_02048504(const char *path, int arg);
 
-// PROBE: func_02047780 main 0x02047780
-int func_02047780(const char *path) {
+// PROBE: LoadKartModelFile main 0x02047780
+int LoadKartModelFile(const char *path) {
     char buf[0x80];
     const char *name;
     int result = 0;
-    int mode = func_0205e0a0();
+    int mode = GetCurrentSceneNumber();
     if (mode == 1 || mode == 3 || mode == 12) {
-        name = data_02164e04.mUnk_28;
+        name = gArchiveNames.mUnk_28;
         if (path[0] == '/') {
-            func_0200d9e0(buf, 0x80, "%s:%s", name, path);
+            OS_SNPrintf(buf, 0x80, "%s:%s", name, path);
         } else {
-            func_0200d9e0(buf, 0x80, "%s:/%s", name, path);
+            OS_SNPrintf(buf, 0x80, "%s:/%s", name, path);
         }
         result = func_02048504(buf, 8);
     } else {
         if (data_021759a8->mUnk_308 != 0) {
-            name = data_02164e04.mUnk_18;
+            name = gArchiveNames.mUnk_18;
             if (path[0] == '/') {
-                func_0200d9e0(buf, 0x80, "%s:%s", name, path);
+                OS_SNPrintf(buf, 0x80, "%s:%s", name, path);
             } else {
-                func_0200d9e0(buf, 0x80, "%s:/%s", name, path);
+                OS_SNPrintf(buf, 0x80, "%s:/%s", name, path);
             }
             result = func_02048504(buf, 8);
         }
         if (result == 0 && data_021759a8->mUnk_378 != 0) {
-            name = data_02164e04.mUnk_1c;
+            name = gArchiveNames.mUnk_1c;
             if (path[0] == '/') {
-                func_0200d9e0(buf, 0x80, "%s:%s", name, path);
+                OS_SNPrintf(buf, 0x80, "%s:%s", name, path);
             } else {
-                func_0200d9e0(buf, 0x80, "%s:/%s", name, path);
+                OS_SNPrintf(buf, 0x80, "%s:/%s", name, path);
             }
             result = func_02048504(buf, 8);
         }
         if (result == 0 && data_021759a8->mUnk_3e8 != 0) {
-            name = data_02164e04.mUnk_20;
+            name = gArchiveNames.mUnk_20;
             if (path[0] == '/') {
-                func_0200d9e0(buf, 0x80, "%s:%s", name, path);
+                OS_SNPrintf(buf, 0x80, "%s:%s", name, path);
             } else {
-                func_0200d9e0(buf, 0x80, "%s:/%s", name, path);
+                OS_SNPrintf(buf, 0x80, "%s:/%s", name, path);
             }
             result = func_02048504(buf, 8);
         }

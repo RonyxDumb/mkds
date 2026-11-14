@@ -1,25 +1,14 @@
 #include "Main/Unknown/code_020b47b4.h"
+#include "Main/Unknown/code_02047104.h"
 
-void *func_020b47cc(const char *arg0) {
-    u32 value0 = (u32) arg0;
-    u32 value12;
-    value12 = (u32) &func_02047a28;
-    value0 = (u32) func_02047a28((const char *) value0);
-    return (void *) value0;
+void *FindFileInLoadedArchivesWrapper(const char *name) {
+    return FindFileInLoadedArchives(name);
 }
 
-void *func_020b47c0(const char *arg0) {
-    u32 value0 = (u32) arg0;
-    u32 value12;
-    value12 = (u32) &func_0204799c;
-    value0 = (u32) func_0204799c((const char *) value0);
-    return (void *) value0;
+void *FindSceneFileWrapper(const char *name) {
+    return FindSceneFile(name);
 }
 
-void *func_020b47b4(const char *arg0) {
-    u32 value0 = (u32) arg0;
-    u32 value12;
-    value12 = (u32) &func_02047974;
-    value0 = (u32) func_02047974((const char *) value0);
-    return (void *) value0;
+void *FindCourseFileWrapper(const char *path) {
+    return FindCourseFile(path);
 }

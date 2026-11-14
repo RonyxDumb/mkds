@@ -1,7 +1,10 @@
 #pragma once
 
 #include "types.h"
-#include "03/code_021d1000.h"
-#include "03/code_021d2f44.h"
 
-u32 func_ov003_021d1c18(u32 param_1, u32 param_2);
+typedef struct OamEntry OamEntry;
+
+void *CreateOamEntryFromNceImage(u32 screen, u32 imageIndex);
+void CopyNceImageToOamEntries(u32 slot, u32 imageIndex, OamEntry *destination);
+void FreeNceFile(u32 slot);
+void LoadNceFile(u32 slot, const u8 *path);

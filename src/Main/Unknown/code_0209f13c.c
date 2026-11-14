@@ -1,7 +1,10 @@
 #include "Main/Unknown/code_0209f13c.h"
+#include "Main/Unknown/code_0209f650.h"
+#include "Main/Unknown/code_0209b634.h"
 #include "Main/Unknown/code_0209b000.h"
 #include "Main/Unknown/code_0209bef0.h"
 #include "Main/Unknown/code_0209f5cc.h"
+#include "ITCM/code_01ff8000.h"
 #include "ITCM/code_01ff9000.h"
 #include "Main/Unknown/code_020d4c28.h"
 #include "Main/Unknown/code_0210b760.h"
@@ -12,60 +15,22 @@
 #include "Main/Unknown/code_020f36d8.h"
 #include "code_02146cbc.h"
 
-void *func_0209f13c(void) {
-    return (void *) func_0209bf48(0, (u32) func_0209f178, 0);
-}
-
-void *func_0209f158(void) {
-    return (void *) func_0209bf1c((u32) func_0209f2b0, (u32) func_0209f1c8, 0);
-}
-
-void func_0209f178(void *a, Unk0209f1c8 *b) {
-    u16 n;
-
-    n = func_0209b6ec(data_usa_0217b180);
-    b->mUnk_a0 += 1;
-    if (b->mUnk_a0 >= n) {
-        b->mUnk_a0 = 0;
-    }
-    b->mUnk_00.mUnk_7e += 0x111;
-}
-
-void func_0209f1c8(void *a, Unk0209f1c8 *b) {
-    u32 l;
-    s32 m[9];
+void InitChandelierObjects(Unk0209f514 *a) {
     s32 i;
+    Unk0209f1c8 *o;
+    RandomState64 *r;
 
-    l = 0x1e;
-    func_01ff9048(0x14, &l, 1);
-    b->mUnk_00.mUnk_28.mUnk_24.x = b->mUnk_00.mUnk_04.x >> 4;
-    b->mUnk_00.mUnk_28.mUnk_24.y = b->mUnk_00.mUnk_04.y >> 4;
-    b->mUnk_00.mUnk_28.mUnk_24.z = b->mUnk_00.mUnk_04.z >> 4;
-    func_01ff9048(0x19, &b->mUnk_00.mUnk_28, 0xc);
-    if (b->mUnk_00.mUnk_7e != 0) {
-        i = b->mUnk_00.mUnk_7e >> 4;
-        func_02146d44(m, data_0215d4b4[i * 2], data_0215d4b4[i * 2 + 1]);
-        func_01ff9048(0x1a, m, 9);
+    if (a == NULL) {
+        return;
     }
-    func_01ff9048(0x1b, &b->mUnk_00.mUnk_1c, 3);
-    func_0209b6c8(data_usa_0217b180, b->mUnk_a0);
-    func_0209bb2c(a, data_usa_0217b180, b);
+    for (i = 0; i < a->mUnk_04 && (o = a->mUnk_00[i]) != NULL; i++) {
+        r = &gRaceProgress->mLocalRandom;
+        r->mValue = r->mMultiplier * r->mValue + r->mIncrement;
+        o->mUnk_a4 = (u16) (((u64) (u32) (r->mValue >> 32) * 0x3c) >> 32) + 0x3c;
+    }
 }
 
-void func_0209f2b0(void *a) {
-    func_0209be1c(data_usa_0217b180 = func_0209be84(a, data_02167548), data_02167558);
-    func_0209b940(data_usa_0217b180, 0x3f);
-}
-
-void *func_0209f2f8(void) {
-    return (void *) func_0209bf48((u32) func_0209f514, (u32) func_0209f338, 0);
-}
-
-void *func_0209f318(void) {
-    return (void *) func_0209bf1c((u32) func_0209f650, (u32) func_0209f5cc, 0);
-}
-
-void func_0209f338(void *a, Unk0209f1c8 *b) {
+void UpdateChandelier(void *a, Unk0209f1c8 *b) {
     Unk0210b7a8 s1;
     Unk0210b7a8 s2;
     Unk0210b7a8 s3;
@@ -84,53 +49,53 @@ void func_0209f338(void *a, Unk0209f1c8 *b) {
             return;
     }
     if (b->mUnk_a0 == 0 || b->mUnk_a0 == 0x7d) {
-        if ((b->mUnk_00.mUnk_78 & 4) == 0) {
-            if (b->mUnk_00.mUnk_70 == data_0217ca6c[2].mUnk_20) {
+        if ((b->mUnk_00.mDistanceSquaredAndFlags & 4) == 0) {
+            if (b->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
                 t = 2;
-            } else if (b->mUnk_00.mUnk_70 == data_0217ca6c[3].mUnk_20) {
+            } else if (b->mUnk_00.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
                 t = 3;
             } else {
                 t = 4;
             }
-            s1.mUnk_00 = 0x11a;
-            s1.mUnk_04 = &b->mUnk_00.mUnk_04;
+            s1.mSoundId = 0x11a;
+            s1.mPositionSource = &b->mUnk_00.mPos;
             s1.mUnk_08 = t;
-            s1.mUnk_0c = func_020d4ef4(&b->mUnk_00.mUnk_04);
+            s1.mDistanceSquared = GetHorizontalCameraDistanceSquared(&b->mUnk_00.mPos);
             func_0210b7a8(&s1);
         }
     } else if (b->mUnk_a0 == 0x46 || b->mUnk_a0 == 0xaf) {
-        if ((b->mUnk_00.mUnk_78 & 4) == 0) {
-            if (b->mUnk_00.mUnk_70 == data_0217ca6c[2].mUnk_20) {
+        if ((b->mUnk_00.mDistanceSquaredAndFlags & 4) == 0) {
+            if (b->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
                 t = 2;
-            } else if (b->mUnk_00.mUnk_70 == data_0217ca6c[3].mUnk_20) {
+            } else if (b->mUnk_00.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
                 t = 3;
             } else {
                 t = 4;
             }
-            s2.mUnk_00 = 0x11b;
-            s2.mUnk_04 = &b->mUnk_00.mUnk_04;
+            s2.mSoundId = 0x11b;
+            s2.mPositionSource = &b->mUnk_00.mPos;
             s2.mUnk_08 = t;
-            s2.mUnk_0c = func_020d4ef4(&b->mUnk_00.mUnk_04);
+            s2.mDistanceSquared = GetHorizontalCameraDistanceSquared(&b->mUnk_00.mPos);
             func_0210b7a8(&s2);
         }
     } else if (b->mUnk_a0 == 0xfa) {
-        if ((b->mUnk_00.mUnk_78 & 4) == 0) {
-            if (b->mUnk_00.mUnk_70 == data_0217ca6c[2].mUnk_20) {
+        if ((b->mUnk_00.mDistanceSquaredAndFlags & 4) == 0) {
+            if (b->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
                 t = 2;
-            } else if (b->mUnk_00.mUnk_70 == data_0217ca6c[3].mUnk_20) {
+            } else if (b->mUnk_00.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
                 t = 3;
             } else {
                 t = 4;
             }
-            s3.mUnk_00 = 0x119;
-            s3.mUnk_04 = &b->mUnk_00.mUnk_04;
+            s3.mSoundId = 0x119;
+            s3.mPositionSource = &b->mUnk_00.mPos;
             s3.mUnk_08 = t;
-            s3.mUnk_0c = func_020d4ef4(&b->mUnk_00.mUnk_04);
+            s3.mDistanceSquared = GetHorizontalCameraDistanceSquared(&b->mUnk_00.mPos);
             func_0210b7a8(&s3);
         }
     }
     n = b->mUnk_a0 + 1;
-    if (n >= func_0209b758(*(void **) &data_0217b1a4)) {
+    if (n >= GetMapObjectModelNsbcaFrameCount(gChandelier)) {
         n = 0;
     }
     b->mUnk_a0 = n;
@@ -139,17 +104,56 @@ void func_0209f338(void *a, Unk0209f1c8 *b) {
     }
 }
 
-void func_0209f514(Unk0209f514 *a) {
-    s32 i;
-    Unk0209f1c8 *o;
-    Unk020f41c4_B *r;
+void *CreateChandelierDrawList(void) {
+    return CreateMapObjectDrawList1(CreateChandelier, DrawChandelier, NULL);
+}
 
-    if (a == 0) {
-        return;
+void *CreateChandelierUpdateList(void) {
+    return CreateMapObjectUpdateList(InitChandelierObjects, UpdateChandelier, NULL);
+}
+
+void CreateRainStar(void *a) {
+    CreateMapObjectModelNsbtaAnimation(gRainStar = CreateMapObjectModelAnimated(a, gRainStarNsbmdName),
+                                       gRainStarNsbtaName);
+    SetMapObjectModelPolygonId(gRainStar, 0x3f);
+}
+
+void DrawRainStar(void *a, Unk0209f1c8 *b) {
+    u32 l;
+    s32 m[9];
+    s32 i;
+
+    l = 0x1e;
+    func_01ff9048(0x14, &l, 1);
+    b->mUnk_00.mMatrix.mUnk_00[3].x = b->mUnk_00.mPos.x >> 4;
+    b->mUnk_00.mMatrix.mUnk_00[3].y = b->mUnk_00.mPos.y >> 4;
+    b->mUnk_00.mMatrix.mUnk_00[3].z = b->mUnk_00.mPos.z >> 4;
+    func_01ff9048(0x19, &b->mUnk_00.mMatrix, 0xc);
+    if (b->mUnk_00.mAngle != 0) {
+        i = b->mUnk_00.mAngle >> 4;
+        MTX_RotY33_(m, gPairsByAngle[i * 2], gPairsByAngle[i * 2 + 1]);
+        func_01ff9048(0x1a, m, 9);
     }
-    for (i = 0; i < a->mUnk_04 && (o = a->mUnk_00[i]) != 0; i++) {
-        r = &data_0217561c->mUnk_498;
-        r->mUnk_00 = r->mUnk_08 * r->mUnk_00 + r->mUnk_10;
-        o->mUnk_a4 = (u16) (((u64) (u32) (r->mUnk_00 >> 32) * 0x3c) >> 32) + 0x3c;
+    func_01ff9048(0x1b, &b->mUnk_00.mScale, 3);
+    SetMapObjectModelNsbtaFrameIndex(gRainStar, b->mUnk_a0);
+    DrawMapObjectModel(a, gRainStar, b);
+}
+
+void UpdateRainStar(void *a, Unk0209f1c8 *b) {
+    u16 n;
+
+    n = GetMapObjectModelNsbtaFrameCount(gRainStar);
+    b->mUnk_a0 += 1;
+    if (b->mUnk_a0 >= n) {
+        b->mUnk_a0 = 0;
     }
+    b->mUnk_00.mAngle += 0x111;
+}
+
+void *CreateRainStarDrawList(void) {
+    return CreateMapObjectDrawList1(CreateRainStar, DrawRainStar, NULL);
+}
+
+void *CreateRainStarUpdateList(void) {
+    return CreateMapObjectUpdateList(NULL, UpdateRainStar, NULL);
 }

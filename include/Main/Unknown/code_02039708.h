@@ -2,5 +2,7 @@
 
 #include "types.h"
 
-void func_02039708(unsigned int p0);
-void func_02039728(unsigned int p0);
+typedef struct InputSlot InputSlot;
+
+void ClearInputSlotBitsAndRepeat(InputSlot *slot);
+void ResetInputSlot(InputSlot *slot);

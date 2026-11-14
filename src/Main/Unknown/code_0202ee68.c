@@ -1,11 +1,12 @@
 #include "Main/Unknown/code_0202ee68.h"
+#include "Main/Unknown/unk_02174000.h"
 
 #pragma thumb on
 
-u32 func_0202ee68(void) {
-    u32 extraout_r1;
-    extraout_r1 = (data_02174e48->mUnk_03c + 6) % (7);
-    return extraout_r1;
+u32 GetScrollListHiddenBottomSlot(void) {
+    u32 slot;
+    slot = (gScrollList->mHiddenTopSlot + 6) % (7);
+    return slot;
 }
 
 #pragma thumb off

@@ -1,24 +1,26 @@
 #include "Main/Unknown/code_020574c8.h"
+#include "Main/Unknown/code_02057ca4.h"
+#include "01/code_021956dc.h"
 
 #pragma thumb on
 
-void func_02057514(void) {
-    data_0217aa08->mUnk_28 = 1;
+void SetBackupBusy(void) {
+    data_0217aa08->mBusy = 1;
 }
 
-void func_02057504(void) {
-    data_0217aa08->mUnk_28 = 0;
+void ClearBackupBusy(void) {
+    data_0217aa08->mBusy = 0;
 }
 
-void func_020574c8(void) {
-    if (data_021759d4->mUnk_0c != 0) {
-        func_02145d38();
+void WriteBackupFirstBlockAndWait(void) {
+    if (gBackupAccess->mBackupEnabled != 0) {
+        CARD_WaitBackupAsync();
     }
-    func_02057ca4(data_0217aa08->mUnk_00);
-    if (data_021759d4->mUnk_0c != 0) {
-        func_02145d38();
+    WriteBackupFirstBlock(data_0217aa08->mFirstBlock);
+    if (gBackupAccess->mBackupEnabled != 0) {
+        CARD_WaitBackupAsync();
     }
-    func_02057504();
+    ClearBackupBusy();
 }
 
 #pragma thumb off

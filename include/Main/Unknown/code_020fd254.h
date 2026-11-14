@@ -2,4 +2,6 @@
 
 #include "types.h"
 
-void func_020fd254(unsigned int p0);
+typedef struct ItemKouraW ItemKouraW;
+
+void ClearItemKouraWKartItemsAndAngle(ItemKouraW *item);

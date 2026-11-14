@@ -7,77 +7,81 @@
 #include "Main/Unknown/code_0202ee88.h"
 #include "Main/Unknown/code_0202f0a8.h"
 #include "Main/Unknown/code_02036000.h"
+#include "Main/Unknown/code_02036820.h"
 #include "Main/Unknown/code_02036bec.h"
 
 #pragma optimize_for_size on
 
 #pragma thumb on
 
-void func_0202e4b0(void) {
-    data_02174e48->mUnk_668 = 0;
-    data_02174e48->mUnk_664 = data_02174e48->mUnk_668;
-    func_0202eec0();
-    func_0202ed04();
-    switch (data_02174e48->mUnk_670) {
-    case 0:
-        func_0202e9f0();
-        break;
-    case 1:
-        func_0202e9ac();
-        break;
-    case 2:
-        func_0202e968();
-        break;
-    case 3:
-        func_0202e84c();
-        break;
-    case 4:
-        func_0202e72c();
-        break;
-    case 5:
-        func_0202e6c4();
-        break;
+void InitScrollList(void *heap, s32 b, const void *groupFirstEntries, u16 cursorEntry, u16 e, s32 f,
+                    LayoutTableEntry *entries, void *rects, const void *screenMap, s32 upRectIndex, s32 downRectIndex,
+                    s32 firstRowRectIndex, s32 rowCount,
+                    void (*callback)(int heap, int b, int groupFirstEntries, int cursorEntry)) {
+    s32 row;
+    gScrollList = HeapAlloc(heap, 0x674);
+    func_0202e68c(gScrollList, 0x674);
+    gScrollList->mGroupCount = b;
+    b = b * 2;
+    gScrollList->mGroupFirstEntries = HeapAllocAligned(heap, b, 0x20);
+    func_0202e680(groupFirstEntries, gScrollList->mGroupFirstEntries, b);
+    func_0202e680(screenMap, gScrollList->mScreenMap, 0x600);
+    gScrollList->mCursorEntry = cursorEntry;
+    gScrollList->mUnk_02e = e;
+    gScrollList->mUnk_030 = f;
+    gScrollList->mEntries = entries;
+    gScrollList->mRowCount = rowCount;
+    gScrollList->mCallback = callback;
+    gScrollList->mRects = rects;
+    gScrollList->mUpRectIndex = upRectIndex;
+    gScrollList->mDownRectIndex = downRectIndex;
+    gScrollList->mFirstRowRectIndex = firstRowRectIndex;
+    gScrollList->mEnabled = 1;
+    gScrollList->mTouchRectIndex = -1;
+    gScrollList->mPressedRectIndex = gScrollList->mTouchRectIndex;
+    PlaceScrollListCursor();
+    CallScrollListCallback(0, -1, -1, GetScrollListSelectedSlot());
+    for (row = 0; row < 6 && row < gScrollList->mRowCount; row++) {
+        CallScrollListCallback(1, row + 1, row, -1);
     }
-    func_0202ee88();
+    SetScrollListSlotVisible(0, 0);
+    SetScrollListSlotVisible(6, 0);
+    for (row = gScrollList->mRowCount; row < 5; row++) {
+        SetScrollListSlotVisible(row + 1, 0);
+    }
+    gScrollList->mEntries[gScrollList->mUnk_02e].mVisible = gScrollList->mRowCount > 5;
+    if (gScrollList->mRowCount == 0) {
+        gScrollList->mEntries[gScrollList->mCursorEntry].mVisible = 0;
+    }
+    gScrollList->mScrollFrameCount = 0xf;
 }
 
-void func_0202e530(void *a, s32 b, const void *c, u16 d, u16 e, s32 f, Unk02124b1c *g, void *h, const void *i, s32 j, s32 k, s32 l, s32 m, void (*n)(int a, int b, int c, int d)) {
-    s32 i0;
-    data_02174e48 = func_02036bec(a, 0x674);
-    func_0202e68c(data_02174e48, 0x674);
-    data_02174e48->mUnk_000 = b;
-    b = b * 2;
-    data_02174e48->mUnk_004 = func_02036b74(a, b, 0x20);
-    func_0202e680(c, data_02174e48->mUnk_004, b);
-    func_0202e680(i, data_02174e48->mUnk_058, 0x600);
-    data_02174e48->mUnk_02c = d;
-    data_02174e48->mUnk_02e = e;
-    data_02174e48->mUnk_030 = f;
-    data_02174e48->mUnk_008 = g;
-    data_02174e48->mUnk_034 = m;
-    data_02174e48->mUnk_028 = n;
-    data_02174e48->mUnk_00c = h;
-    data_02174e48->mUnk_010 = j;
-    data_02174e48->mUnk_014 = k;
-    data_02174e48->mUnk_018 = l;
-    data_02174e48->mUnk_660 = 1;
-    data_02174e48->mUnk_01c = -1;
-    data_02174e48->mUnk_020 = data_02174e48->mUnk_01c;
-    func_0202edd0();
-    func_0202f120(0, -1, -1, func_0202edfc());
-    for (i0 = 0; i0 < 6 && i0 < data_02174e48->mUnk_034; i0++) {
-        func_0202f120(1, i0 + 1, i0, -1);
+void AdvanceScrollList(void) {
+    gScrollList->mPickStarted = 0;
+    gScrollList->mPickFinished = gScrollList->mPickStarted;
+    AdvanceScrollListInput();
+    AdvanceScrollListRightColumnTimer();
+    switch (gScrollList->mState) {
+        case 0:
+            AdvanceScrollListState0();
+            break;
+        case 1:
+            AdvanceScrollListSelectUp();
+            break;
+        case 2:
+            AdvanceScrollListSelectDown();
+            break;
+        case 3:
+            AdvanceScrollListScrollUp();
+            break;
+        case 4:
+            AdvanceScrollListScrollDown();
+            break;
+        case 5:
+            AdvanceScrollListPick();
+            break;
     }
-    func_0202ee3c(0, 0);
-    func_0202ee3c(6, 0);
-    for (i0 = data_02174e48->mUnk_034; i0 < 5; i0++) {
-        func_0202ee3c(i0 + 1, 0);
-    }
-    data_02174e48->mUnk_008[data_02174e48->mUnk_02e].mUnk_00 = data_02174e48->mUnk_034 > 5;
-    if (data_02174e48->mUnk_034 == 0) {
-        data_02174e48->mUnk_008[data_02174e48->mUnk_02c].mUnk_00 = 0;
-    }
-    data_02174e48->mUnk_048 = 0xf;
+    func_0202ee88();
 }
 
 #pragma thumb off

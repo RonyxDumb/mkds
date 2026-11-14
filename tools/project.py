@@ -80,10 +80,14 @@ DECOMP_ME_COMPILER = DECOMP_ME_IDS.get(MWCC_VERSION)  # None: no decomp.me id (D
 # installed version (folders under tools/mwccarm/).
 PATH_COMPILERS = {
     "libs/": "1.2/base",  # verified: library code in main (docs/compiler.md, Libraries); sp2, sp2p3 identical
+    # verified: four ov000 files whose switches end in `add pc, r0` (docs/compiler.md, Game code)
+    "src/00/code_021a9228.c": "1.2/sp2p3",
+    "src/00/code_021ad734.c": "1.2/sp2p3",  # holds the former code_021ad754 and code_021ae984
 }
 # Flags from CC_FLAGS that sources under these paths must not get.
 PATH_DROP_FLAGS = {
-    "libs/": ["-char unsigned"],  # verified: library code uses signed char (docs/compiler.md, Libraries)
+    "libs/": ["-char unsigned"],  # verified: libs/NitroSDK/os/src/os_printf.c matches with plain char only signed
+    "libs/msl/": [],  # verified: libs/msl/src/code_02139f70.c matches with plain char only unsigned
 }
 # Flags added for sources under these paths. A game with Thumb code: "src/": ["-thumb"], with an empty list for an
 # ARM-only folder or file. An ARM function inside a Thumb file can be written between `#pragma thumb off` and
@@ -93,6 +97,7 @@ PATH_DROP_FLAGS = {
 PATH_CPP_DIALECT = {}
 PATH_ADD_FLAGS = {
     "libs/": ["-char signed"],
+    "libs/msl/": [],
     # the overlays are Thumb game code (an ARM file in them gets a per-file entry with an empty list)
     "src/00/": ["-thumb"],
     "src/01/": ["-thumb"],
@@ -247,4 +252,5 @@ LCF_SYMBOLS = {
     "data_00000c00": "0xc00",
     "data_00002800": "0x2800",
     "data_02400000": "0x2400000",
+    "data_usa_02161748": "0x2161748",
 }

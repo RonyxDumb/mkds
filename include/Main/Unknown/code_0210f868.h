@@ -1,9 +1,11 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_0206bcb0.h" // Unk0206bcb0
+#include "Main/Unknown/code_0206bcb0.h" // Kart
 
-void func_0210f9f0(void *a0, int b);
-void func_0210f9ac(Unk0206bcb0 *a);
-void func_0210f8b0(void *a, s32 b, s32 c);
-void func_0210f868(u32 a, u32 b);
+typedef struct SoundSetPlayer SoundSetPlayer;
+
+void func_0210f9f0(void *kartAddress, int b);
+void func_0210f9ac(Kart *kart);
+void func_0210f8b0(SoundSetPlayer *player, s32 seqId, s32 firstBankId);
+void SetSeqVariableEnabled(u32 slot, u32 enabled);

@@ -2,8 +2,13 @@
 
 #include "types.h"
 
-#include "00/code_021806ec.h"
+typedef struct WiFiStateCallbacks WiFiStateCallbacks;
 
-extern Unk021b0cd4 data_ov000_021b0e50;
+extern WiFiStateCallbacks gWiFiVSCourseSelectCallbacks;
 
-void func_ov000_02184aa4(void);
+void RegisterWiFiVSCourseSelectCallbacks(void);
+void func_ov000_02184ac8(void);
+void AdvanceWiFiVSCourseSelectState(void);
+void func_ov000_02184b4c(void);
+void ReleaseWiFiVSCourseSelectState(void);
+void InitWiFiVSCourseSelectState(u32 a);

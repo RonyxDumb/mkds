@@ -1,109 +1,128 @@
 #include "01/code_02188e88.h"
+#include "01/code_02185ef4.h"
 #include "01/code_02187000.h"
+#include "Main/Unknown/code_020b1dbc.h"
+#include "Main/Unknown/code_0207b960.h"
+#include "Main/Unknown/code_020b4e5c.h"
+#include "Main/Unknown/code_02039860.h"
+#include "Main/Unknown/code_02147000.h"
+#include "Main/Unknown/unk_0215d000.h"
+#include "Main/Unknown/unk_021759c0.h"
+#include "Main/Unknown/code_020b47d8.h"
+#include "Main/Unknown/code_020b6a18.h"
+#include "Main/Unknown/code_0207a880.h"
 #include "Main/Unknown/code_020b502c.h"
 #include "Main/Unknown/code_020b837c.h"
+#include "Main/Unknown/code_020c06c4.h"
 #include "Main/Unknown/code_020c0b84.h"
+#include "Main/Unknown/code_020c0ba8.h"
 #include "Main/Unknown/code_020c0d9c.h"
 #include "Main/Unknown/code_020b4000.h"
 #include "Main/Unknown/code_020c0000.h"
 #include "code_02147cd8.h"
+#include "Main/Unknown/code_021000d0.h"
+
+RaceHudSubScreenCells *gRaceHudSubScreenKingIceDonketuCells;
+RaceHudSubScreenCells *data_ov001_021a9ba4;
 
 #pragma thumb off
 
-s32 func_ov001_02189290(void) {
-    return func_020c0c2c(&data_ov001_021a9ba8, 0x1f6);
+s32 CreateRaceHudSubScreenKingIceDonketuCells(void) {
+    return CreateRaceHudSubScreenCells(&gRaceHudSubScreenKingIceDonketuCells, MAP_OBJECT_KIND_KING_ICE_DONKETU);
 }
 
-void func_ov001_0218927c(void) {
-    func_020c0b84(&data_ov001_021a9ba8);
+void ClearRaceHudSubScreenKingIceDonketuCells(void) {
+    ClearRaceHudSubScreenCells(&gRaceHudSubScreenKingIceDonketuCells);
 }
 
-void func_ov001_02189160(void) {
+void UpdateRaceHudSubScreenKingIceDonketuCells(void) {
     s32 i;
-    s32 n = 0;
-    u32 v = func_020c0db0();
-    Unk0217b498_00 *el;
+    s32 cellCount = 0;
+    u32 v = GetRaceHudSubScreenScale();
+    Unk0217b498_00 *object;
     Vec3 *pos;
 
-    for (i = 0; i < data_ov001_021a9ba8->mUnk_08; i++) {
-        el = data_ov001_021a9ba8->mUnk_00[i];
-        if (!(el->mUnk_02 & 1)) {
-            pos = &el->mUnk_04;
-            if (func_020b5ae8(pos, &data_ov001_021a9ba8->mUnk_10[n].mUnk_00, v, 1, 1) != 0) {
-                data_ov001_021a9ba8->mUnk_10[n].mUnk_08 = func_020b83dc(0xc5);
-                data_ov001_021a9ba8->mUnk_10[n].mUnk_0c = func_020b4e70(pos) ? 2 : 3;
-                data_ov001_021a9ba8->mUnk_10[n].mUnk_0e = el->mUnk_02 & 0x20;
-                data_ov001_021a9ba8->mUnk_10[n].mUnk_10 = el->mUnk_7e;
-                n++;
+    for (i = 0; i < gRaceHudSubScreenKingIceDonketuCells->mObjectCount; i++) {
+        object = gRaceHudSubScreenKingIceDonketuCells->mObjects[i];
+        if (!(object->mFlags & 1)) {
+            pos = &object->mPos;
+            if (ComputeRaceHudSubScreenPosition(pos, &gRaceHudSubScreenKingIceDonketuCells->mCells[cellCount].mDrawPos,
+                                                v, 1, 1) != FALSE) {
+                gRaceHudSubScreenKingIceDonketuCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xc5);
+                gRaceHudSubScreenKingIceDonketuCells->mCells[cellCount].mUnk_0c = IsPositionOutsideBox(pos) ? 2 : 3;
+                gRaceHudSubScreenKingIceDonketuCells->mCells[cellCount].mUnk_0e = object->mFlags & 0x20;
+                gRaceHudSubScreenKingIceDonketuCells->mCells[cellCount].mUnk_10 = object->mAngle;
+                cellCount++;
             }
         }
     }
-    data_ov001_021a9ba8->mUnk_04 = n;
+    gRaceHudSubScreenKingIceDonketuCells->mCellCount = cellCount;
 }
 
-void func_ov001_02189144(void *param_1) {
-    func_020c092c(param_1, data_ov001_021a9ba8, 0);
+void DrawRaceHudSubScreenKingIceDonketuCells(void *oamBuffer) {
+    DrawRaceHudSubScreenCells(oamBuffer, gRaceHudSubScreenKingIceDonketuCells, 0);
 }
 
-s32 func_ov001_02189128(void) {
-    return func_020c0c2c(&data_ov001_021a9ba4, 0x1fd);
+BOOL func_ov001_02189128(void) {
+    return CreateRaceHudSubScreenCells(&data_ov001_021a9ba4, 0x1fd);
 }
 
 void func_ov001_02189114(void) {
-    func_020c0b84(&data_ov001_021a9ba4);
+    ClearRaceHudSubScreenCells(&data_ov001_021a9ba4);
 }
 
 void func_ov001_02188ff8(void) {
     s32 i;
-    s32 n = 0;
-    u32 v = func_020c0db0();
-    Unk0217b498_00 *el;
+    s32 cellCount = 0;
+    u32 v = GetRaceHudSubScreenScale();
+    Unk0217b498_00 *object;
     Vec3 *pos;
 
-    for (i = 0; i < data_ov001_021a9ba4->mUnk_08; i++) {
-        el = data_ov001_021a9ba4->mUnk_00[i];
-        if (!(el->mUnk_02 & 1)) {
-            pos = &el->mUnk_04;
-            if (func_020b5ae8(pos, &data_ov001_021a9ba4->mUnk_10[n].mUnk_00, v, 1, 1) != 0) {
-                data_ov001_021a9ba4->mUnk_10[n].mUnk_08 = func_020b83dc(0xc5);
-                data_ov001_021a9ba4->mUnk_10[n].mUnk_0c = func_020b4e70(pos) ? 2 : 3;
-                data_ov001_021a9ba4->mUnk_10[n].mUnk_0e = el->mUnk_02 & 0x20;
-                data_ov001_021a9ba4->mUnk_10[n].mUnk_10 = el->mUnk_7e;
-                n++;
+    for (i = 0; i < data_ov001_021a9ba4->mObjectCount; i++) {
+        object = data_ov001_021a9ba4->mObjects[i];
+        if (!(object->mFlags & 1)) {
+            pos = &object->mPos;
+            if (ComputeRaceHudSubScreenPosition(pos, &data_ov001_021a9ba4->mCells[cellCount].mDrawPos, v, 1, 1) !=
+                FALSE) {
+                data_ov001_021a9ba4->mCells[cellCount].mCell = GetRaceSNcerEntry(0xc5);
+                data_ov001_021a9ba4->mCells[cellCount].mUnk_0c = IsPositionOutsideBox(pos) ? 2 : 3;
+                data_ov001_021a9ba4->mCells[cellCount].mUnk_0e = object->mFlags & 0x20;
+                data_ov001_021a9ba4->mCells[cellCount].mUnk_10 = object->mAngle;
+                cellCount++;
             }
         }
     }
-    data_ov001_021a9ba4->mUnk_04 = n;
+    data_ov001_021a9ba4->mCellCount = cellCount;
 }
 
-void func_ov001_02188fdc(void *param_1) {
-    func_020c092c(param_1, data_ov001_021a9ba4, 0);
+void func_ov001_02188fdc(void *oamBuffer) {
+    DrawRaceHudSubScreenCells(oamBuffer, data_ov001_021a9ba4, 0);
 }
 
 #pragma thumb on
 
-u32 func_ov001_02188f04(Unk02188950 *param_1, Vec3 *param_2, s32 param_3) {
-    Vec3 local;
+BOOL IsWithinXzDistanceOfPoint(Unk02188950 *mapObject, Vec3 *point, s32 radius) {
+    Vec3 unusedOffset;
     s32 dx;
     s32 dz;
-    float f1;
-    float f2;
+    float radiusAsFloat;
+    float radiusAsFloatCopy;
 
-    if (param_2 != 0) {
-        func_021484d0(param_2, &param_1->mUnk_000.mUnk_04, &local);
-        dx = param_1->mUnk_000.mUnk_04.x - param_2->x;
-        dz = param_1->mUnk_000.mUnk_04.z - param_2->z;
-        if (param_3 > 0) {
-            f1 = 0.5f + (float) (param_3 << 12);
+    if (point != NULL) {
+        VEC_Subtract(point, &mapObject->mUnk_000.mPos, &unusedOffset);
+        dx = mapObject->mUnk_000.mPos.x - point->x;
+        dz = mapObject->mUnk_000.mPos.z - point->z;
+        if (radius > 0) {
+            radiusAsFloat = 0.5f + (radius << 12);
         } else {
-            f1 = (float) (param_3 << 12) - 0.5f;
+            radiusAsFloat = (radius << 12) - 0.5f;
         }
-        if (param_3 > 0) {
-            f2 = 0.5f + (float) (param_3 << 12);
+        if (radius > 0) {
+            radiusAsFloatCopy = 0.5f + (radius << 12);
         } else {
-            f2 = (float) (param_3 << 12) - 0.5f;
+            radiusAsFloatCopy = (radius << 12) - 0.5f;
         }
-        if ((s64) dx * dx + (s64) dz * dz < (s64) (s32) f2 * (s32) f1) {
+        if ((s64) dx * dx + (s64) dz * dz < (s64) (s32) radiusAsFloatCopy * (s32) radiusAsFloat) {
             return 1;
         }
         return 0;
@@ -111,16 +130,16 @@ u32 func_ov001_02188f04(Unk02188950 *param_1, Vec3 *param_2, s32 param_3) {
     return 0;
 }
 
-u32 func_ov001_02188eac(Unk02188950 *param_1, s32 param_2, Vec3 *param_3, s32 param_4) {
-    s32 v;
+BOOL IsDirectionToPointWithinAngle(Unk02188950 *mapObject, s32 angle, Vec3 *point, s32 halfAngle) {
+    s32 angleDifference;
 
-    if (param_3 != 0) {
-        v = (u16) (func_02148714(param_3->x - param_1->mUnk_000.mUnk_04.x, param_3->z - param_1->mUnk_000.mUnk_04.z) -
-                   param_2);
-        if (v > 0x8000) {
-            v -= 0x10000;
+    if (point != NULL) {
+        angleDifference =
+            (u16) (FX_Atan2Idx(point->x - mapObject->mUnk_000.mPos.x, point->z - mapObject->mUnk_000.mPos.z) - angle);
+        if (angleDifference > 0x8000) {
+            angleDifference -= 0x10000;
         }
-        if (-param_4 <= v && v <= param_4) {
+        if (-halfAngle <= angleDifference && angleDifference <= halfAngle) {
             return 1;
         }
         return 0;
@@ -128,15 +147,15 @@ u32 func_ov001_02188eac(Unk02188950 *param_1, s32 param_2, Vec3 *param_3, s32 pa
     return 0;
 }
 
-void func_ov001_02188e94(Unk02188950 *param_1, void (**param_2)()) {
-    void (*fn)() = *param_2;
+void ClearAndRunCallback(Unk02188950 *mapObject, void (**callbackSlot)()) {
+    void (*callback)() = *callbackSlot;
 
-    *param_2 = 0;
-    if (fn != 0) {
-        fn(param_1, param_2, 0);
+    *callbackSlot = NULL;
+    if (callback != NULL) {
+        callback(mapObject, callbackSlot, 0);
     }
 }
 
-void func_ov001_02188e88(Unk02188950 *param_1) {
-    func_ov001_02187218(param_1, 0, (s32 (*)(Unk02188950 *)) (0));
+void func_ov001_02188e88(Unk02188950 *mapObject) {
+    func_ov001_02187218(mapObject, 0, (s32(*)(Unk02188950 *))(0));
 }

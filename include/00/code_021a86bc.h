@@ -1,5 +1,10 @@
 #pragma once
 
 #include "types.h"
+#include "00/code_021a6fa8.h"
 
-u32 func_ov000_021a86bc(int param_1);
+u32 func_ov000_021a86bc(Unk021a6fa8 *a);
+s32 func_ov000_021a86e8(void);
+s32 func_ov000_021a8740(void);
+s32 func_ov000_021a87bc(void);
+s32 func_ov000_021a8830(void);

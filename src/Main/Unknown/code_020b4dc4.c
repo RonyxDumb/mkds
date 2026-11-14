@@ -1,20 +1,18 @@
 #include "Main/Unknown/code_020b4dc4.h"
+#include "Main/Unknown/code_0207a68c.h"
+#include "Main/Unknown/unk_021759c0.h"
 
-u32 func_020b4df8(void) {
-    return ((u32) *(
-        const u32 *) ((u8 *) (u32) (((u32) *(
-                                   const u32 *) ((u8 *) (u32) (((u32) (&data_021759c0))) +
-                                                          0))) +
-                               8));
+u32 RaceHudSubScreenGetCurrentMode(void) {
+    return (gRaceSetup->mMode);
 }
 
-u32 func_020b4dc4(int param_1) {
-    int iVar1;
-    u32 uVar2;
-    iVar1 = ((u32) func_020b4df8());
-    if ((iVar1 == 1) && (param_1 != 0)) {
+u32 func_020b4dc4(int kartIndex) {
+    int currentMode;
+    u32 v2;
+    currentMode = RaceHudSubScreenGetCurrentMode();
+    if ((currentMode == MODE_TIME_ATTACK) && (kartIndex != 0)) {
         return 1;
     }
-    uVar2 = func_0207a68c(param_1);
-    return uVar2;
+    v2 = func_0207a68c(kartIndex);
+    return v2;
 }

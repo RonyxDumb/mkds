@@ -1,21 +1,23 @@
 #include "Main/Unknown/code_020f8ddc.h"
+#include "Main/Unknown/code_0208b484.h"
+#include "Main/Unknown/code_020f36d8.h"
 
 #include "Main/Unknown/unk_021759c0.h"
 #include "Main/Unknown/code_0208b000.h"
 #include "Main/Unknown/code_020f6be8.h"
 
-void func_020f8ddc(void *param_1) {
-    Unk020f41c4_A *p = param_1;
+void func_020f8ddc(void *itemParam) {
+    ItemObject *item = itemParam;
 
-    if (p == 0) {
+    if (item == NULL) {
         return;
     }
-    if (data_021759c0->mUnk_08 != 4) {
+    if (gRaceSetup->mMode != MODE_MISSION_RUN) {
         return;
     }
-    if ((u32) p->mUnk_44 > 1) {
+    if ((u32) item->mKind > 1) {
         return;
     }
-    func_0208b7bc(0x441, &p->mUnk_50);
-    func_0208b7bc(0x440, &p->mUnk_50);
+    StartEffect(0x441, &item->mPos);
+    StartEffect(0x440, &item->mPos);
 }

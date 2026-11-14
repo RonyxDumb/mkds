@@ -1,43 +1,73 @@
 #include "03/code_021bf698.h"
+#include "03/code_021d1790.h"
+#include "03/code_021d197c.h"
+#include "03/unk_021d5000.h"
 
-void func_ov003_021bf6c8(u32 param_1, u32 param_2, u32 param_3, u32 param_4) {
-    int iVar4;
-    int iVar3;
-    int iVar2;
-    u32 uVar1;
-    iVar4 = 6;
-    func_ov003_021bf698();
-    iVar3 = 0;
-    iVar2 = 0;
-    do {
-        uVar1 = (u32) func_ov003_021d1be4(0, iVar4, 1);
-        *(u32 *) ((*(int *) &data_ov003_021da150) + iVar2) = uVar1;
-        func_ov003_021d1790(*(Unk021d1770 **) ((*(int *) &data_ov003_021da150) + iVar2), 0xffffffff, 1);
-        iVar2 = iVar2 + 4;
-        iVar3 = iVar3 + 1;
-        iVar4 = iVar4 + 1;
-    } while (iVar3 < 4);
-    func_ov003_021d17d4(*(Unk021d1770 **) (*(int *) &data_ov003_021da150), 0xffffffff, param_1, param_3);
-    func_ov003_021d17d4(*(Unk021d1770 **) ((*(int *) &data_ov003_021da150) + 4), 0xffffffff, param_2, param_3);
-    func_ov003_021d17d4(*(Unk021d1770 **) ((*(int *) &data_ov003_021da150) + 8), 0xffffffff, param_1, param_4);
-    func_ov003_021d17d4(*(Unk021d1770 **) ((*(int *) &data_ov003_021da150) + 0xc), 0xffffffff, param_2, param_4);
-    return;
+#include "03/code_021d1000.h"
+#include "03/code_021d27d8.h"
+#include "03/unk_021da000.h"
+
+void InitSelectionObjects(void) {
+    gSelectionObjects = AllocZeroedExpHeapBlock(0x10, 4);
 }
 
-void func_ov003_021bf698(void) {
-    int iVar3;
-    int iVar2;
-    Unk021d1770 *p;
-    iVar3 = 0;
-    iVar2 = 0;
+void ReleaseSelectionObjects(void) {
+    ReleaseSelectionObjectSlots();
+    FreeExpHeapBlockAndClearPointer(&gSelectionObjects);
+}
+
+void PlaceSelectionPair(u32 pairIndex, u32 leftX, u32 rightX, u32 yPos) {
+    s32 i;
+    u8 *objectIds;
+
+    ReleaseSelectionObjectSlots();
+    i = 0;
+    objectIds = data_ov003_021d5f4c + pairIndex * 2;
+    for (; i < 2; i++) {
+        gSelectionObjects[i] = CreateOamRangeFromNceImage(0, *objectIds, 1);
+        func_ov003_021d1790(gSelectionObjects[i], -1, 1);
+        objectIds++;
+    }
+    SetOamRangePosition(gSelectionObjects[0], -1, leftX, yPos);
+    SetOamRangePosition(gSelectionObjects[1], -1, rightX, yPos);
+}
+
+void PlaceSelectionCorners(u32 left, u32 right, u32 top, u32 bottom) {
+    int objectId;
+    int count;
+    int slot;
+    OamRange *object;
+    objectId = 6;
+    ReleaseSelectionObjectSlots();
+    count = 0;
+    slot = 0;
     do {
-        p = *(Unk021d1770 **) (*(int *) data_ov003_021da150 + iVar2);
-        if (0 != p) {
-            func_ov003_021d197c(p);
-            *(u32 *) (*(int *) data_ov003_021da150 + iVar2) = 0;
+        object = CreateOamRangeFromNceImage(0, objectId, 1);
+        gSelectionObjects[slot] = object;
+        func_ov003_021d1790(gSelectionObjects[slot], 0xffffffff, 1);
+        slot = slot + 1;
+        count = count + 1;
+        objectId = objectId + 1;
+    } while (count < 4);
+    SetOamRangePosition(gSelectionObjects[0], 0xffffffff, left, top);
+    SetOamRangePosition(gSelectionObjects[1], 0xffffffff, right, top);
+    SetOamRangePosition(gSelectionObjects[2], 0xffffffff, left, bottom);
+    SetOamRangePosition(gSelectionObjects[3], 0xffffffff, right, bottom);
+}
+
+void ReleaseSelectionObjectSlots(void) {
+    int count;
+    int slot;
+    OamRange *object;
+    count = 0;
+    slot = 0;
+    do {
+        object = gSelectionObjects[slot];
+        if (NULL != object) {
+            DeleteOamRange(object);
+            gSelectionObjects[slot] = NULL;
         }
-        iVar2 = iVar2 + 4;
-        iVar3 = iVar3 + 1;
-    } while (iVar3 < 4);
-    return;
+        slot = slot + 1;
+        count = count + 1;
+    } while (count < 4);
 }

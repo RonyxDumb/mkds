@@ -1,6 +1,12 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/unk_0217d000.h"
 
-u32 func_0212b1a8(void);
+u32 StartStaffRollText(void);
+void InitStaffRollText(void *heap);
+void StartPaletteBlend(void);
+void StopPaletteBlend(void);
+void ResetPaletteBlendCycle(void);
+void AdvancePaletteBlend(void);
+void BlendPaletteColors(s32 weight);
+void ClearPaletteBlendPointer(void);

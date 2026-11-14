@@ -1,4 +1,6 @@
 #include "Main/Unknown/code_020467d0.h"
+
+#include "Main/Unknown/code_02036820.h"
 #include "Main/Unknown/code_020487fc.h"
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/Unknown/code_0205d0bc.h"
@@ -6,99 +8,152 @@
 #include "Main/Unknown/unk_02154000.h"
 #include "Main/Unknown/unk_02165000.h"
 #include "Main/Unknown/unk_021759c0.h"
+#include "Main/Unknown/code_02036c5c.h"
+#include "Main/Unknown/code_02044618.h"
+#include "Main/Unknown/code_02038000.h"
+#include "Main/Unknown/code_020364e0.h"
 
-s32 func_020467d0(s32 a) {
-    s32 r;
+void SetStateMachineState(void *rawStateMachine, u16 state) {
+    StateMachine *stateMachine;
+
+    stateMachine = rawStateMachine;
+    stateMachine->mStateFrames = 0;
+    stateMachine->mNextStateRequested = 1;
+    stateMachine->mState = state;
+    stateMachine->mNextState = state;
+}
+
+void AdvanceStateMachine(void *rawStateMachine) {
+    StateMachine *stateMachine;
+    StateCallbacks *callbacks;
+
+    stateMachine = rawStateMachine;
+    if (stateMachine->mNextStateRequested != 0) {
+        stateMachine->mStateFrames = 0;
+        stateMachine->mNextStateRequested = 0;
+        stateMachine->mState = stateMachine->mNextState;
+        stateMachine->mNextState = 0;
+        callbacks = &stateMachine->mStateTable[stateMachine->mState];
+        if (callbacks->mEnter != NULL) {
+            callbacks->mEnter(stateMachine->mObject);
+        }
+    } else {
+        callbacks = &stateMachine->mStateTable[stateMachine->mState];
+    }
+    if (callbacks->mUpdate != NULL) {
+        callbacks->mUpdate(stateMachine->mObject);
+    }
+    stateMachine->mStateFrames++;
+}
+
+void func_02046ae4(void) {
+    u8 *displaySettings;
+
+    displaySettings = CreateDisplaySettings(GetHeap(GetCurrentHeapCall()), data_02154868);
+    SetBg1Record(displaySettings + 0x28, 0, 0, 0, 0, 4, 0, 0);
+    InitDisplayFromSettings(displaySettings);
+}
+
+void func_02046ad8(void) {
+    func_020446e0();
+}
+
+u32 func_02046ad4(u32 value) {
+    return value;
+}
+
+u32 func_02046ad0(u32 value) {
+    return value;
+}
+
+s32 func_02046a88(void *a) {
+    SceneCallbacks callbacks = data_02164838;
+
+    RunScene(a, &callbacks);
+    return 0;
+}
+
+void func_02046a3c(void *heap) {
+    gRaceSetup = HeapAlloc(heap, 0x400);
+    gRaceSetup->mCourseList = HeapAlloc(heap, 0x21);
+    CreateParticipantKartMap(heap);
+    CreateCupRecords(heap);
+}
+
+void RefreshRaceSetupKartCounts(s32 entryCount) {
+    u8 teamCounts[2] = {0};
     s32 i;
-    s32 j;
+    u8 humanAndPeerCount;
+    u8 kartCount;
 
-    r = 9;
-    for (i = 0; i < 8; i++) {
-        for (j = 0; j < 4; j++) {
-            if (a == data_02154128[i][j]) {
-                r = i;
+    humanAndPeerCount = 0;
+    kartCount = 0;
+    for (i = 0; i < entryCount; i++) {
+        if (gRaceSetup->mCurrentEntries[i].mPlayer.mKind != PLAYER_KIND_NONE) {
+            if (gRaceSetup->mCurrentEntries[i].mPlayer.mKind == PLAYER_KIND_HUMAN ||
+                gRaceSetup->mCurrentEntries[i].mPlayer.mKind == PLAYER_KIND_PEER) {
+                humanAndPeerCount++;
+            }
+            kartCount++;
+            if (gRaceSetup->mUseTeams != 0) {
+                teamCounts[gRaceSetup->mCurrentEntries[i].mPlayer.mTeamIndex]++;
             }
         }
     }
-    return r;
+    gRaceSetup->mKartCount = kartCount;
+    gRaceSetup->mHumanAndPeerKartCount = humanAndPeerCount;
+    for (i = 0; i < 2; i++) {
+        gRaceSetup->mTeamKartCounts[i] = teamCounts[i];
+    }
 }
 
-u32 func_02046828(s32 a) {
-    return data_02154128[(u32) a / 4][a % 4];
+void SetNextRaceEntry(int entryIndex, u32 characterIndex, u32 kartIndex, int playerKind, u32 teamIndex, int f) {
+    gRaceSetup->mNextEntries[entryIndex].mCharacterIndex = characterIndex;
+    gRaceSetup->mNextEntries[entryIndex].mPlayer.mKind = playerKind;
+    gRaceSetup->mNextEntries[entryIndex].mPlayer.mIndex = entryIndex;
+    gRaceSetup->mNextEntries[entryIndex].mKartIndex = kartIndex;
+    gRaceSetup->mNextEntries[entryIndex].mPlayer.mTeamIndex = teamIndex;
+    gRaceSetup->mNextEntries[entryIndex].mPlayer.mUnk_08 = f;
+    gRaceSetup->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex = playerKind == PLAYER_KIND_GHOST ? 0 : 3;
+    gRaceSetup->mNextEntries[entryIndex].mPlayer.mUnk_14 = 0;
+    if (f != 3) {
+        gRaceSetup->mNextEntries[entryIndex].mPlayer.mUnk_14 |= 1;
+    }
 }
 
-s32 func_0204684c(s32 a) {
+s32 FindCupCourseIndex(s32 courseId) {
     s32 i;
     s32 j;
-    s8 r;
+    s8 courseIndex;
 
-    r = -1;
+    courseIndex = -1;
     for (i = 0; i < 8; i++) {
         for (j = 0; j < 4; j++) {
-            if (a == data_02154128[i][j]) {
-                r = j + i * 4;
+            if (courseId == gCupCourseIdTable[i][j]) {
+                courseIndex = j + i * 4;
                 break;
             }
         }
     }
-    return r;
+    return courseIndex;
 }
 
-void func_020468b0(int a, u32 b, u32 c, int d, u32 e, int f) {
-    data_021759c0->mUnk_250[a].mUnk_00 = b;
-    data_021759c0->mUnk_250[a].mUnk_08.mUnk_00 = d;
-    data_021759c0->mUnk_250[a].mUnk_08.mUnk_0c = a;
-    data_021759c0->mUnk_250[a].mUnk_04 = c;
-    data_021759c0->mUnk_250[a].mUnk_08.mUnk_04 = e;
-    data_021759c0->mUnk_250[a].mUnk_08.mUnk_08 = f;
-    data_021759c0->mUnk_250[a].mUnk_08.mUnk_10 = d == 2 ? 0 : 3;
-    data_021759c0->mUnk_250[a].mUnk_08.mUnk_14 = 0;
-    if (f != 3) {
-        data_021759c0->mUnk_250[a].mUnk_08.mUnk_14 |= 1;
-    }
+u32 GetCupCourseIdAtIndex(s32 courseIndex) {
+    return gCupCourseIdTable[(u32) courseIndex / 4][courseIndex % 4];
 }
 
-// non-matching: same size and registers; the original builds the stack address of the byte pair (add r4, sp, #0) first
-// and stores both zero bytes through r4, this source stores them through sp and builds r4 after the loads of r5/r6.
-void func_02046968(s32 a) {
-    u8 b[2];
+s32 FindCupIndexOfCourse(s32 courseId) {
+    s32 cupIndex;
     s32 i;
-    u8 n;
-    u8 m;
+    s32 j;
 
-    n = 0;
-    b[0] = 0;
-    m = 0;
-    i = 0;
-    b[1] = 0;
-    for (; i < a; i++) {
-        if (data_021759c0->mUnk_68[i].mUnk_08.mUnk_00 != 4) {
-            if (data_021759c0->mUnk_68[i].mUnk_08.mUnk_00 == 0 || data_021759c0->mUnk_68[i].mUnk_08.mUnk_00 == 3) {
-                n++;
-            }
-            m++;
-            if (data_021759c0->mUnk_58 != 0) {
-                b[data_021759c0->mUnk_68[i].mUnk_08.mUnk_04]++;
+    cupIndex = 9;
+    for (i = 0; i < 8; i++) {
+        for (j = 0; j < 4; j++) {
+            if (courseId == gCupCourseIdTable[i][j]) {
+                cupIndex = i;
             }
         }
     }
-    data_021759c0->mUnk_3d0 = m;
-    data_021759c0->mUnk_3d1 = n;
-    for (i = 0; i < 2; i++) {
-        data_021759c0->mUnk_3d2[i] = b[i];
-    }
-}
-
-void func_02046a3c(void *a) {
-    data_021759c0 = func_02036bec(a, 0x400);
-    data_021759c0->mUnk_3dc = func_02036bec(a, 0x21);
-    func_0205d0bc(a);
-    func_0205dc54(a);
-}
-
-s32 func_02046a88(void *a) {
-    Unk021a9034 b = data_02164838;
-
-    func_020487fc(a, &b);
-    return 0;
+    return cupIndex;
 }

@@ -1,3 +1,5 @@
 #pragma once
 
-#include "00/code_021a6c90.h"
+#include "types.h"
+
+u32 func_ov000_021a6ce4(void);

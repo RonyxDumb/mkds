@@ -1,11 +1,21 @@
 #pragma once
 
 #include "types.h"
+#include "code_02146d78.h"
 #include "Main/Unknown/code_020e6fd4.h"
 
-void func_020d29cc(Unk020e71a0 *param_1, Vec3 *param_2);
-void func_020d2950(Unk020e71a0 *param_1, s32 param_2);
-void func_020d28e0(Unk020e71a0 *param_1);
-Unk0210b7ec *func_020d286c(Unk020e71a0 *param_1);
-void func_020d27fc(Unk020e71a0 *param_1);
-void func_020d278c(Unk020e71a0 *param_1);
+void SetMapObjectScale(MapObject *mapObject, Vec3 *scale);
+void SetMapObjectExtentX(MapObject *mapObject, s32 baseSize);
+// Allocates the sound source object of the map object (mUnk_94, 0x44 bytes) with volume curve 2
+// (SoundSource.mFalloffIndex) and copies the curve's mUnk_20 into mUnk_70. Then it calls SetSoundSourceEnabled and,
+// when bit 0 of the source's mUnk_34 is set, SetSoundSourceFlagBit.
+void CreateMapObjectSoundSourceFalloff2(MapObject *mapObject);
+SoundDistanceSquaredChange *func_020d286c(MapObject *mapObject);
+// Allocates the sound source object of the map object (mUnk_94, 0x44 bytes) with volume curve 3
+// (SoundSource.mFalloffIndex) and copies the curve's mUnk_20 into mUnk_70. Then it calls SetSoundSourceEnabled and,
+// when bit 0 of the source's mUnk_34 is set, SetSoundSourceFlagBit.
+void CreateMapObjectSoundSourceFalloff3(MapObject *mapObject);
+// Allocates the sound source object of the map object (mUnk_94, 0x44 bytes) with volume curve 4
+// (SoundSource.mFalloffIndex) and copies the curve's mUnk_20 into mUnk_70. Then it calls SetSoundSourceEnabled and,
+// when bit 0 of the source's mUnk_34 is set, SetSoundSourceFlagBit.
+void CreateMapObjectSoundSourceFalloff4(MapObject *mapObject);

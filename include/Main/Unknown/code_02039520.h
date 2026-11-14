@@ -2,4 +2,6 @@
 
 #include "types.h"
 
-void func_02039520(unsigned int p0, unsigned int p1, unsigned int p2, unsigned int p3);
+typedef struct InputSlot InputSlot;
+
+void SetInputSlotRepeat(InputSlot *slot, unsigned int mask, unsigned int delayLimit, unsigned int intervalLimit);

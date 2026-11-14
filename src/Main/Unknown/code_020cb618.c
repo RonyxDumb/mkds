@@ -1,208 +1,218 @@
 #include "Main/Unknown/code_020cb618.h"
+#include "Main/Unknown/code_02025f80.h"
+#include "Main/Unknown/code_0203206c.h"
 #include "Main/Unknown/code_020cae8c.h"
 #include "Main/Unknown/code_020cc744.h"
-#include "01/code_021a1838.h"
+#include "01/code_021a11a4.h"
 #include "Main/Unknown/code_020cae38.h"
 #include "Main/Unknown/code_020cae54.h"
 #include "Main/Unknown/code_020cb99c.h"
 #include "Main/Unknown/code_020ccc9c.h"
-#include "Main/Unknown/code_02029930.h"
-#include "01/code_0219c6f0.h"
-#include "01/code_0219efec.h"
-#include "01/code_0219ffb4.h"
-#include "01/code_021980e0.h"
-#include "01/code_0219baf4.h"
+#include "Main/Unknown/code_02029890.h"
+#include "01/code_0219c784.h"
+#include "01/code_0219eab4.h"
+#include "01/code_0219f8ec.h"
+#include "01/code_ov001_02197b34.h"
+#include "01/code_0219b540.h"
 #include "Main/Unknown/code_02026000.h"
-#include "Main/Unknown/code_0202808c.h"
+#include "Main/Unknown/code_02028000.h"
+#include "Main/Unknown/code_02036000.h"
+#include "Main/Unknown/code_0211f498.h"
+#include "Main/Unknown/code_02128000.h"
+#include "Main/Unknown/code_0212b000.h"
+#include "Main/Unknown/unk_02174000.h"
+#include "Main/Unknown/code_02027e78.h"
 #include "Main/Unknown/code_02117db0.h"
 #include "Main/Unknown/code_021196f4.h"
 #include "Main/Unknown/code_0211b23c.h"
 #include "Main/Unknown/code_0211e4e8.h"
 #include "Main/Unknown/code_02032000.h"
+#include "Main/Unknown/code_02028864.h"
+#include "Main/Unknown/code_020ccc74.h"
 
 #pragma thumb on
 #pragma optimize_for_size on
-void func_020cb6c0(void) {
-    Unk0217b43c *p;
-    s32 v;
+void InitCurrentMenuScreen(void) {
+    MenuScene *menu;
+    s32 variant;
 
-    p = data_0217b43c;
-    if (p->mUnk_00c != p->mUnk_008) {
-        switch (p->mUnk_00c) {
-            case 4:
-                func_ov001_021a1858((s32) func_020cb99c(), p->mUnk_108, p->mUnk_50c);
+    menu = data_0217b43c;
+    if (menu->mScreenNumber != menu->mPreviousScreenNumber) {
+        switch (menu->mScreenNumber) {
+            case SCREEN_SELECT_ENGINE:
+                InitSelectEngine(func_020cb99c(), menu->mMainOam, menu->mSubOam);
                 break;
             case 5:
             case 8:
             case 15:
             case 21:
-                v = (func_020cae54() == 0) ? UNK_020CB6C0_0 : UNK_020CB6C0_1;
-                p = data_0217b43c;
-                func_02026910(func_020cb99c(), v, p->mUnk_108, p->mUnk_50c);
+                variant = (func_020cae54() == 0) ? UNK_020CB6C0_0 : UNK_020CB6C0_1;
+                menu = data_0217b43c;
+                InitSelectCharacter(func_020cb99c(), variant, menu->mMainOam, menu->mSubOam);
                 break;
             case 6:
             case 9:
             case 22:
-                v = (func_020cae54() == 0) ? UNK_020CB6C0_0 : UNK_020CB6C0_1;
-                p = data_0217b43c;
-                func_02028864(func_020cb99c(), v, p->mUnk_108, p->mUnk_50c);
+                variant = (func_020cae54() == 0) ? UNK_020CB6C0_0 : UNK_020CB6C0_1;
+                menu = data_0217b43c;
+                InitSelectKart(func_020cb99c(), variant, menu->mMainOam, menu->mSubOam);
                 break;
             case 7:
-                func_02117e24(func_020cb99c(), p->mUnk_108, p->mUnk_50c, 0);
+                InitSelectCupGrid(func_020cb99c(), menu->mMainOam, menu->mSubOam, 0);
                 break;
             case 11:
                 if (func_020cae54() == 0) {
-                    v = 2;
+                    variant = 2;
                 } else if (func_020cae38() != 0) {
-                    v = 3;
+                    variant = 3;
                 } else {
-                    v = 4;
+                    variant = 4;
                 }
-                p = data_0217b43c;
-                func_02117e24(func_020cb99c(), p->mUnk_108, p->mUnk_50c, v);
+                menu = data_0217b43c;
+                InitSelectCupGrid(func_020cb99c(), menu->mMainOam, menu->mSubOam, variant);
                 break;
             case 23:
-                func_02117e24(func_020cb99c(), p->mUnk_108, p->mUnk_50c, 1);
+                InitSelectCupGrid(func_020cb99c(), menu->mMainOam, menu->mSubOam, 1);
                 break;
             case 13:
                 if (func_020cae54() == 0) {
-                    v = 1;
+                    variant = 1;
                 } else if (func_020cae38() != 0) {
-                    v = 2;
+                    variant = 2;
                 } else {
-                    v = 3;
+                    variant = 3;
                 }
-                p = data_0217b43c;
-                func_02119770(func_020cb99c(), p->mUnk_108, p->mUnk_50c, v);
+                menu = data_0217b43c;
+                InitSelectCupCourse(func_020cb99c(), menu->mMainOam, menu->mSubOam, variant);
                 break;
             case 25:
-                func_02119770(func_020cb99c(), p->mUnk_108, p->mUnk_50c, 0);
+                InitSelectCupCourse(func_020cb99c(), menu->mMainOam, menu->mSubOam, 0);
                 break;
             case 10:
                 if (func_020cae54() == 0) {
-                    v = 0;
+                    variant = 0;
                 } else if (func_020cae38() != 0) {
-                    v = 2;
+                    variant = 2;
                 } else {
-                    v = 4;
+                    variant = 4;
                 }
-                p = data_0217b43c;
-                func_0211b2cc(func_020cb99c(), (s32) p->mUnk_108, p->mUnk_50c, v);
+                menu = data_0217b43c;
+                InitSelectRaceRule(func_020cb99c(), (s32) menu->mMainOam, menu->mSubOam, variant);
                 break;
             case 16:
                 if (func_020cae54() == 0) {
-                    v = 1;
+                    variant = 1;
                 } else if (func_020cae38() != 0) {
-                    v = 3;
+                    variant = 3;
                 } else {
-                    v = 5;
+                    variant = 5;
                 }
-                p = data_0217b43c;
-                func_0211b2cc(func_020cb99c(), (s32) p->mUnk_108, p->mUnk_50c, v);
+                menu = data_0217b43c;
+                InitSelectRaceRule(func_020cb99c(), (s32) menu->mMainOam, menu->mSubOam, variant);
                 break;
             case 14:
-                v = (func_020cae54() == 0) ? UNK_020CB6C0_0 : UNK_020CB6C0_1;
-                p = data_0217b43c;
-                func_02032654(func_020cb99c(), v, p->mUnk_108, p->mUnk_50c);
+                variant = (func_020cae54() == 0) ? UNK_020CB6C0_0 : UNK_020CB6C0_1;
+                menu = data_0217b43c;
+                InitSelectGame(func_020cb99c(), variant, menu->mMainOam, menu->mSubOam);
                 break;
-            case 17:
-                v = (func_02029930()->mUnk_e4 == 0) ? UNK_020CB6C0_1 : UNK_020CB6C0_0;
-                p = data_0217b43c;
-                func_ov001_0219d2c0(func_020cb99c(), v, p->mUnk_108, p->mUnk_50c);
+            case SCREEN_SELECT_BATTLE_STAGE:
+                variant = (GetRaceSetupCopy()->mBattleKind == BATTLE_KIND_BALLOON) ? UNK_020CB6C0_1 : UNK_020CB6C0_0;
+                menu = data_0217b43c;
+                InitSelectBattleStage(func_020cb99c(), variant, menu->mMainOam, menu->mSubOam);
                 break;
-            case 18:
-                func_ov001_0219f058(func_020cb99c(), p->mUnk_108, p->mUnk_50c);
+            case SCREEN_MISSION_RUN_LVSEL:
+                InitMissionRunLVsel(func_020cb99c(), menu->mMainOam, menu->mSubOam);
                 break;
-            case 19:
-                func_ov001_021a0190((s32) func_020cb99c(), (s32) p->mUnk_108, (s32) p->mUnk_50c);
+            case SCREEN_MISSION_RUN_MSSEL:
+                InitMissionRunMSsel(func_020cb99c(), menu->mMainOam, menu->mSubOam);
                 break;
-            case 20:
-                func_ov001_02198100(func_020cb99c(), p->mUnk_108, (s32) p->mUnk_50c);
+            case SCREEN_TIME_ATTACK_TOP_MENU:
+                InitTimeAttackTopMenu(func_020cb99c(), menu->mMainOam, (s32) menu->mSubOam);
                 break;
-            case 26:
-                func_ov001_0219bb48((u32) func_020cb99c(), (u32) p->mUnk_108, (u32) p->mUnk_50c);
+            case SCREEN_SELECT_GHOST:
+                InitSelectGhost(func_020cb99c(), (u32) menu->mMainOam, (u32) menu->mSubOam);
                 break;
             case 12:
             case 24:
-                func_0211e958(func_020cb99c(), p->mUnk_108, p->mUnk_50c);
+                InitSelectCupM(func_020cb99c(), menu->mMainOam, menu->mSubOam);
                 break;
             case 29:
                 func_020cc744();
                 break;
         }
-        switch (data_0217b43c->mUnk_00c) {
+        switch (data_0217b43c->mScreenNumber) {
             case 10:
             case 11:
             case 12:
             case 13:
             case 14:
             case 16:
-            case 17:
-                data_0217b43c->mUnk_958 = 0;
-                data_0217b43c->mUnk_95c = 0;
+            case SCREEN_SELECT_BATTLE_STAGE:
+                data_0217b43c->mUnk_958 = FALSE;
+                data_0217b43c->mUnk_95c = FALSE;
                 break;
             case 8:
             case 15:
-                if (func_020cccb4() == 0xe) {
-                    data_0217b43c->mUnk_958 = 0;
-                    data_0217b43c->mUnk_95c = 0;
+                if (GetPreviousMenuScreenNumber() == 0xe) {
+                    data_0217b43c->mUnk_958 = FALSE;
+                    data_0217b43c->mUnk_95c = FALSE;
                 }
                 break;
         }
     }
 }
 
-void func_020cb618(void) {
-    if (data_0217b43c->mUnk_00c != data_0217b43c->mUnk_008) {
-        switch (data_0217b43c->mUnk_008) {
-            case 4:
-                func_ov001_021a1838();
+void ReleasePreviousMenuScreen(void) {
+    if (data_0217b43c->mScreenNumber != data_0217b43c->mPreviousScreenNumber) {
+        switch (data_0217b43c->mPreviousScreenNumber) {
+            case SCREEN_SELECT_ENGINE:
+                ReleaseSelectEngine();
                 break;
             case 5:
             case 8:
             case 15:
             case 21:
-                func_020260e4();
+                ReleaseSelectCharacter();
                 break;
             case 6:
             case 9:
             case 22:
-                func_0202808c();
+                ReleaseSelectKart();
                 break;
             case 7:
             case 11:
             case 23:
-                func_02117db0();
+                ReleaseSelectCupGrid();
                 break;
             case 13:
             case 25:
-                func_021196f4();
+                ReleaseSelectCupCourse();
                 break;
             case 10:
             case 16:
-                func_0211b23c();
+                ReleaseSelectRaceRule();
                 break;
             case 14:
-                func_0203223c();
+                ReleaseSelectGame();
                 break;
-            case 17:
-                func_ov001_0219d26c();
+            case SCREEN_SELECT_BATTLE_STAGE:
+                ReleaseSelectBattleStage();
                 break;
-            case 18:
-                func_ov001_0219efec();
+            case SCREEN_MISSION_RUN_LVSEL:
+                ReleaseMissionRunLVsel();
                 break;
-            case 19:
-                func_ov001_021a0140();
+            case SCREEN_MISSION_RUN_MSSEL:
+                ReleaseMissionRunMSsel();
                 break;
-            case 20:
-                func_ov001_021980e0();
+            case SCREEN_TIME_ATTACK_TOP_MENU:
+                ReleaseTimeAttackTopMenu();
                 break;
-            case 26:
-                func_ov001_0219baf4();
+            case SCREEN_SELECT_GHOST:
+                ReleaseSelectGhost();
                 break;
             case 12:
             case 24:
-                func_0211e924();
+                ReleaseSelectCupM();
                 break;
         }
     }

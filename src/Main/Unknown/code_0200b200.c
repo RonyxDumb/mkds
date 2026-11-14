@@ -1,143 +1,99 @@
 #include "Main/Unknown/code_0200b200.h"
+#include "Main/Unknown/unk_0216f000.h"
+#include "code_0200fc8c.h"
+#include "Main/Unknown/code_0200b6e8.h"
+#include "code_0214d018.h"
 
 #pragma thumb on
 
-// non-matching: same size; one instruction at +0x5c differs in encoding: `adds r0, r0, #3` here, `adds r0, #3` in the
-// original
-void func_0200b200(void) {
-    Unk0200c16c v1;
-    Unk0200c12c v2;
-    switch (data_0216fde8->mUnk_5f0e) {
-        case 5:
-            v2.mUnk_00 = data_0216fde8->mUnk_5f08;
-            v2.mUnk_1a = 1;
-            v2.mUnk_1c = data_0216fde8->mUnk_5f0c;
-            func_0214d1fc(data_0216fde8->mUnk_05c4, v2.mUnk_04, 0x16);
-            v1.mUnk_00 = 7;
-            *(u8 *) &v1.mUnk_02 = func_0200c12c((u8 *) &v1 + 3, &v2);
-            if (func_0200c16c(&v1, data_0216fde8->mUnk_04a0) != 0) {
-                func_0200bc78(8, 0xffff, data_0216fde8->mUnk_04a0);
-            }
-            break;
-        case 7:
-            v1.mUnk_00 = 8;
-            func_0200c16c(&v1, data_0216fde8->mUnk_04a0);
-            func_0200bc78(8, 0xffff, data_0216fde8->mUnk_04a0);
-            break;
-        case 8:
-            break;
-        case 9:
-            v1.mUnk_00 = 10;
-            func_0200c16c(&v1, data_0216fde8->mUnk_04a0);
-            func_0200bc78(8, 0xffff, data_0216fde8->mUnk_04a0);
-            break;
-        case 10:
-            v1.mUnk_00 = 11;
-            func_0200c16c(&v1, data_0216fde8->mUnk_04a0);
-            func_0200bc78(8, 0xffff, data_0216fde8->mUnk_04a0);
-            break;
-        default:
-            v1.mUnk_00 = 0;
-            func_0200c16c(&v1, data_0216fde8->mUnk_04a0);
-            func_0200bc78(8, 0xffff, data_0216fde8->mUnk_04a0);
-            break;
+void ScanConnectEndScanCallback(Unk021425e8 *a) {
+    if (a->mResultCode != 0) {
+        ReportScanError(0xb, a->mResultCode);
+        return;
     }
+    gScanConnectWork->mEndScanRequested = 0;
+    if (gScanConnectWork->mEndRequested != 0) {
+        FinishScanConnect();
+        return;
+    }
+    CallScanCallbackWithEntry(3, NULL, 0);
 }
 
-void func_0200b344(Unk021425e8 *a) {
-    Unk0200c0d8 v1;
-    func_0200c0d8(&v1, a->mUnk_0c);
-    switch (v1.mUnk_00) {
-        case 1:
-            if (data_0216fde8->mUnk_5f0e == 2) {
-                func_0200ba44(5, 0);
-            }
-            break;
-        case 2:
-            if (data_0216fde8->mUnk_5f0e == 5) {
-                func_0200ba44(6, 0);
-            }
-            break;
-        case 6:
-            if (data_0216fde8->mUnk_5f0e == 5) {
-                func_0200ba44(0xe, 0);
-            }
-            break;
-        case 3:
-            if (data_0216fde8->mUnk_5f0e == 5) {
-                func_0200ba44(7, 0);
-            }
-            break;
-        case 4:
-            if (data_0216fde8->mUnk_5f0e == 7) {
-                func_0200ba44(8, 0);
-            }
-            if (data_0216fde8->mUnk_5f0e == 8) {
-                func_0200ba44(9, 0);
-            }
-            break;
-        case 5:
-            if (data_0216fde8->mUnk_5f0e == 9) {
-                func_0200ba44(10, 0);
-            } else if (data_0216fde8->mUnk_5f0e == 10) {
-                func_0200be00();
-            }
-            break;
+u32 StartConnectToEntry(u32 entryIndex) {
+    EntryRecord *v1;
+    v1 = GetEntryOrNull(entryIndex);
+    if (v1 == NULL) {
+        return 0;
     }
+    gScanConnectWork->mUnk_5f08 = v1->mUnk_4b8;
+    gScanConnectWork->mUnk_5f0c = v1->mUnk_4b5;
+    SetupMPLink((u32) gScanConnectWork->mMPLink);
+    SetMPLinkCallback((u32) MPLinkCallback);
+    SetScanConnectStateAndNotify(1, 0);
+    MI_CpuCopy8(v1->mScanBuffer, gScanConnectWork->mScanBuffer, 0xc0);
+    ScanConnectStartConnect(gScanConnectWork->mScanBuffer);
+    return 1;
 }
 
-// non-matching: 0x1c8 bytes, original 0x1d4; first: original `bgt.n T`, ours `bhi.n T`
-void func_0200b43c(u32 a, Unk021425e8 *b) {
+void MPLinkCallback(s32 a, Unk021425e8 *b) {
     u16 v1;
     u16 v2;
+    u16 t;
     switch (a) {
+        case 7:
+        case 8:
+            break;
         case 11:
-            func_0200ba44(3, 0);
+            SetScanConnectStateAndNotify(3, 0);
             break;
         case 6:
-            func_0200ba44(2, (u32) b);
-            func_0200bef8(data_0216fde8, data_0216fde8->mUnk_0020);
+            SetScanConnectStateAndNotify(2, b);
+            SetPortCallbackAndStartMP(gScanConnectWork, gScanConnectWork->mReceiveBuffer);
             break;
         case 10:
-            func_0200ba44(4, (u32) b);
+            SetScanConnectStateAndNotify(4, b);
             break;
         case 25:
-            func_0200b200();
+            QueueStateMessage();
             break;
         case 9:
-            func_0200b344(b);
+            ReceivePortMessage(b);
             break;
         case 15:
-            if (data_0216fde8->mUnk_5f0e == 10) {
-                func_0200ba44(11, 0);
+            if (gScanConnectWork->mState == 10) {
+                SetScanConnectStateAndNotify(11, 0);
             } else {
-                func_0200ba44(12, 0);
+                SetScanConnectStateAndNotify(12, 0);
             }
-            if (data_0216fde8->mUnk_5f04 != 0) {
-                func_0200bab0();
+            if (gScanConnectWork->mEndRequested != 0) {
+                FinishScanConnect();
             }
             break;
         case 0xff:
-            if (data_0216fde8->mUnk_05e0 != 0) {
-                switch (b->mUnk_02) {
+            t = b->mResultCode;
+            if (gScanConnectWork->mStateCallback != NULL) {
+                switch (t) {
                     case 1:
                     case 4:
                     case 5:
                     case 6:
                     case 8:
                     case 9:
-                        v1 = 9;
+                        t = 9;
                         break;
+                    case 15:
                     default:
-                        v1 = 8;
+                        t = 8;
                         break;
                 }
-                data_0216fde8->mUnk_05e0(0x13, &v1);
+                v1 = t;
+                gScanConnectWork->mStateCallback(0x13, &v1);
             }
             break;
         case 0x100:
-            if (data_0216fde8->mUnk_05e0 != 0) {
-                switch (b->mUnk_00) {
+            t = b->mCommand;
+            if (gScanConnectWork->mStateCallback != NULL) {
+                switch (t) {
                     case 0:
                     case 7:
                     case 8:
@@ -149,13 +105,15 @@ void func_0200b43c(u32 a, Unk021425e8 *b) {
                     case 21:
                     case 25:
                     case 29:
-                        v2 = 9;
+                        t = 9;
                         break;
+                    case 1:
                     default:
-                        v2 = 8;
+                        t = 8;
                         break;
                 }
-                data_0216fde8->mUnk_05e0(0x13, &v2);
+                v2 = t;
+                gScanConnectWork->mStateCallback(0x13, &v2);
             }
             break;
         case 0x29:
@@ -163,33 +121,89 @@ void func_0200b43c(u32 a, Unk021425e8 *b) {
     }
 }
 
-u32 func_0200b610(u32 a) {
-    Unk02008934 *v1;
-    v1 = func_02008934(a);
-    if (v1 == 0) {
-        return 0;
+void ReceivePortMessage(Unk021425e8 *a) {
+    ParentMessage v1;
+    ReadParentMessage(&v1, a->mUnk_0c);
+    switch (v1.mKind) {
+        case 1:
+            if (gScanConnectWork->mState == 2) {
+                SetScanConnectStateAndNotify(5, 0);
+            }
+            break;
+        case 2:
+            if (gScanConnectWork->mState == 5) {
+                SetScanConnectStateAndNotify(6, 0);
+            }
+            break;
+        case 6:
+            if (gScanConnectWork->mState == 5) {
+                SetScanConnectStateAndNotify(0xe, 0);
+            }
+            break;
+        case 3:
+            if (gScanConnectWork->mState == 5) {
+                SetScanConnectStateAndNotify(7, 0);
+            }
+            break;
+        case 4:
+            if (gScanConnectWork->mState == 7) {
+                SetScanConnectStateAndNotify(8, 0);
+            }
+            if (gScanConnectWork->mState == 8) {
+                SetScanConnectStateAndNotify(9, 0);
+            }
+            break;
+        case 5:
+            if (gScanConnectWork->mState == 9) {
+                SetScanConnectStateAndNotify(10, 0);
+            } else if (gScanConnectWork->mState == 10) {
+                StartResetWithFlag();
+            }
+            break;
     }
-    data_0216fde8->mUnk_5f08 = v1->mUnk_4b8;
-    data_0216fde8->mUnk_5f0c = v1->mUnk_4b5;
-    func_0200c0ac((u32) data_0216fde8->mUnk_05a0);
-    func_0200c090((u32) func_0200b43c);
-    func_0200ba44(1, 0);
-    func_0214d1fc(v1->mUnk_4c0, data_0216fde8->mUnk_04c0, 0xc0);
-    func_0200c008(data_0216fde8->mUnk_04c0);
-    return 1;
 }
 
-void func_0200b698(Unk021425e8 *a) {
-    if (a->mUnk_02 != 0) {
-        func_0200b820(0xb, a->mUnk_02);
-        return;
+void QueueStateMessage(void) {
+    ChildMessage v1;
+    Unk0200c12c v2;
+    u8 *p;
+    switch (gScanConnectWork->mState) {
+        case 5:
+            v2.mUnk_00 = gScanConnectWork->mUnk_5f08;
+            v2.mUnk_1a = 1;
+            v2.mUnk_1c = gScanConnectWork->mUnk_5f0c;
+            MI_CpuCopy8(gScanConnectWork->mUnk_05c4, v2.mUnk_04, 0x16);
+            v1.mKind = 7;
+            p = &v1.mKind;
+            p += 3;
+            *(u8 *) &v1.mUnk_02 = CopyNextPiece(p, &v2);
+            if (WriteChildMessage(&v1, gScanConnectWork->mMessageBuffer) != NULL) {
+                QueueMPDataIfReady(8, 0xffff, gScanConnectWork->mMessageBuffer);
+            }
+            break;
+        case 7:
+            v1.mKind = 8;
+            WriteChildMessage(&v1, gScanConnectWork->mMessageBuffer);
+            QueueMPDataIfReady(8, 0xffff, gScanConnectWork->mMessageBuffer);
+            break;
+        case 8:
+            break;
+        case 9:
+            v1.mKind = 10;
+            WriteChildMessage(&v1, gScanConnectWork->mMessageBuffer);
+            QueueMPDataIfReady(8, 0xffff, gScanConnectWork->mMessageBuffer);
+            break;
+        case 10:
+            v1.mKind = 11;
+            WriteChildMessage(&v1, gScanConnectWork->mMessageBuffer);
+            QueueMPDataIfReady(8, 0xffff, gScanConnectWork->mMessageBuffer);
+            break;
+        default:
+            v1.mKind = 0;
+            WriteChildMessage(&v1, gScanConnectWork->mMessageBuffer);
+            QueueMPDataIfReady(8, 0xffff, gScanConnectWork->mMessageBuffer);
+            break;
     }
-    data_0216fde8->mUnk_5efc = 0;
-    if (data_0216fde8->mUnk_5f04 != 0) {
-        func_0200bab0();
-        return;
-    }
-    func_0200b850(3, 0, 0);
 }
 
 #pragma thumb off

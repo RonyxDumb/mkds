@@ -1,29 +1,31 @@
 #include "01/code_0219d50c.h"
+#include "01/unk_021a8000.h"
+#include "Main/Unknown/code_02047104.h"
+#include "Main/Unknown/code_020b47d8.h"
 
-void func_ov001_0219d50c(void) {
-    u32 uVar1;
-    Unk02111684_v v;
-    uVar1 = ((int) func_0204799c((const char *) &data_ov001_021a8b54));
-    func_020b496c(&v.m4934, (void *) (uVar1));
-    uVar1 = ((int) func_0204799c((const char *) &data_ov001_021a8b74));
-    func_020b4810(&v.m47d8, (void *) (uVar1));
-    uVar1 = ((int) func_0204799c((const char *) &data_ov001_021a8b98));
-    func_020b4810(&v.m47d8, (void *) (uVar1));
-    uVar1 = ((int) func_0204799c((const char *) &data_ov001_021a8bbc));
-    func_020b4810(&v.m47d8, (void *) (uVar1));
-    uVar1 = ((int) func_0204799c((const char *) &data_ov001_021a8be0));
-    func_020b4a7c(&v.m4a44, (void *) (uVar1));
-    uVar1 = ((int) func_0204799c((const char *) &data_ov001_021a8c00));
-    func_020b49f4(&v.m4934, (void *) (uVar1));
-    uVar1 = ((int) func_0204799c((const char *) &data_ov001_021a8c24));
-    func_020b48ec(&v.m21dc8, (void *) (uVar1));
-    uVar1 = ((int) func_0204799c((const char *) &data_ov001_021a8c48));
-    func_020b4a7c(&v.m4a44, (void *) (uVar1));
-    uVar1 = ((int) func_0204799c((const char *) &data_ov001_021a8c68));
-    func_020b49f4(&v.m4934, (void *) (uVar1));
-    uVar1 = ((int) func_0204799c((const char *) &data_ov001_021a8c8c));
-    func_020b48ec(&v.m21dc8, (void *) (uVar1));
-    uVar1 = ((int) func_0204799c((const char *) &data_ov001_021a8cb0));
-    func_020b4a7c(&v.m4a44, (void *) (uVar1));
-    return;
+void LoadSelectBattleStageData(void) {
+    void *v1;
+    LoadedPartPointer v;
+    v1 = FindSceneFile(data_ov001_021a8b54);
+    LoadNcgrData(&v.mNcgr, v1);
+    v1 = FindSceneFile(data_ov001_021a8b74);
+    LoadNscrData(&v.mNscr, v1);
+    v1 = FindSceneFile(data_ov001_021a8b98);
+    LoadNscrData(&v.mNscr, v1);
+    v1 = FindSceneFile(data_ov001_021a8bbc);
+    LoadNscrData(&v.mNscr, v1);
+    v1 = FindSceneFile(data_ov001_021a8be0);
+    LoadNclrData(&v.mNclr, v1);
+    v1 = FindSceneFile(data_ov001_021a8c00);
+    LoadNcgrData2(&v.mNcgr, v1);
+    v1 = FindSceneFile(data_ov001_021a8c24);
+    LoadNcerData(&v.mNcer, v1);
+    v1 = FindSceneFile(data_ov001_021a8c48);
+    LoadNclrData(&v.mNclr, v1);
+    v1 = FindSceneFile(data_ov001_021a8c68);
+    LoadNcgrData2(&v.mNcgr, v1);
+    v1 = FindSceneFile(data_ov001_021a8c8c);
+    LoadNcerData(&v.mNcer, v1);
+    v1 = FindSceneFile(data_ov001_021a8cb0);
+    LoadNclrData(&v.mNclr, v1);
 }

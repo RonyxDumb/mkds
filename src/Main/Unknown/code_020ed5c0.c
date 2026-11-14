@@ -1,5 +1,24 @@
 #include "Main/Unknown/code_020ed5c0.h"
+#include "Main/Unknown/code_020b1dbc.h"
+#include "Main/Unknown/code_0207b960.h"
+#include "Main/Unknown/code_020b4e5c.h"
+#include "Main/Unknown/code_02039860.h"
+#include "Main/Unknown/code_02147000.h"
+#include "Main/Unknown/unk_0215d000.h"
+#include "Main/Unknown/unk_021759c0.h"
+#include "Main/Unknown/code_020b47d8.h"
+#include "Main/Unknown/code_020b6a18.h"
+#include "Main/Unknown/code_0207a880.h"
+#include "Main/Unknown/code_020b502c.h"
+#include "Main/Unknown/code_02070398.h"
+#include "Main/Unknown/code_020be7fc.h"
+#include "Main/Unknown/code_020e66e4.h"
+#include "Main/Unknown/code_0206bcb0.h"
+#include "Main/Unknown/code_020f49bc.h"
+#include "Main/Unknown/code_020f73fc.h"
+#include "Main/Unknown/code_020f7c90.h"
 #include "Main/Unknown/unk_0216c000.h"
+#include "ITCM/code_01ffcf7c.h"
 #include "ITCM/code_01ffd000.h"
 #include "Main/Unknown/code_02071000.h"
 #include "Main/Unknown/code_020be000.h"
@@ -9,505 +28,523 @@
 #include "Main/Unknown/code_020f9000.h"
 #include "Main/Unknown/code_020e6000.h"
 #include "Main/Unknown/code_0208ab00.h"
-#include "Main/Unknown/code_02039860.h"
-#include "Main/Unknown/code_0206bcb0.h"
 #include "Main/Unknown/code_020f36d8.h"
 #include "Main/Unknown/code_020f6000.h"
-#include "Main/Unknown/code_020f81b8.h"
-#include "Main/Unknown/unk_021759c0.h"
+#include "Main/Unknown/code_020f813c.h"
 #include "Main/Unknown/unk_0217b000.h"
 #include "Main/Unknown/code_020ee684.h"
 #include "code_02147cd8.h"
 
-s32 func_020ee528(Unk020eda5c *a) {
-    Unk0206bcb0 *p;
-    Vec3 v;
-    s32 s;
+BOOL CopyKartToItemInUse(ItemInUse *itemInUse) {
+    Kart *kart;
+    Vec3 scale;
+    s32 scaleUnchanged;
 
-    p = a->mUnk_010;
-    a->mUnk_02c = *(Unk020eda5c_02c *) &p->mUnk_150;
-    a->mUnk_050 = p->mUnk_98;
-    a->mUnk_05c = p->mUnk_a4;
-    a->mUnk_068 = p->mUnk_2a4;
-    a->mUnk_078 = (s32) (((s64) p->mUnk_2cc->mUnk_08 * p->mUnk_bc.z + 0x800) >> 12);
-    a->mUnk_07c = p->mUnk_2bc;
-    a->mUnk_080 = func_02039828(&a->mUnk_02c.mUnk_18, &a->mUnk_05c) > 0;
-    func_021484d0(&a->mUnk_050, &p->mUnk_8c, &a->mUnk_06c);
-    v.x = (s32) (((s64) p->mUnk_41c.x * p->mUnk_428.x) >> 12);
-    v.y = (s32) (((s64) p->mUnk_41c.y * p->mUnk_428.y) >> 12);
-    v.z = (s32) (((s64) p->mUnk_41c.z * p->mUnk_428.z) >> 12);
-    s = (a->mUnk_084.x == v.x && a->mUnk_084.y == v.y && a->mUnk_084.z == v.z) ? 1 : 0;
-    if (s == 0) {
-        a->mUnk_084 = v;
-        return 1;
+    kart = itemInUse->mKart;
+    itemInUse->mKartOrientation = *(KartOrientation *) &kart->mUnk_150;
+    itemInUse->mKartDrawMatrixPos = kart->mDrawMatrixPos;
+    itemInUse->mKartVelocity = kart->mVelocity;
+    itemInUse->mKartVelocityLength = kart->mVelocityLength;
+    itemInUse->mUnk_078 = ((s64) kart->mPhysicalParam->mUnk_08 * kart->mScale.z + 0x800) >> 12;
+    itemInUse->mKartHopHeight = kart->mHopHeight;
+    itemInUse->mMovingForward = Vec3DotUnrounded(&itemInUse->mKartOrientation.mUnk_18, &itemInUse->mKartVelocity) > 0;
+    VEC_Subtract(&itemInUse->mKartDrawMatrixPos, &kart->mPrevPos, &itemInUse->mKartMovement);
+    scale.x = ((s64) kart->mScaleFactor.x * kart->mScaleBase.x) >> 12;
+    scale.y = ((s64) kart->mScaleFactor.y * kart->mScaleBase.y) >> 12;
+    scale.z = ((s64) kart->mScaleFactor.z * kart->mScaleBase.z) >> 12;
+    scaleUnchanged =
+        (itemInUse->mKartScaleFactorTimesBase.x == scale.x && itemInUse->mKartScaleFactorTimesBase.y == scale.y &&
+         itemInUse->mKartScaleFactorTimesBase.z == scale.z)
+            ? 1
+            : 0;
+    if (scaleUnchanged == 0) {
+        itemInUse->mKartScaleFactorTimesBase = scale;
+        return TRUE;
     }
-    return 0;
+    return FALSE;
 }
 
-// non-matching: the first parameter is allocated r5 and the function pointer at
-// 0x18 of data_0217bc48 r10; the original has them in r10 and r6. The stack is
-// 8 bytes instead of 4.
-void func_020ee2e4(Unk020eda5c *a, Unk020f40dc *b) {
-    s32 k;
-    s32 t;
-    void (*f1)(void *);
-    void (*f2)(void *, void *);
-    s32 s;
-    s32 n;
+void StartItemInUse(ItemInUse *itemInUse, HeldItem *heldItem) {
+    void (*startFunc)(void *);
+    s32 useKind;
+    s32 itemInfoIndex;
+    void (*useHook)(void *, void *);
+    BOOL isMode5;
+    ItemObject **objects;
+    s32 objectCount;
+    ItemObject *object;
     s32 i;
-    Unk020f41c4_A *q;
+    u16 *kartModelHalfwords;
+    s32 poolIndex;
 
-    k = b->mUnk_00;
-    s = data_021759c0->mUnk_08 == 5;
-    t = data_0217bc48[k].mUnk_14;
-    if (b->mUnk_0c != 0) {
-        if (b->mUnk_10 > b->mUnk_12) {
+    itemInfoIndex = heldItem->mItemInfoIndex;
+    useKind = gItemInfos[itemInfoIndex].mUseKind;
+    isMode5 = gRaceSetup->mMode == 5;
+    if (heldItem->mUnk_0c != 0) {
+        if (heldItem->mTimer > heldItem->mUnk_12) {
             return;
         }
     }
-    f1 = data_0216c634[t];
-    f2 = data_0217bc48[k].mUnk_18;
-    if (!s) {
-        func_020be8e4(a->mUnk_028, k, b->mUnk_08);
+    startFunc = gItemInUseStartTable[useKind];
+    useHook = gItemInfos[itemInfoIndex].mUseHook;
+    if (!isMode5) {
+        StartRaceRankListItemInUse(itemInUse->mKartIndex, itemInfoIndex, heldItem->mObjectCount);
     }
-    if (t == 0) {
-        if (f1 != 0) {
-            f1(a);
+    if (useKind == ITEM_USE_KIND_HOOK_ONLY) {
+        if (startFunc != NULL) {
+            startFunc(itemInUse);
         }
-        if (f2 != 0) {
-            f2(a, b);
+        if (useHook != NULL) {
+            useHook(itemInUse, heldItem);
         }
-        func_02071894(a->mUnk_010);
+        func_02071894(itemInUse->mKart);
         return;
     }
-    a->mUnk_000 = data_0217bc48[k].mUnk_08;
-    a->mUnk_020 = data_0217bc48[k].mUnk_0c;
-    a->mUnk_008 = t;
-    a->mUnk_004 = k;
-    a->mUnk_170 = 0;
-    a->mUnk_0e8 = data_0217bc48[k].mUnk_08 == 8 ? 0xb400 : 0x4333;
-    func_020f1048(&data_027e00cc[a->mUnk_000], a->mUnk_020, a->mUnk_014, a->mUnk_010->mUnk_74, &a->mUnk_050);
-    func_020ee528(a);
-    if (f1 != 0) {
-        f1(a);
+    itemInUse->mObjectKind = gItemInfos[itemInfoIndex].mObjectKind;
+    itemInUse->mObjectCount = gItemInfos[itemInfoIndex].mObjectCount;
+    itemInUse->mUseKind = useKind;
+    itemInUse->mItemInfoIndex = itemInfoIndex;
+    itemInUse->mUnk_170 = NULL;
+    itemInUse->mUnk_0e8 = gItemInfos[itemInfoIndex].mObjectKind == 8 ? 0xb400 : 0x4333;
+    poolIndex = *(vs32 *) &itemInUse->mObjectKind;
+    TakeItemPoolObjects(&gItemPools[poolIndex], itemInUse->mObjectCount, itemInUse->mObjects, itemInUse->mKart->mIndex,
+                        &itemInUse->mKartDrawMatrixPos);
+    CopyKartToItemInUse(itemInUse);
+    if (startFunc != NULL) {
+        startFunc(itemInUse);
     }
-    if (f2 != 0) {
-        f2(a, b);
+    if (useHook != NULL) {
+        useHook(itemInUse, heldItem);
     }
-    func_0206c11c(a->mUnk_010);
-    func_020f4718(b);
-    if (a->mUnk_170 != 0) {
-        func_020f81b8((u32) a->mUnk_00c, a->mUnk_004);
+    SetupKartAiItemInUseEntry(itemInUse->mKart);
+    ResetHeldItem(heldItem);
+    if (itemInUse->mUnk_170 != NULL) {
+        SetActiveItem(itemInUse->mKartItems, itemInUse->mItemInfoIndex);
     }
-    n = a->mUnk_020;
-    for (i = 0; i < n; i++) {
-        q = a->mUnk_014[i];
-        q->mUnk_11c = 0;
-        q->mUnk_0e4 = q->mUnk_50;
-        q->mUnk_5c = a->mUnk_05c;
-        func_020f9f08(q, a->mUnk_084.x, a->mUnk_084.y);
-        q->mUnk_90 = &((Unk0206bcb0_590 *) a->mUnk_010->mUnk_590)->mUnk_040;
-        q->mUnk_74 |= 0x1000;
+    objects = itemInUse->mObjects;
+    kartModelHalfwords = &itemInUse->mKart->mKartModelsEntry->mUnk_040;
+    objectCount = itemInUse->mObjectCount;
+    for (i = 0; i < objectCount; i++) {
+        object = objects[i];
+        object->mAgeFrames = 0;
+        object->mPrevPos = object->mPos;
+        object->mVelocity = itemInUse->mKartVelocity;
+        SetItemObjectScaleByRatios(object, itemInUse->mKartScaleFactorTimesBase.x,
+                                   itemInUse->mKartScaleFactorTimesBase.y);
+        object->mUnk_90 = kartModelHalfwords;
+        object->mFlags |= 0x1000;
     }
 }
 
-s32 func_020ee284(Unk020f41c4_A *p, Vec3 *v, s32 d) {
-    s32 x;
-    s32 y;
-    s32 z;
-    s32 t;
+BOOL IsItemObjectNearPoint(ItemObject *object, Vec3 *point, s32 radius) {
+    s32 deltaX;
+    s32 deltaY;
+    s32 deltaZ;
+    s32 combinedRadius;
 
-    t = d + p->mUnk_e0;
-    x = p->mUnk_50.x - v->x;
-    y = p->mUnk_50.y - v->y;
-    z = p->mUnk_50.z - v->z;
-    return (s64) x * x + (s64) y * y + (s64) z * z < (s64) t * t;
+    combinedRadius = radius + object->mRadius;
+    deltaX = object->mPos.x - point->x;
+    deltaY = object->mPos.y - point->y;
+    deltaZ = object->mPos.z - point->z;
+    return (s64) deltaX * deltaX + (s64) deltaY * deltaY + (s64) deltaZ * deltaZ <
+           (s64) combinedRadius * combinedRadius;
 }
 
-void func_020ee160(Unk020f41c4_A *a, Unk020f41c4_A *b) {
-    Vec3 v;
+void CollideItemObjects(ItemObject *object, ItemObject *other) {
+    Vec3 savedVelocity;
     s32 n;
     s32 m;
 
-    if ((b->mUnk_74 & 0x1000) != 0) {
-        if (a->mUnk_48 > b->mUnk_48) {
+    if ((other->mFlags & 0x1000) != 0) {
+        if (object->mUnk_48 > other->mUnk_48) {
             return;
         }
     }
-    if (func_020ee284(a, &b->mUnk_50, b->mUnk_e0) == 0) {
-        if (func_020ee284(a, &b->mUnk_0e4, b->mUnk_e0) == 0) {
+    if (IsItemObjectNearPoint(object, &other->mPos, other->mRadius) == FALSE) {
+        if (IsItemObjectNearPoint(object, &other->mPrevPos, other->mRadius) == FALSE) {
             return;
         }
-        if (func_020ee284(b, &a->mUnk_0e4, a->mUnk_e0) == 0) {
+        if (IsItemObjectNearPoint(other, &object->mPrevPos, object->mRadius) == FALSE) {
             return;
         }
     }
-    v = a->mUnk_5c;
-    n = func_020f7ea8(a, b);
-    m = func_020f7ea8(b, a);
-    func_020f77f8(a, n, &b->mUnk_50, &b->mUnk_5c, 0);
-    func_020f77f8(b, m, &a->mUnk_50, &v, 0);
-    if (b->mUnk_44 != 1) {
+    savedVelocity = object->mVelocity;
+    n = GetItemObjectHitType(object, other);
+    m = GetItemObjectHitType(other, object);
+    func_020f77f8(object, n, &other->mPos, &other->mVelocity, NULL);
+    func_020f77f8(other, m, &object->mPos, &savedVelocity, NULL);
+    if (other->mKind != 1) {
         return;
     }
-    func_020f5614(b, m, a);
+    func_020f5614(other, m, object);
 }
 
-void func_020edf10(Unk020eda5c *p) {
-    Unk020f41c4_A **d;
-    s32 n;
-    Unk020f41c4_A *q;
+void UpdateItemInUseObjects(ItemInUse *itemInUse) {
+    ItemObject **objects;
+    s32 objectCount;
+    ItemObject *object;
     s32 i;
     s32 a;
     s32 b;
     s32 j;
     enum { K0 } idx;
 
-    d = p->mUnk_014;
-    n = p->mUnk_020;
-    a = func_0206c0a8(p->mUnk_010);
-    b = func_0206c094(p->mUnk_010);
-    for (i = 0; i < n; i++) {
-        q = d[i];
-        q->mUnk_11c = q->mUnk_11c + 1;
-        func_021484d0(&q->mUnk_50, &q->mUnk_0e4, &q->mUnk_5c);
-        q->mUnk_0e4 = q->mUnk_50;
-        if (p->mUnk_024 == 0) {
-            q->mUnk_f0 = p->mUnk_02c.mUnk_0c;
-            if (q->mUnk_f0.y < 0xff4) {
-                q->mUnk_74 |= 0x80;
+    objects = itemInUse->mObjects;
+    objectCount = itemInUse->mObjectCount;
+    a = func_0206c0a8(itemInUse->mKart);
+    b = func_0206c094(itemInUse->mKart);
+    for (i = 0; i < objectCount; i++) {
+        object = objects[i];
+        object->mAgeFrames = object->mAgeFrames + 1;
+        VEC_Subtract(&object->mPos, &object->mPrevPos, &object->mVelocity);
+        object->mPrevPos = object->mPos;
+        if (itemInUse->mObjectStartFramesLeft == 0) {
+            object->mNormal = itemInUse->mKartOrientation.mUnk_0c;
+            if (object->mNormal.y < 0xff4) {
+                object->mFlags |= 0x80;
             }
         }
         if (a != 0) {
-            q->mUnk_74 |= 0x40000;
+            object->mFlags |= 0x40000;
         } else {
-            q->mUnk_74 &= ~0x40000;
+            object->mFlags &= ~0x40000;
         }
         if (b != 0) {
-            q->mUnk_74 |= 0x10000;
+            object->mFlags |= 0x10000;
         } else {
-            q->mUnk_74 &= ~0x10000;
+            object->mFlags &= ~0x10000;
         }
     }
-    for (j = n - 1; j >= 0; j--) {
-        q = d[j];
-        if (q->mUnk_da == -1) {
-            if (func_020f91e0(q) != 0) {
-                idx = q->mUnk_44;
-                if (data_0217bc34[idx].mUnk_68 != 0) {
-                    func_020f9ca8(q);
+    for (j = objectCount - 1; j >= 0; j--) {
+        object = objects[j];
+        if (object->mCollisionSlotIndex == -1) {
+            if (func_020f91e0(object) != FALSE) {
+                idx = object->mKind;
+                if (gItemKinds[idx].mUnk_68 != 0) {
+                    CreateItemObjectCollisionSlot(object);
                 }
             }
             continue;
         }
-        func_01ffd900(q->mUnk_da, 0x6000);
-        for (i = 0; i < data_0217b5a8; i++) {
-            if ((data_0217b5bc[i] & 0x4000) != 0) {
-                Unk020f41c4_A *e = data_0217b5c4[i];
-                if (e->mUnk_da == -1) {
+        FindCollisionSlotsOverlappingSlot(object->mCollisionSlotIndex, 0x6000);
+        for (i = 0; i < gFoundCollisionSlotCount; i++) {
+            if ((gFoundCollisionSlotFlags[i] & 0x4000) != 0) {
+                ItemObject *other = gFoundCollisionSlotObjects[i];
+                if (other->mCollisionSlotIndex == -1) {
                     continue;
                 }
-                if ((e->mUnk_78 & 0x4000) != 0 && p->mUnk_028 == (u16) (e->mUnk_78 & ~0xff00)) {
+                if ((other->mUnk_78 & 0x4000) != 0 && itemInUse->mKartIndex == (u16) (other->mUnk_78 & ~0xff00)) {
                     continue;
                 }
-                func_020ee160(q, e);
-            } else if ((data_0217b5bc[i] & 0x2000) != 0) {
-                Unk020e71a0 *e = data_0217b5c4[i];
-                if (func_020d2234(e, q) == 0) {
+                CollideItemObjects(object, other);
+            } else if ((gFoundCollisionSlotFlags[i] & 0x2000) != 0) {
+                MapObject *other = gFoundCollisionSlotObjects[i];
+                if (func_020d2234(other, object) == FALSE) {
                     continue;
                 }
-                func_020f944c(q, e);
+                func_020f944c(object, other);
             }
-            if (q->mUnk_da == -1) {
+            if (object->mCollisionSlotIndex == -1) {
                 break;
             }
         }
     }
 }
 
-void func_020eddb4(Unk020eda5c *p) {
-    s32 id;
-    s32 n;
-    s32 m;
-    Unk020f41c4_A *q;
-    Unk0206bcb0 *o;
-    enum { K0 } k;
+void AdvanceItemInUse(ItemInUse *itemInUse) {
+    s32 useKind;
+    s32 objectIndex;
+    s32 objectCount;
+    ItemObject *object;
+    Kart *kart;
+    enum { K0 } kind;
 
-    id = p->mUnk_008;
-    if (func_020ee528(p) != 0) {
-        m = p->mUnk_020;
-        for (n = 0; n < m; n++) {
-            func_020f9f08(p->mUnk_014[n], p->mUnk_084.x, p->mUnk_084.y);
+    useKind = itemInUse->mUseKind;
+    if (CopyKartToItemInUse(itemInUse) != FALSE) {
+        objectCount = itemInUse->mObjectCount;
+        for (objectIndex = 0; objectIndex < objectCount; objectIndex++) {
+            SetItemObjectScaleByRatios(itemInUse->mObjects[objectIndex], itemInUse->mKartScaleFactorTimesBase.x,
+                                       itemInUse->mKartScaleFactorTimesBase.y);
         }
     }
-    if (data_0216c620[id] != 0) {
-        data_0216c620[id](p);
+    if (gItemInUseAdvanceTable[useKind] != NULL) {
+        gItemInUseAdvanceTable[useKind](itemInUse);
     }
-    func_020edf10(p);
-    if (p->mUnk_020 == 0) {
-        func_020ee6a8(p);
+    UpdateItemInUseObjects(itemInUse);
+    if (itemInUse->mObjectCount == 0) {
+        ResetItemInUse(itemInUse);
     }
-    if (p->mUnk_024 <= 0) {
+    if (itemInUse->mObjectStartFramesLeft <= 0) {
         return;
     }
-    p->mUnk_024 = p->mUnk_024 - 1;
-    if (p->mUnk_024 != 8 && p->mUnk_024 != 4 && p->mUnk_024 != 0) {
+    itemInUse->mObjectStartFramesLeft = itemInUse->mObjectStartFramesLeft - 1;
+    if (itemInUse->mObjectStartFramesLeft != 8 && itemInUse->mObjectStartFramesLeft != 4 &&
+        itemInUse->mObjectStartFramesLeft != 0) {
         return;
     }
-    p->mUnk_020 = p->mUnk_020 - 1;
-    n = p->mUnk_020;
-    o = p->mUnk_010;
-    q = p->mUnk_014[n];
-    func_020efb84(p, q);
-    func_020f6630(q, n + 1, &o->mUnk_98, &o->mUnk_a4, &o->mUnk_244);
-    k = q->mUnk_44;
-    if (data_0217bc34[k].mUnk_38 != 0) {
-        data_0217bc34[k].mUnk_38(q);
+    itemInUse->mObjectCount = itemInUse->mObjectCount - 1;
+    objectIndex = itemInUse->mObjectCount;
+    kart = itemInUse->mKart;
+    object = itemInUse->mObjects[objectIndex];
+    StartItemInUseObject(itemInUse, object);
+    func_020f6630(object, objectIndex + 1, &kart->mDrawMatrixPos, &kart->mVelocity, &kart->mGroundNormal);
+    kind = object->mKind;
+    if (gItemKinds[kind].mUnk_38 != NULL) {
+        gItemKinds[kind].mUnk_38(object);
     }
-    if (p->mUnk_020 != 0) {
+    if (itemInUse->mObjectCount != 0) {
         return;
     }
-    func_020ee6a8(p);
+    ResetItemInUse(itemInUse);
 }
 
-s32 func_020edc9c(Unk020eda5c *p, s32 a, s32 b, s32 c, Vec3 *d) {
-    Vec3 v;
-    s32 n;
-    s32 r;
+s32 ComputeItemThrowForward(ItemInUse *itemInUse, s32 baseSpeed, s32 speedFactor, s32 forwardWeight,
+                            Vec3 *outDirection) {
+    Vec3 throwDirection;
+    s32 kartMoveLength;
+    s32 speed;
 
-    n = func_021482cc(&p->mUnk_06c);
-    if (p->mUnk_080 != 0) {
-        r = a + (s32) (((s64) n * b) >> 12);
-        func_02147fd8(c, &p->mUnk_02c.mUnk_18, &p->mUnk_06c, &v);
+    kartMoveLength = VEC_Mag(&itemInUse->mKartMovement);
+    if (itemInUse->mMovingForward != 0) {
+        speed = baseSpeed + (s32) (((s64) kartMoveLength * speedFactor) >> 12);
+        VEC_MultAdd(forwardWeight, &itemInUse->mKartOrientation.mUnk_18, &itemInUse->mKartMovement, &throwDirection);
     } else {
-        Vec3 *t;
+        Vec3 *kartVector;
 
-        t = &p->mUnk_010->mUnk_1fc;
-        if ((s64) t->x * t->x + (s64) t->y * t->y + (s64) t->z * t->z >= 0x10) {
-            r = a + (s32) (((s64) n * b) >> 12);
-            func_02147fd8(c, &p->mUnk_02c.mUnk_18, t, &v);
+        kartVector = &itemInUse->mKart->mUnk_1fc;
+        if ((s64) kartVector->x * kartVector->x + (s64) kartVector->y * kartVector->y +
+                (s64) kartVector->z * kartVector->z >=
+            0x10) {
+            speed = baseSpeed + (s32) (((s64) kartMoveLength * speedFactor) >> 12);
+            VEC_MultAdd(forwardWeight, &itemInUse->mKartOrientation.mUnk_18, kartVector, &throwDirection);
         } else {
-            r = a - n;
-            v = p->mUnk_02c.mUnk_18;
+            speed = baseSpeed - kartMoveLength;
+            throwDirection = itemInUse->mKartOrientation.mUnk_18;
         }
     }
-    if ((p->mUnk_010->mUnk_48 & 1) == 0) {
-        v.y = 0;
+    if ((itemInUse->mKart->mUnk_48 & 1) == 0) {
+        throwDirection.y = 0;
     }
-    if ((s64) v.x * v.x + (s64) v.y * v.y + (s64) v.z * v.z >= 0x10) {
-        func_02039860(&v, d);
+    if ((s64) throwDirection.x * throwDirection.x + (s64) throwDirection.y * throwDirection.y +
+            (s64) throwDirection.z * throwDirection.z >=
+        0x10) {
+        Vec3NormalizeAndGetLengthUnchecked(&throwDirection, outDirection);
     }
-    return r;
+    return speed;
 }
 
-s32 func_020edb8c(Unk020eda5c *p, s32 a, s32 b, s32 c, Vec3 *d) {
-    Vec3 v;
-    s32 n;
+s32 ComputeItemThrowBackward(ItemInUse *itemInUse, s32 speed, s32 speedFactor, s32 forwardWeight, Vec3 *outDirection) {
+    Vec3 throwDirection;
+    s32 kartMoveLength;
 
-    n = func_021482cc(&p->mUnk_06c);
-    if (p->mUnk_080 != 0) {
-        a -= n;
-        func_021484d0(&p->mUnk_06c, &p->mUnk_010->mUnk_1fc, &v);
-        func_02147fd8(c, &p->mUnk_02c.mUnk_18, &v, &v);
-        v.x = -v.x;
-        v.y = -v.y;
-        v.z = -v.z;
+    kartMoveLength = VEC_Mag(&itemInUse->mKartMovement);
+    if (itemInUse->mMovingForward != 0) {
+        speed -= kartMoveLength;
+        VEC_Subtract(&itemInUse->mKartMovement, &itemInUse->mKart->mUnk_1fc, &throwDirection);
+        VEC_MultAdd(forwardWeight, &itemInUse->mKartOrientation.mUnk_18, &throwDirection, &throwDirection);
+        throwDirection.x = -throwDirection.x;
+        throwDirection.y = -throwDirection.y;
+        throwDirection.z = -throwDirection.z;
     } else {
-        a += (s32) (((s64) n * b) >> 12);
-        v.x = -p->mUnk_02c.mUnk_18.x;
-        v.y = -p->mUnk_02c.mUnk_18.y;
-        v.z = -p->mUnk_02c.mUnk_18.z;
+        speed += (s32) (((s64) kartMoveLength * speedFactor) >> 12);
+        throwDirection.x = -itemInUse->mKartOrientation.mUnk_18.x;
+        throwDirection.y = -itemInUse->mKartOrientation.mUnk_18.y;
+        throwDirection.z = -itemInUse->mKartOrientation.mUnk_18.z;
     }
-    if ((p->mUnk_010->mUnk_48 & 1) == 0) {
-        v.y = 0;
+    if ((itemInUse->mKart->mUnk_48 & 1) == 0) {
+        throwDirection.y = 0;
     }
-    if ((s64) v.x * v.x + (s64) v.y * v.y + (s64) v.z * v.z >= 0x10) {
-        func_02039860(&v, d);
+    if ((s64) throwDirection.x * throwDirection.x + (s64) throwDirection.y * throwDirection.y +
+            (s64) throwDirection.z * throwDirection.z >=
+        0x10) {
+        Vec3NormalizeAndGetLengthUnchecked(&throwDirection, outDirection);
     }
-    return a;
+    return speed;
 }
 
-void func_020edb00(Unk020eda5c *p) {
-    while (p->mUnk_020 > 0) {
-        p->mUnk_020--;
-        func_020f0f70(&data_027e00cc[p->mUnk_014[p->mUnk_020]->mUnk_44], p->mUnk_014[p->mUnk_020]);
+void ReleaseItemInUse(ItemInUse *itemInUse) {
+    while (itemInUse->mObjectCount > 0) {
+        itemInUse->mObjectCount--;
+        ReleaseItemPoolObject(&gItemPools[itemInUse->mObjects[itemInUse->mObjectCount]->mKind],
+                              itemInUse->mObjects[itemInUse->mObjectCount]);
     }
-    func_020ee6a8(p);
-    if (p->mUnk_170 != 0) {
-        p->mUnk_00c->mUnk_014 = 0x13;
-        p->mUnk_170 = 0;
-    }
-}
-
-void func_020edad8(Unk020eda5c *p) {
-    p->mUnk_024 = 0xa;
-    if (p->mUnk_170 != 0) {
-        p->mUnk_00c->mUnk_014 = 0x13;
-        p->mUnk_170 = 0;
+    ResetItemInUse(itemInUse);
+    if (itemInUse->mUnk_170 != NULL) {
+        itemInUse->mKartItems->mActiveItem = 0x13;
+        itemInUse->mUnk_170 = NULL;
     }
 }
 
-// non-matching: the original copies the second parameter to r2 and uses r1 as the
-// loop counter; the compiled code keeps the parameter in r1 and the counter in r2
-// (0x78 bytes against 0x7c).
-void func_020eda5c(Unk020eda5c *p, Unk020f41c4_A *q) {
-    s32 n;
-    Unk020f41c4_A *e;
+void StartItemInUseObjectCountdown(ItemInUse *itemInUse) {
+    itemInUse->mObjectStartFramesLeft = 0xa;
+    if (itemInUse->mUnk_170 != NULL) {
+        itemInUse->mKartItems->mActiveItem = 0x13;
+        itemInUse->mUnk_170 = NULL;
+    }
+}
+
+void RemoveItemInUseObject(ItemInUse *itemInUse, ItemObject *object) {
+    s32 objectCount;
+    ItemObject *target;
     s32 i;
 
-    e = q;
-    n = p->mUnk_020;
-    for (i = 0; i < n; i++) {
-        if (p->mUnk_014[i] == e) {
-            ((void (*)(void *))((void **) data_0216c60c)[p->mUnk_008])(p);
-            if (p->mUnk_020 != 0) {
+    target = object;
+    objectCount = itemInUse->mObjectCount;
+    for (i = 0; i < objectCount; i++) {
+        if (itemInUse->mObjects[i] == target) {
+            ((void (*)(void *, s32, ItemObject *))((void **) gItemInUseRemoveTable)[itemInUse->mUseKind])(itemInUse, i,
+                                                                                                          target);
+            if (itemInUse->mObjectCount != 0) {
                 return;
             }
-            func_020ee6a8(p);
+            ResetItemInUse(itemInUse);
             return;
         }
     }
 }
 
-void *func_020ed98c(Unk020f41c4_A *p, Vec3 *v) {
-    if (p->mUnk_f0.y < 0xfae || (p->mUnk_74 & 0x80) != 0) {
-        p->mUnk_94.mUnk_18 = *v;
-        func_020397a8(&p->mUnk_f0, &p->mUnk_94.mUnk_18, &p->mUnk_94.mUnk_00);
-        if ((s64) p->mUnk_94.mUnk_00.x * p->mUnk_94.mUnk_00.x + (s64) p->mUnk_94.mUnk_00.y * p->mUnk_94.mUnk_00.y +
-                (s64) p->mUnk_94.mUnk_00.z * p->mUnk_94.mUnk_00.z >=
+void *BuildItemObjectMatrix(ItemObject *object, Vec3 *viewAxis) {
+    if (object->mNormal.y < 0xfae || (object->mFlags & 0x80) != 0) {
+        object->mUnk_94.mUnk_00[2] = *viewAxis;
+        Vec3CrossUnrounded(&object->mNormal, &object->mUnk_94.mUnk_00[2], &object->mUnk_94.mUnk_00[0]);
+        if ((s64) object->mUnk_94.mUnk_00[0].x * object->mUnk_94.mUnk_00[0].x +
+                (s64) object->mUnk_94.mUnk_00[0].y * object->mUnk_94.mUnk_00[0].y +
+                (s64) object->mUnk_94.mUnk_00[0].z * object->mUnk_94.mUnk_00[0].z >=
             0x10) {
-            func_02039860(&p->mUnk_94.mUnk_00, &p->mUnk_94.mUnk_00);
+            Vec3NormalizeAndGetLengthUnchecked(&object->mUnk_94.mUnk_00[0], &object->mUnk_94.mUnk_00[0]);
         }
-        func_020397a8(&p->mUnk_94.mUnk_18, &p->mUnk_94.mUnk_00, &p->mUnk_94.mUnk_0c);
+        Vec3CrossUnrounded(&object->mUnk_94.mUnk_00[2], &object->mUnk_94.mUnk_00[0], &object->mUnk_94.mUnk_00[1]);
         {
-            Vec3 *d0;
+            Vec3 *position;
 
-            d0 = p->mUnk_d0;
-            p->mUnk_94.mUnk_24.x = d0->x >> 4;
-            p->mUnk_94.mUnk_24.y = d0->y >> 4;
-            p->mUnk_94.mUnk_24.z = d0->z >> 4;
+            position = object->mUnk_d0;
+            object->mUnk_94.mUnk_00[3].x = position->x >> 4;
+            object->mUnk_94.mUnk_00[3].y = position->y >> 4;
+            object->mUnk_94.mUnk_00[3].z = position->z >> 4;
         }
-        return &p->mUnk_94.mUnk_00;
+        return &object->mUnk_94.mUnk_00[0];
     } else {
-        return func_020e6b94(p->mUnk_d0);
+        return func_020e6b94(object->mUnk_d0);
     }
 }
 
-void func_020ed79c(Unk020ed718 *p, Vec3 *v) {
+void DrawItemPoolModels(ItemPool *pool, Vec3 *viewAxis) {
     s16 d8;
     s32 i;
-    Unk020e6488 *d;
-    s32 n;
-    s32 sel;
-    Unk020f41c4_A *q;
-    void *r;
+    NsbmdModel *model;
+    s32 takenCount;
+    s32 activeCount;
+    ItemObject *object;
+    void *matrix;
 
-    d = data_0217bbfc[p->mUnk_000];
-    n = p->mUnk_010;
-    sel = p->mUnk_014;
-    func_020e6a18(d);
-    d->mUnk_14 &= ~0x3f000000;
-    d->mUnk_14 |= 0x4000000;
-    for (i = 0; i < n; i++) {
-        q = p->mUnk_004[i];
-        if ((q->mUnk_74 & 0x10000) != 0) {
+    model = gItemModels[pool->mKind];
+    takenCount = pool->mTakenCount;
+    activeCount = pool->mActiveCount;
+    func_020e6a18(model);
+    model->mUnk_14 &= ~0x3f000000;
+    model->mUnk_14 |= 0x4000000;
+    for (i = 0; i < takenCount; i++) {
+        object = pool->mObjects[i];
+        if ((object->mFlags & 0x10000) != 0) {
             continue;
         }
-        if ((q->mUnk_74 & 0x1000) != 0) {
-            func_0208ab4c(q->mUnk_90);
+        if ((object->mFlags & 0x1000) != 0) {
+            func_0208ab4c(object->mUnk_90);
         } else {
-            func_0208ab4c(q->mUnk_7c.mUnk_00);
+            func_0208ab4c(&object->mColorBlend.mColor);
         }
-        if ((d8 = q->mUnk_d8) != 0x1f) {
-            d->mUnk_14 &= ~0x1f0000;
-            d->mUnk_14 |= (u32) (u16) d8 << 16;
+        if ((d8 = object->mAlpha) != 0x1f) {
+            model->mUnk_14 &= ~0x1f0000;
+            model->mUnk_14 |= (u16) d8 << 16;
         }
-        if (i == sel) {
-            d->mUnk_14 &= ~0x3f000000;
-            d->mUnk_14 |= 0x3000000;
+        if (i == activeCount) {
+            model->mUnk_14 &= ~0x3f000000;
+            model->mUnk_14 |= 0x3000000;
         }
-        if (q->mUnk_f0.y < 0xfae || (q->mUnk_74 & 0x80) != 0) {
-            q->mUnk_94.mUnk_18 = *v;
-            func_020397a8(&q->mUnk_f0, &q->mUnk_94.mUnk_18, &q->mUnk_94.mUnk_00);
-            if ((s64) q->mUnk_94.mUnk_00.x * q->mUnk_94.mUnk_00.x + (s64) q->mUnk_94.mUnk_00.y * q->mUnk_94.mUnk_00.y +
-                    (s64) q->mUnk_94.mUnk_00.z * q->mUnk_94.mUnk_00.z >=
+        if (object->mNormal.y < 0xfae || (object->mFlags & 0x80) != 0) {
+            object->mUnk_94.mUnk_00[2] = *viewAxis;
+            Vec3CrossUnrounded(&object->mNormal, &object->mUnk_94.mUnk_00[2], &object->mUnk_94.mUnk_00[0]);
+            if ((s64) object->mUnk_94.mUnk_00[0].x * object->mUnk_94.mUnk_00[0].x +
+                    (s64) object->mUnk_94.mUnk_00[0].y * object->mUnk_94.mUnk_00[0].y +
+                    (s64) object->mUnk_94.mUnk_00[0].z * object->mUnk_94.mUnk_00[0].z >=
                 0x10) {
-                func_02039860(&q->mUnk_94.mUnk_00, &q->mUnk_94.mUnk_00);
+                Vec3NormalizeAndGetLengthUnchecked(&object->mUnk_94.mUnk_00[0], &object->mUnk_94.mUnk_00[0]);
             }
-            func_020397a8(&q->mUnk_94.mUnk_18, &q->mUnk_94.mUnk_00, &q->mUnk_94.mUnk_0c);
+            Vec3CrossUnrounded(&object->mUnk_94.mUnk_00[2], &object->mUnk_94.mUnk_00[0], &object->mUnk_94.mUnk_00[1]);
             {
-                Vec3 *d0;
+                Vec3 *position;
 
-                d0 = q->mUnk_d0;
-                q->mUnk_94.mUnk_24.x = d0->x >> 4;
-                q->mUnk_94.mUnk_24.y = d0->y >> 4;
-                q->mUnk_94.mUnk_24.z = d0->z >> 4;
+                position = object->mUnk_d0;
+                object->mUnk_94.mUnk_00[3].x = position->x >> 4;
+                object->mUnk_94.mUnk_00[3].y = position->y >> 4;
+                object->mUnk_94.mUnk_00[3].z = position->z >> 4;
             }
-            r = &q->mUnk_94.mUnk_00;
+            matrix = &object->mUnk_94.mUnk_00[0];
         } else {
-            r = func_020e6b94(q->mUnk_d0);
+            matrix = func_020e6b94(object->mUnk_d0);
         }
-        func_020e67c4(d, r, &q->mUnk_68, 0, 0x1f);
-        if ((d8 = q->mUnk_d8) != 0x1f) {
-            d->mUnk_14 &= ~0x1f0000;
-            d->mUnk_14 |= 0x1f0000;
+        func_020e67c4(model, matrix, &object->mScale, 0, 0x1f);
+        if ((d8 = object->mAlpha) != 0x1f) {
+            model->mUnk_14 &= ~0x1f0000;
+            model->mUnk_14 |= 0x1f0000;
         }
     }
 }
 
-void func_020ed718(Unk020ed718 *p, void *a, void (*cb)(void *, void *, void *)) {
-    s32 n;
+void DrawItemPoolWithCallback(ItemPool *pool, void *callbackArg, void (*drawCallback)(void *, void *, void *)) {
+    s32 takenCount;
     s32 i;
-    Unk020f41c4_A *q;
+    ItemObject *object;
 
-    n = p->mUnk_010;
-    for (i = 0; i < n; i++) {
-        q = p->mUnk_004[i];
-        if ((q->mUnk_74 & 0x10000) != 0) {
+    takenCount = pool->mTakenCount;
+    for (i = 0; i < takenCount; i++) {
+        object = pool->mObjects[i];
+        if ((object->mFlags & 0x10000) != 0) {
             continue;
         }
-        if ((q->mUnk_74 & 0x1000) != 0) {
-            func_0208ab4c(q->mUnk_90);
+        if ((object->mFlags & 0x1000) != 0) {
+            func_0208ab4c(object->mUnk_90);
         } else {
-            func_0208ab4c(q->mUnk_7c.mUnk_00);
+            func_0208ab4c(&object->mColorBlend.mColor);
         }
-        cb(q, a, data_0217bbfc[p->mUnk_000]);
+        drawCallback(object, callbackArg, gItemModels[pool->mKind]);
     }
 }
 
-void func_020ed5c0(Unk020f41c4_A *p, Unk020e6488 *q, Vec3 *v) {
+void DrawItemObjectModel(ItemObject *object, NsbmdModel *model, Vec3 *viewAxis) {
     s16 d;
-    void *r;
+    void *matrix;
 
-    if ((d = p->mUnk_d8) != 0x1f) {
-        q->mUnk_14 &= ~0x1f0000;
-        q->mUnk_14 |= (u32) (u16) d << 16;
+    if ((d = object->mAlpha) != 0x1f) {
+        model->mUnk_14 &= ~0x1f0000;
+        model->mUnk_14 |= (u16) d << 16;
     }
-    func_020e6a18(q);
-    if (p->mUnk_f0.y < 0xfae || (p->mUnk_74 & 0x80) != 0) {
-        p->mUnk_94.mUnk_18 = *v;
-        func_020397a8(&p->mUnk_f0, &p->mUnk_94.mUnk_18, &p->mUnk_94.mUnk_00);
-        if ((s64) p->mUnk_94.mUnk_00.x * p->mUnk_94.mUnk_00.x + (s64) p->mUnk_94.mUnk_00.y * p->mUnk_94.mUnk_00.y +
-                (s64) p->mUnk_94.mUnk_00.z * p->mUnk_94.mUnk_00.z >=
+    func_020e6a18(model);
+    if (object->mNormal.y < 0xfae || (object->mFlags & 0x80) != 0) {
+        object->mUnk_94.mUnk_00[2] = *viewAxis;
+        Vec3CrossUnrounded(&object->mNormal, &object->mUnk_94.mUnk_00[2], &object->mUnk_94.mUnk_00[0]);
+        if ((s64) object->mUnk_94.mUnk_00[0].x * object->mUnk_94.mUnk_00[0].x +
+                (s64) object->mUnk_94.mUnk_00[0].y * object->mUnk_94.mUnk_00[0].y +
+                (s64) object->mUnk_94.mUnk_00[0].z * object->mUnk_94.mUnk_00[0].z >=
             0x10) {
-            func_02039860(&p->mUnk_94.mUnk_00, &p->mUnk_94.mUnk_00);
+            Vec3NormalizeAndGetLengthUnchecked(&object->mUnk_94.mUnk_00[0], &object->mUnk_94.mUnk_00[0]);
         }
-        func_020397a8(&p->mUnk_94.mUnk_18, &p->mUnk_94.mUnk_00, &p->mUnk_94.mUnk_0c);
+        Vec3CrossUnrounded(&object->mUnk_94.mUnk_00[2], &object->mUnk_94.mUnk_00[0], &object->mUnk_94.mUnk_00[1]);
         {
-            Vec3 *d0;
+            Vec3 *position;
 
-            d0 = p->mUnk_d0;
-            p->mUnk_94.mUnk_24.x = d0->x >> 4;
-            p->mUnk_94.mUnk_24.y = d0->y >> 4;
-            p->mUnk_94.mUnk_24.z = d0->z >> 4;
+            position = object->mUnk_d0;
+            object->mUnk_94.mUnk_00[3].x = position->x >> 4;
+            object->mUnk_94.mUnk_00[3].y = position->y >> 4;
+            object->mUnk_94.mUnk_00[3].z = position->z >> 4;
         }
-        r = &p->mUnk_94.mUnk_00;
+        matrix = &object->mUnk_94.mUnk_00[0];
     } else {
-        r = func_020e6b94(p->mUnk_d0);
+        matrix = func_020e6b94(object->mUnk_d0);
     }
-    func_020e67c4(q, r, &p->mUnk_68, 0, 0x1f);
-    if ((d = p->mUnk_d8) != 0x1f) {
-        q->mUnk_14 &= ~0x1f0000;
-        q->mUnk_14 |= 0x1f0000;
+    func_020e67c4(model, matrix, &object->mScale, 0, 0x1f);
+    if ((d = object->mAlpha) != 0x1f) {
+        model->mUnk_14 &= ~0x1f0000;
+        model->mUnk_14 |= 0x1f0000;
     }
 }

@@ -1,43 +1,43 @@
 #pragma once
 
 #include "types.h"
-#include "code_0213442c.h" // Unk0213c94c
-#include "code_0212f1ac.h" // Unk0212f1f8
+#include "code_02134398.h"
+#include "output_effect.h" // CallbackInfo
 
 // Objects whose layout isn't known yet.
-extern u8 data_0216e0a8[];
-extern u8 data_0216e0ac[];
-extern u8 data_0216e0b0[];
-extern u8 data_0216e0b4[];
-extern u8 data_0216e124[];
-extern u8 data_0216e128[];
-extern u8 data_0216e12c[];
-extern u8 data_0216e130[];
-extern u8 data_0216e134[];
-extern u8 data_0216e940[];
-extern u8 data_0216e958[];
-extern u8 data_0216e970[];
-extern u8 data_0216e988[];
-extern u8 data_0216e998[];
-extern u8 data_0216e9a8[];
-extern u8 data_0216e9b8[];
-extern u8 data_0216e9d0[];
-extern u8 data_0216e9e8[];
-extern u8 data_0216e9fc[];
-extern u8 data_0216ea14[];
-extern u8 data_0216ea30[];
-extern u8 data_0216ea4c[];
-extern Unk0212f1f8 data_0216eaa4;
+extern const char *gTrophyIconNcgrName;
+extern const char *gTrophyIconNcerName;
+extern const char *gTrophyIconBnclName;
+extern const char *gTrophyIconNclrName;
+extern const char *data_0216e124;
+extern const char *data_0216e128;
+extern const char *data_0216e12c;
+extern const char *data_0216e130;
+extern const char *data_0216e134;
+extern const char data_0216e940[];
+extern const char data_0216e958[];
+extern const char data_0216e970[];
+extern const char data_0216e988[];
+extern const char data_0216e998[];
+extern const char data_0216e9a8[];
+extern const char data_0216e9b8[];
+extern const char data_0216e9d0[];
+extern const char data_0216e9e8[];
+extern const char data_0216e9fc[];
+extern const char data_0216ea14[];
+extern const char data_0216ea30[];
+extern const char data_0216ea4c[];
+extern CallbackInfo data_0216eaa4;
 
-// Walked by func_021343b0; func_02134890 compares its argument with entries 1 and 2; func_02135144 passes entry 1
-// to func_0213c94c and func_021352e0.
-extern Unk0213c94c data_0216eb7c[3];
-extern u32 data_0216eeb8;
+// Walked by FflushAll; fwrite compares its argument with entries 1 and 2; printf passes entry 1
+// to fwide and FormatWithPutFunc.
+extern FILE data_0216eb7c[3];
+extern u32 gRandValue;
 extern char data_0216e09c[];
 extern char data_0216ea60[];
 extern char data_0216ea6c[];
-extern char data_0216ea78[];
-extern char data_0216ea94[];
+extern char gEndingStaffRollB00NclrName[];
+extern char gStaffRollBmgName[];
 extern const char data_0216e708[];
 extern const char data_0216e720[];
 extern const char data_0216e738[];
@@ -51,6 +51,6 @@ extern const char data_0216e7e0[];
 extern const char data_0216e7f8[];
 extern const char data_0216e810[];
 extern const char data_0216e828[];
-extern const char data_0216e840[];
-extern const char data_0216e858[];
-extern const char data_0216e874[];
+extern const char gSelectChoisesSBNcgrName[];
+extern const char gSelectChoisesSBgNscrName[];
+extern const char gSelectChoisesSBNclrName[];

@@ -1,9 +1,10 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/unk_02175628.h"
 
-u32 func_020ace14(u32 a);
-u32 func_020ace34(Unk02175628_48 *a);
-u32 func_020ace68(Unk02175628_48 *a);
-u32 func_020ace8c(Unk02175628_48 *a);
+typedef struct InputSlotPair InputSlotPair;
+
+u32 func_020ace14(u32 slotIndex);
+u32 func_020ace34(InputSlotPair *inputSlotPair);
+u32 func_020ace68(InputSlotPair *inputSlotPair);
+u32 func_020ace8c(InputSlotPair *inputSlotPair);

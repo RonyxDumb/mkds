@@ -1,9 +1,10 @@
 #include "Main/Unknown/code_02100084.h"
+#include "Main/Unknown/code_020e6fd4.h"
 
-void **func_0210008c(Unk02100094 *p) {
-    return p->mUnk_00;
+void **GetMapObjects(MapObjectList *list) {
+    return list->mMapObjects;
 }
 
-void **func_02100084(Unk02100094 *p) {
-    return p->mUnk_00;
+void *RaceHudSubScreenGetMapObjects(MapObjectList *list) {
+    return list->mMapObjects;
 }

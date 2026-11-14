@@ -8,29 +8,30 @@
 #include "Main/Unknown/unk_021759c0.h"
 #include "Main/Unknown/code_0206bcb0.h"
 #include "Main/Unknown/code_02039860.h"
-#include "Main/Unknown/code_02047b08.h"
+#include "Main/Unknown/code_02047000.h"
+#include "Main/Unknown/unk_02164000.h"
+#include "Main/Unknown/code_02047104.h"
 #include "Main/Unknown/code_020f813c.h"
-#include "Main/Unknown/code_020f8148.h"
 #include "Main/Unknown/code_020f6be8.h"
 
 #pragma thumb on
 
-void func_020f80c0(Unk0217bc6c *param_1, s32 param_2) {
+void func_020f80c0(ItemSlotTable *table, s32 kartCount) {
     u16(*tab)[0x12];
     s32 i;
     s32 j;
-    u16 v;
-    u16 *e;
+    u16 sourceRow;
+    u16 *sourceRows;
 
-    e = (u16 *) &data_02159c3c[param_2 - 1];
-    tab = param_1->mUnk_04;
-    if (param_2 == 8) {
+    sourceRows = (u16 *) &gItemSlotRowRemaps[kartCount - 1];
+    tab = table->mRows;
+    if (kartCount == 8) {
         return;
     }
-    for (i = 0; i < param_2; i++) {
-        v = (u16) (e[i] - 1);
+    for (i = 0; i < kartCount; i++) {
+        sourceRow = sourceRows[i] - 1;
         for (j = 0; j < 0x12; j++) {
-            tab[i][j] = tab[v][j];
+            tab[i][j] = tab[sourceRow][j];
         }
     }
     for (; i < 8; i++) {
@@ -40,137 +41,137 @@ void func_020f80c0(Unk0217bc6c *param_1, s32 param_2) {
     }
 }
 
-void func_020f7ec8(void) {
-    u8 *p;
+void CreateItemSlotTables(void) {
+    u8 *data;
     enum { K0 } i;
     s32 j;
-    s32 n;
-    s32 *q;
+    s32 rowCount;
+    s32 *entry;
     enum { K1 } k;
 
-    p = (u8 *) func_02047b08((const char *) data_0216c680);
-    switch (data_021759c0->mUnk_08) {
-        case 0:
-        case 1:
-        case 4:
-            p = func_020f8148(&data_0217bc6c, p + 1);
-            p = func_020f8148(&data_0217bc64, p);
-            p = (u8 *) func_020f813c((u32) p);
-            p = (u8 *) func_020f813c((u32) p);
-            p = (u8 *) func_020f813c((u32) p);
-            p = (u8 *) func_020f813c((u32) p);
-            p = func_020f8148(&data_0217bc74, p);
+    data = FindMainRaceOrMainEffectFile(data_0216c680);
+    switch (gRaceSetup->mMode) {
+        case MODE_GRAND_PRIX:
+        case MODE_TIME_ATTACK:
+        case MODE_MISSION_RUN:
+            data = LoadItemSlotTableData(&data_0217bc6c, data + 1);
+            data = LoadItemSlotTableData(&data_0217bc64, data);
+            data = ComputeItemSlotTableDataEnd(data);
+            data = ComputeItemSlotTableDataEnd(data);
+            data = ComputeItemSlotTableDataEnd(data);
+            data = ComputeItemSlotTableDataEnd(data);
+            data = LoadItemSlotTableData(&data_0217bc74, data);
             break;
-        case 2:
-            p = (u8 *) func_020f813c((u32) (p + 1));
-            p = (u8 *) func_020f813c((u32) p);
-            p = (u8 *) func_020f813c((u32) p);
-            p = (u8 *) func_020f813c((u32) p);
-            p = (u8 *) func_020f813c((u32) p);
-            p = (u8 *) func_020f813c((u32) p);
-            p = func_020f8148(&data_0217bc74, p);
-            switch (data_021759c0->mUnk_18) {
-                case 0:
+        case MODE_BATTLE:
+            data = ComputeItemSlotTableDataEnd(data + 1);
+            data = ComputeItemSlotTableDataEnd(data);
+            data = ComputeItemSlotTableDataEnd(data);
+            data = ComputeItemSlotTableDataEnd(data);
+            data = ComputeItemSlotTableDataEnd(data);
+            data = ComputeItemSlotTableDataEnd(data);
+            data = LoadItemSlotTableData(&data_0217bc74, data);
+            switch (gRaceSetup->mBattleKind) {
+                case BATTLE_KIND_BALLOON:
                 default:
-                    p = func_020f8148(&data_0217bc6c, p);
-                    p = func_020f8148(&data_0217bc64, p);
+                    data = LoadItemSlotTableData(&data_0217bc6c, data);
+                    data = LoadItemSlotTableData(&data_0217bc64, data);
                     break;
-                case 1:
-                    p = (u8 *) func_020f813c((u32) p);
-                    p = (u8 *) func_020f813c((u32) p);
-                    p = func_020f8148(&data_0217bc6c, p);
-                    p = func_020f8148(&data_0217bc64, p);
+                case BATTLE_KIND_SHINE:
+                    data = ComputeItemSlotTableDataEnd(data);
+                    data = ComputeItemSlotTableDataEnd(data);
+                    data = LoadItemSlotTableData(&data_0217bc6c, data);
+                    data = LoadItemSlotTableData(&data_0217bc64, data);
                     break;
             }
             break;
-        case 3:
-            p = (u8 *) func_020f813c((u32) (p + 1));
-            p = (u8 *) func_020f813c((u32) p);
-            p = func_020f8148(&data_0217bc6c, p);
-            p = func_020f8148(&data_0217bc64, p);
-            p = (u8 *) func_020f813c((u32) p);
-            p = (u8 *) func_020f813c((u32) p);
-            p = func_020f8148(&data_0217bc74, p);
-            if (data_021759c0->mUnk_014 == 0) {
-                func_020f80c0(&data_0217bc6c, data_021759c0->mUnk_3d0);
-                func_020f80c0(&data_0217bc64, data_021759c0->mUnk_3d0);
+        case MODE_VS:
+            data = ComputeItemSlotTableDataEnd(data + 1);
+            data = ComputeItemSlotTableDataEnd(data);
+            data = LoadItemSlotTableData(&data_0217bc6c, data);
+            data = LoadItemSlotTableData(&data_0217bc64, data);
+            data = ComputeItemSlotTableDataEnd(data);
+            data = ComputeItemSlotTableDataEnd(data);
+            data = LoadItemSlotTableData(&data_0217bc74, data);
+            if (gRaceSetup->mCpuDifficulty == 0) {
+                func_020f80c0(&data_0217bc6c, gRaceSetup->mKartCount);
+                func_020f80c0(&data_0217bc64, gRaceSetup->mKartCount);
             }
             break;
         case 5:
-            p = (u8 *) func_020f813c((u32) (p + 1));
-            p = (u8 *) func_020f813c((u32) p);
-            p = (u8 *) func_020f813c((u32) p);
-            p = (u8 *) func_020f813c((u32) p);
-            p = func_020f8148(&data_0217bc6c, p);
-            p = func_020f8148(&data_0217bc64, p);
-            p = func_020f8148(&data_0217bc74, p);
-            if (data_021759c0->mUnk_014 == 0) {
-                func_020f80c0(&data_0217bc6c, data_021759c0->mUnk_3d0);
-                func_020f80c0(&data_0217bc64, data_021759c0->mUnk_3d0);
+            data = ComputeItemSlotTableDataEnd(data + 1);
+            data = ComputeItemSlotTableDataEnd(data);
+            data = ComputeItemSlotTableDataEnd(data);
+            data = ComputeItemSlotTableDataEnd(data);
+            data = LoadItemSlotTableData(&data_0217bc6c, data);
+            data = LoadItemSlotTableData(&data_0217bc64, data);
+            data = LoadItemSlotTableData(&data_0217bc74, data);
+            if (gRaceSetup->mCpuDifficulty == 0) {
+                func_020f80c0(&data_0217bc6c, gRaceSetup->mKartCount);
+                func_020f80c0(&data_0217bc64, gRaceSetup->mKartCount);
             }
             break;
     }
-    n = data_0217bc6c.mUnk_00;
+    rowCount = data_0217bc6c.mRowCount;
     for (i = 0; i < 0x12; i++) {
-        data_0217bce8[i] = 0x12;
-        for (j = 0; j < n; j++) {
-            if (data_0217bc6c.mUnk_04[j][i] != 0 || data_0217bc64.mUnk_04[j][i] != 0) {
-                data_0217bce8[i] = i;
+        gItemSlotPossibleItems[i] = 0x12;
+        for (j = 0; j < rowCount; j++) {
+            if (data_0217bc6c.mRows[j][i] != 0 || data_0217bc64.mRows[j][i] != 0) {
+                gItemSlotPossibleItems[i] = i;
             }
         }
     }
-    data_0217bc54 = 0;
+    gItemSlotPossibleItemCount = 0;
     for (k = 0; k < 0x12; k++) {
-        q = &data_0217bce8[k];
-        if (data_0217bce8[k] != 0x12) {
-            data_0217bce8[data_0217bc54++] = *q;
+        entry = &gItemSlotPossibleItems[k];
+        if (gItemSlotPossibleItems[k] != 0x12) {
+            gItemSlotPossibleItems[gItemSlotPossibleItemCount++] = *entry;
         }
     }
-    data_0217bc50 = 0;
+    gItemSlotSpinItemCount = 0;
 }
 
 #pragma thumb off
 
-u8 func_020f7ea8(void *param_1, void *param_2) {
-    Unk020f41c4_A *p = param_1;
-    Unk020f41c4_A *q = param_2;
+u8 GetItemObjectHitType(ItemObject *itemParam, ItemObject *otherParam) {
+    ItemObject *item = itemParam;
+    ItemObject *other = otherParam;
 
-    return (data_02159b78 + p->mUnk_44 * 0xe)[q->mUnk_44];
+    return (gItemHitTypes + item->mKind * 0xe)[other->mKind];
 }
 
-void func_020f7c90(Unk020f41c4_A *param_1, Vec3 *param_2, Vec3 *param_3) {
-    Unk020f41c4_B *q;
-    s64 d;
-    s32 i;
+void func_020f7c90(ItemObject *item, Vec3 *otherPos, Vec3 *normal) {
+    RandomState64 *random;
+    s64 distanceSquared;
+    s32 angleIndex;
 
-    if (param_1->mUnk_74 & 0x2000000) {
-        if ((s64) param_3->x * param_3->x + (s64) param_3->y * param_3->y + (s64) param_3->z * param_3->z >= 0x10) {
-            func_02039860(param_3, param_3);
+    if (item->mFlags & 0x2000000) {
+        if ((s64) normal->x * normal->x + (s64) normal->y * normal->y + (s64) normal->z * normal->z >= 0x10) {
+            Vec3NormalizeAndGetLengthUnchecked(normal, normal);
         }
-        if (func_02039828(param_3, &param_1->mUnk_108) > 0x800) {
-            param_1->mUnk_5c.z = (s32) (((s64) param_3->z * 0x14cd) >> 12);
-            param_1->mUnk_5c.x = (s32) (((s64) param_3->x * 0x14cd) >> 12);
+        if (Vec3DotUnrounded(normal, &item->mUnk_108) > 0x800) {
+            item->mVelocity.z = ((s64) normal->z * 0x14cd) >> 12;
+            item->mVelocity.x = ((s64) normal->x * 0x14cd) >> 12;
         }
     }
-    d = (s64) (param_1->mUnk_50.x - param_2->x) * (param_1->mUnk_50.x - param_2->x) +
-        (s64) (param_1->mUnk_50.y - param_2->y) * (param_1->mUnk_50.y - param_2->y) +
-        (s64) (param_1->mUnk_50.z - param_2->z) * (param_1->mUnk_50.z - param_2->z);
-    if (d >= (s64) param_1->mUnk_e0 * param_1->mUnk_e0) {
+    distanceSquared = (s64) (item->mPos.x - otherPos->x) * (item->mPos.x - otherPos->x) +
+                      (s64) (item->mPos.y - otherPos->y) * (item->mPos.y - otherPos->y) +
+                      (s64) (item->mPos.z - otherPos->z) * (item->mPos.z - otherPos->z);
+    if (distanceSquared >= (s64) item->mRadius * item->mRadius) {
         return;
     }
-    param_1->mUnk_74 |= 0x4000000;
-    if (param_1->mUnk_74 & 0x2000000) {
+    item->mFlags |= 0x4000000;
+    if (item->mFlags & 0x2000000) {
         return;
     }
-    if (func_02039828(&param_1->mUnk_5c, param_3) >= 0) {
+    if (Vec3DotUnrounded(&item->mVelocity, normal) >= 0) {
         return;
     }
-    q = &data_0217561c->mUnk_47c;
-    q->mUnk_00 = q->mUnk_08 * q->mUnk_00 + q->mUnk_10;
-    i = (u16) ((((u64) (u32) (q->mUnk_00 >> 32) * 0x10000) >> 32)) >> 4;
-    param_1->mUnk_108.z = data_0215d4b4[i * 2 + 1];
-    param_1->mUnk_108.x = data_0215d4b4[i * 2];
-    param_1->mUnk_5c.z = (s32) (((s64) param_1->mUnk_108.z * 0x14cd) >> 12);
-    param_1->mUnk_5c.x = (s32) (((s64) param_1->mUnk_108.x * 0x14cd) >> 12);
-    param_1->mUnk_74 |= 0x2000000;
+    random = &gRaceProgress->mRandom;
+    random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+    angleIndex = (u16) ((((u64) (u32) (random->mValue >> 32) * 0x10000) >> 32)) >> 4;
+    item->mUnk_108.z = gPairsByAngle[angleIndex * 2 + 1];
+    item->mUnk_108.x = gPairsByAngle[angleIndex * 2];
+    item->mVelocity.z = ((s64) item->mUnk_108.z * 0x14cd) >> 12;
+    item->mVelocity.x = ((s64) item->mUnk_108.x * 0x14cd) >> 12;
+    item->mFlags |= 0x2000000;
 }

@@ -3,27 +3,27 @@
 #include "Main/Unknown/unk_02175628.h"
 
 #pragma optimize_for_size on
-u32 func_020b2aec(Unk020b2a94 *p) {
-    if (func_020b2b1c((u32) p) == 0 && p->mUnk_10 < 5) {
+u32 func_020b2aec(InputSlotPair *inputSlotPair) {
+    if (func_020b2b1c(inputSlotPair) == 0 && inputSlotPair->mNoPairCount < 5) {
         return 1;
     }
     return 0;
 }
 
-u32 func_020b2ac8(Unk020b2a94 *p) {
-    if (p->mUnk_0c == 0 && p->mUnk_04 != 0) {
+u32 func_020b2ac8(InputSlotPair *inputSlotPair) {
+    if (inputSlotPair->mPrevHasPair == 0 && inputSlotPair->mHasPair != 0) {
         return 1;
     }
     return 0;
 }
 
-u32 func_020b2a94(Unk020b2a94 *p) {
-    if (func_020b2aec(p) == 0 && func_020b2ac8(p) != 0) {
+u32 func_020b2a94(InputSlotPair *inputSlotPair) {
+    if (func_020b2aec(inputSlotPair) == 0 && func_020b2ac8(inputSlotPair) != 0) {
         return 1;
     }
     return 0;
 }
 
-u32 func_020b2a74(s32 a) {
-    return func_020b2a94((Unk020b2a94 *) &data_02175628[a].mUnk_48);
+u32 func_020b2a74(s32 slotIndex) {
+    return func_020b2a94((InputSlotPair *) &data_02175628[slotIndex].mPairX);
 }

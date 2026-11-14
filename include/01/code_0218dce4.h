@@ -1,11 +1,10 @@
 #pragma once
 
 #include "types.h"
-#include "01/code_02188950.h"
 
-void func_ov001_0218dce4(Unk02188950 *param_1);
-void func_ov001_0218dd04(Unk02188950 *param_1);
-void func_ov001_0218dd50(Unk02188950 *param_1);
-void func_ov001_0218dd9c(Unk02188950 *param_1);
-void *func_ov001_0218ddb4(void);
-void *func_ov001_0218ddcc(void);
+typedef struct Unk02188950 Unk02188950;
+
+void func_ov001_0218dce4(Unk02188950 *a);
+void func_ov001_0218dd04(Unk02188950 *a);
+void func_ov001_0218dd50(Unk02188950 *a);
+void func_ov001_0218dd9c(Unk02188950 *a);

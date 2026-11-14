@@ -1,7 +1,10 @@
 #include "01/code_0219853c.h"
 #include "01/code_02198854.h"
-#include "00/code_02182fdc.h"
+#include "00/code_02181f98.h"
+#include "Main/Unknown/code_02036820.h"
 #include "Main/Unknown/code_020ae408.h"
+#include "Main/Unknown/code_02125960.h"
+#include "Main/Unknown/code_02125f6c.h"
 #include "Main/Unknown/code_0214a000.h"
 #include "Main/Unknown/code_02125ebc.h"
 #include "Main/Unknown/code_02126230.h"
@@ -19,49 +22,50 @@
 #include "01/unk_021a6000.h"
 #include "Main/Unknown/code_02056d40.h"
 #include "Main/Unknown/code_02125f54.h"
+#include "code_0214d018.h"
 
-void func_ov001_021987d4(void *heap, s16 param_2)
-{
+Unk021a9be4 *data_ov001_021a9be4;
+
+void func_ov001_021987d4(void *heap, s16 a) {
     Unk02125de0Arg arg;
 
-    data_ov001_021a9be4 = func_02036bec(heap, 0x18);
+    data_ov001_021a9be4 = HeapAlloc(heap, 0x18);
     data_ov001_021a9be4->mUnk_08 = heap;
     data_ov001_021a9be4->mUnk_10 = func_021250b0(heap);
-    arg.mUnk_00 = 1;
-    arg.mUnk_04 = func_020b403c(1);
+    arg.mUnk_00 = TRUE;
+    arg.mUnk_04 = GetFontByIndex(1);
     arg.mUnk_08 = 0;
     arg.mUnk_0c = 1;
     arg.mUnk_10 = 0;
-    arg.mUnk_14 = 0;
-    arg.mUnk_18 = 0;
-    arg.mUnk_1c = 1;
-    arg.mUnk_20 = 1;
+    arg.mUnk_14 = FALSE;
+    arg.mUnk_18 = NULL;
+    arg.mUnk_1c = TRUE;
+    arg.mUnk_20 = TRUE;
     arg.mUnk_24 = 0;
-    func_02125c2c();
+    LoadTxtSystemAndSelectChoisesAndSelectReturnData();
     func_02125de0(heap, &arg);
-    data_ov001_021a9be4->mUnk_0c = param_2;
+    data_ov001_021a9be4->mUnk_0c = a;
     data_ov001_021a9be4->mUnk_0e = -1;
     data_ov001_021a9be4->mUnk_00 = 0;
     data_ov001_021a9be4->mUnk_04 = data_ov001_021a9be4->mUnk_00;
-    data_ov001_021a9be4->mUnk_14 = func_02047a28("common.bmg");
+    data_ov001_021a9be4->mUnk_14 = FindFileInLoadedArchives("common.bmg");
 }
 
 void func_ov001_021987bc(void) {
     func_02125da0();
     *(u32 *) &data_ov001_021a9be4 = 0;
-    return;
 }
 
 void func_ov001_02198768(void) {
     void *a;
     void *b;
     void *c;
-    if (func_02036c5c() != 0) {
+    if (AreBrightnessFadesClear() != 0) {
         data_ov001_021a9be4->mUnk_04 = 1;
-        a = func_020b3f7c(data_ov001_021a9be4->mUnk_14, 0xc);
-        b = func_020b3f7c(data_ov001_021a9be4->mUnk_14, 0);
-        c = func_020b3f7c(data_ov001_021a9be4->mUnk_14, 1);
-        func_0212611c((void *) ((u32)a), (void *) ((u32)b), (void *) ((u32)c), 0);
+        a = GetBmgEntry(data_ov001_021a9be4->mUnk_14, 0xc);
+        b = GetBmgEntry(data_ov001_021a9be4->mUnk_14, 0);
+        c = GetBmgEntry(data_ov001_021a9be4->mUnk_14, 1);
+        SetupTxtSystemSubTextTwoButtons(a, b, c, 0);
     }
 }
 
@@ -69,17 +73,17 @@ void func_ov001_021986e8(void) {
     void *a;
     void *b;
     void *c;
-    if (func_02125f54() != 0) {
-        func_02125fc0();
+    if (GetTxtSystemDone() != 0) {
+        RequestTxtSystemClose();
         return;
     }
-    if (func_02125f88() != 0) {
-        if (func_02125f60() == 0) {
+    if (IsTxtSystemState0NoOpenRequest() != 0) {
+        if (GetTxtSystemSelectedIndex() == 0) {
             data_ov001_021a9be4->mUnk_04 = 2;
-            a = func_020b3f7c(data_ov001_021a9be4->mUnk_14, 0xd);
-            b = func_020b3f7c(data_ov001_021a9be4->mUnk_14, 0);
-            c = func_020b3f7c(data_ov001_021a9be4->mUnk_14, 1);
-            func_0212611c((void *) ((u32)a), (void *) ((u32)b), (void *) ((u32)c), 0);
+            a = GetBmgEntry(data_ov001_021a9be4->mUnk_14, 0xd);
+            b = GetBmgEntry(data_ov001_021a9be4->mUnk_14, 0);
+            c = GetBmgEntry(data_ov001_021a9be4->mUnk_14, 1);
+            SetupTxtSystemSubTextTwoButtons(a, b, c, 0);
         } else {
             data_ov001_021a9be4->mUnk_0e = 0xe;
         }
@@ -91,22 +95,22 @@ void func_ov001_02198624(void) {
     void *b;
     void *c;
     u8 *d;
-    if (func_02125f54() != 0) {
-        func_02125fc0();
+    if (GetTxtSystemDone() != 0) {
+        RequestTxtSystemClose();
         return;
     }
-    if (func_02125f88() != 0) {
-        if (func_02125f60() == 0) {
-            d = data_021759d0->mUnk_2a;
-            data_0217aa08->mUnk_00->mUnk_31_0 = 1;
-            func_0214d168(data_0217aa08->mUnk_00->mUnk_0c, 0, 0x14);
-            func_0214d1fc(d, data_0217aa08->mUnk_00->mUnk_0c, 0x14);
+    if (IsTxtSystemState0NoOpenRequest() != 0) {
+        if (GetTxtSystemSelectedIndex() == 0) {
+            d = data_021759d0->mOwnerText;
+            data_0217aa08->mFirstBlock->mUnk_31_0 = 1;
+            MI_CpuFill8(data_0217aa08->mFirstBlock->mPlayerName, 0, 0x14);
+            MI_CpuCopy8(d, data_0217aa08->mFirstBlock->mPlayerName, 0x14);
             func_02056d40();
             data_ov001_021a9be4->mUnk_04 = 3;
-            a = func_020b3f7c(data_ov001_021a9be4->mUnk_14, 0x13);
-            b = func_020b3f7c(data_ov001_021a9be4->mUnk_14, 0);
-            c = func_020b3f7c(data_ov001_021a9be4->mUnk_14, 1);
-            func_0212611c((void *) ((u32)a), (void *) ((u32)b), (void *) ((u32)c), 1);
+            a = GetBmgEntry(data_ov001_021a9be4->mUnk_14, 0x13);
+            b = GetBmgEntry(data_ov001_021a9be4->mUnk_14, 0);
+            c = GetBmgEntry(data_ov001_021a9be4->mUnk_14, 1);
+            SetupTxtSystemSubTextTwoButtons(a, b, c, 1);
         } else {
             data_ov001_021a9be4->mUnk_0e = 0xe;
         }
@@ -115,14 +119,14 @@ void func_ov001_02198624(void) {
 
 void func_ov001_021985b0(void) {
     s32 v;
-    if (func_02125f54() != 0) {
-        func_02125fc0();
+    if (GetTxtSystemDone() != 0) {
+        RequestTxtSystemClose();
         return;
     }
-    if (func_02125f88() != 0) {
-        if (data_0217aa08->mUnk_28 == 0) {
-            if (data_021759d4->mUnk_0c != 0) {
-                v = data_021759d4->mUnk_10;
+    if (IsTxtSystemState0NoOpenRequest() != 0) {
+        if (data_0217aa08->mBusy == 0) {
+            if (gBackupAccess->mBackupEnabled != 0) {
+                v = gBackupAccess->mCommandRunning;
             } else {
                 v = 0;
             }
@@ -130,7 +134,7 @@ void func_ov001_021985b0(void) {
             v = 1;
         }
         if (v == 0) {
-            if (func_02125f60() == 0) {
+            if (GetTxtSystemSelectedIndex() == 0) {
                 data_ov001_021a9be4->mUnk_0e = 3;
             } else {
                 data_ov001_021a9be4->mUnk_0e = 0;
@@ -143,18 +147,18 @@ void func_ov001_02198554(void) {
     func_02125928();
     data_ov001_021a9be4->mUnk_00 = data_ov001_021a9be4->mUnk_04;
     switch (data_ov001_021a9be4->mUnk_00) {
-    case 0:
-        func_ov001_02198768();
-        break;
-    case 1:
-        func_ov001_021986e8();
-        break;
-    case 2:
-        func_ov001_02198624();
-        break;
-    case 3:
-        func_ov001_021985b0();
-        break;
+        case 0:
+            func_ov001_02198768();
+            break;
+        case 1:
+            func_ov001_021986e8();
+            break;
+        case 2:
+            func_ov001_02198624();
+            break;
+        case 3:
+            func_ov001_021985b0();
+            break;
     }
 }
 
@@ -163,5 +167,5 @@ void func_ov001_0219854c(void) {
 }
 
 int func_ov001_0219853c(void) {
-    return (int) data_ov001_021a9be4->mUnk_0e;
+    return data_ov001_021a9be4->mUnk_0e;
 }

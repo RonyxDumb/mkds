@@ -1,9 +1,11 @@
 #pragma once
 
 #include "types.h"
-#include "code_0212d254.h" // Unk0212d5f8
-#include "Main/Unknown/code_0210e33c.h" // Unk0217d178
+#include "code_0212d214.h"
+#include "Main/Unknown/code_0210e33c.h" // SndFileIdList
 
-u32 func_0210efcc(Unk0212d5f8 *a, const u8 *b, void *c, u32 d);
-void func_0210efac(Unk0217d178 *p);
-void func_0210ef68(Unk0217d178 *p);
+typedef struct NNSSndHeap NNSSndHeap;
+
+u32 SetupSndArcFromFile(NNSSndArc *arc, const u8 *filePath, NNSSndHeap *heap, u32 symbolLoadFlag);
+void ClearSndFileIdList(SndFileIdList *fileIdList);
+void ClearSndFileAddresses(SndFileIdList *fileIdList);

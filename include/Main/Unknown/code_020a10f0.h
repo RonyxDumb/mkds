@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-void func_020a10f0(u16 a, s32 b);
-u16 func_020a1154(u16 a);
-u16 func_020a1180(void);
-u16 func_020a119c(void);
+void AddBalloonOrShineCountAndMoveRank(u16 kartIndex, s32 amount);
+u16 GetBalloonOrShineCount(u16 kartIndex);
+u16 GetHighestBalloonOrShineCount(void);
+u16 GetTotalBalloonOrShineCount(void);

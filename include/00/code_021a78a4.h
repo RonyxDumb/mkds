@@ -1,8 +1,10 @@
 #pragma once
 
 #include "types.h"
-#include "00/code_021a6fa8.h"
-#include "00/code_021a7064.h"
+#include "00/code_021a6fb4.h"
+
+typedef struct Unk021a71c0 Unk021a71c0;
+typedef struct Unk021a6fa8 Unk021a6fa8;
 
 typedef s32 (*Unk021a78a4Func)(void *param_1, u32 param_2, Unk021a6fa8 *param_3);
 
@@ -19,7 +21,7 @@ typedef struct Unk021a78a4 {
 typedef struct Unk021a7af0 {
     /* 00 */ Unk021a7064Func mUnk_00;
     /* 04 */ Unk021a6fa8 *mUnk_04;
-    /* 08 */ Unk0200eb90 *mUnk_08;
+    /* 08 */ OSMessageQueue *mUnk_08;
     /* 0c */ s8 mUnk_0c;
     /* 0d */ s8 mUnk_0d;
     /* 0e */ u8 mUnk_0e[2];

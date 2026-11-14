@@ -1,7 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020e43a8.h"
+
+typedef struct Unk020e43a8 Unk020e43a8;
 
 // 0x10-byte request built on the stack here.
 typedef struct Unk020e4e08 {
@@ -9,4 +10,4 @@ typedef struct Unk020e4e08 {
     /* 04 */ Vec3 mUnk_04;
 } Unk020e4e08;
 
-void func_020e4e08(u32 param_1, Unk020e43a8 *p, u32 param_3, u32 param_4);
+void DrawPukupukuShadow(u32 a, Unk020e43a8 *pukupuku, u32 b, u32 alpha);

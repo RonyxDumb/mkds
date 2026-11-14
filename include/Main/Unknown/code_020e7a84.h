@@ -1,31 +1,41 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_0206bcb0.h"
-#include "Main/Unknown/code_020e5d0c.h"
-#include "Main/Unknown/code_020f36d8.h"
 
-// 0x10-byte slot of the two tables at data_0217baec and data_0217baf0; the
-// slot's first word points at an object with a word at 0x0c, a u16 at 0x1a and
-// a pointer to the u32 array at 0x1c.
-typedef struct Unk0217baec {
+typedef struct Unk020e6514 Unk020e6514;
+
+// A row of gJgKindRows seen at offset 4 or 8: its first word points at an animation object.
+typedef struct JgKindRowAnimationView {
     /* 00 */ Unk020e6514 *mUnk_00;
     /* 04 */ u8 mUnk_04[0x0c];
-} Unk0217baec;
+} JgKindRowAnimationView;
 
-extern Unk0217baec data_0217baf0[];
+// Object at 0x00 of a gJgKindRows row, as DrawJg reads it: the word at 0x04.
+typedef struct Unk020e9810 {
+    /* 00 */ u8 mUnk_00[4];
+    /* 04 */ void *mUnk_04;
+} Unk020e9810;
 
-extern Unk0217baec data_0217baec[];
+extern JgKindRowAnimationView gJgKindRowNsbcaAnimations[];
+extern JgKindRowAnimationView gJgKindRowNsbmaAnimations[];
 
-void func_020e7a84(void);
-void func_020e7b7c(void);
-void func_020e7d90(void);
-void func_020e7e58(void);
-void func_020e7ed0(void);
-void func_020e7fa8(void);
-void func_020e827c(void);
-void func_020e82dc(void);
-void func_020e8368(void);
-void func_020e8418(void);
-void func_020e84b0(void);
-void func_020e8790(void);
+void UpdateJgState6(void);
+void EnterJgState6(void);
+void UpdateJgState5(void);
+void EnterJgState5(void);
+void UpdateJgState4(void);
+void EnterJgState4(void);
+void UpdateJgState3(void);
+void EnterJgState3(void);
+void UpdateJgState2(void);
+void EnterJgState2(void);
+void UpdateJgState1(void);
+void EnterJgState1(void);
+unsigned int func_020e8a74(unsigned int value);
+void UpdateJgPosition(void);
+void ComputeJgMatrixAndInverse(void);
+void DrawJg(void);
+void UpdateJg(void);
+void AdvanceJgPointsAndSetTarget(Vec3 *offset, const Vec3 *endScale, const Vec3 *startScale);
+void InitJgOffsets(void);
+void CreateModelAnimation(u32 animationKind, void *model, void **animationSlot, void *nsbmdFile, void *animationFile);

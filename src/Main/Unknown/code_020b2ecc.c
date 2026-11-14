@@ -1,5 +1,6 @@
 #include "Main/Unknown/code_020b2ecc.h"
-#include "Main/Unknown/code_020ae244.h"
+#include "Main/Unknown/code_0205ee14.h"
+#include "Main/Unknown/code_020ade08.h"
 #include "Main/Unknown/code_0205f000.h"
 #include "Main/Unknown/code_020b24e4.h"
 #include "Main/Unknown/code_020b29c4.h"
@@ -17,182 +18,184 @@
 
 #pragma thumb on
 #pragma optimize_for_size on
-void *func_020b320c(s32 a, s32 b) {
-    s32 c[11] = {0x5d, 0x67, 0x62, 0x64, 0x65, 0x66, 0x69, 0x62, 0x61, 0x5f, 0x75};
+void *GetChoisesSValueMessage(s32 listIndex, s32 value) {
+    s32 entryNumbers[11] = {0x5d, 0x67, 0x62, 0x64, 0x65, 0x66, 0x69, 0x62, 0x61, 0x5f, 0x75};
 
     if (func_020b24e4() == 2) {
-        c[0] = 0x6a;
-        c[8] = 0x63;
+        entryNumbers[0] = 0x6a;
+        entryNumbers[8] = 0x63;
     }
-    if (a != 0) {
-        c[2] = 0x60;
+    if (listIndex != 0) {
+        entryNumbers[2] = 0x60;
     }
-    return func_020b3f7c(func_020b47cc("common.bmg"), c[b]);
+    return GetBmgEntry(FindFileInLoadedArchivesWrapper("common.bmg"), entryNumbers[value]);
 }
 
-void func_020b31e4(void) {
+void ClearChoisesSListValueCounts(void) {
     s32 i;
 
     for (i = 0; i < 4; i++) {
-        data_0217b354->mUnk_038[i].mUnk_18 = 0;
+        gChoisesS->mLists[i].mValueCount = 0;
     }
 }
 
-void func_020b31b8(s32 a, s32 b) {
-    s32 n;
+void AppendChoisesSListValue(s32 listIndex, s32 value) {
+    s32 valueCount;
 
-    n = data_0217b354->mUnk_038[a].mUnk_18;
-    data_0217b354->mUnk_038[a].mUnk_18 = n + 1;
-    data_0217b354->mUnk_038[a].mUnk_00[n] = b;
+    valueCount = gChoisesS->mLists[listIndex].mValueCount;
+    gChoisesS->mLists[listIndex].mValueCount = valueCount + 1;
+    gChoisesS->mLists[listIndex].mValues[valueCount] = value;
 }
 
-s32 func_020b3120(s32 a) {
-    s32 i = 0;
-    s32 n;
-    s32 k;
-    Unk0217b354 *d;
+s32 MoveChoisesSSelectedValue(s32 step) {
+    s32 selectedIndex = 0;
+    s32 valueCount;
+    s32 listIndex;
+    ChoisesS *choisesS;
 
     if (func_020b2e98() != 0) {
-        k = func_020b2d04();
-        n = data_0217b354->mUnk_038[k].mUnk_18;
-        for (; i < n; i++) {
-            if (data_0217b354->mUnk_028 == data_0217b354->mUnk_038[k].mUnk_00[i]) {
+        listIndex = GetChoisesSListIndex();
+        valueCount = gChoisesS->mLists[listIndex].mValueCount;
+        for (; selectedIndex < valueCount; selectedIndex++) {
+            if (gChoisesS->mSelectedValue == gChoisesS->mLists[listIndex].mValues[selectedIndex]) {
                 break;
             }
         }
-        if (n == 1) {
-            a = 0;
-        } else if (n == 2) {
-            if (a != 0 && i + a >= 0 && i + a < n) {
-                data_0217b354->mUnk_034 = 0;
-                func_02105ac0(0);
+        if (valueCount == 1) {
+            step = 0;
+        } else if (valueCount == 2) {
+            if (step != 0 && selectedIndex + step >= 0 && selectedIndex + step < valueCount) {
+                gChoisesS->mCycleFrames = 0;
+                StartSoundOncePerFrame(0);
             } else {
-                a = 0;
+                step = 0;
             }
-        } else if (a != 0) {
-            data_0217b354->mUnk_034 = 0;
-            func_02105ac0(0);
+        } else if (step != 0) {
+            gChoisesS->mCycleFrames = 0;
+            StartSoundOncePerFrame(0);
         }
-        d = data_0217b354;
-        d->mUnk_028 = d->mUnk_038[k].mUnk_00[(n + (i + a)) % n];
+        choisesS = gChoisesS;
+        choisesS->mSelectedValue =
+            choisesS->mLists[listIndex].mValues[(valueCount + (selectedIndex + step)) % valueCount];
     }
-    return i;
+    return selectedIndex;
 }
 
-// non-matching: 3 words in the second loop: the original loads the word at 0x28 before the element
-// (ldr r2, [r0, #0x28]; ldr r1, [r1, #0x38]; cmp r2, r1), the compiled code loads the element first.
+static inline ChoisesS *func_020b302c_inline(void) {
+    return gChoisesS;
+}
+
 u32 func_020b302c(void) {
-    u32 r = 0;
-    s32 n;
-    s32 k;
-    s32 i;
-    Unk020ae244 e[6];
-    s32 d;
-    s32 t;
-    Unk0217b354_38 *q;
+    u32 touched = 0;
+    s32 valueCount;
+    s32 listIndex;
+    s32 valueIndex;
+    PairRect valueRects[6];
+    s32 firstRectRow;
+    s32 top;
 
     if (func_020b2e98() != 0) {
-        func_020b3120(0);
-        k = func_020b2d04();
-        n = data_0217b354->mUnk_038[k].mUnk_18;
-        for (i = 0, d = 0xc - n * 2; i < n; i++) {
-            t = (d + i * 4) * 8 + 6;
-            e[i].mUnk_00 = 8;
-            e[i].mUnk_04 = 0xf8;
-            e[i].mUnk_02 = t;
-            e[i].mUnk_06 = t + 0x16;
+        MoveChoisesSSelectedValue(0);
+        listIndex = GetChoisesSListIndex();
+        valueCount = gChoisesS->mLists[listIndex].mValueCount;
+        for (valueIndex = 0, firstRectRow = 0xc - valueCount * 2; valueIndex < valueCount; valueIndex++) {
+            top = (firstRectRow + valueIndex * 4) * 8 + 6;
+            valueRects[valueIndex].mMinX = 8;
+            valueRects[valueIndex].mMaxX = 0xf8;
+            valueRects[valueIndex].mMinY = top;
+            valueRects[valueIndex].mMaxY = top + 0x16;
         }
-        for (i = 0; i < n; i++) {
-            if (func_020ae244(func_020b2b54(), e[i]) != 0) {
-                q = data_0217b354->mUnk_038;
-                if (data_0217b354->mUnk_028 != q[k].mUnk_00[i]) {
-                    data_0217b354->mUnk_028 = q[k].mUnk_00[i];
-                    func_020b3120(0);
+        for (valueIndex = 0; valueIndex < valueCount; valueIndex++) {
+            if (IsNewPairInRect(func_020b2b54(), valueRects[valueIndex]) != 0) {
+                if (gChoisesS->mSelectedValue != func_020b302c_inline()->mLists[listIndex].mValues[valueIndex]) {
+                    gChoisesS->mSelectedValue = gChoisesS->mLists[listIndex].mValues[valueIndex];
+                    MoveChoisesSSelectedValue(0);
                 } else {
-                    data_0217b354->mUnk_010 = 1;
+                    gChoisesS->mUnk_010 = TRUE;
                 }
-                r = 1;
+                touched = 1;
             }
         }
-        if (r != 0) {
-            if (data_0217b354->mUnk_028 == 0) {
+        if (touched != 0) {
+            if (gChoisesS->mSelectedValue == 0) {
                 func_02105c4c();
             } else {
-                func_020b3278();
+                StartChoisesSSelectedValueSeq();
             }
         }
     }
-    return r;
+    return touched;
 }
 
-void func_020b3008(void) {
-    Unk0217b354 *p;
+void ResetChoisesSSelection(void) {
+    ChoisesS *choisesS;
 
-    data_0217b354->mUnk_024 = 0;
-    p = data_0217b354;
-    p->mUnk_028 = p->mUnk_038[func_020b2d04()].mUnk_00[0];
+    gChoisesS->mPickedValue = 0;
+    choisesS = gChoisesS;
+    choisesS->mSelectedValue = choisesS->mLists[GetChoisesSListIndex()].mValues[0];
 }
 
-void func_020b2f88(s32 a) {
-    if (data_0217b354->mUnk_00c != 0) {
+void func_020b2f88(s32 openFlag) {
+    if (gChoisesS->mPickLocked != 0) {
         return;
     }
-    if (a != 0 && func_020b2e98() == 0) {
+    if (openFlag != 0 && func_020b2e98() == 0) {
         if (func_020b29c4() != 0) {
-            data_0217b354->mUnk_000 = a;
+            gChoisesS->mOpenDuringRace = openFlag;
         } else if (func_020b2b70() != 0) {
-            data_0217b354->mUnk_008 = a;
+            gChoisesS->mUnk_008 = openFlag;
         } else {
             return;
         }
-        func_020b3008();
-    } else if (a == 0 && func_020b2e98() != 0) {
+        ResetChoisesSSelection();
+    } else if (openFlag == 0 && func_020b2e98() != 0) {
         if (func_020b29c4() != 0) {
-            data_0217b354->mUnk_000 = a;
+            gChoisesS->mOpenDuringRace = openFlag;
         } else if (func_020b2b70() != 0) {
-            data_0217b354->mUnk_008 = a;
+            gChoisesS->mUnk_008 = openFlag;
         } else {
             return;
         }
     }
-    if (data_0217b354->mUnk_024 != 0) {
-        data_0217b354->mUnk_00c = 1;
+    if (gChoisesS->mPickedValue != 0) {
+        gChoisesS->mPickLocked = 1;
     }
 }
 
 u32 func_020b2f58(void) {
-    if ((func_020b2f38() == 6 && func_020b2f18() == 9) || (func_020b2f38() == 7 && func_020b2f18() == 9)) {
+    if ((GetMissionRunTableRow() == 6 && GetMissionRunTableColumn() == 9) ||
+        (GetMissionRunTableRow() == 7 && GetMissionRunTableColumn() == 9)) {
         return 1;
     }
     return 0;
 }
 #pragma thumb off
 
-s8 func_020b2f38(void) {
-    Unk021759c0 *d = data_021759c0;
+s8 GetMissionRunTableRow(void) {
+    RaceSetup *raceSetup = gRaceSetup;
 
-    if (d->mUnk_08 == 4) {
-        return d->mUnk_54;
+    if (raceSetup->mMode == MODE_MISSION_RUN) {
+        return raceSetup->mMissionTableRow;
     }
     return -1;
 }
 
-s8 func_020b2f18(void) {
-    Unk021759c0 *d = data_021759c0;
+s8 GetMissionRunTableColumn(void) {
+    RaceSetup *raceSetup = gRaceSetup;
 
-    if (d->mUnk_08 == 4) {
-        return d->mUnk_55;
+    if (raceSetup->mMode == MODE_MISSION_RUN) {
+        return raceSetup->mMissionTableColumn;
     }
     return -1;
 }
 
 #pragma thumb on
 u32 func_020b2ecc(void) {
-    s32 v1;
-    s32 r;
+    s32 recordValue;
+    s32 isFilled;
 
-    r = func_0205fd78(func_020b2f38(), func_020b2f18(), &v1);
-    if (func_020b2d54() == 0 && data_0217b354->mUnk_020 != 0 && r != 0 && (u32) (v1 - 5) <= 2) {
+    isFilled = GetMissionRecordValue(GetMissionRunTableRow(), GetMissionRunTableColumn(), &recordValue);
+    if (GetEntryEndKind() == 0 && gChoisesS->mUnk_020 != FALSE && isFilled != 0 && (u32) (recordValue - 5) <= 2) {
         return 1;
     }
     return 0;

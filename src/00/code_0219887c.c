@@ -1,35 +1,34 @@
 #include "00/code_0219887c.h"
+#include "00/code_02197e58.h"
 #include "00/unk_021b3000.h"
-#include "code_0213442c.h"
+#include "code_02134398.h"
 
-u16 func_ov000_021988e4(void *param_1) {
-    return *(u16 *) ((u8 *) param_1 + 8);
+u16 GetSocketPort(Gt2Socket *a) {
+    return a->mPort;
 }
 
-int func_ov000_021988dc(int param_1) {
-    return *(int *) (param_1 + 0x54) - *(int *) (param_1 + 0x58);
+int func_ov000_021988dc(Gt2Connection *a) {
+    return a->mSendBuffer.mSize - a->mSendBuffer.mLength;
 }
 
-u32 func_ov000_021988d8(u32 *param_1) {
-    return *param_1;
+u32 GetSocketDescriptor(u32 *a) {
+    return *a;
 }
 
-void func_ov000_021988d4(int param_1, u32 param_2) {
-    *(u32 *) (param_1 + 0x30) = param_2;
-    return;
+void SetUnmatchedDataCallback(Gt2Socket *a, UnkWordFunc *b) {
+    a->mUnmatchedDataCallback = b;
 }
 
-void func_ov000_021988a4(Unk0219887c *param_1, void *param_2) {
-    if (param_1 == 0) {
-        func_0213442c(data_ov000_021b3f8c, data_ov000_021b3f98, 0, 0x19c);
+void func_ov000_021988a4(Unk0219887c *connection, void *b) {
+    if (connection == NULL) {
+        AssertionFailed(data_ov000_021b3f8c, data_ov000_021b3f98, NULL, 0x19c);
     }
-    param_1->mUnk_40 = param_2;
-    return;
+    connection->mUnk_40 = b;
 }
 
 u8 *func_ov000_0219887c(Unk0219887c *object) {
-    if (object == 0) {
-        func_0213442c(data_ov000_021b3f8c, data_ov000_021b3f98, 0, 0x1a3);
+    if (object == NULL) {
+        AssertionFailed(data_ov000_021b3f8c, data_ov000_021b3f98, NULL, 0x1a3);
     }
     return object->mUnk_40;
 }

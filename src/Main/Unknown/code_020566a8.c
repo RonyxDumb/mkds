@@ -1,19 +1,23 @@
 #include "Main/Unknown/code_020566a8.h"
+#include "Main/Unknown/code_02057304.h"
+#include "Main/Unknown/code_020574a0.h"
+#include "Main/Unknown/code_020578fc.h"
+#include "Main/Unknown/unk_0217a000.h"
+#include "code_0214d018.h"
 
 #pragma thumb on
 
-void func_020566a8(u32 param_1, int param_2) {
-    int iVar1;
-    u32 uVar2;
-    uVar2 = (u32) data_0217aa08->mUnk_18;
-    *(u32 *) (param_2 + 8) = *(u32 *) (param_2 + 8) & 0xfffffffe | 1;
-    func_0214d1fc((const void *) ((u16 *) (u32) param_2), (void *) ((u32 *) uVar2),
-                  (u32) (((u32) 0x00001000u)));
-    func_02057944((int) param_1, (const void *) uVar2);
-    iVar1 = func_020573c8(param_1);
-    if (iVar1 == 0) {
-        func_0205746c(param_1, data_0217aa08->mUnk_00->mUnk_2a, 2);
-        func_020574a0();
+void WriteSlotGhostRecord(u32 index, int source) {
+    int slotBit;
+    GhostRecord *destination;
+    destination = data_0217aa08->mGhostRecords[1];
+    *(u32 *) (source + 8) = *(u32 *) (source + 8) & 0xfffffffe | 1;
+    MI_CpuCopy8(((u16 *) (u32) source), ((u32 *) destination), (0x00001000u));
+    WriteBackupSlotGhost(index, destination);
+    slotBit = IsSlotGhostBitSet(index);
+    if (slotBit == 0) {
+        SetBitArrayBit(index, data_0217aa08->mFirstBlock->mSlotGhostBits, 2);
+        StartWriteBackupFirstBlock();
     }
 }
 

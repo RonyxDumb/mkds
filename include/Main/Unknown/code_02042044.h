@@ -1,18 +1,15 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_02042fc4.h"
 
-// One entry of the table returned by func_02042044.
-typedef struct Unk02042044 {
-    /* 00 */ Vec3 mUnk_00;
+// One entry of the table returned by GetCourseMapGroupEntry.
+typedef struct CourseMapGroupEntry {
+    /* 00 */ Vec3 mPos;
     /* 0c */ u8 mUnk_0c;
     /* 0d */ u8 mUnk_0d;
     /* 0e */ s16 mUnk_0e;
     /* 10 */ s16 mUnk_10;
     /* 12 */ s16 mUnk_12;
-} Unk02042044;
+} CourseMapGroupEntry;
 
-Unk02042044 *func_02042044(u16 arg0, u16 arg1);
-
-// Declared here until the code that defines them is decompiled.
+CourseMapGroupEntry *GetCourseMapGroupEntry(u16 groupIndex, u16 entryIndex);

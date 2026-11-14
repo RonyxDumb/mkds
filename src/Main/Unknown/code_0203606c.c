@@ -1,16 +1,17 @@
 #include "Main/Unknown/code_0203606c.h"
 #include "Main/Unknown/code_020360d0.h"
 #include "Main/Unknown/unk_0217a000.h"
+#include "01/code_021956dc.h"
 
 #pragma optimize_for_size on
 
-u32 func_0203606c(void) {
-    return data_0217aa08->mUnk_28 != 0 ? 1 : func_020360a0();
-}
-
-u32 func_020360a0(void) {
-    if (func_020360d0() != 0) {
-        return data_021759d4->mUnk_10;
+u32 IsBackupCommandRunning(void) {
+    if (IsBackupEnabled() != 0) {
+        return gBackupAccess->mCommandRunning;
     }
     return 0;
+}
+
+u32 IsBackupBusy(void) {
+    return data_0217aa08->mBusy != 0 ? 1 : IsBackupCommandRunning();
 }

@@ -2,18 +2,18 @@
 
 #include "types.h"
 
-void func_021136f8(void);
-void func_021134d4(void);
-void func_021134b8(void);
-void func_0211349c(void);
-void func_02113480(void);
-void func_0211346c(void);
-void func_02113458(void);
-void func_02113420(void);
-void func_0211340c(void);
-void func_021132e4(void);
-void func_021132b4(void);
-void func_02113298(void);
-void func_02113174(void);
-void func_02112bb4(void *a);
-void func_02112b48(void);
+void AdvanceRecordVSIndexChange(void);
+void RequestRecordVSState0(void);
+void RequestRecordVSState1(void);
+void RequestRecordVSState2AndRefreshPage(void);
+void RequestRecordVSState3(void);
+void RequestRecordVSState4(void);
+void RequestRecordVSState5(void);
+void RequestRecordVSState6AndChangePage(void);
+void RequestRecordVSState7(void);
+void RequestRecordVSState8(void);
+void RequestRecordVSState9(void);
+void RequestRecordVSState10(void);
+void RequestRecordVSState11AndRefreshPage(void);
+void InitRecordVS(void *heap);
+void ReleaseRecordVS(void);

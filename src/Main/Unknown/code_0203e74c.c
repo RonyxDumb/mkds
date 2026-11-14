@@ -4,6 +4,7 @@
 #include "Main/Unknown/code_0203f2b4.h"
 #include "Main/Unknown/code_0203f280.h"
 #include "Main/Unknown/code_0203f320.h"
+#include "Main/Unknown/code_0203f334.h"
 #include "Main/Unknown/code_0204a904.h"
 #include "Main/Unknown/code_0204a928.h"
 #include "Main/Unknown/code_020401ac.h"
@@ -13,399 +14,403 @@
 #include "Main/Unknown/code_020c70ec.h"
 #include "Main/Unknown/unk_02175628.h"
 #include "Main/Unknown/unk_0217a000.h"
-#include "00/code_0219bb50.h"
+#include "00/code_0219b580.h"
 #include "code_02147cd8.h"
+#include "Main/Unknown/code_0203c5f8.h"
+#include "Main/Unknown/code_02077bc0.h"
 
-void func_0203e74c(u16 param_1) {
-    if (data_021759c0->mUnk_08 != 4) {
-        return;
-    }
-    func_0203e788(param_1, 0);
-}
-
-// non-matching: 0x21c bytes, original 0x218; the entry pointer and the flag swap r1/r2 up to the first call, and the
-// argument of func_020a16d0 is narrowed (lsl/lsr #16) where the original passes a as is (with a u16 parameter a, a
-// header change for 7 callers, only the r1/r2 swap is left)
-void func_0203e788(s32 a, s32 b) {
-    Unk0217561c_14 *e;
-    Unk0206bcb0 *q;
-    Unk0217aa1c_144_00 t;
+s32 IsRaceEndConditionMet(void) {
+    BOOL endConditionMet;
+    u16 kartIndex;
     s32 s;
-    s32 f;
-    e = (Unk0217561c_14 *) ((u8 *) &data_0217561c->mUnk_14[0] + a * 0x8c);
-    s = e->mUnk_00;
-    f = 0;
-    switch (s) {
-        case 1:
-        case 2:
-        case 3:
-            f = 1;
-            break;
-    }
-    if (f != 0) {
-        return;
-    }
-    if ((e->mUnk_30 & 0x10) != 0) {
-        return;
-    }
-    if ((e->mUnk_30 & 0x20) != 0) {
-        return;
-    }
-    q = func_0207a974(a);
-    e = (Unk0217561c_14 *) ((u8 *) &data_0217561c->mUnk_14[0] + a * 0x8c);
-    data_0217561c->mUnk_000[0].mUnk_04 = 0;
-    func_0203f5f0(&t.mUnk_02, &t.mUnk_03, &t.mUnk_00, 0, data_0217561c->mUnk_000[0].mUnk_00);
-    e->mUnk_0c[5] = t;
-    if ((e->mUnk_30 & 1) != 0) {
-        data_0217561c->mUnk_4e0 = b;
-        q->mUnk_7c |= 0x20000000;
-        q->mUnk_48 &= ~0x2000000;
-        if (b == 0) {
-            e->mUnk_30 |= 0x10;
-            data_0217561c->mUnk_4fa = 0;
-            if (data_021759c0->mUnk_08 == 4) {
-                func_020a12b8();
-            }
-        } else {
-            e->mUnk_30 |= 0x20;
-            data_0217561c->mUnk_4fc = 0;
-            if (data_021759c0->mUnk_08 == 4) {
-                func_020a16d0(a);
-            }
-        }
-    }
-    func_0203e9a0(e, b == 0);
-    if (func_0203ef58() == 0) {
-        return;
-    }
-    switch (data_021759c0->mUnk_08) {
-        case 2:
-            func_020a12b8();
-            return;
-        case 4:
-            func_0203eb38();
-            return;
-        case 5:
-            func_0203ecf0();
-            return;
-        case 1:
-            return;
-        default:
-            func_0203ee28();
-            return;
-    }
-}
-
-void func_0203e9a0(Unk0217561c_14 *a, s32 b) {
-    Unk0217aa1c_144_00 *t;
-    s32 c;
-    s32 m;
-    s16 d;
-    c = data_021759c0->mUnk_68[(u32) (a->mUnk_3c << 24) >> 28].mUnk_08.mUnk_0c;
-    if (b != 0) {
-        a->mUnk_00 = 1;
-    } else {
-        a->mUnk_00 = 3;
-    }
-    switch (data_02175628[c].mUnk_3c) {
-        case 2:
-            func_0204a928(&data_02175628[c].mUnk_28);
-            break;
-        case 1:
-            func_0204a904(&data_02175628[c].mUnk_28);
-            break;
-    }
-    a->mUnk_30 |= 8;
-    if ((a->mUnk_30 & 1) != 0 && (a->mUnk_30 & 0x10) == 0) {
-        func_020c7164();
-    }
-    t = &a->mUnk_0c[5];
-    if (b != 0) {
-        a->mUnk_2c = (t->mUnk_02 * 0x3c + t->mUnk_03) * 1000 + t->mUnk_00;
-    } else if (data_021759c0->mUnk_08 != 5) {
-        a->mUnk_2c = 0x5b8d80;
-    }
-    m = data_021759c0->mUnk_08;
-    if (m == 0 || m == 4) {
-        if ((a->mUnk_30 & 1) != 0) {
-            a->mUnk_3e = func_020408f0((u32) (a->mUnk_3c << 24) >> 28);
-            d = a->mUnk_3e;
-            if (data_021759c0->mUnk_08 == 4) {
-                data_0217aa1c->mUnk_140 = d;
-            } else {
-                data_0217aa1c->mUnk_140 += d;
-            }
-        }
-    }
-    data_0217561c->mUnk_000[0].mUnk_0e++;
-}
-
-// non-matching: same size; after the call to func_0203f5f0 the halfword at 0x3c is loaded after the compare against 4 in the original, before it in ours (8 words differ).
-void func_0203eb38(void) {
-    u16 i;
-    Unk0217561c_14 *p;
-    Unk0206cdd4_B *q;
-    s32 s;
-    s32 f;
-    u32 g;
-    u8 *r;
-    Unk0217aa1c_144_00 *t;
-    u32 h;
-    for (i = 0; i < (u32) data_021759c0->mUnk_3d0; i++) {
-        s = ((Unk0217561c_000 *) ((u8 *) data_0217561c + i * 0x8c))->mUnk_14;
-        f = 0;
-        switch (s) {
-            case 1:
-            case 2:
-            case 3:
-            f = 1;
-            break;
-        }
-        if (f == 0) {
-            p = (Unk0217561c_14 *) ((u8 *) &data_0217561c->mUnk_14[0] + i * 0x8c);
-            t = &p->mUnk_0c[5];
-            h = data_0217561c->mUnk_000[0].mUnk_00;
-            if (data_021759c0->mUnk_08 == 0) {
-                if (p->mUnk_44 > 0) {
-                    h = (u32) (h * func_02147f18(p->mUnk_44)) >> 12;
-                    if (h > 0x57e40) {
-                        h = 0x57e40;
-                    }
-                } else {
-                    h = 0x57e40;
-                }
-            }
-            func_0203f5f0(&t->mUnk_02, &t->mUnk_03, &t->mUnk_00, 0, h);
-            g = 1;
-            r = (u8 *) &data_021759c0->mUnk_028;
-            q = func_0207a6b0();
-            switch (r[7]) {
-                case 4:
-                    if (r[0xf] > (u32) q->mUnk_04) {
-                        g = 0;
-                    }
-                    break;
-                case 6:
-                    if (((u32) (p->mUnk_3c << 28) >> 28) != 1) {
-                        g = 0;
-                    }
-                    break;
-            }
-            if (g != 0) {
-                if (data_021759c0->mUnk_08 == 4) {
-                    func_0203e788((u32) (p->mUnk_3c << 24) >> 28, 0);
-                }
-            } else {
-                func_0203e788((u32) (p->mUnk_3c << 24) >> 28, 4);
-            }
-        }
-    }
-    data_0217561c->mUnk_000[0].mUnk_0e = data_021759c0->mUnk_3d0;
-}
-
-void func_0203ecf0(void) {
-    u16 i;
-    Unk0217561c_14 *p;
-    s32 s;
-    s32 f;
-    s32 u;
+    BOOL f;
     s32 v;
-    Unk0217aa1c_144_00 *t;
-    u32 h;
-    u = 0;
-    v = 0;
-    for (i = 0; i < (u32) data_021759c0->mUnk_3d0; i++) {
-        s = ((Unk0217561c_000 *) ((u8 *) data_0217561c + i * 0x8c))->mUnk_14;
-        f = 0;
-        switch (s) {
-            case 1:
-            case 2:
-            case 3:
-            f = 1;
-            break;
-        }
-        if (f == 0 && s != 4) {
-            p = (Unk0217561c_14 *) ((u8 *) &data_0217561c->mUnk_14[0] + i * 0x8c);
-            t = &p->mUnk_0c[5];
-            h = data_0217561c->mUnk_000[0].mUnk_00;
-            if (data_021759c0->mUnk_08 == 0) {
-                if (p->mUnk_44 > 0) {
-                    h = (u32) (h * func_02147f18(p->mUnk_44)) >> 12;
-                    if (h > 0x57e40) {
-                        h = 0x57e40;
-                    }
-                } else {
-                    h = 0x57e40;
+    s32 kartCount;
+    s32 removedCount;
+    RaceSetup *raceSetup;
+    RaceProgress *raceProgress;
+    raceSetup = gRaceSetup;
+    switch (raceSetup->mMode) {
+        case MODE_GRAND_PRIX:
+            endConditionMet = TRUE;
+            for (kartIndex = 0; kartIndex < (u32) gRaceSetup->mKartCount; kartIndex++) {
+                f = FALSE;
+                s = raceSetup->mCurrentEntries[kartIndex].mPlayer.mKind;
+                if ((u32) s <= 3 && ((1 << s) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) != 0) {
+                    f = TRUE;
                 }
-            }
-            func_0203f5f0(&t->mUnk_02, &t->mUnk_03, &t->mUnk_00, u, h);
-            func_0205ae8c(i);
-            func_0203e9a0(p, v);
-        }
-    }
-    data_0217561c->mUnk_000[0].mUnk_0e = data_021759c0->mUnk_3d0;
-}
-
-void func_0203ee28(void) {
-    u16 i;
-    Unk0217561c_14 *p;
-    s32 s;
-    s32 f;
-    s32 u;
-    s32 v;
-    Unk0217aa1c_144_00 *t;
-    u32 h;
-    u = 0;
-    v = 0;
-    for (i = 0; i < (u32) data_021759c0->mUnk_3d0; i++) {
-        s = ((Unk0217561c_000 *) ((u8 *) data_0217561c + i * 0x8c))->mUnk_14;
-        f = 0;
-        switch (s) {
-            case 1:
-            case 2:
-            case 3:
-            f = 1;
-            break;
-        }
-        if (f == 0 && s != 4) {
-            p = (Unk0217561c_14 *) ((u8 *) &data_0217561c->mUnk_14[0] + i * 0x8c);
-            t = &p->mUnk_0c[5];
-            h = data_0217561c->mUnk_000[0].mUnk_00;
-            if (data_021759c0->mUnk_08 == 0) {
-                if (p->mUnk_44 > 0) {
-                    h = (u32) (h * func_02147f18(p->mUnk_44)) >> 12;
-                    if (h > 0x57e40) {
-                        h = 0x57e40;
-                    }
-                } else {
-                    h = 0x57e40;
-                }
-            }
-            func_0203f5f0(&t->mUnk_02, &t->mUnk_03, &t->mUnk_00, u, h);
-            func_0203e9a0(p, v);
-        }
-    }
-    data_0217561c->mUnk_000[0].mUnk_0e = data_021759c0->mUnk_3d0;
-}
-
-// non-matching: 0x314 bytes, original 0x328; the original keeps zero constants in r0/r8 and loads data_0217561c after the loop guard, ours folds them.
-s32 func_0203ef58(void) {
-    s32 r;
-    u16 i;
-    s32 s;
-    s32 f;
-    s32 v;
-    Unk021759c0 *o;
-    Unk0217561c *q;
-    o = data_021759c0;
-    switch (o->mUnk_08) {
-        case 0:
-            r = 1;
-            for (i = 0; i < (u32) o->mUnk_3d0; i++) {
-                s = o->mUnk_68[i].mUnk_08.mUnk_00;
-                f = 0;
-                if ((u32) s <= 3 && ((1 << s) & 0xd) != 0) {
-                    f = 1;
-                }
-                if (f != 0) {
-                    s = data_0217561c->mUnk_000[i].mUnk_14;
-                    f = 0;
+                if (f != FALSE) {
+                    s = gRaceProgress->mUnk_000[kartIndex].mStatus;
+                    f = FALSE;
                     switch (s) {
                         case 1:
                         case 2:
                         case 3:
-                            f = 1;
+                            f = TRUE;
                             break;
                     }
-                    if (f == 0) {
-                        r = 0;
+                    if (f == FALSE) {
+                        endConditionMet = FALSE;
                         break;
                     }
                 }
             }
             break;
-        case 3:
-            r = 1;
-            q = data_0217561c;
-            if (q->mUnk_000[0].mUnk_0e < (s32) func_0203f320() - (q->mUnk_000[0].mUnk_10 + 1)) {
-                for (i = 0; i < func_0203f320(); i++) {
-                    if (func_0203f2dc(i) != 0 && func_0203c880(i) == 0) {
-                        if (func_0203f2b4(i) == 0) {
-                            r = 0;
+        case MODE_VS:
+            endConditionMet = TRUE;
+            raceProgress = gRaceProgress;
+            if (raceProgress->mUnk_000[0].mFinishedCount <
+                (s32) func_0203f320() - (raceProgress->mUnk_000[0].mRemovedCount + 1)) {
+                for (kartIndex = 0; kartIndex < func_0203f320(); kartIndex++) {
+                    if (IsKartNonCpu(kartIndex) != FALSE && IsKartEnded(kartIndex) == 0) {
+                        if (IsRaceProgressKartRemoved(kartIndex) == FALSE) {
+                            endConditionMet = FALSE;
                             break;
                         }
                     }
                 }
             }
-            if (r == 0 && func_0203f2a0() == 1) {
-                if (func_0203c880(func_0203f280()) != 0) {
-                    r = 1;
+            if (endConditionMet == FALSE && func_0203f2a0() == 1) {
+                if (IsKartEnded(GetLeadingKart()) != 0) {
+                    endConditionMet = TRUE;
                 }
             }
             break;
         case 5:
-            v = data_0217aa18->mUnk_06[func_ov000_0219bb50()];
+            v = gParticipantKartMap->mKartOfParticipant[func_ov000_0219bb50()];
             if (v < 0) {
-                r = 0;
+                endConditionMet = FALSE;
             } else {
-                q = data_0217561c;
-                s = q->mUnk_000[(u16) v].mUnk_14;
-                f = data_021759c0->mUnk_3d0 - q->mUnk_000[0].mUnk_10;
-                if (f <= 1) {
-                    r = 0;
+                kartCount = gRaceSetup->mKartCount;
+                raceProgress = gRaceProgress;
+                removedCount = raceProgress->mUnk_000[0].mRemovedCount;
+                if (kartCount - removedCount <= 1) {
+                    endConditionMet = FALSE;
                 } else {
-                    f = 0;
+                    s = raceProgress->mUnk_000[(u16) v].mStatus;
+                    f = FALSE;
                     switch (s) {
                         case 1:
                         case 2:
                         case 3:
-                            f = 1;
+                            f = TRUE;
                             break;
                     }
-                    if (f != 0) {
-                        r = q->mUnk_000[0].mUnk_0e + q->mUnk_000[0].mUnk_10 >= data_021759c0->mUnk_3d0;
+                    if (f == FALSE) {
+                        endConditionMet = raceProgress->mUnk_000[0].mFinishedCount + removedCount >= kartCount - 1;
                     } else {
-                        r = q->mUnk_000[0].mUnk_0e + q->mUnk_000[0].mUnk_10 >= data_021759c0->mUnk_3d0 - 1;
+                        endConditionMet = raceProgress->mUnk_000[0].mFinishedCount + removedCount >= kartCount;
                     }
                 }
             }
             break;
-        case 1:
-            r = 0;
-            switch (data_0217561c->mUnk_000[0].mUnk_14) {
+        case MODE_TIME_ATTACK:
+            endConditionMet = FALSE;
+            switch (gRaceProgress->mUnk_000[0].mStatus) {
                 case 1:
                 case 2:
                 case 3:
-                    r = 1;
+                    endConditionMet = TRUE;
                     break;
             }
             break;
-        case 2:
-            r = 1;
-            for (i = 0; i < (u32) o->mUnk_3d0; i++) {
-                s = o->mUnk_68[i].mUnk_08.mUnk_00;
-                f = 0;
-                if ((u32) s <= 3 && ((1 << s) & 0xd) != 0) {
-                    f = 1;
+        case MODE_BATTLE:
+            endConditionMet = TRUE;
+            for (kartIndex = 0; kartIndex < (u32) raceSetup->mKartCount; kartIndex++) {
+                f = FALSE;
+                s = raceSetup->mCurrentEntries[kartIndex].mPlayer.mKind;
+                if ((u32) s <= 3 && ((1 << s) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) != 0) {
+                    f = TRUE;
                 }
-                if (f != 0) {
-                    if (func_020a1084(i) == 0) {
-                        r = 0;
+                if (f != FALSE) {
+                    if (IsKartEliminated(kartIndex) == FALSE) {
+                        endConditionMet = FALSE;
                         break;
                     }
                 }
-                o = data_021759c0;
+                raceSetup = gRaceSetup;
             }
             break;
-        case 4:
-            r = 0;
-            if (o->mUnk_2f == 6 && data_0217561c->mUnk_000[0].mUnk_0e != 0) {
-                r = 1;
+        case MODE_MISSION_RUN:
+            endConditionMet = FALSE;
+            if (raceSetup->mMissionKind == 6 && gRaceProgress->mUnk_000[0].mFinishedCount != 0) {
+                endConditionMet = TRUE;
             }
             break;
         default:
-            r = 0;
+            endConditionMet = FALSE;
             break;
     }
-    return r;
+    return endConditionMet;
+}
+
+void FinishRemainingRaceProgressKarts(void) {
+    u16 kartIndex;
+    RaceProgressKart *raceProgressKart;
+    s32 status;
+    BOOL ended;
+    BOOL u;
+    BOOL v;
+    Unk0217aa1c_144_00 *finishTime;
+    u32 frames;
+    u = FALSE;
+    v = FALSE;
+    for (kartIndex = 0; kartIndex < (u32) gRaceSetup->mKartCount; kartIndex++) {
+        status = (OFFSET_PTR(Unk0217561c_000, gRaceProgress, kartIndex * 0x8c))->mStatus;
+        ended = FALSE;
+        switch (status) {
+            case 1:
+            case 2:
+            case 3:
+                ended = TRUE;
+                break;
+        }
+        if (ended == FALSE && status != 4) {
+            raceProgressKart = OFFSET_PTR(RaceProgressKart, &gRaceProgress->mKarts[0], kartIndex * 0x8c);
+            finishTime = &raceProgressKart->mLapTimes[5];
+            frames = gRaceProgress->mUnk_000[0].mElapsedFrames;
+            if (gRaceSetup->mMode == MODE_GRAND_PRIX) {
+                if (raceProgressKart->mRaceProgress > 0) {
+                    frames = (u32) (frames * FX_Inv(raceProgressKart->mRaceProgress)) >> 12;
+                    if (frames > 0x57e40) {
+                        frames = 0x57e40;
+                    }
+                } else {
+                    frames = 0x57e40;
+                }
+            }
+            ComputeRaceTime(&finishTime->mUnk_02, &finishTime->mUnk_03, &finishTime->mUnk_00, u, frames);
+            FinishRaceProgressKart(raceProgressKart, v);
+        }
+    }
+    gRaceProgress->mUnk_000[0].mFinishedCount = gRaceSetup->mKartCount;
+}
+
+void func_0203ecf0(void) {
+    u16 kartIndex;
+    RaceProgressKart *raceProgressKart;
+    s32 status;
+    BOOL ended;
+    BOOL u;
+    BOOL v;
+    Unk0217aa1c_144_00 *finishTime;
+    u32 frames;
+    u = FALSE;
+    v = FALSE;
+    for (kartIndex = 0; kartIndex < (u32) gRaceSetup->mKartCount; kartIndex++) {
+        status = (OFFSET_PTR(Unk0217561c_000, gRaceProgress, kartIndex * 0x8c))->mStatus;
+        ended = FALSE;
+        switch (status) {
+            case 1:
+            case 2:
+            case 3:
+                ended = TRUE;
+                break;
+        }
+        if (ended == FALSE && status != 4) {
+            raceProgressKart = OFFSET_PTR(RaceProgressKart, &gRaceProgress->mKarts[0], kartIndex * 0x8c);
+            finishTime = &raceProgressKart->mLapTimes[5];
+            frames = gRaceProgress->mUnk_000[0].mElapsedFrames;
+            if (gRaceSetup->mMode == MODE_GRAND_PRIX) {
+                if (raceProgressKart->mRaceProgress > 0) {
+                    frames = (u32) (frames * FX_Inv(raceProgressKart->mRaceProgress)) >> 12;
+                    if (frames > 0x57e40) {
+                        frames = 0x57e40;
+                    }
+                } else {
+                    frames = 0x57e40;
+                }
+            }
+            ComputeRaceTime(&finishTime->mUnk_02, &finishTime->mUnk_03, &finishTime->mUnk_00, u, frames);
+            func_0205ae8c(kartIndex);
+            FinishRaceProgressKart(raceProgressKart, v);
+        }
+    }
+    gRaceProgress->mUnk_000[0].mFinishedCount = gRaceSetup->mKartCount;
+}
+
+void FinishRemainingMissionRunKarts(void) {
+    u16 kartIndex;
+    RaceProgressKart *raceProgressKart;
+    EntryKartCounters *entryKartCounters;
+    s32 status;
+    BOOL ended;
+    u32 succeeded;
+    u8 *missionSettings;
+    Unk0217aa1c_144_00 *finishTime;
+    u32 frames;
+    for (kartIndex = 0; kartIndex < (u32) gRaceSetup->mKartCount; kartIndex++) {
+        status = (OFFSET_PTR(Unk0217561c_000, gRaceProgress, kartIndex * 0x8c))->mStatus;
+        ended = FALSE;
+        switch (status) {
+            case 1:
+            case 2:
+            case 3:
+                ended = TRUE;
+                break;
+        }
+        if (ended == FALSE) {
+            raceProgressKart = OFFSET_PTR(RaceProgressKart, &gRaceProgress->mKarts[0], kartIndex * 0x8c);
+            finishTime = &raceProgressKart->mLapTimes[5];
+            frames = gRaceProgress->mUnk_000[0].mElapsedFrames;
+            if (gRaceSetup->mMode == MODE_GRAND_PRIX) {
+                if (raceProgressKart->mRaceProgress > 0) {
+                    frames = (u32) (frames * FX_Inv(raceProgressKart->mRaceProgress)) >> 12;
+                    if (frames > 0x57e40) {
+                        frames = 0x57e40;
+                    }
+                } else {
+                    frames = 0x57e40;
+                }
+            }
+            ComputeRaceTime(&finishTime->mUnk_02, &finishTime->mUnk_03, &finishTime->mUnk_00, 0, frames);
+            succeeded = 1;
+            missionSettings = (u8 *) &gRaceSetup->mMissionTimeLimitFrameCount;
+            entryKartCounters = GetEntryKartCounters();
+            switch (missionSettings[7]) {
+                case 4:
+                    if (missionSettings[0xf] > (u32) entryKartCounters->mUnk_04) {
+                        succeeded = 0;
+                    }
+                    break;
+                case 6:
+                    if (((u32) (raceProgressKart->mUnk_3c << 28) >> 28) != 1) {
+                        succeeded = 0;
+                    }
+                    break;
+            }
+            if (succeeded != 0) {
+                u32 storedKartIndex = (u32) (raceProgressKart->mUnk_3c << 24) >> 28;
+                if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+                    FinishRaceProgressKartWithEndKind(storedKartIndex, 0);
+                }
+            } else {
+                FinishRaceProgressKartWithEndKind((u32) (raceProgressKart->mUnk_3c << 24) >> 28, 4);
+            }
+        }
+    }
+    gRaceProgress->mUnk_000[0].mFinishedCount = gRaceSetup->mKartCount;
+}
+
+void FinishRaceProgressKart(RaceProgressKart *raceProgressKart, s32 finished) {
+    Unk0217aa1c_144_00 *finishTime;
+    s32 inputSlotIndex;
+    s32 mode;
+    s16 score;
+    inputSlotIndex = gRaceSetup->mCurrentEntries[(u32) (raceProgressKart->mUnk_3c << 24) >> 28].mPlayer.mIndex;
+    if (finished != 0) {
+        raceProgressKart->mStatus = 1;
+    } else {
+        raceProgressKart->mStatus = 3;
+    }
+    switch (data_02175628[inputSlotIndex].mSourceKind) {
+        case 2:
+            FinishKeyRecording(&data_02175628[inputSlotIndex].mUnk_28);
+            break;
+        case 1:
+            FinishReadingKeyRecording((KeyRecording *) &data_02175628[inputSlotIndex].mUnk_28);
+            break;
+    }
+    raceProgressKart->mFlags |= 8;
+    if ((raceProgressKart->mFlags & 1) != 0 && (raceProgressKart->mFlags & 0x10) == 0) {
+        RefreshRaceNewRecordTaRecordFlags();
+    }
+    finishTime = &raceProgressKart->mLapTimes[5];
+    if (finished != 0) {
+        raceProgressKart->mFinishTimeMs =
+            (finishTime->mUnk_02 * 0x3c + finishTime->mUnk_03) * 1000 + finishTime->mUnk_00;
+    } else if (gRaceSetup->mMode != 5) {
+        raceProgressKart->mFinishTimeMs = 0x5b8d80;
+    }
+    mode = gRaceSetup->mMode;
+    if (mode == MODE_GRAND_PRIX || mode == MODE_MISSION_RUN) {
+        if ((raceProgressKart->mFlags & 1) != 0) {
+            raceProgressKart->mScore = ComputeRaceProgressKartScore((u32) (raceProgressKart->mUnk_3c << 24) >> 28);
+            score = raceProgressKart->mScore;
+            if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+                gCupRecords->mUnk_140 = score;
+            } else {
+                gCupRecords->mUnk_140 += score;
+            }
+        }
+    }
+    gRaceProgress->mUnk_000[0].mFinishedCount++;
+}
+
+void FinishRaceProgressKartWithEndKind(s32 kartIndex, s32 endKind) {
+    Kart *kart;
+    Unk0217aa1c_144_00 finishTime;
+    s32 status;
+    BOOL ended;
+    RaceProgressKart *raceProgressKart;
+    raceProgressKart = OFFSET_PTR(RaceProgressKart, &gRaceProgress->mKarts[0], kartIndex * 0x8c);
+    status = raceProgressKart->mStatus;
+    ended = FALSE;
+    switch (status) {
+        case 1:
+        case 2:
+        case 3:
+            ended = TRUE;
+            break;
+    }
+    if (ended != FALSE) {
+        return;
+    }
+    if ((raceProgressKart->mFlags & 0x10) != 0) {
+        return;
+    }
+    if ((raceProgressKart->mFlags & 0x20) != 0) {
+        return;
+    }
+    kart = GetKart(kartIndex);
+    raceProgressKart = OFFSET_PTR(RaceProgressKart, &gRaceProgress->mKarts[0], kartIndex * 0x8c);
+    gRaceProgress->mUnk_000[0].mClockEnabled = 0;
+    ComputeRaceTime(&finishTime.mUnk_02, &finishTime.mUnk_03, &finishTime.mUnk_00, 0,
+                    gRaceProgress->mUnk_000[0].mElapsedFrames);
+    raceProgressKart->mLapTimes[5] = finishTime;
+    if ((raceProgressKart->mFlags & 1) != 0) {
+        gRaceProgress->mEntryEndKind = endKind;
+        kart->mUnk_7c |= 0x20000000;
+        kart->mUnk_48 &= ~0x2000000;
+        if (endKind == 0) {
+            raceProgressKart->mFlags |= 0x10;
+            gRaceProgress->mFramesSinceFinish = 0;
+            if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+                EliminateKartsUntilWinnerDecided();
+            }
+        } else {
+            raceProgressKart->mFlags |= 0x20;
+            gRaceProgress->mFramesSinceFailure = 0;
+            if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+                ((void (*)(s32)) EliminateKartAndCheckWinner)(kartIndex);
+            }
+        }
+    }
+    FinishRaceProgressKart(raceProgressKart, endKind == 0);
+    if (IsRaceEndConditionMet() == 0) {
+        return;
+    }
+    switch (gRaceSetup->mMode) {
+        case MODE_BATTLE:
+            EliminateKartsUntilWinnerDecided();
+            return;
+        case MODE_MISSION_RUN:
+            FinishRemainingMissionRunKarts();
+            return;
+        case 5:
+            func_0203ecf0();
+            return;
+        default:
+            FinishRemainingRaceProgressKarts();
+            return;
+        case MODE_TIME_ATTACK:
+            return;
+    }
+}
+
+void FinishMissionRunKartWithEndKind0(u16 kartIndex) {
+    if (gRaceSetup->mMode != MODE_MISSION_RUN) {
+        return;
+    }
+    FinishRaceProgressKartWithEndKind(kartIndex, 0);
 }

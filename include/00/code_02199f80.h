@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "00/code_02199000.h"
 
-u32 func_ov000_02199f80(u32 param_1);
+typedef struct Gt2Connection Gt2Connection;
+
+u32 func_ov000_02199f80(Gt2Connection *a);

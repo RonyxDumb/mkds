@@ -1,10 +1,12 @@
 #include "01/code_021842b4.h"
+#include "01/code_02184390.h"
+#include "01/code_02188158.h"
 
-u32 func_ov001_021842b4(int param_1) {
-    if (*(int *) (param_1 + 0x1cc) < 0) {
-        func_ov001_02188200((Unk02188950 *) (param_1), (UnkFunc *) ((u32) &func_ov001_02184390));
-        *(u32 *) (param_1 + 0x150) = 7;
-        *(u32 *) (param_1 + 0x158) = 0;
+s32 func_ov001_021842b4(Unk02188950 *donketu) {
+    if (donketu->mVelocity.y < 0) {
+        SetKartCollisionCallback(donketu, func_ov001_02184390);
+        donketu->mUnk_150 = 7;
+        donketu->mUnk_158 = NULL;
     }
     return 0;
 }

@@ -1,12 +1,11 @@
 #pragma once
 
 #include "types.h"
-#include "code_02012b30.h" // Unk0201290c
+#include "code_02012b30.h" // NNSG3dResMdl
 
-extern s32 data_0217ad20;
-extern s32 data_021658c0;
+extern s32 gMinKartDistanceSquaredPresent;
+extern s32 gMinKartDistanceSquared;
 
-void func_0207a14c(Unk0201290c *a, u32 b);
-s32 func_0207a218(void);
-s32 func_0207a2a8(s32 *a);
-void func_0207a2d4(s32 a);
+void SetKartModelMaterialColors(NNSG3dResMdl *mdl, u32 colorSet);
+BOOL func_0207a218(void);
+BOOL TryGetMinKartDistanceSquared(s32 *distanceSquared);

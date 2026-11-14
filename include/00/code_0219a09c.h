@@ -1,7 +1,6 @@
 #pragma once
 
 #include "types.h"
-#include "00/code_0218dd8c.h"
-#include "00/code_0219a000.h"
+#include "00/code_02197e58.h"
 
-u32 func_ov000_0219a09c(int param_1);
+u32 func_ov000_0219a09c(Gt2Socket *a);

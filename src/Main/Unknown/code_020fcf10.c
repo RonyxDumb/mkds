@@ -1,67 +1,66 @@
 #include "Main/Unknown/code_020fcf10.h"
-#include "Main/Unknown/code_020fc2e8.h"
+#include "code_02012b30.h"
+#include "Main/Unknown/code_020f9c6c.h"
 #include "Main/Unknown/code_0206bcb0.h"
 #include "ITCM/code_01ffd000.h"
 #include "Main/Unknown/unk_0215d000.h"
 #include "code_02147cd8.h"
 #include "Main/Unknown/code_020ee684.h"
 
-// non-matching: one load in another place (0x344 bytes both): in `v2->x = (v2->x * e + t.x) >> f;` the original
-// loads e from the stack first (ldr r3, [sp, #0x6c]), then t.x, then v2->x; this compiler loads t.x, v2->x, e
-// (same registers, same mla and asr).
-void func_020fcf10(Unk020fc2e8 *p0, s32 a, s32 b, s32 c, s32 d, s32 e, s32 f) {
+void SteerItemKouraWToAnglePoint(ItemKouraW *item, s32 maxStep, s32 angle, s32 radius, s32 gain, s32 oldWeight,
+                                 s32 shift) {
     Vec3 t;
-    Vec3 *v;
-    Vec3 *v1;
-    Vec3 *v2;
-    Unk0206bcb0 *p;
+    Vec3 *toTarget;
+    Vec3 *pos;
+    Vec3 *velocity;
+    Kart *kart;
     s32 s;
 
-    p = p0->mUnk_228->mUnk_1fc;
-    p0->mUnk_22c = p->mUnk_05c;
-    v1 = &p0->mUnk_000.mUnk_50;
-    v2 = &p0->mUnk_000.mUnk_5c;
-    v = &p0->mUnk_238;
-    if (p->mUnk_44 & 0x100) {
-        p0->mUnk_22c.x = -p0->mUnk_22c.x;
-        p0->mUnk_22c.y = -p0->mUnk_22c.y;
-        p0->mUnk_22c.z = -p0->mUnk_22c.z;
+    kart = item->mKartItems->mKart;
+    item->mUnk_22c = kart->mSignedTurnedForward;
+    pos = &item->mUnk_000.mPos;
+    velocity = &item->mUnk_000.mVelocity;
+    toTarget = &item->mUnk_238;
+    if (kart->mUnk_44 & 0x100) {
+        item->mUnk_22c.x = -item->mUnk_22c.x;
+        item->mUnk_22c.y = -item->mUnk_22c.y;
+        item->mUnk_22c.z = -item->mUnk_22c.z;
     }
-    func_020397a8(&p0->mUnk_22c, &p->mUnk_244, &t);
-    s = (s32) (((s64) c * data_0215d4b4[(b >> 4) * 2 + 1]) >> 12);
-    p0->mUnk_250.x = (s32) (((s64) t.x * s) >> 12);
-    p0->mUnk_250.y = (s32) (((s64) t.y * s) >> 12);
-    p0->mUnk_250.z = (s32) (((s64) t.z * s) >> 12);
-    s = (s32) (((s64) c * data_0215d4b4[(b >> 4) * 2]) >> 12);
-    func_02147fd8(s, &p0->mUnk_22c, &p0->mUnk_250, &p0->mUnk_250);
-    func_02147fd8(0x1e000, &p0->mUnk_22c, &p0->mUnk_250, &t);
-    if (func_0206c0b0(p) == 0) {
-        p0->mUnk_244 = p->mUnk_98;
+    Vec3CrossUnrounded(&item->mUnk_22c, &kart->mGroundNormal, &t);
+    s = ((s64) radius * gPairsByAngle[(angle >> 4) * 2 + 1]) >> 12;
+    item->mUnk_250.x = ((s64) t.x * s) >> 12;
+    item->mUnk_250.y = ((s64) t.y * s) >> 12;
+    item->mUnk_250.z = ((s64) t.z * s) >> 12;
+    s = ((s64) radius * gPairsByAngle[(angle >> 4) * 2]) >> 12;
+    VEC_MultAdd(s, &item->mUnk_22c, &item->mUnk_250, &item->mUnk_250);
+    VEC_MultAdd(0x1e000, &item->mUnk_22c, &item->mUnk_250, &t);
+    if (func_0206c0b0(kart) == FALSE) {
+        item->mUnk_244 = kart->mDrawMatrixPos;
     }
-    func_02148504(&t, &p0->mUnk_244, &t);
-    func_021484d0(&t, v1, v);
-    t.x = (s32) (((s64) v->x * d) >> 12);
-    t.y = (s32) (((s64) v->y * d) >> 12);
-    t.z = (s32) (((s64) v->z * d) >> 12);
-    if ((s64) t.x * t.x + (s64) t.y * t.y + (s64) t.z * t.z >= (s64) a * a) {
+    VEC_Add(&t, &item->mUnk_244, &t);
+    VEC_Subtract(&t, pos, toTarget);
+    t.x = ((s64) toTarget->x * gain) >> 12;
+    t.y = ((s64) toTarget->y * gain) >> 12;
+    t.z = ((s64) toTarget->z * gain) >> 12;
+    if ((s64) t.x * t.x + (s64) t.y * t.y + (s64) t.z * t.z >= (s64) maxStep * maxStep) {
         if ((s64) t.x * t.x + (s64) t.y * t.y + (s64) t.z * t.z >= 0x10) {
-            func_02039860(&t, &t);
+            Vec3NormalizeAndGetLengthUnchecked(&t, &t);
         }
-        t.x = (s32) (((s64) t.x * a) >> 12);
-        t.y = (s32) (((s64) t.y * a) >> 12);
-        t.z = (s32) (((s64) t.z * a) >> 12);
+        t.x = ((s64) t.x * maxStep) >> 12;
+        t.y = ((s64) t.y * maxStep) >> 12;
+        t.z = ((s64) t.z * maxStep) >> 12;
     }
-    v2->x = (v2->x * e + t.x) >> f;
-    v2->y = (v2->y * e + t.y) >> f;
-    v2->z = (v2->z * e + t.z) >> f;
-    func_02148504(v2, v1, v1);
-    if (func_01ffdee4((int *) v1, (u32 *) &p0->mUnk_000.mUnk_0e4, 0, p0->mUnk_000.mUnk_dc, 4, p0->mUnk_000.mUnk_da,
-                      (int *) &t, 0, 0, 0, 0, 0, 0, 0) == 0) {
+    velocity->x = (velocity->x * (s32) oldWeight + t.x) >> shift;
+    velocity->y = (velocity->y * (s32) oldWeight + t.y) >> shift;
+    velocity->z = (velocity->z * oldWeight + t.z) >> shift;
+    VEC_Add(velocity, pos, pos);
+    if (func_01ffdee4(pos, &item->mUnk_000.mPrevPos, 0, item->mUnk_000.mUnk_dc, 4, item->mUnk_000.mCollisionSlotIndex,
+                      &t, NULL, NULL, NULL, NULL, NULL, NULL, NULL) == 0) {
         return;
     }
-    if ((p->mUnk_48 & 1) == 0) {
-        v1->y += t.y;
+    if ((kart->mUnk_48 & 1) == 0) {
+        pos->y += t.y;
         return;
     }
-    func_02148504(v1, &t, v1);
+    VEC_Add(pos, &t, pos);
 }

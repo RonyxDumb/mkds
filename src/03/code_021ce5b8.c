@@ -1,55 +1,123 @@
 #include "03/code_021ce5b8.h"
-#include "03/code_021ce8ec.h"
-#include "code_02134d30.h"
-#include "Main/Unknown/code_0200eddc.h"
-#include "code_0200fd1c.h"
-#include "code_0214d018.h"
+#include "03/unk_021d6000.h"
 
-void func_ov003_021ce5b8(Unk021ce5b8 *a) {
-    s32 i;
-    Unk021da280 *q;
-    s32 n;
+#include "03/code_021ce000.h"
+#include "03/unk_021da000.h"
+#include "code_02142eac.h"
+#include "string.h"
+#include "code_02134398.h"
+#include "code_0200eddc.h"
+#include "code_0200fc8c.h"
+#include "code_0214d018.h"
+#include "03/code_021d3488.h"
+#include "03/code_021d27d8.h"
+#include "code_0200f5ac.h"
+#include "registers.h"
+#include "03/code_021ce110.h"
+
+u32 func_ov003_021ce920(void (*a)(u32)) {
+    Unk021da280 *d;
+    Unk0200fddc s;
+    u64 t;
+
+    data_ov003_021da280 = AllocZeroedExpHeapBlock(0x1ba0, 0x20);
+    data_ov003_021da280->mUnk_1370 = a;
+    d = data_ov003_021da280;
+    t = OS_GetTick();
+    d->mUnk_1b74 = t;
+    d->mUnk_1b78 = t >> 32;
+    if (WM_Initialize(d, func_ov003_021ce7c0, 3) == 2) {
+        do {
+            WM_ReadStatus(&data_ov003_021da280->mUnk_13b8);
+        } while (data_ov003_021da280->mUnk_13b8.mState != 2);
+        d = data_ov003_021da280;
+        *(Unk021d66d0 *) &d->mUnk_1374 = data_ov003_021d66d0;
+        d->mUnk_1374.mUnk_00 = d->mUnk_0f00;
+        data_ov003_021da280->mUnk_1374.mUnk_08 = WM_GetDispersionScanPeriod();
+        OS_GetOwnerInfo(&s);
+        MI_CpuCopy8(data_ov003_021d66c4, &data_ov003_021da280->mUnk_1374.mUnk_14[0], 8);
+        data_ov003_021da280->mUnk_1374.mUnk_14[9] = 1;
+        MI_CpuCopy8(s.mUnk_04, &data_ov003_021da280->mUnk_1374.mUnk_14[0xc], s.mUnk_18 * 2);
+        if (func_ov003_021ce8ec() != 0) {
+            data_ov003_021da280->mUnk_1b7c = AddTask(0, func_ov003_021ce4d4, NULL, 0x78);
+            return 1;
+        }
+    }
+    FreeExpHeapBlockAndClearPointer(&data_ov003_021da280);
+    return 0;
+}
+
+u32 func_ov003_021ce8ec(void) {
+    int v1;
+    v1 = WM_StartScanEx(func_ov003_021ce7c0, &data_ov003_021da280->mUnk_1374);
+    if (v1 == 2) {
+        return 1;
+    }
+    return 0;
+}
+
+u32 func_ov003_021ce848(void) {
     Unk021da280 *d;
 
+    data_ov003_021da280->mUnk_1b80 = 1;
+    WM_ReadStatus(&data_ov003_021da280->mUnk_13b8);
+    if (data_ov003_021da280->mUnk_13b8.mState != 2) {
+        if (WM_Reset(func_ov003_021ce7c0) != 2) {
+            return 0;
+        }
+        do {
+            WM_ReadStatus(&data_ov003_021da280->mUnk_13b8);
+        } while (data_ov003_021da280->mUnk_13b8.mState != 2);
+    }
+    if (WM_End(func_ov003_021ce7c0) != 2) {
+        return 0;
+    }
     d = data_ov003_021da280;
-    if (d->mUnk_1b81 != 0) {
-        if (d->mUnk_1370 != 0) {
-            d->mUnk_1370(d->mUnk_1b81);
+    if (d->mUnk_1b7c != 0) {
+        RemoveTaskEntryWrapper(0, d->mUnk_1b7c);
+    }
+    d = data_ov003_021da280;
+    while (*(vu8 *) &d->mUnk_1b80 != 2) {
+    }
+    FreeExpHeapBlockAndClearPointer(&data_ov003_021da280);
+    return 1;
+}
+
+void func_ov003_021ce834(u32 a) {
+    data_ov003_021da280->mUnk_1370 = (void (*)(u32)) a;
+}
+
+void func_ov003_021ce7c0(Unk021425e8 *a) {
+    Unk021da280 *d;
+
+    if (a->mResultCode != 0) {
+        return;
+    }
+    d = data_ov003_021da280;
+    if (d->mUnk_1b80 != 0) {
+        if (a->mCommand == 2) {
+            d->mUnk_1b80 = 2;
         }
         return;
     }
-    func_0200ee3c(d->mUnk_0f00, 0x400);
-    i = 0;
-    n = a->mUnk_0e;
-    if (n > 0) {
-        q = data_ov003_021da280;
-        do {
-            s32 j;
-            u8 *p;
-            Unk021ce5b8_10 *e;
-
-            e = a->mUnk_10[i];
-            if (func_02134d30(e->mUnk_0c, data_ov003_021d66c4, 8) != 0) {
-                continue;
+    if (a->mCommand != 0x26) {
+        return;
+    }
+    switch (a->mUnk_08_0) {
+        case 5:
+            if (d->mUnk_1b82 != 0) {
+                func_ov003_021ce5b8((Unk021ce5b8 *) a);
+            } else {
+                func_ov003_021ce6ac((Unk021ce5b8 *) a);
             }
-            if ((e->mUnk_15 & 1) == 0) {
-                continue;
-            }
-            for (j = 0, p = q->mUnk_1300[0].mUnk_00; j < 16; j++) {
-                if (func_02134d30(e->mUnk_04, p, 6) == 0) {
-                    if (q->mUnk_1300[j].mUnk_06 != 0) {
-                        break;
-                    }
-                    if (q->mUnk_1370 != 0) {
-                        q->mUnk_1370(1);
-                        return;
-                    }
-                    q->mUnk_1b81 = 1;
-                    return;
-                }
-                p += 7;
-            }
-        } while (++i < n);
+            func_ov003_021ce8ec();
+            break;
+        case 4:
+            func_ov003_021ce8ec();
+            break;
+        default:
+            OS_Terminate();
+            break;
     }
 }
 
@@ -65,22 +133,22 @@ void func_ov003_021ce6ac(Unk021ce5b8 *a) {
         Unk021da280 *d;
 
         e = a->mUnk_10[i];
-        func_0200ee3c(e, 0xc0);
-        if (func_02134d30(e->mUnk_0c, data_ov003_021d66c4, 8) != 0) {
+        DC_InvalidateRange(e, 0xc0);
+        if (memcmp(e->mUnk_0c, data_ov003_021d66c4, 8) != 0) {
             continue;
         }
         j = 0;
         d = data_ov003_021da280;
         p = d->mUnk_1300[0].mUnk_00;
         for (; j < 16; j++) {
-            if (func_02134d30(e->mUnk_04, p, 6) == 0) {
+            if (memcmp(e->mUnk_04, p, 6) == 0) {
                 if (d->mUnk_1300[j].mUnk_06 != 0) {
                     goto next;
                 }
                 if ((e->mUnk_15 & 1) == 0) {
                     goto next;
                 }
-                if (d->mUnk_1370 != 0) {
+                if (d->mUnk_1370 != NULL) {
                     d->mUnk_1370(1);
                 }
                 return;
@@ -90,8 +158,8 @@ void func_ov003_021ce6ac(Unk021ce5b8 *a) {
         k = 0;
         q = d->mUnk_1300[0].mUnk_00;
         for (; k < 16; k++) {
-            if (func_02134d30(q, data_ov003_021d66bc, 6) == 0) {
-                func_0214d1fc(e->mUnk_04, d->mUnk_1300[k].mUnk_00, 6);
+            if (memcmp(q, data_ov003_021d66bc, 6) == 0) {
+                MI_CpuCopy8(e->mUnk_04, d->mUnk_1300[k].mUnk_00, 6);
                 data_ov003_021da280->mUnk_1300[k].mUnk_06 = (e->mUnk_15 & 1) ? 1 : 0;
                 goto next;
             }
@@ -101,34 +169,50 @@ void func_ov003_021ce6ac(Unk021ce5b8 *a) {
     }
 }
 
-// non-matching: the code for the value 4 (call to func_ov003_021ce8ec and return) follows the test for 4 here, the
-// original places it after the code for the value 5, same size
-void func_ov003_021ce7c0(Unk021425e8 *a) {
+void func_ov003_021ce5b8(Unk021ce5b8 *a) {
+    s32 i;
+    Unk021da280 *q;
+    s32 n;
     Unk021da280 *d;
 
-    if (a->mUnk_02 != 0) {
-        return;
-    }
     d = data_ov003_021da280;
-    if (d->mUnk_1b80 != 0) {
-        if (a->mUnk_00 == 2) {
-            d->mUnk_1b80 = 2;
+    if (d->mUnk_1b81 != 0) {
+        if (d->mUnk_1370 != NULL) {
+            d->mUnk_1370(d->mUnk_1b81);
         }
         return;
     }
-    if (a->mUnk_00 != 0x26) {
-        return;
-    }
-    if (a->mUnk_08_0 == 4) {
-        func_ov003_021ce8ec();
-    } else if (a->mUnk_08_0 == 5) {
-        if (d->mUnk_1b82 != 0) {
-            func_ov003_021ce5b8((Unk021ce5b8 *) a);
-        } else {
-            func_ov003_021ce6ac((Unk021ce5b8 *) a);
-        }
-        func_ov003_021ce8ec();
-    } else {
-        func_0200fd1c();
+    DC_InvalidateRange(d->mUnk_0f00, 0x400);
+    i = 0;
+    n = a->mUnk_0e;
+    if (n > 0) {
+        q = data_ov003_021da280;
+        do {
+            s32 j;
+            u8 *p;
+            Unk021ce5b8_10 *e;
+
+            e = a->mUnk_10[i];
+            if (memcmp(e->mUnk_0c, data_ov003_021d66c4, 8) != 0) {
+                continue;
+            }
+            if ((e->mUnk_15 & 1) == 0) {
+                continue;
+            }
+            for (j = 0, p = q->mUnk_1300[0].mUnk_00; j < 16; j++) {
+                if (memcmp(e->mUnk_04, p, 6) == 0) {
+                    if (q->mUnk_1300[j].mUnk_06 != 0) {
+                        break;
+                    }
+                    if (q->mUnk_1370 != NULL) {
+                        q->mUnk_1370(1);
+                        return;
+                    }
+                    q->mUnk_1b81 = 1;
+                    return;
+                }
+                p += 7;
+            }
+        } while (++i < n);
     }
 }

@@ -1,5 +1,6 @@
 #include "Main/Unknown/code_020f73fc.h"
 
+#include "Main/Unknown/code_020fe4b4.h"
 #include "Main/Unknown/unk_02159000.h"
 #include "Main/Unknown/code_020fe000.h"
 #include "Main/Unknown/code_020f36d8.h"
@@ -8,7 +9,7 @@
 #include "Main/Unknown/code_02039860.h"
 #include "Main/Unknown/code_020ed5c0.h"
 #include "Main/Unknown/code_020ee684.h"
-#include "Main/Unknown/code_020f5d6c.h"
+#include "Main/Unknown/code_020f49bc.h"
 #include "Main/Unknown/code_020f6be8.h"
 #include "Main/Unknown/code_020f73a4.h"
 #include "Main/Unknown/code_020f7c60.h"
@@ -17,242 +18,246 @@
 #include "Main/Unknown/code_020f9c40.h"
 #include "code_02147cd8.h"
 
-void func_020f77f8(void *param_1, s32 param_2, Vec3 *param_3, Vec3 *param_4, Unk020e71a0 *param_5) {
-    Unk020f41c4_A *p = param_1;
-    Vec3 v;
-    Vec3 v2;
-    Vec3 w;
-    s32 i;
+void func_020f77f8(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, Vec3 *otherVelocity, MapObject *mapObject) {
+    ItemObject *item = itemParam;
+    Vec3 offset;
+    Vec3 direction;
+    Vec3 push;
+    s32 soundId;
     s32 n;
-    s32 m;
-    void (*cb)(Unk020f41c4_A *, s32);
+    s32 radius;
+    void (*soundCallback)(ItemObject *, s32);
 
-    if (p->mUnk_74 & 0x80000) {
+    if (item->mFlags & 0x80000) {
         return;
     }
-    i = param_5 ? param_5->mUnk_98->mUnk_28 : -1;
-    switch (param_2) {
+    soundId = mapObject ? mapObject->mKindData->mUnk_28 : -1;
+    switch (hitType) {
         case 1:
-            if (p->mUnk_74 & 0x1000) {
+            if (item->mFlags & 0x1000) {
                 break;
             }
-            func_021484d0(&p->mUnk_0e4, param_3, &v);
-            if (!(p->mUnk_74 & 0x8000) && (p->mUnk_74 & 0x1000000)) {
-                func_020f7c90(p, param_3, &v);
+            VEC_Subtract(&item->mPrevPos, otherPos, &offset);
+            if (!(item->mFlags & 0x8000) && (item->mFlags & 0x1000000)) {
+                func_020f7c90(item, otherPos, &offset);
                 break;
             }
-            p->mUnk_74 |= 0x4000000;
-            if (func_02039828(&p->mUnk_5c, &v) <= 0) {
-                if ((s64) v.x * v.x + (s64) v.y * v.y + (s64) v.z * v.z >= 0x10) {
-                    func_02039860(&v, &v);
+            item->mFlags |= 0x4000000;
+            if (Vec3DotUnrounded(&item->mVelocity, &offset) <= 0) {
+                if ((s64) offset.x * offset.x + (s64) offset.y * offset.y + (s64) offset.z * offset.z >= 0x10) {
+                    Vec3NormalizeAndGetLengthUnchecked(&offset, &offset);
                 }
-                p->mUnk_124(p, param_4, &v);
-                if (p->mUnk_74 & 0x8000) {
+                item->mBounce(item, otherVelocity, &offset);
+                if (item->mFlags & 0x8000) {
                     break;
                 }
-                m = p->mUnk_e0;
-                if ((s64) (param_3->x - p->mUnk_50.x) * (param_3->x - p->mUnk_50.x) +
-                        (s64) (param_3->y - p->mUnk_50.y) * (param_3->y - p->mUnk_50.y) +
-                        (s64) (param_3->z - p->mUnk_50.z) * (param_3->z - p->mUnk_50.z) >=
-                    (s64) m * m) {
+                radius = item->mRadius;
+                if ((s64) (otherPos->x - item->mPos.x) * (otherPos->x - item->mPos.x) +
+                        (s64) (otherPos->y - item->mPos.y) * (otherPos->y - item->mPos.y) +
+                        (s64) (otherPos->z - item->mPos.z) * (otherPos->z - item->mPos.z) >=
+                    (s64) radius * radius) {
                     break;
                 }
-                p->mUnk_50.x = param_3->x + (s32) (((s64) m * v.x) >> 12);
-                p->mUnk_50.z = param_3->z + (s32) (((s64) m * v.z) >> 12);
+                item->mPos.x = otherPos->x + (s32) (((s64) radius * offset.x) >> 12);
+                item->mPos.z = otherPos->z + (s32) (((s64) radius * offset.z) >> 12);
                 break;
             }
-            if (p->mUnk_74 & 0x8000) {
+            if (item->mFlags & 0x8000) {
                 break;
             }
-            m = p->mUnk_e0;
-            if ((s64) (param_3->x - p->mUnk_50.x) * (param_3->x - p->mUnk_50.x) +
-                    (s64) (param_3->y - p->mUnk_50.y) * (param_3->y - p->mUnk_50.y) +
-                    (s64) (param_3->z - p->mUnk_50.z) * (param_3->z - p->mUnk_50.z) >=
-                (s64) m * m) {
+            radius = item->mRadius;
+            if ((s64) (otherPos->x - item->mPos.x) * (otherPos->x - item->mPos.x) +
+                    (s64) (otherPos->y - item->mPos.y) * (otherPos->y - item->mPos.y) +
+                    (s64) (otherPos->z - item->mPos.z) * (otherPos->z - item->mPos.z) >=
+                (s64) radius * radius) {
                 break;
             }
-            if ((s64) v.x * v.x + (s64) v.y * v.y + (s64) v.z * v.z >= 0x10) {
-                func_02039860(&v, &v);
+            if ((s64) offset.x * offset.x + (s64) offset.y * offset.y + (s64) offset.z * offset.z >= 0x10) {
+                Vec3NormalizeAndGetLengthUnchecked(&offset, &offset);
             }
-            m = p->mUnk_e0;
-            p->mUnk_50.x = param_3->x + (s32) (((s64) m * v.x) >> 12);
-            p->mUnk_50.z = param_3->z + (s32) (((s64) m * v.z) >> 12);
+            radius = item->mRadius;
+            item->mPos.x = otherPos->x + (s32) (((s64) radius * offset.x) >> 12);
+            item->mPos.z = otherPos->z + (s32) (((s64) radius * offset.z) >> 12);
             break;
         case 2:
-            if (p->mUnk_74 & 0x1000) {
-                func_020eda5c(&((Unk020ee684 *) (void *) data_027e00c8)[(u16) (p->mUnk_78 & ~0xff00)].mUnk_058, p);
+            if (item->mFlags & 0x1000) {
+                RemoveItemInUseObject(&(gKartItems)[(u16) (item->mUnk_78 & ~0xff00)].mItemInUse, item);
             }
             n = 0;
-            if ((s64) param_4->x * param_4->x + (s64) param_4->y * param_4->y + (s64) param_4->z * param_4->z >= 0x10) {
-                n = func_02039860(param_4, &v2);
+            if ((s64) otherVelocity->x * otherVelocity->x + (s64) otherVelocity->y * otherVelocity->y +
+                    (s64) otherVelocity->z * otherVelocity->z >=
+                0x10) {
+                n = Vec3NormalizeAndGetLengthUnchecked(otherVelocity, &direction);
             }
             if (n != 0) {
-                func_020f6be8(p, param_3, param_4, &v2);
+                func_020f6be8(item, otherPos, otherVelocity, &direction);
             } else {
-                func_021484d0(&p->mUnk_50, param_3, &v2);
-                if (v2.y < 0) {
-                    v2.y = 0;
+                VEC_Subtract(&item->mPos, otherPos, &direction);
+                if (direction.y < 0) {
+                    direction.y = 0;
                 }
-                if ((s64) v2.x * v2.x + (s64) v2.y * v2.y + (s64) v2.z * v2.z >= 0x10) {
-                    func_02039860(&v2, &v2);
+                if ((s64) direction.x * direction.x + (s64) direction.y * direction.y +
+                        (s64) direction.z * direction.z >=
+                    0x10) {
+                    Vec3NormalizeAndGetLengthUnchecked(&direction, &direction);
                 }
-                w.x = (s32) (((s64) v2.x * 0x1800) >> 12);
-                w.y = (s32) (((s64) v2.y * 0x1800) >> 12);
-                w.z = (s32) (((s64) v2.z * 0x1800) >> 12);
-                func_020f6be8(p, param_3, &w, &v2);
+                push.x = ((s64) direction.x * 0x1800) >> 12;
+                push.y = ((s64) direction.y * 0x1800) >> 12;
+                push.z = ((s64) direction.z * 0x1800) >> 12;
+                func_020f6be8(item, otherPos, &push, &direction);
             }
-            if (i == -1 || (p->mUnk_74 & 0x8000000)) {
-                func_020f6fc4(p, 1);
+            if (soundId == -1 || (item->mFlags & 0x8000000)) {
+                func_020f6fc4(item, 1);
             } else {
-                n = p->mUnk_44;
-                func_020f7104(p, 1);
+                n = item->mKind;
+                func_020f7104(item, 1);
                 if (n == 5 || n == 9) {
-                    i = -1;
+                    soundId = -1;
                 }
             }
     }
-    if (i == -1) {
+    if (soundId == -1) {
         return;
     }
-    cb = (p->mUnk_74 & 0x400000) ? (void (*)(Unk020f41c4_A *, s32)) func_020f7c60
-                                 : (void (*)(Unk020f41c4_A *, s32)) func_020f91fc;
-    cb(p, i);
+    soundCallback = (item->mFlags & 0x400000) ? (void (*)(ItemObject *, s32)) func_020f7c60
+                                              : (void (*)(ItemObject *, s32)) func_020f91fc;
+    soundCallback(item, soundId);
 }
 
-void func_020f7658(Unk020f41c4_A *param_1, s32 param_2) {
-    s32 a;
-    enum { K0 } k;
+void func_020f7658(ItemObject *item, s32 c) {
+    BOOL started;
+    enum { K0 } kind;
 
-    if (!(param_1->mUnk_74 & 0x8000000)) {
-        if ((param_1->mUnk_74 & 0x8000000) && !(param_1->mUnk_74 & 0x10000000) && !(param_1->mUnk_74 & 0x20000000)) {
-            if (param_1->mUnk_78 & 0xf00) {
+    if (!(item->mFlags & 0x8000000)) {
+        if ((item->mFlags & 0x8000000) && !(item->mFlags & 0x10000000) && !(item->mFlags & 0x20000000)) {
+            if (item->mUnk_78 & 0xf00) {
                 return;
             }
-            param_1->mUnk_78 |= data_02159b74;
-            param_1->mUnk_120 = 0;
+            item->mUnk_78 |= data_02159b74;
+            item->mAdvance = NULL;
             return;
         }
-        if (param_1->mUnk_74 & 0x180000) {
+        if (item->mFlags & 0x180000) {
             return;
         }
-        k = param_1->mUnk_44;
-        if (data_0217bc34[k].mUnk_40 == 0 && !(param_1->mUnk_74 & 0x180000)) {
-            param_1->mUnk_120 = func_020f758c;
+        kind = item->mKind;
+        if (gItemKinds[kind].mUnk_40 == 0 && !(item->mFlags & 0x180000)) {
+            item->mAdvance = AdvanceItemObjectReleaseTimer;
         }
-        param_1->mUnk_74 |= 0x100002;
+        item->mFlags |= 0x100002;
         return;
     }
-    if ((param_1->mUnk_74 & 0x8000000) && !(param_1->mUnk_74 & 0x10000000) && !(param_1->mUnk_74 & 0x20000000)) {
-        if (param_1->mUnk_78 & 0xf00) {
-            a = 0;
+    if ((item->mFlags & 0x8000000) && !(item->mFlags & 0x10000000) && !(item->mFlags & 0x20000000)) {
+        if (item->mUnk_78 & 0xf00) {
+            started = FALSE;
         } else {
-            param_1->mUnk_78 |= data_02159b74;
-            param_1->mUnk_120 = 0;
-            a = 1;
+            item->mUnk_78 |= data_02159b74;
+            item->mAdvance = NULL;
+            started = TRUE;
         }
     } else {
-        if (param_1->mUnk_74 & 0x180000) {
-            a = 0;
+        if (item->mFlags & 0x180000) {
+            started = FALSE;
         } else {
-            k = param_1->mUnk_44;
-            if (data_0217bc34[k].mUnk_40 == 0 && !(param_1->mUnk_74 & 0x180000)) {
-                param_1->mUnk_120 = func_020f758c;
+            kind = item->mKind;
+            if (gItemKinds[kind].mUnk_40 == 0 && !(item->mFlags & 0x180000)) {
+                item->mAdvance = AdvanceItemObjectReleaseTimer;
             }
-            param_1->mUnk_74 |= 0x100002;
-            a = 1;
+            item->mFlags |= 0x100002;
+            started = TRUE;
         }
     }
-    if (a == 0) {
+    if (started == FALSE) {
         return;
     }
-    if (param_2 == 0) {
+    if (c == 0) {
         return;
     }
-    func_020fe7a0(param_1->mUnk_44, 4, 8, param_1->mUnk_4e);
+    func_020fe7a0(item->mKind, 4, 8, item->mId);
 }
 
-void func_020f7600(Unk020f41c4_A *param_1) {
-    enum { K0 } k;
+void StartItemObjectReleaseTimer(ItemObject *item) {
+    enum { K0 } kind;
 
-    if (param_1->mUnk_74 & 0x180000) {
+    if (item->mFlags & 0x180000) {
         return;
     }
-    k = param_1->mUnk_44;
-    if (data_0217bc34[k].mUnk_40 == 0 && !(param_1->mUnk_74 & 0x180000)) {
-        param_1->mUnk_120 = func_020f758c;
+    kind = item->mKind;
+    if (gItemKinds[kind].mUnk_40 == 0 && !(item->mFlags & 0x180000)) {
+        item->mAdvance = AdvanceItemObjectReleaseTimer;
     }
-    param_1->mUnk_74 |= 0x100002;
+    item->mFlags |= 0x100002;
 }
 
-void func_020f758c(Unk020f41c4_A *param_1) {
-    if (param_1->mUnk_74 & 0x8000) {
-        func_020f68b0(param_1);
+void AdvanceItemObjectReleaseTimer(ItemObject *item) {
+    if (item->mFlags & 0x8000) {
+        AdvanceRestingItemObject(item);
     }
-    param_1->mUnk_d8--;
-    if (param_1->mUnk_d8 <= 0) {
-        func_020f0f70(&data_027e00cc[param_1->mUnk_44], param_1);
+    item->mAlpha--;
+    if (item->mAlpha <= 0) {
+        ReleaseItemPoolObject(&gItemPools[item->mKind], item);
     } else {
-        if (param_1->mUnk_d8 < 0xa) {
-            func_020f9c40((int) param_1);
+        if (item->mAlpha < 0xa) {
+            FreeItemObjectCollisionSlot((s32) item);
         }
     }
 }
 
-void func_020f7430(Unk020f41c4_A *param_1, s32 param_2) {
-    s32 a;
+void func_020f7430(ItemObject *item, s32 c) {
+    BOOL started;
 
-    if (!(param_1->mUnk_74 & 0x8000000)) {
-        if ((param_1->mUnk_74 & 0x8000000) && !(param_1->mUnk_74 & 0x10000000) && !(param_1->mUnk_74 & 0x20000000)) {
-            if (param_1->mUnk_78 & 0xf00) {
+    if (!(item->mFlags & 0x8000000)) {
+        if ((item->mFlags & 0x8000000) && !(item->mFlags & 0x10000000) && !(item->mFlags & 0x20000000)) {
+            if (item->mUnk_78 & 0xf00) {
                 return;
             }
-            param_1->mUnk_78 |= data_02159b70;
-            param_1->mUnk_120 = 0;
+            item->mUnk_78 |= data_02159b70;
+            item->mAdvance = NULL;
             return;
         }
-        if (param_1->mUnk_74 & 0x180000) {
+        if (item->mFlags & 0x180000) {
             return;
         }
-        if (!(param_1->mUnk_74 & 0x180000)) {
-            param_1->mUnk_120 = (void (*)(Unk020f41c4_A *)) func_020f73d4;
+        if (!(item->mFlags & 0x180000)) {
+            item->mAdvance = (void (*)(ItemObject *)) ReleaseItemObjectToItsPool;
         }
-        param_1->mUnk_74 |= 0x100002;
+        item->mFlags |= 0x100002;
         return;
     }
-    if ((param_1->mUnk_74 & 0x8000000) && !(param_1->mUnk_74 & 0x10000000) && !(param_1->mUnk_74 & 0x20000000)) {
-        if (param_1->mUnk_78 & 0xf00) {
-            a = 0;
+    if ((item->mFlags & 0x8000000) && !(item->mFlags & 0x10000000) && !(item->mFlags & 0x20000000)) {
+        if (item->mUnk_78 & 0xf00) {
+            started = FALSE;
         } else {
-            param_1->mUnk_78 |= data_02159b70;
-            param_1->mUnk_120 = 0;
-            a = 1;
+            item->mUnk_78 |= data_02159b70;
+            item->mAdvance = NULL;
+            started = TRUE;
         }
     } else {
-        if (param_1->mUnk_74 & 0x180000) {
-            a = 0;
+        if (item->mFlags & 0x180000) {
+            started = FALSE;
         } else {
-            if (!(param_1->mUnk_74 & 0x180000)) {
-                param_1->mUnk_120 = (void (*)(Unk020f41c4_A *)) func_020f73d4;
+            if (!(item->mFlags & 0x180000)) {
+                item->mAdvance = (void (*)(ItemObject *)) ReleaseItemObjectToItsPool;
             }
-            param_1->mUnk_74 |= 0x100002;
-            a = 1;
+            item->mFlags |= 0x100002;
+            started = TRUE;
         }
     }
-    if (a == 0) {
+    if (started == FALSE) {
         return;
     }
-    if (param_2 == 0) {
+    if (c == 0) {
         return;
     }
-    func_020fe7a0(param_1->mUnk_44, 5, 8, param_1->mUnk_4e);
+    func_020fe7a0(item->mKind, 5, 8, item->mId);
 }
 
-void func_020f73fc(Unk020f41c4_A *param_1) {
-    if (param_1->mUnk_74 & 0x180000) {
+void StartItemObjectRelease(ItemObject *item) {
+    if (item->mFlags & 0x180000) {
         return;
     }
-    if (!(param_1->mUnk_74 & 0x180000)) {
-        param_1->mUnk_120 = (void (*)(Unk020f41c4_A *)) func_020f73d4;
+    if (!(item->mFlags & 0x180000)) {
+        item->mAdvance = (void (*)(ItemObject *)) ReleaseItemObjectToItsPool;
     }
-    param_1->mUnk_74 |= 0x100002;
+    item->mFlags |= 0x100002;
 }

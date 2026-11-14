@@ -2,4 +2,6 @@
 
 #include "types.h"
 
-u32 func_020dc5dc(u32 arg0);
+typedef struct Wanwan Wanwan;
+
+void EnterWanwanState3(Wanwan *wanwan);

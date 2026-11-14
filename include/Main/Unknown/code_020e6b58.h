@@ -1,15 +1,15 @@
 #pragma once
 
 #include "types.h"
-#include "code_02012b30.h" // Unk02012f58
+#include "code_02012b30.h" // MtxFx43
 
-Unk02012f58 *func_020e6b58(Vec3 *param_1);
-Unk02012f58 *func_020e6b94(Vec3 *param_1);
-Unk02012f58 *func_020e6bd0(Vec3 *param_1);
+MtxFx43 *SetTranslationMatrixPos(Vec3 *position);
+MtxFx43 *func_020e6b94(Vec3 *position);
+MtxFx43 *func_020e6bd0(Vec3 *position);
 void func_020e6c0c(void);
-Unk02012f58 *func_020e6c3c(Vec3 *v, s32 a1, s32 a2);
-Unk02012f58 *func_020e6cbc(Vec3 *param_1);
-Unk02012f58 *func_020e6cf8(Vec3 *param_1);
-s32 func_020e6d34(Vec3 *v, Unk02012f58 *h);
-s32 func_020e6d88(Vec3 *v);
-void func_020e6df0(Unk02012f58 *p);
+MtxFx43 *func_020e6c3c(Vec3 *position, s32 horizontalFactor, s32 yOffset);
+MtxFx43 *func_020e6cbc(Vec3 *position);
+MtxFx43 *SetViewTransposeMatrixPos(Vec3 *position);
+s32 func_020e6d34(Vec3 *yAxis, MtxFx43 *matrix);
+s32 func_020e6d88(Vec3 *yAxis);
+void SetViewMatrices(MtxFx43 *viewMatrix);

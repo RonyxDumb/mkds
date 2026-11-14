@@ -1,11 +1,21 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_02051000.h"
-#include "Main/Unknown/code_02058000.h"
-#include "Main/Unknown/code_02059000.h"
-#include "Main/Unknown/unk_0217a000.h"
 
-void func_0205928c(void);
-void func_020592ac(void);
-void func_020592d4(void);
+void UpdateMPState20(void);
+void EnterMPState20(void);
+void UpdateMPState17(void);
+void func_02059304(void);
+void func_0205933c(void);
+void UpdateMPState16(void);
+void EnterMPState16(void);
+u32 func_020593dc(void);
+void RequestMPState21(void);
+void RequestMPState18(void);
+void RequestMPState16(void *courseId, void *mode);
+u32 func_0205955c(void);
+s32 func_020595e8(s32 a, void *b, void *c);
+s32 func_02059700(void);
+s32 IsAllMPChildSharedDataCopied(void);
+void func_020597d0(const void *data, s32 b, s32 playerIndex, s32 d);
+void InitMPChunkBuffers(void *heap);

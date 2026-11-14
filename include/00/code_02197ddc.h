@@ -1,11 +1,10 @@
 #pragma once
 
 #include "types.h"
-#include "00/code_021a3000.h"
-#include "00/unk_021b3000.h"
-#include "code_0213442c.h"
 
-void func_ov000_02197ddc(int *param_1, u32 param_2);
-void func_ov000_02197e20(int *param_1, u8 param_2);
-int func_ov000_02197e58(int param_1);
-u32 func_ov000_02197e60(int *param_1, int param_2);
+typedef struct Gt2Buffer Gt2Buffer;
+
+void AppendBufferU16(Gt2Buffer *buffer, s32 b);
+void AppendBufferByte(Gt2Buffer *buffer, u8 b);
+int GetBufferUnusedSize(Gt2Buffer *a);
+u32 InitBuffer(Gt2Buffer *a, int b);

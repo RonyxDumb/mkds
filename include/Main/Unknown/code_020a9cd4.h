@@ -1,14 +1,17 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020a8ed8.h" // Unk020a9268, Unk020a9224
+#include "Main/Unknown/code_0206bcb0.h"
+#include "Main/Unknown/code_02042044.h"
+#include "Main/Unknown/code_020f9c6c.h"
+#include "Main/Unknown/code_020a8ed8.h" // IronBall
 #include "Main/Unknown/unk_0217b000.h"
 
-void func_020a9cd4(void *a, Unk020a9268 *p);
-void func_020a9d98(void *a);
-void func_020a9db0(void *a);
-u32 func_020a9de4(Unk020a9224 *p, void *a, u8 *b, u8 *c);
-void func_020a9e04(Unk020a9268 *p);
-s32 func_020a9e80(void);
-s32 func_020a9e90(void);
-void func_020a9ea0(u16 a);
+void DrawIronBall(void *a, IronBall *ironBall);
+void SetupDrawIronBall(void *a);
+void CreateIronBall(void *a);
+u32 CollideKartWithIronBall(IronBall *ironBall, void *kart, u8 *b, u8 *c);
+void InitIronBall(IronBall *ironBall);
+s32 GetKeyboardChosenKeyValue(void);
+s32 GetKeyboardCursorValue(void);
+void MoveKeyboardCursorToValue(u16 value);

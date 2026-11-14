@@ -2,45 +2,45 @@
 #include "Main/Unknown/code_0210d740.h"
 #include "Main/Unknown/unk_0216c000.h"
 #include "Main/Unknown/unk_0217d000.h"
-#include "code_0212c6ac.h"
+#include "code_0212bcac.h"
 
-static inline void func_0210d614_inline(Unk0217d070 *a, u32 b, Unk0212c400 **c) {
-    if (c == 0) {
-        c = &data_0217d07c;
+static inline void func_0210d614_inline(ScenePlayers *scenePlayers, u32 seqNo, NNSSndSeqPlayer **handle) {
+    if (handle == NULL) {
+        handle = &data_0217d07c;
     }
-    if (a->mUnk_0b == 0xff) {
+    if (scenePlayers->mUnk_0b == 0xff) {
         return;
     }
-    func_0210d7dc(b, data_0216cb28, c);
+    StartSeqAtVolume(seqNo, data_0216cb28, handle);
 }
 
-void func_0210d6cc(Unk0217d070 *a) {
-    a->mUnk_00 = 2;
-    if (a->mUnk_0a != 2) {
+void func_0210d6cc(ScenePlayers *scenePlayers) {
+    scenePlayers->mUnk_00 = 2;
+    if (scenePlayers->mUnk_0a != 2) {
         return;
     }
-    func_0210d614_inline(a, data_0217d070.mUnk_0b, (Unk0212c400 **) (u32) &data_0217d07c);
+    func_0210d614_inline(scenePlayers, data_0217d070.mUnk_0b, (NNSSndSeqPlayer **) (u32) &data_0217d07c);
 }
 
-void func_0210d65c(Unk0217d070 *a) {
-    a->mUnk_00 = 3;
-    if (a->mUnk_0a != 3) {
+void func_0210d65c(ScenePlayers *scenePlayers) {
+    scenePlayers->mUnk_00 = 3;
+    if (scenePlayers->mUnk_0a != 3) {
         return;
     }
-    func_0210d614_inline(a, data_0217d070.mUnk_0b, (Unk0212c400 **) (u32) &data_0217d07c);
+    func_0210d614_inline(scenePlayers, data_0217d070.mUnk_0b, (NNSSndSeqPlayer **) (u32) &data_0217d07c);
 }
 
-void func_0210d614(Unk0217d070 *a, u32 b, Unk0212c400 **c) {
-    func_0210d614_inline(a, b, c);
+void func_0210d614(ScenePlayers *scenePlayers, u32 seqNo, NNSSndSeqPlayer **handle) {
+    func_0210d614_inline(scenePlayers, seqNo, handle);
 }
 
-void func_0210d5c0(Unk0217d070 *a) {
-    func_0210d614_inline(a, data_0217d070.mUnk_0b, (Unk0212c400 **) (u32) &data_0217d07c);
+void func_0210d5c0(ScenePlayers *scenePlayers) {
+    func_0210d614_inline(scenePlayers, data_0217d070.mUnk_0b, (NNSSndSeqPlayer **) (u32) &data_0217d07c);
 }
 
-void func_0210d590(Unk0217d070 *a, u32 b) {
-    if (a->mUnk_0b == 0xff) {
+void func_0210d590(ScenePlayers *scenePlayers, u32 fadeSteps) {
+    if (scenePlayers->mUnk_0b == 0xff) {
         return;
     }
-    func_0212c6f0(&a->mUnk_0c, b);
+    NNS_SndPlayerStopSeq(&scenePlayers->mUnk_0c, fadeSteps);
 }

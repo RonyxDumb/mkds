@@ -1,28 +1,30 @@
 #include "Main/Unknown/code_020ea588.h"
+#include "Main/Unknown/code_02036820.h"
+#include "Main/Unknown/code_020e66e4.h"
 
 #include "Main/Unknown/code_020364e0.h"
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/Unknown/code_02084000.h"
 #include "Main/Unknown/code_020e6000.h"
 
-void func_020ea5b0(Unk020e6488 *param_1, u32 param_2, Vec3 *param_3) {
-    Vec3 v;
+void func_020ea5b0(NsbmdModel *model, u32 maxAlpha, Vec3 *position) {
+    Vec3 shiftedPosition;
 
-    if (param_3 != 0) {
-        v.x = param_3->x >> 4;
-        v.y = param_3->y >> 4;
-        v.z = param_3->z >> 4;
-        func_020e6854(param_1, &v, 1, param_2);
+    if (position != NULL) {
+        shiftedPosition.x = position->x >> 4;
+        shiftedPosition.y = position->y >> 4;
+        shiftedPosition.z = position->z >> 4;
+        func_020e6854(model, &shiftedPosition, 1, maxAlpha);
     } else {
-        func_020e6854(param_1, 0, 0, param_2);
+        func_020e6854(model, NULL, 0, maxAlpha);
     }
 }
 
 #pragma thumb on
 
-void func_020ea588(void **param_1, void *param_2, void *param_3) {
-    *param_1 = func_02036bec(func_020364e0(func_020364e8()), 0x6c);
-    func_02084e28(*param_1, param_2);
+void CreateNsbmd(void **slot, void *file, void *unused) {
+    *slot = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x6c);
+    InitNsbmd(*slot, file);
 }
 
 #pragma thumb off

@@ -1,14 +1,15 @@
 #include "Main/Unknown/code_020aca08.h"
+#include "Main/Unknown/code_02105e98.h"
 
 #pragma thumb on
 
-u32 func_020aca20(u32 p0) {
-    return p0;
+u32 func_020aca20(u32 value) {
+    return value;
 }
 
-void func_020aca08(int param_1) {
-    if (param_1 != 0) {
-        *(u16 *) (param_1 + 4) = 0xb;
+void UpdateTitleState6(Unk020aca24 *a) {
+    if (a != 0) {
+        a->mNextScene = 0xb;
         func_02105e98();
     }
 }

@@ -2,716 +2,778 @@
 
 #include "types.h"
 
-#include "code_0212c478.h" // Unk0212c400
-#include "code_0212c7a0.h" // Unk0212c7a0
-#include "code_0212c7f0.h" // Unk0212c8a4
-#include "code_0212c9d4.h" // Unk0212ccd4, Unk0212c9d4
-#include "code_0200e904.h" // Unk0200eb90
+#include "code_0212bcac.h"
+#include "code_0212c7a0.h" // NNSSndPlayer
+#include "stream.h" // NNSSndStrmChannel
+#include "code_0212c9d4.h" // CaptureParam, EffectInfo
 #include "code_0201ea58.h" // Unk0201ea30
-#include "Main/Unknown/code_02124094.h" // Unk02124b1c
-#include "code_0212da38.h" // Unk02017328, Unk0212d9dc
-#include "Main/Unknown/types_02180728.h" // Unk02180728
+#include "Main/Unknown/code_02124094.h" // LayoutTableEntry
+#include "Main/Unknown/code_02124bf0.h" // OamList
+#include "code_0212d214.h"
+#include "Main/Unknown/types_02180728.h" // TextCanvas
+#include "Main/Unknown/code_02105ec0.h" // Unk0217c7c4
+
+typedef struct OSMessageQueue OSMessageQueue;
 
 // Three words derived from a halfword.
-typedef struct Unk0217d410_2c {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
-} Unk0217d410_2c;
+typedef struct PaletteColorFields {
+    /* 00 */ s32 mBits0To4;
+    /* 04 */ s32 mBits5To9;
+    /* 08 */ s32 mBits10To14;
+} PaletteColorFields;
 
-// Object behind data_0217d410: 0x90 bytes allocated by func_0212b928.
-typedef struct Unk0217d410 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ u8 mUnk_08;
+// 0x90 bytes.
+typedef struct PaletteBlend {
+    /* 00 */ s32 mCycleFrames;
+    /* 04 */ BOOL mStopped;
+    /* 08 */ u8 mPaletteIndex;
     /* 09 */ u8 mUnk_09;
-    /* 0a */ u16 mUnk_0a[5];
-    /* 14 */ u16 mUnk_14[4];
-    /* 1c */ u16 mUnk_1c[4];
+    /* 0a */ u16 mPalette[5];
+    /* 14 */ u16 mFromColors[4];
+    /* 1c */ u16 mToColors[4];
     /* 24 */ u16 mUnk_24[3];
     /* 2a */ u8 mUnk_2a[2];
-    /* 2c */ Unk0217d410_2c mUnk_2c[4];
-    /* 5c */ Unk0217d410_2c mUnk_5c[4];
-    /* 8c */ s32 mUnk_8c;
-} Unk0217d410;
+    /* 2c */ PaletteColorFields mBlendFrom[4];
+    /* 5c */ PaletteColorFields mBlendTo[4];
+    /* 8c */ BOOL mFirstBlend;
+} PaletteBlend;
 
-// Object behind data_0217d358.
-typedef struct Unk0217d358 {
-    /* 00 */ u8 *mUnk_00;
-} Unk0217d358;
+// Object behind gPicksHolder.
+typedef struct PicksHolder {
+    /* 00 */ u8 *mPicks;
+} PicksHolder;
 
-struct Unk020b4a44;
+struct Nclr;
 
-// Object behind data_0217d35c: 0x18 bytes allocated by func_021172a8; members 0x0, 0x4 and 0x8 + 4 * i are filled
-// through func_020b49bc, func_020b48b4 and func_020b4a44.
-typedef struct Unk0217d35c {
-    /* 00 */ struct Unk020b4934 *mUnk_00;
-    /* 04 */ struct Unk02021dc8 *mUnk_04;
-    /* 08 */ struct Unk020b4a44 *mUnk_08[3];
-    /* 14 */ void *mUnk_14;
-} Unk0217d35c;
+// 0x18 bytes.
+typedef struct KartIcon {
+    /* 00 */ struct Ncgr *mNcgr;
+    /* 04 */ struct Unk02021dc8 *mNcer;
+    /* 08 */ struct Nclr *mNclrs[3];
+    /* 14 */ void *mBncl;
+} KartIcon;
 
-struct Unk0212d5f8;
-struct Unk0212ef48;
-struct Unk020b4934;
-struct Unk020b4a44;
-struct Unk020b47d8;
+struct NNSSndArc;
+struct NNSSndStrmThread;
+struct Ncgr;
+struct Nclr;
+struct Nscr;
 
-// Object behind data_0217d354; the object at its member 0x8 has 0xc added to it.
-typedef struct Unk0217d354_08 {
-    /* 00 */ u8 mUnk_00[0xc];
-    /* 0c */ u8 *mUnk_0c;
-} Unk0217d354_08;
-
-typedef struct Unk0217d354 {
-    /* 00 */ struct Unk02021dc8 *mUnk_00;
-    /* 04 */ void *mUnk_04;
-    /* 08 */ Unk0217d354_08 *mUnk_08;
-    /* 0c */ void *mUnk_0c;
-    /* 10 */ void *mUnk_10;
-    /* 14 */ void *mUnk_14;
-    /* 18 */ u32 mUnk_18;
-    /* 1c */ u16 mUnk_1c;
+typedef struct Wait {
+    /* 00 */ struct Unk02021dc8 *mNcer;
+    /* 04 */ void *mNcgr;
+    /* 08 */ struct Nclr *mNclr;
+    /* 0c */ void *mBncl;
+    /* 10 */ struct Unk02021dc8 *mDestinationNcer;
+    /* 14 */ struct Unk0201ea30 *mDestinationBncl;
+    /* 18 */ u32 mDestinationBnclIndex;
+    /* 1c */ u16 mPaletteIndex;
     /* 20 */ s32 mUnk_20;
-    /* 24 */ u16 mUnk_24;
-    /* 28 */ s32 mUnk_28;
-} Unk0217d354;
+    /* 24 */ u16 mFrameIndex;
+    /* 28 */ s32 mFrameIndexFrames;
+} Wait;
 
-// Object behind data_0217d350 members 0x10 and 0x20.
-typedef struct Unk0217d350_10 {
-    /* 00 */ u8 mUnk_00[8];
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u8 mUnk_0c;
-} Unk0217d350_10;
-
-// Object behind data_0217d350.
-typedef struct Unk0217d350 {
-    /* 00 */ u8 mUnk_00[4];
-    /* 04 */ struct Unk02021dc8 *mUnk_04;
-    /* 08 */ Unk0201ea30 *mUnk_08;
-    /* 0c */ void *mUnk_0c;
-    /* 10 */ Unk0217d350_10 *mUnk_10;
-    /* 14 */ Unk02124b1c *mUnk_14;
-    /* 18 */ Unk0201ea30 *mUnk_18;
-    /* 1c */ void *mUnk_1c;
-    /* 20 */ Unk0217d350_10 *mUnk_20;
-    /* 24 */ Unk02124b1c *mUnk_24;
-    /* 28 */ u8 mUnk_28[4];
-    /* 2c */ struct Unk02021dc8 *mUnk_2c;
-    /* 30 */ Unk0201ea30 *mUnk_30;
-    /* 34 */ void *mUnk_34;
-    /* 38 */ void *mUnk_38;
-    /* 3c */ Unk02124b1c *mUnk_3c;
-    /* 40 */ s32 mUnk_40;
-    /* 44 */ void *mUnk_44;
-    /* 48 */ void *mUnk_48;
-    /* 4c */ s32 mUnk_4c;
-    /* 50 */ void *mUnk_50;
-    /* 54 */ s32 mUnk_54;
-    /* 58 */ s32 mUnk_58;
-    /* 5c */ s32 mUnk_5c;
-    /* 60 */ s32 mUnk_60;
-    /* 64 */ s32 mUnk_64;
-    /* 68 */ s32 mUnk_68;
-    /* 6c */ s32 mUnk_6c;
-    /* 70 */ s32 mUnk_70;
-    /* 74 */ s16 mUnk_74;
-    /* 76 */ s16 mUnk_76;
-    /* 78 */ s32 mUnk_78;
-    /* 7c */ s32 mUnk_7c;
-    /* 80 */ s16 mUnk_80;
+typedef struct RecordVSErase {
+    /* 00 */ u8 mRecordVSMNcgr[4];
+    /* 04 */ struct Unk02021dc8 *mRecordVSMNcer;
+    /* 08 */ Unk0201ea30 *mRecordVSMBncl;
+    /* 0c */ struct Unk0201ea30 *mRecordVSMBnll;
+    /* 10 */ struct Nscr *mRecordVSM02Nscr;
+    /* 14 */ LayoutTableEntry *mRecordVSMTable;
+    /* 18 */ Unk0201ea30 *mRecordVSMTransientBncl;
+    /* 1c */ struct Unk0201ea30 *mRecordVSMTransientBnll;
+    /* 20 */ struct Nscr *mRecordVSM03Nscr;
+    /* 24 */ LayoutTableEntry *mRecordVSMTransientTable;
+    /* 28 */ struct Ncgr *mRecordVSSNcgr;
+    /* 2c */ struct Unk02021dc8 *mRecordVSSNcer;
+    /* 30 */ Unk0201ea30 *mRecordVSSEraseBncl;
+    /* 34 */ struct Unk0201ea30 *mRecordVSSEraseBnbl;
+    /* 38 */ struct Unk0201ea30 *mRecordVSSEraseBnll;
+    /* 3c */ LayoutTableEntry *mRecordVSSEraseTable;
+    /* 40 */ s32 mTransientDrawn;
+    /* 44 */ struct Bmg *mCommonMessages;
+    /* 48 */ struct Bmg *mRecordMessages;
+    /* 4c */ void *mUnk_4c;
+    /* 50 */ void *mHeap;
+    /* 54 */ s32 mState;
+    /* 58 */ s32 mNextState;
+    /* 5c */ s32 mStateFrames;
+    /* 60 */ s32 mBg0OffsetX;
+    /* 64 */ s32 mBg0OffsetY;
+    /* 68 */ s32 mBg1OffsetX;
+    /* 6c */ s32 mBg1OffsetY;
+    /* 70 */ s32 mBg3Offset;
+    /* 74 */ s16 mIndex;
+    /* 76 */ s16 mPageIndex;
+    /* 78 */ s32 mPageDecrement;
+    /* 7c */ s32 mIndexChangeTimer;
+    /* 80 */ s16 mShownIndex;
     /* 82 */ u8 mUnk_82[2];
-    /* 84 */ u32 mUnk_84;
-    /* 88 */ void *mUnk_88;
-    /* 8c */ void *mUnk_8c;
-    /* 90 */ s32 mUnk_90[2];
-    /* 98 */ s32 mUnk_98;
-    /* 9c */ s32 mUnk_9c;
-    /* a0 */ s32 mUnk_a0;
-} Unk0217d350;
+    /* 84 */ u32 mErased;
+    /* 88 */ struct EmblemData *mEmblem;
+    /* 8c */ void *mEmblemConverted;
+    /* 90 */ s32 mOffsetTimers[2];
+    /* 98 */ BOOL mUnk_98;
+    /* 9c */ BOOL mUnk_9c;
+    /* a0 */ s32 mNextScreen;
+} RecordVSErase;
 
-// Object behind data_0217d36c.
-typedef struct Unk0217d36c {
-    /* 00 */ void *mUnk_00;
-    /* 04 */ struct Unk02021dc8 *mUnk_04;
-    /* 08 */ void *mUnk_08;
-} Unk0217d36c;
+typedef struct SelectCupNameM {
+    /* 00 */ void *mNcgr;
+    /* 04 */ struct Unk02021dc8 *mNcer;
+    /* 08 */ void *mBncl;
+} SelectCupNameM;
 
-// Object behind data_0217d370 (0x10 bytes); func_0211dfb4 and func_0211df44 allocate and fill it.
-typedef struct Unk0217d370 {
-    /* 00 */ struct Unk020b4934 *mUnk_00;
-    /* 04 */ struct Unk02021dc8 *mUnk_04;
-    /* 08 */ struct Unk020b4a44 *mUnk_08;
-    /* 0c */ void *mUnk_0c;
-} Unk0217d370;
+// 0x10 bytes.
+typedef struct CupMark {
+    /* 00 */ struct Ncgr *mNcgr;
+    /* 04 */ struct Unk02021dc8 *mNcer;
+    /* 08 */ struct Nclr *mNclr;
+    /* 0c */ struct Unk0201ea30 *mBncl;
+} CupMark;
 
 // Object at data_0217d070 (0x14 bytes); func_0210d740 fills it. data_0217d07c names its member 0x0c.
-typedef struct Unk0217d070 {
+typedef struct ScenePlayers {
     /* 00 */ s32 mUnk_00;
     /* 04 */ void *mUnk_04;
     /* 08 */ u8 mUnk_08;
     /* 09 */ u8 mUnk_09;
     /* 0a */ u8 mUnk_0a;
     /* 0b */ u8 mUnk_0b;
-    /* 0c */ Unk0212c400 *mUnk_0c;
-    /* 10 */ Unk0212c400 *mUnk_10;
-} Unk0217d070;
+    /* 0c */ NNSSndSeqPlayer *mUnk_0c;
+    /* 10 */ NNSSndSeqPlayer *mUnk_10;
+} ScenePlayers;
 
-// Object at data_0217d084 (0x1c bytes); func_0210dc60 stores its second argument at 0x00.
-typedef struct Unk0217d084 {
-    /* 00 */ Unk0217d070 *mUnk_00;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ u32 mUnk_08;
+// Object at data_0217d084 (0x1c bytes); SetupSoundMode stores its second argument at 0x00.
+typedef struct SoundModeHolder {
+    /* 00 */ ScenePlayers *mScenePlayers;
+    /* 04 */ u32 mMode;
+    /* 08 */ u32 mSavedMode;
     /* 0c */ u32 mUnk_0c;
     /* 10 */ u32 mUnk_10;
     /* 14 */ u32 mUnk_14;
-    /* 18 */ Unk0212c400 **mUnk_18;
-} Unk0217d084;
+    /* 18 */ NNSSndSeqPlayer **mUnk_18;
+} SoundModeHolder;
 
 // Object at data_0217d32c (0x10 bytes); mUnk_08 points to a row of six words.
 typedef struct Unk0217d32c {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ Unk0212d9dc *mUnk_04;
-    /* 08 */ u32 *mUnk_08;
+    /* 00 */ s32 mLoadedIndex;
+    /* 04 */ NNSSndHeap *mSeqHeap;
+    /* 08 */ u32 *mSeqRow;
     /* 0c */ u32 mUnk_0c;
 } Unk0217d32c;
 
-// Object behind data_0217d348.
-typedef struct Unk0217d348 {
-    /* 00 */ struct Unk020b4934 *mUnk_00;
-    /* 04 */ struct Unk02021dc8 *mUnk_04;
-    /* 08 */ Unk0201ea30 *mUnk_08;
-    /* 0c */ void *mUnk_0c;
-    /* 10 */ struct Unk020b47d8 *mUnk_10;
-    /* 14 */ Unk02124b1c *mUnk_14;
-    /* 18 */ Unk0201ea30 *mUnk_18;
-    /* 1c */ void *mUnk_1c;
-    /* 20 */ struct Unk020b47d8 *mUnk_20;
-    /* 24 */ Unk02124b1c *mUnk_24;
-    /* 28 */ struct Unk020b4934 *mUnk_28;
-    /* 2c */ struct Unk02021dc8 *mUnk_2c;
-    /* 30 */ Unk0201ea30 *mUnk_30;
-    /* 34 */ Unk0201ea30 *mUnk_34;
-    /* 38 */ void *mUnk_38;
-    /* 3c */ Unk02124b1c *mUnk_3c;
-    /* 40 */ s32 mUnk_40;
-    /* 44 */ void *mUnk_44;
-    /* 48 */ void *mUnk_48;
-    /* 4c */ s32 mUnk_4c;
-    /* 50 */ s32 mUnk_50;
-    /* 54 */ s32 mUnk_54;
-    /* 58 */ s32 mUnk_58;
-    /* 5c */ s32 mUnk_5c;
-    /* 60 */ s32 mUnk_60;
-    /* 64 */ s32 mUnk_64;
-    /* 68 */ s16 mUnk_68;
-    /* 6a */ s16 mUnk_6a;
-    /* 6c */ s32 mUnk_6c;
-    /* 70 */ s32 mUnk_70;
-    /* 74 */ s16 mUnk_74;
+// Object behind gRecordVS.
+typedef struct RecordVS {
+    /* 00 */ struct Ncgr *mRecordVSMNcgr;
+    /* 04 */ struct Unk02021dc8 *mRecordVSMNcer;
+    /* 08 */ Unk0201ea30 *mRecordVSMBncl;
+    /* 0c */ struct Unk0201ea30 *mRecordVSMBnll;
+    /* 10 */ struct Nscr *mRecordVSM02Nscr;
+    // Object table of the main part of the screen (files mRecordVSMBncl / mRecordVSMBnll).
+    /* 14 */ LayoutTableEntry *mRecordVSMTable;
+    /* 18 */ Unk0201ea30 *mRecordVSMTransientBncl;
+    /* 1c */ struct Unk0201ea30 *mRecordVSMTransientBnll;
+    /* 20 */ struct Nscr *mRecordVSM03Nscr;
+    // Object table of the transient part of the main screen (files mRecordVSMTransientBncl / mRecordVSMTransientBnll).
+    /* 24 */ LayoutTableEntry *mRecordVSMTransientTable;
+    /* 28 */ struct Ncgr *mRecordVSSNcgr;
+    /* 2c */ struct Unk02021dc8 *mRecordVSSNcer;
+    /* 30 */ Unk0201ea30 *mRecordVSSBncl;
+    /* 34 */ Unk0201ea30 *mRecordVSSBnbl;
+    /* 38 */ struct Unk0201ea30 *mRecordVSSBnll;
+    // Object table of the sub screen (files mRecordVSSBncl / mRecordVSSBnll).
+    /* 3c */ LayoutTableEntry *mRecordVSSTable;
+    /* 40 */ s32 mShowsFriendKey;
+    /* 44 */ struct Bmg *mRecordMessages;
+    /* 48 */ void *mHeap;
+    /* 4c */ s32 mState;
+    /* 50 */ s32 mNextState;
+    /* 54 */ s32 mStateFrames; /* counts only in states 1, 2, 5 to 11 */
+    // X half of reg_G2_BG0OFS (0x04000010, main engine BG0), stored negated
+    /* 58 */ s32 mBg0OffsetX;
+    // Y half of reg_G2_BG0OFS (0x04000010, main engine BG0), stored negated
+    /* 5c */ s32 mBg0OffsetY;
+    // X half of reg_G2_BG1OFS (0x04000014, main engine BG1), stored negated
+    /* 60 */ s32 mBg1OffsetX;
+    // Y half of reg_G2_BG1OFS (0x04000014, main engine BG1), stored negated
+    /* 64 */ s32 mBg1OffsetY;
+    // Position of the highlight among the six items: 0 to 4 are the records of the page, 5 the extra item; -1 can be
+    // stored (count % 5 - 1 in RefreshRecordVSPage).
+    /* 68 */ s16 mIndex;
+    /* 6a */ s16 mPageIndex;
+    /* 6c */ s32 mPageDecrement;
+    // Counts 7 down to 0 after mIndex changed: AdvanceRecordVSIndexChange sets 7 when mIndex differs from mShownIndex,
+    // rebuilds the page text through PrintRecordVSShownRecord at 7 and moves the objects while it runs;
+    // IsRecordVSIndexChangeRunning tells whether it is non-zero.
+    /* 70 */ s32 mIndexChangeTimer;
+    // mIndex the page text was last built for: PrintRecordVSShownRecord builds the text of the record mShownIndex, and
+    // AdvanceRecordVSIndexChange starts mIndexChangeTimer when mIndex differs from it.
+    /* 74 */ s16 mShownIndex;
     /* 76 */ u8 mUnk_76[2];
-    /* 78 */ void *mUnk_78;
-    /* 7c */ void *mUnk_7c;
-    /* 80 */ s32 mUnk_80[2];
-    /* 88 */ s32 mUnk_88;
-    /* 8c */ s32 mUnk_8c;
+    /* 78 */ struct EmblemData *mEmblem;
+    /* 7c */ void *mEmblemConverted;
+    /* 80 */ s32 mOffsetTimers[2];
+    /* 88 */ BOOL mUnk_88;
+    /* 8c */ BOOL mUnk_8c;
+    // Screen to request when the exit ends; 6 sets the next scene instead.
     /* 90 */ s32 mUnk_90;
-} Unk0217d348;
+} RecordVS;
 
-// Object behind data_0217d360.
-typedef struct Unk0217d360 {
-    /* 00 */ struct Unk02021dc8 *mUnk_00;
-    /* 04 */ Unk0201ea30 *mUnk_04;
-    /* 08 */ void *mUnk_08;
-    /* 0c */ struct Unk02021dc8 *mUnk_0c;
-    /* 10 */ void *mUnk_10;
-    /* 14 */ Unk0201ea30 *mUnk_14;
-    /* 18 */ Unk02124b1c *mUnk_18;
-    /* 1c */ Unk02124b1c *mUnk_1c;
+// Object behind gSelectCupGrid: the screen that picks one of eight cups, laid out as two rows of four (a direction key
+// or a touch moves mIndex to a neighbour cup that is enabled). Choosing stores the cup and the first course of that cup
+// in the record behind gRaceSetupCopy (func_021185ec); SelectCupCourse then picks one of the four courses of the stored
+// cup. Allocated by InitSelectCupGrid, freed by ReleaseSelectCupGrid; mMode is 0, 1 or 2 to 4 by the screen that opened
+// it.
+typedef struct SelectCupGrid {
+    /* 00 */ struct Unk02021dc8 *mSelectCupMNcer;
+    /* 04 */ Unk0201ea30 *mSelectCupMBncl;
+    /* 08 */ struct Unk0201ea30 *mSelectCupMBnll;
+    /* 0c */ struct Unk02021dc8 *mSelectCupSNcer;
+    /* 10 */ struct Unk0201ea30 *mSelectCupSBncl;
+    /* 14 */ Unk0201ea30 *mSelectCupSBnbl;
+    /* 18 */ LayoutTableEntry *mSelectCupMTable;
+    /* 1c */ LayoutTableEntry *mSelectCupSTable;
     /* 20 */ void *mUnk_20;
-    /* 24 */ void *mUnk_24;
-    /* 28 */ void *mUnk_28;
-    /* 2c */ void *mUnk_2c;
-    /* 30 */ s32 mUnk_30;
-    /* 34 */ s32 mUnk_34;
-    /* 38 */ s32 mUnk_38;
-    /* 3c */ s32 mUnk_3c;
-    /* 40 */ s32 mUnk_40;
-    /* 44 */ s32 mUnk_44;
-    /* 48 */ s32 mUnk_48[8];
-    /* 68 */ s32 mUnk_68;
-    /* 6c */ s32 mUnk_6c;
-    /* 70 */ s32 mUnk_70;
-    /* 74 */ s32 mUnk_74;
-    /* 78 */ s16 mUnk_78;
+    /* 24 */ struct Bmg *mCommonMessages;
+    /* 28 */ struct Bmg *mMenuMessages;
+    /* 2c */ void *mHeap;
+    /* 30 */ s32 mState;
+    /* 34 */ s32 mNextState;
+    /* 38 */ s32 mStateFrames;
+    /* 3c */ s32 mMode;
+    // Negated and shifted into the upper half-word of the BG0 offset register.
+    /* 40 */ s32 mBg0Offset;
+    /* 44 */ s32 mIndex;
+    // One entry per cup: non-zero when the cup can be chosen, filled once at InitSelectCupGrid from
+    // GetSelectCupGridCupEnabled; a disabled cup shows its other cells, plays the error sound when touched and is
+    // skipped by the direction keys.
+    /* 48 */ s32 mCupsEnabled[8];
+    /* 68 */ BOOL mUnk_68;
+    // Counts 7 down to 0 after mIndex changed: AdvanceSelectCupGridIndexChange sets 7 when mIndex differs from
+    // mShownIndex, rebuilds the cells at 7 and moves them while it runs; IsSelectCupGridIndexChangeRunning tells
+    // whether it is non-zero.
+    /* 6c */ s32 mIndexChangeTimer;
+    // mIndex that the cells were last built for: AdvanceSelectCupGridIndexChange copies mIndex here when it rebuilds
+    // them and starts mIndexChangeTimer when mIndex differs from it.
+    /* 70 */ s32 mShownIndex;
+    // Calls of AdvanceSelectCupGridShownCourse since the shown course changed; at 0x4b the next course is shown and it
+    // restarts at 0.
+    /* 74 */ s32 mShownCourseFrames;
+    // Position 0 to 3 of the course of the cup at mIndex whose picture is shown: indexes
+    // gSelectCupGridCourseIds[mIndex]; AdvanceSelectCupGrid also shows the cell of that position differently from the
+    // other three.
+    /* 78 */ s16 mShownCourseIndex;
     /* 7a */ u8 mUnk_7a[2];
-    /* 7c */ s32 mUnk_7c;
-    /* 80 */ void *mUnk_80;
-    /* 84 */ void *mUnk_84;
-    /* 88 */ s32 mUnk_88;
-} Unk0217d360;
+    // Set when the cup picture was asked for; AdvanceSelectCupGrid queues its data once it is ready.
+    /* 7c */ BOOL mCupPicturePending;
+    /* 80 */ void *mMainOam;
+    /* 84 */ void *mSubOam;
+    /* 88 */ s32 mResult;
+} SelectCupGrid;
 
-// Object behind data_0217d364.
-typedef struct Unk0217d364 {
-    /* 00 */ struct Unk02021dc8 *mUnk_00;
-    /* 04 */ Unk0201ea30 *mUnk_04;
-    /* 08 */ void *mUnk_08;
-    /* 0c */ struct Unk02021dc8 *mUnk_0c;
-    /* 10 */ Unk0201ea30 *mUnk_10;
-    /* 14 */ Unk0201ea30 *mUnk_14;
-    /* 18 */ void *mUnk_18;
-    /* 1c */ Unk02124b1c *mUnk_1c;
-    /* 20 */ Unk02124b1c *mUnk_20;
+// Object behind gSelectCupCourse.
+typedef struct SelectCupCourse {
+    /* 00 */ struct Unk02021dc8 *mSelectCupCourseMNcer;
+    /* 04 */ Unk0201ea30 *mSelectCupCourseTaOrVsMBncl; /* ta_m file when mMode == 0, vs_m otherwise */
+    /* 08 */ struct Unk0201ea30 *mSelectCupCourseTaOrVsMBnll; /* ta_m file when mMode == 0, vs_m otherwise */
+    /* 0c */ struct Unk02021dc8 *mSelectCupMNcer;
+    /* 10 */ Unk0201ea30 *mSelectCupMBncl;
+    /* 14 */ Unk0201ea30 *mSelectCupMBnbl;
+    /* 18 */ struct Unk0201ea30 *mSelectCupMBnll;
+    // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable; assigned only when
+    // *(vu16
+    // *) 0x027ffc40 != 2
+    /* 1c */ LayoutTableEntry *mSelectCupCourseTaOrVsMTable;
+    // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable; assigned only when
+    // *(vu16
+    // *) 0x027ffc40 != 2
+    /* 20 */ LayoutTableEntry *mSelectCupMTable;
     /* 24 */ void *mUnk_24;
-    /* 28 */ void *mUnk_28;
-    /* 2c */ void *mUnk_2c;
-    /* 30 */ void *mUnk_30;
-    /* 34 */ s32 mUnk_34;
-    /* 38 */ s32 mUnk_38;
-    /* 3c */ s32 mUnk_3c;
-    /* 40 */ s32 mUnk_40;
-    /* 44 */ s32 mUnk_44;
-    /* 48 */ s32 mUnk_48;
+    /* 28 */ struct Bmg *mCommonMessages;
+    /* 2c */ void *mGhostMessages;
+    /* 30 */ void *mHeap;
+    /* 34 */ s32 mState;
+    /* 38 */ s32 mNextState;
+    /* 3c */ s32 mStateFrames; /* counts only in states 1, 4, 5, 7, 8 */
+    /* 40 */ s32 mMode;
+    /* 44 */ s32 mBg0Offset;
+    /* 48 */ s32 mBg3Offset; /* the sub engine's BG3 offset (0x0400101c); mBg0Offset is the main engine's */
     /* 4c */ u8 mUnk_4c[4];
-    /* 50 */ s16 mUnk_50;
+    /* 50 */ s16 mIndex; /* 0..3 position among the four courses of the cup: the course is data_0215cbec[row][mIndex] */
     /* 52 */ u8 mUnk_52[2];
-    /* 54 */ s32 mUnk_54;
-    /* 58 */ s32 mUnk_58;
-    /* 5c */ s16 mUnk_5c;
+    /* 54 */ BOOL mUnk_54;
+    // Counts 7 down to 0 after mIndex changed: AdvanceSelectCupCourseIndexChange sets 7 when mIndex differs from
+    // mShownIndex, rebuilds the page through RefreshSelectCupCourseForIndex at 7 and moves the objects while it runs;
+    // IsSelectCupCourseIndexChangeRunning tells whether it is non-zero.
+    /* 58 */ s32 mIndexChangeTimer;
+    // mIndex the page was last built for: AdvanceSelectCupCourseIndexChange copies mIndex here when
+    // RefreshSelectCupCourseForIndex rebuilds the page, and starts mIndexChangeTimer when mIndex differs from it.
+    /* 5c */ s16 mShownIndex;
     /* 5e */ u8 mUnk_5e[2];
-    /* 60 */ s32 mUnk_60;
-    /* 64 */ void *mUnk_64;
-    /* 68 */ void *mUnk_68;
-    /* 6c */ s32 mUnk_6c;
-} Unk0217d364;
+    // Set when the cup picture was asked for; the step queues its data once it is ready.
+    /* 60 */ BOOL mCupPicturePending;
+    /* 64 */ void *mMainOam;
+    /* 68 */ void *mSubOam;
+    /* 6c */ s32 mResult;
+} SelectCupCourse;
 
-// Object behind data_0217d368, and the object its mUnk_20 member points to.
-typedef struct Unk0217d368_20 {
-    /* 00 */ u8 mUnk_00[0x0c];
-    /* 0c */ u16 mUnk_0c;
-} Unk0217d368_20;
-
-typedef struct Unk0217d368 {
-    /* 00 */ struct Unk02021dc8 *mUnk_00;
-    /* 04 */ Unk0201ea30 *mUnk_04;
-    /* 08 */ Unk0201ea30 *mUnk_08;
-    /* 0c */ void *mUnk_0c;
-    /* 10 */ void *mUnk_10;
-    /* 14 */ Unk02124b1c *mUnk_14;
-    /* 18 */ void *mUnk_18;
-    /* 1c */ void *mUnk_1c;
-    /* 20 */ Unk0217d368_20 *mUnk_20;
-    /* 24 */ u8 mUnk_24[0x04];
-    /* 28 */ void *mUnk_28;
-    /* 2c */ s32 mUnk_2c;
-    /* 30 */ s32 mUnk_30;
-    /* 34 */ s32 mUnk_34;
-    /* 38 */ s32 mUnk_38;
-    /* 3c */ s16 mUnk_3c[5][2];
+// Option of the rules row with a race counter (mRaceCount).
+#define SELECT_RACE_RULE_RACE 1
+// Option of the rules row with a win counter (mWinCount).
+#define SELECT_RACE_RULE_WIN 0
+// Option of the rules row with no counter.
+#define SELECT_RACE_RULE_FREE 2
+// Object behind gSelectRaceRule.
+typedef struct SelectRaceRule {
+    /* 00 */ struct Unk02021dc8 *mNcer;
+    /* 04 */ Unk0201ea30 *mBncl;
+    /* 08 */ Unk0201ea30 *mBnbl;
+    /* 0c */ struct Unk0201ea30 *mBnll;
+    /* 10 */ struct Nclr *mNclr; /* the _o palette */
+    // Object table allocated for the bncl / bnll of this screen.
+    /* 14 */ LayoutTableEntry *mTable;
+    // Messages of common.bmg.
+    /* 18 */ struct Bmg *mCommonMessages;
+    // Messages of rule.bmg.
+    /* 1c */ struct Bmg *mRuleMessages;
+    /* 20 */ struct Nscr *mNscr; /* multi_simple_s (mMode == 3) or s_menu, two files */
+    /* 24 */ void *mUnk_24;
+    /* 28 */ void *mHeap;
+    /* 2c */ s32 mMode;
+    /* 30 */ s32 mState;
+    /* 34 */ s32 mNextState;
+    /* 38 */ s32 mStateFrames;
+    // Set to 6 when the row's value is stepped ([row][0] down, [row][1] up), counted down each step; moves the row's
+    // pair of objects.
+    /* 3c */ s16 mRowChangeTimers[5][2];
+    // Same shape for row 3 ([0][0] count down, [0][1] count up) and row 4 ([1][0] and [1][1] by the team a player lands
+    // in).
     /* 50 */ s16 mUnk_50[2][2];
-    /* 58 */ s16 mUnk_58;
+    // Vertical shift in lines of the whole layout, 0 or -0x1c by mode; added to the positions of the objects and taken
+    // off the touch y.
+    /* 58 */ s16 mOffsetY;
     /* 5a */ u8 mUnk_5a[0x02];
-    /* 5c */ s32 mUnk_5c;
-    /* 60 */ s32 mUnk_60;
-    /* 64 */ s32 mUnk_64;
-    /* 68 */ s32 mUnk_68[4];
-    /* 78 */ s32 mUnk_78;
-    /* 7c */ s32 mUnk_7c;
-    /* 80 */ s32 mUnk_80;
+    // Offset stored negated into the sub engine's BG3 offset register.
+    /* 5c */ s32 mBg3Offset;
+    // Row (0 to 4) the highlight is on; the value of row n is mRowValues[n].
+    /* 60 */ s32 mRow;
+    // Row at the start of the step, to see whether it changed.
+    /* 64 */ s32 mPrevRow;
+    // Value of each row, 0 up to the row's count minus 1; stepped up and down with wrap.
+    /* 68 */ s32 mRowValues[5];
+    // Non-zero while the highlight is on the button below the rows instead of on a row.
+    /* 7c */ s32 mOnButton;
+    // mOnButton at the start of the step.
+    /* 80 */ s32 mPrevOnButton;
+    // Set to 0 when the button is pressed while it is already highlighted, back to 1 five calls into state 4; decides
+    // which of the button's two objects shows.
     /* 84 */ u32 mUnk_84;
-    /* 88 */ s16 mUnk_88;
-    /* 8a */ s16 mUnk_8a;
-    /* 8c */ u32 mUnk_8c[8];
-    /* ac */ u16 mUnk_ac[2];
+    // Count of the win option of row 3, kept from 1 to 10.
+    /* 88 */ s16 mWinCount;
+    // Count of the race option of row 3, kept from 1 to 0x20.
+    /* 8a */ s16 mRaceCount;
+    // Team index of each of the 8 entries.
+    /* 8c */ u32 mPlayerTeamIndices[8];
+    // Per team: how many of the first entries are in it.
+    /* ac */ u16 mTeamHumanCounts[2];
+    // Per team: how many of the entries after the first ones are in it; counted into a team's size only while row 1 is
+    // not 0.
     /* b0 */ u16 mUnk_b0[2];
-    /* b4 */ void *mUnk_b4;
-    /* b8 */ vu32 mUnk_b8;
-} Unk0217d368;
+    /* b4 */ void *mOamList;
+    // Result AdvanceSelectRaceRule returns in state 8 once the state has run 10 calls: 1 or 2; 0 until set.
+    /* b8 */ vu32 mResult;
+} SelectRaceRule;
 
-// Object behind data_0217d37c (0x10 bytes), allocated by func_0211f2b8.
-typedef struct Unk0217d37c {
-    /* 00 */ struct Unk020b4934 *mUnk_00;
-    /* 04 */ struct Unk02021dc8 *mUnk_04;
-    /* 08 */ struct Unk020b4a44 *mUnk_08;
-    /* 0c */ void *mUnk_0c;
-} Unk0217d37c;
+// 0x10 bytes.
+typedef struct TrophyIcon {
+    /* 00 */ struct Ncgr *mNcgr;
+    /* 04 */ struct Unk02021dc8 *mNcer;
+    /* 08 */ struct Nclr *mNclr;
+    /* 0c */ void *mBncl;
+} TrophyIcon;
 
-// Object behind data_0217d380 (0x28 bytes), allocated by func_0211f4b0.
-typedef struct Unk0217d380 {
-    /* 00 */ struct Unk02021dc8 *mUnk_00;
-    /* 04 */ Unk0201ea30 *mUnk_04;
+// Object behind gSelectRaceRuleWait (0x28 bytes), allocated by InitSelectRaceRuleWait.
+typedef struct SelectRaceRuleWait {
+    /* 00 */ struct Unk02021dc8 *mNcer;
+    /* 04 */ Unk0201ea30 *mBncl;
     /* 08 */ u8 mUnk_08[0x4];
-    /* 0c */ void *mUnk_0c;
-    /* 10 */ Unk02124b1c *mUnk_10;
-    /* 14 */ void *mUnk_14;
-    /* 18 */ void *mUnk_18;
-    /* 1c */ s32 mUnk_1c;
-    /* 20 */ s32 mUnk_20;
-    /* 24 */ s32 mUnk_24;
-} Unk0217d380;
+    /* 0c */ struct Unk0201ea30 *mBnll;
+    /* 10 */ LayoutTableEntry *mTable;
+    /* 14 */ void *mCommonMessages;
+    /* 18 */ void *mOamList;
+    /* 1c */ s32 mState;
+    /* 20 */ s32 mNextState;
+    /* 24 */ s32 mStateFrames;
+} SelectRaceRuleWait;
 
 // Object at data_0217d244 (0x10 bytes).
-typedef struct Unk0217d244 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ u32 mUnk_0c;
-} Unk0217d244;
+typedef struct SeqPlayerControl {
+    // 0: normal; 1: volume target 0; 2: volume target full.
+    /* 00 */ s32 mVolumeOverride;
+    /* 04 */ s32 mPitchAngle;
+    // Bit 2 is set while the selected Kart is small from the Thunder item.
+    /* 08 */ s32 mFlags;
+    /* 0c */ u32 mKartNear;
+} SeqPlayerControl;
 
-// Object at data_0217d2a4.
-typedef struct Unk0217d2a4 {
-    /* 00 */ s32 mUnk_00[14];
-    /* 38 */ s32 mUnk_38[14];
-    /* 70 */ s32 mUnk_70;
-    /* 74 */ s32 mUnk_74;
-    /* 78 */ s32 mUnk_78;
-} Unk0217d2a4;
+// Object at gSeqQueue.
+typedef struct SeqQueue {
+    // 14 queued pairs; 13 in mPairNo and 2 in mPairSide mark an empty entry.
+    /* 00 */ s32 mPairNo[14];
+    /* 38 */ s32 mPairSide[14];
+    /* 70 */ s32 mWriteIndex;
+    /* 74 */ s32 mReadIndex;
+    /* 78 */ s32 mNextStartTimer;
+} SeqQueue;
 
-// Object behind data_0217d374, allocated by func_0211e480.
-typedef struct Unk0217d374 {
-    /* 00 */ u8 *mUnk_00;
-    /* 04 */ u8 *mUnk_04;
-    /* 08 */ u8 *mUnk_08;
-    /* 0c */ u32 mUnk_0c;
-    /* 10 */ s16 mUnk_10;
-} Unk0217d374;
+// Object behind gGhostRecordSet, allocated by InitGhostRecordSet.
+typedef struct GhostRecordSet {
+    /* 00 */ u8 *mCourseGhostRecords;
+    /* 04 */ u8 *mSlotGhostRecords;
+    /* 08 */ u8 *mGhostFileRecords;
+    /* 0c */ u32 mCourseId;
+    /* 10 */ s16 mSlotIndex;
+} GhostRecordSet;
 
-// Object behind data_0217d378, allocated by func_0211e958.
-typedef struct Unk0217d378 {
-    /* 00 */ struct Unk02021dc8 *mUnk_00;
-    /* 04 */ Unk0201ea30 *mUnk_04;
-    /* 08 */ void *mUnk_08;
-    /* 0c */ struct Unk02021dc8 *mUnk_0c;
-    /* 10 */ Unk0201ea30 *mUnk_10;
-    /* 14 */ void *mUnk_14;
-    /* 18 */ Unk02124b1c *mUnk_18;
-    /* 1c */ Unk02124b1c *mUnk_1c;
+typedef struct SelectCupM {
+    /* 00 */ struct Unk02021dc8 *mMainNcer;
+    /* 04 */ Unk0201ea30 *mMainBncl;
+    /* 08 */ struct Unk0201ea30 *mMainBnll;
+    /* 0c */ struct Unk02021dc8 *mSubNcer;
+    /* 10 */ Unk0201ea30 *mSubBncl;
+    /* 14 */ struct Unk0201ea30 *mSubBnll;
+    /* 18 */ LayoutTableEntry *mMainTable;
+    /* 1c */ LayoutTableEntry *mSubTable;
     /* 20 */ void *mUnk_20;
-    /* 24 */ void *mUnk_24;
-    /* 28 */ void *mUnk_28;
-    /* 2c */ s32 mUnk_2c;
-    /* 30 */ s32 mUnk_30;
-    /* 34 */ s32 mUnk_34;
-    /* 38 */ s32 mUnk_38;
-    /* 3c */ s32 mUnk_3c;
-    /* 40 */ s32 mUnk_40;
+    /* 24 */ struct Bmg *mCommonMessages;
+    /* 28 */ void *mHeap;
+    /* 2c */ s32 mState;
+    /* 30 */ s32 mNextState;
+    /* 34 */ s32 mStateFrames;
+    /* 38 */ BOOL mCupPicturePending;
+    /* 3c */ s32 mBg0Offset;
+    /* 40 */ s32 mBg3Offset;
     /* 44 */ u8 mUnk_44[0x04];
     /* 48 */ void *mUnk_48;
     /* 4c */ void *mUnk_4c;
     /* 50 */ s32 mUnk_50;
-} Unk0217d378;
+} SelectCupM;
 
-
-// Halfword objects behind data_0217d34c member 0x4.
-typedef struct Unk0217d34c_04 {
+// One slot number of the table.
+typedef struct RecordListEntry {
     /* 00 */ u16 mUnk_00;
-} Unk0217d34c_04;
+} RecordListEntry;
 
-// Object behind data_0217d34c.
-typedef struct Unk0217d34c {
+// The used slots in display order, with the emblem block and the emblem2.bin picture.
+typedef struct RecordList {
     /* 00 */ u16 mUnk_00;
     /* 02 */ u8 mUnk_02[2];
-    /* 04 */ Unk0217d34c_04 *mUnk_04;
-    /* 08 */ void *mUnk_08;
+    /* 04 */ RecordListEntry *mUnk_04;
+    /* 08 */ struct EmblemBlock *mEmblemBlock;
     /* 0c */ void *mUnk_0c;
-} Unk0217d34c;
+} RecordList;
 
 // Object behind data_0217d3ec: 0x814 bytes allocated by func_02125de0.
 typedef struct Unk0217d3ec {
-    /* 000 */ s32 mUnk_00;
-    /* 004 */ s32 mUnk_04;
-    /* 008 */ s32 mUnk_08;
-    /* 00c */ s32 mUnk_0c;
-    /* 010 */ u16 mUnk_10[0x400];
-    /* 810 */ s32 mUnk_810;
+    /* 000 */ BOOL mUseTxtSystem;
+    /* 004 */ BOOL mUseSelectChoises;
+    /* 008 */ BOOL mUnk_08;
+    /* 00c */ s32 mBackScreenKind;
+    /* 010 */ u16 mBackScreenSNscrCopy[0x400];
+    /* 810 */ s32 mSubCharOffset;
 } Unk0217d3ec;
 
-// Objects of 0x20 bytes set up by func_02023408; the word at 0x18 is called with the object and a value.
-typedef struct Unk0217d3f0_2098 {
+// Objects of 0x20 bytes set up by NNS_G2dCharCanvasInitForBG; the word at 0x18 is called with the object and a value.
+typedef struct CharCanvas {
     /* 00 */ u8 mUnk_00[0x18];
-    /* 18 */ void (*mUnk_18)(struct Unk0217d3f0_2098 *, s32);
+    /* 18 */ void (*mUnk_18)(struct CharCanvas *, s32);
     /* 1c */ u32 mUnk_1c;
-} Unk0217d3f0_2098;
+} CharCanvas;
 
-// Objects of 0x10 bytes passed first to func_0212583c; member 0x00 points to one Unk0217d3f0_2098.
+// Objects of 0x10 bytes passed first to func_0212583c; member 0x00 points to one CharCanvas.
 typedef struct Unk0217d3f0_2178 {
-    /* 00 */ Unk0217d3f0_2098 *mUnk_00;
+    /* 00 */ CharCanvas *mUnk_00;
     /* 04 */ u32 mUnk_04;
     /* 08 */ u32 mUnk_08;
     /* 0c */ u32 mUnk_0c;
 } Unk0217d3f0_2178;
 
-// Object behind data_0217d3f0: 0x2278 bytes allocated by func_021274ec.
-typedef struct Unk0217d3f0 {
-    /* 0000 */ u32 mUnk_00;
-    /* 0004 */ u32 mUnk_04;
-    /* 0008 */ u32 mUnk_08;
-    /* 000c */ s32 mUnk_0c;
-    /* 0010 */ s32 mUnk_10;
-    /* 0014 */ s32 mUnk_14;
-    /* 0018 */ u32 mUnk_18[2];
-    /* 0020 */ u32 mUnk_20[2];
-    /* 0028 */ s32 mUnk_28;
-    /* 002c */ u32 mUnk_2c;
-    /* 0030 */ u32 mUnk_30;
-    /* 0034 */ u32 mUnk_34;
-    /* 0038 */ u32 mUnk_38;
-    /* 003c */ u32 mUnk_3c;
-    /* 0040 */ u32 mUnk_40;
-    /* 0044 */ u32 mUnk_44;
-    /* 0048 */ u32 mUnk_48;
-    /* 004c */ u32 mUnk_4c;
-    /* 0050 */ u32 mUnk_50;
-    /* 0054 */ u16 mUnk_54[0x800];
-    /* 1054 */ u16 mUnk_1054[0x800];
-    /* 2054 */ s32 mUnk_2054[2];
-    /* 205c */ s32 mUnk_205c[2];
-    /* 2064 */ s32 mUnk_2064[2];
-    /* 206c */ s32 mUnk_206c[2];
-    /* 2074 */ u32 mUnk_2074[2];
-    /* 207c */ s32 mUnk_207c;
-    /* 2080 */ u32 mUnk_2080[2];
-    /* 2088 */ u32 mUnk_2088[2];
-    /* 2090 */ u32 mUnk_2090[2];
-    /* 2098 */ Unk0217d3f0_2098 mUnk_2098[7];
+// Object behind gTxtSystem: 0x2278 bytes allocated by InitTxtSystem.
+typedef struct TxtSystem {
+    /* 0000 */ u32 mState;
+    /* 0004 */ u32 mNextState;
+    /* 0008 */ u32 mPrevState;
+    /* 000c */ s32 mStateFrames;
+    /* 0010 */ s32 mAnimFrameIndexFrames;
+    /* 0014 */ s32 mAnimFrameIndex;
+    /* 0018 */ u32 mAnimVisible[2];
+    /* 0020 */ u32 mAnimRequested[2];
+    /* 0028 */ s32 mExtraCanvasCount;
+    /* 002c */ u32 mSelectedIndex;
+    /* 0030 */ u32 mDone;
+    /* 0034 */ u32 mOpenRequested;
+    /* 0038 */ u32 mCloseRequested;
+    /* 003c */ u32 mOpenFromIndex;
+    /* 0040 */ u32 mCloseToIndex;
+    /* 0044 */ u32 mUseCanvas1;
+    /* 0048 */ u32 mUseCanvas2;
+    /* 004c */ u32 mUseCanvas3;
+    /* 0050 */ u32 mEnabled;
+    /* 0054 */ u16 mMainScreenBuffer[0x800];
+    /* 1054 */ u16 mSubScreenBuffer[0x800];
+    /* 2054 */ s32 mBgOffset[2];
+    /* 205c */ s32 mBgOffsetAtOpen[2];
+    /* 2064 */ s32 mBgOffsetRequested[2];
+    /* 206c */ s32 mBlendPlanesEnabled[2];
+    /* 2074 */ u32 mBlendPlanesRequested[2];
+    /* 207c */ s32 mBrightness;
+    /* 2080 */ u32 mBlendPlanes[2];
+    /* 2088 */ u32 mBlendEv1[2];
+    /* 2090 */ u32 mBlendEv2[2];
+    /* 2098 */ CharCanvas mCharCanvases[7];
     /* 2178 */ Unk0217d3f0_2178 mUnk_2178[7];
-    /* 21e8 */ void *mUnk_21e8[7];
-    /* 2204 */ u32 mUnk_2204[7];
-    /* 2220 */ u32 mUnk_2220[7];
-    /* 223c */ u32 mUnk_223c[2];
+    /* 21e8 */ void *mCharBuffers[7];
+    /* 2204 */ u32 mCanvasInUse[7];
+    /* 2220 */ u32 mCanvasFileCharIndex[7];
+    /* 223c */ u32 mB01CharIndex[2];
     /* 2244 */ u16 mUnk_2244;
     /* 2246 */ u16 mUnk_2246;
-    /* 2248 */ u32 mUnk_2248;
-    /* 224c */ u32 mUnk_224c;
-    /* 2250 */ s32 mUnk_2250;
-    /* 2254 */ s32 mUnk_2254;
-    /* 2258 */ s32 mUnk_2258;
-    /* 225c */ struct Unk020b47d8 *mUnk_225c[7];
-} Unk0217d3f0;
+    /* 2248 */ u32 mMode;
+    /* 224c */ u32 mInputAccepted;
+    /* 2250 */ s32 mInputSoundId;
+    /* 2254 */ s32 mSecondInputSoundId;
+    /* 2258 */ s32 mOpenSoundId;
+    /* 225c */ struct Nscr *mBgNscrs[7];
+} TxtSystem;
 
-// Object behind data_0217d3f4.
-typedef struct Unk0217d3f4 {
-    /* 000 */ u32 mUnk_00;
-    /* 004 */ s32 mUnk_04;
-    /* 008 */ u32 mUnk_08;
-    /* 00c */ u32 mUnk_0c;
-    /* 010 */ s32 mUnk_10;
-    /* 014 */ u32 mUnk_14;
-    /* 018 */ u32 mUnk_18;
-    /* 01c */ u32 mUnk_1c;
-    /* 020 */ u32 mUnk_20;
-    /* 024 */ u32 mUnk_24;
-    /* 028 */ u32 mUnk_28;
-    /* 02c */ u16 mUnk_2c[0x400];
-    /* 82c */ u32 mUnk_82c;
-    /* 830 */ u32 mUnk_830;
-    /* 834 */ Unk0217d3f0_2098 mUnk_834[2];
+typedef struct SelectChoises {
+    /* 000 */ u32 mEnabled;
+    /* 004 */ s32 mState;
+    /* 008 */ u32 mNextState;
+    /* 00c */ u32 mState2Frames;
+    /* 010 */ s32 mToggleFrames;
+    /* 014 */ u32 mToggleOn;
+    /* 018 */ u32 mIndex;
+    /* 01c */ u32 mDone;
+    /* 020 */ u32 mIndexNone;
+    /* 024 */ u32 mState1Requested;
+    /* 028 */ u32 mState0Requested;
+    /* 02c */ u16 mNscrCopy[0x400];
+    /* 82c */ u32 mToggleOnFirstTile;
+    /* 830 */ u32 mToggleOffFirstTile;
+    /* 834 */ CharCanvas mCharCanvases[2];
     /* 874 */ Unk0217d3f0_2178 mUnk_874[2];
-    /* 894 */ u8 *mUnk_894[2];
-    /* 89c */ s32 mUnk_89c;
-    /* 8a0 */ u32 mUnk_8a0;
-    /* 8a4 */ u32 mUnk_8a4;
-    /* 8a8 */ s32 mUnk_8a8[2];
-    /* 8b0 */ s32 mUnk_8b0;
-} Unk0217d3f4;
+    /* 894 */ u8 *mCharBuffers[2];
+    /* 89c */ s32 mFirstTileIndex;
+    /* 8a0 */ u32 mUseCharBuffers;
+    // Non-zero when the display bit was set at init; also gates the choice sounds.
+    /* 8a4 */ u32 mDisplayBitOn;
+    /* 8a8 */ s32 mSoundIds[2];
+    /* 8b0 */ s32 mIndexNoneSoundId;
+} SelectChoises;
 
-// Object behind data_0217d3f8: 0x828 bytes allocated by func_021287cc.
-typedef struct Unk0217d3f8 {
-    /* 000 */ s32 mUnk_00;
-    /* 004 */ s32 mUnk_04;
-    /* 008 */ s32 mUnk_08;
-    /* 00c */ s32 mUnk_0c;
-    /* 010 */ u16 mUnk_10[0x400];
-    /* 810 */ s32 mUnk_810;
-    /* 814 */ s32 mUnk_814;
-    /* 818 */ s32 mUnk_818;
-    /* 81c */ s32 mUnk_81c;
-    /* 820 */ s32 mUnk_820;
-    /* 824 */ s32 mUnk_824;
-} Unk0217d3f8;
+// Object behind gSelectReturn: 0x828 bytes allocated by InitSelectReturn.
+typedef struct SelectReturn {
+    /* 000 */ BOOL mEnabled; /* only ever set to 1 by InitSelectReturn; the off path does not run in this build */
+    /* 004 */ s32 mState;
+    /* 008 */ s32 mNextState;
+    /* 00c */ s32 mStateFrames; /* counts only in states 1, 3, 4 */
+    /* 010 */ u16 mScreenMapCopy[0x400];
+    /* 810 */ BOOL mState1Requested;
+    /* 814 */ BOOL mState3Requested;
+    /* 818 */ BOOL mState4Requested;
+    /* 81c */ s32 mBg2Offset;
+    /* 820 */ BOOL mDisplayBitOn;
+    /* 824 */ s32 mSoundId;
+} SelectReturn;
 
-// Records of 8 bytes: 0x80 of them start an Unk0217d3fc_00, and two are at member 0x10c of Unk0217d404
-// (func_0212a920 copies 6 bytes of a record into one of those).
+// Records of 8 bytes: 0x80 of them start an OamList, and two are at member 0x10c of LinkLevelIcons
+// (AdvanceLinkLevelIcons copies 6 bytes of a record into one of those).
 typedef struct Unk0217d3fc_00_00 {
     /* 00 */ u32 mUnk_00;
     /* 04 */ u16 mUnk_04;
     /* 06 */ u8 mUnk_06[2];
 } Unk0217d3fc_00_00;
 
-// Objects of 0x404 bytes; two of them make the object behind data_0217d3fc.
-typedef struct Unk0217d3fc_00 {
-    /* 000 */ Unk0217d3fc_00_00 mUnk_00[0x80];
-    /* 400 */ u16 mUnk_400;
-    /* 402 */ u16 mUnk_402;
-} Unk0217d3fc_00;
-
-// Object behind data_0217d3fc: 0x808 bytes allocated by func_02128958.
+// Object behind data_0217d3fc: 0x808 bytes allocated by InitKeyboardScene, two OamLists.
 typedef struct Unk0217d3fc {
-    /* 000 */ Unk0217d3fc_00 mUnk_00;
-    /* 404 */ Unk0217d3fc_00 mUnk_404;
+    /* 000 */ OamList mUnk_00;
+    /* 404 */ OamList mUnk_404;
 } Unk0217d3fc;
 
-// Objects of 0x18 bytes, three of them at 0x2c of Unk0217d400: 0 and 1 are read as halfword strings, 2 also as the
+// Objects of 0x18 bytes, three of them at 0x2c of Keyboard: 0 and 1 are read as halfword strings, 2 also as the
 // fields at 0x10, 0x14 and 0x16.
 typedef struct Unk0217d400_2c {
     /* 00 */ union {
-        u16 mUnk_00[12];
+        u16 mChars[12];
         struct {
             /* 00 */ u16 mUnk_00_0[8];
             /* 10 */ s32 mUnk_10;
-            /* 14 */ s16 mUnk_14;
-            /* 16 */ s16 mUnk_16;
+            // Mode of the screen as passed in by the scene (0xc, 7 or 0xb); element 2 of Keyboard.mUnk_2c only: in
+            // element 0 these bytes are character 10 of the text.
+            /* 14 */ s16 mMode;
+            // Scene to run when the keyboard ends, -1 until set, read by GetKeyboardNextScene through the raw offset
+            // 114; element 2 of Keyboard.mUnk_2c only: in element 0 these bytes are character 11 of the text.
+            /* 16 */ s16 mNextScene;
         };
     };
 } Unk0217d400_2c;
 
-// Object behind data_0217d400: 0xc4 bytes allocated by func_0212a1e0.
-typedef struct Unk0217d400 {
-    /* 00 */ void *mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ s32 mUnk_10;
-    /* 14 */ s32 mUnk_14[2];
-    /* 1c */ s32 mUnk_1c[2];
-    /* 24 */ s32 mUnk_24;
-    /* 28 */ s32 mUnk_28;
+// Object behind gKeyboard: 0xc4 bytes allocated by InitKeyboard.
+typedef struct Keyboard {
+    // Heap the screen's objects are allocated from.
+    /* 00 */ void *mHeap;
+    // Which of the two sets (background files, text records, cell counts, object tables) the screen works on, 0 or 1;
+    // set from the mode argument at start, to 1 in state 3 and back to 0 in state 8.
+    /* 04 */ s32 mKind;
+    /* 08 */ s32 mLayout;
+    /* 0c */ s32 mState;
+    /* 10 */ s32 mNextState;
+    /* 14 */ s32 mCursorOnButton[2];
+    // Per button: non-zero while the button accepts its input; button 0 needs text entered.
+    /* 1c */ s32 mButtonEnabled[2];
+    /* 24 */ BOOL mTextEntryEnabled;
+    // Calls spent in the current state: counted up by the handlers of states 1, 3, 4, 6, 8, 9 and 11, and by state 10
+    // only while GetTxtSystemDone or IsTxtSystemState0NoOpenRequest returns non-zero; zeroed by the handler that
+    // leaves; the slide states hold it at 0xf.
+    /* 28 */ s32 mStateFrames;
     /* 2c */ Unk0217d400_2c mUnk_2c[3];
-    /* 74 */ Unk02124b1c *mUnk_74[2][2];
-    /* 84 */ s16 mUnk_84;
-    /* 86 */ s16 mUnk_86[2][2];
+    // Object tables of the keyboard, indexed by kind and by the buffer they are drawn to.
+    /* 74 */ LayoutTableEntry *mTables[2][2];
+    // Vertical shift in lines of the whole screen (0xc0 = slid out of view, 0 = in place); also stored negated into the
+    // vertical half of the sub engine's BG3 offset.
+    /* 84 */ s16 mOffsetY;
+    /* 86 */ s16 mTextOffsetY[2][2];
     /* 8e */ u8 mUnk_8e[2];
-    /* 90 */ struct Unk02021dc8 *mUnk_90;
-    /* 94 */ struct Unk020b4934 *mUnk_94;
-    /* 98 */ struct Unk020b4a44 *mUnk_98;
-    /* 9c */ Unk0201ea30 *mUnk_9c[2];
-    /* a4 */ Unk0201ea30 *mUnk_a4[2];
-    /* ac */ void *mUnk_ac[2];
-    /* b4 */ void *mUnk_b4[2];
-    /* bc */ void *mUnk_bc;
-    /* c0 */ void *mUnk_c0;
-} Unk0217d400;
+    /* 90 */ struct Unk02021dc8 *mNcer;
+    /* 94 */ struct Ncgr *mNcgr;
+    /* 98 */ struct Nclr *mNclr;
+    /* 9c */ Unk0201ea30 *mBncls[2];
+    /* a4 */ Unk0201ea30 *mBnbls[2];
+    /* ac */ void *mBnlls[2];
+    /* b4 */ struct Nscr *mNscrs[2]; /* [0] flame02, [1] flame01 */
+    /* bc */ void *mDisplaySettings;
+    // Messages of common.bmg.
+    /* c0 */ struct Bmg *mCommonMessages;
+} Keyboard;
 
-// Elements of 0x20 bytes at member 0x14 of Unk020b4934.
-typedef struct Unk0217d404_bc {
+// Elements of 0x20 bytes at member 0x14 of Ncgr.
+typedef struct CharTile {
     /* 00 */ u8 mUnk_00[0x20];
-} Unk0217d404_bc;
+} CharTile;
 
 typedef struct Unk0217d404_28 {
     /* 00 */ s32 mUnk_00;
     /* 04 */ s32 mUnk_04;
 } Unk0217d404_28;
 
-// Object behind data_0217d404: 0x11c bytes allocated by func_0212abdc.
-typedef struct Unk0217d404 {
-    /* 000 */ s32 mUnk_000[5];
-    /* 014 */ s32 mUnk_014[2];
-    /* 01c */ s32 mUnk_01c[2];
-    /* 024 */ s32 mUnk_024;
+// Object behind gLinkLevelIcons: 0x11c bytes allocated by InitLinkLevelIcons.
+typedef struct LinkLevelIcons {
+    /* 000 */ s32 mIconEnabled[5];
+    /* 014 */ s32 mIconKind[2];
+    /* 01c */ s32 mIconLevel[2];
+    /* 024 */ s32 mCycleFrames;
     /* 028 */ Unk0217d404_28 mUnk_028[2];
-    /* 038 */ Unk0217d3fc_00 *mUnk_038;
+    /* 038 */ OamList *mOamList;
     /* 03c */ u8 mUnk_03c[0x20];
     /* 05c */ u8 mUnk_05c[0x60];
-    /* 0bc */ Unk0217d404_bc *mUnk_0bc[5][4];
-    /* 10c */ Unk0217d3fc_00_00 mUnk_10c[2];
-} Unk0217d404;
+    /* 0bc */ CharTile *mIconChars[5][4];
+    /* 10c */ Unk0217d3fc_00_00 mOamRecords[2];
+} LinkLevelIcons;
 
-// Object behind data_0217d408: 0x1a44 bytes allocated by func_0212b158; the 0x20 bytes at 0x14 are set up by
-// func_02023408.
-typedef struct Unk0217d408 {
-    /* 0000 */ s32 mUnk_0000;
-    /* 0004 */ s32 mUnk_0004;
-    /* 0008 */ void *mUnk_0008;
-    /* 000c */ s32 mUnk_000c;
-    /* 0010 */ s32 mUnk_0010;
-    /* 0014 */ u8 mUnk_0014[0x20];
-    /* 0034 */ Unk02180728 mUnk_0034;
-    /* 0044 */ u16 mUnk_0044[0xa00];
-    /* 1444 */ u16 mUnk_1444[0x300];
-} Unk0217d408;
+// Object behind gMessageScreen: 0x1a44 bytes allocated by InitMessageScreen; the 0x20 bytes at 0x14 are set up by
+// NNS_G2dCharCanvasInitForBG.
+typedef struct MessageScreen {
+    /* 0000 */ s32 mKind;
+    /* 0004 */ s32 mInputEnabled;
+    /* 0008 */ void *mText;
+    /* 000c */ BOOL mOpen;
+    /* 0010 */ s32 mResult;
+    /* 0014 */ u8 mCharCanvas[0x20];
+    /* 0034 */ TextCanvas mTextCanvas;
+    /* 0044 */ u16 mCharBuffer[0xa00];
+    /* 1444 */ u16 mScreenMap[0x300];
+} MessageScreen;
 
-// Records of 8 bytes in the stream at member 0x18 of Unk0217d40c.
-typedef struct Unk0217d40c_18 {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u8 mUnk_02;
-    /* 03 */ u8 mUnk_03;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
-} Unk0217d40c_18;
+// Records of 8 bytes in the stream at member 0x18 of StaffRollText.
+typedef struct StaffRollTag {
+    /* 00 */ u16 mCharacter;
+    /* 02 */ u8 mSize;
+    /* 03 */ u8 mKind;
+    /* 04 */ u16 mVariant;
+    /* 06 */ u16 mArgument;
+} StaffRollTag;
 
-// Object behind data_0217d40c: 0x85c bytes allocated by func_0212b5ec; the 0x20 bytes at 0x20 are set up by
-// func_02023408.
-typedef struct Unk0217d40c {
-    /* 000 */ s32 mUnk_000;
-    /* 004 */ s32 mUnk_004;
-    /* 008 */ s32 mUnk_008;
-    /* 00c */ s32 mUnk_00c;
-    /* 010 */ s32 mUnk_010;
-    /* 014 */ s32 mUnk_014;
-    /* 018 */ u8 *mUnk_018;
-    /* 01c */ s8 mUnk_01c;
+// 0x85c bytes; the 0x20 bytes at 0x20 are set up by NNS_G2dCharCanvasInitForBG.
+typedef struct StaffRollText {
+    /* 000 */ s32 mState;
+    /* 004 */ s32 mNextState;
+    /* 008 */ s32 mScrollYFixed;
+    /* 00c */ s32 mScrollYPerFrame;
+    /* 010 */ s32 mNextReadScrollY;
+    /* 014 */ s32 mScrollYRemaining;
+    /* 018 */ u8 *mTextPosition;
+    /* 01c */ s8 mCharSpacing;
     /* 01d */ u8 mUnk_01d[3];
-    /* 020 */ u8 mUnk_020[0x20];
-    /* 040 */ Unk02180728 mUnk_040;
-    /* 050 */ u8 mUnk_050[0x800];
+    /* 020 */ u8 mCharCanvas[0x20];
+    /* 040 */ TextCanvas mTextCanvas;
+    /* 050 */ u8 mCharBuffer[0x800];
     /* 850 */ s8 mUnk_850;
     /* 851 */ u8 mUnk_851[3];
     /* 854 */ s32 mUnk_854;
-    /* 858 */ void *mUnk_858;
-} Unk0217d40c;
+    /* 858 */ void *mHeap;
+} StaffRollText;
+
+typedef struct SoundParams SoundParams;
 
 // Objects whose layout isn't known yet.
-extern u8 data_0217d014[];
-extern u8 data_0217d018[];
-extern u8 data_0217d01c[];
-extern Unk02017328 data_0217d028;
+extern s32 (*data_0217d014)(SoundParams *);
+extern u32 (*data_0217d018)(SoundParams *);
+extern s32 (*data_0217d01c)(SoundParams *);
+extern NNSFndList data_0217d028;
 extern u32 data_0217d064;
-extern u8 data_0217d134[];
-extern u8 data_0217d178[];
 extern s32 data_0217d1f4;
 extern s32 data_0217d20c;
 extern s32 data_0217d21c;
-extern u32 data_0217d220;
-extern Unk0217d244 data_0217d244;
-extern struct Unk0217d344 *data_0217d344;
-extern Unk0217d350 *data_0217d350;
-extern Unk0217d354 *data_0217d354;
-extern Unk0217d358 *data_0217d358;
-extern Unk0217d35c *data_0217d35c;
-extern Unk0217d368 *data_0217d368;
-extern Unk0217d36c *data_0217d36c;
-extern Unk0217d370 *data_0217d370;
-extern Unk0217d374 *data_0217d374;
-extern Unk0217d378 *data_0217d378;
-extern Unk0217d37c *data_0217d37c;
-extern Unk0217d380 *data_0217d380;
-extern u8 data_0217d388[0x64];
+extern u32 gAnySeqVariableEnabled;
+extern SeqPlayerControl data_0217d244;
+extern struct RecordScene *gRecordScene;
+extern RecordVSErase *gRecordVSErase;
+extern Wait *gWait;
+extern PicksHolder *gPicksHolder;
+extern KartIcon *gKartIcon;
+extern SelectRaceRule *gSelectRaceRule;
+extern SelectCupNameM *gSelectCupNameM;
+extern CupMark *gCupMark;
+extern GhostRecordSet *gGhostRecordSet;
+extern SelectCupM *gSelectCupM;
+extern TrophyIcon *gTrophyIcon;
+extern SelectRaceRuleWait *gSelectRaceRuleWait;
+extern char gKartFilterString[0x64];
 extern Unk0217d3ec *data_0217d3ec;
-extern Unk0217d3f0 *data_0217d3f0;
-extern Unk0217d3f4 *data_0217d3f4;
-extern Unk0217d3f8 *data_0217d3f8;
+extern TxtSystem *gTxtSystem;
+extern SelectChoises *gSelectChoises;
+extern SelectReturn *gSelectReturn;
 extern Unk0217d3fc *data_0217d3fc;
-extern Unk0217d400 *data_0217d400;
-extern Unk0217d408 *data_0217d408;
+extern Keyboard *gKeyboard;
+extern MessageScreen *gMessageScreen;
 extern u32 data_0217d1f0;
-extern s32 data_0217d22c[];
+extern s32 gLapProgressSoundGaps[];
 extern s32 data_0217d320;
 extern s32 data_0217d324;
 extern s32 data_0217d328;
-extern Unk0217d40c *data_0217d40c;
-extern u32 data_0217d438;
-extern u32 data_0217d43c;
-extern u32 data_0217d440;
+extern StaffRollText *gStaffRollText;
 extern u32 data_0217dda8;
-extern Unk0212ccd4 data_0217ddd0;
-extern Unk0212c400 data_0217d45c[16];
-extern Unk0212c7a0 data_0217d89c[];
-extern Unk02017328 data_0217dd1c;
-extern Unk0212c8a4 data_0217dd28[];
+extern CaptureParam data_0217ddd0;
+extern NNSSndSeqPlayer data_0217d45c[16];
+extern NNSSndPlayer data_0217d89c[];
+extern NNSFndList data_0217dd1c;
+extern NNSSndStrmChannel data_0217dd28[];
 extern s32 data_0217ddac;
-extern Unk0200eb90 data_0217ddb0;
-extern Unk0212c9d4 data_0217de24[8];
-extern struct Unk0212d5f8 *data_0217dec4;
+extern OSMessageQueue data_0217ddb0;
+extern EffectInfo data_0217de24[8];
+extern struct NNSSndArc *data_0217dec4;
 extern s32 data_0217d1e8;
 extern s32 data_0217d1ec;
 extern s32 data_0217d1f8;
@@ -725,36 +787,32 @@ extern s32 data_0217d210;
 extern s32 data_0217d214;
 extern volatile s32 data_0217d218;
 extern s32 data_0217d224[2];
-extern Unk0217d2a4 data_0217d2a4;
+extern SeqQueue gSeqQueue;
 extern s32 data_0217d2dc[];
-extern void *data_0217d33c;
-extern void *data_0217d340;
-extern Unk0217d404 *data_0217d404;
-extern Unk0217d410 *data_0217d410;
-extern struct Unk0212ef48 *data_0217df04;
+extern void *gRecordMainOam;
+extern void *gRecordSubOam;
+extern LinkLevelIcons *gLinkLevelIcons;
+extern PaletteBlend *gPaletteBlend;
+extern struct NNSSndStrmThread *data_0217df04;
 extern u8 data_0217df08[];
-extern Unk0212d9dc *data_0217d130;
-extern Unk0217d070 data_0217d070;
+extern NNSSndHeap *data_0217d130;
+extern ScenePlayers data_0217d070;
 // The member at 0x0c of data_0217d070, addressed through a pool word of its own.
-extern Unk0212c400 *data_0217d07c;
-extern Unk0217d084 data_0217d084;
-extern struct Unk0212d5f8 data_0217d0a0;
+extern NNSSndSeqPlayer *data_0217d07c;
+extern SoundModeHolder data_0217d084;
+extern struct NNSSndArc data_0217d0a0;
 extern Unk0217d32c data_0217d32c;
-extern Unk0217d348 *data_0217d348;
-extern Unk0217d34c *data_0217d34c;
-extern Unk0217d360 *data_0217d360;
-extern Unk0217d364 *data_0217d364;
-extern u32 data_0217d1bc;
-extern u8 data_0217d1c0[];
-extern u8 data_0217d1c4[];
-extern u8 data_0217d1c8[];
-extern u8 data_0217d1cc[];
-extern u8 data_0217d1d0[];
-extern u32 data_0217d23c[];
+extern RecordVS *gRecordVS;
+extern RecordList *gRecordList;
+// Pointer to the cup chooser object: set by InitSelectCupGrid, cleared by ReleaseSelectCupGrid.
+extern SelectCupGrid *gSelectCupGrid;
+extern SelectCupCourse *gSelectCupCourse;
+extern u32 gMicInitialized;
+extern u32 gSeqVariableEnabled[];
 extern u32 data_0217d010[];
 extern u32 data_0217d024[];
-extern u8 data_0217d034[];
-extern u8 data_0217d048[];
-extern u8 data_0217d054[];
+extern Unk0217c7c4 data_0217d034;
+extern NNSFndList data_0217d048[];
+extern NNSFndList data_0217d054;
 extern u32 data_0217d020;
 extern void *data_0217d06c;

@@ -1,11 +1,41 @@
 #include "03/code_021c2530.h"
+#include "03/code_021c250c.h"
+#include "03/code_021d1cd4.h"
+#include "03/unk_021da000.h"
 
-void func_ov003_021c2544(int param_1) {
-    func_ov003_021d1490(*(void **) (param_1 + 8));
-    func_ov003_021d1d0c(data_ov003_021da190->mUnk_60, (void *) (param_1));
-    return;
+#include "03/code_021d1440.h"
+#include "03/unk_021d5000.h"
+#include "03/code_021bf4dc.h"
+#include "03/code_021d1000.h"
+#include "03/code_021d27d8.h"
+#include "03/code_021d1d60.h"
+
+void InitMessagesPool(void) {
+    gMessagesPool = AllocExpHeapBlock(sizeof(MessagesPool), 4);
+    gMessagesPool->mFreeList = CreateFilledPointerStack(8, gMessagesPool, 12);
 }
 
-int func_ov003_021c2530(int *param_1, u32 param_2) {
-    return param_1[1] + *(int *) (*param_1 + (param_2 & ((u32) 0x0000ffffu)) * 4);
+void FreeMessagesPool(void) {
+    FreeExpHeapBlockAndClearPointer(&gMessagesPool);
+}
+
+MessageFile *LoadMessages(void *path) {
+    MessageFile *messages;
+    u8 *section;
+    u32 size;
+    messages = PopPointerStack(gMessagesPool->mFreeList);
+    messages->mFile = LoadFile(path, &size, 4);
+    section = messages->mFile + 0x20;
+    messages->mOffsets = OFFSET_PTR(u32, section, 0x10);
+    messages->mData = section + *OFFSET_PTR(s32, section, 4) + 8;
+    return messages;
+}
+
+void ReleaseMessages(MessageFile *messages) {
+    DeleteLoadedFile(messages->mFile);
+    PushPointerStack(gMessagesPool->mFreeList, messages);
+}
+
+void *GetMessageEntry(MessageFile *messages, u32 index) {
+    return messages->mData + messages->mOffsets[index & 0x0000ffffu];
 }

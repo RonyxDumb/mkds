@@ -1,28 +1,29 @@
 #include "Main/Unknown/code_0204f5e4.h"
+#include "Main/Unknown/unk_0217a000.h"
 
 #pragma thumb on
 
-void func_0204f5e4(void) {
-    int iVar5;
-    int iVar4;
-    int iVar3;
-    u32 uVar2;
-    u32 uVar1;
-    uVar2 = ((int) 0xe0000000u);
-    uVar1 = ((u32) 0xdfffffffu);
-    iVar4 = (int) data_0217aa00 + 0x16a0;
-    iVar5 = 0;
-    iVar3 = iVar4;
+void ResetPendingFiles(void) {
+    int i;
+    Unk0217aa00_16a0_view *view;
+    BlockEntry *entry;
+    u32 flagBitsMask;
+    u32 clearPendingMask;
+    flagBitsMask = (0xe0000000u);
+    clearPendingMask = (0xdfffffffu);
+    view = &data_0217aa00->mUnk_16a0_view;
+    i = 0;
+    entry = view->mBlockEntries;
     do {
-        *(u8 *) (iVar3 + 0x34) = 0;
-        *(u32 *) (iVar3 + 0x74) = 0;
-        *(u32 *) (iVar3 + 0x78) = 0;
-        *(u32 *) (iVar3 + 0x84) = *(u32 *) (iVar3 + 0x84) & uVar1;
-        *(u32 *) (iVar3 + 0x84) = *(u32 *) (iVar3 + 0x84) & uVar2;
-        iVar3 = iVar3 + 0x88;
-        iVar5 = iVar5 + 1;
-    } while (iVar5 < 0xc);
-    *(u16 *) (iVar4 + 0x668) = 0xc;
+        entry->mPath = 0;
+        entry->mBuffer = NULL;
+        entry->mUncompressedBuffer = NULL;
+        entry->mUnk_84 = entry->mUnk_84 & clearPendingMask;
+        entry->mUnk_84 = entry->mUnk_84 & flagBitsMask;
+        entry = entry + 1;
+        i = i + 1;
+    } while (i < 0xc);
+    view->mNextLoadIndex = 0xc;
 }
 
 #pragma thumb off

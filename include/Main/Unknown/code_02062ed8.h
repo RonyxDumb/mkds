@@ -1,27 +1,32 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_0206bcb0.h" // Unk0206bcb0, UnkVec16
-#include "Main/Unknown/code_020846c0.h" // Unk02084b2c
+#include "Main/Unknown/code_0206bcb0.h" // Kart
+#include "code_02147cd8.h" // Vec3s16
+#include "Main/Unknown/code_020846c0.h" // Nsbmd
 
-// Object at data_usa_0217aafc: two Unk02084b2c pointers, then the words and halfwords the code tests.
-typedef struct Unk0217aafc {
-    /* 00 */ Unk02084b2c *mUnk_00;
-    /* 04 */ Unk02084b2c *mUnk_04;
+// Object at gCourseModels: two Nsbmd pointers, then the words and halfwords the code tests. The flag halfwords
+// live inside the embedded animation objects. 0xf4 is the distance to the next symbol, so the object overlaps four
+// other symbols: data_0217abcc at +0xb0 and the embedded objects data_0217ab24 at +8, data_0217ab5c at +0x40
+// and data_0217ab94 at +0x78 (USA).
+typedef struct CourseModels {
+    /* 00 */ Nsbmd *mNsbmd;
+    // NULL when '/course_model_V.nsbmd' is absent; drawn before the main model under the other projection argument.
+    /* 04 */ Nsbmd *mVNsbmd;
     /* 08 */ u8 mUnk_08[0xc];
-    /* 14 */ s32 mUnk_14;
+    /* 14 */ s32 mNsbtpFrameIndex;
     /* 18 */ u8 mUnk_18[8];
-    /* 20 */ u16 mUnk_20;
+    /* 20 */ u16 mNsbtpAnmObjCount;
     /* 22 */ u8 mUnk_22[0x36];
-    /* 58 */ u16 mUnk_58;
+    /* 58 */ u16 mNsbtaAnmObjCount;
     /* 5a */ u8 mUnk_5a[0x36];
-    /* 90 */ u16 mUnk_90;
+    /* 90 */ u16 mVNsbtaAnmObjCount;
     /* 92 */ u8 mUnk_92[0x4e];
-    /* e0 */ s32 mUnk_e0;
-    /* e4 */ u64 mUnk_e4;
-    /* ec */ s32 mUnk_ec;
-    /* f0 */ u16 mUnk_f0;
-} Unk0217aafc;
+    /* e0 */ BOOL mRestoreFogEnableFlags;
+    /* e4 */ u64 mSavedFogEnableFlags;
+    /* ec */ BOOL mRestoreVFogEnableFlags;
+    /* f0 */ u16 mSavedVFogEnableFlags;
+} CourseModels;
 
 // What func_020636f8 writes from 0x08 of the Unk0217aa14_754_04 it points to.
 typedef struct Unk020636f8_B {
@@ -36,11 +41,11 @@ typedef struct Unk020636f8_B {
     /* 14 */ u32 mUnk_14;
 } Unk020636f8_B;
 
-extern Unk0217aafc data_usa_0217aafc;
-extern u8 data_usa_0217ab04[];
-extern u8 data_usa_0217ab3c[];
-extern u8 data_usa_0217ab74[];
-extern Unk02012f58 data_usa_0217abac;
+extern CourseModels gCourseModels;
+extern u8 data_0217ab24[];
+extern u8 data_0217ab5c[];
+extern u8 data_0217ab94[];
+extern MtxFx43 data_0217abcc;
 
 extern const char data_02165404[];
 extern const char data_02165418[];
@@ -49,7 +54,7 @@ extern const char data_02165440[];
 extern const char data_02165454[];
 extern const char data_0216546c[];
 extern const char data_02165484[];
-extern const UnkVec16 data_021653fc;
+extern const Vec3s16 data_021653fc;
 extern const u32 data_02154990[];
 extern const u32 data_021549a0[];
 extern const u32 data_021549b0[];
@@ -61,16 +66,16 @@ extern const u32 data_02154a00[];
 extern const u32 data_02154a10[];
 extern u32 data_02154a20[];
 
-s32 func_02062ed8(void);
-void func_02062ef8(u32 a);
-void func_0206302c(void);
-void func_020631b0(void);
-void func_02063228(void);
-void func_0206326c(void);
-void func_02063294(void);
-void func_0206331c(void *a);
-void func_020636f8(Unk0206bcb0 *a);
-void func_020637c4(Unk0206bcb0 *a);
-void func_020637e0(Unk0206bcb0 *a);
-void func_02063830(Unk0206bcb0 *a);
-void func_02063880(Unk0206bcb0 *a);
+s32 GetCourseModelNsbtpFrame(void);
+void SetCourseModelsFogEnableFlags(u32 flag);
+void InitCourseModelsFogEnableFlags(void);
+void SetKoopaCourseLight2(void);
+void DrawCourseModelV(void);
+void DrawCourseModel(void);
+void UpdateCourseModels(void);
+void InitCourseModels(void *heap);
+void func_020636f8(Kart *kart);
+void func_020637c4(Kart *kart);
+void func_020637e0(Kart *kart);
+void func_02063830(Kart *kart);
+void func_02063880(Kart *kart);

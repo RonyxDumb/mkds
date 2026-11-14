@@ -1,7 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020e6fd4.h" // Unk020e71a0
+#include "code_02146d78.h"
+#include "Main/Unknown/code_020e6fd4.h" // MapObject
 #include "Main/Unknown/code_020e0680.h"
 
 // Block of eleven words.
@@ -9,9 +10,11 @@ typedef struct Unk020e039c {
     /* 00 */ u32 mUnk_00[11];
 } Unk020e039c;
 
-// Object func_020e38a0 fills.
-typedef struct Unk020e38a0 {
-    /* 000 */ Unk020e71a0 mUnk_000;
+// Object of kind 0xcc (Bridge) that InitBridge fills. Its draw callback DrawBridge is typed Unk020e3ef4 (the family
+// layout of kinds 0xcb, 0xce, 0xd0 and 0xd1); the model pointer at +0x140, written by SetMapObjectsModel, lies inside
+// mUnk_13c.
+typedef struct Bridge {
+    /* 000 */ MapObject mUnk_000;
     /* 0a0 */ Unk020e38a0_28 mUnk_0a0;
     /* 0c4 */ Unk020e38a0_28 mUnk_0c4;
     /* 0e8 */ Vec3 mUnk_0e8;
@@ -37,14 +40,14 @@ typedef struct Unk020e38a0 {
     /* 150 */ u16 mUnk_150;
     /* 152 */ u8 mUnk_152[0x2];
     /* 154 */ s32 mUnk_154;
-} Unk020e38a0;
+} Bridge;
 
-s32 func_020e3af0(u32 a);
-void func_020e3a7c(void);
-void func_020e38a0(Unk020e38a0 *a, struct Unk020fa294 *b);
-void *func_020e3850(void);
-void *func_020e37f4(void);
-void *func_020e3798(void);
-void *func_020e373c(void);
-void func_020e3724(void);
-void func_020e3618(s32 a, Unk020e1e98 *b, s32 c, u16 d);
+BOOL IsBridgeKind(u32 kind);
+void CreateBridge(void); /* no argument; also gives the model to the registered objects (SetMapObjectsModel) */
+void InitBridge(Bridge *bridge, struct CourseMapRow *courseRow);
+void *CreateChoropuKindData(void);
+void *CreateChoropuDrawList(void);
+void *CreateChoropuShadowDrawList(void);
+void *CreateChoropuUpdateList(void);
+void SetupDrawChoropu(void);
+void DrawChoropu(s32 a, Unk020e1e98 *choropu, s32 c, u16 alpha);

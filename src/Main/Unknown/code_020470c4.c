@@ -1,14 +1,14 @@
 #include "Main/Unknown/code_020470c4.h"
 
-void func_020470c4(u32 p0) {
-    *(u16 *) ((u8 *) p0 + 16) = (u16) 0xffffu;
-    *(u8 *) ((u8 *) p0 + 18) = (u8) 0x0u;
-    *(u16 *) ((u8 *) p0 + 0) = (u16) 0xffu;
-    *(u16 *) ((u8 *) p0 + 2) = (u16) 0xffu;
-    *(u16 *) ((u8 *) p0 + 4) = (u16) 0x0u;
-    *(u16 *) ((u8 *) p0 + 6) = (u16) 0x3u;
-    *(u16 *) ((u8 *) p0 + 8) = (u16) 0xffu;
-    *(u16 *) ((u8 *) p0 + 10) = (u16) 0xffu;
-    *(u16 *) ((u8 *) p0 + 12) = (u16) 0x0u;
-    *(u16 *) ((u8 *) p0 + 14) = (u16) 0x3u;
+void ResetInputSlotPair(InputSlotPair *pair) {
+    pair->mNoPairCount = 0xffffu;
+    pair->mUnk_12[0] = 0x0u;
+    pair->mPairX = 0xffu;
+    pair->mPairY = 0xffu;
+    pair->mHasPair = 0x0u;
+    pair->mValidity = 0x3u;
+    pair->mPrevPairX = 0xffu;
+    pair->mPrevPairY = 0xffu;
+    pair->mPrevHasPair = 0x0u;
+    pair->mPrevValidity = 0x3u;
 }

@@ -1,40 +1,58 @@
 #include "Main/Unknown/code_02067cb0.h"
-#include "Main/Unknown/code_0208b748.h"
-#include "Main/Unknown/code_02081e3c.h"
+#include "Main/Unknown/code_0206bcb0.h"
+#include "Main/Unknown/code_0208aea8.h"
+#include "Main/Unknown/code_0208b484.h"
+#include "Main/Unknown/code_02081618.h"
 #include "Main/Unknown/code_02081120.h"
 #include "Main/Unknown/code_020ed5c0.h"
+#include "Main/Unknown/code_0206a354.h"
+#include "Main/Unknown/code_02077bc0.h"
 
-int func_02067cb0(Unk0206bcb0 *p, s32 *a) {
-    if (func_0206b4d0(p)) {
-        if (p->mUnk_7c & 1) {
-            func_0207a6b0()->mUnk_14++;
-        }
-        p->mUnk_48 |= 0x20000;
-    }
-    *a = 7;
-    return 2;
-}
-
-int func_02067d0c(Unk0206bcb0 *p, s32 *a) {
-    if (func_0206bcb0(p, 2, 0)) {
-        if (p->mUnk_7c & 0x10) {
-            func_02081e3c(func_0208b7bc(0x4f, &p->mUnk_80), p->mUnk_74, 0x46);
-        }
-        if (p->mUnk_7c & 1) {
-            func_0207a6b0()->mUnk_14++;
-        }
-    }
-    *a = 5;
-    return 0;
-}
-
-int func_02067d88(Unk0206bcb0 *p, s32 *a, Unk020e71a0 *c) {
-    if (p->mUnk_2a4 > 0x3000 || (c->mUnk_02 & 0x200)) {
-        if (func_0206bcb0(p, 2, 0)) {
-            if (p->mUnk_7c & 1) {
-                func_0207a6b0()->mUnk_14++;
+int CollideKartWithMapObjectResponse3(Kart *p, s32 *a, MapObject *c) {
+    if (p->mVelocityLength > 0x3000 || (c->mFlags & 0x200)) {
+        if (TrySpinKart(p, 1, 0)) {
+            if (p->mKartModelsEntry->mUnk_058 == 0) {
+                StartEffect(0xc, &p->mPos);
+                StartEffect(0xd, &p->mPos);
+                StartEffect(0xe, &p->mPos);
             }
-            func_020812d0(p->mUnk_74);
+            if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+                GetEntryKartCounters()->mUnk_14++;
+            }
+        }
+        *a = 3;
+    } else {
+        *a = 2;
+    }
+    return 0xb;
+}
+
+int CollideKartWithMapObjectResponse4(Kart *p, s32 *a, MapObject *c) {
+    if (p->mVelocityLength > 0x3000 || (c->mFlags & 0x200)) {
+        if (TrySpinKart(p, 2, 0)) {
+            if (p->mKartModelsEntry->mUnk_058 == 0) {
+                StartEffect(0xc, &p->mPos);
+                StartEffect(0xd, &p->mPos);
+                StartEffect(0xe, &p->mPos);
+            }
+            if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+                GetEntryKartCounters()->mUnk_14++;
+            }
+        }
+        *a = 4;
+    } else {
+        *a = 2;
+    }
+    return 0xb;
+}
+
+int CollideKartWithMapObjectResponse6(Kart *p, s32 *a, MapObject *c) {
+    if (p->mVelocityLength > 0x3000 || (c->mFlags & 0x200)) {
+        if (TrySpinKart(p, 2, 0)) {
+            if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+                GetEntryKartCounters()->mUnk_14++;
+            }
+            func_020812d0(p->mIndex);
         }
         *a = 4;
     } else {
@@ -43,40 +61,26 @@ int func_02067d88(Unk0206bcb0 *p, s32 *a, Unk020e71a0 *c) {
     return 0;
 }
 
-int func_02067e10(Unk0206bcb0 *p, s32 *a, Unk020e71a0 *c) {
-    if (p->mUnk_2a4 > 0x3000 || (c->mUnk_02 & 0x200)) {
-        if (func_0206bcb0(p, 2, 0)) {
-            if (((Unk0206bcb0_590 *) p->mUnk_590)->mUnk_058 == 0) {
-                func_0208b7bc(0xc, &p->mUnk_80);
-                func_0208b7bc(0xd, &p->mUnk_80);
-                func_0208b7bc(0xe, &p->mUnk_80);
-            }
-            if (p->mUnk_7c & 1) {
-                func_0207a6b0()->mUnk_14++;
-            }
+int CollideKartWithMapObjectResponse5(Kart *p, s32 *a) {
+    if (TrySpinKart(p, 2, 0)) {
+        if (p->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) {
+            SetupKartFollowEffectWithVelocity(StartEffect(0x4f, &p->mPos), p->mIndex, 0x46);
         }
-        *a = 4;
-    } else {
-        *a = 2;
+        if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+            GetEntryKartCounters()->mUnk_14++;
+        }
     }
-    return 0xb;
+    *a = 5;
+    return 0;
 }
 
-int func_02067ec4(Unk0206bcb0 *p, s32 *a, Unk020e71a0 *c) {
-    if (p->mUnk_2a4 > 0x3000 || (c->mUnk_02 & 0x200)) {
-        if (func_0206bcb0(p, 1, 0)) {
-            if (((Unk0206bcb0_590 *) p->mUnk_590)->mUnk_058 == 0) {
-                func_0208b7bc(0xc, &p->mUnk_80);
-                func_0208b7bc(0xd, &p->mUnk_80);
-                func_0208b7bc(0xe, &p->mUnk_80);
-            }
-            if (p->mUnk_7c & 1) {
-                func_0207a6b0()->mUnk_14++;
-            }
+int CollideKartWithMapObjectResponse7(Kart *p, s32 *a) {
+    if (TryStartKartState3(p)) {
+        if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+            GetEntryKartCounters()->mUnk_14++;
         }
-        *a = 3;
-    } else {
-        *a = 2;
+        p->mUnk_48 |= 0x20000;
     }
-    return 0xb;
+    *a = 7;
+    return 2;
 }

@@ -1,10 +1,17 @@
 #include "Main/Unknown/code_020d50ec.h"
+#include "Main/Unknown/code_02036820.h"
+#include "Main/Unknown/code_020d8918.h"
+#include "Main/Unknown/code_020d8bc0.h"
+#include "Main/Unknown/code_020f9c6c.h"
 #include "Main/Unknown/unk_0217b000.h"
 #include "Main/Unknown/unk_027e0000.h"
 #include "Main/Unknown/code_020364e0.h"
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/Unknown/code_020e01f0.h"
-#include "Main/Unknown/code_020478bc.h"
+#include "Main/Unknown/code_02047000.h"
+#include "Main/Unknown/code_0205e000.h"
+#include "Main/Unknown/unk_02164000.h"
+#include "Main/Unknown/code_02047104.h"
 #include "Main/Unknown/code_02042044.h"
 #include "Main/Unknown/code_0206bcb0.h"
 #include "Main/Unknown/code_020d6538.h"
@@ -19,643 +26,654 @@
 #include "Main/Unknown/unk_02156000.h"
 #include "Main/Unknown/code_020d8654.h"
 
-// non-matching: 73 words differ from +0x10: the original keeps the multiplier in r0 and the word at 0x78 in r3 and orders the table
-// loads and the products differently
-void func_020d634c(Unk020d5bf0 *p, s32 b)
-{
-    Unk020d634c u;
-    Unk020d634c w;
-    s32 y;
-    u32 fl;
+// Calls StartEffectWithCallback twice at the rock; skipped when bit 0 of mDistanceSquaredAndFlags is set, or when b is
+// 0 and bit 1 is set. Then resets the rock.
+void func_020d634c(RockObject *rock, s32 b) {
+    EmitterParams firstEmitterParams;
+    EmitterParams secondEmitterParams;
+    s32 scaleY;
+    u32 distanceAndFlags;
     s32 k;
     s32 j;
+    s32 a;
+    s16 c;
+    s16 d;
+    s32 e;
+    s32 f;
+    s16 g;
+    s16 h;
+    s32 i;
 
-    fl = p->mUnk_000.mUnk_78;
-    y = p->mUnk_000.mUnk_1c.y;
-    if (!(fl & 1)) {
-        if (b != 0 || !(fl & 3)) {
-            if (y > 0x1000) {
+    distanceAndFlags = rock->mMapObject.mDistanceSquaredAndFlags;
+    scaleY = rock->mMapObject.mScale.y;
+    if (!(distanceAndFlags & 1)) {
+        if (b != 0 || !(distanceAndFlags & 3)) {
+            if (scaleY > 0x1000) {
                 k = 1;
                 j = 0;
             } else {
                 k = 3;
                 j = 2;
             }
-            u.mUnk_00 = data_02156960[j] + (s32)(((s64)data_02156960[k] * y) >> 12);
-            u.mUnk_04 = data_02156940[j] + (s32)(((s64)data_02156940[k] * y) >> 12);
-            w.mUnk_00 = data_02156950[j] + (s32)(((s64)data_02156950[k] * y) >> 12);
-            u.mUnk_06 = data_02156948[j] + (s32)(((s64)data_02156948[k] * y) >> 12);
-            u.mUnk_08 = data_02156920[j] + (s32)(((s64)data_02156920[k] * y) >> 12);
-            w.mUnk_04 = data_02156928[j] + (s32)(((s64)data_02156928[k] * y) >> 12);
-            w.mUnk_06 = data_02156930[j] + (s32)(((s64)data_02156930[k] * y) >> 12);
-            w.mUnk_08 = data_02156938[j] + (s32)(((s64)data_02156938[k] * y) >> 12);
-            if (p->mUnk_000.mUnk_00 == 0x192) {
-                func_0208b748(0x54, &p->mUnk_000.mUnk_04, &u, func_020d6538);
-                func_0208b748(0x57, &p->mUnk_000.mUnk_04, &w, func_020d6538);
+            a = data_02156960[k];
+            d = data_02156938[k];
+            c = data_02156930[k];
+            g = data_02156928[k];
+            h = data_02156948[k];
+            firstEmitterParams.mUnk_00 = data_02156960[j] + (s32) (((s64) a * scaleY) >> 12);
+            i = data_02156940[k];
+            firstEmitterParams.mUnk_04 = data_02156940[j] + (s32) (((s64) i * scaleY) >> 12);
+            e = data_02156950[k];
+            firstEmitterParams.mUnk_06 = data_02156948[j] + (s32) (((s64) h * scaleY) >> 12);
+            secondEmitterParams.mUnk_00 = data_02156950[j] + (s32) (((s64) e * scaleY) >> 12);
+            f = data_02156920[k];
+            firstEmitterParams.mUnk_08 = data_02156920[j] + (s32) (((s64) f * scaleY) >> 12);
+            secondEmitterParams.mUnk_04 = data_02156928[j] + (s32) (((s64) g * scaleY) >> 12);
+            secondEmitterParams.mUnk_06 = data_02156930[j] + (s32) (((s64) c * scaleY) >> 12);
+            secondEmitterParams.mUnk_08 = data_02156938[j] + (s32) (((s64) d * scaleY) >> 12);
+            if (rock->mMapObject.mKind == 0x192) {
+                StartEffectWithCallback(0x54, &rock->mMapObject.mPos, &firstEmitterParams, func_020d6538);
+                StartEffectWithCallback(0x57, &rock->mMapObject.mPos, &secondEmitterParams, func_020d6538);
             } else {
-                func_0208b748(0x56, &p->mUnk_000.mUnk_04, &u, func_020d6538);
-                func_0208b748(0x55, &p->mUnk_000.mUnk_04, &w, func_020d6538);
+                StartEffectWithCallback(0x56, &rock->mMapObject.mPos, &firstEmitterParams, func_020d6538);
+                StartEffectWithCallback(0x55, &rock->mMapObject.mPos, &secondEmitterParams, func_020d6538);
             }
         }
     }
-    func_020d5dd0(p);
+    ResetRock(rock);
 }
 
-void func_020d5fb4(void *a, Unk020d5bf0 *p)
-{
-    s32 x;
-    s32 z;
-    s32 d;
-    s32 v;
-    s32 i;
-    s64 r;
-    s32 u;
-    Vec3 *w;
+void UpdateRock(void *a, RockObject *rock) {
+    s32 oldBaseX;
+    s32 oldBaseZ;
+    s32 depthBelowBase;
+    s32 verticalSpeed;
+    s32 sideIndex;
+    s64 newScale;
+    s32 newBottomOffset;
+    Vec3 *scale;
 
-    if (p->mUnk_0e0 > 0) {
-        p->mUnk_0e0 -= 1;
-        if (p->mUnk_0e0 != 0) {
+    if (rock->mUnk_0e0 > 0) {
+        rock->mUnk_0e0 -= 1;
+        if (rock->mUnk_0e0 != 0) {
             return;
         }
-        p->mUnk_000.mUnk_02 &= ~2;
-        p->mUnk_000.mUnk_02 &= ~8;
-        p->mUnk_000.mUnk_66 = 1;
+        rock->mMapObject.mFlags &= ~2;
+        rock->mMapObject.mFlags &= ~8;
+        rock->mMapObject.mAlpha = 1;
         return;
     }
-    x = p->mUnk_0e4.x;
-    z = p->mUnk_0e4.z;
-    func_020d84e4(&p->mUnk_0a4);
-    func_020d8bc0(&p->mUnk_0a4.mUnk_00, &p->mUnk_0e4);
-    p->mUnk_000.mUnk_10.x = p->mUnk_0e4.x - x;
-    p->mUnk_000.mUnk_10.z = p->mUnk_0e4.z - z;
-    p->mUnk_100 += p->mUnk_0f8;
-    p->mUnk_104 += p->mUnk_0fc;
-    p->mUnk_000.mUnk_10.x += p->mUnk_0f8;
-    p->mUnk_000.mUnk_10.z += p->mUnk_0fc;
-    p->mUnk_000.mUnk_04.x = p->mUnk_0e4.x + p->mUnk_100;
-    p->mUnk_000.mUnk_04.z = p->mUnk_0e4.z + p->mUnk_104;
-    p->mUnk_100 = (p->mUnk_100 * 0x3f) >> 6;
-    p->mUnk_104 = (p->mUnk_104 * 0x3f) >> 6;
-    d = p->mUnk_0e4.y - (p->mUnk_000.mUnk_04.y - p->mUnk_11c);
-    if (d > 0) {
-        p->mUnk_000.mUnk_04.y = p->mUnk_000.mUnk_04.y + d;
-        v = p->mUnk_000.mUnk_10.y;
-        if (v < 0) {
-            if (v >= -0x2000) {
-                p->mUnk_000.mUnk_10.y = 0;
+    oldBaseX = rock->mBasePos.x;
+    oldBaseZ = rock->mBasePos.z;
+    AdvanceGroupFollowerWithSpeeds(&rock->mUnk_0a4);
+    GetGroupFollowerCurveXzLinearY(&rock->mUnk_0a4.mUnk_00, &rock->mBasePos);
+    rock->mMapObject.mUnk_10.x = rock->mBasePos.x - oldBaseX;
+    rock->mMapObject.mUnk_10.z = rock->mBasePos.z - oldBaseZ;
+    rock->mOffsetX += rock->mOffsetVelocityX;
+    rock->mOffsetZ += rock->mOffsetVelocityZ;
+    rock->mMapObject.mUnk_10.x += rock->mOffsetVelocityX;
+    rock->mMapObject.mUnk_10.z += rock->mOffsetVelocityZ;
+    rock->mMapObject.mPos.x = rock->mBasePos.x + rock->mOffsetX;
+    rock->mMapObject.mPos.z = rock->mBasePos.z + rock->mOffsetZ;
+    rock->mOffsetX = (rock->mOffsetX * 0x3f) >> 6;
+    rock->mOffsetZ = (rock->mOffsetZ * 0x3f) >> 6;
+    depthBelowBase = rock->mBasePos.y - (rock->mMapObject.mPos.y - rock->mBottomOffset);
+    if (depthBelowBase > 0) {
+        rock->mMapObject.mPos.y = rock->mMapObject.mPos.y + depthBelowBase;
+        verticalSpeed = rock->mMapObject.mUnk_10.y;
+        if (verticalSpeed < 0) {
+            if (verticalSpeed >= -0x2000) {
+                rock->mMapObject.mUnk_10.y = 0;
             } else {
-                p->mUnk_000.mUnk_10.y = -(s32)(((s64)v * p->mUnk_120) >> 12);
-                p->mUnk_0f4 = (p->mUnk_0f4 == 0);
-                if (p->mUnk_000.mUnk_10.y > 0x4000) {
-                    i = (u16)p->mUnk_0a4.mUnk_00.mUnk_0c;
-                    p->mUnk_000.mUnk_10.y = 0x4000;
-                    if (p->mUnk_0f4 != 0) {
-                        p->mUnk_0f8 = p->mUnk_0f0[i].x << 1;
-                        p->mUnk_0fc = p->mUnk_0f0[i].z >> 1;
+                rock->mMapObject.mUnk_10.y = -(s32) (((s64) verticalSpeed * rock->mBounceRatio) >> 12);
+                rock->mBounceSide = (rock->mBounceSide == FALSE);
+                if (rock->mMapObject.mUnk_10.y > 0x4000) {
+                    sideIndex = (u16) rock->mUnk_0a4.mUnk_00.mSegmentIndex;
+                    rock->mMapObject.mUnk_10.y = 0x4000;
+                    if (rock->mBounceSide != FALSE) {
+                        rock->mOffsetVelocityX = rock->mSideVectors[sideIndex].x << 1;
+                        rock->mOffsetVelocityZ = rock->mSideVectors[sideIndex].z >> 1;
                     } else {
-                        p->mUnk_0f8 = -p->mUnk_0f0[i].x >> 1;
-                        p->mUnk_0fc = -p->mUnk_0f0[i].z >> 1;
+                        rock->mOffsetVelocityX = -rock->mSideVectors[sideIndex].x >> 1;
+                        rock->mOffsetVelocityZ = -rock->mSideVectors[sideIndex].z >> 1;
                     }
                 } else {
-                    p->mUnk_0f8 = 0;
-                    p->mUnk_0fc = 0;
+                    rock->mOffsetVelocityX = 0;
+                    rock->mOffsetVelocityZ = 0;
                 }
             }
         }
-        p->mUnk_108 = 0;
+        rock->mSinceGroundFrames = 0;
     } else {
-        p->mUnk_108 += 1;
+        rock->mSinceGroundFrames += 1;
     }
-    if (p->mUnk_108 < 10) {
-        func_020d275c(&p->mUnk_000, 0x179);
+    if (rock->mSinceGroundFrames < 10) {
+        StartMapObjectSoundWhileRequested(&rock->mMapObject, 0x179);
     }
-    p->mUnk_000.mUnk_10.y = p->mUnk_000.mUnk_10.y - 0x400;
-    p->mUnk_000.mUnk_04.y = p->mUnk_000.mUnk_04.y + p->mUnk_000.mUnk_10.y;
-    if (p->mUnk_110 != 0 && p->mUnk_000.mUnk_1c.y < p->mUnk_114) {
-        r = p->mUnk_000.mUnk_1c.y + p->mUnk_110;
-        u = (r * 0x1e000) >> 12;
-        func_02147d88(0x1000, u);
-        w = &p->mUnk_000.mUnk_1c;
-        w->x = r;
-        w->y = r;
-        w->z = r;
-        p->mUnk_11c = u;
-        p->mUnk_000.mUnk_58.x = (r * 0x1b000) >> 12;
-        if (p->mUnk_000.mUnk_64 >= 0) {
-            func_020d5148(p->mUnk_000.mUnk_64, p->mUnk_000.mUnk_58.x);
+    rock->mMapObject.mUnk_10.y = rock->mMapObject.mUnk_10.y - 0x400;
+    rock->mMapObject.mPos.y = rock->mMapObject.mPos.y + rock->mMapObject.mUnk_10.y;
+    if (rock->mScalePerFrame != 0 && rock->mMapObject.mScale.y < rock->mScaleLimit) {
+        newScale = rock->mMapObject.mScale.y + rock->mScalePerFrame;
+        newBottomOffset = (newScale * 0x1e000) >> 12;
+        FX_DivAsync(0x1000, newBottomOffset);
+        scale = &rock->mMapObject.mScale;
+        scale->x = newScale;
+        scale->y = newScale;
+        scale->z = newScale;
+        rock->mBottomOffset = newBottomOffset;
+        rock->mMapObject.mExtent.x = (newScale * 0x1b000) >> 12;
+        if (rock->mMapObject.mCollisionSlotIndex >= 0) {
+            SetCollisionSlotRadius(rock->mMapObject.mCollisionSlotIndex, rock->mMapObject.mExtent.x);
         }
-        p->mUnk_000.mUnk_68 = ((s64)p->mUnk_000.mUnk_98->mUnk_2c * r) >> 12;
-        p->mUnk_118 = func_02147e28();
+        rock->mMapObject.mViewRadius = ((s64) rock->mMapObject.mKindData->mUnk_2c * newScale) >> 12;
+        rock->mBottomOffsetReciprocal = FX_GetDivResult();
     }
-    if (p->mUnk_0a4.mUnk_00.mUnk_18 == 0) {
-        func_020d634c(p, 0);
-    } else if (p->mUnk_000.mUnk_04.y < 0) {
-        func_020d634c(p, 0);
+    if (rock->mUnk_0a4.mUnk_00.mForward == 0) {
+        func_020d634c(rock, 0);
+    } else if (rock->mMapObject.mPos.y < 0) {
+        func_020d634c(rock, 0);
     }
 }
 
-u8 func_020d5f8c(Unk020d5bf0 *a, s32 b, u8 *c, u8 *d)
-{
-    if (*c == 1) {
-        func_020d634c(a, 1);
+// Calls func_020d634c with b = 1 when the byte at c is 1; returns the byte at d.
+u8 func_020d5f8c(RockObject *rock, s32 b, u8 *firstResponsePtr, u8 *secondResponsePtr) {
+    if (*firstResponsePtr == 1) {
+        func_020d634c(rock, 1);
     }
-    return *d;
+    return *secondResponsePtr;
 }
 
-u8 func_020d5f64(Unk020d5bf0 *a, s32 b, u8 *c, u8 *d)
-{
-    if (*c == 1) {
-        func_020d634c(a, 1);
+// Same body as func_020d5f8c.
+u8 func_020d5f64(RockObject *rock, s32 b, u8 *firstResponsePtr, u8 *secondResponsePtr) {
+    if (*firstResponsePtr == 1) {
+        func_020d634c(rock, 1);
     }
-    return *d;
+    return *secondResponsePtr;
 }
 
-void func_020d5dd0(Unk020d5bf0 *p)
-{
-    s64 r;
-    s32 u;
-    s32 z;
-    Vec3 *v;
+// Puts the rock back at its start: timer, position, speed and scale.
+void ResetRock(RockObject *rock) {
+    s64 startScale;
+    s32 bottomOffset;
+    s32 zero;
+    Vec3 *scale;
 
-    func_020d859c(&p->mUnk_0a4, 0, 1);
-    func_020d8b18(&p->mUnk_0a4.mUnk_00, &p->mUnk_000.mUnk_04, &p->mUnk_000.mUnk_10);
-    p->mUnk_0e0 = p->mUnk_0dc;
-    if (p->mUnk_0e0 != 0) {
-        p->mUnk_000.mUnk_02 |= data_0215691c;
-        p->mUnk_000.mUnk_02 |= data_02156914;
+    SetupGroupFollowerWithSpeeds(&rock->mUnk_0a4, 0, 1);
+    GetGroupFollowerCurvePosStepXz(&rock->mUnk_0a4.mUnk_00, &rock->mMapObject.mPos, &rock->mMapObject.mUnk_10);
+    rock->mUnk_0e0 = rock->mUnk_0dc;
+    if (rock->mUnk_0e0 != 0) {
+        rock->mMapObject.mFlags |= data_0215691c;
+        rock->mMapObject.mFlags |= data_02156914;
     }
-    p->mUnk_0e4 = p->mUnk_000.mUnk_04;
-    p->mUnk_0f4 = 1;
-    z = 0;
-    p->mUnk_0f8 = z;
-    p->mUnk_0fc = z;
-    p->mUnk_100 = z;
-    p->mUnk_104 = z;
-    p->mUnk_000.mUnk_04.y = p->mUnk_0a0;
-    p->mUnk_000.mUnk_10.y = 0x8000;
-    p->mUnk_000.mUnk_28.mUnk_00 = data_021569d8;
-    p->mUnk_000.mUnk_28.mUnk_0c = data_021569e4;
-    p->mUnk_000.mUnk_28.mUnk_18 = data_021569f0;
-    r = p->mUnk_10c;
-    u = (r * 0x1e000) >> 12;
-    func_02147d88(0x1000, u);
-    v = &p->mUnk_000.mUnk_1c;
-    v->x = r;
-    v->y = r;
-    v->z = r;
-    p->mUnk_11c = u;
-    p->mUnk_000.mUnk_58.x = (r * 0x1b000) >> 12;
-    if (p->mUnk_000.mUnk_64 >= 0) {
-        func_020d5148(p->mUnk_000.mUnk_64, p->mUnk_000.mUnk_58.x);
+    rock->mBasePos = rock->mMapObject.mPos;
+    rock->mBounceSide = TRUE;
+    zero = 0;
+    rock->mOffsetVelocityX = zero;
+    rock->mOffsetVelocityZ = zero;
+    rock->mOffsetX = zero;
+    rock->mOffsetZ = zero;
+    rock->mMapObject.mPos.y = rock->mStartY;
+    rock->mMapObject.mUnk_10.y = 0x8000;
+    rock->mMapObject.mMatrix.mUnk_00[0] = data_021569d8;
+    rock->mMapObject.mMatrix.mUnk_00[1] = data_021569e4;
+    rock->mMapObject.mMatrix.mUnk_00[2] = data_021569f0;
+    startScale = rock->mStartScale;
+    bottomOffset = (startScale * 0x1e000) >> 12;
+    FX_DivAsync(0x1000, bottomOffset);
+    scale = &rock->mMapObject.mScale;
+    scale->x = startScale;
+    scale->y = startScale;
+    scale->z = startScale;
+    rock->mBottomOffset = bottomOffset;
+    rock->mMapObject.mExtent.x = (startScale * 0x1b000) >> 12;
+    if (rock->mMapObject.mCollisionSlotIndex >= 0) {
+        SetCollisionSlotRadius(rock->mMapObject.mCollisionSlotIndex, rock->mMapObject.mExtent.x);
     }
-    p->mUnk_000.mUnk_68 = ((s64)p->mUnk_000.mUnk_98->mUnk_2c * r) >> 12;
-    p->mUnk_118 = func_02147e28();
+    rock->mMapObject.mViewRadius = ((s64) rock->mMapObject.mKindData->mUnk_2c * startScale) >> 12;
+    rock->mBottomOffsetReciprocal = FX_GetDivResult();
 }
 
 #pragma thumb on
-void func_020d5d80(void *a, const char *b, const char *c)
-{
-    func_020ea588((void **) &data_0217b65c, func_020d21ec(b), 0);
-    func_020ea55c((void **) &data_0217b658, func_020d21ec(c), 7);
-    func_02084968(data_0217b65c, 0x3f, 2, 0x294a);
-    func_020849c0(data_0217b65c, 7);
+void CreateNsbmdAndShadowNsbmd(void *a, const char *name, const char *shadowName) {
+    CreateNsbmd((void **) &gRock, FindCourseMapObjFile(name), NULL);
+    CreateShadowModel((void **) &gRockShadow, FindCourseMapObjFile(shadowName), 7);
+    func_02084968(gRock, 0x3f, 2, 0x294a);
+    SetNsbmdPolygonIdAll(gRock, 7);
 }
 #pragma thumb off
 
 #pragma thumb on
-void func_020d5d6c(void *a)
-{
-    func_020d5d80(a, "rock.nsbmd", "rock_shadow.nsbmd");
+void CreateRock(void *a) {
+    CreateNsbmdAndShadowNsbmd(a, "rock.nsbmd", "rock_shadow.nsbmd");
 }
 #pragma thumb off
 
 #pragma thumb on
-void func_020d5d58(void *a)
-{
-    func_020d5d80(a, "rock2.nsbmd", "rock2_shadow.nsbmd");
+void CreateRock2(void *a) {
+    CreateNsbmdAndShadowNsbmd(a, "rock2.nsbmd", "rock2_shadow.nsbmd");
 }
 #pragma thumb off
 
 #pragma thumb on
-void func_020d5bf0(Unk020d5bf0 *p, struct Unk020fa294 *q)
-{
-    Unk02042044 *t;
-    s32 v;
-    float f;
+// Fills a Rock from its course map row; both Rock kinds use it.
+void InitRock(RockObject *rock, struct CourseMapRow *courseRow) {
+    CourseMapGroupEntry *startEntry;
+    s32 rowValue;
+    float scaledValue;
 
-    func_020d7d4c(&p->mUnk_0a4, q, 0x3000, q->mUnk_2a);
-    p->mUnk_0dc = q->mUnk_28;
-    p->mUnk_0f0 = func_020d8654(q);
-    t = func_02042044(q->mUnk_26, 0);
-    p->mUnk_0a0 = t->mUnk_00.y;
-    p->mUnk_10c = p->mUnk_000.mUnk_1c.y;
-    v = q->mUnk_2e;
-    if (v > 0) {
-        f = 0.5f + (float)(v << 12);
+    func_020d7d4c(&rock->mUnk_0a4, courseRow, 0x3000, courseRow->mUnk_2a);
+    rock->mUnk_0dc = courseRow->mUnk_28;
+    rock->mSideVectors = CreateCourseMapGroupSideVectors(courseRow);
+    startEntry = GetCourseMapGroupEntry(courseRow->mUnk_26, 0);
+    rock->mStartY = startEntry->mPos.y;
+    rock->mStartScale = rock->mMapObject.mScale.y;
+    rowValue = courseRow->mUnk_2e;
+    if (rowValue > 0) {
+        scaledValue = 0.5f + (rowValue << 12);
     } else {
-        f = (float)(v << 12) - 0.5f;
+        scaledValue = (rowValue << 12) - 0.5f;
     }
-    p->mUnk_110 = (s32)f / 60000;
-    v = q->mUnk_30;
-    if (v > 0) {
-        f = 0.5f + (float)(v << 12);
+    rock->mScalePerFrame = (s32) scaledValue / 60000;
+    rowValue = courseRow->mUnk_30;
+    if (rowValue > 0) {
+        scaledValue = 0.5f + (rowValue << 12);
     } else {
-        f = (float)(v << 12) - 0.5f;
+        scaledValue = (rowValue << 12) - 0.5f;
     }
-    p->mUnk_114 = (s32)f / 1000 + 0x1000;
-    func_020d5dd0(p);
-    p->mUnk_108 = 0;
-    p->mUnk_0e0 = q->mUnk_32;
-    if (p->mUnk_0e0 != 0) {
-        p->mUnk_000.mUnk_02 |= data_0215691c;
-        p->mUnk_000.mUnk_02 |= data_02156914;
+    rock->mScaleLimit = (s32) scaledValue / 1000 + 0x1000;
+    ResetRock(rock);
+    rock->mSinceGroundFrames = 0;
+    rock->mUnk_0e0 = courseRow->mUnk_32;
+    if (rock->mUnk_0e0 != 0) {
+        rock->mMapObject.mFlags |= data_0215691c;
+        rock->mMapObject.mFlags |= data_02156914;
     } else {
-        p->mUnk_000.mUnk_02 &= ~2;
-        p->mUnk_000.mUnk_02 &= ~8;
-        p->mUnk_000.mUnk_66 = 0x1f;
+        rock->mMapObject.mFlags &= ~2;
+        rock->mMapObject.mFlags &= ~8;
+        rock->mMapObject.mAlpha = 0x1f;
     }
-    p->mUnk_120 = (q->mUnk_2c << 12) / 100;
-    if (p->mUnk_000.mUnk_00 == 0x192) {
-        func_020d278c(&p->mUnk_000);
+    rock->mBounceRatio = (courseRow->mUnk_2c << 12) / 100;
+    if (rock->mMapObject.mKind == 0x192) {
+        CreateMapObjectSoundSourceFalloff4(&rock->mMapObject);
     } else {
-        func_020d27fc(&p->mUnk_000);
+        CreateMapObjectSoundSourceFalloff3(&rock->mMapObject);
     }
-    p->mUnk_000.mUnk_02 |= data_02156918;
+    rock->mMapObject.mFlags |= data_02156918;
 }
 #pragma thumb off
 
 #pragma thumb on
-void func_020d5bac(Unk0217b614 *p, Unk0217b614 *a)
-{
-    *p = *a;
-    p->mUnk_00 = (Vec3 *)((u32)a + (u32)p->mUnk_00);
-    p->mUnk_04 = (UnkVec16 *)((u32)a + (u32)p->mUnk_04);
-    p->mUnk_08 = (Unk0217b614_08 *)((u32)a + (u32)p->mUnk_08);
-    p->mUnk_0c = (u8 *)((u32)a + (u32)p->mUnk_0c);
+// Turns the stored offsets of the loaded collision file into pointers.
+void LoadCourseCollisionData(CourseCollision *collision, CourseCollision *file) {
+    *collision = *file;
+    collision->mUnk_00 = OFFSET_PTR(Vec3, file, (u32) collision->mUnk_00);
+    collision->mUnk_04 = OFFSET_PTR(Vec3s16, file, (u32) collision->mUnk_04);
+    collision->mUnk_08 = OFFSET_PTR(Unk0217b614_08, file, (u32) collision->mUnk_08);
+    collision->mUnk_0c = OFFSET_PTR(u8, file, (u32) collision->mUnk_0c);
     data_0217b610 = 0;
 }
 #pragma thumb off
 
 #pragma thumb on
-void func_020d5b8c(void)
-{
-    func_020d5bac(&data_0217b614, func_02047974("course_collision.kcl"));
+void InitCourseCollision(void) {
+    LoadCourseCollisionData(&gCourseCollision, FindCourseFile("course_collision.kcl"));
 }
 #pragma thumb off
 
-void func_020d5aa0(void *a, u32 b, Unk020e04b0 *c, Vec3 *d, Vec3 *e)
-{
-    Unk020d5a68 **q = a;
-    Unk020d5a68 *p;
+// Keeps the link c on the first object of the hit list a: clears it when b has the top bit or the object changed, sets
+// it when b has a bit of 0x1e34ef.
+void func_020d5aa0(void *hitListPtr, u32 b, Unk020e04b0 *link, Vec3 *d, Vec3 *e) {
+    Unk020d5a68 **hitList = hitListPtr;
+    Unk020d5a68 *firstHit;
 
-    if (c->mUnk_00 != 0) {
+    if (link->mUnk_00 != NULL) {
         if (b & 0x80000000) {
-            c->mUnk_00 = 0;
+            link->mUnk_00 = NULL;
             return;
         }
-        func_020e0538(c, d);
-        p = *q;
-        if (p->mUnk_04 == 0 && c->mUnk_00 == p->mUnk_00) {
+        func_020e0538(link, d);
+        firstHit = *hitList;
+        if (firstHit->mUnk_04 == 0 && link->mUnk_00 == firstHit->mUnk_00) {
             return;
         }
-        c->mUnk_00 = 0;
+        link->mUnk_00 = NULL;
         return;
     }
     if (b & 0x80000000) {
         return;
     }
-    p = *q;
-    if (p->mUnk_00 == 0) {
+    firstHit = *hitList;
+    if (firstHit->mUnk_00 == NULL) {
         return;
     }
-    if (p->mUnk_04 != 0) {
+    if (firstHit->mUnk_04 != 0) {
         return;
     }
     if (!(b & 0x1e34ef)) {
         return;
     }
-    func_020e0584(p->mUnk_00, d, e, c);
+    func_020e0584(firstHit->mUnk_00, d, e, link);
 }
 
-s32 func_020d5a68(void *a, u32 b, Unk020e04b0 *c)
-{
-    Unk020d5a68 **q = a;
+// TRUE when b has the top bit, the hit list a has a non-zero word at 4, or its object differs from the link c.
+BOOL func_020d5a68(void *hitListPtr, u32 b, Unk020e04b0 *link) {
+    Unk020d5a68 **hitList = hitListPtr;
 
-    if ((b & 0x80000000) || (*q)->mUnk_04 != 0 || c->mUnk_00 != (*q)->mUnk_00) {
-        return 1;
+    if ((b & 0x80000000) || (*hitList)->mUnk_04 != 0 || link->mUnk_00 != (*hitList)->mUnk_00) {
+        return TRUE;
     }
-    return 0;
+    return FALSE;
 }
 
-u16 func_020d59f8(u32 a)
-{
+// Returns the value of the recorded hit with the highest bits inside the mask a.
+u16 PickCollisionHitValue(u32 mask) {
     s32 i;
-    s32 r;
-    u32 v;
-    u32 w;
-    s32 n;
+    s32 bestIndex;
+    u32 maskedBits;
+    u32 bestBits;
+    s32 hitCount;
 
-    r = -1;
+    bestIndex = -1;
     i = 0;
-    n = data_027e0060;
-    if (n > 0) {
+    hitCount = gCollisionHitCount;
+    if (hitCount > 0) {
         do {
-            v = a & data_027e0084[i];
-            if (v != 0) {
-                if (r < 0 || v > w) {
-                    r = i;
-                    w = v;
+            maskedBits = mask & gCollisionHitBits[i];
+            if (maskedBits != 0) {
+                if (bestIndex < 0 || maskedBits > bestBits) {
+                    bestIndex = i;
+                    bestBits = maskedBits;
                 }
             }
             i++;
-        } while (i < n);
+        } while (i < hitCount);
     }
-    return data_027e0064[r];
+    return gCollisionHitValues[bestIndex];
 }
 
-void func_020d58c0(void)
-{
-    void *h;
+void InitCollisionSlots(void) {
+    void *heap;
     s16 i;
     s16 j;
 
-    h = func_020364e0(func_020364e8());
-    data_0217b5b0 = 0;
-    data_0217b5ac = 0;
-    data_0217b5b4 = func_02036bec(h, 0x400);
-    data_0217b5c0 = func_02036bec(h, 0x400);
-    data_0217b5b8 = func_02036bec(h, 0x1c00);
-    data_0217b5c8 = func_02036bec(h, 0x200);
-    data_0217b5cc = func_02036bec(h, 0x100);
-    data_0217b5bc = func_02036bec(h, 0x100);
-    data_0217b5c4 = func_02036bec(h, 0x200);
+    heap = GetHeap(GetCurrentHeapCall());
+    gCollisionSlotCount = 0;
+    gFirstFreeCollisionSlot = 0;
+    gCollisionSlotHighEnds = HeapAlloc(heap, 0x400);
+    gCollisionSlotLowEnds = HeapAlloc(heap, 0x400);
+    gCollisionSlots = HeapAlloc(heap, 0x1c00);
+    gCollisionSlotNextFree = HeapAlloc(heap, 0x200);
+    gFoundCollisionSlotIndices = HeapAlloc(heap, 0x100);
+    gFoundCollisionSlotFlags = HeapAlloc(heap, 0x100);
+    gFoundCollisionSlotObjects = HeapAlloc(heap, 0x200);
     i = 0;
     do {
-        data_0217b5c8[i] = i + 1;
+        gCollisionSlotNextFree[i] = i + 1;
         i++;
     } while (i < 0x100);
     j = 0;
     do {
-        data_0217b5b8[j].mUnk_0c = 0;
+        gCollisionSlots[j].mCenterPos = NULL;
         j++;
     } while (j < 0x100);
 }
 
-// non-matching: 4 instructions larger (0x374 against 0x364): the registers of the slot pointer, the loop variable and the two search positions
-// differ from +0x8
-s32 func_020d555c(Vec3 *a, s32 b, s32 c, void *d)
-{
-    s32 i;
-    Unk0217b5b8 *e;
-    s32 hi;
-    s32 lo;
-    s32 p;
-    s32 q;
-    s32 s;
-    s32 m;
-    s32 t;
+// Returns the new slot index, or -1 when all 0x100 slots are in use.
+s32 CreateCollisionSlot(Vec3 *centerPos, s32 radius, s32 flags, void *object) {
+    CollisionSlot *slot;
+    s16 hi;
+    s16 lo;
+    s32 slotIndex;
+    s32 highPosition;
+    s32 lowPosition;
+    s32 searchStep;
+    s32 highProbe;
     s32 j;
+    s32 m;
+    CollisionSlotEnd *endEntry;
+    CollisionSlotEnd *otherEnd;
 
-    if (data_0217b5b0 >= 0x100) {
+    if (gCollisionSlotCount >= 0x100) {
         return -1;
     }
-    i = data_0217b5ac;
-    data_0217b5ac = data_0217b5c8[i];
-    e = &data_0217b5b8[i];
-    e->mUnk_04 = a->z + b;
-    e->mUnk_08 = a->z - b;
-    e->mUnk_0c = a;
-    e->mUnk_10 = b;
-    e->mUnk_14 = c;
-    e->mUnk_18 = d;
-    hi = ((a->x + b) << 5) >> 16;
-    lo = ((a->x - b) << 5) >> 16;
-    if (data_0217b5b0 == 0) {
-        data_0217b5b4[0].mUnk_00 = 0;
-        data_0217b5b4[0].mUnk_01 = 0;
-        data_0217b5b4[0].mUnk_02 = hi;
-        data_0217b5c0[0].mUnk_00 = 0;
-        data_0217b5c0[0].mUnk_01 = i;
-        data_0217b5c0[0].mUnk_02 = lo;
-        data_0217b5b8[0].mUnk_00 = 0;
-        data_0217b5b8[0].mUnk_02 = 0;
-        data_0217b5b0 = 1;
-        return i;
+    slotIndex = gFirstFreeCollisionSlot;
+    gFirstFreeCollisionSlot = gCollisionSlotNextFree[slotIndex];
+    slot = &gCollisionSlots[slotIndex];
+    slot->mHighZ = centerPos->z + radius;
+    slot->mLowZ = centerPos->z - radius;
+    slot->mCenterPos = centerPos;
+    slot->mRadius = radius;
+    slot->mFlags = flags;
+    slot->mObject = object;
+    hi = (centerPos->x + radius) >> 11;
+    lo = (centerPos->x - radius) >> 11;
+    if (gCollisionSlotCount == 0) {
+        gCollisionSlotHighEnds[0].mOtherEndIndex = 0;
+        gCollisionSlotHighEnds[0].mUnk_01 = 0;
+        gCollisionSlotHighEnds[0].mEndX = hi;
+        gCollisionSlotLowEnds[0].mOtherEndIndex = 0;
+        gCollisionSlotLowEnds[0].mUnk_01 = slotIndex;
+        gCollisionSlotLowEnds[0].mEndX = lo;
+        gCollisionSlots[0].mHighEndIndex = 0;
+        gCollisionSlots[0].mLowEndIndex = 0;
+        gCollisionSlotCount = 1;
+        return slotIndex;
     }
-    p = 0;
-    q = 0;
-    m = data_0217b5b0;
-    s = data_0217b5b0;
+    highPosition = 0;
+    lowPosition = 0;
+    searchStep = gCollisionSlotCount;
+    m = gCollisionSlotCount;
     for (;;) {
-        t = p + s;
-        j = q + s;
-        if (t <= m) {
-            if (hi > data_0217b5b4[t - 1].mUnk_02) {
-                p = t;
+        highProbe = highPosition + searchStep;
+        j = lowPosition + searchStep;
+        if (highProbe <= m) {
+            if (hi > gCollisionSlotHighEnds[highProbe - 1].mEndX) {
+                highPosition = highProbe;
             }
         }
         if (j <= m) {
-            if (lo > data_0217b5c0[j - 1].mUnk_02) {
-                q = j;
+            if (lo > gCollisionSlotLowEnds[j - 1].mEndX) {
+                lowPosition = j;
             }
         }
-        if (s == 1) {
+        if (searchStep == 1) {
             break;
         }
-        s = (s + 1) >> 1;
+        searchStep = (searchStep + 1) >> 1;
     }
-    e->mUnk_00 = p;
-    e->mUnk_02 = q;
-    m = data_0217b5b0;
-    if (m > p) {
+    slot->mHighEndIndex = highPosition;
+    slot->mLowEndIndex = lowPosition;
+    m = gCollisionSlotCount;
+    if (m > highPosition) {
         do {
-            data_0217b5b4[m] = data_0217b5b4[m - 1];
-            data_0217b5c0[data_0217b5b4[m].mUnk_00].mUnk_00 += 1;
-            data_0217b5b8[data_0217b5c0[data_0217b5b4[m].mUnk_00].mUnk_01].mUnk_00 += 1;
+            endEntry = &gCollisionSlotHighEnds[m];
+            *endEntry = gCollisionSlotHighEnds[m - 1];
+            otherEnd = &gCollisionSlotLowEnds[endEntry->mOtherEndIndex];
+            otherEnd->mOtherEndIndex += 1;
+            gCollisionSlots[otherEnd->mUnk_01].mHighEndIndex += 1;
             m--;
-            if (data_0217b5b4[m + 1].mUnk_01 >= q) {
-                data_0217b5b4[m + 1].mUnk_01 += 1;
+            if (endEntry->mUnk_01 >= lowPosition) {
+                endEntry->mUnk_01 += 1;
             }
-        } while (m > p);
+        } while (m > highPosition);
     }
-    data_0217b5b4[p].mUnk_00 = q;
-    data_0217b5b4[p].mUnk_02 = hi;
-    if (p == data_0217b5b0 || data_0217b5b4[p + 1].mUnk_01 > q) {
-        data_0217b5b4[p].mUnk_01 = q;
-        for (j = p - 1; j >= 0 && data_0217b5b4[j].mUnk_01 > q; j--) {
-            data_0217b5b4[j].mUnk_01 = q;
+    gCollisionSlotHighEnds[highPosition].mOtherEndIndex = lowPosition;
+    gCollisionSlotHighEnds[highPosition].mEndX = hi;
+    if (highPosition == gCollisionSlotCount || gCollisionSlotHighEnds[highPosition + 1].mUnk_01 > lowPosition) {
+        gCollisionSlotHighEnds[highPosition].mUnk_01 = lowPosition;
+        for (j = highPosition - 1; j >= 0 && gCollisionSlotHighEnds[j].mUnk_01 > lowPosition; j--) {
+            gCollisionSlotHighEnds[j].mUnk_01 = lowPosition;
         }
     } else {
-        data_0217b5b4[p].mUnk_01 = data_0217b5b4[p + 1].mUnk_01;
+        gCollisionSlotHighEnds[highPosition].mUnk_01 = gCollisionSlotHighEnds[highPosition + 1].mUnk_01;
     }
-    m = data_0217b5b0;
-    if (m > q) {
+    m = gCollisionSlotCount;
+    if (m > lowPosition) {
         do {
-            data_0217b5c0[m] = data_0217b5c0[m - 1];
-            data_0217b5b4[data_0217b5c0[m].mUnk_00].mUnk_00 += 1;
-            data_0217b5b8[data_0217b5c0[m].mUnk_01].mUnk_02 += 1;
+            endEntry = &gCollisionSlotLowEnds[m];
+            *endEntry = gCollisionSlotLowEnds[m - 1];
+            gCollisionSlotHighEnds[endEntry->mOtherEndIndex].mOtherEndIndex += 1;
+            gCollisionSlots[endEntry->mUnk_01].mLowEndIndex += 1;
             m--;
-        } while (m > q);
+        } while (m > lowPosition);
     }
-    data_0217b5c0[q].mUnk_00 = p;
-    data_0217b5c0[q].mUnk_01 = i;
-    data_0217b5c0[q].mUnk_02 = lo;
-    data_0217b5b0 += 1;
-    return i;
+    gCollisionSlotLowEnds[lowPosition].mOtherEndIndex = highPosition;
+    gCollisionSlotLowEnds[lowPosition].mUnk_01 = slotIndex;
+    gCollisionSlotLowEnds[lowPosition].mEndX = lo;
+    gCollisionSlotCount += 1;
+    return slotIndex;
 }
 
-// non-matching: 106 words differ from +0x30: the original keeps the slot pointer in a stack slot and the loop variables in other
-// registers; the compiled code keeps everything in registers
-u32 func_020d5344(s32 a)
-{
-    Unk0217b5b8 *e;
-    s32 s;
-    s32 t;
+// Always returns -1, which the caller stores as its slot index.
+u32 FreeCollisionSlot(s32 slotIndex) {
+    CollisionSlot *slot;
+    s32 highIndex;
+    s32 lowIndex;
     s32 k;
     s32 j;
-    u32 v;
-    Unk0217b5b4 *q;
+    s32 otherIndex;
+    CollisionSlotEnd *endEntry;
+    CollisionSlotEnd *otherEnd;
 
-    if (a < 0 || a >= 0x100) {
+    if (slotIndex < 0 || slotIndex >= 0x100) {
         return -1;
     }
-    e = &data_0217b5b8[a];
-    s = e->mUnk_00;
-    if (e->mUnk_0c == 0) {
+    slot = &gCollisionSlots[slotIndex];
+    highIndex = slot->mHighEndIndex;
+    lowIndex = slot->mLowEndIndex;
+    if (slot->mCenterPos == NULL) {
         return -1;
     }
-    t = e->mUnk_02;
-    k = s;
-    if (k < data_0217b5b0 - 1) {
+    k = highIndex;
+    if (k < gCollisionSlotCount - 1) {
         do {
-            data_0217b5b4[k] = data_0217b5b4[k + 1];
-            data_0217b5c0[data_0217b5b4[k].mUnk_00].mUnk_00 -= 1;
-            data_0217b5b8[data_0217b5c0[data_0217b5b4[k].mUnk_00].mUnk_01].mUnk_00 -= 1;
-            if (data_0217b5b4[k].mUnk_01 > t) {
-                data_0217b5b4[k].mUnk_01 -= 1;
+            endEntry = &gCollisionSlotHighEnds[k];
+            *endEntry = gCollisionSlotHighEnds[k + 1];
+            otherEnd = &gCollisionSlotLowEnds[endEntry->mOtherEndIndex];
+            otherEnd->mOtherEndIndex -= 1;
+            gCollisionSlots[otherEnd->mUnk_01].mHighEndIndex -= 1;
+            if (endEntry->mUnk_01 > lowIndex) {
+                endEntry->mUnk_01 -= 1;
             }
             k++;
-        } while (k < data_0217b5b0 - 1);
+        } while (k < gCollisionSlotCount - 1);
     }
-    k = t;
-    if (k < data_0217b5b0 - 1) {
+    k = lowIndex;
+    if (k < gCollisionSlotCount - 1) {
         do {
-            data_0217b5c0[k] = data_0217b5c0[k + 1];
-            data_0217b5b4[data_0217b5c0[k].mUnk_00].mUnk_00 -= 1;
-            data_0217b5b8[data_0217b5c0[k].mUnk_01].mUnk_02 -= 1;
-            v = data_0217b5c0[k].mUnk_00;
-            if (v < s) {
-                q = &data_0217b5b4[v];
-                j = q->mUnk_01;
-                if (j == t) {
-                    while (data_0217b5c0[j].mUnk_00 < v) {
+            endEntry = &gCollisionSlotLowEnds[k];
+            *endEntry = gCollisionSlotLowEnds[k + 1];
+            gCollisionSlotHighEnds[endEntry->mOtherEndIndex].mOtherEndIndex -= 1;
+            gCollisionSlots[endEntry->mUnk_01].mLowEndIndex -= 1;
+            otherIndex = endEntry->mOtherEndIndex;
+            if (otherIndex < highIndex) {
+                otherEnd = &gCollisionSlotHighEnds[otherIndex];
+                j = otherEnd->mUnk_01;
+                if (j == lowIndex) {
+                    while (gCollisionSlotLowEnds[j].mOtherEndIndex < (u32) otherIndex) {
                         j++;
                     }
-                    q->mUnk_01 = j;
+                    otherEnd->mUnk_01 = j;
                 }
             }
             k++;
-        } while (k < data_0217b5b0 - 1);
+        } while (k < gCollisionSlotCount - 1);
     }
-    e->mUnk_0c = 0;
-    data_0217b5c8[a] = data_0217b5ac;
-    data_0217b5ac = a;
-    data_0217b5b0 -= 1;
+    slot->mCenterPos = NULL;
+    gCollisionSlotNextFree[slotIndex] = gFirstFreeCollisionSlot;
+    gFirstFreeCollisionSlot = slotIndex;
+    gCollisionSlotCount -= 1;
     return -1;
 }
 
-// non-matching: same size; registers only: the loop variables are in other registers from +0x8 (original: r8, r7,
-// r5 for the first three values, r4 and lr for the bounds)
-void func_020d5180(void *a, s32 b, s32 c)
-{
-    Vec3 *v = a;
-    s32 m;
-    s32 p;
-    s32 q;
-    s32 s;
-    s32 j;
-    s32 x;
-    s32 z;
+// Fills the Found arrays with the slots whose x and z ranges lie within b of position a, whose flags share a bit with
+// mask c and that are not disabled.
+void FindCollisionSlotsAroundPos(Vec3 *position, s32 radius, s32 flagMask) {
+    Vec3 *centerPos = position;
     s32 hi;
     s32 lo;
+    s32 searchStep;
+    s32 j;
+    s32 k;
+    s32 centerZ;
+    s32 slotCount;
     s32 zhi;
+    s32 p;
     s32 zlo;
     s32 t;
-    Unk0217b5b8 *e;
-    s32 f;
+    CollisionSlot *slot;
+    s32 slotFlags;
 
-    m = data_0217b5b0;
-    x = v->x;
-    z = v->z;
-    hi = ((x + b) << 5) >> 16;
-    lo = ((x - b) << 5) >> 16;
+    slotCount = gCollisionSlotCount;
+    k = centerPos->x;
+    centerZ = centerPos->z;
+    hi = (s16) ((k + radius) >> 11);
+    lo = (s16) ((k - radius) >> 11);
     p = 0;
-    data_0217b5a8 = 0;
-    q = 0;
-    zhi = z + b;
-    zlo = z - b;
-    s = m - 1;
+    gFoundCollisionSlotCount = 0;
+    k = 0;
+    zhi = centerZ + radius;
+    zlo = centerZ - radius;
+    searchStep = slotCount - 1;
     for (;;) {
-        t = p + s;
-        j = q + s;
-        if (t <= m) {
-            if (lo > data_0217b5b4[t - 1].mUnk_02) {
+        t = p + searchStep;
+        j = k + searchStep;
+        if (t <= slotCount) {
+            if (lo > gCollisionSlotHighEnds[t - 1].mEndX) {
                 p = t;
             }
         }
-        if (j <= m) {
-            if (hi >= data_0217b5c0[j].mUnk_02) {
-                q = j;
+        if (j <= slotCount) {
+            if (hi >= gCollisionSlotLowEnds[j].mEndX) {
+                k = j;
             }
         }
-        if (s == 1) {
+        if (searchStep == 1) {
             break;
         }
-        s = (s + 1) >> 1;
+        searchStep = (searchStep + 1) >> 1;
     }
-    s = data_0217b5b4[p].mUnk_01;
-    if (q < s) {
+    searchStep = gCollisionSlotHighEnds[p].mUnk_01;
+    if (k < searchStep) {
         return;
     }
     do {
-        if (data_0217b5c0[q].mUnk_00 >= p) {
-            e = &data_0217b5b8[data_0217b5c0[q].mUnk_01];
-            f = e->mUnk_14;
-            if (e->mUnk_04 >= zlo && e->mUnk_08 <= zhi && (f & c) && !(f & 0x200)) {
-                data_0217b5cc[data_0217b5a8] = data_0217b5c0[q].mUnk_01;
-                data_0217b5bc[data_0217b5a8] = f;
-                data_0217b5c4[data_0217b5a8] = e->mUnk_18;
-                data_0217b5a8++;
-                if (data_0217b5a8 == 0x80) {
+        if (gCollisionSlotLowEnds[k].mOtherEndIndex >= p) {
+            slot = &gCollisionSlots[gCollisionSlotLowEnds[k].mUnk_01];
+            slotFlags = slot->mFlags;
+            if (slot->mHighZ >= zlo && slot->mLowZ <= zhi && (slotFlags & flagMask) && !(slotFlags & 0x200)) {
+                gFoundCollisionSlotIndices[gFoundCollisionSlotCount] = gCollisionSlotLowEnds[k].mUnk_01;
+                gFoundCollisionSlotFlags[gFoundCollisionSlotCount] = slotFlags;
+                gFoundCollisionSlotObjects[gFoundCollisionSlotCount] = slot->mObject;
+                gFoundCollisionSlotCount++;
+                if (gFoundCollisionSlotCount == 0x80) {
                     return;
                 }
             } else {
                 continue;
             }
         }
-        if (q == 0) {
+        if (k == 0) {
             return;
         }
-    } while (--q >= s);
+    } while (--k >= searchStep);
 }
 
-void func_020d5148(s16 a, s32 b)
-{
-    Unk0217b5b8 *e;
+// A slot with flag 0x400 also gets the flags of data_02156900 set.
+void SetCollisionSlotRadius(s16 slotIndex, s32 radius) {
+    CollisionSlot *slot;
 
-    e = &data_0217b5b8[a];
-    e->mUnk_10 = b;
-    if (e->mUnk_14 & 0x400) {
-        e->mUnk_14 |= data_02156900;
+    slot = &gCollisionSlots[slotIndex];
+    slot->mRadius = radius;
+    if (slot->mFlags & 0x400) {
+        slot->mFlags |= data_02156900;
     }
 }
 
-void func_020d5114(s16 a)
-{
-    data_0217b5b8[a].mUnk_14 |= data_021568fc;
+void DisableCollisionSlot(s16 slotIndex) {
+    gCollisionSlots[slotIndex].mFlags |= data_021568fc;
 }
 
-void func_020d50ec(s16 a)
-{
-    data_0217b5b8[a].mUnk_14 &= ~0x200;
+void EnableCollisionSlot(s16 slotIndex) {
+    gCollisionSlots[slotIndex].mFlags &= ~0x200;
 }

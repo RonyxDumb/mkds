@@ -1,13 +1,13 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_0208fd8c.h" // Unk0208fd8c_08
+#include "Main/Unknown/code_0208fd8c.h" // KartAiItemUseEntry
 
 // Objects whose layout isn't known yet.
 extern u8 data_0215688c[];
 extern u8 data_02156458[];
-extern u8 data_0215645c[];
-extern u8 data_021564c0[];
+extern u16 data_0215645c;
+extern u16 data_021564c0;
 extern u16 data_02156460;
 extern u16 data_02156464;
 extern u16 data_02156468;
@@ -17,7 +17,7 @@ extern u32 data_021564bc;
 extern u8 data_02156598[];
 extern u8 data_021565e4[];
 extern u32 data_021565f0[];
-extern u8 data_021568e8[];
+extern u16 data_021568e8;
 extern const u16 data_021568b4;
 extern const u16 data_021568b8;
 extern const u16 data_021568bc;
@@ -34,7 +34,7 @@ extern const u16 data_021568e4;
 extern u16 data_021568ec;
 extern u32 data_021568f0;
 extern u32 data_021568f4;
-extern u32 data_usa_021568f8;
+extern u32 data_021568f8;
 extern u16 data_021568fc;
 extern u16 data_02156900;
 extern const u32 data_02156904;
@@ -55,10 +55,10 @@ extern s32 data_02156960[4];
 extern Vec3 data_021569d8;
 extern Vec3 data_021569e4;
 extern Vec3 data_021569f0;
-extern struct Unk0217b654 data_021569fc;
-extern struct Unk0217b650 data_02156a24;
-extern struct Unk0217b650 data_02156a80;
-extern struct Unk02156adc data_02156adc;
+extern struct RockUpdateList data_021569fc;
+extern struct RockDrawList data_02156a24;
+extern struct RockDrawList data_02156a80;
+extern struct MapObjectKindData data_02156adc;
 extern u16 data_021567a0;
 extern u16 data_021567a4[];
 extern u16 data_021567ac;
@@ -94,7 +94,7 @@ typedef struct Unk02156808 {
 } Unk02156808;
 
 extern Unk02156808 data_02156808[];
-extern u16 data_021567fc[6];
+extern u16 gKeyboardLayoutRectCounts[6];
 extern const s16 data_02156868[6];
 extern const u16 data_02156840[20];
 extern u16 data_0215646c;
@@ -108,12 +108,12 @@ extern u16 data_021564a8;
 extern u16 data_021564ac;
 extern u32 data_021564b0;
 extern u16 data_021564b4;
-extern Unk0208fd8c_08 data_02155fd8[];
-extern Unk0208fd8c_08 data_02156080[];
-extern Unk0208fd8c_08 data_02156128[];
-extern Unk0208fd8c_08 data_021561d0[];
-extern Unk0208fd8c_08 data_021562a8[];
-extern Unk0208fd8c_08 data_02156380[];
+extern KartAiItemUseEntry data_02155fd8[];
+extern KartAiItemUseEntry data_02156080[];
+extern KartAiItemUseEntry data_02156128[];
+extern KartAiItemUseEntry data_021561d0[];
+extern KartAiItemUseEntry data_021562a8[];
+extern KartAiItemUseEntry data_02156380[];
 extern Vec3 data_021564c4[];
 extern Vec3 data_021564dc[];
 extern Vec3 data_021564f4[];
@@ -123,5 +123,5 @@ extern Vec3 data_0215653c[];
 extern Vec3 data_02156554[];
 extern Vec3 data_0215656c[];
 extern const u16 data_02156584;
-extern u32 data_usa_02156588;
+extern u32 data_02156588;
 extern u16 data_0215658c;

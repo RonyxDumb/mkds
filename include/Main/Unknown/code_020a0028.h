@@ -1,36 +1,39 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020e6fd4.h" // Unk020e71a0
-#include "Main/Unknown/code_020e005c.h" // Unk020e0144
-#include "Main/Unknown/code_020f9c6c.h" // Unk020fa294
+#include "code_02146d78.h"
+#include "Main/Unknown/code_020e6fd4.h" // MapObject
+#include "Main/Unknown/code_020e005c.h" // GroupFollower
+#include "Main/Unknown/code_020f9c6c.h" // CourseMapRow
 
-// Object with the Unk020e0144 base at 0xc8 (func_020a018c, func_020a0064).
-typedef struct Unk020a018c {
-    /* 00 */ Unk020e71a0 mUnk_00;
+// Object of kind 0x158 (Airship) with the GroupFollower base at 0xc8 (DrawAirship, InitAirshipObjects).
+typedef struct Airship {
+    /* 00 */ MapObject mUnk_00;
     /* a0 */ s32 mUnk_a0;
     /* a4 */ s32 mUnk_a4;
-    /* a8 */ s16 mUnk_a8;
+    /* a8 */ s16 mWobbleAngle;
     /* aa */ u8 mUnk_aa[2];
-    /* ac */ s32 mUnk_ac;
+    /* ac */ s32 mWobbleOffset;
     /* b0 */ s32 mUnk_b0;
-    /* b4 */ s32 mUnk_b4;
-    /* b8 */ s32 mUnk_b8;
-    /* bc */ u32 mUnk_bc;
-    /* c0 */ s32 mUnk_c0;
+    /* b4 */ s32 mWobbleMid;
+    /* b8 */ s32 mWobbleAmplitude;
+    /* bc */ u32 mWobbleAmplitudePerFrame;
+    /* c0 */ s32 mWobbleAnglePerFrame;
     /* c4 */ s32 mUnk_c4;
-    /* c8 */ Unk020e0144 mUnk_c8;
-    /* ec */ s32 mUnk_ec;
-} Unk020a018c;
+    /* c8 */ GroupFollower mUnk_c8;
+    /* State number of this kind's own per-frame switch in UpdateAirship; this object does not use
+       MapObject.mUnk_80's state machine; also written by the group pre-step */
+    /* ec */ s32 mState;
+} Airship;
 
-// Array of object pointers: pointer to the array and the number of entries (func_020a0064).
-typedef struct Unk020a0064 {
-    /* 00 */ Unk020a018c **mUnk_00;
+// Array of object pointers: pointer to the array and the number of entries (InitAirshipObjects).
+typedef struct AirshipObjectList {
+    /* 00 */ Airship **mUnk_00;
     /* 04 */ u16 mUnk_04;
-} Unk020a0064;
+} AirshipObjectList;
 
-void func_020a0294(void *a);
-void func_020a018c(void *a, Unk020a018c *p);
-void func_020a0064(Unk020a0064 *p);
-s32 func_020a0044(s32 a);
-s32 func_020a0028(s32 a, s32 b);
+void CreateAirship(void *a);
+void DrawAirship(void *a, Airship *airship);
+void InitAirshipObjects(AirshipObjectList *list);
+s32 func_020a0044(s32 angle);
+s32 func_020a0028(s32 multiplicand, s32 multiplier);

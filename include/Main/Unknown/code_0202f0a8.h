@@ -1,10 +1,10 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/unk_02174000.h"
-#include "Main/Unknown/unk_02175628.h"
 
-u32 func_0202f0a8(u32 a);
-u32 func_0202f0c8(Unk02175628_48 *a);
-u32 func_0202f0fc(Unk02175628_48 *a);
-void func_0202f120(s32 a, s32 b, s32 c, s32 d);
+typedef struct InputSlotPair InputSlotPair;
+
+u32 func_0202f0a8(u32 slotIndex);
+u32 func_0202f0c8(InputSlotPair *pair);
+u32 func_0202f0fc(InputSlotPair *pair);
+void CallScrollListCallback(s32 action, s32 slot, s32 row, s32 selectedSlot);

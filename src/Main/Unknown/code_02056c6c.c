@@ -1,12 +1,15 @@
 #include "Main/Unknown/code_02056c6c.h"
+#include "Main/Unknown/code_020467d0.h"
+#include "Main/Unknown/code_02056cac.h"
+#include "Main/Unknown/unk_0217a000.h"
 
 #pragma thumb on
 
-void func_02056c6c(u32 param_1, int param_2, void *param_3) {
-    int iVar1;
-    iVar1 = func_0204684c(param_1);
-    if (iVar1 != -1) {
-        func_02056cac(&data_0217aa08->mUnk_0c->mUnk_004[param_2][iVar1], param_3);
+void SetCourseTimeRecord(u32 courseId, int recordIndex, TimeRecord *timeRecord) {
+    int cupCourseIndex;
+    cupCourseIndex = FindCupCourseIndex(courseId);
+    if (cupCourseIndex != -1) {
+        PackCourseTimeRecord(&data_0217aa08->mCourseTimeRecordBlock->mRecords[recordIndex][cupCourseIndex], timeRecord);
     }
 }
 

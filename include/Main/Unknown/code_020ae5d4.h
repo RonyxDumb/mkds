@@ -2,4 +2,6 @@
 
 #include "types.h"
 
-u32 func_020ae5d4(u32 arg0);
+typedef struct OamList OamList;
+
+u32 IncrementOamMatrixCount(OamList *oamList);

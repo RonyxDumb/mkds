@@ -1,29 +1,32 @@
 #include "Main/Unknown/code_02027df8.h"
+#include "Main/Unknown/code_02047104.h"
+#include "Main/Unknown/code_020b4000.h"
+#include "Main/Unknown/unk_02161000.h"
 
 #pragma thumb on
 
 void func_02027df8(void) {
-    u32 uVar1;
-    Unk020b4934 *local_18;
-    Unk020b4a44 *local_14;
-    Unk02021dc8 *local_10;
-    Unk020b47d8 *local_c[1];
-    local_18 = 0;
-    local_14 = 0;
-    local_10 = 0;
-    local_c[0] = 0;
-    uVar1 = ((u32) func_02047a28((const char *) &data_02161e64));
-    func_020b496c(&local_18, (void *) uVar1);
-    uVar1 = ((u32) func_02047a28((const char *) &data_02161e7c));
-    func_020b49f4(&local_18, (void *) uVar1);
-    uVar1 = ((u32) func_02047a28((const char *) &data_02161e94));
-    func_020b48ec(&local_10, (void *) uVar1);
-    uVar1 = ((u32) func_02047a28((const char *) &data_02161eac));
-    func_020b4a7c(&local_14, (void *) uVar1);
-    uVar1 = ((u32) func_02047a28((const char *) &data_02161ec4));
-    func_020b4a7c(&local_14, (void *) uVar1);
-    uVar1 = ((u32) func_02047a28((const char *) &data_02161edc));
-    func_020b4810(local_c, (void *) uVar1);
+    void *fileData;
+    Ncgr *chars;
+    Nclr *palette;
+    Unk02021dc8 *cells;
+    Nscr *screenMap[1];
+    chars = NULL;
+    palette = NULL;
+    cells = NULL;
+    screenMap[0] = NULL;
+    fileData = FindFileInLoadedArchives(data_02161e64);
+    LoadNcgrData(&chars, fileData);
+    fileData = FindFileInLoadedArchives(data_02161e7c);
+    LoadNcgrData2(&chars, fileData);
+    fileData = FindFileInLoadedArchives(data_02161e94);
+    LoadNcerData(&cells, fileData);
+    fileData = FindFileInLoadedArchives(data_02161eac);
+    LoadNclrData(&palette, fileData);
+    fileData = FindFileInLoadedArchives(data_02161ec4);
+    LoadNclrData(&palette, fileData);
+    fileData = FindFileInLoadedArchives(data_02161edc);
+    LoadNscrData(screenMap, fileData);
 }
 
 #pragma thumb off

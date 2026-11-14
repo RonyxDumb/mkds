@@ -1,307 +1,325 @@
 #include "Main/Unknown/code_020336ec.h"
+#include "Main/Unknown/code_0202578c.h"
 #include "Main/Unknown/code_02025000.h"
 #include "Main/Unknown/code_02025bb4.h"
 #include "Main/Unknown/code_020ade08.h"
 #include "Main/Unknown/code_020b3f7c.h"
 #include "Main/Unknown/code_02124094.h"
 #include "Main/Unknown/code_02124bc8.h"
-#include "Main/Unknown/code_02148ca0.h"
-#include "00/code_02182fdc.h"
+#include "code_02148950.h"
+#include "00/code_02181f98.h"
 #include "Main/Unknown/unk_02174000.h"
 #include "Main/Unknown/unk_021759c0.h"
 #include "code_02016468.h"
 #include "code_0214cfe4.h"
 
 // Fills with 0 through a halfword stack offset of its own.
-static inline void func_020338f8_inline(void *p, s32 n) {
-    volatile u16 v = 0;
-    func_0214cfe4(v, p, n);
+static inline void func_020338f8_inline(void *buffer, s32 byteCount) {
+    volatile u16 fillValue = 0;
+    MIi_CpuClear16(fillValue, buffer, byteCount);
 }
 
 #pragma thumb on
 
-// non-matching: 0x158 bytes, original 0x154; the original reads the count at 0xd4 into one register and the loop counter in another through the table loops (ours keeps the table entry in a stack word), and its two stack words for the pair of constants are swapped
-void func_020336ec(void *a) {
-    Unk02174e60 *o;
-    Unk02174e14_00 *t;
-    s32 x;
-    s32 c;
-    s32 d;
-    s32 e;
-    s32 f;
-    s32 n;
-    s32 i;
-    s32 j;
-    s32 k;
-    s32 m;
+void func_02033c80(s32 entryIndex) {
+    CellFileSet *subCellFileSet;
+    s32 orderIndex;
+    BOOL isTeamIndex1;
+    BOOL c;
+    BOOL d;
+    BOOL e;
 
-    o = data_02174e60;
-    t = &o->mUnk_048[0];
-    if (o->mUnk_0dc != 3) {
-        x = 1;
+    subCellFileSet = &gResultsBattle->mCellFileSets[1];
+    if (gResultsBattle->mOwnEntryIndex == entryIndex) {
+        d = TRUE;
     } else {
-        x = 0;
+        d = FALSE;
     }
-    n = 0;
-    c = o->mUnk_0d4;
-    d = c + data_usa_02153eb0[c - 1];
-    if (c <= 5) {
-        e = 1;
-        f = 0x38;
-    } else {
-        e = 0;
-        f = 0x39;
-    }
-    o->mUnk_0cc = 0x3a;
-    data_02174e60->mUnk_0ce = 0x44;
-    for (i = 0; i < 0x38; i++) {
-        t->mUnk_18[i].mUnk_00 = 0;
-    }
-    for (j = data_usa_02153eb0[data_02174e60->mUnk_0d4 - 1];
-         j < data_usa_02153eb0[data_02174e60->mUnk_0d4 - 1] + data_02174e60->mUnk_0d4 * 2; j++) {
-        t->mUnk_18[j].mUnk_00 = 1;
-    }
-    if (data_02174e60->mUnk_0dc == 3) {
-        for (k = data_usa_02153eb0[data_02174e60->mUnk_0d4 - 1];
-             k < data_02174e60->mUnk_0d4 + data_usa_02153eb0[data_02174e60->mUnk_0d4 - 1]; k++) {
-            func_02025c48(k, f, t->mUnk_0c);
+    orderIndex = gResultsBattle->mEntries[entryIndex].mOrderIndex;
+    if (gRaceSetup->mUseTeams != 0) {
+        if (gRaceSetup->mCurrentEntries[(u16) entryIndex].mPlayer.mTeamIndex == 1) {
+            isTeamIndex1 = TRUE;
+        } else {
+            isTeamIndex1 = FALSE;
         }
-    }
-    for (m = 0; m < data_02174e60->mUnk_0d8; m++) {
-        if (x == data_021759c0->mUnk_68[(u16) m].mUnk_08.mUnk_04) {
-            func_02033ab8(0, m, d + n, e);
-            n++;
+        e = FALSE;
+        if (isTeamIndex1 == FALSE) {
+            c = TRUE;
+        } else {
+            c = FALSE;
         }
-    }
-    t->mUnk_18[0x39].mUnk_00 = 0;
-    t->mUnk_18[0x38].mUnk_00 = t->mUnk_18[0x39].mUnk_00;
-}
-
-void func_02033840(void *a) {
-    Unk02174e14_00 *t;
-    s32 c;
-    s32 d;
-    s32 e;
-    s32 i;
-
-    t = &data_02174e60->mUnk_048[0];
-    c = data_02174e60->mUnk_0d4;
-    d = c + data_02153ea0[c - 2];
-    if (c > 4) {
-        e = 0;
+        if (c != FALSE && d != FALSE) {
+            e = TRUE;
+        }
+        subCellFileSet->mCellTable[orderIndex + 0x10].mVisible = e;
+        if (c != FALSE && d == FALSE) {
+            c = TRUE;
+        } else {
+            c = FALSE;
+        }
+        subCellFileSet->mCellTable[orderIndex + 0x18].mVisible = c;
+        if (isTeamIndex1 != FALSE && d != FALSE) {
+            c = TRUE;
+        } else {
+            c = FALSE;
+        }
+        subCellFileSet->mCellTable[orderIndex + 0x20].mVisible = c;
+        if (isTeamIndex1 != FALSE && d == FALSE) {
+            d = TRUE;
+        } else {
+            d = FALSE;
+        }
+        subCellFileSet->mCellTable[orderIndex + 0x28].mVisible = d;
+        subCellFileSet->mCellTable[orderIndex + 8].mVisible = 0;
+        subCellFileSet->mCellTable[orderIndex].mVisible = subCellFileSet->mCellTable[orderIndex + 8].mVisible;
     } else {
-        e = 1;
-    }
-    data_02174e60->mUnk_0cc = 0x46;
-    data_02174e60->mUnk_0ce = 0x50;
-    for (i = 0; i < 0x46; i++) {
-        t->mUnk_18[i].mUnk_00 = 0;
-    }
-    for (i = data_02153ea0[data_02174e60->mUnk_0d4 - 2];
-         i < data_02153ea0[data_02174e60->mUnk_0d4 - 2] + data_02174e60->mUnk_0d4 * 2; i++) {
-        t->mUnk_18[i].mUnk_00 = 1;
-    }
-    for (i = 0; i < data_02174e60->mUnk_0d4; i++) {
-        func_02033ab8(0, i, d + i, e);
+        subCellFileSet->mCellTable[orderIndex].mVisible = d;
+        if (d == FALSE) {
+            d = TRUE;
+        } else {
+            d = FALSE;
+        }
+        subCellFileSet->mCellTable[orderIndex + 8].mVisible = d;
+        subCellFileSet->mCellTable[orderIndex + 0x28].mVisible = 0;
+        subCellFileSet->mCellTable[orderIndex + 0x20].mVisible = subCellFileSet->mCellTable[orderIndex + 0x28].mVisible;
+        subCellFileSet->mCellTable[orderIndex + 0x18].mVisible = subCellFileSet->mCellTable[orderIndex + 0x20].mVisible;
+        subCellFileSet->mCellTable[orderIndex + 0x10].mVisible = subCellFileSet->mCellTable[orderIndex + 0x18].mVisible;
     }
 }
 
-// non-matching: same size (0x114), 16 words differ; the original compares the halfword count with ble (ours beq) and keeps the remaining size in r7 and the loop counter in r6, ours the opposite; its last loop is laid out with the constant 0 loaded first
-void func_020338f8(void *a) {
-    Unk02174e14_00 *t;
-    u32 r;
-    s32 n;
-    s32 j;
-    s32 m;
-    s32 h;
-    u8 *p;
-    u16 w[11];
+void func_02033b80(s32 entryIndex) {
+    CellFileSet *subCellFileSet;
+    s32 r;
+    s32 score;
+    s32 length;
+    u16 scoreText[4];
 
-    t = &data_02174e60->mUnk_048[0];
-    r = func_02148cb8();
-    n = 0;
-    h = t->mUnk_0c->mUnk_06;
-    data_02174e60->mUnk_0cc = 8;
-    data_02174e60->mUnk_0ce = 0x12;
-    j = 0;
-    if (t->mUnk_14->mUnk_06 > 0) {
-        p = data_usa_02153ec0;
+    subCellFileSet = &gResultsBattle->mCellFileSets[1];
+    r = gResultsBattle->mEntries[entryIndex].mOrderIndex;
+    score = gResultsBattle->mEntries[entryIndex].mScore;
+    if (gRaceSetup->mMode == MODE_BATTLE && gRaceSetup->mUseTeams != 0 && gRaceSetup->mRuleKind == 1) {
+        subCellFileSet->mCellTable[r + 0x38].mVisible = 0;
+        subCellFileSet->mCellTable[r + 0x48].mVisible = 0;
+        return;
+    }
+    length = 0;
+    func_020338f8_inline(scoreText, 8);
+    if (score >= 100) {
+        scoreText[length++] = 0x30 + (score / 100) % 10;
+    }
+    if (score >= 10) {
+        scoreText[length++] = 0x30 + (score / 10) % 10;
+    }
+    scoreText[length++] = 0x30 + score % 10;
+    scoreText[length] = 0;
+    func_02124224(1, r + 8, subCellFileSet->mLabelLayout, scoreText, subCellFileSet->mCellLayout,
+                  subCellFileSet->mCellTable, 6);
+    r += 0x38;
+    subCellFileSet->mCellTable[r].mVisible = 1;
+    func_02025c48(r, gResultsBattle->mEntries[entryIndex].mRank + 0x40, subCellFileSet->mCellLayout);
+}
+
+void func_02033ab8(s32 cellFileSetIndex, s32 entryIndex, s32 cellIndex, s32 d) {
+    CellFileSet *iconCellFileSet;
+    CellFileSet *cellFileSet;
+    s32 characterIndex;
+    Nclr *palette;
+    u8 *paletteBlock;
+    u8 v;
+    u32 shuffledIndex;
+
+    cellFileSet = &gResultsBattle->mCellFileSets[cellFileSetIndex];
+    if (d == 1) {
+        iconCellFileSet = &gResultsBattle->mCellFileSets[2];
+    } else {
+        iconCellFileSet = &gResultsBattle->mCellFileSets[3];
+    }
+    characterIndex = gRaceSetup->mCurrentEntries[(u16) entryIndex].mCharacterIndex;
+    QueueCellCharsAndFirstPalette(characterIndex, iconCellFileSet->mCells, iconCellFileSet->mChars,
+                                  iconCellFileSet->mPalette, iconCellFileSet->mCellLayout, cellFileSetIndex, cellIndex,
+                                  cellFileSet->mCells, cellFileSet->mCellLayout);
+    if (characterIndex == 0xc) {
+        if (d == 1) {
+            palette = gResultsBattle->mUnk_0c0;
+        } else {
+            palette = gResultsBattle->mUnk_0c4;
+        }
+        v = GetCellPaletteIndex(cellIndex, cellFileSet->mCells, cellFileSet->mCellLayout);
+        shuffledIndex = data_0217b488->mShuffledIndices[entryIndex];
+        paletteBlock = shuffledIndex * 0x20 + (u8 *) palette->mData;
+        if (cellFileSetIndex == 0) {
+            CallQueueAppend(0xe, v << 5, paletteBlock, 0x20);
+        } else {
+            CallQueueAppend(0x1e, v << 5, paletteBlock, 0x20);
+        }
+    }
+}
+
+void func_02033a0c(void *heap) {
+    s32 index;
+    u32 remainingObjSize;
+    CellFileSet *mainCellFileSet;
+    u8 *labelEntry;
+    u16 entryName[11];
+
+    remainingObjSize = GX_GetSizeOfOBJ();
+    mainCellFileSet = &gResultsBattle->mCellFileSets[0];
+    gResultsBattle->mTimerDigitCellBase = 1;
+    gResultsBattle->mTimerTensCell = 0xb;
+    index = 0;
+    if ((s32) mainCellFileSet->mLabelLayout->mUnk_06 > 0) {
+        labelEntry = data_02153e98;
         do {
-            r -= func_02025a00(n, a, t, p, r);
-            p += 8;
-            j++;
-        } while (j < t->mUnk_14->mUnk_06);
+            remainingObjSize -= func_02025a00(0, heap, mainCellFileSet, labelEntry, remainingObjSize);
+            labelEntry += 8;
+            index++;
+        } while (index < mainCellFileSet->mLabelLayout->mUnk_06);
     }
-    func_0212426c(0, 0, t->mUnk_14, func_020b3f7c(data_02174e60->mUnk_0c8, 0x7a), t->mUnk_0c, t->mUnk_18);
-    for (m = 0; m < data_02174e60->mUnk_0d8; m++) {
-        if (data_02174e60->mUnk_0e4[m].mUnk_00 == 0) {
-            func_020338f8_inline(w, 0x16);
-            func_020adff0((u16) m, w, 1);
+    func_020338f8_inline(entryName, 0x16);
+    CopyKartEntryName((u16) gResultsBattle->mOwnEntryIndex, entryName, 1);
+    func_0212426c(0, 0, mainCellFileSet->mLabelLayout, entryName, mainCellFileSet->mCellLayout,
+                  mainCellFileSet->mCellTable);
+    func_02033ab8(0, gResultsBattle->mOwnEntryIndex, 0, 1);
+}
+
+void func_020338f8(void *heap) {
+    CellFileSet *mainCellFileSet;
+    s32 n;
+    s32 j;
+    s32 entryIndex;
+    s32 cellCount;
+    u32 remainingObjSize;
+    u8 *labelEntry;
+    u16 entryName[11];
+    s32 labelCount;
+    LayoutTableEntry *cell;
+
+    mainCellFileSet = &gResultsBattle->mCellFileSets[0];
+    remainingObjSize = GX_GetSizeOfOBJ();
+    n = 0;
+    cellCount = mainCellFileSet->mCellLayout->mUnk_06;
+    gResultsBattle->mTimerDigitCellBase = 8;
+    gResultsBattle->mTimerTensCell = 0x12;
+    j = 0;
+    labelCount = mainCellFileSet->mLabelLayout->mUnk_06;
+    if (labelCount > 0) {
+        labelEntry = data_02153ec0;
+        do {
+            remainingObjSize -= func_02025a00(n, heap, mainCellFileSet, labelEntry, remainingObjSize);
+            labelEntry += 8;
+            j++;
+        } while (j < mainCellFileSet->mLabelLayout->mUnk_06);
+    }
+    func_0212426c(0, 0, mainCellFileSet->mLabelLayout, GetBmgEntry(gResultsBattle->mCommonMessages, 0x7a),
+                  mainCellFileSet->mCellLayout, mainCellFileSet->mCellTable);
+    for (entryIndex = 0; entryIndex < gResultsBattle->mKartCount; entryIndex++) {
+        if (gResultsBattle->mEntries[entryIndex].mRank == 0) {
+            func_020338f8_inline(entryName, 0x16);
+            CopyKartEntryName((u16) entryIndex, entryName, 1);
             n++;
-            func_0212426c(0, n, t->mUnk_14, w, t->mUnk_0c, t->mUnk_18);
+            func_0212426c(0, n, mainCellFileSet->mLabelLayout, entryName, mainCellFileSet->mCellLayout,
+                          mainCellFileSet->mCellTable);
         }
     }
     while (n < 7) {
-        n++;
-        t->mUnk_18[n].mUnk_00 = 0;
-        t->mUnk_18[h + n].mUnk_00 = 0;
+        n = n + 1;
+        mainCellFileSet->mCellTable[n].mVisible = 0;
+        n = (u32) n;
+        cell = &mainCellFileSet->mCellTable[n + cellCount];
+        cell->mVisible = 0;
     }
 }
 
-void func_02033a0c(void *a) {
+void func_02033840(void *heap) {
+    CellFileSet *mainCellFileSet;
+    s32 count;
+    s32 iconCellBase;
+    BOOL e;
+    s32 i;
+
+    mainCellFileSet = &gResultsBattle->mCellFileSets[0];
+    count = gResultsBattle->mUnk_0d4;
+    iconCellBase = count + data_02153ea0[count - 2];
+    if (count > 4) {
+        e = FALSE;
+    } else {
+        e = TRUE;
+    }
+    gResultsBattle->mTimerDigitCellBase = 0x46;
+    gResultsBattle->mTimerTensCell = 0x50;
+    for (i = 0; i < 0x46; i++) {
+        mainCellFileSet->mCellTable[i].mVisible = 0;
+    }
+    for (i = data_02153ea0[gResultsBattle->mUnk_0d4 - 2];
+         i < data_02153ea0[gResultsBattle->mUnk_0d4 - 2] + gResultsBattle->mUnk_0d4 * 2; i++) {
+        mainCellFileSet->mCellTable[i].mVisible = 1;
+    }
+    for (i = 0; i < gResultsBattle->mUnk_0d4; i++) {
+        func_02033ab8(0, i, iconCellBase + i, e);
+    }
+}
+
+void func_020336ec(void *heap) {
+    ResultsBattle *results;
+    CellFileSet *mainCellFileSet;
+    s32 teamIndex;
+    s32 count;
+    s32 iconCellBase;
+    s32 f;
+    s32 placedCount;
+    s32 i;
+    BOOL e;
     s32 j;
-    u32 r;
-    Unk02174e14_00 *t;
-    u8 *p;
-    u16 w[11];
+    s32 k;
+    s32 entryIndex;
 
-    r = func_02148cb8();
-    t = &data_02174e60->mUnk_048[0];
-    data_02174e60->mUnk_0cc = 1;
-    data_02174e60->mUnk_0ce = 0xb;
-    j = 0;
-    if ((s32) t->mUnk_14->mUnk_06 > 0) {
-        p = data_02153e98;
+    results = gResultsBattle;
+    mainCellFileSet = &results->mCellFileSets[0];
+    switch (results->mFileSetKind) {
+        case 3:
+            teamIndex = 0;
+            break;
+        default:
+            teamIndex = 1;
+            break;
+    }
+    placedCount = 0;
+    count = results->mUnk_0d4;
+    iconCellBase = count + data_02153eb0[count - 1];
+    if (count <= 5) {
+        e = TRUE;
+        f = 0x38;
+    } else {
+        e = FALSE;
+        f = 0x39;
+    }
+    results->mTimerDigitCellBase = 0x3a;
+    gResultsBattle->mTimerTensCell = 0x44;
+    for (i = 0; i < 0x38; i++) {
+        mainCellFileSet->mCellTable[i].mVisible = 0;
+    }
+    j = data_02153eb0[gResultsBattle->mUnk_0d4 - 1];
+    j = (u32) j;
+    if (j < data_02153eb0[gResultsBattle->mUnk_0d4 - 1] + gResultsBattle->mUnk_0d4 * 2) {
         do {
-            r -= func_02025a00(0, a, t, p, r);
-            p += 8;
+            mainCellFileSet->mCellTable[j].mVisible = 1;
             j++;
-        } while (j < (s32) t->mUnk_14->mUnk_06);
+        } while (j < data_02153eb0[gResultsBattle->mUnk_0d4 - 1] + gResultsBattle->mUnk_0d4 * 2);
     }
-    func_020338f8_inline(w, 0x16);
-    func_020adff0((u16) data_02174e60->mUnk_0d0, w, 1);
-    func_0212426c(0, 0, t->mUnk_14, w, t->mUnk_0c, t->mUnk_18);
-    func_02033ab8(0, data_02174e60->mUnk_0d0, 0, 1);
-}
-
-// non-matching: same size (0xc8), 5 words differ from +0x7c; the original loads the word at 0x10c of data_0217b488 before the member at 0xc of the entry, ours after it
-void func_02033ab8(s32 a, s32 b, s32 c, s32 d) {
-    Unk02174e14_00 *q;
-    Unk02174e14_00 *s;
-    s32 r;
-    Unk020b4a44 *u;
-    u8 *p;
-    u8 v;
-
-    s = &data_02174e60->mUnk_048[a];
-    if (d == 1) {
-        q = &data_02174e60->mUnk_048[2];
-    } else {
-        q = &data_02174e60->mUnk_048[3];
-    }
-    r = data_021759c0->mUnk_68[(u16) b].mUnk_00;
-    func_0212463c(r, q->mUnk_08, q->mUnk_00, q->mUnk_04, q->mUnk_0c, a, c, s->mUnk_08, s->mUnk_0c);
-    if (r == 0xc) {
-        if (d == 1) {
-            u = (Unk020b4a44 *) data_02174e60->mUnk_0c0;
-        } else {
-            u = (Unk020b4a44 *) data_02174e60->mUnk_0c4;
-        }
-        v = func_02124a68(c, s->mUnk_08, s->mUnk_0c);
-        p = data_0217b488->mUnk_10c[b] * 0x20 + (u8 *) u->mUnk_0c;
-        if (a == 0) {
-            func_02016468(0xe, v << 5, p, 0x20);
-        } else {
-            func_02016468(0x1e, v << 5, p, 0x20);
+    if (gResultsBattle->mFileSetKind == 3) {
+        for (k = data_02153eb0[gResultsBattle->mUnk_0d4 - 1];
+             k < gResultsBattle->mUnk_0d4 + data_02153eb0[gResultsBattle->mUnk_0d4 - 1]; k++) {
+            func_02025c48(k, f, mainCellFileSet->mCellLayout);
         }
     }
-}
-
-void func_02033b80(s32 a) {
-    Unk02174e14_00 *t;
-    s32 r;
-    s32 q;
-    s32 n;
-    u16 w[4];
-
-    t = &data_02174e60->mUnk_048[1];
-    r = data_02174e60->mUnk_0e4[a].mUnk_08;
-    q = data_02174e60->mUnk_0e4[a].mUnk_04;
-    if (data_021759c0->mUnk_08 == 2 && data_021759c0->mUnk_58 != 0 && data_021759c0->mUnk_1c == 1) {
-        t->mUnk_18[r + 0x38].mUnk_00 = 0;
-        t->mUnk_18[r + 0x48].mUnk_00 = 0;
-        return;
+    for (entryIndex = 0; entryIndex < gResultsBattle->mKartCount; entryIndex++) {
+        if (teamIndex == gRaceSetup->mCurrentEntries[(u16) entryIndex].mPlayer.mTeamIndex) {
+            func_02033ab8(0, entryIndex, iconCellBase + placedCount, e);
+            placedCount++;
+        }
     }
-    n = 0;
-    func_020338f8_inline(w, 8);
-    if (q >= 100) {
-        w[n++] = 0x30 + (q / 100) % 10;
-    }
-    if (q >= 10) {
-        w[n++] = 0x30 + (q / 10) % 10;
-    }
-    w[n++] = 0x30 + q % 10;
-    w[n] = 0;
-    func_02124224(1, r + 8, t->mUnk_14, w, t->mUnk_0c, t->mUnk_18, 6);
-    r += 0x38;
-    t->mUnk_18[r].mUnk_00 = 1;
-    func_02025c48(r, data_02174e60->mUnk_0e4[a].mUnk_00 + 0x40, t->mUnk_0c);
-}
-
-void func_02033c80(s32 a) {
-    Unk02174e14_00 *t;
-    s32 r;
-    s32 b;
-    s32 c;
-    s32 d;
-    s32 e;
-
-    t = &data_02174e60->mUnk_048[1];
-    if (data_02174e60->mUnk_0d0 == a) {
-        d = 1;
-    } else {
-        d = 0;
-    }
-    r = data_02174e60->mUnk_0e4[a].mUnk_08;
-    if (data_021759c0->mUnk_58 != 0) {
-        if (data_021759c0->mUnk_68[(u16) a].mUnk_08.mUnk_04 == 1) {
-            b = 1;
-        } else {
-            b = 0;
-        }
-        e = 0;
-        if (b == 0) {
-            c = 1;
-        } else {
-            c = 0;
-        }
-        if (c != 0 && d != 0) {
-            e = 1;
-        }
-        t->mUnk_18[r + 0x10].mUnk_00 = e;
-        if (c != 0 && d == 0) {
-            c = 1;
-        } else {
-            c = 0;
-        }
-        t->mUnk_18[r + 0x18].mUnk_00 = c;
-        if (b != 0 && d != 0) {
-            c = 1;
-        } else {
-            c = 0;
-        }
-        t->mUnk_18[r + 0x20].mUnk_00 = c;
-        if (b != 0 && d == 0) {
-            d = 1;
-        } else {
-            d = 0;
-        }
-        t->mUnk_18[r + 0x28].mUnk_00 = d;
-        t->mUnk_18[r + 8].mUnk_00 = 0;
-        t->mUnk_18[r].mUnk_00 = t->mUnk_18[r + 8].mUnk_00;
-    } else {
-        t->mUnk_18[r].mUnk_00 = d;
-        if (d == 0) {
-            d = 1;
-        } else {
-            d = 0;
-        }
-        t->mUnk_18[r + 8].mUnk_00 = d;
-        t->mUnk_18[r + 0x28].mUnk_00 = 0;
-        t->mUnk_18[r + 0x20].mUnk_00 = t->mUnk_18[r + 0x28].mUnk_00;
-        t->mUnk_18[r + 0x18].mUnk_00 = t->mUnk_18[r + 0x20].mUnk_00;
-        t->mUnk_18[r + 0x10].mUnk_00 = t->mUnk_18[r + 0x18].mUnk_00;
-    }
+    mainCellFileSet->mCellTable[0x39].mVisible = 0;
+    mainCellFileSet->mCellTable[0x38].mVisible = mainCellFileSet->mCellTable[0x39].mVisible;
 }
 
 #pragma thumb off

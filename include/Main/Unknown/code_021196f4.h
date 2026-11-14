@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-void func_02119a38(void);
-void func_021199f8(void);
-void func_02119770(void *param_1, void *param_2, void *param_3, s32 param_4);
-void func_021196f4(void);
+void RequestSelectCupCourseState7(void);
+void RequestSelectCupCourseState8(void);
+void InitSelectCupCourse(void *parentHeap, void *mainOam, void *subOam, s32 mode);
+void ReleaseSelectCupCourse(void);

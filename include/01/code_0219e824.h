@@ -1,31 +1,25 @@
 #pragma once
 
 #include "types.h"
-#include "01/code_02198000.h"
-#include "01/code_0219853c.h"
-#include "01/unk_021ca000.h"
-#include "Main/Unknown/code_020ae000.h"
-#include "00/code_02182fdc.h"
-#include "Main/Unknown/code_02036bec.h"
-#include "Main/Unknown/code_0204799c.h"
-#include "Main/Unknown/code_020ae4c0.h"
-#include "Main/Unknown/code_02048000.h"
-#include "Main/Unknown/code_020b3f7c.h"
-#include "Main/Unknown/code_0212426c.h"
-#include "Main/Unknown/code_02125000.h"
-#include "Main/Unknown/unk_021759c0.h"
-#include "Main/Unknown/unk_02175000.h"
 
-int func_ov001_0219e824(void *param_1);
-void func_ov001_0219e858(s16 *param_1);
+// Scene function of gSceneFuncs[11] (scene 'Nickname' in gSceneNames): copies the callbacks and
+// calls RunScene. Returns 0.
+int RunNicknameScene(void *a);
+void UpdateNicknameScene(s16 *param_1);
 void func_ov001_0219e89c(void);
-void func_ov001_0219e8c0(void);
-void func_ov001_0219e8d8(s16 *param_1);
-u8 *func_ov001_0219e90c(void);
-u8 *func_ov001_0219e920(void);
-int func_ov001_0219e92c(void *param_1);
-void func_ov001_0219e960(s16 *param_1);
+void ReleaseNicknameScene(void);
+void InitNicknameScene(s16 *a);
+u8 *GetOptionSecondBuffer(void);
+u8 *GetOptionFirstBuffer(void);
+// Scene function of gSceneFuncs[7] (scene 'Option' in gSceneNames): copies the callbacks and calls
+// RunScene. Returns 0.
+int RunOptionScene(void *a);
+void UpdateOptionScene(s16 *a);
 void func_ov001_0219e9a4(void);
-void func_ov001_0219e9c8(void);
-void func_ov001_0219e9e0(s16 *param_1);
-int func_ov001_0219ea14(void *param_1);
+// Slot mRelease: calls the state's undo functions and clears the globals; frees nothing itself (the
+// scene heap goes with the scene).
+void ReleaseOptionScene(void);
+void InitOptionScene(s16 *a);
+// Scene function of gSceneFuncs[15] (scene 'Ending' in gSceneNames): copies the callbacks and calls
+// RunScene. Returns 0.
+int RunEndingScene(void *a);

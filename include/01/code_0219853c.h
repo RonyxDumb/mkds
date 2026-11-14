@@ -1,9 +1,9 @@
 #pragma once
 
 #include "types.h"
-#include "01/code_02195a6c.h"
+#include "01/code_021956dc.h"
 #include "Main/Unknown/unk_0217a000.h"
-#include "00/code_02182fdc.h"
+#include "00/code_02181f98.h"
 #include "01/unk_021a9000.h"
 #include "Main/Unknown/code_02125da0.h"
 #include "01/code_02198854.h"
@@ -24,10 +24,8 @@ typedef struct Unk021a9be4 {
     /* 0c */ s16 mUnk_0c;
     /* 0e */ s16 mUnk_0e;
     /* 10 */ void *mUnk_10;
-    /* 14 */ void *mUnk_14;
+    /* 14 */ struct Bmg *mUnk_14;
 } Unk021a9be4;
-
-extern Unk021a9be4 *data_ov001_021a9be4;
 
 int func_ov001_0219853c(void);
 void func_ov001_0219854c(void);
@@ -37,4 +35,6 @@ void func_ov001_02198624(void);
 void func_ov001_021986e8(void);
 void func_ov001_02198768(void);
 void func_ov001_021987bc(void);
-void func_ov001_021987d4(void *heap, s16 param_2);
+void func_ov001_021987d4(void *heap, s16 a);
+
+#include "00/code_021832d8.h"

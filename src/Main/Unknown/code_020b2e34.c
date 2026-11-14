@@ -1,37 +1,40 @@
 #include "Main/Unknown/code_020b2e34.h"
+#include "Main/Unknown/code_020b2000.h"
+#include "Main/Unknown/code_020b29c4.h"
+#include "Main/Unknown/code_020b1de4.h"
+#include "Main/Unknown/code_020b2ec0.h"
+#include "Main/Unknown/code_020c3db4.h"
+#include "Main/Unknown/code_021059e0.h"
+#include "Main/Unknown/code_020b2ecc.h"
 
 #pragma thumb on
 
-void func_020b2e64(u32 param_1) {
-    int iVar1;
-    int iVar2;
-    iVar1 = ((u32) func_020b2ec0());
-    iVar2 = func_020b29c4();
-    if (iVar2 != 0) {
-        func_020b2f88((int) param_1);
+void func_020b2e64(u32 openFlag) {
+    int wasOpen;
+    int v2;
+    wasOpen = GetChoisesSOpenDuringRace();
+    v2 = func_020b29c4();
+    if (v2 != 0) {
+        func_020b2f88(openFlag);
     }
-    iVar2 = ((u32) func_020b2ec0());
-    if ((iVar1 == 0) && (iVar2 != 0)) {
+    v2 = GetChoisesSOpenDuringRace();
+    if ((wasOpen == 0) && (v2 != 0)) {
         func_02105d70();
     }
 }
 
-u32 func_020b2e58(void) {
-    return ((u32) *(
-        const u32 *) ((u8 *) (u32) (((u32) *(
-                                   const u32 *) ((u8 *) (u32) (((u32) (&data_0217b354))) +
-                                                          0))) +
-                               4));
+u32 GetChoisesSPrevOpenDuringRace(void) {
+    return (gChoisesS->mPrevOpenDuringRace);
 }
 
 int func_020b2e34(void) {
-    int iVar1;
-    int iVar2;
-    iVar2 = *(int *) ((int) data_0217b354 + 0x24);
-    if ((iVar2 == 2) && (iVar1 = func_020c3db4(), iVar1 != 0)) {
-        iVar2 = 7;
+    int v1;
+    int pickedValue;
+    pickedValue = gChoisesS->mPickedValue;
+    if ((pickedValue == 2) && (v1 = func_020c3db4(), v1 != 0)) {
+        pickedValue = 7;
     }
-    return iVar2;
+    return pickedValue;
 }
 
 #pragma thumb off

@@ -2,13 +2,13 @@
 
 #include "types.h"
 
-typedef struct Unk021274ec {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u32 mUnk_0c;
-    /* 10 */ s32 mUnk_10;
-} Unk021274ec;
+typedef struct TxtSystemArgs {
+    /* 00 */ u32 mFont;
+    /* 04 */ u32 mUseCanvas1;
+    /* 08 */ u32 mUseCanvas2;
+    /* 0c */ u32 mUseCanvas3;
+    /* 10 */ s32 mSubCharOffset;
+} TxtSystemArgs;
 
-void func_02127734(void);
-s32 func_021274ec(void *param_1, Unk021274ec *param_2);
+void ClearTxtSystemCanvasInUse(void);
+s32 InitTxtSystem(void *heap, TxtSystemArgs *args);

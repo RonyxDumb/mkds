@@ -2,24 +2,27 @@
 
 #include "types.h"
 #include "Main/Unknown/code_0209bc74.h"
-#include "Main/Unknown/code_020e6fd4.h" // Unk020e71a0
+#include "code_02146d78.h"
+#include "Main/Unknown/code_020e6fd4.h" // MapObject
 
-u16 func_0209b634(void *param_1);
-void func_0209b688(void *param_1, u16 param_2);
-void func_0209b6c8(void *a, s32 b);
-u16 func_0209b6ec(void *a);
-s32 func_0209b710(void *param_1);
-void func_0209b734(void *param_1, u32 param_2);
-u16 func_0209b758(void *a);
-void func_0209b77c(void *a, u16 b);
-void func_0209b7a0(void *param_1, s32 param_2, s32 param_3);
-void func_0209b8ac(void *param_1, u32 param_2);
-void func_0209b904(void *param_1, u32 param_2, u16 param_3);
-void func_0209b940(void *param_1, u32 param_2);
-void func_0209b9a4(void *param_1, u16 param_2);
-void func_0209ba08(void *param_1, u32 param_2);
-void func_0209ba58(void *a, void *b, void *c);
-void func_0209ba88(u32 param_1, int param_2, int param_3);
-void func_0209bb2c(void *param_1, void *param_2, void *param_3);
-void func_0209bbd0(void *param_1, void *param_2);
-void *func_0209bbfc(void *param_1);
+typedef struct MapObjectList MapObjectList;
+
+u16 GetMapObjectModelNsbtpFrameCount(void *a);
+void SetMapObjectModelNsbtpFrameIndex(void *a, u16 frameIndex);
+void SetMapObjectModelNsbtaFrameIndex(void *a, s32 frameIndex);
+u16 GetMapObjectModelNsbtaFrameCount(MapObjectModel *mapObjectModel);
+s32 GetMapObjectModelNsbmaFrameCount(void *a);
+void SetMapObjectModelNsbmaFrameIndex(void *a, u32 frameIndex);
+u16 GetMapObjectModelNsbcaFrameCount(MapObjectModel *mapObjectModel);
+void SetMapObjectModelNsbcaFrameIndex(MapObjectModel *mapObjectModel, u16 frameIndex);
+void SetMapObjectModelMirror(void *a, s32 b, s32 c);
+void SetMapObjectModelFogEnabled(void *a, u32 fogEnabled);
+void SetMapObjectModelMaterialPolygonId(void *a, u32 polygonId, u16 matId);
+void SetMapObjectModelPolygonId(void *a, u32 polygonId);
+void SetMapObjectModelAlpha(void *a, u16 alpha);
+void SetMapObjectModelLightEnableFlag(void *a, u32 light);
+void DrawMapObjectModel1Mat1Shp(void *a, void *b, void *c);
+void DrawMapObjectModelWithPos(u32 a, MapObjectModel *mapObjectModel, MapObject *mapObject);
+void DrawMapObjectModel(MapObjectList *mapObjectList, void *b, void *d);
+void func_0209bbd0(void *a, void *b);
+void *UnparkFirstParkedMapObject(void *b);

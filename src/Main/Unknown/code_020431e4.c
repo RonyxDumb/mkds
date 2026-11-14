@@ -4,126 +4,135 @@
 #include "Main/Unknown/code_0204a9e4.h"
 #include "Main/Unknown/code_020470c4.h"
 #include "Main/Unknown/code_0205e090.h"
+#include "Main/Unknown/code_020b1dbc.h"
+#include "Main/Unknown/code_0207b960.h"
+#include "Main/Unknown/code_020b4e5c.h"
+#include "Main/Unknown/code_02039860.h"
+#include "Main/Unknown/code_02147000.h"
+#include "Main/Unknown/unk_0215d000.h"
+#include "Main/Unknown/unk_021759c0.h"
+#include "Main/Unknown/code_020b47d8.h"
+#include "Main/Unknown/code_020b6a18.h"
+#include "Main/Unknown/code_0207a880.h"
 #include "Main/Unknown/code_020b502c.h"
 #include "Main/Unknown/unk_02175000.h"
-#include "Main/Unknown/unk_021759c0.h"
 #include "Main/Unknown/unk_0217a000.h"
 
-static inline s32 func_020431e4_inline(Unk0217aa00 *p) {
-    s32 r = 0;
-    if ((p == 0 ? 0 : p->mUnk_0000) != 0 && p->mUnk_0004 != 13) {
-        r = 1;
+#pragma opt_rebuildconditionals off
+
+static inline s32 func_020431e4_inline(ConnectionWork *p) {
+    BOOL r = FALSE;
+    if ((p == NULL ? 0 : p->mUnk_0000) != 0 && p->mUnk_0004 != 13) {
+        r = TRUE;
     }
     return r;
 }
 
-// non-matching: 8 words in the inlined func_020431e4_inline call of the last loop: the value of
-// z->mUnk_0000 (or 0) and the result flag are in r4 and r5, the other way round in the original
-void func_020431e4(void) {
-    s32 i;
-    s32 k;
-    u16 j;
-    s32 w;
-    s32 t;
-    Unk02175628 *p;
-    Unk021759c0 *q;
-    Unk0217aa00 *z;
-    s32 s;
+u16 func_020435bc(void) {
+    return 9;
+}
 
-    for (i = 0; i < 10; i++) {
-        p = &data_02175628[(u32) i];
-        func_02039728((u32) p);
-        func_02039520((u32) p, 0xff3, 0x1e, 0xa);
-        p->mUnk_3c = 0;
-        p->mUnk_40 = 0;
-        p->mUnk_44 = 0;
-        p->mUnk_42 = 0x2fff;
-        func_0204a9e4((u32) &p->mUnk_28);
-        func_020470c4((u32) &p->mUnk_48);
-    }
-    data_02175628[8].mUnk_3c = 5;
-    data_02175628[9].mUnk_3c = 6;
-    data_02175624->mUnk_08 = 0;
-    data_02175624->mUnk_0c = 0;
-    p = data_02175628;
-    for (k = 0; k < 10; k++) {
-        func_02039728((u32) p);
-        p->mUnk_40 = 0;
-        func_02039520((u32) p, 0xff3, 0x1e, 0xa);
-        p++;
-    }
-    q = data_021759c0;
-    z = data_0217aa00;
-    for (j = 0; j < 8; j++) {
-        s = q->mUnk_68[j].mUnk_08.mUnk_00;
-        t = 0;
-        w = q->mUnk_68[j].mUnk_08.mUnk_0c;
-        if ((u32) s <= 3 && ((1 << s) & 0xd)) {
-            t = 1;
-        }
-        if (t != 0) {
-            if (j == q->mUnk_62) {
-                if (func_020431e4_inline(z) != 0) {
-                    data_02175628[w].mUnk_3c = 4;
-                } else if (q->mUnk_00c == 2) {
-                    data_02175628[w].mUnk_3c = 1;
-                } else {
-                    data_02175628[w].mUnk_3c = 2;
-                }
-            } else if (s == 2) {
-                data_02175628[w].mUnk_3c = 1;
-            } else if (q->mUnk_08 == 5) {
-                data_02175628[w].mUnk_3c = 7;
-            } else {
-                data_02175628[w].mUnk_3c = 4;
-            }
-        } else if (s == 1) {
-            data_02175628[w].mUnk_3c = 3;
-        }
+u32 func_0204359c(void) {
+    return (data_02175624->mFlags & INPUT_STATE_OPEN_DURING_RACE) != 0;
+}
+
+void SetReadRaceKeys(u32 enable) {
+    if (GetCurrentSceneNumber() == 2 && enable != 0) {
+        data_02175624->mFlags |= INPUT_STATE_READ_RACE_KEYS;
+    } else {
+        data_02175624->mFlags &= ~INPUT_STATE_READ_RACE_KEYS;
     }
 }
 
 void func_02043410(void) {
     u16 i;
     u16 j;
-    Unk0217aa00 *z;
-    Unk02175628 *p;
+    ConnectionWork *z;
+    InputSlot *inputSlot;
 
     for (i = 0; i < 8; i++) {
-        p = &data_02175628[i];
-        func_02039728((u32) p);
-        func_02039520((u32) p, 0xff3, 0x1e, 0xa);
-        p->mUnk_3c = 0;
-        p->mUnk_40 = 0;
-        p->mUnk_44 = 0;
-        p->mUnk_42 = 0x2fff;
-        func_0204a9e4((u32) &p->mUnk_28);
-        func_020470c4((u32) &p->mUnk_48);
+        inputSlot = &data_02175628[i];
+        ResetInputSlot(inputSlot);
+        SetInputSlotRepeat(inputSlot, 0xff3, 0x1e, 0xa);
+        inputSlot->mSourceKind = 0;
+        inputSlot->mRequestedBits = 0;
+        inputSlot->mUnk_44 = 0;
+        inputSlot->mBitMask = 0x2fff;
+        ResetKeyRecording((KeyRecording *) &inputSlot->mUnk_28);
+        ResetInputSlotPair((InputSlotPair *) &inputSlot->mPairX);
     }
     z = data_0217aa00;
     if (func_020431e4_inline(z) != 0) {
         for (j = 0; j < 8; j++) {
-            if (z->mUnk_15f6 & (1 << z->mUnk_1e8c[j])) {
-                data_02175628[j].mUnk_3c = 4;
+            if (z->mParticipantMask & (1 << z->mUnk_1e8c[j])) {
+                data_02175628[j].mSourceKind = 4;
             }
         }
     }
     data_02175624->mUnk_08 = 0;
-    data_02175624->mUnk_0c = 0;
+    data_02175624->mUnk_0c = FALSE;
 }
 
-void func_02043544(u32 a) {
-    if (func_0205e0a0() == 2 && a != 0) {
-        data_02175624->mUnk_04 |= 2;
-    } else {
-        data_02175624->mUnk_04 &= ~2;
+void func_020431e4(void) {
+    s32 i;
+    s32 k;
+    u16 entryIndex;
+    s32 inputSlotIndex;
+    BOOL t;
+    InputSlot *inputSlot;
+    RaceSetup *raceSetup;
+    ConnectionWork *z;
+    s32 playerKind;
+
+    for (i = 0; i < 10; i++) {
+        inputSlot = &data_02175628[(u32) i];
+        ResetInputSlot(inputSlot);
+        SetInputSlotRepeat(inputSlot, 0xff3, 0x1e, 0xa);
+        inputSlot->mSourceKind = 0;
+        inputSlot->mRequestedBits = 0;
+        inputSlot->mUnk_44 = 0;
+        inputSlot->mBitMask = 0x2fff;
+        ResetKeyRecording((KeyRecording *) &inputSlot->mUnk_28);
+        ResetInputSlotPair((InputSlotPair *) &inputSlot->mPairX);
     }
-}
-
-u32 func_0204359c(void) {
-    return (data_02175624->mUnk_04 & 1) != 0;
-}
-
-u16 func_020435bc(void) {
-    return 9;
+    data_02175628[8].mSourceKind = 5;
+    data_02175628[9].mSourceKind = 6;
+    data_02175624->mUnk_08 = 0;
+    data_02175624->mUnk_0c = FALSE;
+    inputSlot = data_02175628;
+    for (k = 0; k < 10; k++) {
+        ResetInputSlot(inputSlot);
+        inputSlot->mRequestedBits = 0;
+        SetInputSlotRepeat(inputSlot, 0xff3, 0x1e, 0xa);
+        inputSlot++;
+    }
+    raceSetup = gRaceSetup;
+    z = data_0217aa00;
+    for (entryIndex = 0; entryIndex < 8; entryIndex++) {
+        playerKind = raceSetup->mCurrentEntries[entryIndex].mPlayer.mKind;
+        t = FALSE;
+        inputSlotIndex = raceSetup->mCurrentEntries[entryIndex].mPlayer.mIndex;
+        if ((u32) playerKind <= 3 && ((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
+            t = TRUE;
+        }
+        if (t != FALSE) {
+            if (entryIndex == raceSetup->mEntryIndex) {
+                if (func_020431e4_inline(z) != 0) {
+                    data_02175628[inputSlotIndex].mSourceKind = 4;
+                } else if (raceSetup->mRaceKind == 2) {
+                    data_02175628[inputSlotIndex].mSourceKind = 1;
+                } else {
+                    data_02175628[inputSlotIndex].mSourceKind = 2;
+                }
+            } else if (playerKind == 2) {
+                data_02175628[inputSlotIndex].mSourceKind = 1;
+            } else if (raceSetup->mMode == 5) {
+                data_02175628[inputSlotIndex].mSourceKind = 7;
+            } else {
+                data_02175628[inputSlotIndex].mSourceKind = 4;
+            }
+        } else if (playerKind == 1) {
+            data_02175628[inputSlotIndex].mSourceKind = 3;
+        }
+    }
 }

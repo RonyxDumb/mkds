@@ -1,22 +1,27 @@
 #include "Main/Unknown/code_02057764.h"
+#include "Main/Unknown/code_0204b418.h"
+#include "Main/Unknown/code_0204b6cc.h"
+#include "Main/Unknown/code_02057cfc.h"
+#include "01/code_021956dc.h"
+#include "code_0214d018.h"
 
 #pragma thumb on
 
-void func_020577b4(void *param_1) {
-    u32 *puVar1;
-    puVar1 = data_021759d4->mUnk_60;
-    if (data_021759d4->mUnk_0c != 0) {
-        func_0214d1fc(param_1, puVar1, 0xc00);
-        *puVar1 = 0x4c464b4e;
-        func_0204b430(0x1f00, 0x32e00, puVar1, 0xc00, 0, 0);
+void WriteBackupBuddyRecordBlock(void *block) {
+    u32 *buffer;
+    buffer = gBackupAccess->mBuffer;
+    if (gBackupAccess->mBackupEnabled != 0) {
+        MI_CpuCopy8(block, buffer, 0xc00);
+        *buffer = 0x4c464b4e;
+        StartBackupWriteTwoCopies(0x1f00, 0x32e00, buffer, 0xc00, NULL, 0);
     }
 }
 
-void func_02057764(void *param_1) {
-    if (data_021759d4->mUnk_0c != 0) {
-        data_021759d4->mUnk_68 = param_1;
-        data_021759d4->mUnk_5c = -1;
-        func_0204b6cc(0x1f00, 0x32e00, data_021759d4->mUnk_60, 0xc00, func_02057cfc, 0x4c464b4e, 0);
+void ReadBackupBuddyRecordBlock(void *block) {
+    if (gBackupAccess->mBackupEnabled != 0) {
+        gBackupAccess->mReadTarget = block;
+        gBackupAccess->mUnk_5c = -1;
+        StartBackupReadTwoCopies(0x1f00, 0x32e00, gBackupAccess->mBuffer, 0xc00, CopyBackupReadToBlock, 0x4c464b4e, 0);
     }
 }
 

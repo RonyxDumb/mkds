@@ -1,6 +1,6 @@
 #pragma once
 
 #include "types.h"
-#include "00/code_0219a000.h"
+#include "00/code_02197e58.h"
 
-u32 func_ov000_02198714(u32 *param_1, u32 param_2, u32 param_3);
+u32 SendConnectionBytes(Gt2Connection *a, u8 *b, u32 c);

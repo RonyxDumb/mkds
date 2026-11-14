@@ -1,13 +1,13 @@
 #include "Main/Unknown/code_02095f18.h"
+#include "Main/Unknown/code_020d7da8.h"
 
-void func_02095f18(u32 arg0) {
+void InitMoveTree(u32 arg0) {
     u32 value0 = arg0;
     u32 value1;
     u32 value2;
     u32 value12;
-    value12 = (u32) &func_020d7da8;
-    value1 = (u32) * (const u32 *) ((value0) + (156));
+    value1 = *(const u32 *) ((value0) + (156));
     value0 = (value0) + (0xb4u);
     value2 = 0u;
-    func_020d7da8((Unk020e0144 *) value0, (Unk020fa294 *) value1, (s32) value2);
+    InitGroupFollower((GroupFollower *) value0, (CourseMapRow *) value1, value2);
 }

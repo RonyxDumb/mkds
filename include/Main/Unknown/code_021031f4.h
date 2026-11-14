@@ -2,22 +2,42 @@
 
 #include "types.h"
 #include "Main/Unknown/code_02102674.h"
-#include "Main/Unknown/code_020ec8bc.h"
 
-// Object written by func_0210340c.
+// The register words and texture sizes DrawOrthoQuadsWithModel uses, filled from one model.
 typedef struct {
-    /* 00 */ void *mUnk_00;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u32 mUnk_0c;
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ u32 mUnk_14;
+    /* 00 */ void *mModel;
+    /* 04 */ u32 mPolygonAttr;
+    /* 08 */ u32 mTeximageParam;
+    /* 0c */ u32 mPlttBase;
+    /* 10 */ u32 mDifAmb;
+    /* 14 */ u32 mSpeEmi;
+    // Texture size values computed from mTeximageParam; they go into the texture coordinates of the quads.
     /* 18 */ u32 mUnk_18;
     /* 1c */ u32 mUnk_1c;
-} Unk0210340c;
+} OrthoQuadModel;
 
-void func_021031f4(Unk02102674 *p);
-void func_0210340c(Unk0210340c *p, Unk020e6488 *q);
-void func_02103468(void);
-void func_02103544(u32 param_1, u32 param_2);
-void func_02103554(const char *param_1);
+#include "Main/Unknown/code_021035ac.h"
+
+// The cream record; gOrthoQuadUseCreamEffect picks which of the two records is drawn.
+extern OrthoQuadModel gOrthoQuadCreamEffect;
+// GesoSumi: the screen overlay the Gesso item starts for a hit kart.
+extern OrthoQuadModel gOrthoQuadGesoSumi;
+
+void func_021031f4(ItemGesso *gesso);
+void SetupOrthoQuadModel(OrthoQuadModel *quadModel, NsbmdModel *model);
+void InitOrthoQuads(void);
+void StartOrthoQuadsCreamEffect(u32 kartIndex, u32 count);
+void CreateOrthoQuadCreamEffect(const char *fileName);
+void StopOrthoQuads(int idx);
+void StartOrthoQuadsGesoSumi(u32 kartIndex, u32 count);
+void StartOrthoQuads(s32 idx, s32 count, s32 flag);
+void SetupOrthoQuad(s32 idx, HalfwordPair startPair, s32 overlap);
+u8 MarkOrthoQuadCellsAndGetOverlap(s32 column, s32 row);
+void DrawOrthoQuads(void);
+void DrawOrthoQuadsWithModel(OrthoQuadModel *model);
+void UpdateOrthoQuads(void);
+void AdvanceOrthoQuadDelayAndStartSound(OrthoQuad *quad);
+void AdvanceOrthoQuadCornersByTable(OrthoQuad *quad);
+void AdvanceOrthoQuadCornersByVelocity(OrthoQuad *quad);
+void InitBouncingItemBoxTimers(void);
+void InitBouncingItemBoxMapObjects(void);

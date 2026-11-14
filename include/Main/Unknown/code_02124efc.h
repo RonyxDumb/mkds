@@ -1,6 +1,6 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_02124094.h" // Unk02124b1c
+#include "Main/Unknown/code_02124094.h" // LayoutTableEntry
 
-void func_02124efc(Unk02124b1c *p, s32 n);
+void InitLayoutTableEntries(LayoutTableEntry *entry, s32 count);

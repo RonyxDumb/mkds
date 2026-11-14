@@ -2,13 +2,18 @@
 
 #include "types.h"
 
-// Three 64-bit words: x, a and c of x = x * a + c. func_020d22c0 and func_020d22d0 return one; Unk0217aa00 has one
-// at 0x1ee8 and Unk0217561c three.
-typedef struct Unk020f41c4_B {
-    /* 00 */ u64 mUnk_00;
-    /* 08 */ u64 mUnk_08;
-    /* 10 */ u64 mUnk_10;
-} Unk020f41c4_B;
+// Three 64-bit words: x, a and c of x = x * a + c (x = x * [8] + [0x10] in TallyPickedCourse). GetRaceRandom and
+// GetMapObjectRandom return one; ConnectionWork has one at 0x1ee8, RaceProgress three and WiFiSession one at 0x1954.
+typedef struct RandomState64 {
+    /* 00 */ u64 mValue;
+    /* 08 */ u64 mMultiplier;
+    /* 10 */ u64 mIncrement;
+} RandomState64;
 
-Unk020f41c4_B *func_020d22c0(void);
-Unk020f41c4_B *func_020d22d0(void);
+typedef struct MapObject MapObject;
+
+RandomState64 *GetRaceRandom(void);
+RandomState64 *GetMapObjectRandom(void);
+void SetRaceRandomPointers(void);
+void UnparkMapObject(MapObject *mapObject);
+void ParkMapObject(MapObject *mapObject);

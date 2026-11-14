@@ -1,31 +1,42 @@
 #include "Main/Unknown/code_02068eac.h"
 #include "Main/Unknown/code_0203c000.h"
-#include "Main/Unknown/code_02061874.h"
+#include "Main/Unknown/code_02061654.h"
 #include "Main/Unknown/code_0206a000.h"
-#include "Main/Unknown/code_020720dc.h"
-#include "Main/Unknown/code_02074854.h"
-#include "Main/Unknown/code_02074874.h"
+#include "Main/Unknown/code_02070398.h"
+#include "Main/Unknown/code_02073eb8.h"
 #include "Main/Unknown/code_0207a104.h"
 #include "Main/Unknown/code_0207b000.h"
 #include "Main/Unknown/code_020815a0.h"
 #include "Main/Unknown/code_02080cd0.h"
 #include "Main/Unknown/code_02081618.h"
-#include "Main/Unknown/code_02081f10.h"
-#include "Main/Unknown/code_02082d64.h"
 #include "Main/Unknown/code_02087934.h"
-#include "Main/Unknown/code_0208b748.h"
+#include "Main/Unknown/code_0206bcb0.h"
+#include "Main/Unknown/code_0208aea8.h"
+#include "Main/Unknown/code_0208b484.h"
 #include "Main/Unknown/code_0208c4e8.h"
 #include "Main/Unknown/code_0208c534.h"
 #include "Main/Unknown/code_02090354.h"
-#include "Main/Unknown/code_020a1748.h"
-#include "Main/Unknown/code_020a1e3c.h"
+#include "Main/Unknown/code_020a02f8.h"
+#include "Main/Unknown/code_020b1dbc.h"
+#include "Main/Unknown/code_0207b960.h"
+#include "Main/Unknown/code_020b4e5c.h"
+#include "Main/Unknown/code_02039860.h"
+#include "Main/Unknown/code_02147000.h"
+#include "Main/Unknown/unk_0215d000.h"
+#include "Main/Unknown/unk_021759c0.h"
+#include "Main/Unknown/code_020b47d8.h"
+#include "Main/Unknown/code_020b6a18.h"
+#include "Main/Unknown/code_0207a880.h"
 #include "Main/Unknown/code_020b502c.h"
 #include "Main/Unknown/code_020d50ec.h"
 #include "Main/Unknown/code_020ed5c0.h"
 #include "Main/Unknown/code_020ee684.h"
-#include "Main/Unknown/code_020854c0.h"
+#include "Main/Unknown/code_0203c5ac.h"
+#include "code_02147cd8.h"
+#include "Main/Unknown/code_0208537c.h"
 #include "Main/Unknown/code_02103840.h"
-#include "Main/Unknown/code_02103890.h"
+#include "Main/Unknown/code_020ec8bc.h"
+#include "Main/Unknown/code_021031f4.h"
 #include "Main/Unknown/code_02104a0c.h"
 #include "Main/Unknown/code_02105ec0.h"
 #include "Main/Unknown/code_02108ea0.h"
@@ -40,619 +51,628 @@
 #include "Main/Unknown/unk_0217d000.h"
 #include "Main/Unknown/unk_02154000.h"
 #include "Main/Unknown/unk_02165000.h"
-#include "Main/Unknown/unk_021759c0.h"
 #include "Main/Unknown/unk_027e0000.h"
-#include "01/code_0218173c.h"
-#include "code_0212c6ac.h"
+#include "01/code_0218155c.h"
+#include "code_0212bcac.h"
 #include "code_0212df7c.h"
+#include "Main/Unknown/code_0206a354.h"
+#include "Main/Unknown/code_0206d020.h"
+#include "Main/Unknown/code_0203c5f8.h"
+#include "Main/Unknown/code_0203c8dc.h"
+#include "Main/Unknown/code_020681f0.h"
 
-s32 func_02068eac(Unk0206bcb0 *p) {
-    return (p->mUnk_7c & 0x60) != 0;
-}
+BOOL func_0206a24c(Kart *kart) {
+    KartItemEffectState *effectState;
+    s32 mode;
 
-s32 func_02068ec0(Unk0206bcb0 *p, s32 a) {
-    s32 r;
-    u32 w;
-    Unk0212c400 **h;
-
-    r = 0;
-    if (a != 0) {
-        w = p->mUnk_7c;
-        if (!(w & 0x800000)) {
-            r = 1;
-        }
-    } else {
-        w = p->mUnk_7c;
-        if (!(w & 0x900020)) {
-            r = 1;
-        }
+    effectState = &kart->mUnk_538;
+    if ((kart->mUnk_4c & 0x10000040) || (kart->mUnk_48 & 0x10000)) {
+        return FALSE;
     }
-    if (r != 0) {
-        if (!(w & 0x4000000)) {
-            func_020858ac(p->mUnk_74);
-            p->mUnk_7c |= 0x4000000;
-        }
-        p->mUnk_7c |= 0x20;
-        if (p->mUnk_2c8 != -1) {
-            p->mUnk_2c8 = func_020d5344(p->mUnk_2c8);
-        }
-        if (p->mUnk_2ca != -1) {
-            p->mUnk_2ca = func_020d5344(p->mUnk_2ca);
-        }
-        if (data_021759c0->mUnk_08 == 2 && a == 0) {
-            func_021090c4(&p->mUnk_00, 0xd3, 0x7f, 0);
-            if (data_021759c0->mUnk_18 == 0 && (data_0217c780 & 1)) {
-                h = (Unk0212c400 **) func_0210e128((void *) func_02108ea0(0));
-                if (data_0217d084.mUnk_0c != 0) {
-                    if (h[0] != 0) {
-                        func_0212c6f0(h, 0);
-                    }
-                    if (h[0] != 0) {
-                        func_0212c6f0(h, 0);
-                    }
-                    func_0212ecc0(h, 0, 0x4c);
-                }
-            }
-        }
-        p->mUnk_3c8 = 0;
-        func_02072930(p);
+    effectState->mUnk_0c = 0;
+    effectState->mUnk_0e = 0x258;
+    kart->mScaleFactor.x = 0x1000;
+    kart->mScaleFactor.y = 0x1000;
+    kart->mScaleFactor.z = 0x1000;
+    kart->mTireSpinAngle = 0;
+    kart->mUnk_4c |= 0x10000;
+    kart->mUnk_48 |= 0x4000000;
+    if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+        SetCameraHalfFovAngleGoal(0x1f40);
     }
-    return r;
-}
-
-void func_02069044(Unk0206bcb0 *p) {
-    func_02068ec0(p, 1);
-    p->mUnk_7c |= 0x800000;
-}
-
-void func_02069068(Unk0206bcb0 *p) {
-    Unk0206ceb4 *s;
-
-    s = &p->mUnk_538;
-    s->mUnk_0a = 0;
-    s->mUnk_08 = 0;
-    p->mUnk_d8 = data_021654dc;
-    p->mUnk_4c &= ~0x4000;
-    if (!(p->mUnk_4c & 0x2000)) {
-        p->mUnk_4c |= 0x2000;
-        if (!(p->mUnk_4c & 0x8000000)) {
-            func_0207b13c(p);
-        }
-    }
-    if (p->mUnk_4c & 0x48000) {
-        func_02080f44(p);
-    }
-    func_02081000(p);
-    func_0210a53c(p);
-    if (!(p->mUnk_7c & 1)) {
-        func_021090c4(&p->mUnk_00, 0xa4, 0x7f, 0);
-    }
-    if (p->mUnk_7c & 0x200) {
-        p->mUnk_514->mUnk_2c ^= 0x40000;
-    }
-}
-
-void func_02069134(Unk0206bcb0 *p) {
-    Unk0206ceb4 *s;
-    u32 w;
-
-    w = p->mUnk_4c;
-    s = &p->mUnk_538;
-    if (!(w & 0x40)) {
-        if (s->mUnk_1c == 0x190 && !(w & 0x20000) && (w & 0x8000000) && s->mUnk_1c <= 0x190) {
-            s->mUnk_1c = 0x190;
-            p->mUnk_4c |= 0x20000;
-            func_02079f70(p->mUnk_590, func_0207a134(), func_0207a11c(), func_0207a104());
-        }
-        func_02079ce0(p->mUnk_590, (p->mUnk_4c & 0x20000) ? 0x52 : 0x19a);
-    }
-    s->mUnk_1c++;
-    if (s->mUnk_1c <= 0x1c2) {
-        return;
-    }
-    if (!(p->mUnk_4c & 0x8000000)) {
-        return;
-    }
-    p->mUnk_4c &= ~0x8020000;
-    if (p->mUnk_4c & 0x2000) {
-        func_0207b13c(p);
-    }
-    func_02079c0c(p->mUnk_590);
-}
-
-void func_0206924c(Unk0206bcb0 *p, u32 a) {
-    u32 w;
-
-    if (p->mUnk_7c & 0x400) {
-        return;
-    }
-    if (func_0203c880(p->mUnk_74) != 0) {
-        return;
-    }
-    w = p->mUnk_7c;
-    if (w & 0x60) {
-        return;
-    }
-    if (p->mUnk_4c & 0x10000040) {
-        return;
-    }
-    if (w & 0x2000) {
-        return;
-    }
-    p->mUnk_538.mUnk_1c = 0;
-    p->mUnk_4c |= 0x8000000;
-    p->mUnk_4c &= ~0x20000;
-    if (p->mUnk_4c & 0x2000) {
-        func_0207b0d0(p);
-    }
-    func_02079f70(p->mUnk_590, 0, 0x1084, 0);
-    if (p->mUnk_7c & 0x10) {
-        func_0207b054(p, 1, 0);
-        func_0207b708(p->mUnk_590, 1);
-    }
-    if (!(p->mUnk_48 & 0x840)) {
-        func_0210af40(p, p->mUnk_3cc, 0);
-    }
-    func_021038f0(p->mUnk_74, a);
-    if (p->mUnk_7c & 0x200) {
-        p->mUnk_514->mUnk_2c ^= 0x80000;
-    }
-}
-
-void func_0206938c(Unk0206bcb0 *p) {
-    Unk0206ceb4 *s;
-    Unk0206ceb4 *u;
-    s32 i;
-    s32 r;
-    s32 t;
-    Unk02165560 v;
-
-    s = &p->mUnk_538;
-    s->mUnk_1e++;
-    if (!(p->mUnk_7c & 0x400)) {
-        if (func_0209081c(&s->mUnk_2c) != 0) {
-            u = &p->mUnk_538;
-            if ((p->mUnk_4c & 0x10000000) && u->mUnk_24 == 0) {
-                u->mUnk_24 = 1;
-                if (p->mUnk_7c & 0x200) {
-                    p->mUnk_514->mUnk_2c ^= 0x200000;
-                }
-            }
-        }
-    }
-    func_02087b78((Unk02087d0c *) &((Unk0206bcb0_590 *) p->mUnk_590)->mUnk_098);
-    if (s->mUnk_24 != 0) {
-        p->mUnk_4c8 -= 0x52;
-        if (p->mUnk_4c8 > 0x1000) {
-            return;
-        }
-        p->mUnk_4c &= ~0x10000000;
-        func_0210515c(p->mUnk_74);
-        if (p->mUnk_7c & 1) {
-            func_02074854();
-        }
-        p->mUnk_4c8 = 0x1000;
-        p->mUnk_3dc = -1;
-        i = 0;
-        p->mUnk_29c = 0;
-        if (((Unk0206bcb0_590 *) p->mUnk_590)->mUnk_058 == 0) {
-            v = data_02165560;
-            for (i = 0; i < 3; i++) {
-                func_02081f10((u32) func_0208b7bc(v.mUnk_00[i], &p->mUnk_80), p->mUnk_74, 0x14);
-            }
-        }
-        func_020815dc(p->mUnk_74);
-        func_021090c4(&p->mUnk_00, 0xfd, 0x7f, 0);
-        return;
-    }
-    p->mUnk_4c8 += 0x52;
-    if (p->mUnk_4c8 > 0x1666) {
-        p->mUnk_4c8 = 0x1666;
-    }
-    if (s->mUnk_24 != 0) {
-        return;
-    }
-    r = 0;
-    t = 0;
-    if (!(p->mUnk_7c & 0x400)) {
-        if (func_0203c8dc(p->mUnk_74) == 1) {
-            r = 1;
-        } else if ((s32) func_0203c8dc(p->mUnk_74) <= s->mUnk_28) {
-            r = 1;
-        }
-        if (s->mUnk_1e > 0xb4 && r != 0) {
-            t = 1;
-        }
-    }
-    if (s->mUnk_1e <= 0x1e0 && t == 0) {
-        return;
-    }
-    s->mUnk_24 = 1;
-    if (p->mUnk_7c & 0x200) {
-        p->mUnk_514->mUnk_2c ^= 0x200000;
-    }
-}
-
-void func_020695c4(Unk0206bcb0 *p) {
-    Unk0206ceb4 *s;
-    Unk0216557c w;
-    Unk02165560 v;
-    s32 i;
-    u8 k;
-
-    w = data_0216557c;
-    s = &p->mUnk_538;
-    s->mUnk_1e = 0;
-    s->mUnk_20 = 0;
-    s->mUnk_24 = 0;
-    func_0209086c(&s->mUnk_2c, p->mUnk_74);
-    p->mUnk_4c |= 0x10000000;
-    k = data_021759c0->mUnk_3d0;
-    s->mUnk_28 = func_0203c8dc(p->mUnk_74) - w.mUnk_00[k - 1];
-    if (s->mUnk_28 <= 0) {
-        s->mUnk_28 = 1;
-    }
-    ((Unk0206bcb0_590 *) p->mUnk_590)->mUnk_0a4 = 0;
-    if (p->mUnk_7c & 0x2000) {
-        p->mUnk_7c &= ~0x2000;
-        p->mUnk_7c &= ~0xc000;
-        p->mUnk_29c = 0;
-        if (!(p->mUnk_7c & 1)) {
-            func_0208c4e8((u32) func_0208c5b8(p->mUnk_74));
-        } else {
-            func_021090c4(&p->mUnk_00, 0xf9, 0x7f, 0);
-        }
-        func_0210fa40(0, (p->mUnk_7c & 1) ? 1 : 0);
-    }
-    if (p->mUnk_4c & 0x8000000) {
-        p->mUnk_4c &= ~0x8020000;
-        if (p->mUnk_4c & 0x2000) {
-            func_0207b13c(p);
-        }
-        func_02079c0c(p->mUnk_590);
-    }
-    func_021035ac(p->mUnk_74);
-    if (p->mUnk_4c & 0x40) {
-        p->mUnk_4c &= ~0x40;
-        func_0207b1a8(p);
-        p->mUnk_29c = 0;
-        func_020817b8(p->mUnk_74);
-        func_02068a64(p, 0, 1);
-        if ((p->mUnk_7c & 1) && data_021759c0->mUnk_00c == 0) {
-            func_02106dc8();
-        }
-        if (p->mUnk_4c & 0x2000) {
-            func_0207b13c(p);
-        }
-    }
-    p->mUnk_29c = 3;
-    if (p->mUnk_4c & 0x2000) {
-        p->mUnk_4c &= ~0x2000;
-        p->mUnk_d8 = 0x1000;
-        if (!(p->mUnk_4c & 0x8000000)) {
-            func_0207b0d0(p);
-        }
-        func_02080ee4(p);
-    }
-    if (((Unk0206bcb0_590 *) p->mUnk_590)->mUnk_058 == 0) {
-        v = data_02165560;
-        for (i = 0; i < 3; i++) {
-            func_02081f10((u32) func_0208b7bc(v.mUnk_00[i], &p->mUnk_80), p->mUnk_74, 0x14);
-        }
-    }
-    func_02081724(p->mUnk_74);
-    func_02069ea8(p);
-    if (p->mUnk_7c & 0x200) {
-        p->mUnk_514->mUnk_2c ^= 0x100000;
-    }
-    if (p->mUnk_7c & 1) {
-        func_02074874(0x1d4c);
-    }
-}
-
-void func_0206988c(Unk0206bcb0 *p) {
-    Unk0206ceb4 *s;
-    Vec3 a;
-    Vec3 b;
-    u32 w;
-    s32 d;
-    s32 e;
-    s32 f;
-
-    w = p->mUnk_7c;
-    if (w & 0x400000) {
-        return;
-    }
-    s = &p->mUnk_538;
-    if (!(w & 1)) {
-        if (s->mUnk_16 < 0x50) {
-            s->mUnk_16++;
-            s->mUnk_14++;
-            if (s->mUnk_14 > s->mUnk_18) {
-                s->mUnk_14 = 0;
-                s->mUnk_12 = s->mUnk_12 + s->mUnk_1a;
-                s->mUnk_18 = s->mUnk_18 + s->mUnk_1a * 5;
-            }
-            if (s->mUnk_16 % s->mUnk_12 == 0) {
-                p->mUnk_7c &= ~0x8000;
-            } else {
-                p->mUnk_7c |= 0x8000;
-            }
-            if (s->mUnk_16 >= 0x50) {
-                p->mUnk_7c |= 0x8000;
-            }
-        }
-        if (s->mUnk_10 == 0x172) {
-            s->mUnk_1a = -1;
-            s->mUnk_16 = 0;
-        }
-        func_0208c504((u32) func_0208c5b8(p->mUnk_74));
-    }
-    s->mUnk_10++;
-    if (s->mUnk_10 > 0x1c2 && (p->mUnk_7c & 0x2000)) {
-        p->mUnk_7c &= ~0x2000;
-        p->mUnk_7c &= ~0xc000;
-        p->mUnk_29c = 0;
-        if (!(p->mUnk_7c & 1)) {
-            func_0208c4e8((u32) func_0208c5b8(p->mUnk_74));
-        } else {
-            func_021090c4(&p->mUnk_00, 0xf9, 0x7f, 0);
-        }
-        func_0210fa40(0, (p->mUnk_7c & 1) ? 1 : 0);
-    }
-    if (p->mUnk_7c & 1) {
-        return;
-    }
-    func_0207a948(&a, (u16) data_021759c0->mUnk_62);
-    func_0207a948(&b, p->mUnk_74);
-    d = (a.x - b.x) >> 12;
-    e = (a.y - b.y) >> 12;
-    f = (a.z - b.z) >> 12;
-    func_0207a2d4(d * d + e * e + f * f);
-}
-
-void func_02069aa0(Unk0206bcb0 *p) {
-    Unk0206ceb4 *s;
-    Unk0206ceb4 *t;
-    u32 w;
-
-    s = &p->mUnk_538;
-    s->mUnk_10 = 0;
-    if (p->mUnk_4c & 0x10000040) {
-        p->mUnk_4c &= ~0x40;
-        func_0207b1a8(p);
-        p->mUnk_29c = 0;
-        func_020817b8(p->mUnk_74);
-        func_02068a64(p, 0, 1);
-        if ((p->mUnk_7c & 1) && data_021759c0->mUnk_00c == 0) {
-            func_02106dc8();
-        }
-        if (p->mUnk_4c & 0x2000) {
-            func_0207b13c(p);
-        }
-    }
-    p->mUnk_7c |= 0x2000;
-    p->mUnk_29c = 2;
-    func_02103840(p->mUnk_74);
-    w = p->mUnk_4c;
-    if (!(w & 0x20000) && (w & 0x8000000)) {
-        t = &p->mUnk_538;
-        if (t->mUnk_1c <= 0x190) {
-            t->mUnk_1c = 0x190;
-            p->mUnk_4c |= 0x20000;
-            func_02079f70(p->mUnk_590, func_0207a134(), func_0207a11c(), func_0207a104());
-        }
-    }
-    func_0210fa40(1, (p->mUnk_7c & 1) ? 1 : 0);
-    if (p->mUnk_7c & 1) {
-        p->mUnk_7c |= 0x4000;
-    } else {
-        s->mUnk_12 = 2;
-        s->mUnk_14 = 0;
-        s->mUnk_18 = 10;
-        s->mUnk_16 = 0;
-        s->mUnk_1a = 1;
-    }
-    if (p->mUnk_7c & 0x200) {
-        p->mUnk_514->mUnk_2c ^= 0x4000000;
-    }
-}
-
-void func_02069c38(Unk0206bcb0 *p) {
-    Unk0206ceb4 *s;
-
-    s = &p->mUnk_538;
-    if (p->mUnk_4c & 0x10000000) {
-        return;
-    }
-    if (p->mUnk_7c & 0x2000) {
-        p->mUnk_7c &= ~0x2000;
-        p->mUnk_7c &= ~0xc000;
-        p->mUnk_29c = 0;
-        if (!(p->mUnk_7c & 1)) {
-            func_0208c4e8((u32) func_0208c5b8(p->mUnk_74));
-        } else {
-            func_021090c4(&p->mUnk_00, 0xf9, 0x7f, 0);
-        }
-        func_0210fa40(0, (p->mUnk_7c & 1) ? 1 : 0);
-    }
-    if (p->mUnk_4c & 0x8000000) {
-        p->mUnk_4c &= ~0x8020000;
-        if (p->mUnk_4c & 0x2000) {
-            func_0207b13c(p);
-        }
-        func_02079c0c(p->mUnk_590);
-    }
-    func_02103840(p->mUnk_74);
-    s->mUnk_06 = 0;
-    p->mUnk_4c |= 0x40;
-    p->mUnk_29c = 1;
-    func_0207b284(p);
-    func_02081a40(p->mUnk_74);
-    if ((p->mUnk_7c & 1) && data_021759c0->mUnk_00c == 0) {
-        func_02106e78();
-    }
-    if (data_021759c0->mUnk_08 == 2) {
-        func_020a1e3c(p->mUnk_74);
-    }
-    if (p->mUnk_7c & 0x200) {
-        p->mUnk_514->mUnk_2c ^= 0x2000;
-    }
-    func_02068a64(p, 2, 1);
-}
-
-void func_02069db8(Unk0206bcb0 *p) {
-    func_0206d020(p, 0, 0x5a);
-    p->mUnk_48 |= 0x100000;
-    p->mUnk_538.mUnk_00 = 0x5a;
-    if (data_021759c0->mUnk_08 != 2) {
-        return;
-    }
-    func_020a1ddc(p->mUnk_74);
-}
-
-void func_02069e10(Unk0206bcb0 *p) {
-    u16 i;
-    u32 w;
-
-    i = 0;
-    func_02061874();
-    func_02082e4c(p->mUnk_74);
-    w = p->mUnk_7c & 0x200;
-    if (w != 0) {
-        if (w != 0) {
-            p->mUnk_514->mUnk_2c ^= 0x4000;
-        }
-        return;
-    }
-    for (; i < (u32) data_021759c0->mUnk_3d0; i++) {
-        if (i != p->mUnk_74) {
-            func_0206a624(func_0207a974(i));
-        }
-    }
-}
-
-void func_02069ea8(Unk0206bcb0 *p) {
-    p->mUnk_398 = 0x1000;
-    p->mUnk_434 = 0x1000;
-    p->mUnk_bc.y = 0x1000;
-    p->mUnk_4c &= ~0x10000;
-    if (p->mUnk_4c & 0x80) {
-        p->mUnk_4c &= ~0x80;
-        p->mUnk_428.x = 0x1000;
-        p->mUnk_428.y = 0x1000;
-        p->mUnk_428.z = 0x1000;
-        if (p->mUnk_74 == data_021759c0->mUnk_62) {
-            func_0210fa74(0);
-        }
-        func_0210a664(p);
-    }
-    p->mUnk_bc.x = 0x1000;
-    p->mUnk_bc.y = 0x1000;
-    p->mUnk_bc.z = 0x1000;
-    p->mUnk_41c.x = 0x1000;
-    p->mUnk_41c.y = 0x1000;
-    p->mUnk_41c.z = 0x1000;
-    if (!(p->mUnk_4c & 0x10080)) {
-        p->mUnk_394 = 0x1000;
-    }
-    if (p->mUnk_7c & 1) {
-        func_02074854();
-    }
-}
-
-void func_02069f6c(Unk0206bcb0 *p) {
-    Unk0206ceb4 *s;
-
-    s = &p->mUnk_538;
-    if (s->mUnk_0e <= 0) {
-        if (s->mUnk_0c == 0) {
-            func_021090c4(&p->mUnk_00, 0xed, 0x7f, 0);
-        }
-        s->mUnk_0c++;
-        if (s->mUnk_0c >= 0x19) {
-            p->mUnk_398 = 0x1000;
-            p->mUnk_434 = 0x1000;
-            p->mUnk_41c.x = 0x1000;
-            p->mUnk_41c.y = 0x1000;
-            p->mUnk_41c.z = 0x1000;
-            p->mUnk_bc.x = (s32) (((s64) p->mUnk_428.x * p->mUnk_41c.x) >> 12);
-            p->mUnk_bc.y = (s32) (((s64) p->mUnk_428.y * p->mUnk_41c.y) >> 12);
-            p->mUnk_bc.z = (s32) (((s64) p->mUnk_428.z * p->mUnk_41c.z) >> 12);
-            p->mUnk_bc.y = (s32) (((s64) p->mUnk_434 * p->mUnk_bc.y) >> 12);
-            if (s->mUnk_0c > 0x19) {
-                p->mUnk_4c &= ~0x10000;
-                if (!(p->mUnk_4c & 0x10080)) {
-                    p->mUnk_394 = 0x1000;
-                }
-                return;
-            }
-            p->mUnk_4c |= 0x100;
-            return;
-        }
-        p->mUnk_398 = 0x1000;
-        p->mUnk_4c |= 0x100;
-        p->mUnk_41c.x = data_02154de4[s->mUnk_0c];
-        p->mUnk_41c.y = data_02154e48[s->mUnk_0c];
-        p->mUnk_41c.z = data_02154eac[s->mUnk_0c];
-        p->mUnk_434 = 0x1000;
-        p->mUnk_bc.x = (s32) (((s64) p->mUnk_428.x * p->mUnk_41c.x) >> 12);
-        p->mUnk_bc.y = (s32) (((s64) p->mUnk_428.y * p->mUnk_41c.y) >> 12);
-        p->mUnk_bc.z = (s32) (((s64) p->mUnk_428.z * p->mUnk_41c.z) >> 12);
-        p->mUnk_bc.y = (s32) (((s64) p->mUnk_434 * p->mUnk_bc.y) >> 12);
-        return;
-    }
-    s->mUnk_0e--;
-    if (s->mUnk_0e == 0x1c2) {
-        p->mUnk_48 &= ~0x4000000;
-        if (p->mUnk_7c & 1) {
-            func_02074854();
-        }
-    }
-    if (p->mUnk_48 & 0x4000000) {
-        p->mUnk_2a8 = 0;
-    }
-    if ((float) p->mUnk_434 > 0.3f / 4096.0f) {
-        p->mUnk_434 -= 0x4cd;
-        if ((float) p->mUnk_434 < 0.3f / 4096.0f) {
-            p->mUnk_434 = 0x4cd;
-        }
-    }
-    p->mUnk_bc.x = (s32) (((s64) p->mUnk_428.x * p->mUnk_41c.x) >> 12);
-    p->mUnk_bc.y = (s32) (((s64) p->mUnk_428.y * p->mUnk_41c.y) >> 12);
-    p->mUnk_bc.z = (s32) (((s64) p->mUnk_428.z * p->mUnk_41c.z) >> 12);
-    p->mUnk_bc.y = (s32) (((s64) p->mUnk_434 * p->mUnk_bc.y) >> 12);
-}
-
-s32 func_0206a24c(Unk0206bcb0 *p) {
-    Unk0206ceb4 *s;
-    s32 v;
-
-    s = &p->mUnk_538;
-    if ((p->mUnk_4c & 0x10000040) || (p->mUnk_48 & 0x10000)) {
-        return 0;
-    }
-    s->mUnk_0c = 0;
-    s->mUnk_0e = 0x258;
-    p->mUnk_41c.x = 0x1000;
-    p->mUnk_41c.y = 0x1000;
-    p->mUnk_41c.z = 0x1000;
-    p->mUnk_3a4 = 0;
-    p->mUnk_4c |= 0x10000;
-    p->mUnk_48 |= 0x4000000;
-    if (p->mUnk_7c & 1) {
-        func_02074874(0x1f40);
-    }
-    p->mUnk_394 = 0xb33;
-    func_020eff40(&((Unk020ee684 *) (void *) data_027e00c8)[p->mUnk_74]);
-    v = data_021759c0->mUnk_08;
-    if (v == 4) {
-        if (v == 4) {
+    kart->mUnk_394 = 0xb33;
+    func_020eff40(&(gKartItems)[kart->mIndex]);
+    mode = gRaceSetup->mMode;
+    if (mode == MODE_MISSION_RUN) {
+        if (mode == MODE_MISSION_RUN) {
             func_ov001_0218173c();
         }
     }
-    if (!(p->mUnk_48 & 0x840)) {
-        func_0210af40(p, p->mUnk_3cc, 0);
+    if (!(kart->mUnk_48 & 0x840)) {
+        func_0210af40(kart, kart->mSoundIndex, 0);
     }
-    return 1;
+    return TRUE;
+}
+
+void func_02069f6c(Kart *kart) {
+    KartItemEffectState *effectState;
+
+    effectState = &kart->mUnk_538;
+    if (effectState->mUnk_0e <= 0) {
+        if (effectState->mUnk_0c == 0) {
+            StartSound(&kart->mSoundSource, 0xed, 0x7f, 0);
+        }
+        effectState->mUnk_0c++;
+        if (effectState->mUnk_0c >= 0x19) {
+            kart->mUnk_398 = 0x1000;
+            kart->mScaleYFactor = 0x1000;
+            kart->mScaleFactor.x = 0x1000;
+            kart->mScaleFactor.y = 0x1000;
+            kart->mScaleFactor.z = 0x1000;
+            kart->mScale.x = ((s64) kart->mScaleBase.x * kart->mScaleFactor.x) >> 12;
+            kart->mScale.y = ((s64) kart->mScaleBase.y * kart->mScaleFactor.y) >> 12;
+            kart->mScale.z = ((s64) kart->mScaleBase.z * kart->mScaleFactor.z) >> 12;
+            kart->mScale.y = ((s64) kart->mScaleYFactor * kart->mScale.y) >> 12;
+            if (effectState->mUnk_0c > 0x19) {
+                kart->mUnk_4c &= ~0x10000;
+                if (!(kart->mUnk_4c & 0x10080)) {
+                    kart->mUnk_394 = 0x1000;
+                }
+                return;
+            }
+            kart->mUnk_4c |= 0x100;
+            return;
+        }
+        kart->mUnk_398 = 0x1000;
+        kart->mUnk_4c |= 0x100;
+        kart->mScaleFactor.x = gKartScaleFactorXTable[effectState->mUnk_0c];
+        kart->mScaleFactor.y = gKartScaleFactorYTable[effectState->mUnk_0c];
+        kart->mScaleFactor.z = gKartScaleFactorZTable[effectState->mUnk_0c];
+        kart->mScaleYFactor = 0x1000;
+        kart->mScale.x = ((s64) kart->mScaleBase.x * kart->mScaleFactor.x) >> 12;
+        kart->mScale.y = ((s64) kart->mScaleBase.y * kart->mScaleFactor.y) >> 12;
+        kart->mScale.z = ((s64) kart->mScaleBase.z * kart->mScaleFactor.z) >> 12;
+        kart->mScale.y = ((s64) kart->mScaleYFactor * kart->mScale.y) >> 12;
+        return;
+    }
+    effectState->mUnk_0e--;
+    if (effectState->mUnk_0e == 0x1c2) {
+        kart->mUnk_48 &= ~0x4000000;
+        if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+            ResetCameraHalfFovAngleGoal();
+        }
+    }
+    if (kart->mUnk_48 & 0x4000000) {
+        kart->mForwardSpeed = 0;
+    }
+    if (kart->mScaleYFactor > 0.3f / 4096.0f) {
+        kart->mScaleYFactor -= 0x4cd;
+        if (kart->mScaleYFactor < 0.3f / 4096.0f) {
+            kart->mScaleYFactor = 0x4cd;
+        }
+    }
+    kart->mScale.x = ((s64) kart->mScaleBase.x * kart->mScaleFactor.x) >> 12;
+    kart->mScale.y = ((s64) kart->mScaleBase.y * kart->mScaleFactor.y) >> 12;
+    kart->mScale.z = ((s64) kart->mScaleBase.z * kart->mScaleFactor.z) >> 12;
+    kart->mScale.y = ((s64) kart->mScaleYFactor * kart->mScale.y) >> 12;
+}
+
+void func_02069ea8(Kart *kart) {
+    kart->mUnk_398 = 0x1000;
+    kart->mScaleYFactor = 0x1000;
+    kart->mScale.y = 0x1000;
+    kart->mUnk_4c &= ~0x10000;
+    if (kart->mUnk_4c & KART_4C_THUNDER_SHRINK) {
+        kart->mUnk_4c &= ~KART_4C_THUNDER_SHRINK;
+        kart->mScaleBase.x = 0x1000;
+        kart->mScaleBase.y = 0x1000;
+        kart->mScaleBase.z = 0x1000;
+        if (kart->mIndex == gRaceSetup->mEntryIndex) {
+            func_0210fa74(0);
+        }
+        func_0210a664(kart);
+    }
+    kart->mScale.x = 0x1000;
+    kart->mScale.y = 0x1000;
+    kart->mScale.z = 0x1000;
+    kart->mScaleFactor.x = 0x1000;
+    kart->mScaleFactor.y = 0x1000;
+    kart->mScaleFactor.z = 0x1000;
+    if (!(kart->mUnk_4c & 0x10080)) {
+        kart->mUnk_394 = 0x1000;
+    }
+    if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+        ResetCameraHalfFovAngleGoal();
+    }
+}
+
+void StartKartThunder(Kart *kart) {
+    u16 kartIndex;
+    u32 bit200;
+
+    kartIndex = 0;
+    StartFadeFog();
+    StartEffectsAtOtherKarts(kart->mIndex);
+    bit200 = kart->mUnk_7c & 0x200;
+    if (bit200 != 0) {
+        if (bit200 != 0) {
+            kart->mUnk_514->mUnk_2c ^= 0x4000;
+        }
+        return;
+    }
+    for (; kartIndex < (u32) gRaceSetup->mKartCount; kartIndex++) {
+        if (kartIndex != kart->mIndex) {
+            StartKartThunderShrink(GetKart(kartIndex));
+        }
+    }
+}
+
+void StartKartKinokoBoost(Kart *kart) {
+    StartKartBoost(kart, KART_BOOST_ITEM_OR_SURFACE, 0x5a);
+    kart->mUnk_48 |= 0x100000;
+    kart->mUnk_538.mUnk_00 = 0x5a;
+    if (gRaceSetup->mMode != MODE_BATTLE) {
+        return;
+    }
+    func_020a1ddc(kart->mIndex);
+}
+
+void StartKartStar(Kart *kart) {
+    KartItemEffectState *effectState;
+
+    effectState = &kart->mUnk_538;
+    if (kart->mUnk_4c & 0x10000000) {
+        return;
+    }
+    if (kart->mUnk_7c & 0x2000) {
+        kart->mUnk_7c &= ~0x2000;
+        kart->mUnk_7c &= ~0xc000;
+        kart->mItemEffect = 0;
+        if (!(kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
+            ShowKartTurnEffects(GetKartTurnEffects(kart->mIndex));
+        } else {
+            StartSound(&kart->mSoundSource, 0xf9, 0x7f, 0);
+        }
+        func_0210fa40(0, (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 1 : 0);
+    }
+    if (kart->mUnk_4c & 0x8000000) {
+        kart->mUnk_4c &= ~0x8020000;
+        if (kart->mUnk_4c & 0x2000) {
+            func_0207b13c(kart);
+        }
+        SetKartModelsEntryCourseColors(kart->mKartModelsEntry);
+    }
+    SkipOrthoQuadsHold(kart->mIndex);
+    effectState->mUnk_06 = 0;
+    kart->mUnk_4c |= 0x40;
+    kart->mItemEffect = 1;
+    StartKartStarModels(kart);
+    StartKartStarEffects(kart->mIndex);
+    if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
+        StartKartStarSeq();
+    }
+    if (gRaceSetup->mMode == MODE_BATTLE) {
+        func_020a1e3c(kart->mIndex);
+    }
+    if (kart->mUnk_7c & 0x200) {
+        kart->mUnk_514->mUnk_2c ^= 0x2000;
+    }
+    func_02068a64(kart, 2, 1);
+}
+
+// Teresa: the Boo item (mItemEffect 2).
+void StartKartTeresa(Kart *kart) {
+    KartItemEffectState *effectState;
+    KartItemEffectState *effectStateAgain;
+    u32 kartBits;
+
+    effectState = &kart->mUnk_538;
+    effectState->mTeresaFrames = 0;
+    if (kart->mUnk_4c & 0x10000040) {
+        kart->mUnk_4c &= ~0x40;
+        StopKartStarModels(kart);
+        kart->mItemEffect = 0;
+        StopKartStarEffects(kart->mIndex);
+        func_02068a64(kart, 0, 1);
+        if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
+            func_02106dc8();
+        }
+        if (kart->mUnk_4c & 0x2000) {
+            func_0207b13c(kart);
+        }
+    }
+    kart->mUnk_7c |= 0x2000;
+    kart->mItemEffect = 2;
+    SkipOrthoQuadsHold(kart->mIndex);
+    kartBits = kart->mUnk_4c;
+    if (!(kartBits & 0x20000) && (kartBits & 0x8000000)) {
+        effectStateAgain = &kart->mUnk_538;
+        if (effectStateAgain->mUnk_1c <= 0x190) {
+            effectStateAgain->mUnk_1c = 0x190;
+            kart->mUnk_4c |= 0x20000;
+            StartKartModelColorBlend(kart->mKartModelsEntry, GetKartCourseDiffColor(), GetKartCourseEmiColor(),
+                                     GetKartCourseAmbColor());
+        }
+    }
+    func_0210fa40(1, (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 1 : 0);
+    if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+        kart->mUnk_7c |= 0x4000;
+    } else {
+        effectState->mUnk_12 = 2;
+        effectState->mUnk_14 = 0;
+        effectState->mUnk_18 = 10;
+        effectState->mUnk_16 = 0;
+        effectState->mUnk_1a = 1;
+    }
+    if (kart->mUnk_7c & 0x200) {
+        kart->mUnk_514->mUnk_2c ^= 0x4000000;
+    }
+}
+
+void AdvanceKartTeresa(Kart *kart) {
+    KartItemEffectState *effectState;
+    Vec3 entryPos;
+    Vec3 kartPos;
+    u32 kartBits;
+    s32 diffX;
+    s32 diffY;
+    s32 diffZ;
+
+    kartBits = kart->mUnk_7c;
+    if (kartBits & 0x400000) {
+        return;
+    }
+    effectState = &kart->mUnk_538;
+    if (!(kartBits & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
+        if (effectState->mUnk_16 < 0x50) {
+            effectState->mUnk_16++;
+            effectState->mUnk_14++;
+            if (effectState->mUnk_14 > effectState->mUnk_18) {
+                effectState->mUnk_14 = 0;
+                effectState->mUnk_12 = effectState->mUnk_12 + effectState->mUnk_1a;
+                effectState->mUnk_18 = effectState->mUnk_18 + effectState->mUnk_1a * 5;
+            }
+            if (effectState->mUnk_16 % effectState->mUnk_12 == 0) {
+                kart->mUnk_7c &= ~0x8000;
+            } else {
+                kart->mUnk_7c |= 0x8000;
+            }
+            if (effectState->mUnk_16 >= 0x50) {
+                kart->mUnk_7c |= 0x8000;
+            }
+        }
+        if (effectState->mTeresaFrames == 0x172) {
+            effectState->mUnk_1a = -1;
+            effectState->mUnk_16 = 0;
+        }
+        HideKartTurnEffects(GetKartTurnEffects(kart->mIndex));
+    }
+    effectState->mTeresaFrames++;
+    if (effectState->mTeresaFrames > KART_TERESA_MAX_FRAMES && (kart->mUnk_7c & 0x2000)) {
+        kart->mUnk_7c &= ~0x2000;
+        kart->mUnk_7c &= ~0xc000;
+        kart->mItemEffect = 0;
+        if (!(kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
+            ShowKartTurnEffects(GetKartTurnEffects(kart->mIndex));
+        } else {
+            StartSound(&kart->mSoundSource, 0xf9, 0x7f, 0);
+        }
+        func_0210fa40(0, (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 1 : 0);
+    }
+    if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+        return;
+    }
+    GetKartPos(&entryPos, (u16) gRaceSetup->mEntryIndex);
+    GetKartPos(&kartPos, kart->mIndex);
+    diffX = (entryPos.x - kartPos.x) >> 12;
+    diffY = (entryPos.y - kartPos.y) >> 12;
+    diffZ = (entryPos.z - kartPos.z) >> 12;
+    SetMinKartDistanceSquared(diffX * diffX + diffY * diffY + diffZ * diffZ);
+}
+
+// Killer: the Bullet Bill item (mItemEffect 3).
+void StartKartKiller(Kart *kart) {
+    KartItemEffectState *effectState;
+    KartKillerEndRankOffsets rankOffsets;
+    KartFollowEffectIds effectIds;
+    s32 i;
+    u8 kartCount;
+
+    rankOffsets = data_0216557c;
+    effectState = &kart->mUnk_538;
+    effectState->mKillerFrames = 0;
+    effectState->mUnk_20 = 0;
+    effectState->mKillerEnding = FALSE;
+    SetupKartKillerCursor(&effectState->mKillerCursor, kart->mIndex);
+    kart->mUnk_4c |= 0x10000000;
+    kartCount = gRaceSetup->mKartCount;
+    effectState->mKillerEndRank = GetKartRank(kart->mIndex) - rankOffsets.mUnk_00[kartCount - 1];
+    if (effectState->mKillerEndRank <= 0) {
+        effectState->mKillerEndRank = 1;
+    }
+    kart->mKartModelsEntry->mUnk_0a4 = 0;
+    if (kart->mUnk_7c & 0x2000) {
+        kart->mUnk_7c &= ~0x2000;
+        kart->mUnk_7c &= ~0xc000;
+        kart->mItemEffect = 0;
+        if (!(kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
+            ShowKartTurnEffects(GetKartTurnEffects(kart->mIndex));
+        } else {
+            StartSound(&kart->mSoundSource, 0xf9, 0x7f, 0);
+        }
+        func_0210fa40(0, (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 1 : 0);
+    }
+    if (kart->mUnk_4c & 0x8000000) {
+        kart->mUnk_4c &= ~0x8020000;
+        if (kart->mUnk_4c & 0x2000) {
+            func_0207b13c(kart);
+        }
+        SetKartModelsEntryCourseColors(kart->mKartModelsEntry);
+    }
+    SkipOrthoQuadsHoldAndSetVelocities(kart->mIndex);
+    if (kart->mUnk_4c & 0x40) {
+        kart->mUnk_4c &= ~0x40;
+        StopKartStarModels(kart);
+        kart->mItemEffect = 0;
+        StopKartStarEffects(kart->mIndex);
+        func_02068a64(kart, 0, 1);
+        if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
+            func_02106dc8();
+        }
+        if (kart->mUnk_4c & 0x2000) {
+            func_0207b13c(kart);
+        }
+    }
+    kart->mItemEffect = 3;
+    if (kart->mUnk_4c & 0x2000) {
+        kart->mUnk_4c &= ~0x2000;
+        kart->mUnk_d8 = 0x1000;
+        if (!(kart->mUnk_4c & 0x8000000)) {
+            func_0207b0d0(kart);
+        }
+        func_02080ee4(kart);
+    }
+    if (kart->mKartModelsEntry->mUnk_058 == 0) {
+        effectIds = gKartFollowEffectIds;
+        for (i = 0; i < 3; i++) {
+            SetupKartFollowEffect(StartEffect(effectIds.mEffectIds[i], &kart->mPos), kart->mIndex, 0x14);
+        }
+    }
+    StartKartKillerEffect(kart->mIndex);
+    func_02069ea8(kart);
+    if (kart->mUnk_7c & 0x200) {
+        kart->mUnk_514->mUnk_2c ^= 0x100000;
+    }
+    if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+        SetCameraHalfFovAngleGoal(0x1d4c);
+    }
+}
+
+void AdvanceKartKiller(Kart *kart) {
+    KartItemEffectState *effectState;
+    KartItemEffectState *effectStateAgain;
+    s32 i;
+    BOOL rankReached;
+    BOOL endEarly;
+    KartFollowEffectIds effectIds;
+
+    effectState = &kart->mUnk_538;
+    effectState->mKillerFrames++;
+    if (!(kart->mUnk_7c & 0x400)) {
+        if (func_0209081c(&effectState->mKillerCursor) != 0) {
+            effectStateAgain = &kart->mUnk_538;
+            if ((kart->mUnk_4c & 0x10000000) && effectStateAgain->mKillerEnding == FALSE) {
+                effectStateAgain->mKillerEnding = TRUE;
+                if (kart->mUnk_7c & 0x200) {
+                    kart->mUnk_514->mUnk_2c ^= 0x200000;
+                }
+            }
+        }
+    }
+    AdvanceModelAnimationFrame((ModelAnimation *) &kart->mKartModelsEntry->mUnk_098);
+    if (effectState->mKillerEnding != FALSE) {
+        kart->mRadiusFactor -= 0x52;
+        if (kart->mRadiusFactor > 0x1000) {
+            return;
+        }
+        kart->mUnk_4c &= ~0x10000000;
+        func_0210515c(kart->mIndex);
+        if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+            ResetCameraHalfFovAngleGoal();
+        }
+        kart->mRadiusFactor = 0x1000;
+        kart->mSurfaceGroup = -1;
+        i = 0;
+        kart->mItemEffect = 0;
+        if (kart->mKartModelsEntry->mUnk_058 == 0) {
+            effectIds = gKartFollowEffectIds;
+            for (i = 0; i < 3; i++) {
+                SetupKartFollowEffect(StartEffect(effectIds.mEffectIds[i], &kart->mPos), kart->mIndex, 0x14);
+            }
+        }
+        StopKartKillerEffect(kart->mIndex);
+        StartSound(&kart->mSoundSource, 0xfd, 0x7f, 0);
+        return;
+    }
+    kart->mRadiusFactor += 0x52;
+    if (kart->mRadiusFactor > 0x1666) {
+        kart->mRadiusFactor = 0x1666;
+    }
+    if (effectState->mKillerEnding != FALSE) {
+        return;
+    }
+    rankReached = FALSE;
+    endEarly = FALSE;
+    if (!(kart->mUnk_7c & 0x400)) {
+        if (GetKartRank(kart->mIndex) == 1) {
+            rankReached = TRUE;
+        } else if ((s32) GetKartRank(kart->mIndex) <= effectState->mKillerEndRank) {
+            rankReached = TRUE;
+        }
+        if (effectState->mKillerFrames > KART_KILLER_RANK_END_FRAMES && rankReached != FALSE) {
+            endEarly = TRUE;
+        }
+    }
+    if (effectState->mKillerFrames <= KART_KILLER_MAX_FRAMES && endEarly == FALSE) {
+        return;
+    }
+    effectState->mKillerEnding = TRUE;
+    if (kart->mUnk_7c & 0x200) {
+        kart->mUnk_514->mUnk_2c ^= 0x200000;
+    }
+}
+
+void StartKartGesso(Kart *kart, u32 orthoQuadCount) {
+    u32 kartBits;
+
+    if (kart->mUnk_7c & 0x400) {
+        return;
+    }
+    if (IsKartEnded(kart->mIndex) != 0) {
+        return;
+    }
+    kartBits = kart->mUnk_7c;
+    if (kartBits & 0x60) {
+        return;
+    }
+    if (kart->mUnk_4c & 0x10000040) {
+        return;
+    }
+    if (kartBits & 0x2000) {
+        return;
+    }
+    kart->mUnk_538.mUnk_1c = 0;
+    kart->mUnk_4c |= 0x8000000;
+    kart->mUnk_4c &= ~0x20000;
+    if (kart->mUnk_4c & 0x2000) {
+        func_0207b0d0(kart);
+    }
+    StartKartModelColorBlend(kart->mKartModelsEntry, 0, 0x1084, 0);
+    if (kart->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) {
+        StartKartCharacterAnimationOnce(kart, 1, 0);
+        SetCharacterFaceFrameIndex(kart->mKartModelsEntry, 1);
+    }
+    if (!(kart->mUnk_48 & 0x840)) {
+        func_0210af40(kart, kart->mSoundIndex, 0);
+    }
+    StartOrthoQuadsGesoSumi(kart->mIndex, orthoQuadCount);
+    if (kart->mUnk_7c & 0x200) {
+        kart->mUnk_514->mUnk_2c ^= 0x80000;
+    }
+}
+
+void AdvanceKartGesso(Kart *kart) {
+    KartItemEffectState *effectState;
+    u32 kartBits;
+
+    kartBits = kart->mUnk_4c;
+    effectState = &kart->mUnk_538;
+    if (!(kartBits & 0x40)) {
+        if (effectState->mUnk_1c == 0x190 && !(kartBits & 0x20000) && (kartBits & 0x8000000) &&
+            effectState->mUnk_1c <= 0x190) {
+            effectState->mUnk_1c = 0x190;
+            kart->mUnk_4c |= 0x20000;
+            StartKartModelColorBlend(kart->mKartModelsEntry, GetKartCourseDiffColor(), GetKartCourseEmiColor(),
+                                     GetKartCourseAmbColor());
+        }
+        AdvanceKartModelColorBlend(kart->mKartModelsEntry, (kart->mUnk_4c & 0x20000) ? 0x52 : 0x19a);
+    }
+    effectState->mUnk_1c++;
+    if (effectState->mUnk_1c <= 0x1c2) {
+        return;
+    }
+    if (!(kart->mUnk_4c & 0x8000000)) {
+        return;
+    }
+    kart->mUnk_4c &= ~0x8020000;
+    if (kart->mUnk_4c & 0x2000) {
+        func_0207b13c(kart);
+    }
+    SetKartModelsEntryCourseColors(kart->mKartModelsEntry);
+}
+
+void func_02069068(Kart *kart) {
+    KartItemEffectState *effectState;
+
+    effectState = &kart->mUnk_538;
+    effectState->mUnk_0a = 0;
+    effectState->mUnk_08 = 0;
+    kart->mUnk_d8 = data_021654dc;
+    kart->mUnk_4c &= ~0x4000;
+    if (!(kart->mUnk_4c & 0x2000)) {
+        kart->mUnk_4c |= 0x2000;
+        if (!(kart->mUnk_4c & 0x8000000)) {
+            func_0207b13c(kart);
+        }
+    }
+    if (kart->mUnk_4c & 0x48000) {
+        func_02080f44(kart);
+    }
+    func_02081000(kart);
+    StopKartSoundWhileRequested(kart);
+    if (!(kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
+        StartSound(&kart->mSoundSource, 0xa4, 0x7f, 0);
+    }
+    if (kart->mUnk_7c & 0x200) {
+        kart->mUnk_514->mUnk_2c ^= 0x40000;
+    }
+}
+
+void func_02069044(Kart *kart) {
+    func_02068ec0(kart, 1);
+    kart->mUnk_7c |= 0x800000;
+}
+
+s32 func_02068ec0(Kart *kart, s32 a) {
+    BOOL removed;
+    u32 kartBits;
+    NNSSndSeqPlayer **seqPlayerHandle;
+
+    removed = FALSE;
+    if (a != 0) {
+        kartBits = kart->mUnk_7c;
+        if (!(kartBits & 0x800000)) {
+            removed = TRUE;
+        }
+    } else {
+        kartBits = kart->mUnk_7c;
+        if (!(kartBits & 0x900020)) {
+            removed = TRUE;
+        }
+    }
+    if (removed != FALSE) {
+        if (!(kartBits & 0x4000000)) {
+            DecrementKartAiNonCpuCount(kart->mIndex);
+            kart->mUnk_7c |= 0x4000000;
+        }
+        kart->mUnk_7c |= 0x20;
+        if (kart->mCollisionSlot != -1) {
+            kart->mCollisionSlot = FreeCollisionSlot(kart->mCollisionSlot);
+        }
+        if (kart->mUnk_2ca != -1) {
+            kart->mUnk_2ca = FreeCollisionSlot(kart->mUnk_2ca);
+        }
+        if (gRaceSetup->mMode == MODE_BATTLE && a == 0) {
+            StartSound(&kart->mSoundSource, 0xd3, 0x7f, 0);
+            if (gRaceSetup->mBattleKind == BATTLE_KIND_BALLOON && (data_0217c780 & 1)) {
+                seqPlayerHandle = TakeSoundHandleEntry(GetSoundHandlePool(0));
+                if (data_0217d084.mUnk_0c != 0) {
+                    if (seqPlayerHandle[0] != NULL) {
+                        NNS_SndPlayerStopSeq(seqPlayerHandle, 0);
+                    }
+                    if (seqPlayerHandle[0] != NULL) {
+                        NNS_SndPlayerStopSeq(seqPlayerHandle, 0);
+                    }
+                    NNS_SndArcPlayerStartSeqArc(seqPlayerHandle, 0, 0x4c);
+                }
+            }
+        }
+        kart->mUnk_3c8 = 0;
+        func_02072930(kart);
+    }
+    return removed;
+}
+
+BOOL func_02068eac(Kart *kart) {
+    return (kart->mUnk_7c & 0x60) != 0;
 }

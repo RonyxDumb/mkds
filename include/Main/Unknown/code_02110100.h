@@ -1,11 +1,12 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020e6fd4.h" // Unk020e71a0_94
-#include "code_0212c478.h" // Unk0212c400
+#include "code_02146d78.h"
+#include "Main/Unknown/code_020e6fd4.h" // MapObjectSound
+#include "code_0212bcac.h"
 
 void func_021103c0(void);
-void func_02110350(Unk020e71a0_94 *a);
+void func_02110350(MapObjectSound *mapSound);
 u32 func_02110324(void);
-void func_02110114(Unk0212c400 **a);
-u32 func_02110100(Unk0212c400 **a);
+void func_02110114(NNSSndSeqPlayer **handle);
+u32 IsSndHandleSet(NNSSndSeqPlayer **handle);

@@ -1,10 +1,18 @@
 #include "Main/Unknown/code_020937c4.h"
+#include "ITCM/code_01ff8000.h"
 #include "ITCM/code_01ff9000.h"
 #include "Main/Unknown/code_0207a780.h"
-#include "Main/Unknown/code_0208b748.h"
+#include "Main/Unknown/code_0206bcb0.h"
+#include "Main/Unknown/code_0208aea8.h"
+#include "Main/Unknown/code_0208b484.h"
 #include "Main/Unknown/code_0209b000.h"
+#include "Main/Unknown/code_0209b634.h"
 #include "Main/Unknown/code_0209bef0.h"
-#include "Main/Unknown/code_020d22e0.h"
+#include "code_02146d78.h"
+#include "Main/Unknown/code_02042044.h"
+#include "Main/Unknown/unk_021759c0.h"
+#include "Main/Unknown/code_0209bf70.h"
+#include "Main/Unknown/code_020d22c0.h"
 #include "Main/Unknown/code_020d26f8.h"
 #include "Main/Unknown/code_020d275c.h"
 #include "Main/Unknown/code_020d278c.h"
@@ -24,218 +32,221 @@
 #include "Main/Unknown/unk_02166000.h"
 #include "Main/Unknown/unk_0215d000.h"
 #include "Main/Unknown/unk_0217b000.h"
+#include "code_02146cbc.h"
 #include "code_02147cd8.h"
-#include "code_0212c6ac.h"
+#include "code_0212bcac.h"
 
-void func_020937c4(Vec3 *a, Vec3 *b, u16 c) {
-    Unk020937c4 *o;
-
-    o = func_0209bbfc(func_02100138(0x1a2));
-    if (o == 0) {
-        return;
-    }
-    o->mUnk_a0 = 600;
-    o->mUnk_00.mUnk_04.x = a->x;
-    o->mUnk_00.mUnk_04.y = a->y + 0x2a000;
-    o->mUnk_00.mUnk_04.z = a->z;
-    o->mUnk_00.mUnk_28.mUnk_18.x = b->x;
-    o->mUnk_00.mUnk_28.mUnk_18.y = 0;
-    o->mUnk_00.mUnk_28.mUnk_18.z = b->z;
-    o->mUnk_00.mUnk_10.x = ((s64) b->x * 0x6000) >> 12;
-    o->mUnk_00.mUnk_10.y = 0;
-    o->mUnk_00.mUnk_10.z = ((s64) b->z * 0x6000) >> 12;
-    o->mUnk_00.mUnk_7e = c;
-    o->mUnk_a4 = 0;
+void CreateNsKiller1(void *a) {
+    gNsKiller1 = CreateMapObjectModelAnimated(a, gNsKiller1NsbmdName);
 }
 
-void func_02093884(void) {
-    func_0209bf48(0, (u32) func_02093910, 0);
-}
-
-void func_020938a0(void) {
-    func_0209bf1c((u32) func_02093b30, (u32) func_02093a50, 0);
-}
-
-void func_020938c0(void) {
-    Unk0209bf70 *o;
-
-    o = func_0209bf70((u32) func_02093b7c, 0, 0, 1, 1, 0x17b);
-    o->mUnk_38 = 0x32000;
-    o->mUnk_3c = -0x64000;
-}
-
-// non-matching: 75.9%: branch layout and register use differ from the original (the original tests the state with compare-and-branch pairs and keeps the halfword flags update in predicated instructions)
-void func_02093910(void *a, Unk02093910 *p) {
-    if ((func_0207a780() & p->mUnk_00.mUnk_74) == 0) {
-        p->mUnk_00.mUnk_02 &= ~2;
-    } else {
-        p->mUnk_00.mUnk_02 |= data_021564a8;
-    }
-    if (p->mUnk_a4 == 0) {
-        if (p->mUnk_a0-- <= 0) {
-            func_020d2398(&p->mUnk_00);
-            return;
-        }
-        if ((p->mUnk_00.mUnk_02 & 2) == 0 && (p->mUnk_00.mUnk_78 & 8) != 0) {
-            func_0210b7ec(p->mUnk_a8, p->mUnk_00.mUnk_78 & ~0xc000001f);
-        } else {
-            func_0210b7ec(p->mUnk_a8, func_020d4ef4(&p->mUnk_00.mUnk_04));
-        }
-        func_02148504(&p->mUnk_00.mUnk_04, &p->mUnk_00.mUnk_10, &p->mUnk_00.mUnk_04);
-        if (p->mUnk_a0 < 0x24e) {
-            func_020d275c(&p->mUnk_00, 0x17d);
-        }
-    } else if (p->mUnk_a4 == 1) {
-        if (p->mUnk_a0-- <= 0) {
-            func_020d2398(&p->mUnk_00);
-            return;
-        }
-        p->mUnk_00.mUnk_10.y -= 0x400;
-        func_02148504(&p->mUnk_00.mUnk_04, &p->mUnk_00.mUnk_10, &p->mUnk_00.mUnk_04);
-    }
-}
-
-void func_02093a50(void *a, Unk02093910 *p) {
+void DrawNsKiller1(void *a, NsKiller1 *nsKiller1) {
     s32 t;
-    s32 m[9];
-    s32 i;
 
-    if (p->mUnk_a0 <= 0) {
-        return;
-    }
     t = 0x1e;
     func_01ff9048(0x14, &t, 1);
-    func_01ff9048(0x19, func_020e6b58(&p->mUnk_00.mUnk_04), 12);
-    i = p->mUnk_00.mUnk_7e >> 4;
-    func_02146d44(m, data_0215d4b4[i * 2], data_0215d4b4[i * 2 + 1]);
-    func_01ff9048(0x1a, m, 9);
-    func_01ff9048(0x1b, &p->mUnk_00.mUnk_1c, 3);
-    func_0209bb2c(a, data_0217b0d0, p);
-    func_0209bb2c(a, data_0217b0cc, p);
+    func_01ff9048(0x1b, &nsKiller1->mUnk_00.mScale, 3);
+    nsKiller1->mUnk_00.mMatrix.mUnk_00[3].x = nsKiller1->mUnk_00.mPos.x >> 4;
+    nsKiller1->mUnk_00.mMatrix.mUnk_00[3].y = nsKiller1->mUnk_00.mPos.y >> 4;
+    nsKiller1->mUnk_00.mMatrix.mUnk_00[3].z = nsKiller1->mUnk_00.mPos.z >> 4;
+    func_01ff9048(0x19, &nsKiller1->mUnk_00.mMatrix, 12);
+    DrawMapObjectModel(a, gNsKiller1, nsKiller1);
 }
 
-void func_02093b30(void *a) {
-    data_0217b0cc = func_0209be84(a, data_02166748);
-    data_0217b0d0 = func_0209bd90(a, data_02166758);
-    func_0209b940(data_0217b0d0, 0x3f);
+void InitNsKiller1Objects(MapObjectList *mapObjectList) {
+    s32 i;
+    NsKiller1 *nsKiller1;
+
+    if (mapObjectList == NULL) {
+        return;
+    }
+    for (i = 0; i < mapObjectList->mMapObjectCount && (nsKiller1 = mapObjectList->mMapObjects[i]) != NULL; i++) {
+        nsKiller1->mStateTimer = 0;
+    }
 }
 
-u8 func_02093b7c(Unk02093910 *a, Unk0206bcb0 *b, u8 *c, u8 *d) {
+void UpdateNsKiller1(void *a, NsKiller1 *nsKiller1) {
+    Unk0210b7a8 s;
+
+    switch (nsKiller1->mState) {
+        case 0:
+            if (nsKiller1->mStateTimer-- > 0) {
+                return;
+            }
+            nsKiller1->mFollower.mSpeed = 0x2000;
+            nsKiller1->mFollower.mProgressStep =
+                ((s64) nsKiller1->mFollower.mPath->mSegments[nsKiller1->mFollower.mSegmentIndex].mInverseProgressLength
+                 << 13) >>
+                12;
+            nsKiller1->mState = 1;
+            break;
+        case 1:
+            if (AdvanceGroupFollower(&nsKiller1->mFollower) != FALSE) {
+                nsKiller1->mStateTimer = 0x2d;
+                nsKiller1->mState = 2;
+            }
+            GetGroupFollowerLinearXz(&nsKiller1->mFollower, &nsKiller1->mUnk_00.mPos);
+            break;
+        case 2:
+            if (nsKiller1->mStateTimer == 0x2d) {
+                if ((nsKiller1->mUnk_00.mDistanceSquaredAndFlags & 4) == 0) {
+                    NNS_SndPlayerStopSeq(GetSndHandleSlot(8), 0);
+                    s = data_0216676c;
+                    s.mPositionSource = &nsKiller1->mUnk_00.mPos;
+                    s.mDistanceSquared = GetHorizontalCameraDistanceSquared(&nsKiller1->mUnk_00.mPos);
+                    func_0210b708(&s, GetSndHandleSlot(8));
+                }
+            } else if (nsKiller1->mStateTimer <= 0) {
+                nsKiller1->mStateTimer = 0;
+                nsKiller1->mState = 3;
+            }
+            nsKiller1->mStateTimer--;
+            break;
+        case 3:
+            StartNsKiller2(&nsKiller1->mUnk_00.mPos, &nsKiller1->mUnk_00.mMatrix.mUnk_00[2], nsKiller1->mUnk_00.mAngle);
+            if ((nsKiller1->mUnk_00.mFlags & 0x12) == 0) {
+                StartEffect(0x4b, &nsKiller1->mUnk_00.mPos);
+                StartEffect(0x4c, &nsKiller1->mUnk_00.mPos);
+                StartEffect(0x4d, &nsKiller1->mUnk_00.mPos);
+            }
+            nsKiller1->mStateTimer = 0x4b;
+            nsKiller1->mState = 0;
+            break;
+    }
+}
+
+void CreateNsKiller1DrawList(void) {
+    CreateMapObjectDrawList1(CreateNsKiller1, DrawNsKiller1, NULL);
+}
+
+void CreateNsKiller1UpdateList(void) {
+    CreateMapObjectUpdateList(InitNsKiller1Objects, UpdateNsKiller1, NULL);
+}
+
+void InitNsKiller2(NsKiller2 *nsKiller2) {
+    nsKiller2->mUnk_00.mFlags |= data_021564b4;
+    ParkMapObject(&nsKiller2->mUnk_00);
+    nsKiller2->mSoundDistanceSquaredChange = func_020d286c(&nsKiller2->mUnk_00);
+    ResetSoundDistanceSquaredChange(nsKiller2->mSoundDistanceSquaredChange);
+    nsKiller2->mUnk_00.mSound->mSoundSource.mTrackParamsFunction = (void (*)(void *, void *, void *)) func_0210a6b4;
+}
+
+u8 CollideKartWithNsKiller2(NsKiller2 *nsKiller2, Kart *kart, u8 *c, u8 *d) {
     u8 x;
     u8 v;
 
     x = *c;
     v = *d;
     if (x == 1) {
-        a->mUnk_a0 = 0x78;
-        a->mUnk_a4 = 1;
-        a->mUnk_00.mUnk_10.x = ((s64) a->mUnk_00.mUnk_10.x << 10) >> 12;
-        a->mUnk_00.mUnk_10.y = ((s64) a->mUnk_00.mUnk_10.y << 10) >> 12;
-        a->mUnk_00.mUnk_10.z = ((s64) a->mUnk_00.mUnk_10.z << 10) >> 12;
-        a->mUnk_00.mUnk_10.y = 0x4000;
-        a->mUnk_00.mUnk_02 |= data_021564ac;
-        if (b->mUnk_29c == 1 || b->mUnk_29c == 3) {
-            a->mUnk_00.mUnk_78 |= data_021564b0;
+        nsKiller2->mParkTimer = 0x78;
+        nsKiller2->mMode = 1;
+        nsKiller2->mUnk_00.mUnk_10.x = ((s64) nsKiller2->mUnk_00.mUnk_10.x << 10) >> 12;
+        nsKiller2->mUnk_00.mUnk_10.y = ((s64) nsKiller2->mUnk_00.mUnk_10.y << 10) >> 12;
+        nsKiller2->mUnk_00.mUnk_10.z = ((s64) nsKiller2->mUnk_00.mUnk_10.z << 10) >> 12;
+        nsKiller2->mUnk_00.mUnk_10.y = 0x4000;
+        nsKiller2->mUnk_00.mFlags |= data_021564ac;
+        if (kart->mItemEffect == 1 || kart->mItemEffect == 3) {
+            nsKiller2->mUnk_00.mDistanceSquaredAndFlags |= data_021564b0;
         }
-        func_020d26f8(&a->mUnk_00, b);
+        StartSoundIfKartStarOrKiller(&nsKiller2->mUnk_00, kart);
     }
     return v;
 }
 
-void func_02093c64(Unk02093910 *p) {
-    p->mUnk_00.mUnk_02 |= data_021564b4;
-    func_020d2398(&p->mUnk_00);
-    p->mUnk_a8 = func_020d286c(&p->mUnk_00);
-    func_0210b850(p->mUnk_a8);
-    p->mUnk_00.mUnk_94->mUnk_00.mUnk_30 = (void (*)(void *, void *, void *)) func_0210a6b4;
+void CreateNsKiller2AndNsKiller2S(void *a) {
+    gNsKiller2 = CreateMapObjectModelAnimated(a, gNsKiller2NsbmdName);
+    gNsKiller2S = CreateMapObjectModelShadow(a, gNsKiller2SNsbmdName);
+    SetMapObjectModelPolygonId(gNsKiller2S, 0x3f);
 }
 
-void func_02093cb4(void) {
-    func_0209bf48((u32) func_02093eac, (u32) func_02093cf4, 0);
-}
+void DrawNsKiller2(void *a, NsKiller2 *nsKiller2) {
+    s32 t;
+    s32 rotationMatrix[9];
+    s32 angleIndex;
 
-void func_02093cd4(void) {
-    func_0209bf1c((u32) func_02093f78, (u32) func_02093ee8, 0);
-}
-
-void func_02093cf4(void *a, Unk02093cf4 *p) {
-    Unk0210b7a8 s;
-
-    switch (p->mUnk_a8) {
-    case 0:
-        if (p->mUnk_a0-- > 0) {
-            return;
-        }
-        p->mUnk_ac.mUnk_04 = 0x2000;
-        p->mUnk_ac.mUnk_10 =
-            ((s64) p->mUnk_ac.mUnk_00->mUnk_00[p->mUnk_ac.mUnk_0c].mUnk_34 << 13) >> 12;
-        p->mUnk_a8 = 1;
-        break;
-    case 1:
-        if (func_020d8cc8(&p->mUnk_ac) != 0) {
-            p->mUnk_a0 = 0x2d;
-            p->mUnk_a8 = 2;
-        }
-        func_020d879c(&p->mUnk_ac, &p->mUnk_00.mUnk_04);
-        break;
-    case 2:
-        if (p->mUnk_a0 == 0x2d) {
-            if ((p->mUnk_00.mUnk_78 & 4) == 0) {
-                func_0212c6f0(func_02108e6c(8), 0);
-                s = data_0216676c;
-                s.mUnk_04 = &p->mUnk_00.mUnk_04;
-                s.mUnk_0c = func_020d4ef4(&p->mUnk_00.mUnk_04);
-                func_0210b708(&s, func_02108e6c(8));
-            }
-        } else if (p->mUnk_a0 <= 0) {
-            p->mUnk_a0 = 0;
-            p->mUnk_a8 = 3;
-        }
-        p->mUnk_a0--;
-        break;
-    case 3:
-        func_020937c4(&p->mUnk_00.mUnk_04, &p->mUnk_00.mUnk_28.mUnk_18, p->mUnk_00.mUnk_7e);
-        if ((p->mUnk_00.mUnk_02 & 0x12) == 0) {
-            func_0208b7bc(0x4b, &p->mUnk_00.mUnk_04);
-            func_0208b7bc(0x4c, &p->mUnk_00.mUnk_04);
-            func_0208b7bc(0x4d, &p->mUnk_00.mUnk_04);
-        }
-        p->mUnk_a0 = 0x4b;
-        p->mUnk_a8 = 0;
-        break;
-    }
-}
-
-// non-matching: 14.9%: the original enters the loop with a branch to the test and reads the list element inside the loop condition (return when it is zero); ours has a different loop shape
-void func_02093eac(Unk020e6fd4 *p) {
-    s32 i;
-    Unk02093cf4 *e;
-
-    if (p == 0) {
+    if (nsKiller2->mParkTimer <= 0) {
         return;
     }
-    for (i = 0; i < p->mUnk_04; i++) {
-        e = p->mUnk_00[i];
-        if (e == 0) {
-            return;
-        }
-        e->mUnk_a0 = 0;
+    t = 0x1e;
+    func_01ff9048(0x14, &t, 1);
+    func_01ff9048(0x19, SetTranslationMatrixPos(&nsKiller2->mUnk_00.mPos), 12);
+    angleIndex = nsKiller2->mUnk_00.mAngle >> 4;
+    MTX_RotY33_(rotationMatrix, gPairsByAngle[angleIndex * 2], gPairsByAngle[angleIndex * 2 + 1]);
+    func_01ff9048(0x1a, rotationMatrix, 9);
+    func_01ff9048(0x1b, &nsKiller2->mUnk_00.mScale, 3);
+    DrawMapObjectModel(a, gNsKiller2S, nsKiller2);
+    DrawMapObjectModel(a, gNsKiller2, nsKiller2);
+}
+
+void UpdateNsKiller2(void *a, NsKiller2 *nsKiller2) {
+    if ((GetKartKind3ShapeMask() & nsKiller2->mUnk_00.mDigitMask) != 0) {
+        nsKiller2->mUnk_00.mFlags |= data_021564a8;
+    } else {
+        nsKiller2->mUnk_00.mFlags &= ~2;
+    }
+    switch (nsKiller2->mMode) {
+        case 0:
+            if (nsKiller2->mParkTimer-- > 0) {
+                if ((nsKiller2->mUnk_00.mFlags & 2) == 0 && (nsKiller2->mUnk_00.mDistanceSquaredAndFlags & 8) != 0) {
+                    AdvanceSoundDistanceSquaredChange(nsKiller2->mSoundDistanceSquaredChange,
+                                                      nsKiller2->mUnk_00.mDistanceSquaredAndFlags & ~0xc000001f);
+                } else {
+                    AdvanceSoundDistanceSquaredChange(nsKiller2->mSoundDistanceSquaredChange,
+                                                      GetHorizontalCameraDistanceSquared(&nsKiller2->mUnk_00.mPos));
+                }
+                VEC_Add(&nsKiller2->mUnk_00.mPos, &nsKiller2->mUnk_00.mUnk_10, &nsKiller2->mUnk_00.mPos);
+                if (nsKiller2->mParkTimer < 0x24e) {
+                    StartMapObjectSoundWhileRequested(&nsKiller2->mUnk_00, 0x17d);
+                }
+            } else {
+                ParkMapObject(&nsKiller2->mUnk_00);
+            }
+            break;
+        case 1:
+            if (nsKiller2->mParkTimer-- > 0) {
+                nsKiller2->mUnk_00.mUnk_10.y -= 0x400;
+                VEC_Add(&nsKiller2->mUnk_00.mPos, &nsKiller2->mUnk_00.mUnk_10, &nsKiller2->mUnk_00.mPos);
+            } else {
+                ParkMapObject(&nsKiller2->mUnk_00);
+            }
+            break;
     }
 }
 
-void func_02093ee8(void *a, Unk02093cf4 *p) {
-    s32 t;
+void CreateNsKiller2KindData(void) {
+    MapObjectKindData *o;
 
-    t = 0x1e;
-    func_01ff9048(0x14, &t, 1);
-    func_01ff9048(0x1b, &p->mUnk_00.mUnk_1c, 3);
-    p->mUnk_00.mUnk_28.mUnk_24.x = p->mUnk_00.mUnk_04.x >> 4;
-    p->mUnk_00.mUnk_28.mUnk_24.y = p->mUnk_00.mUnk_04.y >> 4;
-    p->mUnk_00.mUnk_28.mUnk_24.z = p->mUnk_00.mUnk_04.z >> 4;
-    func_01ff9048(0x19, &p->mUnk_00.mUnk_28, 12);
-    func_0209bb2c(a, data_0217b0d4, p);
+    o = func_0209bf70(CollideKartWithNsKiller2, NULL, NULL, 1, 1, 0x17b);
+    o->mUnk_38 = 0x32000;
+    o->mUnk_3c = -0x64000;
 }
 
-void func_02093f78(void *a) {
-    data_0217b0d4 = func_0209be84(a, data_021667b0);
+void CreateNsKiller2DrawList(void) {
+    CreateMapObjectDrawList1(CreateNsKiller2AndNsKiller2S, DrawNsKiller2, NULL);
+}
+
+void CreateNsKiller2UpdateList(void) {
+    CreateMapObjectUpdateList(NULL, UpdateNsKiller2, NULL);
+}
+
+// Starts a parked NsKiller2 at a (raised), flying along b with angle c.
+void StartNsKiller2(Vec3 *startPos, Vec3 *b, u16 angle) {
+    NsKiller2 *nsKiller2;
+
+    nsKiller2 = UnparkFirstParkedMapObject(FindMapObjectKindUpdateList(MAP_OBJECT_KIND_NS_KILLER2));
+    if (nsKiller2 == NULL) {
+        return;
+    }
+    nsKiller2->mParkTimer = 600;
+    nsKiller2->mUnk_00.mPos.x = startPos->x;
+    nsKiller2->mUnk_00.mPos.y = startPos->y + 0x2a000;
+    nsKiller2->mUnk_00.mPos.z = startPos->z;
+    nsKiller2->mUnk_00.mMatrix.mUnk_00[2].x = b->x;
+    nsKiller2->mUnk_00.mMatrix.mUnk_00[2].y = 0;
+    nsKiller2->mUnk_00.mMatrix.mUnk_00[2].z = b->z;
+    nsKiller2->mUnk_00.mUnk_10.x = ((s64) b->x * 0x6000) >> 12;
+    nsKiller2->mUnk_00.mUnk_10.y = 0;
+    nsKiller2->mUnk_00.mUnk_10.z = ((s64) b->z * 0x6000) >> 12;
+    nsKiller2->mUnk_00.mAngle = angle;
+    nsKiller2->mMode = 0;
 }

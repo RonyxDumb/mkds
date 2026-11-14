@@ -1,13 +1,16 @@
 #include "Main/Unknown/code_0209f5cc.h"
+#include "Main/Unknown/code_0209b634.h"
+#include "Main/Unknown/unk_0217b000.h"
+#include "ITCM/code_01ff8000.h"
 
-void func_0209f5cc(u32 param_1, int param_2) {
-    u32 uVar1;
-    u32 local_10;
-    local_10 = 0x1e;
-    func_01ff9048((u32) 0x14, (void *) ((u32) (&local_10)), 1);
-    uVar1 = (u32) func_020e6cbc((Vec3 *) (param_2 + 4));
-    func_01ff9048((u32) 0x19, (void *) uVar1, 0xc);
-    func_01ff9048((u32) 0x1b, (void *) (param_2 + 0x1c), 3);
-    func_0209b77c((void *) (*(u32 *) &data_0217b1a4), (u16) (*(u16 *) (param_2 + 0xa0)));
-    func_0209bb2c((void *) param_1, (void *) ((int) (*(u32 *) &data_0217b1a4)), (void *) param_2);
+void DrawChandelier(void *a, Unk0209f1c8 *b) {
+    MtxFx43 *v1;
+    u32 v2;
+    v2 = 0x1e;
+    func_01ff9048(0x14, &v2, 1);
+    v1 = func_020e6cbc(&b->mUnk_00.mPos);
+    func_01ff9048(0x19, v1, 0xc);
+    func_01ff9048(0x1b, &b->mUnk_00.mScale, 3);
+    SetMapObjectModelNsbcaFrameIndex(gChandelier, b->mUnk_a0);
+    DrawMapObjectModel(a, gChandelier, b);
 }

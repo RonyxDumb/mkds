@@ -1,6 +1,8 @@
 #include "Main/Unknown/code_020fd254.h"
+#include "code_02012b30.h"
+#include "Main/Unknown/code_020f9c6c.h"
 
-void func_020fd254(u32 p0) {
-    *(u32 *) ((u8 *) p0 + 552) = (u32) 0x0u;
-    *(u32 *) ((u8 *) p0 + 604) = (u32) 0x0u;
+void ClearItemKouraWKartItemsAndAngle(ItemKouraW *item) {
+    item->mKartItems = NULL;
+    item->mAngle = 0x0u;
 }

@@ -1,12 +1,11 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/unk_0217b000.h"
 
-u32 func_020ab604(void);
-u32 func_020ab610(void);
-u32 func_020ab61c(void);
-u32 func_020ab628(void);
-u32 func_020ab634(void);
-u32 func_020ab640(u32 arg0);
-u32 func_020ab650(u32 arg0);
+u32 IsKeyboardTouchEnabled(void);
+u32 GetKeyboardLastTouchY(void);
+u32 GetKeyboardLastTouchX(void);
+u32 GetKeyboardTouchStatus(void);
+u32 GetKeyboardTouchDown(void);
+u32 GetKeyboardKeysDown(u32 mask);
+u32 GetKeyboardKeysPressed(u32 mask);

@@ -1,80 +1,89 @@
 #pragma once
 
 #include "types.h"
-#include "01/code_02195a6c.h"
+#include "01/code_021956dc.h"
 #include "Main/Unknown/unk_0217a000.h"
-#include "00/code_02182fdc.h"
+#include "00/code_02181f98.h"
 #include "Main/Unknown/code_02125de0.h"
 
-// An s16 pair of Unk021a9be8.
+// An s16 pair of OptionSelectMenu.
 typedef struct Unk021a9be8Pair {
     /* 00 */ s16 mUnk_00;
     /* 02 */ s16 mUnk_02;
 } Unk021a9be8Pair;
 
-// Object behind data_ov001_021a9be8.
-typedef struct Unk021a9be8 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c[2];
-    /* 14 */ s32 mUnk_14[2];
-    /* 1c */ s32 mUnk_1c;
-    /* 20 */ s32 mUnk_20;
-    /* 24 */ s16 mUnk_24;
+// Object behind gOptionSelectMenu.
+typedef struct OptionSelectMenu {
+    /* 00 */ s32 mState;
+    /* 04 */ s32 mNextState;
+    /* 08 */ s32 mIndex; /* 0 and 1 are the two setting rows, 2 is the OK entry */
+    /* 0c */ s32 mRowValues[2];
+    /* 14 */ s32 mSavedRowValues[2];
+    /* 1c */ BOOL mUnk_1c;
+    /* counted only in states 0, 1, 3, 4; zeroed when 0, 1, 3 hand over and when 4 hands over to 5 (OK path); on
+       the Back path state 4 keeps counting while it requests the next option state */
+    /* 20 */ s32 mStateFrames;
+    /* 24 */ s16 mBg0Bg1Offset;
     /* 26 */ Unk021a9be8Pair mUnk_26[3];
     /* 32 */ u8 mUnk_32[2];
-    /* 34 */ s32 mUnk_34;
-    /* 38 */ s32 mUnk_38;
-    /* 3c */ s32 mUnk_3c;
-    /* 40 */ s32 mUnk_40[2][2];
-    /* 50 */ void *mUnk_50;
-    /* 54 */ Unk02124b1c *mUnk_54;
-    /* 58 */ Unk02124b1c *mUnk_58;
-    /* 5c */ struct Unk02021dc8 *mUnk_5c;
-    /* 60 */ struct Unk02021dc8 *mUnk_60;
-    /* 64 */ Unk020b4934 *mUnk_64;
-    /* 68 */ Unk020b4934 *mUnk_68;
-    /* 6c */ Unk020b4a44 *mUnk_6c;
-    /* 70 */ Unk020b4a44 *mUnk_70;
-    /* 74 */ Unk0201ea30 *mUnk_74;
-    /* 78 */ Unk0201ea30 *mUnk_78;
-    /* 7c */ void *mUnk_7c;
-    /* 80 */ void *mUnk_80;
-    /* 84 */ void *mUnk_84;
-    /* 88 */ void *mUnk_88;
-    /* 8c */ void *mUnk_8c;
-} Unk021a9be8;
+    /* 34 */ s32 mNextOptionState; /* only ever 0 (the top menu state), passed to RequestOptionState */
+    /* 38 */ BOOL mUnk_38;
+    /* 3c */ BOOL mUnk_3c;
+    /* 40 */ s32 mOffsetTimers[2][2];
+    /* 50 */ void *mHeap;
+    // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable; indexed with an offset
+    // added
+    /* 54 */ LayoutTableEntry *mOptionSelectMenuMTable;
+    // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable; indexed with an offset
+    // added
+    /* 58 */ LayoutTableEntry *mOptionSelectMenuSTable;
+    /* 5c */ struct Unk02021dc8 *mOptionSelectMenuMNcer;
+    /* 60 */ struct Unk02021dc8 *mOptionSelectMenuSNcer;
+    /* 64 */ Ncgr *mOptionSelectMenuMNcgr;
+    /* 68 */ Ncgr *mOptionSelectMenuSNcgr;
+    /* 6c */ Nclr *mOptionSelectMenuMONclr;
+    /* 70 */ Nclr *mOptionSelectMenuSONclr;
+    /* 74 */ Unk0201ea30 *mOptionSelectMenuMBncl;
+    /* 78 */ Unk0201ea30 *mOptionSelectMenuSBncl;
+    /* 7c */ void *mOptionSelectMenuSBnbl;
+    /* 80 */ struct Unk0201ea30 *mOptionSelectMenuMBnll;
+    /* 84 */ struct Unk0201ea30 *mOptionSelectMenuSBnll;
+    /* 88 */ struct Bmg *mOptionMessages;
+    /* 8c */ void *mCommonMessages;
+} OptionSelectMenu;
 
 // Object behind data_0217aa08; the byte at 0x31 of the object at its first member holds flags.
-extern Unk021a9be8 *data_ov001_021a9be8;
 extern u8 data_ov001_021a6a20[];
 extern u8 data_ov001_021a6a24[];
-extern u8 data_ov001_021a6a2c[];
+extern u8 gOptionSelectMenuValueCounts[];
 extern u8 data_ov001_021a6a30[];
 extern u8 data_ov001_021a6a34[];
-extern u8 data_ov001_021a6a38[][3];
-extern s32 data_ov001_021a6a44[];
-extern u8 data_ov001_021a6a50[][3][2];
-extern u8 data_ov001_021a6a5c[][12];
+extern u8 gOptionSelectMenuValueSTableIndices[][3];
+extern s32 gOptionSelectMenuGroupSTableCounts[];
+extern u8 gOptionSelectMenuTimerSTableIndices[][3][2];
+extern u8 gOptionSelectMenuGroupSTableIndices[][12];
 
-void func_ov001_02198854(void);
-void func_ov001_02198878(void);
-void func_ov001_02198918(void);
-void func_ov001_021989bc(void);
-void func_ov001_02198a6c(void);
-void func_ov001_02198b58(void);
-void func_ov001_02198bbc(void);
-void func_ov001_02198d20(void);
-void func_ov001_02198d8c(void);
-void func_ov001_02198e94(void);
-void func_ov001_02198ec0(void);
-void func_ov001_021992a0(void);
-void func_ov001_021992dc(void);
-void func_ov001_02199374(void);
-void func_ov001_021993b8(void);
-void func_ov001_02199420(void);
-void func_ov001_02199464(void);
-void func_ov001_021995f8(void);
-void func_ov001_02199640(void *param_1);
-void func_ov001_021997dc(void);
+void RegisterOptionSelectMenuCallbacks(void);
+void WriteOptionSelectMenuRegisters(void);
+void AdvanceOptionSelectMenu(void);
+void AdvanceOptionSelectMenuOffsetTimers(void);
+void SetOptionSelectMenuRowsOnOff(void);
+void SetOptionSelectMenuValuesOnOff(void);
+void WriteOptionSelectMenuTableOffsets(void);
+void AdvanceOptionSelectMenuState5(void);
+void AdvanceOptionSelectMenuState4(void);
+void AdvanceOptionSelectMenuState3(void);
+void AdvanceOptionSelectMenuState2(void);
+void AdvanceOptionSelectMenuState1(void);
+void AdvanceOptionSelectMenuState0(void);
+void SetOptionSoundRowFromSave(void);
+void SetSoundModeFromOptionRow(void);
+void ApplyOptionSelectMenuSound(void);
+void LocateAndQueueOptionSelectMenu(void);
+/* slot mRelease of OptionStateCallbacks; clears the global and undoes the display setup (DISPCNT bit 1 cleared),
+   the state heap is destroyed by AdvanceOptionStates after it returns */
+void ReleaseOptionSelectMenu(void);
+void InitOptionSelectMenu(void *a);
+void InitOptionSelectMenuTexts(void);
+
+#include "00/code_021832d8.h"

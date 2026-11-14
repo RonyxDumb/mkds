@@ -1,21 +1,22 @@
 #include "Main/Unknown/code_020f9c40.h"
+#include "Main/Unknown/code_020d50ec.h"
 
-void func_020f9c40(int arg0) {
-    u32 value0 = (u32) arg0;
-    u32 value1;
-    u32 value4;
-    u32 compareLeft0;
-    u32 compareRight0;
-    value4 = value0;
-    value0 = (u32) * (const s16 *) ((value4) + (218));
-    value1 = ~(0u);
-    compareLeft0 = value0;
-    compareRight0 = value1;
-    if (compareLeft0 == compareRight0) {
+void FreeItemObjectCollisionSlot(int object) {
+    u32 scratch = object;
+    u32 noSlot;
+    u32 objectAddress;
+    u32 slotIndex;
+    u32 noSlotCompared;
+    objectAddress = scratch;
+    scratch = *(const s16 *) ((objectAddress) + (218));
+    noSlot = ~(0u);
+    slotIndex = scratch;
+    noSlotCompared = noSlot;
+    if (slotIndex == noSlotCompared) {
     }
-    if (compareLeft0 == compareRight0) {
+    if (slotIndex == noSlotCompared) {
         return;
     }
-    value0 = (u32) func_020d5344((int) value0);
-    *(u16 *) ((value4) + (218)) = (u16) value0;
+    scratch = FreeCollisionSlot(scratch);
+    *(u16 *) ((objectAddress) + (218)) = scratch;
 }

@@ -2,17 +2,19 @@
 
 #include "types.h"
 #include "Main/Unknown/unk_0217b000.h"
-#include "Main/Unknown/code_020d0280.h"
+#include "Main/Unknown/unk_021759c0.h"
+#include "Main/Unknown/code_020ae000.h"
+#include "Main/Unknown/code_020cffd0.h"
 #include "Main/Unknown/code_020b4000.h"
 
-// Object behind data_0217b4ac.
-typedef struct Unk0217b4ac {
-    /* 000 */ s32 mUnk_00;
-    /* 004 */ Unk020b4a44 *mUnk_04;
-    /* 008 */ Unk020b4934 *mUnk_08;
-    /* 00c */ Unk020224e0_c *mUnk_0c;
-    /* 010 */ Unk020d029c mUnk_10;
-} Unk0217b4ac;
+// Object behind gEndingStaffRoll.
+typedef struct EndingStaffRollObject {
+    /* 000 */ s32 mStaffRollFrames;
+    /* 004 */ Nclr *mEndingStaffRollMO00Nclr;
+    /* 008 */ Ncgr *mEndingStaffRollM00Ncgr;
+    /* 00c */ Unk020224e0_c *mCell;
+    /* 010 */ RaceHudOamBuffer mOamBuffer;
+} EndingStaffRollObject;
 
-u16 func_020d13f8(void);
-void func_020d12e0(void);
+u16 UpdateEndingStaffRoll(void);
+void DrawEndingStaffRoll(void);

@@ -1,6 +1,12 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_02124000.h"
 
-void func_02124bc8(s32 a, void *b, void *c, void *d, void *e, void *f);
+typedef struct LayoutTableEntry LayoutTableEntry;
+
+typedef struct Unk02021dc8 Unk02021dc8;
+
+typedef struct Unk0201ea30 Unk0201ea30;
+
+void DrawLayoutTableEntry(s32 index, Unk0201ea30 *cellLayout, Unk02021dc8 *cells, Unk0201ea30 *labelLayout,
+                          void *oamList, LayoutTableEntry *table);

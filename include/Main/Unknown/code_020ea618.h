@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "Main/Unknown/code_0207a000.h"
-#include "Main/Unknown/code_020d3000.h"
 
-void func_020ea618(void *param_1, int param_2);
+typedef struct ShadowModel ShadowModel;
+
+void DrawShadowModelWithMaxAlpha(ShadowModel *model, int maxAlpha);

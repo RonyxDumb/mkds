@@ -1,79 +1,83 @@
 #include "Main/Unknown/code_020a0028.h"
+#include "Main/Unknown/code_0209b634.h"
 #include "Main/Unknown/code_020d8bc0.h"
 #include "Main/Unknown/code_020d7da8.h"
 #include "Main/Unknown/code_0209b000.h"
+#include "ITCM/code_01ff8000.h"
 #include "ITCM/code_01ff9000.h"
 #include "Main/Unknown/code_02146000.h"
 #include "Main/Unknown/unk_0215d000.h"
 #include "Main/Unknown/unk_02167000.h"
 #include "Main/Unknown/unk_0217b000.h"
+#include "code_02146cbc.h"
 
-void func_020a0294(void *a) {
-    data_0217b1f8 = func_0209be84(a, data_02167680);
-    func_0209b940(data_0217b1f8, 0x3f);
+void CreateAirship(void *a) {
+    gAirship = CreateMapObjectModelAnimated(a, gAirshipNsbmdName);
+    SetMapObjectModelPolygonId(gAirship, 0x3f);
 }
 
-void func_020a018c(void *a, Unk020a018c *p) {
+void DrawAirship(void *a, Airship *airship) {
     s32 v;
-    s32 q[9];
+    s32 rotationMatrix[9];
     Vec3 w;
 
     v = 0x1e;
     func_01ff9048(0x14, &v, 1);
-    w.y = (p->mUnk_a0 + p->mUnk_ac) >> 4;
+    w.y = (airship->mUnk_a0 + airship->mWobbleOffset) >> 4;
     w.x = 0;
     w.z = 0;
     func_01ff9048(0x1c, &w, 3);
-    p->mUnk_00.mUnk_28.mUnk_24.x = p->mUnk_00.mUnk_04.x >> 4;
-    p->mUnk_00.mUnk_28.mUnk_24.y = p->mUnk_00.mUnk_04.y >> 4;
-    p->mUnk_00.mUnk_28.mUnk_24.z = p->mUnk_00.mUnk_04.z >> 4;
-    func_01ff9048(0x19, &p->mUnk_00.mUnk_28, 0xc);
-    if (p->mUnk_00.mUnk_7e != 0) {
-        func_02146d44(q, data_0215d4b4[((p->mUnk_00.mUnk_7e >> 4) << 1)],
-                      data_0215d4b4[((p->mUnk_00.mUnk_7e >> 4) << 1) + 1]);
-        func_01ff9048(0x1a, q, 9);
+    airship->mUnk_00.mMatrix.mUnk_00[3].x = airship->mUnk_00.mPos.x >> 4;
+    airship->mUnk_00.mMatrix.mUnk_00[3].y = airship->mUnk_00.mPos.y >> 4;
+    airship->mUnk_00.mMatrix.mUnk_00[3].z = airship->mUnk_00.mPos.z >> 4;
+    func_01ff9048(0x19, &airship->mUnk_00.mMatrix, 0xc);
+    if (airship->mUnk_00.mAngle != 0) {
+        MTX_RotY33_(rotationMatrix, gPairsByAngle[((airship->mUnk_00.mAngle >> 4) << 1)],
+                    gPairsByAngle[((airship->mUnk_00.mAngle >> 4) << 1) + 1]);
+        func_01ff9048(0x1a, rotationMatrix, 9);
     }
-    func_01ff9048(0x1b, &p->mUnk_00.mUnk_1c, 3);
-    func_0209bb2c(a, data_0217b1f8, p);
+    func_01ff9048(0x1b, &airship->mUnk_00.mScale, 3);
+    DrawMapObjectModel(a, gAirship, airship);
 }
 
-void func_020a0064(Unk020a0064 *p) {
+void InitAirshipObjects(AirshipObjectList *list) {
     s32 i;
-    Unk020a018c *o;
-    s32 z;
+    Airship *airship;
+    BOOL z;
     s32 v;
 
-    if (p == 0) {
+    if (list == NULL) {
         return;
     }
-    z = 0;
-    for (i = 0; i < p->mUnk_04 && (o = p->mUnk_00[i]) != 0; i++) {
-        func_020d7da8(&o->mUnk_c8, o->mUnk_00.mUnk_9c, z);
-        o->mUnk_a4 = (o->mUnk_00.mUnk_9c->mUnk_28 * 0x5000L) / 100;
-        v = o->mUnk_a4;
-        o->mUnk_c8.mUnk_04 = v;
-        o->mUnk_c8.mUnk_10 = ((s64)v * o->mUnk_c8.mUnk_00->mUnk_00[o->mUnk_c8.mUnk_0c].mUnk_34) >> 12;
-        o->mUnk_a0 = o->mUnk_00.mUnk_04.y;
-        func_020d8bf8(&o->mUnk_c8, &o->mUnk_00.mUnk_04, &o->mUnk_00.mUnk_10);
-        o->mUnk_a0 = o->mUnk_a0 - o->mUnk_00.mUnk_04.y;
-        o->mUnk_a8 = 0;
-        o->mUnk_b4 = 0;
-        o->mUnk_b8 = 0x50000;
-        o->mUnk_bc = 0;
-        o->mUnk_c0 = 0xb6;
-        o->mUnk_c4 = 0;
-        if (o->mUnk_00.mUnk_9c->mUnk_2a != 0) {
-            o->mUnk_ec = 0;
+    z = FALSE;
+    for (i = 0; i < list->mUnk_04 && (airship = list->mUnk_00[i]) != NULL; i++) {
+        InitGroupFollower(&airship->mUnk_c8, airship->mUnk_00.mCourseMapRow, z);
+        airship->mUnk_a4 = (airship->mUnk_00.mCourseMapRow->mUnk_28 * 0x5000L) / 100;
+        v = airship->mUnk_a4;
+        airship->mUnk_c8.mSpeed = v;
+        airship->mUnk_c8.mProgressStep =
+            ((s64) v * airship->mUnk_c8.mPath->mSegments[airship->mUnk_c8.mSegmentIndex].mInverseProgressLength) >> 12;
+        airship->mUnk_a0 = airship->mUnk_00.mPos.y;
+        GetGroupFollowerCurvePosStep(&airship->mUnk_c8, &airship->mUnk_00.mPos, &airship->mUnk_00.mUnk_10);
+        airship->mUnk_a0 = airship->mUnk_a0 - airship->mUnk_00.mPos.y;
+        airship->mWobbleAngle = 0;
+        airship->mWobbleMid = 0;
+        airship->mWobbleAmplitude = 0x50000;
+        airship->mWobbleAmplitudePerFrame = 0;
+        airship->mWobbleAnglePerFrame = 0xb6;
+        airship->mUnk_c4 = 0;
+        if (airship->mUnk_00.mCourseMapRow->mUnk_2a != 0) {
+            airship->mState = 0;
         } else {
-            o->mUnk_ec = 2;
+            airship->mState = 2;
         }
     }
 }
 
-s32 func_020a0044(s32 a) {
-    return data_0215d4b4[((a >> 4) << 1) + 1];
+s32 func_020a0044(s32 angle) {
+    return gPairsByAngle[((angle >> 4) << 1) + 1];
 }
 
-s32 func_020a0028(s32 a, s32 b) {
-    return (s32)(((s64)a * b + 0x800) >> 12);
+s32 func_020a0028(s32 multiplicand, s32 multiplier) {
+    return ((s64) multiplicand * multiplier + 0x800) >> 12;
 }

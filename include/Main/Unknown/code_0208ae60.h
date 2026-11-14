@@ -1,7 +1,9 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/unk_0217b000.h"
 
-unsigned int func_0208ae60(void);
-s32 *func_0208ae74(unsigned int p0);
+struct KartPhysicalParam;
+
+s32 GetFirstBaseSpeedLimit(void);
+s32 *GetCharPhysicalParam(unsigned int p0);
+struct KartPhysicalParam *GetKartPhysicalParam(u32 arg0);

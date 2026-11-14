@@ -1,86 +1,94 @@
 #pragma once
 
 #include "types.h"
-#include "code_0212c478.h"
-#include "code_0212da38.h"
-#include "code_0212c478.h" // Unk0212c400
-#include "code_0212da38.h" // Unk0212d9dc
+#include "code_0212bcac.h"
+#include "code_0212d214.h"
+#include "Main/Unknown/code_021035ac.h"
 
-// 0x24-byte entries of the array at data_0217ca6c; func_02109468 fills the first one.
-typedef struct Unk0217ca6c {
-    /* 00 */ s32 mUnk_00;
+typedef struct NNSSndSeqPlayer NNSSndSeqPlayer;
+typedef struct NNSSndHeap NNSSndHeap;
+
+// Volume curve of one kind of sound source. The volume is the maximum up to the inner distance, falls to a mid volume
+// at the mid distance and to 0 at the outer distance. SoundSource.mFalloffIndex picks the element of gSoundFalloffs.
+// 0x24-byte entries of the array at gSoundFalloffs; InitSoundFalloffs fills elements 0 to 15 of it.
+// 0x24-byte entries of the array at gSoundFalloffs; InitSoundFalloffs fills the first one.
+typedef struct SoundFalloff {
+    // Distance beyond which the sound is silent.
+    /* 00 */ s32 mOuterDistance;
     /* 04 */ s32 mUnk_04;
     /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ s32 mUnk_10;
+    // Distance up to which the sound has its maximum volume.
+    /* 0c */ s32 mInnerDistance;
+    // Highest volume of the curve.
+    /* 10 */ s32 mMaxVolume;
     /* 14 */ s32 mUnk_14;
     /* 18 */ s32 mUnk_18;
     /* 1c */ s32 mUnk_1c;
     /* 20 */ s32 mUnk_20;
-} Unk0217ca6c;
+} SoundFalloff;
 
-extern Unk0217ca6c data_0217ca6c[];
-extern s32 data_0217caec[];
-extern s32 data_0217caec[];
-extern Unk0217ca6c data_0217c8f8;
+// Volume curves by sound source number (SoundSource.mFalloffIndex); filled by InitSoundFalloffs.
+extern SoundFalloff gSoundFalloffs[];
+// Volume curve of the Karts other than the selected entry whose sound source number is 0.
+extern SoundFalloff gOtherKartSoundFalloff;
 
 // Objects whose layout isn't known yet.
-extern Unk0212c400 *data_0217c778;
-extern u8 data_0217c784[];
-extern Unk0212c400 *data_0217c788;
+extern NNSSndSeqPlayer *data_0217c778;
+extern u32 data_0217c784;
+extern NNSSndSeqPlayer *data_0217c788;
 extern s32 data_0217c7a4;
-extern Unk0212c400 *data_0217c838[];
-extern u8 data_0217c83c[];
-extern u8 data_0217c840[];
-extern struct Unk0212d5f8 data_0217c868;
+extern NNSSndSeqPlayer *data_0217c838[];
+extern NNSSndSeqPlayer *data_0217c83c;
+extern NNSSndSeqPlayer *data_0217c840;
+extern struct NNSSndArc data_0217c868;
 extern u8 data_0217c91c[];
 extern u32 data_0217cbec[];
 extern u32 data_0217c780;
 extern u32 data_0217cc6c[];
-extern u8 data_0217c664[];
-extern u8 data_0217c7fc[];
+extern u32 data_0217c7fc[];
 extern u8 data_0217ccac[];
-extern u8 data_0217cd30[];
-extern u8 data_0217c644[];
-extern u8 data_0217c650[];
-extern u8 data_0217c658[];
-extern u8 data_0217c7c4[];
+extern u32 data_0217cd30[];
+extern s32 gOrthoQuadHoldFrameCount;
+extern s32 gOrthoQuadFrames;
+extern s32 gOrthoQuadCount;
 extern s32 data_0217ccb0;
-extern s32 data_0217ccb4;
-extern u8 data_0217ccb8[];
+extern s32 gSoundPitchSwing;
+extern u8 gSoundPitchSwingAngle[];
 extern s32 data_0217ccbc;
-extern u16 *data_0217c630;
-extern s32 data_0217c634;
-extern void *data_0217c654;
+extern u16 *gItemTeresaFrameScales;
+extern s32 gItemGessoFrameCount;
+extern OrthoQuad *gOrthoQuads;
 extern u16 data_0217c638;
-extern u32 data_0217c64c;
-extern u16 data_0217c63c;
-extern u8 data_0217c684[];
-extern u8 data_0217c6a4[];
-extern u16 data_0217c640;
-extern u8 data_0217c65c[];
-extern u32 data_0217c6e4[];
-extern u32 data_0217c704[];
-extern u8 data_0217c648[];
+// TRUE for the cream effect, FALSE for geso_sumi; chosen by the call that started the quads.
+extern BOOL gOrthoQuadUseCreamEffect;
+extern u16 gOrthoQuadFirstPolygonId;
+extern u8 gOrthoQuadMatrix[];
+// Polygon alpha: 0x1f when the quads start, falls by 1 every second frame after the hold and ends them at 0.
+extern u16 gOrthoQuadAlpha;
+// One byte per row, one bit per column; marked when a quad is placed so later quads avoid the same cells.
+extern u8 gOrthoQuadCells[];
+extern u32 gBouncingItemBoxTimers[];
+extern u32 gBouncingItemBoxTimerRunning[];
+extern s32 gOrthoQuadMoveStartFrameCount;
 extern u16 data_0217c76c[];
 extern u16 data_0217c770[];
-extern Unk0212d9dc *data_0217c77c;
+extern NNSSndHeap *data_0217c77c;
 extern u32 data_0217c78c;
-extern Unk0212d9dc *data_0217c790;
-extern u32 data_0217c794;
+extern NNSSndHeap *data_0217c790;
+extern u32 gSoundStartedThisFrame;
 extern u32 data_0217c798[];
 extern u32 data_0217c7a8;
-struct Unk0212c400;
-extern struct Unk0212c400 *data_0217c7ac;
+struct NNSSndSeqPlayer;
+extern struct NNSSndSeqPlayer *data_0217c7ac;
 extern u32 data_0217c7b0;
 extern u8 data_0217c7d8[];
 extern s32 data_0217c804[];
 extern u32 data_0217c80c[];
-extern Unk0212c400 *data_0217c81c;
-extern u32 data_0217c728;
-extern u32 *data_0217c72c;
-extern s32 data_0217c724;
+extern NNSSndSeqPlayer *data_0217c81c;
+extern u32 gPooledMapObjectNextIndex;
+extern struct MapObject **gPooledMapObjects;
+extern s32 gPooledMapObjectCount;
 extern u16 data_0217c774;
 extern s32 data_0217c79c;
 extern s32 data_0217c7a0;
-extern void *data_0217c628;
+extern void *gDram;

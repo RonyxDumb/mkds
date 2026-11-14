@@ -1,18 +1,19 @@
 #include "Main/Unknown/code_0203be48.h"
+#include "Main/Unknown/code_0203be88.h"
 
 #pragma thumb on
 
-void func_0203be6c(u8 *param_1, u32 param_2, u32 param_3, u32 param_4) {
-    func_0203bea4(param_1, param_2, param_3);
-    func_0203be88((u8 *) ((u8 *) (u32) param_1), param_2, param_4);
+void SetGivenCharacterAndKart(u8 *picks, u32 entryIndex, u32 characterIndex, u32 kartIndex) {
+    SetGivenCharacter(picks, entryIndex, characterIndex);
+    SetGivenKart(picks, entryIndex, kartIndex);
 }
 
-void func_0203be48(u8 *param_1, u8 param_2, u32 *param_3, u32 *param_4) {
-    if (param_3 != (u32 *) 0x0) {
-        *param_3 = *(u32 *) (param_1 + param_2 * 4 + 4);
+void GetEntryCharacterAndKart(u8 *picks, u8 entryIndex, u32 *outCharacterIndex, u32 *outKartIndex) {
+    if (outCharacterIndex != NULL) {
+        *outCharacterIndex = *(u32 *) (picks + entryIndex * 4 + 4);
     }
-    if (param_4 != (u32 *) 0x0) {
-        *param_4 = *(u32 *) (param_1 + param_2 * 4 + 0x24);
+    if (outKartIndex != NULL) {
+        *outKartIndex = *(u32 *) (picks + entryIndex * 4 + 0x24);
     }
 }
 

@@ -1,20 +1,21 @@
 #pragma once
 
 #include "types.h"
+#include "03/code_021d3488.h"
 
-void func_ov003_021bf8c0(void);
-void func_ov003_021bf920(void);
-void func_ov003_021bf9b8(void);
-void func_ov003_021bf9e8(int param_1);
-void func_ov003_021bfa80(u32 param_1);
-void func_ov003_021bfb28(u32 param_1);
-void func_ov003_021bfb7c(u32 param_1);
-void func_ov003_021bfbd0(u32 param_1);
-void func_ov003_021bfc28(u32 param_1);
-void func_ov003_021bfc80(u32 param_1);
-void func_ov003_021bfce0(int param_1);
-void func_ov003_021bffb0(void);
-void func_ov003_021c0050(int param_1, int param_2);
-void func_ov003_021c00ec(int param_1);
-void func_ov003_021c0154(u32 param_1, s32 param_2, u32 param_3);
+void InitHlScr(void);
+void UpdateLinkLevel(void);
+void ReleaseLinkLevel(void);
+void CreateLinkLevel(int row);
+void ReleaseEditKeyboard(u32 task);
+void AdvanceEditKeyboardSlideOutRow0(TaskEntry *task);
+void AdvanceEditKeyboardSlideOutRow1(TaskEntry *task);
+void AdvanceEditKeyboardSlideOutRow2(TaskEntry *task);
+void AdvanceEditKeyboardSlideOutRow3(TaskEntry *task);
+void AdvanceEditKeyboardSlideOutRow4(TaskEntry *task);
+void MoveEditKeyboardCursor(int direction);
+void PlaceEditKeyboardCursor(void);
+void SetEditKeyboardKeyHighlight(int keyIndex, int highlight);
+void ChangeEditKeyboardPage(int page);
+void SetEditKeyboardRowY(u32 page, s32 row, u32 yPos);
 void func_ov003_021c0318(void);

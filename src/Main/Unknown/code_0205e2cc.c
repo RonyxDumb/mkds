@@ -1,9 +1,12 @@
 #include "Main/Unknown/code_0205e2cc.h"
+#include "Main/Unknown/code_0202dd9c.h"
+#include "Main/Unknown/code_02036820.h"
+#include "Main/Unknown/code_02057764.h"
 #include "Main/Unknown/code_0202d000.h"
 #include "Main/Unknown/code_02036000.h"
 #include "Main/Unknown/code_020364e0.h"
 #include "Main/Unknown/code_02036bec.h"
-#include "Main/Unknown/code_020423fc.h"
+#include "Main/Unknown/code_02042064.h"
 #include "Main/Unknown/code_020431cc.h"
 #include "Main/Unknown/code_02057304.h"
 #include "Main/Unknown/code_020574c8.h"
@@ -14,346 +17,345 @@
 #include "Main/Unknown/code_02060c68.h"
 #include "Main/Unknown/code_0212030c.h"
 #include "Main/Unknown/code_0214d000.h"
-#include "00/code_0219bb50.h"
+#include "00/code_0219b580.h"
 #include "code_021458c4.h"
 #include "code_02147cd8.h"
+#include "code_0214d018.h"
 #include "Main/Unknown/unk_02165000.h"
 #include "Main/Unknown/unk_0217a000.h"
-#include "00/code_02182fdc.h"
+#include "00/code_021832d8.h"
+#include "01/code_021956dc.h"
 
-Unk0205ec14 *func_0205eda0(void *a) {
-    Unk0205ec14 *p = func_02036bec(a, 0xb04);
-    if (p != 0) {
-        p->mUnk_00 = -1;
+#pragma opt_rebuildconditionals off
+
+EmblemBlock *CreateEmblemBlock(void *heap) {
+    EmblemBlock *emblemBlock = HeapAlloc(heap, 0xb04);
+    if (emblemBlock != NULL) {
+        emblemBlock->mBlockIndex = -1;
     }
-    return p;
+    return emblemBlock;
 }
 
-s32 func_0205eca4(Unk0205ec14 *a, u8 b, void *c) {
-    Unk0217aa08_20_04 e;
-    u8 d;
-    u8 m;
-    d = b / 5;
-    m = b % 5;
-    if (d != a->mUnk_00) {
-        return 0;
+BOOL CopyEmblemFromBlock(EmblemBlock *emblemBlock, u8 buddyIndex, EmblemData *emblemData) {
+    BuddyRecord buddyRecord;
+    u8 blockIndex;
+    u8 slotIndex;
+    blockIndex = buddyIndex / 5;
+    slotIndex = buddyIndex % 5;
+    if (blockIndex != emblemBlock->mBlockIndex) {
+        return FALSE;
     }
-    func_0214d1fc(&data_0217aa08->mUnk_20->mUnk_04[b], &e, 0x24);
-    if (e.mUnk_22_0 == 0 || e.mUnk_22_2 == 0) {
-        return 0;
+    MI_CpuCopy8(&data_0217aa08->mBuddyRecordBlock->mRecords[buddyIndex], &buddyRecord, 0x24);
+    if (buddyRecord.mFilled == 0 || buddyRecord.mUnk_22_2 == 0) {
+        return FALSE;
     }
-    ((u8 *) c)[0x200] = (a->mUnk_04.mUnk_004 & (1 << m)) != 0;
-    if (((u8 *) c)[0x200] != 0) {
-        func_0214d1fc(a->mUnk_04.mUnk_008[m], c, 0x200);
+    emblemData->mUnk_200 = (emblemBlock->mUnk_04.mFilledBits & (1 << slotIndex)) != 0;
+    if (emblemData->mUnk_200 != 0) {
+        MI_CpuCopy8(emblemBlock->mUnk_04.mEmblems[slotIndex], emblemData, 0x200);
     }
-    return 1;
+    return TRUE;
 }
 
-void func_0205ec14(Unk0205ec14 *a, u8 b) {
-    u8 c = b / 5;
-    if (func_0205743c(c, &data_0217aa08->mUnk_00->mUnk_2c[2], 2) == 0) {
-        a->mUnk_00 = -1;
+void SetupEmblemBlock(EmblemBlock *emblemBlock, u8 buddyIndex) {
+    u8 blockIndex = buddyIndex / 5;
+    if (IsBitArrayBitSet(blockIndex, &data_0217aa08->mFirstBlock->mUnk_2c[2], 2) == 0) {
+        emblemBlock->mBlockIndex = -1;
         return;
     }
-    if (c == a->mUnk_00) {
+    if (blockIndex == emblemBlock->mBlockIndex) {
         return;
     }
-    func_020576b8(&a->mUnk_04, c);
-    a->mUnk_00 = c;
+    ReadBackupEmblemBlock(&emblemBlock->mUnk_04, blockIndex);
+    emblemBlock->mBlockIndex = blockIndex;
 }
 
-// non-matching: 6 instructions differ: in the second loop the constant 1 and the pointer to the byte at 4 of the object
-// are in each other's registers (r6 and r5 in the original).
-void func_0205e900(void) {
-    u8 i;
-    u16 j;
-    Unk0217aa00_45c *e;
-    u8 c[12];
-    s8 d[8];
-    Unk0217aa08_24 *r;
-    s32 v1;
-    s32 v2;
+void CopyOtherPlayerEmblemsToBlocks(void) {
+    u8 blockIndex;
+    u16 playerIndex;
+    Unk0217aa00_45c *playerEntry;
+    u8 blockHasEmblem[12];
+    s8 buddyIndexOfPlayer[8];
+    EmblemBlockData *blockData;
+    s32 firstBuddyIndex;
+    s32 endBuddyIndex;
     u16 k;
-    u8 *q;
-    s32 m;
-    s32 f = 0;
-    s32 t;
-    u8 x;
-    for (i = 0; i < 12; i++) {
-        c[i] = 0;
+    s32 ownIndex;
+    BOOL blockCreated = FALSE;
+    s32 buddyIndex;
+    u8 slotIndex;
+    for (blockIndex = 0; blockIndex < 12; blockIndex++) {
+        blockHasEmblem[blockIndex] = 0;
     }
-    for (j = 0; j < 8; j++) {
-        d[j] = -1;
+    for (playerIndex = 0; playerIndex < 8; playerIndex++) {
+        buddyIndexOfPlayer[playerIndex] = -1;
         if (data_0217aa00->mUnk_0000 == 2) {
-            m = data_0217aa00->mUnk_0432;
+            ownIndex = data_0217aa00->mOwnIndex;
         } else {
-            m = 0;
+            ownIndex = 0;
         }
-        if (j != (u16) m) {
-            if ((data_0217aa00->mUnk_0457 & (1 << data_0217aa00->mUnk_1e8c[j])) == 0) {
-                if ((data_0217aa00->mUnk_15f6 & (1 << j)) != 0) {
-                    e = &data_0217aa00->mUnk_045c[j];
-                    t = func_02060c68(e, 1);
-                    if (t != -1) {
-                        if (e->mUnk_214 != 0) {
-                            d[j] = t;
-                            c[t / 5] = 1;
+        if (playerIndex != (u16) ownIndex) {
+            if ((data_0217aa00->mUnk_0457 & (1 << data_0217aa00->mUnk_1e8c[playerIndex])) == 0) {
+                if ((data_0217aa00->mParticipantMask & (1 << playerIndex)) != 0) {
+                    playerEntry = &data_0217aa00->mUnk_045c[playerIndex];
+                    buddyIndex = SetBuddyRecordFromPlayer(playerEntry, 1);
+                    if (buddyIndex != -1) {
+                        if (playerEntry->mUnk_214 != 0) {
+                            buddyIndexOfPlayer[playerIndex] = buddyIndex;
+                            blockHasEmblem[buddyIndex / 5] = 1;
                         }
                     }
                 }
             }
         }
     }
-    func_020577b4(data_0217aa08->mUnk_20);
-    if (data_021759d4->mUnk_0c != 0) {
-        func_02145d38();
+    WriteBackupBuddyRecordBlock(data_0217aa08->mBuddyRecordBlock);
+    if (gBackupAccess->mBackupEnabled != 0) {
+        CARD_WaitBackupAsync();
     }
-    for (i = 0; i < 12; i++) {
-        if (c[i] != 0) {
-            r = data_0217aa08->mUnk_24;
-            if (func_0205743c(i, &data_0217aa08->mUnk_00->mUnk_2c[2], 2) != 0) {
-                func_020576b8(r, i);
-                if (data_021759d4->mUnk_0c != 0) {
-                    func_02145d38();
+    for (blockIndex = 0; blockIndex < 12; blockIndex++) {
+        if (blockHasEmblem[blockIndex] != 0) {
+            blockData = data_0217aa08->mEmblemBlockData;
+            if (IsBitArrayBitSet(blockIndex, &data_0217aa08->mFirstBlock->mUnk_2c[2], 2) != 0) {
+                ReadBackupEmblemBlock(blockData, blockIndex);
+                if (gBackupAccess->mBackupEnabled != 0) {
+                    CARD_WaitBackupAsync();
                 }
             } else {
-                func_0214d168(r, 0, 0xb00);
-                func_0205746c(i, &data_0217aa08->mUnk_00->mUnk_2c[2], 2);
-                f = 1;
+                MI_CpuFill8(blockData, 0, 0xb00);
+                SetBitArrayBit(blockIndex, &data_0217aa08->mFirstBlock->mUnk_2c[2], 2);
+                blockCreated = TRUE;
             }
-            q = (u8 *) r + 4;
-            v1 = i * 5;
-            v2 = (i + 1) * 5;
+            firstBuddyIndex = blockIndex * 5;
+            endBuddyIndex = (blockIndex + 1) * 5;
             for (k = 0; k < 8; k++) {
-                t = d[k];
-                if (t >= v1 && t < v2) {
-                    x = t % 5;
-                    *q = *q | (1 << x);
-                    func_0214d1fc((u8 *) &data_0217aa00->mUnk_045c[k] + 0x14, r->mUnk_008[x], 0x200);
+                buddyIndex = buddyIndexOfPlayer[k];
+                if (buddyIndex >= firstBuddyIndex && buddyIndex < endBuddyIndex) {
+                    slotIndex = buddyIndex % 5;
+                    blockData->mFilledBits |= 1 << slotIndex;
+                    MI_CpuCopy8((u8 *) &data_0217aa00->mUnk_045c[k] + 0x14, blockData->mEmblems[slotIndex], 0x200);
                 }
             }
-            func_02057710(r, i);
-            if (data_021759d4->mUnk_0c != 0) {
-                func_02145d38();
+            WriteBackupEmblemBlock(blockData, blockIndex);
+            if (gBackupAccess->mBackupEnabled != 0) {
+                CARD_WaitBackupAsync();
             }
         }
     }
-    if (f != 0) {
-        func_02057ca4(data_0217aa08->mUnk_00);
-        if (data_021759d4->mUnk_0c != 0) {
-            func_02145d38();
+    if (blockCreated != FALSE) {
+        WriteBackupFirstBlock(data_0217aa08->mFirstBlock);
+        if (gBackupAccess->mBackupEnabled != 0) {
+            CARD_WaitBackupAsync();
         }
     }
-    func_02057504();
+    ClearBackupBusy();
 }
 
-void func_0205e67c(void) {
-    u8 i;
-    u16 j;
-    Unk0217aa00_45c *e;
-    u8 c[12];
-    s8 d[4];
-    Unk0217aa08_24 *r;
-    s32 v1;
-    s32 v2;
-    u8 x;
+void CopyWiFiOtherEmblemsToBlocks(void) {
+    u8 blockIndex;
+    u16 playerIndex;
+    Unk0217aa00_45c *playerRecordData;
+    u8 blockHasEmblem[12];
+    s8 buddyIndexOfPlayer[4];
+    EmblemBlockData *blockData;
+    s32 firstBuddyIndex;
+    s32 endBuddyIndex;
+    u8 slotIndex;
     u16 k;
-    u8 *q;
-    s32 t;
-    for (i = 0; i < 12; i++) {
-        c[i] = 0;
+    u8 *filledBits;
+    s32 buddyIndex;
+    for (blockIndex = 0; blockIndex < 12; blockIndex++) {
+        blockHasEmblem[blockIndex] = 0;
     }
-    for (j = 0; j < 4; j++) {
-        d[j] = -1;
-        if (j != func_ov000_0219bb50()) {
-            e = func_0212030c(j & 0xff);
-            if (e != 0) {
-                t = func_02060c68(e, 0);
-                if (t != -1) {
-                    if (e->mUnk_214 != 0) {
-                        d[j] = t;
-                        c[t / 5] = 1;
+    for (playerIndex = 0; playerIndex < 4; playerIndex++) {
+        buddyIndexOfPlayer[playerIndex] = -1;
+        if (playerIndex != func_ov000_0219bb50()) {
+            playerRecordData = GetWiFiSessionPlayerRecordData(playerIndex & 0xff);
+            if (playerRecordData != NULL) {
+                buddyIndex = SetBuddyRecordFromPlayer(playerRecordData, 0);
+                if (buddyIndex != -1) {
+                    if (playerRecordData->mUnk_214 != 0) {
+                        buddyIndexOfPlayer[playerIndex] = buddyIndex;
+                        blockHasEmblem[buddyIndex / 5] = 1;
                     }
                 }
             }
         }
     }
-    func_020577b4(data_0217aa08->mUnk_20);
-    if (data_021759d4->mUnk_0c != 0) {
-        func_02145d38();
+    WriteBackupBuddyRecordBlock(data_0217aa08->mBuddyRecordBlock);
+    if (gBackupAccess->mBackupEnabled != 0) {
+        CARD_WaitBackupAsync();
     }
-    for (i = 0; i < 12; i++) {
-        if (c[i] != 0) {
-            r = data_0217aa08->mUnk_24;
-            if (func_0205743c(i, &data_0217aa08->mUnk_00->mUnk_2c[2], 2) != 0) {
-                func_020576b8(r, i);
-                if (data_021759d4->mUnk_0c != 0) {
-                    func_02145d38();
+    for (blockIndex = 0; blockIndex < 12; blockIndex++) {
+        if (blockHasEmblem[blockIndex] != 0) {
+            blockData = data_0217aa08->mEmblemBlockData;
+            if (IsBitArrayBitSet(blockIndex, &data_0217aa08->mFirstBlock->mUnk_2c[2], 2) != 0) {
+                ReadBackupEmblemBlock(blockData, blockIndex);
+                if (gBackupAccess->mBackupEnabled != 0) {
+                    CARD_WaitBackupAsync();
                 }
             } else {
-                func_0214d168(r, 0, 0xb00);
-                func_0205746c(i, &data_0217aa08->mUnk_00->mUnk_2c[2], 2);
+                MI_CpuFill8(blockData, 0, 0xb00);
+                SetBitArrayBit(blockIndex, &data_0217aa08->mFirstBlock->mUnk_2c[2], 2);
             }
-            v1 = i * 5;
-            v2 = (i + 1) * 5;
-            q = (u8 *) r + 4;
+            firstBuddyIndex = blockIndex * 5;
+            endBuddyIndex = (blockIndex + 1) * 5;
+            filledBits = (u8 *) blockData + 4;
             for (k = 0; k < 4; k++) {
-                t = d[k];
-                if (t >= v1 && t < v2) {
-                    x = t % 5;
-                    *q = *q | (1 << x);
-                    func_0214d1fc((u8 *) func_0212030c(k & 0xff) + 0x14, r->mUnk_008[x], 0x200);
+                buddyIndex = buddyIndexOfPlayer[k];
+                if (buddyIndex >= firstBuddyIndex && buddyIndex < endBuddyIndex) {
+                    slotIndex = buddyIndex % 5;
+                    *filledBits = *filledBits | (1 << slotIndex);
+                    MI_CpuCopy8((u8 *) GetWiFiSessionPlayerRecordData(k & 0xff) + 0x14, blockData->mEmblems[slotIndex],
+                                0x200);
                 }
             }
-            func_02057710(r, i);
-            if (data_021759d4->mUnk_0c != 0) {
-                func_02145d38();
+            WriteBackupEmblemBlock(blockData, blockIndex);
+            if (gBackupAccess->mBackupEnabled != 0) {
+                CARD_WaitBackupAsync();
             }
         }
     }
-    func_02057504();
+    ClearBackupBusy();
 }
 
 static inline s32 func_0205e5c4_inline(void) {
-    if (data_0217aa00 == 0) {
+    if (data_0217aa00 == NULL) {
         return 0;
     }
     return data_0217aa00->mUnk_0000;
 }
 
-// non-matching: 6 instructions differ: the result of the inline getter and the local c are in each other's registers
-// (r1 and r2).
-void func_0205e5c4(s32 a) {
-    void (*f)(void);
-    s32 c;
+void StartCopyOtherEmblems(s32 useConnection) {
+    void (*copyFunction)(void);
+    BOOL connectionReady;
     s32 d;
-    if (a != 0) {
-        c = 0;
+    if (useConnection != 0) {
+        connectionReady = FALSE;
         d = func_0205e5c4_inline();
         if (d != 0) {
             if (data_0217aa00->mUnk_0004 != 13) {
-                c = 1;
+                connectionReady = TRUE;
             }
         }
-        if (c == 0) {
+        if (connectionReady == FALSE) {
             return;
         }
-        f = func_0205e900;
+        copyFunction = CopyOtherPlayerEmblemsToBlocks;
     } else {
         d = 0;
-        if (data_0217d384 != 0) {
-            if (data_0217d384->mUnk_1f30 != 0) {
+        if (gWiFiSession != NULL) {
+            if (gWiFiSession->mHeapCreated != FALSE) {
                 d = 1;
             }
         }
         if (d == 0) {
             return;
         }
-        f = func_0205e67c;
+        copyFunction = CopyWiFiOtherEmblemsToBlocks;
     }
-    func_02057514();
-    func_02057df0(f);
-    data_0217aa0c->mUnk_f8 = 1;
+    SetBackupBusy();
+    QueueThreadFunction(copyFunction);
+    gThreadFunctionQueue->mRunRequested = 1;
 }
 
-static inline u8 func_0205e548_inline(void *a) {
-    u8 n = 0;
-    u8 i = 0;
+static inline u8 func_0205e548_inline(void *recordOut) {
+    u8 filledCount = 0;
+    u8 recordIndex = 0;
     do {
-        if (a != 0) {
-            func_0214d1fc(&data_0217aa08->mUnk_20->mUnk_04[i], a, 0x24);
+        if (recordOut != 0) {
+            MI_CpuCopy8(&data_0217aa08->mBuddyRecordBlock->mRecords[recordIndex], recordOut, 0x24);
         }
-        if (data_0217aa08->mUnk_20->mUnk_04[i].mUnk_22_0 != 0) {
-            n = n + 1;
+        if (data_0217aa08->mBuddyRecordBlock->mRecords[recordIndex].mFilled != 0) {
+            filledCount = filledCount + 1;
         }
-        i = i + 1;
-    } while (i < 60);
-    return n;
+        recordIndex = recordIndex + 1;
+    } while (recordIndex < 60);
+    return filledCount;
 }
 
-u8 func_0205e548(void) {
+u8 CountEmblemEntries(void) {
     return func_0205e548_inline(0);
 }
 
 #pragma thumb on
 
 void func_0205e530(void) {
-    func_0202dfd4(func_020364e0(func_020364e8()));
+    InitGhostScene(GetHeap(GetCurrentHeapCall()));
 }
 
 void func_0205e528(void) {
-    func_0202defc();
+    ReleaseGhostScene();
 }
 
 void func_0205e520(void) {
     func_0202dec8();
 }
 
-void func_0205e518(u32 a) {
-    func_0202df34(a);
+void func_0205e518(u32 sceneNumbers) {
+    AdvanceGhostScene(sceneNumbers);
 }
 
-s32 func_0205e4e4(Unk020487fc *a) {
-    Unk021a9034 b = data_021653c0;
+s32 RunGhostScene(SceneNumbers *sceneNumbers) {
+    SceneCallbacks callbacks = data_021653c0;
 
-    func_020487fc(a, &b);
+    RunScene(sceneNumbers, &callbacks);
     return 0;
 }
 
 #pragma thumb off
 
 static inline s32 func_0205e2cc_inline(s32 a, s32 b) {
-    return (s32) (((s64) a * b + 0x800) >> 12);
+    return ((s64) a * b + 0x800) >> 12;
 }
 
-void func_0205e2cc(void *a) {
-    u16 n;
+void CreateShapeMapObjectCountList(void *heap) {
+    u16 shapeCount;
     u16 i;
-    u16 k;
-    u16 j;
-    u16 m;
-    Unk02175620_74 *p;
-    Unk0217aa24_00 *e;
+    u16 entryIndex;
+    u16 shapeIndex;
+    u16 entryCount;
+    CourseMapShape *courseMapShape;
+    ShapeMapObjectCount *entry;
     s32 u;
     s32 v;
     s32 w;
     s32 y;
-    n = data_02175620->mUnk_78;
-    m = 0;
-    data_0217aa24 = func_02036bec(a, 8);
-    for (i = 0; i < n; i++) {
-        if (func_020423fc(i)->mUnk_44 == 5) {
-            m = m + 1;
+    shapeCount = gCourseMap->mShapeCount;
+    entryCount = 0;
+    data_0217aa24 = HeapAlloc(heap, 8);
+    for (i = 0; i < shapeCount; i++) {
+        if (GetCourseMapShape(i)->mKind == 5) {
+            entryCount = entryCount + 1;
         }
     }
-    if (m != 0) {
-        data_0217aa24->mUnk_00 = func_02036bec(a, m * 0xc);
+    if (entryCount != 0) {
+        data_0217aa24->mEntries = HeapAlloc(heap, entryCount * 0xc);
     }
-    k = 0;
-    data_0217aa24->mUnk_04 = m;
-    for (j = 0; j < n; j++) {
-        p = func_020423fc(j);
-        if (p->mUnk_44 == 5) {
-            e = &data_0217aa24->mUnk_00[k];
-            e->mUnk_00 = j;
+    entryIndex = 0;
+    data_0217aa24->mEntryCount = entryCount;
+    for (shapeIndex = 0; shapeIndex < shapeCount; shapeIndex++) {
+        courseMapShape = GetCourseMapShape(shapeIndex);
+        if (courseMapShape->mKind == 5) {
+            entry = &data_0217aa24->mEntries[entryIndex];
+            entry->mShapeIndex = shapeIndex;
             u = 0;
-            switch (p->mUnk_42) {
+            switch (courseMapShape->mShapeKind) {
                 case 0:
-                    u = func_0205e2cc_inline(func_020431cc(), p->mUnk_0c.x);
-                    v = func_0205e2cc_inline(func_020431d4(), p->mUnk_0c.y) >> 1;
-                    y = func_0205e2cc_inline(func_020431cc(), p->mUnk_0c.z);
+                    u = func_0205e2cc_inline(func_020431cc(), courseMapShape->mScale.x);
+                    v = func_0205e2cc_inline(func_020431d4(), courseMapShape->mScale.y) >> 1;
+                    y = func_0205e2cc_inline(func_020431cc(), courseMapShape->mScale.z);
                     w = func_0205e2cc_inline(u, u) + func_0205e2cc_inline(v, v);
                     y = func_0205e2cc_inline(y, y);
-                    u = func_02147e8c(y + w);
+                    u = FX_Sqrt(y + w);
                     break;
                 case 1:
-                    u = func_0205e2cc_inline(func_020431dc(), p->mUnk_0c.x);
+                    u = func_0205e2cc_inline(func_020431dc(), courseMapShape->mScale.x);
                     break;
             }
-            e->mUnk_04 = u;
-            e->mUnk_09 = 0;
-            e->mUnk_08 = 0;
-            k = k + 1;
+            entry->mRadius = u;
+            entry->mMapObjectCount = 0;
+            entry->mIncreaseCount = 0;
+            entryIndex = entryIndex + 1;
         }
     }
 }

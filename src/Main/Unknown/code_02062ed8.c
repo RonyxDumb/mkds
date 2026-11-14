@@ -1,7 +1,15 @@
 #include "Main/Unknown/code_02062ed8.h"
+#include "Main/Unknown/code_02036820.h"
+#include "Main/Unknown/code_0203be88.h"
+#include "ITCM/code_01ffba68.h"
 #include "ITCM/code_01ffc000.h"
 #include "Main/Unknown/code_0203c000.h"
-#include "Main/Unknown/code_020478bc.h"
+#include "Main/Unknown/code_02047000.h"
+#include "Main/Unknown/code_0205e000.h"
+#include "Main/Unknown/code_020649ec.h"
+#include "Main/Unknown/code_0206d020.h"
+#include "Main/Unknown/unk_02164000.h"
+#include "Main/Unknown/code_02047104.h"
 #include "Main/Unknown/code_0206d000.h"
 #include "Main/Unknown/code_02064000.h"
 #include "Main/Unknown/code_02065000.h"
@@ -9,256 +17,264 @@
 #include "Main/Unknown/unk_0217a000.h"
 #include "Main/Unknown/unk_021759c0.h"
 #include "Main/Unknown/code_02036bec.h"
-#include "Main/Unknown/code_02010f98.h"
-#include "code_02010fac.h"
+#include "code_02010c84.h"
 #include "code_02012b30.h"
 #include "code_02013740.h"
 #include "Main/Unknown/code_02087cfc.h"
 #include "Main/Unknown/code_02087d0c.h"
 #include "Main/Unknown/code_020846c0.h"
 #include "Main/Unknown/code_02147000.h"
+#include "code_021471bc.h"
 
-s32 func_02062ed8(void) {
-    if (data_usa_0217aafc.mUnk_20 != 0) {
-        return data_usa_0217aafc.mUnk_14 >> 12;
-    }
-    return -1;
-}
-
-void func_02062ef8(u32 a) {
-    u32 i;
-    Unk0201290c *b;
-    u32 j;
-
-    if (data_usa_0217aafc.mUnk_04 != 0) {
-        if (data_usa_0217aafc.mUnk_ec != 0 && a == 0) {
-            b = data_usa_0217aafc.mUnk_04->mUnk_04;
-            for (i = 0; i < b->mUnk_18; i++) {
-                func_02013424(b, i, (data_usa_0217aafc.mUnk_f0 & (1 << i)) != 0 ? 1 : 0);
-            }
-        } else {
-            func_02013044(data_usa_0217aafc.mUnk_04->mUnk_04, a);
-        }
-    }
-    if (data_usa_0217aafc.mUnk_e0 == 0) {
-        return;
-    }
-    if (a != 0) {
-        func_02013044(data_usa_0217aafc.mUnk_00->mUnk_04, 1);
-        return;
-    }
-    b = data_usa_0217aafc.mUnk_00->mUnk_04;
-    for (j = 0; j < b->mUnk_18; j++) {
-        if ((data_usa_0217aafc.mUnk_e4 & (s64) (1 << j)) == 0) {
-            func_02013424(b, j, 0);
-        }
-    }
-}
-
-void func_0206302c(void) {
-    u32 i;
-    Unk0201290c *b;
-    u32 j;
-    Unk0201290c *c;
-
-    data_usa_0217aafc.mUnk_e0 = 0;
-    data_usa_0217aafc.mUnk_e4 = 0;
-    data_usa_0217aafc.mUnk_ec = 0;
-    data_usa_0217aafc.mUnk_f0 = 0;
-    switch (data_021759c0->mUnk_00) {
-    case 0x12:
-    case 0x1b:
-    case 0x2d:
-        data_usa_0217aafc.mUnk_e0 = 1;
-        break;
-    case 0x1d:
-        data_usa_0217aafc.mUnk_ec = 1;
-        break;
-    }
-    if (data_usa_0217aafc.mUnk_e0 != 0) {
-        b = data_usa_0217aafc.mUnk_00->mUnk_04;
-        for (i = 0; i < b->mUnk_18; i++) {
-            if (func_02013314(b, i) != 0) {
-                data_usa_0217aafc.mUnk_e4 |= (s64) (1 << i);
-            }
-        }
+static inline void func_0206331c_inline(u32 animationKind, u8 *animation, Nsbmd *nsbmd, void *heap,
+                                        const char *modelFile, const char *animationFile, u16 *animationCount) {
+    if (animationFile == NULL) {
+        *animationCount = 0;
     } else {
-        func_02013044(data_usa_0217aafc.mUnk_00->mUnk_04, 1);
-    }
-    if (data_usa_0217aafc.mUnk_04 == 0) {
-        return;
-    }
-    if (data_usa_0217aafc.mUnk_ec == 0) {
-        return;
-    }
-    c = data_usa_0217aafc.mUnk_04->mUnk_04;
-    for (j = 0; j < c->mUnk_18; j++) {
-        if (func_02013314(c, j) != 0) {
-            data_usa_0217aafc.mUnk_f0 |= 1 << j;
-        }
+        InitModelAnimation(animationKind, animation, nsbmd, 1, heap, modelFile);
+        InitModelAnimationEntries(animation, animationFile, heap);
+        func_02087cfc(animation, 0, 1);
+        SetModelAnimation(animation, 0);
     }
 }
 
-void func_020631b0(void) {
-    UnkVec16 a;
-
-    if (data_021759c0->mUnk_00 != 0x20) {
-        return;
+void func_02063880(Kart *kart) {
+    AdvanceKartCollision(kart);
+    if ((data_0217aa14->mUnk_75c & 2) != 0) {
+        func_020636f8(kart);
     }
-    a = data_021653fc;
-    func_02010fac(2, a.x, a.y, a.z);
-    func_02010f98(2, 0x7fff);
+    func_020641f0(kart);
 }
 
-void func_02063228(void) {
-    if (data_usa_0217aafc.mUnk_04 == 0) {
-        return;
+void func_02063830(Kart *kart) {
+    if (IsMissionRunWithKind2Shapes() != 0) {
+        func_0203c1a8(&kart->mPos, kart->mIndex);
     }
-    func_020849f8(data_usa_0217aafc.mUnk_04, &data_usa_0217abac, data_02154a20);
+    if ((kart->mUnk_4c & 0x1000) != 0) {
+        func_0206d138(kart);
+    }
+    kart->mUnk_4c = kart->mUnk_4c & ~0x1000;
+    AdvanceKartMotion(kart);
 }
 
-void func_0206326c(void) {
-    func_020849f8(data_usa_0217aafc.mUnk_00, &data_usa_0217abac, data_02154a20);
+void func_020637e0(Kart *kart) {
+    if (IsMissionRunWithKind2Shapes() != 0) {
+        func_0203c1a8(&kart->mPos, kart->mIndex);
+    }
+    if ((kart->mUnk_4c & 0x1000) != 0) {
+        func_0206d138(kart);
+    }
+    kart->mUnk_4c = kart->mUnk_4c & ~0x1000;
+    func_020651fc(kart);
 }
 
-void func_02063294(void) {
-    if (data_usa_0217aafc.mUnk_20 != 0) {
-        func_02087de0(data_usa_0217ab04);
-    }
-    if (data_usa_0217aafc.mUnk_58 != 0) {
-        func_02087de0(data_usa_0217ab3c);
-    }
-    if (data_usa_0217aafc.mUnk_04 != 0 && data_usa_0217aafc.mUnk_90 != 0) {
-        func_02087de0(data_usa_0217ab74);
-    }
+void func_020637c4(Kart *kart) {
+    func_02064f50(kart);
+    func_020641f0(kart);
 }
 
-static inline void func_0206331c_inline(u32 a, u8 *b, Unk02084b2c *c, void *d, const char *e, const char *f, u16 *g) {
-    if (f == 0) {
-        *g = 0;
-    } else {
-        func_0208823c(a, b, c, 1, d, (void *) e);
-        func_0208805c(b, (void *) f, d);
-        func_02087cfc(b, 0, 1);
-        func_02087f84(b, 0);
-    }
+void func_020636f8(Kart *kart) {
+    ParticipantKartRecordState *b;
+    Unk0217aa14_754_04 *recordBase;
+    Unk020636f8_B *record;
+
+    recordBase = &data_0217aa14->mUnk_754->mUnk_04;
+    record = OFFSET_PTR(Unk020636f8_B, recordBase, 8);
+    b = kart->mUnk_514;
+    record->mUnk_00 = kart->mPos.x >> 10;
+    record->mUnk_02 = (kart->mPos.y - kart->mHopHeight) >> 10;
+    record->mUnk_04 = kart->mPos.z >> 10;
+    record->mUnk_06 = kart->mForwardSpeed >> 2;
+    record->mUnk_0a = kart->mHeadingAngle;
+    record->mUnk_10 = kart->mUnk_44;
+    record->mUnk_10 =
+        record->mUnk_10 | (((b->mPushDirection.x >> 6) & 0xff) << 24 | ((b->mPushDirection.y >> 6) & 0xff) << 16 |
+                           ((b->mPushDirection.z >> 6) & 0xff) << 8);
+    record->mUnk_14 = kart->mUnk_48;
+    record->mUnk_0c = b->mUnk_2c;
+    record->mUnk_08 = kart->mTurnAngle;
 }
 
-void func_0206331c(void *a) {
-    const char *b;
-    const char *c;
-    const char *d;
-    Unk0201290c *e;
-    s32 f;
-    s32 g[6];
+// Also sets the matrix and the per-course flags (CreateCourseModels would be the verb for just finding and building).
+void InitCourseModels(void *heap) {
+    const char *nsbmdFile;
+    const char *nsbtxFile;
+    const char *animationFile;
+    NNSG3dResMdl *resMdl;
+    s32 materialIndex;
+    s32 shdwOffMaterialIndices[6];
     s32 i;
 
-    b = func_02047974(data_02165404);
-    c = func_02047974(data_02165418);
-    data_usa_0217aafc.mUnk_00 = func_02036bec(a, 0x6c);
-    e = func_02084b2c(a, data_usa_0217aafc.mUnk_00, (Unk020136f0 *) b, (Unk020136f0 *) c);
-    d = func_02047974(data_0216542c);
-    func_0206331c_inline(2, data_usa_0217ab04, data_usa_0217aafc.mUnk_00, a, b, d, &data_usa_0217aafc.mUnk_20);
-    d = func_02047974(data_02165440);
-    func_0206331c_inline(1, data_usa_0217ab3c, data_usa_0217aafc.mUnk_00, a, b, d, &data_usa_0217aafc.mUnk_58);
-    func_020849c0(data_usa_0217aafc.mUnk_00, 8);
-    func_02012ffc(e, 1);
-    switch (data_021759c0->mUnk_00) {
-    case 0xc:
-        f = func_02013754((u8 *) e + e->mUnk_08 + 4, data_02154a00);
-        if (f >= 0) {
-            func_02013468(e, f, 0x1e);
-            func_020133e0(e, f, 0);
-        }
-        break;
-    case 0x16:
-        f = func_02013754((u8 *) e + e->mUnk_08 + 4, data_02154990);
-        if (f >= 0) {
-            func_020133e0(e, f, 0);
-        }
-        f = func_02013754((u8 *) e + e->mUnk_08 + 4, data_02154a10);
-        if (f >= 0) {
-            func_020133e0(e, f, 0);
-        }
-        break;
+    nsbmdFile = FindCourseFile(data_02165404);
+    nsbtxFile = FindCourseFile(data_02165418);
+    gCourseModels.mNsbmd = HeapAlloc(heap, 0x6c);
+    resMdl = InitNsbmdWithTextureInfoCopy(heap, gCourseModels.mNsbmd, (NNSG3dResFileHeader *) nsbmdFile,
+                                          (NNSG3dResFileHeader *) nsbtxFile);
+    animationFile = FindCourseFile(data_0216542c);
+    func_0206331c_inline(2, data_0217ab24, gCourseModels.mNsbmd, heap, nsbmdFile, animationFile,
+                         &gCourseModels.mNsbtpAnmObjCount);
+    animationFile = FindCourseFile(data_02165440);
+    func_0206331c_inline(1, data_0217ab5c, gCourseModels.mNsbmd, heap, nsbmdFile, animationFile,
+                         &gCourseModels.mNsbtaAnmObjCount);
+    SetNsbmdPolygonIdAll(gCourseModels.mNsbmd, 8);
+    NNS_G3dMdlSetMdlXLDepthUpdateAll(resMdl, 1);
+    switch (gRaceSetup->mCourseId) {
+        case COURSE_ID_OLD_KOOPA_AGB:
+            materialIndex = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, data_02154a00);
+            if (materialIndex >= 0) {
+                NNS_G3dMdlSetMdlAlpha(resMdl, materialIndex, 0x1e);
+                NNS_G3dMdlSetMdlXLDepthUpdate(resMdl, materialIndex, 0);
+            }
+            break;
+        case COURSE_ID_BANK:
+            materialIndex = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, data_02154990);
+            if (materialIndex >= 0) {
+                NNS_G3dMdlSetMdlXLDepthUpdate(resMdl, materialIndex, 0);
+            }
+            materialIndex = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, data_02154a10);
+            if (materialIndex >= 0) {
+                NNS_G3dMdlSetMdlXLDepthUpdate(resMdl, materialIndex, 0);
+            }
+            break;
     }
-    data_usa_0217aafc.mUnk_04 = 0;
-    b = func_02047974(data_02165454);
-    c = func_02047974(data_0216546c);
-    if (b != 0) {
-        data_usa_0217aafc.mUnk_04 = func_02036bec(a, 0x6c);
-        func_02084b2c(a, data_usa_0217aafc.mUnk_04, (Unk020136f0 *) b, (Unk020136f0 *) c);
-        func_020849c0(data_usa_0217aafc.mUnk_04, 8);
-        d = func_02047974(data_02165484);
-        func_0206331c_inline(1, data_usa_0217ab74, data_usa_0217aafc.mUnk_04, a, b, d, &data_usa_0217aafc.mUnk_90);
+    gCourseModels.mVNsbmd = NULL;
+    nsbmdFile = FindCourseFile(data_02165454);
+    nsbtxFile = FindCourseFile(data_0216546c);
+    if (nsbmdFile != NULL) {
+        gCourseModels.mVNsbmd = HeapAlloc(heap, 0x6c);
+        InitNsbmdWithTextureInfoCopy(heap, gCourseModels.mVNsbmd, (NNSG3dResFileHeader *) nsbmdFile,
+                                     (NNSG3dResFileHeader *) nsbtxFile);
+        SetNsbmdPolygonIdAll(gCourseModels.mVNsbmd, 8);
+        animationFile = FindCourseFile(data_02165484);
+        func_0206331c_inline(1, data_0217ab94, gCourseModels.mVNsbmd, heap, nsbmdFile, animationFile,
+                             &gCourseModels.mVNsbtaAnmObjCount);
     }
-    g[0] = func_02013754((u8 *) e + e->mUnk_08 + 4, data_021549f0);
-    g[1] = func_02013754((u8 *) e + e->mUnk_08 + 4, data_021549c0);
-    g[2] = func_02013754((u8 *) e + e->mUnk_08 + 4, data_021549d0);
-    g[3] = func_02013754((u8 *) e + e->mUnk_08 + 4, data_021549e0);
-    g[4] = func_02013754((u8 *) e + e->mUnk_08 + 4, data_021549b0);
-    g[5] = func_02013754((u8 *) e + e->mUnk_08 + 4, data_021549a0);
+    shdwOffMaterialIndices[0] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, data_021549f0);
+    shdwOffMaterialIndices[1] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, data_021549c0);
+    shdwOffMaterialIndices[2] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, data_021549d0);
+    shdwOffMaterialIndices[3] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, data_021549e0);
+    shdwOffMaterialIndices[4] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, data_021549b0);
+    shdwOffMaterialIndices[5] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, data_021549a0);
     for (i = 0; i < 6; i++) {
-        if (g[i] >= 0) {
-            func_020134b0(e, g[i], 7);
+        if (shdwOffMaterialIndices[i] >= 0) {
+            NNS_G3dMdlSetMdlPolygonID(resMdl, shdwOffMaterialIndices[i], 7);
         }
     }
-    func_021471bc(&data_usa_0217abac);
-    func_0206302c();
+    MTX_Identity43_(&data_0217abcc);
+    InitCourseModelsFogEnableFlags();
 }
 
-void func_020636f8(Unk0206bcb0 *a) {
-    Unk0206bcb0_514 *b;
-    Unk0217aa14_754_04 *c;
-    Unk020636f8_B *d;
-
-    c = &data_0217aa14->mUnk_754->mUnk_04;
-    d = (Unk020636f8_B *) ((u8 *) c + 8);
-    b = a->mUnk_514;
-    d->mUnk_00 = a->mUnk_80.x >> 10;
-    d->mUnk_02 = (a->mUnk_80.y - a->mUnk_2bc) >> 10;
-    d->mUnk_04 = a->mUnk_80.z >> 10;
-    d->mUnk_06 = a->mUnk_2a8 >> 2;
-    d->mUnk_0a = a->mUnk_236;
-    d->mUnk_10 = a->mUnk_44;
-    d->mUnk_10 = d->mUnk_10 | (((b->mUnk_98.x >> 6) & 0xff) << 24 | ((b->mUnk_98.y >> 6) & 0xff) << 16 |
-                               ((b->mUnk_98.z >> 6) & 0xff) << 8);
-    d->mUnk_14 = a->mUnk_48;
-    d->mUnk_0c = b->mUnk_2c;
-    d->mUnk_08 = a->mUnk_388;
+void UpdateCourseModels(void) {
+    if (gCourseModels.mNsbtpAnmObjCount != 0) {
+        AdvanceModelAnimation(data_0217ab24);
+    }
+    if (gCourseModels.mNsbtaAnmObjCount != 0) {
+        AdvanceModelAnimation(data_0217ab5c);
+    }
+    if (gCourseModels.mVNsbmd != NULL && gCourseModels.mVNsbtaAnmObjCount != 0) {
+        AdvanceModelAnimation(data_0217ab94);
+    }
 }
 
-void func_020637c4(Unk0206bcb0 *a) {
-    func_02064f50(a);
-    func_020641f0(a);
+void DrawCourseModel(void) {
+    DrawNsbmdWithMatrix(gCourseModels.mNsbmd, &data_0217abcc, data_02154a20);
 }
 
-void func_020637e0(Unk0206bcb0 *a) {
-    if (func_0207a870() != 0) {
-        func_0203c1a8(&a->mUnk_80, a->mUnk_74);
+void DrawCourseModelV(void) {
+    if (gCourseModels.mVNsbmd == NULL) {
+        return;
     }
-    if ((a->mUnk_4c & 0x1000) != 0) {
-        func_0206d138(a);
-    }
-    a->mUnk_4c = a->mUnk_4c & ~0x1000;
-    func_020651fc(a);
+    DrawNsbmdWithMatrix(gCourseModels.mVNsbmd, &data_0217abcc, data_02154a20);
 }
 
-void func_02063830(Unk0206bcb0 *a) {
-    if (func_0207a870() != 0) {
-        func_0203c1a8(&a->mUnk_80, a->mUnk_74);
+void SetKoopaCourseLight2(void) {
+    Vec3s16 lightVector;
+
+    if (gRaceSetup->mCourseId != COURSE_ID_KOOPA) {
+        return;
     }
-    if ((a->mUnk_4c & 0x1000) != 0) {
-        func_0206d138(a);
-    }
-    a->mUnk_4c = a->mUnk_4c & ~0x1000;
-    func_01ffcc50(a);
+    lightVector = data_021653fc;
+    NNS_G3dGlbLightVector(2, lightVector.x, lightVector.y, lightVector.z);
+    NNS_G3dGlbLightColor(2, 0x7fff);
 }
 
-void func_02063880(Unk0206bcb0 *a) {
-    func_01ffcb58(a);
-    if ((data_0217aa14->mUnk_75c & 2) != 0) {
-        func_020636f8(a);
+void InitCourseModelsFogEnableFlags(void) {
+    u32 i;
+    NNSG3dResMdl *courseResMdl;
+    u32 j;
+    NNSG3dResMdl *vResMdl;
+
+    gCourseModels.mRestoreFogEnableFlags = FALSE;
+    gCourseModels.mSavedFogEnableFlags = 0;
+    gCourseModels.mRestoreVFogEnableFlags = FALSE;
+    gCourseModels.mSavedVFogEnableFlags = 0;
+    switch (gRaceSetup->mCourseId) {
+        case COURSE_ID_MANSION:
+        case COURSE_ID_DESERT:
+        case COURSE_ID_MINI_STAGE2:
+            gCourseModels.mRestoreFogEnableFlags = TRUE;
+            break;
+        case COURSE_ID_RAINBOW:
+            gCourseModels.mRestoreVFogEnableFlags = TRUE;
+            break;
     }
-    func_020641f0(a);
+    if (gCourseModels.mRestoreFogEnableFlags != FALSE) {
+        courseResMdl = gCourseModels.mNsbmd->mResMdl;
+        for (i = 0; i < courseResMdl->mInfo.mNumMat; i++) {
+            if (NNS_G3dMdlGetMdlFogEnableFlag(courseResMdl, i) != 0) {
+                gCourseModels.mSavedFogEnableFlags |= (s64) (1 << i);
+            }
+        }
+    } else {
+        NNS_G3dMdlSetMdlFogEnableFlagAll(gCourseModels.mNsbmd->mResMdl, 1);
+    }
+    if (gCourseModels.mVNsbmd == NULL) {
+        return;
+    }
+    if (gCourseModels.mRestoreVFogEnableFlags == FALSE) {
+        return;
+    }
+    vResMdl = gCourseModels.mVNsbmd->mResMdl;
+    for (j = 0; j < vResMdl->mInfo.mNumMat; j++) {
+        if (NNS_G3dMdlGetMdlFogEnableFlag(vResMdl, j) != 0) {
+            gCourseModels.mSavedVFogEnableFlags |= 1 << j;
+        }
+    }
+}
+
+void SetCourseModelsFogEnableFlags(u32 flag) {
+    u32 i;
+    NNSG3dResMdl *resMdl;
+    u32 j;
+
+    if (gCourseModels.mVNsbmd != NULL) {
+        if (gCourseModels.mRestoreVFogEnableFlags != FALSE && flag == 0) {
+            resMdl = gCourseModels.mVNsbmd->mResMdl;
+            for (i = 0; i < resMdl->mInfo.mNumMat; i++) {
+                NNS_G3dMdlSetMdlFogEnableFlag(resMdl, i, (gCourseModels.mSavedVFogEnableFlags & (1 << i)) != 0 ? 1 : 0);
+            }
+        } else {
+            NNS_G3dMdlSetMdlFogEnableFlagAll(gCourseModels.mVNsbmd->mResMdl, flag);
+        }
+    }
+    if (gCourseModels.mRestoreFogEnableFlags == FALSE) {
+        return;
+    }
+    if (flag != 0) {
+        NNS_G3dMdlSetMdlFogEnableFlagAll(gCourseModels.mNsbmd->mResMdl, 1);
+        return;
+    }
+    resMdl = gCourseModels.mNsbmd->mResMdl;
+    for (j = 0; j < resMdl->mInfo.mNumMat; j++) {
+        if ((gCourseModels.mSavedFogEnableFlags & (s64) (1 << j)) == 0) {
+            NNS_G3dMdlSetMdlFogEnableFlag(resMdl, j, 0);
+        }
+    }
+}
+
+s32 GetCourseModelNsbtpFrame(void) {
+    if (gCourseModels.mNsbtpAnmObjCount != 0) {
+        return gCourseModels.mNsbtpFrameIndex >> 12;
+    }
+    return -1;
 }

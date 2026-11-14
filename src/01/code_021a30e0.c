@@ -1,12 +1,15 @@
 #include "01/code_021a30e0.h"
+#include "01/code_02184f7c.h"
+#include "Main/Unknown/code_021059e0.h"
 #include "Main/Unknown/unk_0217d068.h"
 #include "Main/Unknown/code_020ae408.h"
-#include "01/code_02181070.h"
+#include "01/code_02180ce8.h"
+#include "01/code_021a41c8.h"
 #include "01/code_021a5140.h"
 #include "01/code_02184000.h"
 #include "01/code_02185000.h"
 #include "01/code_02192000.h"
-#include "01/code_021927c0.h"
+#include "01/code_021928c8.h"
 #include "01/code_021a4000.h"
 #include "01/code_021a5000.h"
 #include "01/code_021a6000.h"
@@ -23,21 +26,21 @@ void func_ov001_021a30e0(void) {
     s32 dy;
     s32 dz;
     s32 prev;
-    s32 flag;
+    BOOL flag;
     void *entry8;
     void *entry9;
     void *entry;
 
-    flag = 0;
-    if (func_ov001_02192a54()) {
-        y = func_ov001_02192a60();
-        x = func_ov001_02192a6c();
-        i = func_ov001_021850b4(data_ov001_021ca41c->mUnk_0858, 0, x, y);
+    flag = FALSE;
+    if (GetEmblemInputPressed()) {
+        y = GetEmblemInputY();
+        x = GetEmblemInputX();
+        i = FindLldEntryAtPoint(gEmblem->mEmblemSLld, 0, x, y);
         while (i >= 0) {
             func_ov001_021a41c8(i, 1);
-            y = func_ov001_02192a60();
-            x = func_ov001_02192a6c();
-            i = func_ov001_021850b4(data_ov001_021ca41c->mUnk_0858, i + 1, x, y);
+            y = GetEmblemInputY();
+            x = GetEmblemInputX();
+            i = FindLldEntryAtPoint(gEmblem->mEmblemSLld, i + 1, x, y);
         }
     }
 
@@ -50,289 +53,282 @@ void func_ov001_021a30e0(void) {
     } else if (func_ov001_02192a14(0x800)) {
         func_ov001_021a41c8(0x2a, 0);
     } else {
-        entry8 = func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 8);
-        func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, data_ov001_021a6fe8[data_ov001_021ca41c->mUnk_107c]);
-        entry9 = func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 9);
-        func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, data_ov001_021a7058[data_ov001_021ca41c->mUnk_1080]);
+        entry8 = GetLldEntry(gEmblem->mEmblemSLld, 8);
+        GetLldEntry(gEmblem->mEmblemSLld, data_ov001_021a6fe8[gEmblem->mUnk_107c]);
+        entry9 = GetLldEntry(gEmblem->mEmblemSLld, 9);
+        GetLldEntry(gEmblem->mEmblemSLld, data_ov001_021a7058[gEmblem->mUnk_1080]);
         dx = 0;
         dy = 0;
         dz = 0;
-        dx += func_020ae408(8, 0x20) ? -1 : 0;
-        dx += func_020ae408(8, 0x10) ? 1 : 0;
-        dy += func_020ae408(8, 0x40) ? -1 : 0;
-        dy += func_020ae408(8, 0x80) ? 1 : 0;
-        dz += func_020ae408(8, 0x200) ? -1 : 0;
-        dz += func_020ae408(8, 0x100) ? 1 : 0;
+        dx += GetNewOrRepeatBits(8, PAD_KEY_LEFT) ? -1 : 0;
+        dx += GetNewOrRepeatBits(8, PAD_KEY_RIGHT) ? 1 : 0;
+        dy += GetNewOrRepeatBits(8, PAD_KEY_UP) ? -1 : 0;
+        dy += GetNewOrRepeatBits(8, PAD_KEY_DOWN) ? 1 : 0;
+        dz += GetNewOrRepeatBits(8, PAD_KEY_L) ? -1 : 0;
+        dz += GetNewOrRepeatBits(8, PAD_KEY_R) ? 1 : 0;
 
-        switch (data_ov001_021ca41c->mUnk_1094) {
+        switch (gEmblem->mUnk_1094) {
             case 0:
-                func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 0xb), -5);
-                func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 0xc), 0);
-                func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 0xd), -5);
+                func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 0xb), -5);
+                func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 0xc), 0);
+                func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 0xd), -5);
                 if (dz > 0) {
-                    data_ov001_021ca41c->mUnk_1094 = 2;
-                    data_ov001_021ca41c->mUnk_1080 = func_ov001_021a63b4() - 1;
-                    func_ov001_02184fb4(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 9), 0x1000);
-                    func_ov001_02184fb4(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 10), 0);
-                    func_ov001_021850a4(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 9), 0);
-                    func_ov001_021850a4(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 10), 0);
-                    func_0212ecc0(&data_0217d068, 0, 0x1ee);
+                    gEmblem->mUnk_1094 = 2;
+                    gEmblem->mUnk_1080 = func_ov001_021a63b4() - 1;
+                    SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 9), 0x1000);
+                    SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 10), 0);
+                    func_ov001_021850a4(GetLldEntry(gEmblem->mEmblemSLld, 9), NULL);
+                    func_ov001_021850a4(GetLldEntry(gEmblem->mEmblemSLld, 10), NULL);
+                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1ee);
                 } else if (dz < 0) {
-                    data_ov001_021ca41c->mUnk_1094 = 1;
+                    gEmblem->mUnk_1094 = 1;
                     switch (func_ov001_021a639c()) {
                         case 0:
-                            data_ov001_021ca41c->mUnk_107c =
-                                func_ov001_021a637c() + data_ov001_021a6fc8[func_ov001_021a639c()];
+                            gEmblem->mUnk_107c = func_ov001_021a637c() + data_ov001_021a6fc8[func_ov001_021a639c()];
                             break;
                         case 1:
-                            data_ov001_021ca41c->mUnk_107c =
-                                func_ov001_021a637c() + data_ov001_021a6fc8[func_ov001_021a639c()];
+                            gEmblem->mUnk_107c = func_ov001_021a637c() + data_ov001_021a6fc8[func_ov001_021a639c()];
                             break;
                         case 2:
-                            data_ov001_021ca41c->mUnk_107c = data_ov001_021a6fc8[func_ov001_021a639c()];
+                            gEmblem->mUnk_107c = data_ov001_021a6fc8[func_ov001_021a639c()];
                             break;
                         case 3:
-                            data_ov001_021ca41c->mUnk_107c = data_ov001_021a6fc8[func_ov001_021a639c()];
+                            gEmblem->mUnk_107c = data_ov001_021a6fc8[func_ov001_021a639c()];
                             break;
                     }
-                    func_ov001_02184fb4(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 8), 0x1000);
-                    func_ov001_021850a4(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 8), 0);
-                    func_0212ecc0(&data_0217d068, 0, 0x1ee);
+                    SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 8), 0x1000);
+                    func_ov001_021850a4(GetLldEntry(gEmblem->mEmblemSLld, 8), NULL);
+                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1ee);
                 }
                 break;
             case 1:
-                func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 0xb), 0);
-                func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 0xc), -5);
-                func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 0xd), -5);
+                func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 0xb), 0);
+                func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 0xc), -5);
+                func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 0xd), -5);
                 if (dz < 0) {
-                    data_ov001_021ca41c->mUnk_1094 = 2;
-                    data_ov001_021ca41c->mUnk_1080 = func_ov001_021a63b4() - 1;
-                    func_ov001_02184fb4(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 9), 0x1000);
-                    func_ov001_02184fb4(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 10), 0);
-                    func_ov001_021850a4(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 9), 0);
-                    func_ov001_021850a4(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 10), 0);
+                    gEmblem->mUnk_1094 = 2;
+                    gEmblem->mUnk_1080 = func_ov001_021a63b4() - 1;
+                    SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 9), 0x1000);
+                    SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 10), 0);
+                    func_ov001_021850a4(GetLldEntry(gEmblem->mEmblemSLld, 9), NULL);
+                    func_ov001_021850a4(GetLldEntry(gEmblem->mEmblemSLld, 10), NULL);
                     func_ov001_02185018(entry8, -5);
-                    func_0212ecc0(&data_0217d068, 0, 0x1ee);
+                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1ee);
                 } else if (dz > 0) {
-                    data_ov001_021ca41c->mUnk_1094 = 3;
+                    gEmblem->mUnk_1094 = 3;
                     func_ov001_02185018(entry8, -5);
-                    func_0212ecc0(&data_0217d068, 0, 0x1ee);
+                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1ee);
                 } else if (func_ov001_02192a14(1)) {
-                    if (data_ov001_021a6fe8[data_ov001_021ca41c->mUnk_107c] != 0x17 || func_ov001_02181070()) {
-                        func_ov001_021a41c8(data_ov001_021a6fe8[data_ov001_021ca41c->mUnk_107c], 0);
+                    if (data_ov001_021a6fe8[gEmblem->mUnk_107c] != 0x17 || IsEmblemGridChanged()) {
+                        func_ov001_021a41c8(data_ov001_021a6fe8[gEmblem->mUnk_107c], 0);
                     }
                 } else {
-                    prev = data_ov001_021ca41c->mUnk_107c;
-                    data_ov001_021ca41c->mUnk_107c = data_ov001_021a710c[dy + 1][prev];
-                    data_ov001_021ca41c->mUnk_107c = data_ov001_021a719c[dx + 1][data_ov001_021ca41c->mUnk_107c];
-                    entry = func_ov001_02185160(data_ov001_021ca41c->mUnk_0858,
-                                                data_ov001_021a6fe8[data_ov001_021ca41c->mUnk_107c]);
+                    prev = gEmblem->mUnk_107c;
+                    gEmblem->mUnk_107c = data_ov001_021a710c[dy + 1][prev];
+                    gEmblem->mUnk_107c = data_ov001_021a719c[dx + 1][gEmblem->mUnk_107c];
+                    entry = GetLldEntry(gEmblem->mEmblemSLld, data_ov001_021a6fe8[gEmblem->mUnk_107c]);
                     func_ov001_02185018(entry8, 0);
-                    func_ov001_02184fd8(entry8, func_ov001_02184fc8(entry), func_ov001_02184fb8(entry));
-                    if (data_ov001_021ca41c->mUnk_107c != prev) {
-                        func_02105ac0(0x1ef);
+                    SetLldEntryPos(entry8, GetLldEntryX(entry), GetLldEntryY(entry));
+                    if (gEmblem->mUnk_107c != prev) {
+                        StartSoundOncePerFrame(0x1ef);
                     }
                 }
-                func_ov001_021a5f70(0, (s32) (func_ov001_02192a6c()), (s32) (func_ov001_02192a60()), 0,
-                                    0, 0);
+                func_ov001_021a5f70(0, GetEmblemInputX(), GetEmblemInputY(), 0, 0, 0);
                 break;
             case 2:
-                func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 0xb), -5);
-                func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 0xc), -5);
-                func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 0xd), 0);
+                func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 0xb), -5);
+                func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 0xc), -5);
+                func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 0xd), 0);
                 if (dz > 0) {
-                    data_ov001_021ca41c->mUnk_1094 = 1;
+                    gEmblem->mUnk_1094 = 1;
                     switch (func_ov001_021a639c()) {
                         case 0:
-                            data_ov001_021ca41c->mUnk_107c =
-                                func_ov001_021a637c() + data_ov001_021a6fb8[func_ov001_021a639c()];
+                            gEmblem->mUnk_107c = func_ov001_021a637c() + data_ov001_021a6fb8[func_ov001_021a639c()];
                             break;
                         case 1:
-                            data_ov001_021ca41c->mUnk_107c =
-                                func_ov001_021a637c() + data_ov001_021a6fb8[func_ov001_021a639c()];
+                            gEmblem->mUnk_107c = func_ov001_021a637c() + data_ov001_021a6fb8[func_ov001_021a639c()];
                             break;
                         case 2:
-                            data_ov001_021ca41c->mUnk_107c = data_ov001_021a6fb8[func_ov001_021a639c()];
+                            gEmblem->mUnk_107c = data_ov001_021a6fb8[func_ov001_021a639c()];
                             break;
                         case 3:
-                            data_ov001_021ca41c->mUnk_107c = data_ov001_021a6fb8[func_ov001_021a639c()];
+                            gEmblem->mUnk_107c = data_ov001_021a6fb8[func_ov001_021a639c()];
                             break;
                     }
-                    func_ov001_02184fb4(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 8), 0x1000);
-                    func_ov001_021850a4(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 8), 0);
-                    func_ov001_02184fb4(entry9, 0);
-                    func_ov001_02184fb4(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 10), 0x1000);
-                    data_ov001_021ca41c->mUnk_1080 = func_ov001_021a63b4() - 1;
+                    SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 8), 0x1000);
+                    func_ov001_021850a4(GetLldEntry(gEmblem->mEmblemSLld, 8), NULL);
+                    SetLldEntryScale(entry9, 0);
+                    SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 10), 0x1000);
+                    gEmblem->mUnk_1080 = func_ov001_021a63b4() - 1;
                     func_ov001_02185018(entry9, -5);
-                    func_0212ecc0(&data_0217d068, 0, 0x1ee);
+                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1ee);
                 } else if (dz < 0) {
-                    data_ov001_021ca41c->mUnk_1094 = 3;
-                    func_ov001_02184fb4(entry9, 0);
-                    func_ov001_02184fb4(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 10), 0x1000);
-                    data_ov001_021ca41c->mUnk_1080 = func_ov001_021a63b4() - 1;
+                    gEmblem->mUnk_1094 = 3;
+                    SetLldEntryScale(entry9, 0);
+                    SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 10), 0x1000);
+                    gEmblem->mUnk_1080 = func_ov001_021a63b4() - 1;
                     func_ov001_02185018(entry9, -5);
-                    func_0212ecc0(&data_0217d068, 0, 0x1ee);
+                    NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1ee);
                 } else if (func_ov001_02192a14(1)) {
-                    func_ov001_021a41c8(data_ov001_021a7058[data_ov001_021ca41c->mUnk_1080], 0);
+                    func_ov001_021a41c8(data_ov001_021a7058[gEmblem->mUnk_1080], 0);
                 } else {
-                    prev = data_ov001_021ca41c->mUnk_1080;
-                    data_ov001_021ca41c->mUnk_1080 = data_ov001_021a722c[dy + 1][prev];
-                    data_ov001_021ca41c->mUnk_1080 = data_ov001_021a72ec[dx + 1][data_ov001_021ca41c->mUnk_1080];
-                    func_ov001_02185160(data_ov001_021ca41c->mUnk_0858,
-                                        data_ov001_021a7058[data_ov001_021ca41c->mUnk_1080]);
-                    if (data_ov001_021ca41c->mUnk_1080 < 0xf) {
+                    prev = gEmblem->mUnk_1080;
+                    gEmblem->mUnk_1080 = data_ov001_021a722c[dy + 1][prev];
+                    gEmblem->mUnk_1080 = data_ov001_021a72ec[dx + 1][gEmblem->mUnk_1080];
+                    GetLldEntry(gEmblem->mEmblemSLld, data_ov001_021a7058[gEmblem->mUnk_1080]);
+                    if (gEmblem->mUnk_1080 < 0xf) {
                         func_ov001_02185018(entry9, 0);
                     } else {
                         func_ov001_02185018(entry9, -5);
                     }
-                    if (data_ov001_021ca41c->mUnk_1080 != prev) {
-                        func_02105ac0(0x1ef);
+                    if (gEmblem->mUnk_1080 != prev) {
+                        StartSoundOncePerFrame(0x1ef);
                     }
                 }
-                func_ov001_021a5f70(0, (s32) (func_ov001_02192a6c()), (s32) (func_ov001_02192a60()), 0,
-                                    0, 0);
+                func_ov001_021a5f70(0, GetEmblemInputX(), GetEmblemInputY(), 0, 0, 0);
                 break;
         }
     }
 
-    if (func_ov001_02192a54() && func_ov001_021a62c4((s32) (func_ov001_02192a6c()), (s32) (func_ov001_02192a60()))) {
-        func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 0xb), -5);
-        func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 0xc), 0);
-        func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 0xd), -5);
-        data_ov001_021ca41c->mUnk_1080 = func_ov001_021a63b4() - 1;
-        if (func_ov001_02184fb0(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 9)) == 0x1000) {
-            func_ov001_02184fb4(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 9), 0);
-            func_ov001_02184fb4(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 10), 0x1000);
+    if (GetEmblemInputPressed() && IsEmblemPointInGrid(GetEmblemInputX(), GetEmblemInputY())) {
+        func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 0xb), -5);
+        func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 0xc), 0);
+        func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 0xd), -5);
+        gEmblem->mUnk_1080 = func_ov001_021a63b4() - 1;
+        if (GetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 9)) == 0x1000) {
+            SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 9), 0);
+            SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 10), 0x1000);
         }
-        if (func_ov001_02184fb0(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 8)) == 0x1000) {
-            func_ov001_02184fb4(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 8), 0);
+        if (GetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 8)) == 0x1000) {
+            SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 8), 0);
         }
-        data_ov001_021ca41c->mUnk_1094 = 0;
-    } else if (data_ov001_021ca41c->mUnk_1094 == 3) {
-        func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 0xb), -5);
-        func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 0xc), 0);
-        func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 0xd), -5);
-        data_ov001_021ca41c->mUnk_1080 = func_ov001_021a63b4() - 1;
-        if (func_ov001_02184fb0(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 9)) == 0x1000) {
-            func_ov001_02184fb4(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 9), 0);
-            func_ov001_02184fb4(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 10), 0x1000);
+        gEmblem->mUnk_1094 = 0;
+    } else if (gEmblem->mUnk_1094 == 3) {
+        func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 0xb), -5);
+        func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 0xc), 0);
+        func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 0xd), -5);
+        gEmblem->mUnk_1080 = func_ov001_021a63b4() - 1;
+        if (GetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 9)) == 0x1000) {
+            SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 9), 0);
+            SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 10), 0x1000);
         }
-        if (func_ov001_02184fb0(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 8)) == 0x1000) {
-            func_ov001_02184fb4(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 8), 0);
+        if (GetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 8)) == 0x1000) {
+            SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 8), 0);
         }
-        if (!func_ov001_02192a48() && !func_ov001_02192a04(1) && !func_ov001_02192a04(2)) {
-            data_ov001_021ca41c->mUnk_1094 = 0;
+        if (!GetEmblemInputDown() && !func_ov001_02192a04(1) && !func_ov001_02192a04(2)) {
+            gEmblem->mUnk_1094 = 0;
         }
     }
 
-    if (data_ov001_021ca41c->mUnk_1094 == 0) {
+    if (gEmblem->mUnk_1094 == 0) {
         dx = 0;
         dy = 0;
-        dx += func_ov001_021928c8(0x20) ? -1 : 0;
-        dx += func_ov001_021928c8(0x10) ? 1 : 0;
-        dy += func_ov001_021928c8(0x40) ? -1 : 0;
-        dy += func_ov001_021928c8(0x80) ? 1 : 0;
-        if (func_ov001_021a5f70((s32) (func_ov001_02192a48()), (s32) (func_ov001_02192a6c()), (s32) (func_ov001_02192a60()), (s32) (func_ov001_02192a04(1)), (s32) (dx), (s32) (dy))) {
+        dx += IsEmblemInputRepeat(0x20) ? -1 : 0;
+        dx += IsEmblemInputRepeat(0x10) ? 1 : 0;
+        dy += IsEmblemInputRepeat(0x40) ? -1 : 0;
+        dy += IsEmblemInputRepeat(0x80) ? 1 : 0;
+        if (func_ov001_021a5f70(GetEmblemInputDown(), GetEmblemInputX(), GetEmblemInputY(), func_ov001_02192a04(1), dx,
+                                dy)) {
             if (func_ov001_021a639c() == 3) {
-                data_ov001_021ca41c->mUnk_1080 = func_ov001_021a63b4() - 1;
-                func_0212ecc0(&data_0217d068, 0, 0x1f4);
+                gEmblem->mUnk_1080 = func_ov001_021a63b4() - 1;
+                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1f4);
             } else if (func_ov001_021a639c() == 2) {
-                func_0212ecc0(&data_0217d068, 0, 0x1f5);
+                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1f5);
             }
         } else if (func_ov001_02192a04(0x400)) {
-            flag = 1;
+            flag = TRUE;
             if (func_ov001_021a6278()) {
-                data_ov001_021ca41c->mUnk_1080 = func_ov001_021a63b4() - 1;
-                func_0212ecc0(&data_0217d068, 0, 0x1f4);
+                gEmblem->mUnk_1080 = func_ov001_021a63b4() - 1;
+                NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1f4);
             }
         }
-        if (func_ov001_02192a48() && !func_ov001_02192a24() && func_ov001_021a62c4((s32) (func_ov001_02192a6c()), (s32) (func_ov001_02192a60()))) {
-            data_ov001_021ca41c->mUnk_10b8 = 1;
-        } else if (func_ov001_02192a48() &&
-                   (func_ov001_021a62c4((s32) (func_ov001_02192a6c()), (s32) (func_ov001_02192a60())) ||
-                    func_ov001_021a62c4((s32) (func_ov001_02192a3c()), (s32) (func_ov001_02192a30()))) &&
+        if (GetEmblemInputDown() && !GetEmblemInputPrevDown() &&
+            IsEmblemPointInGrid(GetEmblemInputX(), GetEmblemInputY())) {
+            gEmblem->mUnk_10b8 = TRUE;
+        } else if (GetEmblemInputDown() &&
+                   (IsEmblemPointInGrid(GetEmblemInputX(), GetEmblemInputY()) ||
+                    IsEmblemPointInGrid(GetEmblemInputPrevX(), GetEmblemInputPrevY())) &&
                    (func_ov001_021a633c() != func_ov001_021a6314() || func_ov001_021a6328() != func_ov001_021a6300())) {
-            data_ov001_021ca41c->mUnk_10b8 = 1;
+            gEmblem->mUnk_10b8 = TRUE;
         } else if (func_ov001_02192a14(1)) {
-            data_ov001_021ca41c->mUnk_10b8 = 1;
+            gEmblem->mUnk_10b8 = TRUE;
         } else if (func_ov001_02192a04(1) &&
                    (func_ov001_021a633c() != func_ov001_021a6314() || func_ov001_021a6328() != func_ov001_021a6300())) {
-            data_ov001_021ca41c->mUnk_10b8 = 1;
+            gEmblem->mUnk_10b8 = TRUE;
         }
     } else {
-        func_ov001_021a5f70(0, (s32) (func_ov001_02192a6c()), (s32) (func_ov001_02192a60()), 0, 0, 0);
+        func_ov001_021a5f70(0, GetEmblemInputX(), GetEmblemInputY(), 0, 0, 0);
     }
 
-    func_ov001_02184fd8(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 0), func_ov001_021a633c(), func_ov001_021a6328());
-    func_ov001_02184fd8(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 1), func_ov001_021a633c(), func_ov001_021a6328());
-    func_ov001_02184fd8(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 2), func_ov001_021a633c(), func_ov001_021a6328());
-    func_ov001_02184fd8(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 3), func_ov001_021a633c(), func_ov001_021a6328());
+    SetLldEntryPos(GetLldEntry(gEmblem->mEmblemSLld, 0), func_ov001_021a633c(), func_ov001_021a6328());
+    SetLldEntryPos(GetLldEntry(gEmblem->mEmblemSLld, 1), func_ov001_021a633c(), func_ov001_021a6328());
+    SetLldEntryPos(GetLldEntry(gEmblem->mEmblemSLld, 2), func_ov001_021a633c(), func_ov001_021a6328());
+    SetLldEntryPos(GetLldEntry(gEmblem->mEmblemSLld, 3), func_ov001_021a633c(), func_ov001_021a6328());
 
-    if (data_ov001_021ca41c->mUnk_1094 == 0 && func_ov001_02192a48() &&
-        func_ov001_021a62c4((s32) (func_ov001_02192a6c()), (s32) (func_ov001_02192a60()))) {
-        func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 0), -5);
-        data_ov001_021ca41c->mUnk_1088 = -1;
-    } else if (data_ov001_021ca41c->mUnk_1094 == 0 && func_ov001_02192a48() &&
-               func_ov001_02184ff8(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 0)) == -5) {
-        func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 0), -5);
-        data_ov001_021ca41c->mUnk_1088 = -1;
+    if (gEmblem->mUnk_1094 == 0 && GetEmblemInputDown() && IsEmblemPointInGrid(GetEmblemInputX(), GetEmblemInputY())) {
+        func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 0), -5);
+        gEmblem->mUnk_1088 = -1;
+    } else if (gEmblem->mUnk_1094 == 0 && GetEmblemInputDown() &&
+               GetLldEntryFrameIndex(GetLldEntry(gEmblem->mEmblemSLld, 0)) == -5) {
+        func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 0), -5);
+        gEmblem->mUnk_1088 = -1;
     } else {
-        data_ov001_021ca41c->mUnk_1088 = func_ov001_021a637c();
+        gEmblem->mUnk_1088 = func_ov001_021a637c();
         if (flag) {
-            func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 0), 3);
+            func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 0), 3);
         } else {
             switch (func_ov001_021a639c()) {
-            case 0:
-                func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 0), 0);
-                break;
-            case 2:
-                func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 0), 1);
-                break;
-            case 1:
-                func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 0), 2);
-                break;
-            case 3:
-                func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 0), 3);
-                break;
+                case 0:
+                    func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 0), 0);
+                    break;
+                case 2:
+                    func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 0), 1);
+                    break;
+                case 1:
+                    func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 0), 2);
+                    break;
+                case 3:
+                    func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 0), 3);
+                    break;
             }
         }
     }
 
-    switch (data_ov001_021ca41c->mUnk_1088) {
-    case 0:
-        func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 1), -4);
-        func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 2), -5);
-        func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 3), -5);
-        break;
-    case 1:
-        func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 1), -5);
-        func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 2), -4);
-        func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 3), -5);
-        break;
-    case 2:
-        func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 1), -5);
-        func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 2), -5);
-        func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 3), -4);
-        break;
+    switch (gEmblem->mUnk_1088) {
+        case 0:
+            func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 1), -4);
+            func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 2), -5);
+            func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 3), -5);
+            break;
+        case 1:
+            func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 1), -5);
+            func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 2), -4);
+            func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 3), -5);
+            break;
+        case 2:
+            func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 1), -5);
+            func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 2), -5);
+            func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 3), -4);
+            break;
     }
 
-    entry = func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, data_ov001_021a7058[data_ov001_021ca41c->mUnk_1080]);
-    func_ov001_02184fd8(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 9), func_ov001_02184fc8(entry), func_ov001_02184fb8(entry));
-    func_ov001_02184fd8(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 10), func_ov001_02184fc8(entry), func_ov001_02184fb8(entry));
+    entry = GetLldEntry(gEmblem->mEmblemSLld, data_ov001_021a7058[gEmblem->mUnk_1080]);
+    SetLldEntryPos(GetLldEntry(gEmblem->mEmblemSLld, 9), GetLldEntryX(entry), GetLldEntryY(entry));
+    SetLldEntryPos(GetLldEntry(gEmblem->mEmblemSLld, 10), GetLldEntryX(entry), GetLldEntryY(entry));
 
-    if (data_ov001_021ca41c->mUnk_1080 < 0xf) {
-        func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 4), -5);
-        func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 5), -5);
-        func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 6), -5);
-        func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 7), -5);
+    if (gEmblem->mUnk_1080 < 0xf) {
+        func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 4), -5);
+        func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 5), -5);
+        func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 6), -5);
+        func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 7), -5);
     } else {
-        func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 4), 0);
-        func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 5), 0);
-        func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 6), 0);
-        func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 7), 0);
+        func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 4), 0);
+        func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 5), 0);
+        func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 6), 0);
+        func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 7), 0);
     }
 
-    if (func_ov001_02181070() && func_ov001_02184ff8(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 0x17)) == 2) {
-        func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 0x17), 0);
+    if (IsEmblemGridChanged() && GetLldEntryFrameIndex(GetLldEntry(gEmblem->mEmblemSLld, 0x17)) == 2) {
+        func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 0x17), 0);
     }
 }

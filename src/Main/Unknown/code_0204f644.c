@@ -1,6 +1,7 @@
 #include "Main/Unknown/code_0204f644.h"
-#include "code_02004270.h"
-#include "Main/Unknown/code_02004d80.h"
+#include "Main/Unknown/code_02036820.h"
+#include "code_02003be0.h"
+#include "fs_file.h"
 #include "Main/Unknown/code_02036000.h"
 #include "Main/Unknown/code_02057d10.h"
 #include "Main/Unknown/unk_0217a000.h"
@@ -8,56 +9,57 @@
 
 #pragma thumb on
 
-// non-matching: same size; the original loads the data pointer into r2 before the length subtraction (ldr r2,[r0]; adds r2,r2,r5 after it), ours loads it into r0 after it (4 instructions differ at +0xb4)
-s32 func_0204f644(void) {
-    u16 n = data_0217aa00->mUnk_1d08;
-    s16 m = n - 1;
-    Unk02003024 *p = &data_0217aa00->mUnk_1d0c;
-    u8 *q;
-    s32 v1;
-    u32 *v2;
-    if (((p->mUnk_0c & 1) ? 1 : 0) != 0) {
-        return 0;
+void UncompressPendingFile(void) {
+    s16 index = data_0217aa00->mNextLoadIndex - 1;
+    u32 uncompressedSize = *data_0217aa00->mBlockEntries[index].mBuffer >> 8;
+    void *destination = data_0217aa00->mBlockEntries[index].mUncompressedBuffer;
+    if (destination == NULL) {
+        destination = HeapAllocAligned(data_0217aa00->mBlockEntries[index].mHeap, uncompressedSize, 0x20);
+        *data_0217aa00->mBlockEntries[index].mDataOutput = destination;
     }
-    if (m >= 0 && data_0217aa00->mUnk_16a0[m].mUnk_84_29 != 0) {
-        if (data_0217aa0c->mUnk_f8 != 0) {
-            return 0;
-        }
-        func_02057df0(func_0204f770);
-        data_0217aa0c->mUnk_f8 = 1;
-        return 0;
-    }
-    if (n >= 12 || data_0217aa00->mUnk_16a0[n].mUnk_34 == 0) {
-        return 1;
-    }
-    q = &data_0217aa00->mUnk_16a0[n].mUnk_34;
-    if (((p->mUnk_0c & 0x10) ? 1 : 0) != 0) {
-        func_020049e8(p);
-    }
-    func_02004d80(p);
-    if (func_02004a30(p, q) != 0) {
-        v1 = p->mUnk_20.p.mUnk_08 - p->mUnk_20.p.mUnk_04;
-        v2 = data_0217aa00->mUnk_16a0[n].mUnk_74;
-        if (v2 == 0) {
-            v2 = func_02036b74(data_0217aa00->mUnk_16a0[n].mUnk_80, v1, 0x20);
-            *data_0217aa00->mUnk_16a0[n].mUnk_7c = v2;
-        }
-        func_020048bc(p, v2, v1);
-        data_0217aa00->mUnk_1d08++;
-    }
-    return 0;
+    MI_UncompressLZ8(data_0217aa00->mBlockEntries[index].mBuffer, destination);
+    data_0217aa00->mBlockEntries[index].mUncompressPending = 0;
 }
 
-void func_0204f770(void) {
-    s16 m = data_0217aa00->mUnk_1d08 - 1;
-    u32 v1 = *data_0217aa00->mUnk_16a0[m].mUnk_74 >> 8;
-    void *v2 = data_0217aa00->mUnk_16a0[m].mUnk_78;
-    if (v2 == 0) {
-        v2 = func_02036b74(data_0217aa00->mUnk_16a0[m].mUnk_80, v1, 0x20);
-        *data_0217aa00->mUnk_16a0[m].mUnk_7c = v2;
+// Staged: one step per call; returns TRUE when no queued file is left.
+BOOL LoadPendingFiles(void) {
+    u16 nextIndex = data_0217aa00->mNextLoadIndex;
+    s16 previousIndex = nextIndex - 1;
+    FSFile *file = &data_0217aa00->mFile;
+    void *q;
+    s32 size;
+    u32 *buffer;
+    if (((file->mStat & 1) ? 1 : 0) != 0) {
+        return FALSE;
     }
-    func_0214d344(data_0217aa00->mUnk_16a0[m].mUnk_74, v2);
-    data_0217aa00->mUnk_16a0[m].mUnk_84_29 = 0;
+    if (previousIndex >= 0 && data_0217aa00->mBlockEntries[previousIndex].mUncompressPending != 0) {
+        if (gThreadFunctionQueue->mRunRequested != 0) {
+            return FALSE;
+        }
+        QueueThreadFunction(UncompressPendingFile);
+        gThreadFunctionQueue->mRunRequested = 1;
+        return FALSE;
+    }
+    if (nextIndex >= 12 || data_0217aa00->mBlockEntries[nextIndex].mPath == 0) {
+        return TRUE;
+    }
+    q = &data_0217aa00->mBlockEntries[nextIndex].mPath;
+    if (((file->mStat & 0x10) ? 1 : 0) != 0) {
+        FS_CloseFile(file);
+    }
+    FS_InitFile(file);
+    if (FS_OpenFile(file, q) != 0) {
+        q = data_0217aa00;
+        size = file->mProp.p.mUnk_08 - file->mProp.p.mUnk_04;
+        buffer = ((ConnectionWork *) q)->mBlockEntries[nextIndex].mBuffer;
+        if (buffer == NULL) {
+            buffer = HeapAllocAligned(data_0217aa00->mBlockEntries[nextIndex].mHeap, size, 0x20);
+            *data_0217aa00->mBlockEntries[nextIndex].mDataOutput = buffer;
+        }
+        FS_ReadFileAsync(file, buffer, size);
+        data_0217aa00->mNextLoadIndex++;
+    }
+    return FALSE;
 }
 
 #pragma thumb off

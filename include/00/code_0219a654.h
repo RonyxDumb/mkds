@@ -2,7 +2,8 @@
 
 #include "types.h"
 #include "00/code_0219b1d4.h" // Unk0219b1d4
-#include "00/code_021a4654.h" // Unk021a4654
+#include "00/code_0218e2dc.h"
+#include "00/code_021a3a18.h"
 
 // Six bytes at data_ov000_021b400c, written at the start of each buffer.
 typedef struct Unk021b400c {
@@ -57,10 +58,9 @@ typedef struct Unk0219aeb0 {
 } Unk0219aeb0;
 
 // Declared here until the code that defines them is decompiled.
-s32 func_ov000_0218e57c(u32 *a);
 
-s32 func_ov000_0219a654(const u8 *a, u32 *b, u16 *c);
-u32 func_ov000_0219a760(u32 a, u32 b, u32 c);
+BOOL Gt2ParseAddress(const char *a, u32 *b, u16 *c);
+u32 Gt2FormatAddress(u32 a, u32 b, char *c);
 void func_ov000_0219a7e4(u8 *a, s32 b, void *c);
 void func_ov000_0219a8bc(Unk0219b1d4 *a, Unk0219aa64 *b, Unk021a4654 *c);
 void func_ov000_0219a958(Unk0219b1d4 *a, Unk0219ade4 *b, Unk021a4654 *c);
@@ -71,15 +71,15 @@ void func_ov000_0219ab24(Unk0219b1d4 *a);
 void func_ov000_0219ac50(u32 a);
 s32 func_ov000_0219ac7c(u32 a, u32 b, u32 c, void (*d)(s32 a, void *b), void (*e)(s32 a, s32 b, void *c, void *d),
                         void *f);
-s32 func_ov000_0219ad20(void);
-u32 func_ov000_0219ad88(u8 *a, const u8 *b);
-u32 func_ov000_0219adb4(const u8 *a);
+BOOL func_ov000_0219ad20(void);
+u32 func_ov000_0219ad88(char *a, const char *b);
+u32 func_ov000_0219adb4(const char *a);
 void func_ov000_0219ade4(Unk0219b1d4 *a);
 void func_ov000_0219aeb0(Unk0219b1d4 *a);
 u16 func_ov000_0219b038(u32 a);
 u32 func_ov000_0219b05c(void);
 void func_ov000_0219b0b0(u32 a, u32 b, u16 c, void *d, s32 e);
-s32 func_ov000_0219b0ec(const u8 *a);
+BOOL func_ov000_0219b0ec(const u8 *a);
 void func_ov000_0219b110(void);
 void func_ov000_0219b130(Unk0219b1d4 *a);
 Unk0219b1d4 *func_ov000_0219b178(void);

@@ -1,39 +1,40 @@
 #include "Main/Unknown/code_0202f0a8.h"
 #include "Main/Unknown/code_0202f028.h"
+#include "Main/Unknown/unk_02174000.h"
 
 #pragma optimize_for_size on
 
-u32 func_0202f0a8(u32 a) {
-    return func_0202f0c8((Unk02175628_48 *) &data_02175628[a].mUnk_48);
-}
+#pragma thumb on
 
-u32 func_0202f0c8(Unk02175628_48 *a) {
-    u32 r = 0;
-    if (func_0202f028(a) == 0 && func_0202f0fc(a) != 0) {
-        r = 1;
+void CallScrollListCallback(s32 action, s32 slot, s32 row, s32 selectedSlot) {
+    void (*callback)(int, int, int, int) = gScrollList->mCallback;
+    if (callback != NULL) {
+        if (action == 1) {
+            if (row < 0 || row >= gScrollList->mRowCount) {
+                return;
+            }
+        }
+        callback(action, slot, row, selectedSlot);
     }
-    return r;
 }
 
-u32 func_0202f0fc(Unk02175628_48 *a) {
-    if (a->mUnk_0c == 0 && a->mUnk_04 != 0) {
+#pragma thumb off
+
+u32 func_0202f0fc(InputSlotPair *pair) {
+    if (pair->mPrevHasPair == 0 && pair->mHasPair != 0) {
         return 1;
     }
     return 0;
 }
 
-#pragma thumb on
-
-void func_0202f120(s32 a, s32 b, s32 c, s32 d) {
-    void (*f)(int, int, int, int) = data_02174e48->mUnk_028;
-    if (f != 0) {
-        if (a == 1) {
-            if (c < 0 || c >= data_02174e48->mUnk_034) {
-                return;
-            }
-        }
-        f(a, b, c, d);
+u32 func_0202f0c8(InputSlotPair *pair) {
+    u32 result = 0;
+    if (func_0202f028(pair) == 0 && func_0202f0fc(pair) != 0) {
+        result = 1;
     }
+    return result;
 }
 
-#pragma thumb off
+u32 func_0202f0a8(u32 slotIndex) {
+    return func_0202f0c8((InputSlotPair *) &data_02175628[slotIndex].mPairX);
+}

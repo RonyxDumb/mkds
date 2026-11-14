@@ -1,11 +1,13 @@
 #include "Main/Unknown/code_02008908.h"
+#include "Main/Unknown/code_020099d8.h"
+#include "code_0200eddc.h"
 
 #pragma thumb on
 
-int func_02008908(int param_1, u32 param_2, u32 param_3) {
-    func_0200ee74((const void *) param_3, (int) (param_1 + 0x1fU & 0xffffffe0));
-    func_0200ee98();
-    return func_020099d8((void *) param_3, param_1, param_2);
+int FlushAndSendMPData(int size, u32 childMask, u32 data) {
+    DC_FlushRange((const void *) data, (size + 0x1fU & 0xffffffe0));
+    DC_WaitWriteBufferEmpty();
+    return SendMPData((void *) data, size, childMask);
 }
 
 #pragma thumb off

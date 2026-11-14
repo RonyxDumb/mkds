@@ -1,194 +1,208 @@
 #include "01/code_0218a568.h"
+#include "01/code_02185ef4.h"
+#include "01/code_02187c4c.h"
+#include "01/code_02187c60.h"
+#include "01/code_02187e78.h"
+#include "01/code_02187eb0.h"
+#include "01/code_02188158.h"
+#include "01/code_02188cd8.h"
+#include "01/code_02188de0.h"
 #include "01/code_02187000.h"
 #include "01/code_0218a000.h"
+#include "01/code_0218ac04.h"
 #include "01/code_0218b000.h"
+#include "01/code_0218b034.h"
+#include "01/code_0218b278.h"
+#include "Main/Unknown/code_020d22c0.h"
+#include "Main/Unknown/code_020d275c.h"
+#include "Main/Unknown/code_02042044.h"
+#include "Main/Unknown/code_0206bcb0.h"
+#include "Main/Unknown/code_020fd83c.h"
 #include "Main/Unknown/code_020fd000.h"
+#include "Main/Unknown/code_020fd264.h"
 
-void func_ov001_0218aba0(Unk02188950 *param_1) {
-    func_ov001_02187218(param_1, 3, (s32 (*)(Unk02188950 *)) (0));
-    func_ov001_02188d64((Unk02188950 *) (param_1), (s32) (param_1->mUnk_0a0->mUnk_198), (s32) (param_1->mUnk_0a0->mUnk_19c));
-    func_ov001_02188c90(param_1);
-    func_ov001_02188cec((Unk02188950 *) (param_1), 0);
-    func_ov001_02188e24(param_1, (s32) (param_1->mUnk_0a0->mUnk_1a0), (UnkFunc *) ((int) &func_ov001_0218ac04));
-    func_020d2774(&param_1->mUnk_000, (u32) (0x238));
+void func_ov001_0218aba0(Unk02188950 *mapObject) {
+    func_ov001_02187218(mapObject, 3, NULL);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_198, mapObject->mPrm->mUnk_19c);
+    func_ov001_02188c90(mapObject);
+    SetSpeedAndClearTarget(mapObject, 0);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_1a0, &func_ov001_0218ac04);
+    StartMapObjectSound(&mapObject->mUnk_000, 0x238);
 }
 
-void func_ov001_0218ab04(Unk02188950 *param_1) {
-    func_ov001_02187e78(param_1);
-    func_ov001_02187218(param_1, 3, (s32 (*)(Unk02188950 *)) (0));
-    func_ov001_02188d64((Unk02188950 *) (param_1), (s32) (param_1->mUnk_0a0->mUnk_17c), (s32) (param_1->mUnk_0a0->mUnk_180));
-    func_ov001_02188c48(param_1, param_1->mUnk_0a0->mUnk_18c,
-                        param_1->mUnk_0a0->mUnk_190);
-    func_ov001_02188998(param_1, (Vec3 *) func_ov001_02187fc0((Unk02188950 *) (param_1)));
-    func_ov001_02188cd8((Unk02188950 *) (param_1), (s32) (param_1->mUnk_0a0->mUnk_184), (s32) (param_1->mUnk_0a0->mUnk_188));
-    func_ov001_02188e24(param_1, (s32) (param_1->mUnk_0a0->mUnk_194), (UnkFunc *) ((int) &func_ov001_0218aba0));
-    func_ov001_0218b278((u32) param_1);
+void StartBombKingJumpCycle(Unk02188950 *mapObject) {
+    IncrementEntryIndex(mapObject);
+    func_ov001_02187218(mapObject, 3, NULL);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_17c, mapObject->mPrm->mUnk_180);
+    func_ov001_02188c48(mapObject, mapObject->mPrm->mUnk_18c, mapObject->mPrm->mUnk_190);
+    SetAnglePointAndMoveAnglePoint(mapObject, &GetCurrentGroupEntry(mapObject)->mPos);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_184, mapObject->mPrm->mUnk_188);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_194, &func_ov001_0218aba0);
+    func_ov001_0218b278(mapObject);
 }
 
-void func_ov001_0218aaac(Unk02188950 *param_1) {
-    func_ov001_02187218(param_1, 3, (s32 (*)(Unk02188950 *)) (0));
-    func_ov001_02188d30((Unk02188950 *) (param_1), (s32) (param_1->mUnk_0a0->mUnk_140), (s32) (param_1->mUnk_0a0->mUnk_144), (UnkFunc *) (0));
-    func_ov001_02188c90(param_1);
-    func_ov001_02188cec((Unk02188950 *) (param_1), 0);
-    func_ov001_02188e74(param_1, (s32) (param_1->mUnk_0a0->mUnk_148), (UnkFunc *) ((u32) &func_ov001_0218b034));
+void StartBombKingThrowBombsState(Unk02188950 *mapObject) {
+    func_ov001_02187218(mapObject, 3, NULL);
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_140, mapObject->mPrm->mUnk_144, NULL);
+    func_ov001_02188c90(mapObject);
+    SetSpeedAndClearTarget(mapObject, 0);
+    SetAnimationFrameCallback(mapObject, mapObject->mPrm->mUnk_148, func_ov001_0218b034);
 }
 
-void func_ov001_0218aa34(Unk02188950 *param_1) {
-    void *b;
+void func_ov001_0218aa34(Unk02188950 *mapObject) {
+    void *bomb;
 
-    if (func_ov001_02187c4c((int) param_1) == 0) {
-        b = func_020fd428();
-        if (b != 0) {
-            func_ov001_02187c60((Unk02188950 *) (param_1), (void *) (b));
+    if (IsItemBombStored(mapObject) == 0) {
+        bomb = StartItemBomb();
+        if (bomb != NULL) {
+            ReleaseAndSetItemBomb(mapObject, (bomb));
         }
     }
-    if (func_ov001_02187c4c((int) param_1) != 0) {
-        func_ov001_02187218(param_1, 3, (s32 (*)(Unk02188950 *)) (0));
-        func_ov001_02188d30((Unk02188950 *) (param_1), (s32) (param_1->mUnk_0a0->mUnk_0d4), (s32) (param_1->mUnk_0a0->mUnk_0d8), (UnkFunc *) (0));
-        func_ov001_02188cec((Unk02188950 *) (param_1), 0);
-        func_ov001_02188e74(param_1, (s32) (param_1->mUnk_0a0->mUnk_0dc), (UnkFunc *) ((u32) &func_ov001_0218b1d8));
+    if (IsItemBombStored(mapObject) != 0) {
+        func_ov001_02187218(mapObject, 3, NULL);
+        StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_0d4, mapObject->mPrm->mUnk_0d8, 0);
+        SetSpeedAndClearTarget(mapObject, 0);
+        SetAnimationFrameCallback(mapObject, mapObject->mPrm->mUnk_0dc, ThrowStoredItemBomb);
     }
-    func_020d2774(&param_1->mUnk_000, (u32) (0x23c));
+    StartMapObjectSound(&mapObject->mUnk_000, 0x23c);
 }
 
-void func_ov001_0218a970(Unk02188950 *param_1) {
-    u8 *a;
+void StartBombKingChaseState(Unk02188950 *mapObject) {
+    Kart *kart;
 
-    a = (u8 *) func_ov001_02188104((Unk02188950 *) (param_1), (s32) (param_1->mUnk_0a0->mUnk_0c0), (s32) (param_1->mUnk_0a0->mUnk_0c4));
-    if (a != 0) {
-        func_ov001_02187218(param_1, 3, (s32 (*)(Unk02188950 *)) (0));
-        func_ov001_02188d64((Unk02188950 *) (param_1), (s32) (param_1->mUnk_0a0->mUnk_104), (s32) (param_1->mUnk_0a0->mUnk_108));
-        func_ov001_02188c48(param_1, param_1->mUnk_0a0->mUnk_0bc,
-                            param_1->mUnk_0a0->mUnk_0bc);
-        func_ov001_02188998(param_1, (Vec3 *) (a + 0x80));
-        func_ov001_02188cec((Unk02188950 *) (param_1), (s32) (param_1->mUnk_0a0->mUnk_0b8));
-        func_ov001_02188de0((Unk02188950 *) (param_1), (s32) (param_1->mUnk_0a0->mUnk_0cc), (s32) (param_1->mUnk_0a0->mUnk_0d0), (Vec3 *) (a + 0x80), (UnkFunc *) &func_ov001_0218aa34);
-        func_ov001_02188e24(param_1, (s32) (param_1->mUnk_0a0->mUnk_0c8), (UnkFunc *) (0));
-        func_ov001_0218b278((u32) param_1);
+    kart = GetEntryKartInRange(mapObject, mapObject->mPrm->mUnk_0c0, mapObject->mPrm->mUnk_0c4);
+    if (kart != NULL) {
+        func_ov001_02187218(mapObject, 3, NULL);
+        StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_104, mapObject->mPrm->mUnk_108);
+        func_ov001_02188c48(mapObject, mapObject->mPrm->mUnk_0bc, mapObject->mPrm->mUnk_0bc);
+        SetAnglePointAndMoveAnglePoint(mapObject, &kart->mPos);
+        SetSpeedAndClearTarget(mapObject, mapObject->mPrm->mUnk_0b8);
+        SetPointInRangeCallback(mapObject, mapObject->mPrm->mUnk_0cc, mapObject->mPrm->mUnk_0d0, &kart->mPos,
+                                &func_ov001_0218aa34);
+        StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_0c8, 0);
+        func_ov001_0218b278(mapObject);
     } else {
-        func_ov001_02188e88(param_1);
+        func_ov001_02188e88(mapObject);
     }
 }
 
-void func_ov001_0218a910(Unk02188950 *param_1) {
-    if (func_ov001_02187c4c((int) param_1) != 0) {
-        func_ov001_02187218(param_1, 3, (s32 (*)(Unk02188950 *)) (0));
-        func_ov001_02188d30((Unk02188950 *) (param_1), (s32) (param_1->mUnk_0a0->mUnk_0d4), (s32) (param_1->mUnk_0a0->mUnk_0d8), (UnkFunc *) (0));
-        func_ov001_02188cec((Unk02188950 *) (param_1), 0);
-        func_ov001_02188e74(param_1, (s32) (param_1->mUnk_0a0->mUnk_0dc), (UnkFunc *) ((u32) &func_ov001_0218b1d8));
-        func_020d2774(&param_1->mUnk_000, (u32) (0x23c));
+void StartItemBombThrow(Unk02188950 *mapObject) {
+    if (IsItemBombStored(mapObject) != 0) {
+        func_ov001_02187218(mapObject, 3, NULL);
+        StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_0d4, mapObject->mPrm->mUnk_0d8, 0);
+        SetSpeedAndClearTarget(mapObject, 0);
+        SetAnimationFrameCallback(mapObject, mapObject->mPrm->mUnk_0dc, ThrowStoredItemBomb);
+        StartMapObjectSound(&mapObject->mUnk_000, 0x23c);
     }
 }
 
-void func_ov001_0218a828(Unk02188950 *param_1) {
-    u8 *a;
-    u8 *c;
+void func_ov001_0218a828(Unk02188950 *mapObject) {
+    ItemBomb *bomb;
+    Kart *kart;
 
-    a = (u8 *) func_ov001_02188158((u32) param_1, param_1->mUnk_0a0->mUnk_11c,
-                                        param_1->mUnk_0a0->mUnk_120);
-    if (a != 0) {
-        c = (u8 *) func_ov001_02188104((Unk02188950 *) (param_1), (s32) (param_1->mUnk_0a0->mUnk_0c0), (s32) (param_1->mUnk_0a0->mUnk_0c4));
-        if (c != 0) {
-            func_020fd754(a);
-            func_ov001_02187c60((Unk02188950 *) (param_1), (void *) (a));
-            func_ov001_02187218(param_1, 3, (s32 (*)(Unk02188950 *)) (0));
-            func_ov001_02188d64((Unk02188950 *) (param_1), (s32) (param_1->mUnk_0a0->mUnk_0ec), (s32) (param_1->mUnk_0a0->mUnk_0f0));
-            func_ov001_02188c48(param_1, param_1->mUnk_0a0->mUnk_0f8,
-                                param_1->mUnk_0a0->mUnk_0f8);
-            func_ov001_02188998(param_1, (Vec3 *) (c + 0x80));
-            func_ov001_02188cec((Unk02188950 *) (param_1), (s32) (param_1->mUnk_0a0->mUnk_0f4));
-            func_ov001_02188de0((Unk02188950 *) (param_1), (s32) (param_1->mUnk_0a0->mUnk_0cc), (s32) (param_1->mUnk_0a0->mUnk_0d0), (Vec3 *) (c + 0x80), (UnkFunc *) &func_ov001_0218a910);
-            func_ov001_0218b278((u32) param_1);
+    bomb = FindItemBombInRange(mapObject, mapObject->mPrm->mUnk_11c, mapObject->mPrm->mUnk_120);
+    if (bomb != NULL) {
+        kart = GetEntryKartInRange(mapObject, mapObject->mPrm->mUnk_0c0, mapObject->mPrm->mUnk_0c4);
+        if (kart != NULL) {
+            func_020fd754(bomb);
+            ReleaseAndSetItemBomb(mapObject, bomb);
+            func_ov001_02187218(mapObject, 3, NULL);
+            StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_0ec, mapObject->mPrm->mUnk_0f0);
+            func_ov001_02188c48(mapObject, mapObject->mPrm->mUnk_0f8, mapObject->mPrm->mUnk_0f8);
+            SetAnglePointAndMoveAnglePoint(mapObject, &kart->mPos);
+            SetSpeedAndClearTarget(mapObject, mapObject->mPrm->mUnk_0f4);
+            SetPointInRangeCallback(mapObject, mapObject->mPrm->mUnk_0cc, mapObject->mPrm->mUnk_0d0, &kart->mPos,
+                                    &StartItemBombThrow);
+            func_ov001_0218b278(mapObject);
         } else {
-            func_020fd754(a);
-            func_ov001_02187c60((Unk02188950 *) (param_1), (void *) (a));
-            func_ov001_0218a910(param_1);
+            func_020fd754(bomb);
+            ReleaseAndSetItemBomb(mapObject, bomb);
+            StartItemBombThrow(mapObject);
         }
     }
 }
 
-void func_ov001_0218a75c(Unk02188950 *param_1) {
-    int a;
+void StartBombKingWalkToBombState(Unk02188950 *mapObject) {
+    ItemBomb *bomb;
 
-    a = func_ov001_02188158((u32) param_1, param_1->mUnk_0a0->mUnk_114,
-                                 param_1->mUnk_0a0->mUnk_118);
-    if (a != 0) {
-        func_ov001_02187218(param_1, 3, (s32 (*)(Unk02188950 *)) (0));
-        func_ov001_02188d64((Unk02188950 *) (param_1), (s32) (param_1->mUnk_0a0->mUnk_104), (s32) (param_1->mUnk_0a0->mUnk_108));
-        func_ov001_02188c48(param_1, param_1->mUnk_0a0->mUnk_110,
-                            param_1->mUnk_0a0->mUnk_110);
-        func_ov001_02188998(param_1, (Vec3 *) (a + 0x50));
-        func_ov001_02188cec((Unk02188950 *) (param_1), (s32) (param_1->mUnk_0a0->mUnk_10c));
-        func_ov001_02188de0((Unk02188950 *) (param_1), (s32) (param_1->mUnk_0a0->mUnk_11c), (s32) (param_1->mUnk_0a0->mUnk_120), (Vec3 *) (a + 0x50), (UnkFunc *) &func_ov001_0218a828);
-        func_ov001_02188e24(param_1, (s32) (param_1->mUnk_0a0->mUnk_124), (UnkFunc *) (0));
-        func_ov001_0218b278((u32) param_1);
+    bomb = FindItemBombInRange(mapObject, mapObject->mPrm->mUnk_114, mapObject->mPrm->mUnk_118);
+    if (bomb != NULL) {
+        func_ov001_02187218(mapObject, 3, NULL);
+        StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_104, mapObject->mPrm->mUnk_108);
+        func_ov001_02188c48(mapObject, mapObject->mPrm->mUnk_110, mapObject->mPrm->mUnk_110);
+        SetAnglePointAndMoveAnglePoint(mapObject, &bomb->mUnk_000.mItemObject.mPos);
+        SetSpeedAndClearTarget(mapObject, mapObject->mPrm->mUnk_10c);
+        SetPointInRangeCallback(mapObject, mapObject->mPrm->mUnk_11c, mapObject->mPrm->mUnk_120,
+                                &bomb->mUnk_000.mItemObject.mPos, &func_ov001_0218a828);
+        StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_124, 0);
+        func_ov001_0218b278(mapObject);
     }
 }
 
-void func_ov001_0218a6b0(Unk02188950 *param_1) {
-    u32 n;
-    u64 *a;
-    u32 b;
+void StartBombKingRandomState(Unk02188950 *mapObject) {
+    u32 randomLimit;
+    RandomState64 *rng;
+    u32 randomValue;
 
-    n = (u16) param_1->mUnk_0a0->mUnk_208;
-    if (n == 0x10000) {
-        a = (u64 *) func_020d22d0();
-        a[0] = (s64) a[1] * (s64) a[0] + a[2];
-        b = (u16) (((u64) (u32) (a[0] >> 32) * 0x10000) >> 32);
+    randomLimit = (u16) mapObject->mPrm->mUnk_208;
+    if (randomLimit == 0x10000) {
+        rng = GetMapObjectRandom();
+        rng->mValue = rng->mMultiplier * rng->mValue + rng->mIncrement;
+        randomValue = (u16) (((rng->mValue >> 32) * 0x10000) >> 32);
     } else {
-        a = (u64 *) func_020d22d0();
-        if ((u16) n == 0) {
-            b = 0;
+        rng = GetMapObjectRandom();
+        if ((u16) randomLimit == 0) {
+            randomValue = 0;
         } else {
-            a[0] = (s64) a[1] * (s64) a[0] + a[2];
-            if ((u16) n == 0) {
-                b = (u32) (a[0] >> 32);
+            rng->mValue = rng->mMultiplier * rng->mValue + rng->mIncrement;
+            if ((u16) randomLimit == 0) {
+                randomValue = rng->mValue >> 32;
             } else {
-                b = (u32) (((s64) (u32) (a[0] >> 32) * (s64) (u16) n) >> 32);
+                randomValue = ((rng->mValue >> 32) * (s64) (u16) randomLimit) >> 32;
             }
         }
-        b = (u16) b;
+        randomValue = (u16) randomValue;
     }
-    if (b != 0) {
-        func_ov001_0218aaac(param_1);
+    if (randomValue != 0) {
+        StartBombKingThrowBombsState(mapObject);
     } else {
-        func_ov001_0218a970(param_1);
+        StartBombKingChaseState(mapObject);
     }
 }
 
-void func_ov001_0218a60c(Unk02188950 *param_1) {
-    Unk02188950_a0 *a;
+void StartBombKingWalkState(Unk02188950 *mapObject) {
+    MissionRunPrm *prm;
 
-    func_ov001_02187e78(param_1);
-    func_ov001_02187218(param_1, 2, (s32 (*)(Unk02188950 *)) (0));
-    func_ov001_02188d64((Unk02188950 *) (param_1), (s32) (param_1->mUnk_0a0->mUnk_084), (s32) (param_1->mUnk_0a0->mUnk_088));
-    func_ov001_02188c48(param_1, param_1->mUnk_0a0->mUnk_090,
-                        param_1->mUnk_0a0->mUnk_090);
-    func_ov001_02188998(param_1, (Vec3 *) func_ov001_02187fc0((Unk02188950 *) (param_1)));
-    func_ov001_02188cec((Unk02188950 *) (param_1), (s32) (param_1->mUnk_0a0->mUnk_08c));
-    func_ov001_02188e24(param_1, (s32) (param_1->mUnk_0a0->mUnk_09c), (UnkFunc *) ((int) &func_ov001_0218a6b0));
-    a = param_1->mUnk_0a0;
-    func_ov001_02188de0((Unk02188950 *) (param_1), (s32) (a->mUnk_094), (s32) (a->mUnk_098), (Vec3 *) func_ov001_02187fc0((Unk02188950 *) (param_1)), (UnkFunc *) &func_ov001_0218aaac);
-    func_ov001_0218b278((u32) param_1);
+    IncrementEntryIndex(mapObject);
+    func_ov001_02187218(mapObject, 2, NULL);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_084, mapObject->mPrm->mUnk_088);
+    func_ov001_02188c48(mapObject, mapObject->mPrm->mUnk_090, mapObject->mPrm->mUnk_090);
+    SetAnglePointAndMoveAnglePoint(mapObject, &GetCurrentGroupEntry(mapObject)->mPos);
+    SetSpeedAndClearTarget(mapObject, mapObject->mPrm->mUnk_08c);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_09c, &StartBombKingRandomState);
+    prm = mapObject->mPrm;
+    SetPointInRangeCallback(mapObject, prm->mUnk_094, prm->mUnk_098, &GetCurrentGroupEntry(mapObject)->mPos,
+                            &StartBombKingThrowBombsState);
+    func_ov001_0218b278(mapObject);
 }
 
-int func_ov001_0218a590(Unk02188950 *param_1) {
-    if ((param_1->mUnk_2c8 & 0x1e34ef) != 0) {
-        if (param_1->mUnk_1c8.y > 0x3333) {
-            func_ov001_02187af4((Unk02188950 *) ((int) param_1));
-            func_ov001_02187518(param_1, 0, 0, 0, 0x411, 0);
-            func_ov001_02187518(param_1, 0, 0, 0, 0x412, 0);
+int StartBombKingBounceEffects(Unk02188950 *mapObject) {
+    if ((mapObject->mCollisionBits & 0x1e34ef) != 0) {
+        if (mapObject->mVelocity.y > 0x3333) {
+            ReleaseEffects(mapObject);
+            StartEffectAtRowHeight(mapObject, 0, 0, 0, 0x411, 0);
+            StartEffectAtRowHeight(mapObject, 0, 0, 0, 0x412, 0);
         }
-        if (param_1->mUnk_1c8.y > 0) {
-            func_020d2774(&param_1->mUnk_000, (u32) (0x23b));
+        if (mapObject->mVelocity.y > 0) {
+            StartMapObjectSound(&mapObject->mUnk_000, 0x23b);
         }
     }
     return 0;
 }
 
-int func_ov001_0218a568(Unk02188950 *param_1) {
-    if ((param_1->mUnk_2c8 & 0x1e34ef) != 0) {
-        param_1->mUnk_158 = func_ov001_0218a590;
+int func_ov001_0218a568(Unk02188950 *mapObject) {
+    if ((mapObject->mCollisionBits & 0x1e34ef) != 0) {
+        mapObject->mUnk_158 = StartBombKingBounceEffects;
     }
     return 0;
 }

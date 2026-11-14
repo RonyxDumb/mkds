@@ -1,9 +1,12 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_0206bcb0.h"
 
-void func_01ffad14(Unk0206bcb0 *p, Vec3 *a);
-void func_01ffae14(Unk0206bcb0 *p, s32 a);
-s32 func_01ffaf18(Unk0206bcb0 *p);
-void func_01ffb0cc(Unk0206bcb0 *p);
+typedef struct Kart Kart;
+
+// Sets mUnk_100_q to the quaternion from the up vector to a (y = 0, w keeps its sign) and normalizes it; when there is
+// none, multiplies it by the quaternion from mUnk_244 to a first.
+void AdvanceKartQuaternionFromVector(Kart *p, Vec3 *a);
+void ScaleKartVelocityAndSetCappedLengthAndDirection(Kart *p, s32 a);
+s32 LimitKartForwardSpeedAndGetScaled(Kart *p);
+void func_01ffb0cc(Kart *p);

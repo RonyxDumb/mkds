@@ -3,27 +3,28 @@
 #include "types.h"
 #include "Main/Unknown/code_020f6be8.h"
 
-// Object behind data_0217bc6c, data_0217bc64 and data_0217bc74: mUnk_00 rows of 0x12
-// halfwords at mUnk_04, filled in by func_020f8148.
-typedef struct Unk0217bc6c {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ u16 (*mUnk_04)[0x12];
-} Unk0217bc6c;
+// A weight table parsed from "Item/ItemSlotList.dat": mRowCount rows of 18 halfwords (one weight per item) plus one end
+// row of 0xffff. Three globals: data_0217bc6c, data_0217bc64 (row = the kart's rank) and data_0217bc74 (row = a forced
+// argument minus one).
+typedef struct ItemSlotTable {
+    /* 00 */ s32 mRowCount;
+    /* 04 */ u16 (*mRows)[0x12];
+} ItemSlotTable;
 
-extern Unk0217bc6c data_0217bc74;
+extern ItemSlotTable data_0217bc74;
 
-extern Unk0217bc6c data_0217bc64;
+extern ItemSlotTable data_0217bc64;
 
-extern Unk0217bc6c data_0217bc6c;
+extern ItemSlotTable data_0217bc6c;
 
-// Element of the table behind data_02159c3c, 0xe bytes.
-typedef struct Unk02159c3c {
-    /* 00 */ u16 mUnk_00[7];
-} Unk02159c3c;
+// Element of the table behind gItemSlotRowRemaps, 0xe bytes.
+typedef struct ItemSlotRowRemap {
+    /* 00 */ u16 mSourceRowNumbers[7];
+} ItemSlotRowRemap;
 
-extern Unk02159c3c data_02159c3c[];
+extern ItemSlotRowRemap gItemSlotRowRemaps[];
 
-void func_020f80c0(Unk0217bc6c *param_1, s32 param_2);
-void func_020f7ec8(void);
-u8 func_020f7ea8(void *param_1, void *param_2);
-void func_020f7c90(Unk020f41c4_A *param_1, Vec3 *param_2, Vec3 *param_3);
+void func_020f80c0(ItemSlotTable *table, s32 kartCount);
+void CreateItemSlotTables(void);
+u8 GetItemObjectHitType(ItemObject *itemParam, ItemObject *otherParam);
+void func_020f7c90(ItemObject *item, Vec3 *otherPos, Vec3 *normal);

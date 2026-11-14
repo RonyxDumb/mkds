@@ -1,7 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020e6fd4.h" // Unk020e71a0
+#include "code_02146d78.h"
+#include "Main/Unknown/code_020e6fd4.h" // MapObject
 
 // Three vectors, 0x24 bytes.
 typedef struct Unk020e43a8_28 {
@@ -12,18 +13,18 @@ typedef struct Unk020e43a8_28 {
 
 // Object read through mUnk_9c; only the s16 at 0x28 is seen.
 
-// Object passed to func_020e43a8 and the functions after it, and to func_020ec1fc and
-// func_020ec41c to func_020ec854; the words from 0xa0 to 0xc8 are read two ways.
+// Object passed to func_020e43a8 and the functions after it, and to DrawWoodbox1 and
+// func_020ec41c to InitPushedMotion; the words from 0xa0 to 0xc8 are read two ways.
 typedef struct Unk020e43a8 {
-    /* 00 */ Unk020e71a0 mUnk_00;
+    /* 00 */ MapObject mUnk_00;
     /* a0 */ union {
         struct {
             /* a0 */ Unk020e43a8_28 mUnk_a0;
             /* c4 */ u16 mUnk_c4;
             /* c6 */ s16 mUnk_c6;
         };
-        // As func_020ec1fc, func_020ec538, func_020ec6e4, func_020ec7e8 and func_020ec854 read it:
-        // halfwords at 0xac and 0xae, a word at 0xc4.
+        // As DrawWoodbox1, SetPushedMotionFromItemObject, SetPushedMotionFromKart, AdvancePushedMotion and
+        // InitPushedMotion read it: halfwords at 0xac and 0xae, a word at 0xc4.
         struct {
             /* a0 */ s32 mUnk_0a0;
             /* a4 */ s32 mUnk_0a4;
@@ -66,4 +67,4 @@ typedef struct Unk020e43a8 {
     /* 15c */ s32 mUnk_15c;
 } Unk020e43a8;
 
-void func_020e43a8(Unk020e43a8 *p);
+void func_020e43a8(Unk020e43a8 *object);

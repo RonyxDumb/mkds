@@ -2,4 +2,6 @@
 
 #include "types.h"
 
-u32 func_0212da2c(u32 arg0);
+typedef struct NNSSndHeap NNSSndHeap;
+
+s32 NNS_SndHeapGetCurrentLevel(NNSSndHeap *heap);

@@ -1,4 +1,5 @@
 #include "Main/Unknown/code_020ca6c4.h"
+#include "Main/Unknown/code_02036820.h"
 #include "Main/Unknown/code_020ca670.h"
 #include "Main/Unknown/code_020caba4.h"
 #include "Main/Unknown/code_02023000.h"
@@ -7,48 +8,49 @@
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/Unknown/code_020ca820.h"
 #include "Main/Unknown/unk_0217b000.h"
+#include "g2d_CharCanvas.h"
 
-void func_020ca808(Unk02180728 *a, void *b, void *c, s32 d, s32 e) {
-    a->mUnk_00 = b;
-    a->mUnk_04 = c;
-    a->mUnk_08 = d;
-    a->mUnk_0c = e;
+void func_020ca808(TextCanvas *textCanvas, void *charCanvas, void *c, s32 d, s32 e) {
+    textCanvas->mCharCanvas = charCanvas;
+    textCanvas->mFont = c;
+    textCanvas->mCharSpacing = d;
+    textCanvas->mLineSpacing = e;
 }
 
-u32 func_020ca7e0(Unk02180728 *a, s32 b, s32 c, u32 d, u32 e, void *f) {
-    return func_02024340(a, b, c, d, e, f);
+u32 func_020ca7e0(TextCanvas *textCanvas, s32 x, s32 y, u32 d, u32 e, void *text) {
+    return NNSi_G2dTextCanvasDrawText(textCanvas, x, y, d, e, text);
 }
 
 #pragma thumb on
 #pragma optimize_for_size on
-void func_020ca6c4(void) {
-    Unk0217b438 *p;
+void InitEmblemChoises(void) {
+    EmblemChoises *emblemChoises;
 
-    data_0217b438 = func_02036bec(func_020ca820(), 0x6c);
-    data_0217b438->mUnk_00 = 0;
-    data_0217b438->mUnk_04 = 1;
-    data_0217b438->mUnk_08 = 0;
-    data_0217b438->mUnk_0c = 0;
-    func_020cac9c();
-    data_0217b438->mUnk_24 = 0;
-    data_0217b438->mUnk_10 = 0;
-    data_0217b438->mUnk_14 = 0;
-    data_0217b438->mUnk_18 = 0;
-    data_0217b438->mUnk_28 = 3;
-    func_020b4a7c(&data_0217b438->mUnk_60, func_020b47c0("choises_s_b.NCLR"));
-    func_020b496c(&data_0217b438->mUnk_64, func_020b47c0("choises_s_b.NCGR"));
-    func_020b4810(&data_0217b438->mUnk_68, func_020b47c0("choises_s_3.NSCR"));
-    data_0217b438->mUnk_2c = func_020b403c(2);
-    func_02023408(&data_0217b438->mUnk_30, data_0217b438->mUnk_64->mUnk_14, 0x20, 0xc, 4);
-    p = data_0217b438;
-    func_020ca808(&p->mUnk_50, &p->mUnk_30, p->mUnk_2c, func_020b4acc(), 0);
+    gEmblemChoises = HeapAlloc(func_020ca820(), 0x6c);
+    gEmblemChoises->mShown = 0;
+    gEmblemChoises->mUnk_04 = 1;
+    gEmblemChoises->mGraphicsUploadRequested = FALSE;
+    gEmblemChoises->mUnk_0c = NULL;
+    ResetEmblemChoisesState();
+    gEmblemChoises->mUnk_24 = 0;
+    gEmblemChoises->mUnk_10 = FALSE;
+    gEmblemChoises->mUnk_14 = 0;
+    gEmblemChoises->mUnk_18 = 0;
+    gEmblemChoises->mChoisesCount = 3;
+    LoadNclrData(&gEmblemChoises->mChoisesSBNclr, FindSceneFileWrapper("choises_s_b.NCLR"));
+    LoadNcgrData(&gEmblemChoises->mChoisesSBNcgr, FindSceneFileWrapper("choises_s_b.NCGR"));
+    LoadNscrData(&gEmblemChoises->mChoisesS3Nscr, FindSceneFileWrapper("choises_s_3.NSCR"));
+    gEmblemChoises->mUnk_2c = GetFontByIndex(2);
+    NNS_G2dCharCanvasInitForBG(&gEmblemChoises->mUnk_30, gEmblemChoises->mChoisesSBNcgr->mData, 0x20, 0xc, 4);
+    emblemChoises = gEmblemChoises;
+    func_020ca808(&emblemChoises->mUnk_50, &emblemChoises->mUnk_30, emblemChoises->mUnk_2c, IsLanguageJa(), 0);
     {
-        s32 v[3] = {2, 0, 1};
+        s32 bmgIndices[3] = {2, 0, 1};
         s32 i;
 
-        for (i = 0; i < data_0217b438->mUnk_28; i++) {
-            func_020ca7e0(&data_0217b438->mUnk_50, 0x90, i * 16 + 9, 12, 0x412,
-                          func_020b3f7c(func_020b47c0("emblem.bmg"), v[i]));
+        for (i = 0; i < gEmblemChoises->mChoisesCount; i++) {
+            func_020ca7e0(&gEmblemChoises->mUnk_50, 0x90, i * 16 + 9, 12, 0x412,
+                          GetBmgEntry(FindSceneFileWrapper("emblem.bmg"), bmgIndices[i]));
         }
     }
 }

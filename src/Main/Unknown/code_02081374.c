@@ -1,65 +1,68 @@
 #include "Main/Unknown/code_02081374.h"
 #include "Main/Unknown/code_0206bcb0.h"
+#include "Main/Unknown/code_0208aea8.h"
+#include "Main/Unknown/code_0208b484.h"
 #include "Main/Unknown/code_020f36d8.h"
 #include "Main/Unknown/code_0208b000.h"
 #include "code_02147cd8.h"
 #include "code_0201c528.h"
+#include "Main/Unknown/code_02077bc0.h"
 
-void func_0208155c(s32 a, s32 b) {
-    Unk0201ca6c *p = data_0217ae84[a].mUnk_2c;
+void SetKartKillerEffectShown(s32 kartIndex, s32 shown) {
+    Unk0201ca6c *effect = gKartEffects[kartIndex].mKillerEffect;
 
-    if (p == 0) {
+    if (effect == NULL) {
         return;
     }
-    p->mUnk_24.mUnk_00_3 = (b == 0);
+    effect->mUnk_24.mUnk_00_3 = (shown == 0);
 }
 
-void func_020813ec(s32 a, Vec3 *b) {
-    Unk02148038 h;
-    Vec3 v;
-    Vec3 w;
-    Unk0206bcb0 *q = func_0207a974(a);
-    Unk0217ae84 *e = &data_0217ae84[a];
-    Unk0201ca6c *p;
+void func_020813ec(s32 kartIndex, Vec3 *direction) {
+    Vec3s16 directionHalfwords;
+    Vec3 effectVelocity;
+    Vec3 effectPos;
+    Kart *kart = GetKart(kartIndex);
+    KartEffects *kartEffects = &gKartEffects[kartIndex];
+    Unk0201ca6c *effect;
 
-    if ((q->mUnk_4c & 0x8000) && e->mUnk_28 == 0 && q->mUnk_2a4 > 0x1000) {
-        p = func_0208b7bc(0x53, q->mUnk_508);
-        p->mUnk_94 = q;
-        p->mUnk_90 = func_02081374;
-        e->mUnk_28 = p;
+    if ((kart->mUnk_4c & KART_4C_NEAR_PLAYER_RANK) && kartEffects->mUnk_28 == NULL && kart->mVelocityLength > 0x1000) {
+        effect = StartEffect(0x53, kart->mPosSource);
+        effect->mUnk_94 = kart;
+        effect->mUnk_90 = func_02081374;
+        kartEffects->mUnk_28 = effect;
     }
-    if (e->mUnk_28 == 0) {
+    if (kartEffects->mUnk_28 == NULL) {
         return;
     }
-    v.x = (s32) (((s64) q->mUnk_3b0.x * 0xccd) >> 12);
-    v.y = (s32) (((s64) q->mUnk_3b0.y * 0xccd) >> 12);
-    v.z = (s32) (((s64) q->mUnk_3b0.z * 0xccd) >> 12);
-    e->mUnk_28->mUnk_40 = v;
-    func_02147fd8(-q->mUnk_1d0, b, q->mUnk_508, &w);
-    func_0208b5b0(e->mUnk_28, &w);
-    h.mUnk_00 = b->x;
-    h.mUnk_02 = b->y;
-    h.mUnk_04 = b->z;
-    e->mUnk_28->mUnk_50 = h;
-    q->mUnk_48 |= 0x400;
+    effectVelocity.x = ((s64) kart->mEffectVelocity.x * 0xccd) >> 12;
+    effectVelocity.y = ((s64) kart->mEffectVelocity.y * 0xccd) >> 12;
+    effectVelocity.z = ((s64) kart->mEffectVelocity.z * 0xccd) >> 12;
+    kartEffects->mUnk_28->mUnk_40 = effectVelocity;
+    VEC_MultAdd(-kart->mRadius, direction, kart->mPosSource, &effectPos);
+    PlaceEffect(kartEffects->mUnk_28, &effectPos);
+    directionHalfwords.x = direction->x;
+    directionHalfwords.y = direction->y;
+    directionHalfwords.z = direction->z;
+    kartEffects->mUnk_28->mUnk_50 = directionHalfwords;
+    kart->mUnk_48 |= 0x400;
 }
 
-void func_02081374(Unk0201ca6c *p, s32 a) {
-    Unk0206bcb0 *q;
-    Unk0217ae84 *e;
+void func_02081374(Unk0201ca6c *effect, s32 a) {
+    Kart *kart;
+    KartEffects *kartEffects;
 
     if (a != 0) {
         return;
     }
-    q = p->mUnk_94;
-    if ((q->mUnk_48 & 0x400) && (q->mUnk_44 & 0x80)) {
-        if (q->mUnk_2a4 >= 0x1333) {
+    kart = effect->mUnk_94;
+    if ((kart->mUnk_48 & 0x400) && (kart->mUnk_44 & 0x80)) {
+        if (kart->mVelocityLength >= 0x1333) {
             return;
         }
     }
-    e = &data_0217ae84[q->mUnk_74];
-    if (p == e->mUnk_28) {
-        p->mUnk_24.mUnk_00_0 = 1;
-        e->mUnk_28 = 0;
+    kartEffects = &gKartEffects[kart->mIndex];
+    if (effect == kartEffects->mUnk_28) {
+        effect->mUnk_24.mUnk_00_0 = 1;
+        kartEffects->mUnk_28 = NULL;
     }
 }

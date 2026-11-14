@@ -1,7 +1,9 @@
 #include "Main/Unknown/code_0210f230.h"
+#include "Main/Unknown/code_021059e0.h"
+#include "Main/Unknown/code_02108e38.h"
 
 #include "Main/Unknown/code_02108000.h"
-#include "code_0212c6ac.h"
+#include "code_0212bcac.h"
 #include "code_0212df7c.h"
 #include "Main/Unknown/code_02105000.h"
 #include "Main/Unknown/code_02108e6c.h"
@@ -47,44 +49,44 @@ void func_0210f5d4(u32 a) {
     data_0216cb4c = v;
     if (v != 0xffff) {
         j = 0;
-        func_0210f208((u32) data_0217d1c0, 3, j);
-        func_0210f208((u32) data_0217d1d0, 3, j);
+        func_0210f208(data_0217d1c0, 3, j);
+        func_0210f208(data_0217d1d0, 3, j);
         for (; j < 2; j++) {
             w = (j == 0 ? 0x1000 : 0x2000);
             for (i = 0; i < 8; i++) {
                 if (data_0216cb50[v].mUnk_00[i] == w) {
-                    func_0210f208((u32) & ((Unk0217d1c0 *) data_0217d1c0)[j], 0, i);
+                    func_0210f208(&data_0217d1c0[j], 0, i);
                     break;
                 }
             }
         }
     }
     t = 0;
-    if (v == 1 && data_021759c0->mUnk_08 != 4) {
+    if (v == 1 && gRaceSetup->mMode != MODE_MISSION_RUN) {
         t = 3;
     }
-    ((Unk0217d1c0 *) data_0217d1c0)[0].mUnk_04 = t;
-    ((Unk0217d1c0 *) data_0217d1c0)[0].mUnk_00 = t;
+    data_0217d1c0[0].mUnk_04 = t;
+    data_0217d1c0[0].mUnk_00 = t;
 }
 
 void func_0210f458(s32 a) {
-    u16 v;
-    u16 w;
-    u16 n;
-    Unk0212c400 **p;
+    u16 tableValue;
+    u16 lowBits;
+    u16 entryIndex;
+    NNSSndSeqPlayer **handle;
 
-    v = data_0216cb50[data_0216cb4c].mUnk_00[a];
-    w = v & 0xfff;
+    tableValue = data_0216cb50[data_0216cb4c].mUnk_00[a];
+    lowBits = tableValue & 0xfff;
     switch (data_0216cb4c) {
         case 3:
-            if (v == 0x1cc) {
-                p = (Unk0212c400 **) func_02108e88();
-                if (*p != 0) {
-                    func_0212c6f0(p, 0);
+            if (tableValue == 0x1cc) {
+                handle = GetSndHandles();
+                if (*handle != NULL) {
+                    NNS_SndPlayerStopSeq(handle, 0);
                 }
-                p = (Unk0212c400 **) func_02108e6c(7);
-                if (*p != 0) {
-                    func_0212c6f0(p, 0);
+                handle = GetSndHandleSlot(7);
+                if (*handle != NULL) {
+                    NNS_SndPlayerStopSeq(handle, 0);
                 }
             };
             break;
@@ -92,108 +94,108 @@ void func_0210f458(s32 a) {
             func_02108e38();
             break;
     }
-    if (v < 0xfff) {
-        p = (Unk0212c400 **) func_02108e6c(a < 5 ? a + 7 : a + 2);
+    if (tableValue < 0xfff) {
+        handle = GetSndHandleSlot(a < 5 ? a + 7 : a + 2);
         if ((data_0217c780 & 1) == 0) {
             return;
         }
         if (data_0217d084.mUnk_0c == 0) {
             return;
         }
-        if (*p != 0) {
-            func_0212c6f0(p, 0);
+        if (*handle != NULL) {
+            NNS_SndPlayerStopSeq(handle, 0);
         }
-        if (*p != 0) {
-            func_0212c6f0(p, 0);
+        if (*handle != NULL) {
+            NNS_SndPlayerStopSeq(handle, 0);
         }
-        func_0212ecc0(p, 0, v);
+        NNS_SndArcPlayerStartSeqArc(handle, 0, tableValue);
         return;
     }
-    if (w >= 4) {
+    if (lowBits >= 4) {
         return;
     }
-    n = (u16) (((v & 0xf000) >> 12) - 1);
-    a = a - ((Unk0217d1c8 *) data_0217d1c8)[n].mUnk_00;
-    ((Unk0217d1c4 *) data_0217d1c4)[n].mUnk_00 = ((Unk0217d1c0 *) data_0217d1c0)[n].mUnk_00;
-    ((Unk0217d1c0 *) data_0217d1c0)[n].mUnk_00 = a;
+    entryIndex = ((tableValue & 0xf000) >> 12) - 1;
+    a = a - data_0217d1c8[entryIndex].mUnk_00;
+    data_0217d1c4[entryIndex].mUnk_00 = data_0217d1c0[entryIndex].mUnk_00;
+    data_0217d1c0[entryIndex].mUnk_00 = a;
 }
 
-u32 func_0210f35c(s32 a, u32 b) {
-    Unk0212c400 **p;
+u32 func_0210f35c(s32 a, u32 soundId) {
+    NNSSndSeqPlayer **handle;
     u32 v;
-    u8 c;
+    u8 trackVolume;
     u32 ok;
 
     if (a == 0) {
-        p = (Unk0212c400 **) func_02108e6c(0xa);
+        handle = GetSndHandleSlot(0xa);
     } else {
-        p = (Unk0212c400 **) func_02108e6c(0xb);
+        handle = GetSndHandleSlot(0xb);
     }
-    v = ((Unk0217d1c0 *) data_0217d1c0)[a].mUnk_00;
+    v = data_0217d1c0[a].mUnk_00;
     if (v == 0) {
-        c = 0;
+        trackVolume = 0;
         ok = 0;
     } else {
-        c = ((Unk0217d1cc *) data_0217d1cc)[a].mUnk_00[v - 1];
+        trackVolume = data_0217d1cc[a].mUnk_00[v - 1];
         ok = 1;
     }
     if (ok != 0) {
         if ((data_0217c780 & 1) != 0) {
             if (data_0217d084.mUnk_0c != 0) {
-                if (*p != 0) {
-                    func_0212c6f0(p, 0);
+                if (*handle != NULL) {
+                    NNS_SndPlayerStopSeq(handle, 0);
                 }
-                if (*p != 0) {
-                    func_0212c6f0(p, 0);
+                if (*handle != NULL) {
+                    NNS_SndPlayerStopSeq(handle, 0);
                 }
-                func_0212ecc0(p, 0, b);
+                NNS_SndArcPlayerStartSeqArc(handle, 0, soundId);
             }
         }
-        if (*p != 0) {
-            func_02105b28(p, c);
+        if (*handle != NULL) {
+            SetSndHandleTrackVolume(handle, trackVolume);
         }
     }
     return ok;
 }
 
-u32 func_0210f230(u32 a, u32 b) {
-    Unk0212c400 **p;
+u32 func_0210f230(u32 a, u32 soundId) {
+    NNSSndSeqPlayer **handle;
     u32 v;
-    u8 c;
+    u8 trackVolume;
     u32 ok;
 
     if (a == 0) {
-        p = (Unk0212c400 **) func_02108e6c(0xa);
+        handle = GetSndHandleSlot(0xa);
     } else {
-        p = (Unk0212c400 **) func_02108e6c(0xb);
+        handle = GetSndHandleSlot(0xb);
     }
-    v = ((Unk0217d1c0 *) data_0217d1c0)[a].mUnk_00;
+    v = data_0217d1c0[a].mUnk_00;
     if (v == 0) {
-        c = 0;
+        trackVolume = 0;
         ok = 0;
     } else {
-        c = ((Unk0217d1cc *) data_0217d1cc)[a].mUnk_00[v - 1];
+        trackVolume = data_0217d1cc[a].mUnk_00[v - 1];
         ok = 1;
     }
     if (ok != 0) {
-        if (*p == 0) {
+        if (*handle == NULL) {
             if ((data_0217c780 & 1) != 0) {
                 if (data_0217d084.mUnk_0c != 0) {
-                    if (*p != 0) {
-                        func_0212c6f0(p, 0);
+                    if (*handle != NULL) {
+                        NNS_SndPlayerStopSeq(handle, 0);
                     }
-                    if (*p != 0) {
-                        func_0212c6f0(p, 0);
+                    if (*handle != NULL) {
+                        NNS_SndPlayerStopSeq(handle, 0);
                     }
-                    func_0212ecc0(p, 0, b);
+                    NNS_SndArcPlayerStartSeqArc(handle, 0, soundId);
                 }
             }
-            func_02105b28(p, c);
-        } else if (*p != 0 && ((Unk0217d1c4 *) data_0217d1c4)[a].mUnk_00 != v) {
-            func_02105b28(p, c);
+            SetSndHandleTrackVolume(handle, trackVolume);
+        } else if (*handle != NULL && data_0217d1c4[a].mUnk_00 != v) {
+            SetSndHandleTrackVolume(handle, trackVolume);
         }
     } else {
-        func_0212c6f0(p, 0xa);
+        NNS_SndPlayerStopSeq(handle, 0xa);
     }
     return ok;
 }

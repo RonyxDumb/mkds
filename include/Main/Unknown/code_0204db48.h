@@ -1,10 +1,11 @@
 #pragma once
 
 #include "types.h"
-#include "code_02003024.h"
 
-s32 func_0204db48(Unk02003a6c *a, void *b, u32 c, u32 d);
+typedef struct FSArchive FSArchive;
+
+s32 func_0204db48(FSArchive *archive, void *dst, u32 src, u32 length);
 s32 func_0204db6c(void);
 s32 func_0204dc8c(void);
-u8 func_0204dcf0(u8 a);
+u8 CompactMaskBits(u8 mask);
 s32 func_0204dd24(u16 a);

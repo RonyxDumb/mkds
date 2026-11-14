@@ -1,4 +1,9 @@
 #include "Main/Unknown/code_02102674.h"
+#include "Main/Unknown/code_02036820.h"
+#include "Main/Unknown/code_02068eac.h"
+#include "Main/Unknown/code_020e66e4.h"
+#include "Main/Unknown/code_020f8e78.h"
+#include "Main/Unknown/code_020fe4b4.h"
 
 #include "Main/Unknown/unk_0217c000.h"
 #include "Main/Unknown/code_02069000.h"
@@ -6,6 +11,7 @@
 #include "Main/Unknown/code_020f8000.h"
 #include "Main/Unknown/code_020fe000.h"
 #include "Main/Unknown/code_02102000.h"
+#include "Main/Unknown/code_020ec8bc.h"
 #include "Main/Unknown/code_021031f4.h"
 #include "code_02147cd8.h"
 #include "Main/Unknown/code_02102eb8.h"
@@ -13,224 +19,217 @@
 #include "Main/Unknown/code_020f36d8.h"
 #include "Main/Unknown/code_020f8e3c.h"
 #include "Main/Unknown/code_020e6000.h"
-#include "Main/Unknown/code_02074874.h"
+#include "Main/Unknown/code_02073eb8.h"
 #include "Main/Unknown/code_0203c5e4.h"
 #include "Main/Unknown/code_020364e0.h"
 #include "Main/Unknown/code_02036bec.h"
+#include "Main/Unknown/code_02077bc0.h"
 
-// non-matching: registers only. In the two pairs of accumulations (0x148/0x14c, 0x180/0x184.x) the factor is in r3
-// now as in the original, but 0x148 / 0x180 is loaded after the target and kept in r6 / r5 (the original loads it
-// first into r2), so the rest of each pair has other registers; the umull block after the first pair also has other
-// registers.
-void func_0210298c(Unk02102674 *p) {
-    Unk0206bcb0 *q;
-    Unk020748a8 *s;
-    s32 a2;
+void AdvanceItemGesso(ItemGesso *p) {
+    Kart *kart;
+    Camera *camera;
+    s32 ageFrames;
     s32 i;
-    s32 b;
-    Unk0206bcb0 *r;
+    s32 kartCount;
+    Kart *kartAtIndex;
     s32 v;
-    Vec3 w;
+    Vec3 viewOffset;
     s32 m;
     s32 n;
+    s32 factor;
 
-    q = p->mUnk_12c;
-    s = (Unk020748a8 *) func_020748a8();
-    a2 = p->mUnk_000.mUnk_11c;
-    if (a2 == 0x3f) {
+    kart = p->mKart;
+    camera = GetChaseCamera();
+    ageFrames = p->mUnk_000.mAgeFrames;
+    if (ageFrames == 0x3f) {
         func_021031f4(p);
     }
-    if (a2 == 0x8f) {
-        b = data_021759c0->mUnk_3d0;
-        for (i = 0; i < b; i++) {
-            if (p->mUnk_130[i] == 0) {
+    if (ageFrames == 0x8f) {
+        kartCount = gRaceSetup->mKartCount;
+        for (i = 0; i < kartCount; i++) {
+            if (p->mOrthoQuadCounts[i] == 0) {
                 continue;
             }
-            r = func_0207a974(i);
-            if (r->mUnk_7c & 0x402020) {
+            kartAtIndex = GetKart(i);
+            if (kartAtIndex->mUnk_7c & 0x402020) {
                 continue;
             }
-            if (r->mUnk_4c & 0x10000840) {
+            if (kartAtIndex->mUnk_4c & 0x10000840) {
                 continue;
             }
-            if (r->mUnk_48 & 0x10000) {
+            if (kartAtIndex->mUnk_48 & 0x10000) {
                 continue;
             }
-            func_0206924c(r, p->mUnk_130[i]);
-            func_020f8e3c((u32) r, 0xf0);
+            StartKartGesso(kartAtIndex, p->mOrthoQuadCounts[i]);
+            func_020f8e3c((u32) kartAtIndex, 0xf0);
         }
     }
-    if (p->mUnk_160 != 0) {
-        if (a2 <= data_0217c634) {
+    if (p->mUnk_160 != FALSE) {
+        if (ageFrames <= gItemGessoFrameCount) {
             return;
         }
-        func_020f0f70(data_027e00cc + p->mUnk_000.mUnk_44, &p->mUnk_000);
+        ReleaseItemPoolObject(gItemPools + p->mUnk_000.mKind, &p->mUnk_000);
         return;
     }
-    if (p->mUnk_138 >= 4 && p->mUnk_138 < 0xd) {
-        if ((q->mUnk_7c & 0x402020) || (q->mUnk_4c & 0x10000840) || (q->mUnk_48 & 0x10000)) {
-            p->mUnk_138 = 0xd;
-            func_0210300c(p);
-            if (p->mUnk_198 != 0) {
-                func_020f8e3c((u32) q, 0xf3);
+    if (p->mStepIndex >= 4 && p->mStepIndex < 0xd) {
+        if ((kart->mUnk_7c & 0x402020) || (kart->mUnk_4c & 0x10000840) || (kart->mUnk_48 & 0x10000)) {
+            p->mStepIndex = 0xd;
+            SetupNextItemGessoStep(p);
+            if (p->mVisible != FALSE) {
+                func_020f8e3c((u32) kart, 0xf3);
             }
         }
     }
-    if (q->mUnk_4c & 0x800) {
-        p->mUnk_160 = 1;
-        p->mUnk_198 = 0;
+    if (kart->mUnk_4c & 0x800) {
+        p->mUnk_160 = TRUE;
+        p->mVisible = FALSE;
     }
-    v = p->mUnk_148;
-    if (p->mUnk_000.mUnk_d8 < 0x1f && p->mUnk_194 == 0 && p->mUnk_198 != 0) {
-        p->mUnk_000.mUnk_d8 = (s16) (p->mUnk_000.mUnk_d8 + 7);
-        if (p->mUnk_000.mUnk_d8 > 0x1f) {
-            p->mUnk_000.mUnk_d8 = 0x1f;
+    v = p->mVelocityX;
+    if (p->mUnk_000.mAlpha < 0x1f && p->mUnk_194 == 0 && p->mVisible != FALSE) {
+        p->mUnk_000.mAlpha = p->mUnk_000.mAlpha + 7;
+        if (p->mUnk_000.mAlpha > 0x1f) {
+            p->mUnk_000.mAlpha = 0x1f;
         }
     }
-    p->mUnk_16c = p->mUnk_16c - 1;
-    if (p->mUnk_16c > 0) {
-        m = p->mUnk_154 - p->mUnk_148;
-        n = p->mUnk_158 - p->mUnk_14c;
-        m = (s32) (((s64) p->mUnk_164 * m) >> 12);
-        n = (s32) (((s64) p->mUnk_164 * n) >> 12);
-        p->mUnk_148 += m;
-        p->mUnk_14c += n;
+    p->mStepTimer = p->mStepTimer - 1;
+    if (p->mStepTimer > 0) {
+        factor = p->mApproachRate;
+        m = p->mTargetVelocityX - p->mVelocityX;
+        n = p->mTargetVelocityY - p->mVelocityY;
+        p->mVelocityX += (s32) (((s64) factor * m) >> 12);
+        p->mVelocityY += (s32) (((s64) factor * n) >> 12);
     } else {
-        s32 f;
-
-        f = p->mUnk_168;
-        p->mUnk_148 = (s32) (((s64) p->mUnk_148 * f) >> 12);
-        p->mUnk_14c = (s32) (((s64) p->mUnk_14c * f) >> 12);
+        factor = p->mDamping;
+        p->mVelocityX = ((s64) p->mVelocityX * factor) >> 12;
+        p->mVelocityY = ((s64) p->mVelocityY * factor) >> 12;
         if (p->mUnk_194 != 0) {
-            p->mUnk_000.mUnk_d8 = (s16) (p->mUnk_000.mUnk_d8 - p->mUnk_170);
-            if (p->mUnk_000.mUnk_d8 >= 1) {
-                p->mUnk_16c = 0;
+            p->mUnk_000.mAlpha = p->mUnk_000.mAlpha - p->mUnk_170;
+            if (p->mUnk_000.mAlpha >= 1) {
+                p->mStepTimer = 0;
             } else {
-                p->mUnk_16c = -1 - p->mUnk_170;
-                p->mUnk_198 = 0;
-                p->mUnk_000.mUnk_d8 = 1;
+                p->mStepTimer = -1 - p->mUnk_170;
+                p->mVisible = FALSE;
+                p->mUnk_000.mAlpha = 1;
             }
         }
-        if (p->mUnk_16c < -p->mUnk_170) {
-            if (func_0210300c(p) != 0) {
-                p->mUnk_160 = 1;
-                p->mUnk_198 = 0;
+        if (p->mStepTimer < -p->mUnk_170) {
+            if (SetupNextItemGessoStep(p) != FALSE) {
+                p->mUnk_160 = TRUE;
+                p->mVisible = FALSE;
                 return;
             }
         }
     }
-    v = (s32) (((s64) v * 0xccd) >> 12);
-    p->mUnk_13c.x += p->mUnk_148;
-    p->mUnk_13c.y += p->mUnk_14c;
-    v = (s32) (((s64) (p->mUnk_148 - v) * 0x19a) >> 12);
+    p->mViewOffset.x += p->mVelocityX;
+    p->mViewOffset.y += p->mVelocityY;
+    v = ((s64) (p->mVelocityX - (s32) (((s64) v * 0xccd) >> 12)) * 0x19a) >> 12;
     if (v > 0x19a) {
         v = 0x19a;
     } else if (v < -0x19a) {
         v = -0x19a;
     }
     p->mUnk_19c += v;
-    p->mUnk_19c = (s32) (((s64) p->mUnk_19c * 0xeb8) >> 12);
+    p->mUnk_19c = ((s64) p->mUnk_19c * 0xeb8) >> 12;
     if (p->mUnk_19c > 0x266) {
         p->mUnk_19c = 0x266;
     } else if (p->mUnk_19c < -0x266) {
         p->mUnk_19c = -0x266;
     }
+    factor = p->mUnk_184.z;
     m = p->mUnk_174 - p->mUnk_180;
     n = p->mUnk_178 - p->mUnk_184.x;
-    m = (s32) (((s64) p->mUnk_184.z * m) >> 12);
-    n = (s32) (((s64) p->mUnk_184.z * n) >> 12);
-    p->mUnk_180 += m;
-    p->mUnk_184.x += n;
-    w = p->mUnk_13c;
-    v = (s32) (((s64) p->mUnk_19c * 0x800) >> 12);
-    w.x -= (s32) (((s64) v * w.x) >> 12);
-    p->mUnk_000.mUnk_50.x = (s32) (((s64) s->mUnk_0c.x * -w.x) >> 12);
-    p->mUnk_000.mUnk_50.y = (s32) (((s64) s->mUnk_0c.y * -w.x) >> 12);
-    p->mUnk_000.mUnk_50.z = (s32) (((s64) s->mUnk_0c.z * -w.x) >> 12);
-    func_02147fd8(w.y, &s->mUnk_00, &p->mUnk_000.mUnk_50, &p->mUnk_000.mUnk_50);
-    func_02147fd8(-w.z, &s->mUnk_15c, &p->mUnk_000.mUnk_50, &p->mUnk_000.mUnk_50);
-    func_02148504(&s->mUnk_24, &p->mUnk_000.mUnk_50, &p->mUnk_000.mUnk_50);
+    p->mUnk_180 += (s32) (((s64) factor * m) >> 12);
+    p->mUnk_184.x += (s32) (((s64) factor * n) >> 12);
+    viewOffset = p->mViewOffset;
+    v = ((s64) p->mUnk_19c * 0x800) >> 12;
+    viewOffset.x -= (s32) (((s64) v * viewOffset.x) >> 12);
+    p->mUnk_000.mPos.x = ((s64) camera->mSide.x * -viewOffset.x) >> 12;
+    p->mUnk_000.mPos.y = ((s64) camera->mSide.y * -viewOffset.x) >> 12;
+    p->mUnk_000.mPos.z = ((s64) camera->mSide.z * -viewOffset.x) >> 12;
+    VEC_MultAdd(viewOffset.y, &camera->mUp, &p->mUnk_000.mPos, &p->mUnk_000.mPos);
+    VEC_MultAdd(-viewOffset.z, &camera->mForward, &p->mUnk_000.mPos, &p->mUnk_000.mPos);
+    VEC_Add(&camera->mPos, &p->mUnk_000.mPos, &p->mUnk_000.mPos);
 }
 
-void func_021027ac(Unk02102674 *p, s32 param_2, Unk020e6488 *t) {
-    Vec3 w;
-    Unk02012f58 s;
-    s32 k;
+void DrawItemGesso(ItemGesso *p, s32 param_2, NsbmdModel *t) {
+    Vec3 scale;
+    MtxFx43 matrix;
+    s32 scaleFactor;
     s32 d;
 
-    if (p->mUnk_12c == 0) {
+    if (p->mKart == NULL) {
         return;
     }
-    if (p->mUnk_198 == 0) {
+    if (p->mVisible == FALSE) {
         return;
     }
-    s = *func_020e6cf8(&p->mUnk_000.mUnk_50);
+    matrix = *SetViewTransposeMatrixPos(&p->mUnk_000.mPos);
     d = p->mUnk_19c;
     if (d <= 0) {
         d = -d;
     }
     d = 0x1000 - (s32) (((s64) d * 0xa4) >> 12);
-    s.mUnk_0c.x = (s32) (((s64) s.mUnk_0c.x * d) >> 12);
-    s.mUnk_0c.y = (s32) (((s64) s.mUnk_0c.y * d) >> 12);
-    s.mUnk_0c.z = (s32) (((s64) s.mUnk_0c.z * d) >> 12);
-    func_02147fd8(p->mUnk_19c, &s.mUnk_00, &s.mUnk_0c, &s.mUnk_0c);
-    w.x = (s32) (((s64) p->mUnk_180 * p->mUnk_000.mUnk_68.x) >> 12);
-    w.y = (s32) (((s64) p->mUnk_184.x * p->mUnk_000.mUnk_68.y) >> 12);
-    w.z = p->mUnk_000.mUnk_68.z;
-    k = func_0203c5e4() != 0 ? 0xccd : 0x119a;
-    w.x = (s32) (((s64) w.x * k) >> 12);
-    w.y = (s32) (((s64) w.y * k) >> 12);
-    d = p->mUnk_000.mUnk_d8;
+    matrix.mUnk_00[1].x = ((s64) matrix.mUnk_00[1].x * d) >> 12;
+    matrix.mUnk_00[1].y = ((s64) matrix.mUnk_00[1].y * d) >> 12;
+    matrix.mUnk_00[1].z = ((s64) matrix.mUnk_00[1].z * d) >> 12;
+    VEC_MultAdd(p->mUnk_19c, &matrix.mUnk_00[0], &matrix.mUnk_00[1], &matrix.mUnk_00[1]);
+    scale.x = ((s64) p->mUnk_180 * p->mUnk_000.mScale.x) >> 12;
+    scale.y = ((s64) p->mUnk_184.x * p->mUnk_000.mScale.y) >> 12;
+    scale.z = p->mUnk_000.mScale.z;
+    scaleFactor = func_0203c5e4() != 0 ? 0xccd : 0x119a;
+    scale.x = ((s64) scale.x * scaleFactor) >> 12;
+    scale.y = ((s64) scale.y * scaleFactor) >> 12;
+    d = p->mUnk_000.mAlpha;
     if (d != 0x1f) {
         t->mUnk_14 = t->mUnk_14 & ~0x1f0000;
-        t->mUnk_14 = t->mUnk_14 | ((u32) (u16) d << 16);
+        t->mUnk_14 = t->mUnk_14 | ((u16) d << 16);
     }
     func_020e6a18(t);
-    func_020e67c4(t, &s, &w, 0, 0x1f);
-    if (p->mUnk_000.mUnk_d8 == 0x1f) {
+    func_020e67c4(t, &matrix, &scale, 0, 0x1f);
+    if (p->mUnk_000.mAlpha == 0x1f) {
         return;
     }
     t->mUnk_14 = t->mUnk_14 & ~0x1f0000;
     t->mUnk_14 = t->mUnk_14 | 0x1f0000;
 }
 
-void func_02102764(void *param_1, Unk02102674 *param_2, void *param_3) {
-    func_020fecdc(param_1, param_2, param_3);
-    if (param_2 == 0) {
+void CopyItemGessoData(void *data, ItemGesso *gesso, void *toData) {
+    CopyItemObjectData(data, gesso, toData);
+    if (gesso == NULL) {
         return;
     }
-    if (param_3 == 0) {
+    if (toData == NULL) {
         return;
     }
-    func_020fe8ac(param_2->mUnk_000.mUnk_44);
+    func_020fe8ac(gesso->mUnk_000.mKind);
 }
 
-void func_02102744(Unk02102674 *p) {
-    func_020f8e78(p);
-    func_02102eb8((u32) p, 1);
+void InitItemGessoFromData(ItemGesso *gesso) {
+    func_020f8e78(gesso);
+    SetupItemGesso((u32) gesso, 1);
 }
 
 #pragma thumb on
-void func_02102718(void) {
+void ComputeItemGessoFrameCount(void) {
     s32 i;
-    Unk0215a3b0 *p;
+    ItemGessoStep *step;
 
-    data_0217c634 = 0xf;
-    for (i = 0, p = data_0215a3b0; i < 0x11; i++) {
-        data_0217c634 += p->mUnk_08 + p->mUnk_0a;
-        p++;
+    gItemGessoFrameCount = 0xf;
+    for (i = 0, step = gItemGessoSteps; i < 0x11; i++) {
+        gItemGessoFrameCount += step->mUnk_08 + step->mUnk_0a;
+        step++;
     }
 }
 #pragma thumb off
 
-void func_02102674(void) {
+void CreateItemTeresaFrameScaleTable(void) {
     s32 i;
 
-    data_0217c630 = func_02036bec(func_020364e0(func_020364e8()), 0x52);
+    gItemTeresaFrameScales = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x52);
     for (i = 0; i <= 0x28; i++) {
-        data_0217c630[i] = (u16) (((0x28 - i) << 12) / (0x29 - i));
+        gItemTeresaFrameScales[i] = ((0x28 - i) << 12) / (0x29 - i);
     }
     for (i -= 5; i <= 0x28; i++) {
-        data_0217c630[i] = (u16) ((data_0217c630[i] + data_0217c630[i - 1]) >> 1);
+        gItemTeresaFrameScales[i] = (gItemTeresaFrameScales[i] + gItemTeresaFrameScales[i - 1]) >> 1;
     }
 }

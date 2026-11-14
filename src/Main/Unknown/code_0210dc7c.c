@@ -1,209 +1,212 @@
 #include "Main/Unknown/code_0210dc7c.h"
+#include "Main/Unknown/code_0206bcb0.h"
+#include "Main/Unknown/code_0210d740.h"
 #include "Main/Unknown/code_0210d000.h"
-#include "Main/Unknown/code_0212c6a0.h"
+#include "code_0212bcac.h"
 #include "Main/Unknown/code_0210e33c.h"
-#include "code_0212c6ac.h"
-#include "code_0212da38.h"
+#include "code_0212d214.h"
 
-void func_0210e2c4(Unk0217c7c4 *a, void *b, s32 c, s32 d) {
+void InitSoundHandlePool(Unk0217c7c4 *pool, void *entries, s32 count, s32 entrySize) {
     s32 i;
-    u8 *p;
+    u8 *entryAddress;
 
-    a->mUnk_0c = b;
-    a->mUnk_00 = c;
-    a->mUnk_04 = 0;
-    a->mUnk_08 = a->mUnk_0c;
-    a->mUnk_10 = d;
-    p = a->mUnk_08;
-    for (i = 0; i < c; i++) {
-        ((Unk0210e2c4 *) p)->mUnk_04 = 0;
-        func_0212c6a0(&((Unk0210e2c4 *) p)->mUnk_00);
-        p += a->mUnk_10;
+    pool->mEntries = entries;
+    pool->mCount = count;
+    pool->mNextIndex = 0;
+    pool->mNextEntry = pool->mEntries;
+    pool->mEntrySize = entrySize;
+    entryAddress = pool->mNextEntry;
+    for (i = 0; i < count; i++) {
+        ((SoundHandleEntry *) entryAddress)->mAge = 0;
+        NNS_SndHandleInit(&((SoundHandleEntry *) entryAddress)->mSeqPlayer);
+        entryAddress += pool->mEntrySize;
     }
 }
 
-void func_0210e280(Unk0217c7c4 *a) {
+void IncrementSoundHandleAges(Unk0217c7c4 *pool) {
     s32 i;
-    u8 *p;
+    u8 *entryAddress;
 
-    for (i = 0, p = a->mUnk_0c; i < a->mUnk_00; i++) {
-        if (((Unk0210e2c4 *) p)->mUnk_00 != 0) {
-            ((Unk0210e2c4 *) p)->mUnk_04++;
+    for (i = 0, entryAddress = pool->mEntries; i < pool->mCount; i++) {
+        if (((SoundHandleEntry *) entryAddress)->mSeqPlayer != NULL) {
+            ((SoundHandleEntry *) entryAddress)->mAge++;
         }
-        p += a->mUnk_10;
+        entryAddress += pool->mEntrySize;
     }
 }
 
-void *func_0210e128(Unk0217c7c4 *a) {
+void *TakeSoundHandleEntry(Unk0217c7c4 *pool) {
     s32 i;
-    s32 t;
-    s32 j;
-    u8 *p;
-    s32 n;
-    s32 m;
-    u8 *q;
+    s32 oldestAge;
+    s32 oldestIndex;
+    u8 *entryAddress;
+    s32 count;
+    s32 startIndex;
+    u8 *oldestEntry;
 
     {
-        s32 k;
-        u8 *f;
+        s32 takenIndex;
+        u8 *takenEntry;
 
-        m = a->mUnk_04;
-        t = -1;
-        n = a->mUnk_00;
-        f = 0;
-        j = -1;
-        k = -1;
-        q = 0;
-        p = a->mUnk_08;
-        for (i = m; i < n; i++) {
-            if (((Unk0210e2c4 *) p)->mUnk_00 == 0) {
-                f = p;
+        startIndex = pool->mNextIndex;
+        oldestAge = -1;
+        count = pool->mCount;
+        takenEntry = NULL;
+        oldestIndex = -1;
+        takenIndex = -1;
+        oldestEntry = NULL;
+        entryAddress = pool->mNextEntry;
+        for (i = startIndex; i < count; i++) {
+            if (((SoundHandleEntry *) entryAddress)->mSeqPlayer == NULL) {
+                takenEntry = entryAddress;
             } else {
-                if (t < ((Unk0210e2c4 *) p)->mUnk_04) {
-                    t = ((Unk0210e2c4 *) p)->mUnk_04;
-                    j = i;
-                    q = p;
+                if (oldestAge < ((SoundHandleEntry *) entryAddress)->mAge) {
+                    oldestAge = ((SoundHandleEntry *) entryAddress)->mAge;
+                    oldestIndex = i;
+                    oldestEntry = entryAddress;
                 }
-                f = 0;
+                takenEntry = NULL;
             }
-            if (f != 0) {
-                k = i;
+            if (takenEntry != NULL) {
+                takenIndex = i;
                 break;
             }
-            p += a->mUnk_10;
+            entryAddress += pool->mEntrySize;
         }
-        if (f == 0) {
-            p = a->mUnk_0c;
-            for (i = 0; i < m; i++) {
-                if (((Unk0210e2c4 *) p)->mUnk_00 == 0) {
-                    f = p;
+        if (takenEntry == NULL) {
+            entryAddress = pool->mEntries;
+            for (i = 0; i < startIndex; i++) {
+                if (((SoundHandleEntry *) entryAddress)->mSeqPlayer == NULL) {
+                    takenEntry = entryAddress;
                 } else {
-                    f = 0;
-                    if (t < ((Unk0210e2c4 *) p)->mUnk_04) {
-                        t = ((Unk0210e2c4 *) p)->mUnk_04;
-                        j = i;
-                        q = p;
+                    takenEntry = NULL;
+                    if (oldestAge < ((SoundHandleEntry *) entryAddress)->mAge) {
+                        oldestAge = ((SoundHandleEntry *) entryAddress)->mAge;
+                        oldestIndex = i;
+                        oldestEntry = entryAddress;
                     }
                 }
-                if (f != 0) {
-                    k = i;
+                if (takenEntry != NULL) {
+                    takenIndex = i;
                     break;
                 }
-                p += a->mUnk_10;
+                entryAddress += pool->mEntrySize;
             }
         }
-        if (f == 0) {
-            f = q;
-            k = j;
-            func_0212c6f0(&((Unk0210e2c4 *) q)->mUnk_00, 0);
+        if (takenEntry == NULL) {
+            takenEntry = oldestEntry;
+            takenIndex = oldestIndex;
+            NNS_SndPlayerStopSeq(&((SoundHandleEntry *) oldestEntry)->mSeqPlayer, 0);
         }
-        ((Unk0210e2c4 *) f)->mUnk_04 = 0;
-        func_0212c6a0(&((Unk0210e2c4 *) f)->mUnk_00);
-        a->mUnk_04 = k;
-        a->mUnk_04 = a->mUnk_04 + 1;
-        a->mUnk_08 = f + a->mUnk_10;
-        if (a->mUnk_04 >= a->mUnk_00) {
-            a->mUnk_04 = 0;
-            a->mUnk_08 = a->mUnk_0c;
+        ((SoundHandleEntry *) takenEntry)->mAge = 0;
+        NNS_SndHandleInit(&((SoundHandleEntry *) takenEntry)->mSeqPlayer);
+        pool->mNextIndex = takenIndex;
+        pool->mNextIndex = pool->mNextIndex + 1;
+        pool->mNextEntry = takenEntry + pool->mEntrySize;
+        if (pool->mNextIndex >= pool->mCount) {
+            pool->mNextIndex = 0;
+            pool->mNextEntry = pool->mEntries;
         }
-        return f;
+        return takenEntry;
     }
 }
 
-void func_0210e094(Unk0217d26c *a, s32 b, Unk0212d9dc *c) {
+void InitSoundRequestQueue(SoundRequestQueue *queue, s32 count, NNSSndHeap *heap) {
     s32 i;
 
-    a->mUnk_00 = b;
-    a->mUnk_04 = func_0212db7c(c, b << 4, 0, 0, 0);
-    for (i = 0; i < a->mUnk_00; i++) {
-        a->mUnk_04[i].mUnk_00 = -1;
-        a->mUnk_04[i].mUnk_04 = 0;
-        a->mUnk_04[i].mUnk_08 = 0;
-        a->mUnk_04[i].mUnk_0c = 0;
+    queue->mCapacity = count;
+    queue->mRequests = NNS_SndHeapAlloc(heap, count << 4, NULL, NULL, 0);
+    for (i = 0; i < queue->mCapacity; i++) {
+        queue->mRequests[i].mSortKey = -1;
+        queue->mRequests[i].mFunction = NULL;
+        queue->mRequests[i].mFirstArgument = NULL;
+        queue->mRequests[i].mSecondArgument = 0;
     }
 }
 
-void func_0210e03c(Unk0217d26c *a) {
+void ResetSoundRequestQueue(SoundRequestQueue *queue) {
     s32 i;
 
-    for (i = 0; i < a->mUnk_00; i++) {
-        a->mUnk_04[i].mUnk_00 = -1;
-        a->mUnk_04[i].mUnk_04 = 0;
-        a->mUnk_04[i].mUnk_08 = 0;
-        a->mUnk_04[i].mUnk_0c = 0;
+    for (i = 0; i < queue->mCapacity; i++) {
+        queue->mRequests[i].mSortKey = -1;
+        queue->mRequests[i].mFunction = NULL;
+        queue->mRequests[i].mFirstArgument = NULL;
+        queue->mRequests[i].mSecondArgument = 0;
     }
 }
 
 // The standalone copy expands itself twice before it calls itself.
 #pragma inline_depth(2)
-static inline void func_0210deac(Unk0217d26c *a, Unk0210ddf4 *b, s32 c) {
-    Unk0210ddf4 v;
+static inline void func_0210deac(SoundRequestQueue *queue, SoundRequest *request, s32 index) {
+    SoundRequest displacedRequest;
 
-    for (; c < a->mUnk_00; c++) {
-        if (b->mUnk_00 < a->mUnk_04[c].mUnk_00) {
-            v = a->mUnk_04[c];
-            a->mUnk_04[c] = *b;
-            if (c + 1 < a->mUnk_00) {
-                func_0210deac(a, &v, c + 1);
+    for (; index < queue->mCapacity; index++) {
+        if (request->mSortKey < queue->mRequests[index].mSortKey) {
+            displacedRequest = queue->mRequests[index];
+            queue->mRequests[index] = *request;
+            if (index + 1 < queue->mCapacity) {
+                func_0210deac(queue, &displacedRequest, index + 1);
             }
             return;
         }
     }
 }
 
-void func_0210ddf4(Unk0217d26c *a, int b, void (*c)(void *, int), void *p, int d) {
-    Unk0210ddf4 v;
+void AddSoundRequest(SoundRequestQueue *queue, int sortKey, void (*function)(void *, int), void *firstArgument,
+                     int secondArgument) {
+    SoundRequest request;
 
-    v.mUnk_00 = b;
-    v.mUnk_08 = p;
-    v.mUnk_0c = d;
-    v.mUnk_04 = c;
-    func_0210deac(a, &v, 0);
+    request.mSortKey = sortKey;
+    request.mFirstArgument = firstArgument;
+    request.mSecondArgument = secondArgument;
+    request.mFunction = function;
+    func_0210deac(queue, &request, 0);
 }
 
-void func_0210dd44(Unk0217d26c *a) {
+void RunSoundRequests(SoundRequestQueue *queue) {
     s32 i;
 
-    for (i = 0; i < a->mUnk_00; i++) {
-        if (a->mUnk_04[i].mUnk_04 == 0) {
+    for (i = 0; i < queue->mCapacity; i++) {
+        if (queue->mRequests[i].mFunction == NULL) {
             break;
         }
-        a->mUnk_04[i].mUnk_04(a->mUnk_04[i].mUnk_08, a->mUnk_04[i].mUnk_0c);
+        queue->mRequests[i].mFunction(queue->mRequests[i].mFirstArgument, queue->mRequests[i].mSecondArgument);
     }
-    for (i = 0; i < a->mUnk_00; i++) {
-        a->mUnk_04[i].mUnk_00 = -1;
-        a->mUnk_04[i].mUnk_04 = 0;
-        a->mUnk_04[i].mUnk_08 = 0;
-        a->mUnk_04[i].mUnk_0c = 0;
+    for (i = 0; i < queue->mCapacity; i++) {
+        queue->mRequests[i].mSortKey = -1;
+        queue->mRequests[i].mFunction = NULL;
+        queue->mRequests[i].mFirstArgument = NULL;
+        queue->mRequests[i].mSecondArgument = 0;
     }
 }
 
-u32 func_0210dccc(Unk0217d060 *a, u32 b, u32 c, u32 d, Unk0217c7b4 *e) {
-    Unk0215c380 v;
+u32 InitSoundSetPlayer(SoundSetPlayer *player, u32 seqId, u32 firstBankId, u32 secondBankId,
+                       LoadedSoundSet *loadedSet) {
+    SoundSet soundSet;
 
-    v.mUnk_00 = b;
-    v.mUnk_04 = c;
-    v.mUnk_08 = d;
-    a->mUnk_00 = v;
-    if (func_0210e3ec(e, a->mUnk_00) == 0) {
-        func_0210e434(e);
-        func_0210e33c(e, a->mUnk_00);
+    soundSet.mSeqId = seqId;
+    soundSet.mUnk_04 = firstBankId;
+    soundSet.mUnk_08 = secondBankId;
+    player->mSoundSet = soundSet;
+    if (IsSoundSetLoaded(loadedSet, player->mSoundSet) == 0) {
+        ReleaseSoundSet(loadedSet);
+        LoadSoundSet(loadedSet, player->mSoundSet);
     }
-    func_0212c6a0(&a->mUnk_0c);
-    data_0217d060 = a;
-    a->mUnk_10 = e;
+    NNS_SndHandleInit(&player->mSeqPlayer);
+    data_0217d060 = player;
+    player->mLoadedSet = loadedSet;
     return 1;
 }
 
-void func_0210dcb8(Unk0217d060 *a, u32 b) {
-    func_0210d7dc(a->mUnk_00.mUnk_00, b, &a->mUnk_0c);
+void StartSoundSetSeq(SoundSetPlayer *player, u32 volume) {
+    StartSeqAtVolume(player->mSoundSet.mSeqId, volume, &player->mSeqPlayer);
 }
 
-void func_0210dca8(Unk0217d060 *a, u32 b) {
-    func_0212c6f0(&a->mUnk_0c, b);
+void StopSoundSetSeq(SoundSetPlayer *player, u32 fadeSteps) {
+    NNS_SndPlayerStopSeq(&player->mSeqPlayer, fadeSteps);
 }
 
-void func_0210dc7c(Unk0217d060 *a) {
-    func_0210e434(a->mUnk_10);
-    data_0217d060 = 0;
+void ReleaseSoundSetPlayer(SoundSetPlayer *player) {
+    ReleaseSoundSet(player->mLoadedSet);
+    data_0217d060 = NULL;
 }

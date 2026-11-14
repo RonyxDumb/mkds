@@ -1,8 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "01/code_02195a6c.h"
-#include "Main/Unknown/code_0204b000.h"
 
-void func_0204b418(u32 p0, void *p1, u32 p2, u32 p3);
-void func_0204b430(u32 param_1, u32 param_2, u32 *param_3, u32 param_4, void (*param_5)(u32, u32), s32 param_6);
+void StartBackupWriteOneCopy(u32 address, void *source, u32 byteCount, u32 callback);
+void StartBackupWriteTwoCopies(u32 firstAddress, u32 secondAddress, u32 *source, u32 byteCount,
+                               void (*callback)(u32, u32), s32 hasPrefix);

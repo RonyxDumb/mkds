@@ -1,4 +1,7 @@
 #include "Main/Unknown/code_020fe4b4.h"
+#include "Main/Unknown/code_0205a548.h"
+#include "Main/Unknown/code_0205a92c.h"
+#include "Main/Unknown/code_020f8e78.h"
 #include "Main/Unknown/code_020f36d8.h"
 #include "code_02147cd8.h"
 #include "Main/Unknown/code_020ee684.h"
@@ -6,10 +9,13 @@
 #include "Main/Unknown/code_020f8000.h"
 #include "Main/Unknown/code_020ff344.h"
 #include "code_02146d78.h"
+#include "code_0214d018.h"
 #include "Main/Unknown/code_02105000.h"
-#include "Main/Unknown/code_020f81b8.h"
+#include "Main/Unknown/code_020f813c.h"
+#include "Main/Unknown/code_021053e4.h"
+#include "Main/Unknown/code_02109054.h"
 #include "Main/Unknown/code_0214d000.h"
-#include "Main/Unknown/code_02061f7c.h"
+#include "Main/Unknown/code_02061654.h"
 #include "Main/Unknown/unk_0217a000.h"
 #include "Main/Unknown/unk_027e0000.h"
 #include "Main/Unknown/code_020f2d98.h"
@@ -20,554 +26,526 @@
 
 #pragma thumb off
 
-u8 *func_020ff2b0(u8 *a, Unk020ff438 *b, void *c) {
-    u8 *p;
+u8 *func_020ff2b0(u8 *cursor, ItemFBox *fbox, void *toData) {
+    u8 *nextCursor;
 
-    if (b != 0 && c != 0) {
-        func_020ff1b8(b->mUnk_13c, &b->mUnk_000.mUnk_000.mUnk_5c.y);
+    if (fbox != NULL && toData != NULL) {
+        func_020ff1b8(fbox->mThrownForward, &fbox->mUnk_000.mItemObject.mVelocity.y);
     }
-    p = func_020fecdc(a, b, c);
-    if (b != 0 && c == 0) {
-        func_020ff1a0(b->mUnk_000.mUnk_000.mUnk_5c.y, &b->mUnk_13c);
+    nextCursor = CopyItemObjectData(cursor, fbox, toData);
+    if (fbox != NULL && toData == NULL) {
+        func_020ff1a0(fbox->mUnk_000.mItemObject.mVelocity.y, &fbox->mThrownForward);
     }
-    if (b != 0 && c != 0) {
-        return func_020fe8ac(b->mUnk_000.mUnk_000.mUnk_44);
+    if (fbox != NULL && toData != NULL) {
+        return func_020fe8ac(fbox->mUnk_000.mItemObject.mKind);
     }
-    return p;
+    return nextCursor;
 }
 
-void func_020ff25c(Unk020ff438 *a) {
-    func_020f8e78(a);
-    func_020f2d98((u32) a, 0);
-    if ((a->mUnk_000.mUnk_000.mUnk_74 & 0x10000000) == 0) {
+void InitItemFBoxFromData(ItemFBox *fbox) {
+    func_020f8e78(fbox);
+    StartItemObjectBouncing(&fbox->mUnk_000, 0);
+    if ((fbox->mUnk_000.mItemObject.mFlags & 0x10000000) == 0) {
         return;
     }
-    if (a->mUnk_13c == 0) {
+    if (fbox->mThrownForward == 0) {
         return;
     }
-    func_021090c4(&a->mUnk_000.mUnk_000.mUnk_00, 0xda, 0x7f, 0);
+    StartSound(&fbox->mUnk_000.mItemObject.mSoundSource, 0xda, 0x7f, 0);
 }
 
 #pragma thumb on
 
 void func_020ff1d8(void) {
-    Vec3 v;
-    Unk027e00cc *p;
-    Unk020ff438 *o;
-    Unk020f41c4_A **e;
-    s32 n;
-    s32 i;
+    Vec3 axis;
+    ItemPool *pool;
+    ItemFBox *fbox;
+    ItemObject **objectCursor;
+    s32 objectCount;
+    s32 index;
 
-    if (data_0217bc48[3].mUnk_00 == 0) {
+    if (gItemInfos[3].mEnabled == FALSE) {
         return;
     }
-    v = data_0216c734;
-    func_02146f98(&data_0217c600, &v, 0xb50, 0xb50);
-    p = &data_027e00cc[7];
-    e = p->mUnk_04;
-    n = p->mUnk_08;
-    for (i = 0; i < n; i++) {
-        o = (Unk020ff438 *) e[0];
-        o->mUnk_140 = (Unk021052fc *) func_0210543c();
-        o->mUnk_140->mUnk_fc = &o->mUnk_000.mUnk_000.mUnk_50;
-        e++;
+    axis = data_0216c734;
+    MTX_RotAxis33(&data_0217c600, &axis, 0xb50, 0xb50);
+    pool = &gItemPools[7];
+    objectCursor = pool->mObjects;
+    objectCount = pool->mObjectCount;
+    for (index = 0; index < objectCount; index++) {
+        fbox = (ItemFBox *) objectCursor[0];
+        fbox->mPooledMapObject = (PooledMapObject *) AllocPooledMapObject();
+        fbox->mPooledMapObject->mUnk_fc = &fbox->mUnk_000.mItemObject.mPos;
+        objectCursor++;
     }
-    p->mUnk_40 = 1;
+    pool->mUnk_40 = 1;
 }
 
 #pragma thumb off
 
-void func_020ff1b8(s32 a, s32 *p) {
-    if (a != 0) {
-        *p |= 0x200;
+void func_020ff1b8(s32 flag, s32 *word) {
+    if (flag != 0) {
+        *word |= 0x200;
     } else {
-        *p &= ~0x200;
+        *word &= ~0x200;
     }
 }
 
-void func_020ff1a0(s32 a, s32 *p) {
-    if (a & 0x200) {
-        *p = 1;
+void func_020ff1a0(s32 word, s32 *flag) {
+    if (word & 0x200) {
+        *flag = 1;
     } else {
-        *p = 0;
+        *flag = 0;
     }
 }
 
-s32 func_020ff178(Unk020f41c4_A *p) {
-    return (s16) (((s16) (u16) (p->mUnk_78 & ~0xff00) << 4) | p->mUnk_4c);
+s32 ComputeItemObjectId(ItemObject *item) {
+    return (s16) (((s16) (u16) (item->mUnk_78 & ~0xff00) << 4) | item->mPoolIndex);
 }
 
-static inline u8 *func_020ff0b0_inline(u8 *p, volatile s32 *t, void *c, s32 n) {
-    if (c != 0) {
-        *p = *t >> n;
+static inline u8 *func_020ff0b0_inline(u8 *cursor, volatile s32 *value, void *toData, s32 shift) {
+    if (toData != NULL) {
+        *cursor = *value >> shift;
     } else {
-        *t = *(s8 *) p << n;
+        *value = *(s8 *) cursor << shift;
     }
-    return p + 1;
+    return cursor + 1;
 }
 
-u8 *func_020ff0b0(u8 *a, Vec3 *b, Vec3 *q, void *c) {
-    volatile s32 t[3];
+u8 *CopyItemPrevPosOffset(u8 *cursor, Vec3 *position, Vec3 *prevPosition, void *toData) {
+    volatile s32 offset[3];
 
-    if (q != 0) {
-        if (c != 0) {
-            func_021484d0(q, b, (Vec3 *) t);
+    if (prevPosition != NULL) {
+        if (toData != NULL) {
+            VEC_Subtract(prevPosition, position, (Vec3 *) offset);
         }
-        a = func_020ff0b0_inline(a, &t[0], c, 10);
-        a = func_020ff0b0_inline(a, &t[1], c, 9);
-        a = func_020ff0b0_inline(a, &t[2], c, 10);
-        if (c == 0) {
-            func_02148504((Vec3 *) t, b, q);
+        cursor = func_020ff0b0_inline(cursor, &offset[0], toData, 10);
+        cursor = func_020ff0b0_inline(cursor, &offset[1], toData, 9);
+        cursor = func_020ff0b0_inline(cursor, &offset[2], toData, 10);
+        if (toData == NULL) {
+            VEC_Add((Vec3 *) offset, position, prevPosition);
         }
     } else {
-        a++;
-        a = (u8 *) a + 1;
-        a++;
+        cursor++;
+        cursor = (u8 *) cursor + 1;
+        cursor++;
     }
-    return a;
+    return cursor;
 }
 
-u8 *func_020ff040(u8 *a, void *b, void *c) {
-    volatile u8 v;
+u8 *CopyItemPointLinkIndex(u8 *cursor, void *pointLink, void *toData) {
+    volatile u8 pointLinkIndex;
 
-    if (b != 0) {
-        if (c != 0) {
-            v = func_020f36d8((Unk020f36d8 *) b);
+    if (pointLink != NULL) {
+        if (toData != NULL) {
+            pointLinkIndex = GetItemPointLinkIndex(pointLink);
         }
-        if (c != 0) {
-            *(u8 *) a = v;
+        if (toData != NULL) {
+            *(u8 *) cursor = pointLinkIndex;
         } else {
-            v = *(u8 *) a;
+            pointLinkIndex = *(u8 *) cursor;
         }
-        a++;
-        if (c == 0) {
-            func_020f36a0(v, b);
-        }
-    } else {
-        a++;
-    }
-    return a;
-}
-
-u8 *func_020fefe8(u8 *a, s32 *b, void *c) {
-    volatile s32 t;
-
-    if (b != 0) {
-        if (c != 0) {
-            t = *b;
-        }
-        if (c != 0) {
-            *(u8 *) a = t >> 9;
-        } else {
-            t = *(s8 *) a << 9;
-        }
-        a++;
-        if (c == 0) {
-            *b = t;
+        cursor++;
+        if (toData == NULL) {
+            SetItemPointLinkRefFromIndex(pointLinkIndex, pointLink);
         }
     } else {
-        a++;
+        cursor++;
     }
-    return a;
+    return cursor;
 }
 
-// non-matching: 0x29c bytes against 0x30c. The original keeps every advanced cursor as its own value
-// (add r1, r0, #1 and the following fields addressed as [r1, #n]) and forms each vector component's address
-// first (add r2, r0, #4 / [r2]); this compiler coalesces the advances into the cursor register and addresses the
-// later fields and components as [r0, #n] / [r2, #4]; t1 is read with ldrsb where the original has ldrb.
-u8 *func_020fecdc(u8 *a, void *b, void *c) {
-    volatile s8 t1;
-    volatile u16 t2;
-    Unk020f41c4_A *e;
-    void *p;
-    Vec3 *v;
-    Vec3 *w;
+u8 *func_020fefe8(u8 *cursor, s32 *valueSlot, void *toData) {
+    volatile s32 value;
 
-    e = b;
+    if (valueSlot != NULL) {
+        if (toData != NULL) {
+            value = *valueSlot;
+        }
+        if (toData != NULL) {
+            *(u8 *) cursor = value >> 9;
+        } else {
+            value = *(s8 *) cursor << 9;
+        }
+        cursor++;
+        if (toData == NULL) {
+            *valueSlot = value;
+        }
+    } else {
+        cursor++;
+    }
+    return cursor;
+}
 
-    if (b != 0 && c != 0) {
-        a = data_0217bd6c + 1;
-    }
-    p = b != 0 ? &e->mUnk_4e : 0;
-    if (p != 0) {
-        if (c != 0) {
-            t1 = *(s16 *) p;
+static inline u8 *func_020fecdc_inline(u8 *cursor, s16 *valueSlot, void *toData) {
+    volatile u8 byteValue;
+    u8 *nextCursor;
+
+    if (valueSlot != NULL) {
+        if (toData != NULL) {
+            byteValue = *valueSlot;
         }
-        if (c != 0) {
-            *a = t1;
+        if (toData != NULL) {
+            *cursor = byteValue;
         } else {
-            t1 = *a;
+            byteValue = *cursor;
         }
-        if (c == 0) {
-            *(s16 *) p = t1;
+        nextCursor = cursor + 1;
+        if (toData == NULL) {
+            *valueSlot = byteValue;
         }
+        return nextCursor;
     }
-    a++;
-    p = b != 0 ? &e->mUnk_74 : 0;
-    if (p != 0) {
-        if (c != 0) {
-            t2 = *(u32 *) p >> 12;
+    return cursor + 1;
+}
+
+static inline u8 *func_020fecdc_inline2(u8 *cursor, u32 *valueSlot, void *toData) {
+    volatile u16 halfword;
+
+    if (valueSlot != NULL) {
+        if (toData != NULL) {
+            halfword = *valueSlot >> 12;
         }
-        if (c != 0) {
-            *(u16 *) a = t2;
+        if (toData != NULL) {
+            *(u16 *) cursor = halfword;
         } else {
-            t2 = *(u16 *) a;
+            halfword = *(u16 *) cursor;
         }
-        if (c == 0) {
-            *(u32 *) p = t2 << 12;
+        if (toData == NULL) {
+            *valueSlot = halfword << 12;
         }
+        return cursor + 2;
     }
-    a += 2;
-    v = b != 0 ? &e->mUnk_50 : 0;
-    if (v != 0) {
-        w = b != 0 ? &e->mUnk_50 : 0;
-        if (w != 0) {
-            if (c != 0) {
-                *(s16 *) a = w->x >> 9;
-            } else {
-                w->x = *(s16 *) a << 9;
-            }
-        }
-    }
-    a += 2;
-    v = b != 0 ? &e->mUnk_50 : 0;
-    if (v != 0) {
-        w = b != 0 ? &e->mUnk_50 : 0;
-        if (w != 0) {
-            if (c != 0) {
-                *(s16 *) a = w->y >> 9;
-            } else {
-                w->y = *(s16 *) a << 9;
-            }
-        }
-    }
-    a += 2;
-    v = b != 0 ? &e->mUnk_50 : 0;
-    if (v != 0) {
-        w = b != 0 ? &e->mUnk_50 : 0;
-        if (w != 0) {
-            if (c != 0) {
-                *(s16 *) a = w->z >> 9;
-            } else {
-                w->z = *(s16 *) a << 9;
-            }
-        }
-    }
-    a = func_020ff0b0(a + 2, b != 0 ? &e->mUnk_50 : 0, b != 0 ? &e->mUnk_0e4 : 0, c);
-    v = b != 0 ? &e->mUnk_5c : 0;
-    if (v != 0) {
-        w = b != 0 ? &e->mUnk_5c : 0;
-        if (w != 0) {
-            if (c != 0) {
-                *a = w->x >> 10;
-            } else {
-                w->x = *(s8 *) a << 10;
-            }
-        }
-    }
-    a++;
-    v = b != 0 ? &e->mUnk_5c : 0;
-    if (v != 0) {
-        w = b != 0 ? &e->mUnk_5c : 0;
-        if (w != 0) {
-            if (c != 0) {
-                *a = w->y >> 9;
-            } else {
-                w->y = *(s8 *) a << 9;
-            }
-        }
-    }
-    a++;
-    v = b != 0 ? &e->mUnk_5c : 0;
-    if (v != 0) {
-        w = b != 0 ? &e->mUnk_5c : 0;
-        if (w != 0) {
-            if (c != 0) {
-                *a = w->z >> 10;
-            } else {
-                w->z = *(s8 *) a << 10;
-            }
-        }
-    }
-    a++;
-    p = b != 0 ? &e->mUnk_78 : 0;
-    if (p != 0) {
-        if (c != 0) {
-            *(u16 *) a = *(u16 *) p;
+    return cursor + 2;
+}
+
+static inline u8 *func_020fecdc_inline3(u8 *cursor, s32 *valueSlot, void *toData) {
+    if (valueSlot != NULL) {
+        if (toData != NULL) {
+            *(s16 *) cursor = *valueSlot >> 9;
         } else {
-            *(u16 *) p = *(u16 *) a;
+            *valueSlot = *(s16 *) cursor << 9;
         }
     }
-    return a + 2;
+    return cursor + 2;
+}
+
+static inline u8 *func_020fecdc_inline4(u8 *cursor, s32 *valueSlot, void *toData, s32 shift) {
+    if (valueSlot != NULL) {
+        if (toData != NULL) {
+            *cursor = *valueSlot >> shift;
+        } else {
+            *valueSlot = *(s8 *) cursor << shift;
+        }
+    }
+    return cursor + 1;
+}
+
+u8 *CopyItemObjectData(u8 *cursor, void *object, void *toData) {
+    ItemObject *item;
+    u16 *p;
+
+    item = object;
+
+    if (object != NULL) {
+        if (toData != NULL) {
+            cursor = gItemDataBuffer;
+        }
+        cursor++;
+    }
+    cursor = func_020fecdc_inline(cursor, object != NULL ? &item->mId : 0, toData);
+    cursor = func_020fecdc_inline2(cursor, object != NULL ? &item->mFlags : 0, toData);
+    cursor = func_020fecdc_inline3(
+        cursor, (object != NULL ? &item->mPos : 0) != NULL ? &(object != NULL ? &item->mPos : 0)->x : 0, toData);
+    cursor = func_020fecdc_inline3(
+        cursor, (object != NULL ? &item->mPos : 0) != NULL ? &(object != NULL ? &item->mPos : 0)->y : 0, toData);
+    cursor = func_020fecdc_inline3(
+        cursor, (object != NULL ? &item->mPos : 0) != NULL ? &(object != NULL ? &item->mPos : 0)->z : 0, toData);
+    cursor =
+        CopyItemPrevPosOffset(cursor, object != NULL ? &item->mPos : 0, object != NULL ? &item->mPrevPos : 0, toData);
+    cursor = func_020fecdc_inline4(
+        cursor, (object != NULL ? &item->mVelocity : 0) != NULL ? &(object != NULL ? &item->mVelocity : 0)->x : 0,
+        toData, 10);
+    cursor = func_020fecdc_inline4(
+        cursor, (object != NULL ? &item->mVelocity : 0) != NULL ? &(object != NULL ? &item->mVelocity : 0)->y : 0,
+        toData, 9);
+    cursor = func_020fecdc_inline4(
+        cursor, (object != NULL ? &item->mVelocity : 0) != NULL ? &(object != NULL ? &item->mVelocity : 0)->z : 0,
+        toData, 10);
+    p = object != NULL ? &item->mUnk_78 : 0;
+    if (p != NULL) {
+        if (toData != NULL) {
+            *(u16 *) cursor = *p;
+        } else {
+            *p = *(u16 *) cursor;
+        }
+    }
+    return cursor + 2;
 }
 
 void func_020fec30(void) {
-    u32 v1;
-    s32 n;
-    u32 v2;
-    Unk0217be00 *p;
+    u32 index;
+    s32 available;
+    u32 nextIndex;
+    ItemDataRecord *record;
 
-    v1 = data_0217bd60[0];
-    if (v1 == 0xff) {
+    index = gItemDataQueueUsedHead[0];
+    if (index == 0xff) {
         return;
     }
     do {
-        n = data_0217aa14->mUnk_724;
-        v2 = data_0217bd80[v1][0];
-        if (n < data_0217bd80[v1][1]) {
+        available = data_0217aa14->mUnk_724;
+        nextIndex = gItemDataQueueLinks[index][0];
+        if (available < gItemDataQueueLinks[index][1]) {
             return;
         }
-        if (func_0205ad44() == 0) {
+        if (IsAnyItemDataSlotFree() == FALSE) {
             return;
         }
-        data_0217bd60[0] = v2;
-        data_0217bd80[v1][0] = data_0217bd64[0];
-        data_0217bd64[0] = v1;
-        p = &data_0217be00[v1];
-        func_0205a858(p->mUnk_14, p->mUnk_18, p, data_0217bd80[v1][1]);
-        v1 = v2;
-    } while (v2 != 0xff);
+        gItemDataQueueUsedHead[0] = nextIndex;
+        gItemDataQueueLinks[index][0] = gItemDataQueueFreeHead[0];
+        gItemDataQueueFreeHead[0] = index;
+        record = &gItemDataQueue[index];
+        AddItemData(record->mKind, record->mUnk_18, record, gItemDataQueueLinks[index][1]);
+        index = nextIndex;
+    } while (nextIndex != 0xff);
 }
 
-// non-matching: 0xe8 bytes against 0xec. The original reads the second byte of the row twice (ldrb r1 and ldrb r2,
-// both [r3, #1]: one for the decrement, one for the test) and stores the first byte of the row through
-// `lsl r2, r0, #1` / `strb r1, [r7, r2]`; this compiler reads it once and stores through [r7, r3, lsl #1]. v1, v3 and
-// v4 also take other registers (the original has v1 in r10, v3 in r9, v4 in r8).
 void func_020feb44(void) {
-    s32 v1;
-    u32 v2;
-    u32 v3;
-    u32 v4;
-    u32 v5;
-    u32 h;
-    Unk0217be00 *p;
+    u32 raceUpdateFrames;
+    u32 index;
+    u32 previousIndex;
+    u32 nextIndex;
+    u32 countdown;
+    u32 freeHead;
+    ItemDataRecord *record;
 
-    v1 = func_02061fb8();
-    v2 = data_0217bd68[0];
-    v3 = 0xff;
-    while (v2 != 0xff) {
-        v5 = data_0217bdc0[v2][1];
-        v4 = data_0217bdc0[v2][0];
-        data_0217bdc0[v2][1] = v5 - 1;
-        if (v5 == 0) {
-            h = data_0217bd5c[0];
-            if (v3 == 0xff) {
-                data_0217bd68[0] = v4;
+    raceUpdateFrames = GetRaceUpdateFrames();
+    index = gItemDataDelayedUsedHead[0];
+    previousIndex = 0xff;
+    while (index != 0xff) {
+        countdown = gItemDataDelayedLinks[index][1];
+        nextIndex = gItemDataDelayedLinks[index][0];
+        gItemDataDelayedLinks[index][1]--;
+        if (countdown == 0) {
+            freeHead = gItemDataDelayedFreeHead[0];
+            gItemDataDelayedLinks[index][0] = freeHead;
+            gItemDataDelayedFreeHead[0] = index;
+            if (previousIndex == 0xff) {
+                gItemDataDelayedUsedHead[0] = nextIndex;
+            } else {
+                gItemDataDelayedLinks[previousIndex][0] = nextIndex;
             }
-            data_0217bdc0[v2][0] = h;
-            data_0217bd5c[0] = v2;
-            if (v3 != 0xff) {
-                data_0217bdc0[v3][0] = v4;
-            }
-            p = &data_0217c200[v2];
-            if (p->mUnk_1c == 0 || (u32) (p->mUnk_1c + 0x100) >= (u32) v1) {
-                func_020f0758(data_027e00cc + p->mUnk_14, p->mUnk_18, 0, (u8 *) p, p->mUnk_1c);
+            record = &gItemDataDelayed[index];
+            if (record->mRaceUpdateFramesStamp == 0 || (record->mRaceUpdateFramesStamp + 0x100) >= raceUpdateFrames) {
+                u32 k = *(vu32 *) &record->mKind;
+                func_020f0758(gItemPools + k, record->mUnk_18, 0, (u8 *) record, record->mRaceUpdateFramesStamp);
             }
         } else {
-            v3 = v2;
+            previousIndex = index;
         }
-        v2 = v4;
+        index = nextIndex;
     }
 }
 
-void func_020fea84(u32 a, u32 b, void *c, u8 d) {
-    u32 v1;
-    Unk0217be00 *p;
+void func_020fea84(u32 kind, u32 messageKind, void *packet, u8 size) {
+    u32 index;
+    ItemDataRecord *record;
 
-    v1 = data_0217bd64[0];
-    if (v1 == 0xff) {
+    index = gItemDataQueueFreeHead[0];
+    if (index == 0xff) {
         return;
     }
-    p = &data_0217be00[v1];
-    p->mUnk_14 = a;
-    p->mUnk_18 = b;
-    func_0214d1fc(c, p, d);
-    data_0217bd64[0] = data_0217bd80[v1][0];
-    if (data_0217bd60[0] == 0xff) {
-        data_0217bd60[0] = v1;
+    record = &gItemDataQueue[index];
+    record->mKind = kind;
+    record->mUnk_18 = messageKind;
+    MI_CpuCopy8(packet, record, size);
+    gItemDataQueueFreeHead[0] = gItemDataQueueLinks[index][0];
+    if (gItemDataQueueUsedHead[0] == 0xff) {
+        gItemDataQueueUsedHead[0] = index;
     } else {
-        u32 i;
-        u8 t;
+        u32 walkIndex;
+        u8 nextIndex;
 
-        i = data_0217bd60[0];
-        t = data_0217bd80[i][0];
-        while (t != 0xff) {
-            i = t;
-            t = data_0217bd80[i][0];
+        walkIndex = gItemDataQueueUsedHead[0];
+        nextIndex = gItemDataQueueLinks[walkIndex][0];
+        while (nextIndex != 0xff) {
+            walkIndex = nextIndex;
+            nextIndex = gItemDataQueueLinks[walkIndex][0];
         }
-        data_0217bd80[i][0] = v1;
+        gItemDataQueueLinks[walkIndex][0] = index;
     }
-    data_0217bd80[v1][0] = 0xff;
-    data_0217bd80[v1][1] = d;
+    gItemDataQueueLinks[index][0] = 0xff;
+    gItemDataQueueLinks[index][1] = size;
 }
 
-void func_020fe9d0(u32 a, u32 b, s32 c, void *d, u32 e) {
-    u32 v1;
-    Unk0217be00 *p;
+void func_020fe9d0(u32 kind, u32 messageKind, s32 frameDifference, void *packet, u32 frameStamp) {
+    u32 index;
+    ItemDataRecord *record;
 
-    v1 = data_0217bd5c[0];
-    if (v1 == 0xff) {
+    index = gItemDataDelayedFreeHead[0];
+    if (index == 0xff) {
         return;
     }
-    p = &data_0217c200[v1];
-    p->mUnk_14 = a;
-    p->mUnk_18 = b;
-    p->mUnk_1c = e;
-    func_0214d1fc(d, p, 0x14);
-    data_0217bd5c[0] = data_0217bdc0[v1][0];
-    data_0217bdc0[v1][0] = data_0217bd68[0];
-    if (e != 0) {
-        data_0217bdc0[v1][1] = 4;
+    record = &gItemDataDelayed[index];
+    record->mKind = kind;
+    record->mUnk_18 = messageKind;
+    record->mRaceUpdateFramesStamp = frameStamp;
+    MI_CpuCopy8(packet, record, 0x14);
+    gItemDataDelayedFreeHead[0] = gItemDataDelayedLinks[index][0];
+    gItemDataDelayedLinks[index][0] = gItemDataDelayedUsedHead[0];
+    if (frameStamp != 0) {
+        gItemDataDelayedLinks[index][1] = 4;
     } else {
-        data_0217bdc0[v1][1] = -c;
+        gItemDataDelayedLinks[index][1] = -frameDifference;
     }
-    data_0217bd68[0] = v1;
+    gItemDataDelayedUsedHead[0] = index;
 }
 
-u8 *func_020fe958(u32 a) {
-    s32 n;
+u8 *func_020fe958(u32 kind) {
+    s32 available;
 
-    data_0217bd6c[0] = func_02061fb8();
-    n = data_0217aa14->mUnk_724;
-    if (n >= 1 && func_0205ad44() != 0) {
-        func_0205a858(a, 0, data_0217bd6c, 1);
+    gItemDataBuffer[0] = GetRaceUpdateFrames();
+    available = data_0217aa14->mUnk_724;
+    if (available >= 1 && IsAnyItemDataSlotFree() != FALSE) {
+        AddItemData(kind, 0, gItemDataBuffer, 1);
     } else {
-        func_020fea84(a, 0, data_0217bd6c, 1);
+        func_020fea84(kind, 0, gItemDataBuffer, 1);
     }
-    return data_0217bd6c;
+    return gItemDataBuffer;
 }
 
-u8 *func_020fe8ac(u32 a) {
-    u32 b;
-    s32 n;
+u8 *func_020fe8ac(u32 kind) {
+    u32 dataSize;
+    s32 available;
 
-    b = data_0217bc34[a].mUnk_4c & 0xff;
-    data_0217bd6c[0] = func_02061fb8();
-    n = data_0217aa14->mUnk_724;
-    if (n >= (u8) (b + 1) && func_0205ad44() != 0) {
-        func_0205a858(a, 0, data_0217bd6c, b + 1);
+    dataSize = gItemKinds[kind].mDataSize & 0xff;
+    gItemDataBuffer[0] = GetRaceUpdateFrames();
+    available = data_0217aa14->mUnk_724;
+    if (available >= (u8) (dataSize + 1) && IsAnyItemDataSlotFree() != FALSE) {
+        AddItemData(kind, 0, gItemDataBuffer, dataSize + 1);
     } else {
-        func_020fea84(a, 0, data_0217bd6c, b + 1);
+        func_020fea84(kind, 0, gItemDataBuffer, dataSize + 1);
     }
-    return data_0217bd6c;
+    return gItemDataBuffer;
 }
 
-u8 *func_020fe828(u32 a) {
-    s32 n;
+u8 *func_020fe828(u32 kind) {
+    s32 available;
 
-    data_0217bd6c[1] = 0xff;
-    data_0217bd6c[0] = func_02061fb8();
-    n = data_0217aa14->mUnk_724;
-    if (n >= 2 && func_0205ad44() != 0) {
-        func_0205a858(a, 0, data_0217bd6c, 2);
+    gItemDataBuffer[1] = 0xff;
+    gItemDataBuffer[0] = GetRaceUpdateFrames();
+    available = data_0217aa14->mUnk_724;
+    if (available >= 2 && IsAnyItemDataSlotFree() != FALSE) {
+        AddItemData(kind, 0, gItemDataBuffer, 2);
     } else {
-        func_020fea84(a, 0, data_0217bd6c, 2);
+        func_020fea84(kind, 0, gItemDataBuffer, 2);
     }
-    return data_0217bd6c;
+    return gItemDataBuffer;
 }
 
-u8 *func_020fe7a0(u32 a, u32 b, u32 c, u32 d) {
-    s32 n;
+u8 *func_020fe7a0(u32 kind, u32 b, u32 c, u32 itemId) {
+    s32 available;
 
-    data_0217bd6c[1] = d;
-    data_0217bd6c[2] = b | (c << 4);
-    data_0217bd6c[0] = func_02061fb8();
-    n = data_0217aa14->mUnk_724;
-    if (n >= 3 && func_0205ad44() != 0) {
-        func_0205a858(a, 2, data_0217bd6c, 3);
+    gItemDataBuffer[1] = itemId;
+    gItemDataBuffer[2] = b | (c << 4);
+    gItemDataBuffer[0] = GetRaceUpdateFrames();
+    available = data_0217aa14->mUnk_724;
+    if (available >= 3 && IsAnyItemDataSlotFree() != FALSE) {
+        AddItemData(kind, 2, gItemDataBuffer, 3);
     } else {
-        func_020fea84(a, 2, data_0217bd6c, 3);
+        func_020fea84(kind, 2, gItemDataBuffer, 3);
     }
-    return data_0217bd6c;
+    return gItemDataBuffer;
 }
 
-u8 *func_020fe71c(u32 a, u32 b, u32 c) {
-    s32 n;
+u8 *func_020fe71c(u32 kind, u32 kartIndex, u32 itemId) {
+    s32 available;
 
-    data_0217bd6c[1] = c;
-    data_0217bd6c[2] = b;
-    data_0217bd6c[0] = func_02061fb8();
-    n = data_0217aa14->mUnk_724;
-    if (n >= 3 && func_0205ad44() != 0) {
-        func_0205a858(a, 3, data_0217bd6c, 3);
+    gItemDataBuffer[1] = itemId;
+    gItemDataBuffer[2] = kartIndex;
+    gItemDataBuffer[0] = GetRaceUpdateFrames();
+    available = data_0217aa14->mUnk_724;
+    if (available >= 3 && IsAnyItemDataSlotFree() != FALSE) {
+        AddItemData(kind, 3, gItemDataBuffer, 3);
     } else {
-        func_020fea84(a, 3, data_0217bd6c, 3);
+        func_020fea84(kind, 3, gItemDataBuffer, 3);
     }
-    return data_0217bd6c;
+    return gItemDataBuffer;
 }
 
-u8 *func_020fe694(u32 a, u32 b, u32 c, u32 d) {
-    s32 n;
+u8 *func_020fe694(u32 kind, u32 itemId, u32 c, u32 d) {
+    s32 available;
 
-    data_0217bd6c[1] = b;
-    data_0217bd6c[2] = c;
-    data_0217bd6c[3] = d;
-    data_0217bd6c[0] = func_02061fb8();
-    n = data_0217aa14->mUnk_724;
-    if (n >= 4 && func_0205ad44() != 0) {
-        func_0205a858(a, 3, data_0217bd6c, 4);
+    gItemDataBuffer[1] = itemId;
+    gItemDataBuffer[2] = c;
+    gItemDataBuffer[3] = d;
+    gItemDataBuffer[0] = GetRaceUpdateFrames();
+    available = data_0217aa14->mUnk_724;
+    if (available >= 4 && IsAnyItemDataSlotFree() != FALSE) {
+        AddItemData(kind, 3, gItemDataBuffer, 4);
     } else {
-        func_020fea84(a, 3, data_0217bd6c, 4);
+        func_020fea84(kind, 3, gItemDataBuffer, 4);
     }
-    return data_0217bd6c;
+    return gItemDataBuffer;
 }
 
-void func_020fe5b8(u32 a, u32 b, u8 *c, u32 d) {
-    s8 v;
+void func_020fe5b8(u32 kind, u32 messageKind, u8 *packet, u32 kartIndex) {
+    s8 frameDifference;
 
-    v = (u8) func_02061fb8() - c[0];
-    if (v >= 0) {
-        func_020f0758(data_027e00cc + a, b, v, c, 0);
+    frameDifference = (u8) GetRaceUpdateFrames() - packet[0];
+    if (frameDifference >= 0) {
+        func_020f0758(gItemPools + kind, messageKind, frameDifference, packet, 0);
     } else {
-        func_020fe9d0(a, b, v, c, 0);
+        func_020fe9d0(kind, messageKind, frameDifference, packet, 0);
     }
-    if (a != 0xb) {
+    if (kind != 0xb) {
         return;
     }
-    if (b != 0) {
+    if (messageKind != 0) {
         return;
     }
-    if (c[1] == 0xff) {
+    if (packet[1] == 0xff) {
         return;
     }
-    func_020f81b8((u32) & ((Unk020ee684 *) (void *) data_027e00c8)[(u16) d], 0x10);
+    SetActiveItem(&gKartItems[(u16) kartIndex], 0x10);
 }
 
-void func_020fe56c(u32 a, u32 b, u32 c, void *d, u32 e) {
-    u32 v;
+void func_020fe56c(u32 kind, u32 messageKind, u32 frameDifference, void *packet, u32 frameStamp) {
+    u32 storedFrameStamp;
 
-    v = e;
-    if (v == 0) {
-        v = func_02061fb8();
+    storedFrameStamp = frameStamp;
+    if (storedFrameStamp == 0) {
+        storedFrameStamp = GetRaceUpdateFrames();
     }
-    func_020fe9d0(a, b, c, d, v);
+    func_020fe9d0(kind, messageKind, frameDifference, packet, storedFrameStamp);
 }
 
-void *func_020fe4c0(void *a, void *b, s32 c) {
-    Unk020f41c4_A *e;
-    u8 *p;
-    s32 t;
-    s32 n;
+void *func_020fe4c0(void *cursor, void *object, s32 toData) {
+    ItemObject *item;
+    u8 *nextCursor;
+    s32 kind;
+    s32 available;
 
-    e = b;
-    p = func_020fecdc(a, b, (void *) c);
-    if (b == 0) {
-        return p;
+    item = object;
+    nextCursor = CopyItemObjectData(cursor, object, (void *) toData);
+    if (object == NULL) {
+        return nextCursor;
     }
-    if (c == 0) {
-        return p;
+    if (toData == 0) {
+        return nextCursor;
     }
-    t = e->mUnk_44;
-    data_0217bd6c[0] = func_02061fb8();
-    n = data_0217aa14->mUnk_724;
-    if (n >= 0x12 && func_0205ad44() != 0) {
-        func_0205a858(t, 1, data_0217bd6c, 0x12);
+    kind = item->mKind;
+    gItemDataBuffer[0] = GetRaceUpdateFrames();
+    available = data_0217aa14->mUnk_724;
+    if (available >= 0x12 && IsAnyItemDataSlotFree() != FALSE) {
+        AddItemData(kind, 1, gItemDataBuffer, 0x12);
     } else {
-        func_020fea84(t, 1, data_0217bd6c, 0x12);
+        func_020fea84(kind, 1, gItemDataBuffer, 0x12);
     }
-    return data_0217bd6c;
+    return gItemDataBuffer;
 }
 
-void func_020fe4b4(void *p) {
-    func_020f8e78(p);
+void func_020fe4b4(void *object) {
+    func_020f8e78(object);
 }

@@ -1,8 +1,9 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020e0680.h"
 
-void func_020e3414(Unk020e1e98 *a);
-void func_020e33c0(Unk020e1e98 *a);
-void func_020e337c(Unk020e1e98 *a);
+typedef struct Unk020e1e98 Unk020e1e98;
+
+void UpdateChoropuState3(Unk020e1e98 *choropu);
+void EnterChoropuState4(Unk020e1e98 *choropu);
+void UpdateChoropuState4(Unk020e1e98 *choropu);

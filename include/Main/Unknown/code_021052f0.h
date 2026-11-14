@@ -2,4 +2,8 @@
 
 #include "types.h"
 
-void func_021052f0(unsigned int p0, unsigned int p1, unsigned int p2);
+typedef struct ItemFBox ItemFBox;
+
+typedef struct PooledMapObject PooledMapObject;
+
+void SetPooledMapObjectCallback(PooledMapObject *object, void *callback, ItemFBox *owner);

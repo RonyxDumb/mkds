@@ -1,39 +1,43 @@
 #include "Main/Unknown/code_020d0e3c.h"
+#include "Main/Unknown/code_020b4000.h"
+#include "Main/Unknown/code_020c0ba8.h"
 #include "Main/Unknown/code_020c0000.h"
 #include "Main/Unknown/code_020d0ee8.h"
+#include "Main/Unknown/code_020d0f78.h"
+#include "Main/Unknown/code_021000d0.h"
 
 #pragma optimize_for_size on
 
 #pragma thumb on
-s32 func_020d0ec4(void) {
-    if (data_0217b4a4 != 0 && func_020d0ee8() == 0) {
-        return 1;
+BOOL func_020d0ec4(void) {
+    if (gCupPicture != NULL && func_020d0ee8() == 0) {
+        return TRUE;
     }
-    return 0;
+    return FALSE;
 }
 
-void *func_020d0ea0(void) {
-    if (func_020d0ec4() != 0) {
-        return data_0217b4a4->mUnk_00->mUnk_0c;
+void *GetCupPictureNclrData(void) {
+    if (func_020d0ec4() != FALSE) {
+        return gCupPicture->mCupPictureNclr->mData;
     }
-    return 0;
+    return NULL;
 }
 
-void *func_020d0e7c(void) {
-    if (func_020d0ec4() != 0) {
-        return data_0217b4a4->mUnk_04->mUnk_14;
+void *GetCupPictureNcgrData(void) {
+    if (func_020d0ec4() != FALSE) {
+        return gCupPicture->mCupPictureNcgr->mData;
     }
-    return 0;
+    return NULL;
 }
 
-void *func_020d0e58(void) {
-    if (func_020d0ec4() != 0) {
-        return &data_0217b4a4->mUnk_08->mUnk_0c;
+void *GetCupPictureNscrData(void) {
+    if (func_020d0ec4() != FALSE) {
+        return &gCupPicture->mCupPictureNscr->mData;
     }
-    return 0;
+    return NULL;
 }
 #pragma thumb off
 
-s32 func_020d0e3c(void) {
-    return func_020c0c2c(&data_0217b4a0, 0x1af);
+s32 CreateRaceHudSubScreenFireball2Cells(void) {
+    return CreateRaceHudSubScreenCells(&gRaceHudSubScreenFireball2Cells, MAP_OBJECT_KIND_FIREBALL2);
 }

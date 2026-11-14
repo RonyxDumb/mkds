@@ -1,5 +1,17 @@
 #include "Main/Unknown/code_020d24d8.h"
+#include "Main/Unknown/code_02024974.h"
+#include "Main/Unknown/code_020d4c28.h"
+#include "Main/Unknown/code_020d50ec.h"
 #include "Main/Unknown/unk_021759c0.h"
+#include "Main/Unknown/code_020b1dbc.h"
+#include "Main/Unknown/code_0207b960.h"
+#include "Main/Unknown/code_020b4e5c.h"
+#include "Main/Unknown/code_02039860.h"
+#include "Main/Unknown/code_02147000.h"
+#include "Main/Unknown/unk_0215d000.h"
+#include "Main/Unknown/code_020b47d8.h"
+#include "Main/Unknown/code_020b6a18.h"
+#include "Main/Unknown/code_0207a880.h"
 #include "Main/Unknown/code_020b502c.h"
 #include "Main/Unknown/code_020d4000.h"
 #include "Main/Unknown/code_020d5000.h"
@@ -8,84 +20,84 @@
 #include "code_02147cd8.h"
 #include "Main/Unknown/code_02024000.h"
 
-void func_020d2668(Unk020e71a0 *param_1, Unk0210bfbc *param_2, s32 param_3, s32 param_4) {
-    s32 a;
-    a = param_1->mUnk_98->mUnk_24;
-    if (a == -1) {
+void StartMapObjectKindSound(MapObject *mapObject, SoundSource *soundSource, s32 d, s32 e) {
+    s32 soundId;
+    soundId = mapObject->mKindData->mUnk_24;
+    if (soundId == -1) {
         return;
     }
-    if (param_1->mUnk_78 & 0x40000000) {
+    if (mapObject->mDistanceSquaredAndFlags & 0x40000000) {
         return;
     }
-    if (param_1->mUnk_94 != 0) {
-        func_02024a28(&param_1->mUnk_94->mUnk_00, a, param_4, param_3);
+    if (mapObject->mSound != NULL) {
+        func_02024a28(&mapObject->mSound->mSoundSource, soundId, e, d);
     } else {
-        func_02024a28(param_2, a, param_4, param_3);
+        func_02024a28(soundSource, soundId, e, d);
     }
 }
 
-void func_020d2600(s32 param_1, Vec3 *param_2, s32 param_3) {
-    s32 a;
-    Unk0210b7a8 b;
-    a = func_020d4ef4(param_2);
-    if (a >= (param_3 == 2 ? data_0217ca6c[2].mUnk_20 : data_0217ca6c[4].mUnk_20)) {
+void StartSoundAtPositionIfNear(s32 soundId, Vec3 *position, s32 falloffKind) {
+    s32 distanceSquared;
+    Unk0210b7a8 request;
+    distanceSquared = GetHorizontalCameraDistanceSquared(position);
+    if (distanceSquared >= (falloffKind == 2 ? gSoundFalloffs[2].mUnk_20 : gSoundFalloffs[4].mUnk_20)) {
         return;
     }
-    b.mUnk_00 = param_1;
-    b.mUnk_04 = param_2;
-    b.mUnk_08 = param_3;
-    b.mUnk_0c = a;
-    func_0210b7a8(&b);
+    request.mSoundId = soundId;
+    request.mPositionSource = position;
+    request.mUnk_08 = falloffKind;
+    request.mDistanceSquared = distanceSquared;
+    func_0210b7a8(&request);
 }
 
-void func_020d2584(Unk020e71a0 *param_1, s32 param_2) {
-    s32 a;
-    param_1->mUnk_58.y = (s64) param_2 * param_1->mUnk_1c.y >> 12;
-    if (param_1->mUnk_64 < 0) {
+void SetMapObjectExtentY(MapObject *mapObject, s32 baseSize) {
+    s32 radius;
+    mapObject->mExtent.y = (s64) baseSize * mapObject->mScale.y >> 12;
+    if (mapObject->mCollisionSlotIndex < 0) {
         return;
     }
-    switch (param_1->mUnk_98->mUnk_08) {
-    case 3:
-    case 4:
-    case 5:
-        a = func_021482cc(&param_1->mUnk_58);
-        break;
-    case 0:
-    case 1:
-    case 2:
-    default:
-        a = param_1->mUnk_58.x;
-        break;
+    switch (mapObject->mKindData->mShapeKind) {
+        case 3:
+        case 4:
+        case 5:
+            radius = VEC_Mag(&mapObject->mExtent);
+            break;
+        case 0:
+        case 1:
+        case 2:
+        default:
+            radius = mapObject->mExtent.x;
+            break;
     }
-    func_020d5148(param_1->mUnk_64, a);
+    SetCollisionSlotRadius(mapObject->mCollisionSlotIndex, radius);
 }
 
-s32 func_020d252c(Unk020e71a0 *param_1) {
-    switch (param_1->mUnk_98->mUnk_08) {
-    case 3:
-    case 4:
-    case 5:
-        return func_021482cc(&param_1->mUnk_58);
-    case 0:
-    case 1:
-    case 2:
-    default:
-        return param_1->mUnk_58.x;
+s32 GetMapObjectCollisionRadius(MapObject *mapObject) {
+    switch (mapObject->mKindData->mShapeKind) {
+        case 3:
+        case 4:
+        case 5:
+            return VEC_Mag(&mapObject->mExtent);
+        case 0:
+        case 1:
+        case 2:
+        default:
+            return mapObject->mExtent.x;
     }
 }
 
-void func_020d24d8(Unk020e71a0 *param_1, s32 param_2) {
-    s32 a;
-    param_1->mUnk_6c = param_2;
-    if (data_021759c0->mUnk_00c == 3) {
-        param_1->mUnk_6c = 0x270f000;
+void SetMapObjectDrawDistance(MapObject *mapObject, s32 drawDistance) {
+    s32 maxDistance;
+    mapObject->mDrawDistance = drawDistance;
+    if (gRaceSetup->mRaceKind == RACE_KIND_START_GP) {
+        mapObject->mDrawDistance = 0x270f000;
         return;
     }
-    a = data_02175620->mUnk_018->mUnk_20;
-    if (a == 0) {
+    maxDistance = gCourseMap->mSettings->mMapObjectDrawDistanceMax;
+    if (maxDistance == 0) {
         return;
     }
-    if (param_1->mUnk_6c > a) {
-        param_1->mUnk_6c = a;
+    if (mapObject->mDrawDistance > maxDistance) {
+        mapObject->mDrawDistance = maxDistance;
     }
 }

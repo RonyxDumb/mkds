@@ -2,15 +2,17 @@
 
 #include "types.h"
 
-// Object behind data_0217b810; only the field at 0x6e is used here.
+typedef struct MtxFx43 MtxFx43;
+
+// Object behind gJgShadow; only the field at 0x6e is used here.
 typedef struct Unk020e5348 {
     /* 000 */ u8 mUnk_000[0x6e];
     /* 06e */ u16 mUnk_06e;
 } Unk020e5348;
 
-extern Unk020e5348 *data_0217b810;
+extern Unk020e5348 *gJgShadow;
 
-// Object behind Unk020e52bc::mUnk_004: byte offsets at 0x08 and 0x0c, a word at 0x1c.
+// Object behind Unk020e52bc.mUnk_004: byte offsets at 0x08 and 0x0c, a word at 0x1c.
 typedef struct Unk020e52bc_4 {
     /* 000 */ u8 mUnk_000[8];
     /* 008 */ u32 mUnk_008;
@@ -19,27 +21,27 @@ typedef struct Unk020e52bc_4 {
     /* 01c */ u32 mUnk_01c;
 } Unk020e52bc_4;
 
-// Object at Unk020e52bc_4::mUnk_008: a halfword at 0x0a, a table of byte offsets at 0x08.
+// Object at Unk020e52bc_4.mUnk_008: a halfword at 0x0a, a table of byte offsets at 0x08.
 typedef struct Unk020e52bc_8 {
     /* 000 */ u8 mUnk_000[0xa];
     /* 00a */ u16 mUnk_00a;
     /* 00c */ u8 mUnk_00c[4];
 } Unk020e52bc_8;
 
-// Object at Unk020e52bc_4::mUnk_00c: a halfword at 0x06, a table of byte offsets at 0x04.
+// Object at Unk020e52bc_4.mUnk_00c: a halfword at 0x06, a table of byte offsets at 0x04.
 typedef struct Unk020e52bc_c {
     /* 000 */ u8 mUnk_000[6];
     /* 006 */ u16 mUnk_006;
     /* 008 */ u8 mUnk_008[4];
 } Unk020e52bc_c;
 
-// Object behind data_0217b80c; only the field at 0x04 is used here.
+// Object behind gObjShadow; only the field at 0x04 is used here.
 typedef struct Unk020e52bc {
     /* 000 */ u32 mUnk_000;
     /* 004 */ Unk020e52bc_4 *mUnk_004;
 } Unk020e52bc;
 
-extern Unk020e52bc *data_0217b80c;
+extern Unk020e52bc *gObjShadow;
 
 // Object behind data_0217b814.
 typedef struct Unk020e53ac {
@@ -62,26 +64,15 @@ typedef struct Unk020e54e4 {
 
 extern Unk020e54e4 *data_0217b818;
 
-// Destination of func_020e516c.
-typedef struct Unk020e516c {
-    /* 000 */ s32 mUnk_000;
-    /* 004 */ s32 mUnk_004;
-    /* 008 */ s32 mUnk_008;
-    /* 00c */ s32 mUnk_00c;
-    /* 010 */ s32 mUnk_010;
-    /* 014 */ s32 mUnk_014;
-    /* 018 */ s32 mUnk_018;
-    /* 01c */ s32 mUnk_01c;
-    /* 020 */ s32 mUnk_020;
-    /* 024 */ s32 mUnk_024;
-    /* 028 */ s32 mUnk_028;
-    /* 02c */ s32 mUnk_02c;
+// Destination of RefreshShadowMatrix.
+typedef struct ShadowMatrix {
+    /* 000 */ s32 mUnk_000[12];
     /* 030 */ u16 mUnk_030;
-} Unk020e516c;
+} ShadowMatrix;
 
-void func_020e5348(u32 param_1, u32 param_2);
-void func_020e5370(void *param_1, void *param_2, u32 param_3, u32 param_4);
-void func_020e53ac(Unk020e516c *p, void *param_2, u32 param_3, u32 param_4);
-void func_020e54e4(void *param_1, void *param_2, u32 param_3, u32 param_4);
-s32 func_020e516c(void *param_1, Vec3 *v, s32 param_3, u32 param_4);
-void func_020e52bc(void);
+void func_020e5348(u32 a, u32 b);
+void DrawJgShadowWithMatrix(Vec3 *scale, MtxFx43 *matrix, u32 c, u32 d);
+void func_020e53ac(ShadowMatrix *shadow, void *wordPointer, u32 unused, u32 alpha);
+void func_020e54e4(void *shadowData, void *wordPointer, u32 unused, u32 alpha);
+s32 RefreshShadowMatrix(void *shadow, Vec3 *position, s32 scale, u32 alphaCap);
+void CreateObjShadowAndJgShadow(void);

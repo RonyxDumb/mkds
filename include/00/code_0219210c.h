@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "00/code_021a3000.h"
 
-void func_ov000_0219210c(int param_1);
+typedef struct Unk021919ac_node Unk021919ac_node;
+
+void func_ov000_0219210c(Unk021919ac_node *a);

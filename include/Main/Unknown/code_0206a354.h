@@ -1,9 +1,10 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_0206bcb0.h"
 
-// Object read by func_0206b020: vectors at 0x04, 0x28, 0x34 and 0x40.
+typedef struct Kart Kart;
+
+// Object read by TryStartKartState4: vectors at 0x04, 0x28, 0x34 and 0x40.
 typedef struct Unk0206b020 {
     /* 00 */ u8 mUnk_00[4];
     /* 04 */ Vec3 mUnk_04;
@@ -23,20 +24,20 @@ extern const s32 data_021654e8;
 extern const s32 data_021654f0;
 extern const s32 data_02165508;
 extern const s32 data_0216550c;
-extern const Vec4 data_usa_0216556c;
+extern const Vec4 data_0216556c;
 
-void func_0206a354(Unk0206bcb0 *p);
-void func_0206a624(Unk0206bcb0 *p);
-void func_0206a784(Unk0206bcb0 *p);
-s32 func_0206a980(Unk0206bcb0 *p, const Vec3 *a, s32 b);
-void func_0206ac10(Unk0206bcb0 *p);
-void func_0206add0(Unk0206bcb0 *p, const Vec3 *a, s32 b);
-s32 func_0206b020(Unk0206bcb0 *p, Unk0206b020 *a);
-void func_0206b16c(Unk0206bcb0 *p);
-void func_0206b358(Unk0206bcb0 *p);
-s32 func_0206b4d0(Unk0206bcb0 *p);
-void func_0206b5b4(Unk0206bcb0 *p);
-void func_0206b914(Unk0206bcb0 *p);
-s32 func_0206bab8(Unk0206bcb0 *p);
-void func_0206bb04(Unk0206bcb0 *p);
-void func_0206bbb4(Unk0206bcb0 *p, int a, int b);
+void AdvanceKartThunderShrink(Kart *p);
+void StartKartThunderShrink(Kart *p);
+void AdvanceKartState5(Kart *p);
+s32 StartKartState5(Kart *p, const Vec3 *a, s32 b);
+void AdvanceKartState4(Kart *p);
+void StartKartState4(Kart *p, const Vec3 *a, s32 b);
+BOOL TryStartKartState4(Kart *p, Unk0206b020 *a);
+void AdvanceKartState3(Kart *p);
+void StartKartState3(Kart *p);
+BOOL TryStartKartState3(Kart *p);
+void AdvanceKartState6(Kart *p);
+void StartKartState6(Kart *p);
+BOOL TryStartKartState6(Kart *p);
+void AdvanceKartState1And2(Kart *p);
+void StartKartState2(Kart *p, int a, int b);

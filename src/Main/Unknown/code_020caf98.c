@@ -10,53 +10,56 @@
 #include "Main/Unknown/code_020cb224.h"
 #include "Main/Unknown/code_020cb2d4.h"
 #include "Main/Unknown/code_020cc000.h"
+#include "Main/Unknown/code_020ccc74.h"
 #include "Main/Unknown/code_021059e0.h"
 #include "Main/Unknown/code_02128210.h"
+#include "Main/Unknown/code_02128274.h"
+#include "Main/Unknown/unk_0217b000.h"
 
 #pragma thumb on
 #pragma optimize_for_size on
-void func_020caf98(s32 a) {
+void UpdateSinglePlaySelectInput(s32 a) {
     u32 v;
-    u32 b;
-    s32 c;
-    s32 o;
-    Unk0217b43c *p;
+    u32 pairX;
+    s32 touchedIndex;
+    s32 previousSelected;
+    MenuScene *menu;
 
     if (a != 0) {
         v = func_020cb224();
-        if (func_020cb1f4(v, 1)) {
-            func_020ccc74(3, 0x1f);
+        if (func_020cb1f4(v, PAD_KEY_A)) {
+            SwitchMenuScreen(3, 0x1f);
             func_020cb1cc(5);
-            data_0217b43c->mUnk_934 = 1;
-        } else if (func_020cb1f4(v, 2)) {
-            func_020ccc74(2, 0x1b);
-            func_02128310(1);
-        } else if (func_020ae408(v, 0x40)) {
-            p = data_0217b43c;
-            p->mUnk_930 = (p->mUnk_930 + 4) % 5;
-            func_02105ac0(0);
-        } else if (func_020ae408(v, 0x80)) {
-            p = data_0217b43c;
-            p->mUnk_930 = (p->mUnk_930 + 6) % 5;
-            func_02105ac0(0);
+            data_0217b43c->mUnk_934 = TRUE;
+        } else if (func_020cb1f4(v, PAD_KEY_B)) {
+            SwitchMenuScreen(2, 0x1b);
+            RequestSelectReturnState3WithSound(1);
+        } else if (GetNewOrRepeatBits(v, PAD_KEY_UP)) {
+            menu = data_0217b43c;
+            menu->mSinglePlaySelectModeIndex = (menu->mSinglePlaySelectModeIndex + 4) % 5;
+            StartSoundOncePerFrame(0);
+        } else if (GetNewOrRepeatBits(v, PAD_KEY_DOWN)) {
+            menu = data_0217b43c;
+            menu->mSinglePlaySelectModeIndex = (menu->mSinglePlaySelectModeIndex + 6) % 5;
+            StartSoundOncePerFrame(0);
         } else if (func_020cb11c(v)) {
-            b = func_020cb0f4(v);
+            pairX = func_020cb0f4(v);
             v = func_020cb0cc(v);
-            c = func_020291c4(b, v, data_0217b43c->mUnk_950);
-            p = data_0217b43c;
-            o = p->mUnk_930;
-            if (c != -1) {
-                if (o == c) {
-                    p->mUnk_934 = 1;
+            touchedIndex = FindRectContainingPoint(pairX, v, data_0217b43c->mSinglePlaySelectModeSBnbl);
+            menu = data_0217b43c;
+            previousSelected = menu->mSinglePlaySelectModeIndex;
+            if (touchedIndex != -1) {
+                if (previousSelected == touchedIndex) {
+                    menu->mUnk_934 = TRUE;
                 }
-                data_0217b43c->mUnk_930 = c;
-                func_020ccc74(3, 0x1f);
+                data_0217b43c->mSinglePlaySelectModeIndex = touchedIndex;
+                SwitchMenuScreen(3, 0x1f);
                 func_020cb1cc(5);
-            } else if (func_02128210(b, v)) {
-                func_020ccc74(2, 0x1b);
-                func_02128310(1);
+            } else if (IsSelectReturnState2NoState3Or4RequestAndInRect(pairX, v)) {
+                SwitchMenuScreen(2, 0x1b);
+                RequestSelectReturnState3WithSound(1);
             }
         }
     }
-    func_020cb2d4();
+    DrawSinglePlaySelectCells();
 }

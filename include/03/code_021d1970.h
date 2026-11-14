@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "03/code_021d1770.h"
 
-u8 func_ov003_021d1970(int param_1);
-int func_ov003_021d1974(int param_1, int param_2);
+u8 GetOamRangeEntryCount(OamRange *range);
+OamEntry *GetOamRangeEntry(OamRange *range, int index);

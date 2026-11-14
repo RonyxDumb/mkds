@@ -1,9 +1,9 @@
 #pragma once
 
 #include "types.h"
-#include "code_0212c478.h"
-#include "code_0212c6ac.h"
 #include "Main/Unknown/code_0210e33c.h"
+
+typedef struct NNSSndSeqPlayer NNSSndSeqPlayer;
 
 // 0x08-byte entries behind data_0216c860.
 typedef struct Unk0216c860 {
@@ -31,7 +31,7 @@ typedef struct Unk0216c7d8 {
 
 extern Unk0216c7d8 data_0216c7d8;
 
-// 0x03-byte argument of func_021073ec and func_021074ac.
+// 0x03-byte argument of InitSceneSoundState and InitSceneSounds.
 typedef struct Unk021073ec {
     /* 00 */ u8 mUnk_00;
     /* 01 */ u8 mUnk_01;
@@ -53,89 +53,84 @@ typedef struct Unk0217c7f0 {
 
 extern Unk0217c7f0 data_0217c7f0;
 
-// View of data_0217c7c4; func_0210e280 takes it.
+// View of data_0217c7c4; IncrementSoundHandleAges takes it.
 typedef struct Unk0217c7c4 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ u8 *mUnk_08;
-    /* 0c */ u8 *mUnk_0c;
-    /* 10 */ s32 mUnk_10;
+    /* 00 */ s32 mCount;
+    /* 04 */ s32 mNextIndex;
+    /* 08 */ u8 *mNextEntry;
+    /* 0c */ u8 *mEntries;
+    /* 10 */ s32 mEntrySize;
 } Unk0217c7c4;
 
-// The first eight bytes of each element of the table an Unk0217c7c4 describes: a handle at 0 and a word at 4.
-typedef struct Unk0210e2c4 {
-    /* 00 */ Unk0212c400 *mUnk_00;
-    /* 04 */ s32 mUnk_04;
-} Unk0210e2c4;
+extern Unk0217c7c4 data_0217c7c4;
 
-// Object behind data_0217c814.
-typedef struct Unk0217c814 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u32 mUnk_0c;
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ u8 mUnk_14;
-    /* 15 */ u8 mUnk_15;
+// The first eight bytes of each element of the table an Unk0217c7c4 describes: a handle at 0 and a word at 4.
+typedef struct SoundHandleEntry {
+    /* 00 */ NNSSndSeqPlayer *mSeqPlayer;
+    /* 04 */ s32 mAge;
+} SoundHandleEntry;
+
+// Object behind gSceneSoundState.
+typedef struct SceneSoundState {
+    /* 00 */ u32 mRaceFrames;
+    /* 04 */ u32 mSceneFrames;
+    /* 08 */ NNSSndSeqPlayer *mUnk_08;
+    /* 0c */ u32 mRaceState;
+    /* 10 */ u32 mOnLastLap;
+    /* 14 */ u8 mLapCount;
+    /* 15 */ u8 mLapsDone;
     /* 16 */ u8 mUnk_16;
     /* 17 */ u8 mUnk_17;
-    /* 18 */ u8 mUnk_18;
-    /* 19 */ u8 mUnk_19;
+    /* 18 */ u8 mRankIndex;
+    /* 19 */ u8 mRankIndexAtSeq;
     /* 1a */ u8 mUnk_1a[2];
-    /* 1c */ s32 mUnk_1c;
+    /* 1c */ s32 mRankSeqFrames;
     /* 20 */ u32 mUnk_20;
-} Unk0217c814;
+} SceneSoundState;
 
-extern Unk0217c814 data_0217c814;
+extern SceneSoundState gSceneSoundState;
 
-// Object data_0217c854 points to.
-typedef struct Unk0217c854 {
-    /* 00 */ u8 mUnk_00[0x38];
-    /* 38 */ u16 mUnk_38;
-    /* 3a */ u16 mUnk_3a;
-} Unk0217c854;
-
-extern Unk0217c854 *data_0217c854;
+extern NNSSndSeqPlayer *data_0217c854;
 
 // Object data_0217d060 points to.
-typedef struct Unk0217d060 {
-    /* 00 */ Unk0215c380 mUnk_00;
-    /* 0c */ Unk0212c400 *mUnk_0c;
-    /* 10 */ Unk0217c7b4 *mUnk_10;
-} Unk0217d060;
+typedef struct SoundSetPlayer {
+    /* 00 */ SoundSet mSoundSet;
+    /* 0c */ NNSSndSeqPlayer *mSeqPlayer;
+    /* 10 */ LoadedSoundSet *mLoadedSet;
+} SoundSetPlayer;
 
-extern Unk0217d060 *data_0217d060;
+extern SoundSetPlayer *data_0217d060;
 
-// Object behind data_0217d234.
-typedef struct Unk0217d234 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-} Unk0217d234;
+// Object behind gVolumeFade.
+typedef struct VolumeFade {
+    /* 00 */ u32 mVolumePerFrame;
+    /* 04 */ s32 mVolume;
+} VolumeFade;
 
-extern Unk0217d234 data_0217d234;
+extern VolumeFade gVolumeFade;
 
-// Values of the two switches in func_02108344.
+// Values of the two switches in InitSound.
 typedef enum { E0 = 0, E1 = 1, E2 = 2 } Unk02108344;
 
-s32 func_0210887c(s32 a);
-s32 func_021087f4(s32 a);
-int func_021087d4(int a);
-int func_021087c4(int a);
-void func_02108720(void);
-void func_02108598(u32 a, u32 b);
-void func_02108344(u32 a, u32 b, u32 c);
-void func_0210823c(void);
-void func_021074ac(s32 param_1);
-void func_021073ec(u32 a, Unk021073ec b, Unk0217c814 *c);
-void func_02107010(void);
-void func_02106efc(void);
-void func_02106e78(void);
+BOOL LoadSndBanksAndWaveArcs(s32 bankMask);
+BOOL LoadSndBanksAndWaveArcsIfChanged(s32 bankMask);
+int GetSndHeapsBufferSize(int a);
+int GetSndInitBufferSize(int a);
+void ReleaseSndHeaps(void);
+void CreateSndHeaps(u32 a, u32 buffer);
+void InitSound(void *buffer, u32 b, u32 c);
+void UpdateSounds(void);
+void InitSceneSounds(s32 e);
+void InitSceneSoundState(u32 a, Unk021073ec b, SceneSoundState *c);
+void StartSceneSounds(void);
+void StartRaceSounds(void);
+void StartKartStarSeq(void);
 void func_02106dc8(void);
-void func_02106c64(void);
-void func_02106ab8(void);
-void func_0210689c(u32 a);
-void func_02106580(void);
+void EndRaceSounds(void);
+void AdvanceSceneSoundLap(void);
+void SetSceneSoundRank(u32 a);
+void UpdateRaceSounds(void);
 void func_021062a8(void);
-void func_021060dc(void);
-void func_02105fcc(void);
-void func_02105ec0(void);
+void UpdateSceneSoundState(void);
+void StopSceneSounds(void);
+void StopSceneSoundsAtOnce(void);

@@ -1,9 +1,12 @@
 #pragma once
 
 #include "types.h"
-#include "code_02010fac.h"
-#include "code_02013bdc.h"
-#include "code_0214d018.h"
+#include "00/code_02188720.h"
+
+typedef struct NNSG3dResShpData NNSG3dResShpData;
+typedef struct Unk02170500_04 Unk02170500_04;
+typedef struct Unk02170500 Unk02170500;
+typedef struct NNSG3dAnmObj NNSG3dAnmObj;
 
 // Command buffer: the number of words stored from mUnk_04, then the words.
 typedef struct Unk01ff9048 {
@@ -16,7 +19,7 @@ void func_01ff8058(void);
 void func_01ff81b4(Unk02170500 *s, u32 a);
 void func_01ff8220(Unk02170500 *s, u32 a);
 void func_01ff85d0(Unk02170500 *s, u32 a);
-void func_01ff8648(Unk02170500 *s, u32 a, Unk0201290c_0c *c);
+void func_01ff8648(Unk02170500 *s, u32 a, NNSG3dResShpData *c);
 void func_01ff86b4(Unk02170500 *s, u32 a);
 void func_01ff8738(Unk02170500 *s, u32 a, const u8 *e, u32 b);
 void func_01ff8b08(Unk02170500 *s, u32 a);
@@ -24,7 +27,7 @@ void func_01ff8b98(Unk02170500 *s, u32 a);
 void func_01ff8c98(Unk02170500 *s, u32 a);
 void func_01ff8cc4(Unk02170500 *s, u32 a);
 void func_01ff8cf0(void *a);
-void func_01ff8dec(u32 *a, Unk020152bc *b);
+void func_01ff8dec(u32 *a, NNSG3dAnmObj *b);
 void func_01ff8e64(Unk02170500 *s, Unk02170500_04 *i);
 void func_01ff8ff8(Unk02170500 *s);
 void func_01ff9048(u32 a, const void *b, u32 n);
@@ -35,8 +38,8 @@ void func_01ff9234(void);
 Unk01ff9048 *func_01ff92b4(void);
 void func_01ff92e0(Unk01ff9048 *a);
 
-// Calls func_0214d018 with 0, passed through a stack offset of its own.
+// Calls MIi_CpuClear32 with 0, passed through a stack offset of its own.
 static inline void func_01ff8cf0_inline(u32 *p) {
     volatile u32 v = 0;
-    func_0214d018(v, p, 8);
+    MIi_CpuClear32(v, p, 8);
 }

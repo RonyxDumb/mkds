@@ -2,4 +2,6 @@
 
 #include "types.h"
 
-void func_020de9ec(unsigned int p0);
+typedef struct ItemBox ItemBox;
+
+void func_020de9ec(ItemBox *itemBox);

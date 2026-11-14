@@ -1,14 +1,12 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_0206bcb0.h" // Unk0206bcb0
+#include "Main/Unknown/code_0206bcb0.h" // Kart
 
-extern const s32 data_02154de4[];
-extern const s32 data_02154e48[];
-extern const s32 data_02154eac[];
-
-void func_020649ec(Unk0206bcb0 *a, void (**b)(Unk0206bcb0 *));
-void func_02064d44(Unk0206bcb0 *a);
-void func_02064d60(Unk0206bcb0 *a, Vec3 *b);
-void func_02064f50(Unk0206bcb0 *a);
-void func_020651fc(Unk0206bcb0 *a);
+void InitKart(Kart *kart, void (**slotFunctions)(Kart *));
+// Stores the previous collision center from mPrevPos. Slot 5 of Kart.mSlotFunctions for a Kart of player kind 3 in mode
+// 5.
+void SetKartPrevCollisionCenterFromPrevPos(Kart *kart);
+void func_02064d60(Kart *kart, Vec3 *groundNormal);
+void func_02064f50(Kart *kart);
+void func_020651fc(Kart *kart);

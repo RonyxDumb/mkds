@@ -2,4 +2,6 @@
 
 #include "types.h"
 
-u32 func_ov001_02187c4c(int param_1);
+typedef struct Unk02188950 Unk02188950;
+
+u32 IsItemBombStored(Unk02188950 *mapObject);

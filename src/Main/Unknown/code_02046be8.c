@@ -1,11 +1,13 @@
 #include "Main/Unknown/code_02046be8.h"
+#include "Main/Unknown/code_020e005c.h"
 
-void func_02046be8(void *p0, UnkFunc *const *p1, s32 p2, void *p3) {
-    *(u32 *) ((u8 *) (u32) p0 + 8) = (u32) p3;
-    *(u32 *) ((u8 *) (u32) p0 + 0) = (u32) p1;
-    *(u16 *) ((u8 *) (u32) p0 + 12) = (u16) p2;
-    *(u32 *) ((u8 *) (u32) p0 + 4) = (u32) 0x0u;
-    *(u16 *) ((u8 *) (u32) p0 + 18) = (u16) 0x1u;
-    *(u16 *) ((u8 *) (u32) p0 + 14) = (u16) 0x0u;
-    *(u16 *) ((u8 *) (u32) p0 + 16) = (u16) 0x0u;
+void InitStateMachine(void *rawStateMachine, UnkFunc *const *stateTable, s32 stateCount, void *object) {
+    Unk020e005c_080 *stateMachine = rawStateMachine;
+    stateMachine->mObject = object;
+    stateMachine->mStateTable = stateTable;
+    stateMachine->mStateCount = stateCount;
+    stateMachine->mStateFrames = 0x0u;
+    stateMachine->mNextStateRequested = 0x1u;
+    stateMachine->mState = 0x0u;
+    stateMachine->mNextState = 0x0u;
 }

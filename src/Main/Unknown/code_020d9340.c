@@ -1,11 +1,11 @@
 #include "Main/Unknown/code_020d9340.h"
+#include "Main/Unknown/code_020d94dc.h"
 
-void func_020d9340(u32 param_1, u32 param_2, u32 param_3) {
-    u32 local_20;
-    u32 local_1c;
-    u32 local_18;
-    u32 local_14[2];
-    func_020d9810((s32) param_2, (s32 *) &local_20, (s32 *) &local_1c, (s32 *) &local_18, (s32 *) local_14);
-    func_020d94dc((const Vec3 *) param_1, (Vec3 *) param_3, (int) local_20, (int) local_1c,
-                  (int) local_18, (int) (local_14[0]));
+void GetCurvePointXz(u32 points, u32 fraction, u32 result) {
+    u32 weight0;
+    u32 weight1;
+    u32 weight2;
+    u32 weight3[2];
+    GetCurveWeights(fraction, (s32 *) &weight0, (s32 *) &weight1, (s32 *) &weight2, (s32 *) weight3);
+    ComputeWeightedPointXz((const Vec3 *) points, (Vec3 *) result, weight0, weight1, weight2, weight3[0]);
 }

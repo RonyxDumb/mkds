@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020add80.h"
 
-int func_020add50(u32 arg0, int arg1);
+typedef struct Unk02022aa8 Unk02022aa8;
+
+int GetFontGlyphImage(Unk02022aa8 *font, int glyphIndex);

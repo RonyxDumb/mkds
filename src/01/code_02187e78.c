@@ -1,13 +1,25 @@
 #include "01/code_02187e78.h"
+#include "01/code_02188950.h"
+#include "Main/Unknown/code_020b1dbc.h"
+#include "Main/Unknown/code_0207b960.h"
+#include "Main/Unknown/code_020b4e5c.h"
+#include "Main/Unknown/code_02039860.h"
+#include "Main/Unknown/code_02147000.h"
+#include "Main/Unknown/unk_0215d000.h"
+#include "Main/Unknown/unk_021759c0.h"
+#include "Main/Unknown/code_020b47d8.h"
+#include "Main/Unknown/code_020b6a18.h"
+#include "Main/Unknown/code_0207a880.h"
+#include "Main/Unknown/code_020b502c.h"
 
-void func_ov001_02187e78(Unk02188950 *param_1) {
-    int iVar1;
+void IncrementEntryIndex(Unk02188950 *mapObject) {
+    int nextEntryIndex;
 
-    if (param_1->mUnk_148 < data_02175620->mUnk_0c) {
-        iVar1 = param_1->mUnk_14c + 1;
-        if (iVar1 >= data_02175620->mUnk_08[(u16) param_1->mUnk_148].mUnk_02) {
-            iVar1 = 0;
+    if (mapObject->mEntryGroupIndex < gCourseMap->mEntryGroupCount) {
+        nextEntryIndex = mapObject->mEntryIndex + 1;
+        if (nextEntryIndex >= gCourseMap->mEntryGroups[(u16) mapObject->mEntryGroupIndex].mEntryCount) {
+            nextEntryIndex = 0;
         }
-        param_1->mUnk_14c = iVar1;
+        mapObject->mEntryIndex = nextEntryIndex;
     }
 }

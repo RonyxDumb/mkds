@@ -1,5 +1,7 @@
 #include "03/code_021cd2e0.h"
+
 #include "03/code_021d27d8.h"
+#include "03/unk_021da000.h"
 #include "code_020205b0.h"
 #include "code_021510a4.h"
 #include "code_0213a460.h"
@@ -7,15 +9,437 @@
 #include "code_0214d018.h"
 #include "code_02151fc4.h"
 #include "Main/Unknown/code_02151718.h"
+#include "03/code_021b94b8.h"
+#include "03/code_021cd000.h"
+#include "03/unk_021d7000.h"
+#include "os_printf.h"
+#include "code_0201ec30.h"
+#include "string.h"
+#include "code_02134398.h"
+#include "Main/Unknown/code_0214d000.h"
+#include "03/code_021cd2cc.h"
+#include "03/code_021d3254.h"
+
+void func_ov003_021cdb90(void) {
+    Unk021cd5e0 *v1;
+    v1 = AllocExpHeapBlock(0x6f8, 0x20);
+    data_ov003_021da270 = v1;
+    Crc16InitTable(&v1->mUnk_400.mUnk_f8, 0xa001);
+    ReadNvramEntries(data_ov003_021da270);
+}
+
+void func_ov003_021cdb80(void) {
+    FreeExpHeapBlockAndClearPointer(&data_ov003_021da270);
+}
+
+Unk021cd5e0_400 *func_ov003_021cdb6c(void) {
+    return &data_ov003_021da270->mUnk_400;
+}
+
+void func_ov003_021cdb58(u32 a) {
+    data_ov003_021da270->mUnk_400.mUnk_f5 = a;
+}
+
+void func_ov003_021cdb44(u32 a) {
+    data_ov003_021da270->mUnk_400.mUnk_f6 = a;
+}
+
+void func_ov003_021cdb14(const u8 *a) {
+    MI_CpuCopy8(a, data_ov003_021da270->mUnk_400.mUnk_00.mUnk_40, 0x20);
+    data_ov003_021da270->mUnk_400.mUnk_00.mUnk_e7 = 0;
+}
+
+void func_ov003_021cd9dc(const u8 *a) {
+    s32 i;
+    s32 n;
+    u8 *p;
+    MI_CpuFill8(data_ov003_021da270->mUnk_400.mUnk_00.mUnk_80[0], 0, 0x10);
+    n = GetStringLengthWithLimit(a, 0x20);
+    switch (n) {
+        case 0:
+        case 10:
+        case 26:
+        case 32:
+            data_ov003_021da270->mUnk_400.mUnk_00.mUnk_e6_2 = 0;
+            p = data_ov003_021da270->mUnk_400.mUnk_00.mUnk_80[0];
+            i = 0;
+            for (; i < n;) {
+                *p = (func_ov003_021cd2cc(a[i]) << 4) + func_ov003_021cd2cc(a[i + 1]);
+                i += 2;
+                p++;
+            }
+            break;
+        default:
+            data_ov003_021da270->mUnk_400.mUnk_00.mUnk_e6_2 = 1;
+            MI_CpuCopy8(a, data_ov003_021da270->mUnk_400.mUnk_00.mUnk_80[0], 0x10);
+            break;
+    }
+    switch (n) {
+        case 0:
+            data_ov003_021da270->mUnk_400.mUnk_00.mUnk_e6_0 = 0;
+            break;
+        case 5:
+        case 10:
+            data_ov003_021da270->mUnk_400.mUnk_00.mUnk_e6_0 = 1;
+            break;
+        case 13:
+        case 26:
+            data_ov003_021da270->mUnk_400.mUnk_00.mUnk_e6_0 = 2;
+            break;
+        default:
+            data_ov003_021da270->mUnk_400.mUnk_00.mUnk_e6_0 = 3;
+            break;
+    }
+}
+
+void func_ov003_021cd9c4(const char *input) {
+    func_ov003_021cd2e0(input, data_ov003_021da270->mUnk_400.mUnk_00.mUnk_c0);
+}
+
+void func_ov003_021cd9ac(const char *input) {
+    func_ov003_021cd2e0(input, data_ov003_021da270->mUnk_400.mUnk_f0);
+}
+
+void func_ov003_021cd994(const char *input) {
+    func_ov003_021cd2e0(input, data_ov003_021da270->mUnk_400.mUnk_00.mUnk_c4);
+}
+
+void func_ov003_021cd97c(const char *input) {
+    func_ov003_021cd2e0(input, data_ov003_021da270->mUnk_400.mUnk_00.mUnk_c8);
+}
+
+void func_ov003_021cd964(const char *input) {
+    func_ov003_021cd2e0(input, &data_ov003_021da270->mUnk_400.mUnk_00.mUnk_c8[4]);
+}
+
+void func_ov003_021cd948(void *output) {
+    MI_CpuCopy8(data_ov003_021da270->mUnk_400.mUnk_00.mUnk_40, output, 0x20);
+}
+
+void func_ov003_021cd918(char *p0) {
+    u8 *v5 = data_ov003_021da270->mUnk_400.mUnk_00.mUnk_c0;
+    u32 v6 = (v5[2]);
+    u32 v8 = (v5[3]);
+    const char *v10 = data_ov003_021d77c4;
+    u32 v11 = (v5[0]);
+    u32 v12 = (v5[1]);
+    u32 v13 = OS_SPrintf(p0, v10, v11, v12, v6, v8);
+}
+
+void func_ov003_021cd8e8(char *p0) {
+    u8 *v5 = data_ov003_021da270->mUnk_400.mUnk_f0;
+    u32 v6 = (v5[2]);
+    u32 v8 = (v5[3]);
+    const char *v10 = data_ov003_021d77c4;
+    u32 v11 = (v5[0]);
+    u32 v12 = (v5[1]);
+    u32 v13 = OS_SPrintf(p0, v10, v11, v12, v6, v8);
+}
+
+void func_ov003_021cd8b8(char *p0) {
+    u8 *v5 = data_ov003_021da270->mUnk_400.mUnk_00.mUnk_c4;
+    u32 v6 = (v5[2]);
+    u32 v8 = (v5[3]);
+    const char *v10 = data_ov003_021d77c4;
+    u32 v11 = (v5[0]);
+    u32 v12 = (v5[1]);
+    u32 v13 = OS_SPrintf(p0, v10, v11, v12, v6, v8);
+}
+
+void func_ov003_021cd888(char *p0) {
+    u8 *v5 = data_ov003_021da270->mUnk_400.mUnk_00.mUnk_c8;
+    u32 v6 = (v5[2]);
+    u32 v8 = (v5[3]);
+    const char *v10 = data_ov003_021d77c4;
+    u32 v11 = (v5[0]);
+    u32 v12 = (v5[1]);
+    u32 v13 = OS_SPrintf(p0, v10, v11, v12, v6, v8);
+}
+
+void func_ov003_021cd858(char *p0) {
+    u8 *v5 = &data_ov003_021da270->mUnk_400.mUnk_00.mUnk_c8[4];
+    u32 v6 = (v5[2]);
+    u32 v8 = (v5[3]);
+    const char *v10 = data_ov003_021d77c4;
+    u32 v11 = (v5[0]);
+    u32 v12 = (v5[1]);
+    u32 v13 = OS_SPrintf(p0, v10, v11, v12, v6, v8);
+}
+
+u8 func_ov003_021cd844(int a) {
+    return data_ov003_021da270->mUnk_000[a].mUnk_00.mUnk_e7;
+}
+
+void func_ov003_021cd790(s32 a) {
+    Unk021cd5e0 *o = data_ov003_021da270;
+    Unk021cd5e0_entry *q = &o->mUnk_000[a].mUnk_00;
+    o->mUnk_400.mUnk_00 = *q;
+    o->mUnk_400.mUnk_f4 = a;
+    if (memcmp(q->mUnk_c0, data_ov003_021d6684, 4) != 0) {
+        data_ov003_021da270->mUnk_400.mUnk_f5 = 0;
+    } else {
+        data_ov003_021da270->mUnk_400.mUnk_f5 = 1;
+    }
+    if (memcmp(q->mUnk_c8, data_ov003_021d6684, 4) != 0 || memcmp(q->mUnk_c8 + 4, data_ov003_021d6684, 4) != 0) {
+        data_ov003_021da270->mUnk_400.mUnk_f6 = 0;
+    } else {
+        data_ov003_021da270->mUnk_400.mUnk_f6 = 1;
+    }
+    DWCi_BACKUPlConvMaskAddr(q->mUnk_d0, data_ov003_021da270->mUnk_400.mUnk_f0);
+}
+
+void func_ov003_021cd6d0(void) {
+    Unk021cd5e0_400 *p = &data_ov003_021da270->mUnk_400;
+    Unk021cd5e0_entry *q = &data_ov003_021da270->mUnk_000[p->mUnk_f4].mUnk_00;
+    *q = p->mUnk_00;
+    if (p->mUnk_f5 != 0) {
+        MI_CpuFill8(q->mUnk_c0, 0, 4);
+        MI_CpuFill8(q->mUnk_c4, 0, 4);
+        q->mUnk_d0 = 0;
+    } else {
+        MI_CpuCopy8(p->mUnk_00.mUnk_c0, q->mUnk_c0, 4);
+        MI_CpuCopy8(p->mUnk_00.mUnk_c4, q->mUnk_c4, 4);
+        q->mUnk_d0 = DWCi_BACKUPlConvMaskCidr(p->mUnk_f0);
+    }
+    if (p->mUnk_f6 != 0) {
+        MI_CpuFill8(q->mUnk_c8, 0, 8);
+    } else {
+        MI_CpuCopy8(p->mUnk_00.mUnk_c8, q->mUnk_c8, 8);
+    }
+    func_ov003_021cd338(p->mUnk_f4);
+}
+
+void func_ov003_021cd5e0(const Unk021cd5e0_arg *a) {
+    Unk021cd5e0_400 *p;
+    u32 n;
+    s32 i;
+    u8 *v1;
+    u8 *v2;
+    p = &data_ov003_021da270->mUnk_400;
+    MI_CpuFill8(p, 0, 0xef);
+    MI_CpuCopy8(a, p->mUnk_00.mUnk_40, 0x20);
+    switch (a->mUnk_20) {
+        case 1:
+            p->mUnk_00.mUnk_e6_0 = 1;
+            n = 5;
+            break;
+        case 2:
+            p->mUnk_00.mUnk_e6_0 = 2;
+            n = 0xd;
+            break;
+        case 3:
+            p->mUnk_00.mUnk_e6_0 = 3;
+            n = 0x10;
+            break;
+        default:
+            p->mUnk_00.mUnk_e6_0 = 0;
+            n = 0;
+            break;
+    }
+    p->mUnk_00.mUnk_e6_2 = 0;
+    i = 0;
+    v2 = p->mUnk_00.mUnk_80[0];
+    v1 = (u8 *) a->mUnk_28;
+    for (; i < 4; i++) {
+        MI_CpuCopy8(v1, v2, n);
+        v2 += 0x10;
+        v1 += 0x20;
+    }
+    p->mUnk_00.mUnk_e7 = 2;
+    MI_CpuFill8(p->mUnk_f0, 0, 4);
+    p->mUnk_f5 = 1;
+    p->mUnk_f6 = 1;
+    func_ov003_021cd6d0();
+}
+
+void func_ov003_021cd4e8(int arg0) {
+    u32 value0 = arg0;
+    u32 value1;
+    u32 value2;
+    u32 value4;
+    u32 value5;
+    value5 = (value0) + (0u);
+    value0 = (u32) &data_ov003_021da270;
+    value1 = *(const u32 *) ((value0) + 0u);
+    value0 = 0x400u;
+    value4 = (value1) + (value0);
+    value0 = (value4) + (0u);
+    value1 = 0u;
+    value2 = 239u;
+    MI_CpuFill8((void *) value0, value1, value2);
+    value0 = (value5) + (0u);
+    value1 = (value4) + (0u);
+    value1 = (value1) + 209u;
+    value2 = 5u;
+    MI_CpuCopy8((const void *) value0, (void *) value1, value2);
+    value0 = (value5) + (6u);
+    value1 = (value4) + (0u);
+    value1 = (value1) + 214u;
+    value2 = 5u;
+    MI_CpuCopy8((const void *) value0, (void *) value1, value2);
+    value0 = (value5) + (0u);
+    value0 = (value0) + 12u;
+    value1 = (value4) + (0u);
+    value1 = (value1) + 219u;
+    value2 = 5u;
+    MI_CpuCopy8((const void *) value0, (void *) value1, value2);
+    value0 = (value5) + (0u);
+    value0 = (value0) + 18u;
+    value1 = (value4) + (0u);
+    value1 = (value1) + 224u;
+    value2 = 5u;
+    MI_CpuCopy8((const void *) value0, (void *) value1, value2);
+    value0 = (value5) + (0u);
+    value0 = (value0) + 24u;
+    value1 = (value4) + (0u);
+    value1 = (value1) + 96u;
+    value2 = 32u;
+    MI_CpuCopy8((const void *) value0, (void *) value1, value2);
+    value0 = (value5) + (0u);
+    value0 = (value0) + 57u;
+    value1 = (value4) + (0u);
+    value1 = (value1) + 128u;
+    value2 = 13u;
+    MI_CpuCopy8((const void *) value0, (void *) value1, value2);
+    value0 = (value5) + (0u);
+    value0 = (value0) + 71u;
+    value1 = (value4) + (0u);
+    value1 = (value1) + 144u;
+    value2 = 13u;
+    MI_CpuCopy8((const void *) value0, (void *) value1, value2);
+    value0 = (value5) + (0u);
+    value0 = (value0) + 85u;
+    value1 = (value4) + (0u);
+    value1 = (value1) + 160u;
+    value2 = 13u;
+    MI_CpuCopy8((const void *) value0, (void *) value1, value2);
+    value0 = (value5) + (0u);
+    value0 = (value0) + 99u;
+    value1 = (value4) + (0u);
+    value1 = (value1) + 176u;
+    value2 = 13u;
+    MI_CpuCopy8((const void *) value0, (void *) value1, value2);
+    value5 = (value5) + 113u;
+    value0 = (value5) + (0u);
+    value1 = (value4) + (0u);
+    value1 = (value1) + 64u;
+    value2 = 32u;
+    MI_CpuCopy8((const void *) value0, (void *) value1, value2);
+    value0 = (value4) + (0u);
+    value0 = (value0) + 230u;
+    value1 = *(const u8 *) ((value0) + 0u);
+    value0 = 3u;
+    value1 = (value1) & ~(value0);
+    value0 = 2u;
+    value1 = (value1) | (value0);
+    value0 = (value4) + (0u);
+    value0 = (value0) + 230u;
+    *(u8 *) ((value0) + 0u) = value1;
+    value0 = (value4) + (0u);
+    value0 = (value0) + 230u;
+    value1 = *(const u8 *) ((value0) + 0u);
+    value0 = 252u;
+    value1 = (value1) & ~(value0);
+    value0 = (value4) + (0u);
+    value0 = (value0) + 230u;
+    *(u8 *) ((value0) + 0u) = value1;
+    value1 = 1u;
+    value0 = (value4) + (0u);
+    value0 = (value0) + 231u;
+    *(u8 *) ((value0) + 0u) = value1;
+    value0 = (value4) + (0u);
+    value0 = (value0) + 240u;
+    value1 = 0u;
+    value2 = 4u;
+    MI_CpuFill8((void *) value0, value1, value2);
+    value1 = 1u;
+    value0 = (value4) + (0u);
+    value0 = (value0) + 245u;
+    *(u8 *) ((value0) + 0u) = value1;
+    value4 = (value4) + 246u;
+    *(u8 *) ((value4) + 0u) = value1;
+    func_ov003_021cd6d0();
+}
+
+struct Unk021cd5e0 *func_ov003_021cd4dc(void) {
+    return data_ov003_021da270;
+}
+
+void func_ov003_021cd4ac(int a) {
+    Unk021cd5e0_entry *v1;
+    v1 = &data_ov003_021da270->mUnk_000[a].mUnk_00;
+    MI_CpuFill8(v1, 0, 0xef);
+    v1->mUnk_e7 = 0xff;
+    func_ov003_021cd338(a);
+}
+
+void func_ov003_021cd42c(void) {
+    volatile u16 a = 0;
+    DWCWiFiInfo b;
+    u8 *c;
+    s32 i;
+    MIi_CpuClear16(a, data_ov003_021da270, 0x400);
+    for (i = 0; i < 3; i++) {
+        data_ov003_021da270->mUnk_000[i].mUnk_00.mUnk_e7 = 0xff;
+    }
+    DWCi_AUTH_GetNewWiFiInfo(&b);
+    c = DWCi_BACKUPlConvWifiInfo(&b);
+    for (i = 0; i < 2; i++) {
+        MI_CpuCopy8(c, data_ov003_021da270->mUnk_000[i].mUnk_f0, 0xe);
+    }
+    for (i = 0; i < 4; i++) {
+        func_ov003_021cd338(i);
+    }
+}
+
+void func_ov003_021cd338(s32 param_1) {
+    u32 a = data_ov003_021da270->mUnk_000[param_1].mUnk_00.mUnk_e7;
+    u32 b = 1 << param_1;
+    BOOL c = FALSE;
+    s32 d[4];
+    void *e;
+    Unk021cd5e0 *p;
+    s32 i;
+    MI_CpuFill8(d, 0, 0x10);
+    d[param_1] = 1;
+    if (param_1 <= 2) {
+        p = data_ov003_021da270;
+        if ((p->mUnk_000[0].mUnk_00.mUnk_e8[7] & b) != 0) {
+            c = TRUE;
+        }
+        if (a == 0xff && c != FALSE) {
+            p->mUnk_000[0].mUnk_00.mUnk_e8[7] = p->mUnk_000[0].mUnk_00.mUnk_e8[7] & ~b;
+            data_ov003_021da270->mUnk_000[1].mUnk_00.mUnk_e8[7] =
+                data_ov003_021da270->mUnk_000[1].mUnk_00.mUnk_e8[7] & ~b;
+            d[1] = 1;
+            d[0] = 1;
+        } else if (a != 0xff && c == FALSE) {
+            p->mUnk_000[0].mUnk_00.mUnk_e8[7] = p->mUnk_000[0].mUnk_00.mUnk_e8[7] | b;
+            data_ov003_021da270->mUnk_000[1].mUnk_00.mUnk_e8[7] =
+                data_ov003_021da270->mUnk_000[1].mUnk_00.mUnk_e8[7] | b;
+            d[1] = 1;
+            d[0] = 1;
+        }
+    }
+    for (i = 0; i < 4; i++) {
+        if (d[i] != 0) {
+            data_ov003_021da270->mUnk_000[i].mUnk_fe =
+                Crc16(&data_ov003_021da270->mUnk_400.mUnk_f8, data_ov003_021da270->mUnk_000[i].mUnk_00.mUnk_00, 0xfe);
+        }
+    }
+    e = AllocExpHeapBlock(0x100, 0x20);
+    WriteFlaggedNvramEntries((s32) data_ov003_021da270, d, e);
+    FreeExpHeapBlockAndClearPointer(&e);
+}
 
 void func_ov003_021cd2e0(const char *v1, u8 *v2) {
     u8 a[4];
     s32 i;
     s32 j;
     u8 *p;
-    func_0214d168(a, 0, 4);
+    MI_CpuFill8(a, 0, 4);
     for (i = 0; i < 4; i++) {
-        func_0214d1fc(v1 + i * 3, a, 3);
+        MI_CpuCopy8(v1 + i * 3, a, 3);
         j = 0;
         p = a;
         for (; j < 3; j++) {
@@ -25,63 +449,6 @@ void func_ov003_021cd2e0(const char *v1, u8 *v2) {
             *p = ' ';
             p++;
         }
-        v2[i] = func_0213bf90(a);
-    }
-}
-
-void func_ov003_021cd338(s32 param_1) {
-    u32 a = *((u8 *) data_ov003_021da270 + param_1 * 0x100 + 0xe7);
-    u32 b = 1 << param_1;
-    s32 c = 0;
-    s32 d[4];
-    void *e;
-    u8 *p;
-    s32 i;
-    func_0214d168(d, 0, 0x10);
-    d[param_1] = 1;
-    if (param_1 <= 2) {
-        p = (u8 *) data_ov003_021da270;
-        if ((((const u8 *) p)[0xef] & b) != 0) {
-            c = 1;
-        }
-        if (a == 0xff && c != 0) {
-            p[0xef] = p[0xef] & ~b;
-            *((u8 *) data_ov003_021da270 + 0x1ef) = *((u8 *) data_ov003_021da270 + 0x1ef) & ~b;
-            d[1] = 1;
-            d[0] = 1;
-        } else if (a != 0xff && c == 0) {
-            p[0xef] = p[0xef] | b;
-            *((u8 *) data_ov003_021da270 + 0x1ef) = *((u8 *) data_ov003_021da270 + 0x1ef) | b;
-            d[1] = 1;
-            d[0] = 1;
-        }
-    }
-    for (i = 0; i < 4; i++) {
-        if (d[i] != 0) {
-            *(u16 *) ((u8 *) data_ov003_021da270 + i * 0x100 + 0xfe) = func_020205e8(
-                (const u16 *) ((u8 *) data_ov003_021da270 + 0x4f8), (u8 *) data_ov003_021da270 + i * 0x100, 0xfe);
-        }
-    }
-    e = func_ov003_021d285c(0x100, 0x20);
-    func_02151794((int) (u8 *) data_ov003_021da270, d, (u32) e);
-    func_ov003_021d2808(&e);
-}
-
-void func_ov003_021cd42c(void) {
-    volatile u16 a = 0;
-    Unk021510a4 b;
-    u8 *c;
-    s32 i;
-    func_0214cfe4(a, (u8 *) data_ov003_021da270, 0x400);
-    for (i = 0; i < 3; i++) {
-        *((u8 *) data_ov003_021da270 + i * 0x100 + 0xe7) = 0xff;
-    }
-    func_02151fc4(&b);
-    c = func_021510a4(&b);
-    for (i = 0; i < 2; i++) {
-        func_0214d1fc(c, (u8 *) data_ov003_021da270 + i * 0x100 + 0xf0, 0xe);
-    }
-    for (i = 0; i < 4; i++) {
-        func_ov003_021cd338(i);
+        v2[i] = StrtolBase10((const char *) a);
     }
 }

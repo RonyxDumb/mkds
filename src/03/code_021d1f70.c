@@ -1,11 +1,27 @@
 #include "03/code_021d1f70.h"
+#include "registers.h"
 
-u8 func_ov003_021d1f70(int param_1) {
-    int iVar1;
-    if (param_1 == 1) {
-        iVar1 = *(int *) &data_ov003_021da2c0;
+#include "03/code_021d1da8.h"
+#include "03/code_021d27d8.h"
+#include "03/unk_021da000.h"
+#include "code_0214a390.h"
+
+void InitBlendBrightnessFadeSlotsFaded(void) {
+    gBlendBrightnessFadeSlots = AllocZeroedExpHeapBlock(0x18, 4);
+    G2x_SetBlendBrightness_(&reg_G2_BLDCNT, 0x3f, 0x10);
+    G2x_SetBlendBrightness_(&reg_G2S_DB_BLDCNT, 0x3f, 0x10);
+}
+
+void FreeBlendBrightnessFadeSlots(void) {
+    FreeExpHeapBlockAndClearPointer(&gBlendBrightnessFadeSlots);
+}
+
+u8 IsBlendBrightnessFadeSlotBusy(int screen) {
+    BlendBrightnessFadeSlot *slot;
+    if (screen == 1) {
+        slot = gBlendBrightnessFadeSlots;
     } else {
-        iVar1 = (int) data_ov003_021da2c0 + 0xc;
+        slot = gBlendBrightnessFadeSlots + 1;
     }
-    return *(u8 *) (iVar1 + 9);
+    return slot->mEnabled;
 }

@@ -1,15 +1,14 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/unk_021759c0.h"
 
-unsigned int func_020cc5d8(void);
-unsigned int func_020cc5ec(void);
-unsigned int func_020cc604(void);
-unsigned int func_020cc618(void);
-unsigned int func_020cc62c(void);
-unsigned int func_020cc640(void);
-unsigned int func_020cc654(void);
-unsigned int func_020cc668(void);
-unsigned int func_020cc67c(void);
-unsigned int func_020cc690(void);
+unsigned int GetCurrentRuleKind(void);
+unsigned int GetCurrentCourseCount(void);
+unsigned int GetCurrentBattleKind(void);
+unsigned int GetCurrentMirrorMode(void);
+unsigned int GetCurrentEngineIndex(void);
+unsigned int GetCurrentCourseId(void);
+unsigned int GetCurrentMode(void);
+unsigned int GetCurrentKartCount(void);
+unsigned int GetCurrentCpuDifficulty(void);
+unsigned int GetCurrentCupIndex(void);

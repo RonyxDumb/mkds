@@ -1,6 +1,15 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/unk_02156000.h"
 
-u8 func_020917d0(int param_1, u32 param_2, unsigned char *param_3, u8 *param_4);
+typedef struct Sman Sman;
+typedef struct Kart Kart;
+
+typedef struct Unk0209188c {
+    /* 00 */ u8 mUnk_00[0x2];
+    /* 02 */ u16 mUnk_02;
+} Unk0209188c;
+
+u8 func_020917d0(Sman *sman, u32 b, unsigned char *c, u8 *d);
+u8 func_02091828(Sman *sman, Kart *kart, u8 *c, u8 *d);
+void func_0209188c(Unk0209188c *mapObject);

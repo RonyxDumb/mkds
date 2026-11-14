@@ -1,7 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "code_02022aa8.h"
 
-u32 func_020add90(Unk02022aa8 *a, u32 b);
-void func_020addb8(void *a, u16 b, s32 c);
+typedef struct Unk02022aa8 Unk02022aa8;
+
+u32 GetFontGlyphIndex(Unk02022aa8 *font, u32 code);
+void FillHalfwords(void *destination, u16 value, s32 size);

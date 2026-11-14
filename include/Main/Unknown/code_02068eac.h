@@ -1,21 +1,22 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_0206bcb0.h"
 
-s32 func_02068eac(Unk0206bcb0 *p);
-s32 func_02068ec0(Unk0206bcb0 *p, s32 a);
-void func_02069044(Unk0206bcb0 *p);
-void func_02069068(Unk0206bcb0 *p);
-void func_02069134(Unk0206bcb0 *p);
-void func_0206924c(Unk0206bcb0 *p, u32 a);
-void func_0206938c(Unk0206bcb0 *p);
-void func_020695c4(Unk0206bcb0 *p);
-void func_0206988c(Unk0206bcb0 *p);
-void func_02069aa0(Unk0206bcb0 *p);
-void func_02069c38(Unk0206bcb0 *p);
-void func_02069db8(Unk0206bcb0 *p);
-void func_02069e10(Unk0206bcb0 *p);
-void func_02069ea8(Unk0206bcb0 *p);
-void func_02069f6c(Unk0206bcb0 *p);
-s32 func_0206a24c(Unk0206bcb0 *p);
+typedef struct Kart Kart;
+
+BOOL func_02068eac(Kart *kart);
+s32 func_02068ec0(Kart *kart, s32 a);
+void func_02069044(Kart *kart);
+void func_02069068(Kart *kart);
+void AdvanceKartGesso(Kart *kart);
+void StartKartGesso(Kart *kart, u32 orthoQuadCount);
+void AdvanceKartKiller(Kart *kart);
+void StartKartKiller(Kart *kart);
+void AdvanceKartTeresa(Kart *kart);
+void StartKartTeresa(Kart *kart);
+void StartKartStar(Kart *kart);
+void StartKartKinokoBoost(Kart *kart);
+void StartKartThunder(Kart *kart);
+void func_02069ea8(Kart *kart);
+void func_02069f6c(Kart *kart);
+BOOL func_0206a24c(Kart *kart);

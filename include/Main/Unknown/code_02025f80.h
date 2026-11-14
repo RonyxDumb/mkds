@@ -1,7 +1,11 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_02025ebc.h"
+
+typedef struct Interpolation Interpolation;
+
+int AdvanceSelectCharacter(void);
+void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam);
 
 extern char data_02161b3c[];
 extern char data_02161b5c[];
@@ -14,7 +18,11 @@ extern char data_02161c14[];
 extern char data_02161c38[];
 extern char data_02161c60[];
 
-void func_02025f80(Unk02025ebc *a, s32 b, s32 c, s16 d, s32 e);
+void SetupInterpolation(Interpolation *interpolation, s32 state, s32 counterLimit, s16 startValue, s32 endValue);
 void func_02025f90(void);
-void func_02026058(void);
-void func_020260e4(void);
+void WriteSelectCharacterRegisters(void);
+void ReleaseSelectCharacter(void);
+void func_02027084(void);
+u32 func_020270d0(void);
+void func_020270fc(s32 previousTableIndex);
+void func_02027188(void);

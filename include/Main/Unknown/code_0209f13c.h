@@ -1,35 +1,34 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020e6fd4.h" // Unk020e71a0
+#include "code_02146d78.h"
+#include "Main/Unknown/code_020e6fd4.h" // MapObject
 
-// Object with the Unk020e71a0 base: two halfwords at 0xa0 and 0xa2, then two words (func_0209f178, func_0209f1c8,
-// func_0209f338, func_0209f514).
+// Object with the MapObject base: two halfwords at 0xa0 and 0xa2, then two words (UpdateRainStar, DrawRainStar,
+// UpdateChandelier, InitChandelierObjects).
 typedef struct Unk0209f1c8 {
-    /* 00 */ Unk020e71a0 mUnk_00;
+    /* 00 */ MapObject mUnk_00;
     /* a0 */ u16 mUnk_a0;
     /* a2 */ u16 mUnk_a2;
     /* a4 */ s32 mUnk_a4;
     /* a8 */ s32 mUnk_a8;
 } Unk0209f1c8;
 
-// Array of object pointers: pointer to the array and the number of entries (func_0209f514).
+// Array of object pointers: pointer to the array and the number of entries (InitChandelierObjects).
 typedef struct Unk0209f514 {
     /* 00 */ Unk0209f1c8 **mUnk_00;
     /* 04 */ u16 mUnk_04;
 } Unk0209f514;
 
-extern char data_02167548[];
-extern char data_02167558[];
+extern char gRainStarNsbmdName[];
+extern char gRainStarNsbtaName[];
 
-void func_0209f650(void *a);
-
-void *func_0209f13c(void);
-void *func_0209f158(void);
-void func_0209f178(void *a, Unk0209f1c8 *b);
-void func_0209f1c8(void *a, Unk0209f1c8 *b);
-void func_0209f2b0(void *a);
-void *func_0209f2f8(void);
-void *func_0209f318(void);
-void func_0209f338(void *a, Unk0209f1c8 *b);
-void func_0209f514(Unk0209f514 *a);
+void *CreateRainStarUpdateList(void);
+void *CreateRainStarDrawList(void);
+void UpdateRainStar(void *a, Unk0209f1c8 *b); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void DrawRainStar(void *a, Unk0209f1c8 *b);
+void CreateRainStar(void *a);
+void *CreateChandelierUpdateList(void);
+void *CreateChandelierDrawList(void);
+void UpdateChandelier(void *a, Unk0209f1c8 *b); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void InitChandelierObjects(Unk0209f514 *a);

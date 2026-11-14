@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_0206bcb0.h"
 
-void func_020649e8(Unk0206bcb0 *a);
+typedef struct Kart Kart;
+
+void func_020649e8(Kart *kart);

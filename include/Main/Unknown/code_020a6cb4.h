@@ -1,20 +1,20 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020e6fd4.h" // Unk020e71a0
-#include "Main/Unknown/code_02100094.h" // Unk02100094
+#include "code_02146d78.h"
+#include "Main/Unknown/code_020e6fd4.h" // MapObject
 
-// Object of the list func_02100138(0x6b): the shared Unk020e71a0 part, then three words.
+// Object of the list FindMapObjectKindUpdateList(0x6b): the shared MapObject part, then three words.
 typedef struct Unk020a6cb4 {
-    /* 00 */ Unk020e71a0 mUnk_00;
-    /* a0 */ s32 mUnk_a0;
-    /* a4 */ s32 mUnk_a4;
-    /* a8 */ s32 mUnk_a8;
+    /* 00 */ MapObject mUnk_00;
+    /* a0 */ BOOL mHasShine;
+    /* a4 */ BOOL mUnk_a4;
+    /* a8 */ s32 mShineStartFrames;
 } Unk020a6cb4;
 
 void func_020a6cb4(s32 a);
-void *func_020a6d20(void);
-s32 func_020a6d40(void);
-void func_020a6d8c(Unk02100094 *a, Unk020a6cb4 *b);
-void func_020a6e70(Unk02100094 *a);
-s32 func_020a6f94(Unk02100094 *a);
+void *CreateShineBattleUpdateList(void);
+s32 CreateShineBattleKindData(void);
+void func_020a6d8c(MapObjectList *a, Unk020a6cb4 *b);
+void func_020a6e70(MapObjectList *a);
+BOOL TryStartShine16AtRandomObject(MapObjectList *a);

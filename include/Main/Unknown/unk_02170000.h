@@ -2,32 +2,36 @@
 
 #include "types.h"
 #include "code_02013bdc.h"
-#include "code_02010c84.h"
-#include "code_0200e0ec.h" // Unk0200db5c
-#include "code_0200f7a0.h" // Unk02170260
+#include "os_thread.h"
+#include "code_0200f790.h"
 
-extern Unk0200db5c data_0217002c;
+typedef struct NNSG3dGlb NNSG3dGlb;
+
+extern OSThread data_0217002c;
 extern u32 data_021701b4;
-extern u32 data_021701b8;
-extern UnkFunc *data_021701bc;
-extern u32 data_021701c0;
-extern u8 data_021701c8[];
-extern UnkFunc *data_021701c4;
+// Gate of arena index 2. Zero in this game: the only store writes 0.
+extern u32 gArena2Enabled;
+extern UnkFunc *OSi_UserExceptionHandler;
+extern u32 OSi_UserExceptionHandlerArg;
+extern u8 OSi_ExContext[];
+extern UnkFunc *OSi_DebuggerHandler;
 extern u16 data_02170248;
-extern u16 data_0217024c;
+// Halfword set to 1 by OS_InitTick.
+extern u16 gTickInitialized;
 extern u32 data_02170250;
-extern volatile u64 data_02170254;
-extern u16 data_0217025c;
-extern Unk02170260 data_02170260;
+// 64-bit count of timer 0 wraps, added by OSi_CountUpTick, read by OS_GetTick.
+extern volatile u64 gTickOverflowCount;
+// Halfword set to 1 by OS_InitAlarm.
+extern u16 gAlarmInitialized;
+// Head and tail of the armed alarms, ordered by fire time; cleared by OS_InitAlarm.
+extern OSiAlarmQueue gAlarmList;
 extern u16 data_02170268;
 extern u32 data_0217026c;
 extern u32 data_02170270;
 extern u32 data_02170274[2];
-extern u8 data_02170344[];
 
-extern Unk0217029c data_0217029c;
+extern NNSG3dGlb data_0217029c;
 extern Unk02170500 *data_02170500;
-extern Vec3 data_021704dc;
-extern Vec3 data_021704e8;
-extern Vec3 data_021704f4;
-extern Unk0201290c_1c data_usa_021704e4[];
+// The three vectors passed to G3i_LookAt_, written together before each call.
+extern Vec3 data_021704dc[3];
+extern NNSG3dMatAnmResult data_02170504[];

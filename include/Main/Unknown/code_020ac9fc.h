@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020d2000.h"
 
-void func_020ac9fc(u32 arg0);
+/* creates the pooled object hidden (parks it with ParkMapObject); the spawner later takes it with
+ * UnparkFirstParkedMapObject */
+void InitShineBalloon(u32 arg0);

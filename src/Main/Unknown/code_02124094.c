@@ -1,559 +1,558 @@
 #include "Main/Unknown/code_02124094.h"
-#include "code_02021e8c.h"
+#include "Main/Unknown/code_02036820.h"
+#include "code_0200eddc.h"
+#include "g2d_NOB_load.h"
 #include "Main/Unknown/code_02022000.h"
 #include "Main/Unknown/code_02023000.h"
+#include "Main/Unknown/code_02124f4c.h"
 #include "Main/Unknown/code_02125000.h"
 #include "code_02016468.h"
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/Unknown/code_0200e000.h"
 #include "Main/Unknown/code_020b4000.h"
-#include "Main/Unknown/code_02146cb0.h"
+#include "g2d_CharCanvas.h"
+#include "code_02146cb0.h"
 #include "Main/Unknown/unk_0215d000.h"
 #include "code_02147cd8.h"
-#include "code_021488e8.h"
+#include "gx.h"
 
 #pragma thumb on
 
-void func_02124b1c(Unk02124b1c *a, s32 b, s32 c)
-{
-    s32 i;
-    s32 *p;
-    s32 *q;
-    s64 r;
-    s32 x;
-    s32 y;
-    i = (b >> 4) * 2;
-    p = a->mUnk_14;
-    q = a->mUnk_24;
-    r = func_02147f34(0x1000, c);
-    x = data_0215d4b4[i + 1];
-    a->mUnk_14[0] = ((s64) x * r) >> 12;
-    y = data_0215d4b4[i];
-    p[1] = ((s64) y * r) >> 12;
-    p[2] = -p[1];
-    p[3] = a->mUnk_14[0];
-    func_02146cb0(q, y, x);
-    a->mUnk_24[0] = func_021488e8(a->mUnk_24[0], c);
-    q[1] = func_021488e8(q[1], c);
-    q[2] = func_021488e8(q[2], c);
-    q[3] = func_021488e8(q[3], c);
+void SetLayoutEntryAngleAndScale(LayoutTableEntry *entry, s32 angle, s32 scale) {
+    s32 pairIndex;
+    s32 *dividedValues;
+    s32 *matrix;
+    s64 inverseScale;
+    s32 cosine;
+    s32 sine;
+    pairIndex = (angle >> 4) * 2;
+    dividedValues = entry->mUnk_14;
+    matrix = entry->mMatrix;
+    inverseScale = FX_Div(0x1000, scale);
+    cosine = gPairsByAngle[pairIndex + 1];
+    entry->mUnk_14[0] = ((s64) cosine * inverseScale) >> 12;
+    sine = gPairsByAngle[pairIndex];
+    dividedValues[1] = ((s64) sine * inverseScale) >> 12;
+    dividedValues[2] = -dividedValues[1];
+    dividedValues[3] = entry->mUnk_14[0];
+    MTX_Rot22_(matrix, sine, cosine);
+    entry->mMatrix[0] = FX_MulFunc(entry->mMatrix[0], scale);
+    matrix[1] = FX_MulFunc(matrix[1], scale);
+    matrix[2] = FX_MulFunc(matrix[2], scale);
+    matrix[3] = FX_MulFunc(matrix[3], scale);
 }
 
-s32 func_02124ae4(u32 a, Unk02021dc8 *b, Unk0201ea30 *c)
-{
-    Unk02124a68 *p;
-    Unk0201ea30_08 *e;
-    e = (Unk0201ea30_08 *) (c + 1);
-    e += a;
-    p = (Unk02124a68 *) func_02021f1c(b, (u16) e->mUnk_04);
-    if ((p->mUnk_04->mUnk_00 & 0xc00) >> 10 == 1) {
-        return 1;
+BOOL func_02124ae4(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout) {
+    Unk020224e0_c *cellData;
+    CellLayoutEntry *cellEntry;
+    cellEntry = (CellLayoutEntry *) (cellLayout + 1);
+    cellEntry += index;
+    cellData = NNS_G2dGetCellDataByIdx(cells, (u16) cellEntry->mCellIndex);
+    if ((cellData->mUnk_04->mUnk_00 & 0xc00) >> 10 == 1) {
+        return TRUE;
     }
-    return 0;
+    return FALSE;
 }
 
-void func_02124a98(u32 a, s32 b, void *c, void *d)
-{
-    Unk02124a68 *p;
-    Unk0201ea30_08 *e;
+void func_02124a98(u32 index, s32 value, Unk02021dc8 *cells, Unk0201ea30 *cellLayout) {
+    Unk020224e0_c *cellData;
+    CellLayoutEntry *cellEntry;
     s32 i;
-    Unk02124a68_04 *q;
-    e = (Unk0201ea30_08 *) ((Unk0201ea30 *) d + 1);
-    e += a;
-    p = (Unk02124a68 *) func_02021f1c(c, (u16) e->mUnk_04);
-    q = p->mUnk_04;
-    for (i = 0; i < p->mUnk_00; i++) {
-        q->mUnk_00 &= ~0xc00;
-        if (b != 0) {
-            q->mUnk_00 |= 0x400;
+    Unk020224e0_s *oamEntry;
+    cellEntry = (CellLayoutEntry *) (cellLayout + 1);
+    cellEntry += index;
+    cellData = NNS_G2dGetCellDataByIdx(cells, (u16) cellEntry->mCellIndex);
+    oamEntry = cellData->mUnk_04;
+    for (i = 0; i < cellData->mUnk_00; i++) {
+        oamEntry->mUnk_00 &= ~0xc00;
+        if (value != 0) {
+            oamEntry->mUnk_00 |= 0x400;
         }
-        q++;
+        oamEntry++;
     }
 }
 
-u8 func_02124a68(u32 a, void *b, void *c)
-{
-    Unk02124a68 *p;
-    Unk0201ea30_08 *e;
-    e = (Unk0201ea30_08 *) ((Unk0201ea30 *) c + 1);
-    e += a;
-    p = (Unk02124a68 *) func_02021f1c(b, (u16) e->mUnk_04);
-    return (p->mUnk_04->mUnk_04 & 0xf000) >> 12;
+u8 GetCellPaletteIndex(u32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout) {
+    Unk020224e0_c *cellData;
+    CellLayoutEntry *cellEntry;
+    cellEntry = (CellLayoutEntry *) (cellLayout + 1);
+    cellEntry += index;
+    cellData = NNS_G2dGetCellDataByIdx(cells, (u16) cellEntry->mCellIndex);
+    return (cellData->mUnk_04->mUnk_04 & 0xf000) >> 12;
 }
 
-void func_02124a20(s32 a, s32 b, void *c, void *d)
-{
-    Unk02124a68 *p;
-    Unk0201ea30_08 *e;
+void SetCellPaletteIndex(s32 index, s32 paletteIndex, Unk02021dc8 *cells, Unk0201ea30 *cellLayout) {
+    Unk020224e0_c *cellData;
+    CellLayoutEntry *cellEntry;
     s32 i;
-    Unk02124a68_04 *q;
-    e = (Unk0201ea30_08 *) ((Unk0201ea30 *) d + 1);
-    e += a;
-    p = (Unk02124a68 *) func_02021f1c(c, (u16) e->mUnk_04);
-    q = p->mUnk_04;
-    for (i = 0; i < p->mUnk_00; i++) {
-        q->mUnk_04 &= ~0xf000;
-        q->mUnk_04 |= b << 12;
-        q++;
+    Unk020224e0_s *oamEntry;
+    cellEntry = (CellLayoutEntry *) (cellLayout + 1);
+    cellEntry += index;
+    cellData = NNS_G2dGetCellDataByIdx(cells, (u16) cellEntry->mCellIndex);
+    oamEntry = cellData->mUnk_04;
+    for (i = 0; i < cellData->mUnk_00; i++) {
+        oamEntry->mUnk_04 &= ~0xf000;
+        oamEntry->mUnk_04 |= paletteIndex << 12;
+        oamEntry++;
     }
 }
 
-u8 func_021249f0(u32 a, Unk02021dc8 *b, Unk0201ea30 *c)
-{
-    Unk02124a68 *p;
-    Unk0201ea30_08 *e;
-    e = (Unk0201ea30_08 *) (c + 1);
-    e += a;
-    p = (Unk02124a68 *) func_02021f1c(b, (u16) e->mUnk_04);
-    return (p->mUnk_04->mUnk_04 & 0xc00) >> 10;
+u8 func_021249f0(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout) {
+    Unk020224e0_c *cellData;
+    CellLayoutEntry *cellEntry;
+    cellEntry = (CellLayoutEntry *) (cellLayout + 1);
+    cellEntry += index;
+    cellData = NNS_G2dGetCellDataByIdx(cells, (u16) cellEntry->mCellIndex);
+    return (cellData->mUnk_04->mUnk_04 & 0xc00) >> 10;
 }
 
-void func_021249a8(u32 a, u32 b, Unk02021dc8 *c, Unk0201ea30 *d)
-{
-    Unk02124a68 *p;
-    Unk0201ea30_08 *e;
+void func_021249a8(u32 index, u32 value, Unk02021dc8 *cells, Unk0201ea30 *cellLayout) {
+    Unk020224e0_c *cellData;
+    CellLayoutEntry *cellEntry;
     s32 i;
-    Unk02124a68_04 *q;
-    e = (Unk0201ea30_08 *) (d + 1);
-    e += a;
-    p = (Unk02124a68 *) func_02021f1c(c, (u16) e->mUnk_04);
-    q = p->mUnk_04;
-    for (i = 0; i < p->mUnk_00; i++) {
-        q->mUnk_04 &= ~0xc00;
-        q->mUnk_04 |= b << 10;
-        q++;
+    Unk020224e0_s *oamEntry;
+    cellEntry = (CellLayoutEntry *) (cellLayout + 1);
+    cellEntry += index;
+    cellData = NNS_G2dGetCellDataByIdx(cells, (u16) cellEntry->mCellIndex);
+    oamEntry = cellData->mUnk_04;
+    for (i = 0; i < cellData->mUnk_00; i++) {
+        oamEntry->mUnk_04 &= ~0xc00;
+        oamEntry->mUnk_04 |= value << 10;
+        oamEntry++;
     }
 }
 
-u16 func_0212497c(u32 a, void *b, void *c)
-{
-    Unk02124a68 *p;
-    Unk0201ea30_08 *e;
-    e = (Unk0201ea30_08 *) ((Unk0201ea30 *) c + 1);
-    e += a;
-    p = (Unk02124a68 *) func_02021f1c(b, (u16) e->mUnk_04);
-    return p->mUnk_04->mUnk_04 & 0x3ff;
+u16 GetCellCharIndex(u32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout) {
+    Unk020224e0_c *cellData;
+    CellLayoutEntry *cellEntry;
+    cellEntry = (CellLayoutEntry *) (cellLayout + 1);
+    cellEntry += index;
+    cellData = NNS_G2dGetCellDataByIdx(cells, (u16) cellEntry->mCellIndex);
+    return cellData->mUnk_04->mUnk_04 & 0x3ff;
 }
 
-void func_0212481c(u32 a, Unk02021dc8 *b, Unk0212463c_c *c, Unk0212463c_d *d, Unk0201ea30 *e, s32 f, u32 g, Unk02021dc8 *h, Unk0201ea30 *i)
-{
-    u8 arr[16];
-    s32 n;
-    s32 u;
-    u8 *buf;
-    Unk02124a68 *p;
+void func_0212481c(u32 index, Unk02021dc8 *cells, Unk0212463c_c *chars, Unk0212463c_d *palette, Unk0201ea30 *cellLayout,
+                   s32 queueSelector, u32 destIndex, Unk02021dc8 *destCells, Unk0201ea30 *destCellLayout) {
+    u8 usedPalettes[16];
+    s32 oamCount;
+    s32 destCharOffset;
+    u8 *charsSource;
+    Unk020224e0_c *cellData;
     s32 j;
-    Unk02124a68 *q;
-    Unk02124a68_04 *r;
-    Unk0201ea30_08 *s;
-    Unk0201ea30_08 *s2;
-    s32 v;
+    Unk020224e0_c *destCellData;
+    Unk020224e0_s *oamEntry;
+    CellLayoutEntry *cellEntry;
+    CellLayoutEntry *destCellEntry;
+    s32 charBytes;
     u32 x;
     u32 y;
-    u32 z;
+    u32 paletteIndex;
     u32 w;
     s32 k;
-    s32 a1;
-    s32 b1;
-    u8 *c1;
-    s32 ln;
-    s = (Unk0201ea30_08 *) (e + 1);
-    s += a;
-    p = (Unk02124a68 *) func_02021f1c(b, (u16) s->mUnk_04);
-    s2 = (Unk0201ea30_08 *) (i + 1);
-    s2 += g;
-    q = (Unk02124a68 *) func_02021f1c(h, (u16) s2->mUnk_04);
-    n = p->mUnk_00;
+    s32 runStart;
+    s32 runLength;
+    u8 *paletteSource;
+    s32 runBytes;
+    cellEntry = (CellLayoutEntry *) (cellLayout + 1);
+    cellEntry += index;
+    cellData = NNS_G2dGetCellDataByIdx(cells, (u16) cellEntry->mCellIndex);
+    destCellEntry = (CellLayoutEntry *) (destCellLayout + 1);
+    destCellEntry += destIndex;
+    destCellData = NNS_G2dGetCellDataByIdx(destCells, (u16) destCellEntry->mCellIndex);
+    oamCount = cellData->mUnk_00;
     for (k = 0; k < 16; k++) {
-        arr[k] = 0;
+        usedPalettes[k] = 0;
     }
-    for (j = 0; j < n; j++) {
-        w = p->mUnk_04[j].mUnk_04;
-        u = (q->mUnk_04[j].mUnk_04 & 0x3ff) << 5;
-        r = &p->mUnk_04[j];
-        y = (((u32) r->mUnk_02 << 16) & 0xc0000000) >> 30;
-        x = ((u32) p->mUnk_04[j].mUnk_00 & 0xc000) >> 14;
-        v = (&data_0215d024[y])[x * 4] << 5;
-        buf = c->mUnk_14 + ((w & 0x3ff) << 5);
-        func_0200ee74(buf, v);
-        if (f == 0) {
-            func_02016468(0x13, u, buf, v);
+    for (j = 0; j < oamCount; j++) {
+        w = cellData->mUnk_04[j].mUnk_04;
+        destCharOffset = (destCellData->mUnk_04[j].mUnk_04 & 0x3ff) << 5;
+        oamEntry = &cellData->mUnk_04[j];
+        y = (((u32) oamEntry->mUnk_02 << 16) & 0xc0000000) >> 30;
+        x = ((u32) cellData->mUnk_04[j].mUnk_00 & 0xc000) >> 14;
+        charBytes = (&data_0215d024[y])[x * 4] << 5;
+        charsSource = chars->mUnk_14 + ((w & 0x3ff) << 5);
+        DC_FlushRange(charsSource, charBytes);
+        if (queueSelector == 0) {
+            CallQueueAppend(0x13, destCharOffset, charsSource, charBytes);
         } else {
-            func_02016468(0x23, u, buf, v);
+            CallQueueAppend(0x23, destCharOffset, charsSource, charBytes);
         }
-        z = (w & 0xf000) >> 12;
-        arr[z] = 1;
-        q->mUnk_04[j].mUnk_04 &= ~0xf000;
-        q->mUnk_04[j].mUnk_04 |= z << 12;
+        paletteIndex = (w & 0xf000) >> 12;
+        usedPalettes[paletteIndex] = 1;
+        destCellData->mUnk_04[j].mUnk_04 &= ~0xf000;
+        destCellData->mUnk_04[j].mUnk_04 |= paletteIndex << 12;
     }
-    a1 = 0;
-    b1 = 0;
+    runStart = 0;
+    runLength = 0;
     for (k = 0; k < 16; k++) {
-        if (arr[k] != 0 && a1 + b1 < 15) {
-            b1++;
-        } else if (b1 > 0) {
-            a1 <<= 5;
-            c1 = d->mUnk_0c + a1;
-            ln = b1 << 5;
-            if (f == 0) {
-                func_02016468(0xe, a1, c1, ln);
+        if (usedPalettes[k] != 0 && runStart + runLength < 15) {
+            runLength++;
+        } else if (runLength > 0) {
+            runStart <<= 5;
+            paletteSource = palette->mUnk_0c + runStart;
+            runBytes = runLength << 5;
+            if (queueSelector == 0) {
+                CallQueueAppend(0xe, runStart, paletteSource, runBytes);
             } else {
-                func_02016468(0x1e, a1, c1, ln);
+                CallQueueAppend(0x1e, runStart, paletteSource, runBytes);
             }
-            a1 = k + 1;
-            b1 = 0;
+            runStart = k + 1;
+            runLength = 0;
         } else {
-            a1 = k + 1;
+            runStart = k + 1;
         }
     }
 }
 
-void func_02124748(u32 a, void *b, void *c, void *d, s32 e, u32 f, void *g, void *h)
-{
+void QueueCellChars(u32 index, Unk02021dc8 *cells, void *chars, Unk0201ea30 *cellLayout, s32 queueSelector,
+                    u32 destIndex, Unk02021dc8 *destCells, Unk0201ea30 *destCellLayout) {
     s32 i;
-    Unk02124a68 *p;
-    Unk02124a68 *q;
-    Unk02124a68_04 *r;
-    Unk0201ea30_08 *s;
-    Unk0201ea30_08 *s2;
-    s32 n;
-    u8 *buf;
-    s32 u;
-    s32 v;
+    Unk020224e0_c *cellData;
+    Unk020224e0_c *destCellData;
+    Unk020224e0_s *oamEntry;
+    CellLayoutEntry *cellEntry;
+    CellLayoutEntry *destCellEntry;
+    s32 oamCount;
+    u8 *charsSource;
+    s32 destCharOffset;
+    s32 charBytes;
     u32 t;
     u32 x;
-    s = (Unk0201ea30_08 *) ((Unk0201ea30 *) d + 1);
-    s += a;
-    p = (Unk02124a68 *) func_02021f1c(b, (u16) s->mUnk_04);
-    s2 = (Unk0201ea30_08 *) ((Unk0201ea30 *) h + 1);
-    s2 += f;
-    q = (Unk02124a68 *) func_02021f1c(g, (u16) s2->mUnk_04);
+    cellEntry = (CellLayoutEntry *) (cellLayout + 1);
+    cellEntry += index;
+    cellData = NNS_G2dGetCellDataByIdx(cells, (u16) cellEntry->mCellIndex);
+    destCellEntry = (CellLayoutEntry *) (destCellLayout + 1);
+    destCellEntry += destIndex;
+    destCellData = NNS_G2dGetCellDataByIdx(destCells, (u16) destCellEntry->mCellIndex);
     i = 0;
-    n = p->mUnk_00;
-    for (; i < n; i++) {
-        u = (q->mUnk_04[i].mUnk_04 & 0x3ff) << 5;
-        r = &p->mUnk_04[i];
-        t = (((u32) r->mUnk_02 << 16) & 0xc0000000) >> 30;
-        x = ((u32) p->mUnk_04[i].mUnk_00 & 0xc000) >> 14;
-        v = (&data_0215d024[t])[x * 4] << 5;
-        buf = ((Unk0212463c_c *) c)->mUnk_14 + ((r->mUnk_04 & 0x3ff) << 5);
-        func_0200ee74(buf, v);
-        if (e == 0) {
-            func_02016468(0x13, u, buf, v);
+    oamCount = cellData->mUnk_00;
+    for (; i < oamCount; i++) {
+        destCharOffset = (destCellData->mUnk_04[i].mUnk_04 & 0x3ff) << 5;
+        oamEntry = &cellData->mUnk_04[i];
+        t = (((u32) oamEntry->mUnk_02 << 16) & 0xc0000000) >> 30;
+        x = ((u32) cellData->mUnk_04[i].mUnk_00 & 0xc000) >> 14;
+        charBytes = (&data_0215d024[t])[x * 4] << 5;
+        charsSource = ((Unk0212463c_c *) chars)->mUnk_14 + ((oamEntry->mUnk_04 & 0x3ff) << 5);
+        DC_FlushRange(charsSource, charBytes);
+        if (queueSelector == 0) {
+            CallQueueAppend(0x13, destCharOffset, charsSource, charBytes);
         } else {
-            func_02016468(0x23, u, buf, v);
+            CallQueueAppend(0x23, destCharOffset, charsSource, charBytes);
         }
     }
 }
 
-void func_0212463c(u32 a, Unk02021dc8 *b, Unk0212463c_c *c, Unk0212463c_d *d, Unk0201ea30 *e, s32 f, u32 g, Unk02021dc8 *h, Unk0201ea30 *i)
-{
+void QueueCellCharsAndFirstPalette(u32 index, Unk02021dc8 *cells, Unk0212463c_c *chars, Unk0212463c_d *palette,
+                                   Unk0201ea30 *cellLayout, s32 queueSelector, u32 destIndex, Unk02021dc8 *destCells,
+                                   Unk0201ea30 *destCellLayout) {
     s32 j;
-    Unk02124a68 *p;
-    Unk02124a68 *q;
-    Unk02124a68_04 *r;
-    Unk0201ea30_08 *s;
-    Unk0201ea30_08 *s2;
-    s32 n;
-    u8 *buf;
-    s32 u;
-    s32 v;
+    Unk020224e0_c *cellData;
+    Unk020224e0_c *destCellData;
+    Unk020224e0_s *oamEntry;
+    CellLayoutEntry *cellEntry;
+    CellLayoutEntry *destCellEntry;
+    s32 oamCount;
+    u8 *charsSource;
+    s32 destCharOffset;
+    s32 charBytes;
     u32 x;
     u32 y;
-    u32 k;
-    u32 w;
-    u8 *z;
-    s = (Unk0201ea30_08 *) (e + 1);
-    s += a;
-    p = (Unk02124a68 *) func_02021f1c(b, (u16) s->mUnk_04);
-    s2 = (Unk0201ea30_08 *) (i + 1);
-    s2 += g;
-    q = (Unk02124a68 *) func_02021f1c(h, (u16) s2->mUnk_04);
+    u32 queueCommand;
+    u32 destPaletteOffset;
+    u8 *paletteSource;
+    cellEntry = (CellLayoutEntry *) (cellLayout + 1);
+    cellEntry += index;
+    cellData = NNS_G2dGetCellDataByIdx(cells, (u16) cellEntry->mCellIndex);
+    destCellEntry = (CellLayoutEntry *) (destCellLayout + 1);
+    destCellEntry += destIndex;
+    destCellData = NNS_G2dGetCellDataByIdx(destCells, (u16) destCellEntry->mCellIndex);
     j = 0;
-    n = p->mUnk_00;
-    for (; j < n; j++) {
-        u = (q->mUnk_04[j].mUnk_04 & 0x3ff) << 5;
-        r = &p->mUnk_04[j];
-        y = (((u32) r->mUnk_02 << 16) & 0xc0000000) >> 30;
-        x = ((u32) p->mUnk_04[j].mUnk_00 & 0xc000) >> 14;
-        v = (&data_0215d024[y])[x * 4] << 5;
-        buf = c->mUnk_14 + ((r->mUnk_04 & 0x3ff) << 5);
-        func_0200ee74(buf, v);
-        if (f == 0) {
-            func_02016468(0x13, u, buf, v);
+    oamCount = cellData->mUnk_00;
+    for (; j < oamCount; j++) {
+        destCharOffset = (destCellData->mUnk_04[j].mUnk_04 & 0x3ff) << 5;
+        oamEntry = &cellData->mUnk_04[j];
+        y = (((u32) oamEntry->mUnk_02 << 16) & 0xc0000000) >> 30;
+        x = ((u32) cellData->mUnk_04[j].mUnk_00 & 0xc000) >> 14;
+        charBytes = (&data_0215d024[y])[x * 4] << 5;
+        charsSource = chars->mUnk_14 + ((oamEntry->mUnk_04 & 0x3ff) << 5);
+        DC_FlushRange(charsSource, charBytes);
+        if (queueSelector == 0) {
+            CallQueueAppend(0x13, destCharOffset, charsSource, charBytes);
         } else {
-            func_02016468(0x23, u, buf, v);
+            CallQueueAppend(0x23, destCharOffset, charsSource, charBytes);
         }
     }
-    w = (((u32) q->mUnk_04->mUnk_04 & 0xf000) >> 12) << 5;
-    z = d->mUnk_0c + ((((u32) p->mUnk_04->mUnk_04 & 0xf000) >> 12) << 5);
-    if (f == 0) {
-        k = 0xe;
+    destPaletteOffset = (((u32) destCellData->mUnk_04->mUnk_04 & 0xf000) >> 12) << 5;
+    paletteSource = palette->mUnk_0c + ((((u32) cellData->mUnk_04->mUnk_04 & 0xf000) >> 12) << 5);
+    if (queueSelector == 0) {
+        queueCommand = 0xe;
     } else {
-        k = 0x1e;
+        queueCommand = 0x1e;
     }
-    func_02016468(k, w, z, 0x20);
+    CallQueueAppend(queueCommand, destPaletteOffset, paletteSource, 0x20);
 }
 
-// non-matching: 90.6: the loop matches up to registers; before it the original keeps f in r5 (here it is spilled to its own slot), keeps q at [sp+0x1c] and n2 and x at [sp+0x3c]/[sp+0x44], and the code is 0x14 bytes shorter there
-s32 func_021243ac(void *a, s32 b, void *c, s32 d, s32 e, s32 f, void *g, void *h, void *i, s32 j)
-{
-    Unk02022eb0 buf[128];
-    Unk0212428c *p;
-    Unk021243ac *q;
-    Unk02124a68 *r;
-    s32 w;
-    s32 x;
-    s32 y;
-    s32 z;
+s32 InitLabelCanvas(void *heap, s32 labelIndex, Unk0201ea30 *labelLayout, s32 width, s32 height, s32 entryIndex,
+                    Unk02021dc8 *cells, Unk0201ea30 *cellLayout, LayoutTableEntry *table, s32 j) {
+    Unk02022eb0 oamBuffer[128];
+    LabelLayoutEntry *labelEntry;
+    LabelCanvas *canvas;
+    Unk020224e0_c *cellData;
+    s32 widthBlocks;
+    s32 heightBlocks;
+    s32 blockCount;
+    s32 oamCount;
     s32 k;
     s32 m;
     s32 n;
+    s32 u;
+    s32 v;
     s32 sa;
     s32 sb;
-    s32 u;
-    s32 v;
-    s32 n2;
-    n2 = ((Unk0201ea30 *) h)->mUnk_06;
-    ((Unk02124b1c *) i)[f].mUnk_38 = b;
-    q = func_02036bec(a, 0x48);
-    ((Unk02124b1c *) i)[n2 + b].mUnk_3c = q;
-    p = func_0201ea58(c, b);
-    w = ((d - 1) >> 3) + 1;
-    x = ((e - 1) >> 3) + 1;
-    y = w * x;
-    q->mUnk_20.mUnk_14 = y << 5;
-    q->mUnk_20.mUnk_18 = ((j - 0x100) >> 5) - y;
-    q->mUnk_20.mUnk_10 = func_02036bec(a, q->mUnk_20.mUnk_14);
-    func_02023374(q, q->mUnk_20.mUnk_10, w, x, 4);
-    q->mUnk_18(q, 0);
-    sb = p->mUnk_05;
-    sa = p->mUnk_04;
-    q->mUnk_20.mUnk_00 = q;
-    q->mUnk_20.mUnk_04 = func_020b403c(p->mUnk_06_12);
-    q->mUnk_20.mUnk_08 = sa;
-    q->mUnk_20.mUnk_0c = sb;
-    q->mUnk_20.mUnk_1c = d;
-    q->mUnk_20.mUnk_20 = e;
+    s32 cellEntryCount;
+    void *font;
+    cellEntryCount = cellLayout->mUnk_06;
+    table[entryIndex].mLabelIndex = labelIndex;
+    canvas = HeapAlloc(heap, 0x48);
+    table[cellEntryCount + labelIndex].mLabelCanvas = canvas;
+    labelEntry = func_0201ea58(labelLayout, labelIndex);
+    widthBlocks = ((width - 1) >> 3) + 1;
+    heightBlocks = ((height - 1) >> 3) + 1;
+    blockCount = widthBlocks * heightBlocks;
+    canvas->mUnk_20.mUnk_14 = blockCount << 5;
+    canvas->mUnk_20.mUnk_18 = ((j - 0x100) >> 5) - blockCount;
+    canvas->mUnk_20.mUnk_10 = HeapAlloc(heap, canvas->mUnk_20.mUnk_14);
+    NNS_G2dCharCanvasInitForOBJ1D(canvas, canvas->mUnk_20.mUnk_10, widthBlocks, heightBlocks, 4);
+    canvas->mUnk_18(canvas, 0);
+    sb = labelEntry->mUnk_05;
+    sa = labelEntry->mUnk_04;
+    font = GetFontByIndex(labelEntry->mUnk_06_12);
+    canvas->mUnk_20.mCharCanvas = canvas;
+    canvas->mUnk_20.mFont = font;
+    canvas->mUnk_20.mCharSpacing = sa;
+    canvas->mUnk_20.mLineSpacing = sb;
+    canvas->mUnk_20.mUnk_1c = width;
+    canvas->mUnk_20.mUnk_20 = height;
     m = 0;
     n = 0;
-    if (f < n2) {
-        u = func_021249f0(f, g, h);
-        v = func_02124ae4(f, g, h);
+    if (entryIndex < cellEntryCount) {
+        u = func_021249f0(entryIndex, cells, cellLayout);
+        v = func_02124ae4(entryIndex, cells, cellLayout);
     } else {
-        f -= n2;
-        u = func_021240d4(f, c, i, h);
-        v = func_0212418c(f, c, i, h);
+        entryIndex -= cellEntryCount;
+        u = func_021240d4(entryIndex, labelLayout, table, cellLayout);
+        v = func_0212418c(entryIndex, labelLayout, table, cellLayout);
     }
-    switch (p->mUnk_00.mUnk_00_12) {
-    case 1:
-        m = -(w << 2);
-        break;
-    case 2:
-        m = -(w << 3);
-        break;
+    switch (labelEntry->mUnk_00.mUnk_00_12) {
+        case 1:
+            m = -(widthBlocks << 2);
+            break;
+        case 2:
+            m = -(widthBlocks << 3);
+            break;
     }
-    switch (p->mUnk_02.mUnk_00_12) {
-    case 1:
-        n = -(x << 2);
-        break;
-    case 2:
-        n = -(x << 3);
-        break;
+    switch (labelEntry->mUnk_02.mUnk_00_12) {
+        case 1:
+            n = -(heightBlocks << 2);
+            break;
+        case 2:
+            n = -(heightBlocks << 3);
+            break;
     }
-    z = func_02022eb0(buf, w, x, m, n, 0, q->mUnk_20.mUnk_18, 0);
-    r = func_02036bec(a, z * 6 + 0x10);
-    r->mUnk_00 = z;
-    r->mUnk_02 = 0;
-    r->mUnk_04 = (Unk02124a68_04 *) (r + 1);
-    r->mUnk_08 = w << 2;
-    r->mUnk_0a = x << 2;
-    r->mUnk_0c = -w << 2;
-    r->mUnk_0e = -x << 2;
-    for (k = 0; k < z; k++) {
-        buf[k].mUnk_04 = (buf[k].mUnk_04 & ~0xc00) | (u << 10);
+    oamCount = NNS_G2dArrangeOBJ1D(oamBuffer, widthBlocks, heightBlocks, m, n, 0, canvas->mUnk_20.mUnk_18, 0);
+    cellData = HeapAlloc(heap, oamCount * 6 + 0x10);
+    cellData->mUnk_00 = oamCount;
+    cellData->mUnk_02 = 0;
+    cellData->mUnk_04 = (Unk020224e0_s *) (cellData + 1);
+    cellData->mUnk_08 = widthBlocks << 2;
+    cellData->mUnk_0a = heightBlocks << 2;
+    cellData->mUnk_0c = -widthBlocks << 2;
+    cellData->mUnk_0e = -heightBlocks << 2;
+    for (k = 0; k < oamCount; k++) {
+        oamBuffer[k].mUnk_04 = (oamBuffer[k].mUnk_04 & ~0xc00) | (u * 0x400);
         if (v != 0) {
-            m = p->mUnk_06_8;
-            buf[k].mUnk_00 = (buf[k].mUnk_00 & ~0xc00) | 0x400;
-            buf[k].mUnk_04 = (buf[k].mUnk_04 & ~0xf000) | (m << 12);
+            m = labelEntry->mUnk_06_8;
+            oamBuffer[k].mUnk_00 = (oamBuffer[k].mUnk_00 & ~0xc00) | 0x400;
+            oamBuffer[k].mUnk_04 = (oamBuffer[k].mUnk_04 & ~0xf000) | (m * 0x1000);
         } else {
-            m = p->mUnk_06_8;
-            buf[k].mUnk_00 &= ~0xc00;
-            buf[k].mUnk_04 = (buf[k].mUnk_04 & ~0xf000) | (m << 12);
+            m = labelEntry->mUnk_06_8;
+            oamBuffer[k].mUnk_00 &= ~0xc00;
+            oamBuffer[k].mUnk_04 = (oamBuffer[k].mUnk_04 & ~0xf000) | (m * 0x1000);
         }
-        buf[k].mUnk_00 &= ~0x1000;
-        buf[k].mUnk_00 &= 0xc1fffcff;
-        r->mUnk_04[k].mUnk_00 = buf[k].mUnk_00_0;
-        r->mUnk_04[k].mUnk_02 = buf[k].mUnk_00_2;
-        r->mUnk_04[k].mUnk_04 = buf[k].mUnk_04;
+        oamBuffer[k].mUnk_00 &= ~0x1000;
+        oamBuffer[k].mUnk_00 &= 0xc1fffcff;
+        cellData->mUnk_04[k].mUnk_00 = oamBuffer[k].mUnk_00_0;
+        cellData->mUnk_04[k].mUnk_02 = oamBuffer[k].mUnk_00_2;
+        cellData->mUnk_04[k].mUnk_04 = oamBuffer[k].mUnk_04;
     }
-    q->mUnk_44 = r;
-    return q->mUnk_20.mUnk_14;
+    canvas->mUnk_44 = cellData;
+    return canvas->mUnk_20.mUnk_14;
 }
 
-void func_0212428c(s32 a, s32 b, Unk0201ea30 *c, void *d, Unk0201ea30 *e, Unk02124b1c *f, s32 g, s8 h)
-{
-    s32 k;
-    s32 w;
-    s32 z;
-    Unk0212428c *p;
-    Unk021243ac *q;
-    s32 x;
-    s32 y;
-    s32 n;
-    u32 m;
-    void *buf;
-    s32 u;
-    s32 v;
-    p = func_0201ea58(c, b);
-    q = (f + e->mUnk_06 + b)->mUnk_3c;
-    k = q->mUnk_20.mUnk_1c;
-    n = q->mUnk_20.mUnk_20;
-    x = ((k - 1) >> 3) + 1 << 3;
-    y = ((n - 1) >> 3) + 1 << 3;
-    m = 0;
-    w = 0;
-    z = 0;
-    if (p->mUnk_00.mUnk_00_12 == 0) {
-        m |= 0x200;
-    } else if (p->mUnk_00.mUnk_00_12 == 1) {
-        m |= 0x400;
-        w = (x - k) >> 1;
-    } else if (p->mUnk_00.mUnk_00_12 == 2) {
-        m |= 0x800;
-        w = x - k;
+// Clears the character canvas of entry b, draws the string d into it and queues its upload.
+void PrintLabelLayoutText(s32 queueSelector, s32 labelIndex, Unk0201ea30 *labelLayout, void *text,
+                          Unk0201ea30 *cellLayout, LayoutTableEntry *table, s32 g, s8 h) {
+    s32 canvasWidth;
+    s32 offsetX;
+    s32 offsetY;
+    LabelLayoutEntry *labelEntry;
+    LabelCanvas *canvas;
+    s32 alignedWidth;
+    s32 alignedHeight;
+    s32 canvasHeight;
+    u32 flags;
+    void *chars;
+    s32 destOffset;
+    s32 charBytes;
+    labelEntry = func_0201ea58(labelLayout, labelIndex);
+    canvas = (table + cellLayout->mUnk_06 + labelIndex)->mLabelCanvas;
+    canvasWidth = canvas->mUnk_20.mUnk_1c;
+    canvasHeight = canvas->mUnk_20.mUnk_20;
+    alignedWidth = ((canvasWidth - 1) >> 3) + 1 << 3;
+    alignedHeight = ((canvasHeight - 1) >> 3) + 1 << 3;
+    flags = 0;
+    offsetX = 0;
+    offsetY = 0;
+    if (labelEntry->mUnk_00.mUnk_00_12 == 0) {
+        flags |= 0x200;
+    } else if (labelEntry->mUnk_00.mUnk_00_12 == 1) {
+        flags |= 0x400;
+        offsetX = (alignedWidth - canvasWidth) >> 1;
+    } else if (labelEntry->mUnk_00.mUnk_00_12 == 2) {
+        flags |= 0x800;
+        offsetX = alignedWidth - canvasWidth;
     }
-    if (p->mUnk_02.mUnk_00_12 == 0) {
-        m |= 0x40;
-    } else if (p->mUnk_02.mUnk_00_12 == 1) {
-        m |= 0x80;
-        z = (y - n) >> 1;
-    } else if (p->mUnk_02.mUnk_00_12 == 2) {
-        m |= 0x100;
-        z = y - n;
+    if (labelEntry->mUnk_02.mUnk_00_12 == 0) {
+        flags |= 0x40;
+    } else if (labelEntry->mUnk_02.mUnk_00_12 == 1) {
+        flags |= 0x80;
+        offsetY = (alignedHeight - canvasHeight) >> 1;
+    } else if (labelEntry->mUnk_02.mUnk_00_12 == 2) {
+        flags |= 0x100;
+        offsetY = alignedHeight - canvasHeight;
     }
-    q->mUnk_18(q, 0);
-    func_02125808(&q->mUnk_20, w, z, k, n, p->mUnk_06_0, m, p->mUnk_00.mUnk_00_14, d, g, h);
-    buf = q->mUnk_20.mUnk_10;
-    u = q->mUnk_20.mUnk_18 << 5;
-    v = q->mUnk_20.mUnk_14;
-    func_0200ee74(buf, v);
-    if (a == 0) {
-        func_02016468(0x13, u, buf, v);
+    canvas->mUnk_18(canvas, 0);
+    func_02125808(&canvas->mUnk_20, offsetX, offsetY, canvasWidth, canvasHeight, labelEntry->mUnk_06_0, flags,
+                  labelEntry->mUnk_00.mUnk_00_14, text, g, h);
+    chars = canvas->mUnk_20.mUnk_10;
+    destOffset = canvas->mUnk_20.mUnk_18 << 5;
+    charBytes = canvas->mUnk_20.mUnk_14;
+    DC_FlushRange(chars, charBytes);
+    if (queueSelector == 0) {
+        CallQueueAppend(0x13, destOffset, chars, charBytes);
     } else {
-        func_02016468(0x23, u, buf, v);
+        CallQueueAppend(0x23, destOffset, chars, charBytes);
     }
 }
 
-void func_0212426c(s32 a, s32 b, void *c, void *d, void *e, void *f)
-{
-    func_0212428c(a, b, c, d, e, f, 0, -1);
+void func_0212426c(s32 queueSelector, s32 labelIndex, Unk0201ea30 *labelLayout, void *text, Unk0201ea30 *cellLayout,
+                   LayoutTableEntry *table) {
+    PrintLabelLayoutText(queueSelector, labelIndex, labelLayout, text, cellLayout, table, 0, -1);
 }
 
-void func_02124248(s32 a, s32 b, void *c, void *d, void *e, void *f, s8 g)
-{
-    func_0212428c(a, b, c, d, e, f, 0, g);
+void func_02124248(s32 queueSelector, s32 labelIndex, Unk0201ea30 *labelLayout, void *text, Unk0201ea30 *cellLayout,
+                   LayoutTableEntry *table, s8 g) {
+    PrintLabelLayoutText(queueSelector, labelIndex, labelLayout, text, cellLayout, table, 0, g);
 }
 
-void func_02124224(s32 a, u32 b, void *c, void *d, void *e, void *f, s8 g)
-{
-    func_0212428c(a, b, c, d, e, f, 1, g);
+void func_02124224(s32 queueSelector, u32 labelIndex, Unk0201ea30 *labelLayout, void *text, Unk0201ea30 *cellLayout,
+                   LayoutTableEntry *table, s8 g) {
+    PrintLabelLayoutText(queueSelector, labelIndex, labelLayout, text, cellLayout, table, 1, g);
 }
 
-void func_021241c0(s32 a, s32 b, Unk0201ea30 *c, Unk0201ea30 *d, Unk02124b1c *e)
-{
-    Unk021243ac *p;
-    void *buf;
-    s32 u;
-    s32 v;
-    func_0201ea58(c, b);
-    p = (e + d->mUnk_06 + b)->mUnk_3c;
-    p->mUnk_18(p, 0);
-    buf = p->mUnk_20.mUnk_10;
-    u = p->mUnk_20.mUnk_18 << 5;
-    v = p->mUnk_20.mUnk_14;
-    func_0200ee74(buf, v);
-    if (a == 0) {
-        func_02016468(0x13, u, buf, v);
+// Clears the character canvas of entry b and queues its upload.
+void ClearAndQueueLabelLayoutText(s32 queueSelector, s32 labelIndex, Unk0201ea30 *labelLayout, Unk0201ea30 *cellLayout,
+                                  LayoutTableEntry *table) {
+    LabelCanvas *canvas;
+    void *chars;
+    s32 destOffset;
+    s32 charBytes;
+    func_0201ea58(labelLayout, labelIndex);
+    canvas = (table + cellLayout->mUnk_06 + labelIndex)->mLabelCanvas;
+    canvas->mUnk_18(canvas, 0);
+    chars = canvas->mUnk_20.mUnk_10;
+    destOffset = canvas->mUnk_20.mUnk_18 << 5;
+    charBytes = canvas->mUnk_20.mUnk_14;
+    DC_FlushRange(chars, charBytes);
+    if (queueSelector == 0) {
+        CallQueueAppend(0x13, destOffset, chars, charBytes);
     } else {
-        func_02016468(0x23, u, buf, v);
+        CallQueueAppend(0x23, destOffset, chars, charBytes);
     }
 }
 
-s32 func_0212418c(u32 a, void *b, Unk02124b1c *c, Unk0201ea30 *d)
-{
-    Unk02124b1c *p;
-    Unk02124b1c *q;
-    p = c + a;
-    q = p + d->mUnk_06;
-    if ((q->mUnk_3c->mUnk_44->mUnk_04->mUnk_00 & 0xc00) >> 10 == 1) {
-        return 1;
+BOOL func_0212418c(s32 labelIndex, void *b, LayoutTableEntry *table, Unk0201ea30 *cellLayout) {
+    LayoutTableEntry *entry;
+    LayoutTableEntry *labelTableEntry;
+    entry = table + labelIndex;
+    labelTableEntry = entry + cellLayout->mUnk_06;
+    if ((labelTableEntry->mLabelCanvas->mUnk_44->mUnk_04->mUnk_00 & 0xc00) >> 10 == 1) {
+        return TRUE;
     }
-    return 0;
+    return FALSE;
 }
 
-void func_02124140(u32 a, u32 b, void *c, void *d, void *e)
-{
-    Unk02124b1c *r;
-    Unk02124b1c *s;
+void func_02124140(u32 labelIndex, u32 value, Unk0201ea30 *labelLayout, LayoutTableEntry *table,
+                   Unk0201ea30 *cellLayout) {
+    LayoutTableEntry *labelTableEntry;
+    LayoutTableEntry *entry;
     s32 i;
-    Unk02124a68 *p;
-    Unk02124a68_04 *q;
-    s = (Unk02124b1c *) d + a;
-    r = s + ((Unk0201ea30 *) e)->mUnk_06;
-    p = r->mUnk_3c->mUnk_44;
-    q = p->mUnk_04;
-    for (i = 0; i < p->mUnk_00; i++) {
-        q->mUnk_00 &= ~0xc00;
-        if (b != 0) {
-            q->mUnk_00 |= 0x400;
+    Unk020224e0_c *cellData;
+    Unk020224e0_s *oamEntry;
+    entry = table + labelIndex;
+    labelTableEntry = entry + cellLayout->mUnk_06;
+    cellData = labelTableEntry->mLabelCanvas->mUnk_44;
+    oamEntry = cellData->mUnk_04;
+    for (i = 0; i < cellData->mUnk_00; i++) {
+        oamEntry->mUnk_00 &= ~0xc00;
+        if (value != 0) {
+            oamEntry->mUnk_00 |= 0x400;
         }
-        q++;
+        oamEntry++;
     }
 }
 
-void func_02124100(s32 a, u8 b, void *c, void *d, void *e)
-{
-    Unk02124b1c *r;
-    Unk02124b1c *s;
+void SetLabelPaletteIndex(s32 labelIndex, u8 paletteIndex, Unk0201ea30 *labelLayout, LayoutTableEntry *table,
+                          Unk0201ea30 *cellLayout) {
+    LayoutTableEntry *labelTableEntry;
+    LayoutTableEntry *entry;
     s32 i;
-    Unk02124a68 *p;
-    Unk02124a68_04 *q;
-    s = (Unk02124b1c *) d + a;
-    r = s + ((Unk0201ea30 *) e)->mUnk_06;
-    p = r->mUnk_3c->mUnk_44;
-    q = p->mUnk_04;
-    for (i = 0; i < p->mUnk_00; i++) {
-        q->mUnk_04 &= ~0xf000;
-        q->mUnk_04 |= b << 12;
-        q++;
+    Unk020224e0_c *cellData;
+    Unk020224e0_s *oamEntry;
+    entry = table + labelIndex;
+    labelTableEntry = entry + cellLayout->mUnk_06;
+    cellData = labelTableEntry->mLabelCanvas->mUnk_44;
+    oamEntry = cellData->mUnk_04;
+    for (i = 0; i < cellData->mUnk_00; i++) {
+        oamEntry->mUnk_04 &= ~0xf000;
+        oamEntry->mUnk_04 |= paletteIndex << 12;
+        oamEntry++;
     }
 }
 
-u8 func_021240d4(u32 a, void *b, Unk02124b1c *c, Unk0201ea30 *d)
-{
-    Unk02124b1c *p;
-    Unk02124b1c *q;
-    p = c + a;
-    q = p + d->mUnk_06;
-    return (q->mUnk_3c->mUnk_44->mUnk_04->mUnk_04 & 0xc00) >> 10;
+u8 func_021240d4(s32 labelIndex, void *b, LayoutTableEntry *table, Unk0201ea30 *cellLayout) {
+    LayoutTableEntry *entry;
+    LayoutTableEntry *labelTableEntry;
+    entry = table + labelIndex;
+    labelTableEntry = entry + cellLayout->mUnk_06;
+    return (labelTableEntry->mLabelCanvas->mUnk_44->mUnk_04->mUnk_04 & 0xc00) >> 10;
 }
 
-void func_02124094(u32 a, u32 b, void *c, Unk02124b1c *d, Unk0201ea30 *e)
-{
-    Unk02124b1c *r;
-    Unk02124b1c *s;
+void func_02124094(u32 labelIndex, u32 value, Unk0201ea30 *labelLayout, LayoutTableEntry *table,
+                   Unk0201ea30 *cellLayout) {
+    LayoutTableEntry *labelTableEntry;
+    LayoutTableEntry *entry;
     s32 i;
-    Unk02124a68 *p;
-    Unk02124a68_04 *q;
-    s = d + a;
-    r = s + e->mUnk_06;
-    p = r->mUnk_3c->mUnk_44;
-    q = p->mUnk_04;
-    for (i = 0; i < p->mUnk_00; i++) {
-        q->mUnk_04 &= ~0xc00;
-        q->mUnk_04 |= b << 10;
-        q++;
+    Unk020224e0_c *cellData;
+    Unk020224e0_s *oamEntry;
+    entry = table + labelIndex;
+    labelTableEntry = entry + cellLayout->mUnk_06;
+    cellData = labelTableEntry->mLabelCanvas->mUnk_44;
+    oamEntry = cellData->mUnk_04;
+    for (i = 0; i < cellData->mUnk_00; i++) {
+        oamEntry->mUnk_04 &= ~0xc00;
+        oamEntry->mUnk_04 |= value << 10;
+        oamEntry++;
     }
 }
 

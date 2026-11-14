@@ -5,11 +5,11 @@
 #pragma optimize_for_size on
 #pragma thumb on
 
-void func_020ad268(void) {
+void AdvanceTitleBlend(void) {
     s32 n;
     s32 m;
 
-    n = data_0217b340->mUnk_64++;
+    n = gTitleScene->mBlendFrames++;
     if (n < 30) {
         func_020ad2f0(4, 8, 0, 16);
     } else if (n < 47) {
@@ -19,9 +19,9 @@ void func_020ad268(void) {
         func_020ad2f0(0, 0, 0, 0);
     } else {
         func_020ad2f0(0, 0, 0, 0);
-        func_020ad2dc(1);
-        data_0217b340->mUnk_50 = 1;
-        data_0217b340->mUnk_64--;
+        SetTitleBlendDone(1);
+        gTitleScene->mBlendDone = TRUE;
+        gTitleScene->mBlendFrames--;
     }
 }
 

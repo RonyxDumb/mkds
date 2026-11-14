@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_0206bcb0.h" // Unk0206bcb0
+#include "Main/Unknown/code_0206bcb0.h" // Kart
 
 typedef struct Unk0206390c_04 {
     /* 00 */ u8 mUnk_00[4];
@@ -22,6 +22,6 @@ typedef struct Unk0206390c {
 
 extern const u32 data_02154a2c[];
 
-void func_0206390c(Unk0206390c *a);
-void func_02063a68(Unk0206bcb0 *a);
-void func_02063ad0(Unk0206bcb0 *a);
+void PlaceKartKillerEffectCallback(Unk0206390c *renderState);
+void func_02063a68(Kart *kart);
+void func_02063ad0(Kart *kart);

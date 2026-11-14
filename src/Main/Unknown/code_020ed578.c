@@ -1,5 +1,14 @@
 #include "Main/Unknown/code_020ed578.h"
+#include "Main/Unknown/code_020e66e4.h"
 
-Unk020e6488 *func_020ed578(u32 arg0) {
-    return data_0217bbfc[arg0];
+#include "Main/Unknown/code_020ed588.h"
+#include "Main/Unknown/code_020f36d8.h"
+
+void func_020ed588(ItemObject *item, NsbmdModel *model) {
+    func_020e6a18(model);
+    func_020e6854(model, &item->mPos, 1, 0x1f);
+}
+
+NsbmdModel *GetItemModel(u32 kind) {
+    return gItemModels[kind];
 }

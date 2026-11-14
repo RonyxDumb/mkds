@@ -2,14 +2,14 @@
 
 #include "types.h"
 
-// Object func_02036590 sets up.
-typedef struct Unk02036590 {
+// A function run with a heap of its own; mParent is the call that was running before it.
+typedef struct HeapCall {
     /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ void *mUnk_0c;
-    /* 10 */ struct Unk02036590 *mUnk_10;
-} Unk02036590;
+    /* 04 */ u32 mFunc;
+    /* 08 */ u32 mAfterFunc;
+    /* 0c */ void *mHeap;
+    /* 10 */ struct HeapCall *mParent;
+} HeapCall;
 
-void func_02036588(Unk02036590 *param_1, u32 param_2);
-void func_02036590(Unk02036590 *param_1, u32 param_2);
+void SetHeapCallFunc(HeapCall *call, u32 func);
+void InitHeapCall(HeapCall *call, u32 func);

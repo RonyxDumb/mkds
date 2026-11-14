@@ -1,41 +1,44 @@
 #include "Main/Unknown/code_0202a734.h"
+#include "Main/Unknown/code_02047104.h"
+#include "Main/Unknown/code_020b4000.h"
+#include "Main/Unknown/unk_02162000.h"
 
 #pragma thumb on
 
-void func_0202a734(void) {
-    u32 uVar1;
-    Unk020b4934 *local_18;
-    Unk020b4a44 *local_14;
-    Unk02021dc8 *local_10;
-    Unk020b47d8 *local_c[1];
-    local_18 = 0;
-    local_14 = 0;
-    local_10 = 0;
-    local_c[0] = 0;
-    uVar1 = ((int) func_0204799c((const char *) &data_021622f8));
-    func_020b496c(&local_18, (void *) uVar1);
-    uVar1 = ((int) func_0204799c((const char *) &data_02162318));
-    func_020b496c(&local_18, (void *) uVar1);
-    uVar1 = ((int) func_0204799c((const char *) &data_02162338));
-    func_020b49f4(&local_18, (void *) uVar1);
-    uVar1 = ((int) func_0204799c((const char *) &data_0216235c));
-    func_020b49f4(&local_18, (void *) uVar1);
-    uVar1 = ((int) func_0204799c((const char *) &data_02162380));
-    func_020b48ec(&local_10, (void *) uVar1);
-    uVar1 = ((int) func_0204799c((const char *) &data_021623a4));
-    func_020b48ec(&local_10, (void *) uVar1);
-    uVar1 = ((int) func_0204799c((const char *) &data_021623c8));
-    func_020b4a7c(&local_14, (void *) uVar1);
-    uVar1 = ((int) func_0204799c((const char *) &data_021623e8));
-    func_020b4a7c(&local_14, (void *) uVar1);
-    uVar1 = ((int) func_0204799c((const char *) &data_02162408));
-    func_020b4a7c(&local_14, (void *) uVar1);
-    uVar1 = ((int) func_0204799c((const char *) &data_02162428));
-    func_020b4a7c(&local_14, (void *) uVar1);
-    uVar1 = ((int) func_0204799c((const char *) &data_02162448));
-    func_020b4810(local_c, (void *) uVar1);
-    uVar1 = ((int) func_0204799c((const char *) &data_02162468));
-    func_020b4810(local_c, (void *) uVar1);
+void LoadWiFiVSCourseSelectFiles(void) {
+    void *file;
+    Ncgr *chars;
+    Nclr *palette;
+    Unk02021dc8 *cells;
+    Nscr *screenMaps[1];
+    chars = NULL;
+    palette = NULL;
+    cells = NULL;
+    screenMaps[0] = NULL;
+    file = FindSceneFile(data_021622f8);
+    LoadNcgrData(&chars, file);
+    file = FindSceneFile(data_02162318);
+    LoadNcgrData(&chars, file);
+    file = FindSceneFile(data_02162338);
+    LoadNcgrData2(&chars, file);
+    file = FindSceneFile(data_0216235c);
+    LoadNcgrData2(&chars, file);
+    file = FindSceneFile(data_02162380);
+    LoadNcerData(&cells, file);
+    file = FindSceneFile(data_021623a4);
+    LoadNcerData(&cells, file);
+    file = FindSceneFile(data_021623c8);
+    LoadNclrData(&palette, file);
+    file = FindSceneFile(data_021623e8);
+    LoadNclrData(&palette, file);
+    file = FindSceneFile(data_02162408);
+    LoadNclrData(&palette, file);
+    file = FindSceneFile(data_02162428);
+    LoadNclrData(&palette, file);
+    file = FindSceneFile(data_02162448);
+    LoadNscrData(screenMaps, file);
+    file = FindSceneFile(data_02162468);
+    LoadNscrData(screenMaps, file);
 }
 
 #pragma thumb off

@@ -4,47 +4,49 @@
 
 #pragma thumb on
 
-void func_02025c94(int id, int x, int y, void *graphics) {
-    short *entry = ((short *) func_0201ea30((Unk0201ea30 *) graphics, id));
+void func_02025c94(int id, int x, int y, Unk0201ea30 *graphics) {
+    short *entry = (func_0201ea30(graphics, id));
     entry[0] = (entry[0] & 0xfffff000U) | (x & 0xfff);
     entry[1] = (entry[1] & 0xfffff000U) | (y & 0xfff);
 }
 
-void func_02025c6c(u32 param_1, u32 param_2, Unk0201ea30 *param_3) {
-    u16 *puVar1;
-    u16 *puVar2;
-    puVar1 = (u16 *) func_0201ea30(param_3, (int) param_1);
-    puVar2 = (u16 *) func_0201ea30(param_3, (int) param_2);
-    *puVar1 = *puVar2;
-    puVar1[1] = puVar2[1];
+void func_02025c6c(u32 destinationId, u32 sourceId, Unk0201ea30 *cellLayout) {
+    u16 *destinationEntry;
+    u16 *sourceEntry;
+    destinationEntry = func_0201ea30(cellLayout, destinationId);
+    sourceEntry = func_0201ea30(cellLayout, sourceId);
+    *destinationEntry = *sourceEntry;
+    destinationEntry[1] = sourceEntry[1];
 }
 
-void func_02025c48(u32 param_1, u32 param_2, Unk0201ea30 *param_3) {
-    int iVar1;
-    int iVar2;
-    iVar1 = (int) func_0201ea30(param_3, (int) param_1);
-    iVar2 = (int) func_0201ea30(param_3, (int) param_2);
-    *(u32 *) (iVar1 + 4) = *(u32 *) (iVar2 + 4);
+void func_02025c48(u32 destinationId, u32 sourceId, Unk0201ea30 *cellLayout) {
+    int destinationEntry;
+    int sourceEntry;
+    destinationEntry = (s32) func_0201ea30(cellLayout, destinationId);
+    sourceEntry = (s32) func_0201ea30(cellLayout, sourceId);
+    *(u32 *) (destinationEntry + 4) = *(u32 *) (sourceEntry + 4);
 }
 
-void func_02025c1c(u32 param_1, int param_2, u32 param_3) {
-    short *psVar1;
-    psVar1 = (short *) func_0201ea30((Unk0201ea30 *) param_3, (int) param_1);
-    *(u32 *) (param_2 + 8) = 1;
-    *(short *) (param_2 + 0xc) = (short) (((int) *psVar1 << 0x14) >> 0x14);
-    *(short *) (param_2 + 0xe) = (short) (((int) psVar1[1] << 0x14) >> 0x14);
+void func_02025c1c(u32 entryId, void *outputPointer, Unk0201ea30 *cellLayout) {
+    Unk02025bb4Entry *output = outputPointer;
+    short *layoutEntry;
+    layoutEntry = func_0201ea30(cellLayout, entryId);
+    output->mUnk_08 = 1;
+    output->mUnk_0c = ((*layoutEntry << 0x14) >> 0x14);
+    output->mUnk_0e = ((layoutEntry[1] << 0x14) >> 0x14);
 }
 
-void func_02025bf0(u32 param_1, int param_2, u32 param_3) {
-    short *psVar1;
-    psVar1 = (short *) func_0201ea58((Unk0201ea30 *) param_3, (int) param_1);
-    *(u32 *) (param_2 + 8) = 1;
-    *(short *) (param_2 + 0xc) = (short) (((int) *psVar1 << 0x14) >> 0x14);
-    *(short *) (param_2 + 0xe) = (short) (((int) psVar1[1] << 0x14) >> 0x14);
+void func_02025bf0(u32 entryId, void *outputPointer, Unk0201ea30 *labelLayout) {
+    Unk02025bb4Entry *output = outputPointer;
+    short *layoutEntry;
+    layoutEntry = func_0201ea58(labelLayout, entryId);
+    output->mUnk_08 = 1;
+    output->mUnk_0c = ((*layoutEntry << 0x14) >> 0x14);
+    output->mUnk_0e = ((layoutEntry[1] << 0x14) >> 0x14);
 }
 
-void func_02025bb4(int id, int x, int y, void *graphics) {
-    short *entry = (short *) func_0201eb54(graphics, id);
+void RectTableSetEntryXY(int id, int x, int y, Unk0201ea30 *graphics) {
+    short *entry = (s16 *) RectTableGetEntry(graphics, id);
     entry[0] = (entry[0] & 0xfffff000U) | (x & 0xfff);
     entry[1] = (entry[1] & 0xfffff000U) | (y & 0xfff);
 }

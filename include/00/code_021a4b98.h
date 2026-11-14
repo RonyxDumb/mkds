@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "code_02142eac.h"
-#include "code_0200f7a0.h"
+#include "code_0200f790.h"
 
 // Event the function at mUnk_227c is called with; built by func_ov000_021a586c.
 typedef struct Unk021a586c {
@@ -62,7 +62,7 @@ typedef struct Unk021b5f50 {
     /* 2284 */ s32 mUnk_2284;
     /* 2288 */ Unk021438f0 mUnk_2288;
     /* 22c0 */ u8 mUnk_22c0[0xc];
-    /* 22cc */ Unk0200fb08 mUnk_22cc;
+    /* 22cc */ OSAlarm mUnk_22cc;
     /* 22f8 */ u16 mUnk_22f8;
     /* 22fa */ u8 mUnk_22fa[6];
 } Unk021b5f50;
@@ -93,3 +93,7 @@ void func_ov000_021a4fe0(Unk021425e8 *event);
 void func_ov000_021a5088(Unk021a5088 *event);
 void func_ov000_021a524c(Unk021425e8 *event);
 void func_ov000_021a52b0(Unk021a5088 *event);
+u32 func_ov000_021a5bfc(void);
+s32 func_ov000_021a5db0(void);
+s32 func_ov000_021a6024(void);
+s32 func_ov000_021a61e4(void);

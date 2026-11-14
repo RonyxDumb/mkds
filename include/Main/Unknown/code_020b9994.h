@@ -1,8 +1,16 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020d0280.h"
 
-void func_020ba3ec(void);
-void func_020b9dfc(Unk020d029c *p);
-void func_020b9994(Unk020d029c *p);
+typedef struct RaceHudOamBuffer RaceHudOamBuffer;
+
+typedef struct RaceHudOamBuffer RaceHudOamBuffer;
+
+void DrawRaceMissionRunCount(RaceHudOamBuffer *oamBuffer);
+void DrawRaceModeCount(RaceHudOamBuffer *oamBuffer);
+void UpdateRaceModeCount(void);
+void InitRaceModeCount(void);
+BOOL IsRaceKeyRecordingNotFull(void);
+void DrawRaceItemSlot(RaceHudOamBuffer *oamBuffer);
+void UpdateRaceItemSlot(void);
+u32 ClearRaceItemSlotPointer(void);

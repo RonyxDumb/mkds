@@ -4,7 +4,21 @@
 
 #pragma thumb on
 
-void func_020ae770(s32 *a, s32 *b, s32 c) {
+// Splits minutes, seconds and milliseconds into the seven digits of a TimeDigits (no clamping; the callers pass minutes
+// < 100).
+void SplitTimeDigits(s32 a, s32 b, s32 c, TimeDigits *d) {
+    d->mDigits[0] = a / 10;
+    d->mDigits[1] = a % 10;
+    d->mDigits[2] = b / 10;
+    d->mDigits[3] = b % 10;
+    d->mDigits[4] = c / 100;
+    d->mDigits[5] = (c - d->mDigits[4] * 100) / 10;
+    d->mDigits[6] = c % 10;
+}
+
+// Exchange sort in place: afterwards keys[indices[0]] <= keys[indices[1]] <= ... for the first count entries (a smaller
+// key first; unstable); all callers pass 0..mKartCount-1 in indices and negate the keys for a descending order.
+void SortIndicesByKey(s32 *a, s32 *b, s32 c) {
     s32 i;
     s32 j;
     s32 *p;
@@ -29,16 +43,6 @@ void func_020ae770(s32 *a, s32 *b, s32 c) {
             }
         }
     }
-}
-
-void func_020ae7c4(s32 a, s32 b, s32 c, Unk020ae7c4 *d) {
-    d->mUnk_00 = a / 10;
-    d->mUnk_04 = a % 10;
-    d->mUnk_08 = b / 10;
-    d->mUnk_0c = b % 10;
-    d->mUnk_10 = c / 100;
-    d->mUnk_14 = (c - d->mUnk_10 * 100) / 10;
-    d->mUnk_18 = c % 10;
 }
 
 #pragma thumb off

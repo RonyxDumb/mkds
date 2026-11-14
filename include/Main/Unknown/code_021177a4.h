@@ -1,8 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_02118000.h"
-#include "Main/Unknown/code_02118054.h"
-#include "Main/Unknown/code_02127000.h"
 
-void func_021177a4(void);
+// Runs AdvanceSelectCupGridShownCourse and waits until IsSelectChoisesState1NoState0Request returns non-zero (after the
+// request of state 8, RequestSelectCupGridState8, opened a message with StartSelectChoises), then requests state 9.
+void AdvanceSelectCupGridState8(void);

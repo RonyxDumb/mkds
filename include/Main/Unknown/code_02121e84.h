@@ -1,13 +1,12 @@
 #pragma once
 
 #include "types.h"
-#include "00/code_02182fdc.h"
 
-void func_02121e84(s32 a);
-void func_02121eb4(s32 a);
-void func_02121ee4(void);
-void func_02121f1c(s32 a);
-void func_02121f4c(u32 a, void *b, u32 c);
-s32 func_021225ac(u32 a);
-void func_02122684(void);
+void SetWiFiSessionOwnPickedCourseId(s32 pickedCourseId);
+void SetWiFiSessionOwnKartIndex(s32 kartIndex);
+void SetWiFiSessionOwnCharacterIndexNone(void);
+void SetWiFiSessionOwnCharacterIndex(s32 characterIndex);
+void ReceiveWiFiSessionMessage(u32 fromIndex, void *buffer, u32 size);
+BOOL UpdateWiFiSessionStepTimeout(u32 limit);
+void PackWiFiSessionIndices(void);
 void func_02122728(void);

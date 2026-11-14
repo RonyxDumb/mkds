@@ -1,4 +1,5 @@
 #include "Main/Unknown/code_020df48c.h"
+#include "Main/Unknown/code_02036820.h"
 #include "Main/Unknown/code_020364e0.h"
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/Unknown/code_020debec.h"
@@ -18,78 +19,79 @@
 #include "Main/Unknown/unk_0217b000.h"
 
 #pragma thumb on
-void func_020df758(void) {
-    void *r;
+void CreateMkdEfBubble(void) {
+    void *nsbmd;
 
-    r = func_020d21ec("mkd_ef_bubble.nsbmd");
-    func_020ea588(&data_0217b770, r, 0);
-    func_02084968(data_0217b770, 0x3f, 2, 0x294a);
-    data_0217b778 = func_02036bec(func_020364e0(func_020364e8()), 0x38);
-    func_020ea514(1, data_0217b770, data_0217b778, r, func_020d21ec("mkd_ef_bubble.nsbta"));
-    func_02087cfc(data_0217b778, 0, 1);
+    nsbmd = FindCourseMapObjFile("mkd_ef_bubble.nsbmd");
+    CreateNsbmd(&gMkdEfBubble, nsbmd, NULL);
+    func_02084968(gMkdEfBubble, 0x3f, 2, 0x294a);
+    gMkdEfBubbleNsbta = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
+    InitModelAnimationWithEntries(1, gMkdEfBubble, gMkdEfBubbleNsbta, nsbmd,
+                                  FindCourseMapObjFile("mkd_ef_bubble.nsbta"));
+    func_02087cfc(gMkdEfBubbleNsbta, 0, 1);
 }
 
-void func_020df6c8(Unk020df6c8 *a, Unk020fa294 *b) {
-    func_02046be8(&a->mUnk_00.mUnk_80, data_0216bfc0, 2, a);
-    a->mUnk_a0 = b->mUnk_28;
-    a->mUnk_ac = a->mUnk_00.mUnk_04.y;
-    a->mUnk_a4 = a->mUnk_00.mUnk_04.y - 0x10000;
-    a->mUnk_00.mUnk_10.x = 0;
-    a->mUnk_00.mUnk_10.y = 0;
-    a->mUnk_00.mUnk_10.z = 0;
-    a->mUnk_a8 = 0;
-    a->mUnk_00.mUnk_80.mUnk_10 = 0;
-    a->mUnk_00.mUnk_80.mUnk_12 = 1;
-    func_020e516c(&a->mUnk_b0, &a->mUnk_00.mUnk_04, (s32) (((s64) a->mUnk_00.mUnk_1c.x * 0x18000) >> 12), 0xd);
-    a->mUnk_00.mUnk_02 |= data_02158740;
+void InitMkdEfBubble(MkdEfBubbleObject *bubble, CourseMapRow *row) {
+    InitStateMachine(&bubble->mUnk_00.mStateMachine, data_0216bfc0, 2, bubble);
+    bubble->mUnk_a0 = row->mUnk_28;
+    bubble->mUnk_ac = bubble->mUnk_00.mPos.y;
+    bubble->mUnk_a4 = bubble->mUnk_00.mPos.y - 0x10000;
+    bubble->mUnk_00.mUnk_10.x = 0;
+    bubble->mUnk_00.mUnk_10.y = 0;
+    bubble->mUnk_00.mUnk_10.z = 0;
+    bubble->mUnk_a8 = 0;
+    bubble->mUnk_00.mStateMachine.mNextState = 0;
+    bubble->mUnk_00.mStateMachine.mNextStateRequested = 1;
+    RefreshShadowMatrix(&bubble->mUnk_b0, &bubble->mUnk_00.mPos, ((s64) bubble->mUnk_00.mScale.x * 0x18000) >> 12, 0xd);
+    bubble->mUnk_00.mFlags |= data_02158740;
 }
 #pragma thumb off
 
-Unk020de390 *func_020df678(void) {
-    Unk020de390 *p;
+MapObjectKindData *CreateGroupItemBoxKindData(void) {
+    MapObjectKindData *kindData;
 
-    p = func_02036bec(func_020364e0(func_020364e8()), 0x40);
-    *p = data_02158700;
-    return p;
+    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    *kindData = data_02158700;
+    return kindData;
 }
 
-Unk020de2d8 *func_020df61c(void) {
-    data_0217b758 = func_02036bec(func_020364e0(func_020364e8()), 0x28);
-    *data_0217b758 = data_021586d8;
-    func_020e6f50(&data_0217b758);
-    return data_0217b758;
+MapObjectList *CreateGroupItemBoxUpdateList(void) {
+    gGroupItemBoxUpdateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
+    *gGroupItemBoxUpdateList = data_021586d8;
+    SetUpdateListSlot(&gGroupItemBoxUpdateList);
+    return gGroupItemBoxUpdateList;
 }
 
 void func_020df58c(void) {
-    s32 x;
+    s32 sine;
 
-    x = data_0215d4b4[(data_0217b750 >> 4) * 2];
-    data_0217b754 = (s32) (((s64) x * 0x4000) >> 12);
+    sine = gPairsByAngle[(data_0217b750 >> 4) * 2];
+    data_0217b754 = ((s64) sine * 0x4000) >> 12;
     data_0217b750 += 0x2d8;
-    data_0217b75c = 0xf00 - (x >> 4);
+    data_0217b75c = 0xf00 - (sine >> 4);
     data_0217b760.x = 0x1666;
     data_0217b760.y = 0x1666;
     data_0217b760.z = 0x1666;
 }
 
-void func_020df48c(void *a, Unk020de6a8 *b) {
-    if (b->mUnk_108.mUnk_00.mUnk_08 != 0xffff) {
-        if (func_020d84e4(&b->mUnk_108) != 0) {
-            if (b->mUnk_108.mUnk_00.mUnk_1c->mUnk_10 != 0) {
-                func_020d859c(&b->mUnk_108, 0, 1);
+void UpdateGroupItemBox(void *unused, ItemBox *itemBox) {
+    if (itemBox->mFollower.mUnk_00.mGroupIndex != 0xffff) {
+        if (AdvanceGroupFollowerWithSpeeds(&itemBox->mFollower) != 0) {
+            if (itemBox->mFollower.mUnk_00.mFromEntry->mUnk_10 != 0) {
+                SetupGroupFollowerWithSpeeds(&itemBox->mFollower, 0, 1);
             }
         }
-        func_020d8c74(&b->mUnk_108.mUnk_00, &b->mUnk_000.mUnk_04);
-        if (b->mUnk_108.mUnk_00.mUnk_1c->mUnk_0d != 0 && b->mUnk_108.mUnk_00.mUnk_20->mUnk_0d != 0) {
-            b->mUnk_000.mUnk_02 |= data_021586d4;
+        GetGroupFollowerCurvePosition(&itemBox->mFollower.mUnk_00, &itemBox->mUnk_000.mPos);
+        if (itemBox->mFollower.mUnk_00.mFromEntry->mUnk_0d != 0 && itemBox->mFollower.mUnk_00.mToEntry->mUnk_0d != 0) {
+            itemBox->mUnk_000.mFlags |= data_021586d4;
         } else {
-            b->mUnk_000.mUnk_02 &= ~0x20;
+            itemBox->mUnk_000.mFlags &= ~0x20;
         }
-        b->mUnk_000.mUnk_04.y += data_0217b754;
-        b->mUnk_000.mUnk_04.y += 0x10000;
+        itemBox->mUnk_000.mPos.y += data_0217b754;
+        itemBox->mUnk_000.mPos.y += 0x10000;
     }
-    if (b->mUnk_0b0 == 0) {
-        func_020e5668(&b->mUnk_0b4, &b->mUnk_000.mUnk_04);
+    if (itemBox->mUnk_0b0 == 0) {
+        SetShadowPositionXZ(&itemBox->mUnk_0b4, &itemBox->mUnk_000.mPos);
     }
-    func_020debec(a, b);
+    UpdateItemBox(unused, itemBox);
 }

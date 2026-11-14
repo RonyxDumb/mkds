@@ -8,7 +8,9 @@ to reproduce it; a setting with no exact match that breaks when it changes is un
 | Code | Compiler | Flags | Evidence |
 |---|---|---|---|
 | Game code (main + overlays) | 1.2 base (ARM: sp2 identical) | `-O4,p -inline on,noauto -char unsigned -str noreuse -proc arm946e -interworking` | exact matches below |
-| Library code (`libs/`) | 1.2 base (sp2, sp2p3 identical) | `-O4,p -inline on,noauto -char signed -str noreuse -proc arm946e -interworking` | below |
+| Library code (`libs/NitroSDK/`, `libs/NitroSystem/`, `libs/NitroDWC/`, `libs/spl/`, `libs/Unknown/`) | 1.2 base (sp2, sp2p3 identical) | `-O4,p -inline on,noauto -char signed -str noreuse -proc arm946e -interworking` | below |
+| C library (`libs/msl/`) | 1.2 base | as library code, with `-char unsigned` | below |
+| Compiler arithmetic routines (`libs/mathlib/`) | 1.2 base | as library code | the routines the compiler calls for `/`, `%`, float, double and 64-bit operations |
 
 ### Game code
 
@@ -28,6 +30,7 @@ what it shows and the command that reruns it on every installed build
   and on no 2.0 build at any `-proc`; in the disassembly, every ARM game function returns through
   `ldm {.., lr}; bx lr`, never `ldm {.., pc}`, which 1.2 sp3/sp4 emit under `-proc arm946e`. DSP multiplies (`smulbb`,
   `smlabb`) in game code need `-proc arm946e`.
+- Thumb switches that end in `add pc, r0` only come out of sp2p3, so the few files that have them are built with it.
 - ARM sp2p3: `func_020f40a0` and `func_020f4754` (main) index an array written twice, once with a cast; base and sp2
   fold it into `mla` and an offset, sp2p3 indexes through a register. sp2 builds the same ARM bytes as base.
 - `-char unsigned`: a function walking a `char` path (main 0x02047780, `thumb_char_strings.c`) is 0x13c bytes with
@@ -48,7 +51,7 @@ what it shows and the command that reruns it on every installed build
 ### Libraries
 
 Library code in main is 0x02003024-0x0200589c, 0x0200c46c-0x020249b8 and 0x0212b9ec-0x0215109c: nothing in them
-calls game code, and each reads its own data. 1123 functions in `libs/Unknown`, from all of it except the soft-float
+calls game code, and each reads its own data. 1123 functions in `libs/`, from all of it except the soft-float
 runtime and its stubs, match on 1.2 base.
 
 - Build: base, sp2 and sp2p3 differ only in Thumb switch tables and one cast-twin index idiom (over every file in
@@ -56,7 +59,9 @@ runtime and its stubs, match on 1.2 base.
   (it updates a pointer argument's field through a computed address, `add rX, rB, #off`).
 - `-O4,p`: 0x0201ca6c needs it (`-O3,p` gives 0xd48 bytes, not 0xd2c); `-O4,s`, `-O3` and `-O2` break functions
   with loops or early returns.
-- `-char signed`: 0x0200d118 is 0x8c8 bytes with signed chars, 0x8b4 unsigned (the game uses unsigned).
+- `-char signed`: a library function that reads the same byte as `char` and as `s8` only matches with signed chars.
+- `-char unsigned` in `libs/msl/`: the string functions match with plain `char` only unsigned. The other library files
+  build the same objects with either setting.
 - `-inline on,noauto`: `auto` inlines 0x0201ec30's two helpers, `off` drops the static inline 0x02011c58 needs.
 - `-proc arm946e`: 0x0214843c needs `smulbb`/`smlabb`.
 - `-str noreuse`, `-enum int`: as the game code. One function, 0x0214177c, shares its literals the `reuse` way: it

@@ -1,4 +1,6 @@
 #include "Main/Unknown/code_020de214.h"
+#include "Main/Unknown/code_02036820.h"
+#include "Main/Unknown/code_020dda38.h"
 #include "Main/Unknown/code_020e43a8.h"
 #include "Main/Unknown/code_020364e0.h"
 #include "Main/Unknown/code_020d49d8.h"
@@ -11,51 +13,51 @@
 #include "Main/Unknown/unk_0217b000.h"
 
 #pragma thumb on
-void func_020de3e0(Unk020e43a8 *a) {
-    a->mUnk_00.mUnk_04.y += (s32) (((s64) a->mUnk_00.mUnk_1c.y * 0xd000) >> 12);
-    func_020ec854(a, a->mUnk_00.mUnk_04.y - 0xc0000, 0x400, 0x400, 0x5000, 0x2000);
-    func_020ec884(a);
+void InitEarthenPipe(Unk020e43a8 *pipe) {
+    pipe->mUnk_00.mPos.y += (s32) (((s64) pipe->mUnk_00.mScale.y * 0xd000) >> 12);
+    InitPushedMotion(pipe, pipe->mUnk_00.mPos.y - 0xc0000, 0x400, 0x400, 0x5000, 0x2000);
+    InitPushedObjectStates(pipe);
 }
 #pragma thumb off
 
-Unk020de390 *func_020de390(void) {
-    Unk020de390 *p;
+MapObjectKindData *CreateWanwanChainKindData(void) {
+    MapObjectKindData *kindData;
 
-    p = func_02036bec(func_020364e0(func_020364e8()), 0x40);
-    *p = data_02158460;
-    return p;
+    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    *kindData = data_02158460;
+    return kindData;
 }
 
-Unk020de334 *func_020de334(void) {
-    data_0217b6dc = func_02036bec(func_020364e0(func_020364e8()), 0x2c);
+MapObjectDrawList *CreateWanwanChainDrawList(void) {
+    data_0217b6dc = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
     *data_0217b6dc = data_02158434;
     func_020d49d8(&data_0217b6dc);
     return data_0217b6dc;
 }
 
-Unk020de2d8 *func_020de2d8(void) {
-    data_0217b6e0 = func_02036bec(func_020364e0(func_020364e8()), 0x28);
+MapObjectList *CreateWanwanChainUpdateList(void) {
+    data_0217b6e0 = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
     *data_0217b6e0 = data_0215840c;
-    func_020e6f50(&data_0217b6e0);
+    SetUpdateListSlot(&data_0217b6e0);
     return data_0217b6e0;
 }
 
-void func_020de270(void *a, Unk020de000 *b, s32 c, u16 d) {
-    func_020ddaa0(&b->mUnk_a4, data_0217b6e8, c, d);
-    if (b->mUnk_f4 == 0) {
+void DrawWanwanChain(void *unused, WanwanChainObject *chainObject, s32 c, u16 d) {
+    DrawWanwanChainLinks(&chainObject->mChain, gWanwanChain, c, d);
+    if (chainObject->mHasKui == FALSE) {
         return;
     }
-    func_020dda38(&b->mUnk_a4, data_0217b6e4, &b->mUnk_04, c, d);
+    DrawWanwanChainKui(&chainObject->mChain, gWanwanKui, &chainObject->mPos, c, d);
 }
 
-void func_020de214(void *a, Unk020de000 *b) {
-    Vec3 v;
-    Unk020dc474 *p;
+void UpdateWanwanChain(void *unused, WanwanChainObject *chainObject) {
+    Vec3 endPoint;
+    Wanwan *wanwan;
 
-    p = b->mUnk_a0;
-    if (b->mUnk_f4 == 0) {
-        b->mUnk_04 = p->mUnk_00.mUnk_04;
+    wanwan = chainObject->mWanwan;
+    if (chainObject->mHasKui == FALSE) {
+        chainObject->mPos = wanwan->mUnk_00.mPos;
     }
-    func_02147fd8(-p->mUnk_f0, &p->mUnk_00.mUnk_28.mUnk_18, &p->mUnk_00.mUnk_04, &v);
-    func_020ddb44(&b->mUnk_a4, &v, &p->mUnk_00.mUnk_10);
+    VEC_MultAdd(-wanwan->mUnk_f0, &wanwan->mUnk_00.mMatrix.mUnk_00[2], &wanwan->mUnk_00.mPos, &endPoint);
+    UpdateWanwanChainPoints(&chainObject->mChain, &endPoint, &wanwan->mUnk_00.mUnk_10);
 }

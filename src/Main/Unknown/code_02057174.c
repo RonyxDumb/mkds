@@ -1,43 +1,52 @@
 #include "Main/Unknown/code_02057174.h"
+#include "Main/Unknown/code_02057244.h"
+#include "Main/Unknown/code_02057260.h"
+#include "Main/Unknown/code_02057294.h"
+#include "Main/Unknown/code_02057304.h"
+#include "Main/Unknown/code_020574c8.h"
+#include "Main/Unknown/code_02057764.h"
+#include "Main/Unknown/code_02057a18.h"
+#include "Main/Unknown/code_02057ca4.h"
+#include "01/code_021956dc.h"
 
 #pragma thumb on
 
-void func_0205721c(u32 param_1) {
-    func_020572e8();
-    func_020572cc();
-    func_020572b0();
-    func_02057294();
+void ResetBackupFirstBlockAndRecords(u32 copyOwnerName) {
+    ClearEmblemRecord();
+    ClearGrandPrixRecordBlock();
+    ClearCourseTimeRecordBlock();
+    ClearMissionRecordBlock();
     func_02057260();
-    func_02057244();
-    func_02057304(param_1);
+    ClearBuddyRecordBlock();
+    ResetBackupFirstBlock(copyOwnerName);
 }
 
-void func_02057174(void) {
-    func_02057c14(data_0217aa08->mUnk_04);
-    if (data_021759d4->mUnk_0c != 0) {
-        func_02145d38();
+void WriteBackupFirstBlockAndRecords(void) {
+    WriteBackupEmblemRecord(data_0217aa08->mEmblemRecord);
+    if (gBackupAccess->mBackupEnabled != 0) {
+        CARD_WaitBackupAsync();
     }
-    func_02057b84(data_0217aa08->mUnk_08);
-    if (data_021759d4->mUnk_0c != 0) {
-        func_02145d38();
+    WriteBackupGrandPrixRecordBlock(data_0217aa08->mGrandPrixRecordBlock);
+    if (gBackupAccess->mBackupEnabled != 0) {
+        CARD_WaitBackupAsync();
     }
-    func_02057af4(data_0217aa08->mUnk_0c);
-    if (data_021759d4->mUnk_0c != 0) {
-        func_02145d38();
+    WriteBackupCourseTimeRecordBlock(data_0217aa08->mCourseTimeRecordBlock);
+    if (gBackupAccess->mBackupEnabled != 0) {
+        CARD_WaitBackupAsync();
     }
-    func_02057a60(data_0217aa08->mUnk_10);
-    if (data_021759d4->mUnk_0c != 0) {
-        func_02145d38();
+    WriteBackupMissionRecordBlock(data_0217aa08->mMissionRecordBlock);
+    if (gBackupAccess->mBackupEnabled != 0) {
+        CARD_WaitBackupAsync();
     }
-    func_020577b4(data_0217aa08->mUnk_20);
-    if (data_021759d4->mUnk_0c != 0) {
-        func_02145d38();
+    WriteBackupBuddyRecordBlock(data_0217aa08->mBuddyRecordBlock);
+    if (gBackupAccess->mBackupEnabled != 0) {
+        CARD_WaitBackupAsync();
     }
-    func_02057ca4(data_0217aa08->mUnk_00);
-    if (data_021759d4->mUnk_0c != 0) {
-        func_02145d38();
+    WriteBackupFirstBlock(data_0217aa08->mFirstBlock);
+    if (gBackupAccess->mBackupEnabled != 0) {
+        CARD_WaitBackupAsync();
     }
-    func_02057504();
+    ClearBackupBusy();
 }
 
 #pragma thumb off

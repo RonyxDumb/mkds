@@ -2,6 +2,8 @@
 
 #include "types.h"
 
-void func_ov003_021d250c(u16 *param_1, u16 *param_2, short *param_3);
-void func_ov003_021d2530(s32 param_1, s32 param_2, s32 param_3, s32 param_4, u16 *param_5);
-void func_ov003_021d2544(u16 param_1, u16 param_2, u16 *param_3);
+typedef struct Rect Rect;
+
+void ComputeRectFromOriginAndSize(u16 *origin, u16 *size, Rect *rect);
+void SetRectCorners(s32 left, s32 top, s32 right, s32 bottom, u16 *corners);
+void SetPosition(u16 positionX, u16 positionY, u16 *output);

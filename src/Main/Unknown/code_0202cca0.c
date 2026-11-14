@@ -1,12 +1,14 @@
 #include "Main/Unknown/code_0202cca0.h"
+#include "Main/Unknown/code_02025eb0.h"
+#include "Main/Unknown/code_02110720.h"
 
 #pragma thumb on
 
-void func_0202cca4(int param_1, int param_2) {
-    u32 uVar1;
-    if ((param_1 != 0xc) || (param_2 != 1)) {
-        uVar1 = func_02025eb0((u32) param_1);
-        func_02110720(uVar1, (u32) param_2);
+void func_0202cca4(int characterIndex, int b) {
+    u32 tableValue;
+    if ((characterIndex != 0xc) || (b != 1)) {
+        tableValue = func_02025eb0(characterIndex);
+        AddSeqQueueEntry(tableValue, b);
     }
 }
 

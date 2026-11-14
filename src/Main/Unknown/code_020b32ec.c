@@ -1,60 +1,52 @@
 #include "Main/Unknown/code_020b32ec.h"
+#include "Main/Unknown/code_020b2c80.h"
+#include "Main/Unknown/code_020b1de4.h"
 
 #pragma thumb on
 
-Unk020b4a44 *func_020b33c4(void) {
-    return ((Unk020b4a44 *) *(
-        const u32 *) ((u8 *) (u32) (((u32) *(
-                                   const u32 *) ((u8 *) (u32) (((u32) (&data_0217b354))) +
-                                                          0))) +
-                               0 + (0x16cu)));
+Nclr *GetChoisesSBNclr(void) {
+    return (gChoisesS->mChoisesSBNclr);
 }
 
-Unk020b4934 *func_020b3374(void) {
-    int iVar1;
-    iVar1 = func_020b2d04();
-    if (iVar1 == 1) {
-        *(u32 *) (*(int *) ((int) data_0217b354 + 0x170) + 0x14) =
-            *(u32 *) ((int) data_0217b354 + 0x174);
+Ncgr *GetChoisesSBNcgrWithListChars(void) {
+    int choisesSListIndex;
+    choisesSListIndex = GetChoisesSListIndex();
+    if (choisesSListIndex == 1) {
+        gChoisesS->mChoisesSBNcgr->mData = gChoisesS->mList1Chars;
     } else {
-        iVar1 = func_020b2d04();
-        if (iVar1 == 2) {
-            *(u32 *) (*(int *) ((int) data_0217b354 + 0x170) + 0x14) =
-                *(u32 *) ((int) data_0217b354 + 0x178);
+        choisesSListIndex = GetChoisesSListIndex();
+        if (choisesSListIndex == 2) {
+            gChoisesS->mChoisesSBNcgr->mData = gChoisesS->mList2Chars;
         }
     }
-    return *(Unk020b4934 **) ((int) data_0217b354 + 0x170);
+    return gChoisesS->mChoisesSBNcgr;
 }
 
-void *func_020b32f8(void) {
-    int iVar1;
-    int iVar2;
-    iVar2 = 0;
-    iVar1 = func_020b2d04();
-    if (iVar1 == 0) {
-        if (*(int *) ((int) data_0217b354 + 0x17c) != 0) {
-            iVar2 = *(int *) ((int) data_0217b354 + 0x17c) + 0xc;
+void *GetChoisesSListScreenMapData(void) {
+    int choisesSListIndex;
+    u16 *screenMapData;
+    screenMapData = 0;
+    choisesSListIndex = GetChoisesSListIndex();
+    if (choisesSListIndex == 0) {
+        if (gChoisesS->mList0Nscr != NULL) {
+            screenMapData = gChoisesS->mList0Nscr->mData;
         }
-    } else if (iVar1 == 1) {
-        if (*(int *) ((int) data_0217b354 + 0x180) != 0) {
-            iVar2 = *(int *) ((int) data_0217b354 + 0x180) + 0xc;
+    } else if (choisesSListIndex == 1) {
+        if (gChoisesS->mList1Nscr != NULL) {
+            screenMapData = gChoisesS->mList1Nscr->mData;
         }
-    } else if (iVar1 == 2) {
-        if (*(int *) ((int) data_0217b354 + 0x184) != 0) {
-            iVar2 = *(int *) ((int) data_0217b354 + 0x184) + 0xc;
+    } else if (choisesSListIndex == 2) {
+        if (gChoisesS->mList2Nscr != NULL) {
+            screenMapData = gChoisesS->mList2Nscr->mData;
         }
-    } else if ((iVar1 == 3) && (*(int *) ((int) data_0217b354 + 0x188) != 0)) {
-        iVar2 = *(int *) ((int) data_0217b354 + 0x188) + 0xc;
+    } else if ((choisesSListIndex == 3) && (gChoisesS->mList3Nscr != NULL)) {
+        screenMapData = gChoisesS->mList3Nscr->mData;
     }
-    return (void *) iVar2;
+    return screenMapData;
 }
 
-u32 func_020b32ec(void) {
-    return ((u32) *(
-        const u32 *) ((u8 *) (u32) (((u32) *(
-                                   const u32 *) ((u8 *) (u32) (((u32) (&data_0217b354))) +
-                                                          0))) +
-                               12));
+u32 IsChoisesSPickLocked(void) {
+    return (gChoisesS->mPickLocked);
 }
 
 #pragma thumb off

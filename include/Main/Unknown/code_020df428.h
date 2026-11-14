@@ -1,9 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020d7000.h"
-#include "Main/Unknown/code_020d8000.h"
-#include "Main/Unknown/code_020de000.h"
-#include "Main/Unknown/unk_02158000.h"
 
-void func_020df428(int param_1, int param_2);
+typedef struct ItemBox ItemBox;
+typedef struct Unk020de6a8_1 Unk020de6a8_1;
+
+void InitGroupItemBox(ItemBox *itemBox, Unk020de6a8_1 *row);

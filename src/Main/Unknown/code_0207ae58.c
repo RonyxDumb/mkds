@@ -3,7 +3,7 @@
 #include "Main/Unknown/code_0207a14c.h"
 #include "Main/Unknown/code_02087cfc.h"
 #include "Main/Unknown/code_02087d0c.h"
-#include "Main/Unknown/code_02088430.h"
+#include "Main/Unknown/code_02088338.h"
 #include "ITCM/code_01ff8000.h"
 #include "Main/Unknown/code_0203c8dc.h"
 #include "Main/Unknown/code_020c70ec.h"
@@ -12,384 +12,392 @@
 #include "Main/Unknown/unk_02165000.h"
 #include "Main/Unknown/unk_0217a000.h"
 #include "Main/Unknown/unk_021759c0.h"
-#include "code_0200fe7c.h"
+#include "code_0200fe74.h"
 #include "code_020109c4.h"
 #include "code_02012b30.h"
-#include "code_02135014.h"
+#include "code_02134398.h"
+#include "Main/Unknown/code_020681f0.h"
 
-void func_0207ae58(Unk0207adf8 *a) {
-    if ((a->mUnk_70 & 1) == 0) {
-        return;
-    }
-    func_02084ad8(a, a->mUnk_6e);
-    data_02155a20[a->mUnk_00.mUnk_58](a);
-    func_02084a88(a, a->mUnk_6e, a->mUnk_6c);
-    data_02155a20[a->mUnk_00.mUnk_58](a);
+char *BuildCharacterNsbcaPath(u16 characterIndex, s32 animationIndex) {
+    char *dirPath = BuildCharacterDirPath(characterIndex);
+    const char *pName = LookupCharacterPOrEName(characterIndex, 1);
+
+    snprintf(gCharacterNsbcaPathBuffer, 0x100, gCharacterNsbcaFormat, dirPath, pName,
+             gCharacterNsbcaStems[animationIndex].mUnk_00);
+    return gCharacterNsbcaPathBuffer;
 }
 
-void func_0207aec8(void *param_1, const void *b, Vec3 *c) {
-    Unk0207adf8 *a = param_1;
-    s32 v;
-    Vec3 w;
+// Returns 0 for the driving animation and 1 for the other three (the ones that loop).
+u32 GetCharacterAnimationLoopFlag(int animationIndex) {
+    return gCharacterAnimationLoopFlags[animationIndex].mUnk_00;
+}
 
-    if ((a->mUnk_70 & 1) == 0) {
+void ClearCharacterTurnAndNextAnimation(struct KartModelsEntry *kartModelsEntry) {
+    CharacterAnimationState *animationState;
+
+    kartModelsEntry->mTurnFrameOffset = 0;
+    animationState = (CharacterAnimationState *) &kartModelsEntry->mTurnFrameOffset;
+    animationState->mNextAnimationPending = FALSE;
+    animationState->mNextAnimationIndex = 0;
+}
+
+// Steps the turn offset of the driving animation, or the playing animation and its hand-over to the next one.
+void AdvanceKartCharacterAnimation(Kart *kart) {
+    s32 turnFrameStep;
+    KartModelsEntry *modelsEntry;
+    CharacterAnimationState *animationState;
+    KartModelAnimationView *characterAnimation;
+    s32 turnFrameLimit;
+    u32 bits48;
+    KartModelAnimationView *faceAnimation;
+
+    modelsEntry = kart->mKartModelsEntry;
+    animationState = (CharacterAnimationState *) &modelsEntry->mTurnFrameOffset;
+    characterAnimation = modelsEntry->mCharacterAnimation;
+    turnFrameLimit = animationState->mMiddleFrame;
+    turnFrameStep = (kart->mUnk_44 & KART_44_DRIFTING) != 0 ? 0x2000 : 0x1000;
+    bits48 = kart->mUnk_48;
+    if ((bits48 & KART_48_TURN_LEFT) != 0) {
+        if (gRaceSetup->mRaceKind != RACE_KIND_STAFF_ROLL) {
+            animationState->mTurnFrameOffset += turnFrameStep;
+            if (animationState->mTurnFrameOffset > turnFrameLimit) {
+                animationState->mTurnFrameOffset = turnFrameLimit;
+            }
+        }
+    } else if ((bits48 & KART_48_TURN_RIGHT) != 0) {
+        if (gRaceSetup->mRaceKind != RACE_KIND_STAFF_ROLL) {
+            turnFrameLimit *= -1;
+            animationState->mTurnFrameOffset -= turnFrameStep;
+            if (animationState->mTurnFrameOffset < turnFrameLimit) {
+                animationState->mTurnFrameOffset = turnFrameLimit;
+            }
+        }
+    } else if (animationState->mTurnFrameOffset != 0) {
+        if (animationState->mTurnFrameOffset > 0) {
+            animationState->mTurnFrameOffset -= turnFrameStep;
+            if (animationState->mTurnFrameOffset < 0) {
+                animationState->mTurnFrameOffset = 0;
+            }
+        } else {
+            animationState->mTurnFrameOffset += turnFrameStep;
+            if (animationState->mTurnFrameOffset > 0) {
+                animationState->mTurnFrameOffset = 0;
+            }
+        }
+    }
+    if (characterAnimation->mUnk_1a != 0) {
+        AdvanceModelAnimation(characterAnimation);
+        if (animationState->mNextAnimationPending == FALSE) {
+            return;
+        }
+        if (characterAnimation->mUnk_02 != 1) {
+            return;
+        }
+        func_02087cfc(characterAnimation, characterAnimation->mUnk_1a, 1);
+        StartModelAnimationBlend(modelsEntry->mCharacterAnimation, animationState->mNextAnimationIndex);
+        faceAnimation = modelsEntry->mFaceAnimation;
+        faceAnimation->mUnk_0c = gCharacterFaceFrames[0];
+        *faceAnimation->mUnk_1c[faceAnimation->mUnk_1a] = faceAnimation->mUnk_0c;
+        animationState->mNextAnimationPending = FALSE;
+    } else {
+        characterAnimation->mUnk_0c = animationState->mTurnFrameOffset + animationState->mMiddleFrame;
+        AdvanceModelAnimationBlend((ModelAnimation *) characterAnimation);
+    }
+}
+
+void SetCharacterFaceFrameIndex(struct KartModelsEntry *kartModelsEntry, s32 faceFrameIndex) {
+    KartModelAnimationView *faceAnimation = kartModelsEntry->mFaceAnimation;
+
+    faceAnimation->mUnk_0c = gCharacterFaceFrames[faceFrameIndex];
+    *faceAnimation->mUnk_1c[faceAnimation->mUnk_1a] = faceAnimation->mUnk_0c;
+}
+
+void SetCharacterAnimation(struct KartModelsEntry *kartModelsEntry, s32 animationIndex, s32 useBlend) {
+    if (useBlend != 0) {
+        StartModelAnimationBlend(kartModelsEntry->mCharacterAnimation, animationIndex);
+    } else {
+        SetModelAnimation(kartModelsEntry->mCharacterAnimation, (u16) animationIndex);
+    }
+}
+
+static inline s32 func_0207b44c_inline(u32 entryIndex) {
+    return *(vs32 *) &gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mTeamIndex;
+}
+
+// Starts the win or lose animation of a kart that has finished, from the race result; nothing for the middle results.
+void StartKartWinOrLoseAnimation(Kart *kart) {
+    u32 finishResult;
+    u16 b;
+    s32 isRuleKindWinner;
+    s32 mode;
+    BOOL c;
+    s32 normalizedResult;
+    CharacterAnimationState *animationState;
+    RandomState64 *localRandom;
+    u32 bits7c;
+
+    c = TRUE;
+    finishResult = c;
+    isRuleKindWinner = 0;
+    b = gRaceSetup->mKartCount;
+
+    bits7c = kart->mUnk_7c;
+    if ((bits7c & 0x10) == 0) {
+        return;
+    }
+    mode = gRaceSetup->mMode;
+    if (mode == MODE_BATTLE) {
+        return;
+    }
+    if (mode == MODE_MISSION_RUN) {
+        return;
+    }
+    if (mode != MODE_BATTLE && gRaceSetup->mRuleKind == 1) {
+        b = gRaceProgress->mKartAtRank[0];
+        if (gRaceSetup->mUseTeams != 0) {
+            if (func_0207b44c_inline(b) != func_0207b44c_inline(kart->mIndex)) {
+                finishResult = 2;
+            } else {
+                finishResult = 0;
+                kart->mUnk_7c |= 0x2000000;
+                isRuleKindWinner = c;
+            }
+        } else if (kart->mIndex != b) {
+            finishResult = 2;
+        } else {
+            finishResult = 0;
+            kart->mUnk_7c |= 0x2000000;
+            isRuleKindWinner = c;
+        }
+    } else if (mode == MODE_TIME_ATTACK) {
+        if ((bits7c & 4) == 0) {
+            if (IsRaceNewRecordTaFinishRecord() != 0 || IsRaceNewRecordTaBestLapRecord() != 0) {
+                finishResult = 0;
+            } else {
+                finishResult = 2;
+            }
+        }
+    } else if (b > 1) {
+        finishResult = ((s16 *) &gFinishResultByRank[(b - 2) * 4])[GetKartRank(kart->mIndex) - 1];
+    }
+    if (finishResult == 0) {
+        KartModelsEntry *modelsEntry = kart->mKartModelsEntry;
+        animationState = (CharacterAnimationState *) &modelsEntry->mTurnFrameOffset;
+        func_02087cfc(modelsEntry->mCharacterAnimation, (u16) finishResult, 1);
+        func_02068a64(kart, 2, 1);
+        if (isRuleKindWinner != 0) {
+            kart->mUnk_7c |= 0x10000;
+        } else {
+            animationState->mAnimationChangeTimerSet = TRUE;
+            localRandom = &gRaceProgress->mLocalRandom;
+            localRandom->mValue = localRandom->mMultiplier * localRandom->mValue + localRandom->mIncrement;
+            animationState->mAnimationChangeTimer = (u32) (((localRandom->mValue >> 32) * 200) >> 32);
+            animationState->mAnimationChangeTimer += 0x96;
+        }
+    } else if (finishResult == 2) {
+        kart->mUnk_7c |= 0x20000;
+        func_02068a64(kart, 3, 1);
+    }
+    if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
+        normalizedResult = 1;
+        if (finishResult != 0) {
+            if (finishResult == 2) {
+                normalizedResult = 2;
+            }
+        } else {
+            normalizedResult = 0;
+        }
+        func_021112fc(normalizedResult);
+    }
+}
+
+void AdvanceKartAnimationChangeTimer(Kart *kart) {
+    CharacterAnimationState *animationState = (CharacterAnimationState *) &kart->mKartModelsEntry->mTurnFrameOffset;
+    RandomState64 *localRandom;
+    KartModelsEntry *modelsEntry;
+
+    if (animationState->mAnimationChangeTimerSet == FALSE) {
+        return;
+    }
+    animationState->mAnimationChangeTimer--;
+    if (animationState->mAnimationChangeTimer > 0) {
+        return;
+    }
+    modelsEntry = kart->mKartModelsEntry;
+    if ((kart->mUnk_7c & 0x40) != 0 || modelsEntry->mCharacterAnimation->mUnk_1a == 2) {
+        func_02068a64(kart, 0, 1);
+    } else if (modelsEntry->mCharacterAnimation->mUnk_1a == 0) {
+        func_02068a64(kart, 2, 1);
+    }
+    localRandom = &gRaceProgress->mLocalRandom;
+    localRandom->mValue = localRandom->mMultiplier * localRandom->mValue + localRandom->mIncrement;
+    animationState->mAnimationChangeTimer = (u32) (((localRandom->mValue >> 32) * 200) >> 32);
+    animationState->mAnimationChangeTimer += 0x96;
+}
+
+void StartKartStarModels(Kart *kart) {
+    KartModelsEntry *modelsEntry = kart->mKartModelsEntry;
+    Nsbmd *firstModel = modelsEntry->mModels[0];
+    KartModelAnimationView *faceAnimation = modelsEntry->mFaceAnimation;
+    NNSG3dResMdl *resMdl = firstModel->mResMdl;
+
+    NNS_G3dMdlSetMdlPolygonModeAll(resMdl, 2);
+    NNS_G3dReleaseMdlTex(resMdl);
+    if (faceAnimation != NULL && modelsEntry->mFaceAnimationRemoved == FALSE) {
+        NNS_G3dRenderObjRemoveAnmObj((NNSG3dRenderObj *) firstModel, (NNSG3dAnmObj *) faceAnimation->mUnk_1c[0]);
+        modelsEntry->mFaceAnimationRemoved = TRUE;
+    }
+    SetKartModelMaterialColors(resMdl, 2);
+    resMdl = modelsEntry->mModels[1]->mResMdl;
+    NNS_G3dMdlSetMdlPolygonModeAll(resMdl, 2);
+    NNS_G3dReleaseMdlTex(resMdl);
+    SetKartModelMaterialColors(resMdl, 2);
+    if (modelsEntry->mModels[2] != NULL) {
+        resMdl = modelsEntry->mModels[2]->mResMdl;
+        NNS_G3dMdlSetMdlPolygonModeAll(resMdl, 2);
+        NNS_G3dReleaseMdlTex(resMdl);
+        SetKartModelMaterialColors(resMdl, 2);
+    }
+    modelsEntry->mStarModelsSet = TRUE;
+}
+
+void StopKartStarModels(Kart *kart) {
+    KartModelsEntry *modelsEntry = kart->mKartModelsEntry;
+    Nsbmd *firstModel = modelsEntry->mModels[0];
+    KartModelAnimationView *faceAnimation = modelsEntry->mFaceAnimation;
+    NNSG3dResMdl *resMdl = firstModel->mResMdl;
+    Nsbmd *secondModel;
+    NNSG3dResMdl *thirdResMdl;
+    Nsbmd *thirdModel;
+
+    NNS_G3dMdlSetMdlPolygonModeAll(resMdl, 0);
+    NNS_G3dBindMdlTex(resMdl, firstModel->mResFileEntry.mTexture);
+    if (faceAnimation != NULL && modelsEntry->mFaceAnimationRemoved != FALSE) {
+        NNS_G3dRenderObjAddAnmObj((NNSG3dRenderObj *) firstModel, (NNSG3dAnmObj *) faceAnimation->mUnk_1c[0]);
+        modelsEntry->mFaceAnimationRemoved = FALSE;
+    }
+    SetKartModelMaterialColors(resMdl, 0);
+    secondModel = modelsEntry->mModels[1];
+    resMdl = secondModel->mResMdl;
+    NNS_G3dMdlSetMdlPolygonModeAll(resMdl, 0);
+    NNS_G3dBindMdlTex(resMdl, secondModel->mResFileEntry.mTexture);
+    SetKartModelMaterialColors(resMdl, 0);
+    thirdModel = modelsEntry->mModels[2];
+    if (thirdModel != NULL) {
+        thirdResMdl = thirdModel->mResMdl;
+        NNS_G3dMdlSetMdlPolygonModeAll(thirdResMdl, 0);
+        NNS_G3dBindMdlTex(thirdResMdl, thirdModel->mResFileEntry.mTexture);
+        SetKartModelMaterialColors(thirdResMdl, 0);
+    }
+    modelsEntry->mStarModelsSet = FALSE;
+}
+
+void func_0207b13c(Kart *kart) {
+    KartModelsEntry *modelsEntry = kart->mKartModelsEntry;
+    NNSG3dResMdl *resMdl;
+
+    if (modelsEntry->mStarModelsSet != FALSE) {
+        return;
+    }
+    resMdl = modelsEntry->mModels[0]->mResMdl;
+    NNS_G3dMdlSetMdlPolygonModeAll(resMdl, 2);
+    SetKartModelMaterialColors(resMdl, 3);
+    resMdl = modelsEntry->mModels[1]->mResMdl;
+    NNS_G3dMdlSetMdlPolygonModeAll(resMdl, 2);
+    SetKartModelMaterialColors(resMdl, 3);
+}
+
+void func_0207b0d0(Kart *kart) {
+    KartModelsEntry *modelsEntry = kart->mKartModelsEntry;
+    NNSG3dResMdl *resMdl;
+
+    if (modelsEntry->mStarModelsSet != FALSE) {
+        return;
+    }
+    resMdl = modelsEntry->mModels[0]->mResMdl;
+    NNS_G3dMdlSetMdlPolygonModeAll(resMdl, 0);
+    SetKartModelMaterialColors(resMdl, 0);
+    resMdl = modelsEntry->mModels[1]->mResMdl;
+    NNS_G3dMdlSetMdlPolygonModeAll(resMdl, 0);
+    SetKartModelMaterialColors(resMdl, 0);
+}
+
+// Plays animation a once, then goes on to animation b.
+void StartKartCharacterAnimationOnce(Kart *kart, s32 animationIndex, s32 nextAnimationIndex) {
+    KartModelsEntry *modelsEntry = kart->mKartModelsEntry;
+    KartModelAnimationView *characterAnimation;
+    CharacterAnimationState *animationState = (CharacterAnimationState *) &modelsEntry->mTurnFrameOffset;
+
+    characterAnimation = modelsEntry->mCharacterAnimation;
+    if (animationState->mNextAnimationPending != FALSE && characterAnimation->mUnk_1a != 0) {
+        func_02087cfc(characterAnimation, characterAnimation->mUnk_1a, 1);
+    }
+    animationState->mNextAnimationPending = TRUE;
+    animationState->mNextAnimationIndex = nextAnimationIndex;
+    StartModelAnimationBlend(kart->mKartModelsEntry->mCharacterAnimation, animationIndex);
+    func_02087cfc(characterAnimation, (u16) animationIndex, 0);
+}
+
+void InitShadowModelFromResMdl(Nsbmd *nsbmd, void *resFile, u32 polygonId) {
+    ShadowModel *shadowModel = (ShadowModel *) nsbmd;
+    NNSG3dResMdl *resMdl;
+
+    func_02084f10(nsbmd, resFile);
+    resMdl = nsbmd->mResMdl;
+    shadowModel->mPolygonId = polygonId;
+    shadowModel->mAlpha = 0xd;
+    shadowModel->mFlags |= 1;
+    NNS_G3dMdlSetMdlPolygonMode(resMdl, 0, 3);
+    NNS_G3dMdlSetMdlLightEnableFlag(resMdl, 0, 0);
+}
+
+NNSG3dResMdl *InitShadowModel(void *model, NNSG3dResFileHeader *resFileHeader, u32 polygonId) {
+    ShadowModel *shadowModel = model;
+    NNSG3dResMdl *resMdl;
+
+    InitNsbmd(shadowModel, resFileHeader);
+    resMdl = shadowModel->mNsbmd.mResMdl;
+    shadowModel->mPolygonId = polygonId;
+    shadowModel->mAlpha = 0xd;
+    shadowModel->mFlags |= 1;
+    NNS_G3dMdlSetMdlPolygonMode(resMdl, 0, 3);
+    NNS_G3dMdlSetMdlLightEnableFlag(resMdl, 0, 0);
+    return shadowModel->mNsbmd.mResMdl;
+}
+
+// Draws the shadow with matrix b; when c is not NULL its three words are sent after the matrix.
+void DrawShadowWithMatrix(void *model, const void *matrix, Vec3 *extraVector) {
+    ShadowModel *shadowModel = model;
+    s32 v;
+    Vec3 copiedVector;
+
+    if ((shadowModel->mFlags & 1) == 0) {
         return;
     }
     v = 0x1e;
     func_01ff9048(0x14, &v, 1);
-    func_01ff9048(0x19, b, 0xc);
-    if (c != 0) {
-        s32 z = c->z;
-        s32 y = c->y;
-        s32 x = c->x;
-        w.x = x;
-        w.y = y;
-        w.z = z;
-        func_01ff9048(0x1b, &w, 3);
+    func_01ff9048(0x19, matrix, 0xc);
+    if (extraVector != NULL) {
+        s32 z = extraVector->z;
+        s32 y = extraVector->y;
+        s32 x = extraVector->x;
+        copiedVector.x = x;
+        copiedVector.y = y;
+        copiedVector.z = z;
+        func_01ff9048(0x1b, &copiedVector, 3);
     }
-    func_02084ad8(a, a->mUnk_6e);
-    data_02155a20[a->mUnk_00.mUnk_58](a);
-    func_02084a88(a, a->mUnk_6e, a->mUnk_6c);
-    data_02155a20[a->mUnk_00.mUnk_58](a);
+    func_02084ad8(shadowModel, shadowModel->mAlpha);
+    gNsbmdDrawFunctions[shadowModel->mNsbmd.mDrawKind](shadowModel);
+    func_02084a88(shadowModel, shadowModel->mAlpha, shadowModel->mPolygonId);
+    gNsbmdDrawFunctions[shadowModel->mNsbmd.mDrawKind](shadowModel);
 }
 
-Unk0201290c *func_0207afa8(void *param_1, Unk020136f0 *b, u32 c) {
-    Unk0207adf8 *a = param_1;
-    Unk0201290c *p;
-
-    func_02084e28(a, b);
-    p = a->mUnk_00.mUnk_04;
-    a->mUnk_6c = c;
-    a->mUnk_6e = 0xd;
-    a->mUnk_70 |= 1;
-    func_02013540(p, 0, 3);
-    func_02013588(p, 0, 0);
-    return a->mUnk_00.mUnk_04;
-}
-
-void func_0207b000(Unk02084b2c *a, void *b, u32 c) {
-    Unk0207adf8 *p = (Unk0207adf8 *) a;
-    Unk0201290c *q;
-
-    func_02084f10(a, b);
-    q = a->mUnk_04;
-    p->mUnk_6c = c;
-    p->mUnk_6e = 0xd;
-    p->mUnk_70 |= 1;
-    func_02013540(q, 0, 3);
-    func_02013588(q, 0, 0);
-}
-
-void func_0207b054(Unk0206bcb0 *p, s32 a, s32 b) {
-    Unk0206bcb0_590 *q = (Unk0206bcb0_590 *) p->mUnk_590;
-    Unk0206bcb0_590_08 *s;
-    Unk0206bcb0_590_24 *r = (Unk0206bcb0_590_24 *) &q->mUnk_024;
-
-    s = q->mUnk_008;
-    if (r->mUnk_14 != 0 && s->mUnk_1a != 0) {
-        func_02087cfc(s, s->mUnk_1a, 1);
-    }
-    r->mUnk_14 = 1;
-    r->mUnk_18 = b;
-    func_02087e90(((Unk0206bcb0_590 *) p->mUnk_590)->mUnk_008, a);
-    func_02087cfc(s, (u16) a, 0);
-}
-
-void func_0207b0d0(Unk0206bcb0 *p) {
-    Unk0206bcb0_590 *q = (Unk0206bcb0_590 *) p->mUnk_590;
-    Unk0201290c *r;
-
-    if (q->mUnk_064 != 0) {
+void func_0207ae58(ShadowModel *shadowModel) {
+    if ((shadowModel->mFlags & 1) == 0) {
         return;
     }
-    r = q->mUnk_010->mUnk_04;
-    func_02013164(r, 0);
-    func_0207a14c(r, 0);
-    r = q->mUnk_014->mUnk_04;
-    func_02013164(r, 0);
-    func_0207a14c(r, 0);
-}
-
-void func_0207b13c(Unk0206bcb0 *p) {
-    Unk0206bcb0_590 *q = (Unk0206bcb0_590 *) p->mUnk_590;
-    Unk0201290c *r;
-
-    if (q->mUnk_064 != 0) {
-        return;
-    }
-    r = q->mUnk_010->mUnk_04;
-    func_02013164(r, 2);
-    func_0207a14c(r, 3);
-    r = q->mUnk_014->mUnk_04;
-    func_02013164(r, 2);
-    func_0207a14c(r, 3);
-}
-
-void func_0207b1a8(Unk0206bcb0 *p) {
-    Unk0206bcb0_590 *q = (Unk0206bcb0_590 *) p->mUnk_590;
-    Unk02084b2c *r = q->mUnk_010;
-    Unk0206bcb0_590_08 *s = q->mUnk_00c;
-    Unk0201290c *t = r->mUnk_04;
-    Unk02084b2c *u;
-    Unk0201290c *w;
-    Unk02084b2c *v;
-
-    func_02013164(t, 0);
-    func_02010584((Unk020101e8 *) t, (Unk02010294 *) r->mUnk_5c.mUnk_0c);
-    if (s != 0 && q->mUnk_0ac != 0) {
-        func_02010ab4((Unk02010ab4 *) r, (Unk02010b50 *) s->mUnk_1c[0]);
-        q->mUnk_0ac = 0;
-    }
-    func_0207a14c(t, 0);
-    u = q->mUnk_014;
-    t = u->mUnk_04;
-    func_02013164(t, 0);
-    func_02010584((Unk020101e8 *) t, (Unk02010294 *) u->mUnk_5c.mUnk_0c);
-    func_0207a14c(t, 0);
-    v = q->mUnk_018;
-    if (v != 0) {
-        w = v->mUnk_04;
-        func_02013164(w, 0);
-        func_02010584((Unk020101e8 *) w, (Unk02010294 *) v->mUnk_5c.mUnk_0c);
-        func_0207a14c(w, 0);
-    }
-    q->mUnk_064 = 0;
-}
-
-void func_0207b284(Unk0206bcb0 *p) {
-    Unk0206bcb0_590 *q = (Unk0206bcb0_590 *) p->mUnk_590;
-    Unk02084b2c *r = q->mUnk_010;
-    Unk0206bcb0_590_08 *s = q->mUnk_00c;
-    Unk0201290c *t = r->mUnk_04;
-
-    func_02013164(t, 2);
-    func_020104a4((Unk020101e8 *) t);
-    if (s != 0 && q->mUnk_0ac == 0) {
-        func_020109d8((Unk02010ab4 *) r, (Unk02010b50 *) s->mUnk_1c[0]);
-        q->mUnk_0ac = 1;
-    }
-    func_0207a14c(t, 2);
-    t = q->mUnk_014->mUnk_04;
-    func_02013164(t, 2);
-    func_020104a4((Unk020101e8 *) t);
-    func_0207a14c(t, 2);
-    if (q->mUnk_018 != 0) {
-        t = q->mUnk_018->mUnk_04;
-        func_02013164(t, 2);
-        func_020104a4((Unk020101e8 *) t);
-        func_0207a14c(t, 2);
-    }
-    q->mUnk_064 = 1;
-}
-
-void func_0207b354(Unk0206bcb0 *p) {
-    Unk0206bcb0_590_24 *q = (Unk0206bcb0_590_24 *) &((Unk0206bcb0_590 *) p->mUnk_590)->mUnk_024;
-    Unk020f41c4_B *r;
-    Unk0206bcb0_590 *s;
-
-    if (q->mUnk_04 == 0) {
-        return;
-    }
-    q->mUnk_10--;
-    if (q->mUnk_10 > 0) {
-        return;
-    }
-    s = (Unk0206bcb0_590 *) p->mUnk_590;
-    if ((p->mUnk_7c & 0x40) != 0 || s->mUnk_008->mUnk_1a == 2) {
-        func_02068a64(p, 0, 1);
-    } else if (s->mUnk_008->mUnk_1a == 0) {
-        func_02068a64(p, 2, 1);
-    }
-    r = &data_0217561c->mUnk_498;
-    r->mUnk_00 = r->mUnk_08 * r->mUnk_00 + r->mUnk_10;
-    q->mUnk_10 = (u32) (((r->mUnk_00 >> 32) * 200) >> 32);
-    q->mUnk_10 += 0x96;
-}
-
-// non-matching: same size and instruction order; registers differ: the original keeps the word at 0x08 of the data_021759c0
-// object in r8 (saved register), that object in r0 and the constant 1 in r1, ours uses r3 for the word and r1 for the object
-// (so the first compare, the 0x3d0 load and the movs after it use other registers throughout)
-void func_0207b44c(Unk0206bcb0 *a) {
-    u32 f;
-    u16 b;
-    s32 e;
-    s32 m;
-    s32 c;
-    s32 k;
-    Unk0206bcb0_590_24 *q;
-    Unk020f41c4_B *r;
-
-    b = data_021759c0->mUnk_3d0;
-    c = 1;
-    f = c;
-    e = 0;
-
-    if ((a->mUnk_7c & 0x10) == 0) {
-        return;
-    }
-    m = data_021759c0->mUnk_08;
-    if (m == 2) {
-        return;
-    }
-    if (m == 4) {
-        return;
-    }
-    if (m != 2 && data_021759c0->mUnk_1c == 1) {
-        b = (u16) data_0217561c->mUnk_474[0];
-        if (data_021759c0->mUnk_58 != 0) {
-            u32 g = a->mUnk_74;
-            if (data_021759c0->mUnk_68[b].mUnk_08.mUnk_04 != data_021759c0->mUnk_68[g].mUnk_08.mUnk_04) {
-                f = 2;
-            } else {
-                f = 0;
-                a->mUnk_7c |= 0x2000000;
-                e = c;
-            }
-        } else if (a->mUnk_74 != b) {
-            f = 2;
-        } else {
-            f = 0;
-            a->mUnk_7c |= 0x2000000;
-            e = c;
-        }
-    } else if (m == 1) {
-        if ((a->mUnk_7c & 4) == 0) {
-            if (func_020c7148() != 0 || func_020c70ec() != 0) {
-                f = 0;
-            } else {
-                f = 2;
-            }
-        }
-    } else if (b > 1) {
-        f = ((s16 *) &data_usa_021551dc[(b - 2) * 4])[func_0203c8dc(a->mUnk_74) - 1];
-    }
-    if (f == 0) {
-        Unk0206bcb0_590 *s = (Unk0206bcb0_590 *) a->mUnk_590;
-        func_02087cfc(s->mUnk_008, (u16) f, 1);
-        q = (Unk0206bcb0_590_24 *) &s->mUnk_024;
-        func_02068a64(a, 2, 1);
-        if (e != 0) {
-            a->mUnk_7c |= 0x10000;
-        } else {
-            q->mUnk_04 = 1;
-            r = &data_0217561c->mUnk_498;
-            r->mUnk_00 = r->mUnk_08 * r->mUnk_00 + r->mUnk_10;
-            q->mUnk_10 = (u32) (((r->mUnk_00 >> 32) * 200) >> 32);
-            q->mUnk_10 += 0x96;
-        }
-    } else if (f == 2) {
-        a->mUnk_7c |= 0x20000;
-        func_02068a64(a, 3, 1);
-    }
-    if ((a->mUnk_7c & 1) != 0) {
-        k = 1;
-        if (f == 0) {
-            k = 0;
-        } else if (f == 2) {
-            k = 2;
-        }
-        func_021112fc(k);
-    }
-}
-
-void func_0207b6c0(struct Unk0206bcb0_590 *a, s32 b, s32 c) {
-    if (c != 0) {
-        func_02087e90(a->mUnk_008, b);
-    } else {
-        func_02087f84(a->mUnk_008, (u16) b);
-    }
-}
-
-void func_0207b708(struct Unk0206bcb0_590 *a, s32 b) {
-    Unk0206bcb0_590_08 *p = a->mUnk_00c;
-
-    p->mUnk_0c = data_021551a4[b];
-    *p->mUnk_1c[p->mUnk_1a] = p->mUnk_0c;
-}
-
-// non-matching: same size and instruction order; the original holds the word at 0x48 in r3 and the word at 0x08 of the
-// 0x24 block in r2 (the step in r1, the object at 0x08 in r4); ours has them in r2 and r0, so the compares and the negation use
-// other registers, and the `add r5, r6, #36` comes before the step selection in the original
-void func_0207b734(Unk0206bcb0 *a) {
-    s32 b;
-    Unk0206bcb0_590 *q;
-    Unk0206bcb0_590_24 *p;
-    Unk0206bcb0_590_08 *r;
-    s32 c;
-    u32 v;
-    Unk0206bcb0_590_08 *s;
-
-    b = (a->mUnk_44 & 8) != 0 ? 0x2000 : 0x1000;
-    q = (Unk0206bcb0_590 *) a->mUnk_590;
-    p = (Unk0206bcb0_590_24 *) &q->mUnk_024;
-    r = q->mUnk_008;
-    c = p->mUnk_08;
-    v = a->mUnk_48;
-    if ((v & 8) != 0) {
-        if (data_021759c0->mUnk_00c != 6) {
-            p->mUnk_00 += b;
-            if (p->mUnk_00 > c) {
-                p->mUnk_00 = c;
-            }
-        }
-    } else if ((v & 0x10) != 0) {
-        if (data_021759c0->mUnk_00c != 6) {
-            c = -c;
-            p->mUnk_00 -= b;
-            if (p->mUnk_00 < c) {
-                p->mUnk_00 = c;
-            }
-        }
-    } else if (p->mUnk_00 != 0) {
-        if (p->mUnk_00 > 0) {
-            p->mUnk_00 -= b;
-            if (p->mUnk_00 < 0) {
-                p->mUnk_00 = 0;
-            }
-        } else {
-            p->mUnk_00 += b;
-            if (p->mUnk_00 > 0) {
-                p->mUnk_00 = 0;
-            }
-        }
-    }
-    if (r->mUnk_1a != 0) {
-        func_02087de0(r);
-        if (p->mUnk_14 == 0) {
-            return;
-        }
-        if (r->mUnk_02 != 1) {
-            return;
-        }
-        func_02087cfc(r, r->mUnk_1a, 1);
-        func_02087e90(q->mUnk_008, p->mUnk_18);
-        s = q->mUnk_00c;
-        s->mUnk_0c = data_021551a4[0];
-        *s->mUnk_1c[s->mUnk_1a] = s->mUnk_0c;
-        p->mUnk_14 = 0;
-    } else {
-        r->mUnk_0c = p->mUnk_00 + p->mUnk_08;
-        func_02087d44((Unk02087d0c *) r);
-    }
-}
-
-void func_0207b8c4(struct Unk0206bcb0_590 *a) {
-    Unk0206bcb0_590_24 *p;
-
-    a->mUnk_024 = 0;
-    p = (Unk0206bcb0_590_24 *) &a->mUnk_024;
-    p->mUnk_14 = 0;
-    p->mUnk_18 = 0;
-}
-
-u32 func_0207b8dc(int a) {
-    return data_021551b4[a].mUnk_00;
-}
-
-char *func_0207b8f4(u16 a, s32 b) {
-    char *p = func_02088430(a);
-    const char *q = func_0208848c(a, 1);
-
-    func_02135048(data_usa_0217ad14, 0x100, data_021658e0, p, q, data_021551b0[b].mUnk_00);
-    return data_usa_0217ad14;
+    func_02084ad8(shadowModel, shadowModel->mAlpha);
+    gNsbmdDrawFunctions[shadowModel->mNsbmd.mDrawKind](shadowModel);
+    func_02084a88(shadowModel, shadowModel->mAlpha, shadowModel->mPolygonId);
+    gNsbmdDrawFunctions[shadowModel->mNsbmd.mDrawKind](shadowModel);
 }

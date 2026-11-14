@@ -2,12 +2,36 @@
 
 #include "types.h"
 
-#include "00/code_0218f960.h"
-#include "00/code_02191284.h"
-#include "00/code_021948f8.h"
-#include "00/code_02196240.h"
-
 // Declared here until the code that defines them is decompiled.
 
-u32 func_ov000_02193634(int param_1, int param_2, int param_3);
-s32 func_ov000_02193748(Unk0218f960 *param_1, Unk021937c0Node *param_2, const u8 *param_3);
+#include "00/code_0218f960.h"
+
+#include "00/code_021906e4.h"
+#include "00/code_021947e4.h"
+#include "00/code_02196594.h"
+#include "00/code_021a3690.h"
+#include "00/code_02196590.h"
+#include "00/unk_021b2000.h"
+#include "string.h"
+#include "code_02134398.h"
+#include "code_02139f70.h"
+#include "code_0213a460.h"
+#include "00/code_021948f8.h"
+#include "00/code_0218e0fc.h"
+#include "00/code_02191200.h"
+#include "00/code_02196480.h"
+#include "00/code_02192d64.h"
+#include "00/code_0218d000.h"
+#include "00/code_021a3000.h"
+#include "00/code_0218d818.h"
+#include "00/code_02196000.h"
+#include "00/code_02190000.h"
+#include "00/code_021965a0.h"
+
+u32 GpiIsValidDate(int a, int b, int c);
+s32 GpiProcessOperation(GpConnection *c, GpiOperation *d, const char *e);
+BOOL func_ov000_021937c0(GpConnection *object);
+BOOL GpiFindOperation(GpConnection *object, GpiOperation **output, u32 key);
+void GpiRemoveOperation(GpConnection *param_1, GpiOperation *param_2);
+void GpiDeleteOperation(GpConnection *param_1, GpiOperation *param_2);
+s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation);

@@ -1,99 +1,202 @@
 #include "03/code_021c4dd4.h"
-#include "03/code_021d2168.h"
+#include "03/code_021c391c.h"
+#include "03/code_021c482c.h"
+#include "03/code_021be000.h"
+#include "03/code_021bf000.h"
+#include "03/code_021bf410.h"
+#include "03/code_021c50d8.h"
+#include "03/code_021cdbd0.h"
+#include "03/code_021d1000.h"
+#include "03/code_021d1dd0.h"
+#include "03/code_021d3000.h"
+#include "03/code_021d3488.h"
+#include "03/code_021c25e0.h"
+#include "03/code_021c3000.h"
+#include "03/code_021c4000.h"
+#include "03/code_021c5000.h"
+#include "03/code_021cd000.h"
+#include "03/code_021d1f70.h"
+#include "03/unk_021da000.h"
+#include "03/code_021d2940.h"
+#include "03/code_021c2000.h"
+#include "03/code_021ce000.h"
+#include "03/code_021bf4dc.h"
+#include "03/unk_021d7000.h"
+#include "code_0214b824.h"
+
+#include "03/code_021d1fd0.h"
 #include "03/code_021d254c.h"
+#include "03/code_021bf098.h"
+#include "03/code_021c209c.h"
+
+void func_ov003_021c5098(void) {
+    func_ov003_021c2840((u32) &func_ov003_021c4dd4);
+    *(u8 *) &data_ov003_021da1d8 = 0;
+    func_ov003_021c5034();
+    PrintMessage(0x5e);
+    func_ov003_021beef8(0);
+    StartSoundSeq(0xb);
+    SetUpdateFunction(func_ov003_021c500c);
+}
+
+void func_ov003_021c5034(void) {
+    void *v2 = &data_ov003_021d71bc;
+    void *v3 = &GX_LoadBG2Scr;
+    u32 v4 = LoadFileToVram(v2, v3);
+    u32 v5 = 0x4001008u;
+    u32 v6 = (*(u16 *) ((v5) + (0)));
+    u32 v8 = ((v6) & ~(0x3u));
+    u32 v9 = ((v8) | (0x3u));
+    u32 v11;
+    u32 v12;
+    u32 v13;
+    u32 v14;
+    u32 v16;
+    u32 v17;
+    u32 v18;
+    u32 v19;
+    u32 v21;
+    u32 v22;
+    u32 v23;
+    u32 v24;
+    u32 v26;
+    u32 v27;
+    u32 v28;
+    u32 v29;
+    *(u16 *) ((v5) + (0)) = v9;
+    v11 = 0x400100au;
+    v12 = (*(u16 *) ((v11) + (0)));
+    v13 = ((v12) & ~(0x3u));
+    v14 = ((v13) | (0x3u));
+    *(u16 *) ((v11) + (0)) = v14;
+    v16 = 0x4000008u;
+    v17 = (*(u16 *) ((v16) + (0)));
+    v18 = ((v17) & ~(0x3u));
+    v19 = ((v18) | (0x3u));
+    *(u16 *) ((v16) + (0)) = v19;
+    v21 = 0x400000au;
+    v22 = (*(u16 *) ((v21) + (0)));
+    v23 = ((v22) & ~(0x3u));
+    v24 = ((v23) | (0x3u));
+    *(u16 *) ((v21) + (0)) = v24;
+    v26 = 0x400000cu;
+    v27 = (*(u16 *) ((v26) + (0)));
+    v28 = ((v27) & ~(0x3u));
+    v29 = ((v28) | (0x3u));
+    *(u16 *) ((v26) + (0)) = v29;
+}
+
+void func_ov003_021c500c(void) {
+    StartBlendBrightnessFade(2, 0, 0x15, 8);
+    CombineDispcntBits(0, 0x15);
+    SetUpdateFunction(func_ov003_021c4fe8);
+}
+
+void func_ov003_021c4fe8(void) {
+    int v1;
+    v1 = IsBlendBrightnessFadeSlotBusy(0);
+    if (v1 == 0) {
+        func_ov003_021bf5c8(1);
+        SetUpdateFunction(func_ov003_021c4fc8);
+    }
+}
+
+void func_ov003_021c4fc8(void) {
+    if (GetButtonResult() != -2) {
+        SetUpdateFunction(func_ov003_021c4fb0);
+    }
+}
+
+void func_ov003_021c4fb0(void) {
+    func_ov003_021c4f80();
+    func_ov003_021c4f7c();
+    func_ov003_021c4f54();
+}
 
 void func_ov003_021c4f80(void) {
-    int iVar1;
-    iVar1 = func_ov003_021d2b04(2);
-    if (iVar1 != 0) {
-        func_ov003_021bf31c(0);
+    int v1;
+    v1 = AreKeysPressed(2);
+    if (v1 != 0) {
+        SetButtonResultIfNone(0);
         return;
     }
-    iVar1 = func_ov003_021c50d8();
-    if (iVar1 != 0) {
-        func_ov003_021bf31c(0);
+    v1 = func_ov003_021c50d8();
+    if (v1 != 0) {
+        SetButtonResultIfNone(0);
     }
-    return;
 }
 
-void func_ov003_021c4f7c(void) {
-    return;
-}
+void func_ov003_021c4f7c(void) {}
 
 void func_ov003_021c4f54(void) {
-    int iVar1;
-    iVar1 = func_ov003_021bf334();
-    if (iVar1 == 0) {
-        func_ov003_021cdbd0();
-        func_ov003_021cdc10(7);
-        func_ov003_021c212c(func_ov003_021c4f24);
+    int v1;
+    v1 = GetButtonResult();
+    if (v1 == 0) {
+        StopSoundSeq();
+        StartSoundSeq(7);
+        SetUpdateFunction(func_ov003_021c4f24);
     }
-    return;
 }
 
 void func_ov003_021c4f24(void) {
     if (data_ov003_021da1d8 == 0) {
         func_ov003_021c2824();
     }
-    func_ov003_021bf2d0();
-    func_ov003_021d1dd0(8);
-    func_ov003_021c212c(func_ov003_021c4ecc);
-    return;
+    DisableButtonTouch();
+    StartBlendBrightnessFadeWait(8);
+    SetUpdateFunction(func_ov003_021c4ecc);
 }
 
 void func_ov003_021c4ecc(void) {
-    int iVar1;
-    iVar1 = func_ov003_021d1f70(1);
-    if ((iVar1 == 0) && ((data_ov003_021da1d8 != 0 || (iVar1 = func_ov003_021c27e4(), iVar1 != 0)))) {
-        func_ov003_021bf344();
+    int v1;
+    v1 = IsBlendBrightnessFadeSlotBusy(1);
+    if ((v1 == 0) && ((data_ov003_021da1d8 != 0 || (v1 = func_ov003_021c27e4(), v1 != 0)))) {
+        StartSlideButtonsOut();
         if (data_ov003_021da1d8 == 0) {
-            func_ov003_021d1ee0(3, 1, 1, 8);
+            StartBlendBrightnessFade(3, 1, 1, 8);
         }
-        func_ov003_021d1ee0(3, 0, 0x15, 8);
-        func_ov003_021c212c(func_ov003_021c4e14);
+        StartBlendBrightnessFade(3, 0, 0x15, 8);
+        SetUpdateFunction(func_ov003_021c4e14);
     }
-    return;
 }
 
 void func_ov003_021c4e14(void) {
-    int iVar1;
-    iVar1 = func_ov003_021d1f70(0);
-    if (((iVar1 == 0) && (((data_ov003_021da1d8 != 0 || (iVar1 = func_ov003_021d1f70(1), iVar1 == 0)) &&
-                           (iVar1 = func_ov003_021bf2f0(), iVar1 != 0)))) &&
-        ((data_ov003_021da1d8 != 0 || (iVar1 = func_ov003_021c27e4(), iVar1 != 0)))) {
+    int v1;
+    v1 = IsBlendBrightnessFadeSlotBusy(0);
+    if (((v1 == 0) && (((data_ov003_021da1d8 != 0 || (v1 = IsBlendBrightnessFadeSlotBusy(1), v1 == 0)) &&
+                        (v1 = func_ov003_021bf2f0(), v1 != 0)))) &&
+        ((data_ov003_021da1d8 != 0 || (v1 = func_ov003_021c27e4(), v1 != 0)))) {
         func_ov003_021beecc();
-        func_ov003_021d2168(0);
+        ReleaseBgTextCanvasOfScreen(0);
         if (data_ov003_021da1d8 == 0) {
             func_ov003_021bf410();
-            func_ov003_021d272c(1, 1);
+            ClearDispcntBits(1, 1);
         }
-        func_ov003_021d272c(0, 0x15);
+        ClearDispcntBits(0, 0x15);
         if (data_ov003_021da1d8 == 0) {
             func_ov003_021c2120(0, 1);
-            func_ov003_021c212c(func_ov003_021c3dd4);
+            SetUpdateFunction(SetupOptMenu);
             return;
         }
         if (data_ov003_021da1d8 == 2) {
             func_ov003_021c2120(0, 1);
-            func_ov003_021c212c(func_ov003_021c4aa4);
+            SetUpdateFunction(func_ov003_021c4aa4);
             return;
         }
         func_ov003_021c2120(0, 1);
-        func_ov003_021c212c(func_ov003_021c4d3c);
+        SetUpdateFunction(SetupJb5Move);
     }
-    return;
 }
 
-void func_ov003_021c4dd4(int param_1) {
-    func_ov003_021cdbd0();
-    if (param_1 == 0) {
+void func_ov003_021c4dd4(int a) {
+    StopSoundSeq();
+    if (a == 0) {
         data_ov003_021da1d8 = 1;
-        func_ov003_021cdc10(0x10);
+        StartSoundSeq(0x10);
     } else {
         data_ov003_021da1d8 = 2;
-        func_ov003_021cdc10(0x12);
+        StartSoundSeq(0x12);
     }
-    func_ov003_021c27d0(0);
-    func_ov003_021c212c(func_ov003_021c4f24);
-    return;
+    func_ov003_021c27d0(NULL);
+    SetUpdateFunction(func_ov003_021c4f24);
 }

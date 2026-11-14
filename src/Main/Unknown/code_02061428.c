@@ -1,32 +1,36 @@
 #include "Main/Unknown/code_02061428.h"
+#include "Main/Unknown/code_02057304.h"
+#include "Main/Unknown/code_020574c8.h"
+#include "Main/Unknown/code_02057800.h"
+#include "01/code_021956dc.h"
 
-void func_02061470(void) {
+void ReadSlotGhostRecords(void) {
     u8 i;
-    u8 *a;
-    Unk0217aa08_14 *b;
+    u8 *records;
+    GhostRecord *record;
 
-    a = data_0217aa08->mUnk_40;
+    records = data_0217aa08->mReadDestination;
     for (i = 0; i < 10; i++) {
-        b = (Unk0217aa08_14 *) (a + i * 0x230);
-        if (func_020573c8(i) != 0) {
-            func_02057800(0, i, b);
-            if (data_021759d4->mUnk_0c != 0) {
-                func_02145d38();
+        record = (GhostRecord *) (records + i * 0x230);
+        if (IsSlotGhostBitSet(i) != 0) {
+            func_02057800(0, i, record);
+            if (gBackupAccess->mBackupEnabled != 0) {
+                CARD_WaitBackupAsync();
             }
-            if (data_021759d4->mUnk_04 != 0) {
-                b->mUnk_08_0 = 0;
+            if (gBackupAccess->mErrorCode != 0) {
+                record->mFilled = 0;
             }
         } else {
-            b->mUnk_08_0 = 0;
+            record->mFilled = 0;
         }
     }
-    func_02057504();
-    data_0217aa08->mUnk_40 = 0;
+    ClearBackupBusy();
+    data_0217aa08->mReadDestination = NULL;
 }
 
-void func_02061428(void *a) {
-    data_0217aa08->mUnk_40 = a;
-    func_02057514();
-    func_02057df0((void (*)(void)) func_02061470);
-    data_0217aa0c->mUnk_f8 = 1;
+void StartReadSlotGhostRecords(void *records) {
+    data_0217aa08->mReadDestination = records;
+    SetBackupBusy();
+    QueueThreadFunction((void (*)(void)) ReadSlotGhostRecords);
+    gThreadFunctionQueue->mRunRequested = 1;
 }

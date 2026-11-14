@@ -1,67 +1,75 @@
 #include "Main/Unknown/code_020b6a18.h"
+#include "Main/Unknown/code_020adb04.h"
 #include "Main/Unknown/code_020b4e5c.h"
 #include "Main/Unknown/code_02056000.h"
 #include "Main/Unknown/code_020ad000.h"
 #include "Main/Unknown/unk_021759c0.h"
 #include "code_0213ecf8.h"
 
-void func_020b6c74(u32 a, u16 *b, u32 c) {
-    u32 n;
-    s32 f;
-    u16 *p;
-    u16 i;
-    u16 v1[10];
-    Unk02056bc0 t;
+// placeholder: an object of the original file that is not known yet; it only sets the order of the tables below
+const u8 data_020b6a18_pad[1] = {1};
 
-    p = 0;
-    n = 0;
-    i = 0;
-    for (; i < 11; i++) {
-        b[i] = 0;
+// Copies the name of row rowIndex (0 is the player of current entry 0, otherwise course record rowIndex - 1) into
+// nameOut; the whole 10 characters when copyFullLength is non-zero, else only as many as fit the width.
+void CopyPlayerOrTimeRecordName(u32 rowIndex, u16 *nameOut, u32 copyFullLength) {
+    u32 length;
+    BOOL isHumanGhostOrPeer;
+    u16 *name;
+    u16 clearIndex;
+    u16 fittedText[10];
+    TimeRecord record;
+
+    name = NULL;
+    length = 0;
+    clearIndex = 0;
+    for (; clearIndex < 11; clearIndex++) {
+        nameOut[clearIndex] = 0;
     }
-    f = 0;
-    if (a == 0) {
-        if ((u32) data_021759c0->mUnk_68[a].mUnk_08.mUnk_00 <= 3) {
-            if ((1 << data_021759c0->mUnk_68[a].mUnk_08.mUnk_00) & 0xd) {
-                f = 1;
+    isHumanGhostOrPeer = FALSE;
+    if (rowIndex == 0) {
+        if (gRaceSetup->mCurrentEntries[rowIndex].mPlayer.mKind <= 3) {
+            if ((1 << gRaceSetup->mCurrentEntries[rowIndex].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) {
+                isHumanGhostOrPeer = TRUE;
             }
         }
-        if (f != 0) {
-            p = data_021759c0->mUnk_68[a].mUnk_08.mUnk_18;
-            if (p == 0) {
+        if (isHumanGhostOrPeer != FALSE) {
+            name = gRaceSetup->mCurrentEntries[rowIndex].mPlayer.mName;
+            if (name == NULL) {
                 return;
             }
-            if (c != 0) {
-                n = 10;
+            if (copyFullLength != 0) {
+                length = 10;
             } else {
-                n = func_020adc7c(p, v1);
+                length = CopyTextWithinWidth(name, fittedText);
             }
         }
     } else {
-        if (func_02056bc0(data_021759c0->mUnk_00, a - 1, &t) != 0) {
-            p = t.mUnk_04;
-            if (c != 0) {
-                n = 10;
+        if (GetCourseTimeRecord(gRaceSetup->mCourseId, rowIndex - 1, &record) != 0) {
+            name = record.mName;
+            if (copyFullLength != 0) {
+                length = 10;
             } else {
-                n = func_020adc7c(p, v1);
+                length = CopyTextWithinWidth(name, fittedText);
             }
         }
     }
-    if (p == 0) {
+    if (name == NULL) {
         return;
     }
-    func_0213edbc(b, p, n);
+    wcsncpy(nameOut, name, length);
 }
 
-void func_020b6bd4(UnkPair020b502c *a, UnkPair020b502c *b, s32 c, s32 d, s16 e, s16 f) {
-    a->mUnk_00 = (c << 12) + (e - c) * 0xf000 / 32;
-    a->mUnk_04 = (d << 12) + (f - d) * 0x5000 / 24;
-    b->mUnk_00 = (c << 12) + (e - c) * 0x1f000 / 32;
-    b->mUnk_04 = (d << 12) + (f - d) * 0x18000 / 24;
+// The part of the rectangle that sub screen state 0 shows at x 0x78..0xf8, y 0x28..0xc0 of the 256 x 192 screen.
+void ComputeRaceHudSubScreenState0MinMax(UnkPair020b502c *outFirst, UnkPair020b502c *outSecond, s32 firstX, s32 firstZ,
+                                         s16 secondX, s16 secondZ) {
+    outFirst->mUnk_00 = (firstX << 12) + (secondX - firstX) * 0xf000 / 32;
+    outFirst->mUnk_04 = (firstZ << 12) + (secondZ - firstZ) * 0x5000 / 24;
+    outSecond->mUnk_00 = (firstX << 12) + (secondX - firstX) * 0x1f000 / 32;
+    outSecond->mUnk_04 = (firstZ << 12) + (secondZ - firstZ) * 0x18000 / 24;
 }
 
-void func_020b6b54(UnkPair020b502c *a, UnkPair020b502c *b) {
-    s16 t[55][4] = {
+void GetRaceHudSubScreenState0MinMax(UnkPair020b502c *outFirst, UnkPair020b502c *outSecond) {
+    s16 rows[55][4] = {
         {-1000, -1000, 1000, 1000},
         {-6459, -3180, 2908, 3845},
         {-6522, -3756, 3369, 3662},
@@ -118,20 +126,22 @@ void func_020b6b54(UnkPair020b502c *a, UnkPair020b502c *b) {
         {0, 0, 0, 0},
         {0, 0, 0, 0},
     };
-    s32 i = func_020b4e5c();
+    s32 courseId = RaceHudSubScreenGetCurrentCourseId();
 
-    func_020b6bd4(a, b, t[i][0], t[i][1], t[i][2], t[i][3]);
+    ComputeRaceHudSubScreenState0MinMax(outFirst, outSecond, rows[courseId][0], rows[courseId][1], rows[courseId][2],
+                                        rows[courseId][3]);
 }
 
-void func_020b6b18(UnkPair020b502c *a, UnkPair020b502c *b, s32 c, s32 d, s16 e, s16 f) {
-    a->mUnk_00 = c << 12;
-    a->mUnk_04 = d << 12;
-    b->mUnk_00 = e << 12;
-    b->mUnk_04 = f << 12;
+void SetFixed12MinMaxFromWhole(UnkPair020b502c *outFirst, UnkPair020b502c *outSecond, s32 firstX, s32 firstZ,
+                               s16 secondX, s16 secondZ) {
+    outFirst->mUnk_00 = firstX << 12;
+    outFirst->mUnk_04 = firstZ << 12;
+    outSecond->mUnk_00 = secondX << 12;
+    outSecond->mUnk_04 = secondZ << 12;
 }
 
-void func_020b6a98(UnkPair020b502c *a, UnkPair020b502c *b) {
-    s16 t[55][4] = {
+void GetRaceHudSubScreenCourseMinMax(UnkPair020b502c *outFirst, UnkPair020b502c *outSecond) {
+    s16 rows[55][4] = {
         {-3000, -2244, 3000, 3756},
         {-3000, -2249, 3000, 3751},
         {-3000, -2244, 3000, 3756},
@@ -188,13 +198,14 @@ void func_020b6a98(UnkPair020b502c *a, UnkPair020b502c *b) {
         {0, 0, 0, 0},
         {0, 0, 0, 0},
     };
-    s32 i = func_020b4e5c();
+    s32 courseId = RaceHudSubScreenGetCurrentCourseId();
 
-    func_020b6b18(a, b, t[i][0], t[i][1], t[i][2], t[i][3]);
+    SetFixed12MinMaxFromWhole(outFirst, outSecond, rows[courseId][0], rows[courseId][1], rows[courseId][2],
+                              rows[courseId][3]);
 }
 
-void func_020b6a18(UnkPair020b502c *a, UnkPair020b502c *b) {
-    s16 t[55][4] = {
+void GetRaceHudSubScreenScrollLimits(UnkPair020b502c *outFirst, UnkPair020b502c *outSecond) {
+    s16 rows[55][4] = {
         {-3000, -2244, 3000, 3756},
         {-1961, -2066, 2606, 3493},
         {-3000, -2244, 3000, 3756},
@@ -251,7 +262,8 @@ void func_020b6a18(UnkPair020b502c *a, UnkPair020b502c *b) {
         {0, 0, 0, 0},
         {0, 0, 0, 0},
     };
-    s32 i = func_020b4e5c();
+    s32 courseId = RaceHudSubScreenGetCurrentCourseId();
 
-    func_020b6b18(a, b, t[i][0], t[i][1], t[i][2], t[i][3]);
+    SetFixed12MinMaxFromWhole(outFirst, outSecond, rows[courseId][0], rows[courseId][1], rows[courseId][2],
+                              rows[courseId][3]);
 }

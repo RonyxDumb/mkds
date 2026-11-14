@@ -1,6 +1,8 @@
 #include "Main/Unknown/code_0210a664.h"
+#include "Main/Unknown/code_0206bcb0.h"
+#include "Main/Unknown/code_0210a67c.h"
 
-void func_0210a664(void *p0) {
-    *(u32 *) ((u8 *) (u32) p0 + 1156) = (u32) ((~(0x0u)));
-    *(u32 *) ((u8 *) (u32) p0 + 48) = (u32) (((u32) (&func_0210a76c)));
+void func_0210a664(Kart *kart) {
+    kart->mUnk_450.mUnk_34 = (~(0x0u));
+    kart->mSoundSource.mTrackParamsFunction = (void (*)(void *, void *, void *)) UpdateKartPlayingSound;
 }

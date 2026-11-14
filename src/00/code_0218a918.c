@@ -1,43 +1,44 @@
 #include "00/code_0218a918.h"
+#include "00/code_0218a000.h"
+#include "00/code_0218a9bc.h"
+#include "00/code_0218acf4.h"
+#include "00/code_0218aea4.h"
+#include "00/code_0218ae68.h"
 
-void func_ov000_0218a98c(u32 param_1) {
-    u32 uVar1;
-    while ((*(int *) (param_1 + 0x10) < *(int *) (param_1 + 4) && (0 < *(int *) (param_1 + 0x1c)))) {
-        uVar1 = func_ov000_0218aea4((int *) ((int *) (u32) (param_1 + 0x14)));
-        func_ov000_0218ad44((Unk0218a9bc *) (param_1), (Unk0218af28 *) (uVar1));
+void func_ov000_0218a98c(Unk0218a9bc *a) {
+    SbServer *v1;
+    while ((a->mUnk_08.mUnk_08 < a->mUnk_04 && (0 < a->mUnk_14.mUnk_08))) {
+        v1 = func_ov000_0218aea4(&a->mUnk_14);
+        func_ov000_0218ad44(a, v1);
     }
-    return;
 }
 
-void func_ov000_0218a950(int param_1) {
-    if (*(int *) (param_1 + 0x10) != 0) {
-        func_ov000_0218aa14((Unk0218a9bc *) (param_1), 0);
-        func_ov000_0218a9bc((Unk0218a9bc *) (param_1));
-        if (0 < *(int *) (param_1 + 0x1c)) {
-            func_ov000_0218a98c((u32) (param_1));
+void func_ov000_0218a950(MatchingServerList *a) {
+    if (a->mUnk_000.mUnk_08.mUnk_08 != 0) {
+        func_ov000_0218aa14(&a->mUnk_000, 0);
+        func_ov000_0218a9bc(&a->mUnk_000);
+        if (0 < a->mUnk_000.mUnk_14.mUnk_08) {
+            func_ov000_0218a98c(&a->mUnk_000);
         }
-        if (*(int *) (param_1 + 0x10) == 0) {
-            (**(UnkFunc **) (param_1 + 0x44))(param_1, 2, 0, *(u32 *) (param_1 + 0x48));
+        if (a->mUnk_000.mUnk_08.mUnk_08 == 0) {
+            a->mUnk_000.mUnk_44(a, 2, 0, a->mUnk_000.mUnk_48);
         }
     }
-    return;
 }
 
-void func_ov000_0218a93c(u32 param_1, u8 param_2) {
-    int iVar1;
-    iVar1 = *(int *) (param_1 + 0x40);
-    if (iVar1 < 0x14) {
-        *(int *) (param_1 + 0x40) = iVar1 + 1;
-        *(u8 *) (param_1 + iVar1 + 0x2c) = param_2;
+void func_ov000_0218a93c(Unk0218a9bc *a, u8 b) {
+    int v1;
+    v1 = a->mUnk_40;
+    if (v1 < 0x14) {
+        a->mUnk_40 = v1 + 1;
+        a->mUnk_2c[v1] = b;
     }
-    return;
 }
 
-void func_ov000_0218a918(int param_1, u32 param_2) {
-    int iVar1;
-    iVar1 = func_ov000_0218ae68((Unk0218ae68 *) (param_1 + 8), (Unk0218af28 *) param_2);
-    if (iVar1 == 0) {
-        func_ov000_0218ae68((Unk0218ae68 *) (u32) (param_1 + 0x14), (Unk0218af28 *) param_2);
+void func_ov000_0218a918(MatchingServerList *a, SbServer *b) {
+    int v1;
+    v1 = func_ov000_0218ae68(&a->mUnk_000.mUnk_08, b);
+    if (v1 == 0) {
+        func_ov000_0218ae68(&a->mUnk_000.mUnk_14, b);
     }
-    return;
 }

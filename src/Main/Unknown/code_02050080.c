@@ -1,89 +1,91 @@
 #include "Main/Unknown/code_02050080.h"
+#include "Main/Unknown/code_020431e4.h"
 #include "Main/Unknown/code_0200e000.h"
 #include "Main/Unknown/code_02043000.h"
 #include "Main/Unknown/code_0204e000.h"
 #include "Main/Unknown/code_0205e090.h"
 #include "Main/Unknown/code_0214d000.h"
 #include "Main/Unknown/unk_0217a000.h"
+#include "code_0200eddc.h"
+#include "code_0214d018.h"
+
+#pragma opt_rebuildconditionals off
 
 static inline u32 func_02050080_inline(void) {
-    if (data_0217aa00 == 0) {
+    if (data_0217aa00 == NULL) {
         return 0;
     }
     return data_0217aa00->mUnk_0000;
 }
 
-u32 func_020501b0(u32 a) {
-    u32 r = 0;
-    Unk0217aa00_0ac *e;
-    Unk0217aa00 *q;
-    u32 b;
+u32 func_020501b0(u32 entryIndex) {
+    u32 result = 0;
+    ScanSlot *entry;
+    ConnectionWork *q;
+    u32 entryValid;
 
-    if (a >= 4) {
+    if (entryIndex >= 4) {
         return 0;
     }
     if ((data_0217aa00->mUnk_0454 & 0x40) != 0) {
-        b = r;
+        entryValid = result;
         if (func_02050080_inline() != 2) {
-            b = 0;
+            entryValid = 0;
         } else if (*(u16 *) 0x027ffc40 == 2) {
-            b = 0;
-        } else if (data_0217aa00->mUnk_00ac[a].mUnk_dc_0 != 0) {
-            b = 1;
+            entryValid = 0;
+        } else if (data_0217aa00->mUnk_00ac[entryIndex].mUnk_dc_0 != 0) {
+            entryValid = 1;
         }
-        if (b != 0) {
-            func_0204e074();
-            r = 1;
+        if (entryValid != 0) {
+            StartRequestEndScan();
+            result = 1;
         }
     } else {
         data_0217aa00->mUnk_043b = 0;
         data_0217aa00->mUnk_0438 = 0;
-        e = &data_0217aa00->mUnk_00ac[a];
+        entry = &data_0217aa00->mUnk_00ac[entryIndex];
         data_0217aa00->mUnk_0436 &= ~1;
-        if (e->mUnk_dc_0 != 0) {
-            func_0214d1fc(e, data_0217aa00->mUnk_0024, 0xc0);
-            func_0200ee58(data_0217aa00->mUnk_0024, 0xc0);
+        if (entry->mUnk_dc_0 != 0) {
+            MI_CpuCopy8(entry, data_0217aa00->mUnk_0024, 0xc0);
+            DC_StoreRange(data_0217aa00->mUnk_0024, 0xc0);
             q = data_0217aa00;
-            *(Unk0217aa00_42c *) &q->mUnk_042c = e->mUnk_c0_42c;
-            q->mUnk_043c = e->mUnk_dc_1;
-            r = 1;
+            *(Unk0217aa00_42c *) &q->mUnk_042c = entry->mUnk_c0_42c;
+            q->mUnk_043c = entry->mUnk_dc_1;
+            result = 1;
         }
     }
-    return r;
+    return result;
 }
 
-// non-matching: register choice only, 8 words; the original keeps the zero in r2 and the func_02050080_inline value
-// in r1 (this source gives the reverse), and in the loop it builds the 0x1e52 entry address in ip alone where this
-// source goes through r4.
 void func_02050080(void) {
-    s32 r;
-    u16 i;
-    u16 n;
+    BOOL proceed;
+    u16 index;
+    u16 participantCount;
 
-    r = 0;
+    proceed = FALSE;
     if (func_02050080_inline() != 0 && data_0217aa00->mUnk_0004 != 13) {
-        r = 1;
+        proceed = TRUE;
     }
-    if (r == 0) {
+    if (proceed == FALSE) {
         return;
     }
-    i = 0;
-    n = 0;
-    for (; i < 8; i++) {
-        if ((data_0217aa00->mUnk_15f6 & (1 << i)) == 0) {
-            data_0217aa00->mUnk_1e52[i].mUnk_00 = 0xffff;
+    index = 0;
+    participantCount = 0;
+    for (; index < 8; index++) {
+        if ((data_0217aa00->mParticipantMask & (1 << index)) != 0) {
+            data_0217aa00->mUnk_1e52[index].mEntryIndex = participantCount;
+            data_0217aa00->mUnk_1e8c[participantCount] = index;
+            data_0217aa00->mParticipantIndices[participantCount] = index;
+            participantCount++;
         } else {
-            data_0217aa00->mUnk_1e52[i].mUnk_00 = n;
-            data_0217aa00->mUnk_1e8c[n] = i;
-            data_0217aa00->mUnk_1e9c[n] = i;
-            n++;
+            data_0217aa00->mUnk_1e52[index].mEntryIndex = 0xffff;
         }
     }
-    for (; n < 8; n++) {
-        data_0217aa00->mUnk_1e8c[n] = 0xffff;
-        data_0217aa00->mUnk_1e9c[n] = 0xffff;
+    for (; participantCount < 8; participantCount++) {
+        data_0217aa00->mUnk_1e8c[participantCount] = 0xffff;
+        data_0217aa00->mParticipantIndices[participantCount] = 0xffff;
     }
-    if (func_0205e0a0() == 2) {
+    if (GetCurrentSceneNumber() == 2) {
         func_020431e4();
     } else {
         func_02043410();

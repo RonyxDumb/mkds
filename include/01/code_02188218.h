@@ -1,7 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "01/code_02188950.h"
 
-void func_ov001_02188218(Unk02188950 *param_1, s32 param_2);
-unsigned short func_ov001_02188220(Unk02188950 *param_1);
+typedef struct Unk02188950 Unk02188950;
+
+void func_ov001_02188218(Unk02188950 *mapObject, s32 b);
+unsigned short func_ov001_02188220(Unk02188950 *mapObject);

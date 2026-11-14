@@ -1,110 +1,119 @@
 #include "03/code_021c3fc8.h"
+#include "03/code_021bf4dc.h"
+#include "03/code_021bf8c0.h"
+#include "03/code_021c3fa0.h"
+#include "03/code_021cdbd0.h"
+#include "03/code_021d1dd0.h"
+#include "03/code_021d1f70.h"
 #include "03/code_021d254c.h"
+#include "03/code_021d2940.h"
+#include "03/unk_021d7000.h"
+#include "code_0200fc8c.h"
+#include "code_0214b824.h"
+#include "pm.h"
 
 void func_ov003_021c4130(void) {
-    int iVar1;
-    iVar1 = func_ov003_021d2b04((u32) 1);
-    if (iVar1 != 0) {
-        func_ov003_021bf31c((u8) 0);
+    int allKeysPressed;
+    allKeysPressed = AreKeysPressed(1);
+    if (allKeysPressed != 0) {
+        SetButtonResultIfNone((u8) 0);
     }
 }
 
-void func_ov003_021c412c(void) {
-    return;
-}
+void func_ov003_021c412c(void) {}
 
 void func_ov003_021c4108(void) {
-    int iVar1;
-    iVar1 = func_ov003_021bf334();
-    if (iVar1 == 0) {
-        func_ov003_021cdc10((u32) 6);
-        func_ov003_021c212c(func_ov003_021c40e8);
+    int buttonResult;
+    buttonResult = GetButtonResult();
+    if (buttonResult == 0) {
+        StartSoundSeq(6);
+        SetUpdateFunction(func_ov003_021c40e8);
     }
 }
 
 void func_ov003_021c40e8(void) {
-    func_ov003_021bf2d0();
-    func_ov003_021d1dd0((u16) 8);
-    func_ov003_021c212c(func_ov003_021c40b0);
+    DisableButtonTouch();
+    StartBlendBrightnessFadeWait(8);
+    SetUpdateFunction(func_ov003_021c40b0);
 }
 
 void func_ov003_021c40b0(void) {
-    int iVar1;
-    iVar1 = func_ov003_021d1f70(1);
-    if (iVar1 == 0) {
-        func_ov003_021d1ee0(3, 1, (u32) 0x3f, (u16) 0x40);
-        func_ov003_021d1ee0(3, 0, (u32) 0x3f, (u16) 0x40);
-        func_ov003_021c212c(func_ov003_021c4084);
+    int fadeSlotBusy;
+    fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(1);
+    if (fadeSlotBusy == 0) {
+        StartBlendBrightnessFade(3, 1, 0x3f, 0x40);
+        StartBlendBrightnessFade(3, 0, 0x3f, 0x40);
+        SetUpdateFunction(func_ov003_021c4084);
     }
 }
 
 void func_ov003_021c4084(void) {
-    int iVar1;
-    iVar1 = func_ov003_021d1f70(1);
-    if ((iVar1 == 0) && (iVar1 = func_ov003_021d1f70(0), iVar1 == 0)) {
-        func_0200fd10((u32) (((u32) 0x01000000u)));
-        func_0214fb54();
+    int v1;
+    v1 = IsBlendBrightnessFadeSlotBusy(1);
+    if ((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) {
+        OS_SpinWait((0x01000000u));
+        PM_ForceToPowerOff();
     }
 }
 
 void func_ov003_021c4054(void) {
     func_ov003_021c3ff0();
-    func_ov003_021bf578((u32) 0x60);
+    PrintMessage(0x60);
     func_ov003_021beef8(0);
-    func_ov003_021bf9e8(1);
-    func_ov003_021cdc10((u32) 0xb);
-    func_ov003_021c212c(func_ov003_021c3fc8);
+    CreateLinkLevel(1);
+    StartSoundSeq(0xb);
+    SetUpdateFunction(func_ov003_021c3fc8);
 }
 
 void func_ov003_021c3ff0(void) {
-    u32 v2 = ((u32) (&data_ov003_021d7158));
-    u32 v3 = ((u32) (&func_0214bc9c));
-    u32 v4 = func_ov003_021bf620(v2, v3);
-    u32 v5 = 0x4001008u;
-    u32 v6 = ((u32) *(u16 *) ((v5) + (0)));
-    u32 v8 = ((v6) & ~(0x3u));
-    u32 v9 = ((v8) | (0x3u));
-    u32 v11;
-    u32 v12;
-    u32 v13;
-    u32 v14;
-    u32 v16;
-    u32 v17;
-    u32 v18;
-    u32 v19;
-    u32 v21;
-    u32 v22;
-    u32 v23;
-    u32 v24;
-    u32 v26;
-    u32 v27;
-    u32 v28;
-    u32 v29;
-    *(u16 *) ((v5) + (0)) = (u16) v9;
-    v11 = 0x400100au;
-    v12 = ((u32) *(u16 *) ((v11) + (0)));
-    v13 = ((v12) & ~(0x3u));
-    v14 = ((v13) | (0x3u));
-    *(u16 *) ((v11) + (0)) = (u16) v14;
-    v16 = 0x4000008u;
-    v17 = ((u32) *(u16 *) ((v16) + (0)));
-    v18 = ((v17) & ~(0x3u));
-    v19 = ((v18) | (0x3u));
-    *(u16 *) ((v16) + (0)) = (u16) v19;
-    v21 = 0x400000au;
-    v22 = ((u32) *(u16 *) ((v21) + (0)));
-    v23 = ((v22) & ~(0x3u));
-    v24 = ((v23) | (0x3u));
-    *(u16 *) ((v21) + (0)) = (u16) v24;
-    v26 = 0x400000cu;
-    v27 = ((u32) *(u16 *) ((v26) + (0)));
-    v28 = ((v27) & ~(0x3u));
-    v29 = ((v28) | (0x3u));
-    *(u16 *) ((v26) + (0)) = (u16) v29;
+    void *nscName = &data_ov003_021d7158;
+    void *loadBg2ScrFunc = &GX_LoadBG2Scr;
+    u32 v4 = LoadFileToVram(nscName, loadBg2ScrFunc);
+    u32 g2sDbBg0CntAddr = 0x4001008u;
+    u32 g2sDbBg0CntOld = (*(u16 *) ((g2sDbBg0CntAddr) + (0)));
+    u32 g2sDbBg0CntCleared = ((g2sDbBg0CntOld) & ~(0x3u));
+    u32 g2sDbBg0CntNew = ((g2sDbBg0CntCleared) | (0x3u));
+    u32 g2sDbBg1CntAddr;
+    u32 g2sDbBg1CntOld;
+    u32 g2sDbBg1CntCleared;
+    u32 g2sDbBg1CntNew;
+    u32 g2Bg0CntAddr;
+    u32 g2Bg0CntOld;
+    u32 g2Bg0CntCleared;
+    u32 g2Bg0CntNew;
+    u32 g2Bg1CntAddr;
+    u32 g2Bg1CntOld;
+    u32 g2Bg1CntCleared;
+    u32 g2Bg1CntNew;
+    u32 g2Bg2CntAddr;
+    u32 g2Bg2CntOld;
+    u32 g2Bg2CntCleared;
+    u32 g2Bg2CntNew;
+    *(u16 *) ((g2sDbBg0CntAddr) + (0)) = g2sDbBg0CntNew;
+    g2sDbBg1CntAddr = 0x400100au;
+    g2sDbBg1CntOld = (*(u16 *) ((g2sDbBg1CntAddr) + (0)));
+    g2sDbBg1CntCleared = ((g2sDbBg1CntOld) & ~(0x3u));
+    g2sDbBg1CntNew = ((g2sDbBg1CntCleared) | (0x3u));
+    *(u16 *) ((g2sDbBg1CntAddr) + (0)) = g2sDbBg1CntNew;
+    g2Bg0CntAddr = 0x4000008u;
+    g2Bg0CntOld = (*(u16 *) ((g2Bg0CntAddr) + (0)));
+    g2Bg0CntCleared = ((g2Bg0CntOld) & ~(0x3u));
+    g2Bg0CntNew = ((g2Bg0CntCleared) | (0x3u));
+    *(u16 *) ((g2Bg0CntAddr) + (0)) = g2Bg0CntNew;
+    g2Bg1CntAddr = 0x400000au;
+    g2Bg1CntOld = (*(u16 *) ((g2Bg1CntAddr) + (0)));
+    g2Bg1CntCleared = ((g2Bg1CntOld) & ~(0x3u));
+    g2Bg1CntNew = ((g2Bg1CntCleared) | (0x3u));
+    *(u16 *) ((g2Bg1CntAddr) + (0)) = g2Bg1CntNew;
+    g2Bg2CntAddr = 0x400000cu;
+    g2Bg2CntOld = (*(u16 *) ((g2Bg2CntAddr) + (0)));
+    g2Bg2CntCleared = ((g2Bg2CntOld) & ~(0x3u));
+    g2Bg2CntNew = ((g2Bg2CntCleared) | (0x3u));
+    *(u16 *) ((g2Bg2CntAddr) + (0)) = g2Bg2CntNew;
 }
 
 void func_ov003_021c3fc8(void) {
-    func_ov003_021d1ee0(2, 0, (u32) 0x15, (u16) 8);
-    func_ov003_021d2784(0, (u32) 0x15);
-    func_ov003_021c212c(func_ov003_021c3fa0);
+    StartBlendBrightnessFade(2, 0, 0x15, 8);
+    CombineDispcntBits(0, 0x15);
+    SetUpdateFunction(func_ov003_021c3fa0);
 }

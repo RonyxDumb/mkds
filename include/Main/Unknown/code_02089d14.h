@@ -1,9 +1,10 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/unk_0217b000.h"
 
-extern void (*data_02155ec8[])(Unk0217b034_784 *a);
-extern void (*data_02155ecc[])(Unk0217b034_784 *a);
+typedef struct TimedQuad TimedQuad;
 
-void func_02089d14(u32 a);
+extern void (*data_02155ec8[])(TimedQuad *a);
+extern void (*data_02155ecc[])(TimedQuad *a);
+
+void func_02089d14(u32 tableIndex);

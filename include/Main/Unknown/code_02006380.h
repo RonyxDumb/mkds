@@ -1,22 +1,24 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_0200589c.h"
 
-s32 func_02006380(Unk0200628c *a, s32 b);
-void func_0200639c(Unk0200628c *a, s32 b, void *c, u32 d);
-u32 func_020063f4(u32 a, u32 b);
-s32 func_02006458(u32 a, s32 b);
-s32 func_02006508(s32 a, u16 b, u8 c);
-s32 func_0200654c(s32 a, u16 b, u8 c, u32 *d, u32 e);
-s32 func_020065a8(s32 a, u16 b, u8 c, u32 d);
-s32 func_020065f8(s32 a, u16 b, u8 c, u32 d);
-s32 func_02006648(s32 a, u32 b, u8 c, u32 d, u32 e, u32 f, u32 g);
-s32 func_020066c0(s32 a, u16 b, u8 c, u32 d, u32 e);
-s32 func_0200671c(s32 a, u32 b, u8 c, u32 d, u32 e, u32 f, s32 g);
-s32 func_02006794(s32 a, u16 b, u8 c, u32 d, u32 e);
-s32 func_020067f0(s32 a, u16 b, u8 c, s16 d, u32 e, u32 f);
-s32 func_02006858(s32 a, u16 b, u8 c, u32 d, u32 e);
-s32 func_020068b4(s32 a, u16 b, u8 c);
-void func_020068f4(const u8 *a, u32 b);
-u32 func_02006914(s32 a, s32 b);
+typedef struct ChunkReceiveState ChunkReceiveState;
+
+BOOL IsChunkReceived(ChunkReceiveState *state, s32 chunkIndex);
+void SetupChunkReceiveState(ChunkReceiveState *state, s32 size, void *chunkBitmap, u32 buffer);
+u32 GetBlockChunkAddress(u32 blockIdOrPosition, u32 chunkIndex);
+s32 PickSendChunkIndex(u32 blockId, s32 chunkIndex);
+s32 WriteBytesReplyPacket(u8 *buffer, u16 indexMask, u8 requestId);
+s32 WriteBytesPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 *bytes, u32 byteCount);
+s32 WriteNoMissingChunkReplyPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 blockId);
+s32 WriteNoMissingChunkPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 blockId);
+s32 WriteBlockNodePacket(u8 *buffer, u32 indexMask, u8 requestId, u32 blockId, u32 chunkIndex, u32 data, u32 dataSize);
+s32 WriteBlockNodeRequestPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 blockId, u32 chunkIndex);
+s32 WriteBlockDataPacket(u8 *buffer, u32 indexMask, u8 requestId, u32 blockId, u32 chunkIndex, u32 data, s32 dataSize);
+s32 WriteBlockDataRequestPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 blockId, u32 chunkIndex);
+s32 WriteBlockCountReplyPacket(u8 *buffer, u16 indexMask, u8 requestId, s16 blockCount, u32 sendChunkSize,
+                               u32 receiveChunkSize);
+s32 WriteBlockCountRequestPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 sendChunkSize, u32 receiveChunkSize);
+s32 WriteEmptyPacket(u8 *buffer, u16 indexMask, u8 requestId);
+void ReceiveParentPacketChecked(const u8 *packet, u32 size);
+u32 BuildChildPacket(u8 *buffer, s32 bufferSize);

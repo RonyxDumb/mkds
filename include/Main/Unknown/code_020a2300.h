@@ -2,12 +2,15 @@
 
 #include "types.h"
 #include "Main/Unknown/unk_0217b000.h"
+#include "Main/Unknown/code_020a3fa8.h" // KartBalloons
 
-void func_020a2300(unsigned int p0);
-void func_020a2314(void (*param_1)(void));
-void func_020a2328(void (*p0)(u16 a));
-void func_020a233c(s32 (*p0)(u16 a, u16 b));
-void func_020a2350(unsigned int p0);
-void func_020a2364(unsigned int p0);
-unsigned int func_020a2378(void);
-void func_020a238c(unsigned int p0);
+void SetStandingsKartOffsetCallback(void (*callback)(s32, s32));
+void SetStandingsEndCallback(void (*callback)(void));
+void SetStandingsKartEliminatedCallback(void (*callback)(u16 a));
+void SetStandingsKartHitCallback(s32 (*callback)(u16 a, u16 b));
+void SetStandingsKartsHitEachOtherCallback(void (*callback)(s32, s32));
+void SetStandingsKartHitByKartCallback(s32 (*callback)(s32, s32));
+// Returns Standings.mKartBalloons, the pointer stored by SetStandingsKartBalloons.
+KartBalloons *GetStandingsKartBalloons(void);
+// Stores the pointer to the KartBalloons array of the balloon object in Standings.mKartBalloons.
+void SetStandingsKartBalloons(KartBalloons *kartBalloons);

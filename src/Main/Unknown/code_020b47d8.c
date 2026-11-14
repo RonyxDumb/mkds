@@ -2,116 +2,121 @@
 #include "Main/Unknown/code_0200e000.h"
 #include "Main/Unknown/code_0203c000.h"
 #include "Main/Unknown/code_0203c8c0.h"
-#include "Main/Unknown/code_02021f6c.h"
+#include "code_0200eddc.h"
+#include "code_02021f6c.h"
 #include "Main/Unknown/unk_0215d000.h"
 #include "Main/Unknown/unk_02175000.h"
 #include "Main/Unknown/unk_021759c0.h"
-#include "code_02021e8c.h"
+#include "g2d_NOB_load.h"
 #include "code_02147cd8.h"
+#include "Main/Unknown/code_0203c5f8.h"
 
-u16 func_020b4d9c(void) {
-    Unk021759c0 *p = data_021759c0;
+u16 GetFollowedKartOrEntryIndex(void) {
+    RaceSetup *raceSetup = gRaceSetup;
 
-    return p->mUnk_00c == 1 ? p->mUnk_063 : p->mUnk_62;
+    return raceSetup->mRaceKind == RACE_KIND_DEMO ? raceSetup->mFollowedKartIndex : raceSetup->mEntryIndex;
 }
 
-u16 func_020b4d2c(void) {
-    u16 a;
+// Highest lap of the followed kart, one less while its race has not ended: the last lap that is over (0 = none).
+u16 GetFollowedKartLastEndedLap(void) {
+    u16 lap;
 
-    a = func_0203c8c0((u16) (data_021759c0->mUnk_00c == 1 ? data_021759c0->mUnk_063 : data_021759c0->mUnk_62));
-    if (func_0203c880((u16) (data_021759c0->mUnk_00c == 1 ? data_021759c0->mUnk_063 : data_021759c0->mUnk_62)) == 0) {
-        a = a - 1;
+    lap = GetKartHighestLap(
+        (u16) (gRaceSetup->mRaceKind == RACE_KIND_DEMO ? gRaceSetup->mFollowedKartIndex : gRaceSetup->mEntryIndex));
+    if (IsKartEnded((u16) (gRaceSetup->mRaceKind == RACE_KIND_DEMO ? gRaceSetup->mFollowedKartIndex
+                                                                   : gRaceSetup->mEntryIndex)) == 0) {
+        lap = lap - 1;
     }
-    return a;
+    return lap;
 }
 
-void func_020b4cec(s32 *a, s32 b) {
-    s32 v;
+void Matrix2x2ReciprocalScale(s32 *matrix, s32 scale) {
+    s32 reciprocal;
 
-    if (b != 0) {
-        v = func_02147f34(0x1000, b);
+    if (scale != 0) {
+        reciprocal = FX_Div(0x1000, scale);
     } else {
-        v = 0x1000;
+        reciprocal = 0x1000;
     }
-    a[3] = v;
-    a[0] = a[3];
-    a[2] = 0;
-    a[1] = a[2];
+    matrix[3] = reciprocal;
+    matrix[0] = matrix[3];
+    matrix[2] = 0;
+    matrix[1] = matrix[2];
 }
 
-void func_020b4cb0(s32 *a, s32 b) {
-    s32 s = data_0215d4b4[(b >> 4) * 2];
-    s32 c = data_0215d4b4[(b >> 4) * 2 + 1];
+void Matrix2x2Rotation(s32 *matrix, s32 angle) {
+    s32 anglePairFirst = gPairsByAngle[(angle >> 4) * 2];
+    s32 anglePairSecond = gPairsByAngle[(angle >> 4) * 2 + 1];
 
-    a[0] = c;
-    a[1] = s;
-    a[2] = -s;
-    a[3] = c;
+    matrix[0] = anglePairSecond;
+    matrix[1] = anglePairFirst;
+    matrix[2] = -anglePairFirst;
+    matrix[3] = anglePairSecond;
 }
 
-void func_020b4c74(s32 *a, s32 b) {
-    s32 c = data_0215d4b4[(b >> 4) * 2 + 1];
-    s32 s;
+void Matrix2x2ReflectedRotation(s32 *matrix, s32 angle) {
+    s32 anglePairSecond = gPairsByAngle[(angle >> 4) * 2 + 1];
+    s32 anglePairFirst;
 
-    a[0] = -c;
-    s = data_0215d4b4[(b >> 4) * 2];
-    a[1] = s;
-    a[2] = s;
-    a[3] = c;
+    matrix[0] = -anglePairSecond;
+    anglePairFirst = gPairsByAngle[(angle >> 4) * 2];
+    matrix[1] = anglePairFirst;
+    matrix[2] = anglePairFirst;
+    matrix[3] = anglePairSecond;
 }
 
-void func_020b4bf8(s32 *a, s32 b, s32 c) {
-    s32 i = c >> 4;
-    s32 s = data_0215d4b4[i * 2];
-    s32 v1 = data_0215d4b4[i * 2 + 1];
-    s32 v;
+void Matrix2x2RotationReciprocalScale(s32 *matrix, s32 scale, s32 angle) {
+    s32 angleIndex = angle >> 4;
+    s32 anglePairFirst = gPairsByAngle[angleIndex * 2];
+    s32 anglePairSecond = gPairsByAngle[angleIndex * 2 + 1];
+    s32 reciprocal;
 
-    if (b != 0) {
-        v = func_02147f34(0x1000, b);
+    if (scale != 0) {
+        reciprocal = FX_Div(0x1000, scale);
     } else {
-        v = 0x1000;
+        reciprocal = 0x1000;
     }
-    a[0] = (s32) (((s64) v1 * v) >> 12);
-    a[1] = (s32) (((s64) s * v) >> 12);
-    a[2] = -a[1];
-    a[3] = a[0];
+    matrix[0] = ((s64) anglePairSecond * reciprocal) >> 12;
+    matrix[1] = ((s64) anglePairFirst * reciprocal) >> 12;
+    matrix[2] = -matrix[1];
+    matrix[3] = matrix[0];
 }
 
-s32 func_020b4b98(s32 a) {
-    switch (data_021759d0->mUnk_04) {
+BOOL func_020b4b98(s32 number) {
+    switch (data_021759d0->mLanguageIndex) {
         case 0:
         case 1:
         case 3:
         case 4:
         case 5:
         default:
-            if (a != 1) {
-                return 1;
+            if (number != 1) {
+                return TRUE;
             }
-            return 0;
+            return FALSE;
         case 2:
-            if (a != 1 && a != 0) {
-                return 1;
+            if (number != 1 && number != 0) {
+                return TRUE;
             }
-            return 0;
+            return FALSE;
     }
 }
 
-s32 func_020b4b54(void) {
-    switch (data_021759d0->mUnk_04) {
+BOOL RaceStartIsLanguageJa(void) {
+    switch (data_021759d0->mLanguageIndex) {
         case 0:
-            return 1;
+            return TRUE;
         case 1:
         case 2:
         case 3:
         case 4:
         case 5:
-            return 0;
+            return FALSE;
     }
 }
 
-s32 func_020b4b10(void) {
-    switch (data_021759d0->mUnk_04) {
+s32 GetLanguageCharSpacing(void) {
+    switch (data_021759d0->mLanguageIndex) {
         case 0:
             return 1;
         case 1:
@@ -123,155 +128,155 @@ s32 func_020b4b10(void) {
     }
 }
 
-s32 func_020b4acc(void) {
-    switch (data_021759d0->mUnk_04) {
+BOOL IsLanguageJa(void) {
+    switch (data_021759d0->mLanguageIndex) {
         case 0:
-            return 1;
+            return TRUE;
         case 1:
         case 2:
         case 3:
         case 4:
         case 5:
-            return 0;
+            return FALSE;
     }
 }
 
-void func_020b4a7c(Unk020b4a44 **v1, void *a) {
-    Unk02021fd0 *r;
+void LoadNclrData(Nclr **outNclr, void *file) {
+    Unk02021fd0 *part;
 
-    if (a != 0) {
-        r = func_02021fd0(a, 0x504c5454);
-        if (r != 0) {
-            *v1 = (Unk020b4a44 *) (r + 1);
-            func_02021f8c((u32) *v1);
+    if (file != NULL) {
+        part = FindPartByTag(file, 0x504c5454);
+        if (part != NULL) {
+            *outNclr = (Nclr *) (part + 1);
+            NNS_G2dUnpackNCL((NNSG2dPaletteData *) *outNclr);
         }
     }
-    func_0200ee74((*v1)->mUnk_0c, (*v1)->mUnk_08);
+    DC_FlushRange((*outNclr)->mData, (*outNclr)->mDataSize);
 }
 
-void func_020b4a44(Unk020b4a44 **v1, void *a) {
-    Unk02021fd0 *r;
+void LocateNclr(Nclr **outNclr, void *file) {
+    Unk02021fd0 *part;
 
-    if (a == 0) {
+    if (file == NULL) {
         return;
     }
-    r = func_02021fd0(a, 0x504c5454);
-    if (r != 0) {
-        *v1 = (Unk020b4a44 *) (r + 1);
+    part = FindPartByTag(file, 0x504c5454);
+    if (part != NULL) {
+        *outNclr = (Nclr *) (part + 1);
     }
 }
 
-void func_020b49f4(Unk020b4934 **v1, void *a) {
-    Unk02021fd0 *r;
+void LoadNcgrData2(Ncgr **outNcgr, void *file) {
+    Unk02021fd0 *part;
 
-    if (a != 0) {
-        r = func_02021fd0(a, 0x43484152);
-        if (r != 0) {
-            *v1 = (Unk020b4934 *) (r + 1);
-            func_02021f7c((u32) *v1);
+    if (file != NULL) {
+        part = FindPartByTag(file, 0x43484152);
+        if (part != NULL) {
+            *outNcgr = (Ncgr *) (part + 1);
+            NNS_G2dUnpackBGNCG((NNSG2dCharacterData *) *outNcgr);
         }
     }
-    func_0200ee74((*v1)->mUnk_14, (*v1)->mUnk_10);
+    DC_FlushRange((*outNcgr)->mData, (*outNcgr)->mDataSize);
 }
 
-void func_020b49bc(Unk020b4934 **v1, void *a) {
-    Unk02021fd0 *r;
+void LocateNcgr2(Ncgr **outNcgr, void *file) {
+    Unk02021fd0 *part;
 
-    if (a == 0) {
+    if (file == NULL) {
         return;
     }
-    r = func_02021fd0(a, 0x43484152);
-    if (r != 0) {
-        *v1 = (Unk020b4934 *) (r + 1);
+    part = FindPartByTag(file, 0x43484152);
+    if (part != NULL) {
+        *outNcgr = (Ncgr *) (part + 1);
     }
 }
 
-void func_020b496c(Unk020b4934 **v1, void *a) {
-    Unk02021fd0 *r;
+void LoadNcgrData(Ncgr **outNcgr, void *file) {
+    Unk02021fd0 *part;
 
-    if (a != 0) {
-        r = func_02021fd0(a, 0x43484152);
-        if (r != 0) {
-            *v1 = (Unk020b4934 *) (r + 1);
-            func_02021f6c((u32) *v1);
+    if (file != NULL) {
+        part = FindPartByTag(file, 0x43484152);
+        if (part != NULL) {
+            *outNcgr = (Ncgr *) (part + 1);
+            NNS_G2dUnpackNCG((NNSG2dCharacterData *) *outNcgr);
         }
     }
-    func_0200ee74((*v1)->mUnk_14, (*v1)->mUnk_10);
+    DC_FlushRange((*outNcgr)->mData, (*outNcgr)->mDataSize);
 }
 
-void func_020b4934(Unk020b4934 **v1, void *a) {
-    Unk02021fd0 *r;
+void LocateNcgr(Ncgr **outNcgr, void *file) {
+    Unk02021fd0 *part;
 
-    if (a == 0) {
+    if (file == NULL) {
         return;
     }
-    r = func_02021fd0(a, 0x43484152);
-    if (r != 0) {
-        *v1 = (Unk020b4934 *) (r + 1);
-    }
-}
-
-void func_020b48ec(Unk02021dc8 **v1, void *a) {
-    Unk02021fd0 *r;
-
-    if (a == 0) {
-        return;
-    }
-    r = func_02021fd0(a, 0x4345424b);
-    if (r == 0) {
-        return;
-    }
-    *v1 = (Unk02021dc8 *) (r + 1);
-    func_02021e8c(*v1);
-}
-
-void func_020b48b4(Unk02021dc8 **v1, void *a) {
-    Unk02021fd0 *r;
-
-    if (a == 0) {
-        return;
-    }
-    r = func_02021fd0(a, 0x4345424b);
-    if (r != 0) {
-        *v1 = (Unk02021dc8 *) (r + 1);
+    part = FindPartByTag(file, 0x43484152);
+    if (part != NULL) {
+        *outNcgr = (Ncgr *) (part + 1);
     }
 }
 
-void func_020b486c(Unk02021dc8 **v1, void *a) {
-    Unk02021fd0 *r;
+void LoadNcerData(Unk02021dc8 **outNcer, void *file) {
+    Unk02021fd0 *part;
 
-    if (a == 0) {
+    if (file == NULL) {
         return;
     }
-    r = func_02021fd0(a, 0x41424e4b);
-    if (r == 0) {
+    part = FindPartByTag(file, 0x4345424b);
+    if (part == NULL) {
         return;
     }
-    *v1 = (Unk02021dc8 *) (r + 1);
-    func_02021dc8(*v1);
+    *outNcer = (Unk02021dc8 *) (part + 1);
+    NNS_G2dUnpackNCE(*outNcer);
 }
 
-void func_020b4810(Unk020b47d8 **v1, void *a) {
-    Unk02021fd0 *r;
+void LocateNcer(Unk02021dc8 **outNcer, void *file) {
+    Unk02021fd0 *part;
 
-    if (a != 0) {
-        r = func_02021fd0(a, 0x5343524e);
-        if (r != 0) {
-            *v1 = (Unk020b47d8 *) (r + 1);
-            func_02021f9c(a, (Unk02021fd0 **) v1);
+    if (file == NULL) {
+        return;
+    }
+    part = FindPartByTag(file, 0x4345424b);
+    if (part != NULL) {
+        *outNcer = (Unk02021dc8 *) (part + 1);
+    }
+}
+
+void LoadNanrData(Unk02021dc8 **outNanr, void *file) {
+    Unk02021fd0 *part;
+
+    if (file == NULL) {
+        return;
+    }
+    part = FindPartByTag(file, 0x41424e4b);
+    if (part == NULL) {
+        return;
+    }
+    *outNanr = (Unk02021dc8 *) (part + 1);
+    NNS_G2dUnpackNAN(*outNanr);
+}
+
+void LoadNscrData(Nscr **outNscr, void *file) {
+    Unk02021fd0 *part;
+
+    if (file != NULL) {
+        part = FindPartByTag(file, 0x5343524e);
+        if (part != NULL) {
+            *outNscr = (Nscr *) (part + 1);
+            NNS_G2dGetUnpackedScreenData(file, (Unk02021fd0 **) outNscr);
         }
     }
-    func_0200ee74((*v1)->mUnk_0c, (*v1)->mUnk_08);
+    DC_FlushRange((*outNscr)->mData, (*outNscr)->mDataSize);
 }
 
-void func_020b47d8(Unk020b47d8 **v1, void *a) {
-    Unk02021fd0 *r;
+void LocateNscr(Nscr **outNscr, void *file) {
+    Unk02021fd0 *part;
 
-    if (a == 0) {
+    if (file == NULL) {
         return;
     }
-    r = func_02021fd0(a, 0x5343524e);
-    if (r != 0) {
-        *v1 = (Unk020b47d8 *) (r + 1);
+    part = FindPartByTag(file, 0x5343524e);
+    if (part != NULL) {
+        *outNscr = (Nscr *) (part + 1);
     }
 }

@@ -1,4 +1,5 @@
 #include "Main/Unknown/code_020dd8b0.h"
+#include "Main/Unknown/code_02036820.h"
 #include "Main/Unknown/code_020364e0.h"
 #include "Main/Unknown/code_02036bec.h"
 #include "code_02147cd8.h"
@@ -7,52 +8,52 @@
 
 const Vec3 data_021583c8 = {0x100, 0x400, 0x100};
 
-void func_020dd950(Unk020dd950 *d, Vec3 *a, Vec3 *b, s32 c, s32 n, s32 e, Vec3 *f) {
-    s32 k;
-    void *h;
+void InitWanwanChain(WanwanChain *chain, Vec3 *start, Vec3 *end, s32 length, s32 pointCount, s32 e, Vec3 *f) {
+    s32 segmentCount;
+    void *heap;
 
-    d->mUnk_00 = c;
-    d->mUnk_20 = n;
-    h = func_020364e0(func_020364e8());
-    d->mUnk_44 = func_02036bec(h, n * 12);
-    h = func_020364e0(func_020364e8());
-    d->mUnk_48 = func_02036bec(h, n * 12);
-    d->mUnk_34 = *f;
-    d->mUnk_40 = (s32) (((s64) e * f->y) >> 12);
-    k = n - 1;
-    d->mUnk_24 = 0x1000 / k;
-    d->mUnk_28 = (s32) (((s64) c * 0x119a) >> 12) / k;
-    d->mUnk_2c = (s64) d->mUnk_28 * d->mUnk_28;
-    func_020dd8b0(d, a, b);
-    d->mUnk_0c = a->y + d->mUnk_40;
-    d->mUnk_04 = 0x599;
-    d->mUnk_10 = 0x51;
-    d->mUnk_14 = data_021583c8;
-    d->mUnk_08 = 1;
+    chain->mLength = length;
+    chain->mPointCount = pointCount;
+    heap = GetHeap(GetCurrentHeapCall());
+    chain->mPoints = HeapAlloc(heap, pointCount * 12);
+    heap = GetHeap(GetCurrentHeapCall());
+    chain->mVelocities = HeapAlloc(heap, pointCount * 12);
+    chain->mUnk_34 = *f;
+    chain->mUnk_40 = ((s64) e * f->y) >> 12;
+    segmentCount = pointCount - 1;
+    chain->mStepFraction = 0x1000 / segmentCount;
+    chain->mLinkLength = (s32) (((s64) length * 0x119a) >> 12) / segmentCount;
+    chain->mLinkLengthSquared = (s64) chain->mLinkLength * chain->mLinkLength;
+    SetWanwanChainPointsEvenly(chain, start, end);
+    chain->mMinY = start->y + chain->mUnk_40;
+    chain->mDownwardStep = 0x599;
+    chain->mUnk_10 = 0x51;
+    chain->mUnk_14 = data_021583c8;
+    chain->mUnk_08 = 1;
 }
 
-void func_020dd8b0(Unk020dd950 *d, Vec3 *a, Vec3 *b) {
-    Vec3 v;
-    Vec3 *q;
-    s32 i;
-    s32 k;
+void SetWanwanChainPointsEvenly(WanwanChain *chain, Vec3 *start, Vec3 *end) {
+    Vec3 step;
+    Vec3 *zeroedPoints;
+    s32 index;
+    s32 stepFraction;
 
-    func_021484d0(b, a, &v);
-    k = d->mUnk_24;
-    v.x = (s32) (((s64) v.x * k) >> 12);
-    v.y = (s32) (((s64) v.y * k) >> 12);
-    v.z = (s32) (((s64) v.z * k) >> 12);
-    *d->mUnk_44 = *a;
-    q = d->mUnk_48;
-    q->x = 0;
-    q->y = 0;
-    q->z = 0;
-    for (i = 1; i < d->mUnk_20; i++) {
-        func_02148504(&d->mUnk_44[i - 1], &v, &d->mUnk_44[i]);
-        q = d->mUnk_48;
-        q[i].x = 0;
-        q[i].y = 0;
-        q[i].z = 0;
+    VEC_Subtract(end, start, &step);
+    stepFraction = chain->mStepFraction;
+    step.x = ((s64) step.x * stepFraction) >> 12;
+    step.y = ((s64) step.y * stepFraction) >> 12;
+    step.z = ((s64) step.z * stepFraction) >> 12;
+    *chain->mPoints = *start;
+    zeroedPoints = chain->mVelocities;
+    zeroedPoints->x = 0;
+    zeroedPoints->y = 0;
+    zeroedPoints->z = 0;
+    for (index = 1; index < chain->mPointCount; index++) {
+        VEC_Add(&chain->mPoints[index - 1], &step, &chain->mPoints[index]);
+        zeroedPoints = chain->mVelocities;
+        zeroedPoints[index].x = 0;
+        zeroedPoints[index].y = 0;
+        zeroedPoints[index].z = 0;
     }
 }
 

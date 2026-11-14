@@ -1,8 +1,10 @@
 #pragma once
 
 #include "types.h"
-#include "00/code_02185984.h"
-#include "00/code_021a369c.h"
-#include "00/unk_021b5000.h"
+#include "00/code_0219c93c.h"
 
-void func_ov000_0219c954(void);
+void ReleaseWiFiLogin(void);
+void ReportWiFiLoginError(s32 a, s32 b);
+DWCAccUserData *func_ov000_0219c9c4(void);
+void UpdateWiFiLogin(void);
+void func_ov000_0219ca84(void);

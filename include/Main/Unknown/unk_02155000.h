@@ -4,14 +4,14 @@
 
 // Objects whose layout isn't known yet.
 extern const u32 data_02155018[];
-extern u8 data_02155048[];
-extern u8 data_02155098[];
-extern u8 data_021550a8[];
+extern u32 data_02155048[];
+extern u32 data_02155098[];
+extern u32 data_021550a8[];
 extern const u32 data_02155068[];
 extern const Vec3 data_02155188;
 struct Vec4;
 extern const struct Vec4 data_02155194;
-extern void (*data_02155a20[])(void *param_1);
+extern void (*gNsbmdDrawFunctions[])(void *param_1);
 extern const u16 data_02155a64[];
 extern const u16 data_02155a28[];
 extern const u16 data_02155a2c[];
@@ -20,59 +20,60 @@ extern const u16 data_02155ed0[];
 extern const Vec3 data_021557ec;
 extern s32 data_02155854[];
 struct Unk0201ca6c;
-struct Unk0206bcb0;
+struct Kart;
 
-// Three pairs of words (func_02082e4c).
-typedef struct Unk02155808 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ void (*mUnk_04)(struct Unk0201ca6c *p, s32 a);
-} Unk02155808;
+// An effect id and its step function.
+typedef struct OtherKartEffectKind {
+    /* 00 */ s32 mEffectId;
+    /* 04 */ void (*mAdvance)(struct Unk0201ca6c *p, s32 a);
+} OtherKartEffectKind;
 
-extern Unk02155808 data_02155808[3];
+extern OtherKartEffectKind gOtherKartEffectKinds[3];
 extern Vec3 data_02155a08;
-extern u32 data_021557f8[];
-extern s32 data_02155800[];
-extern Vec3 data_02155818[];
-extern void (*data_02155830[])(struct Unk0206bcb0 *p);
+extern u32 gKartBoostCameraEffectIds[];
+extern s32 gKartSideOffsetsX[];
+extern Vec3 gKartSideDirectionVectors[];
+extern void (*gKartSurfaceEffectFunctions[])(struct Kart *p);
 extern Vec3 data_02155a14;
 extern Vec3 data_02155a48;
-extern Vec3 data_02155eb0;
+extern Vec3 gVec3UnitY;
 extern Vec3 data_02155ebc;
 
-// 12-byte entries; func_02088390 reads the string pointer at 0x00.
-typedef struct Unk02155cf4 {
+// 12-byte entries; BuildEmblemNsbtxPath reads the string pointer at 0x00.
+typedef struct CharacterName {
     /* 00 */ const char *mUnk_00;
     /* 04 */ u8 mUnk_04[8];
-} Unk02155cf4;
+} CharacterName;
 
-extern const Unk02155cf4 data_02155cf4[];
-extern const Unk02155cf4 data_02155cec[];
-extern const Unk02155cf4 data_02155cf0[];
+extern const CharacterName gCharacterEmblemNames[];
+extern const CharacterName gCharacterPNames[];
+extern const CharacterName gCharacterENames[];
 
-// 8-byte entries; func_020884bc and func_020885d0 read the string pointer at 0x00.
+// 8-byte entries; BuildKartShadowNsbmdPath and BuildKartNsbtxPath read the string pointer at 0x00.
 typedef struct Unk02155d88 {
     /* 00 */ const char *mUnk_00;
     /* 04 */ u8 mUnk_04[4];
 } Unk02155d88;
 
-extern const Unk02155d88 data_02155d88[];
-extern const Unk02155d88 data_02155d8c[];
+extern const Unk02155d88 gKartNames[];
+extern const Unk02155d88 gKartShadowNames[];
 
 // 12-byte entry: four bytes and two string pointers.
-typedef struct Unk02155ee8 {
-    /* 00 */ u8 mUnk_00;
-    /* 01 */ u8 mUnk_01;
-    /* 02 */ u8 mUnk_02;
-    /* 03 */ u8 mUnk_03;
-    /* 04 */ const char *mUnk_04[2];
-} Unk02155ee8;
+typedef struct StemSetParams {
+    /* 00 */ u8 mNsbmdCount;
+    /* 01 */ u8 mNsbcaCount;
+    /* 02 */ u8 mNsbmaCount;
+    // The nsbtp files are loaded only when mNsbmdCount is 1 and this is above 1.
+    /* 03 */ u8 mNsbtpCount;
+    /* 04 */ const char *mStems[2];
+} StemSetParams;
 
-extern const Unk02155ee8 data_02155ee8[3];
-extern const Unk02155ee8 data_02155f0c;
-extern const Unk02155ee8 data_02155f18;
-extern const Unk02155ee8 data_02155f24;
-extern const Unk02155ee8 data_02155f30;
-extern const Unk02155ee8 data_02155f3c;
+extern const StemSetParams gCountStartStems[3];
+extern const StemSetParams gGoalStems;
+extern const StemSetParams gWinStems;
+extern const StemSetParams gLoseStems;
+extern const StemSetParams gCompleteStems;
+extern const StemSetParams gFailedStems;
 extern Vec3 data_02155a3c;
 extern const u32 data_02155a54;
 extern const u16 data_02155a74[12];
@@ -87,8 +88,9 @@ extern const s32 data_02155798[];
 extern const s32 data_021557bc;
 extern const s32 data_021557c0;
 extern const s32 data_021557dc[];
-extern const s32 data_021551a4[];
-// 12-byte entries from data_021551b0 (a string pointer at 0x00); the second table starts at the word at 0x04 of the first entry.
+extern const s32 gCharacterFaceFrames[];
+// 12-byte entries from gCharacterNsbcaStems (a string pointer at 0x00); the second table starts at the word at 0x04 of
+// the first entry.
 typedef struct Unk021551b0 {
     /* 00 */ const char *mUnk_00;
     /* 04 */ s32 mUnk_04;
@@ -98,9 +100,9 @@ typedef struct Unk021551b4 {
     /* 00 */ s32 mUnk_00;
     /* 04 */ u8 mUnk_04[8];
 } Unk021551b4;
-extern const Unk021551b0 data_021551b0[];
-extern const Unk021551b4 data_021551b4[];
-extern const s32 data_usa_021551dc[];
+extern const Unk021551b0 gCharacterNsbcaStems[];
+extern const Unk021551b4 gCharacterAnimationLoopFlags[];
+extern const s32 gFinishResultByRank[];
 extern const s32 data_0215560c[];
 extern const s32 data_02155630[];
 extern const s32 data_02155654[];

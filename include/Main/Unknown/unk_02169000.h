@@ -1,10 +1,10 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/code_020beb9c.h" // Unk021691ec
+#include "Main/Unknown/code_020beb9c.h" // RaceHudSubScreenCellGroupFunctions
 
-extern Unk021691ec data_021691ec[];
-extern const s32 data_021696c0[10];
+extern RaceHudSubScreenCellGroupFunctions gRaceHudSubScreenCellGroupFunctions[];
+extern s32 gRaceHudSubScreenItemPoolIndices[10];
 
 // Objects whose layout isn't known yet.
 extern u32 data_02169780[];

@@ -1,9 +1,28 @@
 #include "Main/Unknown/code_020b252c.h"
+#include "Main/Unknown/code_020364e0.h"
+
+#include "Main/Unknown/code_020b2540.h"
+#include "Main/Unknown/code_020b255c.h"
+#include "Main/Unknown/code_020b2c68.h"
+#include "Main/Unknown/code_020b2e98.h"
+#include "Main/Unknown/unk_021759c0.h"
+
+#pragma thumb on
+
+void func_020b255c(void) {
+    int isOpen;
+    isOpen = func_020b2e98();
+    if (isOpen != 0) {
+        func_020b2c68();
+    }
+}
+
+#pragma thumb off
+
+void *func_020b2540(void) {
+    return GetHeap(GetCurrentHeapCall());
+}
 
 u32 func_020b252c(void) {
-    return ((u32) *(
-        const u32 *) ((u8 *) (u32) (((u32) *(
-                                   const u32 *) ((u8 *) (u32) (((u32) (&data_021759c0))) +
-                                                          0))) +
-                               8));
+    return (gRaceSetup->mMode);
 }

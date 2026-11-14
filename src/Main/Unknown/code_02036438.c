@@ -1,24 +1,32 @@
 #include "Main/Unknown/code_02036438.h"
+#include "Main/Unknown/code_02036264.h"
+#include "Main/Unknown/code_02035d18.h"
+#include "Main/Unknown/code_020364a8.h"
+#include "Main/Unknown/code_02036820.h"
+#include "Main/Unknown/code_020b4000.h"
+#include "Main/Unknown/code_020d1630.h"
+#include "Main/Unknown/code_020d1640.h"
+#include "Main/Unknown/unk_02174000.h"
+#include "code_0214b824.h"
 
 #pragma thumb on
 
-void func_02036438(void *heap) {
-    u32 uVar1;
-    int iVar2;
-    int iVar3;
-    uVar1 = (u32) func_02036948(heap);
-    iVar2 = ((u32) func_02036bec((void *) uVar1, (u32) (((u32) 0x00000654u))));
-    *(int *) &data_02174e6c = iVar2;
-    func_02036264((void *) iVar2, (u32) (((u32) 0x00000654u)));
-    *(u32 *) ((int) data_02174e6c + 0x650) = uVar1;
-    func_020364a8(0, 0, 0x10, 0, 0);
-    iVar2 = ((u32) func_020d1630());
-    iVar3 = *(int *) (iVar2 + 0x24);
-    iVar2 = ((u32) func_020d1630());
-    iVar2 = *(int *) (iVar2 + 0x28);
-    func_0214b9c4((const void *) (*(u32 *) (iVar3 + 0x14)), 0, (u32) (*(u32 *) (iVar3 + 0x10)));
-    func_0214b824((const void *) (*(u32 *) (iVar3 + 0x14)), 0, (u32) (*(u32 *) (iVar3 + 0x10)));
-    func_0214c0f8((const void *) (*(u32 *) (iVar2 + 0xc)), 0, (u32) (*(u32 *) (iVar2 + 8)));
+void InitWLMenuMessage(void *heap) {
+    void *frameHeap;
+    int object;
+    Ncgr *chars;
+    Nclr *palette;
+    frameHeap = CreateFrmHeapFromMaxFree(heap);
+    object = ((u32) HeapAlloc(frameHeap, (0x00000654u)));
+    *(s32 *) &gWLMenuMessage = object;
+    func_02036264((void *) object, (0x00000654u));
+    gWLMenuMessage->mHeap = frameHeap;
+    SetSubBg1Cnt(0, 0, 0x10, 0, 0);
+    chars = func_020d1630()->mUnk_24;
+    palette = func_020d1630()->mUnk_28;
+    GXS_LoadBG1Char(chars->mData, 0, chars->mDataSize);
+    GXS_LoadBG3Char(chars->mData, 0, chars->mDataSize);
+    GXS_LoadBGPltt(palette->mData, 0, palette->mDataSize);
 }
 
 #pragma thumb off

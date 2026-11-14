@@ -2,11 +2,29 @@
 
 #include "types.h"
 
-struct Unk02089a24;
-struct Unk020888b4;
+struct KartAiRaceSpeedLimit;
+struct KartAi;
 
-void func_0207d814(struct Unk02089a24 *a, struct Unk020888b4 *b);
-u16 func_0207d8e4(s32 a);
-void func_0207d9f0(struct Unk02089a24 *a, struct Unk020888b4 *b, s32 c);
-void func_0207de84(struct Unk02089a24 *a, struct Unk020888b4 *b);
-void func_0207e088(struct Unk02089a24 *a, struct Unk020888b4 *b);
+struct KartAiRaceSpeedLimit;
+struct KartAi;
+
+struct KartAiRaceSpeedLimit;
+struct KartAi;
+
+struct KartAi;
+struct Kart;
+struct PointLink;
+
+void func_0207d814(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi);
+u16 PickKartAiRaceStartBoost(s32 pickLast);
+void func_0207d9f0(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi, s32 speedLimitCap);
+void AdvanceRaceKartAiSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi);
+void PickKartAiRaceStart(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi);
+void ResetRaceKartAiSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi);
+u32 SetupRaceKartAiSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi);
+void InitKartAiTables(void);
+void AdvanceStaffRollKartAi(struct KartAi *kartAi);
+void SetupStaffRollKartAi(struct KartAi *kartAi, struct Kart *kart, s32 a);
+void AdvanceAwardMissionRunKartAi(struct KartAi *kartAi);
+void ResetAwardMissionRunKartAi(struct KartAi *kartAi, struct PointLink *pointLink);
+void SetupAwardMissionRunKartAi(struct KartAi *kartAi, struct Kart *kart, s32 a);

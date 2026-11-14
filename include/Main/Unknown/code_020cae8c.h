@@ -1,49 +1,50 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/unk_0217b000.h"
-#include "Main/Unknown/code_020b4000.h"
-#include "code_02021db0.h"
-#include "Main/Unknown/code_02124094.h" // Unk02124b1c
+#include "Main/Unknown/code_02124094.h" // LayoutTableEntry
 
-// Elements of the table at member 0x14 of Unk0217b43c.
-typedef struct Unk0217b43c_14 {
+typedef struct Ncgr Ncgr;
+typedef struct Nclr Nclr;
+typedef struct Unk02021dc8 Unk02021dc8;
+
+// Elements of the table at member 0x14 of MenuScene.
+typedef struct ScreenCallbacks {
     /* 0 */ void (*mUnk_00)(void);
-    /* 4 */ void (*mUnk_04)(u32 a);
-} Unk0217b43c_14;
+    /* 4 */ void (*mUpdate)(u32 a);
+} ScreenCallbacks;
 
 // Object behind data_0217b43c.
-typedef struct Unk0217b43c {
-    /* 000 */ s32 mUnk_000;
+typedef struct MenuScene {
+    /* 000 */ s32 mFramesSinceScreenSwitch;
     /* 004 */ s32 mUnk_004;
-    /* 008 */ s32 mUnk_008;
-    /* 00c */ s32 mUnk_00c;
-    /* 010 */ s32 mUnk_010;
-    /* 014 */ Unk0217b43c_14 mUnk_014[0x1e];
-    /* 104 */ s32 mUnk_104;
-    /* 108 */ u8 mUnk_108[0x404];
-    /* 50c */ u8 mUnk_50c[0x404];
-    /* 910 */ Unk020b4a44 *mUnk_910;
-    /* 914 */ Unk020b4934 *mUnk_914;
-    /* 918 */ Unk02021dc8 *mUnk_918;
+    /* 008 */ s32 mPreviousScreenNumber;
+    /* 00c */ s32 mScreenNumber;
+    /* 010 */ s32 mNextScreenNumber;
+    /* 014 */ ScreenCallbacks mScreenCallbacks[0x1e];
+    /* 104 */ BOOL mScreenInitPending;
+    /* 108 */ u8 mMainOam[0x404];
+    /* 50c */ u8 mSubOam[0x404];
+    /* 910 */ Nclr *mSinglePlaySelectModeMONclr;
+    /* 914 */ Ncgr *mSinglePlaySelectModeMNcgr;
+    /* 918 */ Unk02021dc8 *mSinglePlaySelectModeMNcer;
     /* 91c */ u8 mUnk_91c[4];
-    /* 920 */ Unk020b4a44 *mUnk_920;
-    /* 924 */ Unk020b4934 *mUnk_924;
-    /* 928 */ Unk02021dc8 *mUnk_928;
+    /* 920 */ Nclr *mSinglePlaySelectModeSONclr;
+    /* 924 */ Ncgr *mSinglePlaySelectModeSNcgr;
+    /* 928 */ Unk02021dc8 *mSinglePlaySelectModeSNcer;
     /* 92c */ u8 mUnk_92c[4];
-    /* 930 */ s32 mUnk_930;
-    /* 934 */ s32 mUnk_934;
+    /* 930 */ s32 mSinglePlaySelectModeIndex;
+    /* 934 */ BOOL mUnk_934;
     /* 938 */ s16 mUnk_938;
     /* 93a */ u8 mUnk_93a[2];
-    /* 93c */ Unk02124b1c *mUnk_93c;
-    /* 940 */ void *mUnk_940;
+    /* 93c */ LayoutTableEntry *mSinglePlaySelectModeMLayoutTable;
+    /* 940 */ struct Unk0201ea30 *mSinglePlaySelectModeMBncl;
     /* 944 */ s32 mUnk_944;
-    /* 948 */ Unk02124b1c *mUnk_948;
-    /* 94c */ void *mUnk_94c;
-    /* 950 */ void *mUnk_950;
+    /* 948 */ LayoutTableEntry *mSinglePlaySelectModeSLayoutTable;
+    /* 94c */ struct Unk0201ea30 *mSinglePlaySelectModeSBncl;
+    /* 950 */ void *mSinglePlaySelectModeSBnbl;
     /* 954 */ u8 *mUnk_954;
-    /* 958 */ s32 mUnk_958;
-    /* 95c */ s32 mUnk_95c;
-} Unk0217b43c;
+    /* 958 */ BOOL mUnk_958;
+    /* 95c */ BOOL mUnk_95c;
+} MenuScene;
 
 void func_020cae8c(void);

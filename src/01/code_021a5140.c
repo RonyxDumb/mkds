@@ -1,10 +1,14 @@
 #include "01/code_021a5140.h"
+#include "01/code_02184f7c.h"
+#include "01/code_021928c8.h"
 #include "01/code_02181000.h"
 #include "01/code_02184000.h"
 #include "01/code_02185000.h"
 #include "01/code_02192000.h"
 #include "01/code_021a6000.h"
+#include "Main/Unknown/code_02036820.h"
 #include "Main/Unknown/code_02037000.h"
+#include "Main/Unknown/code_02036c5c.h"
 #include "Main/Unknown/code_02038000.h"
 #include "Main/Unknown/code_02078000.h"
 #include "Main/Unknown/code_020ac000.h"
@@ -13,122 +17,120 @@
 #include "Main/Unknown/code_020364e0.h"
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/Unknown/code_020391d4.h"
-#include "Main/Unknown/code_0204799c.h"
-#include "Main/Unknown/code_020b4000.h"
+#include "Main/Unknown/code_02047104.h"
 #include "Main/Unknown/code_020ae4c0.h"
+#include "Main/Unknown/code_020ca6c4.h"
 #include "Main/Unknown/unk_0217a000.h"
-#include "01/code_02181268.h"
-#include "01/code_02181124.h"
+#include "01/code_02180ce8.h"
 #include "03/code_021b94b8.h"
+#include "code_0214d018.h"
 
-void func_ov001_021a5140(void) {
-    Unk020391d4 unk;
-    Unk0217aa08_04 *p;
+void InitEmblem(void) {
+    DisplaySettingsDesc unk;
+    EmblemRecord *p;
 
-    data_ov001_021ca41c = func_02036bec((void *) func_020364e0(func_020364e8()), 0x10c0);
-    func_020391d4((u32) &unk);
-    unk.mUnk_06 = 1;
-    unk.mUnk_08 = 0;
+    gEmblem = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x10c0);
+    InitDisplaySettingsDesc(&unk);
+    unk.mUnk_00[3] = 1;
+    unk.mMainBgMode = 0;
     unk.mUnk_0a = 1;
-    unk.mUnk_02 = 0x11;
-    unk.mUnk_16 = 3;
-    unk.mUnk_18 = 0x10;
-    unk.mUnk_0e = 0x20;
-    unk.mUnk_10 = 0x40;
-    unk.mUnk_0c = 1;
-    unk.mUnk_04 = 0x10;
-    unk.mUnk_1c = 4;
-    unk.mUnk_1e = 8;
-    func_02037abc(func_02038d88((void *) func_020364e0(func_020364e8()), &unk));
-    func_020b4a7c((Unk020b4a44 **) (&data_ov001_021ca41c->mUnk_0808), (void *) (func_0204799c("emblem_m_o.NCLR")));
-    func_020b49f4((Unk020b4934 **) (&data_ov001_021ca41c->mUnk_0810), (void *) (func_0204799c("emblem_m_o.NCGR")));
-    func_020b48ec(&data_ov001_021ca41c->mUnk_0820, func_0204799c("emblem_m.NCER"));
-    func_020b486c(&data_ov001_021ca41c->mUnk_0824, func_0204799c("emblem_m.NANR"));
-    data_ov001_021ca41c->mUnk_0828 =
-        func_ov001_021852f8("emblem_m.lld", data_ov001_021ca41c->mUnk_0820, data_ov001_021ca41c->mUnk_0824);
-    func_020b4a7c((Unk020b4a44 **) (&data_ov001_021ca41c->mUnk_080c), (void *) (func_0204799c("emblem_m_b.NCLR")));
-    func_020b496c((Unk020b4934 **) (&data_ov001_021ca41c->mUnk_0814), (void *) (func_0204799c("emblem_m_b.NCGR")));
-    func_020b4810((Unk020b47d8 **) (&data_ov001_021ca41c->mUnk_0818), (void *) (func_0204799c("emblem_m.NSCR")));
-    func_020b4810((Unk020b47d8 **) (&data_ov001_021ca41c->mUnk_081c), (void *) (func_0204799c("emblem_m_bg.NSCR")));
-    func_020b4a7c(&data_ov001_021ca41c->mUnk_082c, (void *) (func_0204799c("emblem_s_o.NCLR")));
-    func_020b49f4((Unk020b4934 **) (&data_ov001_021ca41c->mUnk_0834), (void *) (func_0204799c("emblem_s_o.NCGR")));
-    func_020b48ec(&data_ov001_021ca41c->mUnk_0850, func_0204799c("emblem_s.NCER"));
-    func_020b486c(&data_ov001_021ca41c->mUnk_0854, func_0204799c("emblem_s.NANR"));
-    data_ov001_021ca41c->mUnk_0858 =
-        func_ov001_021852f8("emblem_s.lld", data_ov001_021ca41c->mUnk_0850, data_ov001_021ca41c->mUnk_0854);
-    data_ov001_021ca41c->mUnk_085c =
-        func_ov001_021852f8("emblem_template_s.lld", data_ov001_021ca41c->mUnk_0850, data_ov001_021ca41c->mUnk_0854);
-    func_020b4a7c(&data_ov001_021ca41c->mUnk_0830, (void *) (func_0204799c("emblem_s_b.NCLR")));
-    func_020b496c((Unk020b4934 **) (&data_ov001_021ca41c->mUnk_0838), (void *) (func_0204799c("emblem_s_b.NCGR")));
-    func_020b496c(&data_ov001_021ca41c->mUnk_083c, (void *) (func_0204799c("emblem_template_b.NCGR")));
-    func_020b4810((Unk020b47d8 **) (&data_ov001_021ca41c->mUnk_0848), (void *) (func_0204799c("emblem_s_template_frame.NSCR")));
-    func_020b4810((Unk020b47d8 **) (&data_ov001_021ca41c->mUnk_0840), (void *) (func_0204799c("emblem_s_tool.NSCR")));
-    func_020b4810((Unk020b47d8 **) (&data_ov001_021ca41c->mUnk_0844), (void *) (func_0204799c("emblem_s_bg.NSCR")));
-    func_020b4810((Unk020b47d8 **) (&data_ov001_021ca41c->mUnk_084c), (void *) (func_0204799c("emblem_s_template_dark.NSCR")));
-    func_020b49f4((Unk020b4934 **) (&data_ov001_021ca41c->mUnk_0860), (void *) (func_0204799c("emblem_camera_s_o.NCGR")));
-    func_020b48ec(&data_ov001_021ca41c->mUnk_0870, func_0204799c("emblem_camera_s.NCER"));
-    func_020b486c(&data_ov001_021ca41c->mUnk_0874, func_0204799c("emblem_camera_s.NANR"));
-    data_ov001_021ca41c->mUnk_0878 =
-        func_ov001_021852f8("emblem_camera_s.lld", data_ov001_021ca41c->mUnk_0870, data_ov001_021ca41c->mUnk_0874);
-    func_020b496c((Unk020b4934 **) (&data_ov001_021ca41c->mUnk_0864), (void *) (func_0204799c("emblem_camera_s_b.NCGR")));
-    func_020b4810((Unk020b47d8 **) (&data_ov001_021ca41c->mUnk_0868), (void *) (func_0204799c("emblem_camera_s_DS.NSCR")));
-    func_020b4810((Unk020b47d8 **) (&data_ov001_021ca41c->mUnk_086c), (void *) (func_0204799c("emblem_camera_s_bg.NSCR")));
-    func_ov001_02192d28();
-    func_02078c58((void *) func_020364e0(func_020364e8()));
-    func_020ca6c4();
-    func_020ae6d4(data_ov001_021ca41c->mUnk_0000, data_ov001_021ca41c->mUnk_0404);
+    unk.mUnk_00[1] = 0x11;
+    unk.mUnk_0e[4] = 3;
+    unk.mUnk_0e[5] = 0x10;
+    unk.mUnk_0e[0] = 0x20;
+    unk.mUnk_0e[1] = 0x40;
+    unk.mSubBgMode = 1;
+    unk.mUnk_00[2] = 0x10;
+    unk.mUnk_0e[7] = 4;
+    unk.mUnk_0e[8] = 8;
+    InitDisplayFromSettings(CreateDisplaySettings(GetHeap(GetCurrentHeapCall()), &unk));
+    LoadNclrData(&gEmblem->mEmblemMONclr, (FindSceneFile("emblem_m_o.NCLR")));
+    LoadNcgrData2(&gEmblem->mEmblemMONcgr, (FindSceneFile("emblem_m_o.NCGR")));
+    LoadNcerData(&gEmblem->mEmblemMNcer, FindSceneFile("emblem_m.NCER"));
+    LoadNanrData(&gEmblem->mEmblemMNanr, FindSceneFile("emblem_m.NANR"));
+    gEmblem->mEmblemMLld = CreateLld("emblem_m.lld", gEmblem->mEmblemMNcer, gEmblem->mEmblemMNanr);
+    LoadNclrData(&gEmblem->mEmblemMBNclr, (FindSceneFile("emblem_m_b.NCLR")));
+    LoadNcgrData(&gEmblem->mEmblemMBNcgr, (FindSceneFile("emblem_m_b.NCGR")));
+    LoadNscrData(&gEmblem->mEmblemMNscr, (FindSceneFile("emblem_m.NSCR")));
+    LoadNscrData(&gEmblem->mEmblemMBgNscr, (FindSceneFile("emblem_m_bg.NSCR")));
+    LoadNclrData(&gEmblem->mEmblemSONclr, (FindSceneFile("emblem_s_o.NCLR")));
+    LoadNcgrData2(&gEmblem->mEmblemSONcgr, (FindSceneFile("emblem_s_o.NCGR")));
+    LoadNcerData(&gEmblem->mEmblemSNcer, FindSceneFile("emblem_s.NCER"));
+    LoadNanrData(&gEmblem->mEmblemSNanr, FindSceneFile("emblem_s.NANR"));
+    gEmblem->mEmblemSLld = CreateLld("emblem_s.lld", gEmblem->mEmblemSNcer, gEmblem->mEmblemSNanr);
+    gEmblem->mEmblemTemplateSLld = CreateLld("emblem_template_s.lld", gEmblem->mEmblemSNcer, gEmblem->mEmblemSNanr);
+    LoadNclrData(&gEmblem->mEmblemSBNclr, (FindSceneFile("emblem_s_b.NCLR")));
+    LoadNcgrData(&gEmblem->mEmblemSBNcgr, (FindSceneFile("emblem_s_b.NCGR")));
+    LoadNcgrData(&gEmblem->mEmblemTemplateBNcgr, (FindSceneFile("emblem_template_b.NCGR")));
+    LoadNscrData(&gEmblem->mEmblemSTemplateFrameNscr, (FindSceneFile("emblem_s_template_frame.NSCR")));
+    LoadNscrData(&gEmblem->mEmblemSToolNscr, (FindSceneFile("emblem_s_tool.NSCR")));
+    LoadNscrData(&gEmblem->mEmblemSBgNscr, (FindSceneFile("emblem_s_bg.NSCR")));
+    LoadNscrData(&gEmblem->mEmblemSTemplateDarkNscr, (FindSceneFile("emblem_s_template_dark.NSCR")));
+    LoadNcgrData2(&gEmblem->mEmblemCameraSONcgr, (FindSceneFile("emblem_camera_s_o.NCGR")));
+    LoadNcerData(&gEmblem->mEmblemCameraSNcer, FindSceneFile("emblem_camera_s.NCER"));
+    LoadNanrData(&gEmblem->mEmblemCameraSNanr, FindSceneFile("emblem_camera_s.NANR"));
+    gEmblem->mEmblemCameraSLld =
+        CreateLld("emblem_camera_s.lld", gEmblem->mEmblemCameraSNcer, gEmblem->mEmblemCameraSNanr);
+    LoadNcgrData(&gEmblem->mEmblemCameraSBNcgr, (FindSceneFile("emblem_camera_s_b.NCGR")));
+    LoadNscrData(&gEmblem->mEmblemCameraSDSNscr, (FindSceneFile("emblem_camera_s_DS.NSCR")));
+    LoadNscrData(&gEmblem->mEmblemCameraSBgNscr, (FindSceneFile("emblem_camera_s_bg.NSCR")));
+    CreateEmblemInput();
+    func_02078c58(GetHeap(GetCurrentHeapCall()));
+    InitEmblemChoises();
+    ResetOamLists(&gEmblem->mUnk_0000, &gEmblem->mUnk_0404);
     func_ov001_021a6238(0x40, 0x10, 0x20, 0x80, 0x10);
-    p = data_0217aa08->mUnk_04;
-    if (p->mUnk_004) {
-        func_0214d1fc(p->mUnk_008, data_ov001_021ca41c->mUnk_087c, 0x200);
-        func_020ac454(data_ov001_021ca41c->mUnk_087c, data_ov001_021ca41c->mUnk_0c7c, func_ov001_02181268());
-        func_ov001_02181124(data_ov001_021ca41c->mUnk_0c7c);
-        func_ov001_02181098();
-        func_ov001_02181124(data_ov001_021ca41c->mUnk_0c7c);
-        func_ov001_02181048();
+    p = data_0217aa08->mEmblemRecord;
+    if (p->mFilled) {
+        MI_CpuCopy8(p->mEmblemData, gEmblem->mUnk_087c, 0x200);
+        SplitBytesIntoNibbleTiles(gEmblem->mUnk_087c, gEmblem->mUnk_0c7c, GetEmblemGridSide());
+        SetEmblemGridCells(gEmblem->mUnk_0c7c);
+        SwapEmblemGridCells();
+        SetEmblemGridCells(gEmblem->mUnk_0c7c);
+        ResetEmblemGridChanges();
     }
     func_ov001_021a63cc(2);
-    func_ov001_021a63c0((u8) 1);
+    func_ov001_021a63c0(1);
     func_ov001_021a63a8(0);
     func_ov001_021a6388(0);
-    func_ov001_021a6350((s32) (func_ov001_02184fc8(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 0))), (s32) (func_ov001_02184fb8(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 0))));
-    func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 14), 1);
-    func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 12), 0);
-    func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 10), 0);
-    func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 23), 2);
-    func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 1), -1);
-    func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 2), -1);
-    func_ov001_02185018(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 3), -1);
-    func_ov001_02184f9c(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 14), -12, -12, 12, 12);
-    func_ov001_02184f9c(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 15), -12, -12, 12, 12);
-    func_ov001_02184f9c(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 16), -12, -12, 12, 12);
-    func_ov001_02184f9c(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 17), -12, -12, 12, 12);
-    func_ov001_02184f9c(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 18), -12, -12, 12, 12);
-    func_ov001_02184f9c(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 19), -12, -12, 12, 12);
-    func_ov001_02184f9c(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 20), -12, -12, 12, 12);
-    func_ov001_02184f9c(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 21), -12, -12, 12, 12);
-    func_ov001_02184f9c(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 22), -12, -12, 12, 12);
-    func_ov001_02184f9c(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 23), -12, -12, 12, 12);
-    func_ov001_02184f9c(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 27), -12, -11, 11, 11);
-    func_ov001_02184f9c(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 28), -12, -11, 11, 11);
-    func_ov001_02184f9c(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 29), -12, -11, 11, 11);
-    func_ov001_02184f9c(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 30), -12, -11, 11, 11);
-    func_ov001_02184f9c(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 31), -12, -11, 11, 11);
-    func_ov001_02184f9c(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 32), -12, -11, 11, 11);
-    func_ov001_02184f9c(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 33), -12, -11, 11, 11);
-    func_ov001_02184f9c(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 34), -12, -11, 11, 11);
-    func_ov001_02184f9c(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 35), -12, -11, 11, 11);
-    func_ov001_02184f9c(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 36), -12, -11, 11, 11);
-    func_ov001_02184f9c(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 37), -12, -11, 11, 11);
-    func_ov001_02184f9c(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 38), -12, -11, 11, 11);
-    func_ov001_02184f9c(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 39), -12, -11, 11, 11);
-    func_ov001_02184f9c(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 40), -12, -11, 11, 11);
-    func_ov001_02184f9c(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 41), -12, -11, 11, 11);
-    func_ov001_02184f9c(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 42), -12, -11, 11, 11);
-    func_ov001_02184f9c(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 25), -32, -20, 32, 20);
-    func_ov001_02184f9c(func_ov001_02185160(data_ov001_021ca41c->mUnk_0858, 26), -32, -20, 32, 20);
-    func_ov001_02184f9c(func_ov001_02185160(data_ov001_021ca41c->mUnk_085c, 1), -52, -15, 52, 15);
-    data_ov001_021ca41c->mUnk_10ac = 1;
-    data_ov001_021ca41c->mUnk_10b0 = 0;
-    data_ov001_021ca41c->mUnk_10bc = 6;
+    func_ov001_021a6350(GetLldEntryX(GetLldEntry(gEmblem->mEmblemSLld, 0)),
+                        GetLldEntryY(GetLldEntry(gEmblem->mEmblemSLld, 0)));
+    func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 14), 1);
+    func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 12), 0);
+    func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 10), 0);
+    func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 23), 2);
+    func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 1), -1);
+    func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 2), -1);
+    func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 3), -1);
+    SetLldEntryBounds(GetLldEntry(gEmblem->mEmblemSLld, 14), -12, -12, 12, 12);
+    SetLldEntryBounds(GetLldEntry(gEmblem->mEmblemSLld, 15), -12, -12, 12, 12);
+    SetLldEntryBounds(GetLldEntry(gEmblem->mEmblemSLld, 16), -12, -12, 12, 12);
+    SetLldEntryBounds(GetLldEntry(gEmblem->mEmblemSLld, 17), -12, -12, 12, 12);
+    SetLldEntryBounds(GetLldEntry(gEmblem->mEmblemSLld, 18), -12, -12, 12, 12);
+    SetLldEntryBounds(GetLldEntry(gEmblem->mEmblemSLld, 19), -12, -12, 12, 12);
+    SetLldEntryBounds(GetLldEntry(gEmblem->mEmblemSLld, 20), -12, -12, 12, 12);
+    SetLldEntryBounds(GetLldEntry(gEmblem->mEmblemSLld, 21), -12, -12, 12, 12);
+    SetLldEntryBounds(GetLldEntry(gEmblem->mEmblemSLld, 22), -12, -12, 12, 12);
+    SetLldEntryBounds(GetLldEntry(gEmblem->mEmblemSLld, 23), -12, -12, 12, 12);
+    SetLldEntryBounds(GetLldEntry(gEmblem->mEmblemSLld, 27), -12, -11, 11, 11);
+    SetLldEntryBounds(GetLldEntry(gEmblem->mEmblemSLld, 28), -12, -11, 11, 11);
+    SetLldEntryBounds(GetLldEntry(gEmblem->mEmblemSLld, 29), -12, -11, 11, 11);
+    SetLldEntryBounds(GetLldEntry(gEmblem->mEmblemSLld, 30), -12, -11, 11, 11);
+    SetLldEntryBounds(GetLldEntry(gEmblem->mEmblemSLld, 31), -12, -11, 11, 11);
+    SetLldEntryBounds(GetLldEntry(gEmblem->mEmblemSLld, 32), -12, -11, 11, 11);
+    SetLldEntryBounds(GetLldEntry(gEmblem->mEmblemSLld, 33), -12, -11, 11, 11);
+    SetLldEntryBounds(GetLldEntry(gEmblem->mEmblemSLld, 34), -12, -11, 11, 11);
+    SetLldEntryBounds(GetLldEntry(gEmblem->mEmblemSLld, 35), -12, -11, 11, 11);
+    SetLldEntryBounds(GetLldEntry(gEmblem->mEmblemSLld, 36), -12, -11, 11, 11);
+    SetLldEntryBounds(GetLldEntry(gEmblem->mEmblemSLld, 37), -12, -11, 11, 11);
+    SetLldEntryBounds(GetLldEntry(gEmblem->mEmblemSLld, 38), -12, -11, 11, 11);
+    SetLldEntryBounds(GetLldEntry(gEmblem->mEmblemSLld, 39), -12, -11, 11, 11);
+    SetLldEntryBounds(GetLldEntry(gEmblem->mEmblemSLld, 40), -12, -11, 11, 11);
+    SetLldEntryBounds(GetLldEntry(gEmblem->mEmblemSLld, 41), -12, -11, 11, 11);
+    SetLldEntryBounds(GetLldEntry(gEmblem->mEmblemSLld, 42), -12, -11, 11, 11);
+    SetLldEntryBounds(GetLldEntry(gEmblem->mEmblemSLld, 25), -32, -20, 32, 20);
+    SetLldEntryBounds(GetLldEntry(gEmblem->mEmblemSLld, 26), -32, -20, 32, 20);
+    SetLldEntryBounds(GetLldEntry(gEmblem->mEmblemTemplateSLld, 1), -52, -15, 52, 15);
+    gEmblem->mUnk_10ac = TRUE;
+    gEmblem->mUnk_10b0 = FALSE;
+    gEmblem->mUnk_10bc = 6;
 }

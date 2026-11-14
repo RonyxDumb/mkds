@@ -1,118 +1,148 @@
 #include "Main/Unknown/code_020019b0.h"
+#include "registers.h"
+#include "Main/Unknown/code_02001000.h"
+#include "Main/Unknown/code_02001080.h"
+#include "Main/Unknown/code_02036820.h"
+#include "Main/Unknown/code_02036c5c.h"
+#include "Main/Unknown/code_020467d0.h"
+#include "Main/Unknown/code_02046be8.h"
+#include "Main/Unknown/code_02047104.h"
+#include "Main/Unknown/code_02056d54.h"
+#include "Main/Unknown/code_020b1dbc.h"
+#include "Main/Unknown/code_0207b960.h"
+#include "Main/Unknown/code_020b4e5c.h"
+#include "Main/Unknown/code_02039860.h"
+#include "Main/Unknown/code_02147000.h"
+#include "Main/Unknown/unk_0215d000.h"
+#include "Main/Unknown/unk_021759c0.h"
+#include "Main/Unknown/code_020b47d8.h"
+#include "Main/Unknown/code_020b6a18.h"
+#include "Main/Unknown/code_0207a880.h"
+#include "Main/Unknown/code_020b502c.h"
+#include "Main/Unknown/code_02108e94.h"
+#include "Main/Unknown/code_021258f0.h"
+#include "Main/Unknown/code_02125960.h"
+#include "Main/Unknown/code_02125da0.h"
+#include "Main/Unknown/code_02125de0.h"
+#include "Main/Unknown/unk_02154000.h"
+#include "code_0200eddc.h"
+#include "code_0214a390.h"
+#include "code_0214b824.h"
 
-void func_020019b0(void) {
-    s32 v1;
-    Unk021a99c0_18 *v2;
-    data_usa_ov001_021a99c0->mUnk_30 = data_usa_ov001_021a99c0->mUnk_30 + 1;
-    if (data_usa_ov001_021a99c0->mUnk_30 > 120) {
-        v2 = &data_usa_ov001_021a99c0->mUnk_18;
-        v2->mUnk_10 = 1;
-        v2->mUnk_12 = 1;
+void LoadBg1FromSceneFiles(Bg1Files *files, s32 mainScreen, const char *paletteFileName, const char *charsFileName,
+                           const char *screenMapFileName) {
+    LoadNclrData(&files->mPalette, FindSceneFile(paletteFileName));
+    DC_StoreRange(files->mPalette->mData, files->mPalette->mDataSize);
+    if (mainScreen != 0) {
+        GX_LoadBGPltt(files->mPalette->mData, 0, files->mPalette->mDataSize);
+    } else {
+        GXS_LoadBGPltt(files->mPalette->mData, 0, files->mPalette->mDataSize);
     }
-    v1 = func_020435bc();
-    if ((data_02175628[v1].mUnk_02 & 0xf03) != 0xf03) {
-        return;
+    LoadNcgrData2(&files->mChars, FindSceneFile(charsFileName));
+    DC_StoreRange(files->mChars->mData, files->mChars->mDataSize);
+    if (mainScreen != 0) {
+        GX_LoadBG1Char(files->mChars->mData, 0, files->mChars->mDataSize);
+    } else {
+        GXS_LoadBG1Char(files->mChars->mData, 0, files->mChars->mDataSize);
     }
-    data_usa_ov001_021a99c0->mUnk_2c_0 = 1;
+    LoadNscrData(&files->mScreenMap, FindSceneFile(screenMapFileName));
+    DC_StoreRange(files->mScreenMap->mData, files->mScreenMap->mDataSize);
+    if (mainScreen != 0) {
+        GX_LoadBG1Scr(files->mScreenMap->mData, 0, files->mScreenMap->mDataSize);
+    } else {
+        GXS_LoadBG1Scr(files->mScreenMap->mData, 0, files->mScreenMap->mDataSize);
+    }
 }
 
-void func_02001a44(void) {
-    func_02056f98();
-    data_usa_ov001_021a99c0->mUnk_2c_1 = 0;
+void InitLogoScene(void *heap) {
+    Unk02125de0Arg arg;
+    u8 *displaySettings;
+    gLogoScene = HeapAlloc(heap, 60);
+    displaySettings = CreateDisplaySettings(heap, data_021547c8);
+    SetBg1Record(displaySettings + 0x28, 1, 0, 0, 0, 0, 1, 0);
+    SetBg1Record(displaySettings + 0x70, 1, 0, 0, 0, 0, 2, 0);
+    InitDisplayFromSettings(displaySettings);
+    LoadBg1FromSceneFiles(&gLogoScene->mMainBg, 1, data_ov001_021a76ac, data_ov001_021a76c8,
+                          data_ov001_021a76e4);
+    LoadBg1FromSceneFiles(&gLogoScene->mSubBg, 0, data_ov001_021a76fc, data_ov001_021a7718,
+                          data_ov001_021a7734);
+    InitStateMachine(&gLogoScene->mStateMachine, gLogoStateTable, 12, NULL);
+    gLogoScene->mUnk_2c_0 = 0;
+    gLogoScene->mState0Frames = 0;
+    gLogoScene->mCommonMessages = FindFileInLoadedArchives(data_ov001_021a7750);
+    arg.mUnk_00 = TRUE;
+    arg.mUnk_04 = GetFontByIndex(1);
+    arg.mUnk_08 = 0;
+    arg.mUnk_10 = 0;
+    arg.mUnk_14 = FALSE;
+    arg.mUnk_18 = NULL;
+    arg.mUnk_1c = FALSE;
+    arg.mUnk_20 = FALSE;
+    arg.mUnk_24 = 0;
+    arg.mUnk_0c = 1;
+    LoadTxtSystemAndSelectChoisesAndSelectReturnData();
+    func_02125de0(heap, &arg);
 }
 
-void func_02001a74(Unk02001a74 *a) {
-    func_02046b40(&data_usa_ov001_021a99c0->mUnk_18);
-    if (a != 0 && data_usa_ov001_021a99c0->mUnk_18.mUnk_0e == 11) {
-        a->mUnk_04 = 0;
+void ApplySavedSoundMode(void) {
+    s32 outputEffect;
+    s32 soundMode;
+    outputEffect = 0;
+    gLogoScene = NULL;
+    soundMode = data_0217aa08->mFirstBlock->mSoundMode;
+    switch (soundMode) {
+        case SOUND_MODE_STEREO:
+            break;
+        case SOUND_MODE_HEADPHONES:
+            outputEffect = 2;
+            break;
+        case SOUND_MODE_SURROUND:
+        default:
+            outputEffect = 1;
+            break;
+    }
+    SetSoundOutputEffect(outputEffect);
+    func_02125da0();
+}
+
+void WriteLogoSceneRegisters(void) {
+    s32 brightness;
+    s32 frames;
+    brightness = 0;
+    func_021258f0();
+    frames = gLogoScene->mState0Frames;
+    if (frames > 90) {
+        brightness = (-(frames - 90) * 16) / 30;
+    }
+    G2x_SetBlendBrightness_(&reg_G2_BLDCNT, 2, brightness);
+    G2x_SetBlendBrightness_(&reg_G2S_DB_BLDCNT, 2, brightness);
+}
+
+void UpdateLogoScene(SceneNumbersView *sceneNumbers) {
+    AdvanceStateMachine(&gLogoScene->mStateMachine);
+    if (sceneNumbers != NULL && gLogoScene->mStateMachine.mState == 11) {
+        sceneNumbers->mNextScene = 0;
     }
     func_02125928();
 }
 
-void func_02001abc(void) {
-    s32 v1;
-    s32 v2;
-    v1 = 0;
-    func_021258f0();
-    v2 = data_usa_ov001_021a99c0->mUnk_30;
-    if (v2 > 90) {
-        v1 = (-(v2 - 90) * 16) / 30;
-    }
-    func_0214a3e8((u16 *) 0x04000050, 2, v1);
-    func_0214a3e8((u16 *) 0x04001050, 2, v1);
+void EnterLogoState0(void) {
+    StartReadBackupFirstBlockAndRecords();
+    gLogoScene->mUnk_2c_1 = 0;
 }
 
-void func_02001b38(void) {
-    s32 v1;
-    s32 v2;
-    v1 = 0;
-    data_usa_ov001_021a99c0 = 0;
-    v2 = data_0217aa08->mUnk_00->mUnk_31_1;
-    switch (v2) {
-        case 1:
-            break;
-        case 2:
-            v1 = 2;
-            break;
-        case 0:
-        default:
-            v1 = 1;
-            break;
+void UpdateLogoState0(void) {
+    s32 slotIndex;
+    StateMachine *stateMachine;
+    gLogoScene->mState0Frames = gLogoScene->mState0Frames + 1;
+    if (gLogoScene->mState0Frames > 120) {
+        stateMachine = &gLogoScene->mStateMachine;
+        stateMachine->mNextState = 1;
+        stateMachine->mNextStateRequested = 1;
     }
-    func_02108e94(v1);
-    func_02125da0();
-}
-
-void func_02001ba0(void *a) {
-    Unk02125de0Arg v1;
-    u8 *v2;
-    data_usa_ov001_021a99c0 = func_02036bec(a, 60);
-    v2 = func_02038d88(a, data_021547c8);
-    func_02038d28(v2 + 0x28, 1, 0, 0, 0, 0, 1, 0);
-    func_02038d28(v2 + 0x70, 1, 0, 0, 0, 0, 2, 0);
-    func_02037abc(v2);
-    func_02001d30(&data_usa_ov001_021a99c0->mUnk_00, 1, data_usa_ov001_021a768c, data_usa_ov001_021a76a8,
-                  data_usa_ov001_021a76c4);
-    func_02001d30(&data_usa_ov001_021a99c0->mUnk_0c, 0, data_usa_ov001_021a76dc, data_usa_ov001_021a76f4,
-                  data_usa_ov001_021a770c);
-    func_02046be8(&data_usa_ov001_021a99c0->mUnk_18, (UnkFunc *const *) 0x02001080, 12, 0);
-    data_usa_ov001_021a99c0->mUnk_2c_0 = 0;
-    data_usa_ov001_021a99c0->mUnk_30 = 0;
-    data_usa_ov001_021a99c0->mUnk_38 = func_02047a28(data_usa_ov001_021a7720);
-    v1.mUnk_00 = 1;
-    v1.mUnk_04 = func_020b403c(1);
-    v1.mUnk_08 = 0;
-    v1.mUnk_10 = 0;
-    v1.mUnk_14 = 0;
-    v1.mUnk_18 = 0;
-    v1.mUnk_1c = 0;
-    v1.mUnk_20 = 0;
-    v1.mUnk_24 = 0;
-    v1.mUnk_0c = 1;
-    func_02125c2c();
-    func_02125de0(a, &v1);
-}
-
-void func_02001d30(Unk02001d30 *a, s32 b, const char *c, const char *d, const char *e) {
-    func_020b4a7c(&a->mUnk_00, func_0204799c(c));
-    func_0200ee58(a->mUnk_00->mUnk_0c, a->mUnk_00->mUnk_08);
-    if (b != 0) {
-        func_0214c160(a->mUnk_00->mUnk_0c, 0, a->mUnk_00->mUnk_08);
-    } else {
-        func_0214c0f8(a->mUnk_00->mUnk_0c, 0, a->mUnk_00->mUnk_08);
+    slotIndex = func_020435bc();
+    if ((data_02175628[slotIndex].mBits & 0xf03) != 0xf03) {
+        return;
     }
-    func_020b49f4(&a->mUnk_04, func_0204799c(d));
-    func_0200ee58(a->mUnk_04->mUnk_14, a->mUnk_04->mUnk_10);
-    if (b != 0) {
-        func_0214ba2c(a->mUnk_04->mUnk_14, 0, a->mUnk_04->mUnk_10);
-    } else {
-        func_0214b9c4(a->mUnk_04->mUnk_14, 0, a->mUnk_04->mUnk_10);
-    }
-    func_020b4810(&a->mUnk_08, func_0204799c(e));
-    func_0200ee58(a->mUnk_08->mUnk_0c, a->mUnk_08->mUnk_08);
-    if (b != 0) {
-        func_0214bd6c(a->mUnk_08->mUnk_0c, 0, a->mUnk_08->mUnk_08);
-    } else {
-        func_0214bd04(a->mUnk_08->mUnk_0c, 0, a->mUnk_08->mUnk_08);
-    }
+    gLogoScene->mUnk_2c_0 = 1;
 }

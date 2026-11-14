@@ -1,20 +1,21 @@
 #include "03/code_021c4188.h"
+#include "03/code_021bf4dc.h"
 #include "03/code_021c4164.h"
+#include "03/code_021d1dd0.h"
+#include "03/code_021d1f70.h"
 #include "03/code_021d254c.h"
 
 void func_ov003_021c41ac(void) {
-    func_ov003_021d1ee0(2, 0, (u32) (0x15), (u16) (8));
-    func_ov003_021d2784(0, (u32) (0x15));
-    func_ov003_021c212c(func_ov003_021c4188);
-    return;
+    StartBlendBrightnessFade(2, 0, 0x15, 8);
+    CombineDispcntBits(0, 0x15);
+    SetUpdateFunction(func_ov003_021c4188);
 }
 
 void func_ov003_021c4188(void) {
-    int iVar1;
-    iVar1 = func_ov003_021d1f70(0);
-    if (iVar1 == 0) {
-        func_ov003_021bf5c8((u32) (5));
-        func_ov003_021c212c(func_ov003_021c4164);
+    int fadeSlotBusy;
+    fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(0);
+    if (fadeSlotBusy == 0) {
+        func_ov003_021bf5c8(5);
+        SetUpdateFunction(func_ov003_021c4164);
     }
-    return;
 }

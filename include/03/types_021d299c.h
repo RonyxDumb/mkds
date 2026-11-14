@@ -1,33 +1,33 @@
 #pragma once
 
 #include "types.h"
-#include "code_0214e6e4.h"
+#include "tp.h"
 
-typedef struct Unk021d299c {
+typedef struct Rect {
     /* 00 */ u16 mUnk_00;
     /* 02 */ u16 mUnk_02;
     /* 04 */ u16 mUnk_04;
     /* 06 */ u16 mUnk_06;
-} Unk021d299c;
+} Rect;
 
-typedef struct Unk021da2d4Input {
-    /* 00 */ Unk0214e788 mUnk_00[5];
-    /* 28 */ u16 mUnk_28;
-    /* 2a */ u16 mUnk_2a;
-    /* 2c */ u16 mUnk_2c;
-    /* 2e */ u16 mUnk_2e;
-    /* 30 */ u16 mUnk_30;
-    /* 32 */ u16 mUnk_32;
-    /* 34 */ u16 mUnk_34;
-    /* 36 */ u16 mUnk_36;
+typedef struct KeyTouchInput {
+    /* 00 */ TPData mTouchSamples[5];
+    /* 28 */ u16 mTouchX;
+    /* 2a */ u16 mTouchY;
+    /* 2c */ u16 mPrevTouchX;
+    /* 2e */ u16 mPrevTouchY;
+    /* 30 */ u16 mKeysDown;
+    /* 32 */ u16 mKeysPressed;
+    /* 34 */ u16 mKeysPressedOrRepeated;
+    /* 36 */ u16 mKeysReleased;
     /* 38 */ union {
-        u8 mUnk_38;
+        u8 mTouchFlags;
         struct {
-            u8 mBit_0 : 1;
-            u8 mBit_1 : 1;
-            u8 mBit_2 : 1;
-            u8 mBit_3 : 1;
+            u8 mDown : 1;
+            u8 mPressed : 1;
+            u8 mPressedOrRepeated : 1;
+            u8 mReleased : 1;
             u8 mOther : 4;
         } mBits;
     };
-} Unk021da2d4Input;
+} KeyTouchInput;

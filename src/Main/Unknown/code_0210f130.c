@@ -2,44 +2,42 @@
 
 #include "Main/Unknown/unk_0217d000.h"
 #include "code_0201ec30.h"
-#include "code_02020430.h"
-#include "code_0214f1b0.h"
-#include "code_0214f4a4.h"
-#include "Main/Unknown/code_020203d4.h"
+#include "mic.h"
+#include "pm.h"
 #include "Main/Unknown/code_0210f090.h"
 
-u32 data_0217d1bc;
+u32 gMicInitialized;
 
-void func_0210f1d4(void) {
-    func_0214f418();
-    func_021500a0();
-    func_0214fb3c(1);
-    data_0217d1bc = 1;
+void InitMicAndAmp(void) {
+    MIC_Init();
+    PM_Init();
+    PM_SetAmp(1);
+    gMicInitialized = 1;
 }
 
-void func_0210f130(Unk0210f090 *p) {
-    Unk0210f130 *q;
+void SetupMicAutoSampling(MicBuffer *micBuffer) {
+    MICAutoParam *autoParam;
     s32 i;
 
-    if (data_0217d1bc == 0) {
-        func_0214f418();
-        func_021500a0();
-        func_0214fb3c(1);
-        data_0217d1bc = 1;
+    if (gMicInitialized == 0) {
+        MIC_Init();
+        PM_Init();
+        PM_SetAmp(1);
+        gMicInitialized = 1;
     }
-    p->mUnk_41c = 0;
+    micBuffer->mUnk_41c = 0;
     for (i = 0; i < 0x400; i++) {
-        p->mUnk_000[i] = 0;
+        micBuffer->mSamples[i] = 0;
     }
-    p->mUnk_400.mUnk_00 = 2;
-    q = &p->mUnk_400;
-    q->mUnk_04 = (u32) p;
-    q->mUnk_08 = 0x400;
-    q->mUnk_0c = 0x105d;
-    q->mUnk_10 = 1;
-    q->mUnk_14 = 0;
-    q->mUnk_18 = 0;
-    func_02020430((Unk02173290 *) q);
+    micBuffer->mAutoParam.mType = MIC_SAMPLING_TYPE_SIGNED_8BIT;
+    autoParam = &micBuffer->mAutoParam;
+    autoParam->mBuffer = micBuffer;
+    autoParam->mSize = 0x400;
+    autoParam->mRate = 0x105d;
+    autoParam->mLoopEnable = 1;
+    autoParam->mFullCallback = 0;
+    autoParam->mFullArg = 0;
+    func_02020430((Unk02173290 *) autoParam);
     func_020203d4(0);
-    func_0214fb24(3);
+    PM_SetAmpGain(3);
 }

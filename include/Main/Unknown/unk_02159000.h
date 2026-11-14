@@ -1,11 +1,12 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Unknown/code_020e5684.h"
 
 // Objects whose layout isn't known yet.
-extern u8 data_021594d8[];
-extern u8 data_021594dc[];
-extern u8 data_021594e0[];
+extern u16 data_021594d8;
+extern u16 data_021594dc;
+extern u16 data_021594e0;
 extern u8 data_02159578[];
 extern u16 data_021595a0;
 extern u16 data_021595a4;
@@ -18,9 +19,9 @@ extern u16 data_021595bc;
 extern u16 data_021595c0;
 extern u16 data_021595c4;
 extern u16 data_021595c8;
-extern u16 data_usa_021595cc;
-extern u16 data_usa_021595d0;
-extern u16 data_usa_021595d4;
+extern u16 data_021595cc;
+extern u16 data_021595d0;
+extern u16 data_021595d4;
 extern Vec3 data_021595d8;
 extern u32 data_021595e4[];
 extern u16 data_02159618;
@@ -36,12 +37,12 @@ extern u8 data_02159070[];
 extern u16 data_021590b0;
 extern u32 data_021590e8;
 extern u8 data_021590ec[];
-extern u8 data_021591b4[];
-extern u8 data_021591dc[];
-extern u8 data_02159208[];
-extern u8 data_0215927c[];
-extern u8 data_021592a4[];
-extern u8 data_021592d0[];
+extern Unk020e59e4 data_021591b4;
+extern Unk020e5a40 data_021591dc;
+extern Unk020e5a9c data_02159208;
+extern Unk020e59e4 data_0215927c;
+extern Unk020e5a40 data_021592a4;
+extern Unk020e5a9c data_021592d0;
 extern u32 data_02159310;
 extern u8 data_02159348[];
 extern u8 data_02159370[];
@@ -64,10 +65,10 @@ extern u16 data_02159b6c;
 extern u16 data_02159b68;
 extern u16 data_02159b70;
 extern u16 data_02159b74;
-extern u8 data_02159b78[];
+extern u8 gItemHitTypes[];
 extern Vec3 data_02159ca0;
 extern u16 data_02159cac;
-extern u16 data_02159cbc;
+extern const u16 data_02159cbc;
 extern Vec3 data_02159cb0;
 extern Vec3 data_02159d84;
 extern u16 data_02159f18;

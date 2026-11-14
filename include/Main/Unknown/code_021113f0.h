@@ -1,9 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/unk_0217d000.h"
 
-void func_021113f0(u32 arg0);
-void func_021113fc(u32 arg0);
-u32 func_02111408(void);
-u32 func_02111418(void);
+void SetRecordSceneIndex(u32 index);
+void SetRecordScenePageIndex(u32 pageIndex);
+u32 GetRecordSceneIndex(void);
+u32 GetRecordScenePageIndex(void);

@@ -1,16 +1,14 @@
 #include "Main/Unknown/code_02008dbc.h"
+#include "Main/Unknown/code_02008934.h"
+#include "code_0214cfe4.h"
 
 #pragma thumb on
 
-void func_02008dbc(u8 *param_1, int param_2) {
-    int iVar1;
-    iVar1 = 0x590 * param_2;
-    if (*(u16 *) (param_1 + 0x48) !=
-        *(u16 *) ((int) data_0216fc40 + iVar1 + 0x518)) {
-        func_0200895c((u32) param_2);
-        func_0214cffc((const void *) param_1, (void *) ((int) data_0216fc40 + 0x4d0 + iVar1),
-                      (u32) 0xc0);
-        func_02008a4c((u32) param_2);
+void ReplaceEntryIfChanged(u8 *newBlock, int entryIndex) {
+    if (*OFFSET_PTR(u16, newBlock, 0x48) != gEntryTable->mEntries[entryIndex].mUnk_508) {
+        func_0200895c(entryIndex);
+        MIi_CpuCopy16(newBlock, gEntryTable->mEntries[entryIndex].mScanBuffer, 0xc0);
+        SetScanBssidFromEntry(entryIndex);
     }
 }
 

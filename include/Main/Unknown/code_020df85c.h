@@ -1,6 +1,10 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Unknown/unk_02158000.h"
 
-void func_020df85c(unsigned int p0);
+typedef struct MapObjectFlagsView {
+    /* 00 */ u8 mUnk_00[0x2];
+    /* 02 */ u16 mUnk_02;
+} MapObjectFlagsView;
+
+void EnterMkdEfBubbleState1(MapObjectFlagsView *bubble);

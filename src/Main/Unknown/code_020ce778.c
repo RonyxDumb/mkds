@@ -1,16 +1,17 @@
 #include "Main/Unknown/code_020ce778.h"
 #include "Main/Unknown/code_020ccc74.h"
 #include "Main/Unknown/code_021189f4.h"
+#include "Main/Unknown/code_0211d4a8.h"
 
 #pragma optimize_for_size on
 #pragma thumb on
-void func_020ce7b8(void) {
-    switch (func_02118e64()) {
+void UpdateVsSelectCupCourse(void) {
+    switch (AdvanceSelectCupCourse()) {
         case 1:
-            func_020ccc74(0x1d, 0x1f);
+            SwitchMenuScreen(0x1d, 0x1f);
             break;
         case 2:
-            func_020ccc74(0xc, 0x1f);
+            SwitchMenuScreen(0xc, 0x1f);
             break;
     }
 }

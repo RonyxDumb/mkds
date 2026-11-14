@@ -1,25 +1,25 @@
 #include "00/code_02188008.h"
 #include "00/code_02186000.h"
+#include "00/unk_021b1000.h"
+#include "03/code_021b94b8.h"
 #include "00/code_02186d04.h"
 #include "00/code_02188694.h"
-#include "00/unk_021b1000.h"
 #include "00/unk_021b4000.h"
-#include "code_0200dc3c.h"
-#include "code_0200e0ec.h"
+#include "os_thread.h"
 #include "code_02133048.h"
 #include "code_02133274.h"
 #include "code_02139f70.h"
 #include "code_0214d018.h"
-#include "Main/Unknown/code_0200edc0.h"
+#include "code_0200edc0.h"
 
 void func_ov000_021884a8(void) {
-    func_ov000_02188694(8, (u32) data_ov000_021b4d0c, 0xc);
-    func_ov000_02188694(0x10, (u32) data_ov000_021b4d00, 0xd18);
+    func_ov000_02188694(8, data_ov000_021b4d0c, 0xc);
+    func_ov000_02188694(0x10, data_ov000_021b4d00, 0xd18);
 }
 
 s32 func_ov000_02188408(void) {
     Unk02188408 *s;
-    u8 *k;
+    char *k;
     u32 i;
     u8 j;
     u8 n;
@@ -34,7 +34,7 @@ s32 func_ov000_02188408(void) {
     for (j = 0, n = s->mUnk_d12; j < n; j++) {
         if (j != i) {
             if (s->mUnk_444[j].mUnk_01 < 6) {
-                if (func_0213a038(k, s->mUnk_470[j].mUnk_04, s->mUnk_470[j].mUnk_0a) == 0) {
+                if (strncmp(k, s->mUnk_470[j].mUnk_04, s->mUnk_470[j].mUnk_0a) == 0) {
                     return 2;
                 }
             }
@@ -43,24 +43,17 @@ s32 func_ov000_02188408(void) {
     return 1;
 }
 
-s32 func_ov000_021882f8(const u8 *a, s32 b, s8 *c, u32 d) {
+s32 DWC_Auth_Base64Encode(const u8 *a, u32 b, char *c, u32 d) {
     const u8 *v1;
-    u32 e;
+    s32 e;
     u32 r;
-    u32 pad;
     s32 k;
     s32 l;
-    s8 *v2;
+    char *v2;
     u8 v3[3];
 
-    if ((u32) b % 3 != 0) {
-        pad = 4;
-    } else {
-        pad = 0;
-    }
-    r = (u32) b / 3 * 4;
-    r += pad;
-    if (c == 0) {
+    r = b / 3 * 4 + (b % 3 != 0 ? 4 : 0);
+    if (c == NULL) {
         return r;
     }
     if (d < r) {
@@ -71,17 +64,12 @@ s32 func_ov000_021882f8(const u8 *a, s32 b, s8 *c, u32 d) {
     while (a != v1) {
         l = v1 - a;
         e = l * 8;
-        if ((s32) e % 6 != 0) {
-            k = 1;
-        } else {
-            k = 0;
-        }
-        k = (u32) ((s32) e / 6) + k;
+        k = e / 6 + (e % 6 != 0 ? 1 : 0);
         if (l >= 3) {
             l = 3;
         }
-        func_0214d168(v3, 0, 3);
-        func_0214d1fc(a, v3, l);
+        MI_CpuFill8(v3, 0, 3);
+        MI_CpuCopy8(a, v3, l);
         v2[0] = data_ov000_021b1488[v3[0] >> 2];
         if (k >= 2) {
             v2[1] = data_ov000_021b1488[(v3[0] << 4 & 0x3f) | v3[1] >> 4];
@@ -104,7 +92,7 @@ s32 func_ov000_021882f8(const u8 *a, s32 b, s8 *c, u32 d) {
     return v2 - c;
 }
 
-s32 func_ov000_021881d0(const s8 *a, u32 b, u8 *c, u32 d) {
+s32 DWC_Auth_Base64Decode(const s8 *a, u32 b, u8 *c, u32 d) {
     s32 n;
     s32 m;
     u32 i;
@@ -124,7 +112,7 @@ s32 func_ov000_021881d0(const s8 *a, u32 b, u8 *c, u32 d) {
             m += 6;
         }
     }
-    if (c == 0) {
+    if (c == NULL) {
         return m / 8;
     }
     n = m / 8;
@@ -178,54 +166,54 @@ s32 func_ov000_021881d0(const s8 *a, u32 b, u8 *c, u32 d) {
     return v1 - c;
 }
 
-u32 func_ov000_02188114(Unk02188114 *p) {
-    if (data_ov000_021b4cb0 != 0) {
+u32 DWC_Netcheck_Create(Unk02188114 *p) {
+    if (gNetcheck != NULL) {
         return 4;
     }
-    data_ov000_021b4cb0 = p->mUnk_00(data_ov000_021b147c, 0x1200);
-    if (data_ov000_021b4cb0 == 0) {
+    gNetcheck = p->mAlloc(gNetcheckName, 0x1200);
+    if (gNetcheck == NULL) {
         return 4;
     }
-    func_0214d168(data_ov000_021b4cb0, 0, 0x1200);
-    data_ov000_021b4cb0->mUnk_04 = -99999;
-    data_ov000_021b4cb0->mUnk_108 = *p;
-    if (data_ov000_021b4cac != 0) {
+    MI_CpuFill8(gNetcheck, 0, 0x1200);
+    gNetcheck->mUnk_04 = -99999;
+    gNetcheck->mParam = *p;
+    if (gHttp != NULL) {
         return 4;
     }
-    data_ov000_021b4cac = data_ov000_021b4cb0->mUnk_108.mUnk_00(data_ov000_021b1474, 0x1a60);
-    if (data_ov000_021b4cac == 0) {
+    gHttp = gNetcheck->mParam.mAlloc(gHttpName, 0x1a60);
+    if (gHttp == NULL) {
         return 4;
     }
-    func_0200edc0(&data_ov000_021b4cb0->mUnk_1dc);
-    func_ov000_02188008();
+    OS_InitMutex(&gNetcheck->mMutex);
+    DWCi_Netcheck_StartThread();
     return 0;
 }
 
-void func_ov000_02188068(void) {
-    if (data_ov000_021b4cac != 0) {
-        func_ov000_02186d04((Unk021868d0 *) data_ov000_021b4cac);
-        data_ov000_021b4cb0->mUnk_108.mUnk_04(data_ov000_021b1474, data_ov000_021b4cac, 0);
-        data_ov000_021b4cac = 0;
+void DWC_Netcheck_Destroy(void) {
+    if (gHttp != NULL) {
+        ReleaseHttp((Http *) gHttp);
+        gNetcheck->mParam.mFree(gHttpName, gHttp, 0);
+        gHttp = NULL;
     }
-    func_ov000_02186430();
-    if (data_ov000_021b4cb0 != 0) {
-        if (data_ov000_021b4cb0->mUnk_114 != 0) {
-            data_ov000_021b4cb0->mUnk_108.mUnk_04(data_ov000_021b13ac, data_ov000_021b4cb0->mUnk_114, 0);
-            data_ov000_021b4cb0->mUnk_114 = 0;
+    DWC_Auth_Destroy();
+    if (gNetcheck != NULL) {
+        if (gNetcheck->mBody302 != NULL) {
+            gNetcheck->mParam.mFree(gNetcheckBody302Name, gNetcheck->mBody302, 0);
+            gNetcheck->mBody302 = NULL;
         }
-        if (data_ov000_021b4cb0->mUnk_118 != 0) {
-            data_ov000_021b4cb0->mUnk_108.mUnk_04(data_ov000_021b13d8, data_ov000_021b4cb0->mUnk_118, 0);
-            data_ov000_021b4cb0->mUnk_118 = 0;
+        if (gNetcheck->mBodyWayport != NULL) {
+            gNetcheck->mParam.mFree(gNetcheckBodyWayportName, gNetcheck->mBodyWayport, 0);
+            gNetcheck->mBodyWayport = NULL;
         }
-        data_ov000_021b4cb0->mUnk_108.mUnk_04(data_ov000_021b147c, data_ov000_021b4cb0, 0);
-        data_ov000_021b4cb0 = 0;
+        gNetcheck->mParam.mFree(gNetcheckName, gNetcheck, 0);
+        gNetcheck = NULL;
     }
 }
 
-void func_ov000_02188008(void) {
-    if (data_ov000_021b4cb0->mUnk_11c.mUnk_6c == 0 || func_0200e070(&data_ov000_021b4cb0->mUnk_11c) != 0) {
-        func_0200e28c(&data_ov000_021b4cb0->mUnk_11c, (void (*)(void *)) func_ov000_021874ec, data_ov000_021b4cb0,
-                      data_ov000_021b4cb0->mUnk_1200, 0x1000, 0x10);
-        func_0200df68(&data_ov000_021b4cb0->mUnk_11c);
+void DWCi_Netcheck_StartThread(void) {
+    if (gNetcheck->mThread.mId == 0 || OS_IsThreadTerminated(&gNetcheck->mThread) != 0) {
+        OS_CreateThread(&gNetcheck->mThread, (void (*)(void *)) DWCi_Netcheck_Thread, gNetcheck, gNetcheck->mUnk_1200,
+                        0x1000, 0x10);
+        OS_WakeupThreadDirect(&gNetcheck->mThread);
     }
 }

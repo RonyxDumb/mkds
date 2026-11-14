@@ -1,6 +1,16 @@
 #include "01/code_02187eb0.h"
 #include "01/code_02188158.h"
 #include "01/code_02188e88.h"
+#include "Main/Unknown/code_020b1dbc.h"
+#include "Main/Unknown/code_0207b960.h"
+#include "Main/Unknown/code_020b4e5c.h"
+#include "Main/Unknown/code_02039860.h"
+#include "Main/Unknown/code_02147000.h"
+#include "Main/Unknown/unk_0215d000.h"
+#include "Main/Unknown/unk_021759c0.h"
+#include "Main/Unknown/code_020b47d8.h"
+#include "Main/Unknown/code_020b6a18.h"
+#include "Main/Unknown/code_0207a880.h"
 #include "Main/Unknown/code_020b502c.h"
 #include "Main/Unknown/code_020f36d8.h"
 #include "01/unk_021a7000.h"
@@ -10,96 +20,98 @@
 #include "Main/Unknown/code_020da000.h"
 #include "Main/Unknown/code_020f4000.h"
 #include "Main/Unknown/code_020fd000.h"
-#include "Main/Unknown/code_02147000.h"
 #include "Main/Unknown/code_02042044.h"
 
-Unk0206bcb0 *func_ov001_02188104(Unk02188950 *param_1, s32 param_2, s32 param_3) {
-    Unk0206bcb0 *q;
+Kart *GetEntryKartInRange(Unk02188950 *mapObject, s32 radius, s32 halfAngle) {
+    Kart *kart;
 
-    q = func_0207a974((u16) data_021759c0->mUnk_62);
-    if (q != 0 && func_ov001_021881a8(param_1, (Vec3 *) &q->mUnk_80, (s32) (param_2), (s32) (param_3)) != 0 && (q->mUnk_48 & 0x40) == 0) {
-        return q;
+    kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    if (kart != NULL && IsPointInRange(mapObject, &kart->mPos, radius, halfAngle) != FALSE &&
+        (kart->mUnk_48 & 0x40) == 0) {
+        return kart;
     }
-    return 0;
+    return NULL;
 }
 
-Unk0206bcb0 *func_ov001_02188084(Unk02188950 *param_1, s32 param_2, s32 param_3, s32 param_4) {
-    Unk0206bcb0 *q;
+Kart *GetEntryKartInAngleRange(Unk02188950 *mapObject, s32 angleOffset, s32 radius, s32 halfAngle) {
+    Kart *kart;
 
-    q = func_0207a974((u16) data_021759c0->mUnk_62);
-    if (q != 0 && (q->mUnk_48 & 0x40) == 0 && (param_3 != 0 || param_4 != 0)) {
-        if (param_3 == 0 || func_ov001_02188f04(param_1, &q->mUnk_80, param_3) != 0) {
-            if (param_4 == 0 || func_ov001_02188eac(param_1, param_1->mUnk_184 + param_2, &q->mUnk_80, param_4) != 0) {
-                return q;
+    kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    if (kart != NULL && (kart->mUnk_48 & 0x40) == 0 && (radius != 0 || halfAngle != 0)) {
+        if (radius == 0 || IsWithinXzDistanceOfPoint(mapObject, &kart->mPos, radius) != 0) {
+            if (halfAngle == 0 || IsDirectionToPointWithinAngle(mapObject, mapObject->mAngle + angleOffset, &kart->mPos,
+                                                                halfAngle) != 0) {
+                return kart;
             }
         }
     }
-    return 0;
+    return NULL;
 }
 
-Unk0206bcb0 *func_ov001_02188000(Unk02188950 *param_1, s32 param_2, s32 param_3) {
-    Unk0206bcb0 *q;
+Kart *GetEntryKartFacingObject(Unk02188950 *mapObject, s32 radius, s32 halfAngle) {
+    Kart *kart;
 
-    q = func_0207a974((u16) data_021759c0->mUnk_62);
-    if (q != 0 && (q->mUnk_48 & 0x40) == 0 && (param_2 != 0 || param_3 != 0)) {
-        if (param_2 == 0 || func_ov001_02188f04(param_1, &q->mUnk_80, param_2) != 0) {
-            if (param_3 == 0 || func_ov001_02188eac(param_1, q->mUnk_236 + 0x8000, &q->mUnk_80, param_3) != 0) {
-                return q;
+    kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    if (kart != NULL && (kart->mUnk_48 & 0x40) == 0 && (radius != 0 || halfAngle != 0)) {
+        if (radius == 0 || IsWithinXzDistanceOfPoint(mapObject, &kart->mPos, radius) != 0) {
+            if (halfAngle == 0 ||
+                IsDirectionToPointWithinAngle(mapObject, kart->mHeadingAngle + 0x8000, &kart->mPos, halfAngle) != 0) {
+                return kart;
             }
         }
     }
-    return 0;
+    return NULL;
 }
 
-Unk02042044 *func_ov001_02187fc0(Unk02188950 *param_1) {
-    if (param_1->mUnk_148 < data_02175620->mUnk_0c) {
-        return (Unk02042044 *) func_02042044((u16) (param_1->mUnk_148),(u16) (param_1->mUnk_14c));
+CourseMapGroupEntry *GetCurrentGroupEntry(Unk02188950 *mapObject) {
+    if (mapObject->mEntryGroupIndex < gCourseMap->mEntryGroupCount) {
+        return GetCourseMapGroupEntry(mapObject->mEntryGroupIndex, mapObject->mEntryIndex);
+    }
+    return NULL;
+}
+
+s32 func_ov001_02187f7c(Unk02188950 *mapObject) {
+    if (mapObject->mEntryGroupIndex < gCourseMap->mEntryGroupCount) {
+        return GetCourseMapGroupEntry(mapObject->mEntryGroupIndex, mapObject->mEntryIndex)->mUnk_0e;
     }
     return 0;
 }
 
-s32 func_ov001_02187f7c(Unk02188950 *param_1) {
-    if (param_1->mUnk_148 < data_02175620->mUnk_0c) {
-        return ((Unk02042044 *) func_02042044((u16) (param_1->mUnk_148), (u16) (param_1->mUnk_14c)))->mUnk_0e;
+s32 func_ov001_02187f38(Unk02188950 *mapObject) {
+    if (mapObject->mEntryGroupIndex < gCourseMap->mEntryGroupCount) {
+        return GetCourseMapGroupEntry(mapObject->mEntryGroupIndex, mapObject->mEntryIndex)->mUnk_10;
     }
     return 0;
 }
 
-s32 func_ov001_02187f38(Unk02188950 *param_1) {
-    if (param_1->mUnk_148 < data_02175620->mUnk_0c) {
-        return ((Unk02042044 *) func_02042044((u16) (param_1->mUnk_148), (u16) (param_1->mUnk_14c)))->mUnk_10;
-    }
-    return 0;
-}
+CourseMapGroupEntry *GetNextGroupEntry(Unk02188950 *mapObject) {
+    CourseMap *courseMap = gCourseMap;
+    s32 nextEntryIndex;
 
-Unk02042044 *func_ov001_02187ee8(Unk02188950 *param_1) {
-    Unk02175620 *g = data_02175620;
-    s32 n;
-
-    if (param_1->mUnk_148 < g->mUnk_0c) {
-        n = param_1->mUnk_14c + 1;
-        if (n >= g->mUnk_08[(u16) param_1->mUnk_148].mUnk_02) {
-            n = 0;
+    if (mapObject->mEntryGroupIndex < courseMap->mEntryGroupCount) {
+        nextEntryIndex = mapObject->mEntryIndex + 1;
+        if (nextEntryIndex >= courseMap->mEntryGroups[(u16) mapObject->mEntryGroupIndex].mEntryCount) {
+            nextEntryIndex = 0;
         }
-        return (Unk02042044 *) func_02042044((u16) (param_1->mUnk_148),(u16) (n));
+        return GetCourseMapGroupEntry(mapObject->mEntryGroupIndex, nextEntryIndex);
     }
-    return 0;
+    return NULL;
 }
 
-void func_ov001_02187eb0(Unk02188950 *param_1) {
-    Unk02175620 *g;
-    Unk02175620_08 *e;
-    s32 a;
-    s32 n;
+void func_ov001_02187eb0(Unk02188950 *mapObject) {
+    CourseMap *courseMap;
+    CourseMapEntryGroup *entryGroup;
+    s32 groupIndex;
+    s32 entryIndex;
 
-    g = data_02175620;
-    a = param_1->mUnk_148;
-    if (a < g->mUnk_0c) {
-        e = &g->mUnk_08[(u16) a];
-        n = param_1->mUnk_14c - 1;
-        if (n <= 0) {
-            n = e->mUnk_02 - 1;
+    courseMap = gCourseMap;
+    groupIndex = mapObject->mEntryGroupIndex;
+    if (groupIndex < courseMap->mEntryGroupCount) {
+        entryGroup = &courseMap->mEntryGroups[(u16) groupIndex];
+        entryIndex = mapObject->mEntryIndex - 1;
+        if (entryIndex <= 0) {
+            entryIndex = entryGroup->mEntryCount - 1;
         }
-        param_1->mUnk_14c = n;
+        mapObject->mEntryIndex = entryIndex;
     }
 }
