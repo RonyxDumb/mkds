@@ -491,7 +491,7 @@ void StartRomArchiveTransfer(void) {
 
 void RomArchiveStateCallback(s32 unusedValue) {
     if (gConnectionWork->mStep == CONNECTION_STEP_ROM_ARCHIVE_TRANSFER) {
-        if (GetRomArchiveState() == 2) {
+        if (GetRomArchiveState() == ROM_ARCHIVE_READY) {
             gConnectionWork->mRequestPending = 0;
             ResetPendingFiles();
         }

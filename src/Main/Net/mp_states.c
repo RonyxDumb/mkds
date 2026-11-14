@@ -145,7 +145,7 @@ void UpdateMPState1(void) {
         }
     }
     if (isMultiBootSetup != FALSE) {
-        if (GetRomArchiveState() == 2) {
+        if (GetRomArchiveState() == ROM_ARCHIVE_READY) {
             SetGroupSendMaskAsParent(gConnectionWork->mGroupSendMask);
         } else {
             shouldRequestState = FALSE;

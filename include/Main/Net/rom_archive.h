@@ -36,6 +36,20 @@ typedef struct RomArchiveChildView {
     /* b08 */ s32 mFileBlockId;
 } RomArchiveChildView;
 
+// RomArchiveTransfer.mState
+enum {
+    ROM_ARCHIVE_STOPPED,
+    ROM_ARCHIVE_STARTING,
+    ROM_ARCHIVE_READY,
+};
+
+enum {
+    ROM_ARCHIVE_NODE_FREE,
+    ROM_ARCHIVE_NODE_QUEUED,
+    ROM_ARCHIVE_NODE_ACTIVE,
+    ROM_ARCHIVE_NODE_FINISHED,
+};
+
 // Node of 0x8c0 bytes; StartRomArchiveParent chains eight of them from 0xc0 of the object at 0x440 of
 // gRomArchiveTransfer.
 typedef struct RomArchiveFileNode {
