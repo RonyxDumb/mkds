@@ -6,6 +6,15 @@
 #include "Main/MapObjects/attractor.h" // MapObject
 #include "01/MapObjects/data_0209bc74.h"
 
+// ShineBalloonObject.mState values: HIDDEN waits until the kart has a balloon, APPEAR and DISAPPEAR pulse the scale,
+// SHOWN follows the kart until its balloons are gone.
+enum {
+    SHINE_BALLOON_STATE_HIDDEN,
+    SHINE_BALLOON_STATE_APPEAR,
+    SHINE_BALLOON_STATE_SHOWN,
+    SHINE_BALLOON_STATE_DISAPPEAR,
+};
+
 // Object of the list FindMapObjectKindUpdateList(0x70): the shared MapObject part, then the words and the pointer
 // StartShineBalloon sets.
 typedef struct ShineBalloonObject {

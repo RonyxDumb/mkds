@@ -97,18 +97,18 @@ void DrawShineBalloon(void *mapObjectList, ShineBalloonObject *shineBalloonObjec
 
 void UpdateShineBalloon(void *mapObjectList, ShineBalloonObject *shineBalloonObject) {
     switch (shineBalloonObject->mState) {
-        case 0:
+        case SHINE_BALLOON_STATE_HIDDEN:
             if (GetBalloonOrShineCount(shineBalloonObject->mKart->mIndex) == 0) {
                 return;
             }
             shineBalloonObject->mTimer = 0x1e;
             shineBalloonObject->mPulseScaleSpeed = 0x19;
-            shineBalloonObject->mState = 1;
+            shineBalloonObject->mState = SHINE_BALLOON_STATE_APPEAR;
             shineBalloonObject->mMapObject.mFlags &= ~2;
             shineBalloonObject->mMapObject.mFlags &= ~8;
             shineBalloonObject->mMapObject.mAlpha = 0x1f;
             break;
-        case 1:
+        case SHINE_BALLOON_STATE_APPEAR:
             if (shineBalloonObject->mTimer-- > 0) {
                 return;
             }
@@ -118,20 +118,20 @@ void UpdateShineBalloon(void *mapObjectList, ShineBalloonObject *shineBalloonObj
             if (shineBalloonObject->mPulseScaleSpeed < 0) {
                 if (shineBalloonObject->mPulseScale <= 0x4a) {
                     shineBalloonObject->mPulseScale = 0x4a;
-                    shineBalloonObject->mState = 2;
+                    shineBalloonObject->mState = SHINE_BALLOON_STATE_SHOWN;
                 }
             }
             shineBalloonObject->mMapObject.mPos = shineBalloonObject->mKart->mPos;
             break;
-        case 2:
+        case SHINE_BALLOON_STATE_SHOWN:
             if (GetBalloonOrShineCount(shineBalloonObject->mKart->mIndex) == 0) {
                 shineBalloonObject->mTimer = 0x1e;
                 shineBalloonObject->mPulseScaleSpeed = 8;
-                shineBalloonObject->mState = 3;
+                shineBalloonObject->mState = SHINE_BALLOON_STATE_DISAPPEAR;
             }
             shineBalloonObject->mMapObject.mPos = shineBalloonObject->mKart->mPos;
             break;
-        case 3:
+        case SHINE_BALLOON_STATE_DISAPPEAR:
             if (shineBalloonObject->mTimer-- <= 0) {
                 shineBalloonObject->mTimer = 0;
                 shineBalloonObject->mPulseScale += shineBalloonObject->mPulseScaleSpeed;
@@ -139,7 +139,7 @@ void UpdateShineBalloon(void *mapObjectList, ShineBalloonObject *shineBalloonObj
                 if (shineBalloonObject->mPulseScaleSpeed < 0) {
                     if (shineBalloonObject->mPulseScale <= 0) {
                         shineBalloonObject->mPulseScale = 0;
-                        shineBalloonObject->mState = 0;
+                        shineBalloonObject->mState = SHINE_BALLOON_STATE_HIDDEN;
                         shineBalloonObject->mMapObject.mFlags |= gShineBalloonEndFlag;
                         shineBalloonObject->mMapObject.mFlags |= gShineBalloonEndSecondFlag;
                     }
@@ -179,7 +179,7 @@ void StartShineBalloon(Kart *kart) {
     shineBalloonObject->mPulseScale = 0;
     shineBalloonObject->mPulseScaleSpeed = 0;
     shineBalloonObject->mTimer = 0;
-    shineBalloonObject->mState = 0;
+    shineBalloonObject->mState = SHINE_BALLOON_STATE_HIDDEN;
 }
 
 // Creates b map objects of kind a from the source object c and parks each one that is not already parked.
