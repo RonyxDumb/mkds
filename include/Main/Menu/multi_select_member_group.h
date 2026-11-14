@@ -52,6 +52,16 @@ typedef struct SceneNumbers SceneNumbers;
 #include "Main/Menu/data_02163000.h"
 #include "Main/Menu/wl_menu_scene.h"
 
+// Values of MultiSelectNS.mState: the panel slides in, waits for a choice, the choice is shown for 5 frames, the panel
+// slides out, then the next callbacks index is returned.
+enum {
+    MULTI_SELECT_NS_STATE_SLIDE_IN,
+    MULTI_SELECT_NS_STATE_CHOOSE,
+    MULTI_SELECT_NS_STATE_PRESS_WAIT,
+    MULTI_SELECT_NS_STATE_SLIDE_OUT,
+    MULTI_SELECT_NS_STATE_DONE,
+};
+
 // 0x40 bytes.
 typedef struct MultiSelectNS {
     /* 00 */ Ncgr *mNcgr;

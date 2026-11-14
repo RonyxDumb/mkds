@@ -105,18 +105,18 @@ s32 AdvanceMultiSelectNS(void) {
     slotIndex = GetPadInputSlot();
     multiSelectNS = gMultiSelectNS;
     switch (multiSelectNS->mState) {
-        case 0:
+        case MULTI_SELECT_NS_STATE_SLIDE_IN:
             multiSelectNS->mStateFrames++;
             if (gMultiSelectNS->mStateFrames < 10) {
                 gMultiSelectNS->mOffset = InterpolateS16(1, -0xc0, 0, gMultiSelectNS->mStateFrames, 10);
             } else {
                 gMultiSelectNS->mStateFrames = 0;
                 gMultiSelectNS->mOffset = 0;
-                gMultiSelectNS->mState = 1;
+                gMultiSelectNS->mState = MULTI_SELECT_NS_STATE_CHOOSE;
             }
             SetMultiSelectNSCellTableOffsetY();
             break;
-        case 1:
+        case MULTI_SELECT_NS_STATE_CHOOSE:
             touchInReturnRect = 0;
             value = -1;
             if (MultiSelectNSIsSlotPairNew(slotIndex) != 0) {
@@ -128,12 +128,12 @@ s32 AdvanceMultiSelectNS(void) {
             if (MultiSelectNSGetNewBits(slotIndex, PAD_KEY_A) != 0) {
                 SetMultiSimple(gMultiSelectNS->mIndex == 1 ? 1 : 0);
                 gMultiSelectNS->mNextCallbacksIndex = 2;
-                gMultiSelectNS->mState = 2;
+                gMultiSelectNS->mState = MULTI_SELECT_NS_STATE_PRESS_WAIT;
                 RefreshMultiSelectNS(0);
                 MultiSelectNSStartOnMemorySeqArc(4);
             } else if (MultiSelectNSGetNewBits(slotIndex, PAD_KEY_B) != 0 || touchInReturnRect != 0) {
                 gMultiSelectNS->mNextCallbacksIndex = 0;
-                gMultiSelectNS->mState = 3;
+                gMultiSelectNS->mState = MULTI_SELECT_NS_STATE_SLIDE_OUT;
                 RequestSelectReturnState3WithSound(0);
             } else if (MultiSelectNSGetNewBits(slotIndex, PAD_KEY_UP) != 0 && gMultiSelectNS->mIndex > 0) {
                 gMultiSelectNS->mIndex--;
@@ -144,14 +144,14 @@ s32 AdvanceMultiSelectNS(void) {
                 RefreshMultiSelectNS(1);
                 MultiSelectNSStartSeqArcWrapper(0);
             } else if (value == 0) {
-                gMultiSelectNS->mState = 2;
+                gMultiSelectNS->mState = MULTI_SELECT_NS_STATE_PRESS_WAIT;
                 RefreshMultiSelectNS(gMultiSelectNS->mIndex != 0 ? 1 : 0);
                 MultiSelectNSStartOnMemorySeqArc(4);
                 gMultiSelectNS->mIndex = 0;
                 SetMultiSimple(0);
                 gMultiSelectNS->mNextCallbacksIndex = 2;
             } else if (value == 1) {
-                gMultiSelectNS->mState = 2;
+                gMultiSelectNS->mState = MULTI_SELECT_NS_STATE_PRESS_WAIT;
                 RefreshMultiSelectNS(gMultiSelectNS->mIndex != 1 ? 1 : 0);
                 MultiSelectNSStartOnMemorySeqArc(4);
                 gMultiSelectNS->mIndex = 1;
@@ -159,29 +159,29 @@ s32 AdvanceMultiSelectNS(void) {
                 gMultiSelectNS->mNextCallbacksIndex = 2;
             }
             break;
-        case 2:
+        case MULTI_SELECT_NS_STATE_PRESS_WAIT:
             multiSelectNS->mStateFrames++;
             if (gMultiSelectNS->mStateFrames >= 5) {
                 gMultiSelectNS->mStateFrames = 0;
-                gMultiSelectNS->mState = 3;
+                gMultiSelectNS->mState = MULTI_SELECT_NS_STATE_SLIDE_OUT;
                 RefreshMultiSelectNS(1);
             }
             break;
-        case 3:
+        case MULTI_SELECT_NS_STATE_SLIDE_OUT:
             multiSelectNS->mStateFrames++;
             if (gMultiSelectNS->mStateFrames < 10) {
                 gMultiSelectNS->mOffset = InterpolateS16(1, 0, -0xc0, gMultiSelectNS->mStateFrames, 10);
             } else {
                 gMultiSelectNS->mOffset = 0;
-                gMultiSelectNS->mState = 4;
+                gMultiSelectNS->mState = MULTI_SELECT_NS_STATE_DONE;
             }
             SetMultiSelectNSCellTableOffsetY();
             break;
-        case 4:
+        case MULTI_SELECT_NS_STATE_DONE:
             result = multiSelectNS->mNextCallbacksIndex;
             break;
     }
-    if (gMultiSelectNS->mState != 4) {
+    if (gMultiSelectNS->mState != MULTI_SELECT_NS_STATE_DONE) {
         DrawLayoutTable(multiSelectNS->mBncl, multiSelectNS->mNcer, multiSelectNS->mBnll, gMultiSelectNS->mOamList,
                         multiSelectNS->mCellTable);
     }
