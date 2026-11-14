@@ -37,6 +37,18 @@ typedef struct GameInfoEntry {
 
 // State of the walk over the GameInfoEntry list: the first entry, the current entry, the position in the current
 // entry, and five bytes that MBi_ClearSendStatus clears.
+// Values of GameInfoList.mState: pick the next entry, then send its fixed beacon fragments and its volatile beacon.
+// Values 0 and 6 are only read by MB_SendGameInfoBeacon.
+enum {
+    GAME_INFO_SEND_STATE_IDLE,
+    GAME_INFO_SEND_STATE_PICK_ENTRY,
+    GAME_INFO_SEND_STATE_INIT_FIXED,
+    GAME_INFO_SEND_STATE_SEND_FIXED,
+    GAME_INFO_SEND_STATE_INIT_VOLATILE,
+    GAME_INFO_SEND_STATE_SEND_VOLATILE,
+    GAME_INFO_SEND_STATE_NO_ACTION,
+};
+
 typedef struct GameInfoList {
     /* 00 */ GameInfoEntry *mFirst;
     /* 04 */ GameInfoEntry *mCurrent;

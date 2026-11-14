@@ -132,7 +132,7 @@ void MB_AddGameInfo(GameInfoEntry *newEntry) {
 void MB_InitSendGameInfoStatus(void) {
     mbss.mFirst = NULL;
     mbss.mCurrent = NULL;
-    mbss.mState = 1;
+    mbss.mState = GAME_INFO_SEND_STATE_PICK_ENTRY;
     sSendVolatCallback = NULL;
     MBi_ClearSendStatus();
 }
@@ -148,25 +148,25 @@ void MBi_ClearSendStatus(void) {
 void MB_SendGameInfoBeacon(u32 ggid, u16 tgid, u32 attr) {
     while (1) {
         switch (mbss.mState) {
-            case 0:
-            case 1:
+            case GAME_INFO_SEND_STATE_IDLE:
+            case GAME_INFO_SEND_STATE_PICK_ENTRY:
                 if (MBi_ReadyBeaconSendStatus() == 0) {
                     return;
                 }
                 break;
-            case 2:
+            case GAME_INFO_SEND_STATE_INIT_FIXED:
                 MBi_InitSendFixedBeacon();
                 break;
-            case 3:
+            case GAME_INFO_SEND_STATE_SEND_FIXED:
                 MBi_SendFixedBeacon(ggid, tgid, attr);
                 return;
-            case 4:
+            case GAME_INFO_SEND_STATE_INIT_VOLATILE:
                 MBi_InitSendVolatBeacon();
                 break;
-            case 5:
+            case GAME_INFO_SEND_STATE_SEND_VOLATILE:
                 MBi_SendVolatBeacon(ggid, tgid, attr);
                 return;
-            case 6:
+            case GAME_INFO_SEND_STATE_NO_ACTION:
                 break;
         }
     }
@@ -186,13 +186,13 @@ u32 MBi_ReadyBeaconSendStatus(void) {
     mbss.mCurrent = entry;
     MBi_ClearSendStatus();
     mbss.mSeqNoVolat = mbss.mCurrent->mSeqNoVolat;
-    mbss.mState = 2;
+    mbss.mState = GAME_INFO_SEND_STATE_INIT_FIXED;
     return 1;
 }
 
 void MBi_InitSendFixedBeacon(void) {
     GameInfoEntry *entry;
-    if (mbss.mState == 2) {
+    if (mbss.mState == GAME_INFO_SEND_STATE_INIT_FIXED) {
         entry = mbss.mCurrent;
         if (entry->mDataAttr == 0) {
             mbss.mFlagmentMaxNum = 9;
@@ -201,7 +201,7 @@ void MBi_InitSendFixedBeacon(void) {
             mbss.mFlagmentMaxNum = 4;
             mbss.mSrcp = entry->mParent;
         }
-        mbss.mState = 3;
+        mbss.mState = GAME_INFO_SEND_STATE_SEND_FIXED;
     }
 }
 
@@ -236,7 +236,7 @@ void MBi_SendFixedBeacon(u32 ggid, u16 tgid, u32 attr) {
     if (mbss.mFlagmentNo < mbss.mFlagmentMaxNum) {
         mbss.mSrcp += 0x62;
     } else {
-        mbss.mState = 4;
+        mbss.mState = GAME_INFO_SEND_STATE_INIT_VOLATILE;
     }
     attr |= 2;
     WM_SetGameInfo(NULL, &gGameInfoBlock, 0x70, ggid, tgid, attr);
@@ -245,7 +245,7 @@ void MBi_SendFixedBeacon(u32 ggid, u16 tgid, u32 attr) {
 void MBi_InitSendVolatBeacon(void) {
     mbss.mCurrent->mBroadcastedPlayerFlag = 1;
     mbss.mSeqNoVolat = mbss.mCurrent->mSeqNoVolat;
-    mbss.mState = 5;
+    mbss.mState = GAME_INFO_SEND_STATE_SEND_VOLATILE;
 }
 
 void MBi_SendVolatBeacon(u32 ggid, u16 tgid, u32 attr) {
@@ -302,7 +302,7 @@ void MBi_SendVolatBeacon(u32 ggid, u16 tgid, u32 attr) {
     gGameInfoBlock.mChecksum = 0;
     gGameInfoBlock.mChecksum = MBi_calc_cksum(&gGameInfoBlock.mChecksum, 0x68);
     if (mbss.mCurrent->mBroadcastedPlayerFlag == mbss.mCurrent->mNowPlayerFlag) {
-        mbss.mState = 1;
+        mbss.mState = GAME_INFO_SEND_STATE_PICK_ENTRY;
     }
     attr |= 2;
     WM_SetGameInfo(NULL, &gGameInfoBlock, 0x70, ggid, tgid, attr);
