@@ -20,7 +20,7 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
     u16 templateCellValues[16];
 
     switch (gEmblem->mState) {
-        case 0:
+        case EMBLEM_STATE_GRID:
             switch (entryIndex) {
                 case 0x1b:
                 case 0x1c:
@@ -142,7 +142,7 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
                     return;
             }
             break;
-        case 1:
+        case EMBLEM_STATE_TEMPLATE:
             switch (entryIndex) {
                 case 0:
                     if (gEmblem->mPendingTransitionFunc == NULL) {
@@ -201,7 +201,7 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
                     return;
             }
             break;
-        case 4:
+        case EMBLEM_STATE_CAMERA:
             if (entryIndex == 1) {
                 if (gEmblem->mPendingTransitionFunc == NULL) {
                     gEmblem->mPendingTransitionFunc = StartEmblemFadeOutToGrid;
