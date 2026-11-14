@@ -28,16 +28,16 @@ void CreateSearchIconMBChildAndMultiDownload(void *heap) {
         default:
             InitFontIfLoaded(&gDownloadScreenFiles->mMBChildFont, FindFileInLoadedArchives("MBChild_us.NFTR"));
             break;
-        case 2:
+        case LANGUAGE_FRENCH:
             InitFontIfLoaded(&gDownloadScreenFiles->mMBChildFont, FindFileInLoadedArchives("MBChild_fr.NFTR"));
             break;
-        case 3:
+        case LANGUAGE_GERMAN:
             InitFontIfLoaded(&gDownloadScreenFiles->mMBChildFont, FindFileInLoadedArchives("MBChild_ge.NFTR"));
             break;
-        case 4:
+        case LANGUAGE_ITALIAN:
             InitFontIfLoaded(&gDownloadScreenFiles->mMBChildFont, FindFileInLoadedArchives("MBChild_it.NFTR"));
             break;
-        case 5:
+        case LANGUAGE_SPANISH:
             InitFontIfLoaded(&gDownloadScreenFiles->mMBChildFont, FindFileInLoadedArchives("MBChild_es.NFTR"));
             break;
     }
@@ -45,16 +45,16 @@ void CreateSearchIconMBChildAndMultiDownload(void *heap) {
         default:
             gDownloadScreenFiles->mMBChildMessages = FindFileInLoadedArchives("MBChild_us.bmg");
             break;
-        case 2:
+        case LANGUAGE_FRENCH:
             gDownloadScreenFiles->mMBChildMessages = FindFileInLoadedArchives("MBChild_fr.bmg");
             break;
-        case 3:
+        case LANGUAGE_GERMAN:
             gDownloadScreenFiles->mMBChildMessages = FindFileInLoadedArchives("MBChild_ge.bmg");
             break;
-        case 4:
+        case LANGUAGE_ITALIAN:
             gDownloadScreenFiles->mMBChildMessages = FindFileInLoadedArchives("MBChild_it.bmg");
             break;
-        case 5:
+        case LANGUAGE_SPANISH:
             gDownloadScreenFiles->mMBChildMessages = FindFileInLoadedArchives("MBChild_es.bmg");
             break;
     }

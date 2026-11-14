@@ -499,7 +499,7 @@ void ResetConnectionData(void) {
     gConnectionWork->mUnk_0439 = 1;
     gConnectionWork->mExpectedRecordMask = 0;
     gConnectionWork->mOperationFlags = 0;
-    gConnectionWork->mLanguageIndex = 0;
+    gConnectionWork->mLanguageIndex = LANGUAGE_UNSUFFIXED;
     gConnectionWork->mReceivedNameMask = 0;
     gConnectionWork->mKeepScanning = 0;
     bytes = gConnectionWork->mScanState.mTargetAddress;

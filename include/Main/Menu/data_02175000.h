@@ -9,6 +9,17 @@
 #include "pm.h" // PMSleepCallbackInfo
 #include "Main/Sound/sound_seq.h" // SoundSetPlayer
 
+// Values of StartupWork.mLanguageIndex and of the language field of the owner info; they match the file name suffixes
+// (_fr, _ge, _it, _es) of the language files, 0 and 1 share the files without a suffix.
+enum {
+    LANGUAGE_UNSUFFIXED,
+    LANGUAGE_ENGLISH,
+    LANGUAGE_FRENCH,
+    LANGUAGE_GERMAN,
+    LANGUAGE_ITALIAN,
+    LANGUAGE_SPANISH,
+};
+
 // Value of StartupWork.mConnectionKind.
 #define CONNECTION_KIND_NONE 0
 

@@ -89,17 +89,17 @@ void Matrix2x2RotationReciprocalScale(MtxFx22 *matrix, s32 scale, s32 angle) {
 // TRUE when the points word is plural for this number; one language counts 0 as singular.
 BOOL IsPointsLabelPlural(s32 number) {
     switch (gStartupWork->mLanguageIndex) {
-        case 0:
-        case 1:
-        case 3:
-        case 4:
-        case 5:
+        case LANGUAGE_UNSUFFIXED:
+        case LANGUAGE_ENGLISH:
+        case LANGUAGE_GERMAN:
+        case LANGUAGE_ITALIAN:
+        case LANGUAGE_SPANISH:
         default:
             if (number != 1) {
                 return TRUE;
             }
             return FALSE;
-        case 2:
+        case LANGUAGE_FRENCH:
             if (number != 1 && number != 0) {
                 return TRUE;
             }
@@ -109,39 +109,39 @@ BOOL IsPointsLabelPlural(s32 number) {
 
 BOOL RaceStartIsLanguageJa(void) {
     switch (gStartupWork->mLanguageIndex) {
-        case 0:
+        case LANGUAGE_UNSUFFIXED:
             return TRUE;
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-        case 5:
+        case LANGUAGE_ENGLISH:
+        case LANGUAGE_FRENCH:
+        case LANGUAGE_GERMAN:
+        case LANGUAGE_ITALIAN:
+        case LANGUAGE_SPANISH:
             return FALSE;
     }
 }
 
 s32 GetLanguageCharSpacing(void) {
     switch (gStartupWork->mLanguageIndex) {
-        case 0:
+        case LANGUAGE_UNSUFFIXED:
             return 1;
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-        case 5:
+        case LANGUAGE_ENGLISH:
+        case LANGUAGE_FRENCH:
+        case LANGUAGE_GERMAN:
+        case LANGUAGE_ITALIAN:
+        case LANGUAGE_SPANISH:
             return -1;
     }
 }
 
 BOOL IsLanguageJa(void) {
     switch (gStartupWork->mLanguageIndex) {
-        case 0:
+        case LANGUAGE_UNSUFFIXED:
             return TRUE;
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-        case 5:
+        case LANGUAGE_ENGLISH:
+        case LANGUAGE_FRENCH:
+        case LANGUAGE_GERMAN:
+        case LANGUAGE_ITALIAN:
+        case LANGUAGE_SPANISH:
             return FALSE;
     }
 }

@@ -16,6 +16,7 @@
 #include "code_0214d018.h"
 #include "Main/Menu/select_race_rule_state.h"
 #include "Main/Save/ghost_record_file.h"
+#include "Main/Menu/data_02175000.h"
 
 static inline u32 ScanGetConnectionMode(void) {
     if (gConnectionWork == NULL) {
@@ -205,7 +206,7 @@ void FindOrAddScanSlot(WMBssDesc *scanBuffer, ScanMacAddress *key, UserGameInfo 
                 if (childCount >= 0) {
                     chosenSlot->mChildCount = childCount;
                 }
-                chosenSlot->mLanguageIndex = 0;
+                chosenSlot->mLanguageIndex = LANGUAGE_UNSUFFIXED;
                 chosenSlot->mMultiBoot = 1;
                 chosenSlot->mHasGhost = 0;
                 MI_CpuCopy8(nameInfo->mName, chosenSlot->mName, 0x14);

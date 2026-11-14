@@ -80,23 +80,23 @@ void FillStartupWork(void) {
     gStartupWork->mFavoriteColor = ownerInfo.mFavoriteColor;
     gStartupWork->mRegion = 1;
     switch (ownerInfo.mLanguage) {
-        case 1:
-            gStartupWork->mLanguageIndex = 1;
+        case LANGUAGE_ENGLISH:
+            gStartupWork->mLanguageIndex = LANGUAGE_ENGLISH;
             break;
-        case 2:
-            gStartupWork->mLanguageIndex = 2;
+        case LANGUAGE_FRENCH:
+            gStartupWork->mLanguageIndex = LANGUAGE_FRENCH;
             break;
-        case 3:
-            gStartupWork->mLanguageIndex = 3;
+        case LANGUAGE_GERMAN:
+            gStartupWork->mLanguageIndex = LANGUAGE_GERMAN;
             break;
-        case 4:
-            gStartupWork->mLanguageIndex = 4;
+        case LANGUAGE_ITALIAN:
+            gStartupWork->mLanguageIndex = LANGUAGE_ITALIAN;
             break;
-        case 5:
-            gStartupWork->mLanguageIndex = 5;
+        case LANGUAGE_SPANISH:
+            gStartupWork->mLanguageIndex = LANGUAGE_SPANISH;
             break;
         default:
-            gStartupWork->mLanguageIndex = 1;
+            gStartupWork->mLanguageIndex = LANGUAGE_ENGLISH;
             break;
     }
     gStartupWork->mConnectionKind = 0;
