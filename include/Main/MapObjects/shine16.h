@@ -6,9 +6,19 @@
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject
 
+// Values of Shine16.mState.
+#define SHINE16_STATE_DROPPING 0
+#define SHINE16_STATE_RESTING 1
+#define SHINE16_STATE_COLLECTED_BY_KART 2
+#define SHINE16_STATE_RISING_FROM_KART 3
+#define SHINE16_STATE_FLYING_TO_TARGET 4
+#define SHINE16_STATE_LAUNCHED_UP 5
+#define SHINE16_STATE_SHRINKING 6
+
 // Object of kind 0x6a (Shine16), also typed MapObject (code_020a3f2c.c) where the
 // pool list is walked. Object reached through FindMapObjectKindUpdateList(0x6a), set up by StartShine16 and updated by
-// UpdateShine16: the shared MapObject part, then words up to 0xe8. UpdateShine16 switches on the word at 0xe0 (0 to 6).
+// UpdateShine16: the shared MapObject part, then words up to 0xe8.
+// UpdateShine16 switches on the word at 0xe0 (SHINE16_STATE_*).
 typedef struct Shine16 {
     /* 00 */ MapObject mMapObject;
     // Height of the shine above the followed kart's position: 0 at spawn and pickup, then grows by the shine's vertical
@@ -29,7 +39,8 @@ typedef struct Shine16 {
     // shine follows the kart; at 0 the shine shrinks away. 0 at spawn.
     /* c0 */ s32 mPickupTimer;
     /* c4 */ s32 mSpawnObjectIndex;
-    // Index of the kart the shine follows in states 2 and 3: the kart that took it, or the kart it was released from.
+    // Index of the kart the shine follows in the states COLLECTED_BY_KART and RISING_FROM_KART: the kart that took it,
+    // or the kart it was released from.
     /* c8 */ u16 mKartIndex;
     /* ca */ u16 mHitByKartIndex;
     /* cc */ Vec3 mTargetPos;

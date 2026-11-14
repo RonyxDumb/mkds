@@ -107,7 +107,7 @@ u32 CollideKartWithShine16(Shine16 *shine16, Kart *kart, u8 *firstResponse, u8 *
         shine16->mMapObject.mPosStep.y = 0x3000;
         shine16->mMapObject.mPosStep.z = 0;
         shine16->mDrawScale = 0;
-        shine16->mState = 2;
+        shine16->mState = SHINE16_STATE_COLLECTED_BY_KART;
         shine16->mKartIndex = kart->mIndex;
         shine16->mHitByKartIndex = kart->mIndex;
         AddBalloonsLeftToMake(kart->mIndex, 1);
@@ -181,10 +181,10 @@ void DrawShine16Shadow(void *mapObjectList, Shine16 *shine16, void *unused, s32 
     if (shine16->mDrawScale <= 0) {
         return;
     }
-    if (shine16->mState == 2) {
+    if (shine16->mState == SHINE16_STATE_COLLECTED_BY_KART) {
         return;
     }
-    if (shine16->mState == 3) {
+    if (shine16->mState == SHINE16_STATE_RISING_FROM_KART) {
         return;
     }
     gxParam = 0x1e;
@@ -226,7 +226,7 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
     RandomState64 *randomState;
 
     switch (shine16->mState) {
-        case 0:
+        case SHINE16_STATE_DROPPING:
             shine16->mNsbtpFrameStepProgress += 1;
             if (shine16->mNsbtpFrameStepProgress >= 3) {
                 shine16->mNsbtpFrameStepProgress -= 3;
@@ -253,11 +253,11 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
             shine16->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(shine16->mMapObject.mPosStep.y, -0x333);
             if (shine16->mMapObject.mPosStep.y < 0x1000) {
                 shine16->mMapObject.mPosStep.y = 0;
-                shine16->mState = 1;
+                shine16->mState = SHINE16_STATE_RESTING;
             }
             QueueShine16Sound(shine16->mMapObject.mSound, 0x139);
             return;
-        case 1:
+        case SHINE16_STATE_RESTING:
             shine16->mNsbtpFrameStepProgress += 1;
             if (shine16->mNsbtpFrameStepProgress >= 3) {
                 shine16->mNsbtpFrameStepProgress -= 3;
@@ -277,7 +277,7 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
             }
             QueueShine16SoundWhileRequested(shine16->mMapObject.mSound, 0x14e);
             return;
-        case 6:
+        case SHINE16_STATE_SHRINKING:
             shine16->mNsbtpFrameStepProgress += 4;
             if (shine16->mNsbtpFrameStepProgress >= 3) {
                 shine16->mNsbtpFrameStepProgress -= 3;
@@ -303,7 +303,7 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
             }
             ClearShineBattleObjectShine(shine16->mSpawnObjectIndex);
             return;
-        case 2:
+        case SHINE16_STATE_COLLECTED_BY_KART:
             shine16->mNsbtpFrameStepProgress += 4;
             if (shine16->mNsbtpFrameStepProgress >= 3) {
                 shine16->mNsbtpFrameStepProgress -= 3;
@@ -352,7 +352,7 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
             }
             StopEffectAndClearPointer(&shine16->mEffect);
             return;
-        case 3:
+        case SHINE16_STATE_RISING_FROM_KART:
             shine16->mNsbtpFrameStepProgress += 4;
             if (shine16->mNsbtpFrameStepProgress >= 3) {
                 shine16->mNsbtpFrameStepProgress -= 3;
@@ -418,7 +418,7 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
                          shine16->mMapObject.mPos.x;
                 deltaZ = shine16->mTargetPos.z + MUL_FIXED12_NO_ROUND(randomRadius, FX_CosIdx(randomAngle)) -
                          shine16->mMapObject.mPos.z;
-                shine16->mState = 4;
+                shine16->mState = SHINE16_STATE_FLYING_TO_TARGET;
                 shine16->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(deltaX, 0x25);
                 shine16->mMapObject.mPosStep.y = 0x5000;
                 shine16->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(deltaZ, 0x25);
@@ -426,14 +426,14 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
                 shine16->mMapObject.mFlags &= ~1;
                 return;
             }
-            shine16->mState = 5;
+            shine16->mState = SHINE16_STATE_LAUNCHED_UP;
             shine16->mMapObject.mPosStep.x = 0;
             shine16->mMapObject.mPosStep.y = 0x5000;
             shine16->mMapObject.mPosStep.z = 0;
             shine16->mDrawScale = 0x1000;
             shine16->mMapObject.mFlags &= ~1;
             return;
-        case 5:
+        case SHINE16_STATE_LAUNCHED_UP:
             shine16->mNsbtpFrameStepProgress += 1;
             if (shine16->mNsbtpFrameStepProgress >= 3) {
                 shine16->mNsbtpFrameStepProgress -= 3;
@@ -456,10 +456,10 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
             if (shine16->mMapObject.mPosStep.y >= 0) {
                 return;
             }
-            shine16->mState = 6;
+            shine16->mState = SHINE16_STATE_SHRINKING;
             shine16->mMapObject.mFlags |= gShine16HitFlag;
             return;
-        case 4:
+        case SHINE16_STATE_FLYING_TO_TARGET:
             shine16->mNsbtpFrameStepProgress += 1;
             if (shine16->mNsbtpFrameStepProgress >= 3) {
                 shine16->mNsbtpFrameStepProgress -= 3;
@@ -528,7 +528,7 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
                         shine16->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(shine16->mMapObject.mPosStep.z, 0x19a);
                         if (shine16->mMapObject.mPosStep.y < 0x1000) {
                             shine16->mMapObject.mPosStep.y = 0;
-                            shine16->mState = 1;
+                            shine16->mState = SHINE16_STATE_RESTING;
                         }
                         QueueShine16Sound(shine16->mMapObject.mSound, 0x139);
                     }
@@ -542,7 +542,7 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
             if (shine16->mMapObject.mPos.y >= 0) {
                 return;
             }
-            shine16->mState = 6;
+            shine16->mState = SHINE16_STATE_SHRINKING;
             shine16->mMapObject.mFlags |= gShine16HitFlag;
             return;
     }
@@ -605,7 +605,7 @@ void StartShine16(Vec3 *position, s32 spawnObjectIndex, s32 dropFromAbove) {
         shine16->mMapObject.mPosStep.z = 0;
         shine16->mHeightAboveKart = 0;
         shine16->mFloorY = position->y + 0x14000;
-        shine16->mState = 0;
+        shine16->mState = SHINE16_STATE_DROPPING;
     } else {
         shine16->mMapObject.mPos.x = position->x;
         shine16->mMapObject.mPos.y = position->y + 0x14000;
@@ -615,7 +615,7 @@ void StartShine16(Vec3 *position, s32 spawnObjectIndex, s32 dropFromAbove) {
         shine16->mMapObject.mPosStep.z = 0;
         shine16->mHeightAboveKart = 0;
         shine16->mFloorY = 0;
-        shine16->mState = 1;
+        shine16->mState = SHINE16_STATE_RESTING;
     }
     shine16->mDrawScale = 0;
     shine16->mPickupTimer = 0;
@@ -650,7 +650,7 @@ void StartShine16FromKart(Kart *hitKart, Kart *hitByKart) {
     shine16->mFloorY = 0;
     shine16->mDrawScale = 0;
     shine16->mPickupTimer = 0;
-    shine16->mState = 3;
+    shine16->mState = SHINE16_STATE_RISING_FROM_KART;
     shine16->mTargetPos = hitByKart->mPos;
     if (hitByKart == hitKart) {
         shine16->mTargetDistanceSquared = 0;
