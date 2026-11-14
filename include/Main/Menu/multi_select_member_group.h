@@ -24,6 +24,17 @@ typedef struct ScanSlotMemberRow {
     /* 08 */ s32 mChildCount;
 } ScanSlotMemberRow;
 
+// Values of MultiSelectMemberGroup.mState: the panel slides in, waits for a choice, the choice is shown for 5 frames,
+// the panel slides out, then the next callbacks index is returned. NONE is only compared with.
+enum {
+    MULTI_SELECT_MEMBER_GROUP_STATE_NONE = -1,
+    MULTI_SELECT_MEMBER_GROUP_STATE_SLIDE_IN,
+    MULTI_SELECT_MEMBER_GROUP_STATE_CHOOSE,
+    MULTI_SELECT_MEMBER_GROUP_STATE_PRESS_WAIT,
+    MULTI_SELECT_MEMBER_GROUP_STATE_SLIDE_OUT,
+    MULTI_SELECT_MEMBER_GROUP_STATE_DONE,
+};
+
 // 0xa8 bytes.
 typedef struct MultiSelectMemberGroup {
     /* 00 */ u8 mUnk_00[0x24];
