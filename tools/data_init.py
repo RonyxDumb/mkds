@@ -294,6 +294,8 @@ def main():
     if a.const and not decl.startswith("const "):
         decl = "const " + decl
     print(("static " if a.static else "") + (f"{decl};" if init is None else f"{decl} = {init};"))
+    if w.used:
+        print("uses: " + " ".join(sorted(w.used)), file=sys.stderr)
 
 
 if __name__ == "__main__":
