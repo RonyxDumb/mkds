@@ -127,8 +127,8 @@ void InitStaffRollText(void *heap) {
     void *font;
     gStaffRollText = HeapAlloc(heap, 0x85c);
     gStaffRollText->mHeap = heap;
-    gStaffRollText->mState = 0;
-    gStaffRollText->mNextState = 0;
+    gStaffRollText->mState = STAFF_ROLL_TEXT_IDLE;
+    gStaffRollText->mNextState = STAFF_ROLL_TEXT_IDLE;
     NNS_GfdInitVramTransferManager(HeapAlloc(heap, 0xa0), 0xa);
     gStaffRollText->mScrollYFixed = 0;
     gStaffRollText->mNextReadScrollY = 0;
@@ -189,7 +189,7 @@ void AdvanceStaffRollTextState1(void) {
     if (staffRollText->mScrollYRemaining > 0) {
         staffRollText->mScrollYRemaining -= staffRollText->mScrollYPerFrame;
         if (gStaffRollText->mScrollYRemaining <= 0) {
-            gStaffRollText->mNextState = 2;
+            gStaffRollText->mNextState = STAFF_ROLL_TEXT_SCROLL_DONE;
         }
         return;
     }
@@ -290,12 +290,12 @@ void AdvanceStaffRollTextState1(void) {
 void AdvanceStaffRollText(void) {
     gStaffRollText->mState = gStaffRollText->mNextState;
     switch (gStaffRollText->mState) {
-        case 0:
+        case STAFF_ROLL_TEXT_IDLE:
             break;
-        case 1:
+        case STAFF_ROLL_TEXT_SCROLLING:
             AdvanceStaffRollTextState1();
             break;
-        case 2:
+        case STAFF_ROLL_TEXT_SCROLL_DONE:
             break;
     }
 }
@@ -306,5 +306,5 @@ void SetStaffRollScrollAndDrainQueue(void) {
 }
 
 void StartStaffRollText(void) {
-    gStaffRollText->mNextState = 1;
+    gStaffRollText->mNextState = STAFF_ROLL_TEXT_SCROLLING;
 }

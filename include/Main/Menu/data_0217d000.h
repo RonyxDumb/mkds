@@ -830,6 +830,13 @@ typedef struct StaffRollTag {
     /* 06 */ u16 mArgument;
 } StaffRollTag;
 
+// mState and mNextState values: waiting for the start, scrolling the text, scrolled all of it.
+typedef enum StaffRollTextState {
+    STAFF_ROLL_TEXT_IDLE = 0,
+    STAFF_ROLL_TEXT_SCROLLING = 1,
+    STAFF_ROLL_TEXT_SCROLL_DONE = 2,
+} StaffRollTextState;
+
 // 0x85c bytes; the 0x20 bytes at 0x20 are set up by NNS_G2dCharCanvasInitForBG.
 typedef struct StaffRollText {
     /* 000 */ s32 mState;
