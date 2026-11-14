@@ -16,8 +16,8 @@ void StartRaceInput(void) {
     SetReadRaceKeys(1);
     for (entryIndex = 0; entryIndex < gRaceSetup->mKartCount; entryIndex = (u16) (entryIndex + 1)) {
         InputSlot *inputSlot = &gInputSlots[gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mIndex];
-        if (inputSlot->mSourceKind != 1) {
-            if (inputSlot->mSourceKind == 2) {
+        if (inputSlot->mSourceKind != INPUT_SOURCE_KEY_RECORDING_PLAYBACK) {
+            if (inputSlot->mSourceKind == INPUT_SOURCE_PAD_RECORDED) {
                 StartKeyRecording(&inputSlot->mKeyRecording);
             }
         } else {

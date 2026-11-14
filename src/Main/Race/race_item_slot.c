@@ -537,7 +537,7 @@ void DrawRaceModeCount(RaceHudOamBuffer *oamBuffer) {
             }
             break;
         case MODE_TIME_ATTACK:
-            if (gInputSlots[0].mSourceKind != 2) {
+            if (gInputSlots[0].mSourceKind != INPUT_SOURCE_PAD_RECORDED) {
                 return;
             }
             if (IsKeyRecordingFull(&gInputSlots[0].mKeyRecording) == FALSE) {

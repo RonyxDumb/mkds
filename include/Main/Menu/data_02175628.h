@@ -104,6 +104,16 @@ typedef struct InputSlotHead {
     /* 24 */ s32 mReadsKeyBits;
 } InputSlotHead;
 
+// Values of InputSlot.mSourceKind: where the slot gets its keys from each frame.
+#define INPUT_SOURCE_NONE 0
+#define INPUT_SOURCE_KEY_RECORDING_PLAYBACK 1
+#define INPUT_SOURCE_PAD_RECORDED 2
+#define INPUT_SOURCE_REQUESTED_BITS 3
+#define INPUT_SOURCE_PARTICIPANT 4
+#define INPUT_SOURCE_PAD_OR_PARTICIPANT 5
+#define INPUT_SOURCE_PAD_AND_TOUCH 6
+#define INPUT_SOURCE_WIFI_REQUESTED_BITS 7
+
 // One 0x5c-byte element of the array at gInputSlots.
 typedef struct InputSlot {
     // The members of InputSlotHead, spelled out.

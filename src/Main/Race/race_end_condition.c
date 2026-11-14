@@ -305,10 +305,10 @@ void FinishRaceProgressKart(RaceProgressKart *raceProgressKart, s32 finished) {
         raceProgressKart->mStatus = RACE_PROGRESS_KART_STATUS_ENDED_NO_GOAL;
     }
     switch (gInputSlots[inputSlotIndex].mSourceKind) {
-        case 2:
+        case INPUT_SOURCE_PAD_RECORDED:
             FinishKeyRecording(&gInputSlots[inputSlotIndex].mKeyRecording);
             break;
-        case 1:
+        case INPUT_SOURCE_KEY_RECORDING_PLAYBACK:
             FinishReadingKeyRecording(&gInputSlots[inputSlotIndex].mKeyRecording);
             break;
     }

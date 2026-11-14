@@ -2376,7 +2376,7 @@ void StartKartRaceEnd(Kart *kart) {
             if (value != 0) {
                 value = kart->mEntryFlags;
                 if ((value & (KART_ENTRY_CPU | KART_ENTRY_GHOST)) == 0 && (value & KART_ENTRY_ENDED) == 0) {
-                    gInputSlots[kart->mEntryIndex].mSourceKind = 3;
+                    gInputSlots[kart->mEntryIndex].mSourceKind = INPUT_SOURCE_REQUESTED_BITS;
                     if (gRaceProgress->mKarts[kart->mIndex].mStatus == RACE_PROGRESS_KART_STATUS_GOAL_REACHED) {
                         CallKartAiSetup(kart->mAi, kart->mIndex);
                         kart->mEntryFlags = kart->mEntryFlags | KART_ENTRY_CPU;

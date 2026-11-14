@@ -1040,15 +1040,15 @@ static inline void ResetInputSlotsAndRepeat(void) {
         inputSlot = GetInputSlot(slotIndex);
         ResetInputSlot(inputSlot);
         SetInputSlotRepeat(inputSlot, PAD_KEYS_NO_SELECT_OR_START, 0x1e, 0xa);
-        inputSlot->mSourceKind = 0;
+        inputSlot->mSourceKind = INPUT_SOURCE_NONE;
         inputSlot->mRequestedBits = 0;
         inputSlot->mIsBlocked = 0;
         inputSlot->mBitMask = 0x2fff;
         ResetKeyRecording(&inputSlot->mKeyRecording);
         ResetInputSlotPair(&inputSlot->mPair);
     }
-    gInputSlots[8].mSourceKind = 5;
-    gInputSlots[9].mSourceKind = 6;
+    gInputSlots[8].mSourceKind = INPUT_SOURCE_PAD_OR_PARTICIPANT;
+    gInputSlots[9].mSourceKind = INPUT_SOURCE_PAD_AND_TOUCH;
     gInputState->mParticipantPosition = 0;
     gInputState->mUnk_0c = FALSE;
     slot = gInputSlots;
@@ -1356,7 +1356,7 @@ void UpdateInputSlots(void) {
                 isBlocked = inputSlot->mIsBlocked;
             }
             switch (sourceKind) {
-                case 1:
+                case INPUT_SOURCE_KEY_RECORDING_PLAYBACK:
                     if (isBlocked == 0) {
                         if (canReadKeys != 0) {
                             slotKeys = ReadKeysFromKeyRecording(&inputSlot->mKeyRecording);
@@ -1367,7 +1367,7 @@ void UpdateInputSlots(void) {
                     touchPoint = 0xffff;
                     micValue = 0;
                     break;
-                case 2:
+                case INPUT_SOURCE_PAD_RECORDED:
                     if (isBlocked == 0) {
                         if (canReadKeys != 0) {
                             slotKeys = padKeys;
@@ -1388,8 +1388,8 @@ void UpdateInputSlots(void) {
                     touchPoint = packedTouchPoint;
                     micValue = micOverThreshold;
                     break;
-                case 3:
-                case 7:
+                case INPUT_SOURCE_REQUESTED_BITS:
+                case INPUT_SOURCE_WIFI_REQUESTED_BITS:
                     if (isBlocked != 0) {
                         skipUpdate = TRUE;
                     } else {
@@ -1399,12 +1399,12 @@ void UpdateInputSlots(void) {
                         inputSlot->mRequestedBits = micValue;
                     }
                     break;
-                case 5:
+                case INPUT_SOURCE_PAD_OR_PARTICIPANT:
                     slotKeys = padOrParticipantKeys;
                     touchPoint = padOrParticipantTouchPoint;
                     micValue = 0;
                     break;
-                case 4:
+                case INPUT_SOURCE_PARTICIPANT:
                     if (isBlocked == 0) {
                         if (canReadKeys != 0) {
                             slotKeys = GetParticipantPadKeys(GetParticipantIndex(slotIndex));
@@ -1427,12 +1427,12 @@ void UpdateInputSlots(void) {
                     micValue = gConnectionWork->mDataSharing.mReceivedRecords[GetParticipantIndex(slotIndex)]
                                    .mMicOverThreshold;
                     break;
-                case 6:
+                case INPUT_SOURCE_PAD_AND_TOUCH:
                     slotKeys = padKeys;
                     touchPoint = packedTouchPoint;
                     micValue = micOverThreshold;
                     break;
-                case 0:
+                case INPUT_SOURCE_NONE:
                     slotKeys = 0;
                     touchPoint = 0xffff;
                     micValue = slotKeys;
@@ -1447,9 +1447,10 @@ void UpdateInputSlots(void) {
     }
 }
 
-// Takes effect only for slots whose source kind is 3 or 7.
+// Takes effect only for slots whose source kind is INPUT_SOURCE_REQUESTED_BITS or INPUT_SOURCE_WIFI_REQUESTED_BITS.
 void RequestBits(s32 slotIndex, u32 bits) {
-    if (gInputSlots[slotIndex].mSourceKind == 3 || gInputSlots[slotIndex].mSourceKind == 7) {
+    if (gInputSlots[slotIndex].mSourceKind == INPUT_SOURCE_REQUESTED_BITS ||
+        gInputSlots[slotIndex].mSourceKind == INPUT_SOURCE_WIFI_REQUESTED_BITS) {
         gInputSlots[slotIndex].mRequestedBits |= bits;
     }
 }

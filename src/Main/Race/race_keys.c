@@ -62,7 +62,7 @@ void ResetInputSlotsFromParticipants(void) {
         inputSlot = &gInputSlots[slotIndex];
         ResetInputSlot(inputSlot);
         SetInputSlotRepeat(inputSlot, PAD_KEYS_NO_SELECT_OR_START, 0x1e, 0xa);
-        inputSlot->mSourceKind = 0;
+        inputSlot->mSourceKind = INPUT_SOURCE_NONE;
         inputSlot->mRequestedBits = 0;
         inputSlot->mIsBlocked = 0;
         inputSlot->mBitMask = 0x2fff;
@@ -73,7 +73,7 @@ void ResetInputSlotsFromParticipants(void) {
     if (RaceKeysIsConnectionActive(connectionWork) != 0) {
         for (positionIndex = 0; positionIndex < 8; positionIndex++) {
             if (connectionWork->mParticipantMask & (1 << connectionWork->mParticipantIndexByPos[positionIndex])) {
-                gInputSlots[positionIndex].mSourceKind = 4;
+                gInputSlots[positionIndex].mSourceKind = INPUT_SOURCE_PARTICIPANT;
             }
         }
     }
@@ -96,15 +96,15 @@ void ResetInputSlotsFromRaceSetup(void) {
         inputSlot = GetInputSlot(slotIndex);
         ResetInputSlot(inputSlot);
         SetInputSlotRepeat(inputSlot, PAD_KEYS_NO_SELECT_OR_START, 0x1e, 0xa);
-        inputSlot->mSourceKind = 0;
+        inputSlot->mSourceKind = INPUT_SOURCE_NONE;
         inputSlot->mRequestedBits = 0;
         inputSlot->mIsBlocked = 0;
         inputSlot->mBitMask = 0x2fff;
         ResetKeyRecording(&inputSlot->mKeyRecording);
         ResetInputSlotPair(&inputSlot->mPair);
     }
-    gInputSlots[8].mSourceKind = 5;
-    gInputSlots[9].mSourceKind = 6;
+    gInputSlots[8].mSourceKind = INPUT_SOURCE_PAD_OR_PARTICIPANT;
+    gInputSlots[9].mSourceKind = INPUT_SOURCE_PAD_AND_TOUCH;
     gInputState->mParticipantPosition = 0;
     gInputState->mUnk_0c = FALSE;
     inputSlot = gInputSlots;
@@ -126,21 +126,21 @@ void ResetInputSlotsFromRaceSetup(void) {
         if (isNonCpu != FALSE) {
             if (entryIndex == raceSetup->mEntryIndex) {
                 if (RaceKeysIsConnectionActive(connectionWork) != 0) {
-                    gInputSlots[inputSlotIndex].mSourceKind = 4;
+                    gInputSlots[inputSlotIndex].mSourceKind = INPUT_SOURCE_PARTICIPANT;
                 } else if (raceSetup->mRaceKind == RACE_KIND_REPLAY) {
-                    gInputSlots[inputSlotIndex].mSourceKind = 1;
+                    gInputSlots[inputSlotIndex].mSourceKind = INPUT_SOURCE_KEY_RECORDING_PLAYBACK;
                 } else {
-                    gInputSlots[inputSlotIndex].mSourceKind = 2;
+                    gInputSlots[inputSlotIndex].mSourceKind = INPUT_SOURCE_PAD_RECORDED;
                 }
             } else if (playerKind == 2) {
-                gInputSlots[inputSlotIndex].mSourceKind = 1;
+                gInputSlots[inputSlotIndex].mSourceKind = INPUT_SOURCE_KEY_RECORDING_PLAYBACK;
             } else if (raceSetup->mMode == MODE_WIFI) {
-                gInputSlots[inputSlotIndex].mSourceKind = 7;
+                gInputSlots[inputSlotIndex].mSourceKind = INPUT_SOURCE_WIFI_REQUESTED_BITS;
             } else {
-                gInputSlots[inputSlotIndex].mSourceKind = 4;
+                gInputSlots[inputSlotIndex].mSourceKind = INPUT_SOURCE_PARTICIPANT;
             }
         } else if (playerKind == 1) {
-            gInputSlots[inputSlotIndex].mSourceKind = 3;
+            gInputSlots[inputSlotIndex].mSourceKind = INPUT_SOURCE_REQUESTED_BITS;
         }
     }
 }
