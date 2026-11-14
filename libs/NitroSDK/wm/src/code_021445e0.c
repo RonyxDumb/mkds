@@ -289,8 +289,8 @@ void WmDataSharingSetDataCallback(PortSendCallbackMessage *callback) {
     share->mStatus = DATA_SHARING_STATUS_FAILED;
 }
 
-// Port callback of a parent: sends the next data set when the previous send finished (7), a child's data arrived (0x15)
-// or a child dropped out (9).
+// Port callback of a parent: sends the next data set when a link comes up (7), a child's data arrived (0x15) or a
+// link is lost (9).
 void WmDataSharingReceiveCallback_Parent(PortCallbackMessage *callback) {
     WMDataSharingInfo *share;
     u32 enabled;
@@ -306,14 +306,14 @@ void WmDataSharingReceiveCallback_Parent(PortCallbackMessage *callback) {
     }
     if (callback->mResultCode == WIRELESS_RESULT_SUCCEEDED) {
         switch (callback->mState) {
-            case 0x15:
+            case WIRELESS_STATE_PORT_DATA_ARRIVED:
                 WmDataSharingReceiveData(share, callback->mAid, callback->mData);
                 WmDataSharingSendDataSet(share, 0);
                 return;
-            case 7:
+            case WIRELESS_STATE_LINKED:
                 WmDataSharingSendDataSet(share, 0);
                 return;
-            case 9:
+            case WIRELESS_STATE_UNLINKED:
                 member = callback->mAid;
                 bit = 1;
                 enabled = OS_DisableInterrupts();
@@ -351,13 +351,13 @@ void WmDataSharingReceiveCallback_Child(PortCallbackMessage *callback) {
         return;
     }
     if (callback->mResultCode == WIRELESS_RESULT_SUCCEEDED) {
-        if (callback->mState == 7) {
+        if (callback->mState == WIRELESS_STATE_LINKED) {
             return;
         }
-        if (callback->mState == 9) {
+        if (callback->mState == WIRELESS_STATE_UNLINKED) {
             return;
         }
-        if (callback->mState != 0x15) {
+        if (callback->mState != WIRELESS_STATE_PORT_DATA_ARRIVED) {
             return;
         }
         data = callback->mData;
