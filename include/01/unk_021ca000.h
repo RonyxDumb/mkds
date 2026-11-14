@@ -137,6 +137,17 @@ typedef struct MissionRunMSsel {
     /* bc */ s32 mResult; /* 1 = mission chosen, 2 = Back; also read by ReleaseMissionRunMSsel for the sound */
 } MissionRunMSsel;
 
+// Values of SelectEngine.mState and mNextState.
+enum {
+    SELECT_ENGINE_STATE_WAIT_FADE,
+    SELECT_ENGINE_STATE_SLIDE_IN,
+    SELECT_ENGINE_STATE_SETTLE,
+    SELECT_ENGINE_STATE_WAIT_SELECT_RETURN,
+    SELECT_ENGINE_STATE_INPUT,
+    SELECT_ENGINE_STATE_PRESS,
+    SELECT_ENGINE_STATE_SLIDE_OUT,
+};
+
 // Object behind gSelectEngine.
 typedef struct SelectEngine {
     /* 00 */ struct NNSG2dCellDataBank *mSelectEngineMNcer;

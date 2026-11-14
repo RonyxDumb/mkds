@@ -218,7 +218,7 @@ void ResetSelectEngineOffsets(void) {
     s32 slotIndex;
     s32 cellSlot;
 
-    gSelectEngine->mNextState = 0;
+    gSelectEngine->mNextState = SELECT_ENGINE_STATE_WAIT_FADE;
     gSelectEngine->mStateFrames = 0;
     gSelectEngine->mBg0Offset = 0xc0;
     for (slotIndex = 0; slotIndex < 6; slotIndex++) {
@@ -256,19 +256,19 @@ void ResetSelectEngineOffsets(void) {
 // Requests state 1: stores mNextState = 1 and zeroes mStateFrames; the next AdvanceSelectEngine call copies it to
 // mState and runs AdvanceSelectEngineState1.
 void RequestSelectEngineState1(void) {
-    gSelectEngine->mNextState = 1;
+    gSelectEngine->mNextState = SELECT_ENGINE_STATE_SLIDE_IN;
     gSelectEngine->mStateFrames = 0;
 }
 
 // Requests state 2: stores mNextState = 2 and zeroes mStateFrames; the next AdvanceSelectEngine call copies it to
 // mState and runs AdvanceSelectEngineState2.
 void RequestSelectEngineState2(void) {
-    gSelectEngine->mNextState = 2;
+    gSelectEngine->mNextState = SELECT_ENGINE_STATE_SETTLE;
     gSelectEngine->mStateFrames = 0;
 }
 
 void RequestSelectEngineState3(void) {
-    gSelectEngine->mNextState = 3;
+    gSelectEngine->mNextState = SELECT_ENGINE_STATE_WAIT_SELECT_RETURN;
     gSelectEngine->mStateFrames = 0;
     RequestSelectReturnState1();
 }
@@ -276,12 +276,12 @@ void RequestSelectEngineState3(void) {
 // Requests state 4: stores mNextState = 4 and zeroes mStateFrames; the next AdvanceSelectEngine call copies it to
 // mState and runs AdvanceSelectEngineState4.
 void RequestSelectEngineState4(void) {
-    gSelectEngine->mNextState = 4;
+    gSelectEngine->mNextState = SELECT_ENGINE_STATE_INPUT;
     gSelectEngine->mStateFrames = 0;
 }
 
 void RequestSelectEngineState5(void) {
-    gSelectEngine->mNextState = 5;
+    gSelectEngine->mNextState = SELECT_ENGINE_STATE_PRESS;
     gSelectEngine->mStateFrames = 0;
     gSelectEngine->mResult = 1;
     SetEngineFromSelectEngine();
@@ -291,7 +291,7 @@ void RequestSelectEngineState5(void) {
 // Requests state 6: stores mNextState = 6 and zeroes mStateFrames; the next AdvanceSelectEngine call copies it to
 // mState and runs AdvanceSelectEngineState6.
 void RequestSelectEngineState6(void) {
-    gSelectEngine->mNextState = 6;
+    gSelectEngine->mNextState = SELECT_ENGINE_STATE_SLIDE_OUT;
     gSelectEngine->mStateFrames = 0;
 }
 
@@ -311,7 +311,7 @@ void InitSelectEngine(void *parentHeap, void *mainOamList, void *subOamList) {
     selectEngine = HeapAlloc(heap, 0x50);
     gSelectEngine = selectEngine;
     selectEngine->mHeap = heap;
-    gSelectEngine->mState = 0;
+    gSelectEngine->mState = SELECT_ENGINE_STATE_WAIT_FADE;
     gSelectEngine->mIndexChangeFramesRemaining = 0;
     gSelectEngine->mAlternateCellShown = TRUE;
     gSelectEngine->mMainOamList = mainOamList;
@@ -598,25 +598,25 @@ void AdvanceSelectEngineState6(void) {
 int AdvanceSelectEngine(void) {
     gSelectEngine->mState = gSelectEngine->mNextState;
     switch (gSelectEngine->mState) {
-        case 0:
+        case SELECT_ENGINE_STATE_WAIT_FADE:
             AdvanceSelectEngineState0();
             break;
-        case 1:
+        case SELECT_ENGINE_STATE_SLIDE_IN:
             AdvanceSelectEngineState1();
             break;
-        case 2:
+        case SELECT_ENGINE_STATE_SETTLE:
             AdvanceSelectEngineState2();
             break;
-        case 3:
+        case SELECT_ENGINE_STATE_WAIT_SELECT_RETURN:
             AdvanceSelectEngineState3();
             break;
-        case 4:
+        case SELECT_ENGINE_STATE_INPUT:
             AdvanceSelectEngineState4();
             break;
-        case 5:
+        case SELECT_ENGINE_STATE_PRESS:
             AdvanceSelectEngineState5();
             break;
-        case 6:
+        case SELECT_ENGINE_STATE_SLIDE_OUT:
             AdvanceSelectEngineState6();
             break;
     }
@@ -625,7 +625,7 @@ int AdvanceSelectEngine(void) {
                     gSelectEngine->mMainOamList, gSelectEngine->mSelectEngineMTable);
     DrawLayoutTable(gSelectEngine->mSelectEngineAOrBSBncl, gSelectEngine->mSelectEngineSNcer, NULL,
                     gSelectEngine->mSubOamList, gSelectEngine->mSelectEngineAOrBSTable);
-    if (gSelectEngine->mState == 6 && gSelectEngine->mStateFrames >= 10) {
+    if (gSelectEngine->mState == SELECT_ENGINE_STATE_SLIDE_OUT && gSelectEngine->mStateFrames >= 10) {
         return gSelectEngine->mResult;
     }
     return 0;
