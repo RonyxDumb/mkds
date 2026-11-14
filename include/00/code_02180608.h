@@ -2,6 +2,23 @@
 
 #include "types.h"
 
+// States the WiFi screens request with RequestWiFiState; the last two are stored by the top menu for screens that
+// leave the WiFi states instead.
+enum {
+    WIFI_STATE_LOGIN_MENU,
+    WIFI_STATE_TOP_MENU,
+    WIFI_STATE_VS_SETTING,
+    WIFI_STATE_VS_MATCHING,
+    WIFI_STATE_SELECT_CHARACTER,
+    WIFI_STATE_SELECT_KART,
+    WIFI_STATE_VS_COURSE_SELECT,
+    WIFI_STATE_CONNECTION_LOST,
+    WIFI_STATE_AIKOTOBA,
+    WIFI_STATE_AIKOTOBA_CHECK,
+    WIFI_STATE_SCENE_TITLE,
+    WIFI_STATE_SCENE_WIFI_MENU = 13,
+};
+
 // Four callbacks of a WiFi state: mInit gets WiFiStates.mStateHeap, mAdvance runs every frame.
 typedef struct WiFiStateCallbacks {
     /* 00 */ void (*mInit)(void *);

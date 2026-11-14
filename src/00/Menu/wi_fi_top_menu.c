@@ -190,8 +190,8 @@ void AdvanceWiFiTopMenuState3(void) {
         }
     }
     gWiFiTopMenu->mNextState = 5;
-    gWiFiTopMenu->mPendingWiFiState = 10;
-    if (gWiFiTopMenu->mPendingWiFiState == 10) {
+    gWiFiTopMenu->mPendingWiFiState = WIFI_STATE_SCENE_TITLE;
+    if (gWiFiTopMenu->mPendingWiFiState == WIFI_STATE_SCENE_TITLE) {
         RequestSelectReturnState3WithSound(1);
     }
     return;
@@ -219,16 +219,16 @@ next:
         switch (gWiFiTopMenu->mIndex) {
             case 0:
                 if (GetWiFiSessionLoginResult() == 1) {
-                    gWiFiTopMenu->mPendingWiFiState = 2;
+                    gWiFiTopMenu->mPendingWiFiState = WIFI_STATE_VS_SETTING;
                 } else {
-                    gWiFiTopMenu->mPendingWiFiState = 0;
+                    gWiFiTopMenu->mPendingWiFiState = WIFI_STATE_LOGIN_MENU;
                 }
                 break;
             case 1:
-                gWiFiTopMenu->mPendingWiFiState = 8;
+                gWiFiTopMenu->mPendingWiFiState = WIFI_STATE_AIKOTOBA;
                 break;
             case 2:
-                gWiFiTopMenu->mPendingWiFiState = 13;
+                gWiFiTopMenu->mPendingWiFiState = WIFI_STATE_SCENE_WIFI_MENU;
                 break;
         }
         StartSoundOncePerFrame(5);
@@ -275,9 +275,9 @@ void AdvanceWiFiTopMenuState5(void) {
     s32 cellIndex;
     s32 offsetX;
     if (GetWiFiNextScene() == -1) {
-        if (gWiFiTopMenu->mPendingWiFiState == 10 && GetWiFiSessionLoginResult() != 1) {
+        if (gWiFiTopMenu->mPendingWiFiState == WIFI_STATE_SCENE_TITLE && GetWiFiSessionLoginResult() != 1) {
             SetWiFiNextScene(0);
-        } else if (gWiFiTopMenu->mPendingWiFiState == 13) {
+        } else if (gWiFiTopMenu->mPendingWiFiState == WIFI_STATE_SCENE_WIFI_MENU) {
             gStartupWork->mConnectionKind = CONNECTION_KIND_WIFI_TOP_MENU;
             SetWiFiNextScene(12);
         }
@@ -295,12 +295,13 @@ void AdvanceWiFiTopMenuState5(void) {
         }
     }
     if (gWiFiTopMenu->mStateFrames >= 10) {
-        if ((gWiFiTopMenu->mPendingWiFiState == 10 || gWiFiTopMenu->mPendingWiFiState == 13) &&
+        if ((gWiFiTopMenu->mPendingWiFiState == WIFI_STATE_SCENE_TITLE ||
+             gWiFiTopMenu->mPendingWiFiState == WIFI_STATE_SCENE_WIFI_MENU) &&
             IsSelectReturnState0NoState1Request() == 0) {
             return;
         }
         if (GetWiFiNextScene() == -1) {
-            if (gWiFiTopMenu->mPendingWiFiState == 8 && IsUserDataFriendKeyNonZeroWrapper() == 0) {
+            if (gWiFiTopMenu->mPendingWiFiState == WIFI_STATE_AIKOTOBA && IsUserDataFriendKeyNonZeroWrapper() == 0) {
                 gWiFiTopMenu->mNextState = 8;
                 gWiFiTopMenu->mPendingWiFiState = -1;
                 SetupTxtSystemMainText(GetBmgEntry(gWiFiTopMenu->mWiFiMessages, 0x12));
@@ -335,12 +336,12 @@ void AdvanceWiFiTopMenuState6(void) {
 void AdvanceWiFiTopMenuState7(void) {
     int v1;
     v1 = GetWiFiNextScene();
-    if ((v1 == -1) && (gWiFiTopMenu->mPendingWiFiState == 10)) {
+    if ((v1 == -1) && (gWiFiTopMenu->mPendingWiFiState == WIFI_STATE_SCENE_TITLE)) {
         SetWiFiNextScene(0);
     }
     v1 = GetWiFiSessionLoginResult();
     if (v1 != 1) {
-        gWiFiTopMenu->mPendingWiFiState = 10;
+        gWiFiTopMenu->mPendingWiFiState = WIFI_STATE_SCENE_TITLE;
     }
 }
 
