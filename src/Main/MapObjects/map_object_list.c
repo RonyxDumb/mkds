@@ -83,7 +83,7 @@ s32 CollideSphereWithMapObjects(Vec3 *position, Vec3 *velocity, s32 radius, s16 
             Vec3 zeroHigh = {0, 0, 0};
             highest = zeroHigh;
         }
-        itemObject = &gMapObjects->mUnk_18c;
+        itemObject = &gMapObjects->mProbeItemObject;
         for (; foundIndex < gFoundCollisionSlotCount; foundIndex++) {
             mapObject = gFoundCollisionSlotObjects[foundIndex];
             if (IsSphereHittingMapObject(position, radius, mapObject, &overlapOffset) != FALSE) {
@@ -125,15 +125,15 @@ u32 GetMapObjectKindCount(void) {
     return (gMapObjectKindCount);
 }
 
-// The water_efct.nsbmd file: WaterEfct's if gCourseWaterEfct exists, else the Water's own when mUnk_170 is non-zero,
-// else NULL; passed as an effect model file to SetupModelEffectKind.
+// The water_efct.nsbmd file: WaterEfct's if gCourseWaterEfct exists, else the Water's own when mIsHeightUsed is
+// non-zero, else NULL; passed as an effect model file to SetupModelEffectKind.
 void *GetWaterEfctNsbmdFile(void) {
     Water *water;
     if (gCourseWaterEfct != NULL) {
         return gCourseWaterEfct->mNsbmdFile;
     }
     water = gCourseWater;
-    if ((water != NULL) && (water->mUnk_170 != 0)) {
+    if ((water != NULL) && (water->mIsHeightUsed != 0)) {
         return water->mEfctNsbmdFile;
     }
     return NULL;
@@ -146,7 +146,7 @@ void *GetWaterEfctNsbcaFile(void) {
         return gCourseWaterEfct->mNsbcaFile;
     }
     water = gCourseWater;
-    if ((water != NULL) && (water->mUnk_170 != 0)) {
+    if ((water != NULL) && (water->mIsHeightUsed != 0)) {
         return water->mEfctNsbcaFile;
     }
     return NULL;
@@ -159,7 +159,7 @@ void *GetWaterEfctNsbmaFile(void) {
         return gCourseWaterEfct->mNsbmaFile;
     }
     water = gCourseWater;
-    if ((water != NULL) && (water->mUnk_170 != 0)) {
+    if ((water != NULL) && (water->mIsHeightUsed != 0)) {
         return water->mEfctNsbmaFile;
     }
     return NULL;

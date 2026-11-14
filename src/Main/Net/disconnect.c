@@ -417,38 +417,40 @@ void ProcessMPData(u32 aid, MPMessage *message) {
             gConnectionWork->mRequestPending = 0;
             break;
         case 1:
-            gConnectionWork->mParticipantMask = message->mUnk_04;
+            gConnectionWork->mParticipantMask = message->mWord;
             RefreshParticipantTables();
             RequestMPState15AfterCombine();
             break;
         case 2:
             if (DisconnectGetConnectionMode() == CONNECTION_MODE_CHILD) {
-                gConnectionWork->mGroupSendMask = message->mUnk_04;
+                gConnectionWork->mGroupSendMask = message->mWord;
             }
             MPDataRequestMPState(1);
             break;
         case 6:
             switch (gConnectionWork->mState) {
                 case CONNECTION_STATE_CONNECTED:
-                    StoreReceivedPlayerName(message->mUnk_02, message->mUnk_16, message->mUnk_17);
+                    StoreReceivedPlayerName(message->mBitsOrName, message->mNamePlayerIndex,
+                                            message->mNameConnectedMask);
                     break;
                 case CONNECTION_STATE_ENTRY_EXCHANGE:
-                    StoreReceivedPlayerNameByState(message->mUnk_02, (u8) aid, message->mUnk_16, message->mUnk_17);
+                    StoreReceivedPlayerNameByState(message->mBitsOrName, (u8) aid, message->mNamePlayerIndex,
+                                                   message->mNameConnectedMask);
                     break;
             }
             break;
         case 9:
-            if ((gConnectionWork->mBitsReceivedMask & (1 << message->mUnk_0a)) != 0) {
+            if ((gConnectionWork->mBitsReceivedMask & (1 << message->mBitsPlayerIndex)) != 0) {
                 return;
             }
-            MI_CpuCopy8(message->mUnk_02, gConnectionWork->mPlayerRecords[message->mUnk_0a].mBits, 4);
-            gConnectionWork->mBitsReceivedMask |= 1 << message->mUnk_0a;
+            MI_CpuCopy8(message->mBitsOrName, gConnectionWork->mPlayerRecords[message->mBitsPlayerIndex].mBits, 4);
+            gConnectionWork->mBitsReceivedMask |= 1 << message->mBitsPlayerIndex;
             break;
         case 7:
-            RemoveChildrenInMask(message->mUnk_04);
+            RemoveChildrenInMask(message->mWord);
             break;
         case 8:
-            gConnectionWork->mRaceSeed = message->mUnk_04;
+            gConnectionWork->mRaceSeed = message->mWord;
             break;
     }
 }

@@ -12,23 +12,23 @@
 // Object of kind 0x1a9 (Flipper), up to 0xed4 bytes plus a table of words from 0xed4.
 typedef struct Flipper {
     /* 000 */ MapObject mMapObject;
-    /* 0a0 */ s32 mUnk_a0;
+    /* 0a0 */ s32 mHitSide;
     /* 0a4 */ s32 mMirror;
-    /* 0a8 */ MtxFx43 mUnk_a8[30];
-    /* 648 */ MtxFx43 mUnk_648[30];
-    /* be8 */ Vec3 mUnk_be8[30];
-    /* d50 */ Vec3 mUnk_d50[30];
+    /* 0a8 */ MtxFx43 mSwingMatrices[30];
+    /* 648 */ MtxFx43 mTiltedSwingMatrices[30];
+    /* be8 */ Vec3 mEmitterStarts[30];
+    /* d50 */ Vec3 mEmitterEnds[30];
     /* eb8 */ s32 mState1Timer;
     /* ebc */ s32 mState4Timer;
-    /* ec0 */ s32 mUnk_ec0;
+    /* ec0 */ s32 mSwingStep;
     /* ec4 */ u16 mNsbtpFrameIndex;
     /* ec6 */ u16 mNsbtaFrameIndex;
-    /* ec8 */ s32 mUnk_ec8;
+    /* ec8 */ s32 mIsAnimating;
     /* State number of this kind's own per-frame switch in UpdateFlipper; this object does not use
-       MapObject.mUnk_80's state machine */
+       MapObject.mStateMachine's state machine */
     /* ecc */ s32 mState;
-    /* ed0 */ ParticleEmitter *mUnk_ed0;
-    /* ed4 */ s32 mUnk_ed4[1];
+    /* ed0 */ ParticleEmitter *mEmitter;
+    /* ed4 */ s32 mKartCooldownFrames[1];
 } Flipper;
 
 MapObjectList *CreateFlipperUpdateList(void);

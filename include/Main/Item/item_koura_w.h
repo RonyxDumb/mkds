@@ -37,7 +37,7 @@ typedef struct ItemKouraW {
     /* 250 */ Vec3 mAnglePointOffset;
     /* 25c */ s32 mAngle;
     /* 260 */ s32 mLift;
-    /* 264 */ s32 mUnk_264;
+    /* 264 */ s32 mBobAmplitudeOrGain;
     /* 268 */ u16 mDrawOffsetAngle;
     /* 26a */ u8 mUnk_26a[2];
     /* 26c */ struct PosStrip *mPosStrip;
@@ -48,7 +48,7 @@ typedef struct ItemKouraW {
     /* 27c */ s32 mSpeed;
     /* 280 */ u16 mKartMask;
     /* 282 */ u8 mUnk_282[2];
-    /* 284 */ s32 mUnk_284;
+    /* 284 */ s32 mRadiusOrEaseFactor;
     /* 288 */ u16 mAngleStep;
     /* 28a */ u8 mUnk_28a[2];
     /* 28c */ Vec3 mPreviousDirection;
@@ -89,8 +89,8 @@ struct ItemObject *GetCollidedItemObject(u32 index);
 s32 CollideKartWithItemObjects(Kart *kart);
 void StartItemSlotForKart(s32 kartIndex, s32 forcedRowHandle, s32 shortSpin);
 void DrawItems(void *unused);
-// Per-frame item step: mode-5 sync, the object pools whose mUnk_14 is set, every kart's record, the item timers, two
-// map-object steps
+// Per-frame item step: mode-5 sync, the object pools whose mActiveCount is not 0, every kart's record, the item timers,
+// two map-object steps
 void UpdateItems(void);
 void ReleaseItemsAtFinish(void);
 BOOL TryReleaseItemObjectsForItemInfo(s32 itemInfoIndex);

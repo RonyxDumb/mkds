@@ -397,9 +397,9 @@ void InitMapObjects(void) {
     }
     gMapObjectsTimeAttackOrWiFi = value;
     gMapObjects->mHasKoopaBlock = 0;
-    gMapObjects->mUnk_180 = 0;
-    gMapObjects->mUnk_184 = 0;
-    gMapObjects->mUnk_188 = 0;
+    gMapObjects->mHasRotary = 0;
+    gMapObjects->mHasBridge = 0;
+    gMapObjects->mHasMissionRunBox = 0;
     gCourseWater = NULL;
     gCourseWaterEfct = NULL;
     ClearOrthoQuadCreamEffectPointer();
@@ -420,12 +420,12 @@ void InitMapObjects(void) {
         }
         CreateMapObject(courseRow->mKind, courseRow, NULL);
         gMapObjects->mHasKoopaBlock |= IsKoopaBlockKind(courseRow->mKind);
-        gMapObjects->mUnk_180 |= IsRotaryKind(courseRow->mKind);
-        gMapObjects->mUnk_184 |= IsBridgeKind(courseRow->mKind);
-        gMapObjects->mUnk_188 |= IsMissionRunBoxKind(courseRow->mKind);
+        gMapObjects->mHasRotary |= IsRotaryKind(courseRow->mKind);
+        gMapObjects->mHasBridge |= IsBridgeKind(courseRow->mKind);
+        gMapObjects->mHasMissionRunBox |= IsMissionRunBoxKind(courseRow->mKind);
     }
-    if (gMapObjects->mHasKoopaBlock != 0 || gMapObjects->mUnk_180 != 0 || gMapObjects->mUnk_184 != 0 ||
-        gMapObjects->mUnk_188 != 0) {
+    if (gMapObjects->mHasKoopaBlock != 0 || gMapObjects->mHasRotary != 0 || gMapObjects->mHasBridge != 0 ||
+        gMapObjects->mHasMissionRunBox != 0) {
         gSearchCollisionSlots = 1;
     }
     CreatePooledMapObjects();

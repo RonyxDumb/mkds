@@ -654,7 +654,7 @@ void SetMapObjectsModel(MapObjectList *list, void *model) {
 s32 ComputeSphereHitOnCollisionData(CollisionMapObject *object, Vec3 *sphereCenter, s32 sphereRadius, u16 queryFlags,
                                     CollisionHitRecord *firstHitRecord, CollisionHitRecord *secondHitRecord,
                                     Vec3 *lowestOffset, u16 *outFlags, Vec3 *pointMotion, u16 *angleChange) {
-    switch (object->mCollisionData.mUnk_134) {
+    switch (object->mCollisionData.mShape) {
         case COLLISION_SHAPE_BOX:
             return ComputeSphereHitOnCollisionBox(object, sphereCenter, sphereRadius, queryFlags, firstHitRecord,
                                                   secondHitRecord, lowestOffset, outFlags, pointMotion, angleChange);
@@ -683,7 +683,7 @@ void AddCollisionHitOneAxis(s32 sphereRadius, s32 signedDepth, s32 depth, u32 re
         } else {
             signedNormalY = -normal->y;
         }
-        if (signedNormalY > object->mCollisionData.mUnk_120) {
+        if (signedNormalY > object->mCollisionData.mFloorThreshold) {
             normalAboveThreshold = TRUE;
         }
     }
@@ -694,7 +694,7 @@ void AddCollisionHitOneAxis(s32 sphereRadius, s32 signedDepth, s32 depth, u32 re
     offset.y = MUL_FIXED12_NO_ROUND(offset.y, signedDepth);
     offset.z = MUL_FIXED12_NO_ROUND(offset.z, signedDepth);
     if (normalAboveThreshold) {
-        hitFlags = object->mCollisionData.mUnk_114.z != 0 && (regionFlags & 8) ? 0x12 : 0;
+        hitFlags = object->mCollisionData.mHitFlagWords.z != 0 && (regionFlags & 8) ? 0x12 : 0;
         *outFlags = hitFlags;
         chosenHitRecord = firstHitRecord;
     } else {
@@ -728,11 +728,11 @@ void AddCollisionHitOneAxis(s32 sphereRadius, s32 signedDepth, s32 depth, u32 re
     }
     if (lowestOffset != NULL) {
         if (regionFlags & positiveSideBit) {
-            s32 axisFlag = -(sphereRadius - depth);
+            s32 negatedPenetration = -(sphereRadius - depth);
 
-            offset.x = MUL_FIXED12_NO_ROUND(normal->x, axisFlag);
-            offset.y = MUL_FIXED12_NO_ROUND(normal->y, axisFlag);
-            offset.z = MUL_FIXED12_NO_ROUND(normal->z, axisFlag);
+            offset.x = MUL_FIXED12_NO_ROUND(normal->x, negatedPenetration);
+            offset.y = MUL_FIXED12_NO_ROUND(normal->y, negatedPenetration);
+            offset.z = MUL_FIXED12_NO_ROUND(normal->z, negatedPenetration);
         } else {
             s32 negatedGap = sphereRadius - depth;
 
@@ -771,7 +771,7 @@ BOOL AddCollisionHitTwoAxes(s32 sphereRadius, s32 firstOffset, s32 secondOffset,
         axisQualifies = FALSE;
         if (firstAxisFlag != 0) {
             value = (regionFlags & firstPositiveSideBit) ? firstNormal->y : -firstNormal->y;
-            if (value > object->mCollisionData.mUnk_120) {
+            if (value > object->mCollisionData.mFloorThreshold) {
                 axisQualifies = TRUE;
             }
         }
@@ -779,7 +779,7 @@ BOOL AddCollisionHitTwoAxes(s32 sphereRadius, s32 firstOffset, s32 secondOffset,
             axisQualifies = FALSE;
             if (secondAxisFlag != 0) {
                 value = (regionFlags & secondPositiveSideBit) ? secondNormal->y : -secondNormal->y;
-                if (value > object->mCollisionData.mUnk_120) {
+                if (value > object->mCollisionData.mFloorThreshold) {
                     axisQualifies = TRUE;
                 }
             }
@@ -822,7 +822,7 @@ BOOL AddCollisionHitTwoAxes(s32 sphereRadius, s32 firstOffset, s32 secondOffset,
         secondOffset = sphereRadius;
     }
     if (normalAboveThreshold) {
-        if (object->mCollisionData.mUnk_114.z != 0 && (regionFlags & 8)) {
+        if (object->mCollisionData.mHitFlagWords.z != 0 && (regionFlags & 8)) {
             *outFlags = 0x1e;
             chosenHitRecord = secondHitRecord;
         } else {
@@ -895,19 +895,19 @@ BOOL ComputeSphereHitOnCollisionBox(CollisionMapObject *object, Vec3 *sphereCent
     VEC_Subtract(sphereCenter, &object->mCollisionData.mCenterPos, &offset);
     distanceAxis0 = Vec3DotUnrounded(&offset, &object->mMapObject.mMatrix.mRows[0]);
     if (distanceAxis0 > 0) {
-        if (distanceAxis0 > object->mCollisionData.mUnk_100 + sphereRadius) {
+        if (distanceAxis0 > object->mCollisionData.mHalfSizeX + sphereRadius) {
             return FALSE;
         }
-        if (distanceAxis0 > object->mCollisionData.mUnk_100) {
+        if (distanceAxis0 > object->mCollisionData.mHalfSizeX) {
             regionFlags |= 0xa00;
         } else {
             regionFlags |= 0x900;
         }
     } else {
-        if (distanceAxis0 < -(object->mCollisionData.mUnk_100 + sphereRadius)) {
+        if (distanceAxis0 < -(object->mCollisionData.mHalfSizeX + sphereRadius)) {
             return FALSE;
         }
-        if (distanceAxis0 < -object->mCollisionData.mUnk_100) {
+        if (distanceAxis0 < -object->mCollisionData.mHalfSizeX) {
             regionFlags |= 0x600;
         } else {
             regionFlags |= 0x500;
@@ -965,9 +965,9 @@ BOOL ComputeSphereHitOnCollisionBox(CollisionMapObject *object, Vec3 *sphereCent
             }
             if (regionFlags & 0x1) {
                 if (regionFlags & 0x800) {
-                    signedDepthAxis0 = (object->mCollisionData.mUnk_100 + sphereRadius) - distanceAxis0;
+                    signedDepthAxis0 = (object->mCollisionData.mHalfSizeX + sphereRadius) - distanceAxis0;
                 } else {
-                    signedDepthAxis0 = -(object->mCollisionData.mUnk_100 + sphereRadius) - distanceAxis0;
+                    signedDepthAxis0 = -(object->mCollisionData.mHalfSizeX + sphereRadius) - distanceAxis0;
                 }
                 if (regionFlags & 0x80) {
                     signedDepthAxis1 = (object->mCollisionData.mHalfSizeY + sphereRadius) - distanceAxis1;
@@ -994,9 +994,9 @@ BOOL ComputeSphereHitOnCollisionBox(CollisionMapObject *object, Vec3 *sphereCent
         goto call_80;
     }
     if (regionFlags & 0x800) {
-        signedDepthAxis0 = (object->mCollisionData.mUnk_100 + sphereRadius) - distanceAxis0;
+        signedDepthAxis0 = (object->mCollisionData.mHalfSizeX + sphereRadius) - distanceAxis0;
     } else {
-        signedDepthAxis0 = -(object->mCollisionData.mUnk_100 + sphereRadius) - distanceAxis0;
+        signedDepthAxis0 = -(object->mCollisionData.mHalfSizeX + sphereRadius) - distanceAxis0;
     }
     if (regionFlags & 0x10) {
         if (!(regionFlags & 0x1)) {
@@ -1011,18 +1011,19 @@ BOOL ComputeSphereHitOnCollisionBox(CollisionMapObject *object, Vec3 *sphereCent
     }
 call_800:
     AddCollisionHitOneAxis(sphereRadius, signedDepthAxis0, depthAxis0, regionFlags, 0x800, outFlags,
-                           object->mCollisionData.mUnk_110, object, sphereCenter, &object->mMapObject.mMatrix.mRows[0],
-                           firstHitRecord, secondHitRecord, lowestOffset, pointMotion, angleChange);
+                           object->mCollisionData.mAxis0Flag, object, sphereCenter,
+                           &object->mMapObject.mMatrix.mRows[0], firstHitRecord, secondHitRecord, lowestOffset,
+                           pointMotion, angleChange);
     return TRUE;
 call_80:
     AddCollisionHitOneAxis(sphereRadius, signedDepthAxis1, depthAxis1, regionFlags, 0x80, outFlags,
-                           object->mCollisionData.mUnk_114.x, object, sphereCenter,
+                           object->mCollisionData.mHitFlagWords.x, object, sphereCenter,
                            &object->mMapObject.mMatrix.mRows[1], firstHitRecord, secondHitRecord, lowestOffset,
                            pointMotion, angleChange);
     return TRUE;
 call_8:
     AddCollisionHitOneAxis(sphereRadius, distanceAxis2, depthAxis2, regionFlags, 8, outFlags,
-                           object->mCollisionData.mUnk_114.y, object, sphereCenter,
+                           object->mCollisionData.mHitFlagWords.y, object, sphereCenter,
                            &object->mMapObject.mMatrix.mRows[2], firstHitRecord, secondHitRecord, lowestOffset,
                            pointMotion, angleChange);
     return TRUE;
@@ -1039,9 +1040,9 @@ smallest:
     goto call_80;
 call_800_80:
     if (regionFlags & 0x800) {
-        distanceAxis0 = distanceAxis0 - object->mCollisionData.mUnk_100;
+        distanceAxis0 = distanceAxis0 - object->mCollisionData.mHalfSizeX;
     } else {
-        distanceAxis0 = distanceAxis0 + object->mCollisionData.mUnk_100;
+        distanceAxis0 = distanceAxis0 + object->mCollisionData.mHalfSizeX;
     }
     if (regionFlags & 0x80) {
         distanceAxis1 = distanceAxis1 - object->mCollisionData.mHalfSizeY;
@@ -1049,7 +1050,7 @@ call_800_80:
         distanceAxis1 = distanceAxis1 + object->mCollisionData.mHalfSizeY;
     }
     return AddCollisionHitTwoAxes(sphereRadius, distanceAxis0, distanceAxis1, regionFlags, 0x800, 0x80, outFlags,
-                                  queryFlags, object->mCollisionData.mUnk_110, object->mCollisionData.mUnk_114.x,
+                                  queryFlags, object->mCollisionData.mAxis0Flag, object->mCollisionData.mHitFlagWords.x,
                                   object, sphereCenter, &object->mMapObject.mMatrix.mRows[0],
                                   &object->mMapObject.mMatrix.mRows[1], firstHitRecord, secondHitRecord, lowestOffset,
                                   pointMotion, angleChange);
@@ -1065,10 +1066,10 @@ call_80_8:
         distanceAxis2 = distanceAxis2 + object->mCollisionData.mNegativeHalfSizeZ;
     }
     return AddCollisionHitTwoAxes(sphereRadius, distanceAxis1, distanceAxis2, regionFlags, 0x80, 0x8, outFlags,
-                                  queryFlags, object->mCollisionData.mUnk_114.x, object->mCollisionData.mUnk_114.y,
-                                  object, sphereCenter, &object->mMapObject.mMatrix.mRows[1],
-                                  &object->mMapObject.mMatrix.mRows[2], firstHitRecord, secondHitRecord, lowestOffset,
-                                  pointMotion, angleChange);
+                                  queryFlags, object->mCollisionData.mHitFlagWords.x,
+                                  object->mCollisionData.mHitFlagWords.y, object, sphereCenter,
+                                  &object->mMapObject.mMatrix.mRows[1], &object->mMapObject.mMatrix.mRows[2],
+                                  firstHitRecord, secondHitRecord, lowestOffset, pointMotion, angleChange);
 call_8_800:
     if (regionFlags & 0x8) {
         distanceAxis2 = distanceAxis2 - object->mCollisionData.mPositiveHalfSizeZ;
@@ -1076,12 +1077,12 @@ call_8_800:
         distanceAxis2 = distanceAxis2 + object->mCollisionData.mNegativeHalfSizeZ;
     }
     if (regionFlags & 0x800) {
-        distanceAxis0 = distanceAxis0 - object->mCollisionData.mUnk_100;
+        distanceAxis0 = distanceAxis0 - object->mCollisionData.mHalfSizeX;
     } else {
-        distanceAxis0 = distanceAxis0 + object->mCollisionData.mUnk_100;
+        distanceAxis0 = distanceAxis0 + object->mCollisionData.mHalfSizeX;
     }
     return AddCollisionHitTwoAxes(sphereRadius, distanceAxis2, distanceAxis0, regionFlags, 8, 0x800, outFlags,
-                                  queryFlags, object->mCollisionData.mUnk_114.y, object->mCollisionData.mUnk_110,
+                                  queryFlags, object->mCollisionData.mHitFlagWords.y, object->mCollisionData.mAxis0Flag,
                                   object, sphereCenter, &object->mMapObject.mMatrix.mRows[2],
                                   &object->mMapObject.mMatrix.mRows[0], firstHitRecord, secondHitRecord, lowestOffset,
                                   pointMotion, angleChange);
@@ -1091,19 +1092,19 @@ rest:
         anyAxisQualifies = TRUE;
         firstTwoQualify = TRUE;
         axisQualifies = FALSE;
-        if (object->mCollisionData.mUnk_110 != 0) {
+        if (object->mCollisionData.mAxis0Flag != 0) {
             value =
                 (regionFlags & 0x800) ? object->mMapObject.mMatrix.mRows[0].y : -object->mMapObject.mMatrix.mRows[0].y;
-            if (value > object->mCollisionData.mUnk_120) {
+            if (value > object->mCollisionData.mFloorThreshold) {
                 axisQualifies = TRUE;
             }
         }
         if (axisQualifies == FALSE) {
             axisQualifies = FALSE;
-            if (object->mCollisionData.mUnk_114.x != 0) {
+            if (object->mCollisionData.mHitFlagWords.x != 0) {
                 value = (regionFlags & 0x80) ? object->mMapObject.mMatrix.mRows[1].y
                                              : -object->mMapObject.mMatrix.mRows[1].y;
-                if (value > object->mCollisionData.mUnk_120) {
+                if (value > object->mCollisionData.mFloorThreshold) {
                     axisQualifies = TRUE;
                 }
             }
@@ -1113,10 +1114,10 @@ rest:
         }
         if (firstTwoQualify == FALSE) {
             signedDepthAxis1 = 0;
-            if (object->mCollisionData.mUnk_114.y != 0) {
+            if (object->mCollisionData.mHitFlagWords.y != 0) {
                 value = (regionFlags & 0x8) ? object->mMapObject.mMatrix.mRows[2].y
                                             : -object->mMapObject.mMatrix.mRows[2].y;
-                if (value > object->mCollisionData.mUnk_120) {
+                if (value > object->mCollisionData.mFloorThreshold) {
                     signedDepthAxis1 = 1;
                 }
             }
@@ -1129,9 +1130,9 @@ rest:
         }
     }
     if (regionFlags & 0x800) {
-        distanceAxis0 = distanceAxis0 - object->mCollisionData.mUnk_100;
+        distanceAxis0 = distanceAxis0 - object->mCollisionData.mHalfSizeX;
     } else {
-        distanceAxis0 = distanceAxis0 + object->mCollisionData.mUnk_100;
+        distanceAxis0 = distanceAxis0 + object->mCollisionData.mHalfSizeX;
     }
     if (regionFlags & 0x80) {
         distanceAxis1 = distanceAxis1 - object->mCollisionData.mHalfSizeY;
@@ -1177,7 +1178,7 @@ rest:
         pushVec.z = MUL_FIXED12_NO_ROUND(normal.z, sphereRadius);
     }
     if (normalAboveThreshold) {
-        if (object->mCollisionData.mUnk_114.z != 0 && (regionFlags & 0x8)) {
+        if (object->mCollisionData.mHitFlagWords.z != 0 && (regionFlags & 0x8)) {
             *outFlags = 0x1e;
             chosenHitRecord = secondHitRecord;
         } else {
@@ -1244,11 +1245,11 @@ BOOL ComputeSphereHitOnCollisionCylinder(CollisionMapObject *object, Vec3 *spher
     distanceAxis0 = Vec3DotUnrounded(&offset, &object->mMapObject.mMatrix.mRows[0]);
     alongAxis2 = Vec3DotUnrounded(&offset, &object->mMapObject.mMatrix.mRows[2]);
     squaredRadialDistance = (s64) distanceAxis0 * distanceAxis0 + (s64) alongAxis2 * alongAxis2;
-    combinedRadius = object->mCollisionData.mUnk_100 + sphereRadius;
+    combinedRadius = object->mCollisionData.mHalfSizeX + sphereRadius;
     if ((s64) combinedRadius * combinedRadius < squaredRadialDistance) {
         return FALSE;
     }
-    if ((s64) object->mCollisionData.mUnk_100 * object->mCollisionData.mUnk_100 < squaredRadialDistance) {
+    if ((s64) object->mCollisionData.mHalfSizeX * object->mCollisionData.mHalfSizeX < squaredRadialDistance) {
         regionFlags |= gCylinderOuterRegionFlag;
     } else {
         regionFlags |= gCylinderInnerRegionFlag;
@@ -1321,24 +1322,24 @@ BOOL ComputeSphereHitOnCollisionCylinder(CollisionMapObject *object, Vec3 *spher
     goto tail;
 apply80:
     AddCollisionHitOneAxis(sphereRadius, distanceAxis1, axialDepth, regionFlags, 0x80, outFlags,
-                           object->mCollisionData.mUnk_114.x, object, sphereCenter,
+                           object->mCollisionData.mHitFlagWords.x, object, sphereCenter,
                            &object->mMapObject.mMatrix.mRows[1], firstHitRecord, secondHitRecord, lowestOffset,
                            pointMotion, angleChange);
     return TRUE;
 apply3000:
     AddCollisionHitOneAxis(sphereRadius, radialOverlap, distanceAxis0, regionFlags, 0x3000, outFlags,
-                           object->mCollisionData.mUnk_110, object, sphereCenter, &normal, firstHitRecord,
+                           object->mCollisionData.mAxis0Flag, object, sphereCenter, &normal, firstHitRecord,
                            secondHitRecord, lowestOffset, pointMotion, angleChange);
     return TRUE;
 tail:
-    distanceAxis0 = distanceAxis0 - object->mCollisionData.mUnk_100;
+    distanceAxis0 = distanceAxis0 - object->mCollisionData.mHalfSizeX;
     if (regionFlags & 0x80) {
         distanceAxis1 = distanceAxis1 - object->mCollisionData.mHalfSizeY;
     } else {
         distanceAxis1 = distanceAxis1 + object->mCollisionData.mHalfSizeY;
     }
     return AddCollisionHitTwoAxes(sphereRadius, distanceAxis0, distanceAxis1, regionFlags, 0x3000, 0x80, outFlags,
-                                  queryFlags, object->mCollisionData.mUnk_110, object->mCollisionData.mUnk_114.x,
+                                  queryFlags, object->mCollisionData.mAxis0Flag, object->mCollisionData.mHitFlagWords.x,
                                   object, sphereCenter, &normal, &object->mMapObject.mMatrix.mRows[1], firstHitRecord,
                                   secondHitRecord, lowestOffset, pointMotion, angleChange);
 cmp:

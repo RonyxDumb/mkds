@@ -189,7 +189,7 @@ void InitRotaryObjects(BridgeDrawList *list) {
         object = objects[index];
         if (object->mCollisionMapObject.mMapObject.mKind == MAP_OBJECT_KIND_ROTARY_GEAR) {
             if (previousIndex < 0) {
-                object->mCollisionMapObject.mCollisionData.mUnk_138 = zeroFlag;
+                object->mCollisionMapObject.mCollisionData.mCollisionFlag = zeroFlag;
             } else {
                 previousObject = objects[previousIndex];
                 VEC_Subtract(&previousObject->mCollisionMapObject.mMapObject.mPos,
@@ -208,13 +208,13 @@ void InitRotaryObjects(BridgeDrawList *list) {
 // the timings.
 void InitRotary(Rotary *object, struct CourseMapRow *courseRow, RotaryKindInfo *kindInfo) {
     InitStateMachine(&object->mCollisionMapObject.mMapObject.mStateMachine, gRotaryStateTable, 4, object);
-    object->mCollisionMapObject.mCollisionData.mUnk_e8 = object->mCollisionMapObject.mMapObject.mPos;
+    object->mCollisionMapObject.mCollisionData.mPreviousPos = object->mCollisionMapObject.mMapObject.mPos;
     object->mCollisionMapObject.mCollisionData.mPrevMatrix = object->mCollisionMapObject.mMapObject.mMatrix.mAxes;
     object->mCollisionMapObject.mCollisionData.mInitialMatrix = object->mCollisionMapObject.mMapObject.mMatrix.mAxes;
     object->mCollisionMapObject.mCollisionData.mAngleChangeVector.x = 0;
     object->mCollisionMapObject.mCollisionData.mAngleChangeVector.y = 0;
     object->mCollisionMapObject.mCollisionData.mAngleChangeVector.z = 0;
-    object->mCollisionMapObject.mCollisionData.mUnk_130 = kindInfo->mUnk_00 != 0 ? 0 : 1;
+    object->mCollisionMapObject.mCollisionData.mTracksNormal = kindInfo->mUnk_00 != 0 ? 0 : 1;
     object->mRampFrameCount = courseRow->mSettings[2];
     object->mSteadyFrameCount = courseRow->mSettings[1];
     object->mPauseFrameCount = courseRow->mSettings[3];
@@ -229,21 +229,21 @@ void InitRotary(Rotary *object, struct CourseMapRow *courseRow, RotaryKindInfo *
         object->mSpeedFractionPerFrame = 0;
     }
     object->mSpeedFraction = 0;
-    object->mCollisionMapObject.mCollisionData.mUnk_100 =
+    object->mCollisionMapObject.mCollisionData.mHalfSizeX =
         MUL_FIXED12_NO_ROUND(kindInfo->mRadius, object->mCollisionMapObject.mMapObject.mScale.x);
     object->mCollisionMapObject.mCollisionData.mHalfSizeY =
         MUL_FIXED12_NO_ROUND(kindInfo->mHeight, object->mCollisionMapObject.mMapObject.mScale.y) >> 1;
     if (kindInfo->mUnk_00 != 0) {
-        object->mCollisionMapObject.mCollisionData.mUnk_110 = FALSE;
-        object->mCollisionMapObject.mCollisionData.mUnk_114.x = 1;
+        object->mCollisionMapObject.mCollisionData.mAxis0Flag = FALSE;
+        object->mCollisionMapObject.mCollisionData.mHitFlagWords.x = 1;
     } else {
-        object->mCollisionMapObject.mCollisionData.mUnk_110 = TRUE;
-        object->mCollisionMapObject.mCollisionData.mUnk_114.x = 0;
+        object->mCollisionMapObject.mCollisionData.mAxis0Flag = TRUE;
+        object->mCollisionMapObject.mCollisionData.mHitFlagWords.x = 0;
     }
-    object->mCollisionMapObject.mCollisionData.mUnk_114.z = 0;
-    object->mCollisionMapObject.mCollisionData.mUnk_120 = kindInfo->mUnk_10;
-    object->mCollisionMapObject.mCollisionData.mUnk_134 = COLLISION_SHAPE_CYLINDER;
-    object->mCollisionMapObject.mCollisionData.mUnk_138 = kindInfo->mCollisionFlag;
+    object->mCollisionMapObject.mCollisionData.mHitFlagWords.z = 0;
+    object->mCollisionMapObject.mCollisionData.mFloorThreshold = kindInfo->mUnk_10;
+    object->mCollisionMapObject.mCollisionData.mShape = COLLISION_SHAPE_CYLINDER;
+    object->mCollisionMapObject.mCollisionData.mCollisionFlag = kindInfo->mCollisionFlag;
     object->mCollisionMapObject.mMapObject.mFlags |= gRotaryFlag;
     object->mCollisionMapObject.mMapObject.mStateMachine.mNextState = ROTARY_STATE_RAMP_UP;
     object->mCollisionMapObject.mMapObject.mStateMachine.mNextStateRequested = 1;

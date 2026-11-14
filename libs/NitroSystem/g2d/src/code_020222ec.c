@@ -132,9 +132,9 @@ u16 NNS_G2dMakeCellToOams(GXOamAttr *pDstOams, u16 numDstOam, NNSG2dCellDataWith
     for (oamIndex = 0; oamIndex < numDstOam; oamIndex++) {
         dstOam = &pDstOams[oamIndex];
         pSrcOam = &pCell->mPOamAttrArray[oamIndex];
-        dstOam->mUnk_00[0] = pSrcOam->mAttr0;
-        dstOam->mUnk_00[1] = pSrcOam->mAttr1;
-        dstOam->mUnk_00[2] = pSrcOam->mAttr2;
+        dstOam->mAttrs[0] = pSrcOam->mAttr0;
+        dstOam->mAttrs[1] = pSrcOam->mAttr1;
+        dstOam->mAttrs[2] = pSrcOam->mAttr2;
         if (pMtxSR != 0 || pBaseTrans != 0) {
             attr = *(u32 *) dstOam;
             posX = (attr & 0x1ff0000) >> 16;

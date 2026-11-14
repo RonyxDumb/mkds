@@ -664,7 +664,7 @@ void AdvanceRestingItemObject(ItemObject *item) {
             FALSE) {
             StartFallingItemObject(item);
         }
-        if (item->mCollisionHitLink->mObject->mCollisionData.mUnk_130 != FALSE) {
+        if (item->mCollisionHitLink->mObject->mCollisionData.mTracksNormal != FALSE) {
             if (item->mNormal.y < 0xff4) {
                 item->mFlags |= 0x80;
             }

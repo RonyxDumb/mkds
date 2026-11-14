@@ -201,10 +201,10 @@ void DrawRaceRankList(RaceHudOamBuffer *oamBuffer) {
     }
     matrix = &gRaceRankList->mMatrix;
     oams = &oamBuffer->mOams[gRaceRankList->mOamMatrixIndex * 4];
-    oams[0].mUnk_00[3] = matrix->mUnk_00[0] >> 4;
-    oams[1].mUnk_00[3] = matrix->mUnk_00[1] >> 4;
-    oams[2].mUnk_00[3] = matrix->mUnk_00[2] >> 4;
-    oams[3].mUnk_00[3] = matrix->mUnk_00[3] >> 4;
+    oams[0].mAttrs[3] = matrix->mUnk_00[0] >> 4;
+    oams[1].mAttrs[3] = matrix->mUnk_00[1] >> 4;
+    oams[2].mAttrs[3] = matrix->mUnk_00[2] >> 4;
+    oams[3].mAttrs[3] = matrix->mUnk_00[3] >> 4;
 }
 
 // Returns the cell index beside the kart (0xc9 = none): cell 0x24 or 0x25, the item just used, the held item or 0x16.

@@ -28,7 +28,7 @@ typedef struct NNSG2dCellOAMAttrData {
 } NNSG2dCellOAMAttrData;
 
 typedef struct GXOamAttr {
-    /* 00 */ u16 mUnk_00[4];
+    /* 00 */ u16 mAttrs[4];
 } GXOamAttr;
 
 // Rotation and scaling parameters: four OAM entries whose last halfwords hold PA, PB, PC and PD.
@@ -43,8 +43,8 @@ typedef struct GXOamAffine {
     /* 1e */ s16 mPD;
 } GXOamAffine;
 
-// Cell of a cell bank: the count, the attribute entries, then the bounds (absent when bit 0 of the bank's mUnk_02 is
-// clear).
+// Cell of a cell bank: the count, the attribute entries, then the bounds (absent when bit 0 of the bank's mCellBankAttr
+// is clear).
 typedef struct NNSG2dCellDataWithBR {
     /* 00 */ u16 mNumOAMAttrs;
     /* 02 */ u16 mCellAttr;
@@ -71,7 +71,7 @@ typedef struct NNSG2dCellAnimation {
 } NNSG2dCellAnimation;
 
 // Record at the first word of the element: ApplyCurrentAnimResult_ reads these members, except when the low byte of
-// mUnk_04 of the header is 2 (then NNSG2dAnimDataT).
+// mAnimType of the sequence is 2 (then NNSG2dAnimDataT).
 struct NNSG2dAnimDataSRT {
     /* 00 */ u16 mIndex;
     /* 02 */ u16 mRotZ;
@@ -82,7 +82,7 @@ struct NNSG2dAnimDataSRT {
 };
 
 typedef struct NNSG2dAnimDataT {
-    /* 00 */ u16 mUnk_00;
+    /* 00 */ u16 mIndex;
     /* 02 */ u16 mPad;
     /* 04 */ s16 mPx;
     /* 06 */ s16 mPy;

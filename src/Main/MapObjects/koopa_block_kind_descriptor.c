@@ -133,8 +133,8 @@ void InitKoopaBlock(KoopaBlock *koopaBlock, CourseMapRow *courseRow) {
     koopaBlock->mCollisionMapObject.mCollisionData.mAngleChangeVector.x = 0;
     koopaBlock->mCollisionMapObject.mCollisionData.mAngleChangeVector.y = 0;
     koopaBlock->mCollisionMapObject.mCollisionData.mAngleChangeVector.z = 0;
-    koopaBlock->mCollisionMapObject.mCollisionData.mUnk_130 = FALSE;
-    koopaBlock->mCollisionMapObject.mCollisionData.mUnk_100 =
+    koopaBlock->mCollisionMapObject.mCollisionData.mTracksNormal = FALSE;
+    koopaBlock->mCollisionMapObject.mCollisionData.mHalfSizeX =
         MUL_FIXED12_NO_ROUND(koopaBlock->mCollisionMapObject.mMapObject.mScale.x, 0x190000);
     koopaBlock->mCollisionMapObject.mCollisionData.mHalfSizeY =
         MUL_FIXED12_NO_ROUND(koopaBlock->mCollisionMapObject.mMapObject.mScale.y, 0x64000) >> 1;
@@ -142,17 +142,17 @@ void InitKoopaBlock(KoopaBlock *koopaBlock, CourseMapRow *courseRow) {
         MUL_FIXED12_NO_ROUND(koopaBlock->mCollisionMapObject.mMapObject.mScale.z, 0xaf000);
     koopaBlock->mCollisionMapObject.mCollisionData.mNegativeHalfSizeZ =
         MUL_FIXED12_NO_ROUND(koopaBlock->mCollisionMapObject.mMapObject.mScale.z, 0xaf000);
-    koopaBlock->mCollisionMapObject.mCollisionData.mUnk_110 = 0;
-    koopaBlock->mCollisionMapObject.mCollisionData.mUnk_114.x = 1;
-    koopaBlock->mCollisionMapObject.mCollisionData.mUnk_114.y = 0;
-    koopaBlock->mCollisionMapObject.mCollisionData.mUnk_114.z = 0;
-    koopaBlock->mCollisionMapObject.mCollisionData.mUnk_120 = 0x800;
+    koopaBlock->mCollisionMapObject.mCollisionData.mAxis0Flag = 0;
+    koopaBlock->mCollisionMapObject.mCollisionData.mHitFlagWords.x = 1;
+    koopaBlock->mCollisionMapObject.mCollisionData.mHitFlagWords.y = 0;
+    koopaBlock->mCollisionMapObject.mCollisionData.mHitFlagWords.z = 0;
+    koopaBlock->mCollisionMapObject.mCollisionData.mFloorThreshold = 0x800;
     SetupGroupFollowerAtEntry(&koopaBlock->mFollower, 0, 1);
     GetGroupFollowerLinearPosStep(&koopaBlock->mFollower, &koopaBlock->mCollisionMapObject.mMapObject.mPos,
                                   &koopaBlock->mCollisionMapObject.mMapObject.mPosStep);
-    koopaBlock->mCollisionMapObject.mCollisionData.mUnk_e8 = koopaBlock->mCollisionMapObject.mMapObject.mPos;
-    koopaBlock->mCollisionMapObject.mCollisionData.mUnk_134 = COLLISION_SHAPE_BOX;
-    koopaBlock->mCollisionMapObject.mCollisionData.mUnk_138 = 0;
+    koopaBlock->mCollisionMapObject.mCollisionData.mPreviousPos = koopaBlock->mCollisionMapObject.mMapObject.mPos;
+    koopaBlock->mCollisionMapObject.mCollisionData.mShape = COLLISION_SHAPE_BOX;
+    koopaBlock->mCollisionMapObject.mCollisionData.mCollisionFlag = 0;
     koopaBlock->mCollisionMapObject.mMapObject.mFlags |= gKoopaBlockFlag;
     koopaBlock->mCollisionMapObject.mMapObject.mFlags &= ~2;
     koopaBlock->mCollisionMapObject.mMapObject.mFlags &= ~8;

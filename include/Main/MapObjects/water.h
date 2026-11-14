@@ -49,7 +49,7 @@ typedef struct Water {
     // Z of model A: mCenterZ + mModelARadius * the second value of the pair for mCircleAngle; see mModelAX.
     /* 08 */ s32 mModelAZ;
     // X of model C (the model of mModelCFile, letter C from ..._waterC): mCenterX + mModelCRadius * the first pair
-    // value for mCircleAngle - mModelCAngleOffset; its y is mUnk_10 (copy of mHeight).
+    // value for mCircleAngle - mModelCAngleOffset; its y is mModelCY (copy of mHeight).
     /* 0c */ s32 mModelCX;
     // y of model C: every write copies mHeight, the only reads are the translation y
     // of model C in DrawWater; it is only ever set from mHeight.
@@ -91,7 +91,7 @@ typedef struct Water {
     // 0x10000 per turn: the angle of the circle model A moves on (model C uses it minus mModelCAngleOffset); advances
     // every UpdateWater call by mCircleAnglePerFrame.
     /* 3c */ u16 mCircleAngle;
-    /* 3e */ u16 mUnk_3e;
+    /* 3e */ u16 mHoldAngleStep;
     // mHeightAnglePerFrame / 4, added to mCircleAngle every UpdateWater call.
     /* 40 */ u16 mCircleAnglePerFrame;
     /* 42 */ u8 mUnk_42[2];
@@ -117,9 +117,9 @@ typedef struct Water {
     /* 68 */ Nsbmd mModelA;
     /* d4 */ Nsbmd mModelC;
     /* 140 */ MtxFx43 mDrawMatrix;
-    /* 170 */ s32 mUnk_170;
+    /* 170 */ s32 mIsHeightUsed;
     // The file MapObj/water_efct.nsbmd as FindCourseFile returned it (a pointer to the whole file, not a built model
-    // object), loaded by InitWater; the getter returns it when mUnk_170 is
+    // object), loaded by InitWater; the getter returns it when mIsHeightUsed is
     // non-zero and no WaterEfct exists.
     /* 174 */ void *mEfctNsbmdFile;
     // The file MapObj/water_efct.nsbca (whole file), loaded by InitWater; see mEfctNsbmdFile.

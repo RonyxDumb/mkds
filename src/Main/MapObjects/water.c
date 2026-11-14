@@ -60,7 +60,7 @@ WaterEfct *gWaterEfct;
 // per course is assumed (a second would overwrite it).
 
 // The mInitObject slot of the five water kinds (gWaterKindDescriptor): stores the map object in gWaterMapObject, clears
-// mFlags bits 2 and 8, sets mUnk_66 to 0x1f, runs the creator the kind row holds (third argument), then loads the three
+// mFlags bits 2 and 8, sets mAlpha to 0x1f, runs the creator the kind row holds (third argument), then loads the three
 // water_efct files into gWater; once per water map object.
 void InitWater(MapObject *mapObject, void *unused, void (*createWater)(void)) {
     gWaterMapObject = mapObject;
@@ -74,7 +74,7 @@ void InitWater(MapObject *mapObject, void *unused, void (*createWater)(void)) {
 }
 
 // One step per UpdateRace call while the course has water: advances the height swing (4 states) and the two circles;
-// when mUnk_170 is set it also sets a value on entry 10 of gSndHandleSlots (GetSndHandleSlot) every call (from
+// when mIsHeightUsed is set it also sets a value on entry 10 of gSndHandleSlots (GetSndHandleSlot) every call (from
 // GetDistanceSoundInverseVolume on course 0x1f, else 0x7f000) and requests sound 0x114 when state 1 ends and 0x113 when
 // state 3 ends.
 void UpdateWater(Water *water) {
@@ -86,7 +86,7 @@ void UpdateWater(Water *water) {
     s32 modelAIndex;
     s32 modelCIndex;
     soundHandleSlot = GetSndHandleSlot(10);
-    if (water->mUnk_170 != 0) {
+    if (water->mIsHeightUsed != 0) {
         if (gRaceSetup->mCourseId != COURSE_ID_BEACH) {
             volume = 0x7f000;
         } else {
@@ -106,14 +106,14 @@ void UpdateWater(Water *water) {
             if (water->mHeightAngle > 0x3fff && water->mHeightAngle < 0x7fff) {
                 water->mState = 1;
                 water->mHoldFrames = 0;
-                water->mUnk_3e = water->mHeightAnglePerFrame;
+                water->mHoldAngleStep = water->mHeightAnglePerFrame;
             }
             break;
         case 1:
             water->mHoldFrames = water->mHoldFrames + 1;
             if (water->mHoldFrames > water->mHighHoldFrameCount) {
                 water->mState = 2;
-                if (water->mUnk_170 != 0 && volume >= 0) {
+                if (water->mIsHeightUsed != 0 && volume >= 0) {
                     highSoundRequest.mSoundId = 0x114;
                     highSoundRequest.mPositionSource = NULL;
                     highSoundRequest.mFalloffIndex = 4;
@@ -121,11 +121,11 @@ void UpdateWater(Water *water) {
                     StartSndHandleSound(&highSoundRequest, soundHandleSlot);
                 }
             } else if (water->mHoldFrames > (water->mHighHoldFrameCount >> 1)) {
-                water->mUnk_3e = water->mUnk_3e + 1;
-                water->mUnk_3a = water->mUnk_3a + water->mUnk_3e;
+                water->mHoldAngleStep = water->mHoldAngleStep + 1;
+                water->mUnk_3a = water->mUnk_3a + water->mHoldAngleStep;
             } else {
-                water->mUnk_3e = water->mUnk_3e - 1;
-                water->mUnk_3a = water->mUnk_3a + water->mUnk_3e;
+                water->mHoldAngleStep = water->mHoldAngleStep - 1;
+                water->mUnk_3a = water->mUnk_3a + water->mHoldAngleStep;
             }
             break;
         case 2:
@@ -137,14 +137,14 @@ void UpdateWater(Water *water) {
             if (water->mHeightAngle > 0xbfff) {
                 water->mState = 3;
                 water->mHoldFrames = 0;
-                water->mUnk_3e = water->mHeightAnglePerFrame;
+                water->mHoldAngleStep = water->mHeightAnglePerFrame;
             }
             break;
         case 3:
             water->mHoldFrames = water->mHoldFrames + 1;
             if (water->mHoldFrames > water->mLowHoldFrameCount) {
                 water->mState = 0;
-                if (water->mUnk_170 != 0 && volume >= 0) {
+                if (water->mIsHeightUsed != 0 && volume >= 0) {
                     lowSoundRequest.mSoundId = 0x113;
                     lowSoundRequest.mPositionSource = NULL;
                     lowSoundRequest.mFalloffIndex = 4;
@@ -152,11 +152,11 @@ void UpdateWater(Water *water) {
                     StartSndHandleSound(&lowSoundRequest, soundHandleSlot);
                 }
             } else if (water->mHoldFrames > (water->mLowHoldFrameCount >> 1)) {
-                water->mUnk_3e = water->mUnk_3e + 1;
-                water->mUnk_3a = water->mUnk_3a + water->mUnk_3e;
+                water->mHoldAngleStep = water->mHoldAngleStep + 1;
+                water->mUnk_3a = water->mUnk_3a + water->mHoldAngleStep;
             } else {
-                water->mUnk_3e = water->mUnk_3e - 1;
-                water->mUnk_3a = water->mUnk_3a + water->mUnk_3e;
+                water->mHoldAngleStep = water->mHoldAngleStep - 1;
+                water->mUnk_3a = water->mUnk_3a + water->mHoldAngleStep;
             }
             break;
     }
@@ -174,7 +174,7 @@ void UpdateWater(Water *water) {
 }
 
 // Draws model A (when it exists) and model C at their circle positions and mHeight, in the order of mDrawModelAFirst;
-// returns at once when the water map object's mFlags has bit 0x2 or 0x10; writes only the scratch matrix mUnk_140.
+// returns at once when the water map object's mFlags has bit 0x2 or 0x10; writes only the scratch matrix mDrawMatrix.
 void DrawWater(Water *water, struct MtxFx43 *unused) {
     if ((gWaterMapObject->mFlags & 0x12) != 0) {
         return;
@@ -217,11 +217,11 @@ MapObjectKindData *CreateWaterEfctKindData(void) {
 #pragma thumb on
 
 // Called once by each Create...Water with 15 constants; sets 28 members of gWater (heights, step sizes, radii, hold
-// counts, flags) and resets the matrix mUnk_140, nothing else.
+// counts, flags) and resets the matrix mDrawMatrix, nothing else.
 void InitWaterFields(s32 highHeight, s32 lowHeight, s32 modelARadius, s32 modelCRadius, s32 unk4cValue,
                      u16 modelCAngleOffset, u16 unk52Value, u16 framesPerCycle, u16 highHoldFrameCount,
                      u16 lowHoldFrameCount, u16 drawModelAFirst, u16 modelAAlpha, u16 modelCMaterialAlpha,
-                     u16 unk5cValue, s32 unk170Value) {
+                     u16 unk5cValue, s32 isHeightUsed) {
     gWater->mMidHeight = (highHeight + lowHeight) >> 1;
     gWater->mHeight = gWater->mMidHeight;
     gWater->mModelCY = gWater->mHeight;
@@ -249,7 +249,7 @@ void InitWaterFields(s32 highHeight, s32 lowHeight, s32 modelARadius, s32 modelC
     gWater->mModelCMaterialAlpha = modelCMaterialAlpha;
     gWater->mUnk_5c = unk5cValue;
     MTX_Identity43_(&gWater->mDrawMatrix);
-    gWater->mUnk_170 = unk170Value;
+    gWater->mIsHeightUsed = isHeightUsed;
 }
 
 void CreateMiniStage3Water(void) {
@@ -293,9 +293,9 @@ void CreateHyudoroWater(void) {
     SetCourseWater(gWater);
 }
 
-// Once per course, from RunMapObjectDrawListInits in InitMapObjects: builds the embedded model of each file (mUnk_68
-// only when A exists, mUnk_d4) and sets material values (NNS_G3dMdlSetMdlPolygonID: 1 for A, 2 for C; the two 5-bit
-// values mUnk_58 / mUnk_5a through NNS_G3dMdlSetMdlAlpha).
+// Once per course, from RunMapObjectDrawListInits in InitMapObjects: builds the embedded model of each file (mModelA
+// only when A exists, mModelC) and sets material values (NNS_G3dMdlSetMdlPolygonID: 1 for A, 2 for C; the two 5-bit
+// values mModelAAlpha / mModelCMaterialAlpha through NNS_G3dMdlSetMdlAlpha).
 void InitWaterModels(Water *water) {
     u32 materialIndex;
     NNSG3dResMdl *modelResMdl;

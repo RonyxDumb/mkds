@@ -355,10 +355,10 @@ void DrawRaceItemSlot(RaceHudOamBuffer *oamBuffer) {
             ((u32 *) oam)[1] = (((u32 *) oam)[1] & ~RACE_HUD_OAM_PRIORITY_MASK) | RACE_HUD_OAM_PRIORITY_1;
         }
         matrixOams = &oamBuffer->mOams[matrixIndex * 4];
-        matrixOams[0].mUnk_00[3] = matrix.mUnk_00[0] >> 4;
-        matrixOams[1].mUnk_00[3] = matrix.mUnk_00[1] >> 4;
-        matrixOams[2].mUnk_00[3] = matrix.mUnk_00[2] >> 4;
-        matrixOams[3].mUnk_00[3] = matrix.mUnk_00[3] >> 4;
+        matrixOams[0].mAttrs[3] = matrix.mUnk_00[0] >> 4;
+        matrixOams[1].mAttrs[3] = matrix.mUnk_00[1] >> 4;
+        matrixOams[2].mAttrs[3] = matrix.mUnk_00[2] >> 4;
+        matrixOams[3].mAttrs[3] = matrix.mUnk_00[3] >> 4;
     }
     cell = GetRaceMNcerEntry(RACE_M_CELL_ITEM_EMPTY);
     lastPos[0] = TO_FIXED12(0x18);

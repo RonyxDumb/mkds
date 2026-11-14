@@ -66,10 +66,10 @@ void SetRaceMNumberPairAnimation(RaceHudOamBuffer *oamBuffer, s32 startFrames) {
         gRaceMNumberPair->mMatrixIndex = AllocOamMatrixIndex(oamBuffer);
         matrix = gRaceMNumberPair->mCellMatrix;
         matrixOams = &oamBuffer->mOams[gRaceMNumberPair->mMatrixIndex * 4];
-        matrixOams[0].mUnk_00[3] = matrix->mUnk_00[0] >> 4;
-        matrixOams[1].mUnk_00[3] = matrix->mUnk_00[1] >> 4;
-        matrixOams[2].mUnk_00[3] = matrix->mUnk_00[2] >> 4;
-        matrixOams[3].mUnk_00[3] = matrix->mUnk_00[3] >> 4;
+        matrixOams[0].mAttrs[3] = matrix->mUnk_00[0] >> 4;
+        matrixOams[1].mAttrs[3] = matrix->mUnk_00[1] >> 4;
+        matrixOams[2].mAttrs[3] = matrix->mUnk_00[2] >> 4;
+        matrixOams[3].mAttrs[3] = matrix->mUnk_00[3] >> 4;
         gRaceMNumberPair->mCellMatrix->mUnk_00[3] = gRaceMNumberPair->mScale;
         gRaceMNumberPair->mCellMatrix->mUnk_00[0] = gRaceMNumberPair->mCellMatrix->mUnk_00[3];
         gRaceMNumberPair->mCellMatrix->mUnk_00[2] = 0;

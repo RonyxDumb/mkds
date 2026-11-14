@@ -37,24 +37,24 @@ typedef struct GroupFollower {
 // Shape that the collision routines test a map object against.
 typedef enum { COLLISION_SHAPE_BOX, COLLISION_SHAPE_CYLINDER } CollisionShape;
 
-// Collision-body block at 0xa0 of CollisionMapObject, Bridge, Rotary and MissionRunBox. Names carry the offset in the
-// object.
+// Collision-body block at 0xa0 of CollisionMapObject, Bridge, Rotary and MissionRunBox.
 typedef struct CollisionData {
     /* 00 */ MtxFx33 mPrevMatrix;
     /* 24 */ MtxFx33 mInitialMatrix;
-    /* 48 */ Vec3 mUnk_e8;
+    /* 48 */ Vec3 mPreviousPos;
     /* 54 */ Vec3 mCenterPos;
-    /* 60 */ s32 mUnk_100;
+    /* 60 */ s32 mHalfSizeX;
     /* 64 */ s32 mHalfSizeY;
     /* 68 */ s32 mPositiveHalfSizeZ;
     /* 6c */ s32 mNegativeHalfSizeZ;
-    /* 70 */ BOOL mUnk_110;
-    /* 74 */ Vec3 mUnk_114;
-    /* 80 */ s32 mUnk_120;
+    /* 70 */ BOOL mAxis0Flag;
+    // x and y: axisFlag of axes 1 and 2; z: makes a hit in region 8 report hit flags 0x12.
+    /* 74 */ Vec3 mHitFlagWords;
+    /* 80 */ s32 mFloorThreshold;
     /* 84 */ Vec3 mAngleChangeVector;
-    /* 90 */ BOOL mUnk_130;
-    /* 94 */ CollisionShape mUnk_134;
-    /* 98 */ s32 mUnk_138;
+    /* 90 */ BOOL mTracksNormal;
+    /* 94 */ CollisionShape mShape;
+    /* 98 */ s32 mCollisionFlag;
 } CollisionData;
 
 typedef struct KoopaBlock KoopaBlock;

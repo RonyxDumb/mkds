@@ -189,7 +189,7 @@ void InitItemKouraWCommon(ItemKouraW *item) {
         }
     }
     item->mLift = 0x32000;
-    item->mUnk_264 = 0xf000;
+    item->mBobAmplitudeOrGain = 0xf000;
     item->mDrawOffsetAngle = 0;
     item->mSpeed = 0x1a000;
     item->mSmoothedDirectionDelta.x = 0;
@@ -259,7 +259,7 @@ void UpdateItemKouraWDrawPos(ItemKouraW *item) {
     if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x40000000) {
         item->mDrawOffsetAngle += 0x5dc;
         angleFactor = FX_SinIdx(item->mDrawOffsetAngle);
-        VEC_MultAdd(liftOffset + MUL_FIXED12_NO_ROUND(item->mUnk_264, angleFactor),
+        VEC_MultAdd(liftOffset + MUL_FIXED12_NO_ROUND(item->mBobAmplitudeOrGain, angleFactor),
                     &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mNormal,
                     &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos, &buf);
         VEC_Subtract(&buf, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDrawPos, &buf);
@@ -270,7 +270,7 @@ void UpdateItemKouraWDrawPos(ItemKouraW *item) {
             item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity.y >> 1;
         item->mDrawOffsetAngle += 0x5dc;
         angleFactor = FX_SinIdx(item->mDrawOffsetAngle);
-        liftOffset += MUL_FIXED12_NO_ROUND(item->mUnk_264, angleFactor);
+        liftOffset += MUL_FIXED12_NO_ROUND(item->mBobAmplitudeOrGain, angleFactor);
         liftOffset = liftOffset + item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos.y -
                      item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDrawPos.y;
         item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDrawPos.y +=
@@ -500,7 +500,7 @@ void UpdateItemKouraWState1(ItemKouraW *item) {
 
 void EnterItemKouraWState3(ItemKouraW *item) {
     item->mSpeed = VEC_Mag(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity);
-    item->mUnk_284 = 0x1e000;
+    item->mRadiusOrEaseFactor = 0x1e000;
     if (item->mKartItems->mKartIndex == gRaceSetup->mEntryIndex) {
         item->mSoundId = 0xdd;
     }
@@ -522,7 +522,7 @@ void UpdateItemKouraWState3(ItemKouraW *item) {
     } else {
         item->mSpeed += 0xccd;
     }
-    SteerItemKouraWAtAngleZero(item, gain, item->mSpeed, item->mUnk_284);
+    SteerItemKouraWAtAngleZero(item, gain, item->mSpeed, item->mRadiusOrEaseFactor);
     if (!(item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 1)) {
         AdvanceSoundDistanceSquaredChange(
             &item->mSoundDistanceSquaredChange,
@@ -580,7 +580,7 @@ void UpdateItemKouraWState2(ItemKouraW *item) {
 }
 
 void EnterItemKouraWState4(ItemKouraW *item) {
-    item->mUnk_264 = 0x5000;
+    item->mBobAmplitudeOrGain = 0x5000;
     item->mAngleStep = 0x3e8;
     VEC_Subtract(&item->mToTarget, &item->mSmoothedDirectionDelta, &item->mPreviousDirection);
     if (item->mPosStrip != NULL) {
@@ -605,11 +605,11 @@ void UpdateItemKouraWState4(ItemKouraW *item) {
     item->mLift -= 0xccd;
     item->mAngleStep += 0x2d;
     if ((u32) item->mAngle < 0x8000) {
-        item->mUnk_284 -= 0x666;
+        item->mRadiusOrEaseFactor -= 0x666;
     } else {
-        item->mUnk_284 -= 0xccd;
+        item->mRadiusOrEaseFactor -= 0xccd;
     }
-    SteerItemKouraWToNextAnglePoint(item, 0x4cd, item->mSpeed, item->mUnk_284, item->mAngleStep);
+    SteerItemKouraWToNextAnglePoint(item, 0x4cd, item->mSpeed, item->mRadiusOrEaseFactor, item->mAngleStep);
     if (!(item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 1)) {
         AdvanceSoundDistanceSquaredChange(
             &item->mSoundDistanceSquaredChange,
@@ -654,13 +654,13 @@ void EnterItemKouraWState5(ItemKouraW *item) {
             &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos;
     }
     item->mLift = 0x28000;
-    item->mUnk_264 = 0x333;
+    item->mBobAmplitudeOrGain = 0x333;
     kind = item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mKind;
     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mScaleTargetOrSpeed = gItemKinds[kind].mTargetScale;
     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags |= 0x800000;
     item->mEasedDirection = item->mPreviousDirection;
     item->mSpeed = 0x3000;
-    item->mUnk_284 = 0x59a;
+    item->mRadiusOrEaseFactor = 0x59a;
 }
 
 void UpdateItemKouraWState5(ItemKouraW *item) {
@@ -671,18 +671,18 @@ void UpdateItemKouraWState5(ItemKouraW *item) {
     s32 directionZ;
 
     item->mLift += 0x4cd;
-    SteerItemKouraWToKartForward(item, item->mUnk_264, item->mLift);
-    if (item->mUnk_264 < 0xb33) {
-        item->mUnk_264 += 0x52;
+    SteerItemKouraWToKartForward(item, item->mBobAmplitudeOrGain, item->mLift);
+    if (item->mBobAmplitudeOrGain < 0xb33) {
+        item->mBobAmplitudeOrGain += 0x52;
     }
     if (item->mLift > 0x2d000) {
         item->mStateMachine.mNextState = 6;
         item->mStateMachine.mNextStateRequested = 1;
     }
     item->mSpeed -= 0xa14;
-    item->mUnk_284 -= 0x102;
-    if (item->mUnk_284 < 0x7b) {
-        item->mUnk_284 = 0x7b;
+    item->mRadiusOrEaseFactor -= 0x102;
+    if (item->mRadiusOrEaseFactor < 0x7b) {
+        item->mRadiusOrEaseFactor = 0x7b;
     }
     normal = GetItemKouraWNormalOrNull(item);
     if (normal != NULL) {
@@ -696,7 +696,7 @@ void UpdateItemKouraWState5(ItemKouraW *item) {
         targetDirection.z = directionZ;
     }
     VEC_Subtract(&targetDirection, &item->mEasedDirection, &targetDirection);
-    VEC_MultAdd(item->mUnk_284, &targetDirection, &item->mEasedDirection, &item->mEasedDirection);
+    VEC_MultAdd(item->mRadiusOrEaseFactor, &targetDirection, &item->mEasedDirection, &item->mEasedDirection);
     UpdateItemKouraWOrientation(item, &item->mEasedDirection, 0, normal);
 }
 

@@ -5,13 +5,13 @@
 // 0x18-byte object whose first halfword selects what ProcessMPData does with the rest.
 typedef struct MPMessage {
     /* 00 */ u16 mKind;
-    /* 02 */ u8 mUnk_02[2];
-    /* 04 */ s32 mUnk_04;
+    /* 02 */ u8 mBitsOrName[2];
+    /* 04 */ s32 mWord;
     /* 08 */ u8 mUnk_08[2];
-    /* 0a */ u8 mUnk_0a;
+    /* 0a */ u8 mBitsPlayerIndex;
     /* 0b */ u8 mUnk_0b[0xb];
-    /* 16 */ u8 mUnk_16;
-    /* 17 */ u8 mUnk_17;
+    /* 16 */ u8 mNamePlayerIndex;
+    /* 17 */ u8 mNameConnectedMask;
 } MPMessage;
 
 typedef struct MPKindWordMessage {

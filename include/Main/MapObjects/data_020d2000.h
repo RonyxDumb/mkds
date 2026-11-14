@@ -33,9 +33,9 @@ typedef struct MapObjects {
     /* 176 */ u8 mUnk_176[2];
     /* 178 */ BOOL mUnk_178;
     /* 17c */ s32 mHasKoopaBlock;
-    /* 180 */ s32 mUnk_180;
-    /* 184 */ s32 mUnk_184;
-    /* 188 */ s32 mUnk_188;
-    /* 18c */ ItemObject mUnk_18c;
+    /* 180 */ s32 mHasRotary;
+    /* 184 */ s32 mHasBridge;
+    /* 188 */ s32 mHasMissionRunBox;
+    /* 18c */ ItemObject mProbeItemObject;
     /* 2b8 */ s32 mRunUpdateLists;
 } MapObjects;

@@ -712,10 +712,10 @@ void DrawKoopaBlocksKind203AndBridges(Camera *view) {
     if (gMapObjects->mHasKoopaBlock != 0) {
         DrawAllKoopaBlocks(viewMatrix);
     }
-    if (gMapObjects->mUnk_180 != 0) {
+    if (gMapObjects->mHasRotary != 0) {
         DrawAllKind203MapObjects(viewMatrix);
     }
-    if (gMapObjects->mUnk_184 != 0) {
+    if (gMapObjects->mHasBridge != 0) {
         DrawAllBridges(viewMatrix);
     }
 }
@@ -901,7 +901,7 @@ BOOL IsWaterPresent(void) {
 }
 
 // y minus mHeight of gCourseWater (negative below the water), 9999.0 (fx32) when the course has no water; asked by the
-// camera; it does not look at mUnk_170 or WaterEfct.
+// camera; it does not look at mIsHeightUsed or WaterEfct.
 s32 GetHeightAboveWater(s32 height) {
     return gCourseWater != NULL ? height - gCourseWater->mHeight : 0x270f000;
 }
@@ -922,17 +922,17 @@ u32 IsWaterHeightUsed(void) {
     if (gCourseWater == NULL) {
         return result;
     }
-    if (gCourseWater->mUnk_170 != 0) {
+    if (gCourseWater->mIsHeightUsed != 0) {
         result = 1;
     }
     return result;
 }
 
-// Y minus mHeight when the Water exists and mUnk_170 is non-zero (mini stage 3, beach), else y minus WaterEfct.mHeight,
-// else 9999.0 (fx32); Or = the second source when the first is not used; asked by the kart steps, the kart sound and
-// the overlay-1 objects.
+// Y minus mHeight when the Water exists and mIsHeightUsed is non-zero (mini stage 3, beach), else y minus
+// WaterEfct.mHeight, else 9999.0 (fx32); Or = the second source when the first is not used; asked by the kart steps,
+// the kart sound and the overlay-1 objects.
 s32 GetHeightAboveWaterOrEfct(s32 height) {
-    if (gCourseWater != NULL && gCourseWater->mUnk_170 != 0) {
+    if (gCourseWater != NULL && gCourseWater->mIsHeightUsed != 0) {
         return height - gCourseWater->mHeight;
     }
     return gCourseWaterEfct != NULL ? height - gCourseWaterEfct->mHeight : 0x270f000;

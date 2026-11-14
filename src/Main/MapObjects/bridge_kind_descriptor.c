@@ -67,13 +67,13 @@ void CreateBridge(void) {
 }
 
 void InitBridge(Bridge *bridge, struct CourseMapRow *courseRow) {
-    bridge->mCollisionMapObject.mCollisionData.mUnk_e8 = bridge->mCollisionMapObject.mMapObject.mPos;
+    bridge->mCollisionMapObject.mCollisionData.mPreviousPos = bridge->mCollisionMapObject.mMapObject.mPos;
     bridge->mCollisionMapObject.mCollisionData.mPrevMatrix = bridge->mCollisionMapObject.mMapObject.mMatrix.mAxes;
     bridge->mCollisionMapObject.mCollisionData.mInitialMatrix = bridge->mCollisionMapObject.mMapObject.mMatrix.mAxes;
     bridge->mCollisionMapObject.mCollisionData.mAngleChangeVector.x = 0;
     bridge->mCollisionMapObject.mCollisionData.mAngleChangeVector.y = 0;
     bridge->mCollisionMapObject.mCollisionData.mAngleChangeVector.z = 0;
-    bridge->mCollisionMapObject.mCollisionData.mUnk_130 = 1;
+    bridge->mCollisionMapObject.mCollisionData.mTracksNormal = 1;
     bridge->mSwingAmplitude = ((courseRow->mSettings[0] * 0x10000) / 0x168) >> 1;
     bridge->mSwingAnglePerFrame = (0x10000 / courseRow->mSettings[1]) >> 1;
     bridge->mPeakPauseFrameCount = courseRow->mSettings[2];
@@ -84,7 +84,7 @@ void InitBridge(Bridge *bridge, struct CourseMapRow *courseRow) {
         bridge->mSwingAnglePerFrame = 0;
         bridge->mSwingAngle = ((courseRow->mSettings[4] * 0x10000) / 0x168) >> 1;
     }
-    bridge->mCollisionMapObject.mCollisionData.mUnk_100 =
+    bridge->mCollisionMapObject.mCollisionData.mHalfSizeX =
         MUL_FIXED12_NO_ROUND(bridge->mCollisionMapObject.mMapObject.mScale.x, 0x5a000);
     bridge->mCollisionMapObject.mCollisionData.mHalfSizeY =
         MUL_FIXED12_NO_ROUND(bridge->mCollisionMapObject.mMapObject.mScale.y, 0x1e000) >> 1;
@@ -92,13 +92,13 @@ void InitBridge(Bridge *bridge, struct CourseMapRow *courseRow) {
         MUL_FIXED12_NO_ROUND(bridge->mCollisionMapObject.mMapObject.mScale.z, 0x15e000);
     bridge->mCollisionMapObject.mCollisionData.mNegativeHalfSizeZ =
         MUL_FIXED12_NO_ROUND(bridge->mCollisionMapObject.mMapObject.mScale.z, 0x32000);
-    bridge->mCollisionMapObject.mCollisionData.mUnk_110 = 0;
-    bridge->mCollisionMapObject.mCollisionData.mUnk_114.x = 1;
-    bridge->mCollisionMapObject.mCollisionData.mUnk_114.y = 0;
-    bridge->mCollisionMapObject.mCollisionData.mUnk_114.z = 1;
-    bridge->mCollisionMapObject.mCollisionData.mUnk_120 = 0x800;
-    bridge->mCollisionMapObject.mCollisionData.mUnk_134 = COLLISION_SHAPE_BOX;
-    bridge->mCollisionMapObject.mCollisionData.mUnk_138 = 0;
+    bridge->mCollisionMapObject.mCollisionData.mAxis0Flag = 0;
+    bridge->mCollisionMapObject.mCollisionData.mHitFlagWords.x = 1;
+    bridge->mCollisionMapObject.mCollisionData.mHitFlagWords.y = 0;
+    bridge->mCollisionMapObject.mCollisionData.mHitFlagWords.z = 1;
+    bridge->mCollisionMapObject.mCollisionData.mFloorThreshold = 0x800;
+    bridge->mCollisionMapObject.mCollisionData.mShape = COLLISION_SHAPE_BOX;
+    bridge->mCollisionMapObject.mCollisionData.mCollisionFlag = 0;
     bridge->mCollisionMapObject.mMapObject.mFlags |= gBridgeInitFlag;
     bridge->mCollisionMapObject.mMapObject.mFlags &= ~2;
     bridge->mCollisionMapObject.mMapObject.mFlags &= ~8;

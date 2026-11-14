@@ -45,7 +45,7 @@ void SetCollisionHitLink(CollisionMapObject *object, Vec3 *position, Vec3 *veloc
     link->mLocalPosition.x = Vec3DotUnrounded(&offset, &object->mMapObject.mMatrix.mRows[0]);
     link->mLocalPosition.y = localY;
     link->mLocalPosition.z = localZ;
-    if (velocity != NULL && object->mCollisionData.mUnk_130 != FALSE) {
+    if (velocity != NULL && object->mCollisionData.mTracksNormal != FALSE) {
         localZ = Vec3DotUnrounded(velocity, &object->mMapObject.mMatrix.mRows[2]);
         localY = Vec3DotUnrounded(velocity, &object->mMapObject.mMatrix.mRows[1]);
         link->mLocalVelocity.x = Vec3DotUnrounded(velocity, &object->mMapObject.mMatrix.mRows[0]);
@@ -75,9 +75,9 @@ BOOL GetCollisionHitLinkPosAndVelocity(CollisionHitLink *link, Vec3 *outPosition
     if (object != NULL) {
         MTX_MultVec33(&link->mLocalPosition, &object->mMapObject.mMatrix.mAxes, outPosition);
         VEC_Add(&object->mMapObject.mPos, outPosition, outPosition);
-        if (object->mCollisionData.mUnk_130 != FALSE) {
+        if (object->mCollisionData.mTracksNormal != FALSE) {
             MTX_MultVec33(&link->mLocalVelocity, &object->mMapObject.mMatrix.mAxes, outVelocity);
-            if (outVelocity->y < object->mCollisionData.mUnk_120) {
+            if (outVelocity->y < object->mCollisionData.mFloorThreshold) {
                 return TRUE;
             }
         }
@@ -91,13 +91,13 @@ s32 IsHitLinkOutsideGearRadiusOrFlagged(CollisionHitLink *link) {
     s64 horizontalDistanceSquared;
     s64 limitSquared;
 
-    if (object->mCollisionMapObject.mCollisionData.mUnk_138 != 0 &&
+    if (object->mCollisionMapObject.mCollisionData.mCollisionFlag != 0 &&
         object->mCollisionMapObject.mMapObject.mKind == MAP_OBJECT_KIND_ROTARY_GEAR) {
         horizontalDistanceSquared = HORIZONTAL_LENGTH_SQUARED(link->mLocalPosition);
         limitSquared = (s64) object->mGearRadius * object->mGearRadius;
         return horizontalDistanceSquared >= limitSquared;
     }
-    return object->mCollisionMapObject.mCollisionData.mUnk_138;
+    return object->mCollisionMapObject.mCollisionData.mCollisionFlag;
 }
 
 MapObjectKindData *CreateKoopaBlockKindData(void) {
@@ -164,11 +164,11 @@ void UpdateKoopaBlock(void *unused, KoopaBlock *koopaBlock) {
         }
         koopaBlock->mPauseTimer = follower->mFromEntry->mUnk_0e;
     }
-    koopaBlock->mCollisionMapObject.mCollisionData.mUnk_e8 = koopaBlock->mCollisionMapObject.mMapObject.mPos;
+    koopaBlock->mCollisionMapObject.mCollisionData.mPreviousPos = koopaBlock->mCollisionMapObject.mMapObject.mPos;
     GetGroupFollowerLinearPosition(follower, &koopaBlock->mCollisionMapObject.mMapObject.mPos);
     AdvanceStateMachine(&koopaBlock->mCollisionMapObject.mMapObject.mStateMachine);
     VEC_Subtract(&koopaBlock->mCollisionMapObject.mMapObject.mPos,
-                 &koopaBlock->mCollisionMapObject.mCollisionData.mUnk_e8,
+                 &koopaBlock->mCollisionMapObject.mCollisionData.mPreviousPos,
                  &koopaBlock->mCollisionMapObject.mMapObject.mPosStep);
     VEC_MultAdd(-koopaBlock->mCollisionMapObject.mCollisionData.mHalfSizeY,
                 &koopaBlock->mCollisionMapObject.mMapObject.mMatrix.mRows[1],

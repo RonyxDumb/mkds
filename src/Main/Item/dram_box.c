@@ -102,8 +102,8 @@ void InitMissionRunBoxMapObject(MissionRunBox *object) {
     object->mCollisionMapObject.mCollisionData.mAngleChangeVector.x = 0;
     object->mCollisionMapObject.mCollisionData.mAngleChangeVector.y = 0;
     object->mCollisionMapObject.mCollisionData.mAngleChangeVector.z = 0;
-    object->mCollisionMapObject.mCollisionData.mUnk_130 = 0;
-    object->mCollisionMapObject.mCollisionData.mUnk_100 =
+    object->mCollisionMapObject.mCollisionData.mTracksNormal = 0;
+    object->mCollisionMapObject.mCollisionData.mHalfSizeX =
         MUL_FIXED12_NO_ROUND(object->mCollisionMapObject.mMapObject.mScale.x, 0x190000);
     object->mCollisionMapObject.mCollisionData.mHalfSizeY =
         MUL_FIXED12_NO_ROUND(object->mCollisionMapObject.mMapObject.mScale.y, 0x64000) >> 1;
@@ -111,20 +111,20 @@ void InitMissionRunBoxMapObject(MissionRunBox *object) {
         MUL_FIXED12_NO_ROUND(object->mCollisionMapObject.mMapObject.mScale.z, 0xaf000);
     object->mCollisionMapObject.mCollisionData.mNegativeHalfSizeZ =
         MUL_FIXED12_NO_ROUND(object->mCollisionMapObject.mMapObject.mScale.z, 0xaf000);
-    object->mCollisionMapObject.mCollisionData.mUnk_110 = 0;
-    object->mCollisionMapObject.mCollisionData.mUnk_114.x = 1;
-    object->mCollisionMapObject.mCollisionData.mUnk_114.y = 0;
-    object->mCollisionMapObject.mCollisionData.mUnk_114.z = 0;
-    object->mCollisionMapObject.mCollisionData.mUnk_120 = 0x800;
-    object->mCollisionMapObject.mCollisionData.mUnk_e8 = object->mCollisionMapObject.mMapObject.mPos;
+    object->mCollisionMapObject.mCollisionData.mAxis0Flag = 0;
+    object->mCollisionMapObject.mCollisionData.mHitFlagWords.x = 1;
+    object->mCollisionMapObject.mCollisionData.mHitFlagWords.y = 0;
+    object->mCollisionMapObject.mCollisionData.mHitFlagWords.z = 0;
+    object->mCollisionMapObject.mCollisionData.mFloorThreshold = 0x800;
+    object->mCollisionMapObject.mCollisionData.mPreviousPos = object->mCollisionMapObject.mMapObject.mPos;
     object->mCollisionMapObject.mMapObject.mPosStep.x = 0;
     object->mCollisionMapObject.mMapObject.mPosStep.y = 0;
     object->mCollisionMapObject.mMapObject.mPosStep.z = 0;
     VEC_MultAdd(-object->mCollisionMapObject.mCollisionData.mHalfSizeY,
                 &object->mCollisionMapObject.mMapObject.mMatrix.mRows[1], &object->mCollisionMapObject.mMapObject.mPos,
                 &object->mCollisionMapObject.mCollisionData.mCenterPos);
-    object->mCollisionMapObject.mCollisionData.mUnk_134 = COLLISION_SHAPE_BOX;
-    object->mCollisionMapObject.mCollisionData.mUnk_138 = 0;
+    object->mCollisionMapObject.mCollisionData.mShape = COLLISION_SHAPE_BOX;
+    object->mCollisionMapObject.mCollisionData.mCollisionFlag = 0;
     object->mCollisionMapObject.mSkipsFlaggedQueries = 1;
     object->mCollisionMapObject.mMapObject.mFlags |= gMissionRunBoxMapObjectFlag;
 }
