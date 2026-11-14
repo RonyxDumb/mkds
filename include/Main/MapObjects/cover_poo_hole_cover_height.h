@@ -15,6 +15,31 @@ typedef struct ItemObject ItemObject;
 #define COVER_POO_HOLE_HIT_THROWN 1
 #define COVER_POO_HOLE_HIT_WOBBLING 2
 
+// CoverPooHole.mState values: the cover and poo rise from the hole, hold, and sink back; the short and tall cycles
+// differ in how high the cover goes. A hit during a raise state ends in the matching hit state.
+enum {
+    COVER_POO_HOLE_STATE_WAIT_SHORT,
+    COVER_POO_HOLE_STATE_RAISE_SHORT,
+    COVER_POO_HOLE_STATE_LOWER_SHORT,
+    COVER_POO_HOLE_STATE_WAIT_TALL,
+    COVER_POO_HOLE_STATE_RAISE_TALL,
+    COVER_POO_HOLE_STATE_LOWER_TALL,
+    COVER_POO_HOLE_STATE_HIT_SHORT,
+    COVER_POO_HOLE_STATE_HIT_TALL,
+};
+
+// CoverPooHole.mCoverHeight: resting height, the two peak heights and the change per frame while raising or lowering.
+// mPooHeight follows the cover height at a fixed depth below it.
+#define COVER_POO_HOLE_REST_HEIGHT 0x2000
+#define COVER_POO_HOLE_SHORT_HEIGHT 0x7800
+#define COVER_POO_HOLE_TALL_HEIGHT 0x124cd
+#define COVER_POO_HOLE_SHORT_STEP 0x400
+#define COVER_POO_HOLE_TALL_STEP 0xc00
+#define COVER_POO_HOLE_POO_DEPTH 0xf000
+#define COVER_POO_HOLE_REST_POO_HEIGHT (COVER_POO_HOLE_REST_HEIGHT - COVER_POO_HOLE_POO_DEPTH)
+#define COVER_POO_HOLE_SHORT_POO_HEIGHT (COVER_POO_HOLE_SHORT_HEIGHT - COVER_POO_HOLE_POO_DEPTH)
+#define COVER_POO_HOLE_TALL_POO_HEIGHT (COVER_POO_HOLE_TALL_HEIGHT - COVER_POO_HOLE_POO_DEPTH)
+
 // Object up to 0x109 bytes.
 typedef struct CoverPooHole {
     /* 00 */ MapObject mMapObject;
