@@ -37,8 +37,8 @@ void InitNicknameSceneObject(void *heap, s16 a) {
     LoadTxtSystemAndSelectChoisesAndSelectReturnData();
     InitSceneText(heap, &textParams);
     gNicknameScene->mUnk_0c = a;
-    gNicknameScene->mNextScene = -1;
-    gNicknameScene->mState = 0;
+    gNicknameScene->mNextScene = NICKNAME_SCENE_NEXT_NONE;
+    gNicknameScene->mState = NICKNAME_SCENE_STATE_WAIT_FADE;
     gNicknameScene->mNextState = gNicknameScene->mState;
     gNicknameScene->mCommonMessages = FindFileInLoadedArchives("common.bmg");
 }
@@ -53,7 +53,7 @@ void AdvanceNicknameSceneState0(void) {
     void *firstButtonText;
     void *secondButtonText;
     if (AreBrightnessFadesClear() != 0) {
-        gNicknameScene->mNextState = 1;
+        gNicknameScene->mNextState = NICKNAME_SCENE_STATE_FIRST_MESSAGE;
         messageText = GetBmgEntry(gNicknameScene->mCommonMessages, 0xc);
         firstButtonText = GetBmgEntry(gNicknameScene->mCommonMessages, 0);
         secondButtonText = GetBmgEntry(gNicknameScene->mCommonMessages, 1);
@@ -71,13 +71,13 @@ void AdvanceNicknameSceneState1(void) {
     }
     if (IsTxtSystemState0NoOpenRequest() != 0) {
         if (GetTxtSystemSelectedIndex() == 0) {
-            gNicknameScene->mNextState = 2;
+            gNicknameScene->mNextState = NICKNAME_SCENE_STATE_SECOND_MESSAGE;
             messageText = GetBmgEntry(gNicknameScene->mCommonMessages, 0xd);
             firstButtonText = GetBmgEntry(gNicknameScene->mCommonMessages, 0);
             secondButtonText = GetBmgEntry(gNicknameScene->mCommonMessages, 1);
             SetupTxtSystemSubTextTwoButtons(messageText, firstButtonText, secondButtonText, 0);
         } else {
-            gNicknameScene->mNextScene = 0xe;
+            gNicknameScene->mNextScene = SCENE_KEYBOARD;
         }
     }
 }
@@ -98,13 +98,13 @@ void AdvanceNicknameSceneState2(void) {
             MI_CpuFill8(gBackupBuffers->mFirstBlock->mPlayerName, 0, 0x14);
             MI_CpuCopy8(ownerText, gBackupBuffers->mFirstBlock->mPlayerName, 0x14);
             WriteBackupFirstBlockWrapper();
-            gNicknameScene->mNextState = 3;
+            gNicknameScene->mNextState = NICKNAME_SCENE_STATE_THIRD_MESSAGE;
             messageText = GetBmgEntry(gNicknameScene->mCommonMessages, 0x13);
             firstButtonText = GetBmgEntry(gNicknameScene->mCommonMessages, 0);
             secondButtonText = GetBmgEntry(gNicknameScene->mCommonMessages, 1);
             SetupTxtSystemSubTextTwoButtons(messageText, firstButtonText, secondButtonText, 1);
         } else {
-            gNicknameScene->mNextScene = 0xe;
+            gNicknameScene->mNextScene = SCENE_KEYBOARD;
         }
     }
 }
@@ -127,9 +127,9 @@ void AdvanceNicknameSceneState3(void) {
         }
         if (backupBusy == 0) {
             if (GetTxtSystemSelectedIndex() == 0) {
-                gNicknameScene->mNextScene = 3;
+                gNicknameScene->mNextScene = SCENE_EMBLEM;
             } else {
-                gNicknameScene->mNextScene = 0;
+                gNicknameScene->mNextScene = SCENE_TITLE;
             }
         }
     }
@@ -139,16 +139,16 @@ void AdvanceNicknameScene(void) {
     AdvanceSceneText();
     gNicknameScene->mState = gNicknameScene->mNextState;
     switch (gNicknameScene->mState) {
-        case 0:
+        case NICKNAME_SCENE_STATE_WAIT_FADE:
             AdvanceNicknameSceneState0();
             break;
-        case 1:
+        case NICKNAME_SCENE_STATE_FIRST_MESSAGE:
             AdvanceNicknameSceneState1();
             break;
-        case 2:
+        case NICKNAME_SCENE_STATE_SECOND_MESSAGE:
             AdvanceNicknameSceneState2();
             break;
-        case 3:
+        case NICKNAME_SCENE_STATE_THIRD_MESSAGE:
             AdvanceNicknameSceneState3();
             break;
     }

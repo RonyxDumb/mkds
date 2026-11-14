@@ -19,6 +19,18 @@
 #include "Main/Sound/sound_seq.h"
 #include "03/Net/essid_packet_steps.h"
 
+// States of NicknameScene.mState and mNextState, in the order of the AdvanceNicknameSceneStateN calls: wait for the
+// fade, then three message boxes in a row.
+enum {
+    NICKNAME_SCENE_STATE_WAIT_FADE,
+    NICKNAME_SCENE_STATE_FIRST_MESSAGE,
+    NICKNAME_SCENE_STATE_SECOND_MESSAGE,
+    NICKNAME_SCENE_STATE_THIRD_MESSAGE,
+};
+
+// NicknameScene.mNextScene while no scene is requested.
+#define NICKNAME_SCENE_NEXT_NONE (-1)
+
 // Object behind gNicknameScene.
 typedef struct NicknameScene {
     /* 00 */ s32 mState;
