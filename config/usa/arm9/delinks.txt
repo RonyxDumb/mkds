@@ -5122,4 +5122,9 @@ libs/NitroDWC/account/src/code_02152ac8.c:
 // provisional: file name and boundaries
 libs/NitroSDK/fs/src/code_02152b5c.c:
     complete
-    .text       start:0x02152b5c end:0x02152bc0
+    .text       start:0x02152b5c end:0x02152b80
+
+// provisional: file name and boundaries
+libs/NitroSDK/fs/src/code_02152b80.c:
+    complete
+    .text       start:0x02152b80 end:0x02152bc0
