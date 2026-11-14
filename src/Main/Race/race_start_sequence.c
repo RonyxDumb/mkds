@@ -133,12 +133,12 @@ void UpdateRaceStartSequenceSounds(void) {
         }
     }
     if (frames == -21) {
-        SetStemSet(0);
+        SetStemSet(STEM_SET_COUNT);
     }
     if (frames != 180) {
         return;
     }
-    SetStemSet(1);
+    SetStemSet(STEM_SET_START);
 }
 
 s32 GetRaceStartSequenceFrames(void) {

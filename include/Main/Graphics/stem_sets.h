@@ -6,6 +6,19 @@
 
 typedef struct TimedQuad TimedQuad;
 
+enum {
+    STEM_SET_COUNT,
+    STEM_SET_START,
+    STEM_SET_COUNT_COPY,
+    STEM_SET_GOAL,
+    STEM_SET_WIN,
+    STEM_SET_LOSE,
+    STEM_SET_COMPLETE,
+    STEM_SET_FAILED,
+    STEM_SET_CURRENT,
+    STEM_SET_NONE,
+};
+
 void StartTimedQuadFromTable(u32 tableIndex);
 
 void UpdateTimedQuad(TimedQuad *timedQuad);

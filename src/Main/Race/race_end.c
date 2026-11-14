@@ -201,14 +201,14 @@ void UpdateRaceEnd(void) {
             switch (raceSetup->mMode) {
                 case MODE_GRAND_PRIX:
                 case MODE_TIME_ATTACK:
-                    SetStemSet(3);
+                    SetStemSet(STEM_SET_GOAL);
                     break;
                 case MODE_VS:
                 case MODE_WIFI:
                     if (raceSetup->mRuleKind != 1) {
                         if (gRaceProgress->mKarts[GetFollowedKartOrEntryIndex()].mStatus ==
                             RACE_PROGRESS_KART_STATUS_GOAL_REACHED) {
-                            SetStemSet(3);
+                            SetStemSet(STEM_SET_GOAL);
                         }
                     }
                     break;
@@ -251,15 +251,17 @@ void UpdateRaceEnd(void) {
             switch (raceSetup->mMode) {
                 case MODE_VS:
                     if (raceSetup->mRuleKind == 1) {
-                        SetStemSet((GetKart(raceSetup->mEntryIndex)->mEntryFlags & KART_ENTRY_WINNER) ? 4 : 5);
+                        SetStemSet((GetKart(raceSetup->mEntryIndex)->mEntryFlags & KART_ENTRY_WINNER) ? STEM_SET_WIN
+                                                                                                      : STEM_SET_LOSE);
                     }
                     break;
                 case MODE_BATTLE:
-                    SetStemSet((GetKart(raceSetup->mEntryIndex)->mEntryFlags & KART_ENTRY_WINNER) ? 4 : 5);
+                    SetStemSet((GetKart(raceSetup->mEntryIndex)->mEntryFlags & KART_ENTRY_WINNER) ? STEM_SET_WIN
+                                                                                                  : STEM_SET_LOSE);
                     break;
                 case MODE_MISSION_RUN:
                     if ((IsKartEnded((u16) raceSetup->mEntryIndex) ? gRaceProgress->mEntryEndKind : 6) != 0) {
-                        SetStemSet(7);
+                        SetStemSet(STEM_SET_FAILED);
                     }
                     break;
                 case MODE_GRAND_PRIX:
@@ -281,7 +283,7 @@ void UpdateRaceEnd(void) {
     switch (raceSetup->mMode) {
         case MODE_MISSION_RUN:
             if ((IsKartEnded((u16) raceSetup->mEntryIndex) ? gRaceProgress->mEntryEndKind : 6) == 0) {
-                SetStemSet(6);
+                SetStemSet(STEM_SET_COMPLETE);
             }
             break;
         case MODE_GRAND_PRIX:
