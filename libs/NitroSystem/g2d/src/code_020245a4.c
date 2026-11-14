@@ -109,7 +109,7 @@ u32 NNSi_G2dGetUnpackedFont(NNSG2dBinaryFileHeader *file, NNSG2dFontInformation 
         OS_Terminate();
     }
     NNSi_G2dUnpackNFT(file);
-    part = FindPartByTag(file, 0x46494e46);
+    part = FindPartByTag(file, FONT_BLOCK_INFO);
     if (part == 0) {
         *fontOut = 0;
         return 0;
@@ -130,7 +130,7 @@ void NNSi_G2dUnpackNFT(NNSG2dBinaryFileHeader *file) {
     block = OFFSET_PTR(NNSG2dBinaryBlockHeader, file, file->mHeaderSize);
     for (blockIndex = 0; blockIndex < file->mDataBlocks; blockIndex++) {
         switch (block->mKind) {
-            case 0x46494e46:
+            case FONT_BLOCK_INFO:
                 blockData = (FontBlockData *) (block + 1);
                 blockData->mFileOffsets[1] += (u32) file;
                 if (blockData->mFileOffsets[2] != 0) {
@@ -140,19 +140,19 @@ void NNSi_G2dUnpackNFT(NNSG2dBinaryFileHeader *file) {
                     blockData->mFileOffsets[3] += (u32) file;
                 }
                 break;
-            case 0x43574448:
+            case FONT_BLOCK_WIDTHS:
                 blockData = (FontBlockData *) (block + 1);
                 if (blockData->mFileOffsets[0] != 0) {
                     blockData->mFileOffsets[0] += (u32) file;
                 }
                 break;
-            case 0x434d4150:
+            case FONT_BLOCK_CHAR_MAP:
                 blockData = (FontBlockData *) (block + 1);
                 if (blockData->mFileOffsets[1] != 0) {
                     blockData->mFileOffsets[1] += (u32) file;
                 }
                 break;
-            case 0x43474c50:
+            case FONT_BLOCK_GLYPHS:
                 break;
         }
         block = OFFSET_PTR(NNSG2dBinaryBlockHeader, block, block->mSize);

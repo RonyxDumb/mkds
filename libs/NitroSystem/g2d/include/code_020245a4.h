@@ -11,6 +11,14 @@ typedef struct NNSiG2dBitReader {
     /* 05 */ u8 mBits;
 } NNSiG2dBitReader;
 
+// Values of NNSG2dBinaryBlockHeader.mKind in a font file: the four block name letters read as one word.
+enum {
+    FONT_BLOCK_INFO = 0x46494e46,
+    FONT_BLOCK_WIDTHS = 0x43574448,
+    FONT_BLOCK_CHAR_MAP = 0x434d4150,
+    FONT_BLOCK_GLYPHS = 0x43474c50,
+};
+
 // Body of a part of an NNSG2dBinaryFileHeader, which starts 8 bytes after the part: words from 04 are offsets from the
 // start of the NNSG2dBinaryFileHeader, relocated by NNSi_G2dUnpackNFT.
 typedef struct FontBlockData {
