@@ -28,7 +28,7 @@ CourseColorBlend *InitCourseColorBlend(CourseColorBlend *blend, u32 colorMask) {
     blend->mComponentDelta0 = 0;
     blend->mComponentDelta1 = 0;
     blend->mComponentDelta2 = 0;
-    blend->mBlendFactor = 0x1000;
+    blend->mBlendFactor = TO_FIXED12(1);
     return blend;
 }
 
@@ -66,12 +66,12 @@ void AdvanceCourseColorBlend(CourseColorBlend *blend, u16 colorMask, s32 step) {
         blend->mBlendFactor = 0;
         blend->mColorBit = 1 << colorIndex;
     }
-    if (blend->mBlendFactor == 0x1000) {
+    if (blend->mBlendFactor == TO_FIXED12(1)) {
         return;
     }
     blend->mBlendFactor = blend->mBlendFactor + (MUL_FIXED12_ROUNDED(step, 0xa4) + 0x29);
-    if (blend->mBlendFactor >= 0x1000) {
-        blend->mBlendFactor = 0x1000;
+    if (blend->mBlendFactor >= TO_FIXED12(1)) {
+        blend->mBlendFactor = TO_FIXED12(1);
     }
     blend->mColor =
         (s16) (blend->mStartComponent0 + MUL_FIXED12_ROUNDED(blend->mComponentDelta0, blend->mBlendFactor)) +
