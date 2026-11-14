@@ -109,7 +109,7 @@ void ResetSelectGhost(void) {
     u16 cnt;
     s32 index;
 
-    gSelectGhost->mNextState = 0;
+    gSelectGhost->mNextState = SELECT_GHOST_STATE_SLIDE_IN;
     gSelectGhost->mStateFrames = 0;
     gSelectGhost->mBg0Offset = 0;
     gSelectGhost->mBg3Offset = -0xc0;
@@ -131,44 +131,44 @@ void ResetSelectGhost(void) {
 
 // Requests state 1.
 void RequestSelectGhostState1(void) {
-    gSelectGhost->mNextState = 1;
+    gSelectGhost->mNextState = SELECT_GHOST_STATE_RETURN_SLIDE_IN;
     gSelectGhost->mStateFrames = 0;
 }
 
 // Requests state 2.
 void RequestSelectGhostState2(void) {
-    gSelectGhost->mNextState = 2;
+    gSelectGhost->mNextState = SELECT_GHOST_STATE_INPUT;
     gSelectGhost->mStateFrames = 0;
 }
 
 void RequestSelectGhostState3(void) {
-    gSelectGhost->mNextState = 3;
+    gSelectGhost->mNextState = SELECT_GHOST_STATE_PRESS;
     gSelectGhost->mStateFrames = 0;
     StopPaletteBlend();
     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
 }
 
 void RequestSelectGhostState4(void) {
-    gSelectGhost->mNextState = 4;
+    gSelectGhost->mNextState = SELECT_GHOST_STATE_CHOISES_OPEN;
     gSelectGhost->mStateFrames = 0;
     StartSelectChoises(GetBmgEntry(gSelectGhost->mCommonMessages, 4), GetBmgEntry(gSelectGhost->mCommonMessages, 2), 0);
 }
 
 // Requests state 5.
 void RequestSelectGhostState5(void) {
-    gSelectGhost->mNextState = 5;
+    gSelectGhost->mNextState = SELECT_GHOST_STATE_CHOISES_INPUT;
     gSelectGhost->mStateFrames = 0;
 }
 
 void RequestSelectGhostState6(void) {
-    gSelectGhost->mNextState = 6;
+    gSelectGhost->mNextState = SELECT_GHOST_STATE_CHOISES_CLOSE;
     gSelectGhost->mStateFrames = 0;
     RequestSelectChoisesState0();
 }
 
 // Requests state 7.
 void RequestSelectGhostState7(void) {
-    gSelectGhost->mNextState = 7;
+    gSelectGhost->mNextState = SELECT_GHOST_STATE_SLIDE_OUT;
     gSelectGhost->mStateFrames = 0;
 }
 
@@ -352,7 +352,7 @@ void InitSelectGhost(void *parentHeap, u32 mainOam, u32 subOam) {
     heap = CreateFrmHeapFromMaxFree(parentHeap);
     gSelectGhost = HeapAlloc(heap, 0x70);
     gSelectGhost->mHeap = heap;
-    gSelectGhost->mState = 0;
+    gSelectGhost->mState = SELECT_GHOST_STATE_SLIDE_IN;
     gSelectGhost->mIndex = 0;
     gSelectGhost->mMainOamList = mainOam;
     gSelectGhost->mSubOamList = subOam;
@@ -641,28 +641,28 @@ void AdvanceSelectGhostState7(void) {
 int AdvanceSelectGhost(void) {
     gSelectGhost->mState = gSelectGhost->mNextState;
     switch (gSelectGhost->mState) {
-        case 0:
+        case SELECT_GHOST_STATE_SLIDE_IN:
             AdvanceSelectGhostState0();
             break;
-        case 1:
+        case SELECT_GHOST_STATE_RETURN_SLIDE_IN:
             AdvanceSelectGhostState1();
             break;
-        case 2:
+        case SELECT_GHOST_STATE_INPUT:
             AdvanceSelectGhostState2();
             break;
-        case 3:
+        case SELECT_GHOST_STATE_PRESS:
             AdvanceSelectGhostState3();
             break;
-        case 4:
+        case SELECT_GHOST_STATE_CHOISES_OPEN:
             AdvanceSelectGhostState4();
             break;
-        case 5:
+        case SELECT_GHOST_STATE_CHOISES_INPUT:
             AdvanceSelectGhostState5();
             break;
-        case 6:
+        case SELECT_GHOST_STATE_CHOISES_CLOSE:
             AdvanceSelectGhostState6();
             break;
-        case 7:
+        case SELECT_GHOST_STATE_SLIDE_OUT:
             AdvanceSelectGhostState7();
             break;
     }
@@ -673,7 +673,7 @@ int AdvanceSelectGhost(void) {
                     gSelectGhost->mSelectCupCourseTaMTable);
     DrawLayoutTable(gSelectGhost->mSelectGhostSBncl, gSelectGhost->mSelectGhostSONcer, gSelectGhost->mSelectGhostSBnll,
                     (void *) gSelectGhost->mSubOamList, gSelectGhost->mSelectGhostSTable);
-    if (gSelectGhost->mState == 7) {
+    if (gSelectGhost->mState == SELECT_GHOST_STATE_SLIDE_OUT) {
         switch (gSelectGhost->mResult) {
             case 1:
                 if (gSelectGhost->mStateFrames >= 10) {

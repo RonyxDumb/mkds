@@ -11,6 +11,18 @@
 #include "Main/Graphics/layout_rect_table.h"
 #include "code_0212df7c.h"
 
+// Values of SelectGhost.mState and mNextState.
+enum {
+    SELECT_GHOST_STATE_SLIDE_IN,
+    SELECT_GHOST_STATE_RETURN_SLIDE_IN,
+    SELECT_GHOST_STATE_INPUT,
+    SELECT_GHOST_STATE_PRESS,
+    SELECT_GHOST_STATE_CHOISES_OPEN,
+    SELECT_GHOST_STATE_CHOISES_INPUT,
+    SELECT_GHOST_STATE_CHOISES_CLOSE,
+    SELECT_GHOST_STATE_SLIDE_OUT,
+};
+
 // Object behind gSelectGhost.
 typedef struct SelectGhost {
     /* 00 */ struct NNSG2dCellDataBank *mSelectCupCourseMNcer;
