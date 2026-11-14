@@ -36,7 +36,7 @@ u32 IronBallReturnArgument(u32 value) {
 void DrawIronBallShadow(void *mapObjectList, IronBall *ironBall, u32 unused, u32 alpha) {
     u32 shadowAlphaCap;
 
-    if (ironBall->mShadowStage == 0) {
+    if (ironBall->mShadowStage == IRON_BALL_SHADOW_OFF) {
         return;
     }
     if (((s32) ironBall->mMapObject.mDistanceSquaredAndFlags & 0x3fffffe0) >= 1000000) {
@@ -67,8 +67,8 @@ void InitIronBallObjects(MapObjectList *mapObjectList) {
         return;
     }
     followerSpeed = 0;
-    stateA = 0;
-    stateB = 0;
+    stateA = IRON_BALL_STATE_WAIT_START;
+    stateB = IRON_BALL_STATE_WAIT_START;
     shadowAlphaCap = 0x1c;
     firstFlag = gIronBallInitFirstFlag;
     secondFlag = gIronBallInitSecondFlag;
@@ -79,8 +79,10 @@ void InitIronBallObjects(MapObjectList *mapObjectList) {
         ironBall->mMapObject.mFlags |= firstFlag;
         ironBall->mMapObject.mFlags |= secondFlag;
         ironBall->mMapObject.mFlags |= thirdFlag;
-        ironBall->mNormalPathSpeed = (ironBall->mMapObject.mCourseMapRow->mSettings[0] * 0xa000L) / 100;
-        ironBall->mSlowPathSpeed = (ironBall->mMapObject.mCourseMapRow->mSettings[0] * 0x5000L) / 100;
+        ironBall->mNormalPathSpeed =
+            (ironBall->mMapObject.mCourseMapRow->mSettings[0] * IRON_BALL_PATH_SPEED_NORMAL_UNIT) / 100;
+        ironBall->mSlowPathSpeed =
+            (ironBall->mMapObject.mCourseMapRow->mSettings[0] * IRON_BALL_PATH_SPEED_SLOW_UNIT) / 100;
         ironBall->mPathSpeed = ironBall->mNormalPathSpeed;
         ironBall->mPathPos = ironBall->mMapObject.mCourseMapRow->mPosition;
         ironBall->mMapObject.mPos = ironBall->mPathPos;
@@ -118,7 +120,7 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
         ironBall->mTimer -= 1;
     }
     switch (ironBall->mState) {
-        case 0:
+        case IRON_BALL_STATE_WAIT_START:
             if (ironBall->mMapObject.mFlags & 0x800) {
                 if (ironBall->mTimer-- > 0) {
                     return;
@@ -126,7 +128,7 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
                 ironBall->mTimer = (u16) ironBall->mMapObject.mCourseMapRow->mSettings[2];
                 ironBall->mState1Timer = (u16) ironBall->mMapObject.mCourseMapRow->mSettings[3];
                 SetupGroupFollowerAtEntry(&ironBall->mFollower, 0, 1);
-                ironBall->mState = 1;
+                ironBall->mState = IRON_BALL_STATE_WAIT_APPEAR;
                 return;
             }
             limit = ironBall->mNextStartLap;
@@ -144,9 +146,9 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
             ironBall->mNextStartLap = ironBall->mNextStartLap + 1;
             ironBall->mState1Timer = (u16) ironBall->mMapObject.mCourseMapRow->mSettings[3];
             SetupGroupFollowerAtEntry(&ironBall->mFollower, 0, 1);
-            ironBall->mState = 1;
+            ironBall->mState = IRON_BALL_STATE_WAIT_APPEAR;
             return;
-        case 1:
+        case IRON_BALL_STATE_WAIT_APPEAR:
             ironBall->mState1Timer -= 1;
             if (ironBall->mState1Timer > 0) {
                 return;
@@ -155,9 +157,9 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
             ironBall->mMapObject.mFlags &= ~2;
             ironBall->mMapObject.mFlags &= ~8;
             ironBall->mMapObject.mAlpha = 0x1f;
-            ironBall->mState = 2;
+            ironBall->mState = IRON_BALL_STATE_ROLL;
             return;
-        case 2:
+        case IRON_BALL_STATE_ROLL:
             break;
         default:
             return;
@@ -181,7 +183,7 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
                 ironBall->mMapObject.mFlags |= gIronBallInitFirstFlag;
                 ironBall->mMapObject.mFlags |= gIronBallInitSecondFlag;
                 ironBall->mMapObject.mFlags |= gIronBallInitThirdFlag;
-                ironBall->mState = 0;
+                ironBall->mState = IRON_BALL_STATE_WAIT_START;
                 return;
             } else {
                 ParkMapObject(&ironBall->mMapObject);
@@ -200,13 +202,13 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
         value = fromEntry->mValue;
         if ((u16) value <= 1) {
             ironBall->mPathSpeed = ironBall->mNormalPathSpeed;
-            ironBall->mShadowStage = 0;
+            ironBall->mShadowStage = IRON_BALL_SHADOW_OFF;
         } else if ((u16) (s16) (value - 2) <= 1) {
             ironBall->mPathSpeed = ironBall->mSlowPathSpeed;
-            ironBall->mShadowStage = 2;
+            ironBall->mShadowStage = IRON_BALL_SHADOW_REFRESH;
         } else if (value == 10) {
-            ironBall->mPathSpeed = 0x8000;
-            ironBall->mShadowStage = 2;
+            ironBall->mPathSpeed = IRON_BALL_PATH_SPEED_HEIGHT_FAST;
+            ironBall->mShadowStage = IRON_BALL_SHADOW_REFRESH;
             ironBall->mHeightOffset = ironBall->mPathPos.y;
             SetupGroupFollowerAtEntry(&ironBall->mFollower, fromEntry->mUnk_0c + 1, 1);
             GetGroupFollowerLinearPosStep(&ironBall->mFollower, &ironBall->mPathPos, &ironBall->mMapObject.mPosStep);
@@ -214,8 +216,8 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
             ironBall->mHeightOffset = ironBall->mHeightOffset - ironBall->mPathPos.y;
             ironBall->mHeightSpeed = 0xa000;
         } else if (value == 11) {
-            ironBall->mPathSpeed = 0x5000;
-            ironBall->mShadowStage = 2;
+            ironBall->mPathSpeed = IRON_BALL_PATH_SPEED_HEIGHT_SLOW;
+            ironBall->mShadowStage = IRON_BALL_SHADOW_REFRESH;
             ironBall->mHeightOffset = ironBall->mPathPos.y;
             SetupGroupFollowerAtEntry(&ironBall->mFollower, fromEntry->mUnk_0c + 1, 1);
             GetGroupFollowerLinearPosStep(&ironBall->mFollower, &ironBall->mPathPos, &ironBall->mMapObject.mPosStep);
@@ -230,16 +232,16 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
             settingValue = fromEntry->mValue;
             if (settingValue < 200) {
                 StartBoundWobble(settingValue - 100);
-                ironBall->mPathSpeed = 0xf000;
-                ironBall->mShadowStage = 1;
+                ironBall->mPathSpeed = IRON_BALL_PATH_SPEED_BOUND;
+                ironBall->mShadowStage = IRON_BALL_SHADOW_ON;
             } else if (settingValue < 300) {
                 flipperIndex = settingValue - 200;
                 if (settingValue != ironBall->mFollower.mToEntry->mValue) {
-                    ironBall->mPathSpeed = 0x1e000;
+                    ironBall->mPathSpeed = IRON_BALL_PATH_SPEED_FLIPPER;
                 } else {
                     SetFlipperState4TimerByIndex(flipperIndex);
                 }
-                ironBall->mShadowStage = 1;
+                ironBall->mShadowStage = IRON_BALL_SHADOW_ON;
             }
         }
     }
@@ -266,9 +268,9 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
     if (value >= 100) {
         GetGroupFollowerLinearPosStep(&ironBall->mFollower, &ironBall->mPathPos, &ironBall->mMapObject.mPosStep);
         ironBall->mPathPos.y += 0x1000;
-        limit = ironBall->mPathSpeed - 410;
-        if (limit <= 0xa000) {
-            limit = 0xa000;
+        limit = ironBall->mPathSpeed - IRON_BALL_PATH_SPEED_DECAY;
+        if (limit <= IRON_BALL_PATH_SPEED_NORMAL_UNIT) {
+            limit = IRON_BALL_PATH_SPEED_NORMAL_UNIT;
         }
         ironBall->mPathSpeed = limit;
     } else if ((u16) (s16) (value - 10) <= 1) {
@@ -298,12 +300,12 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
         }
     }
     ironBall->mRotateZAngle = value;
-    if (ironBall->mShadowStage == 2) {
+    if (ironBall->mShadowStage == IRON_BALL_SHADOW_REFRESH) {
         RefreshShadowMatrix(&ironBall->mShadowMatrix, &ironBall->mPathPos, ironBall->mMapObject.mExtent.x << 1, 0x1c);
         ironBall->mPathPos.y += 0x1000;
-        ironBall->mShadowStage = 1;
+        ironBall->mShadowStage = IRON_BALL_SHADOW_ON;
     }
-    if (ironBall->mShadowStage != 0) {
+    if (ironBall->mShadowStage != IRON_BALL_SHADOW_OFF) {
         if (((s32) ironBall->mMapObject.mDistanceSquaredAndFlags & 0x3fffffe0) < 1000000) {
             limit = (ironBall->mHeightOffset >> 14) - 7;
             if (limit < 0) {
