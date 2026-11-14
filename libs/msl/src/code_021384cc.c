@@ -37,7 +37,7 @@ const char *ScanParseSpec(const char *format, ScanSpec *outSpec) {
             currentChar = *++formatPointer;
         } while ((currentChar < 0 || currentChar >= 0x80) ? 0 : (gCharClassFlags[currentChar] & 8));
         if (localSpec.mMaxLength == 0) {
-            localSpec.mSpecChar = 0xff;
+            localSpec.mSpecChar = SCAN_SPEC_INVALID;
             *outSpec = localSpec;
             return formatPointer + 1;
         }
@@ -46,30 +46,30 @@ const char *ScanParseSpec(const char *format, ScanSpec *outSpec) {
     hasModifier = 1;
     switch (currentChar) {
         case 'h':
-            localSpec.mArgKind = 2;
+            localSpec.mArgKind = SCAN_ARG_SHORT;
             if (formatPointer[1] == 'h') {
-                localSpec.mArgKind = 1;
+                localSpec.mArgKind = SCAN_ARG_CHAR;
                 currentChar = *++formatPointer;
             }
             break;
         case 'l':
-            localSpec.mArgKind = 3;
+            localSpec.mArgKind = SCAN_ARG_LONG;
             if (formatPointer[1] == 'l') {
-                localSpec.mArgKind = 7;
+                localSpec.mArgKind = SCAN_ARG_LONG_LONG;
                 currentChar = *++formatPointer;
             }
             break;
         case 'L':
-            localSpec.mArgKind = 9;
+            localSpec.mArgKind = SCAN_ARG_LONG_DOUBLE;
             break;
         case 'j':
-            localSpec.mArgKind = 4;
+            localSpec.mArgKind = SCAN_ARG_INTMAX;
             break;
         case 'z':
-            localSpec.mArgKind = 5;
+            localSpec.mArgKind = SCAN_ARG_SIZE;
             break;
         case 't':
-            localSpec.mArgKind = 6;
+            localSpec.mArgKind = SCAN_ARG_PTRDIFF;
             break;
         default:
             hasModifier = 0;
@@ -86,8 +86,8 @@ const char *ScanParseSpec(const char *format, ScanSpec *outSpec) {
         case 'u':
         case 'x':
         case 'X':
-            if (localSpec.mArgKind == 9) {
-                localSpec.mSpecChar = 0xff;
+            if (localSpec.mArgKind == SCAN_ARG_LONG_DOUBLE) {
+                localSpec.mSpecChar = SCAN_SPEC_INVALID;
             }
             break;
         case 'a':
@@ -99,28 +99,28 @@ const char *ScanParseSpec(const char *format, ScanSpec *outSpec) {
         case 'g':
         case 'G':
             argKind = localSpec.mArgKind;
-            if (argKind == 1 || argKind == 2 || (unsigned char) (argKind + 0xfc) <= 3) {
-                localSpec.mSpecChar = 0xff;
-            } else if (argKind == 3) {
-                localSpec.mArgKind = 8;
+            if (argKind == SCAN_ARG_CHAR || argKind == SCAN_ARG_SHORT || (unsigned char) (argKind + 0xfc) <= 3) {
+                localSpec.mSpecChar = SCAN_SPEC_INVALID;
+            } else if (argKind == SCAN_ARG_LONG) {
+                localSpec.mArgKind = SCAN_ARG_DOUBLE;
             }
             break;
         case 'p':
-            localSpec.mArgKind = 3;
+            localSpec.mArgKind = SCAN_ARG_LONG;
             localSpec.mSpecChar = 'x';
             break;
         case 'c':
-            if (localSpec.mArgKind == 3) {
-                localSpec.mArgKind = 10;
-            } else if (localSpec.mArgKind != 0) {
-                localSpec.mSpecChar = 0xff;
+            if (localSpec.mArgKind == SCAN_ARG_LONG) {
+                localSpec.mArgKind = SCAN_ARG_WIDE;
+            } else if (localSpec.mArgKind != SCAN_ARG_DEFAULT) {
+                localSpec.mSpecChar = SCAN_SPEC_INVALID;
             }
             break;
         case 's':
-            if (localSpec.mArgKind == 3) {
-                localSpec.mArgKind = 10;
-            } else if (localSpec.mArgKind != 0) {
-                localSpec.mSpecChar = 0xff;
+            if (localSpec.mArgKind == SCAN_ARG_LONG) {
+                localSpec.mArgKind = SCAN_ARG_WIDE;
+            } else if (localSpec.mArgKind != SCAN_ARG_DEFAULT) {
+                localSpec.mSpecChar = SCAN_SPEC_INVALID;
             }
             for (count = 32, setPointer = localSpec.mCharSet; count > 0; count--) {
                 *setPointer++ = 0xff;
@@ -129,10 +129,10 @@ const char *ScanParseSpec(const char *format, ScanSpec *outSpec) {
             localSpec.mCharSet[4] = 0xfe;
             break;
         case '[':
-            if (localSpec.mArgKind == 3) {
-                localSpec.mArgKind = 10;
-            } else if (localSpec.mArgKind != 0) {
-                localSpec.mSpecChar = 0xff;
+            if (localSpec.mArgKind == SCAN_ARG_LONG) {
+                localSpec.mArgKind = SCAN_ARG_WIDE;
+            } else if (localSpec.mArgKind != SCAN_ARG_DEFAULT) {
+                localSpec.mSpecChar = SCAN_SPEC_INVALID;
             }
             currentChar = *++formatPointer;
             negated = 0;
@@ -156,7 +156,7 @@ const char *ScanParseSpec(const char *format, ScanSpec *outSpec) {
                 }
             }
             if (currentChar == 0) {
-                localSpec.mSpecChar = 0xff;
+                localSpec.mSpecChar = SCAN_SPEC_INVALID;
             } else if (negated) {
                 for (count = 32, setPointer = localSpec.mCharSet; count > 0; count--, setPointer++) {
                     *setPointer = ~*setPointer;
@@ -166,7 +166,7 @@ const char *ScanParseSpec(const char *format, ScanSpec *outSpec) {
         case 'n':
             break;
         default:
-            localSpec.mSpecChar = 0xff;
+            localSpec.mSpecChar = SCAN_SPEC_INVALID;
             break;
     }
     *outSpec = localSpec;
@@ -240,7 +240,7 @@ int ScanWithSourceFunc(ScanReadCharFunc fn, ScanStringSource *source, const char
             case 'i':
                 base = 0;
             signed_int:
-                if (spec.mArgKind == 7) {
+                if (spec.mArgKind == SCAN_ARG_LONG_LONG) {
                     u64 = ScanInt64(base, spec.mMaxLength, fn, source, &usedCount, &negative, &overflow);
                 } else {
                     u32 = ScanInt32(base, spec.mMaxLength, fn, source, &usedCount, &negative, &overflow);
@@ -249,7 +249,7 @@ int ScanWithSourceFunc(ScanReadCharFunc fn, ScanStringSource *source, const char
                     goto exit;
                 }
                 consumedCount += usedCount;
-                if (spec.mArgKind == 7) {
+                if (spec.mArgKind == SCAN_ARG_LONG_LONG) {
                     if (negative == 0) {
                         s64 = u64;
                     } else {
@@ -264,28 +264,28 @@ int ScanWithSourceFunc(ScanReadCharFunc fn, ScanStringSource *source, const char
                 }
                 if (destination != 0) {
                     switch (spec.mArgKind) {
-                        case 0:
+                        case SCAN_ARG_DEFAULT:
                             *(int *) destination = s32;
                             break;
-                        case 1:
+                        case SCAN_ARG_CHAR:
                             *destination = s32;
                             break;
-                        case 2:
+                        case SCAN_ARG_SHORT:
                             *(short *) destination = s32;
                             break;
-                        case 3:
+                        case SCAN_ARG_LONG:
                             *(int *) destination = s32;
                             break;
-                        case 4:
+                        case SCAN_ARG_INTMAX:
                             *(long long *) destination = s32;
                             break;
-                        case 5:
+                        case SCAN_ARG_SIZE:
                             *(int *) destination = s32;
                             break;
-                        case 6:
+                        case SCAN_ARG_PTRDIFF:
                             *(int *) destination = s32;
                             break;
-                        case 7:
+                        case SCAN_ARG_LONG_LONG:
                             *(long long *) destination = s64;
                             break;
                     }
@@ -303,7 +303,7 @@ int ScanWithSourceFunc(ScanReadCharFunc fn, ScanStringSource *source, const char
             case 'x':
                 base = 16;
             unsigned_int:
-                if (spec.mArgKind == 7) {
+                if (spec.mArgKind == SCAN_ARG_LONG_LONG) {
                     u64 = ScanInt64(base, spec.mMaxLength, fn, source, &usedCount, &negative, &overflow);
                 } else {
                     u32 = ScanInt32(base, spec.mMaxLength, fn, source, &usedCount, &negative, &overflow);
@@ -313,7 +313,7 @@ int ScanWithSourceFunc(ScanReadCharFunc fn, ScanStringSource *source, const char
                 }
                 consumedCount += usedCount;
                 if (negative != 0) {
-                    if (spec.mArgKind == 7) {
+                    if (spec.mArgKind == SCAN_ARG_LONG_LONG) {
                         u64 = -u64;
                     } else {
                         u32 = -u32;
@@ -321,28 +321,28 @@ int ScanWithSourceFunc(ScanReadCharFunc fn, ScanStringSource *source, const char
                 }
                 if (destination != 0) {
                     switch (spec.mArgKind) {
-                        case 0:
+                        case SCAN_ARG_DEFAULT:
                             *(unsigned int *) destination = u32;
                             break;
-                        case 1:
+                        case SCAN_ARG_CHAR:
                             *(unsigned char *) destination = u32;
                             break;
-                        case 2:
+                        case SCAN_ARG_SHORT:
                             *(unsigned short *) destination = u32;
                             break;
-                        case 3:
+                        case SCAN_ARG_LONG:
                             *(unsigned int *) destination = u32;
                             break;
-                        case 4:
+                        case SCAN_ARG_INTMAX:
                             *(unsigned long long *) destination = u32;
                             break;
-                        case 5:
+                        case SCAN_ARG_SIZE:
                             *(unsigned int *) destination = u32;
                             break;
-                        case 6:
+                        case SCAN_ARG_PTRDIFF:
                             *(unsigned int *) destination = u32;
                             break;
-                        case 7:
+                        case SCAN_ARG_LONG_LONG:
                             *(unsigned long long *) destination = u64;
                             break;
                     }
@@ -365,13 +365,13 @@ int ScanWithSourceFunc(ScanReadCharFunc fn, ScanStringSource *source, const char
                 consumedCount += usedCount;
                 if (destination != 0) {
                     switch (spec.mArgKind) {
-                        case 0:
+                        case SCAN_ARG_DEFAULT:
                             *(float *) destination = doubleValue;
                             break;
-                        case 8:
+                        case SCAN_ARG_DOUBLE:
                             *(double *) destination = doubleValue;
                             break;
-                        case 9:
+                        case SCAN_ARG_LONG_DOUBLE:
                             *(double *) destination = doubleValue;
                             break;
                     }
@@ -387,7 +387,7 @@ int ScanWithSourceFunc(ScanReadCharFunc fn, ScanStringSource *source, const char
                     usedCount = 0;
                     while (spec.mMaxLength-- != 0 && (ch = fn(source, 0, 0)) != -1) {
                         chb = ch;
-                        if (spec.mArgKind == 10) {
+                        if (spec.mArgKind == SCAN_ARG_WIDE) {
                             mbtowc((u16 *) destination, &chb, 1);
                             destination += 1;
                         } else {
@@ -439,7 +439,7 @@ int ScanWithSourceFunc(ScanReadCharFunc fn, ScanStringSource *source, const char
                         if (!(spec.mCharSet[chb >> 3] & (1 << (chb & 7)))) {
                             break;
                         }
-                        if (spec.mArgKind == 10) {
+                        if (spec.mArgKind == SCAN_ARG_WIDE) {
                             mbtowc((u16 *) destination, &chb, 1);
                             destination += 2;
                         } else {
@@ -453,7 +453,7 @@ int ScanWithSourceFunc(ScanReadCharFunc fn, ScanStringSource *source, const char
                         goto exit;
                     }
                     consumedCount += usedCount;
-                    if (spec.mArgKind == 10) {
+                    if (spec.mArgKind == SCAN_ARG_WIDE) {
                         *(short *) destination = 0;
                     } else {
                         *destination = 0;
@@ -483,25 +483,25 @@ int ScanWithSourceFunc(ScanReadCharFunc fn, ScanStringSource *source, const char
             case 'n':
                 if (destination != 0) {
                     switch (spec.mArgKind) {
-                        case 0:
+                        case SCAN_ARG_DEFAULT:
                             *(int *) destination = consumedCount;
                             break;
-                        case 2:
+                        case SCAN_ARG_SHORT:
                             *(short *) destination = consumedCount;
                             break;
-                        case 3:
+                        case SCAN_ARG_LONG:
                             *(int *) destination = consumedCount;
                             break;
-                        case 1:
+                        case SCAN_ARG_CHAR:
                             *destination = consumedCount;
                             break;
-                        case 7:
+                        case SCAN_ARG_LONG_LONG:
                             *(long long *) destination = consumedCount;
                             break;
                     }
                 }
                 break;
-            case 0xff:
+            case SCAN_SPEC_INVALID:
             default:
                 goto exit;
         }
