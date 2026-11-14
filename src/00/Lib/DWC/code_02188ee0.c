@@ -72,22 +72,22 @@ u32 ConnectStart(ACWORK *work) {
     if (FillApWepKey(work, work->mConnectApType, &work->mWepKey) != 0) {
         work->mAuthMode = 1;
         if (((bssDesc->mCapaInfo >> 4) & 1) == 0) {
-            work->mFindList[work->mConnectNo].mState = 3;
+            work->mFindList[work->mConnectNo].mState = AUTO_CONNECT_FIND_ERROR_51100;
             return 9;
         }
         if (work->mConnectApType == 6 && bssDesc->mSsid[9] == 0) {
-            work->mFindList[work->mConnectNo].mState = 3;
+            work->mFindList[work->mConnectNo].mState = AUTO_CONNECT_FIND_ERROR_51100;
             return 9;
         }
     } else {
         work->mAuthMode = 0;
         if (((bssDesc->mCapaInfo >> 4) & 1) == 1) {
-            work->mFindList[work->mConnectNo].mState = 3;
+            work->mFindList[work->mConnectNo].mState = AUTO_CONNECT_FIND_ERROR_51100;
             return 9;
         }
     }
     work->mCount = 0;
-    work->mConnectResult = 0;
+    work->mConnectResult = AUTO_CONNECT_RESULT_NONE;
     return 8;
 }
 
@@ -103,19 +103,19 @@ u32 ConnectAP(ACWORK *work) {
         work->mCount++;
         if (work->mCount > 3) {
             work->mCount = 0;
-            work->mFindList[work->mConnectNo].mState = 1;
+            work->mFindList[work->mConnectNo].mState = AUTO_CONNECT_FIND_FAILED;
             return 9;
         }
         if (work->mCount != 1) {
-            if (work->mConnectResult == 1) {
+            if (work->mConnectResult == AUTO_CONNECT_RESULT_RETRY_AUTH_FALLBACK) {
                 work->mAuthMode = 0;
-            } else if (work->mConnectResult == 2) {
+            } else if (work->mConnectResult == AUTO_CONNECT_RESULT_ERROR_51100) {
                 work->mCount = 0;
-                work->mFindList[work->mConnectNo].mState = 3;
+                work->mFindList[work->mConnectNo].mState = AUTO_CONNECT_FIND_ERROR_51100;
                 return 9;
-            } else if (work->mConnectResult == 3) {
+            } else if (work->mConnectResult == AUTO_CONNECT_RESULT_ERROR_51200) {
                 work->mCount = 0;
-                work->mFindList[work->mConnectNo].mState = 4;
+                work->mFindList[work->mConnectNo].mState = AUTO_CONNECT_FIND_ERROR_51200;
                 return 9;
             }
         }

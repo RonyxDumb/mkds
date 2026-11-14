@@ -29,17 +29,17 @@ void DWCi_AC_CallBackWCM(WifiReportArgument *notice) {
     if (notice->mNotify == 5) {
         if (notice->mResult != WIFI_REPORT_SUCCEEDED) {
             switch (notice->mUnk_08) {
-                case 0xd:
-                    work->mConnectResult = 1;
+                case WIFI_REPORT_CODE_RETRY_AUTH_FALLBACK:
+                    work->mConnectResult = AUTO_CONNECT_RESULT_RETRY_AUTH_FALLBACK;
                     break;
-                case 0xf:
-                    work->mConnectResult = 2;
+                case WIFI_REPORT_CODE_ERROR_51100:
+                    work->mConnectResult = AUTO_CONNECT_RESULT_ERROR_51100;
                     break;
-                case 0x11:
-                    work->mConnectResult = 3;
+                case WIFI_REPORT_CODE_ERROR_51200:
+                    work->mConnectResult = AUTO_CONNECT_RESULT_ERROR_51200;
                     break;
                 default:
-                    work->mConnectResult = 4;
+                    work->mConnectResult = AUTO_CONNECT_RESULT_OTHER;
                     break;
             }
         }

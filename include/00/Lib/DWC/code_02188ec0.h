@@ -14,6 +14,23 @@ typedef struct ACSL {
     /* 04 */ u8 mSsid[0x20];
 } ACSL;
 
+// Values of ACFL.mState, which picks the error code block of GetNotFoundInet: ERROR_51100 gives -511xx, ERROR_51200
+// gives -512xx and any other value -513xx.
+enum {
+    AUTO_CONNECT_FIND_FAILED = 1,
+    AUTO_CONNECT_FIND_ERROR_51100 = 3,
+    AUTO_CONNECT_FIND_ERROR_51200,
+};
+
+// Values of ACWORK.mConnectResult, set by DWCi_AC_CallBackWCM; ConnectAP reacts to the first three.
+enum {
+    AUTO_CONNECT_RESULT_NONE,
+    AUTO_CONNECT_RESULT_RETRY_AUTH_FALLBACK,
+    AUTO_CONNECT_RESULT_ERROR_51100,
+    AUTO_CONNECT_RESULT_ERROR_51200,
+    AUTO_CONNECT_RESULT_OTHER,
+};
+
 // Entries of 4 bytes at 0x444 of ACWORK.
 typedef struct ACFL {
     /* 00 */ u8 mState;
