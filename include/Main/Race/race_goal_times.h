@@ -7,6 +7,14 @@
 #include "Main/MapObjects/data_0217b000.h"
 #include "g2d_Animation.h"
 
+// RaceGoalTimes.mRecordCycleFrame counts this many frames; mCellIndexAdd steps through three cell sets, one per
+// quarter (the second set twice), while a new record is shown. The sets start at offsets 0, 0xd and 0x1a.
+#define RACE_GOAL_TIMES_CYCLE_FRAMES 16
+#define RACE_GOAL_TIMES_CYCLE_QUARTER_FRAMES 4
+#define RACE_GOAL_TIMES_CELL_SET_FIRST 0
+#define RACE_GOAL_TIMES_CELL_SET_SECOND 0xd
+#define RACE_GOAL_TIMES_CELL_SET_THIRD 0x1a
+
 // Object behind gRaceGoalTimes.
 typedef struct RaceGoalTimes {
     /* 00 */ TimeDigits mFinishTime;

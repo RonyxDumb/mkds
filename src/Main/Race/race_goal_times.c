@@ -93,7 +93,7 @@ void InitRaceGoalTimes(void) {
         gRaceGoalTimes->mLapTimes[lapIndex].mDigits[6] = 0;
     }
     gRaceGoalTimes->mRecordCycleFrame = 0;
-    gRaceGoalTimes->mCellIndexAdd = 0;
+    gRaceGoalTimes->mCellIndexAdd = RACE_GOAL_TIMES_CELL_SET_FIRST;
 }
 
 void ClearRaceGoalTimesPointer(void) {
@@ -123,22 +123,22 @@ void UpdateRaceGoalTimes(void) {
         return;
     }
     gRaceGoalTimes->mRecordCycleFrame++;
-    if (gRaceGoalTimes->mRecordCycleFrame >= 0x10) {
+    if (gRaceGoalTimes->mRecordCycleFrame >= RACE_GOAL_TIMES_CYCLE_FRAMES) {
         gRaceGoalTimes->mRecordCycleFrame = 0;
     }
-    cycleStep = gRaceGoalTimes->mRecordCycleFrame % 16;
-    if (cycleStep < 4) {
-        gRaceGoalTimes->mCellIndexAdd = 0;
+    cycleStep = gRaceGoalTimes->mRecordCycleFrame % RACE_GOAL_TIMES_CYCLE_FRAMES;
+    if (cycleStep < RACE_GOAL_TIMES_CYCLE_QUARTER_FRAMES) {
+        gRaceGoalTimes->mCellIndexAdd = RACE_GOAL_TIMES_CELL_SET_FIRST;
         return;
     }
-    if (cycleStep < 8) {
-        gRaceGoalTimes->mCellIndexAdd = 0xd;
+    if (cycleStep < RACE_GOAL_TIMES_CYCLE_QUARTER_FRAMES * 2) {
+        gRaceGoalTimes->mCellIndexAdd = RACE_GOAL_TIMES_CELL_SET_SECOND;
         return;
     }
-    if (cycleStep < 12) {
-        gRaceGoalTimes->mCellIndexAdd = 0x1a;
+    if (cycleStep < RACE_GOAL_TIMES_CYCLE_QUARTER_FRAMES * 3) {
+        gRaceGoalTimes->mCellIndexAdd = RACE_GOAL_TIMES_CELL_SET_THIRD;
     } else {
-        gRaceGoalTimes->mCellIndexAdd = 0xd;
+        gRaceGoalTimes->mCellIndexAdd = RACE_GOAL_TIMES_CELL_SET_SECOND;
     }
 }
 
