@@ -518,7 +518,7 @@ void StartRomArchiveSend(void) {
     }
     if (shouldStart != FALSE) {
         StartRomArchivePacketSend();
-        gConnectionWork->mSyncState = 0;
+        gConnectionWork->mSyncState = CONNECTION_SYNC_START;
         gConnectionWork->mFlags |= CONNECTION_FLAG_ROM_ARCHIVE_TRANSFER;
     }
     gConnectionWork->mRequestPending = 0;

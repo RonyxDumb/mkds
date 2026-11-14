@@ -108,22 +108,22 @@ s32 AdvanceParentSync(void) {
 
     done = FALSE;
     switch (gConnectionWork->mSyncState) {
-        case 0:
-            gConnectionWork->mSyncState = 6;
+        case CONNECTION_SYNC_START:
+            gConnectionWork->mSyncState = CONNECTION_SYNC_PARENT_WAIT_CHILDREN;
             break;
-        case 6:
+        case CONNECTION_SYNC_PARENT_WAIT_CHILDREN:
             if (gConnectionWork->mChildren.mChildMask ==
                 (gConnectionWork->mChildren.mChildMask & gConnectionWork->mSyncDoneChildMask)) {
-                gConnectionWork->mSyncState = 7;
+                gConnectionWork->mSyncState = CONNECTION_SYNC_PARENT_ANNOUNCE;
             }
             break;
-        case 7:
+        case CONNECTION_SYNC_PARENT_ANNOUNCE:
             if (QueueMPDataHalfword(5, 0xff) != FALSE) {
                 gConnectionWork->mSyncDoneChildMask = done;
-                gConnectionWork->mSyncState = 1;
+                gConnectionWork->mSyncState = CONNECTION_SYNC_DONE;
             }
             break;
-        case 1:
+        case CONNECTION_SYNC_DONE:
             done = TRUE;
             break;
     }
@@ -135,12 +135,12 @@ s32 AdvanceChildArchiveSync(s32 archiveKind, void *courseId, void *mode) {
 
     done = FALSE;
     switch (gConnectionWork->mSyncState) {
-        case 0:
+        case CONNECTION_SYNC_START:
             if (gConnectionWork->mFlags & CONNECTION_FLAG_SEND_READY) {
-                gConnectionWork->mSyncState = 2;
+                gConnectionWork->mSyncState = CONNECTION_SYNC_CHILD_LOAD;
             }
             break;
-        case 2:
+        case CONNECTION_SYNC_CHILD_LOAD:
             if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
                 switch (archiveKind) {
                     case 0:
@@ -160,23 +160,23 @@ s32 AdvanceChildArchiveSync(s32 archiveKind, void *courseId, void *mode) {
                 gConnectionWork->mRequestPending = 1;
                 gConnectionWork->mNextLoadIndex = 0;
                 FS_InitFile(&gConnectionWork->mFile);
-                gConnectionWork->mSyncState = 3;
+                gConnectionWork->mSyncState = CONNECTION_SYNC_CHILD_LOAD_WAIT;
             } else {
-                gConnectionWork->mSyncState = 5;
+                gConnectionWork->mSyncState = CONNECTION_SYNC_CHILD_REPORT;
             }
             QueueMPDataHalfword(3, 1);
             break;
-        case 3:
+        case CONNECTION_SYNC_CHILD_LOAD_WAIT:
             if (LoadPendingFiles() != FALSE) {
-                gConnectionWork->mSyncState = 5;
+                gConnectionWork->mSyncState = CONNECTION_SYNC_CHILD_REPORT;
             }
             break;
-        case 5:
+        case CONNECTION_SYNC_CHILD_REPORT:
             if (QueueMPDataHalfword(4, 1) != FALSE) {
-                gConnectionWork->mSyncState = 1;
+                gConnectionWork->mSyncState = CONNECTION_SYNC_DONE;
             }
             break;
-        case 1:
+        case CONNECTION_SYNC_DONE:
             if (gConnectionWork->mTransferFlags & CONNECTION_TRANSFER_SYNC_DONE) {
                 done = TRUE;
             }
@@ -206,7 +206,7 @@ u32 AdvanceMainAndMenuDLArchives(void) {
 // Asks for state 16 with the next race's course and mode.
 void RequestMPState16(void *courseId, void *mode) {
     MPStateMachine *stateMachine;
-    gConnectionWork->mSyncState = 0;
+    gConnectionWork->mSyncState = CONNECTION_SYNC_START;
     gConnectionWork->mTransferFlags &= ~CONNECTION_TRANSFER_SYNC_DONE;
     stateMachine = &gConnectionWork->mMPStateMachine;
     stateMachine->mStateMachine.mNextState = 0x10;
@@ -222,7 +222,7 @@ void RequestMPState16(void *courseId, void *mode) {
 void RequestMPState18(void) {
     MPStateMachine *stateMachine;
 
-    gConnectionWork->mSyncState = 0;
+    gConnectionWork->mSyncState = CONNECTION_SYNC_START;
     gConnectionWork->mTransferFlags &= ~CONNECTION_TRANSFER_SYNC_DONE;
     stateMachine = &gConnectionWork->mMPStateMachine;
     stateMachine->mStateMachine.mNextState = 0x12;
@@ -232,7 +232,7 @@ void RequestMPState18(void) {
 void RequestMPState21(void) {
     MPStateMachine *stateMachine;
 
-    gConnectionWork->mSyncState = 0;
+    gConnectionWork->mSyncState = CONNECTION_SYNC_START;
     gConnectionWork->mTransferFlags &= ~CONNECTION_TRANSFER_SYNC_DONE;
     stateMachine = &gConnectionWork->mMPStateMachine;
     stateMachine->mStateMachine.mNextState = 0x15;
@@ -300,7 +300,7 @@ void LoadCourseSoundSetCallback(void) {
 }
 
 void EnterMPState17(void) {
-    gConnectionWork->mSyncState = 0;
+    gConnectionWork->mSyncState = CONNECTION_SYNC_START;
     gConnectionWork->mTransferFlags &= ~CONNECTION_TRANSFER_SYNC_DONE;
     gConnectionWork->mCallbackFailed = 0;
 }

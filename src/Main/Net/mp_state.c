@@ -60,7 +60,7 @@ void UpdateMPState18(void) {
 #pragma thumb on
 
 void EnterMPState19(void) {
-    gConnectionWork->mSyncState = 0;
+    gConnectionWork->mSyncState = CONNECTION_SYNC_START;
     gConnectionWork->mTransferFlags &= ~CONNECTION_TRANSFER_SYNC_DONE;
     gConnectionWork->mCallbackFailed = 0;
 }

@@ -55,53 +55,53 @@ s32 AdvanceSyncedCallback(void (*callback)(void)) {
 
     done = FALSE;
     switch (gConnectionWork->mSyncState) {
-        case 0:
+        case CONNECTION_SYNC_START:
             if (gConnectionWork->mFlags & CONNECTION_FLAG_SEND_READY) {
                 switch (MPStatesGetConnectionMode()) {
                     case CONNECTION_MODE_PARENT:
-                        gConnectionWork->mSyncState = 6;
+                        gConnectionWork->mSyncState = CONNECTION_SYNC_PARENT_WAIT_CHILDREN;
                         break;
                     case CONNECTION_MODE_CHILD:
-                        gConnectionWork->mSyncState = 2;
+                        gConnectionWork->mSyncState = CONNECTION_SYNC_CHILD_LOAD;
                         break;
                 }
             }
             break;
-        case 7:
+        case CONNECTION_SYNC_PARENT_ANNOUNCE:
             QueueMPDataHalfword(5, 0xff);
             gConnectionWork->mTransferFlags |= CONNECTION_TRANSFER_SYNC_DONE;
             gConnectionWork->mSyncDoneChildMask = done;
-            gConnectionWork->mSyncState = 1;
+            gConnectionWork->mSyncState = CONNECTION_SYNC_DONE;
             break;
-        case 6:
+        case CONNECTION_SYNC_PARENT_WAIT_CHILDREN:
             if (gConnectionWork->mChildren.mChildMask ==
                 (gConnectionWork->mChildren.mChildMask & gConnectionWork->mSyncDoneChildMask)) {
-                gConnectionWork->mSyncState = 7;
+                gConnectionWork->mSyncState = CONNECTION_SYNC_PARENT_ANNOUNCE;
             }
             break;
-        case 2:
+        case CONNECTION_SYNC_CHILD_LOAD:
             if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
                 QueueThreadFunction(callback);
                 gThreadFunctionQueue->mRunRequested = 1;
             }
-            gConnectionWork->mSyncState = 3;
+            gConnectionWork->mSyncState = CONNECTION_SYNC_CHILD_LOAD_WAIT;
             QueueMPDataHalfword(3, 1);
             break;
-        case 3:
+        case CONNECTION_SYNC_CHILD_LOAD_WAIT:
             if (gThreadFunctionQueue->mRunRequested == 0) {
                 if (gConnectionWork->mCallbackFailed != 0) {
                     SetRequestErrorCode(CONNECTION_ERROR_COMMUNICATION_LOST);
                 } else {
-                    gConnectionWork->mSyncState = 5;
+                    gConnectionWork->mSyncState = CONNECTION_SYNC_CHILD_REPORT;
                 }
             }
             break;
-        case 5:
+        case CONNECTION_SYNC_CHILD_REPORT:
             if (QueueMPDataHalfword(4, 1) != FALSE) {
-                gConnectionWork->mSyncState = 1;
+                gConnectionWork->mSyncState = CONNECTION_SYNC_DONE;
             }
             break;
-        case 1:
+        case CONNECTION_SYNC_DONE:
             if (gConnectionWork->mTransferFlags & CONNECTION_TRANSFER_SYNC_DONE) {
                 done = TRUE;
             }

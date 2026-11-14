@@ -97,7 +97,7 @@ void UpdateMPState6(void) {
 }
 
 void EnterMPState3(void) {
-    gConnectionWork->mSyncState = 0;
+    gConnectionWork->mSyncState = CONNECTION_SYNC_START;
     gConnectionWork->mTransferFlags &= ~CONNECTION_TRANSFER_SYNC_DONE;
 }
 
@@ -173,7 +173,7 @@ void UpdateMPState2(void) {
 }
 
 void EnterMPState4(void) {
-    gConnectionWork->mSyncState = 0;
+    gConnectionWork->mSyncState = CONNECTION_SYNC_START;
     gConnectionWork->mTransferFlags &= ~CONNECTION_TRANSFER_SYNC_DONE;
     gConnectionWork->mCallbackFailed = 0;
 }

@@ -632,6 +632,18 @@ typedef enum ConnectionMode {
     CONNECTION_MODE_CHILD = 2,
 } ConnectionMode;
 
+// ConnectionWork.mSyncState values: the handshake that ends when parent and children have finished a shared step.
+// The parent goes START, WAIT_CHILDREN, ANNOUNCE, DONE; a child goes START, LOAD, LOAD_WAIT, REPORT, DONE.
+enum {
+    CONNECTION_SYNC_START,
+    CONNECTION_SYNC_DONE,
+    CONNECTION_SYNC_CHILD_LOAD,
+    CONNECTION_SYNC_CHILD_LOAD_WAIT,
+    CONNECTION_SYNC_CHILD_REPORT = 5,
+    CONNECTION_SYNC_PARENT_WAIT_CHILDREN,
+    CONNECTION_SYNC_PARENT_ANNOUNCE,
+};
+
 typedef struct ConnectionWork {
     /* 0000 */ u32 mConnectionMode;
     /* 0004 */ s32 mState;
