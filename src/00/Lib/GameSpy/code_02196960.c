@@ -743,18 +743,18 @@ void CallReqCallback(s32 requestPos, s32 success, s32 modified, const u8 *data, 
         req = DarrayGetElement(gServerReqs, requestPos);
         if (req->mCallback.mAuthCallback != NULL) {
             switch (req->mReqType) {
-                case 0:
+                case SERVER_REQ_TYPE_AUTH:
                     req->mCallback.mAuthCallback(req->mLocalId, req->mProfileId, success, data, req->mInstance);
                     break;
-                case 1:
+                case SERVER_REQ_TYPE_DATA:
                     req->mCallback.mDataCallback(req->mLocalId, req->mProfileId, req->mPdType, req->mPdIndex, success,
                                                  modified, data, length, req->mInstance);
                     break;
-                case 2:
+                case SERVER_REQ_TYPE_SAVE:
                     req->mCallback.mSaveCallback(req->mLocalId, req->mProfileId, req->mPdType, req->mPdIndex, success,
                                                  modified, req->mInstance);
                     break;
-                case 3:
+                case SERVER_REQ_TYPE_PROFILE:
                     req->mCallback.mProfileCallback(req->mLocalId, req->mProfileId, success, req->mInstance);
                     break;
             }

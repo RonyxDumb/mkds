@@ -13,6 +13,14 @@ typedef union ServerReqCallback {
     void (*mProfileCallback)(u32 a, u32 b, s32 c, u32 d);
 } ServerReqCallback;
 
+// Values of ServerReq.mReqType: which member of ServerReqCallback CallReqCallback calls.
+enum {
+    SERVER_REQ_TYPE_AUTH,
+    SERVER_REQ_TYPE_DATA,
+    SERVER_REQ_TYPE_SAVE,
+    SERVER_REQ_TYPE_PROFILE,
+};
+
 typedef struct ServerReq {
     /* 00 */ s32 mReqType;
     /* 04 */ u32 mLocalId;
