@@ -45,6 +45,17 @@ typedef struct Shine16 {
 #include "Main/MapObjects/balloon.h" // Balloon
 #include "01/MapObjects/data_0209bc74.h"
 
+// KartBalloons.mState values: IDLE waits for the inflate input, AUTO_INFLATE makes the balloons given at the start,
+// INFLATE_TO_HALF and INFLATE_TO_FULL inflate the balloon being made (from the first half of its size on, the input
+// may stop), SHRINK deflates it.
+enum {
+    KART_BALLOONS_STATE_IDLE,
+    KART_BALLOONS_STATE_AUTO_INFLATE,
+    KART_BALLOONS_STATE_INFLATE_TO_HALF,
+    KART_BALLOONS_STATE_INFLATE_TO_FULL,
+    KART_BALLOONS_STATE_SHRINK,
+};
+
 // The balloons of one kart (0x38 bytes, one per kart index in the kind 0x69 object; Standings.mKartBalloons points at
 // the first): the list of its Balloon objects with the state that makes, inflates and holds them.
 typedef struct KartBalloons {
@@ -61,7 +72,7 @@ typedef struct KartBalloons {
     // is non-zero, else team index 0 gives 1, team index 1 gives 3, any other value the kart index. Never stepped.
     /* 30 */ u16 mBalloonNsbtpFrameIndex;
     /* 32 */ u8 mUnk_32[0x2];
-    // Switched on by UpdateKartBalloons for this kart (0 to 4); the hit callbacks also store 4.
+    // Switched on by UpdateKartBalloons for this kart; the hit callbacks also store SHRINK.
     /* 34 */ s32 mState;
 } KartBalloons;
 

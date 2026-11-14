@@ -139,7 +139,7 @@ BOOL BalloonKartHitByKartCallback(u16 hitKartIndex, u16 hitByKartIndex) {
             DisableBalloonHorizontalPull(lastBalloon);
             SetBalloonKartIndex(lastBalloon, hitByKartIndex);
             if (GetBalloonOrShineCount(hitByKartIndex) >= 2 && IsKartInflatingBalloon(hitByKartIndex) != 0) {
-                kartBalloons->mState = 4;
+                kartBalloons->mState = KART_BALLOONS_STATE_SHRINK;
             }
             SetupKartFollowEffect(StartEffect(0x7a, &kart->mPos), kart->mIndex, 0x20);
             SetupKartFollowEffect(StartEffect(0x7b, &kart->mPos), kart->mIndex, 0x20);
@@ -208,7 +208,7 @@ s32 BalloonKartsHitEachOtherCallback(u16 firstKartIndex, u16 secondKartIndex) {
         DisableBalloonHorizontalPull(firstLastBalloon);
         SetBalloonKartIndex(firstLastBalloon, secondKartIndex);
         if (GetBalloonOrShineCount(secondKartIndex) >= 2 && IsKartInflatingBalloon(secondKartIndex) != 0) {
-            secondKartBalloons->mState = 4;
+            secondKartBalloons->mState = KART_BALLOONS_STATE_SHRINK;
         }
     }
     if (secondLastBalloon != NULL) {
@@ -222,7 +222,7 @@ s32 BalloonKartsHitEachOtherCallback(u16 firstKartIndex, u16 secondKartIndex) {
         DisableBalloonHorizontalPull(secondLastBalloon);
         SetBalloonKartIndex(secondLastBalloon, firstKartIndex);
         if (GetBalloonOrShineCount(firstKartIndex) >= 2 && IsKartInflatingBalloon(firstKartIndex) != 0) {
-            firstKartBalloons->mState = 4;
+            firstKartBalloons->mState = KART_BALLOONS_STATE_SHRINK;
         }
     }
     if (firstKartIndex == gRaceSetup->mEntryIndex || secondKartIndex == gRaceSetup->mEntryIndex) {
@@ -430,7 +430,7 @@ void UpdateKartBalloons(void *mapObjectList, KartBalloonsObject *kartBalloonsObj
         for (kartIndex = 0; kartIndex < kartCount; kartIndex++) {
             KartBalloons *kartBalloons = &kartBalloonsObject->mKartBalloons[kartIndex];
             GetKart((u16) kartIndex);
-            kartBalloons->mState = 1;
+            kartBalloons->mState = KART_BALLOONS_STATE_AUTO_INFLATE;
             if (kartBalloonsObject->mMapObject.mCourseMapRow->mSettings[0] != 0 ||
                 kartBalloonsObject->mMapObject.mCourseMapRow->mSettings[1] != 0) {
                 kartBalloons->mRemainingSpawnCount = kartBalloonsObject->mMapObject.mCourseMapRow->mSettings[0];
@@ -452,7 +452,7 @@ void UpdateKartBalloons(void *mapObjectList, KartBalloonsObject *kartBalloonsObj
         balloonPos.y = kart->mPos.y + GetKartBalloonOrShineHeight(kart) - 0xf666;
         balloonPos.z = kart->mPos.z;
         switch (kartBalloons->mState) {
-            case 0:
+            case KART_BALLOONS_STATE_IDLE:
                 if (kartBalloons->mSpawnTimer > 0) {
                     kartBalloons->mSpawnTimer--;
                     break;
@@ -472,11 +472,11 @@ void UpdateKartBalloons(void *mapObjectList, KartBalloonsObject *kartBalloonsObj
                 }
                 kartBalloons->mBalloons[GetBalloonOrShineCount(kartIndex)] = balloon;
                 UpdateBalloonInflating(balloon, kartIndex, 0xcd);
-                kartBalloons->mState = 2;
+                kartBalloons->mState = KART_BALLOONS_STATE_INFLATE_TO_HALF;
                 SetKartInflatingBalloon(kartIndex, 1);
                 AddBalloonsLeftToMake(kartIndex, -1);
                 break;
-            case 1:
+            case KART_BALLOONS_STATE_AUTO_INFLATE:
                 if (IsKartInflatingBalloon(kartIndex) != 0) {
                     UpdateBalloonInflating(kartBalloons->mBalloons[GetBalloonOrShineCount(kartIndex)], kartIndex,
                                            0x266);
@@ -494,23 +494,23 @@ void UpdateKartBalloons(void *mapObjectList, KartBalloonsObject *kartBalloonsObj
                         }
                     }
                 } else {
-                    kartBalloons->mState = 0;
+                    kartBalloons->mState = KART_BALLOONS_STATE_IDLE;
                 }
                 break;
-            case 2:
+            case KART_BALLOONS_STATE_INFLATE_TO_HALF:
                 if (GetKartMicInflateTimer(kartIndex) < 0) {
-                    kartBalloons->mState = 4;
+                    kartBalloons->mState = KART_BALLOONS_STATE_SHRINK;
                     break;
                 }
                 balloon = kartBalloons->mBalloons[GetBalloonOrShineCount(kartIndex)];
                 UpdateBalloonInflating(balloon, kartIndex, 0xcd);
                 if (GetBalloonScaleFactor(balloon) >= 0x800) {
-                    kartBalloons->mState = 3;
+                    kartBalloons->mState = KART_BALLOONS_STATE_INFLATE_TO_FULL;
                 }
                 break;
-            case 3:
+            case KART_BALLOONS_STATE_INFLATE_TO_FULL:
                 if (GetKartMicInflateTimer(kartIndex) < 0) {
-                    kartBalloons->mState = 4;
+                    kartBalloons->mState = KART_BALLOONS_STATE_SHRINK;
                     break;
                 }
                 if (GetKartSelectKeyInflate(kartIndex) > 0) {
@@ -521,11 +521,11 @@ void UpdateKartBalloons(void *mapObjectList, KartBalloonsObject *kartBalloonsObj
                     balloon = kartBalloons->mBalloons[GetBalloonOrShineCount(kartIndex)];
                     UpdateBalloonShrinking(balloon, kartIndex, 0xe);
                     if (GetBalloonScaleFactor(balloon) <= 0x400) {
-                        kartBalloons->mState = 4;
+                        kartBalloons->mState = KART_BALLOONS_STATE_SHRINK;
                     }
                 }
                 break;
-            case 4:
+            case KART_BALLOONS_STATE_SHRINK:
                 UpdateBalloonShrinking(kartBalloons->mBalloons[GetBalloonOrShineCount(kartIndex)], kartIndex, 0x19a);
                 break;
         }
@@ -536,18 +536,18 @@ void UpdateKartBalloons(void *mapObjectList, KartBalloonsObject *kartBalloonsObj
                 SetKartInflatingBalloon(kartIndex, 0);
                 AddBalloonsLeftToMake(kartIndex, 1);
                 kartBalloons->mSpawnTimer = 0;
-                kartBalloons->mState = 0;
+                kartBalloons->mState = KART_BALLOONS_STATE_IDLE;
             } else if (GetBalloonScaleFactor(balloon) >= 0x1000) {
                 SetKartInflatingBalloon(kartIndex, 0);
                 AddBalloonOrShineCountAndMoveRank(kartIndex, 1);
                 if (kartBalloons->mRemainingSpawnCount <= 0) {
                     kartBalloons->mSpawnTimer = 30;
-                    kartBalloons->mState = 0;
+                    kartBalloons->mState = KART_BALLOONS_STATE_IDLE;
                 }
                 StartSoundFullVolumeWrapper(GetKart((u16) kartIndex), 0x152);
             }
         } else if (kartBalloons->mRemainingSpawnCount <= 0) {
-            kartBalloons->mState = 0;
+            kartBalloons->mState = KART_BALLOONS_STATE_IDLE;
         }
         if (kartIndex == gRaceSetup->mEntryIndex) {
             if (GetKartMicInflateTimer(kartIndex) > 0 || GetKartSelectKeyInflate(kartIndex) > 0) {
