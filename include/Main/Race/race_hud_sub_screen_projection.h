@@ -406,6 +406,10 @@ typedef struct CourseMap {
     /* 10f */ u8 mKind2ShapeCountInMode4;
 } CourseMap;
 
+// Scrolling of the map view: a direction key moves mScrollPosition by the step and sets mScrollTimer to the start.
+#define RACE_HUD_SUB_SCREEN_SCROLL_STEP 0xa000
+#define RACE_HUD_SUB_SCREEN_SCROLL_TIMER_START 600
+
 typedef struct RaceHudSubScreenProjection {
     /* 00 */ UnkPair020b502c mCenter;
     /* 08 */ s32 mCenterRemainderX;

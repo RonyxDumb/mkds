@@ -467,47 +467,47 @@ void UpdateRaceHudSubScreenScroll(void) {
     GetRaceHudSubScreenScrollLimits(&scrollMin, &scrollMax);
     if (RaceHudSubScreenGetDownBits(GetPadInputSlot(), PAD_KEY_LEFT) != 0) {
         if (gRaceHudSubScreenProjection->mScrollTimer != 0) {
-            gRaceHudSubScreenProjection->mScrollPosition.x -= 0xa000;
+            gRaceHudSubScreenProjection->mScrollPosition.x -= RACE_HUD_SUB_SCREEN_SCROLL_STEP;
             if (gRaceHudSubScreenProjection->mScrollPosition.x < scrollMin.mFirst) {
                 gRaceHudSubScreenProjection->mScrollPosition.x = scrollMin.mFirst;
             }
         } else {
             GetKartPosFromPosSourceCopy(&gRaceHudSubScreenProjection->mScrollPosition, GetFollowedKartOrEntryIndex());
         }
-        gRaceHudSubScreenProjection->mScrollTimer = 600;
+        gRaceHudSubScreenProjection->mScrollTimer = RACE_HUD_SUB_SCREEN_SCROLL_TIMER_START;
     }
     if (RaceHudSubScreenGetDownBits(GetPadInputSlot(), PAD_KEY_RIGHT) != 0) {
         if (gRaceHudSubScreenProjection->mScrollTimer != 0) {
-            gRaceHudSubScreenProjection->mScrollPosition.x += 0xa000;
+            gRaceHudSubScreenProjection->mScrollPosition.x += RACE_HUD_SUB_SCREEN_SCROLL_STEP;
             if (gRaceHudSubScreenProjection->mScrollPosition.x > scrollMax.mFirst) {
                 gRaceHudSubScreenProjection->mScrollPosition.x = scrollMax.mFirst;
             }
         } else {
             GetKartPosFromPosSourceCopy(&gRaceHudSubScreenProjection->mScrollPosition, GetFollowedKartOrEntryIndex());
         }
-        gRaceHudSubScreenProjection->mScrollTimer = 600;
+        gRaceHudSubScreenProjection->mScrollTimer = RACE_HUD_SUB_SCREEN_SCROLL_TIMER_START;
     }
     if (RaceHudSubScreenGetDownBits(GetPadInputSlot(), PAD_KEY_UP) != 0) {
         if (gRaceHudSubScreenProjection->mScrollTimer != 0) {
-            gRaceHudSubScreenProjection->mScrollPosition.z -= 0xa000;
+            gRaceHudSubScreenProjection->mScrollPosition.z -= RACE_HUD_SUB_SCREEN_SCROLL_STEP;
             if (gRaceHudSubScreenProjection->mScrollPosition.z < scrollMin.mSecond) {
                 gRaceHudSubScreenProjection->mScrollPosition.z = scrollMin.mSecond;
             }
         } else {
             GetKartPosFromPosSourceCopy(&gRaceHudSubScreenProjection->mScrollPosition, GetFollowedKartOrEntryIndex());
         }
-        gRaceHudSubScreenProjection->mScrollTimer = 600;
+        gRaceHudSubScreenProjection->mScrollTimer = RACE_HUD_SUB_SCREEN_SCROLL_TIMER_START;
     }
     if (RaceHudSubScreenGetDownBits(GetPadInputSlot(), PAD_KEY_DOWN) != 0) {
         if (gRaceHudSubScreenProjection->mScrollTimer != 0) {
-            gRaceHudSubScreenProjection->mScrollPosition.z += 0xa000;
+            gRaceHudSubScreenProjection->mScrollPosition.z += RACE_HUD_SUB_SCREEN_SCROLL_STEP;
             if (gRaceHudSubScreenProjection->mScrollPosition.z > scrollMax.mSecond) {
                 gRaceHudSubScreenProjection->mScrollPosition.z = scrollMax.mSecond;
             }
         } else {
             GetKartPosFromPosSourceCopy(&gRaceHudSubScreenProjection->mScrollPosition, GetFollowedKartOrEntryIndex());
         }
-        gRaceHudSubScreenProjection->mScrollTimer = 600;
+        gRaceHudSubScreenProjection->mScrollTimer = RACE_HUD_SUB_SCREEN_SCROLL_TIMER_START;
     }
     if (gRaceHudSubScreenProjection->mScrollTimer != 0) {
         gRaceHudSubScreenProjection->mScrollTimer--;
@@ -516,13 +516,13 @@ void UpdateRaceHudSubScreenScroll(void) {
             gRaceHudSubScreenProjection->mScrollTimer = 300;
             VEC_Subtract(&target, &gRaceHudSubScreenProjection->mScrollPosition, &dir);
             Vec3NormalizeAndGetLengthUnchecked(&dir, &dir);
-            VEC_MultAdd(0xa000, &dir, &gRaceHudSubScreenProjection->mScrollPosition,
+            VEC_MultAdd(RACE_HUD_SUB_SCREEN_SCROLL_STEP, &dir, &gRaceHudSubScreenProjection->mScrollPosition,
                         &gRaceHudSubScreenProjection->mScrollPosition);
             if (GetFixed12Whole(target.x - gRaceHudSubScreenProjection->mScrollPosition.x) *
                         GetFixed12Whole(target.x - gRaceHudSubScreenProjection->mScrollPosition.x) +
                     GetFixed12Whole(target.z - gRaceHudSubScreenProjection->mScrollPosition.z) *
                         GetFixed12Whole(target.z - gRaceHudSubScreenProjection->mScrollPosition.z) <
-                GetFixed12Whole(0xa000) * GetFixed12Whole(0xa000)) {
+                GetFixed12Whole(RACE_HUD_SUB_SCREEN_SCROLL_STEP) * GetFixed12Whole(RACE_HUD_SUB_SCREEN_SCROLL_STEP)) {
                 gRaceHudSubScreenProjection->mScrollPosition = target;
                 gRaceHudSubScreenProjection->mScrollTimer = 0;
             }
