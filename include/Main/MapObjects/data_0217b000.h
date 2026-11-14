@@ -690,6 +690,13 @@ enum {
     RACE_GOAL_S_OFFSET_HIDDEN,
 };
 
+// Phases of RaceGoalS: A ends a phase once ROWS_PHASE_FRAMES frames have passed. Hiding or showing the rows changes one
+// row every ROW_STEP_FRAMES frames and starts the sequence with the id FIRST plus the row index.
+#define RACE_GOAL_S_HIDE_ROW_SEQ_FIRST 0x32
+#define RACE_GOAL_S_SHOW_ROW_SEQ_FIRST 0x2a
+#define RACE_GOAL_S_ROW_STEP_FRAMES 5
+#define RACE_GOAL_S_ROWS_PHASE_FRAMES 0x2d
+
 // Object behind gRaceGoalS, 0x20e4 bytes, allocated by InitRaceGoalS.
 typedef struct RaceGoalS {
     /* 0000 */ s32 mRowVisible[8];
