@@ -161,49 +161,49 @@ void SetNextRaceSetupFromCopy(void) {
     u8 tableRowColumn[2];
 
     if (GetMenuEntryKind() != 2) {
-        if (GetRaceSetupCopy()->mMode == 0) {
+        if (GetRaceSetupCopy()->mMode == MODE_GRAND_PRIX) {
             switch (GetRaceSetupCopy()->mEngineIndex) {
-                case 0:
-                    GetRaceSetupCopy()->mCpuDifficulty = 1;
+                case ENGINE_CLASS_SLOW:
+                    GetRaceSetupCopy()->mCpuDifficulty = CPU_DIFFICULTY_EASY;
                     break;
-                case 1:
-                    GetRaceSetupCopy()->mCpuDifficulty = 2;
+                case ENGINE_CLASS_MEDIUM:
+                    GetRaceSetupCopy()->mCpuDifficulty = CPU_DIFFICULTY_NORMAL;
                     break;
-                case 2:
-                    GetRaceSetupCopy()->mCpuDifficulty = 3;
+                case ENGINE_CLASS_FAST:
+                    GetRaceSetupCopy()->mCpuDifficulty = CPU_DIFFICULTY_HARD;
                     break;
             }
         }
         SetNextCpuDifficulty(GetRaceSetupCopy()->mCpuDifficulty);
-        if (GetRaceSetupCopy()->mMode != 2 && GetRaceSetupCopy()->mMode != 3) {
+        if (GetRaceSetupCopy()->mMode != MODE_BATTLE && GetRaceSetupCopy()->mMode != MODE_VS) {
             GetRaceSetupCopy()->mUseTeams = 0;
         }
         switch (GetRaceSetupCopy()->mMode) {
-            case 0:
+            case MODE_GRAND_PRIX:
                 SetNextGrandPrixEntries();
                 break;
-            case 1:
+            case MODE_TIME_ATTACK:
                 SetNextTimeAttackEntries();
                 break;
-            case 2:
-            case 3:
-            case 4:
+            case MODE_BATTLE:
+            case MODE_VS:
+            case MODE_MISSION_RUN:
                 SetNextRaceEntriesFromRaceSetupCopy();
                 break;
         }
         SetNextMode(GetRaceSetupCopy()->mMode);
         SetNextCupIndex(GetRaceSetupCopy()->mCupIndex);
-        if (GetRaceSetupCopy()->mMode == 0) {
+        if (GetRaceSetupCopy()->mMode == MODE_GRAND_PRIX) {
             GetRaceSetupCopy()->mCourseId = GetCupCourseId(GetRaceSetupCopy()->mCupIndex, 0);
         }
         SetNextCourseId(GetRaceSetupCopy()->mCourseId);
-        if (GetRaceSetupCopy()->mMode == 1) {
-            GetRaceSetupCopy()->mEngineIndex = 2;
-        } else if (GetRaceSetupCopy()->mMode == 2) {
-            GetRaceSetupCopy()->mEngineIndex = 0;
-        } else if (GetRaceSetupCopy()->mMode == 3) {
-            if (MenuGetConnectionKind() != 0 && GetMultiSimple() != 0) {
-                GetRaceSetupCopy()->mEngineIndex = 1;
+        if (GetRaceSetupCopy()->mMode == MODE_TIME_ATTACK) {
+            GetRaceSetupCopy()->mEngineIndex = ENGINE_CLASS_FAST;
+        } else if (GetRaceSetupCopy()->mMode == MODE_BATTLE) {
+            GetRaceSetupCopy()->mEngineIndex = ENGINE_CLASS_SLOW;
+        } else if (GetRaceSetupCopy()->mMode == MODE_VS) {
+            if (MenuGetConnectionKind() != CONNECTION_KIND_NONE && GetMultiSimple() != 0) {
+                GetRaceSetupCopy()->mEngineIndex = ENGINE_CLASS_MEDIUM;
             }
         }
         SetNextEngineIndex(GetRaceSetupCopy()->mEngineIndex);
@@ -214,7 +214,7 @@ void SetNextRaceSetupFromCopy(void) {
         SetCourseCount(GetRaceSetupCopy()->mCourseCount);
         SetNextRuleKind(GetRaceSetupCopy()->mRuleKind);
         SetNextCourseListMode(GetRaceSetupCopy()->mCourseListMode);
-        if (GetRaceSetupCopy()->mMode == 4 && MenuMB_IsMultiBootChildWrapper() == 0) {
+        if (GetRaceSetupCopy()->mMode == MODE_MISSION_RUN && MenuMB_IsMultiBootChildWrapper() == 0) {
             rowIndex = GetRaceSetupCopy()->mMissionFileRowIndex;
             FindMissionTableCell(GetRaceSetupCopy()->mMissionFileRows[rowIndex].mMissionTableValue, &tableRowColumn[0],
                                  &tableRowColumn[1]);
@@ -225,7 +225,7 @@ void SetNextRaceSetupFromCopy(void) {
         SetNextCupIndex(GetRaceSetupCopy()->mCupIndex);
         SetNextCourseId(GetRaceSetupCopy()->mCourseId);
     }
-    if (GetRaceSetupCopy()->mMode == 0) {
+    if (GetRaceSetupCopy()->mMode == MODE_GRAND_PRIX) {
         SetResultArchiveDl(0);
     } else {
         SetResultArchiveDl(1);
