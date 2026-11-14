@@ -30,16 +30,16 @@ void StopExchangeWithStatusRecord(void) {
 u32 GetExchangeOutcome(void) {
     ExchangeResult exchangeResult;
     switch (gExchangeStatusRecord->mStatus) {
-        case 0:
-        case 1:
-        case 3:
-        case 5:
+        case EXCHANGE_STATUS_NONE:
+        case EXCHANGE_STATUS_STARTED:
+        case EXCHANGE_STATUS_ENTRY_FOUND:
+        case EXCHANGE_STATUS_SECOND_KEY_RECEIVED:
             return 0;
-        case 2:
+        case EXCHANGE_STATUS_SEARCH_ROUND_DONE:
             return 1;
-        case 4:
+        case EXCHANGE_STATUS_FIRST_PACKET_ACCEPTED:
             return 2;
-        case 6:
+        case EXCHANGE_STATUS_SUCCEEDED:
             if (CopyExchangeResult(&exchangeResult) != 1) {
                 OS_Terminate();
             }
@@ -47,7 +47,7 @@ u32 GetExchangeOutcome(void) {
                 return 3;
             }
             return 5;
-        case 7:
+        case EXCHANGE_STATUS_ENDED_WITHOUT_RESULT:
             return 4;
     }
 }

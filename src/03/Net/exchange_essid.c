@@ -41,6 +41,7 @@
 #include "00/unk_021b6000.h"
 #include "00/Lib/NitroWiFi/socl_startup.h"
 #include "03/Net/call_status_callback.h"
+#include "03/Menu/exchange_status_record.h"
 
 u32 CallAllocFunctionWithMutex(u32 unused, s32 size);
 void CallFreeFunctionWithMutex(u32 unused, s32 block, s32 size);
@@ -1234,7 +1235,7 @@ s32 SearchEntriesAndStoreEntryWithNewlyClearedBit4(void) {
             } while (copied < result);
         }
         currentList->mCount = result;
-        if (gExchangeStatus != 1) {
+        if (gExchangeStatus != EXCHANGE_STATUS_STARTED) {
             index = FindEntryWithNewlyClearedBit4(currentList, previousList, &changedIndex);
             if (index != 0) {
                 entry = &currentList->mEntries[changedIndex];
@@ -1253,7 +1254,7 @@ s32 SearchEntriesAndStoreEntryWithNewlyClearedBit4(void) {
             }
         }
         memcpy(previousList, currentList, summarySize);
-        gExchangeStatus = 2;
+        gExchangeStatus = EXCHANGE_STATUS_SEARCH_ROUND_DONE;
         CallStatusCallback();
         round++;
     }
@@ -1775,7 +1776,7 @@ s32 RunExchange(void) {
                 if (result != 1) {
                     done = TRUE;
                 } else {
-                    gExchangeStatus = 3;
+                    gExchangeStatus = EXCHANGE_STATUS_ENTRY_FOUND;
                     CallStatusCallback();
                     gExchangeState = 2;
                 }
@@ -1821,7 +1822,7 @@ s32 RunExchange(void) {
                     if (ParseAndCheckExchangePacketKind1(gPacketBuffer, (s32 *) &gKind1Item5Flag) != FALSE) {
                         gTimeoutAtMs = GetTickMilliseconds() + 30000;
                         gExchangeState = 5;
-                        gExchangeStatus = 4;
+                        gExchangeStatus = EXCHANGE_STATUS_FIRST_PACKET_ACCEPTED;
                         CallStatusCallback();
                     }
                 }
@@ -1848,7 +1849,7 @@ s32 RunExchange(void) {
                         ComputeHash(gSecondKeyHashedPart, (const u8 *) &now, 4);
                         retryCount = 0;
                         gExchangeState = 7;
-                        gExchangeStatus = 5;
+                        gExchangeStatus = EXCHANGE_STATUS_SECOND_KEY_RECEIVED;
                         gTimeoutAtMs = -1;
                         CallStatusCallback();
                     }
@@ -1933,9 +1934,9 @@ void RunExchangeThread(void) {
     gExchangeResultCode = result;
     DisconnectExchangeAndStopSockets();
     if (result == 1) {
-        gExchangeStatus = 6;
+        gExchangeStatus = EXCHANGE_STATUS_SUCCEEDED;
     } else {
-        gExchangeStatus = 7;
+        gExchangeStatus = EXCHANGE_STATUS_ENDED_WITHOUT_RESULT;
     }
     gTimeoutAtMs = -1;
     CallStatusCallback();
@@ -2671,11 +2672,11 @@ s32 FormatMacAddress(u8 *output, const s8 *address) {
 s32 StartExchange(u32 priority, s32 count, UnkFunc *callback, UnkWordFunc *allocFunction, UnkFunc *freeFunction,
                   u32 stackSize) {
     s32 result;
-    if (gExchangeStatus >= 1 && gExchangeStatus <= 5) {
+    if (gExchangeStatus >= EXCHANGE_STATUS_STARTED && gExchangeStatus <= EXCHANGE_STATUS_SECOND_KEY_RECEIVED) {
         return -10;
     }
     gStartEntryCount = count;
-    gExchangeStatus = 7;
+    gExchangeStatus = EXCHANGE_STATUS_ENDED_WITHOUT_RESULT;
     gStatusCallback = callback;
     gAllocFunction = allocFunction;
     gFreeFunction = freeFunction;
@@ -2697,7 +2698,7 @@ s32 StartExchange(u32 priority, s32 count, UnkFunc *callback, UnkWordFunc *alloc
     }
     OS_CreateThread(&gExchangeThread, (void (*)(void *)) RunExchangeThread, NULL,
                     (u8 *) gThreadStack + (gThreadStackSize & ~7), gThreadStackSize, priority);
-    gExchangeStatus = 1;
+    gExchangeStatus = EXCHANGE_STATUS_STARTED;
     gTimeoutAtMs = GetTickMilliseconds() + 60000;
     gStopRequested = 0;
     __clear(&gExchangeResult, 0xe8);

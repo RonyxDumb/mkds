@@ -1,3 +1,4 @@
+#include "03/Menu/exchange_status_record.h"
 #include "03/Net/exchange_essid.h"
 #include "03/unk_021d6000.h"
 #include "03/unk_021d8000.h"
@@ -50,7 +51,7 @@ s32 StopExchange(void) {
     if (gThreadStarted != 0) {
         oldStatus = gExchangeStatus;
         gStopRequested = 1;
-        while (gExchangeStatus >= 1 && gExchangeStatus <= 5) {
+        while (gExchangeStatus >= EXCHANGE_STATUS_STARTED && gExchangeStatus <= EXCHANGE_STATUS_SECOND_KEY_RECEIVED) {
             OS_Sleep(100);
         }
         OS_Sleep(500);
