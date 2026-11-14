@@ -125,25 +125,25 @@ void SetupRaceDisplay(void *heap) {
             SetBg0Record(&settings->mSubBgRecords, 0, 0, 0, 0, 0xd, 0, 0);
             SetBg1Record(&settings->mSubBgRecords, 1, 0, 0, 0, 0xe, 0, 0);
             SetBg2RecordParams(&settings->mSubBgRecords, 2, 0, 0, 0, 0xf, 0);
-            SetDispCapMode(0);
+            SetDispCapMode(DISP_CAP_MODE_OFF);
             break;
         case RACE_KIND_DEMO:
             SetBg2RecordParams(&settings->mMainBgRecords, 1, 0, 0, 0, 7, 0);
             SetBg0Record(&settings->mSubBgRecords, 0, 0, 0, 0, 0xd, 0, 0);
             SetBg1Record(&settings->mSubBgRecords, 1, 0, 0, 0, 0xe, 0, 0);
             SetBg2RecordParams(&settings->mSubBgRecords, 2, 0, 0, 0, 0xf, 0);
-            SetDispCapMode(0);
+            SetDispCapMode(DISP_CAP_MODE_OFF);
             break;
         case RACE_KIND_START_GP:
         case RACE_KIND_AWARD:
             SetBg2RecordParams(&settings->mMainBgRecords, 1, 0, 0, 0, 7, 0);
             SetBg2RecordMode5(&settings->mSubBgRecords, 0, 0, 1, 0, 0);
             SetSubObjVRamModeBmp(settings, 0x20);
-            SetDispCapMode(1);
+            SetDispCapMode(DISP_CAP_MODE_BANK_TOGGLE);
             break;
-        case 4:
+        case RACE_KIND_START_BATTLE:
             SetBg2RecordParams(&settings->mMainBgRecords, 1, 0, 0, 0, 7, 0);
-            SetDispCapMode(0);
+            SetDispCapMode(DISP_CAP_MODE_OFF);
             break;
     }
     InitDisplayFromSettings(settings);

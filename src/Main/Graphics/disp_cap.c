@@ -90,9 +90,9 @@ void InitDispCap(void *heap) {
     gDispCap->mFlags = 0;
     gDispCap->mBlendMin = 0;
     gDispCap->mBlendFactor = 0x1000;
-    gDispCap->mMode = 0;
+    gDispCap->mMode = DISP_CAP_MODE_OFF;
     if (gWvrState.mState == BANK_SHARE_ACTIVE) {
-        gDispCap->mMode = 0;
+        gDispCap->mMode = DISP_CAP_MODE_OFF;
     }
 }
 
@@ -134,7 +134,7 @@ static inline s32 DispCapIsConnectionActiveNotEndingWithError(void) {
 void SetDispCapMode(s32 mode) {
     gDispCap->mMode = mode;
     if (gWvrState.mState == BANK_SHARE_ACTIVE) {
-        gDispCap->mMode = 0;
+        gDispCap->mMode = DISP_CAP_MODE_OFF;
     }
 }
 
@@ -178,10 +178,10 @@ void SetupDispCapMode1(void) {
 
 void SetupDispCap(void) {
     switch (gDispCap->mMode) {
-        case 1:
+        case DISP_CAP_MODE_BANK_TOGGLE:
             SetupDispCapMode1();
             break;
-        case 2:
+        case DISP_CAP_MODE_BLEND:
             GX_SetGraphicsMode(0xe, 0, 1);
             break;
     }
@@ -245,12 +245,12 @@ void AdvanceDispCapBlend(s32 prevMenuOpen) {
 
 void AdvanceDispCap(s32 prevMenuOpen) {
     switch (gDispCap->mMode) {
-        case 1:
+        case DISP_CAP_MODE_BANK_TOGGLE:
             if (prevMenuOpen == 0) {
                 ToggleDispCapBanks();
             }
             break;
-        case 2:
+        case DISP_CAP_MODE_BLEND:
             AdvanceDispCapBlend(prevMenuOpen);
             break;
     }
@@ -265,7 +265,7 @@ void AdvanceDispCap(s32 prevMenuOpen) {
 }
 
 void StartDispCapBlend(u8 blendMin) {
-    if (gDispCap->mMode != 2) {
+    if (gDispCap->mMode != DISP_CAP_MODE_BLEND) {
         return;
     }
     gDispCap->mFlags |= 2;
@@ -289,7 +289,7 @@ static inline s32 DispCapIsConnectionActiveViaLocal(void) {
 }
 
 void StopDispCapBlend(void) {
-    if (gDispCap->mMode == 2) {
+    if (gDispCap->mMode == DISP_CAP_MODE_BLEND) {
         gDispCap->mFlags &= ~2;
     }
 }

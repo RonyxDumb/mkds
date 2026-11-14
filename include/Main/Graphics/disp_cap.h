@@ -5,6 +5,12 @@
 #include "Main/Menu/data_02175000.h"
 #include "Main/MapObjects/data_0217a000.h"
 
+enum {
+    DISP_CAP_MODE_OFF,
+    DISP_CAP_MODE_BANK_TOGGLE,
+    DISP_CAP_MODE_BLEND,
+};
+
 s32 AdvanceConnectByMultiBoot(u16 entryIndex);
 s32 AdvanceSetupByMultiBoot(s32 isParent, s32 isMultiBoot);
 s32 AdvanceNonMultiBootSetup(s32 isParent);
