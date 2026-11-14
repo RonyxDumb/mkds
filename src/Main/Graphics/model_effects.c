@@ -192,7 +192,7 @@ void InitModelEffects(void *heap) {
         SetupModelEffectKind(heap, 3, GetWaterEfctNsbmdFile(), FindCourseFile("/MapObj/bk_wave.nsbca"),
                              FindCourseFile("/MapObj/bk_wave.nsbma"), NULL);
     }
-    gModelEffects->mNextPolygonId = 10;
+    gModelEffects->mNextPolygonId = MODEL_EFFECT_POLYGON_ID_FIRST;
 }
 
 // Starts a pooled object of the given kind at position; startEffects goes to its start function. NULL if none is free.
@@ -211,8 +211,8 @@ ModelEffect *StartModelEffect(u32 kind, const Vec3 *position, s32 startEffects) 
         modelEffect->mStart(modelEffect, startEffects);
         NNS_FndAppendListObject(&gModelEffects->mActiveList, modelEffect);
         gModelEffects->mNextPolygonId++;
-        if (gModelEffects->mNextPolygonId > 0xd) {
-            gModelEffects->mNextPolygonId = 10;
+        if (gModelEffects->mNextPolygonId > MODEL_EFFECT_POLYGON_ID_LAST) {
+            gModelEffects->mNextPolygonId = MODEL_EFFECT_POLYGON_ID_FIRST;
         }
     }
     return modelEffect;
@@ -568,8 +568,8 @@ void StartWaterEfctKind2Effects(const Vec3 *position, s32 startModel) {
             modelEffect->mStart(modelEffect, 0);
             NNS_FndAppendListObject(&gModelEffects->mActiveList, modelEffect);
             gModelEffects->mNextPolygonId++;
-            if (gModelEffects->mNextPolygonId > 0xd) {
-                gModelEffects->mNextPolygonId = 10;
+            if (gModelEffects->mNextPolygonId > MODEL_EFFECT_POLYGON_ID_LAST) {
+                gModelEffects->mNextPolygonId = MODEL_EFFECT_POLYGON_ID_FIRST;
             }
         }
     }

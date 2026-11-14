@@ -205,7 +205,10 @@ typedef struct KartPhysicalParamTable {
 
 struct ModelEffect;
 
-// The ModelEffect pools: an active list, one free list per kind, and the next polygon id (10 to 13).
+#define MODEL_EFFECT_POLYGON_ID_FIRST 10
+#define MODEL_EFFECT_POLYGON_ID_LAST 13
+
+// The ModelEffect pools: an active list, one free list per kind, and the next polygon id (first to last, then around).
 typedef struct ModelEffects {
     /* 00 */ NNSFndList mActiveList;
     /* 0c */ NNSFndList mFreeLists[5];
