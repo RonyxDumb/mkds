@@ -38,6 +38,27 @@ typedef struct WCMApListHeader {
     /* 0c */ WCMApList mBlocks[1];
 } WCMApListHeader;
 
+// Values of WCMWork.mPhase, which WCM_GetPhase returns (NONE before the work area is set up). Each Async call moves the
+// phase to the pending one (STARTING, STOPPING, SEARCH_STARTING, SEARCH_STOPPING, CONNECTING, DISCONNECTING,
+// TERMINATING) and its callback settles it. FAILED is final: WcmSetPhase no longer changes it. A refused request leaves
+// ABORT_PENDING, where the running step ends by resetting.
+enum {
+    WIFI_LINK_PHASE_NONE = 0,
+    WIFI_LINK_PHASE_STOPPED = 1,
+    WIFI_LINK_PHASE_STARTING = 2,
+    WIFI_LINK_PHASE_READY = 3,
+    WIFI_LINK_PHASE_STOPPING = 4,
+    WIFI_LINK_PHASE_SEARCH_STARTING = 5,
+    WIFI_LINK_PHASE_SEARCHING = 6,
+    WIFI_LINK_PHASE_SEARCH_STOPPING = 7,
+    WIFI_LINK_PHASE_CONNECTING = 8,
+    WIFI_LINK_PHASE_CONNECTED = 9,
+    WIFI_LINK_PHASE_DISCONNECTING = 10,
+    WIFI_LINK_PHASE_FAILED = 11,
+    WIFI_LINK_PHASE_ABORT_PENDING = 12,
+    WIFI_LINK_PHASE_TERMINATING = 13,
+};
+
 // 0x2300 bytes; the word gWcmWork points to it.
 typedef struct WCMWork {
     /* 0000 */ u8 mWmWork[0xf00];
@@ -54,6 +75,7 @@ typedef struct WCMWork {
     /* 2250 */ u8 mWepMode;
     /* 2251 */ u8 mWepKeyId;
     /* 2252 */ u8 mUnk_2252[0xe];
+    // WIFI_LINK_PHASE_*
     /* 2260 */ s32 mPhase;
     /* 2264 */ u32 mOption;
     /* 2268 */ u16 mMaxScanTime;

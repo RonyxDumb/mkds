@@ -129,7 +129,7 @@ s32 WCM_Init(WCMWork *buf, u32 len) {
         return 6;
     }
     gWcmWork = buf;
-    buf->mPhase = 1;
+    buf->mPhase = WIFI_LINK_PHASE_STOPPED;
     gWcmWork->mNotifyId = 0;
     gWcmWork->mMaxScanTime = 0;
     gWcmWork->mApListLock = 0;
@@ -159,7 +159,7 @@ BOOL WCM_Finish(void) {
         OS_RestoreInterrupts(enabled);
         return TRUE;
     }
-    if (work->mPhase != 1) {
+    if (work->mPhase != WIFI_LINK_PHASE_STOPPED) {
         OS_RestoreInterrupts(enabled);
         return TRUE;
     }
@@ -180,13 +180,13 @@ s32 WCM_StartupAsync(WCMConfig *config, void (*notify)(WCMNotice *)) {
         return 1;
     }
     switch (work->mPhase) {
-        case 1:
+        case WIFI_LINK_PHASE_STOPPED:
             WcmConfigure(config, notify);
             break;
-        case 2:
+        case WIFI_LINK_PHASE_STARTING:
             OS_RestoreInterrupts(enabled);
             return 2;
-        case 3:
+        case WIFI_LINK_PHASE_READY:
             OS_RestoreInterrupts(enabled);
             return 0;
         default:
@@ -195,7 +195,7 @@ s32 WCM_StartupAsync(WCMConfig *config, void (*notify)(WCMNotice *)) {
     }
     switch (WM_Init(gWcmWork, gWcmWork->mDmaNo)) {
         case 3:
-            WcmSetPhase(0xb);
+            WcmSetPhase(WIFI_LINK_PHASE_FAILED);
             OS_RestoreInterrupts(enabled);
             return 7;
         case 4:
@@ -206,7 +206,7 @@ s32 WCM_StartupAsync(WCMConfig *config, void (*notify)(WCMNotice *)) {
         case 5:
         case 6:
         default:
-            WcmSetPhase(0xb);
+            WcmSetPhase(WIFI_LINK_PHASE_FAILED);
             OS_RestoreInterrupts(enabled);
             return 7;
         case 0:
@@ -214,7 +214,7 @@ s32 WCM_StartupAsync(WCMConfig *config, void (*notify)(WCMNotice *)) {
     }
     if (WM_GetAllowedChannel() == 0) {
         if (WM_Finish() != 0) {
-            WcmSetPhase(0xb);
+            WcmSetPhase(WIFI_LINK_PHASE_FAILED);
             OS_RestoreInterrupts(enabled);
             return 7;
         }
@@ -222,23 +222,23 @@ s32 WCM_StartupAsync(WCMConfig *config, void (*notify)(WCMNotice *)) {
         return 5;
     }
     if (WM_SetIndCallback(WcmWmcbIndication) != 0) {
-        WcmSetPhase(0xb);
+        WcmSetPhase(WIFI_LINK_PHASE_FAILED);
         OS_RestoreInterrupts(enabled);
         return 7;
     }
     result = WM_Enable(WcmWmcbCommon);
     switch (result) {
         case 2:
-            WcmSetPhase(2);
+            WcmSetPhase(WIFI_LINK_PHASE_STARTING);
             gWcmWork->mNotifyId = 1;
             break;
         case 8:
-            WcmSetPhase(0xc);
+            WcmSetPhase(WIFI_LINK_PHASE_ABORT_PENDING);
             OS_RestoreInterrupts(enabled);
             return 1;
         case 3:
         default:
-            WcmSetPhase(0xb);
+            WcmSetPhase(WIFI_LINK_PHASE_FAILED);
             OS_RestoreInterrupts(enabled);
             return 7;
     }
@@ -258,20 +258,20 @@ s32 WCM_CleanupAsync(void) {
         return 1;
     }
     switch (work->mPhase) {
-        case 4:
+        case WIFI_LINK_PHASE_STOPPING:
             OS_RestoreInterrupts(enabled);
             return 2;
-        case 1:
+        case WIFI_LINK_PHASE_STOPPED:
             OS_RestoreInterrupts(enabled);
             return 0;
         default:
             OS_RestoreInterrupts(enabled);
             return 1;
-        case 3:
+        case WIFI_LINK_PHASE_READY:
             result = WM_PowerOff(WcmWmcbCommon);
             switch (result) {
                 case 2:
-                    WcmSetPhase(4);
+                    WcmSetPhase(WIFI_LINK_PHASE_STOPPING);
                     gWcmWork->mNotifyId = 2;
                     break;
                 case 8:
@@ -279,7 +279,7 @@ s32 WCM_CleanupAsync(void) {
                     return 4;
                 case 3:
                 default:
-                    WcmSetPhase(0xb);
+                    WcmSetPhase(WIFI_LINK_PHASE_FAILED);
                     OS_RestoreInterrupts(enabled);
                     return 7;
             }
@@ -307,25 +307,25 @@ s32 WCM_BeginSearchAsync(const void *bssid, const u8 *essid, u32 option) {
         return 1;
     }
     switch (work->mPhase) {
-        case 5:
+        case WIFI_LINK_PHASE_SEARCH_STARTING:
             WcmEditScanExParam(bssid, essid, option);
             OS_RestoreInterrupts(enabled);
             return 2;
-        case 6:
+        case WIFI_LINK_PHASE_SEARCHING:
             WcmEditScanExParam(bssid, essid, option);
             OS_RestoreInterrupts(enabled);
             return 0;
         default:
             OS_RestoreInterrupts(enabled);
             return 1;
-        case 3:
+        case WIFI_LINK_PHASE_READY:
             WcmEditScanExParam(bssid, essid, option);
             DC_InvalidateRange(gWcmWork->mScanExParam.mScanBuf, gWcmWork->mScanExParam.mScanBufSize);
             gWcmWork->mScanCount++;
             result = WM_StartScanEx((Unk021425e8Func) WcmWmcbScanEx, &gWcmWork->mScanExParam);
             switch (result) {
                 case 2:
-                    WcmSetPhase(5);
+                    WcmSetPhase(WIFI_LINK_PHASE_SEARCH_STARTING);
                     gWcmWork->mNotifyId = 3;
                     break;
                 case 8:
@@ -333,7 +333,7 @@ s32 WCM_BeginSearchAsync(const void *bssid, const u8 *essid, u32 option) {
                     return 4;
                 case 3:
                 default:
-                    WcmSetPhase(0xb);
+                    WcmSetPhase(WIFI_LINK_PHASE_FAILED);
                     OS_RestoreInterrupts(enabled);
                     return 7;
             }
@@ -353,14 +353,14 @@ s32 WCM_EndSearchAsync(void) {
         return 1;
     }
     switch (work->mPhase) {
-        case 6:
-            WcmSetPhase(7);
+        case WIFI_LINK_PHASE_SEARCHING:
+            WcmSetPhase(WIFI_LINK_PHASE_SEARCH_STOPPING);
             gWcmWork->mNotifyId = 4;
             break;
-        case 7:
+        case WIFI_LINK_PHASE_SEARCH_STOPPING:
             OS_RestoreInterrupts(enabled);
             return 2;
-        case 3:
+        case WIFI_LINK_PHASE_READY:
             OS_RestoreInterrupts(enabled);
             return 0;
         default:
@@ -383,7 +383,7 @@ s32 WCM_ConnectAsync(WMBssDesc *bssDesc, WCMWepDesc *wepDesc, u32 option) {
         return 1;
     }
     switch (work->mPhase) {
-        case 3:
+        case WIFI_LINK_PHASE_READY:
             if (bssDesc == NULL) {
                 OS_RestoreInterrupts(enabled);
                 return 1;
@@ -411,10 +411,10 @@ s32 WCM_ConnectAsync(WMBssDesc *bssDesc, WCMWepDesc *wepDesc, u32 option) {
             gWcmWork->mSupportRateSet = gWcmWork->mBasicRateSet | 3;
             WCM_UpdateOption(option);
             break;
-        case 8:
+        case WIFI_LINK_PHASE_CONNECTING:
             OS_RestoreInterrupts(enabled);
             return 2;
-        case 9:
+        case WIFI_LINK_PHASE_CONNECTED:
             OS_RestoreInterrupts(enabled);
             return 0;
         default:
@@ -424,7 +424,7 @@ s32 WCM_ConnectAsync(WMBssDesc *bssDesc, WCMWepDesc *wepDesc, u32 option) {
     result = WM_SetLifeTime(WcmWmcbCommon, 0xffff, 0x50, 0xffff, 0xffff);
     switch (result) {
         case 2:
-            WcmSetPhase(8);
+            WcmSetPhase(WIFI_LINK_PHASE_CONNECTING);
             gWcmWork->mNotifyId = 5;
             break;
         case 8:
@@ -432,7 +432,7 @@ s32 WCM_ConnectAsync(WMBssDesc *bssDesc, WCMWepDesc *wepDesc, u32 option) {
             return 4;
         case 3:
         default:
-            WcmSetPhase(0xb);
+            WcmSetPhase(WIFI_LINK_PHASE_FAILED);
             OS_RestoreInterrupts(enabled);
             return 7;
     }
@@ -452,26 +452,26 @@ s32 WCM_DisconnectAsync(void) {
         return 1;
     }
     switch (work->mPhase) {
-        case 10:
+        case WIFI_LINK_PHASE_DISCONNECTING:
             OS_RestoreInterrupts(enabled);
             return 2;
-        case 3:
+        case WIFI_LINK_PHASE_READY:
             OS_RestoreInterrupts(enabled);
             return 0;
         default:
             OS_RestoreInterrupts(enabled);
             return 1;
-        case 9:
+        case WIFI_LINK_PHASE_CONNECTED:
             break;
     }
     if (work->mResetting == 1) {
-        WcmSetPhase(0xa);
+        WcmSetPhase(WIFI_LINK_PHASE_DISCONNECTING);
         gWcmWork->mNotifyId = 6;
     } else {
         result = WM_EndDCF(WcmWmcbEndDCF);
         switch (result) {
             case 2:
-                WcmSetPhase(0xa);
+                WcmSetPhase(WIFI_LINK_PHASE_DISCONNECTING);
                 gWcmWork->mNotifyId = 6;
                 break;
             case 8:
@@ -479,7 +479,7 @@ s32 WCM_DisconnectAsync(void) {
                 return 4;
             case 3:
             default:
-                WcmSetPhase(0xb);
+                WcmSetPhase(WIFI_LINK_PHASE_FAILED);
                 OS_RestoreInterrupts(enabled);
                 return 7;
         }
@@ -501,27 +501,27 @@ s32 WCM_TerminateAsync(void) {
         return 1;
     }
     switch (work->mPhase) {
-        case 13:
+        case WIFI_LINK_PHASE_TERMINATING:
             OS_RestoreInterrupts(enabled);
             return 2;
-        case 1:
+        case WIFI_LINK_PHASE_STOPPED:
             OS_RestoreInterrupts(enabled);
             return 0;
-        case 6:
-            WcmSetPhase(0xd);
+        case WIFI_LINK_PHASE_SEARCHING:
+            WcmSetPhase(WIFI_LINK_PHASE_TERMINATING);
             gWcmWork->mNotifyId = 9;
             OS_RestoreInterrupts(enabled);
             return 3;
-        case 3:
-        case 9:
-        case 12:
+        case WIFI_LINK_PHASE_READY:
+        case WIFI_LINK_PHASE_CONNECTED:
+        case WIFI_LINK_PHASE_ABORT_PENDING:
             break;
         default:
             OS_RestoreInterrupts(enabled);
             return 1;
     }
     if (work->mResetting == 1) {
-        WcmSetPhase(0xd);
+        WcmSetPhase(WIFI_LINK_PHASE_TERMINATING);
         gWcmWork->mNotifyId = 9;
     } else {
         wmStatus = WMi_GetStatusAddress();
@@ -530,7 +530,7 @@ s32 WCM_TerminateAsync(void) {
             case 0:
                 result = WM_Finish();
                 if (result == 0) {
-                    WcmSetPhase(1);
+                    WcmSetPhase(WIFI_LINK_PHASE_STOPPED);
                     gWcmWork->mNotifyId = 0;
                     OS_RestoreInterrupts(enabled);
                     return 0;
@@ -549,7 +549,7 @@ s32 WCM_TerminateAsync(void) {
         }
         switch (result) {
             case 2:
-                WcmSetPhase(0xd);
+                WcmSetPhase(WIFI_LINK_PHASE_TERMINATING);
                 gWcmWork->mNotifyId = 9;
                 break;
             case 8:
@@ -557,7 +557,7 @@ s32 WCM_TerminateAsync(void) {
                 return 4;
             case 3:
             default:
-                WcmSetPhase(0xb);
+                WcmSetPhase(WIFI_LINK_PHASE_FAILED);
                 OS_RestoreInterrupts(enabled);
                 return 7;
         }
@@ -572,7 +572,7 @@ u32 WCM_GetPhase(void) {
     WCMWork *work;
 
     enabled = OS_DisableInterrupts();
-    connPhase = 0;
+    connPhase = WIFI_LINK_PHASE_NONE;
     work = gWcmWork;
     if (work != NULL) {
         connPhase = work->mPhase;
@@ -728,13 +728,13 @@ void WcmSetPhase(u32 phase) {
     u32 enabled;
 
     enabled = OS_DisableInterrupts();
-    if (gWcmWork->mPhase == 9 && phase != 9) {
+    if (gWcmWork->mPhase == WIFI_LINK_PHASE_CONNECTED && phase != WIFI_LINK_PHASE_CONNECTED) {
         OS_CancelAlarm(&gWcmWork->mKeepAliveAlarm);
     }
-    if (gWcmWork->mPhase != 0xb) {
+    if (gWcmWork->mPhase != WIFI_LINK_PHASE_FAILED) {
         gWcmWork->mPhase = phase;
     }
-    if (phase == 9) {
+    if (phase == WIFI_LINK_PHASE_CONNECTED) {
         OS_SetAlarm(&gWcmWork->mKeepAliveAlarm, 0x22f5341, WcmKeepAliveAlarm, NULL);
     }
     OS_RestoreInterrupts(enabled);
@@ -745,7 +745,7 @@ void WCMi_ResetKeepAliveAlarm(void) {
 
     enabled = OS_DisableInterrupts();
     OS_CancelAlarm(&gWcmWork->mKeepAliveAlarm);
-    if (gWcmWork->mPhase == 9) {
+    if (gWcmWork->mPhase == WIFI_LINK_PHASE_CONNECTED) {
         OS_SetAlarm(&gWcmWork->mKeepAliveAlarm, 0x22f5341, WcmKeepAliveAlarm, NULL);
     }
     OS_RestoreInterrupts(enabled);
@@ -760,7 +760,7 @@ void WcmWmReset(void) {
     if (gWcmWork->mResetting == 0) {
         gWcmWork->mResetting = 1;
         if (WM_Reset(WcmWmcbReset) != 2) {
-            WcmSetPhase(0xb);
+            WcmSetPhase(WIFI_LINK_PHASE_FAILED);
             WcmNotify(WIFI_REPORT_UNRECOVERABLE, NULL, 0, 0x611);
         }
     }
@@ -769,15 +769,15 @@ void WcmWmReset(void) {
 void WcmWmcbIndication(WirelessMessage *callback) {
     if (callback->mResultCode == WIRELESS_RESULT_PIPE_ERROR && callback->mState == 0x16 && callback->mPort == 0x25) {
         switch (gWcmWork->mPhase) {
-            case 8:
-                WcmSetPhase(0xc);
+            case WIFI_LINK_PHASE_CONNECTING:
+                WcmSetPhase(WIFI_LINK_PHASE_ABORT_PENDING);
                 return;
-            case 9:
-            case 12:
+            case WIFI_LINK_PHASE_CONNECTED:
+            case WIFI_LINK_PHASE_ABORT_PENDING:
                 WcmWmReset();
                 return;
-            case 10:
-                WcmSetPhase(0xc);
+            case WIFI_LINK_PHASE_DISCONNECTING:
+                WcmSetPhase(WIFI_LINK_PHASE_ABORT_PENDING);
                 break;
         }
     }
@@ -796,17 +796,17 @@ void WcmWmcbCommon(WirelessMessage *callback) {
                 case WIRELESS_REQUEST_DEACTIVATE:
                     switch (WM_Finish()) {
                         case 0:
-                            WcmSetPhase(1);
+                            WcmSetPhase(WIFI_LINK_PHASE_STOPPED);
                             WcmNotify(WIFI_REPORT_SUCCEEDED, NULL, 0, 0x663);
                             return;
                         case 4:
                         default:
-                            WcmSetPhase(0xb);
+                            WcmSetPhase(WIFI_LINK_PHASE_FAILED);
                             WcmNotify(WIFI_REPORT_UNRECOVERABLE, NULL, 0, 0x66a);
                             return;
                     }
                 case WIRELESS_REQUEST_RADIO_ON:
-                    WcmSetPhase(3);
+                    WcmSetPhase(WIFI_LINK_PHASE_READY);
                     WcmNotify(WIFI_REPORT_SUCCEEDED, NULL, 0, 0x670);
                     return;
                 case WIRELESS_REQUEST_RADIO_OFF:
@@ -837,25 +837,25 @@ void WcmWmcbCommon(WirelessMessage *callback) {
             }
             switch (result) {
                 case 8:
-                    WcmSetPhase(0xc);
+                    WcmSetPhase(WIFI_LINK_PHASE_ABORT_PENDING);
                     WcmNotify(WIFI_REPORT_DECLINED, gWcmWork->mNotifyId == 5 ? gWcmWork->mBssDesc : 0, 0, 0x6a7);
                     return;
                 case 3:
                 default:
-                    WcmSetPhase(0xb);
+                    WcmSetPhase(WIFI_LINK_PHASE_FAILED);
                     WcmNotify(WIFI_REPORT_UNRECOVERABLE, gWcmWork->mNotifyId == 5 ? gWcmWork->mBssDesc : 0, 0, 0x6b0);
                     return;
             }
             break;
         case WIRELESS_RESULT_REFUSED:
-            WcmSetPhase(0xc);
+            WcmSetPhase(WIFI_LINK_PHASE_ABORT_PENDING);
             WcmNotify(WIFI_REPORT_DECLINED, gWcmWork->mNotifyId == 5 ? gWcmWork->mBssDesc : 0, 0, 0x6d0);
             return;
         case WIRELESS_RESULT_OCCUPIED:
         case WIRELESS_RESULT_BAD_PHASE:
         case WIRELESS_RESULT_SWITCHED_OFF:
         default:
-            WcmSetPhase(0xb);
+            WcmSetPhase(WIFI_LINK_PHASE_FAILED);
             WcmNotify(WIFI_REPORT_UNRECOVERABLE, gWcmWork->mNotifyId == 5 ? gWcmWork->mBssDesc : 0, 0, 0x6da);
             return;
     }
@@ -894,12 +894,12 @@ void WcmWmcbScanEx(WMStartScanExCallback *callback) {
     result = 0x14;
     switch (callback->mErrcode) {
         case WIRELESS_RESULT_SUCCEEDED:
-            if (gWcmWork->mPhase == 5) {
-                WcmSetPhase(6);
+            if (gWcmWork->mPhase == WIFI_LINK_PHASE_SEARCH_STARTING) {
+                WcmSetPhase(WIFI_LINK_PHASE_SEARCHING);
                 WcmNotify(WIFI_REPORT_SUCCEEDED, 0, 0, 0x6f6);
             }
             switch (gWcmWork->mPhase) {
-                case 6:
+                case WIFI_LINK_PHASE_SEARCHING:
                     gWcmWork->mNotifyId = 7;
                     if (callback->mState == 5) {
                         DC_InvalidateRange(gWcmWork->mScanExParam.mScanBuf, gWcmWork->mScanExParam.mScanBufSize);
@@ -924,10 +924,10 @@ void WcmWmcbScanEx(WMStartScanExCallback *callback) {
                     gWcmWork->mScanCount++;
                     result = WM_StartScanEx((Unk021425e8Func) WcmWmcbScanEx, &gWcmWork->mScanExParam);
                     break;
-                case 7:
+                case WIFI_LINK_PHASE_SEARCH_STOPPING:
                     result = WM_EndScan((Unk021425e8Func) WcmWmcbEndScan);
                     break;
-                case 13:
+                case WIFI_LINK_PHASE_TERMINATING:
                     WcmWmReset();
                     return;
             }
@@ -935,12 +935,12 @@ void WcmWmcbScanEx(WMStartScanExCallback *callback) {
                 case 2:
                     return;
                 case 8:
-                    WcmSetPhase(0xc);
+                    WcmSetPhase(WIFI_LINK_PHASE_ABORT_PENDING);
                     WcmNotify(WIFI_REPORT_DECLINED, 0, 0, 0x743);
                     return;
                 case 3:
                 default:
-                    WcmSetPhase(0xb);
+                    WcmSetPhase(WIFI_LINK_PHASE_FAILED);
                     WcmNotify(WIFI_REPORT_UNRECOVERABLE, 0, 0, 0x74c);
                     return;
             }
@@ -951,7 +951,7 @@ void WcmWmcbScanEx(WMStartScanExCallback *callback) {
         case WIRELESS_RESULT_BAD_PHASE:
         case WIRELESS_RESULT_SWITCHED_OFF:
         default:
-            WcmSetPhase(0xb);
+            WcmSetPhase(WIFI_LINK_PHASE_FAILED);
             WcmNotify(WIFI_REPORT_UNRECOVERABLE, 0, 0, 0x75d);
             return;
     }
@@ -960,7 +960,7 @@ void WcmWmcbScanEx(WMStartScanExCallback *callback) {
 void WcmWmcbEndScan(WirelessMessage *callback) {
     switch (callback->mResultCode) {
         case WIRELESS_RESULT_SUCCEEDED:
-            WcmSetPhase(3);
+            WcmSetPhase(WIFI_LINK_PHASE_READY);
             WcmNotify(WIFI_REPORT_SUCCEEDED, 0, 0, 0x774);
             return;
         case WIRELESS_RESULT_REFUSED:
@@ -970,7 +970,7 @@ void WcmWmcbEndScan(WirelessMessage *callback) {
         case WIRELESS_RESULT_BAD_PHASE:
         case WIRELESS_RESULT_SWITCHED_OFF:
         default:
-            WcmSetPhase(0xb);
+            WcmSetPhase(WIFI_LINK_PHASE_FAILED);
             WcmNotify(WIFI_REPORT_UNRECOVERABLE, 0, 0, 0x784);
             return;
     }
@@ -985,16 +985,16 @@ void WcmWmcbConnect(WMStartScanExCallback *callback) {
             switch (callback->mState) {
                 case 8:
                 case 9:
-                    switch (gWcmWork->mPhase - 8) {
-                        case 2:
+                    switch (gWcmWork->mPhase - WIFI_LINK_PHASE_CONNECTING) {
+                        case WIFI_LINK_PHASE_DISCONNECTING - WIFI_LINK_PHASE_CONNECTING:
                             gWcmWork->mAuthId = 0;
-                        case 0:
-                            WcmSetPhase(0xc);
+                        case WIFI_LINK_PHASE_CONNECTING - WIFI_LINK_PHASE_CONNECTING:
+                            WcmSetPhase(WIFI_LINK_PHASE_ABORT_PENDING);
                             return;
-                        case 1:
+                        case WIFI_LINK_PHASE_CONNECTED - WIFI_LINK_PHASE_CONNECTING:
                             gWcmWork->mAuthId = 0;
                             gWcmWork->mNotifyId = 6;
-                        case 4:
+                        case WIFI_LINK_PHASE_ABORT_PENDING - WIFI_LINK_PHASE_CONNECTING:
                             WcmWmReset();
                             return;
                         default:
@@ -1002,8 +1002,8 @@ void WcmWmcbConnect(WMStartScanExCallback *callback) {
                     }
                     break;
                 case 7:
-                    if (gWcmWork->mPhase == 0xc) {
-                        WcmSetPhase(8);
+                    if (gWcmWork->mPhase == WIFI_LINK_PHASE_ABORT_PENDING) {
+                        WcmSetPhase(WIFI_LINK_PHASE_CONNECTING);
                         WcmWmReset();
                         return;
                     }
@@ -1015,12 +1015,12 @@ void WcmWmcbConnect(WMStartScanExCallback *callback) {
                             case 2:
                                 return;
                             case 8:
-                                WcmSetPhase(0xc);
+                                WcmSetPhase(WIFI_LINK_PHASE_ABORT_PENDING);
                                 WcmNotify(WIFI_REPORT_DECLINED, gWcmWork->mBssDesc, 0, 0x7d7);
                                 return;
                             case 3:
                             default:
-                                WcmSetPhase(0xb);
+                                WcmSetPhase(WIFI_LINK_PHASE_FAILED);
                                 WcmNotify(WIFI_REPORT_UNRECOVERABLE, gWcmWork->mBssDesc, 0, 0x7e0);
                                 return;
                         }
@@ -1030,7 +1030,7 @@ void WcmWmcbConnect(WMStartScanExCallback *callback) {
                 case 6:
                     break;
                 default:
-                    WcmSetPhase(0xb);
+                    WcmSetPhase(WIFI_LINK_PHASE_FAILED);
                     WcmNotify(WIFI_REPORT_UNRECOVERABLE, gWcmWork->mBssDesc, callback->mState, 0x7ee);
                     return;
             }
@@ -1040,7 +1040,7 @@ void WcmWmcbConnect(WMStartScanExCallback *callback) {
         case WIRELESS_RESULT_BAD_INPUT:
         case WIRELESS_RESULT_NOT_LISTED:
         case WIRELESS_RESULT_LIST_FULL:
-            WcmSetPhase(8);
+            WcmSetPhase(WIFI_LINK_PHASE_CONNECTING);
             WcmWmReset();
             return;
         case WIRELESS_RESULT_OCCUPIED:
@@ -1052,7 +1052,7 @@ void WcmWmcbConnect(WMStartScanExCallback *callback) {
         case WIRELESS_RESULT_NO_ANSWER:
         case WIRELESS_RESULT_SEND_BACKLOG:
         default:
-            WcmSetPhase(0xb);
+            WcmSetPhase(WIFI_LINK_PHASE_FAILED);
             WcmNotify(WIFI_REPORT_UNRECOVERABLE, gWcmWork->mBssDesc, 0, 0x804);
             return;
     }
@@ -1061,24 +1061,24 @@ void WcmWmcbConnect(WMStartScanExCallback *callback) {
 void WcmWmcbDisconnect(WirelessMessage *callback) {
     switch (callback->mResultCode) {
         case WIRELESS_RESULT_SUCCEEDED:
-            if (gWcmWork->mPhase == 0xc) {
-                WcmSetPhase(0xa);
+            if (gWcmWork->mPhase == WIFI_LINK_PHASE_ABORT_PENDING) {
+                WcmSetPhase(WIFI_LINK_PHASE_DISCONNECTING);
                 WcmWmReset();
                 return;
             }
             gWcmWork->mAuthId = 0;
-            WcmSetPhase(3);
+            WcmSetPhase(WIFI_LINK_PHASE_READY);
             WcmNotify(WIFI_REPORT_SUCCEEDED, gWcmWork->mBssDesc, 0, 0x827);
             return;
         case WIRELESS_RESULT_REFUSED:
         case WIRELESS_RESULT_BAD_PHASE:
-            WcmSetPhase(0xa);
+            WcmSetPhase(WIFI_LINK_PHASE_DISCONNECTING);
             WcmWmReset();
             return;
         case WIRELESS_RESULT_OCCUPIED:
         case WIRELESS_RESULT_SWITCHED_OFF:
         default:
-            WcmSetPhase(0xb);
+            WcmSetPhase(WIFI_LINK_PHASE_FAILED);
             WcmNotify(WIFI_REPORT_UNRECOVERABLE, gWcmWork->mBssDesc, 0, 0x839);
             return;
     }
@@ -1089,12 +1089,12 @@ void WcmWmcbStartDCF(WirelessMessage *callback) {
         case WIRELESS_RESULT_SUCCEEDED:
             switch (callback->mState) {
                 case 0xe:
-                    if (gWcmWork->mPhase == 0xc) {
-                        WcmSetPhase(8);
+                    if (gWcmWork->mPhase == WIFI_LINK_PHASE_ABORT_PENDING) {
+                        WcmSetPhase(WIFI_LINK_PHASE_CONNECTING);
                         WcmWmReset();
                         return;
                     }
-                    WcmSetPhase(9);
+                    WcmSetPhase(WIFI_LINK_PHASE_CONNECTED);
                     WcmNotify(WIFI_REPORT_SUCCEEDED, gWcmWork->mBssDesc, 0, 0x85d);
                     return;
                 case 0xf:
@@ -1103,13 +1103,13 @@ void WcmWmcbStartDCF(WirelessMessage *callback) {
                     WCMi_CpsifRecvCallback(callback->mRecvBuf);
                     return;
                 default:
-                    WcmSetPhase(0xb);
+                    WcmSetPhase(WIFI_LINK_PHASE_FAILED);
                     WcmNotify(WIFI_REPORT_UNRECOVERABLE, gWcmWork->mBssDesc, callback->mState, 0x86b);
                     return;
             }
         case WIRELESS_RESULT_SWITCHED_OFF:
         default:
-            WcmSetPhase(0xb);
+            WcmSetPhase(WIFI_LINK_PHASE_FAILED);
             WcmNotify(WIFI_REPORT_UNRECOVERABLE, gWcmWork->mBssDesc, 0, 0x877);
             return;
     }
@@ -1120,8 +1120,8 @@ void WcmWmcbEndDCF(WirelessMessage *callback) {
 
     switch (callback->mResultCode) {
         case WIRELESS_RESULT_SUCCEEDED:
-            if (gWcmWork->mPhase == 0xc) {
-                WcmSetPhase(0xa);
+            if (gWcmWork->mPhase == WIFI_LINK_PHASE_ABORT_PENDING) {
+                WcmSetPhase(WIFI_LINK_PHASE_DISCONNECTING);
                 WcmWmReset();
                 return;
             }
@@ -1130,27 +1130,27 @@ void WcmWmcbEndDCF(WirelessMessage *callback) {
                 case 2:
                     return;
                 case 8:
-                    WcmSetPhase(0xc);
+                    WcmSetPhase(WIFI_LINK_PHASE_ABORT_PENDING);
                     WcmNotify(WIFI_REPORT_DECLINED, gWcmWork->mBssDesc, 0, 0x8a0);
                     return;
                 case 3:
-                    WcmSetPhase(0xa);
+                    WcmSetPhase(WIFI_LINK_PHASE_DISCONNECTING);
                     WcmWmReset();
                     return;
                 default:
-                    WcmSetPhase(0xb);
+                    WcmSetPhase(WIFI_LINK_PHASE_FAILED);
                     WcmNotify(WIFI_REPORT_UNRECOVERABLE, gWcmWork->mBssDesc, 0, 0x8ac);
                     return;
             }
         case WIRELESS_RESULT_REFUSED:
         case WIRELESS_RESULT_BAD_PHASE:
-            WcmSetPhase(0xa);
+            WcmSetPhase(WIFI_LINK_PHASE_DISCONNECTING);
             WcmWmReset();
             return;
         case WIRELESS_RESULT_OCCUPIED:
         case WIRELESS_RESULT_SWITCHED_OFF:
         default:
-            WcmSetPhase(0xb);
+            WcmSetPhase(WIFI_LINK_PHASE_FAILED);
             WcmNotify(WIFI_REPORT_UNRECOVERABLE, gWcmWork->mBssDesc, 0, 0x8bf);
             return;
     }
@@ -1167,16 +1167,16 @@ void WcmWmcbReset(WirelessMessage *callback) {
         gWcmWork->mResetting = 0;
         gWcmWork->mAuthId = 0;
         switch (gWcmWork->mPhase) {
-            case 5:
-            case 6:
-                WcmSetPhase(3);
+            case WIFI_LINK_PHASE_SEARCH_STARTING:
+            case WIFI_LINK_PHASE_SEARCHING:
+                WcmSetPhase(WIFI_LINK_PHASE_READY);
                 WcmNotify(WIFI_REPORT_DECLINED, 0, 0, 0x8e1);
                 return;
-            case 7:
-                WcmSetPhase(3);
+            case WIFI_LINK_PHASE_SEARCH_STOPPING:
+                WcmSetPhase(WIFI_LINK_PHASE_READY);
                 WcmNotify(WIFI_REPORT_SUCCEEDED, 0, 0, 0x8e7);
                 return;
-            case 8:
+            case WIFI_LINK_PHASE_CONNECTING:
                 failStatus = gWcmWork->mWlStatusOnConnectFail;
                 gWcmWork->mWlStatusOnConnectFail = 0;
                 if (failStatus == 0x12 && (gWcmWork->mSupportRateSet & 0x24) != 0x24) {
@@ -1197,49 +1197,49 @@ void WcmWmcbReset(WirelessMessage *callback) {
                         case 2:
                             return;
                         case 8:
-                            WcmSetPhase(0xc);
+                            WcmSetPhase(WIFI_LINK_PHASE_ABORT_PENDING);
                             WcmNotify(WIFI_REPORT_DECLINED, gWcmWork->mBssDesc, failStatus, 0x905);
                             return;
                         case 3:
                         default:
-                            WcmSetPhase(0xb);
+                            WcmSetPhase(WIFI_LINK_PHASE_FAILED);
                             WcmNotify(WIFI_REPORT_UNRECOVERABLE, gWcmWork->mBssDesc, failStatus, 0x90c);
                             return;
                     }
                 }
-                WcmSetPhase(3);
+                WcmSetPhase(WIFI_LINK_PHASE_READY);
                 WcmNotify(WIFI_REPORT_DECLINED, gWcmWork->mBssDesc, failStatus, 0x913);
                 return;
-            case 9:
-            case 12:
-                WcmSetPhase(3);
+            case WIFI_LINK_PHASE_CONNECTED:
+            case WIFI_LINK_PHASE_ABORT_PENDING:
+                WcmSetPhase(WIFI_LINK_PHASE_READY);
                 WcmNotify(WIFI_REPORT_SUCCEEDED, gWcmWork->mBssDesc, 1, 0x91b);
                 return;
-            case 10:
-                WcmSetPhase(3);
+            case WIFI_LINK_PHASE_DISCONNECTING:
+                WcmSetPhase(WIFI_LINK_PHASE_READY);
                 WcmNotify(WIFI_REPORT_SUCCEEDED, gWcmWork->mBssDesc, 0, 0x922);
                 return;
-            case 13:
+            case WIFI_LINK_PHASE_TERMINATING:
                 result = WM_PowerOff((Unk021425e8Func) WcmWmcbCommon);
                 switch (result) {
                     case 2:
                         return;
                     case 8:
-                        WcmSetPhase(0xc);
+                        WcmSetPhase(WIFI_LINK_PHASE_ABORT_PENDING);
                         WcmNotify(WIFI_REPORT_DECLINED, 0, 0, 0x930);
                         return;
                     case 3:
                     default:
-                        WcmSetPhase(0xb);
+                        WcmSetPhase(WIFI_LINK_PHASE_FAILED);
                         WcmNotify(WIFI_REPORT_UNRECOVERABLE, 0, 0, 0x939);
                         return;
                 }
             default:
-                WcmSetPhase(0xb);
+                WcmSetPhase(WIFI_LINK_PHASE_FAILED);
                 WcmNotify(WIFI_REPORT_UNRECOVERABLE, 0, gWcmWork->mPhase, 0x93f);
                 return;
         }
     }
-    WcmSetPhase(0xb);
+    WcmSetPhase(WIFI_LINK_PHASE_FAILED);
     WcmNotify(WIFI_REPORT_UNRECOVERABLE, 0, 0, 0x946);
 }
