@@ -18,6 +18,13 @@
 
 typedef struct SceneNumbers SceneNumbers;
 
+// The three best values of ResultsGp.mGrade (0 to 7, higher is better), the ones that start a sequence.
+typedef enum ResultsGpGrade {
+    RESULTS_GP_GRADE_THIRD_BEST = 5,
+    RESULTS_GP_GRADE_SECOND_BEST = 6,
+    RESULTS_GP_GRADE_BEST = 7,
+} ResultsGpGrade;
+
 // Object behind gResultsGp, allocated by InitResultsGp.
 typedef struct ResultsGp {
     /* 00 */ CellFileSet mCellFileSets[2];

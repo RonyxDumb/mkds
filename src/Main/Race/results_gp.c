@@ -222,13 +222,13 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     InitTrophy(gResultsGp->mCupIndex, (u16) gResultsGp->mCupRankIndex);
     index = -1;
     switch (gResultsGp->mGrade) {
-        case 5:
+        case RESULTS_GP_GRADE_THIRD_BEST:
             index = 0x1e;
             break;
-        case 6:
+        case RESULTS_GP_GRADE_SECOND_BEST:
             index = 0x1f;
             break;
-        case 7:
+        case RESULTS_GP_GRADE_BEST:
             index = 0x20;
             break;
     }
