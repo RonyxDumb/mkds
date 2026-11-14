@@ -34,10 +34,10 @@
 #include "Main/Menu/select_race_rule_state.h"
 #include "Main/Scene/display_settings_descs.h"
 
-struct WLMenuCallbacks *gWLMenuCallbacks[8] = {&gMultiSelectMemberGroupCallbacks, &gMultiSelectNSCallbacks,
-                                               &gMemberKeyStartCallbacks,         &gMemberNoKeyStartCallbacks,
-                                               &gWLMenuMBChildMessageCallbacks,   &gWLMenuMessageToRaceCallbacks,
-                                               &gWLMenuMessageToResultCallbacks,  &gWLMenuMessageToMenuCallbacks};
+struct WLMenuCallbacks *gWLMenuCallbacks[WL_MENU_CALLBACKS_COUNT] = {
+    &gMultiSelectMemberGroupCallbacks, &gMultiSelectNSCallbacks,        &gMemberKeyStartCallbacks,
+    &gMemberNoKeyStartCallbacks,       &gWLMenuMBChildMessageCallbacks, &gWLMenuMessageToRaceCallbacks,
+    &gWLMenuMessageToResultCallbacks,  &gWLMenuMessageToMenuCallbacks};
 struct WLMenuScene *gWLMenuScene;
 
 void WLMenuGX_SetOBJVRamModeChar(u32 bits) {
@@ -78,20 +78,22 @@ void InitWLMenuScene(void *heap) {
     InitLinkLevelIcons(heap, gWLMenuScene);
     switch (GetWLMenuKind()) {
         case 0:
-            gWLMenuScene->mRequestedCallbacksIndex = WLMenuMB_IsMultiBootChildWrapper() != 0 ? 4 : 0;
+            gWLMenuScene->mRequestedCallbacksIndex = WLMenuMB_IsMultiBootChildWrapper() != 0
+                                                         ? WL_MENU_CALLBACKS_MB_CHILD_MESSAGE
+                                                         : WL_MENU_CALLBACKS_MEMBER_GROUP;
             InitWLMenuResetRaceSetup(heap);
             ResetConnection();
             break;
         case 1:
-            gWLMenuScene->mRequestedCallbacksIndex = 5;
+            gWLMenuScene->mRequestedCallbacksIndex = WL_MENU_CALLBACKS_MESSAGE_TO_RACE;
             InitWLMenuRequestMPState16(heap);
             break;
         case 2:
-            gWLMenuScene->mRequestedCallbacksIndex = 6;
+            gWLMenuScene->mRequestedCallbacksIndex = WL_MENU_CALLBACKS_MESSAGE_TO_RESULT;
             InitWLMenuRequestMPState18(heap);
             break;
         case 3:
-            gWLMenuScene->mRequestedCallbacksIndex = 7;
+            gWLMenuScene->mRequestedCallbacksIndex = WL_MENU_CALLBACKS_MESSAGE_TO_MENU;
             InitWLMenuRequestMPState21(heap);
             break;
     }

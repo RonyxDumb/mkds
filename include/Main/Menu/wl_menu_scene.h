@@ -24,6 +24,17 @@ typedef struct WLMenuScanSlotPick {
     /* 04 */ ScanSlotText mSlotTexts[4];
 } WLMenuScanSlotPick;
 
+// Indices of gWLMenuCallbacks, which WLMenuScene.mRequestedCallbacksIndex holds.
+#define WL_MENU_CALLBACKS_MEMBER_GROUP 0
+#define WL_MENU_CALLBACKS_MULTI_SELECT_NS 1
+#define WL_MENU_CALLBACKS_MEMBER_KEY_START 2
+#define WL_MENU_CALLBACKS_MEMBER_NO_KEY_START 3
+#define WL_MENU_CALLBACKS_MB_CHILD_MESSAGE 4
+#define WL_MENU_CALLBACKS_MESSAGE_TO_RACE 5
+#define WL_MENU_CALLBACKS_MESSAGE_TO_RESULT 6
+#define WL_MENU_CALLBACKS_MESSAGE_TO_MENU 7
+#define WL_MENU_CALLBACKS_COUNT 8
+
 // 0x874-byte object that gWLMenuScene points to.
 typedef struct WLMenuScene {
     /* 000 */ u8 mMainOam[0x404];
@@ -46,6 +57,6 @@ void InitWLMenuScene(void *heap);
 void WLMenuGXS_SetOBJVRamModeChar(u32 bits);
 void WLMenuGX_SetOBJVRamModeChar(u32 bits);
 
-extern struct WLMenuCallbacks *gWLMenuCallbacks[8];
+extern struct WLMenuCallbacks *gWLMenuCallbacks[WL_MENU_CALLBACKS_COUNT];
 extern struct WLMenuScene *gWLMenuScene;
 
