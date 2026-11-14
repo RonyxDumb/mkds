@@ -5,6 +5,10 @@
     .bss        start:0x0216f340 end:0x021804e0 kind:bss align:32
 
 // provisional: file name and boundaries
+src/Main/Unknown/code_0200007e.c:
+    .text       start:0x02000000 end:0x02000800
+
+// provisional: file name and boundaries
 src/Main/Unknown/code_02000800.c:
     complete
     .text       start:0x02000800 end:0x02000920

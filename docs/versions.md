@@ -247,6 +247,16 @@ Checked on a fresh European build with the same ROM and tools; the rebuilt ROM k
 
 `tools/check_units.py` accepts a function symbol of an assembled unit that `symbols.txt` lists as a label.
 
-Europe now links 1,579 of 1,580 units (99.75% of the code). Only `src/00/code_02180608.c` remains, for
-`LookupWiFiVSSettingMessageIndex` (non-matching). The USA configuration has the same unit list; the merged and
-split units are not marked complete there, and **a USA ROM build was not run**.
+`LookupWiFiVSSettingMessageIndex` matches for Europe: the original copies the language index before comparing it
+with 1, which `(u32) ((u8 *) 0 + index) <= 1` reproduces (marked as a placeholder). The secure area unit
+`src/Main/Unknown/code_0200007e.c` is registered for Europe as for USA: its 18 BIOS call stubs match, but the unit
+is not linked, because the 0x800 bytes around them are not in the source.
+
+| European measurement | Start of this checkpoint | Now |
+| --- | ---: | ---: |
+| Matching functions | 11,483 / 11,498 | 11,498 / 11,498 |
+| Linked source code | 1,872,594 bytes (99.28%) | 1,882,890 bytes (99.83%) |
+
+1,580 of 1,581 units are linked; the 3,154 bytes of the code sections that no function covers are the same count
+as for USA. The USA configuration has the same unit list; the merged and split units are not marked complete
+there, and **a USA ROM build was not run**.

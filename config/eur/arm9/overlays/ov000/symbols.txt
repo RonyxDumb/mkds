@@ -1488,28 +1488,28 @@ data_ov000_021b07b8 kind:data(any) addr:0x021b07b8
 data_ov000_021b07bc kind:data(any) addr:0x021b07bc
 data_ov000_021b07c4 kind:data(any) addr:0x021b07c4
 OV000_DATA_START kind:data(any) addr:0x021b0800
-data_ov000_021b0820 kind:data(any) addr:0x021b0820
-data_ov000_021b0830 kind:data(any) addr:0x021b0830
-data_ov000_021b084c kind:data(any) addr:0x021b084c
-data_ov000_021b0868 kind:data(any) addr:0x021b0868
-data_ov000_021b0880 kind:data(any) addr:0x021b0880
-data_ov000_021b089c kind:data(any) addr:0x021b089c
-data_ov000_021b08b8 kind:data(any) addr:0x021b08b8
-data_ov000_021b08d0 kind:data(any) addr:0x021b08d0
-data_ov000_021b08ec kind:data(any) addr:0x021b08ec
-data_ov000_021b0908 kind:data(any) addr:0x021b0908
-data_ov000_021b0920 kind:data(any) addr:0x021b0920
-data_ov000_021b093c kind:data(any) addr:0x021b093c
-data_ov000_021b0958 kind:data(any) addr:0x021b0958
-data_ov000_021b0974 kind:data(any) addr:0x021b0974
-data_ov000_021b0990 kind:data(any) addr:0x021b0990
-data_ov000_021b09ac kind:data(any) addr:0x021b09ac
-data_ov000_021b09c8 kind:data(any) addr:0x021b09c8
-data_ov000_021b09e4 kind:data(any) addr:0x021b09e4
-data_ov000_021b0a00 kind:data(any) addr:0x021b0a00
-data_ov000_021b0a18 kind:data(any) addr:0x021b0a18
-data_ov000_021b0a38 kind:data(any) addr:0x021b0a38
-data_ov000_021b0a58 kind:data(any) addr:0x021b0a58
+@3832 kind:data(any) addr:0x021b0820 local
+@4014 kind:data(any) addr:0x021b0830 local
+@4015 kind:data(any) addr:0x021b084c local
+@4016 kind:data(any) addr:0x021b0868 local
+@4017 kind:data(any) addr:0x021b0880 local
+@4018 kind:data(any) addr:0x021b089c local
+@4019 kind:data(any) addr:0x021b08b8 local
+@4020 kind:data(any) addr:0x021b08d0 local
+@4021 kind:data(any) addr:0x021b08ec local
+@4022 kind:data(any) addr:0x021b0908 local
+@4023 kind:data(any) addr:0x021b0920 local
+@4024 kind:data(any) addr:0x021b093c local
+@4025 kind:data(any) addr:0x021b0958 local
+@4026 kind:data(any) addr:0x021b0974 local
+@4027 kind:data(any) addr:0x021b0990 local
+@4028 kind:data(any) addr:0x021b09ac local
+@4029 kind:data(any) addr:0x021b09c8 local
+@4030 kind:data(any) addr:0x021b09e4 local
+@4031 kind:data(any) addr:0x021b0a00 local
+@4032 kind:data(any) addr:0x021b0a18 local
+@4033 kind:data(any) addr:0x021b0a38 local
+@4034 kind:data(any) addr:0x021b0a58 local
 @3983 kind:data(any) addr:0x021b0a78 local
 @4015 kind:data(any) addr:0x021b0a7c local
 @3960 kind:data(any) addr:0x021b0a80 local

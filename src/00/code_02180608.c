@@ -287,15 +287,14 @@ u32 func_ov000_021806a0(void) {
 }
 
 #ifdef version_EUR
-// non-matching: 5 words differ from +0x18; the original copies the language index (adds r1, r1, #0) before
-// `cmp r1, #1`, which this form does not
+// In language 0 or 1 setting 2 has its own message.
 u32 LookupWiFiVSSettingMessageIndex(u32 settingIndex) {
     u32 messageIndices[4] = {2, 3, 4, 5};
     u32 r = messageIndices[settingIndex];
-    if (settingIndex == 2) {
-        if ((u32) data_021759d0->mLanguageIndex <= 1) {
-            r = 6;
-        }
+    // placeholder: the offset from a null byte pointer keeps the copy of the language index (adds r1, r1, #0) that
+    // the original makes before its compare.
+    if (settingIndex == 2 && (u32) ((u8 *) 0 + data_021759d0->mLanguageIndex) <= 1) {
+        r = 6;
     }
     return r;
 }
