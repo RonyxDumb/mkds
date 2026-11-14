@@ -158,8 +158,8 @@ void DrawWoodbox1(void *mapObjectList, Woodbox1 *woodbox, void *unused, u32 maxA
     shadowPos.y = woodbox->mBasePos.y - MUL_FIXED12_NO_ROUND(woodbox->mGroundUp.x, woodbox->mPosOffset.x) -
                   MUL_FIXED12_NO_ROUND(woodbox->mGroundUp.z, woodbox->mPosOffset.z);
     VEC_MultAdd(-woodbox->mMapObject.mExtent.x, &woodbox->mGroundUp, &shadowPos, &shadowPos);
-    SetShadowPositionRaised(&woodbox->mUnk_114, &shadowPos);
-    DrawObjShadow(&woodbox->mUnk_114, &shadowValue, 0, maxAlpha);
+    SetShadowPositionRaised(&woodbox->mShadowMatrix, &shadowPos);
+    DrawObjShadow(&woodbox->mShadowMatrix, &shadowValue, 0, maxAlpha);
 }
 
 void AdvanceWoodbox1(u32 unused, Woodbox1 *woodbox) {
@@ -307,9 +307,9 @@ void EnterWoodbox1State2(Woodbox1 *woodbox) {
     woodbox->mMapObject.mFlags &= ~2;
     woodbox->mMapObject.mFlags &= ~8;
     woodbox->mMapObject.mAlpha = 1;
-    woodbox->mTiltOffset = *((frameCount & 1) ? &woodbox->mUnk_0f4 : &woodbox->mUnk_100);
+    woodbox->mTiltOffset = *((frameCount & 1) ? &woodbox->mTiltOffsetOnOddFrame : &woodbox->mTiltOffsetOnEvenFrame);
     if (frameCount & 2) {
-        headingOffset = woodbox->mUnk_10c;
+        headingOffset = woodbox->mStoredHeadingAngleOffset;
     } else {
         headingOffset = 0x10000 - woodbox->mHeadingAngleOffset;
     }
@@ -446,35 +446,36 @@ void InitWoodbox1(Woodbox1 *woodbox, CourseMapRow *courseRow) {
     woodbox->mHeadingAngle = DEG_TO_ANGLE(courseRow->mRotationDegrees.y);
     QuaternionFromVec3AndAngleAroundY(&woodbox->mGroundUp, woodbox->mHeadingAngle, &rotation);
     Matrix3x3FromQuaternion(&woodbox->mMapObject.mMatrix.mAxes, &rotation);
-    woodbox->mUnk_0f4.x = -woodbox->mGroundUp.x;
-    woodbox->mUnk_0f4.y = 0;
-    woodbox->mUnk_0f4.z = -woodbox->mGroundUp.z;
-    if ((s64) woodbox->mUnk_0f4.x * woodbox->mUnk_0f4.x + (s64) woodbox->mUnk_0f4.y * woodbox->mUnk_0f4.y +
-            (s64) woodbox->mUnk_0f4.z * woodbox->mUnk_0f4.z <
+    woodbox->mTiltOffsetOnOddFrame.x = -woodbox->mGroundUp.x;
+    woodbox->mTiltOffsetOnOddFrame.y = 0;
+    woodbox->mTiltOffsetOnOddFrame.z = -woodbox->mGroundUp.z;
+    if ((s64) woodbox->mTiltOffsetOnOddFrame.x * woodbox->mTiltOffsetOnOddFrame.x +
+            (s64) woodbox->mTiltOffsetOnOddFrame.y * woodbox->mTiltOffsetOnOddFrame.y +
+            (s64) woodbox->mTiltOffsetOnOddFrame.z * woodbox->mTiltOffsetOnOddFrame.z <
         16) {
         length = 0;
     } else {
-        length = Vec3NormalizeAndGetLengthUnchecked(&woodbox->mUnk_0f4, &woodbox->mUnk_0f4);
+        length = Vec3NormalizeAndGetLengthUnchecked(&woodbox->mTiltOffsetOnOddFrame, &woodbox->mTiltOffsetOnOddFrame);
     }
     if (length == 0) {
-        woodbox->mUnk_0f4.x = -woodbox->mMapObject.mMatrix.mRows[2].x;
-        woodbox->mUnk_0f4.z = -woodbox->mMapObject.mMatrix.mRows[2].z;
+        woodbox->mTiltOffsetOnOddFrame.x = -woodbox->mMapObject.mMatrix.mRows[2].x;
+        woodbox->mTiltOffsetOnOddFrame.z = -woodbox->mMapObject.mMatrix.mRows[2].z;
     }
-    Vec3RotateAroundY(&woodbox->mUnk_0f4, 0x0aab, &woodbox->mUnk_100);
-    Vec3RotateAroundY(&woodbox->mUnk_0f4, 0xf555, &woodbox->mUnk_0f4);
-    woodbox->mUnk_0f4.x = MUL_FIXED12_NO_ROUND(woodbox->mUnk_0f4.x, 0x800);
-    woodbox->mUnk_0f4.y = MUL_FIXED12_NO_ROUND(woodbox->mUnk_0f4.y, 0x800);
-    woodbox->mUnk_0f4.z = MUL_FIXED12_NO_ROUND(woodbox->mUnk_0f4.z, 0x800);
-    woodbox->mUnk_100.x = MUL_FIXED12_NO_ROUND(woodbox->mUnk_100.x, 0x800);
-    woodbox->mUnk_100.y = MUL_FIXED12_NO_ROUND(woodbox->mUnk_100.y, 0x800);
-    woodbox->mUnk_100.z = MUL_FIXED12_NO_ROUND(woodbox->mUnk_100.z, 0x800);
-    woodbox->mUnk_10c = 0x1555;
+    Vec3RotateAroundY(&woodbox->mTiltOffsetOnOddFrame, 0x0aab, &woodbox->mTiltOffsetOnEvenFrame);
+    Vec3RotateAroundY(&woodbox->mTiltOffsetOnOddFrame, 0xf555, &woodbox->mTiltOffsetOnOddFrame);
+    woodbox->mTiltOffsetOnOddFrame.x = MUL_FIXED12_NO_ROUND(woodbox->mTiltOffsetOnOddFrame.x, 0x800);
+    woodbox->mTiltOffsetOnOddFrame.y = MUL_FIXED12_NO_ROUND(woodbox->mTiltOffsetOnOddFrame.y, 0x800);
+    woodbox->mTiltOffsetOnOddFrame.z = MUL_FIXED12_NO_ROUND(woodbox->mTiltOffsetOnOddFrame.z, 0x800);
+    woodbox->mTiltOffsetOnEvenFrame.x = MUL_FIXED12_NO_ROUND(woodbox->mTiltOffsetOnEvenFrame.x, 0x800);
+    woodbox->mTiltOffsetOnEvenFrame.y = MUL_FIXED12_NO_ROUND(woodbox->mTiltOffsetOnEvenFrame.y, 0x800);
+    woodbox->mTiltOffsetOnEvenFrame.z = MUL_FIXED12_NO_ROUND(woodbox->mTiltOffsetOnEvenFrame.z, 0x800);
+    woodbox->mStoredHeadingAngleOffset = 0x1555;
     woodbox->mItemRowHandle = courseRow->mSettings[0];
     woodbox->mItemChancePercent = courseRow->mSettings[1];
     InitStateMachine(&woodbox->mMapObject.mStateMachine, gWoodbox1StateTable, 4, woodbox);
     woodbox->mMapObject.mStateMachine.mNextState = 0;
     woodbox->mMapObject.mStateMachine.mNextStateRequested = 1;
-    RefreshShadowMatrix(&woodbox->mUnk_114, &courseRow->mPosition,
+    RefreshShadowMatrix(&woodbox->mShadowMatrix, &courseRow->mPosition,
                         MUL_FIXED12_NO_ROUND(woodbox->mMapObject.mScale.x, 0x19000), 13);
 }
 

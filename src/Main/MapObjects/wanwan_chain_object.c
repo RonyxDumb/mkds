@@ -92,7 +92,7 @@ void InitWanwanChainObject(WanwanChainObject *chainObject, void *unused, Wanwan 
         distance = 0x55000;
     }
     InitWanwanChain(&chainObject->mChain, &chainObject->mPos, &chainObject->mPos, distance - wanwan->mScaledLength,
-                    wanwan->mFollowsPath != 0 ? 4 : 7, 0x6000, &chainObject->mUnk_1c);
+                    wanwan->mFollowsPath != 0 ? 4 : 7, 0x6000, &chainObject->mScale);
     if (chainObject->mHasKui == FALSE) {
         ClearWanwanChainFirstLinkFlag(&chainObject->mChain);
         chainObject->mChain.mDownwardStep -= 0xcd;
@@ -101,7 +101,7 @@ void InitWanwanChainObject(WanwanChainObject *chainObject, void *unused, Wanwan 
         chainObject->mChain.mPullScale.y += 0x35c;
         chainObject->mChain.mPullScale.z += 0x52;
         chainObject->mChain.mMinY = 0;
-        chainObject->mUnk_02 |= gWanwanChainMapObjectFlag;
+        chainObject->mFlags |= gWanwanChainMapObjectFlag;
     }
     chainObject->mWanwan = wanwan;
     if (chainObject->mHasKui != FALSE) {
@@ -109,7 +109,7 @@ void InitWanwanChainObject(WanwanChainObject *chainObject, void *unused, Wanwan 
     } else {
         distance = 0xc8000;
     }
-    chainObject->mUnk_68 = 1.2f * (distance + wanwan->mScaledLength);
+    chainObject->mViewRadius = 1.2f * (distance + wanwan->mScaledLength);
 }
 
 #pragma thumb off

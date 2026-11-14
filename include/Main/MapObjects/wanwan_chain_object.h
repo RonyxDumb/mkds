@@ -10,12 +10,12 @@
 // 0xa0, an WanwanChain at 0xa4 and a word at 0xf4.
 typedef struct WanwanChainObject {
     /* 00 */ u8 mUnk_00[2];
-    /* 02 */ u16 mUnk_02;
+    /* 02 */ u16 mFlags;
     /* 04 */ Vec3 mPos;
     /* 10 */ u8 mUnk_10[0xc];
-    /* 1c */ Vec3 mUnk_1c;
+    /* 1c */ Vec3 mScale;
     /* 28 */ u8 mUnk_28[0x40];
-    /* 68 */ s32 mUnk_68;
+    /* 68 */ s32 mViewRadius;
     /* 6c */ u8 mUnk_6c[0x34];
     /* a0 */ Wanwan *mWanwan;
     /* a4 */ WanwanChain mChain;

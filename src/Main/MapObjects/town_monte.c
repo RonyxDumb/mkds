@@ -96,13 +96,13 @@ static inline void AdvanceAirshipWobble(Airship *airship) {
         airship->mWobbleAmplitude = nextValue;
     }
     if (airship->mWobbleAnglePerFrame > 0) {
-        nextValue = airship->mWobbleAnglePerFrame + airship->mUnk_c4;
+        nextValue = airship->mWobbleAnglePerFrame + airship->mWobbleAnglePerFrameStep;
         if (nextValue <= 0) {
             nextValue = 0;
         }
         airship->mWobbleAnglePerFrame = nextValue;
     } else if (airship->mWobbleAnglePerFrame < 0) {
-        nextValue = airship->mWobbleAnglePerFrame + airship->mUnk_c4;
+        nextValue = airship->mWobbleAnglePerFrame + airship->mWobbleAnglePerFrameStep;
         if (nextValue >= 0) {
             nextValue = 0;
         }
@@ -129,16 +129,17 @@ void UpdateAirship(void *mapObjectList, Airship *airship) {
             }
             break;
         case 1:
-            airship->mUnk_a0 += 0x1000;
-            if (airship->mUnk_a0 >= 0) {
-                airship->mUnk_a0 = 0;
+            airship->mModelHeightOffset += 0x1000;
+            if (airship->mModelHeightOffset >= 0) {
+                airship->mModelHeightOffset = 0;
                 airship->mState = 2;
             }
             AdvanceAirshipWobble(airship);
             break;
         case 2:
-            AdvanceGroupFollower(&airship->mUnk_c8);
-            GetGroupFollowerCurvePosStep(&airship->mUnk_c8, &airship->mMapObject.mPos, &airship->mMapObject.mPosStep);
+            AdvanceGroupFollower(&airship->mGroupFollower);
+            GetGroupFollowerCurvePosStep(&airship->mGroupFollower, &airship->mMapObject.mPos,
+                                         &airship->mMapObject.mPosStep);
             AdvanceAirshipWobble(airship);
             break;
     }

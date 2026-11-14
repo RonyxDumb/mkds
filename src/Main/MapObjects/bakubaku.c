@@ -89,7 +89,7 @@ void InitBakubakuObjects(MapObjectList *mapObjectList) {
                              (bakubaku = mapObjectList->mMapObjects[mapObjectIndex]) != NULL;
          mapObjectIndex++) {
         VEC_MultAdd(0x320000, &bakubaku->mMapObject.mMatrix.mRows[2], &bakubaku->mMapObject.mCourseMapRow->mPosition,
-                    &bakubaku->mUnk_a4);
+                    &bakubaku->mDistanceCheckPos);
     }
 }
 
@@ -107,8 +107,8 @@ void UpdateBakubaku(void *mapObjectList, Bakubaku *bakubaku) {
             if (GetCurrentCameraKind() != 2) {
                 kart = GetKart((u16) gRaceSetup->mEntryIndex);
                 kartPos = &kart->mPos;
-                deltaX = kartPos->x - bakubaku->mUnk_a4.x;
-                deltaZ = kartPos->z - bakubaku->mUnk_a4.z;
+                deltaX = kartPos->x - bakubaku->mDistanceCheckPos.x;
+                deltaZ = kartPos->z - bakubaku->mDistanceCheckPos.z;
                 distanceSquared = (s64) deltaX * deltaX + (s64) deltaZ * deltaZ;
                 if (distanceSquared >= (s64) 0x9c4 << 32) {
                     return;

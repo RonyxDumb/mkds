@@ -10,8 +10,8 @@
 // Object of kind 0x158 (Airship) with the GroupFollower base at 0xc8 (DrawAirship, InitAirshipObjects).
 typedef struct Airship {
     /* 00 */ MapObject mMapObject;
-    /* a0 */ s32 mUnk_a0;
-    /* a4 */ s32 mUnk_a4;
+    /* a0 */ s32 mModelHeightOffset;
+    /* a4 */ s32 mPathSpeed;
     /* a8 */ s16 mWobbleAngle;
     /* aa */ u8 mUnk_aa[2];
     /* ac */ s32 mWobbleOffset;
@@ -20,8 +20,8 @@ typedef struct Airship {
     /* b8 */ s32 mWobbleAmplitude;
     /* bc */ u32 mWobbleAmplitudePerFrame;
     /* c0 */ s32 mWobbleAnglePerFrame;
-    /* c4 */ s32 mUnk_c4;
-    /* c8 */ GroupFollower mUnk_c8;
+    /* c4 */ s32 mWobbleAnglePerFrameStep;
+    /* c8 */ GroupFollower mGroupFollower;
     /* State number of this kind's own per-frame switch in UpdateAirship; this object does not use
        MapObject.mUnk_80's state machine; also written by the group pre-step */
     /* ec */ s32 mState;
@@ -29,8 +29,8 @@ typedef struct Airship {
 
 // Array of object pointers: pointer to the array and the number of entries (InitAirshipObjects).
 typedef struct AirshipObjectList {
-    /* 00 */ Airship **mUnk_00;
-    /* 04 */ u16 mUnk_04;
+    /* 00 */ Airship **mAirships;
+    /* 04 */ u16 mCount;
 } AirshipObjectList;
 
 void CreateAirship(void *mapObjectList);

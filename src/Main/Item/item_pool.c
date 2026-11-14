@@ -832,11 +832,11 @@ void InitKartItems(KartItems *kartItems, s32 kartIndex) {
     InitHeldItem(&kartItems->mHeldItem, kartItems);
     InitItemInUse(&kartItems->mItemInUse, kartItems);
     courseMap = (Unk02175620_060 *) gCourseMap;
-    kartItems->mItemLink.mLink = courseMap->mUnk_060 != 0 ? courseMap->mUnk_0b0 : 0;
+    kartItems->mItemLink.mLink = courseMap->mItemRouteCount != 0 ? courseMap->mItemRoute0FirstLink : 0;
     kartItems->mItemLink.mNextLinksUsed = 1;
     kartItems->mKinokoBoostStarted = FALSE;
     kartItems->mTargetedByKouraR = FALSE;
-    kartItems->mUnk_20c = FALSE;
+    kartItems->mItemUseFlagsBlocked = FALSE;
 }
 
 #pragma thumb off

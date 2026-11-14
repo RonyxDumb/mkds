@@ -23,15 +23,15 @@ typedef struct Woodbox1 {
     /* 0e4 */ Vec3 mTiltOffsetPerFrame;
     /* 0f0 */ u16 mHeadingAngleOffset;
     /* 0f2 */ u8 mUnk_0f2[2];
-    /* 0f4 */ Vec3 mUnk_0f4;
-    /* 100 */ Vec3 mUnk_100;
-    /* 10c */ u16 mUnk_10c;
+    /* 0f4 */ Vec3 mTiltOffsetOnOddFrame;
+    /* 100 */ Vec3 mTiltOffsetOnEvenFrame;
+    /* 10c */ u16 mStoredHeadingAngleOffset;
 // Index + 1 into the item table rows, 0 = none.
     /* 10e */ u16 mItemRowHandle;
 // Chance in percent that breaking the box starts an item.
     /* 110 */ u16 mItemChancePercent;
     /* 112 */ u8 mUnk_112[2];
-    /* 114 */ ShadowMatrix mUnk_114;
+    /* 114 */ ShadowMatrix mShadowMatrix;
 } Woodbox1;
 
 void StartWoodbox1ItemObject(Woodbox1 *woodbox, Vec3 *velocity);

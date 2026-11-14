@@ -12,7 +12,7 @@
 typedef struct Bakubaku {
     /* 00 */ MapObject mMapObject;
     /* a0 */ s32 mState4Timer;
-    /* a4 */ Vec3 mUnk_a4;
+    /* a4 */ Vec3 mDistanceCheckPos;
     /* State number of this kind's own per-frame switch in UpdateBakubaku; this object does not use
        MapObject.mUnk_80's state machine; also read by the draw (state 2 = drawn) */
     /* b0 */ u32 mState;
@@ -23,8 +23,8 @@ typedef struct Bakubaku {
 typedef struct MoveTree {
     /* 00 */ MapObject mMapObject;
     /* a0 */ s32 mState0Timer;
-    /* a4 */ s32 mUnk_a4;
-    /* a8 */ s32 mUnk_a8;
+    /* a4 */ s32 mKartHitFramesLeft;
+    /* a8 */ s32 mFollowerSpeed;
     /* ac */ u16 mNsbcaFrameIndex;
     /* ae */ u8 mUnk_ae[2];
     /* b0 */ s32 mNsbcaFrameStep;
@@ -32,7 +32,7 @@ typedef struct MoveTree {
     /* State number of this kind's own per-frame switch in UpdateMoveTree; this object does not use
        MapObject.mUnk_80's state machine */
     /* d8 */ u32 mState;
-    /* dc */ ShadowMatrix mUnk_dc;
+    /* dc */ ShadowMatrix mShadowMatrix;
 } MoveTree;
 
 MapObjectList *CreateBakubakuUpdateList(void);

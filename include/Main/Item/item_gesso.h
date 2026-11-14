@@ -22,12 +22,12 @@ typedef struct ItemGesso {
     /* 164 */ s32 mApproachRate;
     /* 168 */ s32 mDamping;
     /* 16c */ s32 mStepTimer;
-    /* 170 */ s32 mUnk_170;
+    /* 170 */ s32 mDampFrameCount;
     /* 174 */ s32 mTargetScaleX;
     /* 178 */ s32 mTargetScaleY;
     /* 17c */ s32 mUnk_17c;
     /* 180 */ s32 mScaleX;
-    /* 184 */ Vec3 mUnk_184;
+    /* 184 */ Vec3 mScaleYAndApproachRate;
     /* 190 */ u8 mUnk_190[0x4];
     /* 194 */ s32 mFadesOut;
     /* 198 */ BOOL mVisible;

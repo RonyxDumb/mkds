@@ -34,7 +34,7 @@ void DrawAirship(void *mapObjectList, Airship *airship) {
 
     gxParam = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
-    translation.y = (airship->mUnk_a0 + airship->mWobbleOffset) >> 4;
+    translation.y = (airship->mModelHeightOffset + airship->mWobbleOffset) >> 4;
     translation.x = 0;
     translation.z = 0;
     NNS_G3dGeBufferOP_N(0x1c, &translation, 3);
@@ -61,23 +61,25 @@ void InitAirshipObjects(AirshipObjectList *list) {
         return;
     }
     followerSpeed = FALSE;
-    for (mapObjectIndex = 0; mapObjectIndex < list->mUnk_04 && (airship = list->mUnk_00[mapObjectIndex]) != NULL;
+    for (mapObjectIndex = 0; mapObjectIndex < list->mCount && (airship = list->mAirships[mapObjectIndex]) != NULL;
          mapObjectIndex++) {
-        InitGroupFollower(&airship->mUnk_c8, airship->mMapObject.mCourseMapRow, followerSpeed);
-        airship->mUnk_a4 = (airship->mMapObject.mCourseMapRow->mSettings[0] * 0x5000L) / 100;
-        speed = airship->mUnk_a4;
-        airship->mUnk_c8.mSpeed = speed;
-        airship->mUnk_c8.mProgressStep = MUL_FIXED12_NO_ROUND(
-            speed, airship->mUnk_c8.mPath->mSegments[airship->mUnk_c8.mSegmentIndex].mInverseProgressLength);
-        airship->mUnk_a0 = airship->mMapObject.mPos.y;
-        GetGroupFollowerCurvePosStep(&airship->mUnk_c8, &airship->mMapObject.mPos, &airship->mMapObject.mPosStep);
-        airship->mUnk_a0 = airship->mUnk_a0 - airship->mMapObject.mPos.y;
+        InitGroupFollower(&airship->mGroupFollower, airship->mMapObject.mCourseMapRow, followerSpeed);
+        airship->mPathSpeed = (airship->mMapObject.mCourseMapRow->mSettings[0] * 0x5000L) / 100;
+        speed = airship->mPathSpeed;
+        airship->mGroupFollower.mSpeed = speed;
+        airship->mGroupFollower.mProgressStep = MUL_FIXED12_NO_ROUND(
+            speed,
+            airship->mGroupFollower.mPath->mSegments[airship->mGroupFollower.mSegmentIndex].mInverseProgressLength);
+        airship->mModelHeightOffset = airship->mMapObject.mPos.y;
+        GetGroupFollowerCurvePosStep(&airship->mGroupFollower, &airship->mMapObject.mPos,
+                                     &airship->mMapObject.mPosStep);
+        airship->mModelHeightOffset = airship->mModelHeightOffset - airship->mMapObject.mPos.y;
         airship->mWobbleAngle = 0;
         airship->mWobbleMid = 0;
         airship->mWobbleAmplitude = 0x50000;
         airship->mWobbleAmplitudePerFrame = 0;
         airship->mWobbleAnglePerFrame = 0xb6;
-        airship->mUnk_c4 = 0;
+        airship->mWobbleAnglePerFrameStep = 0;
         if (airship->mMapObject.mCourseMapRow->mSettings[1] != 0) {
             airship->mState = 0;
         } else {

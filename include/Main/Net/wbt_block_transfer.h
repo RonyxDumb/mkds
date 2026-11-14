@@ -78,7 +78,7 @@ typedef enum WBTParseStep {
     XFER_PARSE_LENGTH_FIELD = 10,
 } WBTParseStep;
 
-// BlockTransferEntry.mUnk_00.
+// BlockTransferEntry.mState.
 typedef enum WBTEntryState {
     XFER_ENTRY_FREE = 1,
     XFER_ENTRY_AWAITING_ANSWER = 2,
@@ -103,7 +103,7 @@ static inline u32 *GetPacketBitmapWord(WBTPacketBitmap *bitmap, s32 chunkIndex) 
 // Entry of BlockTransfer; 0x68 bytes.
 typedef struct BlockTransferEntry {
 // 1 at rest; 2 while a parsed request waits for its reply.
-    /* 00 */ u8 mUnk_00;
+    /* 00 */ u8 mState;
     /* 01 */ u8 mPacketKind;
     /* 02 */ u8 mRequestId;
     /* 03 */ u8 mLastCallbackId;
@@ -122,8 +122,8 @@ typedef struct BlockTransferEntry {
 } BlockTransferEntry;
 
 // Tail of a WBTCommand from 0x14, which the kinds of request fill in different ways;
-// mUserDataWord is its first word; mUnk_0e and mUnk_m are RomArchive views of the user data and of the prepare-send
-// arm.
+// mUserDataWord is its first word; mArchiveParentViewEntry and mArchiveMessage are RomArchive views of the user data
+// and of the prepare-send arm.
 typedef union WBTCommandData {
     struct {
         s16 mNumOfList;
@@ -150,8 +150,8 @@ typedef union WBTCommandData {
         u32 mRecvBuf[16];
         void *mPktBmp[16];
     } mGet;
-    RomArchiveParentViewEntry mUnk_0e;
-    RomArchiveMessage mUnk_m;
+    RomArchiveParentViewEntry mArchiveParentViewEntry;
+    RomArchiveMessage mArchiveMessage;
 } WBTCommandData;
 
 struct WBTCommand;

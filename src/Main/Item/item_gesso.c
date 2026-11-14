@@ -118,30 +118,30 @@ BOOL SetupNextItemGessoStep(ItemGesso *gesso) {
     gesso->mApproachRate = step->mApproachRate;
     gesso->mDamping = step->mDamping;
     gesso->mStepTimer = step->mApproachFrameCount;
-    gesso->mUnk_170 = step->mDampFrameCount;
+    gesso->mDampFrameCount = step->mDampFrameCount;
     stepIndex = gesso->mStepIndex;
     if (stepIndex != 0xc && stepIndex != 0xd) {
         if (gesso->mTargetVelocityY > 0) {
             gesso->mTargetScaleX = 0xe66;
             gesso->mTargetScaleY = 0x1266;
-            gesso->mUnk_184.z = 0x4cd;
+            gesso->mScaleYAndApproachRate.z = 0x4cd;
         } else if (stepIndex == 4) {
             gesso->mTargetScaleX = 0x1000;
             gesso->mTargetScaleY = 0x1000;
-            gesso->mUnk_184.z = 0x1000;
+            gesso->mScaleYAndApproachRate.z = 0x1000;
         } else {
             gesso->mTargetScaleX = 0x1333;
             gesso->mTargetScaleY = 0xc29;
-            gesso->mUnk_184.z = 0x28f;
+            gesso->mScaleYAndApproachRate.z = 0x28f;
         }
     } else if (stepIndex == 0xc) {
         gesso->mTargetScaleX = 0x199a;
         gesso->mTargetScaleY = 0x119a;
-        gesso->mUnk_184.z = 0x800;
+        gesso->mScaleYAndApproachRate.z = 0x800;
     } else {
         gesso->mTargetScaleX = 0x800;
         gesso->mTargetScaleY = 0x800;
-        gesso->mUnk_184.z = 0x99a;
+        gesso->mScaleYAndApproachRate.z = 0x99a;
     }
     stepIndex = gesso->mStepIndex;
     fadesOut = TRUE;
@@ -188,7 +188,7 @@ u32 SetupItemGesso(ItemGesso *gesso, s32 fromData) {
     gesso->mVelocityX = gesso->mTargetVelocityX;
     gesso->mVelocityY = gesso->mTargetVelocityY;
     gesso->mScaleX = gesso->mTargetScaleX;
-    gesso->mUnk_184.x = gesso->mTargetScaleY;
+    gesso->mScaleYAndApproachRate.x = gesso->mTargetScaleY;
     if ((gesso->mItemObject.mOwnerKartIndexAndFlags & 0x8000) == 0) {
         kartIndex = (u16) (gesso->mItemObject.mOwnerKartIndexAndFlags & ~0xff00);
     } else {
@@ -286,16 +286,16 @@ void AdvanceItemGesso(ItemGesso *gesso) {
         gesso->mVelocityX = MUL_FIXED12_NO_ROUND(gesso->mVelocityX, factor);
         gesso->mVelocityY = MUL_FIXED12_NO_ROUND(gesso->mVelocityY, factor);
         if (gesso->mFadesOut != 0) {
-            gesso->mItemObject.mAlpha = gesso->mItemObject.mAlpha - gesso->mUnk_170;
+            gesso->mItemObject.mAlpha = gesso->mItemObject.mAlpha - gesso->mDampFrameCount;
             if (gesso->mItemObject.mAlpha >= 1) {
                 gesso->mStepTimer = 0;
             } else {
-                gesso->mStepTimer = -1 - gesso->mUnk_170;
+                gesso->mStepTimer = -1 - gesso->mDampFrameCount;
                 gesso->mVisible = FALSE;
                 gesso->mItemObject.mAlpha = 1;
             }
         }
-        if (gesso->mStepTimer < -gesso->mUnk_170) {
+        if (gesso->mStepTimer < -gesso->mDampFrameCount) {
             if (SetupNextItemGessoStep(gesso) != FALSE) {
                 gesso->mEnded = TRUE;
                 gesso->mVisible = FALSE;
@@ -318,11 +318,11 @@ void AdvanceItemGesso(ItemGesso *gesso) {
     } else if (gesso->mShear < -0x266) {
         gesso->mShear = -0x266;
     }
-    factor = gesso->mUnk_184.z;
+    factor = gesso->mScaleYAndApproachRate.z;
     deltaX = gesso->mTargetScaleX - gesso->mScaleX;
-    deltaY = gesso->mTargetScaleY - gesso->mUnk_184.x;
+    deltaY = gesso->mTargetScaleY - gesso->mScaleYAndApproachRate.x;
     gesso->mScaleX += MUL_FIXED12_NO_ROUND(factor, deltaX);
-    gesso->mUnk_184.x += MUL_FIXED12_NO_ROUND(factor, deltaY);
+    gesso->mScaleYAndApproachRate.x += MUL_FIXED12_NO_ROUND(factor, deltaY);
     viewOffset = gesso->mViewOffset;
     value = MUL_FIXED12_NO_ROUND(gesso->mShear, 0x800);
     viewOffset.x -= MUL_FIXED12_NO_ROUND(value, viewOffset.x);
@@ -357,7 +357,7 @@ void DrawItemGesso(ItemGesso *gesso, s32 unusedArg2, NsbmdModel *model) {
     matrix.mRows[1].z = MUL_FIXED12_NO_ROUND(matrix.mRows[1].z, value);
     VEC_MultAdd(gesso->mShear, &matrix.mRows[0], &matrix.mRows[1], &matrix.mRows[1]);
     scale.x = MUL_FIXED12_NO_ROUND(gesso->mScaleX, gesso->mItemObject.mScale.x);
-    scale.y = MUL_FIXED12_NO_ROUND(gesso->mUnk_184.x, gesso->mItemObject.mScale.y);
+    scale.y = MUL_FIXED12_NO_ROUND(gesso->mScaleYAndApproachRate.x, gesso->mItemObject.mScale.y);
     scale.z = gesso->mItemObject.mScale.z;
     scaleFactor = GetEntryRaceEnded() != 0 ? 0xccd : 0x119a;
     scale.x = MUL_FIXED12_NO_ROUND(scale.x, scaleFactor);

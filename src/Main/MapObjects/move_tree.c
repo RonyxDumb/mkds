@@ -66,7 +66,7 @@ u8 CollideKartWithMoveTree(MoveTree *moveTree, Kart *kart, u8 *firstResponse, u8
 
     responseValue = *response;
     if (moveTree->mState <= 1) {
-        moveTree->mUnk_a4 = 30;
+        moveTree->mKartHitFramesLeft = 30;
     }
     return responseValue;
 }
@@ -93,8 +93,8 @@ void DrawMoveTree(void *mapObjectList, MoveTree *moveTree, u32 unused, u32 alpha
     if ((s32) (moveTree->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f) >= 0x27100) {
         return;
     }
-    SetShadowPositionXZ(&moveTree->mUnk_dc, &moveTree->mMapObject.mPos);
-    DrawObjShadow(&moveTree->mUnk_dc, NULL, unused, alpha);
+    SetShadowPositionXZ(&moveTree->mShadowMatrix, &moveTree->mMapObject.mPos);
+    DrawObjShadow(&moveTree->mShadowMatrix, NULL, unused, alpha);
 }
 
 void InitMoveTreeObjects(MapObjectList *mapObjectList) {
@@ -107,8 +107,8 @@ void InitMoveTreeObjects(MapObjectList *mapObjectList) {
     for (mapObjectIndex = 0; mapObjectIndex < mapObjectList->mMapObjectCount &&
                              (moveTree = mapObjectList->mMapObjects[mapObjectIndex]) != NULL;
          mapObjectIndex++) {
-        moveTree->mUnk_a8 = TO_FIXED12(moveTree->mMapObject.mCourseMapRow->mSettings[0]) / 100;
-        RefreshShadowMatrix(&moveTree->mUnk_dc, &moveTree->mMapObject.mPos, 0x54666, 14);
+        moveTree->mFollowerSpeed = TO_FIXED12(moveTree->mMapObject.mCourseMapRow->mSettings[0]) / 100;
+        RefreshShadowMatrix(&moveTree->mShadowMatrix, &moveTree->mMapObject.mPos, 0x54666, 14);
     }
 }
 
@@ -128,7 +128,7 @@ void UpdateMoveTree(void *mapObjectList, MoveTree *moveTree) {
             if ((s32) (moveTree->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f) >= 0xc5c10) {
                 return;
             }
-            if (moveTree->mUnk_a4-- > 0) {
+            if (moveTree->mKartHitFramesLeft-- > 0) {
                 moveTree->mNsbcaFrameStep = 2;
                 moveTree->mNsbcaFrameIndex += moveTree->mNsbcaFrameStep;
                 if (moveTree->mNsbcaFrameIndex >= GetMapObjectModelNsbcaFrameCount(gMoveTree)) {
@@ -163,7 +163,7 @@ void UpdateMoveTree(void *mapObjectList, MoveTree *moveTree) {
             StartSoundFromParams(&firstSoundParams);
             break;
         case 1:
-            speed = moveTree->mUnk_a8;
+            speed = moveTree->mFollowerSpeed;
             moveTree->mFollower.mSpeed = speed;
             moveTree->mFollower.mProgressStep = MUL_FIXED12_NO_ROUND(
                 speed, moveTree->mFollower.mPath->mSegments[moveTree->mFollower.mSegmentIndex].mInverseProgressLength);
@@ -175,7 +175,7 @@ void UpdateMoveTree(void *mapObjectList, MoveTree *moveTree) {
             if ((s32) (moveTree->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f) >= 0xc5c10) {
                 return;
             }
-            if (moveTree->mUnk_a4-- > 0) {
+            if (moveTree->mKartHitFramesLeft-- > 0) {
                 moveTree->mNsbcaFrameStep = 2;
             } else {
                 moveTree->mNsbcaFrameStep = 1;

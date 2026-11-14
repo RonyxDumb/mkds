@@ -47,13 +47,13 @@ void UpdateKartItems(KartItems *kartItems) {
         return;
     }
     kartItems->mKinokoBoostStarted = FALSE;
-    if (kartItems->mUnk_20c != FALSE) {
+    if (kartItems->mItemUseFlagsBlocked != FALSE) {
         if (IsKartNotNormalOrFlagged(kart) == FALSE && !(kart->mDriveFlags & KART_DRIVE_KEYED_PLACEMENT) &&
             (kart->mMotionFlags & KART_MOTION_ON_GROUND)) {
-            kartItems->mUnk_20c = FALSE;
+            kartItems->mItemUseFlagsBlocked = FALSE;
         }
     } else if (IsKartNotNormalOrFlagged(kart) != FALSE || (kart->mDriveFlags & KART_DRIVE_KEYED_PLACEMENT)) {
-        kartItems->mUnk_20c = TRUE;
+        kartItems->mItemUseFlagsBlocked = TRUE;
     } else {
         AddKartItemUseFlags(kartItems);
         kartItems->mFlags |= data_usa_021595d4;

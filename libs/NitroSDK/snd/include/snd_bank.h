@@ -6,8 +6,8 @@
 void SND_SetWaveDataAddress(SNDWaveArc *waveArc, u32 index, void *address);
 
 typedef struct UnsignedHalfwordPair {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
+    /* 00 */ u16 mFirst;
+    /* 02 */ u16 mSecond;
 } UnsignedHalfwordPair;
 
 // 10 bytes that SND_GetNextInstData copies to mUnk_02..mUnk_0a of its record.

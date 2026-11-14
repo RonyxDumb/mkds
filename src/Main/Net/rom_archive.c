@@ -572,12 +572,13 @@ void RomArchiveParentCallback(WBTCommand *record) {
         case XFER_EVENT_CUSTOM_ARRIVED:
             view = &gRomArchiveTransfer.mParentView;
             payload = &record->mData;
-            view->mEntries[fromIndex] = payload->mUnk_0e;
-            switch (record->mData.mUnk_m.mKind) {
+            view->mEntries[fromIndex] = payload->mArchiveParentViewEntry;
+            switch (record->mData.mArchiveMessage.mKind) {
                 case 0:
-                    fileLength = record->mData.mUnk_m.mValue24;
-                    identifier = (record->mData.mUnk_m.mPacketSizeHigh << 8) | payload->mUnk_m.mPacketSizeLow;
-                    value = payload->mUnk_m.mWord04;
+                    fileLength = record->mData.mArchiveMessage.mValue24;
+                    identifier =
+                        (record->mData.mArchiveMessage.mPacketSizeHigh << 8) | payload->mArchiveMessage.mPacketSizeLow;
+                    value = payload->mArchiveMessage.mWord04;
                     if (view->mPacketSizeChangePending != FALSE ||
                         identifier != gRomArchiveTransfer.mParentPacketSize) {
                         view->mPacketSizeChangePending = TRUE;
@@ -621,7 +622,7 @@ void RomArchiveParentCallback(WBTCommand *record) {
                 case 2:
                     savedInterrupts = OS_DisableInterrupts();
                     view->mReplySendMask = view->mReplySendMask | (1 << fromIndex);
-                    blockId = payload->mUnk_m.mWord04;
+                    blockId = payload->mArchiveMessage.mWord04;
                     for (activeNode = view->mActiveHead; activeNode != NULL; activeNode = activeNode->mNext) {
                         if (activeNode->mState == 2 && activeNode->mBlockNode.mDataInfo.mId == blockId) {
                             break;
@@ -631,7 +632,7 @@ void RomArchiveParentCallback(WBTCommand *record) {
                         activeNode->mChildCount = activeNode->mChildCount - 1;
                         if (activeNode->mChildCount <= 0) {
                             activeNode->mPendingChildMask = 0;
-                            WBT_UnregisterBlock(payload->mUnk_m.mWord04);
+                            WBT_UnregisterBlock(payload->mArchiveMessage.mWord04);
                             MoveRomArchiveNodeToList(&view->mActiveHead, &view->mPendingHead, activeNode);
                             activeNode->mState = 3;
                             WakeRomArchiveThread();
@@ -644,7 +645,7 @@ void RomArchiveParentCallback(WBTCommand *record) {
         case XFER_EVENT_BEFORE_SEND:
             commandData = &record->mData;
             identifier = commandData->mPrepareSendData.mBlockId;
-            commandData->mUnk_0e.mUnk_08 = 0;
+            commandData->mArchiveParentViewEntry.mUnk_08 = 0;
             for (node = gRomArchiveTransfer.mParentView.mActiveHead; node != NULL; node = node->mNext) {
                 if (node->mState == 2 && node->mBlockNode.mDataInfo.mId == identifier) {
                     break;
@@ -655,7 +656,7 @@ void RomArchiveParentCallback(WBTCommand *record) {
             }
             ownPacketSize = commandData->mPrepareSendData.mOwnPacketSize;
             oldValue = node->mLastBlockId;
-            requestedBlockId = commandData->mUnk_0e.mBlockId;
+            requestedBlockId = commandData->mArchiveParentViewEntry.mBlockId;
             if (node->mLoadingBufferIndex != 2) {
                 statFlag = (node->mFile.mStat & 1) != 0 ? 1 : 0;
                 if (statFlag == 0) {
@@ -676,8 +677,8 @@ void RomArchiveParentCallback(WBTCommand *record) {
                 if (bufferDelta + ownPacketSize > 0x400) {
                     continue;
                 }
-                commandData->mUnk_0e.mBlockId = oldValue;
-                commandData->mUnk_0e.mUnk_08 = (node->mBuffers[value] + bufferDelta);
+                commandData->mArchiveParentViewEntry.mBlockId = oldValue;
+                commandData->mArchiveParentViewEntry.mUnk_08 = (node->mBuffers[value] + bufferDelta);
                 break;
             }
             if (node->mLoadingBufferIndex != 2) {
@@ -825,7 +826,7 @@ void RomArchiveChildCallback(WBTCommand *record) {
             if (record->mEvent != XFER_EVENT_CUSTOM_ARRIVED) {
                 return;
             }
-            received = &record->mData.mUnk_m;
+            received = &record->mData.mArchiveMessage;
             switch (received->mKind) {
                 case 1:
                     if (received->mValue24 == 0) {

@@ -197,12 +197,12 @@ u32 GetGlyphIndex(FontCodeMap *pMap, u32 code) {
             last = first + (scan->mNum - 1);
             while (first <= last) {
                 middle = first + (last - first) / 2;
-                if (middle->mUnk_00 < code) {
+                if (middle->mFirst < code) {
                     first = middle + 1;
-                } else if (code < middle->mUnk_00) {
+                } else if (code < middle->mFirst) {
                     last = middle - 1;
                 } else {
-                    index = middle->mUnk_02;
+                    index = middle->mSecond;
                     break;
                 }
             }

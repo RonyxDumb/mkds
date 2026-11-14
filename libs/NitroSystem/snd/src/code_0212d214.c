@@ -563,8 +563,8 @@ BOOL LoadSingleWaves(SNDWaveArc *waveArc, SNDBankData *bank, s32 waveArcNo, u32 
     }
     if (SND_GetNextInstData(bank, &inst, &pos) != 0) {
         do {
-            if (inst.mType == 1 && waveArcNo == inst.mWave.mUnk_02) {
-                if (LoadSingleWave(waveArc, inst.mWave.mUnk_00, fileId, heap) == 0) {
+            if (inst.mType == 1 && waveArcNo == inst.mWave.mSecond) {
+                if (LoadSingleWave(waveArc, inst.mWave.mFirst, fileId, heap) == 0) {
                     return 0;
                 }
             }
