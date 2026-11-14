@@ -108,13 +108,13 @@ void InitIwanteSoundSource(MissionRunMapObject *mapObject) {
 }
 
 void IwanteKartResponse2Callback(MissionRunMapObject *mapObject) {
-    mapObject->mKartResponse = 2;
+    mapObject->mKartResponse = KART_MAP_OBJECT_RESPONSE_BUMP;
     SetKartCollisionCallback(mapObject, IwanteKartResponse2Callback);
 }
 
 void IwanteKartHitCallback(MissionRunMapObject *mapObject) {
     if (mapObject->mTimer > 0) {
-        mapObject->mKartResponse = 2;
+        mapObject->mKartResponse = KART_MAP_OBJECT_RESPONSE_BUMP;
         SetKartCollisionCallback(mapObject, IwanteKartHitCallback);
         return;
     }
@@ -123,13 +123,13 @@ void IwanteKartHitCallback(MissionRunMapObject *mapObject) {
     mapObject->mUnk_000.mPosStep.y = 0;
     mapObject->mUnk_000.mPosStep.z =
         MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_144, COS_OF_ANGLE((u16) mapObject->mMoveAngle));
-    mapObject->mKartResponse = 0xd;
+    mapObject->mKartResponse = KART_MAP_OBJECT_RESPONSE_CARRY_HALT;
     SetKartCollisionCallback(mapObject, IwanteKartHitCallback);
     StartCameraWobbleAtDistance(mapObject->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
 }
 
 void IwanteKartResponse11Callback(MissionRunMapObject *mapObject) {
-    mapObject->mKartResponse = 0xb;
+    mapObject->mKartResponse = KART_MAP_OBJECT_RESPONSE_SCALE_EFFECT;
     SetKartCollisionCallback(mapObject, IwanteKartResponse2Callback);
     mapObject->mUnk_000.mDistanceSquaredAndFlags =
         mapObject->mUnk_000.mDistanceSquaredAndFlags | gIwanteSkipKindSoundFlag;

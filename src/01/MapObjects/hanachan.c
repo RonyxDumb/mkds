@@ -677,7 +677,7 @@ void HanachanKartHitCallback(MissionRunMapObject *mapObject, MissionRunPrm *kart
 
     if (kart->mUnk_29c == 1) {
         if (mapObject->mTimer > 0) {
-            mapObject->mKartResponse = 0xc;
+            mapObject->mKartResponse = KART_MAP_OBJECT_RESPONSE_CARRY;
         } else {
             moveAngle = mapObject->mMoveAngle;
             diff = (u16) (FX_Atan2Idx(kart->mUnk_080 - mapObject->mUnk_000.mPos.x,
@@ -699,13 +699,13 @@ void HanachanKartHitCallback(MissionRunMapObject *mapObject, MissionRunPrm *kart
                 mapObject->mUnk_000.mPosStep.z =
                     MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_0fc, COS_OF_ANGLE((u16) mapObject->mMoveAngle - 0x4000));
             }
-            mapObject->mKartResponse = 0xc;
+            mapObject->mKartResponse = KART_MAP_OBJECT_RESPONSE_CARRY;
             StartCameraWobbleAtDistance(mapObject->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
             mapObject->mUnk_000.mDistanceSquaredAndFlags |= gHanachanSkipKindSoundFlag;
             StartSoundFullVolumeWrapper(kart, 0x252);
         }
     } else {
-        mapObject->mKartResponse = 0xa;
+        mapObject->mKartResponse = KART_MAP_OBJECT_RESPONSE_FLIP_DOUBLE;
         StartCameraWobbleAtDistance(mapObject->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
         mapObject->mUnk_000.mDistanceSquaredAndFlags |= gHanachanSkipKindSoundFlag;
         StartSoundFullVolumeWrapper(kart, 0x251);

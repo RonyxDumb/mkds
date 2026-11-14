@@ -95,5 +95,5 @@ void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
         }
     }
     SetKartCollisionCallback(donketu, DonketuKartCollisionCallback);
-    donketu->mKartResponse = 13;
+    donketu->mKartResponse = KART_MAP_OBJECT_RESPONSE_CARRY_HALT;
 }

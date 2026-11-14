@@ -100,7 +100,7 @@ u16 GetAbsoluteCounterWrapper(MissionRunMapObject *mapObject) {
 }
 
 void BombKingJumpKartCollisionCallback(MissionRunMapObject *mapObject) {
-    mapObject->mKartResponse = 0xb;
+    mapObject->mKartResponse = KART_MAP_OBJECT_RESPONSE_SCALE_EFFECT;
     mapObject->mUnk_000.mDistanceSquaredAndFlags |= gBombKingSkipKindSoundFlag;
 }
 

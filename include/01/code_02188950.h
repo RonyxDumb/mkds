@@ -203,6 +203,17 @@ enum {
     MAP_OBJECT_ANGLE_SPIN_POSITIVE,
 };
 
+// Values of mKartResponse: the index into the kart's collision response table (gCollideKartWithMapObjectResponses).
+enum {
+    KART_MAP_OBJECT_RESPONSE_NONE = 0,
+    KART_MAP_OBJECT_RESPONSE_BUMP = 2,
+    KART_MAP_OBJECT_RESPONSE_FLIP_DOUBLE = 10,
+    KART_MAP_OBJECT_RESPONSE_SCALE_EFFECT = 11,
+    KART_MAP_OBJECT_RESPONSE_CARRY = 12,
+    KART_MAP_OBJECT_RESPONSE_CARRY_HALT = 13,
+    KART_MAP_OBJECT_RESPONSE_CARRY_SPIN = 14,
+};
+
 // Layout provisional: functions on objects that share this prefix use different types at 0xa0 and 0xa8.
 typedef struct MissionRunMapObject {
     /* 000 */ MapObject mUnk_000;

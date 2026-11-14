@@ -549,7 +549,7 @@ void KurikingKartHitCallback(MissionRunMapObject *mapObject, void *kart) {
     mapObject->mUnk_000.mPosStep.y = 0;
     mapObject->mUnk_000.mPosStep.z =
         MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_130, FX_CosIdx((u16) mapObject->mMoveAngle));
-    mapObject->mKartResponse = 0xd;
+    mapObject->mKartResponse = KART_MAP_OBJECT_RESPONSE_CARRY_HALT;
     StartCameraWobbleAtDistance(mapObject->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
     SetKartCollisionCallback(mapObject, KurikingKartHitSoundCallback);
     if (mapObject->mTimer == 0) {

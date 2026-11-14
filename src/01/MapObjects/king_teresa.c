@@ -97,7 +97,7 @@ u16 IsIwanteWalkB(MissionRunMapObject *mapObject) {
 }
 
 void KingTeresaKartCollisionCallback(MissionRunMapObject *mapObject) {
-    mapObject->mKartResponse = 0;
+    mapObject->mKartResponse = KART_MAP_OBJECT_RESPONSE_NONE;
     SetKartCollisionCallback(mapObject, KingTeresaKartCollisionCallback);
 }
 
@@ -653,7 +653,7 @@ void KingTeresaParkBossCoinsCallback(MissionRunMapObject *mapObject, Kart *kart)
         MUL_FIXED12_NO_ROUND(-mapObject->mPrm->mKartPushPosStep, FX_CosIdx(kart->mHeadingAngle));
     ParkBossCoins(mapObject->mPrm->mUnk_190);
     StartKingTeresaHideForNextGroup(mapObject);
-    mapObject->mKartResponse = 0;
+    mapObject->mKartResponse = KART_MAP_OBJECT_RESPONSE_NONE;
     SetKartCollisionCallback(mapObject, KingTeresaKartCollisionCallback);
     StartKingTeresaHideThenCoinsFadeIn(mapObject);
     mapObject->mUnk_0a8 = 0;
@@ -668,7 +668,7 @@ void KingTeresaHitReactionCallback(MissionRunMapObject *mapObject) {
     if (isBelowFive != 0) {
         StartKingTeresaHitReaction(mapObject);
     }
-    mapObject->mKartResponse = 0xd;
+    mapObject->mKartResponse = KART_MAP_OBJECT_RESPONSE_CARRY_HALT;
     SetKartCollisionCallback(mapObject, KingTeresaHitReactionCallback);
     if (mapObject->mTimer == 0) {
         StartMapObjectSound(&mapObject->mUnk_000, 0x00000234u);
@@ -680,7 +680,7 @@ void KingTeresaBossTransferCallback(MissionRunMapObject *mapObject, Kart *kart) 
     mapObject->mUnk_000.mPosStep.x = 0;
     mapObject->mUnk_000.mPosStep.y = mapObject->mPrm->mUnk_114;
     mapObject->mUnk_000.mPosStep.z = 0;
-    mapObject->mKartResponse = 0xc;
+    mapObject->mKartResponse = KART_MAP_OBJECT_RESPONSE_CARRY;
     mapObject->mStateFunction = AdvanceKingTeresaFollowForwardPoint;
     SetKartCollisionCallback(mapObject, KingTeresaKartCollisionCallback);
     StartCameraWobbleAtDistance(mapObject->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);

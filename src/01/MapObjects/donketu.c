@@ -244,7 +244,7 @@ void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
         }
     }
     SetKartCollisionCallback(donketu, DonketuKartCollisionCallback);
-    donketu->mKartResponse = 13;
+    donketu->mKartResponse = KART_MAP_OBJECT_RESPONSE_CARRY_HALT;
 }
 
 void DonketuChaseKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
@@ -328,13 +328,13 @@ void DonketuChaseKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart)
         StartMapObjectSound(&donketu->mUnk_000, 0x213);
     }
     SetKartCollisionCallback(donketu, DonketuKartCollisionCallback);
-    donketu->mKartResponse = 0xd;
+    donketu->mKartResponse = KART_MAP_OBJECT_RESPONSE_CARRY_HALT;
     StartCameraWobbleAtDistance(donketu->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
 }
 
 void DonketuFallKartCollisionCallback(MissionRunMapObject *donketu) {
     SetKartCollisionCallback(donketu, DonketuKartCollisionCallback);
-    donketu->mKartResponse = 0xb;
+    donketu->mKartResponse = KART_MAP_OBJECT_RESPONSE_SCALE_EFFECT;
 }
 
 void StartDonketuWaterLandState(MissionRunMapObject *donketu) {
