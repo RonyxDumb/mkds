@@ -61,7 +61,7 @@ void DrawBakubaku(void *mapObjectList, Bakubaku *bakubaku) {
     MtxFx33 rotation;
     s32 angle;
 
-    if (bakubaku->mState != 2) {
+    if (bakubaku->mState != BAKUBAKU_STATE_ARC_OVER_SURFACE) {
         return;
     }
     gxParam = 0x1e;
@@ -103,7 +103,7 @@ void UpdateBakubaku(void *mapObjectList, Bakubaku *bakubaku) {
     s32 deltaX;
 
     switch (bakubaku->mState) {
-        case 0:
+        case BAKUBAKU_STATE_WAIT_FOR_KART:
             if (GetCurrentCameraKind() != 2) {
                 kart = GetKart((u16) gRaceSetup->mEntryIndex);
                 kartPos = &kart->mPos;
@@ -120,9 +120,9 @@ void UpdateBakubaku(void *mapObjectList, Bakubaku *bakubaku) {
             bakubaku->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(bakubaku->mMapObject.mMatrix.mRows[2].x, 0xc000);
             bakubaku->mMapObject.mPosStep.y = 0xc000;
             bakubaku->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(bakubaku->mMapObject.mMatrix.mRows[2].z, 0xc000);
-            bakubaku->mState = 1;
+            bakubaku->mState = BAKUBAKU_STATE_RISE_TO_SURFACE;
             break;
-        case 1:
+        case BAKUBAKU_STATE_RISE_TO_SURFACE:
             bakubaku->mMapObject.mPosStep.y -= 0x400;
             VEC_Add(&bakubaku->mMapObject.mPos, &bakubaku->mMapObject.mPosStep, &bakubaku->mMapObject.mPos);
             if (bakubaku->mMapObject.mPos.y < bakubaku->mMapObject.mCourseMapRow->mPosition.y) {
@@ -134,9 +134,9 @@ void UpdateBakubaku(void *mapObjectList, Bakubaku *bakubaku) {
             firstSoundParams.mFalloffIndex = 4;
             firstSoundParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&bakubaku->mMapObject.mPos);
             StartSoundFromParams(&firstSoundParams);
-            bakubaku->mState = 2;
+            bakubaku->mState = BAKUBAKU_STATE_ARC_OVER_SURFACE;
             break;
-        case 2:
+        case BAKUBAKU_STATE_ARC_OVER_SURFACE:
             bakubaku->mMapObject.mPosStep.y -= 0x400;
             VEC_Add(&bakubaku->mMapObject.mPos, &bakubaku->mMapObject.mPosStep, &bakubaku->mMapObject.mPos);
             if (bakubaku->mMapObject.mPos.y > bakubaku->mMapObject.mCourseMapRow->mPosition.y) {
@@ -148,19 +148,19 @@ void UpdateBakubaku(void *mapObjectList, Bakubaku *bakubaku) {
             secondSoundParams.mFalloffIndex = 2;
             secondSoundParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&bakubaku->mMapObject.mPos);
             StartSoundFromParams(&secondSoundParams);
-            bakubaku->mState = 3;
+            bakubaku->mState = BAKUBAKU_STATE_SINK_BELOW_SURFACE;
             break;
-        case 3:
+        case BAKUBAKU_STATE_SINK_BELOW_SURFACE:
             bakubaku->mMapObject.mPosStep.y -= 0x400;
             VEC_Add(&bakubaku->mMapObject.mPos, &bakubaku->mMapObject.mPosStep, &bakubaku->mMapObject.mPos);
             if (bakubaku->mMapObject.mPos.y <= bakubaku->mMapObject.mCourseMapRow->mPosition.y - 0x32000) {
                 bakubaku->mState4Timer = 0x708;
-                bakubaku->mState = 4;
+                bakubaku->mState = BAKUBAKU_STATE_WAIT_TO_RESET;
             }
             break;
-        case 4:
+        case BAKUBAKU_STATE_WAIT_TO_RESET:
             if (bakubaku->mState4Timer-- <= 0) {
-                bakubaku->mState = 0;
+                bakubaku->mState = BAKUBAKU_STATE_WAIT_FOR_KART;
             }
             break;
     }

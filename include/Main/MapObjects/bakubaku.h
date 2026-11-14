@@ -8,13 +8,21 @@
 #include "Main/MapObjects/send_obj_shadow.h" // ShadowMatrix
 #include "01/MapObjects/data_0209bc74.h"
 
+// Bakubaku.mState: waits for the kart, rises through the surface, arcs over it (the only state that is drawn), sinks
+// below it and waits to start again.
+#define BAKUBAKU_STATE_WAIT_FOR_KART 0
+#define BAKUBAKU_STATE_RISE_TO_SURFACE 1
+#define BAKUBAKU_STATE_ARC_OVER_SURFACE 2
+#define BAKUBAKU_STATE_SINK_BELOW_SURFACE 3
+#define BAKUBAKU_STATE_WAIT_TO_RESET 4
+
 // Object of kind 0x13c (Bakubaku): after the shared part, a counter at 0xa0, a vector at 0xa4 and a state at 0xb0.
 typedef struct Bakubaku {
     /* 00 */ MapObject mMapObject;
     /* a0 */ s32 mState4Timer;
     /* a4 */ Vec3 mDistanceCheckPos;
     /* State number of this kind's own per-frame switch in UpdateBakubaku; this object does not use
-       MapObject.mUnk_80's state machine; also read by the draw (state 2 = drawn) */
+       MapObject.mUnk_80's state machine; also read by the draw (BAKUBAKU_STATE_ARC_OVER_SURFACE = drawn) */
     /* b0 */ u32 mState;
 } Bakubaku;
 
