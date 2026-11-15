@@ -27,11 +27,6 @@
 #include "Main/Sound/sound_system.h"
 #include "Main/System/init_after_startup.h"
 
-void AdvanceRecordTAtt(void);
-void InitRecordTAtt(void *heap);
-void ReleaseRecordTAtt(void);
-void WriteRecordTAttBgOffsets(void);
-void WriteRecordTAttRegisters(void);
 const u16 gRecordTAttRunningSTableIndices[2] = {0x11, 0x12};
 const u16 gRecordTAttNameLabelIndices[5] = {3, 4, 5, 6, 7};
 const u16 gRecordTAttButtonSequence[6] = {0x40, 0x80, 0x200, 0x100, 0x800, 1};
