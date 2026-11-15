@@ -54,3 +54,5 @@ _Last updated 2026-10-29. Over time: [graph](progress/eur/progress.svg), [`progr
 
 Built with [ds-decomp](https://github.com/AetiasHax/ds-decomp), Metrowerks CodeWarrior for DS run through
 [wibo](https://github.com/decompals/wibo), and [objdiff](https://github.com/encounter/objdiff).
+
+Library function, type and member names follow [ntrtwl](https://github.com/ntrtwl) and [pret/pokeplatinum](https://github.com/pret/pokeplatinum) so they stay interchangeable with other projects that use the same libraries.
