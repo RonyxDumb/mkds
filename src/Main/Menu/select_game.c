@@ -52,7 +52,7 @@ void WriteSelectGameRowToRaceSetupCopy(void) {
     BOOL battleKind;
 
     if (gSelectGame->mMode == SELECT_GAME_MODE_NO_CONNECTION) {
-        GetRaceSetupCopy()->mMode = 2;
+        GetRaceSetupCopy()->mMode = MODE_BATTLE;
         switch (gSelectGame->mSelectedIndex) {
             case 0:
                 battleKind = FALSE;
@@ -63,9 +63,9 @@ void WriteSelectGameRowToRaceSetupCopy(void) {
         }
         GetRaceSetupCopy()->mBattleKind = battleKind;
     } else if (gSelectGame->mSelectedIndex == 0) {
-        GetRaceSetupCopy()->mMode = 3;
+        GetRaceSetupCopy()->mMode = MODE_VS;
     } else {
-        GetRaceSetupCopy()->mMode = 2;
+        GetRaceSetupCopy()->mMode = MODE_BATTLE;
         switch (gSelectGame->mSelectedIndex) {
             case 1:
                 battleKind = FALSE;
