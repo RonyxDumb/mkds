@@ -135,7 +135,7 @@ void QuaternionMultiplyByYawIgnoreY(Quaternion *first, Quaternion *second, Quate
     result->mComponents[3] = (first->mComponents[3] * second->mComponents[3]) >> 12;
 }
 
-void QuaternionMultiplyAngleAroundX(Quaternion *quaternion, s32 angle, Quaternion *result) {
+void QuaternionMultiplyAngleAroundX(Quaternion *quaternion, u16 angle, Quaternion *result) {
     Quaternion source = *quaternion;
     s32 pairFirst = SIN_OF_ANGLE((u16) (angle >> 1));
     s32 pairSecond = COS_OF_ANGLE((u16) (angle >> 1));

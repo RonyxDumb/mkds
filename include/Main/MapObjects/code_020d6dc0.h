@@ -27,7 +27,7 @@ void QuaternionFromAngleAroundY(u16 angle, Quaternion *quaternion);
 void QuaternionFromVec3AndAngleAroundY(Vec3 *direction, s32 angle, Quaternion *quaternion);
 void QuaternionMultiplyAngleAroundYIgnoreY(Quaternion *quaternion, u16 angle, Quaternion *result);
 void QuaternionMultiplyByYawIgnoreY(Quaternion *first, Quaternion *second, Quaternion *result);
-void QuaternionMultiplyAngleAroundX(Quaternion *quaternion, s32 angle, Quaternion *result);
+void QuaternionMultiplyAngleAroundX(Quaternion *quaternion, u16 angle, Quaternion *result);
 void QuaternionMultiplyAngleAroundY(Quaternion *quaternion, s32 angle, Quaternion *result);
 void QuaternionMultiplyAngleAroundZ(Quaternion *quaternion, s32 angle, Quaternion *result);
 void QuaternionMultiplyAngleAroundXIgnoreXZ(Quaternion *quaternion, s32 angle, Quaternion *result);
