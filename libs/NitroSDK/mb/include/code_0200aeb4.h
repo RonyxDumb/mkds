@@ -23,6 +23,7 @@ typedef struct WorkerQueue {
     /* 00 */ OSThread mThread;
     /* c0 */ WorkerTask *volatile mFirstTask;
     /* c4 */ WorkerTask mStopTask;
+    /* d4 */ u8 mUnk_d4[0x10];
 } WorkerQueue;
 
 typedef struct WorkerQueue WorkerQueue;

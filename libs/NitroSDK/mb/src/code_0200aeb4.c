@@ -90,8 +90,8 @@ void MBi_InitTaskThread(WorkerQueue *workerQueue, u32 totalSize) {
         gWorkerQueue = workerQueue;
         MBi_InitTaskInfo(&workerQueue->mStopTask);
         workerQueue->mFirstTask = NULL;
-        stackSize = (totalSize - 0xe4) & ~3;
-        OS_CreateThread(&workerQueue->mThread, MBi_TaskThread, workerQueue, (u8 *) workerQueue + 0xe4 + stackSize,
+        stackSize = (totalSize - sizeof(WorkerQueue)) & ~3;
+        OS_CreateThread(&workerQueue->mThread, MBi_TaskThread, workerQueue, (u8 *) (workerQueue + 1) + stackSize,
                         stackSize, 0);
         OS_WakeupThreadDirect(&workerQueue->mThread);
     }
