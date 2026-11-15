@@ -347,11 +347,11 @@ u32 MBi_CheckMBParent(WMBssDesc *scanBlock) {
 
 #pragma thumb on
 
-void MBi_SetSSIDToBssDesc(u16 *scanBlock, u32 value) {
-    scanBlock[5] = 0x20u;
-    scanBlock[6] = value;
-    scanBlock[7] = ((((value) & (0xffff0000u))) >> 16);
-    scanBlock[8] = (scanBlock[0x24]);
+void MBi_SetSSIDToBssDesc(WMBssDesc *scanBlock, u32 value) {
+    scanBlock->mSsidLength = 0x20u;
+    scanBlock->mSsidHalfwords[0] = value;
+    scanBlock->mSsidHalfwords[1] = ((((value) & (0xffff0000u))) >> 16);
+    scanBlock->mSsidHalfwords[2] = (scanBlock->mGameInfo.mTgid);
 }
 
 #pragma thumb off
@@ -491,7 +491,7 @@ void MBi_AnalyzeBeacon(WMBssDesc *scanBlock, u32 entryIndex, u32 value) {
     entry->mGgid = gReceivedGameInfo->mGgid;
     entry->mFileNo = gReceivedGameInfo->mFileNo;
     entry->mLinkLevel = value;
-    MBi_SetSSIDToBssDesc((u16 *) &entry->mScanBuffer, entry->mGgid);
+    MBi_SetSSIDToBssDesc(&entry->mScanBuffer, entry->mGgid);
     if (gReceivedGameInfo->mDataAttr == 2) {
         MBi_RecvVolatBeacon(entryIndex);
     } else {
