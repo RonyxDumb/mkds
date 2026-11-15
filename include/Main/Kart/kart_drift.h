@@ -142,6 +142,44 @@ typedef struct ParticipantKartRecordState {
     /* b4 */ u16 mPosOffsetIndex;
 } ParticipantKartRecordState;
 
+// Bits of ParticipantKartRecordState.mEventToggleFlags and mAppliedFlags (ParticipantKartRecord.mFlags). The local kart
+// flips a bit when the event starts; a peer starts the event when the received bit differs from the applied one.
+#define KART_EVENT_HOP 0x1
+#define KART_EVENT_SPIN_SINGLE 0x4
+#define KART_EVENT_SPIN_DOUBLE 0x8
+#define KART_EVENT_FLIP 0x10
+#define KART_EVENT_PUSH_FLIP 0x20
+#define KART_EVENT_PUSH_DOUBLE_FLIP 0x40
+// Flipped on the kart a push flip hits (the peer plays the hit sound).
+#define KART_EVENT_HIT_SOUND 0x80
+// Flipped on the star kart when it push-flips the kart with kart index 0 to 3.
+#define KART_EVENT_PUSH_FLIP_HIT_FIRST 0x200
+#define KART_EVENT_PUSH_FLIP_HIT_SECOND 0x400
+#define KART_EVENT_PUSH_FLIP_HIT_THIRD 0x800
+#define KART_EVENT_PUSH_FLIP_HIT_FOURTH 0x1000
+#define KART_EVENT_STAR 0x2000
+#define KART_EVENT_THUNDER 0x4000
+#define KART_EVENT_THUNDER_SHRINK 0x8000
+// Flipped when the kart is respawned.
+#define KART_EVENT_RESPAWN 0x10000
+#define KART_EVENT_LAUNCH_DOUBLE_FLIP 0x20000
+#define KART_EVENT_AHEAD_BOOST 0x40000
+#define KART_EVENT_GESSO 0x80000
+#define KART_EVENT_KILLER 0x100000
+#define KART_EVENT_KILLER_ENDING 0x200000
+// Flipped on the killer kart when it push-double-flips the kart with kart index 0 to 3.
+#define KART_EVENT_PUSH_DOUBLE_FLIP_HIT_FIRST 0x400000
+#define KART_EVENT_PUSH_DOUBLE_FLIP_HIT_SECOND 0x800000
+#define KART_EVENT_PUSH_DOUBLE_FLIP_HIT_THIRD 0x1000000
+#define KART_EVENT_PUSH_DOUBLE_FLIP_HIT_FOURTH 0x2000000
+#define KART_EVENT_TERESA 0x4000000
+// Two bits holding the kart index (0 to 3) of the kart that caused the started state; the shift moves them to bit 0.
+#define KART_EVENT_SOURCE_KART_MASK 0x60000000
+#define KART_EVENT_SOURCE_KART_SHIFT 29
+
+// ParticipantKartRecordState.mRecordKartBits keeps the low byte of Kart.mMotionFlags.
+#define KART_RECORD_MOTION_BYTE_MASK 0xff
+
 // Bits of Kart.mMotionFlags.
 // Set while R is held in the air with a turn direction latched; lets the landing start a drift.
 #define KART_MOTION_DRIFT_ARMED 0x1

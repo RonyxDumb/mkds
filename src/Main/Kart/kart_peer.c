@@ -91,7 +91,7 @@ void AdvancePeerKartMotion(Kart *kart) {
     if (IsRaceStarted() == 1) {
         kart->mAdvanceOffsetCycle = AdvanceKartOffsetCycleIndex;
     }
-    if ((kart->mParticipantRecordData->mRecordBits & 1) != 0) {
+    if ((kart->mParticipantRecordData->mRecordBits & KART_DRIVE_ON_BOOST_SURFACE) != 0) {
         kart->mVerticalSpeed = 0;
     }
     AdvanceKartByVelocity(kart);
@@ -141,7 +141,7 @@ void AdvancePeerKartCollision(Kart *kart) {
     posStep.y = MUL_FIXED12_NO_ROUND(posStep.y, blendFactor);
     posStep.z = MUL_FIXED12_NO_ROUND(posStep.z, blendFactor);
     VEC_Add(&recordState->mSmoothedPos, &posStep, &recordState->mSmoothedPos);
-    if ((kart->mParticipantRecordData->mRecordBits & 1) != 0) {
+    if ((kart->mParticipantRecordData->mRecordBits & KART_DRIVE_ON_BOOST_SURFACE) != 0) {
         ComputeKartPointAlongUp(&probePos, &recordState->mSmoothedPos, 0x400, kart);
         upAxis = &kart->mRotationRow1;
         downOffset.x = MUL_FIXED12_NO_ROUND(upAxis->x, -0x7000);
@@ -168,7 +168,7 @@ void AdvancePeerKartOrientation(Kart *kart, Vec3 *groundNormal) {
 
     recordState = kart->mParticipantRecordData;
     kart->mVelocityScaleFactor = TO_FIXED12(1);
-    if (kart->mAirborneFrames > 5 && (kart->mParticipantRecordData->mRecordBits & 1) == 0) {
+    if (kart->mAirborneFrames > 5 && (kart->mParticipantRecordData->mRecordBits & KART_DRIVE_ON_BOOST_SURFACE) == 0) {
         kart->mQuaternionBlendFactor = FIXED12_RATIO(6, 100);
         ComputeKartAirTiltQuaternion(kart, &kart->mAirTiltQuaternion);
     } else {

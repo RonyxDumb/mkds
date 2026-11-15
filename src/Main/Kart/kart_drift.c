@@ -630,7 +630,7 @@ BOOL TryStartKartPushFlip(Kart *starKart, Kart *hitKart, const Vec3 *pushDirecti
         StartKartPushFlip(hitKart, pushDirection, 1);
         StartSound(&hitKart->mSoundSource, 0xe8, 0x7f, 0);
         if (hitKart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
-            hitKart->mParticipantRecordData->mEventToggleFlags ^= 0x80;
+            hitKart->mParticipantRecordData->mEventToggleFlags ^= KART_EVENT_HIT_SOUND;
         }
         started = TRUE;
         flagBits = starKart->mEntryFlags & KART_ENTRY_WIFI_LOCAL;
@@ -638,22 +638,22 @@ BOOL TryStartKartPushFlip(Kart *starKart, Kart *hitKart, const Vec3 *pushDirecti
             switch (hitKart->mIndex) {
                 case 0:
                     if (flagBits) {
-                        starKart->mParticipantRecordData->mEventToggleFlags ^= 0x200;
+                        starKart->mParticipantRecordData->mEventToggleFlags ^= KART_EVENT_PUSH_FLIP_HIT_FIRST;
                     }
                     break;
                 case 1:
                     if (flagBits) {
-                        starKart->mParticipantRecordData->mEventToggleFlags ^= 0x400;
+                        starKart->mParticipantRecordData->mEventToggleFlags ^= KART_EVENT_PUSH_FLIP_HIT_SECOND;
                     }
                     break;
                 case 2:
                     if (flagBits) {
-                        starKart->mParticipantRecordData->mEventToggleFlags ^= 0x800;
+                        starKart->mParticipantRecordData->mEventToggleFlags ^= KART_EVENT_PUSH_FLIP_HIT_THIRD;
                     }
                     break;
                 case 3:
                     if (flagBits) {
-                        starKart->mParticipantRecordData->mEventToggleFlags ^= 0x1000;
+                        starKart->mParticipantRecordData->mEventToggleFlags ^= KART_EVENT_PUSH_FLIP_HIT_FOURTH;
                     }
                     break;
             }
@@ -684,7 +684,7 @@ BOOL TryStartKartPushDoubleFlip(Kart *killerKart, Kart *hitKart) {
         StartKartPushDoubleFlip(hitKart, &flipAxis, 1);
         StartSound(&hitKart->mSoundSource, 0xe8, 0x7f, 0);
         if (hitKart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
-            hitKart->mParticipantRecordData->mEventToggleFlags ^= 0x80;
+            hitKart->mParticipantRecordData->mEventToggleFlags ^= KART_EVENT_HIT_SOUND;
         }
         started = TRUE;
         flagBits = killerKart->mEntryFlags & KART_ENTRY_WIFI_LOCAL;
@@ -692,22 +692,22 @@ BOOL TryStartKartPushDoubleFlip(Kart *killerKart, Kart *hitKart) {
             switch (hitKart->mIndex) {
                 case 0:
                     if (flagBits) {
-                        killerKart->mParticipantRecordData->mEventToggleFlags ^= 0x400000;
+                        killerKart->mParticipantRecordData->mEventToggleFlags ^= KART_EVENT_PUSH_DOUBLE_FLIP_HIT_FIRST;
                     }
                     break;
                 case 1:
                     if (flagBits) {
-                        killerKart->mParticipantRecordData->mEventToggleFlags ^= 0x800000;
+                        killerKart->mParticipantRecordData->mEventToggleFlags ^= KART_EVENT_PUSH_DOUBLE_FLIP_HIT_SECOND;
                     }
                     break;
                 case 2:
                     if (flagBits) {
-                        killerKart->mParticipantRecordData->mEventToggleFlags ^= 0x1000000;
+                        killerKart->mParticipantRecordData->mEventToggleFlags ^= KART_EVENT_PUSH_DOUBLE_FLIP_HIT_THIRD;
                     }
                     break;
                 case 3:
                     if (flagBits) {
-                        killerKart->mParticipantRecordData->mEventToggleFlags ^= 0x2000000;
+                        killerKart->mParticipantRecordData->mEventToggleFlags ^= KART_EVENT_PUSH_DOUBLE_FLIP_HIT_FOURTH;
                     }
                     break;
             }
@@ -968,7 +968,7 @@ void ApplyItemObjectHitToKart(Kart *kart) {
             flagBits = kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL;
             if (flagBits) {
                 if (flagBits) {
-                    kart->mParticipantRecordData->mEventToggleFlags ^= 0x4000;
+                    kart->mParticipantRecordData->mEventToggleFlags ^= KART_EVENT_THUNDER;
                 }
             } else {
                 while (kartIndex < gRaceSetup->mKartCount) {
@@ -1021,8 +1021,8 @@ void ApplyItemObjectHitToKart(Kart *kart) {
         }
     }
     if (kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
-        kart->mParticipantRecordData->mEventToggleFlags &= ~0x60000000;
-        kart->mParticipantRecordData->mEventToggleFlags |= (kartIndex & 3) << 0x1d;
+        kart->mParticipantRecordData->mEventToggleFlags &= ~KART_EVENT_SOURCE_KART_MASK;
+        kart->mParticipantRecordData->mEventToggleFlags |= (kartIndex & 3) << KART_EVENT_SOURCE_KART_SHIFT;
     }
 }
 
@@ -1382,7 +1382,7 @@ recheck:
         kart->mCollisionHitLink->mObject = NULL;
     }
     if (kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
-        kart->mParticipantRecordData->mEventToggleFlags ^= 0x1;
+        kart->mParticipantRecordData->mEventToggleFlags ^= KART_EVENT_HOP;
     }
 }
 
@@ -1680,11 +1680,11 @@ BOOL TrySpinKart(Kart *kart, int rotationCount, int skipSound) {
         if (skipSound == 0) {
             if (rotationCount == 1) {
                 if (kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
-                    kart->mParticipantRecordData->mEventToggleFlags ^= 0x4;
+                    kart->mParticipantRecordData->mEventToggleFlags ^= KART_EVENT_SPIN_SINGLE;
                 }
             } else if (rotationCount == 2) {
                 if (kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
-                    kart->mParticipantRecordData->mEventToggleFlags ^= 0x8;
+                    kart->mParticipantRecordData->mEventToggleFlags ^= KART_EVENT_SPIN_DOUBLE;
                 }
             }
         }

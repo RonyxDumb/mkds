@@ -225,7 +225,7 @@ BOOL TryStartKartLaunchDoubleFlip(Kart *kart) {
     }
     StartKartLaunchDoubleFlip(kart);
     if (kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
-        kart->mParticipantRecordData->mEventToggleFlags ^= 0x20000;
+        kart->mParticipantRecordData->mEventToggleFlags ^= KART_EVENT_LAUNCH_DOUBLE_FLIP;
     }
     return TRUE;
 }
@@ -399,7 +399,7 @@ BOOL TryStartKartFlip(Kart *kart) {
     }
     StartKartFlip(kart);
     if (kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
-        kart->mParticipantRecordData->mEventToggleFlags ^= 0x10;
+        kart->mParticipantRecordData->mEventToggleFlags ^= KART_EVENT_FLIP;
     }
     return TRUE;
 }
@@ -580,7 +580,7 @@ void StartKartPushFlip(Kart *kart, const Vec3 *pushDirection, s32 record) {
         return;
     }
     if (kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
-        kart->mParticipantRecordData->mEventToggleFlags ^= 0x20;
+        kart->mParticipantRecordData->mEventToggleFlags ^= KART_EVENT_PUSH_FLIP;
     }
     if (kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
         kart->mParticipantRecordData->mPushDirection = *pushDirection;
@@ -690,7 +690,7 @@ s32 StartKartPushDoubleFlip(Kart *kart, const Vec3 *pushDirection, s32 record) {
     kart->mEffectFlags |= KART_EFFECT_PUSH_FLIP_STATE;
     if (record != 0) {
         if (kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
-            kart->mParticipantRecordData->mEventToggleFlags ^= 0x40;
+            kart->mParticipantRecordData->mEventToggleFlags ^= KART_EVENT_PUSH_DOUBLE_FLIP;
         }
         if (kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
             kart->mParticipantRecordData->mPushDirection = *pushDirection;
@@ -780,7 +780,7 @@ void StartKartThunderShrink(Kart *kart) {
         SetThunderShrinkSoundFlag(1);
     }
     if (kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
-        kart->mParticipantRecordData->mEventToggleFlags ^= 0x8000;
+        kart->mParticipantRecordData->mEventToggleFlags ^= KART_EVENT_THUNDER_SHRINK;
     }
 }
 
@@ -991,7 +991,7 @@ void StartKartThunder(Kart *kart) {
     bit200 = kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL;
     if (bit200 != 0) {
         if (bit200 != 0) {
-            kart->mParticipantRecordData->mEventToggleFlags ^= 0x4000;
+            kart->mParticipantRecordData->mEventToggleFlags ^= KART_EVENT_THUNDER;
         }
         return;
     }
@@ -1050,7 +1050,7 @@ void StartKartStar(Kart *kart) {
         StandingsNop(kart->mIndex);
     }
     if (kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
-        kart->mParticipantRecordData->mEventToggleFlags ^= 0x2000;
+        kart->mParticipantRecordData->mEventToggleFlags ^= KART_EVENT_STAR;
     }
     SetKartCharacterAnimation(kart, 2, 1);
 }
@@ -1100,7 +1100,7 @@ void StartKartTeresa(Kart *kart) {
         effectState->mTeresaDivisorStep = 1;
     }
     if (kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
-        kart->mParticipantRecordData->mEventToggleFlags ^= 0x4000000;
+        kart->mParticipantRecordData->mEventToggleFlags ^= KART_EVENT_TERESA;
     }
 }
 
@@ -1236,7 +1236,7 @@ void StartKartKiller(Kart *kart) {
     StartKartKillerEffect(kart->mIndex);
     ResetKartScaleEffects(kart);
     if (kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
-        kart->mParticipantRecordData->mEventToggleFlags ^= 0x100000;
+        kart->mParticipantRecordData->mEventToggleFlags ^= KART_EVENT_KILLER;
     }
     if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
         SetCameraHalfFovAngleGoal(0x1d4c);
@@ -1259,7 +1259,7 @@ void AdvanceKartKiller(Kart *kart) {
             if ((kart->mEffectFlags & KART_EFFECT_KILLER) && effectStateAgain->mKillerEnding == FALSE) {
                 effectStateAgain->mKillerEnding = TRUE;
                 if (kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
-                    kart->mParticipantRecordData->mEventToggleFlags ^= 0x200000;
+                    kart->mParticipantRecordData->mEventToggleFlags ^= KART_EVENT_KILLER_ENDING;
                 }
             }
         }
@@ -1313,7 +1313,7 @@ void AdvanceKartKiller(Kart *kart) {
     }
     effectState->mKillerEnding = TRUE;
     if (kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
-        kart->mParticipantRecordData->mEventToggleFlags ^= 0x200000;
+        kart->mParticipantRecordData->mEventToggleFlags ^= KART_EVENT_KILLER_ENDING;
     }
 }
 
@@ -1352,7 +1352,7 @@ void StartKartGesso(Kart *kart, u32 orthoQuadCount) {
     }
     StartOrthoQuadsGesoSumi(kart->mIndex, orthoQuadCount);
     if (kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
-        kart->mParticipantRecordData->mEventToggleFlags ^= 0x80000;
+        kart->mParticipantRecordData->mEventToggleFlags ^= KART_EVENT_GESSO;
     }
 }
 
@@ -1410,7 +1410,7 @@ void StartKartAheadBoost(Kart *kart) {
         StartSound(&kart->mSoundSource, 0xa4, 0x7f, 0);
     }
     if (kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
-        kart->mParticipantRecordData->mEventToggleFlags ^= 0x40000;
+        kart->mParticipantRecordData->mEventToggleFlags ^= KART_EVENT_AHEAD_BOOST;
     }
 }
 
@@ -2443,7 +2443,7 @@ void StartKartRaceEnd(Kart *kart) {
     if ((kart->mEffectFlags & KART_EFFECT_KILLER) != 0 && effectState->mKillerEnding == FALSE) {
         effectState->mKillerEnding = TRUE;
         if ((kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) != 0) {
-            kart->mParticipantRecordData->mEventToggleFlags ^= 0x200000;
+            kart->mParticipantRecordData->mEventToggleFlags ^= KART_EVENT_KILLER_ENDING;
         }
     }
     if ((kart->mEntryFlags & KART_ENTRY_SELECTED) != 0) {
@@ -2611,22 +2611,22 @@ void AdvanceParticipantKartRecords(Kart *kart) {
         }
         pendingNode = NNS_FndGetNextListObject(&stateAgain->mPendingRecords, pendingNode);
     }
-    if ((kart->mParticipantRecordData->mRecordBits & 2) != 0) {
+    if ((kart->mParticipantRecordData->mRecordBits & KART_DRIVE_ACCEL_HELD) != 0) {
         RequestBits(kart->mEntryIndex, PAD_KEY_A);
     }
-    if ((kart->mParticipantRecordData->mRecordBits & 4) != 0) {
+    if ((kart->mParticipantRecordData->mRecordBits & KART_DRIVE_BRAKE_HELD) != 0) {
         RequestBits(kart->mEntryIndex, PAD_KEY_B);
     }
-    if ((kart->mParticipantRecordData->mRecordBits & 8) != 0) {
+    if ((kart->mParticipantRecordData->mRecordBits & KART_DRIVE_TURN_LEFT) != 0) {
         RequestBits(kart->mEntryIndex, PAD_KEY_LEFT);
     }
-    if ((kart->mParticipantRecordData->mRecordBits & 0x10) != 0) {
+    if ((kart->mParticipantRecordData->mRecordBits & KART_DRIVE_TURN_RIGHT) != 0) {
         RequestBits(kart->mEntryIndex, PAD_KEY_RIGHT);
     }
-    if ((kart->mParticipantRecordData->mRecordBits & 1) != 0) {
+    if ((kart->mParticipantRecordData->mRecordBits & KART_DRIVE_ON_BOOST_SURFACE) != 0) {
         kart->mMotionFlags = kart->mMotionFlags | KART_MOTION_ON_GROUND;
     }
-    if ((kart->mParticipantRecordData->mRecordBits & 0x20) != 0) {
+    if ((kart->mParticipantRecordData->mRecordBits & KART_DRIVE_BOOST) != 0) {
         kart->mBoostTimer = KART_RECORDED_BOOST_FRAMES;
         kart->mDriveFlags = kart->mDriveFlags | KART_DRIVE_BOOST;
     } else {
@@ -2689,7 +2689,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
     state->mPushDirection.y = (s16) (((byte & 0x80) ? 0xc000 : 0) | (byte << 6));
     byte = state->mRecordKartBits >> 8;
     state->mPushDirection.z = (s16) (((byte & 0x80) ? 0xc000 : 0) | (byte << 6));
-    state->mRecordKartBits = state->mRecordKartBits & 0xff;
+    state->mRecordKartBits = state->mRecordKartBits & KART_RECORD_MOTION_BYTE_MASK;
     state->mTargetTurnAngle = record->mTurnAngle;
     kart->mTurnAngle = record->mTurnAngle;
     if (wasOnGround) {
@@ -2697,17 +2697,17 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
     } else {
         kart->mMotionFlags &= ~KART_MOTION_ON_GROUND;
     }
-    if (kart->mParticipantRecordData->mRecordKartBits & 2) {
+    if (kart->mParticipantRecordData->mRecordKartBits & KART_MOTION_HOPPING) {
         kart->mMotionFlags |= KART_MOTION_HOPPING;
     } else {
         kart->mMotionFlags &= ~KART_MOTION_HOPPING;
     }
-    if (kart->mParticipantRecordData->mRecordKartBits & 8) {
+    if (kart->mParticipantRecordData->mRecordKartBits & KART_MOTION_DRIFTING) {
         kart->mMotionFlags |= KART_MOTION_DRIFTING;
     } else {
         kart->mMotionFlags &= ~KART_MOTION_DRIFTING;
     }
-    if (((kart->mParticipantRecordData->mAppliedFlags & 0x10000) != 0) != ((recordFlags & 0x10000) != 0)) {
+    if (((kart->mParticipantRecordData->mAppliedFlags & KART_EVENT_RESPAWN) != 0) != ((recordFlags & KART_EVENT_RESPAWN) != 0)) {
         value = kart->mHeadingAngle;
         ResetKartAndSetPos(kart, &newPos, 0, 0);
         kart->mHeadingAngle = value;
@@ -2801,7 +2801,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
                 VEC_Add(&newPos, &moveStep, &newPos);
                 VEC_Add(&newPos, &kart->mHitVelocity, &newPos);
                 VEC_Add(&kart->mVelocity, &kart->mHitVelocity, &kart->mVelocity);
-                if (kart->mParticipantRecordData->mRecordBits & 1) {
+                if (kart->mParticipantRecordData->mRecordBits & KART_DRIVE_ON_BOOST_SURFACE) {
                     kart->mVerticalSpeed = 0;
                 }
                 scale = (kart->mMotionFlags & KART_MOTION_ON_GROUND) ? 0xee1 : 0xfae;
@@ -2838,7 +2838,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         stateAgain->mHopHeight = 0;
         kart->mVerticalSpeed += 0x21a2;
     }
-    if (((kart->mParticipantRecordData->mAppliedFlags & 0x20000) != 0) != ((recordFlags & 0x20000) != 0)) {
+    if (((kart->mParticipantRecordData->mAppliedFlags & KART_EVENT_LAUNCH_DOUBLE_FLIP) != 0) != ((recordFlags & KART_EVENT_LAUNCH_DOUBLE_FLIP) != 0)) {
         StartKartLaunchDoubleFlip(kart);
         startedState = 1;
     }
@@ -2850,21 +2850,21 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         StartKartSpin(kart, 2, 0);
         startedState = 1;
     }
-    if (((kart->mParticipantRecordData->mAppliedFlags & 0x10) != 0) != ((recordFlags & 0x10) != 0)) {
+    if (((kart->mParticipantRecordData->mAppliedFlags & KART_EVENT_FLIP) != 0) != ((recordFlags & KART_EVENT_FLIP) != 0)) {
         StartKartFlip(kart);
         startedState = 1;
     }
-    if (((kart->mParticipantRecordData->mAppliedFlags & 0x2000) != 0) != ((recordFlags & 0x2000) != 0)) {
+    if (((kart->mParticipantRecordData->mAppliedFlags & KART_EVENT_STAR) != 0) != ((recordFlags & KART_EVENT_STAR) != 0)) {
         StartKartStar(kart);
     }
-    if (((kart->mParticipantRecordData->mAppliedFlags & 0x4000) != 0) != ((recordFlags & 0x4000) != 0)) {
+    if (((kart->mParticipantRecordData->mAppliedFlags & KART_EVENT_THUNDER) != 0) != ((recordFlags & KART_EVENT_THUNDER) != 0)) {
         index = 0;
         StartFadeFog();
         StartEffectsAtOtherKarts(kart->mIndex);
         flag = kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL;
         if (flag) {
             if (flag) {
-                kart->mParticipantRecordData->mEventToggleFlags ^= 0x4000;
+                kart->mParticipantRecordData->mEventToggleFlags ^= KART_EVENT_THUNDER;
             }
         } else {
             for (; index < (u32) gRaceSetup->mKartCount; index++) {
@@ -2874,19 +2874,19 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
             }
         }
     }
-    if (((kart->mParticipantRecordData->mAppliedFlags & 0x8000) != 0) != ((recordFlags & 0x8000) != 0)) {
+    if (((kart->mParticipantRecordData->mAppliedFlags & KART_EVENT_THUNDER_SHRINK) != 0) != ((recordFlags & KART_EVENT_THUNDER_SHRINK) != 0)) {
         StartKartThunderShrink(kart);
     }
-    if (((kart->mParticipantRecordData->mAppliedFlags & 0x100000) != 0) != ((recordFlags & 0x100000) != 0)) {
+    if (((kart->mParticipantRecordData->mAppliedFlags & KART_EVENT_KILLER) != 0) != ((recordFlags & KART_EVENT_KILLER) != 0)) {
         StartKartKiller(kart);
     }
-    if (((kart->mParticipantRecordData->mAppliedFlags & 0x200000) != 0) != ((recordFlags & 0x200000) != 0)) {
+    if (((kart->mParticipantRecordData->mAppliedFlags & KART_EVENT_KILLER_ENDING) != 0) != ((recordFlags & KART_EVENT_KILLER_ENDING) != 0)) {
         kart->mItemEffectData.mKillerEnding = TRUE;
     }
-    if (((kart->mParticipantRecordData->mAppliedFlags & 0x4000000) != 0) != ((recordFlags & 0x4000000) != 0)) {
+    if (((kart->mParticipantRecordData->mAppliedFlags & KART_EVENT_TERESA) != 0) != ((recordFlags & KART_EVENT_TERESA) != 0)) {
         StartKartTeresa(kart);
     }
-    if (((kart->mParticipantRecordData->mAppliedFlags & 0x40) != 0) != ((recordFlags & 0x40) != 0)) {
+    if (((kart->mParticipantRecordData->mAppliedFlags & KART_EVENT_PUSH_DOUBLE_FLIP) != 0) != ((recordFlags & KART_EVENT_PUSH_DOUBLE_FLIP) != 0)) {
         if (kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
             if ((kart->mEffectFlags & KART_EFFECT_STAR_OR_KILLER) || kart->mState == KART_STATE_PUSH_FLIP) {
                 goto skipPushBackStart;
@@ -2897,10 +2897,10 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         StartSound(&kart->mSoundSource, 0xe8, 0x7f, 0);
         StartKartPushDoubleFlip(kart, &state->mPushDirection, 0);
     skipPushBackStart:
-        if (((kart->mParticipantRecordData->mAppliedFlags & 0x80) != 0) != ((recordFlags & 0x80) != 0)) {
+        if (((kart->mParticipantRecordData->mAppliedFlags & KART_EVENT_HIT_SOUND) != 0) != ((recordFlags & KART_EVENT_HIT_SOUND) != 0)) {
             StartSound(&kart->mSoundSource, 0xe8, 0x7f, 0);
         }
-    } else if (((kart->mParticipantRecordData->mAppliedFlags & 0x20) != 0) != ((recordFlags & 0x20) != 0)) {
+    } else if (((kart->mParticipantRecordData->mAppliedFlags & KART_EVENT_PUSH_FLIP) != 0) != ((recordFlags & KART_EVENT_PUSH_FLIP) != 0)) {
         if (kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
             if ((kart->mEffectFlags & KART_EFFECT_STAR_OR_KILLER) || kart->mState == KART_STATE_PUSH_FLIP) {
                 goto skipFlipBackStart;
@@ -2910,14 +2910,14 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         }
         StartKartPushFlip(kart, &state->mPushDirection, 0);
     skipFlipBackStart:
-        if (((kart->mParticipantRecordData->mAppliedFlags & 0x80) != 0) != ((recordFlags & 0x80) != 0)) {
+        if (((kart->mParticipantRecordData->mAppliedFlags & KART_EVENT_HIT_SOUND) != 0) != ((recordFlags & KART_EVENT_HIT_SOUND) != 0)) {
             StartSound(&kart->mSoundSource, 0xe8, 0x7f, 0);
         }
     }
-    if (((kart->mParticipantRecordData->mAppliedFlags & 0x40000) != 0) != ((recordFlags & 0x40000) != 0)) {
+    if (((kart->mParticipantRecordData->mAppliedFlags & KART_EVENT_AHEAD_BOOST) != 0) != ((recordFlags & KART_EVENT_AHEAD_BOOST) != 0)) {
         StartKartAheadBoost(kart);
     }
-    if (((kart->mParticipantRecordData->mAppliedFlags & 0x80000) != 0) != ((recordFlags & 0x80000) != 0)) {
+    if (((kart->mParticipantRecordData->mAppliedFlags & KART_EVENT_GESSO) != 0) != ((recordFlags & KART_EVENT_GESSO) != 0)) {
         kart->mItemEffectData.mGessoFrames = 0;
         kart->mEffectFlags |= KART_EFFECT_GESSO;
         kart->mEffectFlags &= ~KART_EFFECT_COURSE_COLORED;
@@ -2935,14 +2935,14 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         StartOrthoQuadsGesoSumi(kart->mIndex, 0);
     }
     if (startedState) {
-        otherKart = GetKart((u16) ((recordFlags & 0x60000000) >> 29));
+        otherKart = GetKart((u16) ((recordFlags & KART_EVENT_SOURCE_KART_MASK) >> KART_EVENT_SOURCE_KART_SHIFT));
         if (otherKart != kart) {
             otherKart->mEffectFlags |= KART_EFFECT_START_SOUND_PENDING;
         }
     }
     otherKart = GetKart(gRaceSetup->mEntryIndex);
     flag = 0;
-    if (((kart->mParticipantRecordData->mAppliedFlags & 0x400000) != 0) != ((recordFlags & 0x400000) != 0) &&
+    if (((kart->mParticipantRecordData->mAppliedFlags & KART_EVENT_PUSH_DOUBLE_FLIP_HIT_FIRST) != 0) != ((recordFlags & KART_EVENT_PUSH_DOUBLE_FLIP_HIT_FIRST) != 0) &&
         otherKart->mIndex == 0) {
         Vec3 direction;
 
@@ -2962,7 +2962,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
     markFirstKartPushed:
         flag = 1;
     }
-    if (((kart->mParticipantRecordData->mAppliedFlags & 0x800000) != 0) != ((recordFlags & 0x800000) != 0) &&
+    if (((kart->mParticipantRecordData->mAppliedFlags & KART_EVENT_PUSH_DOUBLE_FLIP_HIT_SECOND) != 0) != ((recordFlags & KART_EVENT_PUSH_DOUBLE_FLIP_HIT_SECOND) != 0) &&
         otherKart->mIndex == 1) {
         Vec3 direction;
 
@@ -2982,7 +2982,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
     markSecondKartPushed:
         flag = 1;
     }
-    if (((kart->mParticipantRecordData->mAppliedFlags & 0x1000000) != 0) != ((recordFlags & 0x1000000) != 0) &&
+    if (((kart->mParticipantRecordData->mAppliedFlags & KART_EVENT_PUSH_DOUBLE_FLIP_HIT_THIRD) != 0) != ((recordFlags & KART_EVENT_PUSH_DOUBLE_FLIP_HIT_THIRD) != 0) &&
         otherKart->mIndex == 2) {
         Vec3 direction;
 
@@ -3002,7 +3002,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
     markThirdKartPushed:
         flag = 1;
     }
-    if (((kart->mParticipantRecordData->mAppliedFlags & 0x2000000) != 0) != ((recordFlags & 0x2000000) != 0) &&
+    if (((kart->mParticipantRecordData->mAppliedFlags & KART_EVENT_PUSH_DOUBLE_FLIP_HIT_FOURTH) != 0) != ((recordFlags & KART_EVENT_PUSH_DOUBLE_FLIP_HIT_FOURTH) != 0) &&
         otherKart->mIndex == 3) {
         Vec3 direction;
 
@@ -3025,7 +3025,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
     if (flag) {
         goto storeAppliedFlags;
     }
-    if (((kart->mParticipantRecordData->mAppliedFlags & 0x200) != 0) != ((recordFlags & 0x200) != 0) &&
+    if (((kart->mParticipantRecordData->mAppliedFlags & KART_EVENT_PUSH_FLIP_HIT_FIRST) != 0) != ((recordFlags & KART_EVENT_PUSH_FLIP_HIT_FIRST) != 0) &&
         otherKart->mIndex == 0) {
         Vec3 direction;
 
@@ -3047,7 +3047,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         StartKartPushFlip(otherKart, &direction, 0);
     skipFirstKartFlip:
     }
-    if (((kart->mParticipantRecordData->mAppliedFlags & 0x400) != 0) != ((recordFlags & 0x400) != 0) &&
+    if (((kart->mParticipantRecordData->mAppliedFlags & KART_EVENT_PUSH_FLIP_HIT_SECOND) != 0) != ((recordFlags & KART_EVENT_PUSH_FLIP_HIT_SECOND) != 0) &&
         otherKart->mIndex == 1) {
         Vec3 direction;
 
@@ -3069,7 +3069,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         StartKartPushFlip(otherKart, &direction, 0);
     skipSecondKartFlip:
     }
-    if (((kart->mParticipantRecordData->mAppliedFlags & 0x800) != 0) != ((recordFlags & 0x800) != 0) &&
+    if (((kart->mParticipantRecordData->mAppliedFlags & KART_EVENT_PUSH_FLIP_HIT_THIRD) != 0) != ((recordFlags & KART_EVENT_PUSH_FLIP_HIT_THIRD) != 0) &&
         otherKart->mIndex == 2) {
         Vec3 direction;
 
@@ -3091,7 +3091,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         StartKartPushFlip(otherKart, &direction, 0);
     skipThirdKartFlip:
     }
-    if (((kart->mParticipantRecordData->mAppliedFlags & 0x1000) != 0) != ((recordFlags & 0x1000) != 0) &&
+    if (((kart->mParticipantRecordData->mAppliedFlags & KART_EVENT_PUSH_FLIP_HIT_FOURTH) != 0) != ((recordFlags & KART_EVENT_PUSH_FLIP_HIT_FOURTH) != 0) &&
         otherKart->mIndex == 3) {
         Vec3 direction;
 

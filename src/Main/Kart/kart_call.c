@@ -45,7 +45,7 @@ void RespawnKartAndToggleEventFlag(Kart *kart) {
     }
     kart->mSlotFunctions[6](kart);
     if ((kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) != 0) {
-        kart->mParticipantRecordData->mEventToggleFlags ^= 0x10000;
+        kart->mParticipantRecordData->mEventToggleFlags ^= KART_EVENT_RESPAWN;
     }
 }
 
@@ -59,7 +59,7 @@ void KartAiRespawnKartAndToggleEventFlag(Kart *kart) {
     if (flagBits == 0) {
         kart->mSlotFunctions[6](kart);
         if ((kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) != 0) {
-            kart->mParticipantRecordData->mEventToggleFlags ^= 0x10000;
+            kart->mParticipantRecordData->mEventToggleFlags ^= KART_EVENT_RESPAWN;
         }
     }
     if (gRaceSetup->mMode == MODE_BATTLE) {
