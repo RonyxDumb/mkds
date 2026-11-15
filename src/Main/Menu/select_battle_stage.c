@@ -22,18 +22,18 @@ void UpdateSelectBattleStage(void) {
         case 4:
         case 5:
             GetRaceSetupCopy()->mCourseId = courseIds[result];
-            SwitchMenuScreen(0x1d, 0x1f);
+            SwitchMenuScreen(SCREEN_NEXT_RACE_SETUP, SCREEN_NONE);
             break;
         case -3:
-            SwitchMenuScreen(0x10, 0x1f);
+            SwitchMenuScreen(SCREEN_SELECT_RACE_RULE_BATTLE, SCREEN_NONE);
             break;
         case -2:
-            SwitchMenuScreen(0xe, 0x1f);
+            SwitchMenuScreen(SCREEN_SELECT_GAME, SCREEN_NONE);
             BattleStageSetMenuEntryKind(0);
             BattleStageSetRaceSetupRequested(1);
             break;
         case -1:
-            SwitchMenuScreen(0x1b, 0x1f);
+            SwitchMenuScreen(0x1b, SCREEN_NONE);
             BattleStageSetMenuEntryKind(0);
             BattleStageSetRaceSetupRequested(1);
             break;

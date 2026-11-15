@@ -177,6 +177,10 @@ typedef enum SelectCharacterMode {
     SELECT_CHARACTER_MODE_WIFI_SESSION = 2,
 } SelectCharacterMode;
 
+// SelectCharacter.mResult once the player entry list timer has run out: the screen after this one is reached as for
+// MENU_SCREEN_RESULT_NEXT.
+#define SELECT_CHARACTER_RESULT_TIME_UP 3
+
 // Steps of the scale in and scale out.
 #define SELECT_CHARACTER_SCALE_STEPS 10
 // Steps the moved or picked row settles for before the state moves on.

@@ -1,6 +1,7 @@
 #include "Main/Menu/select_game_update.h"
 #include "Main/Menu/select_game.h"
 #include "Main/Menu/menu_screen_switch.h"
+#include "Main/Race/data_021759c0.h"
 #include "Main/Menu/battle_gx_set_visible_plane.h"
 #include "gx.h"
 #include "code_02148950.h"
@@ -26,21 +27,21 @@ void WriteSelectGameRegisters(void) {
 #pragma thumb on
 void UpdateSelectGame(void) {
     switch (AdvanceSelectGame()) {
-        case 1:
+        case MENU_SCREEN_RESULT_NEXT:
             switch (GetRaceSetupCopy()->mMode) {
-                case 3:
-                    SwitchMenuScreen(8, 0x1f);
+                case MODE_VS:
+                    SwitchMenuScreen(SCREEN_SELECT_CHARACTER_VS, SCREEN_NONE);
                     break;
-                case 2:
-                    SwitchMenuScreen(0xf, 0x1f);
+                case MODE_BATTLE:
+                    SwitchMenuScreen(SCREEN_SELECT_CHARACTER_BATTLE, SCREEN_NONE);
                     break;
             }
             break;
-        case 2:
-            SwitchMenuScreen(0, 0x1f);
+        case MENU_SCREEN_RESULT_BACK:
+            SwitchMenuScreen(0, SCREEN_NONE);
             break;
-        case 3:
-            SwitchMenuScreen(0x1b, 0x1f);
+        case MENU_SCREEN_RESULT_LEAVE:
+            SwitchMenuScreen(0x1b, SCREEN_NONE);
             break;
     }
 }

@@ -40,14 +40,14 @@ void WriteVsSelectCharacterRegisters(void) {
 #pragma thumb on
 void UpdateVsSelectCharacter(void) {
     switch (AdvanceSelectCharacter()) {
-        case 1:
-            SwitchMenuScreen(9, 0x1f);
+        case MENU_SCREEN_RESULT_NEXT:
+            SwitchMenuScreen(SCREEN_SELECT_KART_VS, SCREEN_NONE);
             break;
-        case 2:
-            SwitchMenuScreen(0, 0x1f);
+        case MENU_SCREEN_RESULT_BACK:
+            SwitchMenuScreen(0, SCREEN_NONE);
             break;
-        case 3:
-            SwitchMenuScreen(0xa, 0x1f);
+        case SELECT_CHARACTER_RESULT_TIME_UP:
+            SwitchMenuScreen(SCREEN_SELECT_RACE_RULE_VS, SCREEN_NONE);
             break;
     }
 }
@@ -72,11 +72,11 @@ void WriteVsSelectKartRegisters(void) {
 #pragma thumb on
 void UpdateVsSelectKart(void) {
     switch (AdvanceSelectKart()) {
-        case 1:
-            SwitchMenuScreen(0xa, 0x1f);
+        case MENU_SCREEN_RESULT_NEXT:
+            SwitchMenuScreen(SCREEN_SELECT_RACE_RULE_VS, SCREEN_NONE);
             break;
-        case 2:
-            SwitchMenuScreen(8, 0x1f);
+        case MENU_SCREEN_RESULT_BACK:
+            SwitchMenuScreen(SCREEN_SELECT_CHARACTER_VS, SCREEN_NONE);
             break;
     }
 }
@@ -100,16 +100,16 @@ void WriteVsSelectRaceRuleRegisters(void) {
 #pragma thumb on
 void UpdateVsSelectRaceRule(void) {
     switch (AdvanceSelectRaceRule()) {
-        case 1:
+        case MENU_SCREEN_RESULT_NEXT:
             if (GetRaceSetupCopy()->mCourseListMode == COURSE_LIST_MODE_SHUFFLED) {
                 GetRaceSetupCopy()->mCourseId = COURSE_ID_CROSS;
-                SwitchMenuScreen(0x1d, 0x1f);
+                SwitchMenuScreen(SCREEN_NEXT_RACE_SETUP, SCREEN_NONE);
             } else {
-                SwitchMenuScreen(0xb, 0x1f);
+                SwitchMenuScreen(SCREEN_SELECT_CUP_GRID_VS, SCREEN_NONE);
             }
             break;
-        case 2:
-            SwitchMenuScreen(9, 0x1f);
+        case MENU_SCREEN_RESULT_BACK:
+            SwitchMenuScreen(SCREEN_SELECT_KART_VS, SCREEN_NONE);
             break;
     }
 }
@@ -155,17 +155,17 @@ void VsSelectCupSetRaceSetupRequested(u32 requested) {
 #pragma thumb on
 void UpdateVsSelectCupGrid(void) {
     switch (AdvanceSelectCupGrid()) {
-        case 1:
-            SwitchMenuScreen(0xc, 0x1f);
+        case MENU_SCREEN_RESULT_NEXT:
+            SwitchMenuScreen(SCREEN_SELECT_CUP_M_VS, SCREEN_NONE);
             break;
-        case 2:
-            SwitchMenuScreen(0xa, 0x1f);
+        case MENU_SCREEN_RESULT_BACK:
+            SwitchMenuScreen(SCREEN_SELECT_RACE_RULE_VS, SCREEN_NONE);
             break;
-        case 3:
+        case MENU_SCREEN_RESULT_LEAVE:
             if (VsSelectCupGetConnectionKind() == 0) {
-                SwitchMenuScreen(0, 0x1f);
+                SwitchMenuScreen(0, SCREEN_NONE);
             } else {
-                SwitchMenuScreen(0xe, 0x1f);
+                SwitchMenuScreen(SCREEN_SELECT_GAME, SCREEN_NONE);
             }
             VsSelectCupSetMenuEntryKind(0);
             VsSelectCupSetRaceSetupRequested(1);
@@ -202,11 +202,11 @@ void WriteVsSelectCupCourseRegisters(void) {
 #pragma thumb on
 void UpdateVsSelectCupCourse(void) {
     switch (AdvanceSelectCupCourse()) {
-        case 1:
-            SwitchMenuScreen(0x1d, 0x1f);
+        case MENU_SCREEN_RESULT_NEXT:
+            SwitchMenuScreen(SCREEN_NEXT_RACE_SETUP, SCREEN_NONE);
             break;
-        case 2:
-            SwitchMenuScreen(0xc, 0x1f);
+        case MENU_SCREEN_RESULT_BACK:
+            SwitchMenuScreen(SCREEN_SELECT_CUP_M_VS, SCREEN_NONE);
             break;
     }
 }
@@ -270,11 +270,11 @@ void WriteVsSelectCupMRegisters(void) {
 #pragma thumb on
 void UpdateVsSelectCupM(void) {
     switch (AdvanceSelectCupM()) {
-        case 1:
-            SwitchMenuScreen(0xd, 0x1f);
+        case MENU_SCREEN_RESULT_NEXT:
+            SwitchMenuScreen(SCREEN_SELECT_CUP_COURSE_VS, SCREEN_NONE);
             break;
-        case 2:
-            SwitchMenuScreen(0xb, 0x1f);
+        case MENU_SCREEN_RESULT_BACK:
+            SwitchMenuScreen(SCREEN_SELECT_CUP_GRID_VS, SCREEN_NONE);
             break;
     }
 }

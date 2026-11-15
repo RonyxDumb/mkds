@@ -10,19 +10,19 @@
 #pragma thumb on
 void UpdateBattleSelectRaceRule(void) {
     switch (AdvanceSelectRaceRule()) {
-        case 1:
+        case MENU_SCREEN_RESULT_NEXT:
             if (SelectRaceRuleGetMultiSimple() != 0) {
                 GetRaceSetupCopy()->mCourseListMode = COURSE_LIST_MODE_SHUFFLED;
             }
             if (GetRaceSetupCopy()->mCourseListMode == COURSE_LIST_MODE_SHUFFLED) {
                 GetRaceSetupCopy()->mCourseId = COURSE_ID_MINI_STAGE1;
-                SwitchMenuScreen(0x1d, 0x1f);
+                SwitchMenuScreen(SCREEN_NEXT_RACE_SETUP, SCREEN_NONE);
             } else {
-                SwitchMenuScreen(SCREEN_SELECT_BATTLE_STAGE, 0x1f);
+                SwitchMenuScreen(SCREEN_SELECT_BATTLE_STAGE, SCREEN_NONE);
             }
             break;
-        case 2:
-            SwitchMenuScreen(0xf, 0x1f);
+        case MENU_SCREEN_RESULT_BACK:
+            SwitchMenuScreen(SCREEN_SELECT_CHARACTER_BATTLE, SCREEN_NONE);
             break;
     }
 }

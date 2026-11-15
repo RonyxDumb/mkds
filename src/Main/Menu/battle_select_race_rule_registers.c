@@ -27,12 +27,12 @@ void WriteBattleSelectCharacterRegisters(void) {
 #pragma thumb on
 void UpdateBattleSelectCharacter(void) {
     switch (AdvanceSelectCharacter()) {
-        case 1:
-        case 3:
-            SwitchMenuScreen(0x10, 0x1f);
+        case MENU_SCREEN_RESULT_NEXT:
+        case SELECT_CHARACTER_RESULT_TIME_UP:
+            SwitchMenuScreen(SCREEN_SELECT_RACE_RULE_BATTLE, SCREEN_NONE);
             break;
-        case 2:
-            SwitchMenuScreen(0xe, 0x1f);
+        case MENU_SCREEN_RESULT_BACK:
+            SwitchMenuScreen(SCREEN_SELECT_GAME, SCREEN_NONE);
             break;
     }
 }

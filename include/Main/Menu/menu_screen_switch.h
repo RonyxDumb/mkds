@@ -47,6 +47,12 @@
 // InitSelectGhost (released by ReleaseSelectGhost).
 #define SCREEN_SELECT_GHOST 0x1a
 
+// Return values of the Advance function of a menu screen (0 while the screen runs): the choice was confirmed, the
+// return button was used, or the connection or group was left.
+#define MENU_SCREEN_RESULT_NEXT 1
+#define MENU_SCREEN_RESULT_BACK 2
+#define MENU_SCREEN_RESULT_LEAVE 3
+
 void SwitchMenuScreen(s32 screenNumber, s32 nextScreenNumber);
 
 unsigned int GetNextMenuScreenNumber(void);
