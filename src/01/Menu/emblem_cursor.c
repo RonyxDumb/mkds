@@ -573,13 +573,13 @@ void InitEmblem(void) {
     displaySettingsDesc.mDispMode = 1;
     displaySettingsDesc.mMainBgMode = GX_BGMODE_0;
     displaySettingsDesc.mBg0As = 1;
-    displaySettingsDesc.mMainDisplayMask = 0x11;
+    displaySettingsDesc.mMainDisplayMask = GX_PLANEMASK_BG0 | GX_PLANEMASK_OBJ;
     displaySettingsDesc.mBankForTex = 3;
     displaySettingsDesc.mBankForTexPltt = 0x10;
     displaySettingsDesc.mBankForBG = 0x20;
     displaySettingsDesc.mBankForOBJ = 0x40;
     displaySettingsDesc.mSubBgMode = GX_BGMODE_1;
-    displaySettingsDesc.mSubDisplayMask = 0x10;
+    displaySettingsDesc.mSubDisplayMask = GX_PLANEMASK_OBJ;
     displaySettingsDesc.mBankForSubBG = 4;
     displaySettingsDesc.mBankForSubOBJ = 8;
     InitDisplayFromSettings(CreateDisplaySettings(GetHeap(GetCurrentHeapCall()), &displaySettingsDesc));
