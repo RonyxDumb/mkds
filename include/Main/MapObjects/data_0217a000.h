@@ -51,6 +51,7 @@ typedef struct BackupFirstBlock {
     /* 32 */ u8 mUnk_32[0x2];
     /* 34 */ u32 mTotals[6];
     /* 4c */ DWCAccUserData mUserData;
+    /* 8c */ u8 mUnk_8c[0x74];
 } BackupFirstBlock;
 
 // The player's saved emblem: a filled flag and the 0x200 emblem bytes.
@@ -59,6 +60,7 @@ typedef struct EmblemRecord {
     /* 004 */ u8 mFilled : 1;
     /* 005 */ u8 mUnk_005[0x3];
     /* 008 */ u8 mEmblemData[0x200];
+    /* 208 */ u8 mUnk_208[0xf8];
 } EmblemRecord;
 
 // One Grand Prix record as saved: the time and the character in bit fields, the name whole.
@@ -93,6 +95,7 @@ typedef struct PackedGrandPrixRecord {
 typedef struct GrandPrixRecordBlock {
     /* 00 */ u8 mUnk_00[4];
     /* 04 */ PackedGrandPrixRecord mRecords[1][8];
+    /* e4 */ u8 mUnk_e4[0x31c];
 } GrandPrixRecordBlock;
 
 // One course time record as saved: the time and the character in bit fields, the name whole.
@@ -116,6 +119,7 @@ typedef struct PackedCourseTimeRecord {
 typedef struct CourseTimeRecordBlock {
     /* 000 */ u8 mUnk_000[4];
     /* 004 */ PackedCourseTimeRecord mRecords[1][0x20];
+    /* 384 */ u8 mUnk_384[0x127c];
 } CourseTimeRecordBlock;
 
 // One saved mission result: a flag and a seven-bit value.
@@ -134,6 +138,7 @@ typedef struct MissionRecord {
 typedef struct MissionRecordBlock {
     /* 00 */ u8 mUnk_00[4];
     /* 04 */ MissionRecord mRecords[1];
+    /* 05 */ u8 mUnk_05[0xfb];
 } MissionRecordBlock;
 
 // The first 0x30 bytes of a ghost record.
@@ -224,6 +229,7 @@ typedef struct BuddyRecordBlock {
     /* 00 */ u8 mUnk_00[4];
     /* 04 */ BuddyRecord mRecords[60];
     /* 874 */ DWCAccFriendData mFriendData[60];
+    /* b44 */ u8 mUnk_b44[0xbc];
 } BuddyRecordBlock;
 
 // 0xb00 bytes behind member 0x24 of BackupBuffers: a byte at 0x04 and five 0x200-byte rows from 0x08.

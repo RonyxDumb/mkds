@@ -53,7 +53,7 @@ void ResetBackupFirstBlock(s32 copyOwnerName) {
     u16 ownerCharCount;
     u16 *ownerText;
 
-    MI_CpuFill8(gBackupBuffers->mFirstBlock, 0, 0x100);
+    MI_CpuFill8(gBackupBuffers->mFirstBlock, 0, sizeof(BackupFirstBlock));
     if (copyOwnerName != 0) {
         ownerCharCount = gStartupWork->mOwnerCharCount;
         ownerText = gStartupWork->mOwnerText;

@@ -6,8 +6,8 @@
 #pragma thumb on
 
 void ClearCourseAndFirstSlotGhost(void) {
-    MI_CpuFill8(gBackupBuffers->mCourseGhostRecord, 0, (0x00000e00u));
-    MI_CpuFill8(gBackupBuffers->mSlotGhostRecords[0], 0, (0x00001000u));
+    MI_CpuFill8(gBackupBuffers->mCourseGhostRecord, 0, sizeof(GhostRecord));
+    MI_CpuFill8(gBackupBuffers->mSlotGhostRecords[0], 0, 0x1000);
 }
 
 #pragma thumb off
