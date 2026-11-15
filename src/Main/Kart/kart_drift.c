@@ -73,10 +73,10 @@ const Vec4 gKartResetFourthQuaternion = {0, 0, 0, 0x1000};
 const Vec4 gKartResetRotationQuaternion = {0, 0, 0, 0x1000};
 s32 gKartAheadSpeedLimitStartFactor = 0x14cd;
 Vec3 gFixedPositionSelectedEffectIds = {0x48, 0x49, 0x4a};
-Vec4 gKartState6TargetQuaternion = {0, 0, 0, 0x1000};
+Vec4 gKartLaunchDoubleFlipTargetQuaternion = {0, 0, 0, 0x1000};
 Vec3 gKartPointMotionDecayFactors = {0xf33, 0xe66, 0xf33};
 KartKillerEndRankOffsets gKartKillerEndRankOffsets = {{1, 1, 1, 1, 2, 2, 3, 3}};
-s16 gKartState3EndFrameCount = 0x1e;
+s16 gKartFlipEndFrameCount = 0x1e;
 s32 gKartWobbleEaseFactor = 0x4cd;
 s16 gTurnHeadingReductionAtSpeedLimit = 0x96;
 s32 gSpeedReductionAtFullTurnRatio = 0x1ec;
@@ -90,28 +90,28 @@ void (*gKartDefaultSlotFunctions[9])(Kart *kart) = {InitKartResources,
                                                  ResetKartToStartPlacement,
                                                  KartReleaseNop};
 Vec3 gParticipantRecordHeadingAxis = {0, 0x1000, 0};
-void (*gKartStateFunctions[8])(struct Kart *) = {KartState0Nop,
-                                                 AdvanceKartState1And2,
-                                                 AdvanceKartState1And2,
-                                                 AdvanceKartState3,
-                                                 AdvanceKartState4,
-                                                 AdvanceKartState5,
-                                                 AdvanceKartState6,
+void (*gKartStateFunctions[8])(struct Kart *) = {KartNormalNop,
+                                                 AdvanceKartSpin,
+                                                 AdvanceKartSpin,
+                                                 AdvanceKartFlip,
+                                                 AdvanceKartPushFlip,
+                                                 AdvanceKartPushDoubleFlip,
+                                                 AdvanceKartLaunchDoubleFlip,
                                                  NULL};
 s32 gKartPushFlipAngleDecay = 5;
 s32 gKartWobbleAmplitudeDecay = 0xfae;
 s32 gKartPushFlipStartVerticalSpeed = 0x3000;
-s32 gKartState3SecondLandVerticalSpeed = 0x1000;
+s32 gKartFlipSecondLandVerticalSpeed = 0x1000;
 Vec3 gFixedPositionEffectPos = {-5652480, 0x2f8000, -24412160};
-s32 gKartState5StartAnglePerFrame = 0x898;
+s32 gKartPushDoubleFlipStartAnglePerFrame = 0x898;
 s32 gKartJumpPadVerticalSpeeds[5] = {0x1800, 0x2000, 0x3000, 0x800, 0x4000};
 s32 gKartRespawnOffsetScale = 0x1e000;
-s32 gKartState3StartVerticalSpeed = 0x24cd;
+s32 gKartFlipStartVerticalSpeed = 0x24cd;
 s32 gKartJumpPadSpeedLimitGoals[5] = {0x7000, 0x6400, 0x4000, 0x6800, 0x3c00};
 s32 gFirstBaseSpeedLimitReciprocal = 0x6000;
 Vec3 gKartPlacementHeadingAxis = {0, 0x1000, 0};
-s32 gKartState4StartAnglePerFrame = 0x708;
-s32 gKartState5LandVerticalSpeed = 0x2000;
+s32 gKartPushFlipStartAnglePerFrame = 0x708;
+s32 gKartPushDoubleFlipLandVerticalSpeed = 0x2000;
 KartEffectScales gKartRaceStartEffectOffsets = {{-2458, -2458, -3482, -2458, -2253, -5325, -2458, -1843, -3482, -2458,
                                                  -3277, -3277, -2458, -2048, -3891, -2458, -3891, -3686, -2458, -2662,
                                                  -5530, -2458, -2458, -4301, -2458, -3482, -3277, -2458, -2048, -2867,
@@ -120,7 +120,7 @@ s32 gTurnHeadingEaseFactor = 0x666;
 KartFollowEffectIds gKartFollowEffectIds = {{0x61, 0x60, 0x62}};
 KartSurfaceSoundIds gKartSurfaceSoundIds = {{0x1b8, 0x1c9, 0x1c8}};
 u16 gKartWobbleAnglePerCall = 0x984;
-s32 gKartState3FirstLandVerticalSpeed = 0x1ccd;
+s32 gKartFlipFirstLandVerticalSpeed = 0x1ccd;
 s32 gFixedPositionOtherEffectIds[2] = {0x51, 0x50};
 s32 gKartWobbleAngleFactor = 0x2328;
 s32 gKartOverlapLengthLimit = 0x3000;
@@ -627,7 +627,7 @@ BOOL TryStartKartPushFlip(Kart *starKart, Kart *hitKart, const Vec3 *pushDirecti
     started = FALSE;
     canStart = IsKartPushFlipAllowed(hitKart);
     if (canStart != 0) {
-        StartKartState4(hitKart, pushDirection, 1);
+        StartKartPushFlip(hitKart, pushDirection, 1);
         StartSound(&hitKart->mSoundSource, 0xe8, 0x7f, 0);
         if (hitKart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
             hitKart->mParticipantRecordData->mEventToggleFlags ^= 0x80;
@@ -681,7 +681,7 @@ BOOL TryStartKartPushDoubleFlip(Kart *killerKart, Kart *hitKart) {
             flipAxis.y = -flipAxis.y;
             flipAxis.z = -flipAxis.z;
         }
-        StartKartState5(hitKart, &flipAxis, 1);
+        StartKartPushDoubleFlip(hitKart, &flipAxis, 1);
         StartSound(&hitKart->mSoundSource, 0xe8, 0x7f, 0);
         if (hitKart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
             hitKart->mParticipantRecordData->mEventToggleFlags ^= 0x80;
@@ -925,7 +925,7 @@ void ApplyItemObjectHitToKart(Kart *kart) {
         case ITEM_OBJECT_KIND_KOURA_G:
         case ITEM_OBJECT_KIND_KOURA_R:
         case ITEM_OBJECT_KIND_F_BOX:
-            hitResult = TryStartKartState3(kart);
+            hitResult = TryStartKartFlip(kart);
             break;
         case ITEM_OBJECT_KIND_BANANA:
             hitResult = TrySpinKart(kart, 1, hitResult);
@@ -951,14 +951,14 @@ void ApplyItemObjectHitToKart(Kart *kart) {
             if (((ItemKouraW *) itemObject)->mHitSpinsKart != 0) {
                 hitResult = TrySpinKart(kart, 2, hitResult);
             } else {
-                hitResult = TryStartKartState6(kart);
+                hitResult = TryStartKartLaunchDoubleFlip(kart);
             }
             break;
         case ITEM_OBJECT_KIND_BOMB:
             if (((ItemBomb *) itemObject)->mHitSpinsKart != 0) {
                 hitResult = TrySpinKart(kart, 2, hitResult);
             } else {
-                hitResult = TryStartKartState6(kart);
+                hitResult = TryStartKartLaunchDoubleFlip(kart);
             }
             break;
         case ITEM_OBJECT_KIND_THUNDER:
@@ -1676,7 +1676,7 @@ BOOL TrySpinKart(Kart *kart, int rotationCount, int skipSound) {
         return FALSE;
     }
     if (notSpinning) {
-        StartKartState2(kart, rotationCount, skipSound);
+        StartKartSpin(kart, rotationCount, skipSound);
         if (skipSound == 0) {
             if (rotationCount == 1) {
                 if (kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {

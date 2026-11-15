@@ -6,4 +6,4 @@ s32 GetAbsoluteValue(s32 value) {
     return value <= 0 ? -value : value;
 }
 
-void KartState0Nop(struct Kart *kart) {}
+void KartNormalNop(struct Kart *kart) {}

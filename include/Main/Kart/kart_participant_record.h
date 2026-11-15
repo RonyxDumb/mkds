@@ -35,7 +35,7 @@ int CollideKartWithMapObjectResponse8(Kart *kart, s32 *output);
 typedef struct MapObject MapObject;
 
 // Collision response 7 of gCollideKartWithMapObjectResponses (indexed by the value CollideKartWithMapObject returns for
-// the kart and the map object): runs TryStartKartState3 and, when it starts, for the selected kart increments the
+// the kart and the map object): runs TryStartKartFlip and, when it starts, for the selected kart increments the
 // counter of the record GetEntryKartCounters returns and sets KART_DRIVE_HIT_STATE in mDriveFlags. Stores 7 through the
 // second parameter and returns 2.
 int CollideKartWithMapObjectResponse7(Kart *kart, s32 *result);
@@ -123,19 +123,19 @@ BOOL TryStartKartScaleTableEffect(Kart *kart);
 
 void AdvanceKartThunderShrink(Kart *kart);
 void StartKartThunderShrink(Kart *kart);
-void AdvanceKartState5(Kart *kart);
-s32 StartKartState5(Kart *kart, const Vec3 *pushDirection, s32 record);
-void AdvanceKartState4(Kart *kart);
-void StartKartState4(Kart *kart, const Vec3 *pushDirection, s32 record);
+void AdvanceKartPushDoubleFlip(Kart *kart);
+s32 StartKartPushDoubleFlip(Kart *kart, const Vec3 *pushDirection, s32 record);
+void AdvanceKartPushFlip(Kart *kart);
+void StartKartPushFlip(Kart *kart, const Vec3 *pushDirection, s32 record);
 BOOL TryStartKartPushFlipFromMapObject(Kart *kart, MapObject *mapObject);
-void AdvanceKartState3(Kart *kart);
+void AdvanceKartFlip(Kart *kart);
 void StartKartFlip(Kart *kart);
-BOOL TryStartKartState3(Kart *kart);
-void AdvanceKartState6(Kart *kart);
+BOOL TryStartKartFlip(Kart *kart);
+void AdvanceKartLaunchDoubleFlip(Kart *kart);
 void StartKartLaunchDoubleFlip(Kart *kart);
-BOOL TryStartKartState6(Kart *kart);
-void AdvanceKartState1And2(Kart *kart);
-void StartKartState2(Kart *kart, int spinCount, int skipSound);
+BOOL TryStartKartLaunchDoubleFlip(Kart *kart);
+void AdvanceKartSpin(Kart *kart);
+void StartKartSpin(Kart *kart, int spinCount, int skipSound);
 
 extern const u32 gKartSurfaceKind1Effects[8];
 extern const s32 gKartOffsetCycleY[8];

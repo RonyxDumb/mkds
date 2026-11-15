@@ -4,7 +4,7 @@
 
 struct Kart;
 
-void KartState0Nop(struct Kart *kart);
+void KartNormalNop(struct Kart *kart);
 s32 GetAbsoluteValue(s32 value);
 
 extern u16 gSequenceEntryCount;

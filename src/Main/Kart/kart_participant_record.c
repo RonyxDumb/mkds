@@ -172,7 +172,7 @@ const s32 gKartScaleFactorZTable[25] = {0x800,  0x89f,  0x8ff,  0x8db,  0x8c9,  
                                         0xfa0,  0x1101, 0x11d9, 0x11de, 0x112f, 0x1030, 0xf44,  0xed0, 0xf15,
                                         0xfce,  0x1096, 0x1109, 0x1101, 0x10b8, 0x1056, 0x1000};
 
-void StartKartState2(Kart *kart, int spinCount, int skipSound) {
+void StartKartSpin(Kart *kart, int spinCount, int skipSound) {
     int direction = 1;
 
     StartKartState(kart, KART_STATE_SPIN);
@@ -202,7 +202,7 @@ void StartKartState2(Kart *kart, int spinCount, int skipSound) {
     StartKartSeqArcSound(kart, kart->mSoundIndex, 1);
 }
 
-void AdvanceKartState1And2(Kart *kart) {
+void AdvanceKartSpin(Kart *kart) {
     if (kart->mEffectFlags & KART_EFFECT_Y_SPIN) {
         return;
     }
@@ -219,7 +219,7 @@ void AdvanceKartState1And2(Kart *kart) {
     }
 }
 
-BOOL TryStartKartState6(Kart *kart) {
+BOOL TryStartKartLaunchDoubleFlip(Kart *kart) {
     if (!TryStartKartState(kart, KART_STATE_LAUNCH_DOUBLE_FLIP)) {
         return FALSE;
     }
@@ -280,7 +280,7 @@ void StartKartLaunchDoubleFlip(Kart *kart) {
     }
 }
 
-void AdvanceKartState6(Kart *kart) {
+void AdvanceKartLaunchDoubleFlip(Kart *kart) {
     Vec3 launchAxis;
     s32 value;
     u16 swingAngle;
@@ -322,7 +322,7 @@ void AdvanceKartState6(Kart *kart) {
     } else {
         Vec4 targetQuaternion;
 
-        targetQuaternion = gKartState6TargetQuaternion;
+        targetQuaternion = gKartLaunchDoubleFlipTargetQuaternion;
         QuaternionBlend(&kart->mRotationQuaternion, &targetQuaternion, &kart->mRotationQuaternion, 0x266);
     }
     QuaternionNormalize(&kart->mRotationQuaternion, &kart->mRotationQuaternion);
@@ -364,7 +364,7 @@ void AdvanceKartState6(Kart *kart) {
     }
 }
 
-BOOL TryStartKartState3(Kart *kart) {
+BOOL TryStartKartFlip(Kart *kart) {
     BOOL allowed;
     BOOL blocked;
     BOOL hasOtherState;
@@ -435,18 +435,18 @@ void StartKartFlip(Kart *kart) {
     }
 }
 
-void AdvanceKartState3(Kart *kart) {
+void AdvanceKartFlip(Kart *kart) {
     s16 endFrames;
 
     if (kart->mRotationAngleSum == 0) {
-        kart->mVerticalSpeed = gKartState3StartVerticalSpeed;
+        kart->mVerticalSpeed = gKartFlipStartVerticalSpeed;
     } else if (kart->mMotionFlags & KART_MOTION_LANDED) {
         switch (kart->mVerticalSpeedStepCount) {
             case 0:
-                kart->mVerticalSpeed = gKartState3FirstLandVerticalSpeed;
+                kart->mVerticalSpeed = gKartFlipFirstLandVerticalSpeed;
                 break;
             case 1:
-                kart->mVerticalSpeed = gKartState3SecondLandVerticalSpeed;
+                kart->mVerticalSpeed = gKartFlipSecondLandVerticalSpeed;
                 break;
         }
         kart->mVerticalSpeedStepCount++;
@@ -470,7 +470,7 @@ void AdvanceKartState3(Kart *kart) {
         kart->mEffectFlags &= ~KART_EFFECT_TUMBLING;
     }
     kart->mRotationEndFrames++;
-    if (kart->mRotationEndFrames < gKartState3EndFrameCount) {
+    if (kart->mRotationEndFrames < gKartFlipEndFrameCount) {
         return;
     }
     kart->mState = KART_STATE_NORMAL;
@@ -528,11 +528,11 @@ BOOL TryStartKartPushFlipFromMapObject(Kart *kart, MapObject *mapObject) {
         pushDirection.y = -pushDirection.y;
         pushDirection.z = -pushDirection.z;
     }
-    StartKartState4(kart, &pushDirection, 0);
+    StartKartPushFlip(kart, &pushDirection, 0);
     return TRUE;
 }
 
-void StartKartState4(Kart *kart, const Vec3 *pushDirection, s32 record) {
+void StartKartPushFlip(Kart *kart, const Vec3 *pushDirection, s32 record) {
     Vec3 unitY;
     s32 dot;
     s32 pushX;
@@ -543,7 +543,7 @@ void StartKartState4(Kart *kart, const Vec3 *pushDirection, s32 record) {
     kart->mEffectFlags |= KART_EFFECT_TUMBLING;
     kart->mRotationAngle = 0;
     kart->mRotationAngleSum = 0;
-    kart->mRotationAnglePerFrame = gKartState4StartAnglePerFrame;
+    kart->mRotationAnglePerFrame = gKartPushFlipStartAnglePerFrame;
     kart->mVerticalSpeedStepCount = 0;
     kart->mRotationEndFrames = 0;
     unitY = gKartVec3UnitY;
@@ -588,7 +588,7 @@ void StartKartState4(Kart *kart, const Vec3 *pushDirection, s32 record) {
     }
 }
 
-void AdvanceKartState4(Kart *kart) {
+void AdvanceKartPushFlip(Kart *kart) {
     s16 endFrames;
 
     if (kart->mRotationAngleSum == 0) {
@@ -633,7 +633,7 @@ void AdvanceKartState4(Kart *kart) {
     }
 }
 
-s32 StartKartState5(Kart *kart, const Vec3 *pushDirection, s32 record) {
+s32 StartKartPushDoubleFlip(Kart *kart, const Vec3 *pushDirection, s32 record) {
     Vec3 flatDirection;
     Vec3 unitY;
     s32 value;
@@ -655,7 +655,7 @@ s32 StartKartState5(Kart *kart, const Vec3 *pushDirection, s32 record) {
     kart->mEffectFlags |= KART_EFFECT_TUMBLING;
     kart->mRotationAngle = 0;
     kart->mRotationAngleSum = 0;
-    kart->mRotationAnglePerFrame = gKartState5StartAnglePerFrame;
+    kart->mRotationAnglePerFrame = gKartPushDoubleFlipStartAnglePerFrame;
     kart->mVerticalSpeedStepCount = 0;
     kart->mRotationEndFrames = 0;
     unitY = gKartVec3UnitY;
@@ -700,14 +700,14 @@ s32 StartKartState5(Kart *kart, const Vec3 *pushDirection, s32 record) {
     return 1;
 }
 
-void AdvanceKartState5(Kart *kart) {
+void AdvanceKartPushDoubleFlip(Kart *kart) {
     s16 endFrames;
 
     if (kart->mRotationAngleSum == 0) {
         kart->mVerticalSpeed = gKartPushFlipStartVerticalSpeed;
     } else if (kart->mMotionFlags & KART_MOTION_LANDED) {
         if (kart->mVerticalSpeedStepCount == 0) {
-            kart->mVerticalSpeed = gKartState5LandVerticalSpeed;
+            kart->mVerticalSpeed = gKartPushDoubleFlipLandVerticalSpeed;
         }
         kart->mVerticalSpeedStepCount++;
     }
@@ -1950,7 +1950,7 @@ void StartKartPushFlipOnHit(Kart *kart, const Vec3 *direction) {
         canStart = isBlocked == FALSE ? 1 : 0;
     }
     if (canStart != 0) {
-        StartKartState4(kart, direction, 0);
+        StartKartPushFlip(kart, direction, 0);
         started = TRUE;
     } else {
         started = FALSE;
@@ -2007,7 +2007,7 @@ void StartKartPushDoubleFlipOnHit(Kart *kart, const Vec3 *direction) {
         canStart = isBlocked == FALSE ? 1 : 0;
     }
     if (canStart != 0) {
-        StartKartState5(kart, direction, 0);
+        StartKartPushDoubleFlip(kart, direction, 0);
         started = TRUE;
     } else {
         started = FALSE;
@@ -2098,7 +2098,7 @@ int CollideKartWithMapObjectResponse5(Kart *kart, s32 *result) {
 }
 
 int CollideKartWithMapObjectResponse7(Kart *kart, s32 *result) {
-    if (TryStartKartState3(kart)) {
+    if (TryStartKartFlip(kart)) {
         if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
             GetEntryKartCounters()->mMapObjectHitCount++;
         }
@@ -2843,11 +2843,11 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         startedState = 1;
     }
     if (((kart->mParticipantRecordData->mAppliedFlags & 4) != 0) != ((recordFlags & 4) != 0)) {
-        StartKartState2(kart, 1, 0);
+        StartKartSpin(kart, 1, 0);
         startedState = 1;
     }
     if (((kart->mParticipantRecordData->mAppliedFlags & 8) != 0) != ((recordFlags & 8) != 0)) {
-        StartKartState2(kart, 2, 0);
+        StartKartSpin(kart, 2, 0);
         startedState = 1;
     }
     if (((kart->mParticipantRecordData->mAppliedFlags & 0x10) != 0) != ((recordFlags & 0x10) != 0)) {
@@ -2895,7 +2895,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
             goto skipPushBackStart;
         }
         StartSound(&kart->mSoundSource, 0xe8, 0x7f, 0);
-        StartKartState5(kart, &state->mPushDirection, 0);
+        StartKartPushDoubleFlip(kart, &state->mPushDirection, 0);
     skipPushBackStart:
         if (((kart->mParticipantRecordData->mAppliedFlags & 0x80) != 0) != ((recordFlags & 0x80) != 0)) {
             StartSound(&kart->mSoundSource, 0xe8, 0x7f, 0);
@@ -2908,7 +2908,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         } else if (kart->mState == KART_STATE_PUSH_FLIP) {
             goto skipFlipBackStart;
         }
-        StartKartState4(kart, &state->mPushDirection, 0);
+        StartKartPushFlip(kart, &state->mPushDirection, 0);
     skipFlipBackStart:
         if (((kart->mParticipantRecordData->mAppliedFlags & 0x80) != 0) != ((recordFlags & 0x80) != 0)) {
             StartSound(&kart->mSoundSource, 0xe8, 0x7f, 0);
@@ -2958,7 +2958,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         }
         SetSideSignedDirection(otherKart, sourceKart, &direction);
         StartSound(&otherKart->mSoundSource, 0xe8, 0x7f, 0);
-        StartKartState5(otherKart, &direction, 0);
+        StartKartPushDoubleFlip(otherKart, &direction, 0);
     markFirstKartPushed:
         flag = 1;
     }
@@ -2978,7 +2978,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         }
         SetSideSignedDirection(otherKart, sourceKart, &direction);
         StartSound(&otherKart->mSoundSource, 0xe8, 0x7f, 0);
-        StartKartState5(otherKart, &direction, 0);
+        StartKartPushDoubleFlip(otherKart, &direction, 0);
     markSecondKartPushed:
         flag = 1;
     }
@@ -2998,7 +2998,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         }
         SetSideSignedDirection(otherKart, sourceKart, &direction);
         StartSound(&otherKart->mSoundSource, 0xe8, 0x7f, 0);
-        StartKartState5(otherKart, &direction, 0);
+        StartKartPushDoubleFlip(otherKart, &direction, 0);
     markThirdKartPushed:
         flag = 1;
     }
@@ -3018,7 +3018,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         }
         SetSideSignedDirection(otherKart, sourceKart, &direction);
         StartSound(&otherKart->mSoundSource, 0xe8, 0x7f, 0);
-        StartKartState5(otherKart, &direction, 0);
+        StartKartPushDoubleFlip(otherKart, &direction, 0);
     markFourthKartPushed:
         flag = 1;
     }
@@ -3044,7 +3044,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
             Vec3NormalizeAndGetLengthUnchecked(&direction, &direction);
         }
         StartSound(&otherKart->mSoundSource, 0xe8, 0x7f, 0);
-        StartKartState4(otherKart, &direction, 0);
+        StartKartPushFlip(otherKart, &direction, 0);
     skipFirstKartFlip:
     }
     if (((kart->mParticipantRecordData->mAppliedFlags & 0x400) != 0) != ((recordFlags & 0x400) != 0) &&
@@ -3066,7 +3066,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
             Vec3NormalizeAndGetLengthUnchecked(&direction, &direction);
         }
         StartSound(&otherKart->mSoundSource, 0xe8, 0x7f, 0);
-        StartKartState4(otherKart, &direction, 0);
+        StartKartPushFlip(otherKart, &direction, 0);
     skipSecondKartFlip:
     }
     if (((kart->mParticipantRecordData->mAppliedFlags & 0x800) != 0) != ((recordFlags & 0x800) != 0) &&
@@ -3088,7 +3088,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
             Vec3NormalizeAndGetLengthUnchecked(&direction, &direction);
         }
         StartSound(&otherKart->mSoundSource, 0xe8, 0x7f, 0);
-        StartKartState4(otherKart, &direction, 0);
+        StartKartPushFlip(otherKart, &direction, 0);
     skipThirdKartFlip:
     }
     if (((kart->mParticipantRecordData->mAppliedFlags & 0x1000) != 0) != ((recordFlags & 0x1000) != 0) &&
@@ -3110,7 +3110,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
             Vec3NormalizeAndGetLengthUnchecked(&direction, &direction);
         }
         StartSound(&otherKart->mSoundSource, 0xe8, 0x7f, 0);
-        StartKartState4(otherKart, &direction, 0);
+        StartKartPushFlip(otherKart, &direction, 0);
     skipFourthKartFlip:
     }
 storeAppliedFlags:
