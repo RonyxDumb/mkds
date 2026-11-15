@@ -1,5 +1,6 @@
 #include "Main/Sound/sound_seq.h"
 #include "Main/Sound/sound_row.h"
+#include "Main/Menu/menu_entry_kind.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/Menu/menu_label_cell_rows.h"
 #include "code_02022aa8.h"
@@ -849,7 +850,7 @@ void InitSceneSounds(s32 unused) {
     if (GetCurrentSceneNumber() != SCENE_MENU_1) {
         return;
     }
-    if (gMenuShared->mMenuEntryKind == 3) {
+    if (gMenuShared->mMenuEntryKind == MENU_ENTRY_MISSION_SELECT) {
         gScenePlayers.mSeqInfo.mSeqStartProgress = SCENE_PLAYERS_SEQ_START_NEVER;
     }
 }

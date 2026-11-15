@@ -1048,7 +1048,7 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
                             case 0:
                                 if (gStartupWork->mMultiSimple != 0) {
                                     gMenuShared->mWLMenuKind = WL_MENU_KIND_TO_MENU;
-                                    gMenuShared->mMenuEntryKind = 4;
+                                    gMenuShared->mMenuEntryKind = MENU_ENTRY_SELECT_GAME;
                                     if (sceneNumbers != NULL) {
                                         sceneNumbers->mNextScene = SCENE_WL_MENU;
                                     }
