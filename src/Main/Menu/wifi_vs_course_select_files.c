@@ -190,7 +190,7 @@ void AdvancePickedCourseRows(void) {
     for (rowIndex = 0; rowIndex < gWiFiVSCourseSelect->mPlayerCount; rowIndex++) {
         AdvanceInterpolation(&gWiFiVSCourseSelect->mRowInterpolations[rowIndex]);
         if (GetIndexOfPackedIndex(rowIndex) >= 0) {
-            pickedCourseId = GetWiFiSessionPickedCourseId((u8) GetIndexOfPackedIndex(rowIndex));
+            pickedCourseId = GetWiFiSessionPickedCourseId(GetIndexOfPackedIndex(rowIndex));
         } else {
             pickedCourseId = 0;
         }

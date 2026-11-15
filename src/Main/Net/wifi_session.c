@@ -271,7 +271,7 @@ u32 GetWiFiSessionKartIndex(u8 index) {
     return gWiFiSession->mIndexMessages[index].mKartIndex;
 }
 
-u32 GetWiFiSessionPickedCourseId(u32 index) {
+u32 GetWiFiSessionPickedCourseId(u8 index) {
     return gWiFiSession->mIndexMessages[index].mPickedCourseId;
 }
 
