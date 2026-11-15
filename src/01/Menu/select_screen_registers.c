@@ -26,9 +26,9 @@ void WriteMainBg1CntFlag(int enable) {
     }
 }
 
-void WriteMainBg1CntFields(u32 a, u32 b, u32 c, u32 d, u32 e) {
-    reg_G2_BG1CNT = (reg_G2_BG1CNT & (REG_G2_BG1CNT_PRIORITY_MASK | REG_G2_BG1CNT_MOSAIC_MASK)) | (a << 14) | (b << 7) |
-                    (c << 8) | (d << 2) | (e << 13);
+void WriteMainBg1CntFields(u32 screenSize, u32 colorMode, u32 screenBase, u32 charBase, u32 overflowMode) {
+    reg_G2_BG1CNT = (reg_G2_BG1CNT & (REG_G2_BG1CNT_PRIORITY_MASK | REG_G2_BG1CNT_MOSAIC_MASK)) | (screenSize << 14) |
+                    (colorMode << 7) | (screenBase << 8) | (charBase << 2) | (overflowMode << 13);
 }
 
 #pragma thumb on

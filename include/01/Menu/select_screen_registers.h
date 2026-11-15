@@ -14,5 +14,5 @@ void TimeAttackGXS_SetVisiblePlane(u32 bits);
 void TimeAttackGX_SetVisiblePlane(u32 bits);
 void UpdateSelectGhost(void);
 void WriteSelectGhostScreenRegisters(void);
-void WriteMainBg1CntFields(u32 a, u32 b, u32 c, u32 d, u32 e);
+void WriteMainBg1CntFields(u32 screenSize, u32 colorMode, u32 screenBase, u32 charBase, u32 overflowMode);
 void WriteMainBg1CntFlag(int enable);
