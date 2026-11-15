@@ -22,6 +22,17 @@ typedef struct Words16 {
     /* 0 */ u32 mWords[16];
 } Words16;
 
+// Values of ExchangeResult.mKind: which value set FillExchangeResultFromKind5Data stored; the three VALUES ones hold
+// texts of 5, 13 or 16 characters (or their hex forms of 10, 26 or 32).
+enum {
+    EXCHANGE_RESULT_KIND_NONE,
+    EXCHANGE_RESULT_KIND_VALUES_5,
+    EXCHANGE_RESULT_KIND_VALUES_13,
+    EXCHANGE_RESULT_KIND_VALUES_16,
+    EXCHANGE_RESULT_KIND_WORDS_A,
+    EXCHANGE_RESULT_KIND_WORDS_B,
+};
+
 // 0xe8 bytes.
 typedef struct ExchangeResult {
     /* 00 */ char mText[0x20];
@@ -36,6 +47,8 @@ typedef struct ExchangeResult {
 enum {
     KIND5_ITEM202_NONE,
     KIND5_ITEM202_VALUE_TEXTS,
+    KIND5_ITEM202_WORDS_A,
+    KIND5_ITEM202_WORDS_B,
 };
 
 // 0x60 bytes.

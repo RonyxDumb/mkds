@@ -1287,8 +1287,8 @@ s32 SendBytesToAddress(s32 descriptor, const SocketAddress *address, const u8 *u
 s32 SendBytesToAllOnesAddress(s32 descriptor, const void *data, u32 size) {
     SocketAddress address;
     u8 unused[4];
-    address.mLength = 8;
-    address.mFamily = 2;
+    address.mLength = sizeof(SocketAddress);
+    address.mFamily = SOCKET_FAMILY_IPV4;
     address.mAddress = -1;
     address.mPort = 0x1e6;
     SOC_U32to4U8(SOCL_GetHostID(), unused);
@@ -1681,7 +1681,7 @@ s32 FillExchangeResultFromKind5Data(void) {
     strcpy(gExchangeResult.mText, gExchangeResultItems.mRecord.mText);
     switch (gExchangeResultItems.mRecord.mItem202Value) {
         case KIND5_ITEM202_NONE:
-            gExchangeResult.mKind = 0;
+            gExchangeResult.mKind = EXCHANGE_RESULT_KIND_NONE;
             break;
         case KIND5_ITEM202_VALUE_TEXTS:
             if (gExchangeResultItems.mRecord.mItem205Value == 0) {
@@ -1700,27 +1700,27 @@ s32 FillExchangeResultFromKind5Data(void) {
                     case 0:
                         break;
                     case 5:
-                        gExchangeResult.mKind = 1;
+                        gExchangeResult.mKind = EXCHANGE_RESULT_KIND_VALUES_5;
                         *(Bytes5 *) resultBytes = *(Bytes5 *) valueText;
                         break;
                     case 10:
-                        gExchangeResult.mKind = 1;
+                        gExchangeResult.mKind = EXCHANGE_RESULT_KIND_VALUES_5;
                         ParseHexText(resultBytes, (s8 *) valueText, 10);
                         break;
                     case 13:
-                        gExchangeResult.mKind = 2;
+                        gExchangeResult.mKind = EXCHANGE_RESULT_KIND_VALUES_13;
                         *(Bytes13 *) resultBytes = *(Bytes13 *) valueText;
                         break;
                     case 26:
-                        gExchangeResult.mKind = 2;
+                        gExchangeResult.mKind = EXCHANGE_RESULT_KIND_VALUES_13;
                         ParseHexText(resultBytes, (s8 *) valueText, 26);
                         break;
                     case 16:
-                        gExchangeResult.mKind = 3;
+                        gExchangeResult.mKind = EXCHANGE_RESULT_KIND_VALUES_16;
                         *(Bytes16 *) resultBytes = *(Bytes16 *) valueText;
                         break;
                     case 32:
-                        gExchangeResult.mKind = 3;
+                        gExchangeResult.mKind = EXCHANGE_RESULT_KIND_VALUES_16;
                         ParseHexText(resultBytes, (s8 *) valueText, 32);
                         break;
                     default:
@@ -1731,13 +1731,13 @@ s32 FillExchangeResultFromKind5Data(void) {
                 resultBytes += 0x20;
             }
             break;
-        case 2:
-            gExchangeResult.mKind = 4;
+        case KIND5_ITEM202_WORDS_A:
+            gExchangeResult.mKind = EXCHANGE_RESULT_KIND_WORDS_A;
             __memcpy(&gExchangeResult.mItem20aWords, &gExchangeResultItems.mItem20a.mBytes,
                      sizeof(gExchangeResult.mItem20aWords));
             break;
-        case 3:
-            gExchangeResult.mKind = 5;
+        case KIND5_ITEM202_WORDS_B:
+            gExchangeResult.mKind = EXCHANGE_RESULT_KIND_WORDS_B;
             __memcpy(&gExchangeResult.mItem20aWords, &gExchangeResultItems.mItem20a.mBytes,
                      sizeof(gExchangeResult.mItem20aWords));
             break;
@@ -1797,8 +1797,8 @@ s32 RunExchange(void) {
                     break;
                 }
                 __clear(&bindAddress, 8);
-                bindAddress.mLength = 8;
-                bindAddress.mFamily = 2;
+                bindAddress.mLength = sizeof(SocketAddress);
+                bindAddress.mFamily = SOCKET_FAMILY_IPV4;
                 bindAddress.mPort = 0x1e6;
                 bindAddress.mAddress = 0;
                 result = SOC_Bind(descriptor, &bindAddress);
@@ -1816,7 +1816,7 @@ s32 RunExchange(void) {
                     done = TRUE;
                     break;
                 }
-                peerAddress.mLength = 8;
+                peerAddress.mLength = sizeof(SocketAddress);
                 StoreMacAddressAndBuildKey(gFirstKey, &peerAddress);
                 if (SOC_RecvFrom(descriptor, gPacketBuffer, 0x800, 4, &peerAddress) > 0) {
                     if (ParseAndCheckExchangePacketKind1(gPacketBuffer, (s32 *) &gKind1Item5Flag) != FALSE) {
