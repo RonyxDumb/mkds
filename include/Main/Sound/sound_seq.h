@@ -81,6 +81,8 @@ typedef struct LoadedSoundBanks {
 
 // SceneSoundState.mRankIndex and mRankIndexAtSeq before a place was stored.
 #define SCENE_RANK_INDEX_NONE 0xff
+// Pinball: SetSceneSoundRank starts no rank sequence while slot 7 plays this seq arc entry (seq number 0).
+#define SCENE_RANK_PINBALL_BLOCKING_SEQ_ARC_INDEX 0x1cc
 
 // Frames after which the scene sound steps run: the course sequence of a scene starts (most courses; the two later
 // ones), the airship one stops and restarts, the logo scene sequence stops, the race sequence starts, and the stored
@@ -106,6 +108,8 @@ typedef struct LoadedSoundBanks {
 #define MISSION_TABLE_ROW_KING_TERESA 4
 #define MISSION_TABLE_ROW_BOMB_KING 5
 #define MISSION_TABLE_ROW_KING_ICE_DONKETU 6
+// The last of the seven rows of the mission select; its bank is 0x17.
+#define MISSION_TABLE_ROW_LAST 7
 
 // 0x03-byte argument of InitSceneSoundState and InitSceneSounds.
 typedef struct ScenePlayersSeqInfo {

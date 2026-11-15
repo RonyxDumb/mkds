@@ -1195,7 +1195,9 @@ void SetSceneSoundRank(u8 rankIndex) {
             seqNo = rankIndex == 0 ? 0x1cb : 0x1ca;
             flag = TRUE;
             seqPlayer = gSndHandleSlots[7];
-            slotSeqPlaying = seqPlayer != NULL && seqPlayer->mSeqArcIndex == 0x1cc && seqPlayer->mSeqNo == 0;
+            slotSeqPlaying = seqPlayer != NULL &&
+                             seqPlayer->mSeqArcIndex == SCENE_RANK_PINBALL_BLOCKING_SEQ_ARC_INDEX &&
+                             seqPlayer->mSeqNo == 0;
             if (slotSeqPlaying != 0) {
                 flag = FALSE;
             }
@@ -1753,7 +1755,7 @@ void LoadMissionRunMSselSoundData(u32 mode, u32 missionRow) {
             gMissionRunMSselSeqIndex = 6;
             bankNo = SOUND_BANK_MISSION_DONKETU;
             break;
-        case 7:
+        case MISSION_TABLE_ROW_LAST:
             gMissionRunMSselSeqIndex = 7;
             bankNo = 0x17;
             break;
