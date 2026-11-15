@@ -18,11 +18,6 @@ typedef struct ApObjectPosition {
     /* 2 */ u16 mY;
 } ApObjectPosition;
 
-// Four bytes moved as one value.
-typedef struct Bytes4 {
-    /* 0 */ u8 mBytes[4];
-} Bytes4;
-
 extern const u8 gApScanEmptyBssid[];
 extern u8 *gKind2ItemBuffer;
 extern const Rect gTouchScreenRect;

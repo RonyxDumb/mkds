@@ -54,8 +54,8 @@
 
 YbBgStep11NclName gYbBgStep11NclName2 = {{0x63, 0x68, 0x61, 0x72, 0x2f, 0x79, 0x62, 0x42, 0x67, 0x53, 0x74,
                                           0x65, 0x70, 0x31, 0x31, 0x2e, 0x6e, 0x63, 0x6c, 0x2e, 0x6c, 0}};
-Bytes4 gApEntryIconPalettes = {{0xa, 9, 0xb, 6}};
-Bytes4 gApPaletteRows = {{3, 4, 5, 7}};
+ApEntryIconPalettes gApEntryIconPalettes = {{0xa, 9, 0xb, 6}};
+ApPaletteRows gApPaletteRows = {{3, 4, 5, 7}};
 const u8 gApRects[56] = {8,    0, 0x20, 0, 0x54, 0, 0x56, 0, 0x5a, 0, 0x20, 0, 0xa6, 0, 0x56, 0, 0xac, 0, 0x20, 0,
                          0xf8, 0, 0x56, 0, 8,    0, 0x78, 0, 0xf8, 0, 0xa0, 0, 8,    0, 0x54, 0, 0x54, 0, 0x70, 0,
                          0x5a, 0, 0x54, 0, 0xa6, 0, 0x70, 0, 0xac, 0, 0x54, 0, 0xf8, 0, 0x70, 0};
@@ -462,20 +462,20 @@ void UpdateApMessageClose(void) {
 }
 
 void RequestApSelectionPalette(void) {
-    Bytes4 paletteRows;
-    Bytes4 iconPalettes;
+    ApPaletteRows paletteRows;
+    ApEntryIconPalettes iconPalettes;
     int statusIndex;
     paletteRows = gApPaletteRows;
     iconPalettes = gApEntryIconPalettes;
     if (gApSelectedIndex <= 3) {
-        RequestBgPaletteRowCopy(gAp->mYbBgStep11Ncl, paletteRows.mBytes[gApSelectedIndex],
-                                paletteRows.mBytes[gApSelectedIndex]);
+        RequestBgPaletteRowCopy(gAp->mYbBgStep11Ncl, paletteRows.mRowIndices[gApSelectedIndex],
+                                paletteRows.mRowIndices[gApSelectedIndex]);
         if (gApSelectedIndex != 3) {
             statusIndex = GetApEntrySetType(gApSelectedIndex);
             if (statusIndex > 2) {
                 statusIndex = 3;
             }
-            SetOamRangeMode(gAp->mEntryIconObjects[gApSelectedIndex], -1, 0, iconPalettes.mBytes[statusIndex]);
+            SetOamRangeMode(gAp->mEntryIconObjects[gApSelectedIndex], -1, 0, iconPalettes.mPaletteIndices[statusIndex]);
         }
     }
 }

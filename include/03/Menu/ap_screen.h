@@ -16,6 +16,16 @@ enum {
     AP_CLOSE_KIND_BACK,
 };
 
+// Palette row of the selected entry, by entry index.
+typedef struct ApPaletteRows {
+    /* 0 */ u8 mRowIndices[4];
+} ApPaletteRows;
+
+// Palette of the entry icon, by status index.
+typedef struct ApEntryIconPalettes {
+    /* 0 */ u8 mPaletteIndices[4];
+} ApEntryIconPalettes;
+
 typedef struct Ap {
     /* 00 */ void *mYbBgStep11Ncl;
     /* 04 */ OamRange *mEntryIconObjects[3];
@@ -42,8 +52,8 @@ void UpdateApFadeIn(void);
 void StartApFadeIn(void);
 
 extern YbBgStep11NclName gYbBgStep11NclName2;
-extern Bytes4 gApEntryIconPalettes;
-extern Bytes4 gApPaletteRows;
+extern ApEntryIconPalettes gApEntryIconPalettes;
+extern ApPaletteRows gApPaletteRows;
 extern const u8 gApRects[56];
 extern const s8 gApMessageDigitColumns[6];
 extern const u8 gApEntryImageIndices[4];

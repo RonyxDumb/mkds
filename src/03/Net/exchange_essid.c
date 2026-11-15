@@ -1512,7 +1512,7 @@ s32 StoreMacAddressAndBuildKey(u8 *key, void *unused) {
     u8 ownAddress[6];
     u8 ownText[0x20];
     u8 peerText[0x20];
-    __memcpy(key + 0xc, "WARP", sizeof(Bytes4));
+    __memcpy(key + 0xc, "WARP", 4);
     __memcpy(peerAddress, &gSelectedEntryAddress, sizeof(MacAddress));
     peerAddress[0] &= 0xfd;
     GetMacAddress(ownAddress);
