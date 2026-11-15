@@ -200,8 +200,8 @@ void AdvanceButtonReset(TaskEntry *task, void *arg) {
     s32 buttonIndex;
     s32 buttonCount;
     u32 imageIndex;
-    u32 unusedValue1;
-    u32 unusedValue2;
+    u32 unusedFirstValue;
+    u32 unusedSecondValue;
 
     slideButtons = gSlideButtons;
     slideButtons->mStepFrames = slideButtons->mStepFrames + 1;
