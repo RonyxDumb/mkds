@@ -64,7 +64,7 @@ void RunFileReadThread(void *unused) {
             }
             node->mLastBlockId = 0;
             node->mLastLoadedBufferIndex = 1;
-            node->mLoadingBufferIndex = 2;
+            node->mLoadingBufferIndex = ROM_ARCHIVE_NODE_NO_BUFFER;
             updateIrqState = OS_DisableInterrupts();
             ActivateRomArchiveNode(&gRomArchiveTransfer.mParentView, node, 1);
             OS_RestoreInterrupts(updateIrqState);
@@ -159,7 +159,7 @@ void FinishBackupRead(void (*callback)(u32 *, u32)) {
     u32 resultCode;
     u16 tailHalfword;
     u16 firstPassTailHalfword;
-    result = 0;
+    result = BACKUP_ERROR_NONE;
     finished = TRUE;
     resultCode = CARD_GetResultCode();
     UnlockBackup();
@@ -171,34 +171,34 @@ void FinishBackupRead(void (*callback)(u32 *, u32)) {
                 readWords = gBackupAccess->mReadDestination + 2;
                 xorByteCount = gBackupAccess->mReadSize - 8;
                 if (CheckBackupBlockPrefix((u8 *) gBackupAccess->mReadDestination) == 0) {
-                    result = 4;
+                    result = BACKUP_ERROR_BAD_PREFIX;
                 }
             } else {
                 readWords = gBackupAccess->mReadDestination;
                 xorByteCount = gBackupAccess->mReadSize;
             }
-            if (result == 0) {
+            if (result == BACKUP_ERROR_NONE) {
                 if (TryXorBackupWordsAtFoundIndex(readWords, xorByteCount, gBackupAccess->mExpectedFirstWord) == 0) {
-                    result = 3;
+                    result = BACKUP_ERROR_BAD_DATA;
                 } else if (ClearTickBytesAndCheckBlockCrc((u8 *) gBackupAccess->mReadDestination,
                                                           gBackupAccess->mReadSize, 0) == 0) {
-                    result = 3;
+                    result = BACKUP_ERROR_BAD_DATA;
                 } else if (gBackupAccess->mExpectedFirstWord != 0 && *readWords != gBackupAccess->mExpectedFirstWord) {
-                    result = 3;
+                    result = BACKUP_ERROR_BAD_DATA;
                 }
             }
             break;
         case 1:
         case 4:
         case 6:
-            result = 2;
+            result = BACKUP_ERROR_UNAVAILABLE;
             break;
         case 2:
         case 3:
         case 5:
         case 7:
         default:
-            result = 1;
+            result = BACKUP_ERROR_ACCESS_FAILED;
             break;
     }
     readWords = gBackupAccess->mReadDestination;
@@ -207,7 +207,7 @@ void FinishBackupRead(void (*callback)(u32 *, u32)) {
         case BACKUP_COPY_PASS_SINGLE:
             break;
         case BACKUP_COPY_PASS_FIRST:
-            if (result != 2) {
+            if (result != BACKUP_ERROR_UNAVAILABLE) {
                 gBackupAccess->mFirstPassResult = result;
                 gBackupAccess->mFirstPassBuffer = gBackupAccess->mReadDestination;
                 gBackupAccess->mFirstPassTailHalfword = tailHalfword;
@@ -221,8 +221,8 @@ void FinishBackupRead(void (*callback)(u32 *, u32)) {
             }
             break;
         case BACKUP_COPY_PASS_SECOND:
-            if (result == 0) {
-                if (gBackupAccess->mFirstPassResult == 0) {
+            if (result == BACKUP_ERROR_NONE) {
+                if (gBackupAccess->mFirstPassResult == BACKUP_ERROR_NONE) {
                     firstPassTailHalfword = gBackupAccess->mFirstPassTailHalfword;
                     if ((firstPassTailHalfword == 0 && tailHalfword == 0xffff) ||
                         firstPassTailHalfword >= tailHalfword) {
@@ -230,32 +230,35 @@ void FinishBackupRead(void (*callback)(u32 *, u32)) {
                     }
                 }
             } else {
-                if (gBackupAccess->mFirstPassResult == 0) {
-                    result = 0;
+                if (gBackupAccess->mFirstPassResult == BACKUP_ERROR_NONE) {
+                    result = BACKUP_ERROR_NONE;
                     readWords = gBackupAccess->mFirstPassBuffer;
-                } else if (result == 2 || gBackupAccess->mFirstPassResult == 2) {
-                    result = 2;
-                } else if (result != 1 && gBackupAccess->mFirstPassResult != 1) {
-                    if (result == 4 && gBackupAccess->mFirstPassResult == 4) {
-                        result = 4;
+                } else if (result == BACKUP_ERROR_UNAVAILABLE ||
+                           gBackupAccess->mFirstPassResult == BACKUP_ERROR_UNAVAILABLE) {
+                    result = BACKUP_ERROR_UNAVAILABLE;
+                } else if (result != BACKUP_ERROR_ACCESS_FAILED &&
+                           gBackupAccess->mFirstPassResult != BACKUP_ERROR_ACCESS_FAILED) {
+                    if (result == BACKUP_ERROR_BAD_PREFIX &&
+                        gBackupAccess->mFirstPassResult == BACKUP_ERROR_BAD_PREFIX) {
+                        result = BACKUP_ERROR_BAD_PREFIX;
                     } else {
-                        result = 3;
+                        result = BACKUP_ERROR_BAD_DATA;
                     }
                 } else {
-                    result = 1;
+                    result = BACKUP_ERROR_ACCESS_FAILED;
                 }
             }
             break;
     }
     if (finished != FALSE) {
-        if (result == 0) {
+        if (result == BACKUP_ERROR_NONE) {
             if (callback != NULL) {
                 callback(readWords, gBackupAccess->mReadSize);
             }
             ClearBackupAccessStatus();
             return;
         }
-        if (result == 2) {
+        if (result == BACKUP_ERROR_UNAVAILABLE) {
             gBackupAccess->mBackupEnabled = 0;
         }
         EndBackupAccessWithError(result);

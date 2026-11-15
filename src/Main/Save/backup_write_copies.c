@@ -19,23 +19,23 @@ void FinishBackupWrite(void (*callback)(u32 *, u32)) {
     finished = TRUE;
     resultCode = CARD_GetResultCode();
     UnlockBackup();
-    result = 0;
+    result = BACKUP_ERROR_NONE;
     gBackupAccess->mCommandRunning = 0;
     switch (resultCode) {
         case 0:
-            result = 0;
+            result = BACKUP_ERROR_NONE;
             break;
         case 1:
         case 4:
         case 6:
-            result = 2;
+            result = BACKUP_ERROR_UNAVAILABLE;
             break;
         case 2:
         case 3:
         case 5:
         case 7:
         default:
-            result = 1;
+            result = BACKUP_ERROR_ACCESS_FAILED;
             break;
     }
     buffer = gBackupAccess->mWriteSource;
@@ -53,29 +53,31 @@ void FinishBackupWrite(void (*callback)(u32 *, u32)) {
             finished = FALSE;
             break;
         case BACKUP_COPY_PASS_SECOND:
-            if (result != 0) {
-                if (gBackupAccess->mFirstPassResult == 0) {
+            if (result != BACKUP_ERROR_NONE) {
+                if (gBackupAccess->mFirstPassResult == BACKUP_ERROR_NONE) {
                     buffer = gBackupAccess->mFirstPassBuffer;
-                    result = 0;
-                } else if (result == 2 || gBackupAccess->mFirstPassResult == 2) {
-                    result = 2;
-                } else if (result != 1 && gBackupAccess->mFirstPassResult != 1) {
-                    result = 3;
+                    result = BACKUP_ERROR_NONE;
+                } else if (result == BACKUP_ERROR_UNAVAILABLE ||
+                           gBackupAccess->mFirstPassResult == BACKUP_ERROR_UNAVAILABLE) {
+                    result = BACKUP_ERROR_UNAVAILABLE;
+                } else if (result != BACKUP_ERROR_ACCESS_FAILED &&
+                           gBackupAccess->mFirstPassResult != BACKUP_ERROR_ACCESS_FAILED) {
+                    result = BACKUP_ERROR_BAD_DATA;
                 } else {
-                    result = 1;
+                    result = BACKUP_ERROR_ACCESS_FAILED;
                 }
             }
             break;
     }
     if (finished != FALSE) {
-        if (result == 0) {
+        if (result == BACKUP_ERROR_NONE) {
             if (callback != NULL) {
                 callback(buffer, byteCount);
             }
             ClearBackupAccessStatus();
             return;
         }
-        if (result == 2) {
+        if (result == BACKUP_ERROR_UNAVAILABLE) {
             gBackupAccess->mBackupEnabled = 0;
         }
         EndBackupAccessWithError(result);
