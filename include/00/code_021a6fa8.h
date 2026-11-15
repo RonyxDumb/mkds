@@ -3,6 +3,16 @@
 #include "types.h"
 #include "os_thread.h"
 
+// Bits of SOCLSocket.mStatusFlags.
+#define SOCL_STATUS_CREATE 0x0001
+#define SOCL_STATUS_CONNECTING 0x0002
+#define SOCL_STATUS_CONNECTED 0x0004
+#define SOCL_STATUS_CLOSING 0x0008
+#define SOCL_STATUS_WAIT_CLOSE 0x0010
+#define SOCL_STATUS_WAIT_RELEASE 0x0020
+#define SOCL_STATUS_ERROR 0x0040
+#define SOCL_STATUS_RESET 0x0080
+
 typedef struct OSThreadQueue OSThreadQueue;
 typedef struct OSMutex OSMutex;
 typedef struct OSMessageQueue OSMessageQueue;

@@ -659,7 +659,7 @@ void WcmEditScanExParam(const void *bssid, const u8 *essid, u32 option) {
         maxChannelTime = WM_GetDispersionScanPeriod();
     }
     gWcmWork->mScanExParam.mMaxChannelTime = maxChannelTime;
-    gWcmWork->mScanExParam.mScanType = (gWcmWork->mOption & 0x300000) != 0x300000;
+    gWcmWork->mScanExParam.mScanType = (gWcmWork->mOption & WCM_OPTION_MASK_SCANTYPE) != WCM_OPTION_MASK_SCANTYPE;
     if (bssid == NULL) {
         MI_CpuCopy8(WCM_Bssid_Any, gWcmWork->mScanExParam.mBssid, 6);
     } else {
@@ -682,7 +682,8 @@ void WcmEditScanExParam(const void *bssid, const u8 *essid, u32 option) {
 }
 
 void WcmInitOption(void) {
-    gWcmWork->mOption = 0xaaa082;
+    gWcmWork->mOption = WCM_OPTION_ROUNDSCAN_IGNORE | WCM_OPTION_SCANTYPE_PASSIVE | WCM_OPTION_AUTH_OPENSYSTEM |
+                        WCM_OPTION_POWER_SAVE | WCM_OPTION_CHANNEL_RDC;
 }
 
 u16 WcmGetNextScanChannel(u16 channel) {
@@ -1186,14 +1187,15 @@ void WcmWmcbReset(WirelessMessage *callback) {
             case WIFI_LINK_PHASE_CONNECTING:
                 failStatus = gWcmWork->mWlStatusOnConnectFail;
                 gWcmWork->mWlStatusOnConnectFail = 0;
-                if (failStatus == 0x12 && (gWcmWork->mBssDesc.mRateSet.mSupport & 0x24) != 0x24) {
-                    gWcmWork->mBssDesc.mRateSet.mSupport |= 0x24;
+                if (failStatus == 0x12 &&
+                    (gWcmWork->mBssDesc.mRateSet.mSupport & WCM_CAMOUFLAGE_RATESET) != WCM_CAMOUFLAGE_RATESET) {
+                    gWcmWork->mBssDesc.mRateSet.mSupport |= WCM_CAMOUFLAGE_RATESET;
                     sharedKeyFlag = 0;
-                    if ((gWcmWork->mOption & 0xc0000) == 0xc0000) {
+                    if ((gWcmWork->mOption & WCM_OPTION_MASK_AUTH) == WCM_OPTION_MASK_AUTH) {
                         sharedKeyFlag = 1;
                     }
                     authMode = sharedKeyFlag;
-                    if ((gWcmWork->mOption & 0x30000) == 0x30000) {
+                    if ((gWcmWork->mOption & WCM_OPTION_MASK_POWER) == WCM_OPTION_MASK_POWER) {
                         powerSave = 0;
                     } else {
                         powerSave = 1;

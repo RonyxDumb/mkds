@@ -116,27 +116,27 @@ s32 WCM_SendDCFData(const void *dstAddr, const void *buf, s32 len) {
     MI_CpuCopy8(buf, work->mSendBuf, len);
     result = WM_SetDCFData(WcmCpsifWmCallback, dstAddr, work->mSendBuf, len);
     switch (result) {
-        case 0:
-        case 1:
-        case 3:
-        case 4:
-        case 5:
-        case 6:
-        case 7:
-        case 8:
+        case WIRELESS_RESULT_SUCCEEDED:
+        case WIRELESS_RESULT_REFUSED:
+        case WIRELESS_RESULT_BAD_PHASE:
+        case WIRELESS_RESULT_SWITCHED_OFF:
+        case WIRELESS_RESULT_NOT_SET_UP:
+        case WIRELESS_RESULT_BAD_INPUT:
+        case WIRELESS_RESULT_NO_REMOTE:
+        case WIRELESS_RESULT_PIPE_ERROR:
         default:
             OS_UnlockMutex(&gWcmCpsifWork.mSendMutex);
             OS_RestoreInterrupts(enabled);
             return -5;
-        case 2:
+        case WIRELESS_CALL_QUEUED:
             OS_SleepThread(&gWcmCpsifWork.mSendQ);
             switch (gWcmCpsifWork.mSendResult) {
-                case 1:
+                case WIRELESS_RESULT_REFUSED:
                 default:
                     OS_UnlockMutex(&gWcmCpsifWork.mSendMutex);
                     OS_RestoreInterrupts(enabled);
                     return -5;
-                case 0:
+                case WIRELESS_RESULT_SUCCEEDED:
                     OS_UnlockMutex(&gWcmCpsifWork.mSendMutex);
                     OS_RestoreInterrupts(enabled);
                     return len;

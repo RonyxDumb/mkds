@@ -1,3 +1,4 @@
+#include "00/Lib/NitroWiFi/code_021a4b98.h"
 #include "00/Lib/DWC/dwc_connectinet.h"
 #include "00/Lib/DWC/code_02188720.h"
 #include "00/code_02188000.h"
@@ -95,7 +96,7 @@ void DWC_ProcessInet(void) {
     if (inetCntl != NULL && inetCntl->mState == INET_STATUS_CONNECTING) {
         gInetControl->mAcState = DWC_AC_Process();
     } else if (inetCntl != NULL && inetCntl->mState == INET_STATUS_ONLINE && inetCntl->mOnline != 0 &&
-               WCM_GetPhase() != 9) {
+               WCM_GetPhase() != WIFI_LINK_PHASE_CONNECTED) {
         gInetControl->mOnline = 0;
         gInetControl->mState = INET_STATUS_LINK_LOST;
     }

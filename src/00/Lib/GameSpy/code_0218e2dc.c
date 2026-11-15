@@ -90,13 +90,13 @@ s8 *_strlwr(s8 *string) {
 
 BOOL SetSockBlocking(s32 sock, s32 isblocking) {
     s32 flags;
-    flags = SOC_Fcntl((SOCLSocket *) sock, 3, 0);
+    flags = SOC_Fcntl((SOCLSocket *) sock, SOC_F_GETFL, 0);
     if (isblocking != 0) {
-        flags = flags & ~4;
+        flags = flags & ~SOC_O_NONBLOCK;
     } else {
-        flags = flags | 4;
+        flags = flags | SOC_O_NONBLOCK;
     }
-    return SOC_Fcntl((SOCLSocket *) sock, 4, flags) == 0;
+    return SOC_Fcntl((SOCLSocket *) sock, SOC_F_SETFL, flags) == 0;
 }
 
 s32 SetReceiveBufferSize(s32 sock, u32 size) {

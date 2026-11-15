@@ -1,3 +1,4 @@
+#include "00/Lib/NitroWiFi/code_021a4b98.h"
 #include "00/Lib/NitroWiFi/util.h"
 #include "00/unk_021b5000.h"
 #include "00/code_021a574c.h"
@@ -20,7 +21,7 @@ u32 WCM_GetLinkLevel(void) {
     enabled = OS_DisableInterrupts();
     work = WCMi_GetSystemWork();
     level = 0;
-    if (work != NULL && work->mPhase == 9) {
+    if (work != NULL && work->mPhase == WIFI_LINK_PHASE_CONNECTED) {
         level = WcmGetLinkLevel();
     }
     OS_RestoreInterrupts(enabled);
