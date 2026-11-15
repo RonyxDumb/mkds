@@ -54,12 +54,12 @@ s32 DWC_Auth_Create(AuthCreateParams *createParams, Http *http) {
     if (gAuth != NULL) {
         return 2;
     }
-    authBlock = createParams->mAlloc("DWCAuth", 0x13e0);
+    authBlock = createParams->mAlloc("DWCAuth", sizeof(DWCAuth));
     if (authBlock == NULL) {
         return 2;
     }
     gAuth = authBlock;
-    MI_CpuFill8(authBlock, 0, 0x13e0);
+    MI_CpuFill8(authBlock, 0, sizeof(DWCAuth));
     gAuth->mHttp = http;
     MI_CpuFill8(&gAuth->mReturncode, 0, 0x1c4);
     gAuth->mReturncode = -1;

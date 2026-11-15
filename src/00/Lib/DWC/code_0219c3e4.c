@@ -215,7 +215,7 @@ void DWCi_RemoteLogin(void (*callback)(), void *param) {
     AuthCreateParams authParams;
     void *httpBlock;
     u64 startTick;
-    MI_CpuFill8(&authParams, 0, 0x2c);
+    MI_CpuFill8(&authParams, 0, sizeof(AuthCreateParams));
     stRemoteAuthCallback = callback;
     pStRemoteAuthParam = param;
     if (DWCi_Acc_IsAuthentic(gWiFiLogin->mUserData) != 0) {
@@ -273,7 +273,7 @@ void DWCi_RemoteLoginProcess(void) {
             DWCi_StopLogin(2, failedAuthResult.mReturnCode);
         } else {
             DWC_Auth_Destroy();
-            MI_CpuFill8(&authParams, 0, 0x2c);
+            MI_CpuFill8(&authParams, 0, sizeof(AuthCreateParams));
             strcpy(authParams.mGsbrcd, gWiFiLogin->mGsbrcd);
             authParams.mAlloc = (void *(*) (const void *, u32)) DWC_Alloc;
             authParams.mFree = (void (*)(const void *, void *, u32)) DWC_Free;

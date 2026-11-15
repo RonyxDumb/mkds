@@ -29,7 +29,7 @@ void DarraySetElement(Darray *darray, const void *elem, s32 index) {
 }
 
 void *DarrayCreate(s32 elemSize, s32 initialCount, void (*freeElement)(void *)) {
-    Darray *array = DWCi_GsMalloc(0x18);
+    Darray *array = DWCi_GsMalloc(sizeof(Darray));
     if (array == NULL) {
         AssertionFailed("array", "darray.c", NULL, 0x52);
     }

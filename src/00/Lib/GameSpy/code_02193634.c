@@ -135,7 +135,7 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
 u32 GpiCreateOperation(GpConnection *connection, int type, void *data, GpiOperation **operationOut, int blocking,
                        GpiCallbackFn callback, int param) {
     GpiConnection *gpState = connection->mGpiConnection;
-    GpiOperation *pendingOp = DWCi_GsMalloc(0x24);
+    GpiOperation *pendingOp = DWCi_GsMalloc(sizeof(GpiOperation));
 
     if (pendingOp == NULL) {
         GpiSetErrorMessage(connection, "Out of memory.");

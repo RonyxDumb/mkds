@@ -105,7 +105,7 @@ void CPSi_md5_block(CPSMd5Ctx *context, const u8 *block) {
 }
 
 void CPSi_md5_init(CPSMd5Ctx *context) {
-    MI_CpuFill8(context, 0, 0x58);
+    MI_CpuFill8(context, 0, sizeof(CPSMd5Ctx));
     context->mStateA = (0x67452301u);
     context->mStateB = (0xefcdab89u);
     context->mStateC = (0x98badcfeu);

@@ -47,7 +47,7 @@ CPSCaInfo *gCaInfoTable[11] = {
     &gThawteServerCaInfo,     &gThawtePremiumServerCaInfo, &gNintendoCaInfo};
 
 s32 DWC_Http_Create(Http *http, const DWCHttpParam *param) {
-    MI_CpuFill8(http, 0, 0x1a60);
+    MI_CpuFill8(http, 0, sizeof(Http));
     http->mContentLength = -1;
     http->mParam = *param;
     http->mLowReceiveBuffer = http->mParam.mAlloc("http->lowrecvbuf", 0xb68);
@@ -345,7 +345,7 @@ void ReleaseHttp(Http *httpContext) {
             httpContext->mParam.mFree("http->lowsendbuf", httpContext->mLowSendBuffer, 0);
             httpContext->mLowSendBuffer = NULL;
         }
-        MI_CpuFill8(httpContext, 0, 0x1a60);
+        MI_CpuFill8(httpContext, 0, sizeof(Http));
     }
 }
 

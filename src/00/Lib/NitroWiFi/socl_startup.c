@@ -82,7 +82,7 @@ void SOCLi_StartupCPS(void) {
     s32 value;
     s32 rwin;
 
-    MI_CpuFill8(cfgBlock, 0, 0x30);
+    MI_CpuFill8(cfgBlock, 0, sizeof(CPSConfig));
     cfgBlock->mAlloc = config->mAlloc;
     cfgBlock->mFree = config->mFree;
     cfgBlock->mLinkIsOn = SOCL_LinkIsOn;

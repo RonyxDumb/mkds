@@ -29,7 +29,7 @@ const u16 gBgTextCanvasSizes[4] = {0x20, 0x18, 0x20, 0xc};
 TextCanvases *gTextCanvases;
 
 void InitTextCanvases(void) {
-    TextCanvases *canvases = AllocExpHeapBlock(0x798, 4);
+    TextCanvases *canvases = AllocExpHeapBlock(sizeof(TextCanvases), 4);
     u32 *outSize;
     s32 fontIndex;
 

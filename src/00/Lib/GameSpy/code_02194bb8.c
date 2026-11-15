@@ -105,12 +105,12 @@ s32 GpiOpenSearchSocket(GpConnection *connection, GpiOperation *operation) {
 BOOL GpiCreateSearch(GpConnection *connection, GPISearchData **searchData, u32 kind) {
     GPISearchData *data;
 
-    data = DWCi_GsMalloc(0x144);
+    data = DWCi_GsMalloc(sizeof(GPISearchData));
     if (data == NULL) {
         GpiSetErrorMessage(connection, "Out of memory.");
         return TRUE;
     }
-    memset(data, 0, 0x144);
+    memset(data, 0, sizeof(GPISearchData));
     data->mKind = kind;
     data->mSocket = -1;
     data->mInputBuffer = NULL;

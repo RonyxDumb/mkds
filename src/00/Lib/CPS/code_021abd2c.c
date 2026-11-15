@@ -2,7 +2,7 @@
 #include "code_0214d018.h"
 
 void CPSi_sha1_init(Hash20Context *context) {
-    MI_CpuFill8(context, 0, 0x5c);
+    MI_CpuFill8(context, 0, sizeof(Hash20Context));
     context->mStateA = (0x67452301u);
     context->mStateB = (0xefcdab89u);
     context->mStateC = (0x98badcfeu);

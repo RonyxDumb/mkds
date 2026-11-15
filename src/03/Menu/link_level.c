@@ -17,7 +17,7 @@ LinkLevel *gLinkLevel;
 
 void CreateLinkLevel(int row) {
     if (gLinkLevel == NULL) {
-        gLinkLevel = AllocExpHeapBlock(0xc, 4);
+        gLinkLevel = AllocExpHeapBlock(sizeof(LinkLevel), 4);
         gLinkLevel->mImageRow = row;
         gLinkLevel->mOamEntry = CreateOamEntryFromNceImage(0, gLinkLevelImages[row][0]);
         gLinkLevel->mOamEntry->mAttr01 =
