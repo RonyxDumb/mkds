@@ -196,12 +196,12 @@ void InitSelectCupMCellsAndRequestCupPicture(void) {
     gSelectCupM->mCupPicturePending = TRUE;
 }
 
-void StartSelectCupMState0(void) {
+void StartSelectCupMScrollDown(void) {
     s32 cellIndex;
     u16 mainCellCount;
     u16 subCellCount;
 
-    gSelectCupM->mNextState = 0;
+    gSelectCupM->mNextState = SELECT_CUP_M_STATE_SCROLL_DOWN;
     gSelectCupM->mStateFrames = 0;
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         return;
@@ -236,12 +236,12 @@ void StartSelectCupMState0(void) {
     }
 }
 
-void StartSelectCupMState1(void) {
+void StartSelectCupMScrollUp(void) {
     s32 cellIndex;
     u16 mainCellCount;
     u16 subCellCount;
 
-    gSelectCupM->mNextState = 1;
+    gSelectCupM->mNextState = SELECT_CUP_M_STATE_SCROLL_UP;
     gSelectCupM->mStateFrames = 0;
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         return;
@@ -295,9 +295,9 @@ void InitSelectCupM(void *parentHeap, void *mainOamList, void *subOamList) {
     gSelectCupM->mSubOam = subOamList;
     gSelectCupM->mUnk_50 = 0;
     if (GetPreviousMenuScreenNumber() == 0x19 || GetPreviousMenuScreenNumber() == 0xd) {
-        gSelectCupM->mState = 1;
+        gSelectCupM->mState = SELECT_CUP_M_STATE_SCROLL_UP;
     } else {
-        gSelectCupM->mState = 0;
+        gSelectCupM->mState = SELECT_CUP_M_STATE_SCROLL_DOWN;
     }
     LocateAndQueueSelectCupM();
     gSelectCupM->mCommonMessages = FindFileInLoadedArchives("common.bmg");
@@ -325,9 +325,9 @@ void InitSelectCupM(void *parentHeap, void *mainOamList, void *subOamList) {
     }
     InitSelectCupMCellsAndRequestCupPicture();
     if (GetPreviousMenuScreenNumber() == 0x19 || GetPreviousMenuScreenNumber() == 0xd) {
-        StartSelectCupMState1();
+        StartSelectCupMScrollUp();
     } else {
-        StartSelectCupMState0();
+        StartSelectCupMScrollDown();
     }
     FrmHeapShrinkInParent(gSelectCupM->mHeap);
 }
@@ -342,7 +342,7 @@ void ReleaseSelectCupM(void) {
     gSelectCupM = NULL;
 }
 
-void AdvanceSelectCupMState0(void) {
+void AdvanceSelectCupMScrollDown(void) {
     s32 cellIndex;
     s16 mainOffset;
     s16 subOffset;
@@ -386,7 +386,7 @@ void AdvanceSelectCupMState0(void) {
     }
 }
 
-void AdvanceSelectCupMState1(void) {
+void AdvanceSelectCupMScrollUp(void) {
     s32 cellIndex;
     s16 mainOffset;
     s16 subOffset;
@@ -439,11 +439,11 @@ s32 AdvanceSelectCupM(void) {
 
     gSelectCupM->mState = gSelectCupM->mNextState;
     switch (gSelectCupM->mState) {
-        case 0:
-            AdvanceSelectCupMState0();
+        case SELECT_CUP_M_STATE_SCROLL_DOWN:
+            AdvanceSelectCupMScrollDown();
             break;
-        case 1:
-            AdvanceSelectCupMState1();
+        case SELECT_CUP_M_STATE_SCROLL_UP:
+            AdvanceSelectCupMScrollUp();
             break;
     }
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
@@ -475,10 +475,10 @@ s32 AdvanceSelectCupM(void) {
     } else {
         AdvanceSelectRaceRuleWait();
     }
-    if (gSelectCupM->mState == 0 && gSelectCupM->mStateFrames > 0xa) {
+    if (gSelectCupM->mState == SELECT_CUP_M_STATE_SCROLL_DOWN && gSelectCupM->mStateFrames > 0xa) {
         return 1;
     }
-    if (gSelectCupM->mState == 1 && gSelectCupM->mStateFrames > 0xa) {
+    if (gSelectCupM->mState == SELECT_CUP_M_STATE_SCROLL_UP && gSelectCupM->mStateFrames > 0xa) {
         return 2;
     }
     return 0;

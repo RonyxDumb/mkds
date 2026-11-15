@@ -595,6 +595,13 @@ typedef struct GhostRecordSet {
 #define SELECT_CUP_M_OFFSCREEN_Y 0xc0
 #define SELECT_CUP_M_SUB_END_OFFSET_Y (-0x20)
 
+// Values of SelectCupM.mState and mNextState: the main objects slide down off the screen while the lower objects come
+// in from above (SCROLL_DOWN), or the same slide runs backwards (SCROLL_UP).
+enum {
+    SELECT_CUP_M_STATE_SCROLL_DOWN,
+    SELECT_CUP_M_STATE_SCROLL_UP,
+};
+
 typedef struct SelectCupM {
     /* 00 */ struct NNSG2dCellDataBank *mMainNcer;
     /* 04 */ LayoutEntryTable *mMainBncl;
