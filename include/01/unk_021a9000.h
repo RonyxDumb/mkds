@@ -94,6 +94,9 @@ typedef struct MissionRunData {
     /* 48 */ struct MissionRunMapObject *mMapObjects[8];
 } MissionRunData;
 
+// Bytes of one 8 by 8 tile of cells; CreateEmblemGrid allocates the cell buffers one tile longer than the grid.
+#define EMBLEM_GRID_TILE_BYTES 0x40
+
 // A square grid of mSide by mSide cells.
 typedef struct EmblemGrid {
     /* 00 */ s32 mSide;
