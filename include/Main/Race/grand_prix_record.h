@@ -7,9 +7,9 @@
 
 BOOL IsDateEarlier(const DateBytes *firstDate, const DateBytes *secondDate);
 void InitWLMenuResetRaceSetup(void *heap);
-void InitWLMenuRequestMPState21(void *heap);
-void InitWLMenuRequestMPState18(void *heap);
-void InitWLMenuRequestMPState16(void *heap);
+void InitWLMenuRequestMPWaitMenuArchives(void *heap);
+void InitWLMenuRequestMPWaitResultArchives(void *heap);
+void InitWLMenuRequestMPWaitRaceArchives(void *heap);
 u32 TrySetMissionRecord(void);
 BOOL TrySetGrandPrixRecord(void);
 BOOL ShouldSetGrandPrixRecord(TimeRecord *storedRecord, TimeRecord *newRecord);

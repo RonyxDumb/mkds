@@ -1012,13 +1012,13 @@ u16 GetLapCount(void) {
     return lapCount;
 }
 
-void RequestMPState16ForNextRace(void) {
+void RequestMPWaitRaceArchivesForNextRace(void) {
     u32 courseId;
     u32 mode;
     u32 unusedValue;
     courseId = gRaceSetup->mNextHeader.mCourseId;
     mode = gRaceSetup->mNextHeader.mMode;
-    RequestMPState16((void *) courseId, (void *) mode);
+    RequestMPWaitRaceArchives((void *) courseId, (void *) mode);
 }
 
 static inline void ReadPadKeysAndUpdateTouchMic(void) {

@@ -30,7 +30,7 @@ void ReadCourseGhostRecordAndWait(u32 courseId);
 void SetNextRaceFromMissionRow(MissionFileRow *missionFileRow, u32 tableRow, u32 tableColumn);
 void ReplaceEntryWithCpu(u32 entryIndex);
 
-void RequestMPState16ForNextRace(void);
+void RequestMPWaitRaceArchivesForNextRace(void);
 
 u16 GetLapCount(void);
 void ResetTimeAttackNextEntries(void);

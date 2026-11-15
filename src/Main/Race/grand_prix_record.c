@@ -165,25 +165,25 @@ u32 TrySetMissionRecord(void) {
     return stored;
 }
 
-void InitWLMenuRequestMPState16(void *heap) {
+void InitWLMenuRequestMPWaitRaceArchives(void *heap) {
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         InitBlockEntries(heap, 1);
     }
-    RequestMPState16ForNextRace();
+    RequestMPWaitRaceArchivesForNextRace();
 }
 
-void InitWLMenuRequestMPState18(void *heap) {
+void InitWLMenuRequestMPWaitResultArchives(void *heap) {
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         InitBlockEntries(heap, 1);
     }
-    RequestMPState18();
+    RequestMPWaitResultArchives();
 }
 
-void InitWLMenuRequestMPState21(void *heap) {
+void InitWLMenuRequestMPWaitMenuArchives(void *heap) {
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         InitBlockEntries(heap, 1);
     }
-    RequestMPState21();
+    RequestMPWaitMenuArchives();
 }
 
 void InitWLMenuResetRaceSetup(void *heap) {

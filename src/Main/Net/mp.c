@@ -205,7 +205,7 @@ u32 AdvanceMainAndMenuDLArchives(void) {
 #pragma thumb on
 
 // Asks for state 16 with the next race's course and mode.
-void RequestMPState16(void *courseId, void *mode) {
+void RequestMPWaitRaceArchives(void *courseId, void *mode) {
     MPStateMachine *stateMachine;
     gConnectionWork->mSyncState = CONNECTION_SYNC_START;
     gConnectionWork->mTransferFlags &= ~CONNECTION_TRANSFER_SYNC_DONE;
@@ -220,7 +220,7 @@ void RequestMPState16(void *courseId, void *mode) {
 
 #pragma thumb on
 
-void RequestMPState18(void) {
+void RequestMPWaitResultArchives(void) {
     MPStateMachine *stateMachine;
 
     gConnectionWork->mSyncState = CONNECTION_SYNC_START;
@@ -230,7 +230,7 @@ void RequestMPState18(void) {
     stateMachine->mStateMachine.mNextStateRequested = 1;
 }
 
-void RequestMPState21(void) {
+void RequestMPWaitMenuArchives(void) {
     MPStateMachine *stateMachine;
 
     gConnectionWork->mSyncState = CONNECTION_SYNC_START;
