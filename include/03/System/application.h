@@ -4,6 +4,7 @@
 
 typedef struct ModeAndFlags {
     /* 00 */ u32 mMode : 4;
+    /* 00 */ u32 mFlags : 28;
 } ModeAndFlags;
 
 extern void (*gUpdateFunction)(void);

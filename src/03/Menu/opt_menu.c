@@ -190,7 +190,7 @@ void UpdateOptMenuFadeOut(void) {
     int fadeSlotBusy;
     fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(1);
     if (fadeSlotBusy == 0) {
-        if ((*(u8 *) &gOptMenuEntryChosen) != 0) {
+        if (gOptMenuEntryChosen[0] != 0) {
             StartSlideButtonsOut();
         }
         StartBlendBrightnessFade(3, 1, 1, 8);

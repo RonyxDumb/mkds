@@ -73,7 +73,7 @@ BOOL InitLanguageAndMode(s32 languageIndex, u32 modeAndFlags) {
     if (languageIndex != 0 && ((modeAndFlags >> 4) & 1) != 0) {
         return 0;
     }
-    if (languageIndex == 0 && ((*(u32 *) &gModeAndFlags >> 4) & 1) == 0) {
+    if (languageIndex == 0 && (gModeAndFlags.mFlags & 1) == 0) {
         return 0;
     }
     return 1;
@@ -189,10 +189,8 @@ void SetUpdateFunction(void (*callback)(void)) {
 }
 
 void SetPrimaryMenuPair(u32 first, u32 second) {
-    u32 *values;
-    values = (u32 *) &gMenuPairs;
-    *(u32 *) &gMenuPairs = first;
-    values[1] = second;
+    gMenuPairs[0] = first;
+    gMenuPairs[1] = second;
 }
 
 void GetPrimaryMenuPair(s32 *first, s32 *second) {
@@ -205,12 +203,8 @@ void GetPrimaryMenuPair(s32 *first, s32 *second) {
 }
 
 void SetSecondaryMenuPair(u32 third, u32 fourth) {
-    u32 thirdValue = third;
-    u32 fourthValue = fourth;
-    u32 valuesAddress;
-    valuesAddress = (u32) &gMenuPairs;
-    *(u32 *) ((valuesAddress) + 8u) = thirdValue;
-    *(u32 *) ((valuesAddress) + 12u) = fourthValue;
+    gMenuPairs[2] = third;
+    gMenuPairs[3] = fourth;
 }
 
 void GetSecondaryMenuPair(s32 *first, s32 *second) {
@@ -223,7 +217,7 @@ void GetSecondaryMenuPair(s32 *first, s32 *second) {
 }
 
 u8 GetLanguageIndex(void) {
-    return *(u8 *) &gLanguageIndex;
+    return gLanguageIndex[0];
 }
 
 u32 GetMode(void) {
@@ -231,12 +225,12 @@ u32 GetMode(void) {
 }
 
 BOOL HasModeFlag(u32 mask) {
-    if (((*(u32 *) &gModeAndFlags) >> 4 & mask) != 0) {
+    if ((gModeAndFlags.mFlags & mask) != 0) {
         return 1;
     }
     return 0;
 }
 
 void SetQuitFlag(void) {
-    *(u8 *) &gQuitFlag = 1;
+    gQuitFlag[0] = 1;
 }
