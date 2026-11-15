@@ -48,6 +48,7 @@ typedef struct SelectCharacterRowPosition {
     /* 02 */ s16 mEntryY;
 } SelectCharacterRowPosition;
 
+// One row of the label table of the multi select screen: label, size, entry and message index.
 typedef struct MultiSelectNSLabelMessageRow {
     /* 00 */ s16 mLabelIndex;
     /* 02 */ u16 mWidth;

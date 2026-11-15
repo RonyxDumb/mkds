@@ -68,6 +68,7 @@ void InitTxtSystemDisplay(void);
 
 void ClearTxtSystemPointer(void);
 
+// The arguments of InitTxtSystem: the font, the canvas switches and the sub character offset.
 typedef struct TxtSystemArgs {
     /* 00 */ void *mFont;
     /* 04 */ u32 mUseCanvas1;

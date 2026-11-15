@@ -40,6 +40,7 @@ typedef struct RecordScreenCallbacks {
 // Frames after a screen switch before the screen's register writer runs; mRegistersTimer counts down from this.
 #define RECORD_REGISTERS_DELAY_FRAMES 2
 
+// The record screen: its heaps, current, next and previous screens, and the page and entry index.
 typedef struct RecordScene {
     /* 00 */ void *mHeap;
     /* 04 */ void *mStateHeap;

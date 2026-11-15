@@ -44,6 +44,7 @@ void LocateAndQueueRecordVS(void);
 // Bytes of the pixels of one emblem, and of its converted tiles.
 #define EMBLEM_PIXEL_BYTES 0x200
 
+// An emblem: its pixel bytes and whether they are filled in.
 typedef struct EmblemData {
     /* 000 */ u8 mPixels[EMBLEM_PIXEL_BYTES];
     /* 200 */ u8 mHasPixels;

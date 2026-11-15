@@ -50,6 +50,7 @@ typedef enum MultiSelectMemberRowState {
 // Steps state START_PRESSED waits before it checks that the setup is done.
 #define MULTI_SELECT_MEMBER_START_STEPS 5
 
+// One member row of the multi select screen: its state, frame count and two cell indices.
 typedef struct MultiSelectMemberRow {
     /* 00 */ s32 mState;
     /* 04 */ s32 mStateFrames;

@@ -66,9 +66,7 @@ typedef struct RaceSetupCopyEntry {
 #define ENTRY_TRANSITION_FROM_CHARACTER 1
 #define ENTRY_TRANSITION_FROM_KART 2
 
-// Copy of the race setup that the screens edit: filled from the current half of gRaceSetup (or from the Wi-Fi
-// session), written to the next half by SetNextRaceSetupFromCopy or SetNextRaceSetupFromKartMask. Object behind
-// gRaceSetupCopy, returned by GetRaceSetupCopy.
+// A copy of the race setup that the screens edit; it is written to the next half of gRaceSetup when they finish.
 typedef struct RaceSetupCopy {
     /* 00 */ RaceSetupCopyEntry mEntries[8];
     /* c0 */ s32 mCpuDifficulty;
@@ -480,6 +478,7 @@ enum {
 #define SCROLL_LIST_FAST_HELD_MOVES 2
 #define SCROLL_LIST_HIGH_BITS_FRAMES 5
 
+// A scrolling list of rows with touch rects: its entries, cursor, scroll timers and screen map.
 typedef struct ScrollList {
     /* 000 */ s32 mGroupCount;
     /* 004 */ u16 *mGroupFirstEntries;

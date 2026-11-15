@@ -72,6 +72,7 @@ void SetSelectRaceRulePlayerTeam(u16 entryIndex, u32 team);
 BOOL IsPlayerTeamPlayerCountNotOne(s32 entryIndex);
 u16 GetSelectRaceRuleTeamPlayerCount(s32 team);
 
+// The two entry indices of one row of the race rule menu.
 typedef struct SelectRaceRuleRowEntries {
     /* 00 */ u16 mEntryIndices[2];
 } SelectRaceRuleRowEntries;

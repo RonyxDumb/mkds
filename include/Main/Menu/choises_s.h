@@ -35,6 +35,7 @@
 #define CHOISES_S_RECT_MIN_X 8
 #define CHOISES_S_RECT_MAX_X 0xf8
 
+// A list of up to six choice values and how many are in use.
 typedef struct ChoisesSList {
     /* 00 */ s32 mValues[6];
     /* 18 */ s32 mValueCount;

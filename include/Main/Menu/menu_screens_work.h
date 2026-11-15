@@ -83,6 +83,7 @@ struct Nscr;
 #define WAIT_FRAME_TICKS 4
 #define WAIT_FRAME_COUNT 3
 
+// The wait animation: its loaded cell, graphics, palette and layout files, and the frame it shows.
 typedef struct Wait {
     /* 00 */ struct NNSG2dCellDataBank *mNcer;
     /* 04 */ struct Ncgr *mNcgr;
@@ -134,6 +135,7 @@ enum {
     RECORD_VS_ERASE_VIEW_TRANSIENT,
 };
 
+// The record VS erase screen: its loaded files, state, scroll offsets and the emblem it shows.
 typedef struct RecordVSErase {
     /* 00 */ struct Ncgr *mRecordVSMNcgr;
     /* 04 */ struct NNSG2dCellDataBank *mRecordVSMNcer;
@@ -179,6 +181,7 @@ typedef struct RecordVSErase {
     /* a0 */ s32 mNextScreen;
 } RecordVSErase;
 
+// The graphics, cell and layout files of the cup name objects.
 typedef struct SelectCupNameM {
     /* 00 */ struct Ncgr *mNcgr;
     /* 04 */ struct NNSG2dCellDataBank *mNcer;
@@ -340,11 +343,7 @@ typedef enum SelectCupGridMode {
 // mStateFrames at which state WAIT_CHOSEN shows the highlight.
 #define SELECT_CUP_GRID_HIGHLIGHT_STEP 5
 
-// Object behind gSelectCupGrid: the screen that picks one of eight cups, laid out as two rows of four (a direction key
-// or a touch moves mIndex to a neighbour cup that is enabled). Choosing stores the cup and the first course of that cup
-// in the record behind gRaceSetupCopy (SetCupFromSelectCupGrid); SelectCupCourse then picks one of the four courses of
-// the stored cup. Allocated by InitSelectCupGrid, freed by ReleaseSelectCupGrid; mMode is 0, 1 or 2 to 4 by the screen
-// that opened it.
+// The screen that picks one of eight cups; choosing stores the cup in gRaceSetupCopy.
 typedef struct SelectCupGrid {
     /* 00 */ struct NNSG2dCellDataBank *mSelectCupMNcer;
     /* 04 */ LayoutEntryTable *mSelectCupMBncl;
@@ -665,6 +664,7 @@ enum {
 // Steps of the scroll of the cup list; mStateFrames counts them.
 #define SELECT_CUP_M_SCROLL_STEPS 10
 
+// The cup select screen: its main and sub layout files, state and scroll offsets.
 typedef struct SelectCupM {
     /* 00 */ struct NNSG2dCellDataBank *mMainNcer;
     /* 04 */ LayoutEntryTable *mMainBncl;
@@ -806,6 +806,7 @@ enum {
 #define SELECT_CHOISES_SECOND_SOUND_ID 0x10
 #define SELECT_CHOISES_NONE_SOUND_ID 0x10
 
+// A pair of choice buttons: its state, chosen index, screen map copy, text canvases and sound ids.
 typedef struct SelectChoises {
     /* 000 */ u32 mEnabled;
     /* 004 */ s32 mState;
@@ -849,6 +850,7 @@ enum {
 // Sound id of the return button.
 #define SELECT_RETURN_SOUND_ID 0xe
 
+// The return button: its state, slide and press requests, screen map copy and sound id.
 typedef struct SelectReturn {
     /* 000 */ BOOL mEnabled; /* only ever set to 1 by InitSelectReturn; the off path does not run in this build */
     /* 004 */ s32 mState;
@@ -980,6 +982,7 @@ typedef struct CharTile {
     /* 00 */ u8 mUnk_00[0x20];
 } CharTile;
 
+// The x and y position of one link level icon.
 typedef struct LinkLevelIconPos {
     /* 00 */ s32 mX;
     /* 04 */ s32 mY;
