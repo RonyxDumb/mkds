@@ -2224,7 +2224,7 @@ s32 SPLManager_UploadTexturesEx(SPLManager *mgr, u32 (*vramAlloc)(s32 size, s32 
         } else {
             vramAddr = vramAlloc(textureHeader->mTextureSize,
                                  textureHeader->mImageParam.mFormat == PARTICLE_TEXTURE_FORMAT_COMPRESSED ? 1 : 0);
-            GX_LoadTex((u8 *) texture->mHeader + 0x20, vramAddr, textureHeader->mTextureSize);
+            GX_LoadTex(texture->mHeader->mTextureData, vramAddr, textureHeader->mTextureSize);
             texture->mTextureVramAddr = vramAddr;
         }
     }

@@ -39,6 +39,7 @@ typedef struct ParticleTextureHeader {
     /* 10 */ s32 mPaletteSize;
     /* 14 */ u8 mUnk_14[8];
     /* 1c */ s32 mBlockSize;
+    /* 20 */ u8 mTextureData[1];
 } ParticleTextureHeader;
 
 // Entries of the table at SPLManager 0x2c (0x14 bytes each, count at 0x32).
