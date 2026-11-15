@@ -27,7 +27,7 @@ unsigned int GetEmblemGridCharSize(void);
 unsigned int GetEmblemGridCharOffset(void);
 int GetEmblemGridScrSize(void);
 unsigned int GetEmblemGridScrOffset(void);
-unsigned int GetEmblemGridScr(void);
+void *GetEmblemGridScr(void);
 void CopyEmblemGridCellsOnFirstChange(void);
 u8 *GetEmblemGridCellPtr(s32 cellX, s32 cellY);
 unsigned int GetEmblemGridSide(void);

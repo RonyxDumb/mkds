@@ -737,8 +737,8 @@ void UploadEmblemSubScreen(void) {
     GXS_LoadBG3Scr(gEmblem->mEmblemSTemplateDarkNscr->mData, 0, gEmblem->mEmblemSTemplateDarkNscr->mDataSize);
     reg_G2S_DB_BG3CNT =
         (reg_G2S_DB_BG3CNT & (REG_G2S_DB_BG3CNT_PRIORITY_MASK | REG_G2S_DB_BG3CNT_MOSAIC_MASK)) | 0x1218;
-    DC_FlushRange((const void *) GetEmblemGridScr(), GetEmblemGridScrSize());
-    GXS_LoadBG3Scr((const void *) (GetEmblemGridScr()), GetEmblemGridScrOffset(), GetEmblemGridScrSize());
+    DC_FlushRange(GetEmblemGridScr(), GetEmblemGridScrSize());
+    GXS_LoadBG3Scr(GetEmblemGridScr(), GetEmblemGridScrOffset(), GetEmblemGridScrSize());
 }
 
 void UploadEmblemCameraSubScreen(void) {

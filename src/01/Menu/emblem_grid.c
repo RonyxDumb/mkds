@@ -78,8 +78,8 @@ void CopyEmblemGridCellsOnFirstChange(void) {
     }
 }
 
-u32 GetEmblemGridScr(void) {
-    return ((u32) gEmblemGrid->mBuffers[0]);
+void *GetEmblemGridScr(void) {
+    return gEmblemGrid->mBuffers[0];
 }
 
 u32 GetEmblemGridScrOffset(void) {
