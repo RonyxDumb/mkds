@@ -33,7 +33,7 @@ void SetScanSelectedEntryHighlight(s32 cursorVisible);
 void MoveSelectedGhostDown(s32 wrap);
 void MoveSelectedGhostUp(s32 wrap);
 void SetupGhostMainTextShort(void);
-void StartTimeAttackGhostGetScanState15(void);
+void StartTimeAttackGhostGetScanWaitErrorMessage(void);
 void WriteGhostGetSlotRegisters(void);
 void ReleaseTimeAttackGhostGetSlot(void);
 s32 AdvanceTimeAttackGhostGetSlot(u16 *sceneNumbers);

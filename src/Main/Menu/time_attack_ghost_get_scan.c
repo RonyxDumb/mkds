@@ -474,7 +474,7 @@ void WriteGhostGetSlotRegisters(void) {
     }
 }
 
-void StartTimeAttackGhostGetScanState15(void) {
+void StartTimeAttackGhostGetScanWaitErrorMessage(void) {
     void *message;
     void *buttonText;
 
@@ -1071,7 +1071,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
                     gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_RECEIVE_BLOCKS;
                     break;
                 case 2:
-                    StartTimeAttackGhostGetScanState15();
+                    StartTimeAttackGhostGetScanWaitErrorMessage();
                     break;
             }
             break;
@@ -1081,7 +1081,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
                     gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_END_CONNECTION_AFTER_RECEIVE;
                     break;
                 case 2:
-                    StartTimeAttackGhostGetScanState15();
+                    StartTimeAttackGhostGetScanWaitErrorMessage();
                     break;
             }
             break;
