@@ -2,6 +2,7 @@
 
 #include "Main/Item/pooled_item_box_init.h"
 #include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_set_load.h"
 #include "Main/Sound/seq_row.h"
 #include "Main/Menu/data_02153000.h"
 #include "code_02022aa8.h"
@@ -10,21 +11,59 @@
 #include "tp.h"
 #include "Main/Menu/select_race_rule_state.h"
 
-const SoundRow gSoundRowTable[53] = {
-    {2, 0xff, 0xff, 0xff},    {2, 9, 0xff, 0xff},       {2, 8, 0xff, 0xff},       {2, 0xa, 0xff, 0xff},
-    {2, 8, 0xff, 0xff},       {2, 0xd, 0xff, 0xff},     {2, 0xe, 0xff, 0xff},     {0xff, 0x4a, 0x10, 0xff},
-    {0xff, 0x21, 0x1d, 0xff}, {0xff, 0x21, 0x1a, 0xff}, {0xff, 0xf, 0x12, 0xff},  {0xff, 0x10, 0x11, 0xff},
-    {0xff, 0x22, 0xff, 0xff}, {0xff, 0x1e, 0x1f, 0xff}, {0xff, 0x1f, 0x18, 0xff}, {0xff, 0x11, 0x15, 0xff},
-    {0xff, 0x12, 0x1b, 0xff}, {0xff, 0x13, 0x1c, 0xff}, {0xff, 0x23, 0x17, 0xff}, {0xff, 0x14, 0x1d, 0xff},
-    {0xff, 0x15, 0x13, 0xff}, {0xff, 0x16, 0x1a, 0xff}, {0xff, 0x17, 0x12, 0xff}, {0xff, 0x18, 0x1a, 0xff},
-    {0xff, 0x19, 0x1a, 0xff}, {0xff, 0x1a, 0xff, 0xff}, {0xff, 0x1a, 0x21, 0xff}, {0xff, 0x24, 0x17, 0xff},
-    {0xff, 0x1d, 0x18, 0xff}, {0xff, 0x20, 0x20, 0xff}, {0xff, 0x25, 0x18, 0xff}, {0xff, 0x26, 0x14, 0xff},
-    {0xff, 0x13, 0x16, 0xff}, {0xff, 0x27, 0x19, 0xff}, {0xff, 0x4a, 0x1a, 0xff}, {0xff, 0x29, 0x30, 0xff},
-    {0xff, 0x1b, 0xff, 0xff}, {0xff, 0x28, 0x1e, 0xff}, {0xff, 0x1c, 0xff, 0xff}, {0xff, 0x2b, 0x2b, 0x22},
-    {0xff, 0x2d, 0xff, 0x22}, {2, 0x3f, 0xff, 0xff},    {2, 0x42, 0xff, 0xff},    {2, 0x45, 0xff, 0xff},
-    {2, 0x46, 0xff, 0xff},    {2, 3, 0x24, 0xff},       {2, 2, 0xff, 0xff},       {2, 6, 0xff, 0xff},
-    {2, 4, 0x23, 0xff},       {2, 0x4b, 0xff, 0xff},    {2, 1, 0xff, 0xff},       {2, 0xff, 0xff, 0xff},
-    {0xff, 0x4a, 0xff, 0xff}};
+const SoundRow gSoundRowTable[53] = {{2, SOUND_ID_NONE, SOUND_ID_NONE, SOUND_ID_NONE},
+                                     {2, 9, SOUND_ID_NONE, SOUND_ID_NONE},
+                                     {2, 8, SOUND_ID_NONE, SOUND_ID_NONE},
+                                     {2, 0xa, SOUND_ID_NONE, SOUND_ID_NONE},
+                                     {2, 8, SOUND_ID_NONE, SOUND_ID_NONE},
+                                     {2, 0xd, SOUND_ID_NONE, SOUND_ID_NONE},
+                                     {2, 0xe, SOUND_ID_NONE, SOUND_ID_NONE},
+                                     {0xff, 0x4a, 0x10, SOUND_ID_NONE},
+                                     {0xff, 0x21, 0x1d, SOUND_ID_NONE},
+                                     {0xff, 0x21, 0x1a, SOUND_ID_NONE},
+                                     {0xff, 0xf, 0x12, SOUND_ID_NONE},
+                                     {0xff, 0x10, 0x11, SOUND_ID_NONE},
+                                     {0xff, 0x22, SOUND_ID_NONE, SOUND_ID_NONE},
+                                     {0xff, 0x1e, 0x1f, SOUND_ID_NONE},
+                                     {0xff, 0x1f, 0x18, SOUND_ID_NONE},
+                                     {0xff, 0x11, 0x15, SOUND_ID_NONE},
+                                     {0xff, 0x12, 0x1b, SOUND_ID_NONE},
+                                     {0xff, 0x13, 0x1c, SOUND_ID_NONE},
+                                     {0xff, 0x23, 0x17, SOUND_ID_NONE},
+                                     {0xff, 0x14, 0x1d, SOUND_ID_NONE},
+                                     {0xff, 0x15, 0x13, SOUND_ID_NONE},
+                                     {0xff, 0x16, 0x1a, SOUND_ID_NONE},
+                                     {0xff, 0x17, 0x12, SOUND_ID_NONE},
+                                     {0xff, 0x18, 0x1a, SOUND_ID_NONE},
+                                     {0xff, 0x19, 0x1a, SOUND_ID_NONE},
+                                     {0xff, 0x1a, SOUND_ID_NONE, SOUND_ID_NONE},
+                                     {0xff, 0x1a, 0x21, SOUND_ID_NONE},
+                                     {0xff, 0x24, 0x17, SOUND_ID_NONE},
+                                     {0xff, 0x1d, 0x18, SOUND_ID_NONE},
+                                     {0xff, 0x20, 0x20, SOUND_ID_NONE},
+                                     {0xff, 0x25, 0x18, SOUND_ID_NONE},
+                                     {0xff, 0x26, 0x14, SOUND_ID_NONE},
+                                     {0xff, 0x13, 0x16, SOUND_ID_NONE},
+                                     {0xff, 0x27, 0x19, SOUND_ID_NONE},
+                                     {0xff, 0x4a, 0x1a, SOUND_ID_NONE},
+                                     {0xff, 0x29, 0x30, SOUND_ID_NONE},
+                                     {0xff, 0x1b, SOUND_ID_NONE, SOUND_ID_NONE},
+                                     {0xff, 0x28, 0x1e, SOUND_ID_NONE},
+                                     {0xff, 0x1c, SOUND_ID_NONE, SOUND_ID_NONE},
+                                     {0xff, 0x2b, 0x2b, 0x22},
+                                     {0xff, 0x2d, SOUND_ID_NONE, 0x22},
+                                     {2, 0x3f, SOUND_ID_NONE, SOUND_ID_NONE},
+                                     {2, 0x42, SOUND_ID_NONE, SOUND_ID_NONE},
+                                     {2, 0x45, SOUND_ID_NONE, SOUND_ID_NONE},
+                                     {2, 0x46, SOUND_ID_NONE, SOUND_ID_NONE},
+                                     {2, 3, 0x24, SOUND_ID_NONE},
+                                     {2, 2, SOUND_ID_NONE, SOUND_ID_NONE},
+                                     {2, 6, SOUND_ID_NONE, SOUND_ID_NONE},
+                                     {2, 4, 0x23, SOUND_ID_NONE},
+                                     {2, 0x4b, SOUND_ID_NONE, SOUND_ID_NONE},
+                                     {2, 1, SOUND_ID_NONE, SOUND_ID_NONE},
+                                     {2, SOUND_ID_NONE, SOUND_ID_NONE, SOUND_ID_NONE},
+                                     {0xff, 0x4a, SOUND_ID_NONE, SOUND_ID_NONE}};
 
 SoundRow GetSoundRow(u32 rowIndex) {
     return gSoundRowTable[rowIndex];
@@ -310,9 +349,9 @@ u32 GetSceneSoundRowIndex(s32 sceneNumber, SoundRow *output) {
             *output = gSoundRowTable[rowIndex];
             rowWritten = TRUE;
             if (gCurrentSoundSetPlayer != NULL) {
-                output->mSeqId = 0xff;
-                output->mFirstBankId = 0xff;
-                output->mSecondBankId = 0xff;
+                output->mSeqId = SOUND_ID_NONE;
+                output->mFirstBankId = SOUND_ID_NONE;
+                output->mSecondBankId = SOUND_ID_NONE;
             }
             break;
         case 15:
