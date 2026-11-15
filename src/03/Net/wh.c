@@ -35,7 +35,7 @@ void SetWhState(u32 newState) {
 
 void SetWhErrorCode(s32 errorCode) {
     if ((u32) (gWhWork->mState - WH_STATE_ERROR) > WH_STATE_FAILED - WH_STATE_ERROR) {
-        gWhWork->mUnk_54 = errorCode;
+        gWhWork->mErrorCode = errorCode;
     }
 }
 
@@ -368,7 +368,7 @@ void EndWhCallback(WirelessMessage *event) {
 }
 
 void SetWhGgid(u32 ggid) {
-    gWhWork->mUnk_08 = ggid;
+    gWhWork->mGgid = ggid;
 }
 
 u16 GetWhConnectedMask(void) {

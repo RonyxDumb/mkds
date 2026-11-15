@@ -79,8 +79,8 @@ typedef struct SOCLSocket {
     /* 3c */ SizedBuffer mReceiveBuffer;
     /* 44 */ s32 mReceiveBufferLength;
     /* 48 */ SizedBuffer mSendBuffer;
-    /* 50 */ SizedBuffer mUnk_50;
-    /* 58 */ SizedBuffer mUnk_58;
+    /* 50 */ SizedBuffer mCpsLineBuffer;
+    /* 58 */ SizedBuffer mCpsOutBuffer;
     /* 60 */ u8 mUnk_60[4];
     /* 64 */ SOCLiSocketRecvCommandPipe *mReceiveBlock;
     /* 68 */ SOCLiSocketSendCommandPipe *mSendBlock;
@@ -92,7 +92,9 @@ typedef struct SOCLSocket {
     /* 76 */ u16 mRemotePort;
     /* 78 */ u16 *mRemoteIp;
     /* 7c */ struct SOCLSocket *mNext;
-    /* 80 */ SOCLiSocketRecvCommandPipe mUnk_80;
+    // First byte behind the socket header, where SOCLi_InitSocket lays out the blocks: the receive block when a receive
+    // buffer is asked for, otherwise the send block.
+    /* 80 */ SOCLiSocketRecvCommandPipe mBlockArea;
 } SOCLSocket;
 
 s32 SOCLi_ExecCommandPacketInSendPipe(SOCLSocket *socket, void *packet);

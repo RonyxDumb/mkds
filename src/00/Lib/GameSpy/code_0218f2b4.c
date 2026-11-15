@@ -51,7 +51,7 @@ u32 GpiResetConnection(GpConnection *connection) {
     gpState->mConnectSocket = -1;
     gpState->mConnectState = PROFILE_CONNECTION_IDLE;
     gpState->mInputBufferLength = 0;
-    gpState->mUnk_1e8 = 0;
+    gpState->mInputBufferPos = 0;
     gpState->mInputBufferCapacity = 0;
     DWCi_GsFree(gpState->mInputBuffer);
     gpState->mInputBuffer = NULL;
@@ -67,13 +67,13 @@ u32 GpiResetConnection(GpConnection *connection) {
     gpState->mOutputBuffer.mBuffer = NULL;
     gpState->mOutputBuffer.mBuffer = NULL;
     gpState->mUpdateproBufferLength = 0;
-    gpState->mUnk_44c = 0;
+    gpState->mUpdateproBufferPos = 0;
     gpState->mUpdateproBufferCapacity = 0;
     DWCi_GsFree(gpState->mUpdateproBuffer);
     gpState->mUpdateproBuffer = NULL;
     gpState->mUpdateproBuffer = NULL;
     gpState->mUpdateuiBufferLength = 0;
-    gpState->mUnk_45c = 0;
+    gpState->mUpdateuiBufferPos = 0;
     gpState->mUpdateuiBufferCapacity = 0;
     DWCi_GsFree(gpState->mUpdateuiBuffer);
     gpState->mUpdateuiBuffer = NULL;

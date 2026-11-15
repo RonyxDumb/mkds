@@ -36,11 +36,11 @@ BOOL InitUsbScan(void (*callback)(u32)) {
     scan->mStartTickHigh = tick >> 32;
     if (WM_Initialize(scan, UsbScanCallback, 3) == 2) {
         do {
-            WM_ReadStatus(&gUsbScan->mUnk_13b8);
-        } while (gUsbScan->mUnk_13b8.mState != WIRELESS_UNIT_STATE_POWERED_ON);
+            WM_ReadStatus(&gUsbScan->mWmStatus);
+        } while (gUsbScan->mWmStatus.mState != WIRELESS_UNIT_STATE_POWERED_ON);
         scan = gUsbScan;
         *(Bytes68 *) &scan->mUnk_1374 = gUsbScanParamTemplate;
-        scan->mUnk_1374.mScanBuf = scan->mUnk_0f00;
+        scan->mUnk_1374.mScanBuf = scan->mScanBuffer;
         gUsbScan->mUnk_1374.mMaxChannelTime = WM_GetDispersionScanPeriod();
         OS_GetOwnerInfo(&ownerInfo);
         MI_CpuCopy8(gUsbSsidPrefix, &gUsbScan->mUnk_1374.mSsid[0], 8);
@@ -67,15 +67,15 @@ BOOL StartUsbScan(void) {
 BOOL ReleaseUsbScan(void) {
     UsbScan *scan;
 
-    gUsbScan->mUnk_1b80 = 1;
-    WM_ReadStatus(&gUsbScan->mUnk_13b8);
-    if (gUsbScan->mUnk_13b8.mState != WIRELESS_UNIT_STATE_POWERED_ON) {
+    gUsbScan->mReleaseProgress = 1;
+    WM_ReadStatus(&gUsbScan->mWmStatus);
+    if (gUsbScan->mWmStatus.mState != WIRELESS_UNIT_STATE_POWERED_ON) {
         if (WM_Reset(UsbScanCallback) != 2) {
             return 0;
         }
         do {
-            WM_ReadStatus(&gUsbScan->mUnk_13b8);
-        } while (gUsbScan->mUnk_13b8.mState != WIRELESS_UNIT_STATE_POWERED_ON);
+            WM_ReadStatus(&gUsbScan->mWmStatus);
+        } while (gUsbScan->mWmStatus.mState != WIRELESS_UNIT_STATE_POWERED_ON);
     }
     if (WM_End(UsbScanCallback) != 2) {
         return 0;
@@ -85,7 +85,7 @@ BOOL ReleaseUsbScan(void) {
         RemoveTaskEntryWrapper(0, scan->mReportTask);
     }
     scan = gUsbScan;
-    while (*(vu8 *) &scan->mUnk_1b80 != 2) {
+    while (*(vu8 *) &scan->mReleaseProgress != 2) {
     }
     FreeExpHeapBlockAndClearPointer(&gUsbScan);
     return 1;
@@ -102,9 +102,9 @@ void UsbScanCallback(WirelessMessage *message) {
         return;
     }
     scan = gUsbScan;
-    if (scan->mUnk_1b80 != 0) {
+    if (scan->mReleaseProgress != 0) {
         if (message->mCommand == 2) {
-            scan->mUnk_1b80 = 2;
+            scan->mReleaseProgress = 2;
         }
         return;
     }
@@ -184,13 +184,13 @@ void CheckUsbScanEntries(WMStartScanExCallback *scanResult) {
     UsbScan *scan;
 
     scan = gUsbScan;
-    if (scan->mUnk_1b81 != 0) {
+    if (scan->mPendingResult != 0) {
         if (scan->mResultCallback != NULL) {
-            scan->mResultCallback(scan->mUnk_1b81);
+            scan->mResultCallback(scan->mPendingResult);
         }
         return;
     }
-    DC_InvalidateRange(scan->mUnk_0f00, 0x400);
+    DC_InvalidateRange(scan->mScanBuffer, 0x400);
     descIndex = 0;
     resultCount = scanResult->mBssDescCount;
     if (resultCount > 0) {
@@ -216,7 +216,7 @@ void CheckUsbScanEntries(WMStartScanExCallback *scanResult) {
                         usbScan->mResultCallback(1);
                         return;
                     }
-                    usbScan->mUnk_1b81 = 1;
+                    usbScan->mPendingResult = 1;
                     return;
                 }
                 slotBssid += 7;

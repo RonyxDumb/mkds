@@ -12,18 +12,18 @@ typedef struct UsbScanEntry {
 
 // Object behind gUsbScan.
 struct UsbScan {
-    /* 0000 */ u8 mUnk_0000[0xf00];
-    /* 0f00 */ u8 mUnk_0f00[0x400];
+    /* 0000 */ u8 mWmSystemBuffer[0xf00];
+    /* 0f00 */ u8 mScanBuffer[0x400];
     /* 1300 */ UsbScanEntry mEntries[16];
     /* 1370 */ void (*mResultCallback)(u32);
     /* 1374 */ ScanExParam mUnk_1374;
     /* 13ac */ u8 mUnk_13ac[0xc];
-    /* 13b8 */ WMStatus mUnk_13b8;
+    /* 13b8 */ WMStatus mWmStatus;
     /* 1b74 */ u32 mStartTickLow;
     /* 1b78 */ u32 mStartTickHigh;
     /* 1b7c */ u32 mReportTask;
-    /* 1b80 */ u8 mUnk_1b80;
-    /* 1b81 */ u8 mUnk_1b81;
+    /* 1b80 */ u8 mReleaseProgress;
+    /* 1b81 */ u8 mPendingResult;
     /* 1b82 */ u8 mReported;
 };
 

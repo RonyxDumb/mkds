@@ -35,7 +35,7 @@ typedef struct WhWork {
     /* 0000 */ void *mUserGameInfo;
     /* 0004 */ u16 mUserGameInfoLength;
     /* 0006 */ u8 pad_06[2];
-    /* 0008 */ u32 mUnk_08;
+    /* 0008 */ u32 mGgid;
     /* 000c */ u16 mTgid;
     /* 000e */ u16 mEntryFlag;
     /* 0010 */ u16 mMaxEntry;
@@ -54,7 +54,7 @@ typedef struct WhWork {
     /* 004c */ s32 (*mConnectCallback)(WirelessMessage *);
     /* 0050 */ u16 mUnk_50;
     /* 0052 */ u16 mConnectedMask;
-    /* 0054 */ s32 mUnk_54;
+    /* 0054 */ s32 mErrorCode;
     /* 0058 */ u32 mRandomSeed;
     /* 005c */ u16 mDecidedChannel;
     /* 005e */ u16 mLowestBusyRatio;

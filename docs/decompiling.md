@@ -321,8 +321,8 @@ Reused variables and own locals:
   write its earlier use with another local (StartKartRaceEnd).
 - A table entry loaded once and kept in a callee-saved register across two calls is a reused dead variable:
   `n = tbl[i].f; f1(n); f2(n);` with `n` from an earlier loop (InitSelectKart).
-- A value the original forms itself is not a named local: `while (*(vu8 *) &d->mUnk_1b80 != 2) {}` instead of
-  `q = &d->mUnk_1b80; while (*q != 2) {}` (ReleaseUsbScan).
+- A value the original forms itself is not a named local: `while (*(vu8 *) &d->mReleaseProgress != 2) {}` instead of
+  `q = &d->mReleaseProgress; while (*q != 2) {}` (ReleaseUsbScan).
 - Where the original gives a local its register only after a shared expression, drop the local and write the
   expression at each use (RaceSceneIsSlotPairNew). It works only where nothing between the uses can write the memory.
 - `sz = x + 32; sz = (sz + 31) & ~31;` and `(x + 32 + 31) & ~31` give different registers, and the one expression

@@ -162,7 +162,7 @@ BOOL ClearWhAndInitialize(void) {
     gWhWork->mUnk_48 = 0;
     gWhWork->mUnk_50 = 0;
     gWhWork->mConnectedMask = 1;
-    gWhWork->mUnk_54 = 0;
+    gWhWork->mErrorCode = 0;
     gWhWork->mUserGameInfo = NULL;
     gWhWork->mUserGameInfoLength = 0;
     gWhWork->mConnectCallback = NULL;

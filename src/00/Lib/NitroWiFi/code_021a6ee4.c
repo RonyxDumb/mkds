@@ -381,14 +381,14 @@ u8 *SOCLi_InitSocket(SOCLSocket *socket, SOCLSocketParam *param) {
 
     socket->mFlagMode = param->mFlagMode;
     socket->mFlagBlock = param->mFlagBlock;
-    cursor = (u8 *) &socket->mUnk_80;
+    cursor = (u8 *) &socket->mBlockArea;
     if (param->mRcvbufSize != 0) {
-        inPipe = &socket->mUnk_80;
+        inPipe = &socket->mBlockArea;
         socket->mReceiveBlock = inPipe;
         inPipe->mConsumedMin = param->mRcvbufConsumeMin;
         cursor = SOCLi_InitCommandPipe(inPipe->mCommandMessages, &inPipe->mCommandPipe, &param->mRecvPipe);
         cursor = SOCLi_InitSocketBuffer(cursor, &socket->mReceiveBuffer, param->mRcvbufSize);
-        cursor = SOCLi_InitSocketBuffer(cursor, &socket->mUnk_50, param->mLinbufSize);
+        cursor = SOCLi_InitSocketBuffer(cursor, &socket->mCpsLineBuffer, param->mLinbufSize);
         inPipe->mUdpDataSizeMax = param->mUdpbufSize;
         inPipe->mUdpDataWaiting.mTail = NULL;
         inPipe->mUdpDataWaiting.mHead = inPipe->mUdpDataWaiting.mTail;
@@ -399,7 +399,7 @@ u8 *SOCLi_InitSocket(SOCLSocket *socket, SOCLSocketParam *param) {
         outPipe->mExeSocket = socket;
         cursor = SOCLi_InitCommandPipe(outPipe->mCommandMessages, &outPipe->mCommandPipe, &param->mSendPipe);
         cursor = SOCLi_InitSocketBuffer(cursor, &socket->mSendBuffer, param->mSndbufSize);
-        cursor = SOCLi_InitSocketBuffer(cursor, &socket->mUnk_58, param->mOutbufSize);
+        cursor = SOCLi_InitSocketBuffer(cursor, &socket->mCpsOutBuffer, param->mOutbufSize);
         cursor = SOCLi_InitSocketBuffer(cursor, &outPipe->mBufferArea, param->mWrtbufSize);
         outPipe->mBufferWaitingTail = 0;
         outPipe->mBufferWaitingHead = outPipe->mBufferWaitingTail;

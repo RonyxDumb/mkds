@@ -31,9 +31,9 @@ enum {
 typedef struct WCMNotice {
     /* 00 */ u16 mNotify;
     /* 02 */ u16 mResult;
-    /* 04 */ void *mUnk_04;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u32 mUnk_0c;
+    /* 04 */ void *mParameter0;
+    /* 08 */ u32 mParameter1;
+    /* 0c */ u32 mParameter2;
 } WCMNotice;
 
 // 0xd0 bytes. Entry of the list at mPbdBuffer of an WCMWork.

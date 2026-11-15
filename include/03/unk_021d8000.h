@@ -37,7 +37,7 @@ enum {
 typedef struct ExchangeResult {
     /* 00 */ char mText[0x20];
     /* 20 */ s32 mKind;
-    /* 24 */ s32 mUnk_24;
+    /* 24 */ s32 mItem205Value;
     /* 28 */ u8 mValueBytes[4][0x20];
     /* a8 */ Words16 mItem20aWords;
 } ExchangeResult;

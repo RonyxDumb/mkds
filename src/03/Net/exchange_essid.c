@@ -1689,7 +1689,7 @@ s32 FillExchangeResultFromKind5Data(void) {
                 result = -7;
                 break;
             }
-            gExchangeResult.mUnk_24 = gExchangeResultItems.mRecord.mItem205Value;
+            gExchangeResult.mItem205Value = gExchangeResultItems.mRecord.mItem205Value;
             valueIndex = 0;
             valueText = valueBuffer;
             valueSource = gExchangeResultItems.mValues;

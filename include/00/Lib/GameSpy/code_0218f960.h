@@ -50,7 +50,7 @@ typedef struct GpiConnection {
     /* 1dc */ char *mInputBuffer;
     /* 1e0 */ s32 mInputBufferCapacity;
     /* 1e4 */ s32 mInputBufferLength;
-    /* 1e8 */ s32 mUnk_1e8;
+    /* 1e8 */ s32 mInputBufferPos;
     /* 1ec */ void *mCommandBuffer;
     /* 1f0 */ s32 mCommandBufferCapacity;
     /* 1f4 */ GpiBuffer mOutputBuffer;
@@ -73,11 +73,11 @@ typedef struct GpiConnection {
     /* 440 */ void *mUpdateproBuffer;
     /* 444 */ s32 mUpdateproBufferCapacity;
     /* 448 */ s32 mUpdateproBufferLength;
-    /* 44c */ s32 mUnk_44c;
+    /* 44c */ s32 mUpdateproBufferPos;
     /* 450 */ void *mUpdateuiBuffer;
     /* 454 */ s32 mUpdateuiBufferCapacity;
     /* 458 */ s32 mUpdateuiBufferLength;
-    /* 45c */ s32 mUnk_45c;
+    /* 45c */ s32 mUpdateuiBufferPos;
     /* 460 */ void *mDebugBuffer;
     /* 464 */ u8 mUnk_464[8];
     /* 46c */ s32 mProductId;
