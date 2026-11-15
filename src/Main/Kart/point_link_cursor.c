@@ -1144,7 +1144,7 @@ void AdvanceKartAiSpeedLimitByRank(struct KartAiRaceSpeedLimit *raceSpeedLimit, 
         otherKartIndex = GetKartAtNonCpuRank();
         if (otherKartIndex >= 0) {
             gap = GetKartRaceProgressScaled(kartAi->mIndex);
-            gap -= GetKartRaceProgressScaled((u16) otherKartIndex);
+            gap -= GetKartRaceProgressScaled(otherKartIndex);
             if (IsKartEnded(kartAi->mIndex) != 0) {
                 limitTable = gKartAiEndedGapLimits;
             } else {
@@ -1165,7 +1165,7 @@ void AdvanceKartAiSpeedLimitByRank(struct KartAiRaceSpeedLimit *raceSpeedLimit, 
             otherKartIndex = GetKind1KartByRankPlusOffset((u16) rank, gKartAiRankOffset);
             if (otherKartIndex >= 0) {
                 progress = GetKartRaceProgressScaled(kartIndex);
-                progress -= GetKartRaceProgressScaled((u16) otherKartIndex);
+                progress -= GetKartRaceProgressScaled(otherKartIndex);
                 if (progress > GetKart(otherKartIndex)->mAi->mRaceSpeedLimit.mProgressGapLimit) {
                     raceSpeedLimit->mSpeedLimitBeforeTurn =
                         MUL_FIXED12_NO_ROUND(raceSpeedLimit->mSpeedLimitBeforeTurn, 0xf85);
@@ -1176,7 +1176,7 @@ void AdvanceKartAiSpeedLimitByRank(struct KartAiRaceSpeedLimit *raceSpeedLimit, 
             progress = GetKartRaceProgressScaled(kartIndex);
             otherKartIndex = GetFirstKind1KartByRank();
             if (otherKartIndex >= 0) {
-                gap = GetKartRaceProgressScaled((u16) otherKartIndex) - progress;
+                gap = GetKartRaceProgressScaled(otherKartIndex) - progress;
                 gap -= MUL_FIXED12_NO_ROUND(tableIndices[2], GetFirstRankProgressRatio());
                 if (gap > 0) {
                     raceSpeedLimit->mSpeedLimitBeforeTurn =
@@ -1188,7 +1188,7 @@ void AdvanceKartAiSpeedLimitByRank(struct KartAiRaceSpeedLimit *raceSpeedLimit, 
                         s32 rowValue = kartAiParamRow->mSpeedLimitFloor;
 
                         if (otherKart->mAi->mRaceSpeedLimit.mSpeedLimit > MUL_FIXED12_NO_ROUND(rowValue, 0xcd0)) {
-                            gap = GetKartRaceProgressScaled((u16) otherKartIndex) - progress;
+                            gap = GetKartRaceProgressScaled(otherKartIndex) - progress;
                             if (gap < MUL_FIXED12_NO_ROUND(tableIndices[2], GetFirstRankProgressRatio())) {
                                 raceSpeedLimit->mSpeedLimitBeforeTurn =
                                     MUL_FIXED12_NO_ROUND(raceSpeedLimit->mSpeedLimitBeforeTurn, 0xfae);

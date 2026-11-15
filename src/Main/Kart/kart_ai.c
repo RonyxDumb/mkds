@@ -573,7 +573,7 @@ u32 GetKartAiEngineOrDifficultyIndex(void) {
 }
 
 // Race progress times CourseMap.mUnk_108 as a 1.12 fixed-point product, rounded.
-s32 GetKartRaceProgressScaled(u32 kartIndex) {
+s32 GetKartRaceProgressScaled(u16 kartIndex) {
     s32 checkpointSumQuotient;
     s32 raceProgress;
     checkpointSumQuotient = gCourseMap->mCheckpointSumQuotient;

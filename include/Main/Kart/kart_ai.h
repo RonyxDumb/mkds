@@ -5,7 +5,7 @@
 
 RandomState64 *GetKartAiRandom(void);
 BOOL IsOneKartNotHumanOrPeer(void);
-s32 GetKartRaceProgressScaled(u32 kartIndex);
+s32 GetKartRaceProgressScaled(u16 kartIndex);
 unsigned int GetKartAiEngineOrDifficultyIndex(void);
 unsigned int GetKartAiTableIndex(unsigned int kartIndex);
 s32 GetKartIndexAtRank(unsigned int rank);
