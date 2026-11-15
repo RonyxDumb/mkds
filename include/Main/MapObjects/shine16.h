@@ -15,6 +15,10 @@
 #define SHINE16_STATE_LAUNCHED_UP 5
 #define SHINE16_STATE_SHRINKING 6
 
+// Shine16.mDrawScale: full size, and the change per frame while it grows or shrinks.
+#define SHINE16_DRAW_SCALE_FULL TO_FIXED12(1)
+#define SHINE16_DRAW_SCALE_STEP FIXED12_RATIO(1, 10)
+
 // Object of kind 0x6a (Shine16), also typed MapObject (code_020a3f2c.c) where the
 // pool list is walked. Object reached through FindMapObjectKindUpdateList(0x6a), set up by StartShine16 and updated by
 // UpdateShine16: the shared MapObject part, then words up to 0xe8.

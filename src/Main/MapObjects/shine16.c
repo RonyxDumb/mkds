@@ -144,7 +144,7 @@ void DrawShine16(void *mapObjectList, Shine16 *shine16) {
     NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
     NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&shine16->mMapObject.mPos), 0xc);
     drawScale = shine16->mDrawScale;
-    if (drawScale != 0x1000) {
+    if (drawScale != SHINE16_DRAW_SCALE_FULL) {
         scaleVector.x = drawScale;
         scaleVector.y = drawScale;
         scaleVector.z = drawScale;
@@ -191,7 +191,7 @@ void DrawShine16Shadow(void *mapObjectList, Shine16 *shine16, void *unused, s32 
     NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
     NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&shine16->mMapObject.mPos), 0xc);
     drawScale = shine16->mDrawScale;
-    if (drawScale < 0x1000) {
+    if (drawScale < SHINE16_DRAW_SCALE_FULL) {
         drawScaleVector.x = drawScale;
         drawScaleVector.y = drawScale;
         drawScaleVector.z = drawScale;
@@ -240,9 +240,9 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
                     shine16->mMirror = shine16->mMirror == 0;
                 }
             }
-            shine16->mDrawScale += 0x19a;
-            if (shine16->mDrawScale >= 0x1000) {
-                shine16->mDrawScale = 0x1000;
+            shine16->mDrawScale += SHINE16_DRAW_SCALE_STEP;
+            if (shine16->mDrawScale >= SHINE16_DRAW_SCALE_FULL) {
+                shine16->mDrawScale = SHINE16_DRAW_SCALE_FULL;
             }
             shine16->mMapObject.mPosStep.y -= 0x19a;
             VEC_Add(&shine16->mMapObject.mPos, &shine16->mMapObject.mPosStep, &shine16->mMapObject.mPos);
@@ -271,9 +271,9 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
                     shine16->mMirror = shine16->mMirror == 0;
                 }
             }
-            shine16->mDrawScale += 0x19a;
-            if (shine16->mDrawScale >= 0x1000) {
-                shine16->mDrawScale = 0x1000;
+            shine16->mDrawScale += SHINE16_DRAW_SCALE_STEP;
+            if (shine16->mDrawScale >= SHINE16_DRAW_SCALE_FULL) {
+                shine16->mDrawScale = SHINE16_DRAW_SCALE_FULL;
             }
             QueueShine16SoundWhileRequested(shine16->mMapObject.mSound, 0x14e);
             return;
@@ -291,7 +291,7 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
                     shine16->mMirror = shine16->mMirror == 0;
                 }
             }
-            shine16->mDrawScale -= 0x19a;
+            shine16->mDrawScale -= SHINE16_DRAW_SCALE_STEP;
             if (shine16->mDrawScale > 0) {
                 return;
             }
@@ -324,7 +324,7 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
             shine16->mMapObject.mPosStep.y -= 0x333;
             if (shine16->mPickupTimer-- <= 0) {
                 shine16->mPickupTimer = 0;
-                shine16->mDrawScale -= 0x19a;
+                shine16->mDrawScale -= SHINE16_DRAW_SCALE_STEP;
                 if (shine16->mDrawScale <= 0) {
                     shine16->mDrawScale = 0;
                     ParkMapObject(&shine16->mMapObject);
@@ -337,9 +337,9 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
                     SetupKartFollowEffect(StartEffect(0x7c, &kart->mPos), kart->mIndex, 0x16);
                 }
             } else {
-                shine16->mDrawScale += 0x19a;
-                if (shine16->mDrawScale >= 0x1000) {
-                    shine16->mDrawScale = 0x1000;
+                shine16->mDrawScale += SHINE16_DRAW_SCALE_STEP;
+                if (shine16->mDrawScale >= SHINE16_DRAW_SCALE_FULL) {
+                    shine16->mDrawScale = SHINE16_DRAW_SCALE_FULL;
                 }
             }
             if (shine16->mEffect == NULL) {
@@ -400,9 +400,9 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
             shine16->mMapObject.mPos.y +=
                 shine16->mHeightAboveKart + (GetKartBalloonOrShineHeight(GetKart(shine16->mKartIndex)) + 0x7800);
             shine16->mMapObject.mPosStep.y -= 0x52;
-            shine16->mDrawScale += 0x19a;
-            if (shine16->mDrawScale >= 0x1000) {
-                shine16->mDrawScale = 0x1000;
+            shine16->mDrawScale += SHINE16_DRAW_SCALE_STEP;
+            if (shine16->mDrawScale >= SHINE16_DRAW_SCALE_FULL) {
+                shine16->mDrawScale = SHINE16_DRAW_SCALE_FULL;
             }
             if (shine16->mMapObject.mPosStep.y > 0) {
                 return;
@@ -422,7 +422,7 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
                 shine16->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(deltaX, 0x25);
                 shine16->mMapObject.mPosStep.y = 0x5000;
                 shine16->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(deltaZ, 0x25);
-                shine16->mDrawScale = 0x1000;
+                shine16->mDrawScale = SHINE16_DRAW_SCALE_FULL;
                 shine16->mMapObject.mFlags &= ~1;
                 return;
             }
@@ -430,7 +430,7 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
             shine16->mMapObject.mPosStep.x = 0;
             shine16->mMapObject.mPosStep.y = 0x5000;
             shine16->mMapObject.mPosStep.z = 0;
-            shine16->mDrawScale = 0x1000;
+            shine16->mDrawScale = SHINE16_DRAW_SCALE_FULL;
             shine16->mMapObject.mFlags &= ~1;
             return;
         case SHINE16_STATE_LAUNCHED_UP:
@@ -447,9 +447,9 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
                     shine16->mMirror = shine16->mMirror == 0;
                 }
             }
-            shine16->mDrawScale += 0x19a;
-            if (shine16->mDrawScale >= 0x1000) {
-                shine16->mDrawScale = 0x1000;
+            shine16->mDrawScale += SHINE16_DRAW_SCALE_STEP;
+            if (shine16->mDrawScale >= SHINE16_DRAW_SCALE_FULL) {
+                shine16->mDrawScale = SHINE16_DRAW_SCALE_FULL;
             }
             shine16->mMapObject.mPosStep.y -= 0x19a;
             VEC_Add(&shine16->mMapObject.mPos, &shine16->mMapObject.mPosStep, &shine16->mMapObject.mPos);
@@ -473,9 +473,9 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
                     shine16->mMirror = shine16->mMirror == 0;
                 }
             }
-            shine16->mDrawScale += 0x19a;
-            if (shine16->mDrawScale >= 0x1000) {
-                shine16->mDrawScale = 0x1000;
+            shine16->mDrawScale += SHINE16_DRAW_SCALE_STEP;
+            if (shine16->mDrawScale >= SHINE16_DRAW_SCALE_FULL) {
+                shine16->mDrawScale = SHINE16_DRAW_SCALE_FULL;
             }
             shine16->mMapObject.mPosStep.y -= 0x19a;
             VEC_Add(&shine16->mMapObject.mPos, &shine16->mMapObject.mPosStep, &shine16->mMapObject.mPos);
