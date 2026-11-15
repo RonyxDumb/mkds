@@ -2,6 +2,65 @@
 
 #include "types.h"
 
+// Constants of the network stack: frame types, the ARP and TCP bits, ICMP types, the DHCP and DNS values. The values
+// with SWAPPED are the ones as the members hold them when the bytes are read as a halfword.
+#define ETHERTYPE_IPV4 0x800
+#define ETHERTYPE_ARP 0x806
+#define ETHERTYPE_ARP_SWAPPED 0x608
+#define ARP_HARDWARE_TYPE_ETHERNET_SWAPPED 0x100
+#define ARP_OPERATION_REPLY_SWAPPED 0x200
+#define ARP_ADDRESS_LENGTHS_ETHERNET_IPV4 0x406
+#define CPS_IP_BROADCAST 0xffffffff
+#define TCP_DEFAULT_MSS 0x218
+#define TCP_DATA_OFFSET_MASK 0xF0
+#define IHL_MASK 0xF
+#define CPS_MAX_IPSIZE 4096
+#define CPS_MAX_IPFRAG 8
+
+enum {
+    ICMP_ECHO_REPLY = 0,
+    ICMP_ECHO_REQUEST = 8,
+};
+
+enum {
+    TCP_FLAG_FIN = 1 << 0,
+    TCP_FLAG_SYN = 1 << 1,
+    TCP_FLAG_RST = 1 << 2,
+    TCP_FLAG_PSH = 1 << 3,
+    TCP_FLAG_ACK = 1 << 4,
+    TCP_FLAG_URG = 1 << 5,
+};
+
+enum {
+    DHCP_OPTION_SUBNET_MASK = 1,
+    DHCP_OPTION_ROUTER = 3,
+    DHCP_OPTION_DNS_SERVER = 6,
+    DHCP_OPTION_LEASE_TIME = 51,
+    DHCP_OPTION_MESSAGE_TYPE = 53,
+    DHCP_OPTION_SERVER_ID = 54,
+};
+
+enum {
+    DHCPOFFER = 2,
+    DHCPACK = 5,
+};
+
+enum {
+    DHCP_STATE_INIT,
+    DHCP_STATE_BOUND,
+    DHCP_STATE_REBINDING,
+    DHCP_STATE_FIXED_IP,
+};
+
+enum {
+    DHCP_MODE_REQUEST_IP,
+    DHCP_MODE_RENEW,
+    DHCP_MODE_REBIND,
+};
+
+#define DNS_RCODE_MASK 0xF
+#define DNS_RCODE_NXDOMAIN 3
+
 u32 CPS_Resolve(const char *name);
 
 u32 resolve_sub(const char *name, int dnsServer, u32 queryId);

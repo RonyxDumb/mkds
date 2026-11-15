@@ -480,10 +480,10 @@ void send_arprequest(u32 address) {
     MI_CpuFill8(&frame, 0, sizeof(frame));
     MI_CpuFill8(&frame, 0xff, 6);
     MI_CpuCopy8(CPSMyMac, frame.mSourceMac, 6);
-    frame.mEtherType = 0x608;
+    frame.mEtherType = ETHERTYPE_ARP_SWAPPED;
     frame.mHardwareTypeLow = 1;
-    frame.mProtocolTypeHigh = 8;
-    frame.mAddressLengths = 0x406;
+    frame.mProtocolTypeHigh = ETHERTYPE_IPV4 >> 8;
+    frame.mAddressLengths = ARP_ADDRESS_LENGTHS_ETHERNET_IPV4;
     frame.mOperationLow = 1;
     MI_CpuCopy8(CPSMyMac, frame.mSenderMac, 6);
     frame.mSenderAddressHigh = ((u16) (*(u32 *) &CPSMyIp >> 16) >> 8) | ((u16) (*(u32 *) &CPSMyIp >> 16) << 8);
@@ -658,7 +658,7 @@ void send_ping(u8 *pattern, u32 length, CPSSoc *socket) {
 
     sendBuffer = socket->mSendBuffer;
     icmpHeader = OFFSET_PTR(IcmpHeader, sendBuffer, 0x22);
-    icmpHeader->mTypeAndCode = 8;
+    icmpHeader->mTypeAndCode = ICMP_ECHO_REQUEST;
     icmpHeader->mIdentifier = (u32) OSi_ThreadInfo.mCurrentThread;
     icmpHeader->mChecksum = 0;
     sequence = gPingSequence;
@@ -756,7 +756,7 @@ void send_tcp(const u8 *data, u32 length, CPSSoc *socket, u32 flag, u16 urgent) 
 }
 
 void reply_arp(ArpPacket *packet) {
-    packet->mOperation = 0x200;
+    packet->mOperation = ARP_OPERATION_REPLY_SWAPPED;
     MI_CpuCopy8(packet->mSenderMac, packet->mTargetMac, 10);
     MI_CpuCopy8(CPSMyMac, packet->mSenderMac, 6);
     packet->mSenderAddressHigh = ((u16) (CPSMyIp >> 16) >> 8) | ((u16) (CPSMyIp >> 16) << 8);
@@ -782,13 +782,13 @@ void dispatch_arp(ArpPacket *packet, u32 length) {
     if (CPSMyIp == 0) {
         return;
     }
-    if (packet->mHardwareType != 0x100) {
+    if (packet->mHardwareType != ARP_HARDWARE_TYPE_ETHERNET_SWAPPED) {
         return;
     }
-    if (packet->mProtocolType != 8) {
+    if (packet->mProtocolType != ETHERTYPE_IPV4 >> 8) {
         return;
     }
-    if (packet->mAddressLengths != 0x406) {
+    if (packet->mAddressLengths != ARP_ADDRESS_LENGTHS_ETHERNET_IPV4) {
         return;
     }
     operation = (u16) ((packet->mOperation >> 8) | (packet->mOperation << 8));
@@ -897,10 +897,10 @@ void dispatch_icmp(IpHeader *ipHeader, IcmpHeader *icmp, u32 length) {
                      (u32) (((u16) ((ipHeader->mDestAddressHigh >> 8) | (ipHeader->mDestAddressHigh << 8)) << 16) |
                             (u16) ((ipHeader->mDestAddressLow >> 8) | (ipHeader->mDestAddressLow << 8)))) != 0) {
             switch (icmp->mType) {
-                case 0:
+                case ICMP_ECHO_REPLY:
                     process_icmp_reply(ipHeader, icmp, length);
                     break;
-                case 8:
+                case ICMP_ECHO_REQUEST:
                     if (gIcmpEchoReplyEnabled != 0) {
                         reply_icmp(ipHeader, icmp, length);
                     }
@@ -986,8 +986,8 @@ void parse_mss(const TcpHeader *tcpHeader, CPSSoc *socket) {
     s32 skipLength;
     u8 optionKind;
 
-    socket->mRemoteMss = 0x218;
-    optionsLength = (tcpHeader->mDataOffset & 0xf0) / 4 - 0x14;
+    socket->mRemoteMss = TCP_DEFAULT_MSS;
+    optionsLength = (tcpHeader->mDataOffset & TCP_DATA_OFFSET_MASK) / 4 - 0x14;
     options = (const u8 *) tcpHeader + 0x14;
     remaining = optionsLength - 1;
     if (optionsLength != 0) {
@@ -1030,11 +1030,11 @@ void tcp_send_handshake(CPSSoc *socket, u32 flag, u16 urgent) {
 }
 
 void tcp_send_ack(void *socket, u16 urgent) {
-    tcp_send_handshake(socket, 16, urgent);
+    tcp_send_handshake(socket, TCP_FLAG_ACK, urgent);
 }
 
 void tcp_send_finack(void *socket, u16 urgent) {
-    tcp_send_handshake(socket, 17, urgent);
+    tcp_send_handshake(socket, TCP_FLAG_FIN | TCP_FLAG_ACK, urgent);
 }
 
 void tcp_send_rst(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length, u16 urgent) {
@@ -1046,19 +1046,19 @@ void tcp_send_rst(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length, u16 urge
     socket->mRemotePort = (tcpHeader->mSourcePort >> 8) | (tcpHeader->mSourcePort << 8);
     socket->mRemoteIp = ((u16) ((ipHeader->mSourceAddressHigh >> 8) | (ipHeader->mSourceAddressHigh << 8)) << 16) |
                         (u16) ((ipHeader->mSourceAddressLow >> 8) | (ipHeader->mSourceAddressLow << 8));
-    if ((tcpHeader->mFlags & 0x10) != 0) {
+    if ((tcpHeader->mFlags & TCP_FLAG_ACK) != 0) {
         socket->mSeqNo = ((u16) ((tcpHeader->mAckNoHigh >> 8) | (tcpHeader->mAckNoHigh << 8)) << 16) |
                          (u16) ((tcpHeader->mAckNoLow >> 8) | (tcpHeader->mAckNoLow << 8));
-        tcp_send_handshake(socket, 4, urgent);
+        tcp_send_handshake(socket, TCP_FLAG_RST, urgent);
         return;
     }
     socket->mSeqNo = 0;
     socket->mAckNo = length + (u32) (((u16) ((tcpHeader->mSeqNoHigh >> 8) | (tcpHeader->mSeqNoHigh << 8)) << 16) |
                                      (u16) ((tcpHeader->mSeqNoLow >> 8) | (tcpHeader->mSeqNoLow << 8)));
-    if ((tcpHeader->mFlags & 3) != 0) {
+    if ((tcpHeader->mFlags & (TCP_FLAG_FIN | TCP_FLAG_SYN)) != 0) {
         socket->mAckNo++;
     }
-    tcp_send_handshake(socket, 0x14, urgent);
+    tcp_send_handshake(socket, TCP_FLAG_RST | TCP_FLAG_ACK, urgent);
 }
 
 void dt_syn_listen(IpHeader *ipHeader, TcpHeader *tcpHeader, CPSSoc *socket) {
@@ -1073,7 +1073,7 @@ void dt_syn_listen(IpHeader *ipHeader, TcpHeader *tcpHeader, CPSSoc *socket) {
                             (u16) ((tcpHeader->mSeqNoLow >> 8) | (tcpHeader->mSeqNoLow << 8))) +
                      1;
     parse_mss(tcpHeader, socket);
-    tcp_send_handshake(socket, 0x12, (ipHeader->mIdentifierSecondByte << 8) + 1);
+    tcp_send_handshake(socket, TCP_FLAG_SYN | TCP_FLAG_ACK, (ipHeader->mIdentifierSecondByte << 8) + 1);
 }
 
 BOOL find_specific_socket(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
@@ -1191,7 +1191,7 @@ void dt_ack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
             }
             if (length != 0) {
                 interruptState = OS_DisableInterrupts();
-                MI_CpuCopy8((u8 *) tcpHeader + (tcpHeader->mDataOffset & 0xf0) / 4,
+                MI_CpuCopy8((u8 *) tcpHeader + (tcpHeader->mDataOffset & TCP_DATA_OFFSET_MASK) / 4,
                             socket->mReceiveBuffer + socket->mReceiveBufferLength, length);
                 socket->mReceiveBufferLength += length;
                 socket->mAckNo += length;
@@ -1303,29 +1303,29 @@ void dispatch_tcp(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
     if (check_tcpudpsum(tcpHeader, length, ipHeader, 6) != FALSE) {
         return;
     }
-    length -= (tcpHeader->mDataOffset & 0xf0) / 4;
-    switch (tcpHeader->mFlags & 0x17) {
-        case 2:
-            if (tcpHeader->mFlags & 0x28) {
+    length -= (tcpHeader->mDataOffset & TCP_DATA_OFFSET_MASK) / 4;
+    switch (tcpHeader->mFlags & (TCP_FLAG_FIN | TCP_FLAG_SYN | TCP_FLAG_RST | TCP_FLAG_ACK)) {
+        case TCP_FLAG_SYN:
+            if (tcpHeader->mFlags & (TCP_FLAG_PSH | TCP_FLAG_URG)) {
                 return;
             }
             dt_syn(ipHeader, tcpHeader, length);
             return;
-        case 0x12:
-            if (tcpHeader->mFlags & 0x28) {
+        case TCP_FLAG_SYN | TCP_FLAG_ACK:
+            if (tcpHeader->mFlags & (TCP_FLAG_PSH | TCP_FLAG_URG)) {
                 return;
             }
             dt_synack(ipHeader, tcpHeader, length);
             return;
-        case 0x10:
-        case 0x11:
+        case TCP_FLAG_ACK:
+        case TCP_FLAG_FIN | TCP_FLAG_ACK:
             dt_ack(ipHeader, tcpHeader, length);
             return;
-        case 1:
+        case TCP_FLAG_FIN:
             dt_fin(ipHeader, tcpHeader, length);
             return;
         default:
-            if (tcpHeader->mFlags & 4) {
+            if (tcpHeader->mFlags & TCP_FLAG_RST) {
                 dt_rst(ipHeader, tcpHeader);
                 return;
             }
@@ -1351,7 +1351,7 @@ void dispatch_udp(IpHeader *ipHeader, UdpHeader *udpHeader, u32 length) {
             socket->mRemotePort != (u16) ((udpHeader->mSourcePort >> 8) | (udpHeader->mSourcePort << 8))) {
             continue;
         }
-        if (socket->mRemoteIp != 0 && socket->mRemoteIp != 0xffffffff &&
+        if (socket->mRemoteIp != 0 && socket->mRemoteIp != CPS_IP_BROADCAST &&
             socket->mRemoteIp !=
                 (u32) (((u16) ((ipHeader->mSourceAddressHigh >> 8) | (ipHeader->mSourceAddressHigh << 8)) << 16) |
                        (u16) ((ipHeader->mSourceAddressLow >> 8) | (ipHeader->mSourceAddressLow << 8)))) {
@@ -1411,7 +1411,7 @@ IpHeader *check_frag(IpHeader *packet, u32 *fragmented) {
     if ((fragField & 0x3fff) == 0) {
         return packet;
     }
-    headerLength = (packet->mVersionIhl & 0xf) << 2;
+    headerLength = (packet->mVersionIhl & IHL_MASK) << 2;
     identifier = *(u16 *) &packet->mIdentifierFirstByte;
     sourceAddress = ((u16) ((packet->mSourceAddressHigh >> 8) | (packet->mSourceAddressHigh << 8)) << 16) |
                     (u16) ((packet->mSourceAddressLow >> 8) | (packet->mSourceAddressLow << 8));
@@ -1430,7 +1430,7 @@ IpHeader *check_frag(IpHeader *packet, u32 *fragmented) {
     byteOffset = fragOffset << 3;
     size = fragmentBytes + byteOffset;
     if (slotIndex == 8) {
-        if (freeSlot == NULL || size > 0x1000) {
+        if (freeSlot == NULL || size > CPS_MAX_IPSIZE) {
             return NULL;
         }
         slot = freeSlot;
@@ -1445,7 +1445,7 @@ IpHeader *check_frag(IpHeader *packet, u32 *fragmented) {
         freeSlot->mOfs0 = freeSlot->mBuf + 0xe + headerLength;
         MI_CpuCopy8(packet, freeSlot->mBuf + 0xe, headerLength);
     }
-    if (slot->mFrags == 8 || size > 0x1000) {
+    if (slot->mFrags == CPS_MAX_IPFRAG || size > CPS_MAX_IPSIZE) {
         slot->mFrags = 0;
         CPSiFree(slot->mBuf);
         return NULL;
@@ -1481,8 +1481,8 @@ IpHeader *check_frag(IpHeader *packet, u32 *fragmented) {
     {
         IpHeader *rebuilt = (IpHeader *) (slot->mBuf + 0xe);
 
-        rebuilt->mTotalLength = ((u16) (slot->mSize + ((rebuilt->mVersionIhl & 0xf) << 2)) >> 8) |
-                                ((u16) (slot->mSize + ((rebuilt->mVersionIhl & 0xf) << 2)) << 8);
+        rebuilt->mTotalLength = ((u16) (slot->mSize + ((rebuilt->mVersionIhl & IHL_MASK) << 2)) >> 8) |
+                                ((u16) (slot->mSize + ((rebuilt->mVersionIhl & IHL_MASK) << 2)) << 8);
         slot->mFrags = 0;
         *fragmented = 1;
         return rebuilt;
@@ -1503,7 +1503,7 @@ void dispatch_ip(IpHeader *packet, u32 length) {
         if (length < (u16) ((packet->mTotalLength >> 8) | (packet->mTotalLength << 8))) {
             return;
         }
-        if (calc_checksum(packet, (packet->mVersionIhl & 0xf) << 2) != 0xffff) {
+        if (calc_checksum(packet, (packet->mVersionIhl & IHL_MASK) << 2) != 0xffff) {
             return;
         }
         if (CPSMyIp == (u32) (((u16) ((packet->mDestAddressHigh >> 8) | (packet->mDestAddressHigh << 8)) << 16) |
@@ -1516,7 +1516,7 @@ void dispatch_ip(IpHeader *packet, u32 length) {
     }
     packet = check_frag(packet, &wasReassembled);
     if (packet != NULL) {
-        u32 headerLength = (packet->mVersionIhl & 0xf) << 2;
+        u32 headerLength = (packet->mVersionIhl & IHL_MASK) << 2;
         void *payload = (u8 *) packet + headerLength;
         u32 payloadLength = (u16) ((packet->mTotalLength >> 8) | (packet->mTotalLength << 8)) - headerLength;
         u32 protocol = packet->mProtocol;
@@ -1544,10 +1544,10 @@ void tcpip(void) {
         frame = (EthernetHeader *) receive_packet(&length);
         if (length > 0x22) {
             switch ((u16) ((frame->mEtherType >> 8) | (frame->mEtherType << 8))) {
-                case 0x800:
+                case ETHERTYPE_IPV4:
                     dispatch_ip(&frame->mIp, length - 0xe);
                     break;
-                case 0x806:
+                case ETHERTYPE_ARP:
                     dispatch_arp(&frame->mArp, length - 0xe);
                     break;
             }
@@ -1690,7 +1690,7 @@ u32 CPSi_TcpConnectRaw(CPSSoc *socket) {
         socket->mSeqNo = seqNo;
         socket->mState = SOCKET_STATE_SYN_SENT;
         socket->mStateStartTime = OS_GetTick() >> 16;
-        tcp_send_handshake(socket, 2, 24);
+        tcp_send_handshake(socket, TCP_FLAG_SYN, 24);
         interruptState = OS_DisableInterrupts();
         if (CPSMyIp != 0) {
             socket->mBlockType = SOCKET_BLOCK_CONNECT;
@@ -2095,7 +2095,7 @@ void scavenger(void) {
     gScavengerSoc.mSendBufferSize = 0x180;
     gScavengerSoc.mSendBuffer = gScavengerSendBuffer;
     CPS_SocRegister(&gScavengerSoc);
-    dhcpPhase = 0;
+    dhcpPhase = DHCP_STATE_INIT;
     isFirstPass = TRUE;
     dhcpDelay = 1;
     CPSNoIpReason = 1;
@@ -2109,46 +2109,47 @@ void scavenger(void) {
             dhcpDelay--;
             if (dhcpDelay == 0) {
                 if ((gCPSMode & 1) != 0) {
-                    if (dhcpPhase == 0) {
+                    if (dhcpPhase == DHCP_STATE_INIT) {
                         set_fixed_ip();
-                        dhcpPhase = 1;
+                        dhcpPhase = DHCP_STATE_BOUND;
                     }
                 } else {
                     switch (dhcpPhase) {
-                        case 0:
+                        case DHCP_STATE_INIT:
                             if (isFirstPass != FALSE) {
                                 CPSNoIpReason = 2;
                                 isFirstPass = FALSE;
                             }
-                            if (dhcp_discover_server() == 0 || dhcp_request_server(&dhcpDelay, 0) == FALSE) {
+                            if (dhcp_discover_server() == 0 ||
+                                dhcp_request_server(&dhcpDelay, DHCP_MODE_REQUEST_IP) == FALSE) {
                                 set_fixed_ip();
-                                dhcpPhase = 3;
+                                dhcpPhase = DHCP_STATE_FIXED_IP;
                             } else {
-                                dhcpPhase = 1;
+                                dhcpPhase = DHCP_STATE_BOUND;
                             }
                             break;
-                        case 1:
-                            if (dhcp_request_server(&dhcpDelay, 1) == FALSE && dhcpDelay < 0x3c) {
-                                dhcpPhase = 2;
+                        case DHCP_STATE_BOUND:
+                            if (dhcp_request_server(&dhcpDelay, DHCP_MODE_RENEW) == FALSE && dhcpDelay < 0x3c) {
+                                dhcpPhase = DHCP_STATE_REBINDING;
                             }
                             break;
-                        case 2:
-                            if (dhcp_request_server(&dhcpDelay, 2) != FALSE) {
-                                dhcpPhase = 1;
+                        case DHCP_STATE_REBINDING:
+                            if (dhcp_request_server(&dhcpDelay, DHCP_MODE_REBIND) != FALSE) {
+                                dhcpPhase = DHCP_STATE_BOUND;
                             } else if (dhcpDelay < 0x3c) {
                                 reset_network_vars(3);
-                                dhcpPhase = 0;
+                                dhcpPhase = DHCP_STATE_INIT;
                                 dhcpDelay = 1;
                             }
                             break;
-                        case 3:
+                        case DHCP_STATE_FIXED_IP:
                             break;
                     }
                 }
             }
         } else {
             reset_network_vars(1);
-            dhcpPhase = 0;
+            dhcpPhase = DHCP_STATE_INIT;
             dhcpDelay = 1;
         }
         entryIndex = 0;
@@ -2335,15 +2336,15 @@ s32 dhcp_analyze_response(u32 queryId, s32 retry) {
                             continue;
                         }
                         switch (option) {
-                            case 1:
+                            case DHCP_OPTION_SUBNET_MASK:
                                 CPSNetMask = (u16) (optionCursor[1] << 8 | optionCursor[2]) << 16 |
                                              (u16) (optionCursor[3] << 8 | optionCursor[4]);
                                 break;
-                            case 3:
+                            case DHCP_OPTION_ROUTER:
                                 CPSGatewayIp = (u16) (optionCursor[1] << 8 | optionCursor[2]) << 16 |
                                                (u16) (optionCursor[3] << 8 | optionCursor[4]);
                                 break;
-                            case 6:
+                            case DHCP_OPTION_DNS_SERVER:
                                 if (optionCursor[0] < 8) {
                                     dnsServers[1] = 0;
                                 } else {
@@ -2353,23 +2354,23 @@ s32 dhcp_analyze_response(u32 queryId, s32 retry) {
                                 dnsServers[0] = (u16) (optionCursor[1] << 8 | optionCursor[2]) << 16 |
                                                 (u16) (optionCursor[3] << 8 | optionCursor[4]);
                                 break;
-                            case 0x33:
+                            case DHCP_OPTION_LEASE_TIME:
                                 gLeaseTime = (u16) (optionCursor[1] << 8 | optionCursor[2]) << 16 |
                                              (u16) (optionCursor[3] << 8 | optionCursor[4]);
                                 break;
-                            case 0x35:
+                            case DHCP_OPTION_MESSAGE_TYPE:
                                 switch (optionCursor[1]) {
-                                    case 2:
+                                    case DHCPOFFER:
                                         gOfferedMyIp = assignedIp;
                                         result = 1;
                                         break;
-                                    case 5:
+                                    case DHCPACK:
                                         CPSMyIp = assignedIp;
                                         result = 2;
                                         break;
                                 }
                                 break;
-                            case 0x36:
+                            case DHCP_OPTION_SERVER_ID:
                                 CPSDhcpServerIp = (u16) (optionCursor[1] << 8 | optionCursor[2]) << 16 |
                                                   (u16) (optionCursor[3] << 8 | optionCursor[4]);
                                 break;
@@ -2435,13 +2436,13 @@ BOOL dhcp_request_server(u32 *sleep, s32 mode) {
     gSleepSave = savedSleep;
     *sleep = savedSleep;
     switch (mode) {
-        case 1:
+        case DHCP_MODE_RENEW:
             if (savedSleep < 0x3c) {
                 *sleep = 1;
                 gSleepSave = gLeaseTime >> 3;
             }
             break;
-        case 2:
+        case DHCP_MODE_REBIND:
             if (savedSleep < 0x3c) {
                 *sleep = 1;
             }
@@ -2551,8 +2552,8 @@ s32 resolve_common(const char *name, u32 recordType, s32 queryId) {
         }
         readPtr = CPS_SocRead(&query.mUnk_00);
         if (query.mUnk_00 > 0xc && queryId == (u16) ((*(u16 *) readPtr >> 8) | (*(u16 *) readPtr << 8))) {
-            responseCode = readPtr[3] & 0xf;
-            if (responseCode == 3) {
+            responseCode = readPtr[3] & DNS_RCODE_MASK;
+            if (responseCode == DNS_RCODE_NXDOMAIN) {
                 result = failure;
             } else if (responseCode == 0) {
                 labelStart = readPtr + query.mUnk_00;
