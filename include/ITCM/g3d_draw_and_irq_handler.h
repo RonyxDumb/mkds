@@ -34,7 +34,7 @@ void G3dDrawInternal_(NNSG3dRS *renderState, NNSG3dRenderObj *renderObj);
 void G3dDrawInternal_Loop_(NNSG3dRS *renderState);
 void NNS_G3dGeBufferOP_N(u32 command, const void *parameters, u32 parameterCount);
 void NNS_G3dGeSendDL(const void *commands, u32 commandLength);
-void simpleUnlock_(u32 *target);
+void simpleUnlock_(void *target);
 void NNS_G3dGeWaitSendDL(void);
 void NNS_G3dGeFlushBuffer(void);
 GxCommandBuffer *NNS_G3dGeReleaseBuffer(void);

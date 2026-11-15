@@ -44,7 +44,7 @@ void DrawNsbmdWithMaxAlphaAndMaterial(Nsbmd *model, s32 maxAlpha);
 void DrawNsbmd1Mat1ShpWithMaxAlpha(Nsbmd *model, s32 maxAlpha);
 // Draws the model with its alpha capped at param_2 (put back afterwards).
 void DrawNsbmdWithMaxAlpha(Nsbmd *model, s32 maxAlpha);
-void SendMaterialPolygonAttributes(void);
+void SendMaterialPolygonAttributes(NNSG3dRS *renderState);
 // Draws the shadow model with its alpha capped at param_4 (put back afterwards).
 void DrawShadowWithMaxAlpha(ShadowModel *shadow, void *matrix, Vec3 *scale, u32 maxAlpha);
 // Draws the model with the matrix param_2 and scale param_3, its alpha capped at param_4 (put back afterwards).

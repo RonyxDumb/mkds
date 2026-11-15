@@ -57,8 +57,9 @@ void NNS_G3dGeWaitSendDL(void) {
     }
 }
 
-void simpleUnlock_(u32 *target) {
-    *target = 0;
+void simpleUnlock_(void *target) {
+    u32 *flag = target;
+    *flag = 0;
 }
 
 void NNS_G3dGeSendDL(const void *commands, u32 commandLength) {
@@ -69,10 +70,10 @@ void NNS_G3dGeSendDL(const void *commands, u32 commandLength) {
     NNS_G3dGeFlushBuffer();
     NNS_G3dFlagGXDmaAsync = 1;
     if (NNS_G3dFlagUseFastDma != 0) {
-        MI_SendGXCommandAsyncFast(GXi_DmaId, commands, commandLength, (MIDmaCallback) simpleUnlock_,
+        MI_SendGXCommandAsyncFast(GXi_DmaId, commands, commandLength, simpleUnlock_,
                                   &NNS_G3dFlagGXDmaAsync);
     } else {
-        MI_SendGXCommandAsync(GXi_DmaId, commands, commandLength, (MIDmaCallback) simpleUnlock_,
+        MI_SendGXCommandAsync(GXi_DmaId, commands, commandLength, simpleUnlock_,
                               &NNS_G3dFlagGXDmaAsync);
     }
 }

@@ -816,7 +816,7 @@ void DrawShadowWithMaxAlpha(ShadowModel *shadow, void *matrix, Vec3 *scale, u32 
     }
 }
 
-void SendMaterialPolygonAttributes(void) {
+void SendMaterialPolygonAttributes(NNSG3dRS *renderState) {
     NNS_G3dGeBufferOP_N(0x29, &gWoodbox1PolyAttr, 1);
 }
 
@@ -879,7 +879,7 @@ void DrawNsbmdWithMaxAlphaAndMaterial(Nsbmd *model, s32 maxAlpha) {
     entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &resMat->mDict, resMat->mDict.mOfsEntry);
     matData = OFFSET_PTR(NNSG3dResMatData, resMat, *DICT_ENTRY(u32, entries, 0));
     gWoodbox1PolyAttr = matData->mPolyAttr;
-    NNS_G3dRenderObjSetCallBack(&model->mRenderObj, (NNSG3dSbcCallBackFunc) SendMaterialPolygonAttributes, 0, 4, 3);
+    NNS_G3dRenderObjSetCallBack(&model->mRenderObj, SendMaterialPolygonAttributes, 0, 4, 3);
     DrawNsbmd(model);
     savedAlpha = gSavedModelAlpha;
     if (maxAlpha < savedAlpha) {
