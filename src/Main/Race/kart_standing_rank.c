@@ -270,7 +270,7 @@ void AdvanceMissionRunEnd(void) {
     }
     if (endFound == FALSE) {
         if ((gRaceSetup->mMissionRunBits & MISSION_RUN_BIT_END_KART_FLAG_1000) != 0) {
-            if (IsEntryKartFlag1000Set() != 0) {
+            if (IsEntryKartRespawnFalling() != 0) {
                 endFound = TRUE;
             }
         }

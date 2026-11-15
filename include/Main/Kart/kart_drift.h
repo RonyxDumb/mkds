@@ -203,7 +203,7 @@ typedef struct ParticipantKartRecordState {
 #define KART_MOTION_STATE_RESET 0x80000000
 
 // Bits of Kart.mDriveFlags.
-// Set by ApplyKartSurfaceKind19 (the boost surface) and read as "the Kart is on a boost surface".
+// Set by ApplyKartSurfaceBoostHeld (the boost surface) and read as "the Kart is on a boost surface".
 #define KART_DRIVE_ON_BOOST_SURFACE 0x1
 // Set while the accelerate button (A) is held.
 #define KART_DRIVE_ACCEL_HELD 0x2
@@ -247,7 +247,7 @@ typedef struct ParticipantKartRecordState {
 #define KART_DRIVE_KINOKO_BOOST 0x100000
 // Set after the course sound table entry of a 0x10 course hit was played once.
 #define KART_DRIVE_COURSE_SOUND_PLAYED 0x200000
-// Set by ApplyKartSurfaceKind18; a boost then keeps the speed limit goal at 0x8800 or more.
+// Set by ApplyKartSurfaceBoostWithSpeedFloor; a boost then keeps the speed limit goal at 0x8800 or more.
 #define KART_DRIVE_BOOST_SPEED_FLOOR 0x400000
 // Set with the fall sound 0xce, and by a course hit 0x400 with value 4.
 #define KART_DRIVE_FALL_SOUND_A 0x800000
@@ -263,7 +263,7 @@ typedef struct ParticipantKartRecordState {
 #define KART_DRIVE_JUMP_PAD 0x10000000
 // Set by a boost that is not a mini turbo or a respawn boost; cleared with the mushroom boost.
 #define KART_DRIVE_ITEM_BOOST 0x20000000
-// Set by ApplyKartSurfaceKind19; cleared once the Kart is on the ground off that surface; the camera and AI use the
+// Set by ApplyKartSurfaceBoostHeld; cleared once the Kart is on the ground off that surface; the camera and AI use the
 // Kart's own up vector while set.
 #define KART_DRIVE_BOOST_SURFACE_HELD 0x40000000
 // Set while AdvanceKartQuaternionFromVector had to flip the sign of the target quaternion.
@@ -887,10 +887,10 @@ extern s32 gKartState3SecondLandVerticalSpeed;
 extern s32 gKartPushFlipStartVerticalSpeed;
 extern Vec3 gKartPointMotionDecayFactors;
 extern s32 gKartRespawnOffsetScale;
-extern s32 gKartSurfaceKind12VerticalSpeeds[5];
+extern s32 gKartJumpPadVerticalSpeeds[5];
 extern s32 gKartState3FirstLandVerticalSpeed;
 extern s32 gKartWobbleEaseFactor;
-extern s32 gKartSurfaceKind12SpeedLimitGoals[5];
+extern s32 gKartJumpPadSpeedLimitGoals[5];
 extern s32 gKartState4StartAnglePerFrame;
 extern Vec3 gParticipantRecordHeadingAxis;
 extern s32 gKartOverlapLengthLimit;

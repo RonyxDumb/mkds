@@ -111,7 +111,7 @@ void GetKartPrevPos(Vec3 *dst, s32 idx);
 void InitKarts(u32 kartCount);
 void UpdateKarts(void);
 void SetMinKartDistanceSquared(s32 distanceSquared);
-BOOL IsEntryKartFlag1000Set(void);
+BOOL IsEntryKartRespawnFalling(void);
 BOOL IsEntryKartInContact(void);
 BOOL IsEntryKartNotNormalOrScaleTableBit(void);
 void SetKartModelsFogEnable(s32 fogEnableFlag);
@@ -127,7 +127,7 @@ void GetKartPosFromPosSourceCopy(Vec3 *dst, u8 idx);
 // Copies the position of Kart idx to dst, read through mPosSource (which points to mPos, or for a kind-3 entry in mode
 // 5 to a Vec3 of the received record).
 void GetKartPos(Vec3 *dst, s32 idx);
-void CallKartSlot8AndClearKarts(void);
+void ReleaseKartsAndClear(void);
 // Runs slot 2 of Kart.mSlotFunctions for every Kart each time UpdateRace runs; the slot stores the Kart's squared
 // distance in its sound source.
 void UpdateKartSoundDistancesSquared(void);

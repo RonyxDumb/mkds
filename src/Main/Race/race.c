@@ -499,7 +499,7 @@ void ReleaseRace(void) {
     BOOL heapCreated;
 
     ClearMapObjectListSlots();
-    CallKartSlot8AndClearKarts();
+    ReleaseKartsAndClear();
     ReleaseAllResFiles();
     StopRaceInput();
     heapCreated = FALSE;

@@ -228,10 +228,10 @@ void DrawKarts(void) {
     }
 }
 
-void CallKartSlot8AndClearKarts(void) {
+void ReleaseKartsAndClear(void) {
     s32 kartIndex;
     for (kartIndex = 0; kartIndex < gKartCount; kartIndex++) {
-        CallKartSlot8(&gKarts[kartIndex]);
+        CallKartReleaseFunction(&gKarts[kartIndex]);
     }
     gKarts = NULL;
 }
@@ -369,7 +369,7 @@ BOOL IsEntryKartInContact(void) {
                : 0;
 }
 
-BOOL IsEntryKartFlag1000Set(void) {
+BOOL IsEntryKartRespawnFalling(void) {
     return (gKarts[gRaceSetup->mEntryIndex].mDriveFlags & KART_DRIVE_RESPAWN_FALL) != 0 ? 1 : 0;
 }
 

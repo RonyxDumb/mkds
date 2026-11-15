@@ -113,20 +113,20 @@
 const u32 gKartSurfaceKind1Effects[8] = {0, 0, 0, 4, 0, 0, 0, 0};
 const u32 gKartSurfaceStopEffects[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 const s16 gKartRaceStartBoostFrameCounts[6] = {8, 0xf, 0x1e, 0x32, 0x64, 0};
-const s32 gKartModelScaleZKind2Table[15] = {0xccd, 0xdfa, 0xf4a, 0x1088, 0x1182, 0x1205, 0x11a9, 0x1093,
-                                            0xf61, 0xeb2, 0xea5, 0xede,  0xf3f,  0xfa9,  0x1000};
-const s32 gKartModelScaleYKind1Table[15] = {0xccd,  0xe9f,  0x1072, 0x119a, 0x120c, 0x1239, 0x122d, 0x11f4,
-                                            0x119a, 0x10a7, 0xf42,  0xe66,  0xe94,  0xf4a,  0x1000};
-const s32 gKartModelOffsetYKind1Table[15] = {-77,  -94,  -117, -137, -144, -128, -59, 0x34,
-                                             0x9c, 0xcd, 0x3f, -102, -102, -51,  0};
+const s32 gKartModelScaleZBumpTable[15] = {0xccd, 0xdfa, 0xf4a, 0x1088, 0x1182, 0x1205, 0x11a9, 0x1093,
+                                           0xf61, 0xeb2, 0xea5, 0xede,  0xf3f,  0xfa9,  0x1000};
+const s32 gKartModelScaleYHardLandTable[15] = {0xccd,  0xe9f,  0x1072, 0x119a, 0x120c, 0x1239, 0x122d, 0x11f4,
+                                               0x119a, 0x10a7, 0xf42,  0xe66,  0xe94,  0xf4a,  0x1000};
+const s32 gKartModelOffsetYHardLandTable[15] = {-77,  -94,  -117, -137, -144, -128, -59, 0x34,
+                                                0x9c, 0xcd, 0x3f, -102, -102, -51,  0};
 const s16 gThunderShrinkTimerByRank[8] = {0x1fe, 0x1c2, 0x186, 0x14a, 0x10e, 0xd2, 0x96, 0x5a};
 const Vec3 gKartStartPlacementHeadingAxis = {0, 0x1000, 0};
-const s32 gKartModelScaleXKind2Table[15] = {0x1400, 0x12a9, 0x112d, 0xfc3,  0xea5,  0xe0b,  0xe67, 0xf91,
-                                            0x10da, 0x1193, 0x119a, 0x1154, 0x10e3, 0x1066, 0x1000};
+const s32 gKartModelScaleXBumpTable[15] = {0x1400, 0x12a9, 0x112d, 0xfc3,  0xea5,  0xe0b,  0xe67, 0xf91,
+                                           0x10da, 0x1193, 0x119a, 0x1154, 0x10e3, 0x1066, 0x1000};
 const u32 gKartSurfaceKind6Effects[8] = {0, 5, 0, 0, 0, 0, 0, 0};
 const u32 gKartSurfaceKind10Effects[8] = {1, 2, 0, 7, 0, 0, 0, 0};
-const s32 gKartModelScaleYKind0Table[15] = {0xd9a,  0xed1,  0x1008, 0x10cd, 0x1117, 0x112f, 0x1123, 0x10fe,
-                                            0x10cd, 0x1053, 0xfa1,  0xf33,  0xf4a,  0xfa5,  0x1000};
+const s32 gKartModelScaleYLandTable[15] = {0xd9a,  0xed1,  0x1008, 0x10cd, 0x1117, 0x112f, 0x1123, 0x10fe,
+                                           0x10cd, 0x1053, 0xfa1,  0xf33,  0xf4a,  0xfa5,  0x1000};
 const s32 gKartOffsetCycleY[8] = {0x1000, 0x100e, 0x102d, 0x104c, 0x105b, 0x104c, 0x102d, 0x100e};
 const s32 gKartOffsetCycleX[8] = {0x1052, 0x103d, 0x1015, 0x1000, 0x1009, 0x101d, 0x1035, 0x1049};
 const u32 gKartSurfaceKind3Effects[8] = {1, 5, 3, 2, 6, 7, 0, 0};
@@ -135,17 +135,32 @@ const u32 gKartSurfaceKind20Effects[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 const u32 gKartSurfaceKind17Effects[8] = {4, 4, 4, 0, 0, 0, 0, 0};
 const u32 gKartSurfaceKind2Effects[8] = {2, 4, 7, 1, 0, 0, 0, 0};
 const s32 gKartOffsetCycleZ[8] = {0x26, 0x20, 0x13, 6, 0, 6, 0x13, 0x20};
-const s32 gKartModelOffsetYKind0And2Table[15] = {-77,  -80,  -86,  -91, -90, -77, -38, 0x15,
-                                                 0x4c, 0x66, 0x20, -51, -51, -25, 0};
+const s32 gKartModelOffsetYLandAndBumpTable[15] = {-77,  -80,  -86,  -91, -90, -77, -38, 0x15,
+                                                   0x4c, 0x66, 0x20, -51, -51, -25, 0};
 const s32 gKartRespawnOffsets[8][2] = {{0, 0},       {-0x1000, 0},       {0x1000, 0},        {0, -0x1000},
                                        {0, 0x1000}, {-0x1000, -0x1000}, {0x1000, -0x1000}, {-0x1000, 0x1000}};
-int (*const gKartSurfaceFunctions[22])(Kart *) = {
-    ApplyKartSurfaceStopEffects, ApplyKartSurfaceKind1,       ApplyKartSurfaceKind2,       ApplyKartSurfaceKind3,
-    ApplyKartSurfaceStopEffects, ApplyKartSurfaceKind5,       ApplyKartSurfaceKind6,       ApplyKartSurfaceKind7,
-    ApplyKartSurfaceStopEffects, ApplyKartSurfaceStopEffects, ApplyKartSurfaceKind10,      ApplyKartSurfaceStopEffects,
-    ApplyKartSurfaceKind12,      ApplyKartSurfaceStopEffects, ApplyKartSurfaceStopEffects, ApplyKartSurfaceKind15,
-    ApplyKartSurfaceStopEffects, ApplyKartSurfaceKind17,      ApplyKartSurfaceKind18,      ApplyKartSurfaceKind19,
-    ApplyKartSurfaceKind20,      ApplyKartSurfaceStopEffects};
+int (*const gKartSurfaceFunctions[22])(Kart *) = {ApplyKartSurfaceStopEffects,
+                                                  ApplyKartSurfaceKind1,
+                                                  ApplyKartSurfaceKind2,
+                                                  ApplyKartSurfaceKind3,
+                                                  ApplyKartSurfaceStopEffects,
+                                                  ApplyKartSurfaceKind5,
+                                                  ApplyKartSurfaceKind6,
+                                                  ApplyKartSurfaceBoost,
+                                                  ApplyKartSurfaceStopEffects,
+                                                  ApplyKartSurfaceStopEffects,
+                                                  ApplyKartSurfaceKind10,
+                                                  ApplyKartSurfaceStopEffects,
+                                                  ApplyKartSurfaceJumpPad,
+                                                  ApplyKartSurfaceStopEffects,
+                                                  ApplyKartSurfaceStopEffects,
+                                                  ApplyKartSurfaceKeyedPlacement,
+                                                  ApplyKartSurfaceStopEffects,
+                                                  ApplyKartSurfaceKind17,
+                                                  ApplyKartSurfaceBoostWithSpeedFloor,
+                                                  ApplyKartSurfaceBoostHeld,
+                                                  ApplyKartSurfaceKind20,
+                                                  ApplyKartSurfaceStopEffects};
 const s32 gKartScaleFactorXTable[25] = {0x800,  0x6d9,  0x68d,  0x7a3,  0x8e6,  0xa4c,  0xbc8,  0xd4f, 0xed4,
                                         0x104c, 0x11ac, 0x12e7, 0x13f2, 0x14c0, 0x13f0, 0x119e, 0x1000, 0xfdd,
                                         0x1040, 0x10c6, 0x1109, 0x10ec, 0x10a5, 0x104f, 0x1000};
@@ -1491,7 +1506,7 @@ void AdvanceKartRemovalShrink(Kart *kart) {
         if ((currentBits & 0x800006) == 0 && winnerDecidedAndEndReached == FALSE && (currentBits & 0x40000) != 0) {
             if (kart->mFramesSinceRemovalOrReset >= 0xb9) {
                 *bitsPointer = *bitsPointer | KART_ENTRY_BATTLE_RESPAWNED;
-                CallKartSlot6AndToggleFlag(kart);
+                RespawnKartAndToggleEventFlag(kart);
                 collisionCenter = gRaceSetup->mMode == MODE_WIFI ? &kart->mPointAlongUp : &kart->mCollisionCenter;
                 if (kart->mCollisionSlot == -1) {
                     kart->mCollisionSlot =
@@ -2197,7 +2212,7 @@ s32 ApplyKartSurfaceKind6(Kart *kart) {
     return 6;
 }
 
-s32 ApplyKartSurfaceKind7(Kart *kart) {
+s32 ApplyKartSurfaceBoost(Kart *kart) {
     KartSurfaceSoundIds soundIds;
     PlayingSound *sound;
 
@@ -2217,20 +2232,20 @@ s32 ApplyKartSurfaceKind7(Kart *kart) {
     return 8;
 }
 
-s32 ApplyKartSurfaceKind12(Kart *kart) {
+s32 ApplyKartSurfaceJumpPad(Kart *kart) {
     if (kart->mSurfaceGroup != KART_SURFACE_GROUP_BOOST_A || (kart->mMotionFlags & KART_MOTION_STATE_RESET) != 0) {
         if (gRaceSetup->mCourseId == COURSE_ID_OLD_KOOPA_AGB || gRaceSetup->mCourseId == COURSE_ID_OLD_SKY_AGB) {
             StartSound(&kart->mSoundSource, 0x15e, 0x7f, 0);
         }
     }
     kart->mDriveFlags = kart->mDriveFlags | KART_DRIVE_JUMP_PAD;
-    kart->mVerticalSpeed = gKartSurfaceKind12VerticalSpeeds[kart->mSurfaceVariant];
-    kart->mSurfaceSpeedLimitGoal = gKartSurfaceKind12SpeedLimitGoals[kart->mSurfaceVariant];
+    kart->mVerticalSpeed = gKartJumpPadVerticalSpeeds[kart->mSurfaceVariant];
+    kart->mSurfaceSpeedLimitGoal = gKartJumpPadSpeedLimitGoals[kart->mSurfaceVariant];
     StopKartCurrentEffects(kart);
     return 8;
 }
 
-s32 ApplyKartSurfaceKind18(Kart *kart) {
+s32 ApplyKartSurfaceBoostWithSpeedFloor(Kart *kart) {
     KartSurfaceSoundIds soundIds;
     PlayingSound *sound;
 
@@ -2251,7 +2266,7 @@ s32 ApplyKartSurfaceKind18(Kart *kart) {
     return 8;
 }
 
-s32 ApplyKartSurfaceKind15(Kart *kart) {
+s32 ApplyKartSurfaceKeyedPlacement(Kart *kart) {
     u16 surfaceVariant;
 
     ApplyKartSurfaceEffect(0, kart);
@@ -2272,7 +2287,7 @@ s32 ApplyKartSurfaceKind17(Kart *kart) {
     return 0xa;
 }
 
-s32 ApplyKartSurfaceKind19(Kart *kart) {
+s32 ApplyKartSurfaceBoostHeld(Kart *kart) {
     PlayingSound *sound;
 
     if (kart->mSurfaceGroup != KART_SURFACE_GROUP_BOOST_B || (kart->mMotionFlags & KART_MOTION_STATE_RESET) != 0) {

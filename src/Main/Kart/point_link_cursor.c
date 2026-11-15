@@ -806,7 +806,7 @@ void AdvanceKartAiContactStages(KartAi *kartAi) {
             break;
         case KART_AI_CONTACT_REQUEST_LINK:
             kartAi->mContactStage = KART_AI_CONTACT_KART_CALLED;
-            KartAiCallKartSlot6AndToggleFlag(kartAi->mKart);
+            KartAiRespawnKartAndToggleEventFlag(kartAi->mKart);
             break;
     }
 }

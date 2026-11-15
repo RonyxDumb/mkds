@@ -88,7 +88,7 @@ void (*gKartDefaultSlotFunctions[9])(Kart *kart) = {InitKartResources,
                                                  NULL,
                                                  ResetKartToRespawnPoint,
                                                  ResetKartToStartPlacement,
-                                                 KartSlot8Nop};
+                                                 KartReleaseNop};
 Vec3 gParticipantRecordHeadingAxis = {0, 0x1000, 0};
 void (*gKartStateFunctions[8])(struct Kart *) = {KartState0Nop,
                                                  AdvanceKartState1And2,
@@ -104,10 +104,10 @@ s32 gKartPushFlipStartVerticalSpeed = 0x3000;
 s32 gKartState3SecondLandVerticalSpeed = 0x1000;
 Vec3 gFixedPositionEffectPos = {-5652480, 0x2f8000, -24412160};
 s32 gKartState5StartAnglePerFrame = 0x898;
-s32 gKartSurfaceKind12VerticalSpeeds[5] = {0x1800, 0x2000, 0x3000, 0x800, 0x4000};
+s32 gKartJumpPadVerticalSpeeds[5] = {0x1800, 0x2000, 0x3000, 0x800, 0x4000};
 s32 gKartRespawnOffsetScale = 0x1e000;
 s32 gKartState3StartVerticalSpeed = 0x24cd;
-s32 gKartSurfaceKind12SpeedLimitGoals[5] = {0x7000, 0x6400, 0x4000, 0x6800, 0x3c00};
+s32 gKartJumpPadSpeedLimitGoals[5] = {0x7000, 0x6400, 0x4000, 0x6800, 0x3c00};
 s32 gFirstBaseSpeedLimitReciprocal = 0x6000;
 Vec3 gKartPlacementHeadingAxis = {0, 0x1000, 0};
 s32 gKartState4StartAnglePerFrame = 0x708;

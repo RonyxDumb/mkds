@@ -237,7 +237,7 @@ s32 AdvanceKartRespawnWait(Kart *kart, s32 *outVelocityScale) {
     if ((kart->mEntryFlags & KART_ENTRY_SELECTED) && kart->mRespawnFrames == KART_RESPAWN_FOLLOW_KART_FRAME) {
         SetJgState4();
     } else if (kart->mRespawnFrames > KART_RESPAWN_END_FRAME) {
-        CallKartSlot6AndToggleFlag(kart);
+        RespawnKartAndToggleEventFlag(kart);
         finished = TRUE;
     }
     return finished;
@@ -949,20 +949,20 @@ void AdvanceKartModelScaleAnimation(Kart *kart) {
         return;
     }
     if (kart->mModelScaleKind == 0) {
-        kart->mModelScaleY = gKartModelScaleYKind0Table[kart->mModelScaleFrameIndex];
-        kart->mModelOffsetY = gKartModelOffsetYKind0And2Table[kart->mModelScaleFrameIndex];
+        kart->mModelScaleY = gKartModelScaleYLandTable[kart->mModelScaleFrameIndex];
+        kart->mModelOffsetY = gKartModelOffsetYLandAndBumpTable[kart->mModelScaleFrameIndex];
         kart->mModelScaleZ = TO_FIXED12(1);
         kart->mModelScaleX = kart->mModelScaleZ;
     } else if (kart->mModelScaleKind == 1) {
-        kart->mModelScaleY = gKartModelScaleYKind1Table[kart->mModelScaleFrameIndex];
-        kart->mModelOffsetY = gKartModelOffsetYKind1Table[kart->mModelScaleFrameIndex];
+        kart->mModelScaleY = gKartModelScaleYHardLandTable[kart->mModelScaleFrameIndex];
+        kart->mModelOffsetY = gKartModelOffsetYHardLandTable[kart->mModelScaleFrameIndex];
         kart->mModelScaleZ = TO_FIXED12(1);
         kart->mModelScaleX = kart->mModelScaleZ;
     } else if (kart->mModelScaleKind == 2) {
         kart->mModelScaleY = 0x1000;
-        kart->mModelOffsetY = gKartModelOffsetYKind0And2Table[kart->mModelScaleFrameIndex];
-        kart->mModelScaleX = gKartModelScaleXKind2Table[kart->mModelScaleFrameIndex];
-        kart->mModelScaleZ = gKartModelScaleZKind2Table[kart->mModelScaleFrameIndex];
+        kart->mModelOffsetY = gKartModelOffsetYLandAndBumpTable[kart->mModelScaleFrameIndex];
+        kart->mModelScaleX = gKartModelScaleXBumpTable[kart->mModelScaleFrameIndex];
+        kart->mModelScaleZ = gKartModelScaleZBumpTable[kart->mModelScaleFrameIndex];
     }
 }
 

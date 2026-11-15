@@ -4,4 +4,4 @@
 
 struct Kart;
 
-void KartSlot8Nop(struct Kart *kart);
+void KartReleaseNop(struct Kart *kart);

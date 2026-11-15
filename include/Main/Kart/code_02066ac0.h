@@ -27,7 +27,7 @@ s32 ApplyKartSurfaceKind10(Kart *kart);
 // is clear in mMotionFlags it runs StartKartBoost and, for the selected kart, calls StartSound with 0x1b9; otherwise it
 // sets mUnk_238 to 0x3c. Then it sets KART_DRIVE_BOOST_SURFACE_HELD and KART_DRIVE_ON_BOOST_SURFACE in mDriveFlags,
 // runs StopKartCurrentEffects and returns surface group 0xb.
-s32 ApplyKartSurfaceKind19(Kart *kart);
+s32 ApplyKartSurfaceBoostHeld(Kart *kart);
 // Surface kind 17 (entry 17 of gKartSurfaceFunctions): passes the entry that gKartSurfaceKind17Effects gives for
 // mSurfaceVariant to ApplyKartSurfaceEffect and returns surface group 0xa.
 s32 ApplyKartSurfaceKind17(Kart *kart);
@@ -35,20 +35,20 @@ s32 ApplyKartSurfaceKind17(Kart *kart);
 // KART_DRIVE_KEYED_PLACEMENT is clear in mDriveFlags it then runs PlaceKartAtKeyedPlacement with mSurfaceVariant when
 // RaceSetup.mMode is MODE_BATTLE or MODE_MISSION_RUN, and in the other modes sets that bit and runs
 // ResetKartMotionState with 0. Returns surface group 9.
-s32 ApplyKartSurfaceKind15(Kart *kart);
+s32 ApplyKartSurfaceKeyedPlacement(Kart *kart);
 // Surface kind 18 (entry 18 of gKartSurfaceFunctions): the body of kind 7, followed by setting
 // KART_DRIVE_BOOST_SPEED_FLOOR in mDriveFlags; returns surface group 8.
-s32 ApplyKartSurfaceKind18(Kart *kart);
+s32 ApplyKartSurfaceBoostWithSpeedFloor(Kart *kart);
 // Surface kind 12 (entry 12 of gKartSurfaceFunctions): sets KART_DRIVE_JUMP_PAD in mDriveFlags, sets mVerticalSpeed
-// from gKartSurfaceKind12VerticalSpeeds and mUnk_4c4 from gKartSurfaceKind12SpeedLimitGoals by mSurfaceVariant, runs
+// from gKartJumpPadVerticalSpeeds and mUnk_4c4 from gKartJumpPadSpeedLimitGoals by mSurfaceVariant, runs
 // StopKartCurrentEffects and returns surface group 8; on course 0xc or 0x28, when mSurfaceGroup was not already 8 or
 // KART_MOTION_STATE_RESET is set in mMotionFlags, it first calls StartSound with 0x15e.
-s32 ApplyKartSurfaceKind12(Kart *kart);
+s32 ApplyKartSurfaceJumpPad(Kart *kart);
 // Surface kind 7 (entry 7 of gKartSurfaceFunctions): unless mSurfaceGroup is already 8 and KART_MOTION_STATE_RESET is
 // clear in mMotionFlags it runs StartKartBoost and, for the selected kart with mSurfaceVariant above 0, calls
 // StartSound with the id that gKartSurfaceSoundIds gives for mSurfaceVariant minus 1; otherwise it sets mUnk_238 to
 // 0x3c. Then it runs StopKartCurrentEffects and returns surface group 8.
-s32 ApplyKartSurfaceKind7(Kart *kart);
+s32 ApplyKartSurfaceBoost(Kart *kart);
 // Surface kind 6 (entry 6 of gKartSurfaceFunctions): passes the entry that gKartSurfaceKind6Effects gives for
 // mSurfaceVariant to ApplyKartSurfaceEffect and returns surface group 6.
 s32 ApplyKartSurfaceKind6(Kart *kart);

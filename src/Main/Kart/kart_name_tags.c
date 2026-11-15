@@ -45,19 +45,19 @@ TexPlttEntry gKartNameTagMaskedTexPltt = {
     0x2cb00000,   0x200, 0x20, {0, 0}, (void *) gKartNameTagMaskedTexture, (void *) gKartNameTagMaskedPalette,
     {0, 0, 0, 0}, 0,     0,    0};
 
-s32 gKartNameTagEntry3YOffset = 0x3b33;
-s32 gKartNameTagEntry3ScaleX = 0x20000;
-s32 gKartNameTagEntry3ScaleY = 0x8971;
-s32 gKartNameTagEntry1XOffset = 0x571;
-s32 gKartNameTagEntry2XOffset = 0x59a;
-s32 gKartNameTagEntry2ScaleX = 0x30000;
-s32 gKartNameTagEntry0ScaleX = 0xa385;
-s32 gKartNameTagEntry0ScaleY = 0xa385;
+s32 gKartNameTagMaskedYOffset = 0x3b33;
+s32 gKartNameTagMaskedScaleX = 0x20000;
+s32 gKartNameTagMaskedScaleY = 0x8971;
+s32 gKartNameTagNameXOffset = 0x571;
+s32 gKartNameTagLineXOffset = 0x59a;
+s32 gKartNameTagLineScaleX = 0x30000;
+s32 gKartNameTagEmblemScaleX = 0xa385;
+s32 gKartNameTagEmblemScaleY = 0xa385;
 s32 gKartNameTagColorQuadScaleX = 0x12e1;
-s32 gKartNameTagEntry3XOffset = 0x733;
-s32 gKartNameTagEntry0YOffset = 0x1c00;
+s32 gKartNameTagMaskedXOffset = 0x733;
+s32 gKartNameTagEmblemYOffset = 0x1c00;
 s32 gKartNameTagColorQuadScaleY = 0x119a;
-s32 gKartNameTagEntry0XOffset = 0x52ac;
+s32 gKartNameTagEmblemXOffset = 0x52ac;
 const u16 gTeamPaletteColors[2] = {0x7cc1, 0x43f};
 const u16 gRegionPaletteColors[4] = {0x43f, 0x7cc1, 0x1a80, 0};
 const u16 gKartNameTagColorQuadPalette[4] = {0, 0, 0x7fff, 0x7fff};
@@ -374,17 +374,17 @@ void DrawKartNameTags(MtxFx43 *viewMatrix) {
         }
         if (kartObject->mTexPlttEntries->mEntries[3].mTexData != NULL) {
             DrawKartNameTagTexture(&kartObject->mTexPlttEntries->mEntries[3], kartObject, viewMatrix,
-                                   gKartNameTagEntry3ScaleX, gKartNameTagEntry3ScaleY, alpha, screenX, screenY,
-                                   gKartNameTagEntry3XOffset, gKartNameTagEntry3YOffset, DrawKartNameTagQuadVertices);
+                                   gKartNameTagMaskedScaleX, gKartNameTagMaskedScaleY, alpha, screenX, screenY,
+                                   gKartNameTagMaskedXOffset, gKartNameTagMaskedYOffset, DrawKartNameTagQuadVertices);
         }
         DrawKartNameTagTexture(&kartObject->mTexPlttEntries->mEntries[2], kartObject, viewMatrix,
-                               gKartNameTagEntry2ScaleX, 0x9000, alpha, screenX, screenY, gKartNameTagEntry2XOffset, 0,
+                               gKartNameTagLineScaleX, 0x9000, alpha, screenX, screenY, gKartNameTagLineXOffset, 0,
                                DrawKartNameTagLineVertices);
         DrawKartNameTagTexture(&kartObject->mTexPlttEntries->mEntries[1], kartObject, viewMatrix, 0x21000, 0xa000,
-                               alpha, screenX, screenY, gKartNameTagEntry1XOffset, 0x199a, DrawKartNameTagQuadVertices);
+                               alpha, screenX, screenY, gKartNameTagNameXOffset, 0x199a, DrawKartNameTagQuadVertices);
         DrawKartNameTagTexture(&kartObject->mTexPlttEntries->mEntries[0], kartObject, viewMatrix,
-                               gKartNameTagEntry0ScaleX, gKartNameTagEntry0ScaleY, alpha, screenX, screenY,
-                               gKartNameTagEntry0XOffset, gKartNameTagEntry0YOffset, DrawKartNameTagColoredVertices);
+                               gKartNameTagEmblemScaleX, gKartNameTagEmblemScaleY, alpha, screenX, screenY,
+                               gKartNameTagEmblemXOffset, gKartNameTagEmblemYOffset, DrawKartNameTagColoredVertices);
     }
 }
 

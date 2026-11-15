@@ -39,7 +39,7 @@ void GetKartForward(const Kart *kart, Vec3 *forward) {
     forward->z = matrix->mRows[2].z;
 }
 
-void CallKartSlot6AndToggleFlag(Kart *kart) {
+void RespawnKartAndToggleEventFlag(Kart *kart) {
     if ((kart->mEntryFlags & KART_ENTRY_WIFI_PEER) != 0) {
         return;
     }
@@ -49,7 +49,7 @@ void CallKartSlot6AndToggleFlag(Kart *kart) {
     }
 }
 
-void KartAiCallKartSlot6AndToggleFlag(Kart *kart) {
+void KartAiRespawnKartAndToggleEventFlag(Kart *kart) {
     u32 flagBits;
 
     flagBits = kart->mEntryFlags & KART_ENTRY_WIFI_PEER;
