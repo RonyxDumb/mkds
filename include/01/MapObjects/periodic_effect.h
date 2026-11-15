@@ -35,12 +35,12 @@ typedef struct EffectMapObject {
 } EffectMapObject;
 
 MapObjectList *CreateCameraEffectUpdateList(void);
-void UpdateCameraEffect(void *p0, EffectMapObject *object);
+void UpdateCameraEffect(void *mapObjectList, EffectMapObject *object);
 // Writes into out the point CAMERA_EFFECT_AHEAD_DISTANCE ahead of the camera along its forward x and z, at the height
 // of the object's mUnk_04.y.
 void ComputePointAheadOfCamera(EffectMapObject *object, Camera *camera, Vec3 *out);
 MapObjectList *CreatePeriodicEffectUpdateList(void);
-void UpdatePeriodicEffect(void *p0, EffectMapObject *object);
+void UpdatePeriodicEffect(void *mapObjectList, EffectMapObject *object);
 void InitPeriodicEffectObjects(MapObjectList *objectList);
 
 extern MapObjectKindDescriptor gCameraEffectKindDescriptor;

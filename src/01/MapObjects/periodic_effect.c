@@ -59,7 +59,7 @@ void InitPeriodicEffectObjects(MapObjectList *objectList) {
     }
 }
 
-void UpdatePeriodicEffect(void *p0, EffectMapObject *object) {
+void UpdatePeriodicEffect(void *mapObjectList, EffectMapObject *object) {
     RaceProgress *raceProgress;
     RandomState64 *localRandom;
 
@@ -86,7 +86,7 @@ void ComputePointAheadOfCamera(EffectMapObject *object, Camera *camera, Vec3 *ou
     out->z = camera->mPos.z + MUL_FIXED12_NO_ROUND(camera->mForward.z, CAMERA_EFFECT_AHEAD_DISTANCE);
 }
 
-void UpdateCameraEffect(void *p0, EffectMapObject *object) {
+void UpdateCameraEffect(void *mapObjectList, EffectMapObject *object) {
     Camera *camera;
     Vec3 effectPosition = {0, 0, 0};
 
