@@ -117,7 +117,7 @@ void QuaternionFromVec3AndAngleAroundY(Vec3 *direction, s32 angle, Quaternion *q
     quaternion->mComponents[2] = quaternion->mComponents[2] + ((quotient * pairSecond) >> 12);
 }
 
-void QuaternionMultiplyAngleAroundYIgnoreY(Quaternion *quaternion, u32 angle, Quaternion *result) {
+void QuaternionMultiplyAngleAroundYIgnoreY(Quaternion *quaternion, u16 angle, Quaternion *result) {
     s32 pairFirst = SIN_OF_ANGLE((u16) (angle >> 1));
     s32 pairSecond = COS_OF_ANGLE((u16) (angle >> 1));
     result->mComponents[0] = (quaternion->mComponents[0] * pairSecond - quaternion->mComponents[2] * pairFirst) >> 12;

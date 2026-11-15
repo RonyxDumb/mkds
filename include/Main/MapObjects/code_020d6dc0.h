@@ -25,7 +25,7 @@ void QuaternionFromAngleAroundY(u16 angle, Quaternion *quaternion);
 // Writes to q the quaternion QuaternionFromYAxisToVec3 gives for p combined with the Y rotation
 // QuaternionFromAngleAroundY gives for b.
 void QuaternionFromVec3AndAngleAroundY(Vec3 *direction, s32 angle, Quaternion *quaternion);
-void QuaternionMultiplyAngleAroundYIgnoreY(Quaternion *quaternion, u32 angle, Quaternion *result);
+void QuaternionMultiplyAngleAroundYIgnoreY(Quaternion *quaternion, u16 angle, Quaternion *result);
 void QuaternionMultiplyByYawIgnoreY(Quaternion *first, Quaternion *second, Quaternion *result);
 void QuaternionMultiplyAngleAroundX(Quaternion *quaternion, s32 angle, Quaternion *result);
 void QuaternionMultiplyAngleAroundY(Quaternion *quaternion, s32 angle, Quaternion *result);
