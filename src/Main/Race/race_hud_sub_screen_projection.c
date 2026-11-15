@@ -44,7 +44,7 @@ void InitRaceHudSubScreenProjection(void) {
     gRaceHudSubScreenProjection->mAnglePairFirst = 0;
     gRaceHudSubScreenProjection->mAnglePairSecondScaled = 0;
     gRaceHudSubScreenProjection->mAnglePairFirstScaled = 0;
-    GetRaceHudSubScreenState0MinMax(&state0Min, &state0Max);
+    GetRaceHudSubScreenKartIconsMinMax(&state0Min, &state0Max);
     gRaceHudSubScreenProjection->mState0Min = state0Min;
     gRaceHudSubScreenProjection->mState0Max = state0Max;
     gRaceHudSubScreenProjection->mState0InverseX = FX_InvFx64c(state0Max.mFirst - state0Min.mFirst);

@@ -58,16 +58,16 @@ void CopyPlayerOrTimeRecordName(u32 rowIndex, u16 *nameOut, u32 copyFullLength) 
     wcsncpy(nameOut, name, length);
 }
 
-// The part of the rectangle that sub screen state 0 shows at x 0x78..0xf8, y 0x28..0xc0 of the 256 x 192 screen.
-void ComputeRaceHudSubScreenState0MinMax(IntPair *outFirst, IntPair *outSecond, s32 firstX, s32 firstZ,
-                                         s16 secondX, s16 secondZ) {
+// The part of the rectangle that the kart icons sub screen shows at x 0x78..0xf8, y 0x28..0xc0 of the 256 x 192 screen.
+void ComputeRaceHudSubScreenKartIconsMinMax(IntPair *outFirst, IntPair *outSecond, s32 firstX, s32 firstZ, s16 secondX,
+                                            s16 secondZ) {
     outFirst->mFirst = TO_FIXED12(firstX) + (secondX - firstX) * 0xf000 / 32;
     outFirst->mSecond = TO_FIXED12(firstZ) + (secondZ - firstZ) * 0x5000 / 24;
     outSecond->mFirst = TO_FIXED12(firstX) + (secondX - firstX) * 0x1f000 / 32;
     outSecond->mSecond = TO_FIXED12(firstZ) + (secondZ - firstZ) * 0x18000 / 24;
 }
 
-void GetRaceHudSubScreenState0MinMax(IntPair *outFirst, IntPair *outSecond) {
+void GetRaceHudSubScreenKartIconsMinMax(IntPair *outFirst, IntPair *outSecond) {
     s16 rows[55][4] = {
         {-1000, -1000, 1000, 1000},
         {-6459, -3180, 2908, 3845},
@@ -127,8 +127,8 @@ void GetRaceHudSubScreenState0MinMax(IntPair *outFirst, IntPair *outSecond) {
     };
     s32 courseId = RaceHudSubScreenGetCurrentCourseId();
 
-    ComputeRaceHudSubScreenState0MinMax(outFirst, outSecond, rows[courseId][0], rows[courseId][1], rows[courseId][2],
-                                        rows[courseId][3]);
+    ComputeRaceHudSubScreenKartIconsMinMax(outFirst, outSecond, rows[courseId][0], rows[courseId][1], rows[courseId][2],
+                                           rows[courseId][3]);
 }
 
 void SetFixed12MinMaxFromWhole(IntPair *outFirst, IntPair *outSecond, s32 firstX, s32 firstZ,

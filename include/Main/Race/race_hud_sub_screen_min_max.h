@@ -16,7 +16,7 @@ void GetRaceHudSubScreenScrollLimits(IntPair *outFirst, IntPair *outSecond);
 void GetRaceHudSubScreenCourseMinMax(IntPair *outFirst, IntPair *outSecond);
 void SetFixed12MinMaxFromWhole(IntPair *outFirst, IntPair *outSecond, s32 firstX, s32 firstZ,
                                s16 secondX, s16 secondZ);
-void GetRaceHudSubScreenState0MinMax(IntPair *outFirst, IntPair *outSecond);
-void ComputeRaceHudSubScreenState0MinMax(IntPair *outFirst, IntPair *outSecond, s32 firstX, s32 firstZ,
-                                         s16 secondX, s16 secondZ);
+void GetRaceHudSubScreenKartIconsMinMax(IntPair *outFirst, IntPair *outSecond);
+void ComputeRaceHudSubScreenKartIconsMinMax(IntPair *outFirst, IntPair *outSecond, s32 firstX, s32 firstZ, s16 secondX,
+                                            s16 secondZ);
 void CopyPlayerOrTimeRecordName(u32 rowIndex, u16 *nameOut, u32 copyFullLength);
