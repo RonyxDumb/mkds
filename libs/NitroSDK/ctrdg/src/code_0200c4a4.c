@@ -135,7 +135,7 @@ s32 CTRDG_IsExisting(void) {
     idInfo = &SYSTEM_WORK->mCartridgeModuleInfo;
     romHeader = (CTRDGHeader *) 0x08000000;
     exists = 1;
-    if (idInfo->mIdHalfword == 0xffff) {
+    if (idInfo->mIdHalfword == CTRDG_NO_ID_HALFWORD) {
         return 0;
     }
     if (idInfo->mDetectPullOut == 1) {
@@ -143,8 +143,9 @@ s32 CTRDG_IsExisting(void) {
     }
     CTRDGi_LockByProcessor(gCartridgeState.mLockId, &procLock);
     CTRDGi_ChangeLatestAccessCycle(&romCycle);
-    if ((romHeader->mIdSelector == 0x96 && idInfo->mIdHalfword != romHeader->mIdHalfword) ||
-        (romHeader->mIdSelector != 0x96 && idInfo->mIdHalfword != *(u16 *) 0x0801fffe) ||
+    if ((romHeader->mIdSelector == CTRDG_ID_SELECTOR_HEADER_HALFWORD &&
+         idInfo->mIdHalfword != romHeader->mIdHalfword) ||
+        (romHeader->mIdSelector != CTRDG_ID_SELECTOR_HEADER_HALFWORD && idInfo->mIdHalfword != *(u16 *) 0x0801fffe) ||
         (idInfo->mIdWord != romHeader->mIdWord && idInfo->mIsAgbCartridge)) {
         idInfo->mDetectPullOut = 1;
         exists = 0;
