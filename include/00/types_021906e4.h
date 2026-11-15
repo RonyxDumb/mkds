@@ -29,7 +29,7 @@ typedef struct CallbackArgData {
     /* 04 */ s32 mUnk_04;
     /* 08 */ void **mUnk_08;
     /* 0c */ void *mUnk_0c;
-    /* 10 */ void *mUnk_10;
+    /* 10 */ void *mTransferMessage;
     /* 14 */ u8 mUnk_14[0x24];
     /* 38 */ s32 mUnk_38;
     /* 3c */ void **mUnk_3c;
@@ -67,4 +67,3 @@ typedef struct ErrorData {
     /* 08 */ void *mErrorString;
     /* 0c */ s32 mFatal;
 } ErrorData;
-

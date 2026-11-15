@@ -123,9 +123,9 @@ void GpiCallAndFreeCallback(GpConnection *connection, GpiQueuedCallback *data) {
         callbackArg->mUnk_0c = NULL;
     } else if (data->mType == 7) {
         callbackArg = data->mArg;
-        if (callbackArg->mUnk_10 != NULL) {
-            DWCi_GsFree(callbackArg->mUnk_10);
-            callbackArg->mUnk_10 = NULL;
+        if (callbackArg->mTransferMessage != NULL) {
+            DWCi_GsFree(callbackArg->mTransferMessage);
+            callbackArg->mTransferMessage = NULL;
         }
     } else if (data->mType == PROFILE_CALLBACK_TYPE_FREE_OTHERS_PROFILES_IF_SET) {
         callbackArg = data->mArg;
