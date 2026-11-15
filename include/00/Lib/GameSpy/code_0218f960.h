@@ -116,7 +116,7 @@ typedef struct GameInviteData {
 } GameInviteData;
 
 u32 GpiWriteDelbuddyAndRemoveBuddy(GpConnection *connection, u32 profile);
-s32 GpiDecrementBuddyIndexAbove(void *unused, GpiProfile *profile, s32 minimum);
+s32 GpiDecrementBuddyIndexAbove(GpConnection *unused, GpiProfile *profile, void *data);
 u32 gpiAuthBuddyRequest(GpConnection *connection, u32 profile);
 u32 gpiSendBuddyMessage(GpConnection *connection, s32 profileid, s32 type, const char *message);
 u32 gpiSendServerBuddyMessage(GpConnection *connection, s32 profileid, s32 type, const char *message);

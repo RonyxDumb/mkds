@@ -20,4 +20,4 @@
 #include "00/Lib/GameSpy/code_021906e4.h"
 
 void GpiCloseConnection(GpConnection *connection, s32 tellServer);
-u32 gpiDisconnectCleanupProfile(GpConnection *connection, GpiProfile *profile);
+s32 gpiDisconnectCleanupProfile(GpConnection *connection, GpiProfile *profile, void *data);

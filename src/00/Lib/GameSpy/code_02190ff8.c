@@ -510,7 +510,7 @@ int gpiCheckConnect(GpConnection *connection) {
     return result;
 }
 
-u32 gpiDisconnectCleanupProfile(GpConnection *connection, GpiProfile *profile) {
+s32 gpiDisconnectCleanupProfile(GpConnection *connection, GpiProfile *profile, void *data) {
     GpiConnection *gpState;
 
     gpState = connection->mGpiConnection;

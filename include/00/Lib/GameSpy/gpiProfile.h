@@ -8,14 +8,13 @@ typedef struct GpiProfileSearch {
     /* 04 */ GpiProfile *mEntry;
 } GpiProfileSearch;
 
-BOOL gpiCheckForBuddy(void *unused, GpiProfile *entry, GpiProfileSearch *search);
-
 typedef struct GpConnection GpConnection;
 
+BOOL gpiCheckForBuddy(GpConnection *unused, GpiProfile *entry, void *data);
+
 // Argument block of the walk over the list at 0x428: the object, the function to call and its argument.
-// Called with the connection, the profile and the user data; the stored functions type the first two differently, so it
-// is left unprototyped.
-typedef void (*GpiProfileMapFunc)();
+// Called with the connection, the profile and the user data.
+typedef s32 (*GpiProfileMapFunc)(GpConnection *connection, GpiProfile *profile, void *data);
 
 typedef struct GPIProfileMapData {
     /* 00 */ GpConnection *mConnection;
@@ -23,9 +22,9 @@ typedef struct GPIProfileMapData {
     /* 08 */ void *mData;
 } GPIProfileMapData;
 
-BOOL GpiForEachProfileWhileNonZero(GpConnection *gpConnection, void *callback, void *userData);
+BOOL GpiForEachProfileWhileNonZero(GpConnection *gpConnection, GpiProfileMapFunc callback, void *userData);
 
-void gpiProfileMapCallback(u32 profile, u32 *mapData);
+void gpiProfileMapCallback(GpiProfile *profile, GPIProfileMapData *mapData);
 
 typedef struct GpConnection GpConnection;
 
@@ -39,4 +38,4 @@ typedef struct GPIFindProfileByUserData {
 
 s32 gpiFindProfileByUser(GpConnection *connection, const char *nick, const char *email, GpiProfile **profile);
 
-u32 gpiCheckProfileForUser(u32 connection, int profile, GPIFindProfileByUserData *data);
+s32 gpiCheckProfileForUser(GpConnection *connection, GpiProfile *profile, void *data);

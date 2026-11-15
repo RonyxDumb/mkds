@@ -5,14 +5,16 @@
 #include "00/unk_021b2000.h"
 #include "code_02134398.h"
 #include "00/Lib/GameSpy/code_0218dd8c.h"
+#include "00/code_02192d64.h"
 
-u32 gpiCheckProfileForUser(u32 connection, int profile, GPIFindProfileByUserData *data) {
+s32 gpiCheckProfileForUser(GpConnection *connection, GpiProfile *profile, void *userData) {
+    GPIFindProfileByUserData *data = userData;
     int difference;
-    u32 *cache;
-    cache = *(u32 **) (profile + 0xc);
-    if (((cache != NULL) && (difference = strcmp(data->mNick, (const char *) (*cache)), difference == 0)) &&
-        (difference = strcmp(data->mEmail, (const char *) (cache[2])), difference == 0)) {
-        *data->mProfile = (GpiProfile *) profile;
+    GPIInfoCache *cache;
+    cache = profile->mCache;
+    if (((cache != NULL) && (difference = strcmp(data->mNick, cache->mUnk_00[0]), difference == 0)) &&
+        (difference = strcmp(data->mEmail, cache->mUnk_00[2]), difference == 0)) {
+        *data->mProfile = profile;
         data->mFound = TRUE;
         return 0;
     }
@@ -33,11 +35,11 @@ s32 gpiFindProfileByUser(GpConnection *connection, const char *nick, const char 
     return 0;
 }
 
-void gpiProfileMapCallback(u32 profile, u32 *mapData) {
-    ((GpiProfileMapFunc) mapData[1])(*mapData, profile, mapData[2]);
+void gpiProfileMapCallback(GpiProfile *profile, GPIProfileMapData *mapData) {
+    mapData->mFunc(mapData->mConnection, profile, mapData->mData);
 }
 
-BOOL GpiForEachProfileWhileNonZero(GpConnection *gpConnection, void *callback, void *userData) {
+BOOL GpiForEachProfileWhileNonZero(GpConnection *gpConnection, GpiProfileMapFunc callback, void *userData) {
     GpiConnection *gpiConnection;
     GPIProfileMapData mapData;
 
@@ -51,7 +53,8 @@ BOOL GpiForEachProfileWhileNonZero(GpConnection *gpConnection, void *callback, v
     return FALSE;
 }
 
-BOOL gpiCheckForBuddy(void *unused, GpiProfile *entry, GpiProfileSearch *search) {
+BOOL gpiCheckForBuddy(GpConnection *unused, GpiProfile *entry, void *data) {
+    GpiProfileSearch *search = data;
     if (entry->mBuddyStatus != NULL && search->mKey == entry->mBuddyStatus->mIndex) {
         search->mEntry = entry;
         return FALSE;

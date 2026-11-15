@@ -63,14 +63,13 @@ void gpiDestroy(GpConnection *connection) {
     connection->mGpiConnection = NULL;
 }
 
-u32 gpiResetProfile(u32 connection, u32 profile) {
+s32 gpiResetProfile(GpConnection *connection, GpiProfile *profile, void *data) {
     u32 result;
-    u32 profileAddress = profile;
     result = 0u;
-    *(u32 *) ((profileAddress) + 8u) = result;
-    *(u32 *) ((profileAddress) + 16u) = result;
-    *(u32 *) ((profileAddress) + 20u) = result;
-    *(u32 *) ((profileAddress) + 24u) = result;
+    profile->mBuddyStatus = NULL;
+    profile->mAuthSig = NULL;
+    profile->mRequestCount = result;
+    profile->mPeerSig = NULL;
     result = 1u;
     return result;
 }
