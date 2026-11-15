@@ -70,6 +70,13 @@ enum {
 
 // Distance the template screen slides, in pixels (Emblem.mTemplateSlideOffset runs 0 to this).
 #define EMBLEM_TEMPLATE_SLIDE_DISTANCE 0xc0
+// Speed (mTemplateSlideSpeed) the template slide in starts with and the slide out starts with negated; it changes by
+// two every call.
+#define EMBLEM_TEMPLATE_SLIDE_SPEED 32
+// Highest value of mFadeLevel (the fade runs in steps of two).
+#define EMBLEM_FADE_LEVEL_MAX 16
+// Calls of the screen upload state (mUploadFrames) before the grid is shown.
+#define EMBLEM_UPLOAD_FRAMES 2
 
 // Object behind gEmblem, allocated by InitEmblem.
 typedef void (*EmblemTransitionFunc)(void);

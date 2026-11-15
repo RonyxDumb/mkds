@@ -358,16 +358,16 @@ BOOL AdvanceEmblemColorCursorShrink(LldEntry *entry) {
         SetLldEntryScale(entry, 0x1000);
     }
     entry->mCallbackCallCount++;
-    if (entry->mCallbackCallCount <= 5) {
+    if (entry->mCallbackCallCount <= EMBLEM_BUTTON_PHASE_CALLS) {
         ApplyLldEntryFrameCommand(entry, 0);
-        SetLldEntryScale(entry, GetLldEntryScale(entry) - 0x19a);
+        SetLldEntryScale(entry, GetLldEntryScale(entry) - EMBLEM_BUTTON_SCALE_STEP);
         if (GetLldEntryScale(entry) <= 0) {
             SetLldEntryScale(entry, 0);
             return TRUE;
         }
         return FALSE;
     }
-    if (entry->mCallbackCallCount <= 10) {
+    if (entry->mCallbackCallCount <= EMBLEM_BUTTON_BOUNCE_CALLS) {
         SetLldEntryScale(entry, 0);
         return FALSE;
     }
@@ -379,12 +379,12 @@ BOOL AdvanceEmblemColorCursorGrow(LldEntry *entry) {
         SetLldEntryScale(entry, 0);
     }
     entry->mCallbackCallCount++;
-    if (entry->mCallbackCallCount <= 5) {
+    if (entry->mCallbackCallCount <= EMBLEM_BUTTON_PHASE_CALLS) {
         return FALSE;
     }
-    if (entry->mCallbackCallCount <= 10) {
+    if (entry->mCallbackCallCount <= EMBLEM_BUTTON_BOUNCE_CALLS) {
         ApplyLldEntryFrameCommand(entry, 0);
-        SetLldEntryScale(entry, GetLldEntryScale(entry) + 0x19a);
+        SetLldEntryScale(entry, GetLldEntryScale(entry) + EMBLEM_BUTTON_SCALE_STEP);
         if (GetLldEntryScale(entry) >= 0x1000) {
             SetLldEntryScale(entry, 0x1000);
         }
@@ -414,30 +414,30 @@ BOOL AdvanceEmblemButtonBounceThenWait(LldEntry *entry) {
         SetLldEntryScale(entry, 0x1000);
     }
     entry->mCallbackCallCount++;
-    if (entry->mCallbackCallCount <= 5) {
+    if (entry->mCallbackCallCount <= EMBLEM_BUTTON_PHASE_CALLS) {
         ApplyLldEntryFrameCommand(entry, 1);
-        SetLldEntryScale(entry, GetLldEntryScale(entry) - 0x19a);
+        SetLldEntryScale(entry, GetLldEntryScale(entry) - EMBLEM_BUTTON_SCALE_STEP);
         if (GetLldEntryScale(entry) <= 0) {
             SetLldEntryScale(entry, 0);
         }
         return FALSE;
     }
-    if (entry->mCallbackCallCount <= 10) {
+    if (entry->mCallbackCallCount <= EMBLEM_BUTTON_BOUNCE_CALLS) {
         ApplyLldEntryFrameCommand(entry, 1);
-        SetLldEntryScale(entry, GetLldEntryScale(entry) + 0x19a);
+        SetLldEntryScale(entry, GetLldEntryScale(entry) + EMBLEM_BUTTON_SCALE_STEP);
         if (GetLldEntryScale(entry) >= 0x1000) {
             SetLldEntryScale(entry, 0x1000);
         }
         return FALSE;
     }
-    if (entry->mCallbackCallCount == 11) {
+    if (entry->mCallbackCallCount == EMBLEM_BUTTON_TRANSITION_CALL) {
         if (gEmblem->mPendingTransitionFunc != NULL) {
             gEmblem->mPendingTransitionFunc();
             gEmblem->mPendingTransitionFunc = NULL;
         }
         return FALSE;
     }
-    if (entry->mCallbackCallCount <= 20) {
+    if (entry->mCallbackCallCount <= EMBLEM_BUTTON_FINISH_CALLS) {
         return FALSE;
     }
     ApplyLldEntryFrameCommand(entry, 0);
@@ -453,17 +453,17 @@ BOOL AdvanceEmblemButtonBounce(LldEntry *entry) {
         SetLldEntryScale(entry, 0x1000);
     }
     entry->mCallbackCallCount++;
-    if (entry->mCallbackCallCount <= 5) {
+    if (entry->mCallbackCallCount <= EMBLEM_BUTTON_PHASE_CALLS) {
         ApplyLldEntryFrameCommand(entry, 1);
-        SetLldEntryScale(entry, GetLldEntryScale(entry) - 0x19a);
+        SetLldEntryScale(entry, GetLldEntryScale(entry) - EMBLEM_BUTTON_SCALE_STEP);
         if (GetLldEntryScale(entry) <= 0) {
             SetLldEntryScale(entry, 0);
         }
         return FALSE;
     }
-    if (entry->mCallbackCallCount <= 10) {
+    if (entry->mCallbackCallCount <= EMBLEM_BUTTON_BOUNCE_CALLS) {
         ApplyLldEntryFrameCommand(entry, 1);
-        SetLldEntryScale(entry, GetLldEntryScale(entry) + 0x19a);
+        SetLldEntryScale(entry, GetLldEntryScale(entry) + EMBLEM_BUTTON_SCALE_STEP);
         if (GetLldEntryScale(entry) >= 0x1000) {
             SetLldEntryScale(entry, 0x1000);
         }
@@ -486,17 +486,17 @@ BOOL AdvanceEmblemModeButtonPress(LldEntry *entry) {
         SetLldEntryScale(entry, 0x1000);
     }
     entry->mCallbackCallCount++;
-    if (entry->mCallbackCallCount <= 5) {
+    if (entry->mCallbackCallCount <= EMBLEM_BUTTON_PHASE_CALLS) {
         ApplyLldEntryFrameCommand(entry, 0);
-        SetLldEntryScale(entry, GetLldEntryScale(entry) - 0x19a);
+        SetLldEntryScale(entry, GetLldEntryScale(entry) - EMBLEM_BUTTON_SCALE_STEP);
         if (GetLldEntryScale(entry) <= 0) {
             SetLldEntryScale(entry, 0);
         }
         return FALSE;
     }
-    if (entry->mCallbackCallCount <= 10) {
+    if (entry->mCallbackCallCount <= EMBLEM_BUTTON_BOUNCE_CALLS) {
         ApplyLldEntryFrameCommand(entry, 1);
-        SetLldEntryScale(entry, GetLldEntryScale(entry) + 0x19a);
+        SetLldEntryScale(entry, GetLldEntryScale(entry) + EMBLEM_BUTTON_SCALE_STEP);
         if (GetLldEntryScale(entry) >= 0x1000) {
             SetLldEntryScale(entry, 0x1000);
         }
@@ -514,7 +514,7 @@ void ResetEmblemButton(void *lld, s32 index) {
 
     SetLldEntryCallback(entry, NULL);
     ApplyLldEntryFrameCommand(entry, 0);
-    entry->mScale = 0x1000;
+    entry->mScale = TO_FIXED12(1);
 }
 
 void StartEmblemModeButtonPress(void *lld, s32 index) {
@@ -534,7 +534,7 @@ BOOL AdvanceEmblemButtonHold(LldEntry *entry) {
         SetLldEntryScale(entry, 0x1000);
     }
     entry->mCallbackCallCount++;
-    if (entry->mCallbackCallCount <= 10) {
+    if (entry->mCallbackCallCount <= EMBLEM_BUTTON_BOUNCE_CALLS) {
         ApplyLldEntryFrameCommand(entry, 1);
         return FALSE;
     }
@@ -790,7 +790,7 @@ void StartEmblemTemplateSlideIn(void) {
     gEmblem->mState = EMBLEM_STATE_TEMPLATE_SLIDE_IN;
     gEmblem->mDisplayState = EMBLEM_DISPLAY_TEMPLATE_SLIDE_IN_SETUP;
     gEmblem->mTemplateSlideOffset = 0;
-    gEmblem->mTemplateSlideSpeed = 32;
+    gEmblem->mTemplateSlideSpeed = EMBLEM_TEMPLATE_SLIDE_SPEED;
     ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemTemplateSLld, 1), 0);
     ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 1), -3);
     ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 2), -3);
@@ -813,7 +813,7 @@ void StartEmblemTemplateSlideOut(void) {
     gEmblem->mState = EMBLEM_STATE_TEMPLATE_SLIDE_OUT;
     gEmblem->mDisplayState = EMBLEM_DISPLAY_TEMPLATE_SLIDE_OUT_SETUP;
     gEmblem->mTemplateSlideOffset = EMBLEM_TEMPLATE_SLIDE_DISTANCE;
-    gEmblem->mTemplateSlideSpeed = -0x20;
+    gEmblem->mTemplateSlideSpeed = -EMBLEM_TEMPLATE_SLIDE_SPEED;
     ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 1), -1);
     ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 2), -1);
     ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 3), -1);
@@ -846,8 +846,8 @@ void StartEmblemFadeOutToGrid(void) {
 
 void AdvanceEmblemFadeOutToCamera(void) {
     gEmblem->mFadeLevel += 2;
-    if (gEmblem->mFadeLevel > 16) {
-        gEmblem->mFadeLevel = 16;
+    if (gEmblem->mFadeLevel > EMBLEM_FADE_LEVEL_MAX) {
+        gEmblem->mFadeLevel = EMBLEM_FADE_LEVEL_MAX;
         gEmblem->mState = EMBLEM_STATE_FADE_IN_AT_CAMERA;
         gEmblem->mDisplayState = EMBLEM_DISPLAY_CAMERA_UPLOAD;
     }
@@ -865,8 +865,8 @@ void AdvanceEmblemFadeInAtCamera(void) {
 
 void AdvanceEmblemFadeOutToGrid(void) {
     gEmblem->mFadeLevel += 2;
-    if (gEmblem->mFadeLevel > 16) {
-        gEmblem->mFadeLevel = 16;
+    if (gEmblem->mFadeLevel > EMBLEM_FADE_LEVEL_MAX) {
+        gEmblem->mFadeLevel = EMBLEM_FADE_LEVEL_MAX;
         gEmblem->mState = EMBLEM_STATE_FADE_IN_AT_GRID;
         gEmblem->mDisplayState = EMBLEM_DISPLAY_GRID_UPLOAD;
     }
@@ -1688,7 +1688,7 @@ void AdvanceEmblemDisplay(void) {
             UploadEmblemMainScreen();
             UploadEmblemSubScreen();
             gEmblem->mUploadFrames++;
-            if (gEmblem->mUploadFrames >= 2) {
+            if (gEmblem->mUploadFrames >= EMBLEM_UPLOAD_FRAMES) {
                 gEmblem->mDisplayState = EMBLEM_DISPLAY_GRID;
             }
             break;

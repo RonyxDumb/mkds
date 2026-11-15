@@ -290,6 +290,16 @@ enum {
     EMBLEM_ENTRY_TOGGLE_BUTTON = 0x2a,
 };
 
+// Calls of the callbacks that animate an emblem entry (LldEntry.mCallbackCallCount): the first phase (shrink) and the
+// second phase (grow, or hold) each take EMBLEM_BUTTON_PHASE_CALLS, together EMBLEM_BUTTON_BOUNCE_CALLS; the color
+// cursor grow runs the pending transition at EMBLEM_BUTTON_TRANSITION_CALL and ends after EMBLEM_BUTTON_FINISH_CALLS.
+// Each call of the shrink or grow changes the scale by EMBLEM_BUTTON_SCALE_STEP.
+#define EMBLEM_BUTTON_PHASE_CALLS 5
+#define EMBLEM_BUTTON_BOUNCE_CALLS 10
+#define EMBLEM_BUTTON_TRANSITION_CALL 11
+#define EMBLEM_BUTTON_FINISH_CALLS 20
+#define EMBLEM_BUTTON_SCALE_STEP 0x19a
+
 // Colors the cursor can pick from the color entries (Emblem.mColorCursorIndex runs one past them to the toggle
 // button).
 #define EMBLEM_COLOR_COUNT 15
