@@ -49,7 +49,7 @@ void Matrix2x2ReciprocalScale(MtxFx22 *matrix, s32 scale) {
     matrix->a[1] = matrix->a[2];
 }
 
-void Matrix2x2Rotation(MtxFx22 *matrix, s32 angle) {
+void Matrix2x2Rotation(MtxFx22 *matrix, u16 angle) {
     s32 anglePairFirst = FX_SinIdx(angle);
     s32 anglePairSecond = FX_CosIdx(angle);
 

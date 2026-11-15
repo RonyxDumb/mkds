@@ -23,7 +23,7 @@ BOOL RaceStartIsLanguageJa(void);
 BOOL IsPointsLabelPlural(s32 number);
 void Matrix2x2RotationReciprocalScale(MtxFx22 *matrix, s32 scale, s32 angle);
 void Matrix2x2ReflectedRotation(MtxFx22 *matrix, s32 angle);
-void Matrix2x2Rotation(MtxFx22 *matrix, s32 angle);
+void Matrix2x2Rotation(MtxFx22 *matrix, u16 angle);
 void Matrix2x2ReciprocalScale(MtxFx22 *matrix, s32 scale);
 u16 GetFollowedKartLastEndedLap(void);
 u16 GetFollowedKartOrEntryIndex(void);
