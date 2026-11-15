@@ -34,7 +34,7 @@ void SendMaterialPolygonAttributes(void);
 // Draws the shadow model with its alpha capped at param_4 (put back afterwards).
 void DrawShadowWithMaxAlpha(ShadowModel *shadow, void *matrix, Vec3 *scale, u32 maxAlpha);
 // Draws the model with the matrix param_2 and scale param_3, its alpha capped at param_4 (put back afterwards).
-void DrawNsbmdWithMatrixAndMaxAlpha(Nsbmd *model, void *matrix, void *scale, s32 maxAlpha);
+void DrawNsbmdWithMatrixAndMaxAlpha(Nsbmd *model, MtxFx43 *matrix, Vec3 *scale, s32 maxAlpha);
 void BounceVelocityOffUnnormalizedSurface(Vec3 *velocity, Vec3 *surfaceNormal, s32 tangentScale, s32 bounceScale,
                                           s32 minNormalSpeed, Vec3 *result);
 // Splits the velocity param_1 along the direction param_2: the rest is scaled by param_3, the part along is reversed

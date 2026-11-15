@@ -636,7 +636,7 @@ void DrawMapObjectModelAtPos(CollisionMapObject *mapObject, void *viewMatrix, u3
     mapObject->mMapObject.mMatrix.mRows[3].x = mapObject->mMapObject.mPos.x >> 4;
     mapObject->mMapObject.mMatrix.mRows[3].y = mapObject->mMapObject.mPos.y >> 4;
     mapObject->mMapObject.mMatrix.mRows[3].z = mapObject->mMapObject.mPos.z >> 4;
-    DrawNsbmdWithMatrixAndMaxAlpha(mapObject->mModel, &mapObject->mMapObject.mMatrix, &mapObject->mMapObject.mScale.x,
+    DrawNsbmdWithMatrixAndMaxAlpha(mapObject->mModel, &mapObject->mMapObject.mMatrix, &mapObject->mMapObject.mScale,
                                    alpha);
 }
 
