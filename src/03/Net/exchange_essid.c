@@ -42,6 +42,7 @@
 #include "00/Lib/NitroWiFi/socl_startup.h"
 #include "03/Net/call_status_callback.h"
 #include "03/Menu/exchange_status_record.h"
+#include "00/Lib/NitroWiFi/code_021a4b98.h"
 
 u32 CallAllocFunctionWithMutex(u32 unused, s32 size);
 void CallFreeFunctionWithMutex(u32 unused, s32 block, s32 size);
@@ -390,7 +391,7 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
         return;
     }
     switch (message->mNotify) {
-        case 1:
+        case WIFI_NOTIFY_ENABLE_REQUEST:
             if (message->mResult == 0) {
                 if (gExchangeWcmState == 4) {
                     gExchangeWcmState = 3;
@@ -421,7 +422,7 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
                 }
             }
             break;
-        case 3:
+        case WIFI_NOTIFY_SCAN_START_REQUEST:
             if (message->mResult == 0) {
                 if (gExchangeWcmState == 6) {
                     gExchangeWcmState = 5;
@@ -436,7 +437,7 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
                 }
             }
             break;
-        case 5:
+        case WIFI_NOTIFY_CONNECT_REQUEST:
             if (message->mResult == 0) {
                 if (gExchangeWcmState == 8) {
                     gExchangeWcmState = 7;
@@ -451,7 +452,7 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
                 }
             }
             break;
-        case 4:
+        case WIFI_NOTIFY_SCAN_STOP_REQUEST:
             if (message->mResult == 0) {
                 if (gExchangeWcmState == 4) {
                     gExchangeWcmState = 3;
@@ -490,7 +491,7 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
                 }
             }
             break;
-        case 6:
+        case WIFI_NOTIFY_DISCONNECT_REQUEST:
             if (message->mResult == 0) {
                 if (gExchangeWcmState == 4) {
                     gExchangeWcmState = 3;
@@ -531,7 +532,7 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
                 }
             }
             break;
-        case 2:
+        case WIFI_NOTIFY_POWER_OFF_REQUEST:
             if (message->mResult == 0) {
                 if (gExchangeWcmState == 2) {
                     WCM_Finish();
@@ -547,19 +548,19 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
                 }
             }
             break;
-        case 7:
+        case WIFI_NOTIFY_SEARCH_FOUND:
             if (gExchangeWcmState == 5) {
                 if (gExchangeEventCallback != NULL) {
                     gExchangeEventCallback(5, 0);
                 }
             }
             break;
-        case 8:
+        case WIFI_NOTIFY_SCAN_ROUND:
             if (gExchangeEventCallback != NULL) {
                 gExchangeEventCallback(4, 0);
             }
             break;
-        case 9:
+        case WIFI_NOTIFY_LINK_TERMINATING:
             gExchangeWcmState = 0;
             if (gExchangeEventCallback != NULL) {
                 gExchangeEventCallback(3, 0);

@@ -15,6 +15,7 @@
 #include "code_02139f70.h"
 #include "code_0214d018.h"
 #include "Main/Save/nvram_first_three.h"
+#include "00/Lib/NitroWiFi/code_021a4b98.h"
 
 ACHOLD *gAcHold;
 ACWORK *gAcWork;
@@ -26,7 +27,7 @@ void DWCi_AC_CallBackWCM(WifiReportArgument *notice) {
     ACWORK *work;
 
     work = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
-    if (notice->mNotify == 5) {
+    if (notice->mNotify == WIFI_NOTIFY_CONNECT_REQUEST) {
         if (notice->mResult != WIFI_REPORT_SUCCEEDED) {
             switch (notice->mUnk_08) {
                 case WIFI_REPORT_CODE_RETRY_AUTH_FALLBACK:
@@ -43,7 +44,7 @@ void DWCi_AC_CallBackWCM(WifiReportArgument *notice) {
                     break;
             }
         }
-    } else if (notice->mNotify == 7) {
+    } else if (notice->mNotify == WIFI_NOTIFY_SEARCH_FOUND) {
         DWCi_AC_GetBeacon(notice->mUnk_04);
     }
 }
