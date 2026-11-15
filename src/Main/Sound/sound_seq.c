@@ -756,8 +756,8 @@ void InitSceneSounds(s32 unused) {
                         gMissionRunCountSeqNo[0] = 0x1e0;
                         gMissionRunLimitSeqNo[0] = 0x1e1;
                         switch (setupView->mMissionTableValue) {
-                            case 9:
-                            case 0xa:
+                            case MISSION_NUMBER_DONKETU:
+                            case MISSION_NUMBER_KING_ICE_DONKETU:
                                 gMissionRunLimitSeqNo[0] = 0xff;
                                 break;
                         }
@@ -908,16 +908,16 @@ void StartSceneSounds(void) {
         value = 0xffff;
         if (gRaceSetup->mMode == MODE_MISSION_RUN) {
             switch (gRaceSetup->mMissionTableValue) {
-                case 9:
+                case MISSION_NUMBER_DONKETU:
                     value = 0x20e;
                     break;
-                case 0x11:
+                case MISSION_NUMBER_BOMB_KING:
                     value = 0x235;
                     break;
-                case 0x31:
+                case MISSION_NUMBER_HANACHAN:
                     value = 0x246;
                     break;
-                case 0x33:
+                case MISSION_NUMBER_KING_TERESA:
                     value = 0x228;
                     break;
             }

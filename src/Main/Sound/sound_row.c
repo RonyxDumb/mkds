@@ -220,7 +220,7 @@ u32 GetSceneSoundRowIndex(s32 sceneNumber, SoundRow *output) {
                     if (raceMode == MODE_MISSION_RUN) {
                         mission = &gRaceSetup->mUnk_28_view;
                         overridden = FALSE;
-                        if (mission->mMissionTableValue == 4) {
+                        if (mission->mMissionTableValue == MISSION_NUMBER_GARDEN) {
                             output->mSeqId = 0x2a;
                             overridden = TRUE;
                         }
@@ -237,23 +237,23 @@ u32 GetSceneSoundRowIndex(s32 sceneNumber, SoundRow *output) {
                         }
                         matched = TRUE;
                         switch (mission->mMissionTableValue) {
-                            case 9:
-                            case 10:
+                            case MISSION_NUMBER_DONKETU:
+                            case MISSION_NUMBER_KING_ICE_DONKETU:
                                 output->mFirstBankId = 0x25;
                                 break;
-                            case 0x32:
+                            case MISSION_NUMBER_IWANTE:
                                 output->mFirstBankId = 0x26;
                                 break;
-                            case 0x15:
+                            case MISSION_NUMBER_KURIKING:
                                 output->mFirstBankId = 0x27;
                                 break;
-                            case 0x33:
+                            case MISSION_NUMBER_KING_TERESA:
                                 output->mFirstBankId = 0x28;
                                 break;
-                            case 0x11:
+                            case MISSION_NUMBER_BOMB_KING:
                                 output->mFirstBankId = 0x29;
                                 break;
-                            case 0x31:
+                            case MISSION_NUMBER_HANACHAN:
                                 break;
                             default:
                                 matched = FALSE;

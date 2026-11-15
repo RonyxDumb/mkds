@@ -772,7 +772,7 @@ void CopyRaceTransferMapMrSO(u16 *palette, void *chars) {
     LoadNcgrData2(&transferMapMrChars, FindSceneFileWrapper("race_transfer_map_mr_s_o.NCGR"));
     transferMapMrCharData = transferMapMrChars->mData;
     switch (gRaceSetup->mMissionTableValue) {
-        case 0x9:
+        case MISSION_NUMBER_DONKETU:
             CopyCharsBlock(transferMapMrCharData, 0x0, 0, 4, 4, chars, 0, 12);
             firstNclr = NULL;
             LoadNclrData(&firstNclr, FindSceneFileWrapper("race_transfer_map_mr_s_o.NCLR"));
@@ -780,7 +780,7 @@ void CopyRaceTransferMapMrSO(u16 *palette, void *chars) {
                 palette[0x50 + colorIndex] = firstNclr->mData[0x0 + colorIndex];
             }
             break;
-        case 0x32:
+        case MISSION_NUMBER_IWANTE:
             CopyCharsBlock(transferMapMrCharData, 0x4, 0, 8, 4, chars, 0, 12);
             secondNclr = NULL;
             LoadNclrData(&secondNclr, FindSceneFileWrapper("race_transfer_map_mr_s_o.NCLR"));
@@ -788,7 +788,7 @@ void CopyRaceTransferMapMrSO(u16 *palette, void *chars) {
                 palette[0x50 + colorIndex] = secondNclr->mData[0x10 + colorIndex];
             }
             break;
-        case 0x15:
+        case MISSION_NUMBER_KURIKING:
             CopyCharsBlock(transferMapMrCharData, 0xc, 0, 4, 4, chars, 0, 12);
             thirdNclr = NULL;
             LoadNclrData(&thirdNclr, FindSceneFileWrapper("race_transfer_map_mr_s_o.NCLR"));
@@ -796,7 +796,7 @@ void CopyRaceTransferMapMrSO(u16 *palette, void *chars) {
                 palette[0x50 + colorIndex] = thirdNclr->mData[0x20 + colorIndex];
             }
             break;
-        case 0x33:
+        case MISSION_NUMBER_KING_TERESA:
             CopyCharsBlock(transferMapMrCharData, 0x10, 0, 4, 4, chars, 0, 12);
             fourthNclr = NULL;
             LoadNclrData(&fourthNclr, FindSceneFileWrapper("race_transfer_map_mr_s_o.NCLR"));
@@ -804,7 +804,7 @@ void CopyRaceTransferMapMrSO(u16 *palette, void *chars) {
                 palette[0x50 + colorIndex] = fourthNclr->mData[0x50 + colorIndex];
             }
             break;
-        case 0x11:
+        case MISSION_NUMBER_BOMB_KING:
             CopyCharsBlock(transferMapMrCharData, 0x14, 0, 4, 4, chars, 0, 12);
             fifthNclr = NULL;
             LoadNclrData(&fifthNclr, FindSceneFileWrapper("race_transfer_map_mr_s_o.NCLR"));
@@ -812,7 +812,7 @@ void CopyRaceTransferMapMrSO(u16 *palette, void *chars) {
                 palette[0x50 + colorIndex] = fifthNclr->mData[0x60 + colorIndex];
             }
             break;
-        case 0xa:
+        case MISSION_NUMBER_KING_ICE_DONKETU:
             CopyCharsBlock(transferMapMrCharData, 0x18, 0, 4, 4, chars, 0, 12);
             sixthNclr = NULL;
             LoadNclrData(&sixthNclr, FindSceneFileWrapper("race_transfer_map_mr_s_o.NCLR"));
@@ -820,7 +820,7 @@ void CopyRaceTransferMapMrSO(u16 *palette, void *chars) {
                 palette[0x50 + colorIndex] = sixthNclr->mData[0x70 + colorIndex];
             }
             break;
-        case 0x31:
+        case MISSION_NUMBER_HANACHAN:
             CopyCharsBlock(transferMapMrCharData, 0x0, 4, 8, 4, chars, 0, 12);
             seventhNclr = NULL;
             LoadNclrData(&seventhNclr, FindSceneFileWrapper("race_transfer_map_mr_s_o.NCLR"));

@@ -301,6 +301,18 @@ typedef struct RaceSetupHeader {
 // Lap race like MISSION_KIND_LAPS that the lap progress of a kart (race_progress_kart) skips.
 #define MISSION_KIND_LAPS_NO_LAP_PROGRESS 10
 
+// Values of MissionSettings.mMissionTableValue: the Mission Run mission number. All but Garden have a boss map object.
+enum {
+    MISSION_NUMBER_GARDEN = 4,
+    MISSION_NUMBER_DONKETU = 9,
+    MISSION_NUMBER_KING_ICE_DONKETU = 0xa,
+    MISSION_NUMBER_BOMB_KING = 0x11,
+    MISSION_NUMBER_KURIKING = 0x15,
+    MISSION_NUMBER_HANACHAN = 0x31,
+    MISSION_NUMBER_IWANTE = 0x32,
+    MISSION_NUMBER_KING_TERESA = 0x33,
+};
+
 // The 0x10 bytes at 0x28 of the object behind gRaceSetup (the same bytes as its mUnk_028 to mUnk_37).
 typedef struct MissionSettings {
     /* 00 */ u16 mMissionTimeLimitFrameCount;
