@@ -103,7 +103,7 @@ void UpdateRaceClock(void) {
         if (frameFraction != 0) {
             switch (gRaceSetup->mMode) {
                 case MODE_MISSION_RUN:
-                    FinishRaceProgressKartWithEndKind((u16) gRaceSetup->mEntryIndex, 1);
+                    FinishRaceProgressKartWithEndKind((u16) gRaceSetup->mEntryIndex, RACE_END_KIND_TIME_UP);
                     flag = gSoundModeHolder.mMode == 2 || gSoundModeHolder.mMode == 3;
                     if (flag) {
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x4a);

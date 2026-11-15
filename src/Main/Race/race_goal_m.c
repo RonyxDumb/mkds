@@ -1,4 +1,5 @@
 #include "Main/Race/race_goal_m.h"
+#include "Main/Race/race_end_condition.h"
 
 #include "Main/Graphics/oam.h"
 #include "Main/Race/data_021759c0.h"
@@ -119,7 +120,8 @@ void UpdateRaceGoalM(void) {
         return;
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        if ((IsKartEnded((u16) gRaceSetup->mEntryIndex) != 0 ? gRaceProgress->mEntryEndKind : 6) != 0 &&
+        if ((IsKartEnded((u16) gRaceSetup->mEntryIndex) != 0 ? gRaceProgress->mEntryEndKind
+                                                             : RACE_END_KIND_NOT_ENDED) != 0 &&
             IsEntryKartNormalOrNotMissionRun() == 0 && frame == 0) {
             return;
         }
@@ -159,12 +161,14 @@ void UpdateRaceGoalM(void) {
             }
             break;
         case MODE_MISSION_RUN:
-            if (IsKartEnded((u16) gRaceSetup->mEntryIndex) != 0 ? gRaceProgress->mEntryEndKind : 6) {
+            if (IsKartEnded((u16) gRaceSetup->mEntryIndex) != 0 ? gRaceProgress->mEntryEndKind
+                                                                : RACE_END_KIND_NOT_ENDED) {
                 gRaceGoalM->mComputedMissionRecordValue = MISSION_RECORD_VALUE_NONE;
             } else {
                 gRaceGoalM->mComputedMissionRecordValue = ComputeMissionRecordValue();
             }
-            if ((IsKartEnded((u16) gRaceSetup->mEntryIndex) != 0 ? gRaceProgress->mEntryEndKind : 6) == 0) {
+            if ((IsKartEnded((u16) gRaceSetup->mEntryIndex) != 0 ? gRaceProgress->mEntryEndKind
+                                                                 : RACE_END_KIND_NOT_ENDED) == 0) {
                 if (frame == 1) {
                     switch (gRaceGoalM->mComputedMissionRecordValue) {
                         case 0:

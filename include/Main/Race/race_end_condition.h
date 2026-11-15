@@ -4,6 +4,18 @@
 
 typedef struct RaceProgressKart RaceProgressKart;
 
+// How the race of the local entry ended (the endKind of FinishRaceProgressKartWithEndKind, RaceProgress.mEntryEndKind).
+// Only the goal ends it as won; the others end its wait as a failure.
+#define RACE_END_KIND_GOAL 0
+#define RACE_END_KIND_TIME_UP 1
+// Mission run end checks: the entry kart is not normal or is falling to a respawn; or is in contact.
+#define RACE_END_KIND_KART_STATE 2
+#define RACE_END_KIND_CONTACT 3
+// The mission conditions failed (settings not met at the end, or the shape map object counts).
+#define RACE_END_KIND_FAILED 4
+// Value of mEntryEndKind until the entry has ended.
+#define RACE_END_KIND_NOT_ENDED 6
+
 void FinishMissionRunKartAtGoal(u16 kartIndex);
 // Ends kart a with end kind b (0 goal reached, other values the other ends) unless it has already ended or its end wait
 // runs: stops the race clock, stores the time in the kart's lap time slot 5, for the entry flagged local records the

@@ -127,7 +127,7 @@ static inline s32 ComputeRouteLapProgress(CourseMapRoute *route, u16 checkpoint,
 
 static inline void FinishKartIfMissionRun(s32 kartIndex) {
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        FinishRaceProgressKartWithEndKind(kartIndex, 0);
+        FinishRaceProgressKartWithEndKind(kartIndex, RACE_END_KIND_GOAL);
     }
 }
 
@@ -202,7 +202,7 @@ void CompleteRaceProgressKartLap(RaceProgressKart *kart) {
         if (missionTestPassed != FALSE) {
             FinishKartIfMissionRun(kart->mIndex);
         } else {
-            FinishRaceProgressKartWithEndKind(kart->mIndex, 4);
+            FinishRaceProgressKartWithEndKind(kart->mIndex, RACE_END_KIND_FAILED);
         }
     } else {
         if ((kart->mFlags & RACE_PROGRESS_KART_FLAG_LOCAL_ENTRY) == 0 && gRaceSetup->mMode == MODE_WIFI) {

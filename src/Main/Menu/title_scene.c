@@ -53,9 +53,9 @@ void FinishKartInCourseMapMissionEndShape(Vec3 *position, u32 kartIndex) {
         if (gRaceSetup->mMode != MODE_MISSION_RUN) {
             return;
         }
-        FinishRaceProgressKartWithEndKind(kartIndex, 0);
+        FinishRaceProgressKartWithEndKind(kartIndex, RACE_END_KIND_GOAL);
     } else {
-        FinishRaceProgressKartWithEndKind(kartIndex, 6);
+        FinishRaceProgressKartWithEndKind(kartIndex, RACE_END_KIND_NOT_ENDED);
     }
 }
 

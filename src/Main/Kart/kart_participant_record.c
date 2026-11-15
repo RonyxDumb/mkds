@@ -1,4 +1,5 @@
 #include "Main/Kart/kart_participant_record.h"
+#include "Main/Race/race_end_condition.h"
 #include "Main/MapObjects/attractor.h"
 #include "01/Race/mission_run_state.h"
 #include "ITCM/kart_motion.h"
@@ -1656,19 +1657,19 @@ void FinishKartAtMissionRunEnd(Kart *kart) {
         if (IsKartEnded((u16) gRaceSetup->mEntryIndex) != 0) {
             endKind = gRaceProgress->mEntryEndKind;
         } else {
-            endKind = 6;
+            endKind = RACE_END_KIND_NOT_ENDED;
         }
         switch (endKind) {
-            case 0:
+            case RACE_END_KIND_GOAL:
                 StartEntryCameraMissionRun();
                 ResetKartAtRaceEnd(kart, 1, 1);
                 break;
-            case 1:
-            case 2:
-            case 3:
-            case 4:
+            case RACE_END_KIND_TIME_UP:
+            case RACE_END_KIND_KART_STATE:
+            case RACE_END_KIND_CONTACT:
+            case RACE_END_KIND_FAILED:
             case 5:
-            case 6:
+            case RACE_END_KIND_NOT_ENDED:
             default:
                 if ((kart->mEntryFlags & KART_ENTRY_SELECTED) != 0) {
                     if (gRaceSetup->mMode == MODE_MISSION_RUN) {

@@ -1,4 +1,5 @@
 #include "Main/Race/race_end.h"
+#include "Main/Race/race_end_condition.h"
 #include "Main/System/heap.h"
 #include "Main/Race/cup_records.h"
 #include "Main/Save/buddy_record_time.h"
@@ -224,7 +225,8 @@ void UpdateRaceEnd(void) {
                         case MISSION_KIND_LAPS_MINI_TURBO_COUNT:
                         case MISSION_KIND_LAPS_FIRST_PLACE:
                         case MISSION_KIND_LAPS_NO_LAP_PROGRESS:
-                            if ((IsKartEnded((u16) raceSetup->mEntryIndex) ? gRaceProgress->mEntryEndKind : 6) != 0) {
+                            if ((IsKartEnded((u16) raceSetup->mEntryIndex) ? gRaceProgress->mEntryEndKind
+                                                                           : RACE_END_KIND_NOT_ENDED) != 0) {
                                 playsRaceEndSound = FALSE;
                             }
                             break;
@@ -260,7 +262,8 @@ void UpdateRaceEnd(void) {
                                                                                                   : STEM_SET_LOSE);
                     break;
                 case MODE_MISSION_RUN:
-                    if ((IsKartEnded((u16) raceSetup->mEntryIndex) ? gRaceProgress->mEntryEndKind : 6) != 0) {
+                    if ((IsKartEnded((u16) raceSetup->mEntryIndex) ? gRaceProgress->mEntryEndKind
+                                                                   : RACE_END_KIND_NOT_ENDED) != 0) {
                         SetStemSet(STEM_SET_FAILED);
                     }
                     break;
@@ -282,7 +285,8 @@ void UpdateRaceEnd(void) {
     raceSetup = gRaceSetup;
     switch (raceSetup->mMode) {
         case MODE_MISSION_RUN:
-            if ((IsKartEnded((u16) raceSetup->mEntryIndex) ? gRaceProgress->mEntryEndKind : 6) == 0) {
+            if ((IsKartEnded((u16) raceSetup->mEntryIndex) ? gRaceProgress->mEntryEndKind : RACE_END_KIND_NOT_ENDED) ==
+                0) {
                 SetStemSet(STEM_SET_COMPLETE);
             }
             break;

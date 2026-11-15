@@ -282,10 +282,11 @@ void FinishRemainingMissionRunKarts(void) {
             if (succeeded != 0) {
                 u32 storedKartIndex = (u32) (raceProgressKart->mRankIndexRequestBits << 24) >> 28;
                 if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-                    FinishRaceProgressKartWithEndKind(storedKartIndex, 0);
+                    FinishRaceProgressKartWithEndKind(storedKartIndex, RACE_END_KIND_GOAL);
                 }
             } else {
-                FinishRaceProgressKartWithEndKind((u32) (raceProgressKart->mRankIndexRequestBits << 24) >> 28, 4);
+                FinishRaceProgressKartWithEndKind((u32) (raceProgressKart->mRankIndexRequestBits << 24) >> 28,
+                                                  RACE_END_KIND_FAILED);
             }
         }
     }
@@ -375,7 +376,7 @@ void FinishRaceProgressKartWithEndKind(s32 kartIndex, s32 endKind) {
         gRaceProgress->mEntryEndKind = endKind;
         kart->mEntryFlags |= KART_ENTRY_OUT_OF_ROUND;
         kart->mDriveFlags &= ~KART_DRIVE_RESPAWN_LANDING;
-        if (endKind == 0) {
+        if (endKind == RACE_END_KIND_GOAL) {
             raceProgressKart->mFlags |= RACE_PROGRESS_KART_FLAG_GOAL_WAIT;
             gRaceProgress->mFramesSinceFinish = 0;
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
@@ -389,7 +390,7 @@ void FinishRaceProgressKartWithEndKind(s32 kartIndex, s32 endKind) {
             }
         }
     }
-    FinishRaceProgressKart(raceProgressKart, endKind == 0);
+    FinishRaceProgressKart(raceProgressKart, endKind == RACE_END_KIND_GOAL);
     if (IsRaceEndConditionMet() == 0) {
         return;
     }
@@ -415,5 +416,5 @@ void FinishMissionRunKartAtGoal(u16 kartIndex) {
     if (gRaceSetup->mMode != MODE_MISSION_RUN) {
         return;
     }
-    FinishRaceProgressKartWithEndKind(kartIndex, 0);
+    FinishRaceProgressKartWithEndKind(kartIndex, RACE_END_KIND_GOAL);
 }

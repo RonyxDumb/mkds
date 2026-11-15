@@ -1,4 +1,5 @@
 #include "Main/Race/grand_prix_record.h"
+#include "Main/Race/race_end_condition.h"
 #include "code_0214d018.h"
 #include "Main/Race/race_setup_input.h"
 #include "Main/System/result_archive_path.h"
@@ -145,7 +146,7 @@ u32 TrySetMissionRecord(void) {
     missionRow = (gRaceSetup->mMode == MODE_MISSION_RUN) ? gRaceSetup->mMissionTableRow : -1;
     missionColumn = (gRaceSetup->mMode == MODE_MISSION_RUN) ? gRaceSetup->mMissionTableColumn : -1;
     endKind = IsKartEnded((u16) gRaceSetup->mEntryIndex);
-    endKind = (endKind != 0) ? gRaceProgress->mEntryEndKind : 6;
+    endKind = (endKind != 0) ? gRaceProgress->mEntryEndKind : RACE_END_KIND_NOT_ENDED;
     if (endKind != 0) {
         return 0;
     }

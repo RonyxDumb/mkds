@@ -1,4 +1,5 @@
 #include "Main/Race/race_score.h"
+#include "Main/Race/race_end_condition.h"
 #include "Main/Race/race_checkpoint_progress.h"
 #include "Main/Course/code_02042064.h"
 #include "Main/Race/race_setup_input.h"
@@ -279,7 +280,7 @@ void InitRaceProgress(void) {
             break;
     }
     gRaceProgress->mEntryRaceEnded = entryRaceEnded;
-    gRaceProgress->mEntryEndKind = 6;
+    gRaceProgress->mEntryEndKind = RACE_END_KIND_NOT_ENDED;
     gRaceProgress->mTimeCountsDown = FALSE;
     gRaceProgress->mTimeLimitFrameCount = 0;
     switch (gRaceSetup->mMode) {

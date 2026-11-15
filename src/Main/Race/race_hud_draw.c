@@ -1,4 +1,5 @@
 #include "Main/Race/race_hud_draw.h"
+#include "Main/Race/race_end_condition.h"
 #include "Main/MapObjects/data_0217b000.h"
 #include "Main/Menu/title_scene.h"
 #include "os_thread.h"
@@ -1168,7 +1169,7 @@ void UpdateRaceHudSubScreen(void) {
                     if (IsKartEnded((u16) gRaceSetup->mEntryIndex) != 0) {
                         value = gRaceProgress->mEntryEndKind;
                     } else {
-                        value = 6;
+                        value = RACE_END_KIND_NOT_ENDED;
                     }
                     if (value == 0) {
                         gRaceHud->mGoalMDelayFrameCount = 0xaf;
@@ -1178,7 +1179,7 @@ void UpdateRaceHudSubScreen(void) {
                 if (IsKartEnded((u16) gRaceSetup->mEntryIndex) != 0) {
                     value = gRaceProgress->mEntryEndKind;
                 } else {
-                    value = 6;
+                    value = RACE_END_KIND_NOT_ENDED;
                 }
                 if (value != 0) {
                     gRaceHud->mGoalMEnabled = 1;

@@ -1,4 +1,5 @@
 #include "Main/Race/kart_standing_rank.h"
+#include "Main/Race/race_end_condition.h"
 #include "Main/Race/race_progress_rank.h"
 #include "Main/Race/kart.h"
 #include "Main/Race/race_clock.h"
@@ -203,7 +204,7 @@ BOOL ShouldFinishBattle(void) {
 
 void AdvanceMissionRunEnd(void) {
     BOOL endFound = FALSE;
-    s32 endKind = 2;
+    s32 endKind = RACE_END_KIND_KART_STATE;
     RaceSetup *raceSetup = gRaceSetup;
     s32 entryIndex = raceSetup->mEntryIndex;
     u16 kartIndex;
@@ -263,7 +264,7 @@ void AdvanceMissionRunEnd(void) {
     if (endFound == FALSE) {
         if ((gRaceSetup->mMissionRunBits & MISSION_RUN_BIT_END_IN_CONTACT) != 0) {
             if (IsEntryKartInContact() != 0) {
-                endKind = 3;
+                endKind = RACE_END_KIND_CONTACT;
                 endFound = TRUE;
             }
         }
@@ -277,7 +278,7 @@ void AdvanceMissionRunEnd(void) {
     }
     if (endFound == FALSE) {
         if (UpdateShapeMapObjectCounts() != 0) {
-            endKind = 4;
+            endKind = RACE_END_KIND_FAILED;
             endFound = TRUE;
         }
     }
@@ -288,7 +289,7 @@ void AdvanceMissionRunEnd(void) {
 }
 
 void FinishRaceProgressKartMissionFailed(u16 kartIndex) {
-    FinishRaceProgressKartWithEndKind(kartIndex, 4);
+    FinishRaceProgressKartWithEndKind(kartIndex, RACE_END_KIND_FAILED);
 }
 
 void UpdateRaceProgress(void) {
