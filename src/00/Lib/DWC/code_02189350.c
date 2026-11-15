@@ -1,12 +1,13 @@
 #include "00/Lib/DWC/code_02189350.h"
+#include "00/Lib/DWC/code_02188ec0.h"
 
 s32 GetNotFoundInet(ACHOLD *hold) {
     s32 result;
 
     if (hold->mEndSequence < 10) {
-        if (hold->mEndState == 3) {
+        if (hold->mEndState == AUTO_CONNECT_FIND_ERROR_51100) {
             result = -51100 - hold->mEndType;
-        } else if (hold->mEndState == 4) {
+        } else if (hold->mEndState == AUTO_CONNECT_FIND_ERROR_51200) {
             result = -51200 - hold->mEndType;
         } else {
             result = -51300 - hold->mEndType;
