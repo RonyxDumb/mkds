@@ -12,7 +12,7 @@ extern u32 SOCLiResultCodeInConnecting;
 extern SOCLSocketParam SOCLSocketParamTCP;
 extern SOCLSocketParam SOCLSocketParamUDPSend;
 extern struct SOCLSocket *SOCLiSocketListTrash;
-extern void *(*AllocFunc_SOC)(u32 a, u32 b);
+extern SocketAllocFn AllocFunc_SOC;
 extern u32 hostip;
 // Objects whose layout isn't known yet.
 extern SocketFreeFn FreeFunc_SOC;

@@ -36,14 +36,14 @@ u32 gCPSMode;
 u32 CPSMyIp;
 u32 gSleepSave;
 u32 gWlanBufLen;
-void (*CPSiFree)(void *param_1);
+void (*CPSiFree)(void *block);
 u32 CPSNetMask;
 u32 gYieldWait;
 u32 gWlanPutPnt;
 void (*gDhcpCallback)(void);
 u32 CPSNoIpReason;
 u32 (*gLinkIsOn)(void);
-u8 *(*CPSiAlloc)(u32 param_1);
+u8 *(*CPSiAlloc)(u32 size);
 u32 gWlanGetPnt;
 u32 CPSGatewayIp;
 void (*gScavengerCallback)(void);
@@ -873,7 +873,7 @@ void process_icmp_reply(IpHeader *ipHeader, IcmpHeader *icmp, u32 length) {
         } else {
             socket->mReceiveBufferLength = length;
         }
-        MI_CpuCopy8((u8 *) icmp + 8, socket->mReceiveBuffer, socket->mReceiveBufferLength);
+        MI_CpuCopy8(icmp + 1, socket->mReceiveBuffer, socket->mReceiveBufferLength);
         if (socket->mBlockType == SOCKET_BLOCK_DATAGRAM) {
             socket->mBlockType = SOCKET_BLOCK_NONE;
             OS_WakeupThreadDirect(socket->mThread);
@@ -1374,7 +1374,7 @@ void dispatch_udp(IpHeader *ipHeader, UdpHeader *udpHeader, u32 length) {
         } else {
             socket->mReceiveBufferLength = length;
         }
-        MI_CpuCopy8((u8 *) udpHeader + 8, socket->mReceiveBuffer, socket->mReceiveBufferLength);
+        MI_CpuCopy8(udpHeader + 1, socket->mReceiveBuffer, socket->mReceiveBufferLength);
         if (socket->mBlockType == SOCKET_BLOCK_DATAGRAM) {
             socket->mBlockType = SOCKET_BLOCK_NONE;
             OS_WakeupThreadDirect(socket->mThread);
@@ -1585,11 +1585,11 @@ u32 get_seqno(void) {
 
 void CPS_SocRegister(void *socket) {
     u32 socketAddress = (u32) socket;
-    u32 value1;
-    value1 = (u32) &OSi_ThreadInfo;
-    value1 = *(const u32 *) ((value1) + 4u);
-    value1 = (value1) + 164u;
-    *(u32 *) ((value1) + 0u) = socketAddress;
+    u32 slotAddress;
+    slotAddress = (u32) &OSi_ThreadInfo;
+    slotAddress = *(const u32 *) ((slotAddress) + 4u);
+    slotAddress = (slotAddress) + 164u;
+    *(u32 *) ((slotAddress) + 0u) = socketAddress;
 }
 
 void CPS_SocUnRegister(void) {

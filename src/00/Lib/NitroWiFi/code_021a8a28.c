@@ -54,7 +54,7 @@ u32 SOCLiResultCodeInConnecting = 0xffffffe6;
 SOCLSocketParam SOCLSocketParamTCP = {0, 1, 0, 0, 0x5ea, 0, 0, 0xbd5, 0, {0x800, 0xc, 8}, {0x800, 0xd, 8}};
 SOCLSocketParam SOCLSocketParamUDPSend = {2, 0, 0, 0, 0x5ea, 0, 0, 0x6eb, 0, {0, 0, 0}, {0x800, 0xd, 8}};
 SOCLSocket *SOCLiSocketListTrash;
-void *(*AllocFunc_SOC)(u32 a, u32 b);
+SocketAllocFn AllocFunc_SOC;
 u32 hostip;
 SocketFreeFn FreeFunc_SOC;
 SOCLSocket *SOCLiSocketList;

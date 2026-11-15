@@ -410,7 +410,7 @@ u32 CheckTransformedBytesHoldPaddedDigest(HttpsState *httpsState, CPSCaInfo *aut
     u32 savedPriority;
     OSThread *thread;
     u32 status;
-    enum { K0 } padIndex;
+    enum { PAD_INDEX_NONE } padIndex;
     if (httpsState->mCheckedBytes == NULL || httpsState->mCheckedBytesLength == 0 || authority->mExponent == NULL ||
         authority->mExponentLen == 0 || authority->mModulus == NULL || authority->mModulusLen == 0) {
         return 2;
