@@ -11,7 +11,7 @@ void AdvanceTitleStates(s32 flag) {
     ClearOamListCounts(&gTitleScene->mMainOam, &gTitleScene->mSubOam);
     stateIndex = gTitleScene->mState;
     gTitleScene->mStateHandlers[stateIndex].mUpdate(flag);
-    IncrementCounterSaturating((s32 *) gTitleScene);
+    IncrementCounterSaturating(&gTitleScene->mStateFrames);
     AdvanceSceneText();
     HideUnusedOams(&gTitleScene->mMainOam, &gTitleScene->mSubOam);
 }
