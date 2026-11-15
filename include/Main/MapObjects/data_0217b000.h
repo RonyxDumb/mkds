@@ -984,14 +984,14 @@ extern s32 gJgState5Speed;
 extern s32 gJgVelocityFactorX;
 // Copy of the kart's position, y minus the kart's hop height (state 4 stores it without that).
 extern Vec3 gJgKartPos;
-extern Vec3 gJgKind4Offset;
+extern Vec3 gJgNoModelOffset;
 extern Vec3 gJgLapOffset;
 extern Vec3 gJgState5LocalTargetPos;
 extern Vec3 *gJgPointPointers[4];
 extern u16 gJgAlpha;
 extern u16 gJgAngle;
-extern Vec3 gJgKind3Offset;
-extern Vec3 gJgKind2Offset;
+extern Vec3 gJgFlagOffset;
+extern Vec3 gJgReverseOffset;
 extern void *gSphereHitObjects[16];
 extern s32 gJgOffsetY;
 extern s32 gJgOffsetX;

@@ -54,20 +54,20 @@
 #include "Main/MapObjects/model_animation_entries.h"
 #include "Main/System/init_after_startup.h"
 
-const Vec3 gJgKind2BaseOffset = {0, 0x2e000, -196608};
+const Vec3 gJgReverseBaseOffset = {0, 0x2e000, -196608};
 const Vec3 gJgVelocityFactors = {0x19a, 0x52, 0x800};
 const Vec3 gJgModelOffset = {-2560, -2176, 0};
-const Vec3 gJgKind3BaseOffset = {-65536, 0x2b000, -286720};
+const Vec3 gJgFlagBaseOffset = {-65536, 0x2b000, -286720};
 const Vec3 gJgVelocityDamping = {0x19a, 0x19a, 0xccd};
-const Vec3 gJgKind3EndScale = {0x10000, 0x6000, 0};
-const Vec3 gJgKind3StartScale = {0xb000, 0x4000, 0};
+const Vec3 gJgFlagEndScale = {0x10000, 0x6000, 0};
+const Vec3 gJgFlagStartScale = {0xb000, 0x4000, 0};
 const Vec3 gJgLapBaseOffsetRaceEnded = {0x18000, 0x2e000, -237568};
-const Vec3 gJgKind2EndScale = {0x1800, 0x1800, 0};
-const Vec3 gJgKind2StartScale = {0x1000, 0x1000, 0};
+const Vec3 gJgReverseEndScale = {0x1800, 0x1800, 0};
+const Vec3 gJgReverseStartScale = {0x1000, 0x1000, 0};
 const Vec3 gJgLapBaseOffsetNotEnded = {0x1e000, 0x19000, -167936};
 const Vec3 gJgSourcePoints[7] = {{-8192, -8192, 0}, {-12288, -4096, 0}, {-8192, 0x1000, 0}, {0, -8192, 0},
                                  {0x2000, 0, 0},    {0x3000, -4096, 0}, {0x2000, -8192, 0}};
-const Vec3 gJgKind4BaseOffset = {0, 0x4000, -20480};
+const Vec3 gJgNoModelBaseOffset = {0, 0x4000, -20480};
 u16 gJgState2FrameCount;
 u16 gJgKartIndex;
 u16 gJgFinalLap;
@@ -110,11 +110,11 @@ s32 gJgSnapActive;
 Vec3 gJgTargetPos;
 Vec3 gJgKartMove;
 Vec3 gJgPreviousPos;
-Vec3 gJgKind3Offset;
+Vec3 gJgFlagOffset;
 Vec3 gJgState5LocalTargetPos;
 Vec3 gJgLapOffset;
 Vec3 gJgState6LocalTargetPos;
-Vec3 gJgKind4Offset;
+Vec3 gJgNoModelOffset;
 Vec3 gJgKartPos;
 Vec3 gJgEasedPos;
 Vec3 gJgCollisionCenter;
@@ -122,7 +122,7 @@ Vec3 gJgPos;
 Vec3 gJgVelocity;
 Vec3 gJgPreviousCollisionCenter;
 Vec3 gJgProbeCenter;
-Vec3 gJgKind2Offset;
+Vec3 gJgReverseOffset;
 SoundStartParams gJgSoundStartParams;
 Vec3 *gJgPointPointers[4];
 StateMachine gJgStateMachine;
@@ -153,22 +153,22 @@ void CreateModelAnimation(u32 animationKind, void *model, ModelAnimation **anima
 void InitJgOffsets(void) {
     gJgOffsetX = 0xf662;
     gJgOffsetY = 0x1232e;
-    gJgKind2Offset = gJgKind2BaseOffset;
-    gJgKind2Offset.x += 0xf662;
-    gJgKind3Offset = gJgKind3BaseOffset;
-    gJgKind3Offset.x += 0xf662;
-    gJgKind4Offset = gJgKind4BaseOffset;
-    gJgKind4Offset.x += 0xf662;
+    gJgReverseOffset = gJgReverseBaseOffset;
+    gJgReverseOffset.x += 0xf662;
+    gJgFlagOffset = gJgFlagBaseOffset;
+    gJgFlagOffset.x += 0xf662;
+    gJgNoModelOffset = gJgNoModelBaseOffset;
+    gJgNoModelOffset.x += 0xf662;
 
     gJgLapOffset = GetEntryRaceEnded() ? gJgLapBaseOffsetRaceEnded : gJgLapBaseOffsetNotEnded;
     gJgLapOffset.x += gJgOffsetX;
     if (gJgStartSideNotFlipped == 0) {
-        gJgKind2Offset.x = -gJgKind2Offset.x;
-        gJgKind3Offset.x = -gJgKind3Offset.x;
+        gJgReverseOffset.x = -gJgReverseOffset.x;
+        gJgFlagOffset.x = -gJgFlagOffset.x;
         gJgLapOffset.x = -gJgLapOffset.x;
-        gJgKind4Offset.x = -gJgKind4Offset.x;
+        gJgNoModelOffset.x = -gJgNoModelOffset.x;
     }
-    gJgKind4Offset.y += gJgOffsetY;
+    gJgNoModelOffset.y += gJgOffsetY;
 }
 
 static inline s32 AdvanceJgPointsAndSetTarget_inline(s32 start, s32 end, s32 fraction) {
@@ -261,7 +261,7 @@ void UpdateJg(void) {
         gJgKartPos = gJgKart->mPos;
         gJgKartPos.y -= gJgKart->mHopHeight;
         ComputeJgMatrixAndInverse();
-        targetOffset = gJgKind3Offset;
+        targetOffset = gJgFlagOffset;
         targetOffset.x += gJgShiftX;
         MTX_MultVec43(&targetOffset, &gJgMatrix, &gJgTargetPos);
         gJgKind = JG_KIND_FLAG;
@@ -764,16 +764,16 @@ void EnterJgState1(void *stateObject) {
     gJgPointPointers[3] = &gJgPoints[2];
     InitSegmentProgress(&gJgSegmentProgress, 0, gJgPointPointers, 0x1ec);
     gJgAngle = 0;
-    rotatedZ = MUL_FIXED12_NO_ROUND(gJgKind2Offset.z, COS_OF_ANGLE(0x8000)) -
-               MUL_FIXED12_NO_ROUND(gJgKind2Offset.x, SIN_OF_ANGLE(0x8000));
+    rotatedZ = MUL_FIXED12_NO_ROUND(gJgReverseOffset.z, COS_OF_ANGLE(0x8000)) -
+               MUL_FIXED12_NO_ROUND(gJgReverseOffset.x, SIN_OF_ANGLE(0x8000));
     gJgStateCounter = 0x8000;
     gJgTargetPos.z = rotatedZ;
     if (rotatedZ > 0) {
         gJgTargetPos.z = rotatedZ * 3;
     }
-    gJgTargetPos.x = MUL_FIXED12_NO_ROUND(gJgKind2Offset.z, SIN_OF_ANGLE(0x8000)) +
-                     MUL_FIXED12_NO_ROUND(gJgKind2Offset.x, COS_OF_ANGLE(0x8000));
-    gJgTargetPos.y = gJgKind2Offset.y;
+    gJgTargetPos.x = MUL_FIXED12_NO_ROUND(gJgReverseOffset.z, SIN_OF_ANGLE(0x8000)) +
+                     MUL_FIXED12_NO_ROUND(gJgReverseOffset.x, COS_OF_ANGLE(0x8000));
+    gJgTargetPos.y = gJgReverseOffset.y;
     MTX_MultVec43(&gJgTargetPos, &gJgMatrix, &gJgTargetPos);
     gJgProbeCenter = gJgTargetPos;
     gJgPreviousCollisionCenter = gJgProbeCenter;
@@ -815,15 +815,15 @@ void UpdateJgState1(void *stateObject) {
     if (angle > 0 && angle < 0x10000) {
         anglePair0 = SIN_OF_ANGLE(angle);
         anglePair1 = COS_OF_ANGLE(angle);
-        scaledZ = MUL_FIXED12_NO_ROUND(gJgKind2Offset.z, anglePair1);
-        rotatedZ = scaledZ - MUL_FIXED12_NO_ROUND(gJgKind2Offset.x, anglePair0);
+        scaledZ = MUL_FIXED12_NO_ROUND(gJgReverseOffset.z, anglePair1);
+        rotatedZ = scaledZ - MUL_FIXED12_NO_ROUND(gJgReverseOffset.x, anglePair0);
         gJgTargetPos.z = rotatedZ;
         if (rotatedZ > 0) {
             gJgTargetPos.z = rotatedZ * 3;
         }
         gJgTargetPos.x =
-            MUL_FIXED12_NO_ROUND(gJgKind2Offset.z, anglePair0) + MUL_FIXED12_NO_ROUND(gJgKind2Offset.x, anglePair1);
-        gJgTargetPos.y = gJgKind2Offset.y;
+            MUL_FIXED12_NO_ROUND(gJgReverseOffset.z, anglePair0) + MUL_FIXED12_NO_ROUND(gJgReverseOffset.x, anglePair1);
+        gJgTargetPos.y = gJgReverseOffset.y;
         MTX_MultVec43(&gJgTargetPos, &gJgMatrix, &gJgTargetPos);
         if (gJgStartSideNotFlipped != 0) {
             gJgStateCounter -= 0xf0;
@@ -834,7 +834,7 @@ void UpdateJgState1(void *stateObject) {
         gJgState1AngleActive = 1;
     } else {
         gJgState1AngleActive = 0;
-        AdvanceJgPointsAndSetTarget(&gJgKind2Offset, &gJgKind2EndScale, &gJgKind2StartScale);
+        AdvanceJgPointsAndSetTarget(&gJgReverseOffset, &gJgReverseEndScale, &gJgReverseStartScale);
         if (gJgInView == 0 && gJgNearKart == 0) {
             SetStateMachineState(&gJgStateMachine, JG_STATE_REVERSE);
         }
@@ -893,11 +893,11 @@ void EnterJgState3(void *stateObject) {
     gJgPointPointers[3] = &gJgPoints[2];
     InitSegmentProgress(&gJgSegmentProgress, 0, gJgPointPointers, 0x1ec);
     gJgAngle = 0;
-    AdvanceJgPointsAndSetTarget(&gJgKind3Offset, &gJgKind3EndScale, &gJgKind3StartScale);
+    AdvanceJgPointsAndSetTarget(&gJgFlagOffset, &gJgFlagEndScale, &gJgFlagStartScale);
 }
 
 void UpdateJgState3(void *stateObject) {
-    AdvanceJgPointsAndSetTarget(&gJgKind3Offset, &gJgKind3EndScale, &gJgKind3StartScale);
+    AdvanceJgPointsAndSetTarget(&gJgFlagOffset, &gJgFlagEndScale, &gJgFlagStartScale);
     if ((gJgKart->mDriveFlags & KART_DRIVE_RESPAWN_WAIT) == 0) {
         return;
     }
@@ -934,9 +934,9 @@ void EnterJgState4(void *stateObject) {
     if (GetEntryRaceEnded() != 0) {
         matrix = GetViewRotatedMatrix();
         matrix->mRows[3] = gJgKartPos;
-        MTX_MultVec43(&gJgKind4Offset, matrix, &gJgTargetPos);
+        MTX_MultVec43(&gJgNoModelOffset, matrix, &gJgTargetPos);
     } else {
-        MTX_MultVec43(&gJgKind4Offset, &gJgMatrix, &gJgTargetPos);
+        MTX_MultVec43(&gJgNoModelOffset, &gJgMatrix, &gJgTargetPos);
     }
     gJgProbeCenter = gJgTargetPos;
     gJgPreviousCollisionCenter = gJgProbeCenter;
@@ -987,9 +987,9 @@ void UpdateJgState4(void *stateObject) {
     if (GetEntryRaceEnded() != 0) {
         matrix = GetViewRotatedMatrix();
         matrix->mRows[3] = gJgKartPos;
-        MTX_MultVec43(&gJgKind4Offset, matrix, &gJgTargetPos);
+        MTX_MultVec43(&gJgNoModelOffset, matrix, &gJgTargetPos);
     } else {
-        MTX_MultVec43(&gJgKind4Offset, &gJgMatrix, &gJgTargetPos);
+        MTX_MultVec43(&gJgNoModelOffset, &gJgMatrix, &gJgTargetPos);
     }
 }
 
