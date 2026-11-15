@@ -75,33 +75,33 @@ void LocateAndQueueTimeAttackTopMenu(void) {
     NNS_GfdRegisterNewVramTransferTask(0x1e, 0, soNclr->mData, soNclr->mDataSize);
 }
 
-void RequestTimeAttackTopMenuState0(void) {
+void RequestTimeAttackTopMenuSlideIn(void) {
     gTimeAttackTopMenu->mNextState = TIME_ATTACK_TOP_STATE_SLIDE_IN;
     gTimeAttackTopMenu->mStateFrames = 0;
     gTimeAttackTopMenu->mBg0Offset = -192;
 }
 
 // Requests state 1: stores mNextState = 1 and zeroes mStateFrames; the next AdvanceTimeAttackTopMenu call copies it to
-// mState and runs AdvanceTimeAttackTopMenuState1.
-void RequestTimeAttackTopMenuState1(void) {
+// mState and runs AdvanceTimeAttackTopMenuSettle.
+void RequestTimeAttackTopMenuSettle(void) {
     gTimeAttackTopMenu->mNextState = TIME_ATTACK_TOP_STATE_SETTLE;
     gTimeAttackTopMenu->mStateFrames = 0;
 }
 
-void RequestTimeAttackTopMenuState2(void) {
+void RequestTimeAttackTopMenuWaitSelectReturn(void) {
     gTimeAttackTopMenu->mNextState = TIME_ATTACK_TOP_STATE_WAIT_SELECT_RETURN;
     gTimeAttackTopMenu->mStateFrames = 0;
     RequestSelectReturnSlideIn();
 }
 
 // Requests state 3: stores mNextState = 3 and zeroes mStateFrames; the next AdvanceTimeAttackTopMenu call copies it to
-// mState and runs AdvanceTimeAttackTopMenuState3.
-void RequestTimeAttackTopMenuState3(void) {
+// mState and runs AdvanceTimeAttackTopMenuInput.
+void RequestTimeAttackTopMenuInput(void) {
     gTimeAttackTopMenu->mNextState = TIME_ATTACK_TOP_STATE_INPUT;
     gTimeAttackTopMenu->mStateFrames = 0;
 }
 
-void RequestTimeAttackTopMenuState4(void) {
+void RequestTimeAttackTopMenuPress(void) {
     gTimeAttackTopMenu->mNextState = TIME_ATTACK_TOP_STATE_PRESS;
     gTimeAttackTopMenu->mStateFrames = 0;
     switch (gTimeAttackTopMenu->mIndex) {
@@ -114,8 +114,8 @@ void RequestTimeAttackTopMenuState4(void) {
 }
 
 // Requests state 5: stores mNextState = 5 and zeroes mStateFrames; the next AdvanceTimeAttackTopMenu call copies it to
-// mState and runs AdvanceTimeAttackTopMenuState5.
-void RequestTimeAttackTopMenuState5(void) {
+// mState and runs AdvanceTimeAttackTopMenuSlideOut.
+void RequestTimeAttackTopMenuSlideOut(void) {
     gTimeAttackTopMenu->mNextState = TIME_ATTACK_TOP_STATE_SLIDE_OUT;
     gTimeAttackTopMenu->mStateFrames = 0;
 }
@@ -144,7 +144,7 @@ void InitTimeAttackTopMenu(void *parentHeap, void *mainOam, void *subOam) {
     gTimeAttackTopMenu->mMainOamList = mainOam;
     gTimeAttackTopMenu->mSubOamList = subOam;
     gTimeAttackTopMenu->mResult = TIME_ATTACK_TOP_RESULT_NONE;
-    RequestTimeAttackTopMenuState0();
+    RequestTimeAttackTopMenuSlideIn();
     if (GetPreviousMenuScreenNumber() == 0x1f) {
         if (gMenuShared->mGhostSceneInitialCallbacksIndex == 0) {
             gTimeAttackTopMenu->mIndex = TIME_ATTACK_TOP_ROW_SEND_GHOST;
@@ -180,7 +180,7 @@ void ReleaseTimeAttackTopMenu(void) {
     gTimeAttackTopMenu = NULL;
 }
 
-void AdvanceTimeAttackTopMenuState0(void) {
+void AdvanceTimeAttackTopMenuSlideIn(void) {
     s16 offsetX;
     s32 index;
 
@@ -196,11 +196,11 @@ void AdvanceTimeAttackTopMenuState0(void) {
     gTimeAttackTopMenu->mTimeAttackTopMenuSTable[12].mOffsetX = offsetX;
     gTimeAttackTopMenu->mTimeAttackTopMenuSTable[13].mOffsetX = offsetX;
     if (gTimeAttackTopMenu->mStateFrames >= 10) {
-        RequestTimeAttackTopMenuState1();
+        RequestTimeAttackTopMenuSettle();
     }
 }
 
-void AdvanceTimeAttackTopMenuState1(void) {
+void AdvanceTimeAttackTopMenuSettle(void) {
     s16 selectedPressOffset;
     s32 index;
 
@@ -219,17 +219,17 @@ void AdvanceTimeAttackTopMenuState1(void) {
     gTimeAttackTopMenu->mTimeAttackTopMenuSTable[12].mOffsetX = selectedPressOffset;
     gTimeAttackTopMenu->mTimeAttackTopMenuSTable[13].mOffsetX = selectedPressOffset;
     if (gTimeAttackTopMenu->mStateFrames >= 10) {
-        RequestTimeAttackTopMenuState2();
+        RequestTimeAttackTopMenuWaitSelectReturn();
     }
 }
 
-void AdvanceTimeAttackTopMenuState2(void) {
+void AdvanceTimeAttackTopMenuWaitSelectReturn(void) {
     if (IsSelectReturnShownNoRequest() != 0) {
-        RequestTimeAttackTopMenuState3();
+        RequestTimeAttackTopMenuInput();
     }
 }
 
-void AdvanceTimeAttackTopMenuState3(void) {
+void AdvanceTimeAttackTopMenuInput(void) {
     BOOL touchStarted = FALSE;
     u32 tappedRectIndex = -1;
     s32 newIndex = 3;
@@ -269,7 +269,7 @@ void AdvanceTimeAttackTopMenuState3(void) {
         }
     }
     SetSelectReturnSoundId(0xe);
-    RequestTimeAttackTopMenuState5();
+    RequestTimeAttackTopMenuSlideOut();
     gTimeAttackTopMenu->mResult = TIME_ATTACK_TOP_RESULT_RETURN;
     RequestSelectReturnPressWithSound(0);
     return;
@@ -307,7 +307,7 @@ next:
                 gTimeAttackTopMenu->mResult = TIME_ATTACK_TOP_RESULT_RECEIVE_GHOST;
                 break;
         }
-        RequestTimeAttackTopMenuState4();
+        RequestTimeAttackTopMenuPress();
     } else {
         if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
             HideTimeAttackTopMenuHighlight(gTimeAttackTopMenu->mIndex);
@@ -329,7 +329,7 @@ next:
     }
 }
 
-void AdvanceTimeAttackTopMenuState4(void) {
+void AdvanceTimeAttackTopMenuPress(void) {
     s16 selectedPressOffset;
 
     gTimeAttackTopMenu->mStateFrames++;
@@ -354,11 +354,11 @@ void AdvanceTimeAttackTopMenuState4(void) {
         ShowTimeAttackTopMenuHighlight(gTimeAttackTopMenu->mIndex);
     }
     if (gTimeAttackTopMenu->mStateFrames >= 10) {
-        RequestTimeAttackTopMenuState5();
+        RequestTimeAttackTopMenuSlideOut();
     }
 }
 
-void AdvanceTimeAttackTopMenuState5(void) {
+void AdvanceTimeAttackTopMenuSlideOut(void) {
     s16 offsetX;
     s32 index;
 
@@ -379,22 +379,22 @@ s32 AdvanceTimeAttackTopMenu(void) {
     gTimeAttackTopMenu->mState = gTimeAttackTopMenu->mNextState;
     switch (gTimeAttackTopMenu->mState) {
         case TIME_ATTACK_TOP_STATE_SLIDE_IN:
-            AdvanceTimeAttackTopMenuState0();
+            AdvanceTimeAttackTopMenuSlideIn();
             break;
         case TIME_ATTACK_TOP_STATE_SETTLE:
-            AdvanceTimeAttackTopMenuState1();
+            AdvanceTimeAttackTopMenuSettle();
             break;
         case TIME_ATTACK_TOP_STATE_WAIT_SELECT_RETURN:
-            AdvanceTimeAttackTopMenuState2();
+            AdvanceTimeAttackTopMenuWaitSelectReturn();
             break;
         case TIME_ATTACK_TOP_STATE_INPUT:
-            AdvanceTimeAttackTopMenuState3();
+            AdvanceTimeAttackTopMenuInput();
             break;
         case TIME_ATTACK_TOP_STATE_PRESS:
-            AdvanceTimeAttackTopMenuState4();
+            AdvanceTimeAttackTopMenuPress();
             break;
         case TIME_ATTACK_TOP_STATE_SLIDE_OUT:
-            AdvanceTimeAttackTopMenuState5();
+            AdvanceTimeAttackTopMenuSlideOut();
             break;
     }
     DrawLayoutTable(gTimeAttackTopMenu->mTimeAttackTopMenuSBncl, gTimeAttackTopMenu->mTimeAttackTopMenuSNcer, NULL,

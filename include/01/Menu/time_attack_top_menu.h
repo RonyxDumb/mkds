@@ -4,22 +4,22 @@
 
 void WriteTimeAttackTopMenuBg0Offset(void);
 s32 AdvanceTimeAttackTopMenu(void);
-void AdvanceTimeAttackTopMenuState5(void);
-void AdvanceTimeAttackTopMenuState4(void);
-void AdvanceTimeAttackTopMenuState3(void);
-void AdvanceTimeAttackTopMenuState2(void);
-void AdvanceTimeAttackTopMenuState1(void);
-void AdvanceTimeAttackTopMenuState0(void);
+void AdvanceTimeAttackTopMenuSlideOut(void);
+void AdvanceTimeAttackTopMenuPress(void);
+void AdvanceTimeAttackTopMenuInput(void);
+void AdvanceTimeAttackTopMenuWaitSelectReturn(void);
+void AdvanceTimeAttackTopMenuSettle(void);
+void AdvanceTimeAttackTopMenuSlideIn(void);
 void ReleaseTimeAttackTopMenu(void);
 void InitTimeAttackTopMenu(void *parentHeap, void *mainOam, void *subOam);
 void HideTimeAttackTopMenuHighlight(s32 index);
 void ShowTimeAttackTopMenuHighlight(s32 index);
-void RequestTimeAttackTopMenuState5(void);
-void RequestTimeAttackTopMenuState4(void);
-void RequestTimeAttackTopMenuState3(void);
-void RequestTimeAttackTopMenuState2(void);
-void RequestTimeAttackTopMenuState1(void);
-void RequestTimeAttackTopMenuState0(void);
+void RequestTimeAttackTopMenuSlideOut(void);
+void RequestTimeAttackTopMenuPress(void);
+void RequestTimeAttackTopMenuInput(void);
+void RequestTimeAttackTopMenuWaitSelectReturn(void);
+void RequestTimeAttackTopMenuSettle(void);
+void RequestTimeAttackTopMenuSlideIn(void);
 void LocateAndQueueTimeAttackTopMenu(void);
 void LoadTimeAttackTopMenuData(void);
 
