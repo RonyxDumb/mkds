@@ -610,7 +610,7 @@ u32 DWCi_GT2UnrecognizedMessageCallback(u32 socket, u32 address, u16 port, u8 *d
 
 // Accepts an incoming connection in the CONNECT_CLIENT state from the expected participant, otherwise refuses it with a
 // reason text.
-void DWCi_GT2ConnectAttemptCallback(u32 socket, Gt2ConnectionView *connection, u32 address, u32 port, s32 latency,
+void DWCi_GT2ConnectAttemptCallback(u32 socket, Gt2Connection *connection, u32 address, u32 port, s32 latency,
                                     char *message) {
     WiFiMatching *wiFiMatching;
     DWCConnectionInfo *connectionInfo;
@@ -621,12 +621,12 @@ void DWCi_GT2ConnectAttemptCallback(u32 socket, Gt2ConnectionView *connection, u
     wiFiMatching = gWiFiMatching;
     if (wiFiMatching == NULL || wiFiMatching->mState != WIFI_MATCH_STATE_CONNECT_CLIENT ||
         wiFiMatching->mStopPending != 0) {
-        gt2Reject((Gt2Connection *) connection, "Init state", -1);
+        gt2Reject(connection, "Init state", -1);
         return;
     }
     index = DWCi_GT2GetConnectionListIdx();
     if (index == -1) {
-        gt2Reject((Gt2Connection *) connection, "Server full", -1);
+        gt2Reject(connection, "Server full", -1);
         DWCi_StopMatching(6, -87100);
         return;
     }
@@ -638,12 +638,12 @@ void DWCi_GT2ConnectAttemptCallback(u32 socket, Gt2ConnectionView *connection, u
             gWiFiMatching->mParticipantConnectAddresses[participantPos] = address;
             gWiFiMatching->mParticipantConnectPorts[gWiFiMatching->mLastParticipantPos] = port;
         } else {
-            gt2Reject((Gt2Connection *) connection, "Unknown connect attempt", -1);
+            gt2Reject(connection, "Unknown connect attempt", -1);
             return;
         }
     }
     gWiFiMatching->mIncomingWaitStartTime = 0;
-    if (gt2Accept((Gt2Connection *) connection, gWiFiMatching->mConnectionCallbacks) == 0) {
+    if (gt2Accept(connection, gWiFiMatching->mConnectionCallbacks) == 0) {
         DWCi_StopMatching(6, -80410);
         return;
     }
@@ -670,7 +670,7 @@ void DWCi_GT2ConnectAttemptCallback(u32 socket, Gt2ConnectionView *connection, u
 
 // Result of a connect to a peer: 0 adds the peer, 6 retries the connect up to 5 times, 5 is ignored, 2 ends the
 // attempt, other results are reported.
-void DWCi_GT2ConnectedCallback(Gt2ConnectionView *connection, s32 result) {
+void DWCi_GT2ConnectedCallback(Gt2Connection *connection, s32 result) {
     WiFiMatching *wiFiMatching;
     s32 index;
     void **connHandleSlot;

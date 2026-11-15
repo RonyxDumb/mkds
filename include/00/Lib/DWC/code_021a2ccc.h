@@ -3,7 +3,7 @@
 #include "types.h"
 
 typedef struct WiFiPeerMessage WiFiPeerMessage;
-typedef struct Gt2ConnectionView Gt2ConnectionView;
+typedef struct Gt2Connection Gt2Connection;
 
 // Values of WiFiPeerMessage.mReceiveState; see the member.
 enum {
@@ -92,8 +92,8 @@ s32 DWCs_GetOutgoingBufferFreeSize(u32 aid);
 void DWCs_RecvSystemDataBody(u32 aid, void *message, s32 size);
 void DWCs_RecvDataBody(int aid, void *message, s32 size);
 void DWCs_RecvDataHeader(int aid, void *message, s32 size);
-void DWCs_HandleUnreliableMessage(Gt2ConnectionView *connection, const void *message, int size);
-void DWCs_HandleReliableMessage(Gt2ConnectionView *connection, void *message, s32 size);
+void DWCs_HandleUnreliableMessage(Gt2Connection *connection, const void *message, int size);
+void DWCs_HandleReliableMessage(Gt2Connection *connection, void *message, s32 size);
 void DWCs_Send(u32 aid, void *buffer, u32 size, u32 reliable);
 u8 DWCs_GetRecvState(int aid);
 u8 DWCs_GetSendState(int aid);
@@ -101,8 +101,8 @@ WiFiPeerMessage *DWCs_GetTransConnection(int aid);
 void DWCi_ShutdownTransport(void);
 void DWCi_ClearTransConnection(int aid);
 void DWCi_TransportProcess(void);
-void DWCi_PingCallback(Gt2ConnectionView *connection, u32 latency);
-void DWCi_RecvCallback(Gt2ConnectionView *connection, void *message, s32 size, u32 reliable);
+void DWCi_PingCallback(Gt2Connection *connection, u32 latency);
+void DWCi_RecvCallback(Gt2Connection *connection, void *message, s32 size, u32 reliable);
 void DWCi_InitTransport(WiFiMessageLayer *state);
 s32 DWCs_GetRequiredHeaderSize(s32 type);
 u16 DWCs_DecodeHeader(const void *message);

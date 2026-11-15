@@ -37,12 +37,12 @@ BOOL gti2StartConnectionAttempt(Gt2Connection *connection, void *message, int le
     s8 challengeBytes[0x24];
     gti2MessageCheck((const char **) &message, &len);
     if (len > 0) {
-        connection->mInitialMessage.mData = DWCi_GsMalloc(len);
-        if (connection->mInitialMessage.mData == NULL) {
+        connection->mInitialMessageData = DWCi_GsMalloc(len);
+        if (connection->mInitialMessageData == NULL) {
             return TRUE;
         }
-        memcpy(connection->mInitialMessage.mData, message, len);
-        connection->mInitialMessage.mSize = len;
+        memcpy(connection->mInitialMessageData, message, len);
+        connection->mInitialMessageSize = len;
     }
     if (callbacks != NULL) {
         connection->mCallbacks = *callbacks;

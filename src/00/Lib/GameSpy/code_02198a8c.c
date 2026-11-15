@@ -221,13 +221,13 @@ u32 gti2HandleServerChallenge(Gt2Connection *connection, const u8 *message, int 
         return 0;
     }
     gti2GetResponse(clientAnswer, (const s8 *) (message + 0x20));
-    if (gti2SendClientResponse(connection, (const u8 *) clientAnswer, connection->mInitialMessage.mData,
-                               connection->mInitialMessage.mSize) == 0) {
+    if (gti2SendClientResponse(connection, (const u8 *) clientAnswer, connection->mInitialMessageData,
+                               connection->mInitialMessageSize) == 0) {
         return 0;
     }
-    if (connection->mInitialMessage.mData != NULL) {
-        DWCi_GsFree(connection->mInitialMessage.mData);
-        connection->mInitialMessage.mData = NULL;
+    if (connection->mInitialMessageData != NULL) {
+        DWCi_GsFree(connection->mInitialMessageData);
+        connection->mInitialMessageData = NULL;
     }
     connection->mState = GT2_CONNECTION_REPLY_SENT;
     return 1;

@@ -486,11 +486,11 @@ void *DWCi_GetGT2Connection(u32 aid) {
     return NULL;
 }
 
-u8 DWCi_GetConnectionAID(Gt2ConnectionView *connection) {
+u8 DWCi_GetConnectionAID(Gt2Connection *connection) {
     return gt2GetConnectionData(connection)[1];
 }
 
-u32 DWCi_GetConnectionIndex(Gt2ConnectionView *connection) {
+u32 DWCi_GetConnectionIndex(Gt2Connection *connection) {
     return gt2GetConnectionData(connection)[0];
 }
 
@@ -772,11 +772,11 @@ void DWCi_GPRecvBuddyMessageCallback(GpConnection *connection, BuddyMessageData 
 
 // Slot 1 of the Gt2ConnectionCallbacks record (the library's Gt2CallDataCallback): the body
 // only forwards (connection, data, size, flag) to DWCi_RecvCallback, the receive side of the message layer.
-void DWCi_GT2ReceivedCallback(Gt2ConnectionView *connection, void *message, s32 length, u32 reliable) {
+void DWCi_GT2ReceivedCallback(Gt2Connection *connection, void *message, s32 length, u32 reliable) {
     DWCi_RecvCallback(connection, message, length, reliable);
 }
 
-void DWCi_GT2ClosedCallback(Gt2ConnectionView *connection, u32 reason) {
+void DWCi_GT2ClosedCallback(Gt2Connection *connection, u32 reason) {
     u32 profileId;
     s32 detail;
     BOOL hostSide;
@@ -876,7 +876,7 @@ void DWCi_GT2ClosedCallback(Gt2ConnectionView *connection, u32 reason) {
 
 // Slot 3 of the record (Gt2CallElapsedTimeCallback): the body only forwards (connection,
 // elapsed time) to DWCi_PingCallback, which calls the layer's mUnk_60c with the time and the peer index.
-void DWCi_GT2PingCallback(Gt2ConnectionView *connection, u32 latency) {
+void DWCi_GT2PingCallback(Gt2Connection *connection, u32 latency) {
     DWCi_PingCallback(connection, latency);
 }
 

@@ -19,14 +19,14 @@ void SetUnmatchedDataCallback(Gt2Socket *socket, UnkWordFunc *callback) {
     socket->mUnmatchedDataCallback = callback;
 }
 
-void gt2SetConnectionData(Gt2ConnectionView *connection, void *data) {
+void gt2SetConnectionData(Gt2Connection *connection, void *data) {
     if (connection == NULL) {
         AssertionFailed("connection", "gt2Main.c", NULL, 0x19c);
     }
     connection->mData = data;
 }
 
-u8 *gt2GetConnectionData(Gt2ConnectionView *object) {
+u8 *gt2GetConnectionData(Gt2Connection *object) {
     if (object == NULL) {
         AssertionFailed("connection", "gt2Main.c", NULL, 0x1a3);
     }
