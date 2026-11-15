@@ -446,7 +446,7 @@ found:
     } else if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         entryIndex = gRaceSetup->mEntryIndex;
         if (gStandings->mWinnerTeamId == entryIndex) {
-            FinishMissionRunKartWithEndKind0(entryIndex);
+            FinishMissionRunKartAtGoal(entryIndex);
         } else {
             FinishRaceProgressKartMissionFailed(entryIndex);
         }

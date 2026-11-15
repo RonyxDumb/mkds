@@ -411,7 +411,7 @@ void FinishRaceProgressKartWithEndKind(s32 kartIndex, s32 endKind) {
     }
 }
 
-void FinishMissionRunKartWithEndKind0(u16 kartIndex) {
+void FinishMissionRunKartAtGoal(u16 kartIndex) {
     if (gRaceSetup->mMode != MODE_MISSION_RUN) {
         return;
     }

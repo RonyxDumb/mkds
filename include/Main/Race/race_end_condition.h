@@ -4,7 +4,7 @@
 
 typedef struct RaceProgressKart RaceProgressKart;
 
-void FinishMissionRunKartWithEndKind0(u16 kartIndex);
+void FinishMissionRunKartAtGoal(u16 kartIndex);
 // Ends kart a with end kind b (0 goal reached, other values the other ends) unless it has already ended or its end wait
 // runs: stops the race clock, stores the time in the kart's lap time slot 5, for the entry flagged local records the
 // kind and starts its end wait (flag 0x10 for kind 0, 0x20 otherwise), calls FinishRaceProgressKart(kart, b == 0) and

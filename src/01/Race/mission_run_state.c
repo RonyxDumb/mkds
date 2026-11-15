@@ -91,7 +91,7 @@ void AddMissionRunCount(void) {
         case MISSION_KIND_COUNT_HITS:
             countLimit = GetMissionRunCountLimit();
             if (gMissionRunData->mCount >= countLimit) {
-                FinishMissionRunKartWithEndKind0(gRaceSetup->mEntryIndex);
+                FinishMissionRunKartAtGoal(gRaceSetup->mEntryIndex);
             }
             break;
     }
@@ -232,7 +232,7 @@ s32 GetMissionRunBossCount(void) {
     return (gMissionRunData->mBossCount);
 }
 
-void AddMissionRunCountForKind7(void) {
+void AddMissionRunCountForHit(void) {
     if (gRaceSetup->mMissionKind == MISSION_KIND_COUNT_HITS) {
         AddMissionRunCount();
     }
@@ -263,13 +263,13 @@ void AddMissionRunPendingDropOnKartHit(void) {
     }
 }
 
-void AddMissionRunCountForKind4(void) {
+void AddMissionRunCountForMiniTurbo(void) {
     if (gRaceSetup->mMissionKind == MISSION_KIND_LAPS_MINI_TURBO_COUNT) {
         AddMissionRunCount();
     }
 }
 
-void AddMissionRunCountForKind0(void) {
+void AddMissionRunCountForShapeEntry(void) {
     if (gRaceSetup->mMissionKind == MISSION_KIND_COUNT_SHAPE_ENTRIES) {
         AddMissionRunCount();
     }

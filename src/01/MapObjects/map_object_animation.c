@@ -564,7 +564,7 @@ void ResetMissionRunMapObjects(void) {
 
 u32 IncrementHitCountAndCheckLimit(MissionRunMapObject *mapObject) {
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        AddMissionRunCountForKind7();
+        AddMissionRunCountForHit();
     }
     mapObject->mCounter++;
     if (mapObject->mCounter >= mapObject->mPrm->mHead.mCounterLimit) {

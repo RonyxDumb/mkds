@@ -1147,7 +1147,7 @@ void EndKartDrift(Kart *kart) {
         if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
             GetEntryKartCounters()->mMiniTurboCount++;
             if (gRaceSetup->mMode == MODE_MISSION_RUN && gRaceSetup->mMode == MODE_MISSION_RUN) {
-                AddMissionRunCountForKind4();
+                AddMissionRunCountForMiniTurbo();
             }
         }
     }
@@ -1296,7 +1296,7 @@ recheck:
                 if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
                     GetEntryKartCounters()->mMiniTurboCount++;
                     if (gRaceSetup->mMode == MODE_MISSION_RUN && gRaceSetup->mMode == MODE_MISSION_RUN) {
-                        AddMissionRunCountForKind4();
+                        AddMissionRunCountForMiniTurbo();
                     }
                 }
             }
