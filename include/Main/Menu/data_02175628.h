@@ -46,6 +46,9 @@
 // Every key except Select and Start.
 #define PAD_KEYS_NO_SELECT_OR_START (PAD_KEYS_ALL & ~(PAD_KEY_SELECT | PAD_KEY_START))
 
+// InputSlot.mBitMask after a reset: all twelve keys and bit 13 of the key word.
+#define INPUT_SLOT_BIT_MASK_DEFAULT (PAD_KEYS_ALL | 0x2000)
+
 // The four direction keys together.
 #define PAD_KEY_DIRECTIONS 0xf0
 

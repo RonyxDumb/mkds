@@ -65,7 +65,7 @@ void ResetInputSlotsFromParticipants(void) {
         inputSlot->mSourceKind = INPUT_SOURCE_NONE;
         inputSlot->mRequestedBits = 0;
         inputSlot->mIsBlocked = 0;
-        inputSlot->mBitMask = 0x2fff;
+        inputSlot->mBitMask = INPUT_SLOT_BIT_MASK_DEFAULT;
         ResetKeyRecording(&inputSlot->mKeyRecording);
         ResetInputSlotPair(&inputSlot->mPair);
     }
@@ -99,7 +99,7 @@ void ResetInputSlotsFromRaceSetup(void) {
         inputSlot->mSourceKind = INPUT_SOURCE_NONE;
         inputSlot->mRequestedBits = 0;
         inputSlot->mIsBlocked = 0;
-        inputSlot->mBitMask = 0x2fff;
+        inputSlot->mBitMask = INPUT_SLOT_BIT_MASK_DEFAULT;
         ResetKeyRecording(&inputSlot->mKeyRecording);
         ResetInputSlotPair(&inputSlot->mPair);
     }
