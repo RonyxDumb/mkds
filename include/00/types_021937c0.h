@@ -67,6 +67,7 @@ enum {
     PROFILE_SEARCH_STATE_REPLY_READ = 5,
 };
 
+// A queued profile operation: its type, search data, blocking flag, completion callback, state and result.
 typedef struct GpiOperation {
     /* 00 */ u32 mType;
     /* 04 */ GPISearchData *mData;
@@ -89,6 +90,7 @@ typedef enum GpiPeerState {
     PROFILE_PEER_STATE_CLOSED = 0x6a,
 } GpiPeerState;
 
+// A peer connection: its state, socket, profile id, timeout counters and the input and output byte buffers.
 typedef struct GpiPeer {
     /* 00 */ s32 mState;
     /* 04 */ u32 mInitiated;
