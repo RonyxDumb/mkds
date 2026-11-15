@@ -4,7 +4,7 @@
 
 typedef struct Darray Darray;
 
-typedef s32 ElementCompareFunc(const void *a, const void *b);
+typedef s32 ElementCompareFunc(const void *first, const void *second);
 
 // 0x18 bytes. Growable array: count, capacity, element size, growth step, per-element callback, element data.
 typedef struct Darray {

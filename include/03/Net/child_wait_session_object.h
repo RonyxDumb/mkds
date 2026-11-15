@@ -6,7 +6,7 @@
 typedef struct ChildWaitSession {
     /* 00000 */ u8 pad_00000[0x1e280];
     /* 1e280 */ u8 mChildUser[0x18];
-    /* 1e298 */ void (*mCallback)(s32 a);
+    /* 1e298 */ void (*mCallback)(s32 event);
     /* 1e29c */ TaskEntry *mStepTask;
     /* 1e2a0 */ u8 mEventPending;
     /* 1e2a1 */ u8 mStopRequested;

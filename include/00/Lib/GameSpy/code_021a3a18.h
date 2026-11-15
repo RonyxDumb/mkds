@@ -33,12 +33,12 @@ typedef struct MatchingKeyIds {
     /* 100 */ s32 mKeyCount;
 } MatchingKeyIds;
 
-typedef void (*QueryServerKeyFunc)(u8 a, QueryBuffer *b, void *c);
-typedef void (*QueryPlayerTeamKeyFunc)(u8 a, s32 b, QueryBuffer *c, void *d);
-typedef void (*QueryKeyListFunc)(s32 a, MatchingKeyIds *b, void *c);
-typedef s32 (*QueryCountFunc)(s32 a, void *b);
-typedef void (*QueryErrorFunc)(s32 a, const u8 *b, void *c);
-typedef void (*QueryPublicAddressFunc)(u32 a, u16 b, void *c);
+typedef void (*QueryServerKeyFunc)(u8 keyId, QueryBuffer *buffer, void *userData);
+typedef void (*QueryPlayerTeamKeyFunc)(u8 keyId, s32 index, QueryBuffer *buffer, void *userData);
+typedef void (*QueryKeyListFunc)(s32 keyType, MatchingKeyIds *keyList, void *userData);
+typedef s32 (*QueryCountFunc)(s32 keyType, void *userData);
+typedef void (*QueryErrorFunc)(s32 errorType, const u8 *message, void *userData);
+typedef void (*QueryPublicAddressFunc)(u32 address, u16 port, void *userData);
 typedef void (*QueryNatnegFunc)(u32 cookie, void *userData);
 typedef void (*QueryClientMessageFunc)(const void *data, u32 len, void *userData);
 typedef void (*QueryCdkeyFunc)(s8 *query, s32 len, void *sender);

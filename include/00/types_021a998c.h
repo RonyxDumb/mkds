@@ -31,7 +31,7 @@ typedef enum HttpsSetupState {
 } HttpsSetupState;
 
 struct HttpsState;
-typedef u32 (*HttpsCheckFlagsCallback)(u32 a, struct HttpsState *b, s32 c);
+typedef u32 (*HttpsCheckFlagsCallback)(u32 flags, struct HttpsState *httpsState, s32 itemIndex);
 
 // Values of HttpsState.mCommonValue, the value both sides offered: the record digest is made with the MD5 code (16
 // bytes) or the 20-byte hash code.

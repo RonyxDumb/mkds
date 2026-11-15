@@ -14,9 +14,9 @@ typedef u32 (*Gt2UnmatchedDataCallback)(struct Gt2Socket *socket, s32 address, s
 typedef u32 (*Gt2FilterCallback)(struct Gt2Connection *connection, s32 filterId, void *message, s32 len, s32 reliable);
 
 typedef struct Gt2ConnectionCallbacks {
-    /* 00 */ void (*mResultCallback)(struct Gt2Connection *a, int b, void *c, int d);
-    /* 04 */ void (*mDataCallback)(struct Gt2Connection *a, void *b, int c, int d);
-    /* 08 */ void (*mClosedCallback)(struct Gt2Connection *a, void *b);
+    /* 00 */ void (*mResultCallback)(struct Gt2Connection *connection, int result, void *message, int len);
+    /* 04 */ void (*mDataCallback)(struct Gt2Connection *connection, void *message, int len, int reliable);
+    /* 08 */ void (*mClosedCallback)(struct Gt2Connection *connection, void *reason);
     /* 0c */ void (*mElapsedTimeCallback)(struct Gt2Connection *connection, u32 latency);
 } Gt2ConnectionCallbacks;
 
@@ -31,9 +31,9 @@ typedef struct Gt2Socket {
     /* 14 */ BOOL mDeletePending;
     /* 18 */ BOOL mError;
     /* 1c */ s32 mRunningCallbackCount;
-    /* 20 */ void (*mIncomingConnectionCallback)(struct Gt2Socket *a, struct Gt2Connection *b, int c, int d, int e,
-                                                 const u8 *f, int g);
-    /* 24 */ void (*mSocketErrorCallback)(struct Gt2Socket *a);
+    /* 20 */ void (*mIncomingConnectionCallback)(struct Gt2Socket *socket, struct Gt2Connection *connection,
+                                                 int address, int port, int latency, const u8 *message, int len);
+    /* 24 */ void (*mSocketErrorCallback)(struct Gt2Socket *socket);
     /* 28 */ Gt2DumpCallback mSentCallback;
     /* 2c */ Gt2DumpCallback mReceiveDumpCallback;
     /* 30 */ Gt2UnmatchedDataCallback mUnmatchedDataCallback;
@@ -107,8 +107,8 @@ typedef struct Gt2Connection Gt2Connection;
 
 BOOL Gt2CallDataCallback(Gt2Connection *connection, void *message, int len, int reliable);
 BOOL Gt2SetResultAndCallResultCallback(Gt2Connection *connection, int result, void *message, int len);
-BOOL CallIncomingConnectionCallback(Gt2Socket *socket, Gt2Connection *connection, int address, int port, int latency,
-                                    const u8 *message, int len);
+BOOL CallIncomingConnectionCallback(Gt2Socket *socket, Gt2Connection *connection, int address, int port,
+                                    int latency, const u8 *message, int len);
 
 u32 gti2DumpCallback(Gt2Socket *socket, Gt2Connection *connection, u32 address, u32 port, u32 reset, int message,
                      int len, int send);
