@@ -26,10 +26,10 @@ u8 gLocalIpList[5 * 4];
 s8 gQr2Indata[256];
 
 s32 qr2_init_socketA(QueryRecord **qrec, s32 socket, s32 boundport, const char *gamename, const char *secretKey,
-                     s32 isPublic, s32 natFlag, Unk021a4a08Func88 serverKeyFn,
-                     Unk021a4a08Func8c playerKeyFn, Unk021a4a08Func8c teamKeyFn,
-                     Unk021a4a08Func94 keyListFn, Unk021a4a08Func98 countFn,
-                     Unk021a4a08Func9c errorFn, void *userData) {
+                     s32 isPublic, s32 natFlag, QueryServerKeyFunc serverKeyFn,
+                     QueryPlayerTeamKeyFunc playerKeyFn, QueryPlayerTeamKeyFunc teamKeyFn,
+                     QueryKeyListFunc keyListFn, QueryCountFunc countFn,
+                     QueryErrorFunc errorFn, void *userData) {
     char hostText[0x40];
     s32 index;
     s8 hostOverride;
@@ -110,7 +110,7 @@ void qr2_register_clientmessage_callback(QueryRecord *qrec, UnkFunc *cmcallback)
     qrec->mClientMessageCallback = cmcallback;
 }
 
-void qr2_register_publicaddress_callback(QueryRecord *qrec, Unk021a4a08Funca8 pacallback) {
+void qr2_register_publicaddress_callback(QueryRecord *qrec, QueryPublicAddressFunc pacallback) {
     if (qrec == NULL) {
         qrec = gCurrentQr2Rec;
     }

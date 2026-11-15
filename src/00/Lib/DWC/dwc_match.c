@@ -284,9 +284,9 @@ u32 DWCi_QR2Startup(u32 profileId) {
         initResult = qr2_init_socketA(
             &gWiFiMatching->mQr2, GetSocketDescriptor(*wiFiMatching->mConnectionSocket),
             GetSocketPort(*wiFiMatching->mConnectionSocket), wiFiMatching->mGameName, wiFiMatching->mSecretKey, 1, 1,
-            (Unk021a4a08Func88) DWCi_QR2ServerKeyCallback, (Unk021a4a08Func8c) DWCi_QR2PlayerKeyCallback,
-            (Unk021a4a08Func8c) DWCi_QR2TeamKeyCallback, (Unk021a4a08Func94) DWCi_QR2KeyListCallback,
-            (Unk021a4a08Func98) DWCi_QR2CountCallback, (Unk021a4a08Func9c) DWCi_QR2AddErrorCallback, NULL);
+            (QueryServerKeyFunc) DWCi_QR2ServerKeyCallback, (QueryPlayerTeamKeyFunc) DWCi_QR2PlayerKeyCallback,
+            (QueryPlayerTeamKeyFunc) DWCi_QR2TeamKeyCallback, (QueryKeyListFunc) DWCi_QR2KeyListCallback,
+            (QueryCountFunc) DWCi_QR2CountCallback, (QueryErrorFunc) DWCi_QR2AddErrorCallback, NULL);
         if (initResult == 0) {
             break;
         }
