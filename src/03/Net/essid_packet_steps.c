@@ -260,8 +260,8 @@ s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
     while (1) {
         buffer = gRequestPacketBuffer;
         FillBytes(&buf, 0, 0x14);
-        buf.mUnk_10 = 0xc0a80b65;
-        buf.mUnk_00 = 0xc0a80b01;
+        buf.mOwnAddress = 0xc0a80b65;
+        buf.mDestinationAddress = 0xc0a80b01;
         while (1) {
             if (mode == 1 && gRequestState.mAddressApplied != 1) {
                 if (gSocketDescriptor != -1) {

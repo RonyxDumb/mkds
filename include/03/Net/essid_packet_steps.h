@@ -110,9 +110,9 @@ typedef struct PacketTag {
 } PacketTag;
 
 typedef struct SendPacketScratch {
-    /* 00 */ u32 mUnk_00;
+    /* 00 */ u32 mDestinationAddress;
     /* 04 */ u8 pad_04[0xc];
-    /* 10 */ u32 mUnk_10;
+    /* 10 */ u32 mOwnAddress;
 } SendPacketScratch;
 
 typedef struct PacketBuffer {
