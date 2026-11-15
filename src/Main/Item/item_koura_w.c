@@ -1341,7 +1341,7 @@ void InitItems(void) {
     gKartItemsCount = kartCount;
     gKartItems = HeapAlloc(heap, kartCount * 0x210);
     for (kartIndex = 0; kartIndex < gKartItemsCount; kartIndex++) {
-        InitKartItems(&gKartItems[kartIndex], (u16) kartIndex);
+        InitKartItems(&gKartItems[kartIndex], kartIndex);
     }
     gItemPools = HeapAlloc(heap, 0x3b8);
     for (kind = 0; kind < ITEM_OBJECT_KIND_COUNT; kind++) {

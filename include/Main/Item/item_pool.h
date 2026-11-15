@@ -113,7 +113,7 @@ void StartItemInUseOne(ItemInUse *itemInUse);
 void StartItemInUseObjectAndCountDown(ItemInUse *itemInUse, ItemObject *object);
 void StartLastItemInUseObjectAndInit(ItemInUse *itemInUse, s32 callKart);
 void StartItemInUseObject(ItemInUse *itemInUse, ItemObject *object);
-void InitKartItems(KartItems *kartItems, s32 kartIndex);
+void InitKartItems(KartItems *kartItems, u16 kartIndex);
 void SetKartItemLinkFromHitValue(KartItems *kartItems, s32 hitValue);
 void CopyKartPlacementToItemObject(KartItems *kartItems, ItemObject *object);
 BOOL SetKartItemsHeldItemByInfoIndex(KartItems *kartItems, s32 itemInfoIndex);

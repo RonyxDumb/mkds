@@ -824,7 +824,7 @@ void SetKartItemLinkFromHitValue(KartItems *kartItems, s32 hitValue) {
 }
 
 #pragma thumb on
-void InitKartItems(KartItems *kartItems, s32 kartIndex) {
+void InitKartItems(KartItems *kartItems, u16 kartIndex) {
     CourseMapItemRouteHead *courseMap;
 
     kartItems->mKartIndex = kartIndex;
