@@ -149,8 +149,8 @@ u32 GpiCreateOperation(GpConnection *connection, int type, void *data, GpiOperat
         pendingOp->mId = 1;
     } else {
         pendingOp->mId = gpState->mNextOperationId++;
-        if (gpState->mNextOperationId < 2) {
-            gpState->mNextOperationId = 2;
+        if (gpState->mNextOperationId < GPI_FIRST_OPERATION_ID) {
+            gpState->mNextOperationId = GPI_FIRST_OPERATION_ID;
         }
     }
     pendingOp->mResult = GP_REQUEST_OK;

@@ -79,7 +79,7 @@ u32 GpiResetConnection(GpConnection *connection) {
     gpState->mUpdateuiBuffer = NULL;
     gpState->mUpdateuiBuffer = NULL;
     gpState->mListenSocket = -1;
-    gpState->mNextOperationId = 2;
+    gpState->mNextOperationId = GPI_FIRST_OPERATION_ID;
     operationLink = &gpState->mOperationList;
     while (*operationLink != NULL) {
         GpiRemoveOperation(connection, *operationLink);

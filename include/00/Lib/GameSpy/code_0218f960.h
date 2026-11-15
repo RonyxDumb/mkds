@@ -29,6 +29,9 @@ enum {
     PROFILE_CONNECTION_CLOSED = 4,
 };
 
+// The first id given to an operation; mNextOperationId wraps back to it.
+#define GPI_FIRST_OPERATION_ID 2
+
 // Types of buddy messages: the "bm" value of a server message and the type of a message between peers.
 enum {
     GPI_BM_MESSAGE = 1,

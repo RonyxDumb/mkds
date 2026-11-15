@@ -43,7 +43,17 @@ static u32 gSessKey = 0;
 static u32 gConnId = 0;
 static s32 gGamePort = 0;
 static s32 gRcvLen = 0;
-static s32 gStatsInitState = 0;
+// Values of gStatsInitState: the connect to the stats server runs socket connect, challenge, session key.
+enum {
+    GSTATS_INIT_NONE,
+    GSTATS_INIT_FAILED,
+    GSTATS_INIT_CONNECTING,
+    GSTATS_INIT_AWAIT_CHALLENGE,
+    GSTATS_INIT_AWAIT_SESSION_KEY,
+    GSTATS_INIT_COMPLETE,
+};
+
+static s32 gStatsInitState = GSTATS_INIT_NONE;
 static u32 gInitTimeout = 20000;
 char gStatsServerHostname[64] = "gamestats.gs.nintendowifi.net";
 static u32 gInternalInit = 0;
@@ -104,7 +114,7 @@ s32 GstatsStartConnect(s32 theGamePort, s32 theInitTimeout) {
     if (ret == -1) {
         ret = GOAGetLastError(gSock);
         if (ret != -6 && ret != -0x4c && ret != -0x1a) {
-            gStatsInitState = 1;
+            gStatsInitState = GSTATS_INIT_FAILED;
             closesocket(gSock);
             return 3;
         }
@@ -116,7 +126,7 @@ s32 GstatsStartConnect(s32 theGamePort, s32 theInitTimeout) {
     gRcvMax = 0x40;
     gRcvLen = 0;
     gInitStart = GetElapsedMilliseconds();
-    gStatsInitState = 2;
+    gStatsInitState = GSTATS_INIT_CONNECTING;
     return 6;
 }
 
@@ -125,20 +135,20 @@ s32 GstatsUpdateConnect(void) {
     s32 aResult;
     s32 ret;
     switch (gStatsInitState) {
-        case 1:
+        case GSTATS_INIT_FAILED:
             return 3;
-        case 2:
+        case GSTATS_INIT_CONNECTING:
             socketFlags[0] = 0;
             socketFlags[1] = 0;
             aResult = GSISocketSelect(gSock, NULL, &socketFlags[0], &socketFlags[1]);
             if (aResult == -1 || (aResult == 1 && socketFlags[1] == 1)) {
-                gStatsInitState = 1;
+                gStatsInitState = GSTATS_INIT_FAILED;
                 GstatsClose();
                 return 3;
             }
             if (aResult == 0) {
                 if (GetElapsedMilliseconds() - gInitStart > gInitTimeout) {
-                    gStatsInitState = 1;
+                    gStatsInitState = GSTATS_INIT_FAILED;
                     GstatsClose();
                     return 7;
                 }
@@ -147,11 +157,11 @@ s32 GstatsUpdateConnect(void) {
             if (aResult != 1 || socketFlags[0] != 1) {
                 AssertionFailed("aResult == 1 && aWriteFlag == 1", "gstats.c", NULL, 0x145);
             }
-            gStatsInitState = 3;
-        case 3:
+            gStatsInitState = GSTATS_INIT_AWAIT_CHALLENGE;
+        case GSTATS_INIT_AWAIT_CHALLENGE:
             if (CanReceiveOnSocket(gSock) == 0) {
                 if (GetElapsedMilliseconds() - gInitStart > gInitTimeout) {
-                    gStatsInitState = 1;
+                    gStatsInitState = GSTATS_INIT_FAILED;
                     GstatsClose();
                     return 7;
                 }
@@ -159,7 +169,7 @@ s32 GstatsUpdateConnect(void) {
             }
             aResult = recv(gSock, gRcvBuffer + gRcvLen, gRcvMax - gRcvLen, 0);
             if (aResult == -1) {
-                gStatsInitState = 1;
+                gStatsInitState = GSTATS_INIT_FAILED;
                 GstatsClose();
                 return 3;
             }
@@ -169,23 +179,23 @@ s32 GstatsUpdateConnect(void) {
                 return 6;
             }
             gRcvBuffer[gRcvLen] = 0;
-            gStatsInitState = 4;
+            gStatsInitState = GSTATS_INIT_AWAIT_SESSION_KEY;
             gEnc = gEnc1;
             xcode_buf(gRcvBuffer, gRcvLen);
             ret = SendChallengeResponse(gRcvBuffer, gGamePort);
             if (ret != 0) {
-                gStatsInitState = 1;
+                gStatsInitState = GSTATS_INIT_FAILED;
                 GstatsClose();
                 return ret;
             }
-            gStatsInitState = 4;
+            gStatsInitState = GSTATS_INIT_AWAIT_SESSION_KEY;
             gRcvMax += gRcvLen;
             gRcvLen = 0;
             memset(gRcvBuffer, 0, gRcvMax);
-        case 4:
+        case GSTATS_INIT_AWAIT_SESSION_KEY:
             if (CanReceiveOnSocket(gSock) == 0) {
                 if (GetElapsedMilliseconds() - gInitStart > gInitTimeout) {
-                    gStatsInitState = 1;
+                    gStatsInitState = GSTATS_INIT_FAILED;
                     GstatsClose();
                     return 7;
                 }
@@ -193,15 +203,15 @@ s32 GstatsUpdateConnect(void) {
             }
             ret = RecvSessionKey();
             if (ret != 0) {
-                gStatsInitState = 1;
+                gStatsInitState = GSTATS_INIT_FAILED;
                 GstatsClose();
                 return ret;
             }
             gRcvMax += gRcvLen;
             gRcvLen = 0;
             memset(gRcvBuffer, 0, gRcvMax);
-            gStatsInitState = 5;
-        case 5:
+            gStatsInitState = GSTATS_INIT_COMPLETE;
+        case GSTATS_INIT_COMPLETE:
             return 0;
         default:
             return 3;
@@ -280,7 +290,7 @@ BOOL PersistThink(void) {
     if (gSock == -1) {
         return FALSE;
     }
-    if (gStatsInitState != 5) {
+    if (gStatsInitState != GSTATS_INIT_COMPLETE) {
         return FALSE;
     }
     if (SocketReadable(gSock) != 0) {
