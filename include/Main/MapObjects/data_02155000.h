@@ -23,7 +23,7 @@ struct Kart;
 // An effect id and its step function.
 typedef struct OtherKartEffectKind {
     /* 00 */ s32 mEffectId;
-    /* 04 */ void (*mAdvance)(struct ParticleEmitter *p, s32 a);
+    /* 04 */ void (*mAdvance)(struct ParticleEmitter *effect, s32 phase);
 } OtherKartEffectKind;
 
 // 12-byte entry: four bytes and two string pointers.

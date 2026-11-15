@@ -22,7 +22,7 @@ void AdvanceKartTurnHeading(Kart *kart, s32 turnApplied);
 s32 ApplyKartTurn(Kart *kart, s16 baseTurnRate, s16 turnSign, s32 direction, s32 airborne, u32 turnFlag);
 s32 ApplyKartTurnInput(Kart *kart, s32 lowSpeedTurn);
 // Multiplies *a by 0xe6a / 0x1000 and sets it to 0 once its size is below 0x7b.
-void DecayValueToZero(s32 *a);
+void DecayValueToZero(s32 *value);
 void SetKartMissionRunInputMask(Kart *kart);
 void UpdateKartInputFlags(Kart *kart);
 BOOL IsKartNotNormalOrFlagged(Kart *kart);

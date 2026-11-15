@@ -14,13 +14,13 @@ typedef struct Quaternion {
     /* 00 */ s32 mComponents[4];
 } Quaternion;
 
-void InitGroupFollowerWithSpeeds(GroupFollowerWithSpeeds *m, struct CourseMapRow *courseRow, s32 speed,
+void InitGroupFollowerWithSpeeds(GroupFollowerWithSpeeds *follower, struct CourseMapRow *courseRow, s32 speed,
                                  s32 speedPercent);
 void InitSegmentProgress(SegmentProgress *segmentProgress, s32 useStraightLength, Vec3 **points, s32 rate);
 BOOL BuildNextSegmentProgress(SegmentProgress *segmentProgress, s32 useStraightLength, Vec3 **points);
 // Stores in gViewYawQuaternion the rotation about Y by the angle of the matrix a.
 void SetViewYawQuaternion(MtxFx43 *viewMatrix);
-void QuaternionFromYAxisToVec3(Vec3 *p, Quaternion *quaternion);
+void QuaternionFromYAxisToVec3(Vec3 *direction, Quaternion *quaternion);
 void QuaternionFromAngleAroundY(u16 angle, Quaternion *quaternion);
 // Writes to q the quaternion QuaternionFromYAxisToVec3 gives for p combined with the Y rotation
 // QuaternionFromAngleAroundY gives for b.

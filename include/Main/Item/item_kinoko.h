@@ -112,7 +112,7 @@ void UpdateItemKouraRState0And1(ItemKouraR *kouraR);
 
 void AdvanceItemKouraR(ItemKouraR *kouraR);
 
-void ItemObjectBounceNop(ItemObject *item, Vec3 *a, Vec3 *b);
+void ItemObjectBounceNop(ItemObject *item, Vec3 *otherVelocity, Vec3 *normal);
 
 typedef struct ItemObject ItemObject;
 

@@ -16,7 +16,7 @@ void SetKartModelsGrayColors(Kart *kart);
 void StopKartStarModels(Kart *kart);
 void StartKartStarModels(Kart *kart);
 void AdvanceKartAnimationChangeTimer(Kart *kart);
-void StartKartWinOrLoseAnimation(Kart *p);
+void StartKartWinOrLoseAnimation(Kart *kart);
 void SetCharacterAnimation(struct KartModelsEntry *kartModelsEntry, s32 animationIndex, s32 useBlend);
 void SetCharacterFaceFrameIndex(struct KartModelsEntry *kartModelsEntry, s32 faceFrameIndex);
 void AdvanceKartCharacterAnimation(Kart *animationState);

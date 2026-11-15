@@ -80,7 +80,7 @@ s16 gKartState3EndFrameCount = 0x1e;
 s32 gKartWobbleEaseFactor = 0x4cd;
 s16 gTurnHeadingReductionAtSpeedLimit = 0x96;
 s32 gSpeedReductionAtFullTurnRatio = 0x1ec;
-void (*gKartDefaultSlotFunctions[9])(Kart *a) = {InitKartResources,
+void (*gKartDefaultSlotFunctions[9])(Kart *kart) = {InitKartResources,
                                                  ResetKart,
                                                  NULL,
                                                  NULL,

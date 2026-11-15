@@ -111,24 +111,24 @@ s32 GetGhostFinishTimeByIndex(s32 ghostRecordIndex, MinuteSecondMillisecondTime 
     return result;
 }
 
-void FillPlayerRecord(PlayerRecord *a) {
-    MI_CpuCopy8(gBackupBuffers->mFirstBlock->mPlayerName, a->mName, sizeof(a->mName));
+void FillPlayerRecord(PlayerRecord *record) {
+    MI_CpuCopy8(gBackupBuffers->mFirstBlock->mPlayerName, record->mName, sizeof(record->mName));
     if (gBackupBuffers->mEmblemRecord->mFilled != 0 && gBackupBuffers->mFirstBlock->mEmblemOff == 0) {
-        a->mHasEmblem = 1;
-        MI_CpuCopy8(gBackupBuffers->mEmblemRecord->mEmblemData, a->mEmblem, sizeof(a->mEmblem));
+        record->mHasEmblem = 1;
+        MI_CpuCopy8(gBackupBuffers->mEmblemRecord->mEmblemData, record->mEmblem, sizeof(record->mEmblem));
     } else {
-        a->mHasEmblem = 0;
-        MI_CpuFill8(a->mEmblem, 0, 0x200);
+        record->mHasEmblem = 0;
+        MI_CpuFill8(record->mEmblem, 0, 0x200);
     }
-    MI_CpuCopy8(gBackupBuffers->mFirstBlock->mFlags, a->mBits, sizeof(a->mBits));
-    a->mRegion = gStartupWork->mRegion;
-    a->mLanguageIndex = gStartupWork->mLanguageIndex;
-    a->mElo = gBackupBuffers->mFirstBlock->mElo;
-    a->mLowestGrandPrixRecordValue = GetLowestGrandPrixRecordValue();
+    MI_CpuCopy8(gBackupBuffers->mFirstBlock->mFlags, record->mBits, sizeof(record->mBits));
+    record->mRegion = gStartupWork->mRegion;
+    record->mLanguageIndex = gStartupWork->mLanguageIndex;
+    record->mElo = gBackupBuffers->mFirstBlock->mElo;
+    record->mLowestGrandPrixRecordValue = GetLowestGrandPrixRecordValue();
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
-        MI_CpuFill8(&a->mFriendData, 0, 0xc);
+        MI_CpuFill8(&record->mFriendData, 0, 0xc);
     } else {
-        DWC_CreateExchangeToken(&gBackupBuffers->mFirstBlock->mUserData, &a->mFriendData);
+        DWC_CreateExchangeToken(&gBackupBuffers->mFirstBlock->mUserData, &record->mFriendData);
     }
 }
 

@@ -68,6 +68,6 @@ unsigned int JointGetAnmObjFrameCount(AnmObjView *anmObj);
 
 extern u32 gAnmObjSizeRequired;
 
-typedef s32 (*AnmFrameCountGetter)(NNSG3dAnmObj *a);
+typedef s32 (*AnmFrameCountGetter)(NNSG3dAnmObj *anmObj);
 
 extern const AnmFrameCountGetter gAnmFrameCountGetters[5];

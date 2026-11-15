@@ -7,7 +7,7 @@
 typedef struct GhostRecordHead GhostRecordHead;
 typedef struct PlayerRecord PlayerRecord;
 
-void FillPlayerRecord(PlayerRecord *a);
+void FillPlayerRecord(PlayerRecord *record);
 s32 GetGhostFinishTimeByIndex(s32 ghostRecordIndex, MinuteSecondMillisecondTime *finishTime);
 s32 GetGhostLapTimeByIndex(s32 ghostRecordIndex, s32 lapNumber, MinuteSecondMillisecondTime *lapTime);
 BOOL GetGhostFinishTime(GhostRecordHead *ghostRecord, MinuteSecondMillisecondTime *finishTime);

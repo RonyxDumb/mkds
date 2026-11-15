@@ -19,7 +19,7 @@ struct OrthoQuad {
     // Per corner: the offset SetupOrthoQuad picks, scaled by a motion table; later a velocity added to the corners.
     /* 10 */ s16 mCornerVelocities[4][2];
     /* 20 */ HalfwordPair mStartPair;
-    /* 24 */ void (*mUpdateFunction)(OrthoQuad *p);
+    /* 24 */ void (*mUpdateFunction)(OrthoQuad *quad);
     // 1 once the velocities were set from the corners; the update function then adds them to the corners.
     /* 28 */ u32 mVelocityMode;
     // Counts down from the start delay and keeps counting below 0 in the later update functions.

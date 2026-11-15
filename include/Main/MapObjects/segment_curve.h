@@ -5,7 +5,7 @@
 typedef struct Segment Segment;
 typedef struct GroupFollower GroupFollower;
 
-s32 GetGroupFollowerProgress(GroupFollower *p);
+s32 GetGroupFollowerProgress(GroupFollower *follower);
 void GetSegmentCurveXzLinearY(Segment *segment, s32 fraction, Vec3 *result);
 void GetSegmentCurvePosStepXz(Segment *segment, s32 fraction, s32 scale, Vec3 *firstResult, Vec3 *secondResult);
 BOOL AdvanceGroupFollower(GroupFollower *path);

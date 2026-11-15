@@ -359,8 +359,8 @@ typedef struct RomArchiveTransfer {
     /* 0004 */ BOOL mSendAllowed;
     /* 0008 */ BOOL mSendPending;
     /* 000c */ s32 mState;
-    /* 0010 */ void (*mStateCallback)(s32 a);
-    /* 0014 */ void *(*mAllocFunc)(s32 a, u32 b, void *c);
+    /* 0010 */ void (*mStateCallback)(s32 unused);
+    /* 0014 */ void *(*mAllocFunc)(s32 allocArg, u32 size, void *oldBuffer);
     /* 0018 */ s32 mAllocFuncArg;
     /* 001c */ struct FSFile *mPendingFile;
     /* 0020 */ void *mArchiveBlock;

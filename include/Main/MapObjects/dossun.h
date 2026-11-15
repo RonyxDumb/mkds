@@ -76,7 +76,7 @@ typedef struct KuriboDrawList {
     /* 00 */ u8 mUnk_00[8];
     /* 08 */ void (*mInit)(void);
     /* 0c */ void (*mBeforeObjects)(void);
-    /* 10 */ void (*mForEachObject)(void *a, Kuribo *p, void *c, u16 d);
+    /* 10 */ void (*mForEachObject)(void *unused0, Kuribo *kuribo, void *unused1, u16 maxAlpha);
     /* 14 */ u8 mUnk_14[0x18];
 } KuriboDrawList;
 

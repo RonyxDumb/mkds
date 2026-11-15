@@ -27,13 +27,15 @@ typedef struct MapObjectSound {
 
 // Object behind MapObject.mKindData; kinds whose rows point at the same record share it.
 typedef struct MapObjectKindData {
-    /* 00 */ s32 (*mCollideKartCallback)(struct MapObject *e, void *a, s32 *b, s32 *c);
-    /* 04 */ s32 (*mCollideItemObjectCallback)(struct MapObject *e, void *a, void *b, void *c);
+    /* 00 */ s32 (*mCollideKartCallback)(struct MapObject *mapObject, void *kart, s32 *firstResponse,
+                                         s32 *secondResponse);
+    /* 04 */ s32 (*mCollideItemObjectCallback)(struct MapObject *mapObject, void *itemObject, void *firstResponse,
+                                               void *secondResponse);
     /* 08 */ s32 mShapeKind;
     /* 0c */ s32 mExtentX;
     /* 10 */ s32 mExtentY;
     /* 14 */ s32 mExtentZ;
-    /* 18 */ s32 (*mSphereHitTest)(struct MapObject *a, Vec3 *b, s32 c, Vec3 *d);
+    /* 18 */ s32 (*mSphereHitTest)(struct MapObject *mapObject, Vec3 *position, s32 radius, Vec3 *overlapOffset);
     /* 1c */ s32 mCollidable;
     /* 20 */ s32 mPosStepMode;
     /* 24 */ s32 mSoundId;
@@ -134,16 +136,17 @@ typedef struct MapObjectList {
     /* 00 */ void **mMapObjects;
     /* 04 */ u16 mMapObjectCount;
     /* 06 */ u8 mUnk_06[2];
-    /* 08 */ void (*mInit)(struct MapObjectList *p);
-    /* 0c */ void (*mBeforeObjects)(struct MapObjectList *p);
+    /* 08 */ void (*mInit)(struct MapObjectList *list);
+    /* 0c */ void (*mBeforeObjects)(struct MapObjectList *list);
     /* 10 */ MapObjectForEachCallback mForEachObject;
-    /* 14 */ void (*mAfterObjects)(struct MapObjectList *p);
+    /* 14 */ void (*mAfterObjects)(struct MapObjectList *list);
     // Update lists: the kind's mPosStepMode (3 = not set yet). Draw lists: 1 or 2, the first or second pass.
     /* 18 */ s32 mPassOrPosStepMode;
     // A callback in the update lists (CallMapObjectListCallback); the draw lists test it for non-zero
     // (InitMapObjectDrawOrder, the draw loop) and the kinds' creators set it to 1.
     /* 1c */ union {
-        s32 (*mCollideItemObjectCallback)(MapObject *e, void *a, void *b, void *c);
+        s32 (*mCollideItemObjectCallback)(MapObject *mapObject, void *itemObject, void *firstResponse,
+                                          void *secondResponse);
         s32 mSortByDistance;
     };
     /* 20 */ s32 mItemFirstResponse;

@@ -11,7 +11,7 @@ typedef struct CourseMapHeader {
     /* 08 */ s32 mSectionOffsets[1];
 } CourseMapHeader;
 
-typedef s32 (*CourseMapSectionLoader)(void *a, ...);
+typedef s32 (*CourseMapSectionLoader)(void *section, ...);
 
 extern const CourseMapSectionLoader gCourseMapSectionLoaders[17];
 

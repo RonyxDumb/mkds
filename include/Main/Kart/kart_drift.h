@@ -826,8 +826,8 @@ void KartStartSoundFullVolume(void *soundSource, int arg);
 BOOL TrySpinKart(Kart *kart, int rotationCount, int skipSound);
 BOOL TryStartKartState(Kart *kart, KartState newState);
 void AdvanceKartDrift(Kart *kart);
-void GetKartForward(const Kart *p, Vec3 *out);
-void GetKartUp(const Kart *p, Vec3 *out);
+void GetKartForward(const Kart *kart, Vec3 *forward);
+void GetKartUp(const Kart *kart, Vec3 *upDirection);
 
 #include "Main/Kart/character_animation.h"
 #include "Main/Kart/code_02079c0c.h"
@@ -878,7 +878,7 @@ extern s16 gTurnHeadingReductionAtSpeedLimit;
 extern s32 gKartWobbleAmplitudeDecay;
 // The functions every Kart starts with, copied into Kart.mSlotFunctions by InitKart. Slots 0, 1, 6, 7 and 8 keep these;
 // slots 2 to 5 are zero here and always replaced by InitKart.
-extern void (*gKartDefaultSlotFunctions[9])(Kart *a);
+extern void (*gKartDefaultSlotFunctions[9])(Kart *kart);
 extern Vec3 gFixedPositionEffectPos;
 extern void (*gKartStateFunctions[8])(struct Kart *);
 extern s32 gKartState3StartVerticalSpeed;

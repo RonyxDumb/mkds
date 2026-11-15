@@ -26,5 +26,5 @@ void NNSi_GfdSetTexNrmSearchArray(int idx1st, int idx2nd, int idx3rd, int idx4th
 
 extern s32 (*NNS_GfdDefaultFuncFreeTexVram)(u32);
 extern s32 (*NNS_GfdDefaultFuncFreePlttVram)(u32);
-extern u32 (*NNS_GfdDefaultFuncAllocTexVram)(s32 a, s32 b, s32 c);
-extern u32 (*NNS_GfdDefaultFuncAllocPlttVram)(s32 a, s32 b, s32 c);
+extern u32 (*NNS_GfdDefaultFuncAllocTexVram)(s32 szByte, s32 is4x4comp, s32 opt);
+extern u32 (*NNS_GfdDefaultFuncAllocPlttVram)(s32 szByte, s32 is4pltt, s32 opt);

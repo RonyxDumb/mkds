@@ -32,7 +32,7 @@ MapObjectKindData *gCourseMapRowKindData[19];
 MapObjectKindDescriptor gTownMonteKindDescriptor = {
     0, {0, 0}, 0xb0, 0, CreateEmptyMapObjectKindData, CreateTownMonteDrawList, 0, 0, CreateTownMonteUpdateList};
 
-u16 FX_Atan2Idx(s32 a, s32 b);
+u16 FX_Atan2Idx(s32 y, s32 x);
 
 static inline u16 TownMonteMapObjectRandomBelowU16(u32 limit) {
     RandomState64 *mapObjectRandom;

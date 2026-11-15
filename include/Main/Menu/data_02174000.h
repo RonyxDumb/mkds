@@ -395,7 +395,7 @@ struct GhostScene;
 // Init, advance and release of one part of the ghost scene, and a fourth function the scene's second per-frame slot
 // calls.
 typedef struct GhostSceneCallbacks {
-    /* 00 */ void (*mInit)(void *a, void *b, void *c);
+    /* 00 */ void (*mInit)(void *heap, void *ghostScene, void *subOam);
     /* 04 */ s32 (*mAdvance)();
     /* 08 */ void (*mRelease)(void);
     /* 0c */ void (*mWriteRegisters)(void);
@@ -450,7 +450,7 @@ typedef struct ScrollList {
     /* 01c */ s32 mTouchRectIndex;
     /* 020 */ s32 mPressedRectIndex;
     /* 024 */ s32 mPickedVisibleRow;
-    /* 028 */ void (*mCallback)(int a, int b, int c, int d);
+    /* 028 */ void (*mCallback)(int action, int slot, int row, int selectedSlot);
     /* 02c */ u16 mCursorEntry;
     /* 02e */ u16 mScrollEntry;
     /* 030 */ s32 mScrollOffsetRange;

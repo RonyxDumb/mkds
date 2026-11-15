@@ -65,7 +65,7 @@ Vec3 gOldLuigiAgbFirstChaseEffectDirection = {0, -4096, 0};
 s32 gStarEffectEngineScale = 0x1000;
 const s32 gKartSideOffsetsX[2] = {0x1800, -6144};
 s32 gOldFrappe64FirstCameraEffectForwardYScale = 0x4000;
-void (*const gKartSurfaceEffectFunctions[9])(struct Kart *p) = {SurfaceEffectStopKartCurrentEffects,
+void (*const gKartSurfaceEffectFunctions[9])(struct Kart *kart) = {SurfaceEffectStopKartCurrentEffects,
                                                                 ApplyKartCurrentEffectRow0,
                                                                 ApplyKartCurrentEffectRow1,
                                                                 ApplyKartSideEffectsRow2,

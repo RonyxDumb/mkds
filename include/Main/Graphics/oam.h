@@ -5,7 +5,7 @@
 
 typedef struct TextCanvas TextCanvas;
 
-typedef void PixelSetFunc(u16 *a, s32 b, s32 c, s32 d);
+typedef void PixelSetFunc(u16 *pixels, s32 pixelX, s32 pixelY, s32 value);
 
 typedef struct InputSlotPair InputSlotPair;
 

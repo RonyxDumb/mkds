@@ -24,8 +24,8 @@ typedef struct SoundSource {
     // Pointer to the owner's position; the distance and the direction to the camera are measured to it.
     // Without one (0) a sound gets full volume and no direction.
     /* 28 */ Vec3 *mOwnerPosSource;
-    /* 2c */ void (*mStartSeqFunction)(void *a, void *b, u32 c);
-    /* 30 */ void (*mTrackParamsFunction)(void *a, void *b, void *c);
+    /* 2c */ void (*mStartSeqFunction)(void *source, void *sound, u32 priority);
+    /* 30 */ void (*mTrackParamsFunction)(void *source, void *sound, void *unused);
     /* 34 */ u16 mSourceFlags;
     /* 36 */ u8 mUnk_36[2];
     /* 38 */ u32 mRegistered;

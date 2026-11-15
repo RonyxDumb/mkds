@@ -32,8 +32,8 @@ void Nop(void);
 
 extern struct StemSets *gStemSets;
 
-extern void (*const gTimedQuadStartFunctions[1])(TimedQuad *a);
-extern void (*const gTimedQuadUpdateFunctions[1])(TimedQuad *a);
+extern void (*const gTimedQuadStartFunctions[1])(TimedQuad *timedQuad);
+extern void (*const gTimedQuadUpdateFunctions[1])(TimedQuad *timedQuad);
 extern const u16 gTimedQuadVertices[12];
 
 extern const StemSetParams gCountStartStems[3];

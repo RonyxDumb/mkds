@@ -34,18 +34,18 @@ extern const s32 gKartAiDriftChargeRandomLimitsIndex0[9];
 extern const s32 gKartAiRaceStartHeadingSwingRandomLimitsIndex2[9];
 extern const s32 *gKartAiVelocityFactorScale;
 extern const s32 *gKartAiRaceStartHeadingSwingRandomLimits;
-extern void (*gAdvanceKartAiPointLinkCursor)(struct PointLinkCursor *p);
-extern void (*gUseItemWhenCircleKindCallback)(KartAiItemUse *a, struct KartAi *b);
-extern void (*gUseItemNotTrailKindCallback)(KartAiItemUse *a, struct KartAi *b);
-extern void (*gUseItemTrailKindCallback)(KartAiItemUse *a, struct KartAi *b);
+extern void (*gAdvanceKartAiPointLinkCursor)(struct PointLinkCursor *linkCursor);
+extern void (*gUseItemWhenCircleKindCallback)(KartAiItemUse *itemUse, struct KartAi *kartAi);
+extern void (*gUseItemNotTrailKindCallback)(KartAiItemUse *itemUse, struct KartAi *kartAi);
+extern void (*gUseItemTrailKindCallback)(KartAiItemUse *itemUse, struct KartAi *kartAi);
 extern const s32 *gKartAiDriftChargeRandomLimits;
 extern const struct KartAiItemUseEntry *gCurrentHeldItemEntries;
-extern void (*gUseItemWhenNotCircleKindCallback)(KartAiItemUse *a, struct KartAi *b);
+extern void (*gUseItemWhenNotCircleKindCallback)(KartAiItemUse *itemUse, struct KartAi *kartAi);
 extern const struct KartAiItemUseEntry *gCurrentItemInUseEntries;
 extern const s32 *gKartAiDriftStartRandomLimits;
 extern const s32 *gKartAiGapLimitsByRank;
 extern const s32 *gKartAiRaceStartBoostRandomLimits;
-extern void (*gSetKartAiLinkPos)(struct KartAi *p, struct PointLinkCursor *q, struct Kart *r);
+extern void (*gSetKartAiLinkPos)(struct KartAi *kartAi, struct PointLinkCursor *linkCursor, struct Kart *kart);
 
 static inline Vec3 *GetPosCurvePoint(PosCurve *posCurve, u16 pointIndex) {
     return &posCurve->mPoints[pointIndex];

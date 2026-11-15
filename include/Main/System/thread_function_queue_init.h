@@ -5,4 +5,4 @@
 typedef struct ThreadFunctionQueue ThreadFunctionQueue;
 
 void InitThreadFunctionQueue(void *heap);
-void (*DequeueThreadFunction(ThreadFunctionQueue *a))(void);
+void (*DequeueThreadFunction(ThreadFunctionQueue *queue))(void);

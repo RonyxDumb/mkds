@@ -42,8 +42,8 @@ const StemSetParams gCountStartStems[3] = {{1, 1, 1, 2, {gStemNameCount, gStemNa
                                            {0, 0, 0, 0, {gStemNameEmpty, NULL}}};
 
 const u16 gTimedQuadVertices[12] = {0xf000, 0x1000, 0, 0xf000, 0xf000, 0, 0x1000, 0xf000, 0, 0x1000, 0x1000, 0};
-void (*const gTimedQuadUpdateFunctions[1])(TimedQuad *a) = {UpdateTimedQuad};
-void (*const gTimedQuadStartFunctions[1])(TimedQuad *a) = {StartTimedQuad};
+void (*const gTimedQuadUpdateFunctions[1])(TimedQuad *timedQuad) = {UpdateTimedQuad};
+void (*const gTimedQuadStartFunctions[1])(TimedQuad *timedQuad) = {StartTimedQuad};
 StemSets *gStemSets;
 
 void InitStemSets(void *heap) {

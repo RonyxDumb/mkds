@@ -35,7 +35,7 @@ typedef struct KartEffectIdSet {
 // 0x20 bytes: id sets for the entry kart and the others, a start function and a velocity factor index.
 typedef struct KartSurfaceEffectRow {
     /* 00 */ KartEffectIdSet mEffectIdSets[2];
-    /* 18 */ s32 (*mStartEffects)(const KartEffectIdSet *a, s32 b, Kart *p);
+    /* 18 */ s32 (*mStartEffects)(const KartEffectIdSet *effectIdSet, s32 velocityFactorIndex, Kart *kart);
     /* 1c */ s32 mVelocityFactorIndex;
 } KartSurfaceEffectRow;
 
@@ -107,7 +107,7 @@ extern Vec3 gOldLuigiAgbFirstChaseEffectDirection;
 extern s32 gKartStarEffectDirectionSpeedMax;
 extern const s32 gKartSideOffsetsX[2];
 extern s32 gOldFrappe64FirstCameraEffectForwardYScale;
-extern void (*const gKartSurfaceEffectFunctions[9])(struct Kart *p);
+extern void (*const gKartSurfaceEffectFunctions[9])(struct Kart *kart);
 extern s32 gStarEffectEngineScale;
 extern const Vec3 gKartSideDirectionVectors[2];
 extern s32 gOldLuigiAgbFirstChaseEffectHeightDrop;

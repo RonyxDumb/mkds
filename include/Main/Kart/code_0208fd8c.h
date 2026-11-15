@@ -17,7 +17,7 @@ enum {
 };
 
 typedef struct KartAiItemUseEntry {
-    /* 00 */ void (*mHandler)(struct KartAiItemUse *a, struct KartAi *b);
+    /* 00 */ void (*mHandler)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
 // 0: item bits only; 1: then the bit 0x40 (ITEM_THROW_FORWARD_BIT); 2: then the bit 0x80.
     /* 04 */ s32 mThenBitKind;
     /* 08 */ u16 mTimerBase;

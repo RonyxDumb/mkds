@@ -22,8 +22,8 @@ typedef struct TextTag {
 } TextTag;
 
 // 1 when the halfword is in 0x30..0x39 or 0xff10..0xff19, or is 0x2d; else 0.
-static inline s32 IsDigitOrDash(u16 c) {
-    if ((c >= 0x30 && c <= 0x39) || (c >= 0xff10 && c <= 0xff19) || c == 0x2d) {
+static inline s32 IsDigitOrDash(u16 character) {
+    if ((character >= 0x30 && character <= 0x39) || (character >= 0xff10 && character <= 0xff19) || character == 0x2d) {
         return 1;
     }
     return 0;

@@ -71,18 +71,18 @@ const s32 gKartAiDriftChargeRandomLimitsIndex0[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
 const s32 gKartAiRaceStartHeadingSwingRandomLimitsIndex2[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
 const s32 *gKartAiVelocityFactorScale;
 const s32 *gKartAiRaceStartHeadingSwingRandomLimits;
-void (*gAdvanceKartAiPointLinkCursor)(struct PointLinkCursor *p);
-void (*gUseItemWhenCircleKindCallback)(KartAiItemUse *a, struct KartAi *b);
-void (*gUseItemNotTrailKindCallback)(KartAiItemUse *a, struct KartAi *b);
-void (*gUseItemTrailKindCallback)(KartAiItemUse *a, struct KartAi *b);
+void (*gAdvanceKartAiPointLinkCursor)(struct PointLinkCursor *linkCursor);
+void (*gUseItemWhenCircleKindCallback)(KartAiItemUse *itemUse, struct KartAi *kartAi);
+void (*gUseItemNotTrailKindCallback)(KartAiItemUse *itemUse, struct KartAi *kartAi);
+void (*gUseItemTrailKindCallback)(KartAiItemUse *itemUse, struct KartAi *kartAi);
 const s32 *gKartAiDriftChargeRandomLimits;
 const struct KartAiItemUseEntry *gCurrentHeldItemEntries;
-void (*gUseItemWhenNotCircleKindCallback)(KartAiItemUse *a, struct KartAi *b);
+void (*gUseItemWhenNotCircleKindCallback)(KartAiItemUse *itemUse, struct KartAi *kartAi);
 const struct KartAiItemUseEntry *gCurrentItemInUseEntries;
 const s32 *gKartAiDriftStartRandomLimits;
 const s32 *gKartAiGapLimitsByRank;
 const s32 *gKartAiRaceStartBoostRandomLimits;
-void (*gSetKartAiLinkPos)(struct KartAi *p, struct PointLinkCursor *q, struct Kart *r);
+void (*gSetKartAiLinkPos)(struct KartAi *kartAi, struct PointLinkCursor *linkCursor, struct Kart *kart);
 
 // Steps the cursor to the first next link without a choice; returns the length of the new direction.
 u32 AdvancePointLinkCursorToFirstNext(PointLinkCursor *cursor) {

@@ -62,7 +62,7 @@ typedef struct SceneName {
 void InitTouchMicInput(void *heap);
 void InitTouchPanelAndSetCalibration(void);
 void InitCompressedArchiveAndMBChild(void *heap);
-void ResizeMainEffectArchiveBlock(u8 *a, u32 b);
+void ResizeMainEffectArchiveBlock(u8 *regionStart, u32 regionSize);
 s32 ShouldLoadMap2DData(void);
 void ClearArchiveBuffersBit31(void);
 void RequestResultDLArchives(void);

@@ -514,7 +514,7 @@ void ScrollListMI_CpuCopy16(const void *src, void *dst, u32 size) {
 void InitScrollList(void *heap, s32 groupCount, const void *groupFirstEntries, u16 cursorEntry, u16 scrollEntry,
                     s32 scrollOffsetRange, LayoutTableEntry *entries, void *rects, const void *screenMap,
                     s32 upRectIndex, s32 downRectIndex, s32 firstRowRectIndex, s32 rowCount,
-                    void (*callback)(int heap, int groupCount, int groupFirstEntries, int cursorEntry)) {
+                    void (*callback)(int action, int slot, int row, int selectedSlot)) {
     s32 row;
     gScrollList = HeapAlloc(heap, 0x674);
     ScrollListMI_CpuClearFast(gScrollList, 0x674);

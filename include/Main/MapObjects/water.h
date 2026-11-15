@@ -150,8 +150,8 @@ void CreateHyudoroWater(void);
 void InitWaterModels(Water *water);
 void CreateWaterEfct(MapObject *mapObject);
 extern const u32 gWaterCMaterialName[4];
-void GetCurveWeights(s32 weight0, s32 *weight1, s32 *weight2, s32 *weight3, s32 *e);
-void GetCurveAndSlopeWeights(s32 weight0, s32 *weight1, s32 *weight2, s32 *weight3, s32 *slopeWeight0,
-                             s32 *slopeWeight1, s32 *slopeWeight2, s32 *slopeWeight3, s32 *i);
-void ComputeWeightedPoint(const Vec3 *weight0, Vec3 *weight1, s32 weight2, s32 weight3, s32 e, s32 f);
-void ComputeWeightedPointXz(const Vec3 *weight0, Vec3 *weight1, s32 weight2, s32 weight3, s32 e, s32 f);
+void GetCurveWeights(s32 fraction, s32 *weight0, s32 *weight1, s32 *weight2, s32 *weight3);
+void GetCurveAndSlopeWeights(s32 fraction, s32 *weight0, s32 *weight1, s32 *weight2, s32 *weight3, s32 *slopeWeight0,
+                             s32 *slopeWeight1, s32 *slopeWeight2, s32 *slopeWeight3);
+void ComputeWeightedPoint(const Vec3 *points, Vec3 *result, s32 weight0, s32 weight1, s32 weight2, s32 weight3);
+void ComputeWeightedPointXz(const Vec3 *points, Vec3 *result, s32 weight0, s32 weight1, s32 weight2, s32 weight3);

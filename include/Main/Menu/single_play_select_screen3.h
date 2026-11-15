@@ -11,7 +11,7 @@ typedef struct NNSG2dCellDataBank NNSG2dCellDataBank;
 // Elements of the table at member 0x14 of MenuScene.
 typedef struct ScreenCallbacks {
     /* 0 */ void (*mWriteRegisters)(void);
-    /* 4 */ void (*mUpdate)(u32 a);
+    /* 4 */ void (*mUpdate)(u32 sceneArg);
 } ScreenCallbacks;
 
 // MenuScene.mSinglePlaySelectModeIndex: the entries of the single play menu, in the order they are listed.

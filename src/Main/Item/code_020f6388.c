@@ -610,7 +610,7 @@ void ApplyItemObjectPush(ItemObject *item, Vec3 *otherPos, Vec3 *otherVelocity, 
     }
 }
 
-void ItemObjectBounceNop(ItemObject *item, Vec3 *a, Vec3 *b) {}
+void ItemObjectBounceNop(ItemObject *item, Vec3 *otherVelocity, Vec3 *normal) {}
 
 void StartRestingItemObject(ItemObject *item, void *collisionHitLink) {
     s32 fallSpeed;
