@@ -29,7 +29,7 @@ BOOL SOC_InetAtoN(u32 addressString, u32 *addressOut);
 char *SOC_InetNtoA(SOCInAddr address);
 s32 SOC_Cleanup(void);
 s32 SOC_Startup(void *configPointer);
-void FreeFunc_SOCL(int memory);
+void FreeFunc_SOCL(u32 *memory);
 void *AllocFunc_SOCL(u32 size);
 s32 SOC_Fcntl(SOCLSocket *socket, s32 command, u32 mode);
 s32 SOC_Accept(SOCLSocket *socket, SOCSockAddrIn *sockAddr, s32 unusedFlags);

@@ -56,7 +56,7 @@ SOCLSocketParam SOCLSocketParamUDPSend = {2, 0, 0, 0, 0x5ea, 0, 0, 0x6eb, 0, {0,
 SOCLSocket *SOCLiSocketListTrash;
 void *(*AllocFunc_SOC)(u32 a, u32 b);
 u32 hostip;
-u8 FreeFunc_SOC[4];
+SocketFreeFn FreeFunc_SOC;
 SOCLSocket *SOCLiSocketList;
 u32 *hostAddrList[2];
 SOCHostEnt hostent;
@@ -281,9 +281,9 @@ void *AllocFunc_SOCL(u32 size) {
     return memory;
 }
 
-void FreeFunc_SOCL(int memory) {
-    if (memory != 0) {
-        (*(UnkFunc *) (*(u32 *) &FreeFunc_SOC))(0, (u32 *) (memory + -4), *(u32 *) (memory + -4));
+void FreeFunc_SOCL(u32 *memory) {
+    if (memory != NULL) {
+        FreeFunc_SOC(0, memory - 1, *(memory - 1));
     }
 }
 
@@ -308,7 +308,7 @@ s32 SOC_Startup(void *configPointer) {
     soclConfig.mAlloc = AllocFunc_SOCL;
     soclConfig.mFree = (void (*)(void *)) FreeFunc_SOCL;
     AllocFunc_SOC = socConfig->mAlloc;
-    *(void **) FreeFunc_SOC = socConfig->mFree;
+    FreeFunc_SOC = socConfig->mFree;
     soclConfig.mCmdPacketMax = 0x40;
     soclConfig.mMtu = socConfig->mMtu;
     soclConfig.mRwin = socConfig->mRwin;
