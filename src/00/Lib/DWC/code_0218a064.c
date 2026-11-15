@@ -24,7 +24,7 @@ const SOCConfig gAcSocConfig = {{0, 0, 0, 1},
                                 0,
                                 0};
 
-void MakeSOCConfig(const SocketAllocPair *hold, ACWORK *work, SOCConfig *config) {
+void MakeSOCConfig(const ACHOLD *hold, ACWORK *work, SOCConfig *config) {
     DWCMemPage *info;
 
     MI_CpuCopy8(&gAcSocConfig, config, 0x58);

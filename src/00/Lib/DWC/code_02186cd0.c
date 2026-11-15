@@ -60,7 +60,7 @@ u32 DWC_Netcheck_Create(DWCNetcheckParam *param) {
 
 void DWC_Netcheck_Destroy(void) {
     if (gHttp != NULL) {
-        ReleaseHttp((Http *) gHttp);
+        ReleaseHttp(gHttp);
         gNetcheck->mParam.mFree("DWChttp", gHttp, 0);
         gHttp = NULL;
     }

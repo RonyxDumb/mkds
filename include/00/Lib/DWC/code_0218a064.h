@@ -3,15 +3,10 @@
 #include "types.h"
 
 typedef struct ACWORK ACWORK;
+typedef struct ACHOLD ACHOLD;
 
 typedef void *(*SocketAllocFn)(u32 a, u32 b);
 typedef void (*SocketFreeFn)(u32 a, void *b, u32 c);
-
-// The two functions MakeSOCConfig copies into SOCConfig.
-typedef struct SocketAllocPair {
-    /* 00 */ SocketAllocFn mAlloc;
-    /* 04 */ SocketFreeFn mFree;
-} SocketAllocPair;
 
 // Object behind gNetCheck, 0x58 bytes.
 typedef struct SOCConfig {
@@ -35,6 +30,6 @@ typedef struct SOCConfig {
     /* 54 */ s32 mUdpRecvBuff;
 } SOCConfig;
 
-void MakeSOCConfig(const SocketAllocPair *hold, ACWORK *object, SOCConfig *out);
+void MakeSOCConfig(const ACHOLD *hold, ACWORK *object, SOCConfig *out);
 
 extern const SOCConfig gAcSocConfig;

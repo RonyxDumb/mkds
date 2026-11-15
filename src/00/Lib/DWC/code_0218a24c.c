@@ -11,7 +11,7 @@ u32 ConnectTestStart(ACWORK *work) {
     int result;
     hold = DWCi_AC_GetMemPtr(1);
     config = DWCi_AC_GetMemPtr(4);
-    MakeSOCConfig((const SocketAllocPair *) hold, work, config);
+    MakeSOCConfig(hold, work, config);
     SOCLiYieldWait = 4;
     result = SOC_Startup(config);
     if (result != 0) {

@@ -1,11 +1,12 @@
 #pragma once
 
 #include "types.h"
+#include "00/Lib/DWC/code_0218a064.h"
 
 // Object behind gAcHold.
 typedef struct ACHOLD {
-    /* 00 */ void *(*mAlloc)();
-    /* 04 */ void (*mFree)();
+    /* 00 */ SocketAllocFn mAlloc;
+    /* 04 */ SocketFreeFn mFree;
     /* 08 */ u8 mAllocState;
     /* 09 */ u8 mPhase;
     /* 0a */ u8 mUnk_0a;

@@ -27,6 +27,6 @@ void DWCi_AC_Free(u8 name, void *ptr, u32 size) {
     ACHOLD *hold = DWCi_AC_GetMemPtr(1);
     if ((hold->mAllocState & name) != 0) {
         hold->mAllocState = hold->mAllocState & ~name;
-        hold->mFree(name, (u32) ptr, size);
+        hold->mFree(name, ptr, size);
     }
 }

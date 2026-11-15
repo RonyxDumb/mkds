@@ -33,7 +33,7 @@ u32 gEssidConnectOption;
 u8 *gEssidSearchAddress;
 WCMConfig *gEssidWcmConfig;
 WCMWepDesc *gEssidConnectBlock;
-u8 *gEssidWcmWork;
+WCMWork *gEssidWcmWork;
 u8 *gEssidSearchEssid;
 s32 gEssidWcmState;
 Unk021ba818Func *gEssidEventCallback;
@@ -371,7 +371,7 @@ BOOL InitEssidWcm(Unk021ba818Func *callback, u8 *buffer, s32 size) {
     u32 enabled = OS_DisableInterrupts();
     gEssidConnectBlock = (WCMWepDesc *) buffer;
     gEssidWcmConfig = (WCMConfig *) (((u32) buffer + 0x53) & ~3);
-    gEssidWcmWork = (u8 *) (((u32) gEssidWcmConfig + 0x2f) & ~0x1f);
+    gEssidWcmWork = (WCMWork *) (((u32) gEssidWcmConfig + 0x2f) & ~0x1f);
     gEssidConnectRecord = (WMBssDesc *) (((u32) gEssidWcmWork + 0x231f) & ~0x1f);
     gEssidWcmConfig->mPbdBuffer = (u8 *) (((u32) gEssidConnectRecord + 0xdf) & ~0x1f);
     gEssidWcmConfig->mNbdBuffer = (buffer + size) - gEssidWcmConfig->mPbdBuffer;
@@ -379,7 +379,7 @@ BOOL InitEssidWcm(Unk021ba818Func *callback, u8 *buffer, s32 size) {
     gEssidWcmConfig->mDmaNo = 3;
     gEssidEventCallback = callback;
     if (gEssidWcmState == 0) {
-        if (WCM_Init((WCMWork *) gEssidWcmWork, 0x2300) != 0) {
+        if (WCM_Init(gEssidWcmWork, 0x2300) != 0) {
             OS_RestoreInterrupts(enabled);
             return FALSE;
         }
