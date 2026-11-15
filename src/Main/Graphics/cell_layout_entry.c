@@ -5,7 +5,7 @@
 
 #pragma thumb on
 
-void SetCellLayoutEntryXY(int entryId, int entryX, int entryY, LayoutEntryTable *cellLayout) {
+void SetCellLayoutEntryXY(int entryId, s16 entryX, int entryY, LayoutEntryTable *cellLayout) {
     short *entry = (GetCellLayoutEntry(cellLayout, entryId));
     entry[0] = (entry[0] & 0xfffff000U) | (entryX & 0xfff);
     entry[1] = (entry[1] & 0xfffff000U) | (entryY & 0xfff);
