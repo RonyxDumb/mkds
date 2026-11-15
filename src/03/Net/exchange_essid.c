@@ -1020,7 +1020,7 @@ void DisconnectExchangeAndStopSockets(void) {
     }
 }
 
-// Finds an entry of current whose bit-4 flag is clear and was set in previous, else a six-asterisk entry that is clear
+// Finds an entry of current that is not secured and was secured in previous, else a six-asterisk entry that is clear
 // in current but not in previous; stores its index.
 s32 FindEntryWithEncryptionRemoved(EntrySummaryList *current, EntrySummaryList *previous, u32 *foundIndex) {
     BOOL found;
@@ -1667,7 +1667,7 @@ BOOL ParseHexText(u8 *output, const s8 *text, s32 length) {
     return TRUE;
 }
 
-// Builds gExchangeResult from the Kind5 data; returns 1, or -7 for a value text of the wrong length, a zero item 0x205
+// Builds gExchangeResult from the result packet items; returns 1, or -7 for a value text of the wrong length, a zero item 0x205
 // value or an unknown item 0x202 value.
 s32 FillExchangeResultFromItems(void) {
     s32 result;

@@ -20,7 +20,7 @@ typedef struct HashContext {
     /* 18 */ u8 mBuffer[0x40];
 } HashContext;
 
-// Value of the third item of the kind 2 packet.
+// Value of the third item of the first reply packet.
 typedef struct ExchangeIndexBytes {
     /* 0 */ u8 mBytes[7];
 } ExchangeIndexBytes;
@@ -58,7 +58,7 @@ typedef struct SocketAddress {
     /* 4 */ u32 mAddress;
 } SocketAddress;
 
-// One 0x30-byte record cut from a RawEntry: name, its length, address and the bit-4 flag.
+// One 0x30-byte record cut from a RawEntry: name, its length, address and whether it is secured.
 typedef struct EntrySummary {
     /* 00 */ u32 mSsidLength;
     /* 04 */ char mSsid[0x20];
