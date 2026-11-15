@@ -150,7 +150,7 @@ void StartKartRespawnWait(Kart *kart, u32 collisionFlags) {
         if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
             ResetCameraHalfFovAngleGoal();
         }
-        kart->mRadiusFactor = 0x1000;
+        kart->mRadiusFactor = TO_FIXED12(1);
         kart->mSurfaceGroup = -1;
         effectIndex = 0;
         kart->mItemEffect = 0;
@@ -207,7 +207,7 @@ void ApplyKartWaterDepth(Kart *kart) {
     if (heightAboveWater < 0 && !(kart->mEffectFlags & KART_EFFECT_WATER_FALL)) {
         flag = FALSE;
         scaledFactorPerDepth = MUL_FIXED12_NO_ROUND(kart->mSpeedLimitFactorPerDepth, kart->mScale.z);
-        kart->mSpeedLimitFactor = MUL_FIXED12_NO_ROUND(scaledFactorPerDepth, heightAboveWater) + 0x1000;
+        kart->mSpeedLimitFactor = MUL_FIXED12_NO_ROUND(scaledFactorPerDepth, heightAboveWater) + TO_FIXED12(1);
         if (kart->mSpeedLimitFactor < kart->mPhysicalParam->mSurfaceSpeedLimitFactors[4]) {
             kart->mSpeedLimitFactor = kart->mPhysicalParam->mSurfaceSpeedLimitFactors[4];
         }
@@ -538,7 +538,7 @@ s32 ApplyKartContact(Kart *kart, Vec3 *contactNormal, s32 wasTouching, s32 baseS
             }
         }
         if (forwardDot > 0) {
-            kart->mSpeedLimitHitFactor = 0x4cd;
+            kart->mSpeedLimitHitFactor = FIXED12_RATIO(3, 10);
             if (kart->mSurfaceGroup != 0xb && kart->mSurfaceGroup != 8) {
                 kart->mDriveFlags &= ~(KART_DRIVE_BOOST | KART_DRIVE_RACE_START_BOOST | KART_DRIVE_MINI_TURBO |
                                        KART_DRIVE_KINOKO_BOOST | KART_DRIVE_ITEM_BOOST);

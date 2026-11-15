@@ -79,7 +79,7 @@ void AdvanceKartByVelocity(Kart *kart) {
         itemEffectState->mAheadBoostFrames++;
         if (itemEffectState->mAheadBoostFrames > 0xb4 && (kart->mEffectFlags & KART_EFFECT_AHEAD_BOOST)) {
             kart->mEffectFlags &= ~KART_EFFECT_AHEAD_BOOST;
-            kart->mAheadSpeedLimitFactor = 0x1000;
+            kart->mAheadSpeedLimitFactor = TO_FIXED12(1);
             if (!(kart->mEffectFlags & KART_EFFECT_GESSO)) {
                 ResetKartModelsCourseColors(kart);
             }
@@ -153,11 +153,11 @@ void AdvanceKartByVelocity(Kart *kart) {
         dot = Vec3DotUnrounded(&kart->mForward, &kart->mGroundNormal);
         kart->mTurnedForward = kart->mForward;
         if (kart->mAirTiltAngleOffset > 0) {
-            kart->mSpeedLimitGroundFactor = 0x1000;
+            kart->mSpeedLimitGroundFactor = TO_FIXED12(1);
         } else if (dot < 0) {
-            kart->mSpeedLimitGroundFactor = 0x1000 - dot;
+            kart->mSpeedLimitGroundFactor = TO_FIXED12(1) - dot;
         } else {
-            kart->mSpeedLimitGroundFactor = 0x1000;
+            kart->mSpeedLimitGroundFactor = TO_FIXED12(1);
         }
     }
     scaledForwardSpeed = LimitKartForwardSpeedAndGetScaled(kart);
@@ -207,7 +207,7 @@ void AdvanceKartByVelocity(Kart *kart) {
     }
     if (!(kart->mEntryFlags & KART_ENTRY_REMOVED)) {
         VEC_Add(&kart->mPos, &kart->mVelocity, &kart->mPos);
-        kart->mSpeedLimitHitFactor = 0x1000;
+        kart->mSpeedLimitHitFactor = TO_FIXED12(1);
     }
     hitVelocityDecay = (kart->mMotionFlags & KART_MOTION_ON_GROUND) ? 0xee1 : 0xfae;
     kart->mHitVelocity.x = MUL_FIXED12_NO_ROUND(kart->mHitVelocity.x, hitVelocityDecay);

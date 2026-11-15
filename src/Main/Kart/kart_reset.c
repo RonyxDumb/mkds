@@ -330,7 +330,7 @@ void StopKartItemsAndEffects(Kart *kart) {
         if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
             ResetCameraHalfFovAngleGoal();
         }
-        kart->mRadiusFactor = 0x1000;
+        kart->mRadiusFactor = TO_FIXED12(1);
         kart->mSurfaceGroup = -1;
         effectIndex = 0;
         kart->mItemEffect = 0;
@@ -428,10 +428,10 @@ void InitKartPhysicalParams(Kart *kart) {
 void ResetKartMotionVectorsAndFactors(Kart *kart) {
     Vec3 zeroVector;
 
-    kart->mSpeedLimitGroundFactor = 0x1000;
-    kart->mAheadSpeedLimitFactor = 0x1000;
-    kart->mSpeedLimitFactor = 0x1000;
-    kart->mSpeedLimitHitFactor = 0x1000;
+    kart->mSpeedLimitGroundFactor = TO_FIXED12(1);
+    kart->mAheadSpeedLimitFactor = TO_FIXED12(1);
+    kart->mSpeedLimitFactor = TO_FIXED12(1);
+    kart->mSpeedLimitHitFactor = TO_FIXED12(1);
     zeroVector = gKartVec3Zero;
     kart->mUnk_25c = zeroVector;
     kart->mAttractorPullDirection = zeroVector;
@@ -472,12 +472,12 @@ void ResetKart(Kart *kart) {
     kart->mScaleBase.x = 0x1000;
     kart->mScaleBase.y = 0x1000;
     kart->mScaleBase.z = 0x1000;
-    kart->mScaleYFactor = 0x1000;
+    kart->mScaleYFactor = TO_FIXED12(1);
     kart->mGravity = -0x2b9;
     kart->mSpeedLimitGoal = 0;
     kart->mSpeedLimit = 0xd000;
-    kart->mSpeedLimitGroundFactor = 0x1000;
-    kart->mAheadSpeedLimitFactor = 0x1000;
+    kart->mSpeedLimitGroundFactor = TO_FIXED12(1);
+    kart->mAheadSpeedLimitFactor = TO_FIXED12(1);
     kart->mState = KART_STATE_NORMAL;
     ClearKartItemEffectState(&kart->mItemEffectData);
     MTX_Identity43_(&kart->mRotationMatrix);
@@ -489,7 +489,7 @@ void ResetKart(Kart *kart) {
     kart->mCollisionCenter = kart->mPrevCollisionCenter;
     kart->mSecondCollisionCenter = zeroVector;
     kart->mPointMotion = zeroVector;
-    kart->mSpeedLimitFactor = 0x1000;
+    kart->mSpeedLimitFactor = TO_FIXED12(1);
     kart->mHeadingQuaternion = gKartResetHeadingQuaternion;
     kart->mTiltQuaternion = gKartResetSecondQuaternion;
     kart->mAirTiltQuaternion = gKartResetThirdQuaternion;
@@ -552,12 +552,12 @@ void ResetKart(Kart *kart) {
     kart->mHeadingAnglePerFrame = 0;
     kart->mTurnAngle = 0;
     kart->mDriftHeadingAnglePerFrame = 0;
-    kart->mSpeedLimitHitFactor = 0x1000;
-    kart->mShrinkFactor = 0x1000;
+    kart->mSpeedLimitHitFactor = TO_FIXED12(1);
+    kart->mShrinkFactor = TO_FIXED12(1);
     kart->mMapObjectVectorLength = 0;
     kart->mMapObjectVectorForwardDot = 0;
     kart->mTireSpinAngle = 0;
-    kart->mQuaternionBlendFactor = 0x1ec;
+    kart->mQuaternionBlendFactor = FIXED12_RATIO(12, 100);
     kart->mSinkFrames = 0;
     kart->mVelocity = zeroVector;
     kart->mUnk_3bc = 0;
@@ -573,13 +573,13 @@ void ResetKart(Kart *kart) {
     kart->mAirTiltAngleOffset = 0;
     kart->mTurnHeadingAnglePerFrameGoal = 0;
     kart->mTurnHeadingAnglePerFrame = 0;
-    kart->mVelocityScaleFactor = 0x1000;
+    kart->mVelocityScaleFactor = TO_FIXED12(1);
     kart->mModelScaleKind = 0;
     kart->mModelScaleFrameIndex = 0;
     kart->mModelScaleFrameCount = 0;
     kart->mModelScaleY = 0x1000;
     kart->mModelScaleX = 0x1000;
-    kart->mModelScaleZ = 0x1000;
+    kart->mModelScaleZ = TO_FIXED12(1);
     for (slotIndex = 0; slotIndex < 2; slotIndex++) {
         kart->mPrevTouchingMapObjects[slotIndex] = NULL;
         kart->mMapObjectSoundFrames[slotIndex] = 0;
@@ -592,7 +592,7 @@ void ResetKart(Kart *kart) {
     kart->mRespawnWaitVelocityScale = 0;
     kart->mCourseHitAttributeBit = 0;
     kart->mSurfaceSpeedLimitGoal = 0;
-    kart->mRadiusFactor = 0x1000;
+    kart->mRadiusFactor = TO_FIXED12(1);
     kart->mCollisionStepFrames = 0;
     kart->mRevLevel = 0;
     kart->mAttractorIndex = -1;
@@ -950,12 +950,12 @@ void AdvanceKartModelScaleAnimation(Kart *kart) {
     if (kart->mModelScaleKind == 0) {
         kart->mModelScaleY = gKartModelScaleYKind0Table[kart->mModelScaleFrameIndex];
         kart->mModelOffsetY = gKartModelOffsetYKind0And2Table[kart->mModelScaleFrameIndex];
-        kart->mModelScaleZ = 0x1000;
+        kart->mModelScaleZ = TO_FIXED12(1);
         kart->mModelScaleX = kart->mModelScaleZ;
     } else if (kart->mModelScaleKind == 1) {
         kart->mModelScaleY = gKartModelScaleYKind1Table[kart->mModelScaleFrameIndex];
         kart->mModelOffsetY = gKartModelOffsetYKind1Table[kart->mModelScaleFrameIndex];
-        kart->mModelScaleZ = 0x1000;
+        kart->mModelScaleZ = TO_FIXED12(1);
         kart->mModelScaleX = kart->mModelScaleZ;
     } else if (kart->mModelScaleKind == 2) {
         kart->mModelScaleY = 0x1000;
@@ -1102,7 +1102,7 @@ void ResetKartMotionState(Kart *kart, s32 flag) {
     }
     if (kart->mEffectFlags & KART_EFFECT_AHEAD_BOOST) {
         kart->mEffectFlags &= ~KART_EFFECT_AHEAD_BOOST;
-        kart->mAheadSpeedLimitFactor = 0x1000;
+        kart->mAheadSpeedLimitFactor = TO_FIXED12(1);
         if (!(kart->mEffectFlags & KART_EFFECT_GESSO)) {
             ResetKartModelsCourseColors(kart);
         }
@@ -1282,7 +1282,7 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
         if (itemEffectState->mAheadBoostFrames > KART_KILLER_RANK_END_FRAMES &&
             (kart->mEffectFlags & KART_EFFECT_AHEAD_BOOST)) {
             kart->mEffectFlags &= ~KART_EFFECT_AHEAD_BOOST;
-            kart->mAheadSpeedLimitFactor = 0x1000;
+            kart->mAheadSpeedLimitFactor = TO_FIXED12(1);
             if (!(kart->mEffectFlags & KART_EFFECT_GESSO)) {
                 ResetKartModelsCourseColors(kart);
             }
@@ -1337,7 +1337,7 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
         }
         flatForward = kart->mTurnedForward;
         flatForward.y = 0;
-        kart->mQuaternionBlendFactor = 0x1000;
+        kart->mQuaternionBlendFactor = TO_FIXED12(1);
         NormalizeLengthOrZero(&flatForward, &flatForward);
         kart->mHeadingAngle = FROM_FIXED12(MUL_FIXED12_NO_ROUND(FX_Atan2(flatForward.x, flatForward.z), 0x28be60d));
         axis = gKartPlacementHeadingAxis;
@@ -1471,8 +1471,8 @@ void ComputeKartAirTiltQuaternion(Kart *kart, Vec4 *quaternion) {
         dot = -dot;
     }
     kart->mVelocityScaleFactor = dot;
-    if (kart->mVelocityScaleFactor < 0xb33) {
-        kart->mVelocityScaleFactor = 0xb33;
+    if (kart->mVelocityScaleFactor < FIXED12_RATIO(7, 10)) {
+        kart->mVelocityScaleFactor = FIXED12_RATIO(7, 10);
     }
 }
 

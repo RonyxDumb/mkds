@@ -199,9 +199,9 @@ void AdvanceKartOrientation(Kart *kart, Vec3 *direction) {
     Vec4 tiltQuaternion;
     u32 value;
 
-    kart->mVelocityScaleFactor = 0x1000;
+    kart->mVelocityScaleFactor = TO_FIXED12(1);
     if (kart->mAirborneFrames > 5) {
-        kart->mQuaternionBlendFactor = 0xf6;
+        kart->mQuaternionBlendFactor = FIXED12_RATIO(6, 100);
         ComputeKartAirTiltQuaternion(kart, &kart->mAirTiltQuaternion);
     } else {
         AdvanceKartQuaternionFromVector(kart, direction);
@@ -247,7 +247,8 @@ void RefreshKartSurface(Kart *kart) {
     if (targetFactor >= currentFactor) {
         kart->mSpeedLimitFactor = targetFactor;
     } else {
-        kart->mSpeedLimitFactor = currentFactor + MUL_FIXED12_ROUNDED(targetFactor - currentFactor, 0x4cd);
+        kart->mSpeedLimitFactor =
+            currentFactor + MUL_FIXED12_ROUNDED(targetFactor - currentFactor, FIXED12_RATIO(3, 10));
     }
     if (kart->mEffectFlags & KART_EFFECT_STAR_OR_KILLER) {
         easeIndex = 0;

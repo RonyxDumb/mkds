@@ -885,7 +885,7 @@ void UpdateKartAheadEffect(Kart *kart) {
                 kart->mItemEffectData.mAheadCount = 0;
                 kart->mEffectFlags &= ~KART_EFFECT_AHEAD_BUILD_UP;
                 if (!(kart->mEffectFlags & KART_EFFECT_AHEAD_BOOST)) {
-                    kart->mAheadSpeedLimitFactor = 0x1000;
+                    kart->mAheadSpeedLimitFactor = TO_FIXED12(1);
                 }
                 StopKartAheadEffect(kart);
             }
@@ -893,8 +893,8 @@ void UpdateKartAheadEffect(Kart *kart) {
     }
     if (kart->mEffectFlags & KART_EFFECT_AHEAD_BUILD_UP) {
         kart->mAheadSpeedLimitFactor += 7;
-        if (kart->mAheadSpeedLimitFactor > 0x1333) {
-            kart->mAheadSpeedLimitFactor = 0x1333;
+        if (kart->mAheadSpeedLimitFactor > FIXED12_RATIO(6, 5)) {
+            kart->mAheadSpeedLimitFactor = FIXED12_RATIO(6, 5);
         }
     }
 }
@@ -1565,7 +1565,7 @@ void StartKartState(Kart *kart, KartState mode) {
     StopKartTurnEffects(GetKartTurnEffects(kart->mIndex));
     if (kart->mEffectFlags & KART_EFFECT_AHEAD_BOOST) {
         kart->mEffectFlags &= ~KART_EFFECT_AHEAD_BOOST;
-        kart->mAheadSpeedLimitFactor = 0x1000;
+        kart->mAheadSpeedLimitFactor = TO_FIXED12(1);
         if (!(kart->mEffectFlags & KART_EFFECT_GESSO)) {
             ResetKartModelsCourseColors(kart);
         }

@@ -230,7 +230,7 @@ void StartKartState6(Kart *kart) {
     }
     if (kart->mEffectFlags & KART_EFFECT_AHEAD_BOOST) {
         kart->mEffectFlags &= ~KART_EFFECT_AHEAD_BOOST;
-        kart->mAheadSpeedLimitFactor = 0x1000;
+        kart->mAheadSpeedLimitFactor = TO_FIXED12(1);
         if (!(kart->mEffectFlags & KART_EFFECT_GESSO)) {
             ResetKartModelsCourseColors(kart);
         }
@@ -748,7 +748,7 @@ void StartKartThunderShrink(Kart *kart) {
     }
     itemEffect->mThunderShrinkTimer = gThunderShrinkTimerByRank[GetKartRank(kart->mIndex) - 1];
     itemEffect->mThunderShrinkFrameIndex = 0;
-    kart->mShrinkFactor = 0xb33;
+    kart->mShrinkFactor = FIXED12_RATIO(7, 10);
     kart->mEffectFlags |= KART_EFFECT_THUNDER_SHRINK;
     TrySpinKart(kart, 2, 1);
     RequestThunderShrinkSound(kart);
@@ -790,7 +790,7 @@ void AdvanceKartThunderShrink(Kart *kart) {
             if (itemEffect->mThunderShrinkFrameIndex > 0x19) {
                 kart->mEffectFlags &= ~KART_EFFECT_THUNDER_SHRINK;
                 if (!(kart->mEffectFlags & (KART_EFFECT_THUNDER_SHRINK | KART_EFFECT_SCALE_TABLE))) {
-                    kart->mShrinkFactor = 0x1000;
+                    kart->mShrinkFactor = TO_FIXED12(1);
                 }
                 if (kart->mIndex == gRaceSetup->mEntryIndex) {
                     SetThunderShrinkSoundFlag(0);
@@ -859,7 +859,7 @@ BOOL TryStartKartScaleTableEffect(Kart *kart) {
     if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
         SetCameraHalfFovAngleGoal(0x1f40);
     }
-    kart->mShrinkFactor = 0xb33;
+    kart->mShrinkFactor = FIXED12_RATIO(7, 10);
     StartKartItemObjectCountdowns(&(gKartItems)[kart->mIndex]);
     mode = gRaceSetup->mMode;
     if (mode == MODE_MISSION_RUN) {
@@ -884,7 +884,7 @@ void AdvanceKartScaleTableEffect(Kart *kart) {
         effectState->mScaleTableIndex++;
         if (effectState->mScaleTableIndex >= 0x19) {
             kart->mUnk_398 = 0x1000;
-            kart->mScaleYFactor = 0x1000;
+            kart->mScaleYFactor = TO_FIXED12(1);
             kart->mScaleFactor.x = 0x1000;
             kart->mScaleFactor.y = 0x1000;
             kart->mScaleFactor.z = 0x1000;
@@ -895,7 +895,7 @@ void AdvanceKartScaleTableEffect(Kart *kart) {
             if (effectState->mScaleTableIndex > 0x19) {
                 kart->mEffectFlags &= ~KART_EFFECT_SCALE_TABLE;
                 if (!(kart->mEffectFlags & (KART_EFFECT_THUNDER_SHRINK | KART_EFFECT_SCALE_TABLE))) {
-                    kart->mShrinkFactor = 0x1000;
+                    kart->mShrinkFactor = TO_FIXED12(1);
                 }
                 return;
             }
@@ -907,7 +907,7 @@ void AdvanceKartScaleTableEffect(Kart *kart) {
         kart->mScaleFactor.x = gKartScaleFactorXTable[effectState->mScaleTableIndex];
         kart->mScaleFactor.y = gKartScaleFactorYTable[effectState->mScaleTableIndex];
         kart->mScaleFactor.z = gKartScaleFactorZTable[effectState->mScaleTableIndex];
-        kart->mScaleYFactor = 0x1000;
+        kart->mScaleYFactor = TO_FIXED12(1);
         kart->mScale.x = MUL_FIXED12_NO_ROUND(kart->mScaleBase.x, kart->mScaleFactor.x);
         kart->mScale.y = MUL_FIXED12_NO_ROUND(kart->mScaleBase.y, kart->mScaleFactor.y);
         kart->mScale.z = MUL_FIXED12_NO_ROUND(kart->mScaleBase.z, kart->mScaleFactor.z);
@@ -925,9 +925,9 @@ void AdvanceKartScaleTableEffect(Kart *kart) {
         kart->mForwardSpeed = 0;
     }
     if (kart->mScaleYFactor > 0.3f / 4096.0f) {
-        kart->mScaleYFactor -= 0x4cd;
+        kart->mScaleYFactor -= FIXED12_RATIO(3, 10);
         if (kart->mScaleYFactor < 0.3f / 4096.0f) {
-            kart->mScaleYFactor = 0x4cd;
+            kart->mScaleYFactor = FIXED12_RATIO(3, 10);
         }
     }
     kart->mScale.x = MUL_FIXED12_NO_ROUND(kart->mScaleBase.x, kart->mScaleFactor.x);
@@ -938,7 +938,7 @@ void AdvanceKartScaleTableEffect(Kart *kart) {
 
 void ResetKartScaleEffects(Kart *kart) {
     kart->mUnk_398 = 0x1000;
-    kart->mScaleYFactor = 0x1000;
+    kart->mScaleYFactor = TO_FIXED12(1);
     kart->mScale.y = 0x1000;
     kart->mEffectFlags &= ~KART_EFFECT_SCALE_TABLE;
     if (kart->mEffectFlags & KART_EFFECT_THUNDER_SHRINK) {
@@ -958,7 +958,7 @@ void ResetKartScaleEffects(Kart *kart) {
     kart->mScaleFactor.y = 0x1000;
     kart->mScaleFactor.z = 0x1000;
     if (!(kart->mEffectFlags & (KART_EFFECT_THUNDER_SHRINK | KART_EFFECT_SCALE_TABLE))) {
-        kart->mShrinkFactor = 0x1000;
+        kart->mShrinkFactor = TO_FIXED12(1);
     }
     if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
         ResetCameraHalfFovAngleGoal();
@@ -1205,7 +1205,7 @@ void StartKartKiller(Kart *kart) {
     kart->mItemEffect = 3;
     if (kart->mEffectFlags & KART_EFFECT_AHEAD_BOOST) {
         kart->mEffectFlags &= ~KART_EFFECT_AHEAD_BOOST;
-        kart->mAheadSpeedLimitFactor = 0x1000;
+        kart->mAheadSpeedLimitFactor = TO_FIXED12(1);
         if (!(kart->mEffectFlags & KART_EFFECT_GESSO)) {
             ResetKartModelsCourseColors(kart);
         }
@@ -1250,8 +1250,8 @@ void AdvanceKartKiller(Kart *kart) {
     }
     AdvanceModelAnimationFrame(&kart->mKartModelsEntry->mKillerItemAnimation);
     if (effectState->mKillerEnding != FALSE) {
-        kart->mRadiusFactor -= 0x52;
-        if (kart->mRadiusFactor > 0x1000) {
+        kart->mRadiusFactor -= FIXED12_RATIO(2, 100);
+        if (kart->mRadiusFactor > TO_FIXED12(1)) {
             return;
         }
         kart->mEffectFlags &= ~KART_EFFECT_KILLER;
@@ -1259,7 +1259,7 @@ void AdvanceKartKiller(Kart *kart) {
         if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
             ResetCameraHalfFovAngleGoal();
         }
-        kart->mRadiusFactor = 0x1000;
+        kart->mRadiusFactor = TO_FIXED12(1);
         kart->mSurfaceGroup = -1;
         effectIndex = 0;
         kart->mItemEffect = 0;
@@ -1273,9 +1273,9 @@ void AdvanceKartKiller(Kart *kart) {
         StartSound(&kart->mSoundSource, 0xfd, 0x7f, 0);
         return;
     }
-    kart->mRadiusFactor += 0x52;
-    if (kart->mRadiusFactor > 0x1666) {
-        kart->mRadiusFactor = 0x1666;
+    kart->mRadiusFactor += FIXED12_RATIO(2, 100);
+    if (kart->mRadiusFactor > FIXED12_RATIO(7, 5)) {
+        kart->mRadiusFactor = FIXED12_RATIO(7, 5);
     }
     if (effectState->mKillerEnding != FALSE) {
         return;

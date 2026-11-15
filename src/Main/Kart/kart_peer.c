@@ -167,9 +167,9 @@ void AdvancePeerKartOrientation(Kart *kart, Vec3 *groundNormal) {
     s32 hopHeightTilt;
 
     recordState = kart->mParticipantRecordData;
-    kart->mVelocityScaleFactor = 0x1000;
+    kart->mVelocityScaleFactor = TO_FIXED12(1);
     if (kart->mAirborneFrames > 5 && (kart->mParticipantRecordData->mRecordBits & 1) == 0) {
-        kart->mQuaternionBlendFactor = 0xf6;
+        kart->mQuaternionBlendFactor = FIXED12_RATIO(6, 100);
         ComputeKartAirTiltQuaternion(kart, &kart->mAirTiltQuaternion);
     } else {
         AdvanceKartQuaternionFromVector(kart, groundNormal);

@@ -569,28 +569,28 @@ void UpdateKartSpeedLimitGoal(Kart *kart) {
     goalPointer = &kart->mSpeedLimitGoal;
     if (kart->mEntryFlags & KART_ENTRY_TERESA_OR_PARKED) {
         *goalPointer = kart->mPhysicalParam->mBaseSpeedLimit;
-        kart->mSpeedLimitFactor = 0x1000;
+        kart->mSpeedLimitFactor = TO_FIXED12(1);
     }
     if (kart->mDriveFlags & KART_DRIVE_JUMP_PAD) {
         *goalPointer = kart->mSurfaceSpeedLimitGoal;
-        kart->mSpeedLimitFactor = 0x1000;
+        kart->mSpeedLimitFactor = TO_FIXED12(1);
     }
     flags = kart->mDriveFlags;
     if (flags & KART_DRIVE_BOOST) {
         if ((kart->mEffectFlags & KART_EFFECT_STAR_OR_KILLER) || (flags & KART_DRIVE_ITEM_BOOST)) {
             *goalPointer = kart->mPhysicalParam->mBaseSpeedLimit;
-            kart->mSpeedLimitFactor = 0x1000;
+            kart->mSpeedLimitFactor = TO_FIXED12(1);
         }
         *goalPointer = MUL_FIXED12_NO_ROUND(*goalPointer, 0x14cd);
         if (kart->mDriveFlags & (KART_DRIVE_ON_BOOST_SURFACE | KART_DRIVE_BOOST_SPEED_FLOOR)) {
             if (*goalPointer < 0x8800) {
                 *goalPointer = 0x8800;
-                kart->mSpeedLimitFactor = 0x1000;
+                kart->mSpeedLimitFactor = TO_FIXED12(1);
             }
         }
     } else if (kart->mEffectFlags & KART_EFFECT_STAR_OR_KILLER) {
         *goalPointer = MUL_FIXED12_NO_ROUND(kart->mPhysicalParam->mBaseSpeedLimit, 0x1333);
-        kart->mSpeedLimitFactor = 0x1000;
+        kart->mSpeedLimitFactor = TO_FIXED12(1);
     }
 }
 
