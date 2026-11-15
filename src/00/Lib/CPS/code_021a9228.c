@@ -811,12 +811,12 @@ void DeriveBytesAndInitKeyStreamStates(HttpsState *httpsState) {
     u8 labelAndDigest[0x15];
     void *hashContext;
     switch (httpsState->mCommonValue) {
-        case 4:
+        case HTTPS_COMMON_VALUE_MD5:
             digestLength = 0x10;
             keyStreamLength = 0x10;
             extraLength = 0;
             break;
-        case 5:
+        case HTTPS_COMMON_VALUE_HASH20:
             digestLength = 0x14;
             keyStreamLength = 0x10;
             extraLength = 0;
@@ -969,7 +969,7 @@ s32 XorReceivedRecordWithKeyStreamAndCheckDigest(HttpsState *httpsState, u8 *rec
     Hash20Context *scratchHash20;
     payloadLength = XorReceivedBytesWithKeyStream((u32) httpsState, (record + 5), (record[3] << 8) + record[4]);
     switch (httpsState->mCommonValue) {
-        case 4:
+        case HTTPS_COMMON_VALUE_MD5:
             payloadLength -= 0x10;
             record[3] = payloadLength >> 8;
             record[4] = payloadLength;
@@ -991,7 +991,7 @@ s32 XorReceivedRecordWithKeyStreamAndCheckDigest(HttpsState *httpsState, u8 *rec
             CPSi_md5_result(scratchHash16, computedDigest);
             digestLength = 0x10;
             break;
-        case 5:
+        case HTTPS_COMMON_VALUE_HASH20:
             payloadLength -= 0x14;
             record[3] = payloadLength >> 8;
             record[4] = payloadLength;
@@ -1030,7 +1030,7 @@ s32 AppendDigestAndXorSentRecordWithKeyStream(void *rawHttpsState, u8 *recordArg
     CPSMd5Ctx *scratchHash16;
     Hash20Context *scratchHash20;
     switch (httpsState->mCommonValue) {
-        case 4:
+        case HTTPS_COMMON_VALUE_MD5:
             scratchHash16 = &httpsState->mScratchHash16;
             CPSi_md5_init(scratchHash16);
             CPSi_md5_calc(scratchHash16, httpsState->mSendDigestBytes, 0x10);
@@ -1049,7 +1049,7 @@ s32 AppendDigestAndXorSentRecordWithKeyStream(void *rawHttpsState, u8 *recordArg
             CPSi_md5_result(scratchHash16, digestPosition);
             payloadLength += 0x10;
             break;
-        case 5:
+        case HTTPS_COMMON_VALUE_HASH20:
             scratchHash20 = &httpsState->mScratchHash20;
             CPSi_sha1_init(scratchHash20);
             CPSi_sha1_calc(scratchHash20, httpsState->mSendDigestBytes, 0x14);

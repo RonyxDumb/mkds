@@ -41,6 +41,13 @@ typedef enum HttpsSetupState {
 struct HttpsState;
 typedef u32 (*Unk021a998c_Func)(u32 a, struct HttpsState *b, s32 c);
 
+// Values of HttpsState.mCommonValue, the value both sides offered: the record digest is made with the MD5 code (16
+// bytes) or the 20-byte hash code.
+enum {
+    HTTPS_COMMON_VALUE_MD5 = 4,
+    HTTPS_COMMON_VALUE_HASH20,
+};
+
 // State of the https layer of one Http thread (0x804 bytes), reached through mHttpsState; Http118 is the same object.
 typedef struct HttpsState {
     // The entry in use, or NULL; may be gUncachedHttpsEntry, which is not in the table.
