@@ -4,8 +4,17 @@
 
 typedef struct DWCAccFriendData {
     /* 00 */ u32 mIdData;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ u32 mUnk_08;
+    union {
+        struct {
+            /* 04 */ u32 mUserIdLo;
+            /* 08 */ u32 mPlayerId;
+        };
+        struct {
+            /* 04 */ u32 mFriendKeyLo;
+            /* 08 */ u32 mFriendKeyHi;
+        };
+        /* 04 */ u32 mGsProfileId;
+    };
 } DWCAccFriendData;
 
 typedef struct DWCAccUserData {

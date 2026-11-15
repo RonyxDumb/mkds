@@ -15,7 +15,7 @@ u8 OverlaySignatures[4][0x14] = {
      0xc9, 0x8a, 0xb8, 0x69, 0x69, 0x4f, 0x30, 0x4f, 0x4b, 0x40}};
 
 u32 GetFriendDataPlayerId(const DWCAccFriendData *friendData) {
-    return friendData->mUnk_08;
+    return friendData->mPlayerId;
 }
 
 #pragma thumb off
