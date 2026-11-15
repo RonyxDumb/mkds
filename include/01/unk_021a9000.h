@@ -226,7 +226,7 @@ typedef struct OptionEmbremSelect {
     // Set to 6 by a press; counts down to 0 only while mUnk_08 == 1. 6 - timer indexes a table through
     // LookupFrameOffset (a displacement that returns to 0); [0] is subtracted from a row member, [1] added to one.
     /* 28 */ s32 mOffsetTimers[2];
-    /* 30 */ void *mUnk_30;
+    /* 30 */ void *mHeap;
     /* 34 */ LayoutTableEntry *mOptionEmbremSelectSTable;
     /* 38 */ struct NNSG2dCellDataBank *mOptionEmbremSelectSNcer;
     /* 3c */ Ncgr *mOptionEmbremSelectSNcgr;

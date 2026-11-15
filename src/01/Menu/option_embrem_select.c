@@ -31,7 +31,7 @@ void InitOptionEmbremSelect(void *heap) {
     void *bmgEntry;
 
     gOptionEmbremSelect = HeapAlloc(heap, sizeof(OptionEmbremSelect));
-    gOptionEmbremSelect->mUnk_30 = heap;
+    gOptionEmbremSelect->mHeap = heap;
     gOptionEmbremSelect->mState = OPTION_EMBREM_SELECT_STATE_WAIT_FADE;
     gOptionEmbremSelect->mNextState = OPTION_EMBREM_SELECT_STATE_WAIT_FADE;
     gOptionEmbremSelect->mSelectedRow = 0;
