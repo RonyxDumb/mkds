@@ -45,7 +45,7 @@ int LookupSelectReturnSlideInBg2Offset(int frame);
 BOOL IsSelectReturnHiddenNoRequest(void);
 BOOL IsSelectReturnShownNoRequest(void);
 void RequestSelectReturnSlideOut(void);
-void RequestSelectReturnPressWithSound(s32 requestState4);
+void RequestSelectReturnPressWithSound(s32 requestSlideOut);
 void RequestSelectReturnSlideIn(void);
 void WriteSelectReturnRegisters(void);
 void AdvanceSelectReturn(void);

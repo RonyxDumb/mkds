@@ -254,12 +254,12 @@ void RequestSelectReturnSlideIn(void) {
     gSelectReturn->mSlideOutRequested = FALSE;
 }
 
-// a != 0 also asks for state 4 once state 3 ends.
-void RequestSelectReturnPressWithSound(s32 requestState4) {
+// requestSlideOut != 0 also asks for the slide out once the press ends.
+void RequestSelectReturnPressWithSound(s32 requestSlideOut) {
     s32 soundId;
     gSelectReturn->mSlideInRequested = FALSE;
     gSelectReturn->mPressRequested = TRUE;
-    if (requestState4 != 0) {
+    if (requestSlideOut != 0) {
         gSelectReturn->mSlideOutRequested = TRUE;
     } else {
         gSelectReturn->mSlideOutRequested = FALSE;
@@ -282,15 +282,15 @@ void RequestSelectReturnSlideOut(void) {
 
 BOOL IsSelectReturnShownNoRequest(void) {
     BOOL result;
-    BOOL state2NoState4Request;
+    BOOL shownNoSlideOutRequest;
     SelectReturn *selectReturn;
     result = FALSE;
-    state2NoState4Request = FALSE;
+    shownNoSlideOutRequest = FALSE;
     selectReturn = gSelectReturn;
     if (selectReturn->mState == SELECT_RETURN_STATE_SHOWN && selectReturn->mSlideOutRequested == FALSE) {
-        state2NoState4Request = TRUE;
+        shownNoSlideOutRequest = TRUE;
     }
-    if (state2NoState4Request != FALSE) {
+    if (shownNoSlideOutRequest != FALSE) {
         if (selectReturn->mPressRequested == FALSE) {
             result = TRUE;
         }
