@@ -116,11 +116,11 @@ u32 SND_GetNextInstData(SNDBankData *bank, SNDInstData *inst, SNDInstPos *pos) {
         entry = bank->mInstOffset[pos->mPrgNo];
         inst->mType = entry;
         switch (inst->mType) {
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
+            case INSTRUMENT_TYPE_PCM:
+            case INSTRUMENT_TYPE_PSG:
+            case INSTRUMENT_TYPE_NOISE:
+            case INSTRUMENT_TYPE_DIRECT_PCM:
+            case INSTRUMENT_TYPE_EMPTY:
                 simple = OFFSET_PTR(InstSimple, bank, (entry >> 8));
                 inst->mWave = simple->mWave;
                 inst->mKeyAndEnvelope = simple->mKeyAndEnvelope;

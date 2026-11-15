@@ -19,8 +19,12 @@ typedef struct InstSimple {
 } InstSimple;
 
 // Values of SNDInstData.mType. The five simple types share the InstSimple layout; the code does not tell them apart.
-// Types 1 to 5 are the simple ones (bare case labels in SND_GetNextInstData).
 enum {
+    INSTRUMENT_TYPE_PCM = 1,
+    INSTRUMENT_TYPE_PSG,
+    INSTRUMENT_TYPE_NOISE,
+    INSTRUMENT_TYPE_DIRECT_PCM,
+    INSTRUMENT_TYPE_EMPTY,
     INSTRUMENT_TYPE_DRUM_SET = 0x10,
     INSTRUMENT_TYPE_KEY_SPLIT,
 };

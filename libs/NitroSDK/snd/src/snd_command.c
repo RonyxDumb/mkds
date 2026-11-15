@@ -71,7 +71,7 @@ void SND_CommandInit(void) {
     if (sharedCommand == 0) {
         return;
     }
-    sharedCommand->mId = 0x1d;
+    sharedCommand->mId = SND_COMMAND_SET_SHARED_WORK;
     sharedCommand->mArg[0] = (u32) SNDi_SharedWork;
     SND_PushCommand(sharedCommand);
     SND_FlushCommand(1);
