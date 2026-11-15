@@ -98,7 +98,7 @@ void MeasureAndExpandText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineW
                         switch (variant) {
                             case 0:
                                 for (value = 0; value < 10; value++) {
-                                    tagTextChar = ((u16 *) gBackupBuffers->mFirstBlock->mPlayerName)[value];
+                                    tagTextChar = gBackupBuffers->mFirstBlock->mPlayerName[value];
                                     if (tagTextChar == 0) {
                                         value = 10;
                                     } else {
@@ -119,7 +119,7 @@ void MeasureAndExpandText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineW
                                 break;
                             case 1:
                                 playerNameCharCount = CopyTextWithinWidth(
-                                    (u16 *) gBackupBuffers->mFirstBlock->mPlayerName, playerNameChars);
+                                    gBackupBuffers->mFirstBlock->mPlayerName, playerNameChars);
                                 for (playerNameIndex = 0; playerNameIndex < playerNameCharCount; playerNameIndex++) {
                                     *writePointer++ = playerNameChars[playerNameIndex];
                                     if (fixedAdvance == -1 ||
@@ -136,7 +136,7 @@ void MeasureAndExpandText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineW
                                 }
                             case 10:
                                 for (value = 0; value < 10; value++) {
-                                    tagTextChar = ((u16 *) gStartupWork->mOwnerText)[value];
+                                    tagTextChar = gStartupWork->mOwnerText[value];
                                     if (tagTextChar == 0) {
                                         value = 10;
                                     } else {
@@ -157,7 +157,7 @@ void MeasureAndExpandText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineW
                                 break;
                             case 11:
                                 ownerTextCharCount =
-                                    CopyTextWithinWidth((u16 *) gStartupWork->mOwnerText, ownerTextChars);
+                                    CopyTextWithinWidth(gStartupWork->mOwnerText, ownerTextChars);
                                 for (ownerTextIndex = 0; ownerTextIndex < ownerTextCharCount; ownerTextIndex++) {
                                     *writePointer++ = ownerTextChars[ownerTextIndex];
                                     if (fixedAdvance == -1 ||

@@ -86,7 +86,7 @@ void AdvanceNicknameSceneState2(void) {
     void *messageText;
     void *firstButtonText;
     void *secondButtonText;
-    u8 *ownerText;
+    u16 *ownerText;
     if (GetTxtSystemDone() != 0) {
         RequestTxtSystemClose();
         return;

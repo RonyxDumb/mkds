@@ -52,7 +52,7 @@ typedef struct StartupWork {
     /* 20 */ s32 mConnectionKind;
     /* 24 */ NNSiFndHeapHead *mHeap;
     /* 28 */ s16 mUnk_28;
-    /* 2a */ u8 mOwnerText[0x14];
+    /* 2a */ u16 mOwnerText[10];
     /* 3e */ u16 mOwnerCharCount;
     /* 40 */ u8 mFavoriteColor;
     /* 41 */ u8 mUnk_41[0x3];

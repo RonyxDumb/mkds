@@ -51,7 +51,7 @@ BOOL IsSlotGhostBitSet(u32 bitIndex) {
 
 void ResetBackupFirstBlock(s32 copyOwnerName) {
     u16 ownerCharCount;
-    u8 *ownerText;
+    u16 *ownerText;
 
     MI_CpuFill8(gBackupBuffers->mFirstBlock, 0, 0x100);
     if (copyOwnerName != 0) {

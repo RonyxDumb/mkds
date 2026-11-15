@@ -30,7 +30,7 @@ typedef enum { SOUND_MODE_SURROUND, SOUND_MODE_STEREO, SOUND_MODE_HEADPHONES } S
 // The 0x100-byte block read and written at backup offset 0.
 typedef struct BackupFirstBlock {
     /* 00 */ u8 mUnk_00[0xc];
-    /* 0c */ u8 mPlayerName[0x14];
+    /* 0c */ u16 mPlayerName[10];
     /* 20 */ u8 mFlags[4];
     /* 24 */ u16 mElo;
     /* 26 */ u8 mCourseGhostBits[0x4];
