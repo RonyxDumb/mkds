@@ -102,16 +102,16 @@ typedef struct ItemTeresa {
 
 s32 RemoveItemTeresaPickedKartItem(ItemTeresa *teresa);
 void EnterItemTeresaState2(ItemTeresa *teresa);
-s32 AdvanceItemTeresaFadeIn(ItemTeresa *teresa, s32 param_2, s32 param_3);
-BOOL AdvanceItemTeresaFadeOut(ItemTeresa *teresa, s32 param_2, s32 param_3);
+s32 AdvanceItemTeresaFadeIn(ItemTeresa *teresa, s32 shiftAlongCameraSide, s32 nextState);
+BOOL AdvanceItemTeresaFadeOut(ItemTeresa *teresa, s32 shiftAlongCameraSide, s32 nextState);
 void AdvanceItemTeresaPath(ItemTeresa *teresa);
 void EnterItemTeresaState0(ItemTeresa *teresa);
-void PlaceItemTeresaAtKart(ItemTeresa *teresa, s32 param_2);
+void PlaceItemTeresaAtKart(ItemTeresa *teresa, s32 shiftAlongCameraSide);
 void UpdateItemTeresaState0(ItemTeresa *teresa);
 void EnterItemTeresaState1(ItemTeresa *teresa);
 void UpdateItemTeresaState1(ItemTeresa *teresa);
-void PickItemTeresaKartBattle(ItemTeresa *teresa, s32 param_2);
-void PickItemTeresaKartByRank(ItemTeresa *teresa, s32 param_2);
+void PickItemTeresaKartBattle(ItemTeresa *teresa, s32 teamIndex);
+void PickItemTeresaKartByRank(ItemTeresa *teresa, s32 teamIndex);
 void UpdateItemTeresaState2(ItemTeresa *teresa);
 void AdvanceItemTeresa(ItemTeresa *teresa);
 void InitItemTeresa(ItemInUse *inUse, ItemTeresa *teresa);

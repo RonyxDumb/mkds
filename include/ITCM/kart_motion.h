@@ -47,7 +47,7 @@ void AdvanceKartCollision(Kart *kart);
 void AdvanceKartMotion(Kart *kart);
 // Writes nine words (a 3x3 rotation matrix with 12 fractional bits) to its first argument from the quaternion at its
 // second argument (w in the fourth component); which of the nine words is a row or a column is not claimed.
-void Matrix3x3FromQuaternion(MtxFx33 *param_1, void *param_2);
+void Matrix3x3FromQuaternion(MtxFx33 *mtx, void *quatPtr);
 // Like Matrix3x3FromQuaternion but for the whole 4x3 matrix: the translation row is written as zero.
 void Matrix4x3FromQuaternion(MtxFx43 *mtx, const Vec4 *quat);
 // Writes to c the linear blend of the quaternions a and b with weight d out of 0x1000 (0x1000 gives b); the result is

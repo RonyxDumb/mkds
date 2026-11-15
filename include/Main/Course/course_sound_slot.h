@@ -4,7 +4,7 @@
 
 typedef struct CourseSoundSlot CourseSoundSlot;
 
-void InitCourseSoundSlot(CourseSoundSlot *p0, unsigned int p1, unsigned int p2);
+void InitCourseSoundSlot(CourseSoundSlot *slot, unsigned int volumeHandle, unsigned int firstTableIndex);
 
 // Object gCourseSoundTable: five 16-byte rows of eight halfwords; ApplyCourseSoundTableEntry reads one halfword of a
 // row and SelectCourseSoundTable walks a row.

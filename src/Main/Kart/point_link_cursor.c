@@ -815,8 +815,8 @@ BOOL IsTargetKartSet(KartAi *kartAi) {
     return kartAi->mTargetKart != NULL;
 }
 
-u32 GetTargetAhead(struct KartAi *p0) {
-    return p0->mTargetAhead;
+u32 GetTargetAhead(struct KartAi *kartAi) {
+    return kartAi->mTargetAhead;
 }
 
 void SetupAwardMissionRunKartAi(struct KartAi *kartAi, struct Kart *kart, s32 unusedValue) {
@@ -1273,14 +1273,14 @@ void InitKartAiRaceSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, struc
     PickKartAiRaceStart(raceSpeedLimit, kartAi);
 }
 
-void ResetAwardMissionRunKartAiSpeedLimit(struct KartAiRaceSpeedLimit *p0, struct KartAi *kartAi) {
-    p0->mSpeedLimit = (u32) (((u32) p0->mBaseSpeedLimit));
-    p0->mSpeedLimitAddition = 0x0u;
-    p0->mTurnSpeedLimit = 0x0u;
-    p0->mSpeedLimitBeforeTurn = (u32) (((u32) p0->mBaseSpeedLimit));
-    p0->mRank = (u32) ((~(0x0u)));
-    p0->mSpeedLimitReduced = 0x0u;
-    p0->mSpeedLimitBeforeTurn = 0x0u;
+void ResetAwardMissionRunKartAiSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi) {
+    raceSpeedLimit->mSpeedLimit = (u32) (((u32) raceSpeedLimit->mBaseSpeedLimit));
+    raceSpeedLimit->mSpeedLimitAddition = 0x0u;
+    raceSpeedLimit->mTurnSpeedLimit = 0x0u;
+    raceSpeedLimit->mSpeedLimitBeforeTurn = (u32) (((u32) raceSpeedLimit->mBaseSpeedLimit));
+    raceSpeedLimit->mRank = (u32) ((~(0x0u)));
+    raceSpeedLimit->mSpeedLimitReduced = 0x0u;
+    raceSpeedLimit->mSpeedLimitBeforeTurn = 0x0u;
 }
 
 void AdvanceKartAiTurnSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi) {

@@ -315,33 +315,33 @@ static inline void SetBg3PriorityAndMosaic(vu16 *cntReg, Bg23CntFields *fields) 
 }
 
 // Keeps bits 0, 1 and 6 of the halfword register cntReg and sets the rest from four values.
-static inline void SetBg3ControlText(vu16 *cntReg, Bg3ControlField val14, Bg3ControlField val7, Bg3ControlField val8,
-                                     Bg3ControlField val2) {
-    *cntReg = (*cntReg & 0x43) | (val14 << 14) | (val7 << 7) | (val8 << 8) | (val2 << 2);
+static inline void SetBg3ControlText(vu16 *cntReg, Bg3ControlField screenSize, Bg3ControlField colorMode,
+                                     Bg3ControlField screenBase, Bg3ControlField charBase) {
+    *cntReg = (*cntReg & 0x43) | (screenSize << 14) | (colorMode << 7) | (screenBase << 8) | (charBase << 2);
 }
 
 // Keeps bits 0, 1 and 6 of the halfword register cntReg and sets the rest from four values.
-static inline void SetBg3ControlAffine(vu16 *cntReg, Bg3ControlField val14, Bg3ControlField val8, Bg3ControlField val2,
-                                       Bg3ControlField val13) {
-    *cntReg = (*cntReg & 0x43) | (val14 << 14) | (val8 << 8) | (val2 << 2) | (val13 << 13);
+static inline void SetBg3ControlAffine(vu16 *cntReg, Bg3ControlField screenSize, Bg3ControlField screenBase,
+                                       Bg3ControlField charBase, Bg3ControlField overflowMode) {
+    *cntReg = (*cntReg & 0x43) | (screenSize << 14) | (screenBase << 8) | (charBase << 2) | (overflowMode << 13);
 }
 
 // Keeps bits 0, 1 and 6 of the halfword register cntReg and sets the rest from three values.
-static inline void SetBg3ControlWithoutCharBase(vu16 *cntReg, Bg3ControlField val14, Bg3ControlField val13,
-                                                Bg3ControlField val8) {
-    *cntReg = (*cntReg & 0x43) | (val14 << 14) | (val8 << 8) | (val13 << 13);
+static inline void SetBg3ControlWithoutCharBase(vu16 *cntReg, Bg3ControlField screenSize, Bg3ControlField overflowMode,
+                                                Bg3ControlField screenBase) {
+    *cntReg = (*cntReg & 0x43) | (screenSize << 14) | (screenBase << 8) | (overflowMode << 13);
 }
 
 // Keeps bits 0, 1 and 6 of the halfword register cntReg, sets bit 7 and the rest from three values.
-static inline void SetBg3Control256Bmp(vu16 *cntReg, Bg3ControlField val14, Bg3ControlField val13,
-                                       Bg3ControlField val8) {
-    *cntReg = (*cntReg & 0x43) | (val14 << 14) | 0x80 | (val8 << 8) | (val13 << 13);
+static inline void SetBg3Control256Bmp(vu16 *cntReg, Bg3ControlField screenSize, Bg3ControlField overflowMode,
+                                       Bg3ControlField screenBase) {
+    *cntReg = (*cntReg & 0x43) | (screenSize << 14) | 0x80 | (screenBase << 8) | (overflowMode << 13);
 }
 
 // Keeps bits 0, 1 and 6 of the halfword register cntReg, sets bits 2 and 7 and the rest from three values.
-static inline void SetBg3ControlDCBmp(vu16 *cntReg, Bg3ControlField val14, Bg3ControlField val13,
-                                      Bg3ControlField val8) {
-    *cntReg = (*cntReg & 0x43) | (val14 << 14) | 0x84 | (val8 << 8) | (val13 << 13);
+static inline void SetBg3ControlDCBmp(vu16 *cntReg, Bg3ControlField screenSize, Bg3ControlField overflowMode,
+                                      Bg3ControlField screenBase) {
+    *cntReg = (*cntReg & 0x43) | (screenSize << 14) | 0x84 | (screenBase << 8) | (overflowMode << 13);
 }
 
 // Sets the low two bits of the halfword register cntReg and its bit 6 from the first two halfwords of fields.
@@ -355,33 +355,33 @@ static inline void SetBg2PriorityAndMosaic(vu16 *cntReg, Bg23CntFields *fields) 
 }
 
 // Keeps bits 0, 1 and 6 of the halfword register cntReg and sets the rest from four values.
-static inline void SetBg2ControlText(vu16 *cntReg, Bg3ControlField val14, Bg3ControlField val7, Bg3ControlField val8,
-                                     Bg3ControlField val2) {
-    *cntReg = (*cntReg & 0x43) | (val14 << 14) | (val7 << 7) | (val8 << 8) | (val2 << 2);
+static inline void SetBg2ControlText(vu16 *cntReg, Bg3ControlField screenSize, Bg3ControlField colorMode,
+                                     Bg3ControlField screenBase, Bg3ControlField charBase) {
+    *cntReg = (*cntReg & 0x43) | (screenSize << 14) | (colorMode << 7) | (screenBase << 8) | (charBase << 2);
 }
 
 // Keeps bits 0, 1 and 6 of the halfword register cntReg and sets the rest from four values.
-static inline void SetBg2ControlAffine(vu16 *cntReg, Bg3ControlField val14, Bg3ControlField val8, Bg3ControlField val2,
-                                       Bg3ControlField val13) {
-    *cntReg = (*cntReg & 0x43) | (val14 << 14) | (val8 << 8) | (val2 << 2) | (val13 << 13);
+static inline void SetBg2ControlAffine(vu16 *cntReg, Bg3ControlField screenSize, Bg3ControlField screenBase,
+                                       Bg3ControlField charBase, Bg3ControlField overflowMode) {
+    *cntReg = (*cntReg & 0x43) | (screenSize << 14) | (screenBase << 8) | (charBase << 2) | (overflowMode << 13);
 }
 
 // Keeps bits 0, 1 and 6 of the halfword register cntReg and sets the rest from three values.
-static inline void SetBg2ControlWithoutCharBase(vu16 *cntReg, Bg3ControlField val14, Bg3ControlField val13,
-                                                Bg3ControlField val8) {
-    *cntReg = (*cntReg & 0x43) | (val14 << 14) | (val8 << 8) | (val13 << 13);
+static inline void SetBg2ControlWithoutCharBase(vu16 *cntReg, Bg3ControlField screenSize, Bg3ControlField overflowMode,
+                                                Bg3ControlField screenBase) {
+    *cntReg = (*cntReg & 0x43) | (screenSize << 14) | (screenBase << 8) | (overflowMode << 13);
 }
 
 // Keeps bits 0, 1 and 6 of the halfword register cntReg, sets bit 7 and the rest from three values.
-static inline void SetBg2Control256Bmp(vu16 *cntReg, Bg3ControlField val14, Bg3ControlField val13,
-                                       Bg3ControlField val8) {
-    *cntReg = (*cntReg & 0x43) | (val14 << 14) | 0x80 | (val8 << 8) | (val13 << 13);
+static inline void SetBg2Control256Bmp(vu16 *cntReg, Bg3ControlField screenSize, Bg3ControlField overflowMode,
+                                       Bg3ControlField screenBase) {
+    *cntReg = (*cntReg & 0x43) | (screenSize << 14) | 0x80 | (screenBase << 8) | (overflowMode << 13);
 }
 
 // Keeps bits 0, 1 and 6 of the halfword register cntReg, sets bits 2 and 7 and the rest from three values.
-static inline void SetBg2ControlDCBmp(vu16 *cntReg, Bg3ControlField val14, Bg3ControlField val13,
-                                      Bg3ControlField val8) {
-    *cntReg = (*cntReg & 0x43) | (val14 << 14) | 0x84 | (val8 << 8) | (val13 << 13);
+static inline void SetBg2ControlDCBmp(vu16 *cntReg, Bg3ControlField screenSize, Bg3ControlField overflowMode,
+                                      Bg3ControlField screenBase) {
+    *cntReg = (*cntReg & 0x43) | (screenSize << 14) | 0x84 | (screenBase << 8) | (overflowMode << 13);
 }
 
 void ApplyBg2Cnt(Bg23Cnt *cnt, s32 isMainScreen) {
@@ -591,9 +591,11 @@ static inline void DisplayGXS_SetOBJVRamModeBmp(DisplayRegisterField bits) {
 }
 
 // Keeps bits 0, 1 and 6 of the halfword register cntReg and sets the rest from five values.
-static inline void SetBg01Control(vu16 *cntReg, DisplayRegisterField val14, DisplayRegisterField val7,
-                                  DisplayRegisterField val8, DisplayRegisterField val2, DisplayRegisterField val13) {
-    *cntReg = (*cntReg & 0x43) | (val14 << 14) | (val7 << 7) | (val8 << 8) | (val2 << 2) | (val13 << 13);
+static inline void SetBg01Control(vu16 *cntReg, DisplayRegisterField screenSize, DisplayRegisterField colorMode,
+                                  DisplayRegisterField screenBase, DisplayRegisterField charBase,
+                                  DisplayRegisterField overflowMode) {
+    *cntReg = (*cntReg & 0x43) | (screenSize << 14) | (colorMode << 7) | (screenBase << 8) | (charBase << 2) |
+              (overflowMode << 13);
 }
 
 void InitDisplayFromSettings(DisplaySettings *settings) {

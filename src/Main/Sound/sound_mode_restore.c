@@ -12,9 +12,9 @@
 #include "Main/Sound/sound_seq.h"
 #include "Main/Sound/sound_mode.h"
 
-void SetupSoundMode(SoundModeHolder *modeHolder, ScenePlayers *scenePlayers, u32 p2) {
+void SetupSoundMode(SoundModeHolder *modeHolder, ScenePlayers *scenePlayers, u32 unusedValue) {
     modeHolder->mMode = 0;
-    modeHolder->mUnk_14 = p2;
+    modeHolder->mUnk_14 = unusedValue;
     modeHolder->mScenePlayers = scenePlayers;
     modeHolder->mSavedMode = 0;
     modeHolder->mKartStarSeqPlayer = NULL;

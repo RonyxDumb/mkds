@@ -102,7 +102,7 @@ void UseItemAfterHeld(KartAiItemUse *itemUse, struct KartAi *kartAi);
 void TrailOrCircleUseItemAfterHeld(KartAiItemUse *itemUse, struct KartAi *kartAi);
 void AdvanceKartAiTurnSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi);
 
-void ResetAwardMissionRunKartAiSpeedLimit(struct KartAiRaceSpeedLimit *p0, struct KartAi *kartAi);
+void ResetAwardMissionRunKartAiSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi);
 
 struct Kart;
 struct RacePointLink;
@@ -122,4 +122,4 @@ void AdvanceAwardMissionRunKartAi(struct KartAi *kartAi);
 void ResetAwardMissionRunKartAi(struct KartAi *kartAi, struct RacePointLink *pointLink);
 void SetupAwardMissionRunKartAi(struct KartAi *kartAi, struct Kart *kart, s32 unusedValue);
 
-unsigned int GetTargetAhead(struct KartAi *p0);
+unsigned int GetTargetAhead(struct KartAi *kartAi);

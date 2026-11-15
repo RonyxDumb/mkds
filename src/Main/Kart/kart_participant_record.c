@@ -2810,7 +2810,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         }
     }
     if (kart->mDriveFlags & KART_DRIVE_SINKING) {
-        goto l0;
+        goto storeAppliedFlags;
     }
     kart->mPos.x = newPos.x;
     kart->mPos.z = newPos.z;
@@ -2873,27 +2873,27 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
     if (((kart->mParticipantRecordData->mAppliedFlags & 0x40) != 0) != ((recordFlags & 0x40) != 0)) {
         if (kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
             if ((kart->mEffectFlags & KART_EFFECT_STAR_OR_KILLER) || kart->mState == KART_STATE_PUSH_FLIP) {
-                goto l1;
+                goto skipPushBackStart;
             }
         } else if (kart->mState == KART_STATE_PUSH_DOUBLE_FLIP) {
-            goto l1;
+            goto skipPushBackStart;
         }
         StartSound(&kart->mSoundSource, 0xe8, 0x7f, 0);
         StartKartState5(kart, &state->mPushDirection, 0);
-    l1:
+    skipPushBackStart:
         if (((kart->mParticipantRecordData->mAppliedFlags & 0x80) != 0) != ((recordFlags & 0x80) != 0)) {
             StartSound(&kart->mSoundSource, 0xe8, 0x7f, 0);
         }
     } else if (((kart->mParticipantRecordData->mAppliedFlags & 0x20) != 0) != ((recordFlags & 0x20) != 0)) {
         if (kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
             if ((kart->mEffectFlags & KART_EFFECT_STAR_OR_KILLER) || kart->mState == KART_STATE_PUSH_FLIP) {
-                goto l2;
+                goto skipFlipBackStart;
             }
         } else if (kart->mState == KART_STATE_PUSH_FLIP) {
-            goto l2;
+            goto skipFlipBackStart;
         }
         StartKartState4(kart, &state->mPushDirection, 0);
-    l2:
+    skipFlipBackStart:
         if (((kart->mParticipantRecordData->mAppliedFlags & 0x80) != 0) != ((recordFlags & 0x80) != 0)) {
             StartSound(&kart->mSoundSource, 0xe8, 0x7f, 0);
         }
@@ -2935,15 +2935,15 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         sourceKart = GetKart(value);
         if (otherKart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
             if ((otherKart->mEffectFlags & KART_EFFECT_STAR_OR_KILLER) || otherKart->mState == KART_STATE_PUSH_FLIP) {
-                goto l3;
+                goto markFirstKartPushed;
             }
         } else if (otherKart->mState == KART_STATE_PUSH_FLIP) {
-            goto l3;
+            goto markFirstKartPushed;
         }
         SetSideSignedDirection(otherKart, sourceKart, &direction);
         StartSound(&otherKart->mSoundSource, 0xe8, 0x7f, 0);
         StartKartState5(otherKart, &direction, 0);
-    l3:
+    markFirstKartPushed:
         flag = 1;
     }
     if (((kart->mParticipantRecordData->mAppliedFlags & 0x800000) != 0) != ((recordFlags & 0x800000) != 0) &&
@@ -2955,15 +2955,15 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         sourceKart = GetKart(value);
         if (otherKart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
             if ((otherKart->mEffectFlags & KART_EFFECT_STAR_OR_KILLER) || otherKart->mState == KART_STATE_PUSH_FLIP) {
-                goto l4;
+                goto markSecondKartPushed;
             }
         } else if (otherKart->mState == KART_STATE_PUSH_FLIP) {
-            goto l4;
+            goto markSecondKartPushed;
         }
         SetSideSignedDirection(otherKart, sourceKart, &direction);
         StartSound(&otherKart->mSoundSource, 0xe8, 0x7f, 0);
         StartKartState5(otherKart, &direction, 0);
-    l4:
+    markSecondKartPushed:
         flag = 1;
     }
     if (((kart->mParticipantRecordData->mAppliedFlags & 0x1000000) != 0) != ((recordFlags & 0x1000000) != 0) &&
@@ -2975,15 +2975,15 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         sourceKart = GetKart(value);
         if (otherKart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
             if ((otherKart->mEffectFlags & KART_EFFECT_STAR_OR_KILLER) || otherKart->mState == KART_STATE_PUSH_FLIP) {
-                goto l5;
+                goto markThirdKartPushed;
             }
         } else if (otherKart->mState == KART_STATE_PUSH_FLIP) {
-            goto l5;
+            goto markThirdKartPushed;
         }
         SetSideSignedDirection(otherKart, sourceKart, &direction);
         StartSound(&otherKart->mSoundSource, 0xe8, 0x7f, 0);
         StartKartState5(otherKart, &direction, 0);
-    l5:
+    markThirdKartPushed:
         flag = 1;
     }
     if (((kart->mParticipantRecordData->mAppliedFlags & 0x2000000) != 0) != ((recordFlags & 0x2000000) != 0) &&
@@ -2995,19 +2995,19 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         sourceKart = GetKart(value);
         if (otherKart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
             if ((otherKart->mEffectFlags & KART_EFFECT_STAR_OR_KILLER) || otherKart->mState == KART_STATE_PUSH_FLIP) {
-                goto l6;
+                goto markFourthKartPushed;
             }
         } else if (otherKart->mState == KART_STATE_PUSH_FLIP) {
-            goto l6;
+            goto markFourthKartPushed;
         }
         SetSideSignedDirection(otherKart, sourceKart, &direction);
         StartSound(&otherKart->mSoundSource, 0xe8, 0x7f, 0);
         StartKartState5(otherKart, &direction, 0);
-    l6:
+    markFourthKartPushed:
         flag = 1;
     }
     if (flag) {
-        goto l0;
+        goto storeAppliedFlags;
     }
     if (((kart->mParticipantRecordData->mAppliedFlags & 0x200) != 0) != ((recordFlags & 0x200) != 0) &&
         otherKart->mIndex == 0) {
@@ -3018,10 +3018,10 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         sourceKart = GetKart(value);
         if (otherKart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
             if ((otherKart->mEffectFlags & KART_EFFECT_STAR_OR_KILLER) || otherKart->mState == KART_STATE_PUSH_FLIP) {
-                goto l7;
+                goto skipFirstKartFlip;
             }
         } else if (otherKart->mState == KART_STATE_PUSH_FLIP) {
-            goto l7;
+            goto skipFirstKartFlip;
         }
         VEC_Subtract(&otherKart->mPointAlongUp, &sourceKart->mPointAlongUp, &direction);
         if (LENGTH_SQUARED(direction) >= 0x10) {
@@ -3029,7 +3029,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         }
         StartSound(&otherKart->mSoundSource, 0xe8, 0x7f, 0);
         StartKartState4(otherKart, &direction, 0);
-    l7:
+    skipFirstKartFlip:
     }
     if (((kart->mParticipantRecordData->mAppliedFlags & 0x400) != 0) != ((recordFlags & 0x400) != 0) &&
         otherKart->mIndex == 1) {
@@ -3040,10 +3040,10 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         sourceKart = GetKart(value);
         if (otherKart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
             if ((otherKart->mEffectFlags & KART_EFFECT_STAR_OR_KILLER) || otherKart->mState == KART_STATE_PUSH_FLIP) {
-                goto l8;
+                goto skipSecondKartFlip;
             }
         } else if (otherKart->mState == KART_STATE_PUSH_FLIP) {
-            goto l8;
+            goto skipSecondKartFlip;
         }
         VEC_Subtract(&otherKart->mPointAlongUp, &sourceKart->mPointAlongUp, &direction);
         if (LENGTH_SQUARED(direction) >= 0x10) {
@@ -3051,7 +3051,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         }
         StartSound(&otherKart->mSoundSource, 0xe8, 0x7f, 0);
         StartKartState4(otherKart, &direction, 0);
-    l8:
+    skipSecondKartFlip:
     }
     if (((kart->mParticipantRecordData->mAppliedFlags & 0x800) != 0) != ((recordFlags & 0x800) != 0) &&
         otherKart->mIndex == 2) {
@@ -3062,10 +3062,10 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         sourceKart = GetKart(value);
         if (otherKart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
             if ((otherKart->mEffectFlags & KART_EFFECT_STAR_OR_KILLER) || otherKart->mState == KART_STATE_PUSH_FLIP) {
-                goto l9;
+                goto skipThirdKartFlip;
             }
         } else if (otherKart->mState == KART_STATE_PUSH_FLIP) {
-            goto l9;
+            goto skipThirdKartFlip;
         }
         VEC_Subtract(&otherKart->mPointAlongUp, &sourceKart->mPointAlongUp, &direction);
         if (LENGTH_SQUARED(direction) >= 0x10) {
@@ -3073,7 +3073,7 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         }
         StartSound(&otherKart->mSoundSource, 0xe8, 0x7f, 0);
         StartKartState4(otherKart, &direction, 0);
-    l9:
+    skipThirdKartFlip:
     }
     if (((kart->mParticipantRecordData->mAppliedFlags & 0x1000) != 0) != ((recordFlags & 0x1000) != 0) &&
         otherKart->mIndex == 3) {
@@ -3084,10 +3084,10 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         sourceKart = GetKart(value);
         if (otherKart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
             if ((otherKart->mEffectFlags & KART_EFFECT_STAR_OR_KILLER) || otherKart->mState == KART_STATE_PUSH_FLIP) {
-                goto l10;
+                goto skipFourthKartFlip;
             }
         } else if (otherKart->mState == KART_STATE_PUSH_FLIP) {
-            goto l10;
+            goto skipFourthKartFlip;
         }
         VEC_Subtract(&otherKart->mPointAlongUp, &sourceKart->mPointAlongUp, &direction);
         if (LENGTH_SQUARED(direction) >= 0x10) {
@@ -3095,8 +3095,8 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         }
         StartSound(&otherKart->mSoundSource, 0xe8, 0x7f, 0);
         StartKartState4(otherKart, &direction, 0);
-    l10:
+    skipFourthKartFlip:
     }
-l0:
+storeAppliedFlags:
     kart->mParticipantRecordData->mAppliedFlags = recordFlags;
 }

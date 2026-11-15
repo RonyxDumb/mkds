@@ -8,4 +8,4 @@ void RestoreSavedSoundMode(SoundModeHolder *modeHolder);
 
 typedef struct ScenePlayers ScenePlayers;
 
-void SetupSoundMode(SoundModeHolder *modeHolder, ScenePlayers *scenePlayers, unsigned int p2);
+void SetupSoundMode(SoundModeHolder *modeHolder, ScenePlayers *scenePlayers, unsigned int unusedValue);

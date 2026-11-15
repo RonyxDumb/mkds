@@ -141,7 +141,7 @@ typedef struct VolumeFade {
 } VolumeFade;
 
 // Values of the two switches in InitSound.
-typedef enum { E0 = 0, E1 = 1, E2 = 2 } SndHeapSizeKind;
+typedef enum { SND_HEAP_SIZE_LARGE = 0, SND_HEAP_SIZE_MEDIUM = 1, SND_HEAP_SIZE_SMALL = 2 } SndHeapSizeKind;
 
 BOOL LoadSndBanksAndWaveArcs(s32 bankMask);
 BOOL LoadSndBanksAndWaveArcsIfChanged(s32 bankMask);

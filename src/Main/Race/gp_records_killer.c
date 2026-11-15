@@ -244,7 +244,7 @@ u32 SetSecretMessageFlags(void) {
             isFilledTopRank = FALSE;
         }
         if (isFilledTopRank != FALSE) {
-            goto l1;
+            goto raiseLimit;
         }
         if (IsGrandPrixRecordFilled(7, 2) != 0 && GetGrandPrixRecordCupRank(7, 2) == 0) {
             isFilledTopRank = TRUE;
@@ -252,7 +252,7 @@ u32 SetSecretMessageFlags(void) {
             isFilledTopRank = FALSE;
         }
         if (isFilledTopRank != FALSE) {
-        l1:
+        raiseLimit:
             RaiseKartAppearLimit(3);
             isLimitRaised = TRUE;
         }
@@ -376,7 +376,7 @@ u32 SetSecretMessageFlagsFromCups3And7(void) {
             isFilledTopRank = FALSE;
         }
         if (isFilledTopRank != FALSE) {
-            goto l1;
+            goto setSecretFlag;
         }
         if (IsGrandPrixRecordFilled(7, 3) != 0 && GetGrandPrixRecordCupRank(7, 3) == 0) {
             isFilledTopRank = TRUE;
@@ -384,7 +384,7 @@ u32 SetSecretMessageFlagsFromCups3And7(void) {
             isFilledTopRank = FALSE;
         }
         if (isFilledTopRank != FALSE) {
-        l1:
+        setSecretFlag:
             SetBackupFlag(0x17);
             flag = TRUE;
         }

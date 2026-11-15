@@ -703,7 +703,7 @@ void AdvanceSelectCupGridState3(void) {
     }
     inputSlot = &gInputSlots[inputIndex];
     if ((u16) (gInputSlots[inputIndex].mPressedBits & PAD_KEY_B) != 0) {
-        goto L1;
+        goto runReturnRequest;
     }
     pressedFlag = 0;
     releasedFlag = 0;
@@ -715,13 +715,13 @@ void AdvanceSelectCupGridState3(void) {
         pressedFlag = 1;
     }
     if (pressedFlag == 0) {
-        goto L2;
+        goto checkCupTouch;
     }
     if (IsSelectReturnState2NoState3Or4RequestAndInRect(gInputPairXs[inputIndex].mPairX,
                                                         gInputPairYs[inputIndex].mPairY) == FALSE) {
-        goto L2;
+        goto checkCupTouch;
     }
-L1:
+runReturnRequest:
     if (IsSelectCupGridIndexChangeRunning() != 0) {
         return;
     }
@@ -757,7 +757,7 @@ L1:
             return;
     }
     return;
-L2:
+checkCupTouch:
     if ((u32) touchedRectIndex <= 7) {
         touchedCupIndex = gSelectCupGridRectCupIndices[touchedRectIndex];
         if (gSelectCupGrid->mCupsEnabled[touchedCupIndex] == 0) {

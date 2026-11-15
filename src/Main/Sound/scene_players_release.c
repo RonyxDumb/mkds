@@ -15,7 +15,7 @@
 #include "Main/Sound/sound_seq.h"
 #include "Main/Sound/sound_sources.h"
 
-void UpdateScenePlayersNop(ScenePlayers *p0) {}
+void UpdateScenePlayersNop(ScenePlayers *scenePlayers) {}
 
 static inline void StartScenePlayersSeqIfSet(ScenePlayers *scenePlayers, u32 seqNo, NNSSndSeqPlayer **handle) {
     if (handle == NULL) {

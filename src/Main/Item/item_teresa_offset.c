@@ -1049,7 +1049,7 @@ void UpdateItemTeresaState6(ItemTeresa *teresa) {
             } else {
                 ownerKartIndex = 8;
             }
-            ((void (*)(s32 param_1, s32 param_2, s32 param_3)) RemoveReservedItemObjects)(
+            ((void (*)(s32 itemInfoIndex, s32 amount, s32 ownerKartIndex)) RemoveReservedItemObjects)(
                 teresa->mItemInfoIndex, teresa->mItemCount, (u16) ownerKartIndex);
         }
         ReleaseItemPoolObject(gItemPools + teresa->mItemObject.mKind, &teresa->mItemObject);

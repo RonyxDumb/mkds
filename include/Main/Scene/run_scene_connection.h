@@ -30,4 +30,4 @@ typedef struct SceneNumbers {
 // set-up, mInit once, a wait loop without slots, the update loop (mUpdate, then slot 0x0c, every
 // frame) until a slot sets a.mNextScene or GetVolatileHalfwordIndex39 is non-zero, the fade-out loop, a wait
 // loop, mRelease once, generic tear-down.
-void RunScene(SceneNumbers *param_1, const SceneCallbacks *param_2);
+void RunScene(SceneNumbers *sceneNumbers, const SceneCallbacks *callbacks);

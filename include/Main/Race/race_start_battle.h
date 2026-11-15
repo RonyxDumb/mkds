@@ -6,8 +6,8 @@ typedef struct RaceHudOamBuffer RaceHudOamBuffer;
 
 // The two values DrawRaceStartBattle passes to GetRaceStartBattleMNcerEntry.
 enum {
-    VALUE_0 = 0,
-    VALUE_1 = 1,
+    RACE_START_BATTLE_BALLOON_CELL = 0,
+    RACE_START_BATTLE_OTHER_CELL = 1,
 };
 
 void DrawRaceStartBattle(RaceHudOamBuffer *oamBuffer);

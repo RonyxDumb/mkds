@@ -7,8 +7,8 @@ typedef struct GhostRecordHead GhostRecordHead;
 void ReadBackupGhostRecordHead(u32 isCourseGhost, u32 index, GhostRecordHead *ghostRecord);
 void ReadBackupGhostListEntry(u32 isCourseGhost, u32 index, GhostRecordHead *ghostRecord);
 
-void CopyBackupReadToGhostListEntry(u32 *buffer, u32 arg1);
-void CopyBackupReadToGhostRecordHead(u32 *buffer, u32 arg1);
+void CopyBackupReadToGhostListEntry(u32 *buffer, u32 length);
+void CopyBackupReadToGhostRecordHead(u32 *buffer, u32 length);
 
 typedef struct GhostRecord GhostRecord;
 typedef struct SlotGhostRecord SlotGhostRecord;

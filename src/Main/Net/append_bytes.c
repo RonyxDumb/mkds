@@ -29,15 +29,15 @@ void WBT_MpChildRecvHook(const u8 *packet, u32 size) {
 // Packet kind 1: the header and one byte, sent when nothing else is waiting.
 s32 WriteEmptyPacket(u8 *buffer, u16 indexMask, u8 requestId) {
     struct {
-        u8 m0;
-        u16 m2;
+        u8 mKind;
+        u16 mIndexMask;
     } header;
     u8 *cursor;
     cursor = buffer;
-    header.m2 = indexMask;
-    header.m0 = 1;
+    header.mIndexMask = indexMask;
+    header.mKind = 1;
     cursor = AppendBytes(&header, cursor, 1);
-    cursor = AppendBytes(&header.m2, cursor, 2);
+    cursor = AppendBytes(&header.mIndexMask, cursor, 2);
     MI_CpuCopy8(&requestId, cursor, 1);
     return cursor + 1 - buffer;
 }
@@ -45,15 +45,15 @@ s32 WriteEmptyPacket(u8 *buffer, u16 indexMask, u8 requestId) {
 // Packet kind 2: asks for the block count and carries both chunk sizes.
 s32 WriteBlockCountRequestPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 sendChunkSize, u32 receiveChunkSize) {
     struct {
-        u8 m0;
-        u16 m2;
+        u8 mKind;
+        u16 mIndexMask;
     } header;
     u8 *cursor;
     cursor = buffer;
-    header.m2 = indexMask;
-    header.m0 = 2;
+    header.mIndexMask = indexMask;
+    header.mKind = 2;
     cursor = AppendBytes(&header, cursor, 1);
-    cursor = AppendBytes(&header.m2, cursor, 2);
+    cursor = AppendBytes(&header.mIndexMask, cursor, 2);
     cursor = AppendBytes(&requestId, cursor, 1);
     cursor = AppendBytes(&sendChunkSize, cursor, 2);
     MI_CpuCopy8(&receiveChunkSize, cursor, 2);
@@ -64,15 +64,15 @@ s32 WriteBlockCountRequestPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 se
 s32 WriteBlockCountReplyPacket(u8 *buffer, u16 indexMask, u8 requestId, s16 blockCount, u32 sendChunkSize,
                                u32 receiveChunkSize) {
     struct {
-        u8 m0;
-        u16 m2;
+        u8 mKind;
+        u16 mIndexMask;
     } header;
     u8 *cursor;
     cursor = buffer;
-    header.m2 = indexMask;
-    header.m0 = 3;
+    header.mIndexMask = indexMask;
+    header.mKind = 3;
     cursor = AppendBytes(&header, cursor, 1);
-    cursor = AppendBytes(&header.m2, cursor, 2);
+    cursor = AppendBytes(&header.mIndexMask, cursor, 2);
     cursor = AppendBytes(&requestId, cursor, 1);
     cursor = AppendBytes(&blockCount, cursor, 2);
     cursor = AppendBytes(&sendChunkSize, cursor, 2);
@@ -83,15 +83,15 @@ s32 WriteBlockCountReplyPacket(u8 *buffer, u16 indexMask, u8 requestId, s16 bloc
 // Packet kind 4: asks for one chunk of the block with this id.
 s32 WriteBlockDataRequestPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 blockId, u32 chunkIndex) {
     struct {
-        u8 m0;
-        u16 m2;
+        u8 mKind;
+        u16 mIndexMask;
     } header;
     u8 *cursor;
     cursor = buffer;
-    header.m2 = indexMask;
-    header.m0 = 4;
+    header.mIndexMask = indexMask;
+    header.mKind = 4;
     cursor = AppendBytes(&header, cursor, 1);
-    cursor = AppendBytes(&header.m2, cursor, 2);
+    cursor = AppendBytes(&header.mIndexMask, cursor, 2);
     cursor = AppendBytes(&requestId, cursor, 1);
     cursor = AppendBytes(&blockId, cursor, 4);
     MI_CpuCopy8(&chunkIndex, cursor, 4);
@@ -101,15 +101,15 @@ s32 WriteBlockDataRequestPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 blo
 // Packet kind 5: one chunk of a block (zeros when no data pointer is given).
 s32 WriteBlockDataPacket(u8 *buffer, u32 indexMask, u8 requestId, u32 blockId, u32 chunkIndex, u32 data, s32 dataSize) {
     struct {
-        u8 m0;
-        u16 m2;
+        u8 mKind;
+        u16 mIndexMask;
     } header;
     u8 *cursor;
     cursor = buffer;
-    header.m2 = indexMask;
-    header.m0 = 5;
+    header.mIndexMask = indexMask;
+    header.mKind = 5;
     cursor = AppendBytes(&header, cursor, 1);
-    cursor = AppendBytes(&header.m2, cursor, 2);
+    cursor = AppendBytes(&header.mIndexMask, cursor, 2);
     cursor = AppendBytes(&requestId, cursor, 1);
     cursor = AppendBytes(&blockId, cursor, 4);
     cursor = AppendBytes(&chunkIndex, cursor, 4);
@@ -124,15 +124,15 @@ s32 WriteBlockDataPacket(u8 *buffer, u32 indexMask, u8 requestId, u32 blockId, u
 // Packet kind 6: asks for one chunk of a block node by id.
 s32 WriteBlockNodeRequestPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 blockId, u32 chunkIndex) {
     struct {
-        u8 m0;
-        u16 m2;
+        u8 mKind;
+        u16 mIndexMask;
     } header;
     u8 *cursor;
     cursor = buffer;
-    header.m2 = indexMask;
-    header.m0 = 6;
+    header.mIndexMask = indexMask;
+    header.mKind = 6;
     cursor = AppendBytes(&header, cursor, 1);
-    cursor = AppendBytes(&header.m2, cursor, 2);
+    cursor = AppendBytes(&header.mIndexMask, cursor, 2);
     cursor = AppendBytes(&requestId, cursor, 1);
     cursor = AppendBytes(&blockId, cursor, 4);
     MI_CpuCopy8(&chunkIndex, cursor, 4);
@@ -142,15 +142,15 @@ s32 WriteBlockNodeRequestPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 blo
 // Packet kind 7: one chunk of a block node (zeros when no data pointer is given).
 s32 WriteBlockNodePacket(u8 *buffer, u32 indexMask, u8 requestId, u32 blockId, u32 chunkIndex, u32 data, u32 dataSize) {
     struct {
-        u8 m0;
-        u16 m2;
+        u8 mKind;
+        u16 mIndexMask;
     } header;
     u8 *cursor;
     cursor = buffer;
-    header.m2 = indexMask;
-    header.m0 = 7;
+    header.mIndexMask = indexMask;
+    header.mKind = 7;
     cursor = AppendBytes(&header, cursor, 1);
-    cursor = AppendBytes(&header.m2, cursor, 2);
+    cursor = AppendBytes(&header.mIndexMask, cursor, 2);
     cursor = AppendBytes(&requestId, cursor, 1);
     cursor = AppendBytes(&blockId, cursor, 4);
     cursor = AppendBytes(&chunkIndex, cursor, 4);
@@ -165,15 +165,15 @@ s32 WriteBlockNodePacket(u8 *buffer, u32 indexMask, u8 requestId, u32 blockId, u
 // Packet kind 8: carries the block id; sent instead of a chunk request when no chunk of the block is missing.
 s32 WriteNoMissingChunkPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 blockId) {
     struct {
-        u8 m0;
-        u16 m2;
+        u8 mKind;
+        u16 mIndexMask;
     } header;
     u8 *cursor;
     cursor = buffer;
-    header.m2 = indexMask;
-    header.m0 = 8;
+    header.mIndexMask = indexMask;
+    header.mKind = 8;
     cursor = AppendBytes(&header, cursor, 1);
-    cursor = AppendBytes(&header.m2, cursor, 2);
+    cursor = AppendBytes(&header.mIndexMask, cursor, 2);
     cursor = AppendBytes(&requestId, cursor, 1);
     MI_CpuCopy8(&blockId, cursor, 4);
     return cursor + 4 - buffer;
@@ -182,15 +182,15 @@ s32 WriteNoMissingChunkPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 block
 // Packet kind 9: answers kind 8 with the block id.
 s32 WriteNoMissingChunkReplyPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 blockId) {
     struct {
-        u8 m0;
-        u16 m2;
+        u8 mKind;
+        u16 mIndexMask;
     } header;
     u8 *cursor;
     cursor = buffer;
-    header.m2 = indexMask;
-    header.m0 = 9;
+    header.mIndexMask = indexMask;
+    header.mKind = 9;
     cursor = AppendBytes(&header, cursor, 1);
-    cursor = AppendBytes(&header.m2, cursor, 2);
+    cursor = AppendBytes(&header.mIndexMask, cursor, 2);
     cursor = AppendBytes(&requestId, cursor, 1);
     MI_CpuCopy8(&blockId, cursor, 4);
     return cursor + 4 - buffer;
@@ -199,15 +199,15 @@ s32 WriteNoMissingChunkReplyPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 
 // Packet kind 10: up to 9 raw bytes and their length.
 s32 WriteBytesPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 *bytes, u32 byteCount) {
     struct {
-        u8 m0;
-        u16 m2;
+        u8 mKind;
+        u16 mIndexMask;
     } header;
     u8 *cursor;
     cursor = buffer;
-    header.m2 = indexMask;
-    header.m0 = 0xa;
+    header.mIndexMask = indexMask;
+    header.mKind = 0xa;
     cursor = AppendBytes(&header, cursor, 1);
-    cursor = AppendBytes(&header.m2, cursor, 2);
+    cursor = AppendBytes(&header.mIndexMask, cursor, 2);
     cursor = AppendBytes(&requestId, cursor, 1);
     cursor = AppendBytes(&byteCount, cursor, 1);
     MI_CpuCopy8(bytes, cursor, 9);
@@ -217,15 +217,15 @@ s32 WriteBytesPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 *bytes, u32 by
 // Packet kind 11: answers kind 10.
 s32 WriteBytesReplyPacket(u8 *buffer, u16 indexMask, u8 requestId) {
     struct {
-        u8 m0;
-        u16 m2;
+        u8 mKind;
+        u16 mIndexMask;
     } header;
     u8 *cursor;
     cursor = buffer;
-    header.m2 = indexMask;
-    header.m0 = 0xb;
+    header.mIndexMask = indexMask;
+    header.mKind = 0xb;
     cursor = AppendBytes(&header, cursor, 1);
-    cursor = AppendBytes(&header.m2, cursor, 2);
+    cursor = AppendBytes(&header.mIndexMask, cursor, 2);
     MI_CpuCopy8(&requestId, cursor, 1);
     return cursor + 1 - buffer;
 }

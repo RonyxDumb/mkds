@@ -4,5 +4,5 @@
 
 typedef struct Picture Picture;
 
-void InitPicture2(Picture *p0);
-void InitPicture1(Picture *p0);
+void InitPicture2(Picture *picture);
+void InitPicture1(Picture *picture);

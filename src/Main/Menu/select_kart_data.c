@@ -293,10 +293,10 @@ u32 GetParticipantEntryIndex(u32 participantIndex) {
 }
 
 u32 GetOwnEntryIndex(void) {
-    u32 value0;
-    value0 = GetOwnIndexOrZero();
-    value0 = GetParticipantEntryIndex(value0);
-    return value0;
+    u32 entryIndex;
+    entryIndex = GetOwnIndexOrZero();
+    entryIndex = GetParticipantEntryIndex(entryIndex);
+    return entryIndex;
 }
 
 #pragma optimize_for_size on

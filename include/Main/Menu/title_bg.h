@@ -15,8 +15,8 @@ void TitleSetUnfilledNotEliminated(unsigned int value);
 void TitleSetMenuEntryKind(unsigned int value);
 void TitleSetRaceSetupRequested(unsigned int value);
 
-u32 TitleWriteSubWinEnableBits(u32 arg0);
-u32 WriteMainWinEnableBits(u32 arg0);
+u32 TitleWriteSubWinEnableBits(u32 bits);
+u32 WriteMainWinEnableBits(u32 bits);
 
 void TitleWriteSubBlendAlpha(u32 plane1, u32 plane2, u32 ev1, u32 ev2);
 

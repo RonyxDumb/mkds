@@ -25,4 +25,4 @@ void StartScenePlayersSeqNo(ScenePlayers *scenePlayers, u32 seqNo, NNSSndSeqPlay
 void StartScenePlayersSeq(ScenePlayers *scenePlayers);
 void StopScenePlayersSeq(ScenePlayers *scenePlayers, u32 fadeSteps);
 
-void UpdateScenePlayersNop(ScenePlayers *p0);
+void UpdateScenePlayersNop(ScenePlayers *scenePlayers);

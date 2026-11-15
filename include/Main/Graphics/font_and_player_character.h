@@ -45,10 +45,10 @@ typedef union LoadedPartPointer {
     NNSG2dCellDataBank *mNcer;
 } LoadedPartPointer;
 
-void *GetPlayerCharacterBncl(int param_1);
-NNSG2dCellDataBank *GetPlayerCharacterNcer(int param_1);
-Ncgr *GetPlayerCharacterNcgr(int param_1);
-void *GetPlayerCharacterNclr(int param_1);
+void *GetPlayerCharacterBncl(int index);
+NNSG2dCellDataBank *GetPlayerCharacterNcer(int index);
+Ncgr *GetPlayerCharacterNcgr(int index);
+void *GetPlayerCharacterNclr(int index);
 #include "Main/Graphics/chars_block.h"
 #include "Main/Race/followed_kart_or.h"
 #include "Main/Race/point_along_line.h"

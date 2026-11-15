@@ -292,8 +292,9 @@ u32 StartBackupRead(u32 address, u32 *destination, u32 byteCount, void (*callbac
 
 void StartBackupReadOneCopy(u32 address, void *destination, u32 byteCount, void (*callback)(u32 *, u32),
                             u32 expectedFirstWord) {
-    u32 v4 = expectedFirstWord;
-    u32 started = StartBackupRead(address, destination, byteCount, callback, BACKUP_COPY_PASS_SINGLE, v4, 0x0u);
+    u32 expectedWord = expectedFirstWord;
+    u32 started =
+        StartBackupRead(address, destination, byteCount, callback, BACKUP_COPY_PASS_SINGLE, expectedWord, 0x0u);
 }
 
 void StartBackupReadTwoCopies(u32 firstAddress, u32 secondAddress, u32 *destination, u32 byteCount,

@@ -236,7 +236,7 @@ void AdvanceRecordVSState4(void) {
         if (pressedFlag == FALSE ||
             IsSelectReturnState2NoState3Or4RequestAndInRect(gInputPairXs[inputSlotIndex].mPairX,
                                                             gInputPairYs[inputSlotIndex].mPairY) == FALSE) {
-            goto l1;
+            goto handlePageButtons;
         }
     }
     if (IsRecordVSIndexChangeRunning() != 0) {
@@ -251,7 +251,7 @@ void AdvanceRecordVSState4(void) {
     gRecordVS->mNextScreen = RECORD_SCREEN_TOP_MENU;
     RequestSelectReturnState3WithSound(0);
     return;
-l1:
+handlePageButtons:
     if ((downRectIndex == 10 && gRecordVS->mPageDecrementRepeat != FALSE) ||
         (pressedRectIndex == 10 && gRecordVS->mPageDecrementRepeat == FALSE) ||
         (u16) (gInputSlots[inputSlotIndex].mBits & PAD_KEY_LEFT) != 0) {

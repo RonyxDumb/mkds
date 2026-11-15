@@ -372,27 +372,27 @@ void InitSound(void *buffer, u32 bufferSize, u32 useFileArchive) {
 
     gSeqZeroLoopOn = 0;
     if (useFileArchive == 0) {
-        heapSizeKind = E2;
+        heapSizeKind = SND_HEAP_SIZE_SMALL;
         switch (heapSizeKind) {
-            case E0:
+            case SND_HEAP_SIZE_LARGE:
                 soundHeapSize = 0x36f3c;
                 break;
-            case E1:
+            case SND_HEAP_SIZE_MEDIUM:
                 soundHeapSize = 0x26a08;
                 break;
-            case E2:
+            case SND_HEAP_SIZE_SMALL:
                 soundHeapSize = 0x25a5c;
                 break;
         }
         seqRowHeapSize = 0;
         switch (heapSizeKind) {
-            case E0:
+            case SND_HEAP_SIZE_LARGE:
                 seqRowHeapSize = 0x6580;
                 break;
-            case E1:
+            case SND_HEAP_SIZE_MEDIUM:
                 seqRowHeapSize = 0x35a0;
                 break;
-            case E2:
+            case SND_HEAP_SIZE_SMALL:
                 seqRowHeapSize = 0x35a0;
                 break;
         }

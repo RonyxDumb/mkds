@@ -28,7 +28,8 @@ void DrawRaceStartBattle(RaceHudOamBuffer *oamBuffer) {
     s32 positions[2][2];
 
     reg_GX_DISPCNT = reg_GX_DISPCNT & ~(REG_GX_DISPCNT_OW_MASK | REG_GX_DISPCNT_W1_MASK | REG_GX_DISPCNT_W0_MASK);
-    cell = GetRaceStartBattleMNcerEntry(gRaceSetup->mBattleKind == BATTLE_KIND_BALLOON ? VALUE_0 : VALUE_1);
+    cell = GetRaceStartBattleMNcerEntry(gRaceSetup->mBattleKind == BATTLE_KIND_BALLOON ? RACE_START_BATTLE_BALLOON_CELL
+                                                                                       : RACE_START_BATTLE_OTHER_CELL);
     positions[0][0] = 0x80000;
     positions[0][1] = 0x60000;
     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,

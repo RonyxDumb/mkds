@@ -1015,7 +1015,7 @@ u16 GetLapCount(void) {
 void RequestMPState16ForNextRace(void) {
     u32 courseId;
     u32 mode;
-    u32 value12;
+    u32 unusedValue;
     courseId = gRaceSetup->mNextHeader.mCourseId;
     mode = gRaceSetup->mNextHeader.mMode;
     RequestMPState16((void *) courseId, (void *) mode);

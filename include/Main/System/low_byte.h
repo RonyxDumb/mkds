@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int GetLowByte(unsigned int p0);
+unsigned int GetLowByte(unsigned int value);

@@ -211,11 +211,11 @@ BOOL UpdateCourseSound(u32 slotIndex, u32 soundId) {
     return ok;
 }
 
-void InitCourseSoundSlot(CourseSoundSlot *p0, u32 p1, u32 p2) {
-    p0->mPreviousVolumeHandle = p1;
-    p0->mVolumeHandle = p1;
-    p0->mFirstTableIndex = p2;
-    p0->mLowVolume = 0x28;
-    p0->mMidVolume = 0x50;
-    p0->mHighVolume = 0x7f;
+void InitCourseSoundSlot(CourseSoundSlot *slot, u32 volumeHandle, u32 firstTableIndex) {
+    slot->mPreviousVolumeHandle = volumeHandle;
+    slot->mVolumeHandle = volumeHandle;
+    slot->mFirstTableIndex = firstTableIndex;
+    slot->mLowVolume = 0x28;
+    slot->mMidVolume = 0x50;
+    slot->mHighVolume = 0x7f;
 }
