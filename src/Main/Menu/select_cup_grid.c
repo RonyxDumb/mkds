@@ -1,4 +1,5 @@
 #include "Main/Menu/select_cup_grid.h"
+#include "Main/Menu/menu_entry_kind.h"
 
 #include "Main/System/heap.h"
 #include "Main/Scene/display_settings.h"
@@ -736,7 +737,8 @@ runReturnRequest:
         case SELECT_CUP_GRID_MODE_NO_CONNECTION:
         case SELECT_CUP_GRID_MODE_MULTI_SIMPLE:
         case SELECT_CUP_GRID_MODE_MULTI_OTHER:
-            if (gMenuShared->mMenuEntryKind == 2 || gMenuShared->mMenuEntryKind == 3) {
+            if (gMenuShared->mMenuEntryKind == MENU_ENTRY_COURSE_SELECT ||
+                gMenuShared->mMenuEntryKind == MENU_ENTRY_MISSION_SELECT) {
                 RequestSelectCupGridWaitExitOpen();
                 if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
                     SetSelectReturnSoundId(-1);

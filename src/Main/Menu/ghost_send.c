@@ -1,4 +1,5 @@
 #include "Main/Menu/ghost_send.h"
+#include "Main/Menu/menu_entry_kind.h"
 #include "Main/Scene/run_scene_connection.h" // SceneNumbers
 #include "Main/Graphics/cell_file_set.h"
 #include "Main/System/interpolation_value.h"
@@ -368,7 +369,7 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *advanceArg) {
     switch (gTimeAttackGhostSend->mState) {
         case TIME_ATTACK_GHOST_SEND_STATE_WAIT_NO_GHOST_TEXT:
             if (GetTxtSystemDone() != 0) {
-                gMenuShared->mMenuEntryKind = 5;
+                gMenuShared->mMenuEntryKind = MENU_ENTRY_TIME_ATTACK_TOP_MENU;
                 if (advanceArg != NULL) {
                     advanceArg->mNextScene = SCENE_MENU_1;
                 }
@@ -418,7 +419,7 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *advanceArg) {
                 } else {
                     keyB = gInputSlots[slotIndex].mPressedBits & PAD_KEY_B;
                     if (keyB != 0 || returnTouched != 0) {
-                        gMenuShared->mMenuEntryKind = 5;
+                        gMenuShared->mMenuEntryKind = MENU_ENTRY_TIME_ATTACK_TOP_MENU;
                         if (advanceArg != NULL) {
                             advanceArg->mNextScene = SCENE_MENU_1;
                         }
@@ -497,7 +498,7 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *advanceArg) {
         case TIME_ATTACK_GHOST_SEND_STATE_END_CONNECTION_LEAVE:
             if (AdvanceConnectionEndStopOnError() == 1) {
                 SendLedPatternWireless();
-                gMenuShared->mMenuEntryKind = 5;
+                gMenuShared->mMenuEntryKind = MENU_ENTRY_TIME_ATTACK_TOP_MENU;
                 if (advanceArg != NULL) {
                     advanceArg->mNextScene = SCENE_MENU_1;
                 }
@@ -520,7 +521,7 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *advanceArg) {
             break;
         case TIME_ATTACK_GHOST_SEND_STATE_WAIT_NAME_TEXT_LEAVE:
             if (GetTxtSystemDone() != 0) {
-                gMenuShared->mMenuEntryKind = 5;
+                gMenuShared->mMenuEntryKind = MENU_ENTRY_TIME_ATTACK_TOP_MENU;
                 if (advanceArg != NULL) {
                     advanceArg->mNextScene = SCENE_MENU_1;
                 }

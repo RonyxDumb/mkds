@@ -156,14 +156,14 @@ void CopyCurrentToRaceSetupCopy(void) {
 
         currentMode = GetCurrentMode();
         switch (currentMode) {
-            case 0:
-            case 1:
-            case 4:
-                GetRaceSetupCopy()->mMode = 3;
+            case MODE_GRAND_PRIX:
+            case MODE_TIME_ATTACK:
+            case MODE_MISSION_RUN:
+                GetRaceSetupCopy()->mMode = MODE_VS;
                 break;
-            case 2:
-            case 3:
-            case 5:
+            case MODE_BATTLE:
+            case MODE_VS:
+            case MODE_WIFI:
                 GetRaceSetupCopy()->mMode = currentMode;
                 break;
         }
@@ -314,9 +314,9 @@ void InitMenu(void) {
     InitDisplayFromSettings(displaySettings);
     gMenuScene->mFramesSinceScreenSwitch = 0;
     gMenuScene->mScreenSwitched = 1;
-    gMenuScene->mPreviousScreenNumber = 0x1f;
-    gMenuScene->mScreenNumber = 0x1f;
-    gMenuScene->mNextScreenNumber = 0x1f;
+    gMenuScene->mPreviousScreenNumber = SCREEN_NONE;
+    gMenuScene->mScreenNumber = SCREEN_NONE;
+    gMenuScene->mNextScreenNumber = SCREEN_NONE;
     gMenuScene->mScreenInitPending = TRUE;
     gMenuScene->mDataSharingSyncStarted = TRUE;
     gMenuScene->mDataSharingSyncFinished = TRUE;
@@ -410,84 +410,84 @@ void InitMenu(void) {
     }
     InitLinkLevelIcons(MenuGetCurrentHeap(), gMenuScene->mMainOam);
     switch (GetMenuEntryKind()) {
-        case 0:
-            SwitchMenuScreen(0, 0x1f);
+        case MENU_ENTRY_FIRST_SCREEN:
+            SwitchMenuScreen(0, SCREEN_NONE);
             SetRaceSetupRequested(1);
             break;
-        case 1:
+        case MENU_ENTRY_CHARACTER_SELECT:
             CopyCurrentToRaceSetupCopy();
             switch (GetRaceSetupCopy()->mMode) {
-                case 0:
-                    SwitchMenuScreen(5, 0x1f);
+                case MODE_GRAND_PRIX:
+                    SwitchMenuScreen(SCREEN_SELECT_CHARACTER_GRAND_PRIX, SCREEN_NONE);
                     SetMenuEntryKind(0);
                     SetRaceSetupRequested(1);
                     break;
-                case 3:
-                    SwitchMenuScreen(8, 0x1f);
+                case MODE_VS:
+                    SwitchMenuScreen(SCREEN_SELECT_CHARACTER_VS, SCREEN_NONE);
                     break;
-                case 2:
-                    SwitchMenuScreen(0xf, 0x1f);
+                case MODE_BATTLE:
+                    SwitchMenuScreen(SCREEN_SELECT_CHARACTER_BATTLE, SCREEN_NONE);
                     break;
-                case 1:
-                    SwitchMenuScreen(0x15, 0x1f);
+                case MODE_TIME_ATTACK:
+                    SwitchMenuScreen(SCREEN_SELECT_CHARACTER_TIME_ATTACK, SCREEN_NONE);
                     SetMenuEntryKind(0);
                     SetRaceSetupRequested(1);
                     break;
             }
             break;
-        case 2:
+        case MENU_ENTRY_COURSE_SELECT:
             CopyCurrentToRaceSetupCopy();
             switch (GetRaceSetupCopy()->mMode) {
-                case 3:
-                    SwitchMenuScreen(0xb, 0x1f);
+                case MODE_VS:
+                    SwitchMenuScreen(SCREEN_SELECT_CUP_GRID_VS, SCREEN_NONE);
                     break;
-                case 2:
-                    SwitchMenuScreen(SCREEN_SELECT_BATTLE_STAGE, 0x1f);
+                case MODE_BATTLE:
+                    SwitchMenuScreen(SCREEN_SELECT_BATTLE_STAGE, SCREEN_NONE);
                     break;
-                case 1:
-                    SwitchMenuScreen(0x17, 0x1f);
+                case MODE_TIME_ATTACK:
+                    SwitchMenuScreen(SCREEN_SELECT_CUP_GRID_TIME_ATTACK, SCREEN_NONE);
                     SetMenuEntryKind(0);
                     SetRaceSetupRequested(1);
                     break;
             }
             break;
-        case 3:
+        case MENU_ENTRY_MISSION_SELECT:
             CopyCurrentToRaceSetupCopy();
             if (GetUnfilledNotEliminated() != 0 || GetLVselIndex6Requested() != 0) {
-                SwitchMenuScreen(SCREEN_MISSION_RUN_LVSEL, 0x1f);
+                SwitchMenuScreen(SCREEN_MISSION_RUN_LVSEL, SCREEN_NONE);
             } else {
-                SwitchMenuScreen(SCREEN_MISSION_RUN_MSSEL, 0x1f);
+                SwitchMenuScreen(SCREEN_MISSION_RUN_MSSEL, SCREEN_NONE);
             }
             SetMenuEntryKind(0);
             SetRaceSetupRequested(1);
             break;
-        case 4:
-            SwitchMenuScreen(0xe, 0x1f);
+        case MENU_ENTRY_SELECT_GAME:
+            SwitchMenuScreen(SCREEN_SELECT_GAME, SCREEN_NONE);
             break;
-        case 5:
+        case MENU_ENTRY_TIME_ATTACK_TOP_MENU:
             CopyCurrentToRaceSetupCopy();
             GetRaceSetupCopy()->mMode = 1;
-            SwitchMenuScreen(SCREEN_TIME_ATTACK_TOP_MENU, 0x1f);
+            SwitchMenuScreen(SCREEN_TIME_ATTACK_TOP_MENU, SCREEN_NONE);
             SetMenuEntryKind(0);
             SetRaceSetupRequested(1);
             break;
     }
     CreatePicksHolder(MenuGetCurrentHeap());
     switch (GetRaceSetupCopy()->mMode) {
-        case 0:
+        case MODE_GRAND_PRIX:
         default:
             gMenuScene->mSinglePlaySelectModeIndex = SINGLE_PLAY_SELECT_GRAND_PRIX;
             break;
-        case 1:
+        case MODE_TIME_ATTACK:
             gMenuScene->mSinglePlaySelectModeIndex = SINGLE_PLAY_SELECT_TIME_ATTACK;
             break;
-        case 2:
+        case MODE_BATTLE:
             gMenuScene->mSinglePlaySelectModeIndex = SINGLE_PLAY_SELECT_BATTLE;
             break;
-        case 3:
+        case MODE_VS:
             gMenuScene->mSinglePlaySelectModeIndex = SINGLE_PLAY_SELECT_VS;
             break;
-        case 4:
+        case MODE_MISSION_RUN:
             gMenuScene->mSinglePlaySelectModeIndex = SINGLE_PLAY_SELECT_MISSION_RUN;
             break;
     }

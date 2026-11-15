@@ -1,4 +1,5 @@
 #include "Main/Menu/wl_menu_message.h"
+#include "Main/Menu/menu_entry_kind.h"
 #include "Main/Menu/wl_menu_mb_child_message.h"
 
 #include "registers.h"
@@ -86,7 +87,7 @@ s32 AdvanceWLMenuMBChildMessage(SceneNumbers *sceneNumbers) {
         case WL_MENU_MESSAGE_STATE_WAIT_BACKUP:
             if (IsBackupBusy() == 0) {
                 WLMenuSetRaceSetupRequested(1);
-                WLMenuSetMenuEntryKind(4);
+                WLMenuSetMenuEntryKind(MENU_ENTRY_SELECT_GAME);
                 if (sceneNumbers != 0) {
                     SetNextScene(sceneNumbers, 1);
                 }

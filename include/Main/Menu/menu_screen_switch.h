@@ -7,6 +7,8 @@
 // InitCurrentMenuScreen and ReleasePreviousMenuScreen start and release are named after their Init class and the race
 // mode whose entry path leads to them (RaceSetup.mMode, set up in menu.c).
 // InitSelectEngine / ReleaseSelectEngine.
+// No screen: the value of the previous, current and next screen number when no screen is open.
+#define SCREEN_NONE 0x1f
 #define SCREEN_SELECT_ENGINE 4
 // InitSelectCharacter / ReleaseSelectCharacter, one number per race mode.
 #define SCREEN_SELECT_CHARACTER_GRAND_PRIX 5

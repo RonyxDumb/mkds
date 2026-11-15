@@ -1,4 +1,5 @@
 #include "Main/Menu/menu_release.h"
+#include "Main/Menu/menu_screen_switch.h"
 #include "Main/Menu/single_play_select_screen3.h"
 #include "Main/Menu/menu_screen_init.h"
 #include "Main/Menu/menu_entry_kind.h"
@@ -15,7 +16,7 @@
 void ReleaseMenu(void) {
     if (gMenuScene->mScreenInitPending == FALSE) {
         gMenuScene->mPreviousScreenNumber = gMenuScene->mScreenNumber;
-        gMenuScene->mScreenNumber = 0x1f;
+        gMenuScene->mScreenNumber = SCREEN_NONE;
         ReleasePreviousMenuScreen();
     }
     if (MenuMB_IsMultiBootChildWrapper() == 0) {

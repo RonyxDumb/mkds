@@ -1,4 +1,5 @@
 #include "Main/Menu/time_attack_ghost_get_scan.h"
+#include "Main/Menu/menu_entry_kind.h"
 #include "Main/Race/results_battle_registers.h"
 #include "Main/Graphics/locate_bmg_sections.h"
 #include "Main/Menu/txt_system.h"
@@ -415,7 +416,7 @@ s32 AdvanceTimeAttackGhostGetSlot(u16 *sceneNumbers) {
             break;
         case TIME_ATTACK_GHOST_GET_SLOT_STATE_WAIT_MESSAGE_DONE:
             if (GetTxtSystemDone() != 0) {
-                gMenuShared->mMenuEntryKind = 5;
+                gMenuShared->mMenuEntryKind = MENU_ENTRY_TIME_ATTACK_TOP_MENU;
                 if (sceneNumbers != NULL) {
                     sceneNumbers[2] = 1;
                 }
@@ -1094,7 +1095,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
         case TIME_ATTACK_GHOST_GET_SCAN_STATE_END_CONNECTION_LEAVE:
             if (AdvanceConnectionEndStopOnError() == 1) {
                 SendLedPatternWireless();
-                gMenuShared->mMenuEntryKind = 5;
+                gMenuShared->mMenuEntryKind = MENU_ENTRY_TIME_ATTACK_TOP_MENU;
                 if (sceneNumbers != NULL) {
                     sceneNumbers->mNextScene = SCENE_MENU_1;
                 }
@@ -1182,7 +1183,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
             break;
         case TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_MESSAGE_DONE:
             if (GetTxtSystemDone() != 0) {
-                gMenuShared->mMenuEntryKind = 5;
+                gMenuShared->mMenuEntryKind = MENU_ENTRY_TIME_ATTACK_TOP_MENU;
                 if (sceneNumbers != NULL) {
                     sceneNumbers->mNextScene = SCENE_MENU_1;
                 }

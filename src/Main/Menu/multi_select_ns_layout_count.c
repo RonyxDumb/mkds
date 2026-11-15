@@ -1,4 +1,5 @@
 #include "Main/Menu/multi_select_ns_layout_count.h"
+#include "Main/Menu/menu_entry_kind.h"
 #include "Main/System/heap.h"
 #include "Main/Net/participant_get_connection.h"
 #include "Main/Scene/run_scene_connection.h"
@@ -784,7 +785,7 @@ s32 AdvanceMultiSelectMemberKeyStart(SceneNumbers *sceneNumbers) {
                 SetMultiSelectMemberSubCellVisible(1);
                 if (gMultiSelectMember->mSetupState == MULTI_SELECT_MEMBER_SETUP_DONE) {
                     gMenuShared->mRaceSetupRequested = 1;
-                    gMenuShared->mMenuEntryKind = 4;
+                    gMenuShared->mMenuEntryKind = MENU_ENTRY_SELECT_GAME;
                     if (sceneNumbers != NULL) {
                         sceneNumbers->mNextScene = SCENE_MENU_1;
                     }
@@ -932,7 +933,7 @@ s32 AdvanceMultiSelectMemberNoKeyStart(SceneNumbers *sceneNumbers) {
             }
             if (gMultiSelectMember->mSetupState == MULTI_SELECT_MEMBER_SETUP_DONE) {
                 gMenuShared->mRaceSetupRequested = 1;
-                gMenuShared->mMenuEntryKind = 4;
+                gMenuShared->mMenuEntryKind = MENU_ENTRY_SELECT_GAME;
                 if (sceneNumbers != NULL) {
                     sceneNumbers->mNextScene = SCENE_MENU_1;
                 }
