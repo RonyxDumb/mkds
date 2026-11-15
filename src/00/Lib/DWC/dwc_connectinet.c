@@ -44,13 +44,13 @@ void DWC_InitInet(void *inetCntl) {
 
 void DWC_SetAuthServer(s32 type) {
     switch (type) {
-        case 0:
+        case DWC_CONNECTINET_AUTH_TEST:
             DWC_Auth_SetCustomNas("https://nas.test.nintendowifi.net/ac");
             break;
-        case 1:
+        case DWC_CONNECTINET_AUTH_DEVELOP:
             DWC_Auth_SetCustomNas("https://nas.dev.nintendowifi.net/ac");
             break;
-        case 2:
+        case DWC_CONNECTINET_AUTH_RELEASE:
             DWC_Auth_SetCustomNas("https://nas.nintendowifi.net/ac");
             break;
     }

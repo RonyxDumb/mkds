@@ -1,3 +1,4 @@
+#include "00/Lib/NitroWiFi/code_021a4b98.h"
 #include "00/Lib/DWC/code_02188de4.h"
 #include "00/Lib/DWC/code_02188ec0.h"
 #include "00/Lib/DWC/code_0218a64c.h"
@@ -22,16 +23,16 @@ u32 FillApWepKey(struct ACWORK *work, u32 type, WCMWepDesc *wepKey) {
         case AUTO_CONNECT_AP_TYPE_USER_SECOND_SSID + 1:
             userInfo++;
         case AUTO_CONNECT_AP_TYPE_USER_SECOND_SSID:
-            wepKey->mMode = 1;
+            wepKey->mMode = WCM_WEPMODE_40;
             MI_CpuCopy8(userInfo->mWep2, wepKey->mKey, sizeof(userInfo->mWep2));
             wepKey->mKey[0x14] = 0;
             break;
         case AUTO_CONNECT_AP_TYPE_NWCUSBAP_SSID:
-            wepKey->mMode = 2;
+            wepKey->mMode = WCM_WEPMODE_104;
             DWCi_AC_GetNintendoUSBWepKey(work->mBssDesc[work->mConnectNo].mSsid, wepKey->mKey);
             break;
         case AUTO_CONNECT_AP_TYPE_NDWCSHAP_SSID_PREFIX:
-            wepKey->mMode = 2;
+            wepKey->mMode = WCM_WEPMODE_104;
             DWCi_AC_GetNintendoShopWepKey(work->mBssDesc[work->mConnectNo].mSsid, wepKey->mKey);
             break;
         case AUTO_CONNECT_AP_TYPE_FREESPOT_SSID:

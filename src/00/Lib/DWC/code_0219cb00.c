@@ -11,7 +11,7 @@ void BuddySyncStatsSaveCallback(u32 localId, u32 profileId, s32 type, u32 index,
     DWCi_SubPersCallbackLevel();
     if (flag == 0x80000001) {
         if (success != 0) {
-            if (gWiFiBuddySync->mState == 1) {
+            if (gWiFiBuddySync->mState == BUDDY_SYNC_STATE_UPDATING) {
                 gWiFiBuddySync->mCompletedParts++;
             } else {
                 flag = 0;

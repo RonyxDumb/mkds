@@ -42,6 +42,7 @@ typedef struct ACSL {
 // gives -512xx and any other value -513xx.
 enum {
     AUTO_CONNECT_FIND_FAILED = 1,
+    AUTO_CONNECT_FIND_TEST_ABORTED = 2,
     AUTO_CONNECT_FIND_ERROR_51100 = 3,
     AUTO_CONNECT_FIND_ERROR_51200,
 };

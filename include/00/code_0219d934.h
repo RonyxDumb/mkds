@@ -6,6 +6,13 @@ typedef struct DWCAccFriendData DWCAccFriendData;
 
 struct GpConnection;
 
+// Values of WiFiBuddySync.mState: no update is running, the buddy update is running, it has finished.
+enum {
+    BUDDY_SYNC_STATE_NONE,
+    BUDDY_SYNC_STATE_UPDATING,
+    BUDDY_SYNC_STATE_FINISHED,
+};
+
 // Values of WiFiBuddySync.mBuddyUpdateState: the list step starts, then goes through the entries, waits for a profile
 // search reply, and is done when every entry has been passed.
 enum {

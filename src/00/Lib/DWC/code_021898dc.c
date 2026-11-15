@@ -278,7 +278,7 @@ u32 SearchEndCheck(ACWORK *work, u32 phase) {
     work->mConnectNo = findIndex;
     if (WCM_EndSearchAsync() != 1) {
         work->mPhaseBak = phase;
-        phase = 7;
+        phase = AC_PHASE_CONNECT_START;
     }
     return phase;
 }

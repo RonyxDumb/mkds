@@ -122,7 +122,7 @@ void StartBuddySync(const char *authToken, const char *partnerChallenge, void (*
     gWiFiBuddySync->mBuddiesChanged = 0;
     gWiFiBuddySync->mBuddyUpdateState = BUDDY_UPDATE_STATE_START;
     gWiFiBuddySync->mCompletedParts = 0;
-    gWiFiBuddySync->mState = 1;
+    gWiFiBuddySync->mState = BUDDY_SYNC_STATE_UPDATING;
     if (((s8 *) gWiFiBuddySync->mPlayerName)[attemptIndex] != 0) {
         statsAttempt = attemptIndex;
         for (; attemptIndex < 5; attemptIndex++) {
@@ -149,7 +149,7 @@ void StartBuddySync(const char *authToken, const char *partnerChallenge, void (*
 void DWCi_StopFriendProcess(s32 error, s32 errorCode) {
     if (gWiFiBuddySync != NULL && error != 0) {
         DWCi_SetError(error, errorCode);
-        if (gWiFiBuddySync->mState != 0 && gWiFiBuddySync->mState != 2) {
+        if (gWiFiBuddySync->mState != BUDDY_SYNC_STATE_NONE && gWiFiBuddySync->mState != BUDDY_SYNC_STATE_FINISHED) {
             gWiFiBuddySync->mResultCallback(error, gWiFiBuddySync->mBuddiesChanged, gWiFiBuddySync->mResultCallbackArg);
         }
         CloseStatsAndResetBuddySync();
@@ -249,7 +249,7 @@ u32 DWCi_SetGPStatus(s32 status, void *statusString, void *locationString) {
 
 void DWCi_CallBuddyFriendCallback(s32 index) {
     GpBuddyStatus buddyStatus;
-    if (gWiFiBuddySync->mBuddyChangedCallback != NULL && gWiFiBuddySync->mState != 1) {
+    if (gWiFiBuddySync->mBuddyChangedCallback != NULL && gWiFiBuddySync->mState != BUDDY_SYNC_STATE_UPDATING) {
         gWiFiBuddySync->mBuddyChangedCallback(index, gWiFiBuddySync->mBuddyChangedCallbackArg);
     }
     if (gWiFiBuddySync->mBuddyStatusCallback != NULL) {
@@ -278,7 +278,7 @@ int DWCi_GPProcess(void) {
 void CloseStatsAndResetBuddySync(void) {
     if (gWiFiBuddySync != NULL) {
         GstatsClose();
-        gWiFiBuddySync->mState = 0;
+        gWiFiBuddySync->mState = BUDDY_SYNC_STATE_NONE;
     }
 }
 
@@ -335,7 +335,7 @@ void DWCi_UpdateFriendReq(DWCAccFriendData *friendList, s32 friendListLength) {
 // the finished state (mState 2).
 void DWCi_EndUpdateServers(void) {
     gWiFiBuddySync->mResultCallback(0, gWiFiBuddySync->mBuddiesChanged, gWiFiBuddySync->mResultCallbackArg);
-    gWiFiBuddySync->mState = 2;
+    gWiFiBuddySync->mState = BUDDY_SYNC_STATE_FINISHED;
 }
 
 void DWCi_DeleteFriendFromList(DWCAccFriendData *friendData, s32 deleteIndex, s32 otherIndex) {

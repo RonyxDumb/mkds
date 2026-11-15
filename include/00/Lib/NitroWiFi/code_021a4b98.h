@@ -54,6 +54,12 @@ typedef struct WCMApListHeader {
     /* 0c */ WCMApList mBlocks[1];
 } WCMApListHeader;
 
+// Values of the mode member of a WEP key: the key length in bits.
+#define WCM_WEPMODE_NONE 0
+#define WCM_WEPMODE_40 1
+#define WCM_WEPMODE_104 2
+#define WCM_WEPMODE_128 3
+
 // Bits of WCMWork.mOption: TEST bits say a setting is made, the FILTER bit next to it gives its value (channel bits
 // are numbered from channel 1).
 #define WCM_OPTION_TEST_CHANNEL 0x00008000

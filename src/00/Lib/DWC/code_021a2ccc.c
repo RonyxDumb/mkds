@@ -61,9 +61,9 @@ u16 DWCs_DecodeHeader(const void *message) {
 
 s32 DWCs_GetRequiredHeaderSize(s32 type) {
     switch (type) {
-        case 2:
-        case 3:
-        case 4:
+        case WIFI_MESSAGE_KIND_SYNC_REQUEST:
+        case WIFI_MESSAGE_KIND_SYNC_REPLY:
+        case WIFI_MESSAGE_KIND_SYNC_GO:
             return 12;
         default:
             return 8;
