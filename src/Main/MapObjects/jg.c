@@ -227,9 +227,9 @@ void UpdateJg(void) {
         if (gJgTableIndex >= 0x3c) {
             gJgTableIndex = 0;
         }
-        if (gJgKind != 4) {
+        if (gJgKind != JG_KIND_NONE) {
             JgKindRow *kindRow = &gJgKindRows[gJgKind];
-            if (gJgKind != 0 && gJgKind != 1) {
+            if (gJgKind != JG_KIND_LAP_COUNT && gJgKind != JG_KIND_LAP_FINAL) {
                 if (kindRow->mNsbcaAnimation != NULL) {
                     AdvanceModelAnimation(kindRow->mNsbcaAnimation);
                 }
@@ -239,7 +239,7 @@ void UpdateJg(void) {
             }
         }
         if (gJgStateMachine.mState != JG_STATE_FOLLOW_KART &&
-            (gJgStateMachine.mState != JG_STATE_LEAVE || gJgKind != 4)) {
+            (gJgStateMachine.mState != JG_STATE_LEAVE || gJgKind != JG_KIND_NONE)) {
             gJgKartPos = gJgKart->mPos;
             gJgKartPos.y -= gJgKart->mHopHeight;
         }
@@ -266,7 +266,7 @@ void UpdateJg(void) {
         MTX_MultVec43(&targetOffset, &gJgMatrix, &gJgTargetPos);
         gJgKind = JG_KIND_FLAG;
         if (GetEntryRaceEnded() == 0) {
-            if ((u32) gJgKind <= 1) {
+            if ((u32) gJgKind <= JG_KIND_LAP_FINAL) {
                 gJgSnapActive = 1;
                 gJgSnapUntilPushFlip = 1;
             }
@@ -289,9 +289,9 @@ void UpdateJg(void) {
             targetOffset.x += gJgShiftX;
             MTX_MultVec43(&targetOffset, &gJgMatrix, &gJgTargetPos);
             if (gJgHighestLap == gJgFinalLap) {
-                gJgKind = 1;
+                gJgKind = JG_KIND_LAP_FINAL;
                 if (GetEntryRaceEnded() == 0) {
-                    if ((u32) gJgKind <= 1) {
+                    if ((u32) gJgKind <= JG_KIND_LAP_FINAL) {
                         gJgSnapActive = 1;
                         gJgSnapUntilPushFlip = 1;
                     }
@@ -299,9 +299,9 @@ void UpdateJg(void) {
                 SetStateMachineState(&gJgStateMachine, JG_STATE_ARRIVE);
                 return;
             }
-            gJgKind = 0;
+            gJgKind = JG_KIND_LAP_COUNT;
             if (GetEntryRaceEnded() == 0) {
-                if ((u32) gJgKind <= 1) {
+                if ((u32) gJgKind <= JG_KIND_LAP_FINAL) {
                     gJgSnapActive = 1;
                     gJgSnapUntilPushFlip = 1;
                 }
@@ -357,12 +357,12 @@ void DrawJg(void) {
     kindModel = NULL;
     lapModel = NULL;
     switch (gJgKind) {
-        case 2:
+        case JG_KIND_REVERSE:
         case JG_KIND_FLAG:
             kindModel = gJgKindRows[gJgKind].mModel;
             break;
-        case 0:
-        case 1:
+        case JG_KIND_LAP_COUNT:
+        case JG_KIND_LAP_FINAL:
             lapModel = gJgKindRows[gJgKind].mLapModel;
             break;
     }
@@ -741,13 +741,13 @@ void EnterJgReverse(void *stateObject) {
     s32 rotatedZ;
 
     // Written through a cast: a plain store changes the test below.
-    *(s32 *) &gJgKind = 2;
+    *(s32 *) &gJgKind = JG_KIND_REVERSE;
     gJgVisible = 1;
     gJgAgainstCheckpointFrames = 0;
     gJgSnapActive = 0;
     gJgSnapUntilPushFlip = 0;
     gJgTableIndex = 0;
-    if (gJgKind != 4) {
+    if (gJgKind != JG_KIND_NONE) {
         animation = gJgKindRows[gJgKind].mNsbcaAnimation;
         if (animation != NULL) {
             animation->mHead.mFrameIndex = 0;
@@ -912,13 +912,13 @@ void EnterJgFollowKart(void *stateObject) {
 
     gJgAgainstCheckpointFrames = 0;
     // Written through a cast: a plain store changes the test below.
-    *(s32 *) &gJgKind = 4;
+    *(s32 *) &gJgKind = JG_KIND_NONE;
     gJgVisible = 1;
     gJgAlpha = 0x1f;
     gJgSnapActive = 0;
     gJgSnapUntilPushFlip = 0;
     gJgTableIndex = 0;
-    if (gJgKind != 4) {
+    if (gJgKind != JG_KIND_NONE) {
         animation = gJgKindRows[gJgKind].mNsbcaAnimation;
         if (animation != NULL) {
             animation->mHead.mFrameIndex = 0;
@@ -1038,7 +1038,7 @@ void EnterJgArrive(void *stateObject) {
 
     gJgVisible = 1;
     gJgTableIndex = 0;
-    if (gJgKind != 4) {
+    if (gJgKind != JG_KIND_NONE) {
         animation = gJgKindRows[gJgKind].mNsbcaAnimation;
         if (animation != NULL) {
             animation->mHead.mFrameIndex = 0;
@@ -1097,8 +1097,8 @@ void UpdateJgArrive(void *stateObject) {
     gJgTargetPos.y += heightOffset;
     if (heightOffset <= 0) {
         switch (gJgKind) {
-            case 0:
-            case 1:
+            case JG_KIND_LAP_COUNT:
+            case JG_KIND_LAP_FINAL:
                 SetStateMachineState(&gJgStateMachine, JG_STATE_LAP);
                 break;
             case JG_KIND_FLAG:

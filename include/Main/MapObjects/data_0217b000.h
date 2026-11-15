@@ -912,9 +912,13 @@ extern RaceHudSubScreenCells *gRaceHudSubScreenDossunCells;
 static inline RaceHudSubScreenCell *GetRaceHudSubScreenDossunCell(u32 cellIndex) {
     return &gRaceHudSubScreenDossunCells->mCells[cellIndex];
 }
-// Which model the Jg shows and its row in gJgKindRows: 0 lap_count, 1 lap_final, 2 jg_reverse, 3 jg_flag, 4 none.
+// Which model the Jg shows: its row in gJgKindRows (the lap_count, lap_final, jg_reverse and jg_flag models; none).
 extern s32 gJgKind;
+#define JG_KIND_LAP_COUNT 0
+#define JG_KIND_LAP_FINAL 1
+#define JG_KIND_REVERSE 2
 #define JG_KIND_FLAG 3 // shown after the player finishes
+#define JG_KIND_NONE 4
 extern s32 gJgSnapUntilPushFlip;
 extern s32 gJgAgainstCheckpointFrames;
 extern s32 gJgVisible;

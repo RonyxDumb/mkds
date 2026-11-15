@@ -143,7 +143,7 @@ void InitJg(void) {
         flag = FALSE;
     }
     gJgStartSideNotFlipped = flag;
-    gJgKind = 4;
+    gJgKind = JG_KIND_NONE;
     gJgHighestLap = 1;
     gJgFinalLap = GetLapCount();
     InitJgOffsets();
