@@ -50,6 +50,27 @@ typedef struct WepKey16 {
 
 #define SOCKET_FAMILY_IPV4 2
 
+// UDP port the exchange packets are sent to and received on.
+#define EXCHANGE_SOCKET_PORT 0x1e6
+
+// Values of gExchangeState, the steps of RunExchange.
+#define EXCHANGE_STEP_SEARCH_ENTRY 1
+#define EXCHANGE_STEP_CONNECT 2
+#define EXCHANGE_STEP_OPEN_SOCKET 3
+#define EXCHANGE_STEP_WAIT_FIRST_PACKET 4
+#define EXCHANGE_STEP_SEND_FIRST_REPLY 5
+#define EXCHANGE_STEP_WAIT_SECOND_KEY 6
+#define EXCHANGE_STEP_SEND_KEY_HASH 7
+#define EXCHANGE_STEP_WAIT_RESULT 8
+#define EXCHANGE_STEP_SEND_RESULT_ACK 9
+#define EXCHANGE_STEP_WAIT_ACK_RESEND 10
+
+// Bit of RawEntry.mFlags that is set for an entry with encryption.
+#define RAW_ENTRY_FLAG_ENCRYPTED 0x10
+
+// First byte of a one-character SSID that stands for no name.
+#define EXCHANGE_SSID_BLANK_CHAR 0x20
+
 // Eight bytes passed by address.
 typedef struct SocketAddress {
     /* 0 */ u8 mLength;

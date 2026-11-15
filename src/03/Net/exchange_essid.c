@@ -391,182 +391,182 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
     switch (message->mNotify) {
         case WIFI_NOTIFY_ENABLE_REQUEST:
             if (message->mResult == 0) {
-                if (gExchangeWcmState == 4) {
-                    gExchangeWcmState = 3;
+                if (gExchangeWcmState == EXCHANGE_WCM_STATE_STARTING_UP_OR_DISCONNECTING) {
+                    gExchangeWcmState = EXCHANGE_WCM_STATE_IDLE;
                     if (gExchangeEventCallback != NULL) {
-                        gExchangeEventCallback(6, 0);
+                        gExchangeEventCallback(EXCHANGE_EVENT_STARTUP_DONE, 0);
                     }
-                } else if (gExchangeWcmState == 6) {
+                } else if (gExchangeWcmState == EXCHANGE_WCM_STATE_SEARCH_PENDING) {
                     if (WCM_SearchAsync(gExchangeSearchAddress, gExchangeSearchEssid, gExchangeSearchOption) == 3) {
                         return;
                     }
-                    gExchangeWcmState = 3;
+                    gExchangeWcmState = EXCHANGE_WCM_STATE_IDLE;
                     if (gExchangeEventCallback != NULL) {
-                        gExchangeEventCallback(2, 0);
+                        gExchangeEventCallback(EXCHANGE_EVENT_CHAINED_REQUEST_FAILED, 0);
                     }
-                } else if (gExchangeWcmState == 8) {
+                } else if (gExchangeWcmState == EXCHANGE_WCM_STATE_CONNECT_PENDING) {
                     if (WCM_ConnectAsync(gExchangeConnectRecord, gExchangeConnectBlock, gExchangeConnectOption) == 3) {
                         return;
                     }
-                    gExchangeWcmState = 3;
+                    gExchangeWcmState = EXCHANGE_WCM_STATE_IDLE;
                     if (gExchangeEventCallback != NULL) {
-                        gExchangeEventCallback(2, 0);
+                        gExchangeEventCallback(EXCHANGE_EVENT_CHAINED_REQUEST_FAILED, 0);
                     }
                 }
             } else {
-                gExchangeWcmState = 1;
+                gExchangeWcmState = EXCHANGE_WCM_STATE_INITIALIZED;
                 if (gExchangeEventCallback != NULL) {
-                    gExchangeEventCallback(2, 0);
+                    gExchangeEventCallback(EXCHANGE_EVENT_CHAINED_REQUEST_FAILED, 0);
                 }
             }
             break;
         case WIFI_NOTIFY_SCAN_START_REQUEST:
             if (message->mResult == 0) {
-                if (gExchangeWcmState == 6) {
-                    gExchangeWcmState = 5;
+                if (gExchangeWcmState == EXCHANGE_WCM_STATE_SEARCH_PENDING) {
+                    gExchangeWcmState = EXCHANGE_WCM_STATE_SEARCHING;
                     if (gExchangeEventCallback != NULL) {
-                        gExchangeEventCallback(8, 0);
+                        gExchangeEventCallback(EXCHANGE_EVENT_SEARCH_STARTED, 0);
                     }
                 }
             } else {
-                gExchangeWcmState = 3;
+                gExchangeWcmState = EXCHANGE_WCM_STATE_IDLE;
                 if (gExchangeEventCallback != NULL) {
-                    gExchangeEventCallback(9, 0);
+                    gExchangeEventCallback(EXCHANGE_EVENT_SEARCH_START_FAILED, 0);
                 }
             }
             break;
         case WIFI_NOTIFY_CONNECT_REQUEST:
             if (message->mResult == 0) {
-                if (gExchangeWcmState == 8) {
-                    gExchangeWcmState = 7;
+                if (gExchangeWcmState == EXCHANGE_WCM_STATE_CONNECT_PENDING) {
+                    gExchangeWcmState = EXCHANGE_WCM_STATE_CONNECTED;
                     if (gExchangeEventCallback != NULL) {
-                        gExchangeEventCallback(12, 0);
+                        gExchangeEventCallback(EXCHANGE_EVENT_CONNECTED, 0);
                     }
                 }
             } else {
-                gExchangeWcmState = 3;
+                gExchangeWcmState = EXCHANGE_WCM_STATE_IDLE;
                 if (gExchangeEventCallback != NULL) {
-                    gExchangeEventCallback(13, 0);
+                    gExchangeEventCallback(EXCHANGE_EVENT_CONNECT_FAILED, 0);
                 }
             }
             break;
         case WIFI_NOTIFY_SCAN_STOP_REQUEST:
             if (message->mResult == 0) {
-                if (gExchangeWcmState == 4) {
-                    gExchangeWcmState = 3;
+                if (gExchangeWcmState == EXCHANGE_WCM_STATE_STARTING_UP_OR_DISCONNECTING) {
+                    gExchangeWcmState = EXCHANGE_WCM_STATE_IDLE;
                     if (gExchangeEventCallback != NULL) {
-                        gExchangeEventCallback(10, 0);
+                        gExchangeEventCallback(EXCHANGE_EVENT_SEARCH_STOPPED, 0);
                     }
-                } else if (gExchangeWcmState == 6) {
+                } else if (gExchangeWcmState == EXCHANGE_WCM_STATE_SEARCH_PENDING) {
                     if (WCM_SearchAsync(gExchangeSearchAddress, gExchangeSearchEssid, gExchangeSearchOption) == 3) {
                         return;
                     }
-                    gExchangeWcmState = 3;
+                    gExchangeWcmState = EXCHANGE_WCM_STATE_IDLE;
                     if (gExchangeEventCallback != NULL) {
-                        gExchangeEventCallback(2, 0);
+                        gExchangeEventCallback(EXCHANGE_EVENT_CHAINED_REQUEST_FAILED, 0);
                     }
-                } else if (gExchangeWcmState == 2) {
+                } else if (gExchangeWcmState == EXCHANGE_WCM_STATE_CLEANING_UP) {
                     if (WCM_CleanupAsync() == 3) {
                         return;
                     }
-                    gExchangeWcmState = 3;
+                    gExchangeWcmState = EXCHANGE_WCM_STATE_IDLE;
                     if (gExchangeEventCallback != NULL) {
-                        gExchangeEventCallback(2, 0);
+                        gExchangeEventCallback(EXCHANGE_EVENT_CHAINED_REQUEST_FAILED, 0);
                     }
-                } else if (gExchangeWcmState == 8) {
+                } else if (gExchangeWcmState == EXCHANGE_WCM_STATE_CONNECT_PENDING) {
                     if (WCM_ConnectAsync(gExchangeConnectRecord, gExchangeConnectBlock, gExchangeConnectOption) == 3) {
                         return;
                     }
-                    gExchangeWcmState = 3;
+                    gExchangeWcmState = EXCHANGE_WCM_STATE_IDLE;
                     if (gExchangeEventCallback != NULL) {
-                        gExchangeEventCallback(2, 0);
+                        gExchangeEventCallback(EXCHANGE_EVENT_CHAINED_REQUEST_FAILED, 0);
                     }
                 }
             } else {
-                gExchangeWcmState = 3;
+                gExchangeWcmState = EXCHANGE_WCM_STATE_IDLE;
                 if (gExchangeEventCallback != NULL) {
-                    gExchangeEventCallback(11, 0);
+                    gExchangeEventCallback(EXCHANGE_EVENT_SEARCH_STOP_FAILED, 0);
                 }
             }
             break;
         case WIFI_NOTIFY_DISCONNECT_REQUEST:
             if (message->mResult == 0) {
-                if (gExchangeWcmState == 4) {
-                    gExchangeWcmState = 3;
+                if (gExchangeWcmState == EXCHANGE_WCM_STATE_STARTING_UP_OR_DISCONNECTING) {
+                    gExchangeWcmState = EXCHANGE_WCM_STATE_IDLE;
                     if (gExchangeEventCallback != NULL) {
-                        gExchangeEventCallback(14, 0);
+                        gExchangeEventCallback(EXCHANGE_EVENT_DISCONNECTED, 0);
                     }
-                } else if (gExchangeWcmState == 6) {
+                } else if (gExchangeWcmState == EXCHANGE_WCM_STATE_SEARCH_PENDING) {
                     if (WCM_SearchAsync(gExchangeSearchAddress, gExchangeSearchEssid, gExchangeSearchOption) == 3) {
                         return;
                     }
-                    gExchangeWcmState = 3;
+                    gExchangeWcmState = EXCHANGE_WCM_STATE_IDLE;
                     if (gExchangeEventCallback != NULL) {
-                        gExchangeEventCallback(2, 0);
+                        gExchangeEventCallback(EXCHANGE_EVENT_CHAINED_REQUEST_FAILED, 0);
                     }
-                } else if (gExchangeWcmState == 2) {
+                } else if (gExchangeWcmState == EXCHANGE_WCM_STATE_CLEANING_UP) {
                     if (WCM_CleanupAsync() == 3) {
                         return;
                     }
-                    gExchangeWcmState = 3;
+                    gExchangeWcmState = EXCHANGE_WCM_STATE_IDLE;
                     if (gExchangeEventCallback != NULL) {
-                        gExchangeEventCallback(2, 0);
+                        gExchangeEventCallback(EXCHANGE_EVENT_CHAINED_REQUEST_FAILED, 0);
                     }
-                } else if (gExchangeWcmState == 8) {
+                } else if (gExchangeWcmState == EXCHANGE_WCM_STATE_CONNECT_PENDING) {
                     if (WCM_ConnectAsync(gExchangeConnectRecord, gExchangeConnectBlock, gExchangeConnectOption) == 3) {
                         return;
                     }
-                    gExchangeWcmState = 3;
+                    gExchangeWcmState = EXCHANGE_WCM_STATE_IDLE;
                     if (gExchangeEventCallback != NULL) {
-                        gExchangeEventCallback(2, 0);
+                        gExchangeEventCallback(EXCHANGE_EVENT_CHAINED_REQUEST_FAILED, 0);
                     }
-                } else if (gExchangeWcmState == 7) {
-                    gExchangeWcmState = 3;
+                } else if (gExchangeWcmState == EXCHANGE_WCM_STATE_CONNECTED) {
+                    gExchangeWcmState = EXCHANGE_WCM_STATE_IDLE;
                 }
             } else {
-                gExchangeWcmState = 3;
+                gExchangeWcmState = EXCHANGE_WCM_STATE_IDLE;
                 if (gExchangeEventCallback != NULL) {
-                    gExchangeEventCallback(15, 0);
+                    gExchangeEventCallback(EXCHANGE_EVENT_DISCONNECT_FAILED, 0);
                 }
             }
             break;
         case WIFI_NOTIFY_POWER_OFF_REQUEST:
             if (message->mResult == 0) {
-                if (gExchangeWcmState == 2) {
+                if (gExchangeWcmState == EXCHANGE_WCM_STATE_CLEANING_UP) {
                     WCM_Finish();
-                    gExchangeWcmState = 0;
+                    gExchangeWcmState = EXCHANGE_WCM_STATE_STOPPED;
                     if (gExchangeEventCallback != NULL) {
-                        gExchangeEventCallback(20, 0);
+                        gExchangeEventCallback(EXCHANGE_EVENT_CLEANUP_DONE, 0);
                     }
                 }
             } else {
-                gExchangeWcmState = 3;
+                gExchangeWcmState = EXCHANGE_WCM_STATE_IDLE;
                 if (gExchangeEventCallback != NULL) {
-                    gExchangeEventCallback(2, 0);
+                    gExchangeEventCallback(EXCHANGE_EVENT_CHAINED_REQUEST_FAILED, 0);
                 }
             }
             break;
         case WIFI_NOTIFY_SEARCH_FOUND:
-            if (gExchangeWcmState == 5) {
+            if (gExchangeWcmState == EXCHANGE_WCM_STATE_SEARCHING) {
                 if (gExchangeEventCallback != NULL) {
-                    gExchangeEventCallback(5, 0);
+                    gExchangeEventCallback(EXCHANGE_EVENT_SEARCH_FOUND, 0);
                 }
             }
             break;
         case WIFI_NOTIFY_SCAN_ROUND:
             if (gExchangeEventCallback != NULL) {
-                gExchangeEventCallback(4, 0);
+                gExchangeEventCallback(EXCHANGE_EVENT_SCAN_ROUND, 0);
             }
             break;
         case WIFI_NOTIFY_LINK_TERMINATING:
-            gExchangeWcmState = 0;
+            gExchangeWcmState = EXCHANGE_WCM_STATE_STOPPED;
             if (gExchangeEventCallback != NULL) {
-                gExchangeEventCallback(3, 0);
+                gExchangeEventCallback(EXCHANGE_EVENT_LINK_TERMINATED, 0);
             }
             break;
         default:
             if (gExchangeEventCallback != NULL) {
-                gExchangeEventCallback(1, 0);
+                gExchangeEventCallback(EXCHANGE_EVENT_UNEXPECTED_NOTICE, 0);
             }
             break;
     }
@@ -574,27 +574,27 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
 
 BOOL StartExchangeReturnToIdle(void) {
     switch (gExchangeWcmState) {
-        case 5:
+        case EXCHANGE_WCM_STATE_SEARCHING:
             if (WCM_SearchAsync(NULL, NULL, 0) != 3) {
                 return 0;
             }
             break;
-        case 7:
+        case EXCHANGE_WCM_STATE_CONNECTED:
             if (WCM_DisconnectAsync() != 3) {
                 return 0;
             }
             break;
-        case 1:
+        case EXCHANGE_WCM_STATE_INITIALIZED:
             if (WCM_StartupAsync(gExchangeWcmConfig, (void (*)(WCMNotice *)) ExchangeWcmNotifyCallback) != 3) {
                 return 0;
             }
             break;
-        case 0:
-        case 2:
-        case 3:
-        case 4:
-        case 6:
-        case 8:
+        case EXCHANGE_WCM_STATE_STOPPED:
+        case EXCHANGE_WCM_STATE_CLEANING_UP:
+        case EXCHANGE_WCM_STATE_IDLE:
+        case EXCHANGE_WCM_STATE_STARTING_UP_OR_DISCONNECTING:
+        case EXCHANGE_WCM_STATE_SEARCH_PENDING:
+        case EXCHANGE_WCM_STATE_CONNECT_PENDING:
         default:
             return 0;
     }
@@ -661,14 +661,14 @@ BOOL StartExchangeSearch(u8 *address, u8 *name, s32 nameLength, u32 option) {
         MI_CpuFill8(gExchangeSearchEssidBytes, 0xff, sizeof(gExchangeSearchEssidBytes));
         gExchangeSearchEssid = WCM_Essid_Any;
     }
-    if (gExchangeWcmState == 3) {
+    if (gExchangeWcmState == EXCHANGE_WCM_STATE_IDLE) {
         if (WCM_SearchAsync(gExchangeSearchAddressBytes, gExchangeSearchEssid, gExchangeSearchOption) == 3) {
-            gExchangeWcmState = 6;
+            gExchangeWcmState = EXCHANGE_WCM_STATE_SEARCH_PENDING;
             OS_RestoreInterrupts(savedInterrupts);
             return 1;
         }
     } else if (StartExchangeReturnToIdle() == 1) {
-        gExchangeWcmState = 6;
+        gExchangeWcmState = EXCHANGE_WCM_STATE_SEARCH_PENDING;
         OS_RestoreInterrupts(savedInterrupts);
         return 1;
     }
@@ -679,9 +679,9 @@ BOOL StartExchangeSearch(u8 *address, u8 *name, s32 nameLength, u32 option) {
 BOOL DisconnectExchange(void) {
     u32 savedInterrupts = OS_DisableInterrupts();
 
-    if (gExchangeWcmState == 7) {
+    if (gExchangeWcmState == EXCHANGE_WCM_STATE_CONNECTED) {
         if (WCM_DisconnectAsync() == 3) {
-            gExchangeWcmState = 4;
+            gExchangeWcmState = EXCHANGE_WCM_STATE_STARTING_UP_OR_DISCONNECTING;
             OS_RestoreInterrupts(savedInterrupts);
             return 1;
         }
@@ -693,17 +693,17 @@ BOOL DisconnectExchange(void) {
 BOOL CleanupExchangeWcm(void) {
     u32 savedInterrupts = OS_DisableInterrupts();
 
-    if (gExchangeWcmState == 3) {
+    if (gExchangeWcmState == EXCHANGE_WCM_STATE_IDLE) {
         if (WCM_CleanupAsync() != 3) {
             OS_RestoreInterrupts(savedInterrupts);
             return 0;
         }
-        gExchangeWcmState = 2;
+        gExchangeWcmState = EXCHANGE_WCM_STATE_CLEANING_UP;
         OS_RestoreInterrupts(savedInterrupts);
         return 1;
     }
     if (StartExchangeReturnToIdle() == 1) {
-        gExchangeWcmState = 2;
+        gExchangeWcmState = EXCHANGE_WCM_STATE_CLEANING_UP;
         OS_RestoreInterrupts(savedInterrupts);
         return 1;
     }
@@ -722,13 +722,13 @@ BOOL ConnectExchangeToEntry(void *entry, void *optionalBytes, u32 option) {
     }
     MIi_CpuCopy32(entry, gExchangeConnectRecord, 0xc0);
     if (StartExchangeReturnToIdle() == 1) {
-        gExchangeWcmState = 8;
+        gExchangeWcmState = EXCHANGE_WCM_STATE_CONNECT_PENDING;
         OS_RestoreInterrupts(savedInterrupts);
         return 1;
     }
-    if (gExchangeWcmState == 3) {
+    if (gExchangeWcmState == EXCHANGE_WCM_STATE_IDLE) {
         if (WCM_ConnectAsync(gExchangeConnectRecord, gExchangeConnectBlock, gExchangeConnectOption) == 3) {
-            gExchangeWcmState = 8;
+            gExchangeWcmState = EXCHANGE_WCM_STATE_CONNECT_PENDING;
             OS_RestoreInterrupts(savedInterrupts);
             return 1;
         }
@@ -753,21 +753,21 @@ BOOL InitExchangeWcm(ExchangeEventCallback callback, void *buffer, u32 size) {
     alignedBlock->mPbdBuffer = (u8 *) cursor;
     gExchangeWcmConfig->mNbdBuffer = (u32) buffer + size - (u32) gExchangeWcmConfig->mPbdBuffer;
     gExchangeWcmConfig->mNbdMode = 0;
-    gExchangeWcmConfig->mDmaNo = 3;
+    gExchangeWcmConfig->mDmaNo = EXCHANGE_WCM_DMA_NO;
     gExchangeEventCallback = callback;
-    if (gExchangeWcmState == 0) {
+    if (gExchangeWcmState == EXCHANGE_WCM_STATE_STOPPED) {
         if (WCM_Init(gExchangeWcmWork, 0x2300) != 0) {
             OS_RestoreInterrupts(savedInterrupts);
             return 0;
         }
-        gExchangeWcmState = 1;
+        gExchangeWcmState = EXCHANGE_WCM_STATE_INITIALIZED;
     }
-    if (gExchangeWcmState == 1) {
+    if (gExchangeWcmState == EXCHANGE_WCM_STATE_INITIALIZED) {
         if (WCM_StartupAsync(gExchangeWcmConfig, (void (*)(WCMNotice *)) ExchangeWcmNotifyCallback) != 3) {
             OS_RestoreInterrupts(savedInterrupts);
             return 0;
         }
-        gExchangeWcmState = 4;
+        gExchangeWcmState = EXCHANGE_WCM_STATE_STARTING_UP_OR_DISCONNECTING;
         OS_RestoreInterrupts(savedInterrupts);
         return 1;
     }
@@ -902,10 +902,10 @@ u32 ReleaseExchangeWiFi(void) {
             OS_Sleep(10);
             while ((event = DequeueEvent()) != 0) {
                 switch (event) {
-                    case 4:
-                    case 5:
+                    case EXCHANGE_EVENT_SCAN_ROUND:
+                    case EXCHANGE_EVENT_SEARCH_FOUND:
                         break;
-                    case 20:
+                    case EXCHANGE_EVENT_CLEANUP_DONE:
                         waiting = 0;
                         break;
                     default:
@@ -938,7 +938,7 @@ s32 ConnectExchangeAndStartSockets(void) {
         return -2;
     }
     OS_CreateAlarm(&alarm);
-    OS_SetAlarm(&alarm, 0x3fec42, (void (*)(void *)) EnqueueEvent, (void *) 0x12);
+    OS_SetAlarm(&alarm, 0x3fec42, (void (*)(void *)) EnqueueEvent, (void *) EXCHANGE_EVENT_CONNECT_TIMEOUT);
     notWaiting = FALSE;
     do {
         if (GetTickMilliseconds() >= gTimeoutAtMs) {
@@ -952,11 +952,11 @@ s32 ConnectExchangeAndStartSockets(void) {
         OS_Sleep(10);
         while ((event = DequeueEvent()) != 0) {
             switch (event) {
-                case 12:
+                case EXCHANGE_EVENT_CONNECTED:
                     waiting = notWaiting;
                     result = 1;
                     break;
-                case 13:
+                case EXCHANGE_EVENT_CONNECT_FAILED:
                     if (gStopRequested != 0) {
                         waiting = notWaiting;
                         result = -8;
@@ -964,10 +964,10 @@ s32 ConnectExchangeAndStartSockets(void) {
                         return result;
                     }
                     break;
-                case 4:
-                case 5:
-                case 18:
-                case 19:
+                case EXCHANGE_EVENT_SCAN_ROUND:
+                case EXCHANGE_EVENT_SEARCH_FOUND:
+                case EXCHANGE_EVENT_CONNECT_TIMEOUT:
+                case EXCHANGE_EVENT_SEARCH_TIMEOUT:
                     break;
                 default:
                     waiting = notWaiting;
@@ -999,10 +999,10 @@ void DisconnectExchangeAndStopSockets(void) {
                 OS_Sleep(10);
                 while ((event = DequeueEvent()) != 0) {
                     switch (event) {
-                        case 4:
-                        case 5:
+                        case EXCHANGE_EVENT_SCAN_ROUND:
+                        case EXCHANGE_EVENT_SEARCH_FOUND:
                             break;
-                        case 0xe:
+                        case EXCHANGE_EVENT_DISCONNECTED:
                             waiting = FALSE;
                             break;
                         default:
@@ -1050,7 +1050,8 @@ s32 FindEntryWithEncryptionRemoved(EntrySummaryList *current, EntrySummaryList *
                 if (nameLength == 0 || nameLength > 0x20) {
                     break;
                 }
-                if (nameLength == 1 && (currentEntry->mSsid[0] == 0 || currentEntry->mSsid[0] == 0x20)) {
+                if (nameLength == 1 &&
+                    (currentEntry->mSsid[0] == 0 || currentEntry->mSsid[0] == EXCHANGE_SSID_BLANK_CHAR)) {
                     break;
                 }
                 if (memcmp(currentName, previousEntry->mSsid, strlen(currentName)) == 0 &&
@@ -1153,7 +1154,7 @@ s32 SearchEntriesAndStoreEntryWithEncryptionRemoved(void) {
             goto end;
         }
         OS_CreateAlarm(&alarm);
-        OS_SetAlarm(&alarm, 0xffb10, (void (*)(void *)) EnqueueEvent, (void *) 0x13);
+        OS_SetAlarm(&alarm, 0xffb10, (void (*)(void *)) EnqueueEvent, (void *) EXCHANGE_EVENT_SEARCH_TIMEOUT);
         waiting = TRUE;
         result = 0;
         do {
@@ -1163,38 +1164,39 @@ s32 SearchEntriesAndStoreEntryWithEncryptionRemoved(void) {
             }
             while ((event = DequeueEvent()) != 0) {
                 switch (event) {
-                    case 19:
+                    case EXCHANGE_EVENT_SEARCH_TIMEOUT:
                         waiting = FALSE;
                         break;
-                    case 5:
+                    case EXCHANGE_EVENT_SEARCH_FOUND:
                         collected = CopyExchangeScanRecords(gRawEntries, gEntryCountMax);
                         if (collected > result) {
                             result = collected;
                             OS_CancelAlarm(&alarm);
-                            OS_SetAlarm(&alarm, 0xffb10, (void (*)(void *)) EnqueueEvent, (void *) 0x13);
+                            OS_SetAlarm(&alarm, 0xffb10, (void (*)(void *)) EnqueueEvent,
+                                        (void *) EXCHANGE_EVENT_SEARCH_TIMEOUT);
                         }
                         break;
-                    case 10:
+                    case EXCHANGE_EVENT_SEARCH_STOPPED:
                         waiting = FALSE;
                         break;
-                    case 4:
-                    case 8:
-                    case 18:
+                    case EXCHANGE_EVENT_SCAN_ROUND:
+                    case EXCHANGE_EVENT_SEARCH_STARTED:
+                    case EXCHANGE_EVENT_CONNECT_TIMEOUT:
                         break;
                     case 0:
-                    case 1:
-                    case 2:
-                    case 3:
-                    case 6:
-                    case 7:
-                    case 9:
-                    case 11:
-                    case 12:
-                    case 13:
-                    case 14:
-                    case 15:
-                    case 16:
-                    case 17:
+                    case EXCHANGE_EVENT_UNEXPECTED_NOTICE:
+                    case EXCHANGE_EVENT_CHAINED_REQUEST_FAILED:
+                    case EXCHANGE_EVENT_LINK_TERMINATED:
+                    case EXCHANGE_EVENT_STARTUP_DONE:
+                    case EXCHANGE_EVENT_UNUSED_AFTER_STARTUP_DONE:
+                    case EXCHANGE_EVENT_SEARCH_START_FAILED:
+                    case EXCHANGE_EVENT_SEARCH_STOP_FAILED:
+                    case EXCHANGE_EVENT_CONNECTED:
+                    case EXCHANGE_EVENT_CONNECT_FAILED:
+                    case EXCHANGE_EVENT_DISCONNECTED:
+                    case EXCHANGE_EVENT_DISCONNECT_FAILED:
+                    case EXCHANGE_EVENT_UNUSED_AFTER_DISCONNECT_FAILED:
+                    case EXCHANGE_EVENT_UNUSED_BEFORE_CONNECT_TIMEOUT:
                     default:
                         waiting = FALSE;
                         break;
@@ -1219,7 +1221,7 @@ s32 SearchEntriesAndStoreEntryWithEncryptionRemoved(void) {
                 memcpy(currentList->mEntries[index].mSsid, rawEntry->mSsid, sizeof(currentList->mEntries[index].mSsid));
                 currentList->mEntries[index].mSsidLength = rawEntry->mSsidLength;
                 currentList->mEntries[index].mSsid[rawEntry->mSsidLength] = 0;
-                currentList->mEntries[index].mEncrypted = (rawEntry->mFlags & 0x10) ? 1 : 0;
+                currentList->mEntries[index].mEncrypted = (rawEntry->mFlags & RAW_ENTRY_FLAG_ENCRYPTED) ? 1 : 0;
                 source = (u8 *) &rawEntry->mAddress;
                 target = (u8 *) &currentList->mEntries[index].mAddress;
                 target[0] = source[0];
@@ -1289,7 +1291,7 @@ s32 SendBytesToAllOnesAddress(s32 descriptor, const void *data, u32 size) {
     address.mLength = sizeof(SocketAddress);
     address.mFamily = SOCKET_FAMILY_IPV4;
     address.mAddress = -1;
-    address.mPort = 0x1e6;
+    address.mPort = EXCHANGE_SOCKET_PORT;
     SOC_U32to4U8(SOCL_GetHostID(), unused);
     return SendBytesToAddress(descriptor, &address, unused, data, size);
 }
@@ -1766,29 +1768,29 @@ s32 RunExchange(void) {
     stamp = 0;
     retryCount = 0;
     done = FALSE;
-    gExchangeState = 1;
+    gExchangeState = EXCHANGE_STEP_SEARCH_ENTRY;
     while (done == FALSE && gStopRequested == 0) {
         OS_Sleep(500);
         switch (gExchangeState) {
-            case 1:
+            case EXCHANGE_STEP_SEARCH_ENTRY:
                 result = SearchEntriesAndStoreEntryWithEncryptionRemoved();
                 if (result != 1) {
                     done = TRUE;
                 } else {
                     gExchangeStatus = EXCHANGE_STATUS_ENTRY_FOUND;
                     CallStatusCallback();
-                    gExchangeState = 2;
+                    gExchangeState = EXCHANGE_STEP_CONNECT;
                 }
                 break;
-            case 2:
+            case EXCHANGE_STEP_CONNECT:
                 result = ConnectExchangeAndStartSockets();
                 if (result != 1) {
                     done = TRUE;
                 } else {
-                    gExchangeState = 3;
+                    gExchangeState = EXCHANGE_STEP_OPEN_SOCKET;
                 }
                 break;
-            case 3:
+            case EXCHANGE_STEP_OPEN_SOCKET:
                 descriptor = SOC_Socket(2, 2, 0);
                 if (descriptor < 0) {
                     result = -2;
@@ -1798,17 +1800,17 @@ s32 RunExchange(void) {
                 __clear(&bindAddress, sizeof(SocketAddress));
                 bindAddress.mLength = sizeof(SocketAddress);
                 bindAddress.mFamily = SOCKET_FAMILY_IPV4;
-                bindAddress.mPort = 0x1e6;
+                bindAddress.mPort = EXCHANGE_SOCKET_PORT;
                 bindAddress.mAddress = 0;
                 result = SOC_Bind(descriptor, &bindAddress);
                 if (result < 0) {
                     result = -2;
                     done = TRUE;
                 } else {
-                    gExchangeState = 4;
+                    gExchangeState = EXCHANGE_STEP_WAIT_FIRST_PACKET;
                 }
                 break;
-            case 4:
+            case EXCHANGE_STEP_WAIT_FIRST_PACKET:
                 if (GetTickMilliseconds() >= gTimeoutAtMs) {
                     SOC_Close(descriptor);
                     result = -3;
@@ -1820,19 +1822,19 @@ s32 RunExchange(void) {
                 if (SOC_RecvFrom(descriptor, gPacketBuffer, 0x800, 4, &peerAddress) > 0) {
                     if (ParseAndCheckFirstExchangePacket(gPacketBuffer, &gReplyIncludesMacAddress) != FALSE) {
                         gTimeoutAtMs = GetTickMilliseconds() + 30000;
-                        gExchangeState = 5;
+                        gExchangeState = EXCHANGE_STEP_SEND_FIRST_REPLY;
                         gExchangeStatus = EXCHANGE_STATUS_FIRST_PACKET_ACCEPTED;
                         CallStatusCallback();
                     }
                 }
                 break;
-            case 5:
+            case EXCHANGE_STEP_SEND_FIRST_REPLY:
                 gPacketLength = BuildFirstReplyPacket(gPacketBuffer);
                 SendBytesToAllOnesAddressWrapper(descriptor, &peerAddress, gPacketBuffer, gPacketLength);
                 stamp = GetTickMilliseconds();
-                gExchangeState = 6;
+                gExchangeState = EXCHANGE_STEP_WAIT_SECOND_KEY;
                 break;
-            case 6:
+            case EXCHANGE_STEP_WAIT_SECOND_KEY:
                 if (GetTickMilliseconds() >= gTimeoutAtMs) {
                     SOC_Close(descriptor);
                     result = -4;
@@ -1847,24 +1849,24 @@ s32 RunExchange(void) {
                         gSecondKeyReceivedPart = *(SecondKeyPart *) value;
                         ComputeHash(gSecondKeyHashedPart, (const u8 *) &now, 4);
                         retryCount = 0;
-                        gExchangeState = 7;
+                        gExchangeState = EXCHANGE_STEP_SEND_KEY_HASH;
                         gExchangeStatus = EXCHANGE_STATUS_SECOND_KEY_RECEIVED;
                         gTimeoutAtMs = -1;
                         CallStatusCallback();
                     }
                 } else if (GetTickMilliseconds() >= stamp + 1000) {
-                    gExchangeState = 5;
+                    gExchangeState = EXCHANGE_STEP_SEND_FIRST_REPLY;
                 }
                 break;
-            case 7:
+            case EXCHANGE_STEP_SEND_KEY_HASH:
                 gBodyLength = BuildSingleItemBody(gBodyBuffer, 0x102, gSecondKeyHashedPart, 8);
                 gPacketLength = BuildExchangePacket(gPacketBuffer, 4, gBodyBuffer, gBodyLength, gFirstKey);
                 SendBytesToAllOnesAddressWrapper(descriptor, &peerAddress, gPacketBuffer, gPacketLength);
                 stamp = GetTickMilliseconds();
                 __clear(&gExchangeResultItems, sizeof(ExchangeResultItems));
-                gExchangeState = 8;
+                gExchangeState = EXCHANGE_STEP_WAIT_RESULT;
                 break;
-            case 8:
+            case EXCHANGE_STEP_WAIT_RESULT:
                 if (SOC_RecvFrom(descriptor, gPacketBuffer, 0x800, 4, &peerAddress) > 0) {
                     gBodyLength =
                         ReadExchangePacketPayloadOfKind(gPacketBuffer, 5, gBodyBuffer, &gSecondKeyReceivedPart);
@@ -1875,7 +1877,7 @@ s32 RunExchange(void) {
                             gReceivedTextNonEmpty = 0;
                         }
                         retryCount = 0;
-                        gExchangeState = 9;
+                        gExchangeState = EXCHANGE_STEP_SEND_RESULT_ACK;
                         break;
                     }
                 }
@@ -1886,32 +1888,32 @@ s32 RunExchange(void) {
                         result = -2;
                         done = TRUE;
                     } else {
-                        gExchangeState = 7;
+                        gExchangeState = EXCHANGE_STEP_SEND_KEY_HASH;
                     }
                 }
                 break;
-            case 9:
+            case EXCHANGE_STEP_SEND_RESULT_ACK:
                 gBodyLength = BuildSingleItemBody(gBodyBuffer, 0x301, &gReceivedTextNonEmpty, 1);
                 gPacketLength =
                     BuildExchangePacket(gPacketBuffer, 6, gBodyBuffer, gBodyLength, &gSecondKeyReceivedPart);
                 if (GetExchangeWcmState() != 7) {
                     stamp = GetTickMilliseconds() + 1000;
                     retryCount = 10;
-                    gExchangeState = 10;
+                    gExchangeState = EXCHANGE_STEP_WAIT_ACK_RESEND;
                 } else {
                     SendBytesToAllOnesAddressWrapper(descriptor, &peerAddress, gPacketBuffer, gPacketLength);
                     stamp = GetTickMilliseconds();
-                    gExchangeState = 10;
+                    gExchangeState = EXCHANGE_STEP_WAIT_ACK_RESEND;
                 }
                 break;
-            case 10:
+            case EXCHANGE_STEP_WAIT_ACK_RESEND:
                 if (GetTickMilliseconds() >= stamp + 1000) {
                     retryCount++;
                     if (retryCount >= 10) {
                         done = TRUE;
                         result = FillExchangeResultFromItems();
                     } else {
-                        gExchangeState = 9;
+                        gExchangeState = EXCHANGE_STEP_SEND_RESULT_ACK;
                     }
                 }
                 break;
