@@ -168,7 +168,7 @@ BOOL IsTouchDownInRect(const Rect *rect) {
 
 BOOL IsTouchPressedInRect(const Rect *rect) {
     KeyTouchInput *input = gKeyTouchInput;
-    if ((((u32) input->mTouchFlags << 30) >> 31) == 0) {
+    if (input->mBits.mPressed == 0) {
         return 0;
     }
     if (rect->mX > input->mTouchX) {
@@ -188,7 +188,7 @@ BOOL IsTouchPressedInRect(const Rect *rect) {
 
 BOOL IsTouchPressedOrRepeatedInRect(const Rect *rect) {
     KeyTouchInput *input = gKeyTouchInput;
-    if ((((u32) input->mTouchFlags << 29) >> 31) == 0) {
+    if (input->mBits.mPressedOrRepeated == 0) {
         return 0;
     }
     if (rect->mX > input->mTouchX) {
@@ -208,7 +208,7 @@ BOOL IsTouchPressedOrRepeatedInRect(const Rect *rect) {
 
 BOOL IsTouchReleasedInRect(const Rect *rect) {
     KeyTouchInput *input = gKeyTouchInput;
-    if ((((u32) input->mTouchFlags << 28) >> 31) == 0) {
+    if (input->mBits.mReleased == 0) {
         return 0;
     }
     if (rect->mX > input->mTouchX) {
