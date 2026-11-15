@@ -253,7 +253,7 @@ void InitWaterFields(s32 highHeight, s32 lowHeight, s32 modelARadius, s32 modelC
 }
 
 void CreateMiniStage3Water(void) {
-    gWater = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x180);
+    gWater = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gWater));
     InitWaterFields(0xe8000, 0xc5000, 0x50000, 0x32000, 0x3c000, 0x7fff, 0x3fff, 0x1f4, 0x12c, 0x12c, 1, 5, 0xa, 0xa,
                     1);
     gWater->mModelAFile = FindCourseMapObjFile("mini_stage3_waterA.nsbmd");
@@ -262,7 +262,7 @@ void CreateMiniStage3Water(void) {
 }
 
 void CreateBeachWater(void) {
-    gWater = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x180);
+    gWater = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gWater));
     InitWaterFields(0x78000, 0x62000, 0x50000, 0x43000, 0x3c000, 0x7fff, 0x3fff, 0x1f4, 0x96, 0x96, 1, 6, 0xa, 0xa, 1);
     gWater->mModelAFile = FindCourseMapObjFile("beach_waterA.nsbmd");
     gWater->mModelCFile = FindCourseMapObjFile("beach_waterC.nsbmd");
@@ -270,7 +270,7 @@ void CreateBeachWater(void) {
 }
 
 void CreateTownWater(void) {
-    gWater = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x180);
+    gWater = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gWater));
     InitWaterFields(0, 0, 0x29000, 0x1e000, 0xb000, 0x4e20, 0x3fff, 0x12c, 0x78, 0x1e, 1, 0xd, 0x19, 0x10, 0);
     gWater->mModelAFile = FindCourseMapObjFile("town_waterA.nsbmd");
     gWater->mModelCFile = FindCourseMapObjFile("town_waterC.nsbmd");
@@ -278,7 +278,7 @@ void CreateTownWater(void) {
 }
 
 void CreateYoshiWater(void) {
-    gWater = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x180);
+    gWater = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gWater));
     InitWaterFields(0, 0, 0xc8000, 0x55000, 0x3c000, 0x7fff, 0x3fff, 0x1c2, 0x78, 0x1e, 1, 0xa, 0x17, 0x10, 0);
     gWater->mModelAFile = NULL;
     gWater->mModelCFile = FindCourseMapObjFile("yoshi_waterC.nsbmd");
@@ -286,7 +286,7 @@ void CreateYoshiWater(void) {
 }
 
 void CreateHyudoroWater(void) {
-    gWater = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x180);
+    gWater = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gWater));
     InitWaterFields(0, 0, 0x63000, 0x4d000, 0x1e000, 0x7fff, 0x3fff, 0x1c2, 0x78, 0x1e, 1, 0xf, 0x19, 0x10, 0);
     gWater->mModelAFile = FindCourseMapObjFile("hyudoro_waterA.nsbmd");
     gWater->mModelCFile = FindCourseMapObjFile("hyudoro_waterC.nsbmd");

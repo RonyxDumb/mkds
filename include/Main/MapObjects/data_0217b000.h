@@ -58,6 +58,9 @@ typedef struct BoxRotation {
     /* 0c */ s32 mSineSquared;
     /* 10 */ s32 mCosineSineProduct;
 } BoxRotation;
+// Entries of the BoxRotation and QuestionRotation tables: one turn split into this many steps.
+#define BOX_ROTATION_COUNT 0x12c
+#define QUESTION_ROTATION_COUNT 0x82
 
 // Element of 8 bytes of the table behind gQuestionRotations.
 typedef struct QuestionRotation {
@@ -981,6 +984,8 @@ extern s16 *gJgMainRotationCosineTable;
 extern s16 *gJgCloudScaleYTable;
 extern s16 *gJgCloudScaleXTable;
 extern s32 gJgTableIndex;
+// Entries of each Jg cloud and rotation table; gJgTableIndex wraps at this count.
+#define JG_TABLE_LENGTH 0x3c
 extern Vec3 gJgArriveLocalTargetPos;
 extern s32 gJgArriveSpeed;
 extern s32 gJgArriveHeightOffset;

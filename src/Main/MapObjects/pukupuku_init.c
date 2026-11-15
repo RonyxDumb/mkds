@@ -34,7 +34,7 @@ const MapObjectKindData gRotaryGearTestCylinderKindData = {NULL, NULL, 5, 0x12c0
 
 MapObjectKindData *CreateRotaryGearTestCylinderKindData(void) {
     MapObjectKindData *kindData;
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*kindData));
     *kindData = gRotaryGearTestCylinderKindData;
     kindData->mHeightRangeMax = 0x2bc000;
     return kindData;
@@ -42,14 +42,14 @@ MapObjectKindData *CreateRotaryGearTestCylinderKindData(void) {
 
 MapObjectKindData *CreateRotaryRoomKindData(void) {
     MapObjectKindData *kindData;
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*kindData));
     *kindData = gRotaryRoomKindData;
     return kindData;
 }
 
 MapObjectKindData *CreateRotaryBridgeKindData(void) {
     MapObjectKindData *kindData;
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*kindData));
     *kindData = gRotaryBridgeKindData;
     return kindData;
 }

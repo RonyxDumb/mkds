@@ -158,7 +158,8 @@ void InitCourseMapRowKindData(MapObject *mapObject) {
 
     kindDataIndex = mapObject->mCourseMapRow->mSettings[0];
     if (gCourseMapRowKindData[kindDataIndex] == NULL) {
-        gCourseMapRowKindData[kindDataIndex] = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+        gCourseMapRowKindData[kindDataIndex] =
+            HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gCourseMapRowKindData[kindDataIndex]));
         *gCourseMapRowKindData[kindDataIndex] = *gCourseMapRowKindData[0];
     }
     switch (kindDataIndex) {

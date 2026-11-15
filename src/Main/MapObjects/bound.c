@@ -528,7 +528,7 @@ void *CreateMapObjectKindData(void *collideKartCallback, void *collideItemObject
     MapObjectKindData *kindData;
 
     GetHeap(GetCurrentHeapCall());
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*kindData));
     kindData->mCollideKartCallback = collideKartCallback;
     kindData->mCollideItemObjectCallback = collideItemObjectCallback;
     kindData->mPosStepMode = wordValue;

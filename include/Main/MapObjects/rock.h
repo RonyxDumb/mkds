@@ -9,6 +9,10 @@
 #include "Main/MapObjects/group_follower_advance.h"
 #include "Main/MapObjects/map_object_kind_update_list.h" // MapObjectKindDescriptor
 
+// Slots in the table behind gCollisionSlots and in the tables of the two ends; found lists hold up to half of them.
+#define COLLISION_SLOT_COUNT 0x100
+#define FOUND_COLLISION_SLOT_CAPACITY 0x80
+
 // 0x1c-byte element of the table behind gCollisionSlots.
 typedef struct CollisionSlot {
     /* 00 */ s16 mHighEndIndex;

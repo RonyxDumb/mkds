@@ -9,7 +9,7 @@ const u32 gWoodbox1HitFlag = 0x40000000;
 #pragma thumb on
 
 void CreateShadowModel(ShadowModel **slot, void *file, u32 polygonId) {
-    *slot = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x74);
+    *slot = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(**slot));
     InitShadowModel(*slot, file, (u8) polygonId);
 }
 

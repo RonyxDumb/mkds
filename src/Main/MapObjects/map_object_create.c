@@ -83,6 +83,10 @@ static inline GrpconfTblRow *FindGrpconfTblRowByKind(u16 kind) {
     return NULL;
 }
 
+// Map objects the game can hold at once, and the most one area query can return.
+#define MAP_OBJECT_CAPACITY 0x100
+#define FOUND_MAP_OBJECT_CAPACITY 0x20
+
 MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source) {
     s32 kindIndex;
     s32 index;
@@ -314,7 +318,7 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
             index = gMapObjects->mMapObjectCount;
             gMapObjects->mMapObjectCount = index + 1;
             gMapObjects->mMapObjects[index] = object;
-            if (gMapObjects->mMapObjectCount >= 0x100) {
+            if (gMapObjects->mMapObjectCount >= MAP_OBJECT_CAPACITY) {
                 gMapObjects->mMapObjectCount = 0xff;
             }
             return object;
@@ -359,10 +363,10 @@ void InitMapObjects(void) {
     gMapObjectLastPolygonId = gMapObjectFirstPolygonId + 9;
     gWrappingPolygonIdBase = gMapObjectLastPolygonId + 1;
     count = gCourseMap->mRowCount;
-    gMapObjects = HeapAlloc(heap, 0x2bc);
-    gMapObjects->mMapObjects = HeapAlloc(heap, 0x400);
-    gFoundMapObjects = HeapAlloc(heap, 0x80);
-    gFoundMapObjectVectors = HeapAlloc(heap, 0x180);
+    gMapObjects = HeapAlloc(heap, sizeof(*gMapObjects));
+    gMapObjects->mMapObjects = HeapAlloc(heap, MAP_OBJECT_CAPACITY * sizeof(*gMapObjects->mMapObjects));
+    gFoundMapObjects = HeapAlloc(heap, FOUND_MAP_OBJECT_CAPACITY * sizeof(*gFoundMapObjects));
+    gFoundMapObjectVectors = HeapAlloc(heap, FOUND_MAP_OBJECT_CAPACITY * sizeof(*gFoundMapObjectVectors));
     gMapObjects->mMapObjectCount = 0;
     gMapObjects->mDrawListsBuilt = FALSE;
     gMapObjects->mUpdateListsBuilt = FALSE;

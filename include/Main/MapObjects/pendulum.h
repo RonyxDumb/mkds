@@ -8,6 +8,7 @@
 #include "Main/MapObjects/ob_pakkun_sf.h"
 #include "Main/MapObjects/data_02158000.h"
 #include "Main/Graphics/nsbmd_render_obj.h"
+#include "Main/Graphics/model_animation.h"
 #include "Main/Kart/shadow_model.h"
 
 // Object handled by InitPendulum, ComputeSphereHitOnPendulum, UpdatePendulum and
@@ -41,8 +42,8 @@ typedef struct NsbmdModel {
     /* 1a */ u16 mFrameCount;
     /* 1c */ u32 *mTexImageParams;
     /* 20 */ u32 *mTexPlttBases;
-    /* 24 */ void *mNsbmd;
-    /* 28 */ void *mNsbtpAnimation;
+    /* 24 */ Nsbmd *mNsbmd;
+    /* 28 */ ModelAnimation *mNsbtpAnimation;
 } NsbmdModel;
 
 extern NsbmdModel gJgCloud;

@@ -438,23 +438,23 @@ void InitCollisionSlots(void) {
     heap = GetHeap(GetCurrentHeapCall());
     gCollisionSlotCount = 0;
     gFirstFreeCollisionSlot = 0;
-    gCollisionSlotHighEnds = HeapAlloc(heap, 0x400);
-    gCollisionSlotLowEnds = HeapAlloc(heap, 0x400);
-    gCollisionSlots = HeapAlloc(heap, 0x1c00);
-    gCollisionSlotNextFree = HeapAlloc(heap, 0x200);
-    gFoundCollisionSlotIndices = HeapAlloc(heap, 0x100);
-    gFoundCollisionSlotFlags = HeapAlloc(heap, 0x100);
-    gFoundCollisionSlotObjects = HeapAlloc(heap, 0x200);
+    gCollisionSlotHighEnds = HeapAlloc(heap, COLLISION_SLOT_COUNT * sizeof(*gCollisionSlotHighEnds));
+    gCollisionSlotLowEnds = HeapAlloc(heap, COLLISION_SLOT_COUNT * sizeof(*gCollisionSlotLowEnds));
+    gCollisionSlots = HeapAlloc(heap, COLLISION_SLOT_COUNT * sizeof(*gCollisionSlots));
+    gCollisionSlotNextFree = HeapAlloc(heap, COLLISION_SLOT_COUNT * sizeof(*gCollisionSlotNextFree));
+    gFoundCollisionSlotIndices = HeapAlloc(heap, FOUND_COLLISION_SLOT_CAPACITY * sizeof(*gFoundCollisionSlotIndices));
+    gFoundCollisionSlotFlags = HeapAlloc(heap, FOUND_COLLISION_SLOT_CAPACITY * sizeof(*gFoundCollisionSlotFlags));
+    gFoundCollisionSlotObjects = HeapAlloc(heap, FOUND_COLLISION_SLOT_CAPACITY * sizeof(*gFoundCollisionSlotObjects));
     nextFreeIndex = 0;
     do {
         gCollisionSlotNextFree[nextFreeIndex] = nextFreeIndex + 1;
         nextFreeIndex++;
-    } while (nextFreeIndex < 0x100);
+    } while (nextFreeIndex < COLLISION_SLOT_COUNT);
     slotIndex = 0;
     do {
         gCollisionSlots[slotIndex].mCenterPos = NULL;
         slotIndex++;
-    } while (slotIndex < 0x100);
+    } while (slotIndex < COLLISION_SLOT_COUNT);
 }
 
 // Returns the new slot index, or -1 when all 0x100 slots are in use.
@@ -472,7 +472,7 @@ s32 CreateCollisionSlot(Vec3 *centerPos, s32 radius, s32 flags, void *object) {
     CollisionSlotEnd *endEntry;
     CollisionSlotEnd *otherEnd;
 
-    if (gCollisionSlotCount >= 0x100) {
+    if (gCollisionSlotCount >= COLLISION_SLOT_COUNT) {
         return -1;
     }
     slotIndex = gFirstFreeCollisionSlot;

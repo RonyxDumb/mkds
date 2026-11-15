@@ -129,10 +129,10 @@ void FillNsbmdModel(Nsbmd *model, ModelAnimation *animation, NsbmdModel *record)
 }
 
 void InitNsbmdModel(NsbmdModel *record, void *nsbmdFile, void *nsbtpFile, s32 unused) {
-    record->mNsbmd = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x6c);
+    record->mNsbmd = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*record->mNsbmd));
     InitNsbmd(record->mNsbmd, nsbmdFile);
     if (nsbtpFile != NULL) {
-        record->mNsbtpAnimation = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
+        record->mNsbtpAnimation = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*record->mNsbtpAnimation));
         InitModelAnimationWithEntries(2, record->mNsbmd, record->mNsbtpAnimation, nsbmdFile, nsbtpFile);
     } else {
         record->mNsbtpAnimation = NULL;
@@ -141,7 +141,7 @@ void InitNsbmdModel(NsbmdModel *record, void *nsbmdFile, void *nsbtpFile, s32 un
 }
 
 void CreateNsbmdModel(NsbmdModel **recordSlot, void *nsbmdFile, void *nsbtpFile, u32 unused) {
-    *recordSlot = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+    *recordSlot = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(NsbmdModel));
     InitNsbmdModel(*recordSlot, nsbmdFile, nsbtpFile, unused);
 }
 
@@ -149,14 +149,14 @@ void CreateNsbmdModel(NsbmdModel **recordSlot, void *nsbmdFile, void *nsbtpFile,
 
 MapObjectKindData *CreatePendulumKindData(void) {
     MapObjectKindData *kindData;
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*kindData));
     *kindData = gPendulumKindData;
     return kindData;
 }
 
 MapObjectDrawList *CreatePendulumDrawList(void) {
     MapObjectDrawList *drawList;
-    drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+    drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*drawList));
     gPendulumDrawList = drawList;
     *drawList = gPendulumDrawListData;
     SetDrawListSlot(&gPendulumDrawList);
@@ -165,7 +165,7 @@ MapObjectDrawList *CreatePendulumDrawList(void) {
 
 MapObjectList *CreatePendulumUpdateList(void) {
     MapObjectList *updateList;
-    updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
+    updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*updateList));
     gPendulumUpdateList = updateList;
     *updateList = gPendulumUpdateListData;
     SetUpdateListSlot(&gPendulumUpdateList);
@@ -308,14 +308,14 @@ void InitPendulum(PendulumObject *pendulum, CourseMapRow *courseRow) {
 
 MapObjectKindData *CreateObPakkunSfKindData(void) {
     MapObjectKindData *kindData;
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*kindData));
     *kindData = gObPakkunSfKindData;
     return kindData;
 }
 
 MapObjectDrawList *CreateObPakkunSfDrawList(void) {
     MapObjectDrawList *drawList;
-    drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+    drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*drawList));
     gObPakkunSfDrawList = drawList;
     *drawList = gObPakkunSfDrawListData;
     SetDrawListSlot(&gObPakkunSfDrawList);
@@ -324,7 +324,7 @@ MapObjectDrawList *CreateObPakkunSfDrawList(void) {
 
 MapObjectList *CreateObPakkunSfUpdateList(void) {
     MapObjectList *updateList;
-    updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
+    updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*updateList));
     gObPakkunSfUpdateList = updateList;
     *updateList = gObPakkunSfUpdateListData;
     return updateList;

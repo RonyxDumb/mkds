@@ -223,12 +223,12 @@ void CreateJg(void) {
     InitNsbmdModel(&gJgCloud, FindSceneFile("jg_cloud.nsbmd"), NULL, 0);
     SetNsbmdModelFixedAttributes(&gJgCloud);
     gJgCloud.mPolygonAttributes |= 0xc0;
-    gJgCloudOffsetYTable = HeapAlloc(heap, 0x78);
-    gJgMainRotationSineTable = HeapAlloc(heap, 0x78);
-    gJgMainRotationCosineTable = HeapAlloc(heap, 0x78);
-    gJgCloudScaleYTable = HeapAlloc(heap, 0x78);
-    gJgCloudScaleXTable = HeapAlloc(heap, 0x78);
-    for (index = 0, angle = 0; index < 0x3c; index++) {
+    gJgCloudOffsetYTable = HeapAlloc(heap, JG_TABLE_LENGTH * sizeof(*gJgCloudOffsetYTable));
+    gJgMainRotationSineTable = HeapAlloc(heap, JG_TABLE_LENGTH * sizeof(*gJgMainRotationSineTable));
+    gJgMainRotationCosineTable = HeapAlloc(heap, JG_TABLE_LENGTH * sizeof(*gJgMainRotationCosineTable));
+    gJgCloudScaleYTable = HeapAlloc(heap, JG_TABLE_LENGTH * sizeof(*gJgCloudScaleYTable));
+    gJgCloudScaleXTable = HeapAlloc(heap, JG_TABLE_LENGTH * sizeof(*gJgCloudScaleXTable));
+    for (index = 0, angle = 0; index < JG_TABLE_LENGTH; index++) {
         gJgCloudOffsetYTable[index] = (u16) MUL_FIXED12_NO_ROUND(FX_SinIdx(angle), 0x4c);
         tableAngle = (u16) (((u64) (s64) SIN_OF_ANGLE((u16) (angle + 0xa218)) * 0xb60b60b60b + 0x80000000000) >> 44);
         gJgMainRotationSineTable[index] = SIN_OF_ANGLE(tableAngle);
@@ -241,7 +241,7 @@ void CreateJg(void) {
     light = 2;
     for (rowIndex = light, sourceRow = &gJgKindFileNames[light], kindRow = &gJgKindRows[2]; rowIndex < 4; rowIndex++) {
         if (sourceRow->mNsbmdName != NULL) {
-            kindRow->mModel = HeapAlloc(heap, 0x6c);
+            kindRow->mModel = HeapAlloc(heap, sizeof(Nsbmd));
             file = FindSceneFile(sourceRow->mNsbmdName);
             InitNsbmd(kindRow->mModel, file);
             SetNsbmdPolygonIdLightEmiAll(kindRow->mModel, 0x3f, light, 0x294a);

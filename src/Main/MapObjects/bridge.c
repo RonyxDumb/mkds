@@ -61,7 +61,7 @@ MapObjectKindData *CreateChoropuKindData(void) {
 MapObjectList *CreateChoropuDrawList(void) {
     MapObjectDrawList *drawList;
 
-    drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+    drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*drawList));
     gChoropuDrawList = drawList;
     *drawList = gChoropuDrawListData;
     SetDrawListSlot(&gChoropuDrawList);
@@ -71,7 +71,7 @@ MapObjectList *CreateChoropuDrawList(void) {
 MapObjectList *CreateChoropuShadowDrawList(void) {
     MapObjectDrawList *drawList;
 
-    drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+    drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*drawList));
     gChoropuShadowDrawList = drawList;
     *drawList = gChoropuShadowDrawListData;
     SetDrawListSlot(&gChoropuShadowDrawList);

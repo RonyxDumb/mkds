@@ -310,21 +310,21 @@ void DrawNsbmdModelWithMatrixAndAngle(NsbmdModel *model, MtxFx43 *matrix, s32 an
 
 void InitMatrices(void) {
     void *matrix;
-    matrix = HeapAlloc(gStartupWork->mHeap, 0x30);
+    matrix = HeapAlloc(gStartupWork->mHeap, sizeof(MtxFx43));
     gViewTransposeMatrix = matrix;
-    matrix = HeapAlloc(gStartupWork->mHeap, 0x30);
+    matrix = HeapAlloc(gStartupWork->mHeap, sizeof(MtxFx43));
     gViewRotatedMatrix = matrix;
-    matrix = HeapAlloc(gStartupWork->mHeap, 0x30);
+    matrix = HeapAlloc(gStartupWork->mHeap, sizeof(MtxFx43));
     gViewRotationXMatrix = matrix;
-    matrix = HeapAlloc(gStartupWork->mHeap, 0x30);
+    matrix = HeapAlloc(gStartupWork->mHeap, sizeof(MtxFx43));
     gYAxisMatrix = matrix;
-    matrix = HeapAlloc(gStartupWork->mHeap, 0x30);
+    matrix = HeapAlloc(gStartupWork->mHeap, sizeof(MtxFx43));
     gViewAxis2Matrix = matrix;
-    matrix = HeapAlloc(gStartupWork->mHeap, 0x30);
+    matrix = HeapAlloc(gStartupWork->mHeap, sizeof(MtxFx43));
     gTranslationMatrix = matrix;
-    matrix = HeapAlloc(gStartupWork->mHeap, 0x30);
+    matrix = HeapAlloc(gStartupWork->mHeap, sizeof(MtxFx43));
     gViewMatrix = matrix;
-    matrix = HeapAlloc(gStartupWork->mHeap, 0x24);
+    matrix = HeapAlloc(gStartupWork->mHeap, sizeof(MtxFx33));
     gRotationZMatrix = matrix;
     MTX_Identity43_(gTranslationMatrix);
 }

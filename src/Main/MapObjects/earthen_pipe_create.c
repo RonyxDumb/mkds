@@ -71,14 +71,14 @@ MapObjectKindData *CreateEarthenPipeKindData(void) {
 }
 
 MapObjectList *CreateEarthenPipeDrawList(void) {
-    gEarthenPipeDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+    gEarthenPipeDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gEarthenPipeDrawList));
     *gEarthenPipeDrawList = gEarthenPipeDrawListData;
     SetDrawListSlot(&gEarthenPipeDrawList);
     return &gEarthenPipeDrawList->mList;
 }
 
 MapObjectList *CreateEarthenPipeUpdateList(void) {
-    gEarthenPipeUpdateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
+    gEarthenPipeUpdateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gEarthenPipeUpdateList));
     *gEarthenPipeUpdateList = gEarthenPipeUpdateListData;
     SetUpdateListSlot(&gEarthenPipeUpdateList);
     return gEarthenPipeUpdateList;

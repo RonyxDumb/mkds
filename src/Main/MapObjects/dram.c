@@ -30,7 +30,7 @@ const u16 gDramAngleChoiceRows[6][3] = {{0, 1, 2}, {2, 0, 1}, {1, 2, 0}, {0, 2, 
 MapObjectKindData *CreateDramKindData(void) {
     MapObjectKindData *block;
 
-    block = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    block = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*block));
     {
         MapObjectKindData zeroBlock = {0};
 
@@ -42,7 +42,7 @@ MapObjectKindData *CreateDramKindData(void) {
 MapObjectList *CreateDramUpdateList(void) {
     MapObjectList *block;
 
-    block = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
+    block = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*block));
     gDramUpdateList = block;
     *block = gDramUpdateListInitial;
     SetUpdateListSlot(&gDramUpdateList);
@@ -52,7 +52,7 @@ MapObjectList *CreateDramUpdateList(void) {
 MapObjectDrawList *CreateDramDrawList(void) {
     MapObjectDrawList *block;
 
-    block = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+    block = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*block));
     gDramDrawList = block;
     *block = gDramDrawListInitial;
     SetDrawListSlot(&gDramDrawList);

@@ -141,7 +141,7 @@ Vec3 gJgPoints[8];
 
 void CreateModelAnimation(u32 animationKind, void *model, ModelAnimation **animationSlot, void *nsbmdFile,
                           void *animationFile) {
-    *animationSlot = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
+    *animationSlot = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(**animationSlot));
     InitModelAnimation(animationKind, *animationSlot, model, 1, GetHeap(GetCurrentHeapCall()), nsbmdFile);
     InitModelAnimationEntries(*animationSlot, animationFile, GetHeap(GetCurrentHeapCall()));
     SetModelAnimation(*animationSlot, 0);
@@ -224,7 +224,7 @@ void UpdateJg(void) {
     }
     if (gJgStateMachine.mState != JG_STATE_OFF) {
         gJgTableIndex++;
-        if (gJgTableIndex >= 0x3c) {
+        if (gJgTableIndex >= JG_TABLE_LENGTH) {
             gJgTableIndex = 0;
         }
         if (gJgKind != JG_KIND_NONE) {

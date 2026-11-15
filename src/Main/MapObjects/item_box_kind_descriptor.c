@@ -62,9 +62,9 @@ void CreateBoxAndQuestion(void) {
     model = gQuestion;
     model->mSpecEmi = model->mSpecEmi & 0x8000ffff;
     model->mSpecEmi = model->mSpecEmi | 0x52940000;
-    gBoxRotations = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x1770);
-    for (boxIndex = 0; boxIndex < 0x12c; boxIndex++) {
-        angleIndex = (u16) (((u32) boxIndex << 16) / 0x12c) >> 4;
+    gBoxRotations = HeapAlloc(GetHeap(GetCurrentHeapCall()), BOX_ROTATION_COUNT * sizeof(*gBoxRotations));
+    for (boxIndex = 0; boxIndex < BOX_ROTATION_COUNT; boxIndex++) {
+        angleIndex = (u16) (((u32) boxIndex << 16) / BOX_ROTATION_COUNT) >> 4;
         cosine = FX_SinCosTable_[angleIndex * 2 + 1];
         sine = FX_SinCosTable_[angleIndex * 2];
         gBoxRotations[boxIndex].mCosine = cosine;
@@ -73,9 +73,10 @@ void CreateBoxAndQuestion(void) {
         gBoxRotations[boxIndex].mSineSquared = MUL_FIXED12_NO_ROUND(sine, sine);
         gBoxRotations[boxIndex].mCosineSineProduct = MUL_FIXED12_NO_ROUND(cosine, sine);
     }
-    gQuestionRotations = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x410);
-    for (questionIndex = 0; questionIndex < 0x82; questionIndex++) {
-        angleIndex = (u16) (((u32) questionIndex << 16) / 0x82) >> 4;
+    gQuestionRotations =
+        HeapAlloc(GetHeap(GetCurrentHeapCall()), QUESTION_ROTATION_COUNT * sizeof(*gQuestionRotations));
+    for (questionIndex = 0; questionIndex < QUESTION_ROTATION_COUNT; questionIndex++) {
+        angleIndex = (u16) (((u32) questionIndex << 16) / QUESTION_ROTATION_COUNT) >> 4;
         gQuestionRotations[questionIndex].mCosine = FX_SinCosTable_[angleIndex * 2 + 1];
         gQuestionRotations[questionIndex].mSine = FX_SinCosTable_[angleIndex * 2];
     }

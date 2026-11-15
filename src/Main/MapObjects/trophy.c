@@ -160,7 +160,7 @@ void InitTrophy(s32 modelIndex, u16 rankIndex) {
     s32 storedRankIndex;
     ModelAnimation *modelAnimation;
 
-    gTrophy = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x124);
+    gTrophy = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gTrophy));
     gTrophy->mRankIndex = rankIndex;
     gTrophy->mModelIndex = modelIndex;
     if (modelIndex < 9 && rankIndex < 3) {

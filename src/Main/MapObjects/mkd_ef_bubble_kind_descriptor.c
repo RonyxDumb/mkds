@@ -55,7 +55,7 @@ void CreateMkdEfBubble(void) {
     nsbmd = FindCourseMapObjFile("mkd_ef_bubble.nsbmd");
     CreateNsbmd(&gMkdEfBubble, nsbmd, NULL);
     SetNsbmdPolygonIdLightEmiAll(gMkdEfBubble, 0x3f, 2, 0x294a);
-    gMkdEfBubbleNsbta = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
+    gMkdEfBubbleNsbta = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gMkdEfBubbleNsbta));
     InitModelAnimationWithEntries(1, gMkdEfBubble, gMkdEfBubbleNsbta, nsbmd,
                                   FindCourseMapObjFile("mkd_ef_bubble.nsbta"));
     SetModelAnimationEntryLoopMode(gMkdEfBubbleNsbta, 0, 1);
