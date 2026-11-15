@@ -174,7 +174,8 @@ u32 GpiStartConnect(GpConnection *connection, const char *nick, const char *uniq
     if (cdkey != NULL) {
         GpiCopyString((char *) data->mCdkey, cdkey, 0x41);
     }
-    result = GpiCreateOperation(connection, 0, (s32) data, (s32 *) &pendingOp, blocking, callback, param);
+    result = GpiCreateOperation(connection, PROFILE_OPERATION_CONNECT, (s32) data, (s32 *) &pendingOp, blocking,
+                                callback, param);
     if (result != 0) {
         return result;
     }

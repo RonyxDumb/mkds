@@ -135,7 +135,7 @@ int GpiStartSearchOperation(GpConnection *connection, u32 data, u32 blocking, u3
     int result;
     int pendingOp;
     connection->mGpiConnection->mSearchCount = connection->mGpiConnection->mSearchCount + 1;
-    result = GpiCreateOperation(connection, 3, data, &pendingOp, blocking, callback, param);
+    result = GpiCreateOperation(connection, PROFILE_OPERATION_SEARCH, data, &pendingOp, blocking, callback, param);
     if (((result == 0) && (result = GpiOpenSearchSocket(connection, (GpiOperation *) pendingOp), result == 0)) &&
         ((*(s32 *) (pendingOp + 8) == 0 ||
           (result = GpiUpdateConnection(connection, *(u32 *) (pendingOp + 0x18)), result == 0)))) {
