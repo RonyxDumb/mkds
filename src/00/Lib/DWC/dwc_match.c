@@ -3222,7 +3222,7 @@ void DWCi_SBCallback(MatchingServerList *list, s32 event, SbServer *server) {
             return;
         case 4:
             serverIndex = 0;
-            if ((s32) ServerBrowserCount(list) > 0) {
+            if (ServerBrowserCount(list) > 0) {
                 do {
                     listedServer = ServerBrowserGetServer(list, serverIndex);
                     if (DWCi_CheckDWCServer(listedServer) == 0) {
@@ -3230,12 +3230,12 @@ void DWCi_SBCallback(MatchingServerList *list, s32 event, SbServer *server) {
                         serverIndex--;
                     }
                     serverIndex++;
-                } while (serverIndex < (s32) ServerBrowserCount(list));
+                } while (serverIndex < ServerBrowserCount(list));
             }
             switch (gWiFiMatching->mState) {
                 case WIFI_MATCH_STATE_LIST_FIRST_UPDATE:
                     serverIndex = 0;
-                    if ((s32) ServerBrowserCount(list) > 0) {
+                    if (ServerBrowserCount(list) > 0) {
                         do {
                             listedServer = ServerBrowserGetServer(list, serverIndex);
                             wiFiMatching = gWiFiMatching;
@@ -3246,9 +3246,9 @@ void DWCi_SBCallback(MatchingServerList *list, s32 event, SbServer *server) {
                                 break;
                             }
                             serverIndex++;
-                        } while (serverIndex < (s32) ServerBrowserCount(list));
+                        } while (serverIndex < ServerBrowserCount(list));
                     }
-                    if (serverIndex < (s32) ServerBrowserCount(list)) {
+                    if (serverIndex < ServerBrowserCount(list)) {
                         gWiFiMatching->mState = WIFI_MATCH_STATE_LIST_SEARCH;
                         gWiFiMatching->mReplyProfileId = 0;
                         if (DWCi_HandleSBError(DWCi_SBUpdateAsync(gWiFiMatching->mReplyProfileId)) != 0) {
@@ -3335,7 +3335,7 @@ BOOL DWCi_EvaluateServers(s32 sort) {
     s32 participantPos;
     removedAny = FALSE;
     serverIndex = 0;
-    for (; serverIndex < (s32) ServerBrowserCount(gWiFiMatching->mServerList); serverIndex++) {
+    for (; serverIndex < ServerBrowserCount(gWiFiMatching->mServerList); serverIndex++) {
         serverEntry = ServerBrowserGetServer(gWiFiMatching->mServerList, serverIndex);
         if (gWiFiMatching->mMode == WIFI_MATCH_MODE_FILTER_SEARCH) {
             value = SbServerGetInt(serverEntry, gDwcPidKey, 0);

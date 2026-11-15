@@ -73,7 +73,7 @@ void SBAllocateServerList(unsigned int serverList);
 void SBServerListClear(SbServerList *serverList);
 void SBFreeDeadList(SbServerList *serverList);
 SbServer *SBServerListNth(SbServerList *serverList, u32 index);
-u32 SBServerListCount(SbServerList *serverList);
+s32 SBServerListCount(SbServerList *serverList);
 void SBServerListRemoveAt(SbServerList *serverList, s32 index);
 void AddServerToDeadlist(SbServerList *serverList, SbServer *server);
 int SBServerListFindServerByIP(SbServerList *serverList, int publicIp, int publicPort);

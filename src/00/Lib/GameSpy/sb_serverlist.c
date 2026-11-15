@@ -163,12 +163,8 @@ void SBServerListRemoveAt(SbServerList *serverList, s32 index) {
     AddServerToDeadlist(serverList, removedServer);
 }
 
-u32 SBServerListCount(SbServerList *serverList) {
-    u32 count;
-    u32 calleeAddress;
-    calleeAddress = (u32) &DarrayGetCount;
-    count = DarrayGetCount(serverList->mServers);
-    return count;
+s32 SBServerListCount(SbServerList *serverList) {
+    return DarrayGetCount(serverList->mServers);
 }
 
 SbServer *SBServerListNth(SbServerList *serverList, u32 index) {

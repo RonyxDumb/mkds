@@ -32,7 +32,7 @@ unsigned int ServerBrowserLimitUpdateA(MatchingServerList *matchingServerList, u
 u32 ServerBrowserGetMyPublicIPAddr(MatchingServerList *matchingServerList);
 void ServerBrowserSortA(MatchingServerList *matchingServerList, unsigned int ascending, const char *sortField,
                         unsigned int compareKind);
-u32 ServerBrowserCount(MatchingServerList *matchingServerList);
+s32 ServerBrowserCount(MatchingServerList *matchingServerList);
 SbServer *ServerBrowserGetServer(MatchingServerList *matchingServerList, u32 index);
 void ServerBrowserClear(struct MatchingServerList *matchingServerList);
 void ServerBrowserHalt(struct MatchingServerList *matchingServerList);

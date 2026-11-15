@@ -228,21 +228,11 @@ void ServerBrowserClear(struct MatchingServerList *matchingServerList) {
 }
 
 SbServer *ServerBrowserGetServer(MatchingServerList *matchingServerList, u32 index) {
-    u32 spareValue = (u32) matchingServerList;
-    u32 indexCopy = index;
-    u32 calleeAddress;
-    spareValue = (spareValue) + 76u;
-    calleeAddress = (u32) &SBServerListNth;
-    return SBServerListNth((SbServerList *) spareValue, indexCopy);
+    return SBServerListNth(&matchingServerList->mList, index);
 }
 
-u32 ServerBrowserCount(MatchingServerList *matchingServerList) {
-    u32 spareValue = (u32) matchingServerList;
-    u32 calleeAddress;
-    spareValue = (spareValue) + 76u;
-    calleeAddress = (u32) &SBServerListCount;
-    spareValue = SBServerListCount((SbServerList *) spareValue);
-    return spareValue;
+s32 ServerBrowserCount(MatchingServerList *matchingServerList) {
+    return SBServerListCount(&matchingServerList->mList);
 }
 
 void ServerBrowserSortA(MatchingServerList *matchingServerList, u32 ascending, const char *sortField, u32 compareKind) {
