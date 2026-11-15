@@ -79,7 +79,7 @@ void InitSecondHand(SecondHand *secondHand, CourseMapRow *courseRow) {
     }
     secondHand->mMapObject.mAngle = 0;
     if (secondHand->mRampFrameCount != 0) {
-        secondHand->mSpeedFractionPerFrame = 0x1000 / secondHand->mRampFrameCount;
+        secondHand->mSpeedFractionPerFrame = FIXED12_ONE / secondHand->mRampFrameCount;
     } else {
         secondHand->mSpeedFractionPerFrame = 0;
     }

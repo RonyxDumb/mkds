@@ -161,7 +161,8 @@ void DrawFireball2(void *mapObjectList, Fireball2 *fireball2) {
         } else {
             facingForward = 0;
         }
-        if (fireball2->mElements[rowIndex][0].mAngle >= 0x4000 && fireball2->mElements[rowIndex][0].mAngle < 0xc000) {
+        if (fireball2->mElements[rowIndex][0].mAngle >= ANGLE_QUARTER_TURN &&
+            fireball2->mElements[rowIndex][0].mAngle < ANGLE_THREE_QUARTER_TURN) {
             rowInFront = 1;
         } else {
             rowInFront = 0;
@@ -203,7 +204,8 @@ void DrawFireball2(void *mapObjectList, Fireball2 *fireball2) {
         } else {
             facingForward = 0;
         }
-        if (fireball2->mElements[rowIndex][0].mAngle >= 0x4000 && fireball2->mElements[rowIndex][0].mAngle < 0xc000) {
+        if (fireball2->mElements[rowIndex][0].mAngle >= ANGLE_QUARTER_TURN &&
+            fireball2->mElements[rowIndex][0].mAngle < ANGLE_THREE_QUARTER_TURN) {
             rowInFront = 1;
         } else {
             rowInFront = 0;

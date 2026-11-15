@@ -293,7 +293,7 @@ u32 CollideItemObjectWithKuribo(Kuribo *kuribo, ItemObject *itemObject, u8 *firs
 }
 
 void ResetKuriboForItemBomb(Kuribo *kuribo) {
-    kuribo->mOrientationBlendAmount = 0x1000;
+    kuribo->mOrientationBlendAmount = FIXED12_ONE;
     kuribo->mOrientation = gKuriboBombResetOrientation;
     kuribo->mTargetOrientation = gKuriboBombResetTargetOrientation;
     SetStateMachineState(&kuribo->mMapObject.mStateMachine, KURIBO_STATE_FALL_TO_SURFACE);

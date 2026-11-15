@@ -104,9 +104,11 @@ void UpdateBridge(s32 unused, Bridge *bridge) {
         StartMapObjectSoundWhileRequested(&bridge->mCollisionMapObject.mMapObject, 0x189);
     }
     bridge->mSwingAngle += bridge->mSwingAnglePerFrame;
-    if (bridge->mSwingAngle >= 0x4000 && bridge->mSwingAngle < bridge->mSwingAnglePerFrame + 0x4000) {
+    if (bridge->mSwingAngle >= ANGLE_QUARTER_TURN &&
+        bridge->mSwingAngle < bridge->mSwingAnglePerFrame + ANGLE_QUARTER_TURN) {
         bridge->mPauseTimer = bridge->mPeakPauseFrameCount;
-    } else if (bridge->mSwingAngle >= 0xc000 && bridge->mSwingAngle < bridge->mSwingAnglePerFrame + 0xc000) {
+    } else if (bridge->mSwingAngle >= ANGLE_THREE_QUARTER_TURN &&
+               bridge->mSwingAngle < bridge->mSwingAnglePerFrame + ANGLE_THREE_QUARTER_TURN) {
         bridge->mPauseTimer = bridge->mTroughPauseFrameCount;
     }
     angle = 0x10000 - bridge->mAngleX;

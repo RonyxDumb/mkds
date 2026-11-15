@@ -92,7 +92,7 @@ void InitKuribo(Kuribo *kuribo, CourseMapRow *row) {
         kuribo->mStartY = 0;
         kuribo->mReturnsAfterWait = 0;
         InitStateMachine(&kuribo->mMapObject.mStateMachine, gKuriboStateTable, 6, kuribo);
-        kuribo->mOrientationBlendAmount = 0x1000;
+        kuribo->mOrientationBlendAmount = FIXED12_ONE;
         {
             Quaternion identityA = {0, 0, 0, 0x1000};
             kuribo->mOrientation = identityA;

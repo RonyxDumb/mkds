@@ -28,6 +28,8 @@ typedef s32 BOOL;
 #define TRUE 1
 #define FALSE 0
 
+// 1.0 in 12-bit fixed point.
+#define FIXED12_ONE 0x1000
 // Whole number to fixed-point and back (12 fraction bits).
 #define TO_FIXED12(x) ((x) << 12)
 #define FROM_FIXED12(x) ((x) >> 12)
@@ -61,6 +63,11 @@ typedef s32 BOOL;
 #define CROSS2_FIXED12_ROUNDED(leftFirst, rightFirst, leftSecond, rightSecond)                                         \
     (((s64) (leftFirst) * (rightFirst) - (s64) (leftSecond) * (rightSecond) + 0x800) >> 12)
 
+// 16-bit angles: a full turn is 0x10000.
+#define ANGLE_EIGHTH_TURN 0x2000
+#define ANGLE_QUARTER_TURN 0x4000
+#define ANGLE_HALF_TURN 0x8000
+#define ANGLE_THREE_QUARTER_TURN 0xc000
 // Degrees (fx32) to a 16-bit angle, rounded.
 #define DEG_TO_ANGLE(deg) ((u16) (((s64) (deg) * 0xb60b60b60bLL + 0x80000000000LL) >> 44))
 // Degrees (fx32) to a 16-bit angle, truncated (rounds differently from DEG_TO_ANGLE).

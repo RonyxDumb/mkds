@@ -128,8 +128,8 @@ void InitSmanObjects(SmanList *smanList) {
     }
     index = 0;
     while (index < smanList->mSmanCount && (sman = smanList->mSmans[index]) != NULL) {
-        sman->mTopRiseProgress = 0x1000;
-        sman->mBottomScale = 0x1000;
+        sman->mTopRiseProgress = FIXED12_ONE;
+        sman->mBottomScale = FIXED12_ONE;
         index++;
         sman->mTopStartHeight = MUL_FIXED12_NO_ROUND(sman->mMapObject.mScale.y, 0xf333);
         sman->mTopLowHeight = MUL_FIXED12_NO_ROUND(sman->mMapObject.mScale.y, 0x2000);
@@ -186,8 +186,8 @@ void UpdateSman(void *mapObjectList, Sman *sman) {
             sman->mAngleZEnabled = 0;
             break;
         case SMAN_STATE_COME_BACK:
-            if (sman->mTopRiseProgress >= 0x1000) {
-                sman->mTopRiseProgress = 0x1000;
+            if (sman->mTopRiseProgress >= FIXED12_ONE) {
+                sman->mTopRiseProgress = FIXED12_ONE;
                 sman->mTopHeight = sman->mTopStartHeight;
             } else {
                 sman->mTopRiseProgress = sman->mTopRiseProgress + 0x40;
@@ -196,9 +196,9 @@ void UpdateSman(void *mapObjectList, Sman *sman) {
             sman->mStateFrames = sman->mStateFrames + 1;
             if (sman->mStateFrames > 10) {
                 sman->mBottomScale = sman->mBottomScale + 0x40;
-                if (sman->mBottomScale >= 0x1000) {
+                if (sman->mBottomScale >= FIXED12_ONE) {
                     sman->mStateFrames = 0;
-                    sman->mBottomScale = 0x1000;
+                    sman->mBottomScale = FIXED12_ONE;
                     sman->mMapObject.mFlags = sman->mMapObject.mFlags & ~1;
                     sman->mState = SMAN_STATE_REST;
                 }

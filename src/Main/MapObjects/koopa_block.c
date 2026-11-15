@@ -224,7 +224,7 @@ void UpdateMkdEfBubbleLeap(void *stateObject) {
     MkdEfBubbleObject *bubble = stateObject;
     if (bubble->mMapObject.mPosStep.y < 0x1333) {
         if (bubble->mMapObject.mPosStep.y <= -0x1333) {
-            bubble->mAngleZ = 0x8000;
+            bubble->mAngleZ = ANGLE_HALF_TURN;
         } else {
             bubble->mAngleZ = FROM_FIXED12(
                 MUL_FIXED12_NO_ROUND(0x1333 - bubble->mMapObject.mPosStep.y, gMkdEfBubbleUpdateList->mAngleScale));

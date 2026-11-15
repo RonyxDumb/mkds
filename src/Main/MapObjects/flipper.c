@@ -204,14 +204,14 @@ void InitFlipperObjects(MapObjectList *mapObjectList) {
             case 0:
                 flipper->mMirror = 0;
                 flipper->mMapObject.mFlags &= ~0x400;
-                flipper->mMapObject.mAngle = 0x2000;
+                flipper->mMapObject.mAngle = ANGLE_EIGHTH_TURN;
                 flipper->mWaitTimer = 0x1e;
                 MTX_RotY33_(&tiltMatrix, SIN_OF_ANGLE(0xefa0), COS_OF_ANGLE(0xefa0));
                 break;
             case 1:
                 flipper->mMirror = 1;
                 flipper->mMapObject.mFlags |= gFlipperMirrorFlag;
-                flipper->mMapObject.mAngle = 0x2000;
+                flipper->mMapObject.mAngle = ANGLE_EIGHTH_TURN;
                 flipper->mWaitTimer = 0x1e;
                 MTX_RotY33_(&tiltMatrix, SIN_OF_ANGLE(0x1050), COS_OF_ANGLE(0x1050));
                 break;
