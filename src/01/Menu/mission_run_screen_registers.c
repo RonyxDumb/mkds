@@ -71,7 +71,7 @@ void WriteMissionRunMSselScreenRegisters(void) {
 void UpdateMissionRunMSsel(void) {
     switch (AdvanceMissionRunMSsel()) {
         case MISSION_RUN_MSSEL_RESULT_MISSION_CHOSEN:
-            SwitchMenuScreen(0x1d, 0x1f);
+            SwitchMenuScreen(SCREEN_NEXT_RACE_SETUP, 0x1f);
             break;
         case MISSION_RUN_MSSEL_RESULT_BACK:
             SwitchMenuScreen(SCREEN_MISSION_RUN_LVSEL, 0x1f);
@@ -98,7 +98,7 @@ void SetGhostSceneInitialCallbacksIndex(s32 callbacksIndex) {
 void UpdateTimeAttackTopMenu(void) {
     switch (AdvanceTimeAttackTopMenu()) {
         case TIME_ATTACK_TOP_RESULT_TIME_TRIALS:
-            SwitchMenuScreen(0x15, 0x1f);
+            SwitchMenuScreen(SCREEN_SELECT_CHARACTER_TIME_ATTACK, 0x1f);
             break;
         case TIME_ATTACK_TOP_RESULT_SEND_GHOST:
             SwitchMenuScreen(0x1c, 0x1f);
@@ -127,10 +127,10 @@ void WriteTimeAttackCharacterRegisters(void) {
 
 void UpdateTimeAttackSelectCharacter(void) {
     switch (AdvanceSelectCharacter()) {
-        case 1:
-            SwitchMenuScreen(0x16, 0x1f);
+        case MENU_SCREEN_RESULT_NEXT:
+            SwitchMenuScreen(SCREEN_SELECT_KART_TIME_ATTACK, 0x1f);
             break;
-        case 2:
+        case MENU_SCREEN_RESULT_BACK:
             SwitchMenuScreen(SCREEN_TIME_ATTACK_TOP_MENU, 0x1f);
             break;
     }
@@ -147,11 +147,11 @@ void WriteTimeAttackKartRegisters(void) {
 
 void UpdateTimeAttackSelectKart(void) {
     switch (AdvanceSelectKart()) {
-        case 1:
-            SwitchMenuScreen(0x17, 0x1f);
+        case MENU_SCREEN_RESULT_NEXT:
+            SwitchMenuScreen(SCREEN_SELECT_CUP_GRID_TIME_ATTACK, 0x1f);
             break;
-        case 2:
-            SwitchMenuScreen(0x15, 0x1f);
+        case MENU_SCREEN_RESULT_BACK:
+            SwitchMenuScreen(SCREEN_SELECT_CHARACTER_TIME_ATTACK, 0x1f);
             break;
     }
 }
@@ -178,13 +178,13 @@ void TimeAttackSetRaceSetupRequested(s32 value) {
 
 void UpdateTimeAttackSelectCupGrid(void) {
     switch (AdvanceSelectCupGrid()) {
-        case 1:
-            SwitchMenuScreen(0x18, 0x1f);
+        case MENU_SCREEN_RESULT_NEXT:
+            SwitchMenuScreen(SCREEN_SELECT_CUP_M_TIME_ATTACK, 0x1f);
             break;
-        case 2:
-            SwitchMenuScreen(0x16, 0x1f);
+        case MENU_SCREEN_RESULT_BACK:
+            SwitchMenuScreen(SCREEN_SELECT_KART_TIME_ATTACK, 0x1f);
             break;
-        case 3:
+        case MENU_SCREEN_RESULT_LEAVE:
             SwitchMenuScreen(0, 0x1f);
             TimeAttackSetMenuEntryKind(0);
             TimeAttackSetRaceSetupRequested(1);
@@ -204,15 +204,15 @@ void WriteTimeAttackCupCourseRegisters(void) {
 
 void UpdateTimeAttackSelectCupCourse(void) {
     switch (AdvanceSelectCupCourse()) {
-        case 1:
+        case MENU_SCREEN_RESULT_NEXT:
             if (HasNoSelectableGhost()) {
-                SwitchMenuScreen(0x1d, 0x1f);
+                SwitchMenuScreen(SCREEN_NEXT_RACE_SETUP, 0x1f);
             } else {
                 SwitchMenuScreen(SCREEN_SELECT_GHOST, 0x1f);
             }
             break;
-        case 2:
-            SwitchMenuScreen(0x18, 0x1f);
+        case MENU_SCREEN_RESULT_BACK:
+            SwitchMenuScreen(SCREEN_SELECT_CUP_M_TIME_ATTACK, 0x1f);
             break;
     }
 }

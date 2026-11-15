@@ -10,13 +10,13 @@
 
 void UpdateSelectCupGrid(void) {
     switch (AdvanceSelectCupGrid()) {
-        case 1:
-            SwitchMenuScreen(0x1d, 0x1f);
+        case MENU_SCREEN_RESULT_NEXT:
+            SwitchMenuScreen(SCREEN_NEXT_RACE_SETUP, 0x1f);
             break;
-        case 2:
-            SwitchMenuScreen(6, 0x1f);
+        case MENU_SCREEN_RESULT_BACK:
+            SwitchMenuScreen(SCREEN_SELECT_KART_GRAND_PRIX, 0x1f);
             break;
-        case 3:
+        case MENU_SCREEN_RESULT_LEAVE:
             SwitchMenuScreen(0, 0x1f);
             SelectCupGridSetMenuEntryKind(0);
             SelectCupGridSetRaceSetupRequested(1);
