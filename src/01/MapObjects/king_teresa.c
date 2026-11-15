@@ -587,16 +587,15 @@ void HideKingTeresaWithoutEffects(MissionRunMapObject *mapObject) {
     mapObject->mMapObject.mFlags |= gKingTeresaHiddenFlag;
 }
 
-void StartKingTeresaState1ShadowOffset(MissionRunMapObject *mapObject) {
+void StartKingTeresaStayHidden(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 1, NULL);
     SetShadowOffsetYAndScale(mapObject, 0, 0x19000);
 }
 
-void StartKingTeresaHideThenState1(MissionRunMapObject *mapObject) {
+void StartKingTeresaHideThenStayHidden(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 5, AdvanceKingTeresaFollowKart);
     HideKingTeresaWithEffects(mapObject);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mKingTeresa.mHideFrameCount,
-                                 StartKingTeresaState1ShadowOffset);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mKingTeresa.mHideFrameCount, StartKingTeresaStayHidden);
     if (gKingTeresaState != 3) {
         gPreviousKingTeresaState = gKingTeresaState;
     }
@@ -671,7 +670,7 @@ void KingTeresaStandingsEndCallback(void) {
 void StartKingTeresaSecondAnimation(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, NULL);
     StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mHead.mStartupSecondAnimationEntry,
-                                  mapObject->mPrm->mHead.mStartupSecondFrameStep, StartKingTeresaHideThenState1);
+                                  mapObject->mPrm->mHead.mStartupSecondFrameStep, StartKingTeresaHideThenStayHidden);
 }
 
 void StartKingTeresaFirstAnimation(MissionRunMapObject *mapObject) {
