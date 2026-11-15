@@ -21,7 +21,7 @@ typedef struct MatchingSendHeader {
     /* 10 */ u32 mProfileId;
 } MatchingSendHeader;
 
-// The twelve bytes at WiFiMatching.mUnk_18c.
+// The twelve bytes at WiFiMatching.mNNInfo.
 typedef struct DWCNNInfo {
     /* 00 */ u8 mIsQR2;
     /* 01 */ u8 mRetryCount;

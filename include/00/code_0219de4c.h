@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "00/code_021a0958.h"
 
 // Values of WiFiMatching.mState: IDLE means no search; the search states look through the server list (LIST_SEARCH) or
 // send a reservation and wait for the reply (RESERVING); the negotiate and connect states take a reserved peer through
@@ -71,8 +72,7 @@ typedef struct WiFiMatching {
     /* 178 */ u32 mLastNatnegCookie;
     /* 17c */ u64 mNNFailedTime;
     /* 184 */ u64 mIncomingWaitStartTime;
-    /* 18c */ u8 mNNInfo[8];
-    /* 194 */ u32 mNNCookie;
+    /* 18c */ DWCNNInfo mNNInfo;
     // WIFI_MATCH_STATE_*; switched on by DWCi_MatchProcess when its parameter is 1; IDLE means no search is running.
     /* 198 */ s32 mState;
     /* 19c */ u8 mPostProcessPos;

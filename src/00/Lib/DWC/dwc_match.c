@@ -535,7 +535,7 @@ void DWCi_MatchProcess(s32 param_1) {
         wiFiMatching->mState == WIFI_MATCH_STATE_NEGOTIATE_CLIENT) {
         if (wiFiMatching->mNNFailedTime != 0) {
             if (MatchingGetTickMilliseconds() - wiFiMatching->mNNFailedTime > 10000) {
-                DWCi_NNCompletedCallback(1, 0, 0, wiFiMatching->mNNInfo);
+                DWCi_NNCompletedCallback(1, 0, 0, &wiFiMatching->mNNInfo);
             }
         }
     }
@@ -868,9 +868,9 @@ u32 DWCi_ProcessMatchClosing(s32 error, s32 errorCode, s32 profileId) {
         wiFiMatching->mCloseKind == WIFI_MATCH_CLOSE_IGNORE_CALLBACK_AND_SC_CANCEL) {
         return 1;
     }
-    if (wiFiMatching->mNNCookie != 0) {
-        NNCancel(wiFiMatching->mNNCookie);
-        gWiFiMatching->mNNCookie = 0;
+    if (wiFiMatching->mNNInfo.mCookie != 0) {
+        NNCancel(wiFiMatching->mNNInfo.mCookie);
+        gWiFiMatching->mNNInfo.mCookie = 0;
     }
     wiFiMatching = gWiFiMatching;
     if (wiFiMatching->mLastParticipantPos != 0) {
@@ -1128,7 +1128,7 @@ void DWCi_ResetMatchParam(s32 level) {
         commandPortFill = 0;
         MIi_CpuClear16(commandPortFill, gWiFiMatching->mParticipantCommandPorts, 0x40);
         func_0214d018_inline(gWiFiMatching->mParticipantProfileIds, 0x80);
-        func_0214d018_inline(gWiFiMatching->mNNInfo, 0xc);
+        func_0214d018_inline(&gWiFiMatching->mNNInfo, sizeof(DWCNNInfo));
         func_0214d018_inline(gWiFiMatching->mParticipantConnectAddresses, 0x80);
         connectPortFill = 0;
         MIi_CpuClear16(connectPortFill, gWiFiMatching->mParticipantConnectPorts, 0x40);
@@ -1290,7 +1290,7 @@ u32 DWCi_NNStartupAsync(s32 isQR2, s32 cookie, u32 server) {
         }
         if (canStart != FALSE) {
             gWiFiMatching->mCookieRandom = DWCi_GetMathRand32(0x10000);
-            gWiFiMatching->mNNCookie = cookie;
+            gWiFiMatching->mNNInfo.mCookie = cookie;
         } else {
             words[0] = SOC_GetHostID();
             words[1] = GetSocketPort(*gWiFiMatching->mConnectionSocket);
@@ -1301,24 +1301,24 @@ u32 DWCi_NNStartupAsync(s32 isQR2, s32 cookie, u32 server) {
             if (result != 0) {
                 return 2;
             }
-            gWiFiMatching->mNNCookie = 0;
+            gWiFiMatching->mNNInfo.mCookie = 0;
         }
-        gWiFiMatching->mNNInfo[0] = 0;
-        gWiFiMatching->mNNInfo[1] = 0;
-        *(u16 *) &gWiFiMatching->mNNInfo[2] = SBServerGetPublicQueryPort(server);
-        *(u32 *) &gWiFiMatching->mNNInfo[4] = SBServerGetPublicInetAddress((u32 *) server);
+        gWiFiMatching->mNNInfo.mIsQR2 = 0;
+        gWiFiMatching->mNNInfo.mRetryCount = 0;
+        gWiFiMatching->mNNInfo.mPort = SBServerGetPublicQueryPort(server);
+        gWiFiMatching->mNNInfo.mAddress = SBServerGetPublicInetAddress((u32 *) server);
     } else {
         canStart = TRUE;
-        gWiFiMatching->mNNInfo[0] = 1;
-        gWiFiMatching->mNNInfo[1] = startResult;
-        *(u16 *) &gWiFiMatching->mNNInfo[2] = startResult;
-        *(u32 *) &gWiFiMatching->mNNInfo[4] = startResult;
-        gWiFiMatching->mNNCookie = cookie;
+        gWiFiMatching->mNNInfo.mIsQR2 = 1;
+        gWiFiMatching->mNNInfo.mRetryCount = startResult;
+        gWiFiMatching->mNNInfo.mPort = startResult;
+        gWiFiMatching->mNNInfo.mAddress = startResult;
+        gWiFiMatching->mNNInfo.mCookie = cookie;
     }
     if (canStart != FALSE) {
-        startResult = DWCi_DoNatNegotiationAsync((DWCNNInfo *) gWiFiMatching->mNNInfo);
+        startResult = DWCi_DoNatNegotiationAsync(&gWiFiMatching->mNNInfo);
     } else {
-        DWCi_NNCompletedCallback(0, GetSocketDescriptor(*gWiFiMatching->mConnectionSocket), 0, gWiFiMatching->mNNInfo);
+        DWCi_NNCompletedCallback(0, GetSocketDescriptor(*gWiFiMatching->mConnectionSocket), 0, &gWiFiMatching->mNNInfo);
         gWiFiMatching->mIncomingWaitStartTime = 0;
     }
     return startResult;
@@ -1648,10 +1648,10 @@ s32 DWCi_ProcessRecvMatchCommand(s32 command, u32 profileId, u32 address, u16 po
             }
             peerAddress.mAddress = firstValue;
             peerAddress.mPort = ((rawPort >> 8) & 0xff) | ((rawPort << 8) & 0xff00);
-            gWiFiMatching->mNNInfo[0] = 1;
+            gWiFiMatching->mNNInfo.mIsQR2 = 1;
             latestMatching = gWiFiMatching;
             DWCi_NNCompletedCallback(0, GetSocketDescriptor(*latestMatching->mConnectionSocket), &peerAddress,
-                                     latestMatching->mNNInfo);
+                                     &latestMatching->mNNInfo);
             gWiFiMatching->mIncomingWaitStartTime = 0;
             break;
         case WIFI_MATCH_COMMAND_NEW_PARTICIPANT:
@@ -2086,9 +2086,9 @@ u32 DWCi_CancelPreConnectedServerProcess(u32 clientPid) {
         gWiFiMatching->mParticipantProfileIds[gWiFiMatching->mLastParticipantPos + 1] = 0;
     }
     gWiFiMatching->mLastCommand = WIFI_MATCH_COMMAND_NONE;
-    if (gWiFiMatching->mNNCookie != 0) {
-        NNCancel(gWiFiMatching->mNNCookie);
-        gWiFiMatching->mNNCookie = 0;
+    if (gWiFiMatching->mNNInfo.mCookie != 0) {
+        NNCancel(gWiFiMatching->mNNInfo.mCookie);
+        gWiFiMatching->mNNInfo.mCookie = 0;
     }
     gWiFiMatching->mNNCompletedCount = gWiFiMatching->mLastParticipantPos;
     gWiFiMatching->mReplyProfileId = 0;
@@ -2134,9 +2134,9 @@ u32 DWCi_CancelPreConnectedClientProcess(u32 serverPid) {
     }
     gWiFiMatching->mNNCompletedCount = gWiFiMatching->mLastParticipantPos;
     gWiFiMatching->mPriorProfileId = 0;
-    if (gWiFiMatching->mNNCookie != 0) {
-        NNCancel(gWiFiMatching->mNNCookie);
-        gWiFiMatching->mNNCookie = 0;
+    if (gWiFiMatching->mNNInfo.mCookie != 0) {
+        NNCancel(gWiFiMatching->mNNInfo.mCookie);
+        gWiFiMatching->mNNInfo.mCookie = 0;
     }
     if (gWiFiMatching->mLastParticipantPos != 0) {
         DWCi_RestartFromTimeout();
@@ -2388,9 +2388,9 @@ void DWCi_DoCancelMatching(void) {
         }
     }
     wiFiMatching = gWiFiMatching;
-    if (wiFiMatching->mNNCookie != 0) {
-        NNCancel(wiFiMatching->mNNCookie);
-        gWiFiMatching->mNNCookie = 0;
+    if (wiFiMatching->mNNInfo.mCookie != 0) {
+        NNCancel(wiFiMatching->mNNInfo.mCookie);
+        gWiFiMatching->mNNInfo.mCookie = 0;
     }
     wiFiMatching = gWiFiMatching;
     if (wiFiMatching->mLastParticipantPos != 0) {
