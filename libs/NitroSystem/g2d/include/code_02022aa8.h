@@ -16,6 +16,7 @@ typedef struct NNSG2dFontWidth {
     /* 00 */ u16 mIndexBegin;
     /* 02 */ u16 mIndexEnd;
     /* 04 */ struct NNSG2dFontWidth *mPNext;
+    /* 08 */ u8 mCharWidths[1];
 } NNSG2dFontWidth;
 
 // Halfword number, then pairs of halfwords.

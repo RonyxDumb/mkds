@@ -249,7 +249,7 @@ NNSG2dCharWidths *NNS_G2dFontGetCharWidthsFromIndex(NNSG2dFont *pFont, u32 idx) 
     pRange = pRes->mPWidth;
     while (pRange != 0) {
         if (pRange->mIndexBegin <= idx && idx <= pRange->mIndexEnd) {
-            return (NNSG2dCharWidths *) ((u8 *) pRange + 8 + pFont->mWidthEntrySize * (idx - pRange->mIndexBegin));
+            return (NNSG2dCharWidths *) (pRange->mCharWidths + pFont->mWidthEntrySize * (idx - pRange->mIndexBegin));
         }
         pRange = pRange->mPNext;
     }
