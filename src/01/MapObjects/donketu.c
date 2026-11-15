@@ -870,12 +870,12 @@ void DrawDonketu(void *mapObjectList, MissionRunMapObject *donketu) {
 }
 
 MapObjectKindData *CreateDonketuKindData(void) {
-    u32 v4 = 0x23eu;
+    u32 soundId = 0x23eu;
     void *kartCollisionCallback = &CollideKartWithMissionRunMapObject;
     void *itemCollisionCallback = &CollideItemWithMissionRunMapObject;
     void *sphereHitCallback = &ComputeSphereHitOnMissionRunMapObject;
     return CreateMapObjectKindDataWithSoundIds(kartCollisionCallback, itemCollisionCallback, sphereHitCallback, 0x2u,
-                                               0x1u, v4, 0x0u);
+                                               0x1u, soundId, 0x0u);
 }
 
 MapObjectList *CreateBossDonketuDrawList(void) {
