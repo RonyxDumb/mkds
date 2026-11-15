@@ -10,4 +10,4 @@ void SetLayoutEntryPositionFromLabel(u32 entryId, LayoutTableEntry *output, Layo
 void SetLayoutEntryPositionFromCell(u32 entryId, LayoutTableEntry *output, LayoutEntryTable *cellLayout);
 void CopyCellLayoutEntryCellIndex(u32 destinationId, u32 sourceId, LayoutEntryTable *cellLayout);
 void CopyCellLayoutEntryPosition(u32 destinationId, u32 sourceId, LayoutEntryTable *cellLayout);
-void SetCellLayoutEntryXY(int entryId, s16 entryX, int entryY, LayoutEntryTable *cellLayout);
+void SetCellLayoutEntryXY(int entryId, s16 entryX, s16 entryY, LayoutEntryTable *cellLayout);
