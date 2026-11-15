@@ -356,7 +356,7 @@ void InitSelectGhost(void *parentHeap, u32 mainOam, u32 subOam) {
     gSelectGhost->mIndex = 0;
     gSelectGhost->mMainOamList = mainOam;
     gSelectGhost->mSubOamList = subOam;
-    gSelectGhost->mResult = 0;
+    gSelectGhost->mResult = SELECT_GHOST_RESULT_NONE;
     LocateAndQueueSelectGhost();
     CreateCommonKartIcon(gSelectGhost->mHeap);
     InitLayoutTable(gSelectGhost->mHeap, gSelectGhost->mSelectCupCourseTaMBncl, gSelectGhost->mSelectCupCourseTaMBnll,
@@ -423,7 +423,7 @@ void InitSelectGhost(void *parentHeap, u32 mainOam, u32 subOam) {
 }
 
 void ReleaseSelectGhost(void) {
-    if (gSelectGhost->mResult == 1) {
+    if (gSelectGhost->mResult == SELECT_GHOST_RESULT_CHOSEN) {
         reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | 0x1800;
     }
     ClearPaletteBlendPointer();
@@ -517,7 +517,7 @@ void AdvanceSelectGhostState2(void) {
     }
     SetSelectReturnSoundId(14);
     RequestSelectGhostState7();
-    gSelectGhost->mResult = 2;
+    gSelectGhost->mResult = SELECT_GHOST_RESULT_RETURN;
     RequestSelectReturnState3WithSound(0);
     return;
 next:
@@ -582,7 +582,7 @@ void AdvanceSelectGhostState6(void) {
     switch (selectChoisesIndex) {
         case 0:
             ReadSelectGhostRecords();
-            gSelectGhost->mResult = 1;
+            gSelectGhost->mResult = SELECT_GHOST_RESULT_CHOSEN;
             RequestSelectGhostState7();
             RequestSelectReturnState4();
             break;
@@ -595,16 +595,16 @@ void AdvanceSelectGhostState6(void) {
 }
 
 void AdvanceSelectGhostState7(void) {
-    BOOL resultIsOne;
+    BOOL isChosen;
     s16 offsetY;
     s16 returnOffsetY;
     u16 layoutCount;
     s32 index;
 
-    resultIsOne = gSelectGhost->mResult == 1;
+    isChosen = gSelectGhost->mResult == SELECT_GHOST_RESULT_CHOSEN;
     gSelectGhost->mStateFrames++;
     offsetY = InterpolateS16(1, 0, ~0xbf, gSelectGhost->mStateFrames, 10);
-    if (resultIsOne) {
+    if (isChosen) {
         layoutCount = gSelectGhost->mSelectCupCourseTaMBncl->mCount;
         gSelectGhost->mBg0Offset = offsetY;
         gSelectGhost->mSelectCupCourseTaMTable[0].mOffsetY = offsetY;
@@ -675,14 +675,14 @@ int AdvanceSelectGhost(void) {
                     (void *) gSelectGhost->mSubOamList, gSelectGhost->mSelectGhostSTable);
     if (gSelectGhost->mState == SELECT_GHOST_STATE_SLIDE_OUT) {
         switch (gSelectGhost->mResult) {
-            case 1:
+            case SELECT_GHOST_RESULT_CHOSEN:
                 if (gSelectGhost->mStateFrames >= 10) {
                     if (IsSelectReturnState0NoState1Request() != 0) {
                         return 1;
                     }
                 }
                 break;
-            case 2:
+            case SELECT_GHOST_RESULT_RETURN:
                 if (gSelectGhost->mStateFrames >= 10) {
                     return 2;
                 }

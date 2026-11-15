@@ -11,6 +11,13 @@
 #include "Main/Graphics/layout_rect_table.h"
 #include "code_0212df7c.h"
 
+// Values of SelectGhost.mResult: how the screen is being left (the ghost records are read for CHOSEN).
+enum {
+    SELECT_GHOST_RESULT_NONE,
+    SELECT_GHOST_RESULT_CHOSEN,
+    SELECT_GHOST_RESULT_RETURN,
+};
+
 // Values of SelectGhost.mState and mNextState.
 enum {
     SELECT_GHOST_STATE_SLIDE_IN,
