@@ -71,7 +71,7 @@ typedef struct RaceSetupCopy {
     /* 00 */ RaceSetupCopyEntry mEntries[8];
     /* c0 */ s32 mCpuDifficulty;
     /* c4 */ s32 mKartCount;
-    // A MODE_* value of unk_021759c0.h: copied from the current mode (3 for most modes in a Wi-Fi race), set by the
+    // A MODE_* value of race_setup_block.h: copied from the current mode (3 for most modes in a Wi-Fi race), set by the
     // select screens, stored as the next mode by SetNextRaceSetupFromCopy.
     /* c8 */ s32 mMode;
     /* cc */ s32 mCupIndex;
