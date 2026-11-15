@@ -522,7 +522,7 @@ void AdvanceKeyboardState1(void) {
 }
 
 void AdvanceKeyboardState2(void) {
-    InputSlotIndex inputSlotIndex = UNK_02175628_INDEX_8;
+    InputSlotIndex inputSlotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     Keyboard *keyboard;
     KeyboardRecord *textRecord;
     void *text;
@@ -712,7 +712,7 @@ void AdvanceKeyboardState6(void) {
 }
 
 void AdvanceKeyboardState7(void) {
-    InputSlotIndex inputSlotIndex = UNK_02175628_INDEX_8;
+    InputSlotIndex inputSlotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     Keyboard *keyboard;
     KeyboardRecord *textRecord;
     void *text;

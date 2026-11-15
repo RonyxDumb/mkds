@@ -684,7 +684,7 @@ void AdvanceSelectCupGridState3(void) {
     InputSlot *inputSlot;
 
     touchedRectIndex = -1;
-    inputIndex = UNK_02175628_INDEX_8;
+    inputIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     AdvanceSelectCupGridIndexChange();
     AdvanceSelectCupGridShownCourse();
     pressedFlag = 0;

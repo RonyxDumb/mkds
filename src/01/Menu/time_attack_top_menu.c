@@ -233,7 +233,7 @@ void AdvanceTimeAttackTopMenuState3(void) {
     BOOL touchStarted = FALSE;
     u32 tappedRectIndex = -1;
     s32 newIndex = 3;
-    InputSlotIndex slotIndex = UNK_02175628_INDEX_8;
+    InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     BOOL flag1 = FALSE;
     InputSlot *inputSlot;
     s32 pressedBits;

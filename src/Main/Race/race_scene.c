@@ -69,7 +69,7 @@ SceneCallbacks gRaceSceneCallbacks = {InitRaceScene,
                                       0};
 
 static inline u32 IsSlot8PairPresentOrRecentlyLost(void) {
-    InputSlotIndex slotIndex = UNK_02175628_INDEX_8;
+    InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     u32 result = 1;
     u32 briefNoPair = 0;
     u16 hasPair = gInputSlots[slotIndex].mPair.mHasPair;
@@ -277,7 +277,7 @@ u32 ShouldEndAwardRace(u32 sceneFrames) {
         return 0;
     }
     if (IsAnyGrandPrixRecordFilled() != 0) {
-        InputSlotIndex slotIndex = UNK_02175628_INDEX_8;
+        InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
         if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_A) != 0) {
             return 1;
         }
@@ -300,7 +300,7 @@ u32 ShouldEndStaffRoll(u32 sceneFrames) {
     }
     result = 0;
     if (IsBackupFlagSet(flagIndex) != 0 && sceneFrames > 0xb4) {
-        InputSlotIndex slotIndex = UNK_02175628_INDEX_8;
+        InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
         if ((u16) (gInputSlots[slotIndex].mBits & PAD_KEYS_NO_DIRECTION_OR_SHOULDER) != 0 ||
             IsSlot8PairPresentOrRecentlyLost() != 0) {
             result = 1;

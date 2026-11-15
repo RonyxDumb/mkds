@@ -67,7 +67,7 @@ void AdvanceRecordTAttOffsetTimers(void) {
 }
 
 BOOL AdvanceRecordTAttButtonSequence(void) {
-    InputSlotIndex slotIndex = UNK_02175628_INDEX_8;
+    InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     u16 pressedBits;
 
     pressedBits = gInputSlots[slotIndex].mPressedBits;
@@ -236,7 +236,7 @@ void AdvanceRecordTAttState1(void) {
 void AdvanceRecordTAttState2(void) {
     s32 touchedRect = -1;
     s32 touchBeganRect = -1;
-    InputSlotIndex slotIndex = UNK_02175628_INDEX_8;
+    InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     BOOL touchFlag;
     BOOL recentlyLost;
     u16 hasPair;
@@ -683,7 +683,7 @@ void AdvanceRecordTAttState15(void) {
     u16 pressedOrTouched;
     BOOL recentlyLost;
 
-    slotIndex = UNK_02175628_INDEX_8;
+    slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     pressedOrTouched = gInputSlots[slotIndex].mPressedBits & PAD_KEY_B;
     if (pressedOrTouched == 0) {
         pressedOrTouched = 0;

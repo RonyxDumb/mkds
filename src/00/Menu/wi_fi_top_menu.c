@@ -153,7 +153,7 @@ void AdvanceWiFiTopMenuState2(void) {
 }
 
 void AdvanceWiFiTopMenuState3(void) {
-    InputSlotIndex slotIndex = UNK_02175628_INDEX_8;
+    InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     BOOL pairNewUnlessRecentlyLost = FALSE;
     u32 hitIndex = -1;
     BOOL pairRecentlyLost = FALSE;
@@ -346,7 +346,7 @@ void AdvanceWiFiTopMenuState7(void) {
 }
 
 void AdvanceWiFiTopMenuState8(void) {
-    InputSlotIndex slotIndex = UNK_02175628_INDEX_8;
+    InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     s32 pairRecentlyLost;
     BOOL pairNewUnlessRecentlyLost;
     u32 hasPair;

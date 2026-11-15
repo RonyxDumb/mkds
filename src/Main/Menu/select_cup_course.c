@@ -65,7 +65,7 @@ void AdvanceSelectCupCourseState3(void) {
     s16 courseIndex;
 
     touchedRectIndex = -1;
-    inputIndex = UNK_02175628_INDEX_8;
+    inputIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     AdvanceSelectCupCourseIndexChange();
     if (SelectCupCourseIsPairNewUnlessLost(inputIndex) != 0) {
         touchedRectIndex =

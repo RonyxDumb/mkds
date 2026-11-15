@@ -142,7 +142,7 @@ void AdvanceWiFiAikotobaState2(void) {
 }
 
 void AdvanceWiFiAikotobaState3(void) {
-    InputSlotIndex slotIndex = UNK_02175628_INDEX_8;
+    InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     u32 hitIndex = -1;
     BOOL pairNewUnlessRecentlyLost;
     BOOL pairRecentlyLost;

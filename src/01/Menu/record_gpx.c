@@ -226,7 +226,7 @@ void AdvanceRecordGpxState1(void) {
 void AdvanceRecordGpxState2(void) {
     s32 touchedRect = -1;
     s32 touchBeganRect = -1;
-    InputSlotIndex slotIndex = UNK_02175628_INDEX_8;
+    InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     BOOL touchActive, recentlyLost, touchBegan, lostBeforeBegan, confirmTouchBegan, lostBeforeConfirm;
 
     AdvanceRecordGpxOffsetTimers();

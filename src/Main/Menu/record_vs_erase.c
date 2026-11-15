@@ -784,7 +784,7 @@ void AdvanceRecordVSEraseState4(void) {
 
     downRectIndex = -1;
     pressedRectIndex = downRectIndex;
-    inputSlotIndex = UNK_02175628_INDEX_8;
+    inputSlotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     AdvanceRecordVSEraseOffsetTimers();
     AdvanceRecordVSEraseIndexChange();
     firstRecordIndex = GetRecordVSEraseFirstRecordIndex();

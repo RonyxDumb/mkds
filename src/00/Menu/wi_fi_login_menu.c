@@ -377,7 +377,7 @@ void AdvanceWiFiLoginMenuState8(void) {
 }
 
 void AdvanceWiFiLoginMenuState9(void) {
-    InputSlotIndex slotIndex = UNK_02175628_INDEX_8;
+    InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     s32 pairRecentlyLost;
     BOOL pairNewUnlessRecentlyLost;
     u32 hasPair;

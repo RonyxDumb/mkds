@@ -53,8 +53,8 @@
 // The four direction keys together.
 #define PAD_KEY_DIRECTIONS 0xf0
 
-// Slot of gInputSlots that the code addresses through a constant.
-typedef enum InputSlotIndex { UNK_02175628_INDEX_8 = 8 } InputSlotIndex;
+// Slots of gInputSlots that the code addresses through a constant, named after the source kind each one gets.
+typedef enum InputSlotIndex { INPUT_SLOT_PAD_OR_PARTICIPANT = 8, INPUT_SLOT_PAD_AND_TOUCH = 9 } InputSlotIndex;
 
 typedef struct KeyRecordingBuffer {
     /* 000 */ u32 mPairByteCount;

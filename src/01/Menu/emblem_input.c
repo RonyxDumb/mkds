@@ -62,7 +62,7 @@ void AdvanceEmblemInput(void) {
     } else {
         gEmblemInput->mReleased = 0;
     }
-    slotIndex = UNK_02175628_INDEX_8;
+    slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     pairUsable = TRUE;
     pairRecentlyLost = 0;
     value = gInputSlots[slotIndex].mPair.mHasPair;
@@ -223,11 +223,11 @@ u32 GetEmblemInputPrevDown(void) {
 }
 
 u16 GetEmblemInputNewBits(u16 mask) {
-    return gInputSlots[UNK_02175628_INDEX_8].mPressedBits & mask;
+    return gInputSlots[INPUT_SLOT_PAD_OR_PARTICIPANT].mPressedBits & mask;
 }
 
 u16 GetEmblemInputBits(u16 mask) {
-    return gInputSlots[UNK_02175628_INDEX_8].mBits & mask;
+    return gInputSlots[INPUT_SLOT_PAD_OR_PARTICIPANT].mBits & mask;
 }
 
 BOOL IsEmblemInputRepeat(int mask) {

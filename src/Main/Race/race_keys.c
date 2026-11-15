@@ -103,8 +103,8 @@ void ResetInputSlotsFromRaceSetup(void) {
         ResetKeyRecording(&inputSlot->mKeyRecording);
         ResetInputSlotPair(&inputSlot->mPair);
     }
-    gInputSlots[8].mSourceKind = INPUT_SOURCE_PAD_OR_PARTICIPANT;
-    gInputSlots[9].mSourceKind = INPUT_SOURCE_PAD_AND_TOUCH;
+    gInputSlots[INPUT_SLOT_PAD_OR_PARTICIPANT].mSourceKind = INPUT_SOURCE_PAD_OR_PARTICIPANT;
+    gInputSlots[INPUT_SLOT_PAD_AND_TOUCH].mSourceKind = INPUT_SOURCE_PAD_AND_TOUCH;
     gInputState->mParticipantPosition = 0;
     gInputState->mUnk_0c = FALSE;
     inputSlot = gInputSlots;

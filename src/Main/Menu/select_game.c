@@ -271,7 +271,7 @@ s32 AdvanceSelectGame(void) {
     const void *secondChoiceText;
 
     value = 0;
-    slotIndex = UNK_02175628_INDEX_8;
+    slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     selectGame = gSelectGame;
     subFileSet = &selectGame->mCellFileSets[1];
     switch (selectGame->mState) {

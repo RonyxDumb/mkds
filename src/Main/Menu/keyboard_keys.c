@@ -275,7 +275,7 @@ void AdvanceKeyboardTextEntry(void) {
     lastCharIndex = GetKeyboardLastCharIndex();
     PollKeyboard();
     GetKeyboardKeyValue();
-    inputSlotIndex = UNK_02175628_INDEX_8;
+    inputSlotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     if ((u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_START) != 0) {
         if (GetKeyboardCursorValueWrapper() != 1) {
             MoveKeyboardCursorToValueWrapper(1);

@@ -270,7 +270,7 @@ void AdvanceOptionSelectMenuState2(void) {
 
     menu = gOptionSelectMenu;
     sel = menu->mIndex;
-    idx = UNK_02175628_INDEX_8;
+    idx = INPUT_SLOT_PAD_OR_PARTICIPANT;
     hasB = FALSE;
     r5 = -1;
     hasA = FALSE;

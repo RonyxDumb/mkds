@@ -253,7 +253,7 @@ void AdvanceSelectBattleStageState1(void) {
 }
 
 void AdvanceSelectBattleStageState2(void) {
-    InputSlotIndex slotIndex = UNK_02175628_INDEX_8;
+    InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     s32 touchedRect = -1;
     s32 touchedStage = -4;
     BOOL touchBegan = FALSE;

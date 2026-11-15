@@ -1017,7 +1017,7 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
                     break;
                 case 1:
                 case 2:
-                    inputSlotIndex = UNK_02175628_INDEX_8;
+                    inputSlotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
                     if ((u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_A) != 0) {
                         StartResultsBattleChoices();
                         gResultsBattle->mState = RESULTS_BATTLE_STATE_WAIT_CHOICE;

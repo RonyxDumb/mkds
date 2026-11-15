@@ -485,7 +485,7 @@ void AdvanceSelectGhostState2(void) {
 
     touchBeganRect = -1;
     AdvanceSelectGhostOffsetTimers();
-    slotIndex = UNK_02175628_INDEX_8;
+    slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     touchBegan = FALSE;
     recentlyLost = FALSE;
     if (gInputSlots[slotIndex].mPair.mHasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {

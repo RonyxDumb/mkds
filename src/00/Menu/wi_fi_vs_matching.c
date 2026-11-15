@@ -298,7 +298,7 @@ void AdvanceWiFiVSMatchingState0(void) {
 }
 
 void AdvanceWiFiVSMatchingState1(void) {
-    InputSlotIndex slotIndex = UNK_02175628_INDEX_8;
+    InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     BOOL pairNewUnlessRecentlyLost;
     BOOL pairRecentlyLost;
     u16 hasPair;
@@ -617,7 +617,7 @@ void AdvanceWiFiVSMatchingState9(void) {
     BOOL pairNewUnlessRecentlyLost;
     BOOL pairRecentlyLost;
     u16 hasPair;
-    InputSlotIndex slotIndex = UNK_02175628_INDEX_8;
+    InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
 
     if (IsTxtSystemState0NoOpenRequest() != 0) {
         SetupTxtSystemMainTextEx(GetBmgEntry(gWiFiVSMatching->mWiFiMessages, 13), 0, 0, 1, 0, 0, 0);

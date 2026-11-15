@@ -186,7 +186,7 @@ void AdvanceRecordVSState4(void) {
     s16 rowIndex;
     downRectIndex = -1;
     pressedRectIndex = -1;
-    inputSlotIndex = UNK_02175628_INDEX_8;
+    inputSlotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     AdvanceRecordVSOffsetTimers();
     AdvanceRecordVSIndexChange();
     pressedFlag = TRUE;

@@ -631,7 +631,7 @@ void AdvanceSelectChoisesState1(void) {
     InputSlotIndex inputSlotIndex;
     u16 keys;
 
-    inputSlotIndex = UNK_02175628_INDEX_8;
+    inputSlotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     touchX = gInputSlots[inputSlotIndex].mPair.mPairX;
     touchY = gInputSlots[inputSlotIndex].mPair.mPairY;
     if (gSelectChoises->mState0Requested != 0) {

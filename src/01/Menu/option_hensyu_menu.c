@@ -141,7 +141,7 @@ void AdvanceOptionHensyuMenuState3(void) {
     OptionHensyuMenu *optionHensyuMenu;
     InputSlotIndex slotIndex;
 
-    slotIndex = UNK_02175628_INDEX_8;
+    slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     touchedRect = -1;
     touchBegan = FALSE;
     recentlyLost = FALSE;

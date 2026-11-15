@@ -418,7 +418,7 @@ void AdvanceSelectEngineState3(void) {
 
 void AdvanceSelectEngineState4(void) {
     u32 touchedRectIndex = -1;
-    InputSlotIndex inputSlotIndex = UNK_02175628_INDEX_8;
+    InputSlotIndex inputSlotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     BOOL pairStarted;
     s32 recentlyNoPair;
     BOOL pairStartedAgain;

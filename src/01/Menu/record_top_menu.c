@@ -420,7 +420,7 @@ void AdvanceRecordTopMenuState4(void) {
 
     touchBegan = FALSE;
     touchedRect = -1;
-    slotIndex = UNK_02175628_INDEX_8;
+    slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     recentlyLost = FALSE;
     if (gInputSlots[slotIndex].mPair.mHasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
         recentlyLost = TRUE;
@@ -573,7 +573,7 @@ void AdvanceRecordTopMenuState8(void) {
 }
 
 void AdvanceRecordTopMenuState9(void) {
-    InputSlotIndex slotIndex = UNK_02175628_INDEX_8;
+    InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     u16 keyBPressed;
     BOOL touchBegan;
     BOOL recentlyLost;

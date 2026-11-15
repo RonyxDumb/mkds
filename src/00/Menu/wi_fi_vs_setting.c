@@ -266,7 +266,7 @@ void AdvanceWiFiVSSettingState3(void) {
 void AdvanceWiFiVSSettingState4(void) {
     s32 previousRow = gWiFiVSSetting->mRow;
     s32 prevSettingIndex = gWiFiVSSetting->mSettingIndex;
-    InputSlotIndex slotIndex = UNK_02175628_INDEX_8;
+    InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     BOOL pairNewUnlessRecentlyLost = FALSE;
     u32 hitIndex = -1;
     BOOL pairRecentlyLost = FALSE;
@@ -480,7 +480,7 @@ void AdvanceWiFiVSSettingState6(void) {
 }
 
 void AdvanceWiFiVSSettingState7(void) {
-    InputSlotIndex slotIndex = UNK_02175628_INDEX_8;
+    InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     BOOL pairNewUnlessRecentlyLost;
     BOOL pairRecentlyLost;
     u16 hasPair;
@@ -519,7 +519,7 @@ void AdvanceWiFiVSSettingState7(void) {
 }
 
 void AdvanceWiFiVSSettingState8(void) {
-    InputSlotIndex slotIndex = UNK_02175628_INDEX_8;
+    InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     BOOL pairNewUnlessRecentlyLost;
     BOOL pairRecentlyLost;
     u16 hasPair;

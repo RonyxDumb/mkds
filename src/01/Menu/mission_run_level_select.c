@@ -444,7 +444,7 @@ void AdvanceMissionRunLVselState2(void) {
 
 void AdvanceMissionRunLVselState3(void) {
     u32 touchedRect = -1;
-    InputSlotIndex slotIndex = UNK_02175628_INDEX_8;
+    InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     BOOL touchBegan;
     BOOL recentlyLost;
     s16 targetIndex;

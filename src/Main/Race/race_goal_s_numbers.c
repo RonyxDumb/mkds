@@ -97,7 +97,7 @@ void HoldRaceGoalSPreviousNumbers(void) {
         gRaceGoalS->mUpdate = CountUpRaceGoalSNumbers;
         gRaceGoalS->mUpdateFrames = 0;
     }
-    inputSlot = UNK_02175628_INDEX_8;
+    inputSlot = INPUT_SLOT_PAD_OR_PARTICIPANT;
     keyABits = gInputSlots[inputSlot].mPressedBits & PAD_KEY_A;
     if (keyABits != 0 && frame >= RACE_GOAL_S_ROWS_PHASE_FRAMES) {
         gRaceGoalS->mUpdate = CountUpRaceGoalSNumbers;
@@ -148,7 +148,7 @@ void CountUpRaceGoalSNumbers(void) {
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x29);
         }
     }
-    inputSlot = UNK_02175628_INDEX_8;
+    inputSlot = INPUT_SLOT_PAD_OR_PARTICIPANT;
     keyABits = gInputSlots[inputSlot].mPressedBits & PAD_KEY_A;
     if (keyABits != 0 && frame >= RACE_GOAL_S_ROWS_PHASE_FRAMES) {
         gRaceGoalS->mUpdate = HoldRaceGoalSNumbers;
@@ -192,7 +192,7 @@ void HoldRaceGoalSNumbers(void) {
             gRaceGoalS->mUpdateFrames = 0;
         }
     }
-    inputSlot = UNK_02175628_INDEX_8;
+    inputSlot = INPUT_SLOT_PAD_OR_PARTICIPANT;
     keyABits = gInputSlots[inputSlot].mPressedBits & PAD_KEY_A;
     if (keyABits != 0 && frame >= RACE_GOAL_S_ROWS_PHASE_FRAMES) {
         if (gRaceSetup->mUseTeams != 0) {
@@ -254,7 +254,7 @@ void HideRaceGoalSRows(void) {
         gRaceGoalS->mUpdate = ShowRaceGoalSRows;
         gRaceGoalS->mUpdateFrames = 0;
     }
-    inputSlot = UNK_02175628_INDEX_8;
+    inputSlot = INPUT_SLOT_PAD_OR_PARTICIPANT;
     keyABits = gInputSlots[inputSlot].mPressedBits & PAD_KEY_A;
     if (keyABits != 0 && frame >= RACE_GOAL_S_ROWS_PHASE_FRAMES) {
         for (rowIndex = 0; rowIndex < (u32) gRaceSetup->mKartCount; rowIndex++) {
@@ -310,7 +310,7 @@ void ShowRaceGoalSRows(void) {
         gRaceGoalS->mUpdate = HoldRaceGoalSRows;
         gRaceGoalS->mUpdateFrames = 0;
     }
-    inputSlot = UNK_02175628_INDEX_8;
+    inputSlot = INPUT_SLOT_PAD_OR_PARTICIPANT;
     keyABits = gInputSlots[inputSlot].mPressedBits & PAD_KEY_A;
     if (keyABits != 0 && frame >= RACE_GOAL_S_ROWS_PHASE_FRAMES) {
         gRaceGoalS->mUpdate = HoldRaceGoalSRows;

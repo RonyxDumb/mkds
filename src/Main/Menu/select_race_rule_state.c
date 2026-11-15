@@ -1849,7 +1849,7 @@ void AdvanceSelectRaceRuleState3(void) {
     u32 row;
     u16 hasPair;
     hitRectIndex = -1;
-    inputIndex = UNK_02175628_INDEX_8;
+    inputIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     AdvanceSelectRaceRuleRowObjects();
     AdvanceSelectRaceRuleChangeObjects();
     newPair = FALSE;
