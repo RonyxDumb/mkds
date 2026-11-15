@@ -74,9 +74,9 @@ const u16 gSelectRaceRuleRowMessageIndices[6] = {0, 1, 2, 3, 4, 0};
 const u16 gSelectRaceRuleRowValueCounts[6] = {4, 4, 3, 3, 3, 0};
 const u32 gSelectRaceRuleCourseListModeValues[3] = {2, 0, 1};
 const u32 gSelectRaceRuleEngineIndexValues[3] = {0, 1, 2};
-const u32 gSelectRaceRuleRuleKindValues[3] = {2, 0, 1};
+const u32 gSelectRaceRuleRuleKindValues[3] = {SELECT_RACE_RULE_FREE, SELECT_RACE_RULE_WIN, SELECT_RACE_RULE_RACE};
 const u32 gSelectRaceRuleCourseListModes[3] = {1, 2, 0};
-const u32 gSelectRaceRuleRuleKinds[3] = {1, 2, 0};
+const u32 gSelectRaceRuleRuleKinds[3] = {RULE_KIND_WIN_COUNT, RULE_KIND_RACE_COUNT, RULE_KIND_FREE};
 const u32 gSelectRaceRuleCpuDifficulties[4] = {0, 1, 2, 3};
 const u32 gSelectRaceRuleCpuDifficultyValues[4] = {0, 1, 2, 3};
 const u32 gSelectRaceRuleEngineIndices[4] = {0, 1, 2, 1};
@@ -1243,7 +1243,7 @@ void ReadRaceSetupCopyIntoSelectRaceRule(void) {
         SetEngineIndex(0);
         SetCpuDifficulty(0);
         SetCourseListMode(0);
-        SetRuleKind(0);
+        SetRuleKind(RULE_KIND_FREE);
         SetRaceSetupCopyCourseCount(0);
     }
     if (GetUseTeams() != 0) {

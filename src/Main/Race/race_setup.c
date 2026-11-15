@@ -162,7 +162,7 @@ void SetNextRaceSetupFromKartMask(void) {
     WiFiSetNextEngineIndex(1);
     WiFiSetNextMirrorMode(0);
     WiFiSetNextUseTeams(0);
-    WiFiSetNextRuleKind(0);
+    WiFiSetNextRuleKind(RULE_KIND_FREE);
     WiFiSetNextCourseListMode(0);
     kartMask = 0;
     for (index = 0; index < 4; index++) {

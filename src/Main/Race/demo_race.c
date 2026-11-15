@@ -120,7 +120,7 @@ void SetNextDemoRace(CharacterKartPicks *picks) {
     gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_DEMO;
     gRaceSetup->mNextHeader.mEngineIndex = ENGINE_CLASS_FAST;
     gRaceSetup->mNextHeader.mUseTeams = 0;
-    gRaceSetup->mNextHeader.mRuleKind = 0;
+    gRaceSetup->mNextHeader.mRuleKind = RULE_KIND_FREE;
     gRaceSetup->mNextHeader.mCourseListMode = 0;
     gRaceSetup->mNextHeader.mMirrorMode = 0;
     gRaceSetup->mNextHeader.mLapCount = -1;

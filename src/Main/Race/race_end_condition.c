@@ -67,7 +67,7 @@ s32 IsRaceEndConditionMet(void) {
                     }
                 }
             }
-            if (endConditionMet == FALSE && RaceProgressGetCurrentRuleKind() == 1) {
+            if (endConditionMet == FALSE && RaceProgressGetCurrentRuleKind() == RULE_KIND_WIN_COUNT) {
                 if (IsKartEnded(GetLeadingKart()) != 0) {
                     endConditionMet = TRUE;
                 }

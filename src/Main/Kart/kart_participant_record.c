@@ -2397,7 +2397,7 @@ void StartKartRaceEnd(Kart *kart) {
                         kart->mEntryFlags = kart->mEntryFlags | KART_ENTRY_ENDED;
                     }
                 }
-            } else if (raceSetup->mRuleKind == 1 &&
+            } else if (raceSetup->mRuleKind == RULE_KIND_WIN_COUNT &&
                        gRaceProgress->mKarts[kart->mIndex].mStatus != RACE_PROGRESS_KART_STATUS_GOAL_REACHED) {
                 kart->mEntryFlags = kart->mEntryFlags | KART_ENTRY_DID_NOT_FINISH;
             } else if (raceSetup->mMode == MODE_MISSION_RUN) {
@@ -2436,7 +2436,7 @@ void StartKartRaceEnd(Kart *kart) {
         SetRaceUpdateFramesAtEntryEnd();
         raceSetup = gRaceSetup;
         if (raceSetup->mMode != MODE_GRAND_PRIX && raceSetup->mMode != MODE_TIME_ATTACK &&
-            ((raceSetup->mRuleKind == 1 &&
+            ((raceSetup->mRuleKind == RULE_KIND_WIN_COUNT &&
               gRaceProgress->mKarts[kart->mIndex].mStatus != RACE_PROGRESS_KART_STATUS_GOAL_REACHED) ||
              ((index = raceSetup->mKartCount) > 1 && (value = GetKartRank(kart->mIndex), value == index)))) {
             DisableEntryCameraUpdate();

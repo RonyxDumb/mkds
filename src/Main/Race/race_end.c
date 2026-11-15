@@ -66,7 +66,7 @@ void SetKartCupRanks(void) {
         return;
     }
     for (kartIndex = 0; kartIndex < (u32) gRaceSetup->mKartCount; kartIndex++) {
-        if (gRaceSetup->mRuleKind == 1 || gRaceSetup->mMode == MODE_BATTLE) {
+        if (gRaceSetup->mRuleKind == RULE_KIND_WIN_COUNT || gRaceSetup->mMode == MODE_BATTLE) {
             isHumanGhostOrPeer = FALSE;
             if (gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mKind <= 3) {
                 if ((1 << gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) {
@@ -127,7 +127,7 @@ void SetCupWinningTeamFromRecords(void) {
     if (raceSetup->mUseTeams == 0) {
         return;
     }
-    if (raceSetup->mRuleKind == 1 || raceSetup->mMode == MODE_BATTLE) {
+    if (raceSetup->mRuleKind == RULE_KIND_WIN_COUNT || raceSetup->mMode == MODE_BATTLE) {
         firstTeamScore = RaceEndGetCourseTeamResult(0)->mWinCount;
     } else {
         firstTeamRecord = &gCupRecords->mTeamResults[GetCourseIndexInCup()].mTeams[0];
@@ -135,7 +135,7 @@ void SetCupWinningTeamFromRecords(void) {
     }
     raceSetup = gRaceSetup;
     isRuleKind1OrBattle = TRUE;
-    if (raceSetup->mRuleKind != 1 && raceSetup->mMode != MODE_BATTLE) {
+    if (raceSetup->mRuleKind != RULE_KIND_WIN_COUNT && raceSetup->mMode != MODE_BATTLE) {
         isRuleKind1OrBattle = FALSE;
     }
     if (isRuleKind1OrBattle) {
@@ -205,7 +205,7 @@ void UpdateRaceEnd(void) {
                     break;
                 case MODE_VS:
                 case MODE_WIFI:
-                    if (raceSetup->mRuleKind != 1) {
+                    if (raceSetup->mRuleKind != RULE_KIND_WIN_COUNT) {
                         if (gRaceProgress->mKarts[GetFollowedKartOrEntryIndex()].mStatus ==
                             RACE_PROGRESS_KART_STATUS_GOAL_REACHED) {
                             SetStemSet(STEM_SET_GOAL);
@@ -250,7 +250,7 @@ void UpdateRaceEnd(void) {
             raceSetup = gRaceSetup;
             switch (raceSetup->mMode) {
                 case MODE_VS:
-                    if (raceSetup->mRuleKind == 1) {
+                    if (raceSetup->mRuleKind == RULE_KIND_WIN_COUNT) {
                         SetStemSet((GetKart(raceSetup->mEntryIndex)->mEntryFlags & KART_ENTRY_WINNER) ? STEM_SET_WIN
                                                                                                       : STEM_SET_LOSE);
                     }

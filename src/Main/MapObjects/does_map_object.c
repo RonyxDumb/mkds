@@ -85,7 +85,7 @@ void InitRaceMNumberPair(void) {
     pair->mCourseNumber = gRaceSetup->mCourseNumber;
     if (gRaceSetup->mMode == MODE_WIFI) {
         gRaceMNumberPair->mCourseCount = 4;
-    } else if (gRaceSetup->mMode == MODE_VS && gRaceSetup->mRuleKind == 2) {
+    } else if (gRaceSetup->mMode == MODE_VS && gRaceSetup->mRuleKind == RULE_KIND_RACE_COUNT) {
         gRaceMNumberPair->mCourseCount = gRaceSetup->mCourseCount;
     } else {
         gRaceMNumberPair->mCourseCount = 0;

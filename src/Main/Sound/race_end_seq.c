@@ -119,7 +119,7 @@ s32 GetRaceEndResultKind(void) {
             resultKind = candidateKind;
             break;
         case MODE_VS:
-            if (raceSetup->mRuleKind == 1) {
+            if (raceSetup->mRuleKind == RULE_KIND_WIN_COUNT) {
                 resultKind = (gSeqRowState.mFinishResult == FINISH_RESULT_WON) ? 0 : 2;
             } else {
                 switch (gSeqRowState.mFinishResult) {

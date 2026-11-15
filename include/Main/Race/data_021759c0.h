@@ -247,6 +247,14 @@ typedef enum { BATTLE_KIND_BALLOON, BATTLE_KIND_SHINE } BattleKind;
 // Values of the mEngineIndex member, slowest to fastest: the base speed limit scales by 0xb33, 0xd9a, 0x1000.
 typedef enum { ENGINE_CLASS_SLOW, ENGINE_CLASS_MEDIUM, ENGINE_CLASS_FAST } EngineClass;
 
+// Values of the mRuleKind member: how a multiplayer race series is scored and ends. WIN_COUNT counts wins (the menu's
+// win counter), RACE_COUNT sums the points of a set number of races (the race counter), FREE has no counter.
+enum {
+    RULE_KIND_FREE,
+    RULE_KIND_WIN_COUNT,
+    RULE_KIND_RACE_COUNT,
+};
+
 typedef struct RaceSetupHeader {
     /* 00 */ s32 mCourseId;
     /* 04 */ s32 mCupIndex;

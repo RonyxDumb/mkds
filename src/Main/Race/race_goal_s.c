@@ -207,7 +207,7 @@ void InitRaceGoalS(void) {
     gRaceGoalS->mCourseCountReached = 0;
     gRaceGoalS->mOffsetX = -0x100;
     for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex = (u16) (kartIndex + 1)) {
-        if (gRaceSetup->mRuleKind == 1 || gRaceSetup->mMode == MODE_BATTLE) {
+        if (gRaceSetup->mRuleKind == RULE_KIND_WIN_COUNT || gRaceSetup->mMode == MODE_BATTLE) {
             playerKind = gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mKind;
             firstValue =
                 playerKind == PLAYER_KIND_HUMAN || playerKind == PLAYER_KIND_GHOST || playerKind == PLAYER_KIND_PEER
@@ -383,7 +383,7 @@ void DrawRaceGoalSKarts(RaceHudOamBuffer *oamBuffer) {
             onesPosition[1] = TO_FIXED12(rowYs[rowIndex]);
             oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                           0x80 - oamBuffer->mOamCount, cell, NULL, onesPosition, 0, 1);
-            if (!(gRaceSetup->mRuleKind == 1 || gRaceSetup->mMode == MODE_BATTLE)) {
+            if (!(gRaceSetup->mRuleKind == RULE_KIND_WIN_COUNT || gRaceSetup->mMode == MODE_BATTLE)) {
                 cellIndex = IsPointsLabelPlural(number) != FALSE ? 0x1a : 0x1b;
                 cell = GetRaceGoalSNcerEntry(cellIndex);
                 cell1aOr1bPosition[0] = TO_FIXED12(offsetX + 0xd1);
@@ -401,7 +401,8 @@ void DrawRaceGoalSKarts(RaceHudOamBuffer *oamBuffer) {
                     NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
                                           NULL, teamPosition, 0, 1);
             }
-            if (!(gRaceSetup->mRuleKind == 1 || gRaceSetup->mMode == MODE_BATTLE || gRaceSetup->mCourseNumber == 1)) {
+            if (!(gRaceSetup->mRuleKind == RULE_KIND_WIN_COUNT || gRaceSetup->mMode == MODE_BATTLE ||
+                  gRaceSetup->mCourseNumber == 1)) {
                 if (gRaceGoalS->mUpdate == ShowRaceGoalSRows || gRaceGoalS->mUpdate == HoldRaceGoalSRows ||
                     gRaceGoalS->mUpdate == FinishRaceGoalS) {
                     cell = GetRaceGoalSNcerEntry(gRaceGoalS->mRankComparison[kartIndex] + 0x1c);
@@ -565,7 +566,7 @@ void DrawRaceGoalSTeams(RaceHudOamBuffer *oamBuffer) {
     }
     for (index = 0; index < 2; index++) {
         showWinCount = TRUE;
-        if (!(gRaceSetup->mRuleKind == 1 || gRaceSetup->mMode == MODE_BATTLE)) {
+        if (!(gRaceSetup->mRuleKind == RULE_KIND_WIN_COUNT || gRaceSetup->mMode == MODE_BATTLE)) {
             showWinCount = FALSE;
         }
         if (showWinCount != FALSE) {

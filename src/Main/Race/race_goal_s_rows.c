@@ -39,7 +39,7 @@ void RefreshRaceGoalSRows(void) {
     zeroSecond = 0;
     {
         for (index = 0; index < (u32) gRaceSetup->mKartCount; index++) {
-            if (gRaceSetup->mRuleKind == 1 || gRaceSetup->mMode == MODE_BATTLE) {
+            if (gRaceSetup->mRuleKind == RULE_KIND_WIN_COUNT || gRaceSetup->mMode == MODE_BATTLE) {
                 isHumanGhostOrPeer = falseValueFirst;
                 if (gRaceSetup->mCurrentEntries[index].mPlayer.mKind <= 3 &&
                     ((1 << gRaceSetup->mCurrentEntries[index].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
@@ -147,7 +147,7 @@ void RefreshRaceGoalSCourseCountReached(void) {
     s32 bestValue;
     s32 teamOneValue;
 
-    if (gRaceSetup->mRuleKind == 1 || gRaceSetup->mMode == MODE_BATTLE) {
+    if (gRaceSetup->mRuleKind == RULE_KIND_WIN_COUNT || gRaceSetup->mMode == MODE_BATTLE) {
         if (gRaceSetup->mUseTeams != 0) {
             bestValue = RaceGoalSRowsGetCourseTeamResult(0)->mWinCount;
             teamOneValue = RaceGoalSRowsGetCourseTeamResult(1)->mWinCount;

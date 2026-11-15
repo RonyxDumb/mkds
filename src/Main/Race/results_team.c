@@ -59,11 +59,11 @@ u32 GetResultSceneSeqKind(void) {
     if (gRaceSetup->mUseTeams != 0) {
         ownTeamIndex = gRaceSetup->mCurrentEntries[ownEntryIndex].mPlayer.mTeamIndex;
         switch (gRaceSetup->mRuleKind) {
-            case 1:
+            case RULE_KIND_WIN_COUNT:
                 team0Score = GetCourseTeamResult(0)->mWinCount;
                 team1Score = GetCourseTeamResult(1)->mWinCount;
                 break;
-            case 2:
+            case RULE_KIND_RACE_COUNT:
                 team0Score = GetCourseTeamResult(0)->mTotalPoints;
                 team1Score = GetCourseTeamResult(1)->mTotalPoints;
                 break;
@@ -86,7 +86,8 @@ u32 GetResultSceneSeqKind(void) {
     maxScore = -1;
     allEqual = 1;
     for (; scoreIndex < kartCount; scoreIndex++) {
-        if (gStartupWork->mConnectionKind == CONNECTION_KIND_WIFI_MENU || gRaceSetup->mRuleKind == 2) {
+        if (gStartupWork->mConnectionKind == CONNECTION_KIND_WIFI_MENU ||
+            gRaceSetup->mRuleKind == RULE_KIND_RACE_COUNT) {
             kartIndex = GetLowByte((u16) scoreIndex);
             courseIndex = GetCourseIndexInCup();
             record = &gCupRecords->mKartResults[courseIndex][GetLowByte(kartIndex)];

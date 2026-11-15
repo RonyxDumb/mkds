@@ -245,7 +245,7 @@ void StartKartWinOrLoseAnimation(Kart *kart) {
     if (mode == MODE_MISSION_RUN) {
         return;
     }
-    if (mode != MODE_BATTLE && gRaceSetup->mRuleKind == 1) {
+    if (mode != MODE_BATTLE && gRaceSetup->mRuleKind == RULE_KIND_WIN_COUNT) {
         value = gRaceProgress->mKartAtRank[0];
         if (gRaceSetup->mUseTeams != 0) {
             if (KartAnimationGetCurrentTeamIndex(value) != KartAnimationGetCurrentTeamIndex(kart->mIndex)) {

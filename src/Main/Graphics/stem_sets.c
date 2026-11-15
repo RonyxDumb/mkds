@@ -156,7 +156,7 @@ void InitStemSetArray(void *heap) {
             InitNsbmdNsbcaNsbmaNsbtp(heap, gStemSets->mSets[setIndex], GetCountStartStem(setIndex), setIndex);
         }
     }
-    if (gRaceSetup->mMode == MODE_BATTLE || gRaceSetup->mRuleKind == 1) {
+    if (gRaceSetup->mMode == MODE_BATTLE || gRaceSetup->mRuleKind == RULE_KIND_WIN_COUNT) {
         gStemSets->mSets[STEM_SET_WIN] = HeapAlloc(heap, 0x14);
         InitNsbmdNsbcaNsbmaNsbtp(heap, gStemSets->mSets[STEM_SET_WIN], &gWinStems, STEM_SET_WIN);
         gStemSets->mSets[STEM_SET_LOSE] = HeapAlloc(heap, 0x14);

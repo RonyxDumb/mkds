@@ -8,7 +8,7 @@ BOOL IsRaceGoalSRuleCourseCountReached(void) {
     RaceSetup *setup = gRaceSetup;
 
     if (setup->mMode == MODE_VS || setup->mMode == MODE_WIFI || setup->mMode == MODE_BATTLE) {
-        if (setup->mRuleKind != 0) {
+        if (setup->mRuleKind != RULE_KIND_FREE) {
             return courseCountReached;
         }
     }

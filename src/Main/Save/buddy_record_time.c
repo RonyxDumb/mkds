@@ -271,11 +271,11 @@ void AddVSBuddyRecordResults(void) {
                 outcome = 2;
             } else {
                 switch (gRaceSetup->mRuleKind) {
-                    case 0:
-                    case 2:
+                    case RULE_KIND_FREE:
+                    case RULE_KIND_RACE_COUNT:
                         outcome = IsKartRankAtMost(entryIndex, ownRank);
                         break;
-                    case 1:
+                    case RULE_KIND_WIN_COUNT:
                         if (teamIndex == GetCupWinningTeam()) {
                             outcome = 0;
                         } else if (gRaceProgress->mKarts[entryIndex].mStatus == RACE_PROGRESS_KART_STATUS_REMOVED) {

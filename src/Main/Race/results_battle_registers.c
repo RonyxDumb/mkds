@@ -291,7 +291,7 @@ void FillResultsBattleEntries(void) {
     s32 higherCount;
 
     for (kartIndex = 0; kartIndex < gResultsBattle->mKartCount; kartIndex++) {
-        if (gResultsBattle->mMode == CONNECTION_KIND_WIFI_MENU || gRaceSetup->mRuleKind == 2) {
+        if (gResultsBattle->mMode == CONNECTION_KIND_WIFI_MENU || gRaceSetup->mRuleKind == RULE_KIND_RACE_COUNT) {
             gResultsBattle->mEntries[kartIndex].mScore =
                 ResultsBattleGetKartCourseResult(GetLowByte(kartIndex))->mTotalPoints;
         } else {
@@ -310,7 +310,7 @@ void FillResultsBattleEntries(void) {
         gResultsBattle->mEntries[rankKartIndex].mRank = higherCount;
     }
     if (gRaceSetup->mUseTeams != 0) {
-        if (gRaceSetup->mMode == MODE_BATTLE && gRaceSetup->mRuleKind == 1) {
+        if (gRaceSetup->mMode == MODE_BATTLE && gRaceSetup->mRuleKind == RULE_KIND_WIN_COUNT) {
             AssignResultsBattleTeamOrder();
         } else {
             AssignResultsBattleTeamOrderByScore();
@@ -455,7 +455,8 @@ void PrintResultsBattleScoreAndShowRank(s32 entryIndex) {
     subCellFileSet = &gResultsBattle->mCellFileSets[1];
     orderIndex = gResultsBattle->mEntries[entryIndex].mOrderIndex;
     score = gResultsBattle->mEntries[entryIndex].mScore;
-    if (gRaceSetup->mMode == MODE_BATTLE && gRaceSetup->mUseTeams != 0 && gRaceSetup->mRuleKind == 1) {
+    if (gRaceSetup->mMode == MODE_BATTLE && gRaceSetup->mUseTeams != 0 &&
+        gRaceSetup->mRuleKind == RULE_KIND_WIN_COUNT) {
         subCellFileSet->mCellTable[orderIndex + 0x38].mVisible = 0;
         subCellFileSet->mCellTable[orderIndex + 0x48].mVisible = 0;
         return;
@@ -784,11 +785,11 @@ void InitResultsBattle(void *heap, void *mainOam, void *subOam) {
         firstTeamScore = 0;
         value = 0;
         switch (gRaceSetup->mRuleKind) {
-            case 1:
+            case RULE_KIND_WIN_COUNT:
                 firstTeamScore = ResultsBattleGetCourseTeamResult(0)->mWinCount;
                 value = ResultsBattleGetCourseTeamResult(1)->mWinCount;
                 break;
-            case 2:
+            case RULE_KIND_RACE_COUNT:
                 firstTeamScore = GetCourseTeamResults()->mTeams[0].mTotalPoints;
                 value = GetCourseTeamResults()->mTeams[1].mTotalPoints;
                 break;

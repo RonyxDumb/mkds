@@ -48,7 +48,7 @@ void StartRaceGoalS(void) {
     zero = 0;
     for (rowIndex = 0; rowIndex < (u32) gRaceSetup->mKartCount; rowIndex++) {
         gRaceGoalS->mRowKartIndex[rowIndex] = rowIndex;
-        if (gRaceSetup->mRuleKind == 1 || gRaceSetup->mMode == MODE_BATTLE) {
+        if (gRaceSetup->mRuleKind == RULE_KIND_WIN_COUNT || gRaceSetup->mMode == MODE_BATTLE) {
             isHumanGhostOrPeer = falseValue;
             if (gRaceSetup->mCurrentEntries[rowIndex].mPlayer.mKind <= 3 &&
                 ((1 << gRaceSetup->mCurrentEntries[rowIndex].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
@@ -120,7 +120,7 @@ void CountUpRaceGoalSNumbers(void) {
     if (frame % RACE_GOAL_S_ROW_STEP_FRAMES == 0) {
         allReached = TRUE;
         for (rowIndex = 0; rowIndex < (u32) gRaceSetup->mKartCount; rowIndex++) {
-            if (gRaceSetup->mRuleKind == 1 || gRaceSetup->mMode == MODE_BATTLE) {
+            if (gRaceSetup->mRuleKind == RULE_KIND_WIN_COUNT || gRaceSetup->mMode == MODE_BATTLE) {
                 kartIndex = GetLowByte(rowIndex);
                 courseIndex = GetCourseIndexInCup();
                 target = gCupRecords->mKartResults[courseIndex][GetLowByte(kartIndex)].mWinCount;
@@ -141,7 +141,7 @@ void CountUpRaceGoalSNumbers(void) {
             gRaceGoalS->mUpdate = HoldRaceGoalSNumbers;
             gRaceGoalS->mUpdateFrames = 0;
             gRaceGoalS->mUpdateFrames = 0;
-            if (gRaceSetup->mRuleKind == 1 || gRaceSetup->mMode == MODE_BATTLE) {
+            if (gRaceSetup->mRuleKind == RULE_KIND_WIN_COUNT || gRaceSetup->mMode == MODE_BATTLE) {
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x29);
             }
         } else {
@@ -168,7 +168,7 @@ void HoldRaceGoalSNumbers(void) {
     frame = gRaceGoalS->mUpdateFrames++;
     if (frame < 0x5a) {
         for (rowIndex = 0; rowIndex < (u32) gRaceSetup->mKartCount; rowIndex++) {
-            if (gRaceSetup->mRuleKind == 1 || gRaceSetup->mMode == MODE_BATTLE) {
+            if (gRaceSetup->mRuleKind == RULE_KIND_WIN_COUNT || gRaceSetup->mMode == MODE_BATTLE) {
                 kartIndex = GetLowByte(rowIndex);
                 courseIndex = GetCourseIndexInCup();
                 gRaceGoalS->mShownNumbers[rowIndex] =
@@ -335,7 +335,7 @@ void HoldRaceGoalSRows(void) {
             gRaceGoalS->mRowVisible[rowIndex] = 1;
         }
     } else {
-        if (gRaceSetup->mRuleKind == 1 || gRaceSetup->mMode == MODE_BATTLE) {
+        if (gRaceSetup->mRuleKind == RULE_KIND_WIN_COUNT || gRaceSetup->mMode == MODE_BATTLE) {
             if (gRaceSetup->mUseTeams != 0) {
                 bestValue = RaceGoalSGetCourseTeamResult(0)->mWinCount;
                 teamOneValue = RaceGoalSGetCourseTeamResult(1)->mWinCount;

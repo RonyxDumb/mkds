@@ -544,7 +544,7 @@ void ResetRaceSetup(void) {
     gRaceSetup->mNextHeader.mEngineIndex = ENGINE_CLASS_SLOW;
     gRaceSetup->mNextHeader.mCpuDifficulty = 0;
     gRaceSetup->mNextHeader.mBattleKind = 0;
-    gRaceSetup->mNextHeader.mRuleKind = 0;
+    gRaceSetup->mNextHeader.mRuleKind = RULE_KIND_FREE;
     gRaceSetup->mNextHeader.mCourseListMode = COURSE_LIST_MODE_SINGLE;
     gRaceSetup->mNextHeader.mGhostRecordIndex = GHOST_RECORD_INDEX_COURSE;
     MI_CpuFill8(&gRaceSetup->mNextHeader.mMissionFileRow, 0, 0x2c);
@@ -1096,7 +1096,7 @@ void SetNextRaceFromMissionRow(MissionFileRow *missionFileRow, u32 tableRow, u32
     gRaceSetup->mNextHeader.mCourseId = missionFileRow->mCourseId;
     gRaceSetup->mNextHeader.mMirrorMode = (missionFileRow->mFlags & 0x10) != 0 ? 1 : 0;
     gRaceSetup->mNextHeader.mUseTeams = 0;
-    gRaceSetup->mNextHeader.mRuleKind = 0;
+    gRaceSetup->mNextHeader.mRuleKind = RULE_KIND_FREE;
     gRaceSetup->mNextHeader.mCourseListMode = COURSE_LIST_MODE_SINGLE;
     gRaceSetup->mNextHeader.mBattleKind = 0;
     gRaceSetup->mCourseCount = 0;

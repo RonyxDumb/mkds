@@ -28,7 +28,8 @@ void DrawRaceMNumberPair(RaceHudOamBuffer *oamBuffer) {
     if (startFrames >= 0xb4) {
         return;
     }
-    if (gRaceSetup->mMode != MODE_WIFI && (gRaceSetup->mMode != MODE_VS || gRaceSetup->mRuleKind != 2)) {
+    if (gRaceSetup->mMode != MODE_WIFI &&
+        (gRaceSetup->mMode != MODE_VS || gRaceSetup->mRuleKind != RULE_KIND_RACE_COUNT)) {
         return;
     }
     SetRaceMNumberPairAnimation(oamBuffer, startFrames);
