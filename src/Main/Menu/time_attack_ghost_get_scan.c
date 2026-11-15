@@ -323,7 +323,7 @@ void InitTimeAttackGhostGetSlot(void *parentHeap, void *mainOam, void *subOam) {
 
 s32 AdvanceTimeAttackGhostGetSlot(u16 *sceneNumbers) {
     TimeAttackGhostGetSlot *object;
-    enum { K0 = -1 } result;
+    enum { RESULT_NONE = -1 } result;
     s32 touchInReturnRect;
     BOOL pairIsNew;
     BOOL pairRecentlyGone;
@@ -334,7 +334,7 @@ s32 AdvanceTimeAttackGhostGetSlot(u16 *sceneNumbers) {
     CellFileSet *cellFileSets;
     void *buttonText;
 
-    result = K0;
+    result = RESULT_NONE;
     slotIndex = GetPadInputSlot();
     touchInReturnRect = 0;
     AdvanceInterpolation(&gTimeAttackGhostGetSlot->mInterpolation);

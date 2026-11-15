@@ -279,7 +279,7 @@ static inline s16 GetVehicleHitReactionTimer(Vehicle *vehicle) {
 }
 
 void UpdateVehicle(u32 unused, Vehicle *vehicle) {
-    enum { K0 } isInHitReaction;
+    enum { HIT_REACTION_NO } isInHitReaction;
     Quaternion *baseRotation;
     u32 hitFlags;
     Quaternion targetRotation;

@@ -717,7 +717,7 @@ void UpdateWiFiRaceSyncSharedState(void) {
     u8 value;
     u8 sharedState5Mask;
     u8 participant;
-    enum { K0 } participantBit;
+    enum { PARTICIPANT_BIT_NONE } participantBit;
 
     value = 0;
     sharedState5Mask = 0;

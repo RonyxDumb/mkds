@@ -677,7 +677,7 @@ s32 RemoveItemTeresaPickedKartItem(ItemTeresa *teresa) {
     HeldItem *heldItem;
     s32 flag;
     s32 isTarget;
-    enum { K0 } itemInfoIndex;
+    enum { ITEM_INFO_INDEX_FIRST } itemInfoIndex;
 
     pickedKartItems = GetKartItems(teresa->mPickedKartIndex);
     kart = pickedKartItems->mKart;

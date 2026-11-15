@@ -1046,7 +1046,7 @@ void StartKartBoost(Kart *kart, KartBoostKind boostKind, s16 boostFrames) {
     s32 clearMask;
     u32 flagBits;
     s16 currentTimer;
-    enum { K0 } value;
+    enum { BOOST_CAMERA_EFFECT_FIRST } value;
     if (kart->mState != KART_STATE_NORMAL) {
         return;
     }
@@ -1217,7 +1217,7 @@ void AdvanceKartDrift(Kart *kart) {
     u32 value;
     KartTurnEffects *turnEffects;
     int distanceSquared;
-    enum { K0 } entryIndex;
+    enum { ENTRY_INDEX_FIRST } entryIndex;
 
     if (kart->mEntryFlags & KART_ENTRY_WIFI_PEER) {
         return;
@@ -1395,7 +1395,7 @@ int TryTurnKartAtLowSpeed(Kart *kart) {
     int delta;
     u16 bits;
     KartTurnEffects *turnEffects;
-    enum { K0 } entryIndex;
+    enum { ENTRY_INDEX_FIRST } entryIndex;
 
     if (kart->mVelocityLength < 0x1800 && (kart->mDriveFlags & KART_DRIVE_BRAKING)) {
         kart->mTurnDirection = 0;

@@ -1352,7 +1352,7 @@ void InitKartModelMenuWithParamFiles(void *heap) {
 
 void InitKartModelMenuWithKartList(void *heap) {
     u16 fileIndex;
-    enum { K0 } kartIndex;
+    enum { KART_INDEX_FIRST } kartIndex;
     s32 characterIndex;
     SetHeapGroupId(1);
     Init3dEngine();

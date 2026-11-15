@@ -501,7 +501,7 @@ void CreateRaceProgress(void *heap) {
 
 void StopRaceInput(void) {
     u16 entryIndex;
-    enum { K0 } inputSlotIndex;
+    enum { INPUT_SLOT_INDEX_FIRST } inputSlotIndex;
 
     SetReadRaceKeys(0);
     if (func_0203d568_c_inline() != 0) {

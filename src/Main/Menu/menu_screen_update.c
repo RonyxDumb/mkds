@@ -14,7 +14,7 @@
 #pragma optimize_for_size on
 void UpdateMenuScreen(u32 sceneArg) {
     MenuScene *menu;
-    enum { K0 } screenNumber;
+    enum { SCREEN_NUMBER_FIRST } screenNumber;
 
     if (IsDataSharingIncomplete() == 0) {
         if (MenuGetConnectionKind() == 1 || MenuGetConnectionKind() == 2) {

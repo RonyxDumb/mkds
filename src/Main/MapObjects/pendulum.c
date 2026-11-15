@@ -80,7 +80,7 @@ void FillNsbmdModel(Nsbmd *model, ModelAnimation *animation, NsbmdModel *record)
     u16 frameCount;
     u16 frame;
     void *heap;
-    enum { K0 } mask;
+    enum { MASK_NONE } mask;
 
     resMdl = model->mResMdl;
     resMat = OFFSET_PTR(NNSG3dResMat, resMdl, resMdl->mOfsMat);

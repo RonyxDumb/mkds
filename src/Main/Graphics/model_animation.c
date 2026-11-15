@@ -198,7 +198,7 @@ void AdvanceModelAnimationBlend(ModelAnimation *modelAnimation) {
 
 // Frame count of the playing entry in 20.12 fixed point.
 s32 GetModelAnimationFrameCountFixed(ModelAnimation *modelAnimation) {
-    enum { K0 } kind = modelAnimation->mKind;
+    enum { KIND_FIRST } kind = modelAnimation->mKind;
 
     return TO_FIXED12(gAnmFrameCountGetters[kind](modelAnimation->mAnmObjs[modelAnimation->mCurrentIndex]));
 }

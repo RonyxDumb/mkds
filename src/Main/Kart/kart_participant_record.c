@@ -1825,7 +1825,7 @@ void AdvanceKartDriftCharge(Kart *kart) {
     u16 *leftTurnCounts;
     u16 *rightTurnCounts;
     u32 pressedBits;
-    enum { K0 } entryIndex;
+    enum { ENTRY_INDEX_FIRST } entryIndex;
 
     if ((kart->mEntryFlags & (KART_ENTRY_CPU | KART_ENTRY_WIFI_PEER)) == 0) {
         if (kart->mDriftCharge >= KART_DRIFT_CHARGE_LEVEL_3) {

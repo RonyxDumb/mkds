@@ -460,7 +460,7 @@ void NNSi_G3dFuncSbc_SHP(NNSG3dRS *renderState, u32 option) {
 void NNSi_G3dFuncSbc_NODEDESC(NNSG3dRS *renderState, u32 option) {
     s32 firstValue;
     s32 secondValue;
-    enum { K0 } callbackTiming;
+    enum { CALLBACK_TIMING_NONE } callbackTiming;
     u32 restoreIndexSkip;
     u32 restoreIndex;
     u32 storeIndex;

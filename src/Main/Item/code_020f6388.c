@@ -250,7 +250,7 @@ void ApplyItemObjectHitType(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, 
 
 void StartItemObjectReleaseTimerSynced(ItemObject *item, s32 sendEvent) {
     BOOL started;
-    enum { K0 } kind;
+    enum { KIND_FIRST } kind;
 
     if (!(item->mFlags & 0x8000000)) {
         if ((item->mFlags & 0x8000000) && !(item->mFlags & 0x10000000) && !(item->mFlags & 0x20000000)) {
@@ -301,7 +301,7 @@ void StartItemObjectReleaseTimerSynced(ItemObject *item, s32 sendEvent) {
 }
 
 void StartItemObjectReleaseTimer(ItemObject *item) {
-    enum { K0 } kind;
+    enum { KIND_FIRST } kind;
 
     if (item->mFlags & 0x180000) {
         return;
@@ -400,7 +400,7 @@ s32 StartItemObjectFadeOut(ItemObject *item, s32 variant, s32 skipPending) {
     Vec3 *velocity = &item->mVelocity;
     ItemKind *kindInfo;
     s32 value;
-    enum { K0 } kind;
+    enum { KIND_FIRST } kind;
 
     if (item->mFlags & 0x80000) {
         return 2;
@@ -512,7 +512,7 @@ void ReplayPendingNoCallbackFadeOut(ItemObject *item) {
 
 void FadeOutUsedUpItemObject(ItemObject *item, s32 sendEvent) {
     s32 result;
-    enum { K0 } kind;
+    enum { KIND_FIRST } kind;
 
     result = StartItemObjectFadeOut(item, 0, 0);
     if (result <= 1) {
@@ -536,7 +536,7 @@ void FadeOutUsedUpItemObject(ItemObject *item, s32 sendEvent) {
 
 void FadeOutItemObjectHitByKart(ItemObject *item, s32 sendEvent, s32 highPart) {
     s32 result;
-    enum { K0 } kind;
+    enum { KIND_FIRST } kind;
 
     result = StartItemObjectFadeOut(item, 0, 0);
     if (result <= 1) {
@@ -614,7 +614,7 @@ void ItemObjectBounceNop(ItemObject *item, Vec3 *a, Vec3 *b) {}
 
 void StartRestingItemObject(ItemObject *item, void *collisionHitLink) {
     s32 fallSpeed;
-    enum { K0 } kind;
+    enum { KIND_FIRST } kind;
     s32 bounceFactor;
 
     VEC_MultAdd(-item->mCourseRadius, &item->mNormal, &item->mPos, &item->mCoursePointOrParams);

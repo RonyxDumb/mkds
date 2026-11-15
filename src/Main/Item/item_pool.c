@@ -120,7 +120,7 @@ void StartItemObject(ItemPool *pool, ItemObject *object) {
     ItemObject **objects;
     s32 activeCount;
     ItemKind *itemKind;
-    enum { K0 } kind;
+    enum { KIND_FIRST } kind;
 
     activeCount = pool->mActiveCount;
     takenCount = pool->mTakenCount;
@@ -228,7 +228,7 @@ void StartItemObjectFromData(ItemPool *pool, s32 frameDifference, void *data, s3
     s32 takenCount;
     ItemObject **objects;
     s32 value;
-    enum { J0 } kind;
+    enum { KIND_FIRST } kind;
     void (*initFunc)(void *);
 
     takenIndex = pool->mTakenCount;
@@ -301,7 +301,7 @@ found:
 }
 
 BOOL ApplyItemObjectEventById(ItemPool *pool, s32 eventByte, s32 objectId) {
-    enum { K0 } eventKind;
+    enum { EVENT_KIND_FIRST } eventKind;
     s32 objectIndex;
     ItemObject *object;
     ItemObject **objects;
@@ -403,7 +403,7 @@ BOOL SetItemObjectKartFromPacket(ItemPool *pool, u8 *packet) {
 }
 
 void ProcessItemPoolMessage(ItemPool *pool, s32 messageKind, s32 frameDifference, u8 *packet, s32 frameStamp) {
-    enum { K0 } kind;
+    enum { KIND_FIRST } kind;
 
     switch (messageKind) {
         case 0:
@@ -623,7 +623,7 @@ void CreateItemPool(ItemPool *pool, s32 kind, s32 *objectIdCounter) {
 BOOL TryAddKartItemFlags(KartItems *kartItems) {
     Kart *kart;
     u16 padBits;
-    enum { K0 } entryIndex;
+    enum { ENTRY_INDEX_FIRST } entryIndex;
 
     kart = kartItems->mKart;
     if (IsRaceStarted() == 0) {
@@ -752,7 +752,7 @@ void StartKartItemInUseOneCountdown(KartItems *kartItems) {
 BOOL SetKartItemsHeldItemByInfoIndex(KartItems *kartItems, s32 itemInfoIndex) {
     HeldItem *heldItem;
     ItemPool *pool;
-    enum { K0 } objectKind;
+    enum { OBJECT_KIND_FIRST } objectKind;
 
     heldItem = &kartItems->mHeldItem;
     if (itemInfoIndex == ITEM_INFO_NONE) {
@@ -978,7 +978,7 @@ void AdvanceItemInUseOne(ItemInUse *itemInUse) {
     ItemObject *object;
     KartItems *kartItems;
     s32 previousScale;
-    enum { K0 } kind, entryIndex;
+    enum { KIND_FIRST } kind, entryIndex;
 
     object = itemInUse->mObjects[0];
     kartItems = itemInUse->mKartItems;
@@ -1019,7 +1019,7 @@ void AdvanceItemInUseOneWithOrientation(ItemInUse *itemInUse) {
     Vec3 direction;
     s64 value;
     s64 lengthSquared;
-    enum { K0 } kind;
+    enum { KIND_FIRST } kind;
 
     inUseAlias = itemInUse;
     object = itemInUse->mObjects[0];
@@ -1298,7 +1298,7 @@ void AdvanceItemInUseCircle(ItemInUse *itemInUse) {
     s32 scaleLimit;
     u32 speedAngle;
     ItemObject *object;
-    enum { K0 } kind;
+    enum { KIND_FIRST } kind;
 
     kartItems = itemInUse->mKartItems;
     objectCount = itemInUse->mObjectCount;

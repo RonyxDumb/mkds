@@ -71,7 +71,7 @@ s32 PickItem(s32 kartVariant, s32 forcedRowHandle, s32 rankOrRow, s32 isHumanGho
     s32 usedObjectCost;
     u16 roll;
     s32 objectKind;
-    enum { K0 } spinItem;
+    enum { SPIN_ITEM_FIRST } spinItem;
 
     sel = ITEM_INFO_NONE;
     if (forcedRowHandle != 0) {
@@ -162,7 +162,7 @@ void StartItemSlot(KartItems *slot, s32 forcedRowHandle, s32 rank, s32 isHumanGh
     KartItems *kartItems;
     ItemInfo *itemInfo;
     ItemPool *pool;
-    enum { K0 } itemIndex, objectKind;
+    enum { ITEM_INDEX_FIRST } itemIndex, objectKind;
     BOOL isWiFiRace;
     BOOL isEntryKart;
 
@@ -223,7 +223,7 @@ void StartItemSlotResultPending(KartItems *slot) {
     KartItems *kartItems;
     ItemInfo *itemInfo;
     ItemPool *pool;
-    enum { K0 } itemIndex, objectKind;
+    enum { ITEM_INDEX_FIRST } itemIndex, objectKind;
 
     kartItems = slot->mSelf;
     if (kartItems->mActiveItem != ITEM_INFO_NONE) {
@@ -260,7 +260,7 @@ void StartItemSlotResultPending(KartItems *slot) {
 BOOL UpdateItemSlot(KartItems *slot, KartItems *kartItems) {
     ItemInfo *itemInfo;
     ItemPool *pool;
-    enum { K0 } objectKind;
+    enum { OBJECT_KIND_FIRST } objectKind;
     s32 mode;
     u32 value;
 
@@ -307,7 +307,7 @@ BOOL UpdateItemSlot(KartItems *slot, KartItems *kartItems) {
 void FinishItemSlot(KartItems *slot) {
     ItemInfo *itemInfo;
     ItemPool *pool;
-    enum { K0 } itemIndex, objectKind;
+    enum { ITEM_INDEX_FIRST } itemIndex, objectKind;
 
     itemIndex = slot->mSlotResult;
     itemInfo = &gItemInfos[itemIndex];
@@ -325,7 +325,7 @@ void FinishItemSlot(KartItems *slot) {
 void StopItemSlot(KartItems *slot) {
     ItemInfo *itemInfo;
     ItemPool *pool;
-    enum { K0 } itemIndex, objectKind;
+    enum { ITEM_INDEX_FIRST } itemIndex, objectKind;
 
     if (slot->mResultPending == FALSE) {
         itemIndex = slot->mSlotResult;
@@ -426,7 +426,7 @@ void AdvanceItemBlockTimers(void) {
 void FinishItemSlotAndStopSound(KartItems *slot) {
     ItemInfo *itemInfo;
     ItemPool *pool;
-    enum { K0 } itemIndex, objectKind;
+    enum { ITEM_INDEX_FIRST } itemIndex, objectKind;
 
     if (slot->mSelf->mKartIndex == gRaceSetup->mEntryIndex) {
         StopRaceItemSlotSound();
@@ -508,11 +508,11 @@ void RemapItemSlotRows(ItemSlotTable *table, s32 kartCount) {
 
 void CreateItemSlotTables(void) {
     u8 *data;
-    enum { K0 } itemIndex;
+    enum { ITEM_INDEX_FIRST } itemIndex;
     s32 rowIndex;
     s32 rowCount;
     s32 *entry;
-    enum { K1 } compactIndex;
+    enum { COMPACT_INDEX_FIRST } compactIndex;
 
     data = FindMainRaceOrMainEffectFile("Item/ItemSlotList.dat");
     switch (gRaceSetup->mMode) {

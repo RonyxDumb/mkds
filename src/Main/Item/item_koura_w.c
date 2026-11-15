@@ -644,7 +644,7 @@ void UpdateItemKouraWState4(ItemKouraW *item) {
 }
 
 void EnterItemKouraWState5(ItemKouraW *item) {
-    enum { K0 } kind;
+    enum { KIND_FIRST } kind;
 
     if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPosPointer ==
         &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDrawPos) {
@@ -701,7 +701,7 @@ void UpdateItemKouraWState5(ItemKouraW *item) {
 }
 
 void EnterItemKouraWState6(ItemKouraW *item) {
-    enum { K0 } kind;
+    enum { KIND_FIRST } kind;
 
     item->mLift = 0x28000;
     kind = item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mKind;
@@ -1056,7 +1056,7 @@ BOOL TryReleaseItemObjectsForItemInfo(s32 itemInfoIndex) {
     ItemInfo *itemInfo;
     s32 objectCount;
     ItemPool *pool;
-    enum { K0 } kind;
+    enum { KIND_FIRST } kind;
 
     itemInfo = &gItemInfos[itemInfoIndex];
     kind = itemInfo->mObjectKind;
@@ -1074,7 +1074,7 @@ BOOL TryReleaseItemObjectsForItemInfo(s32 itemInfoIndex) {
 }
 
 void ReleaseItemsAtFinish(void) {
-    enum { K0 } poolIndex;
+    enum { POOL_INDEX_FIRST } poolIndex;
     u16 kartIndex;
 
     for (poolIndex = 0; poolIndex < ITEM_OBJECT_KIND_COUNT; poolIndex++) {
@@ -1086,7 +1086,7 @@ void ReleaseItemsAtFinish(void) {
 }
 
 void UpdateItems(void) {
-    enum { K0 } poolIndex;
+    enum { POOL_INDEX_FIRST } poolIndex;
     u16 kartIndex;
 
     if (gRaceSetup->mMode == MODE_WIFI) {
@@ -1107,7 +1107,7 @@ void UpdateItems(void) {
 }
 
 void DrawItems(void *unused) {
-    enum { K0 } poolIndex;
+    enum { POOL_INDEX_FIRST } poolIndex;
     void *viewAxis;
 
     viewAxis = &GetViewTransposeMatrix()->mRows[2];
@@ -1192,7 +1192,7 @@ s32 CollideKartWithItemObjects(Kart *kart) {
     s32 isHit;
     s32 hitCountCap;
     ItemObject *item;
-    enum { K0 } kind;
+    enum { KIND_FIRST } kind;
 
     hitCount = 0;
     isFarFromEntryKart = (kart->mDriveFlags & KART_DRIVE_FAR_FROM_ENTRY) != 0;
@@ -1292,7 +1292,7 @@ void StartCourseMapItemObjects(void) {
     u32 collisionHitLink;
     ItemObject *item;
     Vec3 normal;
-    enum { K0 } kind;
+    enum { KIND_FIRST } kind;
     CourseMapRow *row;
 
     rowCount = gCourseMap->mRowCount;
@@ -1323,7 +1323,7 @@ void InitItems(void) {
     void *heap;
     s32 objectIdCounter;
     s32 kartIndex;
-    enum { K0 } kind;
+    enum { KIND_FIRST } kind;
     HeldItem *heldItem;
     u8 kartCount;
 
@@ -1402,7 +1402,7 @@ s32 GrowItemObjectScale(ItemObject *item, s32 limit, s32 step) {
 
 void RefreshItemObjectScale(ItemObject *item) {
     ItemKind *kindInfo;
-    enum { K0 } kind;
+    enum { KIND_FIRST } kind;
     s32 radiusRatio;
 
     kind = item->mKind;
@@ -1418,7 +1418,7 @@ void RefreshItemObjectScale(ItemObject *item) {
 
 void RefreshItemObjectScaleExact(ItemObject *item) {
     ItemKind *kindInfo;
-    enum { K0 } kind;
+    enum { KIND_FIRST } kind;
     s32 radiusRatio;
 
     kind = item->mKind;
@@ -1434,7 +1434,7 @@ void RefreshItemObjectScaleExact(ItemObject *item) {
 
 void SetItemObjectScaleByRatios(ItemObject *objectParam, s32 xRatio, s32 yRatio) {
     ItemObject *item = objectParam;
-    enum { K0 } kind;
+    enum { KIND_FIRST } kind;
     s32 setupRadius;
 
     kind = item->mKind;
@@ -1448,7 +1448,7 @@ void SetItemObjectScaleByRatios(ItemObject *objectParam, s32 xRatio, s32 yRatio)
 
 BOOL SwingItemObjectScale(ItemObject *item) {
     ItemKind *kindInfo;
-    enum { K0 } kind;
+    enum { KIND_FIRST } kind;
     s32 radiusRatio;
 
     if (item->mScaleTargetOrSpeed <= -0x29 || item->mScaleTargetOrSpeed >= 0x29 ||
@@ -1472,7 +1472,7 @@ BOOL SwingItemObjectScale(ItemObject *item) {
 
 BOOL EaseItemObjectScale(ItemObject *item) {
     ItemKind *kindInfo;
-    enum { K0 } kind;
+    enum { KIND_FIRST } kind;
     s32 radiusRatio;
 
     if (item->mScaleTargetOrSpeed != 0) {

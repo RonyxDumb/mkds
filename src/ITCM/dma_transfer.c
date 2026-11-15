@@ -76,7 +76,7 @@ BOOL UpdateItemObject(ItemPool *itemPool, ItemObject *itemObject, s32 skipOverla
     u32 overlapFlags;
     s32 grewScale;
     s32 viewRadiusScale;
-    enum { K0 } itemKind;
+    enum { ITEM_KIND_FIRST } itemKind;
 
     itemObject->mFlags &= -0x1000;
     if (itemObject->mAgeFrames == 1 && (itemObject->mFlags & 0x8000000) && !(itemObject->mFlags & 0x10000000)) {

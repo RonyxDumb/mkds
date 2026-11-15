@@ -806,7 +806,7 @@ void UpdateJgState1(void) {
     s32 rotatedZ;
     NNSSndSeqPlayer **seqPlayer;
     s32 scaledZ;
-    enum { K0 } frameFixed;
+    enum { FRAME_START } frameFixed;
 
     animation = gJgKindRows[gJgKind].mNsbmaAnimation;
     frameFixed = animation->mHead.mFrameIndex;

@@ -34,7 +34,7 @@ void AdvanceKartDrawState(Kart *kart) {
     MtxFx43 *drawMatrix;
     Vec3 *source;
     CharacterAnimationState *animationState;
-    enum { K0 } entryIndex;
+    enum { ENTRY_INDEX_FIRST } entryIndex;
 
     Matrix4x3FromQuaternion(&kart->mRotationMatrix, kart->mRotationSource);
     kartBits = kart->mEffectFlags;

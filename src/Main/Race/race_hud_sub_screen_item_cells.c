@@ -100,7 +100,7 @@ void ClearRaceHudSubScreenItemCells(void) {
 }
 
 void UpdateRaceHudSubScreenItemCells(void) {
-    enum { K0 } poolIndex;
+    enum { POOL_INDEX_FIRST } poolIndex;
     s32 cellCount;
     s32 scale;
     s32 tableIndex;

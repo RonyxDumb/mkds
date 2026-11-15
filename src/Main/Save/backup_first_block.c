@@ -9,11 +9,11 @@
 void WriteBackupFirstBlock(BackupFirstBlock *block) {
     u32 *buffer = gBackupAccess->mBuffer;
     if (gBackupAccess->mBackupEnabled != 0) {
-        enum { K0 = 0x53444b4d } firstWord;
-        enum { K1 = 0x30315653 } secondWord;
+        enum { BACKUP_MAGIC_MKDS = 0x53444b4d } firstWord;
+        enum { BACKUP_MAGIC_SV10 = 0x30315653 } secondWord;
         MI_CpuCopy8(block, buffer, sizeof(BackupFirstBlock));
-        firstWord = K0;
-        secondWord = K1;
+        firstWord = BACKUP_MAGIC_MKDS;
+        secondWord = BACKUP_MAGIC_SV10;
         buffer[0] = firstWord;
         buffer[1] = secondWord;
         buffer[2] = 0x59534b4e;

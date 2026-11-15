@@ -581,7 +581,7 @@ s32 LoadCourseMapKeyedPlacementsData(void *section, ...) {
 }
 
 s32 LoadCourseMapRaceEndPlacementsData(void *section, ...) {
-    enum { K0 } result = 0;
+    enum { RESULT_EMPTY } result = 0;
 
     if (gCourseMap->mVersion < COURSE_MAP_VERSION_RACE_END_PLACEMENTS) {
         gCourseMap->mRaceEndPlacementCount = result;

@@ -199,7 +199,7 @@ u32 GetCourseSoundRowIndex(u32 courseId, SoundRow *output) {
 }
 
 u32 GetSceneSoundRowIndex(s32 sceneNumber, SoundRow *output) {
-    enum { K0 } rowIndex;
+    enum { ROW_INDEX_FIRST } rowIndex;
     BOOL rowWritten;
     s32 raceMode;
     BOOL overridden;

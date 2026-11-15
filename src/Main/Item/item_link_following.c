@@ -70,7 +70,7 @@ void *CreateItemNsbmd(char *modelName, char *textureName) {
 }
 
 void CreateItemModels(void) {
-    enum { K0 } i;
+    enum { INDEX_FIRST } i;
     ItemKind *itemKind;
     BOOL isRainbowCourse;
 

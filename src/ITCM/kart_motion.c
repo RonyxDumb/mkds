@@ -278,7 +278,7 @@ void AdvanceKartCollisionTimer(Kart *kart) {
 void AdvanceKartInputAndTurn(Kart *kart) {
     s32 inputValue;
     s32 lowSpeedTurn;
-    enum { K0 } entryIndex;
+    enum { ENTRY_INDEX_FIRST } entryIndex;
 
     if (kart->mDriveFlags & KART_DRIVE_STATE_END_TIMER) {
         kart->mStateEndTimer = kart->mStateEndTimer - 1;
@@ -352,7 +352,7 @@ void UpdateKartInputFlags(Kart *kart) {
     u32 *keyBFlagsPointer;
     u32 *flagsPointer;
     u32 flags;
-    enum { K0 } entryIndex;
+    enum { ENTRY_INDEX_FIRST } entryIndex;
 
     kart->mDriveFlags &=
         ~(KART_DRIVE_ACCEL_HELD | KART_DRIVE_BRAKE_HELD | KART_DRIVE_BRAKING | KART_DRIVE_LOW_SPEED_TURN);
@@ -379,7 +379,7 @@ void UpdateKartInputFlags(Kart *kart) {
 
 void SetKartMissionRunInputMask(Kart *kart) {
     RaceSetup *raceSetup;
-    enum { K0 } entryIndex;
+    enum { ENTRY_INDEX_FIRST } entryIndex;
 
     raceSetup = gRaceSetup;
     if (raceSetup->mMode != MODE_MISSION_RUN) {
@@ -403,12 +403,12 @@ s32 ApplyKartTurnInput(Kart *kart, s32 lowSpeedTurn) {
     s32 turnRate = kart->mPhysicalParam->mTurnRate;
     BOOL airborne = FALSE;
     s32 turned = 0;
-    enum { K1 } turnSign = 1;
+    enum { TURN_SIGN_NEUTRAL } turnSign = 1;
     s32 speedMagnitude;
     s32 forwardSpeed;
     u32 kartFlags;
     u16 keyBits;
-    enum { K0 } entryIndex;
+    enum { ENTRY_INDEX_FIRST } entryIndex;
     u32 kartFlagsCopy;
 
     if (kart->mEffectFlags & (KART_EFFECT_KILLER | KART_EFFECT_HEADING_SWING)) {

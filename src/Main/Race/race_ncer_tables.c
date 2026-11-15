@@ -452,7 +452,7 @@ NNSG2dCellDataWithBR *GetRaceMNcerEntry(u32 cellIndex) {
 u32 LookupRaceMNcerIndex(u32 kind) {
     u32 cellIndex;
     KartItems *kartItems;
-    enum { K0 } itemInfoIndex;
+    enum { ITEM_INFO_INDEX_FIRST } itemInfoIndex;
 
     cellIndex = RACE_M_CELL_ITEM_EMPTY;
     switch (kind) {
@@ -575,7 +575,7 @@ NNSG2dCellDataWithBR *GetRaceStartBattleMNcerEntry(u32 cellIndex) {
 s32 LookupRaceSNcerIndex(s32 kartIndex, s32 shownItem) {
     KartItems *kartItems;
     u32 heldObjectCount;
-    enum { K0 } itemInfoIndex;
+    enum { ITEM_INFO_INDEX_FIRST } itemInfoIndex;
 
     switch (shownItem) {
         case ITEM_INFO_KOURA_G:

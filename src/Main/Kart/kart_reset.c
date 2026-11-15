@@ -111,7 +111,7 @@ const Vec3 gKartVec3Zero = {0, 0, 0};
 
 void AdvanceKartScaleFactor(Kart *kart) {
     s32 frameIndex;
-    enum { K0 } entryIndex;
+    enum { ENTRY_INDEX_FIRST } entryIndex;
 
     entryIndex = kart->mEntryIndex;
     gInputSlots[entryIndex].mBitMask = PAD_KEYS_NO_START;

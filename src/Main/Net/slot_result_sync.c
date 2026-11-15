@@ -247,7 +247,7 @@ void FreeOverlayExpHeap(void) {
 
 // Same finish as the wait loop without waiting: returns 1 when the overlay is loaded, else 0.
 s32 TryFinishOverlayLoad(void) {
-    enum { K0 } result;
+    enum { RESULT_NOT_LOADED } result;
     s32 state;
     OverlayLoader *loader;
 

@@ -384,7 +384,7 @@ void StartQueuedKartSound(Kart *kart, s32 soundIndex, s32 useKartSource, s32 vol
     PlayingSound *stoppedSound;
     BOOL modeAllowsSound;
     u16 sequenceNo;
-    enum { K0 } soundOffset;
+    enum { SOUND_OFFSET_FIRST } soundOffset;
 
     playingSound = kart->mSoundSource.mPlayingSounds.mHead;
     if (playingSound != NULL) {

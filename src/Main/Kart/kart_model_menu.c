@@ -82,7 +82,7 @@ void ClearKartModelMenuRequests(void) {
 
 BOOL FindKartModelMenuCharacter(s32 *characterIndex, u32 kartIndex) {
     u32 backupFlagIndex;
-    enum { K0 } candidateCharacter;
+    enum { CHARACTER_FIRST } candidateCharacter;
 
     *characterIndex = _s32_div_f((u16) kartIndex, 3);
     if (*characterIndex >= 8) {

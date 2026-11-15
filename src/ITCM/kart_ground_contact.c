@@ -269,7 +269,7 @@ void RefreshKartSurface(Kart *kart) {
 void AdvanceKartBoosts(Kart *kart) {
     u32 raceUpdateFrames;
     s32 frameDifference;
-    enum { K0 } entryIndex;
+    enum { ENTRY_INDEX_FIRST } entryIndex;
 
     if (kart->mDriveFlags & KART_DRIVE_MINI_TURBO) {
         kart->mMiniTurboTimer = kart->mMiniTurboTimer - 1;

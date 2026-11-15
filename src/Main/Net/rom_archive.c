@@ -65,7 +65,7 @@ void CreateRomArchiveBlock(FSFile *file, s32 appendOverlays) {
     u32 *tablePointers[4];
     u32 *block;
     u32 blockSize;
-    enum { K0 } appendOverlayEntries;
+    enum { APPEND_OVERLAY_ENTRIES_NO } appendOverlayEntries;
     u32 imageOffset;
     u32 positionOffset;
     RomHeaderStart *header;

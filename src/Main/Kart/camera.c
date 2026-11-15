@@ -538,7 +538,7 @@ void UpdateCameraByEntryKind(Camera *camera) {
     }
     courseMapCamera = camera->mCourseMapCamera;
     if (courseMapCamera->mFovBlendPerFrame != 0) {
-        enum { K0 } fovBlend = camera->mFovBlend;
+        enum { FOV_BLEND_NONE } fovBlend = camera->mFovBlend;
         CourseMapCamera *blendCamera = courseMapCamera;
 
         s32 firstStart = blendCamera->mHalfFovPairFirst;
@@ -820,7 +820,7 @@ void UpdateStaffRollCameraAndLight(Camera *camera) {
     courseMapCamera = camera->mCourseMapCamera;
     if (courseMapCamera->mFovBlendPerFrame != 0) {
         s32 secondOffset;
-        enum { K0 } fovBlend = camera->mFovBlend;
+        enum { FOV_BLEND_NONE } fovBlend = camera->mFovBlend;
         s32 firstStart = courseMapCamera->mHalfFovPairFirst;
         s32 secondStart = courseMapCamera->mHalfFovPairSecond;
         s32 secondEnd = courseMapCamera->mHalfFovPairSecondEnd;

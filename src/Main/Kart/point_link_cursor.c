@@ -1985,7 +1985,7 @@ void SetupHeldItemEntry(struct KartAiItemUse *itemUse, struct KartAi *kartAi) {
     RandomState64 *random;
     u16 randomLimit;
     u32 randomPart;
-    enum { K0 } heldItemIndex;
+    enum { HELD_ITEM_INDEX_FIRST } heldItemIndex;
 
     heldItemIndex = gKartItems[kartAi->mIndex].mHeldItem.mItemInfoIndex;
     itemUse->mHeldItemEntry = &gCurrentHeldItemEntries[heldItemIndex];
@@ -2075,7 +2075,7 @@ void SetupItemInUseEntry(struct KartAiItemUse *itemUse, struct KartAi *kartAi) {
     RandomState64 *random;
     u16 randomLimit;
     u32 randomPart;
-    enum { K0 } objectKind;
+    enum { OBJECT_KIND_FIRST } objectKind;
 
     objectKind = gKartItems[kartAi->mIndex].mItemInUse.mObjectKind;
     itemUse->mItemInUseEntry = &gCurrentItemInUseEntries[objectKind];

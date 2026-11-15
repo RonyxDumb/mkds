@@ -150,7 +150,7 @@ void StartNextHeldItemObject(HeldItem *heldItem) {
     Vec3 *kartVelocity;
     void (*kindCallback)(void *);
     s32 slotIndex;
-    enum { K0 } kind;
+    enum { KIND_FIRST } kind;
 
     if (heldItem->mObjectStartFramesLeft <= 0) {
         return;

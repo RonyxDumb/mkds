@@ -33,8 +33,8 @@
 
 void CreateItemKinds(void) {
     ItemKind *kinds;
-    enum { K0 } kindIndex;
-    enum { K1 } limitKindIndex;
+    enum { KIND_INDEX_FIRST } kindIndex;
+    enum { LIMIT_KIND_INDEX_FIRST } limitKindIndex;
     s32 mode;
     u32 value;
     u32 (*getFar)(void);
@@ -83,8 +83,8 @@ void CreateItemKinds(void) {
 
 void ComputeItemKindObjectCounts(void) {
     s32 maxObjectCounts[14];
-    enum { K0 } kindIndex;
-    enum { K1 } itemInfoIndex;
+    enum { KIND_INDEX_FIRST } kindIndex;
+    enum { ITEM_INFO_INDEX_FIRST } itemInfoIndex;
     s32 objectCount;
 
     for (kindIndex = 0; kindIndex < 0xe; kindIndex++) {

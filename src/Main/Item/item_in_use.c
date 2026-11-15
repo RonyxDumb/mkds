@@ -203,7 +203,7 @@ void UpdateItemInUseObjects(ItemInUse *itemInUse) {
     s32 courseHitAttributeBit;
     s32 outOfView;
     s32 reverseIndex;
-    enum { K0 } idx;
+    enum { INDEX_FIRST } idx;
 
     objects = itemInUse->mObjects;
     objectCount = itemInUse->mObjectCount;
@@ -274,7 +274,7 @@ void AdvanceItemInUse(ItemInUse *itemInUse) {
     s32 objectCount;
     ItemObject *object;
     Kart *kart;
-    enum { K0 } kind;
+    enum { KIND_FIRST } kind;
 
     useKind = itemInUse->mUseKind;
     if (CopyKartToItemInUse(itemInUse) != FALSE) {

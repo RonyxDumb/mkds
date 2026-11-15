@@ -174,8 +174,8 @@ void (*gThrowItemTrailKindCallback)(struct KartAiItemUse *itemUse, struct KartAi
 
 static inline BOOL AreAllGrandPrixRecordsTopRank(void) {
     BOOL isFilledTopRank;
-    enum { K0 } cup;
-    enum { L0 } engineClass;
+    enum { CUP_FIRST } cup;
+    enum { ENGINE_CLASS_FIRST } engineClass;
     for (cup = 0; cup < 8; cup++) {
         for (engineClass = 0; engineClass < 4; engineClass++) {
             if (IsGrandPrixRecordFilled(cup, engineClass) != 0 && GetGrandPrixRecordCupRank(cup, engineClass) == 0) {
@@ -276,7 +276,7 @@ u32 SetSecretMessageFlags(void) {
 }
 
 u32 SetSecretMessageFlagsPerEngineClass(void) {
-    enum { K0 } engineClass;
+    enum { ENGINE_CLASS_FIRST } engineClass;
     u32 setFlagBits;
     u32 lastGroupBit;
     u32 newBit;

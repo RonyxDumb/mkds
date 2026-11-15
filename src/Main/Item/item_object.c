@@ -123,7 +123,7 @@ void ResetItemObjectAtPos(ItemObject *item, s32 kind, u16 ownerAndFlags, Vec3 *p
 }
 
 void ReleaseItemObject(ItemObject *item) {
-    enum { K0 } kind;
+    enum { KIND_FIRST } kind;
 
     if (item->mCollisionSlotIndex != -1) {
         item->mCollisionSlotIndex = FreeCollisionSlot(item->mCollisionSlotIndex);
@@ -373,7 +373,7 @@ BOOL IsItemObjectTooFarForEffects(ItemObject *itemObject) {
 }
 
 void StartItemObjectSoundSource(ItemObject *item) {
-    enum { K0 } kind = item->mKind;
+    enum { KIND_FIRST } kind = item->mKind;
 
     ItemObjectInitSoundSource(&item->mSoundSource, gItemKinds[kind].mFalloffIndex, &item->mPos);
     SetSoundSourceEnabled(&item->mSoundSource, 1);
@@ -412,7 +412,7 @@ void SetupItemObjectFromData(ItemObject *item) {
     ItemKind *kindInfo;
     BOOL hasCollisionSlot;
     s32 kindRadius;
-    enum { K0 } kind;
+    enum { KIND_FIRST } kind;
     void (*advance)(struct ItemObject *);
 
     item->mScale.z = 0xccd;
