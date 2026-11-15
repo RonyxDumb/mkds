@@ -90,7 +90,7 @@ void AdvancePaletteBlend(void) {
     s32 cycleFrames;
     if (gPaletteBlend->mStopped == FALSE) {
         gPaletteBlend->mCycleFrames++;
-        if (gPaletteBlend->mCycleFrames >= 0x5a) {
+        if (gPaletteBlend->mCycleFrames >= PALETTE_BLEND_CYCLE_FRAMES) {
             gPaletteBlend->mCycleFrames = 0;
         }
     }
@@ -137,10 +137,10 @@ void InitStaffRollText(void *heap) {
     gStaffRollText->mScrollYFixed = 0;
     gStaffRollText->mNextReadScrollY = 0;
     gStaffRollText->mScrollYRemaining = -1;
-    gStaffRollText->mScrollYPerFrame = 0x70a;
+    gStaffRollText->mScrollYPerFrame = STAFF_ROLL_SCROLL_Y_PER_FRAME_DEFAULT;
     gStaffRollText->mCharSpacing = 1;
     gStaffRollText->mTextColor = 1;
-    gStaffRollText->mAlignFlags = 0x240;
+    gStaffRollText->mAlignFlags = TEXT_CANVAS_FLAG_TOP | TEXT_CANVAS_FLAG_LEFT;
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x100;
     reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & ~REG_G2S_DB_BG0CNT_PRIORITY_MASK) | 1;
     reg_G2S_DB_BG0CNT =
@@ -218,38 +218,38 @@ void AdvanceStaffRollTextScrolling(void) {
                     argument = tag->mArgument;
                 }
                 switch (variant) {
-                    case 0:
-                        staffRollText->mAlignFlags = 0x40;
+                    case STAFF_ROLL_TAG_ALIGN:
+                        staffRollText->mAlignFlags = TEXT_CANVAS_FLAG_TOP;
                         switch (argument) {
-                            case 0:
-                                gStaffRollText->mAlignFlags |= 0x200;
+                            case STAFF_ROLL_ALIGN_LEFT:
+                                gStaffRollText->mAlignFlags |= TEXT_CANVAS_FLAG_LEFT;
                                 break;
-                            case 1:
-                                gStaffRollText->mAlignFlags |= 0x400;
+                            case STAFF_ROLL_ALIGN_CENTER:
+                                gStaffRollText->mAlignFlags |= TEXT_CANVAS_FLAG_CENTER;
                                 break;
-                            case 2:
-                                gStaffRollText->mAlignFlags |= 0x800;
+                            case STAFF_ROLL_ALIGN_RIGHT:
+                                gStaffRollText->mAlignFlags |= TEXT_CANVAS_FLAG_RIGHT;
                                 break;
                         }
                         break;
-                    case 1:
+                    case STAFF_ROLL_TAG_SKIP_LINES:
                         lineDone = TRUE;
                         staffRollText->mNextReadScrollY += argument << 16;
                         break;
-                    case 2:
+                    case STAFF_ROLL_TAG_COLOR:
                         staffRollText->mTextColor = argument * 2 + 1;
                         break;
-                    case 3:
+                    case STAFF_ROLL_TAG_CHAR_SPACING:
                         staffRollText->mCharSpacing = argument;
                         break;
-                    case 4:
+                    case STAFF_ROLL_TAG_SCROLL_SPEED:
                         staffRollText->mScrollYPerFrame = TO_FIXED12(argument) / 100;
                         break;
-                    case 5:
+                    case STAFF_ROLL_TAG_NO_EFFECT:
                         break;
-                    case 0x63:
+                    case STAFF_ROLL_TAG_END:
                         lineDone = TRUE;
-                        staffRollText->mScrollYRemaining = 0xd0000;
+                        staffRollText->mScrollYRemaining = STAFF_ROLL_END_SCROLL_Y;
                         break;
                 }
             }

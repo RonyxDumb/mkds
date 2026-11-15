@@ -50,6 +50,15 @@ void DrawGlyphLine(NNSG2dCharCanvas *pCanvas, NNSG2dFont *pFont, s32 drawX, s32 
 void LetterChar(LetterCharInfo *pInfo);
 void ClearChar(u8 *pChar, s32 startX, s32 startY, s32 width, s32 height, u32 cl8, s32 bpp);
 u32 OBJSizeToShape(const u8 *pSize);
+// Bits of the flags argument of the text draw functions (code_02024184.c:40-90): vertical anchor of a rect, horizontal
+// alignment of every line.
+#define TEXT_CANVAS_FLAG_TOP 0x40
+#define TEXT_CANVAS_FLAG_MIDDLE 0x80
+#define TEXT_CANVAS_FLAG_BOTTOM 0x100
+#define TEXT_CANVAS_FLAG_LEFT 0x200
+#define TEXT_CANVAS_FLAG_CENTER 0x400
+#define TEXT_CANVAS_FLAG_RIGHT 0x800
+
 void NNSi_G2dTextCanvasDrawTextAlign(TextCanvas *pTxn, s32 drawX, s32 drawY, s32 areaWidth, u32 cl, u32 flags,
                                      u16 *txt);
 void NNSi_G2dTextCanvasDrawString(TextCanvas *pTxn, s32 drawX, s32 drawY, u32 cl, u16 *str, u16 **pPos);

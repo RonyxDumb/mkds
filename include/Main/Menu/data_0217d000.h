@@ -1031,6 +1031,32 @@ typedef struct StaffRollTag {
     /* 06 */ u16 mArgument;
 } StaffRollTag;
 
+// StaffRollTag.mVariant values of a tag with mKind 1: set the line alignment (argument below), end the line and skip
+// argument lines, set the text color, set the character spacing, set the scroll speed (percent of a step), change
+// nothing, end of the text.
+typedef enum StaffRollTagVariant {
+    STAFF_ROLL_TAG_ALIGN = 0,
+    STAFF_ROLL_TAG_SKIP_LINES = 1,
+    STAFF_ROLL_TAG_COLOR = 2,
+    STAFF_ROLL_TAG_CHAR_SPACING = 3,
+    STAFF_ROLL_TAG_SCROLL_SPEED = 4,
+    STAFF_ROLL_TAG_NO_EFFECT = 5,
+    STAFF_ROLL_TAG_END = 0x63,
+} StaffRollTagVariant;
+
+// Argument of STAFF_ROLL_TAG_ALIGN.
+typedef enum StaffRollAlign {
+    STAFF_ROLL_ALIGN_LEFT = 0,
+    STAFF_ROLL_ALIGN_CENTER = 1,
+    STAFF_ROLL_ALIGN_RIGHT = 2,
+} StaffRollAlign;
+
+// Scroll speed before the first speed tag (fixed point per frame); scroll distance left to run after the end tag.
+#define STAFF_ROLL_SCROLL_Y_PER_FRAME_DEFAULT 0x70a
+#define STAFF_ROLL_END_SCROLL_Y 0xd0000
+// Frames of one full palette blend cycle: blend to the target, hold, blend back (0x1e frames each).
+#define PALETTE_BLEND_CYCLE_FRAMES 0x5a
+
 // mState and mNextState values: waiting for the start, scrolling the text, scrolled all of it.
 typedef enum StaffRollTextState {
     STAFF_ROLL_TEXT_IDLE = 0,
