@@ -254,33 +254,33 @@ void ResetSelectEngineOffsets(void) {
 }
 
 // Requests state 1: stores mNextState = 1 and zeroes mStateFrames; the next AdvanceSelectEngine call copies it to
-// mState and runs AdvanceSelectEngineState1.
-void RequestSelectEngineState1(void) {
+// mState and runs AdvanceSelectEngineSlideIn.
+void RequestSelectEngineSlideIn(void) {
     gSelectEngine->mNextState = SELECT_ENGINE_STATE_SLIDE_IN;
     gSelectEngine->mStateFrames = 0;
 }
 
 // Requests state 2: stores mNextState = 2 and zeroes mStateFrames; the next AdvanceSelectEngine call copies it to
-// mState and runs AdvanceSelectEngineState2.
-void RequestSelectEngineState2(void) {
+// mState and runs AdvanceSelectEngineSettle.
+void RequestSelectEngineSettle(void) {
     gSelectEngine->mNextState = SELECT_ENGINE_STATE_SETTLE;
     gSelectEngine->mStateFrames = 0;
 }
 
-void RequestSelectEngineState3(void) {
+void RequestSelectEngineWaitSelectReturn(void) {
     gSelectEngine->mNextState = SELECT_ENGINE_STATE_WAIT_SELECT_RETURN;
     gSelectEngine->mStateFrames = 0;
     RequestSelectReturnSlideIn();
 }
 
 // Requests state 4: stores mNextState = 4 and zeroes mStateFrames; the next AdvanceSelectEngine call copies it to
-// mState and runs AdvanceSelectEngineState4.
-void RequestSelectEngineState4(void) {
+// mState and runs AdvanceSelectEngineInput.
+void RequestSelectEngineInput(void) {
     gSelectEngine->mNextState = SELECT_ENGINE_STATE_INPUT;
     gSelectEngine->mStateFrames = 0;
 }
 
-void RequestSelectEngineState5(void) {
+void RequestSelectEnginePress(void) {
     gSelectEngine->mNextState = SELECT_ENGINE_STATE_PRESS;
     gSelectEngine->mStateFrames = 0;
     gSelectEngine->mResult = 1;
@@ -289,8 +289,8 @@ void RequestSelectEngineState5(void) {
 }
 
 // Requests state 6: stores mNextState = 6 and zeroes mStateFrames; the next AdvanceSelectEngine call copies it to
-// mState and runs AdvanceSelectEngineState6.
-void RequestSelectEngineState6(void) {
+// mState and runs AdvanceSelectEngineSlideOut.
+void RequestSelectEngineSlideOut(void) {
     gSelectEngine->mNextState = SELECT_ENGINE_STATE_SLIDE_OUT;
     gSelectEngine->mStateFrames = 0;
 }
@@ -339,15 +339,15 @@ void ReleaseSelectEngine(void) {
     gSelectEngine = NULL;
 }
 
-void AdvanceSelectEngineState0(void) {
+void AdvanceSelectEngineWaitFade(void) {
     int fadesClear;
     fadesClear = AreBrightnessFadesClear();
     if (fadesClear != 0) {
-        RequestSelectEngineState1();
+        RequestSelectEngineSlideIn();
     }
 }
 
-void AdvanceSelectEngineState1(void) {
+void AdvanceSelectEngineSlideIn(void) {
     s16 slideX;
     s16 slideY;
     s32 cellSlot;
@@ -387,11 +387,11 @@ void AdvanceSelectEngineState1(void) {
         }
     }
     if (gSelectEngine->mStateFrames >= 10) {
-        RequestSelectEngineState2();
+        RequestSelectEngineSettle();
     }
 }
 
-void AdvanceSelectEngineState2(void) {
+void AdvanceSelectEngineSettle(void) {
     s16 selectedPressOffset;
     s32 slotIndex;
     gSelectEngine->mStateFrames = gSelectEngine->mStateFrames + 1;
@@ -404,19 +404,19 @@ void AdvanceSelectEngineState2(void) {
         gSelectEngine->mSelectEngineMTable[gSelectEngineMTableIndices[slotIndex]].mOffsetY = selectedPressOffset;
     }
     if (gSelectEngine->mStateFrames >= 10) {
-        RequestSelectEngineState3();
+        RequestSelectEngineWaitSelectReturn();
     }
 }
 
-void AdvanceSelectEngineState3(void) {
+void AdvanceSelectEngineWaitSelectReturn(void) {
     int returnState2NoState3Or4Request;
     returnState2NoState3Or4Request = IsSelectReturnShownNoRequest();
     if (returnState2NoState3Or4Request != 0) {
-        RequestSelectEngineState4();
+        RequestSelectEngineInput();
     }
 }
 
-void AdvanceSelectEngineState4(void) {
+void AdvanceSelectEngineInput(void) {
     u32 touchedRectIndex = -1;
     InputSlotIndex inputSlotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     BOOL pairStarted;
@@ -462,7 +462,7 @@ void AdvanceSelectEngineState4(void) {
         return;
     }
     SetSelectReturnSoundId(0xe);
-    RequestSelectEngineState6();
+    RequestSelectEngineSlideOut();
     gSelectEngine->mResult = 2;
     RequestSelectReturnPressWithSound(0);
     return;
@@ -473,12 +473,12 @@ next:
             gSelectEngine->mAlternateCellShown = FALSE;
         }
         gSelectEngine->mIndex = value;
-        RequestSelectEngineState5();
+        RequestSelectEnginePress();
         return;
     }
     if ((u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_A) != 0) {
         gSelectEngine->mAlternateCellShown = FALSE;
-        RequestSelectEngineState5();
+        RequestSelectEnginePress();
         return;
     }
     if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
@@ -540,7 +540,7 @@ next:
     }
 }
 
-void AdvanceSelectEngineState5(void) {
+void AdvanceSelectEnginePress(void) {
     AdvanceSelectEngineIndexChange();
     if (gSelectEngine->mStateFrames == 5) {
         gSelectEngine->mAlternateCellShown = TRUE;
@@ -548,12 +548,12 @@ void AdvanceSelectEngineState5(void) {
     gSelectEngine->mStateFrames++;
     if (gSelectEngine->mStateFrames >= 10) {
         if (IsSelectEngineIndexChangeRunning() == 0) {
-            RequestSelectEngineState6();
+            RequestSelectEngineSlideOut();
         }
     }
 }
 
-void AdvanceSelectEngineState6(void) {
+void AdvanceSelectEngineSlideOut(void) {
     s16 slideX;
     s16 slideY;
     s32 slotIndex;
@@ -599,25 +599,25 @@ int AdvanceSelectEngine(void) {
     gSelectEngine->mState = gSelectEngine->mNextState;
     switch (gSelectEngine->mState) {
         case SELECT_ENGINE_STATE_WAIT_FADE:
-            AdvanceSelectEngineState0();
+            AdvanceSelectEngineWaitFade();
             break;
         case SELECT_ENGINE_STATE_SLIDE_IN:
-            AdvanceSelectEngineState1();
+            AdvanceSelectEngineSlideIn();
             break;
         case SELECT_ENGINE_STATE_SETTLE:
-            AdvanceSelectEngineState2();
+            AdvanceSelectEngineSettle();
             break;
         case SELECT_ENGINE_STATE_WAIT_SELECT_RETURN:
-            AdvanceSelectEngineState3();
+            AdvanceSelectEngineWaitSelectReturn();
             break;
         case SELECT_ENGINE_STATE_INPUT:
-            AdvanceSelectEngineState4();
+            AdvanceSelectEngineInput();
             break;
         case SELECT_ENGINE_STATE_PRESS:
-            AdvanceSelectEngineState5();
+            AdvanceSelectEnginePress();
             break;
         case SELECT_ENGINE_STATE_SLIDE_OUT:
-            AdvanceSelectEngineState6();
+            AdvanceSelectEngineSlideOut();
             break;
     }
     UpdateSelectEngineIndexCells();
