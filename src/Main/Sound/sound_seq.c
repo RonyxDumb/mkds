@@ -210,7 +210,7 @@ void StartWiFiLoginErrorSeq(void) {
     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, (0x0000020au));
 }
 
-void StartSelectReturnState1Seq(void) {
+void StartWiFiNoOpponentsSeq(void) {
     NNS_SndPlayerStopSeq(&gSeqZeroLoopHandle, 1);
     NNS_SndPlayerStopSeq(&gMatchingEntrySeqHandle, 1);
     NNS_SndPlayerStopSeq(&gSeqZeroLoopHandle, 1);

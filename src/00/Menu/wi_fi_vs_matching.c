@@ -367,7 +367,7 @@ void AdvanceWiFiVSMatchingWaitMatching(void) {
         }
         RequestTxtSystemClose();
         RequestSelectReturnSlideIn();
-        StartSelectReturnState1Seq();
+        StartWiFiNoOpponentsSeq();
         return;
     }
     if (IsTxtSystemOpenNoCloseRequest() != 0 && CheckWiFiMatchingResult() == 1) {
@@ -382,7 +382,7 @@ void AdvanceWiFiVSMatchingWaitMatching(void) {
             }
             RequestTxtSystemClose();
             RequestSelectReturnSlideIn();
-            StartSelectReturnState1Seq();
+            StartWiFiNoOpponentsSeq();
             return;
         }
         gWiFiVSMatching->mOtherCount = gWiFiSession->mKartCount - 1;

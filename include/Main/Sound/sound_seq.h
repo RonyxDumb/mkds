@@ -221,7 +221,7 @@ void StopSceneSoundsAtOnce(void);
 
 LoadedSoundSet *GetLoadedSoundSet(void);
 
-void StartSelectReturnState1Seq(void);
+void StartWiFiNoOpponentsSeq(void);
 void StopBothSeqHandles(void);
 
 void StartWiFiLoginErrorSeq(void);
