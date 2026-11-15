@@ -69,13 +69,13 @@
 
 const u16 gItemBananaUntilCourseHitBit = 0x2000;
 
-StateCallbacks gItemKouraRStateTable[7] = {{NULL, UpdateItemKouraRState0And1},
-                                           {NULL, UpdateItemKouraRState0And1},
-                                           {NULL, UpdateItemKouraRState2},
-                                           {EnterItemKouraRState3, UpdateItemKouraRState3},
-                                           {EnterItemKouraRState4, UpdateItemKouraRState4},
-                                           {NULL, UpdateItemKouraRState5},
-                                           {NULL, UpdateItemKouraRState6}};
+StateCallbacks gItemKouraRStateTable[7] = {{NULL, UpdateItemKouraRStraight},
+                                           {NULL, UpdateItemKouraRStraight},
+                                           {NULL, UpdateItemKouraRSeekAfterThrow},
+                                           {EnterItemKouraRFollowLink, UpdateItemKouraRFollowLink},
+                                           {EnterItemKouraRHoming, UpdateItemKouraRHoming},
+                                           {NULL, UpdateItemKouraRCloseIn},
+                                           {NULL, UpdateItemKouraRGlideToKartVelocity}};
 
 const ItemInfo gItemInfoKouraR = {1, 1, 1, 1, 0, 1, NULL};
 
@@ -203,7 +203,7 @@ void AdvanceItemKouraR(ItemKouraR *kouraR) {
     AdvanceStateMachine(&kouraR->mStateMachine);
 }
 
-void UpdateItemKouraRState0And1(void *stateObject) {
+void UpdateItemKouraRStraight(void *stateObject) {
     ItemKouraR *kouraR = stateObject;
     AdvanceItemObjectMotion(&kouraR->mLinkFollowingItemObject.mDirectedItemObject, 0x8800);
     if (kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 1) {
@@ -215,7 +215,7 @@ void UpdateItemKouraRState0And1(void *stateObject) {
                     StartItemKouraRSound, kouraR, 0);
 }
 
-void RequestItemKouraRState4ForKart(ItemKouraR *kouraR, u32 kartIndex) {
+void RequestItemKouraRHomingForKart(ItemKouraR *kouraR, u32 kartIndex) {
     u32 value = kartIndex;
     u32 minusOne;
     u32 collisionSlotIndex;
@@ -237,7 +237,7 @@ void RequestItemKouraRState4ForKart(ItemKouraR *kouraR, u32 kartIndex) {
     kouraR->mStateMachine.mNextStateRequested = value;
 }
 
-void UpdateItemKouraRState2(void *stateObject) {
+void UpdateItemKouraRSeekAfterThrow(void *stateObject) {
     ItemKouraR *kouraR = stateObject;
     AdvanceItemObjectMotion(&kouraR->mLinkFollowingItemObject.mDirectedItemObject, 0x8800);
     if (!(kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 1)) {
@@ -276,13 +276,13 @@ void UpdateItemKouraRState2(void *stateObject) {
     }
 }
 
-void EnterItemKouraRState3(void *stateObject) {
+void EnterItemKouraRFollowLink(void *stateObject) {
     ItemKouraR *kouraR = stateObject;
     kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mBounce =
         (void (*)(ItemObject *, Vec3 *, Vec3 *)) DeflectItemKouraROnHit;
 }
 
-void UpdateItemKouraRState3(void *stateObject) {
+void UpdateItemKouraRFollowLink(void *stateObject) {
     ItemKouraR *kouraR = stateObject;
     u16 ownerKartIndex;
     u16 targetKartIndex;
@@ -344,7 +344,7 @@ void UpdateItemKouraRState3(void *stateObject) {
     }
 }
 
-void EnterItemKouraRState4(void *stateObject) {
+void EnterItemKouraRHoming(void *stateObject) {
     ItemKouraR *kouraR = stateObject;
     kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mBounce =
         (void (*)(ItemObject *, Vec3 *, Vec3 *)) DeflectItemKouraROnHit;
@@ -352,7 +352,7 @@ void EnterItemKouraRState4(void *stateObject) {
 
 // Runs the two 0x7c/0x4c checks of the object in the 0x1fc word of the 0x1c pointer, then
 // one of the four SteerItemKouraRToKart calls, and stores the 0x24c/0x24e halfwords it picks.
-void UpdateItemKouraRState4(void *stateObject) {
+void UpdateItemKouraRHoming(void *stateObject) {
     ItemKouraR *kouraR = stateObject;
     KartItems *kartItems;
     Kart *kart;
@@ -403,7 +403,7 @@ void UpdateItemKouraRState4(void *stateObject) {
 
 // Checks IsKartNotNormal of the Kart, then the 0x240 counter and the sum of the two
 // squares of the 0x50/0x54/0x58 differences against the 0x1d0/0x1d4/0x1e0 square.
-void UpdateItemKouraRState5(void *stateObject) {
+void UpdateItemKouraRCloseIn(void *stateObject) {
     ItemKouraR *kouraR = stateObject;
     KartItems *kartItems;
     Kart *kart;
@@ -437,7 +437,7 @@ void UpdateItemKouraRState5(void *stateObject) {
 }
 
 // Runs AdvanceItemObjectMotion and hands StartItemKouraRSound to AddSoundRequest when the 0x74 bit 0 is clear.
-void UpdateItemKouraRState6(void *stateObject) {
+void UpdateItemKouraRGlideToKartVelocity(void *stateObject) {
     ItemKouraR *kouraR = stateObject;
     AdvanceItemObjectMotion(&kouraR->mLinkFollowingItemObject.mDirectedItemObject, 0xc000);
     if (kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 1) {
@@ -566,8 +566,8 @@ void InitItemKouraRFromData(ItemKouraR *kouraR) {
 
 // Returns 1 while GetKart(b) is within the 0x1d0/0x1d4 radius of the 0x50/0x54/0x58
 // words, or when the 0xda halfword is -1; otherwise sets the 0x24c/0x24e halfwords, returns 0.
-// Returns FALSE when it requested state 5 because the shell is not yet at the kart.
-BOOL RequestItemKouraRState5IfFar(void *kouraParam, s32 kartIndex) {
+// Returns FALSE when it requested CloseIn because the shell is not yet at the kart.
+BOOL RequestItemKouraRCloseInIfFar(void *kouraParam, s32 kartIndex) {
     ItemKouraR *kouraR;
     Kart *kart;
     s32 deltaZ;

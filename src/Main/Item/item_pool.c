@@ -351,7 +351,7 @@ BOOL ApplyItemObjectEventById(ItemPool *pool, s32 eventByte, s32 objectId) {
                 break;
             case 3:
                 if (pool->mKind == ITEM_OBJECT_KIND_KOURA_R) {
-                    if (RequestItemKouraRState5IfFar(object, eventValue) == 0) {
+                    if (RequestItemKouraRCloseInIfFar(object, eventValue) == 0) {
                         break;
                     }
                 }
@@ -390,7 +390,7 @@ BOOL SetItemObjectKartFromPacket(ItemPool *pool, u8 *packet) {
         found = TRUE;
         value = packet[2];
         if (pool->mKind == ITEM_OBJECT_KIND_KOURA_R) {
-            RequestItemKouraRState4ForKart((ItemKouraR *) object, value);
+            RequestItemKouraRHomingForKart((ItemKouraR *) object, value);
         }
         if (pool->mKind == ITEM_OBJECT_KIND_KOURA_W) {
             SetItemKouraWKartItemsAndStateIfNone((ItemKouraW *) object, value);
