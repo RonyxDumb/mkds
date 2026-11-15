@@ -113,7 +113,7 @@ void AddGhostDataBlock(void *data, u32 size) {
     u16 index = gConnectionWork->mGhostBlockCount;
     WBT_RegisterBlock(&gConnectionWork->mBlockEntries[index].mNode, (u16) (index + 0x3e8), gGhostBlockInfo, data, size,
                       0);
-    gConnectionWork->mBlockEntries[index].mBuffer = (u32 *) data;
+    gConnectionWork->mBlockEntries[index].mBuffer = data;
     gConnectionWork->mGhostBlockCount++;
 }
 
