@@ -34,61 +34,61 @@ void ExpireWhileRequestedSounds(SoundSource *source) {
     if (gSoundModeHolder.mSoundsEnabled == 0) {
         return;
     }
-    if ((source->mSourceFlags & 1) == 0) {
-        if (source->mSourceFlags & 2) {
+    if ((source->mSourceFlags & SOUND_SOURCE_FLAG_ENABLED) == 0) {
+        if (source->mSourceFlags & SOUND_SOURCE_FLAG_WAS_ENABLED) {
             StopSoundsStartedWhileRequested(source, 0);
         }
-        source->mSourceFlags &= ~2;
-        if ((source->mSourceFlags & 4) == 0) {
+        source->mSourceFlags &= ~SOUND_SOURCE_FLAG_WAS_ENABLED;
+        if ((source->mSourceFlags & SOUND_SOURCE_FLAG_TOGGLE_ENABLED) == 0) {
             return;
         }
-        if ((source->mSourceFlags & 1) == 0) {
-            source->mSourceFlags |= 1;
+        if ((source->mSourceFlags & SOUND_SOURCE_FLAG_ENABLED) == 0) {
+            source->mSourceFlags |= SOUND_SOURCE_FLAG_ENABLED;
         } else {
-            source->mSourceFlags &= ~1;
+            source->mSourceFlags &= ~SOUND_SOURCE_FLAG_ENABLED;
         }
-        source->mSourceFlags &= ~4;
+        source->mSourceFlags &= ~SOUND_SOURCE_FLAG_TOGGLE_ENABLED;
         return;
     }
-    source->mSourceFlags |= 2;
-    if (source->mSourceFlags & 4) {
-        if ((source->mSourceFlags & 1) == 0) {
-            source->mSourceFlags |= 1;
+    source->mSourceFlags |= SOUND_SOURCE_FLAG_WAS_ENABLED;
+    if (source->mSourceFlags & SOUND_SOURCE_FLAG_TOGGLE_ENABLED) {
+        if ((source->mSourceFlags & SOUND_SOURCE_FLAG_ENABLED) == 0) {
+            source->mSourceFlags |= SOUND_SOURCE_FLAG_ENABLED;
         } else {
-            source->mSourceFlags &= ~1;
+            source->mSourceFlags &= ~SOUND_SOURCE_FLAG_ENABLED;
         }
-        source->mSourceFlags &= ~4;
+        source->mSourceFlags &= ~SOUND_SOURCE_FLAG_TOGGLE_ENABLED;
     }
     sound = source->mPlayingSounds.mHead;
     while (sound != NULL) {
-        wasRequestedAgain = (sound->mFlags & 8) != 0;
-        sound->mFlags &= ~8;
+        wasRequestedAgain = (sound->mFlags & PLAYING_SOUND_FLAG_REQUESTED_AGAIN) != 0;
+        sound->mFlags &= ~PLAYING_SOUND_FLAG_REQUESTED_AGAIN;
         if (sound->mSeqPlayer != NULL) {
-            if (sound->mFlags & 4) {
+            if (sound->mFlags & PLAYING_SOUND_FLAG_WHILE_REQUESTED) {
                 if (wasRequestedAgain == 0) {
                     removedSound = sound;
                     sound = NNS_FndGetNextListObject(&source->mPlayingSounds, sound);
                     NNS_SndPlayerStopSeq(&removedSound->mSeqPlayer, 0);
-                    removedSound->mFlags &= ~4;
-                    removedSound->mFlags &= ~8;
-                    removedSound->mFlags &= ~2;
+                    removedSound->mFlags &= ~PLAYING_SOUND_FLAG_WHILE_REQUESTED;
+                    removedSound->mFlags &= ~PLAYING_SOUND_FLAG_REQUESTED_AGAIN;
+                    removedSound->mFlags &= ~PLAYING_SOUND_FLAG_START_PENDING;
                     RemoveListObject(&source->mPlayingSounds, removedSound);
                     value = 1;
                     continue;
                 }
-            } else if (sound->mFlags & 1) {
+            } else if (sound->mFlags & PLAYING_SOUND_FLAG_UPDATE_IN_TURNS) {
                 if (source->mUpdateListIndex == SOUND_SOURCE_LIST_NONE) {
                     TryAppendListObject(&gSoundSourceSecondUpdateList, source);
                     source->mUpdateListIndex = SOUND_SOURCE_LIST_IN_TURNS;
                 }
             }
-        } else if ((sound->mFlags & 2) == 0) {
+        } else if ((sound->mFlags & PLAYING_SOUND_FLAG_START_PENDING) == 0) {
             removedSound = sound;
             sound = NNS_FndGetNextListObject(&source->mPlayingSounds, sound);
             NNS_SndPlayerStopSeq(&removedSound->mSeqPlayer, 0);
-            removedSound->mFlags &= ~4;
-            removedSound->mFlags &= ~8;
-            removedSound->mFlags &= ~2;
+            removedSound->mFlags &= ~PLAYING_SOUND_FLAG_WHILE_REQUESTED;
+            removedSound->mFlags &= ~PLAYING_SOUND_FLAG_REQUESTED_AGAIN;
+            removedSound->mFlags &= ~PLAYING_SOUND_FLAG_START_PENDING;
             RemoveListObject(&source->mPlayingSounds, removedSound);
             value = 1;
             continue;
@@ -101,11 +101,11 @@ void ExpireWhileRequestedSounds(SoundSource *source) {
     value = SOUND_SOURCE_LIST_NONE;
     for (sound = source->mPlayingSounds.mHead; sound != NULL;
          sound = NNS_FndGetNextListObject(&source->mPlayingSounds, sound)) {
-        if (sound->mFlags & 2) {
+        if (sound->mFlags & PLAYING_SOUND_FLAG_START_PENDING) {
             value = SOUND_SOURCE_LIST_EVERY_CALL;
             break;
         }
-        if (sound->mFlags & 8 || sound->mFlags & 1) {
+        if (sound->mFlags & PLAYING_SOUND_FLAG_REQUESTED_AGAIN || sound->mFlags & PLAYING_SOUND_FLAG_UPDATE_IN_TURNS) {
             value = SOUND_SOURCE_LIST_IN_TURNS;
         }
     }
@@ -147,8 +147,8 @@ u32 SetPlayingSoundsParams(SoundSource *source) {
     params.mPan = 0;
     if (params.mPositionSource == 0) {
         params.mDistance = 0;
-        params.mVolume = 0x7f;
-        params.mVolumeForPriority = 0x7f;
+        params.mVolume = SOUND_VOLUME_MAX;
+        params.mVolumeForPriority = SOUND_VOLUME_MAX;
         params.mPan = 0;
     } else {
         params.mDistance = gSoundDistanceFunction(&params);
@@ -162,10 +162,10 @@ u32 SetPlayingSoundsParams(SoundSource *source) {
     for (sound = source->mPlayingSounds.mHead; sound != NULL;
          sound = NNS_FndGetNextListObject(&source->mPlayingSounds, sound)) {
         priority = -1;
-        if (sound->mFlags & 2) {
+        if (sound->mFlags & PLAYING_SOUND_FLAG_START_PENDING) {
             priority = ComputeSoundPriority(params.mVolumeForPriority, sound->mSeqArcNo, sound->mSoundId);
             source->mStartSeqFunction(source, sound, priority);
-            sound->mFlags &= ~2;
+            sound->mFlags &= ~PLAYING_SOUND_FLAG_START_PENDING;
         }
         if (sound->mSeqPlayer != NULL) {
             if (priority == -1) {
@@ -190,7 +190,7 @@ PlayingSound *StartSoundEx(SoundSource *source, u32 seqArcNo, u32 soundId, u32 v
     if (gSoundModeHolder.mSoundsEnabled == 0) {
         return sound;
     }
-    if ((source->mSourceFlags & 1) == 0) {
+    if ((source->mSourceFlags & SOUND_SOURCE_FLAG_ENABLED) == 0) {
         return sound;
     }
     for (candidate = source->mPlayingSounds.mHead; candidate != NULL;
@@ -204,7 +204,7 @@ PlayingSound *StartSoundEx(SoundSource *source, u32 seqArcNo, u32 soundId, u32 v
             candidate->mSoundId = 0;
             candidate->mFlags = 0;
             candidate->mPitch = 0;
-            candidate->mVolume = 0x7f;
+            candidate->mVolume = SOUND_VOLUME_MAX;
             sound = candidate;
             break;
         }
@@ -225,10 +225,10 @@ PlayingSound *StartSoundEx(SoundSource *source, u32 seqArcNo, u32 soundId, u32 v
     sound->mSoundId = 0;
     sound->mFlags = 0;
     sound->mPitch = 0;
-    sound->mVolume = 0x7f;
+    sound->mVolume = SOUND_VOLUME_MAX;
     sound->mSeqArcNo = seqArcNo;
     sound->mSoundId = soundId;
-    sound->mFlags |= 2;
+    sound->mFlags |= PLAYING_SOUND_FLAG_START_PENDING;
     sound->mVolume = volume;
     sound->mPitch = pitch;
     TryAppendListObject(&source->mPlayingSounds, sound);
@@ -253,16 +253,16 @@ PlayingSound *StartSoundWhileRequestedEx(SoundSource *source, u32 seqArcNo, u32 
     if (gSoundModeHolder.mSoundsEnabled == 0) {
         return sound;
     }
-    if ((source->mSourceFlags & 1) == 0) {
+    if ((source->mSourceFlags & SOUND_SOURCE_FLAG_ENABLED) == 0) {
         return sound;
     }
     for (candidate = source->mPlayingSounds.mHead; candidate != NULL;
          candidate = NNS_FndGetNextListObject(&source->mPlayingSounds, candidate)) {
-        if (candidate->mFlags & 4) {
+        if (candidate->mFlags & PLAYING_SOUND_FLAG_WHILE_REQUESTED) {
             matches = (candidate->mSoundId == soundId) && (candidate->mSeqArcNo == seqArcNo);
             if (matches) {
                 if (candidate->mSeqPlayer != NULL) {
-                    candidate->mFlags |= 8;
+                    candidate->mFlags |= PLAYING_SOUND_FLAG_REQUESTED_AGAIN;
                     candidate->mVolume = volume;
                     candidate->mPitch = pitch;
                     if (source->mUpdateListIndex == SOUND_SOURCE_LIST_NONE) {
@@ -278,7 +278,7 @@ PlayingSound *StartSoundWhileRequestedEx(SoundSource *source, u32 seqArcNo, u32 
                 candidate->mSoundId = 0;
                 candidate->mFlags = 0;
                 candidate->mPitch = 0;
-                candidate->mVolume = 0x7f;
+                candidate->mVolume = SOUND_VOLUME_MAX;
                 sound = candidate;
                 break;
             }
@@ -300,14 +300,14 @@ PlayingSound *StartSoundWhileRequestedEx(SoundSource *source, u32 seqArcNo, u32 
     sound->mSoundId = 0;
     sound->mFlags = 0;
     sound->mPitch = 0;
-    sound->mVolume = 0x7f;
+    sound->mVolume = SOUND_VOLUME_MAX;
     sound->mSeqArcNo = seqArcNo;
     sound->mSoundId = soundId;
-    sound->mFlags |= 2;
+    sound->mFlags |= PLAYING_SOUND_FLAG_START_PENDING;
     sound->mVolume = volume;
     sound->mPitch = pitch;
-    sound->mFlags |= 4;
-    sound->mFlags |= 8;
+    sound->mFlags |= PLAYING_SOUND_FLAG_WHILE_REQUESTED;
+    sound->mFlags |= PLAYING_SOUND_FLAG_REQUESTED_AGAIN;
     TryAppendListObject(&source->mPlayingSounds, sound);
     if (source->mUpdateListIndex != SOUND_SOURCE_LIST_EVERY_CALL) {
         if (source->mUpdateListIndex != SOUND_SOURCE_LIST_NONE) {
@@ -349,19 +349,19 @@ void StopPlayingSound(SoundSource *source, PlayingSound *sound, u32 fadeSteps) {
     u32 soundFlags;
 
     NNS_SndPlayerStopSeq(&sound->mSeqPlayer, fadeSteps);
-    sound->mFlags &= ~4;
-    sound->mFlags &= ~8;
-    sound->mFlags &= ~2;
+    sound->mFlags &= ~PLAYING_SOUND_FLAG_WHILE_REQUESTED;
+    sound->mFlags &= ~PLAYING_SOUND_FLAG_REQUESTED_AGAIN;
+    sound->mFlags &= ~PLAYING_SOUND_FLAG_START_PENDING;
     RemoveListObject(&source->mPlayingSounds, sound);
     updateListIndex = SOUND_SOURCE_LIST_NONE;
     for (entry = source->mPlayingSounds.mHead; entry != NULL;
          entry = NNS_FndGetNextListObject(&source->mPlayingSounds, entry)) {
         soundFlags = entry->mFlags;
-        if (soundFlags & 2) {
+        if (soundFlags & PLAYING_SOUND_FLAG_START_PENDING) {
             updateListIndex = SOUND_SOURCE_LIST_EVERY_CALL;
             break;
         }
-        if (soundFlags & 8 || soundFlags & 1) {
+        if (soundFlags & PLAYING_SOUND_FLAG_REQUESTED_AGAIN || soundFlags & PLAYING_SOUND_FLAG_UPDATE_IN_TURNS) {
             updateListIndex = SOUND_SOURCE_LIST_IN_TURNS;
         }
     }
@@ -382,9 +382,9 @@ void StopAllSoundsAndReleaseSoundSource(SoundSource *source) {
 
     for (sound = source->mPlayingSounds.mHead; sound != NULL; sound = source->mPlayingSounds.mHead) {
         NNS_SndPlayerStopSeq(&sound->mSeqPlayer, 0);
-        sound->mFlags &= ~4;
-        sound->mFlags &= ~8;
-        sound->mFlags &= ~2;
+        sound->mFlags &= ~PLAYING_SOUND_FLAG_WHILE_REQUESTED;
+        sound->mFlags &= ~PLAYING_SOUND_FLAG_REQUESTED_AGAIN;
+        sound->mFlags &= ~PLAYING_SOUND_FLAG_START_PENDING;
         RemoveListObject(&source->mPlayingSounds, sound);
     }
     if (source->mUpdateListIndex != SOUND_SOURCE_LIST_NONE) {
@@ -403,13 +403,13 @@ void StopSoundsStartedWhileRequested(SoundSource *source, u32 fadeSteps) {
     value = 0;
     sound = source->mPlayingSounds.mHead;
     while (sound != NULL) {
-        if (sound->mFlags & 4) {
+        if (sound->mFlags & PLAYING_SOUND_FLAG_WHILE_REQUESTED) {
             removedSound = sound;
             sound = NNS_FndGetNextListObject(&source->mPlayingSounds, sound);
             NNS_SndPlayerStopSeq(&removedSound->mSeqPlayer, fadeSteps);
-            removedSound->mFlags &= ~4;
-            removedSound->mFlags &= ~8;
-            removedSound->mFlags &= ~2;
+            removedSound->mFlags &= ~PLAYING_SOUND_FLAG_WHILE_REQUESTED;
+            removedSound->mFlags &= ~PLAYING_SOUND_FLAG_REQUESTED_AGAIN;
+            removedSound->mFlags &= ~PLAYING_SOUND_FLAG_START_PENDING;
             RemoveListObject(&source->mPlayingSounds, removedSound);
             value = 1;
             continue;
@@ -423,11 +423,11 @@ void StopSoundsStartedWhileRequested(SoundSource *source, u32 fadeSteps) {
     for (sound = source->mPlayingSounds.mHead; sound != NULL;
          sound = NNS_FndGetNextListObject(&source->mPlayingSounds, sound)) {
         soundFlags = sound->mFlags;
-        if (soundFlags & 2) {
+        if (soundFlags & PLAYING_SOUND_FLAG_START_PENDING) {
             value = SOUND_SOURCE_LIST_EVERY_CALL;
             break;
         }
-        if (soundFlags & 8 || soundFlags & 1) {
+        if (soundFlags & PLAYING_SOUND_FLAG_REQUESTED_AGAIN || soundFlags & PLAYING_SOUND_FLAG_UPDATE_IN_TURNS) {
             value = SOUND_SOURCE_LIST_IN_TURNS;
         }
     }

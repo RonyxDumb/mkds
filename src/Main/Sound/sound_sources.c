@@ -38,7 +38,7 @@ void InitPlayingSoundPool(PlayingSound *sounds, s32 count) {
         sounds->mSoundId = 0;
         sounds->mFlags = 0;
         sounds->mPitch = 0;
-        sounds->mVolume = 0x7f;
+        sounds->mVolume = SOUND_VOLUME_MAX;
         sounds++;
     }
     NNS_FndInitList(&gSoundSources, 0);
@@ -121,9 +121,9 @@ void StopSoundsOnAllSources(u32 fadeSteps) {
         if (sound != NULL) {
             do {
                 NNS_SndPlayerStopSeq(&sound->mSeqPlayer, fadeSteps);
-                sound->mFlags &= ~4;
-                sound->mFlags &= ~8;
-                sound->mFlags &= ~2;
+                sound->mFlags &= ~PLAYING_SOUND_FLAG_WHILE_REQUESTED;
+                sound->mFlags &= ~PLAYING_SOUND_FLAG_REQUESTED_AGAIN;
+                sound->mFlags &= ~PLAYING_SOUND_FLAG_START_PENDING;
                 RemoveListObject(&source->mPlayingSounds, sound);
                 sound = source->mPlayingSounds.mHead;
             } while (sound != NULL);
@@ -155,9 +155,9 @@ void StopAllPlayingSounds(u32 fadeSteps) {
     entryAddress = gPlayingSoundPool.mEntries;
     for (soundIndex = 0; soundIndex < gPlayingSoundPool.mCount; soundIndex++) {
         NNS_SndPlayerStopSeq(&((PlayingSound *) entryAddress)->mSeqPlayer, fadeSteps);
-        ((PlayingSound *) entryAddress)->mFlags &= ~4;
-        ((PlayingSound *) entryAddress)->mFlags &= ~8;
-        ((PlayingSound *) entryAddress)->mFlags &= ~2;
+        ((PlayingSound *) entryAddress)->mFlags &= ~PLAYING_SOUND_FLAG_WHILE_REQUESTED;
+        ((PlayingSound *) entryAddress)->mFlags &= ~PLAYING_SOUND_FLAG_REQUESTED_AGAIN;
+        ((PlayingSound *) entryAddress)->mFlags &= ~PLAYING_SOUND_FLAG_START_PENDING;
         entryAddress += gPlayingSoundPool.mEntrySize;
     }
 }
@@ -202,7 +202,7 @@ void ResetPlayingSound(PlayingSound *sound) {
     sound->mSoundId = 0;
     sound->mFlags = 0;
     sound->mPitch = 0;
-    sound->mVolume = 0x7f;
+    sound->mVolume = SOUND_VOLUME_MAX;
 }
 
 // Every caller passes bit 2 with 1: the sound pass then flips bit 0 and clears bit 2.
@@ -217,9 +217,9 @@ void SetSoundSourceFlagBit(SoundSource *source, s32 bit, s32 value) {
 // Bit 0 of the flag word: a sound can start on the source only while it is set.
 void SetSoundSourceEnabled(SoundSource *source, s32 enabled) {
     if (enabled == 1) {
-        source->mSourceFlags |= 1;
+        source->mSourceFlags |= SOUND_SOURCE_FLAG_ENABLED;
     } else {
-        source->mSourceFlags &= ~1;
+        source->mSourceFlags &= ~SOUND_SOURCE_FLAG_ENABLED;
     }
 }
 

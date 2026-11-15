@@ -11,6 +11,25 @@
 #define SOUND_SOURCE_LIST_IN_TURNS 1
 #define SOUND_SOURCE_LIST_NONE 3
 
+// Bits of SoundSource.mSourceFlags. Enabled: sounds may be started on the source. WasEnabled: set by
+// ExpireWhileRequestedSounds while enabled, so that the sounds started while requested are stopped once it is not.
+// ToggleEnabled: flips the enabled bit at the next ExpireWhileRequestedSounds call.
+#define SOUND_SOURCE_FLAG_ENABLED 1
+#define SOUND_SOURCE_FLAG_WAS_ENABLED 2
+#define SOUND_SOURCE_FLAG_TOGGLE_ENABLED 4
+
+// Bits of PlayingSound.mFlags. StartPending: set when the sound is started, cleared once SetPlayingSoundsParams has
+// started its sequence. WhileRequested: started by StartSoundWhileRequestedEx. RequestedAgain: set by each request
+// of a WhileRequested sound, cleared by ExpireWhileRequestedSounds. UpdateInTurns: keeps the source on the in-turns
+// update list.
+#define PLAYING_SOUND_FLAG_UPDATE_IN_TURNS 1
+#define PLAYING_SOUND_FLAG_START_PENDING 2
+#define PLAYING_SOUND_FLAG_WHILE_REQUESTED 4
+#define PLAYING_SOUND_FLAG_REQUESTED_AGAIN 8
+
+// Largest volume of a sound (PlayingSound.mVolume, SoundParams.mVolume).
+#define SOUND_VOLUME_MAX 0x7f
+
 // Sound source: the object a sound is started on. Kart, ItemObject and the object behind MapObject.mUnk_94 embed it as
 // their first member. A sound is started on it only while bit 0 of its mUnk_34 member is set.
 typedef struct SoundSource {

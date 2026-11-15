@@ -1,4 +1,5 @@
 #include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/sound_mode.h"
 #include "code_0212d214.h"
 
 #include "Main/Sound/data_0216c000.h"
@@ -66,9 +67,9 @@ void UnlinkSoundSourceSounds(SoundSource *source) {
 
 void StopPlayingSoundSeq(PlayingSound *sound, u32 fadeSteps) {
     NNS_SndPlayerStopSeq(&sound->mSeqPlayer, fadeSteps);
-    sound->mFlags &= ~4;
-    sound->mFlags &= ~8;
-    sound->mFlags &= ~2;
+    sound->mFlags &= ~PLAYING_SOUND_FLAG_WHILE_REQUESTED;
+    sound->mFlags &= ~PLAYING_SOUND_FLAG_REQUESTED_AGAIN;
+    sound->mFlags &= ~PLAYING_SOUND_FLAG_START_PENDING;
 }
 
 void RefreshSoundSourceUpdateList(SoundSource *source) {
@@ -76,16 +77,16 @@ void RefreshSoundSourceUpdateList(SoundSource *source) {
     u32 updateListIndex;
     u8 soundFlags;
 
-    updateListIndex = 3;
+    updateListIndex = SOUND_SOURCE_LIST_NONE;
     for (sound = source->mPlayingSounds.mHead; sound != NULL;
          sound = NNS_FndGetNextListObject(&source->mPlayingSounds, sound)) {
         soundFlags = sound->mFlags;
-        if (soundFlags & 2) {
-            updateListIndex = 0;
+        if (soundFlags & PLAYING_SOUND_FLAG_START_PENDING) {
+            updateListIndex = SOUND_SOURCE_LIST_EVERY_CALL;
             break;
         }
-        if (soundFlags & 8 || soundFlags & 1) {
-            updateListIndex = 1;
+        if (soundFlags & PLAYING_SOUND_FLAG_REQUESTED_AGAIN || soundFlags & PLAYING_SOUND_FLAG_UPDATE_IN_TURNS) {
+            updateListIndex = SOUND_SOURCE_LIST_IN_TURNS;
         }
     }
     if (source->mUpdateListIndex != updateListIndex) {
@@ -93,7 +94,7 @@ void RefreshSoundSourceUpdateList(SoundSource *source) {
             RemoveListObject(&gSoundSourceUpdateLists[source->mUpdateListIndex], source);
             source->mUpdateListIndex = SOUND_SOURCE_LIST_NONE;
         }
-        if (updateListIndex != 3) {
+        if (updateListIndex != SOUND_SOURCE_LIST_NONE) {
             TryAppendListObject(&gSoundSourceUpdateLists[updateListIndex], source);
             source->mUpdateListIndex = updateListIndex;
         }
@@ -137,10 +138,10 @@ u32 StartOrUpdateSndHandleSound(u32 seqArcNo, u32 soundId, Vec3 *positionSource,
 
     startsNewSound = 0;
     runThisCall = startsNewSound;
-    if (gSoundModeHolder.mMode == 4) {
+    if (gSoundModeHolder.mMode == SCENE_SOUND_MODE_FADED_OUT) {
         return startsNewSound;
     }
-    if (gSoundModeHolder.mMode == 0) {
+    if (gSoundModeHolder.mMode == SCENE_SOUND_MODE_STOPPED) {
         return startsNewSound;
     }
     if (*handle == NULL) {
@@ -164,8 +165,8 @@ u32 StartOrUpdateSndHandleSound(u32 seqArcNo, u32 soundId, Vec3 *positionSource,
     params.mPan = 0;
     if (positionSource == 0) {
         params.mDistance = 0;
-        params.mVolume = 0x7f;
-        params.mVolumeForPriority = 0x7f;
+        params.mVolume = SOUND_VOLUME_MAX;
+        params.mVolumeForPriority = SOUND_VOLUME_MAX;
         params.mPan = 0;
     } else {
         params.mDistance = gSoundDistanceFunction(&params);
