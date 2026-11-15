@@ -2,6 +2,7 @@
 
 #include "types.h"
 
+// The application mode in the low four bits and its flags in the rest.
 typedef union ModeAndFlags {
     /* 00 */ u32 mValue;
     struct {

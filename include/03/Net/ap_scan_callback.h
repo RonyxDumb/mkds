@@ -7,6 +7,7 @@
 #include "03/Menu/wifi_menu_shared.h"
 #include "code_02142eac.h"
 
+// The result of an access point scan: the error code, state, channel list and the found devices with their link levels.
 typedef struct WMStartScanExCallback {
     /* 00 */ u16 mUnk_00;
     /* 02 */ u16 mErrcode;

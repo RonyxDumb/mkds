@@ -6,6 +6,7 @@
 
 typedef struct NNSSndArc NNSSndArc;
 
+// The sound data: the sound archive, sequence player, file data and the task that drives it.
 typedef struct SoundData {
     /* 00 */ NNSSndArc mArc;
     /* 90 */ NNSSndSeqPlayer *mSeqPlayer;

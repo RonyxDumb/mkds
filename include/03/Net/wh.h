@@ -43,6 +43,7 @@ enum {
     WH_STATE_FAILED,
 };
 
+// The Wi-Fi host work: its parent parameters, state, connect mode and callback, connected mask and channel choice.
 typedef struct WhWork {
     /* 0000 */ ParentParameter mParentParameter;
     /* 0038 */ u8 pad_38[8];

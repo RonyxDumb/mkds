@@ -18,6 +18,7 @@
 #include "03/System/tasks.h"
 #include "03/types_021d299c.h"
 
+// The list of Wi-Fi ids: its text canvas, cell objects, scroll tasks, chosen and return id and scroll bar flags.
 typedef struct Jb3List {
     /* 00 */ TaskEntry *mIdTimerTask;
     /* 04 */ u8 mIdTimer[4];
@@ -82,6 +83,7 @@ enum {
     EDIT_KEY_DOWN_FROM_BOTTOM_RIGHT = -5,
 };
 
+// The text entry keyboard: its key objects, cursor, step task, current page and the pressed and highlighted keys.
 typedef struct EditKeyboard {
     /* 000 */ void *mRowTexts[3][4];
     /* 030 */ OamEntry *mKeys[0x2f];
@@ -193,6 +195,7 @@ enum {
     CHILD_WAIT_CODE_HANDSHAKE_ACK = 0xbd,
 };
 
+// One entry of the child wait session: a code, a value and the payload bytes.
 typedef struct ChildWaitSharedEntry {
     /* 00 */ u16 mCode;
     /* 02 */ u16 mValue;
@@ -231,6 +234,7 @@ typedef struct ChildWaitSessionView {
     /* b00 */ u8 mMultiBootParent[4];
 } ChildWaitSessionView;
 
+// The child wait session: the session view, the child user, the event callback, step task and event and stop flags.
 typedef struct ChildWaitSession {
     /* 00000 */ ChildWaitSessionView mSession;
     /* 00b04 */ u8 pad_00b04[0x1e280 - 0xb04];

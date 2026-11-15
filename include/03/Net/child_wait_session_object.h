@@ -5,6 +5,7 @@
 
 typedef struct ChildWaitSession ChildWaitSession;
 
+// The parameters of a child wait session: file paths, game name and introduction text, game id and handshake byte.
 typedef struct ChildWaitParams {
     /* 00 */ void *mRomFilePathp;
     /* 04 */ void *mGameNamep;

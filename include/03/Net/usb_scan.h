@@ -18,6 +18,7 @@
 
 extern const u8 gUsbScanEmptyBssid[6];
 
+// One scanned device: its BSSID and a flag.
 typedef struct UsbScanEntry {
     /* 0 */ u8 mBssid[6];
     /* 6 */ u8 mFlag;

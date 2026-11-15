@@ -35,10 +35,12 @@ typedef struct WepKey5 {
     /* 0 */ u8 mBytes[5];
 } WepKey5;
 
+// A thirteen byte WEP key.
 typedef struct WepKey13 {
     /* 0 */ u8 mBytes[13];
 } WepKey13;
 
+// A sixteen byte WEP key.
 typedef struct WepKey16 {
     /* 0 */ u8 mBytes[16];
 } WepKey16;

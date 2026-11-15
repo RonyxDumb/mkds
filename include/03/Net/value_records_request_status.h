@@ -2,6 +2,7 @@
 
 #include "types.h"
 
+// One item of a value records request: its type, length and bytes.
 typedef struct ValueRecordsRequestItem {
     /* 000 */ u8 mItemType;
     /* 002 */ u16 mItemLength;

@@ -11,6 +11,7 @@ struct TaskEntry;
 
 typedef void (*TaskCallback)(struct TaskEntry *task, void *arg);
 
+// A scheduled task: its list links, callback and argument, priority and whether the argument is freed with it.
 typedef struct TaskEntry {
     /* 00 */ struct TaskEntry *mPrev;
     /* 04 */ struct TaskEntry *mNext;
@@ -21,6 +22,7 @@ typedef struct TaskEntry {
     /* 12 */ u8 mUnk_12[2];
 } TaskEntry;
 
+// A list of tasks: the free entry stack, the linked list ends, the capacity and the entry storage.
 typedef struct TaskList {
     /* 00 */ PointerStack *mFreeEntries;
     /* 04 */ struct PointerStack *mResource;
