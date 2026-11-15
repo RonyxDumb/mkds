@@ -33,6 +33,26 @@ enum {
     RECORD_TATT_STATE_SLIDE_IN_AFTER_TIME_TEXT,
 };
 
+// Frames of each slide of the screen (cells and BG layers); the cells travel RECORD_TATT_SLIDE_DISTANCE sideways, the
+// top layer RECORD_TATT_TOP_SLIDE_DISTANCE.
+#define RECORD_TATT_SLIDE_FRAMES 10
+#define RECORD_TATT_SLIDE_DISTANCE 256
+#define RECORD_TATT_TOP_SLIDE_DISTANCE 192
+
+// Frames of the press animation of a row (GetSelectedPressOffset).
+#define RECORD_TATT_PRESS_FRAMES 10
+
+// Frames into the slide out that hides the cells 12 and 13 of the sub layout table, and into the slide in that shows
+// cell 12 again, when the clear prompt or the time text opens or closes.
+#define RECORD_TATT_HIDE_CELLS_FRAME 7
+#define RECORD_TATT_SHOW_CELL_FRAME 2
+
+// Frames the cells of a row shift after a left or right press (RecordTAtt.mOffsetTimers count them down).
+#define RECORD_TATT_OFFSET_TIMER_FRAMES 6
+
+// Length of the button sequence that gRecordTAttButtonSequence lists and mButtonSequenceIndex walks.
+#define RECORD_TATT_BUTTON_SEQUENCE_LENGTH 6
+
 typedef struct RecordTAtt {
     /* 00 */ Ncgr *mRecordTAttMNcgr;
     /* 04 */ struct NNSG2dCellDataBank *mRecordTAttMNcer;
@@ -178,7 +198,7 @@ extern const u16 gRecordTAttRunningSTableIndices[2];
 extern const u16 gRecordTAttNameLabelIndices[5];
 extern const u16 gRecordTAttNameLabelWidths[5];
 extern const u16 gRecordTAttNameLabelHeights[5];
-extern const u16 gRecordTAttButtonSequence[6];
+extern const u16 gRecordTAttButtonSequence[RECORD_TATT_BUTTON_SEQUENCE_LENGTH];
 extern const u16 gRecordTAttTimeLabelHeights[5];
 extern const u16 gRecordTAttTimeLabelIndices[5];
 extern const u16 gRecordTAttOffsetSTableIndices[5];
