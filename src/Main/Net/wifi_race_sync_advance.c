@@ -715,12 +715,12 @@ u32 GetWiFiRaceSyncPickedValue(void) {
 void UpdateWiFiRaceSyncSharedState(void) {
     WiFiRaceSync *sync;
     u8 value;
-    u8 sharedState5Mask;
+    u8 allPeersPickedMask;
     u8 participant;
     enum { PARTICIPANT_BIT_NONE } participantBit;
 
     value = 0;
-    sharedState5Mask = 0;
+    allPeersPickedMask = 0;
     sync = gWiFiRaceSync;
     switch (sync->mSharedState) {
         case WIFI_RACE_SHARED_STATE_PICKED_QUIT:
@@ -743,18 +743,18 @@ void UpdateWiFiRaceSyncSharedState(void) {
                 participantBit = 1 << value;
                 if ((sync->mParticipantMask & participantBit) != 0 &&
                     sync->mPeerSharedStates[value] == WIFI_RACE_SHARED_STATE_ALL_PEERS_PICKED) {
-                    sharedState5Mask = sharedState5Mask | participantBit;
+                    allPeersPickedMask = allPeersPickedMask | participantBit;
                 }
             }
-            if ((sync->mParticipantMask & ~sharedState5Mask) == 0) {
+            if ((sync->mParticipantMask & ~allPeersPickedMask) == 0) {
                 sync->mFlags = sync->mFlags | WIFI_RACE_SYNC_FLAG_PEERS_SYNCED;
             }
-            if ((gWiFiRaceSync->mParticipantMask | ~sharedState5Mask) != 0) {
+            if ((gWiFiRaceSync->mParticipantMask | ~allPeersPickedMask) != 0) {
                 gWiFiRaceSync->mFlags = gWiFiRaceSync->mFlags | WIFI_RACE_SYNC_FLAG_PEERS_SYNCED;
             }
             break;
     }
-    if ((gWiFiRaceSync->mParticipantMask & ~sharedState5Mask) == 0) {
+    if ((gWiFiRaceSync->mParticipantMask & ~allPeersPickedMask) == 0) {
         gWiFiRaceSync->mSharedState = WIFI_RACE_SHARED_STATE_ALL_PEERS_PICKED;
     }
 }
