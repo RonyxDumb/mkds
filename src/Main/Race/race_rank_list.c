@@ -80,10 +80,10 @@ void InitRaceRankList(void) {
     }
     gRaceRankList->mSlideX = 0;
     gRaceRankList->mOamMatrixIndex = 0;
-    gRaceRankList->mMatrix.a[0] = 0xc4e;
-    gRaceRankList->mMatrix.a[1] = 0;
-    gRaceRankList->mMatrix.a[2] = 0;
-    gRaceRankList->mMatrix.a[3] = 0xc4e;
+    gRaceRankList->mMatrix.mElements[0] = 0xc4e;
+    gRaceRankList->mMatrix.mElements[1] = 0;
+    gRaceRankList->mMatrix.mElements[2] = 0;
+    gRaceRankList->mMatrix.mElements[3] = 0xc4e;
     gRaceRankList->mMoveFrames = 0;
 }
 
@@ -201,10 +201,10 @@ void DrawRaceRankList(RaceHudOamBuffer *oamBuffer) {
     }
     matrix = &gRaceRankList->mMatrix;
     oams = &oamBuffer->mOams[gRaceRankList->mOamMatrixIndex * 4];
-    oams[0].mAttrs[3] = matrix->a[0] >> 4;
-    oams[1].mAttrs[3] = matrix->a[1] >> 4;
-    oams[2].mAttrs[3] = matrix->a[2] >> 4;
-    oams[3].mAttrs[3] = matrix->a[3] >> 4;
+    oams[0].mAttrs[3] = matrix->mElements[0] >> 4;
+    oams[1].mAttrs[3] = matrix->mElements[1] >> 4;
+    oams[2].mAttrs[3] = matrix->mElements[2] >> 4;
+    oams[3].mAttrs[3] = matrix->mElements[3] >> 4;
 }
 
 // Returns the cell index beside the kart (0xc9 = none): cell 0x24 or 0x25, the item just used, the held item or 0x16.

@@ -674,10 +674,10 @@ void DrawRaceHudSubScreenFlipperCells(RaceHudOamBuffer *oamBuffer) {
                 }
             }
             matrixIndex = AllocOamMatrixIndex(oamBuffer);
-            oamBuffer->mMatrices[matrixIndex].mPA = matrix.a[0] >> 4;
-            oamBuffer->mMatrices[matrixIndex].mPB = matrix.a[1] >> 4;
-            oamBuffer->mMatrices[matrixIndex].mPC = matrix.a[2] >> 4;
-            oamBuffer->mMatrices[matrixIndex].mPD = matrix.a[3] >> 4;
+            oamBuffer->mMatrices[matrixIndex].mPA = matrix.mElements[0] >> 4;
+            oamBuffer->mMatrices[matrixIndex].mPB = matrix.mElements[1] >> 4;
+            oamBuffer->mMatrices[matrixIndex].mPC = matrix.mElements[2] >> 4;
+            oamBuffer->mMatrices[matrixIndex].mPD = matrix.mElements[3] >> 4;
             oamIndex = oamBuffer->mOamCount;
             cell = &gRaceHudSubScreenFlipperCells->mCells[cellIndex];
             drawX = cell->mDrawPos.mFirst;

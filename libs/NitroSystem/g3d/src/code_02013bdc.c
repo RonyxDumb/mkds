@@ -614,27 +614,27 @@ void getMdlRot_(NNSG3dJntAnmResult *out) {
             first = vals[0];
             second = vals[1];
             MI_Zero36B(&out->mRot);
-            out->mRot.a[pivot] = (node->mFlag & 0x100) ? -0x1000 : 0x1000;
-            out->mRot.a[gRotPivotIndices[pivot][0]] = first;
-            out->mRot.a[gRotPivotIndices[pivot][1]] = second;
+            out->mRot.mElements[pivot] = (node->mFlag & 0x100) ? -0x1000 : 0x1000;
+            out->mRot.mElements[gRotPivotIndices[pivot][0]] = first;
+            out->mRot.mElements[gRotPivotIndices[pivot][1]] = second;
             if (node->mFlag & 0x200) {
                 second = -second;
             }
-            out->mRot.a[gRotPivotIndices[pivot][2]] = second;
+            out->mRot.mElements[gRotPivotIndices[pivot][2]] = second;
             if (node->mFlag & 0x400) {
                 first = -first;
             }
-            out->mRot.a[gRotPivotIndices[pivot][3]] = first;
+            out->mRot.mElements[gRotPivotIndices[pivot][3]] = first;
         } else {
-            out->mRot.a[0] = node->mRotFirst;
-            out->mRot.a[1] = vals[0];
-            out->mRot.a[2] = vals[1];
-            out->mRot.a[3] = vals[2];
-            out->mRot.a[4] = vals[3];
-            out->mRot.a[5] = vals[4];
-            out->mRot.a[6] = vals[5];
-            out->mRot.a[7] = vals[6];
-            out->mRot.a[8] = vals[7];
+            out->mRot.mElements[0] = node->mRotFirst;
+            out->mRot.mElements[1] = vals[0];
+            out->mRot.mElements[2] = vals[1];
+            out->mRot.mElements[3] = vals[2];
+            out->mRot.mElements[4] = vals[3];
+            out->mRot.mElements[5] = vals[4];
+            out->mRot.mElements[6] = vals[5];
+            out->mRot.mElements[7] = vals[6];
+            out->mRot.mElements[8] = vals[7];
         }
     } else {
         out->mFlag |= 2;
@@ -1363,44 +1363,45 @@ BOOL getRotDataByIdx_(MtxFx33 *out, const s16 *rot3, const s16 *rot5, u32 info) 
     s32 header;
 
     if (info & 0x8000) {
-        out->a[0] = out->a[1] = out->a[2] = out->a[3] = out->a[4] = out->a[5] = out->a[6] = out->a[7] = out->a[8] = 0;
+        out->mElements[0] = out->mElements[1] = out->mElements[2] = out->mElements[3] = out->mElements[4] =
+            out->mElements[5] = out->mElements[6] = out->mElements[7] = out->mElements[8] = 0;
         info = (info & 0x7fff) * 3;
         rotEntry = rot3 + info;
         header = rot3[info];
         axisIndex = header & 0xf;
         valueX = rotEntry[1];
         valueY = rotEntry[2];
-        out->a[axisIndex] = (header & 0x10) ? -0x1000 : 0x1000;
-        out->a[gRotPivotIndices[axisIndex][0]] = valueX;
-        out->a[gRotPivotIndices[axisIndex][1]] = valueY;
+        out->mElements[axisIndex] = (header & 0x10) ? -0x1000 : 0x1000;
+        out->mElements[gRotPivotIndices[axisIndex][0]] = valueX;
+        out->mElements[gRotPivotIndices[axisIndex][1]] = valueY;
         if (rotEntry[0] & 0x20) {
             valueY = -valueY;
         }
-        out->a[gRotPivotIndices[axisIndex][2]] = valueY;
+        out->mElements[gRotPivotIndices[axisIndex][2]] = valueY;
         if (rotEntry[0] & 0x40) {
             valueX = -valueX;
         }
-        out->a[gRotPivotIndices[axisIndex][3]] = valueX;
+        out->mElements[gRotPivotIndices[axisIndex][3]] = valueX;
         return 0;
     }
     info = (info & 0x7fff) * 5;
     rotEntry = rot5 + info;
     packed = rotEntry[4];
-    out->a[4] = packed >> 3;
+    out->mElements[4] = packed >> 3;
     extraBits = packed & 7;
     packed = rot5[info];
-    out->a[0] = packed >> 3;
+    out->mElements[0] = packed >> 3;
     extraBits = (extraBits << 3) | (packed & 7);
     packed = rotEntry[1];
-    out->a[1] = packed >> 3;
+    out->mElements[1] = packed >> 3;
     extraBits = (extraBits << 3) | (packed & 7);
     packed = rotEntry[2];
-    out->a[2] = packed >> 3;
+    out->mElements[2] = packed >> 3;
     extraBits = (extraBits << 3) | (packed & 7);
     packed = rotEntry[3];
-    out->a[3] = packed >> 3;
+    out->mElements[3] = packed >> 3;
     extraBits = (extraBits << 3) | (packed & 7);
-    out->a[5] = (extraBits << 19) >> 19;
+    out->mElements[5] = (extraBits << 19) >> 19;
     return 1;
 }
 

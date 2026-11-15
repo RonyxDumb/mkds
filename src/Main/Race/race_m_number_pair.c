@@ -67,14 +67,14 @@ void SetRaceMNumberPairAnimation(RaceHudOamBuffer *oamBuffer, s32 startFrames) {
         gRaceMNumberPair->mMatrixIndex = AllocOamMatrixIndex(oamBuffer);
         matrix = gRaceMNumberPair->mCellMatrix;
         matrixOams = &oamBuffer->mOams[gRaceMNumberPair->mMatrixIndex * 4];
-        matrixOams[0].mAttrs[3] = matrix->a[0] >> 4;
-        matrixOams[1].mAttrs[3] = matrix->a[1] >> 4;
-        matrixOams[2].mAttrs[3] = matrix->a[2] >> 4;
-        matrixOams[3].mAttrs[3] = matrix->a[3] >> 4;
-        gRaceMNumberPair->mCellMatrix->a[3] = gRaceMNumberPair->mScale;
-        gRaceMNumberPair->mCellMatrix->a[0] = gRaceMNumberPair->mCellMatrix->a[3];
-        gRaceMNumberPair->mCellMatrix->a[2] = 0;
-        gRaceMNumberPair->mCellMatrix->a[1] = gRaceMNumberPair->mCellMatrix->a[2];
+        matrixOams[0].mAttrs[3] = matrix->mElements[0] >> 4;
+        matrixOams[1].mAttrs[3] = matrix->mElements[1] >> 4;
+        matrixOams[2].mAttrs[3] = matrix->mElements[2] >> 4;
+        matrixOams[3].mAttrs[3] = matrix->mElements[3] >> 4;
+        gRaceMNumberPair->mCellMatrix->mElements[3] = gRaceMNumberPair->mScale;
+        gRaceMNumberPair->mCellMatrix->mElements[0] = gRaceMNumberPair->mCellMatrix->mElements[3];
+        gRaceMNumberPair->mCellMatrix->mElements[2] = 0;
+        gRaceMNumberPair->mCellMatrix->mElements[1] = gRaceMNumberPair->mCellMatrix->mElements[2];
         return;
     }
     if (startFrames < 0x78) {

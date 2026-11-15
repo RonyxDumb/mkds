@@ -5,14 +5,14 @@
 
 // Four words of a 2x2 matrix.
 typedef struct MtxFx22 {
-    /* 00 */ s32 a[4];
+    /* 00 */ s32 mElements[4];
 } MtxFx22;
 
 // Three rows of three words.
 typedef struct MtxFx33 {
     union {
         /* 00 */ Vec3 mRows[3];
-        /* 00 */ s32 a[9];
+        /* 00 */ s32 mElements[9];
     };
 } MtxFx33;
 

@@ -30,16 +30,16 @@ void SetLayoutEntryAngleAndScale(LayoutTableEntry *entry, s32 angle, s32 scale) 
     matrix = &entry->mMatrix;
     inverseScale = FX_Div(0x1000, scale);
     cosine = FX_SinCosTable_[pairIndex + 1];
-    entry->mInverseScaleMatrix.a[0] = MUL_FIXED12_NO_ROUND(cosine, inverseScale);
+    entry->mInverseScaleMatrix.mElements[0] = MUL_FIXED12_NO_ROUND(cosine, inverseScale);
     sine = FX_SinCosTable_[pairIndex];
-    dividedValues->a[1] = MUL_FIXED12_NO_ROUND(sine, inverseScale);
-    dividedValues->a[2] = -dividedValues->a[1];
-    dividedValues->a[3] = entry->mInverseScaleMatrix.a[0];
+    dividedValues->mElements[1] = MUL_FIXED12_NO_ROUND(sine, inverseScale);
+    dividedValues->mElements[2] = -dividedValues->mElements[1];
+    dividedValues->mElements[3] = entry->mInverseScaleMatrix.mElements[0];
     MTX_Rot22_(matrix, sine, cosine);
-    entry->mMatrix.a[0] = FX_MulFunc(entry->mMatrix.a[0], scale);
-    matrix->a[1] = FX_MulFunc(matrix->a[1], scale);
-    matrix->a[2] = FX_MulFunc(matrix->a[2], scale);
-    matrix->a[3] = FX_MulFunc(matrix->a[3], scale);
+    entry->mMatrix.mElements[0] = FX_MulFunc(entry->mMatrix.mElements[0], scale);
+    matrix->mElements[1] = FX_MulFunc(matrix->mElements[1], scale);
+    matrix->mElements[2] = FX_MulFunc(matrix->mElements[2], scale);
+    matrix->mElements[3] = FX_MulFunc(matrix->mElements[3], scale);
 }
 
 BOOL IsCellOamModeXlu(s32 index, NNSG2dCellDataBank *cells, LayoutEntryTable *cellLayout) {

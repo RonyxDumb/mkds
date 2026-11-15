@@ -330,10 +330,10 @@ void DrawRaceItemSlot(RaceHudOamBuffer *oamBuffer) {
                                   cell, NULL, lowerItemPos, 0, 1);
     } else {
         matrixIndex = AllocOamMatrixIndex(oamBuffer);
-        matrix.a[0] = FX_Div(TO_FIXED12(1), gRaceItemSlot->mScale.mScaleX);
-        matrix.a[1] = 0;
-        matrix.a[2] = 0;
-        matrix.a[3] = FX_Div(TO_FIXED12(1), gRaceItemSlot->mScale.mScaleY);
+        matrix.mElements[0] = FX_Div(TO_FIXED12(1), gRaceItemSlot->mScale.mScaleX);
+        matrix.mElements[1] = 0;
+        matrix.mElements[2] = 0;
+        matrix.mElements[3] = FX_Div(TO_FIXED12(1), gRaceItemSlot->mScale.mScaleY);
         cell = GetRaceMNcerEntry(LookupRaceMNcerIndex(upperItem));
         oamIndex = oamBuffer->mOamCount;
         scaledUpperItemPos[0] = TO_FIXED12(0x18);
@@ -355,10 +355,10 @@ void DrawRaceItemSlot(RaceHudOamBuffer *oamBuffer) {
             ((u32 *) oam)[1] = (((u32 *) oam)[1] & ~RACE_HUD_OAM_PRIORITY_MASK) | RACE_HUD_OAM_PRIORITY_1;
         }
         matrixOams = &oamBuffer->mOams[matrixIndex * 4];
-        matrixOams[0].mAttrs[3] = matrix.a[0] >> 4;
-        matrixOams[1].mAttrs[3] = matrix.a[1] >> 4;
-        matrixOams[2].mAttrs[3] = matrix.a[2] >> 4;
-        matrixOams[3].mAttrs[3] = matrix.a[3] >> 4;
+        matrixOams[0].mAttrs[3] = matrix.mElements[0] >> 4;
+        matrixOams[1].mAttrs[3] = matrix.mElements[1] >> 4;
+        matrixOams[2].mAttrs[3] = matrix.mElements[2] >> 4;
+        matrixOams[3].mAttrs[3] = matrix.mElements[3] >> 4;
     }
     cell = GetRaceMNcerEntry(RACE_M_CELL_ITEM_EMPTY);
     lastPos[0] = TO_FIXED12(0x18);

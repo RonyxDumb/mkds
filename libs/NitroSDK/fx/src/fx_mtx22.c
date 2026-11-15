@@ -3,10 +3,10 @@
 #pragma thumb on
 // Sets the four words at dst to the 2x2 rotation matrix (cosVal, sinVal, -sinVal, cosVal).
 void MTX_Rot22_(MtxFx22 *dst, s32 sinVal, s32 cosVal) {
-    dst->a[0] = cosVal;
-    dst->a[1] = sinVal;
-    dst->a[2] = -sinVal;
-    dst->a[3] = cosVal;
+    dst->mElements[0] = cosVal;
+    dst->mElements[1] = sinVal;
+    dst->mElements[2] = -sinVal;
+    dst->mElements[3] = cosVal;
 }
 #pragma thumb off
 

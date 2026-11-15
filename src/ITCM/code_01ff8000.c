@@ -553,27 +553,27 @@ void NNSi_G3dFuncSbc_NODEDESC(NNSG3dRS *renderState, u32 option) {
             MI_Zero36B(&jntAnmResult->mRot);
             dataPointer += 2;
             pivotValue = (*nodeHeader & 0x100) ? -0x1000 : 0x1000;
-            jntAnmResult->mRot.a[pivotIndex] = pivotValue;
-            jntAnmResult->mRot.a[pivotUtil_[pivotIndex][0]] = firstValue;
-            jntAnmResult->mRot.a[((const u8 (*)[4]) &pivotUtil_[0][1])[pivotIndex][0]] = secondValue;
+            jntAnmResult->mRot.mElements[pivotIndex] = pivotValue;
+            jntAnmResult->mRot.mElements[pivotUtil_[pivotIndex][0]] = firstValue;
+            jntAnmResult->mRot.mElements[((const u8 (*)[4]) &pivotUtil_[0][1])[pivotIndex][0]] = secondValue;
             if (*nodeHeader & 0x200) {
                 secondValue = -secondValue;
             }
-            jntAnmResult->mRot.a[((const u8 (*)[4]) &pivotUtil_[0][2])[pivotIndex][0]] = secondValue;
+            jntAnmResult->mRot.mElements[((const u8 (*)[4]) &pivotUtil_[0][2])[pivotIndex][0]] = secondValue;
             if (*nodeHeader & 0x400) {
                 firstValue = -firstValue;
             }
-            jntAnmResult->mRot.a[((const u8 (*)[4]) &pivotUtil_[0][3])[pivotIndex][0]] = firstValue;
+            jntAnmResult->mRot.mElements[((const u8 (*)[4]) &pivotUtil_[0][3])[pivotIndex][0]] = firstValue;
         } else {
-            jntAnmResult->mRot.a[0] = ((s16 *) nodeHeader)[1];
-            jntAnmResult->mRot.a[1] = ((s16 *) dataPointer)[0];
-            jntAnmResult->mRot.a[2] = ((s16 *) dataPointer)[1];
-            jntAnmResult->mRot.a[3] = ((s16 *) dataPointer)[2];
-            jntAnmResult->mRot.a[4] = ((s16 *) dataPointer)[3];
-            jntAnmResult->mRot.a[5] = ((s16 *) dataPointer)[4];
-            jntAnmResult->mRot.a[6] = ((s16 *) dataPointer)[5];
-            jntAnmResult->mRot.a[7] = ((s16 *) dataPointer)[6];
-            jntAnmResult->mRot.a[8] = ((s16 *) dataPointer)[7];
+            jntAnmResult->mRot.mElements[0] = ((s16 *) nodeHeader)[1];
+            jntAnmResult->mRot.mElements[1] = ((s16 *) dataPointer)[0];
+            jntAnmResult->mRot.mElements[2] = ((s16 *) dataPointer)[1];
+            jntAnmResult->mRot.mElements[3] = ((s16 *) dataPointer)[2];
+            jntAnmResult->mRot.mElements[4] = ((s16 *) dataPointer)[3];
+            jntAnmResult->mRot.mElements[5] = ((s16 *) dataPointer)[4];
+            jntAnmResult->mRot.mElements[6] = ((s16 *) dataPointer)[5];
+            jntAnmResult->mRot.mElements[7] = ((s16 *) dataPointer)[6];
+            jntAnmResult->mRot.mElements[8] = ((s16 *) dataPointer)[7];
             dataPointer += 8;
         }
         renderState->mFuncJntScale(jntAnmResult, dataPointer, renderState->mC, *nodeHeader);
