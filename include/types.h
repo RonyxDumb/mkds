@@ -73,6 +73,9 @@ typedef s32 BOOL;
 // Milliseconds of a lap or race time given in minutes, seconds and milliseconds.
 #define TIME_TO_MS(min, sec, ms) ((sec) * 1000 + (min) * 60000 + (ms))
 
+// Absolute value of a plain variable (x is evaluated twice).
+#define ABS(x) ((x) < 0 ? -(x) : (x))
+
 // Pointer to the T that starts OFFSET bytes after BASE (offsets read from file data and headers).
 #define OFFSET_PTR(T, base, offset) ((T *) ((u8 *) (base) + (offset)))
 

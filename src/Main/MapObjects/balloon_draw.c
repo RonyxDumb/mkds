@@ -221,8 +221,8 @@ void FollowBalloonTarget(Balloon *balloon) {
     offsetZ = (balloon->mMapObject.mPos.z + balloon->mMapObject.mPosStep.z) -
               (balloon->mTargetPos.z + balloon->mTargetVelocity.z);
     distanceLimit = MUL_FIXED12_NO_ROUND(0xa000, balloon->mScaleFactor + balloon->mScaleSwing);
-    absOffsetZ = offsetZ < 0 ? -offsetZ : offsetZ;
-    absOffsetX = offsetX < 0 ? -offsetX : offsetX;
+    absOffsetZ = ABS(offsetZ);
+    absOffsetX = ABS(offsetX);
     offsetDistance = absOffsetX / 2 + absOffsetZ / 2;
     if (offsetDistance <= distanceLimit) {
         balloon->mHorizontalPullEnabled = 1;
@@ -242,9 +242,9 @@ void FollowBalloonTarget(Balloon *balloon) {
     offsetZ = (balloon->mMapObject.mPos.z + balloon->mMapObject.mPosStep.z) -
               (balloon->mTargetPos.z + balloon->mTargetVelocity.z);
     distanceLimit = (balloon->mScaleFactor + balloon->mScaleSwing) << 4;
-    absOffsetY = offsetY < 0 ? -offsetY : offsetY;
-    absOffsetX = offsetX < 0 ? -offsetX : offsetX;
-    absOffsetZ = offsetZ < 0 ? -offsetZ : offsetZ;
+    absOffsetY = ABS(offsetY);
+    absOffsetX = ABS(offsetX);
+    absOffsetZ = ABS(offsetZ);
     offsetDistance = absOffsetY + (absOffsetX >> 2) + (absOffsetZ >> 2);
     if (offsetDistance > distanceLimit) {
         pullRatio = FX_Div(offsetDistance - distanceLimit, offsetDistance);
