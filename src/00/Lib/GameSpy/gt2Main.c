@@ -79,7 +79,7 @@ int gt2Connect(void *socket, Gt2Connection **connection, u32 remoteAddress, void
 void gt2Send(Gt2Connection *connection, u8 *message, int len, int reliable) {
     if (connection->mState == GT2_CONNECTION_CONNECTED) {
         gti2MessageCheck((const char **) &message, &len);
-        if (DarrayGetCount((u32 *) connection->mSendFilters) != 0) {
+        if (DarrayGetCount(connection->mSendFilters) != 0) {
             gti2SendFilterCallback(connection, 0, (s32) message, (void *) len, reliable);
             return;
         }

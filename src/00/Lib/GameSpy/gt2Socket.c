@@ -221,8 +221,7 @@ void gti2FreeSocketConnection(Gt2Connection *connection) {
     }
 }
 
-u32 gti2SocketSend(u32 *socketPointer, u32 address, int port, u32 message, u32 length) {
-    Gt2Socket *socket = (Gt2Socket *) socketPointer;
+u32 gti2SocketSend(Gt2Socket *socket, u32 address, int port, u32 message, u32 length) {
     s32 lastError;
     gti2MessageCheck((const char **) &message, (s32 *) &length);
     if (CanSendOnSocket(socket->mDescriptor) == 0) {

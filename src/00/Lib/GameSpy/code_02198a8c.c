@@ -1043,7 +1043,7 @@ BOOL gti2SendClosedOnSocket(Gt2Socket *socket, u32 address, int port) {
 
     __memcpy(buffer, gGti2MagicString, 2);
     buffer[2] = 0x68;
-    if (gti2SocketSend((u32 *) socket, address, port, (u32) buffer, 3) != 0) {
+    if (gti2SocketSend(socket, address, port, (u32) buffer, 3) != 0) {
         return TRUE;
     }
     return FALSE;

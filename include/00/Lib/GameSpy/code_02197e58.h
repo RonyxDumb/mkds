@@ -77,7 +77,7 @@ typedef struct Gt2Connection {
     /* 44 */ Gt2Buffer mIncomingBuffer;
     /* 50 */ Gt2Buffer mSendBuffer;
     /* 5c */ struct Darray *mIncomingBufferMessages;
-    /* 60 */ void *mOutgoingBufferMessages;
+    /* 60 */ struct Darray *mOutgoingBufferMessages;
     /* 64 */ u16 mSerialNumber;
     /* 66 */ u16 mExpectedSerialNumber;
     /* 68 */ u8 mResponse[0x20];
@@ -85,7 +85,7 @@ typedef struct Gt2Connection {
     /* 8c */ u32 mChallengeTime;
     /* 90 */ u32 mPendingAck;
     /* 94 */ u32 mPendingAckTime;
-    /* 98 */ void *mSendFilters;
+    /* 98 */ struct Darray *mSendFilters;
     /* 9c */ void *mReceiveFilters;
 } Gt2Connection;
 

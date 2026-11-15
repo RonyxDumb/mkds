@@ -83,7 +83,7 @@ void gti2RejectConnection(Gt2Connection *connection, void *message, u32 len, ...
 u32 SendConnectionBytes(Gt2Connection *gt2Connection, u8 *data, u32 length) {
     int sendResult;
     u32 elapsedMilliseconds;
-    sendResult = gti2SocketSend((u32 *) gt2Connection->mSocket, gt2Connection->mAddress, gt2Connection->mPort,
+    sendResult = gti2SocketSend(gt2Connection->mSocket, gt2Connection->mAddress, gt2Connection->mPort,
                                 (u32) data, length);
     if (sendResult == 0) {
         return 0;
@@ -121,7 +121,7 @@ BOOL gti2SendRetries(Gt2Connection *connection, u32 now) {
     int len;
     int index;
     GTI2OutgoingBufferMessage *message;
-    len = DarrayGetCount((u32 *) connection->mOutgoingBufferMessages);
+    len = DarrayGetCount(connection->mOutgoingBufferMessages);
     for (index = 0; index < len; index++) {
         message = DarrayGetElement(connection->mOutgoingBufferMessages, index);
         if (now - message->mLastSend > 1000) {
