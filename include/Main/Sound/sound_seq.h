@@ -67,6 +67,36 @@ typedef struct LoadedSoundBanks {
 #define LOADED_SOUND_BANKS_LOADED 0xfe00
 #define LOADED_SOUND_BANKS_ALL 0xffff
 
+// Values of SceneSoundState.mRaceState.
+#define SCENE_RACE_STATE_BEFORE_START 0
+#define SCENE_RACE_STATE_RUNNING 1
+#define SCENE_RACE_STATE_ENDED 2
+
+// Values of SceneSoundState.mLastLapSeqState: no last lap sequence, it plays, and it plays while the sound mode is
+// paused (bit 0 stays set).
+#define SCENE_LAST_LAP_SEQ_NONE 0
+#define SCENE_LAST_LAP_SEQ_PLAYING 1
+#define SCENE_LAST_LAP_SEQ_PAUSED 3
+
+// SceneSoundState.mRankIndex and mRankIndexAtSeq before a place was stored.
+#define SCENE_RANK_INDEX_NONE 0xff
+
+// Frames after which the scene sound steps run: the course sequence of a scene starts (most courses; the two later
+// ones), the airship one stops and restarts, the logo scene sequence stops, the race sequence starts, and the stored
+// place stops counting. SCENE_RANK_START_DELAY_FRAMES is the race frame from which a better place can start a sequence.
+#define SCENE_COURSE_SEQ_START_FRAMES 0xa
+#define SCENE_COURSE_SEQ_START_LATE_FRAMES 0x28
+#define SCENE_AIRSHIP_SEQ_STOP_FRAMES 0xa0
+#define SCENE_AIRSHIP_SEQ_RESTART_FRAMES 0x122
+#define SCENE_LOGO_SEQ_STOP_FRAMES 0x5d
+#define SCENE_RACE_SEQ_START_FRAMES 0x28
+#define SCENE_RANK_SEQ_FRAMES 0x3c
+#define SCENE_RANK_START_DELAY_FRAMES 0xf0
+
+// PlayerVolumeFade.mPlayerMask...: bit n is the library sound player n; all of them, and all but the highest.
+#define SOUND_PLAYER_MASK_ALL 0xff
+#define SOUND_PLAYER_MASK_ALL_BUT_HIGHEST 0x7f
+
 // 0x03-byte argument of InitSceneSoundState and InitSceneSounds.
 typedef struct ScenePlayersSeqInfo {
     /* 00 */ u8 mUnk_00;

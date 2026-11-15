@@ -264,8 +264,8 @@ void StartKartSeqArcSound(Kart *kart, s32 soundIndex, s32 soundOffset) {
     if (kart->mEntryFlags & KART_ENTRY_GHOST) {
         return;
     }
-    if (gSceneSoundState.mRaceState != 1) {
-        if (gSceneSoundState.mRaceState != 0) {
+    if (gSceneSoundState.mRaceState != SCENE_RACE_STATE_RUNNING) {
+        if (gSceneSoundState.mRaceState != SCENE_RACE_STATE_BEFORE_START) {
             return;
         }
         volume = SOUND_VOLUME_MAX;

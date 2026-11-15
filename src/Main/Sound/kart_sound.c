@@ -175,7 +175,7 @@ void UpdateKartSound(Kart *kart) {
     if ((s32) GetRaceUpdateFrames() < 5) {
         return;
     }
-    if (gSceneSoundState.mRaceState == 0) {
+    if (gSceneSoundState.mRaceState == SCENE_RACE_STATE_BEFORE_START) {
         value = kart->mRevLevel;
         if (value > 0xcd && gRaceSetup->mCurrentEntries[kart->mIndex].mPlayer.mKind != PLAYER_KIND_CPU) {
             if (accelHeld != 0) {

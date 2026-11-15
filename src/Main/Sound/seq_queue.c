@@ -503,7 +503,7 @@ void UpdateSeqPlayerControl(SeqPlayerControl *control, NNSSndSeqPlayer **handle)
     } else {
         targetVolume = gSceneSeqVolume;
     }
-    if (gSceneSoundState.mRaceState != 1) {
+    if (gSceneSoundState.mRaceState != SCENE_RACE_STATE_RUNNING) {
         pitch = 0;
     } else if ((control->mFlags >> SEQ_PLAYER_BIT_THUNDER_SHRINK) & 1) {
         control->mPitchAngle += 0x1111;
