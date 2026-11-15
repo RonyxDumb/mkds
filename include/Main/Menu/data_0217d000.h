@@ -492,6 +492,14 @@ typedef enum SelectRaceRuleRow {
     SELECT_RACE_RULE_ROW_TEAMS = 4,
 } SelectRaceRuleRow;
 
+// Number of rows.
+#define SELECT_RACE_RULE_ROW_COUNT 5
+
+// Value of the engine row that races mirrored: SetMirrorMode is called instead of picking an engine class.
+#define SELECT_RACE_RULE_ENGINE_MIRROR 3
+// Value of the teams row where each player picks the team: the team change cells show and the entries' touch is read.
+#define SELECT_RACE_RULE_TEAMS_PLAYER_PICKS 2
+
 // Steps of the slide in and out; mStateFrames counts them.
 #define SELECT_RACE_RULE_SLIDE_STEPS 10
 // Steps state WAIT_PRESS runs after the button was pressed.
