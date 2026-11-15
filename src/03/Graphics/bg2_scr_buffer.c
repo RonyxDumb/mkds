@@ -11,7 +11,7 @@
 #include "code_0214d018.h"
 
 struct Bg2ScrBuffer *gBg2ScrBuffer;
-u8 gBgPaletteCopyRequest[5];
+BgPaletteCopyRequest gBgPaletteCopyRequest;
 
 void CreateBg2ScrBuffer(const void *scr) {
     Bg2ScrBuffer *bg2ScrBuffer = AllocZeroedExpHeapBlock(0x608, 4);
@@ -53,22 +53,22 @@ void AdvanceBg2ScrUpload(void) {
 }
 
 void RequestBgPaletteRowCopy(u8 *palette, u32 srcRow, u32 dstRow) {
-    ((u8 **) gBgPaletteCopyRequest)[0] = palette + (srcRow << 5);
-    ((u8 **) gBgPaletteCopyRequest)[1] = (u8 *) 0x5000000 + (dstRow << 5);
+    gBgPaletteCopyRequest.mSource = palette + (srcRow << 5);
+    gBgPaletteCopyRequest.mDestination = (u8 *) 0x5000000 + (dstRow << 5);
     AddTask(1, AdvanceBgPaletteRowCopy, NULL, 0x78);
 }
 
 void AdvanceBgPaletteRowCopy(u32 entry) {
-    MIi_CpuCopy16(((const void **) gBgPaletteCopyRequest)[0], ((void **) gBgPaletteCopyRequest)[1], 0x20);
+    MIi_CpuCopy16(gBgPaletteCopyRequest.mSource, gBgPaletteCopyRequest.mDestination, 0x20);
     RequestTaskRemoval(1, entry);
 }
 
-void RequestBgPaletteCopy(u32 palette) {
-    *(u32 *) &gBgPaletteCopyRequest = palette;
+void RequestBgPaletteCopy(const void *palette) {
+    gBgPaletteCopyRequest.mSource = palette;
     AddTask(1, &AdvanceBgPaletteCopy, NULL, 0x78);
 }
 
 void AdvanceBgPaletteCopy(u32 entry) {
-    MIi_CpuCopy16((const void *) ((*(u32 *) &gBgPaletteCopyRequest)), (void *) ((0x05000000u)), (0x00000200u));
+    MIi_CpuCopy16(gBgPaletteCopyRequest.mSource, (void *) ((0x05000000u)), (0x00000200u));
     RequestTaskRemoval(1, entry);
 }

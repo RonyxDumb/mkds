@@ -10,8 +10,13 @@ typedef struct Bg2ScrBuffer {
 } Bg2ScrBuffer;
 
 void AdvanceBgPaletteCopy(u32 entry);
-void RequestBgPaletteCopy(u32 palette);
+void RequestBgPaletteCopy(const void *palette);
 void AdvanceBgPaletteRowCopy(u32 entry);
+typedef struct BgPaletteCopyRequest {
+    /* 0 */ const void *mSource;
+    /* 4 */ void *mDestination;
+} BgPaletteCopyRequest;
+
 void RequestBgPaletteRowCopy(u8 *palette, u32 srcRow, u32 dstRow);
 void AdvanceBg2ScrUpload(void);
 void CopyBg2ScrBufferRect(int source, int destOffset, int width, int rowCount);
@@ -20,4 +25,4 @@ void ReleaseBg2ScrBuffer(void);
 void CreateBg2ScrBuffer(const void *scr);
 
 extern struct Bg2ScrBuffer *gBg2ScrBuffer;
-extern u8 gBgPaletteCopyRequest[5];
+extern BgPaletteCopyRequest gBgPaletteCopyRequest;

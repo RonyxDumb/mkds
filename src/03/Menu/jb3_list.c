@@ -1243,7 +1243,7 @@ void UpdateJb3ListMessageResult(void) {
     if (messageAnswer == 0) {
         StartSoundSeq(6);
         CloseMessageBox();
-        RequestBgPaletteCopy((u32) gJb3List->mYbBgStep2NclFiles[0]);
+        RequestBgPaletteCopy(gJb3List->mYbBgStep2NclFiles[0]);
         SetUpdateFunction(UpdateJb3ListMessageClose);
     }
 }
