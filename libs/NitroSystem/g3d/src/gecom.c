@@ -10,7 +10,7 @@
 void (*NNS_G3dSendTexSRT_FuncArray[4])(NNSG3dMatAnmResult *) = {NNSi_G3dSendTexSRTMaya, NULL, NULL, NULL};
 void (*NNS_G3dSendJointSRT_FuncArray[3])(NNSG3dJntAnmResult *) = {
     (void (*)(NNSG3dJntAnmResult *)) NNSi_G3dSendJointSRTBasic, NNSi_G3dSendJointSRTMaya, NULL};
-void (*NNS_G3dGetJointScale_FuncArray[3])(NNSG3dJntAnmResult *, void *, u8 *, u32) = {
+NNSG3dGetJointScale NNS_G3dGetJointScale_FuncArray[3] = {
     (void (*)(NNSG3dJntAnmResult *, void *, u8 *, u32)) NNSi_G3dGetJointScaleBasic,
     (void (*)(NNSG3dJntAnmResult *, void *, u8 *, u32)) NNSi_G3dGetJointScaleMaya, NULL};
 

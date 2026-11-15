@@ -46,6 +46,7 @@ typedef BOOL (*NNSG3dFuncAnmBlendMat)(NNSG3dMatAnmResult *, const NNSG3dAnmObj *
 typedef BOOL (*NNSG3dFuncAnmBlendJnt)(NNSG3dJntAnmResult *, const NNSG3dAnmObj *, u32);
 typedef BOOL (*NNSG3dFuncAnmBlendVis)(NNSG3dVisAnmResult *, const NNSG3dAnmObj *, u32);
 typedef void (*NNSG3dSbcCallBackFunc)(NNSG3dRS *);
+typedef void (*NNSG3dGetJointScale)(NNSG3dJntAnmResult *, void *, u8 *, u32);
 
 // Animation object. Several are linked through mNext; bit 8 and bit 9 of mMapData[n] are tested and the low byte is
 // passed on to the function at mFuncAnm, which is called with a pointer to its result, this object and that byte.
@@ -107,7 +108,7 @@ struct NNSG3dRS {
     /* dc */ void *mResShp;
     /* e0 */ s32 mPosScale;
     /* e4 */ s32 mInvPosScale;
-    /* e8 */ UnkFunc *mFuncJntScale; // called with four arguments by getJntSRTAnmResult_ and getMdlScale_
+    /* e8 */ NNSG3dGetJointScale mFuncJntScale;
     /* ec */ void (*mFuncJntMtx)(NNSG3dJntAnmResult *);
     /* f0 */ void (*mFuncTexMtx)(NNSG3dMatAnmResult *);
     /* f4 */ NNSG3dMatAnmResult mTmpMatAnmResult;

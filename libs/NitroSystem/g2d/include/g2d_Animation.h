@@ -14,10 +14,12 @@ typedef struct NNSG2dSRTControl {
     /* 14 */ u8 mUnk_14[8];
 } NNSG2dSRTControl;
 
+typedef void (*NNSG2dAnmCallBackPtr)(u32 data, s32 currentFrame);
+
 typedef struct NNSG2dCallBackFunctor {
     /* 00 */ u32 mType;
     /* 04 */ u32 mParam;
-    /* 08 */ UnkFunc *mFunc;
+    /* 08 */ NNSG2dAnmCallBackPtr mFunc;
     /* 0c */ u16 mFrameIdx;
 } NNSG2dCallBackFunctor;
 

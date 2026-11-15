@@ -7,6 +7,8 @@
 #include "code_0212d214.h"
 
 // 0x5c bytes: a stream. mActiveFlag is set while it is set up, mStartFlag while its timers run.
+typedef void (*NNSSndStrmCallback)(s32 status, s32 numChannels, void *buffer[], u32 len, u32 format, void *arg);
+
 typedef struct NNSSndStrm {
     /* 00 */ u8 mLink[8];
     /* 08 */ PMSleepCallbackInfo mPreSleepInfo;
@@ -17,7 +19,7 @@ typedef struct NNSSndStrm {
     /* 24 */ s32 mUnk_24_2 : 30;
     /* 28 */ u32 mChBufLen;
     /* 2c */ s32 mInterval;
-    /* 30 */ UnkFunc *mCallback;
+    /* 30 */ NNSSndStrmCallback mCallback;
     /* 34 */ void *mCallbackArg;
     /* 38 */ s32 mCurBuffer;
     /* 3c */ s32 mVolume;
