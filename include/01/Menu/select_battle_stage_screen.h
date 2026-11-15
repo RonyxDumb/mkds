@@ -14,7 +14,8 @@ typedef struct SelectBattleStageNscrRect {
 
 // Frames of the slide in and the slide out; the layers slide in from SELECT_BATTLE_STAGE_SLIDE_DISTANCE_Y and _X, the
 // stage cells from SELECT_BATTLE_STAGE_CELL_SLIDE_DISTANCE. The slide in is followed by SETTLE_FRAMES of the press
-// offset animation (GetSelectedPressOffset), which the press of a stage plays as well; its highlight shows at the fifth.
+// offset animation (GetSelectedPressOffset), which the press of a stage plays as well; its highlight shows at the
+// fifth.
 #define SELECT_BATTLE_STAGE_SLIDE_FRAMES 10
 #define SELECT_BATTLE_STAGE_SETTLE_FRAMES 10
 #define SELECT_BATTLE_STAGE_HIGHLIGHT_FRAME 5
