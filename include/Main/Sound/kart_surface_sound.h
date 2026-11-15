@@ -38,3 +38,6 @@ extern vu32 gSoundPitchSwingAngle;
 extern s32 gSoundPitchSwing;
 extern KartSoundQueue gKartSoundQueue;
 extern s32 gKouraPitchPerWaterDepth;
+
+// StartKartCollisionSound starts no sound before this many race frames.
+#define KART_COLLISION_SOUND_MIN_RACE_FRAMES 0x78

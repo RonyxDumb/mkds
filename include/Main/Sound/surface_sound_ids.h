@@ -3,6 +3,11 @@
 #include "types.h"
 #include "Main/Sound/sound_seq.h"
 
+// Results of GetSurfaceSoundId: no sound, and the two lap progress sounds (bit 0 picks the kind).
+#define SURFACE_SOUND_NONE 0xffff
+#define SURFACE_SOUND_LAP_PROGRESS_A 0xffd0
+#define SURFACE_SOUND_LAP_PROGRESS_B 0xffd1
+
 // gSurfaceSoundIds is addressed in rows of eight words.
 typedef struct SurfaceSoundIdRow {
     /* 0 */ void *mIdArrays[8];

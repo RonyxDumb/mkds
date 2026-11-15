@@ -21,11 +21,20 @@
 // Bits of PlayingSound.mFlags. StartPending: set when the sound is started, cleared once SetPlayingSoundsParams has
 // started its sequence. WhileRequested: started by StartSoundWhileRequestedEx. RequestedAgain: set by each request
 // of a WhileRequested sound, cleared by ExpireWhileRequestedSounds. UpdateInTurns: keeps the source on the in-turns
-// update list.
+// update list. SkipShrinkPitch: SetKartThunderShrinkSoundTrackParams does not raise its pitch. KartCollision and
+// KartCollisionVariant: both set by StartKartCollisionSound, and only both together start the sound as the kart's
+// variant sequence. KartSoundRecord: started from a KartSound record (StartKartSound, StartKartLowRatioSound).
 #define PLAYING_SOUND_FLAG_UPDATE_IN_TURNS 1
 #define PLAYING_SOUND_FLAG_START_PENDING 2
 #define PLAYING_SOUND_FLAG_WHILE_REQUESTED 4
 #define PLAYING_SOUND_FLAG_REQUESTED_AGAIN 8
+#define PLAYING_SOUND_FLAG_SKIP_SHRINK_PITCH 0x10
+#define PLAYING_SOUND_FLAG_KART_COLLISION 0x20
+#define PLAYING_SOUND_FLAG_KART_COLLISION_VARIANT 0x40
+#define PLAYING_SOUND_FLAG_KART_SOUND_RECORD 0x80
+
+// PlayingSound.mSeqArcNo of the sounds indexed by character: KART_SOUND_SET * 14 plus the sound's offset.
+#define PLAYING_SOUND_SEQ_ARC_PER_CHARACTER 2
 
 // Largest volume of a sound (PlayingSound.mVolume, SoundParams.mVolume).
 #define SOUND_VOLUME_MAX 0x7f

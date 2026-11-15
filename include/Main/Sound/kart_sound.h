@@ -43,6 +43,16 @@ enum {
 #define KART_SOUND_VOLUME_LOW_REV 0x3c
 #define KART_SOUND_VOLUME_COAST 0x32
 
+// Limits of Kart.mVelocityLengthRatio (1.0 is 0x1000) that UpdateKartSound picks the sound by: below the first the low
+// ratio sound, below the second the mid ratio sound, else the high ratio one; with the accelerator held only
+// KEY_A_LOW_RATIO_LIMIT separates the key A low and high ratio sounds.
+#define KART_SOUND_LOW_RATIO_LIMIT 0x19a
+#define KART_SOUND_KEY_A_LOW_RATIO_LIMIT 0x333
+#define KART_SOUND_MID_RATIO_LIMIT 0x4cd
+
+// KartSound.mPitch and mTargetPitch while the kart is a bullet.
+#define KART_SOUND_PITCH_KILLER 0x6c0000
+
 // The bytes from 0x450 of an Kart, which UpdateKartSound and AdvanceKartSoundPitch read and write.
 typedef struct KartSound {
     /* 00 */ s32 mSoundId;

@@ -67,7 +67,7 @@ void StartKartSound(Kart *kart, KartSound *soundRecord) {
     playingSound = StartSoundWhileRequested(&kart->mSoundSource, soundRecord->mSoundId, soundRecord->mVolume,
                                             (soundRecord->mPitch << 4) >> 16);
     if (playingSound != NULL) {
-        playingSound->mFlags |= 0x80;
+        playingSound->mFlags |= PLAYING_SOUND_FLAG_KART_SOUND_RECORD;
     }
 }
 
@@ -77,7 +77,7 @@ void StartKartLowRatioSound(Kart *kart, KartSound *soundRecord) {
     playingSound = StartSoundWhileRequested(&kart->mSoundSource, soundRecord->mSoundRow.mLowRatioSoundId,
                                             soundRecord->mVolume, (soundRecord->mPitch << 4) >> 16);
     if (playingSound != NULL) {
-        playingSound->mFlags |= 0x80;
+        playingSound->mFlags |= PLAYING_SOUND_FLAG_KART_SOUND_RECORD;
     }
 }
 
@@ -159,8 +159,8 @@ void UpdateKartSound(Kart *kart) {
     accelHeld = (kartFlags & KART_DRIVE_ACCEL_HELD) != 0 ? 1 : 0;
     pitch = (kartFlags & KART_DRIVE_BRAKE_HELD) != 0 ? 1 : 0;
     if ((kart->mEffectFlags & KART_EFFECT_KILLER) != 0) {
-        soundRecord->mPitch = 0x6c0000;
-        soundRecord->mTargetPitch = 0x6c0000;
+        soundRecord->mPitch = KART_SOUND_PITCH_KILLER;
+        soundRecord->mTargetPitch = KART_SOUND_PITCH_KILLER;
         soundRecord->mPitchPerCall = 0;
         if (accelHeld != 0) {
             soundRecord->mSoundId = soundRecord->mSoundRow.mKeyAHighRatioSoundId;
@@ -230,8 +230,9 @@ void UpdateKartSound(Kart *kart) {
         pitch = AdvanceKartSoundPitch(&kart->mSound, targetPitch, aboveSpeedLimit);
         soundRecord->mVolume = KART_SOUND_VOLUME_MAX;
         if (soundRecord->mPrevKeyADown == 0) {
-            soundRecord->mSoundId = kart->mVelocityLengthRatio < 0x333 ? soundRecord->mSoundRow.mKeyALowRatioSoundId
-                                                                       : soundRecord->mSoundRow.mKeyAHighRatioSoundId;
+            soundRecord->mSoundId = kart->mVelocityLengthRatio < KART_SOUND_KEY_A_LOW_RATIO_LIMIT
+                                        ? soundRecord->mSoundRow.mKeyALowRatioSoundId
+                                        : soundRecord->mSoundRow.mKeyAHighRatioSoundId;
         }
         AddSoundRequest(&gSoundRequestQueues[1], GetKartCameraDistanceSquared(kart->mIndex),
                         (void (*)(void *, int)) StartKartSound, kart, (s32) soundRecord);
@@ -243,9 +244,9 @@ void UpdateKartSound(Kart *kart) {
         }
         pitch = AdvanceKartSoundPitch(&kart->mSound, targetPitch, aboveSpeedLimit);
         soundRecord->mVolume = KART_SOUND_VOLUME_COAST;
-        if (kart->mVelocityLengthRatio < 0x19a) {
+        if (kart->mVelocityLengthRatio < KART_SOUND_LOW_RATIO_LIMIT) {
             soundRecord->mSoundId = soundRecord->mSoundRow.mLowRatioSoundId;
-        } else if (kart->mVelocityLengthRatio < 0x4cd) {
+        } else if (kart->mVelocityLengthRatio < KART_SOUND_MID_RATIO_LIMIT) {
             soundRecord->mSoundId = soundRecord->mSoundRow.mMidRatioSoundId;
         } else {
             soundRecord->mSoundId = soundRecord->mSoundRow.mHighRatioSoundId;
