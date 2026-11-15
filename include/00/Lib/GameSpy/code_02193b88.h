@@ -17,6 +17,13 @@ typedef struct NewProfileReply {
     /* 4 */ u8 mUnk_04[4];
 } NewProfileReply;
 
+// Values of ProfileSearchReply.mMore: the reply starts as DONE and becomes CONTINUE when the server says more
+// matches follow; the search is asked again only while it is still CONTINUE after the callback ran.
+enum {
+    PROFILE_SEARCH_MORE_CONTINUE = 0x600,
+    PROFILE_SEARCH_MORE_DONE = 0x601,
+};
+
 typedef struct ProfileSearchReply {
     /* 0 */ s32 mResult;
     /* 4 */ s32 mNumMatches;

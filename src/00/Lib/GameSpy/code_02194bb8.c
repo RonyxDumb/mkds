@@ -386,7 +386,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                     response.mResult = GP_REQUEST_OK;
                     response.mNumMatches = 0;
                     response.mMatches = NULL;
-                    response.mMore = 0x601;
+                    response.mMore = PROFILE_SEARCH_MORE_DONE;
                     do {
                         result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, (s8 *) key, (s8 *) value);
                         if (result != 0) {
@@ -399,7 +399,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                                 return result;
                             }
                             if (strcmp(key, "more") == 0 && strcmp(value, "0") != 0) {
-                                response.mMore = 0x600;
+                                response.mMore = PROFILE_SEARCH_MORE_CONTINUE;
                             }
                             isDone = TRUE;
                         } else if (strcmp(key, "bsr") == 0) {
@@ -447,7 +447,8 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                     if (c1.mCallback != NULL) {
                         c1.mCallback(connection, &response, c1.mParam);
                     }
-                    if (previousMore == 0x600 && response.mMore == 0x600) {
+                    if (previousMore == PROFILE_SEARCH_MORE_CONTINUE &&
+                        response.mMore == PROFILE_SEARCH_MORE_CONTINUE) {
                         result = gpiProfileSearch(
                             connection, data->mNick, data->mUniquenick, data->mEmail, data->mFirstname, data->mLastname,
                             data->mIcquin, response.mNumMatches + data->mSkip, operation->mBlocking,

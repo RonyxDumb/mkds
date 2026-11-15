@@ -38,7 +38,7 @@ void DWCi_GPProfileSearchCallback(GpConnection *connection, ProfileSearchReply *
                                                 arg->mMatches[matchSlot].mProfile) != FALSE) {
                     gWiFiBuddySync->mSyncIndex++;
                     gWiFiBuddySync->mBuddyUpdateState = BUDDY_UPDATE_STATE_SYNC_ENTRIES;
-                    arg->mMore = 0x601;
+                    arg->mMore = PROFILE_SEARCH_MORE_DONE;
                     return;
                 }
             }
@@ -53,11 +53,11 @@ void DWCi_GPProfileSearchCallback(GpConnection *connection, ProfileSearchReply *
                     DWCi_CallBuddyFriendCallback(friendIdx);
                     gWiFiBuddySync->mSyncIndex++;
                     gWiFiBuddySync->mBuddyUpdateState = BUDDY_UPDATE_STATE_SYNC_ENTRIES;
-                    arg->mMore = 0x601;
+                    arg->mMore = PROFILE_SEARCH_MORE_DONE;
                     return;
                 }
             }
-            if (arg->mMore != 0x600) {
+            if (arg->mMore != PROFILE_SEARCH_MORE_CONTINUE) {
                 gWiFiBuddySync->mSyncIndex++;
                 gWiFiBuddySync->mBuddyUpdateState = BUDDY_UPDATE_STATE_SYNC_ENTRIES;
             }

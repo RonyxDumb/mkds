@@ -129,7 +129,7 @@ u32 GpProfileSearchA(GpConnection *connection, s8 *nick, s8 *uniquenick, s8 *ema
     }
     if (gpState->mSimulation != 0) {
         ProfileSearchReply arg = {0};
-        arg.mMore = 0x601;
+        arg.mMore = PROFILE_SEARCH_MORE_DONE;
         callback(connection, &arg, param);
         return 0;
     }
