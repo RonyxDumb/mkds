@@ -1264,7 +1264,7 @@ void dt_fin(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
             tcp_send_ack(socket, (ipHeader->mIdentifierSecondByte << 8) + 0x13);
             socket->mState = SOCKET_STATE_CLOSING;
             return;
-        case 8:
+        case SOCKET_STATE_FIN_ACKED:
             socket->mAckNo++;
             tcp_send_ack(socket, (ipHeader->mIdentifierSecondByte << 8) + 0x14);
             socket->mState = SOCKET_STATE_CLOSED;
@@ -1274,7 +1274,7 @@ void dt_fin(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
                 return;
             }
             return;
-        case 4:
+        case SOCKET_STATE_ESTABLISHED:
             socket->mAckNo++;
             tcp_send_finack(socket, (ipHeader->mIdentifierSecondByte << 8) + 0x15);
             socket->mState = SOCKET_STATE_LAST_ACK;
