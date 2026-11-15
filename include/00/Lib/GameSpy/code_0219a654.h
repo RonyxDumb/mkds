@@ -10,6 +10,21 @@ typedef struct NNMagic {
     /* 0 */ u8 mUnk_00[6];
 } NNMagic;
 
+// Value of the mVersion byte of every message.
+#define NAT_PACKET_VERSION 2
+
+// Values of the mPacketType byte (offset 7 of every message). Types 0 to 3 are InitPacket messages, 5 to 7 are
+// ConnectPacket messages (6 is an InitPacket sent back).
+enum {
+    NAT_PACKET_INIT = 0,
+    NAT_PACKET_INIT_ACK = 1,
+    NAT_PACKET_ECHO_REQUEST = 2,
+    NAT_PACKET_ECHO_REPLY = 3,
+    NAT_PACKET_CONNECT = 5,
+    NAT_PACKET_CONNECT_ACK = 6,
+    NAT_PACKET_PING = 7,
+};
+
 // Message of 0x14 bytes; made of bytes so a copy of it is bytewise.
 typedef struct ConnectPacket {
     /* 00 */ NNMagic mMagic;

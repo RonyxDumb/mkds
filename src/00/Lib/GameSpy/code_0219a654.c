@@ -133,8 +133,8 @@ void SendInitPackets(NatTraversalEntry *negotiator) {
 
     packetView = (InitPacketWithGamename *) &packet;
     packetView->mMagic = *(NNMagic *) NNMagicData;
-    packetView->mVersion = 2;
-    packetView->mPacketType = 0;
+    packetView->mVersion = NAT_PACKET_VERSION;
+    packetView->mPacketType = NAT_PACKET_INIT;
     packetView->mClientIndex = negotiator->mClientIndex;
     value = negotiator->mCookie;
     *(u32 *) packetView->mCookie =
@@ -186,8 +186,8 @@ void SendPingPacket(NatTraversalEntry *negotiator) {
     s32 sock;
 
     CopyNNMagic(&packet.mMagic, NNMagicData);
-    packet.mVersion = 2;
-    packet.mPacketType = 7;
+    packet.mVersion = NAT_PACKET_VERSION;
+    packet.mPacketType = NAT_PACKET_PING;
     cookie = negotiator->mCookie;
     *(u32 *) packet.mCookie =
         (cookie << 24 & 0xff000000) | ((cookie << 8 & 0xff0000) | ((cookie >> 24 & 0xff) | (cookie >> 8 & 0xff00)));
@@ -372,8 +372,8 @@ void SendConnectAck(NatTraversalEntry *negotiator, SOCSockAddrIn *toaddr) {
     u32 cookie;
 
     CopyNNMagic(&packet.mMagic, NNMagicData);
-    packet.mVersion = 2;
-    packet.mPacketType = 6;
+    packet.mVersion = NAT_PACKET_VERSION;
+    packet.mPacketType = NAT_PACKET_CONNECT_ACK;
     packet.mClientIndex = negotiator->mClientIndex;
     cookie = negotiator->mCookie;
     *(u32 *) packet.mCookie =
@@ -438,7 +438,7 @@ void ProcessInitPacket(NatTraversalEntry *negotiator, InitPacket *packet, SOCSoc
     u32 portKind;
 
     switch (packet->mPacketType) {
-        case 1:
+        case NAT_PACKET_INIT_ACK:
             portKind = packet->mPortType;
             if (portKind <= 2) {
                 negotiator->mInitAckRecv[portKind] = 1;
@@ -451,8 +451,8 @@ void ProcessInitPacket(NatTraversalEntry *negotiator, InitPacket *packet, SOCSoc
                 }
             }
             break;
-        case 2:
-            packet->mPacketType = 3;
+        case NAT_PACKET_ECHO_REQUEST:
+            packet->mPacketType = NAT_PACKET_ECHO_REPLY;
             SendNegotiatorPacket(negotiator->mDescriptor, fromAddress->mAddr,
                              fromAddress->mPort >> 8 & 0xff | fromAddress->mPort << 8 & 0xff00, packet, 0x15);
             break;
@@ -468,7 +468,7 @@ void NNProcessData(u8 *data, s32 length, void *fromAddress) {
 
     if (CheckMagic(data) != FALSE) {
         typeCode = data[7];
-        if (typeCode == 5 || typeCode == 7) {
+        if (typeCode == NAT_PACKET_CONNECT || typeCode == NAT_PACKET_PING) {
             if (length >= 0x14) {
                 connectPacket = *(ConnectPacket *) data;
                 cookie = *(u32 *) connectPacket.mCookie;
@@ -476,7 +476,7 @@ void NNProcessData(u8 *data, s32 length, void *fromAddress) {
                     (cookie << 24 & 0xff000000) |
                     ((cookie << 8 & 0xff0000) | ((cookie >> 24 & 0xff) | (cookie >> 8 & 0xff00))));
                 if (negotiator != NULL) {
-                    if (typeCode == 5) {
+                    if (typeCode == NAT_PACKET_CONNECT) {
                         ProcessConnectPacket(negotiator, &connectPacket, fromAddress);
                     } else {
                         ProcessPingPacket(negotiator, &connectPacket, fromAddress);
