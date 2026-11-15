@@ -268,7 +268,7 @@ u32 IsMissionRunWithKind2Shapes(void) {
     return gMissionRunKind2ShapesPresent;
 }
 
-BOOL IsKartRemovedWrapper(s32 kartIndex) {
+BOOL IsKartRemovedWrapper(u16 kartIndex) {
     return IsKartRemoved(&gKarts[kartIndex]);
 }
 

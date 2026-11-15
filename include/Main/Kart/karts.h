@@ -120,7 +120,7 @@ EntryKartCounters *GetEntryKartCounters(void);
 void IncrementEntryKartSurfaceCount(Kart *kart);
 void IncrementEntryKartItemHitCount(s32 kartIndex);
 BOOL IsKartOnBoostSurface(s32 kartIndex);
-BOOL IsKartRemovedWrapper(s32 kartIndex);
+BOOL IsKartRemovedWrapper(u16 kartIndex);
 // Copies mScale of Kart b to a.
 void GetKartScale(Vec3 *scale, s32 kartIndex);
 void GetKartPosFromPosSourceCopy(Vec3 *dst, u8 idx);

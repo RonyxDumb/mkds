@@ -345,7 +345,7 @@ void DrawRaceRankListState0Rows(RaceHudOamBuffer *oamBuffer) {
         if (gRaceSetup->mMode == MODE_BATTLE && IsKartEliminated((u16) kartIndex) != FALSE) {
             secondKartCellBase = 1;
         } else if (gRaceSetup->mMode != MODE_BATTLE &&
-                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || IsKartRemovedWrapper((u16) kartIndex) != 0)) {
+                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || IsKartRemovedWrapper(kartIndex) != 0)) {
             secondKartCellBase = 1;
         }
         secondKartCellBase = secondKartCellBase != 0 ? 0x6d : 0x65;
@@ -359,7 +359,7 @@ void DrawRaceRankListState0Rows(RaceHudOamBuffer *oamBuffer) {
         if (gRaceSetup->mMode == MODE_BATTLE && IsKartEliminated((u16) kartIndex) != FALSE) {
             markerIndex = 1;
         } else if (gRaceSetup->mMode != MODE_BATTLE &&
-                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || IsKartRemovedWrapper((u16) kartIndex) != 0)) {
+                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || IsKartRemovedWrapper(kartIndex) != 0)) {
             markerIndex = 1;
         }
         if (markerIndex != 0) {
@@ -425,7 +425,7 @@ void DrawRaceRankListState1To3Rows(RaceHudOamBuffer *oamBuffer) {
         if (gRaceSetup->mMode == MODE_BATTLE && IsKartEliminated((u16) kartIndex) != FALSE) {
             markerIndex = 1;
         } else if (gRaceSetup->mMode != MODE_BATTLE &&
-                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || IsKartRemovedWrapper((u16) kartIndex) != 0)) {
+                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || IsKartRemovedWrapper(kartIndex) != 0)) {
             markerIndex = 1;
         }
         if (markerIndex != 0) {
@@ -513,7 +513,7 @@ void DrawRaceRankListBattleState0Rows(RaceHudOamBuffer *oamBuffer) {
         if (gRaceSetup->mMode == MODE_BATTLE && IsKartEliminated((u16) kartIndex) != FALSE) {
             secondKartCellBase = 1;
         } else if (gRaceSetup->mMode != MODE_BATTLE &&
-                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || IsKartRemovedWrapper((u16) kartIndex) != 0)) {
+                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || IsKartRemovedWrapper(kartIndex) != 0)) {
             secondKartCellBase = 1;
         }
         secondKartCellBase = secondKartCellBase != 0 ? 0x6d : 0x65;
@@ -565,7 +565,7 @@ void DrawRaceRankListBattleState0Rows(RaceHudOamBuffer *oamBuffer) {
         if (gRaceSetup->mMode == MODE_BATTLE && IsKartEliminated((u16) kartIndex) != FALSE) {
             markerIndex = 1;
         } else if (gRaceSetup->mMode != MODE_BATTLE &&
-                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || IsKartRemovedWrapper((u16) kartIndex) != 0)) {
+                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || IsKartRemovedWrapper(kartIndex) != 0)) {
             markerIndex = 1;
         }
         if (markerIndex != 0) {
@@ -674,7 +674,7 @@ void DrawRaceRankListBattleState1To3Rows(RaceHudOamBuffer *oamBuffer) {
         if (gRaceSetup->mMode == MODE_BATTLE && IsKartEliminated((u16) kartIndex) != FALSE) {
             markerIndex = 1;
         } else if (gRaceSetup->mMode != MODE_BATTLE &&
-                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || IsKartRemovedWrapper((u16) kartIndex) != 0)) {
+                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || IsKartRemovedWrapper(kartIndex) != 0)) {
             markerIndex = 1;
         }
         if (markerIndex != 0) {
