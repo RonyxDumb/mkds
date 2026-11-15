@@ -369,7 +369,7 @@ void ApplyKartAttractorPull(Kart *kart, Vec3 *groundNormal, s32 bit100000WasSet)
     Vec3 normalCrossOffset;
     Vec3 offsetToAttractor;
 
-    attractorPosition = GetAttractorPosition((u16) kart->mAttractorIndex);
+    attractorPosition = GetAttractorPosition(kart->mAttractorIndex);
     limit = GetAttractorStrength((u16) kart->mAttractorIndex) * 150;
     step = 0x333;
     if (kart->mEntryFlags & KART_ENTRY_CPU) {

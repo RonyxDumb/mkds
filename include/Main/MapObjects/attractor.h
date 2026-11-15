@@ -187,7 +187,7 @@ void ReleaseJg(void);
 void SetJgState4Countdown(void);
 void SetJgState4(void);
 
-Vec3 *GetAttractorPosition(u32 index);
+Vec3 *GetAttractorPosition(u16 index);
 
 extern StateCallbacks gJgStateTable[7];
 extern struct MapObjectList *gAttractorUpdateList;

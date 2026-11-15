@@ -296,7 +296,7 @@ MapObjectList *CreateAttractorUpdateList(void) {
     return gAttractorUpdateList;
 }
 
-Vec3 *GetAttractorPosition(u32 index) {
+Vec3 *GetAttractorPosition(u16 index) {
     return gAttractorPositions[index];
 }
 
