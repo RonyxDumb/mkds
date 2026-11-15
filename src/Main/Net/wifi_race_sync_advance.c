@@ -894,7 +894,7 @@ void ReceiveWiFiRaceSyncCountdown(u32 fromIndex, WiFiRaceSyncPacket *packet, u32
     gWiFiRaceSync->mCountdownTimer += (s16) FROM_FIXED12(smoothed + 0x800);
 }
 
-void ReceiveWiFiRaceSyncPacket(u32 fromIndex, WiFiRaceSyncPacket *packet, u32 size, u32 unusedArg1) {
+void ReceiveWiFiRaceSyncPacket(u32 fromIndex, WiFiRaceSyncPacket *packet, u32 size, u32 unusedFourth) {
     u32 participant;
     WiFiRaceSync *sync;
     WiFiRaceSyncPacketBody *body;

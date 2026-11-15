@@ -237,7 +237,7 @@ void DrawMapObjectModel(MapObjectList *mapObjectList, MapObjectModel *mapObjectM
 
 // Like DrawMapObjectModel but passes the object's position to the model draw, which lowers the alpha of an object whose
 // camera depth is below its alpha level (near fade) and picks a polygon id for it.
-void DrawMapObjectModelWithPos(u32 unusedArg1, MapObjectModel *mapObjectModel, MapObject *mapObject) {
+void DrawMapObjectModelWithPos(u32 unusedMapObjectList, MapObjectModel *mapObjectModel, MapObject *mapObject) {
     MapObjectModel *model = mapObjectModel;
 
     NNS_G3dGeBufferOP_N(0x1b, model, 3);

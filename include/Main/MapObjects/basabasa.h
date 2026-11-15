@@ -51,7 +51,7 @@ void UpdateBasabasa(void *mapObjectList,
                     Basabasa *basabasa); /* skipped for objects with mFlags & 4 (parked pool objects) */
 void DrawBasabasa(void *mapObjectList, Basabasa *basabasa);
 void SetupDrawBasabasa(void *mapObjectList);
-u8 CollideKartWithBasabasa(Basabasa *basabasa, Kart *kart, void *unusedArg1, u8 *inOutResult);
+u8 CollideKartWithBasabasa(Basabasa *basabasa, Kart *kart, void *unusedFirstResponse, u8 *inOutResult);
 /* creates the pooled object hidden (parks it with ParkMapObject); the spawner later takes it with
  * UnparkFirstParkedMapObject */
 void InitBasabasa(MapObject *mapObject);

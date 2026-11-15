@@ -37,7 +37,7 @@ void SetMapObjectModelPolygonId(MapObjectModel *mapObjectModel, u32 polygonId);
 void SetMapObjectModelAlpha(MapObjectModel *mapObjectModel, u16 alpha);
 void SetMapObjectModelLightEnableFlag(MapObjectModel *mapObjectModel, u32 light);
 void DrawMapObjectModel1Mat1Shp(void *mapObjectList, MapObjectModel *mapObjectModel, void *rawMapObject);
-void DrawMapObjectModelWithPos(u32 unusedArg1, MapObjectModel *mapObjectModel, MapObject *mapObject);
+void DrawMapObjectModelWithPos(u32 unusedMapObjectList, MapObjectModel *mapObjectModel, MapObject *mapObject);
 void DrawMapObjectModel(MapObjectList *mapObjectList, MapObjectModel *mapObjectModel, void *rawMapObject);
 void QueueMapObjectModelMaterial(void *mapObjectList, MapObjectModel *mapObjectModel);
 void *UnparkFirstParkedMapObject(MapObjectList *mapObjectList);

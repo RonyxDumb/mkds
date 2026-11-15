@@ -79,7 +79,7 @@ void AdvanceShownSlotAndQueueEmblem(void);
 void AdvanceKartModelMenu(s32 mirrorMode);
 void SetupKartModelEmblemTex(KartModelMenuSlot *slot);
 void DrawKartModelMenuSlot(KartModelMenuSlot *slot, KartModelMenuView *view, s32 mirrored);
-void SetupLightFrustumAndLookAt(s32 unusedArg1, s32 yOffset);
+void SetupLightFrustumAndLookAt(s32 unusedBg0Offset, s32 yOffset);
 void SetFrustumProjection(s32 mirrored);
 void StartKartModelMenuBg0Decrease(void);
 void StartKartModelMenuBg0Increase(void);
@@ -181,7 +181,7 @@ unsigned int IsMissionRunWithEndShapes(void);
 
 typedef struct Kart Kart;
 
-void DrawShadowModelIfDrawFlag(ShadowModel *shadowModel, u32 unusedArg1, u32 unusedArg2);
+void DrawShadowModelIfDrawFlag(ShadowModel *shadowModel, u32 unusedSecond, u32 unusedThird);
 
 extern u16 gKartCount;
 extern u16 gKillerItemKartIndex;

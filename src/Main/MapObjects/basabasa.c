@@ -59,7 +59,7 @@ void InitBasabasa(MapObject *mapObject) {
     CreateMapObjectSoundSourceFalloff2(mapObjectArg);
 }
 
-u8 CollideKartWithBasabasa(Basabasa *basabasa, Kart *kart, void *unusedArg1, u8 *inOutResult) {
+u8 CollideKartWithBasabasa(Basabasa *basabasa, Kart *kart, void *unusedFirstResponse, u8 *inOutResult) {
     Vec3 sideDirection;
     Vec3 offsetToKart;
     s32 forwardDot;

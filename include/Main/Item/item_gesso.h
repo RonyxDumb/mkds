@@ -59,7 +59,7 @@ void CreateItemTeresaFrameScaleTable(void);
 void ComputeItemGessoFrameCount(void);
 void InitItemGessoFromData(ItemGesso *gesso);
 void CopyItemGessoData(void *data, ItemGesso *gesso, void *toData);
-void DrawItemGesso(ItemGesso *gesso, s32 unusedArg2, NsbmdModel *model);
+void DrawItemGesso(ItemGesso *gesso, s32 unusedSecond, NsbmdModel *model);
 void AdvanceItemGesso(ItemGesso *gesso);
 
 typedef struct ItemInUse ItemInUse;
