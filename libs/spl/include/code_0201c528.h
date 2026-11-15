@@ -34,6 +34,54 @@ typedef struct ParticleList {
     /* 08 */ ParticleInstance *mBack;
 } ParticleList;
 
+// ParticleResourceFlags.mEmitShape: where a new particle starts relative to the emitter. The circle, disc, cylinder and
+// hemisphere shapes lie in the plane given by the emitter's axes. SURFACE shapes start at the radius, FILLED shapes at
+// a random fraction of it; CIRCLE_EVEN spreads the particles of one batch evenly around the circle.
+enum {
+    PARTICLE_EMIT_SHAPE_POINT,
+    PARTICLE_EMIT_SHAPE_SPHERE_SURFACE,
+    PARTICLE_EMIT_SHAPE_CIRCLE_RANDOM,
+    PARTICLE_EMIT_SHAPE_CIRCLE_EVEN,
+    PARTICLE_EMIT_SHAPE_SPHERE_FILLED,
+    PARTICLE_EMIT_SHAPE_DISC_FILLED,
+    PARTICLE_EMIT_SHAPE_CYLINDER_SURFACE,
+    PARTICLE_EMIT_SHAPE_CYLINDER_FILLED,
+    PARTICLE_EMIT_SHAPE_HEMISPHERE_SURFACE,
+    PARTICLE_EMIT_SHAPE_HEMISPHERE_FILLED
+};
+
+// ParticleResourceFlags.mAxis: the axis the emitter shapes are built around; DIRECTION takes the emitter's direction.
+enum {
+    PARTICLE_EMIT_AXIS_Z,
+    PARTICLE_EMIT_AXIS_Y,
+    PARTICLE_EMIT_AXIS_X,
+    PARTICLE_EMIT_AXIS_DIRECTION
+};
+
+// ParticleResourceFlags.mDrawKind and ParticleChildAnim.mDrawKind: the draw function. The field has two bits, so
+// DIRECTIONAL_POLYGON_ALIAS (drawn like DIRECTIONAL_POLYGON) can only be reached by a switch case.
+enum {
+    PARTICLE_DRAW_BILLBOARD,
+    PARTICLE_DRAW_DIRECTIONAL_BILLBOARD,
+    PARTICLE_DRAW_POLYGON,
+    PARTICLE_DRAW_DIRECTIONAL_POLYGON,
+    PARTICLE_DRAW_DIRECTIONAL_POLYGON_ALIAS
+};
+
+// ParticleChildAnim.mInheritAngle: what a child takes over from its parent particle.
+enum {
+    PARTICLE_INHERIT_NOTHING,
+    PARTICLE_INHERIT_ANGLE,
+    PARTICLE_INHERIT_ANGLE_AND_SPEED
+};
+
+// ParticleBehaviorSpin.mAxis: the axis the offset is rotated about.
+enum {
+    PARTICLE_SPIN_AXIS_X,
+    PARTICLE_SPIN_AXIS_Y,
+    PARTICLE_SPIN_AXIS_Z
+};
+
 typedef struct ParticleResourceFlags {
     /* 00 */ u32 mEmitShape : 4;
     /* 00 */ u32 mDrawKind : 2;

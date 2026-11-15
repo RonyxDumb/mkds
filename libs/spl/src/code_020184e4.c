@@ -130,13 +130,13 @@ void SPLBehavior_ApplySpin(const ParticleBehaviorSpin *spin, ParticleInstance *p
     MtxFx33 buf;
 
     switch (spin->mAxis) {
-        case 0:
+        case PARTICLE_SPIN_AXIS_X:
             MTX_RotX33_(&buf, FX_SinIdx(spin->mAngle), FX_CosIdx(spin->mAngle));
             break;
-        case 1:
+        case PARTICLE_SPIN_AXIS_Y:
             MTX_RotY33_(&buf, FX_SinIdx(spin->mAngle), FX_CosIdx(spin->mAngle));
             break;
-        case 2:
+        case PARTICLE_SPIN_AXIS_Z:
             MTX_RotZ33_(&buf, FX_SinIdx(spin->mAngle), FX_CosIdx(spin->mAngle));
             break;
     }
@@ -345,17 +345,17 @@ void SPLEmitter_ComputeOrthogonalAxes(ParticleEmitter *emtr) {
 
     up = gSplEmitterUpAxis;
     switch (emtr->mResource->mHeader->mFlags.mAxis) {
-        case 2:
+        case PARTICLE_EMIT_AXIS_X:
             axis.x = 0x1000;
             axis.y = 0;
             axis.z = 0;
             break;
-        case 1:
+        case PARTICLE_EMIT_AXIS_Y:
             axis.x = 0;
             axis.y = 0x1000;
             axis.z = 0;
             break;
-        case 0:
+        case PARTICLE_EMIT_AXIS_Z:
             axis.x = 0;
             axis.y = 0;
             axis.z = 0x1000;
@@ -421,9 +421,13 @@ void SPLEmitter_EmitParticles(ParticleEmitter *emtr, ParticleList *list) {
     header = resource->mHeader;
     emtr->mEmitFraction = emitTotal & 0xfff;
     emitCount = FROM_FIXED12(emitTotal);
-    if (header->mFlags.mEmitShape == 2 || header->mFlags.mEmitShape == 3 || header->mFlags.mEmitShape == 5 ||
-        header->mFlags.mEmitShape == 6 || header->mFlags.mEmitShape == 7 || header->mFlags.mEmitShape == 8 ||
-        header->mFlags.mEmitShape == 9) {
+    if (header->mFlags.mEmitShape == PARTICLE_EMIT_SHAPE_CIRCLE_RANDOM ||
+        header->mFlags.mEmitShape == PARTICLE_EMIT_SHAPE_CIRCLE_EVEN ||
+        header->mFlags.mEmitShape == PARTICLE_EMIT_SHAPE_DISC_FILLED ||
+        header->mFlags.mEmitShape == PARTICLE_EMIT_SHAPE_CYLINDER_SURFACE ||
+        header->mFlags.mEmitShape == PARTICLE_EMIT_SHAPE_CYLINDER_FILLED ||
+        header->mFlags.mEmitShape == PARTICLE_EMIT_SHAPE_HEMISPHERE_SURFACE ||
+        header->mFlags.mEmitShape == PARTICLE_EMIT_SHAPE_HEMISPHERE_FILLED) {
         SPLEmitter_ComputeOrthogonalAxes(emtr);
     }
     emitIndex = 0;
@@ -436,16 +440,16 @@ void SPLEmitter_EmitParticles(ParticleEmitter *emtr, ParticleList *list) {
             }
             SPLList_PushFront(&emtr->mParticles, particle);
             switch (header->mFlags.mEmitShape) {
-                case 0:
+                case PARTICLE_EMIT_SHAPE_POINT:
                     particle->mOffset.x = particle->mOffset.y = particle->mOffset.z = 0;
                     break;
-                case 1:
+                case PARTICLE_EMIT_SHAPE_SPHERE_SURFACE:
                     SPLRandom_VecFx32(&particle->mOffset);
                     particle->mOffset.x = MUL_FIXED12_ROUNDED(particle->mOffset.x, emtr->mRadius);
                     particle->mOffset.y = MUL_FIXED12_ROUNDED(particle->mOffset.y, emtr->mRadius);
                     particle->mOffset.z = MUL_FIXED12_ROUNDED(particle->mOffset.z, emtr->mRadius);
                     break;
-                case 2: {
+                case PARTICLE_EMIT_SHAPE_CIRCLE_RANDOM: {
                     SPLRandom_VecFx32_XY(&offset2);
                     offset2.x = MUL_FIXED12_ROUNDED(offset2.x, emtr->mRadius);
                     offset2.y = MUL_FIXED12_ROUNDED(offset2.y, emtr->mRadius);
@@ -453,7 +457,7 @@ void SPLEmitter_EmitParticles(ParticleEmitter *emtr, ParticleList *list) {
                     SPLUtil_TiltCoordinates(&particle->mOffset, &offset2, emtr);
                     break;
                 }
-                case 3: {
+                case PARTICLE_EMIT_SHAPE_CIRCLE_EVEN: {
                     s32 angle;
                     s32 sinValue;
                     s32 cosValue;
@@ -467,7 +471,7 @@ void SPLEmitter_EmitParticles(ParticleEmitter *emtr, ParticleList *list) {
                     SPLUtil_TiltCoordinates(&particle->mOffset, &offset3, emtr);
                     break;
                 }
-                case 4: {
+                case PARTICLE_EMIT_SHAPE_SPHERE_FILLED: {
                     SPLRandom_VecFx32(&particle->mOffset);
                     particle->mOffset.x = MUL_FIXED12_ROUNDED(
                         MUL_FIXED12_ROUNDED(particle->mOffset.x, emtr->mRadius),
@@ -486,7 +490,7 @@ void SPLEmitter_EmitParticles(ParticleEmitter *emtr, ParticleList *list) {
                          8));
                     break;
                 }
-                case 5: {
+                case PARTICLE_EMIT_SHAPE_DISC_FILLED: {
                     SPLRandom_VecFx32_XY(&offset5);
                     offset5.x = MUL_FIXED12_ROUNDED(
                         MUL_FIXED12_ROUNDED(offset5.x, emtr->mRadius),
@@ -501,7 +505,7 @@ void SPLEmitter_EmitParticles(ParticleEmitter *emtr, ParticleList *list) {
                     SPLUtil_TiltCoordinates(&particle->mOffset, &offset5, emtr);
                     break;
                 }
-                case 8: {
+                case PARTICLE_EMIT_SHAPE_HEMISPHERE_SURFACE: {
                     SPLRandom_VecFx32(&particle->mOffset);
                     VEC_Fx16CrossProduct(&emtr->mAxisX, &emtr->mAxisY, &normalFx16A);
                     normalA.x = normalFx16A.x;
@@ -517,7 +521,7 @@ void SPLEmitter_EmitParticles(ParticleEmitter *emtr, ParticleList *list) {
                     particle->mOffset.z = MUL_FIXED12_ROUNDED(particle->mOffset.z, emtr->mRadius);
                     break;
                 }
-                case 9: {
+                case PARTICLE_EMIT_SHAPE_HEMISPHERE_FILLED: {
                     SPLRandom_VecFx32(&particle->mOffset);
                     VEC_Fx16CrossProduct(&emtr->mAxisX, &emtr->mAxisY, &normalFx16B);
                     normalB.x = normalFx16B.x;
@@ -548,7 +552,7 @@ void SPLEmitter_EmitParticles(ParticleEmitter *emtr, ParticleList *list) {
                          0x800));
                     break;
                 }
-                case 6: {
+                case PARTICLE_EMIT_SHAPE_CYLINDER_SURFACE: {
                     SPLRandom_VecFx32_XY(&particle->mVelocity);
                     offset6.x = MUL_FIXED12_ROUNDED(particle->mVelocity.x, emtr->mRadius);
                     offset6.y = MUL_FIXED12_ROUNDED(particle->mVelocity.y, emtr->mRadius);
@@ -559,7 +563,7 @@ void SPLEmitter_EmitParticles(ParticleEmitter *emtr, ParticleList *list) {
                     SPLUtil_TiltCoordinates(&particle->mOffset, &offset6, emtr);
                     break;
                 }
-                case 7: {
+                case PARTICLE_EMIT_SHAPE_CYLINDER_FILLED: {
                     SPLRandom_VecFx32_XY(&particle->mVelocity);
                     offset7.x = MUL_FIXED12_ROUNDED(
                         MUL_FIXED12_ROUNDED(particle->mVelocity.x, emtr->mRadius),
@@ -593,7 +597,7 @@ void SPLEmitter_EmitParticles(ParticleEmitter *emtr, ParticleList *list) {
                          emtr->mAxisSpeed) >>
                         8;
 
-            if (header->mFlags.mEmitShape == 6) {
+            if (header->mFlags.mEmitShape == PARTICLE_EMIT_SHAPE_CYLINDER_SURFACE) {
                 tiltedOffset.x = MUL_FIXED12_ROUNDED(particle->mVelocity.x, emtr->mAxisX.x) +
                                  MUL_FIXED12_ROUNDED(particle->mVelocity.y, emtr->mAxisY.x);
                 tiltedOffset.y = MUL_FIXED12_ROUNDED(particle->mVelocity.x, emtr->mAxisX.y) +
@@ -746,15 +750,15 @@ void SPLEmitter_EmitChildren(ParticleInstance *ptcl, ParticleEmitter *emtr, Part
             child->mBaseAlpha = (ptcl->mBaseAlpha * (ptcl->mAnimAlpha + 1)) >> 5;
             child->mAnimAlpha = 0x1f;
             switch (childAnim->mInheritAngle) {
-                case 2:
+                case PARTICLE_INHERIT_ANGLE_AND_SPEED:
                     child->mAngle = ptcl->mAngle;
                     child->mAngleSpeed = ptcl->mAngleSpeed;
                     break;
-                case 0:
+                case PARTICLE_INHERIT_NOTHING:
                     child->mAngle = 0;
                     child->mAngleSpeed = 0;
                     break;
-                case 1:
+                case PARTICLE_INHERIT_ANGLE:
                     child->mAngle = ptcl->mAngle;
                     child->mAngleSpeed = 0;
                     break;
@@ -1948,19 +1952,19 @@ void SPLManager_DrawParticles(SPLManager *mgr) {
     drawFunc = 0;
     SPLUtil_SetTexture(mgr->mTextures + header->mTextureIndex);
     switch (header->mFlags.mDrawKind) {
-        case 0:
+        case PARTICLE_DRAW_BILLBOARD:
             drawFunc = SPLDraw_Billboard;
             break;
-        case 1:
+        case PARTICLE_DRAW_DIRECTIONAL_BILLBOARD:
             drawFunc = SPLDraw_DirectionalBillboard;
             break;
-        case 2:
+        case PARTICLE_DRAW_POLYGON:
             drawFunc = SPLDraw_Polygon;
             break;
-        case 3:
+        case PARTICLE_DRAW_DIRECTIONAL_POLYGON:
             drawFunc = SPLDraw_DirectionalPolygon;
             break;
-        case 4:
+        case PARTICLE_DRAW_DIRECTIONAL_POLYGON_ALIAS:
             drawFunc = SPLDraw_DirectionalPolygon;
             break;
     }
@@ -1989,19 +1993,19 @@ void SPLManager_DrawChildParticles(SPLManager *mgr) {
     }
     SPLUtil_SetTexture(mgr->mTextures + resource->mChildAnim->mTextureIndex);
     switch (resource->mChildAnim->mDrawKind) {
-        case 0:
+        case PARTICLE_DRAW_BILLBOARD:
             drawFunc = SPLDraw_Child_Billboard;
             break;
-        case 1:
+        case PARTICLE_DRAW_DIRECTIONAL_BILLBOARD:
             drawFunc = SPLDraw_Child_DirectionalBillboard;
             break;
-        case 2:
+        case PARTICLE_DRAW_POLYGON:
             drawFunc = SPLDraw_Child_Polygon;
             break;
-        case 3:
+        case PARTICLE_DRAW_DIRECTIONAL_POLYGON:
             drawFunc = SPLDraw_Child_DirectionalPolygon;
             break;
-        case 4:
+        case PARTICLE_DRAW_DIRECTIONAL_POLYGON_ALIAS:
             drawFunc = SPLDraw_Child_DirectionalPolygon;
             break;
     }
@@ -2031,7 +2035,7 @@ void SPLManager_DoDraw(SPLManager *mgr) {
 void SPLUtil_SetCylinderEmitterDir(ParticleEmitter *emtr, Vec3 *pointA, Vec3 *pointB) {
     Vec3 dir;
 
-    if (emtr->mResource->mHeader->mFlags.mEmitShape - 6 > 1) {
+    if (emtr->mResource->mHeader->mFlags.mEmitShape - PARTICLE_EMIT_SHAPE_CYLINDER_SURFACE > 1) {
         return;
     }
     emtr->mPosition.x = (pointB->x + pointA->x) / 2;
