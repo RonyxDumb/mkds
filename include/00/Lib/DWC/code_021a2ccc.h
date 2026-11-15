@@ -14,10 +14,15 @@ enum {
     WIFI_PEER_RECEIVE_STATE_DROP_BODY,
 };
 
-// Values of WiFiPeerMessage.mMessageKind, the kind in the message header. 2 to 4 are control messages (bare).
+// Values of WiFiPeerMessage.mMessageKind, the kind in the message header. The last three are the control messages of
+// the match start sync: the host sends each participant its position and aid, the participant answers with its latency,
+// the host sends the go-ahead.
 enum {
     WIFI_MESSAGE_KIND_NONE,
     WIFI_MESSAGE_KIND_DATA,
+    WIFI_MESSAGE_KIND_SYNC_REQUEST,
+    WIFI_MESSAGE_KIND_SYNC_REPLY,
+    WIFI_MESSAGE_KIND_SYNC_GO,
 };
 
 // State of the message being sent to, and the one being received from, one peer (index into WiFiMessageLayer.mPeers),

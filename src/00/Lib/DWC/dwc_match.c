@@ -1,4 +1,5 @@
 #include "00/Lib/DWC/dwc_match.h"
+#include "00/Lib/DWC/code_021a2ccc.h"
 #include "00/code_0219eaf4.h"
 #include "00/Lib/GameSpy/sb_serverlist.h"
 #include "00/code_0218b000.h"
@@ -800,7 +801,7 @@ void DWCi_ProcessMatchSynPacket(s32 peerIndex, s32 kind, u8 *data) {
     u32 *replyMaskPtr;
     s32 value;
     switch (kind) {
-        case 2:
+        case WIFI_MESSAGE_KIND_SYNC_REQUEST:
             wiFiMatching = gWiFiMatching;
             if (wiFiMatching->mState == WIFI_MATCH_STATE_CONNECTED) {
                 if (data[0] == 1) {
@@ -817,9 +818,9 @@ void DWCi_ProcessMatchSynPacket(s32 peerIndex, s32 kind, u8 *data) {
                 }
                 gWiFiMatching->mState = WIFI_MATCH_STATE_SYN_CLIENT;
             }
-            DWCi_SendMatchSynPacket(peerIndex, 3);
+            DWCi_SendMatchSynPacket(peerIndex, WIFI_MESSAGE_KIND_SYNC_REPLY);
             break;
-        case 3:
+        case WIFI_MESSAGE_KIND_SYNC_REPLY:
             wiFiMatching = gWiFiMatching;
             if (wiFiMatching->mState == WIFI_MATCH_STATE_SYN_SERVER) {
                 replyMaskPtr = &wiFiMatching->mSynReplyMask;
@@ -831,15 +832,16 @@ void DWCi_ProcessMatchSynPacket(s32 peerIndex, s32 kind, u8 *data) {
                 value = DWCi_GetAIDBitmask(0);
                 if (gWiFiMatching->mSynReplyMask == value) {
                     for (participantPos = 1; participantPos <= gWiFiMatching->mLastParticipantPos; participantPos++) {
-                        DWCi_SendMatchSynPacket(gWiFiMatching->mParticipantIndices[participantPos], 4);
+                        DWCi_SendMatchSynPacket(gWiFiMatching->mParticipantIndices[participantPos],
+                                                WIFI_MESSAGE_KIND_SYNC_GO);
                     }
                     gWiFiMatching->mState = WIFI_MATCH_STATE_SYN_SERVER_DELAY;
                 }
             } else {
-                DWCi_SendMatchSynPacket(peerIndex, 4);
+                DWCi_SendMatchSynPacket(peerIndex, WIFI_MESSAGE_KIND_SYNC_GO);
             }
             break;
-        case 4:
+        case WIFI_MESSAGE_KIND_SYNC_GO:
             if (gWiFiMatching->mState == WIFI_MATCH_STATE_SYN_CLIENT) {
                 DWCi_PostProcessConnection(4);
             }
@@ -2216,7 +2218,8 @@ void DWCi_PostProcessConnection(s32 type) {
                     gWiFiMatching->mState = WIFI_MATCH_STATE_SYN_SERVER;
                     gWiFiMatching->mSynReplyMask = 0;
                     for (participantPos = 1; participantPos <= gWiFiMatching->mLastParticipantPos; participantPos++) {
-                        DWCi_SendMatchSynPacket(gWiFiMatching->mParticipantIndices[participantPos], 2);
+                        DWCi_SendMatchSynPacket(gWiFiMatching->mParticipantIndices[participantPos],
+                                                WIFI_MESSAGE_KIND_SYNC_REQUEST);
                     }
                 } else {
                     words[0] = 0;
@@ -2578,7 +2581,7 @@ void DWCi_SendMatchSynPacket(s32 peerIndex, u16 kind) {
     u8 payload[3];
     volatile WiFiMatching *wiFiMatching; // fields are read again on each use
     switch (kind) {
-        case 2:
+        case WIFI_MESSAGE_KIND_SYNC_REQUEST:
             wiFiMatching = gWiFiMatching;
             if (peerIndex == wiFiMatching->mParticipantIndices[wiFiMatching->mLastParticipantPos]) {
                 payload[0] = 1;
@@ -2593,7 +2596,7 @@ void DWCi_SendMatchSynPacket(s32 peerIndex, u16 kind) {
                 }
             }
             break;
-        case 3:
+        case WIFI_MESSAGE_KIND_SYNC_REPLY:
             wiFiMatching = gWiFiMatching;
             payload[0] = wiFiMatching->mSynLatency;
             payload[1] = wiFiMatching->mSynLatency >> 8;
@@ -2618,7 +2621,7 @@ u32 DWCi_ProcessMatchSynTimeout(void) {
     switch (wiFiMatching->mState) {
         case WIFI_MATCH_STATE_SYN_CLIENT:
             if (elapsed > 6000) {
-                DWCi_SendMatchSynPacket(wiFiMatching->mParticipantIndices[0], 3);
+                DWCi_SendMatchSynPacket(wiFiMatching->mParticipantIndices[0], WIFI_MESSAGE_KIND_SYNC_REPLY);
             }
             break;
         case WIFI_MATCH_STATE_SYN_SERVER:
@@ -2650,7 +2653,7 @@ u32 DWCi_ProcessMatchSynTimeout(void) {
                         wiFiMatching = gWiFiMatching;
                         aid = wiFiMatching->mParticipantIndices[participantPos];
                         if ((wiFiMatching->mSynReplyMask & (1 << aid)) == 0) {
-                            DWCi_SendMatchSynPacket(aid, 2);
+                            DWCi_SendMatchSynPacket(aid, WIFI_MESSAGE_KIND_SYNC_REQUEST);
                         }
                     }
                 }

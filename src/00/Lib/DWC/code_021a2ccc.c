@@ -246,9 +246,9 @@ void DWCs_RecvDataHeader(int aid, void *message, s32 size) {
                 connection->mReceiveState = WIFI_PEER_RECEIVE_STATE_DROP_BODY;
             }
             break;
-        case 2:
-        case 3:
-        case 4:
+        case WIFI_MESSAGE_KIND_SYNC_REQUEST:
+        case WIFI_MESSAGE_KIND_SYNC_REPLY:
+        case WIFI_MESSAGE_KIND_SYNC_GO:
             connection->mReceiveState = WIFI_PEER_RECEIVE_STATE_CONTROL_BODY;
             break;
     }
@@ -283,9 +283,9 @@ void DWCs_RecvSystemDataBody(u32 aid, void *message, s32 size) {
     WiFiPeerMessage *peer = DWCs_GetTransConnection(aid);
     peer->mReceiveState = peer->mLastReceiveState;
     switch (peer->mMessageKind) {
-        case 2:
-        case 3:
-        case 4:
+        case WIFI_MESSAGE_KIND_SYNC_REQUEST:
+        case WIFI_MESSAGE_KIND_SYNC_REPLY:
+        case WIFI_MESSAGE_KIND_SYNC_GO:
             DWCi_ProcessMatchSynPacket(aid, peer->mMessageKind, message);
             break;
     }
