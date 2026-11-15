@@ -24,6 +24,7 @@ enum {
 #define EXCHANGE_OUTCOME_ENDED_WITHOUT_RESULT 4
 #define EXCHANGE_OUTCOME_BAD_RESULT 5
 
+// One exchange status: the status code, the milliseconds before it times out and the result code.
 typedef struct ExchangeStatus {
     /* 00 */ u32 mStatus;
     /* 04 */ u32 mTimeoutMillisecondsRemaining;

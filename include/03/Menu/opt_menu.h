@@ -6,10 +6,12 @@
 typedef struct OamEntry OamEntry;
 typedef struct Rect Rect;
 
+// The text of a file path the menu loads, passed to BuildFilePathWithLanguage.
 typedef struct YbBgOptionNclName {
     /* 00 */ u8 mText[0x16];
 } YbBgOptionNclName;
 
+// The text of a file path the menu loads, passed to BuildFilePathWithLanguage.
 typedef struct YbBgOption1NclName {
     /* 00 */ u8 mText[0x17];
 } YbBgOption1NclName;

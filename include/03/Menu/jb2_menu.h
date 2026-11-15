@@ -5,10 +5,12 @@
 
 typedef struct Rect Rect;
 
+// The palette rows the Jb2 menu copies, one per selection.
 typedef struct Jb2MenuPaletteRows {
     /* 0 */ u8 mRowIndices[2];
 } Jb2MenuPaletteRows;
 
+// The text of a file path the menu loads, passed to BuildFilePathWithLanguage.
 typedef struct YbBgStep11NclName {
     /* 00 */ u8 mText[0x16];
 } YbBgStep11NclName;

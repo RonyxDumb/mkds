@@ -25,6 +25,7 @@ typedef struct Rect Rect;
 #define AP_LIST_ROW_LAST_VISIBLE 3
 #define AP_LIST_ROW_BUTTON 4
 
+// The list of scanned access points: its entries, text canvas, row objects, scroll tasks, selected row and entry.
 typedef struct ApList {
     /* 00 */ ApScanEntry *mEntries;
     /* 04 */ void *mXb4ApListBackNsc;

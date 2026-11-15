@@ -35,6 +35,7 @@ typedef struct ApEntryIconPalettes {
     /* 0 */ u8 mPaletteIndices[4];
 } ApEntryIconPalettes;
 
+// The screen of scanned access points: the remembered entry, the icon and reset button objects and the close kind.
 typedef struct Ap {
     /* 00 */ void *mYbBgStep11Ncl;
     /* 04 */ OamRange *mEntryIconObjects[3];

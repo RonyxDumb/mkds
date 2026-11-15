@@ -9,6 +9,7 @@
 #define SLIDE_BUTTONS_WAIT_FRAMES 4
 #define SLIDE_BUTTONS_RESET_WAIT_FRAMES 0x10
 
+// The slide buttons: two button objects, the slide range, step and reset tasks, and the pressed result.
 typedef struct SlideButtons {
     /* 00 */ OamRange *mButtons[2];
     /* 08 */ OamRange *mSlideRange;

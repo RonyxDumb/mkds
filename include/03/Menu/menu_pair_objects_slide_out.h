@@ -4,6 +4,7 @@
 
 typedef struct TaskEntry TaskEntry;
 
+// The position of one menu object.
 typedef struct MenuPairObjectPosition {
     /* 00 */ u16 mX;
     /* 02 */ u16 mY;
@@ -11,6 +12,7 @@ typedef struct MenuPairObjectPosition {
 
 typedef struct OamRange OamRange;
 
+// The five menu objects that slide out together, the task that moves them and whether they are sliding.
 typedef struct MenuPairObjects {
     /* 00 */ OamRange *mObjects[5];
     /* 14 */ TaskEntry *mTask;
