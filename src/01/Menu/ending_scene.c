@@ -162,7 +162,7 @@ void LoadAndQueueEndingSceneData(void) {
                                        gEndingScene->mThanksYouMO00Nclr->mDataSize);
 }
 
-void AdvanceEndingSceneState0(void) {
+void AdvanceEndingSceneWaitFadeIn(void) {
     if (AreBrightnessFadesClear() != 0) {
         if (gMenuShared->mStaffRollEndedEarly != 0) {
             gEndingScene->mNextState = ENDING_SCENE_STATE_WAIT_INPUT;
@@ -173,7 +173,7 @@ void AdvanceEndingSceneState0(void) {
     }
 }
 
-void AdvanceEndingSceneState1(void) {
+void AdvanceEndingSceneShowLogo(void) {
     gEndingScene->mStateFrames++;
     if (gEndingScene->mStateFrames > gEndingSceneStateTable[gEndingScene->mState]) {
         gEndingScene->mNextState = ENDING_SCENE_STATE_FADE_OUT;
@@ -182,7 +182,7 @@ void AdvanceEndingSceneState1(void) {
     }
 }
 
-void AdvanceEndingSceneState2(void) {
+void AdvanceEndingSceneFadeOut(void) {
     int fadesFaded;
     fadesFaded = AreBrightnessFadesFaded();
     if (fadesFaded != 0) {
@@ -190,7 +190,7 @@ void AdvanceEndingSceneState2(void) {
     }
 }
 
-void AdvanceEndingSceneState3(void) {
+void AdvanceEndingSceneHoldFaded(void) {
     EndingScene *endingScene;
 
     gEndingScene->mStateFrames++;
@@ -203,7 +203,7 @@ void AdvanceEndingSceneState3(void) {
     }
 }
 
-void AdvanceEndingSceneState4(void) {
+void AdvanceEndingSceneFadeIn(void) {
     int fadesClear;
     fadesClear = AreBrightnessFadesClear();
     if (fadesClear != 0) {
@@ -211,7 +211,7 @@ void AdvanceEndingSceneState4(void) {
     }
 }
 
-void AdvanceEndingSceneState5(void) {
+void AdvanceEndingSceneWaitInput(void) {
     InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     u16 keyPressed;
     BOOL touchBegan;
@@ -242,14 +242,14 @@ void AdvanceEndingSceneState5(void) {
     }
 }
 
-void AdvanceEndingSceneState6(void) {
+void AdvanceEndingSceneFadeOutToLeave(void) {
     if (AreBrightnessFadesFaded() != 0) {
         gEndingScene->mNextState = ENDING_SCENE_STATE_HOLD_THEN_LEAVE;
         gEndingScene->mStateFrames = 0;
     }
 }
 
-void AdvanceEndingSceneState7(void) {
+void AdvanceEndingSceneHoldThenLeave(void) {
     gEndingScene->mStateFrames++;
     if (gEndingScene->mStateFrames > gEndingSceneStateTable[ENDING_SCENE_STATE_HOLD_THEN_LEAVE]) {
         gEndingScene->mNextScene = 0;
@@ -261,28 +261,28 @@ void AdvanceEndingScene(void) {
     ClearOamListCounts(gEndingScene->mMainOam, NULL);
     switch (gEndingScene->mState) {
         case ENDING_SCENE_STATE_WAIT_FADE_IN:
-            AdvanceEndingSceneState0();
+            AdvanceEndingSceneWaitFadeIn();
             break;
         case ENDING_SCENE_STATE_SHOW_LOGO:
-            AdvanceEndingSceneState1();
+            AdvanceEndingSceneShowLogo();
             break;
         case ENDING_SCENE_STATE_FADE_OUT:
-            AdvanceEndingSceneState2();
+            AdvanceEndingSceneFadeOut();
             break;
         case ENDING_SCENE_STATE_HOLD_FADED:
-            AdvanceEndingSceneState3();
+            AdvanceEndingSceneHoldFaded();
             break;
         case ENDING_SCENE_STATE_FADE_IN:
-            AdvanceEndingSceneState4();
+            AdvanceEndingSceneFadeIn();
             break;
         case ENDING_SCENE_STATE_WAIT_INPUT:
-            AdvanceEndingSceneState5();
+            AdvanceEndingSceneWaitInput();
             break;
         case ENDING_SCENE_STATE_FADE_OUT_TO_LEAVE:
-            AdvanceEndingSceneState6();
+            AdvanceEndingSceneFadeOutToLeave();
             break;
         case ENDING_SCENE_STATE_HOLD_THEN_LEAVE:
-            AdvanceEndingSceneState7();
+            AdvanceEndingSceneHoldThenLeave();
             break;
     }
     DrawLayoutTable(gEndingScene->mEndingThanksBncl, gEndingScene->mThanksYouMNcer, gEndingScene->mEndingThanksBnll,
