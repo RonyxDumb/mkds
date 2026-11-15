@@ -133,27 +133,27 @@ s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
     FillBytes(list, 0, sizeof(list));
     scan.mCount = req->mScanRetryLimit;
     if (scan.mCount == -1) {
-        scan.mCount = 10;
+        scan.mCount = ESSID_REQUEST_DEFAULT_COUNT;
     }
     limits.mCount = req->mSendAttemptLimit;
     if (limits.mCount == -1) {
-        limits.mCount = 10;
+        limits.mCount = ESSID_REQUEST_DEFAULT_COUNT;
     }
     scan.mDelayMs = req->mScanRetryDelayMs;
     if (scan.mDelayMs == -1) {
-        scan.mDelayMs = 100;
+        scan.mDelayMs = ESSID_REQUEST_DEFAULT_DELAY_MS;
     }
     limits.mDelayMs = req->mSendAttemptDelayMs;
     if (limits.mDelayMs == -1) {
-        limits.mDelayMs = 100;
+        limits.mDelayMs = ESSID_REQUEST_DEFAULT_DELAY_MS;
     }
     timeout = req->mReceiveTimeoutMs;
     if (timeout == -1) {
         timeout = 2000;
     }
     InitRequestState(req);
-    if ((gRequestState.mWantedRecordMask & 1) != 1) {
-        SetErrorCode(0x13);
+    if ((gRequestState.mWantedRecordMask & VALUE_RECORD_MASK_FOUR_VALUE_FIRST) != VALUE_RECORD_MASK_FOUR_VALUE_FIRST) {
+        SetErrorCode(ESSID_ERROR_FIRST_RECORD_NOT_WANTED);
         req->mResultCode = VALUE_RECORDS_RESULT_FAILED;
         ReleaseEssidEntryLists();
         return -1;
@@ -227,8 +227,8 @@ s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
         ReleaseEssidEntryLists();
         return -1;
     }
-    if (StartSocketsWithAddress(0xc0a80b65, 0xffffff00, 0xc0a80b65) != 0) {
-        SetErrorCode(0xc);
+    if (StartSocketsWithAddress(ESSID_REQUEST_OWN_ADDRESS, 0xffffff00, ESSID_REQUEST_OWN_ADDRESS) != 0) {
+        SetErrorCode(ESSID_ERROR_START_SOCKETS);
         req->mResultCode = VALUE_RECORDS_RESULT_FAILED;
         ReleaseEssidEntryLists();
         return -1;
@@ -242,14 +242,14 @@ s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
         return -1;
     }
     if (SocketReturnArgument(gSocketDescriptor, 0xffff, 1, &value, 4) < 0) {
-        SetErrorCode(0xb);
+        SetErrorCode(ESSID_ERROR_SOCKET_OPTION);
         req->mResultCode = VALUE_RECORDS_RESULT_FAILED;
         ReleaseEssidEntryLists();
         return -1;
     }
     FillBytes(&bindAddress, 0, 8);
     bindAddress.mFamily = SOCKET_FAMILY_IPV4;
-    bindAddress.mAddress = SwapBytes32(0xc0a80b65);
+    bindAddress.mAddress = SwapBytes32(ESSID_REQUEST_OWN_ADDRESS);
     bindAddress.mPort = PacketSwapBytes16(0x5790);
     if (BindSocket(gSocketDescriptor, &bindAddress, 8) < 0) {
         req->mResultCode = VALUE_RECORDS_RESULT_FAILED;
@@ -260,10 +260,10 @@ s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
     while (1) {
         buffer = gRequestPacketBuffer;
         FillBytes(&buf, 0, 0x14);
-        buf.mOwnAddress = 0xc0a80b65;
-        buf.mDestinationAddress = 0xc0a80b01;
+        buf.mOwnAddress = ESSID_REQUEST_OWN_ADDRESS;
+        buf.mDestinationAddress = ESSID_REQUEST_FIRST_DESTINATION_ADDRESS;
         while (1) {
-            if (mode == 1 && gRequestState.mAddressApplied != 1) {
+            if (mode == ESSID_REQUEST_STEP_WANTED_MASK && gRequestState.mAddressApplied != 1) {
                 if (gSocketDescriptor != -1) {
                     CloseSocket(gSocketDescriptor);
                 }
@@ -344,7 +344,7 @@ s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
                 }
                 addr = GetNextAddressInMask(gRequestState.mDestinationAddress, gRequestState.mAddressMask);
                 if (StartSocketsWithAddress(addr, gRequestState.mAddressMask, addr) != 0) {
-                    SetErrorCode(0xc);
+                    SetErrorCode(ESSID_ERROR_START_SOCKETS);
                     req->mResultCode = VALUE_RECORDS_RESULT_FAILED;
                     ReleaseEssidEntryLists();
                     return -1;
@@ -358,7 +358,7 @@ s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
                     return -1;
                 }
                 if (SocketReturnArgument(gSocketDescriptor, 0xffff, 1, &value, 4) < 0) {
-                    SetErrorCode(0xb);
+                    SetErrorCode(ESSID_ERROR_SOCKET_OPTION);
                     req->mResultCode = VALUE_RECORDS_RESULT_FAILED;
                     ReleaseEssidEntryLists();
                     return -1;
@@ -374,7 +374,7 @@ s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
                 }
             }
             if (ReportStateAndSendPacketForMode(mode, &buf, list, gSocketDescriptor) == -1) {
-                SetErrorCode(mode + 0x1000);
+                SetErrorCode(mode + ESSID_ERROR_SEND_FAILED_BASE);
                 req->mResultCode = VALUE_RECORDS_RESULT_FAILED;
                 ReleaseEssidEntryLists();
                 return -1;
@@ -389,12 +389,12 @@ s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
             }
             attempts++;
             if (attempts > limits.mCount) {
-                if (mode == 0) {
-                    SetErrorCode(0xf);
-                } else if (mode == 1) {
-                    SetErrorCode(0x10);
+                if (mode == ESSID_REQUEST_STEP_ITEM_CHAIN) {
+                    SetErrorCode(ESSID_ERROR_NO_REPLY_ITEM_CHAIN);
+                } else if (mode == ESSID_REQUEST_STEP_WANTED_MASK) {
+                    SetErrorCode(ESSID_ERROR_NO_REPLY_WANTED_MASK);
                 } else {
-                    SetErrorCode(0x11);
+                    SetErrorCode(ESSID_ERROR_NO_REPLY_FINISH);
                 }
                 ret = -1;
                 goto cleanup;
@@ -485,7 +485,7 @@ s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
                     return -1;
                 }
                 if (StartSocketsWithAddress(addr, gRequestState.mAddressMask, addr) != 0) {
-                    SetErrorCode(0xc);
+                    SetErrorCode(ESSID_ERROR_START_SOCKETS);
                     req->mResultCode = VALUE_RECORDS_RESULT_FAILED;
                     ReleaseEssidEntryLists();
                     return -1;
@@ -498,7 +498,7 @@ s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
                     return -1;
                 }
                 if (SocketReturnArgument(gSocketDescriptor, 0xffff, 1, &value, 4) < 0) {
-                    SetErrorCode(0xb);
+                    SetErrorCode(ESSID_ERROR_SOCKET_OPTION);
                     req->mResultCode = VALUE_RECORDS_RESULT_FAILED;
                     ReleaseEssidEntryLists();
                     return -1;
@@ -519,11 +519,11 @@ s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
         mode = state;
         if (attempts > limits.mCount) {
             if (state == 0) {
-                SetErrorCode(0xf);
+                SetErrorCode(ESSID_ERROR_NO_REPLY_ITEM_CHAIN);
             } else if (state == 1) {
-                SetErrorCode(0x10);
+                SetErrorCode(ESSID_ERROR_NO_REPLY_WANTED_MASK);
             } else {
-                SetErrorCode(0x11);
+                SetErrorCode(ESSID_ERROR_NO_REPLY_FINISH);
             }
             ret = -1;
             goto cleanup;
@@ -544,20 +544,20 @@ cleanup:
     }
     if (ret != 0) {
         switch (GetErrorCode()) {
-            case 0xf:
+            case ESSID_ERROR_NO_REPLY_ITEM_CHAIN:
                 resultCode = VALUE_RECORDS_RESULT_TIMEOUT_STEP0;
                 break;
-            case 0x10:
+            case ESSID_ERROR_NO_REPLY_WANTED_MASK:
                 resultCode = VALUE_RECORDS_RESULT_TIMEOUT_STEP1;
                 break;
-            case 0x11:
+            case ESSID_ERROR_NO_REPLY_FINISH:
                 resultCode = VALUE_RECORDS_RESULT_TIMEOUT_STEP2;
                 break;
-            case 0x14:
-                resultCode = 7;
+            case ESSID_ERROR_REPLY_STATUS_FIRST:
+                resultCode = VALUE_RECORDS_RESULT_REPLY_STATUS_FIRST;
                 break;
-            case 0x15:
-                resultCode = 8;
+            case ESSID_ERROR_REPLY_STATUS_SECOND:
+                resultCode = VALUE_RECORDS_RESULT_REPLY_STATUS_SECOND;
                 break;
             default:
                 resultCode = VALUE_RECORDS_RESULT_FAILED;
@@ -597,14 +597,14 @@ void ReleaseEssidEntryLists(void) {
 
 void InitRequestState(ValueRecordsRequest *req) {
     FillBytes(gSavedTagBytes, 0, 8);
-    gErrorCode = 1;
+    gErrorCode = ESSID_ERROR_NONE;
     FillBytes(&gRequestState, 0, 0x1c);
     gRequestState.mItemBytes = req->mItem.mItemBytes;
     gRequestState.mItemLength = req->mItem.mItemLength;
-    gRequestState.mWantedRecordMask = req->mWantedRecordMask & 0xf;
+    gRequestState.mWantedRecordMask = req->mWantedRecordMask & VALUE_RECORD_MASK_ALL;
     gRequestState.mItemType = req->mItem.mItemType;
     gRequestState.mFoundRecordMask = 0;
-    gRequestState.mDestinationAddress = 0xc0a80b01;
+    gRequestState.mDestinationAddress = ESSID_REQUEST_FIRST_DESTINATION_ADDRESS;
     gRequestState.mAddressApplied = 0;
 }
 
@@ -630,7 +630,7 @@ s32 CheckAndCopyValueRecordsToRequest(ValueRecordsRequest *request) {
     }
     request->mWantedRecordMask = gRequestState.mWantedRecordMask & gRequestState.mFoundRecordMask;
     FillBytes(recordBytes, 0, 0x154);
-    if (request->mWantedRecordMask & 1) {
+    if (request->mWantedRecordMask & VALUE_RECORD_MASK_FOUR_VALUE_FIRST) {
         CopyBytes(recordBytes, fourValueRecord0->mWepKeys[0], fourValueRecord0->mValueLength);
         CopyBytes(recordBytes + 6, fourValueRecord0->mWepKeys[1], fourValueRecord0->mValueLength);
         CopyBytes(recordBytes + 0xc, fourValueRecord0->mWepKeys[2], fourValueRecord0->mValueLength);
@@ -640,7 +640,7 @@ s32 CheckAndCopyValueRecordsToRequest(ValueRecordsRequest *request) {
         }
         CopyBytes(recordBytes + 0x18, fourValueRecord0->mString, GetStringLength(fourValueRecord0->mString));
     }
-    if (request->mWantedRecordMask & 2) {
+    if (request->mWantedRecordMask & VALUE_RECORD_MASK_FOUR_VALUE_SECOND) {
         CopyBytes(recordBytes + 0x39, fourValueRecord1->mWepKeys[0], fourValueRecord1->mValueLength);
         CopyBytes(recordBytes + 0x47, fourValueRecord1->mWepKeys[1], fourValueRecord1->mValueLength);
         CopyBytes(recordBytes + 0x55, fourValueRecord1->mWepKeys[2], fourValueRecord1->mValueLength);
@@ -650,7 +650,7 @@ s32 CheckAndCopyValueRecordsToRequest(ValueRecordsRequest *request) {
         }
         CopyBytes(recordBytes + 0x71, fourValueRecord1->mString, GetStringLength(fourValueRecord1->mString));
     }
-    if (request->mWantedRecordMask & 4) {
+    if (request->mWantedRecordMask & VALUE_RECORD_MASK_SINGLE_VALUE_FIRST) {
         if (CheckBytesInRange0x20To0x7f(singleValueRecord0->mValue, singleValueRecord0->mValueLength - 1) != 0) {
             goto fail;
         }
@@ -661,7 +661,7 @@ s32 CheckAndCopyValueRecordsToRequest(ValueRecordsRequest *request) {
         }
         CopyBytes(recordBytes + 0xd2, singleValueRecord0->mString, GetStringLength(singleValueRecord0->mString));
     }
-    if (request->mWantedRecordMask & 8) {
+    if (request->mWantedRecordMask & VALUE_RECORD_MASK_SINGLE_VALUE_SECOND) {
         if (CheckBytesInRange0x20To0x7f(singleValueRecord1->mValue, singleValueRecord1->mValueLength - 1) != 0) {
             goto fail;
         }
@@ -729,7 +729,7 @@ s32 FillEssidAossAndMelcoRequest(EssidMelcoRequest *request) {
     CopyBytes(request->mEssid, gEssidAossString, request->mEssidLength);
     request->mUseSharedKey = TRUE;
     request->mMelcoLength = GetStringLength(gMelcoString);
-    if ((u32) request->mMelcoLength > 0xd) {
+    if ((u32) request->mMelcoLength > sizeof(WepKey13)) {
         return -1;
     }
     CopyBytes(request->mMelcoBytes, gMelcoString, request->mMelcoLength);
@@ -766,7 +766,7 @@ s32 AdvanceStepByKind(s32 mode, PacketBuffer *buffer, s32 *attempts, PacketTag *
         *attempts = *attempts + 1;
         return mode;
     }
-    if (header->mUnk_0f != 0x11) {
+    if (header->mUnk_0f != ESSID_PACKET_MAGIC_BYTE) {
         *attempts = *attempts + 1;
         return mode;
     }
@@ -794,7 +794,7 @@ s32 AdvanceStepForItemChainReply(s32 mode, PacketBuffer *buffer, s32 *attempts, 
     ItemContainerView *payload;
     u32 *valuePointer;
     s32 result;
-    if (mode != 0) {
+    if (mode != ESSID_REQUEST_STEP_ITEM_CHAIN) {
         (*attempts)++;
         return mode;
     }
@@ -812,11 +812,11 @@ s32 AdvanceStepForItemChainReply(s32 mode, PacketBuffer *buffer, s32 *attempts, 
     if (payload->mType == PAYLOAD_ITEM_STATUS) {
         valuePointer = &payload->mFirstWord;
         if (PacketSwapBytes32(payload->mFirstWord) == -2) {
-            SetErrorCode(0x14);
+            SetErrorCode(ESSID_ERROR_REPLY_STATUS_FIRST);
         } else if (PacketSwapBytes32(*valuePointer) == -3) {
-            SetErrorCode(0x15);
+            SetErrorCode(ESSID_ERROR_REPLY_STATUS_SECOND);
         } else {
-            SetErrorCode(0x18);
+            SetErrorCode(ESSID_ERROR_REPLY_STATUS_OTHER);
         }
         return -1;
     }
@@ -827,7 +827,7 @@ s32 AdvanceStepForItemChainReply(s32 mode, PacketBuffer *buffer, s32 *attempts, 
     result = ParseItemChain(&payload->mFirstItem, gItemSlots);
     if (result < 0) {
         if (result == -2) {
-            SetErrorCode(0x16);
+            SetErrorCode(ESSID_ERROR_ITEM_CHAIN_PARSE);
             return -1;
         }
         (*attempts)++;
@@ -842,7 +842,7 @@ s32 AdvanceStepForRecordsReply(s32 mode, PacketBuffer *buffer, s32 *attempts, Pa
     Packet *packet;
     ItemContainerView *payload;
     s32 result;
-    if (mode != 1) {
+    if (mode != ESSID_REQUEST_STEP_WANTED_MASK) {
         (*attempts)++;
         return mode;
     }
@@ -859,11 +859,11 @@ s32 AdvanceStepForRecordsReply(s32 mode, PacketBuffer *buffer, s32 *attempts, Pa
     }
     if (payload->mType == PAYLOAD_ITEM_STATUS) {
         if (PacketSwapBytes32(payload->mFirstWord) == -2) {
-            SetErrorCode(0x14);
+            SetErrorCode(ESSID_ERROR_REPLY_STATUS_FIRST);
         } else if (PacketSwapBytes32(payload->mFirstWord) == -3) {
-            SetErrorCode(0x15);
+            SetErrorCode(ESSID_ERROR_REPLY_STATUS_SECOND);
         } else {
-            SetErrorCode(0x18);
+            SetErrorCode(ESSID_ERROR_REPLY_STATUS_OTHER);
         }
         return -1;
     }
@@ -885,7 +885,7 @@ s32 AdvanceStepForFinishReply(s32 mode, PacketBuffer *buffer, s32 *attempts, Pac
     Packet *packet;
     ItemContainerView *payload;
     s32 result;
-    if (mode != 2) {
+    if (mode != ESSID_REQUEST_STEP_FINISH) {
         (*attempts)++;
         return mode;
     }
@@ -908,14 +908,14 @@ s32 AdvanceStepForFinishReply(s32 mode, PacketBuffer *buffer, s32 *attempts, Pac
         return 0x64;
     }
     if (PacketSwapBytes32(payload->mFirstWord) == -2) {
-        SetErrorCode(0x14);
+        SetErrorCode(ESSID_ERROR_REPLY_STATUS_FIRST);
         return -1;
     }
     if (PacketSwapBytes32(payload->mFirstWord) == -3) {
-        SetErrorCode(0x15);
+        SetErrorCode(ESSID_ERROR_REPLY_STATUS_SECOND);
         return -1;
     }
-    SetErrorCode(0x18);
+    SetErrorCode(ESSID_ERROR_REPLY_STATUS_OTHER);
     return -1;
 }
 
@@ -930,7 +930,7 @@ s32 CheckPacketAndXorPayload(Packet *packet) {
     CopyBytes(tag, &packet->mTag, 8);
     result = XorAndSwapBytesWithKey(tag, 8, gMelcoString, GetStringLength(gMelcoString));
     if (result == -1) {
-        SetErrorCode(2);
+        SetErrorCode(ESSID_ERROR_PACKET_BUFFER);
         return -100;
     }
     result = CheckTagAgainstSavedBytesOrFirstRequest(SwapBytes16(packet->mKind), tag);
@@ -946,13 +946,13 @@ s32 CheckPacketAndXorPayload(Packet *packet) {
     length = SwapBytes16(payload->mLength);
     copy = CallEssidAllocFunction(length);
     if (copy == NULL) {
-        SetErrorCode(2);
+        SetErrorCode(ESSID_ERROR_PACKET_BUFFER);
         return 100;
     }
     if (XorBytesWithKeyStreamAndCheckCrc(payload->mBytes, copy, length, packet->mPayloadCrc, payload->mKeyPrefix,
                                          gSavedTagBytes, 8) < 0) {
         CallEssidFreeFunction(copy);
-        if (GetErrorCode() == 2) {
+        if (GetErrorCode() == ESSID_ERROR_PACKET_BUFFER) {
             return 100;
         }
         return 200;
@@ -1261,13 +1261,13 @@ s32 IsKeyStreamFlagSet(u32 value) {
 // Reports state 2, 3 or 5 and sends the packet of kind 0x1000, 0x2000 or 0x3000 for mode 0, 1 or 2.
 s32 ReportStateAndSendPacketForMode(s32 mode, SendPacketScratch *buf, PacketTag *list, s32 descriptor) {
     switch (mode) {
-        case 0:
+        case ESSID_REQUEST_STEP_ITEM_CHAIN:
             ReportStateChange(2);
             return SendItemChainPacket(buf, list, descriptor);
-        case 1:
+        case ESSID_REQUEST_STEP_WANTED_MASK:
             ReportStateChange(3);
             return SendWantedMaskPacket(buf, list, descriptor);
-        case 2:
+        case ESSID_REQUEST_STEP_FINISH:
             ReportStateChange(5);
             return SendFinishPacket(buf, list, descriptor);
     }
@@ -1286,7 +1286,7 @@ s32 SendItemChainPacket(SendPacketScratch *buf, PacketTag *list, s32 descriptor)
     FillBytes(packetBuffer, 0, 0x5dc);
     container = CallEssidAllocFunction(0x210);
     if (container == NULL) {
-        SetErrorCode(2);
+        SetErrorCode(ESSID_ERROR_PACKET_BUFFER);
         return -1;
     }
     FillBytes(container, 0, 0x210);
@@ -1295,7 +1295,7 @@ s32 SendItemChainPacket(SendPacketScratch *buf, PacketTag *list, s32 descriptor)
     CopyBytes(fields.mTag, gSavedTagBytes, 8);
     fields.mPayloadLength = BuildTwoItemChain(container->mItems);
     if (fields.mPayloadLength < 0) {
-        SetErrorCode(3);
+        SetErrorCode(ESSID_ERROR_ITEM_CHAIN_BUILD);
         if (container != NULL) {
             CallEssidFreeFunction(container);
         }
@@ -1307,13 +1307,14 @@ s32 SendItemChainPacket(SendPacketScratch *buf, PacketTag *list, s32 descriptor)
     FillPayloadRecord(0, payloadRecord, container, &fields.mPayloadLength, &fields.mFlags, &fields.mPayloadCrc);
     fields.mFlags |= 0x10;
     if (XorAndSwapBytesWithKey(fields.mTag, 8, gMelcoString, 6) != 0) {
-        SetErrorCode(2);
+        SetErrorCode(ESSID_ERROR_PACKET_BUFFER);
         if (container != NULL) {
             CallEssidFreeFunction(container);
         }
         return -1;
     }
-    FillPacketHeader(packetBuffer, 0x1000, fields.mPayloadLength, fields.mFlags, fields.mPayloadCrc, 0x11, fields.mTag);
+    FillPacketHeader(packetBuffer, 0x1000, fields.mPayloadLength, fields.mFlags, fields.mPayloadCrc,
+                     ESSID_PACKET_MAGIC_BYTE, fields.mTag);
     fields.mPayloadLength += 0x18;
     SendPacket(packetBuffer, fields.mPayloadLength, 0xff, descriptor);
     if (container != NULL) {
@@ -1344,10 +1345,10 @@ s32 SendWantedMaskPacket(SendPacketScratch *buf, PacketTag *list, s32 descriptor
     FillPayloadRecord(gKeyStreamAccepted, &packetBuffer->mBytes[12], &item, &payloadLength, &flags, &payloadCrc);
     CopyBytes(tagBytes, &list[1], 8);
     if (XorAndSwapBytesWithKey(tagBytes, 8, gMelcoString, 6) != 0) {
-        SetErrorCode(2);
+        SetErrorCode(ESSID_ERROR_PACKET_BUFFER);
         return -1;
     }
-    FillPacketHeader(packetBuffer, 0x2000, payloadLength, flags, payloadCrc, 0x11, tagBytes);
+    FillPacketHeader(packetBuffer, 0x2000, payloadLength, flags, payloadCrc, ESSID_PACKET_MAGIC_BYTE, tagBytes);
     payloadLength += 0x18;
     SendPacket(packetBuffer, payloadLength, 0, descriptor);
     return 0;
@@ -1360,7 +1361,7 @@ s32 SendFinishPacket(SendPacketScratch *buf, PacketTag *list, s32 descriptor) {
     FillBytes(packetBuffer, 0, 0x5dc);
     CopyBytes(tagBytes, &list[2], 8);
     XorAndSwapBytesWithKey(tagBytes, 8, gMelcoString, GetStringLength(gMelcoString));
-    FillPacketHeader(packetBuffer, 0x3000, 0, 0, 0, 0x11, tagBytes);
+    FillPacketHeader(packetBuffer, 0x3000, 0, 0, 0, ESSID_PACKET_MAGIC_BYTE, tagBytes);
     SendPacket(packetBuffer, 0x18, 0, descriptor);
     return 0;
 }
@@ -1458,7 +1459,7 @@ s32 XorBytesWithKeyStreamAndCheckCrc(const u8 *src, u8 *dst, s32 length, u32 exp
     u8 crc;
     state.mTable = CallEssidAllocFunction(length);
     if (state.mTable == NULL) {
-        SetErrorCode(2);
+        SetErrorCode(ESSID_ERROR_PACKET_BUFFER);
         return -1;
     }
     CopyBytes(gKeyStreamKey, keyPrefix, 2);

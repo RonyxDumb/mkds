@@ -16,7 +16,8 @@ typedef struct PollEntry {
 
 void SetPollEntryForRead(s32 value, PollEntry *object);
 
-// Values of ValueRecordsRequest.mResultCode. 7 and 8 are set from the status words -2 and -3 and read nowhere.
+// Values of ValueRecordsRequest.mResultCode. REPLY_STATUS_FIRST and SECOND are set from the status words -2 and -3 and
+// read nowhere.
 enum {
     VALUE_RECORDS_RESULT_OK,
     VALUE_RECORDS_RESULT_NO_ENTRY_FOUND,
@@ -25,8 +26,48 @@ enum {
     VALUE_RECORDS_RESULT_TIMEOUT_STEP1,
     VALUE_RECORDS_RESULT_TIMEOUT_STEP2,
     VALUE_RECORDS_RESULT_BAD_RECORDS,
+    VALUE_RECORDS_RESULT_REPLY_STATUS_FIRST,
+    VALUE_RECORDS_RESULT_REPLY_STATUS_SECOND,
     VALUE_RECORDS_RESULT_FAILED = 0xf,
 };
+
+// Steps of the request (the mode of RunValueRecordsRequest): send the item chain, send the wanted mask, send the finish
+// packet.
+#define ESSID_REQUEST_STEP_ITEM_CHAIN 0
+#define ESSID_REQUEST_STEP_WANTED_MASK 1
+#define ESSID_REQUEST_STEP_FINISH 2
+
+// Values of gErrorCode, what GetErrorCode reports after a request failed. The three NO_REPLY codes are the receive
+// timeouts of the three steps; 0x1000 plus the step is set when sending failed.
+#define ESSID_ERROR_NONE 1
+#define ESSID_ERROR_PACKET_BUFFER 2
+#define ESSID_ERROR_ITEM_CHAIN_BUILD 3
+#define ESSID_ERROR_SOCKET_OPTION 0xb
+#define ESSID_ERROR_START_SOCKETS 0xc
+#define ESSID_ERROR_NO_REPLY_ITEM_CHAIN 0xf
+#define ESSID_ERROR_NO_REPLY_WANTED_MASK 0x10
+#define ESSID_ERROR_NO_REPLY_FINISH 0x11
+#define ESSID_ERROR_FIRST_RECORD_NOT_WANTED 0x13
+#define ESSID_ERROR_REPLY_STATUS_FIRST 0x14
+#define ESSID_ERROR_REPLY_STATUS_SECOND 0x15
+#define ESSID_ERROR_ITEM_CHAIN_PARSE 0x16
+#define ESSID_ERROR_REPLY_STATUS_OTHER 0x18
+#define ESSID_ERROR_SEND_FAILED_BASE 0x1000
+
+// Bits of ValueRecordsRequest.mWantedRecordMask: the two four-value records and the two single-value records.
+#define VALUE_RECORD_MASK_FOUR_VALUE_FIRST 1
+#define VALUE_RECORD_MASK_FOUR_VALUE_SECOND 2
+#define VALUE_RECORD_MASK_SINGLE_VALUE_FIRST 4
+#define VALUE_RECORD_MASK_SINGLE_VALUE_SECOND 8
+#define VALUE_RECORD_MASK_ALL 0xf
+
+// Retry count and delay a request uses for a limit of -1, the address the device takes and the address it sends to
+// first, and the byte every packet header carries at 0x0f.
+#define ESSID_REQUEST_DEFAULT_COUNT 10
+#define ESSID_REQUEST_DEFAULT_DELAY_MS 100
+#define ESSID_REQUEST_OWN_ADDRESS 0xc0a80b65
+#define ESSID_REQUEST_FIRST_DESTINATION_ADDRESS 0xc0a80b01
+#define ESSID_PACKET_MAGIC_BYTE 0x11
 
 typedef struct ValueRecordsRequest {
     /* 000 */ u16 mWantedRecordMask; // input mask; on return, the wanted records that were found
