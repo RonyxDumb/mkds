@@ -32,7 +32,7 @@ typedef struct GameInfoEntry {
     /* 4b6 */ u8 mPad[2];
     /* 4b8 */ u32 mGgid;
     /* 4bc */ struct GameInfoEntry *mNext;
-    /* 4c0 */ u8 mBssDesc[0xc0];
+    /* 4c0 */ WMBssDesc mBssDesc;
 } GameInfoEntry;
 
 // State of the walk over the GameInfoEntry list: the first entry, the current entry, the position in the current
