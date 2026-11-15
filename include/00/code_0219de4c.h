@@ -145,6 +145,33 @@ enum {
     WIFI_MATCH_MODE_SERVER_CLIENT = 3,
 };
 
+// Values of WiFiMatching.mLastCommand and the command number of the matching messages DWCi_SendMatchCommand sends and
+// DWCi_ProcessRecvMatchCommand handles. RESERVE asks a host for a place (RESERVE_PRIORITY when a prior host is set);
+// the host answers with RESERVE_OK, RESERVE_DENIED or RESERVE_WAIT. CONNECT_INFO carries the address for the
+// connection, PARTICIPANT_INFO and PARTICIPANT_ACK pass on the participant list entries. NONE is no command.
+enum {
+    WIFI_MATCH_COMMAND_RESERVE = 1,
+    WIFI_MATCH_COMMAND_RESERVE_OK = 2,
+    WIFI_MATCH_COMMAND_RESERVE_DENIED = 3,
+    WIFI_MATCH_COMMAND_RESERVE_WAIT = 4,
+    WIFI_MATCH_COMMAND_CANCEL_RESERVE = 5,
+    WIFI_MATCH_COMMAND_CONNECT_INFO = 6,
+    WIFI_MATCH_COMMAND_NEW_PARTICIPANT = 7,
+    WIFI_MATCH_COMMAND_PARTICIPANT_INFO = 8,
+    WIFI_MATCH_COMMAND_PARTICIPANT_ACK = 9,
+    WIFI_MATCH_COMMAND_RESUME_MATCHING = 10,
+    WIFI_MATCH_COMMAND_RESERVE_PRIORITY = 11,
+    WIFI_MATCH_COMMAND_CANCEL_HOST = 12,
+    WIFI_MATCH_COMMAND_CANCEL_SYN_FIRST = 13,
+    WIFI_MATCH_COMMAND_CANCEL_SYN_SECOND = 14,
+    WIFI_MATCH_COMMAND_CANCEL_SYN_THIRD = 15,
+    WIFI_MATCH_COMMAND_CLOSE_CONNECTIONS = 16,
+    WIFI_MATCH_COMMAND_MIN_COMPLETE_QUERY = 17,
+    WIFI_MATCH_COMMAND_MIN_COMPLETE_REPLY = 18,
+    WIFI_MATCH_COMMAND_STOP_MATCHING = 19,
+    WIFI_MATCH_COMMAND_NONE = 0xff,
+};
+
 // Values of WiFiMatching.mCloseKind, set while the matching closes connections itself: the close callback is ignored
 // (1), or ignored and DWCi_ProcessMatchSCClosing also skips its cancel (2); 3 marks the close after a failure.
 enum {
