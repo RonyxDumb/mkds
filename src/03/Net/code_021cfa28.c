@@ -35,7 +35,7 @@ BOOL StartWhChannelSearch(void) {
     gWhWork->mRandomSeed = seed;
     gWhWork->mRandomSeed = gWhWork->mRandomSeed * 0x10dcd + 0x3039;
     gWhWork->mDecidedChannel = 0;
-    gWhWork->mLowestBusyRatio = 0x65;
+    gWhWork->mLowestBusyRatio = WH_BUSY_RATIO_NOT_MEASURED;
     SetWhState(WH_STATE_BUSY);
     result = MeasureNextWhChannel(1);
     if (result == 0x18) {
@@ -172,7 +172,7 @@ BOOL ClearWhAndInitialize(void) {
 }
 
 void WhIndicationCallback(WirelessMessage *event) {
-    if (event->mResultCode == 8) {
+    if (event->mResultCode == WIRELESS_RESULT_PIPE_ERROR) {
         SetWhState(WH_STATE_ERROR);
         OS_Terminate();
     }
@@ -209,8 +209,8 @@ BOOL StartWhParentConnect(u32 mode, u16 tgid, u16 channel) {
     if (gWhWork->mState != WH_STATE_IDLE) {
         OS_Terminate();
     }
-    gWhWork->mReceiveBufferSize = 0x180;
-    gWhWork->mSendBufferSize = 0xe0;
+    gWhWork->mReceiveBufferSize = WH_RECEIVE_BUFFER_SIZE;
+    gWhWork->mSendBufferSize = WH_SEND_BUFFER_SIZE;
     if (gWhPrintFunction != NULL) {
         gWhPrintFunction(0x08000000, "recv buffer size = %d\n", gWhWork->mReceiveBufferSize);
     }
@@ -222,8 +222,8 @@ BOOL StartWhParentConnect(u32 mode, u16 tgid, u16 channel) {
     gWhWork->mParentParameter.mTgid = tgid;
     gWhWork->mParentParameter.mChannel = channel;
     gWhWork->mParentParameter.mBeaconPeriod = WM_GetDispersionBeaconPeriod();
-    gWhWork->mParentParameter.mParentMaxSize = 0xd0;
-    gWhWork->mParentParameter.mChildMaxSize = 0x44;
+    gWhWork->mParentParameter.mParentMaxSize = WH_PARENT_MAX_SIZE;
+    gWhWork->mParentParameter.mChildMaxSize = WH_CHILD_MAX_SIZE;
     gWhWork->mParentParameter.mMaxEntry = 2;
     gWhWork->mParentParameter.mCsFlag = 0;
     gWhWork->mParentParameter.mMultiBootFlag = 0;
@@ -300,8 +300,8 @@ void FinalizeWh(void) {
                 StartWhResetOrFail();
             }
             break;
-        case 1:
-        case 5:
+        case WIRELESS_CONNECT_MODE_END_MP_FIRST:
+        case WIRELESS_CONNECT_MODE_END_MP_FIRST_ALTERNATE:
             if (EndWhMPBeforeDisconnect() == FALSE) {
                 StartWhResetOrFail();
             }

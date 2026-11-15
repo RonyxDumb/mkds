@@ -153,7 +153,7 @@ void UpdateApScanFrames(void) {
             return;
         }
         for (entryIndex = 0; entryIndex < entryCount; entryIndex++) {
-            if (entries[entryIndex].mCapaLevel != 2) {
+            if (entries[entryIndex].mCapaLevel != AP_CAPA_LEVEL_SECURITY_ELEMENT) {
                 break;
             }
         }

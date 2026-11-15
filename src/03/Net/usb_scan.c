@@ -75,7 +75,7 @@ BOOL StartUsbScan(void) {
 BOOL ReleaseUsbScan(void) {
     UsbScan *scan;
 
-    gUsbScan->mReleaseProgress = 1;
+    gUsbScan->mReleaseProgress = USB_SCAN_RELEASE_STARTED;
     WM_ReadStatus(&gUsbScan->mWmStatus);
     if (gUsbScan->mWmStatus.mState != WIRELESS_UNIT_STATE_POWERED_ON) {
         if (WM_Reset(UsbScanCallback) != 2) {
@@ -93,7 +93,7 @@ BOOL ReleaseUsbScan(void) {
         RemoveTaskEntryWrapper(0, scan->mReportTask);
     }
     scan = gUsbScan;
-    while (scan->mReleaseProgress != 2) {
+    while (scan->mReleaseProgress != USB_SCAN_RELEASE_DONE) {
     }
     FreeExpHeapBlockAndClearPointer(&gUsbScan);
     return 1;
@@ -110,17 +110,17 @@ void UsbScanCallback(WirelessMessage *message) {
         return;
     }
     scan = gUsbScan;
-    if (scan->mReleaseProgress != 0) {
-        if (message->mCommand == 2) {
-            scan->mReleaseProgress = 2;
+    if (scan->mReleaseProgress != USB_SCAN_RELEASE_RUNNING) {
+        if (message->mCommand == WIRELESS_REQUEST_CLOSE_STACK) {
+            scan->mReleaseProgress = USB_SCAN_RELEASE_DONE;
         }
         return;
     }
-    if (message->mCommand != 0x26) {
+    if (message->mCommand != WIRELESS_REQUEST_BEGIN_SEARCH_CHANNELS) {
         return;
     }
     switch (message->mReplyState) {
-        case 5:
+        case WIRELESS_STATE_HOST_SIGHTED:
             if (scan->mReported != 0) {
                 CheckUsbScanEntries((WMStartScanExCallback *) message);
             } else {
@@ -128,7 +128,7 @@ void UsbScanCallback(WirelessMessage *message) {
             }
             StartUsbScan();
             break;
-        case 4:
+        case WIRELESS_STATE_SEARCH_EMPTY:
             StartUsbScan();
             break;
         default:

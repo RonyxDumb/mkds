@@ -361,7 +361,7 @@ void UpdateApListResult(void) {
                     RequestApListPaletteRowCopy();
                 } else {
                     entryIndex = gApListSelectedRow + FX_DivS32(gApListScrollY, 0x1c);
-                    if (gApList->mEntries[entryIndex].mCapaLevel == 2) {
+                    if (gApList->mEntries[entryIndex].mCapaLevel == AP_CAPA_LEVEL_SECURITY_ELEMENT) {
                         StartSoundSeq(9);
                         DisableScrollBarInput();
                         DisableButtonTouch();
@@ -445,7 +445,7 @@ void UpdateApListRelease(void) {
     } else {
         StoreApWorkSsid(apList->mEntries[apList->mEntryIndex].mSsid);
         SetPrimaryMenuPair(0, 0);
-        if (gApList->mEntries[gApList->mEntryIndex].mCapaLevel != 0) {
+        if (gApList->mEntries[gApList->mEntryIndex].mCapaLevel != AP_CAPA_LEVEL_OPEN) {
             SetPrimaryMenuPair(0, 1);
             SetSecondaryMenuPair(1, 1);
             SetUpdateFunction(CreateEdit);

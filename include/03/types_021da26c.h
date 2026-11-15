@@ -3,6 +3,12 @@
 #include "types.h"
 #include "code_02142eac.h"
 
+// Values of ApScanEntry.mCapaLevel: no privacy bit, the privacy bit, or the privacy bit plus a security element in the
+// beacon.
+#define AP_CAPA_LEVEL_OPEN 0
+#define AP_CAPA_LEVEL_ENCRYPTED 1
+#define AP_CAPA_LEVEL_SECURITY_ELEMENT 2
+
 // Entry of the table at offset 0x1300 of an ApScan.
 typedef struct ApScanEntry {
     /* 00 */ u8 mSsid[0x20];

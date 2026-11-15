@@ -3,6 +3,34 @@
 #include "types.h"
 #include "03/Net/wh.h"
 
+// Values of MultiBootParentHeader.mState: READY after the setup, ACCEPTING_CHILDREN while the parent waits for
+// children, DOWNLOADING once the downloads started, BOOTING once the boot requests went out, BOOTED when the parent
+// ended after that, ENDING after the end request, FAILED when a call failed or no child answered the boot request.
+#define MULTIBOOT_PARENT_STATE_ENDED 0
+#define MULTIBOOT_PARENT_STATE_READY 1
+#define MULTIBOOT_PARENT_STATE_ACCEPTING_CHILDREN 2
+#define MULTIBOOT_PARENT_STATE_DOWNLOADING 3
+#define MULTIBOOT_PARENT_STATE_BOOTING 4
+#define MULTIBOOT_PARENT_STATE_BOOTED 5
+#define MULTIBOOT_PARENT_STATE_ENDING 6
+#define MULTIBOOT_PARENT_STATE_FAILED 7
+
+// Indexes of GetMultiBootChildMask, the masks of MultiBootParentHeader in order, and the values GetMultiBootChildState
+// returns for the first mask a child is in (CONNECTED to BOOT_STARTABLE), 0 for a child that is not connected.
+#define MULTIBOOT_CHILD_MASK_CONNECTED 0
+#define MULTIBOOT_CHILD_MASK_REQUESTED 1
+#define MULTIBOOT_CHILD_MASK_DOWNLOAD_PENDING 2
+#define MULTIBOOT_CHILD_MASK_DOWNLOAD_STARTED 3
+#define MULTIBOOT_CHILD_MASK_SEND_COMPLETE 4
+#define MULTIBOOT_CHILD_MASK_BOOT_STARTABLE 5
+#define MULTIBOOT_CHILD_STATE_NOT_CONNECTED 0
+#define MULTIBOOT_CHILD_STATE_CONNECTED 1
+#define MULTIBOOT_CHILD_STATE_REQUESTED 2
+#define MULTIBOOT_CHILD_STATE_DOWNLOAD_PENDING 3
+#define MULTIBOOT_CHILD_STATE_DOWNLOAD_STARTED 4
+#define MULTIBOOT_CHILD_STATE_SEND_COMPLETE 5
+#define MULTIBOOT_CHILD_STATE_BOOT_STARTABLE 6
+
 // One 0x1e-byte record of MultiBootParent.
 typedef struct MultiBootChildRecord {
     /* 00 */ u8 mUnk_00[0x16];

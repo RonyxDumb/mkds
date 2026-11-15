@@ -21,13 +21,14 @@ const u8 gOtherElementPrefix[4] = {0, 0x50, 0xf2, 1};
 const u8 gApScanEmptyBssid[6] = {0, 0, 0, 0, 0, 0};
 
 void ApScanCallback(WirelessMessage *message) {
-    if (message->mResultCode == 0 && gApScan->mStopRequested == 0 && message->mCommand == 0x26) {
+    if (message->mResultCode == 0 && gApScan->mStopRequested == 0 &&
+        message->mCommand == WIRELESS_REQUEST_BEGIN_SEARCH_CHANNELS) {
         switch (message->mReplyState) {
-            case 5:
+            case WIRELESS_STATE_HOST_SIGHTED:
                 StoreApScanEntries((WMStartScanExCallback *) message);
                 StartApScan();
                 break;
-            case 4:
+            case WIRELESS_STATE_SEARCH_EMPTY:
                 StartApScan();
                 break;
             default:
@@ -72,25 +73,25 @@ void StoreApScanEntries(WMStartScanExCallback *scanResult) {
             MI_CpuCopy8(bssDesc->mBssid, slot->mBssid, 6);
             MI_CpuCopy8(bssDesc->mSsid, slot, sizeof(bssDesc->mSsid));
             slot->mLinkLevel = scanResult->mLinkLevel[descIndex];
-            if ((bssDesc->mCapaInfo & 0x10) == 0) {
-                slot->mCapaLevel = 0;
+            if ((bssDesc->mCapaInfo & AP_SCAN_CAPA_INFO_ENCRYPTED) == 0) {
+                slot->mCapaLevel = AP_CAPA_LEVEL_OPEN;
             } else {
                 WMOtherElements otherElements;
                 s32 elementIndex;
                 s32 elementCount;
-                slot->mCapaLevel = 1;
+                slot->mCapaLevel = AP_CAPA_LEVEL_ENCRYPTED;
                 otherElements = WM_GetOtherElements((const u16 *) bssDesc);
                 elementIndex = 0;
                 elementCount = otherElements.mCount;
                 for (; elementIndex < elementCount; elementIndex++) {
-                    if (otherElements.mElement[elementIndex].mId == 0x30) {
-                        slot->mCapaLevel = 2;
+                    if (otherElements.mElement[elementIndex].mId == AP_SCAN_ELEMENT_ID_SECURITY) {
+                        slot->mCapaLevel = AP_CAPA_LEVEL_SECURITY_ELEMENT;
                         break;
                     }
-                    if (otherElements.mElement[elementIndex].mId == 0xdd &&
-                        otherElements.mElement[elementIndex].mLength >= 4 &&
+                    if (otherElements.mElement[elementIndex].mId == AP_SCAN_ELEMENT_ID_VENDOR &&
+                        otherElements.mElement[elementIndex].mLength >= sizeof(gOtherElementPrefix) &&
                         memcmp(otherElements.mElement[elementIndex].mBody, gOtherElementPrefix, 4) == 0) {
-                        slot->mCapaLevel = 2;
+                        slot->mCapaLevel = AP_CAPA_LEVEL_SECURITY_ELEMENT;
                         break;
                     }
                 }

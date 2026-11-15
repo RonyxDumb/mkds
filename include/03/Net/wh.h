@@ -8,14 +8,24 @@ typedef void (*WhPrintFunction)(u32 flags, const char *format, ...);
 
 // Values of WhWork.mConnectMode, given to StartWhParentConnect: what runs on the link once it is up and what is closed
 // first on the way down. MP is plain MP communication, KEY_SHARING and ACTIVE_KEY_SHARING share keys, DATA_SHARING
-// starts the data sharing; values 1 and 5 also end MP before the
+// starts the data sharing; END_MP_FIRST and END_MP_FIRST_ALTERNATE also end MP before the
 // disconnect; no caller passes them (bare case labels).
 enum {
     WIRELESS_CONNECT_MODE_MP = 0,
+    WIRELESS_CONNECT_MODE_END_MP_FIRST = 1,
     WIRELESS_CONNECT_MODE_KEY_SHARING = 2,
     WIRELESS_CONNECT_MODE_ACTIVE_KEY_SHARING = 3,
     WIRELESS_CONNECT_MODE_DATA_SHARING = 4,
+    WIRELESS_CONNECT_MODE_END_MP_FIRST_ALTERNATE = 5,
 };
+
+// Buffer sizes and the largest parent and child data sizes StartWhParentConnect sets, and the busy ratio (a percentage
+// of 100 at most) that channel search starts from.
+#define WH_RECEIVE_BUFFER_SIZE 0x180
+#define WH_SEND_BUFFER_SIZE 0xe0
+#define WH_PARENT_MAX_SIZE 0xd0
+#define WH_CHILD_MAX_SIZE 0x44
+#define WH_BUSY_RATIO_NOT_MEASURED 0x65
 
 // Values of WhWork.mState. Names 0 to 9 come from the state name table; 10 has no name and is set when a call that
 // starts the next step fails.

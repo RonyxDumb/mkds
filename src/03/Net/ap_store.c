@@ -1,4 +1,5 @@
 #include "03/Net/ap_store.h"
+#include "03/Net/exchange_essid.h"
 #include "03/code_021cd2e0.h"
 #include "03/System/exp_heap.h"
 #include "03/unk_021da000.h"
@@ -58,9 +59,9 @@ void StoreApWorkWepKey(const u8 *text) {
     textLength = GetStringLengthWithLimit(text, 0x20);
     switch (textLength) {
         case 0:
-        case 10:
-        case 26:
-        case 32:
+        case sizeof(WepKey5) * 2:
+        case sizeof(WepKey13) * 2:
+        case sizeof(WepKey16) * 2:
             gApStore->mWorkCopy.mEntry.mWepNotation = 0;
             keyCursor = gApStore->mWorkCopy.mEntry.mWepKeys[0];
             charIndex = 0;
@@ -79,12 +80,12 @@ void StoreApWorkWepKey(const u8 *text) {
         case 0:
             gApStore->mWorkCopy.mEntry.mWepMode = AP_WEP_MODE_NONE;
             break;
-        case 5:
-        case 10:
+        case sizeof(WepKey5):
+        case sizeof(WepKey5) * 2:
             gApStore->mWorkCopy.mEntry.mWepMode = AP_WEP_MODE_KEY_5_BYTES;
             break;
-        case 13:
-        case 26:
+        case sizeof(WepKey13):
+        case sizeof(WepKey13) * 2:
             gApStore->mWorkCopy.mEntry.mWepMode = AP_WEP_MODE_KEY_13_BYTES;
             break;
         default:

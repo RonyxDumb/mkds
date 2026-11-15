@@ -59,13 +59,13 @@ void InitMultiBootParentComm(u32 ggid, u32 tgid) {
     }
     MB_SetParentCommParam(0x100, 1);
     MB_CommSetParentStateCallback(MultiBootParentStateCallback);
-    SetMultiBootParentState(1);
+    SetMultiBootParentState(MULTIBOOT_PARENT_STATE_READY);
 }
 
 void StartMultiBootParentFromIdle(MBGameRegistry *gameRegistry, u16 channel) {
-    SetMultiBootParentState(2);
+    SetMultiBootParentState(MULTIBOOT_PARENT_STATE_ACCEPTING_CHILDREN);
     if (MB_StartParentFromIdle(channel) != 0) {
-        SetMultiBootParentState(7);
+        SetMultiBootParentState(MULTIBOOT_PARENT_STATE_FAILED);
         return;
     }
     if (RegisterMultiBootFile(gameRegistry) == 0) {
@@ -178,7 +178,7 @@ void StartMultiBootDownloads(void) {
     u16 clearMask;
     u32 savedInterrupts;
 
-    SetMultiBootParentState(3);
+    SetMultiBootParentState(MULTIBOOT_PARENT_STATE_DOWNLOADING);
     for (aid = 1; aid < 16; aid++) {
         aidBit = 1 << aid;
         if ((gMultiBootParent->mHeader.mMask & aidBit) != 0) {
@@ -247,14 +247,14 @@ void StartMultiBootBootRequests(void) {
         }
     }
     if (requestedMask == 0) {
-        SetMultiBootParentState(7);
+        SetMultiBootParentState(MULTIBOOT_PARENT_STATE_FAILED);
     } else {
-        SetMultiBootParentState(4);
+        SetMultiBootParentState(MULTIBOOT_PARENT_STATE_BOOTING);
     }
 }
 
 void StartMultiBootEndToIdle(void) {
-    SetMultiBootParentState(6);
+    SetMultiBootParentState(MULTIBOOT_PARENT_STATE_ENDING);
     MB_EndToIdle();
 }
 
@@ -267,7 +267,7 @@ void MultiBootParentStateCallback(u32 aid, u32 code, void *data) {
 
     switch (code) {
         case MULTIBOOT_PARENT_CHILD_CONNECTED:
-            if (GetMultiBootParentState() == 2) {
+            if (GetMultiBootParentState() == MULTIBOOT_PARENT_STATE_ACCEPTING_CHILDREN) {
                 parent = gMultiBootParent;
                 value = OS_DisableInterrupts();
                 BIT_SET(parent->mHeader.mMask, aid);
@@ -283,7 +283,7 @@ void MultiBootParentStateCallback(u32 aid, u32 code, void *data) {
             }
             break;
         case MULTIBOOT_PARENT_CHILD_DISCONNECTED:
-            if (GetMultiBootChildState(aid) != 6) {
+            if (GetMultiBootChildState(aid) != MULTIBOOT_CHILD_STATE_BOOT_STARTABLE) {
                 clearMask = ~(1 << aid);
                 value = OS_DisableInterrupts();
                 gMultiBootParent->mHeader.mMask &= clearMask;
@@ -296,7 +296,7 @@ void MultiBootParentStateCallback(u32 aid, u32 code, void *data) {
             }
             break;
         case MULTIBOOT_PARENT_CHILD_REQUESTED:
-            if (GetMultiBootParentState() != 2) {
+            if (GetMultiBootParentState() != MULTIBOOT_PARENT_STATE_ACCEPTING_CHILDREN) {
                 KickMultiBootChild(aid);
                 break;
             }
@@ -310,7 +310,7 @@ void MultiBootParentStateCallback(u32 aid, u32 code, void *data) {
         case MULTIBOOT_PARENT_CHILD_WAITING:
             BIT_CLEAR(gMultiBootParent->mHeader.mRequestedMask, aid);
             BIT_SET(gMultiBootParent->mHeader.mDownloadPendingMask, aid);
-            if (GetMultiBootParentState() == 3) {
+            if (GetMultiBootParentState() == MULTIBOOT_PARENT_STATE_DOWNLOADING) {
                 StartMultiBootChildDownload(aid);
             }
             break;
@@ -326,10 +326,10 @@ void MultiBootParentStateCallback(u32 aid, u32 code, void *data) {
             }
             break;
         case MULTIBOOT_PARENT_ENDED:
-            if (GetMultiBootParentState() == 4) {
-                SetMultiBootParentState(5);
+            if (GetMultiBootParentState() == MULTIBOOT_PARENT_STATE_BOOTING) {
+                SetMultiBootParentState(MULTIBOOT_PARENT_STATE_BOOTED);
             } else {
-                SetMultiBootParentState(0);
+                SetMultiBootParentState(MULTIBOOT_PARENT_STATE_ENDED);
             }
             if (gMultiBootParent->mFileBuffer != NULL) {
                 gMultiBootParent->mFileBuffer = NULL;
@@ -343,7 +343,7 @@ void MultiBootParentStateCallback(u32 aid, u32 code, void *data) {
                 case WIRELESS_REQUEST_RESTART:
                 case WIRELESS_REQUEST_CLOSE_STACK:
                 case WIRELESS_REQUEST_CLOSE_HOST:
-                    SetMultiBootParentState(7);
+                    SetMultiBootParentState(MULTIBOOT_PARENT_STATE_FAILED);
                     break;
                 case WIRELESS_REQUEST_OPEN_HOST:
                     break;

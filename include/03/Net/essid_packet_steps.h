@@ -87,6 +87,12 @@ typedef struct MaskCodeEntry {
     u8 pad_3;
 } MaskCodeEntry;
 
+// Bit of EssidEntry.mCodes set when the record lists the rate as a basic rate.
+#define ESSID_RATE_CODE_BASIC 0x80
+
+// The two low bits of RawEntry.mFlags that EssidEntry.mMode is made from.
+#define RAW_ENTRY_MODE_MASK 3
+
 // Values of MelcoBlock.mLengthKind: the length of the key bytes.
 #define MELCO_LENGTH_KIND_WEP_KEY_5_BYTES 1
 #define MELCO_LENGTH_KIND_WEP_KEY_13_BYTES 2

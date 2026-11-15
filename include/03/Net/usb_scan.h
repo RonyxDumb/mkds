@@ -4,6 +4,11 @@
 #include "03/System/tasks.h"
 #include "code_02142eac.h"
 
+// Values of UsbScan.mReleaseProgress: running, release started, the close reply arrived.
+#define USB_SCAN_RELEASE_RUNNING 0
+#define USB_SCAN_RELEASE_STARTED 1
+#define USB_SCAN_RELEASE_DONE 2
+
 extern const u8 gUsbScanEmptyBssid[6];
 
 typedef struct UsbScanEntry {

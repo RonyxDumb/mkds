@@ -55,14 +55,14 @@ void ConvertRecordToEssidEntry(RawEntry *src, EssidEntry *dst) {
         if (src->mSupportRateSet & gMaskCodeTable[rateIndex].mMask) {
             dst->mCodes[count] = gMaskCodeTable[rateIndex].mCode;
             if (src->mBasicRateSet & gMaskCodeTable[rateIndex].mMask) {
-                dst->mCodes[count] |= 0x80;
+                dst->mCodes[count] |= ESSID_RATE_CODE_BASIC;
             }
             count++;
         }
     }
     dst->mCodeCount = count;
     dst->mBeaconPeriod = src->mBeaconPeriod;
-    mode = src->mFlags & 3;
+    mode = src->mFlags & RAW_ENTRY_MODE_MASK;
     if (mode == 1) {
         dst->mMode = 1;
     } else if (mode == 2) {

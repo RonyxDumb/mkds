@@ -58,7 +58,8 @@ BOOL StopChildWaitSession(void) {
     }
     if (state == CHILD_WAIT_STATE_MULTIBOOT_WAIT || state == CHILD_WAIT_STATE_CHILD_JOINED ||
         state == CHILD_WAIT_STATE_DOWNLOADING || state == CHILD_WAIT_STATE_CHILD_LEFT) {
-        if (state == CHILD_WAIT_STATE_MULTIBOOT_WAIT && session->mMultiBootInitFrames < 6) {
+        if (state == CHILD_WAIT_STATE_MULTIBOOT_WAIT &&
+            session->mMultiBootInitFrames < CHILD_WAIT_MULTIBOOT_MIN_RUN_FRAMES) {
             return 0;
         }
         MB_EndToIdle();
@@ -287,45 +288,46 @@ void InitChildWaitMultiBoot(void) {
 
 void AdvanceChildWaitMultiBoot(void) {
     switch (GetMultiBootParentState()) {
-        case 1:
+        case MULTIBOOT_PARENT_STATE_READY:
             StartMultiBootParentFromIdle(&gChildWaitSessionView->mGameRegistry, gChildWaitSessionView->mChannel);
             return;
-        case 2:
-            if (GetMultiBootChildMask(2) != 0) {
+        case MULTIBOOT_PARENT_STATE_ACCEPTING_CHILDREN:
+            if (GetMultiBootChildMask(MULTIBOOT_CHILD_MASK_DOWNLOAD_PENDING) != 0) {
                 gChildWaitSessionView->mState = CHILD_WAIT_STATE_CHILD_JOINED;
                 return;
             }
-            if (GetMultiBootChildMask(3) != 0 || GetMultiBootChildMask(4) != 0) {
+            if (GetMultiBootChildMask(MULTIBOOT_CHILD_MASK_DOWNLOAD_STARTED) != 0 ||
+                GetMultiBootChildMask(MULTIBOOT_CHILD_MASK_SEND_COMPLETE) != 0) {
                 gChildWaitSessionView->mState = CHILD_WAIT_STATE_DOWNLOADING;
                 return;
             }
             if (gChildWaitSessionView->mState == CHILD_WAIT_STATE_CHILD_JOINED) {
-                if (GetMultiBootChildMask(2) == 0) {
+                if (GetMultiBootChildMask(MULTIBOOT_CHILD_MASK_DOWNLOAD_PENDING) == 0) {
                     gChildWaitSessionView->mState = CHILD_WAIT_STATE_CHILD_LEFT;
                     return;
                 }
             }
             break;
-        case 3:
+        case MULTIBOOT_PARENT_STATE_DOWNLOADING:
             if (AreMultiBootChildrenBootable() != 0) {
                 StartMultiBootBootRequests();
                 return;
             }
             if ((u8) (gChildWaitSessionView->mState + (256 - CHILD_WAIT_STATE_DOWNLOADING)) <= 1) {
-                if (GetMultiBootChildMask(3) == 0) {
+                if (GetMultiBootChildMask(MULTIBOOT_CHILD_MASK_DOWNLOAD_STARTED) == 0) {
                     gChildWaitSessionView->mState = CHILD_WAIT_STATE_CHILD_LOST;
                     return;
                 }
             }
             break;
-        case 5:
+        case MULTIBOOT_PARENT_STATE_BOOTED:
             gChildWaitSessionView->mState = CHILD_WAIT_STATE_DATA_CONNECT;
             return;
-        case 7:
+        case MULTIBOOT_PARENT_STATE_FAILED:
             StartMultiBootEndToIdle();
             gChildWaitSessionView->mState = CHILD_WAIT_STATE_IDLE;
             return;
-        case 0:
+        case MULTIBOOT_PARENT_STATE_ENDED:
             switch (GetWhState()) {
                 case WH_STATE_IDLE:
                     EndWh();
@@ -367,7 +369,7 @@ void AdvanceChildWaitDataSharing(void) {
                                            gChildWaitSessionView->mUnk_aa0[1] + (blockIndex << 6));
             ReadChildWaitReply();
             if (gChildWaitSessionView->mState != CHILD_WAIT_STATE_ABORT_FINALIZE) {
-                if (gChildWaitSessionView->mStallCount > 0x1e0) {
+                if (gChildWaitSessionView->mStallCount > CHILD_WAIT_STALL_ABORT_LIMIT) {
                     gChildWaitSessionView->mState = CHILD_WAIT_STATE_ABORT_FINALIZE;
                     return;
                 }
@@ -484,7 +486,7 @@ void ReadChildWaitReply(void) {
                     session->mReplyCount = session->mReplyCount + 1;
                     if ((gChildWaitSessionView->mReplyCount & 1) == 0) {
                         gChildWaitSessionView->mBlockNumber = gChildWaitSessionView->mBlockNumber + 1;
-                        if (gChildWaitSessionView->mBlockNumber >= 0x24) {
+                        if (gChildWaitSessionView->mBlockNumber >= CHILD_WAIT_BLOCK_COUNT) {
                             gChildWaitSessionView->mBlockNumber = 0;
                         }
                     }

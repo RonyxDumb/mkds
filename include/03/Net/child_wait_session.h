@@ -5,6 +5,14 @@
 
 typedef struct ChildWaitSessionView ChildWaitSessionView;
 
+// Frames the multiboot parent has to run before the session may stop it (ChildWaitSessionView.mMultiBootInitFrames).
+#define CHILD_WAIT_MULTIBOOT_MIN_RUN_FRAMES 6
+
+// mStallCount value above which the session aborts, and the number of blocks mBlockNumber counts
+// before it wraps (ChildWaitSessionView).
+#define CHILD_WAIT_STALL_ABORT_LIMIT 0x1e0
+#define CHILD_WAIT_BLOCK_COUNT 0x24
+
 
 #include "code_02142eac.h"
 #include "03/unk_021da000.h"
