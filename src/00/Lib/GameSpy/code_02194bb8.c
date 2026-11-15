@@ -83,7 +83,7 @@ s32 GpiOpenSearchSocket(GpConnection *connection, GpiOperation *operation) {
     {
         SOCSockAddrIn address = {0};
 
-        address.mFamily = 2;
+        address.mFamily = SOCKET_FAMILY_IPV4;
         address.mAddr = resolvedHost->mAddrList[0][0];
         if (address.mAddr == 0) {
             AssertionFailed("address.sin_addr.s_addr != 0", "gpiSearch.c", NULL, 0x59);

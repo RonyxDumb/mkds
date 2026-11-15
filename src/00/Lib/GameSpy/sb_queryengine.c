@@ -84,7 +84,7 @@ void QEStartQuery(SBQueryEngine *engine, SbServer *server) {
     s32 keyIndex;
     FIFOAddRear(&engine->mQueryList, server);
     server->mPing = GetElapsedMilliseconds();
-    address.mFamily = 2;
+    address.mFamily = SOCKET_FAMILY_IPV4;
     if ((server->mStateFlags & 0x20) == 0) {
         if (engine->mQueryVersion == 1) {
             query[0] = 0xfe;

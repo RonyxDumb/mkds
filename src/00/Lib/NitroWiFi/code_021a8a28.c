@@ -143,8 +143,8 @@ SOCHostEnt *SOC_GetHostByName(const char *hostname) {
     STD_CopyLStringZeroFill((char *) entName, hostname, 0x101);
     hostent.mName = (char *) entName;
     hostent.mAliases = NULL;
-    hostent.mAddrType = 2;
-    hostent.mLength = 4;
+    hostent.mAddrType = SOCKET_FAMILY_IPV4;
+    hostent.mLength = SOCKET_ADDRESS_LENGTH_IPV4;
     hostent.mAddrList = hostAddrList;
     hostAddrList[0] = &hostip;
     hostAddrList[1] = NULL;
@@ -172,7 +172,7 @@ s32 SOC_GetSockName(u32 socketHandle, void *sockAddr) {
         ownPort = 0;
     }
     addr->mLen = 8;
-    addr->mFamily = 2;
+    addr->mFamily = SOCKET_FAMILY_IPV4;
     portValue = ownPort;
     addr->mPort = ((portValue >> 8) & 0xff) | ((portValue << 8) & 0xff00);
     addr->mAddr = ((ownAddr << 24) & 0xff000000) |

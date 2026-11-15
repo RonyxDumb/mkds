@@ -103,7 +103,7 @@ u32 gti2CreateSocket(Gt2Socket **socketOut, const char *localAddress, u32 outgoi
     bindWords = (u32 *) &socketAddress;
     bindWords[0] = 0;
     bindWords[1] = 0;
-    socketAddress.mFamily = 2;
+    socketAddress.mFamily = SOCKET_FAMILY_IPV4;
     socketAddress.mAddr = address;
     socketAddress.mPort = ((netPort >> 8) & 0xff) | ((netPort << 8) & 0xff00);
     if (bind(newSocket->mDescriptor, &socketAddress, 8) == -1) {
@@ -230,7 +230,7 @@ u32 gti2SocketSend(Gt2Socket *socket, u32 address, int port, u32 message, u32 le
     {
         SOCSockAddrIn sockaddr = {0, 0, 0, 0};
         SOCSockAddrIn *sockaddrPointer = &sockaddr;
-        sockaddrPointer->mFamily = 2;
+        sockaddrPointer->mFamily = SOCKET_FAMILY_IPV4;
         sockaddrPointer->mAddr = address;
         sockaddrPointer->mPort = ((port >> 8) & 0xff) | ((port << 8) & 0xff00);
         if (sendto(socket->mDescriptor, (void *) message, length, 0, &sockaddr, 8) == -1) {

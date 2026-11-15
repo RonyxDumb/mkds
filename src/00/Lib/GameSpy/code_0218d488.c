@@ -22,7 +22,7 @@ char gGsiAcGamename[0x40];
 
 BOOL get_sockaddrin(const char *hostname, u32 port, SOCSockAddrIn *address) {
     SOCHostEnt *resolvedHost;
-    address->mFamily = 2;
+    address->mFamily = SOCKET_FAMILY_IPV4;
     address->mPort = (((u16) port >> 8) & 0xff) | (((u16) port << 8) & 0xff00);
     address->mAddr = inet_addr(hostname);
     if (address->mAddr == -1) {

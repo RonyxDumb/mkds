@@ -591,7 +591,7 @@ u32 DWCi_GT2UnrecognizedMessageCallback(u32 socket, u32 address, u16 port, u8 *d
     }
     fillValue = 0;
     MIi_CpuClear32(fillValue, &originAddr, 8);
-    originAddr.mFamily = 2;
+    originAddr.mFamily = SOCKET_FAMILY_IPV4;
     originAddr.mAddress = address;
     originAddr.mPort = ((port >> 8) & 0xff) | ((port << 8) & 0xff00);
     firstByte = data[0];

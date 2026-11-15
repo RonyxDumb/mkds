@@ -2,6 +2,11 @@
 
 #include "types.h"
 
+// Value of the family member of a socket address and the address type of a host entry for an IPv4 address, and the
+// length in bytes of such an address.
+#define SOCKET_FAMILY_IPV4 2
+#define SOCKET_ADDRESS_LENGTH_IPV4 4
+
 // 8 bytes, moved one byte at a time.
 typedef struct SOCSockAddr {
     /* 00 */ u8 mLen;

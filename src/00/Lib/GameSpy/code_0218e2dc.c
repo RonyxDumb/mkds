@@ -190,7 +190,7 @@ SOCHostEnt *getlocalhost(void) {
 
     loopbackEntry.mName = "localhost";
     loopbackEntry.mAliases = (u8 *) &aliases;
-    loopbackEntry.mAddrType = 2;
+    loopbackEntry.mAddrType = SOCKET_FAMILY_IPV4;
     loopbackEntry.mLength = 0;
     loopbackEntry.mAddrList = addrList;
     ips[0] = 0;
@@ -199,7 +199,7 @@ SOCHostEnt *getlocalhost(void) {
         return NULL;
     }
     addrList[0] = &ips[0];
-    loopbackEntry.mLength = 4;
+    loopbackEntry.mLength = SOCKET_ADDRESS_LENGTH_IPV4;
     addrList[1] = NULL;
     return &loopbackEntry;
 }

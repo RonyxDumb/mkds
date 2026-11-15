@@ -63,7 +63,7 @@ BOOL CheckMagic(const u8 *data) {
 void SendNegotiatorPacket(u32 sock, u32 toaddr, u16 toport, void *data, s32 length) {
     SOCSockAddrIn sockaddr;
 
-    sockaddr.mFamily = 2;
+    sockaddr.mFamily = SOCKET_FAMILY_IPV4;
     sockaddr.mPort = toport >> 8 & 0xff | toport << 8 & 0xff00;
     sockaddr.mAddr = toaddr;
     sendto(sock, data, length, 0, &sockaddr, 8);
@@ -340,7 +340,7 @@ void NegotiateThink(NatTraversalEntry *negotiator) {
     if (negotiator->mState == NAT_NEGOTIATION_PINGED) {
         if (GetElapsedMilliseconds() > negotiator->mRetryTime) {
             if (negotiator->mGameSock == -1) {
-                resultAddress.mFamily = 2;
+                resultAddress.mFamily = SOCKET_FAMILY_IPV4;
                 resultAddress.mPort = negotiator->mGuessedPort >> 8 & 0xff | negotiator->mGuessedPort << 8 & 0xff00;
                 resultAddress.mAddr = negotiator->mGuessedIP;
                 negotiator->mCompletedCallback(0, negotiator->mDescriptor, &resultAddress, negotiator->mUserdata);

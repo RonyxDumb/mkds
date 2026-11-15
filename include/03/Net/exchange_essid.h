@@ -47,8 +47,7 @@ typedef struct WepKey16 {
 #include "00/Lib/DWC/code_0218a064.h"
 #include "03/unk_021d6000.h"
 #include "os_thread.h"
-
-#define SOCKET_FAMILY_IPV4 2
+#include "00/Lib/GameSpy/code_0218e2dc.h"
 
 // UDP port the exchange packets are sent to and received on.
 #define EXCHANGE_SOCKET_PORT 0x1e6

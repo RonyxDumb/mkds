@@ -345,7 +345,7 @@ s32 ServerListConnect(SbServerList *serverList) {
     } else {
         sprintf(masterHost, "%s.ms%d.gs.nintendowifi.net", serverList->mQueryForGameName, masterNumber);
     }
-    masterAddress.mFamily = 2;
+    masterAddress.mFamily = SOCKET_FAMILY_IPV4;
     masterAddress.mPort = 0xee70;
     masterAddress.mAddr = inet_addr(masterHost);
     if (masterAddress.mAddr == -1) {

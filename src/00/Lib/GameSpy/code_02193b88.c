@@ -505,7 +505,7 @@ s32 GpiPeerConnect(GpConnection *connection, GpiPeer *peer) {
     addressWords = (u32 *) &address;
     addressWords[0] = 0;
     addressWords[1] = 0;
-    address.mFamily = 2;
+    address.mFamily = SOCKET_FAMILY_IPV4;
     address.mAddr = profileRec->mBuddyStatus->mIp;
     address.mPort = profileRec->mBuddyStatus->mPort;
     openResult = connect(peer->mSocket, &address, 8);

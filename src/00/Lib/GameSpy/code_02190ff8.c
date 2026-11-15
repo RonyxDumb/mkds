@@ -65,7 +65,7 @@ u32 GpiOpenSockets(GpConnection *connection, GpiOperation *operation) {
             return 3;
         }
         __builtin__clear(&address, sizeof(address));
-        address.mFamily = 2;
+        address.mFamily = SOCKET_FAMILY_IPV4;
         if (bind(gpState->mListenSocket, &address, 8) == -1) {
             GpiSetError(connection, 5, "There was an error binding a socket.");
             GpiQueueErrorCallback(connection, 3, 1);
@@ -105,7 +105,7 @@ u32 GpiOpenSockets(GpConnection *connection, GpiOperation *operation) {
         return 3;
     }
     __builtin__clear(&address, sizeof(address));
-    address.mFamily = 2;
+    address.mFamily = SOCKET_FAMILY_IPV4;
     address.mAddr = **resolvedHost->mAddrList;
     if (address.mAddr == 0) {
         AssertionFailed("address.sin_addr.s_addr != 0", "gpiConnect.c", NULL, 0x90);
@@ -291,7 +291,7 @@ u32 GpiWriteNewuser(GpConnection *connection, GPIConnectData *data) {
         passwordMasked[index] = randomByte ^ gpState->mPassword[index];
     }
     passwordMasked[index] = 0;
-    B64Encode(passwordMasked, passwordEncoded, length, 1);
+    B64Encode(passwordMasked, passwordEncoded, length, B64_ENCODING_ALTERNATE);
     GpiAppendBufferString(connection, &gpState->mOutputBuffer, "\\newuser\\");
     GpiAppendBufferString(connection, &gpState->mOutputBuffer, "\\email\\");
     GpiAppendBufferString(connection, &gpState->mOutputBuffer, gpState->mEmail);
@@ -315,7 +315,7 @@ u32 GpiWriteNewuser(GpConnection *connection, GPIConnectData *data) {
             cdKeyMasked[index] = randomByte ^ data->mCdkey[index];
         }
         cdKeyMasked[index] = 0;
-        B64Encode(cdKeyMasked, cdKeyEncoded, length, 1);
+        B64Encode(cdKeyMasked, cdKeyEncoded, length, B64_ENCODING_ALTERNATE);
         GpiAppendBufferString(connection, &gpState->mOutputBuffer, "\\cdkeyenc\\");
         GpiAppendBufferString(connection, &gpState->mOutputBuffer, cdKeyEncoded);
     }
