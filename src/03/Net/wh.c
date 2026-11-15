@@ -13,7 +13,7 @@ char gWhEndParentFailedText[37] = "DWCi_MOV_WH_StateInEndParent failed\n";
 char gWhStartKeySharingFailedText[47] = "DWCi_MOV_WH_StateInStartParentKeyShare failed\n";
 
 WhWork *gWhWork;
-UnkFunc *gWhPrintFunction;
+WhPrintFunction gWhPrintFunction;
 
 void InitWhWork(WhWork *work) {
     gWhWork = work;

@@ -8,7 +8,7 @@
 #include "code_02147cd8.h"
 
 u32 gSavedIrqMask;
-UnkFunc *gSavedIrqFunction;
+OSIrqFunction gSavedIrqFunction;
 
 void EnableTaskVBlankIrq(void) {
     u16 previousIme;

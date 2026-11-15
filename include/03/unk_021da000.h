@@ -124,7 +124,7 @@ typedef struct MessageBox {
 } MessageBox;
 
 extern MultiBootParent *gMultiBootParent;
-extern UnkFunc *gWhPrintFunction;
+extern WhPrintFunction gWhPrintFunction;
 // Values of ChildWaitSessionView.mState.
 enum {
     CHILD_WAIT_STATE_IDLE = 1,

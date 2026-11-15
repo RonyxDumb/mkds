@@ -4,6 +4,8 @@
 #include "code_02142eac.h"
 #include "code_021445e0.h"
 
+typedef void (*WhPrintFunction)(u32 flags, const char *format, ...);
+
 // Values of WhWork.mConnectMode, given to StartWhParentConnect: what runs on the link once it is up and what is closed
 // first on the way down. MP is plain MP communication, KEY_SHARING and ACTIVE_KEY_SHARING share keys, DATA_SHARING
 // starts the data sharing; values 1 and 5 also end MP before the
