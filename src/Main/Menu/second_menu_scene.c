@@ -149,7 +149,7 @@ s32 FindCupCourseIndex(s32 courseId) {
     return courseIndex;
 }
 
-u32 GetCupCourseIdAtIndex(s32 courseIndex) {
+u32 GetCupCourseIdAtIndex(u8 courseIndex) {
     return gCupCourseIdTable[(u32) courseIndex / 4][courseIndex % 4];
 }
 
