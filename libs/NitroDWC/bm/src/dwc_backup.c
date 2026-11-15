@@ -393,7 +393,7 @@ BOOL readNvram(u32 address, u32 size, void *buf) {
     tag = 4;
     while (PXI_IsCallbackReady(tag, 1) == 0) {
     }
-    PXI_SetFifoRecvCallback(4, (UnkFunc *) Callback_NVRAM);
+    PXI_SetFifoRecvCallback(4, (PXIFifoCallback) Callback_NVRAM);
     tag = 1;
     while (1) {
         if (NVRAMm_ExecuteCommand(tag, address, size, buf) == 1) {
@@ -410,7 +410,7 @@ void writeNvram(u32 address, u16 size, void *data) {
     tag = 4;
     while (PXI_IsCallbackReady(tag, 1) == 0) {
     }
-    PXI_SetFifoRecvCallback(4, (UnkFunc *) Callback_NVRAM);
+    PXI_SetFifoRecvCallback(4, (PXIFifoCallback) Callback_NVRAM);
     DC_StoreRange(data, size);
     tag = 2;
     while (1) {
@@ -440,7 +440,7 @@ BOOL writeDisable(void) {
     ready = 1;
     while (PXI_IsCallbackReady(tag, ready) == 0) {
     }
-    PXI_SetFifoRecvCallback(4, (UnkFunc *) Callback_NVRAM);
+    PXI_SetFifoRecvCallback(4, (PXIFifoCallback) Callback_NVRAM);
     delay = 0x40000;
     tag = 7;
     zero = 0;

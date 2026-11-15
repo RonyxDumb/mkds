@@ -9,7 +9,7 @@ void OSi_GetAndDisplayContext(u32 exinfo);
 // Object at a fixed address in OS_InitException, which sets its word at 0xfdc.
 typedef struct DtcmTail {
     /* 000 */ u8 mUnk_000[0xfdc];
-    /* fdc */ UnkFunc *mExceptionHandler;
+    /* fdc */ void (*mExceptionHandler)(void);
 } DtcmTail;
 
 void OSi_SetExContext(u32 exinfo);

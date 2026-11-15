@@ -88,8 +88,8 @@ asm void OSi_DisplayExContext(void) {
     bx lr
 }
 
-UnkFunc *OSi_UserExceptionHandler;
-UnkFunc *OSi_DebuggerHandler;
+OSExceptionHandler OSi_UserExceptionHandler;
+void *OSi_DebuggerHandler;
 u32 OSi_UserExceptionHandlerArg;
 u8 OSi_ExContext[0x80];
 
@@ -99,7 +99,7 @@ void OS_InitException(void) {
 
     handler = *HW_EXCP_VECTOR_MAIN;
     if (handler >= 0x2600000 && handler < 0x2800000) {
-        OSi_DebuggerHandler = (UnkFunc *) handler;
+        OSi_DebuggerHandler = (void *) handler;
     } else {
         OSi_DebuggerHandler = 0;
     }

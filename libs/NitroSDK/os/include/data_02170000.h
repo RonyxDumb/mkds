@@ -7,14 +7,16 @@
 
 typedef struct NNSG3dGlb NNSG3dGlb;
 
+typedef void (*OSExceptionHandler)(u32 exinfo, void *arg);
+
 extern OSThread OSi_LauncherThread;
 extern u32 OSi_Initialized;
 // Gate of arena index 2. Zero in this game: the only store writes 0.
 extern u32 gArena2Enabled;
-extern UnkFunc *OSi_UserExceptionHandler;
+extern OSExceptionHandler OSi_UserExceptionHandler;
 extern u32 OSi_UserExceptionHandlerArg;
 extern u8 OSi_ExContext[];
-extern UnkFunc *OSi_DebuggerHandler;
+extern void *OSi_DebuggerHandler;
 extern u16 OSi_TimerReserved;
 // Halfword set to 1 by OS_InitTick.
 extern u16 gTickInitialized;

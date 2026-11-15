@@ -72,6 +72,8 @@ enum {
 #define EMBLEM_TEMPLATE_SLIDE_DISTANCE 0xc0
 
 // Object behind gEmblem, allocated by InitEmblem.
+typedef void (*EmblemTransitionFunc)(void);
+
 typedef struct Emblem {
     /* 0000 */ OamBuffer mMainOam;
     /* 0404 */ OamBuffer mSubOam;
@@ -111,7 +113,7 @@ typedef struct Emblem {
     /* 1080 */ s32 mColorCursorIndex;
     /* 1084 */ s32 mTemplateCursorIndex;
     /* 1088 */ s32 mCursorSizeIndex;
-    /* 108c */ UnkFunc *mPendingTransitionFunc;
+    /* 108c */ EmblemTransitionFunc mPendingTransitionFunc;
     /* 1090 */ s32 mState;
     /* 1094 */ s32 mCursorTargetState;
     /* 1098 */ s32 mDisplayState;
