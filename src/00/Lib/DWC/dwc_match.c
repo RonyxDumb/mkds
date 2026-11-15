@@ -903,19 +903,18 @@ void DWCi_ProcessMatchSCClosing(u32 clientPid) {
 
 u32 DWCi_DeleteHostByProfileID(int profileId, int count) {
     int position;
-    int slotAddress;
-    slotAddress = *(s32 *) &gWiFiMatching;
-    if (0 == slotAddress) {
+    WiFiMatching *matching;
+    matching = gWiFiMatching;
+    if (0 == matching) {
         return 0;
     }
     position = 0;
     if (0 < count) {
         do {
-            if (profileId == *(s32 *) (slotAddress + 0xf4)) {
+            if (profileId == matching->mParticipantProfileIds[position]) {
                 DWCi_DeleteHostByIndex(position, count);
                 return 1;
             }
-            slotAddress = slotAddress + 4;
             position = position + 1;
         } while (position < count);
     }
