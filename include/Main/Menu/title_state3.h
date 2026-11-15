@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void UpdateTitleState3(void);
+void UpdateTitleSlideOut(void);
 u32 HasPlayerName(void);

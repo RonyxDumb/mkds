@@ -7,11 +7,11 @@ typedef struct LayoutEntryTable LayoutEntryTable;
 
 unsigned int TitleGetCellLayoutCount(LayoutEntryTable *cellLayout);
 
-u32 TitleState3ReturnArgumentWrapper(u32 value);
+u32 TitleSlideOutReturnArgumentWrapper(u32 value);
 
 typedef struct SceneNumbers SceneNumbers;
 
-void UpdateTitleState2(SceneNumbers *sceneNumbers);
+void UpdateTitleMenuInput(SceneNumbers *sceneNumbers);
 
 u32 TitleGetSlotPairY(u32 slotIndex);
 

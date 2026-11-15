@@ -15,7 +15,7 @@ u32 HasPlayerName(void) {
 #pragma optimize_for_size on
 #pragma thumb on
 
-void UpdateTitleState3(void) {
+void UpdateTitleSlideOut(void) {
     u32 subBase;
     s32 entryIndex;
     LayoutTableEntry *titleTable;

@@ -35,7 +35,7 @@ u32 TitleGetSlotPairY(u32 slotIndex) {
 
 #pragma thumb on
 
-void UpdateTitleState2(SceneNumbers *sceneNumbers) {
+void UpdateTitleMenuInput(SceneNumbers *sceneNumbers) {
     u32 slotIndex;
     s32 previousIndex;
     s32 rectIndex;
@@ -134,7 +134,7 @@ void UpdateTitleState2(SceneNumbers *sceneNumbers) {
 #pragma thumb off
 
 #pragma thumb on
-u32 TitleState3ReturnArgumentWrapper(u32 value) {
+u32 TitleSlideOutReturnArgumentWrapper(u32 value) {
     return TitleReturnArgument(value);
 }
 #pragma thumb off
