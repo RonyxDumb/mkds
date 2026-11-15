@@ -342,7 +342,7 @@ void ResetSelectCupGridShownCourse(void) {
     gSelectCupGrid->mShownCourseFrames = 0;
 }
 
-void RequestSelectCupGridState0(void) {
+void RequestSelectCupGridWaitFade(void) {
     u16 mainCellCount;
     s32 offsetY;
     s32 offsetX;
@@ -412,23 +412,23 @@ void RequestSelectCupGridState0(void) {
     }
 }
 
-void RequestSelectCupGridState1(void) {
+void RequestSelectCupGridSlideIn(void) {
     gSelectCupGrid->mNextState = SELECT_CUP_GRID_STATE_SLIDE_IN;
     gSelectCupGrid->mStateFrames = 0;
 }
 
-void RequestSelectCupGridState2(void) {
+void RequestSelectCupGridWaitReturn(void) {
     gSelectCupGrid->mNextState = SELECT_CUP_GRID_STATE_WAIT_RETURN;
     gSelectCupGrid->mStateFrames = 0;
     RequestSelectReturnSlideIn();
 }
 
-void RequestSelectCupGridState3(void) {
+void RequestSelectCupGridChoose(void) {
     gSelectCupGrid->mNextState = SELECT_CUP_GRID_STATE_CHOOSE;
     gSelectCupGrid->mStateFrames = 0;
 }
 
-void RequestSelectCupGridState4(void) {
+void RequestSelectCupGridWaitChosen(void) {
     gSelectCupGrid->mNextState = SELECT_CUP_GRID_STATE_WAIT_CHOSEN;
     gSelectCupGrid->mStateFrames = 0;
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
@@ -436,7 +436,7 @@ void RequestSelectCupGridState4(void) {
     }
 }
 
-void RequestSelectCupGridState5(void) {
+void RequestSelectCupGridWaitConfirmOpen(void) {
     void *firstChoiceText;
 
     gSelectCupGrid->mNextState = SELECT_CUP_GRID_STATE_WAIT_CONFIRM_OPEN;
@@ -449,7 +449,7 @@ void RequestSelectCupGridState5(void) {
 
 #pragma thumb on
 
-void RequestSelectCupGridState6(void) {
+void RequestSelectCupGridWaitConfirmChoices(void) {
     gSelectCupGrid->mNextState = SELECT_CUP_GRID_STATE_WAIT_CONFIRM_CHOICES;
     gSelectCupGrid->mStateFrames = 0;
     SetSelectChoisesSoundId(0, 7);
@@ -461,13 +461,13 @@ void RequestSelectCupGridState6(void) {
 
 #pragma thumb on
 
-void RequestSelectCupGridState7(void) {
+void RequestSelectCupGridWaitConfirmAnswer(void) {
     gSelectCupGrid->mNextState = SELECT_CUP_GRID_STATE_WAIT_CONFIRM_ANSWER;
     gSelectCupGrid->mStateFrames = 0;
     RequestSelectChoisesHidden();
 }
 
-void RequestSelectCupGridState8(void) {
+void RequestSelectCupGridWaitExitOpen(void) {
     void *firstChoiceText;
 
     gSelectCupGrid->mNextState = SELECT_CUP_GRID_STATE_WAIT_EXIT_OPEN;
@@ -485,7 +485,7 @@ void RequestSelectCupGridState8(void) {
 
 #pragma thumb on
 
-void RequestSelectCupGridState9(void) {
+void RequestSelectCupGridWaitExitChoices(void) {
     gSelectCupGrid->mNextState = SELECT_CUP_GRID_STATE_WAIT_EXIT_CHOICES;
     gSelectCupGrid->mStateFrames = 0;
     SetSelectChoisesSoundId(0, 5);
@@ -497,13 +497,13 @@ void RequestSelectCupGridState9(void) {
 
 #pragma thumb on
 
-void RequestSelectCupGridState10(void) {
+void RequestSelectCupGridWaitExitAnswer(void) {
     gSelectCupGrid->mNextState = SELECT_CUP_GRID_STATE_WAIT_EXIT_ANSWER;
     gSelectCupGrid->mStateFrames = 0;
     RequestSelectChoisesHidden();
 }
 
-void RequestSelectCupGridState11(void) {
+void RequestSelectCupGridSlideOut(void) {
     gSelectCupGrid->mNextState = SELECT_CUP_GRID_STATE_SLIDE_OUT;
     gSelectCupGrid->mStateFrames = 0;
 }
@@ -564,7 +564,7 @@ void InitSelectCupGrid(void *heap, void *mainOam, void *subOam, s32 mode) {
     }
     InitSelectCupGridCells();
     SetupSelectCupGridIndex();
-    RequestSelectCupGridState0();
+    RequestSelectCupGridWaitFade();
     FrmHeapShrinkInParent(gSelectCupGrid->mHeap);
     if (gStartupWork->mConnectionKind == CONNECTION_KIND_WL_MENU) {
         ClearSelectReturnDisplayBitOn();
@@ -591,11 +591,11 @@ void ReleaseSelectCupGrid(void) {
 
 #pragma thumb on
 
-void AdvanceSelectCupGridState0(void) {
+void AdvanceSelectCupGridWaitFade(void) {
     int fadesClear;
     fadesClear = AreBrightnessFadesClear();
     if (fadesClear != 0) {
-        RequestSelectCupGridState1();
+        RequestSelectCupGridSlideIn();
     }
 }
 
@@ -603,7 +603,7 @@ void AdvanceSelectCupGridState0(void) {
 
 #pragma thumb on
 
-void AdvanceSelectCupGridState1(void) {
+void AdvanceSelectCupGridSlideIn(void) {
     u16 mainCellCount;
     s16 offsetX;
     s16 offsetY;
@@ -652,7 +652,7 @@ void AdvanceSelectCupGridState1(void) {
         }
     }
     if (gSelectCupGrid->mStateFrames >= SELECT_CUP_GRID_SLIDE_STEPS) {
-        RequestSelectCupGridState2();
+        RequestSelectCupGridWaitReturn();
     }
 }
 
@@ -660,11 +660,11 @@ void AdvanceSelectCupGridState1(void) {
 
 #pragma thumb on
 
-void AdvanceSelectCupGridState2(void) {
-    int isReturnState2NoState3Or4Request;
-    isReturnState2NoState3Or4Request = IsSelectReturnShownNoRequest();
-    if (isReturnState2NoState3Or4Request != 0) {
-        RequestSelectCupGridState3();
+void AdvanceSelectCupGridWaitReturn(void) {
+    int isReturnShownNoRequest;
+    isReturnShownNoRequest = IsSelectReturnShownNoRequest();
+    if (isReturnShownNoRequest != 0) {
+        RequestSelectCupGridChoose();
     }
 }
 
@@ -672,7 +672,7 @@ void AdvanceSelectCupGridState2(void) {
 
 #pragma thumb on
 
-void AdvanceSelectCupGridState3(void) {
+void AdvanceSelectCupGridChoose(void) {
     InputSlotIndex inputIndex;
     s32 touchedRectIndex;
     s32 neighborIndex;
@@ -729,7 +729,7 @@ runReturnRequest:
     switch (gSelectCupGrid->mMode) {
         case SELECT_CUP_GRID_MODE_SHOW_RECORDS:
         case SELECT_CUP_GRID_MODE_NO_RECORDS:
-            RequestSelectCupGridState11();
+            RequestSelectCupGridSlideOut();
             gSelectCupGrid->mResult = 2;
             RequestSelectReturnPressWithSound(0);
             return;
@@ -737,14 +737,14 @@ runReturnRequest:
         case SELECT_CUP_GRID_MODE_MULTI_SIMPLE:
         case SELECT_CUP_GRID_MODE_MULTI_OTHER:
             if (gMenuShared->mMenuEntryKind == 2 || gMenuShared->mMenuEntryKind == 3) {
-                RequestSelectCupGridState8();
+                RequestSelectCupGridWaitExitOpen();
                 if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
                     SetSelectReturnSoundId(-1);
                 }
                 RequestSelectReturnPressWithSound(0);
                 return;
             }
-            RequestSelectCupGridState11();
+            RequestSelectCupGridSlideOut();
             gSelectCupGrid->mResult = 2;
             if (gSelectCupGrid->mMode != SELECT_CUP_GRID_MODE_NO_CONNECTION) {
                 RequestSelectReturnPressWithSound(1);
@@ -770,11 +770,11 @@ checkCupTouch:
             gSelectCupGrid->mHighlightShown = FALSE;
         }
         gSelectCupGrid->mIndex = touchedCupIndex;
-        RequestSelectCupGridState4();
+        RequestSelectCupGridWaitChosen();
         return;
     }
     if ((u16) (inputSlot->mPressedBits & PAD_KEY_A) != 0) {
-        RequestSelectCupGridState4();
+        RequestSelectCupGridWaitChosen();
         gSelectCupGrid->mHighlightShown = FALSE;
         return;
     }
@@ -833,7 +833,7 @@ checkCupTouch:
     }
 }
 
-void AdvanceSelectCupGridState4(void) {
+void AdvanceSelectCupGridWaitChosen(void) {
     AdvanceSelectCupGridIndexChange();
     AdvanceSelectCupGridShownCourse();
     if (gSelectCupGrid->mStateFrames == SELECT_CUP_GRID_HIGHLIGHT_STEP) {
@@ -842,12 +842,12 @@ void AdvanceSelectCupGridState4(void) {
     gSelectCupGrid->mStateFrames = gSelectCupGrid->mStateFrames + 1;
     if (gSelectCupGrid->mStateFrames >= SELECT_CUP_GRID_SLIDE_STEPS && IsSelectCupGridIndexChangeRunning() == 0) {
         if (gSelectCupGrid->mMode == SELECT_CUP_GRID_MODE_SHOW_RECORDS) {
-            RequestSelectCupGridState5();
+            RequestSelectCupGridWaitConfirmOpen();
             return;
         }
         SetCupFromSelectCupGrid();
         gSelectCupGrid->mResult = 1;
-        RequestSelectCupGridState11();
+        RequestSelectCupGridSlideOut();
     }
 }
 
@@ -855,21 +855,21 @@ void AdvanceSelectCupGridState4(void) {
 
 #pragma thumb on
 
-void AdvanceSelectCupGridState5(void) {
-    int isChoisesState1NoState0Request;
+void AdvanceSelectCupGridWaitConfirmOpen(void) {
+    int isChooseNoRequest;
     AdvanceSelectCupGridShownCourse();
-    isChoisesState1NoState0Request = IsSelectChoisesChooseNoRequest();
-    if (isChoisesState1NoState0Request != 0) {
-        RequestSelectCupGridState6();
+    isChooseNoRequest = IsSelectChoisesChooseNoRequest();
+    if (isChooseNoRequest != 0) {
+        RequestSelectCupGridWaitConfirmChoices();
     }
 }
 
-void AdvanceSelectCupGridState6(void) {
+void AdvanceSelectCupGridWaitConfirmChoices(void) {
     int isDone;
     AdvanceSelectCupGridShownCourse();
     isDone = GetSelectChoisesDone();
     if (isDone != 0) {
-        RequestSelectCupGridState7();
+        RequestSelectCupGridWaitConfirmAnswer();
     }
 }
 
@@ -877,7 +877,7 @@ void AdvanceSelectCupGridState6(void) {
 
 #pragma thumb on
 
-void AdvanceSelectCupGridState7(void) {
+void AdvanceSelectCupGridWaitConfirmAnswer(void) {
     s32 choiceIndex;
 
     AdvanceSelectCupGridShownCourse();
@@ -887,12 +887,12 @@ void AdvanceSelectCupGridState7(void) {
             case 0:
                 SetCupFromSelectCupGrid();
                 gSelectCupGrid->mResult = 1;
-                RequestSelectCupGridState11();
+                RequestSelectCupGridSlideOut();
                 RequestSelectReturnSlideOut();
                 break;
             case -1:
             case 1:
-                RequestSelectCupGridState3();
+                RequestSelectCupGridChoose();
                 break;
         }
     }
@@ -902,12 +902,12 @@ void AdvanceSelectCupGridState7(void) {
 
 #pragma thumb on
 
-void AdvanceSelectCupGridState8(void) {
-    int isChoisesState1NoState0Request;
+void AdvanceSelectCupGridWaitExitOpen(void) {
+    int isChooseNoRequest;
     AdvanceSelectCupGridShownCourse();
-    isChoisesState1NoState0Request = IsSelectChoisesChooseNoRequest();
-    if (isChoisesState1NoState0Request != 0) {
-        RequestSelectCupGridState9();
+    isChooseNoRequest = IsSelectChoisesChooseNoRequest();
+    if (isChooseNoRequest != 0) {
+        RequestSelectCupGridWaitExitChoices();
     }
 }
 
@@ -915,12 +915,12 @@ void AdvanceSelectCupGridState8(void) {
 
 #pragma thumb on
 
-void AdvanceSelectCupGridState9(void) {
+void AdvanceSelectCupGridWaitExitChoices(void) {
     s32 choiceIndex;
 
     AdvanceSelectCupGridShownCourse();
     if (GetSelectChoisesDone() != 0) {
-        RequestSelectCupGridState10();
+        RequestSelectCupGridWaitExitAnswer();
         if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
             choiceIndex = GetSelectChoisesIndex();
             switch (choiceIndex) {
@@ -935,7 +935,7 @@ void AdvanceSelectCupGridState9(void) {
     }
 }
 
-void AdvanceSelectCupGridState10(void) {
+void AdvanceSelectCupGridWaitExitAnswer(void) {
     s32 choiceIndex;
 
     AdvanceSelectCupGridShownCourse();
@@ -944,11 +944,11 @@ void AdvanceSelectCupGridState10(void) {
         switch (choiceIndex) {
             case -1:
             case 0:
-                RequestSelectCupGridState3();
+                RequestSelectCupGridChoose();
                 break;
             case 1:
                 gSelectCupGrid->mResult = 3;
-                RequestSelectCupGridState11();
+                RequestSelectCupGridSlideOut();
                 if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
                     SlideOutSelectRaceRuleWait();
                 }
@@ -957,7 +957,7 @@ void AdvanceSelectCupGridState10(void) {
     }
 }
 
-void AdvanceSelectCupGridState11(void) {
+void AdvanceSelectCupGridSlideOut(void) {
     s16 offsetX;
     s16 offsetY;
     s16 negatedOffsetX;
@@ -1017,40 +1017,40 @@ s32 AdvanceSelectCupGrid(void) {
     gSelectCupGrid->mState = gSelectCupGrid->mNextState;
     switch (gSelectCupGrid->mState) {
         case SELECT_CUP_GRID_STATE_WAIT_FADE:
-            AdvanceSelectCupGridState0();
+            AdvanceSelectCupGridWaitFade();
             break;
         case SELECT_CUP_GRID_STATE_SLIDE_IN:
-            AdvanceSelectCupGridState1();
+            AdvanceSelectCupGridSlideIn();
             break;
         case SELECT_CUP_GRID_STATE_WAIT_RETURN:
-            AdvanceSelectCupGridState2();
+            AdvanceSelectCupGridWaitReturn();
             break;
         case SELECT_CUP_GRID_STATE_CHOOSE:
-            AdvanceSelectCupGridState3();
+            AdvanceSelectCupGridChoose();
             break;
         case SELECT_CUP_GRID_STATE_WAIT_CHOSEN:
-            AdvanceSelectCupGridState4();
+            AdvanceSelectCupGridWaitChosen();
             break;
         case SELECT_CUP_GRID_STATE_WAIT_CONFIRM_OPEN:
-            AdvanceSelectCupGridState5();
+            AdvanceSelectCupGridWaitConfirmOpen();
             break;
         case SELECT_CUP_GRID_STATE_WAIT_CONFIRM_CHOICES:
-            AdvanceSelectCupGridState6();
+            AdvanceSelectCupGridWaitConfirmChoices();
             break;
         case SELECT_CUP_GRID_STATE_WAIT_CONFIRM_ANSWER:
-            AdvanceSelectCupGridState7();
+            AdvanceSelectCupGridWaitConfirmAnswer();
             break;
         case SELECT_CUP_GRID_STATE_WAIT_EXIT_OPEN:
-            AdvanceSelectCupGridState8();
+            AdvanceSelectCupGridWaitExitOpen();
             break;
         case SELECT_CUP_GRID_STATE_WAIT_EXIT_CHOICES:
-            AdvanceSelectCupGridState9();
+            AdvanceSelectCupGridWaitExitChoices();
             break;
         case SELECT_CUP_GRID_STATE_WAIT_EXIT_ANSWER:
-            AdvanceSelectCupGridState10();
+            AdvanceSelectCupGridWaitExitAnswer();
             break;
         case SELECT_CUP_GRID_STATE_SLIDE_OUT:
-            AdvanceSelectCupGridState11();
+            AdvanceSelectCupGridSlideOut();
             break;
     }
     UpdateSelectCupGridCupCells();
