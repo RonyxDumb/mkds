@@ -471,7 +471,7 @@ BOOL ComputeRaceHudSubScreenPosition(const Vec3 *pos, IntPair *out, s32 subScree
 void ComputeRaceHudSubScreenKartPosition(s32 kartIndex, IntPair *out, s32);
 BOOL IsRaceHudSubScreenPairNearCenter(const IntPair *position);
 void ComputeRaceHudSubScreenCoursePosition(const Vec3 *pos, IntPair *out);
-void ComputeSubScreenState0KartPosition(s32 kartIndex, IntPair *out);
+void ComputeSubScreenKartIconsKartPosition(s32 kartIndex, IntPair *out);
 u16 GetRaceHudSubScreenKartAngle(s32 kartIndex);
 u16 GetSubScreenAngleAndClearScrollTimer(void);
 BOOL IsCourseWithSubBg3AreaOverflow(void);

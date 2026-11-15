@@ -238,7 +238,7 @@ void UpdateRaceHudSubScreenKarts(void) {
     switch (GetRaceHudSubScreenState()) {
         case RACE_HUD_SUB_SCREEN_KART_ICONS:
             for (kartIndex = 0; kartIndex < (u32) gRaceSetup->mKartCount; kartIndex++) {
-                ComputeSubScreenState0KartPosition(kartIndex, &gRaceHudSubScreenKarts->mScreenPos[kartIndex]);
+                ComputeSubScreenKartIconsKartPosition(kartIndex, &gRaceHudSubScreenKarts->mScreenPos[kartIndex]);
                 screenX = gRaceHudSubScreenKarts->mScreenPos[kartIndex].mFirst;
                 screenY = gRaceHudSubScreenKarts->mScreenPos[kartIndex].mSecond;
                 if (screenX > -0x10 && screenX < 0x110 && screenY > -0x10 && screenY < 0xd0 &&

@@ -156,7 +156,7 @@ u16 GetRaceHudSubScreenKartAngle(s32 kartIndex) {
     return (0x18000 - GetKartHeadingAngle(kartIndex)) % 0x10000;
 }
 
-void ComputeSubScreenState0KartPosition(s32 kartIndex, IntPair *out) {
+void ComputeSubScreenKartIconsKartPosition(s32 kartIndex, IntPair *out) {
     IntPair state0Min = gRaceHudSubScreenProjection->mState0Min;
     Vec3 kartPos;
 
