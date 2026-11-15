@@ -121,8 +121,8 @@ void FillNsbmdModel(Nsbmd *model, ModelAnimation *animation, NsbmdModel *record)
         }
     } else {
         record->mFrameCount = 1;
-        record->mTexImageParams = HeapAlloc(GetHeap(GetCurrentHeapCall()), 4);
-        record->mTexPlttBases = HeapAlloc(GetHeap(GetCurrentHeapCall()), 4);
+        record->mTexImageParams = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(u32));
+        record->mTexPlttBases = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(u32));
         record->mTexImageParams[0] = matData->mTexImageParam;
         record->mTexPlttBases[0] = matData->mTexPlttBase;
     }
