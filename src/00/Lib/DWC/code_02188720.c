@@ -58,7 +58,7 @@ void DWCi_AC_GetBeacon(WMBssDesc *bssdesc) {
     type = -1;
     work = DWCi_AC_GetMemPtr(0x10);
     hold = DWCi_AC_GetMemPtr(1);
-    hold->mUnk_0b = 1;
+    hold->mBeaconReceived = 1;
     phase = DWCi_AC_GetPhase();
     switch (phase) {
         case 3:
@@ -236,8 +236,8 @@ void SortList(u32 listIndex, ACWORK *work) {
         } while (previousIndex >= 0);
     }
     findList += 10;
-    func_0214d018_inline(findList, 4);
-    func_0214d018_inline(bssDescList + 10, 0xc0);
+    ClearBuffer32(findList, 4);
+    ClearBuffer32(bssDescList + 10, 0xc0);
 }
 
 BOOL DWC_AC_Create(DWCACConfig *config) {
@@ -247,7 +247,7 @@ BOOL DWC_AC_Create(DWCACConfig *config) {
     s32 result;
 
     gAcHold = config->mAlloc(1, 0x18);
-    func_0214d018_inline(gAcHold, 0x18);
+    ClearBuffer32(gAcHold, 0x18);
     hold = gAcHold;
     hold->mAlloc = config->mAlloc;
     hold->mFree = config->mFree;
@@ -258,10 +258,10 @@ BOOL DWC_AC_Create(DWCACConfig *config) {
     gWcmBuffer = DWCi_AC_Alloc(2, 0x2300);
     gSocConfig = DWCi_AC_Alloc(4, 0x58);
     gNetCheck = DWCi_AC_Alloc(8, 0xc);
-    func_0214d018_inline(gAcWork, 0xd18);
-    func_0214d018_inline(gWcmBuffer, 0x2300);
-    func_0214d018_inline(gSocConfig, 0x58);
-    func_0214d018_inline(gNetCheck, 0xc);
+    ClearBuffer32(gAcWork, 0xd18);
+    ClearBuffer32(gWcmBuffer, 0x2300);
+    ClearBuffer32(gSocConfig, 0x58);
+    ClearBuffer32(gNetCheck, 0xc);
     work = gAcWork;
     work->mDmaNo = config->mDmaNo;
     work->mPowerMode = config->mPowerMode;

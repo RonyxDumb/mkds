@@ -6,7 +6,7 @@ u32 GetIrregularError(void) {
 }
 
 u32 GetNotFoundAP(ACHOLD *hold) {
-    if (hold->mUnk_0b == 0) {
+    if (hold->mBeaconReceived == 0) {
         return (0xffff3c4du);
     }
     return (0xffff3865u);

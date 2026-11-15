@@ -64,11 +64,11 @@ typedef struct WiFiPeerMessage {
 typedef struct WiFiMessageLayer {
     /* 000 */ WiFiPeerMessage mPeers[32];
     // Called after a send was queued or finished, with (size, index).
-    /* 600 */ void (*mSendCallback)(s32 a, u32 b);
+    /* 600 */ void (*mSendCallback)(s32 size, u32 aid);
     // Called with (index, buffer, size) when a received message is complete.
-    /* 604 */ void (*mReceiveCallback)(u32 a, u8 *b, s32 c);
-    /* 608 */ void (*mReceiveTimeoutCallback)(u32 a);
-    /* 60c */ void (*mPingCallback)(u32 a, u32 b);
+    /* 604 */ void (*mReceiveCallback)(u32 aid, u8 *buffer, s32 size);
+    /* 608 */ void (*mReceiveTimeoutCallback)(u32 aid);
+    /* 60c */ void (*mPingCallback)(u32 latency, u32 aid);
     // u16 0x5b9 (1465), set by DWCi_InitTransport: the most the layer hands the socket in one call. A message is cut
     // into chunks of at most this size; a size equal to it is
     // allowed, the last chunk is shorter and a single-packet send above it is refused.

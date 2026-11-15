@@ -85,7 +85,7 @@ void DWCi_AC_SetError(u32 error) {
     hold = DWCi_AC_GetMemPtr(1);
     hold->mError = errorValue;
     value = DWCi_AC_GetPhase();
-    hold->mUnk_0a = value;
+    hold->mErrorPhase = value;
 }
 
 u32 DWCi_AC_GetError(void) {
@@ -95,7 +95,7 @@ u32 DWCi_AC_GetError(void) {
 }
 
 void SetAcHoldApType(u8 apType) {
-    gAcHold->mUnk_17 = DWCi_ConvConnectAPType(apType);
+    gAcHold->mApType = DWCi_ConvConnectAPType(apType);
 }
 
 u8 DWCi_ConvConnectAPType(u8 apType) {

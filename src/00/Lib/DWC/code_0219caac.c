@@ -11,14 +11,15 @@ u32 DWCi_GetPersCallbackLevel(void) {
 // Per login (called by DWC_InitFriendsMatch after the caller zeroed the connection; not once at boot): stores
 // gWiFiLogin, zeroes the 0x264 bytes and stores the GP connection, product id, saved record and the callback pair. Pair
 // of DWCi_ShutdownLogin.
-void InitWiFiLogin(WiFiLogin *a, DWCAccUserData *b, GpConnection *c, u32 d, u32 e, void (*f)(), void *g) {
-    gWiFiLogin = a;
-    MI_CpuFill8(a, 0, sizeof(WiFiLogin));
-    gWiFiLogin->mGpConnection = c;
+void InitWiFiLogin(WiFiLogin *login, DWCAccUserData *userData, GpConnection *gpConnection, u32 productId, u32 gamecode,
+                   void (*resultCallback)(), void *resultCallbackArg) {
+    gWiFiLogin = login;
+    MI_CpuFill8(login, 0, sizeof(WiFiLogin));
+    gWiFiLogin->mGpConnection = gpConnection;
     gWiFiLogin->mState = WIFI_LOGIN_IDLE;
-    gWiFiLogin->mProductId = d;
-    gWiFiLogin->mGamecode = e;
-    gWiFiLogin->mResultCallback = f;
-    gWiFiLogin->mResultCallbackArg = g;
-    gWiFiLogin->mUserData = b;
+    gWiFiLogin->mProductId = productId;
+    gWiFiLogin->mGamecode = gamecode;
+    gWiFiLogin->mResultCallback = resultCallback;
+    gWiFiLogin->mResultCallbackArg = resultCallbackArg;
+    gWiFiLogin->mUserData = userData;
 }

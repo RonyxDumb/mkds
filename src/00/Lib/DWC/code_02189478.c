@@ -9,7 +9,7 @@ u8 DWCi_AC_Error(void) {
     ACHOLD *hold;
     int status;
     hold = DWCi_AC_GetMemPtr(1);
-    status = DWCi_AC_CloseNetwork(&hold->mUnk_0a);
+    status = DWCi_AC_CloseNetwork(&hold->mErrorPhase);
     if (status == 1) {
         return 0x12;
     }

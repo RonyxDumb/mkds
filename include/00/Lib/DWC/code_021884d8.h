@@ -9,14 +9,14 @@ typedef struct ACHOLD {
     /* 04 */ SocketFreeFn mFree;
     /* 08 */ u8 mAllocState;
     /* 09 */ u8 mPhase;
-    /* 0a */ u8 mUnk_0a;
-    /* 0b */ u8 mUnk_0b;
+    /* 0a */ u8 mErrorPhase;
+    /* 0b */ u8 mBeaconReceived;
     /* 0c */ u32 mError;
     /* 10 */ s32 mErrorTest;
     /* 14 */ u8 mEndState;
     /* 15 */ u8 mEndType;
     /* 16 */ u8 mEndSequence;
-    /* 17 */ u8 mUnk_17;
+    /* 17 */ u8 mApType;
 } ACHOLD;
 
 u8 DWCi_ConvConnectAPType(u8 apType);

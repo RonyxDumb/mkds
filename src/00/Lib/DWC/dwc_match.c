@@ -902,19 +902,19 @@ void DWCi_ProcessMatchSCClosing(u32 clientPid) {
 
 u32 DWCi_DeleteHostByProfileID(int profileId, int count) {
     int position;
-    int v2;
-    v2 = *(s32 *) &gWiFiMatching;
-    if (0 == v2) {
+    int slotAddress;
+    slotAddress = *(s32 *) &gWiFiMatching;
+    if (0 == slotAddress) {
         return 0;
     }
     position = 0;
     if (0 < count) {
         do {
-            if (profileId == *(s32 *) (v2 + 0xf4)) {
+            if (profileId == *(s32 *) (slotAddress + 0xf4)) {
                 DWCi_DeleteHostByIndex(position, count);
                 return 1;
             }
-            v2 = v2 + 4;
+            slotAddress = slotAddress + 4;
             position = position + 1;
         } while (position < count);
     }
@@ -1099,7 +1099,7 @@ void DWCi_ResetMatchParam(s32 level) {
     gWiFiMatching->mServerAddress = 0;
     gWiFiMatching->mLastPeerMessageSendTime = 0;
     gWiFiMatching->mResumeWaitStartTime = 0;
-    func_0214d018_inline(&gWiFiMatching->mLastCommand, 0x98);
+    ClearBuffer32(&gWiFiMatching->mLastCommand, 0x98);
     if (level == 2) {
         gWiFiMatching->mNNCompletedCount = gWiFiMatching->mLastParticipantPos;
         if (gWiFiMatching->mMode == WIFI_MATCH_MODE_SERVER_CLIENT) {
@@ -1127,16 +1127,16 @@ void DWCi_ResetMatchParam(s32 level) {
         gWiFiMatching->mReplyProfileId = 0;
         gWiFiMatching->mPriorProfileId = 0;
         gWiFiMatching->mParticipantMask = 0;
-        func_0214d018_inline(gWiFiMatching->mParticipantCommandAddresses, 0x80);
+        ClearBuffer32(gWiFiMatching->mParticipantCommandAddresses, 0x80);
         commandPortFill = 0;
         MIi_CpuClear16(commandPortFill, gWiFiMatching->mParticipantCommandPorts, 0x40);
-        func_0214d018_inline(gWiFiMatching->mParticipantProfileIds, 0x80);
-        func_0214d018_inline(&gWiFiMatching->mNNInfo, sizeof(DWCNNInfo));
-        func_0214d018_inline(gWiFiMatching->mParticipantConnectAddresses, 0x80);
+        ClearBuffer32(gWiFiMatching->mParticipantProfileIds, 0x80);
+        ClearBuffer32(&gWiFiMatching->mNNInfo, sizeof(DWCNNInfo));
+        ClearBuffer32(gWiFiMatching->mParticipantConnectAddresses, 0x80);
         connectPortFill = 0;
         MIi_CpuClear16(connectPortFill, gWiFiMatching->mParticipantConnectPorts, 0x40);
         MI_CpuFill8(gWiFiMatching->mParticipantIndices, 0, 0x20);
-        func_0214d018_inline(gWiFiMatching->mReceivedList, 0x84);
+        ClearBuffer32(gWiFiMatching->mReceivedList, 0x84);
         if (level == 1) {
             if (gWiFiMatching->mMode == WIFI_MATCH_MODE_FILTER_SEARCH) {
                 gWiFiMatching->mState = WIFI_MATCH_STATE_LIST_SEARCH;
@@ -1160,15 +1160,15 @@ void DWCi_ResetMatchParam(s32 level) {
 
 // Sets mode, second value and result callback for a new search and registers the key names 0x32 to 0x36.
 void DWCi_SetMatchCommonParam(u8 matchType, u8 numEntry, DWCMatchedCallback matchedCallback, u32 matchedParam) {
-    WiFiMatching **v1;
+    WiFiMatching **matchingSlot;
     DWCi_ResetMatchParam(0);
-    v1 = &gWiFiMatching;
+    matchingSlot = &gWiFiMatching;
     gWiFiMatching->mMode = matchType;
-    (*v1)->mNumEntry = numEntry;
-    (*v1)->mResultCallback = matchedCallback;
-    (*v1)->mResultCallbackArg = matchedParam;
-    (*v1)->mNatnegCounts[1] = 0;
-    (*v1)->mParticipantIndices[0] = 0;
+    (*matchingSlot)->mNumEntry = numEntry;
+    (*matchingSlot)->mResultCallback = matchedCallback;
+    (*matchingSlot)->mResultCallbackArg = matchedParam;
+    (*matchingSlot)->mNatnegCounts[1] = 0;
+    (*matchingSlot)->mParticipantIndices[0] = 0;
     qr2_register_keyA(0x32, gDwcPidKey);
     qr2_register_keyA(0x33, "dwc_mtype");
     qr2_register_keyA(0x34, "dwc_mresv");
@@ -3151,7 +3151,7 @@ s32 DWCi_HandleNNError(s32 error) {
 }
 
 s32 DWCi_HandleNNResult(s32 result) {
-    enum { K6 = 6 } dwcError;
+    enum { DWC_ERROR_NETWORK = 6 } dwcError;
     s32 detail;
     if (result == 0) {
         return 0;
@@ -3162,7 +3162,7 @@ s32 DWCi_HandleNNResult(s32 result) {
         case 2:
             return 2;
         default:
-            dwcError = K6;
+            dwcError = DWC_ERROR_NETWORK;
             detail = -9;
             break;
     }

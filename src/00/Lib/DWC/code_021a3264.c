@@ -27,9 +27,9 @@ u32 DWC_AddCommonKeyValueString(void *key, void *value, void *string, u32 separa
 
 s32 DWC_GetCommonValueString(const char *key, char *value, const char *string, int separator) {
     const char *pair;
-    const char *q;
+    const char *nextSeparator;
     s32 len;
-    enum { K1 = 1 } k;
+    enum { SEPARATOR_LENGTH = 1 } k;
     if (value == NULL) {
         return -1;
     }
@@ -37,17 +37,17 @@ s32 DWC_GetCommonValueString(const char *key, char *value, const char *string, i
     if (pair == NULL) {
         return -1;
     }
-    k = K1;
+    k = SEPARATOR_LENGTH;
     while (1) {
         if (strncmp(pair + 1, key, strlen(key)) == 0 &&
             (len = strlen(key), len += (u32) pair, separator == *(s8 *) (len + k))) {
             break;
         }
-        q = strchr(pair + 1, separator);
-        if (q == NULL) {
+        nextSeparator = strchr(pair + 1, separator);
+        if (nextSeparator == NULL) {
             return -1;
         }
-        pair = strchr(q + 1, separator);
+        pair = strchr(nextSeparator + 1, separator);
         if (pair == NULL) {
             return -1;
         }
@@ -56,9 +56,9 @@ s32 DWC_GetCommonValueString(const char *key, char *value, const char *string, i
     if (pair == NULL) {
         return -1;
     }
-    q = strchr(pair + 1, separator);
-    if (q != NULL) {
-        len = q - (pair + 1);
+    nextSeparator = strchr(pair + 1, separator);
+    if (nextSeparator != NULL) {
+        len = nextSeparator - (pair + 1);
     } else {
         len = strlen(pair + 1);
     }

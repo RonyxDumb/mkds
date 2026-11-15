@@ -5,8 +5,8 @@
 typedef struct ACWORK ACWORK;
 typedef struct ACHOLD ACHOLD;
 
-typedef void *(*SocketAllocFn)(u32 a, u32 b);
-typedef void (*SocketFreeFn)(u32 a, void *b, u32 c);
+typedef void *(*SocketAllocFn)(u32 name, u32 size);
+typedef void (*SocketFreeFn)(u32 name, void *block, u32 size);
 
 // Object behind gNetCheck, 0x58 bytes.
 typedef struct SOCConfig {

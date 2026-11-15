@@ -82,7 +82,7 @@ void DWC_InitFriendsMatch(void *connectionObject, void *userData, s32 titleNumbe
     gWiFiConnection->mSendBufferSize = sendBufferSize == 0 ? 0x2000 : sendBufferSize;
     gWiFiConnection->mReceiveBufferSize = receiveBufferSize == 0 ? 0x2000 : receiveBufferSize;
     gWiFiConnection->mGpConnection.mGpiConnection = NULL;
-    gWiFiConnection->mUnk_20 = userData;
+    gWiFiConnection->mUserData = userData;
     gWiFiConnection->mState = WIFI_CONNECTION_IDLE;
     gWiFiConnection->mPrevState = WIFI_CONNECTION_IDLE;
     gWiFiConnection->mOwnIndex = 0;
@@ -90,7 +90,7 @@ void DWC_InitFriendsMatch(void *connectionObject, void *userData, s32 titleNumbe
     gWiFiConnection->mUnk_2e = 0;
     gWiFiConnection->mProfileId = 0;
     gWiFiConnection->mGameName = gcd_gamename;
-    gWiFiConnection->mUnk_58 = gcd_secret_key;
+    gWiFiConnection->mSecretKey = gcd_secret_key;
     gWiFiConnection->mLoginCallback = NULL;
     gWiFiConnection->mLoginCallbackArg = 0;
     gWiFiConnection->mBuddySyncCallback = NULL;
@@ -505,8 +505,8 @@ s32 DWCi_GT2GetConnectionListIdx(void) {
 }
 
 void DWCi_ClearGT2ConnectionList(void) {
-    func_0214d018_inline(stGt2ConnectionList, 0x80);
-    func_0214d018_inline(stConnectionInfoList, 0x100);
+    ClearBuffer32(stGt2ConnectionList, 0x80);
+    ClearBuffer32(stConnectionInfoList, 0x100);
 }
 
 void **DWCi_GetGT2ConnectionByIdx(s32 index) {

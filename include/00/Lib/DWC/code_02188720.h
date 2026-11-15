@@ -38,9 +38,9 @@ typedef struct WifiReportArgument {
     /* 08 */ s32 mReportCode;
 } WifiReportArgument;
 
-static inline void func_0214d018_inline(void *p, u32 n) {
-    vu32 v = 0;
-    MIi_CpuClear32(v, p, n);
+static inline void ClearBuffer32(void *buffer, u32 byteCount) {
+    vu32 zero = 0;
+    MIi_CpuClear32(zero, buffer, byteCount);
 }
 
 BOOL DWC_AC_Destroy(void);

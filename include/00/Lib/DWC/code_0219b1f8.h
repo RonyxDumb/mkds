@@ -61,7 +61,7 @@ typedef struct WiFiConnection {
     // The GP connection object: GpInitialize in state 1, closed by DWC_ShutdownFriendsMatch; the buddy object keeps a
     // pointer to it.
     /* 1c */ GpConnection mGpConnection;
-    /* 20 */ void *mUnk_20;
+    /* 20 */ void *mUserData;
     // WIFI_CONNECTION_*. Written by DWC_InitFriendsMatch (IDLE) and DWCi_SetState only.
     /* 24 */ s32 mState;
     // State before the last DWCi_SetState; DWCi_UpdateServersCallback returns to it when the sync ends.
@@ -88,7 +88,7 @@ typedef struct WiFiConnection {
     // Points at the 0x100-byte buffer gcd_secret_key (DWC_InitFriendsMatch's fifth argument): mixed into the stats
     // login hash ('%d%s'), given to the matching object as mUnk_2e0. Never read through this
     // member.
-    /* 58 */ char *mUnk_58;
+    /* 58 */ char *mSecretKey;
     // Set by DWC_LoginAsync; DWCi_LoginCallback calls it with (result, profile id, mLoginCallbackArg) on success and
     // on failure.
     /* 5c */ DWCLoginCallback mLoginCallback;
@@ -100,11 +100,12 @@ typedef struct WiFiConnection {
     // Set by DWC_ConnectToAnybodyAsync / WithBuddies; DWCi_MatchedCallback calls it with (result, flag,
     // mMatchingCallbackArg) for matching modes 0 and 1 (the pair at 0x74 / 0x78 is called for modes 2 and 3 and is
     // never set).
-    /* 6c */ void (*mMatchingCallback)(u32 a, u32 b, void *c);
+    /* 6c */ void (*mMatchingCallback)(u32 error, u32 cancel, void *arg);
     /* 70 */ void *mMatchingCallbackArg;
-    /* 74 */ void (*mMatchedSCCallback)(u32 a, u32 b, u32 c, u32 d, u32 e, void *f);
+    /* 74 */ void (*mMatchedSCCallback)(u32 error, u32 cancel, u32 self, u32 isServer, u32 index, void *arg);
     /* 78 */ void *mMatchedSCCallbackArg;
-    /* 7c */ void (*mConnectionClosedCallback)(s32 a, s32 b, s32 c, u32 d, u32 e, void *f);
+    /* 7c */ void (*mConnectionClosedCallback)(s32 error, s32 reason, s32 hostSide, u32 aid, u32 friendListIndex,
+                                               void *arg);
     /* 80 */ void *mConnectionClosedCallbackArg;
     // Login object (WiFiLogin): holds the GP connection pointer, the login state
     // (mUnk_04), the two credential strings given to the connect call (mUnk_4c, mUnk_14c) and the saved profile
