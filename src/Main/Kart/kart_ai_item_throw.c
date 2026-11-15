@@ -57,7 +57,7 @@ s32 gAwardStripKartYOffsets[37] = {0x11f, 0x30a, 0x19a, 0x11f, 0x19a, 0x19a, 0x1
                                    0x11f, 0x1ec, 0x2e1, 0x11f, 0x148, 0x7ae, 0x11f};
 PosStrips *gPosStrips;
 
-void HardSetItemBitsEveryCall(KartAiItemUse *itemUse) {
+void HardSetItemBitsEveryCall(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     itemUse->mItemBitsEveryCall = 0x1u;
 }
 
@@ -106,7 +106,7 @@ void ThrowItemRandomAfterHeld(KartAiItemUse *itemUse, KartAi *kartAi) {
     }
 }
 
-void SetItemBitsEveryCall(KartAiItemUse *itemUse) {
+void SetItemBitsEveryCall(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     itemUse->mItemBitsEveryCall = 0x1u;
 }
 
@@ -176,9 +176,7 @@ void SetupBattleItemInUseEntry(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     ResetItemInUseTimer(itemUse, itemInUseEntry);
 }
 
-u32 BattleItemInUseReturnArgument(u32 value) {
-    return value;
-}
+void BattleItemInUseNop(KartAiItemUse *itemUse, struct KartAi *kartAi) {}
 
 void ThrowItemByCircleKind(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     if (gKartItems[kartAi->mIndex].mItemInUse.mUseKind == ITEM_USE_KIND_CIRCLE) {

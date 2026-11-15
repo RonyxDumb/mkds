@@ -89,7 +89,7 @@ void UseItemByRankAfterInUse(KartAiItemUse *itemUse, struct KartAi *kartAi);
 void UseItemByTargetOrRankAfterInUse(KartAiItemUse *itemUse, struct KartAi *kartAi);
 void UseItemAfterInUseByTrailKind(KartAiItemUse *itemUse, struct KartAi *kartAi);
 void UseItemAfterInUseByCircleKind(KartAiItemUse *itemUse, struct KartAi *kartAi);
-unsigned int RaceItemInUseReturnArgument(unsigned int value);
+void RaceItemInUseNop(KartAiItemUse *itemUse, struct KartAi *kartAi);
 void UseItemIfTurnUnder20ResetHeldTimer(KartAiItemUse *itemUse, struct KartAi *kartAi);
 void UseItemAfterHeldIfTurnUnder20(KartAiItemUse *itemUse, struct KartAi *kartAi);
 void RequestItemBitsByKartRank(KartAiItemUse *itemUse, struct KartAi *kartAi);

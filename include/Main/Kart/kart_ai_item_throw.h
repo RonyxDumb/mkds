@@ -60,11 +60,11 @@ void EasyThrowItemRandomAfterInUse(KartAiItemUse *itemUse, struct KartAi *kartAi
 void ThrowItemRandomAfterInUseOrAtNearTarget(KartAiItemUse *itemUse, struct KartAi *kartAi);
 void ThrowItemAtNearTarget(KartAiItemUse *itemUse, struct KartAi *kartAi);
 void ThrowItemByCircleKind(KartAiItemUse *itemUse, struct KartAi *kartAi);
-unsigned int BattleItemInUseReturnArgument(unsigned int value);
+void BattleItemInUseNop(KartAiItemUse *itemUse, struct KartAi *kartAi);
 
-void SetItemBitsEveryCall(KartAiItemUse *itemUse);
+void SetItemBitsEveryCall(KartAiItemUse *itemUse, struct KartAi *kartAi);
 
-void HardSetItemBitsEveryCall(KartAiItemUse *itemUse);
+void HardSetItemBitsEveryCall(KartAiItemUse *itemUse, struct KartAi *kartAi);
 
 extern u8 gPosStripFirstPolygonId;
 extern u8 gPosStripAlphaDecreasePerFrame;

@@ -1686,9 +1686,7 @@ void UseItemIfTurnUnder20ResetHeldTimer(KartAiItemUse *itemUse, struct KartAi *k
     itemUse->mHeldItemTimer = itemUse->mHeldItemEntry->mTimerBase + (u16) randomPart;
 }
 
-u32 RaceItemInUseReturnArgument(u32 value) {
-    return value;
-}
+void RaceItemInUseNop(KartAiItemUse *itemUse, struct KartAi *kartAi) {}
 
 void UseItemAfterInUseByCircleKind(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     if (gKartItems[kartAi->mIndex].mItemInUse.mUseKind == ITEM_USE_KIND_CIRCLE) {
