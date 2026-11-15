@@ -134,7 +134,7 @@ typedef struct WiFiMatching {
     // DWCi_StopMatching.
     /* 44c */ DWCMatchedCallback mResultCallback;
     /* 450 */ u32 mResultCallbackArg;
-    /* 454 */ void (*mNewParticipantCallback)(u32 a, u32 b);
+    /* 454 */ void (*mNewParticipantCallback)(u32 friendIndex, u32 callbackArg);
     /* 458 */ u32 mNewParticipantCallbackArg;
     /* 45c */ MatchEvalFunc *mEvalCallback;
     /* 460 */ u32 mEvalCallbackArg;
