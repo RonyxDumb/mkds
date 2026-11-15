@@ -41,7 +41,7 @@ void AdvanceUsbScanReport(u32 task) {
     s32 entryIndex;
     u64 tick = OS_GetTick();
     scan = gUsbScan;
-    if (tick >= *(u64 *) &scan->mStartTickLow + 0x17f898) {
+    if (tick >= scan->mStartTick + 0x17f898) {
         flagClearFound = 0;
         flagSetFound = 0;
         for (entryIndex = 0; entryIndex < 0x10; entryIndex++) {

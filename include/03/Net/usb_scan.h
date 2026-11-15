@@ -18,8 +18,7 @@ struct UsbScan {
     /* 1370 */ void (*mResultCallback)(u32);
     /* 1374 */ ScanExParam mScanParam;
     /* 13b8 */ WMStatus mWmStatus;
-    /* 1b74 */ u32 mStartTickLow;
-    /* 1b78 */ u32 mStartTickHigh;
+    /* 1b74 */ u64 mStartTick;
     /* 1b7c */ u32 mReportTask;
     /* 1b80 */ vu8 mReleaseProgress;
     /* 1b81 */ u8 mPendingResult;

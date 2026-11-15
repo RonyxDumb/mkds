@@ -41,8 +41,7 @@ BOOL InitUsbScan(void (*callback)(u32)) {
     gUsbScan->mResultCallback = callback;
     scan = gUsbScan;
     tick = OS_GetTick();
-    scan->mStartTickLow = tick;
-    scan->mStartTickHigh = tick >> 32;
+    scan->mStartTick = tick;
     if (WM_Initialize(scan, UsbScanCallback, 3) == 2) {
         do {
             WM_ReadStatus(&gUsbScan->mWmStatus);
