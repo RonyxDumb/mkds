@@ -1399,14 +1399,12 @@ void IwanteItemHitCallback(MissionRunMapObject *mapObject, ItemObject *itemObjec
 void InitIwanteHandsObjects(MapObjectList *mapObjectList) {
     int objectIndex;
     MissionRunMapObject *obj;
-    int zero;
 
     if (mapObjectList != NULL) {
-        zero = 0;
         for (objectIndex = 0;
              objectIndex < mapObjectList->mMapObjectCount && (obj = mapObjectList->mMapObjects[objectIndex]) != NULL;
              objectIndex++) {
-            InitMissionRunMapObject((void *) zero, obj, (const char *) zero, (const char *) zero, "iwante_l.prm");
+            InitMissionRunMapObject(NULL, obj, NULL, NULL, "iwante_l.prm");
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(obj);
             }
