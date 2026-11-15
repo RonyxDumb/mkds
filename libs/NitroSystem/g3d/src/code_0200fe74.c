@@ -291,7 +291,7 @@ void OS_GetLowEntropyData(LowEntropyData *buffer) {
     u8 *userInfo;
     u8 *macBytes;
 
-    work = HW_UNK_027FFC00_BUF;
+    work = HW_MAIN_MEM_SYSTEM_BUF;
     userInfo = work + 0x80;
     macBytes = OFFSET_PTR(u8, userInfo, 0x74);
     vcount = reg_GX_VCOUNT;

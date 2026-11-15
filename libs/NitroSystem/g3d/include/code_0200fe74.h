@@ -6,8 +6,6 @@
 
 u32 OsCountZeroBits(u32 bitmap);
 
-#define HW_UNK_027FFC00_BUF ((u8 *) 0x027ffc00)
-
 // Filled by OS_GetLowEntropyData.
 typedef struct LowEntropyData {
     /* 00 */ u32 mUnk_00;
