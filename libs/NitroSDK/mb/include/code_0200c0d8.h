@@ -39,10 +39,15 @@ typedef struct ChildMessage {
     /* 00 */ u8 mKind;
     /* 01 */ u8 mPad1;
     union {
-        /* 02 */ u16 mPieceRequest;
-        /* 02 */ u8 mPieceRequestByte;
+        struct {
+            /* 02 */ u16 mPieceRequest;
+            /* 04 */ u8 mData[0x10];
+        };
+        struct {
+            /* 02 */ u8 mPieceRequestByte;
+            /* 03 */ u8 mPieceData[0x11];
+        };
     };
-    /* 04 */ u8 mData[0x10];
 } ChildMessage;
 
 // 0x20-byte entry that MBi_SendRequestDataPiece copies.
