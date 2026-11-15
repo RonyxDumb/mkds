@@ -35,7 +35,7 @@ void InitThreadFunctionQueue(void *heap) {
     gThreadFunctionQueue = HeapAlloc(heap, 0xfc);
     gThreadFunctionQueue->mThreadStack = HeapAllocAligned(heap, 0x800, 0x20);
     OS_CreateThread(&gThreadFunctionQueue->mThread, RunQueuedThreadFunctions, NULL,
-                    (u8 *) gThreadFunctionQueue->mThreadStack + 0x800, 0x800, 0x11);
+                    gThreadFunctionQueue->mThreadStack + 0x800, 0x800, 0x11);
     OS_WakeupThreadDirect(&gThreadFunctionQueue->mThread);
     gThreadFunctionQueue->mRunRequested = 0;
     queue = gThreadFunctionQueue;

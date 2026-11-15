@@ -863,7 +863,7 @@ typedef struct ThreadFunctionQueue {
     /* 29 */ u8 mUnk_29[3];
     /* 2c */ OSThread mThread;
     /* ec */ u8 mUnk_ec[8];
-    /* f4 */ void *mThreadStack;
+    /* f4 */ u8 *mThreadStack;
     /* f8 */ s32 mRunRequested;
 } ThreadFunctionQueue;
 

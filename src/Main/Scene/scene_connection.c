@@ -446,7 +446,7 @@ void InitSceneRunState(void *heap) {
     gSceneRunState->mMessageKind = MESSAGE_KIND_NONE;
     gSceneRunState->mMessageInputEnabled = 0;
     SceneOS_InitThreadQueue(&gSceneRunState->mThreadQueue);
-    OS_CreateThread(&gSceneRunState->mThread, RunMessageScreenThread, NULL, (u8 *) gSceneRunState->mThreadStack + 0x400,
+    OS_CreateThread(&gSceneRunState->mThread, RunMessageScreenThread, NULL, gSceneRunState->mThreadStack + 0x400,
                     0x400, 15);
     OS_WakeupThreadDirect(&gSceneRunState->mThread);
     SceneSetSleepCallbackInfoNullArg(&gSceneRunState->mPreSleepCallback, ScenePreSleepCallback);

@@ -122,7 +122,7 @@ typedef struct SceneCallbacks {
 
 // Object behind gSceneRunState.
 typedef struct SceneRunState {
-    /* 000 */ void *mThreadStack;
+    /* 000 */ u8 *mThreadStack;
     /* 004 */ OSThread mThread;
     /* 0c4 */ OSThreadQueue mThreadQueue;
     /* 0cc */ PMSleepCallbackInfo mPreSleepCallback;
