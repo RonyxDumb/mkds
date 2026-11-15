@@ -26,6 +26,15 @@ typedef enum RTCResult {
     RTC_RESULT_MAX
 } RTCResult;
 
+// Nonzero reply status codes the clock processor puts in the low byte of a reply.
+enum {
+    RTC_REPLY_STATUS_OK = 0,
+    RTC_REPLY_STATUS_INVALID_COMMAND,
+    RTC_REPLY_STATUS_ILLEGAL_STATUS,
+    RTC_REPLY_STATUS_BUSY,
+    RTC_REPLY_STATUS_FATAL_ERROR,
+};
+
 // Which request is in flight; RtcCommonCallback decodes the reply by it.
 typedef enum RTCSequence {
     RTC_SEQ_GET_DATE = 0,
