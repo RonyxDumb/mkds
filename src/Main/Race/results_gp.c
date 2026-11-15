@@ -84,7 +84,7 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     void *message;
     s32 courseIndex;
     s32 loopIndex;
-    LabelCanvasEntry *tableEntry;
+    const LabelCanvasEntry *tableEntry;
 
     labelTableIndex = 0;
     gResultsGp = HeapAlloc(heap, sizeof(ResultsGp));
@@ -172,7 +172,7 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
                     "results_gp_s.bncl", "results_gp_s.bnll", NULL, FindSceneFile);
     SetupCellFileSet(SCREEN_SIDE_SUB, heap, subFileSet);
     loopIndex = 0;
-    tableEntry = (LabelCanvasEntry *) gResultsGpSubLabelCanvasEntries;
+    tableEntry = gResultsGpSubLabelCanvasEntries;
     for (; loopIndex < 16; loopIndex++) {
         subObjSizeLeft -= SetupLabelCanvas(SCREEN_SIDE_SUB, heap, subFileSet, tableEntry, subObjSizeLeft);
         tableEntry++;
