@@ -2,9 +2,14 @@
 
 #include "types.h"
 
-extern u8 gEditKeyboardRow4KeyCounts[5];
-extern u8 gEditKeyboardKeyCounts[5];
-extern u8 gEditKeyboardExtraKeyCounts[5];
+// How many keys each of the five keyboard rows has.
+typedef struct EditKeyboardRowCounts {
+    /* 0 */ u8 mCounts[5];
+} EditKeyboardRowCounts;
+
+extern EditKeyboardRowCounts gEditKeyboardRow4KeyCounts;
+extern EditKeyboardRowCounts gEditKeyboardKeyCounts;
+extern EditKeyboardRowCounts gEditKeyboardExtraKeyCounts;
 extern u8 gEditKeyboardPage0Inputs[0x30];
 extern u8 gEditKeyboardPage1Inputs[0x30];
 extern u8 gEditKeyboardPage2Inputs[0x30];

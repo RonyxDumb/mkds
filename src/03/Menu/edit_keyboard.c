@@ -73,9 +73,9 @@ EditKeyboard *gEditKeyboard;
 u8 *gEditKeyboardPageInputs[3] = {gEditKeyboardPage0Inputs, gEditKeyboardPage1Inputs, gEditKeyboardPage2Inputs};
 u16 *gEditKeyboardPageKeyTexts[3] = {gEditKeyboardPage0KeyTexts, gEditKeyboardPage1KeyTexts,
                                      gEditKeyboardPage2KeyTexts};
-u8 gEditKeyboardExtraKeyCounts[5] = {1, 1, 1, 1, 0};
-u8 gEditKeyboardRow4KeyCounts[5] = {0, 0, 0, 0, 2};
-u8 gEditKeyboardKeyCounts[5] = {0xc, 0xc, 0xc, 0xb, 0};
+EditKeyboardRowCounts gEditKeyboardExtraKeyCounts = {{1, 1, 1, 1, 0}};
+EditKeyboardRowCounts gEditKeyboardRow4KeyCounts = {{0, 0, 0, 0, 2}};
+EditKeyboardRowCounts gEditKeyboardKeyCounts = {{0xc, 0xc, 0xc, 0xb, 0}};
 
 void ChangeEditKeyboardHighlight(int keyIndex) {
     if (keyIndex != gEditKeyboard->mHighlightedKeyIndex) {
@@ -163,18 +163,18 @@ void UpdateEditKeyboardPad(void) {
 }
 
 void SetEditKeyboardRowY(u32 page, s32 row, u32 yPos) {
-    u8 keyCounts[5];
-    u8 extraKeyCounts[5];
-    u8 row4KeyCounts[5];
+    EditKeyboardRowCounts keyCounts;
+    EditKeyboardRowCounts extraKeyCounts;
+    EditKeyboardRowCounts row4KeyCounts;
     s32 rowKeyIndex;
     s32 keyIndex;
     s32 extraKeyIndex;
     OamEntry *key;
-    *(EditKeyboardRowCounts *) keyCounts = *(EditKeyboardRowCounts *) gEditKeyboardKeyCounts;
-    *(EditKeyboardRowCounts *) extraKeyCounts = *(EditKeyboardRowCounts *) gEditKeyboardExtraKeyCounts;
-    *(EditKeyboardRowCounts *) row4KeyCounts = *(EditKeyboardRowCounts *) gEditKeyboardRow4KeyCounts;
+    keyCounts = gEditKeyboardKeyCounts;
+    extraKeyCounts = gEditKeyboardExtraKeyCounts;
+    row4KeyCounts = gEditKeyboardRow4KeyCounts;
     keyIndex = row * 12;
-    for (rowKeyIndex = 0; rowKeyIndex < keyCounts[(u32) row]; rowKeyIndex++, keyIndex++) {
+    for (rowKeyIndex = 0; rowKeyIndex < keyCounts.mCounts[(u32) row]; rowKeyIndex++, keyIndex++) {
         key = gEditKeyboard->mKeys[keyIndex];
         key->mAttr01 = key->mAttr01 & 0xc1fffcff;
         key = gEditKeyboard->mKeys[keyIndex];
@@ -186,14 +186,14 @@ void SetEditKeyboardRowY(u32 page, s32 row, u32 yPos) {
                                   gEditKeyboard->mRowTextRanges[row], 2);
     }
     extraKeyIndex = FX_ModS32(row + 3, 4);
-    for (rowKeyIndex = 0; rowKeyIndex < extraKeyCounts[(u32) row]; rowKeyIndex++) {
+    for (rowKeyIndex = 0; rowKeyIndex < extraKeyCounts.mCounts[(u32) row]; rowKeyIndex++) {
         key = gEditKeyboard->mExtraKeys[extraKeyIndex];
         key->mAttr01 = key->mAttr01 & 0xc1fffcff;
         key = gEditKeyboard->mExtraKeys[extraKeyIndex];
         key->mAttr01 = ((gEditKeyboardExtraKeyPositions[extraKeyIndex][0] & 0x1ff) << 16) |
                        ((key->mAttr01 & 0xfe00ff00) | (yPos & 0xff));
     }
-    for (rowKeyIndex = 0; rowKeyIndex < row4KeyCounts[(u32) row]; rowKeyIndex++) {
+    for (rowKeyIndex = 0; rowKeyIndex < row4KeyCounts.mCounts[(u32) row]; rowKeyIndex++) {
         SetOamRangeEffect(gEditKeyboard->mRow4Keys[rowKeyIndex], -1, 0, 0);
         SetOamRangePosition(gEditKeyboard->mRow4Keys[rowKeyIndex], -1, gEditKeyboardRow4KeyPositions[rowKeyIndex][0],
                             yPos);

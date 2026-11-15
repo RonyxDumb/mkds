@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "03/unk_021d5f00.h"
 
 typedef struct OamEntry OamEntry;
 typedef struct OamRange OamRange;
@@ -38,11 +39,6 @@ typedef struct EditAddrKeyboard {
     /* 69 */ u8 mRemoveDisabledSoundPlayed;
 } EditAddrKeyboard;
 
-// Five bytes moved as one value.
-typedef struct EditKeyboardRowCounts {
-    /* 0 */ u8 mUnk_00[5];
-} EditKeyboardRowCounts;
-
 void ReleaseEditAddrKeyboard(TaskEntry *task, void *arg);
 void AdvanceEditAddrKeyboardSlideOutRow0(TaskEntry *task, void *arg);
 void AdvanceEditAddrKeyboardSlideOutRow1(TaskEntry *task, void *arg);
@@ -75,8 +71,8 @@ void CreateEditAddrKeyboard(void);
 extern const u16 gEditAddrKeyboardDigitKeyPositions[10][2];
 extern const u16 gEditAddrKeyboardKeyTexts[13];
 extern const u8 gEditAddrKeyboardRow4KeyInputs[2];
-extern u8 gEditAddrKeyboardDigitKeyCounts[5];
-extern u8 gEditAddrKeyboardExtraKeyCounts[5];
+extern EditKeyboardRowCounts gEditAddrKeyboardDigitKeyCounts;
+extern EditKeyboardRowCounts gEditAddrKeyboardExtraKeyCounts;
 extern u16 gEditAddrKeyboardTextRectStart[4];
 extern const u8 gEditAddrKeyboardKeyPalettes[2];
 extern const u8 gEditAddrKeyboardRow4KeyImages[2];
@@ -93,6 +89,6 @@ extern const u16 gEditAddrKeyboardRowTextAreaSize[2];
 extern const u8 gEditAddrKeyboardExtraKeyImages[2];
 extern const u16 gEditAddrKeyboardDigitKeySize[2];
 extern const u16 gEditAddrKeyboardRow4KeySize[2];
-extern u8 gEditAddrKeyboardRow4KeyCounts[5];
+extern EditKeyboardRowCounts gEditAddrKeyboardRow4KeyCounts;
 
 extern struct EditAddrKeyboard *gEditAddrKeyboard;

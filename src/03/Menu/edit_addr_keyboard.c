@@ -26,8 +26,8 @@ const u16 gEditAddrKeyboardDigitKeyPositions[10][2] = {{0x52, 0x4c}, {0x72, 0x4c
                                                        {0x92, 0x7a}, {0x52, 0x91}};
 const u16 gEditAddrKeyboardKeyTexts[13] = {'7', '8', '9', '4', '5', '6', '1', '2', '3', '0', ' ', ' ', 0};
 const u8 gEditAddrKeyboardRow4HighlightValues[2] = {4, 5};
-u8 gEditAddrKeyboardExtraKeyCounts[5] = {0, 0, 0, 2, 0};
-u8 gEditAddrKeyboardDigitKeyCounts[5] = {3, 3, 3, 1, 0};
+EditKeyboardRowCounts gEditAddrKeyboardExtraKeyCounts = {{0, 0, 0, 2, 0}};
+EditKeyboardRowCounts gEditAddrKeyboardDigitKeyCounts = {{3, 3, 3, 1, 0}};
 u16 gEditAddrKeyboardTextRectStart[4] = {0, 1, 0, 0};
 const u8 gEditAddrKeyboardRow4KeyImages[2] = {0x3c, 0x3d};
 const u8 gEditAddrKeyboardExtraKeyImages[2] = {0x37, 0x38};
@@ -48,7 +48,7 @@ const u16 gEditAddrKeyboardRowTextAreaSize[2] = {0xc, 4};
 const u8 gEditAddrKeyboardKeyPalettes[2] = {2, 3};
 const u16 gEditAddrKeyboardRow4KeySize[2] = {0x78, 0x12};
 const u16 gEditAddrKeyboardDigitKeySize[2] = {0x1c, 0x14};
-u8 gEditAddrKeyboardRow4KeyCounts[5] = {0, 0, 0, 0, 2};
+EditKeyboardRowCounts gEditAddrKeyboardRow4KeyCounts = {{0, 0, 0, 0, 2}};
 struct EditAddrKeyboard *gEditAddrKeyboard;
 
 void CreateEditAddrKeyboard(void) {
@@ -442,18 +442,18 @@ void AdvanceEditAddrKeyboardKeys(void) {
 }
 
 void SetEditAddrKeyboardRowY(int row, u32 yPos) {
-    u8 digitKeyCounts[5];
-    u8 extraKeyCounts[5];
-    u8 row4KeyCounts[5];
+    EditKeyboardRowCounts digitKeyCounts;
+    EditKeyboardRowCounts extraKeyCounts;
+    EditKeyboardRowCounts row4KeyCounts;
     BOOL effectAndAffineIndex;
     int rowKeyIndex;
     int keyIndex;
     OamEntry *key;
-    *(EditKeyboardRowCounts *) digitKeyCounts = *(EditKeyboardRowCounts *) gEditAddrKeyboardDigitKeyCounts;
-    *(EditKeyboardRowCounts *) extraKeyCounts = *(EditKeyboardRowCounts *) gEditAddrKeyboardExtraKeyCounts;
-    *(EditKeyboardRowCounts *) row4KeyCounts = *(EditKeyboardRowCounts *) gEditAddrKeyboardRow4KeyCounts;
+    digitKeyCounts = gEditAddrKeyboardDigitKeyCounts;
+    extraKeyCounts = gEditAddrKeyboardExtraKeyCounts;
+    row4KeyCounts = gEditAddrKeyboardRow4KeyCounts;
     keyIndex = row * 3;
-    for (rowKeyIndex = 0; rowKeyIndex < digitKeyCounts[(u32) row]; rowKeyIndex++, keyIndex++) {
+    for (rowKeyIndex = 0; rowKeyIndex < digitKeyCounts.mCounts[(u32) row]; rowKeyIndex++, keyIndex++) {
         key = gEditAddrKeyboard->mDigitKeys[keyIndex];
         key->mAttr01 = key->mAttr01 & 0xc1fffcff;
         key = gEditAddrKeyboard->mDigitKeys[keyIndex];
@@ -464,7 +464,7 @@ void SetEditAddrKeyboardRowY(int row, u32 yPos) {
         ArrangeObjTextCanvasRange(gEditAddrKeyboard->mRowTexts[row], gEditAddrKeyboardDigitKeyPositions[row * 3][0],
                                   yPos, gEditAddrKeyboard->mRowTextRanges[row], 2);
     }
-    for (rowKeyIndex = 0; rowKeyIndex < extraKeyCounts[(u32) row]; rowKeyIndex++) {
+    for (rowKeyIndex = 0; rowKeyIndex < extraKeyCounts.mCounts[(u32) row]; rowKeyIndex++) {
         key = gEditAddrKeyboard->mExtraKeys[rowKeyIndex];
         key->mAttr01 = key->mAttr01 & 0xc1fffcff;
         key = gEditAddrKeyboard->mExtraKeys[rowKeyIndex];
@@ -472,7 +472,7 @@ void SetEditAddrKeyboardRowY(int row, u32 yPos) {
                        ((key->mAttr01 & 0xfe00ff00) | (yPos & 0xff));
     }
     effectAndAffineIndex = FALSE;
-    for (rowKeyIndex = 0; rowKeyIndex < row4KeyCounts[(u32) row]; rowKeyIndex++) {
+    for (rowKeyIndex = 0; rowKeyIndex < row4KeyCounts.mCounts[(u32) row]; rowKeyIndex++) {
         SetOamRangeEffect(gEditAddrKeyboard->mRow4Keys[rowKeyIndex], -1, effectAndAffineIndex, effectAndAffineIndex);
         SetOamRangePosition(gEditAddrKeyboard->mRow4Keys[rowKeyIndex], -1,
                             gEditAddrKeyboardRow4KeyPositions[rowKeyIndex][0], yPos);
