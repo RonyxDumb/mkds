@@ -885,7 +885,7 @@ void ResetWiFiSession(void) {
     MI_CpuFill8(gWiFiSession->mReceiveBuffers, 0, 0x110);
     MI_CpuFill8(gWiFiSession->mIndexMessages, 0, 0x110);
     MI_CpuFill8(&gWiFiSession->mLogin, 0, 0x10);
-    gWiFiSession->mUnk_1f34 = FALSE;
+    gWiFiSession->mResetToOff = FALSE;
     gWiFiSession->mRaceSyncEnabled = FALSE;
     gWiFiSession->mIrqCallbackCount = 0;
     gWiFiSession->mDisconnectKind = WIFI_DISCONNECT_NONE;
@@ -985,7 +985,7 @@ void ResetWiFiSessionToOff(void) {
     StateMachine *stateMachine;
 
     ResetWiFiSession();
-    gWiFiSession->mUnk_1f34 = TRUE;
+    gWiFiSession->mResetToOff = TRUE;
     stateMachine = &gWiFiSession->mStateMachine;
     stateMachine->mNextState = WIFI_SESSION_STATE_OFF;
     stateMachine->mNextStateRequested = 1;

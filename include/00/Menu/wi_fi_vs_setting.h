@@ -407,7 +407,7 @@ typedef struct WiFiSession {
     /* 1e10 */ WiFiSessionMessage mIndexMessages[4];
     /* 1f20 */ WiFiSessionLogin mLogin;
     /* 1f30 */ BOOL mHeapCreated;
-    /* 1f34 */ BOOL mUnk_1f34;
+    /* 1f34 */ BOOL mResetToOff;
     /* 1f38 */ BOOL mRaceSyncEnabled;
     /* 1f3c */ s32 mIrqCallbackCount;
     /* 1f40 */ s32 mDisconnectKind;
