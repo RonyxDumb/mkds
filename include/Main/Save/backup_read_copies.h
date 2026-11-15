@@ -9,7 +9,7 @@ void StartBackupReadOneCopy(u32 address, void *destination, u32 byteCount, void 
 
 u32 StartBackupRead(u32 address, u32 *destination, u32 byteCount, void (*callback)(u32 *, u32), s32 copyPass,
                     u32 expectedFirstWord, s32 hasPrefix);
-void FinishBackupRead(void (*callback)(u32 *, u32));
+void FinishBackupRead(void *arg);
 BOOL CheckBackupBlockPrefix(u8 *cursor);
 void InitBackupAccess(void);
 void CreateBackupAccess(void *heap);

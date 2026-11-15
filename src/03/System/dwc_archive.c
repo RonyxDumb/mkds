@@ -51,8 +51,7 @@ void InitDwcArchive(void) {
     }
     FS_SetArchiveProc(&gDwcArchive->mArchive, DwcArchiveProc, 0x602);
     if (FS_LoadArchive(&gDwcArchive->mArchive, (u8 *) base, fatRegion[0], fatRegion[1], fntRegion[0], fntRegion[1],
-                       (FS_ARCHIVE_READ_FUNC) DwcArchiveReadCallback,
-                       (FS_ARCHIVE_WRITE_FUNC) DwcArchiveWriteCallback) == 0) {
+                       DwcArchiveReadCallback, DwcArchiveWriteCallback) == 0) {
         OS_Terminate();
     }
     tablesSize = FS_LoadArchiveTables(&gDwcArchive->mArchive, 0, 0);
@@ -90,16 +89,17 @@ s32 DwcArchiveProc(FSFile *file, u32 command) {
     }
 }
 
-u32 DwcArchiveReadCallback(int archive, u32 dst, int offset, u32 length) {
-    CARDi_ReadRom(0xffffffff, (offset + *(s32 *) (archive + 0x28)), dst, length, DwcArchiveReadEndCallback, archive, 1);
+s32 DwcArchiveReadCallback(FSArchive *archive, void *dst, u32 offset, u32 length) {
+    CARDi_ReadRom(0xffffffff, offset + (u32) archive->mBase, (u32) dst, length, DwcArchiveReadEndCallback, archive, 1);
     return 6;
 }
 
-void DwcArchiveReadEndCallback(FSArchive *archive) {
+void DwcArchiveReadEndCallback(void *arg) {
+    FSArchive *archive = arg;
     FS_NotifyArchiveAsyncEnd(archive, 0);
 }
 
-s32 DwcArchiveWriteCallback(void) {
+s32 DwcArchiveWriteCallback(FSArchive *archive, const void *src, u32 offset, u32 length) {
     return 1;
 }
 

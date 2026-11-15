@@ -54,7 +54,7 @@ s32 FSi_ReadDummyCallback(FSArchive *archive, void *dst, u32 src, u32 len);
 s32 FSi_RomArchiveProc(FSFile *file, u32 command);
 s32 FSi_WriteDummyCallback(FSArchive *archive, const void *src, u32 dst, u32 len);
 s32 FSi_ReadRomCallback(FSArchive *archive, void *dst, u32 src, u32 len);
-void FSi_OnRomReadDone(FSArchive *archive);
+void FSi_OnRomReadDone(void *arg);
 void FS_AttachOverlayTable(u32 selector, u8 *data, u32 size);
 u32 FS_UnloadOverlay(u32 selector, u32 index);
 u32 FS_LoadOverlay(u32 selector, u32 index);

@@ -3,9 +3,8 @@
 #include "types.h"
 #include "os_thread.h"
 
-// Callback of a card or backup transfer. The stored functions take different arguments (the archive, a buffer pair,
-// none), so it is left unprototyped.
-typedef void (*CARDCallback)();
+// Callback of a card or backup transfer; it is called with the argument stored beside it.
+typedef void (*CARDCallback)(void *arg);
 typedef struct CARDRomStat CARDRomStat;
 typedef void (*CARDRomReadFunc)(CARDRomStat *romStat);
 
@@ -128,7 +127,7 @@ typedef struct CARDiCommon {
     /* 030 */ u32 mReqRetry;
     /* 034 */ u32 mReqMode;
     /* 038 */ CARDCallback mCallback;
-    /* 03c */ u32 mCallbackArg;
+    /* 03c */ void *mCallbackArg;
     /* 040 */ void (*mTaskFunc)(struct CARDiCommon *);
     /* 044 */ OSThread mThread;
     /* 104 */ OSThread *mCurTh;
@@ -167,7 +166,7 @@ void CARDi_RequestStreamCommandCore(CARDiCommon *common);
 CARDRomReadFunc CARDi_GetRomAccessor(void);
 int CARD_WaitRomAsync(void);
 void CARD_Init(void);
-void CARDi_ReadRom(u32 dma, u32 src, u32 dst, u32 len, CARDCallback callback, u32 callbackArg, u32 isAsync);
+void CARDi_ReadRom(u32 dma, u32 src, u32 dst, u32 len, CARDCallback callback, void *callbackArg, u32 isAsync);
 void CARDi_ReadRomSyncCore(CARDiCommon *taskCommon);
 void CARDi_ReadCard(CARDRomStat *romStat);
 int CARDi_TryReadCardDma(CARDRomStat *romStat);

@@ -129,7 +129,7 @@ void CARDi_SetCardDma(void) {
 void CARDi_OnReadCard(void) {
     CARDiCommon *common;
     CARDCallback callback;
-    u32 callbackArg;
+    void *callbackArg;
     u32 enabled;
 
     MI_StopDma(gAccessState.mDma);
@@ -282,7 +282,7 @@ void CARDi_ReadRomSyncCore(CARDiCommon *taskCommon) {
     CARDiCommon *common;
     CARDRomStat *romStat;
     CARDCallback callback;
-    u32 callbackArg;
+    void *callbackArg;
     u32 enabled;
 
     romStat = &gRomReadState;
@@ -307,7 +307,7 @@ void CARDi_ReadRomSyncCore(CARDiCommon *taskCommon) {
 
 // Starts a ROM read of the given channel, offset, destination and length. Waits for the previous transfer first and
 // adds gRomBaseOffset to the offset. Reads by DMA when possible, otherwise on the worker thread or the calling thread.
-void CARDi_ReadRom(u32 dma, u32 src, u32 dst, u32 len, CARDCallback callback, u32 callbackArg, u32 isAsync) {
+void CARDi_ReadRom(u32 dma, u32 src, u32 dst, u32 len, CARDCallback callback, void *callbackArg, u32 isAsync) {
     CARDiCommon *common;
     CARDRomStat *romStat;
     u32 enabled;
@@ -381,7 +381,7 @@ void CARDi_RequestStreamCommandCore(CARDiCommon *common) {
     u32 len;
     u32 *buf;
     CARDCallback callback;
-    u32 callbackArg;
+    void *callbackArg;
     u32 enabled;
 
     reqType = common->mReqType;
@@ -453,7 +453,7 @@ int CARDi_RequestStreamCommand(u32 src, u32 dst, u32 len, CARDCallback callback,
     }
     common->mFlag |= 4;
     common->mCallback = callback;
-    common->mCallbackArg = (u32) callbackArg;
+    common->mCallbackArg = callbackArg;
     OS_RestoreInterrupts(enabled);
     common->mSrc = src;
     common->mDst = dst;
@@ -474,7 +474,7 @@ int CARDi_RequestStreamCommand(u32 src, u32 dst, u32 len, CARDCallback callback,
 int CARD_IdentifyBackup(s32 type) {
     CARDiCommon *common;
     CARDCallback callback;
-    u32 callbackArg;
+    void *callbackArg;
     u32 enabled;
 
     common = &gAccessState;

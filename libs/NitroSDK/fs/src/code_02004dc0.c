@@ -344,13 +344,14 @@ void FS_AttachOverlayTable(u32 selector, u8 *data, u32 size) {
 }
 
 // Ends the asynchronous ROM read of an archive.
-void FSi_OnRomReadDone(FSArchive *archive) {
+void FSi_OnRomReadDone(void *arg) {
+    FSArchive *archive = arg;
     FS_NotifyArchiveAsyncEnd(archive, 0);
 }
 
 // Archive read callback that reads from the card in the background.
 s32 FSi_ReadRomCallback(FSArchive *archive, void *dst, u32 src, u32 len) {
-    CARDi_ReadRom(fsi_default_dma_no, src, (u32) dst, len, FSi_OnRomReadDone, (u32) archive, 1);
+    CARDi_ReadRom(fsi_default_dma_no, src, (u32) dst, len, FSi_OnRomReadDone, archive, 1);
     return 6;
 }
 

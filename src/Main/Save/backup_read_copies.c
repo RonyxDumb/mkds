@@ -151,7 +151,8 @@ BOOL CheckBackupBlockPrefix(u8 *cursor) {
     return allMatch;
 }
 
-void FinishBackupRead(void (*callback)(u32 *, u32)) {
+void FinishBackupRead(void *arg) {
+    void (*callback)(u32 *, u32) = arg;
     u32 *readWords;
     u32 xorByteCount;
     s32 result;

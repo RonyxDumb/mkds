@@ -10,7 +10,8 @@ const u16 gCrcXorValue = 0x1021;
 
 #pragma thumb on
 
-void FinishBackupWrite(void (*callback)(u32 *, u32)) {
+void FinishBackupWrite(void *arg) {
+    void (*callback)(u32 *, u32) = arg;
     u32 *buffer;
     u32 byteCount;
     s32 result;
@@ -84,7 +85,7 @@ void FinishBackupWrite(void (*callback)(u32 *, u32)) {
     }
 }
 
-void FinishBackupOneByteRead(void) {
+void FinishBackupOneByteRead(void *arg) {
     BOOL failed;
     failed = FALSE;
     if (CARD_GetResultCode() != 0) {
