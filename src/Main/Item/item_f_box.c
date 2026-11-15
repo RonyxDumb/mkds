@@ -393,7 +393,7 @@ void ProcessDelayedItemData(void) {
             }
             record = &gItemDataDelayed[index];
             if (record->mRaceUpdateFramesStamp == 0 || (record->mRaceUpdateFramesStamp + 0x100) >= raceUpdateFrames) {
-                u32 kind = *(vu32 *) &record->mKind;
+                u32 kind = record->mKind;
                 ProcessItemPoolMessage(gItemPools + kind, record->mMessageKind, 0, (u8 *) record,
                                        record->mRaceUpdateFramesStamp);
             }

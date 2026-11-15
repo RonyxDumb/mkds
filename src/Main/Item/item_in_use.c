@@ -122,7 +122,7 @@ void StartItemInUse(ItemInUse *itemInUse, HeldItem *heldItem) {
     itemInUse->mObjectHeight = gItemInfos[itemInfoIndex].mObjectKind == ITEM_OBJECT_KIND_BOUNCING_ITEM_BOX
                                    ? ITEM_IN_USE_OBJECT_HEIGHT_BOUNCING_ITEM_BOX
                                    : ITEM_IN_USE_OBJECT_HEIGHT;
-    poolIndex = *(vs32 *) &itemInUse->mObjectKind;
+    poolIndex = itemInUse->mObjectKind;
     TakeItemPoolObjects(&gItemPools[poolIndex], itemInUse->mObjectCount, itemInUse->mObjects, itemInUse->mKart->mIndex,
                         &itemInUse->mKartDrawMatrixPos);
     CopyKartToItemInUse(itemInUse);
