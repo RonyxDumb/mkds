@@ -715,7 +715,7 @@ void BounceRestingItemObject(ItemObject *item, Vec3 *otherVelocity, Vec3 *normal
     item->mScaleTargetOrSpeed = item->mScaleTargetOrSpeed >> 1;
 }
 
-void LaunchItemObjectFromPos(ItemObject *itemParam, s32 pushStrength, Vec3 *fromPos, Vec3 *fromVelocity, Vec3 *normal) {
+void LaunchItemObjectFromPos(ItemObject *itemParam, s32 pushStrength, Vec3 *fromPos, Vec3 *fromVelocity, const Vec3 *normal) {
     ItemObject *item;
     Vec3 away;
     Vec3 *velocity;

@@ -228,7 +228,7 @@ void StartItemKinokoFromKuribo(Kuribo *kuribo, Vec3 *hitVector) {
     itemObject->mVelocity.z = MUL_FIXED12_NO_ROUND(launchDirection.z, value);
     itemObject->mVelocity.y += 0xf000;
     VEC_Add(&itemObject->mPos, &itemObject->mVelocity, &itemObject->mPos);
-    LaunchItemObjectFromPos(itemObject, 0, &kuribo->mMapObject.mPos, hitVector, (Vec3 *) &gKuriboItemNormal);
+    LaunchItemObjectFromPos(itemObject, 0, &kuribo->mMapObject.mPos, hitVector, &gKuriboItemNormal);
 }
 
 u32 CollideKartWithKuribo(Kuribo *kuribo, Kart *kart, u8 *firstResponsePtr, u8 *secondResponsePtr) {

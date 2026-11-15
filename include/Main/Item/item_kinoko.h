@@ -93,7 +93,7 @@ void StartItemThunder(ItemInUse *itemInUse, HeldItem *heldItem);
 void FallingBounceItemObject(ItemObject *item, Vec3 *otherVelocity, Vec3 *normal);
 void AdvanceFallingItemObject(ItemObject *item);
 void StartFallingItemObject(ItemObject *item);
-void LaunchItemObjectFromPos(ItemObject *itemParam, s32 pushStrength, Vec3 *fromPos, Vec3 *fromVelocity, Vec3 *normal);
+void LaunchItemObjectFromPos(ItemObject *itemParam, s32 pushStrength, Vec3 *fromPos, Vec3 *fromVelocity, const Vec3 *normal);
 void BounceRestingItemObject(ItemObject *item, Vec3 *otherVelocity, Vec3 *normal);
 void AdvanceRestingItemObject(ItemObject *item);
 void StartRestingItemObject(ItemObject *item, void *collisionHitLink);
