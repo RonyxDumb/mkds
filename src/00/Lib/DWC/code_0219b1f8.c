@@ -457,7 +457,7 @@ s32 DWCi_GT2Startup(void) {
         return result;
     }
     gt2Listen(gWiFiConnection->mSocket, DWCi_GT2ConnectAttemptCallback);
-    SetUnmatchedDataCallback(gWiFiConnection->mSocket, (Gt2UnmatchedDataCallback) DWCi_GT2UnrecognizedMessageCallback);
+    SetUnmatchedDataCallback(gWiFiConnection->mSocket, DWCi_GT2UnrecognizedMessageCallback);
     return result;
 }
 

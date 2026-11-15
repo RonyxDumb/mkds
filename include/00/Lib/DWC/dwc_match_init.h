@@ -31,7 +31,7 @@ void DWCi_MatchGPRecvBuddyMsgCallback(GpConnection *gpConnection, u32 profileId,
 void DWCi_GT2ConnectedCallback(Gt2Connection *connection, s32 result);
 void DWCi_GT2ConnectAttemptCallback(u32 socket, Gt2Connection *connection, u32 address, u32 port, s32 latency,
                                     char *message);
-u32 DWCi_GT2UnrecognizedMessageCallback(u32 socket, u32 address, u16 port, u8 *data, u32 size);
+u32 DWCi_GT2UnrecognizedMessageCallback(Gt2Socket *socket, s32 address, s32 port, void *message, s32 size);
 void DWCi_MatchProcess(s32 runStateMachine);
 void DWCi_ConnectToFriendsAsync(const void *friendIdxList, s32 friendIdxListLen, s32 numEntry, s32 distantFriend,
                                 DWCMatchedCallback matchedCallback, u32 matchedParam, MatchEvalFunc *evalCallback,

@@ -569,10 +569,11 @@ void DWCi_MatchProcess(s32 runStateMachine) {
     }
 }
 
-u32 DWCi_GT2UnrecognizedMessageCallback(u32 socket, u32 address, u16 port, u8 *data, u32 size) {
+u32 DWCi_GT2UnrecognizedMessageCallback(Gt2Socket *socket, s32 address, s32 port, void *message, s32 size) {
     UnmatchedDataAddress originAddr;
     volatile u32 fillValue;
     u32 firstByte;
+    u8 *data = message;
     if (size == 0 || data == NULL) {
         return 0;
     }
