@@ -64,15 +64,15 @@ typedef enum WirelessResult {
 
 typedef void (*Unk021425e8Func)(WirelessMessage *);
 
-// 0x2c bytes from 0x36 of Unk0217aa00_24_50_0e.
-typedef struct Unk0217aa00_24_50_0e_36 {
+// 0x2c bytes from 0x36 of UserGameDetails.
+typedef struct UserGameNameBlock {
     /* 00 */ u8 mUnk_00[2];
     /* 02 */ u8 mName[0x14];
     /* 16 */ u8 mUnk_16[0x16];
-} Unk0217aa00_24_50_0e_36;
+} UserGameNameBlock;
 
 // 0x62 bytes from 0xe of UserGameInfo.
-typedef struct Unk0217aa00_24_50_0e {
+typedef struct UserGameDetails {
     /* 00 */ u8 mUnk_00[6];
     /* 06 */ union {
         u8 mUnk_06;
@@ -91,8 +91,8 @@ typedef struct Unk0217aa00_24_50_0e {
     /* 08 */ u8 mUnk_08[2];
     /* 0a */ u8 mUnk_0a[4];
     /* 0e */ u8 mUnk_0e[0x28];
-    /* 36 */ Unk0217aa00_24_50_0e_36 mNameInfo;
-} Unk0217aa00_24_50_0e;
+    /* 36 */ UserGameNameBlock mNameInfo;
+} UserGameDetails;
 
 // 0x70 bytes at 0x50 of WMBssDesc; the word at 0x38 of ChildList points to one.
 typedef struct UserGameInfo {
@@ -103,7 +103,7 @@ typedef struct UserGameInfo {
             /* 08 */ u8 mUnk_08[2];
             /* 0a */ u8 mMemberCount;
             /* 0b */ u8 mUnk_0b[3];
-            /* 0e */ Unk0217aa00_24_50_0e mGameInfoPart;
+            /* 0e */ UserGameDetails mGameInfoPart;
         };
         struct {
             /* 00 */ u8 mUnk_00_pad[0x18];

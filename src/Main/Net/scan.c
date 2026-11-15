@@ -144,7 +144,7 @@ void FillScanSlot(ScanSlot *slot, WMBssDesc *scanBuffer, ScanMacAddress *key, Us
 }
 
 void FindOrAddScanSlot(WMBssDesc *scanBuffer, ScanMacAddress *key, UserGameInfo *gameInfo) {
-    Unk0217aa00_24_50_0e_36 *nameInfo;
+    UserGameNameBlock *nameInfo;
     s32 slotIndex;
     s32 oldestAge;
     ScanStateView *scanState;
@@ -153,7 +153,7 @@ void FindOrAddScanSlot(WMBssDesc *scanBuffer, ScanMacAddress *key, UserGameInfo 
     ConnectionWork *connection;
     BOOL found;
     ScanSlot *slot;
-    Unk0217aa00_24_50_0e *gameInfoPart;
+    UserGameDetails *gameInfoPart;
     UserGameInfo *userGameInfo;
     s8 childCount;
 

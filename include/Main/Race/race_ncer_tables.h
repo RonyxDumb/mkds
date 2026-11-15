@@ -4,12 +4,6 @@
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "g2d_Animation.h" // NNSG2dCellDataWithBR
 
-// Object behind member 0x04 of the elements of the tables of RaceNcerNclrNcgrTables: a halfword at 0x04.
-typedef struct Unk020b6e00 {
-    /* 00 */ u8 mUnk_00[4];
-    /* 04 */ u16 mUnk_04;
-} Unk020b6e00;
-
 // Cells of race_m.NCER (mRaceMNcerEntries) that the item display picks: the box behind the item without teams and for
 // each team, the empty item and the slot frame, then one cell per item as LookupRaceMNcerIndex maps them.
 typedef enum {

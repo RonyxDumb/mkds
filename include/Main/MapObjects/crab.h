@@ -33,12 +33,6 @@ typedef struct Crab {
     /* 114 */ s32 mState;
 } Crab;
 
-// Table of object pointers with a halfword count behind it.
-typedef struct Unk0209af98 {
-    /* 00 */ Crab **mMapObjects;
-    /* 04 */ u16 mMapObjectCount;
-} Unk0209af98;
-
 typedef struct Crab Crab;
 typedef struct Kart Kart;
 

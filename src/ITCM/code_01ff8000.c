@@ -441,7 +441,7 @@ void NNSi_G3dFuncSbc_SHP_InternalDefault(NNSG3dRS *renderState, u32 option, NNSG
 
 void NNSi_G3dFuncSbc_SHP(NNSG3dRS *renderState, u32 option) {
     u32 stateFlags;
-    Unk02170500_d4 *resShp;
+    NNSG3dResDict *resShp;
     u8 *shpData;
     u8 *dictBase;
     u32 shapeIndex;

@@ -86,14 +86,14 @@ static inline KartItems *GetKartItems(u16 kartIndex) {
     return &gKartItems[kartIndex];
 }
 
-// The object behind gCourseMap from its first byte: the halfword at 0x60
+// The start of the object behind gCourseMap: the halfword at 0x60
 // and the word at 0xb0.
-typedef struct Unk02175620_060 {
+typedef struct CourseMapItemRouteHead {
     /* 000 */ u8 mUnk_000[0x60];
     /* 060 */ u16 mItemRouteCount;
     /* 062 */ u8 mUnk_062[0x4e];
     /* 0b0 */ void *mItemRoute0FirstLink;
-} Unk02175620_060;
+} CourseMapItemRouteHead;
 
 void InitItemInUse(ItemInUse *itemInUse, KartItems *kartItems);
 void ResetItemInUse(ItemInUse *itemInUse);

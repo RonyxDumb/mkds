@@ -542,7 +542,7 @@ void NNSi_G3dAnmCalcNsBca(NNSG3dJntAnmResult *pResult, const NNSG3dAnmObj *pAnmO
 
 void getMdlTrans_(NNSG3dJntAnmResult *out) {
     NNSG3dRS *rs;
-    Unk02170500_d4 *nodeInfo;
+    NNSG3dResDict *nodeInfo;
     u8 *table;
     NNSG3dResNodeData *node;
     const u32 *src;
@@ -563,7 +563,7 @@ void getMdlTrans_(NNSG3dJntAnmResult *out) {
 
 void getMdlScale_(NNSG3dJntAnmResult *out) {
     u32 flags;
-    Unk02170500_d4 *nodeInfo;
+    NNSG3dResDict *nodeInfo;
     u8 *table;
     NNSG3dRS *rs;
     u32 nodeOfs;
@@ -595,7 +595,7 @@ void getMdlRot_(NNSG3dJntAnmResult *out) {
     NNSG3dRS *rs;
     s32 second;
     u8 *table;
-    Unk02170500_d4 *nodeInfo;
+    NNSG3dResDict *nodeInfo;
     s32 pivot;
     NNSG3dResNodeData *node;
     const s16 *vals;

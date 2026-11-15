@@ -7,11 +7,11 @@
 #include "code_0214d018.h"
 
 FSArchive *arc_list;
-Unk02003024U current_dir_pos;
+FileLocation current_dir_pos;
 
 // Resolves a path, with an optional "name:" archive prefix, against the current directory and sends the command.
 u32 FSi_FindPath(FSFile *dir, const u8 *path, void *fileID, void *dirPos) {
-    Unk02003024U pos;
+    FileLocation pos;
     s32 charIndex;
     FSArchive *archive;
     s32 loaded;
@@ -232,7 +232,7 @@ u32 FS_SeekFile(FSFile *file, s32 offset, u32 origin) {
 
 // Sets the current directory.
 u32 FS_ChangeDir(const u8 *path) {
-    Unk02003024U dirPos;
+    FileLocation dirPos;
     FSFile searchFile;
 
     FS_InitFile(&searchFile);

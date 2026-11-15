@@ -279,12 +279,12 @@ struct ParticleResource {
 };
 
 // The four bytes at ParticleEmitter 0x98.
-typedef struct Unk0201ca6c_98 {
+typedef struct EmitterCallbackBytes {
     /* 00 */ u8 mVelocityFactorIndex;
     /* 01 */ u8 mCounting;
     /* 02 */ u8 mStepCount;
     /* 03 */ u8 mSideIndex;
-} Unk0201ca6c_98;
+} EmitterCallbackBytes;
 
 struct ParticleEmitter {
     /* 00 */ struct ParticleEmitter *mNext;
@@ -326,7 +326,7 @@ struct ParticleEmitter {
     };
     /* 98 */ union {
         u32 mCallbackState;
-        Unk0201ca6c_98 mCallbackBytes;
+        EmitterCallbackBytes mCallbackBytes;
         struct {
             u8 mVelocityFactorIndex;
             u8 mUnk_98_8;

@@ -811,7 +811,7 @@ void StartEffectsAtOtherKarts(s32 pairSetIndex) {
 }
 
 void PlaceOtherKartEffect(ParticleEmitter *effect, s32 phase) {
-    Unk0201ca6c_98 *state;
+    EmitterCallbackBytes *state;
     Kart *kart;
     u32 stepCount;
     u32 isShown;

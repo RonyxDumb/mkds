@@ -25,7 +25,7 @@ typedef struct FSFileID {
 // FSi_GetPathCommand), three words (FSi_OpenFileFastCommand, FS_OpenFileDirect), an FSFileID (FSi_FindPathCommand,
 // FS_OpenFileFast), a u8 pointer with two lengths (FSi_GetPathCommand) and a pointer with two signed words
 // (FS_SeekFile, FSi_ReadFileCore, FSi_ReadFileCommand).
-typedef union Unk02003024U {
+typedef union FileLocation {
     struct {
         /* 00 */ u32 mUnk_00;
         /* 04 */ u32 mUnk_04;
@@ -57,7 +57,7 @@ typedef union Unk02003024U {
         /* 04 */ s32 mUnk_04;
         /* 08 */ s32 mUnk_08;
     } p;
-} Unk02003024U;
+} FileLocation;
 
 typedef struct FSFileLink {
     /* 00 */ FSFile *mPrev;
@@ -81,12 +81,12 @@ typedef struct FSFile {
     /* 10 */ u32 mCommand; // index passed to FSi_TranslateCommand by FSi_ExecuteSyncCommand and FSi_ExecuteAsyncCommand
     /* 14 */ s32 mError; // set from a return value in FSi_TranslateCommand and FSi_ReleaseCommand
     /* 18 */ OSThreadQueue mQueue;
-    /* 20 */ Unk02003024U mProp;
+    /* 20 */ FileLocation mProp;
     /* 2c */ u32 mUnk_2c;
-    /* 30 */ Unk02003024U mArg;
+    /* 30 */ FileLocation mArg;
     /* 3c */ const u8 *mPath;
     /* 40 */ u32 mFindDirectory;
-    /* 44 */ Unk02003024U *mResult;
+    /* 44 */ FileLocation *mResult;
 } FSFile;
 
 // 0x5c-byte object (FS_InitArchive clears 0x5c bytes; fsi_arc_rom) at mArc of FSFile. Links at mNext and mPrev
@@ -143,10 +143,10 @@ typedef struct FSArchiveFNT {
     /* 06 */ u16 mParent;
 } FSArchiveFNT;
 
-// Entry read by FSi_FindPathCommand, FSi_ReadDirCommand and FSi_GetPathCommand: a Unk02003024U, then a flag, a length
+// Entry read by FSi_FindPathCommand, FSi_ReadDirCommand and FSi_GetPathCommand: a FileLocation, then a flag, a length
 // and the bytes.
 typedef struct FSDirEntry {
-    /* 00 */ Unk02003024U mId;
+    /* 00 */ FileLocation mId;
     /* 0c */ u32 mIsDirectory;
     /* 10 */ u32 mNameLength;
     /* 14 */ u8 mName[0x80];
