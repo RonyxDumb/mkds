@@ -349,9 +349,9 @@ void BuildArchivePathWithLanguage(const char *prefix, char *path) {
 void LoadArchiveSlotForScene(int slotIndex, int sceneNumber) {
     char path[ARCHIVE_PATH_SIZE] = {0};
     u32 *bufferData;
-    s32 infoValueA;
+    s32 allocFromHeapEnd;
     s32 uncompressSource;
-    s32 infoValueB;
+    s32 archiveBufferSize;
     s32 bufferIndex;
 
     bufferData = NULL;
@@ -359,8 +359,8 @@ void LoadArchiveSlotForScene(int slotIndex, int sceneNumber) {
         return;
     }
     uncompressSource = gArchiveSlotInfos[slotIndex].mUncompressSource;
-    infoValueA = gArchiveSlotInfos[slotIndex].mAllocFromHeapEnd;
-    infoValueB = gArchiveSlotInfos[slotIndex].mUnk_14;
+    allocFromHeapEnd = gArchiveSlotInfos[slotIndex].mAllocFromHeapEnd;
+    archiveBufferSize = gArchiveSlotInfos[slotIndex].mArchiveBufferSize;
     bufferIndex = gArchiveSlotInfos[slotIndex].mBufferIndex;
     if (bufferIndex != ARCHIVE_BUFFER_NONE) {
         bufferData = gArchiveSlots->mBuffers[bufferIndex].mData;
@@ -397,7 +397,7 @@ void LoadArchiveSlotForScene(int slotIndex, int sceneNumber) {
                     BuildSceneArchivePath(path, gSceneNames[sceneNumber].mName);
                     break;
             }
-            infoValueB = gSceneNames[sceneNumber].mUnk_04;
+            archiveBufferSize = gSceneNames[sceneNumber].mArchiveBufferSize;
             break;
         case ARCHIVE_SLOT_SCENE_LANGUAGE:
             switch (sceneNumber) {
@@ -451,7 +451,7 @@ void LoadArchiveSlotForScene(int slotIndex, int sceneNumber) {
             break;
     }
     if (path[0] != 0) {
-        LoadArchiveSlot(slotIndex, path, bufferData, NULL, infoValueA, uncompressSource, infoValueB);
+        LoadArchiveSlot(slotIndex, path, bufferData, NULL, allocFromHeapEnd, uncompressSource, archiveBufferSize);
     }
     bufferIndex = *(s32 *) ((s32) &gArchiveSlotInfos[0].mNextSlot + slotIndex * 0x18);
     if (bufferIndex != ARCHIVE_SLOT_NONE) {
@@ -459,8 +459,8 @@ void LoadArchiveSlotForScene(int slotIndex, int sceneNumber) {
     }
 }
 
-void LoadArchiveSlot(s32 slotIndex, const char *path, u32 *sourceData, void *data, s32 requestValueA,
-                     s32 uncompressSource, s32 requestValueB) {
+void LoadArchiveSlot(s32 slotIndex, const char *path, u32 *sourceData, void *data, s32 allocFromHeapEnd,
+                     s32 uncompressSource, s32 archiveBufferSize) {
     ArchiveLoadRequest *request;
     s32 bufferIndex;
 
@@ -469,9 +469,9 @@ void LoadArchiveSlot(s32 slotIndex, const char *path, u32 *sourceData, void *dat
     request->mSlotIndex = slotIndex;
     request->mSourceData = sourceData;
     request->mData = data;
-    request->mAllocFromHeapEnd = requestValueA;
+    request->mAllocFromHeapEnd = allocFromHeapEnd;
     request->mUncompressSource = uncompressSource;
-    request->mUnk_9c = requestValueB;
+    request->mArchiveBufferSize = archiveBufferSize;
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         if (request->mSourceData != NULL) {
             if (request->mUncompressSource != 0) {

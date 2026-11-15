@@ -17,13 +17,13 @@ typedef struct ArchiveSlotInfo {
     /* 09 */ u8 mUnk_09[0x3];
     /* 0c */ s32 mUncompressSource;
     /* 10 */ s32 mAllocFromHeapEnd;
-    /* 14 */ s32 mUnk_14;
+    /* 14 */ s32 mArchiveBufferSize;
 } ArchiveSlotInfo;
 
 // 8-byte entries of a string and a number.
 typedef struct SceneName {
     /* 00 */ const char *mName;
-    /* 04 */ s32 mUnk_04;
+    /* 04 */ s32 mArchiveBufferSize;
 } SceneName;
 
 #include "Main/Scene/display_settings.h"
@@ -87,8 +87,8 @@ void ReleaseArchiveSlot(int slotIndex);
 void LoadArchiveSlotData(void);
 void UncompressArchiveMemory(void);
 void UncompressArchiveFile(void);
-void LoadArchiveSlot(s32 slotIndex, const char *path, u32 *sourceData, void *data, s32 requestValueA,
-                     s32 uncompressSource, s32 requestValueB);
+void LoadArchiveSlot(s32 slotIndex, const char *path, u32 *sourceData, void *data, s32 allocFromHeapEnd,
+                     s32 uncompressSource, s32 archiveBufferSize);
 void LoadArchiveSlotForScene(int slotIndex, int sceneNumber);
 void BuildArchivePathWithLanguage(const char *prefix, char *path);
 void BuildSceneModeLanguageArchivePath(char *path, const char *sceneName, int mode);
