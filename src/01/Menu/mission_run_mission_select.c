@@ -524,32 +524,32 @@ void ResetMissionRunMSselOffsets(void) {
 }
 
 // Requests state 1: stores mNextState = 1 and zeroes mStateFrames; the next AdvanceMissionRunMSsel call copies it to
-// mState and runs AdvanceMissionRunMSselState1.
-void RequestMissionRunMSselState1(void) {
+// mState and runs AdvanceMissionRunMSselSlideIn.
+void RequestMissionRunMSselSlideIn(void) {
     gMissionRunMSsel->mNextState = MSSEL_STATE_SLIDE_IN;
     gMissionRunMSsel->mStateFrames = 0;
 }
 
-void RequestMissionRunMSselState2(void) {
+void RequestMissionRunMSselWaitSelectReturn(void) {
     gMissionRunMSsel->mNextState = MSSEL_STATE_WAIT_SELECT_RETURN;
     gMissionRunMSsel->mStateFrames = 0;
     RequestSelectReturnSlideIn();
 }
 
 // Requests state 3: stores mNextState = 3 and zeroes mStateFrames; the next AdvanceMissionRunMSsel call copies it to
-// mState and runs AdvanceMissionRunMSselState3.
-void RequestMissionRunMSselState3(void) {
+// mState and runs AdvanceMissionRunMSselInput.
+void RequestMissionRunMSselInput(void) {
     gMissionRunMSsel->mNextState = MSSEL_STATE_INPUT;
     gMissionRunMSsel->mStateFrames = 0;
 }
 
-s32 RequestMissionRunMSselState4(void) {
+s32 RequestMissionRunMSselPressMission(void) {
     gMissionRunMSsel->mNextState = MSSEL_STATE_PRESS_MISSION;
     gMissionRunMSsel->mStateFrames = 0;
     return NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
 }
 
-void RequestMissionRunMSselState5(void) {
+void RequestMissionRunMSselChoisesOpen(void) {
     s32 missionIndex;
     void *firstText;
 
@@ -563,19 +563,19 @@ void RequestMissionRunMSselState5(void) {
 }
 
 // Requests state 6: stores mNextState = 6 and zeroes mStateFrames; the next AdvanceMissionRunMSsel call copies it to
-// mState and runs AdvanceMissionRunMSselState6.
-void RequestMissionRunMSselState6(void) {
+// mState and runs AdvanceMissionRunMSselChoisesInput.
+void RequestMissionRunMSselChoisesInput(void) {
     gMissionRunMSsel->mNextState = MSSEL_STATE_CHOISES_INPUT;
     gMissionRunMSsel->mStateFrames = 0;
 }
 
-void RequestMissionRunMSselState7(void) {
+void RequestMissionRunMSselChoisesClose(void) {
     gMissionRunMSsel->mNextState = MSSEL_STATE_CHOISES_CLOSE;
     gMissionRunMSsel->mStateFrames = 0;
     RequestSelectChoisesHidden();
 }
 
-void RequestMissionRunMSselState8(void) {
+void RequestMissionRunMSselSlideOut(void) {
     gMissionRunMSsel->mNextState = MSSEL_STATE_SLIDE_OUT;
     gMissionRunMSsel->mStateFrames = 0;
     RequestSelectReturnSlideOut();
@@ -665,14 +665,14 @@ void ReleaseMissionRunMSsel(void) {
     gMissionRunMSsel = NULL;
 }
 
-void AdvanceMissionRunMSselState0(void) {
+void AdvanceMissionRunMSselWaitFade(void) {
     UpdateMissionRunMSselSounds(gMissionRunMSsel->mPaletteBlendFrame);
     if (AreBrightnessFadesClear() != 0) {
-        RequestMissionRunMSselState1();
+        RequestMissionRunMSselSlideIn();
     }
 }
 
-void AdvanceMissionRunMSselState1(void) {
+void AdvanceMissionRunMSselSlideIn(void) {
     s32 slotIndex;
     s32 cellSlot;
     u16 mainLayoutCellCount;
@@ -713,18 +713,18 @@ void AdvanceMissionRunMSselState1(void) {
         }
     }
     if (gMissionRunMSsel->mStateFrames >= 10) {
-        RequestMissionRunMSselState2();
+        RequestMissionRunMSselWaitSelectReturn();
     }
 }
 
-void AdvanceMissionRunMSselState2(void) {
+void AdvanceMissionRunMSselWaitSelectReturn(void) {
     UpdateMissionRunMSselSounds(gMissionRunMSsel->mPaletteBlendFrame);
     if (IsSelectReturnShownNoRequest()) {
-        RequestMissionRunMSselState3();
+        RequestMissionRunMSselInput();
     }
 }
 
-void AdvanceMissionRunMSselState3(void) {
+void AdvanceMissionRunMSselInput(void) {
     u32 result = -1;
     InputSlotIndex slot = INPUT_SLOT_PAD_OR_PARTICIPANT;
     BOOL flag_b;
@@ -770,7 +770,7 @@ void AdvanceMissionRunMSselState3(void) {
     SetSelectReturnSoundId(0xe);
     gMissionRunMSsel->mExitOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
     gMissionRunMSsel->mResult = MISSION_RUN_MSSEL_RESULT_BACK;
-    RequestMissionRunMSselState8();
+    RequestMissionRunMSselSlideOut();
     RequestSelectReturnPressWithSound(0);
     return;
 skip:
@@ -782,12 +782,12 @@ skip:
         }
         gMissionRunMSsel->mIndex = target;
         gMissionRunMSsel->mIndexCellTimers[gMissionRunMSsel->mIndex] = 5;
-        RequestMissionRunMSselState4();
+        RequestMissionRunMSselPressMission();
         return;
     }
     if ((u16) (gInputSlots[slot].mPressedBits & PAD_KEY_A) != 0) {
         gMissionRunMSsel->mIndexCellTimers[gMissionRunMSsel->mIndex] = 5;
-        RequestMissionRunMSselState4();
+        RequestMissionRunMSselPressMission();
         return;
     }
     if (GetNewOrRepeatBits(8, PAD_KEY_UP)) {
@@ -851,34 +851,34 @@ skip:
     }
 }
 
-void AdvanceMissionRunMSselState4(void) {
+void AdvanceMissionRunMSselPressMission(void) {
     UpdateMissionRunMSselSounds(gMissionRunMSsel->mPaletteBlendFrame);
     AdvanceMissionRunMSselIndexChange();
     gMissionRunMSsel->mStateFrames = gMissionRunMSsel->mStateFrames + 1;
     if (gMissionRunMSsel->mStateFrames >= 5) {
         if (IsMissionRunMSselIndexChangeRunning() == FALSE) {
-            RequestMissionRunMSselState5();
+            RequestMissionRunMSselChoisesOpen();
         }
     }
 }
 
-void AdvanceMissionRunMSselState5(void) {
+void AdvanceMissionRunMSselChoisesOpen(void) {
     UpdateMissionRunMSselSounds(gMissionRunMSsel->mPaletteBlendFrame);
     AdvanceMissionRunMSselIndexChange();
     if (IsSelectChoisesChooseNoRequest()) {
-        RequestMissionRunMSselState6();
+        RequestMissionRunMSselChoisesInput();
     }
 }
 
-void AdvanceMissionRunMSselState6(void) {
+void AdvanceMissionRunMSselChoisesInput(void) {
     UpdateMissionRunMSselSounds(gMissionRunMSsel->mPaletteBlendFrame);
     AdvanceMissionRunMSselIndexChange();
     if (GetSelectChoisesDone()) {
-        RequestMissionRunMSselState7();
+        RequestMissionRunMSselChoisesClose();
     }
 }
 
-void AdvanceMissionRunMSselState7(void) {
+void AdvanceMissionRunMSselChoisesClose(void) {
     s32 missionIndex;
     s32 choisesIndex;
 
@@ -891,11 +891,11 @@ void AdvanceMissionRunMSselState7(void) {
                 SetMissionFromMissionRunMSsel();
                 gMissionRunMSsel->mResult = MISSION_RUN_MSSEL_RESULT_MISSION_CHOSEN;
                 gMissionRunMSsel->mExitOffsetX = -LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
-                RequestMissionRunMSselState8();
+                RequestMissionRunMSselSlideOut();
                 break;
             case -1:
             case 1:
-                RequestMissionRunMSselState3();
+                RequestMissionRunMSselInput();
                 break;
         }
         for (missionIndex = 0; missionIndex < 9; missionIndex++) {
@@ -904,7 +904,7 @@ void AdvanceMissionRunMSselState7(void) {
     }
 }
 
-void AdvanceMissionRunMSselState8(void) {
+void AdvanceMissionRunMSselSlideOut(void) {
     s32 slotIndex;
     s32 cellSlot;
     s16 first;
@@ -952,31 +952,31 @@ s32 AdvanceMissionRunMSsel(void) {
     gMissionRunMSsel->mState = gMissionRunMSsel->mNextState;
     switch (gMissionRunMSsel->mState) {
         case MSSEL_STATE_WAIT_FADE:
-            AdvanceMissionRunMSselState0();
+            AdvanceMissionRunMSselWaitFade();
             break;
         case MSSEL_STATE_SLIDE_IN:
-            AdvanceMissionRunMSselState1();
+            AdvanceMissionRunMSselSlideIn();
             break;
         case MSSEL_STATE_WAIT_SELECT_RETURN:
-            AdvanceMissionRunMSselState2();
+            AdvanceMissionRunMSselWaitSelectReturn();
             break;
         case MSSEL_STATE_INPUT:
-            AdvanceMissionRunMSselState3();
+            AdvanceMissionRunMSselInput();
             break;
         case MSSEL_STATE_PRESS_MISSION:
-            AdvanceMissionRunMSselState4();
+            AdvanceMissionRunMSselPressMission();
             break;
         case MSSEL_STATE_CHOISES_OPEN:
-            AdvanceMissionRunMSselState5();
+            AdvanceMissionRunMSselChoisesOpen();
             break;
         case MSSEL_STATE_CHOISES_INPUT:
-            AdvanceMissionRunMSselState6();
+            AdvanceMissionRunMSselChoisesInput();
             break;
         case MSSEL_STATE_CHOISES_CLOSE:
-            AdvanceMissionRunMSselState7();
+            AdvanceMissionRunMSselChoisesClose();
             break;
         case MSSEL_STATE_SLIDE_OUT:
-            AdvanceMissionRunMSselState8();
+            AdvanceMissionRunMSselSlideOut();
             break;
     }
     UpdateMissionRunMSselIndexCells();
