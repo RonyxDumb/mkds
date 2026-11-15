@@ -53,7 +53,7 @@ u8 CollideKartWithSunFireball(SunFireball *sunFireball, Kart *kart, u8 *hitFlag,
         sunFireball->mMapObject.mFlags |= gSunFireballHitFlag;
         sunFireball->mMapObject.mFlags |= gSunFireballSecondHitFlag;
         sunFireball->mState = SUN_FIREBALL_STATE_HIT_RISE;
-        sunFireball->mTimer = 0x168;
+        sunFireball->mTimer = SUN_FIREBALL_HIT_FRAMES;
         sunFireball->mMapObject.mPosStep.x = 0;
         sunFireball->mMapObject.mPosStep.y = 0x3000;
         sunFireball->mMapObject.mPosStep.z = 0;
@@ -79,7 +79,7 @@ u8 CollideItemObjectWithSunFireball(SunFireball *sunFireball, ItemObject *itemOb
         sunFireball->mMapObject.mFlags |= gSunFireballHitFlag;
         sunFireball->mMapObject.mFlags |= gSunFireballSecondHitFlag;
         sunFireball->mState = SUN_FIREBALL_STATE_HIT_RISE;
-        sunFireball->mTimer = 0x168;
+        sunFireball->mTimer = SUN_FIREBALL_HIT_FRAMES;
         sunFireball->mMapObject.mPosStep.x = 0;
         sunFireball->mMapObject.mPosStep.y = 0x3000;
         sunFireball->mMapObject.mPosStep.z = 0;
@@ -128,7 +128,7 @@ void UpdateSunFireball(void *mapObjectList, SunFireball *sunFireball) {
                 sunFireball->mMapObject.mPosStep.y = stepValue;
                 VEC_Add(&sunFireball->mMapObject.mPos, &sunFireball->mMapObject.mPosStep,
                         &sunFireball->mMapObject.mPos);
-                if (sunFireball->mTimer > 0x78 && sunFireball->mMapObject.mPosStep.y < 0) {
+                if (sunFireball->mTimer > SUN_FIREBALL_NO_BOUNCE_FRAMES && sunFireball->mMapObject.mPosStep.y < 0) {
                     if (CollideSphereWithCourse(&sunFireball->mMapObject.mPos, NULL, 0,
                                                 sunFireball->mMapObject.mExtent.x, 8, -2, &pushOut, NULL, NULL,
                                                 &collisionFlags, NULL, NULL, NULL, NULL) != 0 &&
@@ -241,7 +241,7 @@ void StartSunFireball(Vec3 *startPos, Vec3 *direction) {
     if (sunFireball == NULL) {
         return;
     }
-    sunFireball->mTimer = 0x1c2;
+    sunFireball->mTimer = SUN_FIREBALL_LIFE_FRAMES;
     sunFireball->mStartPos = *startPos;
     sunFireball->mMapObject.mPos = sunFireball->mStartPos;
     sunFireball->mMapObject.mMatrix.mRows[2] = *direction;

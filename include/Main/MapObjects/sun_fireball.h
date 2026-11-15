@@ -15,6 +15,12 @@ enum {
     SUN_FIREBALL_STATE_HIT_SPIRAL,
 };
 
+// Values of SunFireball.mTimer, counted down while it flies or spirals: at the start, after a kart hit, and the frames
+// left under which it no longer bounces off the course.
+#define SUN_FIREBALL_LIFE_FRAMES 450
+#define SUN_FIREBALL_HIT_FRAMES 360
+#define SUN_FIREBALL_NO_BOUNCE_FRAMES 120
+
 // Object of StartSunFireball: after the shared part, a halfword at 0xa0, a counter at 0xa4, a position at 0xa8, a
 // halfword at 0xb4, a state at 0xb8 and two objects at 0xbc and 0xc0.
 typedef struct SunFireball {
