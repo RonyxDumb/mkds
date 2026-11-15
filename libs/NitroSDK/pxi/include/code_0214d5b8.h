@@ -3,10 +3,13 @@
 #include "types.h"
 
 // The word sent through the FIFO: tag, err flag and data.
-typedef struct PxiWord {
-    /* 00 */ u32 mTag : 5;
-    /* 00 */ u32 mErr : 1;
-    /* 00 */ u32 mData : 26;
+typedef union PxiWord {
+    struct {
+        /* 00 */ u32 mTag : 5;
+        /* 00 */ u32 mErr : 1;
+        /* 00 */ u32 mData : 26;
+    };
+    u32 mWhole;
 } PxiWord;
 
 // Callback for a FIFO tag: called with the tag, the data and the err flag. Left unprototyped because the game's

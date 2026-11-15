@@ -91,7 +91,7 @@ s32 PXI_SendWordByFifo(s32 fifotag, u32 data, s32 err) {
         OS_RestoreInterrupts(enabled);
         return -2;
     }
-    reg_PXI_SEND_FIFO = *(u32 *) &message;
+    reg_PXI_SEND_FIFO = message.mWhole;
     OS_RestoreInterrupts(enabled);
     return 0;
 }
@@ -114,7 +114,7 @@ void PXIi_HandlerRecvFifoNotEmpty(void) {
                 OS_RestoreInterrupts(enabled);
                 result = -4;
             } else {
-                *(u32 *) &message = reg_PXI_RECV_FIFO;
+                message.mWhole = reg_PXI_RECV_FIFO;
                 OS_RestoreInterrupts(enabled);
                 result = 0;
             }
@@ -143,7 +143,7 @@ void PXIi_HandlerRecvFifoNotEmpty(void) {
             if (reg_PXI_SUBP_FIFO_CNT & 2) {
                 OS_RestoreInterrupts(enabled);
             } else {
-                reg_PXI_SEND_FIFO = *(u32 *) &message;
+                reg_PXI_SEND_FIFO = message.mWhole;
                 OS_RestoreInterrupts(enabled);
             }
         }
