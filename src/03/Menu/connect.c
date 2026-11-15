@@ -32,6 +32,7 @@
 #include "03/Menu/sub_screen_message.h"
 #include "03/Graphics/hl_scr.h"
 #include "03/Menu/link_level.h"
+#include "00/Lib/DWC/code_02188ec0.h"
 
 const DWCACConfig gConnectParamsTemplate = {
     (void *(*) ()) ConnectAllocExpHeapBlockWrapper, ConnectFreeExpHeapBlockWrapper, 3, 1, 0, 0};
@@ -117,7 +118,7 @@ void StartConnectRequest(void) {
     MIi_CpuCopy32(&gConnectParamsTemplate, &connectParams, 0xc);
     GetSecondaryMenuPair(NULL, &secondaryPairSecond);
     if (secondaryPairSecond == 2) {
-        connectParams.mConnectType = 4;
+        connectParams.mConnectType = AUTO_CONNECT_TYPE_NWCUSBAP_SSID;
     } else {
         connectParams.mConnectType = record->mEntryIndex + 1;
     }
