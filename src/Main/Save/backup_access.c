@@ -11,6 +11,7 @@
 #include "Main/Scene/scene_connection.h"
 #include "Main/Save/backup_write_copies.h"
 #include "Main/Menu/data_02175000.h"
+#include "Main/MapObjects/data_0217a000.h"
 
 const u32 gBackupXorKeys11[11] = {0xc0a2cfb9, 0xfca4f59a, 0xd87e2588, 0xb615dd30, 0xeacc91ee, 0xb6a8f95d,
                                   0x7bd8b080, 0xcec11555, 0x59cef8ce, 0xfff88db3, 0xa867f2a3};
@@ -235,7 +236,7 @@ BOOL TryXorBackupWordsAtFoundIndex(u32 *cursor, u32 byteCount, u32 expectedFirst
 void InitWLMenuSceneCallback(void) {
     if (gStartupWork->mConnectionKind == CONNECTION_KIND_WIFI_MENU) {
         ReleaseCurrentOverlay();
-        StartLoadOverlay(0);
+        StartLoadOverlay(OVERLAY_SLOT_OV000);
         FinishOverlayLoad();
     }
     InitWLMenuScene(GetHeap(GetCurrentHeapCall()));

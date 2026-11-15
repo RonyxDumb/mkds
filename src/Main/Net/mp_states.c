@@ -158,7 +158,7 @@ void UpdateMPState1(void) {
 
 void EnterMPState2(void) {
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
-        StartLoadOverlay(2);
+        StartLoadOverlay(OVERLAY_SLOT_OV002);
     }
 }
 

@@ -39,6 +39,7 @@
 #include "Main/System/heap_call.h"
 #include "code_020176c0.h"
 #include "Main/Save/ghost_record_file.h"
+#include "Main/MapObjects/data_0217a000.h"
 
 #pragma opt_arithtransformation off
 
@@ -1023,7 +1024,7 @@ void UpdateWiFiSession(void) {
     if (gWiFiSession == NULL) {
         return;
     }
-    if (gOverlayLoader->mCurrentOverlay != 0) {
+    if (gOverlayLoader->mCurrentOverlay != OVERLAY_SLOT_OV000) {
         return;
     }
     DWC_ProcessFriendsMatch();

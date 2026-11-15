@@ -378,7 +378,7 @@ void InitMapObjects(void) {
         if (row->mKind == 0) {
             break;
         }
-        if (gOverlayLoader->mCurrentOverlay != 1 && IsInOverlayRange(descriptor) != 0) {
+        if (gOverlayLoader->mCurrentOverlay != OVERLAY_SLOT_OV001 && IsInOverlayRange(descriptor) != 0) {
             break;
         }
         if (descriptor != NULL) {

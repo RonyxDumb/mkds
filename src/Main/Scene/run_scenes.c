@@ -128,14 +128,14 @@ void InitRunScenesKind(void) {
                 sndHeapsKind = 2;
             } else {
                 sndHeapsKind = 0;
-                StartLoadOverlay(1);
+                StartLoadOverlay(OVERLAY_SLOT_OV001);
                 FinishOverlayLoad();
             }
             InitConnectionBuffers(heap);
             break;
         case RUN_SCENES_KIND_WIFI_SESSION:
             sndHeapsKind = 1;
-            StartLoadOverlay(0);
+            StartLoadOverlay(OVERLAY_SLOT_OV000);
             FinishOverlayLoad();
             CreateWiFiSessionHeap(heap);
             break;
