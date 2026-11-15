@@ -91,13 +91,13 @@ void InitKartAiShared(void) {
         InitKartAiTableIndices();
         if (gRaceSetup->mMode == MODE_GRAND_PRIX) {
             switch (gRaceSetup->mEngineIndex) {
-                case 0:
+                case ENGINE_CLASS_SLOW:
                     gKartAiShared->mEngineOrDifficultyIndex = 0;
                     break;
-                case 1:
+                case ENGINE_CLASS_MEDIUM:
                     gKartAiShared->mEngineOrDifficultyIndex = 1;
                     break;
-                case 2:
+                case ENGINE_CLASS_FAST:
                     gKartAiShared->mEngineOrDifficultyIndex = 2;
                     break;
                 default:

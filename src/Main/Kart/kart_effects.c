@@ -858,10 +858,10 @@ void InitCourseCameraEffects(void) {
     engineIndex = gRaceSetup->mEngineIndex;
     engineScale = 0x1000;
     switch (engineIndex) {
-        case 1:
+        case ENGINE_CLASS_MEDIUM:
             engineScale = 0xd9a;
             break;
-        case 0:
+        case ENGINE_CLASS_SLOW:
             engineScale = 0xb33;
             break;
     }

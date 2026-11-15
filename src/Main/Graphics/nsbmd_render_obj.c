@@ -438,10 +438,10 @@ void InitKartEffectTables(void *heap) {
     gOtherKartOddCount = (gRaceSetup->mKartCount - 1) % 2;
     gStarEffectEngineScale = 0x1000;
     switch (gRaceSetup->mEngineIndex) {
-        case 0:
+        case ENGINE_CLASS_SLOW:
             gStarEffectEngineScale = 0xb33;
             break;
-        case 1:
+        case ENGINE_CLASS_MEDIUM:
             gStarEffectEngineScale = 0xd9a;
             break;
     }

@@ -400,11 +400,11 @@ void InitKartPhysicalParams(Kart *kart) {
     adjustment = 0;
     if (IsRaceAwardOrStaffRoll() == 0) {
         switch (gRaceSetup->mEngineIndex) {
-            case 0:
+            case ENGINE_CLASS_SLOW:
                 factor = 0xb33;
                 adjustment = -0x28;
                 break;
-            case 1:
+            case ENGINE_CLASS_MEDIUM:
                 factor = 0xd9a;
                 adjustment = -0x14;
                 break;

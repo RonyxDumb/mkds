@@ -675,10 +675,10 @@ void SetupItemBombKind(void) {
     gItemBombState2MaxRadiusSquared *= gItemBombState2MaxRadiusSquared;
     engineIndex = gRaceSetup->mEngineIndex;
     switch (engineIndex) {
-        case 0:
+        case ENGINE_CLASS_SLOW:
             gItemBombTimerLimit = 0xb4;
             break;
-        case 1:
+        case ENGINE_CLASS_MEDIUM:
             gItemBombTimerLimit = 0x96;
             break;
         default:
