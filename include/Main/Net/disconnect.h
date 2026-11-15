@@ -29,12 +29,14 @@ typedef struct MPMessage {
     /* 17 */ u8 mNameConnectedMask;
 } MPMessage;
 
+// A multiplayer message with its kind and one word.
 typedef struct MPKindWordMessage {
     /* 00 */ u16 mKind;
     /* 02 */ u8 mUnk_02[2];
     /* 04 */ s32 mWord;
 } MPKindWordMessage;
 
+// A multiplayer message with its kind, a bit mask and a player index.
 typedef struct MPPlayerBitsMessage {
     /* 00 */ u16 mKind;
     /* 02 */ u8 mBits[4];
@@ -43,6 +45,7 @@ typedef struct MPPlayerBitsMessage {
     /* 0b */ u8 mUnk_0b[7];
 } MPPlayerBitsMessage;
 
+// A multiplayer message with its kind, a player's name, player index and connected mask.
 typedef struct MPPlayerNameMessage {
     /* 00 */ u16 mKind;
     /* 02 */ u8 mName[0x14];

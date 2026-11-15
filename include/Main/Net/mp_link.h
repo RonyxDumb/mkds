@@ -95,6 +95,7 @@ typedef enum ScanError {
 // Called with the event kind and what goes with it: the wireless message, or a command and result code pair.
 typedef void (*MPLinkEventCallback)(s32 eventKind, void *info);
 
+// The multiplayer link: its callback, send and receive buffers with their sizes, and the started and queued flags.
 typedef struct MPLink {
     /* 00 */ MPLinkEventCallback mCallback;
     /* 04 */ void *mSendBuffer;
@@ -114,6 +115,7 @@ typedef struct MPLink {
 typedef void (*ScanEventCallback)(u32 event, void *args);
 typedef void (*ScanConnectStateFunc)(u32 state, void *info);
 
+// The scan and connect work: buffers, scan parameters, the MPLink, callbacks and the scan and end requests.
 typedef struct ScanConnectWork {
     /* 0000 */ u8 mUnk_0000[0x20];
     /* 0020 */ u8 mReceiveBuffer[0x480];
