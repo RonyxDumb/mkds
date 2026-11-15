@@ -67,7 +67,7 @@ BOOL QueueMPDataPlayerBits(u8 playerIndex, u16 destBitmap);
 BOOL QueueMPDataPlayerName(s32 playerIndex, u16 destBitmap);
 BOOL QueueMPDataHalfword(s32 kind, u16 destBitmap);
 BOOL QueueMPDataToPort(void *data, s32 dataSize, u16 destBitmap, void *sendBuffer, QueueMPDataToPortParams *params);
-void MPDataPortCallback(WirelessMessage *event);
+void MPDataPortCallback(void *portMessage);
 void ProcessMPData(u32 aid, MPMessage *message);
 void RemoveChild(u32 aid);
 void AddChild(u32 aid, u8 *bytes, PlayerRecord *playerEntry);

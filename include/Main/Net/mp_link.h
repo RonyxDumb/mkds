@@ -165,7 +165,7 @@ void InitScanConnectWork(ScanConnectWork *work, void *initData);
 void ClearPortCallback(void);
 void QueueMPDataCallback(WirelessMessage *result);
 s32 QueueMPDataIfReady(u32 dataSize, u16 destBitmap, u8 *data);
-void PortCallback(WirelessMessage *result);
+void PortCallback(void *portMessage);
 u32 IsMPReadyToQueueData(void);
 void StartResetCallback(WirelessMessage *result);
 void StartReset(void);

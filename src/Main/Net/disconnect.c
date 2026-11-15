@@ -458,7 +458,8 @@ void ProcessMPData(u32 aid, MPMessage *message) {
     }
 }
 
-void MPDataPortCallback(WirelessMessage *event) {
+void MPDataPortCallback(void *portMessage) {
+    WirelessMessage *event = portMessage;
     MPMessage message;
 
     if (event->mResultCode != WIRELESS_RESULT_SUCCEEDED) {

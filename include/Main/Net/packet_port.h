@@ -5,7 +5,7 @@
 
 typedef struct WirelessMessage WirelessMessage;
 
-void PacketPortCallback(WirelessMessage *result);
+void PacketPortCallback(void *portMessage);
 void QueuePacketToPort(void);
 void PacketPortSendCallback(void);
 void SetBlockEntryBuffer(u32 entryIndex, void *buffer);

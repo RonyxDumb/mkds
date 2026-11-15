@@ -291,7 +291,8 @@ void WmDataSharingSetDataCallback(PortSendCallbackMessage *callback) {
 
 // Port callback of a parent: sends the next data set when a link comes up (7), a child's data arrived (0x15) or a
 // link is lost (9).
-void WmDataSharingReceiveCallback_Parent(PortCallbackMessage *callback) {
+void WmDataSharingReceiveCallback_Parent(void *portMessage) {
+    PortCallbackMessage *callback = portMessage;
     WMDataSharingInfo *share;
     u32 enabled;
     enum { K0 } bit;
@@ -337,7 +338,8 @@ void WmDataSharingReceiveCallback_Parent(PortCallbackMessage *callback) {
 }
 
 // Port callback of a child: stores the data set the parent sent (0x15) as the next one to read.
-void WmDataSharingReceiveCallback_Child(PortCallbackMessage *callback) {
+void WmDataSharingReceiveCallback_Child(void *portMessage) {
+    PortCallbackMessage *callback = portMessage;
     WMStatus *status;
     WMDataSharingInfo *share;
     u32 size;

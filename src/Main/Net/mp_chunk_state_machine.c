@@ -160,7 +160,8 @@ void ProcessMPChunk(u8 *chunk) {
     }
 }
 
-void MPChunkPortCallback(WirelessMessage *event) {
+void MPChunkPortCallback(void *portMessage) {
+    WirelessMessage *event = portMessage;
     if (event->mResultCode == WIRELESS_RESULT_SUCCEEDED && event->mData != NULL && event->mLength >= 4) {
         DC_StoreRange(event->mData, event->mLength);
         switch (event->mState) {

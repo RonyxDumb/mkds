@@ -472,7 +472,8 @@ void SendRomArchivePacket(void) {
     transfer->mSendAllowed = gRomArchiveTransfer.mSendPending == FALSE;
 }
 
-void RomArchivePortCallback(RomArchivePortMessage *message) {
+void RomArchivePortCallback(void *portMessage) {
+    RomArchivePortMessage *message = portMessage;
     RomArchiveTransfer *transfer;
     RomArchiveParentView *view;
     s32 isParent;

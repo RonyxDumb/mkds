@@ -319,7 +319,8 @@ void MBi_ParentCallback(WirelessMessage *result) {
     }
 }
 
-void MBi_ChildPortCallback(WirelessMessage *result) {
+void MBi_ChildPortCallback(void *portMessage) {
+    WirelessMessage *result = portMessage;
     if (result->mResultCode == WIRELESS_RESULT_SUCCEEDED) {
         if (result->mState == WIRELESS_STATE_LINKED) {
         } else if (result->mState == WIRELESS_STATE_UNLINKED) {

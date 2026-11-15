@@ -73,9 +73,8 @@ typedef enum WirelessResult {
 
 typedef void (*WirelessMessageCallback)(WirelessMessage *);
 
-// Port callbacks take a different view of the message for each user (data sharing, ROM archive, MP link), so they are
-// left unprototyped.
-typedef void (*WirelessPortCallback)();
+// Called with the message of the port; each user reads it through its own view (data sharing, ROM archive, MP link).
+typedef void (*WirelessPortCallback)(void *portMessage);
 // Callback of a port send, unprototyped for the same reason.
 typedef void (*WirelessSendCallback)();
 

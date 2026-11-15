@@ -106,7 +106,7 @@ void InitRomArchive(u32 port, void (*stateCallback)(s32 port),
                     void *(*allocFunc)(s32 port, u32 stateCallback, void *allocFunc), u32 allocFuncArg);
 void RomArchiveChildCallback(WBTCommand *record);
 void RomArchiveParentCallback(WBTCommand *record);
-void RomArchivePortCallback(RomArchivePortMessage *message);
+void RomArchivePortCallback(void *portMessage);
 void SendRomArchivePacket(void);
 void RequestRomArchiveBytes(FSFile *file);
 void FreeRomArchiveNode(RomArchiveParentView *view, RomArchiveFileNode *node);

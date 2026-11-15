@@ -251,7 +251,8 @@ u32 IsMPReadyToQueueData(void) {
     return ready;
 }
 
-void PortCallback(WirelessMessage *result) {
+void PortCallback(void *portMessage) {
+    WirelessMessage *result = portMessage;
     if (result->mResultCode == WIRELESS_RESULT_SUCCEEDED) {
         switch (result->mState) {
             case WIRELESS_STATE_LINKED:

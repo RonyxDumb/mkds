@@ -13,7 +13,7 @@ u32 MBi_IsCommSizeValid(u32 sendDataSize, u32 receiveDataSize, u32 maxChildren);
 s32 MB_Init(void *buffer, MBUserInfo *user, u32 ggid, u32 tgid, u32 dmaNo);
 u32 MBi_GetBeaconPeriodDispersion(void);
 void MBi_ChildCallback(WirelessMessage *result);
-void MBi_ChildPortCallback(WirelessMessage *result);
+void MBi_ChildPortCallback(void *portMessage);
 void MBi_ParentCallback(WirelessMessage *result);
 void MBi_SetMaxScanTime(u32 maxChannelTime);
 void MB_DisconnectChild(u32 childIndex);

@@ -13,7 +13,7 @@ u32 IsAllMPChunksReceived(u32 slot);
 // RunScene. Returns 0.
 s32 RunResultScene(SceneNumbers *sceneNumbers);
 
-void MPChunkPortCallback(WirelessMessage *event);
+void MPChunkPortCallback(void *portMessage);
 
 // States of gConnectionWork->mMPStateMachine, in the order of gMPStateTable.
 enum {

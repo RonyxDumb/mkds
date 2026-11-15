@@ -73,8 +73,8 @@ u8 *WmGetSharedDataAddress(WMDataSharingInfo *dsInfo, u32 aidBitmap, u8 *receive
 u8 *WM_GetSharedDataAddress(WMDataSharingInfo *dsInfo, WMDataSet *receiveData, u32 aid);
 void WmDataSharingSendDataSet(WMDataSharingInfo *dsInfo, u32 delayed);
 void WmDataSharingReceiveData(WMDataSharingInfo *dsInfo, u32 aid, const void *data);
-void WmDataSharingReceiveCallback_Child(PortCallbackMessage *callback);
-void WmDataSharingReceiveCallback_Parent(PortCallbackMessage *callback);
+void WmDataSharingReceiveCallback_Child(void *portMessage);
+void WmDataSharingReceiveCallback_Parent(void *portMessage);
 void WmDataSharingSetDataCallback(PortSendCallbackMessage *callback);
 int WM_StepDataSharing(WMDataSharingInfo *dsInfo, void *sendData, WMDataSet *receiveData);
 int WM_EndDataSharing(WMDataSharingInfo *dsInfo);
