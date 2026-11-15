@@ -307,7 +307,7 @@ typedef struct HanachanPrm {
     /* 130 */ s32 mKartRangeSpeedPercentReduction;
 } HanachanPrm;
 
-// The parameters of an Iwante mission run map object: animation entries, chain camera, item hit and turning to the kart.
+// The parameters of an Iwante mission run map object: animation entries, chain camera, item hit and kart turn.
 typedef struct IwantePrm {
     /* 000 */ MissionRunPrmHead mHead;
     /* 070 */ s32 mHideAtEndReachedAnimationEntry;

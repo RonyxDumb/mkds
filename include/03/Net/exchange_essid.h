@@ -89,6 +89,7 @@ typedef struct EntrySummary {
     /* 2e */ u16 mEncrypted;
 } EntrySummary;
 
+// A list of entry summaries: the count and the summaries.
 typedef struct EntrySummaryList {
     /* 0 */ u32 mCount;
     /* 4 */ EntrySummary mEntries[1];
