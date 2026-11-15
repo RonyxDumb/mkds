@@ -1,14 +1,14 @@
 #include "code_0212f864.h"
 
-void NNSi_SndFaderInit(NNSSndFader *arg0) {
-    NNSSndFader *value0 = arg0;
-    u32 value1;
-    u32 value2;
-    value2 = 0u;
-    arg0->mTarget = value2;
-    value1 = arg0->mTarget;
-    arg0->mOrigin = value1;
-    arg0->mFrame = value2;
-    value1 = arg0->mFrame;
-    arg0->mCounter = value1;
+void NNSi_SndFaderInit(NNSSndFader *fader) {
+    NNSSndFader *unusedFader = fader;
+    u32 copiedValue;
+    u32 zeroValue;
+    zeroValue = 0u;
+    fader->mTarget = zeroValue;
+    copiedValue = fader->mTarget;
+    fader->mOrigin = copiedValue;
+    fader->mFrame = zeroValue;
+    copiedValue = fader->mFrame;
+    fader->mCounter = copiedValue;
 }

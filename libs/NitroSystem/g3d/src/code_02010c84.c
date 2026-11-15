@@ -806,9 +806,9 @@ void NNS_G3dGlbSetBaseScale(const Vec3 *scale) {
 }
 
 // Sets the direction of a light.
-void NNS_G3dGlbLightVector(u32 lightId, s32 x, s32 y, s32 z) {
-    NNS_G3dGlb.mLightVec[lightId] =
-        ((x >> 3) & 0x3ff) | (((y >> 3) & 0x3ff) << 10) | (((z >> 3) & 0x3ff) << 20) | (lightId << 30);
+void NNS_G3dGlbLightVector(u32 lightId, s32 vectorX, s32 vectorY, s32 vectorZ) {
+    NNS_G3dGlb.mLightVec[lightId] = ((vectorX >> 3) & 0x3ff) | (((vectorY >> 3) & 0x3ff) << 10) |
+                                    (((vectorZ >> 3) & 0x3ff) << 20) | (lightId << 30);
 }
 
 // Sets the color of a light.

@@ -6,7 +6,7 @@ void MBi_InitCache(u32 table) {
     u32 address = table;
     u32 fillValue;
     u32 byteCount;
-    u32 value3;
+    u32 unusedValue;
     fillValue = 0u;
     byteCount = 112u;
     MI_CpuFill8((void *) address, fillValue, byteCount);

@@ -152,20 +152,20 @@ void ClearRaceHudSubScreenBombKingCells(void) {
 void UpdateRaceHudSubScreenBombKingCells(void) {
     s32 objectIndex;
     s32 cellCount;
-    u32 unk;
+    u32 subScreenScale;
     MapObject *object;
     Vec3 *position;
 
     cellCount = 0;
-    unk = GetRaceHudSubScreenScale();
+    subScreenScale = GetRaceHudSubScreenScale();
     for (objectIndex = 0; objectIndex < gRaceHudSubScreenBombKingCells->mObjectCount; objectIndex++) {
         object = gRaceHudSubScreenBombKingCells->mObjects[objectIndex];
         if (object->mFlags & 1) {
             continue;
         }
         position = &object->mPos;
-        if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenBombKingCells->mCells[cellCount].mDrawPos, unk,
-                                            1, 1)) {
+        if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenBombKingCells->mCells[cellCount].mDrawPos,
+                                            subScreenScale, 1, 1)) {
             gRaceHudSubScreenBombKingCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xc5);
             gRaceHudSubScreenBombKingCells->mCells[cellCount].mPriority =
                 IsPositionOutsideBox(position) ? RACE_HUD_PRIORITY_OUTSIDE_BOX : RACE_HUD_PRIORITY_INSIDE_BOX;
@@ -192,12 +192,12 @@ void ClearRaceHudSubScreenBossDonketuCells(void) {
 void UpdateRaceHudSubScreenBossDonketuCells(void) {
     s32 objectIndex;
     s32 cellCount;
-    u32 unk;
+    u32 subScreenScale;
     MapObject *object;
     Vec3 *position;
 
     cellCount = 0;
-    unk = GetRaceHudSubScreenScale();
+    subScreenScale = GetRaceHudSubScreenScale();
     for (objectIndex = 0; objectIndex < gRaceHudSubScreenBossDonketuCells->mObjectCount; objectIndex++) {
         object = gRaceHudSubScreenBossDonketuCells->mObjects[objectIndex];
         if (object->mFlags & 1) {
@@ -205,7 +205,7 @@ void UpdateRaceHudSubScreenBossDonketuCells(void) {
         }
         position = &object->mPos;
         if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenBossDonketuCells->mCells[cellCount].mDrawPos,
-                                            unk, 1, 1)) {
+                                            subScreenScale, 1, 1)) {
             gRaceHudSubScreenBossDonketuCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xc5);
             gRaceHudSubScreenBossDonketuCells->mCells[cellCount].mPriority =
                 IsPositionOutsideBox(position) ? RACE_HUD_PRIORITY_OUTSIDE_BOX : RACE_HUD_PRIORITY_INSIDE_BOX;
@@ -232,17 +232,17 @@ void ClearRaceHudSubScreenStopSignCells(void) {
 void UpdateRaceHudSubScreenStopSignCells(void) {
     s32 objectIndex;
     s32 cellCount;
-    u32 unk;
+    u32 subScreenScale;
     MapObject *object;
     Vec3 *position;
 
     cellCount = 0;
-    unk = GetRaceHudSubScreenScale();
+    subScreenScale = GetRaceHudSubScreenScale();
     for (objectIndex = 0; objectIndex < gRaceHudSubScreenStopSignCells->mObjectCount; objectIndex++) {
         object = gRaceHudSubScreenStopSignCells->mObjects[objectIndex];
         position = &object->mPos;
-        if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenStopSignCells->mCells[cellCount].mDrawPos, unk,
-                                            1, 1)) {
+        if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenStopSignCells->mCells[cellCount].mDrawPos,
+                                            subScreenScale, 1, 1)) {
             gRaceHudSubScreenStopSignCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0x5b);
             gRaceHudSubScreenStopSignCells->mCells[cellCount].mPriority =
                 IsPositionOutsideBox(position) ? RACE_HUD_PRIORITY_OUTSIDE_BOX : RACE_HUD_PRIORITY_INSIDE_BOX;
@@ -269,17 +269,17 @@ void ClearRaceHudSubScreenMissionGateCells(void) {
 void UpdateRaceHudSubScreenMissionGateCells(void) {
     s32 objectIndex;
     s32 cellCount;
-    u32 unk;
+    u32 subScreenScale;
     MapObject *object;
     Vec3 *position;
 
     cellCount = 0;
-    unk = GetRaceHudSubScreenScale();
+    subScreenScale = GetRaceHudSubScreenScale();
     for (objectIndex = 0; objectIndex < gRaceHudSubScreenMissionGateCells->mObjectCount; objectIndex++) {
         object = gRaceHudSubScreenMissionGateCells->mObjects[objectIndex];
         position = &object->mPos;
         if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenMissionGateCells->mCells[cellCount].mDrawPos,
-                                            unk, 1, 1)) {
+                                            subScreenScale, 1, 1)) {
             gRaceHudSubScreenMissionGateCells->mCells[cellCount].mCell =
                 GetRaceSNcerEntry(IsMissionGateFrameAdvanced((MissionGateObject *) object) ? 0x5a : 0x59);
             gRaceHudSubScreenMissionGateCells->mCells[cellCount].mPriority =
@@ -307,20 +307,20 @@ void ClearRaceHudSubScreenHanachanCells(void) {
 void UpdateRaceHudSubScreenHanachanCells(void) {
     s32 objectIndex;
     s32 cellCount;
-    u32 unk;
+    u32 subScreenScale;
     MapObject *object;
     Vec3 *position;
 
     cellCount = 0;
-    unk = GetRaceHudSubScreenScale();
+    subScreenScale = GetRaceHudSubScreenScale();
     for (objectIndex = 0; objectIndex < gRaceHudSubScreenHanachanCells->mObjectCount; objectIndex++) {
         object = gRaceHudSubScreenHanachanCells->mObjects[objectIndex];
         if (object->mFlags & 1) {
             continue;
         }
         position = &object->mPos;
-        if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenHanachanCells->mCells[cellCount].mDrawPos, unk,
-                                            1, 1)) {
+        if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenHanachanCells->mCells[cellCount].mDrawPos,
+                                            subScreenScale, 1, 1)) {
             gRaceHudSubScreenHanachanCells->mCells[cellCount].mCell =
                 GetRaceSNcerEntry(GetMapObjectNsbtpFrameIndex((MissionRunMapObject *) object) >= 2 ? 0xc6 : 0xc5);
             gRaceHudSubScreenHanachanCells->mCells[cellCount].mPriority =

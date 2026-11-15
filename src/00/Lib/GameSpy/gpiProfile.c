@@ -37,15 +37,15 @@ void gpiProfileMapCallback(u32 profile, u32 *mapData) {
     (*(UnkFunc *) mapData[1])(*mapData, profile, mapData[2]);
 }
 
-BOOL GpiForEachProfileWhileNonZero(GpConnection *gpConnection, void *b, void *c) {
-    GpiConnection *r;
-    GPIProfileMapData d;
+BOOL GpiForEachProfileWhileNonZero(GpConnection *gpConnection, void *callback, void *userData) {
+    GpiConnection *gpiConnection;
+    GPIProfileMapData mapData;
 
-    r = gpConnection->mGpiConnection;
-    d.mConnection = gpConnection;
-    d.mFunc = b;
-    d.mData = c;
-    if (HashtableFindByFn(r->mProfileList.mTable, (s32) gpiProfileMapCallback, &d) == NULL) {
+    gpiConnection = gpConnection->mGpiConnection;
+    mapData.mConnection = gpConnection;
+    mapData.mFunc = callback;
+    mapData.mData = userData;
+    if (HashtableFindByFn(gpiConnection->mProfileList.mTable, (s32) gpiProfileMapCallback, &mapData) == NULL) {
         return TRUE;
     }
     return FALSE;

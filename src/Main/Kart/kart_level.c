@@ -628,6 +628,6 @@ void HideKartTurnEffects(KartTurnEffects *kartTurnEffects) {
 }
 
 void ShowKartTurnEffects(KartTurnEffects *kartTurnEffects) {
-    u32 v2 = (*(u32 *) (((u32) kartTurnEffects) + (128)));
-    u32 v3 = ((u32(*)(u32))(v2))((u32) kartTurnEffects);
+    u32 showFunction = (*(u32 *) (((u32) kartTurnEffects) + (128)));
+    u32 showResult = ((u32(*)(u32))(showFunction))((u32) kartTurnEffects);
 }

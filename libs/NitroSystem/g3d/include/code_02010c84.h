@@ -191,7 +191,7 @@ void NNS_G3dGlbPolygonAttr(u32 light, u32 polyMode, u32 cullMode, u32 polygonId,
 void NNS_G3dGlbMaterialColorSpecEmi(u32 specular, u32 emission, u32 shininess);
 void NNS_G3dGlbMaterialColorDiffAmb(u32 diffuse, u32 ambient, u32 vtxColor);
 void NNS_G3dGlbLightColor(u32 lightId, u32 rgb);
-void NNS_G3dGlbLightVector(u32 lightId, s32 x, s32 y, s32 z);
+void NNS_G3dGlbLightVector(u32 lightId, s32 vectorX, s32 vectorY, s32 vectorZ);
 void NNS_G3dGlbSetBaseScale(const Vec3 *scale);
 void NNS_G3dGlbSetBaseTrans(const Vec3 *trans);
 void NNS_G3dGlbFlushP(void);

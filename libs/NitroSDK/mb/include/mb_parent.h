@@ -112,6 +112,6 @@ void *MB_CommGetChildUser(u32 child);
 void MBi_CommCallParentError(u32 aid, u16 errcode);
 u32 IsChildAidValid(u32 aid);
 
-void MB_CommSetParentStateCallback(UnkFunc *p0);
+void MB_CommSetParentStateCallback(UnkFunc *parentStateCallback);
 
 extern u8 prev_fid;

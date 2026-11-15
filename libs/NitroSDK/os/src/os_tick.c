@@ -61,7 +61,7 @@ u64 OS_GetTick(void) {
 }
 
 u32 OS_GetTickLo(void) {
-    u32 value0;
-    value0 = reg_OS_TM0CNT_L;
-    return value0;
+    u32 timerCounter;
+    timerCounter = reg_OS_TM0CNT_L;
+    return timerCounter;
 }

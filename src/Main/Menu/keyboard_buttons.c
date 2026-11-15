@@ -74,24 +74,26 @@ void InitKeyboardLabelCanvases(void) {
     u8 charSizes[2][12][2] = {
         {{8, 16}, {8, 16}, {8, 16}, {8, 16}, {8, 16}, {8, 16}, {8, 16}, {8, 16}, {8, 16}, {8, 16}, {8, 16}, {8, 16}},
         {{16, 16}, {16, 16}, {16, 16}, {16, 16}, {16, 16}, {16, 16}, {16, 16}, {16, 16}, {16, 16}, {16, 16}}};
-    s32 i;
-    s32 j;
+    s32 indexA;
+    s32 indexB;
     s32 bufferIndex;
-    for (i = 0; i < 2; i++) {
-        for (j = 0; j < 2; j++) {
-            remaining[1] -=
-                InitLabelCanvas(gKeyboard->mHeap, gKeyboardButtonLabelIndices[i][j], gKeyboard->mBnlls[i],
-                                buttonSizes[i][j][0], buttonSizes[i][j][1], gKeyboardButtonEntryIndices[i][j][0],
-                                gKeyboard->mNcer, gKeyboard->mBncls[i], gKeyboard->mTables[i][1], remaining[1]);
+    for (indexA = 0; indexA < 2; indexA++) {
+        for (indexB = 0; indexB < 2; indexB++) {
+            remaining[1] -= InitLabelCanvas(gKeyboard->mHeap, gKeyboardButtonLabelIndices[indexA][indexB],
+                                            gKeyboard->mBnlls[indexA], buttonSizes[indexA][indexB][0],
+                                            buttonSizes[indexA][indexB][1],
+                                            gKeyboardButtonEntryIndices[indexA][indexB][0], gKeyboard->mNcer,
+                                            gKeyboard->mBncls[indexA], gKeyboard->mTables[indexA][1], remaining[1]);
         }
     }
-    for (j = 0; j < 2; j++) {
+    for (indexB = 0; indexB < 2; indexB++) {
         for (bufferIndex = 0; bufferIndex < 2; bufferIndex++) {
-            for (i = 0; i < gKeyboardTextLimits[j]; i++) {
+            for (indexA = 0; indexA < gKeyboardTextLimits[indexB]; indexA++) {
                 remaining[bufferIndex] -= InitLabelCanvas(
-                    gKeyboard->mHeap, gKeyboardTextCharLabelIndices[j][i], gKeyboard->mBnlls[j], charSizes[j][i][0],
-                    charSizes[j][i][1], gKeyboardTextIndexEntryIndices[j][i], gKeyboard->mNcer, gKeyboard->mBncls[j],
-                    gKeyboard->mTables[j][bufferIndex], remaining[bufferIndex]);
+                    gKeyboard->mHeap, gKeyboardTextCharLabelIndices[indexB][indexA], gKeyboard->mBnlls[indexB],
+                    charSizes[indexB][indexA][0], charSizes[indexB][indexA][1],
+                    gKeyboardTextIndexEntryIndices[indexB][indexA], gKeyboard->mNcer, gKeyboard->mBncls[indexB],
+                    gKeyboard->mTables[indexB][bufferIndex], remaining[bufferIndex]);
             }
         }
     }

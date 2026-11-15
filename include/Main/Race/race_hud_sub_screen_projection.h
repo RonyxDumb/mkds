@@ -468,7 +468,7 @@ s32 MulFx64c(s32 value, s64 factor);
 CourseMapSubScreenView *GetCourseMapSubScreenView(void);
 void UpdateRaceHudSubScreenBg3Center(RaceHudSubScreenBgAffine *out);
 void UpdateRaceHudSubScreenCenter(RaceHudSubScreenBgAffine *out);
-BOOL ComputeRaceHudSubScreenPosition(const Vec3 *pos, UnkPair020b502c *out, s32 unk, s32 requireNearCenter,
+BOOL ComputeRaceHudSubScreenPosition(const Vec3 *pos, UnkPair020b502c *out, s32 subScreenScale, s32 requireNearCenter,
                                      s32 exactCenter);
 void ComputeRaceHudSubScreenKartPosition(s32 kartIndex, UnkPair020b502c *out, s32);
 BOOL IsRaceHudSubScreenPairNearCenter(const UnkPair020b502c *position);

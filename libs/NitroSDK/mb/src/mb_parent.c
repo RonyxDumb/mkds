@@ -13,11 +13,11 @@ u8 prev_fid = 0xff;
 
 #pragma thumb on
 
-void MB_CommSetParentStateCallback(UnkFunc *p0) {
+void MB_CommSetParentStateCallback(UnkFunc *parentStateCallback) {
     u32 enabled = (OS_DisableInterrupts());
-    u32 v7;
-    mbc->mCallback = p0;
-    v7 = (OS_RestoreInterrupts(enabled));
+    u32 previousState;
+    mbc->mCallback = parentStateCallback;
+    previousState = (OS_RestoreInterrupts(enabled));
 }
 
 #pragma thumb off
@@ -585,9 +585,9 @@ void MBi_calc_sendblock(u32 entryIndex) {
     MB_CommPWork *entry;
     u16 current;
     u16 rangeStart;
-    enum { K0 } k;
-    k = entryIndex * 0x5d4;
-    entry = OFFSET_PTR(MB_CommPWork, mbc, k);
+    enum { K0 } entryOffset;
+    entryOffset = entryIndex * 0x5d4;
+    entry = OFFSET_PTR(MB_CommPWork, mbc, entryOffset);
     if (entry->mEntryUsed == 0) {
         return;
     }

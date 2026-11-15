@@ -614,7 +614,7 @@ double copysign(double magnitude, double sign) {
 double PowBody(double base, double power) {
     static const double ln2Low = -1.904654299957768e-09;
     int scaleExp;
-    double result, absBase, logHigh, powerHigh, logProdHigh, temp, ratioHigh, tHigh;
+    double result, absBase, logHigh, powerHigh, logProdHigh, workTerm, ratioHigh, tHigh;
     double baseCopy, highTerm, lowTerm, correction, poly, sign, ratio, ratioSquared, ratioError, logProdLow, tLow,
         scaledHigh, scaledLow, logLow;
     int lowBits, bits, expBits, intKind, nonNegative, baseExponent;
@@ -722,10 +722,10 @@ double PowBody(double base, double power) {
         if (ia > 0x3ff00000) {
             return hb > 0 ? 1e300 * 1e300 : 0.0;
         }
-        temp = baseCopy - 1.0;
-        correction = (temp * temp) * (0.5 - temp * (0.3333333333333333 - temp * 0.25));
-        highTerm = 1.4426950216293335 * temp;
-        lowTerm = temp * 1.9259629911266175e-08 - correction * 1.4426950408889634;
+        workTerm = baseCopy - 1.0;
+        correction = (workTerm * workTerm) * (0.5 - workTerm * (0.3333333333333333 - workTerm * 0.25));
+        highTerm = 1.4426950216293335 * workTerm;
+        lowTerm = workTerm * 1.9259629911266175e-08 - correction * 1.4426950408889634;
         logProdHigh = highTerm + lowTerm;
         *(int *) &logProdHigh = 0;
         logProdLow = lowTerm - (logProdHigh - highTerm);
@@ -779,10 +779,10 @@ double PowBody(double base, double power) {
         logLow = lowTerm - (logHigh - highTerm);
         scaledHigh = 0.9617967009544373 * logHigh;
         scaledLow = gPowLogAdjustLow[expBits] + (-7.028461650952758e-09 * logHigh + logLow * 0.9617966939259756);
-        temp = baseExponent;
-        logProdHigh = ((scaledHigh + scaledLow) + gPowLogAdjustHigh[expBits]) + temp;
+        workTerm = baseExponent;
+        logProdHigh = ((scaledHigh + scaledLow) + gPowLogAdjustHigh[expBits]) + workTerm;
         *(int *) &logProdHigh = 0;
-        logProdLow = scaledLow - (((logProdHigh - temp) - gPowLogAdjustHigh[expBits]) - scaledHigh);
+        logProdLow = scaledLow - (((logProdHigh - workTerm) - gPowLogAdjustHigh[expBits]) - scaledHigh);
     }
 
     sign = 1.0;
@@ -816,25 +816,27 @@ double PowBody(double base, double power) {
     if (lowBits > 0x3fe00000) {
         lowBits = bits + (0x00100000 >> (expBits + 1));
         expBits = ((lowBits & 0x7fffffff) >> 20) - 0x3ff;
-        temp = 0.0;
-        *(1 + (int *) &temp) = lowBits & ~(0x000fffff >> expBits);
+        workTerm = 0.0;
+        *(1 + (int *) &workTerm) = lowBits & ~(0x000fffff >> expBits);
         scaleExp = ((lowBits & 0x000fffff) | 0x00100000) >> (20 - expBits);
         if (bits < 0) {
             scaleExp = -scaleExp;
         }
-        logHigh -= temp;
+        logHigh -= workTerm;
     }
-    temp = logLow + logHigh;
-    *(int *) &temp = 0;
-    highTerm = temp * 0.6931471824645996;
-    lowTerm = (logLow - (temp - logHigh)) * 0.6931471805599453 + temp * ln2Low;
+    workTerm = logLow + logHigh;
+    *(int *) &workTerm = 0;
+    highTerm = workTerm * 0.6931471824645996;
+    lowTerm = (logLow - (workTerm - logHigh)) * 0.6931471805599453 + workTerm * ln2Low;
     result = highTerm + lowTerm;
     correction = lowTerm - (result - highTerm);
-    temp = result * result;
-    logProdHigh = result - temp * (0.16666666666666602 +
-                                   temp * (-0.0027777777777015593 +
-                                           temp * (6.613756321437934e-05 +
-                                                   temp * (-1.6533902205465252e-06 + temp * 4.1381367970572385e-08))));
+    workTerm = result * result;
+    logProdHigh =
+        result -
+        workTerm * (0.16666666666666602 +
+                    workTerm * (-0.0027777777777015593 +
+                                workTerm * (6.613756321437934e-05 +
+                                            workTerm * (-1.6533902205465252e-06 + workTerm * 4.1381367970572385e-08))));
     poly = (result * logProdHigh) / (logProdHigh - 2.0) - (correction + result * correction);
     result = 1.0 - (poly - result);
     bits = *(1 + (int *) &result);
