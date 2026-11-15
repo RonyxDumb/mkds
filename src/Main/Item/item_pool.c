@@ -825,7 +825,7 @@ void SetKartItemLinkFromHitValue(KartItems *kartItems, u16 hitValue) {
 
 #pragma thumb on
 void InitKartItems(KartItems *kartItems, u16 kartIndex) {
-    CourseMapItemRouteHead *courseMap;
+    CourseMap *courseMap;
 
     kartItems->mKartIndex = kartIndex;
     kartItems->mKart = GetKart(kartIndex);
@@ -833,7 +833,7 @@ void InitKartItems(KartItems *kartItems, u16 kartIndex) {
     InitItemSlot(kartItems, kartItems);
     InitHeldItem(&kartItems->mHeldItem, kartItems);
     InitItemInUse(&kartItems->mItemInUse, kartItems);
-    courseMap = (CourseMapItemRouteHead *) gCourseMap;
+    courseMap = gCourseMap;
     kartItems->mItemLink.mLink = courseMap->mItemRouteCount != 0 ? courseMap->mItemRoute0FirstLink : 0;
     kartItems->mItemLink.mNextLinksUsed = 1;
     kartItems->mKinokoBoostStarted = FALSE;

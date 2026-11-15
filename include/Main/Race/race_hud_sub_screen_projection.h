@@ -367,7 +367,7 @@ typedef struct CourseMap {
     // values), built from mItemPoints and mItemRoutes; followed by the kart item code and the item objects.
     /* ac */ struct ItemPointLink *mItemPointLinks;
     // Link of the first point of mItemRoutes[0]; the link indices of the item objects count from it.
-    /* b0 */ s32 mItemRoute0FirstLink;
+    /* b0 */ struct ItemPointLink *mItemRoute0FirstLink;
     // Link of the last point of the route before mItemRoutes[0].
     /* b4 */ s32 mItemRoute0PreviousLastLink;
     // One 0x30-byte link per battle point (up to eight neighbour links, a pointer to the point, two values, a link

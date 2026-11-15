@@ -618,21 +618,19 @@ void PickNextItemPointLink(ItemPointLinkRef *in, ItemPointLinkRef *out, u32 idx,
 }
 
 u8 GetItemPointLinkIndex(ItemPointLinkRef *ref) {
-    s32 linkAddress = (s32) ref->mLink;
-
-    if (linkAddress == 0) {
+    if (ref->mLink == NULL) {
         return 0xff;
     }
-    return (linkAddress - gCourseMap->mItemRoute0FirstLink) / 40;
+    return ref->mLink - gCourseMap->mItemRoute0FirstLink;
 }
 
-s32 SetItemPointLinkRefFromIndex(u32 index, u32 *ref) {
+s32 SetItemPointLinkRefFromIndex(u32 index, ItemPointLinkRef *ref) {
     if (index >= 0xff) {
-        *ref = 0;
+        ref->mLink = NULL;
     } else {
-        *ref = gCourseMap->mItemRoute0FirstLink + index * 0x28;
+        ref->mLink = gCourseMap->mItemRoute0FirstLink + index;
     }
-    ref[1] = 1;
+    ref->mNextLinksUsed = 1;
     return 1;
 }
 

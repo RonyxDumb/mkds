@@ -24,7 +24,7 @@ typedef struct ItemPointLink ItemPointLink;
 
 u32 GetItemPointLinkDirection(ItemPointLink *link, Vec3 *directionOut);
 
-s32 SetItemPointLinkRefFromIndex(u32 index, u32 *ref);
+s32 SetItemPointLinkRefFromIndex(u32 index, ItemPointLinkRef *ref);
 
 extern const u16 gItemObjectPendingUpdateBit;
 extern const ItemSpreadRow gItemSpreadRows[3];
