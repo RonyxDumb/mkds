@@ -37,7 +37,7 @@ typedef struct CartridgeHeaderTail {
 
 typedef struct CartridgeHeaderCopy {
     /* 00 */ u32 mUnk_00;
-    /* 04 */ u8 mUnk_04[0x7c];
+    /* 04 */ u8 mBiosBytes[0x7c];
     // The 0x40 bytes copied from 0x08000080; CTRDGi_InitModuleInfo reads the fields at +0x2c, +0x30, +0x35 and
     // +0x3e of it into the record.
     /* 80 */ CartridgeHeaderTail mHeaderTailCopy;

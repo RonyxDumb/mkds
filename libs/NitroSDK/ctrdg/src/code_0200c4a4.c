@@ -76,7 +76,7 @@ void CTRDGi_InitModuleInfo(void) {
     }
     idInfo->mMakerCode = chb->mHeaderTailCopy.mMakerCode;
     idInfo->mIdWord = chb->mHeaderTailCopy.mGameCode;
-    MIi_CpuCopy32((void *) 0xffff0020, gCartridgeHeaderCopy.mUnk_04, 0x9c);
+    MIi_CpuCopy32((void *) 0xffff0020, gCartridgeHeaderCopy.mBiosBytes, 0x9c);
     DC_FlushAll();
     CTRDGi_SendtoPxi(((((u32) &gCartridgeHeaderCopy - 0x02000000) >> 5) << 6) | 1);
     while (gCartridgeState.mReplyReceived != 1) {
