@@ -30,7 +30,7 @@ void CreateChildWaitSession(void (*callback)(s32)) {
     params.mGameNamep = GetMessageEntry(gMessages, 0xf);
     params.mGameIntroductionp = GetMessageEntry(gMessages, 0x10);
     params.mHandshakeByte = GetLanguageIndex() + 0x31;
-    InitChildWaitSession((ChildWaitSessionView *) gChildWaitSession, &params);
+    InitChildWaitSession(&gChildWaitSession->mSession, &params);
     if (StartChildWaitSession() == 0) {
         OS_Terminate();
     }
