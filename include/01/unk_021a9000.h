@@ -133,7 +133,7 @@ typedef struct SelectBattleStage {
     /* 0020 */ BOOL mHighlightVisible;
     /* 0024 */ s32 mResult;
     /* 0028 */ s32 mPendingResult;
-    /* 002c */ BOOL mUnk_2c;
+    /* 002c */ BOOL mWaitForReturnState0NoState1;
     /* 0030 */ u16 mSelectBattleStageMNscrCopy[64][32];
     /* 1030 */ void *mHeap;
     /* 1034 */ LayoutTableEntry *mSelectBattleStageTables[2];

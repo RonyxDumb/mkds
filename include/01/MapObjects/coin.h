@@ -33,7 +33,7 @@ typedef struct Coin {
     /* 0ac */ s32 mTimer;
     /* 0b0 */ s32 mScaleFactor;
     /* 0b4 */ GroupFollower mFollower;
-    /* 0d8 */ Vec3 mUnk_0d8;
+    /* 0d8 */ Vec3 mSavedPos;
     /* 0e4 */ s32 mBounceY;
     /* 0e8 */ Vec3 *mTargetPos;
     /* 0ec */ Vec3 mTargetOffset;

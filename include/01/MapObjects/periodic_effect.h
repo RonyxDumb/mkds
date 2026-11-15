@@ -27,7 +27,10 @@ typedef struct EffectMapObject {
     /* 66 */ u16 mAlpha;
     /* 68 */ u8 mUnk_68[0x34];
     /* 9c */ CourseMapRow *mCourseMapRow;
-    /* a0 */ s32 mUnk_a0;
+    /* a0 */ union {
+        s32 mEffectDelayFrames;
+        s32 mCameraEffectState;
+    };
     /* a4 */ void *mEffectHandle;
 } EffectMapObject;
 

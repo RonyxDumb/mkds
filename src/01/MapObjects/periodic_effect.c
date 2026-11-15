@@ -49,7 +49,8 @@ void InitPeriodicEffectObjects(MapObjectList *objectList) {
             raceProgress = gRaceProgress;
             localRandom = &raceProgress->mLocalRandom;
             localRandom->mValue = (s64) localRandom->mMultiplier * (s64) localRandom->mValue + localRandom->mIncrement;
-            object->mUnk_a0 = (u16) (((s64) (localRandom->mValue >> 32) * PERIODIC_EFFECT_DELAY_SPREAD) >> 32);
+            object->mEffectDelayFrames =
+                (u16) (((s64) (localRandom->mValue >> 32) * PERIODIC_EFFECT_DELAY_SPREAD) >> 32);
             object->mFlags &= ~2;
             object->mFlags &= ~8;
             object->mAlpha = MAP_OBJECT_ALPHA_MAX;
@@ -62,13 +63,13 @@ void UpdatePeriodicEffect(void *p0, EffectMapObject *object) {
     RaceProgress *raceProgress;
     RandomState64 *localRandom;
 
-    object->mUnk_a0 -= 1;
-    if (object->mUnk_a0 < 0) {
+    object->mEffectDelayFrames -= 1;
+    if (object->mEffectDelayFrames < 0) {
         raceProgress = gRaceProgress;
         localRandom = &raceProgress->mLocalRandom;
         localRandom->mValue = (s64) localRandom->mMultiplier * (s64) localRandom->mValue + localRandom->mIncrement;
-        object->mUnk_a0 = (u16) (((s64) (localRandom->mValue >> 32) * PERIODIC_EFFECT_DELAY_SPREAD) >> 32) +
-                          PERIODIC_EFFECT_DELAY_MIN;
+        object->mEffectDelayFrames = (u16) (((s64) (localRandom->mValue >> 32) * PERIODIC_EFFECT_DELAY_SPREAD) >> 32) +
+                                     PERIODIC_EFFECT_DELAY_MIN;
         if (!(object->mFlags & 0x12)) {
             StartEffect(0x435, &object->mPos);
         }
@@ -90,9 +91,9 @@ void UpdateCameraEffect(void *p0, EffectMapObject *object) {
     Vec3 effectPosition = {0, 0, 0};
 
     camera = GetCurrentCamera();
-    switch (object->mUnk_a0) {
+    switch (object->mCameraEffectState) {
         case CAMERA_EFFECT_STATE_START:
-            object->mUnk_a0 = CAMERA_EFFECT_STATE_FOLLOW;
+            object->mCameraEffectState = CAMERA_EFFECT_STATE_FOLLOW;
             switch (object->mCourseMapRow->mSettings[0]) {
                 case 0:
                     StartEffect(0x400, &effectPosition);

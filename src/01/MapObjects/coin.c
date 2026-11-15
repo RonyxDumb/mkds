@@ -452,8 +452,8 @@ void InitCoinObjects(MapObjectList *coinList) {
     if (coinList != NULL) {
         for (coinIndex = 0; coinIndex < coinList->mMapObjectCount && (coin = coinList->mMapObjects[coinIndex]) != NULL;
              coinIndex++) {
-            coin->mUnk_0d8 = coin->mMapObject.mCourseMapRow->mPosition;
-            coin->mMapObject.mPos = coin->mUnk_0d8;
+            coin->mSavedPos = coin->mMapObject.mCourseMapRow->mPosition;
+            coin->mMapObject.mPos = coin->mSavedPos;
             coin->mMapObject.mPos.y = coin->mMapObject.mPos.y + 0xe000;
             if (coin->mMapObject.mCourseMapRow->mGroupIndex >= 0) {
                 InitGroupFollower(&coin->mFollower, coin->mMapObject.mCourseMapRow, 0);
@@ -514,7 +514,7 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
                 AdvanceGroupFollower(&coin->mFollower);
                 GetGroupFollowerCurvePosStep(&coin->mFollower, &coin->mMapObject.mPos, &coin->mMapObject.mPosStep);
                 coin->mMapObject.mPos.y += 0xe000;
-                coin->mUnk_0d8 = coin->mMapObject.mPos;
+                coin->mSavedPos = coin->mMapObject.mPos;
             } else {
                 coin->mMapObject.mPosStep.x = 0;
                 coin->mMapObject.mPosStep.y = 0;
@@ -650,8 +650,8 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
                     coin->mState = COIN_STATE_FADE_OUT_DROP;
                 }
             }
-            coin->mUnk_0d8.x = coin->mMapObject.mPos.x;
-            coin->mUnk_0d8.z = coin->mMapObject.mPos.z;
+            coin->mSavedPos.x = coin->mMapObject.mPos.x;
+            coin->mSavedPos.z = coin->mMapObject.mPos.z;
             break;
         }
         case COIN_STATE_FADE_OUT_DROP:

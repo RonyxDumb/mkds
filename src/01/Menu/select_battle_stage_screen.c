@@ -298,18 +298,18 @@ void AdvanceSelectBattleStageState2(void) {
     if (gMenuShared->mMenuEntryKind == 2) {
         gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_WAIT_SELECT_RETURN_THEN_CHOISES;
         RequestSelectReturnState3WithSound(0);
-        gSelectBattleStage->mUnk_2c = FALSE;
+        gSelectBattleStage->mWaitForReturnState0NoState1 = FALSE;
         return;
     }
     gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_SLIDE_OUT;
     gSelectBattleStage->mPendingResult = -3;
     if (gStartupWork->mConnectionKind == CONNECTION_KIND_NONE) {
         RequestSelectReturnState3WithSound(0);
-        gSelectBattleStage->mUnk_2c = FALSE;
+        gSelectBattleStage->mWaitForReturnState0NoState1 = FALSE;
         return;
     }
     RequestSelectReturnState3WithSound(1);
-    gSelectBattleStage->mUnk_2c = TRUE;
+    gSelectBattleStage->mWaitForReturnState0NoState1 = TRUE;
     return;
 next:
     if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_A) != 0 || touchedStage != -4) {
@@ -391,7 +391,7 @@ void AdvanceSelectBattleStageState5(void) {
             if (GetSelectChoisesIndex() == 0) {
                 gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_SLIDE_OUT;
                 RequestSelectReturnState4();
-                gSelectBattleStage->mUnk_2c = TRUE;
+                gSelectBattleStage->mWaitForReturnState0NoState1 = TRUE;
             } else {
                 gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_INPUT;
             }
@@ -406,8 +406,9 @@ void AdvanceSelectBattleStageState6(void) {
 
     gSelectBattleStage->mStateFrames++;
     if (gSelectBattleStage->mStateFrames > 10) {
-        if ((gSelectBattleStage->mUnk_2c != FALSE && IsSelectReturnState0NoState1Request() != 0) ||
-            (gSelectBattleStage->mUnk_2c == FALSE && IsSelectReturnState2NoState3Or4Request() != 0)) {
+        if ((gSelectBattleStage->mWaitForReturnState0NoState1 != FALSE && IsSelectReturnState0NoState1Request() != 0) ||
+            (gSelectBattleStage->mWaitForReturnState0NoState1 == FALSE &&
+             IsSelectReturnState2NoState3Or4Request() != 0)) {
             gSelectBattleStage->mResult = gSelectBattleStage->mPendingResult;
             return;
         }
