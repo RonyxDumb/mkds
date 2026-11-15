@@ -12,12 +12,14 @@
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Menu/data_02180728.h" // TextCanvas
 
+typedef void (*OptionStateCallback)(void);
+
 // Four callbacks; the first receives OptionStates.mStateHeap.
 typedef struct OptionStateCallbacks {
     /* 00 */ void (*mInit)(void *);
-    /* 04 */ UnkFunc *mRelease;
-    /* 08 */ UnkFunc *mAdvance;
-    /* 0c */ UnkFunc *mPostUpdate;
+    /* 04 */ OptionStateCallback mRelease;
+    /* 08 */ OptionStateCallback mAdvance;
+    /* 0c */ OptionStateCallback mPostUpdate;
 } OptionStateCallbacks;
 
 // States of OptionHensyuMenu.mState and mNextState, in the order of the AdvanceOptionHensyuMenuStateN calls.
@@ -65,6 +67,8 @@ typedef struct OptionStates {
     /* 18 */ OptionStateCallbacks mCallbacks;
     /* 28 */ void *mSceneDisplaySettings;
 } OptionStates;
+
+typedef void (*MissionRunEventCallback)(void);
 
 typedef struct MissionRunData {
     /* 00 */ s32 mSinceHitCallbackFrames;

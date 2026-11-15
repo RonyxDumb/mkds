@@ -293,15 +293,15 @@ BOOL IsAnyBalloonUnparked(void) {
     return FALSE;
 }
 
-void SetMissionRunCountUpCallback(UnkFunc *callback) {
+void SetMissionRunCountUpCallback(MissionRunEventCallback callback) {
     gMissionRunData->mCountUpCallback = callback;
 }
 
-void SetMissionRunDropCallback(UnkFunc *callback) {
+void SetMissionRunDropCallback(MissionRunEventCallback callback) {
     gMissionRunData->mDropCallback = callback;
 }
 
-void SetMissionRunBossTransferCallback(UnkFunc *callback) {
+void SetMissionRunBossTransferCallback(MissionRunEventCallback callback) {
     gMissionRunData->mBossTransferCallback = callback;
 }
 
