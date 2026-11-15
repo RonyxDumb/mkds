@@ -90,6 +90,20 @@ typedef enum SelectKartMode {
     SELECT_KART_MODE_WIFI_SESSION = 2,
 } SelectKartMode;
 
+// Values of SelectKart.mState. SEND_KART is the multiboot child's way in; CONFIRM waits 5 frames after the kart is
+// chosen, HOLD 60 frames after everyone has chosen.
+typedef enum SelectKartState {
+    SELECT_KART_STATE_SLIDE_IN,
+    SELECT_KART_STATE_SEND_KART,
+    SELECT_KART_STATE_CHOOSE,
+    SELECT_KART_STATE_SLIDE_CELL,
+    SELECT_KART_STATE_CONFIRM,
+    SELECT_KART_STATE_WAIT_OTHERS,
+    SELECT_KART_STATE_HOLD,
+    SELECT_KART_STATE_SLIDE_OUT,
+    SELECT_KART_STATE_DONE,
+} SelectKartState;
+
 // 0x118-byte object that gSelectKart points to.
 typedef struct SelectKart {
     /* 000 */ u8 mUnk_000[0x24];
@@ -102,7 +116,7 @@ typedef struct SelectKart {
     /* 084 */ void *mSubOam;
     /* 088 */ struct Bmg *mKartSelectMessages;
     /* 08c */ void *mHeap;
-    /* 090 */ s32 mStateFrames; /* counts only in states 3, 4 and 6 */
+    /* 090 */ s32 mStateFrames; /* counts only in the SLIDE_CELL, CONFIRM and HOLD states */
     /* 094 */ s32 mState;
     /* 098 */ KartAppear *mKartAppear;
     // Position of the kart in the table gKartIndexTable that the player steps through; mKartIndex is the kart at that

@@ -565,24 +565,24 @@ int AdvanceSelectKart(void) {
     }
     selectKart = gSelectKart;
     switch (selectKart->mState) {
-        case 0:
+        case SELECT_KART_STATE_SLIDE_IN:
             if (selectKart->mInterpolations[4].mState == 1) {
                 selectKart->mStateFrames = 0;
                 if (SelectKartMB_IsMultiBootChildWrapper() != 0) {
-                    value = 1;
+                    value = SELECT_KART_STATE_SEND_KART;
                 } else {
-                    value = 2;
+                    value = SELECT_KART_STATE_CHOOSE;
                 }
                 gSelectKart->mState = value;
             }
             SetSelectKartSPartsOffsetY();
             break;
-        case 1:
+        case SELECT_KART_STATE_SEND_KART:
             SetDataSharingSendByteInState8(selectKart->mKartIndex | 0x80);
             gSelectKart->mResult = 1;
-            gSelectKart->mState = 5;
+            gSelectKart->mState = SELECT_KART_STATE_WAIT_OTHERS;
             break;
-        case 2:
+        case SELECT_KART_STATE_CHOOSE:
             if (SelectKartIsSlotPairNew(padInputSlot) != 0) {
                 isReturnTouched = IsSelectReturnState2NoState3Or4RequestAndInRect(SelectKartGetSlotPairX(padInputSlot),
                                                                                   SelectKartGetSlotPairY(padInputSlot));
@@ -591,7 +591,7 @@ int AdvanceSelectKart(void) {
                 IsSelectKartModeAndTimerZero() != 0) {
                 gSelectKart->mStateFrames = 0;
                 gSelectKart->mResult = 1;
-                gSelectKart->mState = 4;
+                gSelectKart->mState = SELECT_KART_STATE_CONFIRM;
                 selectKartParts->mCellTable[18].mVisible = 0;
                 SetLabelPaletteIndex(gSelectKartSLabelCanvasEntries[6].mLabelIndex, 0, selectKartParts->mLabelLayout,
                                      selectKartParts->mCellTable, selectKartParts->mCellLayout);
@@ -605,7 +605,7 @@ int AdvanceSelectKart(void) {
                 SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[1], 2);
                 SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[3], 2);
                 SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[4], 2);
-                gSelectKart->mState = 7;
+                gSelectKart->mState = SELECT_KART_STATE_SLIDE_OUT;
                 if (gSelectKart->mMode != SELECT_KART_MODE_NO_CONNECTION) {
                     value = 1;
                 } else {
@@ -627,15 +627,15 @@ int AdvanceSelectKart(void) {
                 StartCursorMoveSound();
                 PrintSelectKartMessage();
                 RefreshKartMenuParamElements();
-                gSelectKart->mState = 3;
+                gSelectKart->mState = SELECT_KART_STATE_SLIDE_CELL;
                 gSelectKart->mStateFrames = 0;
             }
             break;
-        case 3:
+        case SELECT_KART_STATE_SLIDE_CELL:
             selectKart->mStateFrames = selectKart->mStateFrames + 1;
             if (gSelectKart->mStateFrames > 6) {
                 gSelectKart->mStateFrames = 0;
-                gSelectKart->mState = 2;
+                gSelectKart->mState = SELECT_KART_STATE_CHOOSE;
                 selectKartParts->mCellTable[gSelectKart->mSlidingCellIndex].mOffsetX = 0;
                 selectKartParts->mCellTable[1].mVisible = 1;
                 selectKartParts->mCellTable[0].mVisible = 1;
@@ -649,7 +649,7 @@ int AdvanceSelectKart(void) {
                 selectKartParts->mCellTable[gSelectKart->mSlidingCellIndex].mOffsetX = value;
             }
             break;
-        case 4:
+        case SELECT_KART_STATE_CONFIRM:
             selectKart->mStateFrames = selectKart->mStateFrames + 1;
             selectKart = gSelectKart;
             if (selectKart->mStateFrames >= 5) {
@@ -658,17 +658,17 @@ int AdvanceSelectKart(void) {
                         GetRaceSetupCopy()->mEntries[gSelectKart->mEntryIndex].mKartIndex = selectKart->mKartIndex;
                         GetRaceSetupCopy()->mEntries[gSelectKart->mEntryIndex].mKartStored = 1;
                         FillRandomKartIndices();
-                        gSelectKart->mState = 6;
+                        gSelectKart->mState = SELECT_KART_STATE_HOLD;
                         break;
                     case SELECT_KART_MODE_CONNECTION:
                         RequestSelectReturnState4();
                         SetDataSharingSendByteInState8(gSelectKart->mKartIndex | 0x80);
-                        gSelectKart->mState = 5;
+                        gSelectKart->mState = SELECT_KART_STATE_WAIT_OTHERS;
                         break;
                     case SELECT_KART_MODE_WIFI_SESSION:
                         RequestSelectReturnState4();
                         SetWiFiSessionOwnKartIndex(gSelectKart->mKartIndex);
-                        gSelectKart->mState = 5;
+                        gSelectKart->mState = SELECT_KART_STATE_WAIT_OTHERS;
                         break;
                 }
                 gSelectKart->mStateFrames = 0;
@@ -677,14 +677,14 @@ int AdvanceSelectKart(void) {
                                      selectKartParts->mCellTable, selectKartParts->mCellLayout);
             }
             break;
-        case 5:
+        case SELECT_KART_STATE_WAIT_OTHERS:
             if (selectKart->mMode == SELECT_KART_MODE_CONNECTION && IsEveryPlayerKartStored() != 0 ||
                 gSelectKart->mMode == SELECT_KART_MODE_WIFI_SESSION && IsWiFiSessionStep7Reached() != 0) {
                 gSelectKart->mStateFrames = 0;
-                gSelectKart->mState = 6;
+                gSelectKart->mState = SELECT_KART_STATE_HOLD;
             }
             break;
-        case 6:
+        case SELECT_KART_STATE_HOLD:
             selectKart->mStateFrames = selectKart->mStateFrames + 1;
             if (gSelectKart->mStateFrames > 0x3c) {
                 SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[0], 2);
@@ -704,17 +704,17 @@ int AdvanceSelectKart(void) {
                     SlideOutSelectRaceRuleWait();
                 }
                 gSelectKart->mStateFrames = 0;
-                gSelectKart->mState = 7;
+                gSelectKart->mState = SELECT_KART_STATE_SLIDE_OUT;
             }
             break;
-        case 7:
+        case SELECT_KART_STATE_SLIDE_OUT:
             if (selectKart->mInterpolations[4].mState == 3) {
                 GetRaceSetupCopy()->mEntries[gSelectKart->mEntryIndex].mKartStored = selectKart->mResult == 1;
-                gSelectKart->mState = 8;
+                gSelectKart->mState = SELECT_KART_STATE_DONE;
             }
             SetSelectKartSPartsOffsetY();
             break;
-        case 8:
+        case SELECT_KART_STATE_DONE:
             result = selectKart->mResult;
             break;
     }
@@ -733,7 +733,7 @@ int AdvanceSelectKart(void) {
     }
     if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
         selectKart = gSelectKart;
-        if (selectKart->mState != 8) {
+        if (selectKart->mState != SELECT_KART_STATE_DONE) {
             DrawLayoutTable(selectKartParts->mCellLayout, selectKartParts->mCells, selectKartParts->mLabelLayout,
                             selectKart->mSubOam, selectKartParts->mCellTable);
         }
@@ -848,7 +848,7 @@ void SelectKartG2S_SetWnd0Position(u32 startX, u32 startY, u32 endX, u32 endY) {
 void WriteSelectKartRegisters(void) {
     u32 displayBits = 0x16;
     s32 interpolatedValue = GetInterpolatedValue(&gSelectKart->mInterpolations[4]);
-    if (gSelectKart->mState != 8) {
+    if (gSelectKart->mState != SELECT_KART_STATE_DONE) {
         displayBits |= 8;
     }
     SelectKartGX_SetVisiblePlane(0x19);
@@ -856,7 +856,7 @@ void WriteSelectKartRegisters(void) {
     SelectKartG2S_SetBG3Offset(0, -interpolatedValue);
     WriteSubBg3CntBits(2);
     WriteSubBlendAlpha(0, 0x3f, 6, 10);
-    if (interpolatedValue != 0 && gSelectKart->mState != 8) {
+    if (interpolatedValue != 0 && gSelectKart->mState != SELECT_KART_STATE_DONE) {
         WriteSubWinEnableBits(1);
         SelectKartG2S_SetWnd0InsidePlane(0x1f, 1);
         SelectKartG2S_SetWndOutsidePlane(7, 1);
