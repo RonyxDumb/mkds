@@ -79,7 +79,7 @@ s32 AdvanceScanConnect(u16 entryIndex) {
             if (connectionWork->mScanEntryIndex == -1) {
                 StartConnectToScanEntry(entryIndex);
             } else {
-                StartConnectToScanEntry((u16) connectionWork->mScanEntryIndex);
+                StartConnectToScanEntry(connectionWork->mScanEntryIndex);
             }
             break;
         case CONNECTION_STEP_SCAN_CONNECT_CONNECT_ENTRY:

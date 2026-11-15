@@ -7,7 +7,7 @@ typedef struct MBUserInfo MBUserInfo;
 
 void ReadMultiBootParentBssDesc(void);
 void ReadFakeParentBssDesc(u32 entryIndex);
-void StartConnectToScanEntry(u32 entryIndex);
+void StartConnectToScanEntry(u16 entryIndex);
 void StartRequestEndScan(void);
 void StartEndToIdle(void);
 void StartBootRequestToAllChildren(void);

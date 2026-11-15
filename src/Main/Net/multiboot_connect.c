@@ -425,7 +425,7 @@ void StartRequestEndScan(void) {
     RequestEndScan();
 }
 
-void StartConnectToScanEntry(u32 entryIndex) {
+void StartConnectToScanEntry(u16 entryIndex) {
     gConnectionWork->mStep = CONNECTION_STEP_SCAN_CONNECT_CONNECT_ENTRY;
     gConnectionWork->mRequestPending = 1;
     gConnectionWork->mScanConnected = 0;
