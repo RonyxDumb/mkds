@@ -59,6 +59,14 @@ enum {
     PROFILE_CONNECT_STATE_WAIT_NEW_USER_REPLY,
 };
 
+// Values of GpiOperation.mState of the search operation: waiting for the socket to connect, waiting for the reply to
+// end, and the reply read.
+enum {
+    PROFILE_SEARCH_STATE_WAIT_CONNECT = 1,
+    PROFILE_SEARCH_STATE_WAIT_REPLY = 4,
+    PROFILE_SEARCH_STATE_REPLY_READ = 5,
+};
+
 typedef struct GpiOperation {
     /* 00 */ u32 mType;
     /* 04 */ GPISearchData *mData;

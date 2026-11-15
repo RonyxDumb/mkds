@@ -98,7 +98,7 @@ s32 GpiOpenSearchSocket(GpConnection *connection, GpiOperation *operation) {
             }
         }
     }
-    operation->mState = 1;
+    operation->mState = PROFILE_SEARCH_STATE_WAIT_CONNECT;
     return 0;
 }
 
@@ -248,7 +248,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
         if (result != 0) {
             return result;
         }
-        if (operation->mState == 1) {
+        if (operation->mState == PROFILE_SEARCH_STATE_WAIT_CONNECT) {
             result = GpiCheckConnectComplete(connection, data->mSocket, &state);
             if (result != 0) {
                 return result;
@@ -361,9 +361,9 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                 GpiAppendBufferString(connection, &data->mOutputBuffer, "\\gamename\\");
                 GpiAppendBufferString(connection, &data->mOutputBuffer, gGsiAcGamename);
                 GpiAppendBufferString(connection, &data->mOutputBuffer, "\\final\\");
-                operation->mState = 4;
+                operation->mState = PROFILE_SEARCH_STATE_WAIT_REPLY;
             }
-        } else if (operation->mState == 4) {
+        } else if (operation->mState == PROFILE_SEARCH_STATE_WAIT_REPLY) {
             result = GpiReceiveBuffer(connection, data->mSocket, (GpiBuffer *) &data->mInputBuffer, (s32 *) &bytesRead,
                                       &socketGone, (const s8 *) "SM");
             if (result != 0) {
@@ -376,7 +376,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
             }
             if (strstr(data->mInputBuffer, "\\final\\") != NULL) {
                 readPos = 0;
-                operation->mState = 5;
+                operation->mState = PROFILE_SEARCH_STATE_REPLY_READ;
                 if (GpiReadError(connection, data->mInputBuffer, 1) != FALSE) {
                     data->mRemove = TRUE;
                     return 4;
@@ -869,7 +869,7 @@ BOOL GpiUpdateSearches(GpConnection *connection) {
             return TRUE;
         }
         for (pendingOp = gpState->mOperationList; pendingOp != NULL; pendingOp = pendingOp->mNext) {
-            if (pendingOp->mType == PROFILE_OPERATION_SEARCH && pendingOp->mState != 5 &&
+            if (pendingOp->mType == PROFILE_OPERATION_SEARCH && pendingOp->mState != PROFILE_SEARCH_STATE_REPLY_READ &&
                 pendingOp->mData->mProcessing == 0) {
                 if (count >= gpState->mSearchCount) {
                     AssertionFailed("num < iconnection->numSearches", "gpiSearch.c", NULL, 0x563);
