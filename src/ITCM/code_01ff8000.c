@@ -124,12 +124,12 @@ void G3dDrawInternal_(NNSG3dRS *renderState, NNSG3dRenderObj *renderObj) {
     if (renderObj->mPtrUserSbc != 0) {
         renderState->mC = renderObj->mPtrUserSbc;
     } else {
-        renderState->mC = (u8 *) renderObj->mResMdl + renderObj->mResMdl->mOfsSbc;
+        renderState->mC = OFFSET_PTR(u8, renderObj->mResMdl, renderObj->mResMdl->mOfsSbc);
     }
     renderState->mRenderObj = renderObj;
     renderState->mResNodeInfo = &renderObj->mResMdl->mNodeInfo;
     renderState->mResMat = OFFSET_PTR(NNSG3dResMat, renderObj->mResMdl, renderObj->mResMdl->mOfsMat);
-    renderState->mResShp = (u8 *) renderObj->mResMdl + renderObj->mResMdl->mOfsShp;
+    renderState->mResShp = OFFSET_PTR(void, renderObj->mResMdl, renderObj->mResMdl->mOfsShp);
     renderState->mFuncJntScale = NNS_G3dGetJointScale_FuncArray[renderObj->mResMdl->mInfo.mScalingRule];
     renderState->mFuncJntMtx = NNS_G3dSendJointSRT_FuncArray[renderObj->mResMdl->mInfo.mScalingRule];
     renderState->mFuncTexMtx = NNS_G3dSendTexSRT_FuncArray[renderObj->mResMdl->mInfo.mTexMtxMode];
