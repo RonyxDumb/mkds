@@ -113,7 +113,7 @@ s32 IsUserDataFriendKeyNonZeroWrapper(void) {
     return IsUserDataFriendKeyNonZero();
 }
 
-void AdvanceWiFiTopMenuState0(void) {
+void AdvanceWiFiTopMenuWaitFade(void) {
     int fadesClear;
     fadesClear = AreBrightnessFadesClear();
     if (fadesClear != 0) {
@@ -121,7 +121,7 @@ void AdvanceWiFiTopMenuState0(void) {
     }
 }
 
-void AdvanceWiFiTopMenuState1(void) {
+void AdvanceWiFiTopMenuSlideIn(void) {
     s32 offsetX = 0;
     s32 rowIndex;
     s32 cellIndex;
@@ -143,7 +143,7 @@ void AdvanceWiFiTopMenuState1(void) {
     }
 }
 
-void AdvanceWiFiTopMenuState2(void) {
+void AdvanceWiFiTopMenuWaitReturnButton(void) {
     int returnState2NoRequest;
     returnState2NoRequest = IsSelectReturnShownNoRequest();
     if (returnState2NoRequest != 0) {
@@ -152,7 +152,7 @@ void AdvanceWiFiTopMenuState2(void) {
     }
 }
 
-void AdvanceWiFiTopMenuState3(void) {
+void AdvanceWiFiTopMenuBrowse(void) {
     InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     BOOL pairNewUnlessRecentlyLost = FALSE;
     u32 hitIndex = -1;
@@ -249,7 +249,7 @@ next:
     }
 }
 
-void AdvanceWiFiTopMenuState4(void) {
+void AdvanceWiFiTopMenuPressItem(void) {
     s32 cellIndex;
     s32 selectedPressOffset;
 
@@ -270,7 +270,7 @@ void AdvanceWiFiTopMenuState4(void) {
     }
 }
 
-void AdvanceWiFiTopMenuState5(void) {
+void AdvanceWiFiTopMenuSlideOut(void) {
     s32 rowIndex;
     s32 cellIndex;
     s32 offsetX;
@@ -314,7 +314,7 @@ void AdvanceWiFiTopMenuState5(void) {
     }
 }
 
-void AdvanceWiFiTopMenuState6(void) {
+void AdvanceWiFiTopMenuWaitChoice(void) {
     int queryResult;
     queryResult = GetTxtSystemDone();
     if (queryResult != 0) {
@@ -333,7 +333,7 @@ void AdvanceWiFiTopMenuState6(void) {
     }
 }
 
-void AdvanceWiFiTopMenuState7(void) {
+void AdvanceWiFiTopMenuWaitNextScene(void) {
     int queryResult;
     queryResult = GetWiFiNextScene();
     if ((queryResult == -1) && (gWiFiTopMenu->mPendingWiFiState == WIFI_STATE_SCENE_TITLE)) {
@@ -345,7 +345,7 @@ void AdvanceWiFiTopMenuState7(void) {
     }
 }
 
-void AdvanceWiFiTopMenuState8(void) {
+void AdvanceWiFiTopMenuWaitMessage(void) {
     InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     s32 pairRecentlyLost;
     BOOL pairNewUnlessRecentlyLost;
@@ -400,31 +400,31 @@ void AdvanceWiFiTopMenu(void) {
     gWiFiTopMenu->mState = gWiFiTopMenu->mNextState;
     switch (gWiFiTopMenu->mState) {
         case WIFI_TOP_MENU_STATE_WAIT_FADE:
-            AdvanceWiFiTopMenuState0();
+            AdvanceWiFiTopMenuWaitFade();
             break;
         case WIFI_TOP_MENU_STATE_SLIDE_IN:
-            AdvanceWiFiTopMenuState1();
+            AdvanceWiFiTopMenuSlideIn();
             break;
         case WIFI_TOP_MENU_STATE_WAIT_RETURN_BUTTON:
-            AdvanceWiFiTopMenuState2();
+            AdvanceWiFiTopMenuWaitReturnButton();
             break;
         case WIFI_TOP_MENU_STATE_BROWSE:
-            AdvanceWiFiTopMenuState3();
+            AdvanceWiFiTopMenuBrowse();
             break;
         case WIFI_TOP_MENU_STATE_PRESS_ITEM:
-            AdvanceWiFiTopMenuState4();
+            AdvanceWiFiTopMenuPressItem();
             break;
         case WIFI_TOP_MENU_STATE_SLIDE_OUT:
-            AdvanceWiFiTopMenuState5();
+            AdvanceWiFiTopMenuSlideOut();
             break;
         case WIFI_TOP_MENU_STATE_WAIT_CHOICE:
-            AdvanceWiFiTopMenuState6();
+            AdvanceWiFiTopMenuWaitChoice();
             break;
         case WIFI_TOP_MENU_STATE_WAIT_NEXT_SCENE:
-            AdvanceWiFiTopMenuState7();
+            AdvanceWiFiTopMenuWaitNextScene();
             break;
         case WIFI_TOP_MENU_STATE_WAIT_MESSAGE:
-            AdvanceWiFiTopMenuState8();
+            AdvanceWiFiTopMenuWaitMessage();
             break;
     }
     UpdateWiFiTopMenuHighlight();
