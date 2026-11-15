@@ -192,12 +192,12 @@ void DrawRaceRankList(RaceHudOamBuffer *oamBuffer) {
         case MODE_BATTLE:
             switch (GetRaceHudSubScreenState()) {
                 case RACE_HUD_SUB_SCREEN_KART_ICONS:
-                    DrawRaceRankListBattleState0Rows(oamBuffer);
+                    DrawRaceRankListBattleKartIconsRows(oamBuffer);
                     break;
                 case RACE_HUD_SUB_SCREEN_MAP_TURNING:
                 case RACE_HUD_SUB_SCREEN_MAP_FIXED_SCROLL:
                 case RACE_HUD_SUB_SCREEN_MAP_VIEW:
-                    DrawRaceRankListBattleState1To3Rows(oamBuffer);
+                    DrawRaceRankListBattleMapRows(oamBuffer);
                     break;
             }
             break;
@@ -300,7 +300,7 @@ void DrawRaceRankListRankCells(RaceHudOamBuffer *oamBuffer) {
     }
 }
 
-void DrawRaceRankListState0Rows(RaceHudOamBuffer *oamBuffer) {
+void DrawRaceRankListKartIconsRows(RaceHudOamBuffer *oamBuffer) {
     u16 rankIndex;
     s32 kartIndex;
     RaceRankListPos position;
@@ -382,7 +382,7 @@ void DrawRaceRankListState0Rows(RaceHudOamBuffer *oamBuffer) {
     }
 }
 
-void DrawRaceRankListState1To3Rows(RaceHudOamBuffer *oamBuffer) {
+void DrawRaceRankListMapRows(RaceHudOamBuffer *oamBuffer) {
     u16 rankIndex;
     s32 kartIndex;
     RaceRankListPos position;
@@ -452,18 +452,18 @@ void DrawRaceRankListNonBattleRows(RaceHudOamBuffer *oamBuffer) {
     switch (GetRaceHudSubScreenState()) {
         case RACE_HUD_SUB_SCREEN_KART_ICONS:
             DrawRaceRankListRankCells(oamBuffer);
-            DrawRaceRankListState0Rows(oamBuffer);
+            DrawRaceRankListKartIconsRows(oamBuffer);
             break;
         case RACE_HUD_SUB_SCREEN_MAP_TURNING:
         case RACE_HUD_SUB_SCREEN_MAP_FIXED_SCROLL:
         case RACE_HUD_SUB_SCREEN_MAP_VIEW:
             DrawRaceRankListRankCells(oamBuffer);
-            DrawRaceRankListState1To3Rows(oamBuffer);
+            DrawRaceRankListMapRows(oamBuffer);
             break;
     }
 }
 
-void DrawRaceRankListBattleState0Rows(RaceHudOamBuffer *oamBuffer) {
+void DrawRaceRankListBattleKartIconsRows(RaceHudOamBuffer *oamBuffer) {
     s32 secondKartCellBase;
     u16 rankIndex;
     u16 matrixIndex;
@@ -588,7 +588,7 @@ void DrawRaceRankListBattleState0Rows(RaceHudOamBuffer *oamBuffer) {
     }
 }
 
-void DrawRaceRankListBattleState1To3Rows(RaceHudOamBuffer *oamBuffer) {
+void DrawRaceRankListBattleMapRows(RaceHudOamBuffer *oamBuffer) {
     u16 rankIndex;
     u16 matrixIndex;
     RaceRankListPos position;
