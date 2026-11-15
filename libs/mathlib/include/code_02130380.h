@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u64 _dmul(u32 a, u32 b, u32 c, u32 d);
+u64 _dmul(u32 leftLow, u32 leftHigh, u32 rightLow, u32 rightHigh);
