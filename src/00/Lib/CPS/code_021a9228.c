@@ -1646,7 +1646,7 @@ BOOL RunSetupAfterSendingKind1Record(CPSSoc *connection) {
 
 BOOL CPSi_SslConnect(CPSSoc *connection) {
     HttpsState *httpsState = connection->mHttpsState;
-    if (connection->mState != 4 && CPSi_TcpConnectRaw(connection) != 0) {
+    if (connection->mState != SOCKET_STATE_ESTABLISHED && CPSi_TcpConnectRaw(connection) != 0) {
         return TRUE;
     }
     httpsState->mSetupState = HTTPS_SETUP_START;
