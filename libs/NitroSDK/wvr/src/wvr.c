@@ -40,28 +40,28 @@ s32 WVR_StartUpAsync(u32 vram, void (*callback)(u32, s32), u32 arg) {
         return 5;
     }
     switch (vram) {
-        case WVR_VRAM_BANK_C:
-            if (OSi_TryLockVram(WVR_VRAM_BANK_C, wvrLockId) == 0) {
+        case WIRELESS_VRAM_BANK_C:
+            if (OSi_TryLockVram(WIRELESS_VRAM_BANK_C, wvrLockId) == 0) {
                 OS_RestoreInterrupts(enabled);
                 return 6;
             }
-            wvrVRam = WVR_VRAM_BANK_C;
+            wvrVRam = WIRELESS_VRAM_BANK_C;
             *(vu8 *) 0x4000242 = 0x82;
             break;
-        case WVR_VRAM_BANK_D:
-            if (OSi_TryLockVram(WVR_VRAM_BANK_D, wvrLockId) == 0) {
+        case WIRELESS_VRAM_BANK_D:
+            if (OSi_TryLockVram(WIRELESS_VRAM_BANK_D, wvrLockId) == 0) {
                 OS_RestoreInterrupts(enabled);
                 return 6;
             }
-            wvrVRam = WVR_VRAM_BANK_D;
+            wvrVRam = WIRELESS_VRAM_BANK_D;
             *(vu8 *) 0x4000243 = 0x82;
             break;
-        case WVR_VRAM_BANK_C_AND_D:
-            if (OSi_TryLockVram(WVR_VRAM_BANK_C_AND_D, wvrLockId) == 0) {
+        case WIRELESS_VRAM_BANK_C_AND_D:
+            if (OSi_TryLockVram(WIRELESS_VRAM_BANK_C_AND_D, wvrLockId) == 0) {
                 OS_RestoreInterrupts(enabled);
                 return 6;
             }
-            wvrVRam = WVR_VRAM_BANK_C_AND_D;
+            wvrVRam = WIRELESS_VRAM_BANK_C_AND_D;
             *(vu8 *) 0x4000242 = 0x82;
             *(vu8 *) 0x4000243 = 0x8a;
             break;
@@ -78,7 +78,7 @@ s32 WVR_StartUpAsync(u32 vram, void (*callback)(u32, s32), u32 arg) {
         wvrCallback = callback;
     }
     wvrArg = arg;
-    if (PXI_SendWordByFifo(0xf, WVR_COMMAND_START_UP, 0) < 0) {
+    if (PXI_SendWordByFifo(0xf, WIRELESS_DRIVER_COMMAND_START_UP, 0) < 0) {
         OSi_UnlockVram(wvrVRam, wvrLockId);
         wvrVRam = 0;
         wvrCallback = 0;
@@ -110,7 +110,7 @@ s32 WVR_TerminateAsync(void (*callback)(u32, s32), u32 arg) {
         wvrCallback = callback;
     }
     wvrArg = arg;
-    if (PXI_SendWordByFifo(0xf, WVR_COMMAND_TERMINATE, 0) < 0) {
+    if (PXI_SendWordByFifo(0xf, WIRELESS_DRIVER_COMMAND_TERMINATE, 0) < 0) {
         wvrCallback = 0;
         OS_RestoreInterrupts(enabled);
         return 4;
@@ -130,13 +130,13 @@ void WvrReceiveCallback(u32 tag, u32 data) {
     callback = wvrCallback;
     callbackArg = wvrArg;
     switch (command) {
-        case WVR_COMMAND_START_UP:
+        case WIRELESS_DRIVER_COMMAND_START_UP:
             if (result == 7 && wvrVRam != 0 && wvrLockId != 0) {
                 OSi_UnlockVram(wvrVRam, wvrLockId);
                 wvrVRam = 0;
             }
             break;
-        case WVR_COMMAND_TERMINATE:
+        case WIRELESS_DRIVER_COMMAND_TERMINATE:
             if (result == 0 && wvrVRam != 0 && wvrLockId != 0) {
                 OSi_UnlockVram(wvrVRam, wvrLockId);
                 wvrVRam = 0;

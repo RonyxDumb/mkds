@@ -14,13 +14,13 @@ s32 WVR_StartUpAsync(u32 vram, void (*callback)(u32, s32), u32 arg);
 
 // Bank masks of the vram argument of WVR_StartUpAsync; each bank's control register is written in the switch.
 enum {
-    WVR_VRAM_BANK_C = 4,
-    WVR_VRAM_BANK_D = 8,
-    WVR_VRAM_BANK_C_AND_D = 12,
+    WIRELESS_VRAM_BANK_C = 4,
+    WIRELESS_VRAM_BANK_D = 8,
+    WIRELESS_VRAM_BANK_C_AND_D = 12,
 };
 
 // Words sent to the other processor (the high half is the command, WvrReceiveCallback masks it out of the reply).
 enum {
-    WVR_COMMAND_START_UP = 0x10000,
-    WVR_COMMAND_TERMINATE = 0x20000,
+    WIRELESS_DRIVER_COMMAND_START_UP = 0x10000,
+    WIRELESS_DRIVER_COMMAND_TERMINATE = 0x20000,
 };
