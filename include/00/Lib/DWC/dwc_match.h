@@ -37,7 +37,7 @@ u32 DWC_IsValidCancelMatching(void);
 
 u32 DWC_CancelMatching(void);
 
-extern char gMatchingSignature[5];
+extern MatchingSignatureText gMatchingSignature;
 extern char gUnsignedFormat[3];
 extern char gDwcPidKey[8];
 extern char gDwcEvalKey[9];

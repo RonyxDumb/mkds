@@ -66,7 +66,7 @@
 #include "00/Lib/GameSpy/code_02198a8c.h"
 #include "00/code_021a1ae0.h"
 
-char gMatchingSignature[5] = "SBCM";
+MatchingSignatureText gMatchingSignature = {"SBCM"};
 char gUnsignedFormat[3] = "%u";
 char gDwcPidKey[8] = "dwc_pid";
 char gDwcEvalKey[9] = "dwc_eval";
@@ -1404,7 +1404,7 @@ u32 DWCi_SendSBMsgCommand(u32 command, u32 address, u32 port, u32 *values, u32 v
     } else {
         valueCount = 0;
     }
-    *(MatchingSignatureText *) &header = *(MatchingSignatureText *) gMatchingSignature;
+    *(MatchingSignatureText *) &header = gMatchingSignature;
     header.mVersion = 3;
     header.mCommand = command;
     header.mValuesSize = valueCount * 4;
@@ -3486,7 +3486,7 @@ void DWCi_QR2ClientMsgCallback(const void *data, u32 len, void *userData) {
     if (len >= 0x14) {
         do {
             MI_CpuCopy8(data, &header, 0x14);
-            if (strncmp(header.mSignature, gMatchingSignature, 4) != 0) {
+            if (strncmp(header.mSignature, gMatchingSignature.mText, 4) != 0) {
                 break;
             }
             if (header.mVersion != 3) {
