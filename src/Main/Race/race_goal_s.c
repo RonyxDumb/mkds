@@ -33,8 +33,8 @@
 u8 data_020c214c_pad[12];
 
 void WriteRaceGoalSRowTiles(s32 row, s32 style) {
-    UnkPair020b502c spans[8] = {{2, 5}, {5, 8}, {8, 10}, {10, 13}, {13, 16}, {15, 18}, {18, 21}, {21, 23}};
-    UnkPair020b502c fullSpan = {0, 0x1f};
+    IntPair spans[8] = {{2, 5}, {5, 8}, {8, 10}, {10, 13}, {13, 16}, {15, 18}, {18, 21}, {21, 23}};
+    IntPair fullSpan = {0, 0x1f};
     s32 nscrIndex;
     s32 copyIndex;
     u32 spanStart;

@@ -16,11 +16,11 @@ PointLink *GetKeyedPlacementBattlePointLink(u32 key) {
                                               .mPointIndex];
 }
 
-s32 ComputeDotOfPairsRounded(const UnkPair020b502c *first, const UnkPair020b502c *second) {
+s32 ComputeDotOfPairsRounded(const IntPair *first, const IntPair *second) {
     return DOT2_FIXED12_ROUNDED(first->mFirst, second->mFirst, first->mSecond, second->mSecond);
 }
 
-s64 ComputeDotOfPairsRoundedS64(const UnkPair020b502c *first, const UnkPair020b502c *second) {
+s64 ComputeDotOfPairsRoundedS64(const IntPair *first, const IntPair *second) {
     return DOT2_FIXED12_ROUNDED(first->mFirst, second->mFirst, first->mSecond, second->mSecond);
 }
 

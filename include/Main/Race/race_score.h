@@ -18,6 +18,6 @@ void InitRaceProgressKart(RaceProgressKart *raceProgressKart, s32 kartIndex);
 s16 ComputeRaceProgressKartScore(s32 kartIndex);
 void ComputeGrandPrixScoreTerms(RaceProgressScoreTerms *scoreTerms, s32 kartIndex);
 BOOL IsEntryRaceEnded(void);
-s64 ComputeDotOfPairsRoundedS64(const UnkPair020b502c *first, const UnkPair020b502c *second);
-s32 ComputeDotOfPairsRounded(const UnkPair020b502c *first, const UnkPair020b502c *second);
+s64 ComputeDotOfPairsRoundedS64(const IntPair *first, const IntPair *second);
+s32 ComputeDotOfPairsRounded(const IntPair *first, const IntPair *second);
 PointLink *GetKeyedPlacementBattlePointLink(u32 key);

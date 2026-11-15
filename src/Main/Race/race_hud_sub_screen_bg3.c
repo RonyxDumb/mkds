@@ -2,7 +2,7 @@
 #include "Main/Race/data_021759c0.h"
 #include "tp.h"
 
-void GetRaceHudSubScreenBg3MinMax(UnkPair020b502c *outMin, UnkPair020b502c *outMax) {
+void GetRaceHudSubScreenBg3MinMax(IntPair *outMin, IntPair *outMax) {
     int courseId;
     courseId = RaceHudSubScreenGetCurrentCourseId();
     if (courseId == COURSE_ID_OLD_LUIGI_GC) {

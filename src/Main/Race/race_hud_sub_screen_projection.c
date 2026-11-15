@@ -27,12 +27,12 @@ RaceHudSubScreenProjection *gRaceHudSubScreenProjection;
 const Vec3 gRaceHudSubScreenInitialScrollPosition = {0, 0, 0};
 
 void InitRaceHudSubScreenProjection(void) {
-    UnkPair020b502c state0Min;
-    UnkPair020b502c state0Max;
-    UnkPair020b502c courseMin;
-    UnkPair020b502c courseMax;
-    UnkPair020b502c bg3Min;
-    UnkPair020b502c bg3Max;
+    IntPair state0Min;
+    IntPair state0Max;
+    IntPair courseMin;
+    IntPair courseMax;
+    IntPair bg3Min;
+    IntPair bg3Max;
 
     gRaceHudSubScreenProjection = HeapAlloc(RaceHudSubScreenGetCurrentHeap(), sizeof(RaceHudSubScreenProjection));
     gRaceHudSubScreenProjection->mCenter.mFirst = 0;
@@ -156,8 +156,8 @@ u16 GetRaceHudSubScreenKartAngle(s32 kartIndex) {
     return (0x18000 - GetKartHeadingAngle(kartIndex)) % 0x10000;
 }
 
-void ComputeSubScreenState0KartPosition(s32 kartIndex, UnkPair020b502c *out) {
-    UnkPair020b502c state0Min = gRaceHudSubScreenProjection->mState0Min;
+void ComputeSubScreenState0KartPosition(s32 kartIndex, IntPair *out) {
+    IntPair state0Min = gRaceHudSubScreenProjection->mState0Min;
     Vec3 kartPos;
 
     GetKartPos(&kartPos, (u8) kartIndex);
@@ -218,8 +218,8 @@ void ComputeSubScreenState0KartPosition(s32 kartIndex, UnkPair020b502c *out) {
     }
 }
 
-void ComputeRaceHudSubScreenCoursePosition(const Vec3 *pos, UnkPair020b502c *out) {
-    UnkPair020b502c courseMin = gRaceHudSubScreenProjection->mCourseMin;
+void ComputeRaceHudSubScreenCoursePosition(const Vec3 *pos, IntPair *out) {
+    IntPair courseMin = gRaceHudSubScreenProjection->mCourseMin;
 
     out->mFirst = GetFixed12Whole(
         MulFixed12NoRound(0x200000, MulFx64c(pos->x - courseMin.mFirst, gRaceHudSubScreenProjection->mCourseInverseX)));
@@ -227,8 +227,8 @@ void ComputeRaceHudSubScreenCoursePosition(const Vec3 *pos, UnkPair020b502c *out
         0x200000, MulFx64c(pos->z - courseMin.mSecond, gRaceHudSubScreenProjection->mCourseInverseZ)));
 }
 
-BOOL IsRaceHudSubScreenPairNearCenter(const UnkPair020b502c *position) {
-    UnkPair020b502c centerWhole = gRaceHudSubScreenProjection->mCenterWhole;
+BOOL IsRaceHudSubScreenPairNearCenter(const IntPair *position) {
+    IntPair centerWhole = gRaceHudSubScreenProjection->mCenterWhole;
     s32 halfSize = gRaceHudSubScreenProjection->mHalfSize;
 
     if (position->mFirst - halfSize < centerWhole.mFirst && centerWhole.mFirst < position->mFirst + halfSize &&
@@ -238,12 +238,12 @@ BOOL IsRaceHudSubScreenPairNearCenter(const UnkPair020b502c *position) {
     return FALSE;
 }
 
-void ComputeRaceHudSubScreenKartPosition(s32 kartIndex, UnkPair020b502c *out, s32 unused) {
-    UnkPair020b502c center = gRaceHudSubScreenProjection->mCenter;
+void ComputeRaceHudSubScreenKartPosition(s32 kartIndex, IntPair *out, s32 unused) {
+    IntPair center = gRaceHudSubScreenProjection->mCenter;
     s32 centerY = center.mSecond;
     s32 pairSecondScaled = gRaceHudSubScreenProjection->mAnglePairSecondScaled;
     s32 pairFirstScaled = gRaceHudSubScreenProjection->mAnglePairFirstScaled;
-    UnkPair020b502c courseMin = gRaceHudSubScreenProjection->mCourseMin;
+    IntPair courseMin = gRaceHudSubScreenProjection->mCourseMin;
     Vec3 kartPos;
     s32 projectedX;
     s32 projectedY;
@@ -283,12 +283,12 @@ static inline s32 ClearFixed12Fraction(s32 value) {
     return wholePart;
 }
 
-BOOL ComputeRaceHudSubScreenPosition(const Vec3 *pos, UnkPair020b502c *out, s32 subScreenScale, s32 requireNearCenter,
+BOOL ComputeRaceHudSubScreenPosition(const Vec3 *pos, IntPair *out, s32 subScreenScale, s32 requireNearCenter,
                                      s32 exactCenter) {
-    UnkPair020b502c center = gRaceHudSubScreenProjection->mCenter;
+    IntPair center = gRaceHudSubScreenProjection->mCenter;
     s32 pairSecondScaled = gRaceHudSubScreenProjection->mAnglePairSecondScaled;
     s32 pairFirstScaled = gRaceHudSubScreenProjection->mAnglePairFirstScaled;
-    UnkPair020b502c courseMin = gRaceHudSubScreenProjection->mCourseMin;
+    IntPair courseMin = gRaceHudSubScreenProjection->mCourseMin;
     s32 centerX;
     s32 centerY;
     s32 dx;
@@ -298,7 +298,7 @@ BOOL ComputeRaceHudSubScreenPosition(const Vec3 *pos, UnkPair020b502c *out, s32 
     s32 deltaY;
     s32 screenX;
     s32 screenY;
-    UnkPair020b502c centerWhole;
+    IntPair centerWhole;
     s32 halfSize;
     s32 wholeX;
     s32 wholeY;
@@ -353,7 +353,7 @@ BOOL ComputeRaceHudSubScreenPosition(const Vec3 *pos, UnkPair020b502c *out, s32 
 }
 
 void UpdateRaceHudSubScreenCenter(RaceHudSubScreenBgAffine *out) {
-    UnkPair020b502c courseMin = gRaceHudSubScreenProjection->mCourseMin;
+    IntPair courseMin = gRaceHudSubScreenProjection->mCourseMin;
     Vec3 pos;
     float wholePart;
 
@@ -390,7 +390,7 @@ void UpdateRaceHudSubScreenCenter(RaceHudSubScreenBgAffine *out) {
 }
 
 void UpdateRaceHudSubScreenBg3Center(RaceHudSubScreenBgAffine *out) {
-    UnkPair020b502c bg3Min = gRaceHudSubScreenProjection->mBg3Min;
+    IntPair bg3Min = gRaceHudSubScreenProjection->mBg3Min;
     Vec3 pos;
 
     if (gRaceHudSubScreenProjection->mScrollTimer != 0) {
@@ -418,8 +418,8 @@ s32 MulFx64c(s32 value, s64 factor) {
 }
 
 void UpdateRaceHudSubScreenBg3CenterByFrames(RaceHudSubScreenBgAffine *out) {
-    UnkPair020b502c bg3Min = gRaceHudSubScreenProjection->mBg3Min;
-    UnkPair020b502c bg3Max = gRaceHudSubScreenProjection->mBg3Max;
+    IntPair bg3Min = gRaceHudSubScreenProjection->mBg3Min;
+    IntPair bg3Max = gRaceHudSubScreenProjection->mBg3Max;
     Vec3 pos;
     s32 framesQuotient;
     s32 spanX;
@@ -459,8 +459,8 @@ u16 RaceHudSubScreenGetDownBits(s32 slotIndex, s32 mask) {
 }
 
 void UpdateRaceHudSubScreenScroll(void) {
-    UnkPair020b502c scrollMin;
-    UnkPair020b502c scrollMax;
+    IntPair scrollMin;
+    IntPair scrollMax;
     Vec3 target;
     Vec3 dir;
 

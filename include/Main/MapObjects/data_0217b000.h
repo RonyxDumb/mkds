@@ -64,7 +64,7 @@ typedef struct QuestionRotation {
     /* 04 */ s32 mSine;
 } QuestionRotation;
 
-// UnkPair020b502c of code_020b502c.h is this type.
+// IntPair of code_020b502c.h is this type.
 typedef struct IntPair {
     /* 00 */ s32 mFirst;
     /* 04 */ s32 mSecond;

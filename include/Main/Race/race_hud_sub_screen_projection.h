@@ -38,9 +38,6 @@
 // Unused entry of CourseMap.mRespawnIndexBySlot.
 #define COURSE_MAP_RESPAWN_SLOT_NONE 0xffff
 
-// Two words (the elements at member 0xc of RaceHudSubScreenCells).
-typedef IntPair UnkPair020b502c;
-
 // Object returned by GetCourseMapSubScreenView.
 typedef struct {
     /* 00 */ Vec3 mPos;
@@ -411,26 +408,26 @@ typedef struct CourseMap {
 #define RACE_HUD_SUB_SCREEN_SCROLL_TIMER_START 600
 
 typedef struct RaceHudSubScreenProjection {
-    /* 00 */ UnkPair020b502c mCenter;
+    /* 00 */ IntPair mCenter;
     /* 08 */ s32 mCenterRemainderX;
     /* 0c */ s32 mCenterRemainderY;
-    /* 10 */ UnkPair020b502c mCenterWhole;
+    /* 10 */ IntPair mCenterWhole;
     /* 18 */ s32 mHalfSize;
     /* 1c */ s16 mAnglePairSecond;
     /* 1e */ s16 mAnglePairFirst;
     /* 20 */ s32 mAnglePairSecondScaled;
     /* 24 */ s32 mAnglePairFirstScaled;
     /* 28 */ s32 mCourseWidthScaled;
-    /* 2c */ UnkPair020b502c mState0Min;
-    /* 34 */ UnkPair020b502c mState0Max;
+    /* 2c */ IntPair mState0Min;
+    /* 34 */ IntPair mState0Max;
     /* 3c */ s64 mState0InverseX;
     /* 44 */ s64 mState0InverseZ;
-    /* 4c */ UnkPair020b502c mCourseMin;
-    /* 54 */ UnkPair020b502c mCourseMax;
+    /* 4c */ IntPair mCourseMin;
+    /* 54 */ IntPair mCourseMax;
     /* 5c */ s64 mCourseInverseX;
     /* 64 */ s64 mCourseInverseZ;
-    /* 6c */ UnkPair020b502c mBg3Min;
-    /* 74 */ UnkPair020b502c mBg3Max;
+    /* 6c */ IntPair mBg3Min;
+    /* 74 */ IntPair mBg3Max;
     /* 7c */ s64 mBg3InverseX;
     /* 84 */ s64 mBg3InverseZ;
     /* 8c */ s32 mScrollTimer;
@@ -468,12 +465,12 @@ s32 MulFx64c(s32 value, s64 factor);
 CourseMapSubScreenView *GetCourseMapSubScreenView(void);
 void UpdateRaceHudSubScreenBg3Center(RaceHudSubScreenBgAffine *out);
 void UpdateRaceHudSubScreenCenter(RaceHudSubScreenBgAffine *out);
-BOOL ComputeRaceHudSubScreenPosition(const Vec3 *pos, UnkPair020b502c *out, s32 subScreenScale, s32 requireNearCenter,
+BOOL ComputeRaceHudSubScreenPosition(const Vec3 *pos, IntPair *out, s32 subScreenScale, s32 requireNearCenter,
                                      s32 exactCenter);
-void ComputeRaceHudSubScreenKartPosition(s32 kartIndex, UnkPair020b502c *out, s32);
-BOOL IsRaceHudSubScreenPairNearCenter(const UnkPair020b502c *position);
-void ComputeRaceHudSubScreenCoursePosition(const Vec3 *pos, UnkPair020b502c *out);
-void ComputeSubScreenState0KartPosition(s32 kartIndex, UnkPair020b502c *out);
+void ComputeRaceHudSubScreenKartPosition(s32 kartIndex, IntPair *out, s32);
+BOOL IsRaceHudSubScreenPairNearCenter(const IntPair *position);
+void ComputeRaceHudSubScreenCoursePosition(const Vec3 *pos, IntPair *out);
+void ComputeSubScreenState0KartPosition(s32 kartIndex, IntPair *out);
 u16 GetRaceHudSubScreenKartAngle(s32 kartIndex);
 u16 GetSubScreenAngleAndClearScrollTimer(void);
 BOOL IsCourseWithSubBg3CntBit13(void);

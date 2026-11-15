@@ -681,8 +681,8 @@ void UpdateRaceTaPositions(void) {
 }
 
 void DrawRaceTaPositions(RaceHudOamBuffer *oamBuffer) {
-    UnkPair020b502c trailPosition;
-    UnkPair020b502c samplePosition;
+    IntPair trailPosition;
+    IntPair samplePosition;
     s32 trailCellPosition[2];
     s32 sampleCellPosition[2];
     u16 firstRotationSlot;

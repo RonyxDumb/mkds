@@ -59,7 +59,7 @@ void CopyPlayerOrTimeRecordName(u32 rowIndex, u16 *nameOut, u32 copyFullLength) 
 }
 
 // The part of the rectangle that sub screen state 0 shows at x 0x78..0xf8, y 0x28..0xc0 of the 256 x 192 screen.
-void ComputeRaceHudSubScreenState0MinMax(UnkPair020b502c *outFirst, UnkPair020b502c *outSecond, s32 firstX, s32 firstZ,
+void ComputeRaceHudSubScreenState0MinMax(IntPair *outFirst, IntPair *outSecond, s32 firstX, s32 firstZ,
                                          s16 secondX, s16 secondZ) {
     outFirst->mFirst = TO_FIXED12(firstX) + (secondX - firstX) * 0xf000 / 32;
     outFirst->mSecond = TO_FIXED12(firstZ) + (secondZ - firstZ) * 0x5000 / 24;
@@ -67,7 +67,7 @@ void ComputeRaceHudSubScreenState0MinMax(UnkPair020b502c *outFirst, UnkPair020b5
     outSecond->mSecond = TO_FIXED12(firstZ) + (secondZ - firstZ) * 0x18000 / 24;
 }
 
-void GetRaceHudSubScreenState0MinMax(UnkPair020b502c *outFirst, UnkPair020b502c *outSecond) {
+void GetRaceHudSubScreenState0MinMax(IntPair *outFirst, IntPair *outSecond) {
     s16 rows[55][4] = {
         {-1000, -1000, 1000, 1000},
         {-6459, -3180, 2908, 3845},
@@ -131,7 +131,7 @@ void GetRaceHudSubScreenState0MinMax(UnkPair020b502c *outFirst, UnkPair020b502c 
                                         rows[courseId][3]);
 }
 
-void SetFixed12MinMaxFromWhole(UnkPair020b502c *outFirst, UnkPair020b502c *outSecond, s32 firstX, s32 firstZ,
+void SetFixed12MinMaxFromWhole(IntPair *outFirst, IntPair *outSecond, s32 firstX, s32 firstZ,
                                s16 secondX, s16 secondZ) {
     outFirst->mFirst = TO_FIXED12(firstX);
     outFirst->mSecond = TO_FIXED12(firstZ);
@@ -139,7 +139,7 @@ void SetFixed12MinMaxFromWhole(UnkPair020b502c *outFirst, UnkPair020b502c *outSe
     outSecond->mSecond = TO_FIXED12(secondZ);
 }
 
-void GetRaceHudSubScreenCourseMinMax(UnkPair020b502c *outFirst, UnkPair020b502c *outSecond) {
+void GetRaceHudSubScreenCourseMinMax(IntPair *outFirst, IntPair *outSecond) {
     s16 rows[55][4] = {
         {-3000, -2244, 3000, 3756},
         {-3000, -2249, 3000, 3751},
@@ -203,7 +203,7 @@ void GetRaceHudSubScreenCourseMinMax(UnkPair020b502c *outFirst, UnkPair020b502c 
                               rows[courseId][3]);
 }
 
-void GetRaceHudSubScreenScrollLimits(UnkPair020b502c *outFirst, UnkPair020b502c *outSecond) {
+void GetRaceHudSubScreenScrollLimits(IntPair *outFirst, IntPair *outSecond) {
     s16 rows[55][4] = {
         {-3000, -2244, 3000, 3756},
         {-1961, -2066, 2606, 3493},

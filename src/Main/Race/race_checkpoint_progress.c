@@ -128,7 +128,7 @@ void UpdateRaceClock(void) {
 
 BOOL IsPointBetweenCheckpointLines(const Vec3 *pos, const CourseMapCheckpoint *fromCheckpoint,
                                    const CourseMapCheckpoint *toCheckpoint) {
-    volatile UnkPair020b502c posPair;
+    volatile IntPair posPair;
     s32 edgeX;
 
     posPair.mFirst = pos->x;
@@ -153,7 +153,7 @@ BOOL IsPointBetweenCheckpointLines(const Vec3 *pos, const CourseMapCheckpoint *f
 s32 ComputeProgressBetweenCheckpoints(const Vec3 *pos, u16 fromIndex, u16 toIndex) {
     CourseMapCheckpoint *fromCheckpoint;
     CourseMapCheckpoint *toCheckpoint;
-    UnkPair020b502c offsets[3];
+    IntPair offsets[3];
     s64 numerator;
     s64 denominator;
 

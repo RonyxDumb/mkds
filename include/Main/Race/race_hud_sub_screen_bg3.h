@@ -11,4 +11,4 @@
 #include "Main/Kart/code_0207a880.h"
 #include "Main/Race/race_hud_sub_screen_projection.h"
 
-void GetRaceHudSubScreenBg3MinMax(UnkPair020b502c *outMin, UnkPair020b502c *outMax);
+void GetRaceHudSubScreenBg3MinMax(IntPair *outMin, IntPair *outMax);
