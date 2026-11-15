@@ -69,6 +69,17 @@ enum {
     MISSION_RUN_LVSEL_RESULT_BACK,
 };
 
+// Index of the last level (MissionRunLVsel.mIndex is the level number minus one); a reached level of this index selects
+// the layout with seven levels.
+#define MISSION_RUN_LVSEL_LAST_LEVEL_INDEX 6
+
+// Frames of the slide in and the slide out (the BG0 layer travels MISSION_RUN_LVSEL_BG0_SLIDE_DISTANCE), of the hold
+// after a level was chosen, and of the highlight timer a chosen or moved-to level gets.
+#define MISSION_RUN_LVSEL_SLIDE_FRAMES 10
+#define MISSION_RUN_LVSEL_BG0_SLIDE_DISTANCE 192
+#define MISSION_RUN_LVSEL_HOLD_FRAMES 5
+#define MISSION_RUN_LVSEL_HIGHLIGHT_FRAMES 5
+
 // Object behind gMissionRunLVsel.
 typedef struct MissionRunLVsel {
     /* 00 */ struct NNSG2dCellDataBank *mMissionRunLVselSNcer;
