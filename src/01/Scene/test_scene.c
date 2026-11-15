@@ -99,7 +99,7 @@ void TestSceneSetSubBg1Cnt(u32 cntVal14, u32 cntVal7, u32 cntVal8, u32 cntVal2, 
 
 void ClearCharCanvas(u8 *charCanvas, u32 color) {
     u32 clearFunction = (*(u32 *) (((u32) charCanvas) + (24)));
-    u32 v3 = ((u32(*)(u32, u32))(clearFunction))((u32) charCanvas, color);
+    u32 clearResult = ((u32(*)(u32, u32))(clearFunction))((u32) charCanvas, color);
 }
 
 #pragma optimize_for_size on
