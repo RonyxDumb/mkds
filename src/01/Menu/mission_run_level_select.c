@@ -452,7 +452,8 @@ void AdvanceMissionRunLVselSelect(void) {
     StartSceneSeqIfIdle();
     touchBegan = FALSE;
     recentlyLost = FALSE;
-    if (gInputSlots[slotIndex].mPair.mHasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
+    if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
+        gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
         recentlyLost = TRUE;
     }
     if (recentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
@@ -466,7 +467,8 @@ void AdvanceMissionRunLVselSelect(void) {
     if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
         BOOL touchBeganAgain = FALSE;
         BOOL recentlyLostAgain = FALSE;
-        if (gInputSlots[slotIndex].mPair.mHasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
+        if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
+            gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
             recentlyLostAgain = TRUE;
         }
         if (recentlyLostAgain == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
@@ -597,8 +599,7 @@ s32 AdvanceMissionRunLVsel(void) {
     DrawLayoutTable(gMissionRunLVsel->mMissionRunLVselS7Or6Bncl, gMissionRunLVsel->mMissionRunLVselSNcer,
                     gMissionRunLVsel->mMissionRunLVselS7Or6Bnll, gMissionRunLVsel->mSubOam,
                     gMissionRunLVsel->mMissionRunLVselS7Or6Table);
-    if (gMissionRunLVsel->mState == MISSION_RUN_LVSEL_STATE_SLIDE_OUT &&
-        gMissionRunLVsel->mStateFrames >= 10) {
+    if (gMissionRunLVsel->mState == MISSION_RUN_LVSEL_STATE_SLIDE_OUT && gMissionRunLVsel->mStateFrames >= 10) {
         return gMissionRunLVsel->mResult;
     }
     return 0;

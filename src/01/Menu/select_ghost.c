@@ -488,7 +488,8 @@ void AdvanceSelectGhostInput(void) {
     slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     touchBegan = FALSE;
     recentlyLost = FALSE;
-    if (gInputSlots[slotIndex].mPair.mHasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
+    if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
+        gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
         recentlyLost = TRUE;
     }
     if (recentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
@@ -502,7 +503,8 @@ void AdvanceSelectGhostInput(void) {
     if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
         touchBeganAgain = FALSE;
         recentlyLostAgain = FALSE;
-        if (gInputSlots[slotIndex].mPair.mHasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
+        if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
+            gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
             recentlyLostAgain = TRUE;
         }
         if (recentlyLostAgain == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&

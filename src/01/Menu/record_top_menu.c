@@ -422,7 +422,8 @@ void AdvanceRecordTopMenuInput(void) {
     touchedRect = -1;
     slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     recentlyLost = FALSE;
-    if (gInputSlots[slotIndex].mPair.mHasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
+    if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
+        gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
         recentlyLost = TRUE;
     }
     if (recentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
@@ -437,7 +438,8 @@ void AdvanceRecordTopMenuInput(void) {
     if (keyBPressed == 0) {
         touchBeganAgain = FALSE;
         recentlyLostAgain = FALSE;
-        if (gInputSlots[slotIndex].mPair.mHasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
+        if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
+            gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
             recentlyLostAgain = TRUE;
         }
         if (recentlyLostAgain == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
@@ -586,7 +588,7 @@ void AdvanceRecordTopMenuMessageInput(void) {
         touchBegan = FALSE;
         recentlyLost = FALSE;
         hasPair = gInputSlots[slotIndex].mPair.mHasPair;
-        if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
+        if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
             recentlyLost = TRUE;
         }
         if (recentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {

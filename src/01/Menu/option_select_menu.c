@@ -275,7 +275,7 @@ void AdvanceOptionSelectMenuWaitInput(void) {
     touchedRect = -1;
     hasA = FALSE;
     hasPair = gInputSlots[idx].mPair.mHasPair;
-    if (hasPair == 0 && gInputSlots[idx].mPair.mNoPairCount < 5) {
+    if (hasPair == 0 && gInputSlots[idx].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
         hasA = TRUE;
     }
     if (hasA == FALSE && gInputSlots[idx].mPair.mPrevHasPair == 0 && hasPair != 0) {
@@ -291,7 +291,7 @@ void AdvanceOptionSelectMenuWaitInput(void) {
         BOOL touchBegan = FALSE;
         BOOL recentlyLost = FALSE;
         hasPair = gInputSlots[idx].mPair.mHasPair;
-        if (hasPair == 0 && gInputSlots[idx].mPair.mNoPairCount < 5) {
+        if (hasPair == 0 && gInputSlots[idx].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
             recentlyLost = TRUE;
         }
         if (recentlyLost == FALSE && gInputSlots[idx].mPair.mPrevHasPair == 0 && hasPair != 0) {

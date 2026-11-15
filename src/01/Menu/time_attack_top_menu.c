@@ -240,7 +240,8 @@ void AdvanceTimeAttackTopMenuInput(void) {
     BOOL flag4;
     s32 flag3;
 
-    if (gInputSlots[slotIndex].mPair.mHasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
+    if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
+        gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
         flag1 = TRUE;
     }
     if (flag1 == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
@@ -256,7 +257,8 @@ void AdvanceTimeAttackTopMenuInput(void) {
     pressedBits = inputSlot->mPressedBits & PAD_KEY_B;
     if ((u16) pressedBits == 0) {
         flag3 = flag4 = FALSE;
-        if (gInputSlots[slotIndex].mPair.mHasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
+        if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
+            gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
             flag3 = 1;
         }
         if (flag3 == 0 && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&

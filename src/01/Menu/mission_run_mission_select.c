@@ -739,7 +739,7 @@ void AdvanceMissionRunMSselInput(void) {
     flag_b = FALSE;
     flag_a = FALSE;
     value = gInputSlots[slot].mPair.mHasPair;
-    if (value == 0 && gInputSlots[slot].mPair.mNoPairCount < 5) {
+    if (value == 0 && gInputSlots[slot].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
         flag_a = TRUE;
     }
     if (flag_a == FALSE && gInputSlots[slot].mPair.mPrevHasPair == 0 && value != 0) {
@@ -753,7 +753,7 @@ void AdvanceMissionRunMSselInput(void) {
         flag_b = FALSE;
         flag_a = FALSE;
         value = gInputSlots[slot].mPair.mHasPair;
-        if (value == 0 && gInputSlots[slot].mPair.mNoPairCount < 5) {
+        if (value == 0 && gInputSlots[slot].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
             flag_a = TRUE;
         }
         if (flag_a == FALSE && gInputSlots[slot].mPair.mPrevHasPair == 0 && value != 0) {

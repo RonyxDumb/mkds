@@ -232,7 +232,8 @@ void AdvanceRecordGpxSelect(void) {
     AdvanceRecordGpxOffsetTimers();
     touchActive = TRUE;
     recentlyLost = FALSE;
-    if (gInputSlots[slotIndex].mPair.mHasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
+    if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
+        gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
         recentlyLost = TRUE;
     }
     if (recentlyLost == FALSE && gInputSlots[slotIndex].mPair.mHasPair == 0) {
@@ -244,7 +245,8 @@ void AdvanceRecordGpxSelect(void) {
     }
     touchBegan = FALSE;
     lostBeforeBegan = FALSE;
-    if (gInputSlots[slotIndex].mPair.mHasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
+    if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
+        gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
         lostBeforeBegan = TRUE;
     }
     if (lostBeforeBegan == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
@@ -264,7 +266,8 @@ void AdvanceRecordGpxSelect(void) {
     if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
         confirmTouchBegan = FALSE;
         lostBeforeConfirm = FALSE;
-        if (gInputSlots[slotIndex].mPair.mHasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
+        if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
+            gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
             lostBeforeConfirm = TRUE;
         }
         if (lostBeforeConfirm == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&

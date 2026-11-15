@@ -68,7 +68,7 @@ void AdvanceEmblemInput(void) {
     pairUsable = TRUE;
     pairRecentlyLost = 0;
     value = gInputSlots[slotIndex].mPair.mHasPair;
-    if (value == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
+    if (value == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
         pairRecentlyLost = pairUsable;
     }
     if (pairRecentlyLost == 0 && value == 0) {
