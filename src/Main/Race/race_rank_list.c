@@ -54,6 +54,9 @@
 #include "Main/Kart/karts.h"
 #include "Main/Race/race_time_digits.h"
 
+// Diagonal of the rank list matrix (fixed point 12 bits, about 0.77).
+#define RACE_RANK_LIST_MATRIX_SCALE 0xc4e
+
 RaceLapNumber *gRaceLapNumber;
 RaceRankList *gRaceRankList;
 
@@ -80,10 +83,10 @@ void InitRaceRankList(void) {
     }
     gRaceRankList->mSlideX = 0;
     gRaceRankList->mOamMatrixIndex = 0;
-    gRaceRankList->mMatrix.mElements[0] = 0xc4e;
+    gRaceRankList->mMatrix.mElements[0] = RACE_RANK_LIST_MATRIX_SCALE;
     gRaceRankList->mMatrix.mElements[1] = 0;
     gRaceRankList->mMatrix.mElements[2] = 0;
-    gRaceRankList->mMatrix.mElements[3] = 0xc4e;
+    gRaceRankList->mMatrix.mElements[3] = RACE_RANK_LIST_MATRIX_SCALE;
     gRaceRankList->mMoveFrames = 0;
 }
 
