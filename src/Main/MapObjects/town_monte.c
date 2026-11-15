@@ -21,6 +21,7 @@
 #include "player.h"
 #include "code_0212d214.h"
 #include "code_021479b4.h"
+#include "code_02148538.h"
 #include "Main/Item/code_021035ac.h"
 #include "Main/Sound/sound_source_list.h"
 #include "Main/MapObjects/bound.h"
@@ -31,8 +32,6 @@ MapObjectKindData *gCourseMapRowKindData[19];
 
 MapObjectKindDescriptor gTownMonteKindDescriptor = {
     0, {0, 0}, 0xb0, 0, CreateEmptyMapObjectKindData, CreateTownMonteDrawList, 0, 0, CreateTownMonteUpdateList};
-
-u16 FX_Atan2Idx(s32 y, s32 x);
 
 static inline u16 TownMonteMapObjectRandomBelowU16(u32 limit) {
     RandomState64 *mapObjectRandom;

@@ -95,9 +95,6 @@
 
 #pragma thumb on
 
-s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers);
-void InitTimeAttackGhostGetScan(void *parentHeap, void *mainOam, void *subOam);
-void ReleaseTimeAttackGhostGetScan(void);
 s16 gTimeAttackGhostGetScanSSelLabelTextRows[8][4] = {{0, 0x64, 0xd, 0},  {1, 0x64, 0xd, 1},  {2, 0x64, 0xd, 2},
                                                       {3, 0x64, 0xd, 3},  {4, 0x86, 0xd, -1}, {5, 0x86, 0xd, -1},
                                                       {6, 0x86, 0xd, -1}, {7, 0x86, 0xd, -1}};

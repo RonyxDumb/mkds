@@ -18,6 +18,7 @@
 #include "player.h"
 #include "code_0212d214.h"
 #include "code_021479b4.h"
+#include "code_02148538.h"
 #include "Main/Item/code_021035ac.h"
 #include "Main/Sound/sound_source_list.h"
 #include "Main/MapObjects/bound.h"
@@ -28,8 +29,6 @@ MapObjectModel *gChandelier;
 
 MapObjectKindDescriptor gChandelierKindDescriptor = {
     0, {0, 0}, 0xac, 0, CreateEmptyMapObjectKindData, CreateChandelierDrawList, 0, 0, CreateChandelierUpdateList};
-
-u16 FX_Atan2Idx(s32 y, s32 x);
 
 void CreateChandelier(void *mapObjectList) {
     CreateMapObjectModelNsbcaAnimation(gChandelier = CreateMapObjectModelAnimated(mapObjectList, "chandelier.nsbmd"),
