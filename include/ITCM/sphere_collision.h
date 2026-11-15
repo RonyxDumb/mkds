@@ -48,6 +48,16 @@ typedef struct CourseCollision {
 // Boost surface (items set ITEM_OBJECT_FLAG_ON_BOOST_SURFACE from it).
 #define COURSE_HIT_BOOST_SURFACE 0x80000
 
+// Groups of bits in the collision bits CollideSphereWithCourse stores.
+// Floor hits (the bits the kart code reads as the ground attribute).
+#define COURSE_HIT_GROUND 0x1e34ef
+// Wall hits.
+#define COURSE_HIT_WALL 0x214300
+// Surfaces that make a hitting item fade out.
+#define COURSE_HIT_FADES_ITEMS 0x8000
+// Boost surface (items set ITEM_OBJECT_FLAG_ON_BOOST_SURFACE from it).
+#define COURSE_HIT_BOOST_SURFACE 0x80000
+
 BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *vector, int radius, u16 queryFlags,
                              short collisionSlotIndex, Vec3 *pushOut, Vec3 *normal, Vec3 *secondNormal,
                              u32 *collisionBits, Vec3 *lowestOffset, Vec3 *pointMotion, u16 *angleChange,
