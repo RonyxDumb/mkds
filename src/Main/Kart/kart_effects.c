@@ -275,7 +275,7 @@ void StartKartBoostCameraEffect(u32 effectIdIndex, Kart *kart) {
 }
 
 // Runs entry a of the effect table while the kart flag is set, otherwise ends the kart effects.
-void ApplyKartSurfaceEffect(s32 functionIndex, Kart *kart) {
+void ApplyKartSurfaceEffect(u16 functionIndex, Kart *kart) {
     KartEffects *kartEffects;
 
     if (kart->mEffectFlags & KART_EFFECT_NEAR_PLAYER_RANK) {

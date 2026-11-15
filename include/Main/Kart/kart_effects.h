@@ -84,7 +84,7 @@ s32 StartKartSideEffects(const KartEffectIdSet *effectIdSet, s32 unusedVelocityF
 BOOL StartKartCurrentEffect(const KartEffectIdSet *effectIdSet, s32 velocityFactorIndex, Kart *kart);
 void ApplyKartSurfaceEffectRow(s32 rowIndex, Kart *kart);
 void ApplyKartWaterEffects(Kart *kart);
-void ApplyKartSurfaceEffect(s32 functionIndex, Kart *kart);
+void ApplyKartSurfaceEffect(u16 functionIndex, Kart *kart);
 void StartKartBoostCameraEffect(u32 effectIdIndex, Kart *kart);
 void ApplyKartCurrentEffectRow7(Kart *kart);
 void ApplyKartSideEffectsRow6(Kart *kart);
