@@ -70,7 +70,7 @@ void StoreApScanEntries(WMStartScanExCallback *scanResult) {
             }
             slot = &entries[entryIndex];
             MI_CpuCopy8(bssDesc->mBssid, slot->mBssid, 6);
-            MI_CpuCopy8(bssDesc->mSsid, slot, 0x20);
+            MI_CpuCopy8(bssDesc->mSsid, slot, sizeof(bssDesc->mSsid));
             slot->mLinkLevel = scanResult->mLinkLevel[descIndex];
             if ((bssDesc->mCapaInfo & 0x10) == 0) {
                 slot->mCapaLevel = 0;
