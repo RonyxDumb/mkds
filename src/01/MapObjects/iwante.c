@@ -119,10 +119,10 @@ void IwanteKartHitCallback(MissionRunMapObject *mapObject) {
         return;
     }
     mapObject->mUnk_000.mPosStep.x =
-        MUL_FIXED12_NO_ROUND(mapObject->mPrm->mIwante.mUnk_144, SIN_OF_ANGLE((u16) mapObject->mMoveAngle));
+        MUL_FIXED12_NO_ROUND(mapObject->mPrm->mIwante.mKartHitCarryVelocity, SIN_OF_ANGLE((u16) mapObject->mMoveAngle));
     mapObject->mUnk_000.mPosStep.y = 0;
     mapObject->mUnk_000.mPosStep.z =
-        MUL_FIXED12_NO_ROUND(mapObject->mPrm->mIwante.mUnk_144, COS_OF_ANGLE((u16) mapObject->mMoveAngle));
+        MUL_FIXED12_NO_ROUND(mapObject->mPrm->mIwante.mKartHitCarryVelocity, COS_OF_ANGLE((u16) mapObject->mMoveAngle));
     mapObject->mKartResponse = KART_MAP_OBJECT_RESPONSE_CARRY_HALT;
     SetKartCollisionCallback(mapObject, IwanteKartHitCallback);
     StartCameraWobbleAtDistance(mapObject->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
@@ -152,15 +152,16 @@ void SetIwanteHandsApproachPoint(void) {
     if (mapObject->mUnk_0a8 == IWANTE_HAND_SECOND) {
         prm = &mapObject->mPrm->mIwante;
         angle = FX_Atan2Idx(kart->mPos.z - mapObject->mUnk_000.mPos.z, kart->mPos.x - mapObject->mUnk_000.mPos.x) -
-                prm->mUnk_26c;
+                prm->mApproachAngleOffset;
     } else {
         prm = &mapObject->mPrm->mIwante;
-        angle = prm->mUnk_26c +
+        angle = prm->mApproachAngleOffset +
                 FX_Atan2Idx(kart->mPos.z - mapObject->mUnk_000.mPos.z, kart->mPos.x - mapObject->mUnk_000.mPos.x);
     }
-    pos.x = mapObject->mUnk_000.mPos.x + MUL_FIXED12_NO_ROUND(prm->mUnk_270, COS_OF_ANGLE(angle));
+    pos.x = mapObject->mUnk_000.mPos.x + MUL_FIXED12_NO_ROUND(prm->mApproachPointRadius, COS_OF_ANGLE(angle));
     pos.y = mapObject->mUnk_000.mPos.y;
-    pos.z = mapObject->mUnk_000.mPos.z + MUL_FIXED12_NO_ROUND(mapObject->mPrm->mIwante.mUnk_270, SIN_OF_ANGLE(angle));
+    pos.z = mapObject->mUnk_000.mPos.z +
+            MUL_FIXED12_NO_ROUND(mapObject->mPrm->mIwante.mApproachPointRadius, SIN_OF_ANGLE(angle));
     SetAnglePointAndMoveAnglePoint(mapObject, &pos);
 }
 
@@ -190,19 +191,21 @@ void SetIwanteHandsPoints(void) {
     } else {
         secondHand = NULL;
     }
-    anglePoint.x = (MUL_FIXED12_NO_ROUND(angleObject->mPrm->mIwante.mUnk_274, FX_SinIdx((u16) angleObject->mAngle)));
+    anglePoint.x = (MUL_FIXED12_NO_ROUND(angleObject->mPrm->mIwante.mHandsAnglePointDistance,
+                                         FX_SinIdx((u16) angleObject->mAngle)));
     anglePoint.y = angleObject->mUnk_000.mPos.y;
-    anglePoint.z = (MUL_FIXED12_NO_ROUND(angleObject->mPrm->mIwante.mUnk_274, FX_CosIdx((u16) angleObject->mAngle)));
-    firstMovePoint.x =
-        -(s32) (MUL_FIXED12_NO_ROUND(angleObject->mPrm->mIwante.mUnk_278, FX_CosIdx((u16) angleObject->mAngle)));
+    anglePoint.z = (MUL_FIXED12_NO_ROUND(angleObject->mPrm->mIwante.mHandsAnglePointDistance,
+                                         FX_CosIdx((u16) angleObject->mAngle)));
+    firstMovePoint.x = -(s32) (MUL_FIXED12_NO_ROUND(angleObject->mPrm->mIwante.mHandsMovePointDistance,
+                                                    FX_CosIdx((u16) angleObject->mAngle)));
     firstMovePoint.y = angleObject->mUnk_000.mPos.y;
-    firstMovePoint.z =
-        (MUL_FIXED12_NO_ROUND(angleObject->mPrm->mIwante.mUnk_278, FX_SinIdx((u16) angleObject->mAngle)));
-    secondMovePoint.x =
-        (MUL_FIXED12_NO_ROUND(angleObject->mPrm->mIwante.mUnk_278, FX_CosIdx((u16) angleObject->mAngle)));
+    firstMovePoint.z = (MUL_FIXED12_NO_ROUND(angleObject->mPrm->mIwante.mHandsMovePointDistance,
+                                             FX_SinIdx((u16) angleObject->mAngle)));
+    secondMovePoint.x = (MUL_FIXED12_NO_ROUND(angleObject->mPrm->mIwante.mHandsMovePointDistance,
+                                              FX_CosIdx((u16) angleObject->mAngle)));
     secondMovePoint.y = angleObject->mUnk_000.mPos.y;
-    secondMovePoint.z =
-        -(s32) (MUL_FIXED12_NO_ROUND(angleObject->mPrm->mIwante.mUnk_278, FX_SinIdx((u16) angleObject->mAngle)));
+    secondMovePoint.z = -(s32) (MUL_FIXED12_NO_ROUND(angleObject->mPrm->mIwante.mHandsMovePointDistance,
+                                                     FX_SinIdx((u16) angleObject->mAngle)));
     SetAnglePoint(firstHand, &anglePoint);
     SetAnglePoint(secondHand, &anglePoint);
     SetMoveAnglePoint(firstHand, &firstMovePoint);
@@ -265,53 +268,57 @@ void StartIwanteHandWalk(MissionRunMapObject *mapObject) {
     Vec3 velocity = {0, 0, 0};
 
     StartMapObjectState(mapObject, 1, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mUnk_27c, mapObject->mPrm->mIwante.mUnk_280);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mWalkAnimationEntry,
+                                mapObject->mPrm->mIwante.mWalkFrameStep);
     SetVelocity(mapObject, &velocity);
-    TurnAndMoveToPointSameRate(mapObject, mapObject->mPrm->mIwante.mUnk_2c8, 0x270f000);
-    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mIwante.mUnk_2cc, 0x270f000);
+    TurnAndMoveToPointSameRate(mapObject, mapObject->mPrm->mIwante.mWalkTurnPerCallTarget, 0x270f000);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mIwante.mWalkSpeedTarget, 0x270f000);
 }
 
 void StartIwanteHandWalkWithEffects(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 1, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mUnk_254, mapObject->mPrm->mIwante.mUnk_258);
-    TurnAndMoveToPointSameRate(mapObject, mapObject->mPrm->mIwante.mUnk_2c8, 0x270f000);
-    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mIwante.mUnk_2cc, 0x270f000);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mWalkWithEffectsAnimationEntry,
+                                mapObject->mPrm->mIwante.mWalkWithEffectsFrameStep);
+    TurnAndMoveToPointSameRate(mapObject, mapObject->mPrm->mIwante.mWalkTurnPerCallTarget, 0x270f000);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mIwante.mWalkSpeedTarget, 0x270f000);
     StartEffectAtOffset(mapObject, 0, 0x44cd, 0x400, 0x42d, 0);
     StartEffectAtOffset(mapObject, 0, 0x44cd, 0x400, 0x42e, 0);
 }
 
 void StartIwanteHandWalkBWalk(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 1, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mUnk_28c, mapObject->mPrm->mIwante.mUnk_290);
-    TurnAndMoveToPointSameRate(mapObject, mapObject->mPrm->mIwante.mUnk_2c8, 0x270f000);
-    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mIwante.mUnk_2cc, 0x270f000);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mWalkBAnimationEntry,
+                                mapObject->mPrm->mIwante.mWalkBFrameStep);
+    TurnAndMoveToPointSameRate(mapObject, mapObject->mPrm->mIwante.mWalkTurnPerCallTarget, 0x270f000);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mIwante.mWalkSpeedTarget, 0x270f000);
 }
 
 void StartIwanteHandWalkAWalk(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 1, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mUnk_294, mapObject->mPrm->mIwante.mUnk_298);
-    TurnAndMoveToPointSameRate(mapObject, mapObject->mPrm->mIwante.mUnk_2c8, 0x270f000);
-    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mIwante.mUnk_2cc, 0x270f000);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mWalkAAnimationEntry,
+                                mapObject->mPrm->mIwante.mWalkAFrameStep);
+    TurnAndMoveToPointSameRate(mapObject, mapObject->mPrm->mIwante.mWalkTurnPerCallTarget, 0x270f000);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mIwante.mWalkSpeedTarget, 0x270f000);
     StartEffectAtOffset(mapObject, 0, 0x44cd, 0x400, 0x42d, 0);
     StartEffectAtOffset(mapObject, 0, 0x44cd, 0x400, 0x42e, 0);
 }
 
 void StartIwanteHandChangeToWalkBWalk(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 3, NULL);
-    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mIwante.mUnk_2ac, mapObject->mPrm->mIwante.mUnk_2b0,
-                                  StartIwanteHandWalkBWalk);
-    TurnAndMoveToPointSameRate(mapObject, mapObject->mPrm->mIwante.mUnk_2c8, 0x270f000);
-    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mIwante.mUnk_2cc, 0x270f000);
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mIwante.mChangeToWalkBAnimationEntry,
+                                  mapObject->mPrm->mIwante.mChangeToWalkBFrameStep, StartIwanteHandWalkBWalk);
+    TurnAndMoveToPointSameRate(mapObject, mapObject->mPrm->mIwante.mWalkTurnPerCallTarget, 0x270f000);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mIwante.mWalkSpeedTarget, 0x270f000);
     SetIwanteWalkBCollision(mapObject);
     StartMapObjectSound(&mapObject->mUnk_000, 0x215);
 }
 
 void StartIwanteHandChangeToWalkAWalk(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 3, NULL);
-    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mIwante.mUnk_2b4, mapObject->mPrm->mIwante.mUnk_2b8,
-                                  StartIwanteHandWalkAWalk);
-    TurnAndMoveToPointSameRate(mapObject, mapObject->mPrm->mIwante.mUnk_2c8, 0x270f000);
-    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mIwante.mUnk_2cc, 0x270f000);
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mIwante.mChangeToWalkAAnimationEntry,
+                                  mapObject->mPrm->mIwante.mChangeToWalkAFrameStep, StartIwanteHandWalkAWalk);
+    TurnAndMoveToPointSameRate(mapObject, mapObject->mPrm->mIwante.mWalkTurnPerCallTarget, 0x270f000);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mIwante.mWalkSpeedTarget, 0x270f000);
     SetIwanteWalkACollision(mapObject);
     StartEffectAtOffset(mapObject, 0, 0x44cd, 0x2000, 0x42d, 0);
     StartEffectAtOffset(mapObject, 0, 0x44cd, 0x2000, 0x42e, 0);
@@ -319,14 +326,16 @@ void StartIwanteHandChangeToWalkAWalk(MissionRunMapObject *mapObject) {
 
 void StartIwanteHandWalkBHold(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 1, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mUnk_28c, mapObject->mPrm->mIwante.mUnk_290);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mWalkBAnimationEntry,
+                                mapObject->mPrm->mIwante.mWalkBFrameStep);
     StopTurningMoveFollowsAngle(mapObject);
     SetSpeedAndClearTarget(mapObject, 0);
 }
 
 void StartIwanteHandWalkAHold(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 1, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mUnk_294, mapObject->mPrm->mIwante.mUnk_298);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mWalkAAnimationEntry,
+                                mapObject->mPrm->mIwante.mWalkAFrameStep);
     StopTurningMoveFollowsAngle(mapObject);
     SetSpeedAndClearTarget(mapObject, 0);
     StartEffectAtOffset(mapObject, 0, 0x000044cdu, 0x00000400u, 0x0000042du, 0);
@@ -349,12 +358,13 @@ u32 AdvanceIwanteHandVerticalSound(MissionRunMapObject *mapObject) {
 
 void StartIwanteHandMoveVerticalBack(MissionRunMapObject *mapObject) {
     Vec3 velocity = {0, 0, 0};
-    velocity.y = -mapObject->mPrm->mIwante.mUnk_2a4;
+    velocity.y = -mapObject->mPrm->mIwante.mMoveVerticalVelocityY;
     StartMapObjectState(mapObject, 3, (s32(*)(MissionRunMapObject *)) AdvanceIwanteHandVerticalSound);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mUnk_29c, mapObject->mPrm->mIwante.mUnk_2a0);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mMoveVerticalAnimationEntry,
+                                mapObject->mPrm->mIwante.mMoveVerticalFrameStep);
     SetVelocity(mapObject, &velocity);
-    TurnAndMoveToPointSameRate(mapObject, mapObject->mPrm->mIwante.mUnk_2c8, 0x270f000);
-    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mIwante.mUnk_2cc, 0x270f000);
+    TurnAndMoveToPointSameRate(mapObject, mapObject->mPrm->mIwante.mWalkTurnPerCallTarget, 0x270f000);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mIwante.mWalkSpeedTarget, 0x270f000);
     StartEffectAtOffset(mapObject, 0, 0x44cd, 0x400, 0x42d, 0);
     StartEffectAtOffset(mapObject, 0, 0x44cd, 0x400, 0x42e, 0);
     SetCourseCollisionCallback(mapObject, StopIwanteHandOnCourseHit);
@@ -363,13 +373,15 @@ void StartIwanteHandMoveVerticalBack(MissionRunMapObject *mapObject) {
 
 void StartIwanteHandMoveVertical(MissionRunMapObject *mapObject) {
     Vec3 velocity = {0, 0, 0};
-    velocity.y = mapObject->mPrm->mIwante.mUnk_2a4;
+    velocity.y = mapObject->mPrm->mIwante.mMoveVerticalVelocityY;
     StartMapObjectState(mapObject, 3, (s32(*)(MissionRunMapObject *)) AdvanceIwanteHandVerticalSound);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mUnk_29c, mapObject->mPrm->mIwante.mUnk_2a0);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mMoveVerticalAnimationEntry,
+                                mapObject->mPrm->mIwante.mMoveVerticalFrameStep);
     SetVelocity(mapObject, &velocity);
-    TurnAndMoveToPointSameRate(mapObject, mapObject->mPrm->mIwante.mUnk_2c8, 0x270f000);
-    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mIwante.mUnk_2cc, 0x270f000);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mIwante.mUnk_2a8, StartIwanteHandMoveVerticalBack);
+    TurnAndMoveToPointSameRate(mapObject, mapObject->mPrm->mIwante.mWalkTurnPerCallTarget, 0x270f000);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mIwante.mWalkSpeedTarget, 0x270f000);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mIwante.mMoveVerticalFrameCount,
+                                 StartIwanteHandMoveVerticalBack);
     StartEffectAtOffset(mapObject, 0, 0x44cd, 0x400, 0x42d, 0);
     StartEffectAtOffset(mapObject, 0, 0x44cd, 0x400, 0x42e, 0);
     mapObject->mGravityEnabled = FALSE;
@@ -377,7 +389,8 @@ void StartIwanteHandMoveVertical(MissionRunMapObject *mapObject) {
 
 void StartIwanteHandChangeToWalkB(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 3, NULL);
-    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mIwante.mUnk_2ac, mapObject->mPrm->mIwante.mUnk_2b0,
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mIwante.mChangeToWalkBAnimationEntry,
+                                  mapObject->mPrm->mIwante.mChangeToWalkBFrameStep,
                                   (UnkFunc *) &StartIwanteHandWalkBHold);
     SetSpeedAndClearTarget(mapObject, 0);
     StopTurningMoveFollowsAngle(mapObject);
@@ -387,7 +400,8 @@ void StartIwanteHandChangeToWalkB(MissionRunMapObject *mapObject) {
 
 void StartIwanteHandChangeToWalkA(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 3, NULL);
-    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mIwante.mUnk_2b4, mapObject->mPrm->mIwante.mUnk_2b8,
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mIwante.mChangeToWalkAAnimationEntry,
+                                  mapObject->mPrm->mIwante.mChangeToWalkAFrameStep,
                                   (UnkFunc *) &StartIwanteHandWalkAHold);
     SetSpeedAndClearTarget(mapObject, 0);
     StopTurningMoveFollowsAngle(mapObject);
@@ -399,21 +413,25 @@ void StartIwanteHandChangeToWalkA(MissionRunMapObject *mapObject) {
 void StartIwanteHandLand(MissionRunMapObject *mapObject) {
     Vec3 velocity = {0, 0, 0};
     StartMapObjectState(mapObject, 3, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mUnk_1c0, mapObject->mPrm->mIwante.mUnk_1c4);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mLandAnimationEntry,
+                                mapObject->mPrm->mIwante.mLandFrameStep);
     StopTurningMoveFollowsAngle(mapObject);
     SetSpeedAndClearTarget(mapObject, 0);
     SetVelocity(mapObject, &velocity);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mIwante.mUnk_1c8, NULL);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mIwante.mLandFrameCount, NULL);
 }
 
 void StartIwanteHandFall(MissionRunMapObject *mapObject) {
     Vec3 velocity = {0, 0, 0};
-    velocity.y = mapObject->mPrm->mIwante.mUnk_1bc;
+    velocity.y = mapObject->mPrm->mIwante.mFallVelocityY;
     StartMapObjectState(mapObject, 3, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mUnk_1a4, mapObject->mPrm->mIwante.mUnk_1a8);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mFallAnimationEntry,
+                                mapObject->mPrm->mIwante.mFallFrameStep);
     SetVelocity(mapObject, &velocity);
-    StopTurningMoveFromPoint(mapObject, mapObject->mPrm->mIwante.mUnk_1b4, mapObject->mPrm->mIwante.mUnk_1b8);
-    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mIwante.mUnk_1ac, mapObject->mPrm->mIwante.mUnk_1b0);
+    StopTurningMoveFromPoint(mapObject, mapObject->mPrm->mIwante.mFallMoveAnglePerCallTarget,
+                             mapObject->mPrm->mIwante.mFallMoveAnglePerCallIncrement);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mIwante.mFallSpeedTarget,
+                             mapObject->mPrm->mIwante.mFallSpeedPerCall);
     SetCourseCollisionCallback(mapObject, StartIwanteHandLand);
     mapObject->mGravityEnabled = TRUE;
 }
@@ -421,27 +439,34 @@ void StartIwanteHandFall(MissionRunMapObject *mapObject) {
 void StartIwanteHandReachMovePoint(MissionRunMapObject *mapObject) {
     Vec3 velocity = {0, 0, 0};
     StartMapObjectState(mapObject, 3, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mUnk_184, mapObject->mPrm->mIwante.mUnk_188);
-    StopTurningMoveFromPoint(mapObject, mapObject->mPrm->mIwante.mUnk_194, mapObject->mPrm->mIwante.mUnk_198);
-    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mIwante.mUnk_18c, mapObject->mPrm->mIwante.mUnk_190);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mReachAnimationEntry,
+                                mapObject->mPrm->mIwante.mReachFrameStep);
+    StopTurningMoveFromPoint(mapObject, mapObject->mPrm->mIwante.mReachMoveAnglePerCallTarget,
+                             mapObject->mPrm->mIwante.mReachMoveAnglePerCallIncrement);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mIwante.mReachSpeedTarget,
+                             mapObject->mPrm->mIwante.mReachSpeedPerCall);
     SetVelocity(mapObject, &velocity);
-    SetPointInRangeCallback(mapObject, mapObject->mPrm->mIwante.mUnk_19c, 0, &mapObject->mMoveAnglePoint,
+    SetPointInRangeCallback(mapObject, mapObject->mPrm->mIwante.mReachPointRadius, 0, &mapObject->mMoveAnglePoint,
                             StartIwanteHandFall);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mIwante.mUnk_0ec, StartIwanteHandFall);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mIwante.mFallDelayFrameCount, StartIwanteHandFall);
     mapObject->mGravityEnabled = FALSE;
 }
 
 void StartIwanteHandMoveToPoints(MissionRunMapObject *mapObject) {
     Vec3 velocity = {0, 0, 0};
-    velocity.y = mapObject->mPrm->mIwante.mUnk_17c;
+    velocity.y = mapObject->mPrm->mIwante.mMoveToPointsVelocityY;
     SetIwanteHandsPoints();
     StartMapObjectState(mapObject, 3, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mUnk_164, mapObject->mPrm->mIwante.mUnk_168);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mMoveToPointsAnimationEntry,
+                                mapObject->mPrm->mIwante.mMoveToPointsFrameStep);
     SetVelocity(mapObject, &velocity);
-    StopTurningMoveFromPoint(mapObject, mapObject->mPrm->mIwante.mUnk_174, mapObject->mPrm->mIwante.mUnk_178);
+    StopTurningMoveFromPoint(mapObject, mapObject->mPrm->mIwante.mMoveToPointsMoveAnglePerCallTarget,
+                             mapObject->mPrm->mIwante.mMoveToPointsMoveAnglePerCallIncrement);
     SetAnglePointAndMoveAnglePoint(mapObject, &mapObject->mMoveAnglePoint);
-    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mIwante.mUnk_16c, mapObject->mPrm->mIwante.mUnk_170);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mIwante.mUnk_180, StartIwanteHandReachMovePoint);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mIwante.mMoveToPointsSpeedTarget,
+                             mapObject->mPrm->mIwante.mMoveToPointsSpeedPerCall);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mIwante.mMoveToPointsFrameCount,
+                                 StartIwanteHandReachMovePoint);
 }
 
 int AdvanceIwanteHandSidewaysStop(MissionRunMapObject *mapObject) {
@@ -463,9 +488,12 @@ s32 AdvanceIwanteHandSidewaysSound(MissionRunMapObject *mapObject) {
 void StartIwanteHandSidewaysStop(MissionRunMapObject *mapObject) {
     GetKart((u16) gRaceSetup->mEntryIndex);
     StartMapObjectState(mapObject, 3, (s32(*)(MissionRunMapObject *)) AdvanceIwanteHandSidewaysStop);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mUnk_148, mapObject->mPrm->mIwante.mUnk_14c);
-    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mIwante.mUnk_150, mapObject->mPrm->mIwante.mUnk_154);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mIwante.mUnk_160, StartIwanteHandMoveToPoints);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mSidewaysStopAnimationEntry,
+                                mapObject->mPrm->mIwante.mSidewaysStopFrameStep);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mIwante.mSidewaysStopSpeedTarget,
+                             mapObject->mPrm->mIwante.mSidewaysStopSpeedPerCall);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mIwante.mSidewaysStopFrameCount,
+                                 StartIwanteHandMoveToPoints);
     StartEffectAtOffset(mapObject, 0x1000, 0, 0x2000, 0x433, 0);
 }
 
@@ -479,10 +507,13 @@ void StartIwanteHandMoveSideways(MissionRunMapObject *mapObject) {
         mapObject->mMoveAngle = mapObject->mAngle - 0x4000;
     }
     StartMapObjectState(mapObject, 3, (s32(*)(MissionRunMapObject *)) AdvanceIwanteHandSidewaysSound);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mUnk_128, mapObject->mPrm->mIwante.mUnk_12c);
-    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mIwante.mUnk_130, mapObject->mPrm->mIwante.mUnk_134);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mMoveSidewaysAnimationEntry,
+                                mapObject->mPrm->mIwante.mMoveSidewaysFrameStep);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mIwante.mMoveSidewaysSpeedTarget,
+                             mapObject->mPrm->mIwante.mMoveSidewaysSpeedPerCall);
     StopMoveAngleTurning(mapObject);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mIwante.mUnk_140, StartIwanteHandSidewaysStop);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mIwante.mMoveSidewaysFrameCount,
+                                 StartIwanteHandSidewaysStop);
     SetKartCollisionCallback(mapObject, IwanteKartHitCallback);
     StartEffectAtOffset(mapObject, 0x1000, 0, 0x2000, 0x433, 0);
 }
@@ -491,8 +522,10 @@ void StartIwanteHandLandBeforeSideways(MissionRunMapObject *mapObject) {
     Vec3 velocity = {0, 0, 0};
 
     StartMapObjectState(mapObject, 3, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mUnk_118, mapObject->mPrm->mIwante.mUnk_11c);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mIwante.mUnk_120, StartIwanteHandMoveSideways);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mLandBeforeSidewaysAnimationEntry,
+                                mapObject->mPrm->mIwante.mLandBeforeSidewaysFrameStep);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mIwante.mLandBeforeSidewaysFrameCount,
+                                 StartIwanteHandMoveSideways);
     StopTurningMoveFollowsAngle(mapObject);
     SetSpeedAndClearTarget(mapObject, 0);
     SetVelocity(mapObject, &velocity);
@@ -507,8 +540,10 @@ void StartIwanteHandLandOnKart(MissionRunMapObject *mapObject) {
     Vec3 velocity = {0, 0, 0};
 
     StartMapObjectState(mapObject, 3, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mUnk_10c, mapObject->mPrm->mIwante.mUnk_110);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mIwante.mUnk_114, StartIwanteHandMoveToPoints);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mLandOnKartAnimationEntry,
+                                mapObject->mPrm->mIwante.mLandOnKartFrameStep);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mIwante.mLandOnKartFrameCount,
+                                 StartIwanteHandMoveToPoints);
     StopTurningMoveFollowsAngle(mapObject);
     SetSpeedAndClearTarget(mapObject, 0);
     SetVelocity(mapObject, &velocity);
@@ -522,12 +557,14 @@ void StartIwanteHandLandOnKart(MissionRunMapObject *mapObject) {
 void StartIwanteHandFallOnKart(MissionRunMapObject *mapObject) {
     Vec3 velocity = {0, 0, 0};
 
-    velocity.y = mapObject->mPrm->mIwante.mUnk_108;
+    velocity.y = mapObject->mPrm->mIwante.mFallOnKartVelocityY;
     StartMapObjectState(mapObject, 3, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mUnk_0f0, mapObject->mPrm->mIwante.mUnk_0f4);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mFallOnKartAnimationEntry,
+                                mapObject->mPrm->mIwante.mFallOnKartFrameStep);
     SetVelocity(mapObject, &velocity);
     StopTurningMoveFollowsAngle(mapObject);
-    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mIwante.mUnk_0f8, mapObject->mPrm->mIwante.mUnk_0fc);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mIwante.mFallOnKartSpeedTarget,
+                             mapObject->mPrm->mIwante.mFallOnKartSpeedPerCall);
     if (GetAbsoluteCounter(
             gRaceSetup->mMode == MODE_MISSION_RUN
                 ? GetMissionRunMapObject(
@@ -552,12 +589,15 @@ void StartIwanteHandMoveToKart(MissionRunMapObject *mapObject) {
 
     IncrementEntryIndex(mapObject);
     StartMapObjectState(mapObject, 3, (s32(*)(MissionRunMapObject *)) AdvanceIwanteHandKartSound);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mUnk_0d0, mapObject->mPrm->mIwante.mUnk_0d4);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mMoveToKartAnimationEntry,
+                                mapObject->mPrm->mIwante.mMoveToKartFrameStep);
     SetVelocity(mapObject, &velocity);
     StopTurningMoveFollowsAngle(mapObject);
-    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mIwante.mUnk_0d8, mapObject->mPrm->mIwante.mUnk_0dc);
-    SetPointInRangeCallback(mapObject, mapObject->mPrm->mIwante.mUnk_0e8, 0, &kart->mPos, StartIwanteHandFallOnKart);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mIwante.mUnk_0ec, StartIwanteHandFallOnKart);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mIwante.mMoveToKartSpeedTarget,
+                             mapObject->mPrm->mIwante.mMoveToKartSpeedPerCall);
+    SetPointInRangeCallback(mapObject, mapObject->mPrm->mIwante.mMoveToKartPointRadius, 0, &kart->mPos,
+                            StartIwanteHandFallOnKart);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mIwante.mFallDelayFrameCount, StartIwanteHandFallOnKart);
     mapObject->mGravityEnabled = FALSE;
 }
 
@@ -565,22 +605,25 @@ void StartIwanteHandTurnToKart(MissionRunMapObject *mapObject) {
     Kart *kart = GetKart((u16) gRaceSetup->mEntryIndex);
     Vec3 velocity = {0, 0, 0};
 
-    velocity.y = mapObject->mPrm->mIwante.mUnk_0a4;
+    velocity.y = mapObject->mPrm->mIwante.mTurnToKartVelocityY;
     StartMapObjectState(mapObject, 3, (s32(*)(MissionRunMapObject *)) AdvanceIwanteHandKartSound);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mUnk_08c, mapObject->mPrm->mIwante.mUnk_090);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mTurnToKartAnimationEntry,
+                                mapObject->mPrm->mIwante.mTurnToKartFrameStep);
     SetVelocity(mapObject, &velocity);
     StopTurningMoveFollowsAngle(mapObject);
     SetAnglePointAndMoveAnglePoint(mapObject, &kart->mPos);
-    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mIwante.mUnk_094, mapObject->mPrm->mIwante.mUnk_098);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mIwante.mUnk_0a8, StartIwanteHandMoveToKart);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mIwante.mTurnToKartSpeedTarget,
+                             mapObject->mPrm->mIwante.mTurnToKartSpeedPerCall);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mIwante.mTurnToKartFrameCount, StartIwanteHandMoveToKart);
 }
 
 void StartIwanteHandLandOnKartAndStop(MissionRunMapObject *mapObject) {
     Vec3 velocity = {0, 0, 0};
 
     StartMapObjectState(mapObject, 3, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mUnk_210, mapObject->mPrm->mIwante.mUnk_214);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mIwante.mUnk_218, NULL);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mLandOnKartAndStopAnimationEntry,
+                                mapObject->mPrm->mIwante.mLandOnKartAndStopFrameStep);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mIwante.mLandOnKartAndStopFrameCount, NULL);
     StopTurningMoveFollowsAngle(mapObject);
     SetSpeedAndClearTarget(mapObject, 0);
     SetVelocity(mapObject, &velocity);
@@ -595,27 +638,31 @@ void StartIwanteHandDirectFallOnKart(MissionRunMapObject *mapObject) {
     Kart *kart = GetKart((u16) gRaceSetup->mEntryIndex);
     Vec3 velocity = {0, 0, 0};
 
-    velocity.y = mapObject->mPrm->mIwante.mUnk_1e4;
+    velocity.y = mapObject->mPrm->mIwante.mDirectFallOnKartVelocityY;
     StartMapObjectState(mapObject, 3, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mUnk_1cc, mapObject->mPrm->mIwante.mUnk_1d0);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mDirectFallOnKartAnimationEntry,
+                                mapObject->mPrm->mIwante.mDirectFallOnKartFrameStep);
     SetVelocity(mapObject, &velocity);
     StopTurningMoveFollowsAngle(mapObject);
     SetAnglePointAndMoveAnglePoint(mapObject, &kart->mPos);
-    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mIwante.mUnk_1d4, mapObject->mPrm->mIwante.mUnk_1d8);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mIwante.mDirectFallOnKartSpeedTarget,
+                             mapObject->mPrm->mIwante.mDirectFallOnKartSpeedPerCall);
     SetCourseCollisionCallback(mapObject, StartIwanteHandLandOnKartAndStop);
     SetKartCollisionCallback(mapObject, IwanteKartResponse11Callback);
 }
 
 void StartIwanteHandHitThirdAnimation(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 7, NULL);
-    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mIwante.mUnk_234, mapObject->mPrm->mIwante.mUnk_238,
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mIwante.mHitThirdAnimationEntry,
+                                  mapObject->mPrm->mIwante.mHitThirdFrameStep,
                                   (UnkFunc *) &StartIwanteHandMoveToPoints);
     SetIwanteWalkBCollision(mapObject);
 }
 
 void StartIwanteHandHitSecondAnimation(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 7, NULL);
-    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mIwante.mUnk_22c, mapObject->mPrm->mIwante.mUnk_230,
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mIwante.mHitSecondAnimationEntry,
+                                  mapObject->mPrm->mIwante.mHitSecondFrameStep,
                                   (UnkFunc *) &StartIwanteHandHitThirdAnimation);
     SetIwanteWalkAHitCollision(mapObject);
 }
@@ -637,8 +684,8 @@ s32 AdvanceIwanteHandHitCollision(MissionRunMapObject *mapObject) {
 
 void StartIwanteHandHitReaction(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 7, &AdvanceIwanteHandHitCollision);
-    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mIwante.mUnk_21c, mapObject->mPrm->mIwante.mUnk_220,
-                                  StartIwanteHandHitSecondAnimation);
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mIwante.mHitReactionAnimationEntry,
+                                  mapObject->mPrm->mIwante.mHitReactionFrameStep, StartIwanteHandHitSecondAnimation);
     StopTurningMoveFollowsAngle(mapObject);
     SetSpeedAndClearTarget(mapObject, 0);
     mapObject->mGravityEnabled = TRUE;
@@ -649,12 +696,14 @@ void StartIwanteHandHitReaction(MissionRunMapObject *mapObject) {
 
 void StartIwanteHandHitHold(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 7, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mUnk_24c, mapObject->mPrm->mIwante.mUnk_250);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mHitHoldAnimationEntry,
+                                mapObject->mPrm->mIwante.mHitHoldFrameStep);
 }
 
 void StartIwanteHandHitReactionHold(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 7, &AdvanceIwanteHandHitCollision);
-    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mIwante.mUnk_23c, mapObject->mPrm->mIwante.mUnk_240,
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mIwante.mHitReactionHoldAnimationEntry,
+                                  mapObject->mPrm->mIwante.mHitReactionHoldFrameStep,
                                   (UnkFunc *) &StartIwanteHandHitHold);
     StopTurningMoveFollowsAngle(mapObject);
     SetSpeedAndClearTarget(mapObject, 0);
@@ -686,20 +735,23 @@ void HideIwanteAtEndReached(MissionRunMapObject *mapObject) {
 
 void StartIwanteHideAtEndReached(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mUnk_070, mapObject->mPrm->mIwante.mUnk_074);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mHideAtEndReachedAnimationEntry,
+                                mapObject->mPrm->mIwante.mHideAtEndReachedFrameStep);
     StartStateFrameCountCallback(mapObject, 0x3c, &HideIwanteAtEndReached);
 }
 
 void StartIwanteKartEliminatedHold(MissionRunMapObject *mapObject) {
     if (mapObject->mUnk_0a8 == IWANTE_HAND_SHAPE_WALK_A) {
         StartMapObjectState(mapObject, 8, NULL);
-        StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mUnk_078, mapObject->mPrm->mIwante.mUnk_07c);
+        StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mKartEliminatedHoldAnimationEntry,
+                                    mapObject->mPrm->mIwante.mKartEliminatedHoldFrameStep);
         StopTurningMoveFollowsAngle(mapObject);
         SetSpeedAndClearTarget(mapObject, 0);
         return;
     }
     StartMapObjectState(mapObject, 3, NULL);
-    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mIwante.mUnk_2b4, mapObject->mPrm->mIwante.mUnk_2b8,
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mIwante.mChangeToWalkAAnimationEntry,
+                                  mapObject->mPrm->mIwante.mChangeToWalkAFrameStep,
                                   (UnkFunc *) &StartIwanteKartEliminatedHold);
     StopTurningMoveFollowsAngle(mapObject);
     SetSpeedAndClearTarget(mapObject, 0);
@@ -798,7 +850,7 @@ s32 AdvanceIwanteHandsStartFromPrm(MissionRunMapObject *mapObject) {
     SetAnglePointAndMoveAnglePoint(mapObject, &GetKart((u16) gRaceSetup->mEntryIndex)->mPos);
     SetIwanteHandsPoints();
     if (IsStateNumberBelow(firstHand, 3) && IsStateNumberBelow(secondHand, 3)) {
-        SetRepeatsRemaining(mapObject, ((u16) mapObject->mPrm->mIwante.mUnk_1ec));
+        SetRepeatsRemaining(mapObject, ((u16) mapObject->mPrm->mIwante.mHandsRepeatCount));
         StartIwanteHandsFallOrMoveToPoints(mapObject);
     }
     return 0;
@@ -852,7 +904,7 @@ void StartIwanteHandsMoveVertical(MissionRunMapObject *mapObject) {
     if (GetRepeatsRemaining(mapObject)) {
         kart = GetKart((u16) gRaceSetup->mEntryIndex);
         StartMapObjectState(mapObject, 3, AdvanceIwanteHandsRepeatVertical);
-        TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mIwante.mUnk_2c4, 0x270f000);
+        TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mIwante.mHandsTurnPerCallTarget, 0x270f000);
         SetAnglePointAndMoveAnglePoint(mapObject, &kart->mPos);
         if (gRaceSetup->mMode == MODE_MISSION_RUN) {
             firstHand = GetMissionRunMapObject(
@@ -974,7 +1026,7 @@ int AdvanceIwanteHandsToggleState(MissionRunMapObject *mapObject) {
         if (IsStateNumberBelow(firstHand, 3)) {
             mapObject->mUnk_0a8 = IWANTE_HAND_FIRST;
             StartMapObjectState(mapObject, 3, AdvanceIwanteHandsApproachUntilIdle);
-            TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mIwante.mUnk_2c4, 0x270f000);
+            TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mIwante.mHandsTurnPerCallTarget, 0x270f000);
             SetAnglePointAndMoveAnglePoint(mapObject, &kart->mPos);
             StartIwanteHandChangeToWalkAWalk(firstHand);
             StartIwanteHandChangeToWalkBWalk(secondHand);
@@ -982,7 +1034,7 @@ int AdvanceIwanteHandsToggleState(MissionRunMapObject *mapObject) {
     } else if (IsStateNumberBelow(secondHand, 3)) {
         mapObject->mUnk_0a8 = IWANTE_HAND_SECOND;
         StartMapObjectState(mapObject, 3, AdvanceIwanteHandsApproachUntilIdle);
-        TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mIwante.mUnk_2c4, 0x270f000);
+        TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mIwante.mHandsTurnPerCallTarget, 0x270f000);
         SetAnglePointAndMoveAnglePoint(mapObject, &kart->mPos);
         StartIwanteHandChangeToWalkBWalk(firstHand);
         StartIwanteHandChangeToWalkAWalk(secondHand);
@@ -1035,9 +1087,9 @@ int AdvanceIwanteHandsApproachKart(MissionRunMapObject *mapObject) {
     }
     SetIwanteHandsApproachPoint();
     SetIwanteHandsPoints();
-    if (IsPointInRange(mapObject, &mapObject->mAnglePoint, 0, mapObject->mPrm->mIwante.mUnk_2bc) &&
-        IsPointInRange(firstHand, &firstHand->mMoveAnglePoint, mapObject->mPrm->mIwante.mUnk_2c0, 0) &&
-        IsPointInRange(secondHand, &secondHand->mMoveAnglePoint, mapObject->mPrm->mIwante.mUnk_2c0, 0)) {
+    if (IsPointInRange(mapObject, &mapObject->mAnglePoint, 0, mapObject->mPrm->mIwante.mApproachKartObjectRadius) &&
+        IsPointInRange(firstHand, &firstHand->mMoveAnglePoint, mapObject->mPrm->mIwante.mApproachKartHandRadius, 0) &&
+        IsPointInRange(secondHand, &secondHand->mMoveAnglePoint, mapObject->mPrm->mIwante.mApproachKartHandRadius, 0)) {
         StartIwanteHandsTurnToKart(mapObject);
     }
     return 0;
@@ -1050,7 +1102,7 @@ void StartIwanteHandsApproachKart(MissionRunMapObject *mapObject) {
 
     kart = GetKart((u16) gRaceSetup->mEntryIndex);
     StartMapObjectState(mapObject, 3, AdvanceIwanteHandsApproachKart);
-    TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mIwante.mUnk_2c4, 0x270f000);
+    TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mIwante.mHandsTurnPerCallTarget, 0x270f000);
     SetAnglePointAndMoveAnglePoint(mapObject, &kart->mPos);
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         firstHand = GetMissionRunMapObject(
@@ -1155,7 +1207,7 @@ void StartIwanteHandsToggleStateHold(MissionRunMapObject *mapObject) {
 }
 
 void StartIwanteHandsFromPrm(MissionRunMapObject *mapObject) {
-    SetRepeatsRemaining(mapObject, ((u16) mapObject->mPrm->mIwante.mUnk_1ec));
+    SetRepeatsRemaining(mapObject, ((u16) mapObject->mPrm->mIwante.mHandsRepeatCount));
     StartIwanteHandsFallOrMoveToPoints(mapObject);
 }
 
@@ -1308,11 +1360,13 @@ void IwanteItemHitCallback(MissionRunMapObject *mapObject, ItemObject *itemObjec
     if (diff > 0x8000) {
         diff -= 0x10000;
     }
-    limit = mapObject->mPrm->mIwante.mUnk_088;
+    limit = mapObject->mPrm->mIwante.mItemHitHalfAngle;
     if (diff <= limit && diff >= -limit && IsStateNumberBelow(mapObject, 7)) {
-        velocity.x = (MUL_FIXED12_NO_ROUND(-mapObject->mPrm->mIwante.mUnk_224, FX_SinIdx((u16) mapObject->mAngle)));
-        velocity.y = mapObject->mPrm->mIwante.mUnk_228;
-        velocity.z = (MUL_FIXED12_NO_ROUND(-mapObject->mPrm->mIwante.mUnk_224, FX_CosIdx((u16) mapObject->mAngle)));
+        velocity.x =
+            (MUL_FIXED12_NO_ROUND(-mapObject->mPrm->mIwante.mItemHitVelocity, FX_SinIdx((u16) mapObject->mAngle)));
+        velocity.y = mapObject->mPrm->mIwante.mItemHitVelocityY;
+        velocity.z =
+            (MUL_FIXED12_NO_ROUND(-mapObject->mPrm->mIwante.mItemHitVelocity, FX_CosIdx((u16) mapObject->mAngle)));
         SetVelocity((gRaceSetup->mMode == MODE_MISSION_RUN
                          ? GetMissionRunMapObject(
                                (u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0))
@@ -1386,7 +1440,7 @@ void InitIwanteObjects(MapObjectList *mapObjectList) {
              objectIndex < mapObjectList->mMapObjectCount && (obj = mapObjectList->mMapObjects[objectIndex]) != NULL;
              objectIndex++) {
             if (GetRaceUseChainCameras()) {
-                obj->mUnk_000.mPos.y += obj->mPrm->mIwante.mUnk_080;
+                obj->mUnk_000.mPos.y += obj->mPrm->mIwante.mChainCameraPosYOffset;
                 StartIwanteChainCameraHold(obj);
             } else {
                 StartIwanteNoChainCameraWait(obj);
