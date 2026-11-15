@@ -43,7 +43,7 @@ void InitPukupuku(Pukupuku *pukupuku, Vec3 *position) {
         pukupuku->mPushedObject.mMapObject.mPos.y +
         MUL_FIXED12_NO_ROUND(pukupuku->mPushedObject.mMapObject.mScale.y, 0xa000);
     pukupuku->mInitialPos = pukupuku->mPushedObject.mMapObject.mPos;
-    pukupuku->mJumpsUntilHighJump = 4;
+    pukupuku->mJumpsUntilHighJump = PUKUPUKU_JUMPS_UNTIL_HIGH_JUMP;
     pukupuku->mPushedObject.mMapObject.mPosStep.x = 0;
     pukupuku->mPushedObject.mMapObject.mPosStep.y = 0;
     pukupuku->mPushedObject.mMapObject.mPosStep.z = 0;

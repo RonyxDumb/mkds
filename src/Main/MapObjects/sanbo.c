@@ -66,9 +66,9 @@ u8 CollideKartWithSanbo(Sanbo *sanbo, Kart *kart, u8 *firstResponse, u8 *respons
             soundStartParams.mFalloffIndex = SOUND_FALLOFF_SHORT_RANGE;
             soundStartParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&sanbo->mMapObject.mPos);
             StartSoundFromParams(&soundStartParams);
-            sanbo->mSoundTimer = 0x14;
+            sanbo->mSoundTimer = SANBO_SOUND_FRAMES;
         }
-        sanbo->mFastWobbleTimer = 0x3c;
+        sanbo->mFastWobbleTimer = SANBO_FAST_WOBBLE_FRAMES;
     }
     return responseValue;
 }
@@ -89,9 +89,9 @@ u8 CollideItemObjectWithSanbo(Sanbo *sanbo, ItemObject *itemObject, u8 *firstRes
             soundStartParams.mFalloffIndex = SOUND_FALLOFF_SHORT_RANGE;
             soundStartParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&sanbo->mMapObject.mPos);
             StartSoundFromParams(&soundStartParams);
-            sanbo->mSoundTimer = 0x14;
+            sanbo->mSoundTimer = SANBO_SOUND_FRAMES;
         }
-        sanbo->mFastWobbleTimer = 0x3c;
+        sanbo->mFastWobbleTimer = SANBO_FAST_WOBBLE_FRAMES;
     }
     return responseValue;
 }
@@ -222,13 +222,13 @@ void InitSanboObjects(MapObjectList *mapObjectList) {
                              (sanbo = mapObjectList->mMapObjects[mapObjectIndex]) != NULL;
          mapObjectIndex++) {
         sanbo->mPathSpeed = TO_FIXED12(sanbo->mMapObject.mCourseMapRow->mSettings[0]) / 100;
-        sanbo->mPieceCount = 4;
+        sanbo->mPieceCount = SANBO_PIECE_COUNT;
         for (pieceIndex = 0; pieceIndex < sanbo->mPieceCount; pieceIndex++) {
             sanbo->mPieces[pieceIndex].mWobbleAngle = 0;
             sanbo->mPieces[pieceIndex].mWobbleMid = 0;
-            sanbo->mPieces[pieceIndex].mWobbleAmplitude = 0x71c;
+            sanbo->mPieces[pieceIndex].mWobbleAmplitude = SANBO_WOBBLE_AMPLITUDE;
             sanbo->mPieces[pieceIndex].mWobbleAmplitudePerFrame = 0;
-            sanbo->mPieces[pieceIndex].mWobbleAnglePerFrame = 0x2d8;
+            sanbo->mPieces[pieceIndex].mWobbleAnglePerFrame = SANBO_WOBBLE_ANGLE_PER_FRAME;
             sanbo->mPieces[pieceIndex].mWobbleAnglePerFrameDelta = 0;
             sanbo->mPieces[pieceIndex].mDrawScale = FIXED12_ONE;
             sanbo->mPieces[pieceIndex].mRotateZAngle = 0;
@@ -283,12 +283,12 @@ void UpdateSanbo(void *mapObjectList, Sanbo *sanbo) {
             }
             for (pieceIndex = 0; pieceIndex < sanbo->mPieceCount; pieceIndex++) {
                 if (sanbo->mFastWobbleTimer > 0) {
-                    sanbo->mPieces[pieceIndex].mWobbleAnglePerFrame = 0xb61;
-                } else if (sanbo->mPieces[pieceIndex].mWobbleAnglePerFrame > 0x38e) {
+                    sanbo->mPieces[pieceIndex].mWobbleAnglePerFrame = SANBO_FAST_WOBBLE_ANGLE_PER_FRAME;
+                } else if (sanbo->mPieces[pieceIndex].mWobbleAnglePerFrame > SANBO_WOBBLE_SOUND_ANGLE_PER_FRAME) {
                     sanbo->mPieces[pieceIndex].mWobbleAnglePerFrame =
                         sanbo->mPieces[pieceIndex].mWobbleAnglePerFrame - 0xb6;
                 } else {
-                    sanbo->mPieces[pieceIndex].mWobbleAnglePerFrame = 0x2d8;
+                    sanbo->mPieces[pieceIndex].mWobbleAnglePerFrame = SANBO_WOBBLE_ANGLE_PER_FRAME;
                 }
                 if (sanbo->mPieces[pieceIndex].mWobbleDelayTimer-- <= 0) {
                     sanbo->mPieces[pieceIndex].mWobbleDelayTimer = 0;
@@ -351,7 +351,7 @@ void UpdateSanbo(void *mapObjectList, Sanbo *sanbo) {
             soundStartParams.mFalloffIndex = SOUND_FALLOFF_SHORT_RANGE;
             soundStartParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&sanbo->mMapObject.mPos);
             StartSoundFromParams(&soundStartParams);
-            sanbo->mSoundTimer = 0x14;
+            sanbo->mSoundTimer = SANBO_SOUND_FRAMES;
             break;
         case SANBO_STATE_SCATTERED:
             for (fallPieceIndex = 0; fallPieceIndex < sanbo->mPieceCount; fallPieceIndex++) {
@@ -397,8 +397,8 @@ void UpdateSanbo(void *mapObjectList, Sanbo *sanbo) {
             }
             sanbo->mPieces[sanbo->mPieceCount - 1].mDrawScale = FIXED12_ONE;
             sanbo->mPieceCount = sanbo->mPieceCount + 1;
-            if (sanbo->mPieceCount > 4) {
-                sanbo->mPieceCount = 4;
+            if (sanbo->mPieceCount > SANBO_PIECE_COUNT) {
+                sanbo->mPieceCount = SANBO_PIECE_COUNT;
                 sanbo->mState = SANBO_STATE_STANDING;
             }
             break;

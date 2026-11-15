@@ -18,6 +18,8 @@ typedef struct PakkunSpit {
 
 #include "Main/Kart/kart_drift.h" // Kart
 
+#define PAKKUN_SPIT_HEIGHT_SPEED 0x5800
+
 #define PAKKUN_SPIT_OBJECT_SOUND_ID 0x1af
 
 MapObjectKindData *CreatePakkunSpitKindData(void);

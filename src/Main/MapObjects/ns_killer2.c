@@ -63,7 +63,7 @@ u8 CollideKartWithNsKiller2(NsKiller2 *nsKiller2, Kart *kart, u8 *flagPtr, u8 *r
     flag = *flagPtr;
     result = *resultPtr;
     if (flag == 1) {
-        nsKiller2->mParkTimer = 0x78;
+        nsKiller2->mParkTimer = NS_KILLER2_PARK_WAIT_FRAMES;
         nsKiller2->mMode = 1;
         nsKiller2->mMapObject.mPosStep.x = ((s64) nsKiller2->mMapObject.mPosStep.x << 10) >> 12;
         nsKiller2->mMapObject.mPosStep.y = ((s64) nsKiller2->mMapObject.mPosStep.y << 10) >> 12;
@@ -120,7 +120,7 @@ void UpdateNsKiller2(void *mapObjectList, NsKiller2 *nsKiller2) {
                                                       GetHorizontalCameraDistanceSquared(&nsKiller2->mMapObject.mPos));
                 }
                 VEC_Add(&nsKiller2->mMapObject.mPos, &nsKiller2->mMapObject.mPosStep, &nsKiller2->mMapObject.mPos);
-                if (nsKiller2->mParkTimer < 0x24e) {
+                if (nsKiller2->mParkTimer < NS_KILLER2_PARK_TIMER_LIMIT) {
                     StartMapObjectSoundWhileRequested(&nsKiller2->mMapObject, 0x17d);
                 }
             } else {
@@ -162,7 +162,7 @@ void StartNsKiller2(Vec3 *startPos, Vec3 *direction, u16 angle) {
     if (nsKiller2 == NULL) {
         return;
     }
-    nsKiller2->mParkTimer = 600;
+    nsKiller2->mParkTimer = NS_KILLER2_PARK_FRAMES;
     nsKiller2->mMapObject.mPos.x = startPos->x;
     nsKiller2->mMapObject.mPos.y = startPos->y + 0x2a000;
     nsKiller2->mMapObject.mPos.z = startPos->z;

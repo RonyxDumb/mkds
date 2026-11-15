@@ -209,7 +209,7 @@ void UpdateSun(MapObjectList *mapObjectList, Sun *sun) {
             break;
         case SUN_STATE_SHOOT_FIREBALLS:
             sun->mDrawOffsetAngle += 0xe39;
-            if (sun->mDrawOffsetRadiusAngle < 0x8000) {
+            if (sun->mDrawOffsetRadiusAngle < ANGLE_HALF_TURN) {
                 sun->mDrawOffsetRadiusAngle += 0x222;
             }
             if (sun->mTimer-- > 0) {

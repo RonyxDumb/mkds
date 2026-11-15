@@ -20,6 +20,8 @@ typedef struct TeresaSpawner {
 
 #include "Main/MapObjects/map_object_park.h"
 
+#define TERESA_NEAR_CHECK_FRAMES 0xf
+
 MapObjectList *CreateTeresaSpawnerUpdateList(void);
 MapObjectKindData *CreateTeresaSpawnerKindData(void);
 void UpdateTeresaSpawner(void *mapObjectList, TeresaSpawner *spawner);

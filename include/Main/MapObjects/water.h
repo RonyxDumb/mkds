@@ -21,6 +21,8 @@ struct MtxFx43;
 #include "Main/MapObjects/code_020d6dc0.h"
 #include "Main/MapObjects/code_020e6b58.h"
 
+#define WATER_HEIGHT_ANGLE_PER_FRAME 0x10000
+
 #define WATER_FALL_SOUND_ID 0x114
 #define WATER_RISE_SOUND_ID 0x113
 

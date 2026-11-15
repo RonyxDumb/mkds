@@ -4,6 +4,14 @@
 #include "Main/MapObjects/attractor.h" // MapObjectKindData
 #include "01/MapObjects/data_0209bc74.h"
 
+#define SANBO_SOUND_FRAMES 0x14
+#define SANBO_FAST_WOBBLE_FRAMES 0x3c
+#define SANBO_PIECE_COUNT 4
+#define SANBO_WOBBLE_AMPLITUDE 0x71c
+#define SANBO_WOBBLE_ANGLE_PER_FRAME 0x2d8
+#define SANBO_FAST_WOBBLE_ANGLE_PER_FRAME 0xb61
+#define SANBO_WOBBLE_SOUND_ANGLE_PER_FRAME 0x38e
+
 #define SANBO_HIT_SOUND_ID 0x193
 #define SANBO_WOBBLE_SOUND_ID 0x194
 

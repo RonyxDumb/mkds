@@ -73,7 +73,7 @@ void UpdatePakkunSpit(void *mapObjectList, PakkunSpit *pakkunSpit) {
             pakkunSpit->mHeightSpeed = pakkunSpit->mHeightSpeed - 0x1000;
             if (pakkunSpit->mHeightOffset <= 0) {
                 pakkunSpit->mHeightOffset = 0;
-                pakkunSpit->mHeightSpeed = 0x5800;
+                pakkunSpit->mHeightSpeed = PAKKUN_SPIT_HEIGHT_SPEED;
                 if ((pakkunSpit->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
                     if (pakkunSpit->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
                         falloffIndex = 2;

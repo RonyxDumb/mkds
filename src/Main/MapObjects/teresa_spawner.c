@@ -154,7 +154,7 @@ void UpdateTeresaSpawner(void *mapObjectList, TeresaSpawner *spawner) {
     timer = spawner->mNearCheckTimer;
     spawner->mNearCheckTimer = timer - 1;
     if (timer <= 0) {
-        spawner->mNearCheckTimer = 0xf;
+        spawner->mNearCheckTimer = TERESA_NEAR_CHECK_FRAMES;
         radius = spawner->mMapObject.mCourseMapRow->mSettings[0];
         kart = GetKart((u16) gRaceSetup->mEntryIndex);
         radiusFixed = TO_FIXED12(radius);

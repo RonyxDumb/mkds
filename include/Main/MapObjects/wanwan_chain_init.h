@@ -2,6 +2,8 @@
 
 #include "types.h"
 
+#define WANWAN_CHAIN_DAMPING 0x51
+
 // Values of WanwanChain.mDownwardStep: the initial one, and the one the lunge and hit states set.
 #define WANWAN_CHAIN_DOWNWARD_STEP_INITIAL 0x599
 #define WANWAN_CHAIN_DOWNWARD_STEP_HIT 0x219

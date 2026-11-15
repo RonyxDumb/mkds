@@ -60,6 +60,12 @@ typedef struct Shine16 {
 #include "Main/MapObjects/balloon.h" // Balloon
 #include "01/MapObjects/data_0209bc74.h"
 
+#define SHINE16_PICKUP_FRAMES 0x19
+#define SHINE16_EFFECT_FRAMES 0xe
+#define SHINE16_NSBTP_FRAME_STEP_LIMIT 3
+#define SHINE16_NSBTP_MIRROR_FRAMES 8
+#define SHINE16_TARGET_DISTANCE_SQUARED 0x9c400
+
 #define SHINE16_HEIGHT_RANGE_MAX 0x190000
 
 // KartBalloons.mState values: IDLE waits for the inflate input, AUTO_INFLATE makes the balloons given at the start,

@@ -75,7 +75,7 @@ void StartPakkunSpit(GroupFollower *groupFollower, s32 heightOffset) {
     pakkunSpit->mFollower.mGroupIndex = groupFollower->mGroupIndex;
     pakkunSpit->mFollower.mPath = groupFollower->mPath;
     SetupGroupFollowerAtEntry(&pakkunSpit->mFollower, 0, 1);
-    pakkunSpit->mFollower.mSpeed = 0x7800;
+    pakkunSpit->mFollower.mSpeed = PAKKUN_PATH_SPEED;
     pakkunSpit->mFollower.mProgressStep = MUL_FIXED12_NO_ROUND(
         pakkunSpit->mFollower.mPath->mSegments[pakkunSpit->mFollower.mSegmentIndex].mInverseProgressLength, 0x7800);
     pakkunSpit->mHeightOffset = heightOffset;
@@ -99,7 +99,7 @@ void InitPakkun(Pakkun *pakkun) {
     pakkun->mBodyStretchSpeed = 0;
     pakkun->mHeadScale = FIXED12_ONE;
     pakkun->mHeadScaleSpeed = 0;
-    pakkun->mHeadHeight = 0x46000;
+    pakkun->mHeadHeight = PAKKUN_HEAD_HEIGHT;
     for (followerIndex = 0; followerIndex < 7; followerIndex++) {
         pakkun->mFollowers[followerIndex].mGroupIndex = GROUP_FOLLOWER_NO_GROUP;
     }
@@ -321,18 +321,18 @@ void UpdatePakkun(void *mapObjectList, Pakkun *pakkun) {
             }
             break;
         case PAKKUN_STATE_WAIT_BODY_SETTLE:
-            if (pakkun->mBodyStretchSpeed >= -4 && pakkun->mBodyStretchSpeed <= 4) {
-                pakkun->mTimer = 0x1e;
+            if (pakkun->mBodyStretchSpeed >= -4 && pakkun->mBodyStretchSpeed <= PAKKUN_BODY_STRETCH_SPEED_LIMIT) {
+                pakkun->mTimer = PAKKUN_WAIT_FRAMES;
                 pakkun->mState = PAKKUN_STATE_LEAN_BACK;
             }
             break;
         case PAKKUN_STATE_LEAN_BACK:
             if (pakkun->mTimer-- <= 0) {
                 pakkun->mTimer = 0;
-                if (pakkun->mBodyStretch >= 0xffc) {
+                if (pakkun->mBodyStretch >= PAKKUN_BODY_STRETCH_SETTLE) {
                     pakkun->mBodyStretch = FIXED12_ONE;
                     pakkun->mBodyStretchActive = FALSE;
-                    pakkun->mHeadScaleSpeed = 0x7b;
+                    pakkun->mHeadScaleSpeed = PAKKUN_HEAD_SCALE_SPEED_START;
                     pakkun->mState = PAKKUN_STATE_GROW_HEAD;
                 }
             } else {
@@ -343,7 +343,7 @@ void UpdatePakkun(void *mapObjectList, Pakkun *pakkun) {
             pakkun->mHeadScale = pakkun->mHeadScale + pakkun->mHeadScaleSpeed;
             pakkun->mHeadScaleSpeed = pakkun->mHeadScaleSpeed - 8;
             if (pakkun->mHeadScaleSpeed <= 0) {
-                if (pakkun->mHeadScale <= 0x119a) {
+                if (pakkun->mHeadScale <= PAKKUN_HEAD_SCALE_SPIT_LIMIT) {
                     pakkun->mState = PAKKUN_STATE_SPIT;
                 }
             }
@@ -361,7 +361,7 @@ void UpdatePakkun(void *mapObjectList, Pakkun *pakkun) {
             }
             if (FROM_FIXED12(pakkun->mMouthFrame) == 10) {
                 StartPakkunSpit(&pakkun->mFollowers[pakkun->mFollowerIndex],
-                                pakkun->mHeightAboveFollowerPath + 0x46000);
+                                pakkun->mHeightAboveFollowerPath + PAKKUN_HEAD_HEIGHT);
                 if ((pakkun->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
                     if (pakkun->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
                         falloffIndex = 2;
@@ -377,7 +377,7 @@ void UpdatePakkun(void *mapObjectList, Pakkun *pakkun) {
                     StartSoundFromParams(&soundParams);
                 }
             } else if (pakkun->mMouthFrame == 0) {
-                pakkun->mTimer = 0x1e;
+                pakkun->mTimer = PAKKUN_WAIT_FRAMES;
                 pakkun->mState = PAKKUN_STATE_LEAN_FORWARD;
             }
             break;

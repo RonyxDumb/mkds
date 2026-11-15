@@ -1,3 +1,4 @@
+#include "Main/MapObjects/ns_killer1.h"
 #include "Main/MapObjects/ns_killer2.h"
 #include "ITCM/code_01ff8000.h"
 #include "ITCM/code_01ff9000.h"
@@ -95,7 +96,7 @@ void UpdateNsKiller1(void *mapObjectList, NsKiller1 *nsKiller1) {
             if (nsKiller1->mStateTimer-- > 0) {
                 return;
             }
-            nsKiller1->mFollower.mSpeed = 0x2000;
+            nsKiller1->mFollower.mSpeed = NS_KILLER1_SPEED;
             nsKiller1->mFollower.mProgressStep =
                 ((s64) nsKiller1->mFollower.mPath->mSegments[nsKiller1->mFollower.mSegmentIndex].mInverseProgressLength
                  << 13) >>
@@ -104,13 +105,13 @@ void UpdateNsKiller1(void *mapObjectList, NsKiller1 *nsKiller1) {
             break;
         case NS_KILLER1_STATE_FOLLOW_PATH:
             if (AdvanceGroupFollower(&nsKiller1->mFollower) != FALSE) {
-                nsKiller1->mStateTimer = 0x2d;
+                nsKiller1->mStateTimer = NS_KILLER1_STATE_FRAMES;
                 nsKiller1->mState = NS_KILLER1_STATE_PAUSE;
             }
             GetGroupFollowerLinearXz(&nsKiller1->mFollower, &nsKiller1->mMapObject.mPos);
             break;
         case NS_KILLER1_STATE_PAUSE:
-            if (nsKiller1->mStateTimer == 0x2d) {
+            if (nsKiller1->mStateTimer == NS_KILLER1_STATE_FRAMES) {
                 if ((nsKiller1->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
                     NNS_SndPlayerStopSeq(GetSndHandleSlot(8), 0);
                     soundParams = gNsKiller1SoundStartParams;
@@ -132,7 +133,7 @@ void UpdateNsKiller1(void *mapObjectList, NsKiller1 *nsKiller1) {
                 StartEffect(0x4c, &nsKiller1->mMapObject.mPos);
                 StartEffect(0x4d, &nsKiller1->mMapObject.mPos);
             }
-            nsKiller1->mStateTimer = 0x4b;
+            nsKiller1->mStateTimer = NS_KILLER1_LONG_STATE_FRAMES;
             nsKiller1->mState = NS_KILLER1_STATE_WAIT;
             break;
     }

@@ -9,6 +9,8 @@
 #include "Main/Graphics/nsbmd_render_obj.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 
+#define WANWAN_PROBE_OFFSET_Y 0xf000
+
 typedef struct CourseMapRow CourseMapRow;
 
 extern SoundStartParams gWanwanTouchGroundSoundParams;
