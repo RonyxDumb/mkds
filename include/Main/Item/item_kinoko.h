@@ -17,7 +17,7 @@ typedef struct ItemKinoko ItemKinoko;
 
 // ItemKouraR.mStateMachine states, in the order of gItemKouraRStateTable.
 typedef enum ItemKouraRState {
-    ITEM_KOURA_R_STATE_STRAIGHT_FLAGGED = 0, // moves straight; set when the object has flag 0x8000000
+    ITEM_KOURA_R_STATE_STRAIGHT_FLAGGED = 0, // moves straight; set when the object has ITEM_OBJECT_FLAG_WIFI_RACE
     ITEM_KOURA_R_STATE_STRAIGHT = 1, // moves straight; set after a bounce off a wall
     ITEM_KOURA_R_STATE_SEEK_AFTER_THROW = 2, // moves straight until a kart is in reach
     ITEM_KOURA_R_STATE_FOLLOW_LINK = 3, // follows the link of the item list toward the kart ahead
@@ -25,6 +25,21 @@ typedef enum ItemKouraRState {
     ITEM_KOURA_R_STATE_CLOSE_IN = 5, // steers fast toward the kart and fades out on reaching it
     ITEM_KOURA_R_STATE_GLIDE_TO_KART_VELOCITY = 6, // moves with the velocity added toward the kart
 } ItemKouraRState;
+
+// Frames after the throw before a red shell in the seek state takes the nearest kart as its target.
+#define ITEM_KOURA_R_NEAREST_TARGET_FRAMES 4
+// Frames after the throw before it takes the target the thrower's kart items give.
+#define ITEM_KOURA_R_KART_ITEMS_TARGET_FRAMES 0x10
+// Frames of the seek state after which the shell flies straight (30 seconds).
+#define ITEM_KOURA_R_SEEK_LIMIT_FRAMES 0x708
+// Frames of the close-in state in which the shell hits the kart once it is within one and a half radii.
+#define ITEM_KOURA_R_CLOSE_IN_HIT_FRAMES 0x14
+// An object that is not held plays the target kart sound only while its age is below this (2 seconds).
+#define ITEM_KOURA_R_TARGET_SOUND_AGE_FRAMES 0x78
+// Frames in a Wi-Fi race that the shell may stay within the kart's radius before it fades out.
+#define ITEM_KOURA_R_NEAR_KART_LIMIT_FRAMES 0x5a
+// Age (10 seconds) at which a green shell is used up.
+#define ITEM_KOURA_G_LIFETIME_FRAMES 0x258
 
 // Koura: a shell. Object of the red shell (item kind 1), element of gItemPools[1].
 typedef struct ItemKouraR {

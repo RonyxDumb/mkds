@@ -141,7 +141,7 @@ BOOL InitItemKouraG(ItemInUse *itemInUse, ItemKouraG *koura) {
 }
 
 void AdvanceItemKouraG(ItemKouraG *koura) {
-    if (koura->mDirectedItemObject.mItemObject.mAgeFrames > 0x258) {
+    if (koura->mDirectedItemObject.mItemObject.mAgeFrames > ITEM_KOURA_G_LIFETIME_FRAMES) {
         koura->mDirectedItemObject.mHitsRemaining = 0;
     }
     AdvanceItemObjectMotion(&koura->mDirectedItemObject, 0x84cd);

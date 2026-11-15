@@ -252,7 +252,7 @@ void UpdateItemKouraRSeekAfterThrow(void *stateObject) {
     if (kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_FADE_OUT_STARTED) {
         return;
     }
-    if (kouraR->mStateMachine.mStateFrames > 0x10) {
+    if (kouraR->mStateMachine.mStateFrames > ITEM_KOURA_R_KART_ITEMS_TARGET_FRAMES) {
         if (TrySetItemKouraRKartItemsByFrame(kouraR, 0) == 0) {
             return;
         }
@@ -265,7 +265,7 @@ void UpdateItemKouraRSeekAfterThrow(void *stateObject) {
                                  kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mId);
         return;
     }
-    if (kouraR->mStateMachine.mStateFrames > 4) {
+    if (kouraR->mStateMachine.mStateFrames > ITEM_KOURA_R_NEAREST_TARGET_FRAMES) {
         if (TrySetItemKouraRNearestKartItems(kouraR, 0) == FALSE) {
             return;
         }
@@ -317,13 +317,13 @@ void UpdateItemKouraRFollowLink(void *stateObject) {
     if (kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_FADE_OUT_STARTED) {
         return;
     }
-    if (kouraR->mStateMachine.mStateFrames > 0x708) {
+    if (kouraR->mStateMachine.mStateFrames > ITEM_KOURA_R_SEEK_LIMIT_FRAMES) {
         SetItemObjectDirectionFromVelocity(kouraR);
         kouraR->mStateMachine.mNextState = ITEM_KOURA_R_STATE_STRAIGHT;
         kouraR->mStateMachine.mNextStateRequested = 1;
         return;
     }
-    if (kouraR->mStateMachine.mStateFrames > 0x10) {
+    if (kouraR->mStateMachine.mStateFrames > ITEM_KOURA_R_KART_ITEMS_TARGET_FRAMES) {
         if (TrySetItemKouraRKartItemsByFrame(kouraR, 1) == 0) {
             return;
         }
@@ -336,7 +336,7 @@ void UpdateItemKouraRFollowLink(void *stateObject) {
                                  kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mId);
         return;
     }
-    if (kouraR->mStateMachine.mStateFrames > 4) {
+    if (kouraR->mStateMachine.mStateFrames > ITEM_KOURA_R_NEAREST_TARGET_FRAMES) {
         if (TrySetItemKouraRNearestKartItems(kouraR, 1) == FALSE) {
             return;
         }
@@ -431,7 +431,7 @@ void UpdateItemKouraRCloseIn(void *stateObject) {
                             ~0xc000001f,
                         StartItemKouraRSound, kouraR, 0);
     }
-    if (kouraR->mStateMachine.mStateFrames <= 0x14) {
+    if (kouraR->mStateMachine.mStateFrames <= ITEM_KOURA_R_CLOSE_IN_HIT_FRAMES) {
         hitRadius =
             kart->mRadius + ((kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mRadius * 3) >> 1);
         deltaZ = kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos.z - kart->mPointAlongUp.z;
@@ -490,7 +490,7 @@ void StartTargetKartSoundOnOwnItemHit(void *kouraParam, s32 hitType, ItemObject 
         if ((other->mOwnerKartIndexAndFlags & ITEM_OWNER_KOURA_R_TARGETED) == 0) {
             return;
         }
-        if (other->mAgeFrames >= 0x78) {
+        if (other->mAgeFrames >= ITEM_KOURA_R_TARGET_SOUND_AGE_FRAMES) {
             return;
         }
     }
