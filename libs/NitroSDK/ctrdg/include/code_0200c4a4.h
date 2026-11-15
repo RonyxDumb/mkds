@@ -60,8 +60,8 @@ typedef struct CTRDGModuleInfo {
 
 // The id halfword of the record while no cartridge id has been read, and the selector byte value that makes the
 // header halfword the one to compare.
-#define CTRDG_NO_ID_HALFWORD 0xffff
-#define CTRDG_ID_SELECTOR_HEADER_HALFWORD 0x96
+#define CARTRIDGE_NO_ID_HALFWORD 0xffff
+#define CARTRIDGE_ID_SELECTOR_HEADER_HALFWORD 0x96
 
 // Fixed-address object read by CTRDG_IsExisting.
 typedef struct CTRDGHeader {
