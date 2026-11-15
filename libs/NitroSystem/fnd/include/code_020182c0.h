@@ -14,6 +14,9 @@ typedef struct NNSiFndArchiveHeader {
     /* 0e */ u16 mDataBlocks;
 } NNSiFndArchiveHeader;
 
+// Bytes at the start of each block of the archive: its kind word and its size.
+#define ARCHIVE_BLOCK_HEADER_SIZE 8
+
 // FSArchive followed by the three words ArchiveLoadFromMemory sets.
 typedef struct NNSFndArchive {
     /* 00 */ FSArchive mFsArchive;

@@ -46,13 +46,14 @@ u32 ArchiveLoadFromMemory(NNSFndArchive *archive, const u8 *name, NNSiFndArchive
     FS_InitArchive(&archive->mFsArchive);
     archive->mArcBinary = header;
     archive->mFatData = fatBlock;
-    imageBlock = (u8 *) imageBlock + 8;
+    imageBlock = (u8 *) imageBlock + ARCHIVE_BLOCK_HEADER_SIZE;
     archive->mFileImage = imageBlock;
     if (FS_RegisterArchiveName(&archive->mFsArchive, name, strlen((const char *) name)) == 0) {
         return 0;
     }
     if (FS_LoadArchive(&archive->mFsArchive, imageBlock, fatBlock + 0xc - imageBlock, *(u32 *) (fatBlock + 4) - 0xc,
-                       fntBlock + 8 - imageBlock, *(u32 *) (fntBlock + 4) - 8, 0, 0) != 0) {
+                       fntBlock + ARCHIVE_BLOCK_HEADER_SIZE - imageBlock,
+                       *(u32 *) (fntBlock + 4) - ARCHIVE_BLOCK_HEADER_SIZE, 0, 0) != 0) {
         return 1;
     }
     FS_ReleaseArchiveName(&archive->mFsArchive);
