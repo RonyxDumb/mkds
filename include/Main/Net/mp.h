@@ -17,5 +17,5 @@ u32 AdvanceMainAndMenuDLArchives(void);
 s32 AdvanceChildArchiveSync(s32 archiveKind, void *courseId, void *mode);
 s32 AdvanceParentSync(void);
 s32 IsAllMPChildSharedDataCopied(void);
-void StoreReceivedPlayerNameByState(const void *data, s32 aid, s32 playerIndex, s32 keepMask);
+void StoreReceivedPlayerNameByState(const void *data, u8 aid, s32 playerIndex, s32 keepMask);
 void InitMPChunkBuffers(void *heap);

@@ -70,7 +70,7 @@ static inline s32 MPStatesIsConnectionActiveNotEndingWithError(void) {
     return result;
 }
 
-void StoreReceivedPlayerNameByState(const void *data, s32 aid, s32 playerIndex, s32 keepMask) {
+void StoreReceivedPlayerNameByState(const void *data, u8 aid, s32 playerIndex, s32 keepMask) {
     s32 state;
     s32 playerBit;
 
