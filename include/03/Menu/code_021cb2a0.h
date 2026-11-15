@@ -19,12 +19,12 @@ void LoadWayFilesAndSetBgCnt(void);
 void SetupWay(void);
 
 // File name of the way screen palette.
-typedef struct YbBgStep21NclName {
+typedef struct WayPaletteFileName {
     /* 00 */ u8 mText[0x16];
-} YbBgStep21NclName;
+} WayPaletteFileName;
 
 extern const Rect gWayRects[2][4];
-extern YbBgStep21NclName gYbBgStep21NclName2;
+extern WayPaletteFileName gYbBgStep21NclName2;
 extern WayPaletteRows gWayPaletteRows;
 extern const s8 gWayMoveTargets[2][4][4];
 extern const s8 gWayMessageDigitColumns[6];

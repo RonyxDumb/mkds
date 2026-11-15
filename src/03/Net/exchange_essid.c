@@ -371,7 +371,7 @@ const u32 gReversedTableByte2[256] = {
 u32 gThreadStackSize = 0x800;
 s32 gStartEntryCount = 0x40;
 s32 gTimeoutAtMs = -1;
-Kind2Item3 gKind2Item3Bytes = {{6, 0, 1, 2, 3, 4, 5}};
+ExchangeIndexBytes gKind2Item3Bytes = {{6, 0, 1, 2, 3, 4, 5}};
 char gSixAsterisksString[7] = "******";
 u8 gHashPadding[64] = {0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                        0,    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -1409,7 +1409,7 @@ s32 BuildSingleItemBody(u8 *out, u32 type, const void *value, u32 length) {
 
 typedef struct Kind2Values {
     /* 0 */ u16 mHalfword;
-    /* 2 */ Kind2Item3 mSevenBytes;
+    /* 2 */ ExchangeIndexBytes mSevenBytes;
 } Kind2Values;
 
 BOOL ParseAndCheckExchangePacketKind1(const u8 *packet, u32 *item5Flag) {

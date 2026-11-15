@@ -20,10 +20,10 @@ typedef struct HashContext {
     /* 18 */ u8 mBuffer[0x40];
 } HashContext;
 
-// Value of item 3 of the kind 2 packet.
-typedef struct Kind2Item3 {
+// Value of the third item of the kind 2 packet.
+typedef struct ExchangeIndexBytes {
     /* 0 */ u8 mBytes[7];
-} Kind2Item3;
+} ExchangeIndexBytes;
 
 // The eight bytes the peer sends for the second key.
 typedef struct SecondKeyPart {
@@ -151,7 +151,7 @@ extern u32 gThreadStackSize;
 extern s32 gTimeoutAtMs;
 extern s32 gStartEntryCount;
 extern char gSixAsterisksString[7];
-extern Kind2Item3 gKind2Item3Bytes;
+extern ExchangeIndexBytes gKind2Item3Bytes;
 extern u8 gHashPadding[64];
 extern u8 gPacketBuffer[0x800];
 extern u8 gBodyBuffer[0x800];
