@@ -12,7 +12,7 @@ u16 NNSi_G2dSplitCharUTF16(u16 **stringPtr) {
 }
 
 static inline s32 NNSi_G2dIsBinFileSignatureValid(NNSG2dBinaryFileHeader *file) {
-    if (file != 0 && file->mSignature == 0x4e465452) {
+    if (file != 0 && file->mSignature == G2D_FONT_SIGNATURE) {
         return 1;
     }
     return 0;

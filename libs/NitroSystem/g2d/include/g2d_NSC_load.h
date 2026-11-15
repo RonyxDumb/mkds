@@ -2,6 +2,9 @@
 
 #include "types.h"
 
+// Value of NNSG2dBinaryFileHeader.mSignature of a font file.
+#define G2D_FONT_SIGNATURE 0x4e465452
+
 // Header: a tag word at 0, a halfword at 4 and one at 6 (NNSi_G2dGetUnpackedFont compares it), a halfword at 0x0c
 // (offset of the first part) and a halfword at 0x0e (number of parts). Each part starts with a tag word and its
 // size.
