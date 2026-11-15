@@ -1699,27 +1699,27 @@ s32 FillExchangeResultFromItems(void) {
                     case 0:
                         break;
                     case 5:
-                        gExchangeResult.mKind = EXCHANGE_RESULT_KIND_VALUES_5;
+                        gExchangeResult.mKind = EXCHANGE_RESULT_KIND_WEP_KEY_5_BYTES;
                         *(WepKey5 *) resultBytes = *(WepKey5 *) valueText;
                         break;
                     case 10:
-                        gExchangeResult.mKind = EXCHANGE_RESULT_KIND_VALUES_5;
+                        gExchangeResult.mKind = EXCHANGE_RESULT_KIND_WEP_KEY_5_BYTES;
                         ParseHexText(resultBytes, (s8 *) valueText, 10);
                         break;
                     case 13:
-                        gExchangeResult.mKind = EXCHANGE_RESULT_KIND_VALUES_13;
+                        gExchangeResult.mKind = EXCHANGE_RESULT_KIND_WEP_KEY_13_BYTES;
                         *(WepKey13 *) resultBytes = *(WepKey13 *) valueText;
                         break;
                     case 26:
-                        gExchangeResult.mKind = EXCHANGE_RESULT_KIND_VALUES_13;
+                        gExchangeResult.mKind = EXCHANGE_RESULT_KIND_WEP_KEY_13_BYTES;
                         ParseHexText(resultBytes, (s8 *) valueText, 26);
                         break;
                     case 16:
-                        gExchangeResult.mKind = EXCHANGE_RESULT_KIND_VALUES_16;
+                        gExchangeResult.mKind = EXCHANGE_RESULT_KIND_WEP_KEY_16_BYTES;
                         *(WepKey16 *) resultBytes = *(WepKey16 *) valueText;
                         break;
                     case 32:
-                        gExchangeResult.mKind = EXCHANGE_RESULT_KIND_VALUES_16;
+                        gExchangeResult.mKind = EXCHANGE_RESULT_KIND_WEP_KEY_16_BYTES;
                         ParseHexText(resultBytes, (s8 *) valueText, 32);
                         break;
                     default:

@@ -44,7 +44,7 @@ u32 GetExchangeOutcome(void) {
                 OS_Terminate();
             }
             if (exchangeResult.mKind >= EXCHANGE_RESULT_KIND_NONE &&
-                exchangeResult.mKind <= EXCHANGE_RESULT_KIND_VALUES_16 && exchangeResult.mItem205Value == 1) {
+                exchangeResult.mKind <= EXCHANGE_RESULT_KIND_WEP_KEY_16_BYTES && exchangeResult.mItem205Value == 1) {
                 return 3;
             }
             return 5;

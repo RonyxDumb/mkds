@@ -17,13 +17,13 @@ typedef struct Words16 {
     /* 0 */ u32 mWords[16];
 } Words16;
 
-// Values of ExchangeResult.mKind: which value set FillExchangeResultFromItems stored; the three VALUES ones hold
-// texts of 5, 13 or 16 characters (or their hex forms of 10, 26 or 32).
+// Values of ExchangeResult.mKind: which value set FillExchangeResultFromItems stored; the three WEP_KEY ones hold
+// keys of 5, 13 or 16 bytes (given as text of that many characters or twice as many hex digits).
 enum {
     EXCHANGE_RESULT_KIND_NONE,
-    EXCHANGE_RESULT_KIND_VALUES_5,
-    EXCHANGE_RESULT_KIND_VALUES_13,
-    EXCHANGE_RESULT_KIND_VALUES_16,
+    EXCHANGE_RESULT_KIND_WEP_KEY_5_BYTES,
+    EXCHANGE_RESULT_KIND_WEP_KEY_13_BYTES,
+    EXCHANGE_RESULT_KIND_WEP_KEY_16_BYTES,
     EXCHANGE_RESULT_KIND_WORDS_A,
     EXCHANGE_RESULT_KIND_WORDS_B,
 };
