@@ -393,7 +393,8 @@ s32 NNS_G3dResDefaultSetup(NNSG3dResFileHeader *file) {
                     tex4x4Key = 0;
                 }
                 if (plttKey != 0) {
-                    plttKey = NNS_GfdDefaultFuncAllocPlttVram(plttKey, tex->mTex4x4Info.mFlag & 0x8000, 0);
+                    plttKey = NNS_GfdDefaultFuncAllocPlttVram(plttKey,
+                                                              tex->mTex4x4Info.mFlag & G3D_TEX_4X4_FLAG_PLTT_4COLOR, 0);
                     if (plttKey == 0) {
                         plttOk = 0;
                     }
