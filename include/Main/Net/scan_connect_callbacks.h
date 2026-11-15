@@ -11,6 +11,6 @@
 
 void QueueStateMessage(void);
 void ReceivePortMessage(WirelessMessage *info);
-void MPLinkCallback(s32 eventKind, WirelessMessage *info);
+void MPLinkCallback(s32 eventKind, void *eventInfo);
 u32 StartConnectToEntry(u32 entryIndex);
 void ScanConnectEndScanCallback(WirelessMessage *info);

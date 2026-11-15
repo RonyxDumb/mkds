@@ -37,7 +37,8 @@ u32 StartConnectToEntry(u32 entryIndex) {
     return 1;
 }
 
-void MPLinkCallback(s32 eventKind, WirelessMessage *info) {
+void MPLinkCallback(s32 eventKind, void *eventInfo) {
+    WirelessMessage *info = eventInfo;
     u16 resultCode;
     u16 commandCode;
     u16 code;

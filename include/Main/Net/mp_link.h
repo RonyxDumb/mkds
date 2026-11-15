@@ -92,9 +92,8 @@ typedef enum ScanError {
     SCAN_ERROR_NO_CHANNEL = 30,
 } ScanError;
 
-// The second argument is the wireless message or a pointer to an error value, depending on the event, so the type is
-// left unprototyped.
-typedef void (*MPLinkEventCallback)();
+// Called with the event kind and what goes with it: the wireless message, or a command and result code pair.
+typedef void (*MPLinkEventCallback)(s32 eventKind, void *info);
 
 typedef struct MPLink {
     /* 00 */ MPLinkEventCallback mCallback;
