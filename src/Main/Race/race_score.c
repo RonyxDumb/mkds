@@ -231,8 +231,8 @@ static inline void RaceProgressComputeTimeFromFrames(MinuteSecondMillisecondTime
 
 static inline void RaceProgressInitRandomState(RandomState64 *randomState64, u32 seed) {
     randomState64->mValue = seed;
-    randomState64->mMultiplier = 0x5d588b656c078965;
-    randomState64->mIncrement = 0x269ec3;
+    randomState64->mMultiplier = RANDOM_STATE64_MULTIPLIER;
+    randomState64->mIncrement = RANDOM_STATE64_INCREMENT;
 }
 
 static inline s32 Fixed12AddOneThenDivideByIntOrZero(s32 value, s32 divisor) {

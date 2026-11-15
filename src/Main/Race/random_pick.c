@@ -36,8 +36,8 @@ void PickRandomKarts(CharacterKartPicks *picks) {
         firstTick = OS_GetTick();
         secondTick = OS_GetTick();
         localRandom.mValue = ((u32) firstTick << 24) + (u32) (secondTick >> 8);
-        localRandom.mMultiplier = 0x5d588b656c078965;
-        localRandom.mIncrement = 0x269ec3;
+        localRandom.mMultiplier = RANDOM_STATE64_MULTIPLIER;
+        localRandom.mIncrement = RANDOM_STATE64_INCREMENT;
         random = &localRandom;
     }
     for (entry = 0; entry < 8; entry++) {
@@ -130,8 +130,8 @@ void PickRandomCharacters(CharacterKartPicks *picks) {
         firstTick = OS_GetTick();
         secondTick = OS_GetTick();
         localRandom.mValue = ((u32) firstTick << 24) + (u32) (secondTick >> 8);
-        localRandom.mMultiplier = 0x5d588b656c078965;
-        localRandom.mIncrement = 0x269ec3;
+        localRandom.mMultiplier = RANDOM_STATE64_MULTIPLIER;
+        localRandom.mIncrement = RANDOM_STATE64_INCREMENT;
         random = &localRandom;
     }
     for (character = 0; character < 0xd; character++) {

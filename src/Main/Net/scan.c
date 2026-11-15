@@ -408,8 +408,8 @@ void StartConnectCallback(WirelessMessage *event) {
                     }
                     randomState = &gConnectionWork->mRandomState;
                     randomState->mValue = (u32) (seed * 3 | seed << 16);
-                    randomState->mMultiplier = 0x5d588b656c078965;
-                    randomState->mIncrement = 0x269ec3;
+                    randomState->mMultiplier = RANDOM_STATE64_MULTIPLIER;
+                    randomState->mIncrement = RANDOM_STATE64_INCREMENT;
                     if (gConnectionWork->mConnectedCallback != 0) {
                         gConnectionWork->mConnectedCallback();
                     }

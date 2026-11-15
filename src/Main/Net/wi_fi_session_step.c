@@ -322,8 +322,8 @@ void AdvanceWiFiSessionStep1(void) {
     }
     generator = &session->mRandom;
     generator->mValue = seedSum;
-    generator->mMultiplier = 0x5d588b656c078965;
-    generator->mIncrement = 0x269ec3;
+    generator->mMultiplier = RANDOM_STATE64_MULTIPLIER;
+    generator->mIncrement = RANDOM_STATE64_INCREMENT;
     StartCopyOtherEmblems(0);
     gWiFiSession->mSendRecordMask = 0;
     gWiFiSession->mReceivedMask = 0;

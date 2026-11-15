@@ -114,8 +114,8 @@ void SetNextDemoRace(CharacterKartPicks *picks) {
         time.mSecond = 0;
     }
     random.mValue = (u32) ((time.mHour * 60 + time.mMinute) * 60 + time.mSecond + OS_GetTick());
-    random.mMultiplier = 0x5d588b656c078965ULL;
-    random.mIncrement = 0x269ec3;
+    random.mMultiplier = RANDOM_STATE64_MULTIPLIER;
+    random.mIncrement = RANDOM_STATE64_INCREMENT;
     gRaceSetup->mNextHeader.mMode = MODE_GRAND_PRIX;
     gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_DEMO;
     gRaceSetup->mNextHeader.mEngineIndex = ENGINE_CLASS_FAST;

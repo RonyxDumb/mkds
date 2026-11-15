@@ -625,8 +625,8 @@ void StartParentCallback(WirelessMessage *event) {
                 }
                 randomState = &gConnectionWork->mRandomState;
                 randomState->mValue = (u32) (seed * 3 | seed << 16);
-                randomState->mMultiplier = 0x5d588b656c078965ull;
-                randomState->mIncrement = 0x269ec3;
+                randomState->mMultiplier = RANDOM_STATE64_MULTIPLIER;
+                randomState->mIncrement = RANDOM_STATE64_INCREMENT;
                 gConnectionWork->mRequestPending = 0;
                 break;
             case WIRELESS_STATE_UNLINKED:

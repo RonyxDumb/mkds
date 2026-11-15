@@ -316,8 +316,8 @@ void InitWiFiVSCourseSelect(void *parentHeap, void *mainOam, void *subOam) {
     seed = (tick << 16) + (u32) OS_GetTick();
     random = &gWiFiVSCourseSelect->mRandom;
     random->mValue = seed;
-    random->mMultiplier = 0x5d588b656c078965;
-    random->mIncrement = 0x269ec3;
+    random->mMultiplier = RANDOM_STATE64_MULTIPLIER;
+    random->mIncrement = RANDOM_STATE64_INCREMENT;
     gWiFiVSCourseSelect->mPlayerCount = GetSessionKartCount();
     gWiFiVSCourseSelect->mEntryIndex = GetRaceSetupCopyEntryIndex();
     gWiFiVSCourseSelect->mTimer = 0x4b0;

@@ -2,6 +2,10 @@
 
 #include "types.h"
 
+// The constants every setup of a RandomState64 stores in mMultiplier and mIncrement.
+#define RANDOM_STATE64_MULTIPLIER 0x5d588b656c078965
+#define RANDOM_STATE64_INCREMENT 0x269ec3
+
 // Three 64-bit words: x, a and c of x = x * a + c (x = x * [8] + [0x10] in TallyPickedCourse). GetRaceRandom and
 // GetMapObjectRandom return one; ConnectionWork has one at 0x1ee8, RaceProgress three and WiFiSession one at 0x1954.
 typedef struct RandomState64 {

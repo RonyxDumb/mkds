@@ -120,8 +120,8 @@ void FillStartupWork(void) {
     startupWork = gStartupWork;
     random = &startupWork->mRandom;
     random->mValue = (u32) ((firstTick << 16) + secondTick);
-    random->mMultiplier = 0x5d588b656c078965;
-    random->mIncrement = 0x269ec3;
+    random->mMultiplier = RANDOM_STATE64_MULTIPLIER;
+    random->mIncrement = RANDOM_STATE64_INCREMENT;
     if (PM_GetBackLight(&startupWork->mFirstBackLightOn, &startupWork->mSecondBackLightOn) == 0) {
         return;
     }
