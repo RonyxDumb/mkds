@@ -17,7 +17,7 @@
 s32 (*gKartAiIsLinkRequestedCallback)();
 void (*gKartAiAdvanceCallback)(struct KartAi *kartAi);
 void (*gKartAiSetupCallback)(struct KartAi *kartAi, s32 kartIndex);
-UnkFunc *gKartAiResetCallback;
+void (*gKartAiResetCallback)();
 void (*gKartAiLinkPosAndDirectionCallback)(Vec3 *position, Vec3 *direction, struct KartAi *kartAi);
 void (*gKartAiSetupHeldItemEntryCallback)(struct KartAi *kartAi);
 void (*gKartAiSetupItemInUseEntryCallback)(struct KartAi *kartAi);

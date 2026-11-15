@@ -165,7 +165,7 @@ typedef struct EmblemChoises {
     /* 00 */ s32 mShown;
     /* 04 */ s32 mDrawnShown;
     /* 08 */ BOOL mGraphicsUploadRequested;
-    /* 0c */ UnkFunc *mHideCallback;
+    /* 0c */ void (*mHideCallback)(void);
     /* 10 */ BOOL mPickStartedOnSelected;
     /* 14 */ s32 mPickFrames;
     /* 18 */ s32 mCloseFrames;
@@ -485,7 +485,7 @@ typedef struct KeyboardTextEntry {
 extern KeyboardTextEntry *gKeyboardTextEntry;
 extern u16 *gKbdmapHiragana;
 typedef struct TitleStateHandlers {
-    /* 00 */ UnkFunc *mWriteRegisters;
+    /* 00 */ void (*mWriteRegisters)(void);
     /* 04 */ void (*mUpdate)(s32);
 } TitleStateHandlers;
 

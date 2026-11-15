@@ -51,7 +51,7 @@ extern s32 (*gKartAiIsLinkRequestedCallback)();
 // Function pointers set by RegisterKartAiCallbacks (the reset targets take different parameters).
 extern void (*gKartAiAdvanceCallback)(struct KartAi *kartAi);
 extern void (*gKartAiSetupCallback)(struct KartAi *kartAi, s32 kartIndex);
-extern UnkFunc *gKartAiResetCallback;
+extern void (*gKartAiResetCallback)();
 extern void (*gKartAiLinkPosAndDirectionCallback)(Vec3 *position, Vec3 *direction, struct KartAi *kartAi);
 extern void (*gKartAiSetupHeldItemEntryCallback)(struct KartAi *kartAi);
 extern void (*gKartAiSetupItemInUseEntryCallback)(struct KartAi *kartAi);
