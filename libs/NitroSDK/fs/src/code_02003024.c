@@ -295,9 +295,9 @@ s32 FSi_GetPathCommand(FSFile *file) {
     }
     if (arg->b.mTotalLen == 0) {
         totalLen = 0;
-        if (archive->mName <= ARCHIVE_NAME_ONE_CHAR_MAX) {
+        if (archive->mName <= ARCHIVE_NAME_SINGLE_CHAR_MAX) {
             totalLen += 1;
-        } else if (archive->mName <= ARCHIVE_NAME_TWO_CHARS_MAX) {
+        } else if (archive->mName <= ARCHIVE_NAME_DOUBLE_CHAR_MAX) {
             totalLen += 2;
         } else {
             totalLen += 3;
@@ -336,9 +336,9 @@ s32 FSi_GetPathCommand(FSFile *file) {
         return 1;
     }
     off = 0;
-    if (archive->mName <= ARCHIVE_NAME_ONE_CHAR_MAX) {
+    if (archive->mName <= ARCHIVE_NAME_SINGLE_CHAR_MAX) {
         byteCount = 1;
-    } else if (archive->mName <= ARCHIVE_NAME_TWO_CHARS_MAX) {
+    } else if (archive->mName <= ARCHIVE_NAME_DOUBLE_CHAR_MAX) {
         byteCount = 2;
     } else {
         byteCount = 3;

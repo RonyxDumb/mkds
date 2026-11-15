@@ -122,8 +122,8 @@ enum {
 };
 
 // Archive names hold up to three characters in FSArchive.mName; these are the largest values of one and of two.
-#define ARCHIVE_NAME_ONE_CHAR_MAX 0xff
-#define ARCHIVE_NAME_TWO_CHARS_MAX 0xff00
+#define ARCHIVE_NAME_SINGLE_CHAR_MAX 0xff
+#define ARCHIVE_NAME_DOUBLE_CHAR_MAX 0xff00
 
 // Mask of the directory number in the parent field of a directory table entry.
 #define FS_DIR_NUMBER_MASK 0xfff
