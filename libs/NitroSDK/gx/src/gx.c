@@ -24,6 +24,6 @@ void GXx_SetMasterBrightness_(vu16 *reg, s32 brightness) {
 void FX_Init(void) {}
 
 // Multiplies two 20.12 fixed-point values, rounding to nearest.
-s32 FX_MulFunc(s32 v1, s32 v2) {
-    return MUL_FIXED12_ROUNDED(v1, v2);
+s32 FX_MulFunc(s32 factorA, s32 factorB) {
+    return MUL_FIXED12_ROUNDED(factorA, factorB);
 }

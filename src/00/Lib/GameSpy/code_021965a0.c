@@ -2,9 +2,9 @@
 #include "00/Lib/GameSpy/code_0218f960.h"
 #include "00/Lib/GameSpy/code_02196594.h"
 
-void GpiSetError(GpConnection *a, u32 b, const char *c) {
-    GpiConnection *v1;
-    v1 = a->mGpiConnection;
-    GpiCopyString(v1->mErrorMessage, c, 0x100);
-    v1->mErrorNumber = b;
+void GpiSetError(GpConnection *connection, u32 errorNumber, const char *errorMessage) {
+    GpiConnection *gpState;
+    gpState = connection->mGpiConnection;
+    GpiCopyString(gpState->mErrorMessage, errorMessage, 0x100);
+    gpState->mErrorNumber = errorNumber;
 }

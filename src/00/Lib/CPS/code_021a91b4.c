@@ -21,7 +21,7 @@ void CPSi_SslCleanup(void) {
     u32 table;
     u32 fillByte;
     u32 byteCount;
-    u32 value3;
+    u32 unusedScratch;
     table = (u32) &gHttpsEntries;
     fillByte = 0u;
     byteCount = 0x170u;

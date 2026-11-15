@@ -170,10 +170,11 @@ void UpdateXb3MultiFadeOut(void) {
 }
 
 void UpdateXb3MultiRelease(void) {
-    int v1;
-    v1 = IsBlendBrightnessFadeSlotBusy(0);
-    if ((v1 == 0) && (((gXb3MultiChosen != 0 || (v1 = IsBlendBrightnessFadeSlotBusy(1), v1 == 0)) &&
-                       (v1 = IsSlideButtonsNotSlidingOut(), v1 != 0)))) {
+    int queryResult;
+    queryResult = IsBlendBrightnessFadeSlotBusy(0);
+    if ((queryResult == 0) &&
+        (((gXb3MultiChosen != 0 || (queryResult = IsBlendBrightnessFadeSlotBusy(1), queryResult == 0)) &&
+          (queryResult = IsSlideButtonsNotSlidingOut(), queryResult != 0)))) {
         ReleaseBgTextCanvasOfScreen(0);
         if (gXb3MultiChosen == 0) {
             HideSubScreenMessage();

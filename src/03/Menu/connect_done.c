@@ -143,11 +143,11 @@ void StartConnectDoneFadeOut(void) {
 }
 
 void UpdateConnectDoneRelease(void) {
-    int v1;
+    int queryResult;
     int secondaryPairSecond[1];
-    v1 = IsBlendBrightnessFadeSlotBusy(1);
-    if (((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) &&
-        (v1 = IsMenuPairObjectsNotSlidingOut(), v1 != 0)) {
+    queryResult = IsBlendBrightnessFadeSlotBusy(1);
+    if (((queryResult == 0) && (queryResult = IsBlendBrightnessFadeSlotBusy(0), queryResult == 0)) &&
+        (queryResult = IsMenuPairObjectsNotSlidingOut(), queryResult != 0)) {
         ReleaseBgTextCanvasOfScreen(0);
         HideSubScreenMessage();
         ClearDispcntBits(1, 1);

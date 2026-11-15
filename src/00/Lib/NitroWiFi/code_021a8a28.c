@@ -238,7 +238,7 @@ s32 SOC_Listen(s32 descriptor) {
     return SOCL_Listen(descriptor);
 }
 
-s32 SOC_Accept(SOCLSocket *socket, SOCSockAddrIn *sockAddr, s32 f) {
+s32 SOC_Accept(SOCLSocket *socket, SOCSockAddrIn *sockAddr, s32 unusedFlags) {
     u16 remotePort;
     u32 peerAddr;
     s32 result = SOCL_Accept(socket, &remotePort, &peerAddr);
@@ -387,12 +387,12 @@ s32 SOC_Poll(void *entries, s32 entryCount, s64 ticksLeft) {
 }
 
 void SOCLi_SocketRegister(void *socket) {
-    u32 value0 = (u32) socket;
+    u32 listAddress = (u32) socket;
     u32 socketAddress;
-    u32 value3;
-    socketAddress = (value0) + (0u);
-    value0 = (u32) &SOCLiSocketList;
-    SOCLi_SocketRegisterList(value0, socketAddress);
+    u32 unusedScratch;
+    socketAddress = (listAddress) + (0u);
+    listAddress = (u32) &SOCLiSocketList;
+    SOCLi_SocketRegisterList(listAddress, socketAddress);
 }
 
 void SOCLi_SocketRegisterList(u32 listAddress, u32 socketAddress) {
@@ -407,7 +407,7 @@ void SOCLi_SocketRegisterList(u32 listAddress, u32 socketAddress) {
 void SOCLi_SocketRegisterTrash(SOCLSocket *socket) {
     u32 listAddress;
     u32 socketAddress;
-    u32 value3;
+    u32 unusedScratch;
     socketAddress = ((u32) socket) + (0u);
     listAddress = (u32) &SOCLiSocketListTrash;
     SOCLi_SocketRegisterList(listAddress, socketAddress);
@@ -416,7 +416,7 @@ void SOCLi_SocketRegisterTrash(SOCLSocket *socket) {
 void SOCLi_SocketUnregister(SOCLSocket *socket) {
     u32 listAddress;
     u32 socketAddress;
-    u32 value3;
+    u32 unusedScratch;
     socketAddress = ((u32) socket) + (0u);
     listAddress = (u32) &SOCLiSocketList;
     SOCLi_SocketUnregisterList((SOCLSocket **) listAddress, (SOCLSocket *) socketAddress);
@@ -444,7 +444,7 @@ SOCLSocket **SOCLi_SocketGetNextPtr(SOCLSocket **head, SOCLSocket *node) {
 void SOCLi_SocketUnregisterTrash(SOCLSocket *socket) {
     u32 listAddress;
     u32 socketAddress;
-    u32 value3;
+    u32 unusedScratch;
     socketAddress = ((u32) socket) + (0u);
     listAddress = (u32) &SOCLiSocketListTrash;
     SOCLi_SocketUnregisterList((SOCLSocket **) listAddress, (SOCLSocket *) socketAddress);

@@ -11,10 +11,10 @@
 #include "Main/Kart/kart_reset.h"
 
 void StartSoundFullVolumeWrapper(void *soundSource, u32 soundId) {
-    void *value0 = soundSource;
+    void *handle = soundSource;
     u32 soundIdCopy = soundId;
     u32 unused;
-    value0 = StartSoundFullVolume(value0, soundIdCopy);
+    handle = StartSoundFullVolume(handle, soundIdCopy);
 }
 
 void StartWhileRequestedFullVolumeWrapper(SoundSource *soundSource, u32 soundId) {

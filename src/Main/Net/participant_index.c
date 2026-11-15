@@ -9,8 +9,8 @@ u32 GetParticipantIndex(u32 position) {
 
 // Also rebuilds the participant index tables, combines the participants' bits and requests the next state.
 void SetParticipantMask(u8 mask) {
-    u32 value0 = mask;
-    gConnectionWork->mParticipantMask = value0;
+    u32 maskWord = mask;
+    gConnectionWork->mParticipantMask = maskWord;
     RefreshParticipantTables();
     RequestMPState15AfterCombine();
 }

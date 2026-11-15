@@ -40,9 +40,9 @@ void StartLinkMessageFadeOut(void) {
 }
 
 void UpdateLinkMessageRelease(void) {
-    int v1;
-    v1 = IsBlendBrightnessFadeSlotBusy(0);
-    if ((v1 == 0) && (v1 = IsChildWaitSessionReleased(), v1 != 0)) {
+    int queryResult;
+    queryResult = IsBlendBrightnessFadeSlotBusy(0);
+    if ((queryResult == 0) && (queryResult = IsChildWaitSessionReleased(), queryResult != 0)) {
         ReleaseLinkLevel();
         ReleaseAnimatedIcon();
         ReleaseBgTextCanvasOfScreen(0);
@@ -60,13 +60,13 @@ void UpdateLinkMessageRelease(void) {
     }
 }
 
-void LinkMessageResultCallback(int a) {
-    if (a == 2) {
+void LinkMessageResultCallback(int callbackResult) {
+    if (callbackResult == 2) {
         ResetApEntries();
         *(u8 *) &gLinkMessageResult = 1;
         StopSoundSeq();
         StartSoundSeq(0x10);
-    } else if (a == 3) {
+    } else if (callbackResult == 3) {
         *(u8 *) &gLinkMessageResult = 2;
         StopSoundSeq();
         StartSoundSeq(0x12);

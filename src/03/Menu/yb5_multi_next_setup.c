@@ -53,10 +53,10 @@ void UpdateJb5InfoFadeOut(void) {
 }
 
 void UpdateJb5InfoRelease(void) {
-    int v1;
-    v1 = IsBlendBrightnessFadeSlotBusy(1);
-    if (((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) &&
-        (v1 = IsSlideButtonsNotSlidingOut(), v1 != 0)) {
+    int queryResult;
+    queryResult = IsBlendBrightnessFadeSlotBusy(1);
+    if (((queryResult == 0) && (queryResult = IsBlendBrightnessFadeSlotBusy(0), queryResult == 0)) &&
+        (queryResult = IsSlideButtonsNotSlidingOut(), queryResult != 0)) {
         ReleaseBgTextCanvasOfScreen(0);
         HideSubScreenMessage();
         ClearDispcntBits(1, 1);

@@ -998,14 +998,14 @@ void SetKeyboardGlyphColor(u32 color) {
 #pragma thumb off
 
 #pragma thumb on
-void SetKeyboardCursorCallback(u16 (*arg0)(s32, u16)) {
-    gKeyboardKeys.mCursorCallback = arg0;
+void SetKeyboardCursorCallback(u16 (*callback)(s32, u16)) {
+    gKeyboardKeys.mCursorCallback = callback;
 }
 #pragma thumb off
 
 #pragma thumb on
-void SetKeyboardKeyCallback(s32 (*arg0)(u32, s32)) {
-    gKeyboardKeys.mKeyCallback = arg0;
+void SetKeyboardKeyCallback(s32 (*callback)(u32, s32)) {
+    gKeyboardKeys.mKeyCallback = callback;
 }
 #pragma thumb off
 

@@ -75,17 +75,18 @@ void ClearTrophyIconPointer(void) {
 
 void QueueTrophyIcon(int iconIndex, int paletteIndex, void *cells, void *cellLayout, u32 destIndex, u16 paletteSlot,
                      int queueSelector) {
-    u32 v1;
+    u32 transferKind;
     TrophyIcon *trophyIcon;
-    v1 = 0xe;
+    transferKind = 0xe;
     if ((queueSelector != 0) && (queueSelector == 1)) {
-        v1 = 0x1e;
+        transferKind = 0x1e;
     }
     trophyIcon = gTrophyIcon;
     QueueCellChars(gTrophyIconBnclIndices[iconIndex], trophyIcon->mNcer, trophyIcon->mNcgr, trophyIcon->mBncl,
                    queueSelector, destIndex, cells, cellLayout);
-    NNS_GfdRegisterNewVramTransferTask(
-        v1, paletteSlot << 5, (u8 *) gTrophyIcon->mNclr->mData + gTrophyIconNclrStarts[paletteIndex] * 0x20, 0x20);
+    NNS_GfdRegisterNewVramTransferTask(transferKind, paletteSlot << 5,
+                                       (u8 *) gTrophyIcon->mNclr->mData + gTrophyIconNclrStarts[paletteIndex] * 0x20,
+                                       0x20);
 }
 
 void InitMenuNop(void) {}

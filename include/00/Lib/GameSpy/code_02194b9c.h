@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 GpiCompareProfiles(u32 arg0, u32 arg1);
+u32 GpiCompareProfiles(u32 leftProfile, u32 rightProfile);

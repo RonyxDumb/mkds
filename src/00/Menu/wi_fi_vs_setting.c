@@ -213,14 +213,14 @@ void AdvanceWiFiVSSettingState0(void) {
 }
 
 void AdvanceWiFiVSSettingState1(void) {
-    int v1;
+    int queryResult;
     gWiFiVSSetting->mStateFrames = gWiFiVSSetting->mStateFrames + 1;
-    v1 = IsTxtSystemState2NoCloseRequest();
-    if ((v1 != 0) && (0x78 < gWiFiVSSetting->mStateFrames)) {
+    queryResult = IsTxtSystemState2NoCloseRequest();
+    if ((queryResult != 0) && (0x78 < gWiFiVSSetting->mStateFrames)) {
         RequestTxtSystemClose();
     }
-    v1 = IsTxtSystemState0NoOpenRequest();
-    if (v1 != 0) {
+    queryResult = IsTxtSystemState0NoOpenRequest();
+    if (queryResult != 0) {
         gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_SLIDE_IN;
         SetupWiFiVSSettingText();
         gWiFiVSSetting->mStateFrames = 0;
@@ -592,14 +592,14 @@ void AdvanceWiFiVSSettingState10(void) {
 }
 
 void AdvanceWiFiVSSettingState11(void) {
-    int v1;
-    v1 = GetTxtSystemDone();
-    if (v1 != 0) {
+    int queryResult;
+    queryResult = GetTxtSystemDone();
+    if (queryResult != 0) {
         RequestTxtSystemClose();
         return;
     }
-    v1 = IsTxtSystemState0NoOpenRequest();
-    if (v1 != 0) {
+    queryResult = IsTxtSystemState0NoOpenRequest();
+    if (queryResult != 0) {
         RequestWiFiState(gWiFiVSSetting->mPendingWiFiState);
     }
 }

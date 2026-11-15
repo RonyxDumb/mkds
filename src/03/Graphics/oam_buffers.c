@@ -66,7 +66,7 @@ void RemoveNodeFromList(u32 node) {
     u32 reloadedPrevious;
     u32 reloadedNext;
     u32 nullLink;
-    u32 v14;
+    u32 restoredIrqMask;
     *(u32 *) ((previous) + (4)) = next;
     reloadedPrevious = (*(u32 *) ((nodeAddress) + (0)));
     reloadedNext = (*(u32 *) ((nodeAddress) + (4)));
@@ -74,7 +74,7 @@ void RemoveNodeFromList(u32 node) {
     *(u32 *) ((nodeAddress) + (4)) = 0x0u;
     nullLink = (*(u32 *) ((nodeAddress) + (4)));
     *(u32 *) ((nodeAddress) + (0)) = nullLink;
-    v14 = OS_EnableIrqMask(savedIrqMask);
+    restoredIrqMask = OS_EnableIrqMask(savedIrqMask);
 }
 
 void AddNodeBefore(u32 node, u32 newNode) {
@@ -83,27 +83,27 @@ void AddNodeBefore(u32 node, u32 newNode) {
     u32 savedIrqMask = OS_DisableIrqMask(0x1u);
     u32 previous = (*(u32 *) ((nodeAddress) + (0)));
     u32 reloadedPrevious;
-    u32 v12;
+    u32 restoredIrqMask;
     *(u32 *) ((previous) + (4)) = newNodeAddress;
     reloadedPrevious = (*(u32 *) ((nodeAddress) + (0)));
     *(u32 *) ((newNodeAddress) + (0)) = reloadedPrevious;
     *(u32 *) ((newNodeAddress) + (4)) = nodeAddress;
     *(u32 *) ((nodeAddress) + (0)) = newNodeAddress;
-    v12 = OS_EnableIrqMask(savedIrqMask);
+    restoredIrqMask = OS_EnableIrqMask(savedIrqMask);
 }
 
 void AddNodeToListBack(void *list, void *node) {
-    u32 value0 = (u32) list;
+    u32 sentinelAddress = (u32) list;
     u32 nodeAddress = (u32) node;
     u32 unused;
-    value0 = (value0) + 8u;
-    AddNodeBefore(value0, nodeAddress);
+    sentinelAddress = (sentinelAddress) + 8u;
+    AddNodeBefore(sentinelAddress, nodeAddress);
 }
 
 void AddNodeToListFront(void *list, void *node) {
-    u32 value0 = (u32) list;
+    u32 firstNode = (u32) list;
     u32 nodeAddress = (u32) node;
     u32 unused;
-    value0 = *(const u32 *) ((value0) + 4u);
-    AddNodeBefore(value0, nodeAddress);
+    firstNode = *(const u32 *) ((firstNode) + 4u);
+    AddNodeBefore(firstNode, nodeAddress);
 }

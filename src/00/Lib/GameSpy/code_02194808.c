@@ -1,11 +1,11 @@
 #include "00/Lib/GameSpy/code_02194808.h"
 #include "00/Lib/GameSpy/gpiProfile.h"
 
-GpiProfile *GpiFindProfileByBuddyIndex(GpConnection *a, u32 b) {
-    GpiProfileSearch s;
+GpiProfile *GpiFindProfileByBuddyIndex(GpConnection *gpConnection, u32 buddyIndex) {
+    GpiProfileSearch lookup;
 
-    s.mKey = b;
-    s.mEntry = NULL;
-    GpiForEachProfileWhileNonZero(a, gpiCheckForBuddy, &s);
-    return s.mEntry;
+    lookup.mKey = buddyIndex;
+    lookup.mEntry = NULL;
+    GpiForEachProfileWhileNonZero(gpConnection, gpiCheckForBuddy, &lookup);
+    return lookup.mEntry;
 }

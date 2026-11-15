@@ -5,5 +5,5 @@
 struct KartPhysicalParam;
 
 s32 GetFirstBaseSpeedLimit(void);
-s32 *GetCharPhysicalParam(unsigned int p0);
-struct KartPhysicalParam *GetKartPhysicalParam(u32 arg0);
+s32 *GetCharPhysicalParam(unsigned int slotIndex);
+struct KartPhysicalParam *GetKartPhysicalParam(u32 kartIndex);

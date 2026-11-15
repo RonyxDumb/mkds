@@ -35,4 +35,4 @@ void SND_ResetMasterPan(void);
 void SNDi_SetPlayerParam(int playerNo, u32 offset, u32 data, int size);
 void SNDi_SetTrackParam(int playerNo, u32 trackBitMask, u32 offset, u32 data, int size);
 void SNDi_SetSurroundDecay(int decay);
-void PushCommand_impl(u32 id, u32 arg0, u32 arg1, u32 arg2, u32 arg3);
+void PushCommand_impl(u32 id, u32 firstArg, u32 secondArg, u32 thirdArg, u32 fourthArg);

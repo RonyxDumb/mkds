@@ -32,7 +32,7 @@ s32 SOC_Startup(void *configPointer);
 void FreeFunc_SOCL(int memory);
 void *AllocFunc_SOCL(u32 size);
 s32 SOC_Fcntl(SOCLSocket *socket, s32 command, u32 mode);
-s32 SOC_Accept(SOCLSocket *socket, SOCSockAddrIn *sockAddr, s32 f);
+s32 SOC_Accept(SOCLSocket *socket, SOCSockAddrIn *sockAddr, s32 unusedFlags);
 s32 SOC_Listen(s32 descriptor);
 void SOC_SetResolver(unsigned int *firstDns, unsigned int *secondDns);
 unsigned int SOC_GetHostID(void);

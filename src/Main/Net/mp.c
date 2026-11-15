@@ -18,18 +18,18 @@
 
 void InitMPChunkBuffers(void *heap) {
     int slot;
-    int v2;
-    void *v3;
-    int *v4;
-    v3 = HeapAllocAligned(heap, (0x0000016cu), 0x20);
-    v4 = (s32 *) &gConnectionWork;
-    gConnectionWork->mChunkBuffer = v3;
+    int byteOffset;
+    void *allocation;
+    int *workAddress;
+    allocation = HeapAllocAligned(heap, (0x0000016cu), 0x20);
+    workAddress = (s32 *) &gConnectionWork;
+    gConnectionWork->mChunkBuffer = allocation;
     slot = 0;
-    v2 = 0;
+    byteOffset = 0;
     do {
-        v3 = HeapAlloc(heap, 0x12);
-        gConnectionWork->mChunkReceivedFlags[slot] = v3;
-        v2 = v2 + 4;
+        allocation = HeapAlloc(heap, 0x12);
+        gConnectionWork->mChunkReceivedFlags[slot] = allocation;
+        byteOffset = byteOffset + 4;
         slot = slot + 1;
     } while (slot < 8);
 }
@@ -261,13 +261,13 @@ u32 AdvanceRaceArchives(void) {
 #pragma thumb on
 
 void EnterMPState16(void) {
-    int v1;
+    int connectionMode;
     if (gConnectionWork == NULL) {
-        v1 = CONNECTION_MODE_NONE;
+        connectionMode = CONNECTION_MODE_NONE;
     } else {
-        v1 = gConnectionWork->mConnectionMode;
+        connectionMode = gConnectionWork->mConnectionMode;
     }
-    if (v1 == CONNECTION_MODE_PARENT) {
+    if (connectionMode == CONNECTION_MODE_PARENT) {
         SetMPFrequency(0);
     }
 }
@@ -321,13 +321,13 @@ void UpdateMPState17(void) {
 }
 
 void EnterMPState20(void) {
-    int v1;
+    int connectionMode;
     if (gConnectionWork == NULL) {
-        v1 = CONNECTION_MODE_NONE;
+        connectionMode = CONNECTION_MODE_NONE;
     } else {
-        v1 = gConnectionWork->mConnectionMode;
+        connectionMode = gConnectionWork->mConnectionMode;
     }
-    if (v1 == CONNECTION_MODE_PARENT) {
+    if (connectionMode == CONNECTION_MODE_PARENT) {
         SetMPFrequency(1);
     }
 }

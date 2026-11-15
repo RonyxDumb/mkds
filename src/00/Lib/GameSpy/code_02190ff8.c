@@ -459,9 +459,9 @@ u32 GpiProcessConnectOperation(GpConnection *connection, GpiOperation *operation
                 return 3;
             }
             if (gpState->mInfoCaching != 0) {
-                GpiProfile *n = GpiFindOrAddProfile(connection, gpState->mProfileId);
-                n->mProfileId = gpState->mProfileId;
-                n->mUserId = gpState->mUserId;
+                GpiProfile *profile = GpiFindOrAddProfile(connection, gpState->mProfileId);
+                profile->mProfileId = gpState->mProfileId;
+                profile->mUserId = gpState->mUserId;
             }
             gpState->mConnectState = PROFILE_CONNECTION_LOGGED_IN;
             callback = operation->mCallback;
@@ -536,7 +536,7 @@ u32 gpiDisconnectCleanupProfile(GpConnection *connection, GpiProfile *profile) {
 
 void GpiCloseConnection(GpConnection *connection, s32 tellServer) {
     GpiConnection *gpState;
-    GpiOperation *d;
+    GpiOperation *unusedOperation;
     GpiPeer *peerConn;
     u32 socketGone;
 

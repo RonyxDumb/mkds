@@ -23,23 +23,25 @@ char gDwcMagicStrings[3] = "DT";
 WiFiMessageLayer *gWiFiMessageLayer = NULL;
 
 void DWC_SetUserSendCallback(u32 (*callback)(void)) {
-    u32 value0 = (u32) callback;
-    u32 value1;
-    u32 value2;
-    value1 = (u32) &gWiFiMessageLayer;
-    value2 = *(const u32 *) ((value1) + 0u);
-    value1 = 0x600u;
-    *(u32 *) ((value2) + (value1)) = value0;
+    u32 callbackAddress = (u32) callback;
+    u32 globalAddress;
+    u32 layerBase;
+    u32 memberOffset;
+    globalAddress = (u32) &gWiFiMessageLayer;
+    layerBase = *(const u32 *) ((globalAddress) + 0u);
+    memberOffset = 0x600u;
+    *(u32 *) ((layerBase) + (memberOffset)) = callbackAddress;
 }
 
 void DWC_SetUserRecvCallback(void (*callback)(u32, void *, u32)) {
-    u32 value0 = (u32) callback;
-    u32 value1;
-    u32 value2;
-    value1 = (u32) &gWiFiMessageLayer;
-    value2 = *(const u32 *) ((value1) + 0u);
-    value1 = 0x604u;
-    *(u32 *) ((value2) + (value1)) = value0;
+    u32 callbackAddress = (u32) callback;
+    u32 globalAddress;
+    u32 layerBase;
+    u32 memberOffset;
+    globalAddress = (u32) &gWiFiMessageLayer;
+    layerBase = *(const u32 *) ((globalAddress) + 0u);
+    memberOffset = 0x604u;
+    *(u32 *) ((layerBase) + (memberOffset)) = callbackAddress;
 }
 
 void DWCs_EncodeHeader(DWCTransportHeader *header, u16 type, u32 size) {
@@ -209,7 +211,7 @@ void DWCs_HandleReliableMessage(Gt2ConnectionView *connection, void *message, s3
 void DWCs_HandleUnreliableMessage(Gt2ConnectionView *connection, const void *message, int size) {
     int aid;
     WiFiPeerMessage *peer;
-    u64 v3;
+    u64 receiveTick;
     aid = DWCi_GetConnectionAID(connection);
     peer = &gWiFiMessageLayer->mPeers[aid];
     if ((peer->mReceiveBuffer != NULL) && (peer->mReceiveBufferSize >= size)) {
@@ -218,8 +220,8 @@ void DWCs_HandleUnreliableMessage(Gt2ConnectionView *connection, const void *mes
             gWiFiMessageLayer->mReceiveCallback(aid, peer->mReceiveBuffer, size);
         }
         if ((gWiFiMessageLayer->mReceiveTimeoutCallback != NULL) && (peer->mReceiveTimeoutTime != 0)) {
-            v3 = OS_GetTick();
-            peer->mPreviousReceiveTick = v3;
+            receiveTick = OS_GetTick();
+            peer->mPreviousReceiveTick = receiveTick;
         }
     }
 }

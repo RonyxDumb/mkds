@@ -5,16 +5,16 @@
 #include "gfd_LinkedListTexVramMan.h"
 #include "os_thread.h"
 
-u32 ClampMicSample(u32 arg0) {
-    u32 value0 = arg0;
+u32 ClampMicSample(u32 rawSample) {
+    u32 sample = rawSample;
     u32 compareLeft0;
     u32 compareRight0;
-    compareLeft0 = value0;
+    compareLeft0 = sample;
     compareRight0 = 0xffu;
     if (compareLeft0 == compareRight0) {
-        value0 = 0xfeu;
+        sample = 0xfeu;
     }
-    return value0;
+    return sample;
 }
 
 u8 gMicSampleAnalysisMode = 1;

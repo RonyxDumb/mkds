@@ -81,28 +81,29 @@ u32 ReadNvramEntries(void *buffer) {
 
 u32 WriteFlaggedNvramEntries(int data, int *flags, void *verifyBuffer) {
     int verifyResult;
-    int v2;
+    int entrySize;
+    int disableResult;
     int address;
     int *flagPointer;
     int entryIndex;
-    v2 = 0x100;
+    entrySize = 0x100;
     address = gNvramEntriesOffset;
     entryIndex = 0;
     flagPointer = flags;
     do {
         if (*flagPointer != 0) {
             do {
-                writeNvram(address, v2, (void *) data);
-                verifyResult = verify((const u8 *) data, address, v2, verifyBuffer);
+                writeNvram(address, entrySize, (void *) data);
+                verifyResult = verify((const u8 *) data, address, entrySize, verifyBuffer);
             } while (verifyResult == 0);
         }
         flagPointer = flagPointer + 1;
-        data = data + v2;
+        data = data + entrySize;
         entryIndex = entryIndex + 1;
-        address = address + v2;
+        address = address + entrySize;
     } while (entryIndex < 4);
-    v2 = writeDisable();
-    if (v2 != 0) {
+    disableResult = writeDisable();
+    if (disableResult != 0) {
         return 1;
     }
     return 0;
@@ -112,10 +113,11 @@ u32 WriteNvramEntriesWithCrc16(u8 *data) {
     int entryIndex;
     int address;
     u8 *entry;
-    int v4;
+    int entrySize;
+    int disableResult;
     int verifyResult;
     u16 crc;
-    v4 = 0x100;
+    entrySize = 0x100;
     address = gNvramEntriesOffset;
     entryIndex = 0;
     entry = data;
@@ -123,15 +125,15 @@ u32 WriteNvramEntriesWithCrc16(u8 *data) {
         crc = Crc16(OFFSET_PTR(const u16, data, 0x500), entry, 0xfe);
         *OFFSET_PTR(u16, entry, 0xfe) = crc;
         do {
-            writeNvram(address, v4, entry);
-            verifyResult = verify(entry, address, v4, OFFSET_PTR(const u8, data, 0x400));
+            writeNvram(address, entrySize, entry);
+            verifyResult = verify(entry, address, entrySize, OFFSET_PTR(const u8, data, 0x400));
         } while (verifyResult == 0);
-        entry = entry + v4;
+        entry = entry + entrySize;
         entryIndex = entryIndex + 1;
-        address = address + v4;
+        address = address + entrySize;
     } while (entryIndex < 4);
-    v4 = writeDisable();
-    if (v4 != 0) {
+    disableResult = writeDisable();
+    if (disableResult != 0) {
         return 1;
     }
     return 0;

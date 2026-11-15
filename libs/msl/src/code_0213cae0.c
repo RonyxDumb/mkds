@@ -654,8 +654,8 @@ int FormatWideWithPutFunc(void *(*putFunc)(void *, const u16 *, u32), void *putA
     FormatWideSpec spec;
     u16 buf[512];
     int totalLength;
-    long value32;
-    u64 value64;
+    long intArg;
+    u64 int64Arg;
     const u16 *percentPos;
     int printedLength;
     u16 *text;
@@ -689,24 +689,24 @@ int FormatWideWithPutFunc(void *(*putFunc)(void *, const u16 *, u32), void *putA
             case 'i':
                 if (spec.mArgKind == FORMAT_WIDE_ARG_LONG) {
                     argList += 4;
-                    value32 = *(long *) (argList - 4);
+                    intArg = *(long *) (argList - 4);
                 } else if (spec.mArgKind == FORMAT_WIDE_ARG_LONG_LONG) {
                     argList += 8;
-                    value64 = *(u64 *) (argList - 8);
+                    int64Arg = *(u64 *) (argList - 8);
                 } else {
                     argList += 4;
-                    value32 = *(int *) (argList - 4);
+                    intArg = *(int *) (argList - 4);
                 }
                 if (spec.mArgKind == FORMAT_WIDE_ARG_SHORT) {
-                    value32 = (short) value32;
+                    intArg = (short) intArg;
                 }
                 if (spec.mArgKind == FORMAT_WIDE_ARG_LONG_LONG) {
-                    text = FormatWideInt64(value64, buf + 512, spec);
+                    text = FormatWideInt64(int64Arg, buf + 512, spec);
                     if (text == 0) {
                         goto bad;
                     }
                 } else {
-                    text = FormatWideInt32(value32, buf + 512, spec);
+                    text = FormatWideInt32(intArg, buf + 512, spec);
                     if (text == 0) {
                         goto bad;
                     }
@@ -719,24 +719,24 @@ int FormatWideWithPutFunc(void *(*putFunc)(void *, const u16 *, u32), void *putA
             case 'X':
                 if (spec.mArgKind == FORMAT_WIDE_ARG_LONG) {
                     argList += 4;
-                    value32 = *(long *) (argList - 4);
+                    intArg = *(long *) (argList - 4);
                 } else if (spec.mArgKind == FORMAT_WIDE_ARG_LONG_LONG) {
                     argList += 8;
-                    value64 = *(u64 *) (argList - 8);
+                    int64Arg = *(u64 *) (argList - 8);
                 } else {
                     argList += 4;
-                    value32 = *(int *) (argList - 4);
+                    intArg = *(int *) (argList - 4);
                 }
                 if (spec.mArgKind == FORMAT_WIDE_ARG_SHORT) {
-                    value32 = (u16) value32;
+                    intArg = (u16) intArg;
                 }
                 if (spec.mArgKind == FORMAT_WIDE_ARG_LONG_LONG) {
-                    text = FormatWideInt64(value64, buf + 512, spec);
+                    text = FormatWideInt64(int64Arg, buf + 512, spec);
                     if (text == 0) {
                         goto bad;
                     }
                 } else {
-                    text = FormatWideInt32(value32, buf + 512, spec);
+                    text = FormatWideInt32(intArg, buf + 512, spec);
                     if (text == 0) {
                         goto bad;
                     }

@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-void LinkMessageResultCallback(int a);
+void LinkMessageResultCallback(int callbackResult);
 void UpdateLinkMessageRelease(void);
 void StartLinkMessageFadeOut(void);
 void UpdateLinkMessageNop(void);

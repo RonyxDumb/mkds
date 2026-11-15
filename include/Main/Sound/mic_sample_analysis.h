@@ -12,7 +12,7 @@ void StartMicSampleAnalysis(void);
 void InitMicSampleAnalysis(MICAutoParam *autoParam);
 s32 GetMicSampleAmplitude(s32 sample);
 
-u32 ClampMicSample(u32 arg0);
+u32 ClampMicSample(u32 rawSample);
 
 extern u8 gMicSampleAnalysisMode;
 

@@ -16,12 +16,12 @@ u32 GetSceneRunStep(void) {
 }
 
 u32 SceneRunPAD_DetectFold(void) {
-    u32 value0;
-    value0 = 0x27fffa8u;
-    value0 = *(const u16 *) ((value0) + (0));
-    value0 = (value0) & (0x8000u);
-    value0 = ((s32) value0 >> 15);
-    return value0;
+    u32 foldState;
+    foldState = 0x27fffa8u;
+    foldState = *(const u16 *) ((foldState) + (0));
+    foldState = (foldState) & (0x8000u);
+    foldState = ((s32) foldState >> 15);
+    return foldState;
 }
 
 void SetMainMasterBrightness(s32 brightness) {

@@ -4,20 +4,20 @@
 #include "Main/Save/ghost_record_file.h"
 
 u32 FinishWiFiRaceSyncSend(void) {
-    u32 value0;
+    u32 result;
     u32 flags;
     u32 testedValue;
     u32 zero;
-    value0 = gWiFiSession->mRaceSyncEnabled;
-    testedValue = value0;
+    result = gWiFiSession->mRaceSyncEnabled;
+    testedValue = result;
     zero = 0u;
     if (testedValue == zero) {
-        return value0;
+        return result;
     }
-    value0 = (u32) gWiFiRaceSync;
-    value0 = (value0) + (0x700u);
-    flags = *OFFSET_PTR(u16, value0, 92);
+    result = (u32) gWiFiRaceSync;
+    result = (result) + (0x700u);
+    flags = *OFFSET_PTR(u16, result, 92);
     flags = (flags) & ~(4u);
-    *OFFSET_PTR(u16, value0, 92) = flags;
-    return value0;
+    *OFFSET_PTR(u16, result, 92) = flags;
+    return result;
 }

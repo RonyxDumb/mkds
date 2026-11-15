@@ -145,14 +145,14 @@ void UpdateUsb(void) {
 }
 
 void UpdateUsbInput(void) {
-    int v1;
-    v1 = AreKeysPressed(2);
-    if (v1 != 0) {
+    int queryResult;
+    queryResult = AreKeysPressed(2);
+    if (queryResult != 0) {
         SetButtonResultIfNone(0);
         return;
     }
-    v1 = UsbPAD_DetectFold();
-    if (v1 != 0) {
+    queryResult = UsbPAD_DetectFold();
+    if (queryResult != 0) {
         SetButtonResultIfNone(0);
     }
 }

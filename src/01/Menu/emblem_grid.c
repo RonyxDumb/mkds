@@ -136,11 +136,11 @@ s32 SetEmblemGridCellsFromTable(u8 *indices, u16 *table) {
 }
 
 void SwapEmblemGridCells(void) {
-    u8 *tmp;
+    u8 *swapBuffer;
 
-    tmp = gEmblemGrid->mBuffers[1];
+    swapBuffer = gEmblemGrid->mBuffers[1];
     gEmblemGrid->mBuffers[1] = gEmblemGrid->mBuffers[2];
-    gEmblemGrid->mBuffers[2] = tmp;
+    gEmblemGrid->mBuffers[2] = swapBuffer;
     gEmblemGrid->mSwapped = gEmblemGrid->mSwapped == 0 ? 1 : 0;
 }
 

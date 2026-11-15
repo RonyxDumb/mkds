@@ -166,7 +166,7 @@ u32 HasGroupSendMask(void) {
 }
 
 void StopSeqZeroLoopWrapper(void) {
-    u32 value12;
+    u32 unusedScratch;
     StopSeqZeroLoop();
 }
 
@@ -236,7 +236,7 @@ void WriteWLMenuMessageRegisters(void) {
 
 #pragma thumb on
 void WriteWLMenuMessageRegistersWrapper(void) {
-    u32 value3;
+    u32 unusedScratch;
     WriteWLMenuMessageRegisters();
 }
 #pragma thumb off

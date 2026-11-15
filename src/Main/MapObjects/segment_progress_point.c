@@ -4,20 +4,20 @@
 
 void GetSegmentProgressPoint(SegmentPoints *progressOwner, Vec3 *output) {
     Vec3 *points = progressOwner->mSegmentProgress.mSegment.mPoints;
-    u32 value1;
+    u32 progress;
     Vec3 *resultAddress;
     u32 unused;
     resultAddress = output;
-    value1 = progressOwner->mSegmentProgress.mProgress;
-    GetCurvePoint(points, value1, resultAddress);
+    progress = progressOwner->mSegmentProgress.mProgress;
+    GetCurvePoint(points, progress, resultAddress);
 }
 
 void GetSegmentProgressPointXz(SegmentProgress *segmentProgress, Vec3 *output) {
     Vec3 *points = segmentProgress->mSegment.mPoints;
-    u32 value1;
+    u32 progress;
     Vec3 *resultAddress;
     u32 unused;
     resultAddress = output;
-    value1 = segmentProgress->mProgress;
-    GetCurvePointXz(points, value1, resultAddress);
+    progress = segmentProgress->mProgress;
+    GetCurvePointXz(points, progress, resultAddress);
 }

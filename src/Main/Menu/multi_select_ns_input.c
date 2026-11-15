@@ -86,7 +86,7 @@ void MultiSelectNSStartSeqArc(u32 index, u32 seqArcNo) {
 void MultiSelectNSStartSeqArcWrapper(u32 index) {
     u32 indexCopy = index;
     u32 seqArcNo;
-    u32 value12;
+    u32 unusedScratch;
     seqArcNo = 0u;
     MultiSelectNSStartSeqArc(indexCopy, seqArcNo);
 }

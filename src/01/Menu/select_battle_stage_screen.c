@@ -18,30 +18,30 @@
 #include "Main/System/init_after_startup.h"
 
 void LoadSelectBattleStageData(void) {
-    void *v1;
+    void *sceneFile;
     LoadedPartPointer loaded;
-    v1 = FindSceneFile("mg/select_battle_stage_m_b.ncgr");
-    LoadNcgrData(&loaded.mNcgr, v1);
-    v1 = FindSceneFile("mg/select_battle_stage_m_00.nscr");
-    LoadNscrData(&loaded.mNscr, v1);
-    v1 = FindSceneFile("mg/select_battle_stage_m_01.nscr");
-    LoadNscrData(&loaded.mNscr, v1);
-    v1 = FindSceneFile("mg/select_battle_stage_m_02.nscr");
-    LoadNscrData(&loaded.mNscr, v1);
-    v1 = FindSceneFile("mg/select_battle_stage_m_b.nclr");
-    LoadNclrData(&loaded.mNclr, v1);
-    v1 = FindSceneFile("mg/select_battle_stage_m.nce.ncgr");
-    LoadNcgrData2(&loaded.mNcgr, v1);
-    v1 = FindSceneFile("mg/select_battle_stage_m.nce.ncer");
-    LoadNcerData(&loaded.mNcer, v1);
-    v1 = FindSceneFile("mg/select_battle_stage_m_o.nclr");
-    LoadNclrData(&loaded.mNclr, v1);
-    v1 = FindSceneFile("mg/select_battle_stage_s.nce.ncgr");
-    LoadNcgrData2(&loaded.mNcgr, v1);
-    v1 = FindSceneFile("mg/select_battle_stage_s.nce.ncer");
-    LoadNcerData(&loaded.mNcer, v1);
-    v1 = FindSceneFile("mg/select_battle_stage_s_o.nclr");
-    LoadNclrData(&loaded.mNclr, v1);
+    sceneFile = FindSceneFile("mg/select_battle_stage_m_b.ncgr");
+    LoadNcgrData(&loaded.mNcgr, sceneFile);
+    sceneFile = FindSceneFile("mg/select_battle_stage_m_00.nscr");
+    LoadNscrData(&loaded.mNscr, sceneFile);
+    sceneFile = FindSceneFile("mg/select_battle_stage_m_01.nscr");
+    LoadNscrData(&loaded.mNscr, sceneFile);
+    sceneFile = FindSceneFile("mg/select_battle_stage_m_02.nscr");
+    LoadNscrData(&loaded.mNscr, sceneFile);
+    sceneFile = FindSceneFile("mg/select_battle_stage_m_b.nclr");
+    LoadNclrData(&loaded.mNclr, sceneFile);
+    sceneFile = FindSceneFile("mg/select_battle_stage_m.nce.ncgr");
+    LoadNcgrData2(&loaded.mNcgr, sceneFile);
+    sceneFile = FindSceneFile("mg/select_battle_stage_m.nce.ncer");
+    LoadNcerData(&loaded.mNcer, sceneFile);
+    sceneFile = FindSceneFile("mg/select_battle_stage_m_o.nclr");
+    LoadNclrData(&loaded.mNclr, sceneFile);
+    sceneFile = FindSceneFile("mg/select_battle_stage_s.nce.ncgr");
+    LoadNcgrData2(&loaded.mNcgr, sceneFile);
+    sceneFile = FindSceneFile("mg/select_battle_stage_s.nce.ncer");
+    LoadNcerData(&loaded.mNcer, sceneFile);
+    sceneFile = FindSceneFile("mg/select_battle_stage_s_o.nclr");
+    LoadNclrData(&loaded.mNclr, sceneFile);
 }
 
 const u8 gSelectBattleStageNegatedYCells[1] = {0};

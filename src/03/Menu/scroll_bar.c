@@ -191,32 +191,32 @@ void MoveScrollBarToTouch(void) {
 }
 
 int GetPressedScrollBarPart(void) {
-    int v1;
+    int partIndex;
     int pressed;
     u8 partRect[8];
     GetScrollBarPartRect(SCROLL_BAR_PART_THUMB, (void *) partRect);
-    v1 = IsTouchPressedOrRepeatedInRect((const Rect *) (u16 *) (void *) partRect);
-    if (v1 != 0) {
+    pressed = IsTouchPressedOrRepeatedInRect((const Rect *) (u16 *) (void *) partRect);
+    if (pressed != 0) {
         return SCROLL_BAR_PART_THUMB;
     }
-    v1 = SCROLL_BAR_PART_ARROW_UP;
+    partIndex = SCROLL_BAR_PART_ARROW_UP;
     do {
-        GetScrollBarPartRect(v1, (void *) partRect);
+        GetScrollBarPartRect(partIndex, (void *) partRect);
         pressed = IsTouchPressedOrRepeatedInRect((const Rect *) (u16 *) (void *) partRect);
         if (pressed != 0) {
-            return v1;
+            return partIndex;
         }
-        v1 = v1 + 1;
-    } while (v1 <= SCROLL_BAR_PART_ARROW_DOWN);
+        partIndex = partIndex + 1;
+    } while (partIndex <= SCROLL_BAR_PART_ARROW_DOWN);
     GetScrollBarPartRect(SCROLL_BAR_PART_TRACK, (void *) partRect);
-    v1 = IsTouchPressedInRect((const Rect *) (u16 *) ((u16 *) (void *) partRect));
-    if (v1 != 0) {
+    pressed = IsTouchPressedInRect((const Rect *) (u16 *) ((u16 *) (void *) partRect));
+    if (pressed != 0) {
         return SCROLL_BAR_PART_TRACK;
     }
     return 0;
 }
 
-int GetTouchedScrollBarArrow(int a) {
+int GetTouchedScrollBarArrow(int unusedArg) {
     int touchDown;
     int part;
     u8 partRect[8];

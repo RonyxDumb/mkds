@@ -6,10 +6,10 @@
 #include "00/Lib/DWC/code_02189440.h"
 
 u8 DWCi_AC_Error(void) {
-    int v1;
-    v1 = DWCi_AC_GetMemPtr(1);
-    v1 = DWCi_AC_CloseNetwork((u8 *) (v1 + 10));
-    if (v1 == 1) {
+    int status;
+    status = DWCi_AC_GetMemPtr(1);
+    status = DWCi_AC_CloseNetwork((u8 *) (status + 10));
+    if (status == 1) {
         return 0x12;
     }
     return 0x11;

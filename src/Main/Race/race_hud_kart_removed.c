@@ -5,16 +5,16 @@
 #include "Main/Race/race_hud_draw.h"
 
 s32 GetRaceHudUpdateFrames(void) {
-    u32 value0;
-    value0 = gRaceHud->mUpdateFrames;
-    return value0;
+    u32 updateFrames;
+    updateFrames = gRaceHud->mUpdateFrames;
+    return updateFrames;
 }
 
 // No NULL check: only valid while gRaceHud exists (race code only).
 s32 GetRaceHudSubScreenState(void) {
-    u32 value0;
-    value0 = gRaceHud->mSubScreenState;
-    return value0;
+    u32 subScreenState;
+    subScreenState = gRaceHud->mSubScreenState;
+    return subScreenState;
 }
 
 void RequestRaceHudSubScreenState5(void) {

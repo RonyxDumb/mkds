@@ -175,7 +175,7 @@ void SNDi_SetSurroundDecay(int decay) {
 }
 
 // Takes a command record, fills in the id and four arguments and queues it.
-void PushCommand_impl(u32 id, u32 arg0, u32 arg1, u32 arg2, u32 arg3) {
+void PushCommand_impl(u32 id, u32 firstArg, u32 secondArg, u32 thirdArg, u32 fourthArg) {
     SNDCommand *command;
 
     command = SND_AllocCommand(1);
@@ -183,9 +183,9 @@ void PushCommand_impl(u32 id, u32 arg0, u32 arg1, u32 arg2, u32 arg3) {
         return;
     }
     command->mId = id;
-    command->mArg[0] = arg0;
-    command->mArg[1] = arg1;
-    command->mArg[2] = arg2;
-    command->mArg[3] = arg3;
+    command->mArg[0] = firstArg;
+    command->mArg[1] = secondArg;
+    command->mArg[2] = thirdArg;
+    command->mArg[3] = fourthArg;
     SND_PushCommand(command);
 }

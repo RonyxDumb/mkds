@@ -35,7 +35,8 @@ u32 MB_FakeReadParentBssDesc(u32 entryIndex, WMBssDesc *scanBlock, u16 parentMax
 void MBi_TaskThread(void *argument) {
     WorkerQueue *workerQueue;
     WorkerTask *task;
-    u32 v2;
+    u32 irqState;
+    u32 nextPriority;
     u32 savedInterrupts;
     void (*doneFunction)(WorkerTask *);
     u32 currentPriority;
@@ -43,7 +44,7 @@ void MBi_TaskThread(void *argument) {
     workerQueue = argument;
     priorityWhenEmpty = 0;
     for (;;) {
-        v2 = OS_DisableInterrupts();
+        irqState = OS_DisableInterrupts();
         while (workerQueue->mFirstTask == NULL) {
             OS_SetThreadPriority(&workerQueue->mThread, priorityWhenEmpty);
             OS_SleepThread(NULL);
@@ -51,7 +52,7 @@ void MBi_TaskThread(void *argument) {
         task = workerQueue->mFirstTask;
         workerQueue->mFirstTask = workerQueue->mFirstTask->mNext;
         OS_SetThreadPriority(&workerQueue->mThread, task->mPriority);
-        OS_RestoreInterrupts(v2);
+        OS_RestoreInterrupts(irqState);
         if (task->mRun != NULL) {
             ((void (*)(WorkerTask *)) task->mRun)(task);
         }
@@ -59,14 +60,14 @@ void MBi_TaskThread(void *argument) {
         doneFunction = (void (*)(WorkerTask *)) task->mDone;
         currentPriority = OS_GetThreadPriority(&workerQueue->mThread);
         if (workerQueue->mFirstTask == NULL) {
-            v2 = priorityWhenEmpty;
+            nextPriority = priorityWhenEmpty;
         } else if (currentPriority < workerQueue->mFirstTask->mPriority) {
-            v2 = workerQueue->mFirstTask->mPriority;
+            nextPriority = workerQueue->mFirstTask->mPriority;
         } else {
-            v2 = currentPriority;
+            nextPriority = currentPriority;
         }
-        if (v2 != currentPriority) {
-            OS_SetThreadPriority(&workerQueue->mThread, v2);
+        if (nextPriority != currentPriority) {
+            OS_SetThreadPriority(&workerQueue->mThread, nextPriority);
         }
         task->mNext = NULL;
         task->mInUse = 0;
@@ -115,7 +116,7 @@ void MBi_InitTaskInfo(void *taskInfo) {
     void *target = taskInfo;
     u32 fillValue;
     u32 byteCount;
-    u32 value3;
+    u32 unusedScratch;
     fillValue = 0u;
     byteCount = 32u;
     MI_CpuFill8(target, fillValue, byteCount);

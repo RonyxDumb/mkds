@@ -344,13 +344,13 @@ void AdvanceOptionTopMenuState8(void) {
 }
 
 void AdvanceOptionTopMenuState9(void) {
-    int v1;
-    v1 = GetOptionNextScene();
-    if ((v1 == -1) && (gOptionTopMenu->mNextOptionState == OPTION_STATE_SCENE_TITLE)) {
+    int queryResult;
+    queryResult = GetOptionNextScene();
+    if ((queryResult == -1) && (gOptionTopMenu->mNextOptionState == OPTION_STATE_SCENE_TITLE)) {
         RequestOptionNextScene(0);
     }
-    v1 = GetTxtSystemDone();
-    if (v1 != 0) {
+    queryResult = GetTxtSystemDone();
+    if (queryResult != 0) {
         SetTxtSystemOpenSoundId(0x23);
         RequestTxtSystemClose();
         gOptionTopMenu->mNextOptionState = OPTION_STATE_SCENE_TITLE;

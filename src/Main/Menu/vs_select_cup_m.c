@@ -225,21 +225,21 @@ BOOL VsSelectCupMB_IsMultiBootChildWrapper(void) {
 }
 
 void VsSelectGX_SetVisiblePlane(int bits) {
-    u32 value0 = bits;
-    u32 value1;
-    value1 = reg_GX_DISPCNT;
-    value1 = (value1) & ~(0x1f00u);
-    value0 = (value1) | ((value0 << 8));
-    reg_GX_DISPCNT = value0;
+    u32 newDispcnt = bits;
+    u32 dispcnt;
+    dispcnt = reg_GX_DISPCNT;
+    dispcnt = (dispcnt) & ~(0x1f00u);
+    newDispcnt = (dispcnt) | ((newDispcnt << 8));
+    reg_GX_DISPCNT = newDispcnt;
 }
 
 void VsSelectGXS_SetVisiblePlane(int bits) {
-    u32 value0 = bits;
-    u32 value1;
-    value1 = reg_GXS_DB_DISPCNT;
-    value1 = (value1) & ~(0x1f00u);
-    value0 = (value1) | ((value0 << 8));
-    reg_GXS_DB_DISPCNT = value0;
+    u32 newDispcnt = bits;
+    u32 dispcnt;
+    dispcnt = reg_GXS_DB_DISPCNT;
+    dispcnt = (dispcnt) & ~(0x1f00u);
+    newDispcnt = (dispcnt) | ((newDispcnt << 8));
+    reg_GXS_DB_DISPCNT = newDispcnt;
 }
 
 #pragma thumb on

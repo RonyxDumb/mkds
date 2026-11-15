@@ -153,13 +153,13 @@ u32 GetSubDispcntBits(void) {
 }
 
 u32 EmblemChoisesGXS_SetVisiblePlane(u32 bits) {
-    u32 value0 = bits;
+    u32 newDispcnt = bits;
     u32 registerValue;
     registerValue = reg_GXS_DB_DISPCNT;
     registerValue = (registerValue) & ~(0x1f00u);
-    value0 = (registerValue) | ((value0 << 8));
-    reg_GXS_DB_DISPCNT = value0;
-    return value0;
+    newDispcnt = (registerValue) | ((newDispcnt << 8));
+    reg_GXS_DB_DISPCNT = newDispcnt;
+    return newDispcnt;
 }
 
 void EmblemChoisesWriteSubBg0Offset(u32 offsetX, u32 offsetY) {
@@ -290,10 +290,10 @@ void WriteEmblemChoisesScreenMapWrapper(void) {
 #pragma thumb off
 
 void *EmblemChoisesGetCurrentHeap(void) {
-    void *value0;
-    value0 = GetCurrentHeapCall();
-    value0 = GetHeap(value0);
-    return value0;
+    void *heap;
+    heap = GetCurrentHeapCall();
+    heap = GetHeap(heap);
+    return heap;
 }
 
 void EmblemChoisesInitTextCanvas(TextCanvas *textCanvas, void *charCanvas, void *font, s32 charSpacing,

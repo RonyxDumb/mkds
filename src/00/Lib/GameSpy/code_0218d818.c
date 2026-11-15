@@ -77,8 +77,8 @@ s32 DarrayGetCount(void *arrayArg) {
     return darray->mCount;
 }
 
-void *DarrayGetElement(void *param_1, s32 index) {
-    Darray *array = param_1;
+void *DarrayGetElement(void *darrayArg, s32 index) {
+    Darray *array = darrayArg;
     if (index < 0 || index >= array->mCount) {
         AssertionFailed("(n >= 0) && (n < array->count)", "darray.c", NULL, 0x94);
     }
@@ -88,18 +88,18 @@ void *DarrayGetElement(void *param_1, s32 index) {
     return array->mList + array->mElemSize * index;
 }
 
-void DarrayAppend(void *param_1, void *param_2) {
-    Darray *array = param_1;
+void DarrayAppend(void *darrayArg, void *element) {
+    Darray *array = darrayArg;
     if (array == NULL) {
         AssertionFailed("array", "darray.c", NULL, 0xa0);
     }
     if (array != NULL) {
-        DarrayInsert(array, param_2, array->mCount);
+        DarrayInsert(array, element, array->mCount);
     }
 }
 
-void DarrayInsert(void *param_1, void *param_2, s32 index) {
-    Darray *array = param_1;
+void DarrayInsert(void *darrayArg, void *element, s32 index) {
+    Darray *array = darrayArg;
     s32 lastIndex;
     if (index < 0 || index > array->mCount) {
         AssertionFailed("(n >= 0) && (n <= array->count)", "darray.c", NULL, 0xa7);
@@ -113,29 +113,30 @@ void DarrayInsert(void *param_1, void *param_2, s32 index) {
         memmove(DarrayGetElement(array, index + 1), DarrayGetElement(array, index),
                 array->mElemSize * (lastIndex - index));
     }
-    DarraySetElement(array, param_2, index);
+    DarraySetElement(array, element, index);
 }
 
 void DarrayInsertSorted(Darray *array, void *elem, UnkCompare *comparator) {
-    u8 *v1;
-    u32 v2;
-    s32 v3[2];
+    u8 *foundElement;
+    u32 insertIndex;
+    s32 searchFound[2];
     if (comparator == NULL) {
         AssertionFailed("comparator", "darray.c", NULL, 0xb7);
     }
-    v1 = DarraySearchSorted(elem, array->mList, array->mCount, array->mElemSize, comparator, v3);
-    v2 = _s32_div_f(v1 - array->mList, array->mElemSize);
-    DarrayInsert(array, elem, v2);
+    foundElement = DarraySearchSorted(elem, array->mList, array->mCount, array->mElemSize, comparator, searchFound);
+    insertIndex = _s32_div_f(foundElement - array->mList, array->mElemSize);
+    DarrayInsert(array, elem, insertIndex);
 }
 
 void DarrayRemoveWithoutCallback(Darray *array, int index) {
-    s32 v1;
+    s32 lastIndex;
     if (index < 0 || index >= array->mCount) {
         AssertionFailed("(n >= 0) && (n < array->count)", "darray.c", NULL, 0xc0);
     }
-    v1 = array->mCount - 1;
-    if (index < v1) {
-        memmove(DarrayGetElement(array, index), DarrayGetElement(array, index + 1), array->mElemSize * (v1 - index));
+    lastIndex = array->mCount - 1;
+    if (index < lastIndex) {
+        memmove(DarrayGetElement(array, index), DarrayGetElement(array, index + 1),
+                array->mElemSize * (lastIndex - index));
     }
     array->mCount = array->mCount - 1;
 }
@@ -156,12 +157,12 @@ void DarrayReplace(Darray *array, const void *elem, s32 index) {
     DarraySetElement(array, elem, index);
 }
 
-void DarraySort(Darray *p0, u32 p1) {
-    qsort(p0->mList, p0->mCount, p0->mElemSize, (int (*)(void *, void *)) p1);
+void DarraySort(Darray *darray, u32 compareFunc) {
+    qsort(darray->mList, darray->mCount, darray->mElemSize, (int (*)(void *, void *)) compareFunc);
 }
 
 s32 DarrayFindIndex(Darray *darray, const void *key, UnkCompare *comparator, s32 startIndex, s32 sortedFlag) {
-    s32 v1 = 1;
+    s32 matchFlag = 1;
     s32 count;
     u8 *found;
     if (darray == NULL || (count = darray->mCount) == 0) {
@@ -169,12 +170,12 @@ s32 DarrayFindIndex(Darray *darray, const void *key, UnkCompare *comparator, s32
     }
     if (sortedFlag != 0) {
         found = DarraySearchSorted(key, DarrayGetElement(darray, startIndex), count - startIndex, darray->mElemSize,
-                                   comparator, &v1);
+                                   comparator, &matchFlag);
     } else {
         found = DarraySearchLinear(key, DarrayGetElement(darray, startIndex), count - startIndex, darray->mElemSize,
                                    comparator);
     }
-    if (found != NULL && v1 != 0) {
+    if (found != NULL && matchFlag != 0) {
         return (found - darray->mList) / darray->mElemSize;
     }
     return -1;
@@ -214,15 +215,15 @@ void DarrayRemoveAll(Darray *darray) {
 
 void *DarraySearchLinear(const void *key, u8 *base, s32 count, s32 elemSize, UnkCompare *comparator) {
     s32 index;
-    s32 v1;
+    s32 byteOffset;
     index = 0;
     if (count > 0) {
-        v1 = 0;
+        byteOffset = 0;
         do {
-            if (comparator(key, base + v1) == 0) {
+            if (comparator(key, base + byteOffset) == 0) {
                 return base + elemSize * index;
             }
-            v1 += elemSize;
+            byteOffset += elemSize;
             index++;
         } while (index < count);
     }
@@ -230,24 +231,24 @@ void *DarraySearchLinear(const void *key, u8 *base, s32 count, s32 elemSize, Unk
 }
 
 void *DarraySearchSorted(const void *key, u8 *base, s32 count, s32 elemSize, UnkCompare *comparator, s32 *found) {
-    s32 v1 = 0;
-    s32 v2 = count - 1;
-    s32 v3;
+    s32 lowIndex = 0;
+    s32 highIndex = count - 1;
+    s32 midIndex;
     s32 compareResult;
     *found = 0;
-    if (v2 >= 0) {
+    if (highIndex >= 0) {
         do {
-            v3 = (v1 + v2) >> 1;
-            compareResult = comparator(base + v3 * elemSize, key);
+            midIndex = (lowIndex + highIndex) >> 1;
+            compareResult = comparator(base + midIndex * elemSize, key);
             if (compareResult == 0) {
                 *found = 1;
             }
             if (compareResult < 0) {
-                v1 = v3 + 1;
+                lowIndex = midIndex + 1;
             } else {
-                v2 = v3 - 1;
+                highIndex = midIndex - 1;
             }
-        } while (v1 <= v2);
+        } while (lowIndex <= highIndex);
     }
-    return base + v1 * elemSize;
+    return base + lowIndex * elemSize;
 }

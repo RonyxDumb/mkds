@@ -315,16 +315,16 @@ void AdvanceWiFiTopMenuState5(void) {
 }
 
 void AdvanceWiFiTopMenuState6(void) {
-    int v1;
-    v1 = GetTxtSystemDone();
-    if (v1 != 0) {
+    int queryResult;
+    queryResult = GetTxtSystemDone();
+    if (queryResult != 0) {
         RequestTxtSystemClose();
         return;
     }
-    v1 = IsTxtSystemState0NoOpenRequest();
-    if (v1 != 0) {
-        v1 = GetTxtSystemSelectedIndex();
-        if (v1 == 0) {
+    queryResult = IsTxtSystemState0NoOpenRequest();
+    if (queryResult != 0) {
+        queryResult = GetTxtSystemSelectedIndex();
+        if (queryResult == 0) {
             ReleaseWiFiSession();
             gWiFiTopMenu->mNextState = WIFI_TOP_MENU_STATE_WAIT_NEXT_SCENE;
             return;
@@ -334,13 +334,13 @@ void AdvanceWiFiTopMenuState6(void) {
 }
 
 void AdvanceWiFiTopMenuState7(void) {
-    int v1;
-    v1 = GetWiFiNextScene();
-    if ((v1 == -1) && (gWiFiTopMenu->mPendingWiFiState == WIFI_STATE_SCENE_TITLE)) {
+    int queryResult;
+    queryResult = GetWiFiNextScene();
+    if ((queryResult == -1) && (gWiFiTopMenu->mPendingWiFiState == WIFI_STATE_SCENE_TITLE)) {
         SetWiFiNextScene(0);
     }
-    v1 = GetWiFiSessionLoginResult();
-    if (v1 != 1) {
+    queryResult = GetWiFiSessionLoginResult();
+    if (queryResult != 1) {
         gWiFiTopMenu->mPendingWiFiState = WIFI_STATE_SCENE_TITLE;
     }
 }

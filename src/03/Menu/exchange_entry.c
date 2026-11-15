@@ -132,14 +132,14 @@ void UpdateExchangeEntry(void) {
 }
 
 void UpdateExchangeEntryInput(void) {
-    int v1;
-    v1 = AreKeysPressed(2);
-    if (v1 != 0) {
+    int queryResult;
+    queryResult = AreKeysPressed(2);
+    if (queryResult != 0) {
         SetButtonResultIfNone(0);
         return;
     }
-    v1 = ExchangeEntryPAD_DetectFold();
-    if (v1 != 0) {
+    queryResult = ExchangeEntryPAD_DetectFold();
+    if (queryResult != 0) {
         SetButtonResultIfNone(0);
     }
 }
@@ -178,10 +178,11 @@ void UpdateExchangeEntryFadeOut(void) {
 }
 
 void UpdateExchangeEntryRelease(void) {
-    int v1;
-    v1 = IsBlendBrightnessFadeSlotBusy(0);
-    if ((v1 == 0) && (((gExchangeEntryShowNext != 0 || (v1 = IsBlendBrightnessFadeSlotBusy(1), v1 == 0)) &&
-                       (v1 = IsSlideButtonsNotSlidingOut(), v1 != 0)))) {
+    int queryResult;
+    queryResult = IsBlendBrightnessFadeSlotBusy(0);
+    if ((queryResult == 0) &&
+        (((gExchangeEntryShowNext != 0 || (queryResult = IsBlendBrightnessFadeSlotBusy(1), queryResult == 0)) &&
+          (queryResult = IsSlideButtonsNotSlidingOut(), queryResult != 0)))) {
         ReleaseAnimatedIcon();
         ReleaseBgTextCanvasOfScreen(0);
         if (gExchangeEntryShowNext == 0) {

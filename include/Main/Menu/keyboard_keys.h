@@ -67,8 +67,8 @@ KeyboardRect *FindKeyboardRectAt(KeyboardKeys *keyboardKeys, s32 pointX, s32 poi
 u16 FindFirstCharRectIndex(KeyboardLayout *keyboardLayout);
 void FillKeyboardBg2Scr(KeyboardKeys *keyboardKeys);
 void CallKeyboardKeyCallback(s32 newPress);
-void SetKeyboardKeyCallback(s32 (*arg0)(u32, s32));
-void SetKeyboardCursorCallback(u16 (*arg0)(s32, u16));
+void SetKeyboardKeyCallback(s32 (*callback)(u32, s32));
+void SetKeyboardCursorCallback(u16 (*callback)(s32, u16));
 void SetKeyboardGlyphColor(u32 color);
 void SetKeyboardScreenMapTopBits(u32 topBits);
 void SetupKeyboardInputMasks(u16 firstMask, u16 secondMask, u16 thirdMask);

@@ -51,15 +51,15 @@ u32 LoadFileToVram(void *path, void *loader) {
     DeleteLoadedFile(data);
 }
 
-void CreateObjectsForMenuPair(u32 a) {
+void CreateObjectsForMenuPair(u32 row) {
     int firstValue[2];
     GetPrimaryMenuPair(firstValue, NULL);
     if (firstValue[0] == 1) {
-        CreateMenuPairObjects(a);
+        CreateMenuPairObjects(row);
         return;
     }
     if (firstValue[0] == 2) {
-        ChangeMenuPairObjectImages(a);
+        ChangeMenuPairObjectImages(row);
     }
 }
 
@@ -96,11 +96,11 @@ void PrintMessageAndText(u32 text, u32 messageIndex) {
 }
 
 u32 GetLanguageTextFlags(void) {
-    u32 value0;
-    u32 value1;
-    value0 = GetLanguageIndex();
-    value1 = (value0 << 2);
-    value0 = (u32) &gLanguageTextFlags;
-    value0 = *(const u32 *) ((value0) + (value1));
-    return value0;
+    u32 value;
+    u32 tableOffset;
+    value = GetLanguageIndex();
+    tableOffset = (value << 2);
+    value = (u32) &gLanguageTextFlags;
+    value = *(const u32 *) ((value) + (tableOffset));
+    return value;
 }
