@@ -67,7 +67,8 @@ void DWCi_GPProfileSearchCallback(GpConnection *connection, ProfileSearchReply *
             if (ReportBuddySyncGpResult(arg->mResult) != 0) {
                 return;
             }
-        } else if (gWiFiBuddySync->mState == BUDDY_SYNC_STATE_UPDATING || GetFriendDataType(&gWiFiBuddySync->mBuddies[friendIdx]) == 0) {
+        } else if (gWiFiBuddySync->mState == BUDDY_SYNC_STATE_UPDATING ||
+                   GetFriendDataType(&gWiFiBuddySync->mBuddies[friendIdx]) == 0) {
             gWiFiBuddySync->mSyncIndex++;
             gWiFiBuddySync->mBuddyUpdateState = BUDDY_UPDATE_STATE_SYNC_ENTRIES;
         }
