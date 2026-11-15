@@ -58,7 +58,7 @@ void ReadBackupSlotGhost(u32 index, SlotGhostRecord *ghostRecord) {
     backupEnabled = backupAccess->mBackupEnabled;
     if (backupEnabled != 0) {
         backupAccess->mReadTarget = ghostRecord;
-        gBackupAccess->mUnk_6c = index;
+        gBackupAccess->mSlotGhostIndex = index;
         StartBackupReadOneCopy(offset + 0x26f00, gBackupAccess->mBuffer, 0x1000, CopyBackupReadToBlock, 0x47444b4e);
     }
 }

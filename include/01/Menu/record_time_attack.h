@@ -130,7 +130,7 @@ typedef struct BackupAccess {
     /* 60 */ void *mBuffer;
     /* 64 */ void *mOneByteReadBuffer;
     /* 68 */ void *mReadTarget;
-    /* 6c */ u8 mUnk_6c;
+    /* 6c */ u8 mSlotGhostIndex;
 } BackupAccess;
 
 extern const u16 gRecordTAttCharacterKartCellIndices[5][2];
