@@ -150,10 +150,12 @@ typedef struct SelectBattleStage {
     /* 1084 */ struct Bmg *mCommonMessages;
 } SelectBattleStage;
 
-// Values of TestScene.mState. State 0 is the emblem choises screen; states 1 to 3 (bare) show one character table per
-// font.
+// Values of TestScene.mState. State 0 is the emblem choises screen; states 1 to 3 show one character table per font.
 enum {
     TEST_SCENE_STATE_CHOISES,
+    TEST_SCENE_STATE_CHAR_TABLE_0,
+    TEST_SCENE_STATE_CHAR_TABLE_1,
+    TEST_SCENE_STATE_CHAR_TABLE_2,
     TEST_SCENE_STATE_COUNT = 4,
 };
 

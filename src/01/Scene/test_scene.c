@@ -128,9 +128,9 @@ void DrawTestScene(void) {
                 SetEmblemChoisesShownAndReset(1);
                 RequestEmblemChoisesGraphicsUpload();
                 break;
-            case 1:
-            case 2:
-            case 3:
+            case TEST_SCENE_STATE_CHAR_TABLE_0:
+            case TEST_SCENE_STATE_CHAR_TABLE_1:
+            case TEST_SCENE_STATE_CHAR_TABLE_2:
                 TestSceneGXS_SetVisiblePlane(2);
                 GXS_SetGraphicsMode(GX_BGMODE_0);
                 WriteSubBg1Offset(0, 0);
@@ -152,7 +152,7 @@ void DrawTestScene(void) {
     }
     if (gTestScene->mState == TEST_SCENE_STATE_CHOISES) {
         DrawEmblemChoises();
-    } else if ((u32) (gTestScene->mState - 1) <= 2) {
+    } else if ((u32) (gTestScene->mState - TEST_SCENE_STATE_CHAR_TABLE_0) <= 2) {
         u32 slotIndex;
         BOOL moved;
         int canvasIndex;
@@ -171,11 +171,11 @@ void DrawTestScene(void) {
                            0x2190, 0x2191, 0x2193, 0x266f, 0x266d, 0x266a, 0x0};
         slotIndex = GetTestSceneInputSlot();
         moved = FALSE;
-        if (gTestScene->mState == 1) {
+        if (gTestScene->mState == TEST_SCENE_STATE_CHAR_TABLE_0) {
             canvasIndex = 0;
-        } else if (gTestScene->mState == 2) {
+        } else if (gTestScene->mState == TEST_SCENE_STATE_CHAR_TABLE_1) {
             canvasIndex = 1;
-        } else if (gTestScene->mState == 3) {
+        } else if (gTestScene->mState == TEST_SCENE_STATE_CHAR_TABLE_2) {
             canvasIndex = 2;
         }
         if (GetInputSlotNewBitsByIndex(slotIndex, PAD_KEY_LEFT) != 0) {
@@ -200,7 +200,7 @@ void DrawTestScene(void) {
                 gTestSceneCharText[textIndex++] = 0xa;
             }
             TestSceneDrawTextOnCanvas(&gTestScene->mTextCanvases[canvasIndex], 0x80, 0x62,
-                                      gTestScene->mState == 3 ? 6 : 7, 0x412,
+                                      gTestScene->mState == TEST_SCENE_STATE_CHAR_TABLE_2 ? 6 : 7, 0x412,
                                       gTestSceneCharText);
         }
         GXS_LoadBG1Char(gTestScene->mChars, 0, 0x6000);
@@ -255,7 +255,7 @@ void InitTestSceneObject(void) {
 
     gTestScene = HeapAlloc(TestSceneGetCurrentHeap(), 0x66a8);
     gTestScene->mUnk_0000 = 0;
-    gTestScene->mState = 1;
+    gTestScene->mState = TEST_SCENE_STATE_CHAR_TABLE_0;
     gTestScene->mStateChanged = 1;
     ClearChars(gTestScene->mChars);
     FillScreenMapIndices(gTestScene->mScreenMap);
@@ -312,7 +312,7 @@ void UpdateTestSceneObject(SceneNumbers *sceneNumbers) {
             testScene = gTestScene;
             testScene->mState = (testScene->mState + 1) % TEST_SCENE_STATE_COUNT;
             gTestScene->mStateChanged = 1;
-            if (gTestScene->mState == 1) {
+            if (gTestScene->mState == TEST_SCENE_STATE_CHAR_TABLE_0) {
                 SetEmblemChoisesShownAndReset(0);
             }
         }
@@ -322,9 +322,9 @@ void UpdateTestSceneObject(SceneNumbers *sceneNumbers) {
             UpdateEmblemChoises();
             WriteEmblemChoisesScreenMapWrapper();
             break;
-        case 1:
-        case 2:
-        case 3:
+        case TEST_SCENE_STATE_CHAR_TABLE_0:
+        case TEST_SCENE_STATE_CHAR_TABLE_1:
+        case TEST_SCENE_STATE_CHAR_TABLE_2:
             break;
     }
 }
