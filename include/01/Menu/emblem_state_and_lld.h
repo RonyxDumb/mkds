@@ -81,6 +81,7 @@ enum {
 // Object behind gEmblem, allocated by InitEmblem.
 typedef void (*EmblemTransitionFunc)(void);
 
+// The emblem editor: its screen graphics, record and grid bytes, cursors, state and fade values.
 typedef struct Emblem {
     /* 0000 */ OamBuffer mMainOam;
     /* 0404 */ OamBuffer mSubOam;

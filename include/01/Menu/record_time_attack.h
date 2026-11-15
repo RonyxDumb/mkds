@@ -56,6 +56,7 @@ enum {
 // Length of the button sequence that gRecordTAttButtonSequence lists and mButtonSequenceIndex walks.
 #define RECORD_TATT_BUTTON_SEQUENCE_LENGTH 6
 
+// The record time attack screen: its layout tables, messages, heap, state and the button sequence progress.
 typedef struct RecordTAtt {
     /* 00 */ Ncgr *mRecordTAttMNcgr;
     /* 04 */ struct NNSG2dCellDataBank *mRecordTAttMNcer;

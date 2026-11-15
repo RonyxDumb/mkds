@@ -25,6 +25,7 @@ enum {
     ENDING_SCENE_STATE_HOLD_THEN_LEAVE,
 };
 
+// The ending scene: its state, heap, thanks layout, logo graphics and main screen OAM.
 typedef struct EndingScene {
     /* 000 */ s32 mState;
     /* 004 */ s32 mNextState;
@@ -333,6 +334,7 @@ typedef struct EmblemCursor {
     /* 40 */ s32 mPrevCellY;
 } EmblemCursor;
 
+// A mission run boss icon: its character data, cell bank, palette and layout.
 typedef struct MissionRunBossIcon {
     /* 00 */ Ncgr *mNcgr;
     /* 04 */ struct NNSG2dCellDataBank *mNcer;

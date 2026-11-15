@@ -78,6 +78,7 @@ typedef struct OptionStates {
 
 typedef void (*MissionRunEventCallback)(void);
 
+// The mission run state: its count, boss count, timer, pending changes, callbacks, kart position and map objects.
 typedef struct MissionRunData {
     /* 00 */ s32 mSinceHitCallbackFrames;
     /* 04 */ u16 mCount;
@@ -312,6 +313,7 @@ enum {
 #define TIME_ATTACK_TOP_PRESS_FRAMES 10
 #define TIME_ATTACK_TOP_HIGHLIGHT_FRAME 5
 
+// The time attack top menu screen: its layout tables, heap, state, selected index and result.
 typedef struct TimeAttackTopMenu {
     /* 00 */ struct NNSG2dCellDataBank *mTimeAttackTopMenuSNcer;
     /* 04 */ struct LayoutEntryTable *mTimeAttackTopMenuSBncl;

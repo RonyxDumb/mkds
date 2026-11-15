@@ -28,6 +28,7 @@ enum {
     CAMERA_EFFECT_KIND_AHEAD_OF_CAMERA,
 };
 
+// A map object that spawns an effect: the delay or camera effect state and the handle of the effect.
 typedef struct EffectMapObject {
     /* 00 */ MapObject mMapObject;
     /* a0 */ union {

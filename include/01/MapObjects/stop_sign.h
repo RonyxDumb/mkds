@@ -2,6 +2,7 @@
 
 #include "types.h"
 
+// A stop sign map object: its position, scale and the matrix axes and position it is drawn with.
 typedef struct StopSignObject {
     /* 00 */ u8 mUnk_00[4];
     /* 04 */ s32 mPosX;

@@ -8,6 +8,7 @@
 #define EMBLEM_INPUT_REPEAT_CALLS 0xf
 #define EMBLEM_INPUT_STILL_PRESS_CALLS 0x3c
 
+// The emblem editor input: pointer position, press, release and down state and how long each button has been held.
 typedef struct EmblemInput {
     /* 0x00 */ s32 mX;
     /* 0x04 */ s32 mY;

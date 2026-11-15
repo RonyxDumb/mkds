@@ -37,6 +37,7 @@ enum {
 #define RECORD_TOP_MENU_PRESS_FRAMES 10
 #define RECORD_TOP_MENU_ROW_ON_FRAME 5
 
+// The record top menu screen: its layout tables, messages, heap, state, selected index and chosen record screen.
 typedef struct RecordTopMenu {
     /* 0x00 */ struct NNSG2dCellDataBank *mRecordTopMenuMNcer;
     /* 0x04 */ LayoutEntryTable *mRecordTopMenuMBncl;

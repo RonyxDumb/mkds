@@ -2,6 +2,7 @@
 
 #include "types.h"
 
+// A rectangle of columns and rows within a select battle stage Nscr.
 typedef struct SelectBattleStageNscrRect {
     /* 00 */ u8 mFirstColumn;
     /* 01 */ u8 mLastColumn;

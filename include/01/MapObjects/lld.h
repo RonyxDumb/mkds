@@ -13,6 +13,7 @@ typedef struct LldRecord {
     /* 6 */ u16 mShowMode;
 } LldRecord;
 
+// The records of a Lld file: the entry count and one animation index, position and show mode per entry.
 typedef struct LldData {
     /* 00 */ u16 mEntryCount;
     /* 02 */ LldRecord mRecords[1];
