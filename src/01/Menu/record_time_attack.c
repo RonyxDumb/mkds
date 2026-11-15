@@ -291,7 +291,7 @@ void AdvanceRecordTAttState2(void) {
         }
     }
     RequestRecordTAttState5();
-    gRecordTAtt->mNextScreen = 0;
+    gRecordTAtt->mNextScreen = RECORD_SCREEN_TOP_MENU;
     RequestSelectReturnState3WithSound(0);
     goto done;
 other:

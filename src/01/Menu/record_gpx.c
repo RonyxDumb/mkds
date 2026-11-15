@@ -278,7 +278,7 @@ void AdvanceRecordGpxState2(void) {
         }
     }
     RequestRecordGpxState5();
-    gRecordGpx->mNextScreen = 0;
+    gRecordGpx->mNextScreen = RECORD_SCREEN_TOP_MENU;
     RequestSelectReturnState3WithSound(0);
     return;
 next:

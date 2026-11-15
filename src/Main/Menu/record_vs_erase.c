@@ -821,7 +821,7 @@ void AdvanceRecordVSEraseState4(void) {
             return;
         }
         RequestRecordVSEraseState12();
-        gRecordVSErase->mNextScreen = 3;
+        gRecordVSErase->mNextScreen = RECORD_SCREEN_VS;
         RequestSelectReturnState3WithSound(0);
         return;
     }
@@ -1124,7 +1124,7 @@ void AdvanceRecordVSEraseState10(void) {
             gRecordVSErase->mPageIndex--;
         }
         if (gRecordVSErase->mPageIndex < 0) {
-            gRecordVSErase->mNextScreen = 3;
+            gRecordVSErase->mNextScreen = RECORD_SCREEN_VS;
             RequestRecordScreen(gRecordVSErase->mNextScreen);
         } else {
             RequestRecordVSEraseState11();

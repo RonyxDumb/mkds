@@ -33,7 +33,7 @@ const u16 gRecordTopMenuRowCellIndices[3] = {9, 0xa, 0xb};
 const u16 gRecordTopMenuLabelWidths[3][3] = {{0x70, 0x70, 0x70}, {0x20, 0x20, 0x20}, {0x20, 0x20, 0x20}};
 const s32 gRecordTopMenuTouchRowIndices[3] = {0, 1, 2};
 const u16 gRecordTopMenuLabelHeights[3][3] = {{0xe, 0xe, 0xe}, {0xe, 0xe, 0xe}, {0xe, 0xe, 0xe}};
-const s32 gRecordTopMenuRowRecordScreens[3] = {1, 2, 3};
+const s32 gRecordTopMenuRowRecordScreens[3] = {RECORD_SCREEN_GPX, RECORD_SCREEN_TIME_ATTACK, RECORD_SCREEN_VS};
 const u16 gRecordTopMenuRecordMessageIndices[3] = {6, 7, 8};
 const u16 gRecordTopMenuOffsetSTableIndices[3] = {3, 4, 5};
 const u16 gRecordTopMenuRowSTableIndices[3] = {6, 7, 8};
@@ -252,14 +252,14 @@ void InitRecordTopMenu(void *heap) {
     gRecordTopMenu->mHeap = heap;
     gRecordTopMenu->mState = RECORD_TOP_MENU_STATE_WAIT_FADE;
     switch (GetRecordPrevScreen()) {
-        case 1:
-        case 5:
+        case RECORD_SCREEN_GPX:
+        case RECORD_SCREEN_START:
             gRecordTopMenu->mIndex = 0;
             break;
-        case 2:
+        case RECORD_SCREEN_TIME_ATTACK:
             gRecordTopMenu->mIndex = 1;
             break;
-        case 3:
+        case RECORD_SCREEN_VS:
             if (GetRecordCount()) {
                 gRecordTopMenu->mIndex = 2;
             } else {
@@ -452,7 +452,7 @@ void AdvanceRecordTopMenuState4(void) {
     }
     SetSelectReturnSoundId(15);
     RequestRecordTopMenuState6();
-    gRecordTopMenu->mRecordScreen = 5;
+    gRecordTopMenu->mRecordScreen = RECORD_SCREEN_START;
     RequestSelectReturnState3WithSound(1);
     return;
 skip:
@@ -516,7 +516,7 @@ void AdvanceRecordTopMenuState6(void) {
     const u16 *labelRow;
     s32 mainLayoutCount;
 
-    if (GetRecordNextScene() == -1 && gRecordTopMenu->mRecordScreen == 5) {
+    if (GetRecordNextScene() == -1 && gRecordTopMenu->mRecordScreen == RECORD_SCREEN_START) {
         SetRecordNextScene(0);
     }
     gRecordTopMenu->mStateFrames++;
