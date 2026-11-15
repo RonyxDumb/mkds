@@ -16,6 +16,18 @@ unsigned int GetRecordPrevScreen(void);
 
 void RequestRecordScreen(s32 screen);
 
+// Values of RecordScene.mScreen, mNextScreen and mPrevScreen: the five screens, then the two non-screen values.
+enum {
+    RECORD_SCREEN_TOP_MENU,
+    RECORD_SCREEN_GPX,
+    RECORD_SCREEN_TIME_ATTACK,
+    RECORD_SCREEN_VS,
+    RECORD_SCREEN_VS_ERASE,
+    RECORD_SCREEN_START,
+    RECORD_SCREEN_OUTSIDE,
+};
+#define RECORD_SCREEN_NONE (-1)
+
 // The Record scene object: runs one of the five Record screens at a time and switches between them on request.
 typedef struct RecordScreenCallbacks {
     /* 00 */ void (*mInit)(void *);

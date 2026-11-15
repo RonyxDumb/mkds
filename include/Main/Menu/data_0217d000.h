@@ -94,6 +94,12 @@ enum {
     RECORD_VS_ERASE_STATE_SUB_SLIDE_OUT_TO_SCREEN,
 };
 
+// Values of RecordVS.mPageDecrement: which way the page change goes.
+enum {
+    RECORD_VS_PAGE_INCREMENT,
+    RECORD_VS_PAGE_DECREMENT,
+};
+
 // Values of RecordVSErase.mPageDecrement: which way the page change goes.
 enum {
     RECORD_VS_ERASE_PAGE_INCREMENT,
@@ -231,7 +237,7 @@ typedef struct RecordVS {
     /* 38 */ struct LayoutEntryTable *mRecordVSSBnll;
     // Object table of the sub screen (files mRecordVSSBncl / mRecordVSSBnll).
     /* 3c */ LayoutTableEntry *mRecordVSSTable;
-    /* 40 */ s32 mShowsFriendKey;
+    /* 40 */ BOOL mShowsFriendKey;
     /* 44 */ struct Bmg *mRecordMessages;
     /* 48 */ void *mHeap;
     /* 4c */ s32 mState;

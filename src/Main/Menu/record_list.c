@@ -383,16 +383,16 @@ void PrintRecordVSShownRecord(void) {
 
     firstIndex = GetRecordVSFirstRecordIndex();
     if (GetRecordFriendKeyText(firstIndex + gRecordVS->mShownIndex, friendKey)) {
-        gRecordVS->mShowsFriendKey = 1;
+        gRecordVS->mShowsFriendKey = TRUE;
         NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG1_MAP, 0, &gRecordVS->mRecordVSM03Nscr->mData,
                                            gRecordVS->mRecordVSM03Nscr->mDataSize);
     } else {
-        gRecordVS->mShowsFriendKey = 0;
+        gRecordVS->mShowsFriendKey = FALSE;
         NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG1_MAP, 0, &gRecordVS->mRecordVSM02Nscr->mData,
                                            gRecordVS->mRecordVSM02Nscr->mDataSize);
     }
     switch (gRecordVS->mShowsFriendKey) {
-        case 0:
+        case FALSE:
             CopyRecordText(firstIndex + gRecordVS->mShownIndex, buf, 0x20);
             PrintLabelLayoutTextNoFixedAdvance(0, 0, gRecordVS->mRecordVSMBnll, buf, gRecordVS->mRecordVSMBncl,
                                                gRecordVS->mRecordVSMTable);
@@ -628,7 +628,7 @@ void RequestRecordVSState0(void) {
     u16 mainBase;
     s32 labelIndex;
     rowIndex = 0;
-    gRecordVS->mNextState = 0;
+    gRecordVS->mNextState = RECORD_VS_STATE_WAIT_FADE;
     gRecordVS->mStateFrames = 0;
     gRecordVS->mBg0OffsetX = 0;
     gRecordVS->mBg0OffsetY = -192;
@@ -679,19 +679,19 @@ void RequestRecordVSState0(void) {
 }
 
 void RequestRecordVSState1(void) {
-    gRecordVS->mNextState = 1;
+    gRecordVS->mNextState = RECORD_VS_STATE_SLIDE_IN_MAIN;
     gRecordVS->mStateFrames = 0;
     PrintRecordVSShownRecord();
 }
 
 void RequestRecordVSState2AndRefreshPage(void) {
-    gRecordVS->mNextState = 2;
+    gRecordVS->mNextState = RECORD_VS_STATE_SLIDE_IN_SUB;
     gRecordVS->mStateFrames = 0;
     RefreshRecordVSPage();
 }
 
 void RequestRecordVSState3(void) {
-    gRecordVS->mNextState = 3;
+    gRecordVS->mNextState = RECORD_VS_STATE_WAIT_RETURN_BUTTON;
     gRecordVS->mStateFrames = 0;
     RequestSelectReturnState1();
 }
@@ -699,25 +699,25 @@ void RequestRecordVSState3(void) {
 // Requests state 4: stores mNextState = 4 and zeroes mStateFrames; the next AdvanceRecordVS call copies it to mState
 // and runs AdvanceRecordVSState4.
 void RequestRecordVSState4(void) {
-    gRecordVS->mNextState = 4;
+    gRecordVS->mNextState = RECORD_VS_STATE_BROWSE;
     gRecordVS->mStateFrames = 0;
 }
 
 // Requests state 5: stores mNextState = 5 and zeroes mStateFrames; the next AdvanceRecordVS call copies it to mState
 // and runs AdvanceRecordVSState5.
 void RequestRecordVSState5(void) {
-    gRecordVS->mNextState = 5;
+    gRecordVS->mNextState = RECORD_VS_STATE_PAGE_SLIDE_OUT;
     gRecordVS->mStateFrames = 0;
 }
 
 void RequestRecordVSState6AndChangePage(void) {
-    gRecordVS->mNextState = 6;
+    gRecordVS->mNextState = RECORD_VS_STATE_PAGE_SLIDE_IN;
     gRecordVS->mStateFrames = 0;
     switch (gRecordVS->mPageDecrement) {
-        case 0:
+        case RECORD_VS_PAGE_INCREMENT:
             IncrementRecordVSPageIndex();
             break;
-        case 1:
+        case RECORD_VS_PAGE_DECREMENT:
             DecrementRecordVSPageIndex();
             break;
     }
@@ -727,14 +727,14 @@ void RequestRecordVSState6AndChangePage(void) {
 // Requests state 7: stores mNextState = 7 and zeroes mStateFrames; the next AdvanceRecordVS call copies it to mState
 // and runs AdvanceRecordVSState7.
 void RequestRecordVSState7(void) {
-    gRecordVS->mNextState = 7;
+    gRecordVS->mNextState = RECORD_VS_STATE_SUB_SLIDE_OUT;
     gRecordVS->mStateFrames = 0;
 }
 
 void RequestRecordVSState8(void) {
     s32 rowIndex;
     u16 subBase;
-    gRecordVS->mNextState = 8;
+    gRecordVS->mNextState = RECORD_VS_STATE_MAIN_SLIDE_OUT;
     rowIndex = 0;
     gRecordVS->mStateFrames = 0;
     subBase = gRecordVS->mRecordVSSBncl->mCount;
@@ -759,14 +759,14 @@ void RequestRecordVSState8(void) {
 }
 
 void RequestRecordVSState9(void) {
-    gRecordVS->mNextState = 9;
+    gRecordVS->mNextState = RECORD_VS_STATE_PRESS_BUTTON;
     gRecordVS->mStateFrames = 0;
     gRecordVS->mRecordVSSTable[25].mVisible = 1;
     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 4);
 }
 
 void RequestRecordVSState10(void) {
-    gRecordVS->mNextState = 10;
+    gRecordVS->mNextState = RECORD_VS_STATE_SUB_SLIDE_OUT_REQUEST_SCREEN;
     gRecordVS->mStateFrames = 0;
     RequestSelectReturnState4();
 }
@@ -774,7 +774,7 @@ void RequestRecordVSState10(void) {
 void RequestRecordVSState11AndRefreshPage(void) {
     s32 rowIndex;
     u16 subBase;
-    gRecordVS->mNextState = 11;
+    gRecordVS->mNextState = RECORD_VS_STATE_SUB_SLIDE_IN;
     rowIndex = 0;
     gRecordVS->mStateFrames = 0;
     subBase = gRecordVS->mRecordVSSBncl->mCount;
@@ -813,10 +813,10 @@ void InitRecordVS(void *heap) {
     gRecordVS->mHeap = heap;
     gRecordVS->mPageIndex = GetRecordScenePageIndex();
     gRecordVS->mIndex = GetRecordSceneIndex();
-    gRecordVS->mPageDecrement = 0;
+    gRecordVS->mPageDecrement = RECORD_VS_PAGE_INCREMENT;
     gRecordVS->mIndexChangeTimer = 0;
     gRecordVS->mShownIndex = gRecordVS->mIndex;
-    gRecordVS->mShowsFriendKey = 0;
+    gRecordVS->mShowsFriendKey = FALSE;
     gRecordVS->mPageDecrementRepeat = FALSE;
     gRecordVS->mPageIncrementRepeat = FALSE;
     for (index = 0; index < 2; index++) {
@@ -903,7 +903,7 @@ void InitRecordVS(void *heap) {
     SetLabelOamModeXlu(5, 0, gRecordVS->mRecordVSSBnll, gRecordVS->mRecordVSSTable, gRecordVS->mRecordVSSBncl);
     gRecordVS->mEmblem = HeapAlloc(heap, 0x201);
     gRecordVS->mEmblemConverted = HeapAlloc(heap, 0x200);
-    if (GetRecordPrevScreen() == 4) {
+    if (GetRecordPrevScreen() == RECORD_SCREEN_VS_ERASE) {
         if (GetRecordCount() != 0) {
             gRecordVS->mState = RECORD_VS_STATE_SUB_SLIDE_IN;
             RequestRecordVSState11AndRefreshPage();
@@ -911,9 +911,9 @@ void InitRecordVS(void *heap) {
             gRecordVS->mState = RECORD_VS_STATE_MAIN_SLIDE_OUT;
             RequestRecordVSState8();
             if (GetRecordPrevScene() == 12) {
-                gRecordVS->mNextScreen = 6;
+                gRecordVS->mNextScreen = RECORD_SCREEN_OUTSIDE;
             } else {
-                gRecordVS->mNextScreen = 0;
+                gRecordVS->mNextScreen = RECORD_SCREEN_TOP_MENU;
             }
         }
     } else {
@@ -927,7 +927,7 @@ void InitRecordVS(void *heap) {
 
 void ReleaseRecordVS(void) {
     u32 planeBits;
-    if (gRecordVS->mNextScreen == 4) {
+    if (gRecordVS->mNextScreen == RECORD_SCREEN_VS_ERASE) {
         SetRecordScenePageIndex(gRecordVS->mPageIndex);
         SetRecordSceneIndex(gRecordVS->mIndex);
     } else {

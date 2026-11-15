@@ -244,11 +244,11 @@ void AdvanceRecordVSState4(void) {
     }
     RequestRecordVSState7();
     if (GetRecordPrevScene() == 12) {
-        gRecordVS->mNextScreen = 6;
+        gRecordVS->mNextScreen = RECORD_SCREEN_OUTSIDE;
         RequestSelectReturnState3WithSound(1);
         return;
     }
-    gRecordVS->mNextScreen = 0;
+    gRecordVS->mNextScreen = RECORD_SCREEN_TOP_MENU;
     RequestSelectReturnState3WithSound(0);
     return;
 l1:
@@ -261,7 +261,7 @@ l1:
         if (gRecordVS->mRecordVSSTable[20].mVisible == 0) {
             return;
         }
-        gRecordVS->mPageDecrement = 1;
+        gRecordVS->mPageDecrement = RECORD_VS_PAGE_DECREMENT;
         gRecordVS->mOffsetTimers[0] = 6;
         gRecordVS->mPageDecrementRepeat = TRUE;
         RequestRecordVSState5();
@@ -277,7 +277,7 @@ l1:
         if (gRecordVS->mRecordVSSTable[21].mVisible == 0) {
             return;
         }
-        gRecordVS->mPageDecrement = 0;
+        gRecordVS->mPageDecrement = RECORD_VS_PAGE_INCREMENT;
         gRecordVS->mOffsetTimers[1] = 6;
         gRecordVS->mPageIncrementRepeat = TRUE;
         RequestRecordVSState5();
@@ -308,7 +308,7 @@ l1:
     }
     if (pressedRectIndex == 12 || (u16) (keySlot->mPressedBits & PAD_KEY_X) != 0) {
         RequestRecordVSState9();
-        gRecordVS->mNextScreen = 4;
+        gRecordVS->mNextScreen = RECORD_SCREEN_VS_ERASE;
         return;
     }
     if ((u16) (keySlot->mPressedBits & PAD_KEY_A) != 0) {
@@ -336,10 +336,10 @@ void AdvanceRecordVSState5(void) {
     endOffset = 0;
     AdvanceRecordVSOffsetTimers();
     switch (gRecordVS->mPageDecrement) {
-        case 0:
+        case RECORD_VS_PAGE_INCREMENT:
             endOffset = -256;
             break;
-        case 1:
+        case RECORD_VS_PAGE_DECREMENT:
             endOffset = 0x100;
             break;
     }
@@ -394,10 +394,10 @@ void AdvanceRecordVSState6(void) {
     startOffset = 0;
     AdvanceRecordVSOffsetTimers();
     switch (gRecordVS->mPageDecrement) {
-        case 0:
+        case RECORD_VS_PAGE_INCREMENT:
             startOffset = 0x100;
             break;
-        case 1:
+        case RECORD_VS_PAGE_DECREMENT:
             startOffset = -256;
             break;
     }
@@ -475,7 +475,7 @@ void AdvanceRecordVSState8(void) {
     s32 rowIndex;
     s32 labelIndex;
     s16 offset;
-    if (GetRecordNextScene() == -1 && gRecordVS->mNextScreen == 6) {
+    if (GetRecordNextScene() == -1 && gRecordVS->mNextScreen == RECORD_SCREEN_OUTSIDE) {
         SetRecordNextScene(12);
     }
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
@@ -506,7 +506,7 @@ void AdvanceRecordVSState8(void) {
         gRecordVS->mRecordVSMTransientTable[transientBase + gRecordVSFriendKeyLabelIndices[labelIndex]].mOffsetY =
             offset;
     }
-    if (gRecordVS->mStateFrames >= 10 && gRecordVS->mNextScreen != 6) {
+    if (gRecordVS->mStateFrames >= 10 && gRecordVS->mNextScreen != RECORD_SCREEN_OUTSIDE) {
         RequestRecordScreen(gRecordVS->mNextScreen);
     }
 }
@@ -629,11 +629,11 @@ void AdvanceRecordVS(void) {
     AdvanceRecordVSRowObjects();
     recordVS = gRecordVS;
     switch (recordVS->mShowsFriendKey) {
-        case 0:
+        case FALSE:
             DrawLayoutTable(recordVS->mRecordVSMBncl, recordVS->mRecordVSMNcer, recordVS->mRecordVSMBnll,
                             GetRecordMainOam(), recordVS->mRecordVSMTable);
             break;
-        case 1:
+        case TRUE:
             DrawLayoutTable(recordVS->mRecordVSMTransientBncl, recordVS->mRecordVSMNcer,
                             recordVS->mRecordVSMTransientBnll, GetRecordMainOam(), recordVS->mRecordVSMTransientTable);
             break;
@@ -827,15 +827,15 @@ void InitRecordSceneObject(void *heap, s16 previousScene) {
     ClearRecordScreenCallbacksKeepRegisters();
     gRecordScene->mPrevScene = previousScene;
     gRecordScene->mNextScene = -1;
-    gRecordScene->mNextScreen = -1;
+    gRecordScene->mNextScreen = RECORD_SCREEN_NONE;
     gRecordScene->mRegistersTimer = 2;
     if (gRecordScene->mPrevScene == 12) {
-        gRecordScene->mPrevScreen = 6;
-        gRecordScene->mScreen = 3;
+        gRecordScene->mPrevScreen = RECORD_SCREEN_OUTSIDE;
+        gRecordScene->mScreen = RECORD_SCREEN_VS;
         RegisterRecordVSCallbacks();
     } else {
-        gRecordScene->mPrevScreen = 5;
-        gRecordScene->mScreen = 0;
+        gRecordScene->mPrevScreen = RECORD_SCREEN_START;
+        gRecordScene->mScreen = RECORD_SCREEN_TOP_MENU;
         RegisterRecordTopMenuCallbacks();
     }
     gRecordScene->mScreenCallbacks.mInit(gRecordScene->mStateHeap);
@@ -860,34 +860,34 @@ void ReleaseRecordSceneObject(void) {
 
 // Switches to the requested screen when there is one, then runs the running screen's step.
 void AdvanceRecordScene(void) {
-    if (gRecordScene->mNextScreen != -1) {
+    if (gRecordScene->mNextScreen != RECORD_SCREEN_NONE) {
         gRecordScene->mScreenCallbacks.mRelease();
         ClearRecordScreenCallbacksKeepRegisters();
         HeapDestroy(gRecordScene->mStateHeap);
         gRecordScene->mStateHeap = CreateExpHeapFromMaxFree(gRecordScene->mHeap);
         switch (gRecordScene->mNextScreen) {
-            case 0:
-                if (gRecordScene->mScreen == 3) {
+            case RECORD_SCREEN_TOP_MENU:
+                if (gRecordScene->mScreen == RECORD_SCREEN_VS) {
                     BuildRecordList();
                 }
                 RegisterRecordTopMenuCallbacks();
                 break;
-            case 1:
+            case RECORD_SCREEN_GPX:
                 RegisterRecordGpxCallbacks();
                 break;
-            case 2:
+            case RECORD_SCREEN_TIME_ATTACK:
                 RegisterRecordTAttCallbacks();
                 break;
-            case 3:
+            case RECORD_SCREEN_VS:
                 RegisterRecordVSCallbacks();
                 break;
-            case 4:
+            case RECORD_SCREEN_VS_ERASE:
                 RegisterRecordVSEraseCallbacks();
                 break;
         }
         gRecordScene->mPrevScreen = gRecordScene->mScreen;
         gRecordScene->mScreen = gRecordScene->mNextScreen;
-        gRecordScene->mNextScreen = -1;
+        gRecordScene->mNextScreen = RECORD_SCREEN_NONE;
         gRecordScene->mRegistersTimer = 2;
         gRecordScene->mScreenCallbacks.mInit(gRecordScene->mStateHeap);
     }
