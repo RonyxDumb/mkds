@@ -277,12 +277,12 @@ void AdvanceSelectCupGridIndexChange(void) {
     int index;
 
     if (IsSelectCupGridIndexChangeRunning() != 0) {
-        if (gSelectCupGrid->mIndexChangeTimer == 7) {
+        if (gSelectCupGrid->mIndexChangeTimer == MENU_INDEX_CHANGE_FRAMES) {
             gSelectCupGrid->mShownIndex = gSelectCupGrid->mIndex;
             SetupSelectCupGridIndex();
         } else if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
             mainCellCount = gSelectCupGrid->mSelectCupMBncl->mCount;
-            offsetY = LookupIndexChangeOffset(7 - gSelectCupGrid->mIndexChangeTimer, 1);
+            offsetY = LookupIndexChangeOffset(MENU_INDEX_CHANGE_FRAMES - gSelectCupGrid->mIndexChangeTimer, 1);
             gSelectCupGrid->mBg0Offset = offsetY;
             gSelectCupGrid->mSelectCupMTable[19].mOffsetY = offsetY;
             gSelectCupGrid->mSelectCupMTable[2].mOffsetY = offsetY;
@@ -302,7 +302,7 @@ void AdvanceSelectCupGridIndexChange(void) {
         }
         gSelectCupGrid->mIndexChangeTimer = gSelectCupGrid->mIndexChangeTimer - 1;
     } else if (gSelectCupGrid->mIndex != gSelectCupGrid->mShownIndex) {
-        gSelectCupGrid->mIndexChangeTimer = 7;
+        gSelectCupGrid->mIndexChangeTimer = MENU_INDEX_CHANGE_FRAMES;
     }
 }
 
@@ -328,7 +328,7 @@ void UpdateSelectCupGridCourseCells(void) {
 
 void AdvanceSelectCupGridShownCourse(void) {
     gSelectCupGrid->mShownCourseFrames = gSelectCupGrid->mShownCourseFrames + 1;
-    if (gSelectCupGrid->mShownCourseFrames >= 0x4b) {
+    if (gSelectCupGrid->mShownCourseFrames >= SELECT_CUP_GRID_COURSE_SHOW_FRAMES) {
         gSelectCupGrid->mShownCourseIndex = gSelectCupGrid->mShownCourseIndex + 1;
         if (gSelectCupGrid->mShownCourseIndex >= 4) {
             gSelectCupGrid->mShownCourseIndex = 0;
@@ -397,9 +397,9 @@ void RequestSelectCupGridWaitFade(void) {
         gSelectCupGrid->mSelectCupMTable[20].mOffsetY = offsetY;
         offsetX = -224;
         gSelectCupGrid->mSelectCupSTable[0].mOffsetX = offsetX;
-        gSelectCupGrid->mSelectCupSTable[1].mOffsetX = 0xe0;
+        gSelectCupGrid->mSelectCupSTable[1].mOffsetX = SELECT_CUP_GRID_OFFSCREEN_X;
         gSelectCupGrid->mSelectCupSTable[2].mOffsetX = offsetX;
-        gSelectCupGrid->mSelectCupSTable[3].mOffsetX = 0xe0;
+        gSelectCupGrid->mSelectCupSTable[3].mOffsetX = SELECT_CUP_GRID_OFFSCREEN_X;
         for (index = 0; index < 4; index++) {
             for (cellIndex = 0; cellIndex < 6; cellIndex++) {
                 gSelectCupGrid->mSelectCupSTable[gSelectCupGridCupCellIndices[index][cellIndex]].mOffsetX = offsetX;
@@ -407,7 +407,8 @@ void RequestSelectCupGridWaitFade(void) {
         }
         for (index = 4; index < 8; index++) {
             for (cellIndex = 0; cellIndex < 6; cellIndex++) {
-                gSelectCupGrid->mSelectCupSTable[gSelectCupGridCupCellIndices[index][cellIndex]].mOffsetX = 0xe0;
+                gSelectCupGrid->mSelectCupSTable[gSelectCupGridCupCellIndices[index][cellIndex]].mOffsetX =
+                    SELECT_CUP_GRID_OFFSCREEN_X;
             }
         }
     }
@@ -573,8 +574,9 @@ void InitSelectCupGrid(void *heap, void *mainOam, void *subOam, s32 mode) {
 }
 
 void ReleaseSelectCupGrid(void) {
-    if ((gSelectCupGrid->mMode == SELECT_CUP_GRID_MODE_SHOW_RECORDS && gSelectCupGrid->mResult == 1) ||
-        gSelectCupGrid->mResult == 2) {
+    if ((gSelectCupGrid->mMode == SELECT_CUP_GRID_MODE_SHOW_RECORDS &&
+         gSelectCupGrid->mResult == MENU_SCREEN_RESULT_NEXT) ||
+        gSelectCupGrid->mResult == MENU_SCREEN_RESULT_BACK) {
         reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | 0x1800;
     }
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
@@ -615,7 +617,8 @@ void AdvanceSelectCupGridSlideIn(void) {
     gSelectCupGrid->mStateFrames = gSelectCupGrid->mStateFrames + 1;
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         mainCellCount = gSelectCupGrid->mSelectCupMBncl->mCount;
-        offsetX = InterpolateS16(1, 0xe0, 0, gSelectCupGrid->mStateFrames, SELECT_CUP_GRID_SLIDE_STEPS);
+        offsetX = InterpolateS16(1, SELECT_CUP_GRID_OFFSCREEN_X, 0, gSelectCupGrid->mStateFrames,
+                                 SELECT_CUP_GRID_SLIDE_STEPS);
         offsetY = InterpolateS16(1, -192, 0, gSelectCupGrid->mStateFrames, SELECT_CUP_GRID_SLIDE_STEPS);
         if (GetPreviousMenuScreenNumber() != 0x18 && GetPreviousMenuScreenNumber() != 0xc) {
             gSelectCupGrid->mBg0Offset = offsetY;
@@ -731,7 +734,7 @@ runReturnRequest:
         case SELECT_CUP_GRID_MODE_SHOW_RECORDS:
         case SELECT_CUP_GRID_MODE_NO_RECORDS:
             RequestSelectCupGridSlideOut();
-            gSelectCupGrid->mResult = 2;
+            gSelectCupGrid->mResult = MENU_SCREEN_RESULT_BACK;
             RequestSelectReturnPressWithSound(0);
             return;
         case SELECT_CUP_GRID_MODE_NO_CONNECTION:
@@ -747,7 +750,7 @@ runReturnRequest:
                 return;
             }
             RequestSelectCupGridSlideOut();
-            gSelectCupGrid->mResult = 2;
+            gSelectCupGrid->mResult = MENU_SCREEN_RESULT_BACK;
             if (gSelectCupGrid->mMode != SELECT_CUP_GRID_MODE_NO_CONNECTION) {
                 RequestSelectReturnPressWithSound(1);
                 if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
@@ -848,7 +851,7 @@ void AdvanceSelectCupGridWaitChosen(void) {
             return;
         }
         SetCupFromSelectCupGrid();
-        gSelectCupGrid->mResult = 1;
+        gSelectCupGrid->mResult = MENU_SCREEN_RESULT_NEXT;
         RequestSelectCupGridSlideOut();
     }
 }
@@ -888,7 +891,7 @@ void AdvanceSelectCupGridWaitConfirmAnswer(void) {
         switch (choiceIndex) {
             case 0:
                 SetCupFromSelectCupGrid();
-                gSelectCupGrid->mResult = 1;
+                gSelectCupGrid->mResult = MENU_SCREEN_RESULT_NEXT;
                 RequestSelectCupGridSlideOut();
                 RequestSelectReturnSlideOut();
                 break;
@@ -949,7 +952,7 @@ void AdvanceSelectCupGridWaitExitAnswer(void) {
                 RequestSelectCupGridChoose();
                 break;
             case 1:
-                gSelectCupGrid->mResult = 3;
+                gSelectCupGrid->mResult = MENU_SCREEN_RESULT_LEAVE;
                 RequestSelectCupGridSlideOut();
                 if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
                     SlideOutSelectRaceRuleWait();
@@ -971,9 +974,10 @@ void AdvanceSelectCupGridSlideOut(void) {
     gSelectCupGrid->mStateFrames = gSelectCupGrid->mStateFrames + 1;
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         mainCellCount = gSelectCupGrid->mSelectCupMBncl->mCount;
-        offsetX = InterpolateS16(1, 0, 0xe0, gSelectCupGrid->mStateFrames, SELECT_CUP_GRID_SLIDE_STEPS);
+        offsetX = InterpolateS16(1, 0, SELECT_CUP_GRID_OFFSCREEN_X, gSelectCupGrid->mStateFrames,
+                                 SELECT_CUP_GRID_SLIDE_STEPS);
         offsetY = InterpolateS16(1, 0, -192, gSelectCupGrid->mStateFrames, SELECT_CUP_GRID_SLIDE_STEPS);
-        if (gSelectCupGrid->mResult == 2 || gSelectCupGrid->mResult == 3 ||
+        if (gSelectCupGrid->mResult == MENU_SCREEN_RESULT_BACK || gSelectCupGrid->mResult == MENU_SCREEN_RESULT_LEAVE ||
             gSelectCupGrid->mMode == SELECT_CUP_GRID_MODE_SHOW_RECORDS) {
             gSelectCupGrid->mBg0Offset = offsetY;
             gSelectCupGrid->mSelectCupMTable[19].mOffsetY = offsetY;

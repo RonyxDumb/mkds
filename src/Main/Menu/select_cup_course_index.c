@@ -94,18 +94,18 @@ void AdvanceSelectCupCourseIndexChange(void) {
     s16 offsetY;
 
     if (IsSelectCupCourseIndexChangeRunning() != 0) {
-        if (gSelectCupCourse->mIndexChangeTimer == 7) {
+        if (gSelectCupCourse->mIndexChangeTimer == MENU_INDEX_CHANGE_FRAMES) {
             gSelectCupCourse->mShownIndex = gSelectCupCourse->mIndex;
             RefreshSelectCupCourseForIndex();
         } else if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
             taOrVsCellCount = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->mCount;
-            offsetY = LookupIndexChangeOffset(7 - gSelectCupCourse->mIndexChangeTimer, 1);
+            offsetY = LookupIndexChangeOffset(MENU_INDEX_CHANGE_FRAMES - gSelectCupCourse->mIndexChangeTimer, 1);
             gSelectCupCourse->mSelectCupCourseTaOrVsMTable[taOrVsCellCount].mOffsetY = offsetY;
             gSelectCupCourse->mSelectCupCourseTaOrVsMTable[taOrVsCellCount + 1].mOffsetY = offsetY;
         }
         gSelectCupCourse->mIndexChangeTimer--;
     } else if (gSelectCupCourse->mIndex != gSelectCupCourse->mShownIndex) {
-        gSelectCupCourse->mIndexChangeTimer = 7;
+        gSelectCupCourse->mIndexChangeTimer = MENU_INDEX_CHANGE_FRAMES;
     }
 }
 
@@ -415,7 +415,7 @@ void AdvanceSelectCupCourseSlideIn(void) {
             }
         }
     }
-    if (gSelectCupCourse->mStateFrames >= 10) {
+    if (gSelectCupCourse->mStateFrames >= SELECT_CUP_COURSE_SLIDE_STEPS) {
         RequestSelectCupCourseWaitReturn();
     }
 }

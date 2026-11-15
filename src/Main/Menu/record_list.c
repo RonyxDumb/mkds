@@ -597,13 +597,13 @@ void AdvanceRecordVSIndexChange(void) {
     u16 transientBase;
     s16 offset;
     if (IsRecordVSIndexChangeRunning() != 0) {
-        if (gRecordVS->mIndexChangeTimer == 7) {
+        if (gRecordVS->mIndexChangeTimer == MENU_INDEX_CHANGE_FRAMES) {
             gRecordVS->mShownIndex = gRecordVS->mIndex;
             PrintRecordVSShownRecord();
         } else {
             mainBase = gRecordVS->mRecordVSMBncl->mCount;
             transientBase = gRecordVS->mRecordVSMTransientBncl->mCount;
-            offset = LookupIndexChangeOffset(7 - gRecordVS->mIndexChangeTimer, 0);
+            offset = LookupIndexChangeOffset(MENU_INDEX_CHANGE_FRAMES - gRecordVS->mIndexChangeTimer, 0);
             gRecordVS->mBg0OffsetY = offset;
             gRecordVS->mRecordVSMTable[3].mOffsetY = offset;
             gRecordVS->mRecordVSMTable[mainBase].mOffsetY = offset;
@@ -613,7 +613,7 @@ void AdvanceRecordVSIndexChange(void) {
         gRecordVS->mIndexChangeTimer = gRecordVS->mIndexChangeTimer - 1;
     } else {
         if (gRecordVS->mIndex != 5 && gRecordVS->mIndex != gRecordVS->mShownIndex) {
-            gRecordVS->mIndexChangeTimer = 7;
+            gRecordVS->mIndexChangeTimer = MENU_INDEX_CHANGE_FRAMES;
         }
     }
 }

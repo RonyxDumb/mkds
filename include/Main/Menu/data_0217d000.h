@@ -16,6 +16,9 @@
 // Bytes of the second screen map buffer: one 32 by 32 screen map of 16-bit cells.
 #define SECOND_SCREEN_MAP_BYTES 0x800
 
+// Frames of the cell slide that follows a change of the shown index; mIndexChangeTimer counts down from this.
+#define MENU_INDEX_CHANGE_FRAMES 7
+
 typedef struct OSMessageQueue OSMessageQueue;
 
 // Three words derived from a halfword.
@@ -316,6 +319,10 @@ typedef enum SelectCupGridMode {
 
 // Steps of the slide in and out; mStateFrames counts them.
 #define SELECT_CUP_GRID_SLIDE_STEPS 10
+// Offset in x of the cup cells and labels while they are off the right edge.
+#define SELECT_CUP_GRID_OFFSCREEN_X 0xe0
+// mShownCourseFrames at which the shown course of the cup changes to the next.
+#define SELECT_CUP_GRID_COURSE_SHOW_FRAMES 0x4b
 // mStateFrames at which state WAIT_CHOSEN shows the highlight.
 #define SELECT_CUP_GRID_HIGHLIGHT_STEP 5
 
@@ -378,6 +385,15 @@ typedef enum SelectCupCourseMode {
     SELECT_CUP_COURSE_MODE_MULTI_SIMPLE = 2,
     SELECT_CUP_COURSE_MODE_MULTI_OTHER = 3,
 } SelectCupCourseMode;
+
+// Steps of the slide in and out; mStateFrames counts them.
+#define SELECT_CUP_COURSE_SLIDE_STEPS 10
+// mStateFrames at which state CONFIRM_PICK shows the highlight.
+#define SELECT_CUP_COURSE_HIGHLIGHT_STEP 5
+// Steps state CONFIRM_PICK runs before the choice is stored.
+#define SELECT_CUP_COURSE_CONFIRM_STEPS 10
+// Frames the message of a connected mode stays before its choices are looked at.
+#define SELECT_CUP_COURSE_MESSAGE_FRAMES 0xf
 
 // Object behind gSelectCupCourse.
 typedef struct SelectCupCourse {

@@ -415,13 +415,13 @@ void AdvanceRecordVSEraseIndexChange(void) {
     s16 offsetY;
 
     if (IsRecordVSEraseIndexChangeRunning()) {
-        if (gRecordVSErase->mIndexChangeTimer == 7) {
+        if (gRecordVSErase->mIndexChangeTimer == MENU_INDEX_CHANGE_FRAMES) {
             gRecordVSErase->mShownIndex = gRecordVSErase->mIndex;
             PrintRecordVSEraseShownRecord();
         } else {
             mainCellCount = gRecordVSErase->mRecordVSMBncl->mCount;
             transientCellCount = gRecordVSErase->mRecordVSMTransientBncl->mCount;
-            offsetY = LookupIndexChangeOffset(7 - gRecordVSErase->mIndexChangeTimer, 0);
+            offsetY = LookupIndexChangeOffset(MENU_INDEX_CHANGE_FRAMES - gRecordVSErase->mIndexChangeTimer, 0);
             gRecordVSErase->mBg0OffsetY = offsetY;
             gRecordVSErase->mRecordVSMTable[3].mOffsetY = offsetY;
             gRecordVSErase->mRecordVSMTable[mainCellCount].mOffsetY = offsetY;
@@ -431,7 +431,7 @@ void AdvanceRecordVSEraseIndexChange(void) {
         gRecordVSErase->mIndexChangeTimer--;
     } else {
         if (gRecordVSErase->mIndex != 5 && gRecordVSErase->mIndex != gRecordVSErase->mShownIndex) {
-            gRecordVSErase->mIndexChangeTimer = 7;
+            gRecordVSErase->mIndexChangeTimer = MENU_INDEX_CHANGE_FRAMES;
         }
     }
 }

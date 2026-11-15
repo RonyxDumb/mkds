@@ -83,7 +83,7 @@ void AdvanceSelectCupCoursePickCourse(void) {
                 SetSelectReturnSoundId(0xe);
             }
             RequestSelectCupCourseSlideOut();
-            gSelectCupCourse->mResult = 2;
+            gSelectCupCourse->mResult = MENU_SCREEN_RESULT_BACK;
             RequestSelectReturnPressWithSound(0);
         }
         return;
@@ -129,11 +129,11 @@ void AdvanceSelectCupCoursePickCourse(void) {
 
 void AdvanceSelectCupCourseConfirmPick(void) {
     AdvanceSelectCupCourseIndexChange();
-    if (gSelectCupCourse->mStateFrames == 5) {
+    if (gSelectCupCourse->mStateFrames == SELECT_CUP_COURSE_HIGHLIGHT_STEP) {
         gSelectCupCourse->mHighlightShown = TRUE;
     }
     gSelectCupCourse->mStateFrames++;
-    if (gSelectCupCourse->mStateFrames >= 10) {
+    if (gSelectCupCourse->mStateFrames >= SELECT_CUP_COURSE_CONFIRM_STEPS) {
         if (IsSelectCupCourseIndexChangeRunning() == 0) {
             if (gSelectCupCourse->mMode == SELECT_CUP_COURSE_MODE_WITH_GHOSTS) {
                 SetupGhostRecordSetForCupCourse();
@@ -163,7 +163,7 @@ void AdvanceSelectCupCourseWaitChoices(void) {
             break;
         case SELECT_CUP_COURSE_MODE_MULTI_SIMPLE:
             gSelectCupCourse->mStateFrames++;
-            if (gSelectCupCourse->mStateFrames >= 0xf) {
+            if (gSelectCupCourse->mStateFrames >= SELECT_CUP_COURSE_MESSAGE_FRAMES) {
                 if (IsSelectChoisesChooseNoRequest() != 0 || GetSelectChoisesDone() != 0) {
                     RequestSelectCupCourseChoose();
                 }
@@ -216,7 +216,7 @@ void AdvanceSelectCupCourseCloseChoices(void) {
             break;
         case SELECT_CUP_COURSE_MODE_MULTI_SIMPLE:
             gSelectCupCourse->mStateFrames++;
-            if (gSelectCupCourse->mStateFrames >= 0xf) {
+            if (gSelectCupCourse->mStateFrames >= SELECT_CUP_COURSE_MESSAGE_FRAMES) {
                 if (IsSelectChoisesHiddenNoRequest() != 0) {
                     choiceIndex = GetSelectChoisesIndex();
                     switch (choiceIndex) {
@@ -280,7 +280,7 @@ void AdvanceSelectCupCourseSlideOut(void) {
         gSelectCupCourse->mSelectCupCourseTaOrVsMTable[cellCount + 4].mOffsetY = offsetY;
         gSelectCupCourse->mSelectCupCourseTaOrVsMTable[cellCount + 5].mOffsetY = offsetY;
     }
-    if (gSelectCupCourse->mResult != 2) {
+    if (gSelectCupCourse->mResult != MENU_SCREEN_RESULT_BACK) {
         cellCount = gSelectCupCourse->mSelectCupMBncl->mCount;
         gSelectCupCourse->mBg3Offset = offsetY - 0x20;
         gSelectCupCourse->mSelectCupMTable[0x14].mOffsetY = offsetY - 0x20;
@@ -354,7 +354,8 @@ s32 AdvanceSelectCupCourse(void) {
     } else {
         AdvanceSelectRaceRuleWait();
     }
-    if (gSelectCupCourse->mState == SELECT_CUP_COURSE_STATE_SLIDE_OUT && gSelectCupCourse->mStateFrames >= 10) {
+    if (gSelectCupCourse->mState == SELECT_CUP_COURSE_STATE_SLIDE_OUT &&
+        gSelectCupCourse->mStateFrames >= SELECT_CUP_COURSE_SLIDE_STEPS) {
         return gSelectCupCourse->mResult;
     }
     return 0;
