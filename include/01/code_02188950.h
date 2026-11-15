@@ -768,6 +768,12 @@ typedef struct ItemObject ItemObject;
 typedef void (*MapObjectKartCollisionCallback)(MissionRunMapObject *mapObject, Kart *kart);
 typedef void (*MapObjectItemCollisionCallback)(MissionRunMapObject *mapObject, ItemObject *itemObject);
 
+// Groups of bits in MissionRunMapObject.mCollisionBits, the bits CollideSphereWithCourse stores: floor hits and wall
+// hits, and the bit IsNotRisingWithBelowZeroBit tests.
+#define COURSE_HIT_GROUND 0x1e34ef
+#define COURSE_HIT_WALL 0x214300
+#define COURSE_HIT_BELOW_ZERO_BIT 0x800
+
 typedef struct MissionRunMapObject {
     /* 000 */ MapObject mMapObject;
     /* 0a0 */ MissionRunPrm *mPrm;

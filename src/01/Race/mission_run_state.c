@@ -286,7 +286,7 @@ BOOL IsAnyBalloonUnparked(void) {
         for (balloonIndex = 0;
              balloonIndex < list->mMapObjectCount && (balloon = list->mMapObjects[balloonIndex]) != NULL;
              balloonIndex++) {
-            if ((balloon->mMapObject.mFlags & 0x100) == 0) {
+            if ((balloon->mMapObject.mFlags & MAP_OBJECT_FLAG_PARKED) == 0) {
                 return TRUE;
             }
         }

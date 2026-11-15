@@ -125,7 +125,7 @@ void IwanteKartHitCallback(MissionRunMapObject *mapObject, Kart *kart) {
         MUL_FIXED12_NO_ROUND(mapObject->mPrm->mIwante.mKartHitCarryVelocity, COS_OF_ANGLE((u16) mapObject->mMoveAngle));
     mapObject->mKartResponse = KART_MAP_OBJECT_RESPONSE_CARRY_HALT;
     SetKartCollisionCallback(mapObject, IwanteKartHitCallback);
-    StartCameraWobbleAtDistance(mapObject->mMapObject.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
+    StartCameraWobbleAtDistance(mapObject->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK, 0x1000);
 }
 
 void IwanteKartResponse11Callback(MissionRunMapObject *mapObject, Kart *kart) {
@@ -390,8 +390,7 @@ void StartIwanteHandMoveVertical(MissionRunMapObject *mapObject) {
 void StartIwanteHandChangeToWalkB(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 3, NULL);
     StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mIwante.mChangeToWalkBAnimationEntry,
-                                  mapObject->mPrm->mIwante.mChangeToWalkBFrameStep,
-                                  &StartIwanteHandWalkBHold);
+                                  mapObject->mPrm->mIwante.mChangeToWalkBFrameStep, &StartIwanteHandWalkBHold);
     SetSpeedAndClearTarget(mapObject, 0);
     StopTurningMoveFollowsAngle(mapObject);
     SetIwanteWalkBCollision(mapObject);
@@ -401,8 +400,7 @@ void StartIwanteHandChangeToWalkB(MissionRunMapObject *mapObject) {
 void StartIwanteHandChangeToWalkA(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 3, NULL);
     StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mIwante.mChangeToWalkAAnimationEntry,
-                                  mapObject->mPrm->mIwante.mChangeToWalkAFrameStep,
-                                  &StartIwanteHandWalkAHold);
+                                  mapObject->mPrm->mIwante.mChangeToWalkAFrameStep, &StartIwanteHandWalkAHold);
     SetSpeedAndClearTarget(mapObject, 0);
     StopTurningMoveFollowsAngle(mapObject);
     SetIwanteWalkACollision(mapObject);
@@ -501,7 +499,7 @@ void StartIwanteHandMoveSideways(MissionRunMapObject *mapObject) {
     Kart *kart = GetKart((u16) gRaceSetup->mEntryIndex);
     Vec3 zeroVector = {0, 0, 0};
 
-    if ((mapObject->mMapObject.mFlags & 0x400) == 0) {
+    if ((mapObject->mMapObject.mFlags & MAP_OBJECT_FLAG_MIRRORED) == 0) {
         mapObject->mMoveAngle = mapObject->mAngle + 0x4000;
     } else {
         mapObject->mMoveAngle = mapObject->mAngle - 0x4000;
@@ -530,7 +528,7 @@ void StartIwanteHandLandBeforeSideways(MissionRunMapObject *mapObject) {
     SetSpeedAndClearTarget(mapObject, 0);
     SetVelocity(mapObject, &velocity);
     SetKartCollisionCallback(mapObject, IwanteKartResponse2Callback);
-    StartCameraWobbleAtDistance(mapObject->mMapObject.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
+    StartCameraWobbleAtDistance(mapObject->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK, 0x1000);
     StartEffectAtRowHeight(mapObject, 0x1000, 0, 0x2000, 0x414, 0);
     StartEffectAtRowHeight(mapObject, 0x1000, 0, 0x2000, 0x415, 0);
     StartMapObjectSound(&mapObject->mMapObject, 0x218);
@@ -548,7 +546,7 @@ void StartIwanteHandLandOnKart(MissionRunMapObject *mapObject) {
     SetSpeedAndClearTarget(mapObject, 0);
     SetVelocity(mapObject, &velocity);
     SetKartCollisionCallback(mapObject, IwanteKartResponse2Callback);
-    StartCameraWobbleAtDistance(mapObject->mMapObject.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
+    StartCameraWobbleAtDistance(mapObject->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK, 0x1000);
     StartEffectAtRowHeight(mapObject, 0x1000, 0, 0x2000, 0x414, 0);
     StartEffectAtRowHeight(mapObject, 0x1000, 0, 0x2000, 0x415, 0);
     StartMapObjectSound(&mapObject->mMapObject, 0x218);
@@ -628,7 +626,7 @@ void StartIwanteHandLandOnKartAndStop(MissionRunMapObject *mapObject) {
     SetSpeedAndClearTarget(mapObject, 0);
     SetVelocity(mapObject, &velocity);
     SetKartCollisionCallback(mapObject, IwanteKartResponse2Callback);
-    StartCameraWobbleAtDistance(mapObject->mMapObject.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
+    StartCameraWobbleAtDistance(mapObject->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK, 0x1000);
     StartEffectAtRowHeight(mapObject, 0x1000, 0, 0x2000, 0x414, 0);
     StartEffectAtRowHeight(mapObject, 0x1000, 0, 0x2000, 0x415, 0);
     StartMapObjectSound(&mapObject->mMapObject, 0x218);
@@ -654,21 +652,19 @@ void StartIwanteHandDirectFallOnKart(MissionRunMapObject *mapObject) {
 void StartIwanteHandHitThirdAnimation(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 7, NULL);
     StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mIwante.mHitThirdAnimationEntry,
-                                  mapObject->mPrm->mIwante.mHitThirdFrameStep,
-                                  &StartIwanteHandMoveToPoints);
+                                  mapObject->mPrm->mIwante.mHitThirdFrameStep, &StartIwanteHandMoveToPoints);
     SetIwanteWalkBCollision(mapObject);
 }
 
 void StartIwanteHandHitSecondAnimation(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 7, NULL);
     StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mIwante.mHitSecondAnimationEntry,
-                                  mapObject->mPrm->mIwante.mHitSecondFrameStep,
-                                  &StartIwanteHandHitThirdAnimation);
+                                  mapObject->mPrm->mIwante.mHitSecondFrameStep, &StartIwanteHandHitThirdAnimation);
     SetIwanteWalkAHitCollision(mapObject);
 }
 
 s32 AdvanceIwanteHandHitCollisionSound(MissionRunMapObject *mapObject) {
-    if ((mapObject->mCollisionBits & 0x001e34ef) != 0) {
+    if ((mapObject->mCollisionBits & COURSE_HIT_GROUND) != 0) {
         StartMapObjectSound(&mapObject->mMapObject, 0x218);
         mapObject->mStateFunction = NULL;
     }
@@ -676,7 +672,7 @@ s32 AdvanceIwanteHandHitCollisionSound(MissionRunMapObject *mapObject) {
 }
 
 s32 AdvanceIwanteHandHitCollision(MissionRunMapObject *mapObject) {
-    if (mapObject->mCollisionBits & 0x1e34ef) {
+    if (mapObject->mCollisionBits & COURSE_HIT_GROUND) {
         mapObject->mStateFunction = (s32(*)(MissionRunMapObject *)) AdvanceIwanteHandHitCollisionSound;
     }
     return 0;
@@ -703,8 +699,7 @@ void StartIwanteHandHitHold(MissionRunMapObject *mapObject) {
 void StartIwanteHandHitReactionHold(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 7, &AdvanceIwanteHandHitCollision);
     StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mIwante.mHitReactionHoldAnimationEntry,
-                                  mapObject->mPrm->mIwante.mHitReactionHoldFrameStep,
-                                  &StartIwanteHandHitHold);
+                                  mapObject->mPrm->mIwante.mHitReactionHoldFrameStep, &StartIwanteHandHitHold);
     StopTurningMoveFollowsAngle(mapObject);
     SetSpeedAndClearTarget(mapObject, 0);
     mapObject->mGravityEnabled = TRUE;
@@ -751,8 +746,7 @@ void StartIwanteKartEliminatedHold(MissionRunMapObject *mapObject) {
     }
     StartMapObjectState(mapObject, 3, NULL);
     StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mIwante.mChangeToWalkAAnimationEntry,
-                                  mapObject->mPrm->mIwante.mChangeToWalkAFrameStep,
-                                  &StartIwanteKartEliminatedHold);
+                                  mapObject->mPrm->mIwante.mChangeToWalkAFrameStep, &StartIwanteKartEliminatedHold);
     StopTurningMoveFollowsAngle(mapObject);
     SetSpeedAndClearTarget(mapObject, 0);
     SetIwanteWalkACollision(mapObject);
@@ -1313,8 +1307,7 @@ void StartIwanteNoChainCameraEffects(MissionRunMapObject *mapObject) {
 void StartIwanteNoChainCameraAnimation(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, NULL);
     StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mHead.mStartupSecondAnimationEntry,
-                                  mapObject->mPrm->mHead.mStartupSecondFrameStep,
-                                  &StartIwanteNoChainCameraEffects);
+                                  mapObject->mPrm->mHead.mStartupSecondFrameStep, &StartIwanteNoChainCameraEffects);
     SetIwanteNoChainCameraWalkA(mapObject);
     StartMapObjectSound(&mapObject->mMapObject, 0x0000021bu);
 }
@@ -1497,7 +1490,7 @@ void InitIwante(MapObjectList *mapObjectList) {
             if (objectIndex == 0) {
                 obj->mMapObject.mFlags |= gMapObjectMirrorFlag;
             } else if (objectIndex == 1) {
-                obj->mMapObject.mFlags &= 0xfffffbff;
+                obj->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_MIRRORED;
             }
         }
     }

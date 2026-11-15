@@ -78,7 +78,7 @@ void DrawCoinShadow(void *mapObjectList, Coin *coin, void *viewMatrix, u32 mapOb
     Vec3 shadowScale;
 
     if (coin->mScaleFactor > 0 && coin->mModelAlpha != 0 && (coin->mMapObject.mFlags & 1) == 0 &&
-        (s32) (coin->mMapObject.mDistanceSquaredAndFlags & 0x3fffffe0) < 0x3d090) {
+        (s32) (coin->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK) < 0x3d090) {
         shadowPosition.x = coin->mMapObject.mPos.x;
         shadowPosition.y = coin->mMapObject.mPos.y - 0x16000;
         shadowPosition.z = coin->mMapObject.mPos.z;
@@ -295,7 +295,7 @@ void ParkBossCoins(s32 parkCount) {
                 }
                 count++;
                 if (count <= parkCount) {
-                    if ((coin->mMapObject.mFlags & 0x100) == 0) {
+                    if ((coin->mMapObject.mFlags & MAP_OBJECT_FLAG_PARKED) == 0) {
                         ParkMapObject(&coin->mMapObject);
                     }
                     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
@@ -317,7 +317,7 @@ void StartCoinsFadeOut(void) {
     if (coinList != NULL) {
         for (coinIndex = 0; coinIndex < coinList->mMapObjectCount && (coin = coinList->mMapObjects[coinIndex]) != NULL;
              coinIndex++) {
-            if (coin->mState == COIN_STATE_RESTING && (coin->mMapObject.mFlags & 0x100) == 0) {
+            if (coin->mState == COIN_STATE_RESTING && (coin->mMapObject.mFlags & MAP_OBJECT_FLAG_PARKED) == 0) {
                 coin->mMapObject.mPosStep.y = 0x5000;
                 coin->mModelAlpha = 0x32;
                 coin->mState = COIN_STATE_LAUNCH_FADE;
@@ -347,7 +347,7 @@ void StartCoinsFadeIn(void) {
     if (coinList != NULL) {
         for (coinIndex = 0; coinIndex < coinList->mMapObjectCount && (coin = coinList->mMapObjects[coinIndex]) != NULL;
              coinIndex++) {
-            if (coin->mState == COIN_STATE_HIDDEN_WAIT && (coin->mMapObject.mFlags & 0x100) == 0) {
+            if (coin->mState == COIN_STATE_HIDDEN_WAIT && (coin->mMapObject.mFlags & MAP_OBJECT_FLAG_PARKED) == 0) {
                 coin->mMapObject.mPos.x = coin->mMapObject.mCourseMapRow->mPosition.x;
                 coin->mMapObject.mPos.y = coin->mMapObject.mCourseMapRow->mPosition.y + 0xa000;
                 coin->mMapObject.mPos.z = coin->mMapObject.mCourseMapRow->mPosition.z;

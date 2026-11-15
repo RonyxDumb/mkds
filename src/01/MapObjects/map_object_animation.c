@@ -1010,7 +1010,7 @@ void StartEffectInSlot(MissionRunMapObject *mapObject, s32 effectIndex, s32 offs
     Vec3 position;
 
     mapObject->mEffects[effectIndex].mTimer = timer;
-    if ((mapObject->mMapObject.mFlags & 0x400) != 0) {
+    if ((mapObject->mMapObject.mFlags & MAP_OBJECT_FLAG_MIRRORED) != 0) {
         offsetX = -offsetX;
     }
     mapObject->mEffects[effectIndex].mOffset.x = offsetX << 4;
@@ -1167,7 +1167,7 @@ u32 IsStateNumberBelow(MissionRunMapObject *mapObject, int stateNumberLimit) {
 }
 
 BOOL IsNotRisingWithBelowZeroBit(MissionRunMapObject *mapObject) {
-    if ((mapObject->mCollisionBits & 0x800) != 0 && mapObject->mVelocity.y <= 0) {
+    if ((mapObject->mCollisionBits & COURSE_HIT_BELOW_ZERO_BIT) != 0 && mapObject->mVelocity.y <= 0) {
         return TRUE;
     }
     return FALSE;
@@ -1468,7 +1468,7 @@ void AdvanceMissionRunMapObject(u32 unused, MissionRunMapObject *mapObject) {
         mapObject->mVelocity.z < mapObject->mPrm->mHead.mStopSpeedLimit) {
         mapObject->mVelocity.x = 0;
         mapObject->mVelocity.z = 0;
-    } else if (mapObject->mCollisionBits & 0x1e34ef) {
+    } else if (mapObject->mCollisionBits & COURSE_HIT_GROUND) {
         velocityScale = mapObject->mPrm->mHead.mCourseHitVelocityScale;
         mapObject->mVelocity.x = MUL_FIXED12_NO_ROUND(mapObject->mVelocity.x, velocityScale);
         mapObject->mVelocity.y = MUL_FIXED12_NO_ROUND(mapObject->mVelocity.y, velocityScale);
@@ -1507,7 +1507,7 @@ void AdvanceMissionRunMapObject(u32 unused, MissionRunMapObject *mapObject) {
         }
     }
     if (mapObject->mCourseCollisionMode != MAP_OBJECT_COURSE_COLLISION_PUSH_Y_ONLY_NO_BITS &&
-        (mapObject->mCollisionBits & 0x214300)) {
+        (mapObject->mCollisionBits & COURSE_HIT_WALL)) {
         if (LENGTH_SQUARED(wallNormal) >= 0x10) {
             Vec3NormalizeAndGetLengthUnchecked(&wallNormal, &pushDirection);
         }
@@ -1516,9 +1516,9 @@ void AdvanceMissionRunMapObject(u32 unused, MissionRunMapObject *mapObject) {
                     &mapObject->mVelocity);
     }
 
-    if (mapObject->mCollisionBits & 0x1e34ef) {
+    if (mapObject->mCollisionBits & COURSE_HIT_GROUND) {
         if (mapObject->mVelocity.y > 0) {
-            mapObject->mCollisionBits &= ~0x1e34ef;
+            mapObject->mCollisionBits &= ~COURSE_HIT_GROUND;
         } else if (mapObject->mBounceEnabled != FALSE) {
             mapObject->mVelocity.y = MUL_FIXED12_NO_ROUND(mapObject->mVelocity.y, -mapObject->mPrm->mHead.mBounceScale);
             if (mapObject->mVelocity.y < mapObject->mPrm->mHead.mStopSpeedLimit) {
@@ -1614,11 +1614,12 @@ void AdvanceMissionRunMapObject(u32 unused, MissionRunMapObject *mapObject) {
         -mapObject->mPrm->mHead.mStopSpeedLimit < mapObject->mVelocity.x &&
         mapObject->mPrm->mHead.mStopSpeedLimit > mapObject->mVelocity.x &&
         -mapObject->mPrm->mHead.mStopSpeedLimit < mapObject->mVelocity.z &&
-        mapObject->mPrm->mHead.mStopSpeedLimit > mapObject->mVelocity.z && (mapObject->mCollisionBits & 0x1e34ef)) {
+        mapObject->mPrm->mHead.mStopSpeedLimit > mapObject->mVelocity.z &&
+        (mapObject->mCollisionBits & COURSE_HIT_GROUND)) {
         ClearAndRunCallback(mapObject, &mapObject->mStoppedCallback);
     }
     if (mapObject->mCourseCollisionCallback != NULL && mapObject->mVelocity.y <= 0 &&
-        (mapObject->mCollisionBits & 0x1e34ef)) {
+        (mapObject->mCollisionBits & COURSE_HIT_GROUND)) {
         ClearAndRunCallback(mapObject, &mapObject->mCourseCollisionCallback);
     }
 
@@ -1681,7 +1682,7 @@ void DrawMissionRunMapObject(void *mapObjectList, MissionRunMapObject *mapObject
         }
         NNS_G3dGeBufferOP_N(0x1b, &mapObject->mMapObject.mScale.x, 3);
         SetMapObjectModelAlpha(mapObject->mNsbmd, alpha);
-        SetMapObjectModelMirror(mapObject->mNsbmd, mapObject->mMapObject.mFlags & 0x400, 0);
+        SetMapObjectModelMirror(mapObject->mNsbmd, mapObject->mMapObject.mFlags & MAP_OBJECT_FLAG_MIRRORED, 0);
         DrawMapObjectModel(mapObjectList, mapObject->mNsbmd, mapObject);
     }
 }

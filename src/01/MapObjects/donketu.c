@@ -337,7 +337,7 @@ void DonketuChaseKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart)
     }
     SetKartCollisionCallback(donketu, DonketuKartCollisionCallback);
     donketu->mKartResponse = KART_MAP_OBJECT_RESPONSE_CARRY_HALT;
-    StartCameraWobbleAtDistance(donketu->mMapObject.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
+    StartCameraWobbleAtDistance(donketu->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK, 0x1000);
 }
 
 void DonketuFallKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
@@ -354,9 +354,9 @@ void StartDonketuWaterLandState(MissionRunMapObject *donketu) {
     StartEffectAtRowHeight(donketu, 0, 0, 0, 0x411, 0);
     StartEffectAtRowHeight(donketu, 0, 0, 0, 0x412, 0);
     StartMapObjectSound(&donketu->mMapObject, 0x242);
-    StartCameraWobbleAtDistance(donketu->mMapObject.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
+    StartCameraWobbleAtDistance(donketu->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK, 0x1000);
     SetKartCollisionCallback(donketu, DonketuKartCollisionCallback);
-    donketu->mMapObject.mFlags &= ~0x20;
+    donketu->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_HUD_XLU;
 }
 
 s32 UpdateDonketuFall(MissionRunMapObject *donketu) {

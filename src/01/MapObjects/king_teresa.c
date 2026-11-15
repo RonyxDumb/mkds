@@ -743,7 +743,7 @@ void KingTeresaBossTransferCallback(MissionRunMapObject *mapObject, Kart *kart) 
     mapObject->mKartResponse = KART_MAP_OBJECT_RESPONSE_CARRY;
     mapObject->mStateFunction = AdvanceKingTeresaFollowForwardPoint;
     SetKartCollisionCallback(mapObject, KingTeresaKartCollisionCallback);
-    StartCameraWobbleAtDistance(mapObject->mMapObject.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
+    StartCameraWobbleAtDistance(mapObject->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK, 0x1000);
     StartKartHitReaction(kart);
     SetShadowOffsetYAndScale(mapObject, 0, 0x32000);
     mapObject->mMoveStage = 1;

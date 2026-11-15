@@ -211,8 +211,8 @@ void StartBombKingJumpLandState(MissionRunMapObject *mapObject) {
     SetSpeedAndClearTarget(mapObject, 0);
     StartEffectAtRowHeight(mapObject, 0, 0, 0, 0x411, 0);
     StartEffectAtRowHeight(mapObject, 0, 0, 0, 0x412, 0);
-    StartCameraWobbleAtDistance(mapObject->mMapObject.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
-    mapObject->mMapObject.mFlags &= ~0x20;
+    StartCameraWobbleAtDistance(mapObject->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK, 0x1000);
+    mapObject->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_HUD_XLU;
     SetKartCollisionCallback(mapObject, NULL);
 }
 
@@ -468,7 +468,7 @@ void StartBombKingWalkState(MissionRunMapObject *mapObject) {
 }
 
 int StartBombKingBounceEffects(MissionRunMapObject *mapObject) {
-    if ((mapObject->mCollisionBits & 0x1e34ef) != 0) {
+    if ((mapObject->mCollisionBits & COURSE_HIT_GROUND) != 0) {
         if (mapObject->mVelocity.y > 0x3333) {
             ReleaseEffects(mapObject);
             StartEffectAtRowHeight(mapObject, 0, 0, 0, 0x411, 0);
@@ -482,7 +482,7 @@ int StartBombKingBounceEffects(MissionRunMapObject *mapObject) {
 }
 
 int SwitchToBounceEffectsOnCollision(MissionRunMapObject *mapObject) {
-    if ((mapObject->mCollisionBits & 0x1e34ef) != 0) {
+    if ((mapObject->mCollisionBits & COURSE_HIT_GROUND) != 0) {
         mapObject->mStateFunction = StartBombKingBounceEffects;
     }
     return 0;
@@ -587,8 +587,7 @@ void StartBombKingWaitForRaceStart(MissionRunMapObject *mapObject) {
 void StartBombKingStartupSecond(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, NULL);
     StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mHead.mStartupSecondAnimationEntry,
-                                  mapObject->mPrm->mHead.mStartupSecondFrameStep,
-                                  &StartBombKingWaitForRaceStart);
+                                  mapObject->mPrm->mHead.mStartupSecondFrameStep, &StartBombKingWaitForRaceStart);
     SetAnimationFrameCallback(mapObject, ((u32) mapObject->mPrm->mBombKing.mThrowBombsFrameIndex),
                               ThrowItemBombsInRing);
 }

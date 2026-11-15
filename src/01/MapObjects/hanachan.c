@@ -733,13 +733,15 @@ void HanachanKartHitCallback(MissionRunMapObject *mapObject, Kart *kart) {
                     mapObject->mPrm->mHanachan.mStarHitSideSpeed, COS_OF_ANGLE((u16) mapObject->mMoveAngle - 0x4000));
             }
             mapObject->mKartResponse = KART_MAP_OBJECT_RESPONSE_CARRY;
-            StartCameraWobbleAtDistance(mapObject->mMapObject.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
+            StartCameraWobbleAtDistance(mapObject->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK,
+                                        0x1000);
             mapObject->mMapObject.mDistanceSquaredAndFlags |= gHanachanSkipKindSoundFlag;
             StartSoundFullVolumeWrapper(kart, 0x252);
         }
     } else {
         mapObject->mKartResponse = KART_MAP_OBJECT_RESPONSE_FLIP_DOUBLE;
-        StartCameraWobbleAtDistance(mapObject->mMapObject.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
+        StartCameraWobbleAtDistance(mapObject->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK,
+                                    0x1000);
         mapObject->mMapObject.mDistanceSquaredAndFlags |= gHanachanSkipKindSoundFlag;
         StartSoundFullVolumeWrapper(kart, 0x251);
     }

@@ -393,7 +393,7 @@ void StartKurikingJumpLandState(MissionRunMapObject *mapObject) {
                                       mapObject->mPrm->mKuriking.mJumpLandFrameStep, 0);
     StopTurningMoveFollowsAngle(mapObject);
     SetSpeedAndClearTarget(mapObject, 0);
-    mapObject->mMapObject.mFlags &= ~0x20;
+    mapObject->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_HUD_XLU;
 }
 
 void StartKurikingJumpState(MissionRunMapObject *mapObject) {
@@ -604,7 +604,7 @@ void KurikingKartHitCallback(MissionRunMapObject *mapObject, Kart *kart) {
     mapObject->mMapObject.mPosStep.z =
         MUL_FIXED12_NO_ROUND(mapObject->mPrm->mKuriking.mKartHitSpeed, FX_CosIdx((u16) mapObject->mMoveAngle));
     mapObject->mKartResponse = KART_MAP_OBJECT_RESPONSE_CARRY_HALT;
-    StartCameraWobbleAtDistance(mapObject->mMapObject.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
+    StartCameraWobbleAtDistance(mapObject->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK, 0x1000);
     SetKartCollisionCallback(mapObject, KurikingKartHitSoundCallback);
     if (mapObject->mTimer == 0) {
         StartSoundFullVolumeWrapper(kart, 0x224);
