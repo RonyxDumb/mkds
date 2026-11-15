@@ -62,10 +62,10 @@ typedef struct CARDRomHeader {
 #define HW_CARD_ROM_HEADER ((CARDRomHeader *) 0x027ffa80)
 
 // Values of CARDiCommandArg.mResult: the request is repeated while it is ROM_ACCESS_AGAIN; 3 is stored for an
-// unknown backup type, 7 when the request flag 0x40 was set.
+// unsupported backup type, 7 when the request flag 0x40 was set.
 typedef enum RomAccessResult {
     ROM_ACCESS_SUCCEEDED = 0,
-    ROM_ACCESS_UNKNOWN_TYPE = 3,
+    ROM_ACCESS_UNSUPPORTED_TYPE = 3,
     ROM_ACCESS_AGAIN = 4,
     ROM_ACCESS_CALLED_OFF = 7
 } RomAccessResult;

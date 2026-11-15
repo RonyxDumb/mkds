@@ -524,7 +524,7 @@ int CARD_TryWaitBackupAsync(void) {
 }
 
 // Fills CARDiCommandArg.mType and the device description (size, page size, address width, timings) for a backup type.
-// An unknown type clears them and stores ROM_ACCESS_UNKNOWN_TYPE in CARDiCommandArg.mResult.
+// An unsupported type clears them and stores ROM_ACCESS_UNSUPPORTED_TYPE in CARDiCommandArg.mResult.
 void CARDi_IdentifyBackupCore(s32 type) {
     CARDiCommandArg *commandArg;
     u32 size;
@@ -589,7 +589,7 @@ void CARDi_IdentifyBackupCore(s32 type) {
     fail:
         commandArg->mType = 0;
         commandArg->mTotalSize = 0;
-        gAccessState.mCmd->mResult = ROM_ACCESS_UNKNOWN_TYPE;
+        gAccessState.mCmd->mResult = ROM_ACCESS_UNSUPPORTED_TYPE;
         return;
     }
 }
