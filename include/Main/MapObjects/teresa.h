@@ -5,6 +5,9 @@
 #include "Main/MapObjects/attractor.h"
 #include "01/MapObjects/data_0209bc74.h"
 
+#define TERESA_ALPHA_FIXED12_MIN 0x2000
+#define TERESA_NEVER_FRAMES 0xffff
+
 // 0x20-byte wobble of Teresa at 0xbc and 0xdc (written by StartTeresa), of Crab at 0xb0 and 0xd0 and of the trophy
 // at 0x08. For Teresa and the trophy, mAmplitudePerFrame and mAnglePerFrameDelta are always 0 in this build; Crab's
 // body wobble sets mAmplitudePerFrame.

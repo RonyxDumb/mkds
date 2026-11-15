@@ -59,7 +59,7 @@ void InitKuribo(Kuribo *kuribo, CourseMapRow *row) {
     CourseMapGroupEntry *startEntry;
     Vec3 *zeroedVector;
     StateMachine *stateMachine;
-    kuribo->mModelAlpha = 0x1f;
+    kuribo->mModelAlpha = MAP_OBJECT_ALPHA_MAX;
     if (row != NULL) {
         InitGroupFollower(&kuribo->mFollower, row, (row->mSettings[0] << 11) / 100);
         startEntry = GetCourseMapGroupEntry(row->mGroupIndex, row->mSettings[3]);

@@ -232,7 +232,7 @@ void InitWaterFields(s32 highHeight, s32 lowHeight, s32 modelARadius, s32 modelC
     gWater->mCircleAngle = 0;
     gWater->mModelCAngleOffset = modelCAngleOffset;
     gWater->mUnk_52 = unk52Value;
-    gWater->mHeightAnglePerFrame = 0x10000 / framesPerCycle;
+    gWater->mHeightAnglePerFrame = ANGLE_FULL_TURN / framesPerCycle;
     gWater->mCircleAnglePerFrame = (u32) gWater->mHeightAnglePerFrame >> 2;
     gWater->mState = WATER_STATE_RISING;
     gWater->mHighHoldFrameCount = highHoldFrameCount;

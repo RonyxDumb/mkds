@@ -172,7 +172,7 @@ void UpdateTeresa(void *mapObjectList, Teresa *teresa) {
             if (timer <= 0) {
                 teresa->mState1Timer = 0;
                 AdvanceTeresaAlpha(teresa);
-                if (teresa->mAlphaFixed12 >= 0x2000) {
+                if (teresa->mAlphaFixed12 >= TERESA_ALPHA_FIXED12_MIN) {
                     teresa->mState = 0;
                 }
             }
@@ -315,11 +315,11 @@ void StartTeresa(Vec3 *startPos) {
     alphaFixed12PerFrame = TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x200) + 0x400;
     teresa->mAlphaFixed12 = 0;
     teresa->mAlphaFixed12PerFrame = alphaFixed12PerFrame;
-    teresa->mAlphaFixed12Min = 0x2000;
+    teresa->mAlphaFixed12Min = TERESA_ALPHA_FIXED12_MIN;
     teresa->mAlphaFixed12Max = alphaFixed12Max;
     if (GetCurrentCameraKind() == 2) {
         teresa->mState1Timer = 0;
-        teresa->mState0Timer = 0xffff;
+        teresa->mState0Timer = TERESA_NEVER_FRAMES;
         teresa->mState = 0;
     } else {
         teresa->mState1Timer = (u16) TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x4b);

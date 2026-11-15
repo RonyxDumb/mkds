@@ -254,7 +254,7 @@ void InitFireball2Objects(MapObjectList *mapObjectList) {
         }
         fireball2->mRadius = radius;
         fireball2->mRowAnglePerFrame = (fireball2->mMapObject.mCourseMapRow->mSettings[2] * 0x16c) / 100;
-        fireball2->mRowAngleSpacing = 0x10000 / fireball2->mRowCount;
+        fireball2->mRowAngleSpacing = ANGLE_FULL_TURN / fireball2->mRowCount;
         fireball2->mElementRadiusSpacing = fireball2->mRadius / fireball2->mRowElementCount;
         mapObjectRandom = GetMapObjectRandom();
         mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;

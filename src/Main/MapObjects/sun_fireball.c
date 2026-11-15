@@ -58,10 +58,10 @@ u8 CollideKartWithSunFireball(SunFireball *sunFireball, Kart *kart, u8 *hitFlag,
         sunFireball->mMapObject.mPosStep.x = 0;
         sunFireball->mMapObject.mPosStep.y = 0x3000;
         sunFireball->mMapObject.mPosStep.z = 0;
-        sunFireball->mEmitterA->mLife = 0x23;
-        sunFireball->mEmitterB->mLife = 0x23;
-        sunFireball->mEmitterA->mEmitInterval = 5;
-        sunFireball->mEmitterB->mEmitInterval = 5;
+        sunFireball->mEmitterA->mLife = SUN_FIREBALL_MEDIUM_LIFE_FRAMES;
+        sunFireball->mEmitterB->mLife = SUN_FIREBALL_MEDIUM_LIFE_FRAMES;
+        sunFireball->mEmitterA->mEmitInterval = SUN_FIREBALL_MEDIUM_EMIT_INTERVAL;
+        sunFireball->mEmitterB->mEmitInterval = SUN_FIREBALL_MEDIUM_EMIT_INTERVAL;
         if (kart->mItemEffect == KART_ITEM_EFFECT_STAR || kart->mItemEffect == KART_ITEM_EFFECT_KILLER) {
             sunFireball->mMapObject.mDistanceSquaredAndFlags |= gSunFireballSkipSoundFlag;
         }
@@ -84,10 +84,10 @@ u8 CollideItemObjectWithSunFireball(SunFireball *sunFireball, ItemObject *itemOb
         sunFireball->mMapObject.mPosStep.x = 0;
         sunFireball->mMapObject.mPosStep.y = 0x3000;
         sunFireball->mMapObject.mPosStep.z = 0;
-        sunFireball->mEmitterA->mLife = 0x23;
-        sunFireball->mEmitterB->mLife = 0x23;
-        sunFireball->mEmitterA->mEmitInterval = 5;
-        sunFireball->mEmitterB->mEmitInterval = 5;
+        sunFireball->mEmitterA->mLife = SUN_FIREBALL_MEDIUM_LIFE_FRAMES;
+        sunFireball->mEmitterB->mLife = SUN_FIREBALL_MEDIUM_LIFE_FRAMES;
+        sunFireball->mEmitterA->mEmitInterval = SUN_FIREBALL_MEDIUM_EMIT_INTERVAL;
+        sunFireball->mEmitterB->mEmitInterval = SUN_FIREBALL_MEDIUM_EMIT_INTERVAL;
     }
     return passedOnValue;
 }
@@ -149,10 +149,10 @@ void UpdateSunFireball(void *mapObjectList, SunFireball *sunFireball) {
                         sunFireball->mMapObject.mPosStep.y = 0x2c00;
                         sunFireball->mState0Timer += 0x3c;
                         sunFireball->mState = SUN_FIREBALL_STATE_WAIT;
-                        sunFireball->mEmitterA->mLife = 0x2a;
-                        sunFireball->mEmitterB->mLife = 0x2a;
-                        sunFireball->mEmitterA->mEmitInterval = 6;
-                        sunFireball->mEmitterB->mEmitInterval = 6;
+                        sunFireball->mEmitterA->mLife = SUN_FIREBALL_LONG_LIFE_FRAMES;
+                        sunFireball->mEmitterB->mLife = SUN_FIREBALL_LONG_LIFE_FRAMES;
+                        sunFireball->mEmitterA->mEmitInterval = SUN_FIREBALL_LONG_EMIT_INTERVAL;
+                        sunFireball->mEmitterB->mEmitInterval = SUN_FIREBALL_LONG_EMIT_INTERVAL;
                     }
                 }
             } else {
@@ -251,10 +251,10 @@ void StartSunFireball(Vec3 *startPos, Vec3 *direction) {
     sunFireball->mState = SUN_FIREBALL_STATE_WAIT;
     sunFireball->mEmitterA = StartEffect(0x35, &sunFireball->mMapObject.mPos);
     sunFireball->mEmitterB = StartEffect(0x34, &sunFireball->mMapObject.mPos);
-    sunFireball->mEmitterA->mLife = 0x15;
-    sunFireball->mEmitterB->mLife = 0x15;
-    sunFireball->mEmitterA->mEmitInterval = 3;
-    sunFireball->mEmitterB->mEmitInterval = 3;
+    sunFireball->mEmitterA->mLife = SUN_FIREBALL_SHORT_LIFE_FRAMES;
+    sunFireball->mEmitterB->mLife = SUN_FIREBALL_SHORT_LIFE_FRAMES;
+    sunFireball->mEmitterA->mEmitInterval = SUN_FIREBALL_SHORT_EMIT_INTERVAL;
+    sunFireball->mEmitterB->mEmitInterval = SUN_FIREBALL_SHORT_EMIT_INTERVAL;
     sunFireball->mMapObject.mFlags &= ~1;
     sunFireball->mMapObject.mFlags &= ~8;
     sunFireball->mMapObject.mFlags &= ~2;

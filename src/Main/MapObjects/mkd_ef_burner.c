@@ -69,7 +69,7 @@ u8 CollideKartWithMkdEfBurner(MkdEfBurner *mkdEfBurner, Kart *kart, u8 *firstRes
     if (mkdEfBurner->mKartTimers[kart->mIndex] == 0 &&
         StartSoundIfKartStarOrKiller(&mkdEfBurner->mMapObject, kart) != 0) {
         mkdEfBurner->mMapObject.mDistanceSquaredAndFlags |= gMkdEfBurnerSkipSoundFlag;
-        mkdEfBurner->mKartTimers[kart->mIndex] = 0x1f;
+        mkdEfBurner->mKartTimers[kart->mIndex] = MKD_EF_BURNER_KART_HIT_FRAMES;
     }
     return responseValue;
 }

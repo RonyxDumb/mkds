@@ -129,7 +129,7 @@ void CreateWanwanAndRockShadow(void) {
 void InitWanwanOnChain(Wanwan *wanwan, CourseMapRow *row) {
     wanwan->mCenterPos = row->mPosition;
     wanwan->mScaledLength = MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mScale.y, 0x1e000);
-    wanwan->mProbeOffsetY = 0xf000 - wanwan->mScaledLength;
+    wanwan->mProbeOffsetY = WANWAN_PROBE_OFFSET_Y - wanwan->mScaledLength;
     wanwan->mRadiusLimit = (row->mSettings[0] * 0x3000) >> 2;
     wanwan->mKartDetectRadius = TO_FIXED12(row->mSettings[1]);
     wanwan->mMaxRadius = TO_FIXED12(row->mSettings[0]);
@@ -152,7 +152,7 @@ void InitWanwanOnChain(Wanwan *wanwan, CourseMapRow *row) {
 void InitWanwanOnPath(Wanwan *wanwan, CourseMapRow *row) {
     wanwan->mCenterPos = row->mPosition;
     wanwan->mScaledLength = MUL_FIXED12_NO_ROUND(wanwan->mMapObject.mScale.y, 0x1e000);
-    wanwan->mProbeOffsetY = 0xf000 - wanwan->mScaledLength;
+    wanwan->mProbeOffsetY = WANWAN_PROBE_OFFSET_Y - wanwan->mScaledLength;
     wanwan->mFollowsPath = 1;
     wanwan->mUsesCourseCollision = row->mSettings[1];
     wanwan->mBaseY = wanwan->mCenterPos.y;
