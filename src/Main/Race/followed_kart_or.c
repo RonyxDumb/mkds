@@ -59,7 +59,7 @@ void Matrix2x2Rotation(MtxFx22 *matrix, u16 angle) {
     matrix->a[3] = anglePairSecond;
 }
 
-void Matrix2x2ReflectedRotation(MtxFx22 *matrix, s32 angle) {
+void Matrix2x2ReflectedRotation(MtxFx22 *matrix, u16 angle) {
     s32 anglePairSecond = FX_CosIdx(angle);
     s32 anglePairFirst;
 
