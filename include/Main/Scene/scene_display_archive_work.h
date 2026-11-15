@@ -71,12 +71,7 @@ typedef struct StartupWork {
 // Bit of StartupWork.mUnk_1c: set while the 3D engine uses fast DMA (NNS_G3dGeUseFastDma(1)), cleared with it.
 #define STARTUP_FLAG_FAST_DMA 8
 
-// The callbacks of one scene (0x20 bytes). RunScene copies it to mSceneCallbacks and calls mInit
-// once, then mUpdate and the unnamed slot 0x0c every frame, then mRelease once. 0x0c is the second
-// per-frame slot (it runs after mUpdate in the same pass and mostly copies the two 2D lists). 0x10
-// and 0x14 are called from two library callbacks registered in InitSceneRunState; 0x18 and 0x1a are
-// fade lengths passed to StartFadeToClear / StartFadeToFadedPositive; 0x1c is a flag for
-// FinishDisplayFrameUnlessSpanned. One instance per scene (the 16 entries of gSceneFuncs).
+// The callbacks of one scene (an entry of gSceneFuncs): mInit once, mUpdate every frame, mRelease once.
 typedef struct SceneCallbacks {
     // Called once before the scene's frames with the scene numbers. Allocates the scene's objects
     // from the scene heap (the heap of RunScenes' frame, destroyed when the scene ends).
@@ -207,6 +202,7 @@ typedef struct DisplaySettings {
 // Bit of InputState.mFlags: the left and right keys are swapped (mirror mode).
 #define INPUT_STATE_FLAG_LEFT_RIGHT_SWAPPED 4
 
+// The pad keys, flags and participant position of the current input, behind gInputState.
 typedef struct InputState {
     /* 00 */ u8 mUnk_00[2];
     /* 02 */ u16 mPadKeys;
@@ -251,6 +247,7 @@ typedef struct ArchiveLoadRequest {
     /* 9c */ s32 mArchiveBufferSize;
 } ArchiveLoadRequest;
 
+// The archive loader: 20 archive slots, the file table, the load request, the buffers and their heaps.
 typedef struct ArchiveSlots {
     /* 000 */ ArchiveSlot mSlots[20];
     /* 8c0 */ u32 mFileTableSize;
@@ -291,6 +288,7 @@ extern FileReadThread gFileReadThread;
 
 #define BANK_SHARE_INACTIVE_UNUSED 3 // handled like INACTIVE; nothing writes it
 
+// The state of the wireless bank share and the callback it calls.
 typedef struct WvrState {
     /* 00 */ volatile s32 mState;
     /* 04 */ s32 (*mCallback)();

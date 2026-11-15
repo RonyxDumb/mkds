@@ -12,6 +12,7 @@ typedef struct KartAppearFile {
     /* 06 */ u8 mValues[1][13];
 } KartAppearFile;
 
+// The loaded kart appear file, used to test which karts a character may use.
 typedef struct KartAppear {
     /* 00 */ KartAppearFile *mFileData;
 } KartAppear;
