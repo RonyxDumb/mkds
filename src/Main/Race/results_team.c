@@ -35,9 +35,9 @@ u32 GetResultSceneSeqKind(void) {
     kartCount = raceSetup->mKartCount;
     if (raceSetup->mMode == MODE_GRAND_PRIX) {
         if (gMenuShared->mCupRankIndex < 3) {
-            return 0;
+            return RESULT_SCENE_SEQ_KIND_GP_HIGH_RANK;
         }
-        return 1;
+        return RESULT_SCENE_SEQ_KIND_GP_LOW_RANK;
     }
     switch (gStartupWork->mConnectionKind) {
         case CONNECTION_KIND_NONE:
@@ -69,18 +69,18 @@ u32 GetResultSceneSeqKind(void) {
                 break;
         }
         if (team0Score == team1Score) {
-            return 7;
+            return RESULT_SCENE_SEQ_KIND_TEAM_DRAW;
         }
         if (team0Score > team1Score) {
             if (ownTeamIndex == 0) {
-                return 5;
+                return RESULT_SCENE_SEQ_KIND_TEAM_WON;
             }
-            return 6;
+            return RESULT_SCENE_SEQ_KIND_TEAM_LOST;
         }
         if (ownTeamIndex == 1) {
-            return 5;
+            return RESULT_SCENE_SEQ_KIND_TEAM_WON;
         }
-        return 6;
+        return RESULT_SCENE_SEQ_KIND_TEAM_LOST;
     }
     scoreIndex = 0;
     maxScore = -1;
@@ -106,12 +106,12 @@ u32 GetResultSceneSeqKind(void) {
         allEqual = allEqual & (scores[0] == scores[scoreIndex]);
     }
     if (allEqual != 0) {
-        return 4;
+        return RESULT_SCENE_SEQ_KIND_DRAW;
     }
     if (maxScore == scores[ownEntryIndex]) {
-        return 2;
+        return RESULT_SCENE_SEQ_KIND_WON;
     }
-    return 3;
+    return RESULT_SCENE_SEQ_KIND_LOST;
 }
 
 #pragma thumb off

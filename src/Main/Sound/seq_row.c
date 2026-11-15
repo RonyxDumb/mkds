@@ -37,28 +37,28 @@ u32 GetResultSceneSeqId(void) {
     result = 0xffffffff;
     selector = GetResultSceneSeqKind();
     switch (selector) {
-        case 0:
+        case RESULT_SCENE_SEQ_KIND_GP_HIGH_RANK:
             result = 0x43;
             break;
-        case 1:
+        case RESULT_SCENE_SEQ_KIND_GP_LOW_RANK:
             result = 0x44;
             break;
-        case 2:
+        case RESULT_SCENE_SEQ_KIND_WON:
             result = 0x3f;
             break;
-        case 3:
+        case RESULT_SCENE_SEQ_KIND_LOST:
             result = 0x41;
             break;
-        case 4:
+        case RESULT_SCENE_SEQ_KIND_DRAW:
             result = 0x40;
             break;
-        case 5:
+        case RESULT_SCENE_SEQ_KIND_TEAM_WON:
             result = 0x3f;
             break;
-        case 6:
+        case RESULT_SCENE_SEQ_KIND_TEAM_LOST:
             result = 0x41;
             break;
-        case 7:
+        case RESULT_SCENE_SEQ_KIND_TEAM_DRAW:
             result = 0x40;
     }
     return result;
@@ -88,7 +88,7 @@ u32 LoadSeqRowIfChanged(s32 index) {
     gCurrentSndHeap = gSeqRowState.mSeqHeap;
     NNS_SndHeapClear(state->mSeqHeap);
     for (seqIndex = 0; seqIndex < 6; seqIndex++) {
-        if (row[seqIndex] != 0xff) {
+        if (row[seqIndex] != SOUND_ID_NONE) {
             if (NNS_SndArcLoadSeq(row[seqIndex], gCurrentSndHeap) == 0) {
                 gCurrentSndHeap = savedHeap;
                 return 0;

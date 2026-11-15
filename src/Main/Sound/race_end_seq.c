@@ -42,7 +42,7 @@ void UpdateRaceEndSeq(void) {
         return;
     }
     resultKind = GetRaceEndResultKind();
-    callLimit = (resultKind == 2) ? 0x91 : 0x82;
+    callLimit = (resultKind == RACE_END_RESULT_LOST) ? RACE_END_NEXT_SEQ_CALLS_LOST : RACE_END_NEXT_SEQ_CALLS;
     callCount = gRaceEndSeqCallCount + 1;
     gRaceEndSeqCallCount = callCount;
     if (callCount <= callLimit) {
@@ -54,11 +54,11 @@ void UpdateRaceEndSeq(void) {
     seqRow = gSeqRowState.mSeqRow;
     seqId = 0xff;
     switch (resultKind) {
-        case 0:
-        case 1:
+        case RACE_END_RESULT_BEST:
+        case RACE_END_RESULT_WON:
             seqId = seqRow[3];
             break;
-        case 2:
+        case RACE_END_RESULT_LOST:
             seqId = seqRow[4];
             break;
     }
@@ -106,48 +106,51 @@ s32 GetRaceEndResultKind(void) {
             switch (gSeqRowState.mFinishResult) {
                 case FINISH_RESULT_WON:
                     if (GetKartRank((u16) raceSetup->mEntryIndex) - 1 == 0) {
-                        candidateKind = 0;
+                        candidateKind = RACE_END_RESULT_BEST;
                     } else {
-                        candidateKind = 1;
+                        candidateKind = RACE_END_RESULT_WON;
                     }
                     break;
                 case FINISH_RESULT_NEITHER:
                 case FINISH_RESULT_LOST:
-                    candidateKind = 2;
+                    candidateKind = RACE_END_RESULT_LOST;
                     break;
             }
             resultKind = candidateKind;
             break;
         case MODE_VS:
             if (raceSetup->mRuleKind == RULE_KIND_WIN_COUNT) {
-                resultKind = (gSeqRowState.mFinishResult == FINISH_RESULT_WON) ? 0 : 2;
+                resultKind =
+                    (gSeqRowState.mFinishResult == FINISH_RESULT_WON) ? RACE_END_RESULT_BEST : RACE_END_RESULT_LOST;
             } else {
                 switch (gSeqRowState.mFinishResult) {
                     case FINISH_RESULT_WON:
                         if (GetKartRank((u16) raceSetup->mEntryIndex) - 1 == 0) {
-                            candidateKind = 0;
+                            candidateKind = RACE_END_RESULT_BEST;
                         } else {
-                            candidateKind = 1;
+                            candidateKind = RACE_END_RESULT_WON;
                         }
                         break;
                     case FINISH_RESULT_NEITHER:
                     case FINISH_RESULT_LOST:
-                        candidateKind = 2;
+                        candidateKind = RACE_END_RESULT_LOST;
                         break;
                 }
                 resultKind = candidateKind;
             }
             break;
         case MODE_MISSION_RUN:
-            resultKind = (gSeqRowState.mFinishResult == FINISH_RESULT_WON) ? 0 : 2;
+            resultKind =
+                (gSeqRowState.mFinishResult == FINISH_RESULT_WON) ? RACE_END_RESULT_BEST : RACE_END_RESULT_LOST;
             break;
         case MODE_BATTLE:
-            resultKind = (gSeqRowState.mFinishResult == FINISH_RESULT_WON) ? 0 : 2;
+            resultKind =
+                (gSeqRowState.mFinishResult == FINISH_RESULT_WON) ? RACE_END_RESULT_BEST : RACE_END_RESULT_LOST;
             break;
         case MODE_TIME_ATTACK:
-            resultKind = (gSeqRowState.mFinishResult == FINISH_RESULT_WON) ? 1 : 2;
+            resultKind = (gSeqRowState.mFinishResult == FINISH_RESULT_WON) ? RACE_END_RESULT_WON : RACE_END_RESULT_LOST;
             if (resultKind == IsRaceNewRecordTaFinishRecordFirst()) {
-                resultKind = 0;
+                resultKind = RACE_END_RESULT_BEST;
             }
             break;
     }
@@ -174,13 +177,13 @@ void StartRaceEndSeq(s32 unused) {
     seqRow = gSeqRowState.mSeqRow;
     value = 0xff;
     switch (resultKind) {
-        case 0:
+        case RACE_END_RESULT_BEST:
             value = seqRow[0];
             break;
-        case 1:
+        case RACE_END_RESULT_WON:
             value = seqRow[1];
             break;
-        case 2:
+        case RACE_END_RESULT_LOST:
             value = seqRow[2];
             break;
     }
@@ -190,8 +193,8 @@ void StartRaceEndSeq(s32 unused) {
     switch (gRaceSetup->mCourseId) {
         case COURSE_ID_STADIUM:
             switch (resultKind) {
-                case 0:
-                case 1:
+                case RACE_END_RESULT_BEST:
+                case RACE_END_RESULT_WON:
                     seqId = 0x1bd;
                     break;
                 default:
@@ -201,8 +204,8 @@ void StartRaceEndSeq(s32 unused) {
             break;
         case COURSE_ID_CROSS:
             switch (resultKind) {
-                case 0:
-                case 1:
+                case RACE_END_RESULT_BEST:
+                case RACE_END_RESULT_WON:
                     seqId = 0x105;
                     break;
                 default:
@@ -212,8 +215,8 @@ void StartRaceEndSeq(s32 unused) {
             break;
         case COURSE_ID_MARIO:
             switch (resultKind) {
-                case 0:
-                case 1:
+                case RACE_END_RESULT_BEST:
+                case RACE_END_RESULT_WON:
                     seqId = 0x19d;
                     break;
                 default:
@@ -237,8 +240,8 @@ s32 GetLastLapCourseSoundId(void) {
     switch (gRaceSetup->mCourseId) {
         case COURSE_ID_CROSS:
             switch (resultKind) {
-                case 0:
-                case 1:
+                case RACE_END_RESULT_BEST:
+                case RACE_END_RESULT_WON:
                     seqId = 0x104;
                     break;
                 default:
@@ -248,8 +251,8 @@ s32 GetLastLapCourseSoundId(void) {
             break;
         case COURSE_ID_MARIO:
             switch (resultKind) {
-                case 0:
-                case 1:
+                case RACE_END_RESULT_BEST:
+                case RACE_END_RESULT_WON:
                     seqId = 0x19c;
                     break;
                 default:
