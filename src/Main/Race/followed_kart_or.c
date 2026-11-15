@@ -70,7 +70,7 @@ void Matrix2x2ReflectedRotation(MtxFx22 *matrix, u16 angle) {
     matrix->a[3] = anglePairSecond;
 }
 
-void Matrix2x2RotationReciprocalScale(MtxFx22 *matrix, s32 scale, s32 angle) {
+void Matrix2x2RotationReciprocalScale(MtxFx22 *matrix, s32 scale, u16 angle) {
     s32 anglePairFirst = SIN_OF_ANGLE(angle);
     s32 anglePairSecond = COS_OF_ANGLE(angle);
     s32 reciprocal;
