@@ -82,11 +82,11 @@ void WriteSelectCupMScreenRegisters(void) {
 
 void UpdateSelectCupM(void) {
     switch (AdvanceSelectCupM()) {
-        case 1:
-            SwitchMenuScreen(25, 0x1f);
+        case MENU_SCREEN_RESULT_NEXT:
+            SwitchMenuScreen(SCREEN_SELECT_CUP_COURSE_TIME_ATTACK, 0x1f);
             break;
-        case 2:
-            SwitchMenuScreen(23, 0x1f);
+        case MENU_SCREEN_RESULT_BACK:
+            SwitchMenuScreen(SCREEN_SELECT_CUP_GRID_TIME_ATTACK, 0x1f);
             break;
     }
 }
@@ -103,10 +103,10 @@ void WriteSelectEngineScreenRegisters(void) {
 
 void UpdateSelectEngine(void) {
     switch (AdvanceSelectEngine()) {
-        case 1:
-            SwitchMenuScreen(5, 0x1f);
+        case MENU_SCREEN_RESULT_NEXT:
+            SwitchMenuScreen(SCREEN_SELECT_CHARACTER_GRAND_PRIX, 0x1f);
             break;
-        case 2:
+        case MENU_SCREEN_RESULT_BACK:
             SwitchMenuScreen(0, 0x1f);
             break;
     }
@@ -124,10 +124,10 @@ void WriteSelectCharacterScreenRegisters(void) {
 
 void UpdateSelectCharacter(void) {
     switch (AdvanceSelectCharacter()) {
-        case 1:
-            SwitchMenuScreen(6, 0x1f);
+        case MENU_SCREEN_RESULT_NEXT:
+            SwitchMenuScreen(SCREEN_SELECT_KART_GRAND_PRIX, 0x1f);
             break;
-        case 2:
+        case MENU_SCREEN_RESULT_BACK:
             SwitchMenuScreen(SCREEN_SELECT_ENGINE, 0x1f);
             break;
     }
@@ -145,11 +145,11 @@ void WriteSelectKartScreenRegisters(void) {
 
 void UpdateSelectKart(void) {
     switch (AdvanceSelectKart()) {
-        case 1:
-            SwitchMenuScreen(7, 0x1f);
+        case MENU_SCREEN_RESULT_NEXT:
+            SwitchMenuScreen(SCREEN_SELECT_CUP_GRID_GRAND_PRIX, 0x1f);
             break;
-        case 2:
-            SwitchMenuScreen(5, 0x1f);
+        case MENU_SCREEN_RESULT_BACK:
+            SwitchMenuScreen(SCREEN_SELECT_CHARACTER_GRAND_PRIX, 0x1f);
             break;
     }
 }
