@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Graphics/oam_lists.h"
 
 // Scene function of gSceneFuncs[11] (scene 'Nickname' in gSceneNames): copies the callbacks and
 // calls RunScene. Returns 0.
@@ -9,8 +10,8 @@ void UpdateNicknameScene(s16 *param_1);
 void WriteNicknameSceneRegisters(void);
 void ReleaseNicknameScene(void);
 void InitNicknameScene(s16 *sceneNumbers);
-u8 *GetOptionSecondBuffer(void);
-u8 *GetOptionFirstBuffer(void);
+OamEntryList *GetOptionSecondBuffer(void);
+OamEntryList *GetOptionFirstBuffer(void);
 // Scene function of gSceneFuncs[7] (scene 'Option' in gSceneNames): copies the callbacks and calls
 // RunScene. Returns 0.
 int RunOptionScene(void *sceneNumbers);

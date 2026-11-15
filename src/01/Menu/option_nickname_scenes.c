@@ -13,8 +13,8 @@
 #include "01/code_0219f000.h"
 #include "01/unk_021a6000.h"
 
-u8 *gNicknameBuffers;
-u8 *gOptionBuffers;
+OamEntryList *gNicknameBuffers;
+OamEntryList *gOptionBuffers;
 
 static SceneCallbacks gOptionSceneCallbacks = {
     InitOptionScene, UpdateOptionScene, ReleaseOptionScene, WriteOptionSceneRegisters, 0, 0, 10, 10, 0};
@@ -32,7 +32,7 @@ void InitOptionScene(s16 *sceneNumbers) {
     void *heap;
 
     heap = GetHeap(GetCurrentHeapCall());
-    gOptionBuffers = HeapAlloc(heap, 0x808);
+    gOptionBuffers = HeapAlloc(heap, 2 * sizeof(OamEntryList));
     InitOptionStates((heap), *sceneNumbers);
 }
 
@@ -43,13 +43,13 @@ void ReleaseOptionScene(void) {
 
 void WriteOptionSceneRegisters(void) {
     WriteOptionStatesRegisters();
-    UploadOamLists(gOptionBuffers, gOptionBuffers + 0x404);
+    UploadOamLists(gOptionBuffers, gOptionBuffers + 1);
 }
 
 void UpdateOptionScene(s16 *sceneNumbers) {
-    ClearOamListCounts(gOptionBuffers, gOptionBuffers + 0x404);
+    ClearOamListCounts(gOptionBuffers, gOptionBuffers + 1);
     AdvanceOptionStates();
-    HideUnusedOams(gOptionBuffers, gOptionBuffers + 0x404);
+    HideUnusedOams(gOptionBuffers, gOptionBuffers + 1);
     if (sceneNumbers != NULL && GetOptionNextScene() != -1) {
         sceneNumbers[2] = GetOptionNextScene();
     }
@@ -62,19 +62,19 @@ int RunOptionScene(void *sceneNumbers) {
     return 0;
 }
 
-u8 *GetOptionFirstBuffer(void) {
+OamEntryList *GetOptionFirstBuffer(void) {
     return gOptionBuffers;
 }
 
-u8 *GetOptionSecondBuffer(void) {
-    return gOptionBuffers + 0x404;
+OamEntryList *GetOptionSecondBuffer(void) {
+    return gOptionBuffers + 1;
 }
 
 void InitNicknameScene(s16 *sceneNumbers) {
     void *heap;
 
     heap = GetHeap(GetCurrentHeapCall());
-    gNicknameBuffers = HeapAlloc(heap, 0x808);
+    gNicknameBuffers = HeapAlloc(heap, 2 * sizeof(OamEntryList));
     InitNicknameSceneObject(heap, *sceneNumbers);
 }
 
@@ -84,17 +84,17 @@ void ReleaseNicknameScene(void) {
 }
 
 void WriteNicknameSceneRegisters(void) {
-    u8 *nicknameBuffers;
+    OamEntryList *nicknameBuffers;
 
     NicknameWriteSceneTextRegistersWrapper();
     nicknameBuffers = gNicknameBuffers;
-    UploadOamLists(nicknameBuffers, nicknameBuffers + 0x404);
+    UploadOamLists(nicknameBuffers, nicknameBuffers + 1);
 }
 
 void UpdateNicknameScene(s16 *sceneNumbers) {
-    ClearOamListCounts(gNicknameBuffers, gNicknameBuffers + 0x404);
+    ClearOamListCounts(gNicknameBuffers, gNicknameBuffers + 1);
     AdvanceNicknameScene();
-    HideUnusedOams(gNicknameBuffers, gNicknameBuffers + 0x404);
+    HideUnusedOams(gNicknameBuffers, gNicknameBuffers + 1);
     if (sceneNumbers != NULL && GetNicknameSceneNextScene() != -1) {
         sceneNumbers[2] = GetNicknameSceneNextScene();
     }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Graphics/oam_lists.h"
 #include "Main/Race/mission_table_value.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Race/data_02029930.h" // MissionFileRow
@@ -248,7 +249,7 @@ typedef struct MissionRunBossIcon {
     /* 0c */ void *mBncl;
 } MissionRunBossIcon;
 
-extern u8 *gNicknameBuffers;
-extern u8 *gOptionBuffers;
+extern OamEntryList *gNicknameBuffers;
+extern OamEntryList *gOptionBuffers;
 
 #include "00/Menu/wi_fi_vs_matching.h"
