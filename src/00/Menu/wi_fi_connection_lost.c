@@ -23,8 +23,8 @@ WiFiConnectionLost *gWiFiConnectionLost;
 
 void InitWiFiConnectionLost(void *heap) {
     gWiFiConnectionLost = HeapAlloc(heap, 8);
-    gWiFiConnectionLost->mState = 0;
-    gWiFiConnectionLost->mNextState = 0;
+    gWiFiConnectionLost->mState = WIFI_CONNECTION_LOST_STATE_WAIT_FADE_OUT;
+    gWiFiConnectionLost->mNextState = WIFI_CONNECTION_LOST_STATE_WAIT_FADE_OUT;
     StartFadeToFadedNegative(0x1e);
 }
 
@@ -38,7 +38,7 @@ void AdvanceWiFiConnectionLostState0(void) {
     s8 otherKartCount;
 
     if (AreBrightnessFadesFaded() != 0) {
-        gWiFiConnectionLost->mNextState = 1;
+        gWiFiConnectionLost->mNextState = WIFI_CONNECTION_LOST_STATE_WAIT_FADE_IN;
         StartFadeToClear(0x1e);
         reg_G2_BG1CNT = (reg_G2_BG1CNT & (REG_G2_BG1CNT_PRIORITY_MASK | REG_G2_BG1CNT_MOSAIC_MASK)) | 0x1208;
         reg_G2_BG1CNT = reg_G2_BG1CNT & ~REG_G2_BG1CNT_PRIORITY_MASK;
@@ -81,10 +81,10 @@ void AdvanceWiFiConnectionLostState1(void) {
 void AdvanceWiFiConnectionLost(void) {
     gWiFiConnectionLost->mState = gWiFiConnectionLost->mNextState;
     switch (gWiFiConnectionLost->mState) {
-        case 0:
+        case WIFI_CONNECTION_LOST_STATE_WAIT_FADE_OUT:
             AdvanceWiFiConnectionLostState0();
             break;
-        case 1:
+        case WIFI_CONNECTION_LOST_STATE_WAIT_FADE_IN:
             AdvanceWiFiConnectionLostState1();
             break;
     }

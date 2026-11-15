@@ -5,6 +5,12 @@
 
 typedef struct WiFiStateCallbacks WiFiStateCallbacks;
 
+// Values of WiFiConnectionLost.mState and mNextState.
+enum {
+    WIFI_CONNECTION_LOST_STATE_WAIT_FADE_OUT,
+    WIFI_CONNECTION_LOST_STATE_WAIT_FADE_IN,
+};
+
 // mState selects the handler run by AdvanceWiFiConnectionLost.
 typedef struct WiFiConnectionLost {
     /* 0 */ s32 mState;
