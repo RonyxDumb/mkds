@@ -21,6 +21,14 @@ void InitRaceHudSubScreenCellGroups(void);
 
 typedef struct RaceHudSubScreenCells RaceHudSubScreenCells;
 
+// Values of RaceHudOamBits.mObjMode: the object mode of the OAM entry.
+enum {
+    RACE_HUD_OBJ_MODE_NORMAL,
+    RACE_HUD_OBJ_MODE_TRANSLUCENT,
+    RACE_HUD_OBJ_MODE_WINDOW,
+    RACE_HUD_OBJ_MODE_BITMAP,
+};
+
 // Second view of an OAM entry: two words, each with a two-bit part at bit 10.
 typedef struct RaceHudOamBits {
     /* 0 */ u32 mUnk_00 : 10;
