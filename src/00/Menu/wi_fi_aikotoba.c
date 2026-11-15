@@ -100,7 +100,7 @@ BOOL IsBuddyRecordBlockFull(void) {
     return 0;
 }
 
-void AdvanceWiFiAikotobaState0(void) {
+void AdvanceWiFiAikotobaWaitFade(void) {
     int fadesClear;
     fadesClear = AreBrightnessFadesClear();
     if (fadesClear != 0) {
@@ -108,7 +108,7 @@ void AdvanceWiFiAikotobaState0(void) {
     }
 }
 
-void AdvanceWiFiAikotobaState1(void) {
+void AdvanceWiFiAikotobaSlideIn(void) {
     s32 offsetX;
     s32 rowIndex;
     s32 cellIndex;
@@ -133,7 +133,7 @@ void AdvanceWiFiAikotobaState1(void) {
     }
 }
 
-void AdvanceWiFiAikotobaState2(void) {
+void AdvanceWiFiAikotobaWaitSelectReturn(void) {
     int returnState2NoRequest;
     returnState2NoRequest = IsSelectReturnShownNoRequest();
     if (returnState2NoRequest != 0) {
@@ -141,7 +141,7 @@ void AdvanceWiFiAikotobaState2(void) {
     }
 }
 
-void AdvanceWiFiAikotobaState3(void) {
+void AdvanceWiFiAikotobaInput(void) {
     InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     u32 hitIndex = -1;
     BOOL pairNewUnlessRecentlyLost;
@@ -225,7 +225,7 @@ next:
     }
 }
 
-void AdvanceWiFiAikotobaState4(void) {
+void AdvanceWiFiAikotobaPress(void) {
     gWiFiAikotoba->mStateFrames = gWiFiAikotoba->mStateFrames + 1;
     if (gWiFiAikotoba->mStateFrames >= 10) {
         gWiFiAikotoba->mNextState = WIFI_AIKOTOBA_STATE_SLIDE_OUT;
@@ -238,7 +238,7 @@ void AdvanceWiFiAikotobaState4(void) {
     }
 }
 
-void AdvanceWiFiAikotobaState5(void) {
+void AdvanceWiFiAikotobaSlideOut(void) {
     s32 offsetX;
     s32 rowIndex;
     s32 cellIndex;
@@ -281,7 +281,7 @@ void AdvanceWiFiAikotobaState5(void) {
     }
 }
 
-void AdvanceWiFiAikotobaState6(void) {
+void AdvanceWiFiAikotobaBuddyFullNotice(void) {
     void *questionText;
     void *yesText;
 
@@ -297,7 +297,7 @@ void AdvanceWiFiAikotobaState6(void) {
     }
 }
 
-void AdvanceWiFiAikotobaState7(void) {
+void AdvanceWiFiAikotobaBuddyFullAsk(void) {
     if (IsTxtSystemClosedNoOpenRequest() != 0) {
         if (GetTxtSystemSelectedIndex() == 0) {
             gWiFiAikotoba->mPendingWiFiState = WIFI_STATE_SCENE_RECORD;
@@ -338,28 +338,28 @@ void AdvanceWiFiAikotoba(void) {
     gWiFiAikotoba->mState = gWiFiAikotoba->mNextState;
     switch (gWiFiAikotoba->mState) {
         case WIFI_AIKOTOBA_STATE_WAIT_FADE:
-            AdvanceWiFiAikotobaState0();
+            AdvanceWiFiAikotobaWaitFade();
             break;
         case WIFI_AIKOTOBA_STATE_SLIDE_IN:
-            AdvanceWiFiAikotobaState1();
+            AdvanceWiFiAikotobaSlideIn();
             break;
         case WIFI_AIKOTOBA_STATE_WAIT_SELECT_RETURN:
-            AdvanceWiFiAikotobaState2();
+            AdvanceWiFiAikotobaWaitSelectReturn();
             break;
         case WIFI_AIKOTOBA_STATE_INPUT:
-            AdvanceWiFiAikotobaState3();
+            AdvanceWiFiAikotobaInput();
             break;
         case WIFI_AIKOTOBA_STATE_PRESS:
-            AdvanceWiFiAikotobaState4();
+            AdvanceWiFiAikotobaPress();
             break;
         case WIFI_AIKOTOBA_STATE_SLIDE_OUT:
-            AdvanceWiFiAikotobaState5();
+            AdvanceWiFiAikotobaSlideOut();
             break;
         case WIFI_AIKOTOBA_STATE_BUDDY_FULL_NOTICE:
-            AdvanceWiFiAikotobaState6();
+            AdvanceWiFiAikotobaBuddyFullNotice();
             break;
         case WIFI_AIKOTOBA_STATE_BUDDY_FULL_ASK:
-            AdvanceWiFiAikotobaState7();
+            AdvanceWiFiAikotobaBuddyFullAsk();
             break;
     }
     UpdateWiFiAikotobaHighlight();
