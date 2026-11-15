@@ -155,8 +155,8 @@ s32 CTRDG_IsExisting(void) {
 }
 
 void CTRDGi_ChangeLatestAccessCycle(CartridgeAccessSave *cycleInfo) {
-    cycleInfo->mUnk_00 = (reg_MI_EXMEMCNT & 0xc) >> 2;
-    cycleInfo->mUnk_04 = (reg_MI_EXMEMCNT & 0x10) >> 4;
+    cycleInfo->mCycle1 = (reg_MI_EXMEMCNT & 0xc) >> 2;
+    cycleInfo->mCycle2 = (reg_MI_EXMEMCNT & 0x10) >> 4;
     reg_MI_EXMEMCNT = (reg_MI_EXMEMCNT & ~0xc) | 0xc;
     reg_MI_EXMEMCNT &= ~0x10;
 }
@@ -165,30 +165,30 @@ void CTRDGi_RestoreAccessCycle(CartridgeAccessSave *cycleInfo) {
     u32 cycle1;
     u32 cycle2;
 
-    cycle1 = cycleInfo->mUnk_00;
+    cycle1 = cycleInfo->mCycle1;
     reg_MI_EXMEMCNT = (reg_MI_EXMEMCNT & ~0xc) | (cycle1 << 2);
-    cycle2 = cycleInfo->mUnk_04;
+    cycle2 = cycleInfo->mCycle2;
     reg_MI_EXMEMCNT = (reg_MI_EXMEMCNT & ~0x10) | (cycle2 << 4);
 }
 
 void CTRDGi_LockByProcessor(u16 lockID, CartridgeAccessSave *info) {
     for (;;) {
-        info->mUnk_04 = OS_DisableInterrupts();
-        info->mUnk_00 = OS_ReadOwnerOfLockWord(&SYSTEM_WORK->mLockCartridge) & 0x40;
-        if (info->mUnk_00 != 0) {
+        info->mSavedIrq = OS_DisableInterrupts();
+        info->mOwnerFlag = OS_ReadOwnerOfLockWord(&SYSTEM_WORK->mLockCartridge) & 0x40;
+        if (info->mOwnerFlag != 0) {
             break;
         }
         if (OS_TryLockCartridge(lockID) == 0) {
             break;
         }
-        OS_RestoreInterrupts(info->mUnk_04);
+        OS_RestoreInterrupts(info->mSavedIrq);
         WaitByLoop(1);
     }
 }
 
 void CTRDGi_UnlockByProcessor(u16 lockID, CartridgeAccessSave *info) {
-    if (info->mUnk_00 == 0) {
+    if (info->mOwnerFlag == 0) {
         OS_UnLockCartridge(lockID);
     }
-    OS_RestoreInterrupts(info->mUnk_04);
+    OS_RestoreInterrupts(info->mSavedIrq);
 }

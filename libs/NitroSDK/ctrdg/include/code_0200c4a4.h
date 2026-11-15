@@ -5,8 +5,14 @@
 // Two words filled by CTRDGi_LockByProcessor and CTRDGi_ChangeLatestAccessCycle and read back by
 // CTRDGi_UnlockByProcessor and CTRDGi_RestoreAccessCycle.
 typedef struct CartridgeAccessSave {
-    /* 00 */ vs32 mUnk_00;
-    /* 04 */ vs32 mUnk_04;
+    union {
+        /* 00 */ vs32 mCycle1;
+        /* 00 */ vs32 mOwnerFlag;
+    };
+    union {
+        /* 04 */ vs32 mCycle2;
+        /* 04 */ vs32 mSavedIrq;
+    };
 } CartridgeAccessSave;
 
 // Two halfwords at the start of the first object this file defines.
