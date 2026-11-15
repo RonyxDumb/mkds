@@ -52,6 +52,13 @@ enum {
     PROFILE_OPERATION_REGISTER_UNIQUE_NICK,
 };
 
+// Values of GpiOperation.mState of the connect operation: the reply the server is expected to send next.
+enum {
+    PROFILE_CONNECT_STATE_WAIT_CHALLENGE = 1,
+    PROFILE_CONNECT_STATE_WAIT_LOGIN_REPLY,
+    PROFILE_CONNECT_STATE_WAIT_NEW_USER_REPLY,
+};
+
 typedef struct GpiOperation {
     /* 00 */ u32 mType;
     /* 04 */ GPISearchData *mData;

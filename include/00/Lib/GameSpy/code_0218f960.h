@@ -14,6 +14,11 @@ typedef struct GPIProfileList {
     /* 04 */ s32 mNum;
 } GPIProfileList;
 
+// Values of GpiConnection.mErrorNumber that the connect code acts on: REMOVES_PROFILE drops the profile the
+// connection was using; RETURNS_PROFILE_ID comes with the id of a profile that is read from the reply.
+#define PROFILE_ERROR_REMOVES_PROFILE 0x106
+#define PROFILE_ERROR_RETURNS_PROFILE_ID 0x201
+
 // Values of GpiConnection.mConnectState: the socket is being connected, then the login handshake runs, then the
 // connection is up; IDLE is the state before the connect; CLOSED follows a close and is left only through a reset.
 enum {

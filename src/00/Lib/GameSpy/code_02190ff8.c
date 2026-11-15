@@ -119,7 +119,7 @@ u32 GpiOpenSockets(GpConnection *connection, GpiOperation *operation) {
             return 3;
         }
     }
-    operation->mState = 1;
+    operation->mState = PROFILE_CONNECT_STATE_WAIT_CHALLENGE;
     gpState->mConnectState = PROFILE_CONNECTION_SOCKET_OPENING;
     return 0;
 }
@@ -338,11 +338,11 @@ u32 GpiProcessConnectOperation(GpConnection *connection, GpiOperation *operation
 
     gpState = connection->mGpiConnection;
     if (GpiReadError(connection, input, 0) != FALSE) {
-        if (gpState->mErrorNumber == 0x106 && gpState->mProfileId != 0) {
+        if (gpState->mErrorNumber == PROFILE_ERROR_REMOVES_PROFILE && gpState->mProfileId != 0) {
             GpiRemoveProfileById(connection, gpState->mProfileId);
             gpState->mUserId = 0;
             gpState->mProfileId = 0;
-        } else if (gpState->mErrorNumber == 0x201) {
+        } else if (gpState->mErrorNumber == PROFILE_ERROR_RETURNS_PROFILE_ID) {
             if (GpiGetValue(input, "\\pid\\", buffer, 0x200) != FALSE) {
                 gpState->mProfileId = StrtolBase10(buffer);
             }
@@ -358,7 +358,7 @@ u32 GpiProcessConnectOperation(GpConnection *connection, GpiOperation *operation
     }
     data = (GPIConnectData *) operation->mData;
     switch (operation->mState) {
-        case 1:
+        case PROFILE_CONNECT_STATE_WAIT_CHALLENGE:
             if (strncmp(input, "\\lc\\1", 5) != 0) {
                 GpiSetError(connection, 1, "Unexpected data was received from the server.");
                 GpiQueueErrorCallback(connection, 3, 1);
@@ -374,16 +374,16 @@ u32 GpiProcessConnectOperation(GpConnection *connection, GpiOperation *operation
                 if (result != 0) {
                     return result;
                 }
-                operation->mState = 3;
+                operation->mState = PROFILE_CONNECT_STATE_WAIT_NEW_USER_REPLY;
             } else {
                 result = GpiWriteLogin(connection, data);
                 if (result != 0) {
                     return result;
                 }
-                operation->mState = 2;
+                operation->mState = PROFILE_CONNECT_STATE_WAIT_LOGIN_REPLY;
             }
             break;
-        case 3:
+        case PROFILE_CONNECT_STATE_WAIT_NEW_USER_REPLY:
             if (strncmp(input, "\\nur\\", 5) != 0) {
                 GpiSetError(connection, 1, "Unexpected data was received from the server.");
                 GpiQueueErrorCallback(connection, 3, 1);
@@ -405,9 +405,9 @@ u32 GpiProcessConnectOperation(GpConnection *connection, GpiOperation *operation
             if (result != 0) {
                 return result;
             }
-            operation->mState = 2;
+            operation->mState = PROFILE_CONNECT_STATE_WAIT_LOGIN_REPLY;
             break;
-        case 2:
+        case PROFILE_CONNECT_STATE_WAIT_LOGIN_REPLY:
             if (strncmp(input, "\\lc\\2", 5) != 0) {
                 GpiSetError(connection, 1, "Unexpected data was received from the server.");
                 GpiQueueErrorCallback(connection, 3, 1);

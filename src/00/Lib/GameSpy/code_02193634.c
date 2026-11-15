@@ -62,7 +62,7 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
                 }
                 memset(arg, 0, 0x20);
                 arg->mResult = operation->mResult;
-                if (gpState->mErrorNumber == 0x201) {
+                if (gpState->mErrorNumber == PROFILE_ERROR_RETURNS_PROFILE_ID) {
                     arg->mProfile = gpState->mProfileId;
                     gpState->mProfileId = 0;
                 }
