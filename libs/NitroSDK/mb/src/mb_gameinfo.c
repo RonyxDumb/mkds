@@ -40,8 +40,8 @@ void MBi_MakeGameInfo(GameInfoEntry *entry, MBGameRegistry *params, const u8 *re
     clearValue = 0;
     MIi_CpuClear16(clearValue, entry, 0x4c0);
     entry->mDataAttr = 0;
-    value = MBi_ReadIconInfo(params->mIconCharPathp, (u8 *) entry, 1) == 0;
-    iconPaletteMissing = MBi_ReadIconInfo(params->mIconPalettePathp, (u8 *) entry, 0) == 0;
+    value = MBi_ReadIconInfo(params->mIconCharPathp, entry->mIcon, 1) == 0;
+    iconPaletteMissing = MBi_ReadIconInfo(params->mIconPalettePathp, entry->mIcon, 0) == 0;
     if ((value | iconPaletteMissing) != 0) {
         entry->mDataAttr = 1;
         MemFillWordsByBlock_inline(entry, 0x220);
