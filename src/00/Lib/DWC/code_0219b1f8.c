@@ -893,7 +893,7 @@ NatTraversalEntry *FindNegotiatorForCookie(u32 cookie) {
     if (negotiateList == NULL) {
         return NULL;
     }
-    for (index = 0; index < DarrayGetCount((u32 *) negotiateList); index++) {
+    for (index = 0; index < DarrayGetCount(negotiateList); index++) {
         negotiator = DarrayGetElement(negotiateList, index);
         if (negotiator->mCookie == cookie) {
             return negotiator;

@@ -607,14 +607,14 @@ s32 FindRequest(s32 reqType, s32 ownId, s32 profileId) {
         return -1;
     }
     index = 0;
-    if (DarrayGetCount((u32 *) gServerReqs) > 0) {
+    if (DarrayGetCount(gServerReqs) > 0) {
         do {
             req = DarrayGetElement(gServerReqs, index);
             if (req->mReqType == reqType && req->mLocalId == ownId && req->mProfileId == profileId) {
                 return index;
             }
             index++;
-        } while (index < DarrayGetCount((u32 *) gServerReqs));
+        } while (index < DarrayGetCount(gServerReqs));
     }
     return -1;
 }
