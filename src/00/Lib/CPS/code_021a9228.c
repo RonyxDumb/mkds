@@ -113,7 +113,7 @@ u32 GetRtcSecondsPlusFixedOffset(void) {
     return (u32) RTC_ConvertDateTimeToSecond(&date, &time) + 0x386d4380;
 }
 
-void SetAuthorityTable(u32 table, u32 count) {
+void SetAuthorityTable(CPSCaInfo **table, u32 count) {
     CPSSoc *connection;
     HttpsState *httpsState;
     connection = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
@@ -123,19 +123,19 @@ void SetAuthorityTable(u32 table, u32 count) {
     }
 }
 
-u32 FindAuthorityByName(HttpsState *httpsState, const s8 *name) {
+CPSCaInfo *FindAuthorityByName(HttpsState *httpsState, const s8 *name) {
     int authorityCount;
     int index;
-    u32 *tableCursor;
-    u32 *table;
+    CPSCaInfo **tableCursor;
+    CPSCaInfo **table;
     int compareResult;
     index = 0;
     authorityCount = httpsState->mAuthorityCount;
     if (0 < authorityCount) {
-        table = (u32 *) httpsState->mAuthorities;
+        table = httpsState->mAuthorities;
         tableCursor = table;
         do {
-            compareResult = strcmp((const char *) (*(u32 *) *tableCursor), (const char *) name);
+            compareResult = strcmp((*tableCursor)->mDn, (const char *) name);
             if (compareResult == 0) {
                 return table[index];
             }
@@ -242,8 +242,8 @@ BOOL ParseTaggedItem(HttpsState *httpsState, u8 **position, s32 depth, s32 index
                             }
                             break;
                         case 2:
-                            httpsState->mItemRecord.mFirstLength = length;
-                            httpsState->mItemRecord.mFirstBytes = cursor;
+                            httpsState->mItemRecord.mModulusLen = length;
+                            httpsState->mItemRecord.mModulus = cursor;
                             break;
                     }
                 } else if (index == 1) {
@@ -259,8 +259,8 @@ BOOL ParseTaggedItem(HttpsState *httpsState, u8 **position, s32 depth, s32 index
                             }
                             break;
                         case 2:
-                            httpsState->mItemRecord.mSecondLength = length;
-                            httpsState->mItemRecord.mSecondBytes = cursor;
+                            httpsState->mItemRecord.mExponentLen = length;
+                            httpsState->mItemRecord.mExponent = cursor;
                             break;
                     }
                 }
@@ -401,7 +401,7 @@ BOOL ParseTaggedItem(HttpsState *httpsState, u8 **position, s32 depth, s32 index
 
 // Returns 0 when the bytes, run through the two values of the authority record, start 00 01, a run of 0xff, 00, 30 and
 // end with mRangeDigest, else 2.
-u32 CheckTransformedBytesHoldPaddedDigest(HttpsState *httpsState, AuthorityRecord *authority) {
+u32 CheckTransformedBytesHoldPaddedDigest(HttpsState *httpsState, CPSCaInfo *authority) {
     s32 digitCount;
     u16 *result;
     u16 *checkedDigits;
@@ -411,11 +411,11 @@ u32 CheckTransformedBytesHoldPaddedDigest(HttpsState *httpsState, AuthorityRecor
     OSThread *thread;
     u32 status;
     enum { K0 } padIndex;
-    if (httpsState->mCheckedBytes == NULL || httpsState->mCheckedBytesLength == 0 || authority->mSecondBytes == NULL ||
-        authority->mSecondLength == 0 || authority->mFirstBytes == NULL || authority->mFirstLength == 0) {
+    if (httpsState->mCheckedBytes == NULL || httpsState->mCheckedBytesLength == 0 || authority->mExponent == NULL ||
+        authority->mExponentLen == 0 || authority->mModulus == NULL || authority->mModulusLen == 0) {
         return 2;
     }
-    digitCount = authority->mFirstLength * 2;
+    digitCount = authority->mModulusLen * 2;
     digitCount = digitCount / 2;
     result = (u16 *) CPSiAlloc(digitCount * 8);
     if (result == NULL) {
@@ -425,8 +425,8 @@ u32 CheckTransformedBytesHoldPaddedDigest(HttpsState *httpsState, AuthorityRecor
     exponent = checkedDigits + digitCount;
     modulus = exponent + digitCount;
     CPSi_big_from_char(checkedDigits, httpsState->mCheckedBytes, httpsState->mCheckedBytesLength, digitCount);
-    CPSi_big_from_char(exponent, authority->mSecondBytes, authority->mSecondLength, digitCount);
-    CPSi_big_from_char(modulus, authority->mFirstBytes, authority->mFirstLength, digitCount);
+    CPSi_big_from_char(exponent, authority->mExponent, authority->mExponentLen, digitCount);
+    CPSi_big_from_char(modulus, authority->mModulus, authority->mModulusLen, digitCount);
     if (gSslLowThreadPriority < 0x20) {
         thread = OSi_ThreadInfo.mCurrentThread;
         savedPriority = OS_GetThreadPriority(thread);
@@ -436,24 +436,24 @@ u32 CheckTransformedBytesHoldPaddedDigest(HttpsState *httpsState, AuthorityRecor
     } else {
         CPSi_big_power(result, checkedDigits, exponent, digitCount, modulus);
     }
-    CPSi_char_from_big((u8 *) checkedDigits, result, authority->mFirstLength, digitCount);
+    CPSi_char_from_big((u8 *) checkedDigits, result, authority->mModulusLen, digitCount);
     status = 0;
     if (((u8 *) checkedDigits)[0] != 0 || ((u8 *) checkedDigits)[1] != 1) {
         status = 2;
     } else {
         padIndex = 2;
-        if (authority->mFirstLength > 2) {
+        if (authority->mModulusLen > 2) {
             do {
                 if (((u8 *) checkedDigits)[padIndex] != 0xff) {
                     break;
                 }
                 padIndex++;
-            } while (padIndex < authority->mFirstLength);
+            } while (padIndex < authority->mModulusLen);
         }
-        if (padIndex + 1 >= authority->mFirstLength || ((u8 *) checkedDigits)[padIndex] != 0 ||
+        if (padIndex + 1 >= authority->mModulusLen || ((u8 *) checkedDigits)[padIndex] != 0 ||
             ((u8 *) checkedDigits)[padIndex + 1] != 0x30 ||
             memcmp(httpsState->mRangeDigest,
-                   (u8 *) checkedDigits + authority->mFirstLength - httpsState->mRangeDigestLength,
+                   (u8 *) checkedDigits + authority->mModulusLen - httpsState->mRangeDigestLength,
                    httpsState->mRangeDigestLength) != 0) {
             status = 2;
         }
@@ -468,7 +468,7 @@ u32 ComputeParsedItemCheckFlags(HttpsState *httpsState) {
     u32 flags;
     CPSMd5Ctx *scratchHash16;
     Hash20Context *scratchHash20;
-    u32 authority;
+    CPSCaInfo *authority;
     if (httpsState->mDateInRange != 0) {
         flags = 0;
     } else {
@@ -498,11 +498,11 @@ u32 ComputeParsedItemCheckFlags(HttpsState *httpsState) {
             return flags;
     }
     authority = FindAuthorityByName(httpsState, httpsState->mAuthorityName);
-    if (authority == 0) {
+    if (authority == NULL) {
         flags |= 1;
         return flags;
     }
-    flags |= CheckTransformedBytesHoldPaddedDigest(httpsState, (AuthorityRecord *) authority);
+    flags |= CheckTransformedBytesHoldPaddedDigest(httpsState, authority);
     return flags;
 }
 

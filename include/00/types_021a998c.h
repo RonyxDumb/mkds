@@ -1,20 +1,12 @@
 #pragma once
 
 #include "types.h"
+#include "00/Lib/DWC/ca_info.h"
 #include "00/Lib/CPS/code_021ab6d4.h"
 #include "00/Lib/CPS/code_021abca0.h"
 
 typedef struct HttpsEntry HttpsEntry;
 typedef struct CPSPrivateKey CPSPrivateKey;
-
-// A name and two byte strings: the rows of the table behind mAuthorities, and the copy an item fills (mItemRecord).
-typedef struct AuthorityRecord {
-    /* 00 */ u32 mName;
-    /* 04 */ s32 mFirstLength;
-    /* 08 */ u8 *mFirstBytes;
-    /* 0c */ u32 mSecondLength;
-    /* 10 */ u8 *mSecondBytes;
-} AuthorityRecord;
 
 // Length and pointer of the item list a reply sends (mItemList).
 typedef struct ItemList {
@@ -83,7 +75,7 @@ typedef struct HttpsState {
     /* 438 */ u8 *mDigestEnd;
     /* 43c */ u8 mRangeDigest[0x14];
     /* 450 */ s32 mRangeDigestLength;
-    /* 454 */ AuthorityRecord mItemRecord;
+    /* 454 */ CPSCaInfo mItemRecord;
     /* 468 */ u8 mFirstValue[0x100];
     /* 568 */ u32 mFirstValueLength;
     /* 56c */ u8 mSecondValue[8];
@@ -104,7 +96,7 @@ typedef struct HttpsState {
     /* 7e0 */ u32 mCurrentDate;
     /* 7e4 */ Unk021a998c_Func mCheckFlagsCallback;
     // Pointer to the table of authority records.
-    /* 7e8 */ u32 mAuthorities;
+    /* 7e8 */ CPSCaInfo **mAuthorities;
     /* 7ec */ u32 mAuthorityCount;
     /* 7f0 */ CPSPrivateKey *mPrivateKey;
     /* 7f4 */ ItemList *mItemList;

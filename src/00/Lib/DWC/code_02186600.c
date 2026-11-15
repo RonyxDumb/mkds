@@ -170,7 +170,7 @@ void DWCi_Http_Thread(void *argument) {
         sslInfo->mUnk_7e4 = DWCi_Http_CPSCallback;
         sslInfo->mUnk_7d4 = http->mHost;
         socketBuffers->mUnk_0c = sslInfo;
-        SetAuthorityTable((u32) gCaInfoTable, 0xb);
+        SetAuthorityTable(gCaInfoTable, 0xb);
         CPS_SetSsl(1);
         port = 0x1bb;
     } else {

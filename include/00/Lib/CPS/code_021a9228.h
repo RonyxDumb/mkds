@@ -43,7 +43,7 @@ typedef struct CPSPrivateKey {
 
 typedef struct HttpsState HttpsState;
 
-typedef struct AuthorityRecord AuthorityRecord;
+typedef struct CPSCaInfo CPSCaInfo;
 typedef struct HttpsState HttpsState;
 
 typedef struct HttpsState HttpsState;
@@ -95,13 +95,13 @@ void ParseAndCheckItemListMessage(HttpsState *httpsState, u8 *cursor);
 BOOL CompareTextWithWildcard(const s8 *text, const s8 *pattern);
 s32 GetTextLengthUpToDot(const s8 *text);
 u32 ComputeParsedItemCheckFlags(HttpsState *httpsState);
-u32 CheckTransformedBytesHoldPaddedDigest(HttpsState *httpsState, AuthorityRecord *authority);
+u32 CheckTransformedBytesHoldPaddedDigest(HttpsState *httpsState, CPSCaInfo *authority);
 BOOL ParseTaggedItem(HttpsState *httpsState, u8 **position, s32 depth, s32 index, s32 mode);
 u32 ParseDateText(const u8 *digits, u32 tag);
 void AppendCommaSeparatedText(s8 *dest, const s8 *source, s32 count);
 s32 ReadLengthAndAdvance(u8 **position);
-u32 FindAuthorityByName(HttpsState *httpsState, const s8 *name);
-void SetAuthorityTable(u32 table, u32 count);
+CPSCaInfo *FindAuthorityByName(HttpsState *httpsState, const s8 *name);
+void SetAuthorityTable(CPSCaInfo **table, u32 count);
 u32 GetRtcSecondsPlusFixedOffset(void);
 HttpsEntry *AddEntryOrReplaceLongestUnused(const u8 *bytes);
 HttpsEntry *FindEntryByValuePairAndSetLastUseTime(u32 firstValue, u32 secondValue);
