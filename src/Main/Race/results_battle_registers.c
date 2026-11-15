@@ -763,8 +763,8 @@ void InitResultsBattle(void *heap, void *mainOam, void *subOam) {
             gResultsBattle->mKartCount = gRaceSetup->mKartCount;
             gResultsBattle->mState = RESULTS_BATTLE_STATE_WAIT_FRAMES;
             break;
-        case 1:
-        case 2:
+        case CONNECTION_KIND_MEMBER_SELECT:
+        case CONNECTION_KIND_WL_MENU:
             SetSelectChoisesSoundId(1, 0xf);
             gResultsBattle->mOwnEntryIndex =
                 GetParticipantPosByIndex(
@@ -1011,13 +1011,13 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
                     if ((u16) (gInputSlots[GetPadInputSlot()].mPressedBits & PAD_KEY_A) != 0) {
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
                         if (sceneNumbers != NULL) {
-                            sceneNumbers->mNextScene = 1;
+                            sceneNumbers->mNextScene = SCENE_MENU_1;
                         }
                         gResultsBattle->mState = RESULTS_BATTLE_STATE_DONE;
                     }
                     break;
-                case 1:
-                case 2:
+                case CONNECTION_KIND_MEMBER_SELECT:
+                case CONNECTION_KIND_WL_MENU:
                     inputSlotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
                     if ((u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_A) != 0) {
                         StartResultsBattleChoices();
@@ -1040,8 +1040,8 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
             break;
         case RESULTS_BATTLE_STATE_WAIT_CHOICE:
             switch (gResultsBattle->mMode) {
-                case 1:
-                case 2:
+                case CONNECTION_KIND_MEMBER_SELECT:
+                case CONNECTION_KIND_WL_MENU:
                     if (GetSelectChoisesDone() != 0) {
                         switch (GetSelectChoisesIndex()) {
                             case 0:
@@ -1049,12 +1049,12 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
                                     gMenuShared->mWLMenuKind = WL_MENU_KIND_TO_MENU;
                                     gMenuShared->mMenuEntryKind = 4;
                                     if (sceneNumbers != NULL) {
-                                        sceneNumbers->mNextScene = 6;
+                                        sceneNumbers->mNextScene = SCENE_WL_MENU;
                                     }
                                 } else {
-                                    gMenuShared->mMenuEntryKind = 4;
+                                    gMenuShared->mMenuEntryKind = MENU_ENTRY_KIND_CONNECTED;
                                     if (sceneNumbers != NULL) {
-                                        sceneNumbers->mNextScene = 1;
+                                        sceneNumbers->mNextScene = SCENE_MENU_1;
                                     }
                                 }
                                 gResultsBattle->mState = RESULTS_BATTLE_STATE_DONE;
@@ -1079,9 +1079,9 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
                                 break;
                             case 1:
                                 SetWiFiSessionOwnContinueChoice(0);
-                                gMenuShared->mWiFiMenuStartKind = 1;
+                                gMenuShared->mWiFiMenuStartKind = WIFI_MENU_START_VS_SETTING;
                                 if (sceneNumbers != NULL) {
-                                    sceneNumbers->mNextScene = 0xc;
+                                    sceneNumbers->mNextScene = SCENE_WIFI_MENU;
                                 }
                                 gResultsBattle->mState = RESULTS_BATTLE_STATE_DONE;
                                 break;
@@ -1097,15 +1097,15 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
         case RESULTS_BATTLE_STATE_WAIT_WIFI_CONTINUE:
             if (GetWiFiSessionContinueResult() != 0) {
                 switch (GetWiFiSessionContinueResult()) {
-                    case 1:
-                        gMenuShared->mWiFiMenuStartKind = 2;
+                    case WIFI_CONTINUE_RESULT_KARTS_LEFT:
+                        gMenuShared->mWiFiMenuStartKind = WIFI_MENU_START_SELECT_CHARACTER;
                         break;
-                    case 2:
-                        gMenuShared->mWiFiMenuStartKind = 1;
+                    case WIFI_CONTINUE_RESULT_ENDED:
+                        gMenuShared->mWiFiMenuStartKind = WIFI_MENU_START_VS_SETTING;
                         break;
                 }
                 if (sceneNumbers != NULL) {
-                    sceneNumbers->mNextScene = 0xc;
+                    sceneNumbers->mNextScene = SCENE_WIFI_MENU;
                 }
                 gResultsBattle->mState = RESULTS_BATTLE_STATE_DONE;
             }

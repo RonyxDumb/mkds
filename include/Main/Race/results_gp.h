@@ -31,6 +31,13 @@ typedef enum ResultsGpGrade {
 #define GP_LOWEST_RECORD_SECOND_BEST 2
 #define GP_LOWEST_RECORD_BEST 3
 
+// Number of cup ranks that get a trophy: a cup rank index below it is a trophy rank.
+#define CUP_RANK_TROPHY_COUNT 3
+// Values of ResultsGp.mState: the timeline runs, a text is open and waits to close, the scene is left.
+#define RESULTS_GP_STATE_TIMELINE 0
+#define RESULTS_GP_STATE_TEXT_OPEN 1
+#define RESULTS_GP_STATE_LEFT 2
+
 // Object behind gResultsGp, allocated by InitResultsGp.
 typedef struct ResultsGp {
     /* 00 */ CellFileSet mCellFileSets[2];

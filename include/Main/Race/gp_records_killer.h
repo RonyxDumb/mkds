@@ -54,6 +54,10 @@ void SetupKartKillerCursor(KartKillerCursor *kartKillerCursor, u32 kartIndex);
 BOOL IsTimeLessThanStaffGhostTime(u32 entryNumber, MinuteSecondMillisecondTime *time);
 void LoadStaffGhostTime(void *heap);
 BOOL IsAllGrandPrixRecordsTopRank(void);
+// Values GetStaffRollKindAfterGp returns.
+#define STAFF_ROLL_AFTER_GP_NONE 0
+#define STAFF_ROLL_AFTER_GP_NORMAL 1
+#define STAFF_ROLL_AFTER_GP_TRUE 2
 s32 GetStaffRollKindAfterGp(void);
 u32 SetSecretMessageFlagsFromCups3And7(void);
 u32 SetSecretMessageFlagsPerEngineClass(void);

@@ -150,7 +150,7 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
         }
         mainFileSet->mCellTable[gResultsGpGradeCellIndices[index]].mVisible = cellFlag;
     }
-    if (gResultsGp->mCupRankIndex >= 3) {
+    if (gResultsGp->mCupRankIndex >= CUP_RANK_TROPHY_COUNT) {
         cellFlag = 1;
     } else {
         cellFlag = 0;
@@ -258,12 +258,12 @@ void AdvanceResultsGp(SceneNumbers *sceneNumbers) {
                         gResultsGp->mCellFileSets[screenIndex].mLabelLayout, gResultsGp->mOamLists[screenIndex],
                         gResultsGp->mCellFileSets[screenIndex].mCellTable);
     }
-    if (gResultsGp->mCupRankIndex < 3) {
+    if (gResultsGp->mCupRankIndex < CUP_RANK_TROPHY_COUNT) {
         AdvanceTrophy();
         DrawTrophy();
     }
     switch (gResultsGp->mState) {
-        case 0: {
+        case RESULTS_GP_STATE_TIMELINE: {
             s32 frameLimit;
             s32 frames;
             frameLimit = GetResultsGpFrameLimit(gResultsGp->mCupRankIndex);
@@ -337,36 +337,36 @@ void AdvanceResultsGp(SceneNumbers *sceneNumbers) {
                     }
                     SetTxtSystemOpenSoundId(0x53);
                     SetupTxtSystemSubTextButtonEx(secretMessage, commonMessage, 0, 1, 1, 0);
-                    gResultsGp->mState = 1;
+                    gResultsGp->mState = RESULTS_GP_STATE_TEXT_OPEN;
                 } else {
                     switch (GetStaffRollKindAfterGp()) {
-                        case 0:
+                        case STAFF_ROLL_AFTER_GP_NONE:
                             if (sceneNumbers != NULL) {
-                                sceneNumbers->mNextScene = 0;
+                                sceneNumbers->mNextScene = SCENE_TITLE;
                             }
                             break;
-                        case 1:
+                        case STAFF_ROLL_AFTER_GP_NORMAL:
                             SetupStaffRollRace(0);
                             if (sceneNumbers != NULL) {
-                                sceneNumbers->mNextScene = 2;
+                                sceneNumbers->mNextScene = SCENE_RACE;
                             }
                             break;
-                        case 2:
+                        case STAFF_ROLL_AFTER_GP_TRUE:
                             SetupStaffRollRace(1);
                             if (sceneNumbers != NULL) {
-                                sceneNumbers->mNextScene = 2;
+                                sceneNumbers->mNextScene = SCENE_RACE;
                             }
                             break;
                     }
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
-                    gResultsGp->mState = 2;
+                    gResultsGp->mState = RESULTS_GP_STATE_LEFT;
                 }
             }
         } break;
-        case 1:
+        case RESULTS_GP_STATE_TEXT_OPEN:
             if (GetTxtSystemDone()) {
                 RequestTxtSystemClose();
-                gResultsGp->mState = 0;
+                gResultsGp->mState = RESULTS_GP_STATE_TIMELINE;
             }
             break;
     }

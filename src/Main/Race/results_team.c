@@ -1,4 +1,5 @@
 #include "Main/Race/results_team.h"
+#include "Main/Race/results_gp.h"
 #include "Main/Race/cup_records.h"
 #include "Main/System/low_byte.h"
 #include "Main/Net/packed_index.h"
@@ -34,7 +35,7 @@ u32 GetResultSceneSeqKind(void) {
     raceSetup = gRaceSetup;
     kartCount = raceSetup->mKartCount;
     if (raceSetup->mMode == MODE_GRAND_PRIX) {
-        if (gMenuShared->mCupRankIndex < 3) {
+        if (gMenuShared->mCupRankIndex < CUP_RANK_TROPHY_COUNT) {
             return RESULT_SCENE_SEQ_KIND_GP_HIGH_RANK;
         }
         return RESULT_SCENE_SEQ_KIND_GP_LOW_RANK;
