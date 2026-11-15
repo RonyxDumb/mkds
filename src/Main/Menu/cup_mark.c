@@ -19,7 +19,7 @@
 #include "gfd_VramTransferManager.h"
 
 char *gCommonCupMarkNcerName = "common/cup_mark.nce.ncer";
-const u8 gCupMarkBnclIndices[16] = {0, 0, 1, 0, 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 7, 0};
+const u16 gCupMarkBnclIndices[8] = {0, 1, 2, 3, 4, 5, 6, 7};
 char *gCommonCupMarkBnclName = "common/cup_mark.bncl";
 char *gCupMarkNcgrName = "cup_mark.nce.ncgr";
 char *gCupMarkNclrName = "cup_mark_o.nclr";
@@ -114,7 +114,7 @@ void QueueCupMark(u32 cupMarkIndex, NNSG2dCellDataBank *cells, LayoutEntryTable 
             transferKind = 30;
         }
     }
-    id = ((u16 *) gCupMarkBnclIndices)[cupMarkIndex];
+    id = gCupMarkBnclIndices[cupMarkIndex];
     cupMark = gCupMark;
     QueueCellChars(id, cupMark->mNcer, cupMark->mNcgr, cupMark->mBncl, queueSelector, destIndex, cells, cellLayout);
     cupMark = gCupMark;

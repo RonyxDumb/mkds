@@ -24,7 +24,7 @@ void LoadCupMarkData(void);
 
 extern char *gCommonCupMarkNcerName;
 // Objects whose layout isn't known yet.
-extern const u8 gCupMarkBnclIndices[16];
+extern const u16 gCupMarkBnclIndices[8];
 extern char *gCommonCupMarkBnclName;
 extern char *gCupMarkNcgrName;
 extern char *gCupMarkNclrName;
