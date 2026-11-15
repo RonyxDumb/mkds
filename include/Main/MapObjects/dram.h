@@ -16,6 +16,8 @@
 
 #define DRAM_ALIGN_ANGLE 0x1999
 #define DRAM_MIN_ANGLE_STEP 0x96
+// Dram.mRamp at full turning speed; it runs from 0 to this over mRampFrameCount frames.
+#define DRAM_RAMP_FULL 0x1000
 
 // Object of kind 0xd2 (Dram) and the functions of this file: 0xc0 bytes.
 typedef struct Dram {

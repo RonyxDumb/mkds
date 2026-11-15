@@ -160,7 +160,7 @@ void ApplyItemObjectHitType(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, 
     }
     soundId = mapObject ? mapObject->mKindData->mCollideItemObjectSoundId : -1;
     switch (hitType) {
-        case 1:
+        case ITEM_HIT_TYPE_BOUNCE:
             if (item->mFlags & ITEM_OBJECT_FLAG_IN_USE) {
                 break;
             }
@@ -206,7 +206,7 @@ void ApplyItemObjectHitType(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, 
             item->mPos.x = otherPos->x + MUL_FIXED12_NO_ROUND(radius, offset.x);
             item->mPos.z = otherPos->z + MUL_FIXED12_NO_ROUND(radius, offset.z);
             break;
-        case 2:
+        case ITEM_HIT_TYPE_FADE_OUT:
             if (item->mFlags & ITEM_OBJECT_FLAG_IN_USE) {
                 RemoveItemInUseObject(&GetKartItems(item->mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK)->mItemInUse,
                                       item);
@@ -237,7 +237,7 @@ void ApplyItemObjectHitType(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, 
             } else {
                 value = item->mKind;
                 FadeOutEndedItemObject(item, 1);
-                if (value == 5 || value == 9) {
+                if (value == ITEM_OBJECT_KIND_KOURA_W || value == ITEM_OBJECT_KIND_BOMB) {
                     soundId = -1;
                 }
             }
@@ -325,7 +325,7 @@ void AdvanceItemObjectReleaseTimer(ItemObject *item) {
     if (item->mAlpha <= 0) {
         ReleaseItemPoolObject(&gItemPools[item->mKind], item);
     } else {
-        if (item->mAlpha < 0xa) {
+        if (item->mAlpha < ITEM_OBJECT_FADE_ALPHA_NO_COLLISION) {
             FreeItemObjectCollisionSlot(item);
         }
     }
@@ -674,7 +674,7 @@ void AdvanceRestingItemObject(ItemObject *item) {
         VEC_MultAdd(item->mCourseRadius, &item->mNormal, &item->mCoursePointOrParams, &item->mPos);
         if (item->mHitLinkTimer > 0) {
             item->mHitLinkTimer -= 1;
-            if ((item->mCreationNumber & 7) != GetRaceUpdateFramesMod8()) {
+            if ((item->mCreationNumber & ITEM_OBJECT_CREATION_PHASE_MASK) != GetRaceUpdateFramesMod8()) {
                 return;
             }
             if (CollideSphereWithCourse(&item->mPos, NULL, 0, item->mCourseRadius, 0x44, item->mCollisionSlotIndex,

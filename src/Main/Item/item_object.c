@@ -49,7 +49,7 @@ void FreeItemObjectCollisionSlot(ItemObject *itemObject) {
 }
 
 BOOL IsItemObjectOldAndResting(ItemObject *item) {
-    if (item->mAgeFrames > 0x12c && (item->mFlags & ITEM_OBJECT_FLAG_RESTING) != 0 &&
+    if (item->mAgeFrames > ITEM_OBJECT_OLD_FRAMES && (item->mFlags & ITEM_OBJECT_FLAG_RESTING) != 0 &&
         item->mAdvance == AdvanceRestingItemObject) {
         return TRUE;
     }
@@ -57,7 +57,7 @@ BOOL IsItemObjectOldAndResting(ItemObject *item) {
 }
 
 void StartItemObjectReleaseIfOldResting(ItemObject *item) {
-    if (item->mAgeFrames <= 0x12c) {
+    if (item->mAgeFrames <= ITEM_OBJECT_OLD_FRAMES) {
         return;
     }
     if ((item->mFlags & ITEM_OBJECT_FLAG_RESTING) == 0) {
@@ -91,12 +91,12 @@ void ResetItemObject(ItemObject *item, s32 kind) {
     item->mScale.y = 0;
     item->mScale.z = 0;
     item->mScaleTargetOrSpeed = 0;
-    item->mCourseRadius = 0x7b;
-    item->mRadius = 0x7b;
+    item->mCourseRadius = ITEM_OBJECT_INITIAL_RADIUS;
+    item->mRadius = ITEM_OBJECT_INITIAL_RADIUS;
     item->mAlpha = MAP_OBJECT_ALPHA_MAX;
     item->mCollisionBits = 0;
     item->mCourseReleaseTimer = 0;
-    item->mFramesSinceCourseHit = 5;
+    item->mFramesSinceCourseHit = ITEM_OBJECT_RECENT_HIT_FRAMES;
     item->mBounce = NULL;
     item->mPosPointer = &item->mPos;
     item->mCollisionSlotIndex = -1;
@@ -151,7 +151,7 @@ void SetItemObjectPlacement(ItemObject *itemParam, Vec3 *prevPos, const Vec3 *no
         InitCourseColorBlend(&item->mColorBlend, 1);
     }
     item->mNormal = *normal;
-    item->mFramesSinceReset = flag != 0 ? 0 : 5;
+    item->mFramesSinceReset = flag != 0 ? 0 : ITEM_OBJECT_RECENT_HIT_FRAMES;
 }
 
 s32 DoesItemObjectHurtKart(ItemObject *item) {
@@ -203,7 +203,8 @@ void CollideItemObjectWithItemObject(ItemObject *item, ItemObject *other) {
         }
     }
     if ((item->mFlags & ITEM_OBJECT_FLAG_FROM_DATA) != 0 && (other->mFlags & ITEM_OBJECT_FLAG_FROM_DATA) != 0) {
-        if (GetItemObjectHitType(item, other) != 1 && GetItemObjectHitType(other, item) != 1) {
+        if (GetItemObjectHitType(item, other) != ITEM_HIT_TYPE_BOUNCE &&
+            GetItemObjectHitType(other, item) != ITEM_HIT_TYPE_BOUNCE) {
             return;
         }
     }
@@ -240,35 +241,38 @@ void ApplyMapObjectHitToItemObject(ItemObject *itemParam, MapObject *mapObjectPa
     if (IsSphereHittingMapObject(&item->mPos, item->mRadius, mapObject, &pushOut) == FALSE) {
         return;
     }
-    if ((mapObject->mFlags & 0x40) == 0 && (item->mFlags & ITEM_OBJECT_FLAG_FADING_OUT) == 0 &&
+    if ((mapObject->mFlags & MAP_OBJECT_FLAG_NO_PUSH_OUT) == 0 && (item->mFlags & ITEM_OBJECT_FLAG_FADING_OUT) == 0 &&
         DoesItemObjectRespondToMapObject(item->mKind, mapObject) != 0) {
         VEC_Add(&item->mPos, &pushOut, &item->mPos);
     }
     switch (CollideItemObjectWithMapObject(item, mapObject, &firstResponse)) {
-        case 1:
+        case ITEM_HIT_TYPE_BOUNCE:
             otherPos.x = mapObject->mPos.x;
             otherPos.y = item->mPos.y;
             otherPos.z = mapObject->mPos.z;
             pushOut = otherPos;
-            if (firstResponse == 1 || (mapObject->mDistanceSquaredAndFlags & 0x80000000) != 0) {
-                mapObject->mDistanceSquaredAndFlags &= ~0x80000000;
+            if (firstResponse == 1 ||
+                (mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_DISTANCE_FLAG_REPORT_HIT) != 0) {
+                mapObject->mDistanceSquaredAndFlags &= ~MAP_OBJECT_DISTANCE_FLAG_REPORT_HIT;
                 reportedMapObject = mapObject;
             } else {
-                mapObject->mDistanceSquaredAndFlags &= ~0x80000000;
+                mapObject->mDistanceSquaredAndFlags &= ~MAP_OBJECT_DISTANCE_FLAG_REPORT_HIT;
                 reportedMapObject = NULL;
             }
-            ApplyItemObjectHitType(item, 1, &pushOut, &mapObject->mPosStep, reportedMapObject);
+            ApplyItemObjectHitType(item, ITEM_HIT_TYPE_BOUNCE, &pushOut, &mapObject->mPosStep, reportedMapObject);
             item->mOwnerKartIndexAndFlags &= ~ITEM_OWNER_EXCLUDED;
             return;
-        case 2:
-            if (firstResponse == 1 || (mapObject->mDistanceSquaredAndFlags & 0x80000000) != 0) {
-                mapObject->mDistanceSquaredAndFlags &= ~0x80000000;
+        case ITEM_HIT_TYPE_FADE_OUT:
+            if (firstResponse == 1 ||
+                (mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_DISTANCE_FLAG_REPORT_HIT) != 0) {
+                mapObject->mDistanceSquaredAndFlags &= ~MAP_OBJECT_DISTANCE_FLAG_REPORT_HIT;
                 reportedMapObject = mapObject;
             } else {
-                mapObject->mDistanceSquaredAndFlags &= ~0x80000000;
+                mapObject->mDistanceSquaredAndFlags &= ~MAP_OBJECT_DISTANCE_FLAG_REPORT_HIT;
                 reportedMapObject = NULL;
             }
-            ApplyItemObjectHitType(item, 2, &mapObject->mPos, &mapObject->mPosStep, reportedMapObject);
+            ApplyItemObjectHitType(item, ITEM_HIT_TYPE_FADE_OUT, &mapObject->mPos, &mapObject->mPosStep,
+                                   reportedMapObject);
             return;
     }
 }
@@ -436,7 +440,7 @@ void SetupItemObjectFromData(ItemObject *item) {
     item->mCoursePointOrParams.x = 0;
     item->mCoursePointOrParams.y = 0;
     item->mCoursePointOrParams.z = 0;
-    item->mFramesSinceCourseHit = 5;
+    item->mFramesSinceCourseHit = ITEM_OBJECT_RECENT_HIT_FRAMES;
     item->mFramesSinceReset = 0;
     item->mCourseReleaseTimer = 0;
     item->mHitLinkTimer = 0;

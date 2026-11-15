@@ -68,7 +68,7 @@ void InitDram(Dram *dram, struct CourseMapRow *courseRow) {
     dram->mDelayFrameCount = courseRow->mSettings[3];
     dram->mAngleX = 0;
     if (dram->mRampFrameCount != 0) {
-        dram->mRampPerFrame = 0x1000 / dram->mRampFrameCount;
+        dram->mRampPerFrame = DRAM_RAMP_FULL / dram->mRampFrameCount;
     } else {
         dram->mRampPerFrame = 0;
     }
@@ -217,12 +217,12 @@ void SetItemFBoxPushedDrawMatrix(ItemFBox *fbox, MtxFx43 *out) {
 void ResetItemFBox(ItemFBox *fbox) {
     fbox->mBouncingItemObject.mItemObject.mTransformMtx.mAxes = gItemFBoxRotation;
     ResetPooledMapObject(fbox->mPooledMapObject);
-    fbox->mPooledMapObject->mShadowMode = 2;
+    fbox->mPooledMapObject->mShadowMode = ITEM_BOX_SHADOW_NONE;
     SetPooledMapObjectCallback(fbox->mPooledMapObject, SetItemFBoxDrawMatrix, fbox);
 }
 
 void StartItemFBox(ItemFBox *fbox) {
-    fbox->mPooledMapObject->mShadowMode = 1;
+    fbox->mPooledMapObject->mShadowMode = ITEM_BOX_SHADOW_AT_POSITION;
     SetPooledMapObjectCallback(fbox->mPooledMapObject, SetItemFBoxPushedDrawMatrix, fbox);
 }
 
@@ -290,7 +290,7 @@ s32 ItemFBoxFadeOutCallback(ItemFBox *fbox) {
     if (LENGTH_SQUARED(*vector) >= 0x10) {
         Vec3NormalizeAndGetLengthUnchecked(vector, &fbox->mPushDirection);
     }
-    fbox->mPooledMapObject->mShadowMode = 2;
+    fbox->mPooledMapObject->mShadowMode = ITEM_BOX_SHADOW_NONE;
     if ((fbox->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAGS_ENDING) == 0) {
         fbox->mBouncingItemObject.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceItemFBox;
     }

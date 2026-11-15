@@ -111,6 +111,12 @@ typedef struct KartModelsEntry {
 #define ITEM_IN_USE_HOP_HISTORY_SIZE 0x10
 #define ITEM_IN_USE_HOP_HISTORY_MASK 0xf
 #define ITEM_IN_USE_HOP_HISTORY_DELAY 6
+// Kart speed (ItemInUse.mKartVelocityLength) below which a thrown bouncing item box keeps no velocity.
+#define ITEM_THROW_STILL_KART_SPEED 0x1000
+// Kart speeds (ItemInUse.mKartVelocityLength) below which a thrown item gets a random sideways offset, and below which
+// an item thrown backwards from a hop is moved back from the kart.
+#define ITEM_THROW_RANDOM_SPREAD_KART_SPEED 0x3000
+#define ITEM_THROW_HOP_OFFSET_KART_SPEED 0x2000
 // Start value and per-frame decrease of ItemInUse.mKartMovementWeights.
 #define ITEM_IN_USE_MOVEMENT_WEIGHT_START 0xee1
 #define ITEM_IN_USE_MOVEMENT_WEIGHT_DECREASE 0x3d

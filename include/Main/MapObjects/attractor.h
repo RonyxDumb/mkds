@@ -72,6 +72,15 @@ typedef struct MapObjectKindData {
 // MapObject.mFlags: a kart touching the object counts as hitting it fast whatever its speed (full push strength).
 #define MAP_OBJECT_FLAG_HIT_AT_ANY_SPEED 0x200
 
+// Bits of MapObject.mFlags.
+// Items and karts that overlap the object are not pushed out of it (the overlap tests skip it).
+#define MAP_OBJECT_FLAG_NO_PUSH_OUT 0x40
+// The object is parked (ParkMapObject sets it, UnparkMapObject clears it).
+#define MAP_OBJECT_FLAG_PARKED 0x100
+
+// MapObject.mDistanceSquaredAndFlags bit 31: set by kinds; item hits clear it and pass the object on as the one hit.
+#define MAP_OBJECT_DISTANCE_FLAG_REPORT_HIT 0x80000000
+
 // Element object up to 0xa0, which every kind shares: UpdateMapObjectList and UpdateMapObjectSoundSource read 0x78 and
 // 0x94 of every object, DoesItemObjectRespondToMapObject reads 0x00, 0x02 and 0x98. InitKuribo and InitDram pass the
 // StateMachine at 0x80 to InitStateMachine. From 0xa0 on, the objects of InitAttractorMapObject (AttractorMapObject),

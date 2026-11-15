@@ -52,18 +52,37 @@ typedef struct ItemPointLinkRef {
     /* 04 */ s32 mNextLinksUsed;
 } ItemPointLinkRef;
 
+// Number of positions in SegmentPoints (a ring).
+#define SEGMENT_POINT_COUNT 4
+
 // Four positions and pointers to them.
 typedef struct {
     /* 00 */ SegmentProgress mSegmentProgress;
     /* 60 */ s32 mWriteIndex;
-    /* 64 */ Vec3 *mPointPointers[4];
-    /* 74 */ Vec3 mPoints[4];
+    /* 64 */ Vec3 *mPointPointers[SEGMENT_POINT_COUNT];
+    /* 74 */ Vec3 mPoints[SEGMENT_POINT_COUNT];
 } SegmentPoints;
 
 extern SegmentProgress gJgSegmentProgress;
 
 // ItemObject.mAlpha of a fully opaque item (the polygon alpha has five bits).
 #define ITEM_OBJECT_ALPHA_OPAQUE 0x1f
+
+// ItemObject.mRadius and mCourseRadius that ResetItemObject gives every object until its kind sets its own.
+#define ITEM_OBJECT_INITIAL_RADIUS 0x7b
+
+// Frames after a course hit (ItemObject.mFramesSinceCourseHit, mFramesSinceReset) that still count as recent; the
+// counters start at this value when no hit happened.
+#define ITEM_OBJECT_RECENT_HIT_FRAMES 5
+
+// ItemObject.mAlpha below which a fading object gives up its collision slot.
+#define ITEM_OBJECT_FADE_ALPHA_NO_COLLISION 0xa
+
+// A resting object re-tests its hit link on the frames whose number modulo 8 equals ItemObject.mCreationNumber & this.
+#define ITEM_OBJECT_CREATION_PHASE_MASK 7
+
+// Age (5 seconds) after which a resting object counts as old and may be released.
+#define ITEM_OBJECT_OLD_FRAMES 0x12c
 
 // Bits of ItemObject.mFlags. The low 12 bits are events of the current frame: UpdateItemObject clears them at its start.
 // Fade-out (ITEM_OBJECT_FLAG_FADING_OUT) began this frame.
@@ -575,7 +594,9 @@ typedef enum {
 } ItemObjectKind;
 
 // The item a kart holds: its item index, how many are left and the objects it holds.
-// HeldItem.mObjectStartFramesLeft counts down from 10; one held object leaves on each launch frame.
+// HeldItem.mObjectStartFramesLeft starts at HELD_ITEM_OBJECT_START_FRAMES and counts down; one held object leaves
+// on each launch frame.
+#define HELD_ITEM_OBJECT_START_FRAMES 10
 #define HELD_ITEM_FIRST_LAUNCH_FRAME 7
 #define HELD_ITEM_SECOND_LAUNCH_FRAME 5
 #define HELD_ITEM_THIRD_LAUNCH_FRAME 3

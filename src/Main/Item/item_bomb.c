@@ -311,7 +311,7 @@ void AdvanceItemBombWithMapObject(ItemBomb *bomb, ItemBomb *bombAlias, ItemBox *
 
     bombAlias->mBouncingItemObject.mItemObject.mDistanceSquaredAndFlags |= gItemObjectDistanceSquaredMask;
     AdvanceStateMachine(&bomb->mStateMachine);
-    if (pooledMapObject->mMapObject.mFlags & 0x100) {
+    if (pooledMapObject->mMapObject.mFlags & MAP_OBJECT_FLAG_PARKED) {
         bomb->mPooledMapObject = NULL;
         ReleaseItemPoolObject(gItemPools + bomb->mBouncingItemObject.mItemObject.mKind,
                               &bomb->mBouncingItemObject.mItemObject);

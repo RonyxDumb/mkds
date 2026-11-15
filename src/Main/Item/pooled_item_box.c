@@ -43,6 +43,7 @@
 #include "code_0212df7c.h"
 #include "ITCM/collision_slots.h"
 #include "Main/Item/bouncing_item_box_timers.h"
+#include "Main/MapObjects/map_object_kind_update_list.h"
 
 u32 gPooledMapObjectNextIndex;
 struct MapObject **gPooledMapObjects;
@@ -82,10 +83,11 @@ void CreatePooledMapObjects(void) {
     gPooledMapObjectRow.mPosition = buf;
     gPooledMapObjectRow.mRotationDegrees = buf;
     gPooledMapObjectRow.mScale = gVec3Ones;
-    gPooledMapObjectRow.mKind = 0x6f;
+    gPooledMapObjectRow.mKind = MAP_OBJECT_KIND_POOLED_ITEM_BOX;
     gPooledMapObjectRow.mSettings[3] = 1;
     for (objectIndex = 0; objectIndex < gPooledMapObjectCount; objectIndex++) {
-        gPooledMapObjects[objectIndex] = CreateMapObjectFromCourseMapRow(&gPooledMapObjectRow, 0x6f);
+        gPooledMapObjects[objectIndex] =
+            CreateMapObjectFromCourseMapRow(&gPooledMapObjectRow, MAP_OBJECT_KIND_POOLED_ITEM_BOX);
     }
     gPooledMapObjectNextIndex = 0;
 }
@@ -166,7 +168,7 @@ void ReleaseEliminatedKartItems(s32 kartIndex) {
 
 void StartBouncingItemBox(BouncingItemBox *box) {
     if (box->mKartIsEntry != 0) {
-        (box->mPooledMapObject)->mShadowMode = 1;
+        (box->mPooledMapObject)->mShadowMode = ITEM_BOX_SHADOW_AT_POSITION;
     }
     if ((box->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAGS_ENDING) == 0) {
         box->mBouncingItemObject.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceBouncingItemBox;
@@ -187,12 +189,12 @@ void CollideKartWithBouncingItemBox(BouncingItemBox *box, void *kart) {
 }
 
 void ResetBouncingItemBox(BouncingItemBox *box) {
-    box->mScaleRatio = 0x666;
+    box->mScaleRatio = BOUNCING_ITEM_BOX_START_SCALE_RATIO;
     ResetPooledMapObject(box->mPooledMapObject);
     box->mKartIsEntry = (u16) (box->mBouncingItemObject.mItemObject.mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK) ==
                         gRaceSetup->mEntryIndex;
     if (box->mKartIsEntry != 0) {
-        (box->mPooledMapObject)->mShadowMode = 2;
+        (box->mPooledMapObject)->mShadowMode = ITEM_BOX_SHADOW_NONE;
     }
     SetBouncingItemBoxTimer(box->mBouncingItemObject.mItemObject.mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK,
                             0x258);
@@ -223,7 +225,7 @@ s32 InitBouncingItemBox(ItemInUse *itemInUse, BouncingItemBox *box) {
     StartItemObjectSoundSource(&box->mBouncingItemObject.mItemObject);
     box->mBouncingItemObject.mItemObject.mOwnerKartIndexAndFlags |= gBouncingItemBoxUntilCourseHitBit;
     if (box->mKartIsEntry != 0) {
-        (box->mPooledMapObject)->mShadowMode = 1;
+        (box->mPooledMapObject)->mShadowMode = ITEM_BOX_SHADOW_AT_POSITION;
     }
     if ((itemInUse->mKartItems->mFlags & KART_ITEMS_THROW_FORWARD) != 0) {
         ThrowBouncingItem(&box->mBouncingItemObject, itemInUse, 0, 1, 0x4000, 0x3000, 0x59a);
@@ -232,7 +234,7 @@ s32 InitBouncingItemBox(ItemInUse *itemInUse, BouncingItemBox *box) {
         return box->mThrownForward;
     } else {
         ThrowBouncingItem(&box->mBouncingItemObject, itemInUse, 0, 0, 0x4000, 0x3000, 0x59a);
-        if (itemInUse->mKartVelocityLength < 0x1000) {
+        if (itemInUse->mKartVelocityLength < ITEM_THROW_STILL_KART_SPEED) {
             box->mBouncingItemObject.mItemObject.mVelocity.x = 0;
             box->mBouncingItemObject.mItemObject.mVelocity.y = 0;
             box->mBouncingItemObject.mItemObject.mVelocity.z = 0;
@@ -295,8 +297,8 @@ void AdvanceBouncingItemBox(BouncingItemBox *box) {
     }
     kartIsEntry = box->mKartIsEntry;
     mapObject = box->mPooledMapObject;
-    if (kartIsEntry != 0 && box->mScaleRatio < 0x1000) {
-        box->mScaleRatio += 0xcd;
+    if (kartIsEntry != 0 && box->mScaleRatio < BOUNCING_ITEM_BOX_FULL_SCALE_RATIO) {
+        box->mScaleRatio += BOUNCING_ITEM_BOX_SCALE_RATIO_STEP;
         scaleRatio = box->mScaleRatio;
         scale.x = MUL_FIXED12_NO_ROUND(box->mBouncingItemObject.mItemObject.mScale.x, scaleRatio);
         scale.y = MUL_FIXED12_NO_ROUND(box->mBouncingItemObject.mItemObject.mScale.y, scaleRatio);

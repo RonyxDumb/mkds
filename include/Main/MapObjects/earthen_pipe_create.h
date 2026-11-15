@@ -19,6 +19,12 @@ struct ItemFBox;
 #define ITEM_BOX_HIT_FRAMES_MAX 0x80
 #define ITEM_BOX_FADE_IN_FRAMES 0x40
 
+// Values of ItemBox.mShadowMode, as the draw reads them: a shadow drawn with the shadow matrix, a shadow drawn at
+// mPositionSource, and no shadow.
+#define ITEM_BOX_SHADOW_MATRIX 0
+#define ITEM_BOX_SHADOW_AT_POSITION 1
+#define ITEM_BOX_SHADOW_NONE 2
+
 // Object of 0x108 or more bytes handled by InitItemBox.
 typedef struct ItemBox {
     /* 000 */ MapObject mMapObject;

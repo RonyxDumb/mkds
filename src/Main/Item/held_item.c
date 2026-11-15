@@ -241,7 +241,7 @@ void TakeHeldItemObjects(HeldItem *rec) {
 
 // Takes the held objects and starts the countdown that starts them one at a time.
 void StartHeldItemObjects(HeldItem *rec) {
-    rec->mObjectStartFramesLeft = 10;
+    rec->mObjectStartFramesLeft = HELD_ITEM_OBJECT_START_FRAMES;
     TakeHeldItemObjects(rec);
 }
 
@@ -311,7 +311,7 @@ s32 PushSegmentPoint(SegmentPoints *segmentPoints, const Vec3 *point) {
 
     segmentPoints->mPoints[segmentPoints->mWriteIndex] = *point;
     segmentPoints->mWriteIndex += 1;
-    segmentPoints->mWriteIndex &= 3;
+    segmentPoints->mWriteIndex &= SEGMENT_POINT_COUNT - 1;
     first = segmentPoints->mPointPointers[0];
     segmentPoints->mPointPointers[0] = segmentPoints->mPointPointers[1];
     segmentPoints->mPointPointers[1] = segmentPoints->mPointPointers[2];
@@ -715,7 +715,7 @@ void ThrowBouncingItem(BouncingItemObject *item, ItemInUse *itemInUse, s32 bounc
             value += MUL_FIXED12_NO_ROUND(itemInUse->mKartHopHeight, 0x14cd);
         }
     }
-    if (itemInUse->mKartVelocityLength < 0x3000) {
+    if (itemInUse->mKartVelocityLength < ITEM_THROW_RANDOM_SPREAD_KART_SPEED) {
         direction.z += ThrowBouncingItem_inline(&gRaceProgress->mRandom, 0xf6) - 0x7b;
         direction.x += ThrowBouncingItem_inline(&gRaceProgress->mRandom, 0xf6) - 0x7b;
     }
@@ -741,7 +741,7 @@ void ThrowBouncingItem(BouncingItemObject *item, ItemInUse *itemInUse, s32 bounc
         VEC_MultAdd(item->mItemObject.mScale.z * 10, &itemInUse->mKartOrientation.mRows[2], &item->mItemObject.mPos,
                     &item->mItemObject.mPos);
     } else {
-        if (itemInUse->mKartHopHeight != 0 && itemInUse->mKartVelocityLength < 0x2000 &&
+        if (itemInUse->mKartHopHeight != 0 && itemInUse->mKartVelocityLength < ITEM_THROW_HOP_OFFSET_KART_SPEED &&
             item->mItemObject.mScale.z < 0xccd) {
             VEC_Subtract(&itemInUse->mKartOrientation.mRows[1], &itemInUse->mKartOrientation.mRows[2], &direction);
             VEC_MultAdd(0x2000, &direction, &item->mItemObject.mPos, &item->mItemObject.mPos);

@@ -91,6 +91,7 @@
 #include "Main/Item/item_owner_bit_and_normal.h"
 #include "Main/Save/ghost_record_file.h"
 #include "Main/System/init_after_startup.h"
+#include "Main/MapObjects/map_object_kind_update_list.h"
 
 const u16 gItemObjectNoOwnerBit = ITEM_OWNER_NO_OWNER;
 const ItemInfo gItemInfoKouraW = {1, 1, 5, 1, 0, 1, (void (*)(ItemInUse *, HeldItem *)) MarkItemInUseAsActiveItem};
@@ -1321,7 +1322,7 @@ void StartCourseMapItemObjects(void) {
     rowCount = gCourseMap->mRowCount;
     for (rowIndex = 0; rowIndex < rowCount; rowIndex++) {
         row = &gCourseMap->mRows[rowIndex];
-        if (row->mKind == 0x6d) {
+        if (row->mKind == MAP_OBJECT_KIND_ITEM_PLACEMENT) {
             kind = row->mSettings[0];
             if (CollideSphereWithCourse(&row->mPosition, 0, 0, 0xa000, 8, -2, 0, &normal, 0, 0, 0, 0, 0,
                                         &collisionHitLink) == 0) {
