@@ -55,19 +55,19 @@ typedef enum TPRequestResult {
 
 // Status byte of a reply from the other processor (0 is success).
 enum {
-    TP_REPLY_STATUS_SUCCESS = 0,
-    TP_REPLY_STATUS_INVALID_PARAMETER = 2,
-    TP_REPLY_STATUS_ILLEGAL_STATUS,
-    TP_REPLY_STATUS_EXCLUSIVE,
+    TOUCH_REPLY_STATUS_SUCCESS = 0,
+    TOUCH_REPLY_STATUS_INVALID_PARAMETER = 2,
+    TOUCH_REPLY_STATUS_ILLEGAL_STATUS,
+    TOUCH_REPLY_STATUS_EXCLUSIVE,
 };
 
 // Bits of the busy and error flags kept for the two commands that start and stop automatic sampling.
-#define TP_FLAG_AUTO_ON (1 << TP_REQUEST_COMMAND_AUTO_ON)
-#define TP_FLAG_AUTO_OFF (1 << TP_REQUEST_COMMAND_AUTO_OFF)
+#define TOUCH_FLAG_AUTO_ON (1 << TP_REQUEST_COMMAND_AUTO_ON)
+#define TOUCH_FLAG_AUTO_OFF (1 << TP_REQUEST_COMMAND_AUTO_OFF)
 
 // Last touch position on the screen (256 by 192 dots).
-#define TP_SCREEN_MAX_X 0xff
-#define TP_SCREEN_MAX_Y 0xbf
+#define TOUCH_SCREEN_MAX_X 0xff
+#define TOUCH_SCREEN_MAX_Y 0xbf
 
 typedef enum TPState { TP_STATE_READY = 0, TP_STATE_SAMPLING, TP_STATE_AUTO_SAMPLING, TP_STATE_AUTO_WAIT_END } TPState;
 
