@@ -779,8 +779,8 @@ s32 AdvanceMultiSelectMemberKeyStart(SceneNumbers *sceneNumbers) {
             }
             break;
         case MULTI_SELECT_MEMBER_STATE_START_PRESSED:
-            gMultiSelectMember->mState2Frames = gMultiSelectMember->mState2Frames + 1;
-            if (gMultiSelectMember->mState2Frames >= MULTI_SELECT_MEMBER_START_STEPS) {
+            gMultiSelectMember->mStartPressedFrames = gMultiSelectMember->mStartPressedFrames + 1;
+            if (gMultiSelectMember->mStartPressedFrames >= MULTI_SELECT_MEMBER_START_STEPS) {
                 SetMultiSelectMemberSubCellVisible(1);
                 if (gMultiSelectMember->mSetupState == MULTI_SELECT_MEMBER_SETUP_DONE) {
                     gMenuShared->mRaceSetupRequested = 1;
@@ -788,7 +788,7 @@ s32 AdvanceMultiSelectMemberKeyStart(SceneNumbers *sceneNumbers) {
                     if (sceneNumbers != NULL) {
                         sceneNumbers->mNextScene = 1;
                     }
-                    gMultiSelectMember->mState2Frames = 0;
+                    gMultiSelectMember->mStartPressedFrames = 0;
                     gMultiSelectMember->mState = MULTI_SELECT_MEMBER_STATE_SCENE_REQUESTED;
                 }
             }

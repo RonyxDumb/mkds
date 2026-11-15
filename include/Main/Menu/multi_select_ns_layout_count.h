@@ -71,7 +71,7 @@ typedef struct MultiSelectMember {
     /* 8c */ BOOL mConnectionNamesDone;
     /* 90 */ s32 mStarted;
     /* 94 */ s32 mState;
-    /* 98 */ s32 mState2Frames;
+    /* 98 */ s32 mStartPressedFrames;
     /* 9c */ s32 mTimer;
     /* a0 */ Interpolation mInterpolations[4];
     /* e0 */ MultiSelectMemberRow mRows[8];
