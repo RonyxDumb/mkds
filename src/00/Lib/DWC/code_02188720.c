@@ -45,7 +45,7 @@ void DWCi_AC_CallBackWCM(WifiReportArgument *notice) {
             }
         }
     } else if (notice->mNotify == WIFI_NOTIFY_SEARCH_FOUND) {
-        DWCi_AC_GetBeacon(notice->mUnk_04);
+        DWCi_AC_GetBeacon(notice->mBssDesc);
     }
 }
 

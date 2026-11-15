@@ -39,13 +39,13 @@ BOOL InitUsbScan(void (*callback)(u32)) {
             WM_ReadStatus(&gUsbScan->mWmStatus);
         } while (gUsbScan->mWmStatus.mState != WIRELESS_UNIT_STATE_POWERED_ON);
         scan = gUsbScan;
-        *(Bytes68 *) &scan->mUnk_1374 = gUsbScanParamTemplate;
-        scan->mUnk_1374.mScanBuf = scan->mScanBuffer;
-        gUsbScan->mUnk_1374.mMaxChannelTime = WM_GetDispersionScanPeriod();
+        *(Bytes68 *) &scan->mScanParam = gUsbScanParamTemplate;
+        scan->mScanParam.mScanBuf = scan->mScanBuffer;
+        gUsbScan->mScanParam.mMaxChannelTime = WM_GetDispersionScanPeriod();
         OS_GetOwnerInfo(&ownerInfo);
-        MI_CpuCopy8(gUsbSsidPrefix, &gUsbScan->mUnk_1374.mSsid[0], 8);
-        gUsbScan->mUnk_1374.mSsid[9] = 1;
-        MI_CpuCopy8(ownerInfo.mNickName, &gUsbScan->mUnk_1374.mSsid[0xc], ownerInfo.mNickNameLength * 2);
+        MI_CpuCopy8(gUsbSsidPrefix, &gUsbScan->mScanParam.mSsid[0], 8);
+        gUsbScan->mScanParam.mSsid[9] = 1;
+        MI_CpuCopy8(ownerInfo.mNickName, &gUsbScan->mScanParam.mSsid[0xc], ownerInfo.mNickNameLength * 2);
         if (StartUsbScan() != 0) {
             gUsbScan->mReportTask = AddTask(0, AdvanceUsbScanReport, NULL, 0x78);
             return 1;
@@ -57,7 +57,7 @@ BOOL InitUsbScan(void (*callback)(u32)) {
 
 BOOL StartUsbScan(void) {
     int startResult;
-    startResult = WM_StartScanEx(UsbScanCallback, &gUsbScan->mUnk_1374);
+    startResult = WM_StartScanEx(UsbScanCallback, &gUsbScan->mScanParam);
     if (startResult == 2) {
         return 1;
     }

@@ -34,7 +34,7 @@ enum {
 typedef struct WifiReportArgument {
     /* 00 */ s16 mNotify;
     /* 02 */ s16 mResult;
-    /* 04 */ WMBssDesc *mUnk_04;
+    /* 04 */ WMBssDesc *mBssDesc;
     /* 08 */ s32 mReportCode;
 } WifiReportArgument;
 

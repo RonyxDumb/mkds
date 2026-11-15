@@ -16,7 +16,7 @@ struct UsbScan {
     /* 0f00 */ u8 mScanBuffer[0x400];
     /* 1300 */ UsbScanEntry mEntries[16];
     /* 1370 */ void (*mResultCallback)(u32);
-    /* 1374 */ ScanExParam mUnk_1374;
+    /* 1374 */ ScanExParam mScanParam;
     /* 13ac */ u8 mUnk_13ac[0xc];
     /* 13b8 */ WMStatus mWmStatus;
     /* 1b74 */ u32 mStartTickLow;
