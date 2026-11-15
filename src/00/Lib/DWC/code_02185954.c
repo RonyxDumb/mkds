@@ -61,7 +61,7 @@ s32 DWC_Auth_Create(AuthCreateParams *createParams, Http *http) {
     gAuth = authBlock;
     MI_CpuFill8(authBlock, 0, sizeof(DWCAuth));
     gAuth->mHttp = http;
-    MI_CpuFill8(&gAuth->mReturncode, 0, 0x1c4);
+    MI_CpuFill8(&gAuth->mReturncode, 0, AUTH_RESULT_BYTES);
     gAuth->mReturncode = -1;
     gAuth->mCreateParams = *createParams;
     gAuth->mCreateParams.mIngamesn[0x14] = 0;
@@ -129,9 +129,9 @@ s32 DWC_Auth_GetError(void) {
 void DWC_Auth_GetResult(s32 *result) {
     s32 returnCode;
     if (gAuth == NULL) {
-        MI_CpuFill8(result, 0, 0x1c4);
+        MI_CpuFill8(result, 0, AUTH_RESULT_BYTES);
     }
-    MI_CpuCopy8(&gAuth->mReturncode, result, 0x1c4);
+    MI_CpuCopy8(&gAuth->mReturncode, result, AUTH_RESULT_BYTES);
     returnCode = *result;
     if (returnCode >= 0) {
         if (returnCode < AUTH_RETURN_SERVER_BASE || returnCode >= AUTH_RETURN_SERVER_LIMIT) {
@@ -262,7 +262,7 @@ s32 ParseAuthHttpResult(void) {
     if (auth->mReturncode < AUTH_RETURN_FAILED) {
         if (auth->mReturncode == AUTH_RETURN_UPDATE_ID) {
             bmworkName = "bmwork";
-            bmworkBlock = auth->mCreateParams.mAlloc(bmworkName, 0x71f);
+            bmworkBlock = auth->mCreateParams.mAlloc(bmworkName, AUTH_BMWORK_BYTES);
             if (bmworkBlock == NULL) {
                 gAuth->mReturncode = AUTH_RETURN_FAILED;
                 return 2;
@@ -286,7 +286,7 @@ s32 ParseAuthHttpResult(void) {
             return 0xf;
         case AUTH_RETURN_WRITE_NEW_ID:
             bmworkName = "bmwork";
-            bmworkBlock = auth->mCreateParams.mAlloc(bmworkName, 0x71f);
+            bmworkBlock = auth->mCreateParams.mAlloc(bmworkName, AUTH_BMWORK_BYTES);
             if (bmworkBlock == NULL) {
                 gAuth->mReturncode = AUTH_RETURN_WRITE_NEW_ID;
                 return 2;
@@ -378,7 +378,7 @@ u32 DWCi_Auth_Prepare_FirstPost(Http *http, const char *gsbrcd, const char *inga
         return 3;
     }
     MI_CpuCopy8(bssidPointer, postData.mBssid, 6);
-    MI_CpuFill8(apInfoBytes, 0, 0x21);
+    MI_CpuFill8(apInfoBytes, 0, sizeof(apInfoBytes));
     apInfoPointer = WCM_GetApEssid(&postData.mEssidLength);
     if (apInfoPointer == NULL) {
         OS_RestoreInterrupts(interruptState);
@@ -401,7 +401,7 @@ u32 DWCi_Auth_Prepare_FirstPost(Http *http, const char *gsbrcd, const char *inga
     OS_SNPrintf(postData.mBirthday, 5, "%02x%02x", ownerInfo.mBirthdayMonth, ownerInfo.mBirthdayDay);
     OS_SNPrintf(deviceTimeText, 0xd, "%02d%02d%02d%02d%02d%02d", date.mYear, date.mMonth, date.mDay, time.mHour,
                 time.mMinute, time.mSecond);
-    MI_CpuCopy8(ownerInfo.mNickName, deviceName, 0x14);
+    MI_CpuCopy8(ownerInfo.mNickName, deviceName, sizeof(ownerInfo.mNickName));
     deviceName[0x14] = 0;
     MI_CpuFill8(&results, 0, 0xc);
     results.mEntries = labelValues;

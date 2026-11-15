@@ -98,6 +98,12 @@ enum {
     AUTH_RETURN_HTTP_STATUS_BASE = 0x59d8,
 };
 
+// Bytes of the result block that DWC_Auth_GetResult copies out: DWCAuth.mReturncode up to mCreateParams.
+#define AUTH_RESULT_BYTES 0x1c4
+
+// Size of the block DWCi_Auth allocates under the name "bmwork" for the update id and new id results.
+#define AUTH_BMWORK_BYTES 0x71f
+
 // 0x13e0 bytes, held in gAuth; the stack of its thread is the last 0x1000 bytes.
 typedef struct DWCAuth {
     /* 000 */ u32 mUnk_000;
