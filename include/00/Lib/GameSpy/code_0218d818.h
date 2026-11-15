@@ -20,7 +20,7 @@ void *DarraySearchSorted(const void *key, u8 *base, s32 count, s32 elemSize, Unk
 void *DarraySearchLinear(const void *key, u8 *base, s32 count, s32 elemSize, UnkCompare *comparator);
 void DarrayRemoveAll(Darray *darray);
 void *DarrayFindByFnReverse(Darray *array, UnkCompare *fn, const void *userData);
-void DarrayForEachReverse(Darray *array, UnkCompare *fn, const void *userData);
+void DarrayForEachReverse(Darray *array, void (*fn)(void *, void *), void *userData);
 s32 DarrayFindIndex(Darray *darray, const void *key, UnkCompare *comparator, s32 startIndex, s32 sortedFlag);
 void DarraySort(Darray *darray, unsigned int compareFunc);
 void DarrayReplace(Darray *array, const void *elem, s32 index);

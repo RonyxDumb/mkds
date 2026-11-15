@@ -264,13 +264,13 @@ s32 listen(s32 descriptor) {
 }
 
 s32 AcceptConnection(s32 sock, void *addr, s32 *len) {
-    u8 *addrBytes = addr;
+    SOCSockAddrIn *addrIn = addr;
     s32 *lenPointer = len;
     s32 inputLen = *lenPointer;
     s32 rcode;
-    *addrBytes = inputLen;
-    rcode = SOC_Accept((SOCLSocket *) sock, (SOCSockAddrIn *) addrBytes, inputLen);
-    *lenPointer = *addrBytes;
+    addrIn->mLen = inputLen;
+    rcode = SOC_Accept((SOCLSocket *) sock, addrIn, inputLen);
+    *lenPointer = addrIn->mLen;
     return CheckRcode(rcode, -1);
 }
 

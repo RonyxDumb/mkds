@@ -181,7 +181,7 @@ s32 DarrayFindIndex(Darray *darray, const void *key, UnkCompare *comparator, s32
     return -1;
 }
 
-void DarrayForEachReverse(Darray *array, UnkCompare *fn, const void *userData) {
+void DarrayForEachReverse(Darray *array, void (*fn)(void *, void *), void *userData) {
     s32 index;
     if (fn == NULL) {
         AssertionFailed("fn", "darray.c", NULL, 0x104);

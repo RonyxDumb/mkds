@@ -9,8 +9,8 @@
 #include "00/Lib/GameSpy/code_0218d818.h"
 #include "code_021382a8.h"
 
-Hashtable *HashtableCreate(s32 elemSize, s32 nBuckets, s32 initialCount, s32 (*hashFn)(void *, s32),
-                           UnkCompare *compFn, void (*freeElement)(void *)) {
+Hashtable *HashtableCreate(s32 elemSize, s32 nBuckets, s32 initialCount, s32 (*hashFn)(void *, s32), UnkCompare *compFn,
+                           void (*freeElement)(void *)) {
     Hashtable *table;
     s32 bucketIndex;
     if (hashFn == NULL) {
@@ -131,7 +131,7 @@ void HashtableForEach(Hashtable *table, void (*fn)(void *, void *), void *userDa
         AssertionFailed("fn", "hashtable.c", NULL, 0xb6);
     }
     for (bucketIndex = 0; bucketIndex < table->mBucketCount; bucketIndex++) {
-        DarrayForEachReverse(table->mBuckets[bucketIndex], (UnkCompare *) fn, userData);
+        DarrayForEachReverse(table->mBuckets[bucketIndex], fn, userData);
     }
 }
 

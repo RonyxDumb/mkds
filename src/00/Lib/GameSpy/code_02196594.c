@@ -80,11 +80,11 @@ BOOL GpiGetValue(const char *command, const char *key, char *value, s32 len) {
 
 u32 GpiCheckConnectComplete(GpConnection *connection, u32 sock, u32 *state) {
     int readyNum;
-    int canWrite;
-    int errFlags[2];
+    u32 canWrite;
+    u32 errFlags[2];
     canWrite = 0;
     errFlags[0] = 0;
-    readyNum = GSISocketSelect((u32) sock, NULL, (u32 *) (&canWrite), (u32 *) errFlags);
+    readyNum = GSISocketSelect((u32) sock, NULL, &canWrite, errFlags);
     if (readyNum == -1) {
         gpiDebug(connection, "Error connecting\n");
         GpiSetError(connection, 5, "There was an error checking for a completed connection.");

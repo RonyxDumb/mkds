@@ -60,7 +60,7 @@ u32 gti2CreateSocket(Gt2Socket **socketOut, const char *localAddress, u32 outgoi
     u16 netPort;
     SOCSockAddrIn socketAddress;
     u32 address;
-    s32 addressLength;
+    u32 addressLength;
     u32 *bindWords;
     SocketStartUp();
     if (incomingBufferSize == 0) {
@@ -114,7 +114,7 @@ u32 gti2CreateSocket(Gt2Socket **socketOut, const char *localAddress, u32 outgoi
         return 3;
     }
     addressLength = 8;
-    getsockname(newSocket->mDescriptor, &socketAddress, (u32 *) &addressLength);
+    getsockname(newSocket->mDescriptor, &socketAddress, &addressLength);
     newSocket->mAddress = socketAddress.mAddr;
     newSocket->mPort = ((socketAddress.mPort >> 8) & 0xff) | ((socketAddress.mPort << 8) & 0xff00);
     *socketOut = newSocket;

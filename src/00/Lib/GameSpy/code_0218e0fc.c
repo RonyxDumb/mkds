@@ -22,7 +22,7 @@ s32 Util_RandInt(s32 low, s32 high) {
     return num + low;
 }
 
-void TripToQuart(const s8 *trip, u8 *quart, s32 inlen) {
+void TripToQuart(const s8 *trip, s8 *quart, s32 inlen) {
     u8 paddedTriple[3];
     s32 index = 0;
     for (; index < inlen; index++) {
@@ -57,7 +57,7 @@ void B64Encode(const void *input, void *output, s32 inlen, s32 encodingType) {
             break;
     }
     while (inputLeft > 0) {
-        TripToQuart(inputCursor, (u8 *) outputCursor, inlen >= 3 ? 3 : inlen);
+        TripToQuart(inputCursor, outputCursor, inlen >= 3 ? 3 : inlen);
         outputCursor += 4;
         inputCursor += 3;
         inputLeft -= 3;
