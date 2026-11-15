@@ -91,7 +91,7 @@ void AdvanceModelAnimationFrame(ModelAnimationFrameLoop *modelAnimation) {
     ApplyModelAnimationLoopMode(modelAnimation);
 }
 
-void DrawKartNameTagQuadVertices(s32 texWidthFixed, s32 texHeightFixed) {
+void DrawKartNameTagQuadVertices(s32 texWidthFixed, s32 texHeightFixed, u32 color) {
     u32 heightTexCoord;
     reg_G3_TEXCOORD = 0;
     reg_G3_VTX_16 = gKartNameTagQuadVertices[0] | gKartNameTagQuadVertices[1] << 16;

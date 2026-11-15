@@ -394,7 +394,7 @@ static inline s32 GetKartNameTagPolygonIdBits(KartNameTag *kartObject) {
 
 void DrawKartNameTagTexture(TexPlttEntry *texPlttEntry, KartNameTag *kartObject, MtxFx43 *viewMatrix, s32 scaleX,
                             s32 scaleY, s16 alpha, s32 screenX, s32 screenY, s32 xOffset, s32 yOffset,
-                            UnkFunc *drawVertices) {
+                            KartNameTagVertexFunc drawVertices) {
     MtxFx43 quadMatrix;
     s32 texWidthFixed;
     s32 texHeightFixed;

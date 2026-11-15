@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void DrawKartNameTagColoredVertices(u32 texWidthFixed, u32 texHeightFixed, u32 color);
+void DrawKartNameTagColoredVertices(s32 texWidthFixed, s32 texHeightFixed, u32 color);

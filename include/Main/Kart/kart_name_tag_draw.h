@@ -22,4 +22,4 @@ u16 GetKartPaletteColor(int kartIndex);
 void SetTextureSizeFromBits(TexPlttEntry *texPlttEntry);
 void InitKartNameTag(KartNameTag *kartObject, u16 kartIndex, void *heap);
 void InitKartNameTagsAndDistanceOrder(void);
-void DrawKartNameTagLineVertices(s32 texWidthFixed, s32 texHeightFixed);
+void DrawKartNameTagLineVertices(s32 texWidthFixed, s32 texHeightFixed, u32 color);
