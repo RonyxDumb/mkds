@@ -436,7 +436,7 @@ void AdvanceRecordVSEraseIndexChange(void) {
     }
 }
 
-void RequestRecordVSEraseState0(void) {
+void RequestRecordVSEraseOpenIntroText(void) {
     s32 rowIndex;
     u16 eraseCellCount;
 
@@ -471,35 +471,35 @@ void RequestRecordVSEraseState0(void) {
     }
 }
 
-void RequestRecordVSEraseState1(void) {
+void RequestRecordVSEraseWaitIntroText(void) {
     gRecordVSErase->mNextState = RECORD_VS_ERASE_STATE_WAIT_INTRO_TEXT;
     gRecordVSErase->mStateFrames = 0;
 }
 
-void RequestRecordVSEraseState2(void) {
+void RequestRecordVSEraseCloseIntroText(void) {
     gRecordVSErase->mNextState = RECORD_VS_ERASE_STATE_CLOSE_INTRO_TEXT;
     gRecordVSErase->mStateFrames = 0;
     RequestTxtSystemClose();
 }
 
-void RequestRecordVSEraseState3(void) {
+void RequestRecordVSEraseSlideInSub(void) {
     gRecordVSErase->mNextState = RECORD_VS_ERASE_STATE_SLIDE_IN_SUB;
     gRecordVSErase->mStateFrames = 0;
     RequestSelectReturnSlideIn();
     RefreshRecordVSErasePage();
 }
 
-void RequestRecordVSEraseState4(void) {
+void RequestRecordVSEraseBrowse(void) {
     gRecordVSErase->mNextState = RECORD_VS_ERASE_STATE_BROWSE;
     gRecordVSErase->mStateFrames = 0;
 }
 
-void RequestRecordVSEraseState5(void) {
+void RequestRecordVSErasePageSlideOut(void) {
     gRecordVSErase->mNextState = RECORD_VS_ERASE_STATE_PAGE_SLIDE_OUT;
     gRecordVSErase->mStateFrames = 0;
 }
 
-void RequestRecordVSEraseState6(void) {
+void RequestRecordVSErasePageSlideIn(void) {
     gRecordVSErase->mNextState = RECORD_VS_ERASE_STATE_PAGE_SLIDE_IN;
     gRecordVSErase->mStateFrames = 0;
     switch (gRecordVSErase->mPageDecrement) {
@@ -513,14 +513,14 @@ void RequestRecordVSEraseState6(void) {
     RefreshRecordVSErasePage();
 }
 
-void RequestRecordVSEraseState7(void) {
+void RequestRecordVSEraseSubSlideOut(void) {
     gRecordVSErase->mNextState = RECORD_VS_ERASE_STATE_SUB_SLIDE_OUT;
     gRecordVSErase->mStateFrames = 0;
     RequestSelectReturnSlideOut();
     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
 }
 
-void RequestRecordVSEraseState8(void) {
+void RequestRecordVSEraseOpenConfirmText(void) {
     u16 recordName[0x10];
     u16 messageText[0x100];
     u16 firstRecordIndex;
@@ -534,27 +534,27 @@ void RequestRecordVSEraseState8(void) {
                                       GetBmgEntry(gRecordVSErase->mCommonMessages, 1), 1, 0, 1, 1, 1);
 }
 
-void RequestRecordVSEraseState9(void) {
+void RequestRecordVSEraseWaitConfirmAnswer(void) {
     gRecordVSErase->mNextState = RECORD_VS_ERASE_STATE_WAIT_CONFIRM_ANSWER;
     gRecordVSErase->mStateFrames = 0;
     SetTxtSystemSoundId(0, 0xb);
 }
 
-void RequestRecordVSEraseState10(void) {
+void RequestRecordVSEraseCloseConfirmSlideOutMain(void) {
     gRecordVSErase->mNextState = RECORD_VS_ERASE_STATE_CLOSE_CONFIRM_SLIDE_OUT_MAIN;
     gRecordVSErase->mStateFrames = 0;
     RequestTxtSystemClose();
     SetTxtSystemSoundId(0, 5);
 }
 
-void RequestRecordVSEraseState11(void) {
+void RequestRecordVSEraseSlideInAfterConfirm(void) {
     gRecordVSErase->mNextState = RECORD_VS_ERASE_STATE_SLIDE_IN_AFTER_CONFIRM;
     gRecordVSErase->mStateFrames = 0;
     RequestSelectReturnSlideIn();
     RefreshRecordVSErasePage();
 }
 
-void RequestRecordVSEraseState12(void) {
+void RequestRecordVSEraseSubSlideOutToScreen(void) {
     gRecordVSErase->mNextState = RECORD_VS_ERASE_STATE_SUB_SLIDE_OUT_TO_SCREEN;
     gRecordVSErase->mStateFrames = 0;
 }
@@ -697,7 +697,7 @@ void InitRecordVSErase(void *heap) {
                        gRecordVSErase->mRecordVSSEraseBncl);
     gRecordVSErase->mEmblem = HeapAlloc(heap, 0x201);
     gRecordVSErase->mEmblemConverted = HeapAlloc(heap, 0x200);
-    RequestRecordVSEraseState0();
+    RequestRecordVSEraseOpenIntroText();
 }
 
 void ReleaseRecordVSErase(void) {
@@ -715,27 +715,27 @@ void ReleaseRecordVSErase(void) {
 
 #pragma thumb on
 
-void AdvanceRecordVSEraseState0(void) {
+void AdvanceRecordVSEraseOpenIntroText(void) {
     int isState2NoCloseRequest;
     isState2NoCloseRequest = IsTxtSystemOpenNoCloseRequest();
     if (isState2NoCloseRequest != 0) {
-        RequestRecordVSEraseState1();
+        RequestRecordVSEraseWaitIntroText();
     }
 }
 
-void AdvanceRecordVSEraseState1(void) {
+void AdvanceRecordVSEraseWaitIntroText(void) {
     int isDone;
     isDone = GetTxtSystemDone();
     if (isDone != 0) {
-        RequestRecordVSEraseState2();
+        RequestRecordVSEraseCloseIntroText();
     }
 }
 
-void AdvanceRecordVSEraseState2(void) {
+void AdvanceRecordVSEraseCloseIntroText(void) {
     int isState0NoOpenRequest;
     isState0NoOpenRequest = IsTxtSystemClosedNoOpenRequest();
     if (isState0NoOpenRequest != 0) {
-        RequestRecordVSEraseState3();
+        RequestRecordVSEraseSlideInSub();
     }
 }
 
@@ -743,7 +743,7 @@ void AdvanceRecordVSEraseState2(void) {
 
 #pragma thumb on
 
-void AdvanceRecordVSEraseState3(void) {
+void AdvanceRecordVSEraseSlideInSub(void) {
     s16 offsetX;
     u32 offsetY;
     u16 eraseCellCount;
@@ -770,12 +770,12 @@ void AdvanceRecordVSEraseState3(void) {
     }
     if (gRecordVSErase->mStateFrames >= 0xa) {
         if (IsSelectReturnShownNoRequest() != 0) {
-            RequestRecordVSEraseState4();
+            RequestRecordVSEraseBrowse();
         }
     }
 }
 
-void AdvanceRecordVSEraseState4(void) {
+void AdvanceRecordVSEraseBrowse(void) {
     s32 firstRecordIndex;
     s32 downRectIndex;
     u32 pressedRectIndex;
@@ -820,7 +820,7 @@ void AdvanceRecordVSEraseState4(void) {
         if (IsRecordVSEraseIndexChangeRunning() != 0) {
             return;
         }
-        RequestRecordVSEraseState12();
+        RequestRecordVSEraseSubSlideOutToScreen();
         gRecordVSErase->mNextScreen = RECORD_SCREEN_VS;
         RequestSelectReturnPressWithSound(0);
         return;
@@ -837,7 +837,7 @@ void AdvanceRecordVSEraseState4(void) {
         gRecordVSErase->mPageDecrement = RECORD_VS_ERASE_PAGE_DECREMENT;
         gRecordVSErase->mOffsetTimers[0] = 6;
         gRecordVSErase->mPageDecrementRepeat = TRUE;
-        RequestRecordVSEraseState5();
+        RequestRecordVSErasePageSlideOut();
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 2);
         return;
     }
@@ -853,7 +853,7 @@ void AdvanceRecordVSEraseState4(void) {
         gRecordVSErase->mPageDecrement = RECORD_VS_ERASE_PAGE_INCREMENT;
         gRecordVSErase->mOffsetTimers[1] = 6;
         gRecordVSErase->mPageIncrementRepeat = TRUE;
-        RequestRecordVSEraseState5();
+        RequestRecordVSErasePageSlideOut();
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 2);
         return;
     }
@@ -862,7 +862,7 @@ void AdvanceRecordVSEraseState4(void) {
         if (inputSlotIndex == gRecordVSErase->mIndex) {
             if (IsRecordFlagged(firstRecordIndex + inputSlotIndex) == 0) {
                 if (IsRecordVSEraseIndexChangeRunning() == 0) {
-                    RequestRecordVSEraseState7();
+                    RequestRecordVSEraseSubSlideOut();
                 }
                 return;
             }
@@ -879,7 +879,7 @@ void AdvanceRecordVSEraseState4(void) {
         if ((u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_A) != 0) {
             if (IsRecordFlagged(firstRecordIndex + gRecordVSErase->mIndex) == 0) {
                 if (IsRecordVSEraseIndexChangeRunning() == 0) {
-                    RequestRecordVSEraseState7();
+                    RequestRecordVSEraseSubSlideOut();
                 }
                 return;
             }
@@ -898,7 +898,7 @@ void AdvanceRecordVSEraseState4(void) {
     }
 }
 
-void AdvanceRecordVSEraseState5(void) {
+void AdvanceRecordVSErasePageSlideOut(void) {
     s16 targetOffsetX;
     u16 mainCellCount;
     s32 index;
@@ -955,11 +955,11 @@ void AdvanceRecordVSEraseState5(void) {
         gRecordVSErase->mRecordVSSEraseTable[eraseCellCount + gRecordVSEraseRowLabelIndices[index]].mOffsetX = offsetX;
     }
     if (gRecordVSErase->mStateFrames >= 0xa) {
-        RequestRecordVSEraseState6();
+        RequestRecordVSErasePageSlideIn();
     }
 }
 
-void AdvanceRecordVSEraseState6(void) {
+void AdvanceRecordVSErasePageSlideIn(void) {
     s16 startOffsetX;
     u16 mainCellCount;
     s32 index;
@@ -1016,11 +1016,11 @@ void AdvanceRecordVSEraseState6(void) {
         gRecordVSErase->mRecordVSSEraseTable[eraseCellCount + gRecordVSEraseRowLabelIndices[index]].mOffsetX = offsetX;
     }
     if (gRecordVSErase->mStateFrames >= 0xa) {
-        RequestRecordVSEraseState4();
+        RequestRecordVSEraseBrowse();
     }
 }
 
-void AdvanceRecordVSEraseState7(void) {
+void AdvanceRecordVSEraseSubSlideOut(void) {
     s16 offsetX;
     u32 offsetY;
     u16 eraseCellCount;
@@ -1046,7 +1046,7 @@ void AdvanceRecordVSEraseState7(void) {
     }
     if (gRecordVSErase->mStateFrames > 0xa) {
         if (IsSelectReturnHiddenNoRequest() != 0) {
-            RequestRecordVSEraseState8();
+            RequestRecordVSEraseOpenConfirmText();
         }
     }
 }
@@ -1055,11 +1055,11 @@ void AdvanceRecordVSEraseState7(void) {
 
 #pragma thumb on
 
-void AdvanceRecordVSEraseState8(void) {
+void AdvanceRecordVSEraseOpenConfirmText(void) {
     int noCloseRequest;
     noCloseRequest = IsTxtSystemOpenNoCloseRequest();
     if (noCloseRequest != 0) {
-        RequestRecordVSEraseState9();
+        RequestRecordVSEraseWaitConfirmAnswer();
     }
 }
 
@@ -1067,7 +1067,7 @@ void AdvanceRecordVSEraseState8(void) {
 
 #pragma thumb on
 
-void AdvanceRecordVSEraseState9(void) {
+void AdvanceRecordVSEraseWaitConfirmAnswer(void) {
     u16 firstRecordIndex;
 
     firstRecordIndex = GetRecordVSEraseFirstRecordIndex();
@@ -1078,11 +1078,11 @@ void AdvanceRecordVSEraseState9(void) {
         } else {
             gRecordVSErase->mErased = 0;
         }
-        RequestRecordVSEraseState10();
+        RequestRecordVSEraseCloseConfirmSlideOutMain();
     }
 }
 
-void AdvanceRecordVSEraseState10(void) {
+void AdvanceRecordVSEraseCloseConfirmSlideOutMain(void) {
     s32 index;
     s32 columnIndex;
     s16 offsetX;
@@ -1127,12 +1127,12 @@ void AdvanceRecordVSEraseState10(void) {
             gRecordVSErase->mNextScreen = RECORD_SCREEN_VS;
             RequestRecordScreen(gRecordVSErase->mNextScreen);
         } else {
-            RequestRecordVSEraseState11();
+            RequestRecordVSEraseSlideInAfterConfirm();
         }
     }
 }
 
-void AdvanceRecordVSEraseState11(void) {
+void AdvanceRecordVSEraseSlideInAfterConfirm(void) {
     s32 index;
     s32 columnIndex;
     s16 offsetX;
@@ -1186,12 +1186,12 @@ void AdvanceRecordVSEraseState11(void) {
     }
     if (gRecordVSErase->mStateFrames > 10) {
         if (IsSelectReturnShownNoRequest()) {
-            RequestRecordVSEraseState4();
+            RequestRecordVSEraseBrowse();
         }
     }
 }
 
-void AdvanceRecordVSEraseState12(void) {
+void AdvanceRecordVSEraseSubSlideOutToScreen(void) {
     s32 rowIndex;
     s16 offsetX;
     s16 offsetY;
@@ -1224,43 +1224,43 @@ void AdvanceRecordVSErase(void) {
     gRecordVSErase->mState = gRecordVSErase->mNextState;
     switch (gRecordVSErase->mState) {
         case RECORD_VS_ERASE_STATE_OPEN_INTRO_TEXT:
-            AdvanceRecordVSEraseState0();
+            AdvanceRecordVSEraseOpenIntroText();
             break;
         case RECORD_VS_ERASE_STATE_WAIT_INTRO_TEXT:
-            AdvanceRecordVSEraseState1();
+            AdvanceRecordVSEraseWaitIntroText();
             break;
         case RECORD_VS_ERASE_STATE_CLOSE_INTRO_TEXT:
-            AdvanceRecordVSEraseState2();
+            AdvanceRecordVSEraseCloseIntroText();
             break;
         case RECORD_VS_ERASE_STATE_SLIDE_IN_SUB:
-            AdvanceRecordVSEraseState3();
+            AdvanceRecordVSEraseSlideInSub();
             break;
         case RECORD_VS_ERASE_STATE_BROWSE:
-            AdvanceRecordVSEraseState4();
+            AdvanceRecordVSEraseBrowse();
             break;
         case RECORD_VS_ERASE_STATE_PAGE_SLIDE_OUT:
-            AdvanceRecordVSEraseState5();
+            AdvanceRecordVSErasePageSlideOut();
             break;
         case RECORD_VS_ERASE_STATE_PAGE_SLIDE_IN:
-            AdvanceRecordVSEraseState6();
+            AdvanceRecordVSErasePageSlideIn();
             break;
         case RECORD_VS_ERASE_STATE_SUB_SLIDE_OUT:
-            AdvanceRecordVSEraseState7();
+            AdvanceRecordVSEraseSubSlideOut();
             break;
         case RECORD_VS_ERASE_STATE_OPEN_CONFIRM_TEXT:
-            AdvanceRecordVSEraseState8();
+            AdvanceRecordVSEraseOpenConfirmText();
             break;
         case RECORD_VS_ERASE_STATE_WAIT_CONFIRM_ANSWER:
-            AdvanceRecordVSEraseState9();
+            AdvanceRecordVSEraseWaitConfirmAnswer();
             break;
         case RECORD_VS_ERASE_STATE_CLOSE_CONFIRM_SLIDE_OUT_MAIN:
-            AdvanceRecordVSEraseState10();
+            AdvanceRecordVSEraseCloseConfirmSlideOutMain();
             break;
         case RECORD_VS_ERASE_STATE_SLIDE_IN_AFTER_CONFIRM:
-            AdvanceRecordVSEraseState11();
+            AdvanceRecordVSEraseSlideInAfterConfirm();
             break;
         case RECORD_VS_ERASE_STATE_SUB_SLIDE_OUT_TO_SCREEN:
-            AdvanceRecordVSEraseState12();
+            AdvanceRecordVSEraseSubSlideOutToScreen();
             break;
     }
     UpdateRecordVSEraseRows();

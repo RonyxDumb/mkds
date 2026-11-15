@@ -3,41 +3,41 @@
 #include "types.h"
 #include "Main/Menu/data_0217d000.h"
 
-void AdvanceRecordVSEraseState9(void);
-void AdvanceRecordVSEraseState10(void);
-void AdvanceRecordVSEraseState11(void);
-void AdvanceRecordVSEraseState12(void);
+void AdvanceRecordVSEraseWaitConfirmAnswer(void);
+void AdvanceRecordVSEraseCloseConfirmSlideOutMain(void);
+void AdvanceRecordVSEraseSlideInAfterConfirm(void);
+void AdvanceRecordVSEraseSubSlideOutToScreen(void);
 void AdvanceRecordVSErase(void);
 void WriteRecordVSEraseBgOffsets(void);
 void WriteRecordVSEraseRegisters(void);
 void RegisterRecordVSEraseCallbacks(void);
 
-void AdvanceRecordVSEraseState8(void);
+void AdvanceRecordVSEraseOpenConfirmText(void);
 
-void AdvanceRecordVSEraseState3(void);
-void AdvanceRecordVSEraseState4(void);
-void AdvanceRecordVSEraseState5(void);
-void AdvanceRecordVSEraseState6(void);
-void AdvanceRecordVSEraseState7(void);
+void AdvanceRecordVSEraseSlideInSub(void);
+void AdvanceRecordVSEraseBrowse(void);
+void AdvanceRecordVSErasePageSlideOut(void);
+void AdvanceRecordVSErasePageSlideIn(void);
+void AdvanceRecordVSEraseSubSlideOut(void);
 
-void AdvanceRecordVSEraseState2(void);
-void AdvanceRecordVSEraseState1(void);
-void AdvanceRecordVSEraseState0(void);
+void AdvanceRecordVSEraseCloseIntroText(void);
+void AdvanceRecordVSEraseWaitIntroText(void);
+void AdvanceRecordVSEraseOpenIntroText(void);
 
 void AdvanceRecordVSEraseIndexChange(void);
-void RequestRecordVSEraseState0(void);
-void RequestRecordVSEraseState1(void);
-void RequestRecordVSEraseState2(void);
-void RequestRecordVSEraseState3(void);
-void RequestRecordVSEraseState4(void);
-void RequestRecordVSEraseState5(void);
-void RequestRecordVSEraseState6(void);
-void RequestRecordVSEraseState7(void);
-void RequestRecordVSEraseState8(void);
-void RequestRecordVSEraseState9(void);
-void RequestRecordVSEraseState10(void);
-void RequestRecordVSEraseState11(void);
-void RequestRecordVSEraseState12(void);
+void RequestRecordVSEraseOpenIntroText(void);
+void RequestRecordVSEraseWaitIntroText(void);
+void RequestRecordVSEraseCloseIntroText(void);
+void RequestRecordVSEraseSlideInSub(void);
+void RequestRecordVSEraseBrowse(void);
+void RequestRecordVSErasePageSlideOut(void);
+void RequestRecordVSErasePageSlideIn(void);
+void RequestRecordVSEraseSubSlideOut(void);
+void RequestRecordVSEraseOpenConfirmText(void);
+void RequestRecordVSEraseWaitConfirmAnswer(void);
+void RequestRecordVSEraseCloseConfirmSlideOutMain(void);
+void RequestRecordVSEraseSlideInAfterConfirm(void);
+void RequestRecordVSEraseSubSlideOutToScreen(void);
 void InitRecordVSErase(void *heap);
 void ReleaseRecordVSErase(void);
 
