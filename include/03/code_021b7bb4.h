@@ -155,7 +155,8 @@ typedef struct PacketTag PacketTag;
 typedef struct PacketBuffer PacketBuffer;
 
 typedef struct Packet {
-    /* 00 */ u8 pad_00[6];
+    /* 00 */ u16 mUnk_00;
+    /* 02 */ u8 pad_02[4];
     /* 06 */ u16 mKind;
     /* 08 */ u8 pad_08[2];
     /* 0a */ u16 mPayloadLength;

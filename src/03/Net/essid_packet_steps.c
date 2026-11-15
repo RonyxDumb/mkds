@@ -690,14 +690,6 @@ s32 CheckBytesInRange0x20To0x7f(const u8 *bytes, s32 count) {
     return 0;
 }
 
-typedef struct PacketHeaderPrefix {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u8 pad_02[4];
-    /* 06 */ u16 mKind;
-    /* 08 */ u8 pad_08[7];
-    /* 0f */ u8 mUnk_0f;
-} PacketHeaderPrefix;
-
 // Returns 0 when exactly one entry with bit 0 of mMode holds the gEssidAossString bytes, 4 for several, 5 for none.
 s32 CheckSingleEssidAossEntry(EssidEntryList *entryList) {
     s32 count;
@@ -768,7 +760,7 @@ s32 ReportStateChange(s32 state) {
 }
 
 s32 AdvanceStepByKind(s32 mode, PacketBuffer *buffer, s32 *attempts, PacketTag *list, s32 descriptor) {
-    PacketHeaderPrefix *header = (PacketHeaderPrefix *) buffer->mBytes;
+    Packet *header = (Packet *) buffer->mBytes;
     u32 kind;
     if (SwapBytes16(header->mUnk_00) < 1) {
         *attempts = *attempts + 1;
