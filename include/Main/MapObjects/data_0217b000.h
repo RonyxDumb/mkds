@@ -235,6 +235,9 @@ typedef struct PosStrips {
 } PosStrips;
 
 // The 0x10 bytes at 0x784 of StemSets; the callbacks at 0x794 and 0x798 get their address.
+// TimedQuad.mColor: white as a 15-bit color.
+#define TIMED_QUAD_COLOR_WHITE 0x7fff
+
 typedef struct TimedQuad {
     /* 00 */ s16 mTimer;
     /* 02 */ s16 mAlpha;

@@ -19,6 +19,9 @@ typedef struct SceneTextInitParams {
     /* 24 */ s32 mBackScreenKind;
 } SceneTextInitParams;
 
+// SceneText.mSubCharOffset before InitTxtSystem returns the real offset.
+#define SCENE_TEXT_SUB_CHAR_OFFSET 0x5800
+
 void InitSceneText(void *heap, SceneTextInitParams *config);
 
 extern struct SceneText *gSceneText;

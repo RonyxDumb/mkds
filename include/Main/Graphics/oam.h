@@ -5,6 +5,13 @@
 
 typedef struct TextCanvas TextCanvas;
 
+// Value of a pixel in a text glyph bitmap: nothing, the text color, the outline color.
+#define GLYPH_PIXEL_CLEAR 0
+#define GLYPH_PIXEL_TEXT 1
+#define GLYPH_PIXEL_OUTLINE 2
+// Frames after a pair is lost during which IsPairRecentlyLost still answers yes.
+#define INPUT_PAIR_RECENTLY_LOST_FRAMES 5
+
 typedef void PixelSetFunc(u16 *pixels, s32 pixelX, s32 pixelY, s32 value);
 
 typedef struct InputSlotPair InputSlotPair;

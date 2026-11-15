@@ -5,6 +5,9 @@
 #include "code_020184e4.h"
 #include "Main/Graphics/emitters.h"
 
+// SPLManager.mMiscPolygonAttr of the race effects: polygon attribute bit 15, which turns fog on for the particles.
+#define EFFECT_POLYGON_ATTR_FOG 0x8000
+
 SPLManager *GetRaceEffectSPLManager(s32 *outIndex, s32 effectId);
 void *StartEffectWithKartVelocity(u32 effectId, Vec3 *position, u32 kartIndex, s32 velocityScale);
 void PlaceEffect(void *emitter, const Vec3 *position);

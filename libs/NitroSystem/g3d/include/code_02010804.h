@@ -48,6 +48,9 @@ typedef struct NNSG3dResDictPlttData {
     /* 02 */ u16 mFlag;
 } NNSG3dResDictPlttData;
 
+// Flag of a texture palette entry: the palette holds four colors.
+#define G3D_PALETTE_FLAG_FOUR_COLOR 0x8000
+
 struct NNSG3dResTex {
     /* 00 */ NNSG3dResDataBlockHeader mHeader;
     /* 08 */ NNSG3dResTexInfo mTexInfo;

@@ -8,6 +8,11 @@ typedef struct BmgSectionHeader {
     /* 04 */ u32 mNextOffset;
 } BmgSectionHeader;
 
+// First word of the two sections LocateBmgSections keeps, after the byte reversal: the table of entry offsets and the
+// body that holds the text.
+#define BMG_SECTION_TAG_ENTRY_OFFSETS 0x494e4631
+#define BMG_SECTION_TAG_BODY 0x44415431
+
 // Object LocateBmgSections walks: the number of sections at 0x0c, the first section at 0x20.
 typedef struct Bmg {
     /* 00 */ u8 mUnk_00[0xc];

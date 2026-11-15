@@ -29,13 +29,13 @@ u32 GetCharacterSeqPairNo(u32 characterIndex) {
 s32 GetCharacterKartIndexByMode(s32 characterIndex) {
     s32 kartIndex = -1;
     switch (GetRaceSetupCopy()->mMode) {
-        case 0:
-        case 1:
-        case 3:
+        case MODE_GRAND_PRIX:
+        case MODE_TIME_ATTACK:
+        case MODE_VS:
         case MODE_WIFI:
             kartIndex = gCharacterKartIndexTable[characterIndex];
             break;
-        case 2:
+        case MODE_BATTLE:
             kartIndex = gCharacterKartIndexTableBattle[characterIndex];
             break;
     }

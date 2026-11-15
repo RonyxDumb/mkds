@@ -39,7 +39,7 @@ const u32 gKartNameTagMaskedTexture[128] = {
 void ResetModelAnimationWithLoopFlag(ModelAnimationFrameLoop *modelAnimation, s32 frameCountFixed, u16 loopFlag) {
     modelAnimation->mLoopMode = loopFlag == 0 ? MODEL_ANIMATION_LOOP_MODE_CLAMP : MODEL_ANIMATION_LOOP_MODE_WRAP;
     modelAnimation->mDone = 0;
-    modelAnimation->mFrameStep = 0x1000;
+    modelAnimation->mFrameStep = FIXED12_UNIT;
     modelAnimation->mFrameCountFixed = frameCountFixed;
     modelAnimation->mFrameIndex = 0;
     modelAnimation->mLoopsDone = 0;

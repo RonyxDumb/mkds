@@ -97,7 +97,7 @@ void InitEffects(void *defaultHeap) {
         SPLManager_LoadResources(gMissionRunSPLManager, missionEffectFile);
         SPLManager_UploadTextures(gMissionRunSPLManager);
         SPLManager_UploadPalettes(gMissionRunSPLManager);
-        gMissionRunSPLManager->mMiscPolygonAttr = 0x8000;
+        gMissionRunSPLManager->mMiscPolygonAttr = EFFECT_POLYGON_ATTR_FOG;
     }
     gRaceEffectSPLManager->mPolygonIDDrawOrder = 1;
     gRaceEffectFogOffSPLManager->mPolygonIDDrawOrder = 1;
@@ -106,7 +106,7 @@ void InitEffects(void *defaultHeap) {
     }
     InitKartTurnEffects(defaultHeap);
     if (gRaceSetup->mCourseId != COURSE_ID_RAINBOW) {
-        gRaceEffectSPLManager->mMiscPolygonAttr = 0x8000;
+        gRaceEffectSPLManager->mMiscPolygonAttr = EFFECT_POLYGON_ATTR_FOG;
     } else {
         gRaceEffectSPLManager->mMiscPolygonAttr = 0;
     }

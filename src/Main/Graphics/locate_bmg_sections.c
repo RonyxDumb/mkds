@@ -19,10 +19,10 @@ void LocateBmgSections(Bmg *bmg) {
         nextSection = OFFSET_PTR(BmgSectionHeader, nextSection, nextSection->mNextOffset);
         tag = ReverseBytes32(section->mTag);
         switch (tag) {
-            case 0x494e4631:
+            case BMG_SECTION_TAG_ENTRY_OFFSETS:
                 gBmgEntryOffsetSection = (BmgEntryOffsetSection *) section;
                 break;
-            case 0x44415431:
+            case BMG_SECTION_TAG_BODY:
                 gBmgBodySection = (BmgBodySection *) section;
                 break;
         }

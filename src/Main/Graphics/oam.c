@@ -214,7 +214,7 @@ u32 GetPairHasPair(InputSlotPair *inputSlotPair) {
 }
 
 BOOL IsPairRecentlyLost(InputSlotPair *inputSlotPair) {
-    if (GetPairHasPair(inputSlotPair) == 0 && inputSlotPair->mNoPairCount < 5) {
+    if (GetPairHasPair(inputSlotPair) == 0 && inputSlotPair->mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
         return 1;
     }
     return 0;
@@ -438,13 +438,13 @@ void PlotNibblePixels(const u16 *sourcePixels, u16 *dest, s32 textColor, s32 out
             nibbles = sourcePixels[tileIndex * 16 + rowHalfIndex];
             for (nibbleIndex = 0; nibbleIndex < 4; nibbleIndex++) {
                 switch ((u8) ((nibbles >> (nibbleIndex * 4)) % 16)) {
-                    case 0:
+                    case GLYPH_PIXEL_CLEAR:
                         break;
-                    case 1:
+                    case GLYPH_PIXEL_TEXT:
                         pixelSetFunc(dest, tileColumn * 8 + halfOfRow * 4 + nibbleIndex, tileRow * 8 + rowInTile,
                                      textColor);
                         break;
-                    case 2:
+                    case GLYPH_PIXEL_OUTLINE:
                         pixelSetFunc(dest, tileColumn * 8 + halfOfRow * 4 + nibbleIndex, tileRow * 8 + rowInTile,
                                      outlineColor);
                         break;

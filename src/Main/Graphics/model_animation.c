@@ -56,7 +56,7 @@ void InitModelAnimation(u32 kind, ModelAnimation *modelAnimation, Nsbmd *renderO
     modelAnimation->mCurrentIndex = 0;
     modelAnimation->mKind = kind;
     modelAnimation->mBlending = FALSE;
-    modelAnimation->mBlendRatioStep = 0x19a;
+    modelAnimation->mBlendRatioStep = MODEL_ANIMATION_BLEND_RATIO_STEP;
     modelAnimation->mPreviousAnmObj = NULL;
 }
 

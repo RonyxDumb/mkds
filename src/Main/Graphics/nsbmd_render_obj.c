@@ -96,7 +96,8 @@ u32 UploadResTexture(NNSG3dResTex *texture) {
             tex4x4Value = 0;
         }
         if (plttValue != 0) {
-            plttValue = NNS_GfdDefaultFuncAllocPlttVram(plttValue, texture->mTex4x4Info.mFlag & 0x8000, 0);
+            plttValue =
+                NNS_GfdDefaultFuncAllocPlttVram(plttValue, texture->mTex4x4Info.mFlag & G3D_PALETTE_FLAG_FOUR_COLOR, 0);
             if (plttValue == 0) {
                 plttOk = 0;
             }

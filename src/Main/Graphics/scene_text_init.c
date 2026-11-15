@@ -25,7 +25,7 @@ void InitSceneText(void *heap, SceneTextInitParams *config) {
     TxtSystemArgs txtConfig;
 
     gSceneText = HeapAlloc(heap, sizeof(*gSceneText));
-    gSceneText->mSubCharOffset = 0x5800;
+    gSceneText->mSubCharOffset = SCENE_TEXT_SUB_CHAR_OFFSET;
     gSceneText->mUseTxtSystem = FALSE;
     gSceneText->mUseSelectChoises = FALSE;
     gSceneText->mUseSelectReturn = FALSE;
