@@ -106,12 +106,12 @@ void AddPendingFile(const void *path, void *heap, void **dataOutput, u32 value, 
                 gConnectionWork->mBlockEntries[entryIndex].mBuffer = gConnectionWork->mCompressedBuffer;
                 gConnectionWork->mBlockEntries[entryIndex].mUncompressedBuffer = 0;
                 gConnectionWork->mBlockEntries[entryIndex].mUncompressPending = 1;
-                gConnectionWork->mBlockEntries[entryIndex].mUnk_84_0 = value;
+                gConnectionWork->mBlockEntries[entryIndex].mByteSize = value;
             } else {
                 gConnectionWork->mBlockEntries[entryIndex].mBuffer = 0;
                 gConnectionWork->mBlockEntries[entryIndex].mUncompressedBuffer = 0;
                 gConnectionWork->mBlockEntries[entryIndex].mUncompressPending = 0;
-                gConnectionWork->mBlockEntries[entryIndex].mUnk_84_0 = value;
+                gConnectionWork->mBlockEntries[entryIndex].mByteSize = value;
             }
             gConnectionWork->mBlockEntries[entryIndex].mHeap = heap;
             gConnectionWork->mBlockEntries[entryIndex].mUnk_84_30 = 1;
@@ -163,7 +163,7 @@ void InitBlockEntries(void *heap, s32 mode) {
         view->mBlockEntries[entryIndex].mBuffer = NULL;
         view->mBlockEntries[entryIndex].mUncompressedBuffer = NULL;
         view->mBlockEntries[entryIndex].mUncompressPending = 0;
-        view->mBlockEntries[entryIndex].mUnk_84_0 = 0;
+        view->mBlockEntries[entryIndex].mByteSize = 0;
     }
     view->mMode = mode;
     view->mZeroWordReceived = FALSE;

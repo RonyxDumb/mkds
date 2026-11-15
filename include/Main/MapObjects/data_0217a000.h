@@ -352,7 +352,7 @@ typedef struct BlockEntry {
     /* 84 */ union {
         s32 mUnk_84;
         struct {
-            u32 mUnk_84_0 : 29;
+            u32 mByteSize : 29;
             s32 mUncompressPending : 1;
             u32 mUnk_84_30 : 1;
             u32 mUnk_84_31 : 1;
