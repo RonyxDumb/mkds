@@ -51,19 +51,19 @@ void InitWiFiTopMenu(void *heap) {
 
     gWiFiTopMenu = HeapAlloc(heap, 0x40);
     gWiFiTopMenu->mHeap = heap;
-    gWiFiTopMenu->mState = 0;
-    gWiFiTopMenu->mNextState = 0;
+    gWiFiTopMenu->mState = WIFI_TOP_MENU_STATE_WAIT_FADE;
+    gWiFiTopMenu->mNextState = WIFI_TOP_MENU_STATE_WAIT_FADE;
     gWiFiTopMenu->mPendingWiFiState = -1;
     switch (GetWiFiPrevState()) {
-        case 0:
-        case 2:
-            gWiFiTopMenu->mIndex = 0;
+        case WIFI_STATE_LOGIN_MENU:
+        case WIFI_STATE_VS_SETTING:
+            gWiFiTopMenu->mIndex = WIFI_TOP_MENU_ITEM_VS;
             break;
-        case 8:
-            gWiFiTopMenu->mIndex = 1;
+        case WIFI_STATE_AIKOTOBA:
+            gWiFiTopMenu->mIndex = WIFI_TOP_MENU_ITEM_AIKOTOBA;
             break;
-        case 13:
-            gWiFiTopMenu->mIndex = 2;
+        case WIFI_STATE_SCENE_WIFI_MENU:
+            gWiFiTopMenu->mIndex = WIFI_TOP_MENU_ITEM_WIFI_MENU;
             break;
     }
     gWiFiTopMenu->mStateFrames = 0;
@@ -117,7 +117,7 @@ void AdvanceWiFiTopMenuState0(void) {
     int fadesClear;
     fadesClear = AreBrightnessFadesClear();
     if (fadesClear != 0) {
-        gWiFiTopMenu->mNextState = 1;
+        gWiFiTopMenu->mNextState = WIFI_TOP_MENU_STATE_SLIDE_IN;
     }
 }
 
@@ -128,7 +128,7 @@ void AdvanceWiFiTopMenuState1(void) {
 
     gWiFiTopMenu->mStateFrames = gWiFiTopMenu->mStateFrames + 1;
     if (gWiFiTopMenu->mStateFrames >= 20) {
-        gWiFiTopMenu->mNextState = 2;
+        gWiFiTopMenu->mNextState = WIFI_TOP_MENU_STATE_WAIT_RETURN_BUTTON;
         gWiFiTopMenu->mStateFrames = offsetX;
         RequestSelectReturnState1();
     } else if (gWiFiTopMenu->mStateFrames >= 10) {
@@ -147,7 +147,7 @@ void AdvanceWiFiTopMenuState2(void) {
     int returnState2NoRequest;
     returnState2NoRequest = IsSelectReturnState2NoState3Or4Request();
     if (returnState2NoRequest != 0) {
-        gWiFiTopMenu->mNextState = 3;
+        gWiFiTopMenu->mNextState = WIFI_TOP_MENU_STATE_BROWSE;
         SetSelectReturnSoundId(0xf);
     }
 }
@@ -189,7 +189,7 @@ void AdvanceWiFiTopMenuState3(void) {
             goto next;
         }
     }
-    gWiFiTopMenu->mNextState = 5;
+    gWiFiTopMenu->mNextState = WIFI_TOP_MENU_STATE_SLIDE_OUT;
     gWiFiTopMenu->mPendingWiFiState = WIFI_STATE_SCENE_TITLE;
     if (gWiFiTopMenu->mPendingWiFiState == WIFI_STATE_SCENE_TITLE) {
         RequestSelectReturnState3WithSound(1);
@@ -201,33 +201,33 @@ next:
         previousIndex = gWiFiTopMenu->mIndex;
         if ((u16) pressedKeys == 0) {
             switch (hitIndex) {
-                case 0:
-                    gWiFiTopMenu->mIndex = 0;
+                case WIFI_TOP_MENU_ITEM_VS:
+                    gWiFiTopMenu->mIndex = WIFI_TOP_MENU_ITEM_VS;
                     break;
-                case 1:
-                    gWiFiTopMenu->mIndex = 1;
+                case WIFI_TOP_MENU_ITEM_AIKOTOBA:
+                    gWiFiTopMenu->mIndex = WIFI_TOP_MENU_ITEM_AIKOTOBA;
                     break;
-                case 2:
-                    gWiFiTopMenu->mIndex = 2;
+                case WIFI_TOP_MENU_ITEM_WIFI_MENU:
+                    gWiFiTopMenu->mIndex = WIFI_TOP_MENU_ITEM_WIFI_MENU;
                     break;
             }
         }
         if (gWiFiTopMenu->mIndex == previousIndex) {
             gWiFiTopMenu->mHighlightVisible = FALSE;
         }
-        gWiFiTopMenu->mNextState = 4;
+        gWiFiTopMenu->mNextState = WIFI_TOP_MENU_STATE_PRESS_ITEM;
         switch (gWiFiTopMenu->mIndex) {
-            case 0:
+            case WIFI_TOP_MENU_ITEM_VS:
                 if (GetWiFiSessionLoginResult() == 1) {
                     gWiFiTopMenu->mPendingWiFiState = WIFI_STATE_VS_SETTING;
                 } else {
                     gWiFiTopMenu->mPendingWiFiState = WIFI_STATE_LOGIN_MENU;
                 }
                 break;
-            case 1:
+            case WIFI_TOP_MENU_ITEM_AIKOTOBA:
                 gWiFiTopMenu->mPendingWiFiState = WIFI_STATE_AIKOTOBA;
                 break;
-            case 2:
+            case WIFI_TOP_MENU_ITEM_WIFI_MENU:
                 gWiFiTopMenu->mPendingWiFiState = WIFI_STATE_SCENE_WIFI_MENU;
                 break;
         }
@@ -236,13 +236,13 @@ next:
         if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
             gWiFiTopMenu->mIndex--;
             if (gWiFiTopMenu->mIndex < 0) {
-                gWiFiTopMenu->mIndex = 2;
+                gWiFiTopMenu->mIndex = WIFI_TOP_MENU_ITEM_WIFI_MENU;
             }
             StartSoundOncePerFrame(0);
         } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
             gWiFiTopMenu->mIndex++;
             if (gWiFiTopMenu->mIndex > 2) {
-                gWiFiTopMenu->mIndex = 0;
+                gWiFiTopMenu->mIndex = WIFI_TOP_MENU_ITEM_VS;
             }
             StartSoundOncePerFrame(0);
         }
@@ -260,8 +260,8 @@ void AdvanceWiFiTopMenuState4(void) {
             selectedPressOffset;
     }
     if (gWiFiTopMenu->mStateFrames >= 10) {
-        gWiFiTopMenu->mNextState = 5;
-        if (gWiFiTopMenu->mIndex == 0 || gWiFiTopMenu->mIndex == 2) {
+        gWiFiTopMenu->mNextState = WIFI_TOP_MENU_STATE_SLIDE_OUT;
+        if (gWiFiTopMenu->mIndex == WIFI_TOP_MENU_ITEM_VS || gWiFiTopMenu->mIndex == WIFI_TOP_MENU_ITEM_WIFI_MENU) {
             RequestSelectReturnState4();
         }
         gWiFiTopMenu->mStateFrames = 0;
@@ -302,7 +302,7 @@ void AdvanceWiFiTopMenuState5(void) {
         }
         if (GetWiFiNextScene() == -1) {
             if (gWiFiTopMenu->mPendingWiFiState == WIFI_STATE_AIKOTOBA && IsUserDataFriendKeyNonZeroWrapper() == 0) {
-                gWiFiTopMenu->mNextState = 8;
+                gWiFiTopMenu->mNextState = WIFI_TOP_MENU_STATE_WAIT_MESSAGE;
                 gWiFiTopMenu->mPendingWiFiState = -1;
                 SetupTxtSystemMainText(GetBmgEntry(gWiFiTopMenu->mWiFiMessages, 0x12));
                 gWiFiTopMenu->mStateFrames = 0;
@@ -326,10 +326,10 @@ void AdvanceWiFiTopMenuState6(void) {
         v1 = GetTxtSystemSelectedIndex();
         if (v1 == 0) {
             ReleaseWiFiSession();
-            gWiFiTopMenu->mNextState = 7;
+            gWiFiTopMenu->mNextState = WIFI_TOP_MENU_STATE_WAIT_NEXT_SCENE;
             return;
         }
-        gWiFiTopMenu->mNextState = 1;
+        gWiFiTopMenu->mNextState = WIFI_TOP_MENU_STATE_SLIDE_IN;
     }
 }
 
@@ -369,7 +369,7 @@ void AdvanceWiFiTopMenuState8(void) {
                 return;
             }
         }
-        gWiFiTopMenu->mNextState = 1;
+        gWiFiTopMenu->mNextState = WIFI_TOP_MENU_STATE_SLIDE_IN;
         RequestSelectReturnState3WithSound(0);
         RequestTxtSystemClose();
     }
@@ -399,31 +399,31 @@ void AdvanceWiFiTopMenu(void) {
     WiFiTopMenu *wiFiTopMenu;
     gWiFiTopMenu->mState = gWiFiTopMenu->mNextState;
     switch (gWiFiTopMenu->mState) {
-        case 0:
+        case WIFI_TOP_MENU_STATE_WAIT_FADE:
             AdvanceWiFiTopMenuState0();
             break;
-        case 1:
+        case WIFI_TOP_MENU_STATE_SLIDE_IN:
             AdvanceWiFiTopMenuState1();
             break;
-        case 2:
+        case WIFI_TOP_MENU_STATE_WAIT_RETURN_BUTTON:
             AdvanceWiFiTopMenuState2();
             break;
-        case 3:
+        case WIFI_TOP_MENU_STATE_BROWSE:
             AdvanceWiFiTopMenuState3();
             break;
-        case 4:
+        case WIFI_TOP_MENU_STATE_PRESS_ITEM:
             AdvanceWiFiTopMenuState4();
             break;
-        case 5:
+        case WIFI_TOP_MENU_STATE_SLIDE_OUT:
             AdvanceWiFiTopMenuState5();
             break;
-        case 6:
+        case WIFI_TOP_MENU_STATE_WAIT_CHOICE:
             AdvanceWiFiTopMenuState6();
             break;
-        case 7:
+        case WIFI_TOP_MENU_STATE_WAIT_NEXT_SCENE:
             AdvanceWiFiTopMenuState7();
             break;
-        case 8:
+        case WIFI_TOP_MENU_STATE_WAIT_MESSAGE:
             AdvanceWiFiTopMenuState8();
             break;
     }

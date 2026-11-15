@@ -9,6 +9,27 @@ struct NNSG2dCellDataBank;
 struct Ncgr;
 struct Nclr;
 
+// Values of WiFiTopMenu.mState: the menu fades in, slides in, waits for the return button, lets one of the three items
+// be picked and slides out again; the last three handle the answer and message of the missing friend key.
+enum {
+    WIFI_TOP_MENU_STATE_WAIT_FADE,
+    WIFI_TOP_MENU_STATE_SLIDE_IN,
+    WIFI_TOP_MENU_STATE_WAIT_RETURN_BUTTON,
+    WIFI_TOP_MENU_STATE_BROWSE,
+    WIFI_TOP_MENU_STATE_PRESS_ITEM,
+    WIFI_TOP_MENU_STATE_SLIDE_OUT,
+    WIFI_TOP_MENU_STATE_WAIT_CHOICE,
+    WIFI_TOP_MENU_STATE_WAIT_NEXT_SCENE,
+    WIFI_TOP_MENU_STATE_WAIT_MESSAGE,
+};
+
+// Values of WiFiTopMenu.mIndex: the three items, named for the screen or scene they lead to.
+enum {
+    WIFI_TOP_MENU_ITEM_VS,
+    WIFI_TOP_MENU_ITEM_AIKOTOBA,
+    WIFI_TOP_MENU_ITEM_WIFI_MENU,
+};
+
 // Object behind gWiFiTopMenu; LocateAndQueueWiFiTopMenu fills 0x20 to 0x30.
 typedef struct WiFiTopMenu {
     /* 00 */ s32 mState;
