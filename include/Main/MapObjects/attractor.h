@@ -111,6 +111,32 @@ typedef struct MapObject {
     /* 9c */ struct CourseMapRow *mCourseMapRow;
 } MapObject;
 
+// Bits of MapObject.mFlags. The low nibble (the 1, 2, 4 and 8 bits) is saved in the high nibble while the object is
+// parked.
+#define MAP_OBJECT_FLAG_INACTIVE 0x1 // hit tests answer FALSE and the race HUD leaves the object out
+#define MAP_OBJECT_FLAG_NO_VIEW_TEST 0x2 // the view test and the sound source update skip the object
+#define MAP_OBJECT_FLAG_NO_UPDATE 0x4 // the update lists skip the object
+#define MAP_OBJECT_FLAG_NO_ITEM_CALLBACK 0x8 // the item hit callback skips the object
+#define MAP_OBJECT_FLAG_OUT_OF_VIEW 0x10 // set by the view test while the object is outside the view planes
+#define MAP_OBJECT_FLAG_NOT_COLLIDABLE 0x40 // the kind's collidable word was 0: kart and item hits skip the object
+#define MAP_OBJECT_FLAG_NUMBER_OVERFLOW 0x80 // the course row's number was 10000 or more; the park pass parks the object
+#define MAP_OBJECT_FLAG_PARKED 0x100
+#define MAP_OBJECT_FLAG_MIRRORED 0x400 // the model is drawn mirrored
+#define MAP_OBJECT_FLAG_TIME_ATTACK_OR_WIFI 0x800 // set at creation while gMapObjectsTimeAttackOrWiFi is non-zero
+#define MAP_OBJECT_FLAGS_NOT_DRAWN (MAP_OBJECT_FLAG_NO_VIEW_TEST | MAP_OBJECT_FLAG_OUT_OF_VIEW)
+#define MAP_OBJECT_FLAGS_SKIP_ITEM_CALLBACK (MAP_OBJECT_FLAG_NO_ITEM_CALLBACK | MAP_OBJECT_FLAG_NUMBER_OVERFLOW)
+#define MAP_OBJECT_FLAGS_LOW_NIBBLE 0xf
+#define MAP_OBJECT_FLAGS_SAVED_NIBBLE 0xf000
+
+// Bits of MapObject.mDistanceSquaredAndFlags (the squared distance sits in the bits of MAP_OBJECT_VIEW_DISTANCE_MASK).
+#define MAP_OBJECT_VIEW_BEYOND_DRAW_DISTANCE 0x1
+#define MAP_OBJECT_VIEW_OUTSIDE_PLANES 0x2
+#define MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE 0x4
+#define MAP_OBJECT_VIEW_TESTED 0x8
+#define MAP_OBJECT_VIEW_KIND_BIT 0x10
+#define MAP_OBJECT_VIEW_DISTANCE_MASK 0x3fffffe0
+#define MAP_OBJECT_VIEW_SKIP_KIND_SOUND 0x40000000
+
 // Invisible attractor (map object kind 2): a table index and a strength after the shared part; a Kart on a hit-bit
 // 0x20000 surface is pulled toward it.
 typedef struct AttractorMapObject {
