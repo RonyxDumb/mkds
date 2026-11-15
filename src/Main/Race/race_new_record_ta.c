@@ -262,7 +262,7 @@ BOOL TryStoreRaceNewRecordTaFinishTime(s32 store) {
 
     GetKartFinishTime(GetFollowedKartOrEntryIndex(), &minute, &second, &millisecond);
     record = gRaceNewRecordTa->mRecords;
-    totalMilliseconds = second * 1000 + minute * 60000 + millisecond;
+    totalMilliseconds = TIME_TO_MS(minute, second, millisecond);
     recordIndex = 0;
     do {
         if (record->mFilled == 0 ||
@@ -402,7 +402,7 @@ void StartRaceNewRecordTa(void) {
     } else {
         GetKartFinishTime(GetFollowedKartOrEntryIndex(), &minute, &second, &millisecond);
         records = gRaceNewRecordTa->mRecords;
-        totalMilliseconds = second * 1000 + minute * 60000 + millisecond;
+        totalMilliseconds = TIME_TO_MS(minute, second, millisecond);
         for (recordIndex = 4; recordIndex >= 0; recordIndex--) {
             record = &records[recordIndex];
             if (record->mFilled != 0 &&

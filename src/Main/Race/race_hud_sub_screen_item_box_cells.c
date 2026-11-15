@@ -82,7 +82,7 @@ void RefreshRaceNewRecordTaRecordFlags(void) {
     }
     GetKartFinishTime(GetFollowedKartOrEntryIndex(), &minute, &second, &millisecond);
     records = gRaceNewRecordTa->mRecords;
-    finishMs = second * 1000 + minute * 60000 + millisecond;
+    finishMs = TIME_TO_MS(minute, second, millisecond);
     for (recordIndex = 4; recordIndex >= 0; recordIndex--) {
         record = &records[recordIndex];
         if (record->mFilled != 0 &&

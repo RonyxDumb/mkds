@@ -458,7 +458,7 @@ void LoadStaffGhostTime(void *heap) {
 
 // TRUE when the time is smaller than entry a - 1 of the staff ghost times.
 BOOL IsTimeLessThanStaffGhostTime(u32 entryNumber, MinuteSecondMillisecondTime *time) {
-    return time->mSecond * 1000 + time->mMinute * 60000 + time->mMillisecond < gStaffGhostTime[entryNumber - 1];
+    return TIME_TO_MS(time->mMinute, time->mSecond, time->mMillisecond) < gStaffGhostTime[entryNumber - 1];
 }
 
 void SetupKartKillerCursor(KartKillerCursor *kartKillerCursor, u32 kartIndex) {

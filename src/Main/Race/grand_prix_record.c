@@ -102,8 +102,8 @@ BOOL ShouldSetGrandPrixRecord(TimeRecord *storedRecord, TimeRecord *newRecord) {
     if (storedRecord->mTotalPoints > newRecord->mTotalPoints) {
         return FALSE;
     }
-    storedTimeMs = storedRecord->mSecond * 1000 + storedRecord->mMinute * 60000 + storedRecord->mMillisecond;
-    newTimeMs = newRecord->mSecond * 1000 + newRecord->mMinute * 60000 + newRecord->mMillisecond;
+    storedTimeMs = TIME_TO_MS(storedRecord->mMinute, storedRecord->mSecond, storedRecord->mMillisecond);
+    newTimeMs = TIME_TO_MS(newRecord->mMinute, newRecord->mSecond, newRecord->mMillisecond);
     return storedTimeMs > newTimeMs;
 }
 
