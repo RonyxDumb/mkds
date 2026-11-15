@@ -23,9 +23,7 @@ struct KartAi;
 
 typedef struct ParticleEmitter ParticleEmitter;
 
-// The 0x98-byte record of one kart slot, copied from a row of kartphysicalparam.bin (50 rows: 37 kart rows, then 13
-// character rows used in mode 2). Edited in place per race: mBaseSpeedLimit by the engine class, the surface tables by
-// the character row. Read by the Kart step and the item objects (Race).
+// The physical parameters of one kart slot, copied from a row of kartphysicalparam.bin and edited per race.
 typedef struct KartPhysicalParam {
     // Base radius (0x8000 = 8.0 in 12-bit fixed).
     /* 0 */ s32 mRadius;
@@ -75,6 +73,7 @@ typedef struct SoundRequest {
     /* 0c */ s32 mSecondArgument;
 } SoundRequest;
 
+// A queue of sound requests and its capacity.
 typedef struct SoundRequestQueue {
     /* 0 */ s32 mCapacity;
     /* 4 */ SoundRequest *mRequests;
@@ -86,6 +85,7 @@ typedef struct SoundRequestQueue {
 #define KART_KILLER_MAX_FRAMES 0x1e0
 // Frames after which the Teresa effect ends (7.5 seconds).
 #define KART_TERESA_MAX_FRAMES 0x1c2
+// The timers and counters of a kart's item effects: mushroom, thunder, star, Teresa, Gesso and Killer.
 typedef struct KartItemEffectState {
     /* 00 */ s16 mKinokoBoostTimer;
     /* 02 */ s16 mThunderShrinkTimer;
@@ -112,6 +112,7 @@ typedef struct KartItemEffectState {
     /* 2c */ KartKillerCursor mKillerCursor;
 } KartItemEffectState;
 
+// The smoothed position and heading, record bits and pending and free record lists of a participant kart.
 typedef struct ParticipantKartRecordState {
     /* 00 */ Vec3 mSmoothedPos;
     /* 0c */ u16 mHeadingAngleAtReset;
@@ -514,6 +515,7 @@ enum {
 #define KART_RESPAWN_FOLLOW_KART_FRAME 85
 #define KART_RESPAWN_END_FRAME 120
 
+// A racing kart: its sound source, motion, drive and effect flags, entry, position and physics.
 typedef struct Kart {
     // Sound source of the Kart (the sounds started on it).
     /* 00 */ SoundSource mSoundSource;
@@ -936,6 +938,7 @@ extern s32 gKartPushDoubleFlipLandVerticalSpeed;
 extern KartEffectScales gKartRaceStartEffectOffsets;
 extern s32 gTurnHeadingEaseFactor;
 extern KartFollowEffectIds gKartFollowEffectIds;
+// The three sound ids played for a kart's surface.
 typedef struct KartSurfaceSoundIds {
     /* 00 */ u32 mSoundIds[3];
 } KartSurfaceSoundIds;

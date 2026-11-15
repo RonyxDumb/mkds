@@ -4,6 +4,7 @@
 
 struct ParticleEmitter;
 
+// A follow effect of a kart: its callback, count limit, count and kart index.
 typedef struct KartFollowEffect {
     /* 00 */ u8 mUnk_00[0x90];
     /* 90 */ void (*mCallback)(struct ParticleEmitter *emitter, s32 phase);

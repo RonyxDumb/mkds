@@ -16,10 +16,7 @@ void RequestKartLevel4EffectsRestart(KartTurnEffects *kartTurnEffects);
 typedef struct Vec3s16 Vec3s16;
 typedef struct Kart Kart;
 
-// 0x88 bytes. The per-Kart set of effect objects that play while the Kart holds a turn (Kart.mTurnDirection is not 0):
-// a turn start group, a level 2 group and a level 3 group (started when Kart.mDriftCharge becomes 2 and when it is 3)
-// and a level 4 group (requested at the step from 3 to 4), their counters, ids and the functions that start, stop,
-// hide, show and place them; two variants of the function set are installed by InitKartTurnEffects.
+// The per-Kart effect groups that play while a turn is held: start, level 2, 3 and 4, their ids and functions.
 typedef struct KartTurnEffects {
     // The two effect objects of the turn start group, one per side, started by StartKartTurnStartEffects and moved by
     // AdvanceKartTurnStartEffects (the level 2 advance also switches their emission); NULL when the group is not

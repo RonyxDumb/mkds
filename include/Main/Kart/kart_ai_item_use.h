@@ -16,6 +16,7 @@ enum {
     KART_AI_THEN_BIT_THROW_BEHIND,
 };
 
+// One item use entry of the kart AI: the handler, which bits follow, and the timer base and random limit.
 typedef struct KartAiItemUseEntry {
     /* 00 */ void (*mHandler)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
 // 0: item bits only; 1: then the bit 0x40 (ITEM_THROW_FORWARD_BIT); 2: then the bit 0x80.

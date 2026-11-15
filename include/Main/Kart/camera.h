@@ -24,9 +24,7 @@ typedef struct Camera Camera;
 #define CAMERA_CHAIN_START_FIRST 1
 #define CAMERA_CHAIN_START_SECOND 2
 
-// The 0x4c-byte entries of the table at CourseMap.mCameras: a position at 0x00, two vectors at 0x18 and 0x24 (look-at
-// ends in some kinds, angles or a kart index in others), blend steps, a kind (mKind), a duration (mFrameCount), the
-// next entry (mNextIndex).
+// One camera of CourseMap.mCameras: its position, two vectors, blend steps, kind, duration and next entry.
 typedef struct CourseMapCamera {
     /* 00 */ Vec3 mPosOrParams;
     /* 0c */ u8 mUnk_0c[0xc];
