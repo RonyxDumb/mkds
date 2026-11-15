@@ -377,7 +377,7 @@ BOOL CopyEntryResultAndSetupAwardRace(void) {
     gMenuShared->mKartIndex = gRaceSetup->mCurrentEntries[(u8) entryIndex].mKartIndex;
     for (index = 0; index < 4; index++) {
         MinuteSecondMillisecondTime finishTime;
-        GetKartCourseFinishTime(&finishTime, (u16) gRaceSetup->mEntryIndex, index);
+        GetKartCourseFinishTime(&finishTime, gRaceSetup->mEntryIndex, index);
         gMenuShared->mCourseTimes[index] = finishTime;
     }
     if ((u32) GetKartCupRank(gRaceSetup->mEntryIndex) > 3) {

@@ -15,7 +15,7 @@ s32 GetKartCupRank(u16 kart);
 void SetTeamWinCountsAndPoints(s32 winningTeam);
 void SetCupWinningTeam(s32 team);
 void SetKartCupRank(s32 kart, u8 rank);
-void GetKartCourseFinishTime(MinuteSecondMillisecondTime *finishTime, u32 kart, u32 course);
+void GetKartCourseFinishTime(MinuteSecondMillisecondTime *finishTime, u16 kart, u32 course);
 void SetKartCourseFinishTime(u32 kart, MinuteSecondMillisecondTime *finishTime);
 void SetBattleKartCourseResult(u32 kart, s32 isAlive);
 void ClearKartCourseTotalPoints(u32 kart);

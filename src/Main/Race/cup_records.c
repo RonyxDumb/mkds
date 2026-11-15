@@ -157,7 +157,7 @@ void SetKartCourseFinishTime(u32 kart, MinuteSecondMillisecondTime *finishTime) 
     recordTime->mMillisecond = finishTime->mMillisecond;
 }
 
-void GetKartCourseFinishTime(MinuteSecondMillisecondTime *finishTime, u32 kart, u32 course) {
+void GetKartCourseFinishTime(MinuteSecondMillisecondTime *finishTime, u16 kart, u32 course) {
     KartCourseResult *record;
     MinuteSecondMillisecondTime *recordTime;
 
