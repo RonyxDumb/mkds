@@ -369,7 +369,7 @@ int CARD_WaitRomAsync(void) {
 
 // Returns the CPU page reader.
 UnkFunc *CARDi_GetRomAccessor(void) {
-    return (UnkFunc *) CARDi_ReadCard;
+    return CARDi_ReadCard;
 }
 
 // Task that sends the backup transfer in pieces of at most 0x100 bytes through CARDiCommon.mBackupCachePageBuf, then
