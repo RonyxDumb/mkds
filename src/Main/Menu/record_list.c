@@ -85,10 +85,8 @@ void SortRecordRange(s32 first, u16 count) {
 #pragma thumb on
 
 void CreateRecordList(void *heap) {
-    int listAddress;
     void *value;
-    listAddress = ((u32) HeapAlloc(heap, 0x10));
-    *(s32 *) &gRecordList = listAddress;
+    gRecordList = HeapAlloc(heap, 0x10);
     value = HeapAlloc(heap, 0x78);
     gRecordList->mEntries = value;
     value = CreateEmblemBlock(heap);

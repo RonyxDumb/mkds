@@ -118,7 +118,7 @@ void InitSelectRaceRuleWait(void *heap, void *oamList) {
 
 void ClearSelectRaceRuleWaitPointer(void) {
     ClearWaitPointer();
-    *(u32 *) &gSelectRaceRuleWait = 0;
+    gSelectRaceRuleWait = NULL;
 }
 
 #pragma thumb off

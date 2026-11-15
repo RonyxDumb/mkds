@@ -212,7 +212,7 @@ s32 AdvanceWLMenuMessageToMenu(SceneNumbers *sceneNumbers) {
 
 void ReleaseWLMenuMessage(void) {
     HeapDestroy(gWLMenuMessage->mHeap);
-    *&gWLMenuMessage = NULL;
+    gWLMenuMessage = NULL;
 }
 
 #pragma thumb off

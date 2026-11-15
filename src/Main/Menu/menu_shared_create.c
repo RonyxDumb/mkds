@@ -6,9 +6,7 @@
 #pragma thumb on
 
 void CreateMenuShared(void *heap) {
-    u32 allocation;
-    allocation = ((u32) HeapAlloc(heap, (0x00000130u)));
-    *(u32 *) &gMenuShared = allocation;
+    gMenuShared = HeapAlloc(heap, (0x00000130u));
     ClearMenuShared();
 }
 

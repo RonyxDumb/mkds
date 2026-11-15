@@ -31,13 +31,11 @@
 
 void InitWLMenuMessage(void *heap) {
     void *frameHeap;
-    int object;
     Ncgr *chars;
     Nclr *palette;
     frameHeap = CreateFrmHeapFromMaxFree(heap);
-    object = ((u32) HeapAlloc(frameHeap, (0x00000654u)));
-    *(s32 *) &gWLMenuMessage = object;
-    WLMenuMessageMI_CpuClearFast((void *) object, (0x00000654u));
+    gWLMenuMessage = HeapAlloc(frameHeap, (0x00000654u));
+    WLMenuMessageMI_CpuClearFast(gWLMenuMessage, (0x00000654u));
     gWLMenuMessage->mHeap = frameHeap;
     SetSubBg1Cnt(0, 0, 0x10, 0, 0);
     chars = GetDownloadScreenFiles()->mMultiDownloadChars;

@@ -543,7 +543,7 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *advanceArg) {
 
 void ReleaseTimeAttackGhostSend(void) {
     HeapDestroy(gTimeAttackGhostSend->mHeap);
-    *(int *) &gTimeAttackGhostSend = 0;
+    gTimeAttackGhostSend = NULL;
 }
 
 #pragma thumb off

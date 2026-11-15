@@ -319,7 +319,7 @@ void InitKeyboard(void *heap, s32 mode) {
 void ReleaseKeyboard(void) {
     ClearLinkLevelIconsPointer();
     ReleaseSceneText();
-    *(u32 *) &gKeyboard = 0;
+    gKeyboard = NULL;
 }
 
 #pragma thumb off

@@ -440,7 +440,7 @@ s32 AdvanceTimeAttackGhostGetSlot(u16 *sceneNumbers) {
 
 void ReleaseTimeAttackGhostGetSlot(void) {
     HeapDestroy(gTimeAttackGhostGetSlot->mHeap);
-    *(int *) &gTimeAttackGhostGetSlot = 0;
+    gTimeAttackGhostGetSlot = NULL;
 }
 
 #pragma thumb off
