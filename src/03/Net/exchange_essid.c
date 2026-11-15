@@ -44,8 +44,6 @@
 #include "03/Menu/exchange_status_record.h"
 #include "00/Lib/NitroWiFi/code_021a4b98.h"
 
-u32 CallAllocFunctionWithMutex(u32 unused, s32 size);
-void CallFreeFunctionWithMutex(u32 unused, void *block, s32 size);
 SOCConfig gExchangeSocketConfig = {{0, 0, 0, 1},
                                    (SocketAllocFn) CallAllocFunctionWithMutex,
                                    (SocketFreeFn) CallFreeFunctionWithMutex,
