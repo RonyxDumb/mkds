@@ -248,7 +248,7 @@ void InitRecordTopMenu(void *heap) {
     reg_G2_BG0CNT = (reg_G2_BG0CNT & (REG_G2_BG0CNT_PRIORITY_MASK | REG_G2_BG0CNT_MOSAIC_MASK)) | 0x8800;
     reg_G2S_DB_BG1CNT =
         (reg_G2S_DB_BG1CNT & (REG_G2S_DB_BG1CNT_PRIORITY_MASK | REG_G2S_DB_BG1CNT_MOSAIC_MASK)) | 0x1018;
-    gRecordTopMenu = HeapAlloc(heap, 0x48);
+    gRecordTopMenu = HeapAlloc(heap, sizeof(RecordTopMenu));
     gRecordTopMenu->mHeap = heap;
     gRecordTopMenu->mState = RECORD_TOP_MENU_STATE_WAIT_FADE;
     switch (GetRecordPrevScreen()) {

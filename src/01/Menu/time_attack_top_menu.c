@@ -138,7 +138,7 @@ void InitTimeAttackTopMenu(void *parentHeap, void *mainOam, void *subOam) {
 
     reg_G2_BG0CNT = (reg_G2_BG0CNT & (REG_G2_BG0CNT_PRIORITY_MASK | REG_G2_BG0CNT_MOSAIC_MASK)) | 0x9004;
     heap = CreateFrmHeapFromMaxFree(parentHeap);
-    gTimeAttackTopMenu = HeapAlloc(heap, 0x38);
+    gTimeAttackTopMenu = HeapAlloc(heap, sizeof(TimeAttackTopMenu));
     gTimeAttackTopMenu->mHeap = heap;
     gTimeAttackTopMenu->mState = TIME_ATTACK_TOP_STATE_SLIDE_IN;
     gTimeAttackTopMenu->mMainOamList = mainOam;

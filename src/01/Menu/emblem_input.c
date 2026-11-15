@@ -36,7 +36,7 @@
 EmblemInput *gEmblemInput;
 
 void CreateEmblemInput(void) {
-    gEmblemInput = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x54);
+    gEmblemInput = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(EmblemInput));
 }
 
 void AdvanceEmblemInput(void) {

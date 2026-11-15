@@ -585,7 +585,7 @@ void StartKurikingChainStartupFirst(MissionRunMapObject *mapObject) {
 
 void InitKurikingMapObject(MissionRunMapObject *mapObject) {
     CreateParkedMapObjects(MAP_OBJECT_KIND_KURIBO, 0x32, mapObject);
-    mapObject->mMapObject.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
+    mapObject->mMapObject.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(SoundSource));
     InitSoundSource(&mapObject->mMapObject.mSound->mSoundSource, 0xf, &mapObject->mMapObject.mPos);
     mapObject->mMapObject.mFarDistanceSquared = gSoundFalloffs[15].mFarDistanceSquared;
 }

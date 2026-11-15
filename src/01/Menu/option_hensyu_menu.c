@@ -28,7 +28,7 @@ void InitOptionHensyuMenu(void *heap) {
     s32 index;
     s32 cellIndex;
     void *optionFirstBuffer;
-    gOptionHensyuMenu = HeapAlloc(heap, 0x34);
+    gOptionHensyuMenu = HeapAlloc(heap, sizeof(OptionHensyuMenu));
     gOptionHensyuMenu->mHeap = heap;
     gOptionHensyuMenu->mState = OPTION_HENSYU_MENU_STATE_WAIT_FADE;
     gOptionHensyuMenu->mNextState = OPTION_HENSYU_MENU_STATE_WAIT_FADE;

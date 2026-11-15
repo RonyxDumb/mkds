@@ -186,7 +186,7 @@ BOOL SetEmblemCursorCellValueFromGrid(void) {
 }
 
 void CreateEmblemCursorAndGrid(s32 originX, s32 originY, s32 side, s32 scrSide, s32 tableCount) {
-    gEmblemCursor = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
+    gEmblemCursor = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(EmblemCursor));
     gEmblemCursor->mOriginX = originX;
     gEmblemCursor->mOriginY = originY;
     gEmblemCursor->mSide = side;
@@ -568,7 +568,7 @@ void InitEmblem(void) {
     DisplaySettingsDesc displaySettingsDesc;
     EmblemRecord *emblemRecord;
 
-    gEmblem = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x10c0);
+    gEmblem = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(Emblem));
     InitDisplaySettingsDesc(&displaySettingsDesc);
     displaySettingsDesc.mDispMode = 1;
     displaySettingsDesc.mMainBgMode = GX_BGMODE_0;

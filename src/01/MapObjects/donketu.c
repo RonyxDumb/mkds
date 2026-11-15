@@ -817,7 +817,7 @@ void UpdateDonketu(u32 mapObjectList, MissionRunMapObject *donketu) {
 }
 
 void InitDonketuSoundSource(MissionRunMapObject *donketu) {
-    donketu->mMapObject.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
+    donketu->mMapObject.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(SoundSource));
     InitSoundSource((SoundSource *) donketu->mMapObject.mSound, 0xc, &donketu->mMapObject.mPos);
     donketu->mMapObject.mFarDistanceSquared = gSoundFalloffs[12].mFarDistanceSquared;
 }

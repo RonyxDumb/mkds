@@ -87,7 +87,7 @@ void InitOptionSelectMenuTexts(void) {
 void InitOptionSelectMenu(void *heap) {
     s32 index;
 
-    gOptionSelectMenu = HeapAlloc(heap, 0x90);
+    gOptionSelectMenu = HeapAlloc(heap, sizeof(OptionSelectMenu));
     gOptionSelectMenu->mHeap = heap;
     gOptionSelectMenu->mState = OPTION_SELECT_STATE_SLIDE_IN;
     gOptionSelectMenu->mNextState = OPTION_SELECT_STATE_SLIDE_IN;

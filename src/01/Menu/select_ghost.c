@@ -350,7 +350,7 @@ void InitSelectGhost(void *parentHeap, void *mainOam, void *subOam) {
     reg_G2S_DB_BG3CNT =
         (reg_G2S_DB_BG3CNT & (REG_G2S_DB_BG3CNT_PRIORITY_MASK | REG_G2S_DB_BG3CNT_MOSAIC_MASK)) | 0x8300;
     heap = CreateFrmHeapFromMaxFree(parentHeap);
-    gSelectGhost = HeapAlloc(heap, 0x70);
+    gSelectGhost = HeapAlloc(heap, sizeof(SelectGhost));
     gSelectGhost->mHeap = heap;
     gSelectGhost->mState = SELECT_GHOST_STATE_SLIDE_IN;
     gSelectGhost->mIndex = 0;

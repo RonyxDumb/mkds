@@ -69,7 +69,7 @@ void SetupOptionBackgrounds(void) {
 
 void InitOptionStates(void *heap, s16 a) {
     SceneTextInitParams sceneTextParams;
-    gOptionStates = HeapAlloc(heap, 0x2c);
+    gOptionStates = HeapAlloc(heap, sizeof(OptionStates));
     gOptionStates->mHeap = heap;
     gOptionStates->mSceneDisplaySettings = CreateSceneDisplaySettings(heap);
     SetupOptionBackgrounds();

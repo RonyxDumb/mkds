@@ -308,7 +308,7 @@ void InitSelectEngine(void *parentHeap, void *mainOamList, void *subOamList) {
     reg_G2_BG0OFS = 0xc00000;
     reg_G2_BG1OFS = 0xc00000;
     heap = CreateFrmHeapFromMaxFree(parentHeap);
-    selectEngine = HeapAlloc(heap, 0x50);
+    selectEngine = HeapAlloc(heap, sizeof(SelectEngine));
     gSelectEngine = selectEngine;
     selectEngine->mHeap = heap;
     gSelectEngine->mState = SELECT_ENGINE_STATE_WAIT_FADE;

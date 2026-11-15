@@ -341,7 +341,7 @@ void InitMissionRunLVsel(void *parentHeap, void *mainOam, void *subOam) {
     {
         void *heap = CreateFrmHeapFromMaxFree(parentHeap);
 
-        gMissionRunLVsel = HeapAlloc(heap, 0x5c);
+        gMissionRunLVsel = HeapAlloc(heap, sizeof(MissionRunLVsel));
         gMissionRunLVsel->mHeap = heap;
     }
     gMissionRunLVsel->mState = MISSION_RUN_LVSEL_STATE_WAIT_FADE;

@@ -65,7 +65,7 @@ void InitSelectBattleStage(void *parentHeap, s32 variant, void *mainOam, void *s
     void *bmgEntry;
 
     heap = CreateExpHeapFromMaxFree(parentHeap);
-    gSelectBattleStage = HeapAlloc(heap, 0x1088);
+    gSelectBattleStage = HeapAlloc(heap, sizeof(SelectBattleStage));
     gSelectBattleStage->mHeap = heap;
     gSelectBattleStage->mState = SELECT_BATTLE_STAGE_STATE_SLIDE_IN;
     gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_SLIDE_IN;

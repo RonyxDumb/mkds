@@ -693,13 +693,13 @@ void InitHanachanMapObject(MissionRunMapObject *mapObject) {
     secondFollower->mPreviousObject = firstFollower;
     thirdFollower->mPreviousObject = secondFollower;
     fourthFollower->mPreviousObject = thirdFollower;
-    mapObject->mMapObject.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
+    mapObject->mMapObject.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(SoundSource));
     InitSoundSource(&mapObject->mMapObject.mSound->mSoundSource, 0xd, &mapObject->mMapObject.mPos);
     mapObject->mMapObject.mFarDistanceSquared = gSoundFalloffs[13].mFarDistanceSquared;
 }
 
 void InitHanachanFollowerMapObject(MissionRunMapObject *mapObject) {
-    mapObject->mMapObject.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
+    mapObject->mMapObject.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(SoundSource));
     InitSoundSource(&mapObject->mMapObject.mSound->mSoundSource, 0xd, &mapObject->mMapObject.mPos);
     mapObject->mMapObject.mFarDistanceSquared = gSoundFalloffs[13].mFarDistanceSquared;
 }

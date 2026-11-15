@@ -105,7 +105,7 @@ void InitRecordTAtt(void *heap) {
         ((reg_G2S_DB_BG1CNT) & (REG_G2S_DB_BG1CNT_PRIORITY_MASK | REG_G2S_DB_BG1CNT_MOSAIC_MASK)) | 0x1018;
     (reg_G2S_DB_BG3CNT) =
         ((reg_G2S_DB_BG3CNT) & (REG_G2S_DB_BG3CNT_PRIORITY_MASK | REG_G2S_DB_BG3CNT_MOSAIC_MASK)) | 0x5810;
-    gRecordTAtt = HeapAlloc(heap, 0x94);
+    gRecordTAtt = HeapAlloc(heap, sizeof(RecordTAtt));
     gRecordTAtt->mHeap = heap;
     gRecordTAtt->mState = RECORD_TATT_STATE_SLIDE_IN_TOP;
     gRecordTAtt->mIndex = 0;

@@ -21,7 +21,7 @@ NicknameScene *gNicknameScene;
 void InitNicknameSceneObject(void *heap, s16 a) {
     SceneTextInitParams textParams;
 
-    gNicknameScene = HeapAlloc(heap, 0x18);
+    gNicknameScene = HeapAlloc(heap, sizeof(NicknameScene));
     gNicknameScene->mHeap = heap;
     gNicknameScene->mSceneDisplaySettings = CreateSceneDisplaySettings(heap);
     textParams.mUseTxtSystem = TRUE;

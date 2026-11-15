@@ -253,7 +253,7 @@ void InitTestSceneObject(void) {
     DisplaySettings *displaySettings;
     int canvasIndex;
 
-    gTestScene = HeapAlloc(TestSceneGetCurrentHeap(), 0x66a8);
+    gTestScene = HeapAlloc(TestSceneGetCurrentHeap(), sizeof(TestScene));
     gTestScene->mUnk_0000 = 0;
     gTestScene->mState = TEST_SCENE_STATE_CHAR_TABLE_0;
     gTestScene->mStateChanged = 1;

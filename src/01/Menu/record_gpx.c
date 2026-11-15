@@ -113,7 +113,7 @@ void InitRecordGpx(void *heap) {
         (reg_G2S_DB_BG1CNT & (REG_G2S_DB_BG1CNT_PRIORITY_MASK | REG_G2S_DB_BG1CNT_MOSAIC_MASK)) | 0x1018;
     reg_G2S_DB_BG3CNT =
         (reg_G2S_DB_BG3CNT & (REG_G2S_DB_BG3CNT_PRIORITY_MASK | REG_G2S_DB_BG3CNT_MOSAIC_MASK)) | 0x5810;
-    gRecordGpx = HeapAlloc(heap, 0x94);
+    gRecordGpx = HeapAlloc(heap, sizeof(RecordGpx));
     gRecordGpx->mHeap = heap;
     gRecordGpx->mState = RECORD_GPX_STATE_BG_SLIDE_IN;
     gRecordGpx->mIndex = 0;

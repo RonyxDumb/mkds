@@ -701,7 +701,7 @@ void StartKingTeresaZeroAlphaWait(MissionRunMapObject *mapObject) {
 }
 
 void InitKingTeresaMapObject(MissionRunMapObject *mapObject) {
-    mapObject->mMapObject.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
+    mapObject->mMapObject.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(SoundSource));
     InitSoundSource(&mapObject->mMapObject.mSound->mSoundSource, 0xe, &mapObject->mMapObject.mPos);
     mapObject->mMapObject.mFarDistanceSquared = gSoundFalloffs[14].mFarDistanceSquared;
 }

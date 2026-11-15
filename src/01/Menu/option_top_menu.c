@@ -30,7 +30,7 @@ void InitOptionTopMenu(void *heap) {
     s32 index;
     s32 cellIndex;
 
-    gOptionTopMenu = HeapAlloc(heap, 0x40);
+    gOptionTopMenu = HeapAlloc(heap, sizeof(OptionTopMenu));
     gOptionTopMenu->mHeap = heap;
     gOptionTopMenu->mState = OPTION_TOP_STATE_WAIT_FADE;
     gOptionTopMenu->mNextState = OPTION_TOP_STATE_WAIT_FADE;

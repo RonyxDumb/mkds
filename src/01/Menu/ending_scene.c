@@ -18,7 +18,7 @@ EndingScene *gEndingScene;
 void CreateEndingScene(void *heap) {
     void *bmgEntry;
 
-    gEndingScene = HeapAlloc(heap, 0x470);
+    gEndingScene = HeapAlloc(heap, sizeof(EndingScene));
     gEndingScene->mHeap = heap;
     gEndingScene->mUnk_01c = CreateSceneDisplaySettings(heap);
     gEndingScene->mNextScene = -1;

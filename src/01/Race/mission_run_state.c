@@ -117,7 +117,7 @@ void CreateMissionRunData(void) {
     Kart *kart;
     MissionRunData *missionRunData;
 
-    gMissionRunData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x68);
+    gMissionRunData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MissionRunData));
     kart = GetKart((u16) gRaceSetup->mEntryIndex);
     missionRunData = gMissionRunData;
     missionRunData->mPrevKartPos = kart->mPos;

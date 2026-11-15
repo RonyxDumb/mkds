@@ -39,7 +39,7 @@ void LoadMissionRunBossIconData(void) {
 }
 
 void CreateMissionRunBossIcon(void *heap) {
-    gMissionRunBossIcon = HeapAlloc(heap, 0x10);
+    gMissionRunBossIcon = HeapAlloc(heap, sizeof(MissionRunBossIcon));
     LocateNcgr2(&gMissionRunBossIcon->mNcgr, FindSceneFile(gMissionRunBossIconSNcgrName));
     LocateNcer(&gMissionRunBossIcon->mNcer, FindSceneFile(gMissionRunBossIconSNcerName));
     LocateNclr(&gMissionRunBossIcon->mNclr, FindSceneFile(gMissionRunBossIconSONclrName));
