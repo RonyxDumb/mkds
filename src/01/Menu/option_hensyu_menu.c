@@ -56,10 +56,10 @@ void InitOptionHensyuMenu(void *heap) {
         for (cellIndex = 0; cellIndex < gOptionHensyuMenuOffsetCellCounts[index]; cellIndex++) {
             if (index == 1) {
                 gOptionHensyuMenu->mOptionHensyuMenuSTable[gOptionHensyuMenuOffsetTableIndices[index][cellIndex]]
-                    .mOffsetX = 0xfa;
+                    .mOffsetX = OPTION_HENSYU_MENU_SLIDE_DISTANCE;
             } else {
                 gOptionHensyuMenu->mOptionHensyuMenuSTable[gOptionHensyuMenuOffsetTableIndices[index][cellIndex]]
-                    .mOffsetX = -0xfa;
+                    .mOffsetX = -OPTION_HENSYU_MENU_SLIDE_DISTANCE;
             }
         }
     }
@@ -105,7 +105,8 @@ void AdvanceOptionHensyuMenuSlideIn(void) {
     s32 cellIndex;
     s32 offsetX;
     gOptionHensyuMenu->mStateFrames++;
-    offsetX = InterpolateS16(1, 0xfa, 0, gOptionHensyuMenu->mStateFrames, 10);
+    offsetX = InterpolateS16(1, OPTION_HENSYU_MENU_SLIDE_DISTANCE, 0, gOptionHensyuMenu->mStateFrames,
+                             OPTION_HENSYU_MENU_SLIDE_FRAMES);
     for (rowIndex = 0; rowIndex < 2; rowIndex++) {
         for (cellIndex = 0; cellIndex < gOptionHensyuMenuOffsetCellCounts[rowIndex]; cellIndex++) {
             if (rowIndex == 1) {
@@ -117,7 +118,7 @@ void AdvanceOptionHensyuMenuSlideIn(void) {
             }
         }
     }
-    if (gOptionHensyuMenu->mStateFrames >= 10) {
+    if (gOptionHensyuMenu->mStateFrames >= OPTION_HENSYU_MENU_SLIDE_FRAMES) {
         gOptionHensyuMenu->mNextState = OPTION_HENSYU_MENU_STATE_WAIT_SELECT_RETURN;
         gOptionHensyuMenu->mStateFrames = 0;
         RequestSelectReturnSlideIn();
@@ -229,13 +230,13 @@ void AdvanceOptionHensyuMenuSelect(void) {
 
 void AdvanceOptionHensyuMenuHoldChosen(void) {
     gOptionHensyuMenu->mStateFrames++;
-    if (gOptionHensyuMenu->mStateFrames >= 10) {
+    if (gOptionHensyuMenu->mStateFrames >= OPTION_HENSYU_MENU_PRESS_FRAMES) {
         gOptionHensyuMenu->mNextState = OPTION_HENSYU_MENU_STATE_SLIDE_OUT;
         gOptionHensyuMenu->mStateFrames = 0;
         if (gOptionHensyuMenu->mNextOptionState == OPTION_STATE_SCENE_KEYBOARD) {
             RequestSelectReturnSlideOut();
         }
-    } else if (gOptionHensyuMenu->mStateFrames >= 5) {
+    } else if (gOptionHensyuMenu->mStateFrames >= OPTION_HENSYU_MENU_HIGHLIGHT_FRAME) {
         gOptionHensyuMenu->mHighlightVisible = TRUE;
     }
 }
@@ -252,10 +253,11 @@ void AdvanceOptionHensyuMenuSlideOut(void) {
         }
     }
     gOptionHensyuMenu->mStateFrames++;
-    if (gOptionHensyuMenu->mStateFrames <= 10) {
-        offsetX = InterpolateS16(1, 0, 0xfa, gOptionHensyuMenu->mStateFrames, 10);
+    if (gOptionHensyuMenu->mStateFrames <= OPTION_HENSYU_MENU_SLIDE_FRAMES) {
+        offsetX = InterpolateS16(1, 0, OPTION_HENSYU_MENU_SLIDE_DISTANCE, gOptionHensyuMenu->mStateFrames,
+                                 OPTION_HENSYU_MENU_SLIDE_FRAMES);
     } else {
-        offsetX = 0xfa;
+        offsetX = OPTION_HENSYU_MENU_SLIDE_DISTANCE;
     }
     for (rowIndex = 0; rowIndex < 2; rowIndex++) {
         for (cellIndex = 0; cellIndex < gOptionHensyuMenuOffsetCellCounts[rowIndex]; cellIndex++) {
@@ -268,7 +270,7 @@ void AdvanceOptionHensyuMenuSlideOut(void) {
             }
         }
     }
-    if (gOptionHensyuMenu->mStateFrames >= 10) {
+    if (gOptionHensyuMenu->mStateFrames >= OPTION_HENSYU_MENU_SLIDE_FRAMES) {
         if (gOptionHensyuMenu->mNextOptionState == OPTION_STATE_TOP_MENU ||
             gOptionHensyuMenu->mNextOptionState == OPTION_STATE_EMBREM_SELECT || IsSelectReturnHiddenNoRequest() != 0) {
             if (GetOptionNextScene() == -1) {

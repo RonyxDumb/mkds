@@ -32,6 +32,14 @@ enum {
     OPTION_HENSYU_MENU_STATE_SLIDE_OUT,
 };
 
+// Frames of the slide in and the slide out and the distance the cells travel sideways (mOffsetX).
+#define OPTION_HENSYU_MENU_SLIDE_FRAMES 10
+#define OPTION_HENSYU_MENU_SLIDE_DISTANCE 250
+
+// Frames the chosen row is shown before the slide out; the highlight comes back at the fifth.
+#define OPTION_HENSYU_MENU_PRESS_FRAMES 10
+#define OPTION_HENSYU_MENU_HIGHLIGHT_FRAME 5
+
 // Object behind gOptionHensyuMenu.
 typedef struct OptionHensyuMenu {
     /* 00 */ s32 mState;
@@ -214,6 +222,17 @@ enum {
     OPTION_EMBREM_SELECT_STATE_SLIDE_OUT,
     OPTION_EMBREM_SELECT_STATE_WAIT_MESSAGE,
 };
+
+// Frames of the slide in and the slide out and the distance the cells travel sideways (mOffsetX).
+#define OPTION_EMBREM_SELECT_SLIDE_FRAMES 10
+#define OPTION_EMBREM_SELECT_SLIDE_DISTANCE 250
+
+// Frames the chosen row is shown before the slide out; the highlight comes back at the fifth.
+#define OPTION_EMBREM_SELECT_PRESS_FRAMES 10
+#define OPTION_EMBREM_SELECT_HIGHLIGHT_FRAME 5
+
+// Frames the cells of a row shift after its choice changed (OptionEmbremSelect.mOffsetTimers count them down).
+#define OPTION_EMBREM_SELECT_OFFSET_TIMER_FRAMES 6
 
 // Object behind gOptionEmbremSelect.
 typedef struct OptionEmbremSelect {

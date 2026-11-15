@@ -56,7 +56,7 @@ void InitOptionEmbremSelect(void *heap) {
                                        optionEmbremSelect->mOptionEmbremSelectSBncl,
                                        optionEmbremSelect->mOptionEmbremSelectSTable);
     for (rowIndex = 0; rowIndex < 2; rowIndex++) {
-        gOptionEmbremSelect->mCellGroupOffsets[rowIndex].mOffsetX = 250;
+        gOptionEmbremSelect->mCellGroupOffsets[rowIndex].mOffsetX = OPTION_EMBREM_SELECT_SLIDE_DISTANCE;
         gOptionEmbremSelect->mCellGroupOffsets[rowIndex].mOffsetY = 0;
     }
     gOptionEmbremSelect->mEmblemOffChoice = IsBackupEmblemOff();
@@ -119,7 +119,8 @@ void AdvanceOptionEmbremSelectSlideIn(void) {
     s16 offsetX;
 
     gOptionEmbremSelect->mStateFrames++;
-    offsetX = InterpolateS16(1, 250, 0, gOptionEmbremSelect->mStateFrames, 10);
+    offsetX = InterpolateS16(1, OPTION_EMBREM_SELECT_SLIDE_DISTANCE, 0, gOptionEmbremSelect->mStateFrames,
+                             OPTION_EMBREM_SELECT_SLIDE_FRAMES);
     for (rowIndex = 0; rowIndex < 2; rowIndex++) {
         for (cellIndex = 0; cellIndex < gOptionEmbremSelectSTableCounts[rowIndex]; cellIndex++) {
             if (rowIndex == 1) {
@@ -129,7 +130,7 @@ void AdvanceOptionEmbremSelectSlideIn(void) {
             }
         }
     }
-    if (gOptionEmbremSelect->mStateFrames >= 10) {
+    if (gOptionEmbremSelect->mStateFrames >= OPTION_EMBREM_SELECT_SLIDE_FRAMES) {
         gOptionEmbremSelect->mNextState = OPTION_EMBREM_SELECT_STATE_WAIT_SELECT_RETURN;
         gOptionEmbremSelect->mStateFrames = 0;
         RequestSelectReturnSlideIn();
@@ -215,23 +216,23 @@ void AdvanceOptionEmbremSelectSelect(void) {
             StartSoundOncePerFrame(0);
         } else if (gOptionEmbremSelect->mSelectedRow == 1 && GetNewOrRepeatBits(8, PAD_KEY_LEFT) != 0) {
             gOptionEmbremSelect->mEmblemOffChoice--;
-            gOptionEmbremSelect->mOffsetTimers[0] = 6;
+            gOptionEmbremSelect->mOffsetTimers[0] = OPTION_EMBREM_SELECT_OFFSET_TIMER_FRAMES;
             StartSoundOncePerFrame(1);
         } else if (gOptionEmbremSelect->mSelectedRow == 1 && GetNewOrRepeatBits(8, PAD_KEY_RIGHT) != 0) {
             gOptionEmbremSelect->mEmblemOffChoice++;
             if (GetNewOrRepeatBits(8, PAD_KEY_RIGHT) != 0) {
-                gOptionEmbremSelect->mOffsetTimers[1] = 6;
+                gOptionEmbremSelect->mOffsetTimers[1] = OPTION_EMBREM_SELECT_OFFSET_TIMER_FRAMES;
             }
             StartSoundOncePerFrame(1);
         } else if (touchedRect == 2) {
             gOptionEmbremSelect->mSelectedRow = 1;
             gOptionEmbremSelect->mEmblemOffChoice--;
-            gOptionEmbremSelect->mOffsetTimers[0] = 6;
+            gOptionEmbremSelect->mOffsetTimers[0] = OPTION_EMBREM_SELECT_OFFSET_TIMER_FRAMES;
             StartSoundOncePerFrame(1);
         } else if (touchedRect == 3) {
             gOptionEmbremSelect->mSelectedRow = 1;
             gOptionEmbremSelect->mEmblemOffChoice++;
-            gOptionEmbremSelect->mOffsetTimers[1] = 6;
+            gOptionEmbremSelect->mOffsetTimers[1] = OPTION_EMBREM_SELECT_OFFSET_TIMER_FRAMES;
             StartSoundOncePerFrame(1);
         }
     }
@@ -247,13 +248,13 @@ void AdvanceOptionEmbremSelectHoldChosen(void) {
     OptionEmbremSelect *optionEmbremSelect;
     gOptionEmbremSelect->mStateFrames = gOptionEmbremSelect->mStateFrames + 1;
     optionEmbremSelect = gOptionEmbremSelect;
-    if (10 <= optionEmbremSelect->mStateFrames) {
+    if (OPTION_EMBREM_SELECT_PRESS_FRAMES <= optionEmbremSelect->mStateFrames) {
         optionEmbremSelect->mNextState = OPTION_EMBREM_SELECT_STATE_SLIDE_OUT;
         gOptionEmbremSelect->mStateFrames = 0;
         RequestSelectReturnSlideOut();
         return;
     }
-    if (5 <= optionEmbremSelect->mStateFrames) {
+    if (OPTION_EMBREM_SELECT_HIGHLIGHT_FRAME <= optionEmbremSelect->mStateFrames) {
         optionEmbremSelect->mHighlightVisible = TRUE;
     }
 }
@@ -267,7 +268,8 @@ void AdvanceOptionEmbremSelectSlideOut(void) {
         RequestOptionNextScene(3);
     }
     gOptionEmbremSelect->mStateFrames++;
-    offsetX = InterpolateS16(1, 0, 250, gOptionEmbremSelect->mStateFrames, 10);
+    offsetX = InterpolateS16(1, 0, OPTION_EMBREM_SELECT_SLIDE_DISTANCE, gOptionEmbremSelect->mStateFrames,
+                             OPTION_EMBREM_SELECT_SLIDE_FRAMES);
     for (rowIndex = 0; rowIndex < 2; rowIndex++) {
         for (cellIndex = 0; cellIndex < gOptionEmbremSelectSTableCounts[rowIndex]; cellIndex++) {
             if (rowIndex == 0) {
@@ -277,8 +279,8 @@ void AdvanceOptionEmbremSelectSlideOut(void) {
             }
         }
     }
-    if (gOptionEmbremSelect->mStateFrames >= 10) {
-        if (gOptionEmbremSelect->mStateFrames >= 10 &&
+    if (gOptionEmbremSelect->mStateFrames >= OPTION_EMBREM_SELECT_SLIDE_FRAMES) {
+        if (gOptionEmbremSelect->mStateFrames >= OPTION_EMBREM_SELECT_SLIDE_FRAMES &&
             (IsSelectReturnShownNoRequest() != 0 || IsSelectReturnHiddenNoRequest() != 0)) {
             if (GetOptionNextScene() == -1) {
                 OptionEmbremSelect *obj = gOptionEmbremSelect;
@@ -348,9 +350,11 @@ void UpdateOptionEmbremSelectCellOffsets(void) {
         gOptionEmbremSelect->mCellGroupOffsets[1].mOffsetY;
     for (timerCellIndex = 0; timerCellIndex < 3; timerCellIndex++) {
         gOptionEmbremSelect->mOptionEmbremSelectSTable[gOptionEmbremSelectTimerCellIndices[timerCellIndex][0]]
-            .mOffsetX -= LookupFrameOffset(6 - gOptionEmbremSelect->mOffsetTimers[0]);
+            .mOffsetX -=
+            LookupFrameOffset(OPTION_EMBREM_SELECT_OFFSET_TIMER_FRAMES - gOptionEmbremSelect->mOffsetTimers[0]);
         gOptionEmbremSelect->mOptionEmbremSelectSTable[gOptionEmbremSelectTimerCellIndices[timerCellIndex][1]]
-            .mOffsetX += LookupFrameOffset(6 - gOptionEmbremSelect->mOffsetTimers[1]);
+            .mOffsetX +=
+            LookupFrameOffset(OPTION_EMBREM_SELECT_OFFSET_TIMER_FRAMES - gOptionEmbremSelect->mOffsetTimers[1]);
     }
 }
 
