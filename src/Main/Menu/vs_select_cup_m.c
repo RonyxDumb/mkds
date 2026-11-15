@@ -101,7 +101,7 @@ void WriteVsSelectRaceRuleRegisters(void) {
 void UpdateVsSelectRaceRule(void) {
     switch (AdvanceSelectRaceRule()) {
         case 1:
-            if (GetRaceSetupCopy()->mCourseListMode == 2) {
+            if (GetRaceSetupCopy()->mCourseListMode == COURSE_LIST_MODE_SHUFFLED) {
                 GetRaceSetupCopy()->mCourseId = COURSE_ID_CROSS;
                 SwitchMenuScreen(0x1d, 0x1f);
             } else {

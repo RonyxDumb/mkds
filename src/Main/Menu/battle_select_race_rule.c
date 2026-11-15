@@ -12,9 +12,9 @@ void UpdateBattleSelectRaceRule(void) {
     switch (AdvanceSelectRaceRule()) {
         case 1:
             if (SelectRaceRuleGetMultiSimple() != 0) {
-                GetRaceSetupCopy()->mCourseListMode = 2;
+                GetRaceSetupCopy()->mCourseListMode = COURSE_LIST_MODE_SHUFFLED;
             }
-            if (GetRaceSetupCopy()->mCourseListMode == 2) {
+            if (GetRaceSetupCopy()->mCourseListMode == COURSE_LIST_MODE_SHUFFLED) {
                 GetRaceSetupCopy()->mCourseId = COURSE_ID_MINI_STAGE1;
                 SwitchMenuScreen(0x1d, 0x1f);
             } else {

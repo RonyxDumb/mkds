@@ -251,7 +251,8 @@ void InitLinkLevelIcons(void *heap, void *oamList) {
     }
     switch (GetCurrentSceneNumber()) {
         case 1:
-            if ((u32) (gStartupWork->mConnectionKind - 1) <= 1) {
+            if ((u32) (gStartupWork->mConnectionKind - CONNECTION_KIND_MEMBER_SELECT) <=
+                CONNECTION_KIND_WL_MENU - CONNECTION_KIND_MEMBER_SELECT) {
                 gLinkLevelIcons->mIconEnabled[0] = 1;
             }
             break;
@@ -266,7 +267,8 @@ void InitLinkLevelIcons(void *heap, void *oamList) {
             if (gStartupWork->mConnectionKind == CONNECTION_KIND_WIFI_MENU) {
                 gLinkLevelIcons->mIconEnabled[1] = 1;
                 gLinkLevelIcons->mIconEnabled[4] = 1;
-            } else if ((u32) (gStartupWork->mConnectionKind - 1) <= 1) {
+            } else if ((u32) (gStartupWork->mConnectionKind - CONNECTION_KIND_MEMBER_SELECT) <=
+                       CONNECTION_KIND_WL_MENU - CONNECTION_KIND_MEMBER_SELECT) {
                 gLinkLevelIcons->mIconEnabled[0] = 1;
             }
             break;

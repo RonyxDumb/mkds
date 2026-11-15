@@ -269,8 +269,8 @@ void DrawRaceHudSubScreenCells(RaceHudOamBuffer *oamBuffer, RaceHudSubScreenCell
                                       useRotation != 0 ? &rotationMatrix : 0, drawPosition, matrixIndex, 1);
             oam = &oamBuffer->mOamBits[oamIndex];
             for (; oamIndex < oamBuffer->mOamCount; oamIndex++, oam++) {
-                if ((flag != 0 ? 1 : -1) != -1) {
-                    oam->mObjMode = flag != 0 ? 1 : -1;
+                if ((flag != 0 ? RACE_HUD_OBJ_MODE_TRANSLUCENT : -1) != -1) {
+                    oam->mObjMode = flag != 0 ? RACE_HUD_OBJ_MODE_TRANSLUCENT : -1;
                 }
                 if (priority != -1) {
                     oam->mPriority = priority;
@@ -331,8 +331,8 @@ void DrawRaceHudSubScreenCellsScaled(RaceHudOamBuffer *oamBuffer, RaceHudSubScre
                                                           &matrix, drawPosition, matrixIndex, 1);
             oam = &oamBuffer->mOamBits[oamIndex];
             for (; oamIndex < oamBuffer->mOamCount; oamIndex++, oam++) {
-                if ((flag != 0 ? 1 : -1) != -1) {
-                    oam->mObjMode = flag != 0 ? 1 : -1;
+                if ((flag != 0 ? RACE_HUD_OBJ_MODE_TRANSLUCENT : -1) != -1) {
+                    oam->mObjMode = flag != 0 ? RACE_HUD_OBJ_MODE_TRANSLUCENT : -1;
                 }
                 if (priority != -1) {
                     oam->mPriority = priority;

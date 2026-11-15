@@ -388,7 +388,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                             gMenuShared->mWLMenuKind = 1;
                         }
                     } else {
-                        if (gRaceSetup->mCourseListMode == 0) {
+                        if (gRaceSetup->mCourseListMode == COURSE_LIST_MODE_SINGLE) {
                             gMenuShared->mMenuEntryKind = 2;
                         }
                         if (gStartupWork->mMultiSimple == 0) {
@@ -417,7 +417,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                             gMenuShared->mWLMenuKind = 1;
                         }
                     } else {
-                        if (gRaceSetup->mCourseListMode == 0) {
+                        if (gRaceSetup->mCourseListMode == COURSE_LIST_MODE_SINGLE) {
                             gMenuShared->mMenuEntryKind = 2;
                         }
                         if (gStartupWork->mMultiSimple == 0) {
