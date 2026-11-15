@@ -3,6 +3,27 @@
 #include "types.h"
 #include "00/Lib/GameSpy/code_0218e2dc.h" // SOCSockAddrIn
 
+// Packet types of the query and reporting protocol (the third byte of a query, the first byte of a reply).
+enum {
+    PACKET_QUERY = 0,
+    PACKET_CHALLENGE = 1,
+    PACKET_ECHO = 2,
+    PACKET_HEARTBEAT = 3,
+    PACKET_ADDERROR = 4,
+    PACKET_ECHO_RESPONSE = 5,
+    PACKET_CLIENT_MESSAGE = 6,
+    PACKET_CLIENT_MESSAGE_ACK = 7,
+    PACKET_KEEPALIVE = 8,
+};
+
+// Milliseconds between the heartbeats and keepalives the reporter sends: QR_FIRST_HEARTBEAT_MS is the wait for a
+// heartbeat that is still unanswered (it is sent again), QR_MIN_STATE_CHANGE_HEARTBEAT_MS the shortest gap before a
+// heartbeat that reports a state change.
+#define QR_FIRST_HEARTBEAT_MS 10000
+#define QR_MIN_STATE_CHANGE_HEARTBEAT_MS 10000
+#define QR_HEARTBEAT_INTERVAL_MS 60000
+#define QR_KEEPALIVE_INTERVAL_MS 20000
+
 typedef struct DWCInetControl DWCInetControl;
 
 typedef struct NatnegMagic {

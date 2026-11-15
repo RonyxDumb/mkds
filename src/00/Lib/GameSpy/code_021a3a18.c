@@ -153,7 +153,7 @@ void qr2_check_send_heartbeat(QueryRecord *qrec) {
     currentTime = GetElapsedMilliseconds();
     if (qrec->mHbSock != -1) {
         listState = qrec->mListedState;
-        if (listState > 0 && currentTime - qrec->mLastHeartbeat > 10000) {
+        if (listState > 0 && currentTime - qrec->mLastHeartbeat > QR_FIRST_HEARTBEAT_MS) {
             if (listState >= 4) {
                 qrec->mListedState = 0;
                 qrec->mAddErrorCallback(5, (const u8 *) "No challenge value was received from the master server.",
@@ -162,13 +162,14 @@ void qr2_check_send_heartbeat(QueryRecord *qrec) {
             }
             send_heartbeat(qrec, 3);
             qrec->mListedState = qrec->mListedState + 1;
-        } else if (qrec->mUserStateChangeRequested != FALSE && currentTime - qrec->mLastHeartbeat > 10000) {
+        } else if (qrec->mUserStateChangeRequested != FALSE &&
+                   currentTime - qrec->mLastHeartbeat > QR_MIN_STATE_CHANGE_HEARTBEAT_MS) {
             send_heartbeat(qrec, 1);
-        } else if (currentTime - qrec->mLastHeartbeat > 60000 || qrec->mLastHeartbeat == 0 ||
+        } else if (currentTime - qrec->mLastHeartbeat > QR_HEARTBEAT_INTERVAL_MS || qrec->mLastHeartbeat == 0 ||
                    currentTime < qrec->mLastHeartbeat) {
             send_heartbeat(qrec, 0);
         }
-        if (currentTime - qrec->mLastKeepalive > 20000) {
+        if (currentTime - qrec->mLastKeepalive > QR_KEEPALIVE_INTERVAL_MS) {
             send_keepalive(qrec);
         }
     }
@@ -269,7 +270,7 @@ BOOL ResolveQueryHostAddress(const char *host, u32 port, SOCSockAddrIn *saddr, S
     SOCHostEnt *hent;
 
     hent = NULL;
-    saddr->mFamily = 2;
+    saddr->mFamily = SOCKET_FAMILY_IPV4;
     saddr->mPort = Qr2SwapBytes16(port);
     if (host == NULL) {
         saddr->mAddr = 0;
@@ -618,20 +619,20 @@ void qr_build_partial_old_query_reply(QueryRecord *qrec, QueryBuffer *buf, s32 k
             }
             if (keytype == 0) {
                 qr2_buffer_addA(buf, keyName);
-                buf->mBuffer[buf->mLen - 1] = 0x5c;
+                buf->mBuffer[buf->mLen - 1] = '\\';
                 bufferLength = buf->mLen;
                 qrec->mServerKeyCallback(*keyCursor, buf, qrec->mUserData);
                 if (bufferLength == buf->mLen) {
                     qr2_buffer_addA(buf, "");
                 }
-                buf->mBuffer[buf->mLen - 1] = 0x5c;
+                buf->mBuffer[buf->mLen - 1] = '\\';
             } else {
                 playerIdx = firstPindex;
                 if (teamTotal > 0) {
                     do {
                         sprintf(keyNameBuf, "%s%d", keyName, playerIdx);
                         qr2_buffer_addA(buf, keyNameBuf);
-                        buf->mBuffer[buf->mLen - 1] = 0x5c;
+                        buf->mBuffer[buf->mLen - 1] = '\\';
                         bufferLength = buf->mLen;
                         if (keytype == 1) {
                             qrec->mPlayerKeyCallback(*keyCursor, playerIdx, buf, qrec->mUserData);
@@ -641,7 +642,7 @@ void qr_build_partial_old_query_reply(QueryRecord *qrec, QueryBuffer *buf, s32 k
                         if (bufferLength == buf->mLen) {
                             qr2_buffer_addA(buf, "");
                         }
-                        buf->mBuffer[buf->mLen - 1] = 0x5c;
+                        buf->mBuffer[buf->mLen - 1] = '\\';
                         playerIdx++;
                     } while (playerIdx < teamTotal);
                 }
@@ -654,7 +655,7 @@ void qr_build_partial_old_query_reply(QueryRecord *qrec, QueryBuffer *buf, s32 k
 
 void qr_process_old_query(QueryRecord *qrec, QueryBuffer *buf) {
     buf->mLen = 1;
-    buf->mBuffer[0] = 0x5c;
+    buf->mBuffer[0] = '\\';
     qr_build_partial_old_query_reply(qrec, buf, 0);
     qr_build_partial_old_query_reply(qrec, buf, 1);
     qr_build_partial_old_query_reply(qrec, buf, 2);
@@ -725,12 +726,12 @@ void qr2_parse_queryA(QueryRecord *qrec, s8 *query, s32 len, void *sender) {
     if (qrec == NULL) {
         qrec = gCurrentQr2Rec;
     }
-    if (query[0] == 0x3b) {
+    if (query[0] == ';') {
         if (qrec->mCdkeyProcess != NULL) {
             qrec->mCdkeyProcess(query, len, sender);
             return;
         }
-    } else if (query[0] == 0x5c) {
+    } else if (query[0] == '\\') {
         qr_process_old_query(qrec, &buf);
         sendto(qrec->mHbSock, &buf, buf.mLen, 0, sender, 8);
         return;
@@ -746,24 +747,24 @@ void qr2_parse_queryA(QueryRecord *qrec, s8 *query, s32 len, void *sender) {
                 len = len - 7;
                 qr_add_packet_header((u32) &buf, queryKind, (u32) requestKey);
                 switch (queryKind) {
-                    case 0:
+                    case PACKET_QUERY:
                         qr_process_query(qrec, &buf, (u8 *) pos, len);
                         break;
-                    case 1:
+                    case PACKET_CHALLENGE:
                         if (len >= 13 && qrec->mPublicAddressCallback != 0) {
                             handle_public_address(qrec, (const char *) (pos + len - 13));
                         }
                         compute_challenge_response(qrec, &buf, (const char *) pos, len);
                         break;
-                    case 2:
+                    case PACKET_ECHO:
                         if (len > 0x20) {
                             len = 0x20;
                         }
-                        buf.mBuffer[0] = 5;
+                        buf.mBuffer[0] = PACKET_ECHO_RESPONSE;
                         memcpy(&buf.mBuffer[buf.mLen], pos, len);
                         buf.mLen += len;
                         break;
-                    case 4:
+                    case PACKET_ADDERROR:
                         if (qrec->mListedState == -1) {
                             return;
                         }
@@ -778,7 +779,7 @@ void qr2_parse_queryA(QueryRecord *qrec, s8 *query, s32 len, void *sender) {
                         qrec->mListedState = -1;
                         qrec->mAddErrorCallback(pos[0], (u8 *) (pos + 1), qrec->mUserData);
                         return;
-                    case 6:
+                    case PACKET_CLIENT_MESSAGE:
                         for (index = 0; index < 4; index++) {
                             if (requestKey[index] != qrec->mInstanceKey[index]) {
                                 return;
@@ -787,7 +788,7 @@ void qr2_parse_queryA(QueryRecord *qrec, s8 *query, s32 len, void *sender) {
                         if (len < 4) {
                             return;
                         }
-                        buf.mBuffer[0] = 7;
+                        buf.mBuffer[0] = PACKET_CLIENT_MESSAGE_ACK;
                         __memcpy(&buf.mBuffer[buf.mLen], pos, 4);
                         buf.mLen += 4;
                         __memcpy(&index, pos, 4);
@@ -795,10 +796,10 @@ void qr2_parse_queryA(QueryRecord *qrec, s8 *query, s32 len, void *sender) {
                             qr_process_client_message(qrec, (u8 *) (pos + 4), len - 4);
                         }
                         break;
-                    case 3:
-                    case 5:
-                    case 7:
-                    case 8:
+                    case PACKET_HEARTBEAT:
+                    case PACKET_ECHO_RESPONSE:
+                    case PACKET_CLIENT_MESSAGE_ACK:
+                    case PACKET_KEEPALIVE:
                     default:
                         return;
                 }
@@ -811,7 +812,7 @@ void qr2_parse_queryA(QueryRecord *qrec, s8 *query, s32 len, void *sender) {
 void send_keepalive(QueryRecord *qrec) {
     QueryBuffer buf;
     buf.mLen = 0;
-    qr_add_packet_header((u32) &buf, 8, (u32) qrec->mInstanceKey);
+    qr_add_packet_header((u32) &buf, PACKET_KEEPALIVE, (u32) qrec->mInstanceKey);
     sendto(qrec->mHbSock, &buf, buf.mLen, 0, &qrec->mHbAddr, 8);
     qrec->mLastKeepalive = GetElapsedMilliseconds();
 }
@@ -821,7 +822,7 @@ void send_heartbeat(QueryRecord *qrec, s32 statechanged) {
     char keyText[0x14];
     s32 index;
     buf.mLen = 0;
-    qr_add_packet_header((u32) &buf, 3, (u32) qrec->mInstanceKey);
+    qr_add_packet_header((u32) &buf, PACKET_HEARTBEAT, (u32) qrec->mInstanceKey);
     for (index = 0; index < gNumLocalIps; index++) {
         sprintf(keyText, "localip%d", index);
         qr2_buffer_addA(&buf, keyText);
