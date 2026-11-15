@@ -883,7 +883,7 @@ void AdvanceKartScaleTableEffect(Kart *kart) {
         }
         effectState->mScaleTableIndex++;
         if (effectState->mScaleTableIndex >= 0x19) {
-            kart->mUnk_398 = 0x1000;
+            kart->mUnk_398 = TO_FIXED12(1);
             kart->mScaleYFactor = TO_FIXED12(1);
             kart->mScaleFactor.x = 0x1000;
             kart->mScaleFactor.y = 0x1000;
@@ -902,7 +902,7 @@ void AdvanceKartScaleTableEffect(Kart *kart) {
             kart->mEffectFlags |= KART_EFFECT_SHRINK_ANIMATING;
             return;
         }
-        kart->mUnk_398 = 0x1000;
+        kart->mUnk_398 = TO_FIXED12(1);
         kart->mEffectFlags |= KART_EFFECT_SHRINK_ANIMATING;
         kart->mScaleFactor.x = gKartScaleFactorXTable[effectState->mScaleTableIndex];
         kart->mScaleFactor.y = gKartScaleFactorYTable[effectState->mScaleTableIndex];
@@ -937,7 +937,7 @@ void AdvanceKartScaleTableEffect(Kart *kart) {
 }
 
 void ResetKartScaleEffects(Kart *kart) {
-    kart->mUnk_398 = 0x1000;
+    kart->mUnk_398 = TO_FIXED12(1);
     kart->mScaleYFactor = TO_FIXED12(1);
     kart->mScale.y = 0x1000;
     kart->mEffectFlags &= ~KART_EFFECT_SCALE_TABLE;
