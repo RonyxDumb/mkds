@@ -134,7 +134,7 @@ void InitGhostScene(void *heap) {
     u32 courseId;
     GhostRecordHead *courseRecords;
     s32 cupCourseIndex;
-    gGhostScene = HeapAlloc(heap, 0x8dc);
+    gGhostScene = HeapAlloc(heap, sizeof(GhostScene));
     MemFillWordsByBlock_inline(gGhostScene, 0x8dc);
     gGhostScene->mCourseGhostBuffer = HeapAllocAligned(heap, 0xe00, 0x20);
     gGhostScene->mSlotGhostBuffer = HeapAllocAligned(heap, 0x1000, 0x20);

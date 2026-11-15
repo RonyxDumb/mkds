@@ -392,7 +392,7 @@ void ReleaseItemObjectToItsPool(ItemObject *item) {
 
 Vec3 *CreateItemPushVector(void) {
     void *heap = GetHeap(GetCurrentHeapCall());
-    gItemPushVector = HeapAlloc(heap, 0xc);
+    gItemPushVector = HeapAlloc(heap, sizeof(Vec3));
     return gItemPushVector;
 }
 

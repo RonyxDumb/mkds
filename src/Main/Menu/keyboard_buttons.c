@@ -225,7 +225,7 @@ void InitKeyboard(void *heap, s32 mode) {
     SceneTextInitParams config;
     s32 index;
     s32 screenIndex;
-    gKeyboard = HeapAlloc(heap, 0xc4);
+    gKeyboard = HeapAlloc(heap, sizeof(Keyboard));
     gKeyboard->mHeap = heap;
     gKeyboard->mDisplaySettings = CreateSceneDisplaySettings(heap);
     InitLinkLevelIcons(heap, GetKeyboardFirstBuffer());

@@ -83,7 +83,7 @@ s32 RunSecondMenuScene(void *sceneNumbers) {
 }
 
 void CreateRaceSetupObjects(void *heap) {
-    gRaceSetup = HeapAlloc(heap, 0x400);
+    gRaceSetup = HeapAlloc(heap, sizeof(RaceSetup));
     gRaceSetup->mCourseList = HeapAlloc(heap, 0x21);
     CreateParticipantKartMap(heap);
     CreateCupRecords(heap);

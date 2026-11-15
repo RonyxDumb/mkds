@@ -87,7 +87,7 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     LabelCanvasEntry *tableEntry;
 
     labelTableIndex = 0;
-    gResultsGp = HeapAlloc(heap, 0x60);
+    gResultsGp = HeapAlloc(heap, sizeof(ResultsGp));
     MemFillWordsByBlock_inline(gResultsGp, 0x60);
     gResultsGp->mOamLists[0] = firstOamList;
     gResultsGp->mOamLists[1] = secondOamList;

@@ -30,7 +30,7 @@
 void InitArchiveSlots(void *heap) {
     s32 index;
 
-    gArchiveSlots = HeapAlloc(heap, 0xa84);
+    gArchiveSlots = HeapAlloc(heap, sizeof(ArchiveSlots));
     gArchiveSlots->mLoadRequest.mReadBuffer = HeapAllocAligned(heap, 0x400, 0x20);
     for (index = 0; index < 20; index++) {
         gArchiveSlots->mSlots[index].mLoaded = 0;

@@ -123,7 +123,7 @@ void CreateTitleScene(void) {
     SceneTextInitParams config;
 
     useTrueFiles = IsAllGrandPrixRecordsTopRank();
-    gTitleScene = HeapAlloc(TitleGetCurrentHeap(), 0x8bc);
+    gTitleScene = HeapAlloc(TitleGetCurrentHeap(), sizeof(TitleScene));
     gTitleScene->mStateFrames = 0;
     gTitleScene->mStateChanged = TRUE;
     gTitleScene->mPrevState = TITLE_STATE_BLEND_IN;

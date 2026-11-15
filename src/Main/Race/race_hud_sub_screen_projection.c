@@ -34,7 +34,7 @@ void InitRaceHudSubScreenProjection(void) {
     UnkPair020b502c bg3Min;
     UnkPair020b502c bg3Max;
 
-    gRaceHudSubScreenProjection = HeapAlloc(RaceHudSubScreenGetCurrentHeap(), 0x9c);
+    gRaceHudSubScreenProjection = HeapAlloc(RaceHudSubScreenGetCurrentHeap(), sizeof(RaceHudSubScreenProjection));
     gRaceHudSubScreenProjection->mCenter.mFirst = 0;
     gRaceHudSubScreenProjection->mCenter.mSecond = 0;
     gRaceHudSubScreenProjection->mCenterWhole.mFirst = 0;

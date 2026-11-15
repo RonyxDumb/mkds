@@ -61,7 +61,7 @@ void InitStartupWork(void *heap) {
 
     arenaLo = OS_GetArenaLo(4);
     arenaHi = OS_GetArenaHi(4);
-    gStartupWork = HeapAlloc(heap, 0x7c);
+    gStartupWork = HeapAlloc(heap, sizeof(StartupWork));
     gStartupWork->mHeap = NNS_FndCreateFrmHeapEx(arenaLo, arenaHi - arenaLo, 1);
     FillStartupWork();
 }

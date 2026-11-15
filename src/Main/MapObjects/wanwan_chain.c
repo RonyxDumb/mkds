@@ -63,14 +63,14 @@ MapObjectKindData *CreateWanwanChainKindData(void) {
 }
 
 MapObjectDrawList *CreateWanwanChainDrawList(void) {
-    gWanwanChainDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+    gWanwanChainDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectDrawList));
     *gWanwanChainDrawList = gWanwanChainDrawListData;
     SetDrawListSlot(&gWanwanChainDrawList);
     return gWanwanChainDrawList;
 }
 
 MapObjectList *CreateWanwanChainUpdateList(void) {
-    gWanwanChainUpdateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
+    gWanwanChainUpdateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectList));
     *gWanwanChainUpdateList = gWanwanChainUpdateListData;
     SetUpdateListSlot(&gWanwanChainUpdateList);
     return gWanwanChainUpdateList;

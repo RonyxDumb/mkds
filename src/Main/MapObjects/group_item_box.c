@@ -77,7 +77,7 @@ MapObjectKindData *CreateGroupItemBoxKindData(void) {
 }
 
 MapObjectList *CreateGroupItemBoxUpdateList(void) {
-    gGroupItemBoxUpdateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
+    gGroupItemBoxUpdateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectList));
     *gGroupItemBoxUpdateList = gGroupItemBoxUpdateListData;
     SetUpdateListSlot(&gGroupItemBoxUpdateList);
     return gGroupItemBoxUpdateList;

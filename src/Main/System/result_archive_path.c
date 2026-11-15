@@ -1060,7 +1060,7 @@ void InitTouchPanelAndSetCalibration(void) {
 }
 
 void InitTouchMicInput(void *heap) {
-    gTouchMicInput = HeapAlloc(heap, 0x40);
+    gTouchMicInput = HeapAlloc(heap, sizeof(TouchMicInput));
     gTouchMicInput->mTouchAutoSampling = 0;
     gTouchMicInput->mMicAutoSampling = 0;
     gTouchMicInput->mMicPreSleepDone = 0;

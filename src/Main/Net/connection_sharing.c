@@ -381,7 +381,7 @@ s32 GetZeroWordResult(void) {
 }
 
 void InitConnection(void *heap) {
-    gConnectionWork = HeapAllocAligned(heap, 0x1f00, 0x20);
+    gConnectionWork = HeapAllocAligned(heap, sizeof(ConnectionWork), 0x20);
     gConnectionWork->mConnectionMode = CONNECTION_MODE_NONE;
     gConnectionWork->mState = CONNECTION_STATE_IDLE;
     gConnectionWork->mErrorCode = CONNECTION_ERROR_NONE;

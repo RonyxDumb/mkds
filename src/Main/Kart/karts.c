@@ -1392,7 +1392,7 @@ void InitKartModelMenuWithKartList(void *heap) {
 void InitKartModelMenu(void *heap) {
     u16 slotIndex;
     gKartModels = NULL;
-    gKartModelMenu = HeapAlloc(heap, 0x26c);
+    gKartModelMenu = HeapAlloc(heap, sizeof(KartModelMenuData));
     gKartModelMenu->mShownSlotIndex = -1;
     gKartModelMenu->mLoadSlotIndex = 0;
     gKartModelMenu->mLoadSlot = &gKartModelMenu->mSlots[gKartModelMenu->mLoadSlotIndex];

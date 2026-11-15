@@ -193,7 +193,7 @@ void InitRaceGoalS(void) {
     s32 secondValue;
     s32 playerKind;
 
-    gRaceGoalS = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x20e4);
+    gRaceGoalS = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(RaceGoalS));
     for (rowIndex = 0; rowIndex < 8; rowIndex++) {
         gRaceGoalS->mRowVisible[rowIndex] = 1;
         gRaceGoalS->mShownNumbers[rowIndex] = 0;

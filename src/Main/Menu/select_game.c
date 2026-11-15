@@ -167,7 +167,7 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
     const LabelMessageRow *printRow;
 
     heap = CreateFrmHeapFromMaxFree(parentHeap);
-    gSelectGame = HeapAlloc(heap, 0x6c);
+    gSelectGame = HeapAlloc(heap, sizeof(SelectGame));
     MemFillWordsByBlock_inline(gSelectGame, 0x6c);
     gSelectGame->mHeap = heap;
     gSelectGame->mMode = mode;

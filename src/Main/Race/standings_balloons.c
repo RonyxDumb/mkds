@@ -750,7 +750,7 @@ void InitStandings(void) {
     s32 kartIndex;
     KartStanding *kartStanding;
 
-    gStandings = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x3c0);
+    gStandings = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(Standings));
     for (kartIndex = 0; kartIndex < 8; kartIndex++) {
         kartStanding = &gStandings->mKarts[kartIndex];
         kartStanding->mObjectsSkipEndPending = KART_STANDING_HIT_END_NONE;

@@ -173,7 +173,7 @@ void CreateEntryCamera(u32 followedKartIndex) {
     u16 listIndex;
     s32 nextIndex;
 
-    gEntryCamera = HeapAlloc(heap, 0x270);
+    gEntryCamera = HeapAlloc(heap, sizeof(Camera));
     SetupCamera(gEntryCamera);
     gEntryCamera->mFollowedKartIndex = followedKartIndex;
     gEntryCamera->mCourseMapCamera = NULL;
@@ -235,8 +235,8 @@ void InitKind7CameraEntry(Kind7CameraEntry *kind7Entry, CourseMapCamera *courseM
 void CreateChainCameraPair(void) {
     void *heap = GetHeap(GetCurrentHeapCall());
 
-    gFirstChainCamera = HeapAlloc(heap, 0x270);
-    gSecondChainCamera = HeapAlloc(heap, 0x270);
+    gFirstChainCamera = HeapAlloc(heap, sizeof(Camera));
+    gSecondChainCamera = HeapAlloc(heap, sizeof(Camera));
     SetupCamera(gFirstChainCamera);
     SetupCamera(gSecondChainCamera);
     gFirstChainCamera->mCourseMapCamera = gCourseMap->mFirstChainStartEntry;
@@ -256,7 +256,7 @@ void CreateChainCameraPair(void) {
 }
 
 void CreateFirstChainCamera(void) {
-    gFirstChainCamera = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x270);
+    gFirstChainCamera = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(Camera));
     gSecondChainCamera = NULL;
     SetupCamera(gFirstChainCamera);
     gFirstChainCamera->mCourseMapCamera = gCourseMap->mFirstChainStartEntry;

@@ -209,7 +209,7 @@ u16 KeyboardCursorCallback(s32 rectValue, u16 keys) {
 void InitKeyboardTextEntry(s32 screenMapWidth, s32 screenMapHeight, s32 textCapacity) {
     KeyboardTextEntry *keyboardTextEntry;
 
-    gKeyboardTextEntry = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x78);
+    gKeyboardTextEntry = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(KeyboardTextEntry));
     gKeyboardTextEntry->mTextCapacity = textCapacity;
     gKeyboardTextEntry->mTextLimit = textCapacity;
     gKeyboardTextEntry->mTextIndex = 0;

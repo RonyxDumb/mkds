@@ -126,28 +126,28 @@ MapObjectKindData *CreateItemBoxKindData(void) {
 }
 
 MapObjectList *CreateBoxDrawList(void) {
-    gBoxDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+    gBoxDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectDrawList));
     *gBoxDrawList = gBoxDrawListData;
     SetDrawListSlot(&gBoxDrawList);
     return &gBoxDrawList->mList;
 }
 
 MapObjectList *CreateQuestionDrawList(void) {
-    gQuestionDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+    gQuestionDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectDrawList));
     *gQuestionDrawList = gQuestionDrawListData;
     SetDrawListSlot(&gQuestionDrawList);
     return &gQuestionDrawList->mList;
 }
 
 MapObjectList *CreateItemBoxShadowDrawList(void) {
-    gItemBoxShadowDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+    gItemBoxShadowDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectDrawList));
     *gItemBoxShadowDrawList = gItemBoxShadowDrawListData;
     SetDrawListSlot(&gItemBoxShadowDrawList);
     return &gItemBoxShadowDrawList->mList;
 }
 
 MapObjectList *CreateItemBoxUpdateList(void) {
-    gItemBoxUpdateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
+    gItemBoxUpdateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectList));
     *gItemBoxUpdateList = gItemBoxUpdateListData;
     SetUpdateListSlot(&gItemBoxUpdateList);
     return gItemBoxUpdateList;
