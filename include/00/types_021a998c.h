@@ -31,7 +31,7 @@ typedef enum HttpsSetupState {
 } HttpsSetupState;
 
 struct HttpsState;
-typedef u32 (*Unk021a998c_Func)(u32 a, struct HttpsState *b, s32 c);
+typedef u32 (*HttpsCheckFlagsCallback)(u32 a, struct HttpsState *b, s32 c);
 
 // Values of HttpsState.mCommonValue, the value both sides offered: the record digest is made with the MD5 code (16
 // bytes) or the 20-byte hash code.
@@ -94,7 +94,7 @@ typedef struct HttpsState {
     /* 7d8 */ u8 *mItemBytes;
     /* 7dc */ s32 mItemLength;
     /* 7e0 */ u32 mCurrentDate;
-    /* 7e4 */ Unk021a998c_Func mCheckFlagsCallback;
+    /* 7e4 */ HttpsCheckFlagsCallback mCheckFlagsCallback;
     // Pointer to the table of authority records.
     /* 7e8 */ CPSCaInfo **mAuthorities;
     /* 7ec */ u32 mAuthorityCount;
