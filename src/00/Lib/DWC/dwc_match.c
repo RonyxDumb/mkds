@@ -1594,7 +1594,8 @@ s32 DWCi_ProcessRecvMatchCommand(s32 command, u32 profileId, u32 address, u16 po
                 break;
             }
             wiFiMatching->mResvTimeoutStartTick = OS_GetTick();
-            if ((wiFiMatching->mPriorProfileId != 0 && wiFiMatching->mPriorResvDelayCount < DWC_RESV_COMMAND_RETRY_MAX) ||
+            if ((wiFiMatching->mPriorProfileId != 0 &&
+                 wiFiMatching->mPriorResvDelayCount < DWC_RESV_COMMAND_RETRY_MAX) ||
                 wiFiMatching->mMode == WIFI_MATCH_MODE_SERVER_CLIENT) {
                 wiFiMatching->mResvDelayPending = 1;
                 latestMatching = gWiFiMatching;
@@ -3601,7 +3602,8 @@ u32 DWCi_ProcessNNFailure(void) {
     if (gWiFiMatching->mMode != WIFI_MATCH_MODE_SERVER_CLIENT) {
         gWiFiMatching->mNatnegCounts[1]++;
     }
-    if (gWiFiMatching->mMode == WIFI_MATCH_MODE_SERVER_CLIENT || gWiFiMatching->mNatnegCounts[1] >= DWC_MATCH_NN_FAILURE_MAX) {
+    if (gWiFiMatching->mMode == WIFI_MATCH_MODE_SERVER_CLIENT ||
+        gWiFiMatching->mNatnegCounts[1] >= DWC_MATCH_NN_FAILURE_MAX) {
         DWCi_StopMatching(6, -0x15194);
         return 0;
     }
