@@ -20,10 +20,10 @@ ChildWaitParams gChildWaitParams = {"dwc:/move/child.srl",  NULL,  NULL, "dwc:/m
                                     "dwc:/move/banner.plt", 0x159, 0,    {0, 0, 0}};
 ChildWaitSession *gChildWaitSession;
 
-void CreateChildWaitSession(u32 callback) {
+void CreateChildWaitSession(void (*callback)(s32)) {
     ChildWaitParams params;
     gChildWaitSession = AllocExpHeapBlock(0x1e2a4, 0x20);
-    gChildWaitSession->mCallback = (void (*)(s32)) callback;
+    gChildWaitSession->mCallback = callback;
     gChildWaitSession->mEventPending = 0;
     gChildWaitSession->mStopRequested = 0;
     params = gChildWaitParams;
@@ -58,7 +58,7 @@ BOOL IsChildWaitSessionReleased(void) {
 }
 
 void SetChildWaitCallback(void *callback) {
-    gChildWaitSession->mCallback = (void (*)(s32)) callback;
+    gChildWaitSession->mCallback = callback;
 }
 
 u32 ConfirmChildWaitUser(void) {

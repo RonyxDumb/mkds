@@ -51,7 +51,7 @@ typedef struct WhWork {
     /* 0040 */ s32 mState;
     /* 0044 */ u32 mConnectMode;
     /* 0048 */ u32 mUnk_48;
-    /* 004c */ s32 (*mConnectCallback)(WirelessMessage *);
+    /* 004c */ u32 (*mConnectCallback)(WirelessMessage *);
     /* 0050 */ u16 mUnk_50;
     /* 0052 */ u16 mConnectedMask;
     /* 0054 */ s32 mErrorCode;
@@ -83,7 +83,7 @@ void FinalizeWh(void);
 void StartWhResetOrFail(void);
 BOOL StepWhDataSharing(void *sendData);
 u8 *GetWhSharedDataAddress(u32 aid);
-void SetWhConnectCallback(u32 callback);
+void SetWhConnectCallback(u32 (*callback)(WirelessMessage *));
 BOOL StartWhParentConnect(u32 mode, u16 tgid, u16 channel);
 void StartWhInitializeCallback(WirelessMessage *event);
 BOOL StartWhInitialize(void);

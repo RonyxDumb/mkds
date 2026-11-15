@@ -345,7 +345,7 @@ void AdvanceChildWaitMultiBoot(void) {
 
 void StartChildWaitDataConnect(void) {
     ClearChildWaitSharedEntries();
-    SetWhConnectCallback((u32) &AcceptMatchingWhChild);
+    SetWhConnectCallback(AcceptMatchingWhChild);
     gChildWaitSessionView->mState = CHILD_WAIT_STATE_DATA_SHARING;
 }
 

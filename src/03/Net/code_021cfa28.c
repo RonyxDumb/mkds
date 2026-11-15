@@ -238,8 +238,8 @@ BOOL StartWhParentConnect(u32 mode, u16 tgid, u16 channel) {
     return FALSE;
 }
 
-void SetWhConnectCallback(u32 callback) {
-    gWhWork->mConnectCallback = (s32(*)(WirelessMessage *)) callback;
+void SetWhConnectCallback(u32 (*callback)(WirelessMessage *)) {
+    gWhWork->mConnectCallback = callback;
 }
 
 u8 *GetWhSharedDataAddress(u32 aid) {

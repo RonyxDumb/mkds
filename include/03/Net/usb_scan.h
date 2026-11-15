@@ -33,7 +33,7 @@ typedef struct WMStartScanExCallback WMStartScanExCallback;
 void CheckUsbScanEntries(WMStartScanExCallback *scanResult);
 void StoreUsbScanEntries(WMStartScanExCallback *scanResult);
 void UsbScanCallback(WirelessMessage *message);
-void SetUsbScanCallback(u32 callback);
+void SetUsbScanCallback(void (*callback)(u32));
 BOOL ReleaseUsbScan(void);
 BOOL StartUsbScan(void);
 BOOL InitUsbScan(void (*callback)(u32));

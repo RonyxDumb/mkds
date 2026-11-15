@@ -99,8 +99,8 @@ BOOL ReleaseUsbScan(void) {
     return 1;
 }
 
-void SetUsbScanCallback(u32 callback) {
-    gUsbScan->mResultCallback = (void (*)(u32)) callback;
+void SetUsbScanCallback(void (*callback)(u32)) {
+    gUsbScan->mResultCallback = callback;
 }
 
 void UsbScanCallback(WirelessMessage *message) {

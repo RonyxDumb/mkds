@@ -289,7 +289,7 @@ void UpdateUsbChoiceMessageClose(void) {
         StartSoundSeq(0xb);
         EnableButtonTouch();
         gUsbExitKind = 0;
-        SetUsbScanCallback((u32) &UsbEventCallback);
+        SetUsbScanCallback(UsbEventCallback);
         SetUpdateFunction(UpdateUsb);
     }
 }

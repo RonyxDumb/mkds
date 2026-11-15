@@ -31,7 +31,7 @@ void SetChildWaitCallback(void *callback);
 BOOL IsChildWaitSessionReleased(void);
 void AdvanceChildWaitStop(u32 task);
 void StartChildWaitStop(void);
-void CreateChildWaitSession(u32 callback);
+void CreateChildWaitSession(void (*callback)(s32));
 
 extern ChildWaitParams gChildWaitParams;
 extern ChildWaitSession *gChildWaitSession;
