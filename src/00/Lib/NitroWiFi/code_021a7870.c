@@ -83,7 +83,8 @@ u32 SOCL_GetStatus(SOCLSocket *socket) {
             isTcp = FALSE;
         }
         if (isTcp != FALSE) {
-            if ((volatileSocket->mStatusFlags & 4) != 0 && socket->mState != 4 && (status & 1) == 0) {
+            if ((volatileSocket->mStatusFlags & 4) != 0 && socket->mState != SOCKET_STATE_ESTABLISHED &&
+                (status & 1) == 0) {
                 volatileSocket->mStatusFlags &= ~6;
             }
             if ((volatileSocket->mStatusFlags & 2) == 0 && (volatileSocket->mStatusFlags & 4) == 0) {
@@ -795,7 +796,7 @@ u8 *SOCLi_ReadCPSBuffer(SOCLSocket *socket, s32 *lengthOut, u16 *localPortOut, u
         *remotePortOut = cpsSocket->mCpsRemotePort;
         *remoteIpOut = cpsSocket->mCpsRemoteIp;
         *lengthOut = available;
-        if (available == 0 && cpsSocket->mState != 4) {
+        if (available == 0 && cpsSocket->mState != SOCKET_STATE_ESTABLISHED) {
             return NULL;
         }
     } else {
@@ -838,7 +839,7 @@ s32 SOCLi_ReadCallBack(SOCLiCommandPacket *packet) {
         if (sockObj->mFlagMode != SOCKET_MODE_STREAM && sockObj->mFlagMode != SOCKET_MODE_STREAM_DIRECT_READ) {
             isTcp = FALSE;
         }
-        if (isTcp != FALSE && sockObj->mState != 4) {
+        if (isTcp != FALSE && sockObj->mState != SOCKET_STATE_ESTABLISHED) {
             gotData = NULL;
             break;
         }
