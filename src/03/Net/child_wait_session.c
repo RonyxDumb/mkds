@@ -21,7 +21,7 @@
 
 ChildWaitSessionView *gChildWaitSessionView;
 
-void InitChildWaitSession(ChildWaitSessionView *session, ChildWaitParamsView *params) {
+void InitChildWaitSession(ChildWaitSessionView *session, ChildWaitParams *params) {
     gChildWaitSessionView = session;
     InitMultiBootParent(session->mMultiBootParent);
     gChildWaitSessionView->mTgid = 0;
@@ -33,8 +33,8 @@ void InitChildWaitSession(ChildWaitSessionView *session, ChildWaitParamsView *pa
     gChildWaitSessionView->mRomFilePathp = params->mRomFilePathp;
     gChildWaitSessionView->mGameNamep = params->mGameNamep;
     gChildWaitSessionView->mGameIntroductionp = params->mGameIntroductionp;
-    gChildWaitSessionView->mIconCharPathp = params->mIconCharPathp;
-    gChildWaitSessionView->mIconPalettePathp = params->mIconPalettePathp;
+    gChildWaitSessionView->mIconCharPathp = params->mBannerCharFilePathp;
+    gChildWaitSessionView->mIconPalettePathp = params->mBannerPaletteFilePathp;
     gChildWaitSessionView->mGgid = params->mGgid;
     gChildWaitSessionView->mHandshakeByte = params->mHandshakeByte;
     gChildWaitSessionView->mMaxPlayerNum = 2;

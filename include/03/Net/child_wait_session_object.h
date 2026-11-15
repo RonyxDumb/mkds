@@ -18,7 +18,7 @@ typedef struct ChildWaitParams {
     /* 08 */ void *mGameIntroductionp;
     /* 0c */ void *mBannerCharFilePathp;
     /* 10 */ void *mBannerPaletteFilePathp;
-    /* 14 */ u32 mUnk_14;
+    /* 14 */ u32 mGgid;
     /* 18 */ u8 mHandshakeByte;
     /* 19 */ u8 pad_19[3];
 } ChildWaitParams;

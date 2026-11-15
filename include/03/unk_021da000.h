@@ -212,11 +212,11 @@ typedef struct ChildWaitSessionView {
     /* aac */ u8 mRequest;
     /* aad */ u8 mUnk_aad[3];
     /* ab0 */ ChildWaitSharedEntry *mSendEntry;
-    /* ab4 */ u32 mRomFilePathp;
-    /* ab8 */ u32 mGameNamep;
-    /* abc */ u32 mGameIntroductionp;
-    /* ac0 */ u32 mIconCharPathp;
-    /* ac4 */ u32 mIconPalettePathp;
+    /* ab4 */ void *mRomFilePathp;
+    /* ab8 */ void *mGameNamep;
+    /* abc */ void *mGameIntroductionp;
+    /* ac0 */ void *mIconCharPathp;
+    /* ac4 */ void *mIconPalettePathp;
     /* ac8 */ u32 mGgid;
     /* acc */ u8 mMaxPlayerNum;
     /* acd */ u8 mUnk_acd[0x33];
