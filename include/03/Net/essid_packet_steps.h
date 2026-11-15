@@ -87,6 +87,11 @@ typedef struct MaskCodeEntry {
     u8 pad_3;
 } MaskCodeEntry;
 
+// Values of MelcoBlock.mLengthKind: the length of the key bytes.
+#define MELCO_LENGTH_KIND_WEP_KEY_5_BYTES 1
+#define MELCO_LENGTH_KIND_WEP_KEY_13_BYTES 2
+#define MELCO_LENGTH_KIND_WEP_KEY_16_BYTES 3
+
 typedef struct MelcoBlock {
     /* 00 */ u8 mLengthKind;
     /* 01 */ u8 mUnk_01;
