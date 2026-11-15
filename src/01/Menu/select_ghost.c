@@ -42,7 +42,7 @@ const u16 gSelectGhostSBnllIndices[5] = {0, 1, 2, 3, 4};
 char *gSelectGhostSBnblName = "ta/select_ghost_s.bnbl";
 const u16 gSelectGhostSLabelHeights[5] = {0xd, 0xd, 0xd, 0xd, 0xf};
 char *gSelectGhostSBNcgrName = "ta/select_ghost_s_b.ncgr";
-const u32 gSelectGhostRecordKinds[4] = {4, 0, 1, 2};
+const u32 gSelectGhostRecordKinds[SELECT_GHOST_KIND_COUNT] = {4, 0, 1, 2};
 const u16 gSelectGhostSLabelWidths[5] = {0x3c, 0x50, 0x82, 0xba, 0xba};
 const u16 gSelectGhostMenuMessageIndices[4] = {0xa, 0xb, 0xc, 0xd};
 char *gSelectCupCourseTaMBnclName = "common/select_cup_course_ta_m.bncl";
@@ -185,9 +185,9 @@ void UpdateSelectGhostCellVisibility(void) {
 void AdvanceSelectGhostOffsetTimers(void) {
     s32 timerIndex;
     gSelectGhost->mSelectGhostSTable[gSelectGhostRunningSTableIndices[0]].mOffsetX =
-        -LookupFrameOffset(6 - gSelectGhost->mOffsetTimers[0]);
+        -LookupFrameOffset(SELECT_GHOST_OFFSET_TIMER_FRAMES - gSelectGhost->mOffsetTimers[0]);
     gSelectGhost->mSelectGhostSTable[gSelectGhostRunningSTableIndices[1]].mOffsetX =
-        LookupFrameOffset(6 - gSelectGhost->mOffsetTimers[1]);
+        LookupFrameOffset(SELECT_GHOST_OFFSET_TIMER_FRAMES - gSelectGhost->mOffsetTimers[1]);
     for (timerIndex = 0; timerIndex < 2; timerIndex++) {
         if (gSelectGhost->mOffsetTimers[timerIndex] > 0) {
             gSelectGhost->mOffsetTimers[timerIndex]--;
@@ -268,14 +268,14 @@ void RefreshSelectGhostForIndex(void) {
 void IncrementSelectGhostIndex(void) {
     BOOL ok = TRUE;
     gSelectGhost->mIndex++;
-    if (gSelectGhost->mIndex >= 4) {
+    if (gSelectGhost->mIndex >= SELECT_GHOST_KIND_COUNT) {
         gSelectGhost->mIndex = 0;
     }
     if (IsGhostRecordSetKindSelectable(gSelectGhostRecordKinds[gSelectGhost->mIndex]) == 0) {
         ok = FALSE;
         IncrementSelectGhostIndex();
     }
-    gSelectGhost->mOffsetTimers[1] = 6;
+    gSelectGhost->mOffsetTimers[1] = SELECT_GHOST_OFFSET_TIMER_FRAMES;
     if (ok != FALSE) {
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 1);
         RefreshSelectGhostForIndex();
@@ -286,13 +286,13 @@ void DecrementSelectGhostIndex(void) {
     BOOL ok = TRUE;
     gSelectGhost->mIndex--;
     if (gSelectGhost->mIndex < 0) {
-        gSelectGhost->mIndex = 3;
+        gSelectGhost->mIndex = SELECT_GHOST_KIND_COUNT - 1;
     }
     if (IsGhostRecordSetKindSelectable(gSelectGhostRecordKinds[gSelectGhost->mIndex]) == 0) {
         ok = FALSE;
         DecrementSelectGhostIndex();
     }
-    gSelectGhost->mOffsetTimers[0] = 6;
+    gSelectGhost->mOffsetTimers[0] = SELECT_GHOST_OFFSET_TIMER_FRAMES;
     if (ok != FALSE) {
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 1);
         RefreshSelectGhostForIndex();
@@ -442,7 +442,7 @@ void AdvanceSelectGhostSlideIn(void) {
     AdvanceSelectGhostOffsetTimers();
     subLayoutCount = gSelectGhost->mSelectGhostSBncl->mCount;
     gSelectGhost->mStateFrames++;
-    offsetY = InterpolateS16(1, ~0xbf, 0, gSelectGhost->mStateFrames, 10);
+    offsetY = InterpolateS16(1, ~0xbf, 0, gSelectGhost->mStateFrames, SELECT_GHOST_SLIDE_FRAMES);
     gSelectGhost->mBg3Offset = offsetY;
     for (index = 0; index < 6; index++) {
         gSelectGhost->mSelectGhostSTable[gSelectGhostSTableIndices[index]].mOffsetY = offsetY;
@@ -454,7 +454,7 @@ void AdvanceSelectGhostSlideIn(void) {
         gSelectGhost->mSelectGhostSTable[gSelectGhostTimerZeroSTableIndices[index]].mOffsetY = offsetY;
         gSelectGhost->mSelectGhostSTable[gSelectGhostRunningSTableIndices[index]].mOffsetY = offsetY;
     }
-    if (gSelectGhost->mStateFrames >= 10) {
+    if (gSelectGhost->mStateFrames >= SELECT_GHOST_SLIDE_FRAMES) {
         RequestSelectGhostReturnSlideIn();
     }
 }
@@ -470,7 +470,7 @@ void AdvanceSelectGhostReturnSlideIn(void) {
     gSelectGhost->mSelectGhostSTable[10].mOffsetY = returnOffsetY;
     gSelectGhost->mSelectGhostSTable[11].mOffsetY = returnOffsetY;
     gSelectGhost->mSelectGhostSTable[subLayoutCount + 5].mOffsetY = returnOffsetY;
-    if (gSelectGhost->mStateFrames >= 10) {
+    if (gSelectGhost->mStateFrames >= SELECT_GHOST_SLIDE_FRAMES) {
         RequestSelectGhostInput();
     }
 }
@@ -555,7 +555,7 @@ next:
 void AdvanceSelectGhostPress(void) {
     AdvanceSelectGhostOffsetTimers();
     gSelectGhost->mStateFrames++;
-    if (gSelectGhost->mStateFrames >= 10) {
+    if (gSelectGhost->mStateFrames >= SELECT_GHOST_PRESS_FRAMES) {
         RequestSelectGhostChoisesOpen();
     }
 }
@@ -605,7 +605,7 @@ void AdvanceSelectGhostSlideOut(void) {
 
     isChosen = gSelectGhost->mResult == SELECT_GHOST_RESULT_CHOSEN;
     gSelectGhost->mStateFrames++;
-    offsetY = InterpolateS16(1, 0, ~0xbf, gSelectGhost->mStateFrames, 10);
+    offsetY = InterpolateS16(1, 0, ~0xbf, gSelectGhost->mStateFrames, SELECT_GHOST_SLIDE_FRAMES);
     if (isChosen) {
         layoutCount = gSelectGhost->mSelectCupCourseTaMBncl->mCount;
         gSelectGhost->mBg0Offset = offsetY;
@@ -678,14 +678,14 @@ int AdvanceSelectGhost(void) {
     if (gSelectGhost->mState == SELECT_GHOST_STATE_SLIDE_OUT) {
         switch (gSelectGhost->mResult) {
             case SELECT_GHOST_RESULT_CHOSEN:
-                if (gSelectGhost->mStateFrames >= 10) {
+                if (gSelectGhost->mStateFrames >= SELECT_GHOST_SLIDE_FRAMES) {
                     if (IsSelectReturnHiddenNoRequest() != 0) {
                         return 1;
                     }
                 }
                 break;
             case SELECT_GHOST_RESULT_RETURN:
-                if (gSelectGhost->mStateFrames >= 10) {
+                if (gSelectGhost->mStateFrames >= SELECT_GHOST_SLIDE_FRAMES) {
                     return 2;
                 }
                 break;

@@ -18,6 +18,15 @@ enum {
     SELECT_GHOST_RESULT_RETURN,
 };
 
+// Entries of gSelectGhostRecordKinds, the ghost record sets the index (SelectGhost.mIndex) walks through.
+#define SELECT_GHOST_KIND_COUNT 4
+
+// Frames of each slide of the screen, of the press state, and the cells shift after an index change
+// (SelectGhost.mOffsetTimers count them down).
+#define SELECT_GHOST_SLIDE_FRAMES 10
+#define SELECT_GHOST_PRESS_FRAMES 10
+#define SELECT_GHOST_OFFSET_TIMER_FRAMES 6
+
 // Values of SelectGhost.mState and mNextState.
 enum {
     SELECT_GHOST_STATE_SLIDE_IN,
@@ -128,7 +137,7 @@ extern const u16 gSelectGhostSBnllIndices[5];
 extern char *gSelectGhostSBnblName;
 extern const u16 gSelectGhostSLabelHeights[5];
 extern char *gSelectGhostSBNcgrName;
-extern const u32 gSelectGhostRecordKinds[4];
+extern const u32 gSelectGhostRecordKinds[SELECT_GHOST_KIND_COUNT];
 extern const u16 gSelectGhostSLabelWidths[5];
 extern const u16 gSelectGhostMenuMessageIndices[4];
 extern char *gSelectCupCourseTaMBnclName;
