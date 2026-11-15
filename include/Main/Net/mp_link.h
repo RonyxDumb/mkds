@@ -8,7 +8,7 @@
 typedef struct ScanEntryArgs {
     /* 00 */ u16 mEntryIndex;
     /* 04 */ MBGameInfoRecvList *mEntry;
-    /* 08 */ u8 *mScanBuffer;
+    /* 08 */ WMBssDesc *mScanBuffer;
     /* 0c */ u32 mUnk_0c;
 } ScanEntryArgs;
 

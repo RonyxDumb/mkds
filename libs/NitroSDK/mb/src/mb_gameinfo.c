@@ -321,7 +321,7 @@ u32 MB_RecvGameInfoBeacon(EntryCallbackFunc callback, u32 value, WMBssDesc *scan
     if (MBi_CheckMBParent(scanBlock) == 0) {
         return 0;
     }
-    MIi_CpuCopy16(scanBlock, &bssDescbuf, 0xc0);
+    MIi_CpuCopy16(scanBlock, &bssDescbuf, sizeof(WMBssDesc));
     scanBlock = &bssDescbuf;
     gReceivedGameInfo = (MbBeacon *) &bssDescbuf.mGameInfo.mUserGameInfo;
     if (MBi_calc_cksum(&gReceivedGameInfo->mChecksum, 0x68) != 0) {
@@ -370,9 +370,12 @@ s32 MBi_GetStoreElement(const WMBssDesc *scanBlock, EntryCallbackFunc callback) 
         u32 entryBit = 1 << entryIndex;
         usedMask = entryTable->mUsedMask;
         if ((usedMask & entryBit) != 0 && entry->mGgid == gReceivedGameInfo->mGgid &&
-            entry->mBssid[0] == scanBlock->mBssid[0] && entry->mBssid[1] == scanBlock->mBssid[1] &&
-            entry->mBssid[2] == scanBlock->mBssid[2] && entry->mBssid[3] == scanBlock->mBssid[3] &&
-            entry->mBssid[4] == scanBlock->mBssid[4] && entry->mBssid[5] == scanBlock->mBssid[5] &&
+            entry->mScanBuffer.mBssid[0] == scanBlock->mBssid[0] &&
+            entry->mScanBuffer.mBssid[1] == scanBlock->mBssid[1] &&
+            entry->mScanBuffer.mBssid[2] == scanBlock->mBssid[2] &&
+            entry->mScanBuffer.mBssid[3] == scanBlock->mBssid[3] &&
+            entry->mScanBuffer.mBssid[4] == scanBlock->mBssid[4] &&
+            entry->mScanBuffer.mBssid[5] == scanBlock->mBssid[5] &&
             gReceivedGameInfo->mFileNo == entryTable->mEntries[entryIndex].mFileNo) {
             if ((entryTable->mValidGameInfoFlag & entryBit) == 0) {
                 MBi_LockScanTarget(entryIndex);
@@ -386,7 +389,7 @@ s32 MBi_GetStoreElement(const WMBssDesc *scanBlock, EntryCallbackFunc callback) 
     for (; entryIndex < 0x10; entryIndex++) {
         u32 entryBit = 1 << entryIndex;
         if ((usedMask & entryBit) == 0) {
-            MIi_CpuCopy16(scanBlock, entryTable->mEntries[entryIndex].mScanBuffer, 0xc0);
+            MIi_CpuCopy16(scanBlock, &entryTable->mEntries[entryIndex].mScanBuffer, sizeof(WMBssDesc));
             mbrsp->mEntries[entryIndex].mSeqNoFixed = gReceivedGameInfo->mSeqNoFixed;
             mbrsp->mUsedMask |= (u16) entryBit;
             MBi_LockScanTarget(entryIndex);
@@ -477,7 +480,7 @@ void MBi_AnalyzeBeacon(WMBssDesc *scanBlock, u32 entryIndex, u32 value) {
         entry->mSequenceRepeats++;
         if (entry->mSequenceRepeats > 3) {
             entry->mTimer = 0;
-            MBi_InvalidateGameInfoBssID(entry->mBssid);
+            MBi_InvalidateGameInfoBssID(entry->mScanBuffer.mBssid);
             return;
         }
     } else {
@@ -488,7 +491,7 @@ void MBi_AnalyzeBeacon(WMBssDesc *scanBlock, u32 entryIndex, u32 value) {
     entry->mGgid = gReceivedGameInfo->mGgid;
     entry->mFileNo = gReceivedGameInfo->mFileNo;
     entry->mLinkLevel = value;
-    MBi_SetSSIDToBssDesc((u16 *) entry->mScanBuffer, entry->mGgid);
+    MBi_SetSSIDToBssDesc((u16 *) &entry->mScanBuffer, entry->mGgid);
     if (gReceivedGameInfo->mDataAttr == 2) {
         MBi_RecvVolatBeacon(entryIndex);
     } else {
@@ -501,9 +504,9 @@ void MBi_AnalyzeBeacon(WMBssDesc *scanBlock, u32 entryIndex, u32 value) {
 #pragma thumb on
 
 void MBi_CheckTGID(WMBssDesc *newBlock, int entryIndex) {
-    if (newBlock->mGameInfo.mTgid != mbrsp->mEntries[entryIndex].mTgid) {
+    if (newBlock->mGameInfo.mTgid != mbrsp->mEntries[entryIndex].mScanBuffer.mGameInfo.mTgid) {
         MB_DeleteRecvGameInfoWithoutBssdesc(entryIndex);
-        MIi_CpuCopy16(newBlock, mbrsp->mEntries[entryIndex].mScanBuffer, 0xc0);
+        MIi_CpuCopy16(newBlock, &mbrsp->mEntries[entryIndex].mScanBuffer, sizeof(WMBssDesc));
         MBi_LockScanTarget(entryIndex);
     }
 }
@@ -535,7 +538,7 @@ void MBi_InvalidateGameInfoBssID(const u8 *bssid) {
     zero = 0;
     for (; entryIndex < 0x10; entryIndex++) {
         if (mbrsp->mUsedMask & (1 << entryIndex)) {
-            u8 *firstBssid = mbrsp->mEntries[0].mBssid;
+            u8 *firstBssid = mbrsp->mEntries[0].mScanBuffer.mBssid;
             u8 *entryBssid = firstBssid + entryOffset;
             if (bssid[0] == firstBssid[entryOffset] && bssid[1] == entryBssid[1] && bssid[2] == entryBssid[2] &&
                 bssid[3] == entryBssid[3] && bssid[4] == entryBssid[4] && bssid[5] == entryBssid[5]) {
@@ -626,7 +629,7 @@ void MBi_RecvVolatBeacon(u32 entryIndex) {
 void MBi_LockScanTarget(u32 entryIndex) {
     if (mbrsp->mNowScanTargetFlag == 0) {
         if (gSetBssidCallback != NULL) {
-            gSetBssidCallback(mbrsp->mEntries[entryIndex].mBssid);
+            gSetBssidCallback(mbrsp->mEntries[entryIndex].mScanBuffer.mBssid);
         }
         mbrsp->mScanCountUnit = 0x16;
         mbrsp->mNowScanTargetFlag = 1 << entryIndex;

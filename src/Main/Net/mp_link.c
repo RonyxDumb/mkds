@@ -483,7 +483,7 @@ void CallScanCallbackWithEntry(u32 event, MBGameInfoRecvList *entry, u32 entryIn
         args.mEntryIndex = entryIndex;
         if (entry != NULL) {
             args.mEntry = entry;
-            args.mScanBuffer = entry->mScanBuffer;
+            args.mScanBuffer = &entry->mScanBuffer;
         } else {
             args.mEntry = NULL;
             args.mScanBuffer = NULL;

@@ -20,11 +20,7 @@ typedef struct MBGameInfoRecvList {
     /* 4b6 */ u8 mPad[2];
     /* 4b8 */ u32 mGgid;
     /* 4bc */ u8 mNext[4];
-    /* 4c0 */ u8 mScanBuffer[4];
-    /* 4c4 */ u8 mBssid[6];
-    /* 4ca */ u8 mUnk_4ca[0x3e];
-    /* 508 */ u16 mTgid;
-    /* 50a */ u8 mUnk_50a[0x76];
+    /* 4c0 */ WMBssDesc mScanBuffer;
     /* 580 */ u32 mGetFlagmentFlag;
     /* 584 */ u32 mAllFlagmentFlag;
     /* 588 */ u16 mGetPlayerFlag;
