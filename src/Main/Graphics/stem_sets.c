@@ -49,7 +49,7 @@ StemSets *gStemSets;
 void InitStemSets(void *heap) {
     TimedQuad *timedQuad;
 
-    gStemSets = HeapAlloc(heap, 0x79c);
+    gStemSets = HeapAlloc(heap, sizeof(StemSets));
     InitStemSetArray(heap);
     gStemSets->mShownIndex = STEM_SET_NONE;
     reg_G3_MTX_MODE = 0;
@@ -81,19 +81,19 @@ void InitNsbmdNsbcaNsbmaNsbtp(void *heap, StemSet *stemSet, const StemSetParams 
     stemSet->mNsbcaNsbmaNsbtp[0] = stemSet->mNsbcaNsbmaNsbtp[1] = stemSet->mNsbcaNsbmaNsbtp[2] = NULL;
     useOneNsbtpAnimation = FALSE;
     if (stemSetParams->mNsbmdCount != 0) {
-        stemSet->mNsbmds = HeapAlloc(heap, stemSetParams->mNsbmdCount * 0x6c);
+        stemSet->mNsbmds = HeapAlloc(heap, stemSetParams->mNsbmdCount * sizeof(Nsbmd));
     }
     if (stemSetParams->mNsbcaCount != 0) {
-        stemSet->mNsbcaNsbmaNsbtp[0] = HeapAlloc(heap, stemSetParams->mNsbcaCount * 0x38);
+        stemSet->mNsbcaNsbmaNsbtp[0] = HeapAlloc(heap, stemSetParams->mNsbcaCount * sizeof(ModelAnimation));
     }
     if (stemSetParams->mNsbmaCount != 0) {
-        stemSet->mNsbcaNsbmaNsbtp[1] = HeapAlloc(heap, stemSetParams->mNsbmaCount * 0x38);
+        stemSet->mNsbcaNsbmaNsbtp[1] = HeapAlloc(heap, stemSetParams->mNsbmaCount * sizeof(ModelAnimation));
     }
     if (stemSetParams->mNsbmdCount == 1 && stemSetParams->mNsbtpCount > 1) {
-        stemSet->mNsbcaNsbmaNsbtp[2] = HeapAlloc(heap, 0x38);
+        stemSet->mNsbcaNsbmaNsbtp[2] = HeapAlloc(heap, sizeof(ModelAnimation));
         useOneNsbtpAnimation = TRUE;
     } else if (stemSetParams->mNsbtpCount != 0) {
-        stemSet->mNsbcaNsbmaNsbtp[2] = HeapAlloc(heap, stemSetParams->mNsbtpCount * 0x38);
+        stemSet->mNsbcaNsbmaNsbtp[2] = HeapAlloc(heap, stemSetParams->mNsbtpCount * sizeof(ModelAnimation));
     }
     for (nsbmdIndex = 0; nsbmdIndex < stemSetParams->mNsbmdCount; nsbmdIndex++) {
         nsbmd = &stemSet->mNsbmds[nsbmdIndex];
@@ -143,7 +143,7 @@ void InitStemSetArray(void *heap) {
     }
     for (setIndex = 0; setIndex <= STEM_SET_COUNT_COPY; setIndex++) {
         if (setIndex == STEM_SET_COUNT_COPY) {
-            gStemSets->mSets[setIndex] = HeapAlloc(heap, 0x14);
+            gStemSets->mSets[setIndex] = HeapAlloc(heap, sizeof(StemSet));
             sourceSet = gStemSets->mSets[STEM_SET_COUNT];
             copiedSet = gStemSets->mSets[STEM_SET_COUNT_COPY];
             copiedSet->mNsbmds = sourceSet->mNsbmds;
@@ -152,22 +152,22 @@ void InitStemSetArray(void *heap) {
             copiedSet->mNsbcaNsbmaNsbtp[2] = sourceSet->mNsbcaNsbmaNsbtp[2];
             copiedSet->mNsbmdCount = sourceSet->mNsbmdCount;
         } else {
-            gStemSets->mSets[setIndex] = HeapAlloc(heap, 0x14);
+            gStemSets->mSets[setIndex] = HeapAlloc(heap, sizeof(StemSet));
             InitNsbmdNsbcaNsbmaNsbtp(heap, gStemSets->mSets[setIndex], GetCountStartStem(setIndex), setIndex);
         }
     }
     if (gRaceSetup->mMode == MODE_BATTLE || gRaceSetup->mRuleKind == RULE_KIND_WIN_COUNT) {
-        gStemSets->mSets[STEM_SET_WIN] = HeapAlloc(heap, 0x14);
+        gStemSets->mSets[STEM_SET_WIN] = HeapAlloc(heap, sizeof(StemSet));
         InitNsbmdNsbcaNsbmaNsbtp(heap, gStemSets->mSets[STEM_SET_WIN], &gWinStems, STEM_SET_WIN);
-        gStemSets->mSets[STEM_SET_LOSE] = HeapAlloc(heap, 0x14);
+        gStemSets->mSets[STEM_SET_LOSE] = HeapAlloc(heap, sizeof(StemSet));
         InitNsbmdNsbcaNsbmaNsbtp(heap, gStemSets->mSets[STEM_SET_LOSE], &gLoseStems, STEM_SET_LOSE);
     } else if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        gStemSets->mSets[STEM_SET_COMPLETE] = HeapAlloc(heap, 0x14);
+        gStemSets->mSets[STEM_SET_COMPLETE] = HeapAlloc(heap, sizeof(StemSet));
         InitNsbmdNsbcaNsbmaNsbtp(heap, gStemSets->mSets[STEM_SET_COMPLETE], &gCompleteStems, STEM_SET_COMPLETE);
-        gStemSets->mSets[STEM_SET_FAILED] = HeapAlloc(heap, 0x14);
+        gStemSets->mSets[STEM_SET_FAILED] = HeapAlloc(heap, sizeof(StemSet));
         InitNsbmdNsbcaNsbmaNsbtp(heap, gStemSets->mSets[STEM_SET_FAILED], &gFailedStems, STEM_SET_FAILED);
     } else {
-        gStemSets->mSets[STEM_SET_GOAL] = HeapAlloc(heap, 0x14);
+        gStemSets->mSets[STEM_SET_GOAL] = HeapAlloc(heap, sizeof(StemSet));
         InitNsbmdNsbcaNsbmaNsbtp(heap, gStemSets->mSets[STEM_SET_GOAL], &gGoalStems, STEM_SET_GOAL);
     }
 }

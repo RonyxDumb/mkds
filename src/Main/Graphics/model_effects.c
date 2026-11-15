@@ -155,7 +155,7 @@ void InitModelEffects(void *heap) {
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         heap = gOverlayLoader->mExpHeap;
     }
-    gModelEffects = HeapAlloc(heap, 0x60);
+    gModelEffects = HeapAlloc(heap, sizeof(ModelEffects));
     NNS_FndInitList(&gModelEffects->mActiveList, 0);
     for (kindIndex = 0; kindIndex < 5; kindIndex++) {
         NNS_FndInitList(&gModelEffects->mFreeLists[kindIndex], 0);
@@ -335,17 +335,17 @@ void InitModelEffectObjects(void *heap) {
             if (kindRow->mUseNsbca == FALSE) {
                 modelEffect->mAnimations[0] = NULL;
             } else {
-                modelEffect->mAnimations[0] = HeapAlloc(heap, 0x38);
+                modelEffect->mAnimations[0] = HeapAlloc(heap, sizeof(ModelAnimation));
             }
             if (kindRow->mUseNsbma == FALSE) {
                 modelEffect->mAnimations[1] = NULL;
             } else {
-                modelEffect->mAnimations[1] = HeapAlloc(heap, 0x38);
+                modelEffect->mAnimations[1] = HeapAlloc(heap, sizeof(ModelAnimation));
             }
             if (kindRow->mUseNsbta == 0) {
                 modelEffect->mAnimations[2] = NULL;
             } else {
-                modelEffect->mAnimations[2] = HeapAlloc(heap, 0x38);
+                modelEffect->mAnimations[2] = HeapAlloc(heap, sizeof(ModelAnimation));
             }
             modelEffect->mKind = kindIndex;
             modelEffect->mStart = kindRow->mStart;
