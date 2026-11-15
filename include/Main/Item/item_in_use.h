@@ -94,7 +94,6 @@ typedef struct KartModelsEntry {
     /* 020 */ KartOffsetData *mKartOffsetData;
     /* 024 */ CharacterAnimationState mAnimationState;
     /* 040 */ CourseColorBlend mCourseColorBlend;
-    /* 052 */ u8 mUnk_052[2];
     /* 054 */ KartTireTranslations *mTireTranslations;
     /* 058 */ s32 mKartModelHidden;
     /* 05c */ s32 mCharacterHidden;
@@ -102,7 +101,6 @@ typedef struct KartModelsEntry {
     /* 064 */ BOOL mStarModelsSet;
     /* 068 */ u16 mVariant;
     /* 06a */ KartModelColorBlend mColorBlend;
-    /* 096 */ u8 mUnk_096[2];
     /* 098 */ ModelAnimationFrameLoop mKillerItemAnimation;
     /* 0ac */ BOOL mFaceAnimationRemoved;
     /* 0b0 */ s32 mRegion;

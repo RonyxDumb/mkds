@@ -80,7 +80,6 @@ typedef struct ItemObject {
     /* 78 */ u16 mOwnerKartIndexAndFlags;
     /* 7a */ u16 mPendingUpdateCount;
     /* 7c */ CourseColorBlend mColorBlend;
-    /* 08e */ u8 mUnk_08e[2];
     /* 090 */ u16 *mKartLightColor;
     /* 094 */ MtxFx43 mTransformMtx;
     /* 0c4 */ Vec3 mDrawPos;
