@@ -29,6 +29,7 @@ typedef struct ModelAnimationFrameLoop {
 // ModelAnimation.mBlendRatioStep set by the animation reset: about a tenth of the whole blend ratio per frame.
 #define MODEL_ANIMATION_BLEND_RATIO_STEP 0x19a
 
+// The animations of a model: the list of them, the current one and the blend into the previous one.
 typedef struct ModelAnimation {
     /* 00 */ ModelAnimationFrameLoop mHead;
     /* 14 */ Nsbmd *mRenderObj;

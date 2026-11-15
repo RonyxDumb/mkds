@@ -5,10 +5,7 @@
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "g2d_NAN_load.h" // NNSG2dCellDataBank
 
-// Objects stored through the first parameter: Nscr by LocateNscr and LoadNscrData, Ncgr by
-// LocateNcgr, LoadNcgrData, LocateNcgr2 and LoadNcgrData2, Nclr by LocateNclr and LoadNclrData,
-// AnimBank by LoadNanrData, NNSG2dCellDataBank by LocateNcer and LoadNcerData (LoadNanrData passes it to
-// NNS_G2dUnpackNAN, LoadNcerData to NNS_G2dUnpackNCE; LocateNcer looks up the same block tag as LoadNcerData).
+// A character graphics file: its row and column counts and its tile data.
 typedef struct Ncgr {
     /* 0000 */ u16 mRowCount;
     /* 0002 */ u16 mColumnCount;
@@ -21,12 +18,14 @@ typedef struct Ncgr {
     };
 } Ncgr;
 
+// A screen map file: its data size and the map entries.
 typedef struct Nscr {
     /* 0000 */ u8 mUnk_00[8];
     /* 0008 */ u32 mDataSize;
     /* 000c */ u16 mData[1];
 } Nscr;
 
+// A palette file: its data size and the colors.
 typedef struct Nclr {
     /* 0000 */ u8 mUnk_00[4];
     /* 0004 */ s32 mUnk_04;
