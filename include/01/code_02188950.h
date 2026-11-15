@@ -184,6 +184,18 @@ typedef struct MissionRunPrm {
     /* 2cc */ s32 mUnk_2cc;
 } MissionRunPrm;
 
+// Values of MissionRunMapObjectEffect.mKind: where ComputeEffectPosition puts the effect. Offsets are turned by the
+// angle of the object; MODEL is the effect of a model started at the water height; the camera position is added in
+// ROTATED_OFFSET_CAMERA (never set).
+enum {
+    MAP_OBJECT_EFFECT_MODEL,
+    MAP_OBJECT_EFFECT_ROTATED_OFFSET,
+    MAP_OBJECT_EFFECT_SCALED_OFFSET,
+    MAP_OBJECT_EFFECT_ROTATED_OFFSET_CAMERA,
+    MAP_OBJECT_EFFECT_ROW_HEIGHT,
+    MAP_OBJECT_EFFECT_WATER_HEIGHT,
+};
+
 typedef struct MissionRunMapObjectEffect {
     /* 00 */ s32 mKind;
     /* 04 */ s32 mTimer;
@@ -211,6 +223,16 @@ enum {
     MAP_OBJECT_MOVE_ANGLE_TURN_TO_POINT,
     MAP_OBJECT_MOVE_ANGLE_TURN_FROM_POINT,
     MAP_OBJECT_MOVE_ANGLE_TURN_SIDEWAYS,
+};
+
+// Values of MissionRunMapObject.mShadowMode: where the shadow is drawn. The first two put it on the course map row of
+// the object (the second when no height offset was given), AT_OBJECT at the position of the object, AT_NODE under the
+// node position.
+enum {
+    MAP_OBJECT_SHADOW_COURSE_OFFSET,
+    MAP_OBJECT_SHADOW_COURSE,
+    MAP_OBJECT_SHADOW_AT_OBJECT,
+    MAP_OBJECT_SHADOW_AT_NODE,
 };
 
 // Values of mKartResponse: the index into the kart's collision response table (gCollideKartWithMapObjectResponses).

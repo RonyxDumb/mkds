@@ -357,9 +357,9 @@ void SetVelocity(MissionRunMapObject *mapObject, Vec3 *velocity) {
 
 void SetShadowOffsetYAndScale(MissionRunMapObject *mapObject, s32 offsetY, s32 scaleXZ) {
     if (offsetY == 0) {
-        mapObject->mShadowMode = 1;
+        mapObject->mShadowMode = MAP_OBJECT_SHADOW_COURSE;
     } else {
-        mapObject->mShadowMode = 2;
+        mapObject->mShadowMode = MAP_OBJECT_SHADOW_AT_OBJECT;
     }
     mapObject->mShadowOffsetX = mapObject->mShadowOffsetTargetX = 0;
     mapObject->mShadowOffsetY = mapObject->mShadowOffsetTargetY = offsetY;
@@ -374,9 +374,9 @@ void SetShadowOffsetYAndScale(MissionRunMapObject *mapObject, s32 offsetY, s32 s
 void SetShadowOffsetYAndScaleTarget(MissionRunMapObject *mapObject, int offsetY, u32 offsetPerCall, u32 scaleXZ,
                                     u32 scalePerCall) {
     if (offsetY == 0) {
-        mapObject->mShadowMode = 1;
+        mapObject->mShadowMode = MAP_OBJECT_SHADOW_COURSE;
     } else {
-        mapObject->mShadowMode = 2;
+        mapObject->mShadowMode = MAP_OBJECT_SHADOW_AT_OBJECT;
     }
     mapObject->mShadowOffsetTargetX = 0;
     mapObject->mShadowOffsetTargetY = offsetY;
@@ -428,7 +428,7 @@ void SetShadowOffsetAndScale(MissionRunMapObject *mapObject, int offsetX, u32 of
                              u32 unusedScaleY, u32 scaleZ) {
     int *v1;
     int *v2;
-    mapObject->mShadowMode = 0;
+    mapObject->mShadowMode = MAP_OBJECT_SHADOW_COURSE_OFFSET;
     if ((mapObject->mUnk_000.mFlags & (0x00000400u)) != 0) {
         offsetX = -offsetX;
     }
@@ -456,7 +456,7 @@ void SetShadowOffsetAndScale(MissionRunMapObject *mapObject, int offsetX, u32 of
 
 void SetShadowOffsetAndScaleTarget(MissionRunMapObject *mapObject, int offsetX, u32 offsetY, u32 offsetZ,
                                    u32 offsetPerCall, u32 scaleX, u32 unusedScaleY, u32 scaleZ, u32 scalePerCall) {
-    mapObject->mShadowMode = 0;
+    mapObject->mShadowMode = MAP_OBJECT_SHADOW_COURSE_OFFSET;
     if ((mapObject->mUnk_000.mFlags & (0x00000400u)) != 0) {
         offsetX = -offsetX;
     }
@@ -818,7 +818,7 @@ void StoreNodePositionAndPlaceItemBomb(NNSG3dRS *renderState) {
 void SetNodePositionSource(MissionRunMapObject *mapObject, u32 matchValue) {
     MapObjectModel **nsbmdPointer;
     mapObject->mNodeMatchValue = matchValue;
-    mapObject->mShadowMode = 3;
+    mapObject->mShadowMode = MAP_OBJECT_SHADOW_AT_NODE;
     nsbmdPointer = &mapObject->mNsbmd;
     (*nsbmdPointer)->mAnimatedModel->mRenderObj.mPtrUser = mapObject;
     NNS_G3dRenderObjSetCallBack(&(*nsbmdPointer)->mAnimatedModel->mRenderObj, StoreNodePositionAndPlaceItemBomb, 0, 6,
@@ -930,7 +930,7 @@ void ComputeEffectPosition(MissionRunMapObject *mapObject, int effectIndex, Vec3
     s32 offsetComponent;
 
     switch (mapObject->mEffects[effectIndex].mKind) {
-        case 1:
+        case MAP_OBJECT_EFFECT_ROTATED_OFFSET:
             position->x = mapObject->mUnk_000.mPos.x +
                           (s32) (MUL_FIXED12_NO_ROUND(mapObject->mEffects[effectIndex].mOffset.z,
                                                       FX_SinIdx((u16) mapObject->mAngle))) +
@@ -943,7 +943,7 @@ void ComputeEffectPosition(MissionRunMapObject *mapObject, int effectIndex, Vec3
                           (s32) (MUL_FIXED12_NO_ROUND(mapObject->mEffects[effectIndex].mOffset.x,
                                                       FX_SinIdx((u16) mapObject->mAngle)));
             break;
-        case 3:
+        case MAP_OBJECT_EFFECT_ROTATED_OFFSET_CAMERA:
             // As case 1 with mUnk_024 of the object from GetCurrentCamera added, then halved.
             camera = GetCurrentCamera();
             position->x = mapObject->mUnk_000.mPos.x + camera->mPos.x +
@@ -961,7 +961,7 @@ void ComputeEffectPosition(MissionRunMapObject *mapObject, int effectIndex, Vec3
             position->y >>= 1;
             position->z >>= 1;
             break;
-        case 2:
+        case MAP_OBJECT_EFFECT_SCALED_OFFSET:
             // The entry's mUnk_08 is first multiplied per component by param_1.mUnk_01c, mBounceScale and
 // mKartPushPosStep.
             offsetComponent = mapObject->mEffects[effectIndex].mOffset.y;
@@ -978,7 +978,7 @@ void ComputeEffectPosition(MissionRunMapObject *mapObject, int effectIndex, Vec3
                           (s32) (MUL_FIXED12_NO_ROUND(scaledZ, FX_CosIdx((u16) mapObject->mAngle))) -
                           (s32) (MUL_FIXED12_NO_ROUND(scaledX, FX_SinIdx((u16) mapObject->mAngle)));
             break;
-        case 4:
+        case MAP_OBJECT_EFFECT_ROW_HEIGHT:
             position->x = mapObject->mUnk_000.mPos.x +
                           (s32) (MUL_FIXED12_NO_ROUND(mapObject->mEffects[effectIndex].mOffset.z,
                                                       FX_SinIdx((u16) mapObject->mAngle))) +
@@ -991,7 +991,7 @@ void ComputeEffectPosition(MissionRunMapObject *mapObject, int effectIndex, Vec3
                           (s32) (MUL_FIXED12_NO_ROUND(mapObject->mEffects[effectIndex].mOffset.x,
                                                       FX_SinIdx((u16) mapObject->mAngle)));
             break;
-        case 5:
+        case MAP_OBJECT_EFFECT_WATER_HEIGHT:
             position->x = mapObject->mUnk_000.mPos.x +
                           (s32) (MUL_FIXED12_NO_ROUND(mapObject->mEffects[effectIndex].mOffset.z,
                                                       FX_SinIdx((u16) mapObject->mAngle))) +
@@ -1033,7 +1033,7 @@ void StartEffectAtOffset(MissionRunMapObject *mapObject, u32 offsetX, u32 offset
 
     for (effectIndex = 0; effectIndex < 5; effectIndex++) {
         if (mapObject->mEffects[effectIndex].mEffect == NULL) {
-            mapObject->mEffects[effectIndex].mKind = 1;
+            mapObject->mEffects[effectIndex].mKind = MAP_OBJECT_EFFECT_ROTATED_OFFSET;
             StartEffectInSlot(mapObject, effectIndex, offsetX, offsetY, offsetZ, effectId, timer);
             return;
         }
@@ -1046,7 +1046,7 @@ void StartEffectAtScaledOffset(MissionRunMapObject *mapObject, u32 offsetX, u32 
 
     for (effectIndex = 0; effectIndex < 5; effectIndex++) {
         if (mapObject->mEffects[effectIndex].mEffect == NULL) {
-            mapObject->mEffects[effectIndex].mKind = 2;
+            mapObject->mEffects[effectIndex].mKind = MAP_OBJECT_EFFECT_SCALED_OFFSET;
             StartEffectInSlot(mapObject, effectIndex, offsetX, offsetY, offsetZ, effectId, timer);
             return;
         }
@@ -1059,7 +1059,7 @@ void StartEffectAtRowHeight(MissionRunMapObject *mapObject, u32 offsetX, u32 off
 
     for (effectIndex = 0; effectIndex < 5; effectIndex++) {
         if (mapObject->mEffects[effectIndex].mEffect == NULL) {
-            mapObject->mEffects[effectIndex].mKind = 4;
+            mapObject->mEffects[effectIndex].mKind = MAP_OBJECT_EFFECT_ROW_HEIGHT;
             StartEffectInSlot(mapObject, effectIndex, offsetX, offsetY, offsetZ, effectId, timer);
             return;
         }
@@ -1072,7 +1072,7 @@ void StartEffectAtWaterHeight(MissionRunMapObject *mapObject, u32 offsetX, u32 o
 
     for (effectIndex = 0; effectIndex < 5; effectIndex++) {
         if (mapObject->mEffects[effectIndex].mEffect == NULL) {
-            mapObject->mEffects[effectIndex].mKind = 5;
+            mapObject->mEffects[effectIndex].mKind = MAP_OBJECT_EFFECT_WATER_HEIGHT;
             StartEffectInSlot(mapObject, effectIndex, offsetX, offsetY, offsetZ, effectId, timer);
             return;
         }
@@ -1091,7 +1091,7 @@ void StartModelEffectAtWaterHeight(MissionRunMapObject *mapObject, u32 modelEffe
                 StopEffectAndClearPointer(&mapObject->mEffects[effectIndex].mEffect);
             }
             StartModelEffect(modelEffectKind, &mapObject->mEffects[effectIndex].mOffset, 1);
-            mapObject->mEffects[effectIndex].mKind = 0;
+            mapObject->mEffects[effectIndex].mKind = MAP_OBJECT_EFFECT_MODEL;
             mapObject->mEffects[effectIndex].mTimer = timer;
             return;
         }
@@ -1110,7 +1110,7 @@ void StartEffectWithRotatedDirection(MissionRunMapObject *mapObject, int offsetX
 
     for (effectIndex = 0; effectIndex < 5; effectIndex++) {
         if (mapObject->mEffects[effectIndex].mEffect == NULL) {
-            mapObject->mEffects[effectIndex].mKind = 1;
+            mapObject->mEffects[effectIndex].mKind = MAP_OBJECT_EFFECT_ROTATED_OFFSET;
             mapObject->mEffects[effectIndex].mTimer = timer;
             mapObject->mEffects[effectIndex].mOffset.x = offsetX << 4;
             mapObject->mEffects[effectIndex].mOffset.y = offsetY << 4;
@@ -1653,7 +1653,7 @@ void DrawMissionRunMapObject(void *mapObjectList, MissionRunMapObject *mapObject
         if (alpha >= 0x1f) {
             NNS_G3dMdlSetMdlXLDepthUpdateAll(mapObject->mNsbmd->mAnimatedModel->mResMdl, 1);
             SetMapObjectModelPolygonId(mapObject->mNsbmd, 3);
-        } else if (mapObject->mShadowMode <= 1) {
+        } else if (mapObject->mShadowMode <= MAP_OBJECT_SHADOW_COURSE) {
             NNS_G3dMdlSetMdlXLDepthUpdateAll(mapObject->mNsbmd->mAnimatedModel->mResMdl, 1);
             SetMapObjectModelPolygonId(mapObject->mNsbmd, 3);
         } else {
@@ -1684,11 +1684,11 @@ void DrawMissionRunMapObjectShadow(void *mapObjectList, MissionRunMapObject *map
     Vec3 shadowPosition;
 
     depth = FROM_FIXED12(mapObject->mAlphaLimit);
-    if (mapObject->mShadowMode == 2) {
+    if (mapObject->mShadowMode == MAP_OBJECT_SHADOW_AT_OBJECT) {
         shadowPosition.x = mapObject->mUnk_000.mPos.x;
         shadowPosition.y = mapObject->mUnk_000.mPos.y;
         shadowPosition.z = mapObject->mUnk_000.mPos.z;
-    } else if (mapObject->mShadowMode == 3) {
+    } else if (mapObject->mShadowMode == MAP_OBJECT_SHADOW_AT_NODE) {
         shadowPosition.x = mapObject->mNodePosition.x;
         shadowPosition.y = mapObject->mUnk_000.mCourseMapRow->mPosition.y;
         shadowPosition.z = mapObject->mNodePosition.z;
