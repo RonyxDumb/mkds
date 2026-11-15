@@ -124,8 +124,8 @@ void SetupRecordTAttRowValues(u16 row) {
         PrintLabelLayoutTextFixedDigits(0, labelIndex, gRecordTAtt->mRecordTAttMBnll, str,
                                         gRecordTAtt->mRecordTAttMBncl, gRecordTAtt->mRecordTAttMTable, 7);
         GetTimeRecordName(gRecordTAttCourseIds[gRecordTAtt->mIndex], recordIndex, name);
-        MI_CpuFill8(str, 0, 0x20);
-        MIi_CpuCopy16(name, str, 0x14);
+        MI_CpuFill8(str, 0, sizeof(str));
+        MIi_CpuCopy16(name, str, sizeof(name));
         labelIndex = gRecordTAttNameLabelIndices[0];
         gRecordTAtt->mRecordTAttMTable[cnt + labelIndex].mVisible = 1;
         PrintLabelLayoutTextNoFixedAdvance(0, labelIndex, gRecordTAtt->mRecordTAttMBnll, str,
@@ -161,8 +161,8 @@ void SetupRecordTAttRowValues(u16 row) {
         PrintLabelLayoutTextFixedDigits(1, labelIndex, gRecordTAtt->mRecordTAttSBnll, str,
                                         gRecordTAtt->mRecordTAttSBncl, gRecordTAtt->mRecordTAttSTable, 7);
         GetTimeRecordName(gRecordTAttCourseIds[gRecordTAtt->mIndex], recordIndex, name);
-        MI_CpuFill8(str, 0, 0x20);
-        MIi_CpuCopy16(name, str, 0x14);
+        MI_CpuFill8(str, 0, sizeof(str));
+        MIi_CpuCopy16(name, str, sizeof(name));
         labelIndex = gRecordTAttNameLabelIndices[row];
         gRecordTAtt->mRecordTAttSTable[cnt + labelIndex].mVisible = 1;
         PrintLabelLayoutTextNoFixedAdvance(1, labelIndex, gRecordTAtt->mRecordTAttSBnll, str,
@@ -239,8 +239,8 @@ void SetupRecordTAtt(void) {
         PrintLabelLayoutTextFixedDigits(0, 2, gRecordTAtt->mRecordTAttMBnll, str, gRecordTAtt->mRecordTAttMBncl,
                                         gRecordTAtt->mRecordTAttMTable, 7);
         GetTimeRecordName(gRecordTAttCourseIds[gRecordTAtt->mIndex], 5, name);
-        MI_CpuFill8(str, 0, 0x20);
-        MIi_CpuCopy16(name, str, 0x14);
+        MI_CpuFill8(str, 0, sizeof(str));
+        MIi_CpuCopy16(name, str, sizeof(name));
         gRecordTAtt->mRecordTAttMTable[mainLayoutCount + 4].mVisible = 1;
         PrintLabelLayoutTextNoFixedAdvance(0, 4, gRecordTAtt->mRecordTAttMBnll, str, gRecordTAtt->mRecordTAttMBncl,
                                            gRecordTAtt->mRecordTAttMTable);

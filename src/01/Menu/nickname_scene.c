@@ -95,8 +95,9 @@ void AdvanceNicknameSceneSecondMessage(void) {
         if (GetTxtSystemSelectedIndex() == 0) {
             ownerText = gStartupWork->mOwnerText;
             gBackupBuffers->mFirstBlock->mHasPlayerName = 1;
-            MI_CpuFill8(gBackupBuffers->mFirstBlock->mPlayerName, 0, 0x14);
-            MI_CpuCopy8(ownerText, gBackupBuffers->mFirstBlock->mPlayerName, 0x14);
+            MI_CpuFill8(gBackupBuffers->mFirstBlock->mPlayerName, 0, sizeof(gBackupBuffers->mFirstBlock->mPlayerName));
+            MI_CpuCopy8(ownerText, gBackupBuffers->mFirstBlock->mPlayerName,
+                        sizeof(gBackupBuffers->mFirstBlock->mPlayerName));
             WriteBackupFirstBlockWrapper();
             gNicknameScene->mNextState = NICKNAME_SCENE_STATE_THIRD_MESSAGE;
             messageText = GetBmgEntry(gNicknameScene->mCommonMessages, 0x13);

@@ -620,7 +620,7 @@ void InitEmblem(void) {
     CreateEmblemCursorAndGrid(0x40, 0x10, 0x20, 0x80, 0x10);
     emblemRecord = gBackupBuffers->mEmblemRecord;
     if (emblemRecord->mFilled) {
-        MI_CpuCopy8(emblemRecord->mEmblemData, gEmblem->mRecordBytes, 0x200);
+        MI_CpuCopy8(emblemRecord->mEmblemData, gEmblem->mRecordBytes, sizeof(gEmblem->mRecordBytes));
         SplitBytesIntoNibbleTiles(gEmblem->mRecordBytes, gEmblem->mCellNibbles, GetEmblemGridSide());
         SetEmblemGridCells(gEmblem->mCellNibbles);
         SwapEmblemGridCells();
