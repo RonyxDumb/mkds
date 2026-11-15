@@ -8,6 +8,11 @@ typedef struct TaskEntry TaskEntry;
 
 typedef struct OamRange OamRange;
 
+// Window in/out bits by message box kind.
+typedef struct MessageBoxWindowFlags {
+    /* 0 */ u8 mFlagsByKind[6];
+} MessageBoxWindowFlags;
+
 void AdvanceMessageBoxRelease(TaskEntry *task, void *arg);
 void AdvanceMessageBoxBrightnessUp(TaskEntry *taskEntry, void *arg);
 void AdvanceMessageBoxSlideOut(TaskEntry *taskEntry, void *arg);
@@ -38,5 +43,5 @@ extern const u16 gMessageBoxTextOffset[2];
 extern const u8 gMessageBoxImageIds[6];
 extern const u16 gMessageBoxButtonSizes[5][2];
 // Objects whose layout isn't known yet.
-extern Bytes6 gMessageBoxWindowExtraBitFlags;
+extern MessageBoxWindowFlags gMessageBoxWindowExtraBitFlags;
 extern struct MessageBox *gMessageBox;
