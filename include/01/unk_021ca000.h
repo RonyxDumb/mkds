@@ -173,6 +173,34 @@ enum {
     SELECT_ENGINE_STATE_SLIDE_OUT,
 };
 
+// Values of SelectEngine.mIndex: the entries, in the order of the engine classes (EngineClass) and then the mirror
+// entry (SetEngineFromSelectEngine sets the fast engine class and mirror mode for it).
+enum {
+    SELECT_ENGINE_ENTRY_SLOW,
+    SELECT_ENGINE_ENTRY_MEDIUM,
+    SELECT_ENGINE_ENTRY_FAST,
+    SELECT_ENGINE_ENTRY_MIRROR,
+};
+
+// Values of SelectEngine.mResult, returned by AdvanceSelectEngine: an entry was pressed, or the return button.
+enum {
+    SELECT_ENGINE_RESULT_NONE,
+    SELECT_ENGINE_RESULT_CHOSEN,
+    SELECT_ENGINE_RESULT_RETURN,
+};
+
+// Frames of the slide in and the slide out, of the press and settle animation (GetSelectedPressOffset) with its
+// highlight at the fifth, and of an index change (SelectEngine.mIndexChangeFramesRemaining counts them down). The
+// cells slide in from SELECT_ENGINE_SLIDE_IN_DISTANCE_X, out to SELECT_ENGINE_SLIDE_OUT_DISTANCE_X, and vertically by
+// SELECT_ENGINE_SLIDE_DISTANCE_Y.
+#define SELECT_ENGINE_SLIDE_FRAMES 10
+#define SELECT_ENGINE_PRESS_FRAMES 10
+#define SELECT_ENGINE_HIGHLIGHT_FRAME 5
+#define SELECT_ENGINE_INDEX_CHANGE_FRAMES 7
+#define SELECT_ENGINE_SLIDE_IN_DISTANCE_X 224
+#define SELECT_ENGINE_SLIDE_OUT_DISTANCE_X 192
+#define SELECT_ENGINE_SLIDE_DISTANCE_Y 192
+
 // Object behind gSelectEngine.
 typedef struct SelectEngine {
     /* 00 */ struct NNSG2dCellDataBank *mSelectEngineMNcer;

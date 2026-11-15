@@ -174,7 +174,7 @@ void RefreshSelectEngineMCells(void) {
 }
 
 void SetEngineFromSelectEngine(void) {
-    if (gSelectEngine->mIndex == 3) {
+    if (gSelectEngine->mIndex == SELECT_ENGINE_ENTRY_MIRROR) {
         SetEngineIndex(gSelectEngineEngineIndices[2]);
         SetMirrorMode();
     } else {
@@ -196,11 +196,12 @@ void AdvanceSelectEngineIndexChange(void) {
     s16 offsetY;
 
     if (IsSelectEngineIndexChangeRunning() != 0) {
-        if (gSelectEngine->mIndexChangeFramesRemaining == 7) {
+        if (gSelectEngine->mIndexChangeFramesRemaining == SELECT_ENGINE_INDEX_CHANGE_FRAMES) {
             gSelectEngine->mLastChangeIndex = gSelectEngine->mIndex;
             RefreshSelectEngineMCells();
         } else {
-            offsetY = LookupIndexChangeOffset(7 - gSelectEngine->mIndexChangeFramesRemaining, 0);
+            offsetY = LookupIndexChangeOffset(
+                SELECT_ENGINE_INDEX_CHANGE_FRAMES - gSelectEngine->mIndexChangeFramesRemaining, 0);
             for (slotIndex = 0; slotIndex < 6; slotIndex++) {
                 gSelectEngine->mSelectEngineMTable[gSelectEngineFixedMTableIndices[slotIndex]].mOffsetY = offsetY;
             }
@@ -210,7 +211,7 @@ void AdvanceSelectEngineIndexChange(void) {
         }
         gSelectEngine->mIndexChangeFramesRemaining -= 1;
     } else if (gSelectEngine->mIndex != gSelectEngine->mLastChangeIndex) {
-        gSelectEngine->mIndexChangeFramesRemaining = 7;
+        gSelectEngine->mIndexChangeFramesRemaining = SELECT_ENGINE_INDEX_CHANGE_FRAMES;
     }
 }
 
@@ -220,34 +221,36 @@ void ResetSelectEngineOffsets(void) {
 
     gSelectEngine->mNextState = SELECT_ENGINE_STATE_WAIT_FADE;
     gSelectEngine->mStateFrames = 0;
-    gSelectEngine->mBg0Offset = 0xc0;
+    gSelectEngine->mBg0Offset = SELECT_ENGINE_SLIDE_DISTANCE_Y;
     for (slotIndex = 0; slotIndex < 6; slotIndex++) {
-        gSelectEngine->mSelectEngineMTable[gSelectEngineFixedMTableIndices[slotIndex]].mOffsetY = 0xc0;
+        gSelectEngine->mSelectEngineMTable[gSelectEngineFixedMTableIndices[slotIndex]].mOffsetY =
+            SELECT_ENGINE_SLIDE_DISTANCE_Y;
     }
-    gSelectEngine->mSelectEngineMTable[6].mOffsetY = -0xc0;
+    gSelectEngine->mSelectEngineMTable[6].mOffsetY = -SELECT_ENGINE_SLIDE_DISTANCE_Y;
     for (slotIndex = 0; slotIndex < 4; slotIndex++) {
-        gSelectEngine->mSelectEngineMTable[gSelectEngineMTableIndices[slotIndex]].mOffsetY = 0xc0;
+        gSelectEngine->mSelectEngineMTable[gSelectEngineMTableIndices[slotIndex]].mOffsetY =
+            SELECT_ENGINE_SLIDE_DISTANCE_Y;
         if (IsBackupFlagSet(0x10) != 0) {
             switch (slotIndex) {
-                case 0:
-                case 2:
+                case SELECT_ENGINE_ENTRY_SLOW:
+                case SELECT_ENGINE_ENTRY_FAST:
                     for (cellSlot = 0; cellSlot < 3; cellSlot++) {
                         gSelectEngine->mSelectEngineAOrBSTable[gSelectEngineAOrBSTableIndices[slotIndex][cellSlot]]
-                            .mOffsetX = -0xe0;
+                            .mOffsetX = -SELECT_ENGINE_SLIDE_IN_DISTANCE_X;
                     }
                     break;
-                case 1:
-                case 3:
+                case SELECT_ENGINE_ENTRY_MEDIUM:
+                case SELECT_ENGINE_ENTRY_MIRROR:
                     for (cellSlot = 0; cellSlot < 3; cellSlot++) {
                         gSelectEngine->mSelectEngineAOrBSTable[gSelectEngineAOrBSTableIndices[slotIndex][cellSlot]]
-                            .mOffsetX = 0xe0;
+                            .mOffsetX = SELECT_ENGINE_SLIDE_IN_DISTANCE_X;
                     }
                     break;
             }
         } else {
             for (cellSlot = 0; cellSlot < 3; cellSlot++) {
                 gSelectEngine->mSelectEngineAOrBSTable[gSelectEngineAOrBSTableIndices[slotIndex][cellSlot]].mOffsetX =
-                    0xe0;
+                    SELECT_ENGINE_SLIDE_IN_DISTANCE_X;
             }
         }
     }
@@ -283,7 +286,7 @@ void RequestSelectEngineInput(void) {
 void RequestSelectEnginePress(void) {
     gSelectEngine->mNextState = SELECT_ENGINE_STATE_PRESS;
     gSelectEngine->mStateFrames = 0;
-    gSelectEngine->mResult = 1;
+    gSelectEngine->mResult = SELECT_ENGINE_RESULT_CHOSEN;
     SetEngineFromSelectEngine();
     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
 }
@@ -316,9 +319,9 @@ void InitSelectEngine(void *parentHeap, void *mainOamList, void *subOamList) {
     gSelectEngine->mAlternateCellShown = TRUE;
     gSelectEngine->mMainOamList = mainOamList;
     gSelectEngine->mSubOamList = subOamList;
-    gSelectEngine->mResult = 0;
+    gSelectEngine->mResult = SELECT_ENGINE_RESULT_NONE;
     if (GetMirrorMode() != 0) {
-        gSelectEngine->mIndex = 3;
+        gSelectEngine->mIndex = SELECT_ENGINE_ENTRY_MIRROR;
     } else {
         gSelectEngine->mIndex = gSelectEngineIndicesByEngineIndex[GetEngineIndex()];
     }
@@ -353,8 +356,10 @@ void AdvanceSelectEngineSlideIn(void) {
     s32 cellSlot;
     s32 slotIndex;
     gSelectEngine->mStateFrames = gSelectEngine->mStateFrames + 1;
-    slideX = InterpolateS16(1, 0xe0, 0, gSelectEngine->mStateFrames, 10);
-    slideY = InterpolateS16(1, -0xc0, 0, gSelectEngine->mStateFrames, 10);
+    slideX = InterpolateS16(1, SELECT_ENGINE_SLIDE_IN_DISTANCE_X, 0, gSelectEngine->mStateFrames,
+                            SELECT_ENGINE_SLIDE_FRAMES);
+    slideY =
+        InterpolateS16(1, -SELECT_ENGINE_SLIDE_DISTANCE_Y, 0, gSelectEngine->mStateFrames, SELECT_ENGINE_SLIDE_FRAMES);
     gSelectEngine->mBg0Offset = -slideY;
     for (slotIndex = 0; slotIndex < 6; slotIndex++) {
         gSelectEngine->mSelectEngineMTable[gSelectEngineFixedMTableIndices[slotIndex]].mOffsetY = -slideY;
@@ -364,15 +369,15 @@ void AdvanceSelectEngineSlideIn(void) {
         gSelectEngine->mSelectEngineMTable[gSelectEngineMTableIndices[slotIndex]].mOffsetY = -slideY;
         if (IsBackupFlagSet(0x10)) {
             switch (slotIndex) {
-                case 0:
-                case 2:
+                case SELECT_ENGINE_ENTRY_SLOW:
+                case SELECT_ENGINE_ENTRY_FAST:
                     for (cellSlot = 0; cellSlot < 3; cellSlot++) {
                         gSelectEngine->mSelectEngineAOrBSTable[gSelectEngineAOrBSTableIndices[slotIndex][cellSlot]]
                             .mOffsetX = -slideX;
                     }
                     break;
-                case 1:
-                case 3:
+                case SELECT_ENGINE_ENTRY_MEDIUM:
+                case SELECT_ENGINE_ENTRY_MIRROR:
                     for (cellSlot = 0; cellSlot < 3; cellSlot++) {
                         gSelectEngine->mSelectEngineAOrBSTable[gSelectEngineAOrBSTableIndices[slotIndex][cellSlot]]
                             .mOffsetX = slideX;
@@ -386,7 +391,7 @@ void AdvanceSelectEngineSlideIn(void) {
             }
         }
     }
-    if (gSelectEngine->mStateFrames >= 10) {
+    if (gSelectEngine->mStateFrames >= SELECT_ENGINE_SLIDE_FRAMES) {
         RequestSelectEngineSettle();
     }
 }
@@ -403,7 +408,7 @@ void AdvanceSelectEngineSettle(void) {
     for (slotIndex = 0; slotIndex < 4; slotIndex++) {
         gSelectEngine->mSelectEngineMTable[gSelectEngineMTableIndices[slotIndex]].mOffsetY = selectedPressOffset;
     }
-    if (gSelectEngine->mStateFrames >= 10) {
+    if (gSelectEngine->mStateFrames >= SELECT_ENGINE_PRESS_FRAMES) {
         RequestSelectEngineWaitSelectReturn();
     }
 }
@@ -463,7 +468,7 @@ void AdvanceSelectEngineInput(void) {
     }
     SetSelectReturnSoundId(SELECT_RETURN_SOUND_ID);
     RequestSelectEngineSlideOut();
-    gSelectEngine->mResult = 2;
+    gSelectEngine->mResult = SELECT_ENGINE_RESULT_RETURN;
     RequestSelectReturnPressWithSound(0);
     return;
 next:
@@ -542,11 +547,11 @@ next:
 
 void AdvanceSelectEnginePress(void) {
     AdvanceSelectEngineIndexChange();
-    if (gSelectEngine->mStateFrames == 5) {
+    if (gSelectEngine->mStateFrames == SELECT_ENGINE_HIGHLIGHT_FRAME) {
         gSelectEngine->mAlternateCellShown = TRUE;
     }
     gSelectEngine->mStateFrames++;
-    if (gSelectEngine->mStateFrames >= 10) {
+    if (gSelectEngine->mStateFrames >= SELECT_ENGINE_PRESS_FRAMES) {
         if (IsSelectEngineIndexChangeRunning() == 0) {
             RequestSelectEngineSlideOut();
         }
@@ -560,8 +565,10 @@ void AdvanceSelectEngineSlideOut(void) {
     s32 cellSlot;
 
     gSelectEngine->mStateFrames++;
-    slideX = InterpolateS16(1, 0, 0xc0, gSelectEngine->mStateFrames, 10);
-    slideY = InterpolateS16(1, 0, -0xc0, gSelectEngine->mStateFrames, 10);
+    slideX = InterpolateS16(1, 0, SELECT_ENGINE_SLIDE_OUT_DISTANCE_X, gSelectEngine->mStateFrames,
+                            SELECT_ENGINE_SLIDE_FRAMES);
+    slideY =
+        InterpolateS16(1, 0, -SELECT_ENGINE_SLIDE_DISTANCE_Y, gSelectEngine->mStateFrames, SELECT_ENGINE_SLIDE_FRAMES);
     gSelectEngine->mBg0Offset = -slideY;
     for (slotIndex = 0; slotIndex < 6; slotIndex++) {
         gSelectEngine->mSelectEngineMTable[gSelectEngineFixedMTableIndices[slotIndex]].mOffsetY = -slideY;
@@ -571,15 +578,15 @@ void AdvanceSelectEngineSlideOut(void) {
         gSelectEngine->mSelectEngineMTable[gSelectEngineMTableIndices[slotIndex]].mOffsetY = -slideY;
         if (IsBackupFlagSet(0x10) != 0) {
             switch (slotIndex) {
-                case 0:
-                case 2:
+                case SELECT_ENGINE_ENTRY_SLOW:
+                case SELECT_ENGINE_ENTRY_FAST:
                     for (cellSlot = 0; cellSlot < 3; cellSlot++) {
                         gSelectEngine->mSelectEngineAOrBSTable[gSelectEngineAOrBSTableIndices[slotIndex][cellSlot]]
                             .mOffsetX = -slideX;
                     }
                     break;
-                case 1:
-                case 3:
+                case SELECT_ENGINE_ENTRY_MEDIUM:
+                case SELECT_ENGINE_ENTRY_MIRROR:
                     for (cellSlot = 0; cellSlot < 3; cellSlot++) {
                         gSelectEngine->mSelectEngineAOrBSTable[gSelectEngineAOrBSTableIndices[slotIndex][cellSlot]]
                             .mOffsetX = slideX;
@@ -625,7 +632,8 @@ int AdvanceSelectEngine(void) {
                     gSelectEngine->mMainOamList, gSelectEngine->mSelectEngineMTable);
     DrawLayoutTable(gSelectEngine->mSelectEngineAOrBSBncl, gSelectEngine->mSelectEngineSNcer, NULL,
                     gSelectEngine->mSubOamList, gSelectEngine->mSelectEngineAOrBSTable);
-    if (gSelectEngine->mState == SELECT_ENGINE_STATE_SLIDE_OUT && gSelectEngine->mStateFrames >= 10) {
+    if (gSelectEngine->mState == SELECT_ENGINE_STATE_SLIDE_OUT &&
+        gSelectEngine->mStateFrames >= SELECT_ENGINE_SLIDE_FRAMES) {
         return gSelectEngine->mResult;
     }
     return 0;
