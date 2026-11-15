@@ -826,13 +826,13 @@ int FormatWithPutFunc(void *(*putFunc)(void *, const char *, u32), void *putArg,
     char padChar;
     char spaceChar;
     int totalLength;
-    unsigned long long value64;
+    unsigned long long longLongValue;
     const char *percentPos;
     int textLength;
     int chunkLength;
     int printedLength;
     char *text;
-    unsigned long value32;
+    unsigned long wordValue;
     double doubleValue;
     const u16 *wideText;
     char *nulPos;
@@ -860,31 +860,31 @@ int FormatWithPutFunc(void *(*putFunc)(void *, const char *, u32), void *putArg,
             case 'd':
             case 'i':
                 if (spec.mArgKind == FORMAT_ARG_LONG) {
-                    value32 = *(long *) ((argList += 4) - 4);
+                    wordValue = *(long *) ((argList += 4) - 4);
                 } else if (spec.mArgKind == FORMAT_ARG_LONG_LONG) {
-                    value64 = *(long long *) ((argList += 8) - 8);
+                    longLongValue = *(long long *) ((argList += 8) - 8);
                 } else if (spec.mArgKind == FORMAT_ARG_INTMAX) {
-                    value32 = *(long long *) ((argList += 8) - 8);
+                    wordValue = *(long long *) ((argList += 8) - 8);
                 } else if (spec.mArgKind == FORMAT_ARG_SIZE) {
-                    value32 = *(u32 *) ((argList += 4) - 4);
+                    wordValue = *(u32 *) ((argList += 4) - 4);
                 } else if (spec.mArgKind == FORMAT_ARG_PTRDIFF) {
-                    value32 = *(long *) ((argList += 4) - 4);
+                    wordValue = *(long *) ((argList += 4) - 4);
                 } else {
-                    value32 = *(int *) ((argList += 4) - 4);
+                    wordValue = *(int *) ((argList += 4) - 4);
                 }
                 if (spec.mArgKind == FORMAT_ARG_SHORT) {
-                    value32 = (short) value32;
+                    wordValue = (short) wordValue;
                 }
                 if (spec.mArgKind == FORMAT_ARG_CHAR) {
-                    value32 = (s8) value32;
+                    wordValue = (s8) wordValue;
                 }
                 if (spec.mArgKind == FORMAT_ARG_LONG_LONG) {
-                    text = FormatInt64(value64, buf + sizeof(buf), spec);
+                    text = FormatInt64(longLongValue, buf + sizeof(buf), spec);
                     if (text == 0) {
                         goto bad;
                     }
                 } else {
-                    text = FormatInt32(value32, buf + sizeof(buf), spec);
+                    text = FormatInt32(wordValue, buf + sizeof(buf), spec);
                     if (text == 0) {
                         goto bad;
                     }
@@ -896,31 +896,31 @@ int FormatWithPutFunc(void *(*putFunc)(void *, const char *, u32), void *putArg,
             case 'x':
             case 'X':
                 if (spec.mArgKind == FORMAT_ARG_LONG) {
-                    value32 = *(unsigned long *) ((argList += 4) - 4);
+                    wordValue = *(unsigned long *) ((argList += 4) - 4);
                 } else if (spec.mArgKind == FORMAT_ARG_LONG_LONG) {
-                    value64 = *(unsigned long long *) ((argList += 8) - 8);
+                    longLongValue = *(unsigned long long *) ((argList += 8) - 8);
                 } else if (spec.mArgKind == FORMAT_ARG_INTMAX) {
-                    value32 = *(unsigned long long *) ((argList += 8) - 8);
+                    wordValue = *(unsigned long long *) ((argList += 8) - 8);
                 } else if (spec.mArgKind == FORMAT_ARG_SIZE) {
-                    value32 = *(u32 *) ((argList += 4) - 4);
+                    wordValue = *(u32 *) ((argList += 4) - 4);
                 } else if (spec.mArgKind == FORMAT_ARG_PTRDIFF) {
-                    value32 = *(unsigned long *) ((argList += 4) - 4);
+                    wordValue = *(unsigned long *) ((argList += 4) - 4);
                 } else {
-                    value32 = *(u32 *) ((argList += 4) - 4);
+                    wordValue = *(u32 *) ((argList += 4) - 4);
                 }
                 if (spec.mArgKind == FORMAT_ARG_SHORT) {
-                    value32 = (u16) value32;
+                    wordValue = (u16) wordValue;
                 }
                 if (spec.mArgKind == FORMAT_ARG_CHAR) {
-                    value32 = (u8) value32;
+                    wordValue = (u8) wordValue;
                 }
                 if (spec.mArgKind == FORMAT_ARG_LONG_LONG) {
-                    text = FormatInt64(value64, buf + sizeof(buf), spec);
+                    text = FormatInt64(longLongValue, buf + sizeof(buf), spec);
                     if (text == 0) {
                         goto bad;
                     }
                 } else {
-                    text = FormatInt32(value32, buf + sizeof(buf), spec);
+                    text = FormatInt32(wordValue, buf + sizeof(buf), spec);
                     if (text == 0) {
                         goto bad;
                     }

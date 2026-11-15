@@ -14,10 +14,10 @@ void G3i_FrustumW_(s32 top, s32 bottom, s32 left, s32 right, s32 nearPlane, s32 
     s64 invHeight;
     s64 invDepth;
     s32 dblNear;
-    s32 m00;
-    s32 m11;
-    s32 m22;
-    s32 m32;
+    s32 xScale;
+    s32 yScale;
+    s32 zScale;
+    s32 zTranslate;
     s32 nearFar;
     vu32 *fifo;
 
@@ -45,15 +45,15 @@ void G3i_FrustumW_(s32 top, s32 bottom, s32 left, s32 right, s32 nearPlane, s32 
     if (scaleW != 0x1000) {
         invWidth = invWidth * scaleW / 0x1000;
     }
-    m00 = (invWidth * dblNear + 0x80000000) >> 32;
+    xScale = (invWidth * dblNear + 0x80000000) >> 32;
     if (draw != 0) {
-        *fifo = m00;
+        *fifo = xScale;
         *fifo = 0;
         *fifo = 0;
         *fifo = 0;
     }
     if (mtx != 0) {
-        mtx->mRows[0].x = m00;
+        mtx->mRows[0].x = xScale;
     }
     invHeight = FX_GetDivResultFx64c();
     reg_CP_DIV_NUMER = 0x100000000000ULL;
@@ -61,28 +61,28 @@ void G3i_FrustumW_(s32 top, s32 bottom, s32 left, s32 right, s32 nearPlane, s32 
     if (scaleW != 0x1000) {
         invHeight = invHeight * scaleW / 0x1000;
     }
-    m11 = (invHeight * dblNear + 0x80000000) >> 32;
+    yScale = (invHeight * dblNear + 0x80000000) >> 32;
     if (draw != 0) {
         *fifo = 0;
-        *fifo = m11;
+        *fifo = yScale;
         *fifo = 0;
         *fifo = 0;
     }
     if (mtx != 0) {
-        mtx->mRows[1].y = m11;
+        mtx->mRows[1].y = yScale;
     }
     {
         s32 sumLR = right + left;
         s32 sumTB = top + bottom;
-        s32 m20 = (invWidth * sumLR + 0x80000000) >> 32;
-        s32 m21 = (invHeight * sumTB + 0x80000000) >> 32;
+        s32 xShift = (invWidth * sumLR + 0x80000000) >> 32;
+        s32 yShift = (invHeight * sumTB + 0x80000000) >> 32;
         if (draw != 0) {
-            *fifo = m20;
-            *fifo = m21;
+            *fifo = xShift;
+            *fifo = yShift;
         }
         if (mtx != 0) {
-            mtx->mRows[2].x = m20;
-            mtx->mRows[2].y = m21;
+            mtx->mRows[2].x = xShift;
+            mtx->mRows[2].y = yShift;
         }
     }
     invDepth = FX_GetDivResultFx64c();
@@ -90,19 +90,19 @@ void G3i_FrustumW_(s32 top, s32 bottom, s32 left, s32 right, s32 nearPlane, s32 
         invDepth = invDepth * scaleW / 0x1000;
     }
     nearFar = MUL_FIXED12_ROUNDED(dblNear, farPlane);
-    m22 = (invDepth * (farPlane + nearPlane) + 0x80000000) >> 32;
-    m32 = (invDepth * nearFar + 0x80000000) >> 32;
+    zScale = (invDepth * (farPlane + nearPlane) + 0x80000000) >> 32;
+    zTranslate = (invDepth * nearFar + 0x80000000) >> 32;
     if (draw != 0) {
-        *fifo = m22;
+        *fifo = zScale;
         *fifo = -scaleW;
         *fifo = 0;
         *fifo = 0;
-        *fifo = m32;
+        *fifo = zTranslate;
         *fifo = 0;
     }
     if (mtx != 0) {
-        mtx->mRows[2].z = m22;
-        mtx->mRows[3].z = m32;
+        mtx->mRows[2].z = zScale;
+        mtx->mRows[3].z = zTranslate;
     }
 }
 
@@ -113,9 +113,9 @@ void G3i_OrthoW_(s32 top, s32 bottom, s32 left, s32 right, s32 nearPlane, s32 fa
     s64 invWidth;
     s64 invHeight;
     s64 invDepth;
-    s32 m00;
-    s32 m11;
-    s32 m22;
+    s32 xScale;
+    s32 yScale;
+    s32 zScale;
     vu32 *fifo;
 
     FX_InvAsync(right - left);
@@ -141,16 +141,16 @@ void G3i_OrthoW_(s32 top, s32 bottom, s32 left, s32 right, s32 nearPlane, s32 fa
     if (scaleW != 0x1000) {
         invWidth = invWidth * scaleW / 0x1000;
     }
-    m00 = ((invWidth << 13) + 0x80000000) >> 32;
+    xScale = ((invWidth << 13) + 0x80000000) >> 32;
     if (draw != 0) {
-        *fifo = m00;
+        *fifo = xScale;
         *fifo = 0;
         *fifo = 0;
         *fifo = 0;
         *fifo = 0;
     }
     if (mtx != 0) {
-        mtx->mRows[0].x = m00;
+        mtx->mRows[0].x = xScale;
     }
     invHeight = FX_GetDivResultFx64c();
     reg_CP_DIV_NUMER = 0x100000000000ULL;
@@ -158,46 +158,46 @@ void G3i_OrthoW_(s32 top, s32 bottom, s32 left, s32 right, s32 nearPlane, s32 fa
     if (scaleW != 0x1000) {
         invHeight = invHeight * scaleW / 0x1000;
     }
-    m11 = ((invHeight << 13) + 0x80000000) >> 32;
+    yScale = ((invHeight << 13) + 0x80000000) >> 32;
     if (draw != 0) {
-        *fifo = m11;
+        *fifo = yScale;
         *fifo = 0;
         *fifo = 0;
         *fifo = 0;
         *fifo = 0;
     }
     if (mtx != 0) {
-        mtx->mRows[1].y = m11;
+        mtx->mRows[1].y = yScale;
     }
     invDepth = FX_GetDivResultFx64c();
     if (scaleW != 0x1000) {
         invDepth = invDepth * scaleW / 0x1000;
     }
-    m22 = ((invDepth << 13) + 0x80000000) >> 32;
+    zScale = ((invDepth << 13) + 0x80000000) >> 32;
     if (draw != 0) {
-        *fifo = m22;
+        *fifo = zScale;
         *fifo = 0;
     }
     if (mtx != 0) {
-        mtx->mRows[2].z = m22;
+        mtx->mRows[2].z = zScale;
     }
     {
         s32 negSumLR = -(right + left);
         s32 negSumTB = -(top + bottom);
         s32 sumNF = farPlane + nearPlane;
-        s32 m30 = (invWidth * negSumLR + 0x80000000) >> 32;
-        s32 m31 = (invHeight * negSumTB + 0x80000000) >> 32;
-        s32 m32 = (invDepth * sumNF + 0x80000000) >> 32;
+        s32 xTranslate = (invWidth * negSumLR + 0x80000000) >> 32;
+        s32 yTranslate = (invHeight * negSumTB + 0x80000000) >> 32;
+        s32 zTranslate = (invDepth * sumNF + 0x80000000) >> 32;
         if (draw != 0) {
-            *fifo = m30;
-            *fifo = m31;
-            *fifo = m32;
+            *fifo = xTranslate;
+            *fifo = yTranslate;
+            *fifo = zTranslate;
             *fifo = scaleW;
         }
         if (mtx != 0) {
-            mtx->mRows[3].x = m30;
-            mtx->mRows[3].y = m31;
-            mtx->mRows[3].z = m32;
+            mtx->mRows[3].x = xTranslate;
+            mtx->mRows[3].y = yTranslate;
+            mtx->mRows[3].z = zTranslate;
         }
     }
 }

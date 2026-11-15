@@ -388,7 +388,7 @@ s32 FSi_EmptyArchiveProc(FSFile *file, u32 command) {
 
 // Registers the "rom" archive and loads its tables from the ROM header.
 void FSi_InitRom(u32 dmaNo) {
-    enum { K0 } fntRegion, fatRegion;
+    enum { ROM_REGION_ADDRESS_NONE } fntRegion, fatRegion;
 
     fsi_default_dma_no = dmaNo;
     fsi_card_lock_id = OS_GetLockID();

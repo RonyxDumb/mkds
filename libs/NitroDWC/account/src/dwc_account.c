@@ -31,7 +31,7 @@ u32 GetFriendDataGsProfileId(const DWCAccFriendData *friendData) {
 #pragma thumb on
 
 void DWCi_Acc_SetUserId(DWCAccFriendData *loginid, u32 useridLo, u32 useridHi) {
-    enum { K0 } shift = K0;
+    enum { SHIFT_NONE } shift = SHIFT_NONE;
     DWCi_Acc_SetMaskBits(&loginid->mIdData, useridHi, shift, 0x7ff);
     loginid->mUserIdLo = useridLo;
 }

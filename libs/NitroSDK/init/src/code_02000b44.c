@@ -2,6 +2,6 @@
 
 void NitroStartUp(void) {}
 
-u32 OSi_ReferSymbol(u32 p0) {
-    return p0;
+u32 OSi_ReferSymbol(u32 symbol) {
+    return symbol;
 }

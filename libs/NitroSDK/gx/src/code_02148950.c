@@ -631,13 +631,13 @@ void GX_Init(void) {
         reg_GX_MASTER_BRIGHT = 0;
         MI_DmaFill32(GXi_DmaId, (void *) 0x4001000, 0, 0x70);
     } else {
-        volatile u32 z0 = 0;
-        volatile u32 z1;
+        volatile u32 zeroFirst = 0;
+        volatile u32 zeroSecond;
 
-        MIi_CpuClear32(z0, (void *) 0x4000008, 0x60);
+        MIi_CpuClear32(zeroFirst, (void *) 0x4000008, 0x60);
         reg_GX_MASTER_BRIGHT = 0;
-        z1 = 0;
-        MIi_CpuClear32(z1, (void *) 0x4001000, 0x70);
+        zeroSecond = 0;
+        MIi_CpuClear32(zeroSecond, (void *) 0x4001000, 0x70);
     }
     reg_G2_BG2PA = 0x100;
     reg_G2_BG2PD = 0x100;

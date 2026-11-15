@@ -585,7 +585,7 @@ void MBi_calc_sendblock(u32 entryIndex) {
     MB_CommPWork *entry;
     u16 current;
     u16 rangeStart;
-    enum { K0 } entryOffset;
+    enum { ENTRY_OFFSET_FIRST } entryOffset;
     entryOffset = entryIndex * 0x5d4;
     entry = OFFSET_PTR(MB_CommPWork, mbc, entryOffset);
     if (entry->mEntryUsed == 0) {

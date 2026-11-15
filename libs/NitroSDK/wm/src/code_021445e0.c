@@ -295,7 +295,7 @@ void WmDataSharingReceiveCallback_Parent(void *portMessage) {
     PortCallbackMessage *callback = portMessage;
     WMDataSharingInfo *share;
     u32 enabled;
-    enum { K0 } bit;
+    enum { SHARE_BIT_NONE } bit;
     u32 member;
     u32 current;
     u32 mask;

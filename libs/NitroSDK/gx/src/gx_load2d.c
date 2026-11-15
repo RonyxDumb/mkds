@@ -66,7 +66,7 @@ void GXS_LoadOAM(const void *src, u32 offset, u32 size) {
 }
 
 void GX_LoadOBJ(const void *src, u32 offset, u32 size) {
-    enum { K0 } base = 0x6400000;
+    enum { OBJ_VRAM_BASE_NONE } base = 0x6400000;
 
     if (GXi_DmaId != -1 && size > 0x30) {
         MI_DmaCopy32(GXi_DmaId, src, (void *) (base + offset), size);
@@ -76,7 +76,7 @@ void GX_LoadOBJ(const void *src, u32 offset, u32 size) {
 }
 
 void GXS_LoadOBJ(const void *src, u32 offset, u32 size) {
-    enum { K0 } base = 0x6600000;
+    enum { SUB_OBJ_VRAM_BASE_NONE } base = 0x6600000;
 
     if (GXi_DmaId != -1 && size > 0x30) {
         MI_DmaCopy32(GXi_DmaId, src, (void *) (base + offset), size);
