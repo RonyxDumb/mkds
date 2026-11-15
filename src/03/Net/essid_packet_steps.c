@@ -152,7 +152,7 @@ s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
         timeout = 2000;
     }
     InitRequestState(req);
-    if ((gRequestState.mWantedRecordMask & VALUE_RECORD_MASK_FOUR_VALUE_FIRST) != VALUE_RECORD_MASK_FOUR_VALUE_FIRST) {
+    if ((gRequestState.mWantedRecordMask & VALUE_RECORD_MASK_KEY_SET_FIRST) != VALUE_RECORD_MASK_KEY_SET_FIRST) {
         SetErrorCode(ESSID_ERROR_FIRST_RECORD_NOT_WANTED);
         req->mResultCode = VALUE_RECORDS_RESULT_FAILED;
         ReleaseEssidEntryLists();
@@ -630,7 +630,7 @@ s32 CheckAndCopyValueRecordsToRequest(ValueRecordsRequest *request) {
     }
     request->mWantedRecordMask = gRequestState.mWantedRecordMask & gRequestState.mFoundRecordMask;
     FillBytes(recordBytes, 0, 0x154);
-    if (request->mWantedRecordMask & VALUE_RECORD_MASK_FOUR_VALUE_FIRST) {
+    if (request->mWantedRecordMask & VALUE_RECORD_MASK_KEY_SET_FIRST) {
         CopyBytes(recordBytes, fourValueRecord0->mWepKeys[0], fourValueRecord0->mValueLength);
         CopyBytes(recordBytes + 6, fourValueRecord0->mWepKeys[1], fourValueRecord0->mValueLength);
         CopyBytes(recordBytes + 0xc, fourValueRecord0->mWepKeys[2], fourValueRecord0->mValueLength);
@@ -640,7 +640,7 @@ s32 CheckAndCopyValueRecordsToRequest(ValueRecordsRequest *request) {
         }
         CopyBytes(recordBytes + 0x18, fourValueRecord0->mString, GetStringLength(fourValueRecord0->mString));
     }
-    if (request->mWantedRecordMask & VALUE_RECORD_MASK_FOUR_VALUE_SECOND) {
+    if (request->mWantedRecordMask & VALUE_RECORD_MASK_KEY_SET_SECOND) {
         CopyBytes(recordBytes + 0x39, fourValueRecord1->mWepKeys[0], fourValueRecord1->mValueLength);
         CopyBytes(recordBytes + 0x47, fourValueRecord1->mWepKeys[1], fourValueRecord1->mValueLength);
         CopyBytes(recordBytes + 0x55, fourValueRecord1->mWepKeys[2], fourValueRecord1->mValueLength);

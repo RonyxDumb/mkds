@@ -54,9 +54,9 @@ enum {
 #define ESSID_ERROR_REPLY_STATUS_OTHER 0x18
 #define ESSID_ERROR_SEND_FAILED_BASE 0x1000
 
-// Bits of ValueRecordsRequest.mWantedRecordMask: the two four-value records and the two single-value records.
-#define VALUE_RECORD_MASK_FOUR_VALUE_FIRST 1
-#define VALUE_RECORD_MASK_FOUR_VALUE_SECOND 2
+// Bits of ValueRecordsRequest.mWantedRecordMask: the two records with the WEP keys and the two single-value records.
+#define VALUE_RECORD_MASK_KEY_SET_FIRST 1
+#define VALUE_RECORD_MASK_KEY_SET_SECOND 2
 #define VALUE_RECORD_MASK_SINGLE_VALUE_FIRST 4
 #define VALUE_RECORD_MASK_SINGLE_VALUE_SECOND 8
 #define VALUE_RECORD_MASK_ALL 0xf
