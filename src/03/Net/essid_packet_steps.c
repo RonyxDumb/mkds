@@ -1669,7 +1669,6 @@ void FillBytes(void *destination, s32 fillValue, u32 size) {
     void *destinationCopy = destination;
     u32 byteValue = fillValue;
     u32 sizeCopy = size;
-    u32 value3;
     byteValue = (byteValue << 24);
     byteValue = (byteValue >> 24);
     MI_CpuFill8(destinationCopy, byteValue, sizeCopy);
@@ -1680,7 +1679,7 @@ s32 RecvFromSocket(s32 descriptor, void *buffer, s32 length, s32 flags, SocketAd
     return SOC_RecvFrom(descriptor, buffer, length, flags, address);
 }
 
-s32 PollSocketWithTimeout(s32 v1, PollEntry *set, void *v3, void *v4, WaitTimeout *timeout) {
+s32 PollSocketWithTimeout(s32 descriptorCount, PollEntry *set, void *unusedSecondSet, void *unusedThirdSet, WaitTimeout *timeout) {
     PollEntry setCopy;
     s64 ticks;
     ticks = 0;
@@ -1695,7 +1694,7 @@ s32 SendToSocket(s32 descriptor, void *buffer, s32 length, s32 flags, SocketAddr
     return SOC_SendTo(descriptor, buffer, length, flags, address);
 }
 
-s32 SocketReturnArgument(s32 id, s32 arg1, s32 arg2, void *value, s32 length) {
+s32 SocketReturnArgument(s32 id, s32 unusedLevel, s32 unusedOption, void *value, s32 length) {
     return id;
 }
 
@@ -1713,28 +1712,28 @@ s32 CloseSocket(s32 descriptor) {
 }
 
 u32 SwapBytes32(u32 input) {
-    u32 value0 = input;
-    u32 value1;
-    u32 value2;
-    u32 value3;
-    u32 value4;
-    value1 = (value0 << 24);
-    value2 = 0xff000000u;
-    value1 = (value1) & (value2);
-    value4 = (value0 << 8);
-    value2 = 0xff0000u;
-    value4 = (value4) & (value2);
-    value3 = (value0 >> 24);
-    value2 = 255u;
-    value3 = (value3) & (value2);
-    value2 = (value0 >> 8);
-    value0 = 0xff00u;
-    value2 = (value2) & (value0);
-    value3 = (value3) | (value2);
-    value4 = (value4) | (value3);
-    value1 = (value1) | (value4);
-    value0 = (value1) + (0u);
-    return value0;
+    u32 word = input;
+    u32 topPart;
+    u32 scratch;
+    u32 bottomPart;
+    u32 middlePart;
+    topPart = (word << 24);
+    scratch = 0xff000000u;
+    topPart = (topPart) & (scratch);
+    middlePart = (word << 8);
+    scratch = 0xff0000u;
+    middlePart = (middlePart) & (scratch);
+    bottomPart = (word >> 24);
+    scratch = 255u;
+    bottomPart = (bottomPart) & (scratch);
+    scratch = (word >> 8);
+    word = 0xff00u;
+    scratch = (scratch) & (word);
+    bottomPart = (bottomPart) | (scratch);
+    middlePart = (middlePart) | (bottomPart);
+    topPart = (topPart) | (middlePart);
+    word = (topPart) + (0u);
+    return word;
 }
 
 u16 PacketSwapBytes16(u16 value) {
@@ -1742,28 +1741,28 @@ u16 PacketSwapBytes16(u16 value) {
 }
 
 u32 PacketSwapBytes32(u32 input) {
-    u32 value0 = input;
-    u32 value1;
-    u32 value2;
-    u32 value3;
-    u32 value4;
-    value1 = (value0 << 24);
-    value2 = 0xff000000u;
-    value1 = (value1) & (value2);
-    value4 = (value0 << 8);
-    value2 = 0xff0000u;
-    value4 = (value4) & (value2);
-    value3 = (value0 >> 24);
-    value2 = 255u;
-    value3 = (value3) & (value2);
-    value2 = (value0 >> 8);
-    value0 = 0xff00u;
-    value2 = (value2) & (value0);
-    value3 = (value3) | (value2);
-    value4 = (value4) | (value3);
-    value1 = (value1) | (value4);
-    value0 = (value1) + (0u);
-    return value0;
+    u32 word = input;
+    u32 topPart;
+    u32 scratch;
+    u32 bottomPart;
+    u32 middlePart;
+    topPart = (word << 24);
+    scratch = 0xff000000u;
+    topPart = (topPart) & (scratch);
+    middlePart = (word << 8);
+    scratch = 0xff0000u;
+    middlePart = (middlePart) & (scratch);
+    bottomPart = (word >> 24);
+    scratch = 255u;
+    bottomPart = (bottomPart) & (scratch);
+    scratch = (word >> 8);
+    word = 0xff00u;
+    scratch = (scratch) & (word);
+    bottomPart = (bottomPart) | (scratch);
+    middlePart = (middlePart) | (bottomPart);
+    topPart = (topPart) | (middlePart);
+    word = (topPart) + (0u);
+    return word;
 }
 
 u16 SwapBytes16(u16 value) {
