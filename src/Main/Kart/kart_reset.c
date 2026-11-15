@@ -167,7 +167,7 @@ void ResetKartToRespawnPoint(Kart *kart) {
     MTX_MultVec33(&gKartVec3UnitZ, &rotationMatrix, &respawnForward);
     if (gRaceSetup->mMode != MODE_BATTLE && gCourseMap->mItemRouteCount != 0) {
         (kartItems = &gKartItems[kart->mIndex])->mItemLink.mLink =
-            GetCourseMapRespawnItemPointLink((u16) kart->mRespawnSlot);
+            GetCourseMapRespawnItemPointLink(kart->mRespawnSlot);
         kartItems->mItemLink.mNextLinksUsed = 1;
     }
     if (gRaceSetup->mMode != MODE_TIME_ATTACK) {

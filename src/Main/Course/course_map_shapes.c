@@ -1300,7 +1300,7 @@ PointLink *GetCourseMapRespawnBattlePointLink(u32 slot, Vec3 *outPos, Vec3 *outR
     return &gCourseMap->mBattlePointLinks[pointIndex];
 }
 
-struct ItemPointLink *GetCourseMapRespawnItemPointLink(u32 slot) {
+struct ItemPointLink *GetCourseMapRespawnItemPointLink(u16 slot) {
     CourseMapRespawn *respawn;
 
     if (gCourseMap->mCheckpoints == NULL && gCourseMap->mRespawns == NULL) {
