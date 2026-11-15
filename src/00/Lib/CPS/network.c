@@ -1673,7 +1673,7 @@ void CPS_TcpListen(void) {
     socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
     if (socket != NULL) {
         if (socket->mUseHttps != 0) {
-            RunSetupAfterReadingKind1RecordUntilDone(socket);
+            RunSetupAfterReadingOfferRecordUntilDone(socket);
         } else {
             CPSi_TcpListenRaw(socket);
         }

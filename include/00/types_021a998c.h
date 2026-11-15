@@ -47,8 +47,8 @@ typedef struct HttpsState {
     /* 004 */ u8 mReusedEntry;
     /* 005 */ u8 mUnk_005;
     /* 006 */ u16 mCommonValue;
-    /* 008 */ u8 mKind1Block[0x20];
-    /* 028 */ u8 mKind2Block[0x20];
+    /* 008 */ u8 mOfferBlock[0x20];
+    /* 028 */ u8 mAnswerBlock[0x20];
     /* 048 */ u8 mDerivedBytes[0x48];
     /* 090 */ u8 *mSendDigestBytes;
     /* 094 */ u8 *mSendKeyStreamBytes;
@@ -65,7 +65,7 @@ typedef struct HttpsState {
     /* 378 */ CPSMd5Ctx mMessageHash16;
     /* 3d0 */ CPSMd5Ctx mScratchHash16;
     // 1 on the side that receives the kind 1 message, 0 on the side that sends it.
-    /* 428 */ u8 mReceivesKind1Record;
+    /* 428 */ u8 mReceivesOfferRecord;
     /* 429 */ u8 mSetupState;
     /* 42c */ s32 mDigestKind;
     // Table position (1 or 2) stored by ParseTaggedItem for the first item of a list; -1 when none was stored, which

@@ -610,12 +610,12 @@ void ParseAndCheckItemListMessage(HttpsState *httpsState, u8 *cursor) {
     }
 }
 
-void ParseKind2Message(HttpsState *httpsState, u8 *message) {
+void ParseAnswerMessage(HttpsState *httpsState, u8 *message) {
     u8 idLength;
     u8 *afterId;
     u8 *idLengthByte;
     HttpsEntry *entry;
-    MI_CpuCopy8(message + 2, httpsState->mKind2Block, 0x20);
+    MI_CpuCopy8(message + 2, httpsState->mAnswerBlock, 0x20);
     idLengthByte = message + 0x22;
     message = (u8 *) message + 0x23;
     idLength = *idLengthByte;
@@ -672,7 +672,7 @@ u32 IsFirstArgumentThree(int value, int unusedArgument) {
     return 0;
 }
 
-void ParseKind1MessageWithThreeByteValues(HttpsState *httpsState, u8 *message) {
+void ParseOfferMessageWithThreeByteValues(HttpsState *httpsState, u8 *message) {
     s32 valueListLength;
     u16 offeredValue;
     s32 idLength;
@@ -687,22 +687,22 @@ void ParseKind1MessageWithThreeByteValues(HttpsState *httpsState, u8 *message) {
             httpsState->mEntry = NULL;
             message += valueListLength + 8 + idLength;
             if (blockLength >= 0x20) {
-                MI_CpuCopy8(message, httpsState->mKind1Block, 0x20);
+                MI_CpuCopy8(message, httpsState->mOfferBlock, 0x20);
             } else {
-                MI_CpuFill8(httpsState->mKind1Block, 0, 0x20 - blockLength);
-                MI_CpuCopy8(message, httpsState->mKind2Block - blockLength, blockLength);
+                MI_CpuFill8(httpsState->mOfferBlock, 0, 0x20 - blockLength);
+                MI_CpuCopy8(message, httpsState->mAnswerBlock - blockLength, blockLength);
             }
             httpsState->mSetupState = HTTPS_SETUP_OFFER_RECEIVED;
         }
     }
 }
 
-void ParseKind1Message(HttpsState *httpsState, const u8 *message) {
+void ParseOfferMessage(HttpsState *httpsState, const u8 *message) {
     u8 idLength;
     u16 offeredValue;
     const u8 *cursor;
     if (IsFirstArgumentThree(message[0], message[1]) != 0) {
-        MI_CpuCopy8(message + 2, httpsState->mKind1Block, 0x20);
+        MI_CpuCopy8(message + 2, httpsState->mOfferBlock, 0x20);
         idLength = message[0x22];
         cursor = message + 0x23;
         if (idLength != 0x20) {
@@ -779,8 +779,8 @@ void ComputeLabeledDigest16(u8 *digest, const u8 *label, HttpsState *httpsState)
     CPSi_sha1_init(hash20);
     CPSi_sha1_calc(hash20, label, strlen((const char *) label));
     CPSi_sha1_calc(hash20, httpsState->mEntry->mMasterSecret, 0x30);
-    CPSi_sha1_calc(hash20, httpsState->mKind1Block, 0x20);
-    CPSi_sha1_calc(hash20, httpsState->mKind2Block, 0x20);
+    CPSi_sha1_calc(hash20, httpsState->mOfferBlock, 0x20);
+    CPSi_sha1_calc(hash20, httpsState->mAnswerBlock, 0x20);
     CPSi_sha1_result(hash20, innerDigest);
     hash16 = &httpsState->mScratchHash16;
     CPSi_md5_init(hash16);
@@ -834,8 +834,8 @@ void DeriveBytesAndInitKeyStreamStates(HttpsState *httpsState) {
                 CPSi_sha1_calc(hashContext, labelAndDigest, 1);
             }
             CPSi_sha1_calc(hashContext, httpsState->mEntry->mMasterSecret, 0x30);
-            CPSi_sha1_calc(hashContext, httpsState->mKind2Block, 0x20);
-            CPSi_sha1_calc(hashContext, httpsState->mKind1Block, 0x20);
+            CPSi_sha1_calc(hashContext, httpsState->mAnswerBlock, 0x20);
+            CPSi_sha1_calc(hashContext, httpsState->mOfferBlock, 0x20);
             CPSi_sha1_result(hashContext, labelAndDigest + 1);
             hashContext = &httpsState->mScratchHash16;
             CPSi_md5_init(hashContext);
@@ -846,7 +846,7 @@ void DeriveBytesAndInitKeyStreamStates(HttpsState *httpsState) {
             blockIndex++;
         } while (outputOffset < totalLength);
     }
-    if (httpsState->mReceivesKind1Record != 0) {
+    if (httpsState->mReceivesOfferRecord != 0) {
         httpsState->mReceiveDigestBytes = httpsState->mDerivedBytes;
         httpsState->mReceiveKeyStreamBytes = httpsState->mReceiveDigestBytes + digestLength * 2;
         httpsState->mUnk_1b0 = httpsState->mReceiveKeyStreamBytes + keyStreamLength * 2;
@@ -878,7 +878,7 @@ void ComputeLabeledMessageDigest16(HttpsState *httpsState, u8 *digest, u32 fromO
     u8 padBytes[0x30];
     CPSMd5Ctx *messageHash;
     messageHash = &httpsState->mMessageHash16;
-    if ((httpsState->mReceivesKind1Record ^ fromOtherSide) != 0) {
+    if ((httpsState->mReceivesOfferRecord ^ fromOtherSide) != 0) {
         CPSi_md5_calc(messageHash, (const u8 *) "SRVR", 4);
     } else {
         CPSi_md5_calc(messageHash, (const u8 *) "CLNT", 4);
@@ -899,7 +899,7 @@ void ComputeLabeledMessageDigest20(HttpsState *httpsState, u8 *digest, u32 fromO
     u8 padBytes[0x28];
     Hash20Context *messageHash;
     messageHash = &httpsState->mMessageHash20;
-    if ((httpsState->mReceivesKind1Record ^ fromOtherSide) != 0) {
+    if ((httpsState->mReceivesOfferRecord ^ fromOtherSide) != 0) {
         CPSi_sha1_calc(messageHash, (const u8 *) "SRVR", 4);
     } else {
         CPSi_sha1_calc(messageHash, (const u8 *) "CLNT", 4);
@@ -1114,7 +1114,7 @@ u8 ReadHttpsRecordAndSetState(CPSSoc *connection) {
     } while (length < 5);
     recordType = header[0];
     if (recordType == 0x80) {
-        if (httpsState->mReceivesKind1Record != 0 && httpsState->mSetupState == HTTPS_SETUP_START) {
+        if (httpsState->mReceivesOfferRecord != 0 && httpsState->mSetupState == HTTPS_SETUP_START) {
             length = header[1];
             CPSi_SocConsumeRaw(2, connection);
             record = CPSiAlloc(length);
@@ -1123,7 +1123,7 @@ u8 ReadHttpsRecordAndSetState(CPSSoc *connection) {
                 return httpsState->mSetupState;
             }
             if (ReadExactReceivedBytes(record, length, connection) == 0 && record[0] == 1) {
-                ParseKind1MessageWithThreeByteValues(httpsState, record + 1);
+                ParseOfferMessageWithThreeByteValues(httpsState, record + 1);
             } else {
                 httpsState->mSetupState = HTTPS_SETUP_FAILED;
             }
@@ -1169,15 +1169,15 @@ u8 ReadHttpsRecordAndSetState(CPSSoc *connection) {
                     body += 4;
                     switch (messageType) {
                         case 1:
-                            if (httpsState->mReceivesKind1Record != 0 && httpsState->mSetupState == HTTPS_SETUP_START) {
-                                ParseKind1Message(httpsState, body);
+                            if (httpsState->mReceivesOfferRecord != 0 && httpsState->mSetupState == HTTPS_SETUP_START) {
+                                ParseOfferMessage(httpsState, body);
                             }
                             break;
                         case 0x10:
                             rcv_client_key_exchange(httpsState, body);
                             break;
                         case 2:
-                            ParseKind2Message(httpsState, body);
+                            ParseAnswerMessage(httpsState, body);
                             break;
                         case 0xb:
                             ParseAndCheckItemListMessage(httpsState, body);
@@ -1277,7 +1277,7 @@ void MixBytesIntoRandomState(void *bytes, u32 byteCount) {
     gRandomByteStateMixed = 1;
 }
 
-u8 SendKind2Record(CPSSoc *connection) {
+u8 SendAnswerRecord(CPSSoc *connection) {
     HttpsState *httpsState = connection->mHttpsState;
     ItemList *itemList = httpsState->mItemList;
     s32 itemListLength;
@@ -1291,11 +1291,11 @@ u8 SendKind2Record(CPSSoc *connection) {
         itemListLength = 0;
     }
     seconds = GetRtcSecondsPlusFixedOffset();
-    httpsState->mKind2Block[0] = seconds >> 24;
-    httpsState->mKind2Block[1] = seconds >> 16;
-    httpsState->mKind2Block[2] = seconds >> 8;
-    httpsState->mKind2Block[3] = seconds;
-    FillNonzeroRandomBytes(&httpsState->mKind2Block[4], 0x1c);
+    httpsState->mAnswerBlock[0] = seconds >> 24;
+    httpsState->mAnswerBlock[1] = seconds >> 16;
+    httpsState->mAnswerBlock[2] = seconds >> 8;
+    httpsState->mAnswerBlock[3] = seconds;
+    FillNonzeroRandomBytes(&httpsState->mAnswerBlock[4], 0x1c);
     message = CPSiAlloc(itemListLength + 0x9d);
     if (message == NULL) {
         httpsState->mSetupState = HTTPS_SETUP_FAILED;
@@ -1308,7 +1308,7 @@ u8 SendKind2Record(CPSSoc *connection) {
     cursor[3] = 0x46;
     cursor[4] = 3;
     cursor[5] = 0;
-    MI_CpuCopy8(httpsState->mKind2Block, cursor + 6, 0x20);
+    MI_CpuCopy8(httpsState->mAnswerBlock, cursor + 6, 0x20);
     cursor[0x26] = 0x20;
     if (httpsState->mEntry != NULL) {
         MI_CpuCopy8(httpsState->mEntry, cursor + 0x27, 0x20);
@@ -1404,7 +1404,7 @@ void SendOneByteRecordAndMessageDigests(CPSSoc *connection) {
     CPSiFree(msg);
 }
 
-void SendKind1Record(CPSSoc *connection) {
+void SendOfferRecord(CPSSoc *connection) {
     HttpsState *httpsState = connection->mHttpsState;
     u8 *message;
     u8 *cursor;
@@ -1422,12 +1422,12 @@ void SendKind1Record(CPSSoc *connection) {
     message[9] = 3;
     cursor[1] = 0;
     seconds = GetRtcSecondsPlusFixedOffset();
-    httpsState->mKind1Block[0] = seconds >> 24;
-    httpsState->mKind1Block[1] = seconds >> 16;
-    httpsState->mKind1Block[2] = seconds >> 8;
-    httpsState->mKind1Block[3] = seconds;
-    FillNonzeroRandomBytes(&httpsState->mKind1Block[4], 0x1c);
-    MI_CpuCopy8(httpsState->mKind1Block, cursor + 2, 0x20);
+    httpsState->mOfferBlock[0] = seconds >> 24;
+    httpsState->mOfferBlock[1] = seconds >> 16;
+    httpsState->mOfferBlock[2] = seconds >> 8;
+    httpsState->mOfferBlock[3] = seconds;
+    FillNonzeroRandomBytes(&httpsState->mOfferBlock[4], 0x1c);
+    MI_CpuCopy8(httpsState->mOfferBlock, cursor + 2, 0x20);
     httpsState->mEntry = FindEntryByValuePairAndSetLastUseTime(connection->mRemoteIp, connection->mRemotePort);
     if (httpsState->mEntry != NULL) {
         cursor[0x22] = 0x20;
@@ -1569,11 +1569,11 @@ u32 ReadRecordsExpectingStates7And6(CPSSoc *connection) {
     return 0;
 }
 
-BOOL RunSetupAfterReadingKind1Record(CPSSoc *connection) {
+BOOL RunSetupAfterReadingOfferRecord(CPSSoc *connection) {
     if (ReadHttpsRecordAndSetState(connection) != HTTPS_SETUP_OFFER_RECEIVED) {
         return TRUE;
     }
-    if (SendKind2Record(connection) != 0) {
+    if (SendAnswerRecord(connection) != 0) {
         DeriveBytesAndInitKeyStreamStates(connection->mHttpsState);
         SendOneByteRecordAndMessageDigests(connection);
         if (ReadRecordsExpectingStates7And6(connection) != 0) {
@@ -1591,15 +1591,15 @@ BOOL RunSetupAfterReadingKind1Record(CPSSoc *connection) {
     return FALSE;
 }
 
-void RunSetupAfterReadingKind1RecordUntilDone(CPSSoc *connection) {
+void RunSetupAfterReadingOfferRecordUntilDone(CPSSoc *connection) {
     HttpsState *httpsState = connection->mHttpsState;
     while (1) {
         CPSi_TcpListenRaw(connection);
         httpsState->mSetupState = HTTPS_SETUP_START;
-        httpsState->mReceivesKind1Record = 1;
+        httpsState->mReceivesOfferRecord = 1;
         CPSi_sha1_init(&httpsState->mMessageHash20);
         CPSi_md5_init(&httpsState->mMessageHash16);
-        if (RunSetupAfterReadingKind1Record(connection) == 0) {
+        if (RunSetupAfterReadingOfferRecord(connection) == 0) {
             httpsState->mSetupState = HTTPS_SETUP_COMPLETE;
             return;
         }
@@ -1609,10 +1609,10 @@ void RunSetupAfterReadingKind1RecordUntilDone(CPSSoc *connection) {
     }
 }
 
-BOOL RunSetupAfterSendingKind1Record(CPSSoc *connection) {
+BOOL RunSetupAfterSendingOfferRecord(CPSSoc *connection) {
     HttpsState *httpsState = connection->mHttpsState;
     u8 state;
-    SendKind1Record(connection);
+    SendOfferRecord(connection);
     while (1) {
         state = ReadHttpsRecordAndSetState(connection);
         if (state == HTTPS_SETUP_FAILED) {
@@ -1649,10 +1649,10 @@ BOOL CPSi_SslConnect(CPSSoc *connection) {
         return TRUE;
     }
     httpsState->mSetupState = HTTPS_SETUP_START;
-    httpsState->mReceivesKind1Record = 0;
+    httpsState->mReceivesOfferRecord = 0;
     CPSi_sha1_init(&httpsState->mMessageHash20);
     CPSi_md5_init(&httpsState->mMessageHash16);
-    return RunSetupAfterSendingKind1Record(connection);
+    return RunSetupAfterSendingOfferRecord(connection);
 }
 
 u8 *ReadHttpsRecordsUntilBytesReceived(u32 *unreadCount, CPSSoc *connection) {
