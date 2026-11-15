@@ -14,7 +14,7 @@ typedef struct ApObjectPosition {
 } ApObjectPosition;
 
 extern const u8 gApScanEmptyBssid[];
-extern u8 *gKind2ItemBuffer;
+extern u8 *gFirstReplyItemBuffer;
 extern const Rect gTouchScreenRect;
 extern u16 gEditKeyboardPage0KeyTexts[50];
 extern u16 gEditKeyboardPage1KeyTexts[50];

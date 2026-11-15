@@ -26,7 +26,7 @@ u32 gExchangeState;
 void *gExchangeWcmWork;
 u8 *gExchangeSearchEssid;
 WMBssDesc *gExchangeConnectRecord;
-u32 gKind1Item5Flag;
+u32 gReplyIncludesMacAddress;
 void *gAllocatedBuffer;
 u32 gExchangeConnectOption;
 RawEntry *gRawEntries;

@@ -17,7 +17,7 @@ typedef struct Words16 {
     /* 0 */ u32 mWords[16];
 } Words16;
 
-// Values of ExchangeResult.mKind: which value set FillExchangeResultFromKind5Data stored; the three VALUES ones hold
+// Values of ExchangeResult.mKind: which value set FillExchangeResultFromItems stored; the three VALUES ones hold
 // texts of 5, 13 or 16 characters (or their hex forms of 10, 26 or 32).
 enum {
     EXCHANGE_RESULT_KIND_NONE,
@@ -37,8 +37,8 @@ typedef struct ExchangeResult {
     /* a8 */ Words16 mItem20aWords;
 } ExchangeResult;
 
-// Values of Kind5Record.mItem202Value: what the record carries. 2 and 3 (bare) carry words and set the result kind to 4
-// and 5.
+// Values of ExchangeResultRecord.mItem202Value: what the record carries. 2 and 3 (bare) carry words and set the result
+// kind to 4 and 5.
 enum {
     KIND5_ITEM202_NONE,
     KIND5_ITEM202_VALUE_TEXTS,
@@ -47,19 +47,19 @@ enum {
 };
 
 // 0x60 bytes.
-typedef struct Kind5Record {
+typedef struct ExchangeResultRecord {
     /* 00 */ char mText[0x2c];
     /* 2c */ u32 mItem202Value;
     /* 30 */ s32 mItem205Value;
     /* 34 */ u8 mUnk_34[0x28];
     /* 5c */ s32 mStoreValuesAsHex;
-} Kind5Record;
+} ExchangeResultRecord;
 
 // 0x48 bytes.
-typedef struct Kind5Item20a {
+typedef struct ExchangeResultItem20a {
     /* 00 */ Words16 mBytes;
     /* 40 */ u32 mUnk_40[2];
-} Kind5Item20a;
+} ExchangeResultItem20a;
 
 // Entry of the list at gRawEntries, 0xc0 bytes.
 typedef struct RawEntry {
@@ -80,13 +80,13 @@ typedef struct RawEntry {
 // The items of a kind 5 packet, 0x254 bytes. The words below the record are only cleared with the rest; the values are
 // four 0x28-byte slots (0x20 characters, then two words that items 0x203 and 0x204 store) addressed from the byte
 // array.
-typedef struct Kind5Items {
+typedef struct ExchangeResultItems {
     /* 000 */ u32 mWords[0x40];
-    /* 100 */ Kind5Record mRecord;
+    /* 100 */ ExchangeResultRecord mRecord;
     /* 160 */ u8 mUnk_160[4];
     /* 164 */ u8 mValues[0x98];
-    /* 1fc */ Kind5Item20a mItem20a;
+    /* 1fc */ ExchangeResultItem20a mItem20a;
     /* 244 */ u8 mUnk_244[0x10];
-} Kind5Items;
+} ExchangeResultItems;
 
 #include "03/Net/essid_packet_steps.h"

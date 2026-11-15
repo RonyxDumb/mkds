@@ -155,7 +155,7 @@ const u32 gReversedSubstitutionTable[256] = {
     0x7e7e7e7e, 0xbabababa, 0x77777777, 0xd6d6d6d6, 0x26262626, 0xe1e1e1e1, 0x69696969, 0x14141414, 0x63636363,
     0x55555555, 0x21212121, 0xc0c0c0c,  0x7d7d7d7d};
 u32 gFormatAddressesFlag = 1;
-u8 *gKind2ItemBuffer = gBodyBuffer + 8;
+u8 *gFirstReplyItemBuffer = gBodyBuffer + 8;
 const u32 gTransformTableByte3[256] = {
     0xc66363a5, 0xf87c7c84, 0xee777799, 0xf67b7b8d, 0xfff2f20d, 0xd66b6bbd, 0xde6f6fb1, 0x91c5c554, 0x60303050,
     0x2010103,  0xce6767a9, 0x562b2b7d, 0xe7fefe19, 0xb5d7d762, 0x4dababe6, 0xec76769a, 0x8fcaca45, 0x1f82829d,
@@ -369,14 +369,14 @@ const u32 gReversedTableByte2[256] = {
 u32 gThreadStackSize = 0x800;
 s32 gStartEntryCount = 0x40;
 s32 gTimeoutAtMs = -1;
-ExchangeIndexBytes gKind2Item3Bytes = {{6, 0, 1, 2, 3, 4, 5}};
+ExchangeIndexBytes gFirstReplyIndexBytes = {{6, 0, 1, 2, 3, 4, 5}};
 char gSixAsterisksString[7] = "******";
 u8 gHashPadding[64] = {0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                        0,    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                        0,    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 u8 gPacketBuffer[0x800];
 u8 gBodyBuffer[0x800];
-Kind5Items gExchangeResultItems;
+ExchangeResultItems gExchangeResultItems;
 ExchangeResult gExchangeResult;
 OSThread gExchangeThread;
 char gSelectedEntryName[36];
@@ -1022,7 +1022,7 @@ void DisconnectExchangeAndStopSockets(void) {
 
 // Finds an entry of current whose bit-4 flag is clear and was set in previous, else a six-asterisk entry that is clear
 // in current but not in previous; stores its index.
-s32 FindEntryWithNewlyClearedBit4(EntrySummaryList *current, EntrySummaryList *previous, u32 *foundIndex) {
+s32 FindEntryWithEncryptionRemoved(EntrySummaryList *current, EntrySummaryList *previous, u32 *foundIndex) {
     BOOL found;
     BOOL result;
     BOOL currentHasAsterisks;
@@ -1055,7 +1055,7 @@ s32 FindEntryWithNewlyClearedBit4(EntrySummaryList *current, EntrySummaryList *p
                 }
                 if (memcmp(currentName, previousEntry->mSsid, strlen(currentName)) == 0 &&
                     memcmp(currentEntry->mAddress.mBytes, previousEntry->mAddress.mBytes, 4) == 0 &&
-                    currentEntry->mBit4Set != previousEntry->mBit4Set && currentEntry->mBit4Set == 0) {
+                    currentEntry->mEncrypted != previousEntry->mEncrypted && currentEntry->mEncrypted == 0) {
                     found = TRUE;
                     break;
                 }
@@ -1080,7 +1080,7 @@ s32 FindEntryWithNewlyClearedBit4(EntrySummaryList *current, EntrySummaryList *p
             memcpy(entryName, previousEntry->mSsid, 0x20);
             entryName[previousEntry->mSsidLength] = 0;
             if (memcmp(entryName, gSixAsterisksString, strlen(gSixAsterisksString)) == 0 &&
-                previousEntry->mBit4Set == 0) {
+                previousEntry->mEncrypted == 0) {
                 previousHasAsterisks = TRUE;
                 break;
             }
@@ -1092,7 +1092,7 @@ s32 FindEntryWithNewlyClearedBit4(EntrySummaryList *current, EntrySummaryList *p
             entryName[currentEntry->mSsidLength] = 0;
             if (strlen(entryName) == strlen(gSixAsterisksString) &&
                 memcmp(entryName, gSixAsterisksString, strlen(gSixAsterisksString)) == 0 &&
-                currentEntry->mBit4Set == 0) {
+                currentEntry->mEncrypted == 0) {
                 currentHasAsterisks = TRUE;
                 break;
             }
@@ -1109,9 +1109,9 @@ s32 FindEntryWithNewlyClearedBit4(EntrySummaryList *current, EntrySummaryList *p
     return result;
 }
 
-// Repeats the entry search up to 30 times until FindEntryWithNewlyClearedBit4 reports one; stores its index, name and
+// Repeats the entry search up to 30 times until FindEntryWithEncryptionRemoved reports one; stores its index, name and
 // address.
-s32 SearchEntriesAndStoreEntryWithNewlyClearedBit4(void) {
+s32 SearchEntriesAndStoreEntryWithEncryptionRemoved(void) {
     s32 result;
     s32 round;
     s32 copied;
@@ -1219,7 +1219,7 @@ s32 SearchEntriesAndStoreEntryWithNewlyClearedBit4(void) {
                 memcpy(currentList->mEntries[index].mSsid, rawEntry->mSsid, 0x20);
                 currentList->mEntries[index].mSsidLength = rawEntry->mSsidLength;
                 currentList->mEntries[index].mSsid[rawEntry->mSsidLength] = 0;
-                currentList->mEntries[index].mBit4Set = (rawEntry->mFlags & 0x10) ? 1 : 0;
+                currentList->mEntries[index].mEncrypted = (rawEntry->mFlags & 0x10) ? 1 : 0;
                 source = (u8 *) &rawEntry->mAddress;
                 target = (u8 *) &currentList->mEntries[index].mAddress;
                 target[0] = source[0];
@@ -1235,7 +1235,7 @@ s32 SearchEntriesAndStoreEntryWithNewlyClearedBit4(void) {
         }
         currentList->mCount = result;
         if (gExchangeStatus != EXCHANGE_STATUS_STARTED) {
-            index = FindEntryWithNewlyClearedBit4(currentList, previousList, &changedIndex);
+            index = FindEntryWithEncryptionRemoved(currentList, previousList, &changedIndex);
             if (index != 0) {
                 entry = &currentList->mEntries[changedIndex];
                 gSelectedEntryIndex = changedIndex;
@@ -1405,12 +1405,12 @@ s32 BuildSingleItemBody(u8 *out, u32 type, const void *value, u32 length) {
     return size;
 }
 
-typedef struct Kind2Values {
+typedef struct FirstReplyValues {
     /* 0 */ u16 mHalfword;
     /* 2 */ ExchangeIndexBytes mSevenBytes;
-} Kind2Values;
+} FirstReplyValues;
 
-BOOL ParseAndCheckExchangePacketKind1(const u8 *packet, u32 *item5Flag) {
+BOOL ParseAndCheckFirstExchangePacket(const u8 *packet, u32 *item5Flag) {
     u32 item1Value;
     u32 item2Value;
     s32 item5Value;
@@ -1481,21 +1481,21 @@ s32 ReadExchangePacketPayloadOfKind(const u8 *packet, u32 kind, u8 *output, cons
     return length;
 }
 
-s32 BuildExchangePacketKind2(u8 *packet) {
-    Kind2Values values;
+s32 BuildFirstReplyPacket(u8 *packet) {
+    FirstReplyValues values;
     u8 *cursor;
     values.mHalfword = 0x100;
-    values.mSevenBytes = gKind2Item3Bytes;
-    cursor = AppendItem(gKind2ItemBuffer, 1, &values, 2);
+    values.mSevenBytes = gFirstReplyIndexBytes;
+    cursor = AppendItem(gFirstReplyItemBuffer, 1, &values, 2);
     cursor = AppendItem(cursor, 2, &values, 2);
-    if (gKind1Item5Flag != 0) {
+    if (gReplyIncludesMacAddress != 0) {
         cursor = AppendItem(cursor, 5, &values, 2);
     }
     cursor = AppendItem(cursor, 3, &values.mSevenBytes, 7);
-    if (gKind1Item5Flag != 0) {
+    if (gReplyIncludesMacAddress != 0) {
         cursor = AppendItem(cursor, 4, &gMacAddress, 6);
     }
-    return BuildExchangePacket(packet, 2, gBodyBuffer, cursor - gKind2ItemBuffer + 8, NULL);
+    return BuildExchangePacket(packet, 2, gBodyBuffer, cursor - gFirstReplyItemBuffer + 8, NULL);
 }
 
 u32 GetMacAddress(void *address) {
@@ -1531,7 +1531,7 @@ s32 StoreMacAddressAndBuildKey(u8 *key, void *unused) {
 
 // Stores the items of types 0x201 to 0x20a in the record, the 0x203 and 0x204 words, the values and the item 0x20a of
 // gExchangeResultItems.
-s32 ParseExchangePacketKind5Items(u8 *body) {
+s32 ParseExchangeResultPacketItems(u8 *body) {
     u8 *end;
     BOOL found;
     u8 *cursor;
@@ -1669,7 +1669,7 @@ BOOL ParseHexText(u8 *output, const s8 *text, s32 length) {
 
 // Builds gExchangeResult from the Kind5 data; returns 1, or -7 for a value text of the wrong length, a zero item 0x205
 // value or an unknown item 0x202 value.
-s32 FillExchangeResultFromKind5Data(void) {
+s32 FillExchangeResultFromItems(void) {
     s32 result;
     s32 valueIndex;
     char valueBuffer[0x21];
@@ -1771,7 +1771,7 @@ s32 RunExchange(void) {
         OS_Sleep(500);
         switch (gExchangeState) {
             case 1:
-                result = SearchEntriesAndStoreEntryWithNewlyClearedBit4();
+                result = SearchEntriesAndStoreEntryWithEncryptionRemoved();
                 if (result != 1) {
                     done = TRUE;
                 } else {
@@ -1818,7 +1818,7 @@ s32 RunExchange(void) {
                 peerAddress.mLength = sizeof(SocketAddress);
                 StoreMacAddressAndBuildKey(gFirstKey, &peerAddress);
                 if (SOC_RecvFrom(descriptor, gPacketBuffer, 0x800, 4, &peerAddress) > 0) {
-                    if (ParseAndCheckExchangePacketKind1(gPacketBuffer, &gKind1Item5Flag) != FALSE) {
+                    if (ParseAndCheckFirstExchangePacket(gPacketBuffer, &gReplyIncludesMacAddress) != FALSE) {
                         gTimeoutAtMs = GetTickMilliseconds() + 30000;
                         gExchangeState = 5;
                         gExchangeStatus = EXCHANGE_STATUS_FIRST_PACKET_ACCEPTED;
@@ -1827,7 +1827,7 @@ s32 RunExchange(void) {
                 }
                 break;
             case 5:
-                gPacketLength = BuildExchangePacketKind2(gPacketBuffer);
+                gPacketLength = BuildFirstReplyPacket(gPacketBuffer);
                 SendBytesToAllOnesAddressWrapper(descriptor, &peerAddress, gPacketBuffer, gPacketLength);
                 stamp = GetTickMilliseconds();
                 gExchangeState = 6;
@@ -1861,14 +1861,14 @@ s32 RunExchange(void) {
                 gPacketLength = BuildExchangePacket(gPacketBuffer, 4, gBodyBuffer, gBodyLength, gFirstKey);
                 SendBytesToAllOnesAddressWrapper(descriptor, &peerAddress, gPacketBuffer, gPacketLength);
                 stamp = GetTickMilliseconds();
-                __clear(&gExchangeResultItems, sizeof(Kind5Items));
+                __clear(&gExchangeResultItems, sizeof(ExchangeResultItems));
                 gExchangeState = 8;
                 break;
             case 8:
                 if (SOC_RecvFrom(descriptor, gPacketBuffer, 0x800, 4, &peerAddress) > 0) {
                     gBodyLength =
                         ReadExchangePacketPayloadOfKind(gPacketBuffer, 5, gBodyBuffer, &gSecondKeyReceivedPart);
-                    if (gBodyLength != 0 && ParseExchangePacketKind5Items(gBodyBuffer) != 0) {
+                    if (gBodyLength != 0 && ParseExchangeResultPacketItems(gBodyBuffer) != 0) {
                         if (*(s8 *) gExchangeResultItems.mRecord.mText != 0) {
                             gReceivedTextNonEmpty = 1;
                         } else {
@@ -1909,7 +1909,7 @@ s32 RunExchange(void) {
                     retryCount++;
                     if (retryCount >= 10) {
                         done = TRUE;
-                        result = FillExchangeResultFromKind5Data();
+                        result = FillExchangeResultFromItems();
                     } else {
                         gExchangeState = 9;
                     }

@@ -29,7 +29,7 @@ extern u32 gExchangeState;
 extern void *gExchangeWcmWork;
 extern u8 *gExchangeSearchEssid;
 extern struct WMBssDesc *gExchangeConnectRecord;
-extern u32 gKind1Item5Flag;
+extern u32 gReplyIncludesMacAddress;
 extern void *gAllocatedBuffer;
 extern u32 gExchangeConnectOption;
 extern struct RawEntry *gRawEntries;

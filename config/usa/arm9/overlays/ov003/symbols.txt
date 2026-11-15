@@ -118,14 +118,14 @@ TransformBodyReversedWithKey kind:function(thumb,size=0x1f4) addr:0x021bca9c
 TransformBodyWithKey kind:function(thumb,size=0x20c) addr:0x021bcc90
 RunExchangeThread kind:function(thumb,size=0x40) addr:0x021bce9c
 RunExchange kind:function(thumb,size=0x41c) addr:0x021bcedc
-FillExchangeResultFromKind5Data kind:function(thumb,size=0x194) addr:0x021bd2f8
+FillExchangeResultFromItems kind:function(thumb,size=0x194) addr:0x021bd2f8
 ParseHexText kind:function(thumb,size=0xd0) addr:0x021bd48c
-ParseExchangePacketKind5Items kind:function(thumb,size=0x1cc) addr:0x021bd55c
+ParseExchangeResultPacketItems kind:function(thumb,size=0x1cc) addr:0x021bd55c
 StoreMacAddressAndBuildKey kind:function(thumb,size=0x11c) addr:0x021bd728
 GetMacAddress kind:function(thumb,size=0x10) addr:0x021bd844
-BuildExchangePacketKind2 kind:function(thumb,size=0xa4) addr:0x021bd854
+BuildFirstReplyPacket kind:function(thumb,size=0xa4) addr:0x021bd854
 ReadExchangePacketPayloadOfKind kind:function(thumb,size=0x5e) addr:0x021bd8f8
-ParseAndCheckExchangePacketKind1 kind:function(thumb,size=0xe0) addr:0x021bd958
+ParseAndCheckFirstExchangePacket kind:function(thumb,size=0xe0) addr:0x021bd958
 BuildSingleItemBody kind:function(thumb,size=0x2c) addr:0x021bda38
 AppendItem kind:function(thumb,size=0x68) addr:0x021bda64
 BuildExchangePacket kind:function(thumb,size=0xc4) addr:0x021bdacc
@@ -135,8 +135,8 @@ ReadExchangePacketAndCheckSum kind:function(thumb,size=0x70) addr:0x021bdc1c
 SendBytesToAllOnesAddressWrapper kind:function(thumb,size=0xc) addr:0x021bdc8c
 SendBytesToAllOnesAddress kind:function(thumb,size=0x44) addr:0x021bdc98
 SendBytesToAddress kind:function(thumb,size=0x1e) addr:0x021bdcdc
-SearchEntriesAndStoreEntryWithNewlyClearedBit4 kind:function(thumb,size=0x2ec) addr:0x021bdcfc
-FindEntryWithNewlyClearedBit4 kind:function(thumb,size=0x1d4) addr:0x021bdfe8
+SearchEntriesAndStoreEntryWithEncryptionRemoved kind:function(thumb,size=0x2ec) addr:0x021bdcfc
+FindEntryWithEncryptionRemoved kind:function(thumb,size=0x1d4) addr:0x021bdfe8
 DisconnectExchangeAndStopSockets kind:function(thumb,size=0x68) addr:0x021be1bc
 ConnectExchangeAndStartSockets kind:function(thumb,size=0x154) addr:0x021be224
 ReleaseExchangeWiFi kind:function(thumb,size=0x60) addr:0x021be378
@@ -1250,13 +1250,13 @@ gEssidSocketConfig kind:data(byte[88]) addr:0x021d67d0
 gMelcoString kind:data(byte[6]) addr:0x021d6828
 gEssidAossString kind:data(byte[11]) addr:0x021d6830
 gMaskCodeTable kind:data(byte[48]) addr:0x021d683c
-gKind2ItemBuffer kind:data(byte[4]) addr:0x021d686c
+gFirstReplyItemBuffer kind:data(byte[4]) addr:0x021d686c
 gFormatAddressesFlag kind:data(byte[4]) addr:0x021d6870
 gThreadStackSize kind:data(byte[4]) addr:0x021d6874
 gTimeoutAtMs kind:data(byte[4]) addr:0x021d6878
 gStartEntryCount kind:data(byte[4]) addr:0x021d687c
 gSixAsterisksString kind:data(byte[7]) addr:0x021d6880
-gKind2Item3Bytes kind:data(byte[7]) addr:0x021d6888
+gFirstReplyIndexBytes kind:data(byte[7]) addr:0x021d6888
 @2317 kind:data(byte[12]) addr:0x021d6890 local
 gHashPadding kind:data(byte[64]) addr:0x021d689c
 gExchangeSocketConfig kind:data(byte[88]) addr:0x021d68dc
@@ -1522,7 +1522,7 @@ gAlignedBuffer kind:bss(size=0x4) addr:0x021d8bd0
 gExchangeSearchAddress kind:bss(size=0x4) addr:0x021d8bd4
 gExchangeSearchEssid kind:bss(size=0x4) addr:0x021d8bd8
 gExchangeConnectRecord kind:bss(size=0x4) addr:0x021d8bdc
-gKind1Item5Flag kind:bss(size=0x4) addr:0x021d8be0
+gReplyIncludesMacAddress kind:bss(size=0x4) addr:0x021d8be0
 gAllocatedBuffer kind:bss(size=0x4) addr:0x021d8be4
 gExchangeConnectOption kind:bss(size=0x4) addr:0x021d8be8
 gRawEntries kind:bss(size=0x4) addr:0x021d8bec
