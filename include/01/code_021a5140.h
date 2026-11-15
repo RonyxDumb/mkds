@@ -40,6 +40,37 @@ enum {
     EMBLEM_STATE_DONE,
 };
 
+// Values of Emblem.mCursorTargetState: which part of the sub screen the cursor is on.
+enum {
+    EMBLEM_CURSOR_TARGET_GRID,
+    EMBLEM_CURSOR_TARGET_BUTTONS,
+    EMBLEM_CURSOR_TARGET_COLORS,
+    EMBLEM_CURSOR_TARGET_HELD,
+};
+
+// Values of Emblem.mDisplayState: the screen setup the display step runs next.
+enum {
+    EMBLEM_DISPLAY_UPLOAD_SCREENS,
+    EMBLEM_DISPLAY_IDLE,
+    EMBLEM_DISPLAY_TEMPLATE_SLIDE_IN_SETUP,
+    EMBLEM_DISPLAY_TEMPLATE_SETUP,
+    EMBLEM_DISPLAY_TEMPLATE_SLIDING,
+    EMBLEM_DISPLAY_TEMPLATE_SHOWN,
+    EMBLEM_DISPLAY_TEMPLATE_SLIDE_OUT_SETUP,
+    EMBLEM_DISPLAY_GRID_RESTORE,
+    EMBLEM_DISPLAY_GRID,
+    EMBLEM_DISPLAY_CAMERA_UPLOAD,
+    EMBLEM_DISPLAY_CAMERA_FADE,
+    EMBLEM_DISPLAY_CAMERA,
+    EMBLEM_DISPLAY_GRID_UPLOAD,
+    EMBLEM_DISPLAY_GRID_FADE,
+    EMBLEM_DISPLAY_CHOISES_SETUP,
+    EMBLEM_DISPLAY_CHOISES_CLOSE,
+};
+
+// Distance the template screen slides, in pixels (Emblem.mTemplateSlideOffset runs 0 to this).
+#define EMBLEM_TEMPLATE_SLIDE_DISTANCE 0xc0
+
 // Object behind gEmblem, allocated by InitEmblem.
 typedef struct Emblem {
     /* 0000 */ OamBuffer mMainOam;

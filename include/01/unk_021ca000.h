@@ -196,6 +196,21 @@ typedef struct SelectEngine {
     /* 4c */ s32 mResult;
 } SelectEngine;
 
+// Values of EmblemCursor.mMode: what the cell under the cursor does when pressed.
+enum {
+    EMBLEM_CURSOR_MODE_DRAW,
+    EMBLEM_CURSOR_MODE_ERASE,
+    EMBLEM_CURSOR_MODE_FILL,
+    EMBLEM_CURSOR_MODE_PICK_VALUE,
+};
+
+// Values of EmblemCursor.mSizeIndex: the square of cells one press writes.
+enum {
+    EMBLEM_BRUSH_1X1,
+    EMBLEM_BRUSH_2X2,
+    EMBLEM_BRUSH_3X3,
+};
+
 // Object behind gEmblemCursor, allocated by CreateEmblemCursorAndGrid.
 typedef struct EmblemCursor {
     /* 00 */ s32 mMode;
