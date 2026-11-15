@@ -99,7 +99,7 @@ s32 GSIAvailableCheckThink(void) {
         return 1;
     }
     if (CanReceiveOnSocket(gGsiAvailableCheck.mSocket) != 0 &&
-        HandlePacket(replyBuffer, recvfrom(gGsiAvailableCheck.mSocket, replyBuffer, 0x40, 0, (u8 *) &address, &len),
+        HandlePacket(replyBuffer, recvfrom(gGsiAvailableCheck.mSocket, replyBuffer, 0x40, 0, &address, &len),
                      &address, &disabledMask) == FALSE) {
         closesocket(gGsiAvailableCheck.mSocket);
         if ((disabledMask & 1) != 0) {

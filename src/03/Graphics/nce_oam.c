@@ -104,7 +104,7 @@ OamRange *CreateOamRange(u32 screen, s32 entryCount, s32 fromFront) {
                 start = node->mEntries + node->mEntryCount;
                 if (start + entryCount <= neighbor->mEntries) {
                     range->mEntries = start;
-                    AddNodeBefore((u32) neighbor, (u32) range);
+                    AddNodeBefore(neighbor, range);
                     break;
                 }
                 node = neighbor;
@@ -121,7 +121,7 @@ OamRange *CreateOamRange(u32 screen, s32 entryCount, s32 fromFront) {
                 start = node->mEntries - entryCount;
                 if (start >= neighbor->mEntries + neighbor->mEntryCount) {
                     range->mEntries = start;
-                    AddNodeBefore((u32) node, (u32) range);
+                    AddNodeBefore(node, range);
                     break;
                 }
                 node = neighbor;
@@ -144,7 +144,7 @@ void DeleteOamRange(OamRange *range) {
     for (entryIndex = 0; entryIndex < range->mEntryCount; entryIndex++, entries++) {
         entries->mAttr01 = (entries->mAttr01 & 0xc1fffcff) | 0x200;
     }
-    RemoveNodeFromList((u32) range);
+    RemoveNodeFromList(range);
     if (range >= (OamRange *) &gOamRanges[1]) {
         screen = 1;
     }

@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void AddNodeBefore(unsigned int node, unsigned int newNode);
-void RemoveNodeFromList(unsigned int node);
+void AddNodeBefore(void *node, void *newNode);
+void RemoveNodeFromList(void *node);

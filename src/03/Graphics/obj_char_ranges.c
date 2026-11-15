@@ -53,7 +53,7 @@ ObjCharRange *CreateObjCharRange(u32 screen, s32 charCount, s32 fromFront, u32 *
                 start = node->mStart + node->mLength;
                 if (start + unitCount <= neighbor->mStart) {
                     range->mStart = start;
-                    AddNodeBefore((u32) neighbor, (u32) range);
+                    AddNodeBefore(neighbor, range);
                     break;
                 }
                 node = neighbor;
@@ -71,7 +71,7 @@ ObjCharRange *CreateObjCharRange(u32 screen, s32 charCount, s32 fromFront, u32 *
                 start = node->mStart - unitCount;
                 if (start >= neighbor->mStart + neighbor->mLength) {
                     range->mStart = start;
-                    AddNodeBefore((u32) node, (u32) range);
+                    AddNodeBefore(node, range);
                     break;
                 }
                 node = neighbor;
@@ -86,16 +86,16 @@ ObjCharRange *CreateObjCharRange(u32 screen, s32 charCount, s32 fromFront, u32 *
     return range;
 }
 
-void DeleteObjCharRange(u32 range) {
+void DeleteObjCharRange(ObjCharRange *range) {
     ObjCharRanges *ranges;
     s32 screen = 0;
 
     RemoveNodeFromList(range);
     ranges = gObjCharRanges;
-    if (range >= (u32) ranges + 0x1a0) {
+    if ((u32) range >= (u32) ranges + 0x1a0) {
         screen = 1;
     }
-    PushPointerStack(ranges[screen].mFreeRanges, (void *) range);
+    PushPointerStack(ranges[screen].mFreeRanges, range);
 }
 
 void InitOamBuffers(void) {

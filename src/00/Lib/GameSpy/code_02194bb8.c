@@ -152,7 +152,7 @@ int gpiProfileSearch(GpConnection *connection, s8 *nick, s8 *uniquenick, s8 *ema
           ((firstname == NULL || (*firstname == 0)))) &&
          ((lastname == NULL || (*lastname == 0)))) &&
         ((icquin == 0 && ((uniquenick == NULL || (*uniquenick == 0)))))) {
-        GpiSetErrorMessage((u32 *) connection, "No search criteria.");
+        GpiSetErrorMessage(connection, "No search criteria.");
         return 2;
     }
     result = GpiCreateSearch(connection, &data, PROFILE_SEARCH_KIND_PROFILES);

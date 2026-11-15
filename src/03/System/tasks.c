@@ -95,7 +95,7 @@ TaskEntry *AddTaskEx(u32 listIndex, void (*function)(TaskEntry *listIndex, u32 f
     following = gTaskLists[listIndex].mListStart.mNext;
     while (1) {
         if (priority < following->mPriority) {
-            AddNodeBefore((u32) following, (u32) entry);
+            AddNodeBefore(following, entry);
             break;
         }
         following = following->mNext;
@@ -123,6 +123,6 @@ void RemoveTaskEntry(int listIndex, TaskEntry *entry) {
     if (entry->mFreesArg != 0) {
         FreeExpHeapBlockAndClearPointer(&entry->mArg);
     }
-    RemoveNodeFromList((u32) entry);
+    RemoveNodeFromList(entry);
     PushPointerStack(gTaskLists[listIndex].mFreeEntries, entry);
 }

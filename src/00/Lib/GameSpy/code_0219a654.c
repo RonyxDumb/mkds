@@ -312,7 +312,7 @@ void NegotiateThink(NatTraversalEntry *negotiator) {
                 break;
             }
             receivedLength =
-                recvfrom(negotiator->mDescriptor, receiveBuffer, 0x200, 0, (u8 *) &senderAddress, &senderAddressLength);
+                recvfrom(negotiator->mDescriptor, receiveBuffer, 0x200, 0, &senderAddress, &senderAddressLength);
             if (receivedLength == -1) {
                 break;
             }

@@ -44,7 +44,7 @@ u32 GpiUnpackDate(u32 *connection, s32 date, u32 *day, u32 *month, u32 *year) {
     }
     isValid = GpiIsValidDate(unpackedDay, unpackedMonth, date);
     if (isValid == 0) {
-        GpiSetErrorMessage((u32 *) (u32) connection, "Invalid date.");
+        GpiSetErrorMessage(connection, "Invalid date.");
         return 2;
     }
     *day = unpackedDay;
