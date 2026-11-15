@@ -482,9 +482,9 @@ void DWCi_MatchProcess(s32 param_1) {
                             return;
                         }
                     } else if (DWCi_HandleMatchCommandError(DWCi_SendMatchCommand(
-                                   6, wiFiMatching->mLastCommandProfileId, wiFiMatching->mLastCommandAddress,
-                                   wiFiMatching->mLastCommandPort, wiFiMatching->mLastCommandValues,
-                                   wiFiMatching->mLastCommandValueCount)) != 0) {
+                                   WIFI_MATCH_COMMAND_CONNECT_INFO, wiFiMatching->mLastCommandProfileId,
+                                   wiFiMatching->mLastCommandAddress, wiFiMatching->mLastCommandPort,
+                                   wiFiMatching->mLastCommandValues, wiFiMatching->mLastCommandValueCount)) != 0) {
                         return;
                     }
                 }
@@ -520,9 +520,9 @@ void DWCi_MatchProcess(s32 param_1) {
                             DWCi_RestartFromTimeout();
                         }
                     } else if (DWCi_HandleMatchCommandError(DWCi_SendMatchCommand(
-                                   8, wiFiMatching->mLastCommandProfileId, wiFiMatching->mLastCommandAddress,
-                                   wiFiMatching->mLastCommandPort, wiFiMatching->mLastCommandValues,
-                                   wiFiMatching->mLastCommandValueCount)) != 0) {
+                                   WIFI_MATCH_COMMAND_PARTICIPANT_INFO, wiFiMatching->mLastCommandProfileId,
+                                   wiFiMatching->mLastCommandAddress, wiFiMatching->mLastCommandPort,
+                                   wiFiMatching->mLastCommandValues, wiFiMatching->mLastCommandValueCount)) != 0) {
                         return;
                     }
                 }
@@ -1358,7 +1358,7 @@ u32 DWCi_SendMatchCommand(u32 command, u32 profileId, u32 address, u32 port, voi
     length = 0;
     if (gWiFiMatching->mMode == WIFI_MATCH_MODE_FILTER_SEARCH ||
         ((gWiFiMatching->mMode == WIFI_MATCH_MODE_SERVER_CLIENT || gWiFiMatching->mDistantFriend != 0) &&
-         command == 6)) {
+         command == WIFI_MATCH_COMMAND_CONNECT_INFO)) {
         length = DWCi_SendSBMsgCommand(command, address, port, values, valueCount);
     } else {
         if (values != NULL && valueCount != 0) {
@@ -2239,7 +2239,7 @@ void DWCi_PostProcessConnection(s32 type) {
             wiFiMatching = gWiFiMatching;
             participantPos = wiFiMatching->mLastParticipantPos;
             if (DWCi_HandleMatchCommandError(DWCi_SendMatchCommand(
-                    8, wiFiMatching->mParticipantProfileIds[participantPos],
+                    WIFI_MATCH_COMMAND_PARTICIPANT_INFO, wiFiMatching->mParticipantProfileIds[participantPos],
                     wiFiMatching->mParticipantCommandAddresses[participantPos],
                     wiFiMatching->mParticipantCommandPorts[participantPos], words, wordCount)) != 0) {
                 return;
@@ -2265,8 +2265,8 @@ void DWCi_PostProcessConnection(s32 type) {
             wiFiMatching = gWiFiMatching;
             if (wiFiMatching->mLastParticipantPos > 1) {
                 if (DWCi_HandleMatchCommandError(DWCi_SendMatchCommand(
-                        9, wiFiMatching->mParticipantProfileIds[0], wiFiMatching->mParticipantCommandAddresses[0],
-                        wiFiMatching->mParticipantCommandPorts[0],
+                        WIFI_MATCH_COMMAND_PARTICIPANT_ACK, wiFiMatching->mParticipantProfileIds[0],
+                        wiFiMatching->mParticipantCommandAddresses[0], wiFiMatching->mParticipantCommandPorts[0],
                         &wiFiMatching->mParticipantProfileIds[wiFiMatching->mLastParticipantPos - 1], 1)) != 0) {
                     return;
                 }
