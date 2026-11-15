@@ -4,6 +4,16 @@
 #include "code_0201c528.h"
 #include "code_0201c4e8.h"
 
+// An emitter's mPlaneY with no override of the plane height of the behavior.
+#define SPL_PLANE_Y_UNSET 0x80000000
+
+// Mask of one 5-bit channel of a 15-bit color, and the largest value of the 5-bit animation alpha.
+#define SPL_COLOR_CHANNEL_MASK 0x1f
+#define SPL_ALPHA_MAX 0x1f
+
+// Time scale of a particle: this value divided by the length in frames, so that the time reaches it at the end.
+#define SPL_TIME_SCALE_END 0xffff
+
 // Indexed by the rotate kind of an emitter's header.
 extern void (*gSplRotateFunctions[2])(s32 sinValue, s32 cosValue, MtxFx43 *mtx);
 // Indexed by the plane kind of an emitter's header.

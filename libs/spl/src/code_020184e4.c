@@ -149,7 +149,7 @@ void SPLBehavior_ApplyCollisionPlane(const ParticleBehaviorCollisionPlane *plane
     s32 particleY;
 
     lim = plane->mPlaneY;
-    if (emtr->mPlaneY != 0x80000000) {
+    if (emtr->mPlaneY != SPL_PLANE_Y_UNSET) {
         lim = emtr->mPlaneY;
     }
     switch (plane->mMode) {
@@ -236,12 +236,12 @@ void SPLAnim_Color(ParticleInstance *ptcl, ParticleResource *res, s32 lifeRate) 
         return;
     }
     if (lifeRate < mid) {
-        ar = colorAnim->mStartColor & 0x1f;
-        ag = (colorAnim->mStartColor >> 5) & 0x1f;
-        ab = (colorAnim->mStartColor >> 10) & 0x1f;
-        br = header->mColor & 0x1f;
-        bg = (header->mColor >> 5) & 0x1f;
-        bb = (header->mColor >> 10) & 0x1f;
+        ar = colorAnim->mStartColor & SPL_COLOR_CHANNEL_MASK;
+        ag = (colorAnim->mStartColor >> 5) & SPL_COLOR_CHANNEL_MASK;
+        ab = (colorAnim->mStartColor >> 10) & SPL_COLOR_CHANNEL_MASK;
+        br = header->mColor & SPL_COLOR_CHANNEL_MASK;
+        bg = (header->mColor >> 5) & SPL_COLOR_CHANNEL_MASK;
+        bb = (header->mColor >> 10) & SPL_COLOR_CHANNEL_MASK;
         if (colorAnim->mBlend == 0) {
             ptcl->mColor = br | (bg << 5) | (bb << 10);
             return;
@@ -259,12 +259,12 @@ void SPLAnim_Color(ParticleInstance *ptcl, ParticleResource *res, s32 lifeRate) 
         s32 eg; // PERM
         s32 cg; // PERM
         s32 eb; // PERM
-        er = header->mColor & 0x1f;
-        eg = (header->mColor >> 5) & 0x1f;
-        eb = (header->mColor >> 10) & 0x1f;
-        cr = colorAnim->mEndColor & 0x1f;
-        cg = (colorAnim->mEndColor >> 5) & 0x1f;
-        cb = (colorAnim->mEndColor >> 10) & 0x1f;
+        er = header->mColor & SPL_COLOR_CHANNEL_MASK;
+        eg = (header->mColor >> 5) & SPL_COLOR_CHANNEL_MASK;
+        eb = (header->mColor >> 10) & SPL_COLOR_CHANNEL_MASK;
+        cr = colorAnim->mEndColor & SPL_COLOR_CHANNEL_MASK;
+        cg = (colorAnim->mEndColor >> 5) & SPL_COLOR_CHANNEL_MASK;
+        cb = (colorAnim->mEndColor >> 10) & SPL_COLOR_CHANNEL_MASK;
         if (colorAnim->mBlend == 0) {
             ptcl->mColor = cr | (cg << 5) | (cb << 10);
             return;
@@ -335,7 +335,7 @@ void SPLAnim_ChildScale(ParticleInstance *ptcl, ParticleResource *res, s32 lifeR
 }
 
 void SPLAnim_ChildAlpha(ParticleInstance *ptcl, ParticleResource *res, s32 lifeRate) {
-    ptcl->mAnimAlpha = ((0xff - lifeRate) * 0x1f) / 0xff;
+    ptcl->mAnimAlpha = ((0xff - lifeRate) * SPL_ALPHA_MAX) / 0xff;
 }
 
 void SPLEmitter_ComputeOrthogonalAxes(ParticleEmitter *emtr) {
@@ -625,7 +625,7 @@ void SPLEmitter_EmitParticles(ParticleEmitter *emtr, ParticleList *list) {
                                  7)) *
                                emtr->mSizeScale) >>
                               8;
-            particle->mScale = 0x1000;
+            particle->mScale = FIXED12_UNIT;
 
             if (header->mFlags.mHasColorAnim && resource->mColorAnim->mRandomColor) {
                 ParticleColorAnim *colorAnim;
@@ -641,7 +641,7 @@ void SPLEmitter_EmitParticles(ParticleEmitter *emtr, ParticleList *list) {
             }
 
             particle->mBaseAlpha = emtr->mAlpha;
-            particle->mAnimAlpha = 0x1f;
+            particle->mAnimAlpha = SPL_ALPHA_MAX;
 
             if (header->mFlags.mRandomAngle) {
                 particle->mAngle = (gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173);
@@ -679,8 +679,8 @@ void SPLEmitter_EmitParticles(ParticleEmitter *emtr, ParticleList *list) {
                 particle->mTextureIndex = header->mTextureIndex;
             }
 
-            particle->mSecondTimeScale = 0xffff / resource->mHeader->mDrawParams.mSecondTimeLength;
-            particle->mFirstTimeScale = 0xffff / particle->mLife;
+            particle->mSecondTimeScale = SPL_TIME_SCALE_END / resource->mHeader->mDrawParams.mSecondTimeLength;
+            particle->mFirstTimeScale = SPL_TIME_SCALE_END / particle->mLife;
             particle->mSecondTimeOffset = 0;
             if (header->mFlags.mRandomSecondTimeOffset) {
                 particle->mSecondTimeOffset = (gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 24;
@@ -741,14 +741,14 @@ void SPLEmitter_EmitChildren(ParticleInstance *ptcl, ParticleEmitter *emtr, Part
                                   8);
             *childVec = ptcl->mEmitterPosition;
             child->mSize = (((ptcl->mSize * ptcl->mScale) >> 12) * AddOneToChildValue(childAnim)) >> 6;
-            child->mScale = 0x1000;
+            child->mScale = FIXED12_UNIT;
             if (childAnim->mOwnColor) {
                 child->mColor = childAnim->mColor;
             } else {
                 child->mColor = ptcl->mColor;
             }
             child->mBaseAlpha = (ptcl->mBaseAlpha * (ptcl->mAnimAlpha + 1)) >> 5;
-            child->mAnimAlpha = 0x1f;
+            child->mAnimAlpha = SPL_ALPHA_MAX;
             switch (childAnim->mInheritAngle) {
                 case PARTICLE_INHERIT_ANGLE_AND_SPEED:
                     child->mAngle = ptcl->mAngle;
@@ -767,8 +767,8 @@ void SPLEmitter_EmitChildren(ParticleInstance *ptcl, ParticleEmitter *emtr, Part
             child->mAge = 0;
             child->mTextureIndex = childAnim->mTextureIndex;
             parentLife = ptcl->mLife;
-            child->mSecondTimeScale = 0xffff / (s32) (parentLife >> 1);
-            child->mFirstTimeScale = 0xffff / ptcl->mLife;
+            child->mSecondTimeScale = SPL_TIME_SCALE_END / (s32) (parentLife >> 1);
+            child->mFirstTimeScale = SPL_TIME_SCALE_END / ptcl->mLife;
             child->mSecondTimeOffset = 0;
         }
     }
@@ -951,7 +951,7 @@ void SPLDraw_Billboard(SPLManager *mgr, ParticleInstance *ptcl) {
         reg_G3_MTX_TRANS = originZ;
         G3_MultMtx43(&billboardMtx);
     }
-    reg_G3_COLOR = (u16) ((((particleColor & 0x1f) * (emitterColor & 0x1f)) >> 5) |
+    reg_G3_COLOR = (u16) ((((particleColor & SPL_COLOR_CHANNEL_MASK) * (emitterColor & SPL_COLOR_CHANNEL_MASK)) >> 5) |
                           ((((particleColor & 0x3e0) * (emitterColor & 0x3e0)) >> 15) << 5) |
                           ((((particleColor & 0x7c00) * (emitterColor & 0x7c00)) >> 25) << 10));
     SPLUtil_DrawXYPlane(mgr->mRenderStateEmitter->mTexCoordU, mgr->mRenderStateEmitter->mTexCoordV,
@@ -1051,7 +1051,7 @@ void SPLDraw_Child_Billboard(SPLManager *mgr, ParticleInstance *ptcl) {
     }
     particleColor = ptcl->mColor;
     emitterColor = mgr->mRenderStateEmitter->mColor;
-    reg_G3_COLOR = (u16) ((((particleColor & 0x1f) * (emitterColor & 0x1f)) >> 5) |
+    reg_G3_COLOR = (u16) ((((particleColor & SPL_COLOR_CHANNEL_MASK) * (emitterColor & SPL_COLOR_CHANNEL_MASK)) >> 5) |
                           ((((particleColor & 0x3e0) * (emitterColor & 0x3e0)) >> 15) << 5) |
                           ((((particleColor & 0x7c00) * (emitterColor & 0x7c00)) >> 25) << 10));
     SPLUtil_DrawXYPlane(mgr->mRenderStateEmitter->mChildTexCoordU, mgr->mRenderStateEmitter->mChildTexCoordV, 0, 0);
@@ -1194,7 +1194,7 @@ void SPLDraw_DirectionalBillboard(SPLManager *mgr, ParticleInstance *ptcl) {
     }
     particleColor = ptcl->mColor;
     emitterColor = mgr->mRenderStateEmitter->mColor;
-    reg_G3_COLOR = (u16) ((((particleColor & 0x1f) * (emitterColor & 0x1f)) >> 5) |
+    reg_G3_COLOR = (u16) ((((particleColor & SPL_COLOR_CHANNEL_MASK) * (emitterColor & SPL_COLOR_CHANNEL_MASK)) >> 5) |
                           ((((particleColor & 0x3e0) * (emitterColor & 0x3e0)) >> 15) << 5) |
                           ((((particleColor & 0x7c00) * (emitterColor & 0x7c00)) >> 25) << 10));
     SPLUtil_DrawXYPlane(mgr->mRenderStateEmitter->mTexCoordU, mgr->mRenderStateEmitter->mTexCoordV,
@@ -1339,7 +1339,7 @@ void SPLDraw_Child_DirectionalBillboard(SPLManager *mgr, ParticleInstance *ptcl)
     }
     particleColor = ptcl->mColor;
     emitterColor = mgr->mRenderStateEmitter->mColor;
-    reg_G3_COLOR = (u16) ((((particleColor & 0x1f) * (emitterColor & 0x1f)) >> 5) |
+    reg_G3_COLOR = (u16) ((((particleColor & SPL_COLOR_CHANNEL_MASK) * (emitterColor & SPL_COLOR_CHANNEL_MASK)) >> 5) |
                           ((((particleColor & 0x3e0) * (emitterColor & 0x3e0)) >> 15) << 5) |
                           ((((particleColor & 0x7c00) * (emitterColor & 0x7c00)) >> 25) << 10));
     SPLUtil_DrawXYPlane(mgr->mRenderStateEmitter->mChildTexCoordU, mgr->mRenderStateEmitter->mChildTexCoordV, 0, 0);
@@ -1407,7 +1407,7 @@ void SPLDraw_Polygon(SPLManager *mgr, ParticleInstance *ptcl) {
     }
     particleColor = ptcl->mColor;
     emitterColor = mgr->mRenderStateEmitter->mColor;
-    reg_G3_COLOR = (u16) ((((particleColor & 0x1f) * (emitterColor & 0x1f)) >> 5) |
+    reg_G3_COLOR = (u16) ((((particleColor & SPL_COLOR_CHANNEL_MASK) * (emitterColor & SPL_COLOR_CHANNEL_MASK)) >> 5) |
                           ((((particleColor & 0x3e0) * (emitterColor & 0x3e0)) >> 15) << 5) |
                           ((((particleColor & 0x7c00) * (emitterColor & 0x7c00)) >> 25) << 10));
     gSplPlaneDrawFunctions[mgr->mRenderStateEmitter->mResource->mHeader->mFlags.mPlaneKind](
@@ -1478,7 +1478,7 @@ void SPLDraw_Child_Polygon(SPLManager *mgr, ParticleInstance *ptcl) {
     }
     particleColor = ptcl->mColor;
     emitterColor = mgr->mRenderStateEmitter->mColor;
-    reg_G3_COLOR = (u16) ((((particleColor & 0x1f) * (emitterColor & 0x1f)) >> 5) |
+    reg_G3_COLOR = (u16) ((((particleColor & SPL_COLOR_CHANNEL_MASK) * (emitterColor & SPL_COLOR_CHANNEL_MASK)) >> 5) |
                           ((((particleColor & 0x3e0) * (emitterColor & 0x3e0)) >> 15) << 5) |
                           ((((particleColor & 0x7c00) * (emitterColor & 0x7c00)) >> 25) << 10));
     gSplPlaneDrawFunctions[mgr->mRenderStateEmitter->mResource->mChildAnim->mPlaneKind](
@@ -1583,7 +1583,7 @@ void SPLDraw_DirectionalPolygon(SPLManager *mgr, ParticleInstance *ptcl) {
     }
     particleColor = ptcl->mColor;
     emitterColor = mgr->mRenderStateEmitter->mColor;
-    reg_G3_COLOR = (u16) ((((particleColor & 0x1f) * (emitterColor & 0x1f)) >> 5) |
+    reg_G3_COLOR = (u16) ((((particleColor & SPL_COLOR_CHANNEL_MASK) * (emitterColor & SPL_COLOR_CHANNEL_MASK)) >> 5) |
                           ((((particleColor & 0x3e0) * (emitterColor & 0x3e0)) >> 15) << 5) |
                           ((((particleColor & 0x7c00) * (emitterColor & 0x7c00)) >> 25) << 10));
     gSplPlaneDrawFunctions[mgr->mRenderStateEmitter->mResource->mHeader->mFlags.mPlaneKind](
@@ -1690,7 +1690,7 @@ void SPLDraw_Child_DirectionalPolygon(SPLManager *mgr, ParticleInstance *ptcl) {
     }
     particleColor = ptcl->mColor;
     emitterColor = mgr->mRenderStateEmitter->mColor;
-    reg_G3_COLOR = (u16) ((((particleColor & 0x1f) * (emitterColor & 0x1f)) >> 5) |
+    reg_G3_COLOR = (u16) ((((particleColor & SPL_COLOR_CHANNEL_MASK) * (emitterColor & SPL_COLOR_CHANNEL_MASK)) >> 5) |
                           ((((particleColor & 0x3e0) * (emitterColor & 0x3e0)) >> 15) << 5) |
                           ((((particleColor & 0x7c00) * (emitterColor & 0x7c00)) >> 25) << 10));
     gSplPlaneDrawFunctions[mgr->mRenderStateEmitter->mResource->mChildAnim->mPlaneKind](
@@ -1751,14 +1751,14 @@ void SPLEmitter_Init(ParticleEmitter *emtr, ParticleResource *res, Vec3 *pos) {
     emtr->mAxisSpeed = emtr->mResource->mHeader->mAxisSpeed;
     emtr->mSizeScale = emtr->mResource->mHeader->mSizeScale;
     emtr->mLife = emtr->mResource->mHeader->mLife;
-    emtr->mColor = 0x7fff;
+    emtr->mColor = COLOR15_WHITE;
     emtr->mEmitInterval = emtr->mResource->mHeader->mEmitInterval;
     emtr->mAlpha = emtr->mResource->mHeader->mAlpha;
     emtr->mUpdateCycle = 0;
     emtr->mUnk_80_19 = 0;
-    emtr->mPlaneY = 0x80000000;
-    emtr->mTexCoordU = 0x1000 << emtr->mResource->mHeader->mDrawParams.mTexCoordUShift;
-    emtr->mTexCoordV = 0x1000 << emtr->mResource->mHeader->mDrawParams.mTexCoordVShift;
+    emtr->mPlaneY = SPL_PLANE_Y_UNSET;
+    emtr->mTexCoordU = FIXED12_UNIT << emtr->mResource->mHeader->mDrawParams.mTexCoordUShift;
+    emtr->mTexCoordV = FIXED12_UNIT << emtr->mResource->mHeader->mDrawParams.mTexCoordVShift;
     if (emtr->mResource->mHeader->mFlipU) {
         emtr->mTexCoordU *= -1;
     }
@@ -1766,8 +1766,8 @@ void SPLEmitter_Init(ParticleEmitter *emtr, ParticleResource *res, Vec3 *pos) {
         emtr->mTexCoordV *= -1;
     }
     if (emtr->mResource->mHeader->mFlags.mHasChildAnim) {
-        emtr->mChildTexCoordU = 0x1000 << emtr->mResource->mChildAnim->mTexParams.mTexCoordUShift;
-        emtr->mChildTexCoordV = 0x1000 << emtr->mResource->mChildAnim->mTexParams.mTexCoordVShift;
+        emtr->mChildTexCoordU = FIXED12_UNIT << emtr->mResource->mChildAnim->mTexParams.mTexCoordUShift;
+        emtr->mChildTexCoordV = FIXED12_UNIT << emtr->mResource->mChildAnim->mTexParams.mTexCoordVShift;
         if (emtr->mResource->mChildAnim->mTexParams.mFlipU) {
             emtr->mChildTexCoordU *= -1;
         }
