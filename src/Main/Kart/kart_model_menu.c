@@ -183,7 +183,7 @@ void CreateEntryCamera(u32 followedKartIndex) {
         gEntryCamera->mCourseMapCamera = gCourseMap->mCameras;
     }
     if (gRaceSetup->mMode == MODE_BATTLE) {
-        gEntryCamera->mCourseMapCamera = gCourseMap->mFirstKind7EntryInMode2;
+        gEntryCamera->mCourseMapCamera = gCourseMap->mFirstBattleSequenceCamera;
         if (gEntryCamera->mCourseMapCamera != NULL) {
             kind7EntryCount = 0;
             nextIndex = -1;
@@ -193,7 +193,7 @@ void CreateEntryCamera(u32 followedKartIndex) {
                 }
             }
             gSequenceEntryCount = kind7EntryCount;
-            gEntryCamera->mKind7Entries = HeapAlloc(heap, kind7EntryCount * 0x88);
+            gEntryCamera->mSequenceEntries = HeapAlloc(heap, kind7EntryCount * 0x88);
             courseMapCamera = gEntryCamera->mCourseMapCamera;
             index = 0;
             listIndex = 0;
@@ -205,12 +205,12 @@ void CreateEntryCamera(u32 followedKartIndex) {
                     }
                 }
                 if (courseMapCamera->mKind == COURSE_MAP_CAMERA_KIND_SEQUENCE) {
-                    InitSequenceCameraEntry(&gEntryCamera->mKind7Entries[listIndex], courseMapCamera);
+                    InitSequenceCameraEntry(&gEntryCamera->mSequenceEntries[listIndex], courseMapCamera);
                     listIndex++;
                     nextIndex = courseMapCamera->mNextIndex;
                 }
             }
-            gEntryCamera->mCurrentKind7Entry = gEntryCamera->mKind7Entries;
+            gEntryCamera->mCurrentSequenceEntry = gEntryCamera->mSequenceEntries;
             gEntryCamera->mUnk_224 = 0;
             gEntryCamera->mKind = CAMERA_KIND_ENTRY_SEQUENCE;
             gCameraEntryChanged = 1;
@@ -341,11 +341,11 @@ void SetupCamera(Camera *camera) {
     camera->mFollowedKartIndex = 0;
     camera->mLastCourseMapCameraIndex = -1;
     camera->mCourseMapCameraFrames = 0;
-    camera->mKind6EntryRunning = FALSE;
-    camera->mKind6EntryFrames = 0;
+    camera->mAngleStartRunning = FALSE;
+    camera->mAngleStartFrames = 0;
     camera->mEntryUpdateHold = 0;
     camera->mEntryUpdateDisabled = FALSE;
-    camera->mKind8EntryRunning = FALSE;
+    camera->mMissionRunCameraRunning = FALSE;
     camera->mFrustumShift = CAMERA_FRUSTUM_SHIFT_NONE;
     camera->mKind = CAMERA_KIND_CHASE;
     camera->mPosGoalKartOffset = zero;
@@ -357,8 +357,8 @@ void SetupCamera(Camera *camera) {
     camera->mPosOffset = zero;
     camera->mLookAtOffset = zero;
     camera->mSideDistanceSign = gRaceSetup->mMirrorMode ? -1 : 1;
-    camera->mKind7Entries = NULL;
-    camera->mCurrentKind7Entry = NULL;
+    camera->mSequenceEntries = NULL;
+    camera->mCurrentSequenceEntry = NULL;
     camera->mUnk_20c = 0;
     camera->mUnk_20e = 0;
     camera->mUnk_224 = 0;

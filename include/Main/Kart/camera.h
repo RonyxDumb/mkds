@@ -116,7 +116,7 @@ MtxFx43 *UpdateFirstChainCamera(void);
 // It updates the view of the first on even frames and of the second on odd frames, stores that camera in
 // gCurrentChainCamera and returns its view matrix. UpdateRace calls it when gRaceSetup.mRaceKind is 3 or 5.
 MtxFx43 *UpdateChainCameraPair(void);
-// As StartEntryCameraAngleStart for CourseMap.mFirstKind8EntryInMode4, setting mKind8EntryRunning.
+// As StartEntryCameraAngleStart for CourseMap.mFirstMissionRunCamera, setting mMissionRunCameraRunning.
 void StartEntryCameraMissionRun(void);
 // Runs the Camera's current entry by its mKind: 0 puts the camera at the entry position and looks at the followed Kart,
 // 1 UpdateCameraPosCurveLookAtKart, 2 puts the camera at the entry position with a blended look-at
@@ -134,8 +134,8 @@ void UpdateCameraByEntryKind(Camera *camera);
 BOOL TryUpdateEntryCamera(Camera *camera);
 void DisableEntryCameraUpdate(void);
 void SetEntryCameraUpdateHold(s32 hold);
-// Does nothing when CourseMap.mFirstKind6Entry is NULL. Otherwise sets mKind6EntryRunning and makes that entry the
-// current entry of gEntryCamera (fresh mFovBlend, field of view pair and mShakeKind), sets up its mPosCurve (and
+// Does nothing when CourseMap.mFirstAngleStartCamera is NULL. Otherwise sets mAngleStartRunning and makes that entry
+// the current entry of gEntryCamera (fresh mFovBlend, field of view pair and mShakeKind), sets up its mPosCurve (and
 // mUnk_1d0 in mode 2), advances the local random once when the entry Kart has ended and sets gCameraEntryChanged.
 void StartEntryCameraAngleStart(void);
 // Eases mPosGoalYOffset toward 0 or, while KART_MOTION_ON_GROUND is set in the Kart's mMotionFlags or
@@ -157,9 +157,9 @@ void ApplyCameraFrustum(Camera *camera, s32 useSecondFar);
 MtxFx44 *GetProjectionMatrix(void);
 
 // The Camera that picks its CourseMapCamera entry from the position of the followed Kart (GetCourseMapCameraIndexAtPos)
-// and is stepped by TryUpdateEntryCamera. mKind is 1, or 3 in mode 2 when CourseMap.mFirstKind7EntryInMode2 is set. The
-// Kart code starts its kind 6 and kind 8 entries (StartEntryCameraAngleStart, StartEntryCameraMissionRun). The chain
-// cameras also run entries but never pick by position.
+// and is stepped by TryUpdateEntryCamera. mKind is 1, or 3 in mode 2 when CourseMap.mFirstBattleSequenceCamera is set.
+// The Kart code starts its kind 6 and kind 8 entries (StartEntryCameraAngleStart, StartEntryCameraMissionRun). The
+// chain cameras also run entries but never pick by position.
 extern Camera *gEntryCamera;
 extern struct Camera *gChaseCamera;
 extern s32 gDefaultLookAtHeight;

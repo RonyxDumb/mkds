@@ -12,10 +12,10 @@
 
 // Values of CourseMapShape.mKind.
 #define COURSE_MAP_SHAPE_KIND_CAMERA 1
-#define COURSE_MAP_SHAPE_KIND_2 2
-#define COURSE_MAP_SHAPE_KIND_3 3
+#define COURSE_MAP_SHAPE_KIND_MISSION_END 2
+#define COURSE_MAP_SHAPE_KIND_ZONE 3
 #define COURSE_MAP_SHAPE_KIND_POINT_LINK 4
-#define COURSE_MAP_SHAPE_KIND_5 5
+#define COURSE_MAP_SHAPE_KIND_MAP_OBJECT_COUNT 5
 
 // Values of CourseMapShape.mShapeKind.
 #define COURSE_MAP_SHAPE_FORM_BOX 0
@@ -249,7 +249,7 @@ typedef struct RacePointLink {
     /* 26 */ u16 mPreviousCount;
 } RacePointLink;
 
-// Node of the lists at CourseMap.mKind3ShapeLists: an entry of the table at mShapes and the next node.
+// Node of the lists at CourseMap.mZoneShapeLists: an entry of the table at mShapes and the next node.
 typedef struct CourseMapZoneShapeNode {
     /* 00 */ CourseMapShape *mShape;
     /* 04 */ struct CourseMapZoneShapeNode *mNext;
@@ -382,17 +382,17 @@ typedef struct CourseMap {
     // The first entry whose mChainStart is 1.
     /* c4 */ CourseMapCamera *mFirstChainStartEntry;
     /* c8 */ CourseMapCamera *mSecondChainStartEntry;
-    /* cc */ CourseMapCamera *mFirstKind6Entry;
-    /* d0 */ CourseMapCamera *mFirstKind7EntryInMode2;
+    /* cc */ CourseMapCamera *mFirstAngleStartCamera;
+    /* d0 */ CourseMapCamera *mFirstBattleSequenceCamera;
     // The first entry of mKind 8, set only when the mode is 4; the loader does not set it to NULL first.
-    /* d4 */ CourseMapCamera *mFirstKind8EntryInMode4;
-    /* d8 */ struct CourseMapZoneShapeNode *mKind3ShapeLists[8];
+    /* d4 */ CourseMapCamera *mFirstMissionRunCamera;
+    /* d8 */ struct CourseMapZoneShapeNode *mZoneShapeLists[8];
     /* f8 */ u16 *mRespawnIndexBySlot;
     // Record index of mKeyedPlacements for each key, one halfword per record (BuildCourseMapKeyedPlacementIndexByKey).
     /* fc */ u16 *mKeyedPlacementIndexByKey;
     // Mode 2 only: the slot GetCourseMapRespawnSlot hands out next; counts up modulo mRespawnCount.
     /* 100 */ u16 mNextRespawnSlot;
-    /* 102 */ u16 mKind4ShapeCount;
+    /* 102 */ u16 mPointLinkShapeCount;
     // Sum of the checkpoint values along the route chain from route 0 (0 when the course has several start placements).
     /* 104 */ u32 mCheckpointSum;
     // mCheckpointSum / 15000, a 1.12 fixed-point factor for the kart race progress.
@@ -401,7 +401,7 @@ typedef struct CourseMap {
     // mItemPoints entries 0x14 bytes, 0x24 adds the mUnk_3c section.
     /* 10c */ u16 mVersion;
     /* 10e */ u8 mUnk_10e;
-    /* 10f */ u8 mKind2ShapeCountInMode4;
+    /* 10f */ u8 mMissionEndShapeCount;
 } CourseMap;
 
 // Scrolling of the map view: a direction key moves mScrollPosition by the step and sets mScrollTimer to the start.

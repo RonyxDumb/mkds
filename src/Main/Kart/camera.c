@@ -359,11 +359,11 @@ void StartEntryCameraAngleStart(void) {
     CourseMapCamera *courseMapCamera;
     RandomState64 *localRandom;
 
-    courseMapCamera = gCourseMap->mFirstKind6Entry;
+    courseMapCamera = gCourseMap->mFirstAngleStartCamera;
     if (courseMapCamera == NULL) {
         return;
     }
-    entryCamera->mKind6EntryRunning = TRUE;
+    entryCamera->mAngleStartRunning = TRUE;
     entryCamera->mCourseMapCamera = courseMapCamera;
     entryCamera->mFovBlend = 0;
     entryCamera->mHalfFovPairFirst = courseMapCamera->mHalfFovPairFirst;
@@ -402,10 +402,10 @@ void SetEntryCameraUpdateHold(s32 hold) {
     if (hold == 0) {
         return;
     }
-    if (entryCamera->mKind6EntryRunning == FALSE) {
+    if (entryCamera->mAngleStartRunning == FALSE) {
         return;
     }
-    entryCamera->mKind6EntryRunning = FALSE;
+    entryCamera->mAngleStartRunning = FALSE;
     GetKartPos(&kartPos, entryCamera->mFollowedKartIndex);
     courseMapCameraIndex = GetCourseMapCameraIndexAtPos(&kartPos);
     if (courseMapCameraIndex < 0) {
@@ -456,20 +456,20 @@ BOOL TryUpdateEntryCamera(Camera *camera) {
         return FALSE;
     }
     camera->mPrevPos = camera->mPos;
-    if (camera->mKind8EntryRunning != FALSE) {
+    if (camera->mMissionRunCameraRunning != FALSE) {
         UpdateCameraAngleEntry(camera);
         return TRUE;
     }
     GetKartPos(&kartPos, camera->mFollowedKartIndex);
     courseMapCameraIndex = GetCourseMapCameraIndexAtPos(&kartPos);
-    if (camera->mKind6EntryRunning != FALSE) {
+    if (camera->mAngleStartRunning != FALSE) {
         if (gRaceSetup->mMode == MODE_BATTLE) {
             UpdateCameraByEntryKind(camera);
             return TRUE;
         }
-        camera->mKind6EntryFrames = camera->mKind6EntryFrames + 1;
-        if (camera->mKind6EntryFrames >= 300) {
-            camera->mKind6EntryRunning = FALSE;
+        camera->mAngleStartFrames = camera->mAngleStartFrames + 1;
+        if (camera->mAngleStartFrames >= 300) {
+            camera->mAngleStartRunning = FALSE;
         }
     }
     if (courseMapCameraIndex == -1) {
@@ -480,7 +480,7 @@ BOOL TryUpdateEntryCamera(Camera *camera) {
         courseMapCamera = gCourseMap->mCameras + (u16) courseMapCameraIndex;
         if (courseMapCameraIndex != camera->mLastCourseMapCameraIndex) {
             camera->mLastCourseMapCameraIndex = courseMapCameraIndex;
-            if (camera->mKind6EntryRunning == FALSE) {
+            if (camera->mAngleStartRunning == FALSE) {
                 camera->mCourseMapCamera = courseMapCamera;
                 camera->mFovBlend = 0;
                 camera->mHalfFovPairFirst = courseMapCamera->mHalfFovPairFirst;
@@ -567,12 +567,12 @@ void StartEntryCameraMissionRun(void) {
     RandomState64 *localRandom;
 
     entryCamera = gEntryCamera;
-    courseMapCamera = gCourseMap->mFirstKind8EntryInMode4;
+    courseMapCamera = gCourseMap->mFirstMissionRunCamera;
 
     if (courseMapCamera == NULL) {
         return;
     }
-    entryCamera->mKind8EntryRunning = TRUE;
+    entryCamera->mMissionRunCameraRunning = TRUE;
     entryCamera->mCourseMapCamera = courseMapCamera;
     entryCamera->mFovBlend = 0;
     entryCamera->mHalfFovPairFirst = courseMapCamera->mHalfFovPairFirst;

@@ -980,7 +980,7 @@ typedef struct WiFiRaceSyncPeer {
     /* 30 */ BOOL mProbePending;
     /* 34 */ u8 mSampleCount;
     /* 35 */ u8 mRejectedSampleCount;
-    /* 36 */ u8 mKind5SendPhase;
+    /* 36 */ u8 mEmptyPacketPhase;
     /* 37 */ u8 mUnk_37;
 } WiFiRaceSyncPeer;
 
@@ -1343,18 +1343,18 @@ typedef struct Camera {
     // use.
     /* 214 */ s32 mLastCourseMapCameraIndex;
     /* 218 */ struct CourseMapCamera *mCourseMapCamera;
-    /* 21c */ struct SequenceCameraEntry *mKind7Entries;
-    /* 220 */ struct SequenceCameraEntry *mCurrentKind7Entry;
+    /* 21c */ struct SequenceCameraEntry *mSequenceEntries;
+    /* 220 */ struct SequenceCameraEntry *mCurrentSequenceEntry;
     /* 224 */ u16 mUnk_224;
     /* 226 */ u8 mUnk_226[0x2];
-    // TRUE from StartEntryCameraAngleStart until mKind6EntryFrames reaches 300 (outside mode 2) or
+    // TRUE from StartEntryCameraAngleStart until mAngleStartFrames reaches 300 (outside mode 2) or
     // SetEntryCameraUpdateHold replaces the entry. While TRUE the entry is not replaced by the one picked from the
     // Kart's position; in mode 2 TryUpdateEntryCamera steps the entry by its kind on every call and only
     // SetEntryCameraUpdateHold clears it.
-    /* 228 */ BOOL mKind6EntryRunning;
-    // Counts the calls of TryUpdateEntryCamera outside mode 2 while mKind6EntryRunning is TRUE; at 300 it clears
-    // mKind6EntryRunning. Only SetupCamera zeroes it, so it carries over a restart.
-    /* 22c */ u16 mKind6EntryFrames;
+    /* 228 */ BOOL mAngleStartRunning;
+    // Counts the calls of TryUpdateEntryCamera outside mode 2 while mAngleStartRunning is TRUE; at 300 it clears
+    // mAngleStartRunning. Only SetupCamera zeroes it, so it carries over a restart.
+    /* 22c */ u16 mAngleStartFrames;
     /* 22e */ u8 mUnk_22e[0x2];
     // Set to 1 by SetEntryCameraUpdateHold(1), which only does so while the current entry is of kind 5 or 6, and to 0
     // by SetEntryCameraUpdateHold(0) and SetupCamera. While non-zero TryUpdateEntryCamera returns FALSE at once, so the
@@ -1366,7 +1366,7 @@ typedef struct Camera {
     // Set to TRUE by StartEntryCameraMissionRun and never cleared (SetupCamera zeroes it). While set, and after the
     // mEntryUpdateHold and mEntryUpdateDisabled tests, TryUpdateEntryCamera runs UpdateCameraAngleEntry on the current
     // entry and returns TRUE.
-    /* 238 */ BOOL mKind8EntryRunning;
+    /* 238 */ BOOL mMissionRunCameraRunning;
     /* 23c */ u16 mCourseMapCameraFrames;
     /* 23e */ u8 mUnk_23e[0x2];
     /* 240 */ s32 mFovBlend;
@@ -1617,7 +1617,7 @@ typedef struct KartAiShared {
     /* 000 */ s32 mRaceProgressScaled[8];
     // Kart index at rank n + 1, -1 when no kart has that rank.
     /* 020 */ s32 mKartAtRank[8];
-    /* 040 */ s32 mKind1KartByRank[8];
+    /* 040 */ s32 mCpuKartByRank[8];
     /* 060 */ s32 mNonCpuKartByRank[8];
     /* 080 */ s32 mLastRankCpuKart;
     /* 084 */ s32 mLastRankNotCpuKart;

@@ -14,7 +14,7 @@
 
 extern const u8 gKartStartGroupCounts[16];
 
-// TRUE when the position of kart a lies inside any shape of list b of mKind3ShapeLists.
+// TRUE when the position of kart a lies inside any shape of list b of mZoneShapeLists.
 s32 IsKartInCourseMapZoneShapeList(s32 kartIndex, u32 listIndex);
 // Returns the element of mItemPointLinks given by mItemPointIndex of the respawn spot of slot a, NULL when there is no
 // respawn spot.

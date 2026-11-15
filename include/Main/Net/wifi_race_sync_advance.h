@@ -24,7 +24,11 @@ typedef enum {
     WIFI_RACE_SYNC_PACKET_PROBE,
     WIFI_RACE_SYNC_PACKET_READY,
     WIFI_RACE_SYNC_PACKET_COUNTDOWN,
-    WIFI_RACE_SYNC_PACKET_RECORD
+    WIFI_RACE_SYNC_PACKET_RECORD,
+    // Nothing sends this kind; it has no body.
+    WIFI_RACE_SYNC_PACKET_UNSENT,
+    // Sent with no body once a peer has enough samples; the receiver ignores it.
+    WIFI_RACE_SYNC_PACKET_EMPTY
 } WiFiRaceSyncPacketKind;
 
 // Body after the 4-byte header. Kind 0: probing participant at 0, its tick at 4. Kind 2: sender countdown at 0. Kind 3:

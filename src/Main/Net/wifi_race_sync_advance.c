@@ -203,7 +203,7 @@ void EnterWiFiRaceSyncState1(void *stateObject) {
         sync->mPeers[participant].mRoundTripTotal = 0;
         sync->mPeers[participant].mSampleCount = 0;
         gWiFiRaceSync->mPeers[participant].mRejectedSampleCount = 0;
-        gWiFiRaceSync->mPeers[participant].mKind5SendPhase = 0;
+        gWiFiRaceSync->mPeers[participant].mEmptyPacketPhase = 0;
     }
     gWiFiRaceSync->mSendParticipantIndex = 0;
     gWiFiRaceSync->mSampledMask = 0;
@@ -261,12 +261,12 @@ void UpdateWiFiRaceSyncState1(void *stateObject) {
                 *(u32 *) &payload->mSlotResultSyncs[0] = 0;
                 SendWiFiRaceSyncPacket(targetParticipant, WIFI_RACE_SYNC_PACKET_PROBE, WIFI_RACE_SYNC_PROBE_SIZE);
             } else {
-                if (sync->mPeers[targetParticipant].mKind5SendPhase == 0) {
-                    SendWiFiRaceSyncPacket(targetParticipant, 5, 0);
+                if (sync->mPeers[targetParticipant].mEmptyPacketPhase == 0) {
+                    SendWiFiRaceSyncPacket(targetParticipant, WIFI_RACE_SYNC_PACKET_EMPTY, 0);
                 }
-                gWiFiRaceSync->mPeers[targetParticipant].mKind5SendPhase++;
-                if (gWiFiRaceSync->mPeers[targetParticipant].mKind5SendPhase > 4) {
-                    gWiFiRaceSync->mPeers[targetParticipant].mKind5SendPhase = 0;
+                gWiFiRaceSync->mPeers[targetParticipant].mEmptyPacketPhase++;
+                if (gWiFiRaceSync->mPeers[targetParticipant].mEmptyPacketPhase > 4) {
+                    gWiFiRaceSync->mPeers[targetParticipant].mEmptyPacketPhase = 0;
                 }
             }
         }
@@ -945,8 +945,8 @@ void ReceiveWiFiRaceSyncPacket(u32 fromIndex, WiFiRaceSyncPacket *packet, u32 si
             break;
 // Kinds 4 and 5 have no body; only kind 5 is sent (state 1, once a peer has 12 samples), nothing sends
 // kind 4.
-        case 4:
-        case 5:
+        case WIFI_RACE_SYNC_PACKET_UNSENT:
+        case WIFI_RACE_SYNC_PACKET_EMPTY:
             break;
     }
 }

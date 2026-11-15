@@ -66,7 +66,7 @@ void InitKartAiShared(void) {
     for (kartIndex = 0; kartIndex < 8; kartIndex++) {
         gKartAiShared->mRaceProgressScaled[kartIndex] = zero;
         gKartAiShared->mKartAtRank[kartIndex] = minusOne;
-        gKartAiShared->mKind1KartByRank[kartIndex] = minusOne;
+        gKartAiShared->mCpuKartByRank[kartIndex] = minusOne;
         gKartAiShared->mNonCpuKartByRank[kartIndex] = minusOne;
         gKartAiShared->mTableIndex[kartIndex] = zero;
     }
@@ -491,7 +491,7 @@ void UpdateKartAiRankLists(void) {
         if (value >= 0) {
             index = value;
             if (gRaceSetup->mCurrentEntries[index].mPlayer.mKind == PLAYER_KIND_CPU) {
-                gKartAiShared->mKind1KartByRank[listCount] = value;
+                gKartAiShared->mCpuKartByRank[listCount] = value;
                 listCount++;
             }
         }
@@ -522,7 +522,7 @@ s32 GetKartRankAmongCpuKarts(u16 kartIndex) {
     u16 rankIndex;
     rank = -1;
     for (rankIndex = 0; (u32) rankIndex < gRaceSetup->mKartCount; rankIndex++) {
-        if (kartIndex == (u16) gKartAiShared->mKind1KartByRank[rankIndex]) {
+        if (kartIndex == (u16) gKartAiShared->mCpuKartByRank[rankIndex]) {
             rank = rankIndex + 1;
             break;
         }
@@ -531,7 +531,7 @@ s32 GetKartRankAmongCpuKarts(u16 kartIndex) {
 }
 
 s32 GetCpuKartByRankPlusOffset(u32 rank, u32 offset) {
-    return gKartAiShared->mKind1KartByRank[(((offset) + (rank))) - (0x1u)];
+    return gKartAiShared->mCpuKartByRank[(((offset) + (rank))) - (0x1u)];
 }
 
 s32 GetFirstRankProgressRatio(void) {
@@ -539,7 +539,7 @@ s32 GetFirstRankProgressRatio(void) {
 }
 
 s32 GetFirstCpuKartByRank(void) {
-    return gKartAiShared->mKind1KartByRank[0];
+    return gKartAiShared->mCpuKartByRank[0];
 }
 
 s32 GetCpuKartAheadOfRank(s32 rank) {
@@ -547,7 +547,7 @@ s32 GetCpuKartAheadOfRank(s32 rank) {
     s32 result = -1;
 
     if (listIndex >= 0) {
-        result = gKartAiShared->mKind1KartByRank[listIndex];
+        result = gKartAiShared->mCpuKartByRank[listIndex];
     }
     return result;
 }

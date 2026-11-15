@@ -344,7 +344,7 @@ void CreateShapeMapObjectCountList(void *heap) {
     entryCount = 0;
     gShapeMapObjectCountList = HeapAlloc(heap, 8);
     for (countIndex = 0; countIndex < shapeCount; countIndex++) {
-        if (GetCourseMapShape(countIndex)->mKind == COURSE_MAP_SHAPE_KIND_5) {
+        if (GetCourseMapShape(countIndex)->mKind == COURSE_MAP_SHAPE_KIND_MAP_OBJECT_COUNT) {
             entryCount = entryCount + 1;
         }
     }
@@ -355,7 +355,7 @@ void CreateShapeMapObjectCountList(void *heap) {
     gShapeMapObjectCountList->mEntryCount = entryCount;
     for (shapeIndex = 0; shapeIndex < shapeCount; shapeIndex++) {
         courseMapShape = GetCourseMapShape(shapeIndex);
-        if (courseMapShape->mKind == COURSE_MAP_SHAPE_KIND_5) {
+        if (courseMapShape->mKind == COURSE_MAP_SHAPE_KIND_MAP_OBJECT_COUNT) {
             entry = &gShapeMapObjectCountList->mEntries[entryIndex];
             entry->mShapeIndex = shapeIndex;
             extentX = 0;

@@ -726,12 +726,12 @@ void BuildCourseMapZoneShapeLists(void) {
     heap = GetHeap(GetCurrentHeapCall());
     shapeIndex = 0;
     for (listIndex = 0; listIndex < 8; listIndex++) {
-        gCourseMap->mKind3ShapeLists[listIndex] = NULL;
+        gCourseMap->mZoneShapeLists[listIndex] = NULL;
     }
     for (shapeIndex = 0; shapeIndex < gCourseMap->mShapeCount; shapeIndex++) {
         shape = GetCourseMapShape(shapeIndex);
-        if (shape->mKind == COURSE_MAP_SHAPE_KIND_3) {
-            nodeSlot = &gCourseMap->mKind3ShapeLists[(s16) shape->mKindValue];
+        if (shape->mKind == COURSE_MAP_SHAPE_KIND_ZONE) {
+            nodeSlot = &gCourseMap->mZoneShapeLists[(s16) shape->mKindValue];
             while (*nodeSlot != NULL) {
                 nodeSlot = &(*nodeSlot)->mNext;
             }
@@ -754,7 +754,7 @@ void CountCourseMapPointLinkShapes(void) {
             count++;
         }
     }
-    gCourseMap->mKind4ShapeCount = count;
+    gCourseMap->mPointLinkShapeCount = count;
 }
 
 void CountCourseMapMissionEndShapes(void) {
@@ -763,12 +763,12 @@ void CountCourseMapMissionEndShapes(void) {
     count = 0;
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         for (shapeIndex = 0; shapeIndex < gCourseMap->mShapeCount; shapeIndex++) {
-            if (GetCourseMapShape(shapeIndex)->mKind == COURSE_MAP_SHAPE_KIND_2) {
+            if (GetCourseMapShape(shapeIndex)->mKind == COURSE_MAP_SHAPE_KIND_MISSION_END) {
                 count++;
             }
         }
     }
-    gCourseMap->mKind2ShapeCountInMode4 = count;
+    gCourseMap->mMissionEndShapeCount = count;
 }
 
 #pragma thumb off
@@ -799,8 +799,8 @@ s32 LoadCourseMapCamerasData(void *section, ...) {
     gCourseMap->mCameras = section;
     gCourseMap->mFirstChainStartEntry = NULL;
     gCourseMap->mSecondChainStartEntry = NULL;
-    gCourseMap->mFirstKind6Entry = NULL;
-    gCourseMap->mFirstKind7EntryInMode2 = NULL;
+    gCourseMap->mFirstAngleStartCamera = NULL;
+    gCourseMap->mFirstBattleSequenceCamera = NULL;
     for (cameraIndex = 0; cameraIndex < gCourseMap->mCameraCount; cameraIndex++) {
         camera = gCourseMap->mCameras + cameraIndex;
         if (gCourseMap->mFirstChainStartEntry == NULL && camera->mChainStart == 1) {
@@ -809,16 +809,16 @@ s32 LoadCourseMapCamerasData(void *section, ...) {
         if (gCourseMap->mSecondChainStartEntry == NULL && camera->mChainStart == 2) {
             gCourseMap->mSecondChainStartEntry = camera;
         }
-        if (gCourseMap->mFirstKind6Entry == NULL && camera->mKind == COURSE_MAP_CAMERA_KIND_ANGLE_START) {
-            gCourseMap->mFirstKind6Entry = camera;
+        if (gCourseMap->mFirstAngleStartCamera == NULL && camera->mKind == COURSE_MAP_CAMERA_KIND_ANGLE_START) {
+            gCourseMap->mFirstAngleStartCamera = camera;
         }
-        if (gRaceSetup->mMode == MODE_BATTLE && gCourseMap->mFirstKind7EntryInMode2 == NULL &&
+        if (gRaceSetup->mMode == MODE_BATTLE && gCourseMap->mFirstBattleSequenceCamera == NULL &&
             camera->mKind == COURSE_MAP_CAMERA_KIND_SEQUENCE) {
-            gCourseMap->mFirstKind7EntryInMode2 = camera;
+            gCourseMap->mFirstBattleSequenceCamera = camera;
         }
-        if (gRaceSetup->mMode == MODE_MISSION_RUN && gCourseMap->mFirstKind8EntryInMode4 == NULL &&
+        if (gRaceSetup->mMode == MODE_MISSION_RUN && gCourseMap->mFirstMissionRunCamera == NULL &&
             camera->mKind == COURSE_MAP_CAMERA_KIND_MISSION_RUN) {
-            gCourseMap->mFirstKind8EntryInMode4 = camera;
+            gCourseMap->mFirstMissionRunCamera = camera;
         }
     }
     return 1;
@@ -1057,7 +1057,7 @@ s32 IsPosInCourseMapMissionEndShape(Vec3 *pos, s32 *outFlag) {
 
     for (shapeIndex = 0; shapeIndex < gCourseMap->mShapeCount; shapeIndex++) {
         shape = GetCourseMapShape(shapeIndex);
-        if (shape->mKind == COURSE_MAP_SHAPE_KIND_2) {
+        if (shape->mKind == COURSE_MAP_SHAPE_KIND_MISSION_END) {
             inside = 0;
             switch (shape->mShapeKind) {
                 case COURSE_MAP_SHAPE_FORM_BOX:
@@ -1100,7 +1100,7 @@ void *FindCourseMapPointLinkShapeRacePointLink(Vec3 *pos) {
     void *link = NULL;
     s32 inside;
 
-    if (gCourseMap->mKind4ShapeCount == 0) {
+    if (gCourseMap->mPointLinkShapeCount == 0) {
         return link;
     }
     for (shapeIndex = 0; shapeIndex < gCourseMap->mShapeCount; shapeIndex++) {
@@ -1143,7 +1143,7 @@ PointLink *FindCourseMapPointLinkShapeBattlePointLink(Vec3 *pos) {
     PointLink *link = NULL;
     s32 inside;
 
-    if (gCourseMap->mKind4ShapeCount == 0) {
+    if (gCourseMap->mPointLinkShapeCount == 0) {
         return link;
     }
     for (shapeIndex = 0; shapeIndex < gCourseMap->mShapeCount; shapeIndex++) {
@@ -1325,7 +1325,7 @@ s32 IsKartInCourseMapZoneShapeList(s32 kartIndex, u32 listIndex) {
     s32 radius;
     BOOL found = FALSE;
 
-    node = gCourseMap->mKind3ShapeLists[listIndex];
+    node = gCourseMap->mZoneShapeLists[listIndex];
     GetKartPos(&kartPos, kartIndex);
     for (; found == FALSE && node != NULL; node = node->mNext) {
         shape = node->mShape;

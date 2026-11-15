@@ -175,7 +175,7 @@ void InitKarts(u32 kartCount) {
     InitKartEffects(kartCount);
     gMissionRunEndShapesPresent = 0;
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        if (gCourseMap->mKind2ShapeCountInMode4 != 0) {
+        if (gCourseMap->mMissionEndShapeCount != 0) {
             gMissionRunEndShapesPresent = 1;
         }
     }
