@@ -283,7 +283,7 @@ void LocateAndQueueSelectCupCourse(void) {
     LocateNcgr(&fixedChars, FindSceneFile(gSelectCupMBNcgrName));
     LocateNclr(&fixedPalette, FindSceneFile(gSelectCupMBNclrName));
     LocateNscr(&fixedScreenMap, FindSceneFile(gSelectCupMNscrName));
-    gSelectCupCourse->mSecondScreenMapBuffer = HeapAlloc(gSelectCupCourse->mHeap, 0x800);
+    gSelectCupCourse->mSecondScreenMapBuffer = HeapAlloc(gSelectCupCourse->mHeap, SECOND_SCREEN_MAP_BYTES);
     if (gSelectCupCourse->mMode == SELECT_CUP_COURSE_MODE_WITH_GHOSTS) {
         gSelectCupCourse->mSelectCupCourseTaOrVsMBncl = FindSceneFile(gSelectCupCourseTaMBnclName2);
         gSelectCupCourse->mSelectCupCourseTaOrVsMBnll = FindSceneFile(gSelectCupCourseTaMBnllName2);
@@ -306,14 +306,14 @@ void LocateAndQueueSelectCupCourse(void) {
     NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG0_MAP, 0, modeScreenMap->mData,
                                        modeScreenMap->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG0_MAP, 0x800, gSelectCupCourse->mSecondScreenMapBuffer,
-                                       0x800);
+                                       SECOND_SCREEN_MAP_BYTES);
     if (GetPreviousMenuScreenNumber() != 0x18 && GetPreviousMenuScreenNumber() != 0xc) {
         NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG3_TILES, 0, fixedChars->mData, fixedChars->mDataSize);
         NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG_PALETTE, 0, fixedPalette->mData, 0x140);
         NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG3_MAP, 0, fixedScreenMap->mData,
                                            fixedScreenMap->mDataSize);
         NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG3_MAP, 0x800,
-                                           gSelectCupCourse->mSecondScreenMapBuffer, 0x800);
+                                           gSelectCupCourse->mSecondScreenMapBuffer, SECOND_SCREEN_MAP_BYTES);
     }
     NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_TILES, 0, courseCellChars->mData,
                                        courseCellChars->mDataSize);

@@ -52,7 +52,7 @@ void InitRaceNewRecordTa(void) {
     if (gRaceSetup->mMode != MODE_TIME_ATTACK) {
         return;
     }
-    gRaceNewRecordTa = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0xe8);
+    gRaceNewRecordTa = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gRaceNewRecordTa));
     gRaceNewRecordTa->mUpdate = StartRaceNewRecordTa;
     gRaceNewRecordTa->mUpdateFrames = 0;
     gRaceNewRecordTa->mFinishTimeIsRecord = 0;

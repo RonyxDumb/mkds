@@ -184,7 +184,7 @@ BOOL CreateRaceHudSubScreenCells(RaceHudSubScreenCells **outCells, s32 kind) {
             return FALSE;
         }
     }
-    *outCells = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x14);
+    *outCells = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(**outCells));
     if (fromUpdateList != FALSE) {
         (*outCells)->mObjects = (MapObject **) GetMapObjects(updateList);
     } else {
@@ -197,7 +197,7 @@ BOOL CreateRaceHudSubScreenCells(RaceHudSubScreenCells **outCells, s32 kind) {
         ComputeRaceHudSubScreenCoursePosition(&(*outCells)->mObjects[objectIndex]->mPos,
                                               &(*outCells)->mObjectPairs[objectIndex]);
     }
-    (*outCells)->mCells = AllocArrayFromCurrentHeap(objectCount * 2, 0x14);
+    (*outCells)->mCells = AllocArrayFromCurrentHeap(objectCount * 2, sizeof(*(*outCells)->mCells));
     return TRUE;
 }
 
@@ -205,11 +205,11 @@ BOOL CreateRaceHudSubScreenCellsWithCount(RaceHudSubScreenCells **outCells, s32 
     if (objectCount == 0) {
         return FALSE;
     }
-    *outCells = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x14);
+    *outCells = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(**outCells));
     (*outCells)->mCellCount = 0;
     (*outCells)->mObjectCount = objectCount;
     (*outCells)->mObjectPairs = HeapAlloc(GetHeap(GetCurrentHeapCall()), objectCount * 8);
-    (*outCells)->mCells = AllocArrayFromCurrentHeap(objectCount, 0x14);
+    (*outCells)->mCells = AllocArrayFromCurrentHeap(objectCount, sizeof(*(*outCells)->mCells));
     return TRUE;
 }
 
@@ -343,7 +343,7 @@ void DrawRaceHudSubScreenCellsScaled(RaceHudOamBuffer *oamBuffer, RaceHudSubScre
 }
 
 void InitRaceHudSubScreenCellGroups(void) {
-    gRaceHudSubScreenCellGroups = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x25c);
+    gRaceHudSubScreenCellGroups = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gRaceHudSubScreenCellGroups));
     gRaceHudSubScreenCellGroups->mMinDrawValue = 0;
     gRaceHudSubScreenCellGroups->mScale = 0;
     gRaceHudSubScreenCellGroups->mInverseScale = 0;

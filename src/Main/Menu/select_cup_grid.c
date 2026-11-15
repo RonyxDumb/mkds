@@ -518,7 +518,7 @@ void InitSelectCupGrid(void *heap, void *mainOam, void *subOam, s32 mode) {
         reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | 0x1800;
     }
     heap = CreateFrmHeapFromMaxFree(heap);
-    gSelectCupGrid = HeapAlloc(heap, 0x8c);
+    gSelectCupGrid = HeapAlloc(heap, sizeof(*gSelectCupGrid));
     gSelectCupGrid->mHeap = heap;
     gSelectCupGrid->mState = SELECT_CUP_GRID_STATE_WAIT_FADE;
     gSelectCupGrid->mIndex = gSelectCupGridIndicesByCup[GetCupIndex()];

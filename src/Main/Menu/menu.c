@@ -300,7 +300,7 @@ void InitMenu(void) {
     SceneTextInitParams config;
     DisplaySettings *displaySettings;
 
-    gMenuScene = HeapAlloc(MenuGetCurrentHeap(), 0x960);
+    gMenuScene = HeapAlloc(MenuGetCurrentHeap(), sizeof(*gMenuScene));
     CreateRaceSetupCopy(MenuGetCurrentHeap());
     displaySettings = CreateDisplaySettings(MenuGetCurrentHeap(), gMenuDisplaySettingsDesc);
     SetMainBg0Record(displaySettings, 1, 0, 0, 0, 0xd, 2, 0);

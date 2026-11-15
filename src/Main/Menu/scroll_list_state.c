@@ -516,11 +516,11 @@ void InitScrollList(void *heap, s32 groupCount, const void *groupFirstEntries, u
                     s32 upRectIndex, s32 downRectIndex, s32 firstRowRectIndex, s32 rowCount,
                     void (*callback)(int action, int slot, int row, int selectedSlot)) {
     s32 row;
-    gScrollList = HeapAlloc(heap, 0x674);
+    gScrollList = HeapAlloc(heap, sizeof(*gScrollList));
     ScrollListMI_CpuClearFast(gScrollList, 0x674);
     gScrollList->mGroupCount = groupCount;
     groupCount = groupCount * 2;
-    gScrollList->mGroupFirstEntries = HeapAllocAligned(heap, groupCount, 0x20);
+    gScrollList->mGroupFirstEntries = HeapAllocAligned(heap, groupCount, HEAP_ALIGN_CACHE_LINE);
     ScrollListMI_CpuCopy16(groupFirstEntries, gScrollList->mGroupFirstEntries, groupCount);
     ScrollListMI_CpuCopy16(screenMap, gScrollList->mScreenMap, 0x600);
     gScrollList->mCursorEntry = cursorEntry;

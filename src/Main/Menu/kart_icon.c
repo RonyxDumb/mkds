@@ -95,7 +95,7 @@ void LoadCommonKartIconData(void) {
 void CreateKartIcon(void *heap) {
     int nclrIndex;
 
-    gKartIcon = HeapAlloc(heap, 0x18);
+    gKartIcon = HeapAlloc(heap, sizeof(*gKartIcon));
     LocateNcgr2(&gKartIcon->mNcgr, FindSceneFile(gKartIconNcgrName));
     LocateNcer(&gKartIcon->mNcer, FindSceneFile(gKartIconNcerName));
     for (nclrIndex = 0; nclrIndex < 3; nclrIndex++) {
@@ -111,7 +111,7 @@ void CreateKartIcon(void *heap) {
 void CreateCommonKartIcon(void *heap) {
     s32 nclrIndex;
 
-    gKartIcon = HeapAlloc(heap, 0x18);
+    gKartIcon = HeapAlloc(heap, sizeof(*gKartIcon));
     LocateNcgr2(&gKartIcon->mNcgr, FindSceneFile(gCommonKartIconNcgrName));
     LocateNcer(&gKartIcon->mNcer, FindSceneFile(gCommonKartIconNcerName));
     for (nclrIndex = 0; nclrIndex < 3; nclrIndex++) {

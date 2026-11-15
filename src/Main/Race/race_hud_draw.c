@@ -366,7 +366,7 @@ void InitRaceHud(void) {
         InitStaffRollText(GetHeap(GetCurrentHeapCall()));
         return;
     }
-    gRaceHud = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x914);
+    gRaceHud = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gRaceHud));
     InitRaceStartSequence();
     InitRaceEnd();
     InitRaceHudSubScreenProjection();
@@ -536,7 +536,7 @@ void InitMap2D(void) {
     if (gRaceSetup->mRaceKind == RACE_KIND_AWARD || gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {
         return;
     }
-    gRaceHudSubScreenPalettes = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x400);
+    gRaceHudSubScreenPalettes = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x200 * sizeof(*gRaceHudSubScreenPalettes));
     for (index = 0; index < 2; index++) {
         nclrs[index] = NULL;
         ncgrs[index] = NULL;

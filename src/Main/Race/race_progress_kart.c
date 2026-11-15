@@ -488,7 +488,7 @@ void SetRankTimeFromRankTimeGp(RankTimeGp *rankTimeGp) {
 }
 
 void CreateRaceProgress(void *heap) {
-    gRaceProgress = HeapAlloc(heap, 0x524);
+    gRaceProgress = HeapAlloc(heap, sizeof(*gRaceProgress));
     gRaceProgress->mCheckpointLapProgress = HeapAlloc(heap, (gCourseMap->mNumberedCheckpointCount + 1) << 2);
     gRaceProgress->mRankPointFile = FindMainRaceOrMainEffectFile("/rankpoint.rpt");
     gRaceProgress->mRankTimeGpFile = FindMainRaceOrMainEffectFile("/ranktimeGP.rtt");

@@ -261,7 +261,7 @@ void InitTimeAttackGhostSend(void *parentHeap, void *mainOam, void *subOam) {
     s32 subCellCount;
     s32 assignedCount;
     heap = CreateFrmHeapFromMaxFree(parentHeap);
-    gTimeAttackGhostSend = HeapAlloc(heap, 0xe0);
+    gTimeAttackGhostSend = HeapAlloc(heap, sizeof(*gTimeAttackGhostSend));
     MemFillWordsByBlock_inline(gTimeAttackGhostSend, 0xe0);
     gTimeAttackGhostSend->mHeap = heap;
     gTimeAttackGhostSend->mOamLists[0] = mainOam;

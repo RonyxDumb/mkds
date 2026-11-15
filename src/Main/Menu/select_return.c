@@ -46,7 +46,7 @@ SelectChoises *gSelectChoises;
 #pragma thumb on
 s32 InitSelectReturn(void *heap, s32 subCharOffset) {
     u32 subDisplayBits;
-    gSelectReturn = HeapAlloc(heap, 0x828);
+    gSelectReturn = HeapAlloc(heap, sizeof(*gSelectReturn));
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         InitSelectReturnDisplay();
         subCharOffset = LoadSelectReturn(subCharOffset);
@@ -377,7 +377,7 @@ s32 InitSelectChoises(void *heap, void *font, s32 subCharOffset) {
     NNSG2dCharCanvas *charCanvas;
     TextCanvas *textCanvas;
     u32 subDisplayBits;
-    gSelectChoises = HeapAlloc(heap, 0x8b4);
+    gSelectChoises = HeapAlloc(heap, sizeof(*gSelectChoises));
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         InitSelectChoisesDisplay();
         subCharOffset = LoadSelectChoises(subCharOffset);
@@ -389,7 +389,7 @@ s32 InitSelectChoises(void *heap, void *font, s32 subCharOffset) {
         reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | (subDisplayBits << 8);
     }
     for (canvasIndex = 0; canvasIndex < 2; canvasIndex++) {
-        gSelectChoises->mCharBuffers[canvasIndex] = HeapAlloc(heap, 0x800);
+        gSelectChoises->mCharBuffers[canvasIndex] = HeapAlloc(heap, SELECT_CHOISES_CHAR_BUFFER_BYTES);
         NNS_G2dCharCanvasInitForBG(&gSelectChoises->mCharCanvases[canvasIndex],
                                    gSelectChoises->mCharBuffers[canvasIndex], 0x20, 2, 4);
         charCanvas = &gSelectChoises->mCharCanvases[canvasIndex];

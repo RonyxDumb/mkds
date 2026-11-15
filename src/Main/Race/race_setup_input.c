@@ -179,7 +179,7 @@ void BuildCourseList(s32 isVersus) {
     } else {
         gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_START_BATTLE;
     }
-    for (listIndex = 0; listIndex < 0x21; listIndex++) {
+    for (listIndex = 0; listIndex < RACE_SETUP_COURSE_LIST_LENGTH; listIndex++) {
         gRaceSetup->mCourseList[listIndex] = 0;
     }
     switch (gStartupWork->mConnectionKind) {
@@ -547,7 +547,7 @@ void ResetRaceSetup(void) {
     gRaceSetup->mNextHeader.mRuleKind = RULE_KIND_FREE;
     gRaceSetup->mNextHeader.mCourseListMode = COURSE_LIST_MODE_SINGLE;
     gRaceSetup->mNextHeader.mGhostRecordIndex = GHOST_RECORD_INDEX_COURSE;
-    MI_CpuFill8(&gRaceSetup->mNextHeader.mMissionFileRow, 0, 0x2c);
+    MI_CpuFill8(&gRaceSetup->mNextHeader.mMissionFileRow, 0, sizeof(gRaceSetup->mNextHeader.mMissionFileRow));
     gRaceSetup->mNextHeader.mMissionTableRow = -1;
     gRaceSetup->mNextHeader.mMissionTableColumn = -1;
     gRaceSetup->mNextHeader.mUnk_56[0] = 0;
@@ -748,7 +748,8 @@ BOOL SetNextEntryFromCourseGhost(s32 courseId, s32 entryIndex) {
         SetNextRaceEntry(entryIndex, ghostRecord->mHead.mCharacterIndex, ghostRecord->mHead.mKartIndex,
                          PLAYER_KIND_GHOST, -1, 3);
         gRaceSetup->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex = GHOST_RECORD_INDEX_COURSE;
-        MI_CpuCopy8(ghostRecord->mKeyRecordingBuffer, gInputSlots[entryIndex].mKeyRecording.mBuffer, 0xdcc);
+        MI_CpuCopy8(ghostRecord->mKeyRecordingBuffer, gInputSlots[entryIndex].mKeyRecording.mBuffer,
+                    sizeof(KeyRecordingBuffer));
         result = TRUE;
         GetGhostFinishTimeByIndex(0, &gRaceSetup->mGhostTime);
         for (lapIndex = 1; lapIndex <= 5; lapIndex++) {
@@ -772,7 +773,8 @@ BOOL SetNextEntryFromFirstSlotGhost(s32 courseId, s32 entryIndex) {
         SetNextRaceEntry(entryIndex, ghostRecord->mHead.mCharacterIndex, ghostRecord->mHead.mKartIndex,
                          PLAYER_KIND_GHOST, -1, 3);
         gRaceSetup->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex = GHOST_RECORD_INDEX_FIRST_SLOT;
-        MI_CpuCopy8(ghostRecord->mKeyRecordingBuffer, gInputSlots[entryIndex].mKeyRecording.mBuffer, 0xdcc);
+        MI_CpuCopy8(ghostRecord->mKeyRecordingBuffer, gInputSlots[entryIndex].mKeyRecording.mBuffer,
+                    sizeof(KeyRecordingBuffer));
         GetGhostFinishTimeByIndex(1, &gRaceSetup->mGhostTime);
         for (lapIndex = 1; lapIndex <= 5; lapIndex++) {
             GetGhostLapTimeByIndex(1, lapIndex, &gRaceSetup->mGhostLapTimes[lapIndex - 1]);
@@ -795,7 +797,8 @@ BOOL SetNextEntryFromSecondSlotGhost(s32 courseId, s32 entryIndex) {
         SetNextRaceEntry(entryIndex, ghostRecord->mHead.mCharacterIndex, ghostRecord->mHead.mKartIndex,
                          PLAYER_KIND_GHOST, -1, 3);
         gRaceSetup->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex = GHOST_RECORD_INDEX_SECOND_SLOT;
-        MI_CpuCopy8(ghostRecord->mKeyRecordingBuffer, gInputSlots[entryIndex].mKeyRecording.mBuffer, 0xdcc);
+        MI_CpuCopy8(ghostRecord->mKeyRecordingBuffer, gInputSlots[entryIndex].mKeyRecording.mBuffer,
+                    sizeof(KeyRecordingBuffer));
         GetGhostFinishTime(&ghostRecord->mHead, &gRaceSetup->mGhostTime);
         for (lapIndex = 1; lapIndex <= 5; lapIndex++) {
             GetGhostLapTime(&ghostRecord->mHead, lapIndex, &gRaceSetup->mGhostLapTimes[lapIndex - 1]);
@@ -1180,7 +1183,7 @@ void ReadCourseGhostRecordAndLoadFile(u32 courseId) {
     if (ghostRecord != NULL) {
         return;
     }
-    MI_CpuFill8(ghostRecord, 0, 0x1000);
+    MI_CpuFill8(ghostRecord, 0, sizeof(SlotGhostRecord));
     ghostRecord->mHead.mFilled = 0;
 }
 
@@ -1226,7 +1229,7 @@ void InitInputSlotsAndTouchMic(void *heap) {
     for (; slotIndex < 10; slotIndex++) {
         ClearKeyRecordingBufferPointer(&gInputSlots[slotIndex].mKeyRecording);
     }
-    gInputState = HeapAlloc(heap, 0x10);
+    gInputState = HeapAlloc(heap, sizeof(*gInputState));
     ResetInputSlotsAndRepeat();
     ReadPadKeysAndUpdateTouchMic();
     ReadPadKeysAndUpdateTouchMic();

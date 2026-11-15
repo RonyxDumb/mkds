@@ -273,7 +273,7 @@ void InitSelectCupCourse(void *parentHeap, void *mainOam, void *subOam, s32 mode
     reg_G2S_DB_BG3CNT =
         (reg_G2S_DB_BG3CNT & (REG_G2S_DB_BG3CNT_PRIORITY_MASK | REG_G2S_DB_BG3CNT_MOSAIC_MASK)) | 0x8300;
     heap = CreateFrmHeapFromMaxFree(parentHeap);
-    gSelectCupCourse = HeapAlloc(heap, 0x70);
+    gSelectCupCourse = HeapAlloc(heap, sizeof(*gSelectCupCourse));
     gSelectCupCourse->mHeap = heap;
     gSelectCupCourse->mState = SELECT_CUP_COURSE_STATE_WAIT_FADE;
     gSelectCupCourse->mIndex = gCupCourseIndicesByCourse[GetCourseId()];

@@ -20,7 +20,7 @@ struct ResultScene *gResultScene;
 #pragma thumb on
 
 void InitResultsByMode(void *heap) {
-    gResultScene = HeapAlloc(heap, 0x80c);
+    gResultScene = HeapAlloc(heap, sizeof(*gResultScene));
     MemFillWordsByBlock_inline(gResultScene, 0x80c);
     ResetOamLists(gResultScene, gResultScene->mSubOam);
     gResultScene->mMode = gRaceSetup->mMode;

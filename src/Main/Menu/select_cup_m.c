@@ -89,7 +89,7 @@ void LocateAndQueueSelectCupM(void) {
     LocateNcgr(&secondBgChars, FindSceneFile(gSelectCupMBNcgrName3));
     LocateNclr(&secondBgPalette, FindSceneFile(gSelectCupMBNclrName3));
     LocateNscr(&secondBgScreenMap, FindSceneFile(gSelectCupMNscrName3));
-    gSelectCupM->mSecondScreenMapBuffer = HeapAlloc(gSelectCupM->mHeap, 0x800);
+    gSelectCupM->mSecondScreenMapBuffer = HeapAlloc(gSelectCupM->mHeap, SECOND_SCREEN_MAP_BYTES);
     gSelectCupM->mMainBncl = FindSceneFile(gSelectCupMBnclName3);
     gSelectCupM->mMainBnll = FindSceneFile(gSelectCupMBnllName3);
     LocateNcgr2(&mainCellChars, FindSceneFile(gSelectCupMNcgrName3));
@@ -108,7 +108,7 @@ void LocateAndQueueSelectCupM(void) {
         NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG0_MAP, 0, firstBgScreenMap->mData,
                                            firstBgScreenMap->mDataSize);
         NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG0_MAP, 0x800, gSelectCupM->mSecondScreenMapBuffer,
-                                           0x800);
+                                           SECOND_SCREEN_MAP_BYTES);
     }
     if (!(GetPreviousMenuScreenNumber() == 0x19 || GetPreviousMenuScreenNumber() == 0xd)) {
         NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG3_TILES, 0, secondBgChars->mData,
@@ -117,7 +117,7 @@ void LocateAndQueueSelectCupM(void) {
         NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG3_MAP, 0, secondBgScreenMap->mData,
                                            secondBgScreenMap->mDataSize);
         NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG3_MAP, 0x800, gSelectCupM->mSecondScreenMapBuffer,
-                                           0x800);
+                                           SECOND_SCREEN_MAP_BYTES);
     }
     NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_TILES, 0, mainCellChars->mData,
                                        mainCellChars->mDataSize);
@@ -288,7 +288,7 @@ void InitSelectCupM(void *parentHeap, void *mainOamList, void *subOamList) {
     reg_G2S_DB_BG3CNT =
         (reg_G2S_DB_BG3CNT & (REG_G2S_DB_BG3CNT_PRIORITY_MASK | REG_G2S_DB_BG3CNT_MOSAIC_MASK)) | 0x8300;
     heap = CreateFrmHeapFromMaxFree(parentHeap);
-    gSelectCupM = HeapAlloc(heap, 0x54);
+    gSelectCupM = HeapAlloc(heap, sizeof(*gSelectCupM));
     gSelectCupM->mHeap = heap;
     gSelectCupM->mCupPicturePending = FALSE;
     gSelectCupM->mMainOam = mainOamList;

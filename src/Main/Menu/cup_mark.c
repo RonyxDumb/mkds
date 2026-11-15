@@ -67,7 +67,7 @@ void LoadCommonCupMarkData(void) {
 
 void CreateCupMark(void *heap) {
     void *sceneFile;
-    gCupMark = HeapAlloc(heap, 0x10);
+    gCupMark = HeapAlloc(heap, sizeof(*gCupMark));
     sceneFile = FindSceneFile(gCupMarkNcgrName);
     LocateNcgr2(&gCupMark->mNcgr, sceneFile);
     sceneFile = FindSceneFile(gCupMarkNcerName);
@@ -80,7 +80,7 @@ void CreateCupMark(void *heap) {
 
 void CreateCommonCupMark(void *heap) {
     void *sceneFile;
-    gCupMark = HeapAlloc(heap, 0x10);
+    gCupMark = HeapAlloc(heap, sizeof(*gCupMark));
     sceneFile = FindSceneFile(gCommonCupMarkNcgrName);
     LocateNcgr2(&gCupMark->mNcgr, sceneFile);
     sceneFile = FindSceneFile(gCommonCupMarkNcerName);

@@ -656,7 +656,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
     CellFileSet cellFileSet;
 
     heap = CreateFrmHeapFromMaxFree(parentHeap);
-    gSelectCharacter = HeapAlloc(heap, 0x12c);
+    gSelectCharacter = HeapAlloc(heap, sizeof(*gSelectCharacter));
     MemFillWordsByBlock_inline(gSelectCharacter, 0x12c);
     gSelectCharacter->mHeap = heap;
     gSelectCharacter->mMode = mode;

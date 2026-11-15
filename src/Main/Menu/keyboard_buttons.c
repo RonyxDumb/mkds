@@ -924,8 +924,10 @@ void AdvanceKeyboardAnswerConfirm(void) {
                 gKeyboard->mNextState = KEYBOARD_STATE_SHOW_SAVING;
             } else {
                 gBackupBuffers->mFirstBlock->mHasPlayerName = 1;
-                MI_CpuFill8(gBackupBuffers->mFirstBlock->mPlayerName, 0, 0x14);
-                MI_CpuCopy8(&keyboard->mRecords[1], gBackupBuffers->mFirstBlock->mPlayerName, 0x14);
+                MI_CpuFill8(gBackupBuffers->mFirstBlock->mPlayerName, 0,
+                            sizeof(gBackupBuffers->mFirstBlock->mPlayerName));
+                MI_CpuCopy8(&keyboard->mRecords[1], gBackupBuffers->mFirstBlock->mPlayerName,
+                            sizeof(gBackupBuffers->mFirstBlock->mPlayerName));
                 WriteBackupFirstBlockWrapper();
                 SetTxtSystemOpenSoundId(0x21);
                 message = GetBmgEntry(gKeyboard->mCommonMessages, KEYBOARD_MESSAGE_NICKNAME_REGISTERED);

@@ -136,8 +136,8 @@ void InitGhostScene(void *heap) {
     s32 cupCourseIndex;
     gGhostScene = HeapAlloc(heap, sizeof(GhostScene));
     MemFillWordsByBlock_inline(gGhostScene, 0x8dc);
-    gGhostScene->mCourseGhostBuffer = HeapAllocAligned(heap, 0xe00, 0x20);
-    gGhostScene->mSlotGhostBuffer = HeapAllocAligned(heap, 0x1000, 0x20);
+    gGhostScene->mCourseGhostBuffer = HeapAllocAligned(heap, 0xe00, HEAP_ALIGN_CACHE_LINE);
+    gGhostScene->mSlotGhostBuffer = HeapAllocAligned(heap, 0x1000, HEAP_ALIGN_CACHE_LINE);
     displaySettings = CreateDisplaySettings(heap, gGhostSceneDisplaySettingsDesc);
     SetBg0Record(&displaySettings->mMainBgRecords, 1, 0, 0, 0, 0, 1, 0);
     SetBg3RecordParams(&displaySettings->mSubBgRecords, 2, 0, 0, 0, 0xf, 0);

@@ -241,7 +241,7 @@ void InitPlayerEntryList(void *parentHeap, void *mainOam) {
     s32 objSizeLeft;
     CellFileSet *fileSet;
     s32 entryIndex;
-    gPlayerEntryList = HeapAlloc(heap, 0x258);
+    gPlayerEntryList = HeapAlloc(heap, sizeof(*gPlayerEntryList));
     MemFillWordsByBlock_inline(gPlayerEntryList, 0x258);
     gPlayerEntryList->mHeap = heap;
     gPlayerEntryList->mMainOam = mainOam;

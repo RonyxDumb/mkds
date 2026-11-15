@@ -313,7 +313,7 @@ u32 EmblemChoisesDrawTextOnCanvas(TextCanvas *textCanvas, s32 textX, s32 textY, 
 void InitEmblemChoises(void) {
     EmblemChoises *emblemChoises;
 
-    gEmblemChoises = HeapAlloc(EmblemChoisesGetCurrentHeap(), 0x6c);
+    gEmblemChoises = HeapAlloc(EmblemChoisesGetCurrentHeap(), sizeof(*gEmblemChoises));
     gEmblemChoises->mShown = 0;
     gEmblemChoises->mDrawnShown = 1;
     gEmblemChoises->mGraphicsUploadRequested = FALSE;

@@ -74,7 +74,7 @@ void StartRaceRankListItemInUse(s32 kartIndex, s32 itemId, s32 objectCount) {
 void InitRaceRankList(void) {
     u8 kartIndex;
 
-    gRaceRankList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x15c);
+    gRaceRankList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gRaceRankList));
     for (kartIndex = 0; kartIndex < (s32) gRaceSetup->mKartCount; kartIndex++) {
         gRaceRankList->mRanks[kartIndex] = 1;
         gRaceRankList->mPrevRanks[kartIndex] = gRaceRankList->mRanks[kartIndex];
@@ -698,7 +698,7 @@ void DrawRaceRankListBattleMapRows(RaceHudOamBuffer *oamBuffer) {
 }
 
 void InitRaceLapNumber(void) {
-    gRaceLapNumber = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x14);
+    gRaceLapNumber = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gRaceLapNumber));
     gRaceLapNumber->mLapIndex = 0;
     gRaceLapNumber->mPrevLapIndex = 0;
     gRaceLapNumber->mLastLapIndex = (u16) (GetLapCount() - 1);
@@ -923,7 +923,7 @@ void DrawRaceLapAndTimeDifference(RaceHudOamBuffer *oamBuffer) {
 void InitRaceTimeDigits(void) {
     s32 digitIndex;
 
-    gRaceTimeDigits = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
+    gRaceTimeDigits = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gRaceTimeDigits));
     gRaceTimeDigits->mTime.mDigits[0] = 0;
     gRaceTimeDigits->mTime.mDigits[1] = 0;
     gRaceTimeDigits->mTime.mDigits[2] = 0;

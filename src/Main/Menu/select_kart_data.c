@@ -314,7 +314,7 @@ void InitSelectKart(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
     u32 entryListUsed;
     void *text;
     heap = CreateFrmHeapFromMaxFree(parentHeap);
-    gSelectKart = HeapAlloc(heap, 0x118);
+    gSelectKart = HeapAlloc(heap, sizeof(*gSelectKart));
     SelectKartMI_CpuClearFast(gSelectKart, 0x118);
     gSelectKart->mHeap = heap;
     gSelectKart->mMode = mode;

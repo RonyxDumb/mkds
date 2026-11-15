@@ -36,7 +36,7 @@ RaceHudSubScreenCells *gRaceHudSubScreenBombKouraWCells;
 RaceHudSubScreenBgColors *gRaceHudSubScreenBgColors;
 
 void InitRaceHudSubScreenBgColors(void) {
-    gRaceHudSubScreenBgColors = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
+    gRaceHudSubScreenBgColors = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gRaceHudSubScreenBgColors));
 }
 
 u8 gRaceHudSubScreenBgColorsOrderPad[24];

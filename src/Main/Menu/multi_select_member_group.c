@@ -340,7 +340,7 @@ void InitMultiSelectMemberGroup(void *parentHeap, void *scene, void *oamList) {
     void *text;
 
     heap = CreateFrmHeapFromMaxFree(parentHeap);
-    gMultiSelectMemberGroup = HeapAlloc(heap, 0xa8);
+    gMultiSelectMemberGroup = HeapAlloc(heap, sizeof(*gMultiSelectMemberGroup));
     MemFillWordsByBlock_inline(gMultiSelectMemberGroup, 0xa8);
     gMultiSelectMemberGroup->mHeap = heap;
     gMultiSelectMemberGroup->mScene = scene;

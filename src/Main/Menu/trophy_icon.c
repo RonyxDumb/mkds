@@ -48,7 +48,7 @@ void LoadTrophyIconData(void) {
 
 void CreateTrophyIcon(void *heap) {
     void *sceneFile;
-    gTrophyIcon = HeapAlloc(heap, 0x10);
+    gTrophyIcon = HeapAlloc(heap, sizeof(*gTrophyIcon));
     sceneFile = FindSceneFile(gTrophyIconNcgrName);
     LocateNcgr2(&gTrophyIcon->mNcgr, sceneFile);
     sceneFile = FindSceneFile(gTrophyIconNcerName);

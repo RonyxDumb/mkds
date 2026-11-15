@@ -483,7 +483,7 @@ void InitMultiSelectMember(void *parentHeap, void *mainOam, void *subOam) {
     const LabelMessageRow *printRow;
 
     heap = CreateFrmHeapFromMaxFree(parentHeap);
-    gMultiSelectMember = HeapAlloc(heap, 0x154);
+    gMultiSelectMember = HeapAlloc(heap, sizeof(*gMultiSelectMember));
     clearValue = 0;
     MIi_CpuClearFast(clearValue, gMultiSelectMember, 0x154);
     gMultiSelectMember->mHeap = heap;

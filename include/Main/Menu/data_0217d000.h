@@ -13,6 +13,9 @@
 #include "Main/Menu/data_02180728.h" // TextCanvas
 #include "Main/Sound/sound_seq.h" // SoundHandlePool
 
+// Bytes of the second screen map buffer: one 32 by 32 screen map of 16-bit cells.
+#define SECOND_SCREEN_MAP_BYTES 0x800
+
 typedef struct OSMessageQueue OSMessageQueue;
 
 // Three words derived from a halfword.
@@ -707,6 +710,9 @@ typedef struct TxtSystem {
     /* 2258 */ s32 mOpenSoundId;
     /* 225c */ struct Nscr *mBgNscrs[7];
 } TxtSystem;
+
+// Bytes of each SelectChoises.mCharBuffers entry: the tiles of one 32 by 2 tile canvas.
+#define SELECT_CHOISES_CHAR_BUFFER_BYTES 0x800
 
 // Values of SelectChoises.mState and mNextState: the two choices are hidden, waiting for a choice, or showing the
 // choice made.

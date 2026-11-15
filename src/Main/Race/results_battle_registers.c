@@ -726,7 +726,7 @@ void InitResultsBattle(void *heap, void *mainOam, void *subOam) {
     SceneTextInitParams sceneTextInitParams;
     s32 orderUsed[8];
 
-    gResultsBattle = HeapAlloc(heap, 0x154);
+    gResultsBattle = HeapAlloc(heap, sizeof(*gResultsBattle));
     MemFillWordsByBlock_inline(gResultsBattle, 0x154);
     gResultsBattle->mOamLists[0] = mainOam;
     gResultsBattle->mOamLists[1] = subOam;

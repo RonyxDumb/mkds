@@ -75,7 +75,7 @@ void DrawRaceHudSubScreenFireball2Cells(RaceHudOamBuffer *oamBuffer) {
 void InitRaceGoalTimes(void) {
     u16 lapIndex;
 
-    gRaceGoalTimes = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0xb0);
+    gRaceGoalTimes = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gRaceGoalTimes));
     gRaceGoalTimes->mFinishTime.mDigits[0] = 0;
     gRaceGoalTimes->mFinishTime.mDigits[1] = 0;
     gRaceGoalTimes->mFinishTime.mDigits[2] = 0;

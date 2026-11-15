@@ -85,7 +85,7 @@ s32 InitTxtSystem(void *heap, TxtSystemArgs *args) {
     NNSG2dCharCanvas *charCanvas;
 
     subCharOffset = args->mSubCharOffset;
-    gTxtSystem = HeapAlloc(heap, 0x2278);
+    gTxtSystem = HeapAlloc(heap, sizeof(*gTxtSystem));
     if (args->mUseCanvas1 != 0) {
         gTxtSystem->mUseCanvas1 = 1;
     }

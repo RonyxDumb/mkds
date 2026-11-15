@@ -161,7 +161,7 @@ void SetCupWinningTeamFromRecords(void) {
 }
 
 void InitRaceEnd(void) {
-    gRaceEnd = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x10);
+    gRaceEnd = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gRaceEnd));
     gRaceEnd->mEndFrames = 0;
     gRaceEnd->mStemSetRequested = FALSE;
     gRaceEnd->mStemSetRequestFrames = 0;

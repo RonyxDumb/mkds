@@ -1469,7 +1469,7 @@ void InitSelectRaceRule(void *parentHeap, s32 mainOam, void *oamList, s32 mode) 
     reg_G2S_DB_BG3CNT =
         (reg_G2S_DB_BG3CNT & (REG_G2S_DB_BG3CNT_PRIORITY_MASK | REG_G2S_DB_BG3CNT_MOSAIC_MASK)) | 0x8200;
     heap = CreateFrmHeapFromMaxFree(parentHeap);
-    gSelectRaceRule = HeapAlloc(heap, 0xbc);
+    gSelectRaceRule = HeapAlloc(heap, sizeof(*gSelectRaceRule));
     gSelectRaceRule->mHeap = heap;
     gSelectRaceRule->mMode = mode;
     gSelectRaceRule->mState = SELECT_RACE_RULE_STATE_WAIT_FADE;

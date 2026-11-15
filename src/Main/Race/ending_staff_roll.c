@@ -34,7 +34,7 @@ void InitEndingStaffRoll(void) {
     NNSG2dCellDataBank *cells;
     RaceHudOamBits *oamBits;
 
-    gEndingStaffRoll = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x414);
+    gEndingStaffRoll = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gEndingStaffRoll));
     for (oamIndex = 0; oamIndex < 0x80; oamIndex++) {
         oamBits = &gEndingStaffRoll->mOamBuffer.mOamBits[oamIndex];
         oamBits->mObjMode = RACE_HUD_OBJ_MODE_BITMAP;

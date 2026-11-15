@@ -417,6 +417,8 @@ typedef struct RaceSetup {
     /* 3e8 */ MinuteSecondMillisecondTime mGhostTime;
     /* 3ec */ MinuteSecondMillisecondTime mGhostLapTimes[5];
 } RaceSetup;
+// Entries of the course list that RaceSetup.mCourseList points to.
+#define RACE_SETUP_COURSE_LIST_LENGTH 0x21
 
 extern RaceSetup *gRaceSetup;
 

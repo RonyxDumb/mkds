@@ -79,7 +79,7 @@ u32 GetRaceGoalMUpdateFrames(void) {
 }
 
 void InitRaceGoalM(void) {
-    gRaceGoalM = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x1c);
+    gRaceGoalM = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gRaceGoalM));
     gRaceGoalM->mReady = 1;
     gRaceGoalM->mUpdateFrames = 0;
     gRaceGoalM->mRankIndex = 0;
@@ -339,7 +339,7 @@ void DrawRaceGoalMMissionRun(RaceHudOamBuffer *oamBuffer) {
 }
 
 void InitRaceLinkLevel(void) {
-    gRaceLinkLevel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x14);
+    gRaceLinkLevel = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gRaceLinkLevel));
     gRaceLinkLevel->mLinkLevel = 0;
     gRaceLinkLevel->mWiFiLinkLevel = 0;
     gRaceLinkLevel->mFriendOnFrames = 0;
@@ -482,7 +482,7 @@ void InitRaceStartGp(void) {
     s32 messageIndex;
     s32 index;
 
-    gRaceStartGp = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x41c);
+    gRaceStartGp = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gRaceStartGp));
     for (index = 0; index < 0x80; index++) {
         RaceHudOamBits *oamBits = &gRaceStartGp->mMainOam.mOamBits[index];
         oamBits->mObjMode = RACE_HUD_OBJ_MODE_BITMAP;
@@ -574,7 +574,7 @@ void InitRaceTaPositions(void) {
     if (gRaceSetup->mMode != MODE_TIME_ATTACK) {
         return;
     }
-    gRaceTaPositions = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x910);
+    gRaceTaPositions = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gRaceTaPositions));
     gRaceTaPositions->mVisible = 1;
     for (index = 0; index < gRaceSetup->mKartCount; index++) {
         gRaceTaPositions->mKartVisible[index] = 1;

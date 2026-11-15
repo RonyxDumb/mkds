@@ -192,7 +192,7 @@ void DrawRaceHudSubScreenItemCells(RaceHudOamBuffer *oamBuffer) {
 s32 CreateRaceHudSubScreenKarts(void) {
     s32 kartIndex;
 
-    gRaceHudSubScreenKarts = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x194);
+    gRaceHudSubScreenKarts = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gRaceHudSubScreenKarts));
     CreateRaceHudSubScreenCellsWithCount(&gRaceHudSubScreenKarts->mCells, 0x18);
     for (kartIndex = 0; kartIndex < 8; kartIndex++) {
         gRaceHudSubScreenKarts->mVisible[kartIndex] = 0;
@@ -561,7 +561,7 @@ BOOL CreateRaceHudSubScreenSecondHand(void) {
     if (objectCount == 0) {
         return FALSE;
     }
-    gRaceHudSubScreenSecondHand = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
+    gRaceHudSubScreenSecondHand = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gRaceHudSubScreenSecondHand));
     gRaceHudSubScreenSecondHand->mObjects = RaceHudSubScreenGetMapObjects(kindEntry);
     gRaceHudSubScreenSecondHand->mCreatedObjectCount = objectCount;
     gRaceHudSubScreenSecondHand->mObjectCount = objectCount;

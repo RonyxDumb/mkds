@@ -31,7 +31,7 @@ GhostRecordSet *gGhostRecordSet;
 #pragma thumb on
 
 void InitGhostRecordSet(void *heap) {
-    gGhostRecordSet = HeapAlloc(heap, 0x14);
+    gGhostRecordSet = HeapAlloc(heap, sizeof(*gGhostRecordSet));
     gGhostRecordSet->mCourseGhostRecords = CreateCourseGhostRecords(heap);
     StartReadCourseGhostRecords(gGhostRecordSet->mCourseGhostRecords);
     WaitThreadFunctionsDone();

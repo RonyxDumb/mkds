@@ -41,8 +41,11 @@ u16 GetRecordVSFirstRecordIndex(void);
 void LocateAndQueueRecordVS(void);
 
 // An emblem's 0x200 bytes of pixels and a byte that is 1 once the pixels are filled in.
+// Bytes of the pixels of one emblem, and of its converted tiles.
+#define EMBLEM_PIXEL_BYTES 0x200
+
 typedef struct EmblemData {
-    /* 000 */ u8 mPixels[0x200];
+    /* 000 */ u8 mPixels[EMBLEM_PIXEL_BYTES];
     /* 200 */ u8 mHasPixels;
 } EmblemData;
 

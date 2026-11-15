@@ -275,6 +275,9 @@ void InitFrmVramManagers(void) {
     ResetResFileEntries();
 }
 
+// Bytes of the geometry command buffer: the word count and 192 words.
+#define RACE_GE_BUFFER_BYTES 772
+
 void Init3dEngine(void) {
     NNS_G3dInit();
     NNS_G3dGlbInit();
@@ -292,7 +295,7 @@ void Init3dEngine(void) {
     NNS_G3dGlbMaterialColorDiffAmb(0x5294, 0x5294, 0);
     NNS_G3dGlbMaterialColorSpecEmi(0, 0, 1);
     NNS_G3dGlbPolygonAttr(15, 0, 2, 0, 31, 0);
-    gGeBuffer = HeapAlloc(gStartupWork->mHeap, 772);
+    gGeBuffer = HeapAlloc(gStartupWork->mHeap, RACE_GE_BUFFER_BYTES);
     NNS_G3dGeSetBuffer(gGeBuffer);
 }
 
@@ -753,7 +756,7 @@ BOOL GetGhostRecordName(GhostRecordHead *ghostRecord, void *name) {
     if (ghostRecord->mFilled != 1) {
         return FALSE;
     }
-    MI_CpuCopy8(ghostRecord->mName, name, 0x14);
+    MI_CpuCopy8(ghostRecord->mName, name, PLAYER_NAME_BYTES);
     return TRUE;
 }
 

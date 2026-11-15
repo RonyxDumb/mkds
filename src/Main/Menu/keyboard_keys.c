@@ -219,7 +219,7 @@ void InitKeyboardTextEntry(s32 screenMapWidth, s32 screenMapHeight, s32 textCapa
     gKeyboardTextEntry->mBg2Scr = HeapAlloc(GetHeap(GetCurrentHeapCall()), gKeyboardTextEntry->mBg2ScrSize);
     gKeyboardTextEntry->mBg2CharSize = 0x4020;
     gKeyboardTextEntry->mBg2Char =
-        HeapAllocAligned(GetHeap(GetCurrentHeapCall()), gKeyboardTextEntry->mBg2CharSize, 0x20);
+        HeapAllocAligned(GetHeap(GetCurrentHeapCall()), gKeyboardTextEntry->mBg2CharSize, HEAP_ALIGN_CACHE_LINE);
     keyboardTextEntry = gKeyboardTextEntry;
     InitKeyboardKeysAndCanvas(GetFontByIndex(0), keyboardTextEntry->mBg2Char, keyboardTextEntry->mBg2Scr,
                               screenMapWidth, screenMapHeight, 0);
@@ -962,7 +962,7 @@ void GetKeyboardCursorRectBounds(s32 *left, s32 *top, s32 *right, s32 *bottom) {
 
 void InitKeyboardKeysAndCanvas(struct NNSG2dFont *font, void *bg2Char, u16 *bg2Scr, s32 screenMapWidth,
                                s32 screenMapHeight, s32 screenMapTileBase) {
-    MI_CpuFill8(&gKeyboardKeys, 0, 0x54);
+    MI_CpuFill8(&gKeyboardKeys, 0, sizeof(gKeyboardKeys));
     gKeyboardCanvas.mFont = font;
     gKeyboardCanvas.mBg2Char = bg2Char;
     gKeyboardCanvas.mMarkedBg2Char = bg2Char;

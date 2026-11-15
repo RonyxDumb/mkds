@@ -65,7 +65,7 @@ MessageScreen *gMessageScreen;
 void InitMessageScreen(void *heap) {
     MessageScreen *messageScreen;
     TextCanvas *textCanvas;
-    messageScreen = HeapAlloc(heap, 0x1a44);
+    messageScreen = HeapAlloc(heap, sizeof(*messageScreen));
     gMessageScreen = messageScreen;
     NNS_G2dCharCanvasInitForBG(messageScreen->mCharCanvas, messageScreen->mCharBuffer, 0x20, 5, 4);
     messageScreen = gMessageScreen;
@@ -242,9 +242,9 @@ void InitLinkLevelIcons(void *heap, void *oamList) {
     s32 index;
     LinkLevelIcons *linkLevelIcons;
     LinkLevelIconOam *oam;
-    gLinkLevelIcons = HeapAlloc(heap, 0x11c);
+    gLinkLevelIcons = HeapAlloc(heap, sizeof(*gLinkLevelIcons));
     gLinkLevelIcons->mOamList = oamList;
-    MI_CpuFill8(gLinkLevelIcons->mZeroChars, 0, 0x20);
+    MI_CpuFill8(gLinkLevelIcons->mZeroChars, 0, sizeof(gLinkLevelIcons->mZeroChars));
     gLinkLevelIcons->mCycleFrames = 0;
     for (index = 0; index < 5; index++) {
         gLinkLevelIcons->mIconEnabled[index] = 0;

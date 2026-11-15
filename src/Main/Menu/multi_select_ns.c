@@ -110,7 +110,7 @@ void InitMultiSelectNS(void *parentHeap, void *scene, void *oamList) {
     s32 labelIndex;
 
     heap = CreateFrmHeapFromMaxFree(parentHeap);
-    gMultiSelectNS = HeapAlloc(heap, 0x40);
+    gMultiSelectNS = HeapAlloc(heap, sizeof(*gMultiSelectNS));
     MultiSelectNSMI_CpuClearFast(gMultiSelectNS, 0x40);
     gMultiSelectNS->mHeap = heap;
     gMultiSelectNS->mScene = scene;

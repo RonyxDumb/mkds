@@ -260,7 +260,7 @@ void PrintRecordVSEraseShownRecord(void) {
                              gRecordVSErase->mEmblemConverted);
             NNS_GfdRegisterNewVramTransferTask(
                 0x13, GetCellCharIndex(3, gRecordVSErase->mRecordVSMNcer, gRecordVSErase->mRecordVSMBncl) << 5,
-                gRecordVSErase->mEmblemConverted, 0x200);
+                gRecordVSErase->mEmblemConverted, EMBLEM_PIXEL_BYTES);
             break;
         case RECORD_VS_ERASE_VIEW_TRANSIENT:
             CopyRecordText(firstRecordIndex + gRecordVSErase->mShownIndex, text, 0x20);
@@ -278,7 +278,7 @@ void PrintRecordVSEraseShownRecord(void) {
                              gRecordVSErase->mEmblemConverted);
             NNS_GfdRegisterNewVramTransferTask(
                 0x13, GetCellCharIndex(1, gRecordVSErase->mRecordVSMNcer, gRecordVSErase->mRecordVSMTransientBncl) << 5,
-                gRecordVSErase->mEmblemConverted, 0x200);
+                gRecordVSErase->mEmblemConverted, EMBLEM_PIXEL_BYTES);
             break;
     }
 }
@@ -578,7 +578,7 @@ void InitRecordVSErase(void *heap) {
         (reg_G2S_DB_BG1CNT & (REG_G2S_DB_BG1CNT_PRIORITY_MASK | REG_G2S_DB_BG1CNT_MOSAIC_MASK)) | 0x1018;
     reg_G2S_DB_BG3CNT =
         (reg_G2S_DB_BG3CNT & (REG_G2S_DB_BG3CNT_PRIORITY_MASK | REG_G2S_DB_BG3CNT_MOSAIC_MASK)) | 0x9810;
-    gRecordVSErase = HeapAlloc(heap, 0xa4);
+    gRecordVSErase = HeapAlloc(heap, sizeof(*gRecordVSErase));
     gRecordVSErase->mHeap = heap;
     gRecordVSErase->mState = RECORD_VS_ERASE_STATE_SLIDE_IN_SUB;
     gRecordVSErase->mPageIndex = GetRecordScenePageIndex();

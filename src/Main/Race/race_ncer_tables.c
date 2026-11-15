@@ -85,7 +85,7 @@ void InitRaceNcerNclrNcgrTables(void) {
     s32 colorBelow;
     void *iconCharData;
 
-    gRaceNcerNclrNcgrTables = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x88c);
+    gRaceNcerNclrNcgrTables = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gRaceNcerNclrNcgrTables));
     for (index = 0; index < RACE_M_NCER_COUNT; index++) {
         gRaceNcerNclrNcgrTables->mRaceMNcerEntries[index] = NULL;
     }

@@ -803,7 +803,7 @@ void LoadRecordSceneData(void) {
 
 void InitRecordSceneObject(void *heap, s16 previousScene) {
     SceneTextInitParams sceneTextInitParams;
-    gRecordScene = HeapAlloc(heap, 0x34);
+    gRecordScene = HeapAlloc(heap, sizeof(*gRecordScene));
     gRecordScene->mHeap = heap;
     gRecordScene->mPageIndex = 0;
     gRecordScene->mIndex = 0;

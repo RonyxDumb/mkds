@@ -87,7 +87,7 @@ void InitSelectRaceRuleWait(void *heap, void *oamList) {
     u16 cellEntryCount;
     u32 subObjSize;
 
-    gSelectRaceRuleWait = HeapAlloc(heap, 0x28);
+    gSelectRaceRuleWait = HeapAlloc(heap, sizeof(*gSelectRaceRuleWait));
     gSelectRaceRuleWait->mState = SELECT_RACE_RULE_WAIT_REST;
     gSelectRaceRuleWait->mOamList = oamList;
     LocateAndQueueSelectRaceRuleWait();

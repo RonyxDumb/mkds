@@ -24,7 +24,7 @@ KeyboardScene *gKeyboardScene;
 void InitKeyboardScene(s16 *sceneNumbers) {
     void *heap;
     heap = GetHeap(GetCurrentHeapCall());
-    gKeyboardScene = HeapAlloc(heap, 0x808);
+    gKeyboardScene = HeapAlloc(heap, sizeof(*gKeyboardScene));
     InitKeyboard(heap, sceneNumbers[0]);
 }
 #pragma thumb off

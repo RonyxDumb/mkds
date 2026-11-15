@@ -726,7 +726,7 @@ void InitChoisesS(void) {
     u32 charCount;
     s32 index;
 
-    gChoisesS = HeapAlloc(ChoisesSGetCurrentHeap(), 0x1a4);
+    gChoisesS = HeapAlloc(ChoisesSGetCurrentHeap(), sizeof(*gChoisesS));
     gChoisesS->mOpenDuringRace = 0;
     gChoisesS->mPrevOpenDuringRace = 0;
     gChoisesS->mOpenAfterRace = 0;

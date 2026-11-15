@@ -409,7 +409,7 @@ void LocateAndQueueSelectCupGrid(void) {
     LocateNcgr(&selectCupMBChars, FindSceneFile(gSelectCupGridMBNcgrName));
     LocateNclr(&selectCupMBPalette, FindSceneFile(gSelectCupGridMBNclrName));
     LocateNscr(&selectCupMScreenMap, FindSceneFile(gSelectCupGridMNscrName));
-    gSelectCupGrid->mSecondScreenMapBuffer = HeapAlloc(gSelectCupGrid->mHeap, 0x800);
+    gSelectCupGrid->mSecondScreenMapBuffer = HeapAlloc(gSelectCupGrid->mHeap, SECOND_SCREEN_MAP_BYTES);
     gSelectCupGrid->mSelectCupMBncl = FindSceneFile(gSelectCupGridMBnclName);
     gSelectCupGrid->mSelectCupMBnll = FindSceneFile(gSelectCupGridMBnllName);
     LocateNcgr2(&selectCupMChars, FindSceneFile(gSelectCupGridMNcgrName));
@@ -428,7 +428,7 @@ void LocateAndQueueSelectCupGrid(void) {
         NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG0_MAP, 0, &selectCupMScreenMap->mData,
                                            selectCupMScreenMap->mDataSize);
         NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG0_MAP, 0x800, gSelectCupGrid->mSecondScreenMapBuffer,
-                                           0x800);
+                                           SECOND_SCREEN_MAP_BYTES);
     }
     NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_TILES, 0, selectCupMChars->mData,
                                        selectCupMChars->mDataSize);

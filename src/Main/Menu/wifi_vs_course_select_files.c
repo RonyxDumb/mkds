@@ -306,7 +306,7 @@ void InitWiFiVSCourseSelect(void *parentHeap, void *mainOam, void *subOam) {
     u16 values[2];
 
     heap = CreateFrmHeapFromMaxFree(parentHeap);
-    gWiFiVSCourseSelect = HeapAlloc(heap, 0x158);
+    gWiFiVSCourseSelect = HeapAlloc(heap, sizeof(*gWiFiVSCourseSelect));
     MemFillWordsByBlock_inline(gWiFiVSCourseSelect, 0x158);
     gWiFiVSCourseSelect->mHeap = heap;
     gWiFiVSCourseSelect->mOamLists[0] = mainOam;

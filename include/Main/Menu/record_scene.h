@@ -15,8 +15,8 @@ void ReleaseRecordScene(void);
 
 void InitRecordScene(s16 *sceneNumbers);
 
-extern void *gRecordSubOam;
-extern void *gRecordMainOam;
+extern struct OamEntryList *gRecordSubOam;
+extern struct OamEntryList *gRecordMainOam;
 
 // Record screen file names (graphics of the Grand Prix, time trial, top menu and trophy screens).
 extern const char *gRecordGpxSONclrName;

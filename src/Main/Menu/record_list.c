@@ -86,8 +86,8 @@ void SortRecordRange(s32 first, u16 count) {
 
 void CreateRecordList(void *heap) {
     void *value;
-    gRecordList = HeapAlloc(heap, 0x10);
-    value = HeapAlloc(heap, 0x78);
+    gRecordList = HeapAlloc(heap, sizeof(*gRecordList));
+    value = HeapAlloc(heap, BUDDY_RECORD_COUNT * sizeof(RecordListEntry));
     gRecordList->mEntries = value;
     value = CreateEmblemBlock(heap);
     gRecordList->mEmblemBlock = value;
@@ -114,7 +114,7 @@ void BuildRecordList(void) {
 
     flaggedCount = 0;
     gRecordList->mRecordCount = 0;
-    for (recordIndex = 0; recordIndex < 0x3c; recordIndex++) {
+    for (recordIndex = 0; recordIndex < BUDDY_RECORD_COUNT; recordIndex++) {
         if (IsBuddyRecordFilled(recordIndex)) {
             gRecordList->mRecordCount++;
             if (IsBuddyRecordFlagged(recordIndex)) {
@@ -216,7 +216,7 @@ void ReadRecordEmblem(u16 listIndex, EmblemData *emblem, void *tiles) {
     if (!CopyEmblemFromBlock(gRecordList->mEmblemBlock, gRecordList->mEntries[listIndex].mRecordIndex, emblem) ||
         emblem->mHasPixels == 0) {
         emblem->mHasPixels = 1;
-        MIi_CpuCopyFast(gRecordList->mEmblem2Bin, emblem, 0x200);
+        MIi_CpuCopyFast(gRecordList->mEmblem2Bin, emblem, EMBLEM_PIXEL_BYTES);
     }
     CopyBytesIntoTiles(emblem, tiles, 0x20);
 }
@@ -433,7 +433,7 @@ void PrintRecordVSShownRecord(void) {
             recordVS = gRecordVS;
             NNS_GfdRegisterNewVramTransferTask(
                 0x13, GetCellCharIndex(3, recordVS->mRecordVSMNcer, recordVS->mRecordVSMBncl) << 5,
-                recordVS->mEmblemConverted, 0x200);
+                recordVS->mEmblemConverted, EMBLEM_PIXEL_BYTES);
             break;
         case 1:
             CopyRecordText(firstIndex + gRecordVS->mShownIndex, buf, 0x20);
@@ -449,7 +449,7 @@ void PrintRecordVSShownRecord(void) {
             recordVS = gRecordVS;
             NNS_GfdRegisterNewVramTransferTask(
                 0x13, GetCellCharIndex(1, recordVS->mRecordVSMNcer, recordVS->mRecordVSMTransientBncl) << 5,
-                recordVS->mEmblemConverted, 0x200);
+                recordVS->mEmblemConverted, EMBLEM_PIXEL_BYTES);
             break;
     }
 }
@@ -807,7 +807,7 @@ void InitRecordVS(void *heap) {
     reg_G2_BG1CNT = (reg_G2_BG1CNT & (REG_G2_BG1CNT_PRIORITY_MASK | REG_G2_BG1CNT_MOSAIC_MASK)) | 0xcc00;
     reg_G2S_DB_BG1CNT =
         (reg_G2S_DB_BG1CNT & (REG_G2S_DB_BG1CNT_PRIORITY_MASK | REG_G2S_DB_BG1CNT_MOSAIC_MASK)) | 0x1018;
-    gRecordVS = HeapAlloc(heap, 0x94);
+    gRecordVS = HeapAlloc(heap, sizeof(*gRecordVS));
     gRecordVS->mHeap = heap;
     gRecordVS->mPageIndex = GetRecordScenePageIndex();
     gRecordVS->mIndex = GetRecordSceneIndex();
@@ -899,8 +899,8 @@ void InitRecordVS(void *heap) {
     SetCellOamModeXlu(0x18, 0, gRecordVS->mRecordVSSNcer, gRecordVS->mRecordVSSBncl);
     SetCellOamModeXlu(0x19, 0, gRecordVS->mRecordVSSNcer, gRecordVS->mRecordVSSBncl);
     SetLabelOamModeXlu(5, 0, gRecordVS->mRecordVSSBnll, gRecordVS->mRecordVSSTable, gRecordVS->mRecordVSSBncl);
-    gRecordVS->mEmblem = HeapAlloc(heap, 0x201);
-    gRecordVS->mEmblemConverted = HeapAlloc(heap, 0x200);
+    gRecordVS->mEmblem = HeapAlloc(heap, sizeof(*gRecordVS->mEmblem));
+    gRecordVS->mEmblemConverted = HeapAlloc(heap, EMBLEM_PIXEL_BYTES);
     if (GetRecordPrevScreen() == RECORD_SCREEN_VS_ERASE) {
         if (GetRecordCount() != 0) {
             gRecordVS->mState = RECORD_VS_STATE_SUB_SLIDE_IN;

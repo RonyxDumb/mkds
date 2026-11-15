@@ -248,7 +248,7 @@ void InitTimeAttackGhostGetSlot(void *parentHeap, void *mainOam, void *subOam) {
     u16 groupFirstEntries[3];
 
     heap = CreateFrmHeapFromMaxFree(parentHeap);
-    gTimeAttackGhostGetSlot = HeapAlloc(heap, 0xa8);
+    gTimeAttackGhostGetSlot = HeapAlloc(heap, sizeof(*gTimeAttackGhostGetSlot));
     MemFillWordsByBlock_inline(gTimeAttackGhostGetSlot, 0xa8);
     gTimeAttackGhostGetSlot->mHeap = heap;
     gTimeAttackGhostGetSlot->mOamLists[0] = mainOam;
@@ -791,7 +791,7 @@ void InitTimeAttackGhostGetScan(void *parentHeap, void *mainOam, void *subOam) {
     BOOL screen;
 
     heap = CreateFrmHeapFromMaxFree(parentHeap);
-    gTimeAttackGhostGetScan = HeapAlloc(heap, 0x1a8);
+    gTimeAttackGhostGetScan = HeapAlloc(heap, sizeof(*gTimeAttackGhostGetScan));
     MemFillWordsByBlock_inline(gTimeAttackGhostGetScan, 0x1a8);
     gTimeAttackGhostGetScan->mHeap = heap;
     gTimeAttackGhostGetScan->mOamLists[0] = mainOam;

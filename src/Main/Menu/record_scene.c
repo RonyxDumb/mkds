@@ -122,16 +122,16 @@ const char *gRecordTrophyONcgrName = sRecordTrophyONcgrName;
 const char *gRecordTopMenuSNcgrName = sRecordTopMenuSNcgrName;
 const char *gRecordTopMenuSNcerName = sRecordTopMenuSNcerName;
 const char *gRecordGpxMNcerName = sRecordGpxMNcerName;
-void *gRecordSubOam;
-void *gRecordMainOam;
+OamEntryList *gRecordSubOam;
+OamEntryList *gRecordMainOam;
 
 #pragma thumb on
 
 void InitRecordScene(s16 *sceneNumbers) {
     void *heap;
     heap = GetHeap(GetCurrentHeapCall());
-    gRecordMainOam = HeapAlloc(heap, 0x404);
-    gRecordSubOam = HeapAlloc(heap, 0x404);
+    gRecordMainOam = HeapAlloc(heap, sizeof(*gRecordMainOam));
+    gRecordSubOam = HeapAlloc(heap, sizeof(*gRecordSubOam));
     InitRecordSceneObject(heap, *sceneNumbers);
 }
 
