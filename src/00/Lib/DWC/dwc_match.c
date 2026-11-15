@@ -392,9 +392,10 @@ void DWCi_ConnectToFriendsAsync(const void *friendIdxList, s32 friendIdxListLen,
 }
 
 // Per-frame step; the state machine runs only when the parameter is 1.
-void DWCi_MatchProcess(s32 param_1) {
+void DWCi_MatchProcess(s32 runStateMachine) {
     WiFiMatching *wiFiMatching;
     u32 waitMs;
+    s32 mode;
     QueryRecord *qr2Obj;
     if (gWiFiMatching == NULL) {
         return;
@@ -402,7 +403,7 @@ void DWCi_MatchProcess(s32 param_1) {
     if (DWCi_IsError() != 0) {
         return;
     }
-    if (param_1 == 0) {
+    if (runStateMachine == 0) {
         if (gWiFiMatching->mQr2 != NULL) {
             qr2_think(gWiFiMatching->mQr2);
         }
@@ -421,8 +422,8 @@ void DWCi_MatchProcess(s32 param_1) {
                 if ((OS_GetTick() - wiFiMatching->mResvTimeoutStartTick) * 64 / 0x82ea > wiFiMatching->mResvTimeoutMs) {
                     wiFiMatching->mResvTimeoutMs = 0;
                     wiFiMatching = gWiFiMatching;
-                    param_1 = wiFiMatching->mMode;
-                    if (param_1 == 3) {
+                    mode = wiFiMatching->mMode;
+                    if (mode == 3) {
                         wiFiMatching->mResvRetryCount++;
                         wiFiMatching = gWiFiMatching;
                         if (wiFiMatching->mResvRetryCount > 5) {
@@ -433,7 +434,7 @@ void DWCi_MatchProcess(s32 param_1) {
                                 DWCi_SendResvCommand(wiFiMatching->mParticipantProfileIds[0], 0)) != 0) {
                             return;
                         }
-                    } else if (DWCi_RetryReserving(param_1) == 0) {
+                    } else if (DWCi_RetryReserving(mode) == 0) {
                         return;
                     }
                 }
