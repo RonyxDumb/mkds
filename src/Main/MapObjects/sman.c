@@ -159,7 +159,7 @@ void UpdateSman(void *mapObjectList, Sman *sman) {
                 sman->mTopHeightPerFrame = 0;
                 sman->mState = SMAN_STATE_WAIT_LOW;
                 falloffIndex = 2;
-                if ((sman->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
+                if ((sman->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
                     if (sman->mMapObject.mFarDistanceSquared != gSoundFalloffs[2].mFarDistanceSquared) {
                         if (sman->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
                             falloffIndex = 3;

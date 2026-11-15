@@ -345,7 +345,7 @@ void UpdateMapObjectSoundSource(MapObject *object) {
     BOOL isSoundSourceEnabled;
 
     sound = object->mSound;
-    if ((object->mFlags & 2) == 0) {
+    if ((object->mFlags & MAP_OBJECT_FLAG_NO_VIEW_TEST) == 0) {
         sound->mSoundSource.mDistanceSquared = object->mDistanceSquaredAndFlags & ~0xc000001f;
         resultIsFalse = (IsMapObjectOutOfRange(object) == FALSE);
         isSoundSourceEnabled = (sound->mSoundSource.mSourceFlags & 1) != 0;
@@ -406,7 +406,7 @@ void UpdateMapObjectList(MapObjectList *list) {
 
         for (objectIndex = 0; objectIndex < count; objectIndex++) {
             object = objects[objectIndex];
-            if ((object->mFlags & 4) == 0) {
+            if ((object->mFlags & MAP_OBJECT_FLAG_NO_UPDATE) == 0) {
                 previousPos = object->mPos;
                 callback(list, object);
                 VEC_Subtract(&object->mPos, &previousPos, &object->mPosStep);
@@ -422,7 +422,7 @@ void UpdateMapObjectList(MapObjectList *list) {
 
         for (objectIndex = 0; objectIndex < count; objectIndex++) {
             object = objects[objectIndex];
-            if ((object->mFlags & 4) == 0) {
+            if ((object->mFlags & MAP_OBJECT_FLAG_NO_UPDATE) == 0) {
                 callback(list, object);
                 if (object->mSound != NULL) {
                     UpdateMapObjectSoundSource(object);
@@ -450,7 +450,7 @@ void CallMapObjectListCallback(MapObjectList *list) {
     }
     for (objectIndex = 0; objectIndex < count; objectIndex++) {
         object = objects[objectIndex];
-        if ((object->mFlags & 0x88) == 0) {
+        if ((object->mFlags & MAP_OBJECT_FLAGS_SKIP_ITEM_CALLBACK) == 0) {
             callback(object, NULL, &callbackArgs[0], &callbackArgs[1]);
         }
     }

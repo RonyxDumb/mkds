@@ -96,7 +96,7 @@ void DrawSun(void *mapObjectList, Sun *sun) {
         QueueMapObjectModelMaterial(mapObjectList, gSun);
         SetMapObjectModelNsbcaFrameIndex(gSun, sun->mNsbcaFrameIndex);
         DrawMapObjectModel(mapObjectList, gSun, sun);
-    } else if ((s32) (sun->mMapObject.mDistanceSquaredAndFlags & 0x3fffffe0) < 0x3d0900) {
+    } else if ((s32) (sun->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK) < 0x3d0900) {
         QueueMapObjectModelMaterial(mapObjectList, gSun);
         SetMapObjectModelNsbcaFrameIndex(gSun, sun->mNsbcaFrameIndex);
         DrawMapObjectModel(mapObjectList, gSun, sun);
@@ -167,7 +167,7 @@ void UpdateSun(MapObjectList *mapObjectList, Sun *sun) {
 
     switch (sun->mState) {
         case SUN_STATE_WAIT_TO_MOVE:
-            if (sun->mMapObject.mFlags & 0x800) {
+            if (sun->mMapObject.mFlags & MAP_OBJECT_FLAG_TIME_ATTACK_OR_WIFI) {
                 if (sun->mTimer-- <= 0) {
                     sun->mState = SUN_STATE_FOLLOW_PATH;
                 }
@@ -180,7 +180,7 @@ void UpdateSun(MapObjectList *mapObjectList, Sun *sun) {
             sun->mFollower.mProgressStep = MUL_FIXED12_NO_ROUND(
                 sun->mFollower.mPath->mSegments[sun->mFollower.mSegmentIndex].mInverseProgressLength, 0x3c000);
             if (AdvanceGroupFollower(&sun->mFollower) != FALSE && (value = sun->mFollower.mFromEntry->mValue) != 0) {
-                if (sun->mMapObject.mFlags & 0x800) {
+                if (sun->mMapObject.mFlags & MAP_OBJECT_FLAG_TIME_ATTACK_OR_WIFI) {
                     mode = gRaceSetup->mMode;
                     if (mode == MODE_TIME_ATTACK) {
                         sun->mTimer = value;
@@ -193,7 +193,7 @@ void UpdateSun(MapObjectList *mapObjectList, Sun *sun) {
             GetGroupFollowerLinearPosition(&sun->mFollower, &sun->mMapObject.mPos);
             break;
         case SUN_STATE_WAIT_AT_PATH_POINT:
-            if (sun->mMapObject.mFlags & 0x800) {
+            if (sun->mMapObject.mFlags & MAP_OBJECT_FLAG_TIME_ATTACK_OR_WIFI) {
                 if (sun->mTimer-- <= 0) {
                     sun->mDrawOffsetAngle = 0;
                     sun->mDrawOffsetRadiusAngle = sun->mDrawOffsetAngle;

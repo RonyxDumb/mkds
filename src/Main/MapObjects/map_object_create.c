@@ -282,7 +282,7 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
             }
             if (source != NULL) {
                 object->mDigitMask = source->mDigitMask;
-                object->mFlags |= source->mFlags & 0x80;
+                object->mFlags |= source->mFlags & MAP_OBJECT_FLAG_NUMBER_OVERFLOW;
             } else if (courseRow != NULL) {
                 if (courseRow->mSettings[7] != 0) {
                     SetMapObjectMaskAndFlagFromNumber(courseRow->mSettings[7], object);

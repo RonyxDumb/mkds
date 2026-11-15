@@ -87,7 +87,8 @@ s32 CollideSphereWithMapObjects(Vec3 *position, Vec3 *velocity, s32 radius, s16 
         for (; foundIndex < gFoundCollisionSlotCount; foundIndex++) {
             mapObject = gFoundCollisionSlotObjects[foundIndex];
             if (IsSphereHittingMapObject(position, radius, mapObject, &overlapOffset) != FALSE) {
-                if (!(mapObject->mFlags & 0x40) && DoesItemObjectRespondToMapObject(itemKind, mapObject) != 0) {
+                if (!(mapObject->mFlags & MAP_OBJECT_FLAG_NOT_COLLIDABLE) &&
+                    DoesItemObjectRespondToMapObject(itemKind, mapObject) != 0) {
                     overlapX = overlapOffset.x;
                     lowest.x = ((const Vec3 *) &overlapOffset)->x < lowest.x ? overlapX : lowest.x;
                     lowest.y = overlapOffset.y < lowest.y ? overlapOffset.y : lowest.y;

@@ -164,7 +164,7 @@ void UpdatePukupukuHop(void *stateObject) {
     if (pukupuku->mPushedObject.mMapObject.mPos.y >= groundY) {
         return;
     }
-    if (!(pukupuku->mPushedObject.mMapObject.mDistanceSquaredAndFlags & 4)) {
+    if (!(pukupuku->mPushedObject.mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE)) {
         SoundStartParams soundRequest;
         u32 falloffIndex;
 

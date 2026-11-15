@@ -234,7 +234,7 @@ void DrawQuestion(void *unused0, ItemBox *itemBox, void *unused1, u16 maxAlpha) 
     if (itemBox->mDrawMatrixCallback != NULL) {
         return;
     }
-    if ((s32) (itemBox->mMapObject.mDistanceSquaredAndFlags & 0x3fffffe0) > 0x27100) {
+    if ((s32) (itemBox->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK) > 0x27100) {
         if (GetEntryRaceEnded() == 0) {
             return;
         }
@@ -406,7 +406,7 @@ u8 CollideKartWithItemBox(ItemBox *itemBox, Kart *kart, void *firstResponsePtr, 
     kindInMask = FALSE;
     itemBox->mFramesSinceHit = 0;
     itemBox->mMapObject.mFlags |= gItemBoxHitFlag;
-    distanceBits = itemBox->mMapObject.mDistanceSquaredAndFlags & 3;
+    distanceBits = itemBox->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_OUT_OF_SIGHT;
     playerKind = gRaceSetup->mCurrentEntries[kart->mIndex].mPlayer.mKind;
     if ((u32) playerKind <= 3) {
         if (((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) != 0) {

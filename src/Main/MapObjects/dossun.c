@@ -155,7 +155,7 @@ void UpdateKuribo(void *unused, Kuribo *kuribo) {
     s32 falloffIndex;
     kuribo->mFrameIndex++;
     if (kuribo->mFrameIndex == 0x14 || kuribo->mFrameIndex == 0x28) {
-        if ((kuribo->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
+        if ((kuribo->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
             if (kuribo->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
                 falloffIndex = 2;
             } else if (kuribo->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {

@@ -362,7 +362,7 @@ void UpdatePakkun(void *mapObjectList, Pakkun *pakkun) {
             if (FROM_FIXED12(pakkun->mMouthFrame) == 10) {
                 StartPakkunSpit(&pakkun->mFollowers[pakkun->mFollowerIndex],
                                 pakkun->mHeightAboveFollowerPath + 0x46000);
-                if ((pakkun->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
+                if ((pakkun->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
                     if (pakkun->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
                         falloffIndex = 2;
                     } else if (pakkun->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {

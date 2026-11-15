@@ -358,7 +358,7 @@ s32 CollideKartWithMapObject(Kart *kart, MapObject *mapObject) {
     s32 flagBit;
     s32 response;
     s32 responses[2];
-    flagBit = mapObject->mFlags & 0x800;
+    flagBit = mapObject->mFlags & MAP_OBJECT_FLAG_TIME_ATTACK_OR_WIFI;
     while (kindRemainder >= 100) {
         kindRemainder -= 100;
         kindHundreds++;
@@ -374,7 +374,7 @@ s32 CollideKartWithMapObject(Kart *kart, MapObject *mapObject) {
             response = flagBit != 0 ? 2 : 0;
         }
         responses[1] = response;
-        if ((mapObject->mFlags & 0x80) == 0) {
+        if ((mapObject->mFlags & MAP_OBJECT_FLAG_NUMBER_OVERFLOW) == 0) {
             responses[1] = mapObject->mKindData->mCollideKartCallback(mapObject, kart, &responses[0], &responses[1]);
         }
         if (gRaceSetup->mMode == MODE_MISSION_RUN && responses[0] == 1 && gRaceSetup->mMode == MODE_MISSION_RUN) {
@@ -392,7 +392,7 @@ s32 CollideKartWithMapObject(Kart *kart, MapObject *mapObject) {
 s32 CollideItemObjectWithMapObject(ItemObject *itemObject, MapObject *mapObject, s32 *firstResponseOut) {
     s32 kindRemainder = mapObject->mKind;
     s32 kindHundreds = 0;
-    s32 flagBit = mapObject->mFlags & 0x800;
+    s32 flagBit = mapObject->mFlags & MAP_OBJECT_FLAG_TIME_ATTACK_OR_WIFI;
     s32 response;
     s32 responses[2];
     s32 kindDataValue;
@@ -412,7 +412,7 @@ s32 CollideItemObjectWithMapObject(ItemObject *itemObject, MapObject *mapObject,
             response = 2;
         }
         responses[1] = response;
-        if ((mapObject->mFlags & 0x80) == 0) {
+        if ((mapObject->mFlags & MAP_OBJECT_FLAG_NUMBER_OVERFLOW) == 0) {
             responses[1] =
                 mapObject->mKindData->mCollideItemObjectCallback(mapObject, itemObject, &responses[0], &responses[1]);
         }
@@ -444,7 +444,7 @@ s32 DoesKartRespondToMapObject(s32 itemEffect, MapObject *mapObject) {
         kindRemainder -= 100;
         kindHundreds++;
     }
-    flagBit = mapObject->mFlags & 0x800;
+    flagBit = mapObject->mFlags & MAP_OBJECT_FLAG_TIME_ATTACK_OR_WIFI;
     response = gKartResponsesByKind[kindHundreds][itemEffect][kindRemainder];
     if (response == 1) {
         response = flagBit != 0 ? 2 : 0;
@@ -462,7 +462,7 @@ s32 DoesItemObjectRespondToMapObject(s32 itemKind, MapObject *mapObject) {
         kindRemainder -= 100;
         kindHundreds++;
     }
-    flagBit = mapObject->mFlags & 0x800;
+    flagBit = mapObject->mFlags & MAP_OBJECT_FLAG_TIME_ATTACK_OR_WIFI;
     kindDataValue = mapObject->mKindData->mPosStepMode;
     response = gItemObjectResponsesByKind[kindHundreds][itemKind][kindRemainder];
     if (flagBit != 0 && response == 1 && kindDataValue != 0) {
@@ -481,7 +481,7 @@ s32 GetItemObjectFirstResponse(s32 itemKind, MapObject *mapObject) {
         kindRemainder -= 100;
         kindHundreds++;
     }
-    flagBit = object->mFlags & 0x800;
+    flagBit = object->mFlags & MAP_OBJECT_FLAG_TIME_ATTACK_OR_WIFI;
     response = gItemObjectFirstResponsesByKind[kindHundreds][itemKind][kindRemainder];
     if (flagBit != 0) {
         response = 0;

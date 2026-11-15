@@ -195,7 +195,7 @@ void *UnparkFirstParkedMapObject(MapObjectList *mapObjectList) {
         for (objectIndex = 0; objectIndex < mapObjectList->mMapObjectCount &&
                               (mapObject = mapObjectList->mMapObjects[objectIndex]) != NULL;
              objectIndex++) {
-            if ((mapObject->mFlags & 0x100) != 0) {
+            if ((mapObject->mFlags & MAP_OBJECT_FLAG_PARKED) != 0) {
                 UnparkMapObject(mapObject);
                 return mapObject;
             }

@@ -111,8 +111,8 @@ void UpdateNsKiller2(void *mapObjectList, NsKiller2 *nsKiller2) {
     switch (nsKiller2->mMode) {
         case 0:
             if (nsKiller2->mParkTimer-- > 0) {
-                if ((nsKiller2->mMapObject.mFlags & 2) == 0 &&
-                    (nsKiller2->mMapObject.mDistanceSquaredAndFlags & 8) != 0) {
+                if ((nsKiller2->mMapObject.mFlags & MAP_OBJECT_FLAG_NO_VIEW_TEST) == 0 &&
+                    (nsKiller2->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_TESTED) != 0) {
                     AdvanceSoundDistanceSquaredChange(nsKiller2->mSoundDistanceSquaredChange,
                                                       nsKiller2->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f);
                 } else {

@@ -75,7 +75,7 @@ static inline void StartKanoke64Sound(Kanoke64 *kanoke64, s32 soundId) {
     SoundStartParams soundRequest;
     s32 falloffIndex;
 
-    if (kanoke64->mMapObject.mDistanceSquaredAndFlags & 4) {
+    if (kanoke64->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) {
         return;
     }
     if (kanoke64->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
@@ -121,7 +121,7 @@ void InitKanoke64Objects(MapObjectList *mapObjectList) {
     for (mapObjectIndex = 0; mapObjectIndex < mapObjectList->mMapObjectCount &&
                              (kanoke64 = mapObjectList->mMapObjects[mapObjectIndex]) != NULL;
          mapObjectIndex++) {
-        if (kanoke64->mMapObject.mFlags & 0x800) {
+        if (kanoke64->mMapObject.mFlags & MAP_OBJECT_FLAG_TIME_ATTACK_OR_WIFI) {
             kanoke64->mTimer = (u16) (MapObjectRandomBelowU16(25) + 200);
         }
     }
@@ -213,7 +213,7 @@ void UpdateKanoke64(void *mapObjectList, Kanoke64 *kanoke64) {
                 kanoke64->mState = 1;
                 return;
             }
-            if (kanoke64->mMapObject.mFlags & 0x800) {
+            if (kanoke64->mMapObject.mFlags & MAP_OBJECT_FLAG_TIME_ATTACK_OR_WIFI) {
                 if (kanoke64->mTimer-- <= 0) {
                     kanoke64->mTimer = 8;
                     kanoke64->mState = 1;
@@ -260,7 +260,7 @@ void UpdateKanoke64(void *mapObjectList, Kanoke64 *kanoke64) {
         if (kanoke64->mTimer-- <= 0) {
             kanoke64->mBurstCount = 0;
             kanoke64->mState = 0;
-            if (kanoke64->mMapObject.mFlags & 0x800) {
+            if (kanoke64->mMapObject.mFlags & MAP_OBJECT_FLAG_TIME_ATTACK_OR_WIFI) {
                 kanoke64->mTimer = (u16) (MapObjectRandomBelowU16(25) + 200);
             }
         }

@@ -170,7 +170,7 @@ void EnterKuriboSpringBack(void *stateObject) {
     Kuribo *kuribo = stateObject;
     SoundStartParams soundRequest;
     s32 falloffIndex;
-    if ((kuribo->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
+    if ((kuribo->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
         if (kuribo->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
             falloffIndex = 2;
         } else if (kuribo->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {

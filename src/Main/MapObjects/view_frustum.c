@@ -295,7 +295,7 @@ void SetItemObjectSoundByViewRange(ItemObject *itemObject, Vec3 *position, u32 d
 BOOL IsMapObjectOutOfRange(MapObject *mapObject) {
     s32 cameraHeightAboveObject;
 
-    if (mapObject->mDistanceSquaredAndFlags & 4) {
+    if (mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) {
         return TRUE;
     }
     cameraHeightAboveObject = gViewFrustum.mCameraPos.y - mapObject->mPos.y;
@@ -347,7 +347,7 @@ void DrawMapObjectList(MapObjectList *list, MtxFx43 *viewMatrix) {
         lastObject = NULL;
         for (objectIndex = 0; objectIndex < objectCount; objectIndex++) {
             mapObject = objects[objectIndex];
-            if (!(mapObject->mFlags & 0x12) && mapObject->mAlpha != 0) {
+            if (!(mapObject->mFlags & MAP_OBJECT_FLAGS_NOT_DRAWN) && mapObject->mAlpha != 0) {
                 forEachObject(list, mapObject, viewMatrix, mapObject->mAlpha);
                 if (lastObject != NULL && (s32) (mapObject->mDistanceSquaredAndFlags & ~0xc000001f) >
                                               (s32) (lastObject->mDistanceSquaredAndFlags & ~0xc000001f)) {
@@ -362,7 +362,7 @@ void DrawMapObjectList(MapObjectList *list, MtxFx43 *viewMatrix) {
     } else {
         for (objectIndex = 0; objectIndex < objectCount; objectIndex++) {
             mapObject = objects[objectIndex];
-            if (!(mapObject->mFlags & 0x12) && mapObject->mAlpha != 0) {
+            if (!(mapObject->mFlags & MAP_OBJECT_FLAGS_NOT_DRAWN) && mapObject->mAlpha != 0) {
                 forEachObject(list, mapObject, viewMatrix, mapObject->mAlpha);
             }
         }
@@ -530,8 +530,8 @@ void UpdateMapObjectViewTests(void) {
     do {
         mapObject = mapObjects[objectIndex];
         mapObject->mDistanceSquaredAndFlags &= ~8;
-        if (!(mapObject->mFlags & 2)) {
-            if (mapObject->mDistanceSquaredAndFlags & 1) {
+        if (!(mapObject->mFlags & MAP_OBJECT_FLAG_NO_VIEW_TEST)) {
+            if (mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_DRAW_DISTANCE) {
                 if (mapObject->mAlpha != 0) {
                     mapObject->mAlpha -= 1;
                 }
@@ -542,25 +542,26 @@ void UpdateMapObjectViewTests(void) {
             }
             if ((objectIndex & 3) == frameSlot) {
                 if (mapObject->mDigitMask & shapeMask) {
-                    mapObject->mDistanceSquaredAndFlags = (mapObject->mDistanceSquaredAndFlags & 0x10) | 0x5f592e7;
+                    mapObject->mDistanceSquaredAndFlags =
+                        (mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_KIND_BIT) | 0x5f592e7;
                     mapObject->mFlags |= extraFlags;
                 } else {
                     if (mapObject->mUseTwoPlaneViewTest != 0) {
                         mapObject->mDistanceSquaredAndFlags =
-                            (mapObject->mDistanceSquaredAndFlags & 0x10) |
+                            (mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_KIND_BIT) |
                             ComputeTwoPlaneViewTest(&mapObject->mPos, mapObject->mViewRadius, mapObject->mDrawDistance,
                                                     mapObject->mFarDistanceSquared, mapObject->mAlpha);
                     } else {
                         mapObject->mDistanceSquaredAndFlags =
-                            (mapObject->mDistanceSquaredAndFlags & 0x10) |
+                            (mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_KIND_BIT) |
                             ComputeViewTest(&mapObject->mPos, mapObject->mViewRadius, mapObject->mDrawDistance,
                                             mapObject->mFarDistanceSquared, mapObject->mAlpha);
                     }
                     mapObject->mDistanceSquaredAndFlags |= extraViewFlags;
-                    if (mapObject->mDistanceSquaredAndFlags & 2) {
+                    if (mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_OUTSIDE_PLANES) {
                         mapObject->mFlags |= extraFlags;
                     } else {
-                        mapObject->mFlags &= ~0x10;
+                        mapObject->mFlags &= ~MAP_OBJECT_FLAG_OUT_OF_VIEW;
                     }
                 }
             }
@@ -589,31 +590,31 @@ void RefreshMapObjectViewTests(void) {
     do {
         mapObject = mapObjects[objectIndex];
         mapObject->mDistanceSquaredAndFlags &= ~8;
-        if (!(mapObject->mFlags & 2)) {
+        if (!(mapObject->mFlags & MAP_OBJECT_FLAG_NO_VIEW_TEST)) {
             if (mapObject->mDigitMask & shapeMask) {
                 mapObject->mFlags |= extraFlags;
             } else {
                 if (mapObject->mUseTwoPlaneViewTest != 0) {
                     mapObject->mDistanceSquaredAndFlags =
-                        (mapObject->mDistanceSquaredAndFlags & 0x10) |
+                        (mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_KIND_BIT) |
                         ComputeTwoPlaneViewTest(&mapObject->mPos, mapObject->mViewRadius, mapObject->mDrawDistance,
                                                 mapObject->mFarDistanceSquared, mapObject->mAlpha);
                 } else {
                     mapObject->mDistanceSquaredAndFlags =
-                        (mapObject->mDistanceSquaredAndFlags & 0x10) |
+                        (mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_KIND_BIT) |
                         ComputeViewTest(&mapObject->mPos, mapObject->mViewRadius, mapObject->mDrawDistance,
                                         mapObject->mFarDistanceSquared, mapObject->mAlpha);
                 }
                 mapObject->mDistanceSquaredAndFlags |= extraViewFlags;
-                if (mapObject->mDistanceSquaredAndFlags & 1) {
+                if (mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_DRAW_DISTANCE) {
                     mapObject->mAlpha = 0;
                 } else {
                     mapObject->mAlpha = MAP_OBJECT_ALPHA_MAX;
                 }
-                if (mapObject->mDistanceSquaredAndFlags & 2) {
+                if (mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_OUTSIDE_PLANES) {
                     mapObject->mFlags |= extraFlags;
                 } else {
-                    mapObject->mFlags &= ~0x10;
+                    mapObject->mFlags &= ~MAP_OBJECT_FLAG_OUT_OF_VIEW;
                 }
             }
         }
@@ -750,11 +751,12 @@ s32 FindMapObjectsTouchingKart(Kart *kart, Vec3 *position, Vec3 *hitOffset) {
     for (slotIndex = 0; slotIndex < gFoundCollisionSlotCount; slotIndex++) {
         if (gFoundCollisionSlotFlags[slotIndex] & 0x2000) {
             mapObject = gFoundCollisionSlotObjects[slotIndex];
-            if (kartFlagSet != FALSE && !(mapObject->mDistanceSquaredAndFlags & 0x10)) {
+            if (kartFlagSet != FALSE && !(mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_KIND_BIT)) {
                 continue;
             }
             if (IsSphereHittingMapObject(&centre, radius, mapObject, foundVector) != FALSE) {
-                if (!(mapObject->mFlags & 0x40) && DoesKartRespondToMapObject(itemEffect, mapObject) != 0) {
+                if (!(mapObject->mFlags & MAP_OBJECT_FLAG_NOT_COLLIDABLE) &&
+                    DoesKartRespondToMapObject(itemEffect, mapObject) != 0) {
                     lo.x = (foundVector->x < lo.x) ? foundVector->x : lo.x;
                     lo.y = (foundVector->y < lo.y) ? foundVector->y : lo.y;
                     lo.z = (foundVector->z < lo.z) ? foundVector->z : lo.z;
@@ -823,7 +825,7 @@ BOOL IsSphereHittingMapObject(Vec3 *position, s32 radius, MapObject *mapObject, 
     s32 dz;
     BOOL isHit;
     s32 negatedRadius;
-    if (mapObject->mFlags & 1) {
+    if (mapObject->mFlags & MAP_OBJECT_FLAG_INACTIVE) {
         return FALSE;
     }
     switch (mapObject->mKindData->mShapeKind) {
@@ -1008,12 +1010,12 @@ void ParkFlaggedMapObjects(void) {
     mapObjectSlot = gMapObjects->mMapObjects;
     for (objectIndex = 0; objectIndex < mapObjectCount; objectIndex++) {
         mapObject = *mapObjectSlot;
-        if (mapObject->mFlags & 0x80) {
-            if (mapObject->mFlags & 0x100) {
-                mapObject->mFlags &= ~0x80;
+        if (mapObject->mFlags & MAP_OBJECT_FLAG_NUMBER_OVERFLOW) {
+            if (mapObject->mFlags & MAP_OBJECT_FLAG_PARKED) {
+                mapObject->mFlags &= ~MAP_OBJECT_FLAG_NUMBER_OVERFLOW;
             } else {
-                mapObject->mFlags &= ~0xf000;
-                mapObject->mFlags |= (mapObject->mFlags & 0xf) << 12;
+                mapObject->mFlags &= ~MAP_OBJECT_FLAGS_SAVED_NIBBLE;
+                mapObject->mFlags |= (mapObject->mFlags & MAP_OBJECT_FLAGS_LOW_NIBBLE) << 12;
                 mapObject->mFlags |= gMapObjectNoUpdateListFlag;
                 if (mapObject->mCollisionSlotIndex != -1) {
                     DisableCollisionSlot(mapObject->mCollisionSlotIndex);
@@ -1033,10 +1035,10 @@ void UnparkFlaggedMapObjects(void) {
     mapObjectSlot = gMapObjects->mMapObjects;
     for (objectIndex = 0; objectIndex < mapObjectCount; objectIndex++) {
         mapObject = *mapObjectSlot;
-        if (mapObject->mFlags & 0x80) {
-            mapObject->mFlags &= ~0x80;
-            mapObject->mFlags &= ~0xf;
-            mapObject->mFlags |= (mapObject->mFlags & 0xf000) >> 12;
+        if (mapObject->mFlags & MAP_OBJECT_FLAG_NUMBER_OVERFLOW) {
+            mapObject->mFlags &= ~MAP_OBJECT_FLAG_NUMBER_OVERFLOW;
+            mapObject->mFlags &= ~MAP_OBJECT_FLAGS_LOW_NIBBLE;
+            mapObject->mFlags |= (mapObject->mFlags & MAP_OBJECT_FLAGS_SAVED_NIBBLE) >> 12;
             if (mapObject->mCollisionSlotIndex != -1) {
                 EnableCollisionSlot(mapObject->mCollisionSlotIndex);
             }

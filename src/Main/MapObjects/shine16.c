@@ -582,7 +582,7 @@ void ParkShine16Objects(void) {
     for (mapObjectIndex = 0; mapObjectIndex < mapObjectList->mMapObjectCount &&
                              (mapObject = mapObjectList->mMapObjects[mapObjectIndex]) != NULL;
          mapObjectIndex++) {
-        if ((mapObject->mFlags & 0x100) == 0) {
+        if ((mapObject->mFlags & MAP_OBJECT_FLAG_PARKED) == 0) {
             ParkMapObject(mapObject);
         }
     }

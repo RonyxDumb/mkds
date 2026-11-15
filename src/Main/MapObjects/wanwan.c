@@ -132,7 +132,7 @@ void UpdateWanwan(void *unused, Wanwan *wanwan) {
             correction.x = 0;
             correction.z = 0;
             if (wanwan->mFollowsPath != 0) {
-                if (!(wanwan->mMapObject.mDistanceSquaredAndFlags & 4)) {
+                if (!(wanwan->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE)) {
                     if (wanwan->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
                         falloffIndex = 2;
                     } else if (wanwan->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
@@ -153,7 +153,7 @@ void UpdateWanwan(void *unused, Wanwan *wanwan) {
                                     NULL, NULL, NULL, NULL) != 0) {
             touchesGround = TRUE;
             if (wanwan->mFollowsPath != 0) {
-                if (!(wanwan->mMapObject.mDistanceSquaredAndFlags & 4)) {
+                if (!(wanwan->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE)) {
                     if (wanwan->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
                         falloffIndex = 2;
                     } else if (wanwan->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
@@ -212,7 +212,9 @@ void UpdateWanwan(void *unused, Wanwan *wanwan) {
                 QuaternionFromYAxisToVec3(&surfaceNormal, &wanwan->mSurfaceOrientation);
             }
         }
-        if (wanwan->mFollowsPath == 0 && !(wanwan->mMapObject.mDistanceSquaredAndFlags & 4) && touchesGround != FALSE) {
+        if (wanwan->mFollowsPath == 0 &&
+            !(wanwan->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) &&
+            touchesGround != FALSE) {
             firstSoundParams = gWanwanTouchGroundSoundParams;
             firstSoundParams.mPositionSource = &wanwan->mMapObject.mPos;
             firstSoundParams.mDistanceSquared = wanwan->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f;
@@ -366,7 +368,7 @@ void UpdateWanwanRoam(void *stateObject) {
         } while (BuildNextSegmentProgress(&wanwan->mSegmentProgress, 1, wanwan->mCurvePoints) != FALSE);
     }
     GetSegmentProgressPointXz(&wanwan->mSegmentProgress, &wanwan->mMapObject.mPos);
-    if (!(wanwan->mMapObject.mFlags & 0x800)) {
+    if (!(wanwan->mMapObject.mFlags & MAP_OBJECT_FLAG_TIME_ATTACK_OR_WIFI)) {
         kartIndex = GetRaceUpdateFramesModKartCount();
         kart = GetKart(kartIndex);
         if (IsKartNotNormal(kart) == FALSE) {
@@ -405,7 +407,7 @@ void EnterWanwanLunge(void *stateObject) {
     wanwan->mTargetPos = wanwan->mMapObject.mPos;
     wanwan->mChainObject->mChain.mDownwardStep = WANWAN_CHAIN_DOWNWARD_STEP_HIT;
     wanwan->mTargetFrame = 0;
-    if (wanwan->mMapObject.mDistanceSquaredAndFlags & 4) {
+    if (wanwan->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) {
         return;
     }
     if (wanwan->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {

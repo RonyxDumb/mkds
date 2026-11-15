@@ -200,7 +200,7 @@ void UpdateSunFireball(void *mapObjectList, SunFireball *sunFireball) {
             }
             break;
     }
-    if ((sunFireball->mMapObject.mFlags & 0x12) == 0) {
+    if ((sunFireball->mMapObject.mFlags & MAP_OBJECT_FLAGS_NOT_DRAWN) == 0) {
         if (sunFireball->mEmitterA != NULL) {
             PlaceEffect(sunFireball->mEmitterA, &sunFireball->mMapObject.mPos);
             sunFireball->mEmitterA->mFlags.mEmissionStopped = 0;

@@ -176,7 +176,7 @@ void UpdateWater(Water *water) {
 // Draws model A (when it exists) and model C at their circle positions and mHeight, in the order of mDrawModelAFirst;
 // returns at once when the water map object's mFlags has bit 0x2 or 0x10; writes only the scratch matrix mDrawMatrix.
 void DrawWater(Water *water, struct MtxFx43 *unused) {
-    if ((gWaterMapObject->mFlags & 0x12) != 0) {
+    if ((gWaterMapObject->mFlags & MAP_OBJECT_FLAGS_NOT_DRAWN) != 0) {
         return;
     }
     if (water->mDrawModelAFirst != 0) {

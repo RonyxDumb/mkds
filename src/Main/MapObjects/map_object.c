@@ -29,7 +29,7 @@ void StartMapObjectKindSound(MapObject *mapObject, SoundSource *soundSource, s32
     if (soundId == -1) {
         return;
     }
-    if (mapObject->mDistanceSquaredAndFlags & 0x40000000) {
+    if (mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_SKIP_KIND_SOUND) {
         return;
     }
     if (mapObject->mSound != NULL) {

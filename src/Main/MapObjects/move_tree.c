@@ -146,7 +146,7 @@ void UpdateMoveTree(void *mapObjectList, MoveTree *moveTree) {
             if (moveTree->mNsbcaFrameIndex != 0 && moveTree->mNsbcaFrameIndex != 0x1e) {
                 return;
             }
-            if ((moveTree->mMapObject.mDistanceSquaredAndFlags & 4) != 0) {
+            if ((moveTree->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) != 0) {
                 return;
             }
             if (moveTree->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
@@ -187,7 +187,7 @@ void UpdateMoveTree(void *mapObjectList, MoveTree *moveTree) {
             if (moveTree->mNsbcaFrameIndex != 0 && moveTree->mNsbcaFrameIndex != 0x1e) {
                 return;
             }
-            if ((moveTree->mMapObject.mDistanceSquaredAndFlags & 4) != 0) {
+            if ((moveTree->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) != 0) {
                 return;
             }
             if (moveTree->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {

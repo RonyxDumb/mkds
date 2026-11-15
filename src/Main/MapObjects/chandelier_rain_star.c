@@ -64,7 +64,7 @@ void UpdateChandelier(void *mapObjectList, Chandelier *chandelier) {
     }
     if (chandelier->mFrameIndex == CHANDELIER_FIRST_SOUND_EARLY_FRAME ||
         chandelier->mFrameIndex == CHANDELIER_FIRST_SOUND_LATE_FRAME) {
-        if ((chandelier->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
+        if ((chandelier->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
             if (chandelier->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
                 falloffIndex = 2;
             } else if (chandelier->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
@@ -80,7 +80,7 @@ void UpdateChandelier(void *mapObjectList, Chandelier *chandelier) {
         }
     } else if (chandelier->mFrameIndex == CHANDELIER_SECOND_SOUND_EARLY_FRAME ||
                chandelier->mFrameIndex == CHANDELIER_SECOND_SOUND_LATE_FRAME) {
-        if ((chandelier->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
+        if ((chandelier->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
             if (chandelier->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
                 falloffIndex = 2;
             } else if (chandelier->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
@@ -95,7 +95,7 @@ void UpdateChandelier(void *mapObjectList, Chandelier *chandelier) {
             StartSoundFromParams(&secondSoundParams);
         }
     } else if (chandelier->mFrameIndex == CHANDELIER_THIRD_SOUND_FRAME) {
-        if ((chandelier->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
+        if ((chandelier->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
             if (chandelier->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
                 falloffIndex = 2;
             } else if (chandelier->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {

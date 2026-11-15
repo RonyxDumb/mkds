@@ -226,7 +226,8 @@ void DrawVehicle(VehicleDrawList *drawList, Vehicle *vehicle, u32 unusedArg, u32
         }
     }
     skipShadowAndTires =
-        (s32) (vehicle->mMapObject.mDistanceSquaredAndFlags & 0x3FFFFFE0) > 0x77A10 && GetEntryRaceEnded() == 0;
+        (s32) (vehicle->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK) > 0x77A10 &&
+        GetEntryRaceEnded() == 0;
     if (!skipShadowAndTires) {
         if (vehicle->mShadowModel != 0) {
             shadowPosition = vehicle->mHitReactionTimer > VEHICLE_HIT_TIMER_AIRBORNE ? &vehicle->mFollowerPosition
@@ -381,9 +382,9 @@ void UpdateVehicle(u32 unused, Vehicle *vehicle) {
                                     vehicle->mRotationBlendRate);
     Matrix3x3FromQuaternion(&vehicle->mMapObject.mMatrix.mAxes, &vehicle->mRotation);
     vehicle->mTireAngle += VEHICLE_TIRE_ANGLE_STEP;
-    if (vehicle->mMapObject.mDistanceSquaredAndFlags & 8) {
+    if (vehicle->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_TESTED) {
         AdvanceSoundDistanceSquaredChange(vehicle->mSoundDistanceChange,
-                                          vehicle->mMapObject.mDistanceSquaredAndFlags & 0x3FFFFFE0);
+                                          vehicle->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK);
     }
     StartMapObjectSoundWhileRequested(&vehicle->mMapObject, vehicle->mRunSoundId);
     if (vehicle->mMapObject.mPos.y < 0) {
@@ -626,7 +627,7 @@ void DrawVisibleMapObjects(MapObjectList *list, void *viewMatrix,
     for (index = 0; index < count; index++) {
         CollisionMapObject *mapObject = list->mMapObjects[index];
 
-        if ((mapObject->mMapObject.mFlags & 0x12) == 0 && mapObject->mMapObject.mAlpha != 0) {
+        if ((mapObject->mMapObject.mFlags & MAP_OBJECT_FLAGS_NOT_DRAWN) == 0 && mapObject->mMapObject.mAlpha != 0) {
             drawObject(mapObject, viewMatrix, mapObject->mMapObject.mAlpha);
         }
     }

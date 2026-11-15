@@ -216,7 +216,7 @@ u8 CollideItemObjectWithBound(Bound *bound, void *itemObject, u8 *firstResponse,
 }
 
 BOOL ComputeSphereHitOnBound(Bound *bound, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *pushOut) {
-    if ((bound->mMapObject.mFlags & 0x800) == 0 && bound->mWobbling == TRUE) {
+    if ((bound->mMapObject.mFlags & MAP_OBJECT_FLAG_TIME_ATTACK_OR_WIFI) == 0 && bound->mWobbling == TRUE) {
         bound->mSphereHit = ComputeSphereHitOnRotatedCylinder(
             sphereCenter, &bound->mMapObject.mPos, &bound->mMapObject.mMatrix.mRows[0],
             MUL_FIXED12_NO_ROUND(bound->mMapObject.mExtent.x, bound->mWobbleScaleX), bound->mMapObject.mExtent.y, 0,
@@ -502,7 +502,7 @@ BOOL StartBoundWobble(s32 mapObjectIndex) {
         bound->mWobbleYAnglePerFrame = BOUND_WOBBLE_ANGLE_PER_FRAME;
         bound->mWobbleYAnglePerFrameChange = 0;
         bound->mWobbling = TRUE;
-        if ((bound->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
+        if ((bound->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
             if (bound->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
                 falloffIndex = 2;
             } else if (bound->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {

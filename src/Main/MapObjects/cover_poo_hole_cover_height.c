@@ -67,7 +67,8 @@ u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *firs
             if (state == COVER_POO_HOLE_STATE_WAIT_SHORT || state == COVER_POO_HOLE_STATE_WAIT_TALL) {
                 coverPooHole->mKartHitMask = coverPooHole->mKartHitMask | kartMask;
                 if (gRaceSetup->mCurrentEntries[kart->mIndex].mPlayer.mKind != PLAYER_KIND_GHOST) {
-                    if ((coverPooHole->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
+                    if ((coverPooHole->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) ==
+                        0) {
                         if (coverPooHole->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
                             falloffIndex = 2;
                         } else if (coverPooHole->mMapObject.mFarDistanceSquared ==
@@ -93,7 +94,8 @@ u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *firs
                                      coverPooHole->mCoverHeight > COVER_POO_HOLE_SHORT_HEIGHT) ||
                                     state == COVER_POO_HOLE_STATE_RAISE_SHORT)) {
                 coverPooHole->mKartHitMask = coverPooHole->mKartHitMask | kartMask;
-                if ((coverPooHole->mMapObject.mFlags & 0x800) == 0 || kart->mIndex == gRaceSetup->mEntryIndex) {
+                if ((coverPooHole->mMapObject.mFlags & MAP_OBJECT_FLAG_TIME_ATTACK_OR_WIFI) == 0 ||
+                    kart->mIndex == gRaceSetup->mEntryIndex) {
                     coverPooHole->mHitState = COVER_POO_HOLE_HIT_THROWN;
                     coverPooHole->mHitCoverHeight = coverPooHole->mCoverHeight;
                     coverPooHole->mHitPooHeight = coverPooHole->mPooHeight;
@@ -123,7 +125,7 @@ u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *firs
                         }
                     }
                 }
-                if ((coverPooHole->mMapObject.mFlags & 0x800) == 0) {
+                if ((coverPooHole->mMapObject.mFlags & MAP_OBJECT_FLAG_TIME_ATTACK_OR_WIFI) == 0) {
                     if (coverPooHole->mState == COVER_POO_HOLE_STATE_RAISE_SHORT) {
                         coverPooHole->mState = COVER_POO_HOLE_STATE_HIT_SHORT;
                     } else if (coverPooHole->mState == COVER_POO_HOLE_STATE_RAISE_TALL) {
@@ -137,7 +139,8 @@ u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *firs
             }
             if (state == COVER_POO_HOLE_STATE_RAISE_SHORT) {
                 coverPooHole->mKartHitMask = coverPooHole->mKartHitMask | kartMask;
-                if ((coverPooHole->mMapObject.mFlags & 0x800) == 0 || kart->mIndex == gRaceSetup->mEntryIndex) {
+                if ((coverPooHole->mMapObject.mFlags & MAP_OBJECT_FLAG_TIME_ATTACK_OR_WIFI) == 0 ||
+                    kart->mIndex == gRaceSetup->mEntryIndex) {
                     coverPooHole->mHitState = COVER_POO_HOLE_HIT_THROWN;
                     coverPooHole->mHitCoverHeight = coverPooHole->mCoverHeight;
                     coverPooHole->mHitPooHeight = coverPooHole->mPooHeight;
@@ -157,7 +160,8 @@ u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *firs
                     coverPooHole->mTiltWobbleAngleStepChange = COVER_POO_HOLE_TILT_WOBBLE_ANGLE_STEP_CHANGE;
                     coverPooHole->mMapObject.mDistanceSquaredAndFlags =
                         coverPooHole->mMapObject.mDistanceSquaredAndFlags | gCoverPooHoleSkipSoundFlag;
-                    if ((coverPooHole->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
+                    if ((coverPooHole->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) ==
+                        0) {
                         if (coverPooHole->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
                             falloffIndex = 2;
                         } else if (coverPooHole->mMapObject.mFarDistanceSquared ==
@@ -174,7 +178,7 @@ u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *firs
                         StartSoundFromParams(&secondSoundParams);
                     }
                 }
-                if ((coverPooHole->mMapObject.mFlags & 0x800) == 0) {
+                if ((coverPooHole->mMapObject.mFlags & MAP_OBJECT_FLAG_TIME_ATTACK_OR_WIFI) == 0) {
                     coverPooHole->mState = COVER_POO_HOLE_STATE_HIT_SHORT;
                 }
                 coverPooHole->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(kart->mVelocity.x, -0x4cd);
@@ -223,7 +227,7 @@ u32 CollideItemObjectWithCoverPooHole(CoverPooHole *coverPooHole, ItemObject *it
         coverPooHole->mTiltWobbleAngleStepChange = COVER_POO_HOLE_TILT_WOBBLE_ANGLE_STEP_CHANGE;
         coverPooHole->mMapObject.mDistanceSquaredAndFlags =
             coverPooHole->mMapObject.mDistanceSquaredAndFlags | gCoverPooHoleHitDistanceFlag;
-        if ((coverPooHole->mMapObject.mFlags & 0x800) == 0) {
+        if ((coverPooHole->mMapObject.mFlags & MAP_OBJECT_FLAG_TIME_ATTACK_OR_WIFI) == 0) {
             coverPooHole->mState = COVER_POO_HOLE_STATE_HIT_TALL;
         }
     }
@@ -416,7 +420,7 @@ static inline void StartCoverPooHoleSound(CoverPooHole *coverPooHole, s32 soundI
     SoundStartParams startParams;
     s32 falloffIndex;
 
-    if (coverPooHole->mMapObject.mDistanceSquaredAndFlags & 4) {
+    if (coverPooHole->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) {
         return;
     }
     if (coverPooHole->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {

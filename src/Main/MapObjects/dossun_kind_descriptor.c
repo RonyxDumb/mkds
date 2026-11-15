@@ -242,7 +242,7 @@ void UpdateDossun(void *unused, Dossun *dossun) {
                 StartSoundFromParams(&soundRequest);
             }
             StartCameraWobbleAtDistance(dossun->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f, 0x1000);
-            if ((dossun->mMapObject.mDistanceSquaredAndFlags & 3) == 0) {
+            if ((dossun->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_OUT_OF_SIGHT) == 0) {
                 StartEffect(0x59, &fromEntry->mPos);
                 StartEffect(0x5a, &fromEntry->mPos);
             }
@@ -303,7 +303,8 @@ u32 CollideKartWithDossun(Dossun *dossun, Kart *kart, u8 *firstResponsePtr, u8 *
         verticalOffset = centerOffset.y;
         verticalScaledSquared = ((s64) verticalOffset * verticalOffset) << 2;
         if (verticalOffset < 0 && horizontalScaledSquared < verticalScaledSquared) {
-            return GetKartMapObjectResponseByKind(dossun->mMapObject.mFlags & 0x800, kart->mItemEffect, 4, 4);
+            return GetKartMapObjectResponseByKind(dossun->mMapObject.mFlags & MAP_OBJECT_FLAG_TIME_ATTACK_OR_WIFI,
+                                                  kart->mItemEffect, 4, 4);
         }
     }
     return *secondResponsePtr;

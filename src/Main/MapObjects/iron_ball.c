@@ -37,7 +37,7 @@ void DrawIronBallShadow(void *mapObjectList, IronBall *ironBall, u32 unused, u32
     if (ironBall->mShadowStage == IRON_BALL_SHADOW_OFF) {
         return;
     }
-    if (((s32) ironBall->mMapObject.mDistanceSquaredAndFlags & 0x3fffffe0) >= 1000000) {
+    if (((s32) ironBall->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK) >= 1000000) {
         return;
     }
     shadowAlphaCap = ironBall->mShadowMatrix.mAlphaCap;
@@ -93,7 +93,7 @@ void InitIronBallObjects(MapObjectList *mapObjectList) {
         ironBall->mPathPos.y += 0x1000;
         VEC_MultAdd(ironBall->mMapObject.mExtent.x, &ironBall->mMapObject.mMatrix.mRows[1], &ironBall->mPathPos,
                     &ironBall->mMapObject.mPos);
-        if (ironBall->mMapObject.mFlags & 0x800) {
+        if (ironBall->mMapObject.mFlags & MAP_OBJECT_FLAG_TIME_ATTACK_OR_WIFI) {
             ironBall->mTimer = (u16) ironBall->mMapObject.mCourseMapRow->mSettings[1];
             ironBall->mState = stateB;
         } else {
@@ -119,7 +119,7 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
     }
     switch (ironBall->mState) {
         case IRON_BALL_STATE_WAIT_START:
-            if (ironBall->mMapObject.mFlags & 0x800) {
+            if (ironBall->mMapObject.mFlags & MAP_OBJECT_FLAG_TIME_ATTACK_OR_WIFI) {
                 if (ironBall->mTimer-- > 0) {
                     return;
                 }
@@ -162,7 +162,8 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
         default:
             return;
     }
-    if (!(GetKartZoneMask() & ironBall->mSoundOffZoneMask) && !(ironBall->mMapObject.mDistanceSquaredAndFlags & 4)) {
+    if (!(GetKartZoneMask() & ironBall->mSoundOffZoneMask) &&
+        !(ironBall->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE)) {
         StartIronBallSpeedSound(ironBall->mMapObject.mSound, ironBall->mPathSpeed);
     }
     value = ironBall->mPathSpeed;
@@ -255,7 +256,7 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
             if (ironBall->mHeightSpeed < 0x1000) {
                 ironBall->mHeightSpeed = 0;
             } else if (!(GetKartZoneMask() & ironBall->mSoundOffZoneMask) &&
-                       !(ironBall->mMapObject.mDistanceSquaredAndFlags & 4)) {
+                       !(ironBall->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE)) {
                 StartIronBallBounceSound(ironBall->mMapObject.mSound, ironBall->mHeightSpeed);
             }
             ironBall->mHeightOffset = ironBall->mHeightSpeed;
@@ -303,7 +304,7 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
         ironBall->mShadowStage = IRON_BALL_SHADOW_ON;
     }
     if (ironBall->mShadowStage != IRON_BALL_SHADOW_OFF) {
-        if (((s32) ironBall->mMapObject.mDistanceSquaredAndFlags & 0x3fffffe0) < 1000000) {
+        if (((s32) ironBall->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK) < 1000000) {
             limit = (ironBall->mHeightOffset >> 14) - 7;
             if (limit < 0) {
                 value = 0x1c;

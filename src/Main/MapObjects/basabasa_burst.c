@@ -65,7 +65,7 @@ void InitBasabasaBurstObjects(MapObjectList *mapObjectList) {
     for (objectIndex = 0; objectIndex < mapObjectList->mMapObjectCount &&
                           (burstObject = mapObjectList->mMapObjects[objectIndex]) != NULL;
          objectIndex++) {
-        if (burstObject->mMapObject.mFlags & 0x800) {
+        if (burstObject->mMapObject.mFlags & MAP_OBJECT_FLAG_TIME_ATTACK_OR_WIFI) {
             burstObject->mTimer = (u16) (BasabasaBurstMapObjectRandomBelowU16(25) + 200);
         }
     }
@@ -143,7 +143,7 @@ void UpdateBasabasaBurst(void *mapObjectList, BasabasaBurst *burstObject) {
                 burstObject->mState = 1;
                 return;
             }
-            if (burstObject->mMapObject.mFlags & 0x800) {
+            if (burstObject->mMapObject.mFlags & MAP_OBJECT_FLAG_TIME_ATTACK_OR_WIFI) {
                 if (burstObject->mTimer-- <= 0) {
                     burstObject->mTimer = 4;
                     burstObject->mState = 1;
@@ -194,7 +194,7 @@ void UpdateBasabasaBurst(void *mapObjectList, BasabasaBurst *burstObject) {
     }
     burstObject->mBurstCount = 0;
     burstObject->mState = 0;
-    if (burstObject->mMapObject.mFlags & 0x800) {
+    if (burstObject->mMapObject.mFlags & MAP_OBJECT_FLAG_TIME_ATTACK_OR_WIFI) {
         burstObject->mTimer = (u16) (BasabasaBurstMapObjectRandomBelowU16(25) + 200);
     }
 }

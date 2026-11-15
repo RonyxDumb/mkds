@@ -111,7 +111,7 @@ void UpdateNsKiller1(void *mapObjectList, NsKiller1 *nsKiller1) {
             break;
         case NS_KILLER1_STATE_PAUSE:
             if (nsKiller1->mStateTimer == 0x2d) {
-                if ((nsKiller1->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
+                if ((nsKiller1->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
                     NNS_SndPlayerStopSeq(GetSndHandleSlot(8), 0);
                     soundParams = gNsKiller1SoundStartParams;
                     soundParams.mPositionSource = &nsKiller1->mMapObject.mPos;
@@ -127,7 +127,7 @@ void UpdateNsKiller1(void *mapObjectList, NsKiller1 *nsKiller1) {
         case NS_KILLER1_STATE_LAUNCH:
             StartNsKiller2(&nsKiller1->mMapObject.mPos, &nsKiller1->mMapObject.mMatrix.mRows[2],
                            nsKiller1->mMapObject.mAngle);
-            if ((nsKiller1->mMapObject.mFlags & 0x12) == 0) {
+            if ((nsKiller1->mMapObject.mFlags & MAP_OBJECT_FLAGS_NOT_DRAWN) == 0) {
                 StartEffect(0x4b, &nsKiller1->mMapObject.mPos);
                 StartEffect(0x4c, &nsKiller1->mMapObject.mPos);
                 StartEffect(0x4d, &nsKiller1->mMapObject.mPos);

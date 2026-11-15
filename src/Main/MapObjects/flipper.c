@@ -342,7 +342,7 @@ void UpdateFlipper(void *mapObjectList, Flipper *flipper) {
             }
             break;
     }
-    if (flipper->mIsAnimating != 0 && (flipper->mMapObject.mFlags & 0x12) == 0) {
+    if (flipper->mIsAnimating != 0 && (flipper->mMapObject.mFlags & MAP_OBJECT_FLAGS_NOT_DRAWN) == 0) {
         frameIndex = flipper->mNsbtpFrameIndex + 1;
         if (frameIndex >= GetMapObjectModelNsbtpFrameCount(gFlipper)) {
             frameIndex = 1;

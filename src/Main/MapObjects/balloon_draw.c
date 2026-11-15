@@ -262,7 +262,7 @@ void FollowBalloonTarget(Balloon *balloon) {
 }
 
 u32 GetBalloonFlagBits(Balloon *balloon) {
-    return balloon->mMapObject.mFlags & 0x12;
+    return balloon->mMapObject.mFlags & MAP_OBJECT_FLAGS_NOT_DRAWN;
 }
 
 u32 GetBalloonDistanceSquared(Balloon *balloon) {
@@ -446,7 +446,7 @@ void ResetBalloons(void) {
             balloon->mScaleSwing = 0;
             balloon->mScaleSwingPerFrame = 0;
             balloon->mState = BALLOON_STATE_FULL;
-        } else if ((balloon->mMapObject.mFlags & 0x100) == 0) {
+        } else if ((balloon->mMapObject.mFlags & MAP_OBJECT_FLAG_PARKED) == 0) {
             ParkMapObject(&balloon->mMapObject);
         }
     }

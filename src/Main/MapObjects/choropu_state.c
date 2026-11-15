@@ -161,7 +161,7 @@ void UpdateChoropuSink(void *stateObject) {
     if (choropu->mMapObject.mPos.y >= choropu->mBottomY) {
         return;
     }
-    if ((choropu->mMapObject.mDistanceSquaredAndFlags & 0x4) == 0) {
+    if ((choropu->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
         falloffIndex = choropu->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared
                            ? 2
                            : (choropu->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared ? 3 : 4);
@@ -180,7 +180,7 @@ void EnterChoropuLeap(void *stateObject) {
     choropu->mMapObject.mPos.y = choropu->mBottomY;
     choropu->mMapObject.mPosStep.y = 0x4800;
     choropu->mMapObject.mFlags &= ~0x1;
-    if ((choropu->mMapObject.mDistanceSquaredAndFlags & 0x3) != 0) {
+    if ((choropu->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_OUT_OF_SIGHT) != 0) {
         if (GetEntryRaceEnded() == 0) {
             return;
         }

@@ -168,7 +168,7 @@ void UpdateMkdEfBubble(void *unused, MkdEfBubbleObject *bubble) {
     if (bubble->mEffectMissing != 0) {
         return;
     }
-    if ((bubble->mMapObject.mFlags & 0x12) != 0) {
+    if ((bubble->mMapObject.mFlags & MAP_OBJECT_FLAGS_NOT_DRAWN) != 0) {
         bubble->mFirstEffect->mFlags.mHidden = 1;
         bubble->mSecondEffect->mFlags.mHidden = 1;
         return;
@@ -191,7 +191,7 @@ void EnterMkdEfBubbleLeap(void *stateObject) {
     bubble->mMapObject.mFlags &= ~2;
     bubble->mMapObject.mFlags &= ~8;
     bubble->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
-    if ((bubble->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
+    if ((bubble->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
         if (bubble->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
             falloffIndex = 2;
         } else if (bubble->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {

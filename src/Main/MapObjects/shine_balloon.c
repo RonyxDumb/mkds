@@ -189,7 +189,7 @@ void CreateParkedMapObjects(u32 kind, s32 count, void *object) {
 
     for (index = 0; index < count; index++) {
         mapObject = CreateMapObjectFromObject(object, kind);
-        if ((mapObject->mFlags & 0x100) == 0) {
+        if ((mapObject->mFlags & MAP_OBJECT_FLAG_PARKED) == 0) {
             ParkMapObject(mapObject);
         }
     }
@@ -209,7 +209,7 @@ void *FindParkedMapObject(s32 kind) {
     objectCount = GetMapObjectListCount(mapObjectList);
     for (objectIndex = 0; objectIndex < objectCount; objectIndex++) {
         mapObject = mapObjects[objectIndex];
-        if (mapObject->mFlags & 0x100) {
+        if (mapObject->mFlags & MAP_OBJECT_FLAG_PARKED) {
             return mapObject;
         }
     }

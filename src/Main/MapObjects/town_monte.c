@@ -273,7 +273,7 @@ void UpdateTownMonte(void *mapObjectList, TownMonte *townMonte) {
         return;
     }
     soundId = townMonte->mSoundId;
-    if (townMonte->mMapObject.mDistanceSquaredAndFlags & 4) {
+    if (townMonte->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) {
         return;
     }
     if (townMonte->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {

@@ -139,7 +139,8 @@ void UpdateKoopaBlock(void *unused, KoopaBlock *koopaBlock) {
         if (koopaBlock->mPauseTimer != 0) {
             return;
         }
-        if ((koopaBlock->mCollisionMapObject.mMapObject.mDistanceSquaredAndFlags & 4) != 0) {
+        if ((koopaBlock->mCollisionMapObject.mMapObject.mDistanceSquaredAndFlags &
+             MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) != 0) {
             return;
         }
         falloffIndex =

@@ -74,7 +74,7 @@ void UpdatePakkunSpit(void *mapObjectList, PakkunSpit *pakkunSpit) {
             if (pakkunSpit->mHeightOffset <= 0) {
                 pakkunSpit->mHeightOffset = 0;
                 pakkunSpit->mHeightSpeed = 0x5800;
-                if ((pakkunSpit->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
+                if ((pakkunSpit->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
                     if (pakkunSpit->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
                         falloffIndex = 2;
                     } else if (pakkunSpit->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
@@ -99,7 +99,7 @@ void UpdatePakkunSpit(void *mapObjectList, PakkunSpit *pakkunSpit) {
             if (pakkunSpit->mEmitter == NULL) {
                 return;
             }
-            if ((pakkunSpit->mMapObject.mFlags & 0x12) != 0) {
+            if ((pakkunSpit->mMapObject.mFlags & MAP_OBJECT_FLAGS_NOT_DRAWN) != 0) {
                 pakkunSpit->mEmitter->mFlags.mEmissionStopped = 1;
                 return;
             }

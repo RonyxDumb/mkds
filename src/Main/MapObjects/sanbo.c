@@ -159,7 +159,8 @@ void DrawSanbo(void *mapObjectList, Sanbo *sanbo) {
                 pieceTranslation[2] = 0;
                 NNS_G3dGeBufferOP_N(0x1c, pieceTranslation, 3);
                 NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&sanbo->mPieces[pieceIndex].mPos), 12);
-                if ((sanbo->mMapObject.mFlags & 0x12) == 0 && sanbo->mPieces[pieceIndex].mRotateZAngle != 0) {
+                if ((sanbo->mMapObject.mFlags & MAP_OBJECT_FLAGS_NOT_DRAWN) == 0 &&
+                    sanbo->mPieces[pieceIndex].mRotateZAngle != 0) {
                     MTX_RotZ33_(&pieceRotateZMatrix, SIN_OF_ANGLE((u16) sanbo->mPieces[pieceIndex].mRotateZAngle),
                                 COS_OF_ANGLE((u16) sanbo->mPieces[pieceIndex].mRotateZAngle));
                     NNS_G3dGeBufferOP_N(0x1a, &pieceRotateZMatrix, 9);
@@ -276,7 +277,7 @@ void UpdateSanbo(void *mapObjectList, Sanbo *sanbo) {
     }
     switch (sanbo->mState) {
         case SANBO_STATE_STANDING:
-            if ((sanbo->mMapObject.mFlags & 0x12) != 0) {
+            if ((sanbo->mMapObject.mFlags & MAP_OBJECT_FLAGS_NOT_DRAWN) != 0) {
                 return;
             }
             for (pieceIndex = 0; pieceIndex < sanbo->mPieceCount; pieceIndex++) {
@@ -363,7 +364,7 @@ void UpdateSanbo(void *mapObjectList, Sanbo *sanbo) {
                     sanbo->mPieces[fallPieceIndex].mVelocity.y = sanbo->mPieces[fallPieceIndex].mVelocity.y - 0x400;
                 }
             }
-            if ((sanbo->mMapObject.mFlags & 0x12) == 0) {
+            if ((sanbo->mMapObject.mFlags & MAP_OBJECT_FLAGS_NOT_DRAWN) == 0) {
                 for (rotatePieceIndex = 0; rotatePieceIndex < sanbo->mPieceCount; rotatePieceIndex++) {
                     sanbo->mPieces[rotatePieceIndex].mRotateZAngle =
                         sanbo->mPieces[rotatePieceIndex].mRotateZAngle +
@@ -445,7 +446,7 @@ void ShineEndCallback(void) {
         for (mapObjectIndex = 0; mapObjectIndex < mapObjectList->mMapObjectCount &&
                                  (mapObject = mapObjectList->mMapObjects[mapObjectIndex]) != NULL;
              mapObjectIndex++) {
-            if ((mapObject->mFlags & 0x100) == 0) {
+            if ((mapObject->mFlags & MAP_OBJECT_FLAG_PARKED) == 0) {
                 ParkMapObject(mapObject);
             }
         }
@@ -455,7 +456,7 @@ void ShineEndCallback(void) {
         for (mapObjectIndex = 0; mapObjectIndex < mapObjectList->mMapObjectCount &&
                                  (mapObject = mapObjectList->mMapObjects[mapObjectIndex]) != NULL;
              mapObjectIndex++) {
-            if ((mapObject->mFlags & 0x100) == 0) {
+            if ((mapObject->mFlags & MAP_OBJECT_FLAG_PARKED) == 0) {
                 ParkMapObject(mapObject);
             }
         }

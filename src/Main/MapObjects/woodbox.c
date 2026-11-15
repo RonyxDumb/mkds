@@ -391,7 +391,7 @@ u32 CollideKartWithWoodbox1(Woodbox1 *woodbox, Kart *kart, u8 *firstResponse, u8
                 StartSoundFullVolumeWrapper(kart, 0x167);
                 woodbox->mMapObject.mDistanceSquaredAndFlags |= gWoodbox1HitFlag;
                 StartSoundIfKartStarOrKiller(&woodbox->mMapObject, kart);
-                if ((woodbox->mMapObject.mDistanceSquaredAndFlags & 3) == 0) {
+                if ((woodbox->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_OUT_OF_SIGHT) == 0) {
                     if (*response == 0) {
                         StartEffectWithKartVelocity(0x31, &woodbox->mMapObject.mPos, kart->mIndex, 0x1000);
                         StartEffectWithKartVelocity(0x32, &woodbox->mMapObject.mPos, kart->mIndex, 0x1000);
@@ -417,7 +417,7 @@ u32 CollideItemObjectWithWoodbox1(Woodbox1 *woodbox, ItemObject *itemObject, u8 
         }
         woodbox->mMapObject.mStateMachine.mNextState = WOODBOX1_STATE_BROKEN;
         woodbox->mMapObject.mStateMachine.mNextStateRequested = 1;
-        if ((woodbox->mMapObject.mDistanceSquaredAndFlags & 3) == 0) {
+        if ((woodbox->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_OUT_OF_SIGHT) == 0) {
             StartEffect(0x31, &woodbox->mMapObject.mPos);
             StartEffect(0x32, &woodbox->mMapObject.mPos);
         }

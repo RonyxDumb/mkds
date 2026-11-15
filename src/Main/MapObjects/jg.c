@@ -588,7 +588,7 @@ void UpdateJgPosition(void) {
                 for (slotIndex = 0; slotIndex < gFoundCollisionSlotCount; slotIndex++) {
                     MapObject *foundObject = gFoundCollisionSlotObjects[slotIndex];
 
-                    if ((foundObject->mFlags & 0x40) == 0 &&
+                    if ((foundObject->mFlags & MAP_OBJECT_FLAG_NOT_COLLIDABLE) == 0 &&
                         IsSphereHittingMapObject(&gJgCollisionCenter, 0x12000, foundObject, &offsetVec) != FALSE) {
                         UpdateJgPosition_inline(&pushMin, &offsetVec, &pushMin);
                         UpdateJgPosition_inline_2(&pushMax, &offsetVec, &pushMax);

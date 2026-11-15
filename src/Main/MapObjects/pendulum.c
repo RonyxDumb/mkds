@@ -192,7 +192,7 @@ void UpdatePendulum(u32 list, PendulumObject *pendulum) {
     swingAngle = MUL_FIXED12_NO_ROUND((s32) pendulum->mSwingAmplitude, FX_SinIdx(pendulum->mSwingAngle));
     if ((previousAngle < 0x58f0 && pendulum->mSwingAngle >= 0x58f0) ||
         (previousAngle < 0xd8f0 && pendulum->mSwingAngle >= 0xd8f0)) {
-        if ((pendulum->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
+        if ((pendulum->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
             if (pendulum->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
                 falloffIndex = 2;
             } else if (pendulum->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared) {
