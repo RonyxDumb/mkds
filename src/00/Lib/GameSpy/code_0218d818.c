@@ -116,7 +116,7 @@ void DarrayInsert(void *darrayArg, void *element, s32 index) {
     DarraySetElement(array, element, index);
 }
 
-void DarrayInsertSorted(Darray *array, void *elem, UnkCompare *comparator) {
+void DarrayInsertSorted(Darray *array, void *elem, ElementCompareFunc *comparator) {
     u8 *foundElement;
     u32 insertIndex;
     s32 searchFound[2];
@@ -161,7 +161,7 @@ void DarraySort(Darray *darray, u32 compareFunc) {
     qsort(darray->mList, darray->mCount, darray->mElemSize, (int (*)(void *, void *)) compareFunc);
 }
 
-s32 DarrayFindIndex(Darray *darray, const void *key, UnkCompare *comparator, s32 startIndex, s32 sortedFlag) {
+s32 DarrayFindIndex(Darray *darray, const void *key, ElementCompareFunc *comparator, s32 startIndex, s32 sortedFlag) {
     s32 matchFlag = 1;
     s32 count;
     u8 *found;
@@ -191,7 +191,7 @@ void DarrayForEachReverse(Darray *array, void (*fn)(void *, void *), void *userD
     }
 }
 
-void *DarrayFindByFnReverse(Darray *array, UnkCompare *fn, const void *userData) {
+void *DarrayFindByFnReverse(Darray *array, ElementCompareFunc *fn, const void *userData) {
     s32 index;
     void *elem;
     if (fn == NULL) {
@@ -213,7 +213,7 @@ void DarrayRemoveAll(Darray *darray) {
     }
 }
 
-void *DarraySearchLinear(const void *key, u8 *base, s32 count, s32 elemSize, UnkCompare *comparator) {
+void *DarraySearchLinear(const void *key, u8 *base, s32 count, s32 elemSize, ElementCompareFunc *comparator) {
     s32 index;
     s32 byteOffset;
     index = 0;
@@ -230,7 +230,8 @@ void *DarraySearchLinear(const void *key, u8 *base, s32 count, s32 elemSize, Unk
     return NULL;
 }
 
-void *DarraySearchSorted(const void *key, u8 *base, s32 count, s32 elemSize, UnkCompare *comparator, s32 *found) {
+void *DarraySearchSorted(const void *key, u8 *base, s32 count, s32 elemSize, ElementCompareFunc *comparator,
+                         s32 *found) {
     s32 lowIndex = 0;
     s32 highIndex = count - 1;
     s32 midIndex;

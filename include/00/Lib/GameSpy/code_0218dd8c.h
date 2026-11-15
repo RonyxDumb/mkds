@@ -12,11 +12,11 @@ typedef struct Hashtable {
     /* 04 */ s32 mBucketCount;
     /* 08 */ void (*mElemCallback)(void *);
     /* 0c */ s32 (*mHashFn)(void *, s32);
-    /* 10 */ UnkCompare *mCompFn;
+    /* 10 */ ElementCompareFunc *mCompFn;
 } Hashtable;
 
 Hashtable *HashtableCreate(s32 elemSize, s32 nBuckets, s32 initialCount, s32 (*hashFn)(void *, s32),
-                           UnkCompare *compFn, void (*freeElement)(void *));
+                           ElementCompareFunc *compFn, void (*freeElement)(void *));
 
 void *HashtableFindByFn(Hashtable *table, int fn, const void *userData);
 void HashtableForEach(Hashtable *table, void (*fn)(void *, void *), void *userData);

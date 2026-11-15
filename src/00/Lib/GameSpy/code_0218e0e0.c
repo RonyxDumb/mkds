@@ -5,6 +5,6 @@
 #include "00/Lib/GameSpy/code_0218dd8c.h"
 
 void *TableNew(u32 elemSize, u32 nBuckets, void *hashFn, void *compFn, void *freeFn) {
-    return HashtableCreate(elemSize, nBuckets, 4, (s32(*)(void *, s32))(hashFn), (UnkCompare *) (compFn),
+    return HashtableCreate(elemSize, nBuckets, 4, (s32(*)(void *, s32))(hashFn), (ElementCompareFunc *) (compFn),
                            (void (*)(void *))(freeFn));
 }

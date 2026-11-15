@@ -82,7 +82,7 @@ u32 gti2CreateSocket(Gt2Socket **socketOut, const char *localAddress, u32 outgoi
     newSocket->mSendBufferSize = outgoingBufferSize;
     newSocket->mSocketErrorCallback = errorCallback;
     newSocket->mConnections = HashtableCreate(4, 0x20, 2, (s32(*)(void *, s32)) & gti2ConnectionHash,
-                                              (UnkCompare *) &gti2ConnectionCompare, NULL);
+                                              (ElementCompareFunc *) &gti2ConnectionCompare, NULL);
     if (newSocket->mConnections == NULL) {
         DWCi_GsFree(newSocket);
         return 1;

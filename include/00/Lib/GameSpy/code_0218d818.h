@@ -4,7 +4,7 @@
 
 typedef struct Darray Darray;
 
-typedef s32 UnkCompare(const void *a, const void *b);
+typedef s32 ElementCompareFunc(const void *a, const void *b);
 
 // 0x18 bytes. Growable array: count, capacity, element size, growth step, per-element callback, element data.
 typedef struct Darray {
@@ -16,17 +16,18 @@ typedef struct Darray {
     /* 14 */ u8 *mList;
 } Darray;
 
-void *DarraySearchSorted(const void *key, u8 *base, s32 count, s32 elemSize, UnkCompare *comparator, s32 *found);
-void *DarraySearchLinear(const void *key, u8 *base, s32 count, s32 elemSize, UnkCompare *comparator);
+void *DarraySearchSorted(const void *key, u8 *base, s32 count, s32 elemSize, ElementCompareFunc *comparator,
+                         s32 *found);
+void *DarraySearchLinear(const void *key, u8 *base, s32 count, s32 elemSize, ElementCompareFunc *comparator);
 void DarrayRemoveAll(Darray *darray);
-void *DarrayFindByFnReverse(Darray *array, UnkCompare *fn, const void *userData);
+void *DarrayFindByFnReverse(Darray *array, ElementCompareFunc *fn, const void *userData);
 void DarrayForEachReverse(Darray *array, void (*fn)(void *, void *), void *userData);
-s32 DarrayFindIndex(Darray *darray, const void *key, UnkCompare *comparator, s32 startIndex, s32 sortedFlag);
+s32 DarrayFindIndex(Darray *darray, const void *key, ElementCompareFunc *comparator, s32 startIndex, s32 sortedFlag);
 void DarraySort(Darray *darray, unsigned int compareFunc);
 void DarrayReplace(Darray *array, const void *elem, s32 index);
 void DarrayRemove(Darray *array, s32 index);
 void DarrayRemoveWithoutCallback(Darray *array, int index);
-void DarrayInsertSorted(Darray *array, void *elem, UnkCompare *comparator);
+void DarrayInsertSorted(Darray *array, void *elem, ElementCompareFunc *comparator);
 void DarrayInsert(void *darrayArg, void *element, s32 index);
 void DarrayAppend(void *darrayArg, void *element);
 void *DarrayGetElement(void *darrayArg, s32 index);

@@ -9,8 +9,8 @@
 #include "00/Lib/GameSpy/code_0218d818.h"
 #include "code_021382a8.h"
 
-Hashtable *HashtableCreate(s32 elemSize, s32 nBuckets, s32 initialCount, s32 (*hashFn)(void *, s32), UnkCompare *compFn,
-                           void (*freeElement)(void *)) {
+Hashtable *HashtableCreate(s32 elemSize, s32 nBuckets, s32 initialCount, s32 (*hashFn)(void *, s32),
+                           ElementCompareFunc *compFn, void (*freeElement)(void *)) {
     Hashtable *table;
     s32 bucketIndex;
     if (hashFn == NULL) {
@@ -144,7 +144,7 @@ void *HashtableFindByFn(Hashtable *table, int fn, const void *userData) {
     bucketIndex = 0;
     if (0 < table->mBucketCount) {
         do {
-            foundElement = DarrayFindByFnReverse(table->mBuckets[bucketIndex], (UnkCompare *) fn, userData);
+            foundElement = DarrayFindByFnReverse(table->mBuckets[bucketIndex], (ElementCompareFunc *) fn, userData);
             if (foundElement != NULL) {
                 return foundElement;
             }
