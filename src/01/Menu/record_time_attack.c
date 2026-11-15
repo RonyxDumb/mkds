@@ -170,7 +170,7 @@ void ReleaseRecordTAtt(void) {
     (reg_GXS_DB_DISPCNT) = ((reg_GXS_DB_DISPCNT) & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | ((subDisplayBits & ~9) << 8);
 }
 
-void AdvanceRecordTAttState0(void) {
+void AdvanceRecordTAttSlideInTop(void) {
     s16 offsetY;
 
     gRecordTAtt->mStateFrames++;
@@ -179,11 +179,11 @@ void AdvanceRecordTAttState0(void) {
     gRecordTAtt->mBg1OffsetY = offsetY;
     gRecordTAtt->mRecordTAttMTable[0].mOffsetY = offsetY;
     if (gRecordTAtt->mStateFrames >= 10) {
-        RequestRecordTAttState1AndSetup();
+        RequestRecordTAttSlideInRightAndSetup();
     }
 }
 
-void AdvanceRecordTAttState1(void) {
+void AdvanceRecordTAttSlideInRight(void) {
     s32 recordIndex;
     u16 mainLayoutCount;
     u16 subLayoutCount;
@@ -224,11 +224,11 @@ void AdvanceRecordTAttState1(void) {
         }
     }
     if (gRecordTAtt->mStateFrames >= 10) {
-        RequestRecordTAttState2();
+        RequestRecordTAttWaitInput();
     }
 }
 
-void AdvanceRecordTAttState2(void) {
+void AdvanceRecordTAttWaitInput(void) {
     s32 touchedRect = -1;
     s32 touchBeganRect = -1;
     InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
@@ -284,20 +284,20 @@ void AdvanceRecordTAttState2(void) {
             goto other;
         }
     }
-    RequestRecordTAttState5();
+    RequestRecordTAttSlideOutRight();
     gRecordTAtt->mNextScreen = RECORD_SCREEN_TOP_MENU;
     RequestSelectReturnPressWithSound(0);
     goto done;
 other:
     if (touchBeganRect == 2 || (u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_X) != 0) {
-        RequestRecordTAttState7();
+        RequestRecordTAttPressButton();
     } else if ((touchedRect == 0 && gRecordTAtt->mLeftRepeat != FALSE) ||
                (touchBeganRect == 0 && gRecordTAtt->mLeftRepeat == FALSE) ||
                (u16) (gInputSlots[slotIndex].mBits & PAD_KEY_LEFT) != 0) {
         gRecordTAtt->mIndexMoveDirection = RECORD_INDEX_MOVE_PREVIOUS;
         gRecordTAtt->mOffsetTimers[0] = 6;
         gRecordTAtt->mLeftRepeat = TRUE;
-        RequestRecordTAttState3();
+        RequestRecordTAttSlideOutSide();
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 2);
     } else if ((touchedRect == 1 && gRecordTAtt->mRightRepeat != FALSE) ||
                (touchBeganRect == 1 && gRecordTAtt->mRightRepeat == FALSE) ||
@@ -305,18 +305,18 @@ other:
         gRecordTAtt->mIndexMoveDirection = RECORD_INDEX_MOVE_NEXT;
         gRecordTAtt->mOffsetTimers[1] = 6;
         gRecordTAtt->mRightRepeat = TRUE;
-        RequestRecordTAttState3();
+        RequestRecordTAttSlideOutSide();
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 2);
     }
 done:
     if (AdvanceRecordTAttButtonSequence() != FALSE) {
         if (CheckRecordTAttFirstRecordFormat() != FALSE) {
-            RequestRecordTAttState13();
+            RequestRecordTAttSlideOutForTimeText();
         }
     }
 }
 
-void AdvanceRecordTAttState3(void) {
+void AdvanceRecordTAttSlideOutSide(void) {
     s32 recordIndex;
     u16 mainLayoutCount;
     u16 subLayoutCount;
@@ -362,11 +362,11 @@ void AdvanceRecordTAttState3(void) {
         }
     }
     if (gRecordTAtt->mStateFrames >= 10) {
-        RequestRecordTAttState4AndMoveIndex();
+        RequestRecordTAttSlideInSideAndMoveIndex();
     }
 }
 
-void AdvanceRecordTAttState4(void) {
+void AdvanceRecordTAttSlideInSide(void) {
     s32 recordIndex;
     u16 mainLayoutCount;
     u16 subLayoutCount;
@@ -412,11 +412,11 @@ void AdvanceRecordTAttState4(void) {
         }
     }
     if (gRecordTAtt->mStateFrames >= 10) {
-        RequestRecordTAttState2();
+        RequestRecordTAttWaitInput();
     }
 }
 
-void AdvanceRecordTAttState5(void) {
+void AdvanceRecordTAttSlideOutRight(void) {
     s32 recordIndex;
     u16 mainLayoutCount;
     u16 subLayoutCount;
@@ -457,11 +457,11 @@ void AdvanceRecordTAttState5(void) {
         }
     }
     if (gRecordTAtt->mStateFrames >= 10) {
-        RequestRecordTAttState6();
+        RequestRecordTAttSlideOutTop();
     }
 }
 
-void AdvanceRecordTAttState6(void) {
+void AdvanceRecordTAttSlideOutTop(void) {
     s16 offsetY;
 
     gRecordTAtt->mStateFrames++;
@@ -474,7 +474,7 @@ void AdvanceRecordTAttState6(void) {
     }
 }
 
-void AdvanceRecordTAttState7(void) {
+void AdvanceRecordTAttPressButton(void) {
     s16 offsetX;
     u16 subLayoutCount;
 
@@ -486,11 +486,11 @@ void AdvanceRecordTAttState7(void) {
     gRecordTAtt->mRecordTAttSTable[14].mOffsetX = offsetX;
     gRecordTAtt->mRecordTAttSTable[subLayoutCount + 8].mOffsetX = offsetX;
     if (gRecordTAtt->mStateFrames >= 10) {
-        RequestRecordTAttState8();
+        RequestRecordTAttSlideOutForClearPrompt();
     }
 }
 
-void AdvanceRecordTAttState8(void) {
+void AdvanceRecordTAttSlideOutForClearPrompt(void) {
     s32 recordIndex;
     u16 subLayoutCount;
     s32 cellIndex;
@@ -517,7 +517,7 @@ void AdvanceRecordTAttState8(void) {
     }
     if (gRecordTAtt->mStateFrames > 10) {
         if (IsSelectReturnHiddenNoRequest() != 0) {
-            RequestRecordTAttState9();
+            RequestRecordTAttWaitClearPromptOpen();
         }
     }
     if (gRecordTAtt->mStateFrames == 7) {
@@ -526,13 +526,13 @@ void AdvanceRecordTAttState8(void) {
     }
 }
 
-void AdvanceRecordTAttState9(void) {
+void AdvanceRecordTAttWaitClearPromptOpen(void) {
     if (IsTxtSystemOpenNoCloseRequest() != 0) {
-        RequestRecordTAttState10();
+        RequestRecordTAttWaitClearAnswer();
     }
 }
 
-void AdvanceRecordTAttState10(void) {
+void AdvanceRecordTAttWaitClearAnswer(void) {
     if (GetTxtSystemDone() != 0) {
         if (GetTxtSystemSelectedIndex() == 0) {
             if (IsCourseGhostRecordMissing(gRecordTAttCourseIds[gRecordTAtt->mIndex]) == 0) {
@@ -544,11 +544,11 @@ void AdvanceRecordTAttState10(void) {
             }
             gRecordTAtt->mClearChosen = TRUE;
         }
-        RequestRecordTAttState11();
+        RequestRecordTAttWaitClearPromptClose();
     }
 }
 
-void AdvanceRecordTAttState11(void) {
+void AdvanceRecordTAttWaitClearPromptClose(void) {
     s16 offsetX;
     u16 mainLayoutCount;
 
@@ -572,12 +572,12 @@ void AdvanceRecordTAttState11(void) {
     }
     if (gRecordTAtt->mStateFrames >= 10) {
         if (IsTxtSystemClosedNoOpenRequest() != 0) {
-            RequestRecordTAttState12();
+            RequestRecordTAttSlideInAfterClearPrompt();
         }
     }
 }
 
-void AdvanceRecordTAttState12(void) {
+void AdvanceRecordTAttSlideInAfterClearPrompt(void) {
     s32 recordIndex;
     u16 subLayoutCount;
     s32 cellIndex;
@@ -622,7 +622,7 @@ void AdvanceRecordTAttState12(void) {
     }
     if (gRecordTAtt->mStateFrames > 10) {
         if (IsSelectReturnShownNoRequest() != 0) {
-            RequestRecordTAttState2();
+            RequestRecordTAttWaitInput();
         }
     }
     if (gRecordTAtt->mStateFrames == 2) {
@@ -630,7 +630,7 @@ void AdvanceRecordTAttState12(void) {
     }
 }
 
-void AdvanceRecordTAttState13(void) {
+void AdvanceRecordTAttSlideOutForTimeText(void) {
     s32 recordIndex;
     u16 subLayoutCount;
     s32 cellIndex;
@@ -656,7 +656,7 @@ void AdvanceRecordTAttState13(void) {
         }
     }
     if (gRecordTAtt->mStateFrames > 10) {
-        RequestRecordTAttState14();
+        RequestRecordTAttWaitTimeTextOpen();
     }
     if (gRecordTAtt->mStateFrames == 7) {
         gRecordTAtt->mRecordTAttSTable[12].mVisible = 0;
@@ -664,15 +664,15 @@ void AdvanceRecordTAttState13(void) {
     }
 }
 
-void AdvanceRecordTAttState14(void) {
+void AdvanceRecordTAttWaitTimeTextOpen(void) {
     int txtSystemNoCloseRequest;
     txtSystemNoCloseRequest = IsTxtSystemOpenNoCloseRequest();
     if (txtSystemNoCloseRequest != 0) {
-        RequestRecordTAttState15();
+        RequestRecordTAttWaitTimeTextInput();
     }
 }
 
-void AdvanceRecordTAttState15(void) {
+void AdvanceRecordTAttWaitTimeTextInput(void) {
     InputSlotIndex slotIndex;
     u16 pressedOrTouched;
     BOOL recentlyLost;
@@ -695,19 +695,19 @@ void AdvanceRecordTAttState15(void) {
             return;
         }
     }
-    RequestRecordTAttState16();
+    RequestRecordTAttWaitTimeTextClose();
     RequestSelectReturnPressWithSound(0);
 }
 
-void AdvanceRecordTAttState16(void) {
+void AdvanceRecordTAttWaitTimeTextClose(void) {
     int txtSystemNoOpenRequest;
     txtSystemNoOpenRequest = IsTxtSystemClosedNoOpenRequest();
     if (txtSystemNoOpenRequest != 0) {
-        RequestRecordTAttState17();
+        RequestRecordTAttSlideInAfterTimeText();
     }
 }
 
-void AdvanceRecordTAttState17(void) {
+void AdvanceRecordTAttSlideInAfterTimeText(void) {
     s32 recordIndex;
     s32 cellIndex;
     u16 subLayoutCount;
@@ -733,7 +733,7 @@ void AdvanceRecordTAttState17(void) {
         }
     }
     if (gRecordTAtt->mStateFrames > 10) {
-        RequestRecordTAttState2();
+        RequestRecordTAttWaitInput();
     }
     if (gRecordTAtt->mStateFrames == 2) {
         gRecordTAtt->mRecordTAttSTable[12].mVisible = 1;
@@ -746,58 +746,58 @@ void AdvanceRecordTAtt(void) {
     gRecordTAtt->mState = gRecordTAtt->mNextState;
     switch (gRecordTAtt->mState) {
         case RECORD_TATT_STATE_SLIDE_IN_TOP:
-            AdvanceRecordTAttState0();
+            AdvanceRecordTAttSlideInTop();
             break;
         case RECORD_TATT_STATE_SLIDE_IN_RIGHT:
-            AdvanceRecordTAttState1();
+            AdvanceRecordTAttSlideInRight();
             break;
         case RECORD_TATT_STATE_WAIT_INPUT:
-            AdvanceRecordTAttState2();
+            AdvanceRecordTAttWaitInput();
             break;
         case RECORD_TATT_STATE_SLIDE_OUT_SIDE:
-            AdvanceRecordTAttState3();
+            AdvanceRecordTAttSlideOutSide();
             break;
         case RECORD_TATT_STATE_SLIDE_IN_SIDE:
-            AdvanceRecordTAttState4();
+            AdvanceRecordTAttSlideInSide();
             break;
         case RECORD_TATT_STATE_SLIDE_OUT_RIGHT:
-            AdvanceRecordTAttState5();
+            AdvanceRecordTAttSlideOutRight();
             break;
         case RECORD_TATT_STATE_SLIDE_OUT_TOP:
-            AdvanceRecordTAttState6();
+            AdvanceRecordTAttSlideOutTop();
             break;
         case RECORD_TATT_STATE_PRESS_BUTTON:
-            AdvanceRecordTAttState7();
+            AdvanceRecordTAttPressButton();
             break;
         case RECORD_TATT_STATE_SLIDE_OUT_FOR_CLEAR_PROMPT:
-            AdvanceRecordTAttState8();
+            AdvanceRecordTAttSlideOutForClearPrompt();
             break;
         case RECORD_TATT_STATE_WAIT_CLEAR_PROMPT_OPEN:
-            AdvanceRecordTAttState9();
+            AdvanceRecordTAttWaitClearPromptOpen();
             break;
         case RECORD_TATT_STATE_WAIT_CLEAR_ANSWER:
-            AdvanceRecordTAttState10();
+            AdvanceRecordTAttWaitClearAnswer();
             break;
         case RECORD_TATT_STATE_WAIT_CLEAR_PROMPT_CLOSE:
-            AdvanceRecordTAttState11();
+            AdvanceRecordTAttWaitClearPromptClose();
             break;
         case RECORD_TATT_STATE_SLIDE_IN_AFTER_CLEAR_PROMPT:
-            AdvanceRecordTAttState12();
+            AdvanceRecordTAttSlideInAfterClearPrompt();
             break;
         case RECORD_TATT_STATE_SLIDE_OUT_FOR_TIME_TEXT:
-            AdvanceRecordTAttState13();
+            AdvanceRecordTAttSlideOutForTimeText();
             break;
         case RECORD_TATT_STATE_WAIT_TIME_TEXT_OPEN:
-            AdvanceRecordTAttState14();
+            AdvanceRecordTAttWaitTimeTextOpen();
             break;
         case RECORD_TATT_STATE_WAIT_TIME_TEXT_INPUT:
-            AdvanceRecordTAttState15();
+            AdvanceRecordTAttWaitTimeTextInput();
             break;
         case RECORD_TATT_STATE_WAIT_TIME_TEXT_CLOSE:
-            AdvanceRecordTAttState16();
+            AdvanceRecordTAttWaitTimeTextClose();
             break;
         case RECORD_TATT_STATE_SLIDE_IN_AFTER_TIME_TEXT:
-            AdvanceRecordTAttState17();
+            AdvanceRecordTAttSlideInAfterTimeText();
             break;
     }
     recordTAtt = gRecordTAtt;
