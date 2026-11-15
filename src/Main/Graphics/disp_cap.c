@@ -40,6 +40,7 @@
 #include "Main/Race/data_021759c0.h"
 #include "tp.h"
 #include "Main/Scene/scene_run_forever.h"
+#include "Main/Race/results_gp.h"
 
 SceneCallbacks gRecordSceneCallbacks = {
     InitRecordScene, UpdateRecordScene, ReleaseRecordScene, WriteRecordSceneRegistersCallback, NULL, NULL, 0xa, 0xa, 0};
@@ -68,11 +69,11 @@ u8 GetLowestGrandPrixRecordValue(void) {
         }
     }
     switch (lowestValue) {
-        case 5:
+        case RESULTS_GP_GRADE_THIRD_BEST:
             return GP_LOWEST_RECORD_THIRD_BEST;
-        case 6:
+        case RESULTS_GP_GRADE_SECOND_BEST:
             return GP_LOWEST_RECORD_SECOND_BEST;
-        case 7:
+        case RESULTS_GP_GRADE_BEST:
             return GP_LOWEST_RECORD_BEST;
         default:
             return 0;
@@ -172,7 +173,7 @@ void SetupDispCapMode1(void) {
     DC_FlushRange(oamBuffer, 0x400);
     GXS_LoadOAM(oamBuffer, 0, 0x400);
     VBlankIntrWait();
-    gDispCap->mFlags &= ~1;
+    gDispCap->mFlags &= ~DISP_CAP_FLAG_BANK_SWAPPED;
     reg_GX_POWCNT = reg_GX_POWCNT | 0x8000;
     ToggleDispCapBanks();
 }
@@ -195,12 +196,12 @@ void ToggleDispCapBanks(void) {
 
     GX_ResetBankForSubBG();
     GX_ResetBankForSubOBJ();
-    if (gDispCap->mFlags & 1) {
+    if (gDispCap->mFlags & DISP_CAP_FLAG_BANK_SWAPPED) {
         reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | 0x300;
         reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x1000;
         GX_SetBankForLCDC(4);
         GX_SetBankForSubOBJ(8);
-        gDispCap->mFlags &= ~1;
+        gDispCap->mFlags &= ~DISP_CAP_FLAG_BANK_SWAPPED;
         captureBits = 2;
         powerBit = 1;
     } else {
@@ -208,7 +209,7 @@ void ToggleDispCapBanks(void) {
         reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x400;
         GX_SetBankForSubBG(4);
         GX_SetBankForLCDC(8);
-        gDispCap->mFlags |= 1;
+        gDispCap->mFlags |= DISP_CAP_FLAG_BANK_SWAPPED;
         captureBits = 3;
         powerBit = 0;
     }
@@ -216,7 +217,7 @@ void ToggleDispCapBanks(void) {
     reg_GX_DISPCAPCNT = 0x80300010 | (captureBits << 16);
 }
 
-// Writes the capture blend weights; with a 0 it also moves the blend factor toward 0 (bit 2 of mFlags set) or 0x1000.
+// Writes the capture blend weights; with a 0 it also moves the blend factor toward 0 (DISP_CAP_FLAG_BLEND_FALLING set) or 0x1000.
 void AdvanceDispCapBlend(s32 prevMenuOpen) {
     u8 weight;
 
@@ -225,7 +226,7 @@ void AdvanceDispCapBlend(s32 prevMenuOpen) {
     if (prevMenuOpen != 0) {
         return;
     }
-    if (gDispCap->mFlags & 2) {
+    if (gDispCap->mFlags & DISP_CAP_FLAG_BLEND_FALLING) {
         if (gDispCap->mBlendFactor <= 0) {
             return;
         }
@@ -255,21 +256,21 @@ void AdvanceDispCap(s32 prevMenuOpen) {
             AdvanceDispCapBlend(prevMenuOpen);
             break;
     }
-    if (!(gDispCap->mFlags & 4)) {
+    if (!(gDispCap->mFlags & DISP_CAP_FLAG_FADE_RUNNING)) {
         return;
     }
     if (AreBrightnessFadesClear() == 0) {
         return;
     }
-    gDispCap->mFlags &= ~4;
-    gDispCap->mFlags &= ~8;
+    gDispCap->mFlags &= ~DISP_CAP_FLAG_FADE_RUNNING;
+    gDispCap->mFlags &= ~DISP_CAP_FLAG_FADE_FLAG;
 }
 
 void StartDispCapBlend(u8 blendMin) {
     if (gDispCap->mMode != DISP_CAP_MODE_BLEND) {
         return;
     }
-    gDispCap->mFlags |= 2;
+    gDispCap->mFlags |= DISP_CAP_FLAG_BLEND_FALLING;
     gDispCap->mBlendFactor = DISP_CAP_BLEND_FACTOR_FULL;
     gDispCap->mBlendMin = blendMin;
 }
@@ -291,7 +292,7 @@ static inline s32 DispCapIsConnectionActiveViaLocal(void) {
 
 void StopDispCapBlend(void) {
     if (gDispCap->mMode == DISP_CAP_MODE_BLEND) {
-        gDispCap->mFlags &= ~2;
+        gDispCap->mFlags &= ~DISP_CAP_FLAG_BLEND_FALLING;
     }
 }
 
@@ -299,7 +300,7 @@ void StartDispCapFadeToFaded(u32 frameCount) {
     if (GetSceneRunStep() != SCENE_RUN_STEP_RUNNING) {
         return;
     }
-    gDispCap->mFlags |= 4;
+    gDispCap->mFlags |= DISP_CAP_FLAG_FADE_RUNNING;
     StartFadeToFadedNegativeOneScreen(frameCount, 1);
 }
 
@@ -307,30 +308,30 @@ void StartDispCapFadeToClear(u32 frameCount) {
     if (GetSceneRunStep() != SCENE_RUN_STEP_RUNNING) {
         return;
     }
-    gDispCap->mFlags |= 4;
+    gDispCap->mFlags |= DISP_CAP_FLAG_FADE_RUNNING;
     StartFadeToClearNegativeOneScreen(frameCount, 1);
 }
 
 BOOL IsSharedDispCapFadeFlagSet(void) {
     if (DispCapIsConnectionActiveViaLocal()) {
         if (IsDataSharingSyncDone() != 0) {
-            return (gConnectionWork->mDataSharing.mReceivedRecords->mFlags & 4) != 0;
+            return (gConnectionWork->mDataSharing.mReceivedRecords->mFlags & SHARING_RECORD_FLAG_DISP_CAP_FADE) != 0;
         }
         return FALSE;
     }
-    return (gDispCap->mFlags & 8) != 0;
+    return (gDispCap->mFlags & DISP_CAP_FLAG_FADE_FLAG) != 0;
 }
 
 BOOL IsDispCapFadeFlagSet(void) {
-    return (gDispCap->mFlags & 8) != 0;
+    return (gDispCap->mFlags & DISP_CAP_FLAG_FADE_FLAG) != 0;
 }
 
-// Sets bit 8; it stays set until the brightness fades are clear. A child console in a link leaves it alone.
+// Sets the fade flag; it stays set until the brightness fades are clear. A child console in a link leaves it alone.
 void SetDispCapFadeFlag(void) {
     if (DispCapIsConnectionActive() != 0 && DispCapGetConnectionMode() != CONNECTION_MODE_PARENT) {
         return;
     }
-    gDispCap->mFlags |= 8;
+    gDispCap->mFlags |= DISP_CAP_FLAG_FADE_FLAG;
 }
 
 s32 RunRecordScene(SceneNumbers *sceneNumbers) {

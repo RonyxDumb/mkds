@@ -11,6 +11,14 @@
 #define DISP_CAP_BLEND_FACTOR_RISE_STEP FIXED12_RATIO(1, 10)
 #define DISP_CAP_BLEND_FACTOR_FALL_STEP 0x802
 
+// DispCap.mFlags: which VRAM bank pair the capture uses (flipped by ToggleDispCapBanks); the blend factor falls instead
+// of rising; a scene fade runs (cleared once the brightness fades are clear); the fade flag the parent sends to the
+// children.
+#define DISP_CAP_FLAG_BANK_SWAPPED 1
+#define DISP_CAP_FLAG_BLEND_FALLING 2
+#define DISP_CAP_FLAG_FADE_RUNNING 4
+#define DISP_CAP_FLAG_FADE_FLAG 8
+
 enum {
     DISP_CAP_MODE_OFF,
     DISP_CAP_MODE_BANK_TOGGLE,

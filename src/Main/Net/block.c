@@ -92,7 +92,7 @@ void BlockDataRequestCallback(WBTCommand *record) {
 void SetWbtOwnAidFromConnection(void) {
     s32 connectionMode = gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode;
     if (connectionMode == CONNECTION_MODE_CHILD) {
-        if (gConnectionWork->mOwnIndex == 0xffff) {
+        if (gConnectionWork->mOwnIndex == CONNECTION_OWN_INDEX_NONE) {
             SetRequestErrorCode(CONNECTION_ERROR_OPERATION_FAILED);
             return;
         }

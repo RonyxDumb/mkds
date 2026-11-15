@@ -145,9 +145,9 @@ void StartChildSideBlockTransfer(void) {
 
 void AllocTransferBuffers(void *heap) {
     s32 blockInfoIndex;
-    gConnectionWork->mMPSendBufferSize = 0x1c0;
+    gConnectionWork->mMPSendBufferSize = CONNECTION_MP_SEND_BUFFER_SIZE;
     gConnectionWork->mMPSendBuffer = HeapAllocAligned(heap, gConnectionWork->mMPSendBufferSize, HEAP_ALIGN_CACHE_LINE);
-    gConnectionWork->mMPReceiveBufferSize = 0x400;
+    gConnectionWork->mMPReceiveBufferSize = CONNECTION_MP_RECEIVE_BUFFER_SIZE;
     gConnectionWork->mMPReceiveBuffer =
         HeapAllocAligned(heap, gConnectionWork->mMPReceiveBufferSize, HEAP_ALIGN_CACHE_LINE);
     for (blockInfoIndex = 0; blockInfoIndex < 8; blockInfoIndex++) {

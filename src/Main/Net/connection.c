@@ -61,7 +61,7 @@ void ResetConnection(void) {
     }
     scanExParams = gConnectionWork->mScanExParams;
     scanExParams->mScanBuf = gConnectionWork->mScanExBuffer;
-    scanExParams->mScanBufSize = 0x400;
+    scanExParams->mScanBufSize = CONNECTION_SCAN_BUFFER_SIZE;
     scanExParams->mChannelList = 0;
     scanExParams->mMaxChannelTime = 0;
     scanExParams->mScanType = 1;
@@ -113,20 +113,20 @@ void StepDataSharing(void) {
         }
         if (role == CONNECTION_MODE_PARENT) {
             if (IsDispCapFadeFlagSet() != FALSE) {
-                sendData->mFlags |= 4;
+                sendData->mFlags |= SHARING_RECORD_FLAG_DISP_CAP_FADE;
             } else {
-                sendData->mFlags &= ~4;
+                sendData->mFlags &= ~SHARING_RECORD_FLAG_DISP_CAP_FADE;
             }
         }
     }
     role = gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode;
     if (role != CONNECTION_MODE_PARENT || (gConnectionWork->mStatusFlags & CONNECTION_STATUS_SHARING_SYNCED) != 0) {
         if (gConnectionWork->mSyncToggle == 0) {
-            sendData->mFlags |= 1;
-            sendData->mFlags &= ~2;
+            sendData->mFlags |= SHARING_RECORD_FLAG_SYNC_TOGGLE_0;
+            sendData->mFlags &= ~SHARING_RECORD_FLAG_SYNC_TOGGLE_1;
         } else {
-            sendData->mFlags |= 2;
-            sendData->mFlags &= ~1;
+            sendData->mFlags |= SHARING_RECORD_FLAG_SYNC_TOGGLE_1;
+            sendData->mFlags &= ~SHARING_RECORD_FLAG_SYNC_TOGGLE_0;
         }
     }
     sendData->mMicOverThreshold = gTouchMicInput->mMicOverThreshold;
@@ -165,7 +165,7 @@ BOOL UpdateDataSharing(void) {
             }
             break;
         case CONNECTION_MODE_CHILD:
-            if (gConnectionWork->mOwnIndex != 0xffff) {
+            if (gConnectionWork->mOwnIndex != CONNECTION_OWN_INDEX_NONE) {
                 StepDataSharing();
             } else {
                 return FALSE;
@@ -407,14 +407,14 @@ void MeasureChannel(u16 measuredChannel) {
             gConnectionWork->mChannelSums[channelIndex] = -1;
         }
         channel = 1;
-    } else if (gConnectionWork->mMeasureCount >= 7) {
+    } else if (gConnectionWork->mMeasureCount >= CONNECTION_MEASURES_PER_CHANNEL) {
         channel = channel + 1;
         gConnectionWork->mMeasureCount = 1;
         if (((1 << (channel - 1)) & allowedChannels) == 0) {
             do {
                 channel = channel + 1;
                 if (channel > 0xe) {
-                    if (gConnectionWork->mMeasurePass >= 2) {
+                    if (gConnectionWork->mMeasurePass >= CONNECTION_MEASURE_PASS_COUNT) {
                         gConnectionWork->mRequestPending = 0;
                         return;
                     }

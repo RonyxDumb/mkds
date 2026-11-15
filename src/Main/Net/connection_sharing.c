@@ -64,11 +64,11 @@ static inline s32 HasSharingRecordSyncToggleBit(SharingReceiveRecord *receiveRec
     BOOL result = FALSE;
     u8 toggleBits = receiveRecord->mFlags;
     if (gConnectionWork->mSyncToggle == 0) {
-        if (toggleBits & 1) {
+        if (toggleBits & SHARING_RECORD_FLAG_SYNC_TOGGLE_0) {
             result = TRUE;
         }
     } else {
-        if (toggleBits & 2) {
+        if (toggleBits & SHARING_RECORD_FLAG_SYNC_TOGGLE_1) {
             result = TRUE;
         }
     }
@@ -87,7 +87,8 @@ static inline s32 AreChildSharingRecordsSynced(DataSharing *dataSharing, Sharing
                 result = FALSE;
                 childIndex = 8;
             } else {
-                toggleBit = gConnectionWork->mSyncToggle == 0 ? 1 : 2;
+                toggleBit = gConnectionWork->mSyncToggle == 0 ? SHARING_RECORD_FLAG_SYNC_TOGGLE_0
+                                                              : SHARING_RECORD_FLAG_SYNC_TOGGLE_1;
                 if ((toggleBit & receiveRecords[childIndex].mFlags) == 0) {
                     result = FALSE;
                     childIndex = 8;
@@ -401,11 +402,11 @@ void InitConnectionBuffers(void *heap) {
     gConnectionWork->mParentBssDesc = HeapAllocAligned(heap, 0xc0, HEAP_ALIGN_CACHE_LINE);
     gConnectionWork->mScanBssDescBuffer = HeapAllocAligned(heap, 0xc0, HEAP_ALIGN_CACHE_LINE);
     gConnectionWork->mScanExParams = HeapAllocAligned(heap, 0x44, HEAP_ALIGN_CACHE_LINE);
-    gConnectionWork->mScanExBuffer = HeapAllocAligned(heap, 0x400, HEAP_ALIGN_CACHE_LINE);
-    gConnectionWork->mStartMPSendBufferSize = 0x1c0;
+    gConnectionWork->mScanExBuffer = HeapAllocAligned(heap, CONNECTION_SCAN_BUFFER_SIZE, HEAP_ALIGN_CACHE_LINE);
+    gConnectionWork->mStartMPSendBufferSize = CONNECTION_MP_SEND_BUFFER_SIZE;
     gConnectionWork->mStartMPSendBuffer =
         HeapAllocAligned(heap, gConnectionWork->mStartMPSendBufferSize, HEAP_ALIGN_CACHE_LINE);
-    gConnectionWork->mStartMPReceiveBufferSize = 0x400;
+    gConnectionWork->mStartMPReceiveBufferSize = CONNECTION_MP_RECEIVE_BUFFER_SIZE;
     gConnectionWork->mStartMPReceiveBuffer =
         HeapAllocAligned(heap, gConnectionWork->mStartMPReceiveBufferSize, HEAP_ALIGN_CACHE_LINE);
     gConnectionWork->mSharingInfo = HeapAllocAligned(heap, 0x820, HEAP_ALIGN_CACHE_LINE);
@@ -498,7 +499,7 @@ void ResetConnectionData(void) {
             bytes[byteIndex] = 0;
         }
     }
-    gConnectionWork->mOwnIndex = 0xffff;
+    gConnectionWork->mOwnIndex = CONNECTION_OWN_INDEX_NONE;
     gConnectionWork->mRememberedScanKeyHeld = 0;
     gConnectionWork->mUnk_0434 = 0;
     gConnectionWork->mScanMissCount = 1;
@@ -560,8 +561,8 @@ void InitRaceConnection(void) {
     connection->mRandom.mStateLow = addedValue + (shiftedValue << 10);
     random = &connection->mRandom;
     random->mStateHigh = 0;
-    random->mMultiplierLow = 0x6c078965;
-    random->mMultiplierHigh = 0x5d588b65;
-    random->mIncrementLow = 0x269ec3;
+    random->mMultiplierLow = CONNECTION_RANDOM_MULTIPLIER_LOW;
+    random->mMultiplierHigh = CONNECTION_RANDOM_MULTIPLIER_HIGH;
+    random->mIncrementLow = CONNECTION_RANDOM_INCREMENT_LOW;
     random->mIncrementHigh = 0;
 }

@@ -445,6 +445,12 @@ typedef struct ScanStateView {
     /* 390 */ u8 mUnk_390[0x20];
 } ScanStateView;
 
+// SharingReceiveRecord.mFlags bits: the sync toggle bit of the record sender (bit 1 or 2 depending on
+// ConnectionWork.mSyncToggle), and the fade flag a parent copies from DispCap.mFlags (connection.c send).
+#define SHARING_RECORD_FLAG_SYNC_TOGGLE_0 1
+#define SHARING_RECORD_FLAG_SYNC_TOGGLE_1 2
+#define SHARING_RECORD_FLAG_DISP_CAP_FADE 4
+
 // 8-byte entries behind member 0xc of DataSharing.
 typedef struct SharingReceiveRecord {
     /* 00 */ u16 mPadKeys;
@@ -559,6 +565,19 @@ typedef struct MultiBootStateView {
 #define CONNECTION_TRANSFER_SEQUENCE_DONE 4
 // ConnectionWork.mTransferFlags: the sync wait is done.
 #define CONNECTION_TRANSFER_SYNC_DONE 2
+// ConnectionWork.mOwnIndex before the parent has handed out an index.
+#define CONNECTION_OWN_INDEX_NONE 0xffff
+// Sizes of the scan result buffer (mScanExBuffer) and the MP send and receive buffers.
+#define CONNECTION_SCAN_BUFFER_SIZE 0x400
+#define CONNECTION_MP_SEND_BUFFER_SIZE 0x1c0
+#define CONNECTION_MP_RECEIVE_BUFFER_SIZE 0x400
+// Channel measurement: measurements per channel, and passes over the channel list before the request ends.
+#define CONNECTION_MEASURES_PER_CHANNEL 7
+#define CONNECTION_MEASURE_PASS_COUNT 2
+// Constants of the 64-bit generator seeded in the connection (ConnectionWork.mRandom).
+#define CONNECTION_RANDOM_MULTIPLIER_LOW 0x6c078965
+#define CONNECTION_RANDOM_MULTIPLIER_HIGH 0x5d588b65
+#define CONNECTION_RANDOM_INCREMENT_LOW 0x269ec3
 // ConnectionWork.mParentTransferStep: the callback waits for the handshake, then for all chunks held twice.
 #define PARENT_TRANSFER_WAIT_HANDSHAKE 0
 #define PARENT_TRANSFER_WAIT_FIRST_CHUNKS 1

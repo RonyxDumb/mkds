@@ -70,7 +70,7 @@ s32 AdvanceNonMultiBootConnect(s32 entryIndex) {
             break;
         case CONNECTION_STEP_RESTARTING:
         case CONNECTION_STEP_JOINING:
-            if (gConnectionWork->mOwnIndex == 0xffff) {
+            if (gConnectionWork->mOwnIndex == CONNECTION_OWN_INDEX_NONE) {
                 if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
                     SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
                     return 3;

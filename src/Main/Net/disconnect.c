@@ -499,7 +499,7 @@ BOOL QueueMPDataToPort(void *data, s32 dataSize, u16 destBitmap, void *sendBuffe
             }
             break;
         case CONNECTION_MODE_CHILD:
-            if (gConnectionWork->mOwnIndex == 0xffff) {
+            if (gConnectionWork->mOwnIndex == CONNECTION_OWN_INDEX_NONE) {
                 return FALSE;
             }
             break;
