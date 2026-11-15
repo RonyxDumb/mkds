@@ -126,7 +126,7 @@ s32 GetScanSlotChildCount(u16 entryIndex) {
 
 BOOL TryGetPlayerName(u16 entryIndex, void *destination) {
     BOOL result;
-    void *childUser;
+    MBUserInfo *childUser;
 
     result = FALSE;
     switch (ParticipantGetConnectionMode()) {
@@ -136,7 +136,7 @@ BOOL TryGetPlayerName(u16 entryIndex, void *destination) {
                 childUser = MB_CommGetChildUser(entryIndex);
                 if (BIT_IS_SET(gConnectionWork->mWaitToSendMask, entryIndex) && childUser != NULL) {
                     if (destination != NULL) {
-                        MI_CpuCopy8((u8 *) childUser + 2, destination, 0x14);
+                        MI_CpuCopy8(childUser->mName, destination, 0x14);
                     }
                     result = TRUE;
                 }

@@ -65,7 +65,7 @@ void SetupWLMenuMBChildMessage(void *heap) {
     gWLMenuMessage->mFont = &GetDownloadScreenFiles()->mMBChildFont;
     charBase = G2S_GetBG1CharPtr();
     text = GetBmgEntry(gWLMenuMessage->mMBChildMessages, 1);
-    NNS_G2dCharCanvasInitForBG(gWLMenuMessage->mCharCanvas, (u8 *) charBase + 0x400, 0x20, 4, 4);
+    NNS_G2dCharCanvasInitForBG(gWLMenuMessage->mCharCanvas, (void *) (charBase + 0x400), 0x20, 4, 4);
     WLMenuInitTextCanvas(&gWLMenuMessage->mTextCanvas, gWLMenuMessage->mCharCanvas, gWLMenuMessage->mFont, 1, 4);
     WLMenuDrawTextOnCanvas(&gWLMenuMessage->mTextCanvas, 0x80, 0, 3, 0x211, text);
     for (row = 7; row < 9; row++) {

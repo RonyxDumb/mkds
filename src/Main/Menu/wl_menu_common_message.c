@@ -48,7 +48,7 @@ void SetupWLMenuCommonMessage(void *heap) {
     gWLMenuMessage->mFont = GetFontByIndex(0);
     charBase = G2S_GetBG1CharPtr();
     text = GetBmgEntry(gWLMenuMessage->mCommonMessages, 0x79);
-    NNS_G2dCharCanvasInitForBG(gWLMenuMessage->mCharCanvas, (u8 *) charBase + 0x400, 0x20, 4, 4);
+    NNS_G2dCharCanvasInitForBG(gWLMenuMessage->mCharCanvas, (void *) (charBase + 0x400), 0x20, 4, 4);
     WLMenuInitTextCanvas(&gWLMenuMessage->mTextCanvas, gWLMenuMessage->mCharCanvas, gWLMenuMessage->mFont, 1, 4);
     WLMenuDrawTextOnCanvas(&gWLMenuMessage->mTextCanvas, 8, 0, 3, 0x209, text);
     for (row = 0x16; row < 0x18; row++) {

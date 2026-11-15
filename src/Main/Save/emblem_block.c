@@ -219,13 +219,13 @@ void CopyWiFiOtherEmblemsToBlocks(void) {
             }
             firstBuddyIndex = blockIndex * 5;
             endBuddyIndex = (blockIndex + 1) * 5;
-            filledBits = (u8 *) blockData + 4;
+            filledBits = &blockData->mFilledBits;
             for (copyPlayerIndex = 0; copyPlayerIndex < 4; copyPlayerIndex++) {
                 buddyIndex = buddyIndexOfPlayer[copyPlayerIndex];
                 if (buddyIndex >= firstBuddyIndex && buddyIndex < endBuddyIndex) {
                     slotIndex = buddyIndex % 5;
                     *filledBits = *filledBits | (1 << slotIndex);
-                    MI_CpuCopy8((u8 *) GetWiFiSessionPlayerRecordData(copyPlayerIndex & 0xff) + 0x14,
+                    MI_CpuCopy8(GetWiFiSessionPlayerRecordData(copyPlayerIndex & 0xff)->mEmblem,
                                 blockData->mEmblems[slotIndex], 0x200);
                 }
             }
