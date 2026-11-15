@@ -6,7 +6,7 @@
 typedef struct DWCAccFriendData DWCAccFriendData;
 typedef struct WiFiBuddySync WiFiBuddySync;
 
-void StartBuddySync(s32 authToken, const char *partnerChallenge, void (*updateCallback)(s32, u8, void *),
+void StartBuddySync(const char *authToken, const char *partnerChallenge, void (*updateCallback)(s32, u8, void *),
                     void *updateParam, void (*statusCallback)(s32, u8, void *, void *), void *statusParam,
                     void (*deleteCallback)(s32, s32, void *), void *deleteParam);
 

@@ -55,7 +55,7 @@ Gt2Connection *gti2SocketFindConnection(Gt2Socket *socket, u32 address, u32 port
 }
 
 u32 gti2CreateSocket(Gt2Socket **socketOut, const char *localAddress, u32 outgoingBufferSize, u32 incomingBufferSize,
-                     u32 errorCallback) {
+                     void (*errorCallback)(Gt2Socket *)) {
     Gt2Socket *newSocket;
     u16 netPort;
     SOCSockAddrIn socketAddress;
@@ -80,9 +80,9 @@ u32 gti2CreateSocket(Gt2Socket **socketOut, const char *localAddress, u32 outgoi
     newSocket->mDescriptor = -1;
     newSocket->mIncomingBufferSize = incomingBufferSize;
     newSocket->mSendBufferSize = outgoingBufferSize;
-    newSocket->mSocketErrorCallback = (void (*)(Gt2Socket *)) errorCallback;
+    newSocket->mSocketErrorCallback = errorCallback;
     newSocket->mConnections = HashtableCreate(4, 0x20, 2, (s32(*)(void *, s32)) & gti2ConnectionHash,
-                                              (UnkCompare *) & gti2ConnectionCompare, NULL);
+                                              (UnkCompare *) &gti2ConnectionCompare, NULL);
     if (newSocket->mConnections == NULL) {
         DWCi_GsFree(newSocket);
         return 1;

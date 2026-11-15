@@ -46,11 +46,11 @@ void DWCi_GT2ConnectAttemptCallback(u32 socket, Gt2Connection *connection, u32 a
 u32 DWCi_GT2UnrecognizedMessageCallback(u32 socket, u32 address, u16 port, u8 *data, u32 size);
 void DWCi_MatchProcess(s32 param_1);
 void DWCi_ConnectToFriendsAsync(const void *friendIdxList, s32 friendIdxListLen, s32 numEntry, s32 distantFriend,
-                                void *matchedCallback, u32 matchedParam, u32 evalCallback, u32 evalParam);
-void DWCi_ConnectToAnybodyAsync(u32 numEntry, const void *addFilter, u32 matchedCallback, u32 matchedParam,
-                                u32 evalCallback, u32 evalParam);
+                                UnkFunc *matchedCallback, u32 matchedParam, MatchEvalFunc *evalCallback, u32 evalParam);
+void DWCi_ConnectToAnybodyAsync(u32 numEntry, const void *addFilter, UnkFunc *matchedCallback, u32 matchedParam,
+                                MatchEvalFunc *evalCallback, u32 evalParam);
 u32 DWCi_QR2Startup(u32 profileId);
-void DWCi_MatchInit(WiFiMatching *wiFiMatching, GpConnection *gpConnection, void **connectionSocket,
+void DWCi_MatchInit(WiFiMatching *wiFiMatching, GpConnection *gpConnection, Gt2Socket **connectionSocket,
                     void *connectionCallbacks, void *gameName, void *secretKey, void *buddies, u32 buddyEntryCount);
 
 #include "00/Lib/DWC/dwc_connectinet.h"

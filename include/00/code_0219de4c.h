@@ -33,11 +33,14 @@ enum {
 
 // The matching state embedded in WiFiConnection at 0x33c (0x464 bytes), reached through gWiFiMatching; not
 // WiFiVSMatching, the VS screen.
+typedef struct Gt2Socket Gt2Socket;
+typedef s32 MatchEvalFunc();
+
 typedef struct WiFiMatching {
     /* 000 */ struct GpConnection *mGpConnection;
     // Address of WiFiConnection.mSocket, so a socket made or cleared later is seen; every use except the NULL tests
     // dereferences it.
-    /* 004 */ void **mConnectionSocket;
+    /* 004 */ Gt2Socket **mConnectionSocket;
     // Address of the Gt2ConnectionCallbacks record in WiFiConnection, given to the connect calls.
     /* 008 */ struct Gt2ConnectionCallbacks *mConnectionCallbacks;
     /* 00c */ u8 mConnectRetryCount;
@@ -132,7 +135,7 @@ typedef struct WiFiMatching {
     /* 450 */ u32 mResultCallbackArg;
     /* 454 */ void (*mNewParticipantCallback)(u32 a, u32 b);
     /* 458 */ u32 mNewParticipantCallbackArg;
-    /* 45c */ u32 mEvalCallback;
+    /* 45c */ MatchEvalFunc *mEvalCallback;
     /* 460 */ u32 mEvalCallbackArg;
 } WiFiMatching;
 

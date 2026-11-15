@@ -11,8 +11,8 @@ int gt2GetOutgoingBufferFreeSpace(Gt2Connection *connection) {
     return connection->mSendBuffer.mSize - connection->mSendBuffer.mLength;
 }
 
-u32 GetSocketDescriptor(u32 *socket) {
-    return *socket;
+u32 GetSocketDescriptor(Gt2Socket *socket) {
+    return socket->mDescriptor;
 }
 
 void SetUnmatchedDataCallback(Gt2Socket *socket, UnkWordFunc *callback) {

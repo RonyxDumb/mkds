@@ -303,7 +303,7 @@ BOOL DWC_UpdateServersAsync(const s8 *playerName, void (*updateCallback)(s32, s3
     gWiFiConnection->mBuddySyncCallback = updateCallback;
     gWiFiConnection->mBuddySyncCallbackArg = updateParam;
     DWCi_SetState(WIFI_CONNECTION_BUDDY_SYNC);
-    StartBuddySync((s32) gWiFiConnection->mLogin.mAuthToken, gWiFiConnection->mLogin.mPartnerChallenge,
+    StartBuddySync(gWiFiConnection->mLogin.mAuthToken, gWiFiConnection->mLogin.mPartnerChallenge,
                    (void (*)(s32, u8, void *)) DWCi_UpdateServersCallback, NULL,
                    (void (*)(s32, u8, void *, void *)) statusCallback, statusParam,
                    (void (*)(s32, s32, void *)) deleteCallback, deleteParam);
@@ -313,14 +313,13 @@ BOOL DWC_UpdateServersAsync(const s8 *playerName, void (*updateCallback)(s32, s3
 // Connection-level start: only in LOGGED_IN and with no error pending; clears the peer tables, stores the callback
 // pair, sets PARTNER_SEARCH and calls DWCi_ConnectToAnybodyAsync.
 void DWC_ConnectToAnybodyAsync(u32 numEntry, void *addFilter, void *matchedCallback, void *matchedParam,
-                               void *evalCallback, u32 evalParam) {
+                               MatchEvalFunc *evalCallback, u32 evalParam) {
     if (DWCi_IsError() == 0 && gWiFiConnection->mState == WIFI_CONNECTION_LOGGED_IN) {
         DWCi_ClearGT2ConnectionList();
         gWiFiConnection->mMatchingCallback = (void (*)(u32, u32, void *)) matchedCallback;
         gWiFiConnection->mMatchingCallbackArg = matchedParam;
         DWCi_SetState(WIFI_CONNECTION_PARTNER_SEARCH);
-        DWCi_ConnectToAnybodyAsync((u8) (numEntry - 1), addFilter, (u32) DWCi_MatchedCallback, 0, (u32) evalCallback,
-                                   evalParam);
+        DWCi_ConnectToAnybodyAsync((u8) (numEntry - 1), addFilter, DWCi_MatchedCallback, 0, evalCallback, evalParam);
     }
 }
 
@@ -328,7 +327,7 @@ void DWC_ConnectToAnybodyAsync(u32 numEntry, void *addFilter, void *matchedCallb
 // DWCi_ConnectToFriendsAsync with the given list, or with a list of all buddy entries in random order when it is
 // NULL (the one caller passes NULL).
 void DWC_ConnectToFriendsAsync(void *friendIdxList, u32 friendIdxListLength, u32 numEntry, u32 distantFriend,
-                               void *matchedCallback, void *matchedParam, u32 evalCallback, u32 evalParam) {
+                               void *matchedCallback, void *matchedParam, MatchEvalFunc *evalCallback, u32 evalParam) {
     u8 orderedIdxList[0x40];
     u8 randomKeys[0x40];
     u8 index;
@@ -427,9 +426,9 @@ s32 DWC_GetAIDList(u8 **aidList) {
     *aidList = gWiFiConnection->mMatching.mParticipantIndices;
     if (gWiFiConnection->mMatching.mMode == WIFI_MATCH_MODE_SERVER ||
         gWiFiConnection->mMatching.mMode == WIFI_MATCH_MODE_SERVER_CLIENT) {
-        return DWCi_GetValidAIDList((void **) aidList);
+        return DWCi_GetValidAIDList(aidList);
     }
-    return DWCi_GetAllAIDList((void **) aidList);
+    return DWCi_GetAllAIDList(aidList);
 }
 
 BOOL DWC_IsValidAID(u32 aid) {
@@ -459,9 +458,9 @@ s32 DWCi_GT2Startup(void) {
     }
     randomPort = (u16) (DWCi_GetMathRand32(0x4000) + 0xc000);
     wiFiConnection = gWiFiConnection;
-    result = gt2CreateSocket((Gt2Socket **) gWiFiConnection, gt2AddressToString(0, randomPort, 0),
+    result = gt2CreateSocket(&gWiFiConnection->mSocket, gt2AddressToString(0, randomPort, 0),
                              wiFiConnection->mSendBufferSize, wiFiConnection->mReceiveBufferSize,
-                             (u32) DWCi_GT2SocketErrorCallback);
+                             DWCi_GT2SocketErrorCallback);
     if (ReportWiFiSocketResult(result) != 0) {
         return result;
     }
@@ -551,13 +550,13 @@ void DWCi_SetState(s32 value) {
 }
 
 u32 DWCi_DeleteAID(u32 aid) {
-    void *aidList;
+    u8 *aidList;
     s32 hostTotal;
     s32 index;
 
     hostTotal = DWCi_GetAllAIDList(&aidList);
     for (index = 0; index < hostTotal; index++) {
-        if (aid == ((u8 *) aidList)[index]) {
+        if (aid == aidList[index]) {
             break;
         }
     }
@@ -687,7 +686,7 @@ void DWCi_LoginCallback(int error, u32 profileId) {
 }
 
 void DWCi_UpdateServersCallback(u32 error, u32 isChanged) {
-    DWCi_SetState((u32) (gWiFiConnection->mPrevState));
+    DWCi_SetState(gWiFiConnection->mPrevState);
     gWiFiConnection->mBuddySyncCallback(error, isChanged, gWiFiConnection->mBuddySyncCallbackArg);
 }
 
@@ -880,7 +879,7 @@ void DWCi_GT2PingCallback(Gt2Connection *connection, u32 latency) {
     DWCi_PingCallback(connection, latency);
 }
 
-void DWCi_GT2SocketErrorCallback(u32 *socket) {
+void DWCi_GT2SocketErrorCallback(Gt2Socket *socket) {
     stLastSocketError = GOAGetLastError(GetSocketDescriptor(socket));
     DWCi_SetError(0xb, -0x17aeb);
     gWiFiConnection->mSocket = NULL;

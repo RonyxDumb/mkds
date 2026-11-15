@@ -14,7 +14,7 @@ typedef struct GTI2OutgoingBufferMessage {
 void gt2Think(Gt2Socket *socket);
 void gt2CloseSocket(Gt2Socket *socket);
 u32 gt2CreateSocket(Gt2Socket **socket, const char *localAddress, u32 outgoingBufferSize, u32 incomingBufferSize,
-                    u32 callback);
+                    void (*callback)(Gt2Socket *));
 int gti2Send(Gt2Connection *connection, u8 *message, int len, int reliable);
 BOOL gti2ResendMessage(Gt2Connection *connection, GTI2OutgoingBufferMessage *message);
 BOOL gti2SendClosedOnSocket(Gt2Socket *socket, u32 address, int port);
@@ -36,7 +36,6 @@ u32 gti2EndReliableMessage(Gt2Connection *connection);
 
 typedef struct Gt2Socket Gt2Socket;
 typedef struct Gt2Connection Gt2Connection;
-
 
 BOOL gti2BeginReliableMessage(Gt2Connection *connection, u32 type, int len, int *overflow);
 u32 gti2StoreOutgoingReliableMessageInfo(Gt2Connection *connection, u16 serialNumber, s32 len);

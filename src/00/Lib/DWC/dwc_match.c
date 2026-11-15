@@ -237,7 +237,7 @@ s32 DWC_GetMOMinCompState(u64 *time) {
     return elapsed >= optMinComp->mTimeout;
 }
 
-void DWCi_MatchInit(WiFiMatching *wiFiMatching, GpConnection *gpConnection, void **connectionSocket,
+void DWCi_MatchInit(WiFiMatching *wiFiMatching, GpConnection *gpConnection, Gt2Socket **connectionSocket,
                     void *connectionCallbacks, void *gameName, void *secretKey, void *buddies, u32 buddyEntryCount) {
     gWiFiMatching = wiFiMatching;
     wiFiMatching->mGpConnection = gpConnection;
@@ -260,7 +260,7 @@ void DWCi_MatchInit(WiFiMatching *wiFiMatching, GpConnection *gpConnection, void
     gWiFiMatching->mBuddyEntryIndexCount = 0;
     gWiFiMatching->mResultCallback = NULL;
     gWiFiMatching->mResultCallbackArg = 0;
-    gWiFiMatching->mEvalCallback = 0;
+    gWiFiMatching->mEvalCallback = NULL;
     gWiFiMatching->mEvalCallbackArg = 0;
     DWCi_ClearGameMatchKeys();
     gOptSCBlock.mValid = 0;
@@ -306,8 +306,8 @@ u32 DWCi_QR2Startup(u32 profileId) {
 }
 
 // Starts a filter search (mode 0) and keeps the caller's filter text for the server list filter.
-void DWCi_ConnectToAnybodyAsync(u32 numEntry, const void *addFilter, u32 matchedCallback, u32 matchedParam,
-                                u32 evalCallback, u32 evalParam) {
+void DWCi_ConnectToAnybodyAsync(u32 numEntry, const void *addFilter, UnkFunc *matchedCallback, u32 matchedParam,
+                                MatchEvalFunc *evalCallback, u32 evalParam) {
     char filterText[0x100];
     s32 filterRoom;
     if (gMatchingFilterText != NULL) {
@@ -325,7 +325,7 @@ void DWCi_ConnectToAnybodyAsync(u32 numEntry, const void *addFilter, u32 matched
         MI_CpuCopy8(addFilter, gMatchingFilterText, filterRoom);
         *((u8 *) gMatchingFilterText + filterRoom - 1) = 0;
     }
-    ((void (*)(u32, u32, u32, u32)) DWCi_SetMatchCommonParam)(0, numEntry, matchedCallback, matchedParam);
+    ((void (*)(u32, u32, UnkFunc *, u32)) DWCi_SetMatchCommonParam)(0, numEntry, matchedCallback, matchedParam);
     gWiFiMatching->mEvalCallback = evalCallback;
     gWiFiMatching->mEvalCallbackArg = evalParam;
     gWiFiMatching->mState = WIFI_MATCH_STATE_LIST_FIRST_UPDATE;
@@ -348,10 +348,11 @@ void DWCi_ConnectToAnybodyAsync(u32 numEntry, const void *addFilter, u32 matched
 
 // Starts a buddy search (mode 1) over a list of buddy entry indices.
 void DWCi_ConnectToFriendsAsync(const void *friendIdxList, s32 friendIdxListLen, s32 numEntry, s32 distantFriend,
-                                void *matchedCallback, u32 matchedParam, u32 evalCallback, u32 evalParam) {
+                                UnkFunc *matchedCallback, u32 matchedParam, MatchEvalFunc *evalCallback,
+                                u32 evalParam) {
     char numDigits[12];
     u8 keyValueStr[0x24];
-    ((void (*)(u32, u32, u32, u32)) DWCi_SetMatchCommonParam)(1, numEntry, (u32) matchedCallback, matchedParam);
+    ((void (*)(u32, u32, UnkFunc *, u32)) DWCi_SetMatchCommonParam)(1, numEntry, matchedCallback, matchedParam);
     gWiFiMatching->mDistantFriend = distantFriend != 0 ? 1 : 0;
     gWiFiMatching->mEvalCallback = evalCallback;
     gWiFiMatching->mEvalCallbackArg = evalParam;
@@ -998,7 +999,7 @@ void DWCi_SetNumValidConnection(void) {
     }
 }
 
-u32 DWCi_GetAllAIDList(void **output) {
+u32 DWCi_GetAllAIDList(u8 **output) {
     if (gWiFiMatching == NULL) {
         return 0;
     }
@@ -1006,7 +1007,7 @@ u32 DWCi_GetAllAIDList(void **output) {
     return gWiFiMatching->mLastParticipantPos + 1;
 }
 
-u32 DWCi_GetValidAIDList(void **aidList) {
+u32 DWCi_GetValidAIDList(u8 **aidList) {
     s32 listIndex;
     u8 *participantBytes;
     u8 *outList;
@@ -1268,8 +1269,7 @@ u32 DWCi_NNStartupAsync(s32 isQR2, s32 cookie, SbServer *server) {
     if (isQR2 == 0) {
         cookie = (gWiFiMatching->mOwnProfileId & 0xffff) | (gWiFiMatching->mCookieRandom << 16);
         if (SBServerHasPrivateAddress(server) != 0) {
-            if (SBServerGetPublicInetAddress(server) ==
-                ServerBrowserGetMyPublicIPAddr(gWiFiMatching->mServerList)) {
+            if (SBServerGetPublicInetAddress(server) == ServerBrowserGetMyPublicIPAddr(gWiFiMatching->mServerList)) {
                 gWiFiMatching->mParticipantConnectAddresses[index] = SBServerGetPrivateInetAddress(server);
                 gWiFiMatching->mParticipantConnectPorts[index] = SBServerGetPrivateQueryPort(server);
                 canStart = FALSE;
@@ -1330,8 +1330,8 @@ u32 DWCi_DoNatNegotiationAsync(DWCNNInfo *nnInfo) {
 
     if (nnInfo->mIsQR2 == 0) {
         if (DWCi_HandleSBError(ServerBrowserSendNatNegotiateCookieToServerA(gWiFiMatching->mServerList,
-                                                                   gt2AddressToString(nnInfo->mAddress, 0, 0),
-                                                                   nnInfo->mPort, nnInfo->mCookie)) != 0) {
+                                                                            gt2AddressToString(nnInfo->mAddress, 0, 0),
+                                                                            nnInfo->mPort, nnInfo->mCookie)) != 0) {
             return 2;
         }
     }
@@ -2110,7 +2110,7 @@ u32 DWCi_CancelPreConnectedServerProcess(u32 clientPid) {
         DWCi_CloseCancelHostAsync(clientPid);
         for (participantPos = 1; participantPos <= gWiFiMatching->mLastParticipantPos; participantPos++) {
             if (DWCi_SendCancelMatchSynCommand(gWiFiMatching->mParticipantProfileIds[participantPos],
-                                                  WIFI_MATCH_COMMAND_CANCEL_SYN_FIRST) == 0) {
+                                               WIFI_MATCH_COMMAND_CANCEL_SYN_FIRST) == 0) {
                 return 0;
             }
         }
@@ -2862,8 +2862,7 @@ s32 DWCi_CheckDWCServer(SbServer *server) {
     if (SbServerGetInt(server, "dwc_mtype", -1) == -1) {
         return 0;
     }
-    if (SbServerGetInt(server, "dwc_mresv", -1) == -1 &&
-        SbServerGetInt(server, "dwc_mresv", 0) == 0) {
+    if (SbServerGetInt(server, "dwc_mresv", -1) == -1 && SbServerGetInt(server, "dwc_mresv", 0) == 0) {
         return 0;
     }
     if (SbServerGetInt(server, "dwc_mver", -1) == -1) {
@@ -3353,7 +3352,7 @@ BOOL DWCi_EvaluateServers(s32 sort) {
             }
         }
         if (gWiFiMatching->mEvalCallback != 0) {
-            value = ((s32(*)(s32, u32)) gWiFiMatching->mEvalCallback)(serverIndex, gWiFiMatching->mEvalCallbackArg);
+            value = gWiFiMatching->mEvalCallback(serverIndex, gWiFiMatching->mEvalCallbackArg);
             if ((s32) value > 0) {
                 if ((s32) value > 0x7fffff) {
                     value = 0x7fffff;

@@ -54,7 +54,7 @@ static void *gUnusedOrderPointers9[3][3] = {
 static u8 gEnc3[16] = {'\0', 'r', 'o', 'j', 'e', 'c', 't', 'A', 'p', 'h', 'e', 'x', '\0'};
 static void *gUnusedOrderPointers7[7] = {&gSock, &gSock, &gSock, &gSock, &gSock, &gSock, &gSock};
 
-s8 *GenerateAuthA(const char *challenge, const char *password, s8 *response) {
+char *GenerateAuthA(const char *challenge, const char *password, char *response) {
     u32 passwordLen;
     char hashInput[0x80];
     passwordLen = strlen(password);
@@ -63,7 +63,7 @@ s8 *GenerateAuthA(const char *challenge, const char *password, s8 *response) {
         return response;
     }
     sprintf(hashInput, "%s%s", password, challenge);
-    MD5Digest(hashInput, strlen(hashInput), (char *) response);
+    MD5Digest(hashInput, strlen(hashInput), response);
     return response;
 }
 
@@ -253,7 +253,8 @@ static char gUnusedOrderPad34[34] = {1};
 static char gUnusedOrderPad41[41] = {1};
 static char gUnusedOrderPad56[56] = {1};
 
-void PreAuthenticatePlayerPartner(s32 ownId, s32 tokenText, s32 responseText, UnkFunc *callback, s32 instance) {
+void PreAuthenticatePlayerPartner(s32 ownId, const char *tokenText, const char *responseText, UnkFunc *callback,
+                                  s32 instance) {
     char replyFormat[] = "\xC\x13\x1A\x1E\xD\x13\x28\x1D\x11\x1D\x11\x10\x24\x1D\x04\x0F\x0B\x3F\x51\x32\x2C\x1A\x00"
                          "\x0B\x20\x2E\x4A\x19\x39\x0F\x1D\x25\x2C\x4D\x01";
     s8 data[0x100];

@@ -6,8 +6,8 @@ void DWCi_SetMatchCommonParam(u8 matchType, u8 numEntry, UnkFunc *matchedCallbac
 void DWCi_ResetMatchParam(s32 level);
 u32 DWCi_IsShutdownMatch(void);
 u32 DWCi_GPSetServerStatus(void);
-u32 DWCi_GetValidAIDList(void **aidList);
-u32 DWCi_GetAllAIDList(void **output);
+u32 DWCi_GetValidAIDList(u8 **aidList);
+u32 DWCi_GetAllAIDList(u8 **output);
 void DWCi_SetNumValidConnection(void);
 u8 DWCi_GetNumValidConnection(void);
 u8 DWCi_GetNumAllConnection(void);

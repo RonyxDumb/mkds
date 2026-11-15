@@ -105,13 +105,13 @@ void DWCi_FriendProcess(void) {
     }
 }
 
-void StartBuddySync(s32 authToken, const char *partnerChallenge, void (*updateCallback)(s32, u8, void *),
+void StartBuddySync(const char *authToken, const char *partnerChallenge, void (*updateCallback)(s32, u8, void *),
                     void *updateParam, void (*statusCallback)(s32, u8, void *, void *), void *statusParam,
                     void (*deleteCallback)(s32, s32, void *), void *deleteParam) {
     s32 attemptIndex;
     s32 statsAttempt;
     s32 statsResult;
-    s8 statsRequestText[0x28];
+    char statsRequestText[0x28];
     gWiFiBuddySync->mResultCallback = updateCallback;
     gWiFiBuddySync->mResultCallbackArg = updateParam;
     gWiFiBuddySync->mBuddyStatusCallback = statusCallback;
@@ -136,7 +136,7 @@ void StartBuddySync(s32 authToken, const char *partnerChallenge, void (*updateCa
             }
         }
         GenerateAuthA((const char *) GetChallenge(NULL), partnerChallenge, statsRequestText);
-        PreAuthenticatePlayerPartner(0, authToken, (s32) statsRequestText, BuddySyncStatsAuthCallback, 0);
+        PreAuthenticatePlayerPartner(0, authToken, statsRequestText, BuddySyncStatsAuthCallback, 0);
         DWCi_AddPersCallbackLevel();
     } else {
         gWiFiBuddySync->mCompletedParts++;

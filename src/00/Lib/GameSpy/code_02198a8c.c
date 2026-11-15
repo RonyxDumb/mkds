@@ -1069,7 +1069,7 @@ int gti2Send(Gt2Connection *connection, u8 *message, int len, int reliable) {
 }
 
 u32 gt2CreateSocket(Gt2Socket **socket, const char *localAddress, u32 outgoingBufferSize, u32 incomingBufferSize,
-                    u32 callback) {
+                    void (*callback)(Gt2Socket *)) {
     return gti2CreateSocket(socket, localAddress, outgoingBufferSize, incomingBufferSize, callback);
 }
 

@@ -65,10 +65,11 @@ extern char gStatsServerHostname[];
 void InternalInit(void);
 BOOL PersistThink(void);
 void SetPersistDataValuesA(u32 ownId, u32 profileId, u32 type, u32 index, u32 valueString, u32 callback, u32 instance);
-void PreAuthenticatePlayerPartner(s32 ownId, s32 tokenText, s32 responseText, UnkFunc *callback, s32 instance);
+void PreAuthenticatePlayerPartner(s32 ownId, const char *tokenText, const char *responseText, UnkFunc *callback,
+                                  s32 instance);
 s8 *GetChallenge(s8 *game);
 void GstatsClose(void);
 s32 GstatsConnect(s32 gameport);
 s32 GstatsUpdateConnect(void);
 s32 GstatsStartConnect(s32 theGamePort, s32 theInitTimeout);
-s8 *GenerateAuthA(const char *challenge, const char *password, s8 *response);
+char *GenerateAuthA(const char *challenge, const char *password, char *response);
