@@ -569,8 +569,8 @@ u32 IncrementHitCountAndCheckLimit(MissionRunMapObject *mapObject) {
         AddMissionRunCountForKind7();
     }
     mapObject->mUnk_0ac++;
-    if (mapObject->mUnk_0ac >= mapObject->mPrm->mCounterLimit) {
-        mapObject->mUnk_0ac = mapObject->mPrm->mCounterLimit;
+    if (mapObject->mUnk_0ac >= mapObject->mPrm->mHead.mCounterLimit) {
+        mapObject->mUnk_0ac = mapObject->mPrm->mHead.mCounterLimit;
         if (gRaceSetup->mMode == MODE_MISSION_RUN) {
             EliminateKartsUntilWinnerDecided();
         }
@@ -583,7 +583,7 @@ BOOL DecrementCounterToNegativeLimit(MissionRunMapObject *mapObject) {
     s32 limit;
 
     mapObject->mUnk_0ac--;
-    limit = -mapObject->mPrm->mCounterLimit;
+    limit = -mapObject->mPrm->mHead.mCounterLimit;
     if (mapObject->mUnk_0ac <= limit) {
         mapObject->mUnk_0ac = limit;
         return TRUE;
@@ -1189,10 +1189,10 @@ void InitMissionRunMapObject(void *mapObjectList, MissionRunMapObject *mapObject
     mapObject->mAngle = DEG_TO_ANGLE(mapObject->mUnk_000.mCourseMapRow->mRotationDegrees.y);
     mapObject->mAlphaLimit = 0x1f000;
     if (mapObject->mPrm != NULL) {
-        SetMapObjectExtentX(&mapObject->mUnk_000, mapObject->mPrm->mCollisionExtentXZ << 2);
-        mapObject->mUnk_000.mScale.x = mapObject->mPrm->mScale;
-        mapObject->mUnk_000.mScale.y = mapObject->mPrm->mScale;
-        mapObject->mUnk_000.mScale.z = mapObject->mPrm->mScale;
+        SetMapObjectExtentX(&mapObject->mUnk_000, mapObject->mPrm->mHead.mCollisionExtentXZ << 2);
+        mapObject->mUnk_000.mScale.x = mapObject->mPrm->mHead.mScale;
+        mapObject->mUnk_000.mScale.y = mapObject->mPrm->mHead.mScale;
+        mapObject->mUnk_000.mScale.z = mapObject->mPrm->mHead.mScale;
     }
     mapObject->mPosWithOffset = mapObject->mUnk_000.mPos;
     mapObject->mBounceEnabled = FALSE;
@@ -1460,21 +1460,21 @@ void AdvanceMissionRunMapObject(u32 unused, MissionRunMapObject *mapObject) {
     }
 
     if (mapObject->mGravityEnabled != FALSE) {
-        mapObject->mVelocity.y -= mapObject->mPrm->mGravity;
+        mapObject->mVelocity.y -= mapObject->mPrm->mHead.mGravity;
     }
-    if (-mapObject->mPrm->mStopSpeedLimit < *(s32 *) &mapObject->mVelocity &&
-        *(s32 *) &mapObject->mVelocity < mapObject->mPrm->mStopSpeedLimit &&
-        -mapObject->mPrm->mStopSpeedLimit < mapObject->mVelocity.z &&
-        mapObject->mVelocity.z < mapObject->mPrm->mStopSpeedLimit) {
+    if (-mapObject->mPrm->mHead.mStopSpeedLimit < *(s32 *) &mapObject->mVelocity &&
+        *(s32 *) &mapObject->mVelocity < mapObject->mPrm->mHead.mStopSpeedLimit &&
+        -mapObject->mPrm->mHead.mStopSpeedLimit < mapObject->mVelocity.z &&
+        mapObject->mVelocity.z < mapObject->mPrm->mHead.mStopSpeedLimit) {
         mapObject->mVelocity.x = 0;
         mapObject->mVelocity.z = 0;
     } else if (mapObject->mCollisionBits & 0x1e34ef) {
-        velocityScale = mapObject->mPrm->mCourseHitVelocityScale;
+        velocityScale = mapObject->mPrm->mHead.mCourseHitVelocityScale;
         mapObject->mVelocity.x = MUL_FIXED12_NO_ROUND(mapObject->mVelocity.x, velocityScale);
         mapObject->mVelocity.y = MUL_FIXED12_NO_ROUND(mapObject->mVelocity.y, velocityScale);
         mapObject->mVelocity.z = MUL_FIXED12_NO_ROUND(mapObject->mVelocity.z, velocityScale);
     } else {
-        velocityScale = mapObject->mPrm->mFreeVelocityScale;
+        velocityScale = mapObject->mPrm->mHead.mFreeVelocityScale;
         mapObject->mVelocity.x = MUL_FIXED12_NO_ROUND(mapObject->mVelocity.x, velocityScale);
         mapObject->mVelocity.y = MUL_FIXED12_NO_ROUND(mapObject->mVelocity.y, velocityScale);
         mapObject->mVelocity.z = MUL_FIXED12_NO_ROUND(mapObject->mVelocity.z, velocityScale);
@@ -1512,15 +1512,16 @@ void AdvanceMissionRunMapObject(u32 unused, MissionRunMapObject *mapObject) {
             Vec3NormalizeAndGetLengthUnchecked(&v5c, &pushDirection);
         }
         pushDirection.y = 0;
-        VEC_MultAdd(mapObject->mPrm->mWallPushVelocity, &pushDirection, &mapObject->mVelocity, &mapObject->mVelocity);
+        VEC_MultAdd(mapObject->mPrm->mHead.mWallPushVelocity, &pushDirection, &mapObject->mVelocity,
+                    &mapObject->mVelocity);
     }
 
     if (mapObject->mCollisionBits & 0x1e34ef) {
         if (mapObject->mVelocity.y > 0) {
             mapObject->mCollisionBits &= ~0x1e34ef;
         } else if (mapObject->mBounceEnabled != FALSE) {
-            mapObject->mVelocity.y = MUL_FIXED12_NO_ROUND(mapObject->mVelocity.y, -mapObject->mPrm->mBounceScale);
-            if (mapObject->mVelocity.y < mapObject->mPrm->mStopSpeedLimit) {
+            mapObject->mVelocity.y = MUL_FIXED12_NO_ROUND(mapObject->mVelocity.y, -mapObject->mPrm->mHead.mBounceScale);
+            if (mapObject->mVelocity.y < mapObject->mPrm->mHead.mStopSpeedLimit) {
                 mapObject->mBounceEnabled = FALSE;
                 mapObject->mVelocity.y = 0;
             }
@@ -1605,11 +1606,12 @@ void AdvanceMissionRunMapObject(u32 unused, MissionRunMapObject *mapObject) {
         ClearAndRunCallback(mapObject, &mapObject->mUnk_224);
     }
     if (mapObject->mStoppedCallback != NULL && mapObject->mVelocity.y == 0 &&
-        -mapObject->mPrm->mStopSpeedLimit < mapObject->mSpeed && mapObject->mPrm->mStopSpeedLimit > mapObject->mSpeed &&
-        -mapObject->mPrm->mStopSpeedLimit < mapObject->mVelocity.x &&
-        mapObject->mPrm->mStopSpeedLimit > mapObject->mVelocity.x &&
-        -mapObject->mPrm->mStopSpeedLimit < mapObject->mVelocity.z &&
-        mapObject->mPrm->mStopSpeedLimit > mapObject->mVelocity.z && (mapObject->mCollisionBits & 0x1e34ef)) {
+        -mapObject->mPrm->mHead.mStopSpeedLimit < mapObject->mSpeed &&
+        mapObject->mPrm->mHead.mStopSpeedLimit > mapObject->mSpeed &&
+        -mapObject->mPrm->mHead.mStopSpeedLimit < mapObject->mVelocity.x &&
+        mapObject->mPrm->mHead.mStopSpeedLimit > mapObject->mVelocity.x &&
+        -mapObject->mPrm->mHead.mStopSpeedLimit < mapObject->mVelocity.z &&
+        mapObject->mPrm->mHead.mStopSpeedLimit > mapObject->mVelocity.z && (mapObject->mCollisionBits & 0x1e34ef)) {
         ClearAndRunCallback(mapObject, &mapObject->mStoppedCallback);
     }
     if (mapObject->mCourseCollisionCallback != NULL && mapObject->mVelocity.y <= 0 &&
@@ -1795,15 +1797,13 @@ s32 CollideKartWithMissionRunMapObject(MissionRunMapObject *mapObject, Kart *kar
         awayDirection.x = mapObject->mUnk_000.mPos.x - kart->mPos.x;
         awayDirection.y = 0;
         awayDirection.z = mapObject->mUnk_000.mPos.z - kart->mPos.z;
-        if ((s64) awayDirection.z * awayDirection.z +
-                SQUARE_SUM2(awayDirection.x, awayDirection.y) >=
-            16) {
+        if ((s64) awayDirection.z * awayDirection.z + SQUARE_SUM2(awayDirection.x, awayDirection.y) >= 16) {
             Vec3NormalizeAndGetLengthUnchecked(&awayDirection, &awayDirection);
-            pushStrength = -mapObject->mPrm->mKartPushPosStep;
+            pushStrength = -mapObject->mPrm->mHead.mKartPushPosStep;
             mapObject->mUnk_000.mPosStep.x = MUL_FIXED12_NO_ROUND(awayDirection.x, pushStrength);
             mapObject->mUnk_000.mPosStep.y = MUL_FIXED12_NO_ROUND(awayDirection.y, pushStrength);
             mapObject->mUnk_000.mPosStep.z = MUL_FIXED12_NO_ROUND(awayDirection.z, pushStrength);
-            VEC_MultAdd(mapObject->mPrm->mKartPushVelocity, &awayDirection, &mapObject->mVelocity,
+            VEC_MultAdd(mapObject->mPrm->mHead.mKartPushVelocity, &awayDirection, &mapObject->mVelocity,
                         &mapObject->mVelocity);
         }
         collisionCallback = mapObject->mKartCollisionCallback;
@@ -1827,11 +1827,10 @@ s32 CollideItemWithMissionRunMapObject(MissionRunMapObject *mapObject, ItemObjec
     awayDirection.x = mapObject->mUnk_000.mPos.x - itemObject->mPos.x;
     awayDirection.y = 0;
     awayDirection.z = mapObject->mUnk_000.mPos.z - itemObject->mPos.z;
-    if ((s64) awayDirection.z * awayDirection.z +
-            SQUARE_SUM2(awayDirection.x, awayDirection.y) >=
-        16) {
+    if ((s64) awayDirection.z * awayDirection.z + SQUARE_SUM2(awayDirection.x, awayDirection.y) >= 16) {
         Vec3NormalizeAndGetLengthUnchecked(&awayDirection, &awayDirection);
-        VEC_MultAdd(mapObject->mPrm->mItemPushVelocity, &awayDirection, &mapObject->mVelocity, &mapObject->mVelocity);
+        VEC_MultAdd(mapObject->mPrm->mHead.mItemPushVelocity, &awayDirection, &mapObject->mVelocity,
+                    &mapObject->mVelocity);
     }
     collisionCallback = mapObject->mItemCollisionCallback;
     mapObject->mItemCollisionCallback = NULL;

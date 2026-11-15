@@ -3,7 +3,7 @@
 #include "types.h"
 #include "01/code_02188950.h"
 
-typedef struct MissionRunPrm MissionRunPrm;
+typedef struct Kart Kart;
 typedef struct MissionRunMapObject MissionRunMapObject;
 typedef struct MapObjectList MapObjectList;
 
@@ -19,7 +19,7 @@ MapObjectKindData *CreateHanachanKindData(void);
 void DrawHanachan(void *mapObjectList, MissionRunMapObject *mapObject);
 void InitHanachanFollower(MapObjectList *mapObjectList);
 void InitHanachan(MapObjectList *mapObjectList);
-void HanachanKartHitCallback(MissionRunMapObject *mapObject, MissionRunPrm *kart);
+void HanachanKartHitCallback(MissionRunMapObject *mapObject, Kart *kart);
 void InitHanachanFollowerMapObject(MissionRunMapObject *mapObject);
 void InitHanachanMapObject(MissionRunMapObject *mapObject);
 void UpdateHanachanFollower(u32 unused, MissionRunMapObject *mapObject);

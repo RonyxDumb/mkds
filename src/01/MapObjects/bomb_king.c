@@ -120,10 +120,12 @@ void ThrowStoredItemBomb(MissionRunMapObject *mapObject) {
     Vec3 velocity;
 
     if (IsItemBombStored(mapObject)) {
-        velocity.x = (MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_134, FX_SinIdx((u16) mapObject->mMoveAngle)));
-        velocity.y = mapObject->mPrm->mUnk_138;
-        velocity.z = (MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_134, FX_CosIdx((u16) mapObject->mMoveAngle)));
-        ThrowOrReleaseStoredItemBomb(mapObject, &velocity, mapObject->mPrm->mUnk_13c);
+        velocity.x =
+            (MUL_FIXED12_NO_ROUND(mapObject->mPrm->mBombKing.mUnk_134, FX_SinIdx((u16) mapObject->mMoveAngle)));
+        velocity.y = mapObject->mPrm->mBombKing.mUnk_138;
+        velocity.z =
+            (MUL_FIXED12_NO_ROUND(mapObject->mPrm->mBombKing.mUnk_134, FX_CosIdx((u16) mapObject->mMoveAngle)));
+        ThrowOrReleaseStoredItemBomb(mapObject, &velocity, mapObject->mPrm->mBombKing.mUnk_13c);
     }
 }
 
@@ -140,22 +142,23 @@ void ThrowItemBombsInRing(MissionRunMapObject *mapObject) {
         Vec3 vel = {0, 0, 0};
         angle += 0x5555;
         if (GetAbsoluteCounter(mapObject) == 0) {
-            pos.x =
-                mapObject->mUnk_000.mPos.x + MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_14c, SIN_OF_ANGLE((u16) angle));
-            pos.y = mapObject->mUnk_000.mPos.y + mapObject->mPrm->mUnk_150;
-            pos.z =
-                mapObject->mUnk_000.mPos.z + MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_14c, COS_OF_ANGLE((u16) angle));
+            pos.x = mapObject->mUnk_000.mPos.x +
+                    MUL_FIXED12_NO_ROUND(mapObject->mPrm->mBombKing.mUnk_14c, SIN_OF_ANGLE((u16) angle));
+            pos.y = mapObject->mUnk_000.mPos.y + mapObject->mPrm->mBombKing.mUnk_150;
+            pos.z = mapObject->mUnk_000.mPos.z +
+                    MUL_FIXED12_NO_ROUND(mapObject->mPrm->mBombKing.mUnk_14c, COS_OF_ANGLE((u16) angle));
         } else {
-            pos.x =
-                mapObject->mUnk_000.mPos.x + MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_154, SIN_OF_ANGLE((u16) angle));
-            pos.y = mapObject->mUnk_000.mPos.y + mapObject->mPrm->mUnk_158;
-            pos.z =
-                mapObject->mUnk_000.mPos.z + MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_154, COS_OF_ANGLE((u16) angle));
+            pos.x = mapObject->mUnk_000.mPos.x +
+                    MUL_FIXED12_NO_ROUND(mapObject->mPrm->mBombKing.mUnk_154, SIN_OF_ANGLE((u16) angle));
+            pos.y = mapObject->mUnk_000.mPos.y + mapObject->mPrm->mBombKing.mUnk_158;
+            pos.z = mapObject->mUnk_000.mPos.z +
+                    MUL_FIXED12_NO_ROUND(mapObject->mPrm->mBombKing.mUnk_154, COS_OF_ANGLE((u16) angle));
         }
         if (bombIndex == 0) {
-            ThrowItemBombFromPosition(StartItemBomb(), &pos, &vel, mapObject->mPrm->mUnk_15c);
+            ThrowItemBombFromPosition(StartItemBomb(), &pos, &vel, mapObject->mPrm->mBombKing.mUnk_15c);
         } else {
-            ThrowItemBombFromPosition(StartItemBombWithParkedItemBox(9), &pos, &vel, mapObject->mPrm->mUnk_160);
+            ThrowItemBombFromPosition(StartItemBombWithParkedItemBox(9), &pos, &vel,
+                                      mapObject->mPrm->mBombKing.mUnk_160);
         }
     }
     StartEffectAtRowHeight(mapObject, 0x2000, 0, 0x3ae, 0x410, 0);
@@ -179,10 +182,12 @@ void ThrowItemBombsInRingAndCenter(MissionRunMapObject *mapObject) {
     for (bombIndex = 0; bombIndex < 3; bombIndex++) {
         Vec3 vel = {0, 0, 0};
         angle += 0x5555;
-        pos.x = mapObject->mUnk_000.mPos.x + MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_1e4, SIN_OF_ANGLE((u16) angle));
+        pos.x = mapObject->mUnk_000.mPos.x +
+                MUL_FIXED12_NO_ROUND(mapObject->mPrm->mBombKing.mUnk_1e4, SIN_OF_ANGLE((u16) angle));
         pos.y = mapObject->mUnk_000.mPos.y;
-        pos.z = mapObject->mUnk_000.mPos.z + MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_1e4, COS_OF_ANGLE((u16) angle));
-        ThrowItemBombFromPosition(StartItemBomb(), &pos, &vel, mapObject->mPrm->mUnk_1e8);
+        pos.z = mapObject->mUnk_000.mPos.z +
+                MUL_FIXED12_NO_ROUND(mapObject->mPrm->mBombKing.mUnk_1e4, COS_OF_ANGLE((u16) angle));
+        ThrowItemBombFromPosition(StartItemBomb(), &pos, &vel, mapObject->mPrm->mBombKing.mUnk_1e8);
     }
     {
         Vec3 pos2;
@@ -190,14 +195,15 @@ void ThrowItemBombsInRingAndCenter(MissionRunMapObject *mapObject) {
         pos2.x = mapObject->mUnk_000.mPos.x;
         pos2.y = mapObject->mUnk_000.mPos.y;
         pos2.z = mapObject->mUnk_000.mPos.z;
-        ThrowItemBombFromPosition(StartItemBombWithParkedItemBox(9), &pos2, &vel2, mapObject->mPrm->mUnk_1ec);
+        ThrowItemBombFromPosition(StartItemBombWithParkedItemBox(9), &pos2, &vel2, mapObject->mPrm->mBombKing.mUnk_1ec);
     }
     SetSpeedAndClearTarget(mapObject, 0);
 }
 
 void StartBombKingJumpLandState(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 3, NULL);
-    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_200, mapObject->mPrm->mUnk_204, NULL);
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mBombKing.mUnk_200, mapObject->mPrm->mBombKing.mUnk_204,
+                                  NULL);
     StopTurningMoveFollowsAngle(mapObject);
     SetSpeedAndClearTarget(mapObject, 0);
     StartEffectAtRowHeight(mapObject, 0, 0, 0, 0x411, 0);
@@ -210,9 +216,9 @@ void StartBombKingJumpLandState(MissionRunMapObject *mapObject) {
 void StartBombKingJumpFallState(MissionRunMapObject *mapObject) {
     Vec3 velocity = {0, 0, 0};
 
-    velocity.y = mapObject->mPrm->mUnk_1fc;
+    velocity.y = mapObject->mPrm->mBombKing.mUnk_1fc;
     StartMapObjectState(mapObject, 3, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_1f4, mapObject->mPrm->mUnk_1f8);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mBombKing.mUnk_1f4, mapObject->mPrm->mBombKing.mUnk_1f8);
     SetVelocity(mapObject, &velocity);
     StopTurningMoveFollowsAngle(mapObject);
     SetSpeedAndClearTarget(mapObject, 0);
@@ -225,10 +231,10 @@ void StartBombKingJumpFallState(MissionRunMapObject *mapObject) {
 void StartBombKingJumpThrowBombsState(MissionRunMapObject *mapObject) {
     ThrowItemBombsInRingAndCenter(mapObject);
     StartMapObjectState(mapObject, 3, (s32(*)(MissionRunMapObject *))(0));
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_1dc, mapObject->mPrm->mUnk_1e0);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mBombKing.mUnk_1dc, mapObject->mPrm->mBombKing.mUnk_1e0);
     StopTurningMoveFollowsAngle(mapObject);
     SetSpeedAndClearTarget(mapObject, 0);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_1f0, &StartBombKingJumpFallState);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mBombKing.mUnk_1f0, &StartBombKingJumpFallState);
     mapObject->mGravityEnabled = FALSE;
 }
 
@@ -237,55 +243,56 @@ void StartBombKingJumpToEntryState(MissionRunMapObject *mapObject) {
 
     IncrementEntryIndex(mapObject);
     StartMapObjectState(mapObject, 3, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_1c0, mapObject->mPrm->mUnk_1c4);
-    TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mUnk_1d0, mapObject->mPrm->mUnk_1d4);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mBombKing.mUnk_1c0, mapObject->mPrm->mBombKing.mUnk_1c4);
+    TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mBombKing.mUnk_1d0, mapObject->mPrm->mBombKing.mUnk_1d4);
     SetAnglePointAndMoveAnglePoint(mapObject, &GetCurrentGroupEntry(mapObject)->mPos);
-    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_1c8, mapObject->mPrm->mUnk_1cc);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mBombKing.mUnk_1c8, mapObject->mPrm->mBombKing.mUnk_1cc);
     SetVelocity(mapObject, &velocity);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_1d8, StartBombKingJumpThrowBombsState);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mBombKing.mUnk_1d8, StartBombKingJumpThrowBombsState);
     mapObject->mGravityEnabled = FALSE;
 }
 
 void StartBombKingJumpState(MissionRunMapObject *mapObject) {
     Vec3 velocity = {0, 0, 0};
 
-    velocity.y = mapObject->mPrm->mUnk_1b8;
+    velocity.y = mapObject->mPrm->mBombKing.mUnk_1b8;
     StartMapObjectState(mapObject, 3, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_1a8, mapObject->mPrm->mUnk_1ac);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mBombKing.mUnk_1a8, mapObject->mPrm->mBombKing.mUnk_1ac);
     SetVelocity(mapObject, &velocity);
-    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_1b0, mapObject->mPrm->mUnk_1b4);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mBombKing.mUnk_1b0, mapObject->mPrm->mBombKing.mUnk_1b4);
     SetCourseCollisionCallback(mapObject, StartBombKingJumpLandState);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_1bc, StartBombKingJumpToEntryState);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mBombKing.mUnk_1bc, StartBombKingJumpToEntryState);
     StartMapObjectSound(&mapObject->mUnk_000, 0x239);
     mapObject->mUnk_000.mFlags |= gBombKingJumpFlag;
 }
 
 void StartBombKingJumpWaitState(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 3, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_198, mapObject->mPrm->mUnk_19c);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mBombKing.mUnk_198, mapObject->mPrm->mBombKing.mUnk_19c);
     StopTurningMoveFollowsAngle(mapObject);
     SetSpeedAndClearTarget(mapObject, 0);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_1a0, &StartBombKingJumpState);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mBombKing.mUnk_1a0, &StartBombKingJumpState);
     StartMapObjectSound(&mapObject->mUnk_000, 0x238);
 }
 
 void StartBombKingJumpCycle(MissionRunMapObject *mapObject) {
     IncrementEntryIndex(mapObject);
     StartMapObjectState(mapObject, 3, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_17c, mapObject->mPrm->mUnk_180);
-    TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mUnk_18c, mapObject->mPrm->mUnk_190);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mBombKing.mUnk_17c, mapObject->mPrm->mBombKing.mUnk_180);
+    TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mBombKing.mUnk_18c, mapObject->mPrm->mBombKing.mUnk_190);
     SetAnglePointAndMoveAnglePoint(mapObject, &GetCurrentGroupEntry(mapObject)->mPos);
-    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_184, mapObject->mPrm->mUnk_188);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_194, &StartBombKingJumpWaitState);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mBombKing.mUnk_184, mapObject->mPrm->mBombKing.mUnk_188);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mBombKing.mUnk_194, &StartBombKingJumpWaitState);
     SetBombKingSoundCallbacks(mapObject);
 }
 
 void StartBombKingThrowBombsState(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 3, NULL);
-    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_140, mapObject->mPrm->mUnk_144, NULL);
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mBombKing.mUnk_140, mapObject->mPrm->mBombKing.mUnk_144,
+                                  NULL);
     StopTurningMoveFollowsAngle(mapObject);
     SetSpeedAndClearTarget(mapObject, 0);
-    SetAnimationFrameCallback(mapObject, mapObject->mPrm->mUnk_148, ThrowItemBombsInRing);
+    SetAnimationFrameCallback(mapObject, mapObject->mPrm->mBombKing.mUnk_148, ThrowItemBombsInRing);
 }
 
 void StoreNewItemBombAndStartThrow(MissionRunMapObject *mapObject) {
@@ -299,9 +306,10 @@ void StoreNewItemBombAndStartThrow(MissionRunMapObject *mapObject) {
     }
     if (IsItemBombStored(mapObject) != 0) {
         StartMapObjectState(mapObject, 3, NULL);
-        StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_0d4, mapObject->mPrm->mUnk_0d8, 0);
+        StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mBombKing.mUnk_0d4,
+                                      mapObject->mPrm->mBombKing.mUnk_0d8, 0);
         SetSpeedAndClearTarget(mapObject, 0);
-        SetAnimationFrameCallback(mapObject, mapObject->mPrm->mUnk_0dc, ThrowStoredItemBomb);
+        SetAnimationFrameCallback(mapObject, mapObject->mPrm->mBombKing.mUnk_0dc, ThrowStoredItemBomb);
     }
     StartMapObjectSound(&mapObject->mUnk_000, 0x23c);
 }
@@ -309,16 +317,18 @@ void StoreNewItemBombAndStartThrow(MissionRunMapObject *mapObject) {
 void StartBombKingChaseState(MissionRunMapObject *mapObject) {
     Kart *kart;
 
-    kart = GetEntryKartInRange(mapObject, mapObject->mPrm->mUnk_0c0, mapObject->mPrm->mUnk_0c4);
+    kart = GetEntryKartInRange(mapObject, mapObject->mPrm->mBombKing.mUnk_0c0, mapObject->mPrm->mBombKing.mUnk_0c4);
     if (kart != NULL) {
         StartMapObjectState(mapObject, 3, NULL);
-        StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_104, mapObject->mPrm->mUnk_108);
-        TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mUnk_0bc, mapObject->mPrm->mUnk_0bc);
+        StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mBombKing.mUnk_104,
+                                    mapObject->mPrm->mBombKing.mUnk_108);
+        TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mBombKing.mUnk_0bc,
+                                    mapObject->mPrm->mBombKing.mUnk_0bc);
         SetAnglePointAndMoveAnglePoint(mapObject, &kart->mPos);
-        SetSpeedAndClearTarget(mapObject, mapObject->mPrm->mUnk_0b8);
-        SetPointInRangeCallback(mapObject, mapObject->mPrm->mUnk_0cc, mapObject->mPrm->mUnk_0d0, &kart->mPos,
-                                &StoreNewItemBombAndStartThrow);
-        StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_0c8, 0);
+        SetSpeedAndClearTarget(mapObject, mapObject->mPrm->mBombKing.mUnk_0b8);
+        SetPointInRangeCallback(mapObject, mapObject->mPrm->mBombKing.mUnk_0cc, mapObject->mPrm->mBombKing.mUnk_0d0,
+                                &kart->mPos, &StoreNewItemBombAndStartThrow);
+        StartStateFrameCountCallback(mapObject, mapObject->mPrm->mBombKing.mUnk_0c8, 0);
         SetBombKingSoundCallbacks(mapObject);
     } else {
         StopMapObjectState(mapObject);
@@ -328,9 +338,10 @@ void StartBombKingChaseState(MissionRunMapObject *mapObject) {
 void StartItemBombThrow(MissionRunMapObject *mapObject) {
     if (IsItemBombStored(mapObject) != 0) {
         StartMapObjectState(mapObject, 3, NULL);
-        StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_0d4, mapObject->mPrm->mUnk_0d8, 0);
+        StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mBombKing.mUnk_0d4,
+                                      mapObject->mPrm->mBombKing.mUnk_0d8, 0);
         SetSpeedAndClearTarget(mapObject, 0);
-        SetAnimationFrameCallback(mapObject, mapObject->mPrm->mUnk_0dc, ThrowStoredItemBomb);
+        SetAnimationFrameCallback(mapObject, mapObject->mPrm->mBombKing.mUnk_0dc, ThrowStoredItemBomb);
         StartMapObjectSound(&mapObject->mUnk_000, 0x23c);
     }
 }
@@ -339,19 +350,21 @@ void StartBombKingStoreFoundItemBombState(MissionRunMapObject *mapObject) {
     ItemBomb *bomb;
     Kart *kart;
 
-    bomb = FindItemBombInRange(mapObject, mapObject->mPrm->mUnk_11c, mapObject->mPrm->mUnk_120);
+    bomb = FindItemBombInRange(mapObject, mapObject->mPrm->mBombKing.mUnk_11c, mapObject->mPrm->mBombKing.mUnk_120);
     if (bomb != NULL) {
-        kart = GetEntryKartInRange(mapObject, mapObject->mPrm->mUnk_0c0, mapObject->mPrm->mUnk_0c4);
+        kart = GetEntryKartInRange(mapObject, mapObject->mPrm->mBombKing.mUnk_0c0, mapObject->mPrm->mBombKing.mUnk_0c4);
         if (kart != NULL) {
             ParkItemBomb(bomb);
             ReleaseAndSetItemBomb(mapObject, bomb);
             StartMapObjectState(mapObject, 3, NULL);
-            StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_0ec, mapObject->mPrm->mUnk_0f0);
-            TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mUnk_0f8, mapObject->mPrm->mUnk_0f8);
+            StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mBombKing.mUnk_0ec,
+                                        mapObject->mPrm->mBombKing.mUnk_0f0);
+            TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mBombKing.mUnk_0f8,
+                                        mapObject->mPrm->mBombKing.mUnk_0f8);
             SetAnglePointAndMoveAnglePoint(mapObject, &kart->mPos);
-            SetSpeedAndClearTarget(mapObject, mapObject->mPrm->mUnk_0f4);
-            SetPointInRangeCallback(mapObject, mapObject->mPrm->mUnk_0cc, mapObject->mPrm->mUnk_0d0, &kart->mPos,
-                                    &StartItemBombThrow);
+            SetSpeedAndClearTarget(mapObject, mapObject->mPrm->mBombKing.mUnk_0f4);
+            SetPointInRangeCallback(mapObject, mapObject->mPrm->mBombKing.mUnk_0cc, mapObject->mPrm->mBombKing.mUnk_0d0,
+                                    &kart->mPos, &StartItemBombThrow);
             SetBombKingSoundCallbacks(mapObject);
         } else {
             ParkItemBomb(bomb);
@@ -364,16 +377,18 @@ void StartBombKingStoreFoundItemBombState(MissionRunMapObject *mapObject) {
 void StartBombKingWalkToBombState(MissionRunMapObject *mapObject) {
     ItemBomb *bomb;
 
-    bomb = FindItemBombInRange(mapObject, mapObject->mPrm->mUnk_114, mapObject->mPrm->mUnk_118);
+    bomb = FindItemBombInRange(mapObject, mapObject->mPrm->mBombKing.mUnk_114, mapObject->mPrm->mBombKing.mUnk_118);
     if (bomb != NULL) {
         StartMapObjectState(mapObject, 3, NULL);
-        StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_104, mapObject->mPrm->mUnk_108);
-        TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mUnk_110, mapObject->mPrm->mUnk_110);
+        StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mBombKing.mUnk_104,
+                                    mapObject->mPrm->mBombKing.mUnk_108);
+        TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mBombKing.mUnk_110,
+                                    mapObject->mPrm->mBombKing.mUnk_110);
         SetAnglePointAndMoveAnglePoint(mapObject, &bomb->mBouncingItemObject.mItemObject.mPos);
-        SetSpeedAndClearTarget(mapObject, mapObject->mPrm->mUnk_10c);
-        SetPointInRangeCallback(mapObject, mapObject->mPrm->mUnk_11c, mapObject->mPrm->mUnk_120,
+        SetSpeedAndClearTarget(mapObject, mapObject->mPrm->mBombKing.mUnk_10c);
+        SetPointInRangeCallback(mapObject, mapObject->mPrm->mBombKing.mUnk_11c, mapObject->mPrm->mBombKing.mUnk_120,
                                 &bomb->mBouncingItemObject.mItemObject.mPos, &StartBombKingStoreFoundItemBombState);
-        StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_124, 0);
+        StartStateFrameCountCallback(mapObject, mapObject->mPrm->mBombKing.mUnk_124, 0);
         SetBombKingSoundCallbacks(mapObject);
     }
 }
@@ -383,7 +398,7 @@ void StartBombKingRandomState(MissionRunMapObject *mapObject) {
     RandomState64 *rng;
     u32 randomValue;
 
-    randomLimit = (u16) mapObject->mPrm->mUnk_208;
+    randomLimit = (u16) mapObject->mPrm->mBombKing.mUnk_208;
     if (randomLimit == 0x10000) {
         rng = GetMapObjectRandom();
         rng->mValue = rng->mMultiplier * rng->mValue + rng->mIncrement;
@@ -410,16 +425,16 @@ void StartBombKingRandomState(MissionRunMapObject *mapObject) {
 }
 
 void StartBombKingWalkState(MissionRunMapObject *mapObject) {
-    MissionRunPrm *prm;
+    BombKingPrm *prm;
 
     IncrementEntryIndex(mapObject);
     StartMapObjectState(mapObject, 2, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_084, mapObject->mPrm->mUnk_088);
-    TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mUnk_090, mapObject->mPrm->mUnk_090);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mBombKing.mUnk_084, mapObject->mPrm->mBombKing.mUnk_088);
+    TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mBombKing.mUnk_090, mapObject->mPrm->mBombKing.mUnk_090);
     SetAnglePointAndMoveAnglePoint(mapObject, &GetCurrentGroupEntry(mapObject)->mPos);
-    SetSpeedAndClearTarget(mapObject, mapObject->mPrm->mUnk_08c);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_09c, &StartBombKingRandomState);
-    prm = mapObject->mPrm;
+    SetSpeedAndClearTarget(mapObject, mapObject->mPrm->mBombKing.mUnk_08c);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mBombKing.mUnk_09c, &StartBombKingRandomState);
+    prm = &mapObject->mPrm->mBombKing;
     SetPointInRangeCallback(mapObject, prm->mUnk_094, prm->mUnk_098, &GetCurrentGroupEntry(mapObject)->mPos,
                             &StartBombKingThrowBombsState);
     SetBombKingSoundCallbacks(mapObject);
@@ -448,13 +463,14 @@ int SwitchToBounceEffectsOnCollision(MissionRunMapObject *mapObject) {
 
 void StartBombKingStoppedState(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 7, NULL);
-    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_174, mapObject->mPrm->mUnk_178, NULL);
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mBombKing.mUnk_174, mapObject->mPrm->mBombKing.mUnk_178,
+                                  NULL);
     SetItemCollisionCallback(mapObject, (UnkFunc *) &BombKingItemHitCallback);
 }
 
 void StartBombKingBounceState(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 7, &SwitchToBounceEffectsOnCollision);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_164, mapObject->mPrm->mUnk_168);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mBombKing.mUnk_164, mapObject->mPrm->mBombKing.mUnk_168);
     SetStoppedCallback(mapObject, &StartBombKingStoppedState);
     SetSpeedAndClearTarget(mapObject, 0);
     mapObject->mBounceEnabled = TRUE;
@@ -463,13 +479,14 @@ void StartBombKingBounceState(MissionRunMapObject *mapObject) {
 
 void StartBombKingStoppedStateAfterHits(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 7, NULL);
-    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_070, mapObject->mPrm->mUnk_074, NULL);
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mBombKing.mUnk_070, mapObject->mPrm->mBombKing.mUnk_074,
+                                  NULL);
     SetItemCollisionCallback(mapObject, (UnkFunc *) &BombKingItemHitCallback);
 }
 
 void StartBombKingBounceStateAfterHits(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 7, &SwitchToBounceEffectsOnCollision);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_164, mapObject->mPrm->mUnk_168);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mBombKing.mUnk_164, mapObject->mPrm->mBombKing.mUnk_168);
     SetStoppedCallback(mapObject, &StartBombKingStoppedStateAfterHits);
     SetSpeedAndClearTarget(mapObject, 0);
     mapObject->mBounceEnabled = TRUE;
@@ -487,7 +504,7 @@ void StartBombKingItemHitState(MissionRunMapObject *mapObject) {
 
 void StartBombKingKartEliminatedState(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, (s32(*)(MissionRunMapObject *))(0));
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_078, mapObject->mPrm->mUnk_07c);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mBombKing.mUnk_078, mapObject->mPrm->mBombKing.mUnk_07c);
     StopTurningMoveFollowsAngle(mapObject);
     SetSpeedAndClearTarget(mapObject, 0);
 }
@@ -513,7 +530,7 @@ void StartBombKingNotEliminatedEffects(MissionRunMapObject *mapObject) {
 
 void StartBombKingKartNotEliminatedState(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_070, mapObject->mPrm->mUnk_074);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mBombKing.mUnk_070, mapObject->mPrm->mBombKing.mUnk_074);
     StartStateFrameCountCallback(mapObject, 0x3c, &StartBombKingNotEliminatedEffects);
 }
 
@@ -532,37 +549,39 @@ s32 StopStateWhenRaceStarted(MissionRunMapObject *mapObject) {
 
 void StartBombKingWaitForRaceStart(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, StopStateWhenRaceStarted);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mWaitForRaceStartAnimationEntry,
-                                mapObject->mPrm->mWaitForRaceStartFrameStep);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mHead.mWaitForRaceStartAnimationEntry,
+                                mapObject->mPrm->mHead.mWaitForRaceStartFrameStep);
 }
 
 void StartBombKingStartupSecond(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, NULL);
-    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mStartupSecondAnimationEntry,
-                                  mapObject->mPrm->mStartupSecondFrameStep, (UnkFunc *) &StartBombKingWaitForRaceStart);
-    SetAnimationFrameCallback(mapObject, ((u32) mapObject->mPrm->mUnk_148), ThrowItemBombsInRing);
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mHead.mStartupSecondAnimationEntry,
+                                  mapObject->mPrm->mHead.mStartupSecondFrameStep,
+                                  (UnkFunc *) &StartBombKingWaitForRaceStart);
+    SetAnimationFrameCallback(mapObject, ((u32) mapObject->mPrm->mBombKing.mUnk_148), ThrowItemBombsInRing);
 }
 
 void StartBombKingStartupFirst(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mStartupFirstAnimationEntry,
-                                mapObject->mPrm->mStartupFirstFrameStep);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mStartupFirstFrameCount, &StartBombKingStartupSecond);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mHead.mStartupFirstAnimationEntry,
+                                mapObject->mPrm->mHead.mStartupFirstFrameStep);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mHead.mStartupFirstFrameCount,
+                                 &StartBombKingStartupSecond);
     StartMapObjectSound(&mapObject->mUnk_000, 0x00000235u);
 }
 
 void StartBombKingChainStartupSecond(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mChainStartupSecondAnimationEntry,
-                                mapObject->mPrm->mChainStartupSecondFrameStep);
-    SetAnimationFrameCallback(mapObject, mapObject->mPrm->mUnk_148, StartBombKingEffectAndSound);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mHead.mChainStartupSecondAnimationEntry,
+                                mapObject->mPrm->mHead.mChainStartupSecondFrameStep);
+    SetAnimationFrameCallback(mapObject, mapObject->mPrm->mBombKing.mUnk_148, StartBombKingEffectAndSound);
 }
 
 void StartBombKingChainStartupFirst(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mChainStartupFirstAnimationEntry,
-                                mapObject->mPrm->mChainStartupFirstFrameStep);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mChainStartupFirstFrameCount,
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mHead.mChainStartupFirstAnimationEntry,
+                                mapObject->mPrm->mHead.mChainStartupFirstFrameStep);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mHead.mChainStartupFirstFrameCount,
                                  &StartBombKingChainStartupSecond);
 }
 
@@ -575,8 +594,8 @@ void InitBombKingObjects(MapObjectList *list) {
              objectIndex < list->mMapObjectCount && (mapObject = list->mMapObjects[objectIndex]) != NULL;
              objectIndex++) {
             Vec3 offset = {0, 0, 0};
-            offset.x = mapObject->mPrm->mUnk_0fc;
-            offset.y = mapObject->mPrm->mUnk_100;
+            offset.x = mapObject->mPrm->mBombKing.mUnk_0fc;
+            offset.y = mapObject->mPrm->mBombKing.mUnk_100;
             SetNodePositionSourceAndBombOffset(mapObject, 5, (&offset));
             if (GetRaceUseChainCameras() != 0) {
                 StartBombKingChainStartupFirst(mapObject);
@@ -662,18 +681,18 @@ void BombKingItemHitCallback(MissionRunMapObject *mapObject, ItemObject *itemObj
         if (LENGTH_SQUARED(velocity) >= 0x10) {
             Vec3NormalizeAndGetLengthUnchecked(&velocity, &velocity);
         }
-        scale = mapObject->mPrm->mUnk_16c;
+        scale = mapObject->mPrm->mBombKing.mUnk_16c;
         velocity.x = MUL_FIXED12_NO_ROUND(velocity.x, scale);
         velocity.y = MUL_FIXED12_NO_ROUND(velocity.y, scale);
         velocity.z = MUL_FIXED12_NO_ROUND(velocity.z, scale);
-        velocity.y = mapObject->mPrm->mUnk_170;
+        velocity.y = mapObject->mPrm->mBombKing.mUnk_170;
         SetVelocity(mapObject, &velocity);
         StartBombKingItemHitState(mapObject);
     }
 }
 void InitBombKing(MapObjectList *list) {
     MissionRunMapObject *mapObject;
-    MissionRunPrm *prm;
+    BombKingPrm *prm;
     int objectIndex;
 
     if (list != NULL) {
@@ -685,8 +704,9 @@ void InitBombKing(MapObjectList *list) {
             }
             InitMissionRunMapObject(list, mapObject, "bomb_king.nsbmd", "bomb_king.nsbca", "bomb_king.prm");
             LoadMissionRunMapObjectShadow(list, mapObject, "sh_circle.nsbmd");
-            prm = mapObject->mPrm;
-            SetCollisionOffsetAndExtent(mapObject, prm->mCollisionOffsetY, prm->mCollisionExtentXZ, prm->mUnk_20c);
+            prm = &mapObject->mPrm->mBombKing;
+            SetCollisionOffsetAndExtent(mapObject, prm->mHead.mCollisionOffsetY, prm->mHead.mCollisionExtentXZ,
+                                        prm->mUnk_20c);
             SetShadowOffsetYAndScale(mapObject, 0, 0x23000);
             SetItemCollisionCallback(mapObject, (UnkFunc *) BombKingItemHitCallback);
         }

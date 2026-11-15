@@ -97,10 +97,10 @@ MapObjectKindDescriptor gKurikingKindDescriptor = {
 
 void SetKurikingCollisionAndShadow(MissionRunMapObject *mapObject) {
     s32 *shadowScaleTarget;
-    MissionRunPrm *prm;
-    prm = mapObject->mPrm;
-    SetCollisionOffsetAndExtent(mapObject, prm->mCollisionOffsetY, prm->mCollisionExtentXZ, prm->mUnk_214);
-    SetShadowOffsetYAndScale(mapObject, 0, mapObject->mPrm->mCollisionExtentXZ);
+    KurikingPrm *prm;
+    prm = &mapObject->mPrm->mKuriking;
+    SetCollisionOffsetAndExtent(mapObject, prm->mHead.mCollisionOffsetY, prm->mHead.mCollisionExtentXZ, prm->mUnk_214);
+    SetShadowOffsetYAndScale(mapObject, 0, mapObject->mPrm->mHead.mCollisionExtentXZ);
     shadowScaleTarget = &mapObject->mShadowScaleTargetX;
     *shadowScaleTarget = 0x00011800u;
     mapObject->mShadowScaleX = *shadowScaleTarget;
@@ -113,11 +113,11 @@ void SetDoubledCollisionAndShadowTargets(MissionRunMapObject *mapObject) {
     u32 offsetPerCall;
     u32 extentPerCall;
     int extentXZ;
-    MissionRunPrm *prm;
+    KurikingPrm *prm;
     int offsetY;
-    prm = mapObject->mPrm;
-    extentXZ = prm->mCollisionExtentXZ;
-    offsetY = prm->mCollisionOffsetY;
+    prm = &mapObject->mPrm->mKuriking;
+    extentXZ = prm->mHead.mCollisionExtentXZ;
+    offsetY = prm->mHead.mCollisionOffsetY;
     offsetPerCall = _s32_div_f(offsetY, 0x14);
     extentPerCall = _s32_div_f(extentXZ, 0x14);
     SetCollisionOffsetAndExtentTarget(mapObject, offsetY << 1, offsetPerCall, extentXZ << 1, prm->mUnk_214 << 1,
@@ -131,11 +131,11 @@ void SetTripledCollisionAndShadowTargets(MissionRunMapObject *mapObject) {
     u32 offsetPerCall;
     u32 extentPerCall;
     int extentXZ;
-    MissionRunPrm *prm;
+    KurikingPrm *prm;
     int offsetY;
-    prm = mapObject->mPrm;
-    extentXZ = prm->mCollisionExtentXZ;
-    offsetY = prm->mCollisionOffsetY;
+    prm = &mapObject->mPrm->mKuriking;
+    extentXZ = prm->mHead.mCollisionExtentXZ;
+    offsetY = prm->mHead.mCollisionOffsetY;
     offsetPerCall = _s32_div_f(offsetY, 0x14);
     extentPerCall = _s32_div_f(extentXZ, 0x14);
     SetCollisionOffsetAndExtentTarget(mapObject, offsetY * 3, offsetPerCall, extentXZ * 3, prm->mUnk_214 * 3,
@@ -188,41 +188,47 @@ void StartKurikingKartInRangeState(MissionRunMapObject *mapObject) {
     Kart *kart = GetKart((u16) gRaceSetup->mEntryIndex);
 
     StartMapObjectState(mapObject, 2, UpdateKurikingKartInRangeState);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_104, mapObject->mPrm->mUnk_108);
-    StartMapObjectModelNsbtaAnimation(mapObject->mNsbmd, mapObject->mPrm->mUnk_10c, mapObject->mPrm->mUnk_108, 0);
-    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_110, mapObject->mPrm->mUnk_114);
-    TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mUnk_118, mapObject->mPrm->mUnk_11c);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mKuriking.mUnk_104, mapObject->mPrm->mKuriking.mUnk_108);
+    StartMapObjectModelNsbtaAnimation(mapObject->mNsbmd, mapObject->mPrm->mKuriking.mUnk_10c,
+                                      mapObject->mPrm->mKuriking.mUnk_108, 0);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mKuriking.mUnk_110, mapObject->mPrm->mKuriking.mUnk_114);
+    TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mKuriking.mUnk_118, mapObject->mPrm->mKuriking.mUnk_11c);
     SetAnglePointAndMoveAnglePoint(mapObject, &kart->mPos);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_12c, NULL);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mKuriking.mUnk_12c, NULL);
     SetKurikingSoundCallbacks(mapObject);
 }
 
 void SetKurikingWalkByCounter(MissionRunMapObject *mapObject) {
     if (GetAbsoluteCounter(mapObject) == 0) {
-        SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_0a4, mapObject->mPrm->mUnk_0a8);
-        TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mUnk_0ac, mapObject->mPrm->mUnk_0b0);
+        SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mKuriking.mUnk_0a4, mapObject->mPrm->mKuriking.mUnk_0a8);
+        TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mKuriking.mUnk_0ac,
+                                    mapObject->mPrm->mKuriking.mUnk_0b0);
     } else if (GetAbsoluteCounter(mapObject) == 1) {
-        SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_0bc, mapObject->mPrm->mUnk_0c0);
-        TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mUnk_0c4, mapObject->mPrm->mUnk_0c8);
+        SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mKuriking.mUnk_0bc, mapObject->mPrm->mKuriking.mUnk_0c0);
+        TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mKuriking.mUnk_0c4,
+                                    mapObject->mPrm->mKuriking.mUnk_0c8);
     } else {
-        SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_0cc, mapObject->mPrm->mUnk_0d0);
-        TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mUnk_0d4, mapObject->mPrm->mUnk_0d8);
+        SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mKuriking.mUnk_0cc, mapObject->mPrm->mKuriking.mUnk_0d0);
+        TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mKuriking.mUnk_0d4,
+                                    mapObject->mPrm->mKuriking.mUnk_0d8);
     }
     SetAnglePointAndMoveAnglePoint(mapObject, &GetCurrentGroupEntry(mapObject)->mPos);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_0b8, NULL);
-    SetPointInRangeCallback(mapObject, mapObject->mPrm->mUnk_0b4, 0, &GetCurrentGroupEntry(mapObject)->mPos, NULL);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mKuriking.mUnk_0b8, NULL);
+    SetPointInRangeCallback(mapObject, mapObject->mPrm->mKuriking.mUnk_0b4, 0, &GetCurrentGroupEntry(mapObject)->mPos,
+                            NULL);
 }
 
 void StartKurikingWalkState(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 1, UpdateKurikingWalkState);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_098, mapObject->mPrm->mUnk_09c);
-    StartMapObjectModelNsbtaAnimation(mapObject->mNsbmd, mapObject->mPrm->mUnk_0a0, mapObject->mPrm->mUnk_09c, 0);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mKuriking.mUnk_098, mapObject->mPrm->mKuriking.mUnk_09c);
+    StartMapObjectModelNsbtaAnimation(mapObject->mNsbmd, mapObject->mPrm->mKuriking.mUnk_0a0,
+                                      mapObject->mPrm->mKuriking.mUnk_09c, 0);
     SetKurikingWalkByCounter(mapObject);
     SetKurikingSoundCallbacks(mapObject);
 }
 
 void ThrowBombsAndKinoko(MissionRunMapObject *mapObject) {
-    MissionRunPrm *prm;
+    KurikingPrm *prm;
     RandomState64 *random;
     u32 firstRange;
     u32 secondRange;
@@ -237,7 +243,7 @@ void ThrowBombsAndKinoko(MissionRunMapObject *mapObject) {
     s32 radius;
     s32 throwIndex;
 
-    prm = mapObject->mPrm;
+    prm = &mapObject->mPrm->mKuriking;
     angle = mapObject->mAngle - prm->mUnk_1a4 * (mapObject->mUnk_138 / 2);
     firstRange = prm->mUnk_1a8;
     if (firstRange == 0x10000) {
@@ -284,23 +290,23 @@ void ThrowBombsAndKinoko(MissionRunMapObject *mapObject) {
     } else {
         kinokoIndex = -1;
     }
-    radius = mapObject->mPrm->mUnk_198;
+    radius = mapObject->mPrm->mKuriking.mUnk_198;
     for (throwIndex = 0; throwIndex < mapObject->mUnk_138; throwIndex++) {
         Vec3 pos;
         Vec3 vel = {0, 0, 0};
 
         pos.x = mapObject->mUnk_000.mPos.x + (MUL_FIXED12_NO_ROUND(radius, FX_SinIdx((u16) angle)));
-        pos.y = mapObject->mUnk_000.mPos.y + mapObject->mPrm->mUnk_194;
+        pos.y = mapObject->mUnk_000.mPos.y + mapObject->mPrm->mKuriking.mUnk_194;
         pos.z = mapObject->mUnk_000.mPos.z + (MUL_FIXED12_NO_ROUND(radius, FX_CosIdx((u16) angle)));
-        vel.x = MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_1a0, FX_SinIdx((u16) angle));
-        vel.y = mapObject->mPrm->mUnk_19c;
-        vel.z = MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_1a0, FX_CosIdx((u16) angle));
+        vel.x = MUL_FIXED12_NO_ROUND(mapObject->mPrm->mKuriking.mUnk_1a0, FX_SinIdx((u16) angle));
+        vel.y = mapObject->mPrm->mKuriking.mUnk_19c;
+        vel.z = MUL_FIXED12_NO_ROUND(mapObject->mPrm->mKuriking.mUnk_1a0, FX_CosIdx((u16) angle));
         if (throwIndex == kinokoIndex) {
-            ThrowItemKinokoFromPosition(StartItemKinokoOrZero(), &pos, &vel, mapObject->mPrm->mUnk_1ac);
+            ThrowItemKinokoFromPosition(StartItemKinokoOrZero(), &pos, &vel, mapObject->mPrm->mKuriking.mUnk_1ac);
         } else {
-            ThrowItemBombFromPosition(StartItemBombWithParkedKuribo(), &pos, &vel, mapObject->mPrm->mUnk_1b0);
+            ThrowItemBombFromPosition(StartItemBombWithParkedKuribo(), &pos, &vel, mapObject->mPrm->mKuriking.mUnk_1b0);
         }
-        angle += mapObject->mPrm->mUnk_1a4;
+        angle += mapObject->mPrm->mKuriking.mUnk_1a4;
         StartEffect(0x3f7, &pos);
         StartEffect(0x3f6, &pos);
     }
@@ -309,18 +315,19 @@ void ThrowBombsAndKinoko(MissionRunMapObject *mapObject) {
 
 void StartKurikingTurnToEntryState(MissionRunMapObject *mapObject) {
     CourseMapGroupEntry *currentGroupEntry;
-    MissionRunPrm *prm;
+    KurikingPrm *prm;
     StartMapObjectState(mapObject, 2, &UpdateKurikingTurnToEntryState);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_15c, mapObject->mPrm->mUnk_160);
-    StartMapObjectModelNsbtaAnimation(mapObject->mNsbmd, mapObject->mPrm->mUnk_164, mapObject->mPrm->mUnk_160, 0);
-    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_168, mapObject->mPrm->mUnk_16c);
-    prm = mapObject->mPrm;
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mKuriking.mUnk_15c, mapObject->mPrm->mKuriking.mUnk_160);
+    StartMapObjectModelNsbtaAnimation(mapObject->mNsbmd, mapObject->mPrm->mKuriking.mUnk_164,
+                                      mapObject->mPrm->mKuriking.mUnk_160, 0);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mKuriking.mUnk_168, mapObject->mPrm->mKuriking.mUnk_16c);
+    prm = &mapObject->mPrm->mKuriking;
     TurnAndMoveToPointOwnRates(mapObject, prm->mUnk_178, prm->mUnk_17c, prm->mUnk_170, prm->mUnk_174);
     currentGroupEntry = GetCurrentGroupEntry(mapObject);
     SetAnglePoint(mapObject, &currentGroupEntry->mPos);
     currentGroupEntry = GetCurrentGroupEntry(mapObject);
     SetMoveAnglePoint(mapObject, &currentGroupEntry->mPos);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_180, &StartKurikingWalkState);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mKuriking.mUnk_180, &StartKurikingWalkState);
     SetKurikingSoundCallbacks(mapObject);
 }
 
@@ -329,15 +336,16 @@ void StartKurikingThrowBombsState(MissionRunMapObject *mapObject) {
 
     kart = GetKart((u16) gRaceSetup->mEntryIndex);
     StartMapObjectState(mapObject, 2, (s32(*)(MissionRunMapObject *)) UpdateKurikingFaceKartState);
-    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_184, mapObject->mPrm->mUnk_188,
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mKuriking.mUnk_184, mapObject->mPrm->mKuriking.mUnk_188,
                                   StartKurikingTurnToEntryState);
-    StartMapObjectModelNsbtaAnimation(mapObject->mNsbmd, mapObject->mPrm->mUnk_18c, mapObject->mPrm->mUnk_188, 0);
-    SetSpeedTargetAndPerCall(mapObject, 0, mapObject->mPrm->mUnk_144);
-    SpinTowardPointMoveToPoint(mapObject, 0, mapObject->mPrm->mUnk_154, mapObject->mPrm->mUnk_148,
-                               mapObject->mPrm->mUnk_14c);
+    StartMapObjectModelNsbtaAnimation(mapObject->mNsbmd, mapObject->mPrm->mKuriking.mUnk_18c,
+                                      mapObject->mPrm->mKuriking.mUnk_188, 0);
+    SetSpeedTargetAndPerCall(mapObject, 0, mapObject->mPrm->mKuriking.mUnk_144);
+    SpinTowardPointMoveToPoint(mapObject, 0, mapObject->mPrm->mKuriking.mUnk_154, mapObject->mPrm->mKuriking.mUnk_148,
+                               mapObject->mPrm->mKuriking.mUnk_14c);
     SetAnglePoint(mapObject, &kart->mPos);
     SetMoveAnglePoint(mapObject, &GetCurrentGroupEntry(mapObject)->mPos);
-    SetAnimationFrameCallback(mapObject, mapObject->mPrm->mUnk_190, ThrowBombsAndKinoko);
+    SetAnimationFrameCallback(mapObject, mapObject->mPrm->mKuriking.mUnk_190, ThrowBombsAndKinoko);
 }
 
 void StartKurikingFaceKartState(MissionRunMapObject *mapObject) {
@@ -345,22 +353,25 @@ void StartKurikingFaceKartState(MissionRunMapObject *mapObject) {
 
     kart = GetKart((u16) gRaceSetup->mEntryIndex);
     StartMapObjectState(mapObject, 2, (s32(*)(MissionRunMapObject *)) UpdateKurikingFaceKartState);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_134, mapObject->mPrm->mUnk_138);
-    StartMapObjectModelNsbtaAnimation(mapObject->mNsbmd, mapObject->mPrm->mUnk_13c, mapObject->mPrm->mUnk_138, 0);
-    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_140, mapObject->mPrm->mUnk_144);
-    SpinTowardPointMoveToPoint(mapObject, mapObject->mPrm->mUnk_150, mapObject->mPrm->mUnk_154,
-                               mapObject->mPrm->mUnk_148, mapObject->mPrm->mUnk_14c);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mKuriking.mUnk_134, mapObject->mPrm->mKuriking.mUnk_138);
+    StartMapObjectModelNsbtaAnimation(mapObject->mNsbmd, mapObject->mPrm->mKuriking.mUnk_13c,
+                                      mapObject->mPrm->mKuriking.mUnk_138, 0);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mKuriking.mUnk_140, mapObject->mPrm->mKuriking.mUnk_144);
+    SpinTowardPointMoveToPoint(mapObject, mapObject->mPrm->mKuriking.mUnk_150, mapObject->mPrm->mKuriking.mUnk_154,
+                               mapObject->mPrm->mKuriking.mUnk_148, mapObject->mPrm->mKuriking.mUnk_14c);
     SetAnglePoint(mapObject, &kart->mPos);
     SetMoveAnglePoint(mapObject, &GetCurrentGroupEntry(mapObject)->mPos);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_158, StartKurikingThrowBombsState);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mKuriking.mUnk_158, StartKurikingThrowBombsState);
     mapObject->mUnk_138 = GetCurrentGroupEntryValue(mapObject);
     SetKurikingSoundCallbacks(mapObject);
 }
 
 void StartKurikingJumpLandState(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 7, NULL);
-    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_1f8, mapObject->mPrm->mUnk_1fc, NULL);
-    StartMapObjectModelNsbtaAnimation(mapObject->mNsbmd, mapObject->mPrm->mUnk_200, mapObject->mPrm->mUnk_1fc, 0);
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mKuriking.mUnk_1f8, mapObject->mPrm->mKuriking.mUnk_1fc,
+                                  NULL);
+    StartMapObjectModelNsbtaAnimation(mapObject->mNsbmd, mapObject->mPrm->mKuriking.mUnk_200,
+                                      mapObject->mPrm->mKuriking.mUnk_1fc, 0);
     StopTurningMoveFollowsAngle(mapObject);
     SetSpeedAndClearTarget(mapObject, 0);
     mapObject->mUnk_000.mFlags &= ~0x20;
@@ -369,13 +380,14 @@ void StartKurikingJumpLandState(MissionRunMapObject *mapObject) {
 void StartKurikingJumpState(MissionRunMapObject *mapObject) {
     Vec3 velocity = {0, 0, 0};
 
-    velocity.y = mapObject->mPrm->mUnk_1f4;
+    velocity.y = mapObject->mPrm->mKuriking.mUnk_1f4;
     StartMapObjectState(mapObject, 7, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_1e0, mapObject->mPrm->mUnk_1e4);
-    StartMapObjectModelNsbtaAnimation(mapObject->mNsbmd, mapObject->mPrm->mUnk_1e8, mapObject->mPrm->mUnk_1e4, 0);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mKuriking.mUnk_1e0, mapObject->mPrm->mKuriking.mUnk_1e4);
+    StartMapObjectModelNsbtaAnimation(mapObject->mNsbmd, mapObject->mPrm->mKuriking.mUnk_1e8,
+                                      mapObject->mPrm->mKuriking.mUnk_1e4, 0);
     SetVelocity(mapObject, &velocity);
     StopTurningMoveFollowsAngle(mapObject);
-    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_1ec, mapObject->mPrm->mUnk_1f0);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mKuriking.mUnk_1ec, mapObject->mPrm->mKuriking.mUnk_1f0);
     SetCourseCollisionCallback(mapObject, StartKurikingJumpLandState);
     StartMapObjectSound(&mapObject->mUnk_000, 0x226);
     mapObject->mUnk_000.mFlags |= gKurikingJumpFlag;
@@ -383,21 +395,23 @@ void StartKurikingJumpState(MissionRunMapObject *mapObject) {
 
 void StartKurikingJumpAnimationState(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 7, NULL);
-    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_1d4, mapObject->mPrm->mUnk_1d8,
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mKuriking.mUnk_1d4, mapObject->mPrm->mKuriking.mUnk_1d8,
                                   StartKurikingJumpState);
-    StartMapObjectModelNsbtaAnimation(mapObject->mNsbmd, mapObject->mPrm->mUnk_1dc, mapObject->mPrm->mUnk_1d8, 0);
+    StartMapObjectModelNsbtaAnimation(mapObject->mNsbmd, mapObject->mPrm->mKuriking.mUnk_1dc,
+                                      mapObject->mPrm->mKuriking.mUnk_1d8, 0);
     StopTurningMoveFollowsAngle(mapObject);
     SetSpeedAndClearTarget(mapObject, 0);
 }
 
 void StartKurikingTurnToRowState(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 7, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_1b4, mapObject->mPrm->mUnk_1b8);
-    StartMapObjectModelNsbtaAnimation(mapObject->mNsbmd, mapObject->mPrm->mUnk_1bc, mapObject->mPrm->mUnk_1b8, 0);
-    TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mUnk_1c8, mapObject->mPrm->mUnk_1cc);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mKuriking.mUnk_1b4, mapObject->mPrm->mKuriking.mUnk_1b8);
+    StartMapObjectModelNsbtaAnimation(mapObject->mNsbmd, mapObject->mPrm->mKuriking.mUnk_1bc,
+                                      mapObject->mPrm->mKuriking.mUnk_1b8, 0);
+    TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mKuriking.mUnk_1c8, mapObject->mPrm->mKuriking.mUnk_1cc);
     SetAnglePointAndMoveAnglePoint(mapObject, &mapObject->mUnk_000.mCourseMapRow->mPosition);
-    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_1c0, mapObject->mPrm->mUnk_1c4);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_1d0, StartKurikingJumpAnimationState);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mKuriking.mUnk_1c0, mapObject->mPrm->mKuriking.mUnk_1c4);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mKuriking.mUnk_1d0, StartKurikingJumpAnimationState);
     SetKurikingSoundCallbacks(mapObject);
 }
 
@@ -412,14 +426,15 @@ int UpdateKurikingGrowSound(MissionRunMapObject *mapObject) {
 
 void StartKurikingGrowState(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, UpdateKurikingGrowSound);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_0dc, mapObject->mPrm->mUnk_0e0);
-    StartMapObjectModelNsbtaAnimation(mapObject->mNsbmd, mapObject->mPrm->mUnk_0e4, mapObject->mPrm->mUnk_0e0, 0);
-    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_0e8, mapObject->mPrm->mUnk_0ec);
-    TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mUnk_0f0, mapObject->mPrm->mUnk_0f4);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mKuriking.mUnk_0dc, mapObject->mPrm->mKuriking.mUnk_0e0);
+    StartMapObjectModelNsbtaAnimation(mapObject->mNsbmd, mapObject->mPrm->mKuriking.mUnk_0e4,
+                                      mapObject->mPrm->mKuriking.mUnk_0e0, 0);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mKuriking.mUnk_0e8, mapObject->mPrm->mKuriking.mUnk_0ec);
+    TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mKuriking.mUnk_0f0, mapObject->mPrm->mKuriking.mUnk_0f4);
     SetAnglePointAndMoveAnglePoint(mapObject, &GetCurrentGroupEntry(mapObject)->mPos);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_100, StartKurikingWalkState);
-    SetScaleTargetAndPerCall(mapObject, (mapObject->mUnk_000.mScale.x + mapObject->mPrm->mUnk_0f8),
-                             mapObject->mPrm->mUnk_0fc);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mKuriking.mUnk_100, StartKurikingWalkState);
+    SetScaleTargetAndPerCall(mapObject, (mapObject->mUnk_000.mScale.x + mapObject->mPrm->mKuriking.mUnk_0f8),
+                             mapObject->mPrm->mKuriking.mUnk_0fc);
     SetSpeedAndClearTarget(mapObject, 0);
     SetMapObjectModelNsbtpFrameIndex(mapObject->mNsbmd, GetAbsoluteCounter(mapObject));
     if (GetAbsoluteCounter(mapObject) == 0) {
@@ -441,10 +456,10 @@ void StartKurikingChaseKartState(MissionRunMapObject *mapObject) {
 
     kart = GetKart((u16) gRaceSetup->mEntryIndex);
     StartMapObjectState(mapObject, 8, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_078, mapObject->mPrm->mUnk_07c);
-    TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mUnk_20c, mapObject->mPrm->mUnk_210);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mKuriking.mUnk_078, mapObject->mPrm->mKuriking.mUnk_07c);
+    TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mKuriking.mUnk_20c, mapObject->mPrm->mKuriking.mUnk_210);
     SetAnglePointAndMoveAnglePoint(mapObject, &kart->mPos);
-    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_204, mapObject->mPrm->mUnk_208);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mKuriking.mUnk_204, mapObject->mPrm->mKuriking.mUnk_208);
 }
 
 void StartKurikingEndEffects(MissionRunMapObject *mapObject) {
@@ -466,7 +481,7 @@ void StartKurikingEndEffects(MissionRunMapObject *mapObject) {
 
 void StartKurikingKartNotEliminatedState(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, (s32(*)(MissionRunMapObject *))(0));
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_070, mapObject->mPrm->mUnk_074);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mKuriking.mUnk_070, mapObject->mPrm->mKuriking.mUnk_074);
     StartStateFrameCountCallback(mapObject, 0x3c, &StartKurikingEndEffects);
 }
 
@@ -503,34 +518,35 @@ s32 UpdateKurikingStartupEffects(MissionRunMapObject *mapObject) {
 
 void StartKurikingWaitForRaceStart(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, KurikingStopStateWhenRaceStarted);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mWaitForRaceStartAnimationEntry,
-                                mapObject->mPrm->mWaitForRaceStartFrameStep);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mHead.mWaitForRaceStartAnimationEntry,
+                                mapObject->mPrm->mHead.mWaitForRaceStartFrameStep);
 }
 
 void StartKurikingStartupSecond(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, UpdateKurikingStartupEffects);
-    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mStartupSecondAnimationEntry,
-                                  mapObject->mPrm->mStartupSecondFrameStep, &StartKurikingWaitForRaceStart);
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mHead.mStartupSecondAnimationEntry,
+                                  mapObject->mPrm->mHead.mStartupSecondFrameStep, &StartKurikingWaitForRaceStart);
 }
 
 void StartKurikingStartupFirst(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, (s32(*)(MissionRunMapObject *))(0));
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mStartupFirstAnimationEntry,
-                                mapObject->mPrm->mStartupFirstFrameStep);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mStartupFirstFrameCount, &StartKurikingStartupSecond);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mHead.mStartupFirstAnimationEntry,
+                                mapObject->mPrm->mHead.mStartupFirstFrameStep);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mHead.mStartupFirstFrameCount,
+                                 &StartKurikingStartupSecond);
 }
 
 void StartKurikingChainStartupSecond(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, (s32(*)(MissionRunMapObject *))(0));
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mChainStartupSecondAnimationEntry,
-                                mapObject->mPrm->mChainStartupSecondFrameStep);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mHead.mChainStartupSecondAnimationEntry,
+                                mapObject->mPrm->mHead.mChainStartupSecondFrameStep);
 }
 
 void StartKurikingChainStartupFirst(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, (s32(*)(MissionRunMapObject *))(0));
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mChainStartupFirstAnimationEntry,
-                                mapObject->mPrm->mChainStartupFirstFrameStep);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mChainStartupFirstFrameCount,
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mHead.mChainStartupFirstAnimationEntry,
+                                mapObject->mPrm->mHead.mChainStartupFirstFrameStep);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mHead.mChainStartupFirstFrameCount,
                                  &StartKurikingChainStartupSecond);
 }
 
@@ -550,10 +566,10 @@ void KurikingKartHitSoundCallback(MissionRunMapObject *mapObject, void *kart) {
 
 void KurikingKartHitCallback(MissionRunMapObject *mapObject, void *kart) {
     mapObject->mUnk_000.mPosStep.x =
-        MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_130, FX_SinIdx((u16) mapObject->mMoveAngle));
+        MUL_FIXED12_NO_ROUND(mapObject->mPrm->mKuriking.mUnk_130, FX_SinIdx((u16) mapObject->mMoveAngle));
     mapObject->mUnk_000.mPosStep.y = 0;
     mapObject->mUnk_000.mPosStep.z =
-        MUL_FIXED12_NO_ROUND(mapObject->mPrm->mUnk_130, FX_CosIdx((u16) mapObject->mMoveAngle));
+        MUL_FIXED12_NO_ROUND(mapObject->mPrm->mKuriking.mUnk_130, FX_CosIdx((u16) mapObject->mMoveAngle));
     mapObject->mKartResponse = KART_MAP_OBJECT_RESPONSE_CARRY_HALT;
     StartCameraWobbleAtDistance(mapObject->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
     SetKartCollisionCallback(mapObject, KurikingKartHitSoundCallback);
@@ -570,7 +586,8 @@ void InitKurikingObjects(MapObjectList *mapObjectList) {
         for (objectIndex = 0;
              objectIndex < mapObjectList->mMapObjectCount && (obj = mapObjectList->mMapObjects[objectIndex]) != NULL;
              objectIndex++) {
-            StartMapObjectModelNsbtaAnimation(obj->mNsbmd, obj->mPrm->mUnk_080, obj->mPrm->mStartupFirstFrameStep, 0);
+            StartMapObjectModelNsbtaAnimation(obj->mNsbmd, obj->mPrm->mKuriking.mUnk_080,
+                                              obj->mPrm->mHead.mStartupFirstFrameStep, 0);
             if (GetRaceUseChainCameras()) {
                 StartKurikingChainStartupFirst(obj);
             } else {
@@ -593,7 +610,7 @@ void UpdateKuriking(u32 unused, MissionRunMapObject *mapObject) {
             }
         }
     } else {
-        if (IsPointInRange(mapObject, &GetCurrentGroupEntry(mapObject)->mPos, mapObject->mPrm->mUnk_0b4, 0)) {
+        if (IsPointInRange(mapObject, &GetCurrentGroupEntry(mapObject)->mPos, mapObject->mPrm->mKuriking.mUnk_0b4, 0)) {
             var = GetCurrentGroupEntryValue(mapObject);
             if (var >= 200) {
                 if (IsStateNumberBelow(mapObject, 8)) {
@@ -617,7 +634,8 @@ void UpdateKuriking(u32 unused, MissionRunMapObject *mapObject) {
             }
         }
         if (IsStateNumberBelow(mapObject, 2)) {
-            if (GetEntryKartInRange(mapObject, mapObject->mPrm->mUnk_124, mapObject->mPrm->mUnk_128)) {
+            if (GetEntryKartInRange(mapObject, mapObject->mPrm->mKuriking.mUnk_124,
+                                    mapObject->mPrm->mKuriking.mUnk_128)) {
                 StartKurikingKartInRangeState(mapObject);
                 SetKartCollisionCallback(mapObject, KurikingKartHitCallback);
             }
