@@ -866,7 +866,7 @@ void WcmWmcbCommon(WirelessMessage *callback) {
     }
 }
 
-// Hand-written asm: it counts leading zeros with clz.
+// Kept as asm: it counts leading zeros with clz.
 // clang-format off
 #pragma thumb off
 asm u32 WcmCountBits(u32 bits) {

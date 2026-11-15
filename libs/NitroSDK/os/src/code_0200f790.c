@@ -183,7 +183,7 @@ void OSi_ArrangeTimer(void) {
 
 // clang-format off
 // Timer 1 handler: calls OSi_ArrangeTimer and returns.
-// Hand-written asm: its only call is a tail call through `ldr ip, =callee; bx ip`.
+// Kept as asm: its only call is a tail call through `ldr ip, =callee; bx ip`.
 asm void OSi_AlarmHandler(void) {
     stmdb sp!, {lr}
     bl OSi_ArrangeTimer

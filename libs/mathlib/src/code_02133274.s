@@ -1,6 +1,6 @@
 // Unsigned 32-bit division.
 //
-// Hand-written asm: _ll_udiv (code_021329f8.s) calls .L_u32_div_f_no_zero_check, a second entry past the zero check;
+// Kept as asm: _ll_udiv (code_021329f8.s) calls .L_u32_div_f_no_zero_check, a second entry past the zero check;
 // the computed jump `add pc, pc, r2, lsl #2` has no bound check and lands inside straight-line code; and every step
 // tests the carry of an `adcs` with `sublo`.
 

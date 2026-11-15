@@ -6,7 +6,7 @@
 // is shifted up by the number of leading quotient bits that must be zero (found four at a time), then a computed jump
 // enters a run of 32 identical steps at the right place; each step shifts the next dividend bit into the remainder and
 // subtracts the divisor when it fits, the carry giving the quotient bit.
-// Hand-written asm: the computed jump `add pc, pc, r2, lsl #2` has no bound check and lands inside straight-line
+// Kept as asm: the computed jump `add pc, pc, r2, lsl #2` has no bound check and lands inside straight-line
 // code, and every step tests the carry of an `adcs` with `sublo`.
 asm u64 _s32_div_f(u32 numerator, u32 denominator) {
     // ip bit 31 = the quotient's sign, bit 0 = the dividend's sign. Work on the magnitudes. A zero divisor returns at

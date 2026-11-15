@@ -4,7 +4,7 @@
 // Arguments and results, the status word from GetFloatStatus and the trap handlers are as described in
 // code_0212f884.s; division by zero sets status bit 0x02 (trap enable 0x200).
 //
-// Hand-written asm: the routines branch into each other's middles (_ddiv into DoubleDivSpecial and back to
+// Kept as asm: the routines branch into each other's middles (_ddiv into DoubleDivSpecial and back to
 // _ddiv+0x24 and _ddiv+0x38), DoubleDivReversed and DoubleDivRoundUpResult have no return and run on into the next
 // routine, the tails pop a frame they did not push, and _ddiv reads a constant word kept in
 // DoubleDivSpecial's constants and the table through a pc-relative address. They also use tst and clz. The table

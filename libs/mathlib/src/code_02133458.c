@@ -2,7 +2,7 @@
 
 // clang-format off
 // Shifts the 64-bit value r1:r0 right (logical) by r2 modulo 64 and returns it in r1:r0.
-// Hand-written asm: it tests the result of `subs r3, r2, #32` with ge.
+// Kept as asm: it tests the result of `subs r3, r2, #32` with ge.
 asm u64 ShiftRightLogical64(u64 operand, u32 bitCount) {
     // A shift of 0 returns the value.
     ands r2, r2, #0x3f

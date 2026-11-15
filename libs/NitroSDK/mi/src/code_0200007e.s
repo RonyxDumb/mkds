@@ -1,6 +1,6 @@
 // BIOS call stubs in the first 0x800 bytes of the ARM9 binary, between filler bytes taken from the extracted ROM.
 //
-// Hand-written asm: ten of the eighteen Thumb stubs start at addresses that are 2 mod 4.
+// Kept as asm: ten of the eighteen Thumb stubs start at addresses that are 2 mod 4.
 // The bytes around the stubs (0xE7FFDEFF words first, then
 // bytes with no structure) are not code and come from the user's ROM at build time.
 

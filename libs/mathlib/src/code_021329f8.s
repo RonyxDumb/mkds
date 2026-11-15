@@ -3,7 +3,7 @@
 // Floats are passed and returned in one register each, 64-bit integers in two (low word first); the status
 // word from GetFloatStatus and the trap handlers are as described in code_0212f884.s.
 //
-// Hand-written asm: _fsub and _fadd (code_02130cb4.s) branch into each other past their first instructions,
+// Kept as asm: _fsub and _fadd (code_02130cb4.s) branch into each other past their first instructions,
 // and _fmul (code_021322c8.s) runs on into _fsub with no return; _ll_udiv has a second entry, _ull_mod,
 // in its middle, and branches into the middle of _ll_sdiv and of _u32_div_f (code_02133274.s); _ll_mul has a second name,
 // _ull_mul, which only an assembler label can give.

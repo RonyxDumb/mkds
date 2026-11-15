@@ -1,6 +1,6 @@
 // Block hash update with its round constants.
 //
-// Hand-written asm: the routine keeps its constant words before its entry and saves ip, returns by popping
+// Kept as asm: the routine keeps its constant words before its entry and saves ip, returns by popping
 // pc and folds rotations into its operands (see below).
 
     .text
@@ -22,7 +22,7 @@ hash_k4:
 // exclusive or of four earlier ones rotated left by one; four groups of 20 rounds each add one round constant (the
 // words just before this function), a choice, parity or majority function of three state words, the next schedule word
 // and the first state word rotated left by 5; finally the block's result is added into ctx.
-// Hand-written asm: it saves ip, returns by popping pc, folds rotations into its operands (`ror #27`, `ror #8`) and
+// Kept as asm: it saves ip, returns by popping pc, folds rotations into its operands (`ror #27`, `ror #8`) and
 // loads its constants from the words before its own start.
     .global DGTi_hash2_arm4_small
     .type DGTi_hash2_arm4_small, @function

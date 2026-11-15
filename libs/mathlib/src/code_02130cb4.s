@@ -3,7 +3,7 @@
 // Arguments and results, the status word from GetFloatStatus and the trap handlers are as described in
 // code_0212f884.s; floats are passed and returned in one register each.
 //
-// Hand-written asm: DoubleSubReversed has no return and runs on into _dsub; _dsub and _dadd (code_0212f884.s), and
+// Kept as asm: DoubleSubReversed has no return and runs on into _dsub; _dsub and _dadd (code_0212f884.s), and
 // _fadd and _fsub (code_021329f8.s), branch into each other past their first instructions. All three also use tst.
 
     .text

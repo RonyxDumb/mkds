@@ -126,7 +126,7 @@ asm void OS_Halt(void) {
 }
 
 // Subtracts 4 from r0 until a subtraction borrows (a wait of about r0 / 4 loops).
-// Hand-written asm: `subs` followed by a carry test (bhs).
+// Kept as asm: `subs` followed by a carry test (bhs).
 asm void OS_SpinWait(u32 cycle) {
 loop:
     subs r0, r0, #0x4

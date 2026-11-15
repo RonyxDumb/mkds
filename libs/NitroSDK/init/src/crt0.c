@@ -83,7 +83,7 @@ loop:
 // Unpacks the compressed block that ends at compressedEnd, working backwards from its end: the two words before it give
 // the packed and unpacked extents; each flag byte selects, per bit from the top, a literal byte or a copy of 3 to 18
 // earlier bytes. Then cleans and invalidates the cache lines of the unpacked range.
-// Hand-written asm: it reads the two words with `ldmdb`, writes coprocessor 15 (mcr) and tests with `tst`.
+// Kept as asm: it reads the two words with `ldmdb`, writes coprocessor 15 (mcr) and tests with `tst`.
 asm void MIi_UncompressBackward(void *compressedEnd) {
     cmp r0, #0x0
     beq done
@@ -140,7 +140,7 @@ done:
 
 // Walks the block list in BuildInfo (start, end, source): for each block copies its words from the source, clears
 // the words after them and cleans and invalidates the cache lines; then continues in AutoloadCallback.
-// Hand-written asm: it writes coprocessor 15 (mcr), tests a `cmp` with mi, and ends in a branch to another function.
+// Kept as asm: it writes coprocessor 15 (mcr), tests a `cmp` with mi, and ends in a branch to another function.
 asm void do_autoload(void) {
     ldr r0, =BuildInfo
     ldr r1, [r0, #0x0]

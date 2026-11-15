@@ -7,7 +7,7 @@
 // Clears the floating-point status word (GetFloatStatus) and the five words from offset 4 of the block
 // GetFloatTrapTable
 // returns.
-// Hand-written asm: it saves lr alone with `stmdb sp!, {lr}`, a 4-byte frame with no padding word.
+// Kept as asm: it saves lr alone with `stmdb sp!, {lr}`, a 4-byte frame with no padding word.
 asm void _fp_init(void) {
     stmdb sp!, {lr}
     bl GetFloatStatus
@@ -26,7 +26,7 @@ asm void _fp_init(void) {
 
 // Updates the floating-point status word: clears the bits in clearMask, then flips the bits in xorMask; returns the old
 // value.
-// Hand-written asm: it saves r0-r2, ip and lr around its call, inside the body (a 20-byte frame).
+// Kept as asm: it saves r0-r2, ip and lr around its call, inside the body (a 20-byte frame).
 asm u32 FloatStatusClearXor(u32 clearMask, u32 xorMask) {
     stmfd sp!, {r0, r1, r2, ip, lr}
     bl GetFloatStatus
@@ -44,7 +44,7 @@ asm u32 FloatStatusClearXor(u32 clearMask, u32 xorMask) {
 // bits 16-20, which are
 // moved down to bits 8-12 first. Returns the old flags (bits 0-4), the old trap enables moved up to bits 16-20, and bit
 // 30 set.
-// Hand-written asm: it saves r0-r2, ip and lr around its call, inside the body.
+// Kept as asm: it saves r0-r2, ip and lr around its call, inside the body.
 asm u32 FloatFlagsClearXor(u32 clearFlags, u32 xorFlags) {
     and r2, r0, #0x1f
     and r3, r0, #0x1f0000

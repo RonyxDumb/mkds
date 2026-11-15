@@ -4,7 +4,7 @@
 // and the trap handlers are as described in code_0212f884.s. The value compares return 1 or 0 in r0, the three-way
 // compares 0, 1, 2 or 3 in r0, and the flag compares return their result in the condition flags.
 //
-// Hand-written asm: the routines are entered at many points past the first instruction (_fls, _fgr, _fgeq, _dneq,
+// Kept as asm: the routines are entered at many points past the first instruction (_fls, _fgr, _fgeq, _dneq,
 // _deq, _dls, _dleq, _dgr) and branch into the middle of each other's tails; they use tst and `cmp rX, #0` feeding
 // mi, and the tails save ip and the argument registers with stm around a call in the middle of the body. The flag
 // compares also return their result in the condition flags (`cmp r0, r1; bx lr`), not in r0.

@@ -7,7 +7,7 @@
 // says (GetFloatStatus; see code_0212f884.s). Zero and +infinity return themselves, a quiet NaN returns itself;
 // negative
 // numbers and signalling NaNs raise invalid (or trap with event code 0x04000097).
-// Hand-written asm: it counts leading zeros with clz, tests bits with tst, and saves ip and the argument registers
+// Kept as asm: it counts leading zeros with clz, tests bits with tst, and saves ip and the argument registers
 // around its call in the middle of the body.
 asm double SqrtDouble(double value) {
     // Negative numbers, infinities and NaNs (high word 0x7ff00000 or above, unsigned) are special.
