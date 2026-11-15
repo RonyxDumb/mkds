@@ -32,7 +32,7 @@ const u8 gJb4ErrorFontIndices[6] = {0, 1, 1, 1, 1, 1};
 const u16 gJb4ErrorMessageRect[4] = {0xd, 0x3c, 0xe6, 0x5e};
 const u16 gJb4ErrorCodePositions[12] = {0x62, 0x22, 0x62, 0x22, 0x3d, 0x22, 0x65, 0x22, 0x6c, 0x22, 0x34, 0x22};
 u16 gDecimalFormat[3] = {0x25, 0x64, 0};
-u8 gJb4ErrorCode[1];
+s32 gJb4ErrorCode;
 
 void SetupJb4Error(void) {
     LoadJb4ErrorFileAndSetBgCnt();
@@ -97,7 +97,7 @@ void PrintJb4Error(void) {
     u16 codeX;
     u16 codeText[8];
     GetSecondaryMenuPair(NULL, &secondaryPairSecond);
-    errorCode = *(s32 *) gJb4ErrorCode;
+    errorCode = gJb4ErrorCode;
     if (errorCode >= -0x4e83) {
         messageIndex = 0x0;
     } else if (errorCode >= -0x4e84) {
@@ -179,7 +179,7 @@ void PrintJb4Error(void) {
     }
     canvas = InitBgTextCanvas(0, gJb4ErrorFontIndices[GetLanguageIndex()]);
     messageEntry = GetMessageEntry(gMessages, messageIndex);
-    swprintf(codeText, 8, gDecimalFormat, -*(s32 *) gJb4ErrorCode);
+    swprintf(codeText, 8, gDecimalFormat, -gJb4ErrorCode);
     codeY = (gJb4ErrorCodePositions + 1)[GetLanguageIndex() * 2];
     codeX = gJb4ErrorCodePositions[GetLanguageIndex() * 2];
     DrawCharsCentered(canvas, codeX, codeY, 2, 0xa, codeText, 0);
@@ -276,5 +276,5 @@ void UpdateJb4ErrorRelease(void) {
 }
 
 void SetJb4ErrorCode(u32 errorCode) {
-    *(u32 *) &gJb4ErrorCode = errorCode;
+    gJb4ErrorCode = errorCode;
 }

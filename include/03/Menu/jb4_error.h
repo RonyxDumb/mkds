@@ -19,4 +19,4 @@ extern const u8 gJb4ErrorFontIndices[6];
 extern const u16 gJb4ErrorMessageRect[4];
 extern const u16 gJb4ErrorCodePositions[12];
 extern u16 gDecimalFormat[3];
-extern u8 gJb4ErrorCode[1];
+extern s32 gJb4ErrorCode;
