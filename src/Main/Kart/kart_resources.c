@@ -181,7 +181,7 @@ void InitKartResources(Kart *kart) {
             &kart->mSecondCollisionCenter, ((s64) kart->mPhysicalParam->mRadius << 15) >> 12, 0x800, kart);
     }
     kart->mMotionFlags |= KART_MOTION_ON_GROUND;
-    kart->mCollisionStepFrames = 0x64;
+    kart->mCollisionStepFrames = KART_COLLISION_STEP_FRAMES_FULL;
     kart->mRadius = kart->mPhysicalParam->mRadius;
     InitKartSoundParams(kart);
     if (gRaceSetup->mMode == MODE_WIFI) {

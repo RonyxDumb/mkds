@@ -71,7 +71,7 @@ void DrawKart(Kart *kart) {
             return;
         }
     } else {
-        kart->mVisible = 0xffff;
+        kart->mVisible = KART_VISIBLE_ALL;
     }
     SendGxCommandOneValue(0x14, 0x1e);
     if (hasKartFlag != 0) {

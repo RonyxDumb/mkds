@@ -983,3 +983,38 @@ extern s32 gSpeedReductionAtFullTurnRatio;
 // A map object spins the kart when it is hit above this Kart.mVelocityLength (or the object has
 // MAP_OBJECT_FLAG_HIT_AT_ANY_SPEED).
 #define KART_MAP_OBJECT_SPIN_MIN_SPEED 0x3000
+
+// Values of Kart.mModelScaleKind: which scale tables the model scale animation plays (a normal landing, a landing after
+// a hop or a long fall, a bump), and the frames it runs.
+#define KART_MODEL_SCALE_LAND 0
+#define KART_MODEL_SCALE_HARD_LAND 1
+#define KART_MODEL_SCALE_BUMP 2
+#define KART_MODEL_SCALE_FRAMES 0xf
+// More airborne frames than this make the landing scale a hard landing.
+#define KART_HARD_LAND_AIRBORNE_FRAMES 0xa
+// Floors of Kart.mRespawnWaitVelocityScale below which the wait stops shrinking it: after a fall into water, and for
+// the other respawn waits.
+#define KART_WATER_FALL_WAIT_MIN_SCALE 0x19a
+#define KART_RESPAWN_WAIT_MIN_SCALE 0x666
+// Kart.mSpeedLimit a reset kart starts with.
+#define KART_START_SPEED_LIMIT 0xd000
+// Kart.mVisible with every bit set: visible to every camera.
+#define KART_VISIBLE_ALL 0xffff
+// Kart.mOffsetCyclePhaseStep a reset kart starts with.
+#define KART_OFFSET_CYCLE_START_PHASE_STEP 0x1000
+// The sound a kart starts with (Kart.mSound.mSoundId and mVolume) after a reset.
+#define KART_START_SOUND_ID 0xa5
+#define KART_START_SOUND_VOLUME 0x64
+// Heading swing at the race start: swings counted before it settles, and the largest heading change per frame while it
+// swings and while it settles.
+#define KART_HEADING_SWING_LAST_COUNT 2
+#define KART_HEADING_SWING_MAX_PER_FRAME 0x17c
+#define KART_HEADING_SWING_SETTLE_MAX_PER_FRAME 0xd2
+// Kart.mForwardSpeed and mVerticalSpeed given by the keyed placement and by the placement that ends a respawn.
+#define KART_RESPAWN_PLACEMENT_FORWARD_SPEED 0x1e000
+#define KART_KEYED_PLACEMENT_FORWARD_SPEED 0x5000
+#define KART_KEYED_PLACEMENT_VERTICAL_SPEED 0x3000
+// The air tilt starts at this Kart.mVelocityLength.
+#define KART_AIR_TILT_MIN_SPEED 0x1000
+// Kart.mCollisionStepFrames at the start, and the frames after which a kart held still is placed back.
+#define KART_COLLISION_STEP_FRAMES_FULL 0x64

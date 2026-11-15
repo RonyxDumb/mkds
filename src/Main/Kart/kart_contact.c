@@ -288,7 +288,7 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
                         StartKartSeqArcSound(kart, kart->mSoundIndex, 3);
                     }
                     StartKartModelScaleAnimation(kart, 1);
-                    kart->mModelScaleKind = 1;
+                    kart->mModelScaleKind = KART_MODEL_SCALE_HARD_LAND;
                 }
             } else if (GetKartAiBoostsAtRaceStart(kart->mAi) != 0) {
                 boostIndex = GetKartAiRaceStartBoostChoice(kart->mAi);
@@ -327,7 +327,7 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
                         StartKartSeqArcSound(kart, kart->mSoundIndex, 3);
                     }
                     StartKartModelScaleAnimation(kart, 1);
-                    kart->mModelScaleKind = 1;
+                    kart->mModelScaleKind = KART_MODEL_SCALE_HARD_LAND;
                 }
             } else if (revLevel > 0xd9a) {
                 boostIndex = 5;
