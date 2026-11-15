@@ -104,7 +104,7 @@ void SetupRecordTAttRowValues(u16 row) {
         QueueCellChars(tile, gRecordTAtt->mPlayerCharacterCells, gRecordTAtt->mPlayerCharacterChars,
                        gRecordTAtt->mPlayerCharacterCellLayout, 0, index, gRecordTAtt->mRecordTAttMNcer,
                        gRecordTAtt->mRecordTAttMBncl);
-        palette = (u8 *) ((Nclr *) gRecordTAtt->mPlayerCharacterPalette)->mData;
+        palette = (u8 *) gRecordTAtt->mPlayerCharacterPalette->mData;
         NNS_GfdRegisterNewVramTransferTask(
             0xe, gRecordTAttPaletteSlots[0][0] << 5,
             palette +
@@ -141,7 +141,7 @@ void SetupRecordTAttRowValues(u16 row) {
         QueueCellChars(tile, gRecordTAtt->mPlayerCharacterCells, gRecordTAtt->mPlayerCharacterChars,
                        gRecordTAtt->mPlayerCharacterCellLayout, 1, index, gRecordTAtt->mRecordTAttSNcer,
                        gRecordTAtt->mRecordTAttSBncl);
-        palette = (u8 *) ((Nclr *) gRecordTAtt->mPlayerCharacterPalette)->mData;
+        palette = (u8 *) gRecordTAtt->mPlayerCharacterPalette->mData;
         NNS_GfdRegisterNewVramTransferTask(
             0x1e, gRecordTAttPaletteSlots[0][row] << 5,
             palette +
@@ -223,7 +223,7 @@ void SetupRecordTAtt(void) {
         QueueCellChars(tile, gRecordTAtt->mPlayerCharacterCells, gRecordTAtt->mPlayerCharacterChars,
                        gRecordTAtt->mPlayerCharacterCellLayout, 0, 5, gRecordTAtt->mRecordTAttMNcer,
                        gRecordTAtt->mRecordTAttMBncl);
-        palette = (u8 *) ((Nclr *) gRecordTAtt->mPlayerCharacterPalette)->mData;
+        palette = (u8 *) gRecordTAtt->mPlayerCharacterPalette->mData;
         NNS_GfdRegisterNewVramTransferTask(
             0xe, 0x80,
             palette +

@@ -132,7 +132,7 @@ void HideTimeAttackTopMenuHighlight(s32 index) {
                         gTimeAttackTopMenu->mTimeAttackTopMenuSBncl);
 }
 
-void InitTimeAttackTopMenu(void *parentHeap, void *mainOam, s32 subOam) {
+void InitTimeAttackTopMenu(void *parentHeap, void *mainOam, void *subOam) {
     void *heap;
     s32 index;
 
@@ -159,7 +159,7 @@ void InitTimeAttackTopMenu(void *parentHeap, void *mainOam, s32 subOam) {
         SetCellOamModeXlu(gTimeAttackTopMenuXluCellIndices[index], 1, gTimeAttackTopMenu->mTimeAttackTopMenuSNcer,
                           gTimeAttackTopMenu->mTimeAttackTopMenuSBncl);
     }
-    ResetOamLists(gTimeAttackTopMenu->mMainOamList, (void *) gTimeAttackTopMenu->mSubOamList);
+    ResetOamLists(gTimeAttackTopMenu->mMainOamList, gTimeAttackTopMenu->mSubOamList);
     InitLayoutTable(gTimeAttackTopMenu->mHeap, gTimeAttackTopMenu->mTimeAttackTopMenuSBncl, NULL,
                     &gTimeAttackTopMenu->mTimeAttackTopMenuSTable);
     for (index = 0; index < 3; index++) {
@@ -398,7 +398,7 @@ s32 AdvanceTimeAttackTopMenu(void) {
             break;
     }
     DrawLayoutTable(gTimeAttackTopMenu->mTimeAttackTopMenuSBncl, gTimeAttackTopMenu->mTimeAttackTopMenuSNcer, NULL,
-                    (void *) gTimeAttackTopMenu->mSubOamList, gTimeAttackTopMenu->mTimeAttackTopMenuSTable);
+                    gTimeAttackTopMenu->mSubOamList, gTimeAttackTopMenu->mTimeAttackTopMenuSTable);
     if (gTimeAttackTopMenu->mState == TIME_ATTACK_TOP_STATE_SLIDE_OUT && gTimeAttackTopMenu->mStateFrames >= 10) {
         return gTimeAttackTopMenu->mResult;
     }

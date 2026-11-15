@@ -54,7 +54,7 @@ void CreateEmblemGrid(s32 side, s32 scrSide, s32 tableCount) {
     heap = GetHeap(GetCurrentHeapCall());
     gEmblemGrid->mBuffers[3] = HeapAllocAligned(heap, gEmblemGrid->mSide * gEmblemGrid->mSide, 0x20);
     heap = GetHeap(GetCurrentHeapCall());
-    gEmblemGrid->mBuffers[4] = HeapAllocAligned(heap, gEmblemGrid->mSide * gEmblemGrid->mSide * 2, 0x20);
+    gEmblemGrid->mPointStack = HeapAllocAligned(heap, gEmblemGrid->mSide * gEmblemGrid->mSide * 2, 0x20);
 }
 
 u32 GetEmblemGridSide(void) {
@@ -275,13 +275,13 @@ s32 FillEmblemGridRegion(s32 startX, s32 startY, s32 newValue) {
         oldValue = *cellPtr;
         if (oldValue != newValue) {
             stackCount = 1;
-            ((EmblemGridPoint *) gEmblemGrid->mBuffers[4])[0] = point;
+            gEmblemGrid->mPointStack[0] = point;
             MemFillWordsByBlock_inline(gEmblemGrid->mBuffers[3], gEmblemGrid->mSide * gEmblemGrid->mSide);
             do {
                 s32 steps[2] = {-1, 1};
 
                 stackCount--;
-                point = ((EmblemGridPoint *) gEmblemGrid->mBuffers[4])[stackCount];
+                point = gEmblemGrid->mPointStack[stackCount];
                 for (edgeIndex = 0, edgeSlot = edges, scanStep = steps, rowY = point.mY; edgeIndex < 2; edgeIndex++) {
                     *edgeSlot = point.mX;
                     for (;;) {
@@ -310,7 +310,7 @@ s32 FillEmblemGridRegion(s32 startX, s32 startY, s32 newValue) {
                                     &gEmblemGrid->mBuffers[3][scanPoint.mX + scanPoint.mY * gEmblemGrid->mSide];
                             } while (cellPtr != NULL && *cellPtr == oldValue && *visitedCell == 0);
                             scanPoint.mX--;
-                            ((EmblemGridPoint *) gEmblemGrid->mBuffers[4])[stackCount++] = scanPoint;
+                            gEmblemGrid->mPointStack[stackCount++] = scanPoint;
                         }
                     }
                     rowStep++;

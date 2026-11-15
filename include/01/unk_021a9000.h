@@ -7,6 +7,7 @@
 #include "01/Menu/option_select_menu.h"
 #include "01/Menu/record_top_menu.h"
 #include "01/Menu/select_ghost.h"
+#include "01/Menu/emblem_grid.h"
 #include "01/Menu/record_gpx.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Menu/data_02180728.h" // TextCanvas
@@ -98,7 +99,8 @@ typedef struct EmblemGrid {
     /* 10 */ s32 mChanged;
     /* 14 */ s32 mSwapped;
     /* 18 */ u16 *mUnk_18;
-    /* 1c */ u8 *mBuffers[5];
+    /* 1c */ u8 *mBuffers[4];
+    /* 2c */ EmblemGridPoint *mPointStack;
 } EmblemGrid;
 
 // The variant argument of InitSelectBattleStage: the battle kind the screen is opened for.
@@ -287,7 +289,7 @@ typedef struct TimeAttackTopMenu {
     /* 24 */ s32 mBg0Offset;
     /* 28 */ s32 mIndex;
     /* 2c */ void *mMainOamList;
-    /* 30 */ s32 mSubOamList;
+    /* 30 */ void *mSubOamList;
     /* 34 */ s32 mResult;
 } TimeAttackTopMenu;
 

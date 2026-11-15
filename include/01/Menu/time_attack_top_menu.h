@@ -11,7 +11,7 @@ void AdvanceTimeAttackTopMenuState2(void);
 void AdvanceTimeAttackTopMenuState1(void);
 void AdvanceTimeAttackTopMenuState0(void);
 void ReleaseTimeAttackTopMenu(void);
-void InitTimeAttackTopMenu(void *parentHeap, void *mainOam, s32 subOam);
+void InitTimeAttackTopMenu(void *parentHeap, void *mainOam, void *subOam);
 void HideTimeAttackTopMenuHighlight(s32 index);
 void ShowTimeAttackTopMenuHighlight(s32 index);
 void RequestTimeAttackTopMenuState5(void);

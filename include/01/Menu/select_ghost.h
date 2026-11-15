@@ -60,8 +60,8 @@ typedef struct SelectGhost {
     // Y half of reg_G2S_DB_BG3OFS (0x0400101c): the SUB engine's BG3, stored negated; mBg0Offset is the main engine's
     /* 5c */ s32 mBg3Offset;
     /* 60 */ s32 mIndex;
-    /* 64 */ u32 mMainOamList;
-    /* 68 */ u32 mSubOamList;
+    /* 64 */ void *mMainOamList;
+    /* 68 */ void *mSubOamList;
     /* 6c */ s32 mResult;
 } SelectGhost;
 
@@ -93,7 +93,7 @@ void AdvanceSelectGhostState2(void);
 void AdvanceSelectGhostState1(void);
 void AdvanceSelectGhostState0(void);
 void ReleaseSelectGhost(void);
-void InitSelectGhost(void *parentHeap, u32 mainOam, u32 subOam);
+void InitSelectGhost(void *parentHeap, void *mainOam, void *subOam);
 void SetupSelectGhostCupCells(void);
 void ReadSelectGhostRecords(void);
 void DecrementSelectGhostIndex(void);

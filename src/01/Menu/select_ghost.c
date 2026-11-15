@@ -340,7 +340,7 @@ void SetupSelectGhostCupCells(void) {
                        gSelectGhost->mSelectCupCourseTaMBncl);
 }
 
-void InitSelectGhost(void *parentHeap, u32 mainOam, u32 subOam) {
+void InitSelectGhost(void *parentHeap, void *mainOam, void *subOam) {
     void *heap;
     s32 rem;
     s32 index;
@@ -669,10 +669,10 @@ int AdvanceSelectGhost(void) {
     AdvancePaletteBlend();
     UpdateSelectGhostCellVisibility();
     DrawLayoutTable(gSelectGhost->mSelectCupCourseTaMBncl, gSelectGhost->mSelectCupCourseMNcer,
-                    gSelectGhost->mSelectCupCourseTaMBnll, (void *) gSelectGhost->mMainOamList,
+                    gSelectGhost->mSelectCupCourseTaMBnll, gSelectGhost->mMainOamList,
                     gSelectGhost->mSelectCupCourseTaMTable);
     DrawLayoutTable(gSelectGhost->mSelectGhostSBncl, gSelectGhost->mSelectGhostSONcer, gSelectGhost->mSelectGhostSBnll,
-                    (void *) gSelectGhost->mSubOamList, gSelectGhost->mSelectGhostSTable);
+                    gSelectGhost->mSubOamList, gSelectGhost->mSelectGhostSTable);
     if (gSelectGhost->mState == SELECT_GHOST_STATE_SLIDE_OUT) {
         switch (gSelectGhost->mResult) {
             case SELECT_GHOST_RESULT_CHOSEN:

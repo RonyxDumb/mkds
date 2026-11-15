@@ -136,10 +136,10 @@ void InitCurrentMenuScreen(void) {
                 InitMissionRunMSsel(MenuGetCurrentHeap(), menu->mMainOam, menu->mSubOam);
                 break;
             case SCREEN_TIME_ATTACK_TOP_MENU:
-                InitTimeAttackTopMenu(MenuGetCurrentHeap(), menu->mMainOam, (s32) menu->mSubOam);
+                InitTimeAttackTopMenu(MenuGetCurrentHeap(), menu->mMainOam, menu->mSubOam);
                 break;
             case SCREEN_SELECT_GHOST:
-                InitSelectGhost(MenuGetCurrentHeap(), (u32) menu->mMainOam, (u32) menu->mSubOam);
+                InitSelectGhost(MenuGetCurrentHeap(), menu->mMainOam, menu->mSubOam);
                 break;
             case SCREEN_SELECT_CUP_M_VS:
             case SCREEN_SELECT_CUP_M_TIME_ATTACK:

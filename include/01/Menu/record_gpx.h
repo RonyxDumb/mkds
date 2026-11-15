@@ -90,7 +90,7 @@ typedef struct RecordGpx {
     /* 40 */ Nclr *mPlayerCharacterMONclr;
     /* 44 */ struct LayoutEntryTable *mPlayerCharacterMBncl;
     /* 48 */ Nscr *mRecordGpxSNscr;
-    /* 4c */ void *mZeroBuffer;
+    /* 4c */ u8 *mZeroBuffer;
     /* 50 */ LayoutTableEntry *mRecordGpxMTable;
     /* 54 */ LayoutTableEntry *mRecordGpxSTable;
     /* 58 */ void *mCommonMessages;
