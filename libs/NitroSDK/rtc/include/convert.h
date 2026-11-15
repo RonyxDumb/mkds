@@ -3,6 +3,14 @@
 #include "types.h"
 #include "code_0214d93c.h" // RTCDate, RTCTime
 
+// Limits RTC_ConvertDateToDay accepts: years count from 0 to 99, months 1 to 12, days 1 to 31. A leap year is a year
+// whose low two bits are clear, and its extra day counts from the month after February.
+#define RTC_YEAR_COUNT 100
+#define RTC_MONTH_MAX 12
+#define RTC_DAY_MAX 31
+#define RTC_LEAP_YEAR_MASK 3
+#define RTC_MARCH 3
+
 s64 RTC_ConvertDateTimeToSecond(const RTCDate *date, const RTCTime *time);
 
 s32 RTCi_ConvertTimeToSecond(const RTCTime *time);

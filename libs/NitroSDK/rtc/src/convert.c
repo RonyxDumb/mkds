@@ -7,14 +7,14 @@
 s32 RTC_ConvertDateToDay(const RTCDate *date) {
     s32 days;
 
-    if (date->mYear >= 100 || date->mMonth < 1 || date->mMonth > 12 || date->mDay < 1 || date->mDay > 31 ||
-        date->mWeek >= RTC_WEEK_MAX || date->mMonth < 1 || date->mMonth > 12) {
+    if (date->mYear >= RTC_YEAR_COUNT || date->mMonth < 1 || date->mMonth > RTC_MONTH_MAX || date->mDay < 1 ||
+        date->mDay > RTC_DAY_MAX || date->mWeek >= RTC_WEEK_MAX || date->mMonth < 1 || date->mMonth > RTC_MONTH_MAX) {
         return -1;
     }
     days = date->mDay - 1;
     // The month is 1-based.
     days += (sDayOfYear - 1)[date->mMonth];
-    if (date->mMonth >= 3 && (date->mYear & 3) == 0) {
+    if (date->mMonth >= RTC_MARCH && (date->mYear & RTC_LEAP_YEAR_MASK) == 0) {
         days++;
     }
     days += date->mYear * 365;

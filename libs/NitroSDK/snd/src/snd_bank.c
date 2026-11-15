@@ -137,7 +137,7 @@ u32 SND_GetNextInstData(SNDBankData *bank, SNDInstData *inst, SNDInstPos *pos) {
                 break;
             case INSTRUMENT_TYPE_KEY_SPLIT:
                 keyTable = OFFSET_PTR(InstKeySplit, bank, (entry >> 8));
-                while (pos->mIndex < 8) {
+                while (pos->mIndex < KEY_SPLIT_ENTRY_COUNT) {
                     if (keyTable->mKey[pos->mIndex] == 0) {
                         break;
                     }
