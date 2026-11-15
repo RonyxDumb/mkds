@@ -123,20 +123,20 @@ static inline BOOL IsAnyKartHighestLapAtLeastTwo(void) {
 
 void UpdateAirship(void *mapObjectList, Airship *airship) {
     switch (airship->mState) {
-        case 0:
+        case AIRSHIP_STATE_WAIT_SECOND_LAP:
             if (IsAnyKartHighestLapAtLeastTwo() != FALSE) {
-                airship->mState = 1;
+                airship->mState = AIRSHIP_STATE_RISE;
             }
             break;
-        case 1:
+        case AIRSHIP_STATE_RISE:
             airship->mModelHeightOffset += 0x1000;
             if (airship->mModelHeightOffset >= 0) {
                 airship->mModelHeightOffset = 0;
-                airship->mState = 2;
+                airship->mState = AIRSHIP_STATE_FOLLOW_PATH;
             }
             AdvanceAirshipWobble(airship);
             break;
-        case 2:
+        case AIRSHIP_STATE_FOLLOW_PATH:
             AdvanceGroupFollower(&airship->mGroupFollower);
             GetGroupFollowerCurvePosStep(&airship->mGroupFollower, &airship->mMapObject.mPos,
                                          &airship->mMapObject.mPosStep);

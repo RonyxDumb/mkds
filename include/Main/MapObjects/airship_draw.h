@@ -7,6 +7,13 @@
 #include "Main/Item/item_koura_w.h" // CourseMapRow
 #include "01/MapObjects/data_0209bc74.h"
 
+// Values of Airship.mState: waits for a kart on its second lap, raises the model to its place, then follows the path.
+enum {
+    AIRSHIP_STATE_WAIT_SECOND_LAP,
+    AIRSHIP_STATE_RISE,
+    AIRSHIP_STATE_FOLLOW_PATH,
+};
+
 // Object of kind 0x158 (Airship) with the GroupFollower base at 0xc8 (DrawAirship, InitAirshipObjects).
 typedef struct Airship {
     /* 00 */ MapObject mMapObject;
