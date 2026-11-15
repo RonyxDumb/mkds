@@ -263,17 +263,17 @@ void RtcCommonCallback(u32 tag, u32 data, BOOL err) {
     } else {
         gClockRequest.mIndex = 0;
         switch (status) {
-            case RTC_REPLY_STATUS_INVALID_COMMAND:
+            case CLOCK_REPLY_STATUS_INVALID_COMMAND:
                 result = RTC_RESULT_INVALID_COMMAND;
                 break;
-            case RTC_REPLY_STATUS_ILLEGAL_STATUS:
+            case CLOCK_REPLY_STATUS_ILLEGAL_STATUS:
                 result = RTC_RESULT_ILLEGAL_STATUS;
                 break;
-            case RTC_REPLY_STATUS_BUSY:
+            case CLOCK_REPLY_STATUS_BUSY:
                 result = RTC_RESULT_BUSY;
                 break;
-            case RTC_REPLY_STATUS_OK:
-            case RTC_REPLY_STATUS_FATAL_ERROR:
+            case CLOCK_REPLY_STATUS_OK:
+            case CLOCK_REPLY_STATUS_FATAL_ERROR:
             default:
                 result = RTC_RESULT_FATAL_ERROR;
                 break;
