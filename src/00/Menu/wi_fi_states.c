@@ -138,7 +138,7 @@ void InitWiFiStates(void *heap, s32 sceneNumber) {
                     break;
                 case 1:
                     sessionStateMachine = &gWiFiSession->mStateMachine;
-                    sessionStateMachine->mNextState = 2;
+                    sessionStateMachine->mNextState = WIFI_SESSION_STATE_IDLE;
                     sessionStateMachine->mNextStateRequested = 1;
                     gWiFiStates->mState = WIFI_STATE_VS_SETTING;
                     RegisterWiFiVSSettingCallbacks();
@@ -316,7 +316,7 @@ BOOL IsWiFiSessionOffOutsideLogin(void) {
     if (gWiFiStates != NULL && gWiFiStates->mState == WIFI_STATE_LOGIN_MENU) {
         valid = FALSE;
     }
-    if (gWiFiSession->mStateMachine.mState == 0 && valid != FALSE) {
+    if (gWiFiSession->mStateMachine.mState == WIFI_SESSION_STATE_OFF && valid != FALSE) {
         return TRUE;
     }
     return FALSE;
