@@ -19,7 +19,7 @@
 #include "Main/MapObjects/map_object_list.h"
 #include "Main/MapObjects/map_object.h"
 
-void SetDonketuStepEffectCallbacks(u16 *mapObject);
+void SetDonketuStepEffectCallbacks(MissionRunMapObject *mapObject);
 void SetDonketuStepSoundCallbacks(MissionRunMapObject *mapObject);
 void StartKingIceDonketuStepEffectSecond(MissionRunMapObject *mapObject);
 void StartKingIceDonketuStepEffectFirst(MissionRunMapObject *mapObject);

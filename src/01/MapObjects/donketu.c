@@ -109,14 +109,14 @@ void SetDonketuStepSoundCallbacks(MissionRunMapObject *mapObject) {
     SetTwoAnimationFrameCallbacks(mapObject, 0x19, StartDonketuStepSoundFirst, 0x36, StartDonketuStepSoundSecond);
 }
 
-void SetDonketuStepEffectCallbacks(u16 *mapObject) {
-    if (*mapObject == (0x000001f5u)) {
-        SetTwoAnimationFrameCallbacks((MissionRunMapObject *) mapObject, 0x19, StartBossDonketuStepEffectFirst, 0x36,
+void SetDonketuStepEffectCallbacks(MissionRunMapObject *mapObject) {
+    if (mapObject->mMapObject.mKind == (0x000001f5u)) {
+        SetTwoAnimationFrameCallbacks(mapObject, 0x19, StartBossDonketuStepEffectFirst, 0x36,
                                       StartBossDonketuStepEffectSecond);
         return;
     }
-    if (*mapObject == (0x000001f6u)) {
-        SetTwoAnimationFrameCallbacks((MissionRunMapObject *) mapObject, 9, StartKingIceDonketuStepEffectFirst, 0x26,
+    if (mapObject->mMapObject.mKind == (0x000001f6u)) {
+        SetTwoAnimationFrameCallbacks(mapObject, 9, StartKingIceDonketuStepEffectFirst, 0x26,
                                       StartKingIceDonketuStepEffectSecond);
     }
 }
@@ -520,7 +520,7 @@ void StartDonketuChaseStopState(MissionRunMapObject *donketu) {
     if (donketu->mSpeed < donketu->mPrm->mDonketu.mChaseStopSpeedPerCall) {
         SetKartCollisionCallback(donketu, DonketuKartCollisionCallback);
     }
-    SetDonketuStepEffectCallbacks((u16 *) donketu);
+    SetDonketuStepEffectCallbacks(donketu);
 }
 
 void StartDonketuChaseRunState(MissionRunMapObject *donketu) {
@@ -532,7 +532,7 @@ void StartDonketuChaseRunState(MissionRunMapObject *donketu) {
                              donketu->mPrm->mDonketu.mChaseRunSpeedPerCall);
     StartStateFrameCountCallback(donketu, donketu->mPrm->mDonketu.mChaseRunFrameCount, &StartDonketuChaseStopState);
     SetKartCollisionCallback(donketu, DonketuChaseKartCollisionCallback);
-    SetDonketuStepEffectCallbacks((u16 *) donketu);
+    SetDonketuStepEffectCallbacks(donketu);
 }
 
 void StartDonketuChaseWaitState(MissionRunMapObject *donketu) {
@@ -554,7 +554,7 @@ void StartDonketuChaseRunAtStart(MissionRunMapObject *donketu) {
     StartStateFrameCountCallback(donketu, donketu->mPrm->mDonketu.mChaseRunAtStartFrameCount,
                                  &StartDonketuChaseStopState);
     SetKartCollisionCallback(donketu, DonketuChaseKartCollisionCallback);
-    SetDonketuStepEffectCallbacks((u16 *) donketu);
+    SetDonketuStepEffectCallbacks(donketu);
 }
 
 void StartDonketuChaseKartState(MissionRunMapObject *donketu) {
