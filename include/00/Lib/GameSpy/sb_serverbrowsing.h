@@ -51,5 +51,5 @@ void ServerBrowserFree(MatchingServerList *matchingServerList);
 MatchingServerList *ServerBrowserNewA(const char *targetName, const char *sourceName, const char *queryFromKey,
                                       u32 queryFromVersion, u32 maxUpdates, u32 queryVersion, s32 lanBrowse,
                                       SBBrowserCallback callback, u32 instance);
-void EngineCallback(void *engine, s32 reason, SbServer *server, MatchingServerList *matchingServerList);
-void ListCallback(SbServerList *browserList, s32 reason, SbServer *server, MatchingServerList *matchingServerList);
+void EngineCallback(void *engine, s32 reason, SbServer *server, void *instance);
+void ListCallback(SbServerList *browserList, s32 reason, SbServer *server, void *instance);

@@ -41,7 +41,8 @@
 #include "00/Lib/GameSpy/code_0218d488.h"
 #include "00/Lib/NitroWiFi/socl_startup.h"
 
-void ListCallback(SbServerList *browserList, s32 reason, SbServer *server, MatchingServerList *matchingServerList) {
+void ListCallback(SbServerList *browserList, s32 reason, SbServer *server, void *instance) {
+    MatchingServerList *matchingServerList = instance;
     switch (reason) {
         case slc_serveradded:
             matchingServerList->mBrowserCallback(matchingServerList, sbc_serveradded, server,
@@ -105,7 +106,8 @@ void ListCallback(SbServerList *browserList, s32 reason, SbServer *server, Match
     }
 }
 
-void EngineCallback(void *engine, s32 reason, SbServer *server, MatchingServerList *matchingServerList) {
+void EngineCallback(void *engine, s32 reason, SbServer *server, void *instance) {
+    MatchingServerList *matchingServerList = instance;
     switch (reason) {
         case qe_updatefailed:
             matchingServerList->mBrowserCallback(matchingServerList, sbc_serverupdatefailed, server,
@@ -141,9 +143,9 @@ MatchingServerList *ServerBrowserNewA(const char *targetName, const char *source
     matchingServerList->mBrowserInstance = instance;
     matchingServerList->mDontUpdate = 0;
     SbServerListInit(&matchingServerList->mList, targetName, sourceName, queryFromKey, queryFromVersion, lanBrowse,
-                     (SbServerListCallback) ListCallback, matchingServerList);
-    SBQueryEngineInit(&matchingServerList->mEngine, maxUpdates, queryVersion, lanBrowse,
-                      (SBEngineCallback) EngineCallback, matchingServerList);
+                     ListCallback, matchingServerList);
+    SBQueryEngineInit(&matchingServerList->mEngine, maxUpdates, queryVersion, lanBrowse, EngineCallback,
+                      matchingServerList);
     return matchingServerList;
 }
 
