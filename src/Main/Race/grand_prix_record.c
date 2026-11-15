@@ -114,13 +114,13 @@ BOOL TrySetGrandPrixRecord(void) {
     s32 engineClass;
     MenuShared *menuShared = gMenuShared;
     switch (menuShared->mEngineIndex) {
-        case 0:
+        case ENGINE_CLASS_SLOW:
             engineClass = stored;
             break;
-        case 1:
+        case ENGINE_CLASS_MEDIUM:
             engineClass = 1;
             break;
-        case 2:
+        case ENGINE_CLASS_FAST:
             engineClass = (menuShared->mMirrorMode != 0) ? 3 : 2;
             break;
     }
