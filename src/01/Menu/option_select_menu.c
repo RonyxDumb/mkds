@@ -261,7 +261,7 @@ void AdvanceOptionSelectMenuState1(void) {
 void AdvanceOptionSelectMenuState2(void) {
     OptionSelectMenu *menu;
     s32 sel;
-    s32 r5;
+    s32 touchedRect;
     BOOL hasB;
     BOOL hasA;
     s32 rowIndex;
@@ -272,7 +272,7 @@ void AdvanceOptionSelectMenuState2(void) {
     sel = menu->mIndex;
     idx = INPUT_SLOT_PAD_OR_PARTICIPANT;
     hasB = FALSE;
-    r5 = -1;
+    touchedRect = -1;
     hasA = FALSE;
     hasPair = gInputSlots[idx].mPair.mHasPair;
     if (hasPair == 0 && gInputSlots[idx].mPair.mNoPairCount < 5) {
@@ -282,11 +282,11 @@ void AdvanceOptionSelectMenuState2(void) {
         hasB = TRUE;
     }
     if (hasB != FALSE) {
-        r5 = RectTableFindContaining(menu->mOptionSelectMenuSBnbl, gInputSlots[idx].mPair.mPairX,
-                                     gInputSlots[idx].mPair.mPairY);
+        touchedRect = RectTableFindContaining(menu->mOptionSelectMenuSBnbl, gInputSlots[idx].mPair.mPairX,
+                                              gInputSlots[idx].mPair.mPairY);
     }
     if ((u16) (gInputSlots[idx].mPressedBits & PAD_KEY_B) != 0) {
-        goto L1;
+        goto leaveMenu;
     } else {
         BOOL touchBegan = FALSE;
         BOOL recentlyLost = FALSE;
@@ -299,7 +299,7 @@ void AdvanceOptionSelectMenuState2(void) {
         }
         if (touchBegan != FALSE && IsSelectReturnShownNoRequestAndInRect(gInputSlots[idx].mPair.mPairX,
                                                                          gInputSlots[idx].mPair.mPairY) != FALSE) {
-        L1:
+        leaveMenu:
             gOptionSelectMenu->mNextState = OPTION_SELECT_STATE_SLIDE_OUT;
             gOptionSelectMenu->mNextOptionState = OPTION_STATE_TOP_MENU;
             for (rowIndex = 0; rowIndex < 2; rowIndex++) {
@@ -310,7 +310,7 @@ void AdvanceOptionSelectMenuState2(void) {
         }
     }
     if (((u16) (gInputSlots[idx].mPressedBits & PAD_KEY_A) != 0 && gOptionSelectMenu->mIndex == OPTION_SELECT_ROW_OK) ||
-        r5 == OPTION_SELECT_ROW_OK) {
+        touchedRect == OPTION_SELECT_ROW_OK) {
         SetSoundModeFromOptionRow();
         if (gOptionSelectMenu->mRowValues[OPTION_SELECT_ROW_LOCATE_FRIEND] == 0) {
             gBackupBuffers->mFirstBlock->mUnk_31 &= ~0x10;
@@ -327,11 +327,11 @@ void AdvanceOptionSelectMenuState2(void) {
         gOptionSelectMenu->mOkChosen = TRUE;
         StopPaletteBlend();
         StartSoundOncePerFrame(5);
-    } else if (r5 == OPTION_SELECT_ROW_SOUND) {
+    } else if (touchedRect == OPTION_SELECT_ROW_SOUND) {
         gOptionSelectMenu->mIndex = OPTION_SELECT_ROW_SOUND;
         gOptionSelectMenu->mRowValues[gOptionSelectMenu->mIndex]++;
         StartSoundOncePerFrame(10);
-    } else if (r5 == OPTION_SELECT_ROW_LOCATE_FRIEND) {
+    } else if (touchedRect == OPTION_SELECT_ROW_LOCATE_FRIEND) {
         gOptionSelectMenu->mIndex = OPTION_SELECT_ROW_LOCATE_FRIEND;
         gOptionSelectMenu->mRowValues[gOptionSelectMenu->mIndex]++;
         StartSoundOncePerFrame(1);
@@ -366,22 +366,22 @@ void AdvanceOptionSelectMenuState2(void) {
         } else {
             StartSoundOncePerFrame(1);
         }
-    } else if (r5 == 3) {
+    } else if (touchedRect == 3) {
         gOptionSelectMenu->mIndex = OPTION_SELECT_ROW_SOUND;
         gOptionSelectMenu->mRowValues[gOptionSelectMenu->mIndex]--;
         gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][0] = 6;
         StartSoundOncePerFrame(10);
-    } else if (r5 == 4) {
+    } else if (touchedRect == 4) {
         gOptionSelectMenu->mIndex = OPTION_SELECT_ROW_SOUND;
         gOptionSelectMenu->mRowValues[gOptionSelectMenu->mIndex]++;
         gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][1] = 6;
         StartSoundOncePerFrame(10);
-    } else if (r5 == 5) {
+    } else if (touchedRect == 5) {
         gOptionSelectMenu->mIndex = OPTION_SELECT_ROW_LOCATE_FRIEND;
         gOptionSelectMenu->mRowValues[gOptionSelectMenu->mIndex]--;
         gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][0] = 6;
         StartSoundOncePerFrame(1);
-    } else if (r5 == 6) {
+    } else if (touchedRect == 6) {
         gOptionSelectMenu->mIndex = OPTION_SELECT_ROW_LOCATE_FRIEND;
         gOptionSelectMenu->mRowValues[gOptionSelectMenu->mIndex]++;
         gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][1] = 6;
