@@ -15,12 +15,12 @@ typedef struct NNSG3dVisAnmResult {
 } NNSG3dVisAnmResult;
 
 // Bits of NNSG3dJntAnmResult.mFlag (also set in the first byte of a node's flags in the resource).
-#define G3D_JNT_ANM_SCALE_IS_ONE 0x1
-#define G3D_JNT_ANM_ROT_IS_ZERO 0x2
-#define G3D_JNT_ANM_TRANS_IS_ZERO 0x4
-#define G3D_JNT_ANM_SCALE_EX0_IS_ONE 0x8
-#define G3D_JNT_ANM_SCALE_EX1_IS_ONE 0x10
-#define G3D_JNT_ANM_SCALE_EX_ARE_ONE 0x18
+#define G3D_JNT_ANM_SCALE_IS_IDENTITY 0x1
+#define G3D_JNT_ANM_ROT_IS_IDENTITY 0x2
+#define G3D_JNT_ANM_TRANS_IS_IDENTITY 0x4
+#define G3D_JNT_ANM_SCALE_EX0_IS_IDENTITY 0x8
+#define G3D_JNT_ANM_SCALE_EX1_IS_IDENTITY 0x10
+#define G3D_JNT_ANM_SCALE_EX_ARE_IDENTITY 0x18
 #define G3D_JNT_ANM_ALL_IDENTITY 0x7
 
 // Result of a joint animation for one node. Bit 0 of mFlag says the scale is one, bit 1 that the rotation is zero,
@@ -35,9 +35,9 @@ typedef struct NNSG3dJntAnmResult {
 } NNSG3dJntAnmResult;
 
 // Bits of NNSG3dMatAnmResult.mFlag: the texture matrix parts that are left out, and whether the matrix is used.
-#define G3D_MAT_ANM_SCALE_IS_ONE 0x1
-#define G3D_MAT_ANM_ROT_IS_ZERO 0x2
-#define G3D_MAT_ANM_TRANS_IS_ZERO 0x4
+#define G3D_MAT_ANM_SCALE_IS_IDENTITY 0x1
+#define G3D_MAT_ANM_ROT_IS_IDENTITY 0x2
+#define G3D_MAT_ANM_TRANS_IS_IDENTITY 0x4
 #define G3D_MAT_ANM_TEX_MTX_SET 0x8
 
 // Result of a material animation: the colors, polygon attributes and texture parameters of one material.

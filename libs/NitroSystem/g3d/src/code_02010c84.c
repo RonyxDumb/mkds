@@ -93,20 +93,20 @@ void NNS_G3dDraw1Mat1Shp(NNSG3dResMdl *resMdl, u32 matId, u32 shpId, BOOL sendMa
                 texResult.mScaleST[1] = ((u32 *) texMtx)[1];
                 texMtx += 8;
             } else {
-                texResult.mFlag |= G3D_MAT_ANM_SCALE_IS_ONE;
+                texResult.mFlag |= G3D_MAT_ANM_SCALE_IS_IDENTITY;
             }
             if (!(matData->mFlag & G3D_MAT_FLAG_NO_TEX_ROT)) {
                 texResult.mSinCosR[0] = ((s16 *) texMtx)[0];
                 texResult.mSinCosR[1] = ((s16 *) texMtx)[1];
                 texMtx += 4;
             } else {
-                texResult.mFlag |= G3D_MAT_ANM_ROT_IS_ZERO;
+                texResult.mFlag |= G3D_MAT_ANM_ROT_IS_IDENTITY;
             }
             if (!(matData->mFlag & G3D_MAT_FLAG_NO_TEX_TRANS)) {
                 texResult.mTransST[0] = ((u32 *) texMtx)[0];
                 texResult.mTransST[1] = ((u32 *) texMtx)[1];
             } else {
-                texResult.mFlag |= G3D_MAT_ANM_TRANS_IS_ZERO;
+                texResult.mFlag |= G3D_MAT_ANM_TRANS_IS_IDENTITY;
             }
             sendTexSRT(&texResult);
         }
@@ -691,17 +691,18 @@ BOOL NNSi_G3dAnmBlendJnt(NNSG3dJntAnmResult *result, NNSG3dAnmObj *anmObj, u32 n
             } else {
                 weight = FX_Div(anmObj->mRatio, totalWeight);
             }
-            blendScaleVec_(&result->mScale, &animResult.mScale, weight, animResult.mFlag & G3D_JNT_ANM_SCALE_IS_ONE);
+            blendScaleVec_(&result->mScale, &animResult.mScale, weight,
+                           animResult.mFlag & G3D_JNT_ANM_SCALE_IS_IDENTITY);
             blendScaleVec_(&result->mScaleEx0, &animResult.mScaleEx0, weight,
-                           animResult.mFlag & G3D_JNT_ANM_SCALE_EX0_IS_ONE);
+                           animResult.mFlag & G3D_JNT_ANM_SCALE_EX0_IS_IDENTITY);
             blendScaleVec_(&result->mScaleEx1, &animResult.mScaleEx1, weight,
-                           animResult.mFlag & G3D_JNT_ANM_SCALE_EX1_IS_ONE);
-            if (!(animResult.mFlag & G3D_JNT_ANM_TRANS_IS_ZERO)) {
+                           animResult.mFlag & G3D_JNT_ANM_SCALE_EX1_IS_IDENTITY);
+            if (!(animResult.mFlag & G3D_JNT_ANM_TRANS_IS_IDENTITY)) {
                 result->mTrans.x += MUL_FIXED12_NO_ROUND(weight, animResult.mTrans.x);
                 result->mTrans.y += MUL_FIXED12_NO_ROUND(weight, animResult.mTrans.y);
                 result->mTrans.z += MUL_FIXED12_NO_ROUND(weight, animResult.mTrans.z);
             }
-            if (!(animResult.mFlag & G3D_JNT_ANM_ROT_IS_ZERO)) {
+            if (!(animResult.mFlag & G3D_JNT_ANM_ROT_IS_IDENTITY)) {
                 result->mRot.mRows[0].x += (weight * animResult.mRot.mRows[0].x) >> 12;
                 result->mRot.mRows[0].y += (weight * animResult.mRot.mRows[0].y) >> 12;
                 result->mRot.mRows[0].z += (weight * animResult.mRot.mRows[0].z) >> 12;

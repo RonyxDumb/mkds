@@ -19,8 +19,8 @@ typedef struct FxPairS32 {
 // Bits of NNSG3dResNodeData.mFlag. The translation or rotation is left out when its bit is set. With ROT_PIVOT the
 // rotation stores only two values; the pivot element is in bits 4 to 7, bit 8 makes it negative and the NEGATE bits
 // flip the sign of the stored values when they are placed.
-#define G3D_NODE_TRANS_ZERO 0x1
-#define G3D_NODE_ROT_ZERO 0x2
+#define G3D_NODE_TRANS_IDENTITY 0x1
+#define G3D_NODE_ROT_IDENTITY 0x2
 #define G3D_NODE_ROT_PIVOT 0x8
 #define G3D_NODE_ROT_PIVOT_MASK 0xf0
 #define G3D_NODE_ROT_PIVOT_NEGATIVE 0x100

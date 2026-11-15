@@ -306,28 +306,28 @@ void GetTexSRTAnm_(const NNSG3dResTexSRTAnm *pTexAnm, u16 idx, u32 frame, NNSG3d
     valueS = GetTexSRTAnmVectorVal_(pTexAnm, srtData->mTransS, srtData->mTransSEx, frame);
     valueT = GetTexSRTAnmVectorVal_(pTexAnm, srtData->mTransT, srtData->mTransTEx, frame);
     if (valueS == 0 && valueT == 0) {
-        flag |= G3D_MAT_ANM_TRANS_IS_ZERO;
+        flag |= G3D_MAT_ANM_TRANS_IS_IDENTITY;
     } else {
         pResult->mTransST[0] = valueS;
         pResult->mTransST[1] = valueT;
-        flag &= ~G3D_MAT_ANM_TRANS_IS_ZERO;
+        flag &= ~G3D_MAT_ANM_TRANS_IS_IDENTITY;
     }
     rotation = GetTexSRTAnmSinCosVal_(pTexAnm, srtData->mRot, srtData->mRotEx, frame);
     if (rotation == 0x10000000) {
-        flag |= G3D_MAT_ANM_ROT_IS_ZERO;
+        flag |= G3D_MAT_ANM_ROT_IS_IDENTITY;
     } else {
         pResult->mSinCosR[0] = rotation;
         pResult->mSinCosR[1] = rotation >> 16;
-        flag &= ~G3D_MAT_ANM_ROT_IS_ZERO;
+        flag &= ~G3D_MAT_ANM_ROT_IS_IDENTITY;
     }
     valueS = GetTexSRTAnmVectorVal_(pTexAnm, srtData->mScaleS, srtData->mScaleSEx, frame);
     valueT = GetTexSRTAnmVectorVal_(pTexAnm, srtData->mScaleT, srtData->mScaleTEx, frame);
     if (valueS == 0x1000 && valueT == 0x1000) {
-        flag |= G3D_MAT_ANM_SCALE_IS_ONE;
+        flag |= G3D_MAT_ANM_SCALE_IS_IDENTITY;
     } else {
         pResult->mScaleST[0] = valueS;
         pResult->mScaleST[1] = valueT;
-        flag &= ~G3D_MAT_ANM_SCALE_IS_ONE;
+        flag &= ~G3D_MAT_ANM_SCALE_IS_IDENTITY;
     }
     pResult->mFlag = flag;
 }
@@ -551,8 +551,8 @@ void getMdlTrans_(NNSG3dJntAnmResult *out) {
     nodeInfo = rs->mResNodeInfo;
     table = (u8 *) nodeInfo + nodeInfo->mOfsEntry;
     node = OFFSET_PTR(NNSG3dResNodeData, nodeInfo, *(u32 *) (table + *(u16 *) table * rs->mC[1] + 4));
-    if (node->mFlag & G3D_NODE_TRANS_ZERO) {
-        out->mFlag |= G3D_JNT_ANM_TRANS_IS_ZERO;
+    if (node->mFlag & G3D_NODE_TRANS_IDENTITY) {
+        out->mFlag |= G3D_JNT_ANM_TRANS_IS_IDENTITY;
         return;
     }
     src = (const u32 *) node->mTransRotData;
@@ -605,10 +605,10 @@ void getMdlRot_(NNSG3dJntAnmResult *out) {
     table = (u8 *) nodeInfo + nodeInfo->mOfsEntry;
     node = OFFSET_PTR(NNSG3dResNodeData, nodeInfo, *(u32 *) (table + *(u16 *) table * rs->mC[1] + 4));
     vals = node->mTransRotData;
-    if (!(node->mFlag & G3D_NODE_TRANS_ZERO)) {
+    if (!(node->mFlag & G3D_NODE_TRANS_IDENTITY)) {
         vals += 6;
     }
-    if (!(node->mFlag & G3D_NODE_ROT_ZERO)) {
+    if (!(node->mFlag & G3D_NODE_ROT_IDENTITY)) {
         if (node->mFlag & G3D_NODE_ROT_PIVOT) {
             pivot = (node->mFlag & G3D_NODE_ROT_PIVOT_MASK) >> 4;
             first = vals[0];
@@ -637,7 +637,7 @@ void getMdlRot_(NNSG3dJntAnmResult *out) {
             out->mRot.mElements[8] = vals[7];
         }
     } else {
-        out->mFlag |= G3D_JNT_ANM_ROT_IS_ZERO;
+        out->mFlag |= G3D_JNT_ANM_ROT_IS_IDENTITY;
     }
 }
 
@@ -699,7 +699,7 @@ void getJntSRTAnmResult_(const NNSG3dResJntAnm *jntAnm, int node, s32 frame, NNS
                 out->mTrans.z = *cursor++;
             }
         } else if (flags & 2) {
-            out->mFlag |= G3D_JNT_ANM_TRANS_IS_ZERO;
+            out->mFlag |= G3D_JNT_ANM_TRANS_IS_IDENTITY;
         } else {
             getMdlTrans_(out);
         }
@@ -727,7 +727,7 @@ void getJntSRTAnmResult_(const NNSG3dResJntAnm *jntAnm, int node, s32 frame, NNS
                 cursor += 1;
             }
         } else if (flags & 0x40) {
-            out->mFlag |= G3D_JNT_ANM_ROT_IS_ZERO;
+            out->mFlag |= G3D_JNT_ANM_ROT_IS_IDENTITY;
         } else {
             getMdlRot_(out);
         }
@@ -769,13 +769,13 @@ void getJntSRTAnmResult_(const NNSG3dResJntAnm *jntAnm, int node, s32 frame, NNS
                 scaleOut[1][2] = cursor[5];
             }
         } else if (flags & 0x200) {
-            out->mFlag |= G3D_JNT_ANM_SCALE_IS_ONE;
+            out->mFlag |= G3D_JNT_ANM_SCALE_IS_IDENTITY;
         } else {
             getMdlScale_(out);
             return;
         }
     }
-    NNS_G3dRS->mFuncJntScale(out, scaleOut, NNS_G3dRS->mC, (out->mFlag & G3D_JNT_ANM_SCALE_IS_ONE) ? 4 : 0);
+    NNS_G3dRS->mFuncJntScale(out, scaleOut, NNS_G3dRS->mC, (out->mFlag & G3D_JNT_ANM_SCALE_IS_IDENTITY) ? 4 : 0);
 }
 
 void getTransData_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm *jntAnm) {
