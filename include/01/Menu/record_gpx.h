@@ -69,6 +69,11 @@ enum {
     RECORD_INDEX_MOVE_PREVIOUS,
 };
 
+// The strip of the sub screen map (offset and size in bytes) that SetupRecordGpx fills from the map when the cup backup
+// flag is set and from the zeroed RecordGpx.mZeroBuffer otherwise.
+#define RECORD_GPX_MAP_STRIP_OFFSET 0x3c6
+#define RECORD_GPX_MAP_STRIP_BYTES 0x134
+
 // Object behind gRecordGpx.
 typedef struct RecordGpx {
     /* 00 */ Ncgr *mRecordGpxMNcgr;

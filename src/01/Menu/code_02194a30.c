@@ -226,8 +226,9 @@ void SetupRecordGpx(void) {
 
     subLayoutCount = gRecordGpx->mRecordGpxSBncl->mCount;
     if (IsRecordGpxCupBackupFlagSet(gRecordGpx->mIndex) != 0) {
-        NNS_GfdRegisterNewVramTransferTask(0x1b, 0x3c6, OFFSET_PTR(u8, gRecordGpx->mRecordGpxSNscr, 0xc) + 0x3c6,
-                                           0x134);
+        NNS_GfdRegisterNewVramTransferTask(
+            0x1b, RECORD_GPX_MAP_STRIP_OFFSET,
+            OFFSET_PTR(u8, gRecordGpx->mRecordGpxSNscr, 0xc) + RECORD_GPX_MAP_STRIP_OFFSET, RECORD_GPX_MAP_STRIP_BYTES);
         gRecordGpx->mRecordGpxSTable[gRecordGpxLowSTableIndices[3]].mVisible = 1;
         for (cellIndex = 0; cellIndex < 3; cellIndex++) {
             gRecordGpx->mRecordGpxSTable[gRecordGpxTotalPointsCellIndices[3][cellIndex]].mVisible = 1;
@@ -237,7 +238,9 @@ void SetupRecordGpx(void) {
         gRecordGpx->mRecordGpxSTable[subLayoutCount + gRecordGpxTotalPointsLabelIndices[3]].mVisible = 1;
         gRecordGpx->mRecordGpxSTable[subLayoutCount + gRecordGpxGradeLabelIndices[3]].mVisible = 1;
     } else {
-        NNS_GfdRegisterNewVramTransferTask(0x1b, 0x3c6, gRecordGpx->mZeroBuffer + 0x3c6, 0x134);
+        NNS_GfdRegisterNewVramTransferTask(0x1b, RECORD_GPX_MAP_STRIP_OFFSET,
+                                           gRecordGpx->mZeroBuffer + RECORD_GPX_MAP_STRIP_OFFSET,
+                                           RECORD_GPX_MAP_STRIP_BYTES);
         gRecordGpx->mRecordGpxSTable[gRecordGpxLowSTableIndices[3]].mVisible = 0;
         for (cellIndex = 0; cellIndex < 3; cellIndex++) {
             gRecordGpx->mRecordGpxSTable[gRecordGpxTotalPointsCellIndices[3][cellIndex]].mVisible = 0;

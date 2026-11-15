@@ -155,9 +155,9 @@ void InitRecordGpx(void *heap) {
     if (anyFlagSet == 0) {
         gRecordGpx->mBg3OffsetY = 16;
     }
-    gRecordGpx->mZeroBuffer = HeapAlloc(heap, 0x134);
+    gRecordGpx->mZeroBuffer = HeapAlloc(heap, RECORD_GPX_MAP_STRIP_BYTES);
     zero = 0;
-    MIi_CpuClear16(zero, gRecordGpx->mZeroBuffer, 0x134);
+    MIi_CpuClear16(zero, gRecordGpx->mZeroBuffer, RECORD_GPX_MAP_STRIP_BYTES);
     ResetRecordGpx();
 }
 
