@@ -78,7 +78,7 @@ void ResetConnection(void) {
         blockEntry++;
     }
     blocks->mUnk_6b4 = 0;
-    blocks->mUnk_660 = 0;
+    blocks->mMode = 0;
     blocks->mZeroWordReceived = FALSE;
     blocks->mMPSetupActive = FALSE;
     ResetConnectionBuffers(&gConnectionWork->mMultiBootState);

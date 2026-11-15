@@ -496,7 +496,7 @@ void ResetConnectionData(void) {
     gConnectionWork->mOwnIndex = 0xffff;
     gConnectionWork->mRememberedScanKeyHeld = 0;
     gConnectionWork->mUnk_0434 = 0;
-    gConnectionWork->mUnk_0439 = 1;
+    gConnectionWork->mScanMissCount = 1;
     gConnectionWork->mExpectedRecordMask = 0;
     gConnectionWork->mOperationFlags = 0;
     gConnectionWork->mLanguageIndex = LANGUAGE_UNSUFFIXED;

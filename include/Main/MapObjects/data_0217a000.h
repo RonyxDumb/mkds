@@ -363,7 +363,7 @@ typedef struct BlockEntry {
 // Members from 0x16a0 of ConnectionWork as one object.
 typedef struct BlockTransferView {
     /* 000 */ BlockEntry mBlockEntries[12];
-    /* 660 */ s32 mUnk_660;
+    /* 660 */ s32 mMode;
     /* 664 */ u8 mUnk_664[4];
     /* 668 */ u16 mNextLoadIndex;
     /* 66a */ s16 mUnk_66a;
@@ -700,7 +700,7 @@ typedef struct ConnectionWork {
             /* 0434 */ u16 mUnk_0434;
             /* 0436 */ u16 mOperationFlags;
             /* 0438 */ u8 mRememberedScanKeyHeld;
-            /* 0439 */ u8 mUnk_0439;
+            /* 0439 */ u8 mScanMissCount;
             /* 043a */ u8 mExpectedRecordMask;
             /* 043b */ s8 mKeepScanning;
             /* 043c */ u8 mLanguageIndex;
@@ -829,11 +829,11 @@ typedef struct ConnectionWork {
                 };
                 ParticipantTablesView mParticipantTables;
             };
-            /* 1ed0 */ s32 mUnk_1ed0;
-            /* 1ed4 */ u16 mUnk_1ed4;
+            /* 1ed0 */ s32 mMatchingHostFound;
+            /* 1ed4 */ u16 mMatchingHostAid;
             /* 1ed6 */ u16 mUnk_1ed6;
-            /* 1ed8 */ s32 mUnk_1ed8;
-            /* 1edc */ u16 mUnk_1edc;
+            /* 1ed8 */ s32 mOtherHostKind;
+            /* 1edc */ u16 mOtherHostAid;
             /* 1ede */ u16 mUnk_1ede;
             /* 1ee0 */ u8 mUnk_1ee0[2];
             /* 1ee2 */ u8 mUnk_1ee2[6];

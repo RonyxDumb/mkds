@@ -260,17 +260,17 @@ void StartScanCallback(WirelessMessage *event) {
                 if (gConnectionWork->mState == CONNECTION_STATE_ENDED) {
                     value = event->mAid;
                     if (IsScanBlockGameInfoMatch(&scanBuffer) != 0) {
-                        gConnectionWork->mUnk_1ed0 = 1;
-                        gConnectionWork->mUnk_1ed4 = value;
+                        gConnectionWork->mMatchingHostFound = 1;
+                        gConnectionWork->mMatchingHostAid = value;
                         gConnectionWork->mUnk_1ed6 = 0;
                     } else if (scanBuffer.mGameInfoLength >= 8 && scanBuffer.mGameInfo.mGgid == 0x25 &&
                                (scanBuffer.mGameInfo.mAttribute & 1) != 0) {
                         if ((scanBuffer.mGameInfo.mAttribute & 2) != 0) {
-                            gConnectionWork->mUnk_1ed8 = 2;
+                            gConnectionWork->mOtherHostKind = 2;
                         } else {
-                            gConnectionWork->mUnk_1ed8 = 3;
+                            gConnectionWork->mOtherHostKind = 3;
                         }
-                        gConnectionWork->mUnk_1edc = value;
+                        gConnectionWork->mOtherHostAid = value;
                         gConnectionWork->mUnk_1ede = 0;
                     }
                 } else {
@@ -299,13 +299,13 @@ void StartScanCallback(WirelessMessage *event) {
                             }
                         }
                     } else if (gConnectionWork->mRememberedScanKeyHeld == 0) {
-                        gConnectionWork->mUnk_0439 += 1;
+                        gConnectionWork->mScanMissCount += 1;
                     }
                 }
                 break;
             case WIRELESS_STATE_SEARCH_EMPTY:
                 if (gConnectionWork->mRememberedScanKeyHeld == 0) {
-                    gConnectionWork->mUnk_0439 += 1;
+                    gConnectionWork->mScanMissCount += 1;
                 }
                 break;
         }

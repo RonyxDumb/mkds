@@ -165,7 +165,7 @@ void InitBlockEntries(void *heap, s32 mode) {
         view->mBlockEntries[entryIndex].mUncompressPending = 0;
         view->mBlockEntries[entryIndex].mUnk_84_0 = 0;
     }
-    view->mUnk_660 = mode;
+    view->mMode = mode;
     view->mZeroWordReceived = FALSE;
     view->mMPSetupActive = FALSE;
     view->mGhostBlockCount = 0;
