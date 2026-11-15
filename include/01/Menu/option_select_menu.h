@@ -32,6 +32,20 @@ enum {
     OPTION_SELECT_STATE_WAIT_BACKUP,
 };
 
+// Frames of the slide in and the slide out; the groups of cells travel OPTION_SELECT_SLIDE_DISTANCE sideways, the
+// background layers OPTION_SELECT_BG_SLIDE_DISTANCE and the OK group OPTION_SELECT_BG2_SLIDE_DISTANCE up and down.
+#define OPTION_SELECT_SLIDE_FRAMES 10
+#define OPTION_SELECT_SLIDE_DISTANCE 250
+#define OPTION_SELECT_BG_SLIDE_DISTANCE 140
+#define OPTION_SELECT_BG2_SLIDE_DISTANCE 40
+
+// Frames the chosen OK entry is shown before the slide out; the highlight comes back at the fifth.
+#define OPTION_SELECT_PRESS_FRAMES 10
+#define OPTION_SELECT_HIGHLIGHT_FRAME 5
+
+// Frames the cells of a row shift after its value changed (OptionSelectMenu.mOffsetTimers count them down).
+#define OPTION_SELECT_OFFSET_TIMER_FRAMES 6
+
 // Object behind gOptionSelectMenu.
 typedef struct OptionSelectMenu {
     /* 00 */ s32 mState;

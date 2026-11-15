@@ -108,16 +108,16 @@ void InitOptionSelectMenu(void *heap) {
     gOptionSelectMenu->mOptionMessages = FindSceneFile("option.bmg");
     gOptionSelectMenu->mCommonMessages = FindFileInLoadedArchives("common.bmg");
     InitOptionSelectMenuTexts();
-    gOptionSelectMenu->mBg0Bg1Offset = -140;
+    gOptionSelectMenu->mBg0Bg1Offset = -OPTION_SELECT_BG_SLIDE_DISTANCE;
     for (index = 0; index < 3; index++) {
         if (index == 2) {
             gOptionSelectMenu->mGroupOffsets[index].mOffsetX = 0;
-            gOptionSelectMenu->mGroupOffsets[index].mOffsetY = 0x28;
+            gOptionSelectMenu->mGroupOffsets[index].mOffsetY = OPTION_SELECT_BG2_SLIDE_DISTANCE;
         } else if (index == 1) {
-            gOptionSelectMenu->mGroupOffsets[index].mOffsetX = 250;
+            gOptionSelectMenu->mGroupOffsets[index].mOffsetX = OPTION_SELECT_SLIDE_DISTANCE;
             gOptionSelectMenu->mGroupOffsets[index].mOffsetY = 0;
         } else {
-            gOptionSelectMenu->mGroupOffsets[index].mOffsetX = -250;
+            gOptionSelectMenu->mGroupOffsets[index].mOffsetX = -OPTION_SELECT_SLIDE_DISTANCE;
             gOptionSelectMenu->mGroupOffsets[index].mOffsetY = 0;
         }
     }
@@ -232,8 +232,10 @@ void AdvanceOptionSelectMenuSlideIn(void) {
     s16 offsetX;
 
     gOptionSelectMenu->mStateFrames++;
-    gOptionSelectMenu->mBg0Bg1Offset = InterpolateS16(1, -140, 0, gOptionSelectMenu->mStateFrames, 10);
-    offsetX = InterpolateS16(1, 250, 0, gOptionSelectMenu->mStateFrames, 10);
+    gOptionSelectMenu->mBg0Bg1Offset = InterpolateS16(1, -OPTION_SELECT_BG_SLIDE_DISTANCE, 0,
+                                                      gOptionSelectMenu->mStateFrames, OPTION_SELECT_SLIDE_FRAMES);
+    offsetX =
+        InterpolateS16(1, OPTION_SELECT_SLIDE_DISTANCE, 0, gOptionSelectMenu->mStateFrames, OPTION_SELECT_SLIDE_FRAMES);
     for (groupIndex = 0; groupIndex < 2; groupIndex++) {
         for (entryIndex = 0; entryIndex < gOptionSelectMenuGroupSTableCounts[groupIndex]; entryIndex++) {
             if (groupIndex == 1) {
@@ -243,7 +245,7 @@ void AdvanceOptionSelectMenuSlideIn(void) {
             }
         }
     }
-    if (gOptionSelectMenu->mStateFrames >= 10) {
+    if (gOptionSelectMenu->mStateFrames >= OPTION_SELECT_SLIDE_FRAMES) {
         gOptionSelectMenu->mNextState = OPTION_SELECT_STATE_SLIDE_IN_BG2;
         gOptionSelectMenu->mStateFrames = 0;
     }
@@ -252,7 +254,7 @@ void AdvanceOptionSelectMenuSlideIn(void) {
 void AdvanceOptionSelectMenuSlideInBg2(void) {
     gOptionSelectMenu->mStateFrames++;
     gOptionSelectMenu->mGroupOffsets[2].mOffsetY = -LookupSelectReturnSlideInBg2Offset(gOptionSelectMenu->mStateFrames);
-    if (gOptionSelectMenu->mStateFrames >= 10) {
+    if (gOptionSelectMenu->mStateFrames >= OPTION_SELECT_SLIDE_FRAMES) {
         gOptionSelectMenu->mNextState = OPTION_SELECT_STATE_WAIT_INPUT;
         gOptionSelectMenu->mStateFrames = 0;
     }
@@ -313,9 +315,9 @@ void AdvanceOptionSelectMenuWaitInput(void) {
         touchedRect == OPTION_SELECT_ROW_OK) {
         SetSoundModeFromOptionRow();
         if (gOptionSelectMenu->mRowValues[OPTION_SELECT_ROW_LOCATE_FRIEND] == 0) {
-            gBackupBuffers->mFirstBlock->mUnk_31 &= ~0x10;
+            gBackupBuffers->mFirstBlock->mLocateFriendOff = 0;
         } else {
-            gBackupBuffers->mFirstBlock->mUnk_31 |= 0x10;
+            gBackupBuffers->mFirstBlock->mLocateFriendOff = 1;
         }
         WriteBackupFirstBlockWrapper();
         if (gOptionSelectMenu->mIndex == OPTION_SELECT_ROW_OK) {
@@ -350,7 +352,7 @@ void AdvanceOptionSelectMenuWaitInput(void) {
         StartSoundOncePerFrame(0);
     } else if (gOptionSelectMenu->mIndex != OPTION_SELECT_ROW_OK && GetNewOrRepeatBits(8, PAD_KEY_LEFT) != 0) {
         gOptionSelectMenu->mRowValues[gOptionSelectMenu->mIndex]--;
-        gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][0] = 6;
+        gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][0] = OPTION_SELECT_OFFSET_TIMER_FRAMES;
         if (gOptionSelectMenu->mIndex == OPTION_SELECT_ROW_SOUND) {
             StartSoundOncePerFrame(10);
         } else {
@@ -359,7 +361,7 @@ void AdvanceOptionSelectMenuWaitInput(void) {
     } else if (gOptionSelectMenu->mIndex != OPTION_SELECT_ROW_OK && GetNewOrRepeatBits(8, PAD_KEY_RIGHT) != 0) {
         gOptionSelectMenu->mRowValues[gOptionSelectMenu->mIndex]++;
         if (GetNewOrRepeatBits(8, PAD_KEY_RIGHT) != 0) {
-            gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][1] = 6;
+            gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][1] = OPTION_SELECT_OFFSET_TIMER_FRAMES;
         }
         if (gOptionSelectMenu->mIndex == OPTION_SELECT_ROW_SOUND) {
             StartSoundOncePerFrame(10);
@@ -369,22 +371,22 @@ void AdvanceOptionSelectMenuWaitInput(void) {
     } else if (touchedRect == 3) {
         gOptionSelectMenu->mIndex = OPTION_SELECT_ROW_SOUND;
         gOptionSelectMenu->mRowValues[gOptionSelectMenu->mIndex]--;
-        gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][0] = 6;
+        gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][0] = OPTION_SELECT_OFFSET_TIMER_FRAMES;
         StartSoundOncePerFrame(10);
     } else if (touchedRect == 4) {
         gOptionSelectMenu->mIndex = OPTION_SELECT_ROW_SOUND;
         gOptionSelectMenu->mRowValues[gOptionSelectMenu->mIndex]++;
-        gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][1] = 6;
+        gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][1] = OPTION_SELECT_OFFSET_TIMER_FRAMES;
         StartSoundOncePerFrame(10);
     } else if (touchedRect == 5) {
         gOptionSelectMenu->mIndex = OPTION_SELECT_ROW_LOCATE_FRIEND;
         gOptionSelectMenu->mRowValues[gOptionSelectMenu->mIndex]--;
-        gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][0] = 6;
+        gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][0] = OPTION_SELECT_OFFSET_TIMER_FRAMES;
         StartSoundOncePerFrame(1);
     } else if (touchedRect == 6) {
         gOptionSelectMenu->mIndex = OPTION_SELECT_ROW_LOCATE_FRIEND;
         gOptionSelectMenu->mRowValues[gOptionSelectMenu->mIndex]++;
-        gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][1] = 6;
+        gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][1] = OPTION_SELECT_OFFSET_TIMER_FRAMES;
         StartSoundOncePerFrame(1);
     }
 end:
@@ -408,10 +410,10 @@ end:
 
 void AdvanceOptionSelectMenuOkPressedDelay(void) {
     gOptionSelectMenu->mStateFrames++;
-    if (gOptionSelectMenu->mStateFrames >= 10) {
+    if (gOptionSelectMenu->mStateFrames >= OPTION_SELECT_PRESS_FRAMES) {
         gOptionSelectMenu->mNextState = OPTION_SELECT_STATE_SLIDE_OUT;
         gOptionSelectMenu->mStateFrames = 0;
-    } else if (gOptionSelectMenu->mStateFrames >= 5) {
+    } else if (gOptionSelectMenu->mStateFrames >= OPTION_SELECT_HIGHLIGHT_FRAME) {
         gOptionSelectMenu->mHighlightVisible = TRUE;
     }
 }
@@ -423,9 +425,11 @@ void AdvanceOptionSelectMenuSlideOut(void) {
     void *text;
     void *buttonText;
 
-    gOptionSelectMenu->mBg0Bg1Offset = InterpolateS16(1, 0, -0x8c, gOptionSelectMenu->mStateFrames, 10);
+    gOptionSelectMenu->mBg0Bg1Offset = InterpolateS16(1, 0, -OPTION_SELECT_BG_SLIDE_DISTANCE,
+                                                      gOptionSelectMenu->mStateFrames, OPTION_SELECT_SLIDE_FRAMES);
     gOptionSelectMenu->mStateFrames++;
-    offsetX = InterpolateS16(1, 0, 250, gOptionSelectMenu->mStateFrames, 10);
+    offsetX =
+        InterpolateS16(1, 0, OPTION_SELECT_SLIDE_DISTANCE, gOptionSelectMenu->mStateFrames, OPTION_SELECT_SLIDE_FRAMES);
     for (groupIndex = 0; groupIndex < 2; groupIndex++) {
         for (entryIndex = 0; entryIndex < gOptionSelectMenuGroupSTableCounts[groupIndex]; entryIndex++) {
             if (groupIndex == 1) {
@@ -437,8 +441,8 @@ void AdvanceOptionSelectMenuSlideOut(void) {
     }
     gOptionSelectMenu->mGroupOffsets[2].mOffsetY =
         -LookupSelectReturnSlideOutBg2Offset(gOptionSelectMenu->mStateFrames);
-    if (gOptionSelectMenu->mStateFrames >= 10) {
-        if (gOptionSelectMenu->mStateFrames >= 10 && IsSelectReturnShownNoRequest() != 0) {
+    if (gOptionSelectMenu->mStateFrames >= OPTION_SELECT_SLIDE_FRAMES) {
+        if (gOptionSelectMenu->mStateFrames >= OPTION_SELECT_SLIDE_FRAMES && IsSelectReturnShownNoRequest() != 0) {
             gOptionSelectMenu->mBg1Visible = FALSE;
             if (gOptionSelectMenu->mOkChosen != FALSE) {
                 SetTxtSystemOpenSoundId(0x21);
@@ -510,9 +514,11 @@ void WriteOptionSelectMenuTableOffsets(void) {
     for (index = 0; index < 2; index++) {
         for (entryIndex = 0; entryIndex < 3; entryIndex++) {
             gOptionSelectMenu->mOptionSelectMenuSTable[gOptionSelectMenuTimerSTableIndices[index][entryIndex][0]]
-                .mOffsetX -= LookupFrameOffset(6 - gOptionSelectMenu->mOffsetTimers[index][0]);
+                .mOffsetX -=
+                LookupFrameOffset(OPTION_SELECT_OFFSET_TIMER_FRAMES - gOptionSelectMenu->mOffsetTimers[index][0]);
             gOptionSelectMenu->mOptionSelectMenuSTable[gOptionSelectMenuTimerSTableIndices[index][entryIndex][1]]
-                .mOffsetX += LookupFrameOffset(6 - gOptionSelectMenu->mOffsetTimers[index][1]);
+                .mOffsetX +=
+                LookupFrameOffset(OPTION_SELECT_OFFSET_TIMER_FRAMES - gOptionSelectMenu->mOffsetTimers[index][1]);
         }
     }
 }
