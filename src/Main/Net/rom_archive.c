@@ -427,7 +427,7 @@ void RequestRomArchiveBytes(FSFile *file) {
         childView->mChunkBitmaps[0] = childView->mChunkBitmapBuffer;
     }
     gRomArchiveTransfer.mPendingFile = file;
-    requestedLength = *(volatile s32 *) &file->mArg.p.mUnk_08;
+    requestedLength = file->mArg.p.mUnk_08;
     message.mWord04 = childView->mPositionOffset + file->mPosition;
     message.mKind = ROM_ARCHIVE_MESSAGE_REQUEST;
     message.mValue24 = requestedLength;
