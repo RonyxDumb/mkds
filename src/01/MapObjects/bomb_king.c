@@ -492,7 +492,7 @@ void StartBombKingStoppedState(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 7, NULL);
     StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mBombKing.mStoppedAnimationEntry,
                                   mapObject->mPrm->mBombKing.mStoppedFrameStep, NULL);
-    SetItemCollisionCallback(mapObject, (UnkFunc *) &BombKingItemHitCallback);
+    SetItemCollisionCallback(mapObject, &BombKingItemHitCallback);
 }
 
 void StartBombKingBounceState(MissionRunMapObject *mapObject) {
@@ -502,14 +502,14 @@ void StartBombKingBounceState(MissionRunMapObject *mapObject) {
     SetStoppedCallback(mapObject, &StartBombKingStoppedState);
     SetSpeedAndClearTarget(mapObject, 0);
     mapObject->mBounceEnabled = TRUE;
-    SetItemCollisionCallback(mapObject, (UnkFunc *) &BombKingItemBounceCallback);
+    SetItemCollisionCallback(mapObject, &BombKingItemBounceCallback);
 }
 
 void StartBombKingStoppedStateAfterHits(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 7, NULL);
     StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mBombKing.mStoppedAfterHitsAnimationEntry,
                                   mapObject->mPrm->mBombKing.mStoppedAfterHitsFrameStep, NULL);
-    SetItemCollisionCallback(mapObject, (UnkFunc *) &BombKingItemHitCallback);
+    SetItemCollisionCallback(mapObject, &BombKingItemHitCallback);
 }
 
 void StartBombKingBounceStateAfterHits(MissionRunMapObject *mapObject) {
@@ -519,7 +519,7 @@ void StartBombKingBounceStateAfterHits(MissionRunMapObject *mapObject) {
     SetStoppedCallback(mapObject, &StartBombKingStoppedStateAfterHits);
     SetSpeedAndClearTarget(mapObject, 0);
     mapObject->mBounceEnabled = TRUE;
-    SetItemCollisionCallback(mapObject, (UnkFunc *) &BombKingItemBounceCallback);
+    SetItemCollisionCallback(mapObject, &BombKingItemBounceCallback);
 }
 
 void StartBombKingItemHitState(MissionRunMapObject *mapObject) {
@@ -588,7 +588,7 @@ void StartBombKingStartupSecond(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, NULL);
     StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mHead.mStartupSecondAnimationEntry,
                                   mapObject->mPrm->mHead.mStartupSecondFrameStep,
-                                  (UnkFunc *) &StartBombKingWaitForRaceStart);
+                                  &StartBombKingWaitForRaceStart);
     SetAnimationFrameCallback(mapObject, ((u32) mapObject->mPrm->mBombKing.mThrowBombsFrameIndex),
                               ThrowItemBombsInRing);
 }
@@ -694,7 +694,7 @@ void BombKingItemBounceCallback(MissionRunMapObject *mapObject, ItemObject *item
         }
     }
     mapObject->mItemResponse = ITEM_MAP_OBJECT_RESPONSE_BOUNCE;
-    SetItemCollisionCallback(mapObject, (UnkFunc *) BombKingItemBounceCallback);
+    SetItemCollisionCallback(mapObject, BombKingItemBounceCallback);
 }
 
 void BombKingItemHitCallback(MissionRunMapObject *mapObject, ItemObject *itemObject) {
@@ -705,7 +705,7 @@ void BombKingItemHitCallback(MissionRunMapObject *mapObject, ItemObject *itemObj
         ThrowOrReleaseStoredItemBomb(mapObject, NULL, 0);
     }
     mapObject->mItemResponse = ITEM_MAP_OBJECT_RESPONSE_PUSH_FADE_OUT;
-    SetItemCollisionCallback(mapObject, (UnkFunc *) BombKingItemHitCallback);
+    SetItemCollisionCallback(mapObject, BombKingItemHitCallback);
     if (IsStateNumberBelow(mapObject, 7) != 0) {
         velocity.x = mapObject->mUnk_000.mPos.x - itemObject->mPos.x;
         velocity.y = 0;
@@ -740,7 +740,7 @@ void InitBombKing(MapObjectList *list) {
             SetCollisionOffsetAndExtent(mapObject, prm->mHead.mCollisionOffsetY, prm->mHead.mCollisionExtentXZ,
                                         prm->mCollisionExtentY);
             SetShadowOffsetYAndScale(mapObject, 0, 0x23000);
-            SetItemCollisionCallback(mapObject, (UnkFunc *) BombKingItemHitCallback);
+            SetItemCollisionCallback(mapObject, BombKingItemHitCallback);
         }
     }
 }

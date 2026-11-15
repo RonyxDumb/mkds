@@ -145,21 +145,21 @@ void SetPointInRangeCallback(MissionRunMapObject *mapObject, s32 pointRadius, s3
 
 void SetStoppedCallback(MissionRunMapObject *mapObject, UnkFunc *callback) {
     if (callback == NULL) {
-        callback = (UnkFunc *) StopMapObjectState;
+        callback = StopMapObjectState;
     }
     mapObject->mStoppedCallback = callback;
 }
 
 void SetCourseCollisionCallback(MissionRunMapObject *mapObject, void (*callback)(MissionRunMapObject *)) {
     if (callback == NULL) {
-        callback = (UnkFunc *) StopMapObjectState;
+        callback = StopMapObjectState;
     }
     mapObject->mCourseCollisionCallback = callback;
 }
 
 void SetUnusedCallback(MissionRunMapObject *mapObject, UnkFunc *callback) {
     if (callback == NULL) {
-        callback = (UnkFunc *) StopMapObjectState;
+        callback = StopMapObjectState;
     }
     mapObject->mUnk_230 = callback;
 }

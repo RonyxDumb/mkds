@@ -278,7 +278,7 @@ void StartKingTeresaMoveToForwardPoint(MissionRunMapObject *mapObject) {
     TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mKingTeresa.mMoveToForwardPointAnglePerCallTarget,
                                 mapObject->mPrm->mKingTeresa.mMoveToForwardPointAnglePerCallIncrement);
     SetPointInRangeCallback(mapObject, mapObject->mPrm->mKingTeresa.mMoveToForwardPointPointRadius, 0, &targetPoint,
-                            (UnkFunc *) StartKingTeresaTurnTowardKart);
+                            StartKingTeresaTurnTowardKart);
     if (gKingTeresaState != 2) {
         gPreviousKingTeresaState = gKingTeresaState;
     }
@@ -319,7 +319,7 @@ void StartKingTeresaApproachKart(MissionRunMapObject *mapObject) {
     TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mKingTeresa.mApproachAnglePerCallTarget,
                                 mapObject->mPrm->mKingTeresa.mApproachAnglePerCallIncrement);
     SetPointInRangeCallback(mapObject, mapObject->mPrm->mKingTeresa.mApproachPointRadius, 0, &targetPoint,
-                            (UnkFunc *) StartKingTeresaMoveToForwardPoint);
+                            StartKingTeresaMoveToForwardPoint);
     if (gKingTeresaState != 1) {
         gPreviousKingTeresaState = gKingTeresaState;
     }

@@ -227,7 +227,7 @@ void AdvanceHanachanCounterForAll(MissionRunMapObject *mapObject) {
         for (objectIndex = 0;
              objectIndex < list->mMapObjectCount && (follower = list->mMapObjects[objectIndex]) != NULL;
              objectIndex++) {
-            StartStateFrameCountCallback(follower, (follower->mUnk_0a8 * 15), (UnkFunc *) AdvanceHanachanCounter);
+            StartStateFrameCountCallback(follower, (follower->mUnk_0a8 * 15), AdvanceHanachanCounter);
         }
     }
     AdvanceHanachanCounter(mapObject);
@@ -329,7 +329,7 @@ int UpdateHanachanMoveState(MissionRunMapObject *mapObject) {
                 mapObject->mStateNumber = 3;
                 StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mHanachan.mFirstKartRangeAnimationEntry,
                                               mapObject->mPrm->mHanachan.mFirstKartRangeFrameStep,
-                                              (UnkFunc *) StartHanachanMoveAnimation);
+                                              StartHanachanMoveAnimation);
                 speedPercent -= mapObject->mPrm->mHanachan.mKartRangeSpeedPercentReduction;
                 StartMapObjectSound(&mapObject->mUnk_000, 0x24b);
             } else if (GetEntryKartInAngleRange(mapObject, mapObject->mPrm->mHanachan.mSecondKartRangeAngleOffset,
@@ -339,7 +339,7 @@ int UpdateHanachanMoveState(MissionRunMapObject *mapObject) {
                 mapObject->mStateNumber = 3;
                 StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mHanachan.mSecondKartRangeAnimationEntry,
                                               mapObject->mPrm->mHanachan.mSecondKartRangeFrameStep,
-                                              (UnkFunc *) StartHanachanMoveAnimation);
+                                              StartHanachanMoveAnimation);
                 speedPercent -= mapObject->mPrm->mHanachan.mKartRangeSpeedPercentReduction;
                 StartMapObjectSound(&mapObject->mUnk_000, 0x24b);
             }

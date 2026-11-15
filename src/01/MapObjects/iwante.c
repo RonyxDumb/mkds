@@ -214,14 +214,14 @@ void SetIwanteHandsPoints(void) {
 
 void SetIwanteNoneCollision(MissionRunMapObject *mapObject) {
     mapObject->mUnk_0a8 = IWANTE_HAND_SHAPE_NONE;
-    SetItemCollisionCallback(mapObject, (UnkFunc *) &IwanteItemResponse2Callback);
+    SetItemCollisionCallback(mapObject, &IwanteItemResponse2Callback);
     SetCollisionBoxOffsetAndExtent(mapObject, 0, 0, 0, 0, 0, 0);
     SetShadowOffsetAndScale(mapObject, 0x0002a000u, 0, 0x00007000u, 0x00026000u, 0x00001000u, 0x00022000u);
 }
 
 void SetIwanteNoChainCameraWalkA(MissionRunMapObject *mapObject) {
     mapObject->mUnk_0a8 = IWANTE_HAND_SHAPE_WALK_A;
-    SetItemCollisionCallback(mapObject, (UnkFunc *) &IwanteItemHitCallback);
+    SetItemCollisionCallback(mapObject, &IwanteItemHitCallback);
     SetCollisionBoxOffsetAndExtentTarget(mapObject, 0xffffc000u, 0x0001e000u, 0xffff5000u, 0x00002000u, 0x00024000u,
                                          0x00028000u, 0x00011000u, 0x00002000u);
     SetShadowOffsetAndScaleTarget(mapObject, 0xffff8000u, 0, 0xffffa000u, 0x00002000u, 0x00020000u, 0x00001000u,
@@ -230,7 +230,7 @@ void SetIwanteNoChainCameraWalkA(MissionRunMapObject *mapObject) {
 
 void SetIwanteWalkACollision(MissionRunMapObject *mapObject) {
     mapObject->mUnk_0a8 = IWANTE_HAND_SHAPE_WALK_A;
-    SetItemCollisionCallback(mapObject, (UnkFunc *) &IwanteItemHitCallback);
+    SetItemCollisionCallback(mapObject, &IwanteItemHitCallback);
     SetCollisionBoxOffsetAndExtentTarget(mapObject, 0xffffc000u, 0x00028000u, 0xffff5000u, 0x00001000u, 0x00024000u,
                                          0x00028000u, 0x00011000u, 0x00001000u);
     SetShadowOffsetAndScaleTarget(mapObject, 0xffff8000u, 0, 0xffffa000u, 0x00000800u, 0x00020000u, 0x00001000u,
@@ -239,7 +239,7 @@ void SetIwanteWalkACollision(MissionRunMapObject *mapObject) {
 
 void SetIwanteWalkBCollision(MissionRunMapObject *mapObject) {
     mapObject->mUnk_0a8 = IWANTE_HAND_SHAPE_WALK_B;
-    SetItemCollisionCallback(mapObject, (UnkFunc *) &IwanteItemResponse2Callback);
+    SetItemCollisionCallback(mapObject, &IwanteItemResponse2Callback);
     SetCollisionBoxOffsetAndExtentTarget(mapObject, 0x00015000u, 0x00028000u, 0x0001c000u, 0x00001000u, 0x00013000u,
                                          0x00028000u, 0x00028000u, 0x00001000u);
     SetShadowOffsetAndScaleTarget(mapObject, 0x00012000u, 0, 0x0001c000u, 0x00001000u, 0x00011000u, 0x00001000u,
@@ -248,7 +248,7 @@ void SetIwanteWalkBCollision(MissionRunMapObject *mapObject) {
 
 void SetIwanteHitReactionCollision(MissionRunMapObject *mapObject) {
     mapObject->mUnk_0a8 = 3;
-    SetItemCollisionCallback(mapObject, (UnkFunc *) &IwanteItemResponse2Callback);
+    SetItemCollisionCallback(mapObject, &IwanteItemResponse2Callback);
     SetCollisionBoxOffsetAndExtentTarget(mapObject, 0, 0x00028000u, 0xfffd1000u, 0x00002000u, 0x0001b99au, 0x00028000u,
                                          0x0002f000u, 0x00002000u);
     SetShadowOffsetAndScaleTarget(mapObject, 0, 0, 0xfffd1000u, 0x00002000u, 0x0001b99au, 0x00001000u, 0x0002f000u,
@@ -257,7 +257,7 @@ void SetIwanteHitReactionCollision(MissionRunMapObject *mapObject) {
 
 void SetIwanteWalkAHitCollision(MissionRunMapObject *mapObject) {
     mapObject->mUnk_0a8 = IWANTE_HAND_SHAPE_WALK_A;
-    SetItemCollisionCallback(mapObject, (UnkFunc *) &IwanteItemResponse2Callback);
+    SetItemCollisionCallback(mapObject, &IwanteItemResponse2Callback);
     SetCollisionBoxOffsetAndExtentTarget(mapObject, 0xffffc000u, 0x00028000u, 0xffff5000u, 0x00002000u, 0x00024000u,
                                          0x00028000u, 0x00011000u, 0x00001000u);
     SetShadowOffsetAndScaleTarget(mapObject, 0xffff8000u, 0, 0xffffa000u, 0x00001000u, 0x00020000u, 0x00001000u,
@@ -391,7 +391,7 @@ void StartIwanteHandChangeToWalkB(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 3, NULL);
     StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mIwante.mChangeToWalkBAnimationEntry,
                                   mapObject->mPrm->mIwante.mChangeToWalkBFrameStep,
-                                  (UnkFunc *) &StartIwanteHandWalkBHold);
+                                  &StartIwanteHandWalkBHold);
     SetSpeedAndClearTarget(mapObject, 0);
     StopTurningMoveFollowsAngle(mapObject);
     SetIwanteWalkBCollision(mapObject);
@@ -402,7 +402,7 @@ void StartIwanteHandChangeToWalkA(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 3, NULL);
     StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mIwante.mChangeToWalkAAnimationEntry,
                                   mapObject->mPrm->mIwante.mChangeToWalkAFrameStep,
-                                  (UnkFunc *) &StartIwanteHandWalkAHold);
+                                  &StartIwanteHandWalkAHold);
     SetSpeedAndClearTarget(mapObject, 0);
     StopTurningMoveFollowsAngle(mapObject);
     SetIwanteWalkACollision(mapObject);
@@ -655,7 +655,7 @@ void StartIwanteHandHitThirdAnimation(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 7, NULL);
     StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mIwante.mHitThirdAnimationEntry,
                                   mapObject->mPrm->mIwante.mHitThirdFrameStep,
-                                  (UnkFunc *) &StartIwanteHandMoveToPoints);
+                                  &StartIwanteHandMoveToPoints);
     SetIwanteWalkBCollision(mapObject);
 }
 
@@ -663,7 +663,7 @@ void StartIwanteHandHitSecondAnimation(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 7, NULL);
     StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mIwante.mHitSecondAnimationEntry,
                                   mapObject->mPrm->mIwante.mHitSecondFrameStep,
-                                  (UnkFunc *) &StartIwanteHandHitThirdAnimation);
+                                  &StartIwanteHandHitThirdAnimation);
     SetIwanteWalkAHitCollision(mapObject);
 }
 
@@ -704,7 +704,7 @@ void StartIwanteHandHitReactionHold(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 7, &AdvanceIwanteHandHitCollision);
     StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mIwante.mHitReactionHoldAnimationEntry,
                                   mapObject->mPrm->mIwante.mHitReactionHoldFrameStep,
-                                  (UnkFunc *) &StartIwanteHandHitHold);
+                                  &StartIwanteHandHitHold);
     StopTurningMoveFollowsAngle(mapObject);
     SetSpeedAndClearTarget(mapObject, 0);
     mapObject->mGravityEnabled = TRUE;
@@ -752,7 +752,7 @@ void StartIwanteKartEliminatedHold(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 3, NULL);
     StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mIwante.mChangeToWalkAAnimationEntry,
                                   mapObject->mPrm->mIwante.mChangeToWalkAFrameStep,
-                                  (UnkFunc *) &StartIwanteKartEliminatedHold);
+                                  &StartIwanteKartEliminatedHold);
     StopTurningMoveFollowsAngle(mapObject);
     SetSpeedAndClearTarget(mapObject, 0);
     SetIwanteWalkACollision(mapObject);
@@ -1314,7 +1314,7 @@ void StartIwanteNoChainCameraAnimation(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, NULL);
     StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mHead.mStartupSecondAnimationEntry,
                                   mapObject->mPrm->mHead.mStartupSecondFrameStep,
-                                  (UnkFunc *) &StartIwanteNoChainCameraEffects);
+                                  &StartIwanteNoChainCameraEffects);
     SetIwanteNoChainCameraWalkA(mapObject);
     StartMapObjectSound(&mapObject->mUnk_000, 0x0000021bu);
 }
@@ -1345,7 +1345,7 @@ void StartIwanteChainCameraHold(MissionRunMapObject *mapObject) {
 
 void IwanteItemResponse2Callback(MissionRunMapObject *mapObject) {
     mapObject->mItemResponse = ITEM_MAP_OBJECT_RESPONSE_PUSH_FADE_OUT;
-    SetItemCollisionCallback(mapObject, (UnkFunc *) IwanteItemResponse2Callback);
+    SetItemCollisionCallback(mapObject, IwanteItemResponse2Callback);
 }
 
 // Item hit on a hand: knocks both hands back and counts one hit on the third object.
@@ -1386,11 +1386,11 @@ void IwanteItemHitCallback(MissionRunMapObject *mapObject, ItemObject *itemObjec
                 ? GetMissionRunMapObject(
                       (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 2))
                 : 0);
-        SetItemCollisionCallback(mapObject, (UnkFunc *) IwanteItemResponse2Callback);
+        SetItemCollisionCallback(mapObject, IwanteItemResponse2Callback);
         mapObject->mItemResponse = ITEM_MAP_OBJECT_RESPONSE_PUSH_FADE_OUT;
     } else {
         mapObject->mItemResponse = ITEM_MAP_OBJECT_RESPONSE_PUSH_FADE_OUT;
-        SetItemCollisionCallback(mapObject, (UnkFunc *) IwanteItemHitCallback);
+        SetItemCollisionCallback(mapObject, IwanteItemHitCallback);
     }
 }
 
