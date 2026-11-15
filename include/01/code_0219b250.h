@@ -16,5 +16,5 @@ MapObjectModel *LoadMapObjectModelShadow(MapObjectList *mapObjectList, const cha
 MapObjectModel *LoadMapObjectModelAnimated(MapObjectList *mapObjectList, const char *nsbmdName);
 void *LoadMissionRunFile(const char *fileName);
 void *CreateMapObjectKindDataWithSoundIds(void *collideKartCallback, void *collideItemObjectCallback,
-                                          void *sphereHitCallback, u32 p3, u16 p4, u16 soundId,
+                                          void *sphereHitCallback, u32 posStepMode, u16 collidable, u16 soundId,
                                           u16 collideItemObjectSoundId);

@@ -25,10 +25,10 @@ const Vec3 gMapObjectModelShadowScale = {0x1000, 0x1000, 0x1000};
 const Vec3 gMapObjectModelAnimatedScale = {0x1000, 0x1000, 0x1000};
 
 void *CreateMapObjectKindDataWithSoundIds(void *collideKartCallback, void *collideItemObjectCallback,
-                                          void *sphereHitCallback, u32 p3, u16 p4, u16 soundId,
+                                          void *sphereHitCallback, u32 posStepMode, u16 collidable, u16 soundId,
                                           u16 collideItemObjectSoundId) {
-    MapObjectKindData *kindData =
-        CreateMapObjectKindData(collideKartCallback, collideItemObjectCallback, sphereHitCallback, p3, p4);
+    MapObjectKindData *kindData = CreateMapObjectKindData(collideKartCallback, collideItemObjectCallback,
+                                                          sphereHitCallback, posStepMode, collidable);
     kindData->mSoundId = soundId;
     kindData->mCollideItemObjectSoundId = collideItemObjectSoundId;
     kindData->mHeightRangeMax = 0x270f000;
