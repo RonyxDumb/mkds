@@ -168,7 +168,7 @@ void AdvanceChildWaitState(void) {
             return;
         case CHILD_WAIT_STATE_END_WAIT:
             if (gChildWaitSessionView->mEndWaitFrames++ > 0x1e) {
-                if (GetWhState() == 1) {
+                if (GetWhState() == WH_STATE_IDLE) {
                     EndWh();
                     gChildWaitSessionView->mState = CHILD_WAIT_STATE_END_DONE;
                 }
@@ -181,7 +181,7 @@ void AdvanceChildWaitState(void) {
             return;
         case CHILD_WAIT_STATE_CLOSE_NO_RESTART_WAIT:
             if (gChildWaitSessionView->mEndWaitFrames++ > 0x1e) {
-                if (GetWhState() == 1) {
+                if (GetWhState() == WH_STATE_IDLE) {
                     EndWh();
                     gChildWaitSessionView->mState = CHILD_WAIT_STATE_CLOSE_NO_RESTART_DONE;
                 }
@@ -194,7 +194,7 @@ void AdvanceChildWaitState(void) {
             return;
         case CHILD_WAIT_STATE_CLOSE_RESTARTABLE_WAIT:
             if (gChildWaitSessionView->mEndWaitFrames++ > 0x1e) {
-                if (GetWhState() == 1) {
+                if (GetWhState() == WH_STATE_IDLE) {
                     EndWh();
                     gChildWaitSessionView->mState = CHILD_WAIT_STATE_CLOSE_RESTARTABLE_DONE;
                 }
@@ -207,7 +207,7 @@ void AdvanceChildWaitState(void) {
             return;
         case CHILD_WAIT_STATE_ABORT_WAIT:
             if (gChildWaitSessionView->mEndWaitFrames++ > 0x1e) {
-                if (GetWhState() == 1) {
+                if (GetWhState() == WH_STATE_IDLE) {
                     EndWh();
                     gChildWaitSessionView->mState = CHILD_WAIT_STATE_ABORT_DONE;
                     return;
@@ -227,7 +227,7 @@ void AdvanceChildWaitState(void) {
             return;
         case CHILD_WAIT_STATE_STOP_WAIT:
             if (gChildWaitSessionView->mEndWaitFrames++ > 0x1e) {
-                if (GetWhState() == 1) {
+                if (GetWhState() == WH_STATE_IDLE) {
                     EndWh();
                     gChildWaitSessionView->mState = CHILD_WAIT_STATE_ENDED;
                 }
@@ -257,22 +257,22 @@ void *GetChildWaitChildUser(void) {
 
 void AdvanceChildWaitWhStart(void) {
     switch (GetWhState()) {
-        case 1:
+        case WH_STATE_IDLE:
             StartWhChannelSearch();
             return;
-        case 7:
+        case WH_STATE_MEASURE_CHANNEL:
             gChildWaitSessionView->mChannel = DecideWhChannel();
             gChildWaitSessionView->mMultiBootInitFrames = 0;
             gChildWaitSessionView->mState = CHILD_WAIT_STATE_MULTIBOOT_START;
             return;
-        case 0:
+        case WH_STATE_STOP:
             gChildWaitSessionView->mMultiBootInitFrames = 0;
             gChildWaitSessionView->mState = CHILD_WAIT_STATE_MULTIBOOT_START;
             return;
-        case 9:
+        case WH_STATE_ERROR:
             StartWhResetOrFail();
             return;
-        case 3:
+        case WH_STATE_BUSY:
             break;
         default:
             OS_Terminate();
@@ -327,13 +327,13 @@ void AdvanceChildWaitMultiBoot(void) {
             return;
         case 0:
             switch (GetWhState()) {
-                case 1:
+                case WH_STATE_IDLE:
                     EndWh();
                     return;
-                case 0:
+                case WH_STATE_STOP:
                     gChildWaitSessionView->mState = CHILD_WAIT_STATE_ERROR;
                     return;
-                case 3:
+                case WH_STATE_BUSY:
                     break;
                 default:
                     gChildWaitSessionView->mState = CHILD_WAIT_STATE_ERROR;
@@ -354,13 +354,13 @@ void AdvanceChildWaitDataSharing(void) {
     s32 blockIndex;
 
     switch (GetWhState()) {
-        case 1:
+        case WH_STATE_IDLE:
             StartWhParentConnect(WIRELESS_CONNECT_MODE_DATA_SHARING, gChildWaitSessionView->mTgid + 1,
                                  gChildWaitSessionView->mChannel);
             break;
-        case 4:
-        case 5:
-        case 6:
+        case WH_STATE_CONNECTED:
+        case WH_STATE_DATA_SHARING:
+        case WH_STATE_KEY_SHARING:
             blockNumber = gChildWaitSessionView->mBlockNumber;
             blockIndex = blockNumber % 16;
             ExchangeChildWaitSharedEntries(CHILD_WAIT_CODE_NONE, blockNumber,
@@ -404,7 +404,7 @@ void AdvanceChildWaitAfterReply(void) {
 BOOL EndChildWaitWh(void) {
     int whState;
     whState = GetWhState();
-    if (whState == CHILD_WAIT_STATE_IDLE) {
+    if (whState == WH_STATE_IDLE) {
         EndWh();
         gChildWaitSessionView->mState = CHILD_WAIT_STATE_IDLE;
         return 1;
@@ -439,7 +439,7 @@ void ExchangeChildWaitSharedEntries(u16 code, u16 value, u8 *payload) {
         gChildWaitSessionView->mSendEntry->mCode = CHILD_WAIT_CODE_HANDSHAKE_REQUEST;
         gChildWaitSessionView->mSendEntry->mPayload[0] = gChildWaitSessionView->mHandshakeByte;
     }
-    if (GetWhState() == CHILD_WAIT_STATE_CHILD_JOINED) {
+    if (GetWhState() == WH_STATE_DATA_SHARING) {
         if (StepWhDataSharing(gChildWaitSessionView) == FALSE) {
             gChildWaitSessionView->mStallCount = gChildWaitSessionView->mStallCount + 4;
             return;
