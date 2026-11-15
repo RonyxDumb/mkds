@@ -251,7 +251,7 @@ void DrawModelEffects(void) {
             drawMatrix.mRows[3].y = modelEffect->mPos.y >> 4;
             drawMatrix.mRows[3].z = modelEffect->mPos.z >> 4;
             SetNsbmdPolygonIdAll(&modelEffect->mNsbmd, modelEffect->mPolygonId);
-            DrawNsbmdWithMatrix(&modelEffect->mNsbmd, &drawMatrix, (u32 *) modelEffect->mScale);
+            DrawNsbmdWithMatrix(&modelEffect->mNsbmd, &drawMatrix, &modelEffect->mScale);
         }
         modelEffect = NNS_FndGetNextListObject(&gModelEffects->mActiveList, modelEffect);
     } while (modelEffect != NULL);
@@ -353,9 +353,9 @@ void InitModelEffectObjects(void *heap) {
             NNS_FndAppendListObject(&gModelEffects->mFreeLists[kindIndex], modelEffect);
             if (kindIndex == 2) {
                 scale = gRaceSetup->mCourseId == COURSE_ID_OLD_KOOPA_AGB ? 0xb33 : 0x1000;
-                modelEffect->mScale[0] = scale;
-                modelEffect->mScale[1] = scale;
-                modelEffect->mScale[2] = scale;
+                modelEffect->mScale.x = scale;
+                modelEffect->mScale.y = scale;
+                modelEffect->mScale.z = scale;
             }
         }
     }
@@ -437,9 +437,9 @@ void StartModelEffectBombcore(ModelEffect *modelEffect, s32 startEffects) {
     SetModelAnimation(modelEffect->mAnimations[0], 0);
     SetModelAnimation(modelEffect->mAnimations[1], 0);
     SetModelAnimation(modelEffect->mAnimations[2], 0);
-    modelEffect->mScale[0] = 0xab8;
-    modelEffect->mScale[1] = 0xab8;
-    modelEffect->mScale[2] = 0xab8;
+    modelEffect->mScale.x = 0xab8;
+    modelEffect->mScale.y = 0xab8;
+    modelEffect->mScale.z = 0xab8;
     if (startEffects == 0) {
         return;
     }
@@ -474,9 +474,9 @@ void StartWaterEfctKind2(ModelEffect *modelEffect) {
 }
 
 void StartWaterEfctKind4(ModelEffect *modelEffect) {
-    modelEffect->mScale[0] = 0x3d9a;
-    modelEffect->mScale[1] = 0x3d9a;
-    modelEffect->mScale[2] = 0x3d9a;
+    modelEffect->mScale.x = 0x3d9a;
+    modelEffect->mScale.y = 0x3d9a;
+    modelEffect->mScale.z = 0x3d9a;
     SetModelAnimation(modelEffect->mAnimations[0], 0);
     modelEffect->mFinishFrameCount = 0x20;
     if (modelEffect->mAnimations[1] != NULL) {
@@ -500,9 +500,9 @@ void UpdateWaterEfctKinds(ModelEffect *modelEffect) {
 
 void StartModelEffectBkWave(ModelEffect *modelEffect, s32 startEffects) {
     SetModelAnimation(modelEffect->mAnimations[0], 0);
-    modelEffect->mScale[0] = 0x5800;
-    modelEffect->mScale[1] = 0x5800;
-    modelEffect->mScale[2] = 0x5800;
+    modelEffect->mScale.x = 0x5800;
+    modelEffect->mScale.y = 0x5800;
+    modelEffect->mScale.z = 0x5800;
     modelEffect->mFinishFrameCount = 0x27;
     SetModelAnimation(modelEffect->mAnimations[1], 0);
     if (startEffects == 0) {
@@ -525,9 +525,9 @@ void StartModelEffectBombcore2(ModelEffect *modelEffect, s32 startEffects) {
     SetModelAnimation(modelEffect->mAnimations[0], 0);
     SetModelAnimation(modelEffect->mAnimations[1], 0);
     SetModelAnimation(modelEffect->mAnimations[2], 0);
-    modelEffect->mScale[0] = 0x1000;
-    modelEffect->mScale[1] = 0x1000;
-    modelEffect->mScale[2] = 0x1000;
+    modelEffect->mScale.x = 0x1000;
+    modelEffect->mScale.y = 0x1000;
+    modelEffect->mScale.z = 0x1000;
     if (startEffects == 0) {
         return;
     }

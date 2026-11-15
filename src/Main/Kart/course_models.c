@@ -208,14 +208,14 @@ void UpdateCourseModels(void) {
 }
 
 void DrawCourseModel(void) {
-    DrawNsbmdWithMatrix(gCourseModels.mNsbmd, &gCourseModels.mMatrix, gCourseModelDrawScale);
+    DrawNsbmdWithMatrix(gCourseModels.mNsbmd, &gCourseModels.mMatrix, &gCourseModelDrawScale);
 }
 
 void DrawCourseModelV(void) {
     if (gCourseModels.mVNsbmd == NULL) {
         return;
     }
-    DrawNsbmdWithMatrix(gCourseModels.mVNsbmd, &gCourseModels.mMatrix, gCourseModelDrawScale);
+    DrawNsbmdWithMatrix(gCourseModels.mVNsbmd, &gCourseModels.mMatrix, &gCourseModelDrawScale);
 }
 
 void SetKoopaCourseLight2(void) {

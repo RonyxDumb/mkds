@@ -32,7 +32,7 @@ typedef struct ModelEffect {
     // [0] .nsbca, [1] .nsbma, [2] .nsbta animation object; NULL when the kind has no such file.
     /* 90 */ ModelAnimation *mAnimations[3];
     // Scale on x, y and z (three equal values, 0x1000 = 1.0), passed to the draw call.
-    /* 9c */ s32 mScale[3];
+    /* 9c */ Vec3 mScale;
     /* a8 */ u32 mSinceStartFrames;
     // Frame count at which mFinished is set; 0 for the kinds whose update uses a fixed frame number.
     /* ac */ u32 mFinishFrameCount;

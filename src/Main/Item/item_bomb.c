@@ -187,12 +187,12 @@ void EnterItemBombState2(ItemBomb *bomb) {
                          IsItemObjectTooFarForEffects(&bomb->mBouncingItemObject.mItemObject) == 0 ? 1 : 0);
     modelEffect = bomb->mModelEffect;
     if (modelEffect != NULL) {
-        s32 *effectScale;
+        Vec3 *effectScale;
 
-        effectScale = modelEffect->mScale;
-        effectScale[0] = 0xccd;
-        effectScale[1] = 0xccd;
-        effectScale[2] = 0xccd;
+        effectScale = &modelEffect->mScale;
+        effectScale->x = 0xccd;
+        effectScale->y = 0xccd;
+        effectScale->z = 0xccd;
     }
     StartItemObjectSoundIfNear(&bomb->mBouncingItemObject.mItemObject, 0xe4);
     if (gRaceSoundKind & 1) {

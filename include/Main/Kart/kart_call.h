@@ -10,5 +10,5 @@ void PlaceKartKillerEffectCallback(NNSG3dRS *renderState);
 void KartAiCallKartSlot6AndToggleFlag(Kart *kart);
 void CallKartSlot6AndToggleFlag(Kart *kart);
 
-extern const u32 gCourseModelDrawScale[3];
+extern const Vec3 gCourseModelDrawScale;
 extern const u32 gKillerItemNodeName[4];

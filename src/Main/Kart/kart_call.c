@@ -11,7 +11,7 @@
 #include "fx_mtx43.h"
 #include "code_02147cd8.h"
 
-const u32 gCourseModelDrawScale[3] = {0x1000, 0x1000, 0x1000};
+const Vec3 gCourseModelDrawScale = {0x1000, 0x1000, 0x1000};
 const u32 gKillerItemNodeName[4] = {0x6c6c694b, 0x74497265, 0x6d65, 0};
 
 // Copies row 1 of the matrix at 0x120 (mRotationMatrix), the kart's up direction, to the out vector. The camera takes

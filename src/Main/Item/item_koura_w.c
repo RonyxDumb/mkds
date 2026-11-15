@@ -755,7 +755,7 @@ void UpdateItemKouraWState6(ItemKouraW *item) {
 void EnterItemKouraWState7(ItemKouraW *item) {
     NNSSndSeqPlayer **sndHandle;
     struct ModelEffect *effect;
-    s32 *effectScale;
+    Vec3 *effectScale;
 
     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags |= 0x800000;
     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mScaleTargetOrSpeed = 0;
@@ -765,10 +765,10 @@ void EnterItemKouraWState7(ItemKouraW *item) {
         IsItemObjectTooFarForEffects(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject) == 0 ? 1 : 0);
     effect = item->mModelEffect;
     if (effect != NULL) {
-        effectScale = effect->mScale;
-        effectScale[0] = 0x1000;
-        effectScale[1] = 0x1000;
-        effectScale[2] = 0x1000;
+        effectScale = &effect->mScale;
+        effectScale->x = 0x1000;
+        effectScale->y = 0x1000;
+        effectScale->z = 0x1000;
     }
     StartItemObjectSoundIfNear(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject, 0xdf);
     if (gRaceSoundKind & 1) {
