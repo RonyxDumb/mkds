@@ -2,6 +2,15 @@
 
 #include "types.h"
 
+// End of a region at reset: 128 KB, or 64 KB when mBHalfSize is set.
+#define FRM_TEX_REGION_FULL_END 0x20000
+#define FRM_TEX_REGION_HALF_END 0x10000
+
+// Values of NNSGfdFrmTexRegionState.mIndex of the two regions that hold compressed 4x4 texels (tex4x4SearchArray_);
+// each is paired with a half-size region that holds its index data.
+#define FRM_TEX_REGION_4X4_FIRST 0
+#define FRM_TEX_REGION_4X4_SECOND 3
+
 // One texture VRAM region of the frame manager.
 typedef struct NNSGfdFrmTexRegionState {
     /* 00 */ u32 mHead;

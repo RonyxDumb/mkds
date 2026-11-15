@@ -58,10 +58,10 @@ void NNS_GfdResetFrmTexVramState(void) {
         }
         if (region->mBHalfSize != 0) {
             region->mHead = 0;
-            region->mTail = 0x10000;
+            region->mTail = FRM_TEX_REGION_HALF_END;
         } else {
             region->mHead = 0;
-            region->mTail = 0x20000;
+            region->mTail = FRM_TEX_REGION_FULL_END;
         }
         region++;
     }
@@ -90,10 +90,10 @@ u32 NNS_GfdAllocFrmTexVram(u32 szByte, u32 is4x4comp, u32 opt) {
             region = tex4x4SearchArray_[regionIndex];
             if (region->mBActive != 0 && region->mTail - region->mHead >= size) {
                 switch (region->mIndex) {
-                    case 0:
+                    case FRM_TEX_REGION_4X4_FIRST:
                         palRegion = &vramRegions_[1];
                         break;
-                    case 3:
+                    case FRM_TEX_REGION_4X4_SECOND:
                         palRegion = &vramRegions_[2];
                         break;
                     default:
