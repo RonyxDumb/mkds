@@ -15,7 +15,7 @@ typedef struct ShadowMatrix {
 } ShadowMatrix;
 
 void DrawJgShadow(u32 alphaCap, u32 maxAlpha);
-void DrawJgShadowWithMatrix(Vec3 *scale, MtxFx43 *matrix, u32 alphaCap, u32 maxAlpha);
+void DrawJgShadowWithMatrix(Vec3 *scale, MtxFx43 *matrix, u16 alphaCap, u32 maxAlpha);
 void DrawObjShadow(ShadowMatrix *shadow, void *wordPointer, u32 unused, u32 alpha);
 void DrawObjShadowAfterMaterial(ShadowMatrix *shadow, void *wordPointer, u32 unused, u32 alpha);
 s32 RefreshShadowMatrix(ShadowMatrix *shadowCopy, Vec3 *position, s32 scale, u32 alphaCap);

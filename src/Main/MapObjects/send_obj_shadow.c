@@ -96,7 +96,7 @@ void DrawObjShadow(ShadowMatrix *shadow, void *wordPointer, u32 unused, u32 alph
     NNS_G3dGeSendDL((u8 *) gObjShadowShape + gObjShadowShape->mOfsDL, gObjShadowShape->mSizeDL);
 }
 
-void DrawJgShadowWithMatrix(Vec3 *scale, MtxFx43 *matrix, u32 alphaCap, u32 maxAlpha) {
+void DrawJgShadowWithMatrix(Vec3 *scale, MtxFx43 *matrix, u16 alphaCap, u32 maxAlpha) {
     gJgShadow->mAlpha = alphaCap < maxAlpha ? alphaCap : maxAlpha;
     DrawShadowWithMatrix(gJgShadow, matrix, scale);
 }

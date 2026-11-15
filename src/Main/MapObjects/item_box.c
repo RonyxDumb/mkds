@@ -332,7 +332,7 @@ void DrawItemBoxShadow(void *unused, ItemBox *itemBox, u32 unusedArg, u32 maxAlp
         gItemBoxShadowMatrix.mRows[3].x = position->x >> 4;
         gItemBoxShadowMatrix.mRows[3].y = position->y >> 4;
         gItemBoxShadowMatrix.mRows[3].z = position->z >> 4;
-        DrawJgShadowWithMatrix(&gGroupItemBoxShadowScale, &gItemBoxShadowMatrix, (u16) alphaCap, maxAlpha);
+        DrawJgShadowWithMatrix(&gGroupItemBoxShadowScale, &gItemBoxShadowMatrix, alphaCap, maxAlpha);
         return;
     }
     shadowScale.x = MUL_FIXED12_NO_ROUND(itemBox->mMapObject.mScale.x, 0x1666);
@@ -347,7 +347,7 @@ void DrawItemBoxShadow(void *unused, ItemBox *itemBox, u32 unusedArg, u32 maxAlp
         gItemBoxShadowMatrix.mRows[3].z = position->z >> 4;
         matrix = &gItemBoxShadowMatrix;
     }
-    DrawJgShadowWithMatrix(&shadowScale, matrix, (u16) alphaCap, maxAlpha);
+    DrawJgShadowWithMatrix(&shadowScale, matrix, alphaCap, maxAlpha);
 }
 
 void UpdateItemBox(void *unused, ItemBox *itemBox) {
