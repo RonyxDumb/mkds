@@ -448,7 +448,7 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
                 if (IsSelectedMemberRowSelectable() != 0) {
                     gMultiSelectMemberGroup->mRowPressed = TRUE;
                     gMultiSelectMemberGroup->mState = MULTI_SELECT_MEMBER_GROUP_STATE_PRESS_WAIT;
-                    gMultiSelectMemberGroup->mState2Frames = 0;
+                    gMultiSelectMemberGroup->mPressWaitFrames = 0;
                     RefreshMultiSelectMemberGroup(0);
                     if (gMultiSelectMemberGroup->mSelectedIndex == 4) {
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x4e);
@@ -487,7 +487,7 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
             } else if (rectIndex == 0xc) {
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x4e);
                 RefreshMultiSelectMemberGroup(gMultiSelectMemberGroup->mSelectedIndex != 4 ? 1 : 0);
-                gMultiSelectMemberGroup->mState2Frames = 0;
+                gMultiSelectMemberGroup->mPressWaitFrames = 0;
                 gMultiSelectMemberGroup->mState = MULTI_SELECT_MEMBER_GROUP_STATE_PRESS_WAIT;
                 gMultiSelectMemberGroup->mSelectedIndex = 4;
                 gMultiSelectMemberGroup->mRowPressed = TRUE;
@@ -502,7 +502,7 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
                             NNS_SndArcSetCurrent(&gFileSndArc);
                             gMultiSelectMemberGroup->mSelectedIndex = rowIndex;
                             RefreshMultiSelectMemberGroup(selectionChanged);
-                            gMultiSelectMemberGroup->mState2Frames = 0;
+                            gMultiSelectMemberGroup->mPressWaitFrames = 0;
                             gMultiSelectMemberGroup->mState = MULTI_SELECT_MEMBER_GROUP_STATE_PRESS_WAIT;
                             gMultiSelectMemberGroup->mRowPressed = TRUE;
                         } else {
@@ -513,9 +513,9 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
             }
             break;
         case MULTI_SELECT_MEMBER_GROUP_STATE_PRESS_WAIT:
-            gMultiSelectMemberGroup->mState2Frames++;
-            if (gMultiSelectMemberGroup->mState2Frames >= 5) {
-                gMultiSelectMemberGroup->mState2Frames = 0;
+            gMultiSelectMemberGroup->mPressWaitFrames++;
+            if (gMultiSelectMemberGroup->mPressWaitFrames >= 5) {
+                gMultiSelectMemberGroup->mPressWaitFrames = 0;
                 RefreshMultiSelectMemberGroup(1);
                 if (gMultiSelectMemberGroup->mSelectedIndex < 4 &&
                     gMultiSelectMemberGroup->mMemberRows[gMultiSelectMemberGroup->mSelectedIndex].mHasText == 0) {

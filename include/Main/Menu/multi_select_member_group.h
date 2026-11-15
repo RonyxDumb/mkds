@@ -60,7 +60,7 @@ typedef struct MultiSelectMemberGroup {
     /* 8c */ s32 mBg3OffsetFrames;
     /* 90 */ s32 mBg3Offset;
     /* 94 */ s32 mEntriesClearFrames;
-    /* 98 */ s32 mState2Frames;
+    /* 98 */ s32 mPressWaitFrames;
     /* 9c */ BOOL mEntriesCleared;
     /* a0 */ Bmg *mBannerMessages;
     /* a4 */ void *mHeap;
