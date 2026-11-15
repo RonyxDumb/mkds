@@ -9,16 +9,22 @@ typedef struct MultiBootChildRecord {
     /* 1c */ u16 mAid;
 } MultiBootChildRecord;
 
+// The first 0xe bytes of MultiBootParent: the state and the child masks.
+typedef struct MultiBootParentHeader {
+    /* 00 */ u16 mState;
+    /* 02 */ u16 mMask;
+    /* 04 */ u16 mRequestedMask;
+    /* 06 */ u16 mDownloadPendingMask;
+    /* 08 */ u16 mDownloadStartedMask;
+    /* 0a */ u16 mSendCompleteMask;
+    /* 0c */ u16 mBootStartableMask;
+} MultiBootParentHeader;
+
 struct MultiBootParent {
-    /* 0000 */ u16 mState;
-    /* 0002 */ u16 mMask;
-    /* 0004 */ u16 mRequestedMask;
-    /* 0006 */ u16 mDownloadPendingMask;
-    /* 0008 */ u16 mDownloadStartedMask;
-    /* 000a */ u16 mSendCompleteMask;
-    /* 000c */ u16 mBootStartableMask;
-    /* 000e */ MultiBootChildRecord mRecords[15];
-    /* 01d0 */ u8 mUnk_01d0[0xfe70];
+    /* 0000 */ MultiBootParentHeader mHeader;
+    /* 000e */ MultiBootChildRecord mRecords[1];
+    /* 002c */ u8 mFileData[0x10000];
+    /* 1002c */ u8 mUnk_1002c[0x14];
     /* 10040 */ u8 mCommWork[0xb100];
     /* 1b140 */ void *mCommWorkPointer;
     /* 1b144 */ void *mFileBuffer;
@@ -26,11 +32,6 @@ struct MultiBootParent {
 
 #include "03/unk_021da000.h"
 #include "code_02142eac.h"
-
-// Fourteen bytes moved as one value.
-typedef struct MultiBootParentHeader {
-    /* 00 */ u16 mUnk_00[7];
-} MultiBootParentHeader;
 
 // Object with the path pointer at 0x00 that RegisterMultiBootFile takes.
 typedef struct MultiBootGameRegistryView {
