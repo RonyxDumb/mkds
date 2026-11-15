@@ -109,7 +109,7 @@ typedef struct LoadedSoundBanks {
 #define MISSION_TABLE_ROW_BOMB_KING 5
 #define MISSION_TABLE_ROW_KING_ICE_DONKETU 6
 // The last of the seven rows of the mission select; its bank is 0x17.
-#define MISSION_TABLE_ROW_LAST 7
+#define MISSION_TABLE_ROW_HANACHAN 7
 
 // 0x03-byte argument of InitSceneSoundState and InitSceneSounds.
 typedef struct ScenePlayersSeqInfo {

@@ -1753,7 +1753,7 @@ void LoadMissionRunMSselSoundData(u32 mode, u32 missionRow) {
             gMissionRunMSselSeqIndex = 6;
             bankNo = SOUND_BANK_MISSION_DONKETU;
             break;
-        case MISSION_TABLE_ROW_LAST:
+        case MISSION_TABLE_ROW_HANACHAN:
             gMissionRunMSselSeqIndex = 7;
             bankNo = 0x17;
             break;
