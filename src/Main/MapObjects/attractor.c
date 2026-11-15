@@ -49,7 +49,7 @@ JgKindFileNames gJgKindFileNames[4] = {{NULL, NULL, NULL},
                                        {NULL, NULL, NULL},
                                        {gJgReverseNsbmdName, NULL, gJgReverseNsbmaName},
                                        {gJgFlagNsbmdName, gJgFlagNsbcaName, NULL}};
-StateCallbacks gJgStateTable[7] = {{(StateCallback) EnterJgOff, JgOffNop},
+StateCallbacks gJgStateTable[7] = {{EnterJgOff, JgOffNop},
                                    {EnterJgReverse, UpdateJgReverse},
                                    {EnterJgLap, UpdateJgLap},
                                    {EnterJgFlag, UpdateJgFlag},

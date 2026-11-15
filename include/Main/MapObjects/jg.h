@@ -26,7 +26,7 @@ void InitJgOffsets(void);
 void CreateModelAnimation(u32 animationKind, void *model, ModelAnimation **animationSlot, void *nsbmdFile,
                           void *animationFile);
 
-s32 *EnterJgOff(void);
+void EnterJgOff(void *stateObject);
 
 extern const Vec3 gJgVelocityDamping;
 extern const Vec3 gJgVelocityFactors;

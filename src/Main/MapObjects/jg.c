@@ -723,13 +723,12 @@ void UpdateJgPosition(void) {
     gJgFarFromKart = distanceSquared >= 0x3d090000000LL ? 1 : 0;
 }
 
-s32 *EnterJgOff(void) {
+void EnterJgOff(void *stateObject) {
     gJgKind = 4;
     gJgVisible = 0;
     gJgAgainstCheckpointFrames = 0;
     gJgSnapActive = 0;
     gJgSnapUntilPushFlip = 0;
-    return &gJgSnapUntilPushFlip;
 }
 
 void JgOffNop(void *stateObject) {}
