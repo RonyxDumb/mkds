@@ -105,7 +105,7 @@ BOOL IsBackupEmblemOff(void) {
     return TRUE;
 }
 
-void AdvanceOptionEmbremSelectState0(void) {
+void AdvanceOptionEmbremSelectWaitFade(void) {
     int fadesClear;
     fadesClear = AreBrightnessFadesClear();
     if (fadesClear != 0) {
@@ -113,7 +113,7 @@ void AdvanceOptionEmbremSelectState0(void) {
     }
 }
 
-void AdvanceOptionEmbremSelectState1(void) {
+void AdvanceOptionEmbremSelectSlideIn(void) {
     s32 rowIndex;
     s32 cellIndex;
     s16 offsetX;
@@ -136,7 +136,7 @@ void AdvanceOptionEmbremSelectState1(void) {
     }
 }
 
-void AdvanceOptionEmbremSelectState2(void) {
+void AdvanceOptionEmbremSelectWaitSelectReturn(void) {
     int returnState2NoRequest;
     returnState2NoRequest = IsSelectReturnShownNoRequest();
     if (returnState2NoRequest != 0) {
@@ -144,7 +144,7 @@ void AdvanceOptionEmbremSelectState2(void) {
     }
 }
 
-void AdvanceOptionEmbremSelectState3(void) {
+void AdvanceOptionEmbremSelectSelect(void) {
     InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     s32 touchedRect = -1;
     BOOL touchBegan = FALSE;
@@ -243,7 +243,7 @@ void AdvanceOptionEmbremSelectState3(void) {
     }
 }
 
-void AdvanceOptionEmbremSelectState4(void) {
+void AdvanceOptionEmbremSelectHoldChosen(void) {
     OptionEmbremSelect *optionEmbremSelect;
     gOptionEmbremSelect->mStateFrames = gOptionEmbremSelect->mStateFrames + 1;
     optionEmbremSelect = gOptionEmbremSelect;
@@ -258,7 +258,7 @@ void AdvanceOptionEmbremSelectState4(void) {
     }
 }
 
-void AdvanceOptionEmbremSelectState5(void) {
+void AdvanceOptionEmbremSelectSlideOut(void) {
     s32 rowIndex;
     s32 cellIndex;
     s32 offsetX;
@@ -303,7 +303,7 @@ void AdvanceOptionEmbremSelectState5(void) {
     }
 }
 
-void AdvanceOptionEmbremSelectState6(void) {
+void AdvanceOptionEmbremSelectWaitMessage(void) {
     s32 backupBusy;
 
     if (GetTxtSystemDone() != 0) {
@@ -429,25 +429,25 @@ void AdvanceOptionEmbremSelect(void) {
     gOptionEmbremSelect->mState = gOptionEmbremSelect->mNextState;
     switch (gOptionEmbremSelect->mState) {
         case OPTION_EMBREM_SELECT_STATE_WAIT_FADE:
-            AdvanceOptionEmbremSelectState0();
+            AdvanceOptionEmbremSelectWaitFade();
             break;
         case OPTION_EMBREM_SELECT_STATE_SLIDE_IN:
-            AdvanceOptionEmbremSelectState1();
+            AdvanceOptionEmbremSelectSlideIn();
             break;
         case OPTION_EMBREM_SELECT_STATE_WAIT_SELECT_RETURN:
-            AdvanceOptionEmbremSelectState2();
+            AdvanceOptionEmbremSelectWaitSelectReturn();
             break;
         case OPTION_EMBREM_SELECT_STATE_SELECT:
-            AdvanceOptionEmbremSelectState3();
+            AdvanceOptionEmbremSelectSelect();
             break;
         case OPTION_EMBREM_SELECT_STATE_HOLD_CHOSEN:
-            AdvanceOptionEmbremSelectState4();
+            AdvanceOptionEmbremSelectHoldChosen();
             break;
         case OPTION_EMBREM_SELECT_STATE_SLIDE_OUT:
-            AdvanceOptionEmbremSelectState5();
+            AdvanceOptionEmbremSelectSlideOut();
             break;
         case OPTION_EMBREM_SELECT_STATE_WAIT_MESSAGE:
-            AdvanceOptionEmbremSelectState6();
+            AdvanceOptionEmbremSelectWaitMessage();
             break;
     }
     UpdateOptionEmbremSelectCellOffsets();
