@@ -47,9 +47,7 @@ typedef struct WaterEfct {
 #define WATER_STATE_FALLING 2
 #define WATER_STATE_HOLD_BOTTOM 3
 
-// The course water: two models (the files ..._waterA and ..._waterC, Yoshi has no A) circling a map object's x/z while
-// the surface height swings between two heights the creator gives; 0x180 bytes, built by the five Create...Water
-// functions into gWater and published as gCourseWater.
+// The course water: two models circling a map object's x/z while the surface height swings between two heights.
 typedef struct Water {
     // X of model A (the model of mModelAFile, letter A from the file name ..._waterA): mCenterX + mModelARadius * the
     // first value of the FX_SinCosTable_ pair for mCircleAngle; UpdateWater writes it only while model A exists

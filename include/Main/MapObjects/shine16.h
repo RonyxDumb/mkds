@@ -19,10 +19,7 @@
 #define SHINE16_DRAW_SCALE_FULL TO_FIXED12(1)
 #define SHINE16_DRAW_SCALE_STEP FIXED12_RATIO(1, 10)
 
-// Object of kind 0x6a (Shine16), also typed MapObject (code_020a3f2c.c) where the
-// pool list is walked. Object reached through FindMapObjectKindUpdateList(0x6a), set up by StartShine16 and updated by
-// UpdateShine16: the shared MapObject part, then words up to 0xe8.
-// UpdateShine16 switches on the word at 0xe0 (SHINE16_STATE_*).
+// A Shine16 map object: its height above the followed kart, floor y, draw scale, animation frame and state.
 typedef struct Shine16 {
     /* 00 */ MapObject mMapObject;
     // Height of the shine above the followed kart's position: 0 at spawn and pickup, then grows by the shine's vertical

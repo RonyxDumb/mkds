@@ -15,6 +15,7 @@ typedef struct Segment {
     /* 48 */ Vec3 mUp;
 } Segment;
 
+// A path of segments with its segment count and whether it wraps.
 typedef struct GroupPath {
     /* 00 */ Segment *mSegments;
     /* 04 */ s32 mSegmentCount;
@@ -27,6 +28,7 @@ typedef struct GroupPath {
 // GroupFollower.mProgress along one segment runs from 0 to this value (1.0 in 24-bit fixed point).
 #define SEGMENT_PROGRESS_END 0x1000000
 
+// Something that moves along a GroupPath: its segment, progress and speed, and the group entries it moves between.
 typedef struct GroupFollower {
     /* 00 */ GroupPath *mPath;
     /* 04 */ s32 mSpeed;

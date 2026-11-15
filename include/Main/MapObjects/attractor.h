@@ -81,11 +81,7 @@ typedef struct MapObjectKindData {
 // MapObject.mDistanceSquaredAndFlags bit 31: set by kinds; item hits clear it and pass the object on as the one hit.
 #define MAP_OBJECT_DISTANCE_FLAG_REPORT_HIT 0x80000000
 
-// Element object up to 0xa0, which every kind shares: UpdateMapObjectList and UpdateMapObjectSoundSource read 0x78 and
-// 0x94 of every object, DoesItemObjectRespondToMapObject reads 0x00, 0x02 and 0x98. InitKuribo and InitDram pass the
-// StateMachine at 0x80 to InitStateMachine. From 0xa0 on, the objects of InitAttractorMapObject (AttractorMapObject),
-// InitDram (Dram), InitMissionRunBoxMapObject (MissionRunBox) and InitItemBox (ItemBox) use the bytes in different
-// ways.
+// The part every map object shares: its position, state machine and list data; each kind uses the rest its own way.
 typedef struct MapObject {
     /* 00 */ u16 mKind;
     /* 02 */ u16 mFlags;

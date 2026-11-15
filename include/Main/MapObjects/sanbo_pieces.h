@@ -32,10 +32,7 @@ typedef struct SanboPiece {
 #define SANBO_STATE_SCATTERED 2
 #define SANBO_STATE_REGROWING 3
 
-// Object of kind 0x1b2 (Sanbo: sanbo_h and sanbo_b models in one object). Object passed to CollideItemObjectWithSanbo
-// and CollideKartWithSanbo as their first argument and on to StartSanboLaunch: the shared MapObject part, words at 0xa0
-// to 0xac, four 0x48-byte entries with their count at 0x1d0, a word at 0x1d4, an GroupFollower at 0x1d8 and a word at
-// 0x1fc.
+// A Sanbo map object (sanbo_h and sanbo_b models in one object): its pieces and the GroupFollower they move along.
 typedef struct Sanbo {
     /* 000 */ MapObject mMapObject;
     /* 0a0 */ s32 mPathWaitTimer;

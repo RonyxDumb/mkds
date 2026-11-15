@@ -10,6 +10,7 @@
 #define TERESA_SPAWNER_STATE_WAIT_KART_NEAR 1
 #define TERESA_SPAWNER_STATE_SPAWN_ON_TIMER 2
 
+// A Teresa spawner map object: its kart-near check and spawn timers and its state.
 typedef struct TeresaSpawner {
     /* 00 */ MapObject mMapObject;
     /* a0 */ s32 mNearCheckTimer;

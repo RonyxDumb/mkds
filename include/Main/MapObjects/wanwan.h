@@ -93,9 +93,7 @@ WanwanKindData *CreateWanwanKindData(void);
 
 void EnterWanwanRest(void *stateObject);
 
-// Object of kinds 0x196 (with chain post kind 0x197) and 0x1a5 (mUnk_fc is 0 or 1) of Wanwan; UpdateWanwanPullBack,
-// UpdateWanwanHit and the functions after it up to CreateWanwanKindData: vectors at 0x04, 0x10 and 0xa0, ring of
-// four vector pointers at 0x160, words at 0xe8, 0xec, 0xf0 and 0x1fc.
+// A Wanwan map object: its pull-back and hit state, vectors and the ring of chain post pointers.
 typedef struct Wanwan {
     /* 00 */ MapObject mMapObject;
     /* a0 */ Vec3 mCenterPos;

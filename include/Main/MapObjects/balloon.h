@@ -12,10 +12,7 @@ enum {
     BALLOON_STATE_FULL,
 };
 
-// Object of kind 0x6c (Balloon, the battle balloons), also held by the kind 0x69 controller (UpdateKartBalloons,
-// code_020a3fa8.h) and by src/01/Race/mission_run_state.c. Object of the list FindMapObjectKindUpdateList(0x6c), set up
-// by StartBalloon: the shared MapObject part, then the value passed to StartBalloon at 0xa8, two Vec3s at 0xb0 and
-// 0xbc, words up to 0xe4, a Vec3 at 0xe8 and words up to 0xfc; the pointer array at 0xf8 has the count at 0xf4.
+// A battle balloon map object, also held by the controller map object that updates the kart balloons.
 typedef struct Balloon {
     /* 00 */ MapObject mMapObject;
     // Frames left while the balloon has no kart: 0x1e from StartBalloonWithoutKart, counted down each update; at 0 the
