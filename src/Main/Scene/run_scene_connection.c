@@ -173,6 +173,9 @@ static inline s32 RunSceneIsBackupBusy(void) {
     return 1;
 }
 
+// Entries of the VRAM transfer task array that RunScene sets up.
+#define SCENE_VRAM_TASK_COUNT 0x80
+
 void RunScene(SceneNumbers *sceneNumbers, const SceneCallbacks *callbacks) {
     u32 exitValue;
     u32 interruptState;
@@ -201,7 +204,9 @@ void RunScene(SceneNumbers *sceneNumbers, const SceneCallbacks *callbacks) {
     LoadArchiveSlotsForScene(sceneNumbers->mScene);
     SetHeapGroupId(9);
     GetHeap(GetCurrentHeapCall());
-    NNS_GfdInitVramTransferManager(HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x800), 0x80);
+    NNS_GfdInitVramTransferManager(
+        HeapAlloc(GetHeap(GetCurrentHeapCall()), SCENE_VRAM_TASK_COUNT * sizeof(NNSGfdVramTransferTask)),
+        SCENE_VRAM_TASK_COUNT);
     if (TryGetSceneSoundSetSeqId(sceneNumbers->mScene, &seqId)) {
         InitSceneSoundSetPlayer(seqId);
     }

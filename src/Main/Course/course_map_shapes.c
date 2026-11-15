@@ -55,7 +55,7 @@ const CourseMapSectionLoader gCourseMapSectionLoaders[17] = {
 
 #pragma thumb on
 CourseMap *AllocCourseMap(void *heap) {
-    return HeapAlloc(heap, 0x110);
+    return HeapAlloc(heap, sizeof(CourseMap));
 }
 #pragma thumb off
 

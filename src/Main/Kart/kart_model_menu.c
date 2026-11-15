@@ -158,7 +158,7 @@ void InitCameraGlobals(void) {
 void CreateChaseCamera(void) {
     Kart *kart = GetKart(gRaceSetup->mEntryIndex);
 
-    gChaseCamera = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x270);
+    gChaseCamera = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gChaseCamera));
     SetupCameraBehindKart();
     GetKartForward(kart, &gChaseCamera->mSavedKartForward);
     RefreshCameraProjection(gChaseCamera);

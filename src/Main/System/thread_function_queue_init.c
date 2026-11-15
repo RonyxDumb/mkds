@@ -32,8 +32,8 @@ void (*DequeueThreadFunction(ThreadFunctionQueue *queue))(void) {
 void InitThreadFunctionQueue(void *heap) {
     ThreadFunctionQueue *queue;
     s32 functionIndex;
-    gThreadFunctionQueue = HeapAlloc(heap, 0xfc);
-    gThreadFunctionQueue->mThreadStack = HeapAllocAligned(heap, 0x800, 0x20);
+    gThreadFunctionQueue = HeapAlloc(heap, sizeof(*gThreadFunctionQueue));
+    gThreadFunctionQueue->mThreadStack = HeapAllocAligned(heap, 0x800, HEAP_ALIGN_CACHE_LINE);
     OS_CreateThread(&gThreadFunctionQueue->mThread, RunQueuedThreadFunctions, NULL,
                     gThreadFunctionQueue->mThreadStack + 0x800, 0x800, 0x11);
     OS_WakeupThreadDirect(&gThreadFunctionQueue->mThread);

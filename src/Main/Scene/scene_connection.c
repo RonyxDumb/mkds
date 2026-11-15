@@ -440,7 +440,7 @@ void ScenePostSleepCallback(void) {
 
 void InitSceneRunState(void *heap) {
     gSceneRunState = HeapAlloc(heap, sizeof(SceneRunState));
-    gSceneRunState->mThreadStack = HeapAllocAligned(heap, 0x400, 0x20);
+    gSceneRunState->mThreadStack = HeapAllocAligned(heap, 0x400, HEAP_ALIGN_CACHE_LINE);
     gSceneRunState->mRunStep = SCENE_RUN_STEP_IDLE;
     gSceneRunState->mLcdOff = FALSE;
     gSceneRunState->mMessageKind = MESSAGE_KIND_NONE;

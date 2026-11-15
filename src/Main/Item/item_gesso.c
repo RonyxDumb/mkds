@@ -408,7 +408,7 @@ void ComputeItemGessoFrameCount(void) {
 void CreateItemTeresaFrameScaleTable(void) {
     s32 frameIndex;
 
-    gItemTeresaFrameScales = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x52);
+    gItemTeresaFrameScales = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x29 * sizeof(*gItemTeresaFrameScales));
     for (frameIndex = 0; frameIndex <= 0x28; frameIndex++) {
         gItemTeresaFrameScales[frameIndex] = TO_FIXED12(0x28 - frameIndex) / (0x29 - frameIndex);
     }

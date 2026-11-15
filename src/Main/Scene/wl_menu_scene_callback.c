@@ -74,7 +74,7 @@ void FillStartupWork(void) {
     RandomState64 *random;
 
     OS_GetOwnerInfo(&ownerInfo);
-    MI_CpuFill8(gStartupWork->mOwnerText, 0, 0x14);
+    MI_CpuFill8(gStartupWork->mOwnerText, 0, sizeof(gStartupWork->mOwnerText));
     gStartupWork->mOwnerCharCount = ownerInfo.mNickNameLength;
     MI_CpuCopy8(ownerInfo.mNickName, gStartupWork->mOwnerText, gStartupWork->mOwnerCharCount << 1);
     gStartupWork->mFavoriteColor = ownerInfo.mFavoriteColor;

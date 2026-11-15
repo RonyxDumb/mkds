@@ -178,7 +178,7 @@ void CreateAwardEmitters(void) {
 }
 
 void CreateKartPhysicalParamTable(void *heap, u32 entryCount) {
-    gKartPhysicalParamTable = HeapAlloc(heap, 0x14);
+    gKartPhysicalParamTable = HeapAlloc(heap, sizeof(*gKartPhysicalParamTable));
     gKartPhysicalParamTable->mKartParams = HeapAlloc(heap, entryCount * sizeof(KartPhysicalParam));
     gKartPhysicalParamTable->mCharParams = HeapAlloc(heap, entryCount * 8);
     gKartPhysicalParamTable->mKartParamFile = FindKartModelFile("kartphysicalparam.bin");

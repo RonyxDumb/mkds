@@ -517,7 +517,7 @@ void UncompressArchiveFile(void) {
     if (request->mAllocFromHeapEnd != 0) {
         request->mData = HeapAllocAligned(GetHeap(GetCurrentHeapCall()), uncompressedSize, -0x20);
     } else {
-        request->mData = HeapAllocAligned(GetHeap(GetCurrentHeapCall()), uncompressedSize, 0x20);
+        request->mData = HeapAllocAligned(GetHeap(GetCurrentHeapCall()), uncompressedSize, HEAP_ALIGN_CACHE_LINE);
     }
     MI_InitUncompContextLZ(&uncompContext, request->mData, (const MICompressionHeader *) request->mReadBuffer);
     do {
@@ -539,7 +539,7 @@ void UncompressArchiveMemory(void) {
     if (request->mAllocFromHeapEnd != 0) {
         request->mData = HeapAllocAligned(GetHeap(GetCurrentHeapCall()), uncompressedSize, -0x20);
     } else {
-        request->mData = HeapAllocAligned(GetHeap(GetCurrentHeapCall()), uncompressedSize, 0x20);
+        request->mData = HeapAllocAligned(GetHeap(GetCurrentHeapCall()), uncompressedSize, HEAP_ALIGN_CACHE_LINE);
     }
     MI_UncompressLZ8(request->mSourceData, request->mData);
     DC_StoreRange(request->mData, uncompressedSize);
@@ -1038,7 +1038,7 @@ void InitCompressedArchiveAndMBChild(void *heap) {
 
     uncompressedSize = *GetCompressedArchive() >> 8;
     gArchiveSlots->mSlots[ARCHIVE_SLOT_IN_MEMORY].mLoaded = 0;
-    data = HeapAllocAligned(heap, uncompressedSize, 0x20);
+    data = HeapAllocAligned(heap, uncompressedSize, HEAP_ALIGN_CACHE_LINE);
     UncompressLZ8AndStoreRange(GetCompressedArchive(), data, uncompressedSize);
     ArchiveLoadFromMemory(&gArchiveSlots->mSlots[ARCHIVE_SLOT_IN_MEMORY].mArchive,
                           (const u8 *) gArchiveNames[ARCHIVE_SLOT_IN_MEMORY], data);

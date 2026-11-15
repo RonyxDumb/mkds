@@ -81,7 +81,7 @@ void InitKartNameTagsAndDistanceOrder(void) {
     } else {
         isGrandPrix = FALSE;
     }
-    gKartNameTags = HeapAlloc(heap, 0x194);
+    gKartNameTags = HeapAlloc(heap, sizeof(*gKartNameTags));
     gKartNameTags->mUnk_184 = 0;
     gKartNameTags->mEmblemPlttData = NULL;
     if (IsRaceAwardOrStaffRoll() != 0) {
@@ -146,7 +146,8 @@ void InitKartNameTagsAndDistanceOrder(void) {
                 }
             }
             if (createsObject != FALSE) {
-                gKartNameTags->mNameTagByKart[kartIndex] = HeapAlloc(heap, 0x28);
+                gKartNameTags->mNameTagByKart[kartIndex] =
+                    HeapAlloc(heap, sizeof(*gKartNameTags->mNameTagByKart[kartIndex]));
                 kartObject = gKartNameTags->mNameTagByKart[kartIndex];
                 InitKartNameTag(kartObject, kartIndex, heap);
                 gKartNameTags->mNameTags[objectCount] = kartObject;

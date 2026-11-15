@@ -131,7 +131,7 @@ void InitCourseModels(void *heap) {
 
     nsbmdFile = FindCourseFile(gCourseModelNsbmdName);
     nsbtxFile = FindCourseFile(gCourseModelNsbtxName);
-    gCourseModels.mNsbmd = HeapAlloc(heap, 0x6c);
+    gCourseModels.mNsbmd = HeapAlloc(heap, sizeof(*gCourseModels.mNsbmd));
     resMdl = InitNsbmdWithTextureInfoCopy(heap, gCourseModels.mNsbmd, nsbmdFile, nsbtxFile);
     animationFile = FindCourseFile(gCourseModelNsbtpName);
     InitModelAnimationFromFile(2, &gCourseModels.mNsbtpAnimation, gCourseModels.mNsbmd, heap, nsbmdFile, animationFile,
@@ -167,7 +167,7 @@ void InitCourseModels(void *heap) {
     nsbmdFile = FindCourseFile(gCourseModelVNsbmdName);
     nsbtxFile = FindCourseFile(gCourseModelVNsbtxName);
     if (nsbmdFile != NULL) {
-        gCourseModels.mVNsbmd = HeapAlloc(heap, 0x6c);
+        gCourseModels.mVNsbmd = HeapAlloc(heap, sizeof(*gCourseModels.mVNsbmd));
         InitNsbmdWithTextureInfoCopy(heap, gCourseModels.mVNsbmd, nsbmdFile, nsbtxFile);
         SetNsbmdPolygonIdAll(gCourseModels.mVNsbmd, 8);
         animationFile = FindCourseFile(gCourseModelVNsbtaName);

@@ -449,7 +449,7 @@ void DelayItemData(u32 kind, u32 messageKind, s32 frameDifference, void *packet,
     record->mKind = kind;
     record->mMessageKind = messageKind;
     record->mRaceUpdateFramesStamp = frameStamp;
-    MI_CpuCopy8(packet, record, 0x14);
+    MI_CpuCopy8(packet, record, sizeof(record->mData));
     gItemDataDelayedFreeHead[0] = gItemDataDelayedLinks[index][0];
     gItemDataDelayedLinks[index][0] = gItemDataDelayedUsedHead[0];
     if (frameStamp != 0) {

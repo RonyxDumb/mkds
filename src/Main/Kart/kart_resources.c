@@ -1,5 +1,6 @@
 #include "Main/Kart/kart_resources.h"
 #include "Main/System/heap.h"
+#include "Main/Kart/kart_ai_battle.h"
 #include "Main/Kart/code_02066ac0.h"
 #include "Main/Kart/kart_participant_record.h"
 #include "Main/Race/code_020b1dbc.h"
@@ -146,7 +147,7 @@ void InitKartResources(Kart *kart) {
     }
     InitKartSound(kart);
     CreateCollisionHitLink(&kart->mCollisionHitLink);
-    kart->mAi = HeapAlloc(heap, 0x158);
+    kart->mAi = HeapAlloc(heap, sizeof(*kart->mAi));
     if (gCourseMap->mRaceRouteCount != 0 || gCourseMap->mBattleRouteCount != 0) {
         if (gRaceSetup->mCurrentEntries[kart->mIndex].mPlayer.mKind == PLAYER_KIND_CPU) {
             kart->mEntryFlags |= KART_ENTRY_CPU;
@@ -184,7 +185,7 @@ void InitKartResources(Kart *kart) {
     kart->mRadius = kart->mPhysicalParam->mRadius;
     InitKartSoundParams(kart);
     if (gRaceSetup->mMode == MODE_WIFI) {
-        kart->mParticipantRecordData = HeapAlloc(heap, 0xb8);
+        kart->mParticipantRecordData = HeapAlloc(heap, sizeof(*kart->mParticipantRecordData));
         InitParticipantKartRecordState(kart, heap);
     }
     if (IsRaceAwardOrStaffRoll() != 0) {

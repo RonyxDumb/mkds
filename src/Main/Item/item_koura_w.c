@@ -1333,6 +1333,9 @@ void StartCourseMapItemObjects(void) {
     }
 }
 
+// Most item objects that one hit check can collect.
+#define COLLIDED_ITEM_OBJECT_CAPACITY 0x10
+
 void InitItems(void) {
     void *heap;
     s32 objectIdCounter;
@@ -1357,7 +1360,7 @@ void InitItems(void) {
     for (kartIndex = 0; kartIndex < gKartItemsCount; kartIndex++) {
         InitKartItems(&gKartItems[kartIndex], kartIndex);
     }
-    gItemPools = HeapAlloc(heap, 0x3b8);
+    gItemPools = HeapAlloc(heap, ITEM_OBJECT_KIND_COUNT * sizeof(*gItemPools));
     for (kind = 0; kind < ITEM_OBJECT_KIND_COUNT; kind++) {
         CreateItemPool(&gItemPools[kind], kind, &objectIdCounter);
     }
@@ -1380,7 +1383,8 @@ void InitItems(void) {
             }
         }
     }
-    gCollidedItemObjects = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    gCollidedItemObjects =
+        HeapAlloc(GetHeap(GetCurrentHeapCall()), COLLIDED_ITEM_OBJECT_CAPACITY * sizeof(*gCollidedItemObjects));
     StartCourseMapItemObjects();
     CreateItemTeresaFrameScaleTable();
     InitOrthoQuads();

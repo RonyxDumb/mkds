@@ -32,7 +32,7 @@ StaffRollText *gStaffRollText;
 void InitPaletteBlend(void *heap, Nclr *nclr, u32 paletteIndex) {
     s32 colorIndex;
     s32 color;
-    gPaletteBlend = HeapAlloc(heap, 0x90);
+    gPaletteBlend = HeapAlloc(heap, sizeof(*gPaletteBlend));
     gPaletteBlend->mCycleFrames = 0;
     gPaletteBlend->mStopped = FALSE;
     gPaletteBlend->mPaletteIndex = paletteIndex;
@@ -118,6 +118,9 @@ void StartPaletteBlend(void) {
 }
 #pragma thumb off
 
+// Entries of the VRAM transfer task array that the staff roll text sets up.
+#define STAFF_ROLL_VRAM_TASK_COUNT 0xa
+
 void InitStaffRollText(void *heap) {
     s32 screenEntryIndex;
     s32 charSpacing;
@@ -125,11 +128,12 @@ void InitStaffRollText(void *heap) {
     StaffRollText *staffRollText;
     TextCanvas *textCanvas;
     void *font;
-    gStaffRollText = HeapAlloc(heap, 0x85c);
+    gStaffRollText = HeapAlloc(heap, sizeof(*gStaffRollText));
     gStaffRollText->mHeap = heap;
     gStaffRollText->mState = STAFF_ROLL_TEXT_IDLE;
     gStaffRollText->mNextState = STAFF_ROLL_TEXT_IDLE;
-    NNS_GfdInitVramTransferManager(HeapAlloc(heap, 0xa0), 0xa);
+    NNS_GfdInitVramTransferManager(HeapAlloc(heap, STAFF_ROLL_VRAM_TASK_COUNT * sizeof(NNSGfdVramTransferTask)),
+                                   STAFF_ROLL_VRAM_TASK_COUNT);
     gStaffRollText->mScrollYFixed = 0;
     gStaffRollText->mNextReadScrollY = 0;
     gStaffRollText->mScrollYRemaining = -1;
@@ -156,7 +160,7 @@ void InitStaffRollText(void *heap) {
     textCanvas->mFont = font;
     textCanvas->mCharSpacing = charSpacing;
     textCanvas->mLineSpacing = 0;
-    MI_CpuFill8(gStaffRollText->mCharBuffer, 0, 0x800);
+    MI_CpuFill8(gStaffRollText->mCharBuffer, 0, sizeof(gStaffRollText->mCharBuffer));
     gStaffRollText->mTextPosition = GetBmgEntry(FindSceneFile("staffRoll.bmg"), 0);
 }
 
@@ -198,7 +202,7 @@ void AdvanceStaffRollTextScrolling(void) {
     }
     charCount = 0;
     lineDone = FALSE;
-    MI_CpuFill8(lineText, 0, 0xc8);
+    MI_CpuFill8(lineText, 0, sizeof(lineText));
     do {
         staffRollText = gStaffRollText;
         textPosition = staffRollText->mTextPosition;
@@ -262,7 +266,7 @@ void AdvanceStaffRollTextScrolling(void) {
             staffRollText->mTextPosition += 2;
         }
     } while (lineDone == FALSE);
-    MI_CpuFill8(gStaffRollText->mCharBuffer, 0, 0x800);
+    MI_CpuFill8(gStaffRollText->mCharBuffer, 0, sizeof(gStaffRollText->mCharBuffer));
     color = gStaffRollText->mTextColor;
     value = 0;
     if (color == 3) {

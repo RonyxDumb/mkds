@@ -114,7 +114,7 @@ void InitEffects(void *defaultHeap) {
     switch (gRaceSetup->mCourseId) {
         case COURSE_ID_STADIUM:
             directionOrigin = gStadiumEmitterDirectionOrigin;
-            gStadiumEmitters = HeapAlloc(effectHeap, 0x64);
+            gStadiumEmitters = HeapAlloc(effectHeap, sizeof(*gStadiumEmitters));
             for (emitterIndex = 0; emitterIndex < 6; emitterIndex++) {
                 gStadiumEmitters->mEmitters[emitterIndex] = NULL;
                 VEC_Subtract(&gStadiumEmitterPositions[emitterIndex], &directionOrigin, &offset);

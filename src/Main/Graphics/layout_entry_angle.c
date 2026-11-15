@@ -323,7 +323,7 @@ s32 InitLabelCanvas(void *heap, s32 labelIndex, LayoutEntryTable *labelLayout, s
     void *font;
     cellEntryCount = cellLayout->mCount;
     table[entryIndex].mLabelIndex = labelIndex;
-    canvas = HeapAlloc(heap, 0x48);
+    canvas = HeapAlloc(heap, sizeof(*canvas));
     table[cellEntryCount + labelIndex].mLabelCanvas = canvas;
     labelEntry = GetLabelLayoutEntry(labelLayout, labelIndex);
     widthBlocks = ((width - 1) >> 3) + 1;

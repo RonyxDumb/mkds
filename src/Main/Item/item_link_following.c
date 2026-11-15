@@ -45,7 +45,7 @@ NsbmdModel *CreateItemModel(char *modelName, char *animationName, char *textureN
     void *modelFile;
     void *animationFile;
 
-    model = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+    model = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*model));
     modelFile = FindItemFile(modelName);
     animationFile = FindItemFile(animationName);
     InitNsbmdModel(model, modelFile, animationFile, 0);
@@ -62,7 +62,7 @@ void *CreateItemNsbmd(char *modelName, char *textureName) {
     void *model;
     void *modelFile;
 
-    model = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x6c);
+    model = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(Nsbmd));
     modelFile = FindItemFile(modelName);
     InitNsbmd(model, modelFile);
     SetNsbmdPolygonIdLightEmiAll(model, 4, 2, 0x294a);

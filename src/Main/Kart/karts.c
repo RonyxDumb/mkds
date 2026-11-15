@@ -157,7 +157,7 @@ void InitKarts(u32 kartCount) {
     EntryKartCounters *entryKartCounters;
     gKarts = HeapAlloc(heap, kartCount * 0x5a8);
     gKartCount = kartCount;
-    entryKartCounters = HeapAlloc(heap, 0x1c);
+    entryKartCounters = HeapAlloc(heap, sizeof(*entryKartCounters));
     gEntryKartCounters = entryKartCounters;
     gKillerItemKartIndex = 0;
     gMinKartDistanceSquaredPresent = 0;
@@ -856,7 +856,7 @@ void InitKartModels(void *heap, u32 kartCount) {
     kartOffsetFile = FindKartModelFile("kartoffsetdata.bin");
     SetKartModelPathPrefix(0);
     gKartModelMenu = NULL;
-    gKartModels = HeapAlloc(heap, 0x144);
+    gKartModels = HeapAlloc(heap, sizeof(*gKartModels));
     gKartModels->mKartModelsEntries = HeapAlloc(heap, kartCount * 0xb4);
     gKartModels->mCourseColors = GetKartModelFile("kartcrsmat.bin");
     gKartModels->mCourseColors = gKartModels->mCourseColors + (gRaceSetup->mCourseId << 2) - 4;
@@ -877,8 +877,9 @@ void InitKartModels(void *heap, u32 kartCount) {
         entries[kartIndex].mCharacterIndex = gRaceSetup->mCurrentEntries[kartIndex].mCharacterIndex;
         entry->mKartIndex = gRaceSetup->mCurrentEntries[kartIndex].mKartIndex;
         SetKartModelsEntryVariant(entry, entry->mKartIndex);
-        entry->mKartOffsetData = HeapAlloc(heap, 0xe0);
-        MI_CpuCopy8(kartOffsetFile + entry->mKartIndex * 0xe0, entry->mKartOffsetData, 0xe0);
+        entry->mKartOffsetData = HeapAlloc(heap, sizeof(*entry->mKartOffsetData));
+        MI_CpuCopy8(kartOffsetFile + entry->mKartIndex * sizeof(*entry->mKartOffsetData), entry->mKartOffsetData,
+                    sizeof(*entry->mKartOffsetData));
         CopyKartPhysicalParams(kartIndex, entry->mKartIndex, entries[kartIndex].mCharacterIndex);
     }
     CreateKartModelsEntryModels(heap, 1);
@@ -976,14 +977,14 @@ void CreateCharacter(KartModelsEntry *kartModelsEntry, void *heap, s32 pNameUsed
     characterIndex = kartModelsEntry->mCharacterIndex;
     nsbmdFile = GetKartModelFile(BuildCharacterNsbmdPath(characterIndex, pNameUsed));
     nsbtxFile = FindKartModelFile(BuildCharacterNsbtxPath(characterIndex, pNameUsed));
-    kartModelsEntry->mModels[0] = HeapAlloc(heap, 0x6c);
+    kartModelsEntry->mModels[0] = HeapAlloc(heap, sizeof(*kartModelsEntry->mModels[0]));
     mdl = InitNsbmdWithTextureInfoCopy(heap, kartModelsEntry->mModels[0], nsbmdFile, nsbtxFile);
     SetNsbmdPolygonIdAll(kartModelsEntry->mModels[0], 3);
     SetKartModelMaterialColors(mdl, 0);
     if (pNameUsed != 0) {
         animationIndex = 0;
         hasFirstAnimation = FALSE;
-        kartModelsEntry->mCharacterAnimation = HeapAlloc(heap, 0x38);
+        kartModelsEntry->mCharacterAnimation = HeapAlloc(heap, sizeof(*kartModelsEntry->mCharacterAnimation));
         InitModelAnimation(0, kartModelsEntry->mCharacterAnimation, kartModelsEntry->mModels[0], 4, heap, NULL);
         do {
             animationFile = GetKartModelFile(BuildCharacterNsbcaPath(characterIndex, animationIndex));
@@ -1007,7 +1008,7 @@ void CreateCharacter(KartModelsEntry *kartModelsEntry, void *heap, s32 pNameUsed
             kartModelsEntry->mCharacterAnimation->mAnmObjCount = 0;
         }
     }
-    kartModelsEntry->mFaceAnimation = HeapAlloc(heap, 0x38);
+    kartModelsEntry->mFaceAnimation = HeapAlloc(heap, sizeof(*kartModelsEntry->mFaceAnimation));
     InitModelAnimation(2, kartModelsEntry->mFaceAnimation, kartModelsEntry->mModels[0], 1, heap, NULL);
     InitModelAnimationEntries(kartModelsEntry->mFaceAnimation, gKartModels->mPFaceanimNsbtpFile, heap);
     SetModelAnimation(kartModelsEntry->mFaceAnimation, 0);
@@ -1021,7 +1022,7 @@ void CreateKart(KartModelsEntry *kartModelsEntry, void *heap, s32 pNameUsed) {
     s32 tireMaterialIndex;
     nsbmdFile = GetKartModelFile(BuildKartNsbmdPath(kartIndex));
     nsbtxFile = FindKartModelFile(BuildKartNsbtxPath(kartIndex));
-    kartModelsEntry->mModels[1] = HeapAlloc(heap, 0x6c);
+    kartModelsEntry->mModels[1] = HeapAlloc(heap, sizeof(*kartModelsEntry->mModels[1]));
     mdl = InitNsbmdWithTextureInfoCopy(heap, kartModelsEntry->mModels[1], nsbmdFile, nsbtxFile);
     SetNsbmdPolygonIdAll(kartModelsEntry->mModels[1], 3);
     SetKartModelMaterialColors(mdl, 0);
@@ -1153,7 +1154,7 @@ void CreateTire(KartModelsEntry *kartModelsEntry, void *heap) {
     NNSG3dResFileHeader *nsbtxFile;
     nsbmdFile = GetKartModelFile(BuildTireNsbmdPath(kartIndex, kartModelsEntry->mKartOffsetData->mTireName));
     nsbtxFile = FindKartModelFile(BuildTireNsbtxPath(kartIndex, kartModelsEntry->mKartOffsetData->mTireName));
-    kartModelsEntry->mModels[2] = HeapAlloc(heap, 0x6c);
+    kartModelsEntry->mModels[2] = HeapAlloc(heap, sizeof(*kartModelsEntry->mModels[2]));
     mdl = InitNsbmdWithTextureInfoCopy(heap, kartModelsEntry->mModels[2], nsbmdFile, nsbtxFile);
     SetNsbmdPolygonIdAll(kartModelsEntry->mModels[2], 3);
     SetKartModelMaterialColors(mdl, 0);
@@ -1164,7 +1165,7 @@ void CreateKartShadow(KartModelsEntry *kartModelsEntry, void *heap) {
     NNSG3dResMdlSet *mdlSet;
     NNSG3dResDictEntryHeader *entries;
     nsbmdFile = GetKartModelFile(BuildKartShadowNsbmdPath(kartModelsEntry->mKartIndex));
-    kartModelsEntry->mShadowModel = HeapAlloc(heap, 0x74);
+    kartModelsEntry->mShadowModel = HeapAlloc(heap, sizeof(*kartModelsEntry->mShadowModel));
     AddResFileEntry(&kartModelsEntry->mShadowModel->mNsbmd.mResFileEntry, nsbmdFile, nsbmdFile);
     mdlSet = NNS_G3dGetMdlSet(nsbmdFile);
     entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &mdlSet->mDict, mdlSet->mDict.mOfsEntry);
@@ -1254,7 +1255,7 @@ void LoadKartModelMenuSelectModel(void *heap) {
     void *textureFile;
     LoadKartModelMenuFile(heap, gKartSelectNsbmdName, &modelFile);
     LoadKartModelMenuFile(heap, gKartSelectNsbtxName, &textureFile);
-    gKartModelMenu->mSelectModel = HeapAlloc(heap, 0x6c);
+    gKartModelMenu->mSelectModel = HeapAlloc(heap, sizeof(*gKartModelMenu->mSelectModel));
     InitNsbmdWithTextureFile(gKartModelMenu->mSelectModel, modelFile, textureFile);
     SetNsbmdPolygonIdAll(gKartModelMenu->mSelectModel, 2);
     NNS_G3dMdlSetMdlXLDepthUpdateAll(gKartModelMenu->mSelectModel->mResMdl, 1);
@@ -1273,11 +1274,11 @@ void InitKartModelMenuSlot(void *heap, KartModelMenuSlot *slot) {
     InitKartModelsEntry(slot);
     slot->mRegion = gStartupWork->mRegion;
     slot->mEmblemTex = 0;
-    slot->mCharacterNsbmd = HeapAlloc(heap, 0x6c);
-    slot->mKartNsbmd = HeapAlloc(heap, 0x6c);
-    slot->mTireNsbmd = HeapAlloc(heap, 0x6c);
-    slot->mShadowModel = HeapAlloc(heap, 0x74);
-    slot->mCharacterAnimation = HeapAlloc(heap, 0x38);
+    slot->mCharacterNsbmd = HeapAlloc(heap, sizeof(*slot->mCharacterNsbmd));
+    slot->mKartNsbmd = HeapAlloc(heap, sizeof(*slot->mKartNsbmd));
+    slot->mTireNsbmd = HeapAlloc(heap, sizeof(*slot->mTireNsbmd));
+    slot->mShadowModel = HeapAlloc(heap, sizeof(*slot->mShadowModel));
+    slot->mCharacterAnimation = HeapAlloc(heap, sizeof(*slot->mCharacterAnimation));
 }
 
 void InitKartModelMenuView(KartModelMenuView *view, int flag) {
@@ -1943,11 +1944,14 @@ Nclr *GetEmblemSBNclr(void) {
 
 #pragma thumb on
 
+// Bytes of the exp heap that holds the kart model menu files.
+#define KART_MODEL_MENU_HEAP_SIZE 0xf000
+
 void InitKartModelMenuFiles(void *heap, KartModelMenuFiles *files) {
     void *heapMemory;
     struct NNSiFndHeapHead *expHeap;
-    heapMemory = HeapAlloc(heap, 0xf000);
-    expHeap = NNS_FndCreateExpHeapEx(heapMemory, 0xf000, 0);
+    heapMemory = HeapAlloc(heap, KART_MODEL_MENU_HEAP_SIZE);
+    expHeap = NNS_FndCreateExpHeapEx(heapMemory, KART_MODEL_MENU_HEAP_SIZE, 0);
     files->mHeap = expHeap;
     files->mHeapMemory = heapMemory;
     files->mEmblemNsbtxFile = NULL;

@@ -7,7 +7,7 @@ void StartKeyRecording(KeyRecording *record) {
     }
     if (record->mBufferCleared == FALSE) {
         if (record->mBuffer != NULL) {
-            MI_CpuFill8(record->mBuffer, 0, 0xdcc);
+            MI_CpuFill8(record->mBuffer, 0, sizeof(*record->mBuffer));
         }
         record->mBufferCleared = TRUE;
     }

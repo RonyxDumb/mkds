@@ -663,7 +663,7 @@ void InitOrthoQuads(void) {
     NsbmdModel *model;
     s32 index;
 
-    gOrthoQuads = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0xd0);
+    gOrthoQuads = HeapAlloc(GetHeap(GetCurrentHeapCall()), 4 * sizeof(OrthoQuad));
     gOrthoQuadKartIndex = 0xffff;
     gOrthoQuadCount = 0;
     gOrthoQuadUseCreamEffect = FALSE;

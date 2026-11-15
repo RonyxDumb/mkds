@@ -81,9 +81,9 @@ u8 GetLowestGrandPrixRecordValue(void) {
 #pragma thumb off
 
 void InitDispCap(void *heap) {
-    gDispCap = HeapAlloc(heap, 0x10);
+    gDispCap = HeapAlloc(heap, sizeof(*gDispCap));
     if (gRaceSetup->mRaceKind == RACE_KIND_START_GP || gRaceSetup->mRaceKind == RACE_KIND_AWARD) {
-        gDispCap->mOamBuffer = HeapAllocAligned(heap, 0x400, 0x20);
+        gDispCap->mOamBuffer = HeapAllocAligned(heap, 0x400, HEAP_ALIGN_CACHE_LINE);
     } else {
         gDispCap->mOamBuffer = NULL;
     }
@@ -343,7 +343,7 @@ void StoreReceivedPlayerName(const void *entryName, s32 entryIndex, s32 keepMask
     u8 keptBits;
 
     keptBits = gConnectionWork->mReceivedNameMask & keepMask;
-    MI_CpuCopy8(entryName, &gConnectionWork->mPlayerRecords[entryIndex], 0x14);
+    MI_CpuCopy8(entryName, &gConnectionWork->mPlayerRecords[entryIndex], PLAYER_NAME_BYTES);
     gConnectionWork->mReceivedNameMask = keptBits | (1 << entryIndex);
 }
 

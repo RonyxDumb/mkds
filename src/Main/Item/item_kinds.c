@@ -39,7 +39,7 @@ void CreateItemKinds(void) {
     u32 value;
     u32 (*getFar)(void);
 
-    kinds = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x930);
+    kinds = HeapAlloc(GetHeap(GetCurrentHeapCall()), ITEM_OBJECT_KIND_COUNT * sizeof(*kinds));
     gItemKinds = kinds;
     kinds[0] = gItemKindKouraG;
     kinds[1] = gItemKindKouraR;

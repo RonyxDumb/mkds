@@ -87,7 +87,7 @@ void CreateItemInfos(void) {
     ItemInfo *infos;
     s32 infoIndex;
 
-    infos = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x1f8);
+    infos = HeapAlloc(GetHeap(GetCurrentHeapCall()), ITEM_INFO_COUNT * sizeof(*infos));
     gItemInfos = infos;
     infos[0] = gItemInfoKouraG;
     infos[1] = gItemInfoKouraR;

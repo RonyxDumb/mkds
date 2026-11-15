@@ -619,6 +619,10 @@ void ResetKart(Kart *kart) {
     kart->mTireTurnAngle = 0;
 }
 
+// Free-list nodes of one kart's participant record state and the bytes of each.
+#define PARTICIPANT_RECORD_NODE_COUNT 0x1e
+#define PARTICIPANT_RECORD_NODE_SIZE 0x24
+
 void InitParticipantKartRecordState(Kart *kart, void *heap) {
     ParticipantKartRecordState *recordState;
     Vec3 zeroVector;
@@ -652,9 +656,9 @@ void InitParticipantKartRecordState(Kart *kart, void *heap) {
     recordState->mPosOffsetIndex = 0;
     NNS_FndInitList(&recordState->mPendingRecords, 0);
     NNS_FndInitList(&recordState->mFreeRecords, 0);
-    entries = HeapAlloc(heap, 0x438);
-    for (recordIndex = 0; recordIndex < 0x1e; recordIndex++) {
-        NNS_FndAppendListObject(&recordState->mFreeRecords, entries + recordIndex * 0x24);
+    entries = HeapAlloc(heap, PARTICIPANT_RECORD_NODE_COUNT * PARTICIPANT_RECORD_NODE_SIZE);
+    for (recordIndex = 0; recordIndex < PARTICIPANT_RECORD_NODE_COUNT; recordIndex++) {
+        NNS_FndAppendListObject(&recordState->mFreeRecords, entries + recordIndex * PARTICIPANT_RECORD_NODE_SIZE);
     }
 }
 

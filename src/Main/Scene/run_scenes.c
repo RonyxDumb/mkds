@@ -112,7 +112,7 @@ s32 UpdateShapeMapObjectCounts(void) {
 }
 
 void CreateRunScenesState(void *heap) {
-    gRunScenesState = HeapAlloc(heap, 0x10);
+    gRunScenesState = HeapAlloc(heap, sizeof(*gRunScenesState));
     gRunScenesState->mKind = RUN_SCENES_KIND_CONNECTION;
     gRunScenesState->mNextKind = RUN_SCENES_KIND_NONE;
     gRunScenesState->mSndHeapsBuffer = NULL;
@@ -197,7 +197,7 @@ void RunDWCUtility(void) {
     }
     RunScenesSoundNop();
     expHeapFromMaxFree = CreateExpHeapFromMaxFree(heap);
-    utilityWork = HeapAllocAligned(expHeapFromMaxFree, 0x40000, 0x20);
+    utilityWork = HeapAllocAligned(expHeapFromMaxFree, 0x40000, HEAP_ALIGN_CACHE_LINE);
     LoadOverlayAndRunDWCUtility(utilityWork, SDK_OVERLAY_OV003_ID);
     HeapDestroy(expHeapFromMaxFree);
     GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, 0x10);

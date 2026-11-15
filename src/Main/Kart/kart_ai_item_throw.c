@@ -488,7 +488,7 @@ void InitPosStrips(void *heap) {
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         heap = gOverlayLoader->mExpHeap;
     }
-    gPosStrips = HeapAlloc(heap, 0x38);
+    gPosStrips = HeapAlloc(heap, sizeof(*gPosStrips));
     strips = HeapAlloc(heap, stripCount * 0x30);
     points = HeapAlloc(heap, pointCount * 0x1c);
     NNS_FndInitList(&gPosStrips->mLists[0], 0);
