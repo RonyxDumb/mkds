@@ -3,6 +3,11 @@
 #include "types.h"
 #include "Main/Item/item_gesso.h"
 
+// Limit of an OrthoQuad corner coordinate in either direction; the corners are clamped to it.
+#define ORTHO_QUAD_COORD_LIMIT 0x3ccd
+// OrthoQuad.mTimer & this is 0 once every 16 frames, when the quad picks a new corner.
+#define ORTHO_QUAD_CORNER_PICK_MASK 0xf
+
 // The register words and texture sizes DrawOrthoQuadsWithModel uses, filled from one model.
 typedef struct {
     /* 00 */ void *mModel;

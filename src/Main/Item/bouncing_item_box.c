@@ -165,16 +165,16 @@ void AdvanceOrthoQuadCornersByVelocity(OrthoQuad *quad) {
             velocities[cornerIndex][0] = MUL_FIXED12_NO_ROUND(velocities[cornerIndex][0], 0x10cd);
             velocities[cornerIndex][1] = MUL_FIXED12_NO_ROUND(velocities[cornerIndex][1], 0x10cd);
             coordX = quad->mCorners[cornerIndex].mHalf.mX;
-            if (coordX > 0x3ccd) {
-                quad->mCorners[cornerIndex].mHalf.mX = 0x3ccd;
-            } else if (coordX < -0x3ccd) {
-                quad->mCorners[cornerIndex].mHalf.mX = -0x3ccd;
+            if (coordX > ORTHO_QUAD_COORD_LIMIT) {
+                quad->mCorners[cornerIndex].mHalf.mX = ORTHO_QUAD_COORD_LIMIT;
+            } else if (coordX < -ORTHO_QUAD_COORD_LIMIT) {
+                quad->mCorners[cornerIndex].mHalf.mX = -ORTHO_QUAD_COORD_LIMIT;
             }
             coordY = quad->mCorners[cornerIndex].mHalf.mY;
-            if (coordY > 0x3ccd) {
-                quad->mCorners[cornerIndex].mHalf.mY = 0x3ccd;
-            } else if (coordY < -0x3ccd) {
-                quad->mCorners[cornerIndex].mHalf.mY = -0x3ccd;
+            if (coordY > ORTHO_QUAD_COORD_LIMIT) {
+                quad->mCorners[cornerIndex].mHalf.mY = ORTHO_QUAD_COORD_LIMIT;
+            } else if (coordY < -ORTHO_QUAD_COORD_LIMIT) {
+                quad->mCorners[cornerIndex].mHalf.mY = -ORTHO_QUAD_COORD_LIMIT;
             }
         }
     } else {
@@ -194,15 +194,15 @@ void AdvanceOrthoQuadCornersByVelocity(OrthoQuad *quad) {
                 fallDistance = fallSpeed;
                 fallDistance += (fallSpeed * framesFromMoveStart) >> 8;
                 quad->mCorners[cornerIndex].mHalf.mY = quad->mCorners[cornerIndex].mHalf.mY - fallDistance;
-                if (quad->mCorners[cornerIndex].mHalf.mY < -0x3ccd) {
-                    quad->mCorners[cornerIndex].mHalf.mY = -0x3ccd;
+                if (quad->mCorners[cornerIndex].mHalf.mY < -ORTHO_QUAD_COORD_LIMIT) {
+                    quad->mCorners[cornerIndex].mHalf.mY = -ORTHO_QUAD_COORD_LIMIT;
                 }
                 cornerIndex++;
             } while (cornerIndex < 4);
         }
     }
     quad->mTimer = quad->mTimer - 1;
-    if ((quad->mTimer & 0xf) == 0) {
+    if ((quad->mTimer & ORTHO_QUAD_CORNER_PICK_MASK) == 0) {
         RandomState64 *random = &gRaceProgress->mLocalRandom;
 
         random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
@@ -731,7 +731,8 @@ void SetupItemGessoKarts(ItemGesso *gesso) {
             raceProgress = gRaceProgress;
             random = &raceProgress->mLocalRandom;
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-            gesso->mOrthoQuadCounts[candidateIndex] = (u16) (((random->mValue >> 32) * 4) >> 32) + 1;
+            gesso->mOrthoQuadCounts[candidateIndex] =
+                (u16) (((random->mValue >> 32) * ITEM_GESSO_MAX_QUADS_PER_KART) >> 32) + 1;
         }
     } else {
         rank = 1;
@@ -742,7 +743,7 @@ void SetupItemGessoKarts(ItemGesso *gesso) {
             if ((kart->mEntryFlags & KART_ENTRY_REMOVED_PARKED_OR_TERESA) == 0 &&
                 (kart->mEffectFlags & (KART_EFFECT_STAR | KART_EFFECT_RESPAWN_DROP | KART_EFFECT_KILLER)) == 0 &&
                 (kart->mDriveFlags & KART_DRIVE_KEYED_PLACEMENT) == 0) {
-                gesso->mOrthoQuadCounts[kartIndex] = 4 - ((rank - 1) >> 1);
+                gesso->mOrthoQuadCounts[kartIndex] = ITEM_GESSO_MAX_QUADS_PER_KART - ((rank - 1) >> 1);
             }
             rank++;
         } while (rank < ownerRank);

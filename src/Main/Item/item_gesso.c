@@ -109,7 +109,7 @@ BOOL SetupNextItemGessoStep(ItemGesso *gesso) {
     BOOL fadesOut;
 
     gesso->mStepIndex = gesso->mStepIndex + 1;
-    if (gesso->mStepIndex >= 0x11) {
+    if (gesso->mStepIndex >= ITEM_GESSO_STEP_COUNT) {
         goto done;
     }
     step = &gItemGessoSteps[gesso->mStepIndex];
@@ -120,12 +120,12 @@ BOOL SetupNextItemGessoStep(ItemGesso *gesso) {
     gesso->mStepTimer = step->mApproachFrameCount;
     gesso->mDampFrameCount = step->mDampFrameCount;
     stepIndex = gesso->mStepIndex;
-    if (stepIndex != 0xc && stepIndex != 0xd) {
+    if (stepIndex != ITEM_GESSO_STEP_SPREAD && stepIndex != ITEM_GESSO_STEP_HALF_SCALE) {
         if (gesso->mTargetVelocityY > 0) {
             gesso->mTargetScaleX = ITEM_GESSO_TALL_SCALE_X;
             gesso->mTargetScaleY = ITEM_GESSO_TALL_SCALE_Y;
             gesso->mScaleYAndApproachRate.z = 0x4cd;
-        } else if (stepIndex == 4) {
+        } else if (stepIndex == ITEM_GESSO_STEP_PLAIN_SCALE) {
             gesso->mTargetScaleX = TO_FIXED12(1);
             gesso->mTargetScaleY = TO_FIXED12(1);
             gesso->mScaleYAndApproachRate.z = 0x1000;
@@ -134,7 +134,7 @@ BOOL SetupNextItemGessoStep(ItemGesso *gesso) {
             gesso->mTargetScaleY = ITEM_GESSO_SQUAT_SCALE_Y;
             gesso->mScaleYAndApproachRate.z = 0x28f;
         }
-    } else if (stepIndex == 0xc) {
+    } else if (stepIndex == ITEM_GESSO_STEP_SPREAD) {
         gesso->mTargetScaleX = ITEM_GESSO_SPREAD_SCALE_X;
         gesso->mTargetScaleY = ITEM_GESSO_SPREAD_SCALE_Y;
         gesso->mScaleYAndApproachRate.z = 0x800;
@@ -145,11 +145,12 @@ BOOL SetupNextItemGessoStep(ItemGesso *gesso) {
     }
     stepIndex = gesso->mStepIndex;
     fadesOut = TRUE;
-    if (stepIndex != 2 && stepIndex != 0x10) {
+    if (stepIndex != ITEM_GESSO_STEP_FADES_OUT_FIRST && stepIndex != ITEM_GESSO_STEP_FADES_OUT_LAST) {
         fadesOut = FALSE;
     }
     gesso->mFadesOut = fadesOut;
-    if (step->mTargetVelocityY > 0 && gesso->mStepIndex != 0 && gesso->mStepIndex != 0xe && gesso->mVisible != FALSE) {
+    if (step->mTargetVelocityY > 0 && gesso->mStepIndex != 0 && gesso->mStepIndex != ITEM_GESSO_STEP_AFTER_HALF_SCALE &&
+        gesso->mVisible != FALSE) {
         StartEntryKartSound(gesso->mKart, 0xf1);
     }
     return FALSE;
@@ -252,11 +253,11 @@ void AdvanceItemGesso(ItemGesso *gesso) {
         ReleaseItemPoolObject(gItemPools + gesso->mItemObject.mKind, &gesso->mItemObject);
         return;
     }
-    if (gesso->mStepIndex >= 4 && gesso->mStepIndex < 0xd) {
+    if (gesso->mStepIndex >= ITEM_GESSO_STEP_PLAIN_SCALE && gesso->mStepIndex < ITEM_GESSO_STEP_HALF_SCALE) {
         if ((kart->mEntryFlags & KART_ENTRY_REMOVED_PARKED_OR_TERESA) ||
             (kart->mEffectFlags & (KART_EFFECT_STAR | KART_EFFECT_RESPAWN_DROP | KART_EFFECT_KILLER)) ||
             (kart->mDriveFlags & KART_DRIVE_KEYED_PLACEMENT)) {
-            gesso->mStepIndex = 0xd;
+            gesso->mStepIndex = ITEM_GESSO_STEP_HALF_SCALE;
             SetupNextItemGessoStep(gesso);
             if (gesso->mVisible != FALSE) {
                 StartEntryKartSound(kart, 0xf3);
@@ -313,10 +314,10 @@ void AdvanceItemGesso(ItemGesso *gesso) {
     }
     gesso->mShear += value;
     gesso->mShear = MUL_FIXED12_NO_ROUND(gesso->mShear, 0xeb8);
-    if (gesso->mShear > 0x266) {
-        gesso->mShear = 0x266;
-    } else if (gesso->mShear < -0x266) {
-        gesso->mShear = -0x266;
+    if (gesso->mShear > ITEM_GESSO_SHEAR_LIMIT) {
+        gesso->mShear = ITEM_GESSO_SHEAR_LIMIT;
+    } else if (gesso->mShear < -ITEM_GESSO_SHEAR_LIMIT) {
+        gesso->mShear = -ITEM_GESSO_SHEAR_LIMIT;
     }
     factor = gesso->mScaleYAndApproachRate.z;
     deltaX = gesso->mTargetScaleX - gesso->mScaleX;
