@@ -11,7 +11,7 @@ void QuaternionNormalize(const Vec4 *input, Vec4 *output);
 s32 TryQuaternionFromVectors(Vec4 *result, const Vec3 *source, const Vec3 *target);
 // Writes to c the quaternion of a rotation about the axis a by the angle b (0x10000 per turn): a scaled by the sine of
 // half the angle in x, y, z and the cosine of half the angle in w.
-void QuaternionFromAxisAngle(const Vec3 *axis, s32 angle, Vec4 *result);
+void QuaternionFromAxisAngle(const Vec3 *axis, u16 angle, Vec4 *result);
 // Adds to the heading of the CPU Kart (three ways; returns at once in some states) and sets KART_DRIVE_TURN_LEFT or
 // KART_DRIVE_TURN_RIGHT in mDriveFlags.
 void AdvanceKartAiHeading(struct KartAi *kartAi, Vec3 *directionA, Vec3 *directionB);

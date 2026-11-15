@@ -199,7 +199,7 @@ void AdvancePeerKartOrientation(Kart *kart, Vec3 *groundNormal) {
         } else {
             kart->mHopTiltAngle = 0;
         }
-        QuaternionFromAxisAngle(&gKartVec3UnitX, (u16) -kart->mHopTiltAngle, &hopTiltQuaternion);
+        QuaternionFromAxisAngle(&gKartVec3UnitX, -kart->mHopTiltAngle, &hopTiltQuaternion);
         QuaternionMultiply(&kart->mCombinedQuaternion, &hopTiltQuaternion, &kart->mCombinedQuaternion);
     } else {
         kart->mHopTiltAngle = 0;

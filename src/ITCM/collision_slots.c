@@ -382,7 +382,7 @@ end:
     }
 }
 
-void QuaternionFromAxisAngle(const Vec3 *axis, s32 angle, Vec4 *result) {
+void QuaternionFromAxisAngle(const Vec3 *axis, u16 angle, Vec4 *result) {
     s32 halfAngle = (s32) ((u32) (angle << 15) >> 16);
     s32 sinHalf = SIN_OF_ANGLE(halfAngle);
     result->x = MUL_FIXED12_ROUNDED(axis->x, sinHalf);
