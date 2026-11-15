@@ -1,4 +1,5 @@
 #include "Main/Sound/sound_row.h"
+#include "Main/System/result_archive_path.h"
 
 #include "Main/Item/pooled_item_box_init.h"
 #include "Main/Sound/sound_seq.h"
@@ -210,7 +211,7 @@ u32 GetSceneSoundRowIndex(s32 sceneNumber, SoundRow *output) {
     rowIndex = 0x36;
     rowWritten = FALSE;
     switch (sceneNumber) {
-        case 2:
+        case SCENE_RACE:
             switch (gRaceSetup->mRaceKind) {
                 case RACE_KIND_NORMAL:
                 case RACE_KIND_REPLAY:
@@ -221,13 +222,13 @@ u32 GetSceneSoundRowIndex(s32 sceneNumber, SoundRow *output) {
                         mission = &gRaceSetup->mMissionSettings;
                         overridden = FALSE;
                         if (mission->mMissionTableValue == MISSION_NUMBER_GARDEN) {
-                            output->mSeqId = 0x2a;
+                            output->mSeqId = SOUND_SEQ_ID_MISSION_GARDEN;
                             overridden = TRUE;
                         }
                         if (overridden == FALSE) {
                             switch (mission->mMissionKind) {
                                 case MISSION_KIND_COUNT_PENDING_WITH_SEQ:
-                                    output->mSeqId = 0x2c;
+                                    output->mSeqId = SOUND_SEQ_ID_MISSION_COUNT_PENDING;
                                     break;
                                 case MISSION_KIND_LAPS:
                                 case MISSION_KIND_COUNT_MAP_OBJECTS:
@@ -239,19 +240,19 @@ u32 GetSceneSoundRowIndex(s32 sceneNumber, SoundRow *output) {
                         switch (mission->mMissionTableValue) {
                             case MISSION_NUMBER_DONKETU:
                             case MISSION_NUMBER_KING_ICE_DONKETU:
-                                output->mFirstBankId = 0x25;
+                                output->mFirstBankId = SOUND_BANK_MISSION_DONKETU;
                                 break;
                             case MISSION_NUMBER_IWANTE:
-                                output->mFirstBankId = 0x26;
+                                output->mFirstBankId = SOUND_BANK_MISSION_IWANTE;
                                 break;
                             case MISSION_NUMBER_KURIKING:
-                                output->mFirstBankId = 0x27;
+                                output->mFirstBankId = SOUND_BANK_MISSION_KURIKING;
                                 break;
                             case MISSION_NUMBER_KING_TERESA:
-                                output->mFirstBankId = 0x28;
+                                output->mFirstBankId = SOUND_BANK_MISSION_KING_TERESA;
                                 break;
                             case MISSION_NUMBER_BOMB_KING:
-                                output->mFirstBankId = 0x29;
+                                output->mFirstBankId = SOUND_BANK_MISSION_BOMB_KING;
                                 break;
                             case MISSION_NUMBER_HANACHAN:
                                 break;
@@ -260,7 +261,7 @@ u32 GetSceneSoundRowIndex(s32 sceneNumber, SoundRow *output) {
                                 break;
                         }
                         if (matched != FALSE) {
-                            output->mSecondBankId = 0x22;
+                            output->mSecondBankId = SOUND_BANK_MISSION_SECOND;
                         }
                     }
                     break;
@@ -304,47 +305,47 @@ u32 GetSceneSoundRowIndex(s32 sceneNumber, SoundRow *output) {
                     break;
             }
             break;
-        case 12:
+        case SCENE_WIFI_MENU:
             rowIndex = 0x2d;
             break;
-        case 4:
+        case SCENE_MENU_4:
             rowIndex = 0x33;
             break;
-        case 5:
+        case SCENE_TEST:
             rowIndex = 0x33;
             break;
-        case 6:
+        case SCENE_WL_MENU:
             if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
                 rowIndex = 0x33;
             } else {
                 rowIndex = 0x2e;
             }
             break;
-        case 1:
+        case SCENE_MENU_1:
             rowIndex = 0x32;
             break;
-        case 10:
+        case SCENE_RESULT:
             rowIndex = 0x29;
             *output = gSoundRowTable[rowIndex];
             rowWritten = TRUE;
             output->mSeqId = GetResultSceneSeqId();
             break;
-        case 8:
+        case SCENE_RECORD:
             rowIndex = 0x2f;
             break;
-        case 13:
+        case SCENE_GHOST:
             rowIndex = 0x2e;
             break;
-        case 9:
+        case SCENE_LOGO:
             rowIndex = 0x31;
             break;
-        case 0:
+        case SCENE_TITLE:
             rowIndex = 0x33;
             break;
-        case 3:
-        case 7:
-        case 11:
-        case 14:
+        case SCENE_EMBLEM:
+        case SCENE_OPTION:
+        case SCENE_NICKNAME:
+        case SCENE_KEYBOARD:
             rowIndex = 0x30;
             *output = gSoundRowTable[rowIndex];
             rowWritten = TRUE;
@@ -354,7 +355,7 @@ u32 GetSceneSoundRowIndex(s32 sceneNumber, SoundRow *output) {
                 output->mSecondBankId = SOUND_ID_NONE;
             }
             break;
-        case 15:
+        case SCENE_ENDING:
             rowIndex = 0x33;
             break;
     }
