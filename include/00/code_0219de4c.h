@@ -145,4 +145,21 @@ enum {
     WIFI_MATCH_MODE_SERVER_CLIENT = 3,
 };
 
+// Values of WiFiMatching.mCloseKind, set while the matching closes connections itself: the close callback is ignored
+// (1), or ignored and DWCi_ProcessMatchSCClosing also skips its cancel (2); 3 marks the close after a failure.
+enum {
+    WIFI_MATCH_CLOSE_NONE = 0,
+    WIFI_MATCH_CLOSE_IGNORE_CALLBACK = 1,
+    WIFI_MATCH_CLOSE_IGNORE_CALLBACK_AND_SC_CANCEL = 2,
+    WIFI_MATCH_CLOSE_AFTER_FAILURE = 3,
+};
+
+// Values of WiFiMatching.mServerUpdateWaitKind: no update waits, or one waits 1000 ms or 3000 ms before the server
+// list update is requested.
+enum {
+    WIFI_MATCH_UPDATE_WAIT_NONE = 0,
+    WIFI_MATCH_UPDATE_WAIT_SHORT = 1,
+    WIFI_MATCH_UPDATE_WAIT_LONG = 2,
+};
+
 void DWCi_QR2PublicAddrCallback(u32 address, u16 port, void *userData);
