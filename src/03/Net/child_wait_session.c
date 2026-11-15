@@ -86,7 +86,7 @@ void ResetChildWaitSessionState(void) {
     SetWhGgid(gChildWaitSessionView->mGgid);
     gChildWaitSessionView->mState = CHILD_WAIT_STATE_IDLE;
     gChildWaitSessionView->mTgid = WM_GetNextTgid();
-    MI_CpuCopy8(gChildWaitSessionView->mUnk_aa0[1], gChildWaitSessionView->mUnk_a50, 0x40);
+    MI_CpuCopy8(gChildWaitSessionView->mUnk_aa0[1], gChildWaitSessionView->mApStoreHeadCopy, 0x40);
     gChildWaitSessionView->mHandshakeDone = 0;
     gChildWaitSessionView->mStallCount = 0;
     gChildWaitSessionView->mTgid++;

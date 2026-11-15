@@ -199,7 +199,7 @@ typedef struct ChildWaitSessionView {
     /* 648 */ u16 mTgid;
     /* 64a */ u16 mChannel;
     /* 64c */ u8 mNvramEntries[0x404];
-    /* a50 */ u8 mUnk_a50[0x40];
+    /* a50 */ u8 mApStoreHeadCopy[0x40];
     /* a90 */ u8 mState;
     /* a91 */ u8 mPrevState;
     /* a92 */ u8 mHandshakeByte;
