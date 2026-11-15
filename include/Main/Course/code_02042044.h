@@ -5,7 +5,7 @@
 // One entry of the table returned by GetCourseMapGroupEntry.
 typedef struct CourseMapGroupEntry {
     /* 00 */ Vec3 mPos;
-    /* 0c */ u8 mUnk_0c;
+    /* 0c */ u8 mEntryIndex;
     /* 0d */ u8 mFlagBitOn;
     /* 0e */ s16 mValue;
     /* 10 */ s16 mExtraValue;

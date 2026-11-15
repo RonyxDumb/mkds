@@ -210,7 +210,7 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
             ironBall->mPathSpeed = IRON_BALL_PATH_SPEED_HEIGHT_FAST;
             ironBall->mShadowStage = IRON_BALL_SHADOW_REFRESH;
             ironBall->mHeightOffset = ironBall->mPathPos.y;
-            SetupGroupFollowerAtEntry(&ironBall->mFollower, fromEntry->mUnk_0c + 1, 1);
+            SetupGroupFollowerAtEntry(&ironBall->mFollower, fromEntry->mEntryIndex + 1, 1);
             GetGroupFollowerLinearPosStep(&ironBall->mFollower, &ironBall->mPathPos, &ironBall->mMapObject.mPosStep);
             ironBall->mPathPos.y += 0x1000;
             ironBall->mHeightOffset = ironBall->mHeightOffset - ironBall->mPathPos.y;
@@ -219,7 +219,7 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
             ironBall->mPathSpeed = IRON_BALL_PATH_SPEED_HEIGHT_SLOW;
             ironBall->mShadowStage = IRON_BALL_SHADOW_REFRESH;
             ironBall->mHeightOffset = ironBall->mPathPos.y;
-            SetupGroupFollowerAtEntry(&ironBall->mFollower, fromEntry->mUnk_0c + 1, 1);
+            SetupGroupFollowerAtEntry(&ironBall->mFollower, fromEntry->mEntryIndex + 1, 1);
             GetGroupFollowerLinearPosStep(&ironBall->mFollower, &ironBall->mPathPos, &ironBall->mMapObject.mPosStep);
             ironBall->mPathPos.y += 0x1000;
             ironBall->mHeightOffset = ironBall->mHeightOffset - ironBall->mPathPos.y;
