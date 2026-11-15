@@ -98,7 +98,7 @@ void LocateAndQueueOptionTopMenu(void) {
                                        gOptionTopMenu->mOptionTopMenuSONclr->mDataSize);
 }
 
-void AdvanceOptionTopMenuState0(void) {
+void AdvanceOptionTopMenuWaitFade(void) {
     int fadesClear;
     fadesClear = AreBrightnessFadesClear();
     if (fadesClear != 0) {
@@ -106,7 +106,7 @@ void AdvanceOptionTopMenuState0(void) {
     }
 }
 
-void AdvanceOptionTopMenuState1(void) {
+void AdvanceOptionTopMenuSlideIn(void) {
     s32 amount;
     s32 rowIndex;
     s32 cellIndex;
@@ -134,7 +134,7 @@ void AdvanceOptionTopMenuState1(void) {
     }
 }
 
-void AdvanceOptionTopMenuState2(void) {
+void AdvanceOptionTopMenuWaitSelectReturn(void) {
     int returnState2NoRequest;
     returnState2NoRequest = IsSelectReturnShownNoRequest();
     if (returnState2NoRequest != 0) {
@@ -142,7 +142,7 @@ void AdvanceOptionTopMenuState2(void) {
     }
 }
 
-void AdvanceOptionTopMenuState3(void) {
+void AdvanceOptionTopMenuInput(void) {
     InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     u32 touchedRect = -1;
     BOOL touchBegan = FALSE;
@@ -231,7 +231,7 @@ void AdvanceOptionTopMenuState3(void) {
     }
 }
 
-void AdvanceOptionTopMenuState4(void) {
+void AdvanceOptionTopMenuPress(void) {
     gOptionTopMenu->mStateFrames++;
     if (gOptionTopMenu->mStateFrames >= 10) {
         gOptionTopMenu->mNextState = OPTION_TOP_STATE_SLIDE_OUT;
@@ -244,7 +244,7 @@ void AdvanceOptionTopMenuState4(void) {
     }
 }
 
-void AdvanceOptionTopMenuState5(void) {
+void AdvanceOptionTopMenuSlideOut(void) {
     s32 amount;
     s32 rowIndex;
     s32 cellIndex;
@@ -287,7 +287,7 @@ void AdvanceOptionTopMenuState5(void) {
     }
 }
 
-void AdvanceOptionTopMenuState6(void) {
+void AdvanceOptionTopMenuAskReset(void) {
     if (GetTxtSystemDone() != 0) {
         RequestTxtSystemClose();
         return;
@@ -304,7 +304,7 @@ void AdvanceOptionTopMenuState6(void) {
     }
 }
 
-void AdvanceOptionTopMenuState7(void) {
+void AdvanceOptionTopMenuAskResetAgain(void) {
     if (GetTxtSystemDone() != 0) {
         RequestTxtSystemClose();
         return;
@@ -320,7 +320,7 @@ void AdvanceOptionTopMenuState7(void) {
     }
 }
 
-void AdvanceOptionTopMenuState8(void) {
+void AdvanceOptionTopMenuWaitResetWrite(void) {
     s32 flag;
 
     if (IsTxtSystemOpenAfterOpening() != 0) {
@@ -343,7 +343,7 @@ void AdvanceOptionTopMenuState8(void) {
     }
 }
 
-void AdvanceOptionTopMenuState9(void) {
+void AdvanceOptionTopMenuResetDone(void) {
     int queryResult;
     queryResult = GetOptionNextScene();
     if ((queryResult == -1) && (gOptionTopMenu->mNextOptionState == OPTION_STATE_SCENE_TITLE)) {
@@ -380,34 +380,34 @@ void AdvanceOptionTopMenu(void) {
     gOptionTopMenu->mState = gOptionTopMenu->mNextState;
     switch (gOptionTopMenu->mState) {
         case OPTION_TOP_STATE_WAIT_FADE:
-            AdvanceOptionTopMenuState0();
+            AdvanceOptionTopMenuWaitFade();
             break;
         case OPTION_TOP_STATE_SLIDE_IN:
-            AdvanceOptionTopMenuState1();
+            AdvanceOptionTopMenuSlideIn();
             break;
         case OPTION_TOP_STATE_WAIT_SELECT_RETURN:
-            AdvanceOptionTopMenuState2();
+            AdvanceOptionTopMenuWaitSelectReturn();
             break;
         case OPTION_TOP_STATE_INPUT:
-            AdvanceOptionTopMenuState3();
+            AdvanceOptionTopMenuInput();
             break;
         case OPTION_TOP_STATE_PRESS:
-            AdvanceOptionTopMenuState4();
+            AdvanceOptionTopMenuPress();
             break;
         case OPTION_TOP_STATE_SLIDE_OUT:
-            AdvanceOptionTopMenuState5();
+            AdvanceOptionTopMenuSlideOut();
             break;
         case OPTION_TOP_STATE_ASK_RESET:
-            AdvanceOptionTopMenuState6();
+            AdvanceOptionTopMenuAskReset();
             break;
         case OPTION_TOP_STATE_ASK_RESET_AGAIN:
-            AdvanceOptionTopMenuState7();
+            AdvanceOptionTopMenuAskResetAgain();
             break;
         case OPTION_TOP_STATE_WAIT_RESET_WRITE:
-            AdvanceOptionTopMenuState8();
+            AdvanceOptionTopMenuWaitResetWrite();
             break;
         case OPTION_TOP_STATE_RESET_DONE:
-            AdvanceOptionTopMenuState9();
+            AdvanceOptionTopMenuResetDone();
             break;
     }
     UpdateOptionTopMenuHighlight();

@@ -9,16 +9,16 @@ void RegisterOptionTopMenuCallbacks(void);
 void WriteOptionTopMenuRegisters(void);
 void AdvanceOptionTopMenu(void);
 void UpdateOptionTopMenuHighlight(void);
-void AdvanceOptionTopMenuState9(void);
-void AdvanceOptionTopMenuState8(void);
-void AdvanceOptionTopMenuState7(void);
-void AdvanceOptionTopMenuState6(void);
-void AdvanceOptionTopMenuState5(void);
-void AdvanceOptionTopMenuState4(void);
-void AdvanceOptionTopMenuState3(void);
-void AdvanceOptionTopMenuState2(void);
-void AdvanceOptionTopMenuState1(void);
-void AdvanceOptionTopMenuState0(void);
+void AdvanceOptionTopMenuResetDone(void);
+void AdvanceOptionTopMenuWaitResetWrite(void);
+void AdvanceOptionTopMenuAskResetAgain(void);
+void AdvanceOptionTopMenuAskReset(void);
+void AdvanceOptionTopMenuSlideOut(void);
+void AdvanceOptionTopMenuPress(void);
+void AdvanceOptionTopMenuInput(void);
+void AdvanceOptionTopMenuWaitSelectReturn(void);
+void AdvanceOptionTopMenuSlideIn(void);
+void AdvanceOptionTopMenuWaitFade(void);
 void LocateAndQueueOptionTopMenu(void);
 /* slot mRelease of OptionStateCallbacks; only clears the global, the state heap is destroyed by
    AdvanceOptionStates after it returns */
