@@ -45,7 +45,7 @@ void InitNicknameSceneObject(void *heap, s16 a) {
 
 void ReleaseNicknameSceneObject(void) {
     ReleaseSceneText();
-    *(u32 *) &gNicknameScene = 0;
+    gNicknameScene = NULL;
 }
 
 void AdvanceNicknameSceneState0(void) {

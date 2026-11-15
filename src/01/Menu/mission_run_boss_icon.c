@@ -47,7 +47,7 @@ void CreateMissionRunBossIcon(void *heap) {
 }
 
 void ClearMissionRunBossIconPointer(void) {
-    *(u32 *) &gMissionRunBossIcon = 0;
+    gMissionRunBossIcon = NULL;
 }
 
 void QueueMissionRunBossIcon(s32 rowIndex, s32 usePaletteIndex, void *destCells, void *destCellLayout, u32 destIndex,

@@ -20,7 +20,7 @@ void InitEndingScene(void) {
 
 void ReleaseEndingScene(void) {
     ClearEndingScenePointer();
-    *(u32 *) &gEndingSceneUnusedBlock = 0;
+    gEndingSceneUnusedBlock = NULL;
 }
 
 void WriteEndingSceneRegistersWrapper(void) {
