@@ -299,9 +299,15 @@ typedef struct ChildEntry {
     /* 06 */ u16 mAid;
 } ChildEntry;
 
+// Most children a parent holds (one entry each in ChildList.mEntries).
+#define CHILD_LIST_MAX_CHILDREN 7
+// ChildList.mNameSendIndex: the first value of the pause between two rounds of player name messages, and the last.
+#define CHILD_LIST_NAME_SEND_PAUSE_FIRST 8
+#define CHILD_LIST_NAME_SEND_PAUSE_LAST 0x2c
+
 // 0x44 bytes from 0x44 of ConnectionWork.
 typedef struct ChildList {
-    /* 00 */ ChildEntry mEntries[7];
+    /* 00 */ ChildEntry mEntries[CHILD_LIST_MAX_CHILDREN];
     /* 38 */ UserGameInfo *mGameInfo;
     /* 3c */ u16 mUnk_3c;
 // Next player name to send (0 to 7); 8 to 0x2c count a pause, then it restarts at 0.
@@ -362,9 +368,12 @@ typedef struct BlockEntry {
     };
 } BlockEntry;
 
+// Files a parent can hold pending for transfer (BlockEntry elements of mBlockEntries).
+#define CONNECTION_BLOCK_ENTRY_COUNT 12
+
 // Members from 0x16a0 of ConnectionWork as one object.
 typedef struct BlockTransferView {
-    /* 000 */ BlockEntry mBlockEntries[12];
+    /* 000 */ BlockEntry mBlockEntries[CONNECTION_BLOCK_ENTRY_COUNT];
     /* 660 */ s32 mMode;
     /* 664 */ u8 mUnk_664[4];
     /* 668 */ u16 mNextLoadIndex;
@@ -561,10 +570,59 @@ typedef struct MultiBootStateView {
 #define CONNECTION_STATUS_SHARING_SYNCED 1
 // ConnectionWork.mStatusFlags: the child set changed since the game info was last refreshed.
 #define CONNECTION_STATUS_CHILDREN_CHANGED 8
+// ConnectionWork.mStatusFlags: refuse a multiboot child that announces player number 0 (cleared at parent start, never
+// set).
+#define CONNECTION_STATUS_REFUSE_HOST_PLAYER_NUMBER 4
+// ConnectionWork.mMultiBootRequestFlags: the send request, and the boot request, are in flight to the children.
+#define CONNECTION_MULTIBOOT_REQUEST_SEND 1
+#define CONNECTION_MULTIBOOT_REQUEST_BOOT 2
 // ConnectionWork.mTransferFlags: the parent transfer callback finished its sequence.
 #define CONNECTION_TRANSFER_SEQUENCE_DONE 4
 // ConnectionWork.mTransferFlags: the sync wait is done.
 #define CONNECTION_TRANSFER_SYNC_DONE 2
+// Game group id the game puts in every beacon it sends and accepts (WMGameInfo.mGgid).
+#define CONNECTION_GAME_GROUP_ID 0x25
+// WMGameInfo.mGameInfoLength that covers the group id, and the exact mUserGameInfoLength of this game's beacons.
+#define SCAN_GAME_INFO_LENGTH_WITH_GROUP_ID 8
+#define SCAN_USER_GAME_INFO_BYTES 0x1c
+// WMGameInfo.mAttribute bits: the parent accepts entries, and it is a multiboot parent.
+#define BEACON_ATTRIBUTE_ENTRY_OPEN 1
+#define BEACON_ATTRIBUTE_MULTIBOOT 2
+// Bit 15 of every parent TGID this game creates; scans keep only beacons that carry it.
+#define PARENT_TGID_FLAG 0x8000
+// UserGameInfo.mKind of a multiboot parent beacon: carries the parent's name info, carries the member count.
+#define USER_GAME_INFO_KIND_NAME_INFO 5
+#define USER_GAME_INFO_KIND_MEMBER_COUNT 9
+// ConnectionWork.mOtherHostKind: a host of this game that is not the one searched for is multiboot, or is not.
+#define OTHER_HOST_KIND_MULTIBOOT 2
+#define OTHER_HOST_KIND_NON_MULTIBOOT 3
+// ScanSlot.mAge: only slots younger than this are replaced by a new beacon; older than the second value are dropped.
+#define SCAN_SLOT_REPLACE_AGE_LIMIT 5
+#define SCAN_SLOT_EXPIRE_AGE 0xc8
+// ConnectionWork.mRememberedScanKeyHeld while a remembered beacon key is held.
+#define SCAN_REMEMBERED_KEY_HELD 0xf
+// Frames a multiboot join may take (ConnectionWork.mStepWaitFrames) before it fails; frames the close step waits;
+// frames the parent waits for the children it expects.
+#define CONNECTION_JOIN_TIMEOUT_FRAMES 0x4b0
+#define CONNECTION_CLOSE_WAIT_FRAMES 0x3c
+#define CONNECTION_CHILDREN_WAIT_FRAMES 0x708
+// Frames a child waits before its record exchange: fixed, and for a multiboot child the shortest wait and the spread
+// added to it at random.
+#define MP_CHILD_DELAY_FRAMES 0xb4
+#define MP_CHILD_DELAY_RANDOM_MIN_FRAMES 0x78
+#define MP_CHILD_DELAY_RANDOM_SPREAD_FRAMES 0xb4
+// MBUserInfo.mNameLength of the names the multiboot parent and the scan connect child send, and the player numbers
+// they announce.
+#define MULTIBOOT_USER_NAME_LENGTH 10
+#define MULTIBOOT_PARENT_PLAYER_NUMBER 8
+#define SCAN_CONNECT_PLAYER_NUMBER 9
+// WMParentParam.mParentMaxSize and mChildMaxSize of this game's connections.
+#define CONNECTION_PARENT_MAX_SIZE 0x1b6
+#define CONNECTION_CHILD_MAX_SIZE 0x2e
+// A participant position that no entry holds (ConnectionWork.mParticipantPosByIndex, mParticipantIndexByPos).
+#define PARTICIPANT_POSITION_NONE 0xffff
+// Value of every byte of a scan BSSID filter that matches any host.
+#define CONNECTION_BSSID_ANY_BYTE 0xff
 // ConnectionWork.mOwnIndex before the parent has handed out an index.
 #define CONNECTION_OWN_INDEX_NONE 0xffff
 // Sizes of the scan result buffer (mScanExBuffer) and the MP send and receive buffers.
@@ -810,7 +868,7 @@ typedef struct ConnectionWork {
     };
     /* 16a0 */ union {
         struct {
-            /* 16a0 */ BlockEntry mBlockEntries[12];
+            /* 16a0 */ BlockEntry mBlockEntries[CONNECTION_BLOCK_ENTRY_COUNT];
             /* 1d00 */ s32 mConnectionKind;
             /* 1d04 */ void *mHeap;
             /* 1d08 */ u16 mNextLoadIndex;
@@ -930,6 +988,8 @@ typedef struct OverlayLoader {
 } OverlayLoader;
 
 #define WIFI_RACE_SYNC_PARTICIPANT_COUNT 4
+// WiFiRaceSyncPeer.mEmptyPacketPhase counts up to this value, then restarts at 0 (an empty packet goes out at 0).
+#define WIFI_RACE_SYNC_EMPTY_PHASE_LAST 4
 // Probe replies are collected until a peer has this many samples.
 #define WIFI_RACE_SYNC_SAMPLE_COUNT 12
 // Bytes of the record that is sent, of a probe packet body, and of the send buffer with its 4-byte packet header.
@@ -939,6 +999,12 @@ typedef struct OverlayLoader {
 // Bits of WiFiRaceSync.mFlags.
 // Set when the sync enters its race state (EnterWiFiRaceSyncRace) and cleared when it enters the probe state.
 #define WIFI_RACE_SYNC_FLAG_IN_RACE 0x2
+#define WIFI_RACE_SYNC_FLAG_RESET_UNREAD_A 0x1
+#define WIFI_RACE_SYNC_FLAG_IN_RACE 0x2
+#define WIFI_RACE_SYNC_FLAG_DATA_SHARING_INCOMPLETE 0x10
+#define WIFI_RACE_SYNC_FLAG_CLEARED_UNREAD 0x20
+#define WIFI_RACE_SYNC_FLAG_RESET_UNREAD_B 0x40
+#define WIFI_RACE_SYNC_FLAG_REMOVE_DROPPED 0x80
 #define WIFI_RACE_SYNC_FLAG_SENDING 0x4
 #define WIFI_RACE_SYNC_FLAG_PEERS_SYNCED 0x100
 #define WIFI_RACE_SYNC_FLAG_IDLE_DISCONNECT_SENT 0x200

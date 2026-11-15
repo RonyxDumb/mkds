@@ -31,6 +31,8 @@
 
 // Bytes of the scratch buffer for multiboot child data.
 #define MULTIBOOT_SCRATCH_BUFFER_BYTES 0x4c0
+// Most bytes of the multiboot program segment a parent holds.
+#define MULTIBOOT_SEGMENT_MAX_BYTES 0x80000
 
 void AllocConnectionBuffers(void *heap, u32 unused, void *bmg) {
     u32 workSize;
@@ -44,8 +46,8 @@ void AllocConnectionBuffers(void *heap, u32 unused, void *bmg) {
         HeapAllocAligned(heap, gConnectionWork->mMultiBootWorkSize, HEAP_ALIGN_CACHE_LINE);
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         gConnectionWork->mMultiBootSegmentSize = MB_GetSegmentLength(NULL);
-        if (gConnectionWork->mMultiBootSegmentSize > 0x80000) {
-            gConnectionWork->mMultiBootSegmentSize = 0x80000;
+        if (gConnectionWork->mMultiBootSegmentSize > MULTIBOOT_SEGMENT_MAX_BYTES) {
+            gConnectionWork->mMultiBootSegmentSize = MULTIBOOT_SEGMENT_MAX_BYTES;
         }
         gConnectionWork->mMultiBootSegment =
             HeapAllocAligned(heap, gConnectionWork->mMultiBootSegmentSize, HEAP_ALIGN_CACHE_LINE);
@@ -63,41 +65,42 @@ void AllocConnectionBuffers(void *heap, u32 unused, void *bmg) {
 void ParentStateCallback(u32 index, u32 code, void *data) {
     MBUserInfo *childInfo = data;
     gConnectionWork->mMultiBootState.mChildStateCodes[index] = code;
-    if (gConnectionWork->mStep == CONNECTION_STEP_MULTIBOOT_END_TO_IDLE && code != 0xc) {
+    if (gConnectionWork->mStep == CONNECTION_STEP_MULTIBOOT_END_TO_IDLE && code != MULTIBOOT_PARENT_ENDED) {
         return;
     }
     switch (code) {
-        case 10: {
+        case MULTIBOOT_PARENT_CHILD_REQUESTED: {
             u32 accept = 1;
-            if (gConnectionWork->mMultiBootRequestFlags & 1) {
+            if (gConnectionWork->mMultiBootRequestFlags & CONNECTION_MULTIBOOT_REQUEST_SEND) {
                 accept = 0;
-            } else if ((gConnectionWork->mStatusFlags & 4) && childInfo->mPlayerNo == 0) {
+            } else if ((gConnectionWork->mStatusFlags & CONNECTION_STATUS_REFUSE_HOST_PLAYER_NUMBER) &&
+                       childInfo->mPlayerNo == 0) {
                 accept = 0;
             }
             if (accept != 0) {
-                MB_CommResponseRequest(index, MB_RESPONSE_ACCEPT);
+                MB_CommResponseRequest(index, MULTIBOOT_RESPONSE_ACCEPT);
             } else {
-                MB_CommResponseRequest(index, MB_RESPONSE_REFUSE);
+                MB_CommResponseRequest(index, MULTIBOOT_RESPONSE_REFUSE);
             }
             return;
         }
-        case 7:
+        case MULTIBOOT_PARENT_DOWNLOAD_DONE:
             BIT_SET(gConnectionWork->mSendCompleteMask, index);
             if (gConnectionWork->mWaitToSendMask ==
                 (gConnectionWork->mWaitToSendMask & gConnectionWork->mSendCompleteMask)) {
                 gConnectionWork->mRequestPending = 0;
             }
             break;
-        case 9:
+        case MULTIBOOT_PARENT_CHILD_BOOTED:
             BIT_SET(gConnectionWork->mMultiBootChildMask, index);
             break;
-        case 12:
+        case MULTIBOOT_PARENT_ENDED:
             gConnectionWork->mRequestPending = 0;
             break;
-        case 1:
+        case MULTIBOOT_PARENT_STARTED:
             gConnectionWork->mRequestPending = 0;
             break;
-        case 3:
+        case MULTIBOOT_PARENT_CHILD_DISCONNECTED:
             if (gConnectionWork->mMultiBootChildMask & (1 << index)) {
                 BIT_SET(gConnectionWork->mBootRequestDoneMask, index);
                 if (gConnectionWork->mWaitToSendMask ==
@@ -105,13 +108,14 @@ void ParentStateCallback(u32 index, u32 code, void *data) {
                     gConnectionWork->mRequestPending = 0;
                 }
             }
-            if (!(gConnectionWork->mMultiBootRequestFlags & 2)) {
+            if (!(gConnectionWork->mMultiBootRequestFlags & CONNECTION_MULTIBOOT_REQUEST_BOOT)) {
                 if (gConnectionWork->mWaitToSendCount != 0) {
                     if (gConnectionWork->mWaitToSendMask & (1 << index)) {
                         BIT_CLEAR(gConnectionWork->mWaitToSendMask, index);
                         gConnectionWork->mWaitToSendCount--;
                     }
-                    if ((gConnectionWork->mMultiBootRequestFlags & 1) && gConnectionWork->mWaitToSendMask == 0) {
+                    if ((gConnectionWork->mMultiBootRequestFlags & CONNECTION_MULTIBOOT_REQUEST_SEND) &&
+                        gConnectionWork->mWaitToSendMask == 0) {
                         SetRequestErrorCode(CONNECTION_ERROR_COMMUNICATION_LOST);
                     }
                 } else {
@@ -121,14 +125,14 @@ void ParentStateCallback(u32 index, u32 code, void *data) {
                     gConnectionWork->mWaitToSendCount = 0;
                 }
             }
-            if ((gConnectionWork->mMultiBootRequestFlags & 2) &&
+            if ((gConnectionWork->mMultiBootRequestFlags & CONNECTION_MULTIBOOT_REQUEST_BOOT) &&
                 gConnectionWork->mWaitToSendMask ==
                     (gConnectionWork->mWaitToSendMask & gConnectionWork->mBootRequestDoneMask) &&
                 gConnectionWork->mStep == CONNECTION_STEP_MULTIBOOT_BOOT_REQUEST) {
                 gConnectionWork->mRequestPending = 0;
                 return;
             }
-            if ((gConnectionWork->mMultiBootRequestFlags & 1) &&
+            if ((gConnectionWork->mMultiBootRequestFlags & CONNECTION_MULTIBOOT_REQUEST_SEND) &&
                 gConnectionWork->mWaitToSendMask ==
                     (gConnectionWork->mWaitToSendMask & gConnectionWork->mSendCompleteMask) &&
                 gConnectionWork->mStep == CONNECTION_STEP_MULTIBOOT_SEND_TO_CHILDREN) {
@@ -136,7 +140,7 @@ void ParentStateCallback(u32 index, u32 code, void *data) {
                 return;
             }
             break;
-        case 14:
+        case MULTIBOOT_PARENT_CHILD_WAITING:
             if (!(gConnectionWork->mWaitToSendMask & (1 << index))) {
                 BIT_SET(gConnectionWork->mWaitToSendMask, index);
                 gConnectionWork->mWaitToSendCount++;
@@ -173,12 +177,13 @@ void StartMultiBootParent(void) {
     gConnectionWork->mStep = CONNECTION_STEP_MULTIBOOT_START_PARENT;
     gConnectionWork->mRequestPending = 1;
     ResetConnectionBuffers(&gConnectionWork->mMultiBootState);
-    user.mNameLength = 10;
+    user.mNameLength = MULTIBOOT_USER_NAME_LENGTH;
     user.mFavoriteColor = gStartupWork->mFavoriteColor;
-    user.mPlayerNo = 8;
+    user.mPlayerNo = MULTIBOOT_PARENT_PLAYER_NUMBER;
     MI_CpuCopy8(gBackupBuffers->mFirstBlock->mPlayerName, user.mName, sizeof(user.mName));
     gConnectionWork->mParentTgid = ComputeParentTgid(1);
-    if (MB_Init(gConnectionWork->mMultiBootWork, &user, 0x25, gConnectionWork->mParentTgid, 2) != 0) {
+    if (MB_Init(gConnectionWork->mMultiBootWork, &user, CONNECTION_GAME_GROUP_ID, gConnectionWork->mParentTgid, 2) !=
+        0) {
         SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
     }
     MB_SetParentCommParam(0x1fe, 7);
@@ -189,7 +194,7 @@ void StartMultiBootParent(void) {
     if (RegisterMultiBootSegment() == 0) {
         SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
     }
-    gConnectionWork->mStatusFlags &= ~4;
+    gConnectionWork->mStatusFlags &= ~CONNECTION_STATUS_REFUSE_HOST_PLAYER_NUMBER;
     gConnectionWork->mRequestPending = 0;
 }
 
@@ -198,8 +203,8 @@ void SetupScanConnect(void) {
     gConnectionWork->mStep = CONNECTION_STEP_SCAN_CONNECT_SETUP;
     gConnectionWork->mRequestPending = 1;
     userInfo.mFavoriteColor = gStartupWork->mFavoriteColor;
-    userInfo.mNameLength = 10;
-    userInfo.mPlayerNo = 9;
+    userInfo.mNameLength = MULTIBOOT_USER_NAME_LENGTH;
+    userInfo.mPlayerNo = SCAN_CONNECT_PLAYER_NUMBER;
     MI_CpuCopy8(gBackupBuffers->mFirstBlock->mPlayerName, userInfo.mName, sizeof(userInfo.mName));
     gConnectionWork->mScanEntryIndex = -1;
     InitScanConnectWork(gConnectionWork->mMultiBootWork, &userInfo);
@@ -216,7 +221,7 @@ void StartCloseScanConnect(void) {
 void StartRepeatedScanStep1D(void) {
     gConnectionWork->mStep = CONNECTION_STEP_SCAN_CONNECT_REPEATED_SCAN;
     gConnectionWork->mRequestPending = 1;
-    StartRepeatedScan(RepeatedScanCallback, 0x25);
+    StartRepeatedScan(RepeatedScanCallback, CONNECTION_GAME_GROUP_ID);
 }
 
 static inline u32 MultiBootGetConnectionMode(void) {
@@ -229,7 +234,7 @@ static inline u32 MultiBootGetConnectionMode(void) {
 void StartRepeatedScanStep1E(void) {
     gConnectionWork->mStep = CONNECTION_STEP_SCAN_CONNECT_FIND_ENTRY;
     gConnectionWork->mRequestPending = 1;
-    StartRepeatedScan(RepeatedScanCallback, 0x25);
+    StartRepeatedScan(RepeatedScanCallback, CONNECTION_GAME_GROUP_ID);
 }
 
 // Returns the scan entry index with bytes 4..9 matching the first six of element a of mScanSlots[0].mUnk_c0, or -1.
@@ -389,14 +394,14 @@ void StartSendingToAllChildren(void) {
     gConnectionWork->mRequestPending = index;
     count = 0;
     gConnectionWork->mSendCompleteMask = count;
-    gConnectionWork->mMultiBootRequestFlags |= index;
+    gConnectionWork->mMultiBootRequestFlags |= CONNECTION_MULTIBOOT_REQUEST_SEND;
     for (; index <= 15; index++) {
-        if (MB_CommResponseRequest(index, MB_RESPONSE_DOWNLOAD) == 1) {
+        if (MB_CommResponseRequest(index, MULTIBOOT_RESPONSE_SEND) == 1) {
             count++;
         }
     }
     if (count == 0) {
-        gConnectionWork->mMultiBootRequestFlags &= ~1;
+        gConnectionWork->mMultiBootRequestFlags &= ~CONNECTION_MULTIBOOT_REQUEST_SEND;
     }
 }
 
@@ -406,23 +411,23 @@ void StartBootRequestToAllChildren(void) {
     gConnectionWork->mStep = CONNECTION_STEP_MULTIBOOT_BOOT_REQUEST;
     index = 1;
     gConnectionWork->mRequestPending = index;
-    gConnectionWork->mMultiBootRequestFlags |= 2;
+    gConnectionWork->mMultiBootRequestFlags |= CONNECTION_MULTIBOOT_REQUEST_BOOT;
     count = 0;
     gConnectionWork->mMultiBootChildMask = count;
     for (; index <= 15; index++) {
-        if (MB_CommResponseRequest(index, MB_RESPONSE_BOOT) == 1) {
+        if (MB_CommResponseRequest(index, MULTIBOOT_RESPONSE_BOOT) == 1) {
             count++;
         }
     }
     if (count == 0) {
-        gConnectionWork->mMultiBootRequestFlags &= ~2;
+        gConnectionWork->mMultiBootRequestFlags &= ~CONNECTION_MULTIBOOT_REQUEST_BOOT;
     }
 }
 
 void StartEndToIdle(void) {
     gConnectionWork->mStep = CONNECTION_STEP_MULTIBOOT_END_TO_IDLE;
     gConnectionWork->mRequestPending = 1;
-    gConnectionWork->mMultiBootRequestFlags &= ~2;
+    gConnectionWork->mMultiBootRequestFlags &= ~CONNECTION_MULTIBOOT_REQUEST_BOOT;
     MB_EndToIdle();
 }
 

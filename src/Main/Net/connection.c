@@ -57,7 +57,7 @@ void ResetConnection(void) {
     scanParams->mChannel = 0;
     scanParams->mMaxChannelTime = 0;
     for (index = 0; index < 6; index++) {
-        scanParams->mBssid[index] = 0xff;
+        scanParams->mBssid[index] = CONNECTION_BSSID_ANY_BYTE;
     }
     scanExParams = gConnectionWork->mScanExParams;
     scanExParams->mScanBuf = gConnectionWork->mScanExBuffer;
@@ -67,7 +67,7 @@ void ResetConnection(void) {
     scanExParams->mScanType = 1;
     scanExParams->mSsidLength = 0;
     for (index = 0; index < 6; index++) {
-        scanExParams->mBssid[index] = 0xff;
+        scanExParams->mBssid[index] = CONNECTION_BSSID_ANY_BYTE;
     }
     ResetConnectionData();
     blocks = &gConnectionWork->mBlockTransfer;
@@ -567,7 +567,7 @@ u16 ComputeParentTgid(u32 unusedValue) {
     generatorState = OS_GetTickLo() | seconds << 16;
     generatorState = generatorState * RANDOM_STATE64_MULTIPLIER + RANDOM_STATE64_INCREMENT;
     highWord = generatorState >> 32;
-    return (u16) (highWord * 0x10000 >> 32) | 0x8000;
+    return (u16) (highWord * 0x10000 >> 32) | PARENT_TGID_FLAG;
 }
 
 // Calls WM_SetParentParameter; also stores 1 in the first session word.

@@ -527,13 +527,13 @@ void ClearUseScanBssid(void) {
 void EntryCallback(u32 event, void *entry, u32 entryIndex) {
     switch (event) {
         case 0:
-        case 2:
-        case 4:
+        case BEACON_ENTRY_EVENT_INCOMPLETE:
+        case BEACON_ENTRY_EVENT_NO_FREE_SLOT:
             break;
-        case 1:
+        case BEACON_ENTRY_EVENT_COMPLETE:
             CallScanCallbackWithEntry(SCAN_EVENT_ENTRY_NEW, entry, entryIndex);
             break;
-        case 3:
+        case BEACON_ENTRY_EVENT_TIMED_OUT:
             CallScanCallbackWithEntry(SCAN_EVENT_ENTRY_UPDATED, entry, entryIndex);
             break;
     }

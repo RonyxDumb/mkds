@@ -97,7 +97,7 @@ u32 LoadFileIntoHeap(char *path, NNSiFndHeapHead *heap, void **outData) {
     if (((file->mStat & 1) ? 1 : 0) != 0) {
         return 0;
     }
-    if (((file->mStat & 0x10) ? 1 : 0) != 0) {
+    if (((file->mStat & FS_FILE_STATUS_IS_FILE) ? 1 : 0) != 0) {
         FS_CloseFile(file);
     }
     opened = FS_OpenFile(file, (const u8 *) path);

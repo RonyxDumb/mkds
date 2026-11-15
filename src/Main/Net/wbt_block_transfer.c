@@ -100,7 +100,7 @@ void WBTi_NotifySystemCallback(BlockTransfer *transfer, s32 event, s32 entryInde
                 callbackRecord->mData.mSync.mMyPacketSize = entry->mPacketReceiveChunkSize;
                 break;
             case XFER_EVENT_CUSTOM_ARRIVED:
-                if (entry->mByteCount > 9) {
+                if (entry->mByteCount > WBT_USER_DATA_MAX_BYTES) {
                     callbackRecord->mData.mUserData.mSize = 0;
                 } else {
                     callbackRecord->mData.mUserData.mSize = entry->mByteCount;

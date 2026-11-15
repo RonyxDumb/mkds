@@ -13,6 +13,10 @@
 #define MP_MESSAGE_RACE_SEED 8
 #define MP_MESSAGE_PLAYER_BITS 9
 
+// Smallest and largest length of a message the MP data port accepts: the kind halfword alone, and a whole MPMessage.
+#define MP_MESSAGE_MIN_LENGTH 2
+#define MP_MESSAGE_MAX_LENGTH 0x18
+
 // 0x18-byte object whose first halfword selects what ProcessMPData does with the rest.
 typedef struct MPMessage {
     /* 00 */ u16 mKind;

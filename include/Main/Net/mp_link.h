@@ -147,6 +147,15 @@ typedef struct CommandResult {
 void ScanConnectEndScan(void);
 void RequestEndScan(void);
 u32 PickScanChannel(void);
+// First argument of EntryCallback, as the multiboot game info receiver (MB_RecvGameInfoBeacon,
+// MB_CountGameInfoLifetime) calls it: the entry got all its game info fragments, it lost them, it timed out, or no
+// entry slot was free.
+enum {
+    BEACON_ENTRY_EVENT_COMPLETE = 1,
+    BEACON_ENTRY_EVENT_INCOMPLETE = 2,
+    BEACON_ENTRY_EVENT_TIMED_OUT = 3,
+    BEACON_ENTRY_EVENT_NO_FREE_SLOT = 4,
+};
 void EntryCallback(u32 event, void *entry, u32 entryIndex);
 void ClearUseScanBssid(void);
 void SetScanBssid(const u8 *bssid);

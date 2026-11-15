@@ -175,9 +175,11 @@ void EnterMPChildDelay(void *stateObject) {
     randomState = (u32) randomState & ~(u32) (randomState >> 32);
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         randomState = randomState * RANDOM_STATE64_MULTIPLIER + RANDOM_STATE64_INCREMENT;
-        gConnectionWork->mMPStateMachine.mDelayTimer = (u16) (((randomState >> 32) * 0xb4) >> 32) + 0x78;
+        gConnectionWork->mMPStateMachine.mDelayTimer =
+            (u16) (((randomState >> 32) * MP_CHILD_DELAY_RANDOM_SPREAD_FRAMES) >> 32) +
+            MP_CHILD_DELAY_RANDOM_MIN_FRAMES;
     } else {
-        gConnectionWork->mMPStateMachine.mDelayTimer = 0xb4;
+        gConnectionWork->mMPStateMachine.mDelayTimer = MP_CHILD_DELAY_FRAMES;
     }
 }
 

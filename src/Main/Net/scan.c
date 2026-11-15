@@ -66,7 +66,7 @@ void StartScan(s32 isRepeat, s32 (*resultCallback)(), s32 (*filterCallback)()) {
         scanParams->mChannel = channel;
         scanState->mChannel = channel;
         for (index = 0; index < 6; index++) {
-            scanParams->mBssid[index] = 0xff;
+            scanParams->mBssid[index] = CONNECTION_BSSID_ANY_BYTE;
         }
     } else {
         scanParams->mBssid[0] = scanState->mTargetAddress[0];
@@ -181,7 +181,7 @@ void FindOrAddScanSlot(WMBssDesc *scanBuffer, ScanMacAddress *key, UserGameInfo 
     }
     if (chosenSlot == NULL) {
         for (slotIndex = 0; slotIndex < 4; slotIndex++) {
-            if (slotCursor->mAge < 5) {
+            if (slotCursor->mAge < SCAN_SLOT_REPLACE_AGE_LIMIT) {
                 if (slotCursor->mAge > oldestAge) {
                     oldestAge = slotCursor->mAge;
                     chosenSlot = slotCursor;
@@ -193,10 +193,10 @@ void FindOrAddScanSlot(WMBssDesc *scanBuffer, ScanMacAddress *key, UserGameInfo 
     if (chosenSlot == NULL) {
         return;
     }
-    if ((scanBuffer->mGameInfo.mAttribute & 2) != 0) {
+    if ((scanBuffer->mGameInfo.mAttribute & BEACON_ATTRIBUTE_MULTIBOOT) != 0) {
         if (connection->mConnectionKind != CONNECTION_KIND_WL_MENU) {
             userGameInfo = &scanBuffer->mGameInfo.mUserGameInfo;
-            if (userGameInfo->mKind == 5) {
+            if (userGameInfo->mKind == USER_GAME_INFO_KIND_NAME_INFO) {
                 gameInfoPart = (void *) &userGameInfo->mGameInfoPart;
                 nameInfo = &gameInfoPart->mNameInfo;
                 childCount = -(found != FALSE);
@@ -212,7 +212,7 @@ void FindOrAddScanSlot(WMBssDesc *scanBuffer, ScanMacAddress *key, UserGameInfo 
                 chosenSlot->mHasGhost = 0;
                 MI_CpuCopy8(nameInfo->mName, chosenSlot->mName, sizeof(chosenSlot->mName));
                 gConnectionWork->mRememberedScanKeyHeld = 0;
-            } else if (userGameInfo->mKind == 9) {
+            } else if (userGameInfo->mKind == USER_GAME_INFO_KIND_MEMBER_COUNT) {
                 if (chosenSlot->mInUse != 0) {
                     chosenSlot->mChildCount = userGameInfo->mMemberCount - 1;
                 }
@@ -221,10 +221,10 @@ void FindOrAddScanSlot(WMBssDesc *scanBuffer, ScanMacAddress *key, UserGameInfo 
             } else {
                 connection = gConnectionWork;
                 connection->mRememberedScanKey = *key;
-                connection->mRememberedScanKeyHeld = 0xf;
+                connection->mRememberedScanKeyHeld = SCAN_REMEMBERED_KEY_HELD;
             }
         }
-    } else if (scanBuffer->mGameInfo.mUserGameInfoLength == 0x1c) {
+    } else if (scanBuffer->mGameInfo.mUserGameInfoLength == SCAN_USER_GAME_INFO_BYTES) {
         FillScanSlot(chosenSlot, scanBuffer, key, gameInfo, slotIndex);
     }
     scanState = &gConnectionWork->mScanState;
@@ -263,20 +263,22 @@ void StartScanCallback(WirelessMessage *event) {
                         gConnectionWork->mMatchingHostFound = 1;
                         gConnectionWork->mMatchingHostAid = value;
                         gConnectionWork->mUnk_1ed6 = 0;
-                    } else if (scanBuffer.mGameInfoLength >= 8 && scanBuffer.mGameInfo.mGgid == 0x25 &&
-                               (scanBuffer.mGameInfo.mAttribute & 1) != 0) {
-                        if ((scanBuffer.mGameInfo.mAttribute & 2) != 0) {
-                            gConnectionWork->mOtherHostKind = 2;
+                    } else if (scanBuffer.mGameInfoLength >= SCAN_GAME_INFO_LENGTH_WITH_GROUP_ID &&
+                               scanBuffer.mGameInfo.mGgid == CONNECTION_GAME_GROUP_ID &&
+                               (scanBuffer.mGameInfo.mAttribute & BEACON_ATTRIBUTE_ENTRY_OPEN) != 0) {
+                        if ((scanBuffer.mGameInfo.mAttribute & BEACON_ATTRIBUTE_MULTIBOOT) != 0) {
+                            gConnectionWork->mOtherHostKind = OTHER_HOST_KIND_MULTIBOOT;
                         } else {
-                            gConnectionWork->mOtherHostKind = 3;
+                            gConnectionWork->mOtherHostKind = OTHER_HOST_KIND_NON_MULTIBOOT;
                         }
                         gConnectionWork->mOtherHostAid = value;
                         gConnectionWork->mUnk_1ede = 0;
                     }
                 } else {
                     accepted = TRUE;
-                    if (scanBuffer.mGameInfoLength < 8 || scanBuffer.mGameInfo.mGgid != 0x25 ||
-                        (scanBuffer.mGameInfo.mAttribute & 1) == 0) {
+                    if (scanBuffer.mGameInfoLength < SCAN_GAME_INFO_LENGTH_WITH_GROUP_ID ||
+                        scanBuffer.mGameInfo.mGgid != CONNECTION_GAME_GROUP_ID ||
+                        (scanBuffer.mGameInfo.mAttribute & BEACON_ATTRIBUTE_ENTRY_OPEN) == 0) {
                         accepted = FALSE;
                     } else if (gConnectionWork->mScanFilterCallback != 0) {
                         if (gConnectionWork->mScanFilterCallback(&scanBuffer) == 0) {
@@ -287,7 +289,7 @@ void StartScanCallback(WirelessMessage *event) {
                         if (gConnectionWork->mScanResultCallback != 0) {
                             gConnectionWork->mScanResultCallback(event, &scanBuffer);
                         } else if ((gConnectionWork->mOperationFlags & CONNECTION_OPERATION_SCANNING) != 0) {
-                            if ((scanBuffer.mGameInfo.mTgid & 0x8000) != 0) {
+                            if ((scanBuffer.mGameInfo.mTgid & PARENT_TGID_FLAG) != 0) {
                                 key.mBytes[0] = event->mMacAddress[0];
                                 key.mBytes[1] = event->mMacAddress[1];
                                 key.mBytes[2] = event->mMacAddress[2];
@@ -315,7 +317,7 @@ void StartScanCallback(WirelessMessage *event) {
             for (slotIndex = 0, slot = connection->mScanSlots; slotIndex < 4; slotIndex++, slot++) {
                 if (slot->mInUse != 0) {
                     slot->mAge += 1;
-                    if (slot->mAge > 0xc8) {
+                    if (slot->mAge > SCAN_SLOT_EXPIRE_AGE) {
                         slot->mInUse = 0;
                         scanState = &gConnectionWork->mScanState;
                         scanState->mSlotCount = 0;
@@ -588,8 +590,8 @@ void SetGameInfo(void) {
     if (gConnectionWork->mState != CONNECTION_STATE_SYNCED && gConnectionWork->mState != CONNECTION_STATE_SYNCED_RACE) {
         isSyncedOrSyncedRace = FALSE;
     }
-    if (WM_SetGameInfo(ClearRequestPending, children->mGameInfo, 0x1c, 0x25, gConnectionWork->mParentParameter->mTgid,
-                       isSyncedOrSyncedRace == FALSE) != 2) {
+    if (WM_SetGameInfo(ClearRequestPending, children->mGameInfo, SCAN_USER_GAME_INFO_BYTES, CONNECTION_GAME_GROUP_ID,
+                       gConnectionWork->mParentParameter->mTgid, isSyncedOrSyncedRace == FALSE) != 2) {
         gConnectionWork->mRequestPending = 0;
     }
 }

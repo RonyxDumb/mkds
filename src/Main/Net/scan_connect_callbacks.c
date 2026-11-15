@@ -97,20 +97,20 @@ void MPLinkCallback(s32 eventKind, void *eventInfo) {
             code = info->mCommand;
             if (gScanConnectWork->mStateCallback != NULL) {
                 switch (code) {
-                    case 0:
-                    case 7:
-                    case 8:
-                    case 13:
-                    case 14:
-                    case 15:
-                    case 17:
-                    case 18:
-                    case 21:
-                    case 25:
-                    case 29:
+                    case WIRELESS_REQUEST_POWER_UP_STACK:
+                    case WIRELESS_REQUEST_CONFIGURE_HOST:
+                    case WIRELESS_REQUEST_OPEN_HOST:
+                    case WIRELESS_REQUEST_LEAVE:
+                    case WIRELESS_REQUEST_BEGIN_EXCHANGE:
+                    case WIRELESS_REQUEST_QUEUE_EXCHANGE_DATA:
+                    case WIRELESS_REQUEST_BEGIN_FRAME_MODE:
+                    case WIRELESS_REQUEST_QUEUE_FRAME_DATA:
+                    case WIRELESS_REQUEST_BEGIN_KEY_SHARE:
+                    case WIRELESS_REQUEST_WATCH_BEACONS:
+                    case WIRELESS_REQUEST_SET_TIMEOUT:
                         code = SCAN_CONNECT_ERROR_WM_REJECTED;
                         break;
-                    case 1:
+                    case WIRELESS_REQUEST_RESTART:
                     default:
                         code = SCAN_CONNECT_ERROR_OTHER;
                         break;

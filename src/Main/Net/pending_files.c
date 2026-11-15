@@ -45,11 +45,11 @@ BOOL LoadPendingFiles(void) {
         gThreadFunctionQueue->mRunRequested = 1;
         return FALSE;
     }
-    if (nextIndex >= 12 || gConnectionWork->mBlockEntries[nextIndex].mPath[0] == 0) {
+    if (nextIndex >= CONNECTION_BLOCK_ENTRY_COUNT || gConnectionWork->mBlockEntries[nextIndex].mPath[0] == 0) {
         return TRUE;
     }
     workOrPath = gConnectionWork->mBlockEntries[nextIndex].mPath;
-    if (((file->mStat & 0x10) ? 1 : 0) != 0) {
+    if (((file->mStat & FS_FILE_STATUS_IS_FILE) ? 1 : 0) != 0) {
         FS_CloseFile(file);
     }
     FS_InitFile(file);
@@ -90,8 +90,8 @@ void ResetPendingFiles(void) {
         entry->mUnk_84 = entry->mUnk_84 & flagBitsMask;
         entry = entry + 1;
         entryIndex = entryIndex + 1;
-    } while (entryIndex < 0xc);
-    view->mNextLoadIndex = 0xc;
+    } while (entryIndex < CONNECTION_BLOCK_ENTRY_COUNT);
+    view->mNextLoadIndex = CONNECTION_BLOCK_ENTRY_COUNT;
 }
 
 #pragma thumb off
@@ -100,7 +100,7 @@ void ResetPendingFiles(void) {
 
 void AddPendingFile(const void *path, void *heap, void **dataOutput, u32 value, s32 uncompress) {
     u16 entryIndex;
-    for (entryIndex = 0; entryIndex < 12; entryIndex++) {
+    for (entryIndex = 0; entryIndex < CONNECTION_BLOCK_ENTRY_COUNT; entryIndex++) {
         if (gConnectionWork->mBlockEntries[entryIndex].mPath[0] == 0) {
             MI_CpuCopy8(path, gConnectionWork->mBlockEntries[entryIndex].mPath,
                         sizeof(gConnectionWork->mBlockEntries[entryIndex].mPath));
@@ -161,7 +161,7 @@ void AllocTransferBuffers(void *heap) {
 void InitBlockEntries(void *heap, s32 mode) {
     BlockTransferView *view = &gConnectionWork->mBlockTransfer;
     s32 entryIndex;
-    for (entryIndex = 0; entryIndex < 12; entryIndex++) {
+    for (entryIndex = 0; entryIndex < CONNECTION_BLOCK_ENTRY_COUNT; entryIndex++) {
         view->mBlockEntries[entryIndex].mPath[0] = 0;
         view->mBlockEntries[entryIndex].mBuffer = NULL;
         view->mBlockEntries[entryIndex].mUncompressedBuffer = NULL;

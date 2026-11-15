@@ -67,6 +67,14 @@ typedef enum MBCommPState {
     MULTIBOOT_PARENT_CHILD_WAITING
 } MBCommPState;
 
+// Second argument of MB_CommResponseRequest: refuse the child, accept it, start sending the program, boot it.
+typedef enum MBCommResponse {
+    MULTIBOOT_RESPONSE_REFUSE,
+    MULTIBOOT_RESPONSE_ACCEPT,
+    MULTIBOOT_RESPONSE_SEND,
+    MULTIBOOT_RESPONSE_BOOT
+} MBCommResponse;
+
 // Object behind mbc. The members from 0x1788 on are reached from a pointer advanced in steps of 0x5d4
 // bytes, so their offsets here include the 0x1788.
 typedef struct DataRangeLoadJob {

@@ -192,13 +192,13 @@ void FillParentParameter(s32 flag) {
         generatorState = OS_GetTickLo() | seconds << 16;
         generatorState = generatorState * RANDOM_STATE64_MULTIPLIER + RANDOM_STATE64_INCREMENT;
         highWord = generatorState >> 32;
-        parentParameter->mTgid = (u16) (highWord * 0x10000 >> 32) | 0x8000;
+        parentParameter->mTgid = (u16) (highWord * 0x10000 >> 32) | PARENT_TGID_FLAG;
     }
     parentParameter->mChannel = gConnectionWork->mParentChannel;
     parentParameter->mBeaconPeriod = WM_GetDispersionBeaconPeriod();
     parentParameter->mUserGameInfo = gConnectionWork->mChildren.mGameInfo;
-    parentParameter->mUserGameInfoLength = 0x1c;
-    parentParameter->mMaxEntry = 7;
+    parentParameter->mUserGameInfoLength = SCAN_USER_GAME_INFO_BYTES;
+    parentParameter->mMaxEntry = CHILD_LIST_MAX_CHILDREN;
     parentParameter->mEntryFlag = flag != 0 ? 1 : 0;
 }
 
@@ -231,14 +231,14 @@ void FillGhostParentParameter(GhostRecordHead *ghostRecord) {
     generatorState = OS_GetTickLo() | seconds << 16;
     generatorState = generatorState * RANDOM_STATE64_MULTIPLIER + RANDOM_STATE64_INCREMENT;
     highWord = generatorState >> 32;
-    parentParameter->mTgid = (u16) (highWord * 0x10000 >> 32) | 0x8000;
+    parentParameter->mTgid = (u16) (highWord * 0x10000 >> 32) | PARENT_TGID_FLAG;
     parentParameter->mChannel = gConnectionWork->mParentChannel;
     parentParameter->mBeaconPeriod = WM_GetDispersionBeaconPeriod();
     parentParameter->mUserGameInfo = gConnectionWork->mChildren.mGameInfo;
-    parentParameter->mUserGameInfoLength = 0x1c;
+    parentParameter->mUserGameInfoLength = SCAN_USER_GAME_INFO_BYTES;
     parentParameter->mMaxEntry = 1;
-    parentParameter->mParentMaxSize = 0x1b6;
-    parentParameter->mChildMaxSize = 0x2e;
+    parentParameter->mParentMaxSize = CONNECTION_PARENT_MAX_SIZE;
+    parentParameter->mChildMaxSize = CONNECTION_CHILD_MAX_SIZE;
 }
 
 void SetGroupSendMaskAsParent(u8 sendMask) {

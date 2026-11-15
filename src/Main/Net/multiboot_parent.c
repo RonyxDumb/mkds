@@ -33,7 +33,7 @@ s32 AdvanceScanConnect(u16 entryIndex) {
             break;
         case CONNECTION_STEP_JOINING:
             connectionWork->mStepWaitFrames = connectionWork->mStepWaitFrames + 1;
-            if (gConnectionWork->mStepWaitFrames > 0x4b0) {
+            if (gConnectionWork->mStepWaitFrames > CONNECTION_JOIN_TIMEOUT_FRAMES) {
                 SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
                 return 3;
             }
@@ -44,7 +44,7 @@ s32 AdvanceScanConnect(u16 entryIndex) {
         case CONNECTION_STEP_SCAN_CONNECT_FIND_ENTRY: {
             s32 scanEntryIndex;
             connectionWork->mStepWaitFrames = connectionWork->mStepWaitFrames + 1;
-            if (gConnectionWork->mStepWaitFrames > 0x4b0) {
+            if (gConnectionWork->mStepWaitFrames > CONNECTION_JOIN_TIMEOUT_FRAMES) {
                 SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
             } else {
                 scanEntryIndex = FindScanEntryIndex(entryIndex);
@@ -106,7 +106,7 @@ s32 AdvanceScanConnect(u16 entryIndex) {
             }
             break;
         case CONNECTION_STEP_SCAN_CONNECT_CLOSE:
-            if (connectionWork->mStepWaitFrames < 0x3c) {
+            if (connectionWork->mStepWaitFrames < CONNECTION_CLOSE_WAIT_FRAMES) {
                 connectionWork->mStepWaitFrames = connectionWork->mStepWaitFrames + 1;
             } else {
                 connectionWork->mStep = CONNECTION_STEP_SCAN_CONNECT_CLOSED;
@@ -153,7 +153,7 @@ s32 AdvanceChildMaskCovered(void) {
 
     if (maskCopy == (maskCopy & childMask)) {
         result = TRUE;
-    } else if (connectionWork->mStepWaitFrames > 0x708) {
+    } else if (connectionWork->mStepWaitFrames > CONNECTION_CHILDREN_WAIT_FRAMES) {
         if (childMask == 0) {
             SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
         } else {

@@ -150,8 +150,8 @@ void InitWiFiRaceSync(void *heap) {
     }
     ResetItemDataSlots();
     InitSlotResultSyncStates();
-    gWiFiRaceSync->mFlags |= 1;
-    gWiFiRaceSync->mFlags |= 0x40;
+    gWiFiRaceSync->mFlags |= WIFI_RACE_SYNC_FLAG_RESET_UNREAD_A;
+    gWiFiRaceSync->mFlags |= WIFI_RACE_SYNC_FLAG_RESET_UNREAD_B;
     sync = gWiFiRaceSync;
     sync->mStateMachine.mNextState = WIFI_RACE_SYNC_STATE_IDLE;
     sync->mStateMachine.mNextStateRequested = 1;
@@ -211,9 +211,9 @@ void EnterWiFiRaceSyncProbe(void *stateObject) {
     gWiFiRaceSync->mCountdownDrift = 0;
     gWiFiRaceSync->mCountdownTimer = WIFI_RACE_SYNC_PRE_COUNTDOWN_TIME;
     gWiFiRaceSync->mSharedState = WIFI_RACE_SHARED_STATE_PROBING;
-    gWiFiRaceSync->mFlags &= ~2;
-    gWiFiRaceSync->mFlags |= 0x80;
-    gWiFiRaceSync->mFlags &= ~0x10;
+    gWiFiRaceSync->mFlags &= ~WIFI_RACE_SYNC_FLAG_IN_RACE;
+    gWiFiRaceSync->mFlags |= WIFI_RACE_SYNC_FLAG_REMOVE_DROPPED;
+    gWiFiRaceSync->mFlags &= ~WIFI_RACE_SYNC_FLAG_DATA_SHARING_INCOMPLETE;
 }
 
 void UpdateWiFiRaceSyncProbe(void *stateObject) {
@@ -265,7 +265,7 @@ void UpdateWiFiRaceSyncProbe(void *stateObject) {
                     SendWiFiRaceSyncPacket(targetParticipant, WIFI_RACE_SYNC_PACKET_EMPTY, 0);
                 }
                 gWiFiRaceSync->mPeers[targetParticipant].mEmptyPacketPhase++;
-                if (gWiFiRaceSync->mPeers[targetParticipant].mEmptyPacketPhase > 4) {
+                if (gWiFiRaceSync->mPeers[targetParticipant].mEmptyPacketPhase > WIFI_RACE_SYNC_EMPTY_PHASE_LAST) {
                     gWiFiRaceSync->mPeers[targetParticipant].mEmptyPacketPhase = 0;
                 }
             }
@@ -395,8 +395,8 @@ void UpdateWiFiRaceSyncCountdown(void *stateObject) {
 void EnterWiFiRaceSyncRace(void *stateObject) {
     u8 participant;
 
-    gWiFiRaceSync->mFlags = gWiFiRaceSync->mFlags | 2;
-    gWiFiRaceSync->mFlags = gWiFiRaceSync->mFlags & ~0x20;
+    gWiFiRaceSync->mFlags = gWiFiRaceSync->mFlags | WIFI_RACE_SYNC_FLAG_IN_RACE;
+    gWiFiRaceSync->mFlags = gWiFiRaceSync->mFlags & ~WIFI_RACE_SYNC_FLAG_CLEARED_UNREAD;
     gWiFiRaceSync->mFlags = gWiFiRaceSync->mFlags & ~WIFI_RACE_SYNC_FLAG_IDLE_DISCONNECT_SENT;
     gWiFiRaceSync->mSyncFrames = 0;
     gWiFiRaceSync->mRecordSendCursor = 0;
@@ -924,7 +924,7 @@ void ReceiveWiFiRaceSyncPacket(u32 fromIndex, WiFiRaceSyncPacket *packet, u32 si
                 AddWiFiRaceSyncRoundTrip(body->mProbeTicks, sender);
                 return;
             }
-            if (body->mProbeOrigin >= 4) {
+            if (body->mProbeOrigin >= WIFI_RACE_SYNC_PARTICIPANT_COUNT) {
                 return;
             }
             peer = &gWiFiRaceSync->mPeers[sender];
@@ -1088,7 +1088,7 @@ void RemoveDroppedParticipants(void) {
 }
 
 void AdvanceWiFiRaceSync(void) {
-    if ((gWiFiRaceSync->mFlags & 0x80) != 0) {
+    if ((gWiFiRaceSync->mFlags & WIFI_RACE_SYNC_FLAG_REMOVE_DROPPED) != 0) {
         RemoveDroppedParticipants();
     }
     AdvanceStateMachine(&gWiFiRaceSync->mStateMachine);

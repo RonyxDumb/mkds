@@ -133,9 +133,9 @@ void AdvanceConnection(void) {
         case CONNECTION_STATE_MULTIBOOT_PARENT_READY:
             childMask = gConnectionWork->mChildren.mChildMask;
             participantMask = childMask | 1;
-            if (gConnectionWork->mChildren.mNameSendIndex >= 8) {
+            if (gConnectionWork->mChildren.mNameSendIndex >= CHILD_LIST_NAME_SEND_PAUSE_FIRST) {
                 gConnectionWork->mChildren.mNameSendIndex++;
-                if ((s32) gConnectionWork->mChildren.mNameSendIndex > 0x2c) {
+                if ((s32) gConnectionWork->mChildren.mNameSendIndex > CHILD_LIST_NAME_SEND_PAUSE_LAST) {
                     gConnectionWork->mChildren.mNameSendIndex = 0;
                 }
                 return;

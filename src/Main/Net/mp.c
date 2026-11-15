@@ -144,16 +144,16 @@ s32 AdvanceChildArchiveSync(s32 archiveKind, void *courseId, void *mode) {
         case CONNECTION_SYNC_CHILD_LOAD:
             if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
                 switch (archiveKind) {
-                    case 0:
+                    case MP_ARCHIVE_KIND_MAIN_AND_MENU:
                         RequestMainAndMenuDLArchives();
                         break;
-                    case 1:
+                    case MP_ARCHIVE_KIND_RACE:
                         RequestRaceArchives(courseId, mode);
                         break;
-                    case 2:
+                    case MP_ARCHIVE_KIND_RESULT:
                         RequestResultDLArchives();
                         break;
-                    case 3:
+                    case MP_ARCHIVE_KIND_MENU:
                         RequestMenuDLArchives();
                         break;
                 }
@@ -194,7 +194,7 @@ u32 AdvanceMainAndMenuDLArchives(void) {
         case CONNECTION_MODE_PARENT:
             return AdvanceParentSync();
         case CONNECTION_MODE_CHILD:
-            return AdvanceChildArchiveSync(0, NULL, NULL);
+            return AdvanceChildArchiveSync(MP_ARCHIVE_KIND_MAIN_AND_MENU, NULL, NULL);
         default:
             return 3;
     }
@@ -251,7 +251,7 @@ u32 AdvanceRaceArchives(void) {
         case CONNECTION_MODE_PARENT:
             return AdvanceParentSync();
         case CONNECTION_MODE_CHILD:
-            return AdvanceChildArchiveSync(1, gConnectionWork->mCourseId, gConnectionWork->mMode);
+            return AdvanceChildArchiveSync(MP_ARCHIVE_KIND_RACE, gConnectionWork->mCourseId, gConnectionWork->mMode);
         default:
             return 3;
     }

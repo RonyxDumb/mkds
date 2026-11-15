@@ -48,13 +48,13 @@ void QueuePacketToPort(void) {
         }
         switch (connectionMode) {
             case CONNECTION_MODE_PARENT:
-                gPacketPortParams.mMaxDataSize = 0x192;
-                packetSize = WBT_MpParentSendHook(gConnectionWork->mPacketBuffer, 0x192);
+                gPacketPortParams.mMaxDataSize = PACKET_PORT_PARENT_PACKET_SIZE;
+                packetSize = WBT_MpParentSendHook(gConnectionWork->mPacketBuffer, PACKET_PORT_PARENT_PACKET_SIZE);
                 destMask = gConnectionWork->mChildren.mChildMask;
                 break;
             case CONNECTION_MODE_CHILD:
-                gPacketPortParams.mMaxDataSize = 0xe;
-                packetSize = WBT_MpChildSendHook(gConnectionWork->mPacketBuffer, 0xe);
+                gPacketPortParams.mMaxDataSize = PACKET_PORT_CHILD_PACKET_SIZE;
+                packetSize = WBT_MpChildSendHook(gConnectionWork->mPacketBuffer, PACKET_PORT_CHILD_PACKET_SIZE);
                 destMask = 1;
                 break;
         }
@@ -70,7 +70,7 @@ void PacketPortCallback(void *portMessage) {
     WirelessMessage *result = portMessage;
     u8 packet[0x192];
     u32 connectionMode;
-    if (result->mResultCode == 0 && result->mData != NULL && result->mLength <= 0x192) {
+    if (result->mResultCode == 0 && result->mData != NULL && result->mLength <= PACKET_PORT_PARENT_PACKET_SIZE) {
         DC_InvalidateRange(result->mData, result->mLength);
         MI_CpuCopy8(result->mData, packet, result->mLength);
         if (result->mState == WIRELESS_STATE_LINKED) {

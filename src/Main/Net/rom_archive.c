@@ -22,6 +22,7 @@
 #include "code_0200eddc.h"
 #include "code_0214d018.h"
 #include "Main/Net/multiboot_parent.h"
+#include "Main/Net/packet_port.h"
 #include "Main/MapObjects/data_02165000.h"
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/Kart/kart_name_tags.h"
@@ -871,7 +872,7 @@ void InitRomArchive(u32 port, void (*stateCallback)(s32 port),
     transfer->mArchiveBlockSize = 0;
     transfer->mArchiveBlock = NULL;
     transfer->mParentPacketSize = 0;
-    transfer->mChildPacketSize = 0xe;
+    transfer->mChildPacketSize = PACKET_PORT_CHILD_PACKET_SIZE;
     gRomArchiveUnusedWord = 0;
     if (WM_SetPortCallback(narrowedPort, RomArchivePortCallback, NULL) != 0) {
         OS_Terminate();

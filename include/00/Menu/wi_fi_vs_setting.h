@@ -337,6 +337,10 @@ typedef enum WiFiSessionSetup {
 // Calls PickNextToIndex returns "no index" for after it picked one.
 #define WIFI_SESSION_CALLS_AFTER_PICK 2
 // Value of the buddy status bytes the poll counts, and the one it skips.
+// Frames without a callback from a participant before its kart is removed from the session.
+#define WIFI_SESSION_KART_TIMEOUT_FRAMES 300
+// Entries of WiFiSession.mBuddies and mBuddyStatuses.
+#define WIFI_BUDDY_COUNT 0x3c
 #define WIFI_BUDDY_STATUS_NOT_COUNTED 2
 #define WIFI_BUDDY_STATUS_COUNTED 4
 
@@ -450,9 +454,9 @@ typedef struct WiFiSession {
     /* 19b0 */ DWCAccUserData mUserData;
     // 0x3c saved buddy entries (12 bytes each), loaded from the save at login and written back; their GP status is
     // polled one per frame.
-    /* 19f0 */ DWCAccFriendData mBuddies[0x3c];
+    /* 19f0 */ DWCAccFriendData mBuddies[WIFI_BUDDY_COUNT];
     // One status byte per mBuddies entry (poll or the buddy status callback). Meaning of the values not decoded.
-    /* 1cc0 */ u8 mBuddyStatuses[0x3c];
+    /* 1cc0 */ u8 mBuddyStatuses[WIFI_BUDDY_COUNT];
     /* 1cfc */ BOOL mBuddiesChanged;
     // 0x44-byte buffers the net layer receives the kind 0..9 messages into (re-posted by the receive callback). The
     // 0x244 profile records (mPlayerRecords) and mRecvBuffers (0x80 bytes) are also posted as receive buffers.
@@ -475,7 +479,7 @@ typedef struct WiFiSession {
     /* 1f54 */ u8 mKartCountCopy;
     /* 1f55 */ u8 mKartMask;
     /* 1f56 */ u8 mKartRemoveMask;
-    // Next mBuddies entry UpdateBuddyStatuses polls (wraps at 0x3c).
+    // Next mBuddies entry UpdateBuddyStatuses polls (wraps at WIFI_BUDDY_COUNT).
     /* 1f57 */ u8 mBuddyPollIndex;
 } WiFiSession;
 

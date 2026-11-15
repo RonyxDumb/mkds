@@ -998,7 +998,7 @@ void UpdateBuddyStatuses(void) {
     WiFiSession *countSession;
     u8 buddyIndex;
 
-    if (gWiFiSession->mBuddyPollIndex >= 0x3c) {
+    if (gWiFiSession->mBuddyPollIndex >= WIFI_BUDDY_COUNT) {
         gWiFiSession->mBuddyPollIndex = 0;
     }
     session = gWiFiSession;

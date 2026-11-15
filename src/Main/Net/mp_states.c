@@ -311,7 +311,7 @@ void UpdateMPExchangeOwnRecords(void *stateObject) {
         expectedMask = work->mChildren.mExpectedRecordMask;
         receivedMask = work->mRecordReceivedMask;
         if (expectedMask == (expectedMask & receivedMask)) {
-            if (QueueMPChunk(0xfe, NULL, (u8) (receivedMask | 1), 0, receivedMask) != FALSE) {
+            if (QueueMPChunk(MP_CHUNK_HELD_RECORDS_MASK, NULL, (u8) (receivedMask | 1), 0, receivedMask) != FALSE) {
                 MPStatesRequestMPState(MP_STATE_SEND_ALL_RECORDS);
             }
         } else {
@@ -374,7 +374,7 @@ void UpdateMPSendAllRecords(void *stateObject) {
             if (slotDone != 0) {
                 gConnectionWork->mEntryChunkSlot++;
                 gConnectionWork->mEntryChunkIndex = 0;
-                if (gConnectionWork->mEntryChunkSlot >= 8) {
+                if (gConnectionWork->mEntryChunkSlot >= MP_PARTICIPANT_SLOT_COUNT) {
                     gConnectionWork->mEntryChunkSlot = 0;
                 }
             }
@@ -442,7 +442,7 @@ void UpdateMPSendPlayerNames(void *stateObject) {
             } else {
                 gConnectionWork->mPlayerSendIndex++;
             }
-            if (gConnectionWork->mPlayerSendIndex >= 8) {
+            if (gConnectionWork->mPlayerSendIndex >= MP_PARTICIPANT_SLOT_COUNT) {
                 MPStatesRequestMPState(MP_STATE_SEND_GROUP_SEND_MASK);
             }
             break;
@@ -545,7 +545,7 @@ void UpdateMPSendPlayerBits(void *stateObject) {
         } else {
             gConnectionWork->mPlayerSendIndex += 1;
         }
-        if (gConnectionWork->mPlayerSendIndex > 8) {
+        if (gConnectionWork->mPlayerSendIndex > MP_PARTICIPANT_SLOT_COUNT) {
             MPStatesRequestMPState(MP_STATE_SEND_PLAYER_NAMES);
         }
     } else if (gConnectionWork->mRecordReceivedMask ==

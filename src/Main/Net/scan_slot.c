@@ -80,12 +80,12 @@ void RefreshParticipantTables(void) {
             gConnectionWork->mParticipantIndices[participantCount] = index;
             participantCount++;
         } else {
-            gConnectionWork->mParticipantPosByIndex[index].mEntryIndex = 0xffff;
+            gConnectionWork->mParticipantPosByIndex[index].mEntryIndex = PARTICIPANT_POSITION_NONE;
         }
     }
     for (; participantCount < 8; participantCount++) {
-        gConnectionWork->mParticipantIndexByPos[participantCount] = 0xffff;
-        gConnectionWork->mParticipantIndices[participantCount] = 0xffff;
+        gConnectionWork->mParticipantIndexByPos[participantCount] = PARTICIPANT_POSITION_NONE;
+        gConnectionWork->mParticipantIndices[participantCount] = PARTICIPANT_POSITION_NONE;
     }
     if (GetCurrentSceneNumber() == 2) {
         ResetInputSlotsFromRaceSetup();

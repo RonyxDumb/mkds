@@ -58,7 +58,7 @@ void UpdateWiFiSessionKartTimeouts(void) {
         }
         for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
             if (participantIndex != DWC_GetMyAID() && BIT_IS_SET(gWiFiSession->mKartMask, participantIndex)) {
-                if (gWiFiSession->mSinceCallbackFrames[participantIndex] > 300) {
+                if (gWiFiSession->mSinceCallbackFrames[participantIndex] > WIFI_SESSION_KART_TIMEOUT_FRAMES) {
                     BIT_SET(gWiFiSession->mKartRemoveMask, participantIndex);
                 }
             }

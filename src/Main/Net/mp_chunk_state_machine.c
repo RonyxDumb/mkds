@@ -109,17 +109,17 @@ void ProcessMPChunk(u8 *chunk) {
         byteOffset = chunk[1] * 0x168;
     }
     switch (chunk[1]) {
-        case 0xff:
+        case MP_CHUNK_RECORD_ARRIVED:
             if (MPChunkGetConnectionMode() == CONNECTION_MODE_CHILD) {
                 MPChunkRequestMPState(MP_STATE_SEND_ALL_RECORDS);
             }
             break;
-        case 0xfe:
+        case MP_CHUNK_HELD_RECORDS_MASK:
             if (MPChunkGetConnectionMode() == CONNECTION_MODE_CHILD) {
                 gConnectionWork->mExpectedRecordMask = *(u16 *) (chunk + 2);
             }
             break;
-        case 0xfd:
+        case MP_CHUNK_ALL_RECORDS_HELD:
             if (MPChunkGetConnectionMode() == CONNECTION_MODE_PARENT) {
                 BIT_SET(gConnectionWork->mRecordReceivedMask, playerIndex);
                 if (gConnectionWork->mChildren.mChildMask ==
@@ -128,7 +128,7 @@ void ProcessMPChunk(u8 *chunk) {
                 }
             }
             break;
-        case 0xfc:
+        case MP_CHUNK_NO_EMBLEM:
             gConnectionWork->mPlayerRecords[playerIndex].mHasEmblem = 0;
             finished = 1;
             break;
@@ -143,7 +143,7 @@ void ProcessMPChunk(u8 *chunk) {
     if (finished != 0) {
         playerBit = 1U << chunk[0];
         if (MPChunkGetConnectionMode() == CONNECTION_MODE_PARENT) {
-            if (QueueMPChunk(0xff, NULL, 0, 0, playerBit) != FALSE) {
+            if (QueueMPChunk(MP_CHUNK_RECORD_ARRIVED, NULL, 0, 0, playerBit) != FALSE) {
                 gConnectionWork->mRecordReceivedMask |= 1 << chunk[0];
                 return;
             }
@@ -152,7 +152,7 @@ void ProcessMPChunk(u8 *chunk) {
             if (gConnectionWork->mExpectedRecordMask ==
                 (gConnectionWork->mExpectedRecordMask & gConnectionWork->mRecordReceivedMask)) {
                 ownIndex = gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD ? gConnectionWork->mOwnIndex : 0;
-                if (QueueMPChunk(0xfd, NULL, 0, ownIndex, 1) != FALSE) {
+                if (QueueMPChunk(MP_CHUNK_ALL_RECORDS_HELD, NULL, 0, ownIndex, 1) != FALSE) {
                     MPChunkRequestMPState(MP_STATE_SEND_ROM_ARCHIVE);
                 }
             }
@@ -162,7 +162,8 @@ void ProcessMPChunk(u8 *chunk) {
 
 void MPChunkPortCallback(void *portMessage) {
     WirelessMessage *event = portMessage;
-    if (event->mResultCode == WIRELESS_RESULT_SUCCEEDED && event->mData != NULL && event->mLength >= 4) {
+    if (event->mResultCode == WIRELESS_RESULT_SUCCEEDED && event->mData != NULL &&
+        event->mLength >= MP_CHUNK_HEADER_SIZE) {
         DC_StoreRange(event->mData, event->mLength);
         switch (event->mState) {
             case WIRELESS_STATE_LINKED:

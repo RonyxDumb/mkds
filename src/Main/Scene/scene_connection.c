@@ -65,7 +65,7 @@ static inline s32 SceneIsSharingNotUpdatedWhileActive(void) {
 
 static inline s32 SceneIsWiFiRaceSyncFlagSet(void) {
     BOOL result = FALSE;
-    if (gWiFiRaceSync != NULL && (gWiFiRaceSync->mFlags & 0x10)) {
+    if (gWiFiRaceSync != NULL && (gWiFiRaceSync->mFlags & WIFI_RACE_SYNC_FLAG_DATA_SHARING_INCOMPLETE)) {
         result = TRUE;
     }
     return result;

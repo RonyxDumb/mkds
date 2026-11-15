@@ -81,7 +81,7 @@ u32 AdvanceMenuDLArchives(void) {
         case CONNECTION_MODE_PARENT:
             return AdvanceParentSync();
         case CONNECTION_MODE_CHILD:
-            return AdvanceChildArchiveSync(3, NULL, NULL);
+            return AdvanceChildArchiveSync(MP_ARCHIVE_KIND_MENU, NULL, NULL);
         default:
             return 3;
     }
@@ -98,7 +98,7 @@ u32 AdvanceResultDLArchives(void) {
         case CONNECTION_MODE_PARENT:
             return AdvanceParentSync();
         case CONNECTION_MODE_CHILD:
-            return AdvanceChildArchiveSync(2, NULL, NULL);
+            return AdvanceChildArchiveSync(MP_ARCHIVE_KIND_RESULT, NULL, NULL);
         default:
             return 3;
     }

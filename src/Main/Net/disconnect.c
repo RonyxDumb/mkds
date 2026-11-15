@@ -154,11 +154,11 @@ void Disconnect(void) {
             break;
     }
     switch (result) {
-        case 0:
-        case 7:
+        case WIRELESS_RESULT_SUCCEEDED:
+        case WIRELESS_RESULT_NO_REMOTE:
             gConnectionWork->mRequestPending = 0;
             break;
-        case 2:
+        case WIRELESS_RESULT_OCCUPIED:
             if (DisconnectGetConnectionMode() == CONNECTION_MODE_CHILD) {
                 gConnectionWork->mOperationFlags |= CONNECTION_OPERATION_DISCONNECTING;
             }
@@ -303,7 +303,7 @@ void AddChild(u32 aid, u8 *bytes, PlayerRecord *playerEntry) {
     ChildList *children;
 
     children = &gConnectionWork->mChildren;
-    if (children->mChildCount >= 7) {
+    if (children->mChildCount >= CHILD_LIST_MAX_CHILDREN) {
         return;
     }
     children->mEntries[aid - 1].mAid = aid;
@@ -468,10 +468,10 @@ void MPDataPortCallback(void *portMessage) {
     if (event->mData == 0) {
         return;
     }
-    if (event->mLength < 2) {
+    if (event->mLength < MP_MESSAGE_MIN_LENGTH) {
         return;
     }
-    if (event->mLength > 0x18) {
+    if (event->mLength > MP_MESSAGE_MAX_LENGTH) {
         return;
     }
     DC_InvalidateRange(event->mData, event->mLength);
@@ -528,7 +528,7 @@ BOOL QueueMPDataHalfword(s32 kind, u16 destBitmap) {
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_SEND_READY) == 0) {
         return FALSE;
     }
-    gMPDataToPortParams.mMaxDataSize = 0x18;
+    gMPDataToPortParams.mMaxDataSize = MP_MESSAGE_MAX_LENGTH;
     gConnectionWork->mFlags &= ~CONNECTION_FLAG_SEND_READY;
     if (QueueMPDataToPort(&halfword, 2, destBitmap, gConnectionWork->mMPDataBuffer, &gMPDataToPortParams) != FALSE) {
         return TRUE;
@@ -551,7 +551,7 @@ BOOL QueueMPDataPlayerName(s32 playerIndex, u16 destBitmap) {
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_SEND_READY) == 0) {
         return FALSE;
     }
-    gMPDataToPortParams.mMaxDataSize = 0x18;
+    gMPDataToPortParams.mMaxDataSize = MP_MESSAGE_MAX_LENGTH;
     gConnectionWork->mFlags &= ~CONNECTION_FLAG_SEND_READY;
     if (QueueMPDataToPort(&message, 0x18, destBitmap, gConnectionWork->mMPDataBuffer, &gMPDataToPortParams) != FALSE) {
         return TRUE;
@@ -569,7 +569,7 @@ BOOL QueueMPDataPlayerBits(u8 playerIndex, u16 destBitmap) {
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_SEND_READY) == 0) {
         return FALSE;
     }
-    gMPDataToPortParams.mMaxDataSize = 0x18;
+    gMPDataToPortParams.mMaxDataSize = MP_MESSAGE_MAX_LENGTH;
     gConnectionWork->mFlags &= ~CONNECTION_FLAG_SEND_READY;
     if (QueueMPDataToPort(&message, 0x12, destBitmap, gConnectionWork->mMPDataBuffer, &gMPDataToPortParams) != FALSE) {
         return TRUE;
@@ -586,7 +586,7 @@ BOOL QueueMPDataHalfwordAndWord(s32 kind, u16 destBitmap, s32 word) {
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_SEND_READY) == 0) {
         return FALSE;
     }
-    gMPDataToPortParams.mMaxDataSize = 0x18;
+    gMPDataToPortParams.mMaxDataSize = MP_MESSAGE_MAX_LENGTH;
     gConnectionWork->mFlags &= ~CONNECTION_FLAG_SEND_READY;
     if (QueueMPDataToPort(&message, 8, destBitmap, gConnectionWork->mMPDataBuffer, &gMPDataToPortParams) != FALSE) {
         return TRUE;
