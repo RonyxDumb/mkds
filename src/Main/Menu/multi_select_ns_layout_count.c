@@ -238,9 +238,9 @@ void UpdateMultiSelectMemberCells(void) {
         subFileSet->mCellTable[cellIndex].mOffsetY = interpolatedValue;
     }
     if (gMultiSelectMember->mChildCount > 0) {
-        SetInterpolationStateIfOpposite(&gMultiSelectMember->mInterpolations[3], 0);
+        SetInterpolationStateIfOpposite(&gMultiSelectMember->mInterpolations[3], INTERPOLATION_STATE_RISING);
     } else {
-        SetInterpolationStateIfOpposite(&gMultiSelectMember->mInterpolations[3], 2);
+        SetInterpolationStateIfOpposite(&gMultiSelectMember->mInterpolations[3], INTERPOLATION_STATE_FALLING);
     }
     AdvanceInterpolation(&gMultiSelectMember->mInterpolations[3]);
     interpolatedValue = GetInterpolatedValue(&gMultiSelectMember->mInterpolations[3]);
@@ -333,7 +333,7 @@ void UpdateMultiSelectMemberKeySetup(void) {
                 gMultiSelectMember->mSetupState = MULTI_SELECT_MEMBER_SETUP_START_BOOT;
                 gMultiSelectMember->mTimer = 0x78;
                 SetupTxtSystemSubTextEx(GetBmgEntry(gMultiSelectMember->mCommonMessages, 0x79), 0, 1, 1, 0, 1);
-                SetInterpolationStateIfOpposite(&gMultiSelectMember->mInterpolations[0], 2);
+                SetInterpolationStateIfOpposite(&gMultiSelectMember->mInterpolations[0], INTERPOLATION_STATE_FALLING);
             } else if (gMultiSelectMember->mReturnPending != FALSE) {
                 gMultiSelectMember->mReturnPending = FALSE;
                 gMultiSelectMember->mSetupState = MULTI_SELECT_MEMBER_SETUP_END_CONNECTION_RETURN;
@@ -805,9 +805,9 @@ s32 AdvanceMultiSelectMemberKeyStart(SceneNumbers *sceneNumbers) {
             break;
         case MULTI_SELECT_MEMBER_STATE_WAIT_SETUP_DONE:
             if (gMultiSelectMember->mSetupState == MULTI_SELECT_MEMBER_SETUP_DONE) {
-                SetInterpolationStateIfOpposite(&gMultiSelectMember->mInterpolations[0], 2);
-                SetInterpolationStateIfOpposite(&gMultiSelectMember->mInterpolations[1], 2);
-                SetInterpolationStateIfOpposite(&gMultiSelectMember->mInterpolations[2], 2);
+                SetInterpolationStateIfOpposite(&gMultiSelectMember->mInterpolations[0], INTERPOLATION_STATE_FALLING);
+                SetInterpolationStateIfOpposite(&gMultiSelectMember->mInterpolations[1], INTERPOLATION_STATE_FALLING);
+                SetInterpolationStateIfOpposite(&gMultiSelectMember->mInterpolations[2], INTERPOLATION_STATE_FALLING);
                 gMultiSelectMember->mState = MULTI_SELECT_MEMBER_STATE_SLIDE_OUT;
             }
             break;
@@ -920,7 +920,8 @@ s32 AdvanceMultiSelectMemberNoKeyStart(SceneNumbers *sceneNumbers) {
                 }
                 if (flag != FALSE) {
                     RequestSelectReturnState4();
-                    SetInterpolationStateIfOpposite(&gMultiSelectMember->mInterpolations[0], 2);
+                    SetInterpolationStateIfOpposite(&gMultiSelectMember->mInterpolations[0],
+                                                    INTERPOLATION_STATE_FALLING);
                     NNS_SndArcSetCurrent(&gOnMemorySndArc);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 6);
                     NNS_SndArcSetCurrent(&gFileSndArc);
@@ -961,9 +962,9 @@ s32 AdvanceMultiSelectMemberNoKeyStart(SceneNumbers *sceneNumbers) {
             break;
         case MULTI_SELECT_MEMBER_STATE_WAIT_SETUP_DONE:
             if (gMultiSelectMember->mSetupState == MULTI_SELECT_MEMBER_SETUP_DONE) {
-                SetInterpolationStateIfOpposite(&gMultiSelectMember->mInterpolations[0], 2);
-                SetInterpolationStateIfOpposite(&gMultiSelectMember->mInterpolations[1], 2);
-                SetInterpolationStateIfOpposite(&gMultiSelectMember->mInterpolations[2], 2);
+                SetInterpolationStateIfOpposite(&gMultiSelectMember->mInterpolations[0], INTERPOLATION_STATE_FALLING);
+                SetInterpolationStateIfOpposite(&gMultiSelectMember->mInterpolations[1], INTERPOLATION_STATE_FALLING);
+                SetInterpolationStateIfOpposite(&gMultiSelectMember->mInterpolations[2], INTERPOLATION_STATE_FALLING);
                 gMultiSelectMember->mState = MULTI_SELECT_MEMBER_STATE_SLIDE_OUT;
             }
             break;

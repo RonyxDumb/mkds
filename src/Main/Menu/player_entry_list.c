@@ -407,7 +407,7 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
                                            FindFileInLoadedArchives);
         }
     } else if (gPlayerEntryList->mScreenKind == PLAYER_ENTRY_LIST_KART) {
-        SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[3], 0);
+        SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[3], INTERPOLATION_STATE_RISING);
     }
     if (gPlayerEntryList->mMoveInnerPending != FALSE) {
         for (index = 0; index < 8; index++) {
@@ -425,7 +425,7 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         QueueCellChars(gTitleCellIndices[gPlayerEntryList->mScreenKind], titleFileSet->mCells, titleFileSet->mChars,
                        titleFileSet->mCellLayout, 0, 0x19, fileSet->mCells, fileSet->mCellLayout);
-        SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[0], 0);
+        SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[0], INTERPOLATION_STATE_RISING);
     }
     CopyCellLayoutEntryPosition(GetOwnEntryPositionCopyCellIndex(),
                                 gEntryCellIndices[gPlayerEntryList->mEntryIndex].mEntryCellIndex, fileSet->mCellLayout);
@@ -728,9 +728,9 @@ u32 IsEveryPlayerKartStored(void) {
 void StartPlayerEntryListKind(s32 kind) {
     s32 entryIndex;
 
-    SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[0], 2);
-    SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[3], 2);
-    SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[2], 2);
+    SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[0], INTERPOLATION_STATE_FALLING);
+    SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[3], INTERPOLATION_STATE_FALLING);
+    SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[2], INTERPOLATION_STATE_FALLING);
     switch (kind) {
         case 0:
         case 1:
@@ -741,7 +741,7 @@ void StartPlayerEntryListKind(s32 kind) {
             }
             break;
         case 2:
-            SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[1], 2);
+            SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[1], INTERPOLATION_STATE_FALLING);
             break;
         case 3:
             for (entryIndex = 0; entryIndex < 8; entryIndex++) {
@@ -768,16 +768,16 @@ void SetPlayerEntryListUseTeams(s32 useTeams) {
                     SetEntryTargetSlot(entryIndex, slot);
                 }
             }
-            SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[2], 0);
-            SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[0], 2);
+            SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[2], INTERPOLATION_STATE_RISING);
+            SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[0], INTERPOLATION_STATE_FALLING);
         } else {
             for (entryIndex = 0; entryIndex < 8; entryIndex++) {
                 if (entryIndex < gPlayerEntryList->mPlayerCount || gPlayerEntryList->mShowAllEntries != 0) {
                     SetEntryTargetSlot(entryIndex, 1);
                 }
             }
-            SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[2], 2);
-            SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[0], 0);
+            SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[2], INTERPOLATION_STATE_FALLING);
+            SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[0], INTERPOLATION_STATE_RISING);
         }
     }
     gPlayerEntryList->mUseTeams = useTeams;

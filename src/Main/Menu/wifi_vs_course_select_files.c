@@ -148,7 +148,7 @@ void ShowWiFiSessionCourse(void) {
         fileSet->mCellTable[gWiFiVSCourseSelectMLabelTextRows[rowIndex].mCellIndex].mOffsetX = 0;
         fileSet->mCellTable[cellCount + gWiFiVSCourseSelectMLabelTextRows[rowIndex].mLabelIndex].mOffsetX =
             fileSet->mCellTable[gWiFiVSCourseSelectMLabelTextRows[rowIndex].mCellIndex].mOffsetX;
-        SetInterpolationStateIfOpposite(&gWiFiVSCourseSelect->mRowInterpolations[rowIndex], 1);
+        SetInterpolationStateIfOpposite(&gWiFiVSCourseSelect->mRowInterpolations[rowIndex], INTERPOLATION_STATE_AT_END);
     }
     fileSet->mCellTable[4].mVisible = 1;
     fileSet->mCellTable[gWiFiVSCourseSelectMLabelTextRows[0].mLabelIndex + cellCount].mVisible =
@@ -204,7 +204,8 @@ void AdvancePickedCourseRows(void) {
                                                        fileSet->mLabelLayout, text, fileSet->mCellLayout,
                                                        fileSet->mCellTable);
                     gWiFiVSCourseSelect->mShownCourseIds[rowIndex] = pickedCourseId;
-                    SetInterpolationStateIfOpposite(&gWiFiVSCourseSelect->mRowInterpolations[rowIndex], 0);
+                    SetInterpolationStateIfOpposite(&gWiFiVSCourseSelect->mRowInterpolations[rowIndex],
+                                                    INTERPOLATION_STATE_RISING);
                     if (gWiFiVSCourseSelect->mEntryIndex != rowIndex) {
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x208);
                     }
@@ -432,7 +433,7 @@ s32 AdvanceWiFiVSCourseSelect(void) {
         case WIFI_VS_COURSE_SELECT_STATE_WAIT_OTHER_PICKS:
             if (IsWiFiSessionStep10Reached() != 0) {
                 gWiFiVSCourseSelect->mState = WIFI_VS_COURSE_SELECT_STATE_HOLD_PICKS;
-                SetInterpolationStateIfOpposite(&gWiFiVSCourseSelect->mInterpolations[2], 2);
+                SetInterpolationStateIfOpposite(&gWiFiVSCourseSelect->mInterpolations[2], INTERPOLATION_STATE_FALLING);
             }
             break;
         case WIFI_VS_COURSE_SELECT_STATE_HOLD_PICKS:

@@ -914,7 +914,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
             if (AreBrightnessFadesClear() == 0) {
                 RequestSelectReturnState1();
                 SetupGhostMainTextShort();
-                SetInterpolationStateIfOpposite(&gTimeAttackGhostGetScan->mInterpolation, 0);
+                SetInterpolationStateIfOpposite(&gTimeAttackGhostGetScan->mInterpolation, INTERPOLATION_STATE_RISING);
                 gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_SLIDE_IN;
             }
             break;
@@ -970,7 +970,8 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
                                                 &gTimeAttackGhostGetScan->mGhostInfoEntries[entryIndex].mInfo, 0x28);
                                 gTimeAttackGhostGetScan->mGhostInfoEntries[entryIndex].mFilled = TRUE;
                                 SetInterpolationStateIfOpposite(
-                                    &gTimeAttackGhostGetScan->mGhostInfoEntries[entryIndex].mInterpolation, 0);
+                                    &gTimeAttackGhostGetScan->mGhostInfoEntries[entryIndex].mInterpolation,
+                                    INTERPOLATION_STATE_RISING);
                                 if (gTimeAttackGhostGetScan->mInfoFileSets.mSelectedIndex == entryIndex) {
                                     RefreshScanSelectedGhostInfo();
                                 }
@@ -980,7 +981,8 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
                             }
                         } else {
                             SetInterpolationStateIfOpposite(
-                                &gTimeAttackGhostGetScan->mGhostInfoEntries[entryIndex].mInterpolation, 2);
+                                &gTimeAttackGhostGetScan->mGhostInfoEntries[entryIndex].mInterpolation,
+                                INTERPOLATION_STATE_FALLING);
                             gTimeAttackGhostGetScan->mGhostInfoEntries[entryIndex].mFilled = FALSE;
                         }
                     }
@@ -1121,7 +1123,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
                 RequestTxtSystemClose();
                 gTimeAttackGhostGetScan->mNextCallbacksIndex = 2;
                 gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_SLIDE_OUT;
-                SetInterpolationStateIfOpposite(&gTimeAttackGhostGetScan->mInterpolation, 2);
+                SetInterpolationStateIfOpposite(&gTimeAttackGhostGetScan->mInterpolation, INTERPOLATION_STATE_FALLING);
             } else {
                 gTimeAttackGhostGetScan->mGhostSlot = FindUnfilledGhostSlot();
                 GetSlotGhostBuffer()->mHead.mFilled = 1;

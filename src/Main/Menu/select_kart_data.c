@@ -602,9 +602,9 @@ int AdvanceSelectKart(void) {
                 gSelectKart->mStateFrames = 0;
                 gSelectKart->mResult = 2;
                 StartSelectKartEntryListKindIfUsed(0);
-                SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[1], 2);
-                SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[3], 2);
-                SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[4], 2);
+                SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[1], INTERPOLATION_STATE_FALLING);
+                SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[3], INTERPOLATION_STATE_FALLING);
+                SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[4], INTERPOLATION_STATE_FALLING);
                 gSelectKart->mState = SELECT_KART_STATE_SLIDE_OUT;
                 if (gSelectKart->mMode != SELECT_KART_MODE_NO_CONNECTION) {
                     value = 1;
@@ -687,11 +687,11 @@ int AdvanceSelectKart(void) {
         case SELECT_KART_STATE_HOLD:
             selectKart->mStateFrames = selectKart->mStateFrames + 1;
             if (gSelectKart->mStateFrames > 0x3c) {
-                SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[0], 2);
-                SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[1], 2);
-                SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[2], 2);
-                SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[3], 2);
-                SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[4], 2);
+                SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[0], INTERPOLATION_STATE_FALLING);
+                SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[1], INTERPOLATION_STATE_FALLING);
+                SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[2], INTERPOLATION_STATE_FALLING);
+                SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[3], INTERPOLATION_STATE_FALLING);
+                SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[4], INTERPOLATION_STATE_FALLING);
                 if (gSelectKart->mMode == SELECT_KART_MODE_WIFI_SESSION) {
                     WriteWiFiSessionToRaceSetupCopy();
                     StartSelectKartEntryListKindIfUsed(3);

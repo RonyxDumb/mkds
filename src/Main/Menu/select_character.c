@@ -459,9 +459,9 @@ void StartSelectCharacterReturn(void) {
     gSelectCharacter->mState = SELECT_CHARACTER_STATE_SCALE_OUT;
     RequestSelectReturnState3WithSound(0);
     StartPlayerEntryListKindIfUsed(3);
-    SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[0], 2);
-    SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[1], 2);
-    SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[2], 2);
+    SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[0], INTERPOLATION_STATE_FALLING);
+    SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[1], INTERPOLATION_STATE_FALLING);
+    SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[2], INTERPOLATION_STATE_FALLING);
     StartKartModelMenuBg0Decrease();
 }
 
@@ -604,7 +604,7 @@ void SetupSelectCharacterRow(s32 previousTableIndex) {
     }
     RefreshSelectCharacterRowCells();
     QueueSelectCharacterNameChars();
-    SetInterpolationState(&gSelectCharacter->mInterpolations[0], 0);
+    SetInterpolationState(&gSelectCharacter->mInterpolations[0], INTERPOLATION_STATE_RISING);
     gSelectCharacter->mCharacterIndex = gSelectCharacter->mRows[gSelectCharacter->mTableIndex].mCharacterIndex;
     gSelectCharacter->mKartIndex = GetCharacterKartIndexByMode(gSelectCharacter->mCharacterIndex);
 }
@@ -1092,7 +1092,8 @@ int AdvanceSelectCharacter(void) {
                             StartPlayerEntryListKindIfUsed(1);
                             StartKartModelMenuTimedSpinStop();
                             gSelectCharacter->mState = SELECT_CHARACTER_STATE_SCALE_OUT;
-                            SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[1], 2);
+                            SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[1],
+                                                            INTERPOLATION_STATE_FALLING);
                         }
                         break;
                     case SELECT_CHARACTER_MODE_CONNECTION:
@@ -1101,7 +1102,8 @@ int AdvanceSelectCharacter(void) {
                             if (gConnectionWork->mState == CONNECTION_STATE_SYNCED) {
                                 gConnectionWork->mDataSharingSendByte = flaggedCharacterIndex;
                             }
-                            SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[1], 2);
+                            SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[1],
+                                                            INTERPOLATION_STATE_FALLING);
                             StartPlayerEntryListKindIfUsed(1);
                             gSelectCharacter->mState = SELECT_CHARACTER_STATE_SCALE_OUT;
                             StartKartModelMenuTimedSpinStop();
@@ -1116,7 +1118,8 @@ int AdvanceSelectCharacter(void) {
                         break;
                     case SELECT_CHARACTER_MODE_WIFI_SESSION:
                         SetWiFiSessionOwnCharacterIndex(selectCharacterReload->mCharacterIndex);
-                        SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[1], 2);
+                        SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[1],
+                                                        INTERPOLATION_STATE_FALLING);
                         StartPlayerEntryListKindIfUsed(1);
                         gSelectCharacter->mState = SELECT_CHARACTER_STATE_SCALE_OUT;
                         StartKartModelMenuTimedSpinStop();
@@ -1134,7 +1137,7 @@ int AdvanceSelectCharacter(void) {
                     gSelectCharacter->mState = SELECT_CHARACTER_STATE_WAIT_HOLD;
                 } else {
                     StartPlayerEntryListKindIfUsed(1);
-                    SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[1], 2);
+                    SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[1], INTERPOLATION_STATE_FALLING);
                     gSelectCharacter->mState = SELECT_CHARACTER_STATE_SCALE_OUT;
                 }
             }
@@ -1148,7 +1151,7 @@ int AdvanceSelectCharacter(void) {
                 } else {
                     StartPlayerEntryListKindIfUsed(2);
                 }
-                SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[1], 2);
+                SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[1], INTERPOLATION_STATE_FALLING);
                 if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
                     StartKartModelMenuBg0Decrease();
                 } else if (GetRaceSetupCopy()->mMode == 2) {
