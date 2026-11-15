@@ -11,7 +11,7 @@ u8 GetKartStartRank(u32 kart);
 u8 GetKartPreviousWinCount(u32 kart);
 u16 GetKartPreviousTotalPoints(u32 kart);
 s32 GetCupWinningTeam(void);
-s32 GetKartCupRank(u32 kart);
+s32 GetKartCupRank(u16 kart);
 void SetTeamWinCountsAndPoints(s32 winningTeam);
 void SetCupWinningTeam(s32 team);
 void SetKartCupRank(s32 kart, u8 rank);

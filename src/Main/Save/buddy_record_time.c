@@ -492,7 +492,7 @@ void AddWiFiRaceBuddyRecordResults(void) {
         return;
     }
     GetClockDateOrDefault(date);
-    ownCupRank = GetKartCupRank((u16) gRaceSetup->mEntryIndex);
+    ownCupRank = GetKartCupRank(gRaceSetup->mEntryIndex);
     ownPoints = GetCupKartTotalPoints(gRaceSetup->mEntryIndex);
     otherKartCount = gWiFiSession->mKartCountCopy - 1;
     kartCountCopy = gWiFiSession->mKartCountCopy;

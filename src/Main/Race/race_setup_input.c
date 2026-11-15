@@ -364,7 +364,7 @@ BOOL CopyEntryResultAndSetupAwardRace(void) {
     s32 rankIndex;
     KartCourseResult *courseResult;
     entryIndex = gRaceSetup->mEntryIndex;
-    gMenuShared->mCupRankIndex = GetKartCupRank((u16) entryIndex) - 1;
+    gMenuShared->mCupRankIndex = GetKartCupRank(entryIndex) - 1;
     gMenuShared->mGrade = ComputeGrandPrixRecordValue();
     gMenuShared->mCharacterIndex = gRaceSetup->mCurrentEntries[(u8) entryIndex].mCharacterIndex;
     gMenuShared->mCupIndex = gRaceSetup->mCupIndex;
@@ -380,14 +380,14 @@ BOOL CopyEntryResultAndSetupAwardRace(void) {
         GetKartCourseFinishTime(&finishTime, (u16) gRaceSetup->mEntryIndex, index);
         gMenuShared->mCourseTimes[index] = finishTime;
     }
-    if ((u32) GetKartCupRank((u16) gRaceSetup->mEntryIndex) > 3) {
+    if ((u32) GetKartCupRank(gRaceSetup->mEntryIndex) > 3) {
         return FALSE;
     }
     gRaceSetup->mNextHeader.mCourseId = COURSE_ID_AWARD;
     gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_AWARD;
     for (index = 0; index < 3; index++) {
         for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex++) {
-            if (GetKartCupRank((u16) kartIndex) == index + 1) {
+            if (GetKartCupRank(kartIndex) == index + 1) {
                 break;
             }
         }
@@ -402,7 +402,7 @@ BOOL CopyEntryResultAndSetupAwardRace(void) {
         gMenuShared->mCupRankKartIndices[rankIndex] = gRaceSetup->mCurrentEntries[index].mKartIndex;
         gMenuShared->mCupRankCharacterIndices[rankIndex] = gRaceSetup->mCurrentEntries[index].mCharacterIndex;
     }
-    gRaceSetup->mNextHeader.mFollowedKartIndex = GetKartCupRank((u16) gRaceSetup->mEntryIndex) - 1;
+    gRaceSetup->mNextHeader.mFollowedKartIndex = GetKartCupRank(gRaceSetup->mEntryIndex) - 1;
     return TRUE;
 }
 
@@ -421,7 +421,7 @@ void SetupStaffRollRace(s32 useTrueStaffRoll) {
     gRaceSetup->mNextHeader.mFollowedKartIndex = 0;
     for (index = 0; index < 8; index++) {
         for (searchIndex = 0; searchIndex < gRaceSetup->mKartCount; searchIndex++) {
-            if (GetKartCupRank((u16) searchIndex) == index + 1) {
+            if (GetKartCupRank(searchIndex) == index + 1) {
                 break;
             }
         }
@@ -936,7 +936,7 @@ void SetNextRaceByMode(void) {
                 for (rankIndex = 0; rankIndex < 8; rankIndex++) {
                     s8 rankKartIndex;
                     for (rankKartIndex = 0; rankKartIndex < gRaceSetup->mKartCount; rankKartIndex++) {
-                        if (rankIndex + 1 == GetKartCupRank((u16) rankKartIndex)) {
+                        if (rankIndex + 1 == GetKartCupRank(rankKartIndex)) {
                             break;
                         }
                     }

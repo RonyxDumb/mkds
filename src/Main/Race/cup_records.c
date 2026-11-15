@@ -233,7 +233,7 @@ void SetTeamWinCountsAndPoints(s32 winningTeam) {
 }
 
 // Zero outside Grand Prix, VS and mode 5.
-s32 GetKartCupRank(u32 kart) {
+s32 GetKartCupRank(u16 kart) {
     s32 mode;
     KartCourseResult *record;
 
