@@ -29,6 +29,21 @@ enum {
     DOSSUN_STATE_FOLLOW_AT_SET_SPEED,
 };
 
+// Values of CourseMapGroupEntry.mExtraValue on a Dossun path: the state the Dossun starts in when it reaches the entry.
+enum {
+    DOSSUN_PATH_ENTRY_WAIT_START,
+    DOSSUN_PATH_ENTRY_HOVER,
+    DOSSUN_PATH_ENTRY_WAIT_BEFORE_FOLLOW,
+};
+
+// Values of Dossun.mHitState: 1 = a kart hit it and it spins off along the path, 2 = it reached the path end and the
+// spin dies down.
+enum {
+    DOSSUN_HIT_NONE,
+    DOSSUN_HIT_SLIDING,
+    DOSSUN_HIT_SPIN_SETTLING,
+};
+
 // Object with the GroupFollower base at 0xc8 and its own fields from 0xec.
 typedef struct Dossun {
     /* 00 */ MapObject mMapObject;
