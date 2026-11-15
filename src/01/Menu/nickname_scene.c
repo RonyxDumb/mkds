@@ -36,7 +36,7 @@ void InitNicknameSceneObject(void *heap, s16 previousScene) {
     textParams.mBackScreenKind = 0;
     LoadTxtSystemAndSelectChoisesAndSelectReturnData();
     InitSceneText(heap, &textParams);
-    gNicknameScene->mUnk_0c = previousScene;
+    gNicknameScene->mPreviousScene = previousScene;
     gNicknameScene->mNextScene = NICKNAME_SCENE_NEXT_NONE;
     gNicknameScene->mState = NICKNAME_SCENE_STATE_WAIT_FADE;
     gNicknameScene->mNextState = gNicknameScene->mState;

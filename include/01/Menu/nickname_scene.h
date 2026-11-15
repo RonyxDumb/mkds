@@ -36,7 +36,7 @@ typedef struct NicknameScene {
     /* 00 */ s32 mState;
     /* 04 */ s32 mNextState;
     /* 08 */ void *mHeap;
-    /* 0c */ s16 mUnk_0c;
+    /* 0c */ s16 mPreviousScene;
     /* 0e */ s16 mNextScene;
     /* 10 */ void *mSceneDisplaySettings;
     /* 14 */ struct Bmg *mCommonMessages;
