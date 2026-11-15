@@ -431,7 +431,7 @@ void WriteApEntryToNvram(s32 entryIndex) {
         }
     }
     workBuffer = AllocExpHeapBlock(0x100, 0x20);
-    WriteFlaggedNvramEntries((s32) gApStore, entryFlags, workBuffer);
+    WriteFlaggedNvramEntries(gApStore, entryFlags, workBuffer);
     FreeExpHeapBlockAndClearPointer(&workBuffer);
 }
 

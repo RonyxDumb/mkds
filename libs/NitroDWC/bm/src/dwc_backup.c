@@ -79,7 +79,7 @@ u32 ReadNvramEntries(void *buffer) {
     return 0;
 }
 
-u32 WriteFlaggedNvramEntries(int data, int *flags, void *verifyBuffer) {
+u32 WriteFlaggedNvramEntries(void *data, int *flags, void *verifyBuffer) {
     int verifyResult;
     int entrySize;
     int disableResult;
@@ -93,8 +93,8 @@ u32 WriteFlaggedNvramEntries(int data, int *flags, void *verifyBuffer) {
     do {
         if (*flagPointer != 0) {
             do {
-                writeNvram(address, entrySize, (void *) data);
-                verifyResult = verify((const u8 *) data, address, entrySize, verifyBuffer);
+                writeNvram(address, entrySize, data);
+                verifyResult = verify(data, address, entrySize, verifyBuffer);
             } while (verifyResult == 0);
         }
         flagPointer = flagPointer + 1;
