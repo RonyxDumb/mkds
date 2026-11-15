@@ -881,7 +881,7 @@ Expression shapes:
 - Memory locals (those whose address is used) go in the frame in size groups, smallest first: 1 byte, 2 bytes, 3 to
   8 bytes, 9 to 64 bytes, over 64; within a group in declaration order. A struct the decompiler made from adjacent
   stack bytes that sits wrong against a smaller local is separate locals (`s8 d; s16 g; s16 h; u8 k[8];`,
-  SendPacketKind2000). Two locals in the 9 to 64 group: declaration order decides (`Vec3 v;` before `Unk0210b7a8
+  SendWantedMaskPacket). Two locals in the 9 to 64 group: declaration order decides (`Vec3 v;` before `Unk0210b7a8
   s;`, func_0209d84c).
 - A local declared inside a loop body gets a higher slot than any function-scope local: declare it at function
   scope (CheckUsbScanEntries).

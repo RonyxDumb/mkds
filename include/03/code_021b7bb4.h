@@ -112,7 +112,7 @@ enum {
     RECORD_ITEM_FOUR_VALUE_LONG_STRING = 0x25,
 };
 
-// Type of the item CopyFirstItemValueIfType0x70 copies.
+// Type of the item CopyFirstItemValueIfSlotBytes copies.
 #define SLOT_BYTES_ITEM 0x70
 
 typedef struct PacketItem {
@@ -206,23 +206,23 @@ void FillPacketHeader(void *buffer, s32 kind, s32 payloadLength, s32 flags, s8 p
                       const u8 *tagBytes);
 void FillPayloadRecord(s32 useKeyStream, void *destination, const void *source, s16 *length, s16 *flags, s8 *crc);
 s16 BuildTwoItemChain(void *buffer);
-s32 SendPacketKind3000(SendPacketScratch *buf, PacketTag *list, s32 descriptor);
-s32 SendPacketKind2000(SendPacketScratch *buf, PacketTag *list, s32 descriptor);
-s32 SendPacketKind1000(SendPacketScratch *buf, PacketTag *list, s32 descriptor);
+s32 SendFinishPacket(SendPacketScratch *buf, PacketTag *list, s32 descriptor);
+s32 SendWantedMaskPacket(SendPacketScratch *buf, PacketTag *list, s32 descriptor);
+s32 SendItemChainPacket(SendPacketScratch *buf, PacketTag *list, s32 descriptor);
 s32 ReportStateAndSendPacketForMode(s32 mode, SendPacketScratch *buf, PacketTag *list, s32 id);
-s32 IsBit4Set(u32 value);
+s32 IsKeyStreamFlagSet(u32 value);
 s32 FindItemAndParseSubItems(s32 index, PacketItem *item, s32 remaining, ParsedItems *parsedItems, u8 *slots);
-s32 CopyFirstItemValueIfType0x70(PacketItem *container, u8 *output);
+s32 CopyFirstItemValueIfSlotBytes(PacketItem *container, u8 *output);
 s32 ParseSingleValueItems(PacketItem *container, SingleValueRecord *record);
 s32 ParseFourValueItems(PacketItem *container, FourValueRecord *record);
 u32 ReadLittleEndianValue(const u8 *bytes, s32 count);
 s32 ParseItemChain(PacketItem *firstItem, u8 *slots);
 s32 XorSwapAndCheckTag(PacketTag *expectedTag, PacketTag *incomingTag);
-s32 CheckTagAgainstSavedBytesOrKind1000(s32 kind, const u8 *tag);
+s32 CheckTagAgainstSavedBytesOrFirstRequest(s32 kind, const u8 *tag);
 s32 CheckPacketAndXorPayload(Packet *packet);
-s32 AdvanceStepForKind3010(s32 mode, PacketBuffer *buffer, s32 *attempts, PacketTag *list);
-s32 AdvanceStepForKind2010(s32 mode, PacketBuffer *buffer, s32 *attempts, PacketTag *list);
-s32 AdvanceStepForKind1010(s32 mode, PacketBuffer *buffer, s32 *attempts, PacketTag *list);
+s32 AdvanceStepForFinishReply(s32 mode, PacketBuffer *buffer, s32 *attempts, PacketTag *list);
+s32 AdvanceStepForRecordsReply(s32 mode, PacketBuffer *buffer, s32 *attempts, PacketTag *list);
+s32 AdvanceStepForItemChainReply(s32 mode, PacketBuffer *buffer, s32 *attempts, PacketTag *list);
 s32 AdvanceStepByKind(s32 mode, PacketBuffer *buffer, s32 *attempts, PacketTag *list, s32 descriptor);
 s32 ReportStateChange(s32 state);
 void FillPacketTags(s32 count, PacketTag *tags, const u8 *tagBytes);

@@ -54,7 +54,7 @@ s32 gSocketDescriptor = -1;
 RetryLimit gRetryLimitTemplate = {-1, -1};
 s32 gRandomSeeded;
 EssidEntryList *gScannedEssidList;
-s32 gFlagBit4OfKind1010Packet;
+s32 gKeyStreamAccepted;
 EssidEntryList *gRequestedEssidList;
 PacketBuffer *gRequestPacketBuffer;
 s32 gErrorCode;
@@ -777,19 +777,19 @@ s32 AdvanceStepByKind(s32 mode, PacketBuffer *buffer, s32 *attempts, PacketTag *
     kind = SwapBytes16(header->mKind);
     switch (kind) {
         case 0x1010:
-            mode = AdvanceStepForKind1010(mode, buffer, attempts, list);
+            mode = AdvanceStepForItemChainReply(mode, buffer, attempts, list);
             break;
         case 0x2010:
-            mode = AdvanceStepForKind2010(mode, buffer, attempts, list);
+            mode = AdvanceStepForRecordsReply(mode, buffer, attempts, list);
             break;
         case 0x3010:
-            mode = AdvanceStepForKind3010(mode, buffer, attempts, list);
+            mode = AdvanceStepForFinishReply(mode, buffer, attempts, list);
             break;
     }
     return mode;
 }
 
-s32 AdvanceStepForKind1010(s32 mode, PacketBuffer *buffer, s32 *attempts, PacketTag *list) {
+s32 AdvanceStepForItemChainReply(s32 mode, PacketBuffer *buffer, s32 *attempts, PacketTag *list) {
     Packet *packet;
     ItemContainerView *payload;
     u32 *valuePointer;
@@ -833,12 +833,12 @@ s32 AdvanceStepForKind1010(s32 mode, PacketBuffer *buffer, s32 *attempts, Packet
         (*attempts)++;
         return mode;
     }
-    gFlagBit4OfKind1010Packet = IsBit4Set(SwapBytes16(packet->mFlags));
+    gKeyStreamAccepted = IsKeyStreamFlagSet(SwapBytes16(packet->mFlags));
     *attempts = 0;
     return 1;
 }
 
-s32 AdvanceStepForKind2010(s32 mode, PacketBuffer *buffer, s32 *attempts, PacketTag *list) {
+s32 AdvanceStepForRecordsReply(s32 mode, PacketBuffer *buffer, s32 *attempts, PacketTag *list) {
     Packet *packet;
     ItemContainerView *payload;
     s32 result;
@@ -881,7 +881,7 @@ s32 AdvanceStepForKind2010(s32 mode, PacketBuffer *buffer, s32 *attempts, Packet
     return 2;
 }
 
-s32 AdvanceStepForKind3010(s32 mode, PacketBuffer *buffer, s32 *attempts, PacketTag *list) {
+s32 AdvanceStepForFinishReply(s32 mode, PacketBuffer *buffer, s32 *attempts, PacketTag *list) {
     Packet *packet;
     ItemContainerView *payload;
     s32 result;
@@ -933,7 +933,7 @@ s32 CheckPacketAndXorPayload(Packet *packet) {
         SetErrorCode(2);
         return -100;
     }
-    result = CheckTagAgainstSavedBytesOrKind1000(SwapBytes16(packet->mKind), tag);
+    result = CheckTagAgainstSavedBytesOrFirstRequest(SwapBytes16(packet->mKind), tag);
     if (result != 0) {
         return result;
     }
@@ -963,7 +963,7 @@ s32 CheckPacketAndXorPayload(Packet *packet) {
     return 0;
 }
 
-s32 CheckTagAgainstSavedBytesOrKind1000(s32 kind, const u8 *tag) {
+s32 CheckTagAgainstSavedBytesOrFirstRequest(s32 kind, const u8 *tag) {
     s32 result;
     s32 byteIndex;
     BOOL found;
@@ -1168,7 +1168,7 @@ s32 ParseSingleValueItems(PacketItem *container, SingleValueRecord *record) {
     }
 }
 
-s32 CopyFirstItemValueIfType0x70(PacketItem *container, u8 *output) {
+s32 CopyFirstItemValueIfSlotBytes(PacketItem *container, u8 *output) {
     PacketItem *item = (PacketItem *) container->mValue;
     s32 length;
     length = SwapBytes16(item->mLength);
@@ -1233,7 +1233,7 @@ s32 FindItemAndParseSubItems(s32 index, PacketItem *item, s32 remaining, ParsedI
                 foundMask |= 8;
                 break;
             case GROUP_SUB_ITEM_SLOT_BYTES:
-                result = CopyFirstItemValueIfType0x70(item, slotBytes);
+                result = CopyFirstItemValueIfSlotBytes(item, slotBytes);
                 break;
             default:
                 result = -3;
@@ -1250,7 +1250,7 @@ s32 FindItemAndParseSubItems(s32 index, PacketItem *item, s32 remaining, ParsedI
     return 0;
 }
 
-s32 IsBit4Set(u32 value) {
+s32 IsKeyStreamFlagSet(u32 value) {
     BOOL result = FALSE;
     if (value & 0x10) {
         result = TRUE;
@@ -1263,18 +1263,18 @@ s32 ReportStateAndSendPacketForMode(s32 mode, SendPacketScratch *buf, PacketTag 
     switch (mode) {
         case 0:
             ReportStateChange(2);
-            return SendPacketKind1000(buf, list, descriptor);
+            return SendItemChainPacket(buf, list, descriptor);
         case 1:
             ReportStateChange(3);
-            return SendPacketKind2000(buf, list, descriptor);
+            return SendWantedMaskPacket(buf, list, descriptor);
         case 2:
             ReportStateChange(5);
-            return SendPacketKind3000(buf, list, descriptor);
+            return SendFinishPacket(buf, list, descriptor);
     }
     return -1;
 }
 
-s32 SendPacketKind1000(SendPacketScratch *buf, PacketTag *list, s32 descriptor) {
+s32 SendItemChainPacket(SendPacketScratch *buf, PacketTag *list, s32 descriptor) {
     PacketFieldValues fields;
     PacketBuffer *packetBuffer;
     ItemContainer *container;
@@ -1322,7 +1322,7 @@ s32 SendPacketKind1000(SendPacketScratch *buf, PacketTag *list, s32 descriptor) 
     return 0;
 }
 
-s32 SendPacketKind2000(SendPacketScratch *buf, PacketTag *list, s32 descriptor) {
+s32 SendWantedMaskPacket(SendPacketScratch *buf, PacketTag *list, s32 descriptor) {
     s8 payloadCrc;
     s16 payloadLength;
     s16 flags;
@@ -1341,7 +1341,7 @@ s32 SendPacketKind2000(SendPacketScratch *buf, PacketTag *list, s32 descriptor) 
     item.mFirstWord = gRequestState.mWantedRecordMask;
     item.mFirstWord = SwapBytes32(item.mFirstWord);
     payloadLength = 8;
-    FillPayloadRecord(gFlagBit4OfKind1010Packet, &packetBuffer->mBytes[12], &item, &payloadLength, &flags, &payloadCrc);
+    FillPayloadRecord(gKeyStreamAccepted, &packetBuffer->mBytes[12], &item, &payloadLength, &flags, &payloadCrc);
     CopyBytes(tagBytes, &list[1], 8);
     if (XorAndSwapBytesWithKey(tagBytes, 8, gMelcoString, 6) != 0) {
         SetErrorCode(2);
@@ -1353,7 +1353,7 @@ s32 SendPacketKind2000(SendPacketScratch *buf, PacketTag *list, s32 descriptor) 
     return 0;
 }
 
-s32 SendPacketKind3000(SendPacketScratch *buf, PacketTag *list, s32 descriptor) {
+s32 SendFinishPacket(SendPacketScratch *buf, PacketTag *list, s32 descriptor) {
     PacketBuffer *packetBuffer;
     u8 tagBytes[8];
     packetBuffer = gRequestPacketBuffer;

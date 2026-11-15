@@ -36,23 +36,23 @@ SendPacket kind:function(thumb,size=0x68) addr:0x021b8238
 FillPacketHeader kind:function(thumb,size=0x5e) addr:0x021b82a0
 FillPayloadRecord kind:function(thumb,size=0x5c) addr:0x021b8300
 BuildTwoItemChain kind:function(thumb,size=0x8c) addr:0x021b835c
-SendPacketKind3000 kind:function(thumb,size=0x70) addr:0x021b83e8
-SendPacketKind2000 kind:function(thumb,size=0xf4) addr:0x021b8458
-SendPacketKind1000 kind:function(thumb,size=0x158) addr:0x021b854c
+SendFinishPacket kind:function(thumb,size=0x70) addr:0x021b83e8
+SendWantedMaskPacket kind:function(thumb,size=0xf4) addr:0x021b8458
+SendItemChainPacket kind:function(thumb,size=0x158) addr:0x021b854c
 ReportStateAndSendPacketForMode kind:function(thumb,size=0x62) addr:0x021b86a4
-IsBit4Set kind:function(thumb,size=0x10) addr:0x021b8708
+IsKeyStreamFlagSet kind:function(thumb,size=0x10) addr:0x021b8708
 FindItemAndParseSubItems kind:function(thumb,size=0x124) addr:0x021b8718
-CopyFirstItemValueIfType0x70 kind:function(thumb,size=0x44) addr:0x021b883c
+CopyFirstItemValueIfSlotBytes kind:function(thumb,size=0x44) addr:0x021b883c
 ParseSingleValueItems kind:function(thumb,size=0xce) addr:0x021b8880
 ParseFourValueItems kind:function(thumb,size=0x162) addr:0x021b8950
 ReadLittleEndianValue kind:function(thumb,size=0x22) addr:0x021b8ab4
 ParseItemChain kind:function(thumb,size=0xd8) addr:0x021b8ad8
 XorSwapAndCheckTag kind:function(thumb,size=0x54) addr:0x021b8bb0
-CheckTagAgainstSavedBytesOrKind1000 kind:function(thumb,size=0x48) addr:0x021b8c04
+CheckTagAgainstSavedBytesOrFirstRequest kind:function(thumb,size=0x48) addr:0x021b8c04
 CheckPacketAndXorPayload kind:function(thumb,size=0x110) addr:0x021b8c4c
-AdvanceStepForKind3010 kind:function(thumb,size=0xc2) addr:0x021b8d5c
-AdvanceStepForKind2010 kind:function(thumb,size=0x108) addr:0x021b8e20
-AdvanceStepForKind1010 kind:function(thumb,size=0x110) addr:0x021b8f28
+AdvanceStepForFinishReply kind:function(thumb,size=0xc2) addr:0x021b8d5c
+AdvanceStepForRecordsReply kind:function(thumb,size=0x108) addr:0x021b8e20
+AdvanceStepForItemChainReply kind:function(thumb,size=0x110) addr:0x021b8f28
 AdvanceStepByKind kind:function(thumb,size=0xbc) addr:0x021b9038
 ReportStateChange kind:function(thumb,size=0x38) addr:0x021b90f4
 FillPacketTags kind:function(thumb,size=0x38) addr:0x021b912c
@@ -1469,7 +1469,7 @@ gDwcUtilityBinName kind:data(byte[21]) addr:0x021d7ba0
 gTextCanvasNftrNames kind:data(byte[8]) addr:0x021d7bcc
 @892 kind:data(byte[16]) addr:0x021d7bd4 local
 @893 kind:data(byte[16]) addr:0x021d7be4 local
-gFlagBit4OfKind1010Packet kind:bss(size=0x4) addr:0x021d7c00
+gKeyStreamAccepted kind:bss(size=0x4) addr:0x021d7c00
 gScannedEssidList kind:bss(size=0x4) addr:0x021d7c04
 gRandomSeeded kind:bss(size=0x4) addr:0x021d7c08
 gRequestedEssidList kind:bss(size=0x4) addr:0x021d7c0c
