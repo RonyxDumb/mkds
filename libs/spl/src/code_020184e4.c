@@ -1714,7 +1714,7 @@ void SPLUtil_SetTexture(ParticleTexture *tex) {
     texParam = tex->mParam;
     SetTexImageParam(tex->mTextureVramAddr, texParam.mFormat, texParam.mSizeS, texParam.mSizeT, texParam.mWrapS,
                      texParam.mWrapT, texParam.mColor0Transparent);
-    reg_G3_PLTT_BASE = tex->mPaletteVramAddr >> (4 - (texParam.mFormat == 2 ? 1 : 0));
+    reg_G3_PLTT_BASE = tex->mPaletteVramAddr >> (4 - (texParam.mFormat == PARTICLE_TEXTURE_FORMAT_FOUR_COLOR ? 1 : 0));
     reg_G3_MTX_MODE = 3;
     reg_G3_MTX_IDENTITY = 0;
     scaleX = TO_FIXED12(tex->mWidth);
@@ -2222,7 +2222,8 @@ s32 SPLManager_UploadTexturesEx(SPLManager *mgr, u32 (*vramAlloc)(s32 size, s32 
         if (textureHeader->mImageParam.mSharesTexture) {
             texture->mTextureVramAddr = mgr->mTextures[textureHeader->mImageParam.mSharedTextureIndex].mTextureVramAddr;
         } else {
-            vramAddr = vramAlloc(textureHeader->mTextureSize, textureHeader->mImageParam.mFormat == 5 ? 1 : 0);
+            vramAddr = vramAlloc(textureHeader->mTextureSize,
+                                 textureHeader->mImageParam.mFormat == PARTICLE_TEXTURE_FORMAT_COMPRESSED ? 1 : 0);
             GX_LoadTex((u8 *) texture->mHeader + 0x20, vramAddr, textureHeader->mTextureSize);
             texture->mTextureVramAddr = vramAddr;
         }
@@ -2243,7 +2244,8 @@ s32 SPLManager_UploadPalettesEx(SPLManager *mgr, u32 (*vramAlloc)(s32 size, s32 
         textureHeader = texture->mHeader;
         vramAddr = 0;
         if (textureHeader->mPaletteSize != 0) {
-            vramAddr = vramAlloc(textureHeader->mPaletteSize, textureHeader->mImageParam.mFormat == 2 ? 1 : 0);
+            vramAddr = vramAlloc(textureHeader->mPaletteSize,
+                                 textureHeader->mImageParam.mFormat == PARTICLE_TEXTURE_FORMAT_FOUR_COLOR ? 1 : 0);
             GX_LoadTexPltt((u8 *) texture->mHeader + textureHeader->mPaletteOffset, vramAddr,
                            textureHeader->mPaletteSize);
         }

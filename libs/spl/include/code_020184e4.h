@@ -10,6 +10,13 @@ extern void (*gSplRotateFunctions[2])(s32 sinValue, s32 cosValue, MtxFx43 *mtx);
 extern Vec3s16 gSplEmitterUpAxis;
 extern void (*gSplPlaneDrawFunctions[2])(u32 texCoordU, u32 texCoordV, s32 centerA, s32 centerB);
 
+// ParticleTextureParam.mFormat values the code tells apart: the four-color palette format loads its palette at half the
+// address step, and the block-compressed format is allocated in the special texture memory.
+enum {
+    PARTICLE_TEXTURE_FORMAT_FOUR_COLOR = 2,
+    PARTICLE_TEXTURE_FORMAT_COMPRESSED = 5
+};
+
 // Word at ParticleTexture 0x0c and ParticleTextureHeader 0x04.
 typedef struct ParticleTextureParam {
     /* 00 */ u32 mFormat : 4;
