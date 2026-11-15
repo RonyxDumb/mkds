@@ -18,8 +18,6 @@
 #include "code_021382a8.h"
 #include "00/Lib/NitroWiFi/socl_startup.h"
 
-extern u8 gEnc1[16];
-
 typedef struct CdKeyTooLongText {
     /* 00 */ s8 mUnk_00[0x1d];
 } CdKeyTooLongText;

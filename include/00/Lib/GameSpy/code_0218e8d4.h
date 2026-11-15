@@ -23,8 +23,8 @@ typedef struct GetInfoReply GetInfoReply;
 
 typedef struct ProfileSearchReply ProfileSearchReply;
 
-typedef void (*GpGetInfoCb)(GpConnection *a, GetInfoReply *b, u32 c);
-typedef void (*GpProfileSearchCb)(GpConnection *a, ProfileSearchReply *b, u32 c);
+typedef void (*GpGetInfoCb)(GpConnection *connection, GetInfoReply *reply, u32 param);
+typedef void (*GpProfileSearchCb)(GpConnection *connection, ProfileSearchReply *reply, u32 param);
 
 u32 GpIsBuddy(GpConnection *connection, u32 profile);
 u32 GpGetBuddyIndex(GpConnection *connection, u32 profile, s32 *index);
@@ -45,7 +45,7 @@ typedef struct GpConnection GpConnection;
 
 typedef struct ConnectReply ConnectReply;
 
-typedef void (*GpConnectCb)(GpConnection *a, ConnectReply *b, u32 c);
+typedef void (*GpConnectCb)(GpConnection *connection, ConnectReply *reply, u32 param);
 
 u32 GpConnectPreAuthenticatedA(GpConnection *connection, s8 *authtoken, s8 *partnerchallenge, s32 firewall,
                                s32 blocking, GpConnectCb callback, u32 param);

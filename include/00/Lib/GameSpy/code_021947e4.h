@@ -25,4 +25,4 @@ typedef struct GpiProfile {
     /* 18 */ void *mPeerSig;
 } GpiProfile;
 
-u32 GpiIsProfileEmpty(GpiProfile *a);
+u32 GpiIsProfileEmpty(GpiProfile *profile);

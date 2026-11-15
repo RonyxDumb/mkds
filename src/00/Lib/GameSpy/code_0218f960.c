@@ -62,7 +62,7 @@ s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
     u16 netPort;
     char *str;
     u8 *cursor;
-    enum { K0 } remaining;
+    enum { REMAINING_NONE } remaining;
     GpiConnection *gpState;
     BuddyMessageData *messageArg;
     BuddyRequestData *requestArg;

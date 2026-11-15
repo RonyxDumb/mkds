@@ -12,9 +12,10 @@ typedef void (*ServerReqSaveCallback)(u32 localId, u32 profileId, s32 type, u32 
 
 typedef union ServerReqCallback {
     ServerReqAuthCallback mAuthCallback;
-    void (*mDataCallback)(u32 a, u32 b, u32 c, u32 d, s32 e, s32 f, const u8 *g, s32 h, u32 i);
+    void (*mDataCallback)(u32 localId, u32 profileId, u32 pdType, u32 pdIndex, s32 success, s32 modified,
+                          const u8 *data, s32 length, u32 instance);
     ServerReqSaveCallback mSaveCallback;
-    void (*mProfileCallback)(u32 a, u32 b, s32 c, u32 d);
+    void (*mProfileCallback)(u32 localId, u32 profileId, s32 success, u32 instance);
 } ServerReqCallback;
 
 // Values of ServerReq.mReqType: which member of ServerReqCallback CallReqCallback calls.

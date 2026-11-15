@@ -28,8 +28,8 @@ typedef struct NatTraversalEntry {
     /* 30 */ u16 mGuessedPort;
     /* 32 */ u8 mGotRemoteData;
     /* 33 */ u8 mSendGotRemoteData;
-    /* 34 */ void (*mProgressCallback)(s32 a, void *b);
-    /* 38 */ void (*mCompletedCallback)(s32 a, s32 b, void *c, void *d);
+    /* 34 */ void (*mProgressCallback)(s32 state, void *userdata);
+    /* 38 */ void (*mCompletedCallback)(s32 result, s32 descriptor, void *address, void *userdata);
     /* 3c */ void *mUserdata;
 } NatTraversalEntry;
 

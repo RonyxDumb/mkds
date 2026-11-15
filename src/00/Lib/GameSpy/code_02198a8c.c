@@ -102,7 +102,7 @@ u32 gti2ConnectionMemoryError(Gt2Connection *connection) {
     return 0;
 }
 
-enum { K0, K1 };
+enum { GT2LocalClose, GT2RemoteClose };
 
 u32 gti2HandleESN(Gt2Connection *connection, u32 esn) {
     s32 messageCount;
@@ -303,7 +303,8 @@ u32 gti2HandleClose(Gt2Connection *connection) {
     if (gti2SendClosed(connection) == 0) {
         return 0;
     }
-    if (gti2ConnectionError(connection, 2, connection->mState == GT2_CONNECTION_CLOSING ? K0 : K1) == 0) {
+    if (gti2ConnectionError(connection, 2,
+                            connection->mState == GT2_CONNECTION_CLOSING ? GT2LocalClose : GT2RemoteClose) == 0) {
         return 0;
     }
     return 1;
@@ -580,7 +581,8 @@ u32 gti2HandleClosed(Gt2Connection *connection) {
     if (connection->mState == GT2_CONNECTION_CLOSED) {
         return 1;
     }
-    if (gti2ConnectionError(connection, 2, connection->mState == GT2_CONNECTION_CLOSING ? K0 : K1) == 0) {
+    if (gti2ConnectionError(connection, 2,
+                            connection->mState == GT2_CONNECTION_CLOSING ? GT2LocalClose : GT2RemoteClose) == 0) {
         return 0;
     }
     return 1;
