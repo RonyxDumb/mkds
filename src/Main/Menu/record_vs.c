@@ -77,7 +77,7 @@ struct RecordScene *gRecordScene;
 
 #pragma thumb on
 
-void AdvanceRecordVSState0(void) {
+void AdvanceRecordVSWaitFade(void) {
     int fadesClear;
     fadesClear = AreBrightnessFadesClear();
     if (fadesClear != 0) {
@@ -89,7 +89,7 @@ void AdvanceRecordVSState0(void) {
 
 #pragma thumb on
 
-void AdvanceRecordVSState1(void) {
+void AdvanceRecordVSSlideInMain(void) {
     u16 transientBase;
     u16 mainBase;
     s32 rowIndex;
@@ -128,7 +128,7 @@ void AdvanceRecordVSState1(void) {
     }
 }
 
-void AdvanceRecordVSState2(void) {
+void AdvanceRecordVSSlideInSub(void) {
     s16 offset;
     s32 rowIndex;
     u16 subBase;
@@ -162,7 +162,7 @@ void AdvanceRecordVSState2(void) {
 
 #pragma thumb on
 
-void AdvanceRecordVSState3(void) {
+void AdvanceRecordVSWaitReturnButton(void) {
     int selectReturnState2NoRequest;
     selectReturnState2NoRequest = IsSelectReturnShownNoRequest();
     if (selectReturnState2NoRequest != 0) {
@@ -174,7 +174,7 @@ void AdvanceRecordVSState3(void) {
 
 #pragma thumb on
 
-void AdvanceRecordVSState4(void) {
+void AdvanceRecordVSBrowse(void) {
     s32 downRectIndex;
     s32 pressedRectIndex;
     InputSlotIndex inputSlotIndex;
@@ -324,7 +324,7 @@ handlePageButtons:
     }
 }
 
-void AdvanceRecordVSState5(void) {
+void AdvanceRecordVSPageSlideOut(void) {
     s32 rowIndex;
     u16 transientBase;
     u16 subBase;
@@ -382,7 +382,7 @@ void AdvanceRecordVSState5(void) {
     }
 }
 
-void AdvanceRecordVSState6(void) {
+void AdvanceRecordVSPageSlideIn(void) {
     s32 rowIndex;
     u16 transientBase;
     u16 subBase;
@@ -440,7 +440,7 @@ void AdvanceRecordVSState6(void) {
     }
 }
 
-void AdvanceRecordVSState7(void) {
+void AdvanceRecordVSSubSlideOut(void) {
     s16 offset;
     s32 rowIndex;
     u16 subBase;
@@ -469,7 +469,7 @@ void AdvanceRecordVSState7(void) {
     }
 }
 
-void AdvanceRecordVSState8(void) {
+void AdvanceRecordVSMainSlideOut(void) {
     u16 transientBase;
     u16 mainBase;
     s32 rowIndex;
@@ -511,7 +511,7 @@ void AdvanceRecordVSState8(void) {
     }
 }
 
-void AdvanceRecordVSState9(void) {
+void AdvanceRecordVSPressButton(void) {
     s16 offset;
     u16 subBase;
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
@@ -526,7 +526,7 @@ void AdvanceRecordVSState9(void) {
     }
 }
 
-void AdvanceRecordVSState10(void) {
+void AdvanceRecordVSSubSlideOutRequestScreen(void) {
     s16 offset;
     s32 rowIndex;
     u16 subBase;
@@ -555,7 +555,7 @@ void AdvanceRecordVSState10(void) {
     }
 }
 
-void AdvanceRecordVSState11(void) {
+void AdvanceRecordVSSubSlideIn(void) {
     s16 offset;
     s32 rowIndex;
     u16 subBase;
@@ -590,40 +590,40 @@ void AdvanceRecordVS(void) {
     gRecordVS->mState = gRecordVS->mNextState;
     switch (gRecordVS->mState) {
         case RECORD_VS_STATE_WAIT_FADE:
-            AdvanceRecordVSState0();
+            AdvanceRecordVSWaitFade();
             break;
         case RECORD_VS_STATE_SLIDE_IN_MAIN:
-            AdvanceRecordVSState1();
+            AdvanceRecordVSSlideInMain();
             break;
         case RECORD_VS_STATE_SLIDE_IN_SUB:
-            AdvanceRecordVSState2();
+            AdvanceRecordVSSlideInSub();
             break;
         case RECORD_VS_STATE_WAIT_RETURN_BUTTON:
-            AdvanceRecordVSState3();
+            AdvanceRecordVSWaitReturnButton();
             break;
         case RECORD_VS_STATE_BROWSE:
-            AdvanceRecordVSState4();
+            AdvanceRecordVSBrowse();
             break;
         case RECORD_VS_STATE_PAGE_SLIDE_OUT:
-            AdvanceRecordVSState5();
+            AdvanceRecordVSPageSlideOut();
             break;
         case RECORD_VS_STATE_PAGE_SLIDE_IN:
-            AdvanceRecordVSState6();
+            AdvanceRecordVSPageSlideIn();
             break;
         case RECORD_VS_STATE_SUB_SLIDE_OUT:
-            AdvanceRecordVSState7();
+            AdvanceRecordVSSubSlideOut();
             break;
         case RECORD_VS_STATE_MAIN_SLIDE_OUT:
-            AdvanceRecordVSState8();
+            AdvanceRecordVSMainSlideOut();
             break;
         case RECORD_VS_STATE_PRESS_BUTTON:
-            AdvanceRecordVSState9();
+            AdvanceRecordVSPressButton();
             break;
         case RECORD_VS_STATE_SUB_SLIDE_OUT_REQUEST_SCREEN:
-            AdvanceRecordVSState10();
+            AdvanceRecordVSSubSlideOutRequestScreen();
             break;
         case RECORD_VS_STATE_SUB_SLIDE_IN:
-            AdvanceRecordVSState11();
+            AdvanceRecordVSSubSlideIn();
             break;
     }
     AdvanceRecordVSRowObjects();

@@ -69,22 +69,22 @@ void ClearRecordScreenCallbacksKeepRegisters(void);
 
 void WriteRecordVSBgOffsets(void);
 
-void AdvanceRecordVSState4(void);
-void AdvanceRecordVSState5(void);
-void AdvanceRecordVSState6(void);
-void AdvanceRecordVSState7(void);
-void AdvanceRecordVSState8(void);
-void AdvanceRecordVSState9(void);
-void AdvanceRecordVSState10(void);
-void AdvanceRecordVSState11(void);
+void AdvanceRecordVSBrowse(void);
+void AdvanceRecordVSPageSlideOut(void);
+void AdvanceRecordVSPageSlideIn(void);
+void AdvanceRecordVSSubSlideOut(void);
+void AdvanceRecordVSMainSlideOut(void);
+void AdvanceRecordVSPressButton(void);
+void AdvanceRecordVSSubSlideOutRequestScreen(void);
+void AdvanceRecordVSSubSlideIn(void);
 void AdvanceRecordVS(void);
 
-void AdvanceRecordVSState3(void);
+void AdvanceRecordVSWaitReturnButton(void);
 
-void AdvanceRecordVSState1(void);
-void AdvanceRecordVSState2(void);
+void AdvanceRecordVSSlideInMain(void);
+void AdvanceRecordVSSlideInSub(void);
 
-void AdvanceRecordVSState0(void);
+void AdvanceRecordVSWaitFade(void);
 
 extern char *gRecordVSMTransientBnclName;
 extern const u16 gRecordVSGridLabelIndices[3][3];
