@@ -132,16 +132,16 @@ void PlaceHanachanFollowerBehindXz(MissionRunMapObject *mapObject) {
     u16 oppositeAngle = (previousObject->mAngle + 0x8000);
 
     switch (mapObject->mFollowerIndex) {
-        case 1:
+        case HANACHAN_FOLLOWER_FIRST:
             distance = mapObject->mPrm->mHanachan.mFollowerFirstDistance;
             break;
-        case 2:
+        case HANACHAN_FOLLOWER_SECOND:
             distance = mapObject->mPrm->mHanachan.mFollowerSecondDistance;
             break;
-        case 3:
+        case HANACHAN_FOLLOWER_THIRD:
             distance = mapObject->mPrm->mHanachan.mFollowerThirdDistance;
             break;
-        case 4:
+        case HANACHAN_FOLLOWER_FOURTH:
             distance = mapObject->mPrm->mHanachan.mFollowerFourthDistance;
             break;
     }
@@ -178,16 +178,16 @@ void PlaceHanachanFollowerBehind(MissionRunMapObject *mapObject) {
     u16 oppositeAngle = (previousObject->mAngle + 0x8000);
 
     switch (mapObject->mFollowerIndex) {
-        case 1:
+        case HANACHAN_FOLLOWER_FIRST:
             distance = mapObject->mPrm->mHanachan.mFollowerFirstDistance;
             break;
-        case 2:
+        case HANACHAN_FOLLOWER_SECOND:
             distance = mapObject->mPrm->mHanachan.mFollowerSecondDistance;
             break;
-        case 3:
+        case HANACHAN_FOLLOWER_THIRD:
             distance = mapObject->mPrm->mHanachan.mFollowerThirdDistance;
             break;
-        case 4:
+        case HANACHAN_FOLLOWER_FOURTH:
             distance = mapObject->mPrm->mHanachan.mFollowerFourthDistance;
             break;
     }
@@ -322,12 +322,12 @@ int UpdateHanachanMoveState(MissionRunMapObject *mapObject) {
             AdvanceHanachanCounterForAll(mapObject);
         }
         if ((gRaceSetup->mMode == MODE_MISSION_RUN ? IsWinnerDecided() : 0) == FALSE &&
-            mapObject->mKartRangeCooldown == 0 && IsStateNumberBelow(mapObject, 3) != 0) {
+            mapObject->mKartRangeCooldown == 0 && IsStateNumberBelow(mapObject, HANACHAN_STATE_KART_IN_RANGE) != 0) {
             if (GetEntryKartInAngleRange(mapObject, mapObject->mPrm->mHanachan.mFirstKartRangeAngleOffset,
                                          mapObject->mPrm->mHanachan.mFirstKartRangeRadius,
                                          mapObject->mPrm->mHanachan.mFirstKartRangeHalfAngle)) {
                 mapObject->mKartRangeCooldown = mapObject->mPrm->mHanachan.mKartRangeCooldown;
-                mapObject->mStateNumber = 3;
+                mapObject->mStateNumber = HANACHAN_STATE_KART_IN_RANGE;
                 StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mHanachan.mFirstKartRangeAnimationEntry,
                                               mapObject->mPrm->mHanachan.mFirstKartRangeFrameStep,
                                               StartHanachanMoveAnimation);
@@ -337,7 +337,7 @@ int UpdateHanachanMoveState(MissionRunMapObject *mapObject) {
                                                 mapObject->mPrm->mHanachan.mSecondKartRangeRadius,
                                                 mapObject->mPrm->mHanachan.mSecondKartRangeHalfAngle)) {
                 mapObject->mKartRangeCooldown = mapObject->mPrm->mHanachan.mKartRangeCooldown;
-                mapObject->mStateNumber = 3;
+                mapObject->mStateNumber = HANACHAN_STATE_KART_IN_RANGE;
                 StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mHanachan.mSecondKartRangeAnimationEntry,
                                               mapObject->mPrm->mHanachan.mSecondKartRangeFrameStep,
                                               StartHanachanMoveAnimation);
@@ -798,7 +798,7 @@ void InitHanachanFollower(MapObjectList *mapObjectList) {
     InitMissionRunMapObject(mapObjectList, obj, "hanachan_1.nsbmd", NULL, NULL);
     InitMapObjectModelNsbcaAnimation(obj->mNsbmd, firstNsbca);
     InitMapObjectModelNsbtpAnimation(obj->mNsbmd, firstNsbtp);
-    obj->mFollowerIndex = 1;
+    obj->mFollowerIndex = HANACHAN_FOLLOWER_FIRST;
     SetCollisionOffsetAndExtent(obj, obj->mPrm->mHanachan.mFollowerFirstCollisionOffsetY,
                                 obj->mPrm->mHead.mCollisionExtentXZ, sourceObject->mPrm->mHead.mCollisionExtentXZ);
     SetShadowOffsetYAndScale(obj, 0x5000, 0xc000);
@@ -814,7 +814,7 @@ void InitHanachanFollower(MapObjectList *mapObjectList) {
     InitMissionRunMapObject(mapObjectList, obj, "hanachan_2.nsbmd", NULL, NULL);
     InitMapObjectModelNsbcaAnimation(obj->mNsbmd, secondNsbca);
     InitMapObjectModelNsbtpAnimation(obj->mNsbmd, firstNsbtp);
-    obj->mFollowerIndex = 2;
+    obj->mFollowerIndex = HANACHAN_FOLLOWER_SECOND;
     SetCollisionOffsetAndExtent(obj, obj->mPrm->mHanachan.mFollowerSecondCollisionOffsetY,
                                 obj->mPrm->mHead.mCollisionExtentXZ, sourceObject->mPrm->mHead.mCollisionExtentXZ);
     SetShadowOffsetYAndScale(obj, 0x5000, 0xd000);
@@ -830,7 +830,7 @@ void InitHanachanFollower(MapObjectList *mapObjectList) {
     InitMissionRunMapObject(mapObjectList, obj, "hanachan_3.nsbmd", NULL, NULL);
     InitMapObjectModelNsbcaAnimation(obj->mNsbmd, firstNsbca);
     InitMapObjectModelNsbtpAnimation(obj->mNsbmd, firstNsbtp);
-    obj->mFollowerIndex = 3;
+    obj->mFollowerIndex = HANACHAN_FOLLOWER_THIRD;
     SetCollisionOffsetAndExtent(obj, obj->mPrm->mHanachan.mFollowerThirdCollisionOffsetY,
                                 obj->mPrm->mHead.mCollisionExtentXZ, sourceObject->mPrm->mHead.mCollisionExtentXZ);
     SetShadowOffsetYAndScale(obj, 0x5000, 0xc000);
@@ -846,7 +846,7 @@ void InitHanachanFollower(MapObjectList *mapObjectList) {
     InitMissionRunMapObject(mapObjectList, obj, "hanachan_4.nsbmd", NULL, NULL);
     InitMapObjectModelNsbcaAnimation(obj->mNsbmd, secondNsbca);
     InitMapObjectModelNsbtpAnimation(obj->mNsbmd, firstNsbtp);
-    obj->mFollowerIndex = 4;
+    obj->mFollowerIndex = HANACHAN_FOLLOWER_FOURTH;
     SetCollisionOffsetAndExtent(obj, obj->mPrm->mHanachan.mFollowerFourthCollisionOffsetY,
                                 obj->mPrm->mHead.mCollisionExtentXZ, sourceObject->mPrm->mHead.mCollisionExtentXZ);
     SetShadowOffsetYAndScale(obj, 0x5000, 0xd000);
