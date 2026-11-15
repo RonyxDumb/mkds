@@ -125,7 +125,7 @@ u32 DWC_AddMatchKeyInt(u32 keyId, char *keyString, void *valueSrc) {
         return 0;
     }
     strcpy(gMatchingKeys[index].mString, keyString);
-    gMatchingKeys[index].mValue = valueSrc;
+    gMatchingKeys[index].mValue.mNumber = valueSrc;
     qr2_register_keyA(keyId, keyString);
     return keyId;
 }
@@ -158,7 +158,7 @@ u32 DWC_AddMatchKeyString(u32 keyId, char *keyString, void *valueSrc) {
         return 0;
     }
     strcpy(gMatchingKeys[index].mString, keyString);
-    gMatchingKeys[index].mValue = valueSrc;
+    gMatchingKeys[index].mValue.mText = valueSrc;
     qr2_register_keyA(keyId, keyString);
     return keyId;
 }
@@ -3406,9 +3406,9 @@ void DWCi_QR2ServerKeyCallback(s32 keyId, QueryBuffer *buffer, void *userdata) {
     index = keyId - 100;
     if (gMatchingKeys[index].mKeyId != 0) {
         if (gMatchingKeys[index].mIsString != 0) {
-            qr2_buffer_addA(buffer, (const char *) gMatchingKeys[index].mValue);
+            qr2_buffer_addA(buffer, gMatchingKeys[index].mValue.mText);
         } else {
-            qr2_buffer_add_int(buffer, *(s32 *) gMatchingKeys[index].mValue);
+            qr2_buffer_add_int(buffer, *gMatchingKeys[index].mValue.mNumber);
         }
     }
 }

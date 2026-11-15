@@ -7,7 +7,10 @@ typedef struct MatchingKey {
     /* 01 */ u8 mIsString;
     /* 02 */ u16 mPad;
     /* 04 */ char *mString;
-    /* 08 */ void *mValue;
+    /* 08 */ union {
+        const char *mText;
+        s32 *mNumber;
+    } mValue;
 } MatchingKey;
 
 u8 DWCi_GetNewMatchKey(void);
