@@ -3,15 +3,16 @@
 #include "03/Net/essid_packet_steps.h"
 #include "code_0214d018.h"
 #include "00/Lib/CPS/code_021a9228.h"
+#include "00/types_021ab5e4.h"
 
 void CPSi_SslPeriodical(s32 now) {
     s32 sessionIndex;
-    HttpsEntryView *session;
+    HttpsEntry *session;
     sessionIndex = 0;
-    session = (HttpsEntryView *) gHttpsEntries;
+    session = (HttpsEntry *) gHttpsEntries;
     for (; sessionIndex < 4; sessionIndex++) {
-        if (session->mUnk_5a != 0 && now - session->mUnk_50 > 0xef) {
-            session->mUnk_5a = 0;
+        if (session->mInUse != 0 && now - session->mLastUseTime > 0xef) {
+            session->mInUse = 0;
         }
         session++;
     }
