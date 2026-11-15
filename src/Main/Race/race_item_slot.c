@@ -68,7 +68,7 @@ RaceModeCount *gRaceModeCount;
 void InitRaceItemSlot(void) {
     RaceItemSlot *itemSlot;
 
-    itemSlot = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+    itemSlot = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(RaceItemSlot));
     gRaceItemSlot = itemSlot;
     itemSlot->mScrollY = 0;
     gRaceItemSlot->mSlotFrames = 0;

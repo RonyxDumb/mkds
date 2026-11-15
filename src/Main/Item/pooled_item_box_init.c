@@ -70,7 +70,7 @@ BOOL IsMissionRunBossColumn(void) {
 }
 
 MapObjectKindData *CreatePooledItemBoxKindData(void) {
-    MapObjectKindData *kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    MapObjectKindData *kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectKindData));
     *kindData = gPooledItemBoxKindData;
     return kindData;
 }

@@ -42,14 +42,14 @@
 
 MapObjectKindData *CreatePukupukuKindData(void) {
     MapObjectKindData *kindData;
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectKindData));
     *kindData = gPukupukuKindData;
     return kindData;
 }
 
 MapObjectList *CreatePukupukuDrawList(void) {
     MapObjectDrawList *drawList;
-    drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+    drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectDrawList));
     gPukupukuDrawList = drawList;
     *drawList = gPukupukuDrawListData;
     SetDrawListSlot(&gPukupukuDrawList);
@@ -58,7 +58,7 @@ MapObjectList *CreatePukupukuDrawList(void) {
 
 MapObjectList *CreatePukupukuShadowDrawList(void) {
     MapObjectDrawList *shadowDrawList;
-    shadowDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+    shadowDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectDrawList));
     gPukupukuShadowDrawList = shadowDrawList;
     *shadowDrawList = gPukupukuShadowDrawListData;
     SetDrawListSlot(&gPukupukuShadowDrawList);
@@ -67,7 +67,7 @@ MapObjectList *CreatePukupukuShadowDrawList(void) {
 
 MapObjectList *CreatePukupukuUpdateList(void) {
     MapObjectList *updateList;
-    updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
+    updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectList));
     gPukupukuUpdateList = updateList;
     *updateList = gPukupukuUpdateListData;
     SetUpdateListSlot(&gPukupukuUpdateList);

@@ -227,7 +227,7 @@ void InitDisplaySettings(DisplaySettings *settings, void *descriptorBase) {
 }
 
 DisplaySettings *CreateDisplaySettings(void *heap, void *descriptor) {
-    DisplaySettings *settings = HeapAlloc(heap, 0xdc);
+    DisplaySettings *settings = HeapAlloc(heap, sizeof(DisplaySettings));
     G3xParams *g3xParams;
     InitDisplaySettings(settings, descriptor);
     if (settings->mBg0As == GX_BG0_AS_3D) {

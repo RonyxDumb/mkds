@@ -53,7 +53,7 @@ struct Nsbmd *gTestCylinder;
 MapObjectKindData *CreateChoropuKindData(void) {
     MapObjectKindData *kindData;
 
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectKindData));
     *kindData = gChoropuKindData;
     return kindData;
 }
@@ -81,7 +81,7 @@ MapObjectList *CreateChoropuShadowDrawList(void) {
 MapObjectList *CreateChoropuUpdateList(void) {
     MapObjectList *updateList;
 
-    updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
+    updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectList));
     gChoropuUpdateList = updateList;
     *updateList = gChoropuUpdateListData;
     SetUpdateListSlot(&gChoropuUpdateList);

@@ -146,28 +146,28 @@ ModelAnimation *gTruckANsbtp;
 
 
 MapObjectKindData *CreateCarAKindData(void) {
-    MapObjectKindData *kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    MapObjectKindData *kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectKindData));
 
     *kindData = gCarAKindData;
     return kindData;
 }
 
 MapObjectKindData *CreateTruckAKindData(void) {
-    MapObjectKindData *kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    MapObjectKindData *kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectKindData));
 
     *kindData = gTruckAKindData;
     return kindData;
 }
 
 MapObjectKindData *CreateBusAKindData(void) {
-    MapObjectKindData *kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    MapObjectKindData *kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectKindData));
 
     *kindData = gBusAKindData;
     return kindData;
 }
 
 MapObjectList *CreateVehicleDrawList(void) {
-    VehicleDrawList *drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    VehicleDrawList *drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(VehicleDrawList));
 
     gVehicleDrawList = drawList;
     *drawList = gVehicleDrawListData;
@@ -176,7 +176,7 @@ MapObjectList *CreateVehicleDrawList(void) {
 }
 
 MapObjectList *CreateVehicleUpdateList(void) {
-    MapObjectList *updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
+    MapObjectList *updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectList));
 
     gVehicleUpdateList = updateList;
     *updateList = gVehicleUpdateListData;

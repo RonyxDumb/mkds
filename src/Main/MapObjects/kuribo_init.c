@@ -112,7 +112,7 @@ void InitKuribo(Kuribo *kuribo, CourseMapRow *row) {
 
 MapObjectKindData *CreateWaterKindData(void) {
     MapObjectKindData *object;
-    object = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    object = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectKindData));
     {
         MapObjectKindData zeros = {0};
         *object = zeros;

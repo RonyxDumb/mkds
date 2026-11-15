@@ -65,7 +65,7 @@ struct Quaternion gViewYawQuaternion;
 struct ShadowModel *gRockShadow;
 
 MapObjectList *CreateRockDrawList(void) {
-    RockDrawList *drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x5c);
+    RockDrawList *drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(RockDrawList));
     gRockDrawList = drawList;
     *drawList = gRockDrawListData;
     SetDrawListSlot(&gRockDrawList);
@@ -73,7 +73,7 @@ MapObjectList *CreateRockDrawList(void) {
 }
 
 MapObjectList *CreateRock2DrawList(void) {
-    RockDrawList *drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x5c);
+    RockDrawList *drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(RockDrawList));
     gRockDrawList = drawList;
     *drawList = gRock2DrawListData;
     SetDrawListSlot(&gRockDrawList);
@@ -81,7 +81,7 @@ MapObjectList *CreateRock2DrawList(void) {
 }
 
 MapObjectList *CreateRockUpdateList(void) {
-    MapObjectList *updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
+    MapObjectList *updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectList));
     gRockUpdateList = updateList;
     *updateList = gRockUpdateListData;
     SetUpdateListSlot(&gRockUpdateList);

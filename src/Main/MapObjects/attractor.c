@@ -281,7 +281,7 @@ void CreateJg(void) {
 MapObjectKindData *CreateAttractorKindData(void) {
     MapObjectKindData *kindData;
 
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectKindData));
     *kindData = gAttractorKindData;
     return kindData;
 }
@@ -289,7 +289,7 @@ MapObjectKindData *CreateAttractorKindData(void) {
 MapObjectList *CreateAttractorUpdateList(void) {
     MapObjectList *list;
 
-    list = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
+    list = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectList));
     gAttractorUpdateList = list;
     *list = gAttractorUpdateListData;
     SetUpdateListSlot(&gAttractorUpdateList);

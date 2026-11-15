@@ -48,7 +48,7 @@ SceneCallbacks gRunGhostSceneCallbacks = {InitGhostSceneCallback,
 #pragma opt_rebuildconditionals off
 
 EmblemBlock *CreateEmblemBlock(void *heap) {
-    EmblemBlock *emblemBlock = HeapAlloc(heap, 0xb04);
+    EmblemBlock *emblemBlock = HeapAlloc(heap, sizeof(EmblemBlock));
     if (emblemBlock != NULL) {
         emblemBlock->mBlockIndex = -1;
     }

@@ -40,7 +40,7 @@ const MapObjectKindData gBridgeKindData = {NULL, NULL, 5, 0x5a000, 0x1e000, 0x15
 MapObjectKindData *CreateBridgeKindData(void) {
     MapObjectKindData *kindData;
 
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectKindData));
     *kindData = gBridgeKindData;
     return kindData;
 }
@@ -48,7 +48,7 @@ MapObjectKindData *CreateBridgeKindData(void) {
 MapObjectList *CreateBridgeDrawList(void) {
     BridgeDrawList *drawList;
 
-    drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x30);
+    drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(BridgeDrawList));
     gBridgeDrawList = drawList;
     *drawList = gBridgeDrawListData;
     SetDrawListSlot(&gBridgeDrawList);
@@ -58,7 +58,7 @@ MapObjectList *CreateBridgeDrawList(void) {
 MapObjectList *CreateBridgeUpdateList(void) {
     MapObjectList *updateList;
 
-    updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
+    updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectList));
     gBridgeUpdateList = updateList;
     *updateList = gBridgeUpdateListData;
     SetUpdateListSlot(&gBridgeUpdateList);

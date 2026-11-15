@@ -206,7 +206,7 @@ void DrawWater(Water *water, struct MtxFx43 *unused) {
 
 MapObjectKindData *CreateWaterEfctKindData(void) {
     MapObjectKindData *kindData;
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectKindData));
     {
         MapObjectKindData emptyKindData = {0};
         *kindData = emptyKindData;
@@ -342,7 +342,7 @@ void InitWaterModels(Water *water) {
 
 void CreateWaterEfct(MapObject *mapObject) {
     WaterEfct *waterEfct;
-    waterEfct = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x10);
+    waterEfct = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(WaterEfct));
     gWaterEfct = waterEfct;
     waterEfct->mHeight = mapObject->mPos.y;
     gWaterEfct->mNsbmdFile = FindCourseFile("MapObj/water_efct.nsbmd");

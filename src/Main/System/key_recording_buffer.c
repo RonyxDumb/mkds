@@ -26,7 +26,7 @@ u32 SetMultiSimple(u32 flag) {
 }
 
 KeyRecordingBuffer *InitKeyRecordingBuffer(KeyRecording *record, void *heap) {
-    KeyRecordingBuffer *buffer = HeapAlloc(heap, 0xdcc);
+    KeyRecordingBuffer *buffer = HeapAlloc(heap, sizeof(KeyRecordingBuffer));
     record->mBuffer = buffer;
     return buffer;
 }

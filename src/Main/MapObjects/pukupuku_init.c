@@ -56,7 +56,7 @@ MapObjectKindData *CreateRotaryBridgeKindData(void) {
 
 MapObjectDrawList *CreateRotaryDrawList(void) {
     MapObjectDrawList *drawList;
-    drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+    drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectDrawList));
     gRotaryDrawList = drawList;
     *drawList = gRotaryDrawListData;
     SetDrawListSlot(&gRotaryDrawList);
@@ -65,7 +65,7 @@ MapObjectDrawList *CreateRotaryDrawList(void) {
 
 MapObjectList *CreateRotaryUpdateList(void) {
     MapObjectList *updateList;
-    updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
+    updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectList));
     gRotaryUpdateList = updateList;
     *updateList = gRotaryUpdateListData;
     SetUpdateListSlot(&gRotaryUpdateList);

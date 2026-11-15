@@ -103,7 +103,7 @@ struct Nsbmd *gMkdEfBubble;
 MapObjectKindData *CreateMkdEfBubbleKindData(void) {
     MapObjectKindData *kindData;
 
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectKindData));
     *kindData = gMkdEfBubbleKindData;
     return kindData;
 }

@@ -80,7 +80,7 @@ u32 DecimalNonZeroDigitsToBitMask(s32 number) {
 
 void InitRaceMNumberPair(void) {
     RaceMNumberPair *pair;
-    pair = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
+    pair = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(RaceMNumberPair));
     gRaceMNumberPair = pair;
     pair->mCourseNumber = gRaceSetup->mCourseNumber;
     if (gRaceSetup->mMode == MODE_WIFI) {

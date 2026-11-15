@@ -57,7 +57,7 @@ void InitEarthenPipe(PushedObject *pipe) {
 MapObjectKindData *CreateWanwanChainKindData(void) {
     MapObjectKindData *kindData;
 
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectKindData));
     *kindData = gWanwanChainKindData;
     return kindData;
 }

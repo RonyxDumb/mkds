@@ -114,7 +114,7 @@ BOOL HitPushedObjectByItemObject(PushedObject *mapObject, void *other, u8 *first
 Woodbox1KindData *CreateWoodbox1KindData(void) {
     Woodbox1KindData *kindData;
 
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(Woodbox1KindData));
     *kindData = gWoodbox1KindData;
     return kindData;
 }
@@ -122,7 +122,7 @@ Woodbox1KindData *CreateWoodbox1KindData(void) {
 MapObjectList *CreateWoodbox1DrawList(void) {
     MapObjectDrawList *drawList;
 
-    drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+    drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectDrawList));
     gWoodbox1DrawList = drawList;
     *drawList = gWoodbox1DrawListData;
     SetDrawListSlot(&gWoodbox1DrawList);
@@ -132,7 +132,7 @@ MapObjectList *CreateWoodbox1DrawList(void) {
 MapObjectList *CreateWoodbox1UpdateList(void) {
     MapObjectList *updateList;
 
-    updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
+    updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectList));
     gWoodbox1UpdateList = updateList;
     *updateList = gWoodbox1UpdateListData;
     SetUpdateListSlot(&gWoodbox1UpdateList);

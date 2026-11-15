@@ -34,7 +34,7 @@ void CreateWait(void *heap, NNSG2dCellDataBank *destinationNcer, LayoutEntryTabl
     Wait *wait;
     Wait *newWait;
     void *sceneFile;
-    newWait = HeapAlloc(heap, 0x2c);
+    newWait = HeapAlloc(heap, sizeof(Wait));
     gWait = newWait;
     sceneFile = FindSceneFile(gWaitNcerName);
     LocateNcer(&gWait->mNcer, sceneFile);

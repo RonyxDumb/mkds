@@ -90,14 +90,14 @@ MtxFx43 gDossunDrawMatrix;
 
 MapObjectKindData *CreateKuriboKindData(void) {
     MapObjectKindData *kindData;
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectKindData));
     *kindData = gKuriboKindData;
     return kindData;
 }
 
 KuriboDrawList *CreateKuriboDrawList(void) {
     KuriboDrawList *drawList;
-    drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+    drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(KuriboDrawList));
     gKuriboDrawList = drawList;
     *drawList = gKuriboDrawListData;
     SetDrawListSlot(&gKuriboDrawList);
@@ -106,7 +106,7 @@ KuriboDrawList *CreateKuriboDrawList(void) {
 
 MapObjectList *CreateKuriboUpdateList(void) {
     MapObjectList *updateList;
-    updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
+    updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectList));
     gKuriboUpdateList = updateList;
     *updateList = gKuriboUpdateListData;
     SetUpdateListSlot(&gKuriboUpdateList);

@@ -159,14 +159,14 @@ void InitObPakkunSf(ObPakkunSf *obPakkunSf) {
 
 MapObjectKindData *CreateSecondHandKindData(void) {
     MapObjectKindData *kindData;
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectKindData));
     *kindData = gSecondHandKindData;
     return kindData;
 }
 
 MapObjectList *CreateSecondHandDrawList(void) {
     MapObjectDrawList *drawList;
-    drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+    drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectDrawList));
     gSecondHandDrawList = drawList;
     *drawList = gSecondHandDrawListData;
     SetDrawListSlot(&gSecondHandDrawList);
@@ -175,7 +175,7 @@ MapObjectList *CreateSecondHandDrawList(void) {
 
 MapObjectList *CreateSecondHandUpdateList(void) {
     MapObjectList *updateList;
-    updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
+    updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectList));
     gSecondHandUpdateList = updateList;
     *updateList = gSecondHandUpdateListData;
     SetUpdateListSlot(&gSecondHandUpdateList);

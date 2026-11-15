@@ -56,7 +56,7 @@ const MapObjectList gWanwanUpdateListData = {NULL, 0, {0}, NULL, NULL, UpdateWan
 WanwanKindData *CreateWanwanKindData(void) {
     WanwanKindData *kindData;
 
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(WanwanKindData));
     *kindData = gWanwanKindData;
     return kindData;
 }
@@ -64,7 +64,7 @@ WanwanKindData *CreateWanwanKindData(void) {
 WanwanDrawList *CreateWanwanDrawList(void) {
     WanwanDrawList *drawList;
 
-    drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+    drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(WanwanDrawList));
     gWanwanDrawList = drawList;
     *drawList = gWanwanDrawListData;
     SetDrawListSlot(&gWanwanDrawList);
@@ -74,7 +74,7 @@ WanwanDrawList *CreateWanwanDrawList(void) {
 MapObjectList *CreateWanwanUpdateList(void) {
     MapObjectList *updateList;
 
-    updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
+    updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectList));
     gWanwanUpdateList = updateList;
     *updateList = gWanwanUpdateListData;
     SetUpdateListSlot(&gWanwanUpdateList);

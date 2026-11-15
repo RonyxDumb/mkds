@@ -145,7 +145,7 @@ void CopyCourseGhostToSlotGhost(GhostRecord *courseGhost, SlotGhostRecord *slotG
 CharacterKartPicks *CreateCharacterKartPicks(void *heap) {
     CharacterKartPicks *picks;
     void *kartAppear;
-    picks = HeapAlloc(heap, 0x48);
+    picks = HeapAlloc(heap, sizeof(CharacterKartPicks));
     kartAppear = CreateKartAppear(heap);
     picks->mKartAppear = kartAppear;
     InitCharacterKartPicks(picks);

@@ -86,7 +86,7 @@ MapObjectKindData *CreateMissionRunBoxKindData(void) {
     MapObjectKindData *kindData;
 
     kindData = GetHeap(GetCurrentHeapCall());
-    kindData = HeapAlloc(kindData, 0x40);
+    kindData = HeapAlloc(kindData, sizeof(MapObjectKindData));
     *kindData = gMissionRunBoxKindData;
     return kindData;
 }
