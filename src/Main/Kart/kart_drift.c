@@ -1125,10 +1125,10 @@ void AdvanceKartBoost(s32 *acceleration, Kart *kart) {
         return;
     }
     itemEffectState = &kart->mItemEffectData;
-    if (itemEffectState->mGessoFrames > 400) {
+    if (itemEffectState->mGessoFrames > KART_GESSO_COLORED_FRAME) {
         return;
     }
-    itemEffectState->mGessoFrames = 400;
+    itemEffectState->mGessoFrames = KART_GESSO_COLORED_FRAME;
     kart->mEffectFlags |= KART_EFFECT_COURSE_COLORED;
     diffColor = GetKartCourseDiffColor();
     emiColor = GetKartCourseEmiColor();
@@ -1140,7 +1140,7 @@ void EndKartDrift(Kart *kart) {
     if (!(kart->mMotionFlags & KART_MOTION_ON_GROUND)) {
         kart->mMotionFlags |= KART_MOTION_DRIFT_ENDED_IN_AIR;
     }
-    if (kart->mDriftCharge == 4) {
+    if (kart->mDriftCharge == KART_DRIFT_CHARGE_MINI_TURBO_READY) {
         StartKartBoost(kart, KART_BOOST_MINI_TURBO, kart->mPhysicalParam->mMiniTurboFrames);
         kart->mDriveFlags |= KART_DRIVE_MINI_TURBO;
         kart->mMiniTurboTimer = kart->mPhysicalParam->mMiniTurboFrames;
@@ -1154,7 +1154,7 @@ void EndKartDrift(Kart *kart) {
     kart->mMotionFlags &=
         ~(KART_MOTION_DRIFT_ARMED | KART_MOTION_HOPPING | KART_MOTION_DRIFTING | KART_MOTION_HOP_STEER);
     kart->mTurnDirection = 0;
-    kart->mDriftCharge = 0;
+    kart->mDriftCharge = KART_DRIFT_CHARGE_NONE;
     kart->mRightTurnCount = 0;
     kart->mLeftTurnCount = kart->mRightTurnCount;
     kart->mTurnCountTimer = 0;
@@ -1201,7 +1201,7 @@ void AdvanceKartDriftTurnAngle(Kart *kart, int fromLowSpeedTurn) {
     }
     AddKartSurfaceSoundRequest(kart, 1);
     kart->mEffectFlags |= KART_EFFECT_GROUND_SOUND_STEP;
-    if (kart->mDriftCharge < 3) {
+    if (kart->mDriftCharge < KART_DRIFT_CHARGE_LEVEL_3) {
         return;
     }
     if (!(kart->mEntryFlags & KART_ENTRY_SELECTED)) {
@@ -1262,7 +1262,7 @@ recheck:
             kart->mVelocityLength > MUL_FIXED12_NO_ROUND(kart->mPhysicalParam->mBaseSpeedLimit, 0x8cd) && value != 0 &&
             (u16) (gInputSlots[entryIndex = kart->mEntryIndex].mBits & PAD_KEY_R)) {
             kart->mMotionFlags |= KART_MOTION_DRIFTING;
-            kart->mDriftCharge = 1;
+            kart->mDriftCharge = KART_DRIFT_CHARGE_STARTED;
             if (kart->mTurnDirection > 0) {
                 kart->mAwayTurnCounter = &kart->mLeftTurnCount;
                 kart->mTowardTurnCounter = &kart->mRightTurnCount;
@@ -1289,7 +1289,7 @@ recheck:
             if (!(bits44 & KART_MOTION_ON_GROUND)) {
                 kart->mMotionFlags |= KART_MOTION_DRIFT_ENDED_IN_AIR;
             }
-            if (kart->mDriftCharge == 4) {
+            if (kart->mDriftCharge == KART_DRIFT_CHARGE_MINI_TURBO_READY) {
                 StartKartBoost(kart, KART_BOOST_MINI_TURBO, kart->mPhysicalParam->mMiniTurboFrames);
                 kart->mDriveFlags |= KART_DRIVE_MINI_TURBO;
                 kart->mMiniTurboTimer = kart->mPhysicalParam->mMiniTurboFrames;
@@ -1303,7 +1303,7 @@ recheck:
             kart->mMotionFlags &=
                 ~(KART_MOTION_DRIFT_ARMED | KART_MOTION_HOPPING | KART_MOTION_DRIFTING | KART_MOTION_HOP_STEER);
             kart->mTurnDirection = 0;
-            kart->mDriftCharge = 0;
+            kart->mDriftCharge = KART_DRIFT_CHARGE_NONE;
             kart->mRightTurnCount = 0;
             kart->mLeftTurnCount = kart->mRightTurnCount;
             kart->mTurnCountTimer = 0;
@@ -1372,7 +1372,7 @@ recheck:
     kart->mHopHeight = 0;
     kart->mTurnDirection = 0;
     kart->mDriftHeadingAnglePerFrame = 0;
-    kart->mDriftCharge = 0;
+    kart->mDriftCharge = KART_DRIFT_CHARGE_NONE;
     kart->mRightTurnCount = 0;
     kart->mLeftTurnCount = kart->mRightTurnCount;
     kart->mTurnCountTimer = 0;
@@ -1558,7 +1558,7 @@ void StartKartState(Kart *kart, KartState mode) {
     kart->mMotionFlags &=
         ~(KART_MOTION_DRIFT_ARMED | KART_MOTION_HOPPING | KART_MOTION_DRIFTING | KART_MOTION_HOP_STEER);
     kart->mTurnDirection = 0;
-    kart->mDriftCharge = 0;
+    kart->mDriftCharge = KART_DRIFT_CHARGE_NONE;
     kart->mRightTurnCount = 0;
     kart->mLeftTurnCount = kart->mRightTurnCount;
     kart->mTurnCountTimer = 0;

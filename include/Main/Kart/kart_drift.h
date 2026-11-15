@@ -439,6 +439,41 @@ typedef enum {
     KART_ITEM_EFFECT_KILLER
 } KartItemEffect;
 
+// The values of Kart.mDriftCharge: the charge level of a drift. LEVEL_2 and LEVEL_3 start their effects; the drift
+// gives a mini-turbo boost when it ends at MINI_TURBO_READY.
+enum {
+    KART_DRIFT_CHARGE_NONE,
+    KART_DRIFT_CHARGE_STARTED,
+    KART_DRIFT_CHARGE_LEVEL_2,
+    KART_DRIFT_CHARGE_LEVEL_3,
+    KART_DRIFT_CHARGE_MINI_TURBO_READY
+};
+
+// Frames until another turn press counts for the drift charge (Kart.mTurnCountTimer).
+#define KART_TURN_COUNT_INTERVAL_FRAMES 10
+
+// Surface groups (Kart.mSurfaceGroup) of the two surface kind sets that give a boost of KART_SURFACE_BOOST_FRAMES; the
+// kart on the same group the next frame only keeps the boost timer instead of starting a boost.
+#define KART_SURFACE_GROUP_BOOST_A 8
+#define KART_SURFACE_GROUP_BOOST_B 0xb
+#define KART_SURFACE_BOOST_FRAMES 60
+
+// Kart.mRotationAnglePerFrame at the start of the launch double flip (it falls by the decay factor each frame down to
+// the minimum) and at the start of the flip.
+#define KART_LAUNCH_FLIP_ANGLE_PER_FRAME 0xfa0
+#define KART_LAUNCH_FLIP_ANGLE_PER_FRAME_MIN 0xc8
+#define KART_LAUNCH_FLIP_ANGLE_DECAY FIXED12_RATIO(97, 100)
+#define KART_FLIP_ANGLE_PER_FRAME 0x666
+// Values of Kart.mItemEffectData.mGessoFrames at which the course colors are in and at which the Gesso ends.
+#define KART_GESSO_COLORED_FRAME 400
+#define KART_GESSO_END_FRAME 450
+// Kart.mRespawnFrames at which the respawn sets the fade flag, starts the fade to faded, sets the follow-kart state
+// and ends.
+#define KART_RESPAWN_FADE_FLAG_FRAME 22
+#define KART_RESPAWN_FADE_OUT_FRAME 25
+#define KART_RESPAWN_FOLLOW_KART_FRAME 85
+#define KART_RESPAWN_END_FRAME 120
+
 typedef struct Kart {
     // Sound source of the Kart (the sounds started on it).
     /* 00 */ SoundSource mSoundSource;

@@ -54,7 +54,7 @@ u32 CollideKartWithPakkunSpit(PakkunSpit *pakkunSpit, Kart *kart, u8 *firstRespo
     if (firstResponseValue == 1) {
         pakkunSpit->mMapObject.mFlags = pakkunSpit->mMapObject.mFlags | gPakkunSpitDisabledFlag;
         pakkunSpit->mState = 1;
-        if (kart->mItemEffect == 1 || kart->mItemEffect == 3) {
+        if (kart->mItemEffect == KART_ITEM_EFFECT_STAR || kart->mItemEffect == KART_ITEM_EFFECT_KILLER) {
             pakkunSpit->mMapObject.mDistanceSquaredAndFlags =
                 pakkunSpit->mMapObject.mDistanceSquaredAndFlags | gPakkunSpitSkipSoundFlag;
         }

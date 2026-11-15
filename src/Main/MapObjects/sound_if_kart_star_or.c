@@ -12,7 +12,7 @@
 #include "Main/Sound/sound_start.h"
 
 u32 StartSoundIfKartStarOrKiller(MapObject *mapObject, Kart *kart) {
-    if (kart->mItemEffect != 1 && kart->mItemEffect != 3) {
+    if (kart->mItemEffect != KART_ITEM_EFFECT_STAR && kart->mItemEffect != KART_ITEM_EFFECT_KILLER) {
         return 0;
     }
     if (mapObject->mSound != NULL) {

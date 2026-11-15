@@ -70,7 +70,7 @@ u8 CollideKartWithNsKiller2(NsKiller2 *nsKiller2, Kart *kart, u8 *flagPtr, u8 *r
         nsKiller2->mMapObject.mPosStep.z = ((s64) nsKiller2->mMapObject.mPosStep.z << 10) >> 12;
         nsKiller2->mMapObject.mPosStep.y = 0x4000;
         nsKiller2->mMapObject.mFlags |= gNsKiller2DisabledFlag;
-        if (kart->mItemEffect == 1 || kart->mItemEffect == 3) {
+        if (kart->mItemEffect == KART_ITEM_EFFECT_STAR || kart->mItemEffect == KART_ITEM_EFFECT_KILLER) {
             nsKiller2->mMapObject.mDistanceSquaredAndFlags |= gNsKiller2SkipSoundFlag;
         }
         StartSoundIfKartStarOrKiller(&nsKiller2->mMapObject, kart);

@@ -61,7 +61,7 @@ u8 CollideKartWithSunFireball(SunFireball *sunFireball, Kart *kart, u8 *hitFlag,
         sunFireball->mEmitterB->mLife = 0x23;
         sunFireball->mEmitterA->mEmitInterval = 5;
         sunFireball->mEmitterB->mEmitInterval = 5;
-        if (kart->mItemEffect == 1 || kart->mItemEffect == 3) {
+        if (kart->mItemEffect == KART_ITEM_EFFECT_STAR || kart->mItemEffect == KART_ITEM_EFFECT_KILLER) {
             sunFireball->mMapObject.mDistanceSquaredAndFlags |= gSunFireballSkipSoundFlag;
         }
         StartSoundIfKartStarOrKiller(&sunFireball->mMapObject, kart);

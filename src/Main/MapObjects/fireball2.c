@@ -80,7 +80,7 @@ u8 CollideKartWithFireball2(Fireball2 *fireball2, Kart *kart, u8 *firstResponse,
 
     responseValue = *response;
     if (fireball2->mKartHitTimers[kart->mIndex] == 0) {
-        if (kart->mItemEffect == 1 || kart->mItemEffect == 3) {
+        if (kart->mItemEffect == KART_ITEM_EFFECT_STAR || kart->mItemEffect == KART_ITEM_EFFECT_KILLER) {
             fireball2->mMapObject.mDistanceSquaredAndFlags |= gFireball2SkipSoundFlag;
         }
         StartSoundIfKartStarOrKiller(&fireball2->mMapObject, kart);

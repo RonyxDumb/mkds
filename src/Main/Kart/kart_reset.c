@@ -228,15 +228,15 @@ s32 AdvanceKartRespawnWait(Kart *kart, s32 *outVelocityScale) {
     }
     kart->mRespawnFrames = kart->mRespawnFrames + 1;
     if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
-        if (kart->mRespawnFrames == 0x16) {
+        if (kart->mRespawnFrames == KART_RESPAWN_FADE_FLAG_FRAME) {
             SetDispCapFadeFlag();
-        } else if (kart->mRespawnFrames == 0x19) {
+        } else if (kart->mRespawnFrames == KART_RESPAWN_FADE_OUT_FRAME) {
             StartDispCapFadeToFaded(0x3c);
         }
     }
-    if ((kart->mEntryFlags & KART_ENTRY_SELECTED) && kart->mRespawnFrames == 0x55) {
+    if ((kart->mEntryFlags & KART_ENTRY_SELECTED) && kart->mRespawnFrames == KART_RESPAWN_FOLLOW_KART_FRAME) {
         SetJgState4();
-    } else if (kart->mRespawnFrames > 0x78) {
+    } else if (kart->mRespawnFrames > KART_RESPAWN_END_FRAME) {
         CallKartSlot6AndToggleFlag(kart);
         finished = TRUE;
     }
@@ -1247,8 +1247,8 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
     flags = kart->mEffectFlags;
     if (!(flags & KART_EFFECT_COURSE_COLORED) && (flags & KART_EFFECT_GESSO)) {
         itemEffectState = &kart->mItemEffectData;
-        if (itemEffectState->mGessoFrames <= 0x190) {
-            itemEffectState->mGessoFrames = 0x190;
+        if (itemEffectState->mGessoFrames <= KART_GESSO_COLORED_FRAME) {
+            itemEffectState->mGessoFrames = KART_GESSO_COLORED_FRAME;
             kart->mEffectFlags |= KART_EFFECT_COURSE_COLORED;
             StartKartModelColorBlend(kart->mKartModelsEntry, GetKartCourseDiffColor(), GetKartCourseEmiColor(),
                                      GetKartCourseAmbColor());

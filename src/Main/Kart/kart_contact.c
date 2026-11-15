@@ -539,7 +539,8 @@ s32 ApplyKartContact(Kart *kart, Vec3 *contactNormal, s32 wasTouching, s32 baseS
         }
         if (forwardDot > 0) {
             kart->mSpeedLimitHitFactor = FIXED12_RATIO(3, 10);
-            if (kart->mSurfaceGroup != 0xb && kart->mSurfaceGroup != 8) {
+            if (kart->mSurfaceGroup != KART_SURFACE_GROUP_BOOST_B &&
+                kart->mSurfaceGroup != KART_SURFACE_GROUP_BOOST_A) {
                 kart->mDriveFlags &= ~(KART_DRIVE_BOOST | KART_DRIVE_RACE_START_BOOST | KART_DRIVE_MINI_TURBO |
                                        KART_DRIVE_KINOKO_BOOST | KART_DRIVE_ITEM_BOOST);
                 kart->mBoostTimer = 0;
