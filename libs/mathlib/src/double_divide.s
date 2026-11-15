@@ -2,7 +2,7 @@
 // table it starts from, and the routine for its special cases.
 //
 // Arguments and results, the status word from GetFloatStatus and the trap handlers are as described in
-// code_0212f884.s; division by zero sets status bit 0x02 (trap enable 0x200).
+// double_add_and_to_float.s; division by zero sets status bit 0x02 (trap enable 0x200).
 //
 // Kept as asm: the routines branch into each other's middles (_ddiv into DoubleDivSpecial and back to
 // _ddiv+0x24 and _ddiv+0x38), DoubleDivReversed and DoubleDivRoundUpResult have no return and run on into the next

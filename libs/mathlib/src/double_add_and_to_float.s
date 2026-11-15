@@ -8,7 +8,7 @@
 // With a trap enabled the routines call a handler (FloatTrapPairPairToPair, FloatTrapPairToPair, FloatTrapPairToWord, FloatTrapWordToWord)
 // with an event code (high byte: the event, low byte: the operation) and return its result.
 //
-// Kept as asm: _dadd and the subtraction (_dsub, code_02130cb4.s) branch into each other past their first
+// Kept as asm: _dadd and the subtraction (_dsub, double_subtract_float_add.s) branch into each other past their first
 // instructions, and _d2f branches into the middle of the two blocks after it. All of it also uses tst.
 
     .text

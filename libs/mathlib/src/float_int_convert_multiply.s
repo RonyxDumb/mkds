@@ -1,11 +1,12 @@
 // Float to integer and integer to float conversions, and single-precision multiplication.
 //
 // Floats are passed and returned in one register each; the status word from GetFloatStatus and the trap
-// handlers are as described in code_0212f884.s.
+// handlers are as described in double_add_and_to_float.s.
 //
 // Kept as asm: _ffix branches into the middle of FloatToIntRange, and the conversion to float at _fflt is a
 // second entry in the middle of _ffltu, called from other code; _fmul ends in an entry that has
-// no return and runs on into _fsub (code_021329f8.s). All of it also uses tst, and _fflt, _ffltu and _fmul clz.
+// no return and runs on into _fsub (float_subtract_int64_muldiv.s). All of it also uses tst, and _fflt, _ffltu and
+// _fmul clz.
 
     .text
     .extern FloatTrapWordWordToWord

@@ -4,9 +4,8 @@
 
 // clang-format off
 // Returns the square root of the double r1:r0, computed one bit at a time and rounded as the floating-point status word
-// says (GetFloatStatus; see code_0212f884.s). Zero and +infinity return themselves, a quiet NaN returns itself;
-// negative
-// numbers and signalling NaNs raise invalid (or trap with event code 0x04000097).
+// says (GetFloatStatus; see double_add_and_to_float.s). Zero and +infinity return themselves, a quiet NaN returns
+// itself; negative numbers and signalling NaNs raise invalid (or trap with event code 0x04000097).
 // Kept as asm: it counts leading zeros with clz, tests bits with tst, and saves ip and the argument registers
 // around its call in the middle of the body.
 asm double SqrtDouble(double value) {

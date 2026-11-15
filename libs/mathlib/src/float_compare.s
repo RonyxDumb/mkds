@@ -1,8 +1,8 @@
 // Float and double compares.
 //
 // Floats are passed in r0 and r1, doubles in r1:r0 and r3:r2 (low word first); the status word from GetFloatStatus
-// and the trap handlers are as described in code_0212f884.s. The value compares return 1 or 0 in r0, the three-way
-// compares 0, 1, 2 or 3 in r0, and the flag compares return their result in the condition flags.
+// and the trap handlers are as described in double_add_and_to_float.s. The value compares return 1 or 0 in r0, the
+// three-way compares 0, 1, 2 or 3 in r0, and the flag compares return their result in the condition flags.
 //
 // Kept as asm: the routines are entered at many points past the first instruction (_fls, _fgr, _fgeq, _dneq,
 // _deq, _dls, _dleq, _dgr) and branch into the middle of each other's tails; they use tst and `cmp rX, #0` feeding

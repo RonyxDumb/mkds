@@ -1,5 +1,6 @@
 // Multiplies the doubles r1:r0 and r3:r2 and returns the product in r1:r0, rounded as the floating-point status word
-// says (GetFloatStatus; see code_0212f884.s). Denormal operands are normalised first; underflow, overflow, inexact and
+// says (GetFloatStatus; see double_add_and_to_float.s). Denormal operands are normalised first; underflow,
+// overflow, inexact and
 // invalid (zero times infinity, signalling NaNs) set their flags or call the trap handlers with event codes ending in
 // 0x93. The operands stay saved on the stack for the invalid-operation trap.
 // Kept as asm: it counts leading zeros with clz, tests bits with tst, and saves the argument registers and ip
