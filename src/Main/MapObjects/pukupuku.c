@@ -250,7 +250,7 @@ void EnterPukupukuWaitRespawn(void *stateObject) {
 
 void UpdatePukupukuWaitRespawn(void *stateObject) {
     Pukupuku *pukupuku = stateObject;
-    if (pukupuku->mPushedObject.mMapObject.mStateMachine.mStateFrames > 0x12c) {
+    if (pukupuku->mPushedObject.mMapObject.mStateMachine.mStateFrames > PUKUPUKU_WAIT_FRAMES) {
         pukupuku->mPushedObject.mMapObject.mStateMachine.mNextState = PUKUPUKU_STATE_RESPAWN;
         pukupuku->mPushedObject.mMapObject.mStateMachine.mNextStateRequested = 1;
     }

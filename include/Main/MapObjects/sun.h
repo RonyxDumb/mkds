@@ -2,6 +2,8 @@
 #include "types.h"
 #include "01/MapObjects/data_0209bc74.h"
 
+#define SUN_PATH_SPEED 0x3c000
+
 void SunSetupDrawNop(void);
 
 void CreateSunAndSunLOD(void *mapObjectList);

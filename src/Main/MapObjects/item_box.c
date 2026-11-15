@@ -291,8 +291,8 @@ void DrawItemBoxShadow(void *unused, ItemBox *itemBox, u32 unusedArg, u32 maxAlp
 
     alphaCap = itemBox->mFramesSinceHit - ITEM_BOX_HIT_FRAMES_FADE_START;
     if (alphaCap >= ITEM_BOX_FADE_IN_FRAMES) {
-        itemBox->mBoxAlpha = 0x1a;
-        itemBox->mQuestionAlpha = 0x14;
+        itemBox->mBoxAlpha = ITEM_BOX_BOX_ALPHA;
+        itemBox->mQuestionAlpha = ITEM_BOX_QUESTION_ALPHA;
         alphaCap = 0xd;
     } else {
         boxAlpha = alphaCap * 0x1a >> 6;
@@ -354,11 +354,11 @@ void UpdateItemBox(void *unused, ItemBox *itemBox) {
     u32 framesSinceHit;
 
     itemBox->mBoxRotationIndex++;
-    if (itemBox->mBoxRotationIndex >= 0x12c) {
+    if (itemBox->mBoxRotationIndex >= ITEM_BOX_BOX_ROTATION_STEPS) {
         itemBox->mBoxRotationIndex = 0;
     }
     itemBox->mQuestionRotationIndex++;
-    if (itemBox->mQuestionRotationIndex >= 0x82) {
+    if (itemBox->mQuestionRotationIndex >= ITEM_BOX_QUESTION_ROTATION_STEPS) {
         itemBox->mQuestionRotationIndex = 0;
     }
     framesSinceHit = itemBox->mFramesSinceHit;

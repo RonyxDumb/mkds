@@ -62,12 +62,12 @@ static inline u16 TownMonteMapObjectRandomBelowU16(u32 limit) {
 
 static inline void AdvanceTownMonteBounce(TownMonte *townMonte) {
     townMonte->mBounceOffset += townMonte->mBounceSpeed;
-    townMonte->mBounceSpeed += 0x4000;
+    townMonte->mBounceSpeed += TOWN_MONTE_BOUNCE_SPEED_STEP;
     if (townMonte->mBounceOffset == 0) {
         townMonte->mBounceOffset += townMonte->mBounceSpeed;
-        townMonte->mBounceSpeed += 0x4000;
-    } else if (townMonte->mBounceOffset >= 0x16c000) {
-        townMonte->mBounceSpeed = 0x4000 - townMonte->mBounceSpeed;
+        townMonte->mBounceSpeed += TOWN_MONTE_BOUNCE_SPEED_STEP;
+    } else if (townMonte->mBounceOffset >= TOWN_MONTE_BOUNCE_OFFSET_MAX) {
+        townMonte->mBounceSpeed = TOWN_MONTE_BOUNCE_SPEED_STEP - townMonte->mBounceSpeed;
         townMonte->mMirror = townMonte->mMirror == 0 ? 1 : 0;
     }
 }
@@ -203,7 +203,7 @@ void DrawTownMonte(void *mapObjectList, TownMonte *townMonte) {
     s32 tilt;
     MtxFx43 *viewMatrix;
 
-    tilt = FROM_FIXED12(0x16c000 - townMonte->mBounceOffset);
+    tilt = FROM_FIXED12(TOWN_MONTE_BOUNCE_OFFSET_MAX - townMonte->mBounceOffset);
     gxParam = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
     if (townMonte->mMirror != 0) {

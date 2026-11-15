@@ -3,6 +3,9 @@
 #include "types.h"
 #include "Main/MapObjects/data_0217b200.h"
 
+#define TROPHY_WOBBLE_AMPLITUDE 0xaab
+#define TROPHY_WOBBLE_ANGLE_PER_FRAME 0x36
+
 typedef struct Kart Kart;
 
 s32 GetKartBalloonOrShineHeight(Kart *kart);

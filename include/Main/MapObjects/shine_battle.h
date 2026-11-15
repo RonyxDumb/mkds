@@ -19,6 +19,8 @@
 #include "tp.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 
+#define SHINE_BATTLE_START_FRAMES 0x5a
+
 // Object of the list FindMapObjectKindUpdateList(0x6b): the shared MapObject part, then three words.
 typedef struct ShineBattle {
     /* 00 */ MapObject mMapObject;

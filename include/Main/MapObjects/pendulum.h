@@ -11,6 +11,8 @@
 #include "Main/Graphics/model_animation.h"
 #include "Main/Kart/shadow_model.h"
 
+#define PENDULUM_SOUND_ANGLE_OFFSET 0x18f0
+
 #define PENDULUM_SOUND_ID 0x173
 
 // Object handled by InitPendulum, ComputeSphereHitOnPendulum, UpdatePendulum and

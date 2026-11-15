@@ -2,6 +2,9 @@
 
 #include "types.h"
 
+#define SMAN_TOP_HEIGHT 0xf333
+#define SMAN_TOP_HEIGHT_PER_FRAME 0x8000
+
 typedef struct Sman Sman;
 typedef struct Kart Kart;
 typedef struct MapObject MapObject;

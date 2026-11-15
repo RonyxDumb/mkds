@@ -100,7 +100,7 @@ void UpdateObPakkunSf(u32 unused, ObPakkunSf *obPakkunSf) {
     s32 falloffIndex;
 
     obPakkunSf->mFramesSinceInit = obPakkunSf->mFramesSinceInit + 1;
-    if ((obPakkunSf->mFramesSinceInit & 0x1f) == 0 &&
+    if ((obPakkunSf->mFramesSinceInit & OB_PAKKUN_SF_SOUND_FRAME_MASK) == 0 &&
         (obPakkunSf->mPushedObject.mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
         if (obPakkunSf->mPushedObject.mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
             falloffIndex = 2;

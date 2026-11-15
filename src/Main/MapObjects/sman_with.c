@@ -13,8 +13,8 @@ u8 CollideKartWithSman(Sman *sman, Kart *kart, u8 *firstResponse, u8 *secondResp
     u8 response;
     response = *secondResponse;
     if (*firstResponse == 1) {
-        sman->mTopHeight = 0xf333;
-        sman->mTopHeightPerFrame = 0x8000;
+        sman->mTopHeight = SMAN_TOP_HEIGHT;
+        sman->mTopHeightPerFrame = SMAN_TOP_HEIGHT_PER_FRAME;
         sman->mTopRiseProgress = 0;
         sman->mBottomScale = 0;
         sman->mMapObject.mFlags = sman->mMapObject.mFlags | gSmanHitFlag;
@@ -28,8 +28,8 @@ u8 CollideItemObjectWithSman(Sman *sman, ItemObject *itemObject, u8 *firstRespon
     u8 response;
     response = *secondResponse;
     if (*firstResponse == 1) {
-        sman->mTopHeight = 0xf333;
-        sman->mTopHeightPerFrame = 0x8000;
+        sman->mTopHeight = SMAN_TOP_HEIGHT;
+        sman->mTopHeightPerFrame = SMAN_TOP_HEIGHT_PER_FRAME;
         sman->mTopRiseProgress = 0;
         sman->mBottomScale = 0;
         sman->mMapObject.mFlags = sman->mMapObject.mFlags | gSmanHitFlag;

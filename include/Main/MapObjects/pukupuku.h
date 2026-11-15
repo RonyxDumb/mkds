@@ -20,6 +20,8 @@
 #include "Main/MapObjects/data_02158000.h"
 #include "Main/MapObjects/pendulum.h"
 
+#define PUKUPUKU_WAIT_FRAMES 0x12c
+
 #define PUKUPUKU_HOP_SOUND_ID 0x10b
 
 void CreatePukupuku(void);

@@ -218,7 +218,7 @@ void UpdateSman(void *mapObjectList, Sman *sman) {
         }
     } else {
         if (sman->mAngleZPerFrame >= 0) {
-            sman->mAngleZPerFrame = 0xf0;
+            sman->mAngleZPerFrame = SMAN_ANGLE_Z_PER_FRAME;
         } else {
             sman->mAngleZPerFrame = sman->mAngleZPerFrame + 8;
         }

@@ -176,9 +176,9 @@ void UpdateSun(MapObjectList *mapObjectList, Sun *sun) {
             }
             break;
         case SUN_STATE_FOLLOW_PATH:
-            sun->mFollower.mSpeed = 0x3c000;
+            sun->mFollower.mSpeed = SUN_PATH_SPEED;
             sun->mFollower.mProgressStep = MUL_FIXED12_NO_ROUND(
-                sun->mFollower.mPath->mSegments[sun->mFollower.mSegmentIndex].mInverseProgressLength, 0x3c000);
+                sun->mFollower.mPath->mSegments[sun->mFollower.mSegmentIndex].mInverseProgressLength, SUN_PATH_SPEED);
             if (AdvanceGroupFollower(&sun->mFollower) != FALSE && (value = sun->mFollower.mFromEntry->mValue) != 0) {
                 if (sun->mMapObject.mFlags & MAP_OBJECT_FLAG_TIME_ATTACK_OR_WIFI) {
                     mode = gRaceSetup->mMode;
@@ -238,7 +238,7 @@ void UpdateSun(MapObjectList *mapObjectList, Sun *sun) {
         case SUN_STATE_SPIN_DOWN:
             sun->mDrawOffsetAngle += 0xe39;
             sun->mDrawOffsetRadiusAngle += 0x222;
-            if (sun->mDrawOffsetRadiusAngle > 0x10000) {
+            if (sun->mDrawOffsetRadiusAngle > ANGLE_FULL_TURN) {
                 sun->mTimer = 0x1e;
                 sun->mState = SUN_STATE_WAIT_TO_MOVE;
             }

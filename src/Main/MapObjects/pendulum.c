@@ -190,8 +190,10 @@ void UpdatePendulum(u32 list, PendulumObject *pendulum) {
     previousAngle = pendulum->mSwingAngle;
     pendulum->mSwingAngle = previousAngle + pendulum->mSwingAnglePerFrame;
     swingAngle = MUL_FIXED12_NO_ROUND((s32) pendulum->mSwingAmplitude, FX_SinIdx(pendulum->mSwingAngle));
-    if ((previousAngle < 0x58f0 && pendulum->mSwingAngle >= 0x58f0) ||
-        (previousAngle < 0xd8f0 && pendulum->mSwingAngle >= 0xd8f0)) {
+    if ((previousAngle < ANGLE_QUARTER_TURN + PENDULUM_SOUND_ANGLE_OFFSET &&
+         pendulum->mSwingAngle >= ANGLE_QUARTER_TURN + PENDULUM_SOUND_ANGLE_OFFSET) ||
+        (previousAngle < ANGLE_THREE_QUARTER_TURN + PENDULUM_SOUND_ANGLE_OFFSET &&
+         pendulum->mSwingAngle >= ANGLE_THREE_QUARTER_TURN + PENDULUM_SOUND_ANGLE_OFFSET)) {
         if ((pendulum->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
             if (pendulum->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
                 falloffIndex = 2;

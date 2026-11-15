@@ -6,6 +6,9 @@
 #include "Main/MapObjects/attractor.h" // MapObject
 #include "01/MapObjects/data_0209bc74.h"
 
+#define SHINE_BALLOON_TIMER_FRAMES 0x1e
+#define SHINE_BALLOON_PULSE_SCALE_MIN 0x4a
+
 // ShineBalloonObject.mState values: HIDDEN waits until the kart has a balloon, APPEAR and DISAPPEAR pulse the scale,
 // SHOWN follows the kart until its balloons are gone.
 enum {

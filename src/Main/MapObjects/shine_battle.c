@@ -162,7 +162,7 @@ void UpdateShineBattle(MapObjectList *mapObjectList, ShineBattle *shineBattle) {
         return;
     }
     shineBattle->mShineStartFrames += 1;
-    if (shineBattle->mShineStartFrames <= 0x5a) {
+    if (shineBattle->mShineStartFrames <= SHINE_BATTLE_START_FRAMES) {
         return;
     }
     shineBattle->mShineStartFrames = 0;

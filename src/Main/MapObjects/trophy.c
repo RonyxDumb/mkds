@@ -116,14 +116,14 @@ void SetupTrophy(void) {
             return;
         }
         gTrophy->mRotateYAngle = -GetSceneFadeToClearFrameCount() * 0x6d;
-        angle = -GetSceneFadeToClearFrameCount() * 0x36;
+        angle = -GetSceneFadeToClearFrameCount() * TROPHY_WOBBLE_ANGLE_PER_FRAME;
         trophy = gTrophy;
         trophy->mRotateZWobble.mAngle = angle;
         wobble = &trophy->mRotateZWobble;
         wobble->mMid = 0;
-        wobble->mAmplitude = 0xaab;
+        wobble->mAmplitude = TROPHY_WOBBLE_AMPLITUDE;
         wobble->mAmplitudePerFrame = 0;
-        wobble->mAnglePerFrame = 0x36;
+        wobble->mAnglePerFrame = TROPHY_WOBBLE_ANGLE_PER_FRAME;
         wobble->mAnglePerFrameDelta = 0;
         MTX_Identity43_(&gTrophy->mEffectMatrix);
         if (gTrophy->mRankIndex == 0) {
