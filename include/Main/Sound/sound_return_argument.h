@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void SoundNopWrapper(u32 address);
+void SoundNopWrapper(void *address);

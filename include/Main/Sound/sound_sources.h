@@ -43,7 +43,7 @@ void StopSoundsOnAllSources(u32 fadeSteps);
 void StartPlayingSoundsFade(s32 volume, s32 steps);
 void StopAllPlayingSounds(u32 fadeSteps);
 
-void SoundNop(u32 address);
+void SoundNop(void *address);
 
 void InitPlayingSoundPool(PlayingSound *sounds, s32 count);
 

@@ -888,7 +888,7 @@ void StartSceneSounds(void) {
     }
     ResetRaceEndSeqState();
     gRaceSoundKind = 0;
-    SoundNopWrapper((u32) &gRaceSoundKind);
+    SoundNopWrapper(&gRaceSoundKind);
     flag = 0;
     gPlayerVolumeFade.mVolume = 0;
     gPlayerVolumeFade.mTargetVolumeBeforeRaceStart = 0x7f;
