@@ -197,7 +197,7 @@ void UpdateDossun(void *unused, Dossun *dossun) {
                 return;
             }
             dossun->mState++;
-            followerSpeed = dossun->mState5FollowerSpeed;
+            followerSpeed = dossun->mFollowerSetSpeed;
             follower->mSpeed = followerSpeed;
             follower->mProgressStep = MUL_FIXED12_NO_ROUND(
                 followerSpeed, follower->mPath->mSegments[follower->mSegmentIndex].mInverseProgressLength);
@@ -391,7 +391,7 @@ void InitDossun(Dossun *dossun, CourseMapRow *row) {
     dossun->mZOffset = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.z, 0x1e000);
     dossun->mInitialUpSpeed = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.y, 0xf000);
     dossun->mDownSpeedStep = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.y, 0x1000);
-    dossun->mState5FollowerSpeed = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.y, 0x2000);
+    dossun->mFollowerSetSpeed = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.y, 0x2000);
     dossun->mSineAmplitude = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.y, 0x3000);
     SetupDossunAtStartEntry(dossun);
     if (dossun->mIsSlowVariant != 0) {

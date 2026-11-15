@@ -68,7 +68,7 @@ typedef struct Dossun {
     /* fc */ s32 mZOffset;
     /* 100 */ s32 mInitialUpSpeed;
     /* 104 */ s32 mDownSpeedStep;
-    /* 108 */ s32 mState5FollowerSpeed;
+    /* 108 */ s32 mFollowerSetSpeed;
 } Dossun;
 
 // 0x2c bytes: three functions at 0x08, 0x0c and 0x10.
