@@ -44,8 +44,8 @@
 StateCallbacks gKuriboStateTable[6] = {{EnterKuriboState0, UpdateKuriboState0},
                                        {EnterKuriboState1, UpdateKuriboState1},
                                        {EnterKuriboState2, UpdateKuriboState2},
-                                       {(UnkFunc *) EnterKuriboState3, UpdateKuriboState3},
-                                       {(UnkFunc *) EnterKuriboState4, UpdateKuriboState4},
+                                       {(StateCallback) EnterKuriboState3, UpdateKuriboState3},
+                                       {(StateCallback) EnterKuriboState4, UpdateKuriboState4},
                                        {EnterKuriboState5, UpdateKuriboState5}};
 
 const struct Quaternion gKuriboBombResetOrientation = {{0, 0, 0, 0x1000}};

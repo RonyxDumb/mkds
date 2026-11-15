@@ -124,6 +124,10 @@ typedef struct AttractorMapObject {
 #define MAP_OBJECT_LIST_POS_STEP_MEASURED 2
 #define MAP_OBJECT_LIST_POS_STEP_UNSET 3
 
+// The update and draw lists call mForEachObject with different arguments and the stored functions take their own object
+// type, so its type is left unprototyped.
+typedef void (*MapObjectForEachCallback)();
+
 // Objects drawn or updated together: mInit runs once when the lists are set up, mBeforeObjects and mAfterObjects run
 // around the loop over the objects, mForEachObject runs for each object.
 typedef struct MapObjectList {
@@ -132,7 +136,7 @@ typedef struct MapObjectList {
     /* 06 */ u8 mUnk_06[2];
     /* 08 */ void (*mInit)(struct MapObjectList *p);
     /* 0c */ void (*mBeforeObjects)(struct MapObjectList *p);
-    /* 10 */ UnkFunc *mForEachObject;
+    /* 10 */ MapObjectForEachCallback mForEachObject;
     /* 14 */ void (*mAfterObjects)(struct MapObjectList *p);
     // Update lists: the kind's mPosStepMode (3 = not set yet). Draw lists: 1 or 2, the first or second pass.
     /* 18 */ s32 mPassOrPosStepMode;

@@ -331,7 +331,7 @@ void SetupMapObjectView(MtxFx43 *viewMatrix) {
 void DrawMapObjectList(MapObjectList *list, MtxFx43 *viewMatrix) {
     s32 objectIndex;
     MapObject *mapObject;
-    UnkFunc *forEachObject;
+    MapObjectForEachCallback forEachObject;
     s32 objectCount;
     void **objects;
     MapObject *lastObject;

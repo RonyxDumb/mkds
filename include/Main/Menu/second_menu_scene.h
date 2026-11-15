@@ -3,10 +3,14 @@
 #include "types.h"
 #include "Main/Menu/data_02175000.h"
 
+// The state functions take the state machine object (a different type for each machine), so the type is left
+// unprototyped.
+typedef void (*StateCallback)();
+
 // Pair of callbacks at an element of the table behind the first word of StateMachine.
 typedef struct StateCallbacks {
-    /* 00 */ UnkFunc *mEnter;
-    /* 04 */ UnkFunc *mUpdate;
+    /* 00 */ StateCallback mEnter;
+    /* 04 */ StateCallback mUpdate;
 } StateCallbacks;
 
 // Object AdvanceStateMachine and SetStateMachineState take.

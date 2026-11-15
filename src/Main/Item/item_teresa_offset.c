@@ -99,7 +99,7 @@ StateCallbacks gItemTeresaStateTable[7] = {{EnterItemTeresaState0, UpdateItemTer
                                            {EnterItemTeresaState3, UpdateItemTeresaState3},
                                            {EnterItemTeresaState4, UpdateItemTeresaState4},
                                            {EnterItemTeresaState5, UpdateItemTeresaState5},
-                                           {(UnkFunc *) EnterItemTeresaState6, UpdateItemTeresaState6}};
+                                           {(StateCallback) EnterItemTeresaState6, UpdateItemTeresaState6}};
 
 void TeresaMarkItemInUseAsActiveItem(ItemInUse *itemInUse) {
     itemInUse->mIsActiveItem = TRUE;
