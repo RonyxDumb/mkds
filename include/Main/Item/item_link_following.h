@@ -5,9 +5,7 @@
 #include "Main/Item/item_object_throw.h"
 #include "Main/Item/item_objects_and_race_progress.h"
 
-// Element of gItemPools[1] and [5] up to 0x228: after the DirectedItemObject part, the ItemPointLinkRef at 0x168 that
-// PickNextItemPointLink fills, the SegmentPoints at 0x170, the words at 0x214 and 0x218 and the ItemPointLinkRef at
-// 0x21c.
+// An item object that follows item point links, with the segment points it follows.
 typedef struct LinkFollowingItemObject {
     /* 000 */ DirectedItemObject mDirectedItemObject;
     /* 168 */ ItemPointLinkRef mTargetLink;

@@ -15,9 +15,7 @@
 #define BOUNCING_ITEM_BOX_FULL_SCALE_RATIO 0x1000
 #define BOUNCING_ITEM_BOX_SCALE_RATIO_STEP 0xcd
 
-// Element of gItemPools[8]: 0x14c bytes (the size in gItemKinds[8]), handled by AdvanceBouncingItemBox to
-// StartBouncingItemBox: the BouncingItemObject part, words at 0x130 and 0x138, the ItemBox at 0x134, a vector
-// at 0x13c and a word at 0x148.
+// An item box that bounces (gItemPools[8]): the bouncing item object part and its ItemBox.
 typedef struct BouncingItemBox {
     /* 000 */ BouncingItemObject mBouncingItemObject;
     /* 130 */ s32 mThrownForward;

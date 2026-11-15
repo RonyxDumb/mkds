@@ -84,6 +84,7 @@ typedef struct CharacterAnimationState {
 
 struct Nsbmd;
 
+// The models of one kart and its character: animations, shadow, tire translations, hidden flags and color blends.
 typedef struct KartModelsEntry {
     /* 000 */ s32 mCharacterIndex;
     /* 004 */ s32 mKartIndex;

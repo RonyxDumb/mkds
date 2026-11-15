@@ -3,9 +3,7 @@
 #include "types.h"
 #include "Main/Item/item_object_fade_out.h"
 
-// A weight table parsed from "Item/ItemSlotList.dat": mRowCount rows of 18 halfwords (one weight per item) plus one end
-// row of 0xffff. Three globals: gItemSlotHumanGhostPeerTable, gItemSlotCpuTable (row = the kart's rank) and
-// gItemSlotForcedTable (row = a forced argument minus one).
+// A weight table parsed from Item/ItemSlotList.dat: rows of one weight per item.
 typedef struct ItemSlotTable {
     /* 00 */ s32 mRowCount;
     /* 04 */ u16 (*mRows)[0x12];

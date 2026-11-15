@@ -189,9 +189,7 @@ extern SegmentProgress gJgSegmentProgress;
 // Kart index that stands for no kart (one past the last kart): an item without an owner reads as this kart.
 #define ITEM_NO_KART_INDEX 8
 
-// Element returned through gItemPools: the first 0x12c bytes that every pool object shares; the per-kind objects
-// embed it as their first member and run from 0x12c (kinds 4, 6 and 13) to 0x31c bytes. One is also embedded in
-// MapObjects at 0x18c.
+// The part every item object shares; the per-kind objects embed it as their first member.
 typedef struct ItemObject {
     // Sound source of the item object (the sounds started on it).
     /* 00 */ SoundSource mSoundSource;
@@ -373,11 +371,7 @@ typedef struct RankPointRow {
     /* 00 */ u8 mPoints[8];
 } RankPointRow;
 
-// Race object behind gRaceProgress (0x524 bytes, made by CreateRaceProgress from InitRace, stepped every frame by
-// UpdateRaceProgress). Per-kart progress and status (mKarts, 8 entries), the rank order (mKartAtRank), the race clock
-// in the header (mUnk_00_header), two loaded files (rankpoint.rpt,
-// ranktimeGP.rtt), three random generators (mRandom synced, mLocalRandom per console, a third with a fixed seed used in
-// mode 5) and race-done / time-limit flags. 17 files use only the generators.
+// The race progress (gRaceProgress): per-kart progress and status, the rank order, the race clock and the generators.
 typedef struct RaceProgress {
     /* 000 */ RaceProgressHeader mHeader;
     /* 014 */ RaceProgressKart mKarts[8];
@@ -524,9 +518,7 @@ typedef enum {
 struct ItemInUse;
 struct HeldItem;
 
-// One of the 18 items: the object kind and the number of objects it takes from the pool, the use kind and the hook
-// called after its use. gItemInfos holds the heap copy of 18 static records of this type; the roulette may roll an item
-// only while mEnabled is set.
+// One of the 18 items: its object kind and count, use kind and the hook called after its use.
 typedef struct ItemInfo {
     // Gate of the roll and of the hand-over of the rolled item; set per mode by CreateItemInfos
     /* 00 */ BOOL mEnabled;
@@ -539,9 +531,7 @@ typedef struct ItemInfo {
     /* 18 */ void (*mUseHook)(struct ItemInUse *itemInUse, struct HeldItem *heldItem);
 } ItemInfo;
 
-// Entry of the table behind gItemPools: one pool per object kind (14), indexed by the kind number. The pool's objects
-// sit in one array: the first mActiveCount are started, up to mTakenCount are handed out, the rest are free. Item,
-// roulette, per-kind and HUD map code use it.
+// One pool of item objects of a kind (gItemPools): the first mActiveCount are started, up to mTakenCount handed out.
 typedef struct ItemPool {
     /* 00 */ s32 mKind;
     /* 04 */ ItemObject **mObjects;
@@ -629,6 +619,7 @@ typedef enum {
 #define HELD_ITEM_SECOND_LAUNCH_FRAME 5
 #define HELD_ITEM_THIRD_LAUNCH_FRAME 3
 
+// The item a kart holds: its item info, objects, use timers and launch state.
 typedef struct HeldItem {
     /* 00 */ s32 mItemInfoIndex;
     /* 04 */ struct KartItems *mKartItems;

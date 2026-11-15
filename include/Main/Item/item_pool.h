@@ -72,10 +72,7 @@ typedef enum { KART_ITEMS_SLOT_IDLE, KART_ITEMS_SLOT_SPINNING, KART_ITEMS_SLOT_S
 // Free objects (ItemPool.mLimit - mReservedCount) below which UpdateItemPool releases old objects to make room.
 #define ITEM_POOL_LOW_FREE_OBJECTS 2
 
-// One item record per kart (the array behind gKartItems, 0x210 bytes each): the item roulette in the first 0x30 bytes,
-// the held item at 0x30, the item in use at 0x58, the course reference at 0x1f0, the kart index and the Kart at 0x1f8 /
-// 0x1fc and four words of use state at 0x200..0x20c. A bag named after whose item state it is: no single role. Race
-// code only.
+// One item record per kart (gKartItems): the item roulette, the held item, the item in use and the kart.
 typedef struct KartItems {
     /* 000 */ s32 mSlotState;
     // Counts up per UpdateItemSlot call; starts at 0x4d when the fifth start argument is non-zero; wound back to 0x67
