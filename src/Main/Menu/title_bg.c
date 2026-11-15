@@ -134,7 +134,7 @@ void CreateTitleScene(void) {
     gTitleScene->mBlendDone = GetTitleBlendDone() != 0;
     gTitleScene->mSelectedIndex = TITLE_ENTRY_FIRST;
     gTitleScene->mStartedOnSelected = FALSE;
-    gTitleScene->mPreferEntry4 = TRUE;
+    gTitleScene->mPreferRecordEntry = TRUE;
     gTitleScene->mSelectedOffset = 0;
     gTitleScene->mBlendFrames = GetTitleBlendDone() != 0 ? 0x6b : 0;
     AdvanceTitleBlend();

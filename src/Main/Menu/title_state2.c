@@ -50,12 +50,12 @@ void UpdateTitleState2(SceneNumbers *sceneNumbers) {
             switch (gTitleScene->mSelectedIndex) {
                 case TITLE_ENTRY_OPTION:
                     gTitleScene->mSelectedIndex = TITLE_ENTRY_RECORD;
-                    gTitleScene->mPreferEntry4 = TRUE;
+                    gTitleScene->mPreferRecordEntry = TRUE;
                     StartSoundOncePerFrame(0);
                     break;
                 case TITLE_ENTRY_RECORD:
                     gTitleScene->mSelectedIndex = TITLE_ENTRY_OPTION;
-                    gTitleScene->mPreferEntry4 = FALSE;
+                    gTitleScene->mPreferRecordEntry = FALSE;
                     StartSoundOncePerFrame(0);
                     break;
             }
@@ -63,7 +63,7 @@ void UpdateTitleState2(SceneNumbers *sceneNumbers) {
         } else if (GetNewOrRepeatBits(slotIndex, PAD_KEY_UP) != 0) {
             switch (gTitleScene->mSelectedIndex) {
                 case TITLE_ENTRY_FIRST:
-                    if (gTitleScene->mPreferEntry4 != FALSE) {
+                    if (gTitleScene->mPreferRecordEntry != FALSE) {
                         gTitleScene->mSelectedIndex = TITLE_ENTRY_RECORD;
                     } else {
                         gTitleScene->mSelectedIndex = TITLE_ENTRY_OPTION;
@@ -91,7 +91,7 @@ void UpdateTitleState2(SceneNumbers *sceneNumbers) {
                     gTitleScene->mSelectedIndex = TITLE_ENTRY_WIFI_MENU;
                     break;
                 case TITLE_ENTRY_WIFI_MENU:
-                    if (gTitleScene->mPreferEntry4 != FALSE) {
+                    if (gTitleScene->mPreferRecordEntry != FALSE) {
                         gTitleScene->mSelectedIndex = TITLE_ENTRY_RECORD;
                     } else {
                         gTitleScene->mSelectedIndex = TITLE_ENTRY_OPTION;

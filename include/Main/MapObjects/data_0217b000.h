@@ -525,7 +525,8 @@ typedef struct TitleScene {
     /* 050 */ BOOL mBlendDone;
     /* 054 */ s32 mSelectedIndex;
     /* 058 */ BOOL mStartedOnSelected;
-    /* 05c */ BOOL mPreferEntry4;
+    // TRUE when the title cursor goes to the record entry rather than the option entry when it leaves the Wi-Fi menu entry.
+    /* 05c */ BOOL mPreferRecordEntry;
     /* 060 */ s16 mSelectedOffset;
     /* 064 */ s32 mBlendFrames;
     /* 068 */ struct LayoutTableEntry *mTitleTable;

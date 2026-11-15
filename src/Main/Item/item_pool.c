@@ -694,9 +694,9 @@ void ReleaseKartItems(KartItems *kartItems) {
 }
 
 void StartKartItemObjectCountdowns(KartItems *kartItems) {
-    BOOL isMode5;
+    BOOL isWiFi;
 
-    isMode5 = gRaceSetup->mMode == MODE_WIFI;
+    isWiFi = gRaceSetup->mMode == MODE_WIFI;
     if ((kartItems->mKart->mEntryFlags & KART_ENTRY_WIFI_PEER) != 0) {
         return;
     }
@@ -704,19 +704,19 @@ void StartKartItemObjectCountdowns(KartItems *kartItems) {
         KART_ITEM_EFFECT_KILLER - KART_ITEM_EFFECT_TERESA) {
         return;
     }
-    if (isMode5 && kartItems->mActiveItem != ITEM_INFO_NONE) {
+    if (isWiFi && kartItems->mActiveItem != ITEM_INFO_NONE) {
         return;
     }
     if (kartItems->mHeldItem.mItemInfoIndex != ITEM_INFO_NONE && kartItems->mHeldItem.mObjectStartFramesLeft == 0) {
         StartHeldItemObjects(&kartItems->mHeldItem);
     }
-    if (isMode5) {
+    if (isWiFi) {
         return;
     }
     if (kartItems->mSlotState != KART_ITEMS_SLOT_IDLE) {
         FinishItemSlotAndStopSound(kartItems);
     }
-    if (isMode5) {
+    if (isWiFi) {
         return;
     }
     if (kartItems->mItemInUse.mObjectKind == ITEM_OBJECT_KIND_NONE) {
