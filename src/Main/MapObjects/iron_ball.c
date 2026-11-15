@@ -131,7 +131,7 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
             }
             limit = ironBall->mNextStartLap;
             for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex++) {
-                if (GetKartHighestLap((u16) kartIndex) >= limit) {
+                if (GetKartHighestLap(kartIndex) >= limit) {
                     lapReached = TRUE;
                     goto found;
                 }

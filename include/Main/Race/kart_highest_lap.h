@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u16 GetKartHighestLap(int kart);
+u16 GetKartHighestLap(u16 kart);

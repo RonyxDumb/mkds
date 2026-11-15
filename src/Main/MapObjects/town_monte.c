@@ -114,7 +114,7 @@ static inline BOOL IsAnyKartHighestLapAtLeastTwo(void) {
     s32 kartIndex;
 
     for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex++) {
-        if (GetKartHighestLap((u16) kartIndex) >= 2) {
+        if (GetKartHighestLap(kartIndex) >= 2) {
             return TRUE;
         }
     }

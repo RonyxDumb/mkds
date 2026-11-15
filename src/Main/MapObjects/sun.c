@@ -133,7 +133,7 @@ static inline BOOL UpdateSun_inline(void) {
     s32 kartIndex;
 
     for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex++) {
-        if ((s32) GetKartHighestLap((u16) kartIndex) >= 2) {
+        if ((s32) GetKartHighestLap(kartIndex) >= 2) {
             return TRUE;
         }
     }
