@@ -66,7 +66,7 @@ u64 FloatTrapWordToPair(u32 word, u32 statusFlags) {
 
     operand.mLow = word;
     result = FloatTrapDispatch(operand, operand, statusFlags);
-    return *(u64 *) &result;
+    return result.mWhole;
 }
 
 u64 FloatTrapPairToPair(u32 low, u32 high, u32 statusFlags) {
@@ -76,7 +76,7 @@ u64 FloatTrapPairToPair(u32 low, u32 high, u32 statusFlags) {
     operand.mLow = low;
     operand.mHigh = high;
     result = FloatTrapDispatch(operand, operand, statusFlags);
-    return *(u64 *) &result;
+    return result.mWhole;
 }
 
 u32 FloatTrapWordWordToWord(u32 firstWord, u32 secondWord, u32 statusFlags) {
@@ -100,7 +100,7 @@ u64 FloatTrapPairPairToPair(u32 firstLow, u32 firstHigh, u32 secondLow, u32 seco
     secondOperand.mLow = secondLow;
     secondOperand.mHigh = secondHigh;
     result = FloatTrapDispatch(firstOperand, secondOperand, statusFlags);
-    return *(u64 *) &result;
+    return result.mWhole;
 }
 
 u32 FloatTrapPairPairToWord(u32 firstLow, u32 firstHigh, u32 secondLow, u32 secondHigh, u32 statusFlags) {

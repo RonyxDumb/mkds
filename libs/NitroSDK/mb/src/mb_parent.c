@@ -418,7 +418,7 @@ u32 MBi_CommParentSendDLFileInfo(void) {
     if (sendBlock != NULL) {
         MI_CpuCopy8(mbc->mFileInfo + candidateFile * 0x5d4, sendBlock, 0xe4);
     }
-    return MBi_BlockHeaderEnd(0xea, childMask, *(u32 *) &mbc);
+    return MBi_BlockHeaderEnd(0xea, childMask, (u32) mbc);
 }
 
 void MBi_ReloadCache(DataRangeLoadJob *job) {

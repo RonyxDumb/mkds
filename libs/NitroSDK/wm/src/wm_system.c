@@ -268,12 +268,12 @@ void WmReceiveFifo(u32 tag, WirelessMessage *callback, s32 err) {
             if (command == WIRELESS_REQUEST_OPEN_HOST) {
                 peerAddress = callback->mMacAddress;
                 peerName = callback->mPeerBytes;
-                stateCode = *(u16 *) &callback->mRecvBuf;
+                stateCode = callback->mReplyState;
                 memberIndex = callback->mLength;
                 ownIndex = 0;
             } else if (command == 0xc) {
                 memberIndex = 0;
-                stateCode = *(u16 *) &callback->mRecvBuf;
+                stateCode = callback->mReplyState;
                 ownIndex = callback->mLength;
                 peerName = 0;
                 peerAddress = callback->mMacAddress;

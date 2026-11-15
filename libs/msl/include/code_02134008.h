@@ -3,9 +3,12 @@
 #include "types.h"
 
 // Two words passed and returned by value.
-typedef struct WordPair {
-    /* 00 */ u32 mLow;
-    /* 04 */ u32 mHigh;
+typedef union WordPair {
+    struct {
+        /* 00 */ u32 mLow;
+        /* 04 */ u32 mHigh;
+    };
+    u64 mWhole;
 } WordPair;
 
 typedef WordPair (*FloatTrapHandlerFunc)(WordPair a, WordPair b, u32 c);
