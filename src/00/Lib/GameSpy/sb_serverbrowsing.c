@@ -204,7 +204,7 @@ s32 ServerBrowserSendNatNegotiateCookieToServerA(MatchingServerList *matchingSer
                                             ((port >> 8) & 0xff) | ((port << 8) & 0xff00), cookie);
 }
 
-void ServerBrowserRemoveServer(struct MatchingServerList *matchingServerList, s32 server) {
+void ServerBrowserRemoveServer(struct MatchingServerList *matchingServerList, SbServer *server) {
     s32 serverIndex;
     serverIndex = SBServerListFindServer(&matchingServerList->mList, server);
     if (serverIndex != -1) {
@@ -227,14 +227,13 @@ void ServerBrowserClear(struct MatchingServerList *matchingServerList) {
     SBServerListClear(&matchingServerList->mList);
 }
 
-u32 ServerBrowserGetServer(MatchingServerList *matchingServerList, u32 index) {
+SbServer *ServerBrowserGetServer(MatchingServerList *matchingServerList, u32 index) {
     u32 spareValue = (u32) matchingServerList;
     u32 indexCopy = index;
     u32 calleeAddress;
     spareValue = (spareValue) + 76u;
     calleeAddress = (u32) &SBServerListNth;
-    spareValue = SBServerListNth((SbServerList *) spareValue, indexCopy);
-    return spareValue;
+    return SBServerListNth((SbServerList *) spareValue, indexCopy);
 }
 
 u32 ServerBrowserCount(MatchingServerList *matchingServerList) {

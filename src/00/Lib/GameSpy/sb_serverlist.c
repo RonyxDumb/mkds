@@ -101,14 +101,14 @@ void SBServerListSort(SbServerList *serverList, s32 ascending, const char *sortF
     DarraySort(serverList->mServers, (u32) comparator);
 }
 
-void SBServerListAppendServer(SbServerList *serverList, u32 server) {
+void SBServerListAppendServer(SbServerList *serverList, SbServer *server) {
     DarrayAppend(serverList->mServers, &server);
     serverList->mCallback(serverList, 0, server, serverList->mInstance);
 }
 
-int SBServerListFindServer(SbServerList *serverList, int server) {
+int SBServerListFindServer(SbServerList *serverList, SbServer *server) {
     int count;
-    int *element;
+    SbServer **element;
     int index;
     count = DarrayGetCount(serverList->mServers);
     index = 0;
@@ -125,10 +125,10 @@ int SBServerListFindServer(SbServerList *serverList, int server) {
 }
 
 int SBServerListFindServerByIP(SbServerList *serverList, int publicIp, int publicPort) {
-    u32 candidate;
+    SbServer *candidate;
     int index;
     int comparedValue;
-    u32 *entry;
+    SbServer **entry;
     int count;
     count = DarrayGetCount(serverList->mServers);
     index = 0;
@@ -136,7 +136,7 @@ int SBServerListFindServerByIP(SbServerList *serverList, int publicIp, int publi
         do {
             entry = DarrayGetElement(serverList->mServers, index);
             candidate = *entry;
-            comparedValue = SBServerGetPublicInetAddress(((u32 *) (u32) candidate));
+            comparedValue = SBServerGetPublicInetAddress(candidate);
             if ((publicIp == comparedValue) &&
                 (comparedValue = SBServerGetPublicQueryPortNBO(candidate), publicPort == comparedValue)) {
                 return index;
@@ -147,9 +147,9 @@ int SBServerListFindServerByIP(SbServerList *serverList, int publicIp, int publi
     return -1;
 }
 
-void AddServerToDeadlist(SbServerList *serverList, u32 server) {
-    if (serverList->mDeadList == 0) {
-        SBServerSetNext(server, 0);
+void AddServerToDeadlist(SbServerList *serverList, SbServer *server) {
+    if (serverList->mDeadList == NULL) {
+        SBServerSetNext(server, NULL);
     } else {
         SBServerSetNext(server, serverList->mDeadList);
     }
@@ -157,7 +157,7 @@ void AddServerToDeadlist(SbServerList *serverList, u32 server) {
 }
 
 void SBServerListRemoveAt(SbServerList *serverList, s32 index) {
-    u32 removedServer = *(u32 *) DarrayGetElement(serverList->mServers, index);
+    SbServer *removedServer = *(SbServer **) DarrayGetElement(serverList->mServers, index);
     serverList->mCallback(serverList, 2, removedServer, serverList->mInstance);
     DarrayRemove(serverList->mServers, index);
     AddServerToDeadlist(serverList, removedServer);
@@ -171,29 +171,29 @@ u32 SBServerListCount(SbServerList *serverList) {
     return count;
 }
 
-u32 SBServerListNth(SbServerList *serverList, u32 index) {
-    u32 *element;
+SbServer *SBServerListNth(SbServerList *serverList, u32 index) {
+    SbServer **element;
     element = DarrayGetElement(serverList->mServers, index);
     return *element;
 }
 
 void SBFreeDeadList(SbServerList *serverList) {
-    int deadServer;
-    int nextServer;
-    if (serverList->mDeadList != 0) {
+    SbServer *deadServer;
+    SbServer *nextServer;
+    if (serverList->mDeadList != NULL) {
         deadServer = serverList->mDeadList;
-        while (deadServer != 0) {
+        while (deadServer != NULL) {
             nextServer = SBServerGetNext(deadServer);
             SBServerFree(&deadServer);
             deadServer = nextServer;
         }
-        serverList->mDeadList = 0;
+        serverList->mDeadList = NULL;
     }
 }
 
 void SBServerListClear(SbServerList *serverList) {
     int count;
-    u32 *element;
+    SbServer **element;
     int index;
     count = DarrayGetCount(serverList->mServers);
     index = 0;
@@ -838,7 +838,7 @@ s32 ParseServer(SbServerList *serverList, void *server, u8 *buffer, s32 length, 
 s32 IncomingListParseServer(SbServerList *serverList, u8 *buffer, s32 length) {
     s32 entrySize;
     s32 flags;
-    void *parsedServer;
+    SbServer *parsedServer;
     u16 netPort;
     u32 ipAddress;
     s32 parsedLength;
@@ -870,7 +870,7 @@ s32 IncomingListParseServer(SbServerList *serverList, u8 *buffer, s32 length) {
         return -2;
     }
     parsedLength = ParseServer(serverList, parsedServer, buffer, length, 1);
-    SBServerListAppendServer(serverList, (u32) parsedServer);
+    SBServerListAppendServer(serverList, parsedServer);
     return parsedLength;
 }
 
@@ -1147,7 +1147,7 @@ s32 ProcessMaploop(SbServerList *serverList, u8 *buffer, s32 length) {
     u32 rotationTime;
     u32 ipAddress;
     u16 netPort;
-    u32 foundServer;
+    SbServer *foundServer;
     s32 nameCount;
     s32 index;
     s32 mapIndex;
@@ -1233,7 +1233,7 @@ s32 ProcessDeleteServer(SbServerList *serverList, u8 *buffer, s32 length) {
 
 s32 ProcessPushServer(SbServerList *serverList, u8 *buffer, s32 length) {
     s32 serverIndex;
-    void *pushedServer;
+    SbServer *pushedServer;
     u16 netPort;
     u32 ipAddress;
     if (length < 5) {
@@ -1247,13 +1247,13 @@ s32 ProcessPushServer(SbServerList *serverList, u8 *buffer, s32 length) {
             return 5;
         }
     } else {
-        pushedServer = (void *) SBServerListNth(serverList, serverIndex);
+        pushedServer = SBServerListNth(serverList, serverIndex);
     }
     if (ParseServer(serverList, pushedServer, buffer, length, 0) < 0) {
         return 4;
     }
     if (serverIndex == -1) {
-        SBServerListAppendServer(serverList, (u32) pushedServer);
+        SBServerListAppendServer(serverList, pushedServer);
     }
     serverList->mCallback(serverList, 1, pushedServer, serverList->mInstance);
     return 0;
@@ -1412,7 +1412,7 @@ s32 ProcessLanData(SbServerList *serverList) {
     SocketAddress sender;
     s32 senderLength;
     u8 datagram[0x5e0];
-    void *lanServer;
+    SbServer *lanServer;
     senderLength = 8;
     while (CanReceiveOnSocket(serverList->mSocket) != 0) {
         if (recvfrom(serverList->mSocket, datagram, 0x5db, 0, &sender, &senderLength) != -1) {
@@ -1422,7 +1422,7 @@ s32 ProcessLanData(SbServerList *serverList) {
                     return 5;
                 }
                 SBServerSetFlags(lanServer, 0x11);
-                SBServerListAppendServer(serverList, (u32) lanServer);
+                SBServerListAppendServer(serverList, lanServer);
             }
         }
     }

@@ -96,7 +96,7 @@ typedef struct SbServerList {
     /* 5c4 */ u32 mQueryOptions;
     /* 5c8 */ s32 mParseState;
     /* 5cc */ s32 mLanAdapterOverride;
-    /* 5d0 */ int mDeadList;
+    /* 5d0 */ struct SbServer *mDeadList;
 } SbServerList;
 
 // Object behind gGsiAvailableCheck.

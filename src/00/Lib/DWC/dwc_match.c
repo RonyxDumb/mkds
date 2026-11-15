@@ -164,13 +164,13 @@ u32 DWC_AddMatchKeyString(u32 keyId, char *keyString, void *valueSrc) {
 }
 
 s32 DWC_GetMatchIntValue(u32 index, void *keyString, s32 idefault) {
-    u32 serverEntry;
+    SbServer *serverEntry;
     if (gWiFiMatching == NULL || DWCi_IsError() != 0) {
         return idefault;
     }
     serverEntry = ServerBrowserGetServer(gWiFiMatching->mServerList, index);
     if (serverEntry != 0) {
-        idefault = SbServerGetInt((SbServer *) serverEntry, keyString, idefault);
+        idefault = SbServerGetInt(serverEntry, keyString, idefault);
     }
     return idefault;
 }
@@ -1255,7 +1255,7 @@ s32 DWCi_GetDefaultMatchFilter(char *buffer, s32 profileId, s32 numEntry, s32 mo
         "dwc_mver", 3, gDwcPidKey, profileId, numEntry, numEntry, "dwc_mtype", mode, "dwc_mresv", gDwcPidKey);
 }
 
-u32 DWCi_NNStartupAsync(s32 isQR2, s32 cookie, u32 server) {
+u32 DWCi_NNStartupAsync(s32 isQR2, s32 cookie, SbServer *server) {
     u32 words[2];
     u16 hostIdLow;
     u32 index;
@@ -1268,7 +1268,7 @@ u32 DWCi_NNStartupAsync(s32 isQR2, s32 cookie, u32 server) {
     if (isQR2 == 0) {
         cookie = (gWiFiMatching->mOwnProfileId & 0xffff) | (gWiFiMatching->mCookieRandom << 16);
         if (SBServerHasPrivateAddress(server) != 0) {
-            if (SBServerGetPublicInetAddress((u32 *) server) ==
+            if (SBServerGetPublicInetAddress(server) ==
                 ServerBrowserGetMyPublicIPAddr(gWiFiMatching->mServerList)) {
                 gWiFiMatching->mParticipantConnectAddresses[index] = SBServerGetPrivateInetAddress(server);
                 gWiFiMatching->mParticipantConnectPorts[index] = SBServerGetPrivateQueryPort(server);
@@ -1283,7 +1283,7 @@ u32 DWCi_NNStartupAsync(s32 isQR2, s32 cookie, u32 server) {
                 (hostIdLow & 0xff) == 0x10) {
                 canStart = TRUE;
             } else {
-                gWiFiMatching->mParticipantConnectAddresses[index] = SBServerGetPublicInetAddress((u32 *) server);
+                gWiFiMatching->mParticipantConnectAddresses[index] = SBServerGetPublicInetAddress(server);
                 gWiFiMatching->mParticipantConnectPorts[index] = SBServerGetPublicQueryPort(server);
                 canStart = FALSE;
             }
@@ -1296,7 +1296,7 @@ u32 DWCi_NNStartupAsync(s32 isQR2, s32 cookie, u32 server) {
             words[1] = GetSocketPort(*gWiFiMatching->mConnectionSocket);
             result = DWCi_SendMatchCommand(
                 WIFI_MATCH_COMMAND_CONNECT_INFO, gWiFiMatching->mParticipantProfileIds[index],
-                SBServerGetPublicInetAddress((u32 *) server), SBServerGetPublicQueryPort(server), words, 2);
+                SBServerGetPublicInetAddress(server), SBServerGetPublicQueryPort(server), words, 2);
             gWiFiMatching->mResendCount = 0;
             if (result != 0) {
                 return 2;
@@ -1306,7 +1306,7 @@ u32 DWCi_NNStartupAsync(s32 isQR2, s32 cookie, u32 server) {
         gWiFiMatching->mNNInfo.mIsQR2 = 0;
         gWiFiMatching->mNNInfo.mRetryCount = 0;
         gWiFiMatching->mNNInfo.mPort = SBServerGetPublicQueryPort(server);
-        gWiFiMatching->mNNInfo.mAddress = SBServerGetPublicInetAddress((u32 *) server);
+        gWiFiMatching->mNNInfo.mAddress = SBServerGetPublicInetAddress(server);
     } else {
         canStart = TRUE;
         gWiFiMatching->mNNInfo.mIsQR2 = 1;
@@ -1915,7 +1915,7 @@ u32 DWCi_HandleMatchCommandError(u32 result) {
 
 u32 DWCi_SendResvCommand(u32 profileId, s32 delay) {
     u32 words[3];
-    u32 serverEntry;
+    SbServer *serverEntry;
     u32 wordCount;
     u32 resvKind;
 
@@ -1927,8 +1927,8 @@ u32 DWCi_SendResvCommand(u32 profileId, s32 delay) {
     }
     if (gWiFiMatching->mMode == WIFI_MATCH_MODE_FILTER_SEARCH) {
         serverEntry = ServerBrowserGetServer(gWiFiMatching->mServerList, 0);
-        gWiFiMatching->mParticipantProfileIds[0] = SbServerGetInt((SbServer *) serverEntry, gDwcPidKey, 0);
-        gWiFiMatching->mParticipantCommandAddresses[0] = SBServerGetPublicInetAddress((u32 *) serverEntry);
+        gWiFiMatching->mParticipantProfileIds[0] = SbServerGetInt(serverEntry, gDwcPidKey, 0);
+        gWiFiMatching->mParticipantCommandAddresses[0] = SBServerGetPublicInetAddress(serverEntry);
         gWiFiMatching->mParticipantCommandPorts[0] = SBServerGetPublicQueryPort(serverEntry);
         gWiFiMatching->mReplyProfileId = gWiFiMatching->mParticipantProfileIds[0];
         wordCount = 1;
@@ -2852,24 +2852,24 @@ u8 DWCi_GetAIDFromList(void) {
     return aid;
 }
 
-s32 DWCi_CheckDWCServer(u32 server) {
-    if (SbServerGetInt((SbServer *) server, "numplayers", -1) == -1) {
+s32 DWCi_CheckDWCServer(SbServer *server) {
+    if (SbServerGetInt(server, "numplayers", -1) == -1) {
         return 0;
     }
-    if (SbServerGetInt((SbServer *) server, "maxplayers", -1) == -1) {
+    if (SbServerGetInt(server, "maxplayers", -1) == -1) {
         return 0;
     }
-    if (SbServerGetInt((SbServer *) server, "dwc_mtype", -1) == -1) {
+    if (SbServerGetInt(server, "dwc_mtype", -1) == -1) {
         return 0;
     }
-    if (SbServerGetInt((SbServer *) server, "dwc_mresv", -1) == -1 &&
-        SbServerGetInt((SbServer *) server, "dwc_mresv", 0) == 0) {
+    if (SbServerGetInt(server, "dwc_mresv", -1) == -1 &&
+        SbServerGetInt(server, "dwc_mresv", 0) == 0) {
         return 0;
     }
-    if (SbServerGetInt((SbServer *) server, "dwc_mver", -1) == -1) {
+    if (SbServerGetInt(server, "dwc_mver", -1) == -1) {
         return 0;
     }
-    return SbServerGetInt((SbServer *) server, gDwcPidKey, 0);
+    return SbServerGetInt(server, gDwcPidKey, 0);
 }
 
 s32 DWCi_GetAIDFromProfileID(u32 profileId, s32 participantPos) {
@@ -3211,9 +3211,10 @@ u32 ReportMatchingConnectResult(u32 result) {
     return result;
 }
 
-void DWCi_SBCallback(MatchingServerList *list, s32 event, s32 server) {
+void DWCi_SBCallback(MatchingServerList *list, s32 event, SbServer *server) {
     s32 serverIndex;
-    u32 listedServer;
+    SbServer *listedServer;
+    s32 serverProfileId;
     WiFiMatching *wiFiMatching;
     switch (event) {
         case 0:
@@ -3239,7 +3240,7 @@ void DWCi_SBCallback(MatchingServerList *list, s32 event, s32 server) {
                             listedServer = ServerBrowserGetServer(list, serverIndex);
                             wiFiMatching = gWiFiMatching;
                             if (wiFiMatching->mOwnAddress != 0 &&
-                                wiFiMatching->mOwnAddress == SBServerGetPublicInetAddress((u32 *) listedServer) &&
+                                wiFiMatching->mOwnAddress == SBServerGetPublicInetAddress(listedServer) &&
                                 wiFiMatching->mOwnPort != 0 &&
                                 gWiFiMatching->mOwnPort == SBServerGetPublicQueryPort(listedServer)) {
                                 break;
@@ -3275,7 +3276,7 @@ void DWCi_SBCallback(MatchingServerList *list, s32 event, s32 server) {
                     if (ServerBrowserCount(list) != 0) {
                         do {
                             listedServer = ServerBrowserGetServer(list, 0);
-                            if (gWiFiMatching->mServerAddress == SBServerGetPublicInetAddress((u32 *) listedServer) &&
+                            if (gWiFiMatching->mServerAddress == SBServerGetPublicInetAddress(listedServer) &&
                                 gWiFiMatching->mServerPort == SBServerGetPublicQueryPort(listedServer)) {
                                 break;
                             }
@@ -3283,10 +3284,10 @@ void DWCi_SBCallback(MatchingServerList *list, s32 event, s32 server) {
                         } while (ServerBrowserCount(list) != 0);
                     }
                     if (ServerBrowserCount(list) != 0) {
-                        listedServer = SbServerGetInt((SbServer *) ServerBrowserGetServer(list, 0), gDwcPidKey, 0);
+                        serverProfileId = SbServerGetInt(ServerBrowserGetServer(list, 0), gDwcPidKey, 0);
                         wiFiMatching = gWiFiMatching;
                         if (wiFiMatching->mMode == WIFI_MATCH_MODE_BUDDY_LIST &&
-                            listedServer == wiFiMatching->mParticipantProfileIds[0]) {
+                            serverProfileId == wiFiMatching->mParticipantProfileIds[0]) {
                             if (DWCi_EvaluateServers(0) != FALSE) {
                                 if (gWiFiMatching->mLastParticipantPos != 0) {
                                     if (DWCi_HandleMatchCommandError(DWCi_ChangeToClient()) != 0) {
@@ -3321,7 +3322,7 @@ void DWCi_SBCallback(MatchingServerList *list, s32 event, s32 server) {
     }
 }
 
-void DWCi_SBPrintServerData(s32 server) {}
+void DWCi_SBPrintServerData(SbServer *server) {}
 
 // Removes servers already in the list or refused by mEvalCallback and stores the callback's value for each remaining
 // one under dwc_eval.
@@ -3329,7 +3330,7 @@ BOOL DWCi_EvaluateServers(s32 sort) {
     BOOL removedAny;
     BOOL removedThis;
     s32 serverIndex;
-    u32 serverEntry;
+    SbServer *serverEntry;
     u32 value;
     s32 participantPos;
     removedAny = FALSE;
@@ -3337,7 +3338,7 @@ BOOL DWCi_EvaluateServers(s32 sort) {
     for (; serverIndex < (s32) ServerBrowserCount(gWiFiMatching->mServerList); serverIndex++) {
         serverEntry = ServerBrowserGetServer(gWiFiMatching->mServerList, serverIndex);
         if (gWiFiMatching->mMode == WIFI_MATCH_MODE_FILTER_SEARCH) {
-            value = SbServerGetInt((SbServer *) serverEntry, gDwcPidKey, 0);
+            value = SbServerGetInt(serverEntry, gDwcPidKey, 0);
             removedThis = FALSE;
             for (participantPos = 1; participantPos <= gWiFiMatching->mLastParticipantPos; participantPos++) {
                 if (value == gWiFiMatching->mParticipantProfileIds[participantPos]) {
@@ -3357,14 +3358,14 @@ BOOL DWCi_EvaluateServers(s32 sort) {
                 if ((s32) value > 0x7fffff) {
                     value = 0x7fffff;
                 }
-                SbServerSetInt((SbServer *) serverEntry, gDwcEvalKey, (value << 8) | DWCi_GetMathRand32(0x100));
+                SbServerSetInt(serverEntry, gDwcEvalKey, (value << 8) | DWCi_GetMathRand32(0x100));
             } else {
                 ServerBrowserRemoveServer(gWiFiMatching->mServerList, serverEntry);
                 serverIndex--;
                 removedAny = TRUE;
             }
         } else {
-            SbServerSetInt((SbServer *) serverEntry, gDwcEvalKey, DWCi_GetMathRand32(0x80));
+            SbServerSetInt(serverEntry, gDwcEvalKey, DWCi_GetMathRand32(0x80));
         }
     }
     if (sort != 0 && ServerBrowserCount(gWiFiMatching->mServerList) != 0) {

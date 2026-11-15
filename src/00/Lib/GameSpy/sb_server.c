@@ -84,12 +84,12 @@ void SBRefStrHashCleanup(void *serverList) {
     }
 }
 
-void SBServerFree(int *serverPointer) {
-    int serverRecord;
+void SBServerFree(SbServer **serverPointer) {
+    SbServer *serverRecord;
     serverRecord = *serverPointer;
-    HashtableDelete((s32 *) (*(u32 *) (serverRecord + 0x18)));
-    *(u32 *) (serverRecord + 0x18) = 0;
-    DWCi_GsFree((void *) serverRecord);
+    HashtableDelete(serverRecord->mKeyValues);
+    serverRecord->mKeyValues = NULL;
+    DWCi_GsFree(serverRecord);
 }
 
 void SbServerSetValue(SbServer *server, const char *key, const char *value) {
@@ -145,15 +145,15 @@ double SbServerGetDouble(SbServer *server, const char *key, double defaultValue)
     return defaultValue;
 }
 
-u32 SBServerGetPublicInetAddress(u32 *server) {
-    return *server;
+u32 SBServerGetPublicInetAddress(SbServer *server) {
+    return server->mPublicIp;
 }
 
-u32 SBServerGetPublicQueryPort(u32 server) {
-    u32 value = server;
+u32 SBServerGetPublicQueryPort(SbServer *server) {
+    u32 value;
     u32 port;
     u32 swappedPort;
-    port = *(const u16 *) ((value) + 4u);
+    port = server->mPublicPort;
     swappedPort = ((s32) port >> 8);
     value = 255u;
     swappedPort = (swappedPort) & (value);
@@ -166,26 +166,26 @@ u32 SBServerGetPublicQueryPort(u32 server) {
     return value;
 }
 
-u16 SBServerGetPublicQueryPortNBO(int server) {
-    return *(u16 *) (server + 4);
+u16 SBServerGetPublicQueryPortNBO(SbServer *server) {
+    return server->mPublicPort;
 }
 
-BOOL SBServerHasPrivateAddress(int server) {
-    if ((*(u8 *) (server + 0x15) & 2) == 2) {
+BOOL SBServerHasPrivateAddress(SbServer *server) {
+    if ((server->mFlags & 2) == 2) {
         return 1;
     }
     return 0;
 }
 
-u32 SBServerGetPrivateInetAddress(int server) {
-    return *(u32 *) (server + 8);
+u32 SBServerGetPrivateInetAddress(SbServer *server) {
+    return server->mPrivateIp;
 }
 
-u32 SBServerGetPrivateQueryPort(u32 server) {
-    u32 value = server;
+u32 SBServerGetPrivateQueryPort(SbServer *server) {
+    u32 value;
     u32 port;
     u32 swappedPort;
-    port = *(const u16 *) ((value) + 12u);
+    port = server->mPrivatePort;
     swappedPort = ((s32) port >> 8);
     value = 255u;
     swappedPort = (swappedPort) & (value);
@@ -198,12 +198,12 @@ u32 SBServerGetPrivateQueryPort(u32 server) {
     return value;
 }
 
-void SBServerSetNext(int server, u32 next) {
-    *(u32 *) (server + 0x20) = next;
+void SBServerSetNext(SbServer *server, SbServer *next) {
+    server->mNext = next;
 }
 
-u32 SBServerGetNext(int server) {
-    return *(u32 *) (server + 0x20);
+SbServer *SBServerGetNext(SbServer *server) {
+    return server->mNext;
 }
 
 BOOL CheckValidKey(const char *key) {

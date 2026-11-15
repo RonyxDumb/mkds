@@ -33,11 +33,11 @@ u32 ServerBrowserGetMyPublicIPAddr(MatchingServerList *matchingServerList);
 void ServerBrowserSortA(MatchingServerList *matchingServerList, unsigned int ascending, const char *sortField,
                         unsigned int compareKind);
 u32 ServerBrowserCount(MatchingServerList *matchingServerList);
-u32 ServerBrowserGetServer(MatchingServerList *matchingServerList, u32 index);
+SbServer *ServerBrowserGetServer(MatchingServerList *matchingServerList, u32 index);
 void ServerBrowserClear(struct MatchingServerList *matchingServerList);
 void ServerBrowserHalt(struct MatchingServerList *matchingServerList);
 s32 ServerBrowserThink(struct MatchingServerList *matchingServerList);
-void ServerBrowserRemoveServer(struct MatchingServerList *matchingServerList, s32 server);
+void ServerBrowserRemoveServer(struct MatchingServerList *matchingServerList, SbServer *server);
 s32 ServerBrowserSendNatNegotiateCookieToServerA(MatchingServerList *matchingServerList, u32 ipText, s32 port,
                                                  u32 cookie);
 s32 ServerBrowserSendMessageToServerA(MatchingServerList *matchingServerList, u32 ipText, s32 port, u8 *data,
