@@ -311,13 +311,13 @@ BOOL NVRAMm_ExecuteCommand(u32 state, u32 addr, u16 size, u8 *srcp) {
         if (sending == 0) {
             nv_cb_occurred = 0;
             switch (state) {
-                case 1:
+                case NVRAM_STATE_READ:
                     sending = sendSixWords(tag, readHeader, addr, 0x20000, sizeWord, readBufHigh, readBufLow);
                     break;
-                case 2:
+                case NVRAM_STATE_WRITE_ENABLE:
                     sending = sendOneWord(tag, 0x3002000);
                     break;
-                case 3:
+                case NVRAM_STATE_PAGE_WRITE:
                     if (PXI_SendWordByFifo(tag, writeHeader, 0) < 0) {
                         sending = 0;
                     } else if (PXI_SendWordByFifo(tag, addr, 0) < 0) {
@@ -333,14 +333,14 @@ BOOL NVRAMm_ExecuteCommand(u32 state, u32 addr, u16 size, u8 *srcp) {
                     }
                     start = OS_GetTick();
                     break;
-                case 4:
-                case 5:
+                case NVRAM_STATE_CHECK_WRITE_ENABLED:
+                case NVRAM_STATE_WAIT_WRITE_DONE:
                     sending = sendThreeWords(tag, statusHigh, statusMid, statusLow);
                     break;
-                case 6:
+                case NVRAM_STATE_WRITE_FAILED:
                     sending = sendOneWord(tag, 0x3002d00);
                     break;
-                case 7:
+                case NVRAM_STATE_FINISH:
                     sending = sendOneWord(tag, 0x3002100);
                     break;
             }
@@ -350,20 +350,20 @@ BOOL NVRAMm_ExecuteCommand(u32 state, u32 addr, u16 size, u8 *srcp) {
                 break;
             }
             switch (state) {
-                case 1:
+                case NVRAM_STATE_READ:
                     return 1;
-                case 2:
+                case NVRAM_STATE_WRITE_ENABLE:
                     state = tag;
                     break;
-                case 3:
-                    state = 5;
+                case NVRAM_STATE_PAGE_WRITE:
+                    state = NVRAM_STATE_WAIT_WRITE_DONE;
                     break;
-                case 4:
-                case 5:
+                case NVRAM_STATE_CHECK_WRITE_ENABLED:
+                case NVRAM_STATE_WAIT_WRITE_DONE:
                     DC_InvalidateRange(&Work, 1);
-                    if (state == 4) {
+                    if (state == NVRAM_STATE_CHECK_WRITE_ENABLED) {
                         if (Work[0] & 2) {
-                            state = 3;
+                            state = NVRAM_STATE_PAGE_WRITE;
                             break;
                         }
                         return 0;
@@ -372,14 +372,14 @@ BOOL NVRAMm_ExecuteCommand(u32 state, u32 addr, u16 size, u8 *srcp) {
                         return 1;
                     }
                     if ((Work[0] & 0x20) != 0 || ((OS_GetTick() - start) * 64) / 33514 > 4000) {
-                        state = 6;
+                        state = NVRAM_STATE_WRITE_FAILED;
                     } else {
                         WaitByLoop(0x4000);
                     }
                     break;
-                case 6:
+                case NVRAM_STATE_WRITE_FAILED:
                     return sending;
-                case 7:
+                case NVRAM_STATE_FINISH:
                     return 1;
             }
         }
@@ -394,7 +394,7 @@ BOOL readNvram(u32 address, u32 size, void *buf) {
     while (PXI_IsCallbackReady(tag, 1) == 0) {
     }
     PXI_SetFifoRecvCallback(4, (PXIFifoCallback) Callback_NVRAM);
-    tag = 1;
+    tag = NVRAM_STATE_READ;
     while (1) {
         if (NVRAMm_ExecuteCommand(tag, address, size, buf) == 1) {
             break;
@@ -412,7 +412,7 @@ void writeNvram(u32 address, u16 size, void *data) {
     }
     PXI_SetFifoRecvCallback(4, (PXIFifoCallback) Callback_NVRAM);
     DC_StoreRange(data, size);
-    tag = 2;
+    tag = NVRAM_STATE_WRITE_ENABLE;
     while (1) {
         if (NVRAMm_ExecuteCommand(tag, address, size, data) == 1) {
             break;
