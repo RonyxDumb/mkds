@@ -29,14 +29,14 @@ int raise(int signalNumber) {
         gLockHoldCounts[7] = 1;
     }
     handler = gRaiseHandlers[signalNumber - 1];
-    if (handler != (RaiseHandlerFunc) 1) {
+    if (handler != RAISE_HANDLER_IGNORE) {
         gRaiseHandlers[signalNumber - 1] = 0;
     }
     gLockHoldCounts[7]--;
     if (gLockHoldCounts[7] == 0) {
         OS_UnlockMutex((OSMutex *) gLockMutexes[7]);
     }
-    if (handler == (RaiseHandlerFunc) 1 || (handler == 0 && signalNumber == 1)) {
+    if (handler == RAISE_HANDLER_IGNORE || (handler == 0 && signalNumber == 1)) {
         return 0;
     }
     if (handler == 0) {
