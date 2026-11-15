@@ -117,7 +117,7 @@ void LocateAndQueueSelectEngine(void) {
     NNS_GfdRegisterNewVramTransferTask(8, 0x800, gSelectEngine->mVramTransferBuffer, 0x800);
     NNS_GfdRegisterNewVramTransferTask(0x13, 0, selectEngineMChars->mData, selectEngineMChars->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0xe, 0, selectEngineMOPalette->mData, 0x1a0);
-    NNS_GfdRegisterNewVramTransferTask(0xe, 0x1c0, (u8 *) paletteData + 0x1c0, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0x1c0, paletteData + 0xe0, 0x40);
     NNS_GfdRegisterNewVramTransferTask(0x23, 0, selectEngineSChars->mData, selectEngineSChars->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0x1e, 0, selectEngineSOPalette->mData, selectEngineSOPalette->mDataSize);
 }
