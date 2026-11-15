@@ -2,7 +2,7 @@
 #include "00/Lib/GameSpy/socket_calls.h"
 #include "00/Lib/DWC/connection_error_strings.h"
 #include "string.h"
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 #include "00/Lib/wifi_library_work_objects.h"
 #include "00/Lib/NitroWiFi/socket_api_prototypes.h"
 #include "narrow_string_functions.h"

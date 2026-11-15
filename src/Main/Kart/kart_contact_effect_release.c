@@ -3,7 +3,7 @@
 #include "Main/Graphics/emitters.h"
 #include "Main/Graphics/effects.h"
 #include "Main/Item/item_objects_and_race_progress.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "particle_instance.h"
 #include "Main/Kart/karts.h"
 #include "Main/System/backup_net_camera_work.h"

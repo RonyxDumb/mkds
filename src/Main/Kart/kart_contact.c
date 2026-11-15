@@ -66,7 +66,7 @@
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "Main/Item/kart_items_collision_hits.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Kart/kart_participant_record.h"
 #include "Main/Kart/karts.h"
 #include "Main/Kart/kart_resources.h"

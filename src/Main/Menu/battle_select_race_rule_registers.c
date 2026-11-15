@@ -2,7 +2,7 @@
 #include "Main/Menu/menu_screen_switch.h"
 #include "Main/Menu/battle_gx_set_visible_plane.h"
 #include "fixed_point_graphics_setup.h"
-#include "vram_bank_assign.h"
+#include "vram_bank_display_setup.h"
 #include "Main/Menu/select_character.h"
 #include "Main/Menu/select_race_rule.h"
 

@@ -3,11 +3,11 @@
 #include "wide_number_format.h"
 #include "char_conversion.h"
 #include "string.h"
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 #include "narrow_string_functions.h"
 #include "wide_char_search.h"
 #include "wide_string_functions.h"
-#include "double_digit_math.h"
+#include "double_digits_math_functions.h"
 
 const u16 gCharFlags[128] = {
     4,     4,     4,     4,     4,     4,     4,     4,     4,     0x106, 0x104, 0x104, 0x104, 0x104, 4,     4,

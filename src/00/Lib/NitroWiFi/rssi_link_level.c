@@ -1,13 +1,13 @@
-#include "00/Lib/NitroWiFi/wireless_connection_control.h"
+#include "00/Lib/NitroWiFi/wireless_connection_manager.h"
 #include "00/Lib/NitroWiFi/rssi_link_level.h"
 #include "00/Lib/wifi_library_work_objects.h"
 #include "00/Lib/NitroWiFi/wireless_connection_config.h"
 #include "signed_int_divide.h"
-#include "reset_interrupt_enable.h"
-#include "00/Lib/NitroWiFi/dcf_send_receive.h"
+#include "reset_interrupts_halt.h"
+#include "00/Lib/NitroWiFi/wifi_stack_bridge.h"
 #include "00/Lib/NitroWiFi/access_point_list.h"
 #include "mutex_init_decl.h"
-#include "wireless_power_mp.h"
+#include "wireless_link_control.h"
 
 u8 gWcmRssiIndex;
 u8 gWcmRssi[16];

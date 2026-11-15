@@ -28,7 +28,7 @@
 #include "Main/Graphics/oam.h"
 #include "sound_archive_load_result.h"
 #include "Main/Graphics/locate_bmg_sections.h"
-#include "vram_bank_assign.h"
+#include "vram_bank_display_setup.h"
 #include "Main/System/result_archive_path.h"
 #include "registers.h"
 #include "Main/Sound/sound_system.h"

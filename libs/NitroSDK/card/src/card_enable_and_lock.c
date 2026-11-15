@@ -1,7 +1,7 @@
 #include "card_enable_and_lock.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "thread_scheduler.h"
-#include "rom_card_read.h"
+#include "card_rom_backup_access.h"
 #include "lock_word_and_bus_ownership.h"
 
 CARDiCommon gAccessState;

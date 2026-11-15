@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "00/Lib/GameSpy/connection_close.h"
+#include "00/Lib/GameSpy/connection_events.h"
 
 // Milliseconds: a connection that has not finished connecting is dropped after SERVER_TIMEOUT, an unconfirmed message
 // is sent again after RESEND_TIME, an acknowledgement waits PENDING_ACK_TIME for company, and a connection that sent

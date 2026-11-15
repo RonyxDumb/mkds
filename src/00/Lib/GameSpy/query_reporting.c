@@ -7,7 +7,7 @@
 #include "00/Lib/wifi_library_globals.h"
 #include "00/Lib/wifi_library_work_objects.h"
 #include "string.h"
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 #include "cpu_copy_fill.h"
 #include "00/Lib/GameSpy/query_key_register.h"
 #include "scan_text_random.h"

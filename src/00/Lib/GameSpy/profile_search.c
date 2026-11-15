@@ -4,7 +4,7 @@
 #include "00/Lib/GameSpy/error_message_set.h"
 #include "00/Lib/DWC/memory_allocator.h"
 #include "string.h"
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 #include "03/Net/essid_packet_steps.h"
 #include "00/Lib/GameSpy/socket_calls.h"
 #include "narrow_string_functions.h"

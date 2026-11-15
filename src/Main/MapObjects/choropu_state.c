@@ -5,7 +5,7 @@
 
 #include "Main/MapObjects/send_obj_shadow.h"
 #include "Main/MapObjects/view_matrix_queue.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Item/pooled_map_object.h"
 #include "Main/Item/item_in_use.h"
 #include "matrix_3x3_basic.h"

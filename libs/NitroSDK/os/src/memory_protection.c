@@ -1,6 +1,6 @@
 #include "memory_protection.h"
 #include "exception_context_display.h"
-#include "exception_state.h"
+#include "system_state_globals.h"
 
 // clang-format off
 // Reads a coprocessor 15 register and clears its low 12 bits.

@@ -4,7 +4,7 @@
 #include "00/Lib/GameSpy/socket_calls.h"
 #include "00/Lib/DWC/memory_allocator.h"
 #include "string.h"
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 #include "narrow_string_functions.h"
 #include "00/Lib/GameSpy/availability_check.h"
 #include "00/Lib/GameSpy/dynamic_array.h"

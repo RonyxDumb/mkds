@@ -1,8 +1,8 @@
 #include "00/Lib/CPS/https_session_upkeep.h"
-#include "00/Lib/CPS/cps_globals.h"
+#include "00/Lib/CPS/stack_globals.h"
 #include "03/Net/essid_packet_steps.h"
 #include "cpu_copy_fill.h"
-#include "00/Lib/CPS/https_handshake_records.h"
+#include "00/Lib/CPS/https_protocol.h"
 #include "00/types_021ab5e4.h"
 
 void CPSi_SslPeriodical(s32 now) {

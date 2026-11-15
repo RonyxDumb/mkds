@@ -26,7 +26,7 @@
 #include "03/Graphics/hl_scr.h"
 #include "03/Graphics/nce_file.h"
 #include "string.h"
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 
 const u16 gEditAddrCharSize[2] = {0xb, 0x10};
 const u8 gEditAddrCharX[12] = {0x31, 0x3d, 0x49, 0x5a, 0x66, 0x72, 0x83, 0x8f, 0x9b, 0xac, 0xb8, 0xc4};

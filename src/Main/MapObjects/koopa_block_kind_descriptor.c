@@ -43,7 +43,7 @@
 #include "Main/Graphics/ortho_quad_corners.h"
 #include "Main/Sound/surface_sound_ids.h"
 #include "Main/Sound/sound_source_list.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/MapObjects/collision_hit_link.h"
 #include "Main/MapObjects/group_item_box.h"
 #include "Main/MapObjects/mkd_ef_bubble.h"

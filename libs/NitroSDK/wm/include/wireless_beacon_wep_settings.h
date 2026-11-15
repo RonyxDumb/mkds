@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "wireless_power_mp.h" // WirelessMessageCallback
+#include "wireless_link_control.h" // WirelessMessageCallback
 
 // Copy of the game info that WM_SetGameInfo sends.
 extern u8 tmpUserGameInfoBuf[0x80];

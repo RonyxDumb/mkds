@@ -3,7 +3,7 @@
 #include "types.h"
 #include "03/Net/exchange_essid.h"
 #include "00/Lib/DWC/access_point_wep_key.h"
-#include "wireless_power_mp.h"
+#include "wireless_link_control.h"
 #include "03/Net/exchange_result_records.h"
 #include "00/Lib/NitroWiFi/wireless_connection_config.h"
 #include "thread_mutex_types.h"

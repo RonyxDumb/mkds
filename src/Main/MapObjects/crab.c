@@ -2,7 +2,7 @@
 #include "matrix_3x3_basic.h"
 
 #include "Main/MapObjects/map_object_model_frame.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Course/course_map_group_entry.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"

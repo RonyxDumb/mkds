@@ -1,7 +1,7 @@
 #include "clock_chip_access.h"
 #include "registers.h"
 
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "arm_fifo_messaging.h"
 
 u16 gClockInitialized;

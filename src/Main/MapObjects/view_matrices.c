@@ -12,7 +12,7 @@
 #include "matrix_3x3_basic.h"
 #include "Main/Kart/kart_drift.h"
 #include "matrix_4x3_basic.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 
 MtxFx43 *gViewRotatedMatrix;
 MtxFx43 *gTranslationMatrix;

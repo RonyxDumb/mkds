@@ -6,7 +6,7 @@ typedef struct ACSL ACSL;
 typedef struct ACFL ACFL;
 typedef struct ACWORK ACWORK;
 
-#include "wireless_power_mp.h"
+#include "wireless_link_control.h"
 
 u8 MakeDifferChannelList(s32 findListNum, ACFL *findList, ACSL *searchList, WMBssDesc *bssDescs);
 u8 MakeUserList(ACWORK *object);

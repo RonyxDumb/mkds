@@ -17,7 +17,7 @@
 #include "Main/Sound/sound_distance_squared_change.h"
 #include "Main/MapObjects/wanwan_chain_object.h"
 #include "ITCM/kart_motion.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
 #include "Main/MapObjects/woodbox.h"

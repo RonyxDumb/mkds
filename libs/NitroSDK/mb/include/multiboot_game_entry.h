@@ -5,7 +5,7 @@
 #include "multiboot_checksum.h"
 #include "cpu_copy_clear_16.h"
 #include "wireless_beacon_wep_settings.h"
-#include "file_open_read.h"
+#include "file_archive_access.h"
 #include "file_handle_setup.h"
 #include "multiboot_game_info_beacon.h"
 

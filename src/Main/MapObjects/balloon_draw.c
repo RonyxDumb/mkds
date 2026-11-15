@@ -14,7 +14,7 @@
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
 #include "matrix_3x3_basic.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "particle_instance.h"
 #include "fixed_arctangent.h"
 #include "ITCM/g3d_draw_and_irq_handler.h"

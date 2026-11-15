@@ -1,6 +1,6 @@
 #include "00/Lib/DWC/persist_callback_level.h"
 #include "00/Lib/DWC/buddy_friend_callback.h"
-#include "00/Lib/DWC/buddy_friend_list.h"
+#include "00/Lib/DWC/buddy_friends.h"
 
 #pragma opt_propagation off
 

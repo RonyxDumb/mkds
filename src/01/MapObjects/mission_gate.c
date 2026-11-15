@@ -25,7 +25,7 @@
 #include "Main/MapObjects/map_object.h"
 #include "Main/MapObjects/map_object_create.h"
 #include "Main/Item/item_koura_w.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "ITCM/g3d_draw_and_irq_handler.h"
 
 MapObjectKindDescriptor gMissionGateKindDescriptor = {0,

@@ -71,7 +71,7 @@
 #include "Main/Sound/snd_handle_start.h"
 #include "Main/Sound/sound_distance_squared_change.h"
 #include "01/MapObjects/mission_run_map_object.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/System/backup_net_camera_work.h"
 
 MapObjectKindDescriptor gKingTeresaKindDescriptor = {0,

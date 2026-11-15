@@ -1,7 +1,7 @@
 #include "Main/Kart/camera_shake.h"
 #include "Main/Race/race.h"
 #include "Main/Item/item_objects_and_race_progress.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/System/init_after_startup.h"
 
 s32 gCameraShakeLookAtScaleFactor = 0x9000;

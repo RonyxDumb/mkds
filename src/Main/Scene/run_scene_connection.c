@@ -4,7 +4,7 @@
 #include "Main/Race/race_keys.h"
 #include "Main/Race/race_setup_input.h"
 #include "Main/System/result_archive_path.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "vram_transfer_queue.h"
 #include "Main/System/heap_call.h"
 #include "00/Menu/wi_fi_vs_matching.h"

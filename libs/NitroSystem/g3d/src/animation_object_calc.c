@@ -1,14 +1,14 @@
 #include "animation_object_calc.h"
 #include "animation_lookup.h"
 #include "texture_pattern_anim_lookup.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "cpu_copy_clear_16.h"
 #include "cpu_copy_fill.h"
 #include "unk_02152000_data.h"
 #include "Main/Graphics/g3d_anm_function_pointers.h"
-#include "exception_state.h"
+#include "system_state_globals.h"
 #include "ITCM/g3d_draw_and_irq_handler.h"
-#include "model_draw_blend.h"
+#include "model_draw_blend_state.h"
 
 void (*NNS_G3dFuncSbcTable[32])(NNSG3dRS *, u32) = {NNSi_G3dFuncSbc_NOP,
                                                     NNSi_G3dFuncSbc_RET,

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "model_draw_blend.h"
+#include "model_draw_blend_state.h"
 #include "animation_lookup.h"
 #include "texture_resource_type.h"
 

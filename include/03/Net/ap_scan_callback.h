@@ -5,7 +5,7 @@
 #include "03/types_021da26c.h"
 #include "03/Menu/wifi_menu_tables.h"
 #include "03/Menu/wifi_menu_shared.h"
-#include "wireless_power_mp.h"
+#include "wireless_link_control.h"
 
 // The result of an access point scan: the error code, state, channel list and the found devices with their link levels.
 typedef struct WMStartScanExCallback {

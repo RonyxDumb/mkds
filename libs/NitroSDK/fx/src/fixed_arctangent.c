@@ -1,5 +1,5 @@
 #include "fixed_arctangent.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Graphics/g3d_anm_function_pointers.h"
 
 const s16 FX_AtanTable_[129] = {

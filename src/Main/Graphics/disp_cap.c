@@ -30,7 +30,7 @@
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "arena_cache_init.h"
-#include "vram_bank_assign.h"
+#include "vram_bank_display_setup.h"
 #include "display_blend_affine_setup.h"
 #include "vram_load_2d_graphics.h"
 #include "cpu_copy_fill.h"

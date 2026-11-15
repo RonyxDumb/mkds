@@ -5,7 +5,7 @@
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 
 const Vec3 gKartTurnEffectsStartPosition = {0, 0, 0};
 struct KartTurnEffects *gKartTurnEffects;

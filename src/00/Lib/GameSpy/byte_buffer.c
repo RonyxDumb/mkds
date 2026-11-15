@@ -1,8 +1,8 @@
 #include "00/Lib/GameSpy/byte_buffer.h"
-#include "00/Lib/GameSpy/connection_close.h"
+#include "00/Lib/GameSpy/connection_events.h"
 #include "00/Lib/DWC/memory_allocator.h"
 #include "string.h"
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 #include "scan_text_random.h"
 #include "narrow_string_functions.h"
 

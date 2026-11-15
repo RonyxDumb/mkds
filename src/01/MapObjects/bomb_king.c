@@ -13,7 +13,7 @@
 #include "01/MapObjects/item_bomb_is_stored.h"
 #include "01/MapObjects/item_bomb_node_placement.h"
 #include "Main/Item/item_bomb.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "01/MapObjects/bomb_king_effect_and_sound.h"
 #include "01/MapObjects/bomb_king_jump_fall_and_land.h"
 #include "01/MapObjects/mission_run_range_and_collision_callbacks.h"

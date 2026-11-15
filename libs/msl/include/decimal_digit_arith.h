@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "double_digit_math.h" // DigitRecord
+#include "double_digits_math_functions.h" // DigitRecord
 
 
 void DigitsPowerOfTwo(DigitRecord *out, int power);

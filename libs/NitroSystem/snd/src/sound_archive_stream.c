@@ -1,6 +1,6 @@
 #include "sound_archive_stream.h"
 
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "linked_list_ops.h"
 #include "Main/Menu/menu_screens_work.h"
 #include "sound_player_control.h"
@@ -13,12 +13,12 @@
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "sound_archive_load.h"
 #include "Main/Sound/sound_seq.h"
-#include "file_open_read.h"
+#include "file_archive_access.h"
 #include "thread_mutex_types.h"
 #include "sound_fader.h"
 #include "Main/System/runtime_locks_stdio_buffers.h"
 #include "unk_02152000_data.h"
-#include "sound_channel_volume.h"
+#include "sound_wave_channel_volume.h"
 
 NNSSndStrmThread *sPrepareThread;
 NNSFndList sFreeCommandList;

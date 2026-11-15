@@ -7,7 +7,7 @@
 #include "00/Lib/DWC/connection_error_strings.h"
 #include "00/Lib/wifi_library_globals.h"
 #include "string.h"
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 #include "00/Lib/GameSpy/reply_parse.h"
 #include "00/Lib/GameSpy/error_set.h"
 #include "00/Lib/DWC/memory_allocator.h"
@@ -22,7 +22,7 @@
 #include "00/Lib/GameSpy/buddy_messages.h"
 #include "00/Lib/GameSpy/socket_calls.h"
 #include "00/Lib/GameSpy/query_reporting.h"
-#include "00/Lib/GameSpy/profile_for_each.h"
+#include "00/Lib/GameSpy/profile_walk.h"
 
 // Object of 0x308 bytes that GpiStartConnect allocates and fills.
 typedef struct GPIConnectData {

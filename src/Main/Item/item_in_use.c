@@ -38,7 +38,7 @@
 #include "Main/Graphics/light_color.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/Item/item_pool.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Item/item_link_following.h"
 
 void (*gItemInUseAdvanceTable[5])(ItemInUse *) = {NULL, AdvanceItemInUseOne, AdvanceItemInUseOneWithOrientation,

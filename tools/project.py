@@ -81,8 +81,8 @@ DECOMP_ME_COMPILER = DECOMP_ME_IDS.get(MWCC_VERSION)  # None: no decomp.me id (D
 PATH_COMPILERS = {
     "libs/": "1.2/base",  # verified: library code in main (docs/compiler.md, Libraries); sp2, sp2p3 identical
     # verified: four ov000 files whose switches end in `add pc, r0` (docs/compiler.md, Game code)
-    "src/00/Lib/CPS/https_handshake_records.c": "1.2/sp2p3",
-    "src/00/Lib/CPS/ip_stack.c": "1.2/sp2p3",
+    "src/00/Lib/CPS/https_protocol.c": "1.2/sp2p3",
+    "src/00/Lib/CPS/tcp_ip_stack.c": "1.2/sp2p3",
 }
 # Flags from CC_FLAGS that sources under these paths must not get.
 PATH_DROP_FLAGS = {
@@ -90,7 +90,7 @@ PATH_DROP_FLAGS = {
     "libs/msl/": [],  # verified: libs/msl/src/narrow_string_functions.c matches with plain char only unsigned
     "src/00/Lib/GameSpy/": ["-str noreuse"],
     "src/00/Lib/DWC/": ["-str noreuse"],
-    "src/00/Lib/CPS/https_handshake_records.c": ["-str noreuse"],
+    "src/00/Lib/CPS/https_protocol.c": ["-str noreuse"],
 }
 # Flags added for sources under these paths. A game with Thumb code: "src/": ["-thumb"], with an empty list for an
 # ARM-only folder or file. An ARM function inside a Thumb file can be written between `#pragma thumb off` and
@@ -105,7 +105,7 @@ PATH_ADD_FLAGS = {
     "src/00/": ["-thumb"],
     "src/00/Lib/GameSpy/": ["-thumb", "-str reuse"],
     "src/00/Lib/DWC/": ["-thumb", "-str reuse"],
-    "src/00/Lib/CPS/https_handshake_records.c": ["-thumb", "-str reuse"],
+    "src/00/Lib/CPS/https_protocol.c": ["-thumb", "-str reuse"],
     "src/01/": ["-thumb"],
     "src/03/": ["-thumb"],
 }

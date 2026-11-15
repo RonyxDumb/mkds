@@ -2,7 +2,7 @@
 
 #include "signed_int_divide.h"
 #include "string.h"
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 #include "00/Lib/DWC/connection_error_strings.h"
 #include "00/Lib/DWC/memory_allocator.h"
 #include "quick_sort.h"

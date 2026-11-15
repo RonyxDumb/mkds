@@ -1,5 +1,5 @@
 #include "file_handle_setup.h"
-#include "overlay_loader.h"
+#include "overlay_rom_loader.h"
 
 // Returns whether FS_Init has run.
 u32 FS_IsAvailable(void) {

@@ -38,7 +38,7 @@
 #include "Main/Menu/picks_holder.h"
 #include "Main/Menu/select_return.h"
 #include "Main/Graphics/palette_blend.h"
-#include "vram_bank_assign.h"
+#include "vram_bank_display_setup.h"
 #include "Main/Graphics/g3d_anm_function_pointers.h"
 #include "Main/Menu/select_character.h"
 #include "Main/System/input_slots.h"

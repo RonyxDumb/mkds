@@ -63,7 +63,7 @@ typedef struct MPPlayerNameMessage {
 #include "power_management_commands.h"
 #include "Main/Sound/sound_seq.h"
 #include "Main/Kart/kart_name_tags.h"
-#include "wireless_power_mp.h" // WirelessMessage
+#include "wireless_link_control.h" // WirelessMessage
 #include "Main/Kart/kart_effect_param_tables.h"
 
 typedef struct PlayerRecord PlayerRecord;

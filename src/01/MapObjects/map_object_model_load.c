@@ -14,7 +14,7 @@
 #include "animation_lookup.h"
 #include "Main/System/heap_call.h"
 #include "Main/Graphics/model_animation_loop_modes.h"
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 #include "Main/MapObjects/model_animation_entries.h"
 #include "01/MapObjects/map_object_model_nsbca_playing.h"
 #include "01/Menu/select_ghost.h"

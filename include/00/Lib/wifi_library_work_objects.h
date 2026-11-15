@@ -2,14 +2,14 @@
 
 #include "00/Lib/DWC/friends_match_session.h"
 #include "00/Lib/DWC/error_state.h"
-#include "00/Lib/DWC/login_close.h"
+#include "00/Lib/DWC/login_state.h"
 #include "00/Lib/DWC/buddy_friend_callback.h"
-#include "00/Lib/DWC/dwc_match_work.h"
+#include "00/Lib/DWC/match_work.h"
 #include "types.h"
-#include "00/Lib/NitroWiFi/wireless_connection_control.h"
+#include "00/Lib/NitroWiFi/wireless_connection_manager.h"
 #include "00/Lib/DWC/data_transport.h"
 #include "00/Lib/DWC/internet_connection.h"
-#include "wireless_power_mp.h" // ScanExParam
+#include "wireless_link_control.h" // ScanExParam
 #include "alarm_timer.h"
 #include "00/Lib/NitroWiFi/socket_objects.h"
 #include "thread_mutex_types.h"

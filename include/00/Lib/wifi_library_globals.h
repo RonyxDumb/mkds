@@ -1,8 +1,8 @@
 #pragma once
 
 #include "00/Menu/wi_fi_state_machine.h"
-#include "00/Lib/CPS/ip_stack.h"
-#include "00/Lib/DWC/http_thread.h"
+#include "00/Lib/CPS/tcp_ip_stack.h"
+#include "00/Lib/DWC/http_transfer.h"
 #include "00/Lib/DWC/network_check_status.h"
 #include "00/Lib/DWC/network_check_control.h"
 #include "00/Lib/DWC/access_point_power_mode.h"

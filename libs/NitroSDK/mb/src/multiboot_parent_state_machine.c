@@ -1,5 +1,5 @@
 #include "multiboot_parent_state_machine.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "multiboot_game_entry.h"
 #include "cpu_copy_fill.h"
 #include "multiboot_block_header_end.h"
@@ -7,7 +7,7 @@
 #include "mb_data.h"
 #include "multiboot_file_register.h"
 #include "cpu_copy_clear_16.h"
-#include "multiboot_comm_start.h"
+#include "multiboot_communication.h"
 
 u8 prev_fid = 0xff;
 

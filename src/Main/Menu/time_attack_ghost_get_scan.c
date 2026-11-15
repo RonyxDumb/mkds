@@ -40,7 +40,7 @@
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Graphics/text_draw.h"
 #include "Main/Menu/select_return.h"
-#include "vram_bank_assign.h"
+#include "vram_bank_display_setup.h"
 #include "Main/Race/race_scene_callbacks.h"
 #include "Main/Scene/display_settings.h"
 #include "archive_memory_load.h"

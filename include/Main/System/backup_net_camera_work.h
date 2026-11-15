@@ -2,12 +2,12 @@
 
 #include "types.h"
 #include "Main/MapObjects/map_object_park.h" // RandomState64
-#include "overlay_loader.h" // FSOverlayInfo, FSFile
+#include "overlay_rom_loader.h" // FSOverlayInfo, FSFile
 #include "sound_archive_load.h"
 #include "thread_scheduler.h"
-#include "wireless_power_mp.h" // ScanExParam, ScanParam, ParentParameter
-#include "wireless_data_sharing.h" // WMDataSharingInfo, WMDataSet
-#include "vector_math.h" // Vec3s16
+#include "wireless_link_control.h" // ScanExParam, ScanParam, ParentParameter
+#include "wireless_key_data_sharing.h" // WMDataSharingInfo, WMDataSet
+#include "fixed_vector_math.h" // Vec3s16
 #include "geometry_engine_setup.h" // MtxFx44
 #include "model_material_set.h" // MtxFx43
 #include "Main/Net/wbt_requests.h"

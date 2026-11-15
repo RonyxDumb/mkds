@@ -1,8 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "wireless_power_mp.h"
-#include "wireless_data_sharing.h"
+#include "wireless_link_control.h"
+#include "wireless_key_data_sharing.h"
 
 typedef void (*WhPrintFunction)(u32 flags, const char *format, ...);
 

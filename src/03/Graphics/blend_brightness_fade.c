@@ -6,7 +6,7 @@
 #include "display_blend_affine_setup.h"
 #include "03/Graphics/blend_brightness_fade_start.h"
 #include "03/System/tasks.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 
 BlendBrightnessFadeSlot *gBlendBrightnessFadeSlots;
 

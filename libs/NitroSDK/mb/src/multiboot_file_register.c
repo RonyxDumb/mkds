@@ -1,8 +1,8 @@
 #include "multiboot_file_register.h"
 #include "multiboot_task_thread.h"
-#include "multiboot_comm_start.h"
+#include "multiboot_communication.h"
 #include "multiboot_game_entry.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "cpu_copy_fill.h"
 
 const u32 MBi_defaultLoadSegList[3] = {MULTIBOOT_SEGMENT_HEADER_AREA, MULTIBOOT_SEGMENT_MAIN_RAM,

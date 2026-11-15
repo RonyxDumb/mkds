@@ -11,7 +11,7 @@
 #include "03/Graphics/oam_range_entry.h"
 #include "03/System/exp_heap.h"
 #include "string.h"
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 #include "tick_counter.h"
 #include "03/Menu/wifi_menu_tables.h"
 #include "03/Menu/menu_pair_objects_slide_out.h"

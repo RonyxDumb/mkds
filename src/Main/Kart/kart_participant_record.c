@@ -22,7 +22,7 @@
 #include "Main/Kart/kart_scale_surface_tables.h"
 #include "Main/Item/kart_items_collision_hits.h"
 #include "matrix_3x3_basic.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Race/race_clock.h"
 #include "Main/Race/race.h"
 #include "Main/Kart/kart_course_colors.h"

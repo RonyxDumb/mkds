@@ -66,7 +66,7 @@
 #include "Main/System/heap_call.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "Main/Race/race.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "01/MapObjects/king_teresa.h"
 #include "Main/MapObjects/bound.h"
 

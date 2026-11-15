@@ -6,7 +6,7 @@
 #include "00/Lib/GameSpy/query_reporting.h"
 #include "00/Lib/DWC/connection_error_strings.h"
 #include "string.h"
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 #include "narrow_string_functions.h"
 #include "00/Lib/NitroWiFi/socket_library_startup.h"
 

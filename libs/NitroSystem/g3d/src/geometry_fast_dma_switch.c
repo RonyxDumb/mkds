@@ -4,7 +4,7 @@
 #include "microphone_sampling.h"
 #include "linked_texture_vram_alloc.h"
 #include "ITCM/g3d_texture_matrix.h"
-#include "vram_alloc_wrappers.h"
+#include "vram_alloc_joint_srt.h"
 #include "ITCM/kart_ground_contact.h"
 
 void (*NNS_G3dSendTexSRT_FuncArray[4])(NNSG3dMatAnmResult *) = {NNSi_G3dSendTexSRTMaya, NULL, NULL, NULL};

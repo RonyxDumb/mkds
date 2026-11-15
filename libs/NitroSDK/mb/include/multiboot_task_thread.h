@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "thread_scheduler.h"
-#include "wireless_power_mp.h"
+#include "wireless_link_control.h"
 
 // 0x10-byte object MBi_SetTask links by the bits above bit 0 of its member 4, in increasing order.
 typedef struct WorkerTask {

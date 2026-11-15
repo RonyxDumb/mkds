@@ -19,7 +19,7 @@
 #include "Main/Net/wifi_session_karts.h"
 #include "Main/Graphics/layout_entry_angle.h"
 #include "Main/Graphics/layout_table_entry.h"
-#include "vram_bank_assign.h"
+#include "vram_bank_display_setup.h"
 #include "Main/Menu/select_kart_ghost_work.h"
 #include "Main/System/interpolation_value.h"
 #include "Main/System/heap_call.h"

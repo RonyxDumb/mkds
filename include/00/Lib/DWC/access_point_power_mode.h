@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "00/Lib/DWC/access_point_wep_key.h"
-#include "wireless_power_mp.h"
+#include "wireless_link_control.h"
 
 // Values of ACSL.mApType, ACFL.mApType and ACWORK.mConnectApType: the first three are the saved access point slots by
 // their first SSID, the next three by their second SSID.

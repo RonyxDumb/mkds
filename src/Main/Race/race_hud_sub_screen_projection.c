@@ -9,7 +9,7 @@
 #include "Main/Race/race_hud_sub_screen_min_max.h"
 #include "Main/Kart/kart_heading_item_effect.h"
 
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Race/race_hud_sub_screen_mode.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "Main/Race/race.h"

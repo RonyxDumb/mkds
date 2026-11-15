@@ -37,7 +37,7 @@
 #include "Main/Kart/kart_heading_item_effect.h"
 #include "Main/Race/race_hud_sub_screen_projection.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "01/MapObjects/hanachan_move_state_start.h"
 #include "01/MapObjects/hanachan_kart_eliminated.h"
 #include "01/MapObjects/mission_run_state_callbacks.h"

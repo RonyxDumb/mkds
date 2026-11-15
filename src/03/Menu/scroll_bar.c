@@ -7,7 +7,7 @@
 #include "03/System/task_input.h"
 #include "03/Sound/sound_seq.h"
 #include "03/Menu/wifi_menu_strings.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "sound_player_control.h"
 #include "03/System/rect.h"
 #include "03/System/exp_heap.h"

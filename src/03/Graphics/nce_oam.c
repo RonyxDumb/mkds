@@ -15,7 +15,7 @@
 #include "03/Graphics/node_list_link.h"
 #include "03/Graphics/node_list_delete.h"
 #include "interrupt_control.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "03/Graphics/oam_range_set.h"
 
 OamRanges *gOamRanges;

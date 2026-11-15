@@ -21,7 +21,7 @@
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
 #include "Main/Sound/sound_data_sdat_path.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Item/held_item.h"
 #include "Main/Kart/kart_drift.h"
 #include "Main/Item/item_koura_w.h"

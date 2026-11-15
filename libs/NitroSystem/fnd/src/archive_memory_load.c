@@ -1,6 +1,6 @@
 #include "archive_memory_load.h"
 #include "file_handle_setup.h"
-#include "file_open_read.h"
+#include "file_archive_access.h"
 #include "narrow_string_functions.h"
 
 u32 ArchiveHeaderMatches(NNSiFndArchiveHeader *header) {

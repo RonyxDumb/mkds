@@ -1,5 +1,5 @@
 #include "Main/System/input_keys.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "Main/System/input_slot_repeat.h"
 #include "Main/Race/race_keys.h"
 #include "Main/Scene/scene_display_archive_work.h"

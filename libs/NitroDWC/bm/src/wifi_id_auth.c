@@ -7,8 +7,8 @@
 #include "cpu_copy_fill.h"
 #include "clock_chip_access.h"
 #include "string.h"
-#include "print_memory_functions.h"
-#include "reset_interrupt_enable.h"
+#include "print_memory_multibyte_write.h"
+#include "reset_interrupts_halt.h"
 
 const u8 DWCi_SETTING_NONE[4] = {0};
 

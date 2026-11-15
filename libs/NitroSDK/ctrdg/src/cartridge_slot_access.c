@@ -3,7 +3,7 @@
 #include "lock_word_and_bus_ownership.h"
 #include "thread_scheduler.h"
 #include "arena_cache_init.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "cpu_copy_fill.h"
 #include "arm_fifo_messaging.h"
 #include "bios_calls.h"

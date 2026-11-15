@@ -29,7 +29,7 @@
 #include "Main/Sound/sound_seq.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/Item/item_object_fade_out.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Save/ghost_record_file.h"
 #include "Main/System/init_after_startup.h"
 

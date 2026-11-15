@@ -4,7 +4,7 @@
 #include "00/Lib/GameSpy/stream_cipher.h"
 #include "00/Lib/DWC/connection_error_strings.h"
 #include "string.h"
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 #include "cpu_copy_fill.h"
 
 u8 gShopSsidPrefix[9] = {0x4e, 0x44, 0x57, 0x43, 0x53, 0x48, 0x41, 0x50, 0};

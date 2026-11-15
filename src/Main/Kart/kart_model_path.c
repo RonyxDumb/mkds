@@ -1,6 +1,6 @@
 #include "Main/Kart/kart_model_path.h"
 
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 #include "Main/Kart/kart_palette_stem_tables.h"
 #include "Main/Kart/kart_effect_param_tables.h"
 #include "Main/Menu/second_menu_scene.h"

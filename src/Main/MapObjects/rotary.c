@@ -24,7 +24,7 @@
 #include "Main/System/heap_call.h"
 #include "Main/System/state_machine_init.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Item/item_koura_w.h"
 #include "Main/MapObjects/pukupuku_init.h"
 #include "Main/MapObjects/rotary_state.h"

@@ -30,7 +30,7 @@
 #include "sprite_animation_control.h"
 #include "cell_animation.h"
 #include "Main/MapObjects/map_object_model_frame.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 
 Lld *CreateLld(const char *fileName, void *cells, void *cellAnims) {
     s16 *box;

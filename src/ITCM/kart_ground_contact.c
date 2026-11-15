@@ -24,7 +24,7 @@
 #include "Main/MapObjects/koopa_block_hit_link.h"
 #include "Main/Sound/sound_request_queue.h"
 #include "Main/Kart/kart_scale_surface_tables.h"
-#include "exception_state.h"
+#include "system_state_globals.h"
 #include "Main/System/input_slots.h"
 #include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
 #include "sound_player_control.h"
@@ -44,7 +44,7 @@
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "Main/Sound/sound_seq.h"
 #include "Main/Item/item_objects_and_race_progress.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "sound_archive_load_result.h"
 #include "Main/Kart/kart_contact.h"
 

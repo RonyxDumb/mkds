@@ -6,7 +6,7 @@
 #include "03/System/exp_heap.h"
 #include "03/Net/value_records_request_alloc.h"
 #include "03/Menu/wifi_menu_tables.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "cpu_copy_clear_16.h"
 #include "cpu_copy_fill.h"
 

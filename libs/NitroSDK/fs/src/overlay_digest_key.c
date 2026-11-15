@@ -1,4 +1,4 @@
-#include "overlay_loader.h"
+#include "overlay_rom_loader.h"
 
 // Kept in .text after the file command table.
 #pragma define_section ARCHIVE_TEXT ".text"                                                                            \

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "vector_math.h" // Vec3s16
+#include "fixed_vector_math.h" // Vec3s16
 
 // Sixteen bytes; gCourseCollision.mUnk_08 points to an array of these, which CollideSphereWithCourse indexes by
 // halfwords.

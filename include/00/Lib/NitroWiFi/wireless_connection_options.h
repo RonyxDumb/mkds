@@ -3,9 +3,9 @@
 #include "types.h"
 #include "00/Lib/wifi_library_work_objects.h"
 #include "00/Lib/NitroWiFi/wireless_connection_config.h"
-#include "wireless_power_mp.h"
+#include "wireless_link_control.h"
 #include "00/Lib/DWC/access_point_wep_key.h"
-#include "00/Lib/NitroWiFi/wireless_connection_control.h"
+#include "00/Lib/NitroWiFi/wireless_connection_manager.h"
 
 
 u32 WCM_UpdateOption(u32 option);

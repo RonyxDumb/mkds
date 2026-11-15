@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "double_digit_math.h" // DigitRecord
+#include "double_digits_math_functions.h" // DigitRecord
 
 // FormatSpec.mArgKind: the length modifier of a format conversion.
 enum {

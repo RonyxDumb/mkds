@@ -23,7 +23,7 @@
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Menu/cup_mark.h"
 #include "Main/Race/ghost_record_set.h"
-#include "vram_bank_assign.h"
+#include "vram_bank_display_setup.h"
 #include "registers.h"
 #include "Main/Graphics/time_format.h"
 #include "Main/Graphics/locate_bmg_sections.h"

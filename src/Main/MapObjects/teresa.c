@@ -40,7 +40,7 @@
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
 #include "Main/Kart/karts.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/MapObjects/bound.h"
 #include "Main/System/init_after_startup.h"
 

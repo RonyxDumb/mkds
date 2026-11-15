@@ -39,7 +39,7 @@
 #include "Main/Graphics/nsbmd_render_obj.h"
 #include "Main/Sound/sound_distance_squared_change.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "sound_player_control.h"
 #include "Main/MapObjects/cover_poo_hole_cover_height.h"
 

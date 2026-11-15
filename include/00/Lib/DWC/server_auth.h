@@ -14,7 +14,7 @@ typedef struct DWCHttpParseResult {
 } DWCHttpParseResult;
 
 #include "thread_scheduler.h"
-#include "00/Lib/DWC/dwc_auth_http_params.h"
+#include "00/Lib/DWC/auth_http_params.h"
 #include "wifi_settings_nvram_backup.h"
 #include "00/Lib/CPS/socket_status_resolve.h"
 #include "00/types_021a998c.h"
@@ -71,7 +71,7 @@ u32 GrowHttpBuffer(Http *http, HttpBuffer *httpBuffer, int addedSize);
 void FreeHttpBuffer(Http *http, HttpBuffer *httpBuffer);
 u32 InitHttpBuffer(Http *http, HttpBuffer *httpBuffer, int size);
 
-#include "00/Lib/DWC/http_thread.h"
+#include "00/Lib/DWC/http_transfer.h"
 
 // Written into DWCAuth at 0x1cc; mUnk_24 and mUnk_28 allocate and release the 0x13e0 bytes of the object and the
 // buffers.
@@ -137,7 +137,7 @@ typedef struct AuthFirstPostValues {
     /* 1b */ char mPassword[4];
 } AuthFirstPostValues;
 
-#include "00/Lib/CPS/ip_stack.h"
+#include "00/Lib/CPS/tcp_ip_stack.h"
 
 extern DWCAuth *gAuth;
 extern DWCWiFiInfo gAuthWiFiInfo;

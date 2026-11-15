@@ -3,7 +3,7 @@
 #include "Main/Kart/kart_palette_stem_tables.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "matrix_4x3_basic.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "geometry_matrix_commands.h"
 #include "Main/Race/race_elapsed_frames.h"
 #include "Main/Kart/kart_name_tag_draw.h"

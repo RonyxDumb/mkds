@@ -1,7 +1,7 @@
 #include "Main/MapObjects/wanwan.h"
 
 #include "Main/MapObjects/wanwan_chain_object.h" // WanwanChainObject
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/System/heap.h"
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/MapObjects/view_frustum.h"

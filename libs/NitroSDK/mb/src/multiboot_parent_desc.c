@@ -1,6 +1,6 @@
 #include "multiboot_parent_desc.h"
 #include "multiboot_game_info_beacon.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "cpu_copy_fill.h"
 
 #pragma thumb on

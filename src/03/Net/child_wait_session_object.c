@@ -10,7 +10,7 @@
 #include "03/Graphics/text_canvas.h"
 #include "03/Menu/wifi_menu_shared.h"
 #include "03/Menu/sub_screen_message.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "03/Menu/main_menu.h"
 
 ChildWaitParams gChildWaitParams = {"dwc:/move/child.srl",  NULL,  NULL, "dwc:/move/banner.char",

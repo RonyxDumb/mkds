@@ -1,6 +1,6 @@
 #include "wireless_driver_startup.h"
 #include "lock_word_and_bus_ownership.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "particle_random_state.h"
 #include "linked_palette_vram_alloc.h"
 #include "microphone_sampling.h"

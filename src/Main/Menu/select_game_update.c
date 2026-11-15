@@ -4,7 +4,7 @@
 #include "Main/Race/race_setup_block.h"
 #include "Main/Menu/battle_gx_set_visible_plane.h"
 #include "fixed_point_graphics_setup.h"
-#include "vram_bank_assign.h"
+#include "vram_bank_display_setup.h"
 #include "Main/Race/race_setup.h"
 
 #pragma thumb on

@@ -26,7 +26,7 @@
 #include "Main/MapObjects/shadow_position_raised.h"
 #include "Main/MapObjects/group_follower_init.h"
 #include "Main/MapObjects/group_follower_advance.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Race/race_progress_rank.h"
 
 void IronBallNop(void) {}

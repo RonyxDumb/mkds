@@ -10,7 +10,7 @@
 #include "Main/System/input_slots.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "00/Lib/DWC/friends_match_session.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Race/kart.h"
 #include "Main/Kart/karts.h"
 #include "Main/Save/ghost_record_file.h"

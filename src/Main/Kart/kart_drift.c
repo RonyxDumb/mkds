@@ -34,7 +34,7 @@
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
 #include "Main/Sound/sound_seq.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Race/standings_balloons.h"
 #include "Main/Sound/sound_start.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"

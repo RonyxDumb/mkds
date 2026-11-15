@@ -8,7 +8,7 @@
 #include "Main/MapObjects/bound.h"
 #include "Main/Item/item_koura_w.h"
 #include "ITCM/g3d_draw_and_irq_handler.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 
 MapObjectKindDescriptor gStopSignKindDescriptor = {
     0,    {0, 0}, 0xa0, InitStopSign, CreateStopSignKindData,  CreateStopSignDrawList,

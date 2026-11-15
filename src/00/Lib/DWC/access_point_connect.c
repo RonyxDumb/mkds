@@ -1,4 +1,4 @@
-#include "00/Lib/NitroWiFi/wireless_connection_control.h"
+#include "00/Lib/NitroWiFi/wireless_connection_manager.h"
 #include "00/Lib/DWC/access_point_connect.h"
 #include "00/Lib/DWC/access_point_manager.h"
 #include "00/Lib/DWC/access_point_wep_key.h"

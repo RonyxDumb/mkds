@@ -24,7 +24,7 @@
 #include "Main/Kart/shadow_model_draw.h"
 #include "sound_archive_load_result.h"
 #include "Main/Kart/kart_drift.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Menu/kart_icon_row.h"
 #include "Main/Sound/race_end_seq.h"
 #include "Main/System/backup_net_camera_work.h"

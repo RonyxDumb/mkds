@@ -14,7 +14,7 @@
 #include "03/Net/exchange_result_records.h"
 #include "formatted_text_to_buffer.h"
 #include "string.h"
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 #include "03/System/string_length.h"
 
 const u8 gSettingNone[4] = {0, 0, 0, 0};

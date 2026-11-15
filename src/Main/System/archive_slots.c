@@ -14,8 +14,8 @@
 #include "Main/System/backup_net_camera_work.h"
 
 #include "formatted_text_to_buffer.h"
-#include "file_open_read.h"
-#include "overlay_loader.h"
+#include "file_archive_access.h"
+#include "overlay_rom_loader.h"
 #include "file_handle_setup.h"
 #include "arena_cache_init.h"
 #include "Main/System/heap_call.h"

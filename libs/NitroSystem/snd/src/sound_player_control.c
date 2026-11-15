@@ -17,7 +17,7 @@
 #include "linked_list_init.h"
 #include "sound_fader_init.h"
 #include "unk_02152000_data.h"
-#include "sound_channel_volume.h"
+#include "sound_wave_channel_volume.h"
 
 void NNS_SndPlayerSetPlayerVolume(u32 index, u32 volume) {
     sPlayer[index].mVolume = volume;

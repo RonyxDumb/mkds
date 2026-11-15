@@ -1,15 +1,15 @@
 #pragma once
 
 #include "types.h"
-#include "reset_interrupt_enable.h"
-#include "00/Lib/DWC/dwc_auth_http_params.h"
+#include "reset_interrupts_halt.h"
+#include "00/Lib/DWC/auth_http_params.h"
 #include "wifi_settings_nvram_backup.h"
 #include "wifi_id_auth.h"
 #include "00/Lib/DWC/http_header_build.h"
-#include "00/Lib/CPS/ip_stack.h"
+#include "00/Lib/CPS/tcp_ip_stack.h"
 #include "00/Lib/NitroWiFi/rssi_link_level.h"
 #include "00/Lib/DWC/shop_access_point_key.h"
-#include "00/Lib/NitroWiFi/dcf_send_receive.h"
+#include "00/Lib/NitroWiFi/wifi_stack_bridge.h"
 #include "00/Lib/DWC/server_auth.h"
 #include "00/Lib/DWC/network_check_control.h"
 

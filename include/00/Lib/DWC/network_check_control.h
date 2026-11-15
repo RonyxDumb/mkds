@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "00/Lib/DWC/access_point_state.h"
-#include "wireless_power_mp.h"
+#include "wireless_link_control.h"
 
 // Three words: a function called with (name, size) that returns a block, a function called with (name, block, 0) that
 // releases it, and a word.

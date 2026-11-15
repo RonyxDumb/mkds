@@ -1,6 +1,6 @@
 #include "vram_load_3d_graphics.h"
 #include "dma_copy_fill_wait.h"
-#include "vram_bank_assign.h"
+#include "vram_bank_display_setup.h"
 #include "bg_screen_char_pointers.h"
 #include "cpu_copy_fill.h"
 #include "Main/Graphics/g3d_anm_function_pointers.h"

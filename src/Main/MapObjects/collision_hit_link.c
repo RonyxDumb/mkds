@@ -10,7 +10,7 @@
 #include "Main/MapObjects/map_object_draw_list_flags.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "matrix_3x3_basic.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/System/heap_call.h"
 #include "Main/Kart/kart_drift.h"
 #include "Main/MapObjects/choropu_state.h"

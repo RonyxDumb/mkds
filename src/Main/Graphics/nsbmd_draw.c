@@ -1,6 +1,6 @@
 #include "Main/Graphics/nsbmd_draw.h"
 #include "Main/Graphics/nsbmd_render_obj.h"
-#include "model_draw_blend.h"
+#include "model_draw_blend_state.h"
 #include "ITCM/g3d_draw_and_irq_handler.h"
 
 void (*const gNsbmdDrawFunctions[2])(void *object) = {(void (*)(void *)) DrawRenderObjWrapper,

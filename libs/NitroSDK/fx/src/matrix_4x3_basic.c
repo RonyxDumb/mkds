@@ -1,6 +1,6 @@
 #include "matrix_4x3_basic.h"
 #include "matrix_3x3_basic.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "cpu_copy_fill.h"
 
 void MTX_ScaleApply43(const MtxFx43 *src, MtxFx43 *dst, s32 scaleX, s32 scaleY, s32 scaleZ) {

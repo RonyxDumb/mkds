@@ -1,7 +1,7 @@
 #include "Main/Menu/vs_select_cup_m.h"
 #include "Main/Menu/menu_screen_switch.h"
 #include "fixed_point_graphics_setup.h"
-#include "vram_bank_assign.h"
+#include "vram_bank_display_setup.h"
 #include "Main/Menu/select_character.h"
 #include "Main/Menu/select_kart_data.h"
 #include "Main/Menu/select_race_rule.h"

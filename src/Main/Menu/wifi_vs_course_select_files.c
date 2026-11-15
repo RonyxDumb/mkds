@@ -15,7 +15,7 @@
 #include "cell_transfer_state.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "Main/System/heap.h"
-#include "vram_bank_assign.h"
+#include "vram_bank_display_setup.h"
 #include "Main/Graphics/cell_layout_entry.h"
 #include "Main/Graphics/message_index.h"
 #include "Main/System/interpolation.h"

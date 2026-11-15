@@ -20,7 +20,7 @@
 #include "Main/Graphics/ortho_quad_corners.h"
 #include "Main/Sound/surface_sound_ids.h"
 #include "Main/Sound/sound_source_list.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/System/init_after_startup.h"
 
 void StartMapObjectKindSound(MapObject *mapObject, SoundSource *soundSource, s32 value, s32 fraction) {

@@ -12,7 +12,7 @@
 #include "power_management_commands.h"
 #include "Main/Sound/sound_seq.h"
 #include "Main/System/result_archive_path.h"
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 #include "Main/System/heap_call.h"
 #include "Main/Race/race_hud_sub_screen_frames.h"
 #include "Main/Kart/point_link_cursor.h"
@@ -27,7 +27,7 @@
 #include "Main/Race/cup_records.h"
 #include "Main/Kart/kart_drift.h"
 #include "matrix_4x3_basic.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Kart/karts.h"
 #include "Main/System/init_after_startup.h"
 

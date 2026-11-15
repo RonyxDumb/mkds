@@ -18,7 +18,7 @@
 #include "Main/MapObjects/map_object_draw_list_flags.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/MapObjects/group_follower_advance.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/System/init_after_startup.h"
 
 const Vec3 gGroupPathZeroLengthUp = {0, 0x1000, 0};

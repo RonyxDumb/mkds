@@ -31,7 +31,7 @@
 #include "Main/Sound/sound_seq.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "signed_int_divide.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "geometry_engine_setup.h"
 #include "matrix_4x3_basic.h"
 #include "registers.h"

@@ -1,5 +1,5 @@
 #include "Main/Menu/keyboard_keys.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "Main/Sound/kart_sound.h"
 #include "Main/Graphics/font_and_player_character.h"
 #include "Main/Menu/keyboard_char_tables.h"

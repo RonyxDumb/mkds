@@ -1,5 +1,5 @@
 #include "double_int_convert.h"
-#include "debugger_calls.h"
+#include "swi_runtime_support.h"
 #include "float_trap_dispatch.h"
 
 // clang-format off

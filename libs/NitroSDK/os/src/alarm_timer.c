@@ -2,8 +2,8 @@
 
 #include "interrupt_control.h"
 #include "tick_counter.h"
-#include "reset_interrupt_enable.h"
-#include "exception_state.h"
+#include "reset_interrupts_halt.h"
+#include "system_state_globals.h"
 #include "timer_reserved_flag.h"
 
 u16 gAlarmInitialized;

@@ -33,7 +33,7 @@
 #include "Main/Race/race.h"
 #include "Main/System/heap_call.h"
 #include "Main/Item/item_object_init.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Kart/karts.h"
 #include "Main/Item/held_item.h"
 #include "Main/System/init_after_startup.h"

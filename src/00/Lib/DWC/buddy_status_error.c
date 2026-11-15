@@ -1,13 +1,13 @@
-#include "00/Lib/DWC/dwc_result.h"
+#include "00/Lib/DWC/matching_result_codes.h"
 #include "00/Lib/DWC/buddy_status_error.h"
 #include "00/Lib/wifi_library_work_objects.h"
 #include "00/Lib/DWC/login_process.h"
-#include "00/Lib/DWC/login_stop.h"
+#include "00/Lib/DWC/login_control.h"
 #include "00/Lib/GameSpy/buddy_messages.h"
 #include "00/Lib/GameSpy/presence_api.h"
-#include "00/Lib/DWC/login_close.h"
+#include "00/Lib/DWC/login_state.h"
 #include "00/Lib/DWC/buddy_request_callbacks.h"
-#include "00/Lib/DWC/buddy_friend_list.h"
+#include "00/Lib/DWC/buddy_friends.h"
 
 #pragma opt_rebuildconditionals off
 

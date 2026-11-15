@@ -1,5 +1,5 @@
 #include "00/Lib/CPS/https_enable_flag.h"
-#include "00/Lib/CPS/https_handshake_records.h"
+#include "00/Lib/CPS/https_protocol.h"
 #include "startup_entry.h"
 #include "build_info_layout.h"
 #include "Main/Net/wbt_os_thread_globals.h"

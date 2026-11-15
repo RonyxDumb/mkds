@@ -24,7 +24,7 @@
 #include "Main/Graphics/cell_layout_entry.h"
 #include "Main/Graphics/oam.h"
 #include "Main/Graphics/layout_table_entry.h"
-#include "vram_bank_assign.h"
+#include "vram_bank_display_setup.h"
 #include "vram_transfer_queue.h"
 #include "cpu_copy_clear_16.h"
 #include "Main/Scene/run_scene_connection.h"

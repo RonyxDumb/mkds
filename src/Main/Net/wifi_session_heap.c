@@ -1,7 +1,7 @@
 #include "Main/Net/wifi_session_heap.h"
 #include "Main/System/heap.h"
 #include "00/Menu/wi_fi_vs_matching.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "Main/Net/wifi_session.h"
 
 // Allocator registered with the net layer; the first argument is unused; interrupts off.

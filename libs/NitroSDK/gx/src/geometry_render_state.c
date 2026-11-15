@@ -6,7 +6,7 @@
 #include "mb_data.h"
 #include "00/Lib/DWC/access_point_manager.h"
 #include "registers.h"
-#include "vram_bank_assign.h"
+#include "vram_bank_display_setup.h"
 
 void G3X_SetToonTable(const u16 *toonTable) {
     MIi_CpuCopy16(toonTable, (void *) 0x4000380, 0x40);

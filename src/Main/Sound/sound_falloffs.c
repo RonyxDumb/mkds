@@ -14,7 +14,7 @@
 #include "Main/Graphics/ortho_quad_corners.h"
 #include "Main/Sound/surface_sound_ids.h"
 #include "Main/Sound/sound_source_list.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "fixed_arctangent.h"
 #include "registers.h"
 #include "Main/Sound/snd_handle_slots.h"

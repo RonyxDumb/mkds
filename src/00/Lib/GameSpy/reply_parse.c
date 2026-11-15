@@ -4,7 +4,7 @@
 #include "00/Lib/GameSpy/buddy_messages.h"
 #include "00/Lib/GameSpy/presence_api.h"
 #include "00/Lib/GameSpy/error_set.h"
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 #include "narrow_string_functions.h"
 #include "text_to_number.h"
 

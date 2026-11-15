@@ -2,17 +2,17 @@
 
 #include "types.h"
 #include "multiboot_mode_constants.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "multiboot_task_thread.h"
 #include "multiboot_game_info_beacon.h"
 #include "mb_data.h"
 #include "file_command_handlers.h"
 #include "file_handle_setup.h"
-#include "file_open_read.h"
+#include "file_archive_access.h"
 #include "multiboot_block_header_end.h"
 #include "multiboot_data_pieces.h"
-#include "multiboot_comm_start.h"
-#include "wireless_power_mp.h"
+#include "multiboot_communication.h"
+#include "wireless_link_control.h"
 
 struct SegmentBuffer;
 

@@ -14,7 +14,7 @@
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "Main/Sound/sound_seq.h"
-#include "sound_channel_volume.h"
+#include "sound_wave_channel_volume.h"
 
 NNSFndList sStrmList;
 NNSSndStrmChannel sStrmChannel[16];

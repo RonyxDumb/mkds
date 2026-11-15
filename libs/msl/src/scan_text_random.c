@@ -1,6 +1,6 @@
 #include "scan_text_random.h"
 
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 #include "capture_output_effect.h"
 
 #pragma avoid_byte all

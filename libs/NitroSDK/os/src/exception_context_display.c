@@ -2,7 +2,7 @@
 #include "registers.h"
 #include "interrupt_control.h"
 #include "memory_protection.h"
-#include "exception_state.h"
+#include "system_state_globals.h"
 #include "thread_mutex_types.h"
 
 asm void OSi_GetAndDisplayContext(u32 exinfo) {

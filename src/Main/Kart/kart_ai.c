@@ -11,7 +11,7 @@
 #include "Main/Race/race_hud_sub_screen_min_max.h"
 #include "Main/Kart/kart_heading_item_effect.h"
 #include "Main/Race/race_hud_sub_screen_projection.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/System/heap_call.h"
 #include "Main/System/heap.h"
 #include "Main/System/result_archive_path.h"

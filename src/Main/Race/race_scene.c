@@ -46,7 +46,7 @@
 #include "Main/Race/race_hud_draw.h"
 #include "Main/Menu/choises_s.h"
 #include "Main/Race/race_scene_callbacks.h"
-#include "rom_card_read.h"
+#include "card_rom_backup_access.h"
 #include "Main/Race/grand_prix_next_course.h"
 #include "registers.h"
 #include "Main/Sound/sound_system.h"

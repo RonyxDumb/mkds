@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 #include "capture_output_effect.h" // CallbackInfo
 
 void srand(u32 seed);

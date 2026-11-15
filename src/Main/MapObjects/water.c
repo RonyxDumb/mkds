@@ -38,7 +38,7 @@
 #include "Main/MapObjects/group_follower_init.h"
 #include "Main/MapObjects/group_follower_advance.h"
 #include "matrix_4x3_basic.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/MapObjects/kuribo_init.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 

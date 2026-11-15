@@ -1,7 +1,7 @@
 #include "microphone_sampling.h"
 
 #include "arm_fifo_messaging.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 
 u16 gMicrophoneInitialized;
 MICWork gMicrophoneCommand;

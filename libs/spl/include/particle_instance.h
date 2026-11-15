@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "model_material_set.h" // MtxFx43
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 
 // Linked through mNext/mPrev; on the lists at ParticleEmitter 0x08 and 0x14 and SPLManager 0x1c.
 typedef struct ParticleInstance {

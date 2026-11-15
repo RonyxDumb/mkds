@@ -23,7 +23,7 @@
 #include "Main/Kart/kart_scale_surface_tables.h"
 #include "Main/Item/kart_items_collision_hits.h"
 #include "Main/System/backup_net_camera_work.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Kart/kart_drift.h"
 #include "Main/Kart/kart_resources.h"
 

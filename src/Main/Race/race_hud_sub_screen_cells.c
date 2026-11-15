@@ -16,7 +16,7 @@
 #include "Main/Kart/kart_heading_item_effect.h"
 #include "Main/Race/race_hud_sub_screen_projection.h"
 #include "Main/Race/race_hud_sub_screen_item_cells.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Race/race_hud_sub_screen_shine16_cells.h"
 #include "Main/Menu/emblem_choises_shown.h"
 #include "Main/Race/race_hud_sub_screen_rain_star_cells.h"

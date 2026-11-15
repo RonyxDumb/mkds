@@ -7,14 +7,14 @@
 #include "00/Lib/DWC/usb_access_point_check.h"
 #include "00/Lib/DWC/connection_error_strings.h"
 #include "string.h"
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 #include "00/Lib/DWC/shop_access_point_key.h"
 #include "00/Lib/DWC/access_point_close.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "narrow_string_functions.h"
 #include "cpu_copy_fill.h"
 #include "Main/Save/nvram_first_three.h"
-#include "00/Lib/NitroWiFi/wireless_connection_control.h"
+#include "00/Lib/NitroWiFi/wireless_connection_manager.h"
 
 ACHOLD *gAcHold;
 ACWORK *gAcWork;

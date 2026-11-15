@@ -33,7 +33,7 @@
 #include "Main/Sound/sound_source_list.h"
 #include "matrix_3x3_basic.h"
 #include "fixed_arctangent.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/MapObjects/bound.h"
 
 const u16 gFlipperMirrorFlag = 0x400;

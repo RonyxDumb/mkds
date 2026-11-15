@@ -18,7 +18,7 @@
 #include "01/Menu/menu_screen_states_and_file_names.h"
 #include "Main/Race/mission_table_value.h"
 #include "sound_archive_load_result.h"
-#include "vram_bank_assign.h"
+#include "vram_bank_display_setup.h"
 #include "registers.h"
 #include "01/Menu/select_engine.h"
 #include "01/MapObjects/periodic_effect.h"

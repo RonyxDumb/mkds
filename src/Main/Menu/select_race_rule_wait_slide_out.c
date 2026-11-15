@@ -5,7 +5,7 @@
 #include "Main/Menu/wait.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/System/stdio_files.h"
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 #include "capture_output_effect.h"
 #include "Main/Menu/menu_screens_work.h"
 #include "sound_player_control.h"
@@ -19,7 +19,7 @@
 #include "sound_archive_load.h"
 #include "Main/Sound/sound_seq.h"
 #include "Main/Graphics/locate_bmg_sections.h"
-#include "vram_bank_assign.h"
+#include "vram_bank_display_setup.h"
 #include "Main/System/result_archive_path.h"
 
 char *gSelectRaceRuleWaitNcerName = "common/select_race_rule_s.nce.ncer";

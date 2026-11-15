@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "00/Lib/NitroWiFi/wireless_connection_control.h"
+#include "00/Lib/NitroWiFi/wireless_connection_manager.h"
 
 typedef struct WCMNotice WCMNotice;
 typedef struct WCMWork WCMWork;

@@ -14,10 +14,10 @@
 #include "display_blend_affine_setup.h"
 #include "registers.h"
 #include "03/Net/essid_packet_steps.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "thread_scheduler.h"
 #include "mb_data.h"
-#include "multiboot_comm_start.h"
+#include "multiboot_communication.h"
 #include "03/Net/multiboot_parent_download.h"
 #include "03/Menu/main_menu.h"
 

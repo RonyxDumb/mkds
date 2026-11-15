@@ -35,7 +35,7 @@
 #include "display_blend_affine_setup.h"
 #include "sound_archive_load_result.h"
 #include "Main/System/stdio_files.h"
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 #include "capture_output_effect.h"
 #include "Main/Graphics/font_and_player_character.h"
 #include "thread_scheduler.h"

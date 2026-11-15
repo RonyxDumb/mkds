@@ -1,6 +1,6 @@
 #include "Main/Kart/kart_killer_render.h"
 #include "Main/Kart/kart_call.h"
-#include "render_object_animation_link.h"
+#include "render_object_callback_link.h"
 
 void SetKillerItemRenderCallback(void *model) {
     NNS_G3dRenderObjSetCallBack(model, PlaceKartKillerEffectCallback, 0, 6, (u8) 3);

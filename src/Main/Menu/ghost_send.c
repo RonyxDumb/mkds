@@ -38,7 +38,7 @@
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Menu/txt_system.h"
 #include "Main/Menu/select_return.h"
-#include "vram_bank_assign.h"
+#include "vram_bank_display_setup.h"
 #include "Main/Race/race_hud_sub_screen_frames.h"
 #include "Main/Kart/point_link_cursor.h"
 #include "Main/Race/race_hud_sub_screen_course_id.h"

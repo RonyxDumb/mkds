@@ -17,7 +17,7 @@
 #include "power_management_commands.h"
 #include "Main/Sound/sound_seq.h"
 #include "Main/Kart/kart_name_tags.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/Kart/kart_drift.h"
 #include "particle_instance.h"

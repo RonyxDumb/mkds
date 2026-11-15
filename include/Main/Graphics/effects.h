@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-#include "particle_behaviors.h"
+#include "particle_system.h"
 #include "Main/Graphics/emitters.h"
 
 // SPLManager.mMiscPolygonAttr of the race effects: polygon attribute bit 15, which turns fog on for the particles.

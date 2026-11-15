@@ -162,7 +162,7 @@ extern const u16 gRecordTAttCharacterKartCellIndices[5][2];
 #include "Main/Menu/kart_icon.h"
 #include "Main/Menu/record_scene.h"
 
-#include "rom_card_read.h"
+#include "card_rom_backup_access.h"
 
 extern BackupAccess *gBackupAccess;
 extern const s32 gRecordTAttCourseIds[RECORD_TATT_COURSE_COUNT];

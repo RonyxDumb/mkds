@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "00/Lib/GameSpy/connection_close.h"
+#include "00/Lib/GameSpy/connection_events.h"
 
 typedef struct Gt2Connection Gt2Connection;
 typedef struct Gt2Socket Gt2Socket;

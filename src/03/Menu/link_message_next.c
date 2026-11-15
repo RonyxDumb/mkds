@@ -8,7 +8,7 @@
 #include "03/Graphics/dispcnt_window.h"
 #include "03/System/task_input.h"
 #include "03/Menu/wifi_menu_strings.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "vram_load_2d_graphics.h"
 #include "power_management_commands.h"
 

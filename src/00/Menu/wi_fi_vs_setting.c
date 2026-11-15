@@ -30,7 +30,7 @@
 #include "Main/Net/wifi_connection_lost.h"
 #include "Main/Net/wifi_session_karts.h"
 #include "Main/Net/wifi_session_login.h"
-#include "vram_bank_assign.h"
+#include "vram_bank_display_setup.h"
 #include "registers.h"
 #include "Main/System/heap.h"
 #include "Main/Sound/sound_system.h"

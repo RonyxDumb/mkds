@@ -3,10 +3,10 @@
 #include "number_text_format.h"
 #include "char_conversion.h"
 #include "string.h"
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 #include "narrow_string_functions.h"
 #include "text_to_number.h"
-#include "double_digit_math.h"
+#include "double_digits_math_functions.h"
 
 #pragma explicit_zero_data on
 char gLocaleEmptyString[] = "";

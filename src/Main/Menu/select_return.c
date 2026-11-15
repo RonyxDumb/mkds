@@ -24,7 +24,7 @@
 #include "thread_scheduler.h"
 #include "Main/Menu/back_screen_keyboard_tables.h"
 #include "Main/System/stdio_files.h"
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 #include "capture_output_effect.h"
 #include "vram_load_2d_graphics.h"
 #include "Main/System/result_archive_path.h"

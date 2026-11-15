@@ -2,7 +2,7 @@
 #include "expanded_heap_head.h"
 #include "heap_frame_allocator.h"
 #include "heap_list_common_head.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 
 void *HeapAlloc(void *heap, u32 size) {
     NNSiFndHeapHead *heapHead = heap;

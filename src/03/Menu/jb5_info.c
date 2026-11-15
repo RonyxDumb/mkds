@@ -11,7 +11,7 @@
 #include "03/Menu/jb5_info_load_files.h"
 #include "03/Menu/wifi_menu_strings.h"
 #include "vram_load_2d_graphics.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "wide_print.h"
 #include "wifi_settings_nvram_backup.h"
 #include "03/Menu/jb5_info_buttons_in.h"

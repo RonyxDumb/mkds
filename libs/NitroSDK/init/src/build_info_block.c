@@ -1,7 +1,7 @@
 #include "types.h"
 #include "build_info_layout.h"
 #include "build_info_block.h"
-#include "file_open_read.h"
+#include "file_archive_access.h"
 
 
 // Build information block, kept in .text after NitroStartUp: the addresses the startup code reads

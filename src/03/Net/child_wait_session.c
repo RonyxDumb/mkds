@@ -2,10 +2,10 @@
 
 #include "03/Menu/wifi_menu_shared.h"
 #include "03/Net/essid_packet_steps.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "thread_scheduler.h"
 #include "mb_data.h"
-#include "multiboot_comm_start.h"
+#include "multiboot_communication.h"
 #include "03/Net/multiboot_parent_download.h"
 #include "03/Menu/message_box_create.h"
 #include "03/Net/wh.h"
@@ -15,7 +15,7 @@
 #include "03/Net/child_wait_wh_start.h"
 #include "03/Net/ap_entries.h"
 #include "tick_counter.h"
-#include "wireless_power_mp.h"
+#include "wireless_link_control.h"
 #include "wifi_settings_nvram_backup.h"
 
 ChildWaitSessionView *gChildWaitSessionView;

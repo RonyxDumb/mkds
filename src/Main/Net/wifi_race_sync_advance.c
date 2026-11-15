@@ -14,7 +14,7 @@
 #include "01/Menu/record_time_attack_requests.h"
 #include "tick_counter.h"
 #include "bit_count.h"
-#include "rom_card_read.h"
+#include "card_rom_backup_access.h"
 #include "cpu_copy_fill.h"
 #include "thread_scheduler.h"
 #include "Main/Race/race_progress_kart.h"

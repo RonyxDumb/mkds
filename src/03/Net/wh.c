@@ -3,9 +3,9 @@
 #include "wireless_beacon_wep_settings.h"
 #include "03/Menu/wifi_menu_strings.h"
 #include "03/Menu/wifi_menu_shared.h"
-#include "wireless_data_sharing.h"
-#include "reset_interrupt_enable.h"
-#include "wireless_power_mp.h"
+#include "wireless_key_data_sharing.h"
+#include "reset_interrupts_halt.h"
+#include "wireless_link_control.h"
 
 char gWhIndicateStateFormat[30] = "unknown indicate, state = %d\n";
 char gWhEndParentFailedText[37] = "DWCi_MOV_WH_StateInEndParent failed\n";

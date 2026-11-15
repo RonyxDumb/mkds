@@ -1,8 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "wireless_power_mp.h"
-#include "wireless_data_sharing.h"
+#include "wireless_link_control.h"
+#include "wireless_key_data_sharing.h"
 #include "Main/System/runtime_locks_stdio_buffers.h"
 #include "sound_stream_control.h"
 #include "sound_archive_load.h"

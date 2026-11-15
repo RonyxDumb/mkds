@@ -4,7 +4,7 @@
 #include "tick_counter.h"
 #include "cpu_copy_fill.h"
 #include "clock_chip_access.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "friend_user_data.h"
 #include "time_to_seconds.h"
 

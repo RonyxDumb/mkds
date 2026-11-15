@@ -14,7 +14,7 @@
 #include "Main/System/wvr_state.h"
 #include "geometry_engine_setup.h"
 #include "geometry_render_state.h"
-#include "vram_bank_assign.h"
+#include "vram_bank_display_setup.h"
 #include "cpu_copy_fill.h"
 #include "registers.h"
 #include "display_blend_affine_setup.h"

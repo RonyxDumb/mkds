@@ -8,7 +8,7 @@
 #include "01/Menu/select_ghost.h"
 #include "01/Menu/select_engine.h"
 #include "fixed_point_graphics_setup.h"
-#include "vram_bank_assign.h"
+#include "vram_bank_display_setup.h"
 #include "registers.h"
 #include "Main/Menu/select_kart_data.h"
 

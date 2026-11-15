@@ -13,7 +13,7 @@
 #include "Main/Item/item_object_fade_out.h"
 #include "Main/Item/item_slot_tables.h"
 #include "Main/Item/item_object.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/System/heap_call.h"
 #include "Main/System/heap.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"

@@ -3,7 +3,7 @@
 #include "Main/Menu/single_play_select_screen3.h"
 #include "Main/Menu/menu_screen_switch.h"
 #include "fixed_point_graphics_setup.h"
-#include "vram_bank_assign.h"
+#include "vram_bank_display_setup.h"
 #include "vram_load_2d_graphics.h"
 #include "registers.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"

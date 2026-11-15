@@ -16,7 +16,7 @@
 #include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/Race/race.h"
 #include "Main/Item/item_object_throw.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Item/item_pool.h"
 #include "Main/Race/race_clock.h"
 #include "Main/Kart/karts.h"

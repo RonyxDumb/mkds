@@ -1,10 +1,10 @@
 #include "03/System/task_vblank_irq.h"
 #include "03/Menu/wifi_menu_shared.h"
 #include "interrupt_control.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "registers.h"
 #include "03/types_021d299c.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 
 u32 gSavedIrqMask;
 OSIrqFunction gSavedIrqFunction;

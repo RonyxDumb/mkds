@@ -47,7 +47,7 @@
 #include "touch_panel_sampling.h"
 #include "model_material_set.h"
 #include "matrix_3x3_basic.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Race/kart.h"
 #include "Main/MapObjects/model_animation_entries.h"
 #include "Main/System/init_after_startup.h"

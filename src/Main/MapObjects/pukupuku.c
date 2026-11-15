@@ -31,7 +31,7 @@
 #include "Main/Sound/surface_sound_ids.h"
 #include "Main/Sound/sound_source_list.h"
 #include "Main/MapObjects/choropu_state.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/MapObjects/shadow_position_raised.h"
 #include "Main/MapObjects/attractor_distance_flag.h"
 #include "Main/MapObjects/ob_pakkun_sf.h"

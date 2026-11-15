@@ -45,7 +45,7 @@
 #include "bg_screen_char_pointers.h"
 #include "vram_load_2d_graphics.h"
 #include "Main/System/stdio_files.h"
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 #include "capture_output_effect.h"
 #include "Main/Graphics/text_draw.h"
 #include "Main/Graphics/back_screen.h"

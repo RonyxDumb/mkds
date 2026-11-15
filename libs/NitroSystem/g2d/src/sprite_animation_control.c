@@ -1,6 +1,6 @@
 #include "sprite_animation_control.h"
 #include "cell_animation.h"
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 
 NNSG2dAnimDataSRT *NNS_G2dGetAnimCtrlCurrentElement(NNSG2dCellAnimation *pAnimCtrl) {
     return (NNSG2dAnimDataSRT *) pAnimCtrl->mPCurrent->mPContent;

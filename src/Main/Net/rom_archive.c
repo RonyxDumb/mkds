@@ -12,13 +12,13 @@
 #include "Main/Save/backup_read_copies.h"
 #include "Main/Net/append_bytes.h"
 #include "Main/Net/wbt_requests.h"
-#include "file_open_read.h"
-#include "wireless_power_mp.h"
-#include "reset_interrupt_enable.h"
+#include "file_archive_access.h"
+#include "wireless_link_control.h"
+#include "reset_interrupts_halt.h"
 #include "Main/Net/wbt_mp_parent_recv.h"
 #include "Main/Kart/kart_scale_surface_tables.h"
 #include "file_handle_setup.h"
-#include "overlay_loader.h"
+#include "overlay_rom_loader.h"
 #include "arena_cache_init.h"
 #include "cpu_copy_fill.h"
 #include "Main/Net/multiboot_parent.h"
@@ -26,7 +26,7 @@
 #include "Main/Kart/kart_effect_param_tables.h"
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/Kart/kart_name_tags.h"
-#include "rom_card_read.h"
+#include "card_rom_backup_access.h"
 
 s32 gRomArchiveUnusedWord;
 s32 gRomArchiveStarted;

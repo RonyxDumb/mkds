@@ -1,6 +1,6 @@
 #include "wireless_beacon_wep_settings.h"
 #include "arena_cache_init.h"
-#include "wireless_data_sharing.h"
+#include "wireless_key_data_sharing.h"
 #include "thread_scheduler.h"
 #include "wireless_system_commands.h"
 #include "cpu_copy_clear_16.h"

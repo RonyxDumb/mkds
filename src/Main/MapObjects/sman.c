@@ -44,12 +44,12 @@
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "01/Menu/record_time_attack.h"
 #include "01/Menu/record_time_attack_requests.h"
-#include "rom_card_read.h"
+#include "card_rom_backup_access.h"
 #include "Main/MapObjects/sman_with.h"
 #include "Main/Item/item_koura_w.h"
 #include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/Kart/kart_ai_follow.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 
 MapObjectModel *gSmanTop;
 MapObjectModel *gSmanBottom;

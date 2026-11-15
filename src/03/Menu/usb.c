@@ -24,7 +24,7 @@
 #include "03/Menu/menu_pair_loading.h"
 #include "03/System/dwc_archive.h"
 #include "03/Graphics/hl_scr.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "cpu_copy_clear_16.h"
 
 u8 gUsbExitKind;

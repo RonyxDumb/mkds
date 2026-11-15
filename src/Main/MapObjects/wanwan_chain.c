@@ -7,7 +7,7 @@
 #include "Main/MapObjects/woodbox1_kind_data.h"
 #include "Main/MapObjects/pushed_motion.h"
 #include "Main/MapObjects/pushed_object_states_init.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 
 const MapObjectList gWanwanChainUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, UpdateWanwanChain,

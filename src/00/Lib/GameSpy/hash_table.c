@@ -1,7 +1,7 @@
 #include "00/Lib/GameSpy/hash_table.h"
 #include "00/Lib/DWC/connection_error_strings.h"
 #include "string.h"
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 
 #include "00/Lib/DWC/memory_allocator.h"
 #include "00/Lib/GameSpy/dynamic_array.h"

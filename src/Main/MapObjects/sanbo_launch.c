@@ -2,7 +2,7 @@
 #include "Main/MapObjects/map_object_model_frame.h"
 #include "Main/Course/course_sound_object.h"
 #include "Main/MapObjects/map_object_park.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/MapObjects/bound.h"
 
 MapObjectKindDescriptor gCourseSoundObjectKindDescriptor = {

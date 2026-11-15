@@ -27,7 +27,7 @@
 #include "Main/MapObjects/choropu.h"
 #include "Main/Sound/sound_distance_squared_change.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/MapObjects/koopa_block.h"
 #include "Main/MapObjects/mkd_ef_bubble.h"
 #include "Main/MapObjects/mkd_ef_bubble_kind_descriptor.h"

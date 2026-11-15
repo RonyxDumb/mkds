@@ -51,7 +51,7 @@
 #include "Main/Race/race_clock.h"
 #include "Main/Kart/karts.h"
 #include "registers.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/System/init_after_startup.h"
 #include "Main/Item/bouncing_item_box_timers.h"
 

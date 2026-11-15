@@ -11,7 +11,7 @@
 #include "Main/MapObjects/model_animation_entries.h"
 #include "Main/MapObjects/shadow_model_create.h"
 #include "Main/MapObjects/nsbmd_model_draw.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "ITCM/kart_motion.h"
 #include "Main/System/heap_call.h"
 #include "Main/Kart/kart_drift.h"

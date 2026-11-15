@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "texture_resource_type.h"
-#include "model_draw_blend.h" // NNSG3dRenderObj
+#include "model_draw_blend_state.h" // NNSG3dRenderObj
 #include "model_material_set.h" // NNSG3dResFileHeader, NNSG3dResMdl
 #include "sound_archive_load.h"
 

@@ -7,7 +7,7 @@
 #include "Main/Sound/sound_distance_squared_change.h"
 #include "ITCM/g3d_draw_and_irq_handler.h"
 #include "matrix_3x3_basic.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Graphics/emitters.h"
 #include "Main/Graphics/effects.h"
 #include "Main/Course/course_map_group_entry.h"

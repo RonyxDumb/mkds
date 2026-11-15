@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 
 s32 CreateRaceHudSubScreenRainStarCells(void);
 void UpdateVsSelectCupM(void);

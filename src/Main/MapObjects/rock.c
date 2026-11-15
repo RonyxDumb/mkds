@@ -18,7 +18,7 @@
 #include "Main/Kart/kart_drift.h"
 #include "Main/MapObjects/group_follower.h"
 #include "Main/MapObjects/map_object_sound.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Item/pooled_map_object.h"
 #include "Main/Item/item_in_use.h"
 #include "matrix_3x3_basic.h"

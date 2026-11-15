@@ -2,7 +2,7 @@
 #include "model_material_set.h"
 #include "Main/Item/item_koura_w.h"
 #include "Main/Kart/kart_drift.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Item/item_pool.h"
 #include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/Item/kart_items_collision_hits.h"

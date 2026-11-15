@@ -13,7 +13,7 @@
 #include "Main/MapObjects/attractor.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 
 void UpdateKartItems(KartItems *kartItems) {
     HeldItem *heldItem = &kartItems->mHeldItem;

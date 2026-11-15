@@ -2,7 +2,7 @@
 #include "heap_block_list.h"
 #include "heap_block_head.h"
 #include "expanded_heap_head.h"
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 #include "00/Lib/DWC/access_point_manager.h"
 
 void GetRegionOfMBlock(NNSiMemRegion *region, NNSiFndExpHeapMBlockHead *block) {

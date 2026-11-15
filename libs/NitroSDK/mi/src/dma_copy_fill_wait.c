@@ -1,5 +1,5 @@
 #include "dma_copy_fill_wait.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "interrupt_control.h"
 #include "ITCM/dma_transfer.h"
 #include "registers.h"

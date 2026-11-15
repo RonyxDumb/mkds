@@ -1,13 +1,13 @@
 #include "multiboot_segment_read.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "autoload_callback.h"
 #include "multiboot_cache_init.h"
 #include "file_command_handlers.h"
-#include "file_open_read.h"
+#include "file_archive_access.h"
 #include "file_handle_setup.h"
 #include "arena_cache_init.h"
 #include "cpu_copy_fill.h"
-#include "rom_card_read.h"
+#include "card_rom_backup_access.h"
 
 const u32 mbi_seg_header_default[6] = {0x4000, 0x1000, 0x7000, 0x1000, 0, 0};
 u32 *mbi_seg_header = (u32 *) mbi_seg_header_default;

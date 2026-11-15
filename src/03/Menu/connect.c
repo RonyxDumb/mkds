@@ -21,7 +21,7 @@
 #include "03/System/tasks.h"
 #include "Main/Save/packed_wifi_info.h"
 #include "cpu_copy_fill.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "03/Menu/menu_pair_loading.h"
 #include "03/Menu/sub_screen_message.h"
 #include "03/Graphics/hl_scr.h"

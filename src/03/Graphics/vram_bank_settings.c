@@ -2,7 +2,7 @@
 #include "03/Menu/wifi_menu_shared.h"
 #include "cpu_copy_fill.h"
 #include "power_management_commands.h"
-#include "vram_bank_assign.h"
+#include "vram_bank_display_setup.h"
 #include "registers.h"
 
 u32 gSavedBankSettings[13];

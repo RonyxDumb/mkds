@@ -13,7 +13,7 @@
 #include "Main/MapObjects/view_frustum.h"
 #include "Main/MapObjects/update_list_slot.h"
 #include "matrix_3x3_basic.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 
 #include "Main/MapObjects/rotary.h"
 #include "Main/MapObjects/pukupuku.h"

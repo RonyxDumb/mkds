@@ -101,7 +101,7 @@ src/00/Lib/DWC/server_auth.c:
     .bss        start:0x021b4c50 end:0x021b4c68
 
 // provisional: file name and boundaries
-src/00/Lib/DWC/http_request.c:
+src/00/Lib/DWC/http_client.c:
     complete
     .text       start:0x02186600 end:0x02187450
     .data       start:0x021b11c4 end:0x021b1344
@@ -485,7 +485,7 @@ src/00/Lib/GameSpy/profile_find_by_buddy.c:
     .text       start:0x021947d4 end:0x021947f4
 
 // provisional: file name and boundaries
-src/00/Lib/GameSpy/profile_for_each.c:
+src/00/Lib/GameSpy/profile_walk.c:
     complete
     .text       start:0x021947f4 end:0x021948c4
 
@@ -558,7 +558,7 @@ src/00/Lib/GameSpy/byte_buffer.c:
     .data       start:0x021b3e64 end:0x021b3f10
 
 // provisional: file name and boundaries
-src/00/Lib/GameSpy/connection_close.c:
+src/00/Lib/GameSpy/connection_events.c:
     complete
     .text       start:0x02197e58 end:0x02198550
     .data       start:0x021b3f10 end:0x021b3f4c
@@ -575,18 +575,18 @@ src/00/Lib/GameSpy/socket_accessors.c:
     .data       start:0x021b3f4c end:0x021b3f64
 
 // provisional: file name and boundaries
-src/00/Lib/GameSpy/connection_accept_reject.c:
+src/00/Lib/GameSpy/connection_control.c:
     complete
     .text       start:0x021988b4 end:0x02198a58
 
 // provisional: file name and boundaries
-src/00/Lib/GameSpy/reliable_messages.c:
+src/00/Lib/GameSpy/protocol_messages.c:
     complete
     .text       start:0x02198a58 end:0x0219a010
     .data       start:0x021b3f64 end:0x021b3f88
 
 // provisional: file name and boundaries
-src/00/Lib/GameSpy/connection_table.c:
+src/00/Lib/GameSpy/socket_connections.c:
     complete
     .text       start:0x0219a010 end:0x0219a5e8
 
@@ -655,7 +655,7 @@ src/00/Lib/DWC/buddy_status_error.c:
     .text       start:0x0219cf8c end:0x0219d0f4
 
 // provisional: file name and boundaries
-src/00/Lib/DWC/buddy_friend_list.c:
+src/00/Lib/DWC/buddy_friends.c:
     complete
     .text       start:0x0219d0f4 end:0x0219d914
     .data       start:0x021b4038 end:0x021b4070
@@ -682,7 +682,7 @@ src/00/Lib/DWC/data_transport.c:
     .bss        start:0x021b5d90 end:0x021b5d94
 
 // provisional: file name and boundaries
-src/00/Lib/DWC/reliable_send.c:
+src/00/Lib/DWC/match_messaging.c:
     complete
     .text       start:0x021a3230 end:0x021a3634
     .data       start:0x021b41b4 end:0x021b41c0
@@ -715,7 +715,7 @@ src/00/Lib/GameSpy/query_key_register.c:
     .data       start:0x021b4444 end:0x021b4974
 
 // provisional: file name and boundaries
-src/00/Lib/NitroWiFi/wireless_connection_control.c:
+src/00/Lib/NitroWiFi/wireless_connection_manager.c:
     complete
     .text       start:0x021a4b64 end:0x021a6638
     .rodata     start:0x021b0788 end:0x021b07b0
@@ -732,7 +732,7 @@ src/00/Lib/NitroWiFi/access_point_list.c:
     .text       start:0x021a6668 end:0x021a68d4
 
 // provisional: file name and boundaries
-src/00/Lib/NitroWiFi/dcf_send_receive.c:
+src/00/Lib/NitroWiFi/wifi_stack_bridge.c:
     complete
     .text       start:0x021a68d4 end:0x021a6bd4
     .bss        start:0x021b5f14 end:0x021b5f40
@@ -755,13 +755,13 @@ src/00/Lib/NitroWiFi/socket_library_startup.c:
     .bss        start:0x021b5f54 end:0x021b5f98
 
 // provisional: file name and boundaries
-src/00/Lib/NitroWiFi/socket_bind_listen_commands.c:
+src/00/Lib/NitroWiFi/socket_commands.c:
     complete
     .text       start:0x021a6ee4 end:0x021a7870
     .bss        start:0x021b5f98 end:0x021b5fbc
 
 // provisional: file name and boundaries
-src/00/Lib/NitroWiFi/socket_read_write_close.c:
+src/00/Lib/NitroWiFi/socket_runtime.c:
     complete
     .text       start:0x021a7870 end:0x021a8a28
     .bss        start:0x021b5fbc end:0x021b5fc4
@@ -784,7 +784,7 @@ src/00/Lib/CPS/https_enable_flag.c:
     .text       start:0x021a91cc end:0x021a91f4
 
 // provisional: file name and boundaries
-src/00/Lib/CPS/https_handshake_records.c:
+src/00/Lib/CPS/https_protocol.c:
     complete
     .text       start:0x021a91f4 end:0x021ab6a0
     .data       start:0x021b49b4 end:0x021b4a24
@@ -872,7 +872,7 @@ src/00/Lib/CPS/md5_begin.c:
     .text       start:0x021acebc end:0x021acec4
 
 // provisional: file name and boundaries
-src/00/Lib/CPS/ip_stack.c:
+src/00/Lib/CPS/tcp_ip_stack.c:
     complete
     .text       start:0x021acec4 end:0x021b058c
     .data       start:0x021b4be4 end:0x021b4c20

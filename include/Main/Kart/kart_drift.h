@@ -11,7 +11,7 @@
 #include "types.h"
 #include "Main/System/wvr_state.h"
 #include "model_material_set.h" // MtxFx43
-#include "vector_math.h" // Vec3s16
+#include "fixed_vector_math.h" // Vec3s16
 #include "fixed_arctangent.h"
 #include "touch_panel_sampling.h"
 #include "sound_archive_load.h"

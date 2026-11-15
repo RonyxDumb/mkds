@@ -35,7 +35,7 @@
 #include "Main/Kart/kart_name_tags.h"
 #include "Main/Graphics/nsbmd_render_obj.h"
 #include "Main/Sound/sound_distance_squared_change.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 
 MapObjectModel *gBasabasa;
 

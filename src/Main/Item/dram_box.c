@@ -19,7 +19,7 @@
 #include "Main/MapObjects/nsbmd_model_draw.h"
 #include "Main/Sound/sound_start.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Item/held_item.h"
 #include "Main/Kart/kart_drift.h"
 #include "Main/Item/item_kinoko.h"

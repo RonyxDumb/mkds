@@ -3,7 +3,7 @@
 #include "types.h"
 #include "00/Lib/NitroWiFi/wireless_connection_config.h"
 #include "00/Lib/DWC/access_point_wep_key.h"
-#include "wireless_power_mp.h"
+#include "wireless_link_control.h"
 
 extern u32 gEssidSearchOption;
 extern u32 gEssidConnectOption;

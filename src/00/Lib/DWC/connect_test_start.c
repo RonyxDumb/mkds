@@ -1,7 +1,7 @@
 #include "00/Lib/DWC/connect_test_start.h"
 #include "00/Lib/DWC/access_point_state.h"
 #include "00/Lib/DWC/socket_config.h"
-#include "00/Lib/CPS/cps_globals.h"
+#include "00/Lib/CPS/stack_globals.h"
 #include "00/Lib/NitroWiFi/socket_api_prototypes.h"
 #include "00/Lib/NitroWiFi/socket_library_startup.h"
 

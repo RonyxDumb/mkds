@@ -37,7 +37,7 @@
 #include "Main/Item/kart_items_collision_hits.h"
 #include "Main/Race/race_clock.h"
 #include "Main/Kart/karts.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Race/race_hud_sub_screen_item_box_cells.h"
 
 s32 gRaceHudSubScreenItemPoolIndices[10] = {0, 1, 2, 3, 4, 5, 9, 7, 8, 11};

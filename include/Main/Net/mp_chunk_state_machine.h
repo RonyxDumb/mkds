@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "wireless_power_mp.h" // WirelessMessage
+#include "wireless_link_control.h" // WirelessMessage
 #include "Main/Menu/second_menu_scene.h" // StateCallbacks
 
 typedef struct SceneNumbers SceneNumbers;

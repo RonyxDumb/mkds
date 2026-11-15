@@ -1,5 +1,5 @@
 #include "font_file_parse.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 
 u16 NNSi_G2dSplitCharUTF16(u16 **stringPtr) {
     u16 *cursor;

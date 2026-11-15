@@ -23,7 +23,7 @@
 #include "Main/Kart/kart_effects.h"
 #include "Main/Kart/kart_surface_effects.h"
 #include "ITCM/kart_velocity.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Kart/kart_effect_param_tables.h"
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/Scene/display_settings.h"

@@ -1,7 +1,7 @@
 #include "03/System/exp_heap.h"
 
 #include "interrupt_control.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "expanded_heap_head.h"
 #include "cpu_copy_fill.h"
 

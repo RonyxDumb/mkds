@@ -2,7 +2,7 @@
 
 #include "file_handle_setup.h"
 #include "thread_scheduler.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "cpu_copy_fill.h"
 
 // Compares two names for len characters, ignoring case; returns the difference of the first pair that differs.

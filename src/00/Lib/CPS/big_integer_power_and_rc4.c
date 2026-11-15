@@ -3,10 +3,10 @@
 #include "00/Lib/CPS/big_integer_add_part.h"
 #include "00/Lib/CPS/big_integer_add_subtract.h"
 #include "00/Lib/CPS/big_integer_digit_count.h"
-#include "00/Lib/CPS/cps_globals.h"
+#include "00/Lib/CPS/stack_globals.h"
 #include "float_subtract.h"
 #include "string.h"
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 #include "cpu_copy_fill.h"
 
 void CPSi_big_mult_small(u16 *result, const u16 *value, u16 factor, s32 digitCount) {

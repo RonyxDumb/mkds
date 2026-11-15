@@ -33,7 +33,7 @@
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Menu/txt_system.h"
 #include "Main/Menu/select_return.h"
-#include "vram_bank_assign.h"
+#include "vram_bank_display_setup.h"
 #include "Main/Menu/label_palette_indices.h"
 #include "Main/Scene/scene_display_archive_work.h"
 #include "archive_memory_load.h"

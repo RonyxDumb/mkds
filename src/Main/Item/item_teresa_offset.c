@@ -31,7 +31,7 @@
 #include "Main/MapObjects/segment_progress_point.h"
 #include "Main/MapObjects/view_matrix_queue.h"
 #include "matrix_3x3_basic.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Item/item_in_use.h"
 #include "01/MapObjects/periodic_effect.h"
 #include "Main/Race/race_clock.h"

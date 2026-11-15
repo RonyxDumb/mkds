@@ -31,7 +31,7 @@
 #include "Main/Race/race_hud_sub_screen_projection.h"
 #include "Main/Graphics/g3d_anm_function_pointers.h"
 #include "Main/Sound/surface_sound_ids.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 
 u32 gPitchRiseAboveLimitDivisor = 0x19000;
 u32 gPitchRiseDivisor = 0x8000;

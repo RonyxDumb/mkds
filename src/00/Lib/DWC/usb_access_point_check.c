@@ -1,7 +1,7 @@
 #include "00/Lib/DWC/usb_access_point_check.h"
 #include "00/Lib/DWC/connection_error_strings.h"
 #include "string.h"
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 
 u8 gNintendoUsbApSsid[9] = {0x4e, 0x57, 0x43, 0x55, 0x53, 0x42, 0x41, 0x50, 0};
 

@@ -4,7 +4,7 @@
 #include "ITCM/kart_motion.h"
 #include "Main/Kart/kart_surface_effects.h"
 #include "Main/Item/item_in_use.h"
-#include "model_draw_blend.h"
+#include "model_draw_blend_state.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "Main/Race/race.h"
 #include "Main/Kart/kart_state0_return.h"
@@ -13,7 +13,7 @@
 #include "model_material_set.h"
 #include "matrix_4x3_basic.h"
 #include "Main/Race/kart.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/System/init_after_startup.h"
 
 void AdvanceKartDrawState(Kart *kart) {

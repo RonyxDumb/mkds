@@ -1,5 +1,5 @@
 #include "timer_reserved_flag.h"
-#include "exception_state.h"
+#include "system_state_globals.h"
 
 u16 OSi_TimerReserved;
 

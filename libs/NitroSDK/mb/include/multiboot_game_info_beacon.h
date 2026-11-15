@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "wireless_power_mp.h"
+#include "wireless_link_control.h"
 
 // Values of mDataAttr in the game info entries and in the beacon block: the whole entry with its icon, the entry
 // without the icon (sent when the icon files could not be read), and the part that changes while the game runs.

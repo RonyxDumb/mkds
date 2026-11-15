@@ -12,7 +12,7 @@
 #include "Main/Kart/kart_heading_item_effect.h"
 #include "Main/Race/race_hud_sub_screen_projection.h"
 #include "signed_int_divide.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "cpu_copy_fill.h"
 #include "01/Race/mission_run_state.h"
 #include "01/MapObjects/mission_run_map_object.h"

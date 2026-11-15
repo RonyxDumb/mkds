@@ -19,7 +19,7 @@
 #include "03/Graphics/blend_brightness_fade_slots.h"
 #include "03/Graphics/dispcnt_window.h"
 #include "03/Graphics/oam_buffer_entries.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "wifi_settings_nvram_backup.h"
 #include "03/System/task_input.h"
 #include "03/Graphics/text_canvas.h"

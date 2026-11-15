@@ -55,7 +55,7 @@
 #include "Main/Graphics/disp_cap.h"
 #include "Main/Net/mp_states_connection.h"
 #include "Main/Save/emblem_block.h"
-#include "vram_bank_assign.h"
+#include "vram_bank_display_setup.h"
 #include "Main/Menu/label_palette_indices.h"
 #include "Main/Scene/scene_display_archive_work.h"
 #include "Main/Scene/display_settings.h"

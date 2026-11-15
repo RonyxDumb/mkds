@@ -39,7 +39,7 @@
 #include "Main/Graphics/layout_entry_angle.h"
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "sound_archive_load_result.h"
 #include "ITCM/collision_slots.h"
 #include "Main/Item/bouncing_item_box_timers.h"

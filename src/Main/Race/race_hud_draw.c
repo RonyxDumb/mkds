@@ -36,7 +36,7 @@
 #include "Main/Item/item_objects_and_race_progress.h"
 #include "arena_cache_init.h"
 #include "fixed_point_graphics_setup.h"
-#include "vram_bank_assign.h"
+#include "vram_bank_display_setup.h"
 #include "display_blend_affine_setup.h"
 #include "vram_load_2d_graphics.h"
 #include "registers.h"

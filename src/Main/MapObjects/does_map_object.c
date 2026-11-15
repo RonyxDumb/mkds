@@ -16,7 +16,7 @@
 #include "Main/System/result_archive_path.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 #include "Main/Graphics/font_and_player_character.h"
 
 BOOL DoesMapObjectRespondToItemObject(MapObject *mapObject, ItemObject *itemObject) {

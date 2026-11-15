@@ -18,7 +18,7 @@
 #include "cpu_copy_fill.h"
 #include "Main/System/heap.h"
 #include "Main/System/stdio_files.h"
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 #include "capture_output_effect.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/Graphics/font_and_player_character.h"

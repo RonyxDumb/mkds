@@ -1,19 +1,19 @@
 #include "00/Lib/DWC/data_transport.h"
 
-#include "00/Lib/GameSpy/connection_accept_reject.h"
-#include "00/Lib/DWC/dwc_match_init.h"
+#include "00/Lib/GameSpy/connection_control.h"
+#include "00/Lib/DWC/match_init.h"
 #include "03/Net/essid_packet_steps.h"
 #include "00/Lib/DWC/friends_match_session.h"
 #include "00/Lib/wifi_library_work_objects.h"
 #include "00/Lib/DWC/error_state.h"
 #include "tick_counter.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "cpu_copy_fill.h"
 #include "float_subtract.h"
 #include "narrow_string_functions.h"
 #include "00/Lib/wifi_library_globals.h"
 #include "string.h"
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 #include "00/Lib/DWC/matchmaking.h"
 
 char gDwcMagicStrings[3] = "DT";

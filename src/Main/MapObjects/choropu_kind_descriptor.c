@@ -19,7 +19,7 @@
 #include "Main/MapObjects/nsbmd_model_draw.h"
 #include "Main/Sound/sound_distance_squared_change.h"
 #include "model_material_set.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "fixed_arctangent.h"
 #include "Main/System/state_machine_init.h"
 #include "Main/System/heap_call.h"

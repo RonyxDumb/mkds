@@ -55,7 +55,7 @@
 #include "Main/Kart/kart_name_tags.h"
 #include "matrix_3x3_basic.h"
 #include "matrix_4x3_basic.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "fixed_arctangent.h"
 #include "sound_archive_load_result.h"
 #include "Main/Kart/kart_effects.h"

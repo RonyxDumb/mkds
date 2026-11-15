@@ -1,10 +1,10 @@
 #include "render_object_resources.h"
-#include "render_object_animation_link.h"
+#include "render_object_callback_link.h"
 #include "texture_required_size.h"
 #include "texture_key_set.h"
 #include "texture_vram_load.h"
 #include "vram_load_3d_graphics.h"
-#include "texture_key_release.h"
+#include "texture_pltt_size_key_release.h"
 #include "texture_resource_type.h"
 
 void addLink_(NNSG3dAnmObj **head, NNSG3dAnmObj *item) {

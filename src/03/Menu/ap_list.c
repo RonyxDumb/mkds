@@ -7,7 +7,7 @@
 #include "03/Sound/sound_seq.h"
 #include "03/System/tasks.h"
 #include "registers.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "03/System/string_length.h"
 #include "cpu_copy_fill.h"
 #include "model_material_set.h"

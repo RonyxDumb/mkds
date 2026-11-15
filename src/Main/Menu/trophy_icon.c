@@ -5,7 +5,7 @@
 
 #include "Main/Menu/back_screen_keyboard_tables.h"
 #include "Main/System/stdio_files.h"
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 #include "capture_output_effect.h"
 #include "Main/Menu/menu_screens_work.h"
 #include "sound_player_control.h"

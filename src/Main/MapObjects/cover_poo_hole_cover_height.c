@@ -25,7 +25,7 @@
 #include "Main/MapObjects/view_matrix_setters.h"
 #include "Main/Menu/keyboard_cursor_targets.h"
 #include "Main/Kart/kart_ai_item_use.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "01/Race/mission_run_state.h"
 
 u32 SetFlipperAltWaitTimerByIndex(u32 flipperIndex) {

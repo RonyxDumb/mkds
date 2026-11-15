@@ -36,7 +36,7 @@
 #include "Main/Menu/wait_load.h"
 #include "Main/Menu/select_race_rule_load.h"
 #include "00/Menu/wi_fi_vs_setting.h"
-#include "vram_bank_assign.h"
+#include "vram_bank_display_setup.h"
 #include "registers.h"
 #include "Main/Race/race_setup.h"
 #include "Main/System/result_archive_path.h"

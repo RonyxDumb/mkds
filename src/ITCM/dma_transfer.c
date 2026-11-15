@@ -11,7 +11,7 @@
 #include "Main/MapObjects/woodbox.h"
 #include "Main/Course/course_color_blend.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 
 void StartDmaTransfer(u32 channelIndex, const void *source, void *destination, u32 control) {
     vu32 *channelRegs;

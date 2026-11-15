@@ -13,7 +13,7 @@
 #include "sprite_animation_control.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "Main/Graphics/font_and_player_character.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 
 RaceHudSubScreenCells *gRaceHudSubScreenKingIceDonketuCells;

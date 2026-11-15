@@ -62,7 +62,7 @@ struct MultiBootParent {
 };
 
 #include "03/Menu/wifi_menu_shared.h"
-#include "wireless_power_mp.h"
+#include "wireless_link_control.h"
 #include "multiboot_game_entry.h"
 
 void *GetMultiBootChildRecord(u32 index);

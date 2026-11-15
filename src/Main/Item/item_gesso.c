@@ -3,7 +3,7 @@
 #include "Main/Course/course_color_blend.h"
 #include "Main/Item/item_slot_tables.h"
 #include "matrix_3x3_basic.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
 #include "Main/Item/item_object.h"

@@ -1,11 +1,11 @@
 #include "model_texture_bind.h"
 
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "tick_counter.h"
-#include "model_draw_blend.h"
+#include "model_draw_blend_state.h"
 #include "animation_lookup.h"
-#include "vector_math.h"
-#include "exception_state.h"
+#include "fixed_vector_math.h"
+#include "system_state_globals.h"
 #include "registers.h"
 
 u32 gVramBankLockedMask;

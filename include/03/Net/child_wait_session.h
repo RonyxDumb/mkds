@@ -14,7 +14,7 @@ typedef struct ChildWaitSessionView ChildWaitSessionView;
 #define CHILD_WAIT_BLOCK_COUNT 0x24
 
 
-#include "wireless_power_mp.h"
+#include "wireless_link_control.h"
 #include "03/Menu/wifi_menu_shared.h"
 
 u16 GetChildWaitReplyCode(void);

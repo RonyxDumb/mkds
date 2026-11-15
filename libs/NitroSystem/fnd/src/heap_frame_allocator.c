@@ -1,5 +1,5 @@
 #include "heap_frame_allocator.h"
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 #include "00/Lib/DWC/access_point_manager.h"
 
 // Sets up a frame heap over startAddress to endAddress with nothing allocated.

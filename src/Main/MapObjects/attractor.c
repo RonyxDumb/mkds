@@ -7,7 +7,7 @@
 #include "Main/Sound/sound_sources.h"
 #include "Main/MapObjects/attractor_distance_flag.h"
 #include "Main/MapObjects/ob_pakkun_sf.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/System/heap_call.h"
 #include "Main/Item/item_koura_w.h"
 #include "Main/Race/race_setup_block.h"

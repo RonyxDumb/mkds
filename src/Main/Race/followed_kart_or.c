@@ -13,7 +13,7 @@
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
 #include "cell_data_unpack.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Race/kart.h"
 
 u16 GetFollowedKartOrEntryIndex(void) {

@@ -2,7 +2,7 @@
 
 #include "Main/Kart/kart_palette_stem_tables.h"
 #include "Main/System/wvr_state.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Kart/kart_drift.h"
 #include "Main/Kart/kart_ai.h"
 #include "Main/Item/item_objects_and_race_progress.h"

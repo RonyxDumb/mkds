@@ -19,7 +19,7 @@
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Graphics/back_screen.h"
 #include "Main/Graphics/scene_text_init.h"
-#include "vram_bank_assign.h"
+#include "vram_bank_display_setup.h"
 #include "Main/Menu/title_state4.h"
 #include "Main/Menu/title_blend.h"
 #include "Main/Graphics/font_glyph_text.h"

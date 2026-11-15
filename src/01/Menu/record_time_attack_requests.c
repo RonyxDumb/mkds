@@ -11,7 +11,7 @@
 #include "Main/Sound/sound_data_sdat_path.h"
 #include "Main/Menu/second_menu_scene.h"
 #include "01/MapObjects/mission_run_map_object_flags.h"
-#include "vram_bank_assign.h"
+#include "vram_bank_display_setup.h"
 #include "Main/Graphics/layout_rect_table.h"
 #include "cpu_copy_fill.h"
 #include "registers.h"

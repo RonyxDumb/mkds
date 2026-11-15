@@ -4,8 +4,8 @@
 #include "multiboot_parent_state_machine.h"
 #include "multiboot_mode_constants.h"
 #include "mb_data.h"
-#include "reset_interrupt_enable.h"
-#include "wireless_power_mp.h"
+#include "reset_interrupts_halt.h"
+#include "wireless_link_control.h"
 
 
 // Filled by MBi_get_blockinfo.

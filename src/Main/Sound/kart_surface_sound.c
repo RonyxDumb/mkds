@@ -32,7 +32,7 @@
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "linked_list_ops.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 
 s32 gKartPitchPerWaterDepth;
 vu32 gSoundPitchSwingAngle;

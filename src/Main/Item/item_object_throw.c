@@ -4,7 +4,7 @@
 #include "Main/Kart/kart_drift.h"
 #include "Main/Item/item_in_use.h"
 #include "Main/Sound/sound_start.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 
 void InitItemObjectThrow(void *objectParam, ItemInUse *inUseParam, s32 hitLimit, s32 throwForward, s32 pushOutMode,
                          s32 baseSpeed) {

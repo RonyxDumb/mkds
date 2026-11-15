@@ -25,7 +25,7 @@
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/MapObjects/earthen_pipe.h"
 #include "Main/MapObjects/group_item_box_kind_descriptor.h"
 

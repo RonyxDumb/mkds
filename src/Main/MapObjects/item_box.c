@@ -32,7 +32,7 @@
 #include "Main/MapObjects/update_list_slot.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "matrix_4x3_basic.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/MapObjects/group_item_box.h"
 #include "Main/MapObjects/vehicle_kind_descriptor.h"
 

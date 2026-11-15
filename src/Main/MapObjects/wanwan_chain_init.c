@@ -1,7 +1,7 @@
 #include "Main/MapObjects/wanwan_chain_init.h"
 #include "Main/System/heap.h"
 #include "Main/System/heap_call.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 
 #pragma thumb on
 

@@ -6,7 +6,7 @@
 #include "03/Net/exchange_essid.h" // SocketAddress
 #include "00/Lib/DWC/memory_allocator.h"
 #include "00/Lib/DWC/connection_error_strings.h"
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 #include "00/Lib/GameSpy/hash_table.h"
 #include "decimal_digit_arith.h"
 #include "00/Lib/wifi_library_globals.h"

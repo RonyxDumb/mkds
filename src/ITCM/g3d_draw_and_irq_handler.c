@@ -1,7 +1,7 @@
 #include "ITCM/g3d_draw_and_irq_handler.h"
 #include "unk_02152000_data.h"
 #include "Main/Graphics/g3d_anm_function_pointers.h"
-#include "exception_state.h"
+#include "system_state_globals.h"
 #include "particle_random_state.h"
 #include "linked_palette_vram_alloc.h"
 #include "microphone_sampling.h"
@@ -12,12 +12,12 @@
 #include "mb_data.h"
 #include "Main/Graphics/nsbmd_render_obj.h" // NNSG3dRenderObj
 #include "interrupt_control.h"
-#include "model_draw_blend.h"
+#include "model_draw_blend_state.h"
 #include "dma_copy_fill_wait.h"
 #include "coprocessor_context_save.h"
 #include "registers.h"
 #include "geometry_fast_dma_switch.h"
-#include "vram_bank_assign.h"
+#include "vram_bank_display_setup.h"
 #include "animation_object_calc.h"
 #include "model_material_set.h"
 

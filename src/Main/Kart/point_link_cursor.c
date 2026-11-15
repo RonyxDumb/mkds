@@ -3,7 +3,7 @@
 #include "Main/Kart/point_link_cursor_first_next.h"
 #include "Main/System/wvr_state.h"
 #include "Main/Race/race_hud_sub_screen_projection.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Kart/kart_ai_follow.h"
 #include "Main/Kart/kart_ai.h"
 #include "Main/Kart/kart_effects_ahead.h"

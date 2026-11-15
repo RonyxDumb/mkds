@@ -75,7 +75,7 @@
 #include "Main/Sound/sound_handle_pool.h"
 #include "Main/Sound/sound_distance_squared_change.h"
 #include "sound_archive_load_result.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Course/course_color_blend.h"
 #include "Main/Sound/kart_surface_sound.h"
 #include "Main/Sound/sound_distance_change_reset.h"

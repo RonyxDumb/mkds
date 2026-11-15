@@ -1,10 +1,10 @@
 #pragma avoid_byte all
 
 #include "text_to_number.h"
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 #include "scan_text_random.h"
 #include "wide_number_format.h"
-#include "double_digit_math.h"
+#include "double_digits_math_functions.h"
 #include "float_trap_dispatch.h"
 
 const u8 gUpperCaseMap[128] = {

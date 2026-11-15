@@ -1,7 +1,7 @@
 #pragma avoid_byte all
 
 #include "program_exit.h"
-#include "debugger_calls.h"
+#include "swi_runtime_support.h"
 #include "file_write_flush.h"
 #include "raise_signal.h"
 #include "thread_mutex_types.h"

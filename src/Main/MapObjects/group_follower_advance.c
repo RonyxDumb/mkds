@@ -4,7 +4,7 @@
 #include "Main/MapObjects/segment_curve.h"
 #include "Main/MapObjects/segment_curve_pos_step.h"
 #include "Main/MapObjects/curve_point_xz.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/System/heap.h"
 #include "Main/System/heap_call.h"
 #include "Main/Course/course_map_group_entry.h"

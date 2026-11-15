@@ -28,7 +28,7 @@
 #include "power_management_commands.h"
 #include "Main/Sound/sound_seq.h"
 #include "Main/System/backup_net_camera_work.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/System/init_after_startup.h"
 
 #pragma optimize_for_size on

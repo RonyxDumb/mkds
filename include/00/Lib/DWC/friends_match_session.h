@@ -4,9 +4,9 @@
 #include "00/Lib/GameSpy/socket_accessors.h" // Gt2Connection
 #include "00/Lib/GameSpy/negotiator_free.h" // NatTraversalEntry
 #include "00/Lib/GameSpy/buddy_messages.h" // BuddyMessageData
-#include "00/Lib/DWC/login_close.h"
+#include "00/Lib/DWC/login_state.h"
 #include "00/Lib/DWC/buddy_friend_callback.h"
-#include "00/Lib/DWC/dwc_match_work.h"
+#include "00/Lib/DWC/match_work.h"
 #include "00/Lib/DWC/data_transport.h"
 
 typedef struct GpConnection GpConnection;

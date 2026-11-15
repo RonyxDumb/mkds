@@ -1,5 +1,5 @@
 #include "00/Lib/GameSpy/profile_find_by_buddy.h"
-#include "00/Lib/GameSpy/profile_for_each.h"
+#include "00/Lib/GameSpy/profile_walk.h"
 
 GpiProfile *GpiFindProfileByBuddyIndex(GpConnection *gpConnection, u32 buddyIndex) {
     GpiProfileSearch lookup;

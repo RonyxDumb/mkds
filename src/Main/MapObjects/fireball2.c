@@ -40,7 +40,7 @@
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "Main/Sound/sound_seq.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "sound_archive_load_result.h"
 #include "Main/Kart/karts.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"

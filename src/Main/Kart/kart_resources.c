@@ -31,7 +31,7 @@
 #include "power_management_commands.h"
 #include "Main/Sound/sound_seq.h"
 #include "Main/Kart/kart_name_tags.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "ITCM/kart_ground_contact.h"
 #include "Main/Kart/kart_drift.h"
 #include "Main/System/init_after_startup.h"

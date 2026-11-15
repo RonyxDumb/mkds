@@ -1,8 +1,8 @@
 #include "multiboot_checksum.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "file_command_handlers.h"
-#include "file_open_read.h"
-#include "rom_card_read.h"
+#include "file_archive_access.h"
+#include "card_rom_backup_access.h"
 
 #pragma thumb on
 

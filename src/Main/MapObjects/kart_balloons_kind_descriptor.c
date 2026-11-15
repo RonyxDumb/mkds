@@ -35,7 +35,7 @@
 #include "Main/System/heap_call.h"
 #include "Main/System/heap.h"
 #include "Main/MapObjects/shine_battle.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Sound/sound_source_init.h"
 #include "Main/MapObjects/woodbox.h"
 #include "ITCM/g3d_draw_and_irq_handler.h"

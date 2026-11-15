@@ -19,7 +19,7 @@
 #include "Main/System/backup_net_camera_work.h"
 #include "arena_cache_init.h"
 #include "tick_counter.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "cpu_copy_fill.h"
 #include "Main/Sound/scene_sound_set.h"
 #include "Main/Save/backup_access.h"

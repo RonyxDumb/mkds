@@ -15,7 +15,7 @@
 #include "Main/Menu/select_return.h"
 #include "Main/Graphics/layout_entry_angle.h"
 #include "Main/Graphics/layout_table_entry.h"
-#include "vram_bank_assign.h"
+#include "vram_bank_display_setup.h"
 #include "Main/Scene/scene_display_archive_work.h"
 #include "Main/Scene/display_settings.h"
 #include "archive_memory_load.h"

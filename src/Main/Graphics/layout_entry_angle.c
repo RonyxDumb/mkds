@@ -11,7 +11,7 @@
 #include "char_canvas_text_draw.h"
 #include "matrix_2x2_basic.h"
 #include "Main/Menu/back_screen_keyboard_tables.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "fixed_point_graphics_setup.h"
 
 const u8 gOamShapeSizeCharBlocks[3][4] = {{1, 4, 0x10, 0x40}, {2, 4, 8, 0x20}, {2, 4, 8, 0x20}};

@@ -13,7 +13,7 @@
 #include "Main/MapObjects/map_object_model_frame.h"
 #include "Main/Race/ghost_record_set.h"
 #include "fixed_point_graphics_setup.h"
-#include "vram_bank_assign.h"
+#include "vram_bank_display_setup.h"
 #include "registers.h"
 #include "Main/Menu/menu_shared_clear.h"
 #include "01/Menu/menu_screen_states_and_file_names.h"

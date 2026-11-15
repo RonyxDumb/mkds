@@ -1,4 +1,4 @@
-#include "00/Lib/NitroWiFi/wireless_connection_control.h"
+#include "00/Lib/NitroWiFi/wireless_connection_manager.h"
 #include "00/Lib/DWC/internet_connection.h"
 #include "00/Lib/DWC/access_point_manager.h"
 #include "00/Lib/NitroWiFi/socket_objects.h"
@@ -6,7 +6,7 @@
 #include "00/Lib/wifi_library_work_objects.h"
 #include "03/Net/essid_packet_steps.h"
 #include "00/Lib/DWC/error_state.h"
-#include "00/Lib/DWC/dwc_auth_http_params.h"
+#include "00/Lib/DWC/auth_http_params.h"
 #include "00/Lib/DWC/server_auth.h"
 #include "00/Lib/DWC/memory_allocator.h"
 #include "00/Lib/wifi_library_globals.h"
@@ -16,7 +16,7 @@
 #include "00/Lib/CPS/socket_status_resolve.h"
 #include "00/Lib/NitroWiFi/socket_api_prototypes.h"
 #include "string.h"
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 #include "00/Lib/NitroWiFi/rssi_link_level.h"
 
 DWCInetControl *gInetControl;

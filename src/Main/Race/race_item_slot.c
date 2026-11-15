@@ -57,7 +57,7 @@
 #include "Main/Race/race_ncer_tables.h"
 #include "Main/Item/kart_items_collision_hits.h"
 #include "sound_archive_load_result.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Race/kart.h"
 #include "Main/Race/race_clock.h"
 #include "Main/System/init_after_startup.h"

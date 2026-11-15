@@ -17,7 +17,7 @@
 #include "ITCM/g3d_draw_and_irq_handler.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
-#include "render_object_animation_link.h"
+#include "render_object_callback_link.h"
 #include "model_material_set.h"
 
 #pragma thumb on

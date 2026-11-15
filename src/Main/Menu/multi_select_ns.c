@@ -11,7 +11,7 @@
 #include "Main/Graphics/layout_entry_angle.h"
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Menu/select_return.h"
-#include "vram_bank_assign.h"
+#include "vram_bank_display_setup.h"
 #include "Main/Menu/menu_label_cell_rows.h"
 #include "font_glyph_layout.h"
 #include "Main/Graphics/cell_file_set.h"

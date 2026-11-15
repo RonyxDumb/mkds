@@ -1,7 +1,7 @@
 #include "irq_wait_handler.h"
 #include "interrupt_control.h"
 #include "thread_scheduler.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "bios_calls.h"
 
 // The start of the data TCM up to the interrupt check word.

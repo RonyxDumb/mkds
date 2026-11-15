@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "model_draw_blend.h"
+#include "model_draw_blend_state.h"
 
 typedef struct NNSG3dResDictAnmSetData {
     /* 00 */ u32 mOffset;

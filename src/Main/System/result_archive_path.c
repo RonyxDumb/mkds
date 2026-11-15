@@ -27,7 +27,7 @@
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "formatted_text_to_buffer.h"
-#include "file_open_read.h"
+#include "file_archive_access.h"
 #include "arena_cache_init.h"
 #include "narrow_string_functions.h"
 #include "cpu_copy_fill.h"

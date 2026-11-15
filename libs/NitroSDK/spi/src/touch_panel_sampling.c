@@ -1,6 +1,6 @@
 #include "touch_panel_sampling.h"
 
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "registers.h"
 #include "arm_fifo_messaging.h"
 

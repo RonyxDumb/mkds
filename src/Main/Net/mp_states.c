@@ -21,7 +21,7 @@
 #include "Main/Sound/sound_seq.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "arena_cache_init.h"
-#include "wireless_power_mp.h"
+#include "wireless_link_control.h"
 #include "cpu_copy_fill.h"
 #include "Main/Net/mp_chunk_state_machine.h"
 #include "Main/System/result_archive_path.h"

@@ -14,7 +14,7 @@
 #include "Main/Kart/kart_heading_item_effect.h"
 #include "Main/Race/race_hud_sub_screen_projection.h"
 #include "Main/Item/item_in_use.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Kart/course_models.h"
 #include "Main/Kart/kart_participant_record.h"
 #include "Main/System/init_after_startup.h"

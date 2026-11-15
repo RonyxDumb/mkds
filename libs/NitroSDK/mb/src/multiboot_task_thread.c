@@ -1,5 +1,5 @@
 #include "multiboot_task_thread.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "cpu_copy_fill.h"
 #include "multiboot_file_register.h"
 #include "multiboot_parent_desc.h"

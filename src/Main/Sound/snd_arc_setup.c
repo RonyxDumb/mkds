@@ -1,7 +1,7 @@
 #include "Main/Sound/snd_arc_setup.h"
 
 #include "file_command_handlers.h"
-#include "file_open_read.h"
+#include "file_archive_access.h"
 #include "sound_archive_load.h"
 #include "file_handle_setup.h"
 #include "Main/Sound/sound_set_load.h"

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "wireless_power_mp.h"
+#include "wireless_link_control.h"
 #include "multiboot_cache_init.h"
 
 // Values of MBiParam.mMode: the parent side is set up here, the child side is never entered in this build.

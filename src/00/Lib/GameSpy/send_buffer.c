@@ -5,7 +5,7 @@
 #include "00/Lib/GameSpy/error_message_set.h"
 #include "00/Lib/DWC/connection_error_strings.h"
 #include "string.h"
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 #include "narrow_string_functions.h"
 #include "text_to_number.h"
 #include "00/Lib/GameSpy/profile_list.h"
@@ -21,7 +21,7 @@
 
 #include "00/Lib/GameSpy/socket_calls.h"
 #include "00/Lib/GameSpy/error_set.h"
-#include "00/Lib/GameSpy/profile_for_each.h"
+#include "00/Lib/GameSpy/profile_walk.h"
 #include "00/Lib/GameSpy/callback_queue.h"
 
 u32 GpiAppendBufferByte(void *connection, GpiBuffer *outputBuffer, s32 byte) {

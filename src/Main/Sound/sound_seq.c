@@ -39,7 +39,7 @@
 #include "sound_archive_load_result.h"
 #include "Main/Sound/sound_distance_squared_change.h"
 #include "sound_system_main.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Scene/run_scenes.h"
 #include "Main/Kart/kart_drift.h"
 #include "Main/Race/race_hud_sub_screen_frames.h"

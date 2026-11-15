@@ -52,7 +52,7 @@
 #include "Main/Graphics/ortho_quad_corners.h"
 #include "Main/Sound/surface_sound_ids.h"
 #include "Main/Sound/sound_source_list.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "01/MapObjects/kuriking_turn_to_entry_state.h"
 #include "01/MapObjects/kuriking_state_shared.h"
 #include "01/MapObjects/mission_run_counter_limit.h"

@@ -16,7 +16,7 @@
 #include "touch_panel_sampling.h"
 #include "Main/Item/item_objects_and_race_progress.h"
 #include "matrix_3x3_basic.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 #include "Main/MapObjects/bound.h"
 #include "Main/System/init_after_startup.h"

@@ -1,6 +1,6 @@
 #include "sound_command_queue.h"
 #include "arena_cache_init.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "thread_scheduler.h"
 #include "thread_mutex_types.h"
 #include "arm_fifo_messaging.h"

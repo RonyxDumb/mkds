@@ -1,14 +1,14 @@
 #include "00/Lib/GameSpy/connection_lifecycle.h"
 #include "00/Lib/GameSpy/challenge_response.h"
-#include "00/Lib/GameSpy/reliable_messages.h"
-#include "00/Lib/GameSpy/connection_table.h"
+#include "00/Lib/GameSpy/protocol_messages.h"
+#include "00/Lib/GameSpy/socket_connections.h"
 #include "00/Lib/GameSpy/message_check.h"
 #include "00/Lib/DWC/memory_allocator.h"
 #include "string.h"
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 #include "00/Lib/GameSpy/socket_calls.h"
 #include "00/Lib/GameSpy/dynamic_array.h"
-#include "00/Lib/GameSpy/connection_close.h"
+#include "00/Lib/GameSpy/connection_events.h"
 #include "00/Lib/DWC/connection_error_strings.h"
 
 int gti2NewOutgoingConnection(void *socket, Gt2Connection **connection, int address, u32 port) {

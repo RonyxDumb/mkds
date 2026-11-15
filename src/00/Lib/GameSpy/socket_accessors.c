@@ -1,6 +1,6 @@
 #include "00/Lib/GameSpy/socket_accessors.h"
-#include "00/Lib/GameSpy/connection_close.h"
-#include "print_memory_functions.h"
+#include "00/Lib/GameSpy/connection_events.h"
+#include "print_memory_multibyte_write.h"
 
 u16 GetSocketPort(Gt2Socket *socket) {
     return socket->mPort;

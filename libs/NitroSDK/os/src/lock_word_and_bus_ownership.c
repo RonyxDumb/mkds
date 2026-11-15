@@ -1,7 +1,7 @@
 #include "lock_word_and_bus_ownership.h"
 #include "bios_calls.h"
 #include "thread_scheduler.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "registers.h"
 #include "00/Lib/DWC/access_point_manager.h"
 

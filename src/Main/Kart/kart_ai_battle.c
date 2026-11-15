@@ -47,7 +47,7 @@
 #include "Main/Sound/sound_distance_squared_change.h"
 #include "Main/Item/kart_items_collision_hits.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "fixed_arctangent.h"
 #include "Main/Kart/karts.h"
 

@@ -16,7 +16,7 @@
 #include "Main/Kart/kart_name_tags.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "arena_cache_init.h"
-#include "wireless_power_mp.h"
+#include "wireless_link_control.h"
 #include "cpu_copy_fill.h"
 
 u16 gPacketSendTimerFrames = 0x3c;

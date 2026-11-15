@@ -17,7 +17,7 @@
 #include "touch_panel_sampling.h"
 #include "00/Lib/DWC/friends_match_session.h"
 #include "sound_archive_load_result.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Net/wifi_race_sync_finish.h"
 #include "Main/Race/standings_balloons.h"
 #include "Main/Kart/karts.h"

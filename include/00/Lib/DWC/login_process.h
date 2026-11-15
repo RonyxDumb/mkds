@@ -7,7 +7,7 @@
 
 #include "00/Lib/GameSpy/profile_info.h"
 
-#include "00/Lib/DWC/login_close.h"
+#include "00/Lib/DWC/login_state.h"
 
 u32 DWCi_CheckLogin(void);
 void DWCi_GPGetInfoCallback(GpConnection *connection, GetInfoReply *arg, u32 param);

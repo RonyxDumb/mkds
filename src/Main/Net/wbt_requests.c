@@ -6,7 +6,7 @@
 #include "thread_scheduler.h"
 #include "mb_data.h"
 #include "Main/Graphics/g3d_anm_function_pointers.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "cpu_copy_fill.h"
 
 u32 gOwnIndex = 0xffffffff;

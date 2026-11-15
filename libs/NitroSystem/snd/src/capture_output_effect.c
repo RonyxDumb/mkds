@@ -1,13 +1,13 @@
 #include "capture_output_effect.h"
 #include "arena_cache_init.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "sound_command_requests.h"
 #include "thread_scheduler.h"
 #include "cpu_copy_clear_16.h"
 #include "sound_capture_effect.h"
 #include "cpu_copy_fill.h"
 #include "Main/System/stdio_files.h"
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 
 CallbackInfo sCallbackInfo = {-1};
 

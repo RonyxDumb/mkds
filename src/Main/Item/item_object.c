@@ -19,7 +19,7 @@
 #include "Main/Item/item_object_fade_out.h"
 #include "Main/Item/item_object_release.h"
 #include "Main/Item/item_slot_tables.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Sound/sound_sources.h"
 #include "Main/Sound/start_sound_from_params.h"
 #include "Main/Sound/sound_falloffs_ortho_quad_globals.h"

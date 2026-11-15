@@ -20,7 +20,7 @@
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
 #include "linked_list_ops.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Graphics/model_effects.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/System/heap.h"

@@ -7,7 +7,7 @@
 #include "03/System/alloc_exp_heap_block.h"
 #include "03/System/exp_heap.h"
 #include "thread_scheduler.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 
 ExchangeStatus *gExchangeStatusRecord;
 

@@ -19,8 +19,8 @@
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
-#include "print_memory_functions.h"
-#include "vector_math.h"
+#include "print_memory_multibyte_write.h"
+#include "fixed_vector_math.h"
 #include "Main/Item/item_pool.h"
 #include "Main/Kart/karts.h"
 

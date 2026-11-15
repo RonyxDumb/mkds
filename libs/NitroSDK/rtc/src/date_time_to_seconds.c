@@ -2,7 +2,7 @@
 #include "Main/Net/wbt_os_thread_globals.h"
 #include "thread_scheduler.h"
 #include "mb_data.h"
-#include "vram_bank_assign.h"
+#include "vram_bank_display_setup.h"
 
 s32 RTC_ConvertDateToDay(const RTCDate *date) {
     s32 days;

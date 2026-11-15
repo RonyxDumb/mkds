@@ -9,7 +9,7 @@
 #include "Main/Kart/kart_ai_item_use.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "registers.h"
 
 void UpdateCollisionSlotBounds(void) {

@@ -8,7 +8,7 @@
 #include "Main/Menu/record_vs.h"
 #include "Main/Menu/record_scene.h"
 #include "Main/Graphics/time_format.h"
-#include "vram_bank_assign.h"
+#include "vram_bank_display_setup.h"
 #include "Main/Menu/kart_icon_row.h"
 #include "Main/Menu/select_cup_name_files.h"
 #include "Main/Menu/menu_screens_work.h"

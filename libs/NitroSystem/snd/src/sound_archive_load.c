@@ -10,7 +10,7 @@
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "Main/Sound/sound_seq.h"
-#include "file_open_read.h"
+#include "file_archive_access.h"
 #include "sound_fader.h"
 #include "file_handle_setup.h"
 #include "sound_heap_sections.h"
@@ -20,12 +20,12 @@
 #include "heap_frame_allocator.h"
 #include "cpu_copy_fill.h"
 #include "arena_cache_init.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "sound_command_requests.h"
 #include "thread_scheduler.h"
 #include "sound_bank_wave_archive.h"
 #include "sound_archive_load_result.h"
-#include "sound_channel_volume.h"
+#include "sound_wave_channel_volume.h"
 
 NNSSndArc *sCurrent;
 SNDWaveArc sWaveArcHeader;

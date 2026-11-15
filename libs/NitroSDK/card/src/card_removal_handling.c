@@ -1,6 +1,6 @@
 #include "card_removal_handling.h"
 #include "registers.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "arm_fifo_messaging.h"
 #include "power_management_commands.h"
 #include "bios_calls.h"

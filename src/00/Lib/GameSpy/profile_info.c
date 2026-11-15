@@ -9,7 +9,7 @@
 #include "00/Lib/GameSpy/reply_parse.h"
 #include "00/Lib/DWC/memory_allocator.h"
 #include "string.h"
-#include "print_memory_functions.h"
+#include "print_memory_multibyte_write.h"
 #include "text_to_number.h"
 #include "signed_int_divide.h"
 #include "00/Lib/GameSpy/socket_calls.h"

@@ -3,16 +3,16 @@
 
 #include "Main/Net/wbt_os_thread_globals.h"
 #include "mb_data.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "thread_mutex_types.h"
 #include "alarm_timer.h"
 #include "interrupt_control.h"
 #include "thread_context_init.h"
-#include "exception_state.h"
+#include "system_state_globals.h"
 #include "overlay_id_symbols.h"
 #include "system_stack_size.h"
 #include "00/Lib/DWC/access_point_manager.h"
-#include "mutex_message_queue.h"
+#include "thread_sync_and_console_info.h"
 
 u32 OSi_StackForDestructor;
 void (*OSi_SystemCallbackInSwitchThread)(OSThread *, OSThread *);

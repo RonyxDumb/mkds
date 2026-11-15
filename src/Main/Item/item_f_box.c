@@ -3,7 +3,7 @@
 #include "Main/Item/item_data_slots_update.h"
 #include "Main/Item/item_object.h"
 #include "Main/Item/item_objects_and_race_progress.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/Item/item_pool.h"
 #include "Main/Item/held_item.h"
 #include "Main/Item/dram_box.h"

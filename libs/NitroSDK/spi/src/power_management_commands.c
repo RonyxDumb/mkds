@@ -1,5 +1,5 @@
 #include "power_management_commands.h"
-#include "reset_interrupt_enable.h"
+#include "reset_interrupts_halt.h"
 #include "cartridge_slot_access.h"
 #include "interrupt_control.h"
 #include "mutex_init_decl.h"

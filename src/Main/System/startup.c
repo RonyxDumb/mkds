@@ -27,13 +27,13 @@
 #include "Main/Save/buddy_record_time.h"
 #include "cell_transfer_state.h"
 #include "Main/Net/multiboot_parent_finish.h"
-#include "vram_bank_assign.h"
+#include "vram_bank_display_setup.h"
 #include "tick_counter.h"
 #include "alarm_timer.h"
 #include "fixed_point_graphics_setup.h"
 #include "interrupt_control.h"
-#include "reset_interrupt_enable.h"
-#include "overlay_loader.h"
+#include "reset_interrupts_halt.h"
+#include "overlay_rom_loader.h"
 #include "registers.h"
 
 DisplaySettings *gDisplaySettings;

@@ -1,7 +1,7 @@
 #pragma avoid_byte all
 
 #include "float_status_flags.h"
-#include "debugger_calls.h"
+#include "swi_runtime_support.h"
 
 // clang-format off
 // Clears the floating-point status word (GetFloatStatus) and the five words from offset 4 of the block

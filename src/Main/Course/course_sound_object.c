@@ -9,7 +9,7 @@
 #include "Main/MapObjects/map_object_park.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 #include "Main/MapObjects/view_frustum.h"
 #include "Main/Sound/snd_handle_start.h"
 #include "Main/Sound/start_sound_from_params.h"

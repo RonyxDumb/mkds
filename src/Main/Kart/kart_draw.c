@@ -2,7 +2,7 @@
 #include "ITCM/g3d_draw_and_irq_handler.h"
 #include "Main/Kart/karts.h"
 #include "Main/Item/item_in_use.h"
-#include "model_draw_blend.h"
+#include "model_draw_blend_state.h"
 #include "Main/Kart/shadow_model_draw.h"
 #include "Main/Kart/kart_contact_effect_release.h"
 #include "Main/Graphics/nsbmd_render_obj.h"
@@ -11,7 +11,7 @@
 #include "Main/Graphics/light_color.h"
 #include "Main/Sound/start_sound_from_params.h"
 #include "matrix_3x3_basic.h"
-#include "vector_math.h"
+#include "fixed_vector_math.h"
 
 void SetKartSoundDistanceSquaredAndChange(Kart *kart) {
     kart->mSoundSource.mDistanceSquared = GetKartCameraDistanceSquared(kart->mIndex);
