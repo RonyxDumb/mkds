@@ -11,17 +11,17 @@
 #include "03/System/exp_heap.h"
 #include "03/unk_021da000.h"
 
-const ScanParamBlock gApScanParamTemplate = {
-    {NULL,
-     0x400,
-     0x3fff,
-     0,
-     {0xff, 0xff, 0xff, 0xff, 0xff, 0xff},
-     0,
-     0,
-     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-     0},
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+const ScanExParam gApScanParamTemplate = {
+    NULL,
+    0x400,
+    0x3fff,
+    0,
+    {0xff, 0xff, 0xff, 0xff, 0xff, 0xff},
+    0,
+    0,
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    0,
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
 
 struct ApScan *gApScan;
 
@@ -51,8 +51,8 @@ BOOL InitApScan(void) {
     } while (gApScan->mStatus.mState != WIRELESS_UNIT_STATE_POWERED_ON);
     apScan = gApScan;
     apScan->mScanParam = gApScanParamTemplate;
-    apScan->mScanParam.mScanExParam.mScanBuf = apScan->mScanBuf;
-    gApScan->mScanParam.mScanExParam.mMaxChannelTime = WM_GetDispersionScanPeriod();
+    apScan->mScanParam.mScanBuf = apScan->mScanBuf;
+    gApScan->mScanParam.mMaxChannelTime = WM_GetDispersionScanPeriod();
     if (StartApScan() != 0) {
         return 1;
     }
@@ -61,7 +61,7 @@ BOOL InitApScan(void) {
 
 BOOL StartApScan(void) {
     int startResult;
-    startResult = WM_StartScanEx(ApScanCallback, &gApScan->mScanParam.mScanExParam);
+    startResult = WM_StartScanEx(ApScanCallback, &gApScan->mScanParam);
     if (startResult == 2) {
         return 1;
     }

@@ -17,7 +17,6 @@ struct UsbScan {
     /* 1300 */ UsbScanEntry mEntries[16];
     /* 1370 */ void (*mResultCallback)(u32);
     /* 1374 */ ScanExParam mScanParam;
-    /* 13ac */ u8 mUnk_13ac[0xc];
     /* 13b8 */ WMStatus mWmStatus;
     /* 1b74 */ u32 mStartTickLow;
     /* 1b78 */ u32 mStartTickHigh;
@@ -41,4 +40,4 @@ BOOL StartUsbScan(void);
 BOOL InitUsbScan(void (*callback)(u32));
 
 extern const u8 gUsbSsidPrefix[9];
-extern const Bytes68 gUsbScanParamTemplate;
+extern const ScanExParam gUsbScanParamTemplate;

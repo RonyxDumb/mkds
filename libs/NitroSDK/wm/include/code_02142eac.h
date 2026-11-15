@@ -371,6 +371,7 @@ typedef struct ScanExParam {
     /* 12 */ u16 mSsidLength;
     /* 14 */ u8 mSsid[0x20];
     /* 34 */ u16 mSsidMatchLength;
+    /* 36 */ u8 mUnk_36[0xe];
 } ScanExParam;
 
 // Request WM_StartScanEx writes into the request area.

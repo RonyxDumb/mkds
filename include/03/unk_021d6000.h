@@ -23,11 +23,6 @@ typedef struct Bytes4 {
     /* 0 */ u8 mBytes[4];
 } Bytes4;
 
-// 0x44 bytes moved as one value.
-typedef struct Bytes68 {
-    /* 00 */ u32 mUnk_00[0x11];
-} Bytes68;
-
 extern const u8 gApScanEmptyBssid[];
 extern u8 *gKind2ItemBuffer;
 extern const Rect gTouchScreenRect;

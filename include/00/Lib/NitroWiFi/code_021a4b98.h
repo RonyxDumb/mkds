@@ -107,7 +107,6 @@ typedef struct WCMWork {
     /* 2282 */ u16 mAuthId;
     /* 2284 */ s32 mScanCount;
     /* 2288 */ ScanExParam mScanExParam;
-    /* 22c0 */ u8 mUnk_22c0[0xc];
     /* 22cc */ OSAlarm mKeepAliveAlarm;
     /* 22f8 */ u16 mWlStatusOnConnectFail;
     /* 22fa */ u8 mUnk_22fa[6];
