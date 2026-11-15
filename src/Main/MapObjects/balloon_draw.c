@@ -102,7 +102,7 @@ void DrawBalloon(void *mapObjectList, Balloon *balloon) {
             balloon->mDrawPos.x = gBalloonCameraPosHalf.x + (balloon->mMapObject.mPos.x >> 1);
             balloon->mDrawPos.y = gBalloonCameraPosHalf.y + (balloon->mMapObject.mPos.y >> 1);
             balloon->mDrawPos.z = gBalloonCameraPosHalf.z + (balloon->mMapObject.mPos.z >> 1);
-            balloon->mDrawScale = 0x800;
+            balloon->mDrawScale = FIXED12_RATIO(1, 2);
         } else if (distanceSquared < 0x9c40) {
             balloon->mDrawPos.x =
                 gBalloonCameraPosEighth.x + balloon->mMapObject.mPos.x - (balloon->mMapObject.mPos.x >> 3);
@@ -110,10 +110,10 @@ void DrawBalloon(void *mapObjectList, Balloon *balloon) {
                 gBalloonCameraPosEighth.y + balloon->mMapObject.mPos.y - (balloon->mMapObject.mPos.y >> 3);
             balloon->mDrawPos.z =
                 gBalloonCameraPosEighth.z + balloon->mMapObject.mPos.z - (balloon->mMapObject.mPos.z >> 3);
-            balloon->mDrawScale = 0xe00;
+            balloon->mDrawScale = FIXED12_RATIO(7, 8);
         } else {
             balloon->mDrawPos = balloon->mMapObject.mPos;
-            balloon->mDrawScale = 0x1000;
+            balloon->mDrawScale = TO_FIXED12(1);
         }
         commandValue0 = 0x1e;
         NNS_G3dGeBufferOP_N(0x14, &commandValue0, 1);
@@ -144,15 +144,15 @@ void DrawBalloon(void *mapObjectList, Balloon *balloon) {
             balloon->mDrawPos.x = gBalloonCameraPosHalf.x + (balloon->mTargetPos.x >> 1);
             balloon->mDrawPos.y = gBalloonCameraPosHalf.y + (balloon->mTargetPos.y >> 1);
             balloon->mDrawPos.z = gBalloonCameraPosHalf.z + (balloon->mTargetPos.z >> 1);
-            balloon->mDrawScale = 0x800;
+            balloon->mDrawScale = FIXED12_RATIO(1, 2);
         } else if (distanceSquared < 0x9c40) {
             balloon->mDrawPos.x = gBalloonCameraPosEighth.x + balloon->mTargetPos.x - (balloon->mTargetPos.x >> 3);
             balloon->mDrawPos.y = gBalloonCameraPosEighth.y + balloon->mTargetPos.y - (balloon->mTargetPos.y >> 3);
             balloon->mDrawPos.z = gBalloonCameraPosEighth.z + balloon->mTargetPos.z - (balloon->mTargetPos.z >> 3);
-            balloon->mDrawScale = 0xe00;
+            balloon->mDrawScale = FIXED12_RATIO(7, 8);
         } else {
             balloon->mDrawPos = balloon->mTargetPos;
-            balloon->mDrawScale = 0x1000;
+            balloon->mDrawScale = TO_FIXED12(1);
         }
         commandValue1 = 0x1e;
         NNS_G3dGeBufferOP_N(0x14, &commandValue1, 1);
@@ -220,7 +220,7 @@ void FollowBalloonTarget(Balloon *balloon) {
               (balloon->mTargetPos.x + balloon->mTargetVelocity.x);
     offsetZ = (balloon->mMapObject.mPos.z + balloon->mMapObject.mPosStep.z) -
               (balloon->mTargetPos.z + balloon->mTargetVelocity.z);
-    distanceLimit = MUL_FIXED12_NO_ROUND(0xa000, balloon->mScaleFactor + balloon->mScaleSwing);
+    distanceLimit = MUL_FIXED12_NO_ROUND(TO_FIXED12(10), balloon->mScaleFactor + balloon->mScaleSwing);
     absOffsetZ = ABS(offsetZ);
     absOffsetX = ABS(offsetX);
     offsetDistance = absOffsetX / 2 + absOffsetZ / 2;
@@ -338,12 +338,12 @@ void UpdateBalloon(void *mapObjectList, Balloon *balloon) {
             case BALLOON_STATE_SETTLE:
                 balloon->mScaleSwing = 0;
                 balloon->mScaleFactor = balloon->mScaleFactor + balloon->mScaleFactorPerFrame;
-                if (balloon->mScaleFactor >= 0x1000) {
+                if (balloon->mScaleFactor >= TO_FIXED12(1)) {
                     balloon->mScaleFactorPerFrame = balloon->mScaleFactorPerFrame - 200;
                 }
                 if (balloon->mScaleFactorPerFrame < 0) {
-                    if (balloon->mScaleFactor <= 0x1000) {
-                        balloon->mScaleFactor = 0x1000;
+                    if (balloon->mScaleFactor <= TO_FIXED12(1)) {
+                        balloon->mScaleFactor = TO_FIXED12(1);
                         balloon->mState = BALLOON_STATE_FULL;
                     }
                 }
@@ -364,7 +364,7 @@ void UpdateBalloon(void *mapObjectList, Balloon *balloon) {
                 break;
             case BALLOON_STATE_FULL:
                 balloon->mScaleSwing = 0;
-                balloon->mScaleFactor = 0x1000;
+                balloon->mScaleFactor = TO_FIXED12(1);
                 if (balloon->mDrawCount == 1 && balloon->mDrawList == NULL) {
                     FollowBalloonTarget(balloon);
                     if (GetBalloonFlagBits(balloon) != 0) {
@@ -385,7 +385,7 @@ void UpdateBalloon(void *mapObjectList, Balloon *balloon) {
         }
     } else {
         balloon->mScaleSwing = 0;
-        balloon->mScaleFactor = 0x1000;
+        balloon->mScaleFactor = TO_FIXED12(1);
         if (balloon->mNoKartTimer-- <= 0) {
             StartEffectWithCallback(0x5b, &balloon->mMapObject.mPos, balloon, SetBalloonEffectColor);
             StartEffectWithCallback(0x5c, &balloon->mMapObject.mPos, balloon, SetBalloonEffectColor);
@@ -441,7 +441,7 @@ void ResetBalloons(void) {
          balloonIndex++) {
         if (balloon->mKartIndex >= 0) {
             balloon->mKartIndex = (u16) gRaceSetup->mEntryIndex;
-            balloon->mScaleFactor = 0x1000;
+            balloon->mScaleFactor = TO_FIXED12(1);
             balloon->mScaleFactorPerFrame = 0;
             balloon->mScaleSwing = 0;
             balloon->mScaleSwingPerFrame = 0;
@@ -478,7 +478,7 @@ void UpdateBalloonInflating(Balloon *balloon, u16 kartIndex, s32 scaleStep) {
     balloon->mScaleSwing = 0;
     balloon->mScaleSwingPerFrame = 0;
     balloon->mState = BALLOON_STATE_SWING;
-    if (balloon->mScaleFactor >= 0x1000) {
+    if (balloon->mScaleFactor >= TO_FIXED12(1)) {
         balloon->mScaleSwing = 0;
         balloon->mScaleFactorPerFrame = 0x258;
         balloon->mState = BALLOON_STATE_SETTLE;
