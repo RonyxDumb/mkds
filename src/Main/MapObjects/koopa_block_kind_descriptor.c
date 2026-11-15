@@ -62,13 +62,13 @@ const MapObjectKindDescriptor gKoopaBlockKindDescriptor = {0,
                                                            NULL,
                                                            {NULL, NULL, NULL, NULL}};
 
-StateCallbacks gKoopaBlockStateTable[3] = {{KoopaBlockState0Nop, UpdateKoopaBlockState0},
-                                           {EnterKoopaBlockState1, UpdateKoopaBlockState1},
-                                           {KoopaBlockState2Nop, UpdateKoopaBlockState2}};
+StateCallbacks gKoopaBlockStateTable[3] = {{KoopaBlockAccelerateNop, UpdateKoopaBlockAccelerate},
+                                           {EnterKoopaBlockCruise, UpdateKoopaBlockCruise},
+                                           {KoopaBlockDecelerateNop, UpdateKoopaBlockDecelerate}};
 
 #pragma thumb off
 
-void UpdateKoopaBlockState2(void *stateObject) {
+void UpdateKoopaBlockDecelerate(void *stateObject) {
     KoopaBlock *koopaBlock = stateObject;
     GroupFollower *follower;
     s32 progress;
@@ -158,7 +158,7 @@ void InitKoopaBlock(KoopaBlock *koopaBlock, CourseMapRow *courseRow) {
     koopaBlock->mCollisionMapObject.mMapObject.mFlags &= ~2;
     koopaBlock->mCollisionMapObject.mMapObject.mFlags &= ~8;
     koopaBlock->mCollisionMapObject.mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
-    koopaBlock->mCollisionMapObject.mMapObject.mStateMachine.mNextState = 0;
+    koopaBlock->mCollisionMapObject.mMapObject.mStateMachine.mNextState = KOOPA_BLOCK_STATE_ACCELERATE;
     koopaBlock->mCollisionMapObject.mMapObject.mStateMachine.mNextStateRequested = 1;
     koopaBlock->mCollisionMapObject.mMapObject.mFarDistanceSquared = gSoundFalloffs[3].mFarDistanceSquared;
 }

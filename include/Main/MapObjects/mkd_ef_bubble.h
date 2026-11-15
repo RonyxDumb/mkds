@@ -9,7 +9,7 @@ typedef struct MkdEfBubbleObject MkdEfBubbleObject;
 typedef struct Kart Kart;
 
 u8 CollideKartWithMkdEfBubble(MkdEfBubbleObject *bubble, Kart *kart, void *unused, u8 *secondResponsePtr);
-void UpdateMkdEfBubbleState1(void *stateObject);
+void UpdateMkdEfBubbleWait(void *stateObject);
 
-void EnterMkdEfBubbleState1(void *stateObject);
+void EnterMkdEfBubbleWait(void *stateObject);
 

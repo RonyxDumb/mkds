@@ -158,8 +158,8 @@ void UpdateKoopaBlock(void *unused, KoopaBlock *koopaBlock) {
         return;
     }
     if (AdvanceGroupFollower(follower) != FALSE) {
-        if (koopaBlock->mCollisionMapObject.mMapObject.mStateMachine.mState == 2) {
-            koopaBlock->mCollisionMapObject.mMapObject.mStateMachine.mNextState = 0;
+        if (koopaBlock->mCollisionMapObject.mMapObject.mStateMachine.mState == KOOPA_BLOCK_STATE_DECELERATE) {
+            koopaBlock->mCollisionMapObject.mMapObject.mStateMachine.mNextState = KOOPA_BLOCK_STATE_ACCELERATE;
             koopaBlock->mCollisionMapObject.mMapObject.mStateMachine.mNextStateRequested = 1;
         }
         koopaBlock->mPauseTimer = follower->mFromEntry->mValue;
@@ -176,9 +176,9 @@ void UpdateKoopaBlock(void *unused, KoopaBlock *koopaBlock) {
                 &koopaBlock->mCollisionMapObject.mCollisionData.mCenterPos);
 }
 
-void KoopaBlockState0Nop(void *stateObject) {}
+void KoopaBlockAccelerateNop(void *stateObject) {}
 
-void UpdateKoopaBlockState0(void *stateObject) {
+void UpdateKoopaBlockAccelerate(void *stateObject) {
     KoopaBlock *koopaBlock = stateObject;
     GroupFollower *follower = &koopaBlock->mFollower;
     s32 progress = GetGroupFollowerProgress(follower);
@@ -194,12 +194,12 @@ void UpdateKoopaBlockState0(void *stateObject) {
     }
     follower->mProgressStep = MUL_FIXED12_NO_ROUND(speed, inverseProgressLength);
     if (GetGroupFollowerProgress(follower) >= 0x100) {
-        koopaBlock->mCollisionMapObject.mMapObject.mStateMachine.mNextState = 1;
+        koopaBlock->mCollisionMapObject.mMapObject.mStateMachine.mNextState = KOOPA_BLOCK_STATE_CRUISE;
         koopaBlock->mCollisionMapObject.mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
 
-void EnterKoopaBlockState1(void *stateObject) {
+void EnterKoopaBlockCruise(void *stateObject) {
     KoopaBlock *koopaBlock = stateObject;
     s32 speed = koopaBlock->mFollowSpeed;
 
@@ -208,7 +208,7 @@ void EnterKoopaBlockState1(void *stateObject) {
         speed, koopaBlock->mFollower.mPath->mSegments[koopaBlock->mFollower.mSegmentIndex].mInverseProgressLength);
 }
 
-void UpdateKoopaBlockState1(void *stateObject) {
+void UpdateKoopaBlockCruise(void *stateObject) {
     KoopaBlock *koopaBlock = stateObject;
     GroupFollower *follower = &koopaBlock->mFollower;
 
@@ -232,9 +232,9 @@ void UpdateKoopaBlockState1(void *stateObject) {
         }
     }
     if (GetGroupFollowerProgress(follower) >= 0xf00) {
-        koopaBlock->mCollisionMapObject.mMapObject.mStateMachine.mNextState = 2;
+        koopaBlock->mCollisionMapObject.mMapObject.mStateMachine.mNextState = KOOPA_BLOCK_STATE_DECELERATE;
         koopaBlock->mCollisionMapObject.mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
 
-void KoopaBlockState2Nop(void *stateObject) {}
+void KoopaBlockDecelerateNop(void *stateObject) {}

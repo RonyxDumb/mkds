@@ -45,8 +45,8 @@ const MapObjectKindDescriptor gMkdEfBubbleKindDescriptor = {0,
                                                             NULL,
                                                             {NULL, NULL, NULL, NULL}};
 
-StateCallbacks gMkdEfBubbleStateTable[2] = {{EnterMkdEfBubbleState0, UpdateMkdEfBubbleState0},
-                                            {EnterMkdEfBubbleState1, UpdateMkdEfBubbleState1}};
+StateCallbacks gMkdEfBubbleStateTable[2] = {{EnterMkdEfBubbleLeap, UpdateMkdEfBubbleLeap},
+                                            {EnterMkdEfBubbleWait, UpdateMkdEfBubbleWait}};
 
 #pragma thumb on
 void CreateMkdEfBubble(void) {
@@ -70,7 +70,7 @@ void InitMkdEfBubble(MkdEfBubbleObject *bubble, CourseMapRow *row) {
     bubble->mMapObject.mPosStep.y = 0;
     bubble->mMapObject.mPosStep.z = 0;
     bubble->mAngleZ = 0;
-    bubble->mMapObject.mStateMachine.mNextState = 0;
+    bubble->mMapObject.mStateMachine.mNextState = MKD_EF_BUBBLE_STATE_LEAP;
     bubble->mMapObject.mStateMachine.mNextStateRequested = 1;
     RefreshShadowMatrix(&bubble->mShadowMatrix, &bubble->mMapObject.mPos,
                         MUL_FIXED12_NO_ROUND(bubble->mMapObject.mScale.x, 0x18000), 0xd);

@@ -48,8 +48,8 @@
 #include "Main/MapObjects/mkd_ef_bubble.h"
 #include "Main/MapObjects/koopa_block_kind_descriptor.h"
 
-const u16 gMkdEfBubbleState1SecondFlag = 8;
-const u16 gMkdEfBubbleState1Flag = 2;
+const u16 gMkdEfBubbleWaitSecondFlag = 8;
+const u16 gMkdEfBubbleWaitFlag = 2;
 const MapObjectDrawList gMkdEfBubbleDrawListData = {{NULL,
                                                      0,
                                                      {0, 0},
@@ -129,7 +129,7 @@ void DrawMkdEfBubble(void *unused0, MkdEfBubbleObject *bubble, void *unused1, s3
     MtxFx33 rotationMatrix;
     s32 amount;
 
-    if (bubble->mMapObject.mStateMachine.mState != 0) {
+    if (bubble->mMapObject.mStateMachine.mState != MKD_EF_BUBBLE_STATE_LEAP) {
         return;
     }
     gxParam = 0x1e;
@@ -179,7 +179,7 @@ void UpdateMkdEfBubble(void *unused, MkdEfBubbleObject *bubble) {
     PlaceEffect(bubble->mSecondEffect, &bubble->mMapObject.mPos);
 }
 
-void EnterMkdEfBubbleState0(void *stateObject) {
+void EnterMkdEfBubbleLeap(void *stateObject) {
     MkdEfBubbleObject *bubble = stateObject;
     SoundStartParams soundRequest;
     s32 falloffIndex;
@@ -220,7 +220,7 @@ void EnterMkdEfBubbleState0(void *stateObject) {
     bubble->mEffectMissing = effectMissing;
 }
 
-void UpdateMkdEfBubbleState0(void *stateObject) {
+void UpdateMkdEfBubbleLeap(void *stateObject) {
     MkdEfBubbleObject *bubble = stateObject;
     if (bubble->mMapObject.mPosStep.y < 0x1333) {
         if (bubble->mMapObject.mPosStep.y <= -0x1333) {
@@ -236,7 +236,7 @@ void UpdateMkdEfBubbleState0(void *stateObject) {
     }
     bubble->mMapObject.mPos.y += bubble->mMapObject.mPosStep.y;
     if (bubble->mMapObject.mPos.y < bubble->mBottomY) {
-        bubble->mMapObject.mStateMachine.mNextState = 1;
+        bubble->mMapObject.mStateMachine.mNextState = MKD_EF_BUBBLE_STATE_WAIT;
         bubble->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }

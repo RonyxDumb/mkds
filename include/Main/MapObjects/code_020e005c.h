@@ -60,6 +60,6 @@ typedef struct CollisionData {
 typedef struct KoopaBlock KoopaBlock;
 typedef struct CollisionMapObject CollisionMapObject;
 
-void UpdateKoopaBlockState1(void *stateObject);
-void EnterKoopaBlockState1(void *stateObject);
-void UpdateKoopaBlockState0(void *stateObject);
+void UpdateKoopaBlockCruise(void *stateObject);
+void EnterKoopaBlockCruise(void *stateObject);
+void UpdateKoopaBlockAccelerate(void *stateObject);

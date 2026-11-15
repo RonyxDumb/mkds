@@ -18,16 +18,16 @@
 #include "Main/MapObjects/map_object.h"
 #include "Main/MapObjects/koopa_block.h"
 
-void EnterMkdEfBubbleState1(void *stateObject) {
+void EnterMkdEfBubbleWait(void *stateObject) {
     MkdEfBubbleObject *bubble = stateObject;
-    bubble->mMapObject.mFlags |= gMkdEfBubbleState1Flag;
-    bubble->mMapObject.mFlags |= gMkdEfBubbleState1SecondFlag;
+    bubble->mMapObject.mFlags |= gMkdEfBubbleWaitFlag;
+    bubble->mMapObject.mFlags |= gMkdEfBubbleWaitSecondFlag;
 }
 
-void UpdateMkdEfBubbleState1(void *stateObject) {
+void UpdateMkdEfBubbleWait(void *stateObject) {
     MkdEfBubbleObject *bubble = stateObject;
     if (bubble->mMapObject.mStateMachine.mStateFrames >= bubble->mDelayFrameCount) {
-        bubble->mMapObject.mStateMachine.mNextState = 0;
+        bubble->mMapObject.mStateMachine.mNextState = MKD_EF_BUBBLE_STATE_LEAP;
         bubble->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }

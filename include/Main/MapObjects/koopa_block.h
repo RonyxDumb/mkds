@@ -10,7 +10,23 @@
 #include "Main/Graphics/model_animation.h"
 #include "Main/MapObjects/attractor.h"
 
-void UpdateKoopaBlockState2(void *stateObject);
+// KoopaBlock.mCollisionMapObject.mMapObject.mStateMachine states, in the order of gKoopaBlockStateTable. The block
+// follows its path: ACCELERATE speeds up along the first part, CRUISE keeps the path speed, DECELERATE slows down
+// along the last part.
+enum {
+    KOOPA_BLOCK_STATE_ACCELERATE,
+    KOOPA_BLOCK_STATE_CRUISE,
+    KOOPA_BLOCK_STATE_DECELERATE,
+};
+
+// MkdEfBubbleObject.mMapObject.mStateMachine states, in the order of gMkdEfBubbleStateTable. LEAP throws the bubble up
+// from mBottomY until it falls back; WAIT keeps it hidden for mDelayFrameCount frames.
+enum {
+    MKD_EF_BUBBLE_STATE_LEAP,
+    MKD_EF_BUBBLE_STATE_WAIT,
+};
+
+void UpdateKoopaBlockDecelerate(void *stateObject);
 void DrawAllKoopaBlocks(void *viewMatrix);
 BOOL IsKoopaBlockKind(u32 kind);
 s32 GetKoopaBlockProgress(KoopaBlock *koopaBlock);
@@ -24,8 +40,8 @@ void DrawMkdEfBubble(void *unused0, MkdEfBubbleObject *bubble, void *unused1, s3
 void AdvanceMkdEfBubbleAnimation(void);
 void UpdateMkdEfBubble(void *unused,
                        MkdEfBubbleObject *bubble); /* skipped for objects with mFlags & 4 (parked pool objects) */
-void EnterMkdEfBubbleState0(void *stateObject);
-void UpdateMkdEfBubbleState0(void *stateObject);
+void EnterMkdEfBubbleLeap(void *stateObject);
+void UpdateMkdEfBubbleLeap(void *stateObject);
 
 extern StateCallbacks gKoopaBlockStateTable[3];
 
@@ -35,8 +51,8 @@ extern struct Nsbmd *gKoopaBlock;
 extern MapObjectDrawList *gMkdEfBubbleDrawList;
 extern struct ModelAnimation *gMkdEfBubbleNsbta;
 
-extern const u16 gMkdEfBubbleState1Flag;
-extern const u16 gMkdEfBubbleState1SecondFlag;
+extern const u16 gMkdEfBubbleWaitFlag;
+extern const u16 gMkdEfBubbleWaitSecondFlag;
 extern const MkdEfBubbleUpdateList gMkdEfBubbleUpdateListData;
 extern const MapObjectDrawList gMkdEfBubbleDrawListData;
 extern const MapObjectKindData gMkdEfBubbleKindData;
