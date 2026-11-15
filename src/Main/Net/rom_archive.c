@@ -310,7 +310,7 @@ void SendRomArchiveMessage(void) {
             view->mRequestMask = view->mRequestMask & ~sendMask;
             break;
     }
-    blockId = *(volatile s32 *) &firstEntry->mBlockId;
+    blockId = firstEntry->mBlockId;
     replyMessage.mKind = (u8) firstEntry->mKind;
     replyMessage.mWord04 = blockId;
     replyMessage.mValue24 = 1;
