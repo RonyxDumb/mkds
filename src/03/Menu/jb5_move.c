@@ -152,7 +152,7 @@ void UpdateJb5MoveMessageClose(void) {
     int messageOpen;
     messageOpen = IsMessageBoxOpen();
     if (messageOpen == 0) {
-        if ((*(u8 *) &gJb5MoveShowNext) == 0) {
+        if (gJb5MoveShowNext == 0) {
             StartBlendBrightnessFade(3, 1, 1, 8);
         }
         StartBlendBrightnessFade(3, 0, 0x15, 8);

@@ -17,4 +17,4 @@ void SetupChildWaitMessage(void);
 
 extern u8 gYb5MultiNscName6[19];
 extern u8 gChildWaitMessageShowNext;
-extern u8 gChildWaitMessageSubScreenShown[1];
+extern u8 gChildWaitMessageSubScreenShown;

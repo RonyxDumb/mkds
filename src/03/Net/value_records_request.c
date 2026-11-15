@@ -12,14 +12,14 @@
 #include "code_0214d018.h"
 
 const u8 gNintendoDsItemBytes[12] = {0x4e, 0x49, 0x4e, 0x54, 0x45, 0x4e, 0x44, 0x4f, 0x2d, 0x44, 0x53, 0};
-u8 gValueRecordsRequestSucceeded[1];
+u8 gValueRecordsRequestSucceeded;
 struct ValueRecordsRequest *gValueRecordsRequest;
 
 void InitValueRecordsRequest(void) {
     ValueRecordsRequestView requestItem;
     ValueRecordsRequest *request;
     gValueRecordsRequest = AllocZeroedExpHeapBlock(0x26c, 4);
-    gValueRecordsRequestSucceeded[0] = 0;
+    gValueRecordsRequestSucceeded = 0;
     requestItem.mClearValue = 0;
     MIi_CpuClear16(requestItem.mClearValue, &requestItem.mItem, sizeof(ValueRecordsRequestItem));
     requestItem.mItem.mItemType = 0x50;
@@ -42,7 +42,7 @@ void InitValueRecordsRequest(void) {
 void ReleaseValueRecordsRequest(int succeeded) {
     ReleaseEssidWiFi();
     if (((succeeded != 0) && (gValueRecordsRequest->mResultCode == 0)) &&
-        ((*(u8 *) &gValueRecordsRequestSucceeded) == 1)) {
+        (gValueRecordsRequestSucceeded == 1)) {
         WriteApWorkFromAossResult((s32) &gValueRecordsRequest->mRecordBytes);
     }
     FreeExpHeapBlockAndClearPointer(&gValueRecordsRequest);
@@ -51,7 +51,7 @@ void ReleaseValueRecordsRequest(int succeeded) {
 u32 RunValueRecordsRequestForStatus(void) {
     u8 resultCode;
     if (RunValueRecordsRequest(gValueRecordsRequest) == 0) {
-        gValueRecordsRequestSucceeded[0] = 1;
+        gValueRecordsRequestSucceeded = 1;
         return 1;
     }
     resultCode = gValueRecordsRequest->mResultCode;

@@ -15,4 +15,4 @@ void UpdateApListMessageClose(void);
 void UpdateApListMessageResult(void);
 
 extern u8 gXb4MultiNscName2[19];
-extern u8 gValueRecordsNextFrames[1];
+extern u8 gValueRecordsNextFrames;

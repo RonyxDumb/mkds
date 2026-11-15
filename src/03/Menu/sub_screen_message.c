@@ -16,7 +16,7 @@ u8 gJtNullNscName[17] = {0x63, 0x68, 0x61, 0x72, 0x2f, 0x6a, 0x74, 0x4e, 0x75,
 u8 gSubScreenMessageShown;
 
 void ClearSubScreenMessageShown(void) {
-    *(u8 *) &gSubScreenMessageShown = 0;
+    gSubScreenMessageShown = 0;
 }
 
 BOOL ShowSubScreenMessage(u32 index, s32 column, u32 value) {

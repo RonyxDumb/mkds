@@ -34,12 +34,12 @@
 #include "03/Graphics/hl_scr.h"
 #include "03/code_021be610.h"
 
-u8 gApScanKind[1];
+u8 gApScanKind;
 u16 gApScanFrames;
 
 void SetupApScan(void) {
     gApScanFrames = 0;
-    *(u8 *) &gApScanKind = 0;
+    gApScanKind = 0;
     LoadApScanFilesAndSetBgCnt();
     ShowSubScreenMessage(0x7f, -1, 0);
     LoadHlSetScr();
@@ -145,7 +145,7 @@ void UpdateApScanFrames(void) {
         StopSoundSeq();
         entryCount = CountApScanEntries(&entries);
         if (entryCount == 0) {
-            *(u8 *) &gApScanKind = 2;
+            gApScanKind = 2;
             CreateMessageBox(0x43, 1, 1, -1, 0);
             StartSoundSeq(0x12);
             DisableButtonTouch();
@@ -158,13 +158,13 @@ void UpdateApScanFrames(void) {
             }
         }
         if (entryIndex == entryCount) {
-            *(u8 *) &gApScanKind = 3;
+            gApScanKind = 3;
             CreateMessageBox(0x42, 1, 1, -1, 0);
             StartSoundSeq(0x12);
             DisableButtonTouch();
             SetUpdateFunction(UpdateApScanMessageResult);
         } else {
-            *(u8 *) &gApScanKind = 1;
+            gApScanKind = 1;
             StartSoundSeq(0xf);
             SetUpdateFunction(StartApScanClose);
         }
@@ -222,7 +222,7 @@ void UpdateApScanRelease(void) {
         HideSubScreenMessage();
         ClearDispcntBits(1, 1);
         ClearDispcntBits(0, 0x15);
-        if ((*(u8 *) &gApScanKind) != 1) {
+        if (gApScanKind != 1) {
             ReleaseApScan();
             CopyApEntryToWorkCopy(GetApWorkCopy()->mEntryIndex);
             SetPrimaryMenuPair(2, 1);

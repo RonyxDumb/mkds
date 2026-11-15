@@ -29,7 +29,7 @@
 
 u8 gXb4MultiNscName9[19] = {0x63, 0x68, 0x61, 0x72, 0x2f, 0x78, 0x62, 0x34, 0x4d, 0x75,
                             0x6c, 0x74, 0x69, 0x2e, 0x6e, 0x73, 0x63, 0x2e, 0x6c};
-u8 gConnectDoneFrames[1];
+u8 gConnectDoneFrames;
 
 void UpdateConnectMessage(void) {
     int messageAnswer;
@@ -68,7 +68,7 @@ void UpdateConnectMessageFadeOut(void) {
 }
 
 void SetupConnectDone(void) {
-    *(u8 *) &gConnectDoneFrames = 0;
+    gConnectDoneFrames = 0;
     LoadConnectDoneFileAndSetBgCnt();
     PrintMessage(0x77);
     SetUpdateFunction(StartConnectDoneFadeIn);
@@ -165,8 +165,8 @@ void UpdateConnectDoneRelease(void) {
 
 void UpdateConnectDoneFrames(void) {
     s32 secondaryPairSecond;
-    gConnectDoneFrames[0]++;
-    if (gConnectDoneFrames[0] >= 0xb4) {
+    gConnectDoneFrames++;
+    if (gConnectDoneFrames >= 0xb4) {
         GetSecondaryMenuPair(NULL, &secondaryPairSecond);
         switch (GetMode()) {
             case 0:

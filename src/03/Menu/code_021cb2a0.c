@@ -64,13 +64,13 @@ const Rect gWaySelectionRects[2][4] = {
     {{6, 0x1e, 0xea, 0x4e}, {6, 0x62, 0x70, 0x92}, {0, 0, 0, 0}, {0x80, 0x62, 0xea, 0x92}},
     {{6, 0x1e, 0xea, 0x4e}, {6, 0x62, 0x56, 0x92}, {0x66, 0x62, 0xb6, 0x92}, {0xc6, 0x62, 0xea, 0x92}}};
 u8 *gYbBgStep21Ncl;
-u8 gWayChosen[1];
+u8 gWayChosen;
 s8 gWaySelectedIndex;
 s8 gWaySavedIndex;
 
 void SetupWay(void) {
     ApWorkCopy *record = GetApWorkCopy();
-    gWayChosen[0] = 0;
+    gWayChosen = 0;
     if (gWaySavedIndex == 0) {
         gWaySavedIndex = 1;
     }
@@ -173,7 +173,7 @@ void UpdateWayResult(void) {
         case 1:
             StartSoundSeq(6);
             RequestWayPaletteRowCopy();
-            gWayChosen[0] = 1;
+            gWayChosen = 1;
             break;
         default:
             return;
@@ -191,7 +191,7 @@ void UpdateWayFadeOut(void) {
     int fadeSlotBusy;
     fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(1);
     if (fadeSlotBusy == 0) {
-        if ((*(u8 *) &gWayChosen) != 0) {
+        if (gWayChosen != 0) {
             StartSlideButtonsOut();
         }
         StartBlendBrightnessFade(3, 1, 1, 8);
@@ -208,7 +208,7 @@ void UpdateWayRelease(void) {
         DeleteLoadedFile(gYbBgStep21Ncl);
         ClearDispcntBits(1, 1);
         ClearDispcntBits(0, 0x14);
-        if (gWayChosen[0] == 0) {
+        if (gWayChosen == 0) {
             SetPrimaryMenuPair(2, 0);
             SetUpdateFunction(CreateAp);
         } else {

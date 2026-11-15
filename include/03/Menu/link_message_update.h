@@ -9,4 +9,4 @@ void UpdateLinkMessageNop(void);
 void UpdateLinkMessageInputNop(void);
 void UpdateLinkMessage(void);
 
-extern u8 gLinkMessageResult[1];
+extern u8 gLinkMessageResult;

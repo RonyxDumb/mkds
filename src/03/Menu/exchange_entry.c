@@ -44,7 +44,7 @@ u32 ExchangeEntryPAD_DetectFold(void) {
 }
 
 void SetupExchangeEntry(void) {
-    *(u8 *) &gExchangeEntryShowNext = 0;
+    gExchangeEntryShowNext = 0;
     LoadExchangeEntryFileAndSetBgCnt();
     LoadHlSetScr();
     PrintMessage(0x6a);

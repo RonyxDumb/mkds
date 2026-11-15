@@ -235,6 +235,6 @@ void UpdateValueRecordsFrames(void) {
 void StartValueRecordsCloseWithoutNext(void) {
     StopSoundSeq();
     StartSoundSeq(7);
-    *(u8 *) &gValueRecordsShowNext = 0;
+    gValueRecordsShowNext = 0;
     SetUpdateFunction(StartValueRecordsClose);
 }

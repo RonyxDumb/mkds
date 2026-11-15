@@ -24,6 +24,6 @@ extern WayPaletteRows gWayPaletteRows;
 extern const s8 gWayMoveTargets[2][4][4];
 extern const s8 gWayMessageDigitColumns[6];
 extern u8 *gYbBgStep21Ncl;
-extern u8 gWayChosen[1];
+extern u8 gWayChosen;
 extern s8 gWaySelectedIndex;
 extern s8 gWaySavedIndex;

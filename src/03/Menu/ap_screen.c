@@ -66,7 +66,7 @@ const ApObjectPosition gApObjectPositions[6] = {{8, 0x30},   {0x5a, 0x30}, {0xac
                                                 {0xc, 0x58}, {0x5e, 0x58}, {0xb0, 0x58}};
 const s8 gApMessageDigitColumns[6] = {3, 0x2d, 0x27, 0x1d, 0x32, 0x30};
 const u8 gApEntryImageIndices[4] = {0x13, 0x14, 0x12, 0x56};
-u8 gApSelectedIndex[1];
+u8 gApSelectedIndex;
 struct Ap *gAp;
 
 void CreateAp(void) {
@@ -157,7 +157,7 @@ void UpdateApInput(void) {
         touchPressed = IsTouchPressedInRect((const Rect *) rect);
         if (touchPressed != 0) {
             SetButtonResultIfNone((u8) 1);
-            *(u8 *) &gApSelectedIndex = (s8) rectIndex;
+            gApSelectedIndex = (s8) rectIndex;
             PlaceApSelection();
             return;
         }
@@ -215,7 +215,7 @@ void UpdateApResult(void) {
             break;
         case 1:
             gAp->mCloseKind = AP_CLOSE_KIND_SELECTED;
-            selectedIndex = gApSelectedIndex[0];
+            selectedIndex = gApSelectedIndex;
             if (selectedIndex >= 4) {
                 entryIndex = selectedIndex - 4;
                 if (GetApEntrySetType(entryIndex) == 0xff) {
@@ -254,7 +254,7 @@ void StartApClose(void) {
 void UpdateApFadeOut(void) {
     if (IsBlendBrightnessFadeSlotBusy(1) == 0) {
         if (gAp->mCloseKind == AP_CLOSE_KIND_SELECTED) {
-            if (gApSelectedIndex[0] == 3 || GetApWorkCopy()->mEntry.mSetType != AP_SET_TYPE_EMPTY) {
+            if (gApSelectedIndex == 3 || GetApWorkCopy()->mEntry.mSetType != AP_SET_TYPE_EMPTY) {
                 StartSlideButtonsOut();
             }
         }
@@ -288,7 +288,7 @@ void UpdateApRelease(void) {
             SetPrimaryMenuPair(0, 0);
             SetUpdateFunction(SetupJb2Menu);
         } else {
-            switch (gApSelectedIndex[0]) {
+            switch (gApSelectedIndex) {
                 case 0:
                 case 1:
                 case 2:
@@ -312,7 +312,7 @@ void UpdateApRelease(void) {
 }
 
 void PlaceApSelection(void) {
-    u8 selectedIndex = gApSelectedIndex[0];
+    u8 selectedIndex = gApSelectedIndex;
     if (selectedIndex < 4) {
         PlaceSelectionCorners(gApSelectionRects[selectedIndex].mX, gApSelectionRects[selectedIndex].mRight,
                               gApSelectionRects[selectedIndex].mY, gApSelectionRects[selectedIndex].mBottom);
@@ -324,50 +324,50 @@ void PlaceApSelection(void) {
 
 void MoveApSelection(int direction) {
     u32 moved = 1;
-    switch (gApSelectedIndex[0]) {
+    switch (gApSelectedIndex) {
         case 0:
             gAp->mRememberedEntryIndex = 0;
             if (direction == 0) {
-                gApSelectedIndex[0] = 2;
+                gApSelectedIndex = 2;
             } else if (direction == 2) {
-                gApSelectedIndex[0] = 1;
+                gApSelectedIndex = 1;
             } else if (direction == 1) {
-                gApSelectedIndex[0] = 3;
+                gApSelectedIndex = 3;
             } else {
-                gApSelectedIndex[0] = 4;
+                gApSelectedIndex = 4;
             }
             break;
         case 1:
             gAp->mRememberedEntryIndex = 1;
             if (direction == 0) {
-                gApSelectedIndex[0] = 0;
+                gApSelectedIndex = 0;
             } else if (direction == 2) {
-                gApSelectedIndex[0] = 2;
+                gApSelectedIndex = 2;
             } else if (direction == 1) {
-                gApSelectedIndex[0] = 3;
+                gApSelectedIndex = 3;
             } else {
-                gApSelectedIndex[0] = 5;
+                gApSelectedIndex = 5;
             }
             break;
         case 2:
             gAp->mRememberedEntryIndex = 2;
             if (direction == 0) {
-                gApSelectedIndex[0] = 1;
+                gApSelectedIndex = 1;
             } else if (direction == 2) {
-                gApSelectedIndex[0] = 0;
+                gApSelectedIndex = 0;
             } else if (direction == 1) {
-                gApSelectedIndex[0] = 3;
+                gApSelectedIndex = 3;
             } else {
-                gApSelectedIndex[0] = 6;
+                gApSelectedIndex = 6;
             }
             break;
         case 3: {
             u8 rememberedIndex = gAp->mRememberedEntryIndex;
             s32 targetIndex = rememberedIndex + 4;
             if (direction == 1) {
-                gApSelectedIndex[0] = targetIndex;
+                gApSelectedIndex = targetIndex;
             } else if (direction == 3) {
-                gApSelectedIndex[0] = rememberedIndex;
+                gApSelectedIndex = rememberedIndex;
             } else {
                 moved = 0;
             }
@@ -376,37 +376,37 @@ void MoveApSelection(int direction) {
         case 4:
             gAp->mRememberedEntryIndex = 0;
             if (direction == 0) {
-                gApSelectedIndex[0] = 6;
+                gApSelectedIndex = 6;
             } else if (direction == 2) {
-                gApSelectedIndex[0] = 5;
+                gApSelectedIndex = 5;
             } else if (direction == 1) {
-                gApSelectedIndex[0] = 0;
+                gApSelectedIndex = 0;
             } else {
-                gApSelectedIndex[0] = 3;
+                gApSelectedIndex = 3;
             }
             break;
         case 5:
             gAp->mRememberedEntryIndex = 1;
             if (direction == 0) {
-                gApSelectedIndex[0] = 4;
+                gApSelectedIndex = 4;
             } else if (direction == 2) {
-                gApSelectedIndex[0] = 6;
+                gApSelectedIndex = 6;
             } else if (direction == 1) {
-                gApSelectedIndex[0] = 1;
+                gApSelectedIndex = 1;
             } else {
-                gApSelectedIndex[0] = 3;
+                gApSelectedIndex = 3;
             }
             break;
         case 6:
             gAp->mRememberedEntryIndex = 2;
             if (direction == 0) {
-                gApSelectedIndex[0] = 5;
+                gApSelectedIndex = 5;
             } else if (direction == 2) {
-                gApSelectedIndex[0] = 4;
+                gApSelectedIndex = 4;
             } else if (direction == 1) {
-                gApSelectedIndex[0] = 2;
+                gApSelectedIndex = 2;
             } else {
-                gApSelectedIndex[0] = 3;
+                gApSelectedIndex = 3;
             }
             break;
     }
@@ -417,7 +417,7 @@ void MoveApSelection(int direction) {
 }
 
 void SetApSelectedButtonImage(void) {
-    s32 entryIndex = gApSelectedIndex[0] - 4;
+    s32 entryIndex = gApSelectedIndex - 4;
     CopyNceImageToOamEntries(0, 0x32, GetOamRangeEntry(gAp->mResetButtonObjects[entryIndex], 0));
     SetOamRangePosition(gAp->mResetButtonObjects[entryIndex], -1, gApObjectPositions[entryIndex + 3].mX,
                         gApObjectPositions[entryIndex + 3].mY);
@@ -425,7 +425,7 @@ void SetApSelectedButtonImage(void) {
 }
 
 void UpdateApMessageResult(void) {
-    s32 entryIndex = gApSelectedIndex[0] - 4;
+    s32 entryIndex = gApSelectedIndex - 4;
     switch (GetMessageBoxResult()) {
         case 1:
             StartSoundSeq(0xe);
@@ -467,15 +467,15 @@ void RequestApSelectionPalette(void) {
     int statusIndex;
     paletteRows = gApPaletteRows;
     iconPalettes = gApEntryIconPalettes;
-    if (*(u8 *) &gApSelectedIndex <= 3) {
-        RequestBgPaletteRowCopy(gAp->mYbBgStep11Ncl, paletteRows.mBytes[*(u8 *) &gApSelectedIndex],
-                                paletteRows.mBytes[*(u8 *) &gApSelectedIndex]);
-        if (*(u8 *) &gApSelectedIndex != 3) {
-            statusIndex = GetApEntrySetType(*(u8 *) &gApSelectedIndex);
+    if (gApSelectedIndex <= 3) {
+        RequestBgPaletteRowCopy(gAp->mYbBgStep11Ncl, paletteRows.mBytes[gApSelectedIndex],
+                                paletteRows.mBytes[gApSelectedIndex]);
+        if (gApSelectedIndex != 3) {
+            statusIndex = GetApEntrySetType(gApSelectedIndex);
             if (statusIndex > 2) {
                 statusIndex = 3;
             }
-            SetOamRangeMode(gAp->mEntryIconObjects[*(u8 *) &gApSelectedIndex], -1, 0, iconPalettes.mBytes[statusIndex]);
+            SetOamRangeMode(gAp->mEntryIconObjects[gApSelectedIndex], -1, 0, iconPalettes.mBytes[statusIndex]);
         }
     }
 }

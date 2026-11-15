@@ -76,7 +76,7 @@ void CreateApList(void) {
     GetSecondaryMenuPair(&secondaryPairFirst, NULL);
     if (secondaryPairFirst == 0) {
         gApListSelectedRow = 0;
-        *(u16 *) &gApListScrollY = 0;
+        gApListScrollY = 0;
     }
     gApList->mEntryCount = CountApScanEntries((s32 *) gApList);
     LoadApListFilesAndSetBgCnt();
@@ -124,7 +124,7 @@ void SetupApListScroll(void) {
         gApList->mScrollBarOffsetMax = 0x37;
     }
     if (entryCountRange != 0) {
-        offset = FX_DivS32(*(u16 *) &gApListScrollY * gApList->mScrollBarOffsetMax, gApList->mScrollYMax);
+        offset = FX_DivS32(gApListScrollY * gApList->mScrollBarOffsetMax, gApList->mScrollYMax);
     }
     CreateScrollBar(entryCountRange, 0x55, 0xec, 0x3f, offset);
 }
@@ -297,7 +297,7 @@ void UpdateApListScroll(void) {
         case SCROLL_BAR_EVENT_THUMB_MOVED:
             if (gApList->mScrollTimer == 0) {
                 ReleaseSelectionObjectSlots();
-                *(u16 *) &gApListScrollY =
+                gApListScrollY =
                     FX_DivS32(gApList->mScrollYMax * GetScrollBarOffset(), gApList->mScrollBarOffsetMax);
                 RefreshApList();
                 gApList->mScrollTimer = 4;
@@ -306,11 +306,11 @@ void UpdateApListScroll(void) {
         case SCROLL_BAR_EVENT_OFFSET_SETTLED:
             gApList->mScrollBarDragging = 0;
             EnableButtonTouch();
-            *(u16 *) &gApListScrollY =
+            gApListScrollY =
                 FX_DivS32(gApList->mScrollYMax * GetScrollBarOffset(), gApList->mScrollBarOffsetMax);
             StartSoundSeq(0x13);
             RefreshApList();
-            rowOffset = FX_ModS32(*(u16 *) &gApListScrollY, 0x1c);
+            rowOffset = FX_ModS32(gApListScrollY, 0x1c);
             if (rowOffset == 0) {
                 PlaceApListSelection();
             } else if (rowOffset < 0xe) {
@@ -320,7 +320,7 @@ void UpdateApListScroll(void) {
             }
             break;
         case SCROLL_BAR_EVENT_ARROW_UP_PRESSED:
-            if (*(u16 *) &gApListScrollY == 0) {
+            if (gApListScrollY == 0) {
                 if (gApList->mBarBlockedSoundPlayed == 0) {
                     StartSoundSeq(9);
                     gApList->mBarBlockedSoundPlayed = 1;
@@ -332,7 +332,7 @@ void UpdateApListScroll(void) {
             break;
         case SCROLL_BAR_EVENT_ARROW_DOWN_PRESSED:
             apList = gApList;
-            if (apList->mEntryCount <= 4 || *(u16 *) &gApListScrollY == apList->mScrollYMax) {
+            if (apList->mEntryCount <= 4 || gApListScrollY == apList->mScrollYMax) {
                 if (apList->mBarBlockedSoundPlayed == 0) {
                     StartSoundSeq(9);
                     gApList->mBarBlockedSoundPlayed = 1;
@@ -362,7 +362,7 @@ void UpdateApListResult(void) {
                     StartSoundSeq(6);
                     RequestApListPaletteRowCopy();
                 } else {
-                    entryIndex = gApListSelectedRow + FX_DivS32(*(u16 *) &gApListScrollY, 0x1c);
+                    entryIndex = gApListSelectedRow + FX_DivS32(gApListScrollY, 0x1c);
                     if ((gApList->mEntries + entryIndex * 0x2a)[0x28] == 2) {
                         StartSoundSeq(9);
                         DisableScrollBarInput();
@@ -465,7 +465,7 @@ void RefreshApList(void) {
     int slot;
     int index;
     int visibleRowCount;
-    entryIndex = FX_DivS32(*(u16 *) &gApListScrollY, 0x1c);
+    entryIndex = FX_DivS32(gApListScrollY, 0x1c);
     visibleRowCount = gApList->mEntryCount;
     ClearBgTextCanvas(gApList->mTextCanvas, 0);
     if (5 < visibleRowCount) {
@@ -545,7 +545,7 @@ void RefreshApListRowPositions(void) {
     int yPos;
     int rowCount;
     int rowIndex;
-    yPos = 0x36 - FX_ModS32(*(u16 *) &gApListScrollY, 0x1c);
+    yPos = 0x36 - FX_ModS32(gApListScrollY, 0x1c);
     rowCount = gApList->mEntryCount;
     if (rowCount > 5) {
         rowCount = 5;
@@ -564,23 +564,23 @@ void AdvanceApListScrollYDecrease(u32 task) {
     int rowOffset;
     DisableScrollBarInput();
     ReleaseSelectionObjectSlots();
-    if (*(u16 *) &gApListScrollY > 4) {
-        *(u16 *) &gApListScrollY = *(u16 *) &gApListScrollY - 4;
+    if (gApListScrollY > 4) {
+        gApListScrollY = gApListScrollY - 4;
     } else {
-        *(u16 *) &gApListScrollY = 0;
+        gApListScrollY = 0;
     }
-    rowOffset = FX_ModS32(*(u16 *) &gApListScrollY, 0x1c);
+    rowOffset = FX_ModS32(gApListScrollY, 0x1c);
     if (rowOffset == 0x18) {
         RefreshApList();
         return;
     }
     if (rowOffset > 0x18) {
-        *(u16 *) &gApListScrollY = *(u16 *) &gApListScrollY + (0x1c - rowOffset);
+        gApListScrollY = gApListScrollY + (0x1c - rowOffset);
         rowOffset = 0;
     }
     RefreshApListRowPositions();
     if (rowOffset == 0) {
-        PlaceScrollBarWrapper(FX_DivS32(*(u16 *) &gApListScrollY * gApList->mScrollBarOffsetMax, gApList->mScrollYMax));
+        PlaceScrollBarWrapper(FX_DivS32(gApListScrollY * gApList->mScrollBarOffsetMax, gApList->mScrollYMax));
         EnableScrollBarInput();
         PlaceApListSelection();
         gApList->mScrollTask = 0;
@@ -592,15 +592,15 @@ void AdvanceApListScrollYIncrease(u32 task) {
     int rowOffset;
     DisableScrollBarInput();
     ReleaseSelectionObjectSlots();
-    *(u16 *) &gApListScrollY = *(u16 *) &gApListScrollY + 4;
-    rowOffset = FX_ModS32(*(u16 *) &gApListScrollY, 0x1c);
+    gApListScrollY = gApListScrollY + 4;
+    rowOffset = FX_ModS32(gApListScrollY, 0x1c);
     if (rowOffset >= 4) {
         RefreshApListRowPositions();
         return;
     }
-    *(u16 *) &gApListScrollY = *(u16 *) &gApListScrollY - rowOffset;
+    gApListScrollY = gApListScrollY - rowOffset;
     RefreshApList();
-    PlaceScrollBarWrapper(FX_DivS32(*(u16 *) &gApListScrollY * gApList->mScrollBarOffsetMax, gApList->mScrollYMax));
+    PlaceScrollBarWrapper(FX_DivS32(gApListScrollY * gApList->mScrollBarOffsetMax, gApList->mScrollYMax));
     EnableScrollBarInput();
     PlaceApListSelection();
     gApList->mScrollTask = 0;
@@ -611,7 +611,7 @@ void WriteApListBgOffset(void) {
     int rowOffset;
     u32 bgOffset;
     if (gApList->mBgOffsetPending != 0) {
-        rowOffset = FX_ModS32(*(u16 *) &gApListScrollY, 0x1c);
+        rowOffset = FX_ModS32(gApListScrollY, 0x1c);
         bgOffset = (rowOffset + -0x32) * 0x10000 & (0x01ff0000u);
         reg_G2_BG0OFS = bgOffset;
         reg_G2_BG2OFS = bgOffset;
@@ -640,7 +640,7 @@ void MoveApListSelectedRow(int direction) {
     switch (selectedRow) {
         case 0:
             if (direction == 1) {
-                if (*(u16 *) &gApListScrollY == 0) {
+                if (gApListScrollY == 0) {
                     gApListSelectedRow = 4;
                 } else {
                     StartSoundSeq(0x13);
@@ -675,7 +675,7 @@ void MoveApListSelectedRow(int direction) {
             if (direction == 1) {
                 moved = FALSE;
             } else {
-                *(u16 *) &gApListScrollY = 0;
+                gApListScrollY = 0;
                 gApListSelectedRow = 0;
                 RefreshApList();
                 PlaceScrollBarWrapper(0);
@@ -694,7 +694,7 @@ void MoveApListSelectedRow(int direction) {
 }
 
 void StartApListScrollYDecrease(void) {
-    if (*(u16 *) &gApListScrollY == 0) {
+    if (gApListScrollY == 0) {
         if (gApList->mKeyBlockedSoundPlayed == 0) {
             StartSoundSeq(9);
             gApList->mKeyBlockedSoundPlayed = 1;
@@ -706,7 +706,7 @@ void StartApListScrollYDecrease(void) {
 }
 
 void StartApListScrollYIncrease(void) {
-    if (*(u16 *) &gApListScrollY == gApList->mScrollYMax || gApList->mEntryCount <= 4) {
+    if (gApListScrollY == gApList->mScrollYMax || gApList->mEntryCount <= 4) {
         if (gApList->mKeyBlockedSoundPlayed == 0) {
             StartSoundSeq(9);
             gApList->mKeyBlockedSoundPlayed = 1;

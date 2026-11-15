@@ -16,7 +16,7 @@
 #include "03/Graphics/text_canvas.h"
 #include "03/Graphics/dispcnt_window.h"
 
-u8 gLinkMessageResult[1];
+u8 gLinkMessageResult;
 
 void UpdateLinkMessageFadeIn(void) {
     if (IsBlendBrightnessFadeSlotBusy(0) == 0) {
@@ -48,11 +48,11 @@ void UpdateLinkMessageRelease(void) {
         ReleaseBgTextCanvasOfScreen(0);
         ClearDispcntBits(0, 0x15);
         SetPrimaryMenuPair(0, 1);
-        if ((*(u8 *) &gLinkMessageResult) == 0) {
+        if (gLinkMessageResult == 0) {
             SetUpdateFunction(SetupChildWaitMessage);
             return;
         }
-        if ((*(u8 *) &gLinkMessageResult) == 2) {
+        if (gLinkMessageResult == 2) {
             SetUpdateFunction(SetupTimedMessage);
             return;
         }
@@ -63,15 +63,15 @@ void UpdateLinkMessageRelease(void) {
 void LinkMessageResultCallback(int callbackResult) {
     if (callbackResult == 2) {
         ResetApEntries();
-        *(u8 *) &gLinkMessageResult = 1;
+        gLinkMessageResult = 1;
         StopSoundSeq();
         StartSoundSeq(0x10);
     } else if (callbackResult == 3) {
-        *(u8 *) &gLinkMessageResult = 2;
+        gLinkMessageResult = 2;
         StopSoundSeq();
         StartSoundSeq(0x12);
     } else {
-        *(u8 *) &gLinkMessageResult = 0;
+        gLinkMessageResult = 0;
         StopSoundSeq();
         StartSoundSeq(0x12);
     }

@@ -31,7 +31,7 @@
 
 u8 gXb4MultiNscName5[19] = {0x63, 0x68, 0x61, 0x72, 0x2f, 0x78, 0x62, 0x34, 0x4d, 0x75,
                             0x6c, 0x74, 0x69, 0x2e, 0x6e, 0x73, 0x63, 0x2e, 0x6c};
-u8 gExchangeResultFrames[1];
+u8 gExchangeResultFrames;
 
 void UpdateExchangeSearchMessageResult(void) {
     int messageAnswer;
@@ -52,7 +52,7 @@ void UpdateExchangeSearchMessageClose(void) {
 }
 
 void SetupExchangeResult(void) {
-    *(u8 *) &gExchangeResultFrames = 0;
+    gExchangeResultFrames = 0;
     LoadExchangeResultFileAndSetBgCnt();
     LoadHlSetScr();
     PrintMessage(0x6b);
@@ -147,8 +147,8 @@ void UpdateExchangeResultRelease(void) {
 }
 
 void UpdateExchangeResultFrames(void) {
-    gExchangeResultFrames[0]++;
-    if (gExchangeResultFrames[0] >= 120) {
+    gExchangeResultFrames++;
+    if (gExchangeResultFrames >= 120) {
         SetUpdateFunction(StartExchangeResultFadeOut);
     }
 }

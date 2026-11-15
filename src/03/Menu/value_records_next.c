@@ -29,7 +29,7 @@
 
 u8 gXb4MultiNscName2[19] = {0x63, 0x68, 0x61, 0x72, 0x2f, 0x78, 0x62, 0x34, 0x4d, 0x75,
                             0x6c, 0x74, 0x69, 0x2e, 0x6e, 0x73, 0x63, 0x2e, 0x6c};
-u8 gValueRecordsNextFrames[1];
+u8 gValueRecordsNextFrames;
 
 void UpdateApListMessageResult(void) {
     int messageAnswer;
@@ -52,7 +52,7 @@ void UpdateApListMessageClose(void) {
 }
 
 void SetupValueRecordsNext(void) {
-    *(u8 *) &gValueRecordsNextFrames = 0;
+    gValueRecordsNextFrames = 0;
     LoadValueRecordsNextFileAndSetBgCnt();
     LoadHlSetScr();
     PrintMessage(0x68);
@@ -138,8 +138,8 @@ void UpdateValueRecordsNextRelease(void) {
 }
 
 void UpdateValueRecordsNextFrames(void) {
-    gValueRecordsNextFrames[0]++;
-    if (gValueRecordsNextFrames[0] >= 120) {
+    gValueRecordsNextFrames++;
+    if (gValueRecordsNextFrames >= 120) {
         SetUpdateFunction(StartValueRecordsNextFadeOut);
     }
 }

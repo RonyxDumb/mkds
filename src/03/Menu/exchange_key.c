@@ -47,7 +47,7 @@ u32 ExchangeKeyPAD_DetectFold(void) {
 }
 
 void SetupExchangeKey(void) {
-    *(u8 *) &gExchangeKeyShowNext = 0;
+    gExchangeKeyShowNext = 0;
     LoadExchangeKeyFileAndSetBgCnt();
     LoadHlSetScr();
     PrintMessage(0x71);

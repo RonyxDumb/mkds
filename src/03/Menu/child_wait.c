@@ -42,7 +42,7 @@ BOOL ChildWaitPAD_DetectFold(void) {
 
 void SetupChildWait(void) {
     CreateChildWaitSession((u32) &ChildWaitResultCallback);
-    *(u8 *) &gChildWaitResult = 0;
+    gChildWaitResult = 0;
     LoadChildWaitFileAndSetBgCnt();
     PrintMessage(0x5e);
     CreateAnimatedIcon(0);

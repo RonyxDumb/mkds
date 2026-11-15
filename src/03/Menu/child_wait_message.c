@@ -32,12 +32,12 @@
 u8 gYb5MultiNscName6[19] = {0x63, 0x68, 0x61, 0x72, 0x2f, 0x79, 0x62, 0x35, 0x4d, 0x75,
                             0x6c, 0x74, 0x69, 0x2e, 0x6e, 0x73, 0x63, 0x2e, 0x6c};
 u8 gChildWaitMessageShowNext;
-u8 gChildWaitMessageSubScreenShown[1];
+u8 gChildWaitMessageSubScreenShown;
 
 void SetupChildWaitMessage(void) {
     LoadChildWaitMessageFileAndSetBgCnt();
     PrintMessage(0x62);
-    gChildWaitMessageSubScreenShown[0] = ShowSubScreenMessage(0x8d, -1, 0);
+    gChildWaitMessageSubScreenShown = ShowSubScreenMessage(0x8d, -1, 0);
     SetUpdateFunction(StartChildWaitMessageFadeIn);
 }
 
@@ -91,7 +91,7 @@ void LoadChildWaitMessageFileAndSetBgCnt(void) {
 void StartChildWaitMessageFadeIn(void) {
     StartBlendBrightnessFade(2, 0, 0x15, 8);
     CombineDispcntBits(0, 0x15);
-    if ((*(u8 *) &gChildWaitMessageSubScreenShown) != 0) {
+    if (gChildWaitMessageSubScreenShown != 0) {
         StartBlendBrightnessFade(2, 1, 1, 8);
         CombineDispcntBits(1, 1);
     }
