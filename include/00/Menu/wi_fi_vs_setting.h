@@ -92,14 +92,12 @@ typedef struct WiFiVSMatching {
     /* 0030 */ s32 mOtherCount;
     // Session indices of those participants (u8[3]); they index mPlayerRecords through the getters.
     /* 0034 */ u8 mOtherIndices[3];
-    /* 0037 */ u8 pad_37;
     /* 0038 */ s32 mShownEntryCount;
     /* 003c */ BOOL mCheckTimeLimit;
     /* 0040 */ BOOL mNoOpponents;
     /* 0044 */ s32 mCurrentOtherIndex;
     /* 0048 */ s32 mBlendFrames;
     /* 004c */ u16 mBlendedColors[5];
-    /* 0056 */ u8 pad_56[2];
     /* 0058 */ s32 mFromChannels[5][3];
     /* 0094 */ s32 mToChannels[5][3];
     /* 00d0 */ void *mHeap;
@@ -349,7 +347,6 @@ typedef struct KartKey {
     /* 00 */ s32 mValue;
     /* 04 */ char mName[0x10];
     /* 14 */ u8 mId;
-    /* 15 */ u8 pad_15[3];
 } KartKey;
 
 // Online session object behind gWiFiSession: 0x1f58 bytes allocated once at boot (InitWiFiSession; not created when

@@ -21,7 +21,6 @@ typedef struct WiFiAikotobaCheck {
     /* 08 */ s32 mStateFrames;
     /* 0c */ s16 mOffset;
     /* 0e */ u16 mDigits[12];
-    /* 26 */ u8 pad_26[2];
     /* 28 */ s32 mPendingWiFiState;
     /* 2c */ void *mHeap;
     // Table of cells built from the Bncl / Bnll by InitLayoutTable.
