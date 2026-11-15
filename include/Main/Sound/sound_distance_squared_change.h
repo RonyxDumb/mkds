@@ -12,6 +12,7 @@
 #define SOUND_DISTANCE_CHANGE_SHIFT 6
 #define SOUND_DISTANCE_CHANGE_LIMIT 0x600
 
+// The squared distance of a sound source, the previous one and the limited change between them.
 typedef struct SoundDistanceSquaredChange {
     /* 00 */ s32 mDistanceSquared;
     /* 04 */ s32 mPrevDistanceSquared;

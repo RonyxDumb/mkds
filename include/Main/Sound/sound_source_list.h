@@ -66,10 +66,7 @@ typedef struct SoundSource {
     /* 40 */ u32 mDistanceSquared;
 } SoundSource;
 
-// One sound started on a SoundSource, from the start request until it is stopped. The entries are taken from a pool of
-// twelve and linked into the list of the source. The mUnk_00 member is the library player handle, NULL until the player
-// is started. Returned by TakeSoundHandleEntry and passed to StartOrUpdateSndHandleSound; StopPlayingSoundSeq writes
-// its byte at 0x19. StartSoundOnPoolEntry subtracts one NNSFndList from mUnk_10 to reach the SoundSource holding it.
+// One sound started on a SoundSource, linked into the source's list from a pool of twelve until it is stopped.
 typedef struct PlayingSound {
     /* 00 */ NNSSndSeqPlayer *mSeqPlayer;
     /* 04 */ s32 mUnk_04;
@@ -86,6 +83,7 @@ typedef struct PlayingSound {
     /* 1a */ u8 mVolume;
 } PlayingSound;
 
+// The request to start a sound: its id, the position it comes from, the falloff index and the squared distance.
 typedef struct SoundStartParams {
     /* 00 */ s32 mSoundId;
     /* 04 */ Vec3 *mPositionSource;

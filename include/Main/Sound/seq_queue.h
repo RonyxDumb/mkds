@@ -16,9 +16,7 @@
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObjectSound
 
-// Object gSeqVariableReadings: a signed halfword at 0x00, a signed halfword at 0x02, a signed word at 0x04 and four
-// bytes at 0x08; GetSeqVariableSinceChangeFrames and IsSeqVariableChanged read the word at 0x04,
-// UpdateSeqVariableReadings reads and writes all of them, and ResetSeqVariableReadings writes all of them.
+// The last readings of one sequence variable: its value, the previous value and the frames since it changed.
 typedef struct SeqVariableReading {
     /* 00 */ s16 mValue;
     /* 02 */ s16 mPrevValue;

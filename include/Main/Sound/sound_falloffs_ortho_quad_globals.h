@@ -23,10 +23,7 @@ typedef struct NNSSndSeqPlayer NNSSndSeqPlayer;
 
 typedef struct NNSSndHeap NNSSndHeap;
 
-// Volume curve of one kind of sound source. The volume is the maximum up to the inner distance, falls to a mid volume
-// at the mid distance and to 0 at the outer distance. SoundSource.mFalloffIndex picks the element of gSoundFalloffs.
-// 0x24-byte entries of the array at gSoundFalloffs; InitSoundFalloffs fills elements 0 to 15 of it.
-// 0x24-byte entries of the array at gSoundFalloffs; InitSoundFalloffs fills the first one.
+// The volume curve of one kind of sound source: full volume to the inner distance, falling to 0 at the outer one.
 typedef struct SoundFalloff {
     // Distance beyond which the sound is silent.
     /* 00 */ s32 mOuterDistance;
