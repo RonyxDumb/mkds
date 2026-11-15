@@ -11,8 +11,8 @@ void WriteMainBlendAlpha(u32 firstPlane, u32 secondPlane, u32 firstCoefficient, 
 void SetUnfilledNotEliminated(unsigned int value);
 void SetMenuEntryKind(unsigned int entryKind);
 
-// Values of MenuShared.mMenuEntryKind: which screen the menu opens on (InitMenu), set by the screens that leave the menu
-// and by the race scene for the way back. The mode's screens are the ones InitMenu switches to.
+// Values of MenuShared.mMenuEntryKind: which screen the menu opens on (InitMenu), set by the screens that leave the
+// menu and by the race scene for the way back. The mode's screens are the ones InitMenu switches to.
 typedef enum MenuEntryKind {
     MENU_ENTRY_FIRST_SCREEN = 0,
     // The select character screen of the race mode.
