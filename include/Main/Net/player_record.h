@@ -13,7 +13,7 @@ void EnterWiFiSessionExchangeNop(void *stateObject);
 
 void AdvanceWiFiSessionOnIrq(void);
 void EnterWiFiSessionLogin(void *stateObject);
-void UpdateWiFiSessionState1(void *stateObject);
+void UpdateWiFiSessionLoginState(void *stateObject);
 void EnterWiFiSessionSearch(void *stateObject);
 void UpdateWiFiSessionSearch(void *stateObject);
 

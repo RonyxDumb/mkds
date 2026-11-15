@@ -78,7 +78,7 @@ void EnterWiFiSessionLogin(void *stateObject) {
     SetupWiFiSessionLogin();
 }
 
-void UpdateWiFiSessionState1(void *stateObject) {
+void UpdateWiFiSessionLoginState(void *stateObject) {
     StateMachine *stateMachine;
 
     if (UpdateWiFiSessionLogin() == 0) {
