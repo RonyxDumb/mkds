@@ -77,7 +77,7 @@ u8 CollideKartWithBasabasa(Basabasa *basabasa, Kart *kart, void *unusedArg1, u8 
                                   basabasa->mMapObject.mMatrix.mRows[2].z, offsetToKart.z);
         sideX = offsetToKart.x - MUL_FIXED12_NO_ROUND(basabasa->mMapObject.mMatrix.mRows[2].x, forwardDot);
         sideZ = offsetToKart.z - MUL_FIXED12_NO_ROUND(basabasa->mMapObject.mMatrix.mRows[2].z, forwardDot);
-        lengthSquared = (s64) sideX * sideX + (s64) sideDirection.y * sideDirection.y + (s64) sideZ * sideZ;
+        lengthSquared = SQUARE_SUM3(sideX, sideDirection.y, sideZ);
         sideDirection.x = sideX;
         sideDirection.z = sideZ;
         if (lengthSquared < 0x10) {

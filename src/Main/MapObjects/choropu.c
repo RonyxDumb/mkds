@@ -1244,7 +1244,7 @@ BOOL ComputeSphereHitOnCollisionCylinder(CollisionMapObject *object, Vec3 *spher
     VEC_Subtract(sphereCenter, &object->mCollisionData.mCenterPos, &offset);
     distanceAxis0 = Vec3DotUnrounded(&offset, &object->mMapObject.mMatrix.mRows[0]);
     alongAxis2 = Vec3DotUnrounded(&offset, &object->mMapObject.mMatrix.mRows[2]);
-    squaredRadialDistance = (s64) distanceAxis0 * distanceAxis0 + (s64) alongAxis2 * alongAxis2;
+    squaredRadialDistance = SQUARE_SUM2(distanceAxis0, alongAxis2);
     combinedRadius = object->mCollisionData.mHalfSizeX + sphereRadius;
     if ((s64) combinedRadius * combinedRadius < squaredRadialDistance) {
         return FALSE;

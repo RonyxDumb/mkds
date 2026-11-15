@@ -239,8 +239,7 @@ BOOL ComputeSphereHitOnPendulum(PendulumObject *pendulum, Vec3 *sphereCenter, s3
         }
     }
     combinedRadius = sphereRadius + pendulum->mRadius;
-    distanceSquared = (s64) sphereOffset.x * sphereOffset.x + (s64) sphereOffset.y * sphereOffset.y +
-                      (s64) sphereOffset.z * sphereOffset.z;
+    distanceSquared = SQUARE_SUM3(sphereOffset.x, sphereOffset.y, sphereOffset.z);
     if (distanceSquared < (s64) combinedRadius * combinedRadius) {
         reg_CP_SQRTCNT = 1;
         reg_CP_SQRT_PARAM = distanceSquared;
@@ -259,8 +258,7 @@ BOOL ComputeSphereHitOnPendulum(PendulumObject *pendulum, Vec3 *sphereCenter, s3
         if (sphereOffset.y < 0) {
             sphereOffset.y = 0;
         }
-        distanceSquared = (s64) sphereOffset.x * sphereOffset.x + (s64) sphereOffset.y * sphereOffset.y +
-                          (s64) sphereOffset.z * sphereOffset.z;
+        distanceSquared = SQUARE_SUM3(sphereOffset.x, sphereOffset.y, sphereOffset.z);
         if (distanceSquared >= 16) {
             Vec3NormalizeAndGetLengthUnchecked(&sphereOffset, &sphereOffset);
         }

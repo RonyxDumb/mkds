@@ -211,8 +211,7 @@ void ApplyItemObjectHitType(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, 
                 RemoveItemInUseObject(&GetKartItems(item->mOwnerKartIndexAndFlags & ~0xff00)->mItemInUse, item);
             }
             value = 0;
-            if ((s64) otherVelocity->x * otherVelocity->x + (s64) otherVelocity->y * otherVelocity->y +
-                    (s64) otherVelocity->z * otherVelocity->z >=
+            if (SQUARE_SUM3(otherVelocity->x, otherVelocity->y, otherVelocity->z) >=
                 0x10) {
                 value = Vec3NormalizeAndGetLengthUnchecked(otherVelocity, &direction);
             }
@@ -223,8 +222,7 @@ void ApplyItemObjectHitType(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, 
                 if (direction.y < 0) {
                     direction.y = 0;
                 }
-                if ((s64) direction.x * direction.x + (s64) direction.y * direction.y +
-                        (s64) direction.z * direction.z >=
+                if (SQUARE_SUM3(direction.x, direction.y, direction.z) >=
                     0x10) {
                     Vec3NormalizeAndGetLengthUnchecked(&direction, &direction);
                 }

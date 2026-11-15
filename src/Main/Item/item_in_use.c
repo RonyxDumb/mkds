@@ -162,7 +162,7 @@ BOOL IsItemObjectNearPoint(ItemObject *object, Vec3 *point, s32 radius) {
     deltaX = object->mPos.x - point->x;
     deltaY = object->mPos.y - point->y;
     deltaZ = object->mPos.z - point->z;
-    return (s64) deltaX * deltaX + (s64) deltaY * deltaY + (s64) deltaZ * deltaZ <
+    return SQUARE_SUM3(deltaX, deltaY, deltaZ) <
            (s64) combinedRadius * combinedRadius;
 }
 
@@ -330,8 +330,7 @@ s32 ComputeItemThrowForward(ItemInUse *itemInUse, s32 baseSpeed, s32 speedFactor
         Vec3 *kartVector;
 
         kartVector = &itemInUse->mKart->mPointMotion;
-        if ((s64) kartVector->x * kartVector->x + (s64) kartVector->y * kartVector->y +
-                (s64) kartVector->z * kartVector->z >=
+        if (SQUARE_SUM3(kartVector->x, kartVector->y, kartVector->z) >=
             0x10) {
             speed = baseSpeed + MUL_FIXED12_NO_ROUND(kartMoveLength, speedFactor);
             VEC_MultAdd(forwardWeight, &itemInUse->mKartOrientation.mRows[2], kartVector, &throwDirection);
@@ -343,8 +342,7 @@ s32 ComputeItemThrowForward(ItemInUse *itemInUse, s32 baseSpeed, s32 speedFactor
     if ((itemInUse->mKart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE) == 0) {
         throwDirection.y = 0;
     }
-    if ((s64) throwDirection.x * throwDirection.x + (s64) throwDirection.y * throwDirection.y +
-            (s64) throwDirection.z * throwDirection.z >=
+    if (SQUARE_SUM3(throwDirection.x, throwDirection.y, throwDirection.z) >=
         0x10) {
         Vec3NormalizeAndGetLengthUnchecked(&throwDirection, outDirection);
     }
@@ -372,8 +370,7 @@ s32 ComputeItemThrowBackward(ItemInUse *itemInUse, s32 speed, s32 speedFactor, s
     if ((itemInUse->mKart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE) == 0) {
         throwDirection.y = 0;
     }
-    if ((s64) throwDirection.x * throwDirection.x + (s64) throwDirection.y * throwDirection.y +
-            (s64) throwDirection.z * throwDirection.z >=
+    if (SQUARE_SUM3(throwDirection.x, throwDirection.y, throwDirection.z) >=
         0x10) {
         Vec3NormalizeAndGetLengthUnchecked(&throwDirection, outDirection);
     }

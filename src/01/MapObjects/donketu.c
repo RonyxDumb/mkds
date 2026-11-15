@@ -193,7 +193,7 @@ void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
 
                 VEC_Subtract(&donketu->mUnk_000.mPos, &kart->mCollisionCenter, &effectPosition);
                 if ((s64) effectPosition.z * effectPosition.z +
-                        ((s64) effectPosition.x * effectPosition.x + (s64) effectPosition.y * effectPosition.y) >=
+                        SQUARE_SUM2(effectPosition.x, effectPosition.y) >=
                     0x10) {
                     Vec3NormalizeAndGetLengthUnchecked(&effectPosition, &effectPosition);
                 }
@@ -268,8 +268,7 @@ void DonketuChaseKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart)
                 SetSpeedAndClearTarget(donketu, 0);
             }
             VEC_Subtract(&donketu->mUnk_000.mPos, &kart->mCollisionCenter, &effectPosition);
-            if ((s64) effectPosition.x * effectPosition.x + (s64) effectPosition.y * effectPosition.y +
-                    (s64) effectPosition.z * effectPosition.z >=
+            if (SQUARE_SUM3(effectPosition.x, effectPosition.y, effectPosition.z) >=
                 0x10) {
                 Vec3NormalizeAndGetLengthUnchecked(&effectPosition, &effectPosition);
             }
@@ -400,7 +399,7 @@ void StartDonketuWaterSinkState(MissionRunMapObject *donketu) {
     velocity.x = donketu->mUnk_000.mPos.x;
     velocity.y = 0;
     velocity.z = donketu->mUnk_000.mPos.z;
-    if ((s64) velocity.z * velocity.z + ((s64) velocity.x * velocity.x + (s64) velocity.y * velocity.y) >= 16) {
+    if ((s64) velocity.z * velocity.z + SQUARE_SUM2(velocity.x, velocity.y) >= 16) {
         Vec3NormalizeAndGetLengthUnchecked(&velocity, &velocity);
     }
     scale = donketu->mPrm->mUnk_204;

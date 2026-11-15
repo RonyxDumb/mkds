@@ -108,7 +108,7 @@ static inline BOOL IsKartWithinFireball2Range(Kart *kart, Fireball2 *fireball, s
     if (deltaY > radius || deltaY < negativeRadius) {
         return FALSE;
     }
-    return (s64) deltaX * deltaX + (s64) deltaY * deltaY + (s64) deltaZ * deltaZ < (s64) radius * radius;
+    return SQUARE_SUM3(deltaX, deltaY, deltaZ) < (s64) radius * radius;
 }
 
 BOOL IsPosNearFireball2(Fireball2 *fireball2, Vec3 *pos, s32 radius) {
@@ -121,7 +121,7 @@ BOOL IsPosNearFireball2(Fireball2 *fireball2, Vec3 *pos, s32 radius) {
         deltaX = pos->x - fireball2->mElements[rowIndex][0].mPos.x;
         deltaY = pos->y - fireball2->mElements[rowIndex][0].mPos.y;
         deltaZ = pos->z - fireball2->mElements[rowIndex][0].mPos.z;
-        if ((s64) deltaX * deltaX + (s64) deltaY * deltaY + (s64) deltaZ * deltaZ <
+        if (SQUARE_SUM3(deltaX, deltaY, deltaZ) <
             (s64) (radius + 0xf000) * (radius + 0xf000)) {
             return TRUE;
         }

@@ -260,8 +260,7 @@ void ResetBattlePointLinkCursorNear(LinkCursor *linkCursor, Vec3 *position, Vec3
     for (candidateIndex = 0; candidateIndex < 3; candidateIndex++) {
         if (nearestLinks[candidateIndex] != NULL) {
             VEC_Subtract(nearestLinks[candidateIndex]->mPoint, position, &directionToLink);
-            if ((s64) directionToLink.x * directionToLink.x + (s64) directionToLink.y * directionToLink.y +
-                    (s64) directionToLink.z * directionToLink.z >=
+            if (SQUARE_SUM3(directionToLink.x, directionToLink.y, directionToLink.z) >=
                 0x10) {
                 Vec3NormalizeAndGetLengthUnchecked(&directionToLink, &directionToLink);
             }
@@ -347,8 +346,7 @@ void AdvanceBattlePointLinkCursor(LinkCursor *linkCursor, Vec3 *position, Vec3 *
                     continue;
                 }
                 VEC_Subtract(linkCursor->mLink->mLinks[linkIndex]->mPoint, &GetKart(kartIndex)->mPos, &directionToLink);
-                if ((s64) directionToLink.x * directionToLink.x + (s64) directionToLink.y * directionToLink.y +
-                        (s64) directionToLink.z * directionToLink.z >=
+                if (SQUARE_SUM3(directionToLink.x, directionToLink.y, directionToLink.z) >=
                     0x10) {
                     Vec3NormalizeAndGetLengthUnchecked(&directionToLink, &directionToLink);
                 }

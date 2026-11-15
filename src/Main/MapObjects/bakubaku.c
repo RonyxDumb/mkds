@@ -109,7 +109,7 @@ void UpdateBakubaku(void *mapObjectList, Bakubaku *bakubaku) {
                 kartPos = &kart->mPos;
                 deltaX = kartPos->x - bakubaku->mDistanceCheckPos.x;
                 deltaZ = kartPos->z - bakubaku->mDistanceCheckPos.z;
-                distanceSquared = (s64) deltaX * deltaX + (s64) deltaZ * deltaZ;
+                distanceSquared = SQUARE_SUM2(deltaX, deltaZ);
                 if (distanceSquared >= (s64) 0x9c4 << 32) {
                     return;
                 }

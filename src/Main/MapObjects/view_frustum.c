@@ -796,7 +796,7 @@ s32 FindMapObjectsOfKindInRadius(Vec3 *position, s32 radius, s32 kind) {
         if (mapObject->mKind == kind) {
             deltaX = position->x - mapObject->mPos.x;
             deltaZ = position->z - mapObject->mPos.z;
-            if ((s64) deltaX * deltaX + (s64) deltaZ * deltaZ < (s64) radius * radius) {
+            if (SQUARE_SUM2(deltaX, deltaZ) < (s64) radius * radius) {
                 gFoundMapObjects[foundCount] = mapObject;
                 foundCount++;
             }
@@ -842,7 +842,7 @@ BOOL IsSphereHittingMapObject(Vec3 *position, s32 radius, MapObject *mapObject, 
                     if (dy > combinedRadius || dy < negatedRadius) {
                         isHit = FALSE;
                     } else {
-                        isHit = (s64) dx * dx + (s64) dy * dy + (s64) dz * dz < (s64) combinedRadius * combinedRadius;
+                        isHit = SQUARE_SUM3(dx, dy, dz) < (s64) combinedRadius * combinedRadius;
                     }
                 }
             }
@@ -867,7 +867,7 @@ BOOL IsSphereHittingMapObject(Vec3 *position, s32 radius, MapObject *mapObject, 
                     if (dy > combinedHeight || dy < -combinedHeight) {
                         isHit = FALSE;
                     } else {
-                        isHit = (s64) dx * dx + (s64) dz * dz < (s64) combinedRadius * combinedRadius;
+                        isHit = SQUARE_SUM2(dx, dz) < (s64) combinedRadius * combinedRadius;
                     }
                 }
             }

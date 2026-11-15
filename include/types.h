@@ -59,6 +59,9 @@ typedef s32 BOOL;
 // Sine and cosine fx32 of a 16-bit angle, read from the sine table.
 #define SIN_OF_ANGLE(angle) FX_SinCosTable_[((angle) >> 4) * 2]
 #define COS_OF_ANGLE(angle) FX_SinCosTable_[((angle) >> 4) * 2 + 1]
+// Sum of the squares of two or three values, as s64.
+#define SQUARE_SUM2(a, b) ((s64) (a) * (a) + (s64) (b) * (b))
+#define SQUARE_SUM3(a, b, c) ((s64) (a) * (a) + (s64) (b) * (b) + (s64) (c) * (c))
 #define LENGTH_SQUARED(v) ((s64) (v).x * (v).x + (s64) (v).y * (v).y + (s64) (v).z * (v).z)
 #define HORIZONTAL_LENGTH_SQUARED(v) ((s64) (v).x * (v).x + (s64) (v).z * (v).z)
 

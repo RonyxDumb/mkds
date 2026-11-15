@@ -422,7 +422,7 @@ void UpdateItemKouraRState5(ItemKouraR *kouraR) {
             kart->mRadius + ((kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mRadius * 3) >> 1);
         deltaZ = kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos.z - kart->mPointAlongUp.z;
         deltaX = kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos.x - kart->mPointAlongUp.x;
-        if ((s64) deltaX * deltaX + (s64) deltaZ * deltaZ >= (s64) hitRadius * hitRadius) {
+        if (SQUARE_SUM2(deltaX, deltaZ) >= (s64) hitRadius * hitRadius) {
             return;
         }
     }
@@ -571,7 +571,7 @@ BOOL RequestItemKouraRState5IfFar(void *kouraParam, s32 kartIndex) {
     hitRadius = kart->mRadius + ((kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mRadius * 3) >> 1);
     deltaZ = kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos.z - kart->mPointAlongUp.z;
     deltaX = kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos.x - kart->mPointAlongUp.x;
-    if ((s64) deltaX * deltaX + (s64) deltaZ * deltaZ < (s64) hitRadius * hitRadius) {
+    if (SQUARE_SUM2(deltaX, deltaZ) < (s64) hitRadius * hitRadius) {
         return TRUE;
     }
     if (kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCollisionSlotIndex == -1) {

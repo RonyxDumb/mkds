@@ -990,7 +990,7 @@ void UpdateDistanceSound(void *mapObjectList, DistanceSound *mapObject) {
         kart = GetKart((u16) gRaceSetup->mEntryIndex);
         deltaX = kart->mPos.x - mapObject->mCenterX;
         deltaZ = kart->mPos.z - mapObject->mCenterZ;
-        distanceSquared = (s64) deltaX * deltaX + (s64) deltaZ * deltaZ;
+        distanceSquared = SQUARE_SUM2(deltaX, deltaZ);
         if (distanceSquared < (s64) halfRadius * halfRadius) {
             value = 2;
         } else if (distanceSquared < (s64) TO_FIXED12(radius) * TO_FIXED12(radius)) {

@@ -154,7 +154,7 @@ static inline BOOL UpdateSun_inline_b(Sun *sun) {
         kartPos = &kart->mPos;
         deltaX = kartPos->x - sun->mMapObject.mPos.x;
         deltaZ = kartPos->z - sun->mMapObject.mPos.z;
-        if ((s64) deltaX * deltaX + (s64) deltaZ * deltaZ < 0x15f900000000LL) {
+        if (SQUARE_SUM2(deltaX, deltaZ) < 0x15f900000000LL) {
             return TRUE;
         }
     }

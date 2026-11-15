@@ -715,7 +715,7 @@ void UpdateJgPosition(void) {
     gJgInView = (ComputeTwoPlaneViewTest(&gJgPos, 0x12000, 0x708000, 0x5f592e1, 0x1f) & 3) == 0 ? 1 : 0;
     deltaX = gJgPos.x - gJgMatrix.mRows[3].x;
     deltaZ = gJgPos.z - gJgMatrix.mRows[3].z;
-    distanceSquared = (s64) deltaX * deltaX + (s64) deltaZ * deltaZ;
+    distanceSquared = SQUARE_SUM2(deltaX, deltaZ);
     gJgNearKart = distanceSquared < 0x57e4000000LL ? 1 : 0;
     if (gJgNearKart != 0) {
         gJgFarFromKart = 0;

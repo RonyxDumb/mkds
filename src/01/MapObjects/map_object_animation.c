@@ -1760,7 +1760,7 @@ s32 ComputeSphereHitOnMissionRunMapObject(MissionRunMapObject *mapObject, Vec3 *
             diffX = sphereCenter->x - mapObject->mPosWithOffset.x;
             diffY = sphereCenter->y - mapObject->mPosWithOffset.y;
             diffZ = sphereCenter->z - mapObject->mPosWithOffset.z;
-            if ((s64) diffZ * diffZ + ((s64) diffX * diffX + (s64) diffY * diffY) < (s64) sphereRadius * sphereRadius) {
+            if ((s64) diffZ * diffZ + SQUARE_SUM2(diffX, diffY) < (s64) sphereRadius * sphereRadius) {
                 ComputeSphereOverlapOffset(sphereCenter, &mapObject->mPosWithOffset, sphereRadius, overlapOffset);
                 return 1;
             }
@@ -1796,7 +1796,7 @@ s32 CollideKartWithMissionRunMapObject(MissionRunMapObject *mapObject, Kart *kar
         awayDirection.y = 0;
         awayDirection.z = mapObject->mUnk_000.mPos.z - kart->mPos.z;
         if ((s64) awayDirection.z * awayDirection.z +
-                ((s64) awayDirection.x * awayDirection.x + (s64) awayDirection.y * awayDirection.y) >=
+                SQUARE_SUM2(awayDirection.x, awayDirection.y) >=
             16) {
             Vec3NormalizeAndGetLengthUnchecked(&awayDirection, &awayDirection);
             pushStrength = -mapObject->mPrm->mKartPushPosStep;
@@ -1828,7 +1828,7 @@ s32 CollideItemWithMissionRunMapObject(MissionRunMapObject *mapObject, ItemObjec
     awayDirection.y = 0;
     awayDirection.z = mapObject->mUnk_000.mPos.z - itemObject->mPos.z;
     if ((s64) awayDirection.z * awayDirection.z +
-            ((s64) awayDirection.x * awayDirection.x + (s64) awayDirection.y * awayDirection.y) >=
+            SQUARE_SUM2(awayDirection.x, awayDirection.y) >=
         16) {
         Vec3NormalizeAndGetLengthUnchecked(&awayDirection, &awayDirection);
         VEC_MultAdd(mapObject->mPrm->mItemPushVelocity, &awayDirection, &mapObject->mVelocity, &mapObject->mVelocity);

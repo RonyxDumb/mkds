@@ -1530,7 +1530,7 @@ void SetupLightFrustumAndLookAt(s32 unusedArg1, s32 yOffset) {
     NNS_G3dGlbFlushP();
     lightDirection = gKartModelMenuLightDirection;
     if ((s64) lightDirection.z * lightDirection.z +
-            ((s64) lightDirection.x * lightDirection.x + (s64) lightDirection.y * lightDirection.y) >=
+            SQUARE_SUM2(lightDirection.x, lightDirection.y) >=
         0x10) {
         Vec3NormalizeAndGetLengthUnchecked(&lightDirection, &lightDirection);
     }

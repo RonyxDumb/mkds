@@ -806,8 +806,7 @@ void UpdateStaffRollCameraAndLight(Camera *camera) {
     }
     UpdateCameraView(camera);
     VEC_Subtract(&newPos, &newLookAt, &lightDirection);
-    if ((s64) lightDirection.x * lightDirection.x + (s64) lightDirection.y * lightDirection.y +
-            (s64) lightDirection.z * lightDirection.z >=
+    if (SQUARE_SUM3(lightDirection.x, lightDirection.y, lightDirection.z) >=
         0x10) {
         Vec3NormalizeAndGetLengthUnchecked(&lightDirection, &lightDirection);
     }

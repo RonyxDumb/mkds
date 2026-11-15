@@ -156,7 +156,7 @@ void UpdateWanwanChainPoints(WanwanChain *chain, Vec3 *endPoint, Vec3 *unused) {
     for (; reversePointIndex > 1; reversePointIndex--) {
         VEC_Subtract(&points[reversePointIndex - 1], current, &delta);
         excessSquared =
-            (s64) delta.x * delta.x + (s64) delta.y * delta.y + (s64) delta.z * delta.z - chain->mLinkLengthSquared;
+            SQUARE_SUM3(delta.x, delta.y, delta.z) - chain->mLinkLengthSquared;
         excess = excessSquared < 0 ? 0 : (s32) FROM_FIXED12(excessSquared);
         if (excess != 0) {
             Vec3NormalizeAndGetLengthUnchecked(&delta, &offset);
@@ -185,7 +185,7 @@ void UpdateWanwanChainPoints(WanwanChain *chain, Vec3 *endPoint, Vec3 *unused) {
     for (; pullIndex < pointCount; pullIndex++) {
         VEC_Subtract(&points[pullIndex], &points[pullIndex - 1], &delta);
         excessSquared =
-            (s64) delta.x * delta.x + (s64) delta.y * delta.y + (s64) delta.z * delta.z - chain->mLinkLengthSquared;
+            SQUARE_SUM3(delta.x, delta.y, delta.z) - chain->mLinkLengthSquared;
         excess = excessSquared < 0 ? 0 : (s32) FROM_FIXED12(excessSquared);
         if (excess != 0) {
             Vec3NormalizeAndGetLengthUnchecked(&delta, &offset);

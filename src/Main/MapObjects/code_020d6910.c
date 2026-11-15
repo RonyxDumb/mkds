@@ -286,7 +286,7 @@ s32 Vec3NormalizeXZAndGetLengthOrZero(Vec3 *vector, Vec3 *result) {
     s64 factor;
     s32 vectorX = vector->x;
     s32 vectorZ = vector->z;
-    lengthSquared = (s64) vectorX * vectorX + (s64) vectorZ * vectorZ;
+    lengthSquared = SQUARE_SUM2(vectorX, vectorZ);
     if (lengthSquared < 16) {
         return 0;
     }

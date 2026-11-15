@@ -194,8 +194,7 @@ void StartItemKinokoFromKuribo(Kuribo *kuribo, Vec3 *hitVector) {
         return;
     }
     VEC_Subtract(&kuribo->mFollower.mFromEntry->mPos, &kuribo->mFollower.mToEntry->mPos, &launchDirection);
-    if ((s64) launchDirection.x * launchDirection.x + (s64) launchDirection.y * launchDirection.y +
-            (s64) launchDirection.z * launchDirection.z >=
+    if (SQUARE_SUM3(launchDirection.x, launchDirection.y, launchDirection.z) >=
         0x10) {
         Vec3NormalizeAndGetLengthUnchecked(&launchDirection, &launchDirection);
     }
@@ -208,8 +207,7 @@ void StartItemKinokoFromKuribo(Kuribo *kuribo, Vec3 *hitVector) {
         launchDirection.y = flatHitVector.y - MUL_FIXED12_NO_ROUND(launchDirection.y, value);
         launchDirection.z = flatHitVector.z - MUL_FIXED12_NO_ROUND(launchDirection.z, value);
     }
-    if ((s64) launchDirection.x * launchDirection.x + (s64) launchDirection.y * launchDirection.y +
-            (s64) launchDirection.z * launchDirection.z >=
+    if (SQUARE_SUM3(launchDirection.x, launchDirection.y, launchDirection.z) >=
         0x10) {
         Vec3NormalizeAndGetLengthUnchecked(&launchDirection, &launchDirection);
     }

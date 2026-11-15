@@ -133,8 +133,7 @@ void DeflectItemObjectAlongSurfaceAndStartSound(DirectedItemObject *object, Vec3
     if (object->mReflectsOnHit != FALSE) {
         VEC_Subtract(velocityDirection, &along, velocityDirection);
     }
-    if ((s64) velocityDirection->x * velocityDirection->x + (s64) velocityDirection->y * velocityDirection->y +
-            (s64) velocityDirection->z * velocityDirection->z >=
+    if (SQUARE_SUM3(velocityDirection->x, velocityDirection->y, velocityDirection->z) >=
         0x10) {
         Vec3NormalizeAndGetLengthUnchecked(velocityDirection, velocityDirection);
     }
@@ -142,8 +141,7 @@ void DeflectItemObjectAlongSurfaceAndStartSound(DirectedItemObject *object, Vec3
     flatDirection->x = velocityDirection->x;
     flatDirection->y = 0;
     flatDirection->z = value;
-    if ((s64) flatDirection->x * flatDirection->x + (s64) flatDirection->y * flatDirection->y +
-            (s64) flatDirection->z * flatDirection->z >=
+    if (SQUARE_SUM3(flatDirection->x, flatDirection->y, flatDirection->z) >=
         0x10) {
         Vec3NormalizeAndGetLengthUnchecked(flatDirection, flatDirection);
     }

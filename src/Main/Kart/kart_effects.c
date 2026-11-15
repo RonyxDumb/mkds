@@ -932,7 +932,7 @@ void AdvanceOldLuigiAgbSecondChaseEffect(ParticleEmitter *effect, s32 phase) {
     forwardFlat = chaseCamera->mForward;
     forwardFlat.y = 0;
     if ((s64) forwardFlat.z * forwardFlat.z +
-            ((s64) forwardFlat.x * forwardFlat.x + (s64) forwardFlat.y * forwardFlat.y) >=
+            SQUARE_SUM2(forwardFlat.x, forwardFlat.y) >=
         16) {
         Vec3NormalizeAndGetLengthUnchecked(&forwardFlat, &forwardFlat);
     }
@@ -965,7 +965,7 @@ void AdvanceOldLuigiAgbFirstChaseEffect(ParticleEmitter *effect, s32 phase) {
     forwardFlat = chaseCamera->mForward;
     forwardFlat.y = 0;
     if ((s64) forwardFlat.z * forwardFlat.z +
-            ((s64) forwardFlat.x * forwardFlat.x + (s64) forwardFlat.y * forwardFlat.y) >=
+            SQUARE_SUM2(forwardFlat.x, forwardFlat.y) >=
         16) {
         Vec3NormalizeAndGetLengthUnchecked(&forwardFlat, &forwardFlat);
     }
@@ -1011,7 +1011,7 @@ void AdvanceOldLuigiAgbSecondCurrentCameraEffect(ParticleEmitter *effect, s32 ph
     forwardFlat = currentCamera->mForward;
     forwardFlat.y = 0;
     if ((s64) forwardFlat.z * forwardFlat.z +
-            ((s64) forwardFlat.x * forwardFlat.x + (s64) forwardFlat.y * forwardFlat.y) >=
+            SQUARE_SUM2(forwardFlat.x, forwardFlat.y) >=
         16) {
         Vec3NormalizeAndGetLengthUnchecked(&forwardFlat, &forwardFlat);
     }
@@ -1039,7 +1039,7 @@ void AdvanceOldLuigiAgbFirstCurrentCameraEffect(ParticleEmitter *effect, s32 pha
     negatedUnitY = gKartEffectVec3UnitY;
     forwardFlat.y = 0;
     if ((s64) forwardFlat.z * forwardFlat.z +
-            ((s64) forwardFlat.x * forwardFlat.x + (s64) forwardFlat.y * forwardFlat.y) >=
+            SQUARE_SUM2(forwardFlat.x, forwardFlat.y) >=
         16) {
         Vec3NormalizeAndGetLengthUnchecked(&forwardFlat, &forwardFlat);
     }
@@ -1074,7 +1074,7 @@ void AdvanceOldFrappe64SecondChaseEffect(ParticleEmitter *effect, s32 phase) {
     forwardFlat = chaseCamera->mForward;
     forwardFlat.y = 0;
     if ((s64) forwardFlat.z * forwardFlat.z +
-            ((s64) forwardFlat.x * forwardFlat.x + (s64) forwardFlat.y * forwardFlat.y) >=
+            SQUARE_SUM2(forwardFlat.x, forwardFlat.y) >=
         16) {
         Vec3NormalizeAndGetLengthUnchecked(&forwardFlat, &forwardFlat);
     }
@@ -1114,7 +1114,7 @@ void AdvanceOldFrappe64FirstChaseEffect(ParticleEmitter *effect, s32 phase) {
         extraDistance = -0x5800;
     }
     if ((s64) forwardFlat.z * forwardFlat.z +
-            ((s64) forwardFlat.x * forwardFlat.x + (s64) forwardFlat.y * forwardFlat.y) >=
+            SQUARE_SUM2(forwardFlat.x, forwardFlat.y) >=
         16) {
         Vec3NormalizeAndGetLengthUnchecked(&forwardFlat, &forwardFlat);
     }
@@ -1149,7 +1149,7 @@ void AdvanceOldFrappe64FirstCurrentCameraEffect(ParticleEmitter *effect, s32 pha
     }
     forwardFlat.y = 0;
     if ((s64) forwardFlat.z * forwardFlat.z +
-            ((s64) forwardFlat.x * forwardFlat.x + (s64) forwardFlat.y * forwardFlat.y) >=
+            SQUARE_SUM2(forwardFlat.x, forwardFlat.y) >=
         16) {
         Vec3NormalizeAndGetLengthUnchecked(&forwardFlat, &forwardFlat);
     }

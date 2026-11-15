@@ -357,8 +357,7 @@ void UpdateWoodbox1State3(Woodbox1 *woodbox) {
     VEC_Add(&woodbox->mPosOffset, &woodbox->mMapObject.mPosStep, &woodbox->mPosOffset);
     VEC_Add(&woodbox->mBasePos, &woodbox->mPosOffset, &woodbox->mMapObject.mPos);
     VEC_Add(&woodbox->mGroundUp, &woodbox->mTiltOffset, &woodbox->mTiltedUp);
-    if ((s64) woodbox->mTiltedUp.x * woodbox->mTiltedUp.x + (s64) woodbox->mTiltedUp.y * woodbox->mTiltedUp.y +
-            (s64) woodbox->mTiltedUp.z * woodbox->mTiltedUp.z >=
+    if (SQUARE_SUM3(woodbox->mTiltedUp.x, woodbox->mTiltedUp.y, woodbox->mTiltedUp.z) >=
         16) {
         Vec3NormalizeAndGetLengthUnchecked(&woodbox->mTiltedUp, &woodbox->mTiltedUp);
     }

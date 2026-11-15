@@ -526,7 +526,7 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
                     kartPos = &GetKart((u16) kartIndex)->mPos;
                     dx = kartPos->x - coin->mMapObject.mPos.x;
                     dz = kartPos->z - coin->mMapObject.mPos.z;
-                    if ((s64) dx * dx + (s64) dz * dz < (s64) TO_FIXED12(radius) * TO_FIXED12(radius)) {
+                    if (SQUARE_SUM2(dx, dz) < (s64) TO_FIXED12(radius) * TO_FIXED12(radius)) {
                         found = TRUE;
                         goto checked;
                     }

@@ -468,8 +468,7 @@ void DrawRaceWorld(void) {
     cameraForward.y = -currentCamera->mViewMatrix.mRows[1].z;
     cameraForward.z = -currentCamera->mViewMatrix.mRows[2].z;
     VEC_Subtract(&cameraForward, &cameraUp, &lightVector);
-    if ((s64) lightVector.x * lightVector.x + (s64) lightVector.y * lightVector.y +
-            (s64) lightVector.z * lightVector.z >=
+    if (SQUARE_SUM3(lightVector.x, lightVector.y, lightVector.z) >=
         16) {
         Vec3NormalizeAndGetLengthUnchecked(&lightVector, &lightVector);
     }

@@ -389,7 +389,7 @@ static inline BOOL AreKartSpheresOverlapping(Kart *kart, Kart *otherKart, s32 ra
     if (deltaY > radiusSum || deltaY < negativeRadius) {
         return FALSE;
     }
-    if ((s64) deltaX * deltaX + (s64) deltaY * deltaY + (s64) deltaZ * deltaZ < (s64) radiusSum * radiusSum) {
+    if (SQUARE_SUM3(deltaX, deltaY, deltaZ) < (s64) radiusSum * radiusSum) {
         return TRUE;
     }
     return FALSE;

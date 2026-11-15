@@ -95,8 +95,7 @@ void ScaleKartVelocityAndSetCappedLengthAndDirection(Kart *kart, s32 scale) {
     length = 0;
     kart->mVelocity.y = MUL_FIXED12_NO_ROUND(kart->mVelocity.y, scale);
     kart->mVelocity.z = MUL_FIXED12_NO_ROUND(kart->mVelocity.z, scale);
-    if ((s64) kart->mVelocity.x * kart->mVelocity.x + (s64) kart->mVelocity.y * kart->mVelocity.y +
-            (s64) kart->mVelocity.z * kart->mVelocity.z >=
+    if (SQUARE_SUM3(kart->mVelocity.x, kart->mVelocity.y, kart->mVelocity.z) >=
         0x10) {
         length = Vec3NormalizeAndGetLengthUnchecked(&kart->mVelocity, &kart->mVelocityDirection);
     }

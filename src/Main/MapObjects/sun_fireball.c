@@ -136,7 +136,7 @@ void UpdateSunFireball(void *mapObjectList, SunFireball *sunFireball) {
                         VEC_Add(&sunFireball->mMapObject.mPos, &pushOut, &sunFireball->mMapObject.mPos);
                         stepValue = sunFireball->mMapObject.mPos.x - sunFireball->mStartPos.x;
                         tableIndex = sunFireball->mMapObject.mPos.z - sunFireball->mStartPos.z;
-                        if ((s64) stepValue * stepValue + (s64) tableIndex * tableIndex < 0x2710000000LL) {
+                        if (SQUARE_SUM2(stepValue, tableIndex) < 0x2710000000LL) {
                             randomValue =
                                 (u16) (((u64) SunFireballNextRandomU32(GetMapObjectRandom()) * 0x10000) >> 32);
                             sunFireball->mMapObject.mPosStep.x =

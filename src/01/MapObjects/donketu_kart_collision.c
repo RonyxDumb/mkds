@@ -44,7 +44,7 @@ void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
 
                 VEC_Subtract(&donketu->mUnk_000.mPos, &kart->mCollisionCenter, &effectPosition);
                 if ((s64) effectPosition.z * effectPosition.z +
-                        ((s64) effectPosition.x * effectPosition.x + (s64) effectPosition.y * effectPosition.y) >=
+                        SQUARE_SUM2(effectPosition.x, effectPosition.y) >=
                     0x10) {
                     Vec3NormalizeAndGetLengthUnchecked(&effectPosition, &effectPosition);
                 }

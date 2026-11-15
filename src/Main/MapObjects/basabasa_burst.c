@@ -77,7 +77,7 @@ static inline s64 BasabasaBurstXzDistanceSquared(const Vec3 *firstPos, const Vec
 
     deltaX = firstPos->x - secondPos->x;
     deltaZ = firstPos->z - secondPos->z;
-    return (s64) deltaX * deltaX + (s64) deltaZ * deltaZ;
+    return SQUARE_SUM2(deltaX, deltaZ);
 }
 
 static inline BOOL BasabasaBurstIsKartNearInAngle(BasabasaBurst *burst, s32 burstAngle) {

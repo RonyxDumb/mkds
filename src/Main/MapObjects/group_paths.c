@@ -116,8 +116,7 @@ void BuildSegment(Segment *segment, s32 useStraightLength, s32 computeUp, Vec3 *
         segment->mUp.x = gGroupPathUpAxis.x - MUL_FIXED12_NO_ROUND(direction.x, value);
         segment->mUp.y = gGroupPathUpAxis.y - MUL_FIXED12_NO_ROUND(direction.y, value);
         segment->mUp.z = gGroupPathUpAxis.z - MUL_FIXED12_NO_ROUND(direction.z, value);
-        squaredUpLength = (s64) segment->mUp.x * segment->mUp.x + (s64) segment->mUp.y * segment->mUp.y +
-                          (s64) segment->mUp.z * segment->mUp.z;
+        squaredUpLength = SQUARE_SUM3(segment->mUp.x, segment->mUp.y, segment->mUp.z);
         if (squaredUpLength < 16) {
             value = 0;
         } else {

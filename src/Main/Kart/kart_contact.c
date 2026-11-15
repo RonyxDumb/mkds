@@ -415,8 +415,7 @@ void AdvanceKartPointMotion(Kart *kart, u32 collisionFlags, Vec3 *targetPointMot
         kart->mPointMotion.x = MUL_FIXED12_NO_ROUND(kart->mPointMotion.x, decayFactors.x);
         kart->mPointMotion.y = MUL_FIXED12_NO_ROUND(kart->mPointMotion.y, decayFactors.y);
         kart->mPointMotion.z = MUL_FIXED12_NO_ROUND(kart->mPointMotion.z, decayFactors.z);
-        if ((s64) kart->mPointMotion.x * kart->mPointMotion.x + (s64) kart->mPointMotion.y * kart->mPointMotion.y +
-                (s64) kart->mPointMotion.z * kart->mPointMotion.z <
+        if (SQUARE_SUM3(kart->mPointMotion.x, kart->mPointMotion.y, kart->mPointMotion.z) <
             0xa429) {
             kart->mPointMotion = gKartVec3Zero;
         }

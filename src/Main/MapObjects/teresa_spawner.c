@@ -161,7 +161,7 @@ void UpdateTeresaSpawner(void *mapObjectList, TeresaSpawner *spawner) {
         kartPos = &kart->mPos;
         deltaX = kartPos->x - spawner->mMapObject.mPos.x;
         deltaZ = kartPos->z - spawner->mMapObject.mPos.z;
-        if ((s64) deltaX * deltaX + (s64) deltaZ * deltaZ < (s64) radiusFixed * radiusFixed) {
+        if (SQUARE_SUM2(deltaX, deltaZ) < (s64) radiusFixed * radiusFixed) {
             spawner->mEntryKartNear = TRUE;
         } else {
             spawner->mEntryKartNear = FALSE;

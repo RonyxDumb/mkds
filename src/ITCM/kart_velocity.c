@@ -213,8 +213,7 @@ void AdvanceKartByVelocity(Kart *kart) {
     kart->mHitVelocity.x = MUL_FIXED12_NO_ROUND(kart->mHitVelocity.x, hitVelocityDecay);
     kart->mHitVelocity.y = MUL_FIXED12_NO_ROUND(kart->mHitVelocity.y, hitVelocityDecay);
     kart->mHitVelocity.z = MUL_FIXED12_NO_ROUND(kart->mHitVelocity.z, hitVelocityDecay);
-    if ((s64) kart->mHitVelocity.x * kart->mHitVelocity.x + (s64) kart->mHitVelocity.y * kart->mHitVelocity.y +
-            (s64) kart->mHitVelocity.z * kart->mHitVelocity.z >=
+    if (SQUARE_SUM3(kart->mHitVelocity.x, kart->mHitVelocity.y, kart->mHitVelocity.z) >=
         0xa429) {
         kart->mMotionFlags |= KART_MOTION_HIT_VELOCITY;
     } else {

@@ -153,7 +153,7 @@ static inline s64 XzDistanceSquared(const Vec3 *firstPos, const Vec3 *secondPos)
 
     deltaX = firstPos->x - secondPos->x;
     deltaZ = firstPos->z - secondPos->z;
-    return (s64) deltaX * deltaX + (s64) deltaZ * deltaZ;
+    return SQUARE_SUM2(deltaX, deltaZ);
 }
 
 static inline BOOL Kanoke64IsKartNearInAngle(Kanoke64 *kanoke64, s32 objectAngle) {

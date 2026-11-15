@@ -434,8 +434,7 @@ void UpdateCameraViewWithWorldUp(Camera *camera) {
         camera->mUp.x = 0x1000;
         camera->mUp.y = 0x1000;
         camera->mUp.z = 0x1000;
-        if ((s64) camera->mUp.x * camera->mUp.x + (s64) camera->mUp.y * camera->mUp.y +
-                (s64) camera->mUp.z * camera->mUp.z >=
+        if (SQUARE_SUM3(camera->mUp.x, camera->mUp.y, camera->mUp.z) >=
             0x10) {
             Vec3NormalizeAndGetLengthUnchecked(&camera->mUp, &camera->mUp);
         }
@@ -472,8 +471,7 @@ void UpdateCameraView(Camera *camera) {
         camera->mUp.x = 0x1000;
         camera->mUp.y = 0x1000;
         camera->mUp.z = 0x1000;
-        if ((s64) camera->mUp.x * camera->mUp.x + (s64) camera->mUp.y * camera->mUp.y +
-                (s64) camera->mUp.z * camera->mUp.z >=
+        if (SQUARE_SUM3(camera->mUp.x, camera->mUp.y, camera->mUp.z) >=
             0x10) {
             Vec3NormalizeAndGetLengthUnchecked(&camera->mUp, &camera->mUp);
         }
