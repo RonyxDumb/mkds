@@ -134,8 +134,8 @@ BOOL default_link_is_on(void) {
 
 void CPS_Startup(CPSConfig *config) {
     OSi_ReferSymbol(0x2000bfc);
-    if (*(u64 *) &config->mRandomSeedLow != 0) {
-        CPSiRand32ctx[0] = *(u64 *) &config->mRandomSeedLow;
+    if (config->mRandomSeed != 0) {
+        CPSiRand32ctx[0] = config->mRandomSeed;
         CPSiRand32ctx[1] = 0x5d588b656c078965ULL;
         CPSiRand32ctx[2] = 0x269ec3;
     } else {

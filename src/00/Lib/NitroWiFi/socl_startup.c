@@ -86,8 +86,7 @@ void SOCLi_StartupCPS(void) {
     cfgBlock->mAlloc = config->mAlloc;
     cfgBlock->mFree = config->mFree;
     cfgBlock->mLinkIsOn = SOCL_LinkIsOn;
-    cfgBlock->mRandomSeedLow = 0;
-    cfgBlock->mRandomSeedHigh = 0;
+    cfgBlock->mRandomSeed = 0;
     cfgBlock->mYieldWait = SOCLiYieldWait;
     if (config->mLanBufLen != 0) {
         cfgBlock->mLanBufLen = config->mLanBufLen;

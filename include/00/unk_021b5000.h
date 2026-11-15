@@ -52,8 +52,7 @@ typedef struct CPSConfig {
     /* 08 */ void (*mFree)(void *param_1);
     /* 0c */ void (*mDhcpCallback)(void);
     /* 10 */ u32 (*mLinkIsOn)(void);
-    /* 14 */ s32 mRandomSeedLow;
-    /* 18 */ s32 mRandomSeedHigh;
+    /* 14 */ u64 mRandomSeed;
     /* 1c */ void *mLanBuf;
     /* 20 */ s32 mLanBufLen;
     /* 24 */ s32 mMyMss;
