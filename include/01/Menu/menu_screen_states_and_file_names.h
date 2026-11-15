@@ -22,7 +22,7 @@ typedef struct OptionStateCallbacks {
     /* 0c */ OptionStateCallback mPostUpdate;
 } OptionStateCallbacks;
 
-// States of OptionHensyuMenu.mState and mNextState, in the order of the AdvanceOptionHensyuMenuStateN calls.
+// States of OptionHensyuMenu.mState and mNextState.
 enum {
     OPTION_HENSYU_MENU_STATE_WAIT_FADE,
     OPTION_HENSYU_MENU_STATE_SLIDE_IN,
@@ -213,7 +213,7 @@ typedef struct OptionEmbremSelectOffset {
     /* 02 */ s16 mOffsetY;
 } OptionEmbremSelectOffset;
 
-// States of OptionEmbremSelect.mState and mNextState, in the order of the AdvanceOptionEmbremSelectStateN calls.
+// States of OptionEmbremSelect.mState and mNextState.
 enum {
     OPTION_EMBREM_SELECT_STATE_WAIT_FADE,
     OPTION_EMBREM_SELECT_STATE_SLIDE_IN,

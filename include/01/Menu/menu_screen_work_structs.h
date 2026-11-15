@@ -53,7 +53,7 @@ typedef struct EndingScene {
 } EndingScene;
 
 // Objects whose layout isn't known yet.
-// States of MissionRunLVsel.mState and mNextState, in the order of the AdvanceMissionRunLVselStateN calls.
+// States of MissionRunLVsel.mState and mNextState.
 enum {
     MISSION_RUN_LVSEL_STATE_WAIT_FADE,
     MISSION_RUN_LVSEL_STATE_SLIDE_IN,

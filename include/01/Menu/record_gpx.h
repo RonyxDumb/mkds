@@ -65,7 +65,7 @@ enum {
     RECORD_GPX_CUP_LIGHTNING,
 };
 
-// States of RecordGpx.mState and mNextState, in the order of the AdvanceRecordGpxStateN calls.
+// States of RecordGpx.mState and mNextState.
 enum {
     RECORD_GPX_STATE_BG_SLIDE_IN,
     RECORD_GPX_STATE_CELLS_SLIDE_IN,
@@ -130,7 +130,7 @@ typedef struct RecordGpx {
     /* 68 */ s32 mStateFrames;
     // The register receives the negation of this value in its upper half-word.
     /* 6c */ s32 mBg0Offset;
-    // X half of reg_G2S_DB_BG3OFS (0x0400101c): the SUB engine's BG3, stored negated; the Y half is mUnk_74 (also the y
+    // X half of reg_G2S_DB_BG3OFS: the SUB engine's BG3, stored negated; the Y half is mBg3OffsetY (also the y
     // of the S cells)
     /* 70 */ s32 mBg3OffsetX;
     /* 74 */ s32 mBg3OffsetY;

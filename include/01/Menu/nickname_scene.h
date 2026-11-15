@@ -19,7 +19,7 @@
 #include "Main/Sound/sound_seq.h"
 #include "03/Net/essid_packet_steps.h"
 
-// States of NicknameScene.mState and mNextState, in the order of the AdvanceNicknameSceneStateN calls: wait for the
+// States of NicknameScene.mState and mNextState: wait for the
 // fade, then three message boxes in a row.
 enum {
     NICKNAME_SCENE_STATE_WAIT_FADE,
