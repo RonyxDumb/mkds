@@ -15,10 +15,7 @@
 #define COURSE_SOUND_ID_MARIO_FIRST_PART 0x1a0
 #define COURSE_SOUND_ID_MARIO_SECOND_PART 0x19f
 
-// 0x28-byte part at 0xa0 and 0xc8 of CourseSoundObject: the four words at 0x00 go to StartSndHandleSoundUnchecked or
-// StartSndHandleSound with the value at 0x1c, 0x0c holds GetHorizontalCameraDistanceSquared's result for the vector at
-// 0x10, 0x24 is set to 0, 1 or 2 (UpdateCourseSoundObject); PlaceCourseSoundObjectPartSource writes the vector at 0x10
-// and the word at 0x20.
+// One sound part of a course sound object: its start parameters, source position and camera range state.
 typedef struct CourseSoundObjectPart {
     /* 00 */ SoundStartParams mStartParams;
     /* 10 */ Vec3 mSourcePos;

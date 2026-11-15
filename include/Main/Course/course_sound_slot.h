@@ -22,9 +22,7 @@ typedef struct CourseSoundTableRow {
     /* 00 */ u16 mEntries[8];
 } CourseSoundTableRow;
 
-// Object gCourseSoundSlots: a word at 0, a word at 4 and eight bytes at 8; UpdateCourseSound, StartCourseSoundAtVolume,
-// ApplyCourseSoundTableEntry and SelectCourseSoundTable read the word at 0, and SelectCourseSoundTable writes the two
-// words.
+// A course sound slot: its volume handles, first table index and the volumes of its three ranges.
 typedef struct CourseSoundSlot {
     /* 00 */ u32 mVolumeHandle;
     /* 04 */ u32 mPreviousVolumeHandle;
