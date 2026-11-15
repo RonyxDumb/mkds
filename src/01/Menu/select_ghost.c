@@ -130,44 +130,44 @@ void ResetSelectGhost(void) {
 }
 
 // Requests state 1.
-void RequestSelectGhostState1(void) {
+void RequestSelectGhostReturnSlideIn(void) {
     gSelectGhost->mNextState = SELECT_GHOST_STATE_RETURN_SLIDE_IN;
     gSelectGhost->mStateFrames = 0;
 }
 
 // Requests state 2.
-void RequestSelectGhostState2(void) {
+void RequestSelectGhostInput(void) {
     gSelectGhost->mNextState = SELECT_GHOST_STATE_INPUT;
     gSelectGhost->mStateFrames = 0;
 }
 
-void RequestSelectGhostState3(void) {
+void RequestSelectGhostPress(void) {
     gSelectGhost->mNextState = SELECT_GHOST_STATE_PRESS;
     gSelectGhost->mStateFrames = 0;
     StopPaletteBlend();
     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
 }
 
-void RequestSelectGhostState4(void) {
+void RequestSelectGhostChoisesOpen(void) {
     gSelectGhost->mNextState = SELECT_GHOST_STATE_CHOISES_OPEN;
     gSelectGhost->mStateFrames = 0;
     StartSelectChoises(GetBmgEntry(gSelectGhost->mCommonMessages, 4), GetBmgEntry(gSelectGhost->mCommonMessages, 2), 0);
 }
 
 // Requests state 5.
-void RequestSelectGhostState5(void) {
+void RequestSelectGhostChoisesInput(void) {
     gSelectGhost->mNextState = SELECT_GHOST_STATE_CHOISES_INPUT;
     gSelectGhost->mStateFrames = 0;
 }
 
-void RequestSelectGhostState6(void) {
+void RequestSelectGhostChoisesClose(void) {
     gSelectGhost->mNextState = SELECT_GHOST_STATE_CHOISES_CLOSE;
     gSelectGhost->mStateFrames = 0;
     RequestSelectChoisesHidden();
 }
 
 // Requests state 7.
-void RequestSelectGhostState7(void) {
+void RequestSelectGhostSlideOut(void) {
     gSelectGhost->mNextState = SELECT_GHOST_STATE_SLIDE_OUT;
     gSelectGhost->mStateFrames = 0;
 }
@@ -434,7 +434,7 @@ void ReleaseSelectGhost(void) {
     gSelectGhost = NULL;
 }
 
-void AdvanceSelectGhostState0(void) {
+void AdvanceSelectGhostSlideIn(void) {
     u16 subLayoutCount;
     s16 offsetY;
     s32 index;
@@ -455,11 +455,11 @@ void AdvanceSelectGhostState0(void) {
         gSelectGhost->mSelectGhostSTable[gSelectGhostRunningSTableIndices[index]].mOffsetY = offsetY;
     }
     if (gSelectGhost->mStateFrames >= 10) {
-        RequestSelectGhostState1();
+        RequestSelectGhostReturnSlideIn();
     }
 }
 
-void AdvanceSelectGhostState1(void) {
+void AdvanceSelectGhostReturnSlideIn(void) {
     u16 subLayoutCount;
     s16 returnOffsetY;
 
@@ -471,11 +471,11 @@ void AdvanceSelectGhostState1(void) {
     gSelectGhost->mSelectGhostSTable[11].mOffsetY = returnOffsetY;
     gSelectGhost->mSelectGhostSTable[subLayoutCount + 5].mOffsetY = returnOffsetY;
     if (gSelectGhost->mStateFrames >= 10) {
-        RequestSelectGhostState2();
+        RequestSelectGhostInput();
     }
 }
 
-void AdvanceSelectGhostState2(void) {
+void AdvanceSelectGhostInput(void) {
     s32 touchBeganRect;
     BOOL touchBegan;
     BOOL recentlyLost;
@@ -516,7 +516,7 @@ void AdvanceSelectGhostState2(void) {
         }
     }
     SetSelectReturnSoundId(14);
-    RequestSelectGhostState7();
+    RequestSelectGhostSlideOut();
     gSelectGhost->mResult = SELECT_GHOST_RESULT_RETURN;
     RequestSelectReturnPressWithSound(0);
     return;
@@ -530,7 +530,7 @@ next:
         return;
     }
     if (touchBeganRect == 3) {
-        RequestSelectGhostState3();
+        RequestSelectGhostPress();
         return;
     }
     if (touchBeganRect == 2) {
@@ -538,7 +538,7 @@ next:
         return;
     }
     if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_A) != 0) {
-        RequestSelectGhostState3();
+        RequestSelectGhostPress();
         return;
     }
     if (GetNewOrRepeatBits(8, PAD_KEY_LEFT) != 0) {
@@ -550,29 +550,29 @@ next:
     }
 }
 
-void AdvanceSelectGhostState3(void) {
+void AdvanceSelectGhostPress(void) {
     AdvanceSelectGhostOffsetTimers();
     gSelectGhost->mStateFrames++;
     if (gSelectGhost->mStateFrames >= 10) {
-        RequestSelectGhostState4();
+        RequestSelectGhostChoisesOpen();
     }
 }
 
-void AdvanceSelectGhostState4(void) {
+void AdvanceSelectGhostChoisesOpen(void) {
     if (IsSelectChoisesChooseNoRequest() != 0) {
-        RequestSelectGhostState5();
+        RequestSelectGhostChoisesInput();
     }
 }
 
-void AdvanceSelectGhostState5(void) {
+void AdvanceSelectGhostChoisesInput(void) {
     int selectChoisesDone;
     selectChoisesDone = GetSelectChoisesDone();
     if (selectChoisesDone != 0) {
-        RequestSelectGhostState6();
+        RequestSelectGhostChoisesClose();
     }
 }
 
-void AdvanceSelectGhostState6(void) {
+void AdvanceSelectGhostChoisesClose(void) {
     s32 selectChoisesIndex;
 
     if (IsSelectChoisesHiddenNoRequest() == 0) {
@@ -583,18 +583,18 @@ void AdvanceSelectGhostState6(void) {
         case 0:
             ReadSelectGhostRecords();
             gSelectGhost->mResult = SELECT_GHOST_RESULT_CHOSEN;
-            RequestSelectGhostState7();
+            RequestSelectGhostSlideOut();
             RequestSelectReturnSlideOut();
             break;
         case -1:
         case 1:
             StartPaletteBlend();
-            RequestSelectGhostState2();
+            RequestSelectGhostInput();
             break;
     }
 }
 
-void AdvanceSelectGhostState7(void) {
+void AdvanceSelectGhostSlideOut(void) {
     BOOL isChosen;
     s16 offsetY;
     s16 returnOffsetY;
@@ -642,28 +642,28 @@ int AdvanceSelectGhost(void) {
     gSelectGhost->mState = gSelectGhost->mNextState;
     switch (gSelectGhost->mState) {
         case SELECT_GHOST_STATE_SLIDE_IN:
-            AdvanceSelectGhostState0();
+            AdvanceSelectGhostSlideIn();
             break;
         case SELECT_GHOST_STATE_RETURN_SLIDE_IN:
-            AdvanceSelectGhostState1();
+            AdvanceSelectGhostReturnSlideIn();
             break;
         case SELECT_GHOST_STATE_INPUT:
-            AdvanceSelectGhostState2();
+            AdvanceSelectGhostInput();
             break;
         case SELECT_GHOST_STATE_PRESS:
-            AdvanceSelectGhostState3();
+            AdvanceSelectGhostPress();
             break;
         case SELECT_GHOST_STATE_CHOISES_OPEN:
-            AdvanceSelectGhostState4();
+            AdvanceSelectGhostChoisesOpen();
             break;
         case SELECT_GHOST_STATE_CHOISES_INPUT:
-            AdvanceSelectGhostState5();
+            AdvanceSelectGhostChoisesInput();
             break;
         case SELECT_GHOST_STATE_CHOISES_CLOSE:
-            AdvanceSelectGhostState6();
+            AdvanceSelectGhostChoisesClose();
             break;
         case SELECT_GHOST_STATE_SLIDE_OUT:
-            AdvanceSelectGhostState7();
+            AdvanceSelectGhostSlideOut();
             break;
     }
     AdvancePaletteBlend();
