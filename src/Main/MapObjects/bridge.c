@@ -96,15 +96,15 @@ void DrawChoropu(s32 unused, Choropu *choropu, s32 unusedArg, u16 alpha) {
     MtxFx43 *matrix;
 
     switch (choropu->mMapObject.mStateMachine.mState) {
-        case 4:
+        case CHOROPU_STATE_LEAP:
             gChoropu->mFrameIndex = 1;
             matrix = SetViewTransposeMatrixPos(&choropu->mMapObject.mPos);
             DrawNsbmdModelWithMatrixAndMaxAlpha(gChoropu, matrix, &choropu->mMapObject.mScale, 0, alpha);
             break;
-        case 5:
+        case CHOROPU_STATE_WAIT_REPEAT:
             break;
-        case 6:
-        case 7:
+        case CHOROPU_STATE_LAUNCHED_SPIN:
+        case CHOROPU_STATE_FALL_SPIN:
             gChoropu->mFrameIndex = 1;
             matrix = SetViewTransposeMatrixPos(&choropu->mMapObject.mPos);
             DrawNsbmdModelWithMatrixAndAngle(gChoropu, matrix, choropu->mSpinAngle, &choropu->mMapObject.mScale, 0,
