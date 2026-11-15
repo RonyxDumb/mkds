@@ -1697,11 +1697,11 @@ void SPLDraw_Child_DirectionalPolygon(SPLManager *mgr, ParticleInstance *ptcl) {
         mgr->mRenderStateEmitter->mChildTexCoordU, mgr->mRenderStateEmitter->mChildTexCoordV, 0, 0);
 }
 
-typedef enum { UNK_02019DF8_KIND_0 } Unk02019df8_Kind;
+typedef enum { TEX_IMAGE_PARAM_FIELD_0 } TexImageParamField;
 
-static inline void SetTexImageParam(u32 addr, Unk02019df8_Kind format, Unk02019df8_Kind sizeS, Unk02019df8_Kind sizeT,
-                                    Unk02019df8_Kind wrapS, Unk02019df8_Kind wrapT,
-                                    Unk02019df8_Kind color0Transparent) {
+static inline void SetTexImageParam(u32 addr, TexImageParamField format, TexImageParamField sizeS,
+                                    TexImageParamField sizeT, TexImageParamField wrapS, TexImageParamField wrapT,
+                                    TexImageParamField color0Transparent) {
     reg_G3_TEXIMAGE_PARAM = (addr >> 3) | (format << 26) | 0x40000000 | (sizeS << 20) | (sizeT << 23) | (wrapS << 16) |
                             (wrapT << 18) | (color0Transparent << 29);
 }
