@@ -102,9 +102,7 @@ typedef struct SbServerList {
 // Object behind gGsiAvailableCheck.
 typedef struct GsiAvailableCheck {
     /* 00 */ s32 mSocket;
-    /* 04 */ u8 mAddress[2];
-    /* 06 */ u16 mPort;
-    /* 08 */ u8 mAddressIp[4];
+    /* 04 */ SOCSockAddrIn mAddress;
     /* 0c */ u8 mPacketType;
     /* 0d */ u8 mUnk_0d[4];
     /* 11 */ u8 mPacketGamename[0x3b];

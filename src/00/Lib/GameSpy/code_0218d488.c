@@ -37,7 +37,7 @@ BOOL get_sockaddrin(const char *hostname, u32 port, SOCSockAddrIn *address) {
 
 void AvailableSendPacket(void) {
     sendto(gGsiAvailableCheck.mSocket, &gGsiAvailableCheck.mPacketType, gGsiAvailableCheck.mPacketLength, 0,
-           gGsiAvailableCheck.mAddress, 8);
+           &gGsiAvailableCheck.mAddress, 8);
     gGsiAvailableCheck.mSendTime = GetElapsedMilliseconds();
 }
 
@@ -52,7 +52,7 @@ void GSIStartAvailableCheckA(const char *gamename) {
         sprintf(hostBuffer, "%s.available.gs.nintendowifi.net", gamename);
     }
     if (get_sockaddrin(customHost != 0 ? gGsiAcHostname : hostBuffer, 0x6cfc,
-                       (SOCSockAddrIn *) gGsiAvailableCheck.mAddress) != FALSE) {
+                       &gGsiAvailableCheck.mAddress) != FALSE) {
         gGsiAvailableCheck.mSocket = OpenNetSocket(2, 2, 0);
         if (gGsiAvailableCheck.mSocket != -1) {
             u32 len;
@@ -71,10 +71,10 @@ BOOL HandlePacket(const s8 *packet, s32 len, SOCSockAddrIn *address, u32 *disabl
     if (len < 7) {
         return TRUE;
     }
-    if (memcmp(&address->mAddr, gGsiAvailableCheck.mAddressIp, 4) != 0) {
+    if (memcmp(&address->mAddr, &gGsiAvailableCheck.mAddress.mAddr, 4) != 0) {
         return TRUE;
     }
-    if (address->mPort != gGsiAvailableCheck.mPort) {
+    if (address->mPort != gGsiAvailableCheck.mAddress.mPort) {
         return TRUE;
     }
     if (memcmp((const u8 *) packet, gAvailablePacketHeader, 3) != 0) {
