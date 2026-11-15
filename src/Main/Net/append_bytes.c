@@ -1,5 +1,6 @@
 #include "Main/Net/append_bytes.h"
 #include "Main/Net/wbt_requests.h"
+#include "Main/Net/wbt_block_transfer.h"
 #include "Main/Kart/data_02161000.h"
 #include "code_0214d018.h"
 
@@ -35,7 +36,7 @@ s32 WriteEmptyPacket(u8 *buffer, u16 indexMask, u8 requestId) {
     u8 *cursor;
     cursor = buffer;
     header.mIndexMask = indexMask;
-    header.mKind = 1;
+    header.mKind = XFER_PACKET_FILLER;
     cursor = AppendBytes(&header, cursor, 1);
     cursor = AppendBytes(&header.mIndexMask, cursor, 2);
     MI_CpuCopy8(&requestId, cursor, 1);
@@ -51,7 +52,7 @@ s32 WriteBlockCountRequestPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 se
     u8 *cursor;
     cursor = buffer;
     header.mIndexMask = indexMask;
-    header.mKind = 2;
+    header.mKind = XFER_PACKET_HANDSHAKE_ASK;
     cursor = AppendBytes(&header, cursor, 1);
     cursor = AppendBytes(&header.mIndexMask, cursor, 2);
     cursor = AppendBytes(&requestId, cursor, 1);
@@ -70,7 +71,7 @@ s32 WriteBlockCountReplyPacket(u8 *buffer, u16 indexMask, u8 requestId, s16 bloc
     u8 *cursor;
     cursor = buffer;
     header.mIndexMask = indexMask;
-    header.mKind = 3;
+    header.mKind = XFER_PACKET_HANDSHAKE_ANSWER;
     cursor = AppendBytes(&header, cursor, 1);
     cursor = AppendBytes(&header.mIndexMask, cursor, 2);
     cursor = AppendBytes(&requestId, cursor, 1);
@@ -89,7 +90,7 @@ s32 WriteBlockDataRequestPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 blo
     u8 *cursor;
     cursor = buffer;
     header.mIndexMask = indexMask;
-    header.mKind = 4;
+    header.mKind = XFER_PACKET_DATA_ASK;
     cursor = AppendBytes(&header, cursor, 1);
     cursor = AppendBytes(&header.mIndexMask, cursor, 2);
     cursor = AppendBytes(&requestId, cursor, 1);
@@ -107,7 +108,7 @@ s32 WriteBlockDataPacket(u8 *buffer, u32 indexMask, u8 requestId, u32 blockId, u
     u8 *cursor;
     cursor = buffer;
     header.mIndexMask = indexMask;
-    header.mKind = 5;
+    header.mKind = XFER_PACKET_DATA_CHUNK;
     cursor = AppendBytes(&header, cursor, 1);
     cursor = AppendBytes(&header.mIndexMask, cursor, 2);
     cursor = AppendBytes(&requestId, cursor, 1);
@@ -130,7 +131,7 @@ s32 WriteBlockNodeRequestPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 blo
     u8 *cursor;
     cursor = buffer;
     header.mIndexMask = indexMask;
-    header.mKind = 6;
+    header.mKind = XFER_PACKET_LAYOUT_ASK;
     cursor = AppendBytes(&header, cursor, 1);
     cursor = AppendBytes(&header.mIndexMask, cursor, 2);
     cursor = AppendBytes(&requestId, cursor, 1);
@@ -148,7 +149,7 @@ s32 WriteBlockNodePacket(u8 *buffer, u32 indexMask, u8 requestId, u32 blockId, u
     u8 *cursor;
     cursor = buffer;
     header.mIndexMask = indexMask;
-    header.mKind = 7;
+    header.mKind = XFER_PACKET_LAYOUT_ANSWER;
     cursor = AppendBytes(&header, cursor, 1);
     cursor = AppendBytes(&header.mIndexMask, cursor, 2);
     cursor = AppendBytes(&requestId, cursor, 1);
@@ -171,7 +172,7 @@ s32 WriteNoMissingChunkPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 block
     u8 *cursor;
     cursor = buffer;
     header.mIndexMask = indexMask;
-    header.mKind = 8;
+    header.mKind = XFER_PACKET_ALL_HELD;
     cursor = AppendBytes(&header, cursor, 1);
     cursor = AppendBytes(&header.mIndexMask, cursor, 2);
     cursor = AppendBytes(&requestId, cursor, 1);
@@ -188,7 +189,7 @@ s32 WriteNoMissingChunkReplyPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 
     u8 *cursor;
     cursor = buffer;
     header.mIndexMask = indexMask;
-    header.mKind = 9;
+    header.mKind = XFER_PACKET_ALL_HELD_ANSWER;
     cursor = AppendBytes(&header, cursor, 1);
     cursor = AppendBytes(&header.mIndexMask, cursor, 2);
     cursor = AppendBytes(&requestId, cursor, 1);
@@ -205,7 +206,7 @@ s32 WriteBytesPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 *bytes, u32 by
     u8 *cursor;
     cursor = buffer;
     header.mIndexMask = indexMask;
-    header.mKind = 0xa;
+    header.mKind = XFER_PACKET_CUSTOM;
     cursor = AppendBytes(&header, cursor, 1);
     cursor = AppendBytes(&header.mIndexMask, cursor, 2);
     cursor = AppendBytes(&requestId, cursor, 1);
@@ -223,7 +224,7 @@ s32 WriteBytesReplyPacket(u8 *buffer, u16 indexMask, u8 requestId) {
     u8 *cursor;
     cursor = buffer;
     header.mIndexMask = indexMask;
-    header.mKind = 0xb;
+    header.mKind = XFER_PACKET_CUSTOM_ANSWER;
     cursor = AppendBytes(&header, cursor, 1);
     cursor = AppendBytes(&header.mIndexMask, cursor, 2);
     MI_CpuCopy8(&requestId, cursor, 1);
