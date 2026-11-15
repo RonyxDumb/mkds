@@ -87,9 +87,9 @@ void InitWiFiStates(void *heap, s32 sceneNumber) {
     StateMachine *sessionStateMachine;
     gWiFiStates = HeapAlloc(heap, 0x3c);
     gWiFiStates->mHeap = heap;
-    gWiFiStates->mUnk_14 = 0;
+    gWiFiStates->mCounter = 0;
     CreateRaceSetupCopy(heap);
-    gWiFiStates->mUnk_2c = CreateWiFiStatesDisplaySettings(heap);
+    gWiFiStates->mDisplaySettings = CreateWiFiStatesDisplaySettings(heap);
     InitLinkLevelIcons(heap, GetWiFiMenuMainOamList());
     sceneTextInitParams.mUseTxtSystem = TRUE;
     sceneTextInitParams.mTxtSystemFont = GetFontByIndex(1);
@@ -242,9 +242,9 @@ void AdvanceWiFiStates(void) {
     }
     AdvanceSceneText();
     AdvanceLinkLevelIcons();
-    gWiFiStates->mUnk_14++;
-    if (gWiFiStates->mUnk_14 > 0) {
-        gWiFiStates->mUnk_14 = 0;
+    gWiFiStates->mCounter++;
+    if (gWiFiStates->mCounter > 0) {
+        gWiFiStates->mCounter = 0;
     }
 }
 
@@ -279,7 +279,7 @@ void SetWiFiNextScene(u32 nextScene) {
 }
 
 u32 IsWiFiStatesCounterNotNegative(void) {
-    if (0 <= gWiFiStates->mUnk_14) {
+    if (0 <= gWiFiStates->mCounter) {
         return TRUE;
     }
     return FALSE;

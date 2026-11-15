@@ -39,12 +39,12 @@ typedef struct WiFiStates {
     /* 0c */ s32 mNextState;
     /* 10 */ u32 mPrevState;
     // AdvanceWiFiStates adds 1 and clears it in the same call, so it reads 0 outside that function.
-    /* 14 */ s32 mUnk_14;
+    /* 14 */ s32 mCounter;
     // Scene number the WiFi screens ask for (-1 = none); UpdateWiFiMenuScene copies it to SceneNumbers.mNextScene.
     /* 18 */ s16 mNextScene;
     /* 1a */ u8 pad_1a[2];
     /* 1c */ WiFiStateCallbacks mCallbacks;
-    /* 2c */ void *mUnk_2c;
+    /* 2c */ void *mDisplaySettings;
     /* 30 */ u32 mWiFiVSSettingIndex;
     /* 34 */ s32 mTimeLimitDisabled;
     /* 38 */ u8 pad_38[4];
